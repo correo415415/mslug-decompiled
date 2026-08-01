@@ -1,0 +1,32 @@
+# Build artefacts
+build/*.bin
+build/*.elf
+build/*.o
+build/*.map
+build/expected/
+build/match_report_c.json
+
+# Baserom - never commit copyrighted content
+rom/
+*.p1
+*.z64
+*.rom
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# OS
+Thumbs.db
