@@ -3317,7 +3317,7 @@ REGISTRY = [
 
     # ---- Wave CC batch 1: subsistema coord/camera + LFSR self-seed +
     #      attract-init single. 14 helpers en 3 ficheros .s.
-    ("Buffer_ClearBlock1024L_043EDA",           0x043EDA,  16, "coord_camera_cluster_043f5e.s"),
+    ("Buffer_ClearBlock1024L_043EDA",           0x043EDA,  18, "coord_camera_cluster_043f5e.s"),  # WW: +2, su rts final en $043EEA
     ("FixBlit_TileByCoord_043F5E",              0x043F5E,  78, "coord_camera_cluster_043f5e.s"),
     ("Coord_LocalToScreen_04400E",              0x04400E,  20, "coord_camera_cluster_043f5e.s"),
     ("Coord_ScreenToLocal_044022",              0x044022,  20, "coord_camera_cluster_043f5e.s"),
@@ -3400,8 +3400,8 @@ REGISTRY = [
     #      canonico de carga de escena del juego. Dual-entry con SceneLoader
     #      _ByIndex (patron hand-coded ya visto en Wave AA#3). Publica el
     #      contexto de camera+HUD y llama 5 subsystem-init hooks finales.
-    ("Camera_ResetSmoothing_0434EA",            0x0434EA,  12, "scene_loader_cluster_043xxx.s"),
-    ("Camera_SmoothingIntegrate_0434F8",        0x0434F8, 104, "scene_loader_cluster_043xxx.s"),
+    ("Camera_ResetSmoothing_0434EA",            0x0434EA,  14, "scene_loader_cluster_043xxx.s"),  # WW: +2, su rts final en $0434F6
+    ("Camera_SmoothingIntegrate_0434F8",        0x0434F8, 106, "scene_loader_cluster_043xxx.s"),  # WW: +2, su rts final en $043560
     ("SceneLoader_ByIndex_043562",              0x043562,   6, "scene_loader_cluster_043xxx.s"),
     ("SceneLoader_Main_043568",                 0x043568, 374, "scene_loader_cluster_043xxx.s"),
 
@@ -3891,4 +3891,27 @@ REGISTRY = [
     ("TrackTargetLatch75_04345E",                0x04345E,  42, "heading16_cluster_042exx.s"),
     ("TrackTargetLatch78_043488",                0x043488,  42, "heading16_cluster_042exx.s"),
     ("Entity_CmpDepthToParent_0434B2",           0x0434B2,  16, "heading16_cluster_042exx.s"),
+    # ------------------------------------------------------------------
+    # Wave WW: LA VM DEL SCROLL. Interprete de bytecode de scripts de
+    # escena ($10815C = PC, cargado por SceneLoader_Main desde $916C8):
+    # 23 opcodes via jump-table pc-relativa en $04381C (el op $16
+    # DESBORDA la tabla aterrizando en el handler inline de $043874).
+    # El op $02 cede el frame integrando scroll saturado (via
+    # Scroll_ClampToRange) + smoothing de camara y sale por bra.w a
+    # CameraApplyAll4_043D86. Cierra el hueco $0437DA..$043D60 y los
+    # microhuecos colindantes: el megabloque contiguo llega ya a
+    # $040EF2..$04422A (~13.1 KB). Ademas: pareja de presets de
+    # velocidad del smoothing (C puro, GCC-derivados byte-exacto), el
+    # chequeo CCR de llegada al borde del scroll y los dos helpers del
+    # mapa de colision de 4 KB en $106F6C+$7C (el buffer que limpia
+    # Buffer_ClearBlock1024L y resetea el op $0B de la VM).
+    # 7 entradas, 1 618 B (+6 B de bumps de rts finales cortos).
+    # ------------------------------------------------------------------
+    ("Camera_PresetVelFast_0434D0",              0x0434D0,  12, "camera_setters.c"),
+    ("Camera_PresetVelSlow_0434DE",              0x0434DE,  12, "camera_setters.c"),
+    ("SceneScriptVM_Frame_0437DA",               0x0437DA, 1288, "scene_script_vm_0437da.s"),
+    ("SceneScript_EdgeArrivalTest_043CE2",       0x043CE2, 126, "scene_script_vm_0437da.s"),
+    ("Scroll_ClampToRange_043E3A",               0x043E3A,  78, "scene_script_vm_0437da.s"),
+    ("CollMap_RowToLocalY_043EEC",               0x043EEC,  22, "scene_script_vm_0437da.s"),
+    ("CollMap_TestPoint_043F02",                 0x043F02,  80, "scene_script_vm_0437da.s"),
 ]
