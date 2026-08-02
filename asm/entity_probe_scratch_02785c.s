@@ -57,6 +57,6 @@ Entity_Probe_Scratch_02785C:
         jsr     .Lposthook(pc)                 | +2a  FUN_00028108 (post-hook comun)
         rts                                    | +2e
 
-        .equ    .Lposthook, FUN_00028108
+        .equ    .Lposthook, Entity_ApplyFadeShade_028108
 
         .size   Entity_Probe_Scratch_02785C, .-Entity_Probe_Scratch_02785C

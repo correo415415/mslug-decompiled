@@ -3665,4 +3665,15 @@ REGISTRY = [
     ("SchedPublish_033638_A_0336B4",             0x0336B4,   6, "player_helpers_0336xx_0370xx.s"),
     ("SchedPublish_033638_B_0336C8",             0x0336C8,   6, "player_helpers_0336xx_0370xx.s"),
     ("PlayerAnimState_03705A",                   0x03705A, 270, "player_helpers_0336xx_0370xx.s"),
+
+    # ---- Wave QQ#1: helper local de PlayerEntitySpawn (2 callers pc-rel:
+    #      PlayerEntitySpawn_0335A6 y PlayerEntitySpawn_Alt_03364A, NN#2/#3).
+    #      Promueve Sub_00032A02 de symbols.py a definicion canonica.
+    ("PlayerEntity_InitAuxState_032A02",         0x032A02, 158, "player_entity_init_aux_state_032a02.s"),
+
+    # ---- Wave QQ#2: helper compartido de "fade shade" (9 callers: 5 via
+    #      .equ .Lposthook/.Lactor_process en probes/wrappers de entidad,
+    #      1 jmp directo tail-call en EntitySetField38AndUpdate).
+    #      Promueve FUN_00028108 de symbols.py a definicion canonica.
+    ("Entity_ApplyFadeShade_028108",             0x028108,  44, "entity_apply_fade_shade_028108.s"),
 ]

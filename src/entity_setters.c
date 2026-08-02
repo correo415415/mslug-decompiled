@@ -27,8 +27,9 @@
 /* ---------------------------------------------------------------------
  * EntitySetField38AndUpdate  ($028134, 8 bytes)
  * ---------------------------------------------------------------------
- * Guarda el word en d0 en fp->field_38 y encadena con FUN_00028108
- * (que aparentemente actualiza los bits altos de +$38 tras el store).
+ * Guarda el word en d0 en fp->field_38 y encadena con
+ * Entity_ApplyFadeShade_028108 (Wave QQ#2: computa el "fade shade" de
+ * los bits altos de +$38 a partir del contador +$24).
  *
  * Bytes originales:
  *   $028134: 3D40 0038         move.w  d0, 56(fp)          ; fp->field_38 = d0
@@ -37,7 +38,7 @@
  * En C (semántico):
  *     void EntitySetField38AndUpdate(u16 value_d0) {
  *         fp->field_38 = value_d0;
- *         FUN_00028108();  // tail-call -> jmp PC-rel
+ *         Entity_ApplyFadeShade_028108();  // tail-call -> jmp PC-rel
  *     }
  * -------------------------------------------------------------------- */
 void EntitySetField38AndUpdate(void)
@@ -45,7 +46,7 @@ void EntitySetField38AndUpdate(void)
     TASK_W(0x38) = _d0_w;
     /* Tail-call PC-relativo corto (4EFA dddd, 4 B). El linker resuelve
      * el desplazamiento a $028108 = -0x32 desde $02813A (PC tras opcode). */
-    __asm__ volatile("jmp FUN_00028108(%%pc)" ::: "memory");
+    __asm__ volatile("jmp Entity_ApplyFadeShade_028108(%%pc)" ::: "memory");
     __builtin_unreachable();
 }
 

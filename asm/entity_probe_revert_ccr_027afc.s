@@ -60,6 +60,6 @@ Entity_ProbeRevertCcr_027AFC:
         rts                                    | +68
 
         .equ    .Lcollision, Sub_000272A8
-        .equ    .Lposthook,  FUN_00028108
+        .equ    .Lposthook,  Entity_ApplyFadeShade_028108
 
         .size   Entity_ProbeRevertCcr_027AFC, .-Entity_ProbeRevertCcr_027AFC

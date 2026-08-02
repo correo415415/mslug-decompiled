@@ -60,4 +60,4 @@ ActorCtxWrapper_02783a:
 | ----- Etiqueta PC-relativa hacia $028108 (FUN_00028108, ya simbolizado).
 | Distancia: $028108 - ($02784e + 2) = $028108 - $027850 = $8B8. Cabe
 | en desplazamiento con signo 16-bit. GAS usa el simbolo directamente.
-        .equ    .Lactor_process, FUN_00028108
+        .equ    .Lactor_process, Entity_ApplyFadeShade_028108

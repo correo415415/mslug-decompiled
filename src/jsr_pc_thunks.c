@@ -59,12 +59,13 @@ void JsrPcThunk_02698c(void) {
  * Los 6 B en $027886..$02788B (`jsr $28108(pc); rts`) son la cola del
  * helper probe/scratch. 11° falso positivo del proyecto (mismo patron
  * que los absorbidos en W#16, Y#8, Y#11).
+ * $028108 = Entity_ApplyFadeShade_028108 (promovido en Wave QQ#2).
  */
 #if 0
 __attribute__((section(".text.JsrPcThunk_027886")))
 void JsrPcThunk_027886(void) {
-    extern void FUN_00028108(void);
-    __asm__ volatile("jsr FUN_00028108(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_ApplyFadeShade_028108(void);
+    __asm__ volatile("jsr Entity_ApplyFadeShade_028108(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 #endif
 

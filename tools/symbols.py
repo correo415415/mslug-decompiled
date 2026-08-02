@@ -44,7 +44,9 @@ SYMBOLS = {
     0x00005CC08: "Sub_00005CC08",  # tabla contexto default del backend $5CFC8 (lea pc)
     0x000020E2: "FUN_000020e2",
     0x0000212E: "FUN_0000212e",
-    0x00028108: "FUN_00028108",
+    # 0x00028108 promovido a Entity_ApplyFadeShade_028108 en registry
+    #      (Wave QQ#2, 9 callers via .equ .Lposthook/.Lactor_process +
+    #      1 jmp directo en EntitySetField38AndUpdate).
     0x0005022A: "StateMachineRun",
     0x00099AFC: "FUN_00099afc",
     0x00C004C2: "BIOS_FIX_CLEAR",
@@ -1068,8 +1070,12 @@ SYMBOLS = {
     #      LUT de 2 punteros en $3349A (P1/P2) referenciada por lea pc-rel:
     0x0003349A: "PlayerStateLUT_03349A",     # LUT de 2 ptrs (tabla P1/P2)
     #      Callees pc-rel del spawn constructor:
-    0x00032A02: "Sub_00032A02",             # helper local (pc-rel)
+    # 0x00032A02 promovido a PlayerEntity_InitAuxState_032A02 en registry
+    #      (Wave QQ#1).
     0x00032FF2: "Sub_00032FF2",             # post-init hook 1 (pc-rel)
+    0x0005E98A: "Sub_0005E98A",  # jsr desde PlayerEntity_InitAuxState_032A02
+    0x0008F6D2: "Sub_0008F6D2",  # jsr desde PlayerEntity_InitAuxState_032A02
+    0x000517AA: "Sub_000517AA",  # jsr desde PlayerEntity_InitAuxState_032A02
     0x00032AA8: "Sub_00032AA8",             # post-init hook 3 (pc-rel)
     #      Callees abs.l del spawn constructor:
     0x000394A8: "TaskTpl_0394A8",           # task template para player spawn
