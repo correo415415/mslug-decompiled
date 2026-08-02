@@ -3676,4 +3676,26 @@ REGISTRY = [
     #      1 jmp directo tail-call en EntitySetField38AndUpdate).
     #      Promueve FUN_00028108 de symbols.py a definicion canonica.
     ("Entity_ApplyFadeShade_028108",             0x028108,  44, "entity_apply_fade_shade_028108.s"),
+
+    # ---- Wave RR: sesion orientada a TAMANO (tools/rank_candidates.py) en
+    #      vez de popularidad -- 5 funciones, 516 B netos, todas seleccionadas
+    #      por ser los candidatos mas grandes en la cola. Absorbe 4 targets
+    #      de la familia JsrPcThunk_* (promociona PcThunkTarget_072c98,
+    #      PcThunkTarget_0798ac, PcThunkTarget_06896a y PcThunkTarget_065c94
+    #      de symbols.py a definicion canonica) y descubre un 5o helper
+    #      (RR#4) que no tenia placeholder porque solo se referenciaba desde
+    #      dentro del mismo cluster (RR#5), nunca desde un JsrPcThunk.
+    #
+    #      RR#1/RR#2: par de rutinas de deteccion de solape de caja
+    #      rectangular (a1 dentro de la "caja" de a6, con espejado por
+    #      facing) que escriben un valor compuesto en a1->+0x8e. RR#3:
+    #      relink + wrap del scroll de camera[0] (subsistema JJ ya
+    #      conocido). RR#4+RR#5: constructor de grupo de sub-entities
+    #      enlazadas desde una lista de templates de 12 B/nodo, con
+    #      espejado de delta_x por facing via el propio RR#4.
+    ("Entity_CheckActiveBoxOverlap_072C98",      0x072C98, 144, "entity_check_active_box_overlap_072c98.s"),
+    ("Entity_CheckBoxOverlapWithSelector_0798AC", 0x0798AC, 164, "entity_check_box_overlap_with_selector_0798ac.s"),
+    ("Camera0_RelinkAndWrapScroll_06896A",       0x06896A, 112, "camera0_relink_wrap_scroll_06896a.s"),
+    ("Entity_MirrorDeltaByFacing_065D32",        0x065D32,  12, "entity_mirror_delta_by_facing_065d32.s"),
+    ("EntityGroup_SpawnLinkedFromTemplateList_065C94", 0x065C94, 84, "entity_group_spawn_linked_from_template_list_065c94.s"),
 ]

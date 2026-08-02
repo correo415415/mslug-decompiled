@@ -17,6 +17,23 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave RR — 5 functions (516 B), the first wave selected purely by
+  **size** via `tools/rank_candidates.py` instead of caller popularity:
+  - `Entity_CheckActiveBoxOverlap_072C98` ($072C98, 144 B) and
+    `Entity_CheckBoxOverlapWithSelector_0798AC` ($0798AC, 164 B) — sibling
+    rectangular hit/detection-box overlap checks against a facing-mirrored
+    box, writing a composite result into `target->+0x8E`.
+  - `Camera0_RelinkAndWrapScroll_06896A` ($06896A, 112 B) — re-anchors
+    camera[0] to a new tile bank and wraps its scroll counter by one
+    screen width (320px), part of the infinite-background-scroll
+    mechanism.
+  - `Entity_MirrorDeltaByFacing_065D32` ($065D32, 12 B) and
+    `EntityGroup_SpawnLinkedFromTemplateList_065C94` ($065C94, 84 B) —
+    spawns a group of linked sub-entities (e.g. multi-part vehicles) from
+    a 12-byte-stride template list, mirroring the X delta by the parent's
+    facing flag.
+  Promotes 4 `PcThunkTarget_*` placeholders from `tools/symbols.py` to
+  canonical names.
 - Wave QQ#1 — `PlayerEntity_InitAuxState_032A02` ($032A02, 158 B), player
   entity aux-state initializer, 2 callers.
 - Wave QQ#2 — `Entity_ApplyFadeShade_028108` ($028108, 44 B), shared
@@ -42,9 +59,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 | Metric | Value |
 |---|---:|
-| Matched functions | **3 129 / 3 129** registered |
-| Matched bytes | **41 674 / 41 674** registered |
-| P ROM coverage | **41 674 / 2 097 152 B** (1.99 %) |
+| Matched functions | **3 134 / 3 134** registered |
+| Matched bytes | **42 190 / 42 190** registered |
+| P ROM coverage | **42 190 / 2 097 152 B** (2.01 %) |
 
 Regenerate with `python3 tools/match_batch.py` (requires your own ROM —
 see `README.md § Building`).
