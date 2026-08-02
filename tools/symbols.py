@@ -933,6 +933,11 @@ SYMBOLS = {
     0x000419BC: "SetHandlerRts_0419bc",  # rts de SetTaskHandler_0419b6 (GlideAttack)
     0x00041AB2: "SetHandlerRts_041ab2",  # rts de SetTaskHandler_041aac (TrioChild B)
     0x00041C18: "SetHandlerRts_041c18",  # rts de SetTaskHandler_041c12 (FinalPose)
+
+    # ---- Wave VV: entradas mid-island (rts dentro de islas C ya matcheadas)
+    0x0004247A: "SetTaskWRts_04247a",    # rts de SetTaskW_042476 (EngageAndTimers)
+    0x000424A8: "SetHandlerRts_0424a8",  # rts de SetTaskHandler_0424a2 (MeleeGate)
+    0x0004290A: "JsrAbsRts_04290a",      # rts de JsrAbsThunk_042904 (Charger_TrackTarget)
     0x0004698C: "PcThunkTarget_04698c",
     0x0004707E: "PcThunkTarget_04707e",
     0x0004FAF8: "PcThunkTarget_04faf8",

@@ -11,12 +11,30 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3206/3206 funciones
-BYTES   : 48,428/48,428 (registrados)
-ROM     : 48,428/2,097,152  (2.3092%)
+MATCHED : 3247/3247 funciones
+BYTES   : 52,910/52,910 (registrados)
+ROM     : 52,910/2,097,152  (2.5229%)
 ```
 
-> **Wave UU** (31 funciones, 3 246 B, verde a la primera) — NUEVO RECORD
+> **Wave VV** (41 funciones, 4 482 B, verde a la primera en sus 3 partes) —
+> NUEVO RECORD de oleada y cierre del megabloque contiguo
+> **`$040EF2..$0434C2` (~9.6 KB)**: extiende el bloque escuadron de TT/UU
+> con `$0422EA..$0434C2`, 11 fragmentos tejidos entre 13 islas C ya
+> matcheadas. Parte 1: 4 spawners de hijos + la familia **MeleeGuard**
+> (handler doble A/B con NOP de alineacion, 5 estados, IA con throttle
+> 1/32). Parte 2: el **Charger** (init con dispatcher tejido a traves de
+> 4 islas SetTaskHandler consecutivas — patron NUEVO —, 3 marchas, ataque
+> de 5 golpes con **continuaciones diferidas en `+0x78`** como inmediato
+> de 32 bits, windups A/B espejo) + el **Skirmisher** minimalista. Parte 3:
+> set de animaciones de **16 rumbos** (1 332 B de datos transcritos y
+> verificados por script, con terminador HOLD `$1600` nuevo) + handler
+> dirigido por RAM global + clones tri-estado con rama invertida (`bcs`).
+> Forense: TRES `bra.w` muertos de plantilla, `moveq` muerto en `$042C86`,
+> 3 simbolos nuevos de **rts a mitad de isla**, el unico `bsr.b` de la
+> wave (fuerza fusion de secciones) y `jsr X(pc)` vs `bsr.w` a la misma
+> distancia. Ver "Wave VV en detalle".
+
+> **Wave UU** (31 funciones, 3 246 B, verde a la primera) — anterior RECORD
 > de oleada: cierra por completo el hueco `$040F00..$041C12` entre el
 > handler de muerte `Jsr5B6ThenJmpScheduler_040ef2` y el subsistema
 > escuadron de Wave TT. Parte 1: la maquina de estados de los 8 MIEMBROS
@@ -168,7 +186,75 @@ Ninguna oleada se cierra hasta que `python3 tools/match_batch.py` da verde.
 | **SS** | **Colision hitbox (caller + test AABB con asserts trap#15) + boot block $0009B4..$000B8A (tabla + instalador TCBs) + re-arme 8 TCBs + sync sub-entity + cluster glifos 16x16 Fix Layer — 2a oleada por TAMANO** | **12** | **1 384** | **ASM** |
 | **TT** | **Subsistema "escuadron" completo $041C1A..$0422E4: formacion 8 entities con vuelo senoidal (target de formacion + guiado atan2 + trio de bobs + despachador de estados + templates de animacion espejables + protocolo estado compartido poll/writeback + spawners de 8/par/trio + sincos + shade) — cluster contiguo mas grande decompilado, 2 asserts trap#15 nuevos** | **32** | **1 634** | **ASM** |
 | **UU** | **Maquina de estados de miembros e hijos del escuadron $040F00..$041C12: 13 estados de miembro (punteria atan2, anim ciclica, protocolo lider/miembro con latch, hit-recoil) + 18 handlers de hijos (par escoltado, trio orbital con tracker, caidas zigzag/drop, 6 secuencias de muerte) — cierra el hueco completo hasta Wave TT; 11 branch-a-mitad-de-isla, dead store forense $041A96** | **31** | **3 246** | **ASM** |
-| **TOTAL** | | **3 206** | **48 428** |  |
+| **VV** | **MeleeGuard + Charger + Skirmisher + Heading16 $0422EA..$0434C2: 4 spawners, guardia melee (handler doble A/B, 5 estados), Charger (dispatcher tejido por 4 islas SetTaskHandler, 5 golpes, continuaciones diferidas +0x78, windups espejo), Skirmisher, set de anims de 16 rumbos (1 332 B datos verificados por script) — cierra el megabloque $040EF2..$0434C2 (~9.6 KB); 3 rts-a-mitad-de-isla nuevos, 3 bra.w muertos, moveq muerto, unico bsr.b** | **41** | **4 482** | **ASM** |
+| **TOTAL** | | **3 247** | **52 910** |  |
+
+### Wave VV en detalle — MeleeGuard, Charger, Skirmisher y Heading16
+
+Wave VV cierra el megabloque de gameplay contiguo mas grande del
+proyecto: con `$0422EA..$0434C2` matcheado, **todo `$040EF2..$0434C2`
+(~9.6 KB) es continuo** entre codigo C ya matcheado y las tres oleadas
+ASM TT/UU/VV. Eran 11 fragmentos entre 13 islas C (SetTaskW/
+SetTaskHandler/JsrAbsThunk/CCR helpers).
+
+**Parte 1 (`melee_guard_cluster_0422xx.s`, 24 fn, 1 516 B):** cuatro
+spawners que crean hijos con los handlers de Wave UU (DropPair con
+offset `indice*32-64`, FxChild con handler externo `$78042`,
+GlideAttacker con sfx `$109B`, FinalPoseChild que hereda velocidad);
+los helpers CCR `Entity_CmpDepthToParent_042390` y el par
+`TargetFacingTest` (con DOS `bra.w Stub_000423EA` muertos de plantilla
+en `$0423BE` y `$0423E0`); y la familia **MeleeGuard**: tracker
+tri-estado con gate, timers de engage/cooldown/vida que TERMINAN
+cayendo o saltando a mitad de la isla `SetTaskW_042476`, puerta de
+ataque con 3 salidas a `SetHandlerRts_0424a8`, IA con throttle 1/32
+sobre `$106F28`, handler doble A/B (NOP de alineacion en `$0425DE`,
+stats re-escalados con tablas `$2B74EC`/`$2B746A` y `moveq #-1` como
+sentinela `$FFFF`) y 5 estados con cola comun `TailDespawn`. Los
+estados Approach/Retreat usan `bsr.w TailDespawn + rts` donde el resto
+usa `bra.w`: dos plantillas de cola conviviendo.
+
+**Parte 2 (`charger_states_0429xx.s`, 12 fn, 1 374 B):** el **Charger**.
+Su Init (240 B) estrena el patron mas llamativo de la wave: el
+dispatcher de marcha esta TEJIDO a traves de cuatro islas
+`SetTaskHandler` consecutivas (`$429FC/$42A0C/$42A1A/$42A22`) — cada
+rama del if-else cae en la isla que instala su estado. El unico
+`bsr.b` de la wave (`61 82`, `$042AA6`) obliga a fusionar el helper
+`ColumnDeltaTest` con las 3 entradas de marcha en UNA seccion. El
+ataque (292 B) despacha 5 golpes por `+0x9c` y usa **continuaciones
+diferidas**: guarda `.Lat_anim` en `+0x78` como inmediato de 32 bits
+(reloc a label local) o `$00059042` (hex) y desvia a los windups A/B,
+que saltan a `+0x78` al terminar (A calma `+0x76`, B enfada; A llama
+al tracker con `bsr.w`, B con `jsr X(pc)` — 4EBA — a la MISMA
+distancia). Restos muertos: `bra.w .Lat_anim` en `$042BCC` y
+`moveq #0,d0` en `$042C86`. El **Skirmisher** replica el tracker
+tri-estado INLINE (sin helper) sobre `+0x70`.
+
+**Parte 3 (`heading16_cluster_042exx.s`, 5 entradas, 1 592 B):** set de
+animaciones de **16 rumbos** (22.5 grados): 1 332 B de datos SIN header
+`$0900` (frames puros `{dur,attr,tile,$FFFF}`, diagonales con attr
+`$0209` = flip), cada tabla loopeando a la IDLE comun `$43354`, que
+termina en el opcode **`$1600` (HOLD)** — primer avistamiento de este
+terminador. La transcripcion se genero y verifico POR SCRIPT contra la
+ROM (assert por frame y por puntero). El handler (`$0433BE`) es un
+sprite dirigido por RAM global (`$106F29` control / `$106F28` rumbo)
+con despawn al salir por la derecha. Cierran la wave dos clones
+tri-estado con la primera rama INVERTIDA (`bcs.w` en vez de `bcc.w`)
+y el clon del comparador de profundidad con su pareja de islas CCR.
+
+**Hallazgos arquitectonicos Wave VV:**
+
+- **Rts a mitad de isla**: 3 simbolos nuevos (`SetTaskWRts_04247a`,
+  `SetHandlerRts_0424a8`, `JsrAbsRts_04290a`) — el codigo salta al
+  `rts` FINAL de islas C ya matcheadas, no a su entrada.
+- **Dispatcher tejido por islas**: patron nuevo donde un if-else de 4
+  ramas se implementa cayendo en 4 islas `SetTaskHandler` consecutivas.
+- **Continuacion diferida en `+0x78`**: direccion de codigo como
+  inmediato de 32 bits; dos plantillas (reloc local vs hex externa).
+- **Terminador `$1600` (HOLD)** en tablas de animacion: congela el
+  ultimo frame sin loop.
+- **3 `bra.w` muertos + 1 `moveq` muerto**: plantillas editadas a mano.
+- `clr.w d1` (Charger_Init) vs `moveq #0,d1` (MeleeGuard_Handler) para
+  el MISMO calculo: codegen distinto en plantillas gemelas.
 
 ### Wave UU en detalle — miembros e hijos del escuadron
 
