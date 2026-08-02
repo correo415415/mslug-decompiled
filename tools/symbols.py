@@ -930,17 +930,17 @@ SYMBOLS = {
     0x0005E530: "PcThunkTarget_05e530",
     0x00063336: "PcThunkTarget_063336",
     0x000634F6: "PcThunkTarget_0634f6",
-    0x00065C94: "PcThunkTarget_065c94",
-    0x0006896A: "PcThunkTarget_06896a",
+    # 0x00065C94 promovido a EntityGroup_SpawnLinkedFromTemplateList_065C94 en registry (Wave RR#5).
+    # 0x0006896A promovido a Camera0_RelinkAndWrapScroll_06896A en registry (Wave RR#3).
     0x00068AB8: "PcThunkTarget_068ab8",
     0x0006D13C: "PcThunkTarget_06d13c",
     0x0006E2BC: "PcThunkTarget_06e2bc",
     0x00070AB0: "PcThunkTarget_070ab0",
     0x00072A94: "PcThunkTarget_072a94",
-    0x00072C98: "PcThunkTarget_072c98",
+    # 0x00072C98 promovido a Entity_CheckActiveBoxOverlap_072C98 en registry (Wave RR#1).
     0x00074166: "PcThunkTarget_074166",
     0x000745E2: "PcThunkTarget_0745e2",
-    0x000798AC: "PcThunkTarget_0798ac",
+    # 0x000798AC promovido a Entity_CheckBoxOverlapWithSelector_0798AC en registry (Wave RR#2).
     0x00088438: "PcThunkTarget_088438",
     0x0008846A: "PcThunkTarget_08846a",
     0x0008B82C: "PcThunkTarget_08b82c",

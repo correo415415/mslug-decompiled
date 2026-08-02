@@ -11,18 +11,25 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3121/3121 funciones
-BYTES   : 40,716/40,716 (registrados)
-ROM     : 40,716/2,097,152  (1.9415%)
-```},{
-> nuevas + 2 symbols externos ($051BA8, $051D84) para linkado.
+MATCHED : 3134/3134 funciones
+BYTES   : 42,190/42,190 (registrados)
+ROM     : 42,190/2,097,152  (2.0118%)
+```
 
-
-> Toolchain reproducido con **m68k-linux-gnu-gcc 14.2.0** (Debian trixie)
-> sin regresiones frente al codegen documentado con 13.3.0.
-
-> Toolchain reproducido con **m68k-linux-gnu-gcc 14.2.0** (Debian trixie)
-> sin regresiones frente al codegen documentado con 13.3.0.
+> **Wave RR** (5 funciones, 516 B) — primera oleada seleccionada
+> puramente por TAMANO via `tools/rank_candidates.py` en vez de
+> popularidad de callers. Par de rutinas de deteccion de solape de caja
+> rectangular con espejado por facing (`Entity_CheckActiveBoxOverlap_072C98`
+> 144 B, `Entity_CheckBoxOverlapWithSelector_0798AC` 164 B, ambas escriben
+> en `target->+0x8E`); relink+wrap del scroll de `camera[0]`
+> (`Camera0_RelinkAndWrapScroll_06896A` 112 B, subsistema JJ ya conocido);
+> y un constructor de grupo de sub-entities enlazadas desde lista de
+> templates de 12 B/nodo (`EntityGroup_SpawnLinkedFromTemplateList_065C94`
+> 84 B + helper `Entity_MirrorDeltaByFacing_065D32` 12 B). Promueve 4
+> `PcThunkTarget_*` de `tools/symbols.py` (`072c98`, `0798ac`, `06896a`,
+> `065c94`) a definicion canonica; actualiza los 8 thunks correspondientes
+> en `src/jsr_pc_thunks.c`. Ver `CHANGELOG.md` para el resumen en ingles y
+> los `.s` individuales para el analisis campo-a-campo completo.
 
 > Toolchain reproducido con **m68k-linux-gnu-gcc 14.2.0** (Debian trixie) sin
 > regresiones frente al codegen documentado con 13.3.0: las 2 980 funciones
@@ -102,7 +109,63 @@ Ninguna oleada se cierra hasta que `python3 tools/match_batch.py` da verde.
 | **MM (batch 1)** | **Scheduler bootstrap + bytecode virtual continuation-passing `$000Exxx-$0010xx` (asm 68000)** | **5** | **486** | **ASM** |
 | **MM (batch 2)** | **Super-tabla dispatch `$000B92` (datos-en-.text, 191 u32 BE)** | **1** | **764** | **ASM** |
 | **MM (batch 3)** | **Handlers scheduler `$00109C..$00125E` (8 handlers attract phase1+phase2)** | **8** | **438** | **ASM** |
-| **TOTAL** | | **3 121** | **40 716** |  |
+| **NN–PP** | **(sin detalle registrado en esta tabla — ver `git log`/`CHANGELOG.md`)** | **6** | **756** | **ASM** |
+| **QQ** | **PlayerEntity_InitAuxState (#1) + Entity_ApplyFadeShade compartido (#2)** | **2** | **202** | **ASM** |
+| **RR** | **Box-overlap x2 (facing-mirrored) + Camera0 relink/wrap-scroll + EntityGroup spawn-linked-from-template-list + mirror helper — 1a oleada priorizada por TAMANO (`tools/rank_candidates.py`)** | **5** | **516** | **ASM** |
+| **TOTAL** | | **3 134** | **42 190** |  |
+
+### Wave RR en detalle — primera oleada priorizada por TAMANO
+
+Primera oleada del proyecto seleccionada con `tools/rank_candidates.py`
+(cola ordenada por `score = eff_size * (1 + log2(callers))`, priorizando
+TAMANO neto sobre popularidad de callers) en vez de
+`tools/scan_unmatched_callees.py` (cola por popularidad, usada en todas
+las oleadas S..QQ anteriores). Cierra 5 funciones que sumaban 516 B y
+promueve 4 placeholders `PcThunkTarget_*` de `tools/symbols.py` a
+definicion canonica.
+
+| # | Símbolo | Dirección | Bytes | Callers | Descripción |
+|---|---|---|---:|---:|---|
+| 1 | `Entity_CheckActiveBoxOverlap_072C98` | `$072C98` | 144 | 1 | Comprueba si la entity `a1` cae dentro de la "caja activa" apuntada por `a6->+0x94`, con espejado horizontal segun `a6->flags3a` (bit 0 = facing). Escribe el resultado compuesto en `a1->+0x8E`. |
+| 2 | `Entity_CheckBoxOverlapWithSelector_0798AC` | `$0798AC` | 164 | 1 | Variante hermana de #1: la caja llega por parametro explicito `a2` (no via `a6->+0x94`) y el chequeo final se resuelve con un **selector de 4 funciones** en `$2DF4AA` indexado por `box->+8 & 3`, invocado con `jsr (a3)` indirecto. |
+| 3 | `Camera0_RelinkAndWrapScroll_06896A` | `$06896A` | 112 | 3 | Re-ancla `camera[0]` al banco VRAM `$20A000` y envuelve (`wrap`) el contador de scroll `$106F50` cada 320 px (`$140`, un ancho de pantalla completo) — mecanismo de fondo infinito. Sin `rts` propio: cae por fall-through en `SetXN_0689da`; la salida temprana salta a `ClearXN_0689e0`. |
+| 4 | `Entity_MirrorDeltaByFacing_065D32` | `$065D32` | 12 | 1 | Micro-helper: niega `d0` si `a6->flags3a & 1` (facing izquierdo). Retorno via CCR (`ClearXN_065d44` / `SetXN_065d3e`). |
+| 5 | `EntityGroup_SpawnLinkedFromTemplateList_065C94` | `$065C94` | 84 | 5 | Itera una lista de templates de stride 12 B terminada en centinela `0xFFFFFFFF`; por cada entrada reserva un task enlazado (`Task_AllocFromFreeList` + `Entity_CopyTransform`) y espeja su `delta_x` con #4 (`Entity_MirrorDeltaByFacing_065D32`). |
+
+**Sin falsos positivos absorbidos** — las 5 funciones eran nuevas, sin
+colas previamente contabilizadas como thunks independientes.
+
+**Descubrimientos arquitectónicos Wave RR:**
+
+1. **Campo `Entity->+0x8E`** ("resultado de deteccion") y **`Entity->+0x94`**
+   ("puntero a caja activa") documentados por primera vez, vía #1/#2. No
+   incorporados aún a `include/mslug.h` — pendiente de un segundo consumidor
+   que confirme el layout antes de promoverlos a la struct compartida.
+2. **Selector de 4 function-pointers en `.text`** (`$2DF4AA`) — cuarta
+   tabla embebida del proyecto (tras `StartInputTable` BB#4, state
+   descriptors EE#1, `JumpTable_096B9C` HH#2), aquí indexada por 2 bits de
+   flags de la caja en vez de por estado del scheduler.
+3. **Case-sensitivity de GAS reconfirmada por enésima vez**: `ClearXN_0689e0`/
+   `SetXN_0689da`/`ClearXN_065d44` son minúsculas en `symbols.py` pese a que
+   la dirección hexadecimal del nombre sugiere mayúsculas; ambos ficheros
+   nuevos fallaron el link en la primera pasada por este motivo exacto.
+4. **`jsr Simbolo(pc)` explícito obligatorio para PC-rel de 16 bits**:
+   `jsr Entity_MirrorDeltaByFacing_065D32` (sin `(pc)`) ensambla como
+   `4EB9` abs.l (6 B) en vez de `4EBA` PC-rel (4 B) del original, desplazando
+   +2 B todo lo que sigue y recortando el `rts` final al extraer con
+   `objcopy` el tamaño registrado. Mismo idioma ya documentado en Wave HH#2.
+
+**Fixes iterativos aplicados (2 iteraciones hasta verde):**
+
+1. `undefined reference to ClearXN_065D44` / `ClearXN_0689E0` — corregido a
+   minúsculas (`ClearXN_065d44`, `ClearXN_0689e0`, `SetXN_0689da`).
+2. Byte mismatch en `EntityGroup_SpawnLinkedFromTemplateList_065C94` (colas
+   desde la mitad de la función, `rts` final recortado) — causado por el
+   `jsr` sin `(pc)` del punto 4 anterior; corregido añadiendo `(pc)`.
+
+Estado tras RR: **3 134 / 3 134, 42 190 B, 2.0118 % ROM total**. Incremento
+vs baseline pre-RR: +5 funciones netas (5 nuevas, 0 FPs), +516 B netos,
++0.0246 pp de cobertura ROM.
 
 ### Wave MM en detalle (batch 1) — scheduler bootstrap + bytecode virtual
 
@@ -1463,6 +1526,46 @@ contiene grandes bloques de ensamblador 68000 escrito a mano. Evidencias:
   (`JsrAbsThunk_050248`), evidenciando reuso de epílogos.
 
 ## Historial de decisiones
+
+- **2026-08-02** — **Wave RR** (5 funciones, 516 B, 0 FPs absorbidos).
+  Primera oleada seleccionada puramente por **TAMANO** vía
+  `tools/rank_candidates.py` (cola por `score = eff_size *
+  (1+log2(callers))`) en vez de popularidad de callers
+  (`tools/scan_unmatched_callees.py`, usado en todas las oleadas previas
+  S..QQ). Cierra el par gemelo de rutinas de detección de solape de caja
+  rectangular con espejado por facing (`Entity_CheckActiveBoxOverlap_072C98`
+  144 B / `Entity_CheckBoxOverlapWithSelector_0798AC` 164 B, ambas escriben
+  en `target->+0x8E`; la segunda resuelve el chequeo final con un
+  **selector de 4 function-pointers en `.text`** en `$2DF4AA`, cuarta tabla
+  embebida del proyecto), el relink+wrap del scroll de `camera[0]`
+  (`Camera0_RelinkAndWrapScroll_06896A` 112 B) y un constructor de grupo de
+  sub-entities enlazadas desde lista de templates de 12 B/nodo
+  (`EntityGroup_SpawnLinkedFromTemplateList_065C94` 84 B + helper
+  `Entity_MirrorDeltaByFacing_065D32` 12 B). Promueve 4 `PcThunkTarget_*`
+  de `tools/symbols.py` a definición canónica; actualiza los 8 thunks
+  correspondientes en `src/jsr_pc_thunks.c`.
+
+  Dos fixes iterativos hasta verde: (1) case-sensitivity de GAS —
+  `ClearXN_065D44`/`ClearXN_0689E0` (mayúsculas, como sugiere la dirección)
+  no existen, los símbolos reales en `symbols.py` son minúsculas
+  (`ClearXN_065d44`/`ClearXN_0689e0`); (2) `jsr Entity_MirrorDeltaByFacing_065D32`
+  sin `(pc)` ensambló como abs.l (`4EB9`, 6 B) en vez del PC-rel original
+  (`4EBA`, 4 B), desplazando +2 B el resto de la función y recortando el
+  `rts` final al extraer con `objcopy` el tamaño registrado — mismo idioma
+  ya documentado en Wave HH#2, corregido añadiendo `(pc)` explícito.
+
+  Sesión interrumpida por un reset de sandbox a mitad de análisis;
+  restaurada extrayendo `201-p1.bin` de `mslug.zip` (MD5
+  `b6804bc6be580c80d43d187f6f9d2e7c`), regenerando `build/mslug_prom.bin`
+  vía `scripts/setup.sh` (MD5 `816b3f74c76b3373993407615f1850fe`),
+  reinstalando el toolchain m68k y las dependencias Python, y
+  reconstruyendo los 5 `.s` + los cambios de `registry.py`/`symbols.py`/
+  `src/jsr_pc_thunks.c` a partir del análisis ya completado antes de la
+  interrupción.
+
+  Estado tras RR: **3 134 / 3 134, 42 190 B, 2.0118 % ROM total**.
+  Incremento vs baseline pre-RR: +5 funciones netas (5 nuevas, 0 FPs),
+  +516 B netos, +0.0246 pp de cobertura ROM.
 
 - **2026-07-26** — **Escaner priorizado: bug fix critico + mejoras**.
   Reescritura de `tools/scan_unmatched_callees.py`. Bug descubierto en

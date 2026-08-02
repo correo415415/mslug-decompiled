@@ -567,50 +567,50 @@ void JsrPcThunk_0634f0(void) {
 
 __attribute__((section(".text.JsrPcThunk_065eee")))
 void JsrPcThunk_065eee(void) {
-    extern void PcThunkTarget_065c94(void);
-    __asm__ volatile("jsr PcThunkTarget_065c94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void EntityGroup_SpawnLinkedFromTemplateList_065C94(void);
+    __asm__ volatile("jsr EntityGroup_SpawnLinkedFromTemplateList_065C94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_065efa")))
 void JsrPcThunk_065efa(void) {
-    extern void PcThunkTarget_065c94(void);
-    __asm__ volatile("jsr PcThunkTarget_065c94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void EntityGroup_SpawnLinkedFromTemplateList_065C94(void);
+    __asm__ volatile("jsr EntityGroup_SpawnLinkedFromTemplateList_065C94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_065f06")))
 void JsrPcThunk_065f06(void) {
-    extern void PcThunkTarget_065c94(void);
-    __asm__ volatile("jsr PcThunkTarget_065c94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void EntityGroup_SpawnLinkedFromTemplateList_065C94(void);
+    __asm__ volatile("jsr EntityGroup_SpawnLinkedFromTemplateList_065C94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_065f12")))
 void JsrPcThunk_065f12(void) {
-    extern void PcThunkTarget_065c94(void);
-    __asm__ volatile("jsr PcThunkTarget_065c94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void EntityGroup_SpawnLinkedFromTemplateList_065C94(void);
+    __asm__ volatile("jsr EntityGroup_SpawnLinkedFromTemplateList_065C94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_065f1e")))
 void JsrPcThunk_065f1e(void) {
-    extern void PcThunkTarget_065c94(void);
-    __asm__ volatile("jsr PcThunkTarget_065c94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void EntityGroup_SpawnLinkedFromTemplateList_065C94(void);
+    __asm__ volatile("jsr EntityGroup_SpawnLinkedFromTemplateList_065C94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_068398")))
 void JsrPcThunk_068398(void) {
-    extern void PcThunkTarget_06896a(void);
-    __asm__ volatile("jsr PcThunkTarget_06896a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Camera0_RelinkAndWrapScroll_06896A(void);
+    __asm__ volatile("jsr Camera0_RelinkAndWrapScroll_06896A(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0683ae")))
 void JsrPcThunk_0683ae(void) {
-    extern void PcThunkTarget_06896a(void);
-    __asm__ volatile("jsr PcThunkTarget_06896a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Camera0_RelinkAndWrapScroll_06896A(void);
+    __asm__ volatile("jsr Camera0_RelinkAndWrapScroll_06896A(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0683ea")))
 void JsrPcThunk_0683ea(void) {
-    extern void PcThunkTarget_06896a(void);
-    __asm__ volatile("jsr PcThunkTarget_06896a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Camera0_RelinkAndWrapScroll_06896A(void);
+    __asm__ volatile("jsr Camera0_RelinkAndWrapScroll_06896A(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_068724")))
@@ -681,8 +681,8 @@ void JsrPcThunk_072826(void) {
 
 __attribute__((section(".text.JsrPcThunk_072c92")))
 void JsrPcThunk_072c92(void) {
-    extern void PcThunkTarget_072c98(void);
-    __asm__ volatile("jsr PcThunkTarget_072c98(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_CheckActiveBoxOverlap_072C98(void);
+    __asm__ volatile("jsr Entity_CheckActiveBoxOverlap_072C98(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_074116")))
@@ -699,8 +699,8 @@ void JsrPcThunk_07526a(void) {
 
 __attribute__((section(".text.JsrPcThunk_0798a6")))
 void JsrPcThunk_0798a6(void) {
-    extern void PcThunkTarget_0798ac(void);
-    __asm__ volatile("jsr PcThunkTarget_0798ac(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_CheckBoxOverlapWithSelector_0798AC(void);
+    __asm__ volatile("jsr Entity_CheckBoxOverlapWithSelector_0798AC(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_086dae")))
