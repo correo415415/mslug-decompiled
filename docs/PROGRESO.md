@@ -11,10 +11,25 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3134/3134 funciones
-BYTES   : 42,190/42,190 (registrados)
-ROM     : 42,190/2,097,152  (2.0118%)
+MATCHED : 3143/3143 funciones
+BYTES   : 43,556/43,556 (registrados)
+ROM     : 43,556/2,097,152  (2.0769%)
 ```
+
+> **Wave SS** (12 entradas de registro, 1 384 B brutos / +1 366 B netos) —
+> segunda oleada priorizada por TAMANO con `tools/rank_candidates.py`.
+> Nucleo del sistema de colision hitbox-vs-hitbox
+> (`Entity_HitboxCollide_028A96` 114 B + `Hitbox_OverlapTestXY_028B14`
+> 268 B, con **assertions `trap #15` nop-patched** — primera evidencia
+> directa de la macro de assert del build de desarrollo de Nazca);
+> cierre del bloque boot `$0009B4..$000B8A` (`ScriptSlotPairTable_0009B4`
+> 200 B datos + `TaskSlots_BootInstall_000A7C` 270 B, instalador de los
+> 12 TCBs estaticos alcanzado via la tabla (TCB,handler) de `$178000`);
+> el "callee $1CD4" de MM#3 (`TaskList_ChangeAndRunEight_001CD4` 96 B);
+> sincronizador de sub-entities (`Entity_CopyAnimFromLeader_06E2BC`
+> 66 B); y el cluster de glifos 16x16 del Fix Layer (`$099F3A..$09A0B3`,
+> 6 funciones, 370 B). Absorbe 3 FPs (#49–#51) y promueve 8 placeholders
+> de `symbols.py`. Ver la seccion "Wave SS en detalle" y `CHANGELOG.md`.
 
 > **Wave RR** (5 funciones, 516 B) — primera oleada seleccionada
 > puramente por TAMANO via `tools/rank_candidates.py` en vez de
@@ -112,7 +127,93 @@ Ninguna oleada se cierra hasta que `python3 tools/match_batch.py` da verde.
 | **NN–PP** | **(sin detalle registrado en esta tabla — ver `git log`/`CHANGELOG.md`)** | **6** | **756** | **ASM** |
 | **QQ** | **PlayerEntity_InitAuxState (#1) + Entity_ApplyFadeShade compartido (#2)** | **2** | **202** | **ASM** |
 | **RR** | **Box-overlap x2 (facing-mirrored) + Camera0 relink/wrap-scroll + EntityGroup spawn-linked-from-template-list + mirror helper — 1a oleada priorizada por TAMANO (`tools/rank_candidates.py`)** | **5** | **516** | **ASM** |
-| **TOTAL** | | **3 134** | **42 190** |  |
+| **SS** | **Colision hitbox (caller + test AABB con asserts trap#15) + boot block $0009B4..$000B8A (tabla + instalador TCBs) + re-arme 8 TCBs + sync sub-entity + cluster glifos 16x16 Fix Layer — 2a oleada por TAMANO** | **12** | **1 384** | **ASM** |
+| **TOTAL** | | **3 143** | **43 556** |  |
+
+### Wave SS en detalle — segunda oleada priorizada por TAMANO
+
+Cierra los 8 primeros puestos de la cola de `tools/rank_candidates.py`
+tras RR. 12 entradas de registro (11 funciones + 1 tabla de datos),
+1 384 B brutos, +1 366 B netos tras descontar los 18 B de los 3 FPs
+absorbidos. Promueve 8 placeholders de `symbols.py` a definicion
+canonica.
+
+| # | Símbolo | Dirección | Bytes | Descripción |
+|---|---|---|---:|---|
+| 1 | `Entity_CopyAnimFromLeader_06E2BC` | `$06E2BC` | 66 | Copia 9 campos (pos, anim, flags) de la entity "lider" (`a6->+0x50`) al destino `a0`. La copia de `+0x30` aparece DOS veces (store muerto que un compilador habría eliminado — evidencia de asm a mano). 4 callers, 2 de ellos `JsrPcThunk_*` matcheados. |
+| 2 | `Entity_HitboxCollide_028A96` | `$028A96` | 114 | Caller del barrido de colisión: filtra self-hit, descriptor NIL, tipo != $80 e inmunidad (bit 3 de `flags69`); invoca #3 con los extents (+6 de cabecera) y propaga el resultado como bits dinámicos (`bset d7/d6`) en los `flags69` de ambas entities. Sale por las islas `ClearXN_028b08`/`SetXN_028b0e` (que siguen matcheadas aparte). |
+| 3 | `Hitbox_OverlapTestXY_028B14` | `$028B14` | 268 | Test AABB entity-vs-entity con espejado por facing (bit 0 de `flags3a`, eje X) y flip vertical (bit 1, eje Y). Calcula además la intersección `[max(min), min(max)]` y el lado relativo (`slt d7`/`sge d6`) que #2 consume. **Contiene 4 bloques de ASSERT `trap #15` nop-patched** (ver hallazgo mayor abajo). Absorbe FPs #49–#51. |
+| 4 | `ScriptSlotPairTable_0009B4` | `$0009B4` | 200 | Tabla de datos-en-.text: DOS sub-tablas de pares word (id, script) terminadas en `$FFFF`, consumidas por `Sub_00002B58` desde 3 handlers del scheduler (`lea $9b4(pc), a0`). Cada par asigna `$1CE00 + script*64` al slot `$1082C8 + id*32`. |
+| 5 | `TaskSlots_BootInstall_000A7C` | `$000A7C` | 270 | Instalador boot de los 12 TCBs estáticos `$100xxx` vía `Task_InstallHandler_0000050E` (símbolo nuevo): 8 con handler idle `RtsStub_0400`, 3 con thunks reales y `$1001C0` con `SchedulerBootstrap_Boot_000E8E` (MM#1) por PC-rel — cierra el círculo del arranque. Arranca 3 tasks al vuelo y enlaza los pares player/partner (`$10044C`/`$1004EC` = campo `+0xC`). SIN caller directo: se alcanza vía la tabla (TCB, handler) de `$178000`. Fall-through en `SetTaskHandler_000b8a`. |
+| 6 | `TaskList_ChangeAndRunEight_001CD4` | `$001CD4` | 96 | Batch de `Task_ChangeAndRun_0626` sobre los 8 TCBs de gameplay. Es el "callee $1CD4" documentado en MM#3 (7 callers). Fall-through en `JsrAbsThunk_001d34` (la 9ª operación implícita es `FUN_000005B6`). |
+| 7 | `FixGlyph16_DrawCursorA_099F3A` | `$099F3A` | 76 | Dibuja un glifo 16x16 (bloque 2x2 de fix tiles, base `$4B22`) vía puerto LSPC `$3C0000`, en la celda leída de la tabla `a6->+0x80[a6->+0x78]` — cursor de menú en posición variable. |
+| 8 | `FixGlyph16_DrawCursorB_099F86` | `$099F86` | 76 | Clon byte-a-byte de #7 con tile base `$4B40` (estado alternativo del cursor). 9º par de clones no factorizados. |
+| 9 | `FixGlyphRun_Draw2F61F0_099FD2` | `$099FD2` | 24 | Prepara `a2 = $2F61F0 + idx*8`, `a1 = $72EB`, `d1 = 4` y cae por fall-through en `JsrAbsThunk_099fea` (renderizador de tiras de glifos `$4784C`). |
+| 10 | `FixGlyph16_DrawDigit72EF_099FF2` | `$099FF2` | 74 | Dígito en celda fija `$72EF`: tile `$4B60 + 2*(a6->+0x73)`. |
+| 11 | `FixGlyph16_DrawDigit72F3_09A03C` | `$09A03C` | 74 | Gemela de #10 en `$72F3` con `a6->+0x74`. 10º par de clones. |
+| 12 | `FixGlyphRun_DrawPad2P_09A086` | `$09A086` | 46 | Solo si byte BIOS `$10FD83 == 2`: elige tira ROM por `a6->+0x76` y cae en `JsrAbsThunk_09a0b4`. La salida temprana hace `bne.w` al **rts INTERNO** del propio thunk matcheado (`JsrAbsRts_09a0ba`, símbolo nuevo). |
+
+**Falsos positivos absorbidos Wave SS (3 nuevos, 51 totales del proyecto):**
+
+| # | Símbolo original | Wave | Absorbido por | Idioma |
+|---|---|---|---|---|
+| 49 | `ClearXN_028b7c` | N | `Hitbox_OverlapTestXY_028B14` (SS#3) | Rama "sin solape en X" `andi.b #$EE, ccr; rts` |
+| 50 | `ClearXN_028c14` | N | `Hitbox_OverlapTestXY_028B14` (SS#3) | Rama "sin solape en Y" |
+| 51 | `SetXN_028c1a` | N | `Hitbox_OverlapTestXY_028B14` (SS#3) | Rama "solape confirmado" `ori.b #$11, ccr; rts` |
+
+**HALLAZGO FORENSE MAYOR — macro ASSERT con `trap #15` nop-patched:**
+
+`Hitbox_OverlapTestXY_028B14` contiene CUATRO bloques idénticos:
+
+```
+    cmp.w   dY, dX
+    blt.w   .Lok          ; ASSERT(min < max)
+    nop
+    nop
+    cmp.w   dY, dX        ; (repite el cmp — resto de macro)
+    nop
+    trap    #15           ; breakpoint de debugger si falla
+.Lok:
+```
+
+Primera evidencia directa del proyecto de una **macro de assert del
+build de desarrollo de Nazca**: los `nop` son instrucciones del cuerpo
+original de la macro parcheadas/condicionalmente ensambladas en la
+release (probablemente un volcado de contexto para el monitor),
+dejando el esqueleto `cmp/trap`. `trap #15` era el vector clásico de
+breakpoint de los ICE/monitores 68000. Confirma definitivamente que el
+binario final se ensambló desde fuentes con macros de debug activables.
+
+**Otros descubrimientos arquitectónicos Wave SS:**
+
+1. **Tabla (TCB, handler) en `$178000`** documentada por primera vez:
+   contiene el par `($100120 -> $000A7C)` que explica cómo se alcanza
+   SS#5 sin ningún `jsr`/`bra` en todo el ROM (mismo mecanismo threaded
+   `jmp (a0)` de MM#1). Pendiente de registrar como tabla completa
+   cuando se delimite su extensión.
+2. **Campo `TCB->+0xC` = "partner"**: SS#5 enlaza `$100440->+0xC =
+   $100300` y `$1004E0->+0xC = $1003A0` — pares task de jugador +
+   partner, consistente con el uso de esos 4 TCBs en SS#6.
+3. **Variante nueva del idioma "fall-through a thunk matcheado"**
+   (11ª aparición del fall-through): SS#12 no cae sobre el INICIO del
+   thunk vecino sino que salta con `bne.w` a su ÚLTIMO opcode (el
+   `rts` en `$9A0BA`) como salida temprana. Nuevo símbolo
+   `JsrAbsRts_09a0ba` en `symbols.py`.
+4. **Puertos LSPC por `movem.w d0-d1, $3C0000`**: el par
+   (dirección, dato) se escribe en un solo `movem` que cubre
+   `$3C0000/$3C0002` — idioma compartido por las 4 funciones de glifo
+   del cluster y los blitters de CC#2.
+5. **9º y 10º pares de clones no factorizados** (#7/#8 y #10/#11):
+   refuerza la hipótesis de macros ASM pesadas en el código original.
+
+**Verde a la primera pasada completa del matcher** (0 iteraciones de
+fix tras el primer `match_batch.py` de la oleada — récord del proyecto
+para una oleada >1 KiB; las lecciones de RR sobre `jsr (pc)` explícito
+y case-sensitivity de GAS se aplicaron preventivamente).
+
+Estado tras SS: **3 143 / 3 143, 43 556 B, 2.0769 % ROM total**.
+Incremento vs baseline post-RR: +9 funciones netas (12 nuevas, 3 FPs
+absorbidos), +1 366 B netos, +0.0651 pp de cobertura ROM.
 
 ### Wave RR en detalle — primera oleada priorizada por TAMANO
 

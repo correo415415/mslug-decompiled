@@ -41,6 +41,6 @@ Entity_SpawnAndTag_06E224:
         rts                                    | +24
 
         .equ    .LTpl,  Template_06DF32
-        .equ    .Lpost, PcThunkTarget_06e2bc     | nombre canonico historico
+        .equ    .Lpost, Entity_CopyAnimFromLeader_06E2BC     | nombre canonico historico
 
         .size   Entity_SpawnAndTag_06E224, .-Entity_SpawnAndTag_06E224

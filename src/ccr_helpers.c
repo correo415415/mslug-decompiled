@@ -495,14 +495,14 @@ void ClearXN_028b08(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 __attribute__((section(".text.SetXN_028b0e")))
 void SetXN_028b0e(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
 
-__attribute__((section(".text.ClearXN_028b7c")))
-void ClearXN_028b7c(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
+/* ClearXN_028b7c absorbido por Hitbox_OverlapTestXY_028B14 (Wave SS#3).
+ * FP #49: rama "sin solape en X" (andi.b #$EE, ccr; rts) del test AABB. */
 
-__attribute__((section(".text.ClearXN_028c14")))
-void ClearXN_028c14(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
+/* ClearXN_028c14 absorbido por Hitbox_OverlapTestXY_028B14 (Wave SS#3).
+ * FP #50: rama "sin solape en Y" del mismo test. */
 
-__attribute__((section(".text.SetXN_028c1a")))
-void SetXN_028c1a(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
+/* SetXN_028c1a absorbido por Hitbox_OverlapTestXY_028B14 (Wave SS#3).
+ * FP #51: rama "solape confirmado" (ori.b #$11, ccr; rts) del mismo test. */
 
 __attribute__((section(".text.ClearXN_028c60")))
 void ClearXN_028c60(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }

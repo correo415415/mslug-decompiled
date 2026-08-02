@@ -638,33 +638,33 @@ void JsrPcThunk_06d130(void) {
 }
 
 /* JsrPcThunk_06e244 ABSORBIDO por Entity_SpawnAndTag_06E224 (Wave Z batch 2 #7).
- * Los 6 B en $06E244..$06E249 (`jsr PcThunkTarget_06e2bc(pc); rts`) son la
+ * Los 6 B en $06E244..$06E249 (`jsr Entity_CopyAnimFromLeader_06E2BC(pc); rts`) son la
  * cola del spawner con tag. 23 falso positivo del proyecto.
  */
 #if 0
 __attribute__((section(".text.JsrPcThunk_06e244")))
 void JsrPcThunk_06e244(void) {
-    extern void PcThunkTarget_06e2bc(void);
-    __asm__ volatile("jsr PcThunkTarget_06e2bc(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_CopyAnimFromLeader_06E2BC(void);
+    __asm__ volatile("jsr Entity_CopyAnimFromLeader_06E2BC(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 #endif
 
 __attribute__((section(".text.JsrPcThunk_06e26a")))
 void JsrPcThunk_06e26a(void) {
-    extern void PcThunkTarget_06e2bc(void);
-    __asm__ volatile("jsr PcThunkTarget_06e2bc(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_CopyAnimFromLeader_06E2BC(void);
+    __asm__ volatile("jsr Entity_CopyAnimFromLeader_06E2BC(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_06e290")))
 void JsrPcThunk_06e290(void) {
-    extern void PcThunkTarget_06e2bc(void);
-    __asm__ volatile("jsr PcThunkTarget_06e2bc(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_CopyAnimFromLeader_06E2BC(void);
+    __asm__ volatile("jsr Entity_CopyAnimFromLeader_06E2BC(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_06e2b6")))
 void JsrPcThunk_06e2b6(void) {
-    extern void PcThunkTarget_06e2bc(void);
-    __asm__ volatile("jsr PcThunkTarget_06e2bc(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_CopyAnimFromLeader_06E2BC(void);
+    __asm__ volatile("jsr Entity_CopyAnimFromLeader_06E2BC(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_06fab4")))
@@ -939,61 +939,61 @@ void JsrPcThunk_099d8e(void) {
 
 __attribute__((section(".text.JsrPcThunk_099db8")))
 void JsrPcThunk_099db8(void) {
-    extern void PcThunkTarget_099f3a(void);
-    __asm__ volatile("jsr PcThunkTarget_099f3a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyph16_DrawCursorA_099F3A(void);
+    __asm__ volatile("jsr FixGlyph16_DrawCursorA_099F3A(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099ddc")))
 void JsrPcThunk_099ddc(void) {
-    extern void PcThunkTarget_099f3a(void);
-    __asm__ volatile("jsr PcThunkTarget_099f3a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyph16_DrawCursorA_099F3A(void);
+    __asm__ volatile("jsr FixGlyph16_DrawCursorA_099F3A(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099df6")))
 void JsrPcThunk_099df6(void) {
-    extern void PcThunkTarget_099fd2(void);
-    __asm__ volatile("jsr PcThunkTarget_099fd2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyphRun_Draw2F61F0_099FD2(void);
+    __asm__ volatile("jsr FixGlyphRun_Draw2F61F0_099FD2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099e0e")))
 void JsrPcThunk_099e0e(void) {
-    extern void PcThunkTarget_099fd2(void);
-    __asm__ volatile("jsr PcThunkTarget_099fd2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyphRun_Draw2F61F0_099FD2(void);
+    __asm__ volatile("jsr FixGlyphRun_Draw2F61F0_099FD2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099e30")))
 void JsrPcThunk_099e30(void) {
-    extern void PcThunkTarget_099ff2(void);
-    __asm__ volatile("jsr PcThunkTarget_099ff2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyph16_DrawDigit72EF_099FF2(void);
+    __asm__ volatile("jsr FixGlyph16_DrawDigit72EF_099FF2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099e52")))
 void JsrPcThunk_099e52(void) {
-    extern void PcThunkTarget_099ff2(void);
-    __asm__ volatile("jsr PcThunkTarget_099ff2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyph16_DrawDigit72EF_099FF2(void);
+    __asm__ volatile("jsr FixGlyph16_DrawDigit72EF_099FF2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099e74")))
 void JsrPcThunk_099e74(void) {
-    extern void PcThunkTarget_09a03c(void);
-    __asm__ volatile("jsr PcThunkTarget_09a03c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyph16_DrawDigit72F3_09A03C(void);
+    __asm__ volatile("jsr FixGlyph16_DrawDigit72F3_09A03C(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099e96")))
 void JsrPcThunk_099e96(void) {
-    extern void PcThunkTarget_09a03c(void);
-    __asm__ volatile("jsr PcThunkTarget_09a03c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyph16_DrawDigit72F3_09A03C(void);
+    __asm__ volatile("jsr FixGlyph16_DrawDigit72F3_09A03C(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099eb8")))
 void JsrPcThunk_099eb8(void) {
-    extern void PcThunkTarget_09a086(void);
-    __asm__ volatile("jsr PcThunkTarget_09a086(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyphRun_DrawPad2P_09A086(void);
+    __asm__ volatile("jsr FixGlyphRun_DrawPad2P_09A086(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099ecc")))
 void JsrPcThunk_099ecc(void) {
-    extern void PcThunkTarget_09a086(void);
-    __asm__ volatile("jsr PcThunkTarget_09a086(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FixGlyphRun_DrawPad2P_09A086(void);
+    __asm__ volatile("jsr FixGlyphRun_DrawPad2P_09A086(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 

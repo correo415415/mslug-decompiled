@@ -171,7 +171,7 @@ AttractPhase2_Multiway_0011CA:
 AttractHandler_Loader_0011EA:
         jsr     BIOS_FIX_CLEAR                  | +00  BIOS VBlank
         jsr     Pubcleaner_10A2Cx_052712        | +06  Pubcleaner_10A2Cx (LL#1)
-        lea.l   Sub_000009B4(pc), a0            | +0c  a0 = &ctx_$09B4 (pc-rel)
+        lea.l   ScriptSlotPairTable_0009B4(pc), a0            | +0c  a0 = &ctx_$09B4 (pc-rel)
         jsr     Sub_00002B58                    | +10  loader $2B58 w/ a0
         lea.l   TaskTpl_0977EA, a1              | +16  a1 = &task_tpl_$977EA
         jsr     ThunkTarget_0004ae              | +1c  Task_Alloc
