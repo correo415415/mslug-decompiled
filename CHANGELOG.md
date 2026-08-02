@@ -17,6 +17,23 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave WW — 7 functions (1,624 B): **the scroll VM**.
+  `SceneScriptVM_Frame_0437DA` (1,288 B, one of the largest single
+  functions matched so far) is the per-frame bytecode interpreter for
+  scene scripts (program counter in `$10815C`): 23 opcodes dispatched
+  through a PC-relative `bra.w` jump table where opcode `$16`
+  *overflows the table* straight into its inline handler — a new
+  pattern. Opcode `$02` yields the frame: saturated scroll integration
+  via `Scroll_ClampToRange_043E3A` (limit-crossing detection by sign
+  XOR), diagonal segments slave the Y velocity to the X delta, and the
+  progress high-water mark updates per axis mode before tail-calling
+  `CameraApplyAll4_043D86`. Also: the scroll edge-arrival CCR test,
+  two helpers of the 4 KB collision map at `$106F6C+$7C` (12-bit cell
+  index, 8x8 cells in 2-column blocks), a pure-C GCC-derived pair of
+  camera smoothing velocity presets, and 3 size bumps for trailing
+  `rts` already emitted but registered short. The contiguous megablock
+  now spans `$040EF2..$04422A` (~13.1 KB). Matcher: 3,254 functions,
+  54,534 bytes (2.6004% of the P ROM), all byte-exact.
 - Wave VV — 41 functions (4,482 B) across three files, a new single-wave
   record that completes the contiguous megablock `$040EF2..$0434C2`
   (~9.6 KB): melee guard family (dual A/B handler, 5 states),

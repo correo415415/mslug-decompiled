@@ -11,10 +11,31 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3247/3247 funciones
-BYTES   : 52,910/52,910 (registrados)
-ROM     : 52,910/2,097,152  (2.5229%)
+MATCHED : 3254/3254 funciones
+BYTES   : 54,534/54,534 (registrados)
+ROM     : 54,534/2,097,152  (2.6004%)
 ```
+
+> **Wave WW** (7 funciones, 1 624 B, verde a la primera) — **LA VM DEL
+> SCROLL**: `SceneScriptVM_Frame_0437DA` (1 288 B, una de las funciones
+> individuales mas grandes del proyecto), el interprete de bytecode que
+> ejecuta cada frame el script de la escena activa (PC en `$10815C`,
+> cargado por `SceneLoader_Main` desde la tabla `$916C8`): **23 opcodes**
+> despachados por jump-table pc-relativa `jmp $4381C(pc,d0.w)` de `bra.w`,
+> donde el **op `$16` DESBORDA la tabla** aterrizando directamente en su
+> handler inline (`$043874`) — patron nuevo. El op `$02` cede el frame:
+> integra scroll saturado via `Scroll_ClampToRange_043E3A` (deteccion de
+> cruce de limite por XOR de signos + islas `ClrWD0`), acopla la
+> velocidad Y al delta X en tramos diagonales (`slope*(maxX-posX)>>8`),
+> actualiza el high-water de progreso segun el modo de eje `$108178` y
+> sale por `bra.w` a `CameraApplyAll4_043D86`. Completa la ola: el
+> chequeo CCR de llegada al borde (`$043CE2`, cae en islas Clear/SetC),
+> los 2 helpers del **mapa de colision de 4 KB** en `$106F6C+$7C`
+> (indice de 12 bits con celdas 8x8 en bloques de 2 columnas — el MISMO
+> buffer que limpia `Buffer_ClearBlock1024L` y resetea el op `$0B`), la
+> pareja de presets de velocidad del smoothing en **C puro GCC-derivado**
+> y 3 bumps de `rts` finales ya emitidos pero registrados cortos. El
+> megabloque contiguo llega a **`$040EF2..$04422A` (~13.1 KB)**.
 
 > **Wave VV** (41 funciones, 4 482 B, verde a la primera en sus 3 partes) —
 > NUEVO RECORD de oleada y cierre del megabloque contiguo
