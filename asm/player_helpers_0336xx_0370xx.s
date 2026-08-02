@@ -78,7 +78,7 @@ PlayerEntitySpawn_Alt_03364A:
         jsr     ThunkTarget_00236e              | +2c  SpriteSetup (acc2)
         move.w  #0x1b, 0x1c(a6)                 | +32  entity_type = $1B
         jsr     ThunkTarget_0138fe              | +38  load level config
-        jsr     Sub_00032A02(pc)                | +3e  helper local (pc-rel)
+        jsr     PlayerEntity_InitAuxState_032A02(pc) | +3e  Wave QQ#1
         bclr.b  #0x4, 0x12(a6)                  | +42  clear pause flag
         ori.w   #0x2, 0x38(a6)                  | +48  set spawn-active flag
         lea.l   TaskTpl_0394A8, a1              | +4e  a1 = &task_tpl
