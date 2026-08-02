@@ -3821,4 +3821,74 @@ REGISTRY = [
     ("TrioChild_OrbitTracker_041AB4",            0x041AB4, 260, "squad_children_handlers_0414xx.s"),
     ("TrioChild_OrbitDeath_041BB8",              0x041BB8,  14, "squad_children_handlers_0414xx.s"),
     ("SquadChild_FinalPose_041BC6",              0x041BC6,  76, "squad_children_handlers_0414xx.s"),
+
+    # ------------------------------------------------------------------
+    # Wave VV (parte 1/3): spawners de hijos + guardia melee + arranque
+    # Charger. Cluster $0422EA..$042904 tejido entre las islas C
+    # SetTaskW_042476 / SetTaskHandler_0424a2 / JsrAbsThunk_042904 y las
+    # islas CCR $0423A0..$0423EA. Introduce saltos a MITAD de isla
+    # (SetTaskWRts_04247a, SetHandlerRts_0424a8, JsrAbsRts_04290a) y las
+    # primeras tablas de DATOS de animacion emitidas en .s
+    # (Charger_WalkAnimTables_0427FA, punteros de loop absolutos via
+    # reloc). 24 funciones, 1 516 B.
+    # ------------------------------------------------------------------
+    ("SquadSpawn_DropPair_0422EA",               0x0422EA,  58, "melee_guard_cluster_0422xx.s"),
+    ("SquadSpawn_FxChild_042324",                0x042324,  26, "melee_guard_cluster_0422xx.s"),
+    ("SquadSpawn_GlideAttacker_04233E",          0x04233E,  40, "melee_guard_cluster_0422xx.s"),
+    ("SquadSpawn_FinalPoseChild_042366",         0x042366,  42, "melee_guard_cluster_0422xx.s"),
+    ("Entity_CmpDepthToParent_042390",           0x042390,  16, "melee_guard_cluster_0422xx.s"),
+    ("TargetFacingTest_0423AC",                  0x0423AC,  12, "melee_guard_cluster_0422xx.s"),
+    ("TargetFacingTest_Cont_0423BE",             0x0423BE,  28, "melee_guard_cluster_0422xx.s"),
+    ("TargetFacingTest_Pad_0423E0",              0x0423E0,   4, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_TrackTarget_0423EC",            0x0423EC,  74, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_EngageAndTimers_042436",        0x042436,  64, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_MeleeGate_04247C",              0x04247C,  38, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_Think_0424AA",                  0x0424AA, 104, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_MeleeRange_042512",             0x042512,  40, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_FaceSelect_04253A",             0x04253A,  46, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_TimerHandoff_042568",           0x042568,  14, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_TailDespawn_042576",            0x042576,  24, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_Handler_04258E",                0x04258E, 330, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_IdleState_0426D8",              0x0426D8,  56, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_RecoverState_042710",           0x042710,  48, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_ApproachState_042740",          0x042740,  84, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_RetreatState_042794",           0x042794,  54, "melee_guard_cluster_0422xx.s"),
+    ("MeleeGuard_DeathToExtern_0427CA",          0x0427CA,  48, "melee_guard_cluster_0422xx.s"),
+    ("Charger_WalkAnimTables_0427FA",            0x0427FA, 204, "melee_guard_cluster_0422xx.s"),
+    ("Charger_TrackTarget_0428C6",               0x0428C6,  62, "melee_guard_cluster_0422xx.s"),
+
+    # ------------------------------------------------------------------
+    # Wave VV (parte 2/3): maquina de estados del Charger + Skirmisher.
+    # Cluster $04290C..$042E8A. Patron NUEVO: dispatcher de Init tejido
+    # a traves de 4 islas SetTaskHandler consecutivas ($429FC/$42A0C/
+    # $42A1A/$42A22); el unico `bsr.b` de la wave (61 82) fuerza la
+    # fusion helper+walks en una seccion; continuaciones diferidas en
+    # +0x78 (reloc a label local vs inmediato hex). 12 funciones,
+    # 1 374 B.
+    # ------------------------------------------------------------------
+    ("Charger_Init_04290C",                      0x04290C, 240, "charger_states_0429xx.s"),
+    ("Charger_InitDispatch_042A04",              0x042A04,   8, "charger_states_0429xx.s"),
+    ("Charger_InitDispatch2_042A14",             0x042A14,   6, "charger_states_0429xx.s"),
+    ("Charger_ColumnDeltaTest_042A2A",           0x042A2A, 162, "charger_states_0429xx.s"),
+    ("Charger_IdleState_042ACC",                 0x042ACC, 144, "charger_states_0429xx.s"),
+    ("Charger_HurtState_042B5C",                 0x042B5C,  74, "charger_states_0429xx.s"),
+    ("Charger_AttackState_042BA6",               0x042BA6, 292, "charger_states_0429xx.s"),
+    ("Charger_WindupA_042CCA",                   0x042CCA,  56, "charger_states_0429xx.s"),
+    ("Charger_WindupB_042D02",                   0x042D02,  58, "charger_states_0429xx.s"),
+    ("Skirmisher_Init_042D3C",                   0x042D3C,  84, "charger_states_0429xx.s"),
+    ("Skirmisher_Main_042D90",                   0x042D90, 106, "charger_states_0429xx.s"),
+    ("Skirmisher_Hurt_042DFA",                   0x042DFA, 144, "charger_states_0429xx.s"),
+
+    # ------------------------------------------------------------------
+    # Wave VV (parte 3/3): set de animaciones de 16 rumbos (1 332 B de
+    # DATOS transcritos y verificados por script contra la ROM) +
+    # handler del sprite dirigido por RAM global + clones tri-estado
+    # con rama invertida (bcs). Cierra el megabloque contiguo
+    # $040EF2..$0434C2 (~9.6 KB). 5 entradas, 1 592 B.
+    # ------------------------------------------------------------------
+    ("Heading16AnimSet_042E8A",                  0x042E8A, 1332, "heading16_cluster_042exx.s"),
+    ("Heading16Sprite_Handler_0433BE",           0x0433BE, 160, "heading16_cluster_042exx.s"),
+    ("TrackTargetLatch75_04345E",                0x04345E,  42, "heading16_cluster_042exx.s"),
+    ("TrackTargetLatch78_043488",                0x043488,  42, "heading16_cluster_042exx.s"),
+    ("Entity_CmpDepthToParent_0434B2",           0x0434B2,  16, "heading16_cluster_042exx.s"),
 ]

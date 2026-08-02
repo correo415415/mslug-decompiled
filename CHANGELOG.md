@@ -17,6 +17,19 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave VV — 41 functions (4,482 B) across three files, a new single-wave
+  record that completes the contiguous megablock `$040EF2..$0434C2`
+  (~9.6 KB): melee guard family (dual A/B handler, 5 states),
+  Charger enemy (init dispatcher woven through 4 consecutive
+  SetTaskHandler C islands — new pattern —, 5-hit attack with deferred
+  continuations stored in `+0x78` as 32-bit immediates, mirrored
+  windups), Skirmisher, and the 16-heading animation set (1,332 B of
+  data transcribed and script-verified against the ROM, first sighting
+  of the `$1600` HOLD terminator). Adds 3 new mid-island `rts` symbols,
+  documents 3 dead `bra.w` template remnants plus a dead `moveq`, and
+  the wave's only `bsr.b` (which forces a section merge). Matcher:
+  3,247 functions / 52,910 B (2.5229% of P ROM), green on first run
+  for all three parts.
 - Wave UU — 31 functions (3,246 B) across two files, a new single-wave
   record and **green on the first matcher run**: the complete member and
   child state machines of the squadron subsystem (`$040F00..$041C12`),
