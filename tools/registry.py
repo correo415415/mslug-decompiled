@@ -293,9 +293,12 @@ REGISTRY = [
     # cola `andi.b #$EE, ccr; rts` path default. 24 falso positivo del proyecto.
     ("ClearXN_028b08", 0x028B08,  6, "ccr_helpers.c"),
     ("SetXN_028b0e", 0x028B0E,  6, "ccr_helpers.c"),
-    ("ClearXN_028b7c", 0x028B7C,  6, "ccr_helpers.c"),
-    ("ClearXN_028c14", 0x028C14,  6, "ccr_helpers.c"),
-    ("SetXN_028c1a", 0x028C1A,  6, "ccr_helpers.c"),
+    # ClearXN_028b7c ABSORBIDO por Hitbox_OverlapTestXY_028B14 (Wave SS#3):
+    # rama "sin solape en X" del test AABB. FP #49 del proyecto.
+    # ClearXN_028c14 ABSORBIDO por Hitbox_OverlapTestXY_028B14 (Wave SS#3):
+    # rama "sin solape en Y". FP #50 del proyecto.
+    # SetXN_028c1a ABSORBIDO por Hitbox_OverlapTestXY_028B14 (Wave SS#3):
+    # rama "solape confirmado". FP #51 del proyecto.
     ("ClearXN_028c60", 0x028C60,  6, "ccr_helpers.c"),
     ("ClearXN_028cac", 0x028CAC,  6, "ccr_helpers.c"),
     ("SetXN_028cb2", 0x028CB2,  6, "ccr_helpers.c"),
@@ -3698,4 +3701,35 @@ REGISTRY = [
     ("Camera0_RelinkAndWrapScroll_06896A",       0x06896A, 112, "camera0_relink_wrap_scroll_06896a.s"),
     ("Entity_MirrorDeltaByFacing_065D32",        0x065D32,  12, "entity_mirror_delta_by_facing_065d32.s"),
     ("EntityGroup_SpawnLinkedFromTemplateList_065C94", 0x065C94, 84, "entity_group_spawn_linked_from_template_list_065c94.s"),
+
+    # ---- Wave SS: 12 entradas / 1 384 B brutos (2a oleada priorizada por
+    #      TAMANO via tools/rank_candidates.py). Absorbe 3 FPs de Wave N
+    #      (ClearXN_028b7c/ClearXN_028c14/SetXN_028c1a, epilogos internos
+    #      de SS#3) y promueve 8 placeholders de symbols.py a definicion
+    #      canonica (PcThunkTarget_06e2bc, Sub_00028A96, Sub_000009B4,
+    #      PcThunkTarget_001CD4, PcThunkTarget_099f3a/99fd2/99ff2/9a03c/
+    #      9a086).
+    #
+    #      SS#2/SS#3: nucleo del sistema de colision hitbox-vs-hitbox
+    #      (caller de barrido + test AABB con espejado por facing/flip y
+    #      ASSERTIONS trap#15 nop-patched del build de desarrollo, 1a
+    #      evidencia de macro de assert de Nazca). SS#4/SS#5: tabla de
+    #      pares (slot,script) + instalador boot de los 12 TCBs estaticos
+    #      (cierra el mapa del bloque $0009B4..$000B8A; el handler se
+    #      registra en la tabla (TCB,handler) de $178000). SS#6: batch de
+    #      re-arme de los 8 TCBs de gameplay (el "callee $1CD4" de MM#3).
+    #      SS#7..#12: cluster de dibujado de glifos 16x16 en el Fix Layer
+    #      via puerto LSPC $3C0000 (cursores de menu + digitos + tiras).
+    ("Entity_CopyAnimFromLeader_06E2BC",         0x06E2BC,  66, "entity_copy_anim_from_leader_06e2bc.s"),
+    ("Entity_HitboxCollide_028A96",              0x028A96, 114, "entity_hitbox_collide_028axx.s"),
+    ("Hitbox_OverlapTestXY_028B14",              0x028B14, 268, "entity_hitbox_collide_028axx.s"),
+    ("ScriptSlotPairTable_0009B4",               0x0009B4, 200, "task_boot_install_slots_000a7c.s"),
+    ("TaskSlots_BootInstall_000A7C",             0x000A7C, 270, "task_boot_install_slots_000a7c.s"),
+    ("TaskList_ChangeAndRunEight_001CD4",        0x001CD4,  96, "task_change_and_run_eight_001cd4.s"),
+    ("FixGlyph16_DrawCursorA_099F3A",            0x099F3A,  76, "hud_fix_glyph16_099fxx.s"),
+    ("FixGlyph16_DrawCursorB_099F86",            0x099F86,  76, "hud_fix_glyph16_099fxx.s"),
+    ("FixGlyphRun_Draw2F61F0_099FD2",            0x099FD2,  24, "hud_fix_glyph16_099fxx.s"),
+    ("FixGlyph16_DrawDigit72EF_099FF2",          0x099FF2,  74, "hud_fix_glyph16_099fxx.s"),
+    ("FixGlyph16_DrawDigit72F3_09A03C",          0x09A03C,  74, "hud_fix_glyph16_099fxx.s"),
+    ("FixGlyphRun_DrawPad2P_09A086",             0x09A086,  46, "hud_fix_glyph16_099fxx.s"),
 ]

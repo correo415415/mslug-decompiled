@@ -79,7 +79,7 @@ SYMBOLS = {
     # ---- Wave Z batch 2: externos referenciados por asm 68000 puro ----
     0x0005E3A2: "Sub_0005E3A2",              # probe llamado por ProbeTwoAttemptsCcr (Z2 #1)
     0x0005E618: "Sub_0005E618",              # confirm llamado por ProbeTwoAttemptsCcr (Z2 #1)
-    0x00028A96: "Sub_00028A96",              # helper por-slot de Player_Dispatch3Slots (Z2 #2)
+    # 0x00028A96 promovido a Entity_HitboxCollide_028A96 en registry (Wave SS#2).
     0x00051862: "Sub_00051862",              # bsr desde Player_StateDispatch (Z2 #3)
     0x00051828: "Sub_00051828",              # bsr post-jt desde Player_StateDispatch
     0x0005188C: "StateJumpTable_05188C",     # jump-table PC-rel de Player_StateDispatch
@@ -934,7 +934,7 @@ SYMBOLS = {
     # 0x0006896A promovido a Camera0_RelinkAndWrapScroll_06896A en registry (Wave RR#3).
     0x00068AB8: "PcThunkTarget_068ab8",
     0x0006D13C: "PcThunkTarget_06d13c",
-    0x0006E2BC: "PcThunkTarget_06e2bc",
+    # 0x0006E2BC promovido a Entity_CopyAnimFromLeader_06E2BC en registry (Wave SS#1).
     0x00070AB0: "PcThunkTarget_070ab0",
     0x00072A94: "PcThunkTarget_072a94",
     # 0x00072C98 promovido a Entity_CheckActiveBoxOverlap_072C98 en registry (Wave RR#1).
@@ -954,11 +954,14 @@ SYMBOLS = {
     0x00099E14: "PcThunkTarget_099e14",
     0x00099E9C: "PcThunkTarget_099e9c",
     0x00099EE4: "PcThunkTarget_099ee4",
-    0x00099F3A: "PcThunkTarget_099f3a",
-    0x00099FD2: "PcThunkTarget_099fd2",
-    0x00099FF2: "PcThunkTarget_099ff2",
-    0x0009A03C: "PcThunkTarget_09a03c",
-    0x0009A086: "PcThunkTarget_09a086",
+    # 0x00099F3A promovido a FixGlyph16_DrawCursorA_099F3A en registry (Wave SS#7).
+    # 0x00099FD2 promovido a FixGlyphRun_Draw2F61F0_099FD2 en registry (Wave SS#9).
+    # 0x00099FF2 promovido a FixGlyph16_DrawDigit72EF_099FF2 en registry (Wave SS#10).
+    # 0x0009A03C promovido a FixGlyph16_DrawDigit72F3_09A03C en registry (Wave SS#11).
+    # 0x0009A086 promovido a FixGlyphRun_DrawPad2P_09A086 en registry (Wave SS#12).
+    0x0009A0BA: "JsrAbsRts_09a0ba",          # rts INTERNO de JsrAbsThunk_09a0b4 (Wave I);
+                                             # destino del bne.w de salida temprana de
+                                             # FixGlyphRun_DrawPad2P_09A086 (Wave SS#12).
     0x000283EC: "Sub_0002_83EC",  # destino del bne.w fall-through de Entity_ProbeSlot4c_0283D8 (Wave V#2)
     # ---- Wave W: destinos externos de Entity_AllocSpriteSlot_00236E ----
     0x000029A6: "Rts_shared_29A6",     # rts compartido (usado por 3 branches del validador)
@@ -990,7 +993,7 @@ SYMBOLS = {
     0x00001940: "Label_001940",             # submodo A continuation
     0x0000199A: "Label_00199A",             # submodo B continuation
     0x00001C88: "PcThunkTarget_001C88",     # ver: destino de lea pc+d,a1 desde $001286
-    0x00001CD4: "PcThunkTarget_001CD4",     # destino jsr pc+d desde $1286 y $12E6
+    # 0x00001CD4 promovido a TaskList_ChangeAndRunEight_001CD4 en registry (Wave SS#6).
     0x00001DCC: "PcThunkTarget_001DCC",     # destino jsr pc+d desde $18b4
     0x00001DB8: "Sub_00001DB8",             # callee bsr.w desde $12CA y $18DE
     0x00001E0A: "Sub_00001E0A",             # callee bsr.w desde $17E6 y $1A9E
@@ -1107,8 +1110,11 @@ SYMBOLS = {
     # 0x00052712: "ThunkTarget_052712",
     0x00046682: "TaskHandler_00046682",
     0x00059B6A: "TaskHandler_00059B6A",
-    0x00002B58: "Sub_00002B58",
-    0x000009B4: "Sub_000009B4",
+    0x00002B58: "Sub_00002B58",             # applicator de ScriptSlotPairTable_0009B4 (ver SS#4)
+    # 0x000009B4 promovido a ScriptSlotPairTable_0009B4 en registry (Wave SS#4).
+    0x0000050E: "Task_InstallHandler_0000050E",  # instala handler a1 en TCB a0 (bsr $4C6 +
+                                             # bset #0,+0x12); callee x12 de
+                                             # TaskSlots_BootInstall_000A7C (Wave SS#5).
     0x00002352: "InputGuardCall219c",
     0x00001C44: "TaskHandler_001C44",
     0x0003DBC8: "TaskHandler_0003DBC8",

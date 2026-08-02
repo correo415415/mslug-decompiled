@@ -162,7 +162,7 @@ SchedulerBootstrap_Boot_000E8E:
         move.b  #0xff, 0x106ecf.l               | +0f0
         lea.l   BootTblEntry_E6E(pc), a0        | +0f8 a0 = &tbl_$E6E (T6)
         move.l  a0, 0x70(a6)                    | +0fc
-        jsr     PcThunkTarget_001CD4(pc)        | +100 pre-boot hook (pc-rel to $1CD4)
+        jsr     TaskList_ChangeAndRunEight_001CD4(pc)        | +100 pre-boot hook (pc-rel to $1CD4)
         bra.w   .Lsched_boot_enter_mainloop     | +104
         nop                                     | +108 padding
 | ---- Mainloop tail (shared entry for all 5 branches) -----------------
@@ -243,7 +243,7 @@ SchedulerDispatch_LoopB_000FE0:
         .type   SchedTail_JsrCD4_001020, @function
         .section .text.SchedTail_JsrCD4_001020, "ax", @progbits
 SchedTail_JsrCD4_001020:
-        bsr.w   PcThunkTarget_001CD4            | +00 hook $1CD4 (symbols.py)
+        bsr.w   TaskList_ChangeAndRunEight_001CD4            | +00 hook $1CD4 (symbols.py)
         bra.b   SchedulerDispatch_LoopB_000FE0  | +04 goto loop B
 
         .size   SchedTail_JsrCD4_001020, .-SchedTail_JsrCD4_001020

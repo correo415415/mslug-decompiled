@@ -41,23 +41,23 @@ Player_Dispatch3Slots_028998:
                                               |
                                               | ---- primer helper: slot 3 ($100580) ----
         lea.l   0x100580.l, a1                 | +16  a1 = P3_slot
-        jsr     .Lhelper(pc)                   | +1c  Sub_00028A96
+        jsr     .Lhelper(pc)                   | +1c  Entity_HitboxCollide_028A96
                                               |
                                               | ---- helper sobre slot 1 ($100440) ----
         lea.l   0x100440.l, a1                 | +20  a1 = P1_slot
-        jsr     .Lhelper(pc)                   | +26  Sub_00028A96
+        jsr     .Lhelper(pc)                   | +26  Entity_HitboxCollide_028A96
         bcs.w   .Lslot1_active                 | +2a  if (C) slot 1 activo
                                               |
                                               | ---- path "slot 1 no": chequea slot 2 ($1004E0) ----
         lea.l   0x1004e0.l, a1                 | +2e  a1 = P2_slot
-        jsr     .Lhelper(pc)                   | +34  Sub_00028A96
+        jsr     .Lhelper(pc)                   | +34  Entity_HitboxCollide_028A96
         bcc.w   .Lexit_default                 | +38  if (!C) exit default
         bra.w   .Lexit_success                 | +3c  goto success
                                               |
 .Lslot1_active:
         movem.l a1, -(a7)                      | +40  push a1 (backup)
         lea.l   0x1004e0.l, a1                 | +44  a1 = P2_slot
-        jsr     .Lhelper(pc)                   | +4a  Sub_00028A96
+        jsr     .Lhelper(pc)                   | +4a  Entity_HitboxCollide_028A96
         movem.l (a7)+, a1                      | +4e  pop a1
                                               |
 .Lexit_success:
@@ -68,6 +68,6 @@ Player_Dispatch3Slots_028998:
         andi.b  #0xee, ccr                     | +58  CCR &= 0xEE (default)
         rts                                    | +5c
 
-        .equ    .Lhelper, Sub_00028A96
+        .equ    .Lhelper, Entity_HitboxCollide_028A96
 
         .size   Player_Dispatch3Slots_028998, .-Player_Dispatch3Slots_028998

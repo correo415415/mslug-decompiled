@@ -98,7 +98,7 @@ Attract_InitBIOS_001744:
 .Lff2_rts:                                     | $0017C6
         rts                                    | +82
 
-        .equ    .Lff2_tpl_9b4, Sub_000009B4
+        .equ    .Lff2_tpl_9b4, ScriptSlotPairTable_0009B4
 
         .size   Attract_InitBIOS_001744, .-Attract_InitBIOS_001744
 
@@ -207,7 +207,7 @@ Attract_SetTimers2_And_Gate21_001812:
         .section .text.Attract_TailChain_1CD4_1DA4_00182C, "ax", @progbits
 
 Attract_TailChain_1CD4_1DA4_00182C:
-        bsr.w   PcThunkTarget_001CD4           | +00  jsr $1CD4 (probe)
+        bsr.w   TaskList_ChangeAndRunEight_001CD4           | +00  jsr $1CD4 (probe)
         bsr.w   Sub_00001DA4                   | +04  bsr Sub_00001DA4
         bra.w   Sub_00000FE0                   | +08  tail al scheduler
 

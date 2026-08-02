@@ -121,7 +121,7 @@ Init_ModeToggle_001260:
         .equ    .Lpc_thunk_1c88,   PcThunkTarget_001C88
         .equ    .Ltail_a,          Label_001940
         .equ    .Ltail_b,          Label_00199A
-        .equ    .Lpc_reset,        PcThunkTarget_001CD4
+        .equ    .Lpc_reset,        TaskList_ChangeAndRunEight_001CD4
         .equ    .Lpc_tail_thunk,   PcThunkTarget_001af8
 
         .size   Init_ModeToggle_001260, .-Init_ModeToggle_001260
