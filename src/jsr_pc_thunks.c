@@ -353,44 +353,44 @@ void JsrPcThunk_03e7ba(void) {
 
 __attribute__((section(".text.JsrPcThunk_0404e8")))
 void JsrPcThunk_0404e8(void) {
-    extern void PcThunkTarget_041e02(void);
-    __asm__ volatile("jsr PcThunkTarget_041e02(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Squad_BobYNarrow_041E02(void);
+    __asm__ volatile("jsr Squad_BobYNarrow_041E02(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_040526")))
 void JsrPcThunk_040526(void) {
-    extern void PcThunkTarget_041e02(void);
-    __asm__ volatile("jsr PcThunkTarget_041e02(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Squad_BobYNarrow_041E02(void);
+    __asm__ volatile("jsr Squad_BobYNarrow_041E02(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_040e08")))
 void JsrPcThunk_040e08(void) {
-    extern void PcThunkTarget_041ddc(void);
-    __asm__ volatile("jsr PcThunkTarget_041ddc(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Squad_BobYWide_041DDC(void);
+    __asm__ volatile("jsr Squad_BobYWide_041DDC(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_04138a")))
 void JsrPcThunk_04138a(void) {
-    extern void PcThunkTarget_041ff6(void);
-    __asm__ volatile("jsr PcThunkTarget_041ff6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Squad_PollSharedState_041FF6(void);
+    __asm__ volatile("jsr Squad_PollSharedState_041FF6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_041402")))
 void JsrPcThunk_041402(void) {
-    extern void PcThunkTarget_041ff6(void);
-    __asm__ volatile("jsr PcThunkTarget_041ff6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Squad_PollSharedState_041FF6(void);
+    __asm__ volatile("jsr Squad_PollSharedState_041FF6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_041cda")))
 void JsrPcThunk_041cda(void) {
-    extern void PcThunkTarget_041c1a(void);
-    __asm__ volatile("jsr PcThunkTarget_041c1a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Squad_ComputeTargetPos_041C1A(void);
+    __asm__ volatile("jsr Squad_ComputeTargetPos_041C1A(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_042182")))
 void JsrPcThunk_042182(void) {
-    extern void PcThunkTarget_042040(void);
-    __asm__ volatile("jsr PcThunkTarget_042040(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Squad_WriteBackState_042040(void);
+    __asm__ volatile("jsr Squad_WriteBackState_042040(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0469dc")))

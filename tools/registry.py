@@ -3732,4 +3732,51 @@ REGISTRY = [
     ("FixGlyph16_DrawDigit72EF_099FF2",          0x099FF2,  74, "hud_fix_glyph16_099fxx.s"),
     ("FixGlyph16_DrawDigit72F3_09A03C",          0x09A03C,  74, "hud_fix_glyph16_099fxx.s"),
     ("FixGlyphRun_DrawPad2P_09A086",             0x09A086,  46, "hud_fix_glyph16_099fxx.s"),
+
+    # ---- Wave TT: subsistema "escuadron" completo ($041C1A..$0422E4) --
+    #      Formacion de 8 entities con vuelo ondulatorio senoidal (los
+    #      enjambres voladores): calculo de target de formacion, guiado
+    #      con atan2 de tabla + giro limitado, tres bobs senoidales
+    #      clonados (trio no factorizado), despachador de estados con
+    #      ASSERT trap#15 nop-patched (2 nuevos: $041D74 y $041E56, mismo
+    #      idioma de macro de Nazca que Wave SS), seleccion de templates
+    #      de animacion con variante espejada (+0x7C == $FF), protocolo
+    #      de estado compartido lider<->miembros (poll + writeback tipo
+    #      CAS cooperativo sobre el array +0x80 de la estructura +0xC),
+    #      spawner de los 8 miembros, spawners de par escoltado (clon
+    #      par #11: SpawnCore/SpawnPlain) y de trio con patron ciclico,
+    #      helpers sincos ($2C072C/$2C07AC) y moduladores de brillo.
+    #      Promueve 5 placeholders PcThunkTarget_041xxx/042xxx.
+    ("Squad_ComputeTargetPos_041C1A",            0x041C1A,  56, "squad_wave_motion_041cxx.s"),
+    ("Squad_InitFormationSlot_041C52",           0x041C52,  68, "squad_wave_motion_041cxx.s"),
+    ("Squad_PickSwoopState_041C9C",              0x041C9C,  62, "squad_wave_motion_041cxx.s"),
+    ("Squad_SteerTowardTarget_041CE0",           0x041CE0, 120, "squad_wave_motion_041cxx.s"),
+    ("Squad_HaltVelocity_041D5E",                0x041D5E,   8, "squad_wave_motion_041cxx.s"),
+    ("Squad_TurnRateStepClamp_041D6C",           0x041D6C,  44, "squad_wave_motion_041cxx.s"),
+    ("Squad_TurnRateClampHi_041D9E",             0x041D9E,  12, "squad_wave_motion_041cxx.s"),
+    ("Squad_BobYFast_041DB6",                    0x041DB6,  38, "squad_wave_motion_041cxx.s"),
+    ("Squad_BobYWide_041DDC",                    0x041DDC,  38, "squad_wave_motion_041cxx.s"),
+    ("Squad_BobYNarrow_041E02",                  0x041E02,  34, "squad_wave_motion_041cxx.s"),
+    ("Squad_BobYApply_041E24",                   0x041E24,  24, "squad_wave_motion_041cxx.s"),
+    ("Squad_BobYRestore_041E42",                 0x041E42,   6, "squad_wave_motion_041cxx.s"),
+    ("Squad_StateDispatch_041E4E",               0x041E4E,  34, "squad_wave_motion_041cxx.s"),
+    ("SquadAnim_State4Select_041E70",            0x041E70,  58, "squad_wave_motion_041cxx.s"),
+    ("SquadAnim_State5Select_041EB2",            0x041EB2,  52, "squad_wave_motion_041cxx.s"),
+    ("SquadAnim_ApproachSelect_041EEE",          0x041EEE,  38, "squad_wave_motion_041cxx.s"),
+    ("SquadAnim_ArriveSelect_041F1C",            0x041F1C,  22, "squad_wave_motion_041cxx.s"),
+    ("Squad_TagSharedBit_041F3A",                0x041F3A,  14, "squad_wave_motion_041cxx.s"),
+    ("Squad_PhaseStepToTarget_041F48",           0x041F48,  48, "squad_wave_motion_041cxx.s"),
+    ("Squad_ApplyLeaderDelta_041F84",            0x041F84,  48, "squad_wave_motion_041cxx.s"),
+    ("Squad_SpawnEight_041FB4",                  0x041FB4,  66, "squad_spawn_states_041fxx.s"),
+    ("Squad_PollSharedState_041FF6",             0x041FF6,  74, "squad_spawn_states_041fxx.s"),
+    ("Squad_WriteBackState_042040",              0x042040,  42, "squad_spawn_states_041fxx.s"),
+    ("Squad_DepthToScaleIdx_04206A",             0x04206A,  58, "squad_spawn_states_041fxx.s"),
+    ("Squad_SinCosVelocity_0420A4",              0x0420A4,  64, "squad_spawn_states_041fxx.s"),
+    ("SquadPair_SpawnJoinTail_0420E4",           0x0420E4,   4, "squad_spawn_states_041fxx.s"),
+    ("SquadPair_SpawnFlagged_0420E8",            0x0420E8,  22, "squad_spawn_states_041fxx.s"),
+    ("SquadPair_SpawnCore_0420FE",               0x0420FE, 132, "squad_spawn_states_041fxx.s"),
+    ("SquadPair_SpawnPlain_042188",              0x042188, 126, "squad_spawn_states_041fxx.s"),
+    ("TrioSpawner_PatternedPair_042206",         0x042206, 124, "squad_spawn_states_041fxx.s"),
+    ("Entity_ShadeBySine_042282",                0x042282,  72, "squad_spawn_states_041fxx.s"),
+    ("Entity_SineToStep_0422CA",                 0x0422CA,  26, "squad_spawn_states_041fxx.s"),
 ]

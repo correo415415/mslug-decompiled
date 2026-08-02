@@ -907,11 +907,18 @@ SYMBOLS = {
     0x0003E7A6: "PcThunkTarget_03e7a6",
     0x0003E84C: "PcThunkTarget_03e84c",
     0x0003EE48: "JmpTarget_03ee48",
-    0x00041C1A: "PcThunkTarget_041c1a",
-    0x00041DDC: "PcThunkTarget_041ddc",
-    0x00041E02: "PcThunkTarget_041e02",
-    0x00041FF6: "PcThunkTarget_041ff6",
-    0x00042040: "PcThunkTarget_042040",
+    # 0x00041C1A: promovido a Squad_ComputeTargetPos_041C1A (Wave TT)
+    # 0x00041DDC: promovido a Squad_BobYWide_041DDC (Wave TT)
+    # 0x00041E02: promovido a Squad_BobYNarrow_041E02 (Wave TT)
+    # 0x00041FF6: promovido a Squad_PollSharedState_041FF6 (Wave TT)
+    # 0x00042040: promovido a Squad_WriteBackState_042040 (Wave TT)
+    # ---- Handlers del subsistema escuadron (Wave TT, pc-rel) ---------
+    0x00040F00: "SquadMember_Handler_040F00",       # handler de miembro (instalado por Squad_SpawnEight)
+    0x00040F82: "SquadMember_OnStateChange_040F82", # handler de transicion (Squad_PollSharedState)
+    0x000415C6: "PairChild_HandlerA_0415C6",        # hijo A del par escoltado (SquadPair_Spawn*)
+    0x00041626: "PairChild_HandlerB_041626",        # hijo B del par escoltado
+    0x000419CC: "TrioChild_HandlerA_0419CC",        # hijo A del trio patron (TrioSpawner)
+    0x000419FC: "TrioChild_HandlerB_0419FC",        # hijo B del trio patron
     0x0004698C: "PcThunkTarget_04698c",
     0x0004707E: "PcThunkTarget_04707e",
     0x0004FAF8: "PcThunkTarget_04faf8",

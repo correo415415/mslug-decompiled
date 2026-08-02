@@ -17,6 +17,31 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave TT — 32 functions (1,634 B) across two files, the largest
+  contiguous cluster decompiled so far and **green on the first matcher
+  run**: the complete "squadron" subsystem (`$041C1A..$0422E4`), the
+  flying-swarm formation logic (8 entities with sinusoidal wave motion).
+  Covers formation-target computation (table `$286124` + transform
+  `$440D0`), steering with table-based atan2 (`$5E018`) and turn-rate
+  limited heading, an unfactored **triplet of sine-bob clones** (sine
+  table `$2C072C`, phase +0x80/+0x10/+0x10, scale >>8/>>6/>>7), a state
+  dispatcher over jump table `$28633C`, the animation-template selection
+  chain with mirrored variants (`+0x7C == $FF`, pre-mirrored ROM assets),
+  a leader<->member **shared-state protocol** (poll `$041FF6` +
+  cooperative-CAS writeback `$042040` over the byte array at `+0x80` of
+  the shared struct `+0xC`), the 8-member spawner (`$28615C` records,
+  handler `$40F00`), escorted-pair spawners (**non-factored clone pair
+  #11**: `SpawnCore_0420FE` 132 B / `SpawnPlain_042188` 126 B), the
+  patterned trio spawner (`$28631C`/`$286310`), the heading→velocity
+  sincos helper (cosine = sine table + 64 entries: `$2C07AC`), and two
+  triangle-wave shade modulators. **Two new nop-padded `trap #15`
+  asserts** (`ASSERT(step != 0)` at `$041D74`, `ASSERT(state < 6)` at
+  `$041E56`) — the Nazca dev-build assert macro found in Wave SS also
+  guards gameplay code. Promotes 5 `symbols.py` placeholders and names
+  6 new pc-rel handlers (`SquadMember_Handler_040F00`,
+  `SquadMember_OnStateChange_040F82`, `PairChild_HandlerA/B`,
+  `TrioChild_HandlerA/B`), which map out the `$040F00..$041C12` member
+  handler cluster as the natural next target.
 - Wave SS — 12 registry entries (1,384 B gross / +1,366 B net), second
   size-prioritized wave via `tools/rank_candidates.py`. Absorbs 3 Wave-N
   false positives (`ClearXN_028b7c`, `ClearXN_028c14`, `SetXN_028c1a`,

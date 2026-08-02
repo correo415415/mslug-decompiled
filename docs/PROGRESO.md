@@ -11,10 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3143/3143 funciones
-BYTES   : 43,556/43,556 (registrados)
-ROM     : 43,556/2,097,152  (2.0769%)
+MATCHED : 3175/3175 funciones
+BYTES   : 45,190/45,190 (registrados)
+ROM     : 45,190/2,097,152  (2.1548%)
 ```
+
+> **Wave TT** (32 funciones, 1 634 B, verde a la primera) — el cluster
+> contiguo mas grande decompilado hasta ahora: el subsistema "escuadron"
+> COMPLETO (`$041C1A..$0422E4`, formacion de 8 entities con vuelo
+> ondulatorio senoidal — los enjambres voladores del juego). Incluye
+> calculo de target de formacion (tabla `$286124`), guiado con atan2 de
+> tabla (`$5E018`) y giro limitado por turn-rate, trio NO factorizado de
+> "bobs" senoidales (tabla seno `$2C072C`), despachador de estados con
+> jump table `$28633C`, cadena de seleccion de templates de animacion
+> con variante espejada (`+0x7C == $FF`), protocolo de estado compartido
+> lider<->miembros (poll + writeback tipo CAS cooperativo sobre el array
+> `+0x80` de la estructura compartida `+0xC`), spawner de los 8 miembros
+> (tabla `$28615C`, handler `$40F00`), spawners de par escoltado (clon
+> par #11) y de trio con patron ciclico, conversor sincos heading->
+> velocidad (`$2C072C/$2C07AC`) y moduladores de brillo por onda
+> triangular. **Dos nuevos ASSERT `trap #15` nop-patched** (`$041D74`:
+> `ASSERT(paso != 0)`; `$041E56`: `ASSERT(estado < 6)`), confirmando la
+> macro de Nazca descubierta en Wave SS. Promueve 5 placeholders y
+> nombra 6 handlers pc-rel nuevos. Ver "Wave TT en detalle".
 
 > **Wave SS** (12 entradas de registro, 1 384 B brutos / +1 366 B netos) —
 > segunda oleada priorizada por TAMANO con `tools/rank_candidates.py`.
@@ -128,7 +147,84 @@ Ninguna oleada se cierra hasta que `python3 tools/match_batch.py` da verde.
 | **QQ** | **PlayerEntity_InitAuxState (#1) + Entity_ApplyFadeShade compartido (#2)** | **2** | **202** | **ASM** |
 | **RR** | **Box-overlap x2 (facing-mirrored) + Camera0 relink/wrap-scroll + EntityGroup spawn-linked-from-template-list + mirror helper — 1a oleada priorizada por TAMANO (`tools/rank_candidates.py`)** | **5** | **516** | **ASM** |
 | **SS** | **Colision hitbox (caller + test AABB con asserts trap#15) + boot block $0009B4..$000B8A (tabla + instalador TCBs) + re-arme 8 TCBs + sync sub-entity + cluster glifos 16x16 Fix Layer — 2a oleada por TAMANO** | **12** | **1 384** | **ASM** |
-| **TOTAL** | | **3 143** | **43 556** |  |
+| **TT** | **Subsistema "escuadron" completo $041C1A..$0422E4: formacion 8 entities con vuelo senoidal (target de formacion + guiado atan2 + trio de bobs + despachador de estados + templates de animacion espejables + protocolo estado compartido poll/writeback + spawners de 8/par/trio + sincos + shade) — cluster contiguo mas grande decompilado, 2 asserts trap#15 nuevos** | **32** | **1 634** | **ASM** |
+| **TOTAL** | | **3 175** | **45 190** |  |
+
+### Wave TT en detalle — el subsistema "escuadron" completo
+
+Siguiendo la directriz de ir a por **funciones principales mas grandes**,
+Wave TT abre y cierra de una vez el cluster de gameplay contiguo
+`$041C1A..$0422E4` (32 funciones, 1 634 B, dos archivos), el subsistema
+completo de los enjambres voladores en formacion. **Verde a la primera
+pasada del matcher** (record del proyecto para una oleada >1,6 KiB),
+gracias a la verificacion previa de encodings introducida en Wave SS.
+
+**Parte 1 — `asm/squad_wave_motion_041cxx.s` (20 funciones, 824 B):**
+
+| # | Símbolo | Dirección | Bytes | Descripción |
+|---|---------|-----------|-------|-------------|
+| 1 | `Squad_ComputeTargetPos_041C1A` | `$041C1A` | 56 | Target de formacion: tabla `$286124[(estado&15)*4]`, transform `$440D0`, clamp X `$110` → `+0x8A/+0x8C`. Promueve `PcThunkTarget_041c1a` |
+| 2 | `Squad_InitFormationSlot_041C52` | `$041C52` | 68 | Init de vuelo: slot RNG 0..3, turn-rate RNG de `$286154`, heading inicial = atan2(`$5E018`). Cae en `SetTaskB_041c96` |
+| 3 | `Squad_PickSwoopState_041C9C` | `$041C9C` | 62 | Decision de picado: estado 8/9 o A/B segun Y del objetivo (`$5E1EA`) + bit RNG. Cae en `JsrPcThunk_041cda` |
+| 4 | `Squad_SteerTowardTarget_041CE0` | `$041CE0` | 120 | Guiado: distancia Manhattan vs umbral d5, giro ±2·turn-rate hacia atan2, refresco sincos. CCR via islas `ClearXN_041d58`/`SetXN_041d66` |
+| 5 | `Squad_HaltVelocity_041D5E` | `$041D5E` | 8 | Llegada: vel = 0, return true |
+| 6 | `Squad_TurnRateStepClamp_041D6C` | `$041D6C` | 44 | `+0x36 += d1` con saturacion en d0. **ASSERT trap#15 nop-patched `d1 != 0` en `$041D74`** |
+| 7 | `Squad_TurnRateClampHi_041D9E` | `$041D9E` | 12 | Rama de clamp superior del anterior |
+| 8–10 | `Squad_BobYFast/Wide/Narrow` | `$041DB6/DC/$041E02` | 38+38+34 | **Trio clonado no factorizado** de bob senoidal (tabla `$2C072C`): fase +$80/+$10/+$10, escala >>8/>>6/>>7. Promueve 2 placeholders |
+| 11 | `Squad_BobYApply_041E24` | `$041E24` | 24 | Cola comun: delta → `+0x8E`, aplica a Y, test `$28D70`, revierte segun carry |
+| 12 | `Squad_BobYRestore_041E42` | `$041E42` | 6 | Rama carry del test |
+| 13 | `Squad_StateDispatch_041E4E` | `$041E4E` | 34 | **ASSERT trap#15 `estado < 6` en `$041E56`** + instala handler de `$28633C[estado]` en `(a6)` |
+| 14–17 | `SquadAnim_*Select` | `$041E70..$041F32` | 58+52+38+22 | Cadena de seleccion de template de animacion (`$2BC62E..$2BC9BC`), cada uno con variante espejada si `+0x7C == $FF`, salida por islas `JsrAbsThunk_041exx/041fxx` |
+| 18 | `Squad_TagSharedBit_041F3A` | `$041F3A` | 14 | `bset` del bit-id propio (`+0x85`) en `+0x21` de la estructura compartida (`+0xC`) |
+| 19 | `Squad_PhaseStepToTarget_041F48` | `$041F48` | 48 | Heading → objetivo con paso ±4 o ±1 (**2 entradas**: `$041F48/$041F50`), modulo 256, CCR via islas |
+| 20 | `Squad_ApplyLeaderDelta_041F84` | `$041F84` | 48 | Integra deltas s8 del registro de miembro (+bob del lider `+0x8E`) y hereda `+0x7C` |
+
+**Parte 2 — `asm/squad_spawn_states_041fxx.s` (12 funciones, 810 B):**
+
+| # | Símbolo | Dirección | Bytes | Descripción |
+|---|---------|-----------|-------|-------------|
+| 21 | `Squad_SpawnEight_041FB4` | `$041FB4` | 66 | Crea los 8 miembros: bucle sobre `$28615C` (registros dx,dy,dz,bit-id), `Task_Alloc($4AE)` con handler `$40F00` + copy-transform `$5DD02` |
+| 22 | `Squad_PollSharedState_041FF6` | `$041FF6` | 74 | Detecta cambio del estado publicado en `(+0xC)[$80+(bit-id&7)]`, cachea en `+0x80/+0x81`, instala `$40F82` o `$2863BC[cmd]` si bit 7. Promueve placeholder |
+| 23 | `Squad_WriteBackState_042040` | `$042040` | 42 | Writeback tipo **CAS cooperativo**: publica `+0x80` solo si el array aun contiene su eco `+0x81`. Promueve placeholder |
+| 24 | `Squad_DepthToScaleIdx_04206A` | `$04206A` | 58 | Cuantizador: clamp `[$70..$C0]`, −$68, /8, clamp 0..$A, fuerza indice PAR (`andi #$FE`) |
+| 25 | `Squad_SinCosVelocity_0420A4` | `$0420A4` | 64 | heading+amplitud (min `$100`) → vel: seno `$2C072C`, coseno `$2C07AC` (= seno+64), `muls` + `asr.l #8` |
+| 26 | `SquadPair_SpawnJoinTail_0420E4` | `$0420E4` | 4 | Trampolin `bra.w` a SpawnPlain |
+| 27 | `SquadPair_SpawnFlagged_0420E8` | `$0420E8` | 22 | Preambulos del par (**2 entradas**: `+0x7F`=1 / `+0x7F`=0) |
+| 28 | `SquadPair_SpawnCore_0420FE` | `$0420FE` | 132 | Sonido `$1064`, offsets `$2861D4[heading/2]`, crea 2 hijos (handlers `$415C6/$41626`), hereda flags, padre → comando `$87`. Cae en `JsrPcThunk_042182` |
+| 29 | `SquadPair_SpawnPlain_042188` | `$042188` | 126 | **Clon par #11** de SpawnCore: mismo cuerpo, epilogo distinto (hijo B `+0x7F`=0, `+0x88`=1, sin comando al padre) |
+| 30 | `TrioSpawner_PatternedPair_042206` | `$042206` | 124 | Sonido `$10A3`, patron ciclico `$28631C[(+0x9A)&15]` → offsets `$286310`, 2 hijos (handlers `$419CC/$419FC`), hijo B hereda fase en `+0x9A` |
+| 31 | `Entity_ShadeBySine_042282` | `$042282` | 72 | Onda triangular de `+0x34` (doble pliegue 255→127→63, zona muerta <$18) → shade `+0x32/+0x33` = `$80+2v`, integra en `+0x38` |
+| 32 | `Entity_SineToStep_0422CA` | `$0422CA` | 26 | Pliegue corto + /8 → paso 0..15. Cae en `SetTaskW_0422e4` |
+
+**Hallazgos arquitectonicos Wave TT:**
+
+- **2 nuevos bloques ASSERT `trap #15` nop-patched** (total 6 del
+  proyecto): `ASSERT(paso != 0)` en `$041D74` y `ASSERT(estado < 6)`
+  delante del jump table `$28633C` en `$041E56`. Mismo encoding exacto
+  `cmp/bcc/nop/nop/cmp/nop/trap#15` que Wave SS: la macro de assert de
+  Nazca se usaba tambien en el codigo de gameplay, no solo en colision.
+- **Protocolo de estado compartido lider<->miembros**: la estructura
+  apuntada por `+0xC` mantiene un array de 8 bytes en `+0x80` (1 por
+  miembro, indexado por bit-id `+0x85 & 7`). El miembro hace *poll*
+  (`$041FF6`) cacheando valor y eco, y *writeback* (`$042040`) solo si
+  el array aun contiene su propio eco — un compare-and-swap cooperativo
+  sin atomicidad, correcto porque el scheduler seria las tasks. Estados
+  con bit 7 son comandos directos despachados via `$2863BC`.
+- **Variante espejada de templates**: todas las selecciones de template
+  de animacion comprueban `+0x7C == $FF` y eligen entre dos tablas
+  separadas 0x82 B (`$2BC62E`/`$2BC6B0`, etc.) — assets duplicados
+  pre-espejados en ROM en lugar de flip por hardware.
+- **Coseno = seno + 64 entradas**: `$2C07AC = $2C072C + $80`, la tabla
+  de 256 words se reutiliza desfasada un cuarto de periodo.
+- **Trio de bobs no factorizado** (38+38+34 B casi identicos) y **clon
+  par #11** (`SpawnCore`/`SpawnPlain`, 132/126 B): mas evidencia de
+  macros/inline expandidos por el ensamblador de Nazca sin factorizar.
+- 6 handlers pc-rel nuevos nombrados en `symbols.py`:
+  `SquadMember_Handler_040F00`, `SquadMember_OnStateChange_040F82`,
+  `PairChild_HandlerA_0415C6`, `PairChild_HandlerB_041626`,
+  `TrioChild_HandlerA_0419CC`, `TrioChild_HandlerB_0419FC` — proximos
+  candidatos naturales (el cluster `$040F00..$041C12` que queda por
+  encima es la logica de los handlers de miembro).
 
 ### Wave SS en detalle — segunda oleada priorizada por TAMANO
 
