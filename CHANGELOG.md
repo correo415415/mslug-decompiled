@@ -17,6 +17,35 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave UU — 31 functions (3,246 B) across two files, a new single-wave
+  record and **green on the first matcher run**: the complete member and
+  child state machines of the squadron subsystem (`$040F00..$041C12`),
+  closing the entire gap between the death handler
+  `Jsr5B6ThenJmpScheduler_040ef2` (C) and Wave TT — `$040EF2..$0422E4`
+  (5.1 KiB contiguous) is now fully decompiled.
+  Part 1 (`asm/squad_member_states_040fxx.s`, 13 fn, 1,268 B): the state
+  machine of the 8 squadron members spawned by `Squad_SpawnEight` —
+  aim-tracking with table atan2 and stepped heading turns, timed cyclic
+  idle animation driven by measured template pairs, the full
+  leader<->member shared-state protocol in action (poll / write-back /
+  arrival tag with the `+0x86` anti-bounce latch), hit recoil with
+  i-frames, and clone pair #12 (`PoseFromHeading`/`B`).
+  Part 2 (`asm/squad_children_handlers_0414xx.s`, 18 fn, 1,970 B): the
+  derived children — escorted pair (with the wave's largest function,
+  `PairChild_HandlerB` at 308 B, leader-mirrored template selection),
+  orbital trio with target tracker (timeout + period tables), zigzag and
+  drop falls (RNG jitter, 6-byte record tables), and six death/despawn
+  sequences.
+  Architectural findings: a forensic **dead store** at `$041A96`
+  (`movea.l #-1,a0` immediately overwritten by `lea $28610A.l,a0` —
+  hand-edited code template), **11 uses of the branch-to-mid-island-rts
+  idiom** (proving the `SetTaskHandler` islands were generated together
+  with the states), the project's first direct conditional branch into
+  an already-matched C function (`bcs.w` to `$40EF2`), and a
+  grandparent double-dereference confirming a 3-level entity hierarchy.
+  Promotes the 6 handler symbols named in Wave TT to real code and adds
+  11 mid-island rts symbols. Matcher: 3,206 functions, 48,428 B
+  (2.3092% of the 2 MiB P ROM).
 - Wave TT — 32 functions (1,634 B) across two files, the largest
   contiguous cluster decompiled so far and **green on the first matcher
   run**: the complete "squadron" subsystem (`$041C1A..$0422E4`), the

@@ -913,12 +913,26 @@ SYMBOLS = {
     # 0x00041FF6: promovido a Squad_PollSharedState_041FF6 (Wave TT)
     # 0x00042040: promovido a Squad_WriteBackState_042040 (Wave TT)
     # ---- Handlers del subsistema escuadron (Wave TT, pc-rel) ---------
-    0x00040F00: "SquadMember_Handler_040F00",       # handler de miembro (instalado por Squad_SpawnEight)
-    0x00040F82: "SquadMember_OnStateChange_040F82", # handler de transicion (Squad_PollSharedState)
-    0x000415C6: "PairChild_HandlerA_0415C6",        # hijo A del par escoltado (SquadPair_Spawn*)
-    0x00041626: "PairChild_HandlerB_041626",        # hijo B del par escoltado
-    0x000419CC: "TrioChild_HandlerA_0419CC",        # hijo A del trio patron (TrioSpawner)
-    0x000419FC: "TrioChild_HandlerB_0419FC",        # hijo B del trio patron
+    # 0x00040F00: promovido a SquadMember_Handler_040F00 en registry (Wave UU)
+    # 0x00040F82: promovido a SquadMember_OnStateChange_040F82 en registry (Wave UU)
+    # 0x000415C6: promovido a PairChild_HandlerA_0415C6 en registry (Wave UU)
+    # 0x00041626: promovido a PairChild_HandlerB_041626 en registry (Wave UU)
+    # 0x000419CC: promovido a TrioChild_HandlerA_0419CC en registry (Wave UU)
+    # 0x000419FC: promovido a TrioChild_HandlerB_0419FC en registry (Wave UU)
+    # ---- Wave UU: rts INTERNOS de islas SetTaskHandler/JsrAbsThunk ----
+    # (idioma "branch a mitad de isla": la cola per-frame sale con bcc/beq
+    #  al rts final de la isla adyacente en vez de duplicar un rts propio)
+    0x00041326: "SetHandlerRts_041326",  # rts de SetTaskHandler_041320 (cola comun de miembro)
+    0x00041488: "SetHandlerRts_041488",  # rts de SetTaskHandler_041482 (SwoopPhysics)
+    0x00041558: "JsrAbsRts_041558",      # rts de JsrAbsThunk_041552 (FlipTouchdown)
+    0x0004157C: "SetHandlerRts_04157c",  # rts de SetTaskHandler_041576 (TouchdownIdle)
+    0x00041624: "SetHandlerRts_041624",  # rts de SetTaskHandler_04161e (PairChild A)
+    0x00041760: "SetHandlerRts_041760",  # rts de SetTaskHandler_04175a (PairChild B)
+    0x0004184E: "SetHandlerRts_04184e",  # rts de SetTaskHandler_041848 (DropRun)
+    0x00041918: "SetHandlerRts_041918",  # rts de SetTaskHandler_041912 (ZigzagFall)
+    0x000419BC: "SetHandlerRts_0419bc",  # rts de SetTaskHandler_0419b6 (GlideAttack)
+    0x00041AB2: "SetHandlerRts_041ab2",  # rts de SetTaskHandler_041aac (TrioChild B)
+    0x00041C18: "SetHandlerRts_041c18",  # rts de SetTaskHandler_041c12 (FinalPose)
     0x0004698C: "PcThunkTarget_04698c",
     0x0004707E: "PcThunkTarget_04707e",
     0x0004FAF8: "PcThunkTarget_04faf8",

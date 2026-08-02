@@ -11,10 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3175/3175 funciones
-BYTES   : 45,190/45,190 (registrados)
-ROM     : 45,190/2,097,152  (2.1548%)
+MATCHED : 3206/3206 funciones
+BYTES   : 48,428/48,428 (registrados)
+ROM     : 48,428/2,097,152  (2.3092%)
 ```
+
+> **Wave UU** (31 funciones, 3 246 B, verde a la primera) — NUEVO RECORD
+> de oleada: cierra por completo el hueco `$040F00..$041C12` entre el
+> handler de muerte `Jsr5B6ThenJmpScheduler_040ef2` y el subsistema
+> escuadron de Wave TT. Parte 1: la maquina de estados de los 8 MIEMBROS
+> del escuadron (handler `$40F00` instalado por `Squad_SpawnEight`) —
+> punteria con atan2 y giro por pasos, animacion ciclica temporizada por
+> templates medidos, protocolo lider<->miembro completo en accion (poll /
+> write-back / tag con latch anti-rebote `+0x86`), retroceso por impacto
+> con i-frames. Parte 2: los hijos derivados — par escoltado (con la
+> funcion mas grande del wave, `PairChild_HandlerB` de 308 B), trio con
+> vuelo ORBITAL y seguimiento de objetivo, caidas (zigzag por tabla de
+> registros de 6 bytes, drop con jitter RNG) y las secuencias de muerte.
+> **11 usos del idioma "branch a mitad de isla"** (`SetHandlerRts_*` /
+> `JsrAbsRts_*`), un `bcs.w` DIRECTO a la funcion C ya matcheada `$40EF2`
+> y un **DEAD STORE forense** en `$041A96` (`movea.l #-1,a0` pisado por
+> `lea $28610A.l,a0`: plantilla editada a mano por Nazca). Promueve los
+> 6 handlers pc-rel nombrados en Wave TT a codigo real. Ver "Wave UU en
+> detalle".
 
 > **Wave TT** (32 funciones, 1 634 B, verde a la primera) — el cluster
 > contiguo mas grande decompilado hasta ahora: el subsistema "escuadron"
@@ -148,7 +167,86 @@ Ninguna oleada se cierra hasta que `python3 tools/match_batch.py` da verde.
 | **RR** | **Box-overlap x2 (facing-mirrored) + Camera0 relink/wrap-scroll + EntityGroup spawn-linked-from-template-list + mirror helper — 1a oleada priorizada por TAMANO (`tools/rank_candidates.py`)** | **5** | **516** | **ASM** |
 | **SS** | **Colision hitbox (caller + test AABB con asserts trap#15) + boot block $0009B4..$000B8A (tabla + instalador TCBs) + re-arme 8 TCBs + sync sub-entity + cluster glifos 16x16 Fix Layer — 2a oleada por TAMANO** | **12** | **1 384** | **ASM** |
 | **TT** | **Subsistema "escuadron" completo $041C1A..$0422E4: formacion 8 entities con vuelo senoidal (target de formacion + guiado atan2 + trio de bobs + despachador de estados + templates de animacion espejables + protocolo estado compartido poll/writeback + spawners de 8/par/trio + sincos + shade) — cluster contiguo mas grande decompilado, 2 asserts trap#15 nuevos** | **32** | **1 634** | **ASM** |
-| **TOTAL** | | **3 175** | **45 190** |  |
+| **UU** | **Maquina de estados de miembros e hijos del escuadron $040F00..$041C12: 13 estados de miembro (punteria atan2, anim ciclica, protocolo lider/miembro con latch, hit-recoil) + 18 handlers de hijos (par escoltado, trio orbital con tracker, caidas zigzag/drop, 6 secuencias de muerte) — cierra el hueco completo hasta Wave TT; 11 branch-a-mitad-de-isla, dead store forense $041A96** | **31** | **3 246** | **ASM** |
+| **TOTAL** | | **3 206** | **48 428** |  |
+
+### Wave UU en detalle — miembros e hijos del escuadron
+
+Wave UU completa el mapa del subsistema escuadron cerrando el cluster
+`$040F00..$041C12` (31 funciones, 3 246 B, dos archivos) que quedaba
+entre `Jsr5B6ThenJmpScheduler_040ef2` (el handler de muerte, C) y el
+arranque de Wave TT en `$041C1A`. Con esto, **todo `$040EF2..$0422E4`
+(5,1 KiB contiguos) esta decompilado**. Verde a la primera pasada.
+
+**Parte 1 — `asm/squad_member_states_040fxx.s`** (13 fn, 1 268 B): la
+maquina de estados de los 8 miembros creados por `Squad_SpawnEight`:
+
+| Funcion | Dir | B | Rol |
+|---|---|---|---|
+| `SquadMember_Handler_040F00` | $040F00 | 130 | handler inicial (sonido por bit-id, init, estado $80) |
+| `SquadMember_OnStateChange_040F82` | $040F82 | 108 | transicion por orden nueva; 2a entrada `RunStateB_040FB0` |
+| `SquadMember_AnimCycleIdle_040FEE` | $040FEE | 204 | anim ciclica temporizada por 2 pares de templates medidos |
+| `SquadMember_SetPose2_0410BA` | $0410BA | 10 | prologo: pose 2 y cae en AimTrack |
+| `SquadMember_HoldPose_0410C4` | $0410C4 | 42 | espera tras publicar orden $83 |
+| `SquadMember_AimTrackTarget_0410EE` | $0410EE | 168 | punteria: atan2 `$5E018` + giro por pasos + flag `+0x7D` del lider |
+| `SquadMember_AlignHeading_041196` | $041196 | 98 | giro a pose 2 a media velocidad (toggle de frame) |
+| `SquadMember_PoseFromHeading_0411F8` | $0411F8 | 134 | pose por heading (tabla `$28618C`), publica $83 |
+| `SquadMember_AckAndHold_04127E` | $04127E | 62 | ack incondicional + orden $83 |
+| `SquadMember_HitRecoil_0412BC` | $0412BC | 64 | retroceso por impacto, resetea orden a 0 |
+| `SquadMember_FrameTail_0412FC` | $0412FC | 36 | cola comun (dano -> i-frames + HitRecoil); 2a entrada `FrameTailFull_041316` |
+| `SquadMember_AlignHeadingB_041328` | $041328 | 98 | clon B (pose 8); 2a entrada `KeepPose_04132E` |
+| `SquadMember_PoseFromHeadingB_041390` | $041390 | 114 | clon B (tabla `$2861A4`) — **PAR DE CLONES #12** |
+
+**Parte 2 — `asm/squad_children_handlers_0414xx.s`** (18 fn, 1 970 B):
+
+| Funcion | Dir | B | Rol |
+|---|---|---|---|
+| `SquadChild_SwoopPhysics_041408` | $041408 | 122 | picado con drag recortable |
+| `SquadChild_FlipTouchdown_04148A` | $04148A | 200 | aterrizaje: 2 efectos espejados via eori del flip, rebote, dano |
+| `SquadChild_TouchdownIdle_04155A` | $04155A | 28 | espera en suelo hasta cambio de senal `+0x21` |
+| `SquadChild_DieToScheduler_041586` | $041586 | 28 | muerte via cola `$77FD6` |
+| `SquadChild_DespawnNoLink_0415A2` | $0415A2 | 36 | despawn silencioso (`ori.w #0` MUERTO) |
+| `PairChild_HandlerA_0415C6` | $0415C6 | 88 | hijo A del par; 2a entrada `InstallRun_0415F2` compartida |
+| `PairChild_HandlerB_041626` | $041626 | 308 | **la mayor del wave**: template espejado por el `+0x7C` DEL LIDER, guiado dual `$27BC8`/`$27CEE` |
+| `PairChild_DeathCry_041762` | $041762 | 74 | grito $1022; 2a entrada `DeathPlain_041788` |
+| `SquadChild_DropSpawnAtTop_0417AC` | $0417AC | 104 | spawner con jitter RNG; **`bcs.w` directo a `$40EF2`** |
+| `SquadChild_DropRun_04181C` | $04181C | 44 | per-frame de la caida |
+| `SquadChild_ZigzagFall_041850` | $041850 | 194 | zigzag por registros de 6 B (`idx*6` = `2n+n` doblado); test de limites condicionado por contador |
+| `SquadChild_GlideAttack_04191A` | $04191A | 156 | planeo con vida medida sobre `$2BBFF6` |
+| `SquadChild_GlideDeath_0419BE` | $0419BE | 14 | grito + despawn |
+| `TrioChild_HandlerA_0419CC` | $0419CC | 48 | comparte TODO el bucle con PairChild A (via `bra`) |
+| `TrioChild_HandlerB_0419FC` | $0419FC | 176 | vuelo orbital `$78F8A` + shade de Wave TT; 2a entrada `RunTail_041A7A` |
+| `TrioChild_OrbitTracker_041AB4` | $041AB4 | 260 | seguimiento orbital con timeout $B4 y periodo por tabla `$2BC302` |
+| `TrioChild_OrbitDeath_041BB8` | $041BB8 | 14 | clon de GlideDeath |
+| `SquadChild_FinalPose_041BC6` | $041BC6 | 76 | pose final antes del despawn |
+
+**Hallazgos arquitectonicos Wave UU:**
+
+1. **DEAD STORE forense en `$041A96`** (`TrioChildB_RunTail`): `movea.l
+   #-1,a0` inmediatamente pisado por `lea $28610A.l,a0`. Todos los demas
+   release `$5DD56` del cluster pasan `a0 = -1`; aqui Nazca edito la
+   plantilla a mano para pasar un puntero real y olvido borrar la carga
+   anterior. Es la evidencia mas clara hasta ahora de codigo-por-plantilla
+   editado manualmente.
+2. **El idioma "branch a mitad de isla" escala**: 11 usos en un solo
+   wave (`SetHandlerRts_041326/041488/04157c/041624/041760/04184e/
+   041918/0419bc/041ab2/041c18` + `JsrAbsRts_041558`). La cola de cada
+   estado sale por `bcc/beq` al `rts` INTERNO de la isla
+   `SetTaskHandler` adyacente en vez de duplicar un `rts` propio: 2 B
+   ahorrados por estado, confirmando que las islas se generaron JUNTO
+   con los estados (no despues).
+3. **`bcs.w Jsr5B6ThenJmpScheduler_040ef2` directo** en DropSpawnAtTop:
+   primer branch condicional del proyecto cuyo destino es una funcion C
+   ya matcheada (en vez del patron `lea/move.l` de autoinstalacion).
+4. **Doble dereferencia del abuelo** en el trio: `movea.l 0xc(a6),a0;
+   movea.l 0xc(a0),a0` — los hijos B del trio laten (`+0x92`++) sobre la
+   estructura del ABUELO (el spawner), dos niveles arriba, y consultan
+   su bit de aborto. Jerarquia de 3 niveles confirmada.
+5. **Encodings verificados** (mismo criterio Wave SS/TT): tablas de
+   punteros cargadas con `movea.l #imm` (207c) y templates con `lea
+   abs.l` (41f9); `move.w #0,0x88(a6)` (3d7c) en `$041B18` donde el
+   resto del proyecto usaria `clr.w`; dos `ori.w #0,0x38(a6)` muertos
+   (capa 0 explicita de la plantilla).
 
 ### Wave TT en detalle — el subsistema "escuadron" completo
 
