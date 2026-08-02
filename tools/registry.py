@@ -3779,4 +3779,46 @@ REGISTRY = [
     ("TrioSpawner_PatternedPair_042206",         0x042206, 124, "squad_spawn_states_041fxx.s"),
     ("Entity_ShadeBySine_042282",                0x042282,  72, "squad_spawn_states_041fxx.s"),
     ("Entity_SineToStep_0422CA",                 0x0422CA,  26, "squad_spawn_states_041fxx.s"),
+
+    # -- Wave UU: maquina de estados de miembros e hijos del escuadron --------
+    #    Cluster $040F00..$041C12 (31 fn, 3 246 B): cierra el hueco entre el
+    #    handler de muerte Jsr5B6ThenJmpScheduler_040ef2 y el subsistema Wave
+    #    TT. Parte 1 ($040F00..$041408): los 8 miembros creados por
+    #    Squad_SpawnEight_041FB4 - protocolo lider/miembro por el array +0x80
+    #    (poll/write-back/tag de Wave TT, ahora llamados pc-rel). Parte 2
+    #    ($041408..$041C12): hijos derivados (par escoltado, trio orbital,
+    #    caidas y muertes). 11 usos del idioma "branch a mitad de isla"
+    #    (SetHandlerRts_*/JsrAbsRts_*), un bcs.w directo a la funcion C
+    #    matcheada $40EF2, y el dead store `movea.l #-1,a0` en $041A96.
+    ("SquadMember_Handler_040F00",               0x040F00, 130, "squad_member_states_040fxx.s"),
+    ("SquadMember_OnStateChange_040F82",         0x040F82, 108, "squad_member_states_040fxx.s"),
+    ("SquadMember_AnimCycleIdle_040FEE",         0x040FEE, 204, "squad_member_states_040fxx.s"),
+    ("SquadMember_SetPose2_0410BA",              0x0410BA,  10, "squad_member_states_040fxx.s"),
+    ("SquadMember_HoldPose_0410C4",              0x0410C4,  42, "squad_member_states_040fxx.s"),
+    ("SquadMember_AimTrackTarget_0410EE",        0x0410EE, 168, "squad_member_states_040fxx.s"),
+    ("SquadMember_AlignHeading_041196",          0x041196,  98, "squad_member_states_040fxx.s"),
+    ("SquadMember_PoseFromHeading_0411F8",       0x0411F8, 134, "squad_member_states_040fxx.s"),
+    ("SquadMember_AckAndHold_04127E",            0x04127E,  62, "squad_member_states_040fxx.s"),
+    ("SquadMember_HitRecoil_0412BC",             0x0412BC,  64, "squad_member_states_040fxx.s"),
+    ("SquadMember_FrameTail_0412FC",             0x0412FC,  36, "squad_member_states_040fxx.s"),
+    ("SquadMember_AlignHeadingB_041328",         0x041328,  98, "squad_member_states_040fxx.s"),
+    ("SquadMember_PoseFromHeadingB_041390",      0x041390, 114, "squad_member_states_040fxx.s"),
+    ("SquadChild_SwoopPhysics_041408",           0x041408, 122, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_FlipTouchdown_04148A",          0x04148A, 200, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_TouchdownIdle_04155A",          0x04155A,  28, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_DieToScheduler_041586",         0x041586,  28, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_DespawnNoLink_0415A2",          0x0415A2,  36, "squad_children_handlers_0414xx.s"),
+    ("PairChild_HandlerA_0415C6",                0x0415C6,  88, "squad_children_handlers_0414xx.s"),
+    ("PairChild_HandlerB_041626",                0x041626, 308, "squad_children_handlers_0414xx.s"),
+    ("PairChild_DeathCry_041762",                0x041762,  74, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_DropSpawnAtTop_0417AC",         0x0417AC, 104, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_DropRun_04181C",                0x04181C,  44, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_ZigzagFall_041850",             0x041850, 194, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_GlideAttack_04191A",            0x04191A, 156, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_GlideDeath_0419BE",             0x0419BE,  14, "squad_children_handlers_0414xx.s"),
+    ("TrioChild_HandlerA_0419CC",                0x0419CC,  48, "squad_children_handlers_0414xx.s"),
+    ("TrioChild_HandlerB_0419FC",                0x0419FC, 176, "squad_children_handlers_0414xx.s"),
+    ("TrioChild_OrbitTracker_041AB4",            0x041AB4, 260, "squad_children_handlers_0414xx.s"),
+    ("TrioChild_OrbitDeath_041BB8",              0x041BB8,  14, "squad_children_handlers_0414xx.s"),
+    ("SquadChild_FinalPose_041BC6",              0x041BC6,  76, "squad_children_handlers_0414xx.s"),
 ]
