@@ -91,8 +91,6 @@ SYMBOLS = {
     0x00046AC6: "Sub_00046AC6",              # jsr abs.l inicial de Init_JsrThenTailCall (Z2 #12)
     0x00000FE0: "Sub_00000FE0",              # bra.w tail-call de Init_JsrThenTailCall
     0x00046A48: "Template_046A48",           # template del spawner Handler_TimerAndReplace (Z2 #13)
-    0x00047482: "Sub_00047482",              # jsr abs.l final de Handler_TimerAndReplace
-    0x00028758: "Sub_00028758",              # jsr abs.l de Handler_ConditionalHitCounter (Z2 #14)
     0x00106F28: "GlobalFlag_106F28",         # flag global chequeada por Handler_ConditionalHitCounter
     0x00001C34: "Sub_00001C34",              # handler continuacion instalado por Handler_TimerAndReplace
 
@@ -803,8 +801,6 @@ SYMBOLS = {
 
     # ---- Targets de JsrAbsThunk (AUTO-GEN) ---------------------------
     0x000004AE: "ThunkTarget_0004ae",
-    0x000005B6: "FUN_000005B6",
-    0x000005FE: "ThunkTarget_0005fe",
     0x000006FE: "ThunkTarget_0006fe",
     0x00000772: "ThunkTarget_000772",
     0x00000FFE: "ThunkTarget_000ffe",
@@ -836,7 +832,6 @@ SYMBOLS = {
     0x0004784C: "ThunkTarget_04784c",
     0x00047888: "ThunkTarget_047888",
     0x00049FD0: "ThunkTarget_049fd0",
-    0x0004CB5C: "ThunkTarget_04cb5c",
     0x0005026C: "ThunkTarget_05026c",
     0x0005170C: "ThunkTarget_05170c",
     0x000517FE: "ThunkTarget_0517fe",
@@ -883,7 +878,6 @@ SYMBOLS = {
     0x0009A7AA: "ThunkTarget_09a7aa",
     0x0009B9F6: "ThunkTarget_09b9f6",
 
-    0x00000518: "FUN_00000518",
 
     # ---- Targets de Waves J/K (AUTO-GEN) -----------------------------
     0x00001AF8: "PcThunkTarget_001af8",
@@ -981,7 +975,6 @@ SYMBOLS = {
     # 0x00027EBA promovido a SpritePubEffect_027EBA en registry (Wave NN#1).
     # Los callers via jsr $27EBA.l se resuelven al simbolo canonico del .text.
     # 0x00027EBA: "Sub_00027EBA",         # probe global llamado por Entity_ProbeAndInstallHandler_049FD0
-    0x0004A014: "Handler_0004A014",     # handler PC-rel instalado (canal B)
     0x0004A034: "Handler_0004A034",     # handler PC-rel instalado (canal A)
     0x000799A4: "Sub_0007_99A4",        # subindice usado por Tbl_Decode2D_0799DE
     0x00079A0E: "Tbl_DecodeShort_079A0E", # rama "tabla corta" (magic==2)
@@ -1112,7 +1105,6 @@ SYMBOLS = {
     0x000009B4: "Sub_000009B4",
     0x00002352: "InputGuardCall219c",
     0x00001C44: "TaskHandler_001C44",
-    0x00001DA4: "Sub_00001DA4",
     0x0003DBC8: "TaskHandler_0003DBC8",
     0x00046608: "TaskHandler_00046608",
     0x00000F76: "PcThunkTarget_000F76",
