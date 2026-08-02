@@ -2,7 +2,7 @@
 
 **Ultimo update:** 2026-07-26  (Wave MM batch 3 cerrada + escaner corregido)
 
-Este documento complementa `PROGRESO.md` con el analisis **real** de cobertura
+Este documento complementa `docs/PROGRESO.md` con el analisis **real** de cobertura
 de codigo, no la metrica bruta del matcher que compara contra los 2 MiB de la
 P-ROM (que incluye ~1.6 MiB de datos que **no** son "codigo a decompilar").
 

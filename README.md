@@ -1,5 +1,7 @@
 # Metal Slug 1 — Matching Decompilation
 
+[![CI](https://github.com/correo415415/mslug-decompiled/actions/workflows/ci.yml/badge.svg)](https://github.com/correo415415/mslug-decompiled/actions/workflows/ci.yml)
+
 A work-in-progress matching decompilation of **Metal Slug: Super Vehicle-001**
 (Nazca / SNK, 1996) for the SNK Neo Geo MVS/AES arcade platform.
 
@@ -20,17 +22,18 @@ runtime and never bundles it.
 
 | Metric | Value |
 |---|---:|
-| Matched functions | **3 003 / 3 003** registered |
-| Matched bytes | **28 592 / 28 592** registered |
-| P ROM coverage | **28 592 / 2 097 152 B** (1.36 %) |
+| Matched functions | **3 129 / 3 129** registered |
+| Matched bytes | **41 674 / 41 674** registered |
+| P ROM coverage | **41 674 / 2 097 152 B** (1.99 %) |
 | Processed P ROM MD5 (target) | `816b3f74c76b3373993407615f1850fe` |
 
 Matched functions are guaranteed to reassemble to bytes that are bitwise
-identical to the original ROM. The latest wave focused on hand-written 68000
-helpers in `asm/`: script dispatch, task allocation, Fix-layer blitting, and
-four complete probe/revert pairs that absorbed eight false-positive CCR helper
-epilogues from the old Wave F registry. Coverage will continue to grow as the
-callgraph is walked outward from the already-matched entry points.
+identical to the original ROM. See [`CHANGELOG.md`](CHANGELOG.md) for a
+headline summary of recent waves and [`docs/PROGRESO.md`](docs/PROGRESO.md)
+for the full function-by-function log (in Spanish). Coverage will continue to
+grow as the callgraph is walked outward from the already-matched entry points
+and as large, self-contained functions are tackled directly (see
+`tools/rank_candidates.py`).
 
 ---
 
@@ -38,25 +41,34 @@ callgraph is walked outward from the already-matched entry points.
 
 ```
 mslug/
+├── .github/workflows/      CI: registry_lint.py + syntax check (no ROM needed)
 ├── src/                    Decompiled C sources (matched by GCC bare-metal 68000)
 ├── asm/                    Hand-written 68000 assembly sources (matched by GAS)
 │   └── non_matchings/      Raw ROM dumps by address for functions not yet analysed
 ├── include/                Public headers (mslug.h, mslug_regs.h)
 ├── linker/                 Linker scripts (neogeo.ld, neogeo_matched.ld)
-├── tools/                  Active tooling used by the build
+├── tools/                  Active tooling used by the build — see tools/README.md
 │   ├── match_batch.py      Compile + link + byte-compare every registered function
 │   ├── registry.py         Master registry: (symbol, cpu_addr, size, source)
 │   ├── symbols.py          External symbol table (linker --defsym)
-│   ├── scan_unmatched_callees.py   Prioritised queue of next targets
+│   ├── registry_lint.py    Static structural audit of registry.py/symbols.py
+│   ├── scan_unmatched_callees.py   Priority queue ordered by caller count
+│   ├── rank_candidates.py  Priority queue ordered by function size
+│   ├── measure_coverage.py Real-code-% heuristic feeding docs/COVERAGE.md
 │   └── asm-differ/         Vendored simonlindholm/asm-differ (m68k backend)
 ├── scripts/                One-shot helper scripts
 │   ├── setup.sh            Process baserom into build/mslug_prom.bin + verify
 │   └── legacy/             Historical batch generators (Waves A–R)
 ├── docs/                   Design notes and reversing logs
+│   ├── CONVENTIONS.md      Naming/registry/promotion conventions — read before editing
+│   ├── COVERAGE.md         Real coverage analysis
+│   └── PROGRESO.md         Detailed function-by-function progress log (Spanish)
 ├── build/                  Build artefacts (git-ignored except for reports)
 ├── diff_settings.py        Configuration for asm-differ
+├── requirements.txt        Python dependencies (capstone, colorama, ...)
 ├── Makefile
-├── PROGRESO.md             Detailed progress log in Spanish
+├── CONTRIBUTING.md         Workflow for matching a new function
+├── CHANGELOG.md            Headline summary of notable changes
 └── README.md
 ```
 
@@ -127,7 +139,7 @@ Compile flags used by the matcher (equivalent to `ngdevkit`'s
 ```bash
 sudo apt install -y gcc-m68k-linux-gnu binutils-m68k-linux-gnu \
                     python3 python3-pip
-python3 -m pip install --user capstone colorama watchdog Levenshtein cxxfilt
+python3 -m pip install --user -r requirements.txt
 ```
 
 ### Bring your own ROM
@@ -164,54 +176,29 @@ A successful run prints:
 
 ```
 ====================================================================
-  MATCHED : 2932/2932 funciones
-  BYTES   : 23,586/23,586 (registrados)
-  ROM     : 23,586/2,097,152  (1.1247%)
+  MATCHED : 3129/3129 funciones
+  BYTES   : 41,674/41,674 (registrados)
+  ROM     : 41,674/2,097,152  (1.9872%)
 ====================================================================
+```
+
+Also run the static registry audit (fast, no ROM needed, and what CI runs
+on every push):
+
+```bash
+python3 tools/registry_lint.py
 ```
 
 ---
 
 ## Contributing a match
 
-The typical workflow to match a new function:
-
-1. Pick the next candidate from the priority queue:
-
-   ```bash
-   python3 tools/scan_unmatched_callees.py --top 20
-   ```
-
-   The list is ordered by how many already-matched functions call each
-   unmatched target.
-
-2. Read the function in the ROM disassembly. Decide whether it is
-   reproducible by GCC (write a `.c` in `src/`) or requires hand-assembly
-   (write a `.s` in `asm/`). Add a header comment documenting the
-   conceptual C signature and any register-passing conventions.
-
-3. Register the new function in `tools/registry.py`:
-
-   ```python
-   ("MyFunction", 0x0abcde, 42, "my_file.s"),
-   ```
-
-4. If the function references external labels, add them to
-   `tools/symbols.py`.
-
-5. Run the matcher:
-
-   ```bash
-   python3 tools/match_batch.py
-   ```
-
-   If it does not match, use `asm-differ` to inspect the diff:
-
-   ```bash
-   python3 tools/asm-differ/diff.py -mwo MyFunction
-   ```
-
-   Iterate until the counter goes up by exactly one.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full step-by-step
+workflow (candidate selection, classification, registration, promotion of
+placeholders, verification, and the git/PR process), and
+[`docs/CONVENTIONS.md`](docs/CONVENTIONS.md) for the naming and registry
+conventions behind it. Quick-reference tool inventory: see
+[`tools/README.md`](tools/README.md).
 
 ---
 

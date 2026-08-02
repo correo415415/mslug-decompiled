@@ -1,0 +1,14 @@
+# Python dependencies for the Metal Slug 1 decompilation toolchain.
+#
+# Install with:
+#   python3 -m pip install --user -r requirements.txt
+#
+# The C/ASM toolchain itself (m68k-linux-gnu-gcc/as/ld/objcopy) is a system
+# package, not a Python dependency — see README.md § Toolchain for the
+# `apt install` command.
+
+capstone>=5.0,<6.0        # 68000 disassembly (scan_unmatched_callees.py, rank_candidates.py, inspect_candidates.py)
+colorama>=0.4,<1.0        # coloured terminal output (asm-differ)
+watchdog>=4.0,<7.0        # file-watch mode (asm-differ --watch)
+Levenshtein>=0.20,<1.0    # fuzzy diff scoring (asm-differ)
+cxxfilt>=0.3,<1.0         # C++ symbol demangling (asm-differ, unused by our pure-C/ASM sources but required by the vendored tool)
