@@ -1262,4 +1262,36 @@ SYMBOLS = {
     0x0008C3DA: "Sub_0008C3DA",
     0x0008C436: "Sub_0008C436",
     0x0008C5B2: "Sub_0008C5B2",
+
+    # ---- Wave XX: entradas mid-island (rts internos de islas C matcheadas
+    #      en $0442xx..$04580x, referenciadas por bcc/bcs de los clusters
+    #      de la VM de mision / boss / punteria).
+    0x00044458: "LeaA1Plus4Rts_044458",   # rts de LeaA1Plus4_044454 (MissionOp07)
+    0x00044AFC: "SetHandlerRts_044afc",   # rts de SetTaskHandler_044af6 (Boss_Active)
+    0x00044D2E: "SetHandlerRts_044d2e",   # rts de SetTaskHandler_044d28 (Boss_Descend)
+    0x00044DF0: "SetHandlerRts_044df0",   # rts de SetTaskHandler_044dea (BossShot_Fly)
+    0x00044EEC: "SetHandlerRts_044eec",   # rts de SetTaskHandler_044ee6 (Miniboss_Ride)
+    0x00044F88: "SetHandlerRts_044f88",   # rts de SetTaskHandler_044f82 (Miniboss_Hop)
+    0x0004580A: "SetTaskBRts_04580a",     # rts de SetTaskB_045806 (Ent_AnimFrame)
+
+    # ---- Wave XX: externals de la VM de mision / spawner / punteria.
+    0x00028134: "Fn_00028134",            # setup fisica proyectil (BossShot/Miniboss)
+    0x00028C20: "Fn_00028C20",            # colision rect A vs rect B (Miniboss_Ride)
+    0x00027D50: "Fn_00027D50",            # tick de vuelo del proyectil del boss
+    0x000280C6: "Fn_000280C6",            # consulta mapa de colision (Ent_GroundProbe)
+    0x0002A1AA: "Fn_0002A1AA",            # init entidad con anim (Boss_Intro)
+    0x0002AC6A: "Fn_0002AC6A",            # test dificultad para gate de spawn
+    0x00030C14: "TaskProto_00030C14",     # plantilla tarea (Boss_PhaseFire)
+    0x00030C70: "TaskProto_00030C70",     # plantilla tarea (Boss_PhaseFire)
+    0x000308C2: "AnimSeq_000308C2",       # secuencia anim (Boss_PhaseFire)
+    0x0005DCA4: "Fn_0005DCA4",            # rand escalado por d0 (BossShot_Init)
+    0x0005DD56: "Fn_0005DD56",            # variante wait-anim (BossShot_Fly)
+    0x0005E452: "Fn_0005E452",            # probe estado jugador (Boss_Active)
+    0x0005E912: "Fn_0005E912",            # espera generica (Boss_WaitOne)
+    0x00077F6A: "AnimSeq_00077F6A",       # secuencia anim explosion (Boss_Descend)
+    0x00079298: "TaskProto_00079298",     # plantilla tarea aux (MissionDriver_Init)
+    0x0008C85C: "Fn_0008C85C",            # init subsistema paralelo (MissionDriver_Init)
+    0x0008C864: "TaskProto_0008C864",     # handler subsistema paralelo
+    0x0008F6F2: "Fn_0008F6F2",            # tick contexto padre d1=1 (Boss_Descend)
+    0x0008F714: "Fn_0008F714",            # tick contexto padre d1=8 (Boss_Active)
 }

@@ -17,6 +17,28 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave XX — 66 entries (5,356 B), a new single-wave record: **the
+  mission event VM, the enemy spawner and the player aiming core**.
+  Fills all 25 remaining gaps between the matched C islands of
+  `$04422A..$045806`, welding the contiguous megablock
+  `$040EF2..$045806` (~18.7 KB with no holes). Three files:
+  `mission_event_vm_04422a.s` — per-scene mission bytecode streams
+  (14-slot pointer table at `$044266`) with 13 opcodes gated on player
+  position / live-enemy count, a parallel skip iterator, and the
+  periodic spawner task; notable find: SNK left development asserts
+  (`nop;nop;cmpi;nop;trap #15` opcode-range guards) compiled into the
+  retail ROM. `mission_spawn_boss_0448a6.s` — `Spawn_FromStream`
+  (materializes enemies from 18-byte stream records against the
+  template table at `$E8000`) plus the boss state machine
+  (intro/engage/phase-fire/descend, projectile with random spread) and
+  the miniboss mount logic. `ent_aim_input_044f8a.s` — the player
+  aiming core: `Ent_AimUpdate_045022` (1,008 B) resolves the target
+  angle per weapon through the angle tables at `$5D326..$5D546`
+  (including a diagonal-transition matrix for the flamethrower) and
+  integrates it with friction easing; per-weapon input masks, fire
+  cadence gate and ground probing. 7 new mid-island defsyms + 19 new
+  externals. Matcher: 3,320 functions, 59,890 bytes (2.8558% of the
+  P ROM), all byte-exact, green on the first run.
 - Wave WW — 7 functions (1,624 B): **the scroll VM**.
   `SceneScriptVM_Frame_0437DA` (1,288 B, one of the largest single
   functions matched so far) is the per-frame bytecode interpreter for
