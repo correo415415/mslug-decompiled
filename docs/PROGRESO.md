@@ -11,10 +11,42 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3422/3422 funciones
-BYTES   : 111,334/111,334 (registrados)
-ROM     : 111,334/2,097,152  (5.3088%)
+MATCHED : 3445/3445 funciones
+BYTES   : 114,048/114,048 (registrados)
+ROM     : 114,048/2,097,152  (5.4382%)
 ```
+
+> **Wave CCC** (23 entradas, 2 714 B, verde a la primera) — **el modulo
+> "Squad Deploy"**: comandante que despliega un escuadron de hasta 8
+> soldados con gestion de slots por bitmask. Cierra los 23 huecos de la
+> region `$07FBD2..$08072E` en `squad_deploy_module_07fbxx.s`; la cadena
+> de handlers tejida a traves de las 26 islas `SetTaskHandler_*`/`SetC_*`/
+> `ClearC_*`/`SetTaskW_*` ya matcheadas en C queda completa.
+>
+> * **`Squad_Mgr8Slots_0803e8`** (280 B): el corazon del modulo —
+>   inicializa el array de recompensas `+0x80..+0x8E` a `$FFFF` y DOS
+>   bitmasks de ocupacion en `+0x77`/`+0x78` ("alguna vez vivo" /
+>   "vivo ahora"). Doble pasada de `btst`: primero busca un slot NUNCA
+>   usado y luego cualquier slot muerto — respawn con memoria de bajas.
+>   Cadencias y cupo desde tablas 2D `$2BEA3E`/`$2BEAC0`/`$2BEB42`
+>   (decodificador `$799DE`).
+> * **Hijos con 2 plantillas de init**: por tabla de offsets `$2E3EBC`
+>   (pares de punteros de 8 B por fila, coords + timing en `+0x32/+0x33`)
+>   o posicion fija desde `$2BEED0`; salto con fisica `$13C0E`
+>   (vel `$400`, angulo `$88`), sombra `$723DA`, y al morir notifican al
+>   padre (`Squad_NotifyParent_0803d2`: `addq.b #1,$20(a0)`).
+> * **Sub-modulo "hatch"** (`$7FC1A`): 3 variantes de fila (sprites
+>   `$2E1DCA`/`$2E1E5C`/`$2E1EEE`, offset lateral -$48/0/+$40 en
+>   `+0x70`) que CAEN en un cuerpo comun; cuando el padre llega a
+>   estado 3 monta las piezas `$2E2AE8`/`$2E2AFA` via `$77C7E`.
+> * **Seguimiento con curvas**: `Squad_TrackArc`/`FollowLeader` usan las
+>   tablas `$2E22FA`/`$2E2320` (indice = vel/4, clamps ±$90 con rebote
+>   `$B800`/`$4800`) y `Squad_BobOscillate` la onda seno `$2C072C`
+>   (fase `+0x74` mod $80, amplitud *4/256).
+> * Idioms notables: `lea $ffff.w,a0` como ENTITY_NIL corto (4 B) donde
+>   otros modulos gastan 6; `bpl.b` corto hacia atras en `Squad_AIDecide`;
+>   los `bcc.w` colgantes de cada estado saltan al RTS interno (+6) de la
+>   isla `SetTaskHandler` siguiente (13 defsyms `SetHandlerRts_*` nuevos).
 
 > **Wave BBB** (27 entradas, 916 B, verde a la primera) — **las tablas
 > de angulo de punteria + el backend de lectura de input**: cierra

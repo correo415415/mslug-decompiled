@@ -1308,4 +1308,35 @@ SYMBOLS = {
     0x0007AA92: "SetHandlerRts_07aa92",  # rts de SetTaskHandler_07aa8c
     0x0007ABF2: "SetHandlerRts_07abf2",  # rts de SetTaskHandler_07abec
     0x0007AC48: "SetHandlerRts_07ac48",  # rts de SetTaskHandler_07ac42
+
+    # --- Wave CCC: modulo Squad Deploy ($07FBD2..$08072E) -----------------
+    # Handlers en huecos futuros (aun sin matchear) referenciados por asm:
+    0x0007FB28: "TaskHandler_07fb28",    # estado previo del escolta (lea pc desde $7FC00)
+    0x0007F22A: "TaskHandler_07f22a",    # handler escolta pieza-C (lea pc desde $7FD14)
+    0x00080996: "TaskHandler_080996",    # hijo aux spawn (lea pc desde $801A4)
+    0x000809CC: "TaskHandler_0809cc",    # tarea aux del comandante (lea pc desde $805C6)
+    0x00080736: "TaskHandler_080736",    # siguiente estado comandante (lea pc desde $806F0)
+    0x00081196: "TaskHandler_081196",    # estado muerte hijo (lea pc desde $80616)
+    0x0008179E: "Sub_0008179E",          # probe comun del hijo (jsr pc desde $803A0/$80608)
+    0x000811D6: "Sub_000811D6",          # despawn/limpieza mgr (jmp pc desde $80462/$80516)
+    0x000808A0: "Sub_000808A0",          # tick aux comandante (jsr pc desde $806D8)
+    0x000808E8: "Sub_000808E8",          # probe CCR comandante (jsr pc desde $806D0)
+    0x00080932: "Sub_00080932",          # gate 1 comandante (jsr pc desde $806E8)
+    0x0008094A: "Sub_0008094A",          # gate 2 comandante (jsr pc desde $806F6)
+    0x00080AAA: "Sub_00080AAA",          # reaccion a impacto (jsr pc desde $8065C)
+    0x0008169A: "Sub_0008169A",          # setup extra hijo (jsr pc desde $8057E)
+    # RTS internos (+6) de islas C ya matcheadas (targets de bcc.w):
+    0x0007FC18: "SetHandlerRts_07fc18",  # rts de SetTaskHandler_07fc12
+    0x0007FD46: "SetHandlerRts_07fd46",  # rts de SetTaskHandler_07fd40
+    0x0007FDA6: "SetHandlerRts_07fda6",  # rts de SetTaskHandler_07fda0
+    0x00080088: "JsrAbsRts_080088",      # rts de JsrAbsThunk_080082
+    0x0008010E: "SetHandlerRts_08010e",  # rts de SetTaskHandler_080108
+    0x000801EC: "SetHandlerRts_0801ec",  # rts de SetTaskHandler_0801e6
+    0x0008022C: "SetHandlerRts_08022c",  # rts de SetTaskHandler_080226
+    0x000802DE: "SetHandlerRts_0802de",  # rts de SetTaskHandler_0802d8
+    0x000803D0: "SetHandlerRts_0803d0",  # rts de SetTaskHandler_0803ca
+    0x00080506: "SetHandlerRts_080506",  # rts de SetTaskHandler_080500
+    0x0008053E: "SetHandlerRts_08053e",  # rts de SetTaskHandler_080538
+    0x0008067C: "SetHandlerRts_08067c",  # rts de SetTaskHandler_080676
+    0x00080734: "SetHandlerRts_080734",  # rts de SetTaskHandler_08072e
 }
