@@ -4079,4 +4079,27 @@ REGISTRY = [
     ("BannerLetter_CheckSettle_07B9A4",           0x07B9A4,  10, "banner_mission_07a970.s"),
     ("BannerLetter_Approach_07B9B4",              0x07B9B4,  48, "banner_mission_07a970.s"),
     ("BannerLetter_Blink_07B9EA",                 0x07B9EA,  62, "banner_mission_07a970.s"),
+    # ------------------------------------------------------------------
+    # Wave AAA: streams de bytecode de la Mission VM — los datos de
+    # eventos de las 6 misiones (spawns de enemigos), destinos de la
+    # tabla MissionStreamPtrs_044266 + stream de debug, mas los bloques
+    # aux de words entre streams ($0E8524..$0F2FFC, 17 entradas, 43.736 B)
+    # ------------------------------------------------------------------
+    ("MissionStream_Slot00_0E8524",               0x0E8524, 3470, "mission_streams_0e8524.s"),
+    ("MissionAux_Slot00_0E92B2",                  0x0E92B2, 1112, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot01_0E970A",               0x0E970A, 3316, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot02_0EA3FE",               0x0EA3FE, 4844, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot03_0EB6EA",               0x0EB6EA, 4040, "mission_streams_0e8524.s"),
+    ("MissionAux_Slot03_0EC6B2",                  0x0EC6B2,  486, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot04_0EC898",               0x0EC898, 5108, "mission_streams_0e8524.s"),
+    ("MissionAux_Slot04_0EDC8C",                  0x0EDC8C, 1396, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot05_0EE200",               0x0EE200, 9234, "mission_streams_0e8524.s"),
+    ("MissionAux_Slot05_0F0612",                  0x0F0612, 1196, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot06_0F0ABE",               0x0F0ABE, 1266, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot07_0F0FB0",               0x0F0FB0,  130, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot08_0F1032",               0x0F1032,  418, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot09_0F11D4",               0x0F11D4,    4, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot11_0F11D8",               0x0F11D8, 2812, "mission_streams_0e8524.s"),
+    ("MissionStream_Slot12_0F1CD4",               0x0F1CD4, 2362, "mission_streams_0e8524.s"),
+    ("MissionStream_Debug_0F260E",                0x0F260E, 2542, "mission_streams_0e8524.s"),
 ]
