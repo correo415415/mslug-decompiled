@@ -11,10 +11,60 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3254/3254 funciones
-BYTES   : 54,534/54,534 (registrados)
-ROM     : 54,534/2,097,152  (2.6004%)
+MATCHED : 3320/3320 funciones
+BYTES   : 59,890/59,890 (registrados)
+ROM     : 59,890/2,097,152  (2.8558%)
 ```
+
+> **Wave XX** (66 entradas, 5 356 B, verde a la primera — NUEVO RECORD DE
+> WAVE) — **LA VM DE EVENTOS DE MISION + spawner de enemigos + punteria
+> del jugador**. Rellena LOS 25 huecos entre las islas C de
+> `$04422A..$045806`, soldando el megabloque contiguo
+> **`$040EF2..$045806` (~18.7 KB sin cortes)**. Tres archivos:
+>
+> 1. `mission_event_vm_04422a.s` (33 entradas, 1 536 B) — la VM de
+>    eventos de mision: cada escena tiene un stream de bytecode (tabla
+>    de 14 punteros `$044266`, indexada por `$106ECE`, con override de
+>    debug a `$F260E` via `$10FD83`). `MissionDriver_Loop_044368`
+>    compara cada frame el umbral del registro actual contra el progreso
+>    del scroll `$106F5C` y despacha **13 opcodes** (`MissionVM_ExecOp`,
+>    jump-table en `$0443E4`): spawn directo/periodico, pausa/reanuda,
+>    esperas por posicion de players (Y, X, ambos ejes) y por conteo de
+>    enemigos vivos `$106E88`. `MissionVM_SkipOp_0446B6` es el
+>    **iterador paralelo** que salta registros sin ejecutarlos (segunda
+>    jump-table de strides) — lo usan las esperas para descartar spawns
+>    que el jugador dejo atras y el op `$03` para elegir 1 de N ramas
+>    con `$5E9E4` (rand) apilando punteros. HALLAZGO: los guards
+>    `nop;nop;cmpi;nop;trap #15` tras cada fetch son **asserts de
+>    desarrollo de SNK** (op > `$0C` = stream corrupto) que quedaron
+>    compilados en la ROM final.
+> 2. `mission_spawn_boss_0448a6.s` (20 entradas, 1 684 B) —
+>    `Spawn_FromStream_0448A6` materializa enemigos desde registros de
+>    18 B (flags de gate por dificultad via `$2AC6A`/`$106ED1`, XY
+>    relativo al scroll o absoluto, plantilla en la tabla `$E8000`,
+>    8 B de parametros a `$98(a0)`) sobre el pool `$100800`, con alta en
+>    el contador de vivos `$106E8A`; mas la **state-machine del jefe**
+>    (intro→wait→engage→rearm→active→phase-fire→descend, con proyectil
+>    `BossShot` de vel `$D000` + rand `$5DCA4` y timeout de 60 frames) y
+>    la montura del **miniboss** (attach por bits de `$6B/$8C`, ride con
+>    colision rect `$28C20` contra `Boss_HitboxTable_044D30`).
+> 3. `ent_aim_input_044f8a.s` (13 entradas, 2 136 B) — **el nucleo de la
+>    punteria**: `Ent_AimUpdate_045022` (**1 008 B, la funcion mas
+>    grande de la wave**) resuelve el angulo objetivo segun el arma
+>    `$106F2A` via las tablas de angulos `$5D326..$5D546` — HMG por
+>    bit5, shotgun con 8 tablas segun altura/estado (`$5CEF8`), y para
+>    el lanzallamas una **matriz de transicion de punteria diagonal**
+>    (pares de bits `$30/$90/$60/$C0` de `$83(a6)` conmutan la tabla
+>    activa `$84(a6)` para suavizar el giro 8-direccional). El angulo
+>    `$7C(a6)` se integra con **easing con friccion** (paso = delta>>3 −
+>    fric>>5 acumulado en `$7E`, modo snap `$800`, sentido por smi/not).
+>    `Ent_InputSample_04546E` muestrea el pad con **mascaras por arma**
+>    (`$30`/`$F0`/`$10`) desde el contexto del player o el neutral
+>    `$5CC08` (attract), `Ent_FireGate_045648` lleva la cadencia
+>    (cooldown 24/6/2 frames segun arma y latch), y
+>    `Ent_GroundProbe_04572C` sonda el mapa de colision (`$280C6`) con
+>    offsets por pose (`$29D752`). 7 defsyms mid-island nuevos (rts
+>    internos de islas C) + 19 externals nuevos en `symbols.py`.
 
 > **Wave WW** (7 funciones, 1 624 B, verde a la primera) — **LA VM DEL
 > SCROLL**: `SceneScriptVM_Frame_0437DA` (1 288 B, una de las funciones

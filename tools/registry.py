@@ -3914,4 +3914,101 @@ REGISTRY = [
     ("Scroll_ClampToRange_043E3A",               0x043E3A,  78, "scene_script_vm_0437da.s"),
     ("CollMap_RowToLocalY_043EEC",               0x043EEC,  22, "scene_script_vm_0437da.s"),
     ("CollMap_TestPoint_043F02",                 0x043F02,  80, "scene_script_vm_0437da.s"),
+    # ------------------------------------------------------------------
+    # Wave XX: LA VM DE EVENTOS DE MISION + spawner de enemigos + IA de
+    # punteria/input del jugador. Tres clusters que rellenan LOS 25
+    # huecos entre las islas C de $04422A..$045806 (5,356 B), soldando
+    # el megabloque contiguo $040EF2..$045806 (~18.7 KB sin cortes):
+    #
+    # 1) mission_event_vm_04422a.s - VM de eventos de mision: streams de
+    #    bytecode por escena (tabla de punteros $044266, 14 slots) con
+    #    13 opcodes gated por posicion de los jugadores (op $04/$0A/$0B
+    #    esperan a que P1/P2 crucen una Y/X umbral; op $05/$06 pausan;
+    #    op $07 espera a que mueran los enemigos vivos $106E88), un
+    #    skipper paralelo (MissionVM_SkipOp) que salta ops sin ejecutar
+    #    y el spawner periodico ($0447C6) con cadencia/limite leidos
+    #    del stream.
+    # 2) mission_spawn_boss_0448a6.s - Spawn_FromStream ($0448A6):
+    #    materializa enemigos desde registros de 18 B (tipo, flags de
+    #    dificultad/nivel, XY relativo al scroll, plantilla en tabla
+    #    $E8000) + la mini state-machine del jefe/miniboss (intro,
+    #    engage, fases de fuego, descenso, proyectil, monta/desmonta).
+    # 3) ent_aim_input_044f8a.s - El nucleo de la PUNTERIA del jugador:
+    #    Ent_AimUpdate ($045022, 1,008 B - la funcion mas grande del
+    #    bloque) resuelve el angulo objetivo segun arma $106F2A
+    #    (1=HMG,2/3=flame,4=rocket,5=shotgun) via tablas de angulos
+    #    $5D326..$5D546 y lo integra con easing (asr #3 + friccion
+    #    asr #5); Ent_InputSample muestrea el pad con mascaras por
+    #    arma, Ent_FireGate gestiona cadencia/auto-repeat y
+    #    Ent_GroundProbe consulta el mapa de colision via $280C6.
+    #
+    # 66 entradas, 5,356 B, nuevo record de wave. Referencia cruzada a
+    # 7 defsyms mid-island nuevos (rts internos de islas C matcheadas).
+    # ------------------------------------------------------------------
+    ("MissionBoot_SceneDesc_04422A",              0x04422A,  12, "mission_event_vm_04422a.s"),
+    ("MissionBoot_Run_044236",                    0x044236,  16, "mission_event_vm_04422a.s"),
+    ("Entity_CmpDepthToParent_044246",            0x044246,  16, "mission_event_vm_04422a.s"),
+    ("MissionStream_Table_044262",                0x044262,  60, "mission_event_vm_04422a.s"),
+    ("MissionWatch_Spawn_04429E",                 0x04429E,  38, "mission_event_vm_04422a.s"),
+    ("MissionWatch_Handler_0442C4",               0x0442C4,  16, "mission_event_vm_04422a.s"),
+    ("MissionWatch_Resume_0442E2",                0x0442E2,   4, "mission_event_vm_04422a.s"),
+    ("MissionDriver_Init_0442E6",                 0x0442E6, 130, "mission_event_vm_04422a.s"),
+    ("MissionDriver_Loop_044368",                 0x044368,  88, "mission_event_vm_04422a.s"),
+    ("MissionVM_ExecOp_0443C0",                   0x0443C0,  96, "mission_event_vm_04422a.s"),
+    ("MissionOp05_PauseOn_044426",                0x044426,  14, "mission_event_vm_04422a.s"),
+    ("MissionOp06_Pause_04443A",                  0x04443A,   6, "mission_event_vm_04422a.s"),
+    ("MissionOp07_WaitEnemies_044446",            0x044446,  14, "mission_event_vm_04422a.s"),
+    ("MissionOp08_Resume_04445A",                 0x04445A,  12, "mission_event_vm_04422a.s"),
+    ("MissionOp04_PlayersPastY_04446C",           0x04446C, 124, "mission_event_vm_04422a.s"),
+    ("MissionOp0A_PlayersPastX_0444E8",           0x0444E8, 112, "mission_event_vm_04422a.s"),
+    ("MissionOp0B_BothPastY_04455A",              0x04455A, 176, "mission_event_vm_04422a.s"),
+    ("MissionOp02_SkipTo0D_04460A",               0x04460A,  46, "mission_event_vm_04422a.s"),
+    ("MissionOp03_CondSelect_044638",             0x044638, 102, "mission_event_vm_04422a.s"),
+    ("MissionOp01_PeriodicSpawn_04469E",          0x04469E,  10, "mission_event_vm_04422a.s"),
+    ("MissionOp00_SpawnDirect_0446A8",            0x0446A8,  14, "mission_event_vm_04422a.s"),
+    ("MissionVM_SkipOp_0446B6",                   0x0446B6,  88, "mission_event_vm_04422a.s"),
+    ("MissionSkip_Op00_04472C",                   0x04472C,   6, "mission_event_vm_04422a.s"),
+    ("MissionSkip_Op01_044732",                   0x044732,  10, "mission_event_vm_04422a.s"),
+    ("MissionSkip_Op02_04473C",                   0x04473C,  46, "mission_event_vm_04422a.s"),
+    ("MissionSkip_Op03_04476A",                   0x04476A,  46, "mission_event_vm_04422a.s"),
+    ("MissionSkip_Op04_044798",                   0x044798,  14, "mission_event_vm_04422a.s"),
+    ("MissionSkip_Op0A_0447A6",                   0x0447A6,  14, "mission_event_vm_04422a.s"),
+    ("MissionSkip_Op0B_0447B4",                   0x0447B4,  18, "mission_event_vm_04422a.s"),
+    ("PeriodicSpawner_Setup_0447C6",              0x0447C6, 100, "mission_event_vm_04422a.s"),
+    ("PeriodicSpawner_Task_04482A",               0x04482A,  24, "mission_event_vm_04422a.s"),
+    ("PeriodicSpawner_Tick_044850",               0x044850,  10, "mission_event_vm_04422a.s"),
+    ("PeriodicSpawner_Fire_044860",               0x044860,  54, "mission_event_vm_04422a.s"),
+    ("Spawn_FromStream_0448A6",                   0x0448A6, 232, "mission_spawn_boss_0448a6.s"),
+    ("Spawn_MarkPending_04498E",                  0x04498E,  24, "mission_spawn_boss_0448a6.s"),
+    ("Entity_CmpDepthToParent_0449A6",            0x0449A6,  16, "mission_spawn_boss_0448a6.s"),
+    ("Boss_Intro_0449C2",                         0x0449C2,  80, "mission_spawn_boss_0448a6.s"),
+    ("Boss_WaitOne_044A12",                       0x044A12,  18, "mission_spawn_boss_0448a6.s"),
+    ("Boss_EngageA_044A2C",                       0x044A2C,  36, "mission_spawn_boss_0448a6.s"),
+    ("Boss_Rearm_044A50",                         0x044A50,  46, "mission_spawn_boss_0448a6.s"),
+    ("Boss_Active_044A7E",                        0x044A7E, 120, "mission_spawn_boss_0448a6.s"),
+    ("Boss_PhaseFire_044AFE",                     0x044AFE, 284, "mission_spawn_boss_0448a6.s"),
+    ("Boss_Descend_044C28",                       0x044C28, 256, "mission_spawn_boss_0448a6.s"),
+    ("Boss_HitboxTable_044D30",                   0x044D30,  16, "mission_spawn_boss_0448a6.s"),
+    ("BossShot_Init_044D40",                      0x044D40, 100, "mission_spawn_boss_0448a6.s"),
+    ("BossShot_Fly_044DA4",                       0x044DA4,  70, "mission_spawn_boss_0448a6.s"),
+    ("Miniboss_SpawnP1_044DF8",                   0x044DF8,  26, "mission_spawn_boss_0448a6.s"),
+    ("Miniboss_SpawnP2_044E12",                   0x044E12,  26, "mission_spawn_boss_0448a6.s"),
+    ("Miniboss_SpawnAlt_044E2C",                  0x044E2C,  22, "mission_spawn_boss_0448a6.s"),
+    ("Miniboss_Attach_044E42",                    0x044E42,  96, "mission_spawn_boss_0448a6.s"),
+    ("Miniboss_Ride_044EA2",                      0x044EA2,  68, "mission_spawn_boss_0448a6.s"),
+    ("Miniboss_Dead_044EEE",                      0x044EEE,  22, "mission_spawn_boss_0448a6.s"),
+    ("Miniboss_Hop_044F04",                       0x044F04, 126, "mission_spawn_boss_0448a6.s"),
+    ("Task_KillFlagParent_044F8A",                0x044F8A,  16, "ent_aim_input_044f8a.s"),
+    ("Task_Kill_044F9A",                          0x044F9A,   6, "ent_aim_input_044f8a.s"),
+    ("Ent_FaceTarget_044FA0",                     0x044FA0, 130, "ent_aim_input_044f8a.s"),
+    ("Ent_AimUpdate_045022",                      0x045022, 1008, "ent_aim_input_044f8a.s"),
+    ("Ent_AimInit_045412",                        0x045412,  92, "ent_aim_input_044f8a.s"),
+    ("Ent_InputSample_04546E",                    0x04546E, 474, "ent_aim_input_044f8a.s"),
+    ("Ent_FireGate_045648",                       0x045648, 184, "ent_aim_input_044f8a.s"),
+    ("Ent_AmmoTick_045706",                       0x045706,  10, "ent_aim_input_044f8a.s"),
+    ("Ent_ClampY_045716",                         0x045716,  22, "ent_aim_input_044f8a.s"),
+    ("Ent_GroundProbe_04572C",                    0x04572C,  82, "ent_aim_input_044f8a.s"),
+    ("Entity_CmpDepthToParent_04578A",            0x04578A,  16, "ent_aim_input_044f8a.s"),
+    ("Ent_SfxByMode_0457A6",                      0x0457A6,  38, "ent_aim_input_044f8a.s"),
+    ("Ent_AnimFrame_0457CC",                      0x0457CC,  58, "ent_aim_input_044f8a.s"),
 ]
