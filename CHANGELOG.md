@@ -17,6 +17,22 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave CCC — 23 entries (2,714 B): **the "Squad Deploy" enemy module**
+  at `$07FBD2..$08072E` (`squad_deploy_module_07fbxx.s`), closing all
+  23 gaps between the 26 already-matched C islands
+  (`SetTaskHandler_*`/`SetC_*`/`ClearC_*`/`SetTaskW_*`) — the module's
+  self-replacing handler chain is now complete. Highlights: an 8-slot
+  squad manager (`Squad_Mgr8Slots_0803e8`) that tracks occupancy with
+  two bitmasks at `+0x77`/`+0x78` ("ever spawned" / "alive now") and
+  does a two-pass `btst` scan (fresh slot first, then any dead slot —
+  respawn with casualty memory); two child-init templates (pointer-pair
+  table `$2E3EBC` vs. fixed rows `$2BEED0`); a 3-row "hatch" sub-module
+  whose row variants fall through into a shared body; arc/sine
+  follow movement driven by curve tables `$2E22FA`/`$2E2320`/`$2C072C`;
+  and the short `lea $ffff.w,a0` ENTITY_NIL idiom. Adds 27 new defsyms
+  (13 island-internal `SetHandlerRts_*` + 14 forward refs into
+  neighbouring unmatched code). Matcher: 3,445 entries, 114,048 bytes
+  (5.4382% of the P ROM), green first run.
 - Wave BBB — 27 entries (916 B): **the player-aiming angle tables and
   the input-layout read backend**, closing the entire
   `$05D316..$05D6AA` gap in `input_aim_tables_05d316.s`. The 19
