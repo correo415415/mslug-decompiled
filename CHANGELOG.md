@@ -17,6 +17,23 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave BBB — 27 entries (916 B): **the player-aiming angle tables and
+  the input-layout read backend**, closing the entire
+  `$05D316..$05D6AA` gap in `input_aim_tables_05d316.s`. The 19
+  `AimAngleTable_*` entries are the real "array tables" consumed by
+  `Ent_AimUpdate_045022`/`Ent_AimInit_045412` (Wave XX): entry =
+  `table[(state & $F)*2]` = target-angle word ($10000 = full turn,
+  `$FFFF` = keep), identified per weapon from matched-code refs
+  (pistol/default, rocket fan, HMG pair, and the flamethrower/shotgun
+  set of 8+4 per-direction tables). Also: `AimDirRows`/3 `SpawnRows`
+  byte tables (targets of the 5-pointer table at `$02A5B8`), the two
+  full `InputLayout_ReadField*` routines — including a **genuine SNK
+  bug** at `$05D628` where the P1 branch reads `$72(a1)` with the
+  stale `a1` before the `lea $100300,a1` (inverted order vs. its 4
+  siblings) — and `InputCtx_DemoOverride_05D674`, finally resolving
+  the `Sub_00005D674` forward defsym pending since Wave U (replay-mode
+  redirect of the input context to the recording buffers). Matcher:
+  3,422 entries, 111,334 bytes (5.3088% of the P ROM), green first run.
 - Wave AAA — 17 entries (43,736 B): **the Mission VM bytecode
   streams**, the project's largest coverage jump ever (+65% of matched
   bytes in one wave, from 3.18% to 5.27% of the P ROM). Single file

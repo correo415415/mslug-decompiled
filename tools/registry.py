@@ -4102,4 +4102,37 @@ REGISTRY = [
     ("MissionStream_Slot11_0F11D8",               0x0F11D8, 2812, "mission_streams_0e8524.s"),
     ("MissionStream_Slot12_0F1CD4",               0x0F1CD4, 2362, "mission_streams_0e8524.s"),
     ("MissionStream_Debug_0F260E",                0x0F260E, 2542, "mission_streams_0e8524.s"),
+    # ------------------------------------------------------------------
+    # Wave BBB: tablas de angulo de punteria (las "arrays tables" de
+    # Ent_AimUpdate/Ent_AimInit) + backend de lectura de layout de input
+    # con el probe de demo $5D674 pendiente desde Wave U. Cierra entero
+    # el hueco $05D316..$05D6AA (27 entradas, 916 B).
+    # ------------------------------------------------------------------
+    ("AimDirRows_05D316",                         0x05D316,  16, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D326",                      0x05D326,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D346",                      0x05D346,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D366",                      0x05D366,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D386",                      0x05D386,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D3A6",                      0x05D3A6,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D3C6",                      0x05D3C6,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D3E6",                      0x05D3E6,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D406",                      0x05D406,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D426",                      0x05D426,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D446",                      0x05D446,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D466",                      0x05D466,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D486",                      0x05D486,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D4A6",                      0x05D4A6,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D4C6",                      0x05D4C6,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D4E6",                      0x05D4E6,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D506",                      0x05D506,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D526",                      0x05D526,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D546",                      0x05D546,  32, "input_aim_tables_05d316.s"),
+    ("AimAngleTable_05D566",                      0x05D566,  32, "input_aim_tables_05d316.s"),
+    ("SpawnRows_05D586",                          0x05D586,  16, "input_aim_tables_05d316.s"),
+    ("SpawnRows_05D596",                          0x05D596,  16, "input_aim_tables_05d316.s"),
+    ("SpawnRows_05D5A6",                          0x05D5A6,  16, "input_aim_tables_05d316.s"),
+    ("InputLayout_ReadField2_05D5B6",             0x05D5B6,  96, "input_aim_tables_05d316.s"),
+    ("InputLayout_ReadField0_05D616",             0x05D616,  94, "input_aim_tables_05d316.s"),
+    ("InputCtx_DemoOverride_05D674",              0x05D674,  44, "input_aim_tables_05d316.s"),
+    ("DebugHex_SetupA1_05D6A0",                   0x05D6A0,  10, "input_aim_tables_05d316.s"),
 ]

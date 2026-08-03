@@ -11,10 +11,41 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3395/3395 funciones
-BYTES   : 110,418/110,418 (registrados)
-ROM     : 110,418/2,097,152  (5.2651%)
+MATCHED : 3422/3422 funciones
+BYTES   : 111,334/111,334 (registrados)
+ROM     : 111,334/2,097,152  (5.3088%)
 ```
+
+> **Wave BBB** (27 entradas, 916 B, verde a la primera) — **las tablas
+> de angulo de punteria + el backend de lectura de input**: cierra
+> ENTERO el hueco `$05D316..$05D6AA` entre `ClearXN_05d310` y
+> `JsrPcThunk_05d6aa` en `input_aim_tables_05d316.s`.
+>
+> * **19 `AimAngleTable_*`** (32 B c/u): las "arrays tables" reales que
+>   consume `Ent_AimUpdate_045022`/`Ent_AimInit_045412` (Wave XX) —
+>   entrada = `tabla[(estado & $F)*2]` = word de angulo objetivo
+>   ($10000 = vuelta completa, `$FFFF` = sin cambio). Identificadas por
+>   arma via las refs del codigo matcheado: `$5D326` pistola/default,
+>   `$5D346` rocket (abanico 40/50/30), `$5D3A6`+`$5D4C6` HMG, y el
+>   juego de 8+4 tablas del lanzallamas/shotgun (una por direccion:
+>   20/40/60/80/A0/C0/E0 mas 30/50/B0/D0 y diagonales suaves D8/A8).
+> * **`AimDirRows_05D316` + 3 `SpawnRows_*`**: filas de 4 bytes
+>   terminadas en `$FF`; las SpawnRows son los destinos de la tabla de
+>   punteros de 5 longs en `$02A5B8`.
+> * **`InputLayout_ReadField2_05D5B6`/`ReadField0_05D616`**: versiones
+>   completas del idioma InputMask de Wave U — eligen buffer de input
+>   por player (`$6d(a6)`), cortocircuitan sin replay, y extraen del
+>   layout el campo de bits 2-3 o 0-1. **BUG DE SNK hallado en
+>   `$05D628`**: la rama P1 de ReadField0 hace `movea.l $72(a1),a2`
+>   ANTES del `lea $100300,a1` (orden invertido respecto a sus 4
+>   gemelas): lee el puntero con el `a1` viejo. Asi quedo compilado.
+> * **`InputCtx_DemoOverride_05D674`**: por fin decompilado el "probe
+>   real" pendiente desde Wave U (defsym forward `Sub_00005D674`,
+>   llamado por los 3 `InputMask_ReadCtxSwitchPlayer_*`): si el modo
+>   replay `$10E39D` esta armado redirige `a2` a los buffers de
+>   grabacion `$10E2E2`/`$10E2E8`.
+> * `DebugHex_SetupA1_05D6A0`: cabecera de 10 B que cae por
+>   fall-through en el thunk `$05D6AA` -> volcado hex de debug.
 
 > **Wave AAA** (17 entradas, 43 736 B, verde a la primera) — **LOS
 > STREAMS DE BYTECODE DE LA MISSION VM**: el mayor salto de cobertura
