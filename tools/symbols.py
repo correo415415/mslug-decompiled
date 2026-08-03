@@ -1302,4 +1302,10 @@ SYMBOLS = {
     0x0004625E: "SetHandlerRts_04625e",   # rts tras set-handler en isla $46258
     0x00046260: "Fn_00046260",            # handler en hueco futuro (lea pc desde $046214)
     0x000463C2: "Fn_000463C2",            # rutina en hueco futuro (jsr pc desde $04622A)
+    # --- Wave ZZ: defsyms mid-isla del banner de mision ($07A970..$07BA28) ---
+    0x0007A9EE: "SetHandlerRts_07a9ee",  # rts de SetTaskHandler_07a9e8
+    0x0007AA76: "SetHandlerRts_07aa76",  # rts de SetTaskHandler_07aa70
+    0x0007AA92: "SetHandlerRts_07aa92",  # rts de SetTaskHandler_07aa8c
+    0x0007ABF2: "SetHandlerRts_07abf2",  # rts de SetTaskHandler_07abec
+    0x0007AC48: "SetHandlerRts_07ac48",  # rts de SetTaskHandler_07ac42
 }
