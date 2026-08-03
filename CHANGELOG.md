@@ -17,6 +17,25 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave YY — 41 entries (2,576 B): **5-direction aiming turret,
+  Boss2/Miniboss2 state machines, vehicle deploy/launch and Enemy46**.
+  Fills the first 6 gaps after the megablock (`$04580C..$046258`). Two
+  files: `turret_boss2_04580c.s` — ground-snap firing turret with five
+  per-direction initializers dispatched through the 5-pointer data
+  jump-table `Turret_InitTable_045CD6` (angle tables `$2895x`), target
+  tracking with angle smoothing, a common tail that spawns `Boss2Shot`
+  on the `$100800` pool via the `$4AE` scheduler, plus a Boss2/Miniboss2
+  block mirroring the Wave XX boss pattern (explode / fall / flag-swap /
+  table-dispatched death; miniboss attach / ride / random-impulse hop
+  kill). `vehicle_deploy_045f2c.s` — vehicle deployment: an animation
+  data table (two 80-byte scripts, `0x03`/`0x04` headers, `FFFF FFFF`
+  terminator), angle-computed launch via `$13C0E`, ballistic flight
+  branching into two crash handlers, two depth comparators returning
+  flags through `ori.b #$11,ccr; rts` islets, and the Enemy46 state
+  machine whose tail references two future-gap routines (`Fn_00046260`,
+  `Fn_000463C2`) resolved by defsym. 7 new symbols (5 mid-island + 2
+  forward). Matcher: 3,361 functions, 62,466 bytes (2.9786% of the
+  P ROM), all byte-exact, green on the first matcher run.
 - Wave XX — 66 entries (5,356 B), a new single-wave record: **the
   mission event VM, the enemy spawner and the player aiming core**.
   Fills all 25 remaining gaps between the matched C islands of
