@@ -1294,4 +1294,12 @@ SYMBOLS = {
     0x0008C864: "TaskProto_0008C864",     # handler subsistema paralelo
     0x0008F6F2: "Fn_0008F6F2",            # tick contexto padre d1=1 (Boss_Descend)
     0x0008F714: "Fn_0008F714",            # tick contexto padre d1=8 (Boss_Active)
+    # --- Wave YY: defsyms mid-isla + refs a huecos futuros ($04580C..$046258) ---
+    0x00045DD2: "Jsr5B6Rts_045dd2",       # jsr $5B6 dentro de isla $45DC6 (cola Boss2Shot)
+    0x00045F2A: "SetHandlerRts_045f2a",   # rts tras set-handler en isla $45F24
+    0x0004611E: "SetXN_04611e",           # ori.b #$11,ccr; rts en isla $46118 (retorno con flags)
+    0x0004613A: "SetXN_04613a",           # ori.b #$11,ccr; rts en isla $46134
+    0x0004625E: "SetHandlerRts_04625e",   # rts tras set-handler en isla $46258
+    0x00046260: "Fn_00046260",            # handler en hueco futuro (lea pc desde $046214)
+    0x000463C2: "Fn_000463C2",            # rutina en hueco futuro (jsr pc desde $04622A)
 }

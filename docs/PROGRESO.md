@@ -11,10 +11,48 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3320/3320 funciones
-BYTES   : 59,890/59,890 (registrados)
-ROM     : 59,890/2,097,152  (2.8558%)
+MATCHED : 3361/3361 funciones
+BYTES   : 62,466/62,466 (registrados)
+ROM     : 62,466/2,097,152  (2.9786%)
 ```
+
+> **Wave YY** (41 entradas, 2 576 B, verde a la primera) — **torreta con
+> punteria de 5 direcciones + Boss2/Miniboss2 + despliegue de vehiculo +
+> Enemy46**. Rellena los 6 primeros huecos tras el megabloque
+> (`$04580C..$046258`). Dos archivos:
+>
+> 1. `turret_boss2_04580c.s` (26 entradas, 1 788 B) — la **torreta**
+>    que dispara al ras del suelo con **5 inicializadores de direccion**
+>    (`Turret_InitDir0..4`, cada uno apuntando a su tabla de angulos
+>    `$2895x`) despachados por la jump-table de datos
+>    `Turret_InitTable_045CD6` (5 punteros); nucleo de seguimiento y
+>    suavizado de angulo (`Turret_Track`/`Turret_AimSmooth`, mismo idiom
+>    de punteria que Wave XX); cola comun `Turret_Tail_045B9C` que
+>    spawnea `Boss2Shot` en el pool `$100800` via el scheduler `$4AE`
+>    (entrada global mid-funcion `Turret_SpawnShot_045BE6`). El bloque
+>    **Boss2/Miniboss2** replica el patron boss de Wave XX: explosion,
+>    caida, flags, muerte con despacho por tabla; el mini-jefe se monta
+>    (`Attach`), cabalga (`Ride`) y muere con salto de impulso vertical
+>    aleatorio via `$5DCA4` (`Hop` + etiqueta global interna
+>    `Miniboss2_HopKill_045EEA`). Hitbox del proyectil en
+>    `Boss2_HitboxTable_045DD4` (dato, 16 B, variante B en `$45DDC`).
+>
+> 2. `vehicle_deploy_045f2c.s` (15 entradas, 788 B) — **despliegue de
+>    vehiculo**: tabla de datos `VehicleAnim_Table_045F3A` (dos guiones
+>    de animacion de 80 B con cabeceras `0x03`/`0x04` y terminador
+>    `FFFF FFFF`), lanzamiento con calculo de angulo via `$13C0E`
+>    (`Vehicle_Launch`), vuelo balistico con bifurcacion a dos choques
+>    (`Vehicle_Flight` → `CrashA`/`CrashB`), dos comparadores de
+>    profundidad que retornan flags via los islotes `ori.b #$11,ccr;rts`
+>    (`SetXN_04611e`/`SetXN_04613a`) y la maquina de estados del
+>    **Enemy46** (`Boot`→`PhaseA`→`Move`→`PhaseB`→`Tail`), cuya cola
+>    referencia dos rutinas de huecos futuros (`Fn_00046260`,
+>    `Fn_000463C2`) resueltas por defsym — candidatas naturales para la
+>    proxima wave.
+>
+> Nuevos simbolos: 5 mid-isla (`Jsr5B6Rts_045dd2`, `SetHandlerRts_045f2a`,
+> `SetXN_04611e`, `SetXN_04613a`, `SetHandlerRts_04625e`) + 2 forward
+> (`Fn_00046260`, `Fn_000463C2`). Total: 1 054 simbolos.
 
 > **Wave XX** (66 entradas, 5 356 B, verde a la primera — NUEVO RECORD DE
 > WAVE) — **LA VM DE EVENTOS DE MISION + spawner de enemigos + punteria
