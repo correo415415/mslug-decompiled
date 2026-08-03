@@ -11,10 +11,45 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3378/3378 funciones
-BYTES   : 66,682/66,682 (registrados)
-ROM     : 66,682/2,097,152  (3.1796%)
+MATCHED : 3395/3395 funciones
+BYTES   : 110,418/110,418 (registrados)
+ROM     : 110,418/2,097,152  (5.2651%)
 ```
+
+> **Wave AAA** (17 entradas, 43 736 B, verde a la primera) — **LOS
+> STREAMS DE BYTECODE DE LA MISSION VM**: el mayor salto de cobertura
+> del proyecto (+65 % de los bytes matcheados en una sola wave, de
+> 3.18 % a 5.27 % de la ROM). Es la region contigua `$0E8524..$0F2FFC`
+> en un solo archivo `mission_streams_0e8524.s`: **todos los datos de
+> eventos de mision del juego** — que enemigo aparece, donde y cuando,
+> en las 6 misiones.
+>
+> * Son los 12 destinos de la tabla de punteros
+>   `MissionStreamPtrs_044266` (Wave XX) mas el **stream de debug**
+>   `$0F260E` (override cuando `$10FD83` esta armado, ver
+>   `MissionDriver_Init_0442E6`). Slot 9 es un stream vacio de 4 B
+>   (solo el op `$0C` de fin), igual que el nulo `$044262`.
+> * El volcado NO es un blob: esta **estructurado registro a registro**
+>   con un parser que replica los strides exactos de
+>   `MissionVM_SkipOp_0446B6` (op `$00` spawn 18 B, `$01` spawner
+>   periodico 10 B + hijo anidado, `$02`/`$03` bloques hasta marcador
+>   `$0D`/`$0E`, `$04`/`$0A`/`$0B` esperas con 2-3 hijos, `$05..$09`
+>   pausas de 4 B). Cada linea lleva comentario con direccion, opcode
+>   decodificado (plantilla de enemigo, umbral de scroll, posicion XY,
+>   flags) y sangria que refleja el anidamiento real. Los 13 streams se
+>   recorren completos **sin un solo opcode invalido** y cada
+>   terminador `0C 00 FF FF` cae exactamente donde empieza el
+>   siguiente stream — la validacion mas fuerte posible de que el
+>   formato deducido en Wave XX es correcto.
+> * Cuatro streams (M1/M4/M5/M6) llevan **bloques aux** empaquetados
+>   tras su terminador: tablas de words (waypoints/alturas terminadas
+>   en `$FFFF`) referenciadas como inmediatos desde el codigo de los
+>   enemigos de esa mision (78 referencias localizadas; los origenes
+>   van comentados linea a linea, p. ej. `$04DB74 -> $0E92B2`).
+> * Curiosidades: M2 tiene **doble terminador** `0C 00 FF FF` (bytes
+>   muertos del compilador de niveles de SNK); el stream de debug es
+>   casi identico al slot 12 y termina en `...0D 00 0C 00 FF FF` —
+>   un marcador `$0D` huerfano delante del fin.
 
 > **Wave ZZ** (17 entradas, 4 216 B, verde a la primera) — **el banner
 > de mision "MISSION START" / "MISSION COMPLETE"**, buscado expresamente

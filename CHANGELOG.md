@@ -17,6 +17,28 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave AAA — 17 entries (43,736 B): **the Mission VM bytecode
+  streams**, the project's largest coverage jump ever (+65% of matched
+  bytes in one wave, from 3.18% to 5.27% of the P ROM). Single file
+  `mission_streams_0e8524.s` covering the contiguous region
+  `$0E8524..$0F2FFC`: all mission-event data of the game — which enemy
+  spawns, where and when, across the 6 missions. These are the 12
+  targets of the `MissionStreamPtrs_044266` pointer table (Wave XX)
+  plus the debug-override stream at `$0F260E`. The dump is not a blob:
+  a parser replicating the exact strides of `MissionVM_SkipOp_0446B6`
+  walks every record (op `$00` spawn 18 B, `$01` periodic spawner with
+  nested child, `$02`/`$03` blocks up to `$0D`/`$0E` markers,
+  `$04`/`$0A`/`$0B` waits with 2-3 children, `$05..$09` 4-B pauses),
+  emitting per-record comments (enemy template, scroll threshold, XY,
+  flags) with indentation reflecting real nesting. All 13 streams parse
+  with zero invalid opcodes and every `0C 00 FF FF` terminator lands
+  exactly where the next stream begins — the strongest possible
+  validation of the format deduced in Wave XX. Four aux word-table
+  blocks (waypoint/height lists ending in `$FFFF`) packed after the
+  M1/M4/M5/M6 terminators are split at their 78 located reference
+  targets, each annotated with the referencing code address. Matcher:
+  3,395 entries, 110,418 bytes (5.2651% of the P ROM), all byte-exact,
+  green on the first matcher run.
 - Wave ZZ — 17 entries (4,216 B): **the "MISSION START" / "MISSION
   COMPLETE" mission banner**, hunted down explicitly as a big-function
   wave: it contains the **four largest routines decompiled so far**
