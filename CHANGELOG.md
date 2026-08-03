@@ -17,6 +17,23 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave ZZ — 17 entries (4,216 B): **the "MISSION START" / "MISSION
+  COMPLETE" mission banner**, hunted down explicitly as a big-function
+  wave: it contains the **four largest routines decompiled so far**
+  (`BannerLayout_CompleteFinal_07B598` 968 B, `BannerLayout_StartFinal_
+  07AF50` 830 B, `BannerLayout_Complete_07B28E` 778 B, `BannerLayout_
+  Start_07ACD0` 640 B). Fills all 9 gaps of the `$07A970..$07BA28`
+  cluster in a single file `banner_mission_07a970.s`. The banner
+  letters drop in one by one: each layout is a linear spawn sequence
+  (one `$4AE` scheduler call per letter with glyph index, row, drop
+  order and final X/Y), glyphs index the sprite tables `$2DF684`
+  (letters) / `$2DF71C` (digits), and scene `$106ECE==5` selects the
+  "Final"-mission variants with the extra mission-number row. Letters
+  seek their target (delta<<6 velocity), brake below distance `$30`
+  (`$5E23A`), blink + landing sound on arrival, and fly off screen on
+  close via an escape angle computed by `$5E018`/`$13C0E`. 5 new
+  mid-island defsyms. Matcher: 3,378 functions, 66,682 bytes (3.1796%
+  of the P ROM), all byte-exact, green on the first matcher run.
 - Wave YY — 41 entries (2,576 B): **5-direction aiming turret,
   Boss2/Miniboss2 state machines, vehicle deploy/launch and Enemy46**.
   Fills the first 6 gaps after the megablock (`$04580C..$046258`). Two

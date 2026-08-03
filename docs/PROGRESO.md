@@ -11,10 +11,41 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3361/3361 funciones
-BYTES   : 62,466/62,466 (registrados)
-ROM     : 62,466/2,097,152  (2.9786%)
+MATCHED : 3378/3378 funciones
+BYTES   : 66,682/66,682 (registrados)
+ROM     : 66,682/2,097,152  (3.1796%)
 ```
+
+> **Wave ZZ** (17 entradas, 4 216 B, verde a la primera) — **el banner
+> de mision "MISSION START" / "MISSION COMPLETE"**, buscado expresamente
+> como wave de *funciones grandes*: incluye las **4 rutinas mas grandes
+> decompiladas hasta ahora** (`BannerLayout_CompleteFinal_07B598` 968 B,
+> `BannerLayout_StartFinal_07AF50` 830 B, `BannerLayout_Complete_07B28E`
+> 778 B, `BannerLayout_Start_07ACD0` 640 B). Rellena LOS 9 huecos del
+> cluster `$07A970..$07BA28` en un solo archivo
+> `banner_mission_07a970.s`:
+>
+> * Las letras del rotulo **caen una a una desde arriba**: cada layout
+>   es una secuencia lineal de spawns via el scheduler `$4AE` — una
+>   llamada por letra con su glifo (+`$20`), fila (+`$21`), orden de
+>   caida (+`$74`) y posicion final X/Y (+`$70`/+`$72`). Los glifos
+>   indexan las tablas de sprites `$2DF684` (letras) / `$2DF71C`
+>   (digitos); la escena `$106ECE==5` (mision final) usa las variantes
+>   "Final" con la fila extra del numero de mision.
+> * `BannerLetter_Drop_07AAE0`/`BannerDigit_Drop_07AB5C`: cuenta atras
+>   por letra y caida con sonido `$1BE`; `BannerLetter_Seek_07B960`
+>   dirige cada letra a su destino (delta<<6 como velocidad),
+>   `_Approach` frena cuando la distancia (`$5E23A`) baja de `$30`, y
+>   `_Blink` parpadea y suena `$1AA` al aterrizar (latch +`$7A`).
+> * Los roots `BannerStart_Boot_07A970`/`BannerComplete_Boot_07A9F0`
+>   esperan el contador de letras aterrizadas del contenedor (+`$21`)
+>   y al cerrar (`Banner_Close_07AA94`) las letras salen volando:
+>   `BannerLetter_FlyOff_07AC4A` rampa un contador a `$7FFF`, calcula
+>   el angulo de escape hacia `($A0,$190)` via `$5E018` y lo convierte
+>   a velocidad con `$13C0E`.
+>
+> Nuevos simbolos: 5 mid-isla (`SetHandlerRts_07a9ee/07aa76/07aa92/`
+> `07abf2/07ac48`). Total: 1 059 simbolos.
 
 > **Wave YY** (41 entradas, 2 576 B, verde a la primera) — **torreta con
 > punteria de 5 direcciones + Boss2/Miniboss2 + despliegue de vehiculo +

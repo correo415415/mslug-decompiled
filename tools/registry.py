@@ -4057,4 +4057,26 @@ REGISTRY = [
     ("Enemy46_Move_0461BC",                       0x0461BC,  46, "vehicle_deploy_045f2c.s"),
     ("Enemy46_PhaseB_0461EA",                     0x0461EA,  54, "vehicle_deploy_045f2c.s"),
     ("Enemy46_Tail_046220",                       0x046220,  56, "vehicle_deploy_045f2c.s"),
+    # ------------------------------------------------------------------
+    # Wave ZZ: banner de mision "MISSION START / MISSION COMPLETE" —
+    # letras que caen una a una con layouts posicionales gigantes
+    # ($07A970..$07BA28, 9 huecos, 17 entradas, 4.216 B)
+    # ------------------------------------------------------------------
+    ("BannerStart_Boot_07A970",                   0x07A970, 120, "banner_mission_07a970.s"),
+    ("BannerComplete_Boot_07A9F0",                0x07A9F0, 128, "banner_mission_07a970.s"),
+    ("Banner_Wait26_07AA78",                      0x07AA78,  20, "banner_mission_07a970.s"),
+    ("Banner_Close_07AA94",                       0x07AA94,  76, "banner_mission_07a970.s"),
+    ("BannerLetter_Drop_07AAE0",                  0x07AAE0, 124, "banner_mission_07a970.s"),
+    ("BannerDigit_Drop_07AB5C",                   0x07AB5C, 116, "banner_mission_07a970.s"),
+    ("BannerLetter_Tick_07ABD0",                  0x07ABD0,  28, "banner_mission_07a970.s"),
+    ("Banner_Attach_07ABF4",                      0x07ABF4,  78, "banner_mission_07a970.s"),
+    ("BannerLetter_FlyOff_07AC4A",                0x07AC4A, 134, "banner_mission_07a970.s"),
+    ("BannerLayout_Start_07ACD0",                 0x07ACD0, 640, "banner_mission_07a970.s"),
+    ("BannerLayout_StartFinal_07AF50",            0x07AF50, 830, "banner_mission_07a970.s"),
+    ("BannerLayout_Complete_07B28E",              0x07B28E, 778, "banner_mission_07a970.s"),
+    ("BannerLayout_CompleteFinal_07B598",         0x07B598, 968, "banner_mission_07a970.s"),
+    ("BannerLetter_Seek_07B960",                  0x07B960,  56, "banner_mission_07a970.s"),
+    ("BannerLetter_CheckSettle_07B9A4",           0x07B9A4,  10, "banner_mission_07a970.s"),
+    ("BannerLetter_Approach_07B9B4",              0x07B9B4,  48, "banner_mission_07a970.s"),
+    ("BannerLetter_Blink_07B9EA",                 0x07B9EA,  62, "banner_mission_07a970.s"),
 ]
