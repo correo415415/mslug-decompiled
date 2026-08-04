@@ -17,6 +17,25 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave DDD — 29 entries (4,102 B): **the death & escape handlers of the
+  "Squad Deploy" module**, closing all 23 gaps in `$080736..$08180E`
+  (`squad_death_handlers_0807xx.s`) — together with Wave CCC the whole
+  `$07FBD2..$08180E` region is now fully decompiled. A two-level dispatch
+  table at `$2E3DC0` (8 pointers to arrays of 8 handlers) picks the death
+  animation per weapon/soldier type: tumble-with-bounce
+  (`Squad_DeathTumble_080bd6`), skid/skid-brake, parabolic blast arc,
+  hop-back, or gib explosion (`Squad_DeathPieces_080f32`). Shard sprites
+  (`Squad_ShardSprites_08134c`, 742 B) plus four `Template_0812xx`
+  variants drive per-fragment sprite/velocity/gravity. The commander's
+  escape uses an embedded 32-word bell-curve data table
+  (`SquadCurve_BellTable_08175e`, registered as its own entry). Matching
+  oddities: a cross-section `bgt.b` at `$8098E` emitted as raw
+  `.dc.w 0x6eec` (GAS cannot emit byte branches with relocs), the
+  `$8166E..$817CA` gap split into 4 entries to expose internal target
+  `$8179E`, Wave CCC's local `.L80704` promoted to global
+  `Squad_CmdrTick_080704`, 20 forward defsyms converted to real symbols
+  and 9 new `SetHandlerRts_*` defsyms added. Matcher: 3,474 entries,
+  118,150 bytes (5.6338% of the P ROM), green first run.
 - Wave CCC — 23 entries (2,714 B): **the "Squad Deploy" enemy module**
   at `$07FBD2..$08072E` (`squad_deploy_module_07fbxx.s`), closing all
   23 gaps between the 26 already-matched C islands

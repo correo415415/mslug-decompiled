@@ -60,10 +60,6 @@ SYMBOLS = {
     0x00030068: "Template_030068",
     0x000300BA: "Template_0300BA",
     # Templates usados por Entity_Build4FromTemplates (Y#11)
-    0x0008121C: "Template_08121C",
-    0x0008123C: "Template_08123C",
-    0x00081260: "Template_081260",
-    0x00081284: "Template_081284",
 
     # ---- Wave Z: externos referenciados por asm 68000 puro ----
     0x0005B1B2: "Sub_0005B1B2",              # jsr pc-rel desde Sprite_Dispatch dual entry
@@ -672,11 +668,7 @@ SYMBOLS = {
     0x00080454: "TaskHandler_080454",
     0x00080508: "TaskHandler_080508",
     0x000805EE: "TaskHandler_0805ee",
-    0x00081018: "TaskHandler_081018",
-    0x000811CC: "TaskHandler_0811cc",
-    0x000811E4: "TaskHandler_0811e4",
     0x00081214: "TaskHandler_081214",
-    0x000812BE: "TaskHandler_0812be",
     0x00081BEE: "TaskHandler_081bee",
     0x00081D64: "TaskHandler_081d64",
     0x00081FAC: "TaskHandler_081fac",
@@ -1313,18 +1305,6 @@ SYMBOLS = {
     # Handlers en huecos futuros (aun sin matchear) referenciados por asm:
     0x0007FB28: "TaskHandler_07fb28",    # estado previo del escolta (lea pc desde $7FC00)
     0x0007F22A: "TaskHandler_07f22a",    # handler escolta pieza-C (lea pc desde $7FD14)
-    0x00080996: "TaskHandler_080996",    # hijo aux spawn (lea pc desde $801A4)
-    0x000809CC: "TaskHandler_0809cc",    # tarea aux del comandante (lea pc desde $805C6)
-    0x00080736: "TaskHandler_080736",    # siguiente estado comandante (lea pc desde $806F0)
-    0x00081196: "TaskHandler_081196",    # estado muerte hijo (lea pc desde $80616)
-    0x0008179E: "Sub_0008179E",          # probe comun del hijo (jsr pc desde $803A0/$80608)
-    0x000811D6: "Sub_000811D6",          # despawn/limpieza mgr (jmp pc desde $80462/$80516)
-    0x000808A0: "Sub_000808A0",          # tick aux comandante (jsr pc desde $806D8)
-    0x000808E8: "Sub_000808E8",          # probe CCR comandante (jsr pc desde $806D0)
-    0x00080932: "Sub_00080932",          # gate 1 comandante (jsr pc desde $806E8)
-    0x0008094A: "Sub_0008094A",          # gate 2 comandante (jsr pc desde $806F6)
-    0x00080AAA: "Sub_00080AAA",          # reaccion a impacto (jsr pc desde $8065C)
-    0x0008169A: "Sub_0008169A",          # setup extra hijo (jsr pc desde $8057E)
     # RTS internos (+6) de islas C ya matcheadas (targets de bcc.w):
     0x0007FC18: "SetHandlerRts_07fc18",  # rts de SetTaskHandler_07fc12
     0x0007FD46: "SetHandlerRts_07fd46",  # rts de SetTaskHandler_07fd40
@@ -1339,4 +1319,16 @@ SYMBOLS = {
     0x0008053E: "SetHandlerRts_08053e",  # rts de SetTaskHandler_080538
     0x0008067C: "SetHandlerRts_08067c",  # rts de SetTaskHandler_080676
     0x00080734: "SetHandlerRts_080734",  # rts de SetTaskHandler_08072e
+
+    # --- Wave DDD: death handlers del Squad Deploy ($080736..$08180E) ------
+    # RTS internos (+6) de islas C ya matcheadas (targets de bcc.w):
+    0x0008089E: "SetHandlerRts_08089e",  # rts de SetTaskHandler_080898
+    0x00080BD4: "SetHandlerRts_080bd4",  # rts de SetTaskHandler_080bce
+    0x00080CDA: "SetHandlerRts_080cda",  # rts de SetTaskHandler_080cd4
+    0x00080D90: "SetHandlerRts_080d90",  # rts de SetTaskHandler_080d8a
+    0x00080E46: "SetHandlerRts_080e46",  # rts de SetTaskHandler_080e40
+    0x00080EF8: "SetHandlerRts_080ef8",  # rts de SetTaskHandler_080ef2
+    0x0008134A: "SetHandlerRts_08134a",  # rts de SetTaskHandler_081344
+    0x00081638: "SetHandlerRts_081638",  # rts de SetTaskHandler_081632
+    0x0008166C: "SetHandlerRts_08166c",  # rts de SetTaskHandler_081666
 }

@@ -890,10 +890,11 @@ Squad_CmdrInit_08067e:
         move.l  a1,(a6)                         | +076
 .L806f6:
         jsr     Sub_0008094A(pc)                | +078
-        bcc.w   .L80704                         | +07c
+        bcc.w   Squad_CmdrTick_080704           | +07c
         lea     TaskHandler_080736(pc),a1       | +080
         move.l  a1,(a6)                         | +084
-.L80704:
+        .global Squad_CmdrTick_080704
+Squad_CmdrTick_080704:
         movea.l 0xc(a6),a0                      | +086
         cmpi.b  #0xff,0x20(a0)                  | +08a
         bne.w   .L80718                         | +090
