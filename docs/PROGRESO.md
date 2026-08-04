@@ -11,11 +11,39 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3445/3445 funciones
-BYTES   : 114,048/114,048 (registrados)
-ROM     : 114,048/2,097,152  (5.4382%)
+MATCHED : 3474/3474 funciones
+BYTES   : 118,150/118,150 (registrados)
+ROM     : 118,150/2,097,152  (5.6338%)
 ```
 
+> **Wave DDD** (29 entradas, 4 102 B, verde a la primera) — **los handlers
+> de muerte y escape del modulo "Squad Deploy"**: cierra los 23 huecos de
+> la region `$080736..$08180E` en `squad_death_handlers_0807xx.s`; junto
+> con Wave CCC, toda la region `$07FBD2..$08180E` queda 100% decompilada.
+>
+> * **Tabla de despacho de muerte a 2 niveles** en `$2E3DC0` (8 punteros
+>   a arrays de 8 handlers): segun arma y tipo elige entre voltereta con
+>   rebote (`Squad_DeathTumble_080bd6`, curva `$2E22FA`), derrape con
+>   freno (`Squad_DeathSkid_080cdc` / `Squad_DeathSkidBrake_080d92`),
+>   arco parabolico (`Squad_DeathArcJump_080e48`), saltito hacia atras
+>   (`Squad_DeathHopBack_080b1a`) o despiece en gibs
+>   (`Squad_DeathPieces_080f32` / `TaskHandler_081018`).
+> * **Esquirlas/gibs**: `Squad_ShardSprites_08134c` (742 B, la entrada
+>   mas grande) + 4 plantillas `Template_0812xx` dan a cada fragmento
+>   sprite, velocidad radial y gravedad; `Squad_GibGate_081332` corta el
+>   ciclo cuando `Squad_BoundsCheck_080efa` detecta salida de pantalla.
+> * **Escape del comandante**: grito `$171` + saltitos con la **curva de
+>   campana `SquadCurve_BellTable_08175e`** (32 words `0100,00F0..0180..
+>   0110` — tabla de datos embebida en codigo, registrada como entrada
+>   propia) y estela de fragmentos (`Squad_SpeedTailFrags_0817d0`).
+> * Rarezas de matching: `bgt.b` cross-section en `$8098E` hacia la isla
+>   C `ClearXN_08097c` (GAS no puede emitirlo → `.dc.w 0x6eec` crudo);
+>   el hueco `$8166E..$817CA` se partio en 4 entradas para exponer el
+>   target interno `$8179E`; el label local `.L80704` de Wave CCC se
+>   promovio a global `Squad_CmdrTick_080704` (target de `bra.w`
+>   cross-file); 20 defsyms forward de waves previas pasaron a ser
+>   simbolos reales y 9 `SetHandlerRts_*` nuevos se añadieron.
+>
 > **Wave CCC** (23 entradas, 2 714 B, verde a la primera) — **el modulo
 > "Squad Deploy"**: comandante que despliega un escuadron de hasta 8
 > soldados con gestion de slots por bitmask. Cierra los 23 huecos de la
