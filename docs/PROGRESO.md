@@ -11,10 +11,47 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3557/3557 funciones
-BYTES   : 126,842/126,842 (registrados)
-ROM     : 126,842/2,097,152  (6.0483%)
+MATCHED : 3585/3585 funciones
+BYTES   : 129,952/129,952 (registrados)
+ROM     : 129,952/2,097,152  (6.1966%)
 ```
+
+> **Wave HHH** (28 entradas, 3 110 B, verde a la primera) — **fases finales
+> del miniboss y transiciones de oleada**: cierra los 5 huecos de la region
+> `$083BE2..$084828` en `miniboss_finale_083bxx.s`, continuacion directa
+> del modulo del Wave GGG.
+>
+> * **Entradas dobles con jingle** (`$83BE2..$83D6E`): snd `$166`/`$AA`
+>   convergen en `$83C0C` (sprites `$2E6EFC`/`$2E6F12`, gate `x>$140`,
+>   muerte con snd `$10A6` y par `$2E9A0C`); snd `$A6` + sprite `$2E6F28`
+>   con transicion via snd `$102E` a `TaskHandler_083d2a`.
+> * **Fase de disparo y premio** (`$83D6E..$83F26`): variantes segun
+>   `+0x21` (sprites `$2E6F54`/`$2E6F6A`), snd `$1027`, helpers futuros
+>   `Sub_000863E4`/`Sub_000863F2`; bucle de score `$2000` con el global
+>   interno `TaskHandler_083e8c` reinstalado cruzando entradas.
+> * **Maquina bit-scan** (`$83F26..$8414C`): gate `x<=$140`, blitter
+>   `$2EACB8` + snd `$1030`, score `$500`, `bset` del indice en el padre
+>   y escaneo de la tabla `$2EAA60[+0x21<<4]` (2x `StateMachineRun`,
+>   helpers `Sub_000864B6`/`Sub_000864D0`) hasta `+0x21==$11`.
+> * **Desenlace y explosion** (`$8414C..$84408`): cadena de sprites
+>   `$2E6FE0..$2E7048`, score `$1000`, pares `$2E9B00`/`$2E9ACA`,
+>   blitters `$2EACB8`/`$2EAE76`, epilogo con snd `$A9` y spawn del hijo
+>   `$8495E` (hueco futuro) via `$4AE` + `$5DD22`.
+> * **Transicion de oleada** (`$84410..$84504`): `$10E39C=3`, instala
+>   `TaskHandler_0845b8` (referencia cruzada entre huecos de la misma
+>   wave), snd `$1033`, spawn absoluto `$86586` (hueco futuro), pares
+>   `$2E98D8`/`$2E98EA` y contador `+0x21>=9` -> `$10E39A=2`.
+> * **Cierre y sincronizacion padre/hijo** (`$8450C..$84828`): guardian
+>   con `+0x70=$100`/`+0x66=$7FFF` y probe de `$106F28`, parpadeo de
+>   `$10A2D1`; tres etapas que esperan bit3 de `+0x13` del padre,
+>   relanzamiento aleatorio con tabla `$2E7556[+0x21<<2]` y selector
+>   `$2EB02C[rnd&$F<<2]`, y despawn final (`$FFFF` + par `$2E9ADC`).
+>
+> Nuevos defsyms de RTS de islas: `SetHandlerRts_08440e`/`_0844be`/
+> `_08450a` (+6) y `Jsr5B6Rts_084834` (+12). Se eliminaron 3 defsyms
+> forward (`TaskHandler_084410`/`_0844c0`/`_08450c`) al convertirse en
+> simbolos reales, y se añadieron 17 forwards nuevos hacia `$8495E` y
+> `$860E4..$86586`.
 
 > **Wave GGG** (24 entradas, 2 374 B, verde a la primera) — **modulo de
 > miniboss con secuencia de estados**: cierra los 6 huecos de la region
