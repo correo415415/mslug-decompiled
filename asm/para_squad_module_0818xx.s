@@ -1138,12 +1138,12 @@ TaskHandler_082720:
 .L82772:
         jsr     0x28d70.l                       | +0f6
         jsr     0x2870a.l                       | +0fc
-        bcc.w   .L827fe                         | +102
+        bcc.w   ParaSquad_FrameTail_0827fe      | +102
         bclr    #0x3,0x13(a6)                   | +106
         cmpi.b  #0x20,0x58(a6)                  | +10c
         beq.w   .L8279c                         | +112
         cmpi.b  #0x1,0x58(a6)                   | +116
-        bne.w   .L827fe                         | +11c
+        bne.w   ParaSquad_FrameTail_0827fe      | +11c
 .L8279c:
         cmpi.w  #0x20,0x58(a6)                  | +120
         bne.w   .L827c6                         | +126
@@ -1170,7 +1170,10 @@ TaskHandler_082720:
         move.w  d0,0x66(a6)                     | +178
         lea     TaskHandler_08283c(pc),a1       | +17c
         move.l  a1,(a6)                         | +180
-.L827fe:
+| Cola de frame comun del modulo: tambien la usan los handlers de Wave FFF
+| ($82880/$828CE saltan aqui con bra.w). Promovido a global cross-file.
+        .global ParaSquad_FrameTail_0827fe
+ParaSquad_FrameTail_0827fe:
         jsr     0x283d8.l                       | +182
         btst    #0x1,0x13(a6)                   | +188
         beq.w   .L82814                         | +18e
