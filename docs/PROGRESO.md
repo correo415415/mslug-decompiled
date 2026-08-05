@@ -11,11 +11,37 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3474/3474 funciones
-BYTES   : 118,150/118,150 (registrados)
-ROM     : 118,150/2,097,152  (5.6338%)
+MATCHED : 3497/3497 funciones
+BYTES   : 122,012/122,012 (registrados)
+ROM     : 122,012/2,097,152  (5.8180%)
 ```
 
+> **Wave EEE** (23 entradas, 3 862 B, verde a la primera) — **modulo de
+> escuadron con lider movil** (transporte + tropas): cierra los 23 huecos
+> de la region `$081816..$082834` en `para_squad_module_0818xx.s`.
+>
+> * **`TaskHandler_081908`** (924 B, la entrada mas grande de la wave):
+>   el lider — spawnea escolta + 2 piezas + 6 hijos en cadena (heredando
+>   `+0x7C` como slot), avanza por tabla de sprites `$2E541E` con
+>   sentinel `$FFFFFFFF`, y muere con jingle `$1071` congelando el input
+>   (`$106ED3`) + timer `$B4` + pieza `$2E5AEE` a mitad de cuenta.
+> * **Pieza con humo** (`TaskHandler_081db0`, 568 B): dispara de a 3 con
+>   cadencia por bit-gate de frame (`$106F28 & 7`) y HP por dificultad
+>   (`+0x73` elige tabla 2D `$2BE322`/`$2BE3A4`); al agotarse hace
+>   `bset #5` en `+0x72` del padre.
+> * **Pieza movil** (`TaskHandler_082052`, 936 B): dos entradas segun
+>   lado (flip `+0x3a`), ciclo de oleadas con rafagas de a 5 spawneando
+>   hijos `$828EE`, y despiece final soltando el escolta `$77FD6`.
+> * **Tropas**: movimiento por tablas 2D anidadas `$2E54A2[fila][paso]`,
+>   caida desde el techo, dispersion con venganza de angulo aleatorio
+>   (`$5E9B6 & $F` → tripletas vel/angulo en `$2E560E`) y rebote.
+> * **Escape final** (`TaskHandler_08267c`): mueve DOS escoltas `$77F22`
+>   por tick con lista de deltas en tripletas; `TaskHandler_082720`
+>   aplica knockback heredado del atacante (`+0x50`).
+> * Matching: 11 defsyms `*Rts_*` nuevos (incl. `ClrRamWordRts_081caa`),
+>   5 defsyms forward promovidos a simbolos reales, 23 refs forward a
+>   los helpers pc-relativos del bloque `$82C7C..$831DA` (proxima wave).
+>
 > **Wave DDD** (29 entradas, 4 102 B, verde a la primera) — **los handlers
 > de muerte y escape del modulo "Squad Deploy"**: cierra los 23 huecos de
 > la region `$080736..$08180E` en `squad_death_handlers_0807xx.s`; junto

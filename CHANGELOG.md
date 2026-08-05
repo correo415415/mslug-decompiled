@@ -17,6 +17,26 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave EEE — 23 entries (3,862 B): **a squad module with a mobile leader**
+  (transport + troops) closing all 23 gaps in `$081816..$082834`
+  (`para_squad_module_0818xx.s`). The leader (`TaskHandler_081908`,
+  924 B) spawns an escort, two turret pieces and a 6-child chain
+  (inheriting `+0x7C` as slot index), walks a sprite table at `$2E541E`
+  with `$FFFFFFFF` sentinel, and dies with jingle `$1071` while freezing
+  input (`$106ED3`). The smoke piece (`TaskHandler_081db0`) fires
+  3-round bursts gated by frame bits (`$106F28 & 7`) with
+  difficulty-scaled HP; the mobile piece (`TaskHandler_082052`, 936 B)
+  has mirrored left/right entry points and 5-round waves spawning
+  children. Foot troops move via nested 2D tables
+  (`$2E54A2[row][step]`), drop from the ceiling, and scatter with
+  random-angle revenge shots (`$5E9B6 & $F` -> vel/angle triplets).
+  The finale (`TaskHandler_08267c`) walks a delta-triplet list moving
+  TWO escorts per tick, and `TaskHandler_082720` applies knockback
+  inherited from the attacker. Adds 34 defsyms (11 island-internal
+  `*Rts_*` incl. `ClrRamWordRts_081caa` + 23 forward refs into the
+  pc-relative helper block `$82C7C..$831DA`), converts 5 forward
+  defsyms to real symbols. Matcher: 3,497 entries, 122,012 bytes
+  (5.8180% of the P ROM), green first run.
 - Wave DDD — 29 entries (4,102 B): **the death & escape handlers of the
   "Squad Deploy" module**, closing all 23 gaps in `$080736..$08180E`
   (`squad_death_handlers_0807xx.s`) — together with Wave CCC the whole
