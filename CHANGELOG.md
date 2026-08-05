@@ -17,6 +17,35 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave HHH — 28 entries (3,110 B): **miniboss finale and wave transitions**
+  closing all 5 gaps in `$083BE2..$084828` (`miniboss_finale_083bxx.s`),
+  the direct continuation of Wave GGG's miniboss module. Includes dual
+  jingle entries (snd `$166`/`$AA`) converging with an x-gate, a firing
+  phase with cross-entry reinstallation of the internal global
+  `TaskHandler_083e8c`, a bit-scan machine over table `$2EAA60[+0x21<<4]`
+  (2x `StateMachineRun`), the finale sprite chain and explosion (score
+  `$1000`, blitters `$2EACB8`/`$2EAE76`), a wave-transition module driving
+  `$10E39A`/`$10E39C` with a cross-gap handler reference
+  (`TaskHandler_0845b8`), and parent/child sync stages with random
+  relaunch via tables `$2E7556`/`$2EB02C`. New island-RTS defsyms
+  `SetHandlerRts_08440e`/`_0844be`/`_08450a` (+6) and `Jsr5B6Rts_084834`
+  (+12); removed 3 forward defsyms that became real symbols
+  (`TaskHandler_084410`/`_0844c0`/`_08450c`) and added 17 new forward
+  defsyms (`Sub_0008495E`, `Sub_000860E4`..`Sub_00086538`). Matcher:
+  **3,585/3,585 functions, 129,952 B (6.1966% of P ROM)**.
+- Wave GGG — 24 entries (2,374 B): **a miniboss state-machine module**
+  closing all 6 gaps in `$083262..$083BDA` (`miniboss_module_0832xx.s`).
+  Crosses the **6% P ROM coverage** mark. Includes three entry variants
+  (snd `$A4`, sprite `$2E6CDC`, x-dependent drift), a combat phase
+  firing the row blitter (`$43FAC` + `$2EAC8C`), a three-variant escape
+  sequence converging on the shared internal global `TaskCont_08364e`
+  (recoil, flash `$F0`, timed snd `$1054`, final transform `$2E987E`),
+  blink-protected variants reinstalling `TaskHandler_0839a2`, and a
+  child follower that mirrors its parent's x/y and self-destructs
+  off-screen. New island-RTS defsyms `Jsr5B6Rts_083b90` (+12 inside the
+  14-byte `Jsr5B6ThenJmpScheduler_083b84` island) and
+  `JsrAbsRts_083be0`; 4 forward defsyms to future helpers
+  (`$85FB0`/`$86050`/`$86076`/`$863BE`).
 - Wave FFF — 36 entries (2,456 B): **escape handlers and pc-relative
   helpers of the paratrooper squad** closing all 17 gaps in
   `$08283C..$08325A` (`para_squad_helpers_082cxx.s`), completing the

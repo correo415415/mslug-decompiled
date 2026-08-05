@@ -671,9 +671,6 @@ SYMBOLS = {
     0x00081214: "TaskHandler_081214",
     0x00082456: "TaskHandler_082456",
     0x00082464: "TaskHandler_082464",
-    0x00084410: "TaskHandler_084410",
-    0x000844C0: "TaskHandler_0844c0",
-    0x0008450C: "TaskHandler_08450c",
     0x0008489A: "TaskHandler_08489a",
     0x000848DE: "TaskHandler_0848de",
     0x00084B24: "TaskHandler_084b24",
@@ -1351,4 +1348,39 @@ SYMBOLS = {
     0x00082B44: "SetHandlerRts_082b44",  # rts de SetTaskHandler_082b3e
     0x00082BB6: "SetHandlerRts_082bb6",  # rts de SetTaskHandler_082bb0
     0x00082C06: "SetHandlerRts_082c06",  # rts de SetTaskHandler_082c00
+
+    # --- Wave GGG: modulo de miniboss con secuencia de estados ($083262..$083BDA)
+    # RTS internos de islas C ya matcheadas (targets de bcc.w):
+    0x00083B90: "Jsr5B6Rts_083b90",      # rts de Jsr5B6ThenJmpScheduler_083b84 (+12)
+    0x00083BE0: "JsrAbsRts_083be0",      # rts de JsrAbsThunk_083bda (+6)
+    # Refs forward a huecos futuros (aun sin matchear):
+    0x00085FB0: "Sub_00085FB0",          # helper (jsr pc desde $83812)
+    0x00086050: "Sub_00086050",          # helper (jsr pc desde $83482)
+    0x00086076: "Sub_00086076",          # helper (jsr pc desde $83B5A)
+    0x000863BE: "Sub_000863BE",          # helper (jsr pc desde $836D2/$83748/$837BE)
+
+    # --- Wave HHH: fases finales del miniboss y transiciones de oleada ($083BE2..$084828)
+    # RTS internos de islas C ya matcheadas (targets de bcc/blt/bcs.w):
+    0x0008440E: "SetHandlerRts_08440e",  # rts de SetTaskHandler_084408 (+6)
+    0x000844BE: "SetHandlerRts_0844be",  # rts de SetTaskHandler_0844b8 (+6)
+    0x0008450A: "SetHandlerRts_08450a",  # rts de SetTaskHandler_084504 (+6)
+    0x00084834: "Jsr5B6Rts_084834",      # rts de Jsr5B6ThenJmpScheduler_084828 (+12)
+    # Refs forward a huecos futuros (aun sin matchear):
+    0x0008495E: "Sub_0008495E",          # handler hijo (lea pc desde $843B8 via $4AE)
+    0x000860E4: "Sub_000860E4",          # helper (jsr pc desde $843B0)
+    0x0008610C: "Sub_0008610C",          # helper (jsr pc desde $8448A)
+    0x00086196: "Sub_00086196",          # helper (jsr pc desde $84468)
+    0x00086300: "Sub_00086300",          # helper (jsr pc desde $843B4)
+    0x00086328: "Sub_00086328",          # helper (jsr pc desde $83FBE)
+    0x00086364: "Sub_00086364",          # helper (jsr pc desde $84270)
+    0x000863E4: "Sub_000863E4",          # helper (jsr pc desde $83E08)
+    0x000863F2: "Sub_000863F2",          # helper (jsr pc desde $83E1C)
+    0x00086400: "Sub_00086400",          # helper (jsr pc desde $84254)
+    0x0008640E: "Sub_0008640E",          # helper (jsr pc desde $84348)
+    0x0008641C: "Sub_0008641C",          # helper (jsr pc desde $8434C)
+    0x000864B6: "Sub_000864B6",          # helper (jsr pc desde $840F8)
+    0x000864D0: "Sub_000864D0",          # helper (jsr pc desde $84130)
+    0x000864EA: "Sub_000864EA",          # helper (jsr pc desde $842B6)
+    0x0008651E: "Sub_0008651E",          # helper (jsr pc desde $84618)
+    0x00086538: "Sub_00086538",          # helper (jsr pc desde $8467A)
 }
