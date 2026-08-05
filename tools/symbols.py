@@ -669,11 +669,6 @@ SYMBOLS = {
     0x00080508: "TaskHandler_080508",
     0x000805EE: "TaskHandler_0805ee",
     0x00081214: "TaskHandler_081214",
-    0x00081BEE: "TaskHandler_081bee",
-    0x00081D64: "TaskHandler_081d64",
-    0x00081FAC: "TaskHandler_081fac",
-    0x00081FF0: "TaskHandler_081ff0",
-    0x00082388: "TaskHandler_082388",
     0x00082456: "TaskHandler_082456",
     0x00082464: "TaskHandler_082464",
     0x00084410: "TaskHandler_084410",
@@ -1331,4 +1326,43 @@ SYMBOLS = {
     0x0008134A: "SetHandlerRts_08134a",  # rts de SetTaskHandler_081344
     0x00081638: "SetHandlerRts_081638",  # rts de SetTaskHandler_081632
     0x0008166C: "SetHandlerRts_08166c",  # rts de SetTaskHandler_081666
+
+    # --- Wave EEE: escuadron paracaidista/APC ($081816..$082834) -----------
+    # RTS internos (+6) de islas C ya matcheadas (targets de bcc.w):
+    0x00081CAA: "ClrRamWordRts_081caa",  # rts de ClrRamWord_081ca4
+    0x00081CD4: "SetHandlerRts_081cd4",  # rts de SetTaskHandler_081cce
+    0x00081D62: "SetHandlerRts_081d62",  # rts de SetTaskHandler_081d5c
+    0x00081FEE: "SetHandlerRts_081fee",  # rts de SetTaskHandler_081fe8
+    0x00082050: "SetHandlerRts_082050",  # rts de SetTaskHandler_08204a
+    0x00082454: "SetHandlerRts_082454",  # rts de SetTaskHandler_08244e
+    0x00082512: "SetHandlerRts_082512",  # rts de SetTaskHandler_08250c
+    0x00082560: "SetHandlerRts_082560",  # rts de SetTaskHandler_08255a
+    0x00082624: "SetHandlerRts_082624",  # rts de SetTaskHandler_08261e
+    0x0008267A: "SetHandlerRts_08267a",  # rts de SetTaskHandler_082674
+    0x0008283A: "SetHandlerRts_08283a",  # rts de SetTaskHandler_082834
+    # Refs forward a huecos futuros ($8283C..$831DA, aun sin matchear):
+    0x0008283C: "TaskHandler_08283c",    # estado post-escape (lea pc $827F8->$8283C)
+    0x00082884: "TaskHandler_082884",    # rama alternativa (lea pc desde $8276C)
+    0x000828E0: "TaskHandler_0828e0",    # estado final (lea pc desde $8281E)
+    0x000828EE: "TaskHandler_0828ee",    # hijo spawneado via $4AE desde $8226A
+    0x00082BB8: "TaskHandler_082bb8",    # hijo spawneado via $4AE desde $81C1E
+    0x00082C54: "TaskHandler_082c54",    # hijo spawneado via $4AE desde $81918
+    0x00082C7C: "Sub_00082C7C",          # helper sprite-si-flag (jsr pc)
+    0x00082CB2: "Sub_00082CB2",          # helper mov horizontal (jsr pc)
+    0x00082CC4: "Sub_00082CC4",          # helper mov horizontal alt (jsr pc)
+    0x00082CE2: "Sub_00082CE2",          # helper fisica comun (jsr pc)
+    0x00082D12: "Sub_00082D12",          # helper fisica variante (jsr pc)
+    0x00082D40: "Sub_00082D40",          # helper fisica variante (jsr pc)
+    0x00082D70: "Sub_00082D70",          # helper colision (jsr pc)
+    0x00082DAE: "Sub_00082DAE",          # probe con flag C (jsr pc)
+    0x00082E04: "Sub_00082E04",          # probe con flag C (jsr pc)
+    0x00082E7A: "Sub_00082E7A",          # helper estado (jsr pc)
+    0x00082EE0: "Sub_00082EE0",          # probe con flag C (jsr pc)
+    0x00082EF8: "Sub_00082EF8",          # helper anim (jsr pc)
+    0x00082F24: "Sub_00082F24",          # probe con flag C (jsr pc)
+    0x00082F90: "Sub_00082F90",          # helper reset (jsr pc)
+    0x00082FCA: "Sub_00082FCA",          # helper anim (jsr pc)
+    0x00083064: "Sub_00083064",          # helper sonido/estado (jsr pc)
+    0x00083122: "Sub_00083122",          # helper spawn (jsr pc)
+    0x000831DA: "Sub_000831DA",          # helper limpieza (jsr pc)
 }
