@@ -11,10 +11,46 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3497/3497 funciones
-BYTES   : 122,012/122,012 (registrados)
-ROM     : 122,012/2,097,152  (5.8180%)
+MATCHED : 3533/3533 funciones
+BYTES   : 124,468/124,468 (registrados)
+ROM     : 124,468/2,097,152  (5.9351%)
 ```
+
+> **Wave FFF** (36 entradas, 2 456 B, verde a la primera) — **helpers y
+> handlers de escape del escuadron paracaidista**: cierra los 17 huecos
+> de la region `$08283C..$08325A` en `para_squad_helpers_082cxx.s`,
+> completando todo el modulo del escuadron iniciado en Waves EEE.
+>
+> * **Continuacion del escape** (`$8283C..$82924`): `TaskHandler_08283c`
+>   retorna a la cola de frame del modulo EEE via `bra.w` cross-file —
+>   se promovio el label local `.L827fe` de `para_squad_module_0818xx.s`
+>   a global `ParaSquad_FrameTail_0827fe`. `TaskHandler_082884` spawnea
+>   la pieza `$77E10`; `$828D2` marca `+0x48=-1` y encadena con
+>   `jmp TaskHandler_056204`; `TaskHandler_0828ee` es el hijo (snd `$193`,
+>   sprite `$2E6728`, hereda `+0x5E` del padre).
+> * **Handlers de los hijos** (`$8292C..$82C74`): disparo de venganza
+>   con jitter aleatorio (`$5E9B6`), respawn desde tabla `$2E588E` con
+>   clamp de suelo (`$440D0`, `d0=$E4C/d1=$68`), salto balistico con
+>   seno/coseno (`$2C07AC`/`$2C072C`, `muls #$2000, asr.l #8`), caida en
+>   paracaidas (vel `$10/$C0`, sprite `$2E6AEA`) y fila aleatoria
+>   (`$2E596A`/`$2E594A` con sentinel, HP `$800`, `jmp $6DCE0`).
+>   `TaskHandler_082c54` (global interno) recorta `+0x45` del padre segun
+>   `x>$120` y encola via `jmp FUN_00000518`.
+> * **Helpers jsr-pc** (`$82C7C..$82F8A`): ring de historia de anclaje
+>   `+0x7E` (mod 16), copias de anclaje del padre, relay de flags
+>   bit6/7<->bit0(`+0x5A`), dificultad -> `+0x73=$FF` (tablas
+>   `$2BE098`/`$2BE11A`), probes de bounds que caen en las islas C
+>   `SetXN_*`/`ClearXN_*` ya matcheadas, maquina de flags `+0x72` y
+>   punteria vertical `(altura-$24)>>3` con clamp 0..6.
+> * **Spawners** (`$82F90..$8325A`): reacquire de target
+>   (`$5E338`/`$5E0D4` con indireccion `+0x7C==$FF`), spawn de pieza +
+>   escolta `TaskHandler_082720`, spawn de hijos `$8292C`+`$82A66`
+>   (snd `$10FF`), bucle de 10 tropas `TaskHandler_082480`, 3 oleadas
+>   `TaskHandler_082562` (`+0x5E`=0/1/2), flag global `$10A2D1`, montaje
+>   de pares `$2E5A22`/`$2E597A` (`$77C7E`) y escolta `$77FD6` con jitter.
+>   `LeaList_083254` (6 B) es el prefijo del thunk `JsrAbsThunk_08325a`.
+> * **symbols.py**: los 23 defsyms forward de Wave EEE se eliminaron al
+>   convertirse en simbolos reales; +6 `SetHandlerRts_*` nuevos.
 
 > **Wave EEE** (23 entradas, 3 862 B, verde a la primera) — **modulo de
 > escuadron con lider movil** (transporte + tropas): cierra los 23 huecos

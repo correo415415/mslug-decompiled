@@ -17,6 +17,22 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave FFF — 36 entries (2,456 B): **escape handlers and pc-relative
+  helpers of the paratrooper squad** closing all 17 gaps in
+  `$08283C..$08325A` (`para_squad_helpers_082cxx.s`), completing the
+  squad module started in Wave EEE. Escape continuation returns to the
+  module's shared frame tail via a cross-file `bra.w` (local label
+  `.L827fe` promoted to global `ParaSquad_FrameTail_0827fe`); child
+  handlers cover revenge fire with random jitter, table-driven respawn
+  with ground clamp, ballistic jumps using the sine/cosine tables
+  (`$2C07AC`/`$2C072C`), parachute descent and a randomized rank picker
+  (HP `$800`). The jsr-pc helper block implements the anchor-history
+  ring (`+0x7E` mod 16), parent-anchor copies, flag relays, a
+  difficulty gate (`$2BE098`/`$2BE11A`) and bounds probes falling into
+  the already-matched `SetXN_*`/`ClearXN_*` C islands. The spawner
+  block re-acquires targets, mounts turret piece pairs and spawns the
+  10-troop loop / 3-wave sequence. All 23 forward defsyms from Wave EEE
+  were promoted to real symbols; 6 new `SetHandlerRts_*` defsyms added.
 - Wave EEE — 23 entries (3,862 B): **a squad module with a mobile leader**
   (transport + troops) closing all 23 gaps in `$081816..$082834`
   (`para_squad_module_0818xx.s`). The leader (`TaskHandler_081908`,
