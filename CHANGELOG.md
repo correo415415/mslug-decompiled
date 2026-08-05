@@ -17,6 +17,19 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave GGG — 24 entries (2,374 B): **a miniboss state-machine module**
+  closing all 6 gaps in `$083262..$083BDA` (`miniboss_module_0832xx.s`).
+  Crosses the **6% P ROM coverage** mark. Includes three entry variants
+  (snd `$A4`, sprite `$2E6CDC`, x-dependent drift), a combat phase
+  firing the row blitter (`$43FAC` + `$2EAC8C`), a three-variant escape
+  sequence converging on the shared internal global `TaskCont_08364e`
+  (recoil, flash `$F0`, timed snd `$1054`, final transform `$2E987E`),
+  blink-protected variants reinstalling `TaskHandler_0839a2`, and a
+  child follower that mirrors its parent's x/y and self-destructs
+  off-screen. New island-RTS defsyms `Jsr5B6Rts_083b90` (+12 inside the
+  14-byte `Jsr5B6ThenJmpScheduler_083b84` island) and
+  `JsrAbsRts_083be0`; 4 forward defsyms to future helpers
+  (`$85FB0`/`$86050`/`$86076`/`$863BE`).
 - Wave FFF — 36 entries (2,456 B): **escape handlers and pc-relative
   helpers of the paratrooper squad** closing all 17 gaps in
   `$08283C..$08325A` (`para_squad_helpers_082cxx.s`), completing the

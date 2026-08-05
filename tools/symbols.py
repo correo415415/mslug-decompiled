@@ -1351,4 +1351,14 @@ SYMBOLS = {
     0x00082B44: "SetHandlerRts_082b44",  # rts de SetTaskHandler_082b3e
     0x00082BB6: "SetHandlerRts_082bb6",  # rts de SetTaskHandler_082bb0
     0x00082C06: "SetHandlerRts_082c06",  # rts de SetTaskHandler_082c00
+
+    # --- Wave GGG: modulo de miniboss con secuencia de estados ($083262..$083BDA)
+    # RTS internos de islas C ya matcheadas (targets de bcc.w):
+    0x00083B90: "Jsr5B6Rts_083b90",      # rts de Jsr5B6ThenJmpScheduler_083b84 (+12)
+    0x00083BE0: "JsrAbsRts_083be0",      # rts de JsrAbsThunk_083bda (+6)
+    # Refs forward a huecos futuros (aun sin matchear):
+    0x00085FB0: "Sub_00085FB0",          # helper (jsr pc desde $83812)
+    0x00086050: "Sub_00086050",          # helper (jsr pc desde $83482)
+    0x00086076: "Sub_00086076",          # helper (jsr pc desde $83B5A)
+    0x000863BE: "Sub_000863BE",          # helper (jsr pc desde $836D2/$83748/$837BE)
 }

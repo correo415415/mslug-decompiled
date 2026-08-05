@@ -11,10 +11,42 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3533/3533 funciones
-BYTES   : 124,468/124,468 (registrados)
-ROM     : 124,468/2,097,152  (5.9351%)
+MATCHED : 3557/3557 funciones
+BYTES   : 126,842/126,842 (registrados)
+ROM     : 126,842/2,097,152  (6.0483%)
 ```
+
+> **Wave GGG** (24 entradas, 2 374 B, verde a la primera) — **modulo de
+> miniboss con secuencia de estados**: cierra los 6 huecos de la region
+> `$083262..$083BDA` en `miniboss_module_0832xx.s`. Con esta wave el
+> proyecto **cruza el 6% de la P ROM**.
+>
+> * **Helpers cortos** (`$83262..$832E0`): montaje de par
+>   `$2E5ADC`/`$2E5A10` via `$77C7E` + snd `$102F`, carga de lista
+>   `$2E545E[+0x5C]` en `+0x4C`, comparador de prioridad `+0x10` con el
+>   sibling `+0x8` (cae en islas `ClearXN_0832e0`/`SetXN_0832e6`), y
+>   `Sub_00083270` que setea `$10A2D0=4`/`$10A2D1=0` y `+0x20=$77` en el
+>   padre. `LeaList_083262` es el prefijo del thunk `JsrAbsThunk_083268`.
+> * **Tres variantes de entrada** (`$832EC..$834A4`): snd `$A4`, sprite
+>   `$2E6CDC`, drift `+-$80` segun `x>=$A0`; una con empuje aleatorio
+>   cada 4 frames (`$5E9B6`/`$5E9E4`) y otra usando el helper futuro
+>   `Sub_00086050`.
+> * **Fase de combate** (`$834A4..$83612`): snd `$A7`, sprite `$2E6C00`,
+>   blitter de fila (`$43FAC` + lista `$2EAC8C`, snd `$1037`), muerte
+>   hacia `TaskHandler_08354e` (score `$100` via `$51A28`) o
+>   `TaskHandler_083596` (snd `$AB`).
+> * **Secuencia de huida** (`$835F2..$83926`): 3 variantes (`+0x21`=0/1/2)
+>   que convergen en `TaskCont_08364e` (global interno): snd `$AA`,
+>   spawn de pareja `$2E9A1E`/`$2E9A30`, retroceso `-$3` con vel `+-$40`,
+>   flash `$F0` (`$5E722`), snd `$1054` en t=`$50` y transformacion final
+>   (`$2E987E`, 30 frames).
+> * **Variantes protegidas y spawner** (`$8396A..$83BDA`): parpadeo
+>   `+0x44` con timer aleatorio reinstalando `TaskHandler_0839a2` (global
+>   interno), versiones acorazadas `$8000` y handler hijo `$83B92` que
+>   copia x/y del padre y se autodestruye si `x<-$80`.
+> * **symbols.py**: +2 RTS de islas (`Jsr5B6Rts_083b90` en +12 — la isla
+>   `Jsr5B6ThenJmpScheduler_083b84` mide 14 B — y `JsrAbsRts_083be0`),
+>   +4 forward refs a helpers futuros (`$85FB0`/`$86050`/`$86076`/`$863BE`).
 
 > **Wave FFF** (36 entradas, 2 456 B, verde a la primera) — **helpers y
 > handlers de escape del escuadron paracaidista**: cierra los 17 huecos
