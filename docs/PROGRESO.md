@@ -11,10 +11,43 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3585/3585 funciones
-BYTES   : 129,952/129,952 (registrados)
-ROM     : 129,952/2,097,152  (6.1966%)
+MATCHED : 3607/3607 funciones
+BYTES   : 132,144/132,144 (registrados)
+ROM     : 132,144/2,097,152  (6.3011%)
 ```
+
+> **Wave III** (22 entradas, 2 192 B, verde a la primera) — **escuadron de
+> rescate y ciclo de vuelo**: cierra los 12 huecos de la region
+> `$084836..$08512C` en `rescue_squad_0848xx.s`.
+>
+> * **Pasos del escuadron** (`$84836..$8492A`): snd `$A9`, sprites de la
+>   tabla `$2E77CA[(+0x21<<1)<<2]` con centinela `$FFFFFFFF`, sincronia
+>   con el padre y avance con retroceso `-$10` + `bset` bit6 del par
+>   `$2E993C`.
+> * **Handler del hijo del Wave HHH** (`$8495E..$84AAA`, `Sub_0008495E`
+>   convertido de defsym a simbolo real): snd `$85`, timer aleatorio de
+>   `$2C0218` (`$799DE`), montaje de pareja `$84AAA`/`$6AA14`, armadura
+>   doble a partir de scroll `$4F0` (`$106F50` -> `$2E915A`) y muerte
+>   con snd `$1028` y blitter `$2EACC4`.
+> * **Secuencia de caida** (`$84B24..$84C50`): 4 etapas con sprites
+>   `$2B5B92..$2B604A`, snd `$1040` al tocar suelo y liberacion del
+>   abuelo (`+0x21=$FF` via doble `$C(a0)`).
+> * **Paracaidista y rescatado** (`$84C5E..$84DB0`): snd `$4`, sprite
+>   `$2E75C0` siguiendo al padre; premio `$2000` con helper futuro
+>   `Sub_00086504`.
+> * **Selector por tipo** (`$84DB0..$84F4E`): listas/pares/colas por
+>   `+0x98` (0/1/2), bucle de spawn multiple segun `+0x99`, y arranque
+>   del vuelo (snd `$1B1`, `+0x38=$2000`).
+> * **Ciclo de vuelo** (`$84F5E..$8512C`): snd `$1074`/`$1075`, sprites
+>   `$2E7828`/`$2E7866`/`$2E78A4`, helpers futuros `Sub_00085EE8`/
+>   `Sub_00085F08`/`Sub_00085F44`/`Sub_00085F60`, aterrizaje cuando
+>   scroll `$106F5C<=$108` spawneando `$8512C` via `$4AE` + `$5DD02`.
+>
+> Nuevos defsyms de RTS de islas: `SetHandlerRts_084898`/`_0848dc`/
+> `_084b22`/`_084b98`/`_084bd0`/`_084c24` (+6) y `Jsr5B6Rts_084c5c`
+> (+12). Se eliminaron 9 defsyms forward convertidos en simbolos reales
+> (8 `TaskHandler_*` + `Sub_0008495E`) y se añadieron 7 forwards nuevos
+> (`Sub_00085EE8..Sub_00086504`).
 
 > **Wave HHH** (28 entradas, 3 110 B, verde a la primera) — **fases finales
 > del miniboss y transiciones de oleada**: cierra los 5 huecos de la region

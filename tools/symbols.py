@@ -671,14 +671,6 @@ SYMBOLS = {
     0x00081214: "TaskHandler_081214",
     0x00082456: "TaskHandler_082456",
     0x00082464: "TaskHandler_082464",
-    0x0008489A: "TaskHandler_08489a",
-    0x000848DE: "TaskHandler_0848de",
-    0x00084B24: "TaskHandler_084b24",
-    0x00084B9A: "TaskHandler_084b9a",
-    0x00084BD2: "TaskHandler_084bd2",
-    0x00084C26: "TaskHandler_084c26",
-    0x00084F5E: "TaskHandler_084f5e",
-    0x00084FCA: "TaskHandler_084fca",
     0x00085134: "TaskHandler_085134",
     0x00085484: "TaskHandler_085484",
     0x00085A08: "TaskHandler_085a08",
@@ -1366,7 +1358,6 @@ SYMBOLS = {
     0x0008450A: "SetHandlerRts_08450a",  # rts de SetTaskHandler_084504 (+6)
     0x00084834: "Jsr5B6Rts_084834",      # rts de Jsr5B6ThenJmpScheduler_084828 (+12)
     # Refs forward a huecos futuros (aun sin matchear):
-    0x0008495E: "Sub_0008495E",          # handler hijo (lea pc desde $843B8 via $4AE)
     0x000860E4: "Sub_000860E4",          # helper (jsr pc desde $843B0)
     0x0008610C: "Sub_0008610C",          # helper (jsr pc desde $8448A)
     0x00086196: "Sub_00086196",          # helper (jsr pc desde $84468)
@@ -1383,4 +1374,22 @@ SYMBOLS = {
     0x000864EA: "Sub_000864EA",          # helper (jsr pc desde $842B6)
     0x0008651E: "Sub_0008651E",          # helper (jsr pc desde $84618)
     0x00086538: "Sub_00086538",          # helper (jsr pc desde $8467A)
+
+    # --- Wave III: escuadron de rescate y ciclo de vuelo ($084836..$08512C)
+    # RTS internos de islas C ya matcheadas (targets de bcc/bne/bgt.w):
+    0x00084898: "SetHandlerRts_084898",  # rts de SetTaskHandler_084892 (+6)
+    0x000848DC: "SetHandlerRts_0848dc",  # rts de SetTaskHandler_0848d6 (+6)
+    0x00084B22: "SetHandlerRts_084b22",  # rts de SetTaskHandler_084b1c (+6)
+    0x00084B98: "SetHandlerRts_084b98",  # rts de SetTaskHandler_084b92 (+6)
+    0x00084BD0: "SetHandlerRts_084bd0",  # rts de SetTaskHandler_084bca (+6)
+    0x00084C24: "SetHandlerRts_084c24",  # rts de SetTaskHandler_084c1e (+6)
+    0x00084C5C: "Jsr5B6Rts_084c5c",      # rts de Jsr5B6ThenJmpScheduler_084c50 (+12)
+    # Refs forward a huecos futuros (aun sin matchear):
+    0x00085EE8: "Sub_00085EE8",          # helper (jsr pc desde $84F8C/$85024)
+    0x00085F08: "Sub_00085F08",          # helper (jsr pc desde $84F90/$85028/$8508A)
+    0x00085F44: "Sub_00085F44",          # helper (jsr pc desde $84F42/$84F9A/$85032/$85094/$850EA)
+    0x00085F60: "Sub_00085F60",          # helper (jsr pc desde $84F46/$84F9E/$85036/$850F6)
+    0x0008601C: "Sub_0008601C",          # helper (jsr pc desde $84932)
+    0x000863A0: "Sub_000863A0",          # helper (jsr pc desde $848F8/$8493C)
+    0x00086504: "Sub_00086504",          # helper (jsr pc desde $84D1C)
 }

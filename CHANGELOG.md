@@ -17,6 +17,22 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave III — 22 entries (2,192 B): **rescue squad and flight cycle**
+  closing all 12 gaps in `$084836..$08512C` (`rescue_squad_0848xx.s`).
+  Includes the squad-step handlers driven by sprite-list table `$2E77CA`
+  (indexed by `+0x21<<1`, `$FFFFFFFF` sentinel), the child handler
+  spawned from Wave HHH (`Sub_0008495E`, promoted from forward defsym to
+  real symbol: snd `$85`, random timer from `$2C0218`, double armor past
+  scroll `$4F0`), a 4-stage fall sequence (sprites `$2B5B92..$2B604A`,
+  landing snd `$1040`), a parachutist follower, a rescued-POW reward
+  handler (score `$2000`), a 3-way type selector over `+0x98`, and the
+  transport flight cycle (snd `$1074`/`$1075`, climb/dive/glide sprite
+  alternation, landing spawn of `$8512C`). New island-RTS defsyms
+  `SetHandlerRts_084898/_0848dc/_084b22/_084b98/_084bd0/_084c24` (+6)
+  and `Jsr5B6Rts_084c5c` (+12); removed 9 forward defsyms that became
+  real symbols and added 7 new forward defsyms
+  (`Sub_00085EE8..Sub_00086504`). Matcher: **3,607/3,607 functions,
+  132,144 B (6.3011% of P ROM)**.
 - Wave HHH — 28 entries (3,110 B): **miniboss finale and wave transitions**
   closing all 5 gaps in `$083BE2..$084828` (`miniboss_finale_083bxx.s`),
   the direct continuation of Wave GGG's miniboss module. Includes dual
