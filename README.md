@@ -22,9 +22,9 @@ runtime and never bundles it.
 
 | Metric | Value |
 |---|---:|
-| Matched functions | **3 607 / 3 607** registered |
-| Matched bytes | **132 144 / 132 144** registered |
-| P ROM coverage | **132 144 / 2 097 152 B** (6.30 %) |
+| Matched functions | **3 672 / 3 672** registered |
+| Matched bytes | **136 886 / 136 886** registered |
+| P ROM coverage | **136 886 / 2 097 152 B** (6.53 %) |
 | Processed P ROM MD5 (target) | `816b3f74c76b3373993407615f1850fe` |
 
 Matched functions are guaranteed to reassemble to bytes that are bitwise
@@ -54,10 +54,12 @@ mslug/
 │   ├── registry_lint.py    Static structural audit of registry.py/symbols.py
 │   ├── scan_unmatched_callees.py   Priority queue ordered by caller count
 │   ├── rank_candidates.py  Priority queue ordered by function size
+│   ├── gen_asm_region.py   Verified draft-.s generator for an unmatched region
 │   ├── measure_coverage.py Real-code-% heuristic feeding docs/COVERAGE.md
 │   └── asm-differ/         Vendored simonlindholm/asm-differ (m68k backend)
 ├── scripts/                One-shot helper scripts
 │   ├── setup.sh            Process baserom into build/mslug_prom.bin + verify
+│   ├── bootstrap_sandbox.sh  Install toolchain + deps + process ROM in one go
 │   └── legacy/             Historical batch generators (Waves A–R)
 ├── docs/                   Design notes and reversing logs
 │   ├── CONVENTIONS.md      Naming/registry/promotion conventions — read before editing

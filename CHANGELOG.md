@@ -17,6 +17,31 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave JJJ — 65 entries (4,742 B): **Mission 4 entities + boss spawn
+  helpers** closing all 33 gaps in `$08512C..$0865BE`
+  (`m4_carrier_boss_helpers_0851xx.s`). Mission-4 templates
+  `$E8000[35..40]`: the carrier (`M4_Carrier_*`: init/approach/fight/
+  wreck with `MissionWatch_Spawn_04429E` over aux list `$EC6C8`), its
+  turret (`M4_Turret_*`: edge check, shake, knockback, death), soldier
+  droppers, the double wheel (`$2E7BDE/$2E7BEE` frames), the 20-segment
+  rail, per-player water bodies spawning splashes, debris, and the
+  "camera floor" that walks the aux height table `$EC882` to publish the
+  scroll limit in `$10816A/$10816E`. `Flight_*` helpers used by Wave III's
+  flight cycle (random wobble, hitbox params, altitude check). Mission-3
+  boss helpers (`Boss_*`): random drop spawner, phase jingles, sine bob,
+  list-driven spawners over 8-byte records (`$2EAF1C/$2EAF7E/$2EAFE2`),
+  45/4/8/9-child loops, a hand-unrolled 10-escort spawner (362 B), six
+  blit-table loaders and the boss shadow init. 25 forward defsyms
+  promoted to real symbols; +7 island-RTS defsyms. Matcher: 3,672/3,672,
+  136,886 B (6.53 %).
+- `tools/gen_asm_region.py`: verified draft-`.s` generator for an
+  unmatched range (gap walking, entry splitting, project-style GAS,
+  cross-entry/mid-island symbols, byte-exact self-check, `--registry`
+  output). Wave JJJ was produced with it: 65/65 entries byte-exact on
+  the first pass, semantic pass done by hand on top.
+- `scripts/bootstrap_sandbox.sh`: one-shot toolchain + deps + ROM setup.
+- `TaskHandler_083c02` promoted from a local label of `TaskHandler_083be2`
+  to a global symbol (it is a `lea pc` handler target from `$0860F6`).
 - Wave III — 22 entries (2,192 B): **rescue squad and flight cycle**
   closing all 12 gaps in `$084836..$08512C` (`rescue_squad_0848xx.s`).
   Includes the squad-step handlers driven by sprite-list table `$2E77CA`

@@ -11,10 +11,49 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3607/3607 funciones
-BYTES   : 132,144/132,144 (registrados)
-ROM     : 132,144/2,097,152  (6.3011%)
+MATCHED : 3672/3672 funciones
+BYTES   : 136,886/136,886 (registrados)
+ROM     : 136,886/2,097,152  (6.5272%)
 ```
+
+> **Wave JJJ** (65 entradas, 4 742 B, verde a la primera) — **entidades de
+> la Mision 4 + helpers de spawn del boss de la Mision 3**: cierra los 33
+> huecos de la region `$08512C..$0865BE` en
+> `m4_carrier_boss_helpers_0851xx.s`. Primera wave producida con el nuevo
+> `tools/gen_asm_region.py` (borrador byte-exacto 65/65 a la primera) y
+> analizada semanticamente a mano encima.
+>
+> * **Templates de la M4** (`$E8000[35..40]` = `$859D4/$857F2/$858D0/
+>   $8577A/$84F26/$85190`, `tmpl=$107..$10C` en `MissionStream_Slot03`):
+>   el transporte `M4_Carrier_*` (snd `$1C5`, HP de `$2C029A`, fases
+>   approach/fight con daño `$2870A`, muerte `$28758`, wreck con
+>   `MissionWatch_Spawn_04429E` sobre la lista aux `$EC6C8`), su torreta
+>   `M4_Turret_*` (bordes `$2D0/$310`, shake `+0x75`, knockback con flag de
+>   direccion en bit0 de `+0x78`, muerte hasta `y<=$20`), los spawners de
+>   soldados `$483E2`, la rueda doble (frames `$2E7BDE/$2E7BEE` por
+>   `+0x88` mod 4), el rail de 20 segmentos (`$2EAA10[+0x21<<2]`), el agua
+>   por jugador (caja `$2EB10E`, chapoteo `M4_SplashFx`), el escombro
+>   (`$2E7B2E/$2E7B3E`) y el **suelo de camara** `M4_CamFloor_*` que
+>   recorre la tabla aux de alturas `$EC882` y publica `$10816A/$10816E`
+>   cuando ambos jugadores estan por debajo (`M4_PlayersBelowY`).
+> * **`Flight_*`** (`$85EE8..$85FB0`): los 4 helpers pendientes de la
+>   Wave III (bamboleo aleatorio 1/32, pasos `+-$100`, hitbox `$60/$C0`,
+>   altitud entre `+0x98<<4` y `+0x99<<4`).
+> * **`Boss_*`** (`$85FB0..$8656E`): los 20 helpers `jsr pc` pendientes
+>   de las Waves GGG/HHH — spawner aleatorio 1/8 de 1..3 hijos `$3FEC6`,
+>   jingles de fase (`$1026`/`$1032`), bob senoidal (`$13C0E`), spawners
+>   por lista de registros de 8 B `{dx,dy,+0x38,+0x21,|=+0x3A}` en
+>   `$2EAF1C`/`$2EAF7E`/`$2EAFE2` (los 7 primeros via `$6FE`, el resto via
+>   `$4AE`), bucles de 45/4/8/9 hijos, `Boss_SpawnTenEscorts` (362 B,
+>   desenrollado a mano), 6 cargadores de tabla de blit y
+>   `Boss_Shadow_Init` (3 entradas, `$10E39E=1`).
+> * Rarezas: `jmp $518; rts` con rts muerto (x4), `bra.w` doble en
+>   `Boss_Shadow_Init`, `move.w d0,d0` muerto, `movea.l #-1,a0` pisado
+>   por `lea` (x3). El label `.L83c0c-0xA` de `TaskHandler_083be2` se
+>   promovio a `TaskHandler_083c02` (target `lea pc` de `$0860F6`).
+> * symbols.py: -25 defsyms forward promovidos, +7 RTS mid-isla
+>   (`SetHandlerRts_085482/_085acc`, `SetTaskWRts_085606/_0856a8`,
+>   `JsrAbsRts_085d02/_08604e/_0863d4`).
 
 > **Wave III** (22 entradas, 2 192 B, verde a la primera) — **escuadron de
 > rescate y ciclo de vuelo**: cierra los 12 huecos de la region
@@ -2306,6 +2345,8 @@ Es el tercer y cuarto caso confirmado tras `JsrAbsThunk_050248`
 | `tools/symbols.py` | Tabla de símbolos absolutos para `--defsym` del linker. |
 | `tools/scan_unmatched_callees.py` | Cola priorizada de próximos targets ordenada por popularidad de llamadas entrantes desde código ya matcheado. |
 | `tools/asm-differ/diff.py` | Diff visual side-by-side (backend m68k). |
+| `tools/gen_asm_region.py` | Generador de borradores `.s` verificados byte-a-byte para una region sin matchear (recorre huecos, parte en entradas, emite GAS con el estilo del proyecto, imprime lineas de registry/symbols). |
+| `scripts/bootstrap_sandbox.sh` | Instala toolchain m68k + deps Python y procesa la ROM desde un zip en un solo paso. |
 | `scripts/setup.sh` | Procesa `rom/201-p1.bin` en `build/mslug_prom.bin` y verifica MD5. |
 | `scripts/legacy/gen_*.py` | Generadores históricos de las Waves A–R (mantenidos por reproducibilidad). |
 
