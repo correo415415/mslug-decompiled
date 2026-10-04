@@ -53,7 +53,7 @@ SYMBOLS = {
 
     # ---- Wave Y: targets externos referenciados por asm 68000 puro ----
     0x000329EE: "OpcodeOffsetTable_0329EE",  # tabla de 16 word-offsets usada por Entity_DispatchOpcodeNibble (Y#6)
-    # 0x0009B51E promovido a ScriptTemplate_09B51E en registry (Wave RRR).
+    # 0x0009B51E promovido a Score_Popup_Value_09b51e en registry (Wave RRR).
     0x0004CB44: "PtrTable6_04CB44",          # tabla de 6 long-ptr usada por Table_LoadPtrByIdxClamp6 (Y#5)
     # Templates usados por Entity_Build3ChainCircular (Y#10)
     0x0003010C: "Template_03010C",
@@ -772,8 +772,8 @@ SYMBOLS = {
     # 0x0009976A promovido a Mob_PhysLoop_09976a en registry (Wave QQQ).
     0x00099794: "TaskHandler_099794",
     # 0x00099A64 promovido a DebugCursor_Run_099a64 en registry (Wave QQQ).
-    # 0x0009A280 promovido a TaskHandler_09a280 en registry (Wave RRR).
-    # 0x0009A2B8 promovido a TaskHandler_09a2b8 en registry (Wave RRR).
+    # 0x0009A280 promovido a Gun_Child_Init_09a280 en registry (Wave RRR).
+    # 0x0009A2B8 promovido a Gun_Child_Sync_09a2b8 en registry (Wave RRR).
     0x0009B47C: "TaskHandler_09b47c",
     0x0018D74E: "TaskHandler_18d74e",
 

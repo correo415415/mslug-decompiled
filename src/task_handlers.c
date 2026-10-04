@@ -433,8 +433,8 @@ extern void Mob_RunLeft2_099610(void);
 extern void Mob_PhysLoop_09976a(void);
 extern void TaskHandler_099794(void);
 extern void DebugCursor_Run_099a64(void);
-extern void TaskHandler_09a280(void);
-extern void TaskHandler_09a2b8(void);
+extern void Gun_Child_Init_09a280(void);
+extern void Gun_Child_Sync_09a2b8(void);
 extern void TaskHandler_09b47c(void);
 extern void TaskHandler_18d74e(void);
 
@@ -4790,13 +4790,13 @@ void SetTaskHandler_099a5c(void) {
 
 __attribute__((section(".text.SetTaskHandler_09a2b0")))
 void SetTaskHandler_09a2b0(void) {
-    _a1_ptr = &TaskHandler_09a2b8;
+    _a1_ptr = &Gun_Child_Sync_09a2b8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_09a2f8")))
 void SetTaskHandler_09a2f8(void) {
-    _a1_ptr = &TaskHandler_09a280;
+    _a1_ptr = &Gun_Child_Init_09a280;
     STORE_A1_AT_FP();
 }
 

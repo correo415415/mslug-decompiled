@@ -58,6 +58,6 @@ Entity_AllocByPlayerSlot_09B9F6:
 .Lout:
         rts                                    | +3c
 
-        .equ    .LScriptTemplate, ScriptTemplate_09B51E
+        .equ    .LScriptTemplate, Score_Popup_Value_09b51e
 
         .size   Entity_AllocByPlayerSlot_09B9F6, .-Entity_AllocByPlayerSlot_09B9F6
