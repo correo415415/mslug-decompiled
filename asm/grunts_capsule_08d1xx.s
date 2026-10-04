@@ -1,6 +1,6 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave NNN — borrador
+|  Wave NNN — Cápsula de fin de misión, integradores de posición, soldados rasos y plantillas 153..181
 |  Región: $08D17A..$08E4E4  (4,442 B, 80 entradas, 67 huecos)
 | ============================================================================
 |
@@ -15,24 +15,24 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d184  @ $08D184  (30 B)
+|  Screen_InBoundsX_Latched_08d184  @ $08D184  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d184, "ax", @progbits
-        .global TaskHandler_08d184
-TaskHandler_08d184:
+        .section .text.Screen_InBoundsX_Latched_08d184, "ax", @progbits
+        .global Screen_InBoundsX_Latched_08d184
+Screen_InBoundsX_Latched_08d184:
         btst    #0x7,0x13(a6)                   | +000
-        beq.w   TaskHandler_08d1ae              | +006
+        beq.w   Screen_InBoundsX_Latch_08d1ae   | +006
         cmpi.w  #0x0,0x22(a6)                   | +00a
         blt.w   SetXN_08d1a8                    | +010
         cmpi.w  #0x140,0x22(a6)                 | +014
         bgt.w   SetXN_08d1a8                    | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d1ae  @ $08D1AE  (46 B)
+|  Screen_InBoundsX_Latch_08d1ae  @ $08D1AE  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d1ae, "ax", @progbits
-        .global TaskHandler_08d1ae
-TaskHandler_08d1ae:
+        .section .text.Screen_InBoundsX_Latch_08d1ae, "ax", @progbits
+        .global Screen_InBoundsX_Latch_08d1ae
+Screen_InBoundsX_Latch_08d1ae:
         cmpi.w  #0x140,0x22(a6)                 | +000
         bge.w   ClearC_08d1e2                   | +006
         cmpi.w  #0x0,0x22(a6)                   | +00a
@@ -44,24 +44,24 @@ TaskHandler_08d1ae:
         bset    #0x7,0x13(a6)                   | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d1e8  @ $08D1E8  (30 B)
+|  Screen_InBoundsXWide_Latched_08d1e8  @ $08D1E8  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d1e8, "ax", @progbits
-        .global TaskHandler_08d1e8
-TaskHandler_08d1e8:
+        .section .text.Screen_InBoundsXWide_Latched_08d1e8, "ax", @progbits
+        .global Screen_InBoundsXWide_Latched_08d1e8
+Screen_InBoundsXWide_Latched_08d1e8:
         btst    #0x7,0x13(a6)                   | +000
-        beq.w   TaskHandler_08d212              | +006
+        beq.w   Screen_InBoundsXWide_Latch_08d212 | +006
         cmpi.w  #0xffe0,0x22(a6)                | +00a
         blt.w   SetXN_08d20c                    | +010
         cmpi.w  #0x140,0x22(a6)                 | +014
         bgt.w   SetXN_08d20c                    | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d212  @ $08D212  (46 B)
+|  Screen_InBoundsXWide_Latch_08d212  @ $08D212  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d212, "ax", @progbits
-        .global TaskHandler_08d212
-TaskHandler_08d212:
+        .section .text.Screen_InBoundsXWide_Latch_08d212, "ax", @progbits
+        .global Screen_InBoundsXWide_Latch_08d212
+Screen_InBoundsXWide_Latch_08d212:
         cmpi.w  #0x140,0x22(a6)                 | +000
         bge.w   ClearC_08d246                   | +006
         cmpi.w  #0x0,0x22(a6)                   | +00a
@@ -73,24 +73,24 @@ TaskHandler_08d212:
         bset    #0x7,0x13(a6)                   | +028
 
 | ----------------------------------------------------------------------------
-|  Sub_0008D24C  @ $08D24C  (30 B)
+|  Screen_InBoundsY_Latched_08d24c  @ $08D24C  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0008D24C, "ax", @progbits
-        .global Sub_0008D24C
-Sub_0008D24C:
+        .section .text.Screen_InBoundsY_Latched_08d24c, "ax", @progbits
+        .global Screen_InBoundsY_Latched_08d24c
+Screen_InBoundsY_Latched_08d24c:
         btst    #0x7,0x13(a6)                   | +000
-        beq.w   TaskHandler_08d276              | +006
+        beq.w   Screen_InBoundsY_Latch_08d276   | +006
         cmpi.w  #0x1ff,0x24(a6)                 | +00a
         bgt.w   SetXN_08d270                    | +010
         cmpi.w  #0x100,0x24(a6)                 | +014
         blt.w   SetXN_08d270                    | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d276  @ $08D276  (46 B)
+|  Screen_InBoundsY_Latch_08d276  @ $08D276  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d276, "ax", @progbits
-        .global TaskHandler_08d276
-TaskHandler_08d276:
+        .section .text.Screen_InBoundsY_Latch_08d276, "ax", @progbits
+        .global Screen_InBoundsY_Latch_08d276
+Screen_InBoundsY_Latch_08d276:
         cmpi.w  #0x140,0x22(a6)                 | +000
         bge.w   ClearC_08d2aa                   | +006
         cmpi.w  #0x0,0x22(a6)                   | +00a
@@ -102,11 +102,11 @@ TaskHandler_08d276:
         bset    #0x7,0x13(a6)                   | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d2b0  @ $08D2B0  (30 B)
+|  Pos_IntegrateX88_08d2b0  @ $08D2B0  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d2b0, "ax", @progbits
-        .global TaskHandler_08d2b0
-TaskHandler_08d2b0:
+        .section .text.Pos_IntegrateX88_08d2b0, "ax", @progbits
+        .global Pos_IntegrateX88_08d2b0
+Pos_IntegrateX88_08d2b0:
         move.w  0x22(a6),d0                     | +000
         swap    d0                              | +004
         move.w  0x26(a6),d0                     | +006
@@ -120,11 +120,11 @@ TaskHandler_08d2b0:
         swap    d0                              | +01c
 
 | ----------------------------------------------------------------------------
-|  Sub_0008D2D4  @ $08D2D4  (30 B)
+|  Pos_IntegrateY88_08d2d4  @ $08D2D4  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0008D2D4, "ax", @progbits
-        .global Sub_0008D2D4
-Sub_0008D2D4:
+        .section .text.Pos_IntegrateY88_08d2d4, "ax", @progbits
+        .global Pos_IntegrateY88_08d2d4
+Pos_IntegrateY88_08d2d4:
         move.w  0x24(a6),d0                     | +000
         swap    d0                              | +004
         move.b  0x27(a6),d0                     | +006
@@ -138,11 +138,11 @@ Sub_0008D2D4:
         swap    d0                              | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d2f8  @ $08D2F8  (80 B)
+|  Pos_IntegrateXY88_08d2f8  @ $08D2F8  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d2f8, "ax", @progbits
-        .global TaskHandler_08d2f8
-TaskHandler_08d2f8:
+        .section .text.Pos_IntegrateXY88_08d2f8, "ax", @progbits
+        .global Pos_IntegrateXY88_08d2f8
+Pos_IntegrateXY88_08d2f8:
         tst.w   0x28(a6)                        | +000
         beq.w   .L08d322                        | +004
         move.w  0x22(a6),d0                     | +008
@@ -173,11 +173,11 @@ TaskHandler_08d2f8:
         swap    d0                              | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d34e  @ $08D34E  (102 B)
+|  Pos_IntegrateXY88_Accel_08d34e  @ $08D34E  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d34e, "ax", @progbits
-        .global TaskHandler_08d34e
-TaskHandler_08d34e:
+        .section .text.Pos_IntegrateXY88_Accel_08d34e, "ax", @progbits
+        .global Pos_IntegrateXY88_Accel_08d34e
+Pos_IntegrateXY88_Accel_08d34e:
         tst.w   0x28(a6)                        | +000
         beq.w   .L08d378                        | +004
         move.w  0x22(a6),d0                     | +008
@@ -215,11 +215,11 @@ TaskHandler_08d34e:
         rts                                     | +064
 
 | ----------------------------------------------------------------------------
-|  Sub_0008D3B4  @ $08D3B4  (96 B)
+|  Capsule_Fly_08d3b4  @ $08D3B4  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0008D3B4, "ax", @progbits
-        .global Sub_0008D3B4
-Sub_0008D3B4:
+        .section .text.Capsule_Fly_08d3b4, "ax", @progbits
+        .global Capsule_Fly_08d3b4
+Capsule_Fly_08d3b4:
         move.w  #0x8000,0x38(a6)                | +000
         move.w  #0xe,d1                         | +006
         jsr     0x236e.l                        | +00a
@@ -241,26 +241,26 @@ Sub_0008D3B4:
         jsr     0x28cd4.l                       | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d41c  @ $08D41C  (44 B)
+|  Capsule_Descend_08d41c  @ $08D41C  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d41c, "ax", @progbits
-        .global TaskHandler_08d41c
-TaskHandler_08d41c:
+        .section .text.Capsule_Descend_08d41c, "ax", @progbits
+        .global Capsule_Descend_08d41c
+Capsule_Descend_08d41c:
         jsr     0x2783a.l                       | +000
         jsr     0x28d70.l                       | +006
         bcc.w   SetHandlerRts_08d44e            | +00c
-        lea     TaskHandler_08d474(pc),a1       | +010
+        lea     Capsule_Open_08d474(pc),a1      | +010
         jsr     0x4ae.l                         | +014
         jsr     0x5dd02.l                       | +01a
         lea     0x2f46ca.l,a0                   | +020
         jsr     0x28cd4.l                       | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d450  @ $08D450  (28 B)
+|  Capsule_WaitGround_08d450  @ $08D450  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d450, "ax", @progbits
-        .global TaskHandler_08d450
-TaskHandler_08d450:
+        .section .text.Capsule_WaitGround_08d450, "ax", @progbits
+        .global Capsule_WaitGround_08d450
+Capsule_WaitGround_08d450:
         jsr     0x2783a.l                       | +000
         jsr     0x28d70.l                       | +006
         movea.l #0xffffffff,a0                  | +00c
@@ -268,11 +268,11 @@ TaskHandler_08d450:
         bcc.w   TaskHandler_08d472              | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d474  @ $08D474  (74 B)
+|  Capsule_Open_08d474  @ $08D474  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d474, "ax", @progbits
-        .global TaskHandler_08d474
-TaskHandler_08d474:
+        .section .text.Capsule_Open_08d474, "ax", @progbits
+        .global Capsule_Open_08d474
+Capsule_Open_08d474:
         clr.b   0x3a(a6)                        | +000
         move.w  #0xf000,0x38(a6)                | +004
         move.w  #0xf5,d1                        | +00a
@@ -288,12 +288,12 @@ TaskHandler_08d474:
         move.w  #0x4,0x70(a6)                   | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d4c6  @ $08D4C6  (48 B)
+|  Capsule_Flash_08d4c6  @ $08D4C6  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d4c6, "ax", @progbits
-        .global TaskHandler_08d4c6
-TaskHandler_08d4c6:
-        jsr     TaskHandler_08d2b0(pc)          | +000
+        .section .text.Capsule_Flash_08d4c6, "ax", @progbits
+        .global Capsule_Flash_08d4c6
+Capsule_Flash_08d4c6:
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +000
         jsr     0x28d70.l                       | +004
         subq.w  #0x1,0x70(a6)                   | +00a
         cmpi.w  #0x0,0x70(a6)                   | +00e
@@ -304,11 +304,11 @@ TaskHandler_08d4c6:
         jsr     0x28cd4.l                       | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d4fe  @ $08D4FE  (50 B)
+|  Capsule_FadeIn_08d4fe  @ $08D4FE  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d4fe, "ax", @progbits
-        .global TaskHandler_08d4fe
-TaskHandler_08d4fe:
+        .section .text.Capsule_FadeIn_08d4fe, "ax", @progbits
+        .global Capsule_FadeIn_08d4fe
+Capsule_FadeIn_08d4fe:
         addq.b  #0x2,0x32(a6)                   | +000
         addq.b  #0x2,0x33(a6)                   | +004
         cmpi.b  #0x7f,0x32(a6)                  | +008
@@ -316,17 +316,17 @@ TaskHandler_08d4fe:
         move.b  #0x7f,0x32(a6)                  | +012
         move.b  #0x7f,0x33(a6)                  | +018
 .L08d51c:
-        jsr     TaskHandler_08d2b0(pc)          | +01e
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +01e
         jsr     0x28d70.l                       | +022
         cmpi.w  #0xa0,0x22(a6)                  | +028
         blt.w   SetHandlerRts_08d536            | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d538  @ $08D538  (28 B)
+|  Capsule_Glow_08d538  @ $08D538  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d538, "ax", @progbits
-        .global TaskHandler_08d538
-TaskHandler_08d538:
+        .section .text.Capsule_Glow_08d538, "ax", @progbits
+        .global Capsule_Glow_08d538
+Capsule_Glow_08d538:
         lea     0x2f377e.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08d54a(pc),a1                 | +00c
@@ -336,26 +336,26 @@ TaskHandler_08d538:
         bcc.w   SetHandlerRts_08d55a            | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d55c  @ $08D55C  (28 B)
+|  Capsule_GlowDown_08d55c  @ $08D55C  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d55c, "ax", @progbits
-        .global TaskHandler_08d55c
-TaskHandler_08d55c:
+        .section .text.Capsule_GlowDown_08d55c, "ax", @progbits
+        .global Capsule_GlowDown_08d55c
+Capsule_GlowDown_08d55c:
         subq.b  #0x2,0x32(a6)                   | +000
         subq.b  #0x2,0x33(a6)                   | +004
         cmpi.b  #0x7f,0x32(a6)                  | +008
         bhi.w   .L08d574                        | +00e
-        lea     TaskHandler_08d580(pc),a1       | +012
+        lea     Capsule_Glow2_08d580(pc),a1     | +012
         move.l  a1,(a6)                         | +016
 .L08d574:
-        jsr     PcThunkTarget_08d804(pc)        | +018
+        jsr     Capsule_CheckMissionEnd_08d804(pc) | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d580  @ $08D580  (34 B)
+|  Capsule_Glow2_08d580  @ $08D580  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d580, "ax", @progbits
-        .global TaskHandler_08d580
-TaskHandler_08d580:
+        .section .text.Capsule_Glow2_08d580, "ax", @progbits
+        .global Capsule_Glow2_08d580
+Capsule_Glow2_08d580:
         lea     0x2f37da.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08d592(pc),a1                 | +00c
@@ -363,30 +363,30 @@ TaskHandler_08d580:
 .L08d592:
         jsr     0x28d70.l                       | +012
         bcc.w   JsrPcThunk_08d5a2               | +018
-        lea     TaskHandler_08d5a8(pc),a1       | +01c
+        lea     Capsule_GlowUp_08d5a8(pc),a1    | +01c
         move.l  a1,(a6)                         | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d5a8  @ $08D5A8  (30 B)
+|  Capsule_GlowUp_08d5a8  @ $08D5A8  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d5a8, "ax", @progbits
-        .global TaskHandler_08d5a8
-TaskHandler_08d5a8:
+        .section .text.Capsule_GlowUp_08d5a8, "ax", @progbits
+        .global Capsule_GlowUp_08d5a8
+Capsule_GlowUp_08d5a8:
         addq.b  #0x2,0x32(a6)                   | +000
         addq.b  #0x2,0x33(a6)                   | +004
         cmpi.b  #0xd0,0x32(a6)                  | +008
         bcs.w   .L08d5c0                        | +00e
-        lea     TaskHandler_08d538(pc),a1       | +012
+        lea     Capsule_Glow_08d538(pc),a1      | +012
         move.l  a1,(a6)                         | +016
 .L08d5c0:
         jsr     0x28d70.l                       | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d5cc  @ $08D5CC  (90 B)
+|  Capsule_Rise_08d5cc  @ $08D5CC  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d5cc, "ax", @progbits
-        .global TaskHandler_08d5cc
-TaskHandler_08d5cc:
+        .section .text.Capsule_Rise_08d5cc, "ax", @progbits
+        .global Capsule_Rise_08d5cc
+Capsule_Rise_08d5cc:
         move.w  0x24(a6),0x5c(a6)               | +000
         move.w  #0xffc0,0x2a(a6)                | +006
         move.w  #0x2000,0x38(a6)                | +00c
@@ -401,7 +401,7 @@ TaskHandler_08d5cc:
         move.b  #0x34,0x32(a6)                  | +030
         move.b  #0x34,0x33(a6)                  | +036
 .L08d608:
-        jsr     Sub_0008D2D4(pc)                | +03c
+        jsr     Pos_IntegrateY88_08d2d4(pc)     | +03c
         jsr     0x28d70.l                       | +040
         subq.w  #0x1,0x70(a6)                   | +046
         cmpi.w  #0x0,0x70(a6)                   | +04a
@@ -409,11 +409,11 @@ TaskHandler_08d5cc:
         move.w  #0x80,0x2a(a6)                  | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d62e  @ $08D62E  (58 B)
+|  Capsule_Fall_08d62e  @ $08D62E  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d62e, "ax", @progbits
-        .global TaskHandler_08d62e
-TaskHandler_08d62e:
+        .section .text.Capsule_Fall_08d62e, "ax", @progbits
+        .global Capsule_Fall_08d62e
+Capsule_Fall_08d62e:
         addq.b  #0x2,0x32(a6)                   | +000
         addq.b  #0x2,0x33(a6)                   | +004
         cmpi.b  #0x7f,0x32(a6)                  | +008
@@ -421,7 +421,7 @@ TaskHandler_08d62e:
         move.b  #0x7f,0x32(a6)                  | +012
         move.b  #0x7f,0x33(a6)                  | +018
 .L08d64c:
-        jsr     Sub_0008D2D4(pc)                | +01e
+        jsr     Pos_IntegrateY88_08d2d4(pc)     | +01e
         jsr     0x28d70.l                       | +022
         move.w  0x5c(a6),d0                     | +028
         cmp.w   0x24(a6),d0                     | +02c
@@ -429,11 +429,11 @@ TaskHandler_08d62e:
         move.w  #0xf000,0x38(a6)                | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d670  @ $08D670  (116 B)
+|  MissionEnd_ScrollOut_08d670  @ $08D670  (116 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d670, "ax", @progbits
-        .global TaskHandler_08d670
-TaskHandler_08d670:
+        .section .text.MissionEnd_ScrollOut_08d670, "ax", @progbits
+        .global MissionEnd_ScrollOut_08d670
+MissionEnd_ScrollOut_08d670:
         move.b  #0x0,0x5c(a6)                   | +000
         move.l  #0x20000,0x80(a6)               | +006
         move.l  #0x0,0x84(a6)                   | +00e
@@ -454,17 +454,17 @@ TaskHandler_08d670:
         add.b   d0,0x33(a6)                     | +056
         bra.w   JsrAbsThunk_08d6e4              | +05a
 .L08d6ce:
-        lea     TaskHandler_08d6ec(pc),a1       | +05e
+        lea     MissionEnd_Flash_08d6ec(pc),a1  | +05e
         jsr     0x4ae.l                         | +062
         jsr     0x5dd02.l                       | +068
         jmp     0x518.l                         | +06e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d6ec  @ $08D6EC  (54 B)
+|  MissionEnd_Flash_08d6ec  @ $08D6EC  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d6ec, "ax", @progbits
-        .global TaskHandler_08d6ec
-TaskHandler_08d6ec:
+        .section .text.MissionEnd_Flash_08d6ec, "ax", @progbits
+        .global MissionEnd_Flash_08d6ec
+MissionEnd_Flash_08d6ec:
         move.w  #0xf4,d1                        | +000
         jsr     0x236e.l                        | +004
         lea     0x2f44f6.l,a0                   | +00a
@@ -479,11 +479,11 @@ TaskHandler_08d6ec:
         bgt.w   SetHandlerRts_08d728            | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d72a  @ $08D72A  (74 B)
+|  MissionEnd_SpawnDropper_08d72a  @ $08D72A  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d72a, "ax", @progbits
-        .global TaskHandler_08d72a
-TaskHandler_08d72a:
+        .section .text.MissionEnd_SpawnDropper_08d72a, "ax", @progbits
+        .global MissionEnd_SpawnDropper_08d72a
+MissionEnd_SpawnDropper_08d72a:
         jsr     0x4407a.l                       | +000
         jsr     0x28d70.l                       | +006
         bcc.w   .L08d772                        | +00c
@@ -501,11 +501,11 @@ TaskHandler_08d72a:
         rts                                     | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d774  @ $08D774  (66 B)
+|  Capsule_DimWaitScroll_08d774  @ $08D774  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d774, "ax", @progbits
-        .global TaskHandler_08d774
-TaskHandler_08d774:
+        .section .text.Capsule_DimWaitScroll_08d774, "ax", @progbits
+        .global Capsule_DimWaitScroll_08d774
+Capsule_DimWaitScroll_08d774:
         subq.b  #0x2,0x32(a6)                   | +000
         subq.b  #0x2,0x33(a6)                   | +004
         cmpi.b  #0x34,0x32(a6)                  | +008
@@ -521,24 +521,24 @@ TaskHandler_08d774:
         move.w  #0xffc0,0x2e(a6)                | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d7be  @ $08D7BE  (28 B)
+|  Capsule_FallToGround_08d7be  @ $08D7BE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d7be, "ax", @progbits
-        .global TaskHandler_08d7be
-TaskHandler_08d7be:
+        .section .text.Capsule_FallToGround_08d7be, "ax", @progbits
+        .global Capsule_FallToGround_08d7be
+Capsule_FallToGround_08d7be:
         jsr     0x2783a.l                       | +000
         jsr     0x27bc8.l                       | +006
         bcc.w   JsrAbsThunk_08d7da              | +00c
         move.w  #0x75,0x70(a6)                  | +010
-        lea     TaskHandler_08d7e2(pc),a1       | +016
+        lea     Capsule_Vanish_08d7e2(pc),a1    | +016
         move.l  a1,(a6)                         | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d7e2  @ $08D7E2  (26 B)
+|  Capsule_Vanish_08d7e2  @ $08D7E2  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d7e2, "ax", @progbits
-        .global TaskHandler_08d7e2
-TaskHandler_08d7e2:
+        .section .text.Capsule_Vanish_08d7e2, "ax", @progbits
+        .global Capsule_Vanish_08d7e2
+Capsule_Vanish_08d7e2:
         subq.w  #0x1,0x70(a6)                   | +000
         cmpi.w  #0x0,0x70(a6)                   | +004
         bgt.w   .L08d7f6                        | +00a
@@ -547,16 +547,16 @@ TaskHandler_08d7e2:
         jsr     0x2783a.l                       | +014
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_08d804  @ $08D804  (54 B)
+|  Capsule_CheckMissionEnd_08d804  @ $08D804  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_08d804, "ax", @progbits
-        .global PcThunkTarget_08d804
-PcThunkTarget_08d804:
+        .section .text.Capsule_CheckMissionEnd_08d804, "ax", @progbits
+        .global Capsule_CheckMissionEnd_08d804
+Capsule_CheckMissionEnd_08d804:
         cmpi.b  #0xb,0x106ece.l                 | +000
         bne.w   .L08d822                        | +008
         cmpi.w  #0x42c0,0x106f5c.l              | +00c
         bcs.w   .L08d822                        | +014
-        lea     TaskHandler_08d670(pc),a1       | +018
+        lea     MissionEnd_ScrollOut_08d670(pc),a1 | +018
         move.l  a1,(a6)                         | +01c
 .L08d822:
         cmpi.b  #0xc,0x106ece.l                 | +01e
@@ -565,11 +565,11 @@ PcThunkTarget_08d804:
         bcs.w   SetHandlerRts_08d840            | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d842  @ $08D842  (80 B)
+|  MissionEnd_Marker_08d842  @ $08D842  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d842, "ax", @progbits
-        .global TaskHandler_08d842
-TaskHandler_08d842:
+        .section .text.MissionEnd_Marker_08d842, "ax", @progbits
+        .global MissionEnd_Marker_08d842
+MissionEnd_Marker_08d842:
         move.w  #0xf0,0x22(a6)                  | +000
         move.w  #0x1a0,0x24(a6)                 | +006
         clr.w   0x26(a6)                        | +00c
@@ -584,32 +584,32 @@ TaskHandler_08d842:
         bcs.w   .L08d88c                        | +034
         lea     0x2f39dc.l,a0                   | +038
         jsr     0x28cd4.l                       | +03e
-        lea     TaskHandler_08d89a(pc),a1       | +044
+        lea     MissionEnd_Marker2_08d89a(pc),a1 | +044
         move.l  a1,(a6)                         | +048
 .L08d88c:
         jsr     0x2783a.l                       | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d89a  @ $08D89A  (36 B)
+|  MissionEnd_Marker2_08d89a  @ $08D89A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d89a, "ax", @progbits
-        .global TaskHandler_08d89a
-TaskHandler_08d89a:
+        .section .text.MissionEnd_Marker2_08d89a, "ax", @progbits
+        .global MissionEnd_Marker2_08d89a
+MissionEnd_Marker2_08d89a:
         cmpi.w  #0x433f,0x106f5c.l              | +000
         bcs.w   .L08d8b8                        | +008
         lea     0x2f39e8.l,a0                   | +00c
         jsr     0x28cd4.l                       | +012
-        lea     TaskHandler_08d8c6(pc),a1       | +018
+        lea     MissionEnd_Marker3_08d8c6(pc),a1 | +018
         move.l  a1,(a6)                         | +01c
 .L08d8b8:
         jsr     0x2783a.l                       | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d8c6  @ $08D8C6  (38 B)
+|  MissionEnd_Marker3_08d8c6  @ $08D8C6  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d8c6, "ax", @progbits
-        .global TaskHandler_08d8c6
-TaskHandler_08d8c6:
+        .section .text.MissionEnd_Marker3_08d8c6, "ax", @progbits
+        .global MissionEnd_Marker3_08d8c6
+MissionEnd_Marker3_08d8c6:
         jsr     0x2783a.l                       | +000
         jsr     0x28d70.l                       | +006
         bcc.w   SetHandlerRts_08d8f2            | +00c
@@ -618,29 +618,29 @@ TaskHandler_08d8c6:
         move.l  #0x0,0x8c(a6)                   | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d8f4  @ $08D8F4  (60 B)
+|  MissionEnd_ScrollUp_08d8f4  @ $08D8F4  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d8f4, "ax", @progbits
-        .global TaskHandler_08d8f4
-TaskHandler_08d8f4:
+        .section .text.MissionEnd_ScrollUp_08d8f4, "ax", @progbits
+        .global MissionEnd_ScrollUp_08d8f4
+MissionEnd_ScrollUp_08d8f4:
         cmpi.w  #0xd8,0x106f54.l                | +000
         bhi.w   .L08d926                        | +008
         move.w  #0xb4,0x70(a6)                  | +00c
         move.l  #0x0,0x106f64.l                 | +012
         move.l  #0x0,0x88(a6)                   | +01c
         move.l  #0x0,0x8c(a6)                   | +024
-        lea     TaskHandler_08d938(pc),a1       | +02c
+        lea     MissionEnd_Wait_08d938(pc),a1   | +02c
         move.l  a1,(a6)                         | +030
 .L08d926:
         jsr     Scroll_StepVelY_08ccd8(pc)      | +032
         jsr     0x2783a.l                       | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d938  @ $08D938  (70 B)
+|  MissionEnd_Wait_08d938  @ $08D938  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d938, "ax", @progbits
-        .global TaskHandler_08d938
-TaskHandler_08d938:
+        .section .text.MissionEnd_Wait_08d938, "ax", @progbits
+        .global MissionEnd_Wait_08d938
+MissionEnd_Wait_08d938:
         subq.w  #0x1,0x70(a6)                   | +000
         cmpi.w  #0x0,0x70(a6)                   | +004
         bgt.w   .L08d978                        | +00a
@@ -651,25 +651,25 @@ TaskHandler_08d938:
         move.w  #0xa0,0x22(a0)                  | +024
         move.w  #0x100,0x24(a0)                 | +02a
         move.l  #0x0,0x106f64.l                 | +030
-        lea     TaskHandler_08d986(pc),a1       | +03a
+        lea     MissionEnd_Idle_08d986(pc),a1   | +03a
         move.l  a1,(a6)                         | +03e
 .L08d978:
         jsr     0x2783a.l                       | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d986  @ $08D986  (6 B)
+|  MissionEnd_Idle_08d986  @ $08D986  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d986, "ax", @progbits
-        .global TaskHandler_08d986
-TaskHandler_08d986:
+        .section .text.MissionEnd_Idle_08d986, "ax", @progbits
+        .global MissionEnd_Idle_08d986
+MissionEnd_Idle_08d986:
         jsr     0x2783a.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d994  @ $08D994  (70 B)
+|  Grunt_Tmpl157_08d994  @ $08D994  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d994, "ax", @progbits
-        .global TaskHandler_08d994
-TaskHandler_08d994:
+        .section .text.Grunt_Tmpl157_08d994, "ax", @progbits
+        .global Grunt_Tmpl157_08d994
+Grunt_Tmpl157_08d994:
         jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
         jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F02C(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
@@ -690,11 +690,11 @@ TaskHandler_08d994:
         jsr     PcThunkTarget_08efb0(pc)        | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08d9e2  @ $08D9E2  (70 B)
+|  Grunt_Tmpl158_08d9e2  @ $08D9E2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08d9e2, "ax", @progbits
-        .global TaskHandler_08d9e2
-TaskHandler_08d9e2:
+        .section .text.Grunt_Tmpl158_08d9e2, "ax", @progbits
+        .global Grunt_Tmpl158_08d9e2
+Grunt_Tmpl158_08d9e2:
         jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
         jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F02C(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
@@ -715,11 +715,11 @@ TaskHandler_08d9e2:
         jsr     PcThunkTarget_08efb0(pc)        | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08da30  @ $08DA30  (102 B)
+|  Grunt_Carrier_08da30  @ $08DA30  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08da30, "ax", @progbits
-        .global TaskHandler_08da30
-TaskHandler_08da30:
+        .section .text.Grunt_Carrier_08da30, "ax", @progbits
+        .global Grunt_Carrier_08da30
+Grunt_Carrier_08da30:
         move.b  #0x0,0x98(a6)                   | +000
         move.b  #0x0,0x99(a6)                   | +006
         move.w  #0x40,0x22(a6)                  | +00c
@@ -739,21 +739,21 @@ TaskHandler_08da30:
         bcc.w   .L08da8c                        | +046
         lea     0x2f3b70.l,a0                   | +04a
         jsr     0x28cd4.l                       | +050
-        lea     TaskHandler_08da9e(pc),a1       | +056
+        lea     Grunt_Carrier_Drop_08da9e(pc),a1 | +056
         move.l  a1,(a6)                         | +05a
 .L08da8c:
         jsr     0x2783a.l                       | +05c
         jsr     PcThunkTarget_08efb0(pc)        | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08da9e  @ $08DA9E  (60 B)
+|  Grunt_Carrier_Drop_08da9e  @ $08DA9E  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08da9e, "ax", @progbits
-        .global TaskHandler_08da9e
-TaskHandler_08da9e:
+        .section .text.Grunt_Carrier_Drop_08da9e, "ax", @progbits
+        .global Grunt_Carrier_Drop_08da9e
+Grunt_Carrier_Drop_08da9e:
         cmpi.w  #0x0,0x5c(a6)                   | +000
         beq.w   .L08dad0                        | +006
-        lea     TaskHandler_08dae2(pc),a1       | +00a
+        lea     Grunt_Dropped_08dae2(pc),a1     | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd02.l                       | +014
         move.b  0x3a(a6),0x98(a0)               | +01a
@@ -766,11 +766,11 @@ TaskHandler_08da9e:
         jsr     PcThunkTarget_08efb0(pc)        | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dae2  @ $08DAE2  (102 B)
+|  Grunt_Dropped_08dae2  @ $08DAE2  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dae2, "ax", @progbits
-        .global TaskHandler_08dae2
-TaskHandler_08dae2:
+        .section .text.Grunt_Dropped_08dae2, "ax", @progbits
+        .global Grunt_Dropped_08dae2
+Grunt_Dropped_08dae2:
         move.w  #0xc000,0x38(a6)                | +000
         andi.w  #0xffe3,0x38(a6)                | +006
         ori.w   #0x1c,0x38(a6)                  | +00c
@@ -786,7 +786,7 @@ TaskHandler_08dae2:
         move.l  a1,(a6)                         | +03e
 .L08db22:
         jsr     0x2783a.l                       | +040
-        jsr     TaskHandler_08d34e(pc)          | +046
+        jsr     Pos_IntegrateXY88_Accel_08d34e(pc) | +046
         movea.l #0xffffffff,a0                  | +04a
         jsr     0x5dd56.l                       | +050
         bcc.w   JsrAbsThunk_08db48              | +056
@@ -794,11 +794,11 @@ TaskHandler_08dae2:
         jmp     0x518.l                         | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08db50  @ $08DB50  (42 B)
+|  Grunt_Tmpl162_08db50  @ $08DB50  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08db50, "ax", @progbits
-        .global TaskHandler_08db50
-TaskHandler_08db50:
+        .section .text.Grunt_Tmpl162_08db50, "ax", @progbits
+        .global Grunt_Tmpl162_08db50
+Grunt_Tmpl162_08db50:
         move.w  #0xd000,0x38(a6)                | +000
         jsr     Sub_0008F002(pc)                | +006  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F010(pc)                | +00a  -> $08F010 (hueco futuro, defsym forward)
@@ -806,15 +806,15 @@ TaskHandler_08db50:
         jsr     0x236e.l                        | +012
         lea     0x2f3c84.l,a0                   | +018
         jsr     0x28cd4.l                       | +01e
-        lea     TaskHandler_08db7a(pc),a1       | +024
+        lea     Grunt_HopDown_08db7a(pc),a1     | +024
         move.l  a1,(a6)                         | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08db7a  @ $08DB7A  (70 B)
+|  Grunt_HopDown_08db7a  @ $08DB7A  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08db7a, "ax", @progbits
-        .global TaskHandler_08db7a
-TaskHandler_08db7a:
+        .section .text.Grunt_HopDown_08db7a, "ax", @progbits
+        .global Grunt_HopDown_08db7a
+Grunt_HopDown_08db7a:
         move.w  #0xe,0x2e(a6)                   | +000
         move.w  #0x8,0x70(a6)                   | +006
         move.w  #0x7,d0                         | +00c
@@ -826,29 +826,29 @@ TaskHandler_08db7a:
         move.l  a1,(a6)                         | +02a
 .L08dba6:
         jsr     0x2783a.l                       | +02c
-        jsr     TaskHandler_08d34e(pc)          | +032
+        jsr     Pos_IntegrateXY88_Accel_08d34e(pc) | +032
         jsr     0x28d70.l                       | +036
         cmpi.w  #0x1d0,0x24(a6)                 | +03c
-        blt.w   TaskHandler_08dbc8              | +042
+        blt.w   Grunt_HopDown_Wait_08dbc8       | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dbc8  @ $08DBC8  (20 B)
+|  Grunt_HopDown_Wait_08dbc8  @ $08DBC8  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dbc8, "ax", @progbits
-        .global TaskHandler_08dbc8
-TaskHandler_08dbc8:
+        .section .text.Grunt_HopDown_Wait_08dbc8, "ax", @progbits
+        .global Grunt_HopDown_Wait_08dbc8
+Grunt_HopDown_Wait_08dbc8:
         subq.w  #0x1,0x70(a6)                   | +000
         cmpi.w  #0x0,0x70(a6)                   | +004
         bhi.w   JsrPcThunk_08dbdc               | +00a
-        lea     TaskHandler_08dbe2(pc),a1       | +00e
+        lea     Grunt_HopUp_08dbe2(pc),a1       | +00e
         move.l  a1,(a6)                         | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dbe2  @ $08DBE2  (70 B)
+|  Grunt_HopUp_08dbe2  @ $08DBE2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dbe2, "ax", @progbits
-        .global TaskHandler_08dbe2
-TaskHandler_08dbe2:
+        .section .text.Grunt_HopUp_08dbe2, "ax", @progbits
+        .global Grunt_HopUp_08dbe2
+Grunt_HopUp_08dbe2:
         move.w  #0xfff2,0x2e(a6)                | +000
         move.w  #0x8,0x70(a6)                   | +006
         move.w  #0x7,d0                         | +00c
@@ -860,29 +860,29 @@ TaskHandler_08dbe2:
         move.l  a1,(a6)                         | +02a
 .L08dc0e:
         jsr     0x2783a.l                       | +02c
-        jsr     TaskHandler_08d34e(pc)          | +032
+        jsr     Pos_IntegrateXY88_Accel_08d34e(pc) | +032
         jsr     0x28d70.l                       | +036
         cmpi.w  #0x160,0x24(a6)                 | +03c
-        bge.w   TaskHandler_08dc30              | +042
+        bge.w   Grunt_HopUp_Wait_08dc30         | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dc30  @ $08DC30  (20 B)
+|  Grunt_HopUp_Wait_08dc30  @ $08DC30  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dc30, "ax", @progbits
-        .global TaskHandler_08dc30
-TaskHandler_08dc30:
+        .section .text.Grunt_HopUp_Wait_08dc30, "ax", @progbits
+        .global Grunt_HopUp_Wait_08dc30
+Grunt_HopUp_Wait_08dc30:
         subq.w  #0x1,0x70(a6)                   | +000
         cmpi.w  #0x0,0x70(a6)                   | +004
         bhi.w   JsrPcThunk_08dc44               | +00a
-        lea     TaskHandler_08db7a(pc),a1       | +00e
+        lea     Grunt_HopDown_08db7a(pc),a1     | +00e
         move.l  a1,(a6)                         | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dc4a  @ $08DC4A  (68 B)
+|  Grunt_Rand_Idle_08dc4a  @ $08DC4A  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dc4a, "ax", @progbits
-        .global TaskHandler_08dc4a
-TaskHandler_08dc4a:
+        .section .text.Grunt_Rand_Idle_08dc4a, "ax", @progbits
+        .global Grunt_Rand_Idle_08dc4a
+Grunt_Rand_Idle_08dc4a:
         move.w  #0x40,0x22(a6)                  | +000
         move.w  #0x150,0x24(a6)                 | +006
         clr.w   0x26(a6)                        | +00c
@@ -895,15 +895,15 @@ TaskHandler_08dc4a:
         jsr     0x28cd4.l                       | +02c
         jsr     0x27cee.l                       | +032
         jsr     0x28d70.l                       | +038
-        lea     TaskHandler_08dc94(pc),a1       | +03e
+        lea     Grunt_Rand_Stand_08dc94(pc),a1  | +03e
         move.l  a1,(a6)                         | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dc94  @ $08DC94  (96 B)
+|  Grunt_Rand_Stand_08dc94  @ $08DC94  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dc94, "ax", @progbits
-        .global TaskHandler_08dc94
-TaskHandler_08dc94:
+        .section .text.Grunt_Rand_Stand_08dc94, "ax", @progbits
+        .global Grunt_Rand_Stand_08dc94
+Grunt_Rand_Stand_08dc94:
         lea     0x2f3c58.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08dca6(pc),a1                 | +00c
@@ -917,28 +917,28 @@ TaskHandler_08dc94:
         move.w  #0x60,d0                        | +02c
         jsr     Sub_0008EFCE(pc)                | +030  -> $08EFCE (hueco futuro, defsym forward)
         bcc.w   .L08dcd6                        | +034
-        lea     TaskHandler_08dd7e(pc),a1       | +038
+        lea     Grunt_Hit_08dd7e(pc),a1         | +038
         move.l  a1,(a6)                         | +03c
         bra.w   .L08dcda                        | +03e
 .L08dcd6:
-        jsr     TaskHandler_08dec2(pc)          | +042
+        jsr     Grunt_PickRand_2f3712_08dec2(pc) | +042
 .L08dcda:
         bra.w   JsrPcThunk_08dcf4               | +046
 .L08dcde:
         jsr     Sub_0008F040(pc)                | +04a  -> $08F040 (hueco futuro, defsym forward)
         bcc.w   .L08dcf0                        | +04e
-        lea     TaskHandler_08dd7e(pc),a1       | +052
+        lea     Grunt_Hit_08dd7e(pc),a1         | +052
         move.l  a1,(a6)                         | +056
         bra.w   JsrPcThunk_08dcf4               | +058
 .L08dcf0:
-        jsr     TaskHandler_08dec2(pc)          | +05c
+        jsr     Grunt_PickRand_2f3712_08dec2(pc) | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dcfa  @ $08DCFA  (38 B)
+|  Grunt_Rand_Stand2_08dcfa  @ $08DCFA  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dcfa, "ax", @progbits
-        .global TaskHandler_08dcfa
-TaskHandler_08dcfa:
+        .section .text.Grunt_Rand_Stand2_08dcfa, "ax", @progbits
+        .global Grunt_Rand_Stand2_08dcfa
+Grunt_Rand_Stand2_08dcfa:
         lea     0x2f3c64.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08dd0c(pc),a1                 | +00c
@@ -947,14 +947,14 @@ TaskHandler_08dcfa:
         jsr     0x2783a.l                       | +012
         jsr     0x28d70.l                       | +018
         bcc.w   JsrPcThunk_08dd20               | +01e
-        jsr     TaskHandler_08dec2(pc)          | +022
+        jsr     Grunt_PickRand_2f3712_08dec2(pc) | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dd26  @ $08DD26  (82 B)
+|  Grunt_Rand_Walk_08dd26  @ $08DD26  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dd26, "ax", @progbits
-        .global TaskHandler_08dd26
-TaskHandler_08dd26:
+        .section .text.Grunt_Rand_Walk_08dd26, "ax", @progbits
+        .global Grunt_Rand_Walk_08dd26
+Grunt_Rand_Walk_08dd26:
         move.w  #0x1,d0                         | +000
         jsr     0x5ea1c.l                       | +004
         move.b  d0,0x98(a6)                     | +00a
@@ -971,18 +971,18 @@ TaskHandler_08dd26:
         move.l  a1,(a6)                         | +036
 .L08dd5e:
         jsr     0x2783a.l                       | +038
-        jsr     TaskHandler_08d2f8(pc)          | +03e
+        jsr     Pos_IntegrateXY88_08d2f8(pc)    | +03e
         jsr     0x28d70.l                       | +042
         bcc.w   JsrPcThunk_08dd78               | +048
-        lea     TaskHandler_08dc94(pc),a1       | +04c
+        lea     Grunt_Rand_Stand_08dc94(pc),a1  | +04c
         move.l  a1,(a6)                         | +050
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dd7e  @ $08DD7E  (44 B)
+|  Grunt_Hit_08dd7e  @ $08DD7E  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dd7e, "ax", @progbits
-        .global TaskHandler_08dd7e
-TaskHandler_08dd7e:
+        .section .text.Grunt_Hit_08dd7e, "ax", @progbits
+        .global Grunt_Hit_08dd7e
+Grunt_Hit_08dd7e:
         addi.w  #0x4,0x24(a6)                   | +000
         move.w  #0x1e,0x70(a6)                  | +006
         move.w  #0xf,d0                         | +00c
@@ -990,30 +990,30 @@ TaskHandler_08dd7e:
         add.w   d0,0x70(a6)                     | +016
         jsr     0x2783a.l                       | +01a
         jsr     0x28d70.l                       | +020
-        lea     TaskHandler_08ddb0(pc),a1       | +026
+        lea     Grunt_Hit_Angle_08ddb0(pc),a1   | +026
         move.l  a1,(a6)                         | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08ddb0  @ $08DDB0  (36 B)
+|  Grunt_Hit_Angle_08ddb0  @ $08DDB0  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08ddb0, "ax", @progbits
-        .global TaskHandler_08ddb0
-TaskHandler_08ddb0:
+        .section .text.Grunt_Hit_Angle_08ddb0, "ax", @progbits
+        .global Grunt_Hit_Angle_08ddb0
+Grunt_Hit_Angle_08ddb0:
         move.w  #0x1f,d0                        | +000
         jsr     0x5ea1c.l                       | +004
         addi.w  #0x10,d0                        | +00a
         move.w  d0,0x34(a6)                     | +00e
         jsr     0x2783a.l                       | +012
         jsr     0x28d70.l                       | +018
-        lea     TaskHandler_08ddda(pc),a1       | +01e
+        lea     Grunt_Hit_Launch_08ddda(pc),a1  | +01e
         move.l  a1,(a6)                         | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08ddda  @ $08DDDA  (74 B)
+|  Grunt_Hit_Launch_08ddda  @ $08DDDA  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08ddda, "ax", @progbits
-        .global TaskHandler_08ddda
-TaskHandler_08ddda:
+        .section .text.Grunt_Hit_Launch_08ddda, "ax", @progbits
+        .global Grunt_Hit_Launch_08ddda
+Grunt_Hit_Launch_08ddda:
         move.w  #0xff,d0                        | +000
         jsr     0x5ea1c.l                       | +004
         move.w  #0x200,d1                       | +00a
@@ -1028,17 +1028,17 @@ TaskHandler_08ddda:
         jsr     0x28cd4.l                       | +032
         jsr     0x2783a.l                       | +038
         jsr     0x28d70.l                       | +03e
-        lea     TaskHandler_08de2a(pc),a1       | +044
+        lea     Grunt_Hit_Fly_08de2a(pc),a1     | +044
         move.l  a1,(a6)                         | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08de2a  @ $08DE2A  (52 B)
+|  Grunt_Hit_Fly_08de2a  @ $08DE2A  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08de2a, "ax", @progbits
-        .global TaskHandler_08de2a
-TaskHandler_08de2a:
+        .section .text.Grunt_Hit_Fly_08de2a, "ax", @progbits
+        .global Grunt_Hit_Fly_08de2a
+Grunt_Hit_Fly_08de2a:
         jsr     0x2783a.l                       | +000
-        jsr     TaskHandler_08d2f8(pc)          | +006
+        jsr     Pos_IntegrateXY88_08d2f8(pc)    | +006
         jsr     0x28d70.l                       | +00a
         subq.w  #0x1,0x70(a6)                   | +010
         cmpi.w  #0x0,0x70(a6)                   | +014
@@ -1046,15 +1046,15 @@ TaskHandler_08de2a:
         move.w  #0xd000,0x38(a6)                | +01e
         move.w  0x36(a6),0x28(a6)               | +024
         clr.w   0x2a(a6)                        | +02a
-        lea     TaskHandler_08db7a(pc),a1       | +02e
+        lea     Grunt_HopDown_08db7a(pc),a1     | +02e
         move.l  a1,(a6)                         | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08de64  @ $08DE64  (88 B)
+|  Grunt_Tmpl_Standing_08de64  @ $08DE64  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08de64, "ax", @progbits
-        .global TaskHandler_08de64
-TaskHandler_08de64:
+        .section .text.Grunt_Tmpl_Standing_08de64, "ax", @progbits
+        .global Grunt_Tmpl_Standing_08de64
+Grunt_Tmpl_Standing_08de64:
         move.b  #0x8,0x99(a6)                   | +000
         move.b  #0x1,0x98(a6)                   | +006
         jsr     Sub_0008F108(pc)                | +00c  -> $08F108 (hueco futuro, defsym forward)
@@ -1075,26 +1075,26 @@ TaskHandler_08de64:
         move.w  #0x60,d0                        | +046
         jsr     Sub_0008EFCE(pc)                | +04a  -> $08EFCE (hueco futuro, defsym forward)
         bcc.w   JsrPcThunk_08debc               | +04e
-        lea     TaskHandler_08dd7e(pc),a1       | +052
+        lea     Grunt_Hit_08dd7e(pc),a1         | +052
         move.l  a1,(a6)                         | +056
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dec2  @ $08DEC2  (22 B)
+|  Grunt_PickRand_2f3712_08dec2  @ $08DEC2  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dec2, "ax", @progbits
-        .global TaskHandler_08dec2
-TaskHandler_08dec2:
+        .section .text.Grunt_PickRand_2f3712_08dec2, "ax", @progbits
+        .global Grunt_PickRand_2f3712_08dec2
+Grunt_PickRand_2f3712_08dec2:
         move.w  #0x3,d0                         | +000
         jsr     0x5ea1c.l                       | +004
         lea     0x2f3712.l,a0                   | +00a
         movea.l #0xffffffff,a1                  | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dee0  @ $08DEE0  (98 B)
+|  Grunt_Runner_08dee0  @ $08DEE0  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dee0, "ax", @progbits
-        .global TaskHandler_08dee0
-TaskHandler_08dee0:
+        .section .text.Grunt_Runner_08dee0, "ax", @progbits
+        .global Grunt_Runner_08dee0
+Grunt_Runner_08dee0:
         move.w  #0x60,0x22(a6)                  | +000
         move.w  #0x150,0x24(a6)                 | +006
         clr.w   0x26(a6)                        | +00c
@@ -1115,49 +1115,49 @@ TaskHandler_08dee0:
         move.l  a1,(a6)                         | +052
 .L08df34:
         jsr     0x2783a.l                       | +054
-        jsr     TaskHandler_08d2b0(pc)          | +05a
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +05a
         jsr     PcThunkTarget_08efb0(pc)        | +05e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08df4a  @ $08DF4A  (32 B)
+|  Grunt_Tmpl153_08df4a  @ $08DF4A  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08df4a, "ax", @progbits
-        .global TaskHandler_08df4a
-TaskHandler_08df4a:
+        .section .text.Grunt_Tmpl153_08df4a, "ax", @progbits
+        .global Grunt_Tmpl153_08df4a
+Grunt_Tmpl153_08df4a:
         jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
         jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F010(pc)                | +008  -> $08F010 (hueco futuro, defsym forward)
         jsr     Sub_0008F070(pc)                | +00c  -> $08F070 (hueco futuro, defsym forward)
-        jsr     Sub_0008E172(pc)                | +010
+        jsr     Grunt_LoadMapByDir_08e172(pc)   | +010
         jsr     0x27cee.l                       | +014
         jsr     0x28d70.l                       | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08df72  @ $08DF72  (24 B)
+|  Grunt_Run_08df72  @ $08DF72  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08df72, "ax", @progbits
-        .global TaskHandler_08df72
-TaskHandler_08df72:
-        jsr     TaskHandler_08d2b0(pc)          | +000
+        .section .text.Grunt_Run_08df72, "ax", @progbits
+        .global Grunt_Run_08df72
+Grunt_Run_08df72:
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +000
         jsr     0x2783a.l                       | +004
-        jsr     TaskHandler_08d184(pc)          | +00a
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +00a
         bcc.w   JsrAbsThunk_08df8c              | +00e
         jmp     0x518.l                         | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08df8a  @ $08DF8A  (2 B)
+|  Rts_08df8a  @ $08DF8A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08df8a, "ax", @progbits
-        .global TaskHandler_08df8a
-TaskHandler_08df8a:
+        .section .text.Rts_08df8a, "ax", @progbits
+        .global Rts_08df8a
+Rts_08df8a:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08df94  @ $08DF94  (28 B)
+|  Grunt_Tmpl154_08df94  @ $08DF94  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08df94, "ax", @progbits
-        .global TaskHandler_08df94
-TaskHandler_08df94:
+        .section .text.Grunt_Tmpl154_08df94, "ax", @progbits
+        .global Grunt_Tmpl154_08df94
+Grunt_Tmpl154_08df94:
         jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
         jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F010(pc)                | +008  -> $08F010 (hueco futuro, defsym forward)
@@ -1166,11 +1166,11 @@ TaskHandler_08df94:
         jsr     0x28d70.l                       | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08dfb8  @ $08DFB8  (114 B)
+|  Grunt2_Rand_Stand_08dfb8  @ $08DFB8  (114 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08dfb8, "ax", @progbits
-        .global TaskHandler_08dfb8
-TaskHandler_08dfb8:
+        .section .text.Grunt2_Rand_Stand_08dfb8, "ax", @progbits
+        .global Grunt2_Rand_Stand_08dfb8
+Grunt2_Rand_Stand_08dfb8:
         lea     0x2f3e4a.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08dfca(pc),a1                 | +00c
@@ -1189,25 +1189,25 @@ TaskHandler_08dfb8:
         move.b  #0x1,0x98(a6)                   | +042
         jsr     Sub_0008F002(pc)                | +048  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F010(pc)                | +04c  -> $08F010 (hueco futuro, defsym forward)
-        jsr     Sub_0008E172(pc)                | +050
-        lea     TaskHandler_08df72(pc),a1       | +054
+        jsr     Grunt_LoadMapByDir_08e172(pc)   | +050
+        lea     Grunt_Run_08df72(pc),a1         | +054
         move.l  a1,(a6)                         | +058
         bra.w   .L08e01a                        | +05a
 .L08e016:
-        jsr     Sub_0008E09C(pc)                | +05e
+        jsr     Grunt_PickRand_2f3722_08e09c(pc) | +05e
 .L08e01a:
-        jsr     TaskHandler_08d184(pc)          | +062
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +062
         bcc.w   .L08e028                        | +066
         jmp     0x518.l                         | +06a
 .L08e028:
         rts                                     | +070
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e02a  @ $08E02A  (54 B)
+|  Grunt2_Rand_Stand2_08e02a  @ $08E02A  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e02a, "ax", @progbits
-        .global TaskHandler_08e02a
-TaskHandler_08e02a:
+        .section .text.Grunt2_Rand_Stand2_08e02a, "ax", @progbits
+        .global Grunt2_Rand_Stand2_08e02a
+Grunt2_Rand_Stand2_08e02a:
         lea     0x2f3e56.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08e03c(pc),a1                 | +00c
@@ -1216,55 +1216,55 @@ TaskHandler_08e02a:
         jsr     0x2783a.l                       | +012
         jsr     0x28d70.l                       | +018
         bcc.w   .L08e050                        | +01e
-        jsr     Sub_0008E09C(pc)                | +022
+        jsr     Grunt_PickRand_2f3722_08e09c(pc) | +022
 .L08e050:
-        jsr     TaskHandler_08d184(pc)          | +026
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +026
         bcc.w   .L08e05e                        | +02a
         jmp     0x518.l                         | +02e
 .L08e05e:
         rts                                     | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e060  @ $08E060  (60 B)
+|  Grunt2_Rand_Walk_08e060  @ $08E060  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e060, "ax", @progbits
-        .global TaskHandler_08e060
-TaskHandler_08e060:
+        .section .text.Grunt2_Rand_Walk_08e060, "ax", @progbits
+        .global Grunt2_Rand_Walk_08e060
+Grunt2_Rand_Walk_08e060:
         lea     0x2f3e0c.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08e072(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L08e072:
         jsr     0x2783a.l                       | +012
-        jsr     TaskHandler_08d2b0(pc)          | +018
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +018
         jsr     0x28d70.l                       | +01c
         bcc.w   .L08e08c                        | +022
-        lea     TaskHandler_08dfb8(pc),a1       | +026
+        lea     Grunt2_Rand_Stand_08dfb8(pc),a1 | +026
         move.l  a1,(a6)                         | +02a
 .L08e08c:
-        jsr     TaskHandler_08d184(pc)          | +02c
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +02c
         bcc.w   .L08e09a                        | +030
         jmp     0x518.l                         | +034
 .L08e09a:
         rts                                     | +03a
 
 | ----------------------------------------------------------------------------
-|  Sub_0008E09C  @ $08E09C  (22 B)
+|  Grunt_PickRand_2f3722_08e09c  @ $08E09C  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0008E09C, "ax", @progbits
-        .global Sub_0008E09C
-Sub_0008E09C:
+        .section .text.Grunt_PickRand_2f3722_08e09c, "ax", @progbits
+        .global Grunt_PickRand_2f3722_08e09c
+Grunt_PickRand_2f3722_08e09c:
         move.w  #0x3,d0                         | +000
         jsr     0x5ea1c.l                       | +004
         lea     0x2f3722.l,a0                   | +00a
         movea.l #0xffffffff,a1                  | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e0ba  @ $08E0BA  (74 B)
+|  Grunt2_Spawn_08e0ba  @ $08E0BA  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e0ba, "ax", @progbits
-        .global TaskHandler_08e0ba
-TaskHandler_08e0ba:
+        .section .text.Grunt2_Spawn_08e0ba, "ax", @progbits
+        .global Grunt2_Spawn_08e0ba
+Grunt2_Spawn_08e0ba:
         move.w  #0x80,0x22(a6)                  | +000
         move.w  #0x150,0x24(a6)                 | +006
         clr.w   0x26(a6)                        | +00c
@@ -1277,17 +1277,17 @@ TaskHandler_08e0ba:
         jsr     Sub_0008F070(pc)                | +02e  -> $08F070 (hueco futuro, defsym forward)
         jsr     0x27cee.l                       | +032
         jsr     0x28d70.l                       | +038
-        lea     TaskHandler_08e10c(pc),a1       | +03e
+        lea     Grunt2_Run_08e10c(pc),a1        | +03e
         move.l  a1,(a6)                         | +042
         lea     0x2f3e0c.l,a0                   | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e10c  @ $08E10C  (102 B)
+|  Grunt2_Run_08e10c  @ $08E10C  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e10c, "ax", @progbits
-        .global TaskHandler_08e10c
-TaskHandler_08e10c:
-        jsr     TaskHandler_08d2b0(pc)          | +000
+        .section .text.Grunt2_Run_08e10c, "ax", @progbits
+        .global Grunt2_Run_08e10c
+Grunt2_Run_08e10c:
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +000
         jsr     0x28d70.l                       | +004
         bcc.w   .L08e162                        | +00a
         move.w  #0x60,d0                        | +00e
@@ -1300,26 +1300,26 @@ TaskHandler_08e10c:
         move.b  #0x1,0x98(a6)                   | +02e
         jsr     Sub_0008F002(pc)                | +034  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F010(pc)                | +038  -> $08F010 (hueco futuro, defsym forward)
-        jsr     Sub_0008E172(pc)                | +03c
-        lea     TaskHandler_08df72(pc),a1       | +040
+        jsr     Grunt_LoadMapByDir_08e172(pc)   | +03c
+        lea     Grunt_Run_08df72(pc),a1         | +040
         move.l  a1,(a6)                         | +044
         bra.w   .L08e162                        | +046
 .L08e156:
         lea     0x2f3e0c.l,a0                   | +04a
         jsr     0x28cd4.l                       | +050
 .L08e162:
-        jsr     TaskHandler_08d184(pc)          | +056
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +056
         bcc.w   .L08e170                        | +05a
         jmp     0x518.l                         | +05e
 .L08e170:
         rts                                     | +064
 
 | ----------------------------------------------------------------------------
-|  Sub_0008E172  @ $08E172  (34 B)
+|  Grunt_LoadMapByDir_08e172  @ $08E172  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0008E172, "ax", @progbits
-        .global Sub_0008E172
-Sub_0008E172:
+        .section .text.Grunt_LoadMapByDir_08e172, "ax", @progbits
+        .global Grunt_LoadMapByDir_08e172
+Grunt_LoadMapByDir_08e172:
         clr.w   d0                              | +000
         move.b  0x99(a6),d0                     | +002
         lsr.b   #0x4,d0                         | +006
@@ -1331,11 +1331,11 @@ Sub_0008E172:
         beq.w   JsrAbsRts_08e19a                | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e19c  @ $08E19C  (86 B)
+|  Grunt_Tmpl160_08e19c  @ $08E19C  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e19c, "ax", @progbits
-        .global TaskHandler_08e19c
-TaskHandler_08e19c:
+        .section .text.Grunt_Tmpl160_08e19c, "ax", @progbits
+        .global Grunt_Tmpl160_08e19c
+Grunt_Tmpl160_08e19c:
         jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
         jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F02C(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
@@ -1354,16 +1354,16 @@ TaskHandler_08e19c:
         move.l  a1,(a6)                         | +040
 .L08e1de:
         jsr     0x2783a.l                       | +042
-        jsr     TaskHandler_08d1e8(pc)          | +048
+        jsr     Screen_InBoundsXWide_Latched_08d1e8(pc) | +048
         bcc.w   JsrAbsThunk_08e1f2              | +04c
         jmp     0x518.l                         | +050
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e1fa  @ $08E1FA  (134 B)
+|  Sentry_Init_08e1fa  @ $08E1FA  (134 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e1fa, "ax", @progbits
-        .global TaskHandler_08e1fa
-TaskHandler_08e1fa:
+        .section .text.Sentry_Init_08e1fa, "ax", @progbits
+        .global Sentry_Init_08e1fa
+Sentry_Init_08e1fa:
         move.b  #0x1,0x98(a6)                   | +000
         move.b  #0x20,0x99(a6)                  | +006
         move.b  #0x14,0x9a(a6)                  | +00c
@@ -1379,10 +1379,10 @@ TaskHandler_08e1fa:
         jsr     0x28cd4.l                       | +040
         move.w  #0xffff,0x38(a6)                | +046
         bset    #0x6,0x12(a6)                   | +04c
-        lea     TaskHandler_08e1fa__L08e252(pc),a1 | +052
+        lea     Sentry_Run_08e252(pc),a1 | +052
         move.l  a1,(a6)                         | +056
-        .global TaskHandler_08e1fa__L08e252
-TaskHandler_08e1fa__L08e252:
+        .global Sentry_Run_08e252
+Sentry_Run_08e252:
         jsr     PcThunkTarget_08efb0(pc)        | +058
         jsr     0x28d70.l                       | +05c
         bcc.w   SetHandlerRts_08e286            | +062
@@ -1396,26 +1396,26 @@ TaskHandler_08e1fa__L08e252:
         move.b  0x9a(a6),0x70(a6)               | +080
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e288  @ $08E288  (30 B)
+|  Sentry_Wait_08e288  @ $08E288  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e288, "ax", @progbits
-        .global TaskHandler_08e288
-TaskHandler_08e288:
+        .section .text.Sentry_Wait_08e288, "ax", @progbits
+        .global Sentry_Wait_08e288
+Sentry_Wait_08e288:
         subq.b  #0x1,0x70(a6)                   | +000
         bne.w   .L08e2a2                        | +004
         lea     0x2f3e9e.l,a0                   | +008
         jsr     0x28cd4.l                       | +00e
-        lea     TaskHandler_08e1fa__L08e252(pc),a1 | +014
+        lea     Sentry_Run_08e252(pc),a1 | +014
         move.l  a1,(a6)                         | +018
 .L08e2a2:
-        jsr     TaskHandler_08d2f8(pc)          | +01a
+        jsr     Pos_IntegrateXY88_08d2f8(pc)    | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e2ac  @ $08E2AC  (60 B)
+|  Grunt_Tmpl180_08e2ac  @ $08E2AC  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e2ac, "ax", @progbits
-        .global TaskHandler_08e2ac
-TaskHandler_08e2ac:
+        .section .text.Grunt_Tmpl180_08e2ac, "ax", @progbits
+        .global Grunt_Tmpl180_08e2ac
+Grunt_Tmpl180_08e2ac:
         jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
         jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F02C(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
@@ -1425,17 +1425,17 @@ TaskHandler_08e2ac:
         jsr     0x28cd4.l                       | +01c
         move.w  #0xffff,0x38(a6)                | +022
         bset    #0x6,0x12(a6)                   | +028
-        lea     TaskHandler_08e2f0(pc),a1       | +02e
+        lea     Grunt_Tmpl180_Run_08e2f0(pc),a1 | +02e
         move.l  a1,(a6)                         | +032
         jsr     Sub_0008F040(pc)                | +034  -> $08F040 (hueco futuro, defsym forward)
         bcc.w   SetHandlerRts_08e2ee            | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e2f0  @ $08E2F0  (28 B)
+|  Grunt_Tmpl180_Run_08e2f0  @ $08E2F0  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e2f0, "ax", @progbits
-        .global TaskHandler_08e2f0
-TaskHandler_08e2f0:
+        .section .text.Grunt_Tmpl180_Run_08e2f0, "ax", @progbits
+        .global Grunt_Tmpl180_Run_08e2f0
+Grunt_Tmpl180_Run_08e2f0:
         jsr     0x2783a.l                       | +000
         jsr     PcThunkTarget_08efb0(pc)        | +006
         jsr     0x28d70.l                       | +00a
@@ -1445,11 +1445,11 @@ TaskHandler_08e2f0:
         rts                                     | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e30c  @ $08E30C  (174 B)
+|  Swinger_Tmpl181_08e30c  @ $08E30C  (174 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e30c, "ax", @progbits
-        .global TaskHandler_08e30c
-TaskHandler_08e30c:
+        .section .text.Swinger_Tmpl181_08e30c, "ax", @progbits
+        .global Swinger_Tmpl181_08e30c
+Swinger_Tmpl181_08e30c:
         jsr     Sub_0008F002(pc)                | +000  -> $08F002 (hueco futuro, defsym forward)
         jsr     Sub_0008F010(pc)                | +004  -> $08F010 (hueco futuro, defsym forward)
         asr.w   0x28(a6)                        | +008
@@ -1458,8 +1458,8 @@ TaskHandler_08e30c:
         move.w  #0xffff,0x38(a6)                | +016
         bset    #0x6,0x12(a6)                   | +01c
         move.w  0x28(a6),0x74(a6)               | +022
-        .global TaskHandler_08e30c__L08e334
-TaskHandler_08e30c__L08e334:
+        .global Swinger_Swing_08e334
+Swinger_Swing_08e334:
         lea     0x2f3fc6.l,a0                   | +028
         jsr     0x28cd4.l                       | +02e
         clr.w   0x28(a6)                        | +034
@@ -1474,7 +1474,7 @@ TaskHandler_08e30c__L08e334:
         lea     .L08e368(pc),a1                 | +056
         move.l  a1,(a6)                         | +05a
 .L08e368:
-        jsr     TaskHandler_08d2b0(pc)          | +05c
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +05c
         jsr     0x2783a.l                       | +060
         move.w  0x2c(a6),d0                     | +066
         add.w   d0,0x28(a6)                     | +06a
@@ -1483,7 +1483,7 @@ TaskHandler_08e30c__L08e334:
         move.w  0x28(a6),d0                     | +078
         cmp.w   0x74(a6),d0                     | +07c
         bgt.w   .L08e396                        | +080
-        lea     TaskHandler_08e3c4(pc),a1       | +084
+        lea     Swinger_Pause_08e3c4(pc),a1     | +084
         move.l  a1,(a6)                         | +088
 .L08e396:
         bra.w   .L08e3ac                        | +08a
@@ -1491,27 +1491,27 @@ TaskHandler_08e30c__L08e334:
         move.w  0x28(a6),d0                     | +08e
         cmp.w   0x74(a6),d0                     | +092
         blt.w   .L08e3ac                        | +096
-        lea     TaskHandler_08e3c4(pc),a1       | +09a
+        lea     Swinger_Pause_08e3c4(pc),a1     | +09a
         move.l  a1,(a6)                         | +09e
 .L08e3ac:
-        jsr     TaskHandler_08d184(pc)          | +0a0
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +0a0
         bcc.w   JsrAbsThunk_08e3bc              | +0a4
         jmp     0x518.l                         | +0a8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e3ba  @ $08E3BA  (2 B)
+|  Rts_08e3ba  @ $08E3BA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e3ba, "ax", @progbits
-        .global TaskHandler_08e3ba
-TaskHandler_08e3ba:
+        .section .text.Rts_08e3ba, "ax", @progbits
+        .global Rts_08e3ba
+Rts_08e3ba:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e3c4  @ $08E3C4  (64 B)
+|  Swinger_Pause_08e3c4  @ $08E3C4  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e3c4, "ax", @progbits
-        .global TaskHandler_08e3c4
-TaskHandler_08e3c4:
+        .section .text.Swinger_Pause_08e3c4, "ax", @progbits
+        .global Swinger_Pause_08e3c4
+Swinger_Pause_08e3c4:
         move.w  #0x7,d0                         | +000
         jsr     0x5ea1c.l                       | +004
         add.w   d0,0x70(a6)                     | +00a
@@ -1521,29 +1521,29 @@ TaskHandler_08e3c4:
         subq.w  #0x1,0x70(a6)                   | +014
         cmpi.w  #0x0,0x70(a6)                   | +018
         bgt.w   .L08e3ec                        | +01e
-        lea     TaskHandler_08e40e(pc),a1       | +022
+        lea     Swinger_Back_08e40e(pc),a1      | +022
         move.l  a1,(a6)                         | +026
 .L08e3ec:
-        jsr     TaskHandler_08d2b0(pc)          | +028
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +028
         jsr     0x2783a.l                       | +02c
-        jsr     TaskHandler_08d184(pc)          | +032
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +032
         bcc.w   JsrAbsThunk_08e406              | +036
         jmp     0x518.l                         | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e404  @ $08E404  (2 B)
+|  Rts_08e404  @ $08E404  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e404, "ax", @progbits
-        .global TaskHandler_08e404
-TaskHandler_08e404:
+        .section .text.Rts_08e404, "ax", @progbits
+        .global Rts_08e404
+Rts_08e404:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e40e  @ $08E40E  (138 B)
+|  Swinger_Back_08e40e  @ $08E40E  (138 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e40e, "ax", @progbits
-        .global TaskHandler_08e40e
-TaskHandler_08e40e:
+        .section .text.Swinger_Back_08e40e, "ax", @progbits
+        .global Swinger_Back_08e40e
+Swinger_Back_08e40e:
         move.w  #0x7,d0                         | +000
         jsr     0x5ea1c.l                       | +004
         addi.w  #0xc,d0                         | +00a
@@ -1554,48 +1554,48 @@ TaskHandler_08e40e:
         lea     .L08e436(pc),a1                 | +022
         move.l  a1,(a6)                         | +026
 .L08e436:
-        jsr     TaskHandler_08d2b0(pc)          | +028
+        jsr     Pos_IntegrateX88_08d2b0(pc)     | +028
         jsr     0x2783a.l                       | +02c
         move.w  0x2c(a6),d0                     | +032
         add.w   d0,0x28(a6)                     | +036
         subq.w  #0x1,0x70(a6)                   | +03a
         cmpi.w  #0x0,0x70(a6)                   | +03e
         bgt.w   .L08e45c                        | +044
-        lea     TaskHandler_08e4a2(pc),a1       | +048
+        lea     Swinger_Turn_08e4a2(pc),a1      | +048
         move.l  a1,(a6)                         | +04c
 .L08e45c:
         cmpi.b  #0x0,0x98(a6)                   | +04e
         bne.w   .L08e47a                        | +054
         cmpi.w  #0x0,0x28(a6)                   | +058
         blt.w   .L08e476                        | +05e
-        lea     TaskHandler_08e4a2(pc),a1       | +062
+        lea     Swinger_Turn_08e4a2(pc),a1      | +062
         move.l  a1,(a6)                         | +066
 .L08e476:
         bra.w   .L08e48a                        | +068
 .L08e47a:
         cmpi.w  #0x0,0x28(a6)                   | +06c
         bgt.w   .L08e48a                        | +072
-        lea     TaskHandler_08e4a2(pc),a1       | +076
+        lea     Swinger_Turn_08e4a2(pc),a1      | +076
         move.l  a1,(a6)                         | +07a
 .L08e48a:
-        jsr     TaskHandler_08d184(pc)          | +07c
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +07c
         bcc.w   JsrAbsThunk_08e49a              | +080
         jmp     0x518.l                         | +084
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e498  @ $08E498  (2 B)
+|  Rts_08e498  @ $08E498  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e498, "ax", @progbits
-        .global TaskHandler_08e498
-TaskHandler_08e498:
+        .section .text.Rts_08e498, "ax", @progbits
+        .global Rts_08e498
+Rts_08e498:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e4a2  @ $08E4A2  (64 B)
+|  Swinger_Turn_08e4a2  @ $08E4A2  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e4a2, "ax", @progbits
-        .global TaskHandler_08e4a2
-TaskHandler_08e4a2:
+        .section .text.Swinger_Turn_08e4a2, "ax", @progbits
+        .global Swinger_Turn_08e4a2
+Swinger_Turn_08e4a2:
         lea     0x2f3fee.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08e4b4(pc),a1                 | +00c
@@ -1606,17 +1606,17 @@ TaskHandler_08e4a2:
         bcc.w   .L08e4d4                        | +01e
         neg.w   0x74(a6)                        | +022
         eori.b  #0x1,0x98(a6)                   | +026
-        lea     TaskHandler_08e30c__L08e334(pc),a1 | +02c
+        lea     Swinger_Swing_08e334(pc),a1 | +02c
         move.l  a1,(a6)                         | +030
 .L08e4d4:
-        jsr     TaskHandler_08d184(pc)          | +032
+        jsr     Screen_InBoundsX_Latched_08d184(pc) | +032
         bcc.w   Stub_0008E4E4                   | +036
         jmp     0x518.l                         | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08e4e2  @ $08E4E2  (2 B)
+|  Rts_08e4e2  @ $08E4E2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08e4e2, "ax", @progbits
-        .global TaskHandler_08e4e2
-TaskHandler_08e4e2:
+        .section .text.Rts_08e4e2, "ax", @progbits
+        .global Rts_08e4e2
+Rts_08e4e2:
         rts                                     | +000

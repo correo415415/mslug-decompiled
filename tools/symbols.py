@@ -703,25 +703,25 @@ SYMBOLS = {
     # 0x0008D000 promovido a SceneB_Stage5_08d000 en registry (Wave MMM).
     # 0x0008D04A promovido a SceneB_Stage6_08d04a en registry (Wave MMM).
     # 0x0008D094 promovido a SceneB_Tail_08d094 en registry (Wave MMM).
-    # 0x0008D41C promovido a TaskHandler_08d41c en registry (Wave NNN).
-    # 0x0008D450 promovido a TaskHandler_08d450 en registry (Wave NNN).
+    # 0x0008D41C promovido a Capsule_Descend_08d41c en registry (Wave NNN).
+    # 0x0008D450 promovido a Capsule_WaitGround_08d450 en registry (Wave NNN).
     0x0008D472: "TaskHandler_08d472",
-    # 0x0008D4C6 promovido a TaskHandler_08d4c6 en registry (Wave NNN).
-    # 0x0008D4FE promovido a TaskHandler_08d4fe en registry (Wave NNN).
-    # 0x0008D55C promovido a TaskHandler_08d55c en registry (Wave NNN).
-    # 0x0008D580 promovido a TaskHandler_08d580 en registry (Wave NNN).
-    # 0x0008D5A8 promovido a TaskHandler_08d5a8 en registry (Wave NNN).
-    # 0x0008D62E promovido a TaskHandler_08d62e en registry (Wave NNN).
-    # 0x0008D72A promovido a TaskHandler_08d72a en registry (Wave NNN).
-    # 0x0008D774 promovido a TaskHandler_08d774 en registry (Wave NNN).
-    # 0x0008D7BE promovido a TaskHandler_08d7be en registry (Wave NNN).
-    # 0x0008D8F4 promovido a TaskHandler_08d8f4 en registry (Wave NNN).
-    # 0x0008DB7A promovido a TaskHandler_08db7a en registry (Wave NNN).
-    # 0x0008DBE2 promovido a TaskHandler_08dbe2 en registry (Wave NNN).
-    # 0x0008DF72 promovido a TaskHandler_08df72 en registry (Wave NNN).
-    # 0x0008DFB8 promovido a TaskHandler_08dfb8 en registry (Wave NNN).
-    # 0x0008E288 promovido a TaskHandler_08e288 en registry (Wave NNN).
-    # 0x0008E2F0 promovido a TaskHandler_08e2f0 en registry (Wave NNN).
+    # 0x0008D4C6 promovido a Capsule_Flash_08d4c6 en registry (Wave NNN).
+    # 0x0008D4FE promovido a Capsule_FadeIn_08d4fe en registry (Wave NNN).
+    # 0x0008D55C promovido a Capsule_GlowDown_08d55c en registry (Wave NNN).
+    # 0x0008D580 promovido a Capsule_Glow2_08d580 en registry (Wave NNN).
+    # 0x0008D5A8 promovido a Capsule_GlowUp_08d5a8 en registry (Wave NNN).
+    # 0x0008D62E promovido a Capsule_Fall_08d62e en registry (Wave NNN).
+    # 0x0008D72A promovido a MissionEnd_SpawnDropper_08d72a en registry (Wave NNN).
+    # 0x0008D774 promovido a Capsule_DimWaitScroll_08d774 en registry (Wave NNN).
+    # 0x0008D7BE promovido a Capsule_FallToGround_08d7be en registry (Wave NNN).
+    # 0x0008D8F4 promovido a MissionEnd_ScrollUp_08d8f4 en registry (Wave NNN).
+    # 0x0008DB7A promovido a Grunt_HopDown_08db7a en registry (Wave NNN).
+    # 0x0008DBE2 promovido a Grunt_HopUp_08dbe2 en registry (Wave NNN).
+    # 0x0008DF72 promovido a Grunt_Run_08df72 en registry (Wave NNN).
+    # 0x0008DFB8 promovido a Grunt2_Rand_Stand_08dfb8 en registry (Wave NNN).
+    # 0x0008E288 promovido a Sentry_Wait_08e288 en registry (Wave NNN).
+    # 0x0008E2F0 promovido a Grunt_Tmpl180_Run_08e2f0 en registry (Wave NNN).
     0x0008E4FE: "TaskHandler_08e4fe",
     0x0008E566: "TaskHandler_08e566",
     0x0008E622: "TaskHandler_08e622",
@@ -946,7 +946,7 @@ SYMBOLS = {
     # 0x00088438 promovido a Entity_HitboxPulseTable_088438 en registry (Wave KKK).
     # 0x0008846A promovido a Entity_HitboxPulseSaved_08846a en registry (Wave KKK).
     # 0x0008B82C promovido a Airship_DropSoldier_08b82c en registry (Wave LLL).
-    # 0x0008D804 promovido a PcThunkTarget_08d804 en registry (Wave NNN).
+    # 0x0008D804 promovido a Capsule_CheckMissionEnd_08d804 en registry (Wave NNN).
     0x0008EA50: "PcThunkTarget_08ea50",
     0x0008EFB0: "PcThunkTarget_08efb0",
     0x00097A60: "PcThunkTarget_097a60",
@@ -1447,9 +1447,9 @@ SYMBOLS = {
     0x0008D048: "SetHandlerRts_08d048",  # rts de SetTaskHandler_08d042 (+6)
     0x0008D092: "SetHandlerRts_08d092",  # rts de SetTaskHandler_08d08c (+6)
     # --- Wave MMM: refs forward a huecos futuros
-    # 0x0008D24C promovido a Sub_0008D24C en registry (Wave NNN).
-    # 0x0008D2D4 promovido a Sub_0008D2D4 en registry (Wave NNN).
-    # 0x0008D3B4 promovido a Sub_0008D3B4 en registry (Wave NNN).
+    # 0x0008D24C promovido a Screen_InBoundsY_Latched_08d24c en registry (Wave NNN).
+    # 0x0008D2D4 promovido a Pos_IntegrateY88_08d2d4 en registry (Wave NNN).
+    # 0x0008D3B4 promovido a Capsule_Fly_08d3b4 en registry (Wave NNN).
     # --- Wave NNN: RTS internos de islas C
     0x0008D34C: "SetTaskWRts_08d34c",  # rts de SetTaskW_08d348 (+4)
     0x0008D41A: "SetHandlerRts_08d41a",  # rts de SetTaskHandler_08d414 (+6)

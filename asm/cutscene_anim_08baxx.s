@@ -99,17 +99,17 @@
 |     Scroll_StepVelX/Y: publican +$80/+$88 en $106F60/$106F64 y suman
 |       las aceleraciones +$84/+$8C.
 |     Cut_Dropper_08ccea (template 244): vel y = +$99<<5, snd $136, mapa
-|       $2F455C[+$98 (0..$A)]; cada frame Sub_0008D2D4 (hueco futuro); si
+|       $2F455C[+$98 (0..$A)]; cada frame Pos_IntegrateY88_08d2d4 (hueco futuro); si
 |       +$98=0 y misión $B y y>=$170 -> WaitScroll (muere al llegar
 |       $106F5C>=$1000); si +$98=$A y y>=$170 -> Finish ($78 f, snd $60 en
 |       misión $C, spawn $5239E #4, $A0 f) -> Exit (clr $106ED2).
-|     Cut_Item_08ce1e (template 245): snd $5F, mapa $2F3B2C, Sub_0008D2D4,
+|     Cut_Item_08ce1e (template 245): snd $5F, mapa $2F3B2C, Pos_IntegrateY88_08d2d4,
 |       contador +$99, luego PcThunkTarget_08efb0.
 |
 |  G) $08CE64..$08D17A — ARRANQUE DE ESCENAS B Y C (misiones $0B/$0C)
 |     SceneB_Init_08ce64: snd $29, SceneLoader_Main ($43568, #$E), +$21=6,
 |       $106F5E=-1, vel scroll $106F60=$1C000 (1P, $106EAE=1) / $18000,
-|       $46A96, $2230, tarea Sub_0008D3B4; luego por etapas con
+|       $46A96, $2230, tarea Capsule_Fly_08d3b4; luego por etapas con
 |       SceneScriptVM_Frame + AttractCuller_Cam1 + Debug_DrawHUDVars: al
 |       cruzar $106F5C >= $100/$1000/$2B94/$2D00/$3000/$4000 cambia la
 |       velocidad ($1A000/$16000, $16000/$12000, $16000/$12000,
@@ -1498,7 +1498,7 @@ Cut_Dropper_08ccea:
         lea     .L08cd40(pc),a1                 | +050
         move.l  a1,(a6)                         | +054
 .L08cd40:
-        jsr     Sub_0008D2D4(pc)                | +056  -> $08D2D4 (hueco futuro, defsym forward)
+        jsr     Pos_IntegrateY88_08d2d4(pc)                | +056  -> $08D2D4 (hueco futuro, defsym forward)
         cmpi.b  #0x0,0x98(a6)                   | +05a
         bne.w   .L08cd6a                        | +060
         cmpi.b  #0xb,0x106ece.l                 | +064
@@ -1516,7 +1516,7 @@ Cut_Dropper_08ccea:
         lea     Cut_Dropper_Finish_08cdba(pc),a1 | +09a
         move.l  a1,(a6)                         | +09e
 .L08cd8a:
-        jsr     Sub_0008D24C(pc)                | +0a0  -> $08D24C (hueco futuro, defsym forward)
+        jsr     Screen_InBoundsY_Latched_08d24c(pc)                | +0a0  -> $08D24C (hueco futuro, defsym forward)
         bcc.w   JsrAbsThunk_08cd98              | +0a4
         jmp     0x518.l                         | +0a8
 
@@ -1580,7 +1580,7 @@ Cut_Item_08ce1e:
         lea     .L08ce46(pc),a1                 | +022
         move.l  a1,(a6)                         | +026
 .L08ce46:
-        jsr     Sub_0008D2D4(pc)                | +028  -> $08D2D4 (hueco futuro, defsym forward)
+        jsr     Pos_IntegrateY88_08d2d4(pc)                | +028  -> $08D2D4 (hueco futuro, defsym forward)
         subq.b  #0x1,0x99(a6)                   | +02c
         bne.w   .L08ce58                        | +030
         jmp     0x518.l                         | +034
@@ -1610,7 +1610,7 @@ SceneB_Init_08ce64:
         move.l  #0x0,0x106f64.l                 | +04a
         jsr     0x46a96.l                       | +054
         jsr     0x2230.l                        | +05a
-        lea     Sub_0008D3B4(pc),a1             | +060  -> $08D3B4 (hueco futuro, defsym forward)
+        lea     Capsule_Fly_08d3b4(pc),a1             | +060  -> $08D3B4 (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +064
         clr.b   0x20(a6)                        | +06a
         lea     .L08ced8(pc),a1                 | +06e
@@ -1764,7 +1764,7 @@ SceneC_Init_08d0a8:
         move.l  #0x18000,0x106f60.l             | +0a2
 .L08d154:
         jsr     0x2230.l                        | +0ac
-        lea     Sub_0008D3B4(pc),a1             | +0b2  -> $08D3B4 (hueco futuro, defsym forward)
+        lea     Capsule_Fly_08d3b4(pc),a1             | +0b2  -> $08D3B4 (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +0b6
         clr.b   0x20(a6)                        | +0bc
         lea     .L08d16e(pc),a1                 | +0c0

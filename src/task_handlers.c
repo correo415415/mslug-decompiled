@@ -364,25 +364,25 @@ extern void SceneB_Stage4_08cfb6(void);
 extern void SceneB_Stage5_08d000(void);
 extern void SceneB_Stage6_08d04a(void);
 extern void SceneB_Tail_08d094(void);
-extern void TaskHandler_08d41c(void);
-extern void TaskHandler_08d450(void);
+extern void Capsule_Descend_08d41c(void);
+extern void Capsule_WaitGround_08d450(void);
 extern void TaskHandler_08d472(void);
-extern void TaskHandler_08d4c6(void);
-extern void TaskHandler_08d4fe(void);
-extern void TaskHandler_08d55c(void);
-extern void TaskHandler_08d580(void);
-extern void TaskHandler_08d5a8(void);
-extern void TaskHandler_08d62e(void);
-extern void TaskHandler_08d72a(void);
-extern void TaskHandler_08d774(void);
-extern void TaskHandler_08d7be(void);
-extern void TaskHandler_08d8f4(void);
-extern void TaskHandler_08db7a(void);
-extern void TaskHandler_08dbe2(void);
-extern void TaskHandler_08df72(void);
-extern void TaskHandler_08dfb8(void);
-extern void TaskHandler_08e288(void);
-extern void TaskHandler_08e2f0(void);
+extern void Capsule_Flash_08d4c6(void);
+extern void Capsule_FadeIn_08d4fe(void);
+extern void Capsule_GlowDown_08d55c(void);
+extern void Capsule_Glow2_08d580(void);
+extern void Capsule_GlowUp_08d5a8(void);
+extern void Capsule_Fall_08d62e(void);
+extern void MissionEnd_SpawnDropper_08d72a(void);
+extern void Capsule_DimWaitScroll_08d774(void);
+extern void Capsule_FallToGround_08d7be(void);
+extern void MissionEnd_ScrollUp_08d8f4(void);
+extern void Grunt_HopDown_08db7a(void);
+extern void Grunt_HopUp_08dbe2(void);
+extern void Grunt_Run_08df72(void);
+extern void Grunt2_Rand_Stand_08dfb8(void);
+extern void Sentry_Wait_08e288(void);
+extern void Grunt_Tmpl180_Run_08e2f0(void);
 extern void TaskHandler_08e4fe(void);
 extern void TaskHandler_08e566(void);
 extern void TaskHandler_08e622(void);
@@ -4214,13 +4214,13 @@ void SetTaskHandler_08d08c(void) {
 
 __attribute__((section(".text.SetTaskHandler_08d414")))
 void SetTaskHandler_08d414(void) {
-    _a1_ptr = &TaskHandler_08d41c;
+    _a1_ptr = &Capsule_Descend_08d41c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d448")))
 void SetTaskHandler_08d448(void) {
-    _a1_ptr = &TaskHandler_08d450;
+    _a1_ptr = &Capsule_WaitGround_08d450;
     STORE_A1_AT_FP();
 }
 
@@ -4232,97 +4232,97 @@ void SetTaskHandler_08d46c(void) {
 
 __attribute__((section(".text.SetTaskHandler_08d4be")))
 void SetTaskHandler_08d4be(void) {
-    _a1_ptr = &TaskHandler_08d4c6;
+    _a1_ptr = &Capsule_Flash_08d4c6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d4f6")))
 void SetTaskHandler_08d4f6(void) {
-    _a1_ptr = &TaskHandler_08d4fe;
+    _a1_ptr = &Capsule_FadeIn_08d4fe;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d530")))
 void SetTaskHandler_08d530(void) {
-    _a1_ptr = &TaskHandler_08d5a8;
+    _a1_ptr = &Capsule_GlowUp_08d5a8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d554")))
 void SetTaskHandler_08d554(void) {
-    _a1_ptr = &TaskHandler_08d55c;
+    _a1_ptr = &Capsule_GlowDown_08d55c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d626")))
 void SetTaskHandler_08d626(void) {
-    _a1_ptr = &TaskHandler_08d62e;
+    _a1_ptr = &Capsule_Fall_08d62e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d668")))
 void SetTaskHandler_08d668(void) {
-    _a1_ptr = &TaskHandler_08d580;
+    _a1_ptr = &Capsule_Glow2_08d580;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d722")))
 void SetTaskHandler_08d722(void) {
-    _a1_ptr = &TaskHandler_08d72a;
+    _a1_ptr = &MissionEnd_SpawnDropper_08d72a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d7b6")))
 void SetTaskHandler_08d7b6(void) {
-    _a1_ptr = &TaskHandler_08d7be;
+    _a1_ptr = &Capsule_FallToGround_08d7be;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d83a")))
 void SetTaskHandler_08d83a(void) {
-    _a1_ptr = &TaskHandler_08d774;
+    _a1_ptr = &Capsule_DimWaitScroll_08d774;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d8ec")))
 void SetTaskHandler_08d8ec(void) {
-    _a1_ptr = &TaskHandler_08d8f4;
+    _a1_ptr = &MissionEnd_ScrollUp_08d8f4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08dbc0")))
 void SetTaskHandler_08dbc0(void) {
-    _a1_ptr = &TaskHandler_08dbe2;
+    _a1_ptr = &Grunt_HopUp_08dbe2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08dc28")))
 void SetTaskHandler_08dc28(void) {
-    _a1_ptr = &TaskHandler_08db7a;
+    _a1_ptr = &Grunt_HopDown_08db7a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08df6a")))
 void SetTaskHandler_08df6a(void) {
-    _a1_ptr = &TaskHandler_08df72;
+    _a1_ptr = &Grunt_Run_08df72;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08dfb0")))
 void SetTaskHandler_08dfb0(void) {
-    _a1_ptr = &TaskHandler_08dfb8;
+    _a1_ptr = &Grunt2_Rand_Stand_08dfb8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08e280")))
 void SetTaskHandler_08e280(void) {
-    _a1_ptr = &TaskHandler_08e288;
+    _a1_ptr = &Sentry_Wait_08e288;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08e2e8")))
 void SetTaskHandler_08e2e8(void) {
-    _a1_ptr = &TaskHandler_08e2f0;
+    _a1_ptr = &Grunt_Tmpl180_Run_08e2f0;
     STORE_A1_AT_FP();
 }
 
