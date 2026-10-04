@@ -4,8 +4,123 @@
 |  Región: $08E4E4..$08F6D2  (3,980 B, 84 entradas, 54 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  Cierra la zona de enemigos menores que empieza en la Wave NNN y abre el
+|  bloque de "rings" (buffers circulares en $10E2F2/$10E33A/$10E362) que
+|  usan torretas, zonas de choque y la IA de melee. Puntos de entrada
+|  externos: plantillas Mission VM $E8000[182]=Bobber_Tmpl182,
+|  [183]=Leaper_Tmpl183, [184]=Runner_Tmpl184, [185]=Nest_Tmpl185,
+|  [186]=Swarmer_Tmpl186, [187]=Nest2_Tmpl187, [188]=Static_Tmpl188,
+|  [189]/[190]=CamProp_Tmpl189/190, [191]=Lob_Tmpl191, [152]=Zone_Tmpl152;
+|  Nest_Spawn3 ($8E738) se crea desde $4E274; la tabla de punteros $1E9A42
+|  (7 entradas) apunta a Shard_V0 x5 y Shard_V1 x2; Rings_InitAll se llama
+|  desde SceneLoader_Main_043568 (+$15E); PosRing_FindNear desde
+|  MeleeGuard_Think_0424AA y $56C6E; ZoneRing_HitTest desde $56FD2;
+|  TargetRing_NewId/Register y Turret8_SndByState desde Turret8_* (LLL) y
+|  las torretas de $59Bxx/$5A2xx; TargetRing_Find/Claim* desde la IA del
+|  jugador ($366AE/$36BD4/$36EF4) y $5A786.
+|
+|  A) $08E4E6..$08E738 — BICHOS SENCILLOS (Bobber / Leaper / Runner)
+|     Comparten la "física de grunt" (sección E): Phys_FacingFromParam
+|       (+$3A = +$98&1), Phys_VelXFromParam (vel x = +$99<<5 según facing),
+|       Prio_Set8018 (+$38 = $8018), Phys_GroundKill (probe $5DD5C -> libera
+|       y muere). Todos mueren con Screen_InBoundsX_Latched (NNN).
+|     Bobber (prio $C000, snd $12A, mapa $2F4036): oscila en y con
+|       aceleración +$2E=±4 durante 6+rand(7) frames entre y>=$1D0 y
+|       y<=$160 (Descend <-> Ascend), integrando con Pos_IntegrateXY88_Accel.
+|     Leaper (snd $124, mapa $2F4072 -> $2F407E salto -> $2F408A caída):
+|       espera $C+rand($F) f con vel y -$300/acel $10, salta con vel y
+|       -($40+rand($3F)) y acel 4 durante $B f, cae y repite (Hop) o
+|       aterriza (Fall, Pos_IntegrateXY88).
+|     Runner (snd $128, mapa $2F4096): corre en x con Pos_IntegrateX88.
+|     Rts_08e72e: cola vacía tras el jmp $518.
+|
+|  B) $08E738..$08EB56 — NIDO DE 4 ETAPAS (Nest_*) y VARIANTE (Nest2_*)
+|     Nest_Spawn3 pone +$9A=3 hijos y +$5C=0; Nest_Tmpl185 (plantilla)
+|       usa Prio_Set8018 y +$5C=1 (marca "plantilla"). Nest_Common: snd
+|       $125, mapa $2F41F2, hitbox $2F414A, HP $64, crea +$9A Swarmer_Init
+|       (alloc $4AE + copy-xf $5DD02); bucle física $2783A + hijos $28D70 +
+|       daño $2870A -> al agotar HP pasa a Stage1_Hit (mapa $2F4202), que
+|       espera a quedarse sin hijos (C=1 de $28D70) -> Stage2 (HP $64 de
+|       nuevo) -> Stage2_Hit ($2F4284) -> Stage3 -> Stage3_Hit ($2F4306) ->
+|       Stage4 -> Destroyed (hitbox -1, mapa $2F4388) -> DestroyedWait.
+|     Nest_FlyOff/_Run: hitbox -1, vel y -$80 acel -$40, muere al salir por
+|       el probe $27C8C (free $5B6 + $518).
+|     Nest_DieIfParentGone ($8EA50, jsr pc desde las etapas): si +$5C==0 y
+|       el padre (+$C) ya tiene hitbox -1, instala Rts (SetHandlerRts).
+|     Nest2_Tmpl187: hitbox $2F419E, +$98 hijos Swarmer, +$20=0; Nest2_Run
+|       física+daño -> Nest2_Hit (+$20=1 durante $14 f) -> HitWait restaura
+|       HP $64 y vuelve a Run.
+|
+|  C) $08EB56..$08ED82 — ENJAMBRE (Swarmer_*)
+|     Hijos del nido: snd $125, mapa $2F440A. AimParent apunta con atan2
+|       ($5E018) al padre (+$C) desplazado (-$C,-$18); AimRandom elige ángulo
+|       rand($FF); Swarmer_Launch: magnitud $180+rand($FF) por seno/coseno
+|       ($13C0E) -> vel (+$28,+$2A), facing por signo de vel x, 1+rand(3) f;
+|       luego rand(3)==0 -> AimParent, si no AimRandom; si el padre tiene
+|       +$20!=0 (golpeado) pasa a Flee: huye del padre a magnitud $300
+|       durante 4 f y vuelve a AimParent.
+|     Swarmer_Tmpl186 / Wander: versión suelta (plantilla), magnitud
+|       $100+rand($FF), 2+rand(3) f, bucle Wander.
+|
+|  D) $08ED82..$08EF40 — PROPS: ESTÁTICO, DE CÁMARA, LOB Y ESQUIRLAS
+|     Static_Tmpl188: prio 0, snd $12A, mapa $2F4426, física y muerte en
+|       pantalla.
+|     CamProp_Tmpl189/190: mapas $2F4442 / $2F44AE, prio 0, snd $F4; cada
+|       frame Coord_ApplyCameraTerciaryToSelf ($4407A) (se mueve con la
+|       cámara); el 189 lo spawnea MissionEnd_SpawnDropper (NNN).
+|     Lob_Tmpl191: vel y = -(+$99<<5), snd $F4, mapa $2F44CA; al bajar de
+|       y<=$190 cambia a $2F44D6 y Lob_Landed sigue a la cámara hasta perder
+|       los hijos.
+|     Shard_V0/V1/V2 (mapas $2F40C6/$2F40F2/$2F411E, +$74=0/1/2): esquirlas
+|       del nido: vel y -rand($1F), acel rand($1F)-$30, snd $AD, guardan en
+|       +$5C la y del abuelo (+$C del +$C) y caen hasta ella -> Shard_Land
+|       cambia a $2F40D2/$2F40FE/$2F412A y espera a los hijos.
+|
+|  E) $08EFB0..$08F138 — FÍSICA DE GRUNT (Phys_* / Snd_* / Prio_*)
+|     Phys_GroundKill: a0=-1, probe suelo $5DD5C; si C=0 libera y muere.
+|     Phys_PlayerNearX: C=1 si (x - P1.x) < d0 o (x - P2.x) < d0 (SetXN).
+|     Phys_FacingFromParam / Phys_VelXFromParam / Phys_ScrollTarget
+|       (+$72 = cam x + +$99) / Phys_ScrollReached (si +$99==0 C=0; si no
+|       C = cam x >= +$72) — helpers de "aparecer cuando el scroll llega".
+|     Snd_ByParam9A_Base: d1 = $FA + +$9A; Snd_ByParam9A_A: $14A/$F6/$13D
+|       según +$9A; Snd_ByParam9A_B: $149/$F7.
+|     Prio_Set8018: +$38 = ($8000 & ~$1C) | $18.
+|     Entity_CmpPrioWithSibling_08f11c / _08f6b6: compara +$10 con el del
+|       hermano (+$8): C=1 si menor (dos copias idénticas).
+|
+|  F) $08F138..$08F6D2 — RINGS (buffers circulares con cabecera de 8 B)
+|     Cabecera {+0 tail, +2 head, +4 scan_end, +6 count}, datos en +8.
+|     Ring_Reset limpia; Ring_Compact: tail=scan_end, scan_end=head,
+|       count=0 (publica lo escrito en el frame). Rings_InitAll /
+|       Rings_CompactAll aplican a los tres rings ($10E2F2 zonas, $10E33A
+|       posiciones (PosRing_PushCapped Z#10), $10E362 targets).
+|     ZoneRing ($10E2F2, registros 8 B {x1,y1,x2,y2}, cap 8 = $40):
+|       Zone_Tmpl152 convierte su pos a mundo (cam x/y, y invertida desde
+|       $200) y extiende con +$98<<4/+$99<<4; publica mientras +$70 >= cam
+|       x; ZoneRing_Push / _PushOffset (a0 = rect relativo) añaden si
+|       count<4; ZoneRing_HitTest: C=1 si la entidad (en mundo) cae dentro
+|       de alguna zona.
+|     PosRing_FindNear ($10E33A, 4 B {x,y}, cap 8 = $20): C=1 si hay una
+|       posición a ±$40 x / ±$30 y; d0 = (lado != facing).
+|     TargetRing ($10E362, 6 B {x,y,key,state}, cap 8 = $30):
+|       TargetRing_NewId: $10E2F0 = $40 + ((id+1)&$3F) -> identificador de
+|         emisor por torreta.
+|       TargetRing_Register (d0/d1 pos, d2 key): si ya existe un registro
+|         con esa key y estado >=0 devuelve d4 = state y d3=$FF; si la
+|         entidad está a x<$140 escribe/actualiza (estado $FE = pendiente).
+|       TargetRing_FindPending: busca un registro $FE (los jugadores
+|         $100440/$1004E0 no filtran por key); TargetRing_InRange: C=1 y
+|         d2 = key si está a ±$18 x / ±$20 y de la entidad.
+|       TargetRing_ClaimById (d2 key): marca $FF y re-registra con d3 =
+|         0/1/2 (P1/P2/otro); ClaimByKey (d0 key) idem buscando estado
+|         negativo; ambos añaden al final si no existe (cap 4 por frame).
+|     Turret8_SndByState: d1 = $134 / $152 / $0E según d4 = 0/1/otro.
+|
+|  Hipótesis abiertas: los nombres Bobber/Leaper/Runner/Nest/Swarmer
+|  describen el comportamiento del código, no el sprite; el ring de
+|  targets parece el canal "me han disparado" entre jugador y torretas
+|  (key = id de emisor de TargetRing_NewId). Se confirmará al llegar a los
+|  llamadores de $36xxx/$59Bxx/$5A2xx.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
