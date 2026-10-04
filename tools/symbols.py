@@ -671,9 +671,9 @@ SYMBOLS = {
     0x00081214: "TaskHandler_081214",
     0x00082456: "TaskHandler_082456",
     0x00082464: "TaskHandler_082464",
-    # 0x00085134 promovido a TaskHandler_085134 en registry (Wave JJJ).
-    # 0x00085484 promovido a TaskHandler_085484 en registry (Wave JJJ).
-    # 0x00085A08 promovido a TaskHandler_085a08 en registry (Wave JJJ).
+    # 0x00085134 promovido a M4_PlatformSpawn_085134 en registry (Wave JJJ).
+    # 0x00085484 promovido a M4_Turret_Death_085484 en registry (Wave JJJ).
+    # 0x00085A08 promovido a M4_CamFloor_Step_085a08 en registry (Wave JJJ).
     0x000865BE: "TaskHandler_0865be",
     0x00086854: "TaskHandler_086854",
     0x00089398: "TaskHandler_089398",
@@ -1346,10 +1346,10 @@ SYMBOLS = {
     0x00083B90: "Jsr5B6Rts_083b90",      # rts de Jsr5B6ThenJmpScheduler_083b84 (+12)
     0x00083BE0: "JsrAbsRts_083be0",      # rts de JsrAbsThunk_083bda (+6)
     # Refs forward a huecos futuros (aun sin matchear):
-    # 0x00085FB0 promovido a Sub_00085FB0 en registry (Wave JJJ).
-    # 0x00086050 promovido a Sub_00086050 en registry (Wave JJJ).
-    # 0x00086076 promovido a Sub_00086076 en registry (Wave JJJ).
-    # 0x000863BE promovido a Sub_000863BE en registry (Wave JJJ).
+    # 0x00085FB0 promovido a Boss_RandomDropSpawn_085fb0 en registry (Wave JJJ).
+    # 0x00086050 promovido a Boss_SineBob_086050 en registry (Wave JJJ).
+    # 0x00086076 promovido a Boss_SpawnGuardList_086076 en registry (Wave JJJ).
+    # 0x000863BE promovido a Entity_TickIfState2_0863be en registry (Wave JJJ).
 
     # --- Wave HHH: fases finales del miniboss y transiciones de oleada ($083BE2..$084828)
     # RTS internos de islas C ya matcheadas (targets de bcc/blt/bcs.w):
@@ -1358,22 +1358,22 @@ SYMBOLS = {
     0x0008450A: "SetHandlerRts_08450a",  # rts de SetTaskHandler_084504 (+6)
     0x00084834: "Jsr5B6Rts_084834",      # rts de Jsr5B6ThenJmpScheduler_084828 (+12)
     # Refs forward a huecos futuros (aun sin matchear):
-    # 0x000860E4 promovido a Sub_000860E4 en registry (Wave JJJ).
-    # 0x0008610C promovido a Sub_0008610C en registry (Wave JJJ).
-    # 0x00086196 promovido a Sub_00086196 en registry (Wave JJJ).
-    # 0x00086300 promovido a Sub_00086300 en registry (Wave JJJ).
-    # 0x00086328 promovido a Sub_00086328 en registry (Wave JJJ).
-    # 0x00086364 promovido a Sub_00086364 en registry (Wave JJJ).
+    # 0x000860E4 promovido a Boss_Spawn45Children_0860e4 en registry (Wave JJJ).
+    # 0x0008610C promovido a Boss_SpawnStepList_08610c en registry (Wave JJJ).
+    # 0x00086196 promovido a Boss_SpawnTenEscorts_086196 en registry (Wave JJJ).
+    # 0x00086300 promovido a Boss_Spawn4Finale_086300 en registry (Wave JJJ).
+    # 0x00086328 promovido a Boss_SpawnRow8_086328 en registry (Wave JJJ).
+    # 0x00086364 promovido a Boss_SpawnRow9_086364 en registry (Wave JJJ).
     0x000863E4: "Sub_000863E4",          # helper (jsr pc desde $83E08)
     0x000863F2: "Sub_000863F2",          # helper (jsr pc desde $83E1C)
     0x00086400: "Sub_00086400",          # helper (jsr pc desde $84254)
     0x0008640E: "Sub_0008640E",          # helper (jsr pc desde $84348)
     0x0008641C: "Sub_0008641C",          # helper (jsr pc desde $8434C)
-    # 0x000864B6 promovido a Sub_000864B6 en registry (Wave JJJ).
-    # 0x000864D0 promovido a Sub_000864D0 en registry (Wave JJJ).
-    # 0x000864EA promovido a Sub_000864EA en registry (Wave JJJ).
-    # 0x0008651E promovido a Sub_0008651E en registry (Wave JJJ).
-    # 0x00086538 promovido a Sub_00086538 en registry (Wave JJJ).
+    # 0x000864B6 promovido a Boss_BlitTable_A_0864b6 en registry (Wave JJJ).
+    # 0x000864D0 promovido a Boss_BlitTable_B_0864d0 en registry (Wave JJJ).
+    # 0x000864EA promovido a Boss_BlitTable_C_0864ea en registry (Wave JJJ).
+    # 0x0008651E promovido a Boss_BlitTable_E_08651e en registry (Wave JJJ).
+    # 0x00086538 promovido a Boss_BlitTable_F_086538 en registry (Wave JJJ).
 
     # --- Wave III: escuadron de rescate y ciclo de vuelo ($084836..$08512C)
     # RTS internos de islas C ya matcheadas (targets de bcc/bne/bgt.w):
@@ -1385,13 +1385,13 @@ SYMBOLS = {
     0x00084C24: "SetHandlerRts_084c24",  # rts de SetTaskHandler_084c1e (+6)
     0x00084C5C: "Jsr5B6Rts_084c5c",      # rts de Jsr5B6ThenJmpScheduler_084c50 (+12)
     # Refs forward a huecos futuros (aun sin matchear):
-    # 0x00085EE8 promovido a Sub_00085EE8 en registry (Wave JJJ).
-    # 0x00085F08 promovido a Sub_00085F08 en registry (Wave JJJ).
-    # 0x00085F44 promovido a Sub_00085F44 en registry (Wave JJJ).
-    # 0x00085F60 promovido a Sub_00085F60 en registry (Wave JJJ).
-    # 0x0008601C promovido a Sub_0008601C en registry (Wave JJJ).
-    # 0x000863A0 promovido a Sub_000863A0 en registry (Wave JJJ).
-    # 0x00086504 promovido a Sub_00086504 en registry (Wave JJJ).
+    # 0x00085EE8 promovido a Flight_WobbleArm_085ee8 en registry (Wave JJJ).
+    # 0x00085F08 promovido a Flight_WobbleStep_085f08 en registry (Wave JJJ).
+    # 0x00085F44 promovido a Flight_HitboxParams_085f44 en registry (Wave JJJ).
+    # 0x00085F60 promovido a Flight_AltitudeCheck_085f60 en registry (Wave JJJ).
+    # 0x0008601C promovido a Boss_PhaseJingle_08601c en registry (Wave JJJ).
+    # 0x000863A0 promovido a Entity_BobY1_0863a0 en registry (Wave JJJ).
+    # 0x00086504 promovido a Boss_BlitTable_D_086504 en registry (Wave JJJ).
 
     # --- Wave JJJ: Mision 4 - transporte/torreta/agua + helpers boss ($08512C..$0865BE)
     # RTS internos de islas C ya matcheadas (targets de bcc/bra.w colgantes):

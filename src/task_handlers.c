@@ -332,9 +332,9 @@ extern void TaskHandler_084bd2(void);
 extern void TaskHandler_084c26(void);
 extern void TaskHandler_084f5e(void);
 extern void TaskHandler_084fca(void);
-extern void TaskHandler_085134(void);
-extern void TaskHandler_085484(void);
-extern void TaskHandler_085a08(void);
+extern void M4_PlatformSpawn_085134(void);
+extern void M4_Turret_Death_085484(void);
+extern void M4_CamFloor_Step_085a08(void);
 extern void TaskHandler_0865be(void);
 extern void TaskHandler_086854(void);
 extern void TaskHandler_089398(void);
@@ -4016,19 +4016,19 @@ void SetTaskHandler_084f56(void) {
 
 __attribute__((section(".text.SetTaskHandler_08512c")))
 void SetTaskHandler_08512c(void) {
-    _a1_ptr = &TaskHandler_085134;
+    _a1_ptr = &M4_PlatformSpawn_085134;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08547c")))
 void SetTaskHandler_08547c(void) {
-    _a1_ptr = &TaskHandler_085484;
+    _a1_ptr = &M4_Turret_Death_085484;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_085ac6")))
 void SetTaskHandler_085ac6(void) {
-    _a1_ptr = &TaskHandler_085a08;
+    _a1_ptr = &M4_CamFloor_Step_085a08;
     STORE_A1_AT_FP();
 }
 

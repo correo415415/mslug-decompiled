@@ -17,7 +17,7 @@
 |   * $832EC..$834A4 — tres variantes de entrada (snd $A4, sprite $2E6CDC,
 |     drift +-$80 según x>=$A0): con probe $27CEE, con probe $2783A y
 |     empuje aleatorio cada 4 frames ($5E9B6/$5E9E4), y con helper
-|     Sub_00086050 (hueco futuro).
+|     Boss_SineBob_086050 (hueco futuro).
 |   * $834A4..$83612 — fase de combate: snd $A7, sprite $2E6C00, limpia
 |     $10E39A, dispara blitter de fila ($43FAC con lista $2EAC8C, snd
 |     $1037), muere hacia TaskHandler_08354e (score $100 via $51A28,
@@ -32,7 +32,7 @@
 |     con parpadeo +$44 y timer aleatorio ($5E9E4+$23) reinstalando
 |     TaskHandler_0839a2 (global interno); versiones acorazadas $8000
 |     (sprites $2E6EBC/$2E6ECC) y spawner de hijo $83B92 con snd $A7 y
-|     helper Sub_00086076 (hueco futuro).
+|     helper Boss_SpawnGuardList_086076 (hueco futuro).
 |   * $83B92..$83BDA — handler del hijo: copia x/y del padre cada frame y
 |     se autodestruye si x<-$80 (cae en el thunk JsrAbsThunk_083bda).
 |
@@ -214,7 +214,7 @@ TaskHandler_083426:
         lea     .L83482(pc),a1                  | +056
         move.l  a1,(a6)                         | +05a
 .L83482:
-        jsr     Sub_00086050(pc)                | +05c
+        jsr     Boss_SineBob_086050(pc)                | +05c
         jsr     0x28d70.l                       | +060
         movea.l #0xffffffff,a0                  | +066
         jsr     0x5dd5c.l                       | +06c
@@ -387,7 +387,7 @@ TaskCont_08364e:
 .L836c6:
         jsr     0x2783a.l                       | +094
         jsr     0x28d70.l                       | +09a
-        jsr     Sub_000863BE(pc)                | +0a0
+        jsr     Entity_TickIfState2_0863be(pc)                | +0a0
         jsr     0x2870a.l                       | +0a4
         bcc.w   .L836f2                         | +0aa
         lea     0x5e766.l,a0                    | +0ae
@@ -423,7 +423,7 @@ TaskHandler_083714:
 .L8373c:
         jsr     0x2783a.l                       | +028
         jsr     0x28d70.l                       | +02e
-        jsr     Sub_000863BE(pc)                | +034
+        jsr     Entity_TickIfState2_0863be(pc)                | +034
         jsr     0x2870a.l                       | +038
         bcc.w   .L83768                         | +03e
         lea     0x5e766.l,a0                    | +042
@@ -459,7 +459,7 @@ TaskHandler_08378a:
 .L837b2:
         jsr     0x2783a.l                       | +028
         jsr     0x28d70.l                       | +02e
-        jsr     Sub_000863BE(pc)                | +034
+        jsr     Entity_TickIfState2_0863be(pc)                | +034
         jsr     0x2870a.l                       | +038
         bcc.w   .L837de                         | +03e
         lea     0x5e766.l,a0                    | +042
@@ -486,7 +486,7 @@ TaskHandler_083800:
         jsr     0x2783a.l                       | +000
         move.l  #0x2000,d0                      | +006
         jsr     0x51a28.l                       | +00c
-        jsr     Sub_00085FB0(pc)                | +012
+        jsr     Boss_RandomDropSpawn_085fb0(pc)                | +012
         lea     0xffff.w,a0                     | +016
         move.l  a0,0x4c(a6)                     | +01a
         jsr     0x283ca.l                       | +01e
@@ -722,7 +722,7 @@ TaskHandler_083b12:
         lea     TaskHandler_083b92(pc),a1       | +038
         jsr     0x4ae.l                         | +03c
         move.w  0x38(a6),0x38(a0)               | +042
-        jsr     Sub_00086076(pc)                | +048
+        jsr     Boss_SpawnGuardList_086076(pc)                | +048
         lea     .L83b64(pc),a1                  | +04c
         move.l  a1,(a6)                         | +050
 .L83b64:

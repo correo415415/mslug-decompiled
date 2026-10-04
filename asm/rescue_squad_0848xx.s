@@ -13,8 +13,8 @@
 |     espera de sincronía con el padre (+$21) y avance con retroceso
 |     -$10 y bset bit6/$12 del par $2E993C (cae en el thunk
 |     JsrAbsThunk_08492a que reinstala $84932).
-|   * $84932..$8495E — guardián de salida: helper Sub_0008601C (hueco
-|     futuro), luego Sub_000863A0 + probe $27CEE hasta que y<=$40.
+|   * $84932..$8495E — guardián de salida: helper Boss_PhaseJingle_08601c (hueco
+|     futuro), luego Entity_BobY1_0863a0 + probe $27CEE hasta que y<=$40.
 |   * $8495E..$84AAA — handler del hijo spawneado desde el Wave HHH
 |     ($843B8 via $4AE): snd $85, timer aleatorio de $2C0218 ($799DE),
 |     avance +$98 hasta x>$150, luego montaje de la pareja $84AAA/$6AA14
@@ -32,20 +32,20 @@
 |   * $84C5E..$84C9C — paracaidista: snd $4, sprite $2E75C0, sigue
 |     x/y del padre con offset +$1E (cae en el thunk JsrAbsThunk_084c9c).
 |   * $84CA4..$84DB0 — rescatado con premio: +$21=+$38, lista $2E9202,
-|     hit-test y muerte con score $2000 (snd $1027, helper Sub_00086504,
+|     hit-test y muerte con score $2000 (snd $1027, helper Boss_BlitTable_D_086504,
 |     par $2E9AB8); variante con snd $A8, sprite $2E77BA y giro $8000.
 |   * $84DB0..$84F4E — selector por tipo +$98 (0/1/2): listas
 |     $2E92AA/$2E92FE/$2E9352, pares $2E9C12/$2E9C24/$2E9C36 y colas
 |     $2E9838/$2E9842/$2E984C; bucle de spawn multiple segun +$99 y
 |     salida via $5DD5C; entrada con sprite $2E7812 (+$66=$7FFF, limpia
 |     bit0/bit3 de +$13) y arranque del vuelo: snd $1B1, +$72=0,
-|     +$38=$2000, helpers Sub_00085F44/Sub_00085F60 (huecos futuros).
+|     +$38=$2000, helpers Flight_HitboxParams_085f44/Flight_AltitudeCheck_085f60 (huecos futuros).
 |   * $84F5E..$8512C — ciclo de vuelo del transporte: snd $1074, sprites
 |     $2E7828/$2E7866 (subida/bajada con vel +-(+$9A<<3)), helpers
-|     Sub_00085EE8/Sub_00085F08 (huecos futuros), aterrizaje cuando
+|     Flight_WobbleArm_085ee8/Flight_WobbleStep_085f08 (huecos futuros), aterrizaje cuando
 |     scroll $106F5C<=$108 con probe $6F0 spawneando $8512C via $4AE +
 |     $5DD02; fase de planeo (snd $1075, sprite $2E78A4, timer +$72=
-|     $A/$14) que alterna de vuelta a $84FCA o $84F5E segun Sub_00085F60.
+|     $A/$14) que alterna de vuelta a $84FCA o $84F5E segun Flight_AltitudeCheck_085f60.
 |
 |  Los bcc/bne/bgt.w colgantes apuntan a los RTS internos de las islas C
 |  contiguas (SetHandlerRts_084898/_0848dc/_084b22/_084b98/_084bd0/
@@ -126,7 +126,7 @@ TaskHandler_0848de:
         lea     .L848f8(pc),a1                  | +014
         move.l  a1,(a6)                         | +018
 .L848f8:
-        jsr     Sub_000863A0(pc)                | +01a
+        jsr     Entity_BobY1_0863a0(pc)                | +01a
         jsr     0x27cee.l                       | +01e
         bcc.w   JsrAbsThunk_08492a              | +024
         jsr     0x434ce.l                       | +028
@@ -143,11 +143,11 @@ TaskHandler_0848de:
         .section .text.TaskHandler_084932, "ax", @progbits
         .global TaskHandler_084932
 TaskHandler_084932:
-        jsr     Sub_0008601C(pc)                | +000
+        jsr     Boss_PhaseJingle_08601c(pc)                | +000
         lea     .L8493c(pc),a1                  | +004
         move.l  a1,(a6)                         | +008
 .L8493c:
-        jsr     Sub_000863A0(pc)                | +00a
+        jsr     Entity_BobY1_0863a0(pc)                | +00a
         jsr     0x27cee.l                       | +00e
         jsr     0x28d70.l                       | +014
         cmpi.w  #0x40,0x24(a6)                  | +01a
@@ -416,7 +416,7 @@ TaskHandler_084ca4:
         jsr     0x2352.l                        | +06a
         lea     0xffff.w,a0                     | +070
         move.l  a0,0x48(a6)                     | +074
-        jsr     Sub_00086504(pc)                | +078
+        jsr     Boss_BlitTable_D_086504(pc)                | +078
         lea     0x2e9ab8.l,a1                   | +07c
         jsr     0x77c7e.l                       | +082
         bra.w   .L84d3a                         | +088
@@ -569,8 +569,8 @@ TaskHandler_084f26:
         move.w  #0x0,0x72(a6)                   | +00a
         move.w  #0x2000,0x38(a6)                | +010
         jsr     0x267e2.l                       | +016
-        jsr     Sub_00085F44(pc)                | +01c
-        jsr     Sub_00085F60(pc)                | +020
+        jsr     Flight_HitboxParams_085f44(pc)                | +01c
+        jsr     Flight_AltitudeCheck_085f60(pc)                | +020
         bcc.w   SetTaskHandler_084f56           | +024
 
 | ----------------------------------------------------------------------------
@@ -591,11 +591,11 @@ TaskHandler_084f5e:
         move.l  a1,(a6)                         | +026
 .L84f86:
         jsr     0x27cee.l                       | +028
-        jsr     Sub_00085EE8(pc)                | +02e
-        jsr     Sub_00085F08(pc)                | +032
+        jsr     Flight_WobbleArm_085ee8(pc)                | +02e
+        jsr     Flight_WobbleStep_085f08(pc)                | +032
         jsr     0x28d70.l                       | +036
-        jsr     Sub_00085F44(pc)                | +03c
-        jsr     Sub_00085F60(pc)                | +040
+        jsr     Flight_HitboxParams_085f44(pc)                | +03c
+        jsr     Flight_AltitudeCheck_085f60(pc)                | +040
         bcc.w   .L84fac                         | +044
         lea     TaskHandler_085062(pc),a1       | +048
         move.l  a1,(a6)                         | +04c
@@ -637,11 +637,11 @@ TaskHandler_084fca:
         move.l  a1,(a6)                         | +052
 .L8501e:
         jsr     0x27cee.l                       | +054
-        jsr     Sub_00085EE8(pc)                | +05a
-        jsr     Sub_00085F08(pc)                | +05e
+        jsr     Flight_WobbleArm_085ee8(pc)                | +05a
+        jsr     Flight_WobbleStep_085f08(pc)                | +05e
         jsr     0x28d70.l                       | +062
-        jsr     Sub_00085F44(pc)                | +068
-        jsr     Sub_00085F60(pc)                | +06c
+        jsr     Flight_HitboxParams_085f44(pc)                | +068
+        jsr     Flight_AltitudeCheck_085f60(pc)                | +06c
         bcs.w   .L85044                         | +070
         lea     TaskHandler_085062(pc),a1       | +074
         move.l  a1,(a6)                         | +078
@@ -669,9 +669,9 @@ TaskHandler_085062:
         move.l  a1,(a6)                         | +020
 .L85084:
         jsr     0x2783a.l                       | +022
-        jsr     Sub_00085F08(pc)                | +028
+        jsr     Flight_WobbleStep_085f08(pc)                | +028
         jsr     0x28d70.l                       | +02c
-        jsr     Sub_00085F44(pc)                | +032
+        jsr     Flight_HitboxParams_085f44(pc)                | +032
         cmpi.w  #0x0,0x72(a6)                   | +036
         bgt.w   .L850a8                         | +03c
         lea     TaskHandler_0850c6(pc),a1       | +040
@@ -699,10 +699,10 @@ TaskHandler_0850c6:
 .L850de:
         jsr     0x2783a.l                       | +018
         jsr     0x28d70.l                       | +01e
-        jsr     Sub_00085F44(pc)                | +024
+        jsr     Flight_HitboxParams_085f44(pc)                | +024
         subq.w  #0x1,0x72(a6)                   | +028
         bpl.w   .L8510e                         | +02c
-        jsr     Sub_00085F60(pc)                | +030
+        jsr     Flight_AltitudeCheck_085f60(pc)                | +030
         bcc.w   .L85108                         | +034
         lea     TaskHandler_084fca(pc),a1       | +038
         move.l  a1,(a6)                         | +03c
