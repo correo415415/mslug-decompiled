@@ -11,10 +11,39 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4086/4086 funciones
-BYTES   : 170,326/170,326 (registrados)
-ROM     : 170,326/2,097,152  (8.1218%)
+MATCHED : 4178/4178 funciones
+BYTES   : 178,004/178,004 (registrados)
+ROM     : 178,004/2,097,152  (8.4879%)
 ```
+
+> **Wave PPP** (92 entradas, 7 678 B, verde a la primera) — region
+> `$08F6D2..$0916B8` en `gameover_continue_08f6xx.s` (50 huecos cerrados,
+> 19 `--entry`). Septima wave de `tools/gen_asm_region.py`.
+>
+> * **Mascaras de slot y anclas** (`PlayerSlot_*`, `Anchor_*`): +$96/+$97
+>   del slot de jugador son mascaras por paridad de frame (`$106F28&1`);
+>   `Anchor_GetWorldPos` lee un descriptor {tabla, dx, dy} en +$70 y
+>   devuelve la posicion mundial de un ancla; `PlayerSlot_Try/ClaimAnchor*`
+>   reservan anclas (bits 0..2) — usados por la IA del jugador ($57Bxx) y
+>   los bosses (`Boss_Descend`, `Boss2_TickParent`).
+> * **Game Over** (`GameOver_*`, tarea anadida en `$1300` tras poner
+>   `$106ECE/$106ECF=$FF`): `Boot` carga la escena $A y la paleta
+>   `$2F4A32`; `Spawn` crea ~40 hijos (letras `GO_Letter_V0..V13`, figuras,
+>   scrollers, partes) y sube con `GameOver_IntegrateY`; `Wait/Wait2/Final`
+>   encadenan jingles `$10DF/$10DE`, `WaitCredit` espera `$10A2CF` y
+>   `Continue*` recorre la tabla `$2F4BF8` y muestra el texto.
+> * **Efectos** (`GO_*`): `GO_Sprite_Right/Left/Mid/MidB` (entrada
+>   deslizante + tabla `$2F4C48`), `GO_Prop_A/B/C`, `GO_Zoom` (decaimiento
+>   a la mitad por frame + `$2F4B24`), `GO_Shake` (`$2F4B48`), `GO_Flash`,
+>   `GO_Banner*`, `GO_Glow/_Drift` (brillo +$32/+$33), `GO_Figure*`,
+>   `GO_Scroller*` (wrap en x=$110), `GO_Particle` (RNG `$5E9B6`),
+>   helpers `GO_ParentState2x_IsN`.
+> * **Continue** (`Continue_*`): `Continue_Tpl` (anadida por
+>   `AttractHandler_2Task_0010F2`), `Continue_Tmpl227` (`$E8000[227]`,
+>   primera tarea de `Init_ModeToggle_001260`), texto fix-layer con
+>   `Fix_BlitRect/Row/Str` (`$5DA9C/$5DA56/$5DAD8`), cuenta atras BCD de
+>   `$10FDDA`, filas `$2F4CB8`, titulo `$2F4C98`.
+> * 18 defsyms promovidos; +17 RTS mid-isla; 32 call-sites renombrados.
 
 > **Wave OOO** (84 entradas, 3 980 B, verde a la primera) — region
 > `$08E4E4..$08F6D2` en `critters_rings_08e4xx.s` (54 huecos cerrados).

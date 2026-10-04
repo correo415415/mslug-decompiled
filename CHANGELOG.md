@@ -17,6 +17,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave PPP — 92 entries (7,678 B): `$08F6D2..$0916B8`
+  (`gameover_continue_08f6xx.s`, 50 gaps closed): player-slot anchor
+  masks (`PlayerSlot_*`, `Anchor_GetWorldPos*`), the Game Over sequence
+  (`GameOver_Boot/Spawn/Wait/Final/WaitCredit/Continue*`, task added at
+  `$1300`), its ~40 child effects (`GO_Letter_V0..V13`, `GO_Sprite_*`,
+  `GO_Prop_*`, `GO_Zoom`, `GO_Shake`, `GO_Flash`, `GO_Banner*`,
+  `GO_Glow*`, `GO_Figure*`, `GO_Scroller*`, `GO_Particle`) and the
+  Continue screen (`Continue_Tpl`, `Continue_Tmpl227` = `$E8000[227]`,
+  fix-layer text with BCD countdown from `$10FDDA`). 18 defsyms
+  promoted; +17 island RTS; 32 call sites renamed. Matcher: 4,178/4,178,
+  178,004 B (8.49 %).
 - Wave OOO — 84 entries (3,980 B): `$08E4E4..$08F6D2`
   (`critters_rings_08e4xx.s`, 54 gaps closed): small critters
   (`Bobber_*`/`Leaper_*`/`Runner_*`, Mission-VM templates 182/183/184),
