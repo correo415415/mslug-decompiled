@@ -717,8 +717,8 @@ void JsrPcThunk_0877ce(void) {
 
 __attribute__((section(".text.JsrPcThunk_08b712")))
 void JsrPcThunk_08b712(void) {
-    extern void PcThunkTarget_08b82c(void);
-    __asm__ volatile("jsr PcThunkTarget_08b82c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Airship_DropSoldier_08b82c(void);
+    __asm__ volatile("jsr Airship_DropSoldier_08b82c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08d5a2")))

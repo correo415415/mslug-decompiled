@@ -676,24 +676,24 @@ SYMBOLS = {
     # 0x00085A08 promovido a M4_CamFloor_Step_085a08 en registry (Wave JJJ).
     # 0x000865BE promovido a Boss_Shadow_Clear_0865be en registry (Wave KKK).
     # 0x00086854 promovido a Fort_Idle_086854 en registry (Wave KKK).
-    # 0x00089398 promovido a TaskHandler_089398 en registry (Wave LLL).
-    # 0x00089504 promovido a TaskHandler_089504 en registry (Wave LLL).
-    # 0x000895CC promovido a TaskHandler_0895cc en registry (Wave LLL).
-    # 0x000898D4 promovido a TaskHandler_0898d4 en registry (Wave LLL).
-    # 0x00089960 promovido a TaskHandler_089960 en registry (Wave LLL).
-    # 0x00089A04 promovido a TaskHandler_089a04 en registry (Wave LLL).
-    # 0x0008A31C promovido a TaskHandler_08a31c en registry (Wave LLL).
-    # 0x0008A44C promovido a TaskHandler_08a44c en registry (Wave LLL).
-    # 0x0008A516 promovido a TaskHandler_08a516 en registry (Wave LLL).
-    # 0x0008A5C8 promovido a TaskHandler_08a5c8 en registry (Wave LLL).
-    # 0x0008A9B0 promovido a TaskHandler_08a9b0 en registry (Wave LLL).
-    # 0x0008AAF2 promovido a TaskHandler_08aaf2 en registry (Wave LLL).
-    # 0x0008ABD4 promovido a TaskHandler_08abd4 en registry (Wave LLL).
-    # 0x0008AC92 promovido a TaskHandler_08ac92 en registry (Wave LLL).
-    # 0x0008AE38 promovido a TaskHandler_08ae38 en registry (Wave LLL).
-    # 0x0008AF68 promovido a TaskHandler_08af68 en registry (Wave LLL).
-    # 0x0008B03C promovido a TaskHandler_08b03c en registry (Wave LLL).
-    # 0x0008B10A promovido a TaskHandler_08b10a en registry (Wave LLL).
+    # 0x00089398 promovido a S5_Depot_Idle_089398 en registry (Wave LLL).
+    # 0x00089504 promovido a Airship_Landed_089504 en registry (Wave LLL).
+    # 0x000895CC promovido a Airship_Hover_0895cc en registry (Wave LLL).
+    # 0x000898D4 promovido a Turret8_Aim_0898d4 en registry (Wave LLL).
+    # 0x00089960 promovido a Turret8_Track_089960 en registry (Wave LLL).
+    # 0x00089A04 promovido a Turret8_Cooldown_089a04 en registry (Wave LLL).
+    # 0x0008A31C promovido a S5_TowerA_Stage2_08a31c en registry (Wave LLL).
+    # 0x0008A44C promovido a S5_TowerA_Stage3_08a44c en registry (Wave LLL).
+    # 0x0008A516 promovido a S5_TowerA_Stage4_08a516 en registry (Wave LLL).
+    # 0x0008A5C8 promovido a S5_TowerA_Destroy_08a5c8 en registry (Wave LLL).
+    # 0x0008A9B0 promovido a S5_TowerB_Stage2_08a9b0 en registry (Wave LLL).
+    # 0x0008AAF2 promovido a S5_TowerB_Stage3_08aaf2 en registry (Wave LLL).
+    # 0x0008ABD4 promovido a S5_TowerB_Stage4_08abd4 en registry (Wave LLL).
+    # 0x0008AC92 promovido a S5_TowerB_Destroy_08ac92 en registry (Wave LLL).
+    # 0x0008AE38 promovido a Wreck_FlagClear_08ae38 en registry (Wave LLL).
+    # 0x0008AF68 promovido a TowerPort_Stage2_08af68 en registry (Wave LLL).
+    # 0x0008B03C promovido a TowerPort_Idle_08b03c en registry (Wave LLL).
+    # 0x0008B10A promovido a Wreck_SparkBurst_08b10a en registry (Wave LLL).
     0x0008BB84: "TaskHandler_08bb84",
     0x0008C678: "TaskHandler_08c678",
     0x0008C8FA: "TaskHandler_08c8fa",
@@ -945,7 +945,7 @@ SYMBOLS = {
     # 0x000798AC promovido a Entity_CheckBoxOverlapWithSelector_0798AC en registry (Wave RR#2).
     # 0x00088438 promovido a Entity_HitboxPulseTable_088438 en registry (Wave KKK).
     # 0x0008846A promovido a Entity_HitboxPulseSaved_08846a en registry (Wave KKK).
-    # 0x0008B82C promovido a PcThunkTarget_08b82c en registry (Wave LLL).
+    # 0x0008B82C promovido a Airship_DropSoldier_08b82c en registry (Wave LLL).
     0x0008D804: "PcThunkTarget_08d804",
     0x0008EA50: "PcThunkTarget_08ea50",
     0x0008EFB0: "PcThunkTarget_08efb0",
@@ -1407,7 +1407,7 @@ SYMBOLS = {
     # RTS interno de isla C ya matcheada (target de bne.w en Heli_RotorAnim_0883ec):
     0x00088436: "SetTaskWRts_088436",    # rts de SetTaskW_088432 (+4)
     # Hueco futuro referenciado por bne.w desde Fort_BlitWreck_088a28:
-    # 0x00088A64 promovido a Sub_00088A64 en registry (Wave LLL).
+    # 0x00088A64 promovido a Fort_BlitWreck_V1_088a64 en registry (Wave LLL).
 
     # --- Wave LLL: region $088A56..$08BA00
     # RTS internos de islas C ya matcheadas (targets de bcc/bra.w colgantes):

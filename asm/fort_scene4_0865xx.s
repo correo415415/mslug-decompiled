@@ -163,7 +163,7 @@
 |       $2ED738..$2ED954, listas aux $EE066..$EE19E) y 2 cajas
 |       (Crate_Init_V<n>) con offsets fijos; devuelven con rts.
 |     Fort_BlitWreck_088a28: si +$20==0 blits $2EDAA8/$2EDABC/$2EDAD0; si no
-|       salta al hueco futuro Sub_00088A64 (defsym forward).
+|       salta al hueco futuro Fort_BlitWreck_V1_088a64 (defsym forward).
 |
 |  Rarezas de matching: `movea.l #-1,a0` pisado por `lea` en Debris_Scatter
 |  (+$52), `addi.w #0,+$24(a0)` (x4) en los Fort_SpawnChildren, `jmp $518`
@@ -2817,7 +2817,7 @@ Fort_SpawnChildren_V4_08891a:
         .global Fort_BlitWreck_088a28
 Fort_BlitWreck_088a28:
         cmpi.b  #0x0,0x20(a6)                   | +000
-        bne.w   Sub_00088A64                    | +006  -> $088A64 (hueco futuro, defsym forward)
+        bne.w   Fort_BlitWreck_V1_088a64                    | +006  -> $088A64 (hueco futuro, defsym forward)
         lea     0x2edaa8.l,a2                   | +00a
         jsr     0x5022a.l                       | +010
         lea     0x2edabc.l,a2                   | +016

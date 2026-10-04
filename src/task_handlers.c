@@ -337,24 +337,24 @@ extern void M4_Turret_Death_085484(void);
 extern void M4_CamFloor_Step_085a08(void);
 extern void Boss_Shadow_Clear_0865be(void);
 extern void Fort_Idle_086854(void);
-extern void TaskHandler_089398(void);
-extern void TaskHandler_089504(void);
-extern void TaskHandler_0895cc(void);
-extern void TaskHandler_0898d4(void);
-extern void TaskHandler_089960(void);
-extern void TaskHandler_089a04(void);
-extern void TaskHandler_08a31c(void);
-extern void TaskHandler_08a44c(void);
-extern void TaskHandler_08a516(void);
-extern void TaskHandler_08a5c8(void);
-extern void TaskHandler_08a9b0(void);
-extern void TaskHandler_08aaf2(void);
-extern void TaskHandler_08abd4(void);
-extern void TaskHandler_08ac92(void);
-extern void TaskHandler_08ae38(void);
-extern void TaskHandler_08af68(void);
-extern void TaskHandler_08b03c(void);
-extern void TaskHandler_08b10a(void);
+extern void S5_Depot_Idle_089398(void);
+extern void Airship_Landed_089504(void);
+extern void Airship_Hover_0895cc(void);
+extern void Turret8_Aim_0898d4(void);
+extern void Turret8_Track_089960(void);
+extern void Turret8_Cooldown_089a04(void);
+extern void S5_TowerA_Stage2_08a31c(void);
+extern void S5_TowerA_Stage3_08a44c(void);
+extern void S5_TowerA_Stage4_08a516(void);
+extern void S5_TowerA_Destroy_08a5c8(void);
+extern void S5_TowerB_Stage2_08a9b0(void);
+extern void S5_TowerB_Stage3_08aaf2(void);
+extern void S5_TowerB_Stage4_08abd4(void);
+extern void S5_TowerB_Destroy_08ac92(void);
+extern void Wreck_FlagClear_08ae38(void);
+extern void TowerPort_Stage2_08af68(void);
+extern void TowerPort_Idle_08b03c(void);
+extern void Wreck_SparkBurst_08b10a(void);
 extern void TaskHandler_08bb84(void);
 extern void TaskHandler_08c678(void);
 extern void TaskHandler_08c8fa(void);
@@ -4046,115 +4046,115 @@ void SetTaskHandler_08684c(void) {
 
 __attribute__((section(".text.SetTaskHandler_089390")))
 void SetTaskHandler_089390(void) {
-    _a1_ptr = &TaskHandler_089398;
+    _a1_ptr = &S5_Depot_Idle_089398;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0894fc")))
 void SetTaskHandler_0894fc(void) {
-    _a1_ptr = &TaskHandler_089504;
+    _a1_ptr = &Airship_Landed_089504;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0895c4")))
 void SetTaskHandler_0895c4(void) {
-    _a1_ptr = &TaskHandler_0895cc;
+    _a1_ptr = &Airship_Hover_0895cc;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_089958")))
 void SetTaskHandler_089958(void) {
-    _a1_ptr = &TaskHandler_089960;
+    _a1_ptr = &Turret8_Track_089960;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0899c8")))
 void SetTaskHandler_0899c8(void) {
-    _a1_ptr = &TaskHandler_089a04;
+    _a1_ptr = &Turret8_Cooldown_089a04;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0899fc")))
 void SetTaskHandler_0899fc(void) {
-    _a1_ptr = &TaskHandler_0898d4;
+    _a1_ptr = &Turret8_Aim_0898d4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_089a28")))
 void SetTaskHandler_089a28(void) {
-    _a1_ptr = &TaskHandler_0898d4;
+    _a1_ptr = &Turret8_Aim_0898d4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08a2e4")))
 void SetTaskHandler_08a2e4(void) {
-    _a1_ptr = &TaskHandler_08a5c8;
+    _a1_ptr = &S5_TowerA_Destroy_08a5c8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08a314")))
 void SetTaskHandler_08a314(void) {
-    _a1_ptr = &TaskHandler_08a31c;
+    _a1_ptr = &S5_TowerA_Stage2_08a31c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08a444")))
 void SetTaskHandler_08a444(void) {
-    _a1_ptr = &TaskHandler_08a44c;
+    _a1_ptr = &S5_TowerA_Stage3_08a44c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08a50e")))
 void SetTaskHandler_08a50e(void) {
-    _a1_ptr = &TaskHandler_08a516;
+    _a1_ptr = &S5_TowerA_Stage4_08a516;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08a978")))
 void SetTaskHandler_08a978(void) {
-    _a1_ptr = &TaskHandler_08ac92;
+    _a1_ptr = &S5_TowerB_Destroy_08ac92;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08a9a8")))
 void SetTaskHandler_08a9a8(void) {
-    _a1_ptr = &TaskHandler_08a9b0;
+    _a1_ptr = &S5_TowerB_Stage2_08a9b0;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08aaea")))
 void SetTaskHandler_08aaea(void) {
-    _a1_ptr = &TaskHandler_08aaf2;
+    _a1_ptr = &S5_TowerB_Stage3_08aaf2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08abcc")))
 void SetTaskHandler_08abcc(void) {
-    _a1_ptr = &TaskHandler_08abd4;
+    _a1_ptr = &S5_TowerB_Stage4_08abd4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08ae30")))
 void SetTaskHandler_08ae30(void) {
-    _a1_ptr = &TaskHandler_08ae38;
+    _a1_ptr = &Wreck_FlagClear_08ae38;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08af60")))
 void SetTaskHandler_08af60(void) {
-    _a1_ptr = &TaskHandler_08af68;
+    _a1_ptr = &TowerPort_Stage2_08af68;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08b02c")))
 void SetTaskHandler_08b02c(void) {
-    _a1_ptr = &TaskHandler_08b03c;
+    _a1_ptr = &TowerPort_Idle_08b03c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08b102")))
 void SetTaskHandler_08b102(void) {
-    _a1_ptr = &TaskHandler_08b10a;
+    _a1_ptr = &Wreck_SparkBurst_08b10a;
     STORE_A1_AT_FP();
 }
 
