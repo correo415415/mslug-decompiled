@@ -1,16 +1,180 @@
-| ============================================================================
+| =============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave KKK — Fortaleza con casamatas, trampillas, blindado y helicoptero (escena 4)
-|  Región: $0865BE..$088A56  (9,334 B, 84 entradas, 6 huecos)
-| ============================================================================
+|  Wave KKK — Fortaleza con casamatas, trampillas, blindado y helicóptero
+|  Región: $0865BE..$088A56  (9,334 B, 84 entradas, 6 huecos cerrados)
+| =============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  Cluster completo de entidades de la escena 4 del dispatcher de spawn
+|  (lista $0972CC = JumpTable_096B9C[4], registros de 20 B {$0100, x, y,
+|  handler.l, 0, 0, FFFF x3} con centinela $FFFF). Todas las entradas
+|  ($0865DC/$086624/$086666/$0866AE/$0866F0/$086F1C/$086F40/$08716A/
+|  $0871FA/$087280/$0872FA/$087366/$0877D4/$087B1C/$087FBC/$088114) están
+|  referenciadas desde esa lista o desde la lista 7 ($0975A2, x>=$1670).
+|  Además `Heli_InitTmpl_087b26` es la plantilla $E8000[269] (op $00 del
+|  Mission VM).
+|
+|  Convenciones comunes a casi todos los handlers del cluster:
+|    * `movea.l +$3C(a6),a1; jsr $2942A` — lee x/y del registro de spawn
+|      (ajustando x & $FFF en las misiones $B/$C) y los convierte con $440D0.
+|    * `jsr $2783A` física; `jsr $28D70` slots enlazados (C=1 => sin hijos
+|      vivos); `jsr $2870A` daño (C=1 => golpe recibido: flash $5E766 vía
+|      $5E770 + bclr bit3 de +$13); `jsr $28758` colisión con jugador.
+|    * `jsr $4FA70` — cull por scroll: C=1 si x < -(+$70) => `jmp $518`.
+|    * `move.w #$82,d0; move.b #0,+$82(a6); jsr $4429E` — MissionWatch_Spawn
+|      sobre la lista aux en +$7C (habilita la siguiente oleada de la misión).
+|    * +$66 = HP, +$70 = margen de cull, +$72 = timer/índice, +$74 = tabla de
+|      blit (StateMachineRun $5022A), +$78/+$7C/+$88/+$8C = listas de
+|      sprites/aux, +$48 = puntero de hitbox ($FFFF = sin hitbox).
+|
+|  A) $0865BE..$086868 — FORTALEZA (contenedor)
+|     Boss_Shadow_Clear_0865be: $10E39E=0, hitbox off, jsr $283CA, $518
+|       (cola del thunk SetTaskHandler_0865b6; complementa Boss_Shadow_Init).
+|     Fort_Init_V0..V4 ($865DC/$86624/$86666/$866AE/$866F0): 5 variantes
+|       (+$20=0..4) que llaman a su Fort_SpawnChildren_V<n> (casamatas +
+|       cajas), cargan las listas +$78 ($2EDCB0..$2EDD20) / +$7C
+|       ($EDC8C..$EDE22) y crean la trampilla Hatch_Init_V<n> (+$50,+$10 en
+|       las pares). Convergen en Fort_Init_Common_086738: +$70=$C0, HP
+|       +$66=$140, hitbox $2EC41E (se apaga si x<=-$40), re-arma HP si
+|       x>=$C0, y al llegar a 0 pasa a Fort_Destroyed_0867d4 (+$21=$FF);
+|       se autodestruye por cull (+$21=$FF).
+|     Fort_Destroyed_0867d4: snd $1028, tres pares de escombros
+|       ($2ECF68/$2ECF7A/$2ED04A vía $77C7E), Fort_BlitWreck_088a28, blit de
+|       fila $43FAC con +$78, caja $2ECC88 con $283CA x2 + $283D8, y
+|       MissionWatch_Spawn con +$7C. Cae en el thunk SetTaskHandler_08684c ->
+|       Fort_Idle_086854 (hitbox off, $283CA, $518).
+|
+|  B) $08686A..$086DB4 — CASAMATAS Y CAJAS (hijos de la fortaleza)
+|     Pillbox_Init_08686a (+6 variantes por `bra.w`; las globales
+|       Pillbox_Init_Lower/Right/RightUpper son targets `lea pc` de los
+|       Fort_SpawnChildren): snd $E3/$E4, +$21 = $00/$30/$60/$01/$31/$61
+|       (nibble alto = fila de sprite en $2EB2C0[(+$21>>4)<<2], bit0 =
+|       orientación), HP $28 (+$66 y copia +$80), +$38=$8000, $267E2 limpia
+|       velocidades, probe $27CEE. Bucle: muere con el padre (+$21 del padre
+|       = $FF => blit $2EDD48 + $518); daño: snd $108D +
+|       Entity_PropagateDamageToParent_08848c; HP<=$1E => Damaged1, <=$1A =>
+|       Damaged2 (sprite fila+1/+2), <=$D => Pillbox_Critical_086abc.
+|     Pillbox_Critical_086abc: al contacto con el jugador ($28758) apaga la
+|       hitbox; si +$21 bit0 => Pillbox_Collapse_086ba4 (spawnea
+|       Pillbox_Fragment_086c62: snd $6C, sprite $2EB2E4, marca `ori.b #$F`
+|       en +$21 del padre cuando el abuelo muere) y espera a que el nibble
+|       bajo de +$21 sea $F; si no => score $100 ($51A28), snd $102F/$102C,
+|       lista $78066 vía $4AE/$5DD22, blit +$74 y par $2ED05C, y
+|       MissionWatch_Spawn con +$7C si != -1.
+|     Crate_Init_086cd0 (V0..V4 = snd $E7..$EB, +$21=0..4): HP $14,
+|       +$38=0; muere con el padre; al contacto del jugador apaga la hitbox y
+|       pasa a Crate_Burst_086db4: score $100, snd $1039, sprite
+|       $2EB6BA[+$21<<2], y cuando no quedan hijos snd $102F + lista $7808A +
+|       blit +$74 + par $2ED05C. El `bcc.w` colgante de Crate_Init apunta al
+|       thunk JsrPcThunk_086dae (-> Entity_HitboxPulseTable).
+|
+|  C) $086E4A..$08716A — TRAMPILLA DE TROPAS
+|     Hatch_Init_086e4a (V0..V4 + 2 variantes sin padre en +$D2/+$F6 con
+|       +$20=5/6 y lectura del registro de spawn): +$70=$30/$20, +$20=n,
+|       +$21=1, listas +$7C ($EDE9E..$EDFAA) y +$8C ($EDCB2..$EDE7E).
+|     Ciclo Hatch_WaitClosed_086f64 (90 frames) -> Hatch_Opening_086fb4
+|       (sprite $2EBFAE[+$20<<2], espera a que no haya hijos) ->
+|       Hatch_SpawnTroops_087004 (timer $28, MissionWatch_Spawn con +$7C;
+|       avanza cuando Entity_CmpPrioWithSibling_086552 devuelve C=0) ->
+|       Hatch_WaitOpen_087068 (80 frames) -> Hatch_Closing_0870b8 (sprite
+|       $2EBFCA) -> vuelve a WaitClosed. Si +$21==1 y el padre ha muerto
+|       (+$21=$FF): Hatch_FinalOpen_087108 -> Hatch_FinalSpawn_087130
+|       (MissionWatch_Spawn con +$8C y $518).
+|
+|  D) $08716A..$087366 — ATREZZO DESTRUIBLE
+|     Prop_Breakable_A/B/C ($8716A/$871FA/$87280): +$70=$20, hitbox
+|       $2EC726, daño con flash; al contacto del jugador snd $10A6 (sólo A),
+|       par $2ED0AE y 1-2 blits ($2ED878/$2ED864, $2ED968/$2ED97C, $2EDA6C).
+|     Prop_Signboard_0872fa: sprite $2EBFE6, al recibir daño snd $10A9 y
+|       sprite roto $2EBFFC; HP=$7FFF (indestructible, sólo cambia sprite).
+|
+|  E) $087366..$0877D4 — MURO DE 13 CAJAS
+|     CrateWall_Spawn13_087366: crea 13 piezas con offsets fijos
+|       (dx -$10..+$A0, dy 0..$A0) y termina en $518.
+|     CrateWall_Piece00..12: cada pieza fija su tabla de blit +$74
+|       ($2ED990..$2EDA94), lista aux +$7C ($EDFE2/$EE002/$EE022 ó -1), índice
+|       +$72 (0..12), hitbox +$48 ($2EC822/$2EC876/$2EC8CA/$2EC91E/$2EC972/
+|       $2EC9C6) y par +$88 ($2ECFDE..$2ED038), y salta a
+|       CrateWall_Piece_Common_087730: +$70=$30, HP $14, guarda la hitbox en
+|       +$84; al contacto del jugador hitbox off, snd $1027, blit +$74, par
+|       +$88 y MissionWatch_Spawn con +$7C si != -1. El `bcc.w` colgante va
+|       al thunk JsrPcThunk_0877ce (-> Entity_HitboxPulseSaved).
+|
+|  F) $0877D4..$087B1C — BLINDADO
+|     ArmoredCar_Init_0877d4: snd $E5, +$70=$F0, sprite $2EC180, torreta
+|       hija ArmoredCar_Turret_087aa0; espera a que x<$100 (limpiando
+|       $10E39A) y cae en ArmoredCar_Engage_087846: HP aleatorio ($2C0628 vía
+|       $799DE) + $2E4, +$60=$2EDE46, $28998 (dispatcher de jugadores);
+|       HP<=$29A => par $2ED0C0 + ArmoredCar_Damaged1_0878d8 (snd $102B,
+|       sprite $2EC19A); HP<=$F6 => par $2ED0D2 + ArmoredCar_Damaged2_087956
+|       (sprite $2EC1AE); al contacto: snd $1038, pares $2ED0E4/$2ECFCC,
+|       blits de fila $2EDD56/$2EDD68, spawn de ArmoredCar_BlastBox_087a62
+|       (16 frames de caja $2ECC34) y ArmoredCar_Wreck_087a18 (score $5000,
+|       sprite $2EC1C2, hitbox off).
+|     ArmoredCar_Turret_087aa0: snd $E5, hitbox $8000/$80 ($2813C), sigue
+|       x/y del padre y toma su sprite de $2EC21A[+$20 del padre<<2]; muere
+|       cuando el padre pasa a +$20==3.
+|
+|  G) $087B1C..$087F4C — HELICÓPTERO
+|     Heli_Init_087b1c (Heli_InitTmpl_087b26 = entrada de plantilla sin
+|       lectura del registro de spawn): snd $86+$87, +$70=$50, HP aleatorio
+|       ($2C05A6) + $17C, +$38=$2000, sprite $2EC226, hijo
+|       Heli_Dropper_087eae, blit de fila $2EDD7E, +$60=$2EDDFA. Bucle con
+|       $28998, Heli_RotorAnim_0883ec, daño (+$72=$F => 15 frames de
+|       parpadeo); cuando x<=$100 => Heli_Approach_087c22 (sprite $2EC23C;
+|       cuando no quedan hijos => Heli_Hover_087c9a: MissionWatch_Spawn con
+|       $EE042; HP<=$FC => Heli_Damaged1_087d1c (snd $1027, $2EC2CE);
+|       HP<=$7E => Heli_Damaged2_087d9e ($2EC2DE); al contacto =>
+|       Heli_Crash_087e20: score $5000, snd $1023, lista $77FD6, blit de fila
+|       $2EDD92, pares $2ED176/$2ED188, sprite $2EC2EE).
+|     Heli_Dropper_087eae: snd $88, sprite $2EC2FE, lanza soldado $77228
+|       (+$58, +$98=$30, +$99=$83) y, cuando el padre muere (+$20=$FF),
+|       $77F6A.
+|     Heli_RotorAnim_0883ec: alterna +$16/+$18 (par de tiles del rotor) cada
+|       4 frames mientras +$72>0 (parpadeo de daño, decrementa +$72) o cada
+|       16 frames en reposo; cae en SetTaskW_088432 (rts en +4 = defsym
+|       SetTaskWRts_088436).
+|
+|  H) $087F4C..$088114 — ESCOMBRO Y ATREZZO CUÁDRUPLE
+|     Debris_Scatter_087f4c: snd $F3, velocidad X aleatoria ($5EA1C & $7F,
+|       signo por bit0), vel Y -= |dx|, sprite $2DE4B0, probe $27CEE; cuando
+|       no quedan hijos y $5DD56 (wait-anim de $298736) devuelve C=1 => $518.
+|     Prop_Quad_Spawn_087fbc: crea Prop_Quad_A..D ($8800E..$8805C, sprites
+|       $2EC30E..$2EC350, pares $2ED19A..$2ED1D0) que convergen en
+|       Prop_Quad_Common_088076: snd $E4, +$70=$40, HP $A, +$38=$8000; al
+|       contacto snd $102E, hitbox off y par +$88.
+|
+|  I) $088114..$0883EC — BARRICADA
+|     Barricade_Init_088114: snd $E6, +$70=$40, HP $32 (re-armado cada
+|       frame hasta x<=$50) -> Barricade_Arm_0881a8 (sprite $2EC366; sin
+|       hijos => Barricade_Stage1_08820a: MissionWatch_Spawn $EE062; HP<=$28
+|       => Stage2 $2EC3DE; <=$1E => Stage3 $2EC3EE; <=$14 => Stage4 $2EC3FE;
+|       <=$A => par $2ED1E2 + Barricade_Stage5_088390 ($2EC40E, espera
+|       Entity_CmpPrioWithSibling C=0, contacto => $518 incondicional:
+|       el `jsr $4FA70; bcc.w` que sigue es código muerto).
+|
+|  J) $088438..$088A56 — HELPERS
+|     Entity_HitboxPulseTable_088438: cada 4 frames (+$72) carga +$48 desde
+|       $2EC712[+$21<<2], el resto apaga la hitbox (pulso de colisión).
+|     Entity_HitboxPulseSaved_08846a: idem con la hitbox guardada en +$84.
+|     Entity_PropagateDamageToParent_08848c: resta al padre (+$66) la
+|       diferencia de HP perdida desde la última llamada (+$80).
+|     Fort_SpawnChildren_V0..V4 ($884A6/$885B4/$886C2/$887D0/$8891A): crean
+|       3-4 casamatas (Pillbox_Init_*, +$38=$60/$70, tablas de blit
+|       $2ED738..$2ED954, listas aux $EE066..$EE19E) y 2 cajas
+|       (Crate_Init_V<n>) con offsets fijos; devuelven con rts.
+|     Fort_BlitWreck_088a28: si +$20==0 blits $2EDAA8/$2EDABC/$2EDAD0; si no
+|       salta al hueco futuro Sub_00088A64 (defsym forward).
+|
+|  Rarezas de matching: `movea.l #-1,a0` pisado por `lea` en Debris_Scatter
+|  (+$52), `addi.w #0,+$24(a0)` (x4) en los Fort_SpawnChildren, `jmp $518`
+|  seguido de `rts` inalcanzable (x7), `bra.w` a la instrucción siguiente en
+|  los Fort_Init (+$158) y `jsr $434DC` (rts puro) en Fort_Destroyed y
+|  ArmoredCar_Damaged2.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
 |  (MD5 816b3f74c76b3373993407615f1850fe).
-| ============================================================================
+| =============================================================================
 
         .text
 
@@ -53,7 +217,7 @@ Fort_Init_V0_0865dc:
         jsr     0x5dd22.l                       | +032
         addi.w  #0x50,0x22(a0)                  | +038
         addi.w  #0x10,0x24(a0)                  | +03e
-        bra.w   Fort_Init_V4_0866f0__L086738    | +044
+        bra.w   Fort_Init_Common_086738    | +044
 
 | ----------------------------------------------------------------------------
 |  Fort_Init_V1_086624  @ $086624  (66 B)
@@ -69,11 +233,11 @@ Fort_Init_V1_086624:
         move.l  a1,0x78(a6)                     | +01a
         lea     0xedcd2.l,a1                    | +01e
         move.l  a1,0x7c(a6)                     | +024
-        lea     Hatch_Init_086e4a__L086e74(pc),a1 | +028
+        lea     Hatch_Init_V1_086e74(pc),a1 | +028
         jsr     0x4ae.l                         | +02c
         jsr     0x5dd22.l                       | +032
         addi.w  #0x50,0x22(a0)                  | +038
-        bra.w   Fort_Init_V4_0866f0__L086738    | +03e
+        bra.w   Fort_Init_Common_086738    | +03e
 
 | ----------------------------------------------------------------------------
 |  Fort_Init_V2_086666  @ $086666  (72 B)
@@ -89,12 +253,12 @@ Fort_Init_V2_086666:
         move.l  a1,0x78(a6)                     | +01a
         lea     0xedd2a.l,a1                    | +01e
         move.l  a1,0x7c(a6)                     | +024
-        lea     Hatch_Init_086e4a__L086e9e(pc),a1 | +028
+        lea     Hatch_Init_V2_086e9e(pc),a1 | +028
         jsr     0x4ae.l                         | +02c
         jsr     0x5dd22.l                       | +032
         addi.w  #0x50,0x22(a0)                  | +038
         addi.w  #0x10,0x24(a0)                  | +03e
-        bra.w   Fort_Init_V4_0866f0__L086738    | +044
+        bra.w   Fort_Init_Common_086738    | +044
 
 | ----------------------------------------------------------------------------
 |  Fort_Init_V3_0866ae  @ $0866AE  (66 B)
@@ -110,11 +274,11 @@ Fort_Init_V3_0866ae:
         move.l  a1,0x78(a6)                     | +01a
         lea     0xedda6.l,a1                    | +01e
         move.l  a1,0x7c(a6)                     | +024
-        lea     Hatch_Init_086e4a__L086ec8(pc),a1 | +028
+        lea     Hatch_Init_V3_086ec8(pc),a1 | +028
         jsr     0x4ae.l                         | +02c
         jsr     0x5dd22.l                       | +032
         addi.w  #0x50,0x22(a0)                  | +038
-        bra.w   Fort_Init_V4_0866f0__L086738    | +03e
+        bra.w   Fort_Init_Common_086738    | +03e
 
 | ----------------------------------------------------------------------------
 |  Fort_Init_V4_0866f0  @ $0866F0  (228 B)
@@ -130,14 +294,14 @@ Fort_Init_V4_0866f0:
         move.l  a1,0x78(a6)                     | +01a
         lea     0xede22.l,a1                    | +01e
         move.l  a1,0x7c(a6)                     | +024
-        lea     Hatch_Init_086e4a__L086ef2(pc),a1 | +028
+        lea     Hatch_Init_V4_086ef2(pc),a1 | +028
         jsr     0x4ae.l                         | +02c
         jsr     0x5dd22.l                       | +032
         addi.w  #0x50,0x22(a0)                  | +038
         addi.w  #0x10,0x24(a0)                  | +03e
-        bra.w   Fort_Init_V4_0866f0__L086738    | +044
-        .global Fort_Init_V4_0866f0__L086738
-Fort_Init_V4_0866f0__L086738:
+        bra.w   Fort_Init_Common_086738    | +044
+        .global Fort_Init_Common_086738
+Fort_Init_Common_086738:
         move.w  #0xc0,0x70(a6)                  | +048
         move.w  #0x140,0x66(a6)                 | +04e
         move.b  #0x0,0x21(a6)                   | +054
@@ -239,20 +403,20 @@ Pillbox_Init_08686a:
         jsr     0x236e.l                        | +018
         move.b  #0x30,0x21(a6)                  | +01e
         bra.w   .L0868e2                        | +024
-        .global Pillbox_Init_08686a__L086892
-Pillbox_Init_08686a__L086892:
+        .global Pillbox_Init_Lower_086892
+Pillbox_Init_Lower_086892:
         move.w  #0xe3,d1                        | +028
         jsr     0x236e.l                        | +02c
         move.b  #0x60,0x21(a6)                  | +032
         bra.w   .L0868e2                        | +038
-        .global Pillbox_Init_08686a__L0868a6
-Pillbox_Init_08686a__L0868a6:
+        .global Pillbox_Init_Right_0868a6
+Pillbox_Init_Right_0868a6:
         move.w  #0xe3,d1                        | +03c
         jsr     0x236e.l                        | +040
         move.b  #0x1,0x21(a6)                   | +046
         bra.w   .L0868e2                        | +04c
-        .global Pillbox_Init_08686a__L0868ba
-Pillbox_Init_08686a__L0868ba:
+        .global Pillbox_Init_RightUpper_0868ba
+Pillbox_Init_RightUpper_0868ba:
         move.w  #0xe4,d1                        | +050
         jsr     0x236e.l                        | +054
         move.b  #0x31,0x21(a6)                  | +05a
@@ -547,26 +711,26 @@ Crate_Init_086cd0:
         jsr     0x236e.l                        | +004
         move.b  #0x0,0x21(a6)                   | +00a
         bra.w   .L086d34                        | +010
-        .global Crate_Init_086cd0__L086ce4
-Crate_Init_086cd0__L086ce4:
+        .global Crate_Init_V1_086ce4
+Crate_Init_V1_086ce4:
         move.w  #0xe8,d1                        | +014
         jsr     0x236e.l                        | +018
         move.b  #0x1,0x21(a6)                   | +01e
         bra.w   .L086d34                        | +024
-        .global Crate_Init_086cd0__L086cf8
-Crate_Init_086cd0__L086cf8:
+        .global Crate_Init_V2_086cf8
+Crate_Init_V2_086cf8:
         move.w  #0xe9,d1                        | +028
         jsr     0x236e.l                        | +02c
         move.b  #0x2,0x21(a6)                   | +032
         bra.w   .L086d34                        | +038
-        .global Crate_Init_086cd0__L086d0c
-Crate_Init_086cd0__L086d0c:
+        .global Crate_Init_V3_086d0c
+Crate_Init_V3_086d0c:
         move.w  #0xea,d1                        | +03c
         jsr     0x236e.l                        | +040
         move.b  #0x3,0x21(a6)                   | +046
         bra.w   .L086d34                        | +04c
-        .global Crate_Init_086cd0__L086d20
-Crate_Init_086cd0__L086d20:
+        .global Crate_Init_V4_086d20
+Crate_Init_V4_086d20:
         move.w  #0xeb,d1                        | +050
         jsr     0x236e.l                        | +054
         move.b  #0x4,0x21(a6)                   | +05a
@@ -657,8 +821,8 @@ Hatch_Init_086e4a:
         lea     0xedcb2.l,a1                    | +01c
         move.l  a1,0x8c(a6)                     | +022
         bra.w   Hatch_WaitClosed_086f64         | +026
-        .global Hatch_Init_086e4a__L086e74
-Hatch_Init_086e4a__L086e74:
+        .global Hatch_Init_V1_086e74
+Hatch_Init_V1_086e74:
         move.w  #0x30,0x70(a6)                  | +02a
         move.b  #0x1,0x20(a6)                   | +030
         move.b  #0x1,0x21(a6)                   | +036
@@ -667,8 +831,8 @@ Hatch_Init_086e4a__L086e74:
         lea     0xedd0a.l,a1                    | +046
         move.l  a1,0x8c(a6)                     | +04c
         bra.w   Hatch_WaitClosed_086f64         | +050
-        .global Hatch_Init_086e4a__L086e9e
-Hatch_Init_086e4a__L086e9e:
+        .global Hatch_Init_V2_086e9e
+Hatch_Init_V2_086e9e:
         move.w  #0x30,0x70(a6)                  | +054
         move.b  #0x2,0x20(a6)                   | +05a
         move.b  #0x1,0x21(a6)                   | +060
@@ -677,8 +841,8 @@ Hatch_Init_086e4a__L086e9e:
         lea     0xedd86.l,a1                    | +070
         move.l  a1,0x8c(a6)                     | +076
         bra.w   Hatch_WaitClosed_086f64         | +07a
-        .global Hatch_Init_086e4a__L086ec8
-Hatch_Init_086e4a__L086ec8:
+        .global Hatch_Init_V3_086ec8
+Hatch_Init_V3_086ec8:
         move.w  #0x20,0x70(a6)                  | +07e
         move.b  #0x3,0x20(a6)                   | +084
         move.b  #0x1,0x21(a6)                   | +08a
@@ -687,8 +851,8 @@ Hatch_Init_086e4a__L086ec8:
         lea     0xede02.l,a1                    | +09a
         move.l  a1,0x8c(a6)                     | +0a0
         bra.w   Hatch_WaitClosed_086f64         | +0a4
-        .global Hatch_Init_086e4a__L086ef2
-Hatch_Init_086e4a__L086ef2:
+        .global Hatch_Init_V4_086ef2
+Hatch_Init_V4_086ef2:
         move.w  #0x20,0x70(a6)                  | +0a8
         move.b  #0x4,0x20(a6)                   | +0ae
         move.b  #0x1,0x21(a6)                   | +0b4
@@ -1141,7 +1305,7 @@ CrateWall_Piece00_0874ba:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ecfde.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece01_0874ea  @ $0874EA  (50 B)
@@ -1158,7 +1322,7 @@ CrateWall_Piece01_0874ea:
         move.l  a0,0x48(a6)                     | +020
         lea     0x2ecff0.l,a1                   | +024
         move.l  a1,0x88(a6)                     | +02a
-        bra.w   CrateWall_Piece12_087700__L087730 | +02e
+        bra.w   CrateWall_Piece_Common_087730 | +02e
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece02_08751c  @ $08751C  (50 B)
@@ -1175,7 +1339,7 @@ CrateWall_Piece02_08751c:
         move.l  a0,0x48(a6)                     | +020
         lea     0x2ecfde.l,a1                   | +024
         move.l  a1,0x88(a6)                     | +02a
-        bra.w   CrateWall_Piece12_087700__L087730 | +02e
+        bra.w   CrateWall_Piece_Common_087730 | +02e
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece03_08754e  @ $08754E  (50 B)
@@ -1192,7 +1356,7 @@ CrateWall_Piece03_08754e:
         move.l  a0,0x48(a6)                     | +020
         lea     0x2ecfde.l,a1                   | +024
         move.l  a1,0x88(a6)                     | +02a
-        bra.w   CrateWall_Piece12_087700__L087730 | +02e
+        bra.w   CrateWall_Piece_Common_087730 | +02e
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece04_087580  @ $087580  (48 B)
@@ -1208,7 +1372,7 @@ CrateWall_Piece04_087580:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed002.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece05_0875b0  @ $0875B0  (48 B)
@@ -1224,7 +1388,7 @@ CrateWall_Piece05_0875b0:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed002.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece06_0875e0  @ $0875E0  (48 B)
@@ -1240,7 +1404,7 @@ CrateWall_Piece06_0875e0:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed014.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece07_087610  @ $087610  (48 B)
@@ -1256,7 +1420,7 @@ CrateWall_Piece07_087610:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed026.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece08_087640  @ $087640  (48 B)
@@ -1272,7 +1436,7 @@ CrateWall_Piece08_087640:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece09_087670  @ $087670  (48 B)
@@ -1288,7 +1452,7 @@ CrateWall_Piece09_087670:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece10_0876a0  @ $0876A0  (48 B)
@@ -1304,7 +1468,7 @@ CrateWall_Piece10_0876a0:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece11_0876d0  @ $0876D0  (48 B)
@@ -1320,7 +1484,7 @@ CrateWall_Piece11_0876d0:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        bra.w   CrateWall_Piece_Common_087730 | +02c
 
 | ----------------------------------------------------------------------------
 |  CrateWall_Piece12_087700  @ $087700  (206 B)
@@ -1336,9 +1500,9 @@ CrateWall_Piece12_087700:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   CrateWall_Piece12_087700__L087730 | +02c
-        .global CrateWall_Piece12_087700__L087730
-CrateWall_Piece12_087700__L087730:
+        bra.w   CrateWall_Piece_Common_087730 | +02c
+        .global CrateWall_Piece_Common_087730
+CrateWall_Piece_Common_087730:
         move.w  #0x30,0x70(a6)                  | +030
         move.w  #0x14,0x66(a6)                  | +036
         move.l  0x48(a6),0x84(a6)               | +03c
@@ -1971,7 +2135,7 @@ Prop_Quad_A_08800e:
         jsr     0x28cd4.l                       | +006
         lea     0x2ed19a.l,a1                   | +00c
         move.l  a1,0x88(a6)                     | +012
-        bra.w   Prop_Quad_D_08805c__L088076     | +016
+        bra.w   Prop_Quad_Common_088076     | +016
 
 | ----------------------------------------------------------------------------
 |  Prop_Quad_B_088028  @ $088028  (26 B)
@@ -1983,7 +2147,7 @@ Prop_Quad_B_088028:
         jsr     0x28cd4.l                       | +006
         lea     0x2ed1ac.l,a1                   | +00c
         move.l  a1,0x88(a6)                     | +012
-        bra.w   Prop_Quad_D_08805c__L088076     | +016
+        bra.w   Prop_Quad_Common_088076     | +016
 
 | ----------------------------------------------------------------------------
 |  Prop_Quad_C_088042  @ $088042  (26 B)
@@ -1995,7 +2159,7 @@ Prop_Quad_C_088042:
         jsr     0x28cd4.l                       | +006
         lea     0x2ed1be.l,a1                   | +00c
         move.l  a1,0x88(a6)                     | +012
-        bra.w   Prop_Quad_D_08805c__L088076     | +016
+        bra.w   Prop_Quad_Common_088076     | +016
 
 | ----------------------------------------------------------------------------
 |  Prop_Quad_D_08805c  @ $08805C  (184 B)
@@ -2007,9 +2171,9 @@ Prop_Quad_D_08805c:
         jsr     0x28cd4.l                       | +006
         lea     0x2ed1d0.l,a1                   | +00c
         move.l  a1,0x88(a6)                     | +012
-        bra.w   Prop_Quad_D_08805c__L088076     | +016
-        .global Prop_Quad_D_08805c__L088076
-Prop_Quad_D_08805c__L088076:
+        bra.w   Prop_Quad_Common_088076     | +016
+        .global Prop_Quad_Common_088076
+Prop_Quad_Common_088076:
         move.w  #0xe4,d1                        | +01a
         jsr     0x236e.l                        | +01e
         move.b  #0xff,0x32(a6)                  | +024
@@ -2230,13 +2394,13 @@ Barricade_Stage4_088328:
         bclr    #0x3,0x13(a6)                   | +034
 .L088362:
         cmpi.w  #0xa,0x66(a6)                   | +03a
-        bgt.w   Barricade_Stage4_088328__L08837e | +040
+        bgt.w   Barricade_Stage4_Tail_08837e | +040
         lea     0x2ed1e2.l,a1                   | +044
         jsr     0x77c7e.l                       | +04a
         lea     Barricade_Stage5_088390(pc),a1  | +050
         move.l  a1,(a6)                         | +054
-        .global Barricade_Stage4_088328__L08837e
-Barricade_Stage4_088328__L08837e:
+        .global Barricade_Stage4_Tail_08837e
+Barricade_Stage4_Tail_08837e:
         jsr     0x4fa70.l                       | +056
         bcc.w   .L08838e                        | +05c
         jmp     0x518.l                         | +060
@@ -2255,7 +2419,7 @@ Barricade_Stage5_088390:
         move.l  a1,(a6)                         | +010
 .L0883a2:
         jsr     Entity_CmpPrioWithSibling_086552(pc) | +012
-        bcs.b   Barricade_Stage4_088328__L08837e | +016
+        bcs.b   Barricade_Stage4_Tail_08837e | +016
         jsr     0x2783a.l                       | +018
         jsr     0x28d70.l                       | +01e
         jsr     0x2870a.l                       | +024
@@ -2356,7 +2520,7 @@ Entity_PropagateDamageToParent_08848c:
         .section .text.Fort_SpawnChildren_V0_0884a6, "ax", @progbits
         .global Fort_SpawnChildren_V0_0884a6
 Fort_SpawnChildren_V0_0884a6:
-        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +000
+        lea     Pillbox_Init_Right_0868a6(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x28,0x22(a0)                  | +010
@@ -2378,7 +2542,7 @@ Fort_SpawnChildren_V0_0884a6:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee07c.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +078
+        lea     Pillbox_Init_Right_0868a6(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0xa8,0x22(a0)                  | +088
@@ -2413,7 +2577,7 @@ Fort_SpawnChildren_V0_0884a6:
         .section .text.Fort_SpawnChildren_V1_0885b4, "ax", @progbits
         .global Fort_SpawnChildren_V1_0885b4
 Fort_SpawnChildren_V1_0885b4:
-        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +000
+        lea     Pillbox_Init_Right_0868a6(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x28,0x22(a0)                  | +010
@@ -2435,7 +2599,7 @@ Fort_SpawnChildren_V1_0885b4:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee0be.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +078
+        lea     Pillbox_Init_Right_0868a6(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0xa8,0x22(a0)                  | +088
@@ -2446,7 +2610,7 @@ Fort_SpawnChildren_V1_0885b4:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee0d4.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     Crate_Init_086cd0__L086ce4(pc),a1 | +0b4
+        lea     Crate_Init_V1_086ce4(pc),a1 | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0x28,0x22(a0)                  | +0c4
@@ -2454,7 +2618,7 @@ Fort_SpawnChildren_V1_0885b4:
         lea     0x2ed7d8.l,a1                   | +0d0
         move.l  a1,0x74(a0)                     | +0d6
         move.w  #0x3,0x72(a0)                   | +0da
-        lea     Crate_Init_086cd0__L086ce4(pc),a1 | +0e0
+        lea     Crate_Init_V1_086ce4(pc),a1 | +0e0
         jsr     0x4ae.l                         | +0e4
         jsr     0x5dd22.l                       | +0ea
         addi.w  #0xa0,0x22(a0)                  | +0f0
@@ -2470,7 +2634,7 @@ Fort_SpawnChildren_V1_0885b4:
         .section .text.Fort_SpawnChildren_V2_0886c2, "ax", @progbits
         .global Fort_SpawnChildren_V2_0886c2
 Fort_SpawnChildren_V2_0886c2:
-        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +000
+        lea     Pillbox_Init_RightUpper_0868ba(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x28,0x22(a0)                  | +010
@@ -2481,7 +2645,7 @@ Fort_SpawnChildren_V2_0886c2:
         move.w  #0x0,0x72(a0)                   | +02c
         lea     0xee0ea.l,a1                    | +032
         move.l  a1,0x7c(a0)                     | +038
-        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +03c
+        lea     Pillbox_Init_RightUpper_0868ba(pc),a1 | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd22.l                       | +046
         addi.w  #0x68,0x22(a0)                  | +04c
@@ -2492,7 +2656,7 @@ Fort_SpawnChildren_V2_0886c2:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee100.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +078
+        lea     Pillbox_Init_RightUpper_0868ba(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0xa8,0x22(a0)                  | +088
@@ -2503,7 +2667,7 @@ Fort_SpawnChildren_V2_0886c2:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee116.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     Crate_Init_086cd0__L086cf8(pc),a1 | +0b4
+        lea     Crate_Init_V2_086cf8(pc),a1 | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0x28,0x22(a0)                  | +0c4
@@ -2511,7 +2675,7 @@ Fort_SpawnChildren_V2_0886c2:
         lea     0x2ed83c.l,a1                   | +0d0
         move.l  a1,0x74(a0)                     | +0d6
         move.w  #0x3,0x72(a0)                   | +0da
-        lea     Crate_Init_086cd0__L086cf8(pc),a1 | +0e0
+        lea     Crate_Init_V2_086cf8(pc),a1 | +0e0
         jsr     0x4ae.l                         | +0e4
         jsr     0x5dd22.l                       | +0ea
         addi.w  #0xa0,0x22(a0)                  | +0f0
@@ -2527,7 +2691,7 @@ Fort_SpawnChildren_V2_0886c2:
         .section .text.Fort_SpawnChildren_V3_0887d0, "ax", @progbits
         .global Fort_SpawnChildren_V3_0887d0
 Fort_SpawnChildren_V3_0887d0:
-        lea     Pillbox_Init_08686a__L086892(pc),a1 | +000
+        lea     Pillbox_Init_Lower_086892(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x18,0x22(a0)                  | +010
@@ -2538,7 +2702,7 @@ Fort_SpawnChildren_V3_0887d0:
         move.w  #0x0,0x72(a0)                   | +02c
         lea     0xee12c.l,a1                    | +032
         move.l  a1,0x7c(a0)                     | +038
-        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +03c
+        lea     Pillbox_Init_Right_0868a6(pc),a1 | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd22.l                       | +046
         addi.w  #0x48,0x22(a0)                  | +04c
@@ -2549,7 +2713,7 @@ Fort_SpawnChildren_V3_0887d0:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee130.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +078
+        lea     Pillbox_Init_Right_0868a6(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0x78,0x22(a0)                  | +088
@@ -2560,7 +2724,7 @@ Fort_SpawnChildren_V3_0887d0:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee146.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +0b4
+        lea     Pillbox_Init_Right_0868a6(pc),a1 | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0xa8,0x22(a0)                  | +0c4
@@ -2571,7 +2735,7 @@ Fort_SpawnChildren_V3_0887d0:
         move.w  #0x3,0x72(a0)                   | +0e0
         lea     0xee15c.l,a1                    | +0e6
         move.l  a1,0x7c(a0)                     | +0ec
-        lea     Crate_Init_086cd0__L086d0c(pc),a1 | +0f0
+        lea     Crate_Init_V3_086d0c(pc),a1 | +0f0
         jsr     0x4ae.l                         | +0f4
         jsr     0x5dd22.l                       | +0fa
         addi.w  #0x28,0x22(a0)                  | +100
@@ -2579,7 +2743,7 @@ Fort_SpawnChildren_V3_0887d0:
         lea     0x2ed8dc.l,a1                   | +10c
         move.l  a1,0x74(a0)                     | +112
         move.w  #0x4,0x72(a0)                   | +116
-        lea     Crate_Init_086cd0__L086d0c(pc),a1 | +11c
+        lea     Crate_Init_V3_086d0c(pc),a1 | +11c
         jsr     0x4ae.l                         | +120
         jsr     0x5dd22.l                       | +126
         addi.w  #0xa0,0x22(a0)                  | +12c
@@ -2595,7 +2759,7 @@ Fort_SpawnChildren_V3_0887d0:
         .section .text.Fort_SpawnChildren_V4_08891a, "ax", @progbits
         .global Fort_SpawnChildren_V4_08891a
 Fort_SpawnChildren_V4_08891a:
-        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +000
+        lea     Pillbox_Init_RightUpper_0868ba(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x28,0x22(a0)                  | +010
@@ -2606,7 +2770,7 @@ Fort_SpawnChildren_V4_08891a:
         move.w  #0x0,0x72(a0)                   | +02c
         lea     0xee172.l,a1                    | +032
         move.l  a1,0x7c(a0)                     | +038
-        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +03c
+        lea     Pillbox_Init_RightUpper_0868ba(pc),a1 | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd22.l                       | +046
         addi.w  #0x68,0x22(a0)                  | +04c
@@ -2617,7 +2781,7 @@ Fort_SpawnChildren_V4_08891a:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee188.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +078
+        lea     Pillbox_Init_RightUpper_0868ba(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0xa8,0x22(a0)                  | +088
@@ -2628,7 +2792,7 @@ Fort_SpawnChildren_V4_08891a:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee19e.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     Crate_Init_086cd0__L086d20(pc),a1 | +0b4
+        lea     Crate_Init_V4_086d20(pc),a1 | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0x28,0x22(a0)                  | +0c4
@@ -2636,7 +2800,7 @@ Fort_SpawnChildren_V4_08891a:
         lea     0x2ed940.l,a1                   | +0d0
         move.l  a1,0x74(a0)                     | +0d6
         move.w  #0x3,0x72(a0)                   | +0da
-        lea     Crate_Init_086cd0__L086d20(pc),a1 | +0e0
+        lea     Crate_Init_V4_086d20(pc),a1 | +0e0
         jsr     0x4ae.l                         | +0e4
         jsr     0x5dd22.l                       | +0ea
         addi.w  #0x98,0x22(a0)                  | +0f0
