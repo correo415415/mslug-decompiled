@@ -17,6 +17,20 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave NNN — 80 entries (4,442 B): `$08D17A..$08E4E4`
+  (`grunts_capsule_08d1xx.s`, 67 gaps closed): latched on-screen tests
+  (`Screen_InBounds*`), 8.8 fixed-point position integrators
+  (`Pos_Integrate*`), the mission-end capsule/beacon (`Capsule_*` ->
+  `MissionEnd_*`, spawned by `SceneB_Init`/`SceneC_Init`), the grunt
+  soldier family (`Grunt_*`/`Grunt2_*`: Mission-VM templates
+  153/154/157/158/160/162/180/181, random-behaviour tables `$2F3712`/
+  `$2F3722`, carrier, hopper, hit-and-launch, runner, direction map
+  loader), `Sentry_*` and the `Swinger_*` oscillator. 22 defsyms promoted;
+  +15 island RTS; +10 forward defsyms (grunt physics helpers in `$8EFxx`/
+  `$8F0xx`). Matcher: 4,002/4,002, 166,346 B (7.93 %).
+- `tools/wave_apply.py`: applies a `gen_asm_region.py` report to
+  `registry.py`/`symbols.py` (REGISTRY block, defsym promotion, island RTS
+  and forward defsyms) and emits the old->new rename list for call sites.
 - Wave MMM — 67 entries (4,990 B): heterogeneous region `$08BA04..$08D17A`
   (`cutscene_anim_08baxx.s`, 39 gaps closed): bouncing/burst projectiles
   (`Proj_Bounce_V1/V2`, `Proj_Burst_*`, `Proj_Shell` with embedded

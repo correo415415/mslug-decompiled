@@ -1,11 +1,106 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave NNN — Cápsula de fin de misión, integradores de posición, soldados rasos y plantillas 153..181
-|  Región: $08D17A..$08E4E4  (4,442 B, 80 entradas, 67 huecos)
+|  Wave NNN — Cápsula de fin de misión, integradores de posición 8.8,
+|             soldados rasos (grunts) y plantillas Mission VM 153..181
+|  Región: $08D17A..$08E4E4  (4,442 B, 80 entradas, 67 huecos cerrados)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  Continúa la zona de cutscene de la Wave MMM. Puntos de entrada externos:
+|  Capsule_Fly ($8D3B4) es la tarea que SceneB_Init/SceneC_Init (MMM) crean
+|  al arrancar las misiones $0B/$0C; plantillas $E8000[153]=Grunt_Tmpl153,
+|  [154]=Grunt_Tmpl154, [157]/[158]=Grunt_Tmpl157/158, [160]=Grunt_Tmpl160,
+|  [162]=Grunt_Tmpl162, [180]=Grunt_Tmpl180, [181]=Swinger_Tmpl181; tablas
+|  de 4 punteros $2F3712 {Grunt_Rand_Stand, _Stand2, _Walk, _Walk} y
+|  $2F3722 {Grunt2_Rand_Stand ×2, _Stand2, _Walk} elegidas con RNG
+|  ($5EA1C & 3) por Grunt_PickRand_*; Pos_IntegrateXY88 es llamada desde
+|  $3E9DE. Los helpers Sub_0008F002/F010/F02C/F040/F070/F084/F0D0/F108 y
+|  Sub_0008EFCE (hueco $8EFxx, próxima wave) son la "física de grunt":
+|  gravedad, suelo, giro hacia el jugador y test de distancia.
+|
+|  A) $08D184..$08D2B0 — TEST DE PANTALLA CON LATCH (bit7 de +$13)
+|     Screen_InBounds{X,XWide,Y}_Latched: si el latch está armado devuelve
+|       C=1 (SetXN) cuando la entidad sale del rango x∈[0,$140] /
+|       x∈[-$20,$140] / y∈[$100,$1FF]; si no, cae en el *_Latch que arma el
+|       bit7 cuando entra en x∈(0,$140), y∈($100,$1F0|$1FF) y devuelve C=0.
+|       Patrón "muere al salir de pantalla después de haber entrado".
+|
+|  B) $08D2B0..$08D3B4 — INTEGRADORES DE POSICIÓN 8.8
+|     Pos_IntegrateX88 / Y88: pos.frac en +$26/+$27, vel en +$28/+$2A
+|       (unidades 1/256 px): d0 = (pos<<8 | frac) + vel; escribe frac y
+|       devuelve pos entera en d0.w (el llamador la guarda).
+|     Pos_IntegrateXY88: ambos ejes si vel≠0; _Accel añade +$2C/+$2E
+|       (aceleración) a las velocidades.
+|
+|  C) $08D3B4..$08D670 — CÁPSULA / BALIZA DE FIN DE MISIÓN (Capsule_*)
+|     Fly: snd $0E, mapa $2F460C, ($120,$190), $5E7C0; vuela hasta x<=$100
+|       -> Descend (mapa $2F4628) -> al perder los hijos spawnea Capsule_Open
+|       y mapa $2F46CA -> WaitGround (probe $5DD5C).
+|     Open: snd $F5, mapa $2F3904, +$32/+$33=$FF (brillo), vel x $200,
+|       Flash (4 f, mapa $2F38F8, brillo $38) -> FadeIn (+2/frame hasta $7F,
+|       hasta x>=$A0) -> Glow (mapa $2F377E) <-> GlowDown/GlowUp (pulso de
+|       brillo $7F..$D0 con Glow2 $2F37DA); cada bajada consulta
+|       Capsule_CheckMissionEnd.
+|     Rise/Fall: guarda y en +$5C, vel y -$40 durante $C8 f oscureciendo
+|       hasta $34, luego +$80 hasta volver a y original (prio $F000).
+|     DimWaitScroll/FallToGround/Vanish: oscurece a $34, espera
+|       $106F5C>=$433F, cae con -$80/-$40 hasta tocar suelo ($27BC8), $75 f
+|       y muere.
+|     Capsule_CheckMissionEnd_08d804: misión $B y $106F5C>=$42C0 ->
+|       MissionEnd_ScrollOut; misión $C y >=$4280 -> MissionEnd_Marker.
+|
+|  D) $08D670..$08D994 — SECUENCIA DE FIN DE MISIÓN (MissionEnd_*)
+|     ScrollOut: vel scroll +$80=$20000 / +$88=-$10000 publicadas con
+|       Scroll_StepVelX/Y (MMM), mapa $2F3910, atenúa con +$5C; cuando el
+|       brillo baja de 2 crea MissionEnd_Flash (snd $F4, mapa $2F44F6, $14 f,
+|       Coord_ApplyCameraTerciaryToSelf) -> SpawnDropper: Sub_0008EDC6 +
+|       Cut_Dropper (MMM) con +$98=$A,+$99=8 en ($A0,$100).
+|     Marker/Marker2/Marker3 (misión $C): ($F0,$1A0), snd $98, mapas
+|       $2F3960/$2F39DC/$2F39E8 al cruzar $106F5C $4300/$433F; luego
+|       ScrollUp (+$88=-$8000 hasta $106F54<=$D8, $B4 f) -> Wait (spawnea
+|       Cut_Dropper) -> Idle.
+|
+|  E) $08D994..$08E19C — SOLDADOS RASOS (Grunt_*, Grunt2_*)
+|     Plantillas 157/158 (Grunt_Tmpl157/158): init físico (F108+F002+F02C+
+|       F084), mapas $2F3AB4/$2F3AC0 y $2F3AF0/$2F3AFC; F040 (C=1 = en suelo)
+|       cambia el mapa.
+|     Grunt_Carrier_08da30 (porteador): ($40,$150), F0D0, mapa $2F3B2C;
+|       en suelo -> Carrier_Drop: si +$5C≠0 crea Grunt_Dropped (+$98=+$3A,
+|       +$99=$30, copia +$9A) que invierte vel x, salta (+$2E=$10) y muere
+|       al tocar suelo ($5DD56) tras liberar la lista ($5B6).
+|     Grunt_Tmpl162 -> HopDown/HopUp (vel y ±$E, 8+rand(7) frames, mapas
+|       $2F3C84/$2F3CB4, límites y $1D0/$160): soldado que salta.
+|     Grunt_Rand_Idle ($40,$150) -> Rand_Stand ($2F3C58): si +$99=0 testea
+|       distancia Sub_0008EFCE(#$60) -> Grunt_Hit; si no, PickRand $2F3712.
+|       Rand_Stand2 ($2F3C64), Rand_Walk (vel x ±$80 al azar, $2F3C10, con
+|       Pos_IntegrateXY88).
+|     Grunt_Hit -> Hit_Angle (+$34 = $10+rand($1F)) -> Hit_Launch (+$36 =
+|       $200+rand($FF), seno $13C0E -> vel x/y, mapa $2F3C84) -> Hit_Fly
+|       (cae con prio $D000 y vuelve a HopDown): soldado golpeado/lanzado.
+|     Grunt_Tmpl_Standing (+$99=8,+$98=1, $2F3C58, test EFCE #$60).
+|     Grunt_Runner ($60,$150), Grunt_Tmpl153 (+F070, LoadMapByDir),
+|       Grunt_Run (Pos_IntegrateX88 + física + Screen_InBoundsX -> muere).
+|     Grunt_Tmpl154 -> Grunt2_Rand_Stand/_Stand2/_Walk (mapas $2F3E4A/
+|       $2F3E56/$2F3E0C; al acercarse el jugador: +$99=$20+rand($F), F002+
+|       F010, LoadMapByDir -> Grunt_Run); Grunt2_Spawn (($80,$150), +$9A=2,
+|       +$99=8) -> Grunt2_Run.
+|     Grunt_LoadMapByDir_08e172: mapa = $2F3CDC[(+$99>>4)&7] (dirección).
+|     Grunt_Tmpl160: snd $FD, mapas $2F3E86/$2F3E92, muere al salir
+|       (Screen_InBoundsXWide).
+|
+|  F) $08E1FA..$08E4E4 — CENTINELA Y OSCILADOR
+|     Sentry_Init/Run/Wait (($40,$180), snd $FE, mapa $2F3E9E, prio $FFFF):
+|       cuando pierde los hijos desplaza x ∓$48 según +$98 y espera +$9A
+|       frames antes de reiniciar.
+|     Grunt_Tmpl180 ($2F3F4C, snd $124) -> Tmpl180_Run.
+|     Swinger_Tmpl181: snd $125, vel x/2 guardada en +$74 (amplitud);
+|       Swing (mapa $2F3FC6, acel ±8 hasta alcanzar ±amplitud) -> Pause
+|       (rand 7 f) -> Back (acel invertida, 12+rand 7 f, mapa $2F3FE2) ->
+|       Turn (mapa $2F3FEE, invierte +$74 y +$98) -> Swing. Todos mueren al
+|       salir de pantalla (Screen_InBoundsX_Latched).
+|
+|  Callees pendientes: $5E7C0, $5EA1C (rand & mask), $13C0E (seno),
+|  $8EFB0, $3E9DE (caller); forward: $8EDC6, $8EFCE, $8F002, $8F010, $8F02C,
+|  $8F040, $8F070, $8F084, $8F0D0, $8F108.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

@@ -11,10 +11,37 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3922/3922 funciones
-BYTES   : 161,904/161,904 (registrados)
-ROM     : 161,904/2,097,152  (7.7202%)
+MATCHED : 4002/4002 funciones
+BYTES   : 166,346/166,346 (registrados)
+ROM     : 166,346/2,097,152  (7.9320%)
 ```
+
+> **Wave NNN** (80 entradas, 4 442 B, verde a la primera) — region
+> `$08D17A..$08E4E4` en `grunts_capsule_08d1xx.s` (67 huecos cerrados).
+> Quinta wave de `tools/gen_asm_region.py`; nuevo `tools/wave_apply.py`
+> aplica la salida del generador a `registry.py`/`symbols.py` y produce la
+> lista de renombres para los call-sites.
+>
+> * **Test de pantalla con latch** (`Screen_InBounds{X,XWide,Y}_Latch[ed]`):
+>   bit7 de +$13 se arma al entrar en pantalla; despues, salir => C=1
+>   (muere). **Integradores 8.8** (`Pos_IntegrateX88/Y88/XY88[_Accel]`):
+>   fraccion en +$26/+$27, velocidad en +$28/+$2A, aceleracion +$2C/+$2E.
+> * **Capsula de fin de mision** (`Capsule_*`): tarea creada por
+>   `SceneB_Init`/`SceneC_Init` (MMM): vuela, desciende, se abre con pulso
+>   de brillo (+$32/+$33), sube/baja, y `Capsule_CheckMissionEnd` lanza
+>   `MissionEnd_ScrollOut` (mision $B, `$106F5C>=$42C0`) o
+>   `MissionEnd_Marker` (mision $C, `>=$4280`) -> `ScrollUp` -> `Wait`
+>   (spawn de `Cut_Dropper`) -> `Idle`.
+> * **Soldados rasos** (`Grunt_*`, `Grunt2_*`): plantillas Mission VM
+>   153/154/157/158/160/162/180/181; comportamientos al azar via tablas
+>   `$2F3712`/`$2F3722` (`Grunt_PickRand_*`), porteador que suelta un
+>   `Grunt_Dropped`, saltador `HopDown/HopUp`, golpeado y lanzado con seno
+>   (`Grunt_Hit_*`), corredor, mapa por direccion
+>   (`Grunt_LoadMapByDir` = `$2F3CDC[(+$99>>4)&7]`); `Sentry_*` y
+>   oscilador `Swinger_*` (amplitud en +$74). La fisica comun esta en
+>   `$8EFCE/$8F002/$8F010/$8F02C/$8F040/$8F070/$8F084/$8F0D0/$8F108`
+>   (hueco siguiente, 10 defsyms forward).
+> * 22 defsyms promovidos; +15 RTS mid-isla.
 
 > **Wave MMM** (67 entradas, 4 990 B, verde a la primera) — region
 > heterogenea `$08BA04..$08D17A` en `cutscene_anim_08baxx.s` (39 huecos
