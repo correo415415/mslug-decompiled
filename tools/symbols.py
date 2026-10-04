@@ -53,7 +53,7 @@ SYMBOLS = {
 
     # ---- Wave Y: targets externos referenciados por asm 68000 puro ----
     0x000329EE: "OpcodeOffsetTable_0329EE",  # tabla de 16 word-offsets usada por Entity_DispatchOpcodeNibble (Y#6)
-    0x0009B51E: "ScriptTemplate_09B51E",     # template de script/entity usado por Entity_AllocByPlayerSlot (Y#7)
+    # 0x0009B51E promovido a ScriptTemplate_09B51E en registry (Wave RRR).
     0x0004CB44: "PtrTable6_04CB44",          # tabla de 6 long-ptr usada por Table_LoadPtrByIdxClamp6 (Y#5)
     # Templates usados por Entity_Build3ChainCircular (Y#10)
     0x0003010C: "Template_03010C",
@@ -772,8 +772,8 @@ SYMBOLS = {
     # 0x0009976A promovido a Mob_PhysLoop_09976a en registry (Wave QQQ).
     0x00099794: "TaskHandler_099794",
     # 0x00099A64 promovido a DebugCursor_Run_099a64 en registry (Wave QQQ).
-    0x0009A280: "TaskHandler_09a280",
-    0x0009A2B8: "TaskHandler_09a2b8",
+    # 0x0009A280 promovido a TaskHandler_09a280 en registry (Wave RRR).
+    # 0x0009A2B8 promovido a TaskHandler_09a2b8 en registry (Wave RRR).
     0x0009B47C: "TaskHandler_09b47c",
     0x0018D74E: "TaskHandler_18d74e",
 
@@ -1529,4 +1529,15 @@ SYMBOLS = {
     0x00099E56: "JsrPcRts_099e56",  # rts de JsrPcThunk_099e52 (+4)
     0x00099E9A: "JsrPcRts_099e9a",  # rts de JsrPcThunk_099e96 (+4)
     0x00099ED0: "JsrPcRts_099ed0",  # rts de JsrPcThunk_099ecc (+4)
+    # --- Wave RRR: RTS internos de islas C
+    0x0009A0FA: "Jsr5B6Rts_09a0fa",  # rts de Jsr5B6ThenJmpScheduler_09a0ee (+12)
+    0x0009A2B6: "SetHandlerRts_09a2b6",  # rts de SetTaskHandler_09a2b0 (+6)
+    0x0009A2FE: "SetHandlerRts_09a2fe",  # rts de SetTaskHandler_09a2f8 (+6)
+    0x0009A8BC: "JsrAbsRts_09a8bc",  # rts de JsrAbsThunk_09a8b6 (+6)
+    0x0009B668: "SetHandlerRts_09b668",  # rts de SetTaskHandler_09b662 (+6)
+    0x0009B758: "SetHandlerRts_09b758",  # rts de SetTaskHandler_09b752 (+6)
+    0x0009B7BA: "SetHandlerRts_09b7ba",  # rts de SetTaskHandler_09b7b4 (+6)
+    0x0009B7F6: "SetHandlerRts_09b7f6",  # rts de SetTaskHandler_09b7f0 (+6)
+    0x0009B82A: "SetHandlerRts_09b82a",  # rts de SetTaskHandler_09b824 (+6)
+    0x0009C25C: "Jsr5B6Rts_09c25c",  # rts de Jsr5B6ThenJmpScheduler_09c250 (+12)
 }
