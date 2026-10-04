@@ -775,7 +775,7 @@ SYMBOLS = {
     # 0x0009A280 promovido a Gun_Child_Init_09a280 en registry (Wave RRR).
     # 0x0009A2B8 promovido a Gun_Child_Sync_09a2b8 en registry (Wave RRR).
     0x0009B47C: "TaskHandler_09b47c",
-    0x0018D74E: "TaskHandler_18d74e",
+    # 0x0018D74E promovido a TaskHandler_18d74e en registry (Wave SSS).
 
     # ---- Targets de JsrAbsThunk (AUTO-GEN) ---------------------------
     0x000004AE: "ThunkTarget_0004ae",
