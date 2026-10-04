@@ -73,6 +73,10 @@ TaskHandler_083be2:
         move.b  0x98(a6),0x21(a6)               | +010
         move.b  0x99(a6),0x3a(a6)               | +016
         bra.w   .L83c0c                         | +01c
+        | Segunda entrada (snd $AA): instalada como handler via lea pc desde
+        | $0860F6/$086196 (Wave III) — no es codigo muerto.
+        .global TaskHandler_083c02
+TaskHandler_083c02:
         move.w  #0xaa,d1                        | +020
         jsr     0x236e.l                        | +024
 .L83c0c:
