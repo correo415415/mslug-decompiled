@@ -17,6 +17,22 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave MMM — 67 entries (4,990 B): heterogeneous region `$08BA04..$08D17A`
+  (`cutscene_anim_08baxx.s`, 39 gaps closed): bouncing/burst projectiles
+  (`Proj_Bounce_V1/V2`, `Proj_Burst_*`, `Proj_Shell` with embedded
+  `Hitbox_08bb8c`/`SpriteMap_08bbde`), the 8-byte animation-script
+  interpreter (`Anim_ScriptStep*`, fix-layer text variants), the 4 slot
+  icons (`Icon_Base`, `Icon_Slot1..4[_Lit]`, `Icon_Anchor_*` — the task-adds
+  of `Anim_State_F1_08C008`), the cutscene machinery (`Cut_Watcher_*`
+  parallel task started by `MissionDriver_Init`, `Cut_Fade`, fix-layer text
+  panel `Fix_TextRow_*`, `Cut_Dropper_*`, `Cut_Item`, Mission-VM templates
+  244/245/246/248/320) and the mission $0B/$0C scene bootstraps
+  (`SceneB_Init -> Stage2..6 -> Tail`, `SceneC_Init`). `Proj_Bounce_08b9ba`
+  grows to 74 B (absorbs a split `movea.l`). 20 defsyms promoted; +13
+  island RTS; +3 forward defsyms. Matcher: 3,922/3,922, 161,904 B (7.72 %).
+- `tools/gen_asm_region.py`: labels promoted to globals because another
+  gap references them are now also emitted by name from their own entry
+  (previously GAS failed to resolve the local `.L`).
 - Wave LLL — 98 entries (10,690 B): **scene-5 cluster** closing all 43
   gaps in `$088A56..$08BA00` (`scene5_airship_088axx.s`). Spawnable entries
   come from spawn list 5 (`$097422`) and Mission-VM templates

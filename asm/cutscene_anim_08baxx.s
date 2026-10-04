@@ -1,11 +1,127 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave MMM — Proyectiles de rebote, script de animación, iconos de ranura, cutscene y escenas B/C
-|  Región: $08BA04..$08D17A  (4,990 B, 67 entradas, 39 huecos)
+|  Wave MMM — Proyectiles de rebote, script de animación, iconos de ranura,
+|             cutscene de texto y arranque de escenas B/C
+|  Región: $08BA04..$08D17A  (4,990 B, 67 entradas, 39 huecos cerrados)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  Región heterogénea entre el cluster de la escena 5 (Wave LLL) y la
+|  máquina de estados de animación $08C008..$08C2B8 (anim_state_machine_08cxxx.s,
+|  Wave GG), cuyos 6 task-adds apuntan a los Icon_* de esta wave. Puntos de
+|  entrada externos: plantillas Mission VM $E8000[244]=Cut_Dropper_08ccea,
+|  [245]=Cut_Item_08ce1e, [246]=Cut_SetMode2_08c7e2, [248]=Cut_SetVariant1,
+|  [320]=Cut_SetVariant2; MissionDriver_Init_0442E6 arranca Cut_Watcher_Init
+|  ($8C864) como tarea paralela; el dispatcher de modo ($1600..$1700) carga
+|  SceneB_Init ($8CE64, $106ECE=$0B), SceneC_Init ($8D0A8, $106ECE=$0C) y
+|  Cut_Fade ($8C956); Proj_Tmpl168/169/170 (LLL) encadenan Proj_Tmpl_Init* y
+|  Proj_Bounce_V1/V2.
+|
+|  A) $08BA0C..$08BC58 — PROYECTILES DE REBOTE Y RÁFAGA
+|     Proj_Bounce_V1/V2 ($8BA0C/$8BA52): variantes del Proj_Bounce de LLL
+|       (mapas $29CA0A/$29BFC4; V2 bset bit0 +$3A); física $2783A, slots
+|       $28D70, daño $2870A y despacho por tabla Proj_Bounce_HitTable_08b944
+|       vía Table_LookupPointerBounded ($772) con a1=-1 (sin fallback).
+|     Proj_Burst_HitTable/HitTable2 ($8BA9E/$8BAAE, 4 ptrs cada una, todos a
+|       Proj_Burst_08baf6) seleccionadas al azar (RNG_LFSRStep $5E9B6 & 3)
+|       por Proj_Burst_RandDispatch/_2 — tablas de 4 entradas idénticas:
+|       probablemente placeholders de variantes nunca implementadas.
+|     Proj_Burst_08baf6: snd $2F, mapa $4B136, física; al quedarse sin hijos
+|       pasa a JmpToScheduler_08bb84 (muere).
+|     Proj_Tmpl_InitHitboxProbe/InitHitbox ($8BB34/$8BB5E): snd $0E, hitbox
+|       Hitbox_08b950 (LLL) en +$48, [probe loop Entity_ProbeTransformLoop
+|       ($27C8C hasta C=1)], lanza anim $776E2 con $4AE.
+|     Proj_Shell_08bc0c: snd $1B, anim $7773E, copia xf $5DD02, hitbox
+|       Hitbox_08bb8c (2 cajas), mapa SpriteMap_08bbde (tiles $235764/$23578E,
+|       4 celdas + puntero a sí mismo), bclr bit3 +$13.
+|
+|  B) $08BC74..$08C008 — INTÉRPRETE DE SCRIPT DE ANIMACIÓN (registros 8 B)
+|     Anim_ScriptStep_08bc74 / _Alt_08bf96: cursor +$78 sobre lista +$7C;
+|       cada registro {dur.w, val.w, b4, b5, pad}: +$70=dur, +$76=val,
+|       +$92/+$93 = bytes 4/5 (Alt copia b4 en ambos); dur=$FFFF = fin
+|       (ceros). Devuelven C=0 vía SetXN ($FFFF en +$70 = inactivo -> C=1).
+|     Anim_ScriptStepFix_A/B ($8BCE6/$8BE28): igual pero cursor +$82 y
+|       registros {dur, code.w, map.l}: carga mapa de sprites ($28CD4) y
+|       según code: 1 = blit Fix_BlitRect $5DA9C (#$7084,$2320,$20,$8);
+|       $D = reposiciona cursor fix +$86; 2 = spawn Icon_Anchor_Drop; 3 =
+|       spawn $2AE50 en ($A0,$1FF) con +$98=3; otro = carácter fix: A
+|       escribe vía $47872 (paleta 4, o 9 para códigos $5xx/$6xx/$7xx/>=$Dxx),
+|       B escribe directo en VRAM $3C0000 (ori #$2300; códigos $E6/$E7..$EF
+|       con ajuste de celda). Anim_ScriptStepFix_Next_08be12 avanza +$82 y
+|       repite (varios registros por frame).
+|
+|  C) $08C2B8..$08C730 — ICONOS DE RANURA (4 slots × 48 px, fila y=$12B)
+|     Icon_Base_08c2b8: prio $E000, snd $B1, mapa $2F2E0A en x=$40; cada
+|       frame elige mapa de $2F2DCA[padre+$92 & $F].
+|     Icon_Slot1..4 ($8C322/$8C37E/$8C3DA/$8C436): snd $AE/$AF/$B0/$B2, x=
+|       $70/$A0/$D0/$100, máscara +$8A=$10/$20/$40/$80, spawnean su
+|       Icon_SlotN_Lit (mapas $2F2F22/2E/3A/46) y corren Icon_Slot_Run_08c4a0:
+|       si (padre+$93 & máscara) -> +$76=1, mapa $2F2EE2 (encendido); si
+|       (padre+$92 & máscara)=0 y estaba encendido -> mapa $2F2F02 (apagado).
+|       Slot4 además hace Fix_BlitRectToFixLayer (#$73D7,$2E80,4,4).
+|     Icon_Anchor_Init_08c5b2: +$8A = idioma/región según $10FD83/$10FD92
+|       (0..3), snd $97, mapa $2F2F52 en ($E0,$160), script +$7C=$2F0056,
+|       cursor fix +$86=$7084. Icon_Anchor_Run_08c678: cuando el padre
+|       cambia +$76 selecciona el script en $2EFACC/$2EFC2C/$2EFD8C/$2EFEEC
+|       [+$8A] (ptr, cursor) y ejecuta Anim_ScriptStepFix_A (idioma 0) o
+|       _B (otros); muere si x <= $150 tras probe $27CEE.
+|     Icon_Anchor_Drop_08c730: objeto que cae desde ($140,$180), snd $179,
+|       vel y=-$800, mapa $2EF80E, hitbox $2EF84C; al tocar suelo (Fn_0005DD56
+|       con $2EF8A0) o bit1 +$13 spawnea AnimSeq_00077F6A y muere.
+|
+|  D) $08C7C6..$08C9A6 — CUTSCENE: MODO, VIGILANTE Y FUNDIDO
+|     Cut_SetMode2 ($10E2EF=2), Cut_SetVariant1/2 ($10E2EE=1/2) + Rts_*:
+|       plantillas de 1 instrucción (templates 246/248/320).
+|     Cut_InstallListByVariant_08c820: InstallListPubHead ($5DB58) con lista
+|       $2F3688 / $2F35FE / $2F3574 según $10E2EE.
+|     Cut_Watcher_Init/Run/Play ($8C864/$8C880/$8C8FA): tarea paralela del
+|       Mission VM: vigila el high-water $106F5C (+$70) con debounce $78 f;
+|       si el scroll se detiene, $106E88/$106E8A=0, $5E1AA y
+|       SceneScript_EdgeArrivalTest ($43CE2) no bloquean y $106ED3 != 0,
+|       arma $10E2EF=2 y pasa a Play: instala la lista, snd $10D5 ($2352),
+|       espera $5DB6A, decrementa $10E2EF y reinicia el cursor ($5DBDC).
+|     Cut_Fade_08c956: $78 frames; List_ApplyWithSentinelFF ($4784C) sobre
+|       $2F4A12 al entrar y $2F4A22 al salir (paleta $70AE), clr $106ED2.
+|
+|  E) $08C9A6..$08CC66 — PANEL DE TEXTO EN LA CAPA FIX
+|     Fix_TextRow_Draw_08c9a6: recorre la cadena +$80 (words): $FFFE = salto
+|       a columna $709C, 0 = fin de línea (guarda cursor), $FFFF = fin,
+|       $FFFD = ignorado; cada carácter se dibuja como 2×2 tiles (base
+|       $709A, paleta $9000 o $4000 para $Bxx/$Cxx) en VRAM $3C0000.
+|     Fix_TextRow_Clear_08ca5e: limpia el rect ($701A,$20,$28,2) y
+|       redibuja; Fix_TextRow_DrawOne_08cb18: variante por carácter con
+|       cursor +$84 (usada por Cut_TextPanel_Type para efecto máquina de
+|       escribir, hasta 32 caracteres/frame según $106F29).
+|     Cut_TextPanel_08cbc6: cadena $2F4712, snd $15E, mapa $2F3732 en
+|       ($A0,$121); Cut_Banner_08cc66: $F0 frames, mapa $2F373E, luego
+|       $46A96 y muere.
+|
+|  F) $08CCC6..$08CE64 — SCROLL Y OBJETOS DE LA CUTSCENE
+|     Scroll_StepVelX/Y: publican +$80/+$88 en $106F60/$106F64 y suman
+|       las aceleraciones +$84/+$8C.
+|     Cut_Dropper_08ccea (template 244): vel y = +$99<<5, snd $136, mapa
+|       $2F455C[+$98 (0..$A)]; cada frame Sub_0008D2D4 (hueco futuro); si
+|       +$98=0 y misión $B y y>=$170 -> WaitScroll (muere al llegar
+|       $106F5C>=$1000); si +$98=$A y y>=$170 -> Finish ($78 f, snd $60 en
+|       misión $C, spawn $5239E #4, $A0 f) -> Exit (clr $106ED2).
+|     Cut_Item_08ce1e (template 245): snd $5F, mapa $2F3B2C, Sub_0008D2D4,
+|       contador +$99, luego PcThunkTarget_08efb0.
+|
+|  G) $08CE64..$08D17A — ARRANQUE DE ESCENAS B Y C (misiones $0B/$0C)
+|     SceneB_Init_08ce64: snd $29, SceneLoader_Main ($43568, #$E), +$21=6,
+|       $106F5E=-1, vel scroll $106F60=$1C000 (1P, $106EAE=1) / $18000,
+|       $46A96, $2230, tarea Sub_0008D3B4; luego por etapas con
+|       SceneScriptVM_Frame + AttractCuller_Cam1 + Debug_DrawHUDVars: al
+|       cruzar $106F5C >= $100/$1000/$2B94/$2D00/$3000/$4000 cambia la
+|       velocidad ($1A000/$16000, $16000/$12000, $16000/$12000,
+|       $14000/$10000, $26000/$20000, $26000/$20000) y encadena
+|       SceneB_Stage2..6 -> SceneB_Tail.
+|     SceneC_Init_08d0a8: spawnea Cut_Banner y Cut_TextPanel, snd $2A,
+|       SceneLoader_Main #$F, +$21=7, $106F60=$18000; contiene un bloque
+|       muerto (segunda inicialización tras `bra.w`) y acaba en el mismo
+|       bucle de frame.
+|
+|  Callees pendientes: $46A96, $2230, $5E1AA, $5DB6A, $2AE50, $776E2,
+|  $7773E, $47872, $2308; forward: $8D24C, $8D2D4, $8D3B4.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

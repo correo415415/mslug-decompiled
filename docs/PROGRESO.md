@@ -11,10 +11,43 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3854/3854 funciones
-BYTES   : 156,910/156,910 (registrados)
-ROM     : 156,910/2,097,152  (7.4821%)
+MATCHED : 3922/3922 funciones
+BYTES   : 161,904/161,904 (registrados)
+ROM     : 161,904/2,097,152  (7.7202%)
 ```
+
+> **Wave MMM** (67 entradas, 4 990 B, verde a la primera) — region
+> heterogenea `$08BA04..$08D17A` en `cutscene_anim_08baxx.s` (39 huecos
+> cerrados). Cuarta wave de `tools/gen_asm_region.py` (3 tablas `--data`,
+> 2 `--entry`); fix del generador: los labels promovidos a globales por
+> referencias desde otro hueco se usan tambien desde su propia entrada.
+>
+> * **Proyectiles**: `Proj_Bounce_V1/V2` (despacho por
+>   `Proj_Bounce_HitTable_08b944` + `Table_LookupPointerBounded $772`),
+>   `Proj_Burst_*` (dos tablas de 4 punteros identicos elegidas con RNG —
+>   placeholders), `Proj_Shell_08bc0c` con `Hitbox_08bb8c`/`SpriteMap_08bbde`
+>   embebidos; `Proj_Tmpl_InitHitbox[Probe]` encadenados desde las plantillas
+>   168..170 de LLL. `Proj_Bounce_08b9ba` (LLL) pasa a 74 B al absorber el
+>   `movea.l #-1,a1` que estaba partido en `$8BA00`.
+> * **Interprete de script de animacion** (`Anim_ScriptStep*`): registros de
+>   8 B {dur, val, b4, b5}; variantes Fix_A/Fix_B escriben caracteres en la
+>   capa fix (via `$47872` o directo en `$3C0000`) y spawnean objetos.
+> * **Iconos de ranura** (`Icon_Base`, `Icon_Slot1..4` + `_Lit`,
+>   `Icon_Slot_Run_08c4a0`, `Icon_Anchor_*`): 4 slots en y=$12B con mascaras
+>   +$8A=$10/$20/$40/$80 contra los bytes +$92/+$93 del padre; el ancla
+>   elige script por idioma (`$10FD83/$10FD92`) y deja caer un objeto
+>   (`Icon_Anchor_Drop`). Son los 6 task-adds de `Anim_State_F1_08C008`.
+> * **Cutscene** (`Cut_*`): plantillas 244/245/246/248/320 del Mission VM,
+>   `Cut_Watcher_*` = tarea paralela arrancada por `MissionDriver_Init`
+>   (vigila `$106F5C`, arma `$10E2EF`), `Cut_Fade`, panel de texto fix
+>   (`Fix_TextRow_Draw/Clear/DrawOne`, `Cut_TextPanel[_Type]`, `Cut_Banner`),
+>   `Scroll_StepVelX/Y`, `Cut_Dropper_*`, `Cut_Item`.
+> * **Escenas B/C** (`SceneB_Init` -> `Stage2..6` -> `Tail`, `SceneC_Init`):
+>   arranque de misiones $0B/$0C desde el dispatcher de modo (`$164C`,
+>   `$1688`): `SceneLoader_Main`, velocidades de scroll `$106F60` por
+>   umbral de `$106F5C` y por numero de jugadores (`$106EAE`).
+> * 20 defsyms promovidos; +13 RTS mid-isla; +3 forward (`$8D24C`,
+>   `$8D2D4`, `$8D3B4`).
 
 > **Wave LLL** (98 entradas, 10 690 B, verde a la primera) — **cluster de la
 > escena 5**: cierra los 43 huecos de la region `$088A56..$08BA00` en
