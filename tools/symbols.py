@@ -728,23 +728,23 @@ SYMBOLS = {
     # 0x0008E716 promovido a Runner_Run_08e716 en registry (Wave OOO).
     # 0x0008EA16 promovido a Nest_FlyOff_Run_08ea16 en registry (Wave OOO).
     # 0x0008EB02 promovido a Nest2_HitWait_08eb02 en registry (Wave OOO).
-    0x0008F96A: "TaskHandler_08f96a",
-    0x0008FCCA: "TaskHandler_08fcca",
-    0x0008FD2E: "TaskHandler_08fd2e",
-    0x0008FD68: "TaskHandler_08fd68",
-    0x0008FDAA: "TaskHandler_08fdaa",
-    0x0008FDF8: "TaskHandler_08fdf8",
-    0x0008FE32: "TaskHandler_08fe32",
-    0x0008FE9C: "TaskHandler_08fe9c",
-    0x0008FEB6: "TaskHandler_08feb6",
+    # 0x0008F96A promovido a TaskHandler_08f96a en registry (Wave PPP).
+    # 0x0008FCCA promovido a TaskHandler_08fcca en registry (Wave PPP).
+    # 0x0008FD2E promovido a TaskHandler_08fd2e en registry (Wave PPP).
+    # 0x0008FD68 promovido a TaskHandler_08fd68 en registry (Wave PPP).
+    # 0x0008FDAA promovido a TaskHandler_08fdaa en registry (Wave PPP).
+    # 0x0008FDF8 promovido a TaskHandler_08fdf8 en registry (Wave PPP).
+    # 0x0008FE32 promovido a TaskHandler_08fe32 en registry (Wave PPP).
+    # 0x0008FE9C promovido a TaskHandler_08fe9c en registry (Wave PPP).
+    # 0x0008FEB6 promovido a TaskHandler_08feb6 en registry (Wave PPP).
     0x0008FECA: "TaskHandler_08feca",
-    0x00090098: "TaskHandler_090098",
+    # 0x00090098 promovido a TaskHandler_090098 en registry (Wave PPP).
     0x00090E7E: "TaskHandler_090e7e",
-    0x00091338: "TaskHandler_091338",
+    # 0x00091338 promovido a TaskHandler_091338 en registry (Wave PPP).
     0x000913AA: "TaskHandler_0913aa",
-    0x00091514: "TaskHandler_091514",
-    0x0009152C: "TaskHandler_09152c",
-    0x00091558: "TaskHandler_091558",
+    # 0x00091514 promovido a TaskHandler_091514 en registry (Wave PPP).
+    # 0x0009152C promovido a TaskHandler_09152c en registry (Wave PPP).
+    # 0x00091558 promovido a TaskHandler_091558 en registry (Wave PPP).
     0x000916C0: "TaskHandler_0916c0",
     0x00097852: "TaskHandler_097852",
     0x0009788C: "TaskHandler_09788c",
@@ -1041,7 +1041,7 @@ SYMBOLS = {
     #      5 task templates en la region de datos $9xxxx (apuntados por
     #      lea.l XXX.l, a1 seguido de jsr ThunkTarget_0004ae = Task_Alloc):
     0x00091330: "TaskTpl_091330",           # AttractHandler_00109C
-    0x000913AC: "TaskTpl_0913AC",           # AttractHandler_2Task_0010F2 (task 1)
+    # 0x000913AC promovido a TaskTpl_0913AC en registry (Wave PPP).
     0x00099B06: "TaskTpl_099B06",           # AttractHandler_2Task_0010F2 (task 2)
     0x000977D6: "TaskTpl_0977D6",           # AttractHandler_Frame_001172
     0x000977EA: "TaskTpl_0977EA",           # AttractHandler_Loader_0011EA
@@ -1079,7 +1079,7 @@ SYMBOLS = {
     #      (Wave QQ#1).
     0x00032FF2: "Sub_00032FF2",             # post-init hook 1 (pc-rel)
     0x0005E98A: "Sub_0005E98A",  # jsr desde PlayerEntity_InitAuxState_032A02
-    0x0008F6D2: "Sub_0008F6D2",  # jsr desde PlayerEntity_InitAuxState_032A02
+    # 0x0008F6D2 promovido a Sub_0008F6D2 en registry (Wave PPP).
     0x000517AA: "Sub_000517AA",  # jsr desde PlayerEntity_InitAuxState_032A02
     0x00032AA8: "Sub_00032AA8",             # post-init hook 3 (pc-rel)
     #      Callees abs.l del spawn constructor:
@@ -1268,8 +1268,8 @@ SYMBOLS = {
     0x00079298: "TaskProto_00079298",     # plantilla tarea aux (MissionDriver_Init)
     0x0008C85C: "Fn_0008C85C",            # init subsistema paralelo (MissionDriver_Init)
     # 0x0008C864 promovido a Cut_Watcher_Init_08c864 en registry (Wave MMM).
-    0x0008F6F2: "Fn_0008F6F2",            # tick contexto padre d1=1 (Boss_Descend)
-    0x0008F714: "Fn_0008F714",            # tick contexto padre d1=8 (Boss_Active)
+    # 0x0008F6F2 promovido a Fn_0008F6F2 en registry (Wave PPP).
+    # 0x0008F714 promovido a Fn_0008F714 en registry (Wave PPP).
     # --- Wave YY: defsyms mid-isla + refs a huecos futuros ($04580C..$046258) ---
     0x00045DD2: "Jsr5B6Rts_045dd2",       # jsr $5B6 dentro de isla $45DC6 (cola Boss2Shot)
     0x00045F2A: "SetHandlerRts_045f2a",   # rts tras set-handler en isla $45F24
@@ -1482,4 +1482,22 @@ SYMBOLS = {
     0x0008EFCC: "Jsr5B6Rts_08efcc",  # rts de Jsr5B6ThenJmpScheduler_08efc0 (+12)
     0x0008F0CE: "JsrAbsRts_08f0ce",  # rts de JsrAbsThunk_08f0c8 (+6)
     0x0008F106: "JsrAbsRts_08f106",  # rts de JsrAbsThunk_08f100 (+6)
+    # --- Wave PPP: RTS internos de islas C
+    0x0008F794: "SetCMid_08f794",  # rts de SetC_08f790 (+4)
+    0x0008F882: "SetCMid_08f882",  # rts de SetC_08f87e (+4)
+    0x0008FCA8: "SetHandlerRts_08fca8",  # rts de SetTaskHandler_08fca2 (+6)
+    0x0008FD2C: "SetHandlerRts_08fd2c",  # rts de SetTaskHandler_08fd26 (+6)
+    0x0008FD66: "SetHandlerRts_08fd66",  # rts de SetTaskHandler_08fd60 (+6)
+    0x0008FDA8: "SetHandlerRts_08fda8",  # rts de SetTaskHandler_08fda2 (+6)
+    0x0008FDF6: "SetHandlerRts_08fdf6",  # rts de SetTaskHandler_08fdf0 (+6)
+    0x0008FE30: "SetHandlerRts_08fe30",  # rts de SetTaskHandler_08fe2a (+6)
+    0x0008FE9A: "SetHandlerRts_08fe9a",  # rts de SetTaskHandler_08fe94 (+6)
+    0x0008FEB4: "SetHandlerRts_08feb4",  # rts de SetTaskHandler_08feae (+6)
+    0x000900E2: "JsrAbsRts_0900e2",  # rts de JsrAbsThunk_0900dc (+6)
+    0x00090C10: "JsrAbsRts_090c10",  # rts de JsrAbsThunk_090c0a (+6)
+    0x00090E7C: "SetHandlerRts_090e7c",  # rts de SetTaskHandler_090e76 (+6)
+    0x00090EFE: "JsrAbsRts_090efe",  # rts de JsrAbsThunk_090ef8 (+6)
+    0x00091094: "SetHandlerRts_091094",  # rts de SetTaskHandler_09108e (+6)
+    0x00091556: "SetHandlerRts_091556",  # rts de SetTaskHandler_091550 (+6)
+    0x00091576: "SetHandlerRts_091576",  # rts de SetTaskHandler_091570 (+6)
 }
