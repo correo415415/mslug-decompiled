@@ -4,8 +4,120 @@
 |  Región: $08F6D2..$0916B8  (7,678 B, 92 entradas, 50 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  Dos subsistemas de interfaz y un bloque de helpers de slot de jugador.
+|  Puntos de entrada externos: GameOver_Boot ($8F91A) es la tarea que
+|  añade el scheduler de arranque en $1300 (tras marcar $106ECE/$106ECF =
+|  $FF: sin misión); Continue_Tpl ($913AC) la añade
+|  AttractHandler_2Task_0010F2 (+$14) y Continue_Tmpl227 ($91630) es la
+|  plantilla $E8000[227] y la primera tarea de Init_ModeToggle_001260.
+|  PlayerSlot_MaskF0F0 se llama desde PlayerEntity_InitAuxState_032A02,
+|  $2A15E/$2A216; PlayerSlot_SetLowNibble desde Boss_Descend_044C28 y
+|  Boss2_TickParent_045CC2; PlayerSlot_TestMaskCur desde $2C1D8..$2D3A0;
+|  PlayerSlot_TryAnchor/ClaimAnchor[IfFree]/SetBit3Cur desde $57Bxx..$57Exx
+|  (IA del jugador); PlayerSlot_ClearP3Cur desde SceneScriptVM_Frame_0437DA.
+|
+|  A) $08F6D2..$08F91A — MÁSCARAS DE SLOT Y ANCLAS (PlayerSlot_* / Anchor_*)
+|     +$96/+$97 del slot son dos bytes de máscara (nibble alto = bits
+|       "ocupados", bajo = pendientes) indexados por $106F28&1 (frame par /
+|       impar: `not.b; andi #1; addi #$96`). MaskF0F0 pone ambos a $F0;
+|       MaskCurF0 el del frame actual; SetLowNibble mete d1 en el nibble
+|       bajo; TestMaskCur: C=1 si (máscara & d1)!=0 (SetXN/ClearXN);
+|       FoldMask: d0 = (m96|m97) | ((m96|m97)>>4).
+|     Anchor_GetWorldPos (a0 entidad, d0 índice): +$70(a0) apunta a un
+|       descriptor {tabla.l, dx.w, dy.w}; devuelve pos = tabla[d0] +
+|       pos(a0) + (dx,dy), C=1; C=0 si no hay descriptor o la entrada es
+|       (0,0). _OrDefault: si falla y d0!=0 devuelve C=1 (SetC); si d0==0
+|       suma ($10,$E) a la posición.
+|     PlayerSlot_Resolve: a0=NULL -> NULL; si $2AC0E dice C=1 -> slot P3
+|       ($100580). FindFreeAnchor: devuelve en d0 la máscara con los bits
+|       0..2 marcados para las anclas ocupadas o inexistentes (-1 si no
+|       hay slot). TryAnchor (d0 bit): C=1 + pos del ancla si libre;
+|       ClaimAnchor: TryAnchor y marca el bit en la máscara actual;
+|       ClaimAnchorIfFree: idem comprobando el nibble alto; SetBit3Cur:
+|       bit3 de la máscara actual; ClearP3Cur: borra la del slot P3.
+|     Entity_CmpPrioWithSibling_08f8fe: tercera copia (OOO tiene dos).
+|
+|  B) $08F91A..$08FECC — SECUENCIA DE GAME OVER (GameOver_*)
+|     Boot: SceneLoader_Main($A), paleta $2F4A32 ($2B58), pos ($90,$1C0),
+|       vel y -$100, +$82=$E, $523B2(2). Spawn: crea ~40 hijos (texto
+|       Continue_Text_Init, dos GO_Figure, dos GO_Scroller x3 con +$80 =
+|       lado, 10 GO_Figure_Part con +$80=0..9, 14 GO_Letter_V0..V13),
+|       música $10DF ($2352); luego sube en y con GameOver_IntegrateY
+|       (8.8, sólo si y>$140) en frames impares; al llegar a y=$1A8
+|       (o $190 si aún no) pone +$21=2, para la música ($2222) y crea
+|       GO_Banner + GO_Banner_C/D + GO_Zoom/GO_Shake (+$82=$20/$1E).
+|     Wait: +$82 frames, música off, +$21=2, SceneScriptVM($437DA)(0,0),
+|       crea GO_Banner_B, GO_Prop_A, GO_Prop_B. Wait2: snd $10DF, +$20=3,
+|       $51ED6($106F6C). Final: a los 3 f $10A2D1=1, +$21=4; luego música
+|       $10DE, +$21=3. WaitCredit: espera $10A2CF!=0 (crédito) -> libera y
+|       crea Continue_Text_Init, GO_Sprite_MidB y GO_Glow_Drift.
+|     Continue: si +$20==1 crea GO_Sprite_Mid y recorre la tabla $2F4BF8
+|       (20 pares dx,dy) desde la pos guardada en +$88/+$8A
+|       (ContinuePath); luego crea GO_Sprite_Right/Left, ContinueHold $96 f
+|       con Continue_Text_DrawTitle, ContinueEnd borra $106ED2.
+|
+|  C) $08FECC..$090728 — SPRITES Y EFECTOS DE LA PANTALLA (GO_*)
+|     GO_Sprite_Right/Left: snd $D9/$DA, entran deslizando desde x=$130/
+|       $20 con +$8C offset y +$28 velocidad hasta +$8C=0 (Slide), luego
+|       recorren $2F4C48[+$86][+$80] 20 pasos, $10A2D1=6 y música $10E0.
+|     GO_Sprite_Mid/MidB: snd $DB/$DD, offset (+$8C,+$8E) sobre el padre
+|       (FollowParent), al quedarse sin hijos emite $2C30(+$14,$DE,2,1).
+|     GO_Prop_A/B/C: snd $BE/$BD/$FF, mapas $2F5328/$2F531C/$2F5368;
+|       Prop_B monta sprites con $2C30/$2C26 ($100,$19B..$19D) en el paso
+|       10, recorre $2F4BA8 y $2F4BE8, crea Prop_C, paleta $2F4A38.
+|     GO_Zoom: snd $DF, (+$88,+$8A)=($EC,$14C) menos (+$8C,+$8E) que decaen
+|       a la mitad por frame; a 5 ciclos -> Zoom_Path ($2F4B24, 9 pasos)
+|       -> marca +$20 del padre -> Zoom_Wait. GO_Shake: $2F4B48 8 pasos
+|       circulares desde ($C8,$140); crea GO_Flash (snd $E0, $2F50FC).
+|     GO_Banner/_B/_C/_D: snd $E2/$E1, mapas $2F506E/$2F507A/$2F5086 en
+|       ($A0,$180); _B espera +$20==3 del padre; Tick cuenta +$82.
+|
+|  D) $090728..$090DB0 — LETRAS "GAME OVER" (GO_Letter_V0..V13)
+|     14 variantes con snd $C5/$C7, prio $4000|$1C/$18/.../$4, +$80 =
+|       índice 0..13, (+$7C,+$7E) = par de sonidos ($B7,$BF)/($B9,$C1),
+|       mapas $2F4D9E..$2F4EAE. GO_Letter_Common: pos = $2F4A46 +
+|       $2F4A7C[+$80][+$84 del padre] + pos padre; cuando el padre tiene
+|       +$21==1 emite $2C30(+$14,+$7C,1,2) y, si +$21==3, snd +$7E; al
+|       terminar baja el brillo (+$32/+$33) hasta $FC y, si +$80==5, crea
+|       GO_Glow. FadeOut: −$12 por frame hasta <$20 y muere.
+|     GO_Glow: snd $B6, $523C6(2), mapa $2F5338, brillo $15 subiendo +$12
+|       hasta $FF. GO_Glow_Drift: $523DA(1), converge a (+$8C,+$8E) a
+|       mitad de distancia por frame, baja −$10 hasta <$1F, marca +$20
+|       del padre y muere.
+|
+|  E) $090DB0..$091338 — FIGURAS, SCROLLERS Y PARTÍCULAS
+|     GO_Figure_A/B: snd $C4, mapas $2F4EBA/$2F4EEC, +$7C=$B5; siguen al
+|       padre y, con +$21==1 del padre, emiten $2C30 una vez.
+|     GO_Figure_Part: snd $BC, mapa $2F4EF8, offset $2F4A4A[+$80].
+|     GO_Scroller_A/B: snd $C4, prio $10/$C, vel $200/$180, mapas
+|       $2F4ED4/$2F4EE0, x inicial $2F4A72/$2F4A78[+$80]; Run: y = padre
+|       +$10; desplaza en x (8.8) oscureciendo en x impares, envuelve a
+|       x=$10 al pasar de $110 (+$82 vueltas), misma emisión $2C30.
+|     GO_ParentState20Is2/3, 21Is2/3/4: C=1 si el +$20/+$21 del padre vale
+|       ese número; GO_CopyParam84 copia +$84 al padre.
+|     GO_Particle (Add añade la tarea): RNG $5E9B6 elige dos variantes
+|       (vel x $200/$300, vel y $C00, acel $A0/$90, mapas $2F512A/$2F51D0 o
+|       $2F5276), x = $20 ± 8; Run integra x dos veces e y dos veces por
+|       frame, baja el brillo −6 y muere en y<=$120 o si el abuelo tiene
+|       +$20==2.
+|
+|  F) $091338..$0916B8 — PANTALLA CONTINUE (Continue_*)
+|     Continue_Spawn / Continue_Tpl: ($90,$1C0), crean Countdown (sólo
+|       Spawn), Text_Init y los 4 sprites Right/Left/Mid/MidB
+|       (snd $D9/$DA/$DE/$DD, mapas $2F503E/$2F504A/$2F5056/$2F5062).
+|     Continue_Text_Init -> Clear: Fix_BlitRect($7158,$3480,$14,2) cada
+|       +$82 f -> Blink: $52328 + DrawRows cada +$86 f.
+|     Countdown: Fix_BlitStr($7236,$2F4CB2,$5300) y dibuja los dos dígitos
+|       BCD de $10FDDA en $72B6/$72D6 (Fix_BlitRow). DrawRows: tabla
+|       $2F4CB8[d0] de filas terminadas en -1, blit en $7158 + $20 por
+|       fila. DrawTitle: $2F4C98 en $711B ($2300). DrawCredits: dos
+|       Fix_BlitRow en $71C3/$71C7 ($C8C0/$C9C0).
+|     Continue_Tmpl227: snd $DC, prio $F000|$1C, $267E2, ($A0,$1B0), crea
+|       Text_Init, mapa $2F53A6.
+|
+|  Hipótesis abiertas: "Game Over" por el jingle $10DF/$10DE, el gate de
+|  crédito $10A2CF y el contador BCD $10FDDA; la identidad exacta de cada
+|  sprite (letras vs. personajes) se confirmará con los mapas $2F4Dxx.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
