@@ -746,32 +746,32 @@ SYMBOLS = {
     # 0x0009152C promovido a Continue_Text_Clear_09152c en registry (Wave PPP).
     # 0x00091558 promovido a Continue_Text_Blink_091558 en registry (Wave PPP).
     0x000916C0: "TaskHandler_0916c0",
-    0x00097852: "TaskHandler_097852",
-    0x0009788C: "TaskHandler_09788c",
-    0x000978AC: "TaskHandler_0978ac",
-    0x000978FA: "TaskHandler_0978fa",
-    0x0009792E: "TaskHandler_09792e",
+    # 0x00097852 promovido a TaskHandler_097852 en registry (Wave QQQ).
+    # 0x0009788C promovido a TaskHandler_09788c en registry (Wave QQQ).
+    # 0x000978AC promovido a TaskHandler_0978ac en registry (Wave QQQ).
+    # 0x000978FA promovido a TaskHandler_0978fa en registry (Wave QQQ).
+    # 0x0009792E promovido a TaskHandler_09792e en registry (Wave QQQ).
     0x0009794A: "TaskHandler_09794a",
-    0x0009806A: "TaskHandler_09806a",
-    0x00098308: "TaskHandler_098308",
-    0x000983F6: "TaskHandler_0983f6",
-    0x00098482: "TaskHandler_098482",
+    # 0x0009806A promovido a TaskHandler_09806a en registry (Wave QQQ).
+    # 0x00098308 promovido a TaskHandler_098308 en registry (Wave QQQ).
+    # 0x000983F6 promovido a TaskHandler_0983f6 en registry (Wave QQQ).
+    # 0x00098482 promovido a TaskHandler_098482 en registry (Wave QQQ).
     0x00098836: "TaskHandler_098836",
-    0x00098886: "TaskHandler_098886",
-    0x0009890C: "TaskHandler_09890c",
-    0x000989E0: "TaskHandler_0989e0",
-    0x00098AFE: "TaskHandler_098afe",
-    0x00098C00: "TaskHandler_098c00",
-    0x00098DC6: "TaskHandler_098dc6",
-    0x00099004: "TaskHandler_099004",
-    0x00099180: "TaskHandler_099180",
-    0x0009921A: "TaskHandler_09921a",
-    0x000993A2: "TaskHandler_0993a2",
-    0x0009953E: "TaskHandler_09953e",
-    0x00099610: "TaskHandler_099610",
-    0x0009976A: "TaskHandler_09976a",
+    # 0x00098886 promovido a TaskHandler_098886 en registry (Wave QQQ).
+    # 0x0009890C promovido a TaskHandler_09890c en registry (Wave QQQ).
+    # 0x000989E0 promovido a TaskHandler_0989e0 en registry (Wave QQQ).
+    # 0x00098AFE promovido a TaskHandler_098afe en registry (Wave QQQ).
+    # 0x00098C00 promovido a TaskHandler_098c00 en registry (Wave QQQ).
+    # 0x00098DC6 promovido a TaskHandler_098dc6 en registry (Wave QQQ).
+    # 0x00099004 promovido a TaskHandler_099004 en registry (Wave QQQ).
+    # 0x00099180 promovido a TaskHandler_099180 en registry (Wave QQQ).
+    # 0x0009921A promovido a TaskHandler_09921a en registry (Wave QQQ).
+    # 0x000993A2 promovido a TaskHandler_0993a2 en registry (Wave QQQ).
+    # 0x0009953E promovido a TaskHandler_09953e en registry (Wave QQQ).
+    # 0x00099610 promovido a TaskHandler_099610 en registry (Wave QQQ).
+    # 0x0009976A promovido a TaskHandler_09976a en registry (Wave QQQ).
     0x00099794: "TaskHandler_099794",
-    0x00099A64: "TaskHandler_099a64",
+    # 0x00099A64 promovido a TaskHandler_099a64 en registry (Wave QQQ).
     0x0009A280: "TaskHandler_09a280",
     0x0009A2B8: "TaskHandler_09a2b8",
     0x0009B47C: "TaskHandler_09b47c",
@@ -949,13 +949,13 @@ SYMBOLS = {
     # 0x0008D804 promovido a Capsule_CheckMissionEnd_08d804 en registry (Wave NNN).
     # 0x0008EA50 promovido a Nest_DieIfParentGone_08ea50 en registry (Wave OOO).
     # 0x0008EFB0 promovido a Phys_GroundKill_08efb0 en registry (Wave OOO).
-    0x00097A60: "PcThunkTarget_097a60",
-    0x00097A72: "PcThunkTarget_097a72",
-    0x00097C5C: "PcThunkTarget_097c5c",
-    0x00099DE4: "PcThunkTarget_099de4",
-    0x00099E14: "PcThunkTarget_099e14",
-    0x00099E9C: "PcThunkTarget_099e9c",
-    0x00099EE4: "PcThunkTarget_099ee4",
+    # 0x00097A60 promovido a PcThunkTarget_097a60 en registry (Wave QQQ).
+    # 0x00097A72 promovido a PcThunkTarget_097a72 en registry (Wave QQQ).
+    # 0x00097C5C promovido a PcThunkTarget_097c5c en registry (Wave QQQ).
+    # 0x00099DE4 promovido a PcThunkTarget_099de4 en registry (Wave QQQ).
+    # 0x00099E14 promovido a PcThunkTarget_099e14 en registry (Wave QQQ).
+    # 0x00099E9C promovido a PcThunkTarget_099e9c en registry (Wave QQQ).
+    # 0x00099EE4 promovido a PcThunkTarget_099ee4 en registry (Wave QQQ).
     # 0x00099F3A promovido a FixGlyph16_DrawCursorA_099F3A en registry (Wave SS#7).
     # 0x00099FD2 promovido a FixGlyphRun_Draw2F61F0_099FD2 en registry (Wave SS#9).
     # 0x00099FF2 promovido a FixGlyph16_DrawDigit72EF_099FF2 en registry (Wave SS#10).
@@ -1013,7 +1013,7 @@ SYMBOLS = {
     0x00001E1C: "PcThunkTarget_001E1C",     # SchedulerBootstrap_Boot -> jsr pc+d $1E1C
     0x0005CACE: "Sub_0005CACE",             # SchedulerBootstrap_Boot -> jsr abs.l $5CACE
     0x0005E998: "Sub_0005E998",             # SchedulerBootstrap_Boot -> jsr abs.l $5E998 (x2)
-    0x00098720: "TaskTpl_098720",           # AttractHandler_10002C -> lea abs.l $98720, a1
+    # 0x00098720 promovido a TaskTpl_098720 en registry (Wave QQQ).
 
     # ---- Wave MM batch 1: entradas de la super-tabla dispatch $000B92
     #      referenciadas por 6x lea.l XXX(pc), a0 en SchedulerBootstrap_Boot.
@@ -1042,9 +1042,9 @@ SYMBOLS = {
     #      lea.l XXX.l, a1 seguido de jsr ThunkTarget_0004ae = Task_Alloc):
     0x00091330: "TaskTpl_091330",           # AttractHandler_00109C
     # 0x000913AC promovido a Continue_Tpl_0913ac en registry (Wave PPP).
-    0x00099B06: "TaskTpl_099B06",           # AttractHandler_2Task_0010F2 (task 2)
-    0x000977D6: "TaskTpl_0977D6",           # AttractHandler_Frame_001172
-    0x000977EA: "TaskTpl_0977EA",           # AttractHandler_Loader_0011EA
+    # 0x00099B06 promovido a TaskTpl_099B06 en registry (Wave QQQ).
+    # 0x000977D6 promovido a TaskTpl_0977D6 en registry (Wave QQQ).
+    # 0x000977EA promovido a TaskTpl_0977EA en registry (Wave QQQ).
     #      2 probes CCR-C en la zona $5D0xxx (invocados por bcs.w desde
     #      AttractPhase2_Probes5D0_00122E):
     0x0005D09A: "Sub_0005D09A",             # probe #1 CCR-C
@@ -1064,7 +1064,7 @@ SYMBOLS = {
     #      Callees de SpritePubEffect_027EBA (helpers de probe y effect):
     0x00027DB2: "Sub_00027DB2",             # helper coord/probe (pc-rel)
     0x00027E28: "Sub_00027E28",             # probe rect/rect CCR-C (pc-rel)
-    0x0009993C: "Sub_0009993C",             # publica effect_id en d6
+    # 0x0009993C promovido a Sub_0009993C en registry (Wave QQQ).
     0x00278BA8: "Data_00278BA8",            # array de configs de effect (data)
     #      Etiqueta fin-de-funcion para Probe_Bit3At100001_0334A2: el beq.w
     #      inicial salta al primer byte JUSTO DESPUES del rts (idioma
@@ -1160,7 +1160,7 @@ SYMBOLS = {
     0x0007707C: "Subsystem_HudInit_07707C",
     # 0x0008F158 promovido a Rings_InitAll_08f158 en registry (Wave OOO).
     0x0003EE3A: "Subsystem_ScoresInit_03EE3A",
-    0x000997B8: "Subsystem_AttractHookInit_997B8",
+    # 0x000997B8 promovido a Subsystem_AttractHookInit_997B8 en registry (Wave QQQ).
     0x0004CB5C: "Subsystem_MiscInit_04CB5C",
     0x00043D6C: "Reset4CameraLongs_043D6C",
 
@@ -1500,4 +1500,33 @@ SYMBOLS = {
     0x00091094: "SetHandlerRts_091094",  # rts de SetTaskHandler_09108e (+6)
     0x00091556: "SetHandlerRts_091556",  # rts de SetTaskHandler_091550 (+6)
     0x00091576: "SetHandlerRts_091576",  # rts de SetTaskHandler_091570 (+6)
+    # --- Wave QQQ: RTS internos de islas C
+    0x000978AA: "SetHandlerRts_0978aa",  # rts de SetTaskHandler_0978a4 (+6)
+    0x00097CC2: "JsrAbsRts_097cc2",  # rts de JsrAbsThunk_097cbc (+6)
+    0x00098988: "JsrAbsRts_098988",  # rts de JsrAbsThunk_098982 (+6)
+    0x00098A86: "SetHandlerRts_098a86",  # rts de SetTaskHandler_098a80 (+6)
+    0x00098AD2: "SetHandlerRts_098ad2",  # rts de SetTaskHandler_098acc (+6)
+    0x00098B64: "SetHandlerRts_098b64",  # rts de SetTaskHandler_098b5e (+6)
+    0x00098BB0: "SetHandlerRts_098bb0",  # rts de SetTaskHandler_098baa (+6)
+    0x00098D20: "SetHandlerRts_098d20",  # rts de SetTaskHandler_098d1a (+6)
+    0x00098D8A: "SetHandlerRts_098d8a",  # rts de SetTaskHandler_098d84 (+6)
+    0x00098E4C: "SetHandlerRts_098e4c",  # rts de SetTaskHandler_098e46 (+6)
+    0x00098E98: "SetHandlerRts_098e98",  # rts de SetTaskHandler_098e92 (+6)
+    0x00098F3E: "SetHandlerRts_098f3e",  # rts de SetTaskHandler_098f38 (+6)
+    0x0009906E: "SetHandlerRts_09906e",  # rts de SetTaskHandler_099068 (+6)
+    0x000990BA: "SetHandlerRts_0990ba",  # rts de SetTaskHandler_0990b4 (+6)
+    0x000991D8: "SetHandlerRts_0991d8",  # rts de SetTaskHandler_0991d2 (+6)
+    0x00099286: "SetHandlerRts_099286",  # rts de SetTaskHandler_099280 (+6)
+    0x000992D6: "SetHandlerRts_0992d6",  # rts de SetTaskHandler_0992d0 (+6)
+    0x000993F8: "SetHandlerRts_0993f8",  # rts de SetTaskHandler_0993f2 (+6)
+    0x00099444: "SetHandlerRts_099444",  # rts de SetTaskHandler_09943e (+6)
+    0x0009958E: "SetHandlerRts_09958e",  # rts de SetTaskHandler_099588 (+6)
+    0x000995CA: "SetHandlerRts_0995ca",  # rts de SetTaskHandler_0995c4 (+6)
+    0x0009966E: "SetHandlerRts_09966e",  # rts de SetTaskHandler_099668 (+6)
+    0x000996B4: "SetHandlerRts_0996b4",  # rts de SetTaskHandler_0996ae (+6)
+    0x00099792: "SetHandlerRts_099792",  # rts de SetTaskHandler_09978c (+6)
+    0x00099E12: "JsrPcRts_099e12",  # rts de JsrPcThunk_099e0e (+4)
+    0x00099E56: "JsrPcRts_099e56",  # rts de JsrPcThunk_099e52 (+4)
+    0x00099E9A: "JsrPcRts_099e9a",  # rts de JsrPcThunk_099e96 (+4)
+    0x00099ED0: "JsrPcRts_099ed0",  # rts de JsrPcThunk_099ecc (+4)
 }

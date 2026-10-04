@@ -95,6 +95,8 @@ Entity_TrailRecord_099812:
 |  infinito: si el tail alcanza al head_wrap, no hay muestra previa y se
 |  aborta con dx=dy=0. GCC no habria puesto la relectura del tail dentro
 |  del bucle; habria cacheado el limite en un registro.
+        .global Entity_TrailRecord_HasId_09985a
+Entity_TrailRecord_HasId_09985a:
 .Lhas_id:
         move.w  0x10e47e.l, d3          | +04a  d3 = TRAIL_TAIL_INDEX (cursor de lectura)
 .Lcheck_wrap:
@@ -119,6 +121,8 @@ Entity_TrailRecord_099812:
         sub.w   0x4(a0, d3.w), d6       | +082  d6 -= slot.pos_y  -> dy
 
 |--- Epilogo comun: escribir el nuevo slot en TRAIL_HEAD y avanzar cursor ---
+        .global Entity_TrailRecord_StoreSlot_099896
+Entity_TrailRecord_StoreSlot_099896:
 .Lstore_slot:
         move.w  0x10e482.l, d3          | +086  d3 = TRAIL_HEAD_INDEX (cursor escritura)
         move.b  d7, (a0, d3.w)          | +08c  slot.id     = d7

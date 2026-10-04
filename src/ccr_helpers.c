@@ -3155,12 +3155,6 @@ void ClearXN_099ad6(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 __attribute__((section(".text.SetXN_099adc")))
 void SetXN_099adc(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
 
-__attribute__((section(".text.NopCCR_099f0a")))
-void NopCCR_099f0a(void) { __asm__ volatile("ori.b  #0x00, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.NopCCR_099f34")))
-void NopCCR_099f34(void) { __asm__ volatile("ori.b  #0x00, %%ccr" ::: "cc"); }
-
 __attribute__((section(".text.ClearXN_09a0cc")))
 void ClearXN_09a0cc(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 
