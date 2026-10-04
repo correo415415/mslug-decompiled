@@ -85,12 +85,23 @@ class Insn:
         self.ops = cs.op_str
 
 
+DATA_RANGES = []      # [(a, b)] rangos marcados como datos con --data (tablas en .text)
+
+
+def in_data(off):
+    return any(a <= off < b for a, b in DATA_RANGES)
+
+
 def disasm_region(rom, start, end):
     md = Cs(CS_ARCH_M68K, CS_MODE_M68K_000)
     md.detail = False
     out = []
     off = start
     while off < end:
+        if in_data(off):
+            out.append(("data", off, rom[off:off + 2]))
+            off += 2
+            continue
         ins = next(md.disasm(rom[off:off + 10], off), None)
         if ins is None or ins.size == 0 or off + ins.size > end:
             # palabra de datos
@@ -584,8 +595,15 @@ def main():
                     help="ADDR=Nombre para renombrar una entrada")
     ap.add_argument("--entry", action="append", default=[],
                     help="forzar una frontera de entrada adicional (hex)")
+    ap.add_argument("--data", action="append", default=[],
+                    help="START-END (hex) a emitir como .dc.w (tabla embebida en .text); "
+                         "START pasa a ser una entrada Data_XXXXXX")
     ap.add_argument("--no-verify", action="store_true")
     args = ap.parse_args()
+    for d in args.data:
+        a, b = (int(x, 16) for x in d.split("-"))
+        DATA_RANGES.append((a, b))
+        SYMBOLS.setdefault(a, f"Data_{a:06x}")
 
     rom = open(PROM, "rb").read()
     names = {}
