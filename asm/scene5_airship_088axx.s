@@ -1,11 +1,101 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave LLL — Escena 5: dirigible de desembarco, torres, campamento y props
-|  Región: $088A56..$08BA00  (10,690 B, 98 entradas, 43 huecos)
+|  Región: $088A56..$08BA00  (10,690 B, 98 entradas, 43 huecos cerrados)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  Cluster de entidades de la escena 5 del dispatcher de spawn (lista
+|  $097422 = JumpTable_096B9C[5], registros de 20 B {$0100, x, y, handler.l,
+|  0, 0, FFFF x3}, centinela $FFFF). Handlers referenciados desde esa lista:
+|  $088F74, $088F8E, $0890CC, $089E8E, $08A006, $0893AC, $08A10C, $08A74E,
+|  $089C44, $089E2C, $089C58. Plantillas del Mission VM (op $00, $E8000[i]):
+|  [168..170] = Proj_Tmpl168/169/170 ($8B9A2/$8B9AA/$8B9B2), [254..257] =
+|  Proj_Drop_V0..V3 ($8B34C/$8B366/$8B380/$8B39A), [258] = S5_Bunker_088ff4,
+|  [270] = Proj_Thrown_08b258. La tabla de animación de sprites $1EE1xx
+|  referencia los callbacks SprCb_Lamp2On/Off y SprCb_Lamp3On/Off (usan $2C26).
+|
+|  Convenciones (idénticas a Wave KKK): +$22/+$24 pos, +$28/+$2A vel, +$C
+|  padre, +$20/+$21 estado, +$13 flags, +$3C registro de spawn ($2942A lee
+|  x/y), +$48 hitbox, +$66 HP, +$70 margen de cull ($4FA70), +$72 timer,
+|  +$74 tabla de blit ($5022A), $2870A daño (flash $5E766/$5E770), $28758
+|  colisión con jugador, $28D70 slots enlazados, $4429E MissionWatch_Spawn.
+|
+|  A) $088A64..$088B30 — Fort_BlitWreck_V1..V4: cola del blit de la fortaleza
+|     destruida de la Wave KKK (Fort_BlitWreck_088a28): según +$20 (1..4)
+|     dibuja pares de tablas $2EDAF8.. con StateMachineRun $5022A.
+|
+|  B) $088F58..$089398 — CAMPAMENTO (props estáticos, búnker, tiendas, depósito)
+|     Entity_CmpPrioWithSibling_088f58 / _08b928: compara prioridad con el
+|       hermano enlazado (helper duplicado, dos copias idénticas).
+|     S5_PropStatic_A/B ($88F74/$88F8E): leen spawn, mapa de sprites $2EDEA2
+|       y convergen en S5_PropStatic_Common_088fa8 (snd $CA, +$70=$70, +$32=$FF).
+|     S5_Bunker_088ff4 (plantilla 258): blit por índice S5_Bunker_BlitByIdx.
+|     S5_Camp_Spawn_0890cc: crea las tiendas (S5_Tent_089160, blit por fila
+|       S5_Tent_BlitRowByIdx_08b8f4) que al destruirse pasan a S5_Tent_Ruin.
+|     S5_Depot_089290 → S5_Depot_Wreck_089374 → S5_Depot_Idle_089398 (rts
+|       perpetuo; antes llamado TaskHandler_089398 en src/task_handlers.c).
+|
+|  C) $0893AC..$08983A — DIRIGIBLE DE DESEMBARCO (Airship_*)
+|     Airship_Wait_0893ac: espera a $106F54 >= $280 (scroll), snd $CF, crea
+|       la torreta Turret8 vía Airship_Attach_089688 (→ Turret8_Init_08989c)
+|       y un Airship_PlayerTracker_0896de por jugador ($100440/$1004E0) que
+|       suelta pares $78908 + Wreck_Spark; desciende con Airship_Steer /
+|       Airship_SpiralDescent y sondea el suelo (Airship_ProbeGround_08b7b0,
+|       Airship_CheckLanding_08b7f0).
+|     Airship_Landed_089504: $10E39C=0, $106F5E=-1, $106F60=$8000, $106F64=0,
+|       caja $2EEE24; suelta soldados con Airship_DropSoldier_08b82c (retroceso
+|       Airship_Recoil_08b862) y publica el lock de cámara (Camera_PublishLockX).
+|     Airship_Hover_0895cc: flota hasta cam x >= $680 → Airship_Depart_0895fe
+|       (snd $1026, espiral $8B718, rastro Airship_TrailRecord[_Alt] → $99812).
+|     Airship_Ground_0897d2 / _GroundB_08983a: sombra/base en el suelo.
+|
+|  D) $08989C..$089C08 — TORRETA DE 8 DIRECCIONES (Turret8_*)
+|     Turret8_Init → Aim → Track (gira con Turret8_RotateStep_08b5c8, tablas
+|       de sprites $2EE318/$2EE3F0/$2EE4C8) → Fire (Turret8_FireBullet_08b626,
+|       helpers $8F3A6/$8F3BE/$8F69C) → Cooldown; Turret8_Barrel_089a30 es el
+|       cañón hijo; Turret8_Casing_089ad0 expulsa casquillos con RNG ($799DE),
+|       que reposan (Casing_Rest) y se desvanecen (Casing_Fade).
+|
+|  E) $089C08..$08A10C — PROPS DESTRUIBLES
+|     S5_Crate_089c08 → S5_Crate_Broken_089d34; S5_PropSolid_089d8e;
+|     S5_PropStatic_C_089e2c; S5_BarrelRow_Spawn_089e8e crea S5_Barrel_089f46
+|     en fila; S5_RockRain_Spawn_08a006 crea S5_FallingRock_08a05e.
+|
+|  F) $08A10C..$08AE56 — TORRES A y B (S5_TowerA_* / S5_TowerB_*)
+|     Init: snd $1DC + $D3, 3–4 hijos TowerPort_Init_08ae56 y un soldado
+|       ($77228); HP aleatoria desde $2C06AA cuando cam x >= $7D0 (A) /
+|       $950 (B). Hit: flash + bclr bit3 +$13. Stage2/3/4 al bajar HP de
+|       $29A / $14D (blits de daño). Destroy: score $5000, 6 explosiones
+|       $7808A, Wreck_FlagSet_08ae0c ($10E39E=1; Wreck_FlagClear lo borra),
+|       humo Wreck_SmokeRise_08b07c, apaga lámparas (SprCb_Lamp*Off) y
+|       termina en S5_TowerA_Rts_08a74c / S5_TowerB_Rts_08ae0a.
+|
+|  G) $08AE56..$08B258 — PORTILLAS DE TORRE Y RESTOS
+|     TowerPort_Init → Active → Stage2 → Idle (sigue al padre con
+|       Entity_FollowParent[Plus40]); Wreck_SparkBurst_08b10a lanza
+|       Wreck_Spark_08b1f2 (chispas con gravedad).
+|
+|  H) $08B258..$08B45C — PROYECTILES
+|     Proj_Thrown_08b258 (plantilla 270): parámetros +$9A..+$9D, física
+|       $8F002/$8F010, Handler_ConditionalHitCounter_08B558.
+|     Proj_Drop_V0..V3 (plantillas 254..257): mapa $2EE1B8, tabla +$70
+|       $2EF7E4; convergen en Proj_Drop_Common_08b3b4 (snd $16D/$16F/$CE/$16E
+|       según cam x vs $670).
+|
+|  I) $08B45C..$08B944 — CALLBACKS Y HELPERS
+|     SprCb_Lamp2On/Off, SprCb_Lamp3On/Off: encienden/apagan lámparas de la
+|       torre (slot de sprite vía $2C26). Math_AbsW_08b58e: |d0.w|.
+|     Entity_FollowParent*_08b59e/_08b5b6, Airship_Steer*, Airship_Probe*,
+|       Camera_PublishLockX_08b8e4, S5_*_BlitByIdx.
+|
+|  J) $08B944..$08BA00 — TABLA Y PLANTILLAS DE PROYECTIL
+|     Proj_ScriptTable_08b944 (datos, 94 B, .dc.w) usada por Proj_Bounce_08b9ba
+|       (`lea Proj_ScriptTable_08b944(pc),a0`); Proj_Tmpl168/169/170 son las
+|       entradas de plantilla que saltan a Proj_Bounce.
+|
+|  Callees aún no emparejados (quedan en huecos futuros): $9A300, $38F14,
+|  $997E2, $78908, $631D0, $8F3A6, $8F3BE, $8F69C, $8F002, $8F010, $280C6,
+|  $5E3A2, $3093A, $5DD5C; refs pc-rel forward: $8BA0C/$8BA52/$8BB34/$8BB5E.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

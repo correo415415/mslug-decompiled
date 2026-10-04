@@ -11,10 +11,53 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3756/3756 funciones
-BYTES   : 146,220/146,220 (registrados)
-ROM     : 146,220/2,097,152  (6.9723%)
+MATCHED : 3854/3854 funciones
+BYTES   : 156,910/156,910 (registrados)
+ROM     : 156,910/2,097,152  (7.4821%)
 ```
+
+> **Wave LLL** (98 entradas, 10 690 B, verde a la primera) — **cluster de la
+> escena 5**: cierra los 43 huecos de la region `$088A56..$08BA00` en
+> `scene5_airship_088axx.s`. Tercera wave de `tools/gen_asm_region.py`
+> (92 entradas automaticas + 6 fronteras `--entry` + primera tabla de datos
+> embebida con `--data 08B944-08B9A2`), analizada semanticamente a mano.
+>
+> * **Origen de los spawns**: lista 5 (`$097422`) de `JumpTable_096B9C`
+>   (`$088F74`, `$088F8E`, `$0890CC`, `$089E8E`, `$08A006`, `$0893AC`,
+>   `$08A10C`, `$08A74E`, `$089C44`, `$089E2C`, `$089C58`) y plantillas del
+>   Mission VM `$E8000[168..170]` (`Proj_Tmpl168/169/170`), `[254..257]`
+>   (`Proj_Drop_V0..V3`), `[258]` (`S5_Bunker_088ff4`) y `[270]`
+>   (`Proj_Thrown_08b258`). Los callbacks `SprCb_Lamp2On/Off` y
+>   `SprCb_Lamp3On/Off` cuelgan de la tabla de animacion de sprites `$1EE1xx`.
+> * **Dirigible de desembarco** (`Airship_*`): espera `$106F54 >= $280`,
+>   snd `$CF`, crea la torreta `Turret8_*` y un `Airship_PlayerTracker` por
+>   jugador; desciende en espiral (`Airship_SpiralDescent_08b718`) sondeando
+>   el suelo; al aterrizar (`$10E39C=0`, `$106F5E=-1`, `$106F60=$8000`)
+>   suelta soldados (`Airship_DropSoldier_08b82c`, antes `PcThunkTarget_*`)
+>   y publica el lock de camara; flota hasta cam x >= `$680` y despega con
+>   snd `$1026` dejando rastro (`Entity_TrailRecord_099812`).
+> * **Torreta de 8 direcciones** (`Turret8_*`): Init -> Aim -> Track
+>   (`Turret8_RotateStep_08b5c8`, tablas `$2EE318/$2EE3F0/$2EE4C8`) -> Fire
+>   (`Turret8_FireBullet_08b626`) -> Cooldown; canon hijo y casquillos con RNG
+>   (`Turret8_Casing_*`).
+> * **Torres A/B** (`S5_TowerA_*` / `S5_TowerB_*`): snd `$1DC`+`$D3`, 3-4
+>   portillas `TowerPort_*`, soldado `$77228`, HP aleatoria `$2C06AA` al
+>   llegar cam x a `$7D0`/`$950`, etapas de dano en HP `$29A`/`$14D`,
+>   destruccion con score `$5000`, 6 explosiones `$7808A`, bandera
+>   `Wreck_FlagSet_08ae0c` (`$10E39E=1`), humo `Wreck_SmokeRise` y chispas
+>   `Wreck_SparkBurst`/`Wreck_Spark`.
+> * **Campamento y props**: `S5_PropStatic_A/B/C`, `S5_Bunker`,
+>   `S5_Camp_Spawn` -> `S5_Tent` -> `S5_Tent_Ruin`, `S5_Depot` ->
+>   `S5_Depot_Wreck` -> `S5_Depot_Idle` (antes `TaskHandler_089398`),
+>   `S5_Crate`, `S5_PropSolid`, fila de barriles, lluvia de rocas.
+> * **Proyectiles**: `Proj_Thrown` (parametros +$9A..+$9D), `Proj_Drop_V0..V3`
+>   -> `Proj_Drop_Common_08b3b4` (snd por cam x vs `$670`), `Proj_Bounce_08b9ba`
+>   con tabla de script `Proj_ScriptTable_08b944` (datos en `.text`,
+>   emitidos como `.dc.w`).
+> * 20 defsyms promovidos; +16 RTS mid-isla; +4 forward (`$8BA0C`, `$8BA52`,
+>   `$8BB34`, `$8BB5E`, proxima wave). Callees pendientes: `$9A300`, `$38F14`,
+>   `$997E2`, `$78908`, `$631D0`, `$8F3A6/$8F3BE/$8F69C`, `$8F002/$8F010`,
+>   `$280C6`, `$5E3A2`, `$3093A`, `$5DD5C`.
 
 > **Wave KKK** (84 entradas, 9 334 B, verde a la primera) — **cluster de la
 > fortaleza de la escena 4**: cierra los 6 huecos de la region

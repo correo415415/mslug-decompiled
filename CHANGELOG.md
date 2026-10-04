@@ -17,6 +17,25 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave LLL — 98 entries (10,690 B): **scene-5 cluster** closing all 43
+  gaps in `$088A56..$08BA00` (`scene5_airship_088axx.s`). Spawnable entries
+  come from spawn list 5 (`$097422`) and Mission-VM templates
+  `$E8000[168..170]`, `[254..257]`, `[258]`, `[270]`. The landing airship
+  (`Airship_Wait -> Landed -> Hover -> Depart`, spiral descent, ground
+  probing, trooper drop, camera lock publish), its 8-way turret
+  (`Turret8_*` with rotating barrel, bullets and ejected casings), the two
+  towers (`S5_TowerA_*` / `S5_TowerB_*`: random HP, 3 damage stages,
+  `TowerPort_*` children, wreck flag/smoke/sparks, lamp sprite callbacks
+  `SprCb_Lamp*`), the camp (`S5_Tent*`, `S5_Depot*`, `S5_Bunker`,
+  `S5_Camp_Spawn`), breakable props, barrel row and falling rocks, and the
+  projectile family (`Proj_Thrown`, `Proj_Drop_V0..V3 -> _Common`,
+  `Proj_Bounce` driven by the embedded data table `Proj_ScriptTable_08b944`).
+  20 defsyms promoted; +16 island RTS; +4 forward defsyms. Matcher:
+  3,854/3,854, 156,910 B (7.48 %).
+- `tools/gen_asm_region.py`: new `--data START-END` option emits embedded
+  data tables inside `.text` as `.dc.w` (first used for
+  `Proj_ScriptTable_08b944`); `scripts/bootstrap_sandbox.sh` now looks for
+  the ROM zip in `/home/user/uploaded_files/` and `/mnt/aidrive/mslug_rom/`.
 - Wave KKK — 84 entries (9,334 B): **scene-4 fortress cluster** closing
   all 6 gaps in `$0865BE..$088A56` (`fort_scene4_0865xx.s`). Every
   spawnable entry is referenced from spawn list 4 (`$0972CC`, 20-byte
