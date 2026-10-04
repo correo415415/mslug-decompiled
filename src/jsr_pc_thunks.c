@@ -705,14 +705,14 @@ void JsrPcThunk_0798a6(void) {
 
 __attribute__((section(".text.JsrPcThunk_086dae")))
 void JsrPcThunk_086dae(void) {
-    extern void PcThunkTarget_088438(void);
-    __asm__ volatile("jsr PcThunkTarget_088438(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_HitboxPulseTable_088438(void);
+    __asm__ volatile("jsr Entity_HitboxPulseTable_088438(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0877ce")))
 void JsrPcThunk_0877ce(void) {
-    extern void PcThunkTarget_08846a(void);
-    __asm__ volatile("jsr PcThunkTarget_08846a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_HitboxPulseSaved_08846a(void);
+    __asm__ volatile("jsr Entity_HitboxPulseSaved_08846a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08b712")))

@@ -674,8 +674,8 @@ SYMBOLS = {
     # 0x00085134 promovido a M4_PlatformSpawn_085134 en registry (Wave JJJ).
     # 0x00085484 promovido a M4_Turret_Death_085484 en registry (Wave JJJ).
     # 0x00085A08 promovido a M4_CamFloor_Step_085a08 en registry (Wave JJJ).
-    # 0x000865BE promovido a TaskHandler_0865be en registry (Wave KKK).
-    # 0x00086854 promovido a TaskHandler_086854 en registry (Wave KKK).
+    # 0x000865BE promovido a Boss_Shadow_Clear_0865be en registry (Wave KKK).
+    # 0x00086854 promovido a Fort_Idle_086854 en registry (Wave KKK).
     0x00089398: "TaskHandler_089398",
     0x00089504: "TaskHandler_089504",
     0x000895CC: "TaskHandler_0895cc",
@@ -943,8 +943,8 @@ SYMBOLS = {
     0x00074166: "PcThunkTarget_074166",
     0x000745E2: "PcThunkTarget_0745e2",
     # 0x000798AC promovido a Entity_CheckBoxOverlapWithSelector_0798AC en registry (Wave RR#2).
-    # 0x00088438 promovido a PcThunkTarget_088438 en registry (Wave KKK).
-    # 0x0008846A promovido a PcThunkTarget_08846a en registry (Wave KKK).
+    # 0x00088438 promovido a Entity_HitboxPulseTable_088438 en registry (Wave KKK).
+    # 0x0008846A promovido a Entity_HitboxPulseSaved_08846a en registry (Wave KKK).
     0x0008B82C: "PcThunkTarget_08b82c",
     0x0008D804: "PcThunkTarget_08d804",
     0x0008EA50: "PcThunkTarget_08ea50",
@@ -1403,9 +1403,9 @@ SYMBOLS = {
     0x0008604E: "JsrAbsRts_08604e",      # rts de JsrAbsThunk_086048 (+6)
     0x000863D4: "JsrAbsRts_0863d4",      # rts de JsrAbsThunk_0863ce (+6)
 
-    # --- Wave KKK: region $0865BE..$088A56
-    # RTS interno de isla C ya matcheada (target de bcc colgante):
+    # --- Wave KKK: fortaleza escena 4 ($0865BE..$088A56)
+    # RTS interno de isla C ya matcheada (target de bne.w en Heli_RotorAnim_0883ec):
     0x00088436: "SetTaskWRts_088436",    # rts de SetTaskW_088432 (+4)
-    # Hueco futuro referenciado por pc-rel desde esta region:
-    0x00088A64: "Sub_00088A64",          # helper (jsr pc desde $0887xx); hueco futuro
+    # Hueco futuro referenciado por bne.w desde Fort_BlitWreck_088a28:
+    0x00088A64: "Sub_00088A64",          # blit alternativo (+0x20 != 0); hueco futuro
 }

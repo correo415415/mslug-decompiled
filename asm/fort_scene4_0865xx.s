@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave KKK — region $0865BE..$088A56
-|  Región: $0865BE..$088A56  (9,334 B, 79 entradas, 6 huecos)
+|  Wave KKK — Fortaleza con casamatas, trampillas, blindado y helicoptero (escena 4)
+|  Región: $0865BE..$088A56  (9,334 B, 84 entradas, 6 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0865be  @ $0865BE  (28 B)
+|  Boss_Shadow_Clear_0865be  @ $0865BE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0865be, "ax", @progbits
-        .global TaskHandler_0865be
-TaskHandler_0865be:
+        .section .text.Boss_Shadow_Clear_0865be, "ax", @progbits
+        .global Boss_Shadow_Clear_0865be
+Boss_Shadow_Clear_0865be:
         move.b  #0x0,0x10e39e.l                 | +000
         lea     0xffff.w,a0                     | +008
         move.l  a0,0x4c(a6)                     | +00c
@@ -27,133 +27,162 @@ TaskHandler_0865be:
         jmp     0x518.l                         | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0865da  @ $0865DA  (2 B)
+|  Rts_0865da  @ $0865DA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0865da, "ax", @progbits
-        .global TaskHandler_0865da
-TaskHandler_0865da:
+        .section .text.Rts_0865da, "ax", @progbits
+        .global Rts_0865da
+Rts_0865da:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0865dc  @ $0865DC  (504 B)
+|  Fort_Init_V0_0865dc  @ $0865DC  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0865dc, "ax", @progbits
-        .global TaskHandler_0865dc
-TaskHandler_0865dc:
+        .section .text.Fort_Init_V0_0865dc, "ax", @progbits
+        .global Fort_Init_V0_0865dc
+Fort_Init_V0_0865dc:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.b  #0x0,0x20(a6)                   | +00a
-        jsr     TaskHandler_0884a6(pc)          | +010
+        jsr     Fort_SpawnChildren_V0_0884a6(pc) | +010
         lea     0x2edcb0.l,a1                   | +014
         move.l  a1,0x78(a6)                     | +01a
         lea     0xedc8c.l,a1                    | +01e
         move.l  a1,0x7c(a6)                     | +024
-        lea     TaskHandler_086e4a(pc),a1       | +028
+        lea     Hatch_Init_086e4a(pc),a1        | +028
         jsr     0x4ae.l                         | +02c
         jsr     0x5dd22.l                       | +032
         addi.w  #0x50,0x22(a0)                  | +038
         addi.w  #0x10,0x24(a0)                  | +03e
-        bra.w   .L086738                        | +044
-        movea.l 0x3c(a6),a1                     | +048
-        jsr     0x2942a.l                       | +04c
-        move.b  #0x1,0x20(a6)                   | +052
-        jsr     TaskHandler_0885b4(pc)          | +058
-        lea     0x2edcba.l,a1                   | +05c
-        move.l  a1,0x78(a6)                     | +062
-        lea     0xedcd2.l,a1                    | +066
-        move.l  a1,0x7c(a6)                     | +06c
-        lea     TaskHandler_086e4a__L086e74(pc),a1 | +070
-        jsr     0x4ae.l                         | +074
-        jsr     0x5dd22.l                       | +07a
-        addi.w  #0x50,0x22(a0)                  | +080
-        bra.w   .L086738                        | +086
-        movea.l 0x3c(a6),a1                     | +08a
-        jsr     0x2942a.l                       | +08e
-        move.b  #0x2,0x20(a6)                   | +094
-        jsr     TaskHandler_0886c2(pc)          | +09a
-        lea     0x2edcfe.l,a1                   | +09e
-        move.l  a1,0x78(a6)                     | +0a4
-        lea     0xedd2a.l,a1                    | +0a8
-        move.l  a1,0x7c(a6)                     | +0ae
-        lea     TaskHandler_086e4a__L086e9e(pc),a1 | +0b2
-        jsr     0x4ae.l                         | +0b6
-        jsr     0x5dd22.l                       | +0bc
-        addi.w  #0x50,0x22(a0)                  | +0c2
-        addi.w  #0x10,0x24(a0)                  | +0c8
-        bra.w   .L086738                        | +0ce
-        movea.l 0x3c(a6),a1                     | +0d2
-        jsr     0x2942a.l                       | +0d6
-        move.b  #0x3,0x20(a6)                   | +0dc
-        jsr     TaskHandler_0887d0(pc)          | +0e2
-        lea     0x2edd0c.l,a1                   | +0e6
-        move.l  a1,0x78(a6)                     | +0ec
-        lea     0xedda6.l,a1                    | +0f0
-        move.l  a1,0x7c(a6)                     | +0f6
-        lea     TaskHandler_086e4a__L086ec8(pc),a1 | +0fa
-        jsr     0x4ae.l                         | +0fe
-        jsr     0x5dd22.l                       | +104
-        addi.w  #0x50,0x22(a0)                  | +10a
-        bra.w   .L086738                        | +110
-        movea.l 0x3c(a6),a1                     | +114
-        jsr     0x2942a.l                       | +118
-        move.b  #0x4,0x20(a6)                   | +11e
-        jsr     TaskHandler_08891a(pc)          | +124
-        lea     0x2edd20.l,a1                   | +128
-        move.l  a1,0x78(a6)                     | +12e
-        lea     0xede22.l,a1                    | +132
-        move.l  a1,0x7c(a6)                     | +138
-        lea     TaskHandler_086e4a__L086ef2(pc),a1 | +13c
-        jsr     0x4ae.l                         | +140
-        jsr     0x5dd22.l                       | +146
-        addi.w  #0x50,0x22(a0)                  | +14c
-        addi.w  #0x10,0x24(a0)                  | +152
-        bra.w   .L086738                        | +158
-.L086738:
-        move.w  #0xc0,0x70(a6)                  | +15c
-        move.w  #0x140,0x66(a6)                 | +162
-        move.b  #0x0,0x21(a6)                   | +168
-        lea     0x2ec41e.l,a0                   | +16e
-        move.l  a0,0x48(a6)                     | +174
-        lea     .L08675a(pc),a1                 | +178
-        move.l  a1,(a6)                         | +17c
-.L08675a:
-        cmpi.w  #0xffc0,0x22(a6)                | +17e
-        bgt.w   .L08676c                        | +184
-        lea     0xffff.w,a0                     | +188
-        move.l  a0,0x48(a6)                     | +18c
-.L08676c:
-        jsr     0x2783a.l                       | +190
-        jsr     0x2870a.l                       | +196
-        bcc.w   .L08678e                        | +19c
-        lea     0x5e766.l,a0                    | +1a0
-        jsr     0x5e770.l                       | +1a6
-        bclr    #0x3,0x13(a6)                   | +1ac
-.L08678e:
-        cmpi.w  #0xc0,0x22(a6)                  | +1b2
-        blt.w   .L08679e                        | +1b8
-        move.w  #0x140,0x66(a6)                 | +1bc
-.L08679e:
-        cmpi.w  #0x0,0x66(a6)                   | +1c2
-        bgt.w   .L0867bc                        | +1c8
-        lea     0xffff.w,a0                     | +1cc
-        move.l  a0,0x48(a6)                     | +1d0
-        move.b  #0xff,0x21(a6)                  | +1d4
-        lea     TaskHandler_0867d4(pc),a1       | +1da
-        move.l  a1,(a6)                         | +1de
-.L0867bc:
-        jsr     0x4fa70.l                       | +1e0
-        bcc.w   .L0867d2                        | +1e6
-        move.b  #0xff,0x21(a6)                  | +1ea
-        jmp     0x518.l                         | +1f0
-.L0867d2:
-        rts                                     | +1f6
+        bra.w   Fort_Init_V4_0866f0__L086738    | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0867d4  @ $0867D4  (120 B)
+|  Fort_Init_V1_086624  @ $086624  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0867d4, "ax", @progbits
-        .global TaskHandler_0867d4
-TaskHandler_0867d4:
+        .section .text.Fort_Init_V1_086624, "ax", @progbits
+        .global Fort_Init_V1_086624
+Fort_Init_V1_086624:
+        movea.l 0x3c(a6),a1                     | +000
+        jsr     0x2942a.l                       | +004
+        move.b  #0x1,0x20(a6)                   | +00a
+        jsr     Fort_SpawnChildren_V1_0885b4(pc) | +010
+        lea     0x2edcba.l,a1                   | +014
+        move.l  a1,0x78(a6)                     | +01a
+        lea     0xedcd2.l,a1                    | +01e
+        move.l  a1,0x7c(a6)                     | +024
+        lea     Hatch_Init_086e4a__L086e74(pc),a1 | +028
+        jsr     0x4ae.l                         | +02c
+        jsr     0x5dd22.l                       | +032
+        addi.w  #0x50,0x22(a0)                  | +038
+        bra.w   Fort_Init_V4_0866f0__L086738    | +03e
+
+| ----------------------------------------------------------------------------
+|  Fort_Init_V2_086666  @ $086666  (72 B)
+| ----------------------------------------------------------------------------
+        .section .text.Fort_Init_V2_086666, "ax", @progbits
+        .global Fort_Init_V2_086666
+Fort_Init_V2_086666:
+        movea.l 0x3c(a6),a1                     | +000
+        jsr     0x2942a.l                       | +004
+        move.b  #0x2,0x20(a6)                   | +00a
+        jsr     Fort_SpawnChildren_V2_0886c2(pc) | +010
+        lea     0x2edcfe.l,a1                   | +014
+        move.l  a1,0x78(a6)                     | +01a
+        lea     0xedd2a.l,a1                    | +01e
+        move.l  a1,0x7c(a6)                     | +024
+        lea     Hatch_Init_086e4a__L086e9e(pc),a1 | +028
+        jsr     0x4ae.l                         | +02c
+        jsr     0x5dd22.l                       | +032
+        addi.w  #0x50,0x22(a0)                  | +038
+        addi.w  #0x10,0x24(a0)                  | +03e
+        bra.w   Fort_Init_V4_0866f0__L086738    | +044
+
+| ----------------------------------------------------------------------------
+|  Fort_Init_V3_0866ae  @ $0866AE  (66 B)
+| ----------------------------------------------------------------------------
+        .section .text.Fort_Init_V3_0866ae, "ax", @progbits
+        .global Fort_Init_V3_0866ae
+Fort_Init_V3_0866ae:
+        movea.l 0x3c(a6),a1                     | +000
+        jsr     0x2942a.l                       | +004
+        move.b  #0x3,0x20(a6)                   | +00a
+        jsr     Fort_SpawnChildren_V3_0887d0(pc) | +010
+        lea     0x2edd0c.l,a1                   | +014
+        move.l  a1,0x78(a6)                     | +01a
+        lea     0xedda6.l,a1                    | +01e
+        move.l  a1,0x7c(a6)                     | +024
+        lea     Hatch_Init_086e4a__L086ec8(pc),a1 | +028
+        jsr     0x4ae.l                         | +02c
+        jsr     0x5dd22.l                       | +032
+        addi.w  #0x50,0x22(a0)                  | +038
+        bra.w   Fort_Init_V4_0866f0__L086738    | +03e
+
+| ----------------------------------------------------------------------------
+|  Fort_Init_V4_0866f0  @ $0866F0  (228 B)
+| ----------------------------------------------------------------------------
+        .section .text.Fort_Init_V4_0866f0, "ax", @progbits
+        .global Fort_Init_V4_0866f0
+Fort_Init_V4_0866f0:
+        movea.l 0x3c(a6),a1                     | +000
+        jsr     0x2942a.l                       | +004
+        move.b  #0x4,0x20(a6)                   | +00a
+        jsr     Fort_SpawnChildren_V4_08891a(pc) | +010
+        lea     0x2edd20.l,a1                   | +014
+        move.l  a1,0x78(a6)                     | +01a
+        lea     0xede22.l,a1                    | +01e
+        move.l  a1,0x7c(a6)                     | +024
+        lea     Hatch_Init_086e4a__L086ef2(pc),a1 | +028
+        jsr     0x4ae.l                         | +02c
+        jsr     0x5dd22.l                       | +032
+        addi.w  #0x50,0x22(a0)                  | +038
+        addi.w  #0x10,0x24(a0)                  | +03e
+        bra.w   Fort_Init_V4_0866f0__L086738    | +044
+        .global Fort_Init_V4_0866f0__L086738
+Fort_Init_V4_0866f0__L086738:
+        move.w  #0xc0,0x70(a6)                  | +048
+        move.w  #0x140,0x66(a6)                 | +04e
+        move.b  #0x0,0x21(a6)                   | +054
+        lea     0x2ec41e.l,a0                   | +05a
+        move.l  a0,0x48(a6)                     | +060
+        lea     .L08675a(pc),a1                 | +064
+        move.l  a1,(a6)                         | +068
+.L08675a:
+        cmpi.w  #0xffc0,0x22(a6)                | +06a
+        bgt.w   .L08676c                        | +070
+        lea     0xffff.w,a0                     | +074
+        move.l  a0,0x48(a6)                     | +078
+.L08676c:
+        jsr     0x2783a.l                       | +07c
+        jsr     0x2870a.l                       | +082
+        bcc.w   .L08678e                        | +088
+        lea     0x5e766.l,a0                    | +08c
+        jsr     0x5e770.l                       | +092
+        bclr    #0x3,0x13(a6)                   | +098
+.L08678e:
+        cmpi.w  #0xc0,0x22(a6)                  | +09e
+        blt.w   .L08679e                        | +0a4
+        move.w  #0x140,0x66(a6)                 | +0a8
+.L08679e:
+        cmpi.w  #0x0,0x66(a6)                   | +0ae
+        bgt.w   .L0867bc                        | +0b4
+        lea     0xffff.w,a0                     | +0b8
+        move.l  a0,0x48(a6)                     | +0bc
+        move.b  #0xff,0x21(a6)                  | +0c0
+        lea     Fort_Destroyed_0867d4(pc),a1    | +0c6
+        move.l  a1,(a6)                         | +0ca
+.L0867bc:
+        jsr     0x4fa70.l                       | +0cc
+        bcc.w   .L0867d2                        | +0d2
+        move.b  #0xff,0x21(a6)                  | +0d6
+        jmp     0x518.l                         | +0dc
+.L0867d2:
+        rts                                     | +0e2
+
+| ----------------------------------------------------------------------------
+|  Fort_Destroyed_0867d4  @ $0867D4  (120 B)
+| ----------------------------------------------------------------------------
+        .section .text.Fort_Destroyed_0867d4, "ax", @progbits
+        .global Fort_Destroyed_0867d4
+Fort_Destroyed_0867d4:
         jsr     0x2783a.l                       | +000
         move.w  #0x1028,d0                      | +006
         jsr     0x2352.l                        | +00a
@@ -163,7 +192,7 @@ TaskHandler_0867d4:
         jsr     0x77c7e.l                       | +022
         lea     0x2ed04a.l,a1                   | +028
         jsr     0x77c7e.l                       | +02e
-        jsr     TaskHandler_088a28(pc)          | +034
+        jsr     Fort_BlitWreck_088a28(pc)       | +034
         movea.l 0x78(a6),a1                     | +038
         jsr     0x43fac.l                       | +03c
         jsr     0x434dc.l                       | +042
@@ -178,30 +207,30 @@ TaskHandler_0867d4:
         jsr     0x4429e.l                       | +072
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086854  @ $086854  (20 B)
+|  Fort_Idle_086854  @ $086854  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086854, "ax", @progbits
-        .global TaskHandler_086854
-TaskHandler_086854:
+        .section .text.Fort_Idle_086854, "ax", @progbits
+        .global Fort_Idle_086854
+Fort_Idle_086854:
         lea     0xffff.w,a0                     | +000
         move.l  a0,0x4c(a6)                     | +004
         jsr     0x283ca.l                       | +008
         jmp     0x518.l                         | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086868  @ $086868  (2 B)
+|  Rts_086868  @ $086868  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086868, "ax", @progbits
-        .global TaskHandler_086868
-TaskHandler_086868:
+        .section .text.Rts_086868, "ax", @progbits
+        .global Rts_086868
+Rts_086868:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08686a  @ $08686A  (314 B)
+|  Pillbox_Init_08686a  @ $08686A  (314 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08686a, "ax", @progbits
-        .global TaskHandler_08686a
-TaskHandler_08686a:
+        .section .text.Pillbox_Init_08686a, "ax", @progbits
+        .global Pillbox_Init_08686a
+Pillbox_Init_08686a:
         move.w  #0xe3,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0x0,0x21(a6)                   | +00a
@@ -210,20 +239,20 @@ TaskHandler_08686a:
         jsr     0x236e.l                        | +018
         move.b  #0x30,0x21(a6)                  | +01e
         bra.w   .L0868e2                        | +024
-        .global TaskHandler_08686a__L086892
-TaskHandler_08686a__L086892:
+        .global Pillbox_Init_08686a__L086892
+Pillbox_Init_08686a__L086892:
         move.w  #0xe3,d1                        | +028
         jsr     0x236e.l                        | +02c
         move.b  #0x60,0x21(a6)                  | +032
         bra.w   .L0868e2                        | +038
-        .global TaskHandler_08686a__L0868a6
-TaskHandler_08686a__L0868a6:
+        .global Pillbox_Init_08686a__L0868a6
+Pillbox_Init_08686a__L0868a6:
         move.w  #0xe3,d1                        | +03c
         jsr     0x236e.l                        | +040
         move.b  #0x1,0x21(a6)                   | +046
         bra.w   .L0868e2                        | +04c
-        .global TaskHandler_08686a__L0868ba
-TaskHandler_08686a__L0868ba:
+        .global Pillbox_Init_08686a__L0868ba
+Pillbox_Init_08686a__L0868ba:
         move.w  #0xe4,d1                        | +050
         jsr     0x236e.l                        | +054
         move.b  #0x31,0x21(a6)                  | +05a
@@ -267,11 +296,11 @@ TaskHandler_08686a__L0868ba:
         move.w  #0x108d,d0                      | +0fe
         jsr     0x2352.l                        | +102
         bclr    #0x3,0x13(a6)                   | +108
-        jsr     TaskHandler_08848c(pc)          | +10e
+        jsr     Entity_PropagateDamageToParent_08848c(pc) | +10e
 .L08697c:
         cmpi.w  #0x1e,0x66(a6)                  | +112
         bgt.w   .L0869a2                        | +118
-        lea     TaskHandler_0869a4(pc),a1       | +11c
+        lea     Pillbox_Damaged1_0869a4(pc),a1  | +11c
         move.l  a1,(a6)                         | +120
         bra.w   .L0869a2                        | +122
 .L086990:
@@ -282,11 +311,11 @@ TaskHandler_08686a__L0868ba:
         rts                                     | +138
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0869a4  @ $0869A4  (140 B)
+|  Pillbox_Damaged1_0869a4  @ $0869A4  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0869a4, "ax", @progbits
-        .global TaskHandler_0869a4
-TaskHandler_0869a4:
+        .section .text.Pillbox_Damaged1_0869a4, "ax", @progbits
+        .global Pillbox_Damaged1_0869a4
+Pillbox_Damaged1_0869a4:
         clr.l   d0                              | +000
         move.b  0x21(a6),d0                     | +002
         asr.l   #0x4,d0                         | +006
@@ -311,11 +340,11 @@ TaskHandler_0869a4:
         move.w  #0x108d,d0                      | +050
         jsr     0x2352.l                        | +054
         bclr    #0x3,0x13(a6)                   | +05a
-        jsr     TaskHandler_08848c(pc)          | +060
+        jsr     Entity_PropagateDamageToParent_08848c(pc) | +060
 .L086a08:
         cmpi.w  #0x1a,0x66(a6)                  | +064
         bgt.w   .L086a2e                        | +06a
-        lea     TaskHandler_086a30(pc),a1       | +06e
+        lea     Pillbox_Damaged2_086a30(pc),a1  | +06e
         move.l  a1,(a6)                         | +072
         bra.w   .L086a2e                        | +074
 .L086a1c:
@@ -326,11 +355,11 @@ TaskHandler_0869a4:
         rts                                     | +08a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086a30  @ $086A30  (140 B)
+|  Pillbox_Damaged2_086a30  @ $086A30  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086a30, "ax", @progbits
-        .global TaskHandler_086a30
-TaskHandler_086a30:
+        .section .text.Pillbox_Damaged2_086a30, "ax", @progbits
+        .global Pillbox_Damaged2_086a30
+Pillbox_Damaged2_086a30:
         clr.l   d0                              | +000
         move.b  0x21(a6),d0                     | +002
         asr.l   #0x4,d0                         | +006
@@ -355,11 +384,11 @@ TaskHandler_086a30:
         move.w  #0x108d,d0                      | +050
         jsr     0x2352.l                        | +054
         bclr    #0x3,0x13(a6)                   | +05a
-        jsr     TaskHandler_08848c(pc)          | +060
+        jsr     Entity_PropagateDamageToParent_08848c(pc) | +060
 .L086a94:
         cmpi.w  #0xd,0x66(a6)                   | +064
         bgt.w   .L086aba                        | +06a
-        lea     TaskHandler_086abc(pc),a1       | +06e
+        lea     Pillbox_Critical_086abc(pc),a1  | +06e
         move.l  a1,(a6)                         | +072
         bra.w   .L086aba                        | +074
 .L086aa8:
@@ -370,11 +399,11 @@ TaskHandler_086a30:
         rts                                     | +08a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086abc  @ $086ABC  (232 B)
+|  Pillbox_Critical_086abc  @ $086ABC  (232 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086abc, "ax", @progbits
-        .global TaskHandler_086abc
-TaskHandler_086abc:
+        .section .text.Pillbox_Critical_086abc, "ax", @progbits
+        .global Pillbox_Critical_086abc
+Pillbox_Critical_086abc:
         lea     .L086ac2(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L086ac2:
@@ -388,7 +417,7 @@ TaskHandler_086abc:
         move.w  #0x108d,d0                      | +02a
         jsr     0x2352.l                        | +02e
         bclr    #0x3,0x13(a6)                   | +034
-        jsr     TaskHandler_08848c(pc)          | +03a
+        jsr     Entity_PropagateDamageToParent_08848c(pc) | +03a
 .L086afa:
         jsr     0x28758.l                       | +03e
         bcc.w   .L086ba2                        | +044
@@ -397,7 +426,7 @@ TaskHandler_086abc:
         move.l  a0,0x48(a6)                     | +052
         btst    #0x0,0x21(a6)                   | +056
         beq.w   .L086b26                        | +05c
-        lea     TaskHandler_086ba4(pc),a1       | +060
+        lea     Pillbox_Collapse_086ba4(pc),a1  | +060
         move.l  a1,(a6)                         | +064
         bra.w   .L086ba2                        | +066
 .L086b26:
@@ -429,12 +458,12 @@ TaskHandler_086abc:
         rts                                     | +0e6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086ba4  @ $086BA4  (190 B)
+|  Pillbox_Collapse_086ba4  @ $086BA4  (190 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086ba4, "ax", @progbits
-        .global TaskHandler_086ba4
-TaskHandler_086ba4:
-        lea     TaskHandler_086c62(pc),a1       | +000
+        .section .text.Pillbox_Collapse_086ba4, "ax", @progbits
+        .global Pillbox_Collapse_086ba4
+Pillbox_Collapse_086ba4:
+        lea     Pillbox_Fragment_086c62(pc),a1  | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         lea     .L086bba(pc),a1                 | +010
@@ -477,11 +506,11 @@ TaskHandler_086ba4:
         rts                                     | +0bc
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086c62  @ $086C62  (110 B)
+|  Pillbox_Fragment_086c62  @ $086C62  (110 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086c62, "ax", @progbits
-        .global TaskHandler_086c62
-TaskHandler_086c62:
+        .section .text.Pillbox_Fragment_086c62, "ax", @progbits
+        .global Pillbox_Fragment_086c62
+Pillbox_Fragment_086c62:
         move.w  #0x6c,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0xff,0x32(a6)                  | +00a
@@ -509,35 +538,35 @@ TaskHandler_086c62:
         rts                                     | +06c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086cd0  @ $086CD0  (222 B)
+|  Crate_Init_086cd0  @ $086CD0  (222 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086cd0, "ax", @progbits
-        .global TaskHandler_086cd0
-TaskHandler_086cd0:
+        .section .text.Crate_Init_086cd0, "ax", @progbits
+        .global Crate_Init_086cd0
+Crate_Init_086cd0:
         move.w  #0xe7,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0x0,0x21(a6)                   | +00a
         bra.w   .L086d34                        | +010
-        .global TaskHandler_086cd0__L086ce4
-TaskHandler_086cd0__L086ce4:
+        .global Crate_Init_086cd0__L086ce4
+Crate_Init_086cd0__L086ce4:
         move.w  #0xe8,d1                        | +014
         jsr     0x236e.l                        | +018
         move.b  #0x1,0x21(a6)                   | +01e
         bra.w   .L086d34                        | +024
-        .global TaskHandler_086cd0__L086cf8
-TaskHandler_086cd0__L086cf8:
+        .global Crate_Init_086cd0__L086cf8
+Crate_Init_086cd0__L086cf8:
         move.w  #0xe9,d1                        | +028
         jsr     0x236e.l                        | +02c
         move.b  #0x2,0x21(a6)                   | +032
         bra.w   .L086d34                        | +038
-        .global TaskHandler_086cd0__L086d0c
-TaskHandler_086cd0__L086d0c:
+        .global Crate_Init_086cd0__L086d0c
+Crate_Init_086cd0__L086d0c:
         move.w  #0xea,d1                        | +03c
         jsr     0x236e.l                        | +040
         move.b  #0x3,0x21(a6)                   | +046
         bra.w   .L086d34                        | +04c
-        .global TaskHandler_086cd0__L086d20
-TaskHandler_086cd0__L086d20:
+        .global Crate_Init_086cd0__L086d20
+Crate_Init_086cd0__L086d20:
         move.w  #0xeb,d1                        | +050
         jsr     0x236e.l                        | +054
         move.b  #0x4,0x21(a6)                   | +05a
@@ -560,24 +589,24 @@ TaskHandler_086cd0__L086d20:
         lea     0x5e766.l,a0                    | +0a6
         jsr     0x5e770.l                       | +0ac
         bclr    #0x3,0x13(a6)                   | +0b2
-        jsr     TaskHandler_08848c(pc)          | +0b8
+        jsr     Entity_PropagateDamageToParent_08848c(pc) | +0b8
 .L086d8c:
         jsr     0x28758.l                       | +0bc
         bcc.w   JsrPcThunk_086dae               | +0c2
         lea     0xffff.w,a0                     | +0c6
         move.l  a0,0x48(a6)                     | +0ca
-        lea     TaskHandler_086db4(pc),a1       | +0ce
+        lea     Crate_Burst_086db4(pc),a1       | +0ce
         move.l  a1,(a6)                         | +0d2
         bra.w   JsrPcThunk_086dae               | +0d4
 .L086da8:
         jmp     0x518.l                         | +0d8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086db4  @ $086DB4  (150 B)
+|  Crate_Burst_086db4  @ $086DB4  (150 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086db4, "ax", @progbits
-        .global TaskHandler_086db4
-TaskHandler_086db4:
+        .section .text.Crate_Burst_086db4, "ax", @progbits
+        .global Crate_Burst_086db4
+Crate_Burst_086db4:
         move.l  #0x100,d0                       | +000
         jsr     0x51a28.l                       | +006
         move.w  #0x1039,d0                      | +00c
@@ -615,11 +644,11 @@ TaskHandler_086db4:
         rts                                     | +094
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086e4a  @ $086E4A  (282 B)
+|  Hatch_Init_086e4a  @ $086E4A  (282 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086e4a, "ax", @progbits
-        .global TaskHandler_086e4a
-TaskHandler_086e4a:
+        .section .text.Hatch_Init_086e4a, "ax", @progbits
+        .global Hatch_Init_086e4a
+Hatch_Init_086e4a:
         move.w  #0x30,0x70(a6)                  | +000
         move.b  #0x0,0x20(a6)                   | +006
         move.b  #0x1,0x21(a6)                   | +00c
@@ -627,9 +656,9 @@ TaskHandler_086e4a:
         move.l  a1,0x7c(a6)                     | +018
         lea     0xedcb2.l,a1                    | +01c
         move.l  a1,0x8c(a6)                     | +022
-        bra.w   TaskHandler_086f64              | +026
-        .global TaskHandler_086e4a__L086e74
-TaskHandler_086e4a__L086e74:
+        bra.w   Hatch_WaitClosed_086f64         | +026
+        .global Hatch_Init_086e4a__L086e74
+Hatch_Init_086e4a__L086e74:
         move.w  #0x30,0x70(a6)                  | +02a
         move.b  #0x1,0x20(a6)                   | +030
         move.b  #0x1,0x21(a6)                   | +036
@@ -637,9 +666,9 @@ TaskHandler_086e4a__L086e74:
         move.l  a1,0x7c(a6)                     | +042
         lea     0xedd0a.l,a1                    | +046
         move.l  a1,0x8c(a6)                     | +04c
-        bra.w   TaskHandler_086f64              | +050
-        .global TaskHandler_086e4a__L086e9e
-TaskHandler_086e4a__L086e9e:
+        bra.w   Hatch_WaitClosed_086f64         | +050
+        .global Hatch_Init_086e4a__L086e9e
+Hatch_Init_086e4a__L086e9e:
         move.w  #0x30,0x70(a6)                  | +054
         move.b  #0x2,0x20(a6)                   | +05a
         move.b  #0x1,0x21(a6)                   | +060
@@ -647,9 +676,9 @@ TaskHandler_086e4a__L086e9e:
         move.l  a1,0x7c(a6)                     | +06c
         lea     0xedd86.l,a1                    | +070
         move.l  a1,0x8c(a6)                     | +076
-        bra.w   TaskHandler_086f64              | +07a
-        .global TaskHandler_086e4a__L086ec8
-TaskHandler_086e4a__L086ec8:
+        bra.w   Hatch_WaitClosed_086f64         | +07a
+        .global Hatch_Init_086e4a__L086ec8
+Hatch_Init_086e4a__L086ec8:
         move.w  #0x20,0x70(a6)                  | +07e
         move.b  #0x3,0x20(a6)                   | +084
         move.b  #0x1,0x21(a6)                   | +08a
@@ -657,9 +686,9 @@ TaskHandler_086e4a__L086ec8:
         move.l  a1,0x7c(a6)                     | +096
         lea     0xede02.l,a1                    | +09a
         move.l  a1,0x8c(a6)                     | +0a0
-        bra.w   TaskHandler_086f64              | +0a4
-        .global TaskHandler_086e4a__L086ef2
-TaskHandler_086e4a__L086ef2:
+        bra.w   Hatch_WaitClosed_086f64         | +0a4
+        .global Hatch_Init_086e4a__L086ef2
+Hatch_Init_086e4a__L086ef2:
         move.w  #0x20,0x70(a6)                  | +0a8
         move.b  #0x4,0x20(a6)                   | +0ae
         move.b  #0x1,0x21(a6)                   | +0b4
@@ -667,28 +696,28 @@ TaskHandler_086e4a__L086ef2:
         move.l  a1,0x7c(a6)                     | +0c0
         lea     0xede7e.l,a1                    | +0c4
         move.l  a1,0x8c(a6)                     | +0ca
-        bra.w   TaskHandler_086f64              | +0ce
+        bra.w   Hatch_WaitClosed_086f64         | +0ce
         movea.l 0x3c(a6),a1                     | +0d2
         jsr     0x2942a.l                       | +0d6
         move.w  #0x30,0x70(a6)                  | +0dc
         move.b  #0x5,0x20(a6)                   | +0e2
         lea     0xedf72.l,a1                    | +0e8
         move.l  a1,0x7c(a6)                     | +0ee
-        bra.w   TaskHandler_086f64              | +0f2
+        bra.w   Hatch_WaitClosed_086f64         | +0f2
         movea.l 0x3c(a6),a1                     | +0f6
         jsr     0x2942a.l                       | +0fa
         move.w  #0x30,0x70(a6)                  | +100
         move.b  #0x6,0x20(a6)                   | +106
         lea     0xedfaa.l,a1                    | +10c
         move.l  a1,0x7c(a6)                     | +112
-        bra.w   TaskHandler_086f64              | +116
+        bra.w   Hatch_WaitClosed_086f64         | +116
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086f64  @ $086F64  (80 B)
+|  Hatch_WaitClosed_086f64  @ $086F64  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086f64, "ax", @progbits
-        .global TaskHandler_086f64
-TaskHandler_086f64:
+        .section .text.Hatch_WaitClosed_086f64, "ax", @progbits
+        .global Hatch_WaitClosed_086f64
+Hatch_WaitClosed_086f64:
         move.w  #0x5a,0x72(a6)                  | +000
         lea     .L086f70(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -696,7 +725,7 @@ TaskHandler_086f64:
         jsr     0x2783a.l                       | +00c
         subq.w  #0x1,0x72(a6)                   | +012
         bne.w   .L086f84                        | +016
-        lea     TaskHandler_086fb4(pc),a1       | +01a
+        lea     Hatch_Opening_086fb4(pc),a1     | +01a
         move.l  a1,(a6)                         | +01e
 .L086f84:
         cmpi.b  #0x1,0x21(a6)                   | +020
@@ -704,7 +733,7 @@ TaskHandler_086f64:
         movea.l 0xc(a6),a0                      | +02a
         cmpi.b  #0xff,0x21(a0)                  | +02e
         bne.w   .L086fa2                        | +034
-        lea     TaskHandler_087108(pc),a1       | +038
+        lea     Hatch_FinalOpen_087108(pc),a1   | +038
         move.l  a1,(a6)                         | +03c
 .L086fa2:
         jsr     0x4fa70.l                       | +03e
@@ -714,11 +743,11 @@ TaskHandler_086f64:
         rts                                     | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_086fb4  @ $086FB4  (80 B)
+|  Hatch_Opening_086fb4  @ $086FB4  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_086fb4, "ax", @progbits
-        .global TaskHandler_086fb4
-TaskHandler_086fb4:
+        .section .text.Hatch_Opening_086fb4, "ax", @progbits
+        .global Hatch_Opening_086fb4
+Hatch_Opening_086fb4:
         clr.l   d0                              | +000
         move.b  0x20(a6),d0                     | +002
         movea.l #0x2ebfae,a0                    | +006
@@ -734,7 +763,7 @@ TaskHandler_086fb4:
         jsr     0x2783a.l                       | +028
         jsr     0x28d70.l                       | +02e
         bcc.w   .L086ff2                        | +034
-        lea     TaskHandler_087004(pc),a1       | +038
+        lea     Hatch_SpawnTroops_087004(pc),a1 | +038
         move.l  a1,(a6)                         | +03c
 .L086ff2:
         jsr     0x4fa70.l                       | +03e
@@ -744,11 +773,11 @@ TaskHandler_086fb4:
         rts                                     | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087004  @ $087004  (100 B)
+|  Hatch_SpawnTroops_087004  @ $087004  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087004, "ax", @progbits
-        .global TaskHandler_087004
-TaskHandler_087004:
+        .section .text.Hatch_SpawnTroops_087004, "ax", @progbits
+        .global Hatch_SpawnTroops_087004
+Hatch_SpawnTroops_087004:
         move.w  #0x28,0x72(a6)                  | +000
         movea.l 0x7c(a6),a1                     | +006
         move.w  #0x82,d0                        | +00a
@@ -760,7 +789,7 @@ TaskHandler_087004:
         jsr     0x2783a.l                       | +020
         jsr     Entity_CmpPrioWithSibling_086552(pc) | +026
         bcs.w   .L087038                        | +02a
-        lea     TaskHandler_087068(pc),a1       | +02e
+        lea     Hatch_WaitOpen_087068(pc),a1    | +02e
         move.l  a1,(a6)                         | +032
 .L087038:
         cmpi.b  #0x1,0x21(a6)                   | +034
@@ -768,7 +797,7 @@ TaskHandler_087004:
         movea.l 0xc(a6),a0                      | +03e
         cmpi.b  #0xff,0x21(a0)                  | +042
         bne.w   .L087056                        | +048
-        lea     TaskHandler_087130(pc),a1       | +04c
+        lea     Hatch_FinalSpawn_087130(pc),a1  | +04c
         move.l  a1,(a6)                         | +050
 .L087056:
         jsr     0x4fa70.l                       | +052
@@ -778,11 +807,11 @@ TaskHandler_087004:
         rts                                     | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087068  @ $087068  (80 B)
+|  Hatch_WaitOpen_087068  @ $087068  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087068, "ax", @progbits
-        .global TaskHandler_087068
-TaskHandler_087068:
+        .section .text.Hatch_WaitOpen_087068, "ax", @progbits
+        .global Hatch_WaitOpen_087068
+Hatch_WaitOpen_087068:
         move.w  #0x50,0x72(a6)                  | +000
         lea     .L087074(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -790,7 +819,7 @@ TaskHandler_087068:
         jsr     0x2783a.l                       | +00c
         subq.w  #0x1,0x72(a6)                   | +012
         bne.w   .L087088                        | +016
-        lea     TaskHandler_0870b8(pc),a1       | +01a
+        lea     Hatch_Closing_0870b8(pc),a1     | +01a
         move.l  a1,(a6)                         | +01e
 .L087088:
         cmpi.b  #0x1,0x21(a6)                   | +020
@@ -798,7 +827,7 @@ TaskHandler_087068:
         movea.l 0xc(a6),a0                      | +02a
         cmpi.b  #0xff,0x21(a0)                  | +02e
         bne.w   .L0870a6                        | +034
-        lea     TaskHandler_087130(pc),a1       | +038
+        lea     Hatch_FinalSpawn_087130(pc),a1  | +038
         move.l  a1,(a6)                         | +03c
 .L0870a6:
         jsr     0x4fa70.l                       | +03e
@@ -808,11 +837,11 @@ TaskHandler_087068:
         rts                                     | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0870b8  @ $0870B8  (80 B)
+|  Hatch_Closing_0870b8  @ $0870B8  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0870b8, "ax", @progbits
-        .global TaskHandler_0870b8
-TaskHandler_0870b8:
+        .section .text.Hatch_Closing_0870b8, "ax", @progbits
+        .global Hatch_Closing_0870b8
+Hatch_Closing_0870b8:
         clr.l   d0                              | +000
         move.b  0x20(a6),d0                     | +002
         movea.l #0x2ebfca,a0                    | +006
@@ -828,7 +857,7 @@ TaskHandler_0870b8:
         jsr     0x2783a.l                       | +028
         jsr     0x28d70.l                       | +02e
         bcc.w   .L0870f6                        | +034
-        lea     TaskHandler_086f64(pc),a1       | +038
+        lea     Hatch_WaitClosed_086f64(pc),a1  | +038
         move.l  a1,(a6)                         | +03c
 .L0870f6:
         jsr     0x4fa70.l                       | +03e
@@ -838,11 +867,11 @@ TaskHandler_0870b8:
         rts                                     | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087108  @ $087108  (40 B)
+|  Hatch_FinalOpen_087108  @ $087108  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087108, "ax", @progbits
-        .global TaskHandler_087108
-TaskHandler_087108:
+        .section .text.Hatch_FinalOpen_087108, "ax", @progbits
+        .global Hatch_FinalOpen_087108
+Hatch_FinalOpen_087108:
         clr.l   d0                              | +000
         move.b  0x20(a6),d0                     | +002
         movea.l #0x2ebfae,a0                    | +006
@@ -852,15 +881,15 @@ TaskHandler_087108:
         beq.w   .L08712a                        | +018
         jsr     0x28cd4.l                       | +01c
 .L08712a:
-        lea     TaskHandler_087130(pc),a1       | +022
+        lea     Hatch_FinalSpawn_087130(pc),a1  | +022
         move.l  a1,(a6)                         | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087130  @ $087130  (58 B)
+|  Hatch_FinalSpawn_087130  @ $087130  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087130, "ax", @progbits
-        .global TaskHandler_087130
-TaskHandler_087130:
+        .section .text.Hatch_FinalSpawn_087130, "ax", @progbits
+        .global Hatch_FinalSpawn_087130
+Hatch_FinalSpawn_087130:
         jsr     0x2783a.l                       | +000
         jsr     0x28d70.l                       | +006
         bcc.w   .L087158                        | +00c
@@ -878,11 +907,11 @@ TaskHandler_087130:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08716a  @ $08716A  (144 B)
+|  Prop_Breakable_A_08716a  @ $08716A  (144 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08716a, "ax", @progbits
-        .global TaskHandler_08716a
-TaskHandler_08716a:
+        .section .text.Prop_Breakable_A_08716a, "ax", @progbits
+        .global Prop_Breakable_A_08716a
+Prop_Breakable_A_08716a:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x20,0x70(a6)                  | +00a
@@ -918,11 +947,11 @@ TaskHandler_08716a:
         rts                                     | +08e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0871fa  @ $0871FA  (134 B)
+|  Prop_Breakable_B_0871fa  @ $0871FA  (134 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0871fa, "ax", @progbits
-        .global TaskHandler_0871fa
-TaskHandler_0871fa:
+        .section .text.Prop_Breakable_B_0871fa, "ax", @progbits
+        .global Prop_Breakable_B_0871fa
+Prop_Breakable_B_0871fa:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x20,0x70(a6)                  | +00a
@@ -956,11 +985,11 @@ TaskHandler_0871fa:
         rts                                     | +084
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087280  @ $087280  (122 B)
+|  Prop_Breakable_C_087280  @ $087280  (122 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087280, "ax", @progbits
-        .global TaskHandler_087280
-TaskHandler_087280:
+        .section .text.Prop_Breakable_C_087280, "ax", @progbits
+        .global Prop_Breakable_C_087280
+Prop_Breakable_C_087280:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x20,0x70(a6)                  | +00a
@@ -992,11 +1021,11 @@ TaskHandler_087280:
         rts                                     | +078
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0872fa  @ $0872FA  (108 B)
+|  Prop_Signboard_0872fa  @ $0872FA  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0872fa, "ax", @progbits
-        .global TaskHandler_0872fa
-TaskHandler_0872fa:
+        .section .text.Prop_Signboard_0872fa, "ax", @progbits
+        .global Prop_Signboard_0872fa
+Prop_Signboard_0872fa:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x20,0x70(a6)                  | +00a
@@ -1023,87 +1052,87 @@ TaskHandler_0872fa:
         rts                                     | +06a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087366  @ $087366  (338 B)
+|  CrateWall_Spawn13_087366  @ $087366  (338 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087366, "ax", @progbits
-        .global TaskHandler_087366
-TaskHandler_087366:
+        .section .text.CrateWall_Spawn13_087366, "ax", @progbits
+        .global CrateWall_Spawn13_087366
+CrateWall_Spawn13_087366:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        lea     TaskHandler_0874ba(pc),a1       | +00a
+        lea     CrateWall_Piece00_0874ba(pc),a1 | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd22.l                       | +014
         subi.w  #0x10,0x22(a0)                  | +01a
         addi.w  #0x40,0x24(a0)                  | +020
-        lea     TaskHandler_0874ea(pc),a1       | +026
+        lea     CrateWall_Piece01_0874ea(pc),a1 | +026
         jsr     0x4ae.l                         | +02a
         jsr     0x5dd22.l                       | +030
         addi.w  #0x10,0x22(a0)                  | +036
         addi.w  #0xa0,0x24(a0)                  | +03c
-        lea     TaskHandler_08751c(pc),a1       | +042
+        lea     CrateWall_Piece02_08751c(pc),a1 | +042
         jsr     0x4ae.l                         | +046
         jsr     0x5dd22.l                       | +04c
         addi.w  #0x50,0x22(a0)                  | +052
         addi.w  #0xa0,0x24(a0)                  | +058
-        lea     TaskHandler_08754e(pc),a1       | +05e
+        lea     CrateWall_Piece03_08754e(pc),a1 | +05e
         jsr     0x4ae.l                         | +062
         jsr     0x5dd22.l                       | +068
         addi.w  #0x80,0x22(a0)                  | +06e
         addi.w  #0xa0,0x24(a0)                  | +074
-        lea     TaskHandler_087580(pc),a1       | +07a
+        lea     CrateWall_Piece04_087580(pc),a1 | +07a
         jsr     0x4ae.l                         | +07e
         jsr     0x5dd22.l                       | +084
         addi.w  #0x10,0x22(a0)                  | +08a
         addi.w  #0x80,0x24(a0)                  | +090
-        lea     TaskHandler_0875b0(pc),a1       | +096
+        lea     CrateWall_Piece05_0875b0(pc),a1 | +096
         jsr     0x4ae.l                         | +09a
         jsr     0x5dd22.l                       | +0a0
         addi.w  #0x60,0x22(a0)                  | +0a6
         addi.w  #0x80,0x24(a0)                  | +0ac
-        lea     TaskHandler_0875e0(pc),a1       | +0b2
+        lea     CrateWall_Piece06_0875e0(pc),a1 | +0b2
         jsr     0x4ae.l                         | +0b6
         jsr     0x5dd22.l                       | +0bc
         addi.w  #0x50,0x22(a0)                  | +0c2
         addi.w  #0x50,0x24(a0)                  | +0c8
-        lea     TaskHandler_087610(pc),a1       | +0ce
+        lea     CrateWall_Piece07_087610(pc),a1 | +0ce
         jsr     0x4ae.l                         | +0d2
         jsr     0x5dd22.l                       | +0d8
-        lea     TaskHandler_087640(pc),a1       | +0de
+        lea     CrateWall_Piece08_087640(pc),a1 | +0de
         jsr     0x4ae.l                         | +0e2
         jsr     0x5dd22.l                       | +0e8
         addi.w  #0x20,0x22(a0)                  | +0ee
-        lea     TaskHandler_087670(pc),a1       | +0f4
+        lea     CrateWall_Piece09_087670(pc),a1 | +0f4
         jsr     0x4ae.l                         | +0f8
         jsr     0x5dd22.l                       | +0fe
         addi.w  #0x40,0x22(a0)                  | +104
-        lea     TaskHandler_0876a0(pc),a1       | +10a
+        lea     CrateWall_Piece10_0876a0(pc),a1 | +10a
         jsr     0x4ae.l                         | +10e
         jsr     0x5dd22.l                       | +114
         addi.w  #0x60,0x22(a0)                  | +11a
-        lea     TaskHandler_0876d0(pc),a1       | +120
+        lea     CrateWall_Piece11_0876d0(pc),a1 | +120
         jsr     0x4ae.l                         | +124
         jsr     0x5dd22.l                       | +12a
         addi.w  #0x80,0x22(a0)                  | +130
-        lea     TaskHandler_087700(pc),a1       | +136
+        lea     CrateWall_Piece12_087700(pc),a1 | +136
         jsr     0x4ae.l                         | +13a
         jsr     0x5dd22.l                       | +140
         addi.w  #0xa0,0x22(a0)                  | +146
         jmp     0x518.l                         | +14c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0874b8  @ $0874B8  (2 B)
+|  Rts_0874b8  @ $0874B8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0874b8, "ax", @progbits
-        .global TaskHandler_0874b8
-TaskHandler_0874b8:
+        .section .text.Rts_0874b8, "ax", @progbits
+        .global Rts_0874b8
+Rts_0874b8:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0874ba  @ $0874BA  (48 B)
+|  CrateWall_Piece00_0874ba  @ $0874BA  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0874ba, "ax", @progbits
-        .global TaskHandler_0874ba
-TaskHandler_0874ba:
+        .section .text.CrateWall_Piece00_0874ba, "ax", @progbits
+        .global CrateWall_Piece00_0874ba
+CrateWall_Piece00_0874ba:
         lea     0x2ed990.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1112,14 +1141,14 @@ TaskHandler_0874ba:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ecfde.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0874ea  @ $0874EA  (50 B)
+|  CrateWall_Piece01_0874ea  @ $0874EA  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0874ea, "ax", @progbits
-        .global TaskHandler_0874ea
-TaskHandler_0874ea:
+        .section .text.CrateWall_Piece01_0874ea, "ax", @progbits
+        .global CrateWall_Piece01_0874ea
+CrateWall_Piece01_0874ea:
         lea     0x2ed9a4.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         lea     0xedfe2.l,a1                    | +00a
@@ -1129,14 +1158,14 @@ TaskHandler_0874ea:
         move.l  a0,0x48(a6)                     | +020
         lea     0x2ecff0.l,a1                   | +024
         move.l  a1,0x88(a6)                     | +02a
-        bra.w   TaskHandler_087700__L087730     | +02e
+        bra.w   CrateWall_Piece12_087700__L087730 | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08751c  @ $08751C  (50 B)
+|  CrateWall_Piece02_08751c  @ $08751C  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08751c, "ax", @progbits
-        .global TaskHandler_08751c
-TaskHandler_08751c:
+        .section .text.CrateWall_Piece02_08751c, "ax", @progbits
+        .global CrateWall_Piece02_08751c
+CrateWall_Piece02_08751c:
         lea     0x2ed9b8.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         lea     0xee002.l,a1                    | +00a
@@ -1146,14 +1175,14 @@ TaskHandler_08751c:
         move.l  a0,0x48(a6)                     | +020
         lea     0x2ecfde.l,a1                   | +024
         move.l  a1,0x88(a6)                     | +02a
-        bra.w   TaskHandler_087700__L087730     | +02e
+        bra.w   CrateWall_Piece12_087700__L087730 | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08754e  @ $08754E  (50 B)
+|  CrateWall_Piece03_08754e  @ $08754E  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08754e, "ax", @progbits
-        .global TaskHandler_08754e
-TaskHandler_08754e:
+        .section .text.CrateWall_Piece03_08754e, "ax", @progbits
+        .global CrateWall_Piece03_08754e
+CrateWall_Piece03_08754e:
         lea     0x2ed9cc.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         lea     0xee022.l,a1                    | +00a
@@ -1163,14 +1192,14 @@ TaskHandler_08754e:
         move.l  a0,0x48(a6)                     | +020
         lea     0x2ecfde.l,a1                   | +024
         move.l  a1,0x88(a6)                     | +02a
-        bra.w   TaskHandler_087700__L087730     | +02e
+        bra.w   CrateWall_Piece12_087700__L087730 | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087580  @ $087580  (48 B)
+|  CrateWall_Piece04_087580  @ $087580  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087580, "ax", @progbits
-        .global TaskHandler_087580
-TaskHandler_087580:
+        .section .text.CrateWall_Piece04_087580, "ax", @progbits
+        .global CrateWall_Piece04_087580
+CrateWall_Piece04_087580:
         lea     0x2eda80.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1179,14 +1208,14 @@ TaskHandler_087580:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed002.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0875b0  @ $0875B0  (48 B)
+|  CrateWall_Piece05_0875b0  @ $0875B0  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0875b0, "ax", @progbits
-        .global TaskHandler_0875b0
-TaskHandler_0875b0:
+        .section .text.CrateWall_Piece05_0875b0, "ax", @progbits
+        .global CrateWall_Piece05_0875b0
+CrateWall_Piece05_0875b0:
         lea     0x2eda94.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1195,14 +1224,14 @@ TaskHandler_0875b0:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed002.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0875e0  @ $0875E0  (48 B)
+|  CrateWall_Piece06_0875e0  @ $0875E0  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0875e0, "ax", @progbits
-        .global TaskHandler_0875e0
-TaskHandler_0875e0:
+        .section .text.CrateWall_Piece06_0875e0, "ax", @progbits
+        .global CrateWall_Piece06_0875e0
+CrateWall_Piece06_0875e0:
         lea     0x2ed9e0.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1211,14 +1240,14 @@ TaskHandler_0875e0:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed014.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087610  @ $087610  (48 B)
+|  CrateWall_Piece07_087610  @ $087610  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087610, "ax", @progbits
-        .global TaskHandler_087610
-TaskHandler_087610:
+        .section .text.CrateWall_Piece07_087610, "ax", @progbits
+        .global CrateWall_Piece07_087610
+CrateWall_Piece07_087610:
         lea     0x2ed9f4.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1227,14 +1256,14 @@ TaskHandler_087610:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed026.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087640  @ $087640  (48 B)
+|  CrateWall_Piece08_087640  @ $087640  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087640, "ax", @progbits
-        .global TaskHandler_087640
-TaskHandler_087640:
+        .section .text.CrateWall_Piece08_087640, "ax", @progbits
+        .global CrateWall_Piece08_087640
+CrateWall_Piece08_087640:
         lea     0x2eda08.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1243,14 +1272,14 @@ TaskHandler_087640:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087670  @ $087670  (48 B)
+|  CrateWall_Piece09_087670  @ $087670  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087670, "ax", @progbits
-        .global TaskHandler_087670
-TaskHandler_087670:
+        .section .text.CrateWall_Piece09_087670, "ax", @progbits
+        .global CrateWall_Piece09_087670
+CrateWall_Piece09_087670:
         lea     0x2eda1c.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1259,14 +1288,14 @@ TaskHandler_087670:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0876a0  @ $0876A0  (48 B)
+|  CrateWall_Piece10_0876a0  @ $0876A0  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0876a0, "ax", @progbits
-        .global TaskHandler_0876a0
-TaskHandler_0876a0:
+        .section .text.CrateWall_Piece10_0876a0, "ax", @progbits
+        .global CrateWall_Piece10_0876a0
+CrateWall_Piece10_0876a0:
         lea     0x2eda30.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1275,14 +1304,14 @@ TaskHandler_0876a0:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0876d0  @ $0876D0  (48 B)
+|  CrateWall_Piece11_0876d0  @ $0876D0  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0876d0, "ax", @progbits
-        .global TaskHandler_0876d0
-TaskHandler_0876d0:
+        .section .text.CrateWall_Piece11_0876d0, "ax", @progbits
+        .global CrateWall_Piece11_0876d0
+CrateWall_Piece11_0876d0:
         lea     0x2eda44.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1291,14 +1320,14 @@ TaskHandler_0876d0:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087700  @ $087700  (206 B)
+|  CrateWall_Piece12_087700  @ $087700  (206 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087700, "ax", @progbits
-        .global TaskHandler_087700
-TaskHandler_087700:
+        .section .text.CrateWall_Piece12_087700, "ax", @progbits
+        .global CrateWall_Piece12_087700
+CrateWall_Piece12_087700:
         lea     0x2eda58.l,a1                   | +000
         move.l  a1,0x74(a6)                     | +006
         move.l  #0xffffffff,0x7c(a6)            | +00a
@@ -1307,9 +1336,9 @@ TaskHandler_087700:
         move.l  a0,0x48(a6)                     | +01e
         lea     0x2ed038.l,a1                   | +022
         move.l  a1,0x88(a6)                     | +028
-        bra.w   TaskHandler_087700__L087730     | +02c
-        .global TaskHandler_087700__L087730
-TaskHandler_087700__L087730:
+        bra.w   CrateWall_Piece12_087700__L087730 | +02c
+        .global CrateWall_Piece12_087700__L087730
+CrateWall_Piece12_087700__L087730:
         move.w  #0x30,0x70(a6)                  | +030
         move.w  #0x14,0x66(a6)                  | +036
         move.l  0x48(a6),0x84(a6)               | +03c
@@ -1347,11 +1376,11 @@ TaskHandler_087700__L087730:
         jmp     0x518.l                         | +0c8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0877d4  @ $0877D4  (106 B)
+|  ArmoredCar_Init_0877d4  @ $0877D4  (106 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0877d4, "ax", @progbits
-        .global TaskHandler_0877d4
-TaskHandler_0877d4:
+        .section .text.ArmoredCar_Init_0877d4, "ax", @progbits
+        .global ArmoredCar_Init_0877d4
+ArmoredCar_Init_0877d4:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0xe5,d1                        | +00a
@@ -1363,23 +1392,23 @@ TaskHandler_0877d4:
         move.w  #0x0,0x38(a6)                   | +02c
         lea     0x2ec180.l,a0                   | +032
         jsr     0x28cd4.l                       | +038
-        lea     TaskHandler_087aa0(pc),a1       | +03e
+        lea     ArmoredCar_Turret_087aa0(pc),a1 | +03e
         jsr     0x4ae.l                         | +042
         jsr     0x5dd22.l                       | +048
         lea     .L087828(pc),a1                 | +04e
         move.l  a1,(a6)                         | +052
 .L087828:
         cmpi.w  #0x100,0x22(a6)                 | +054
-        blt.w   TaskHandler_087846              | +05a
+        blt.w   ArmoredCar_Engage_087846        | +05a
         clr.b   0x10e39a.l                      | +05e
         jsr     0x2783a.l                       | +064
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087846  @ $087846  (146 B)
+|  ArmoredCar_Engage_087846  @ $087846  (146 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087846, "ax", @progbits
-        .global TaskHandler_087846
-TaskHandler_087846:
+        .section .text.ArmoredCar_Engage_087846, "ax", @progbits
+        .global ArmoredCar_Engage_087846
+ArmoredCar_Engage_087846:
         bclr    #0x3,0x13(a6)                   | +000
         bclr    #0x0,0x13(a6)                   | +006
         lea     0x2c0628.l,a0                   | +00c
@@ -1404,7 +1433,7 @@ TaskHandler_087846:
         bgt.w   .L0878c6                        | +06a
         lea     0x2ed0c0.l,a1                   | +06e
         jsr     0x77c7e.l                       | +074
-        lea     TaskHandler_0878d8(pc),a1       | +07a
+        lea     ArmoredCar_Damaged1_0878d8(pc),a1 | +07a
         move.l  a1,(a6)                         | +07e
 .L0878c6:
         jsr     0x4fa70.l                       | +080
@@ -1414,11 +1443,11 @@ TaskHandler_087846:
         rts                                     | +090
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0878d8  @ $0878D8  (126 B)
+|  ArmoredCar_Damaged1_0878d8  @ $0878D8  (126 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0878d8, "ax", @progbits
-        .global TaskHandler_0878d8
-TaskHandler_0878d8:
+        .section .text.ArmoredCar_Damaged1_0878d8, "ax", @progbits
+        .global ArmoredCar_Damaged1_0878d8
+ArmoredCar_Damaged1_0878d8:
         move.w  #0x102b,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x2ec19a.l,a0                   | +00a
@@ -1440,7 +1469,7 @@ TaskHandler_0878d8:
         bgt.w   .L087944                        | +056
         lea     0x2ed0d2.l,a1                   | +05a
         jsr     0x77c7e.l                       | +060
-        lea     TaskHandler_087956(pc),a1       | +066
+        lea     ArmoredCar_Damaged2_087956(pc),a1 | +066
         move.l  a1,(a6)                         | +06a
 .L087944:
         jsr     0x4fa70.l                       | +06c
@@ -1450,11 +1479,11 @@ TaskHandler_0878d8:
         rts                                     | +07c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087956  @ $087956  (194 B)
+|  ArmoredCar_Damaged2_087956  @ $087956  (194 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087956, "ax", @progbits
-        .global TaskHandler_087956
-TaskHandler_087956:
+        .section .text.ArmoredCar_Damaged2_087956, "ax", @progbits
+        .global ArmoredCar_Damaged2_087956
+ArmoredCar_Damaged2_087956:
         move.w  #0x102b,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x2ec1ae.l,a0                   | +00a
@@ -1485,10 +1514,10 @@ TaskHandler_087956:
         lea     0x2edd68.l,a1                   | +088
         jsr     0x43fac.l                       | +08e
         jsr     0x434dc.l                       | +094
-        lea     TaskHandler_087a62(pc),a1       | +09a
+        lea     ArmoredCar_BlastBox_087a62(pc),a1 | +09a
         jsr     0x4ae.l                         | +09e
         jsr     0x5dd02.l                       | +0a4
-        lea     TaskHandler_087a18(pc),a1       | +0aa
+        lea     ArmoredCar_Wreck_087a18(pc),a1  | +0aa
         move.l  a1,(a6)                         | +0ae
 .L087a06:
         jsr     0x4fa70.l                       | +0b0
@@ -1498,11 +1527,11 @@ TaskHandler_087956:
         rts                                     | +0c0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087a18  @ $087A18  (74 B)
+|  ArmoredCar_Wreck_087a18  @ $087A18  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087a18, "ax", @progbits
-        .global TaskHandler_087a18
-TaskHandler_087a18:
+        .section .text.ArmoredCar_Wreck_087a18, "ax", @progbits
+        .global ArmoredCar_Wreck_087a18
+ArmoredCar_Wreck_087a18:
         move.l  #0x5000,d0                      | +000
         jsr     0x51a28.l                       | +006
         lea     0xffff.w,a0                     | +00c
@@ -1522,11 +1551,11 @@ TaskHandler_087a18:
         rts                                     | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087a62  @ $087A62  (62 B)
+|  ArmoredCar_BlastBox_087a62  @ $087A62  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087a62, "ax", @progbits
-        .global TaskHandler_087a62
-TaskHandler_087a62:
+        .section .text.ArmoredCar_BlastBox_087a62, "ax", @progbits
+        .global ArmoredCar_BlastBox_087a62
+ArmoredCar_BlastBox_087a62:
         move.w  #0x10,0x72(a6)                  | +000
         lea     .L087a6e(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -1544,11 +1573,11 @@ TaskHandler_087a62:
         rts                                     | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087aa0  @ $087AA0  (124 B)
+|  ArmoredCar_Turret_087aa0  @ $087AA0  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087aa0, "ax", @progbits
-        .global TaskHandler_087aa0
-TaskHandler_087aa0:
+        .section .text.ArmoredCar_Turret_087aa0, "ax", @progbits
+        .global ArmoredCar_Turret_087aa0
+ArmoredCar_Turret_087aa0:
         move.w  #0xe5,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0xff,0x32(a6)                  | +00a
@@ -1582,71 +1611,78 @@ TaskHandler_087aa0:
         rts                                     | +07a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087b1c  @ $087B1C  (262 B)
+|  Heli_Init_087b1c  @ $087B1C  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087b1c, "ax", @progbits
-        .global TaskHandler_087b1c
-TaskHandler_087b1c:
+        .section .text.Heli_Init_087b1c, "ax", @progbits
+        .global Heli_Init_087b1c
+Heli_Init_087b1c:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        jsr     0x2783a.l                       | +00a
-        move.w  #0x86,d1                        | +010
-        jsr     0x236e.l                        | +014
-        move.w  #0x87,d1                        | +01a
-        jsr     0x236e.l                        | +01e
-        move.b  #0xff,0x32(a6)                  | +024
-        move.b  #0xff,0x33(a6)                  | +02a
-        move.b  #0x0,0x3a(a6)                   | +030
-        move.w  #0x50,0x70(a6)                  | +036
-        lea     0x2c05a6.l,a0                   | +03c
-        jsr     0x799de.l                       | +042
-        move.w  d0,0x66(a6)                     | +048
-        addi.w  #0x17c,0x66(a6)                 | +04c
-        move.w  #0x0,0x72(a6)                   | +052
-        move.b  #0x0,0x20(a6)                   | +058
-        move.w  #0x2000,0x38(a6)                | +05e
-        lea     0x2ec226.l,a0                   | +064
-        jsr     0x28cd4.l                       | +06a
-        lea     TaskHandler_087eae(pc),a1       | +070
-        jsr     0x4ae.l                         | +074
-        jsr     0x5dd22.l                       | +07a
-        lea     0x2edd7e.l,a1                   | +080
-        jsr     0x43fac.l                       | +086
-        move.l  #0x2eddfa,0x60(a6)              | +08c
-        lea     .L087bb6(pc),a1                 | +094
-        move.l  a1,(a6)                         | +098
-.L087bb6:
-        jsr     0x28998.l                       | +09a
-        jsr     0x2783a.l                       | +0a0
-        jsr     Sub_000883EC(pc)                | +0a6
-        jsr     0x28d70.l                       | +0aa
-        jsr     0x2870a.l                       | +0b0
-        bcc.w   .L087bee                        | +0b6
-        lea     0x5e766.l,a0                    | +0ba
-        jsr     0x5e770.l                       | +0c0
-        bclr    #0x3,0x13(a6)                   | +0c6
-        move.w  #0xf,0x72(a6)                   | +0cc
-.L087bee:
-        bclr    #0x0,0x13(a6)                   | +0d2
-        move.w  #0x17c,0x66(a6)                 | +0d8
-        cmpi.w  #0x100,0x22(a6)                 | +0de
-        bgt.w   .L087c0a                        | +0e4
-        lea     TaskHandler_087c22(pc),a1       | +0e8
-        move.l  a1,(a6)                         | +0ec
-.L087c0a:
-        jsr     0x4fa70.l                       | +0ee
-        bcc.w   .L087c20                        | +0f4
-        move.b  #0xff,0x20(a6)                  | +0f8
-        jmp     0x518.l                         | +0fe
-.L087c20:
-        rts                                     | +104
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087c22  @ $087C22  (120 B)
+|  Heli_InitTmpl_087b26  @ $087B26  (252 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087c22, "ax", @progbits
-        .global TaskHandler_087c22
-TaskHandler_087c22:
+        .section .text.Heli_InitTmpl_087b26, "ax", @progbits
+        .global Heli_InitTmpl_087b26
+Heli_InitTmpl_087b26:
+        jsr     0x2783a.l                       | +000
+        move.w  #0x86,d1                        | +006
+        jsr     0x236e.l                        | +00a
+        move.w  #0x87,d1                        | +010
+        jsr     0x236e.l                        | +014
+        move.b  #0xff,0x32(a6)                  | +01a
+        move.b  #0xff,0x33(a6)                  | +020
+        move.b  #0x0,0x3a(a6)                   | +026
+        move.w  #0x50,0x70(a6)                  | +02c
+        lea     0x2c05a6.l,a0                   | +032
+        jsr     0x799de.l                       | +038
+        move.w  d0,0x66(a6)                     | +03e
+        addi.w  #0x17c,0x66(a6)                 | +042
+        move.w  #0x0,0x72(a6)                   | +048
+        move.b  #0x0,0x20(a6)                   | +04e
+        move.w  #0x2000,0x38(a6)                | +054
+        lea     0x2ec226.l,a0                   | +05a
+        jsr     0x28cd4.l                       | +060
+        lea     Heli_Dropper_087eae(pc),a1      | +066
+        jsr     0x4ae.l                         | +06a
+        jsr     0x5dd22.l                       | +070
+        lea     0x2edd7e.l,a1                   | +076
+        jsr     0x43fac.l                       | +07c
+        move.l  #0x2eddfa,0x60(a6)              | +082
+        lea     .L087bb6(pc),a1                 | +08a
+        move.l  a1,(a6)                         | +08e
+.L087bb6:
+        jsr     0x28998.l                       | +090
+        jsr     0x2783a.l                       | +096
+        jsr     Heli_RotorAnim_0883ec(pc)       | +09c
+        jsr     0x28d70.l                       | +0a0
+        jsr     0x2870a.l                       | +0a6
+        bcc.w   .L087bee                        | +0ac
+        lea     0x5e766.l,a0                    | +0b0
+        jsr     0x5e770.l                       | +0b6
+        bclr    #0x3,0x13(a6)                   | +0bc
+        move.w  #0xf,0x72(a6)                   | +0c2
+.L087bee:
+        bclr    #0x0,0x13(a6)                   | +0c8
+        move.w  #0x17c,0x66(a6)                 | +0ce
+        cmpi.w  #0x100,0x22(a6)                 | +0d4
+        bgt.w   .L087c0a                        | +0da
+        lea     Heli_Approach_087c22(pc),a1     | +0de
+        move.l  a1,(a6)                         | +0e2
+.L087c0a:
+        jsr     0x4fa70.l                       | +0e4
+        bcc.w   .L087c20                        | +0ea
+        move.b  #0xff,0x20(a6)                  | +0ee
+        jmp     0x518.l                         | +0f4
+.L087c20:
+        rts                                     | +0fa
+
+| ----------------------------------------------------------------------------
+|  Heli_Approach_087c22  @ $087C22  (120 B)
+| ----------------------------------------------------------------------------
+        .section .text.Heli_Approach_087c22, "ax", @progbits
+        .global Heli_Approach_087c22
+Heli_Approach_087c22:
         lea     0x2ec23c.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L087c34(pc),a1                 | +00c
@@ -1654,10 +1690,10 @@ TaskHandler_087c22:
 .L087c34:
         jsr     0x28998.l                       | +012
         jsr     0x2783a.l                       | +018
-        jsr     Sub_000883EC(pc)                | +01e
+        jsr     Heli_RotorAnim_0883ec(pc)       | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L087c54                        | +028
-        lea     TaskHandler_087c9a(pc),a1       | +02c
+        lea     Heli_Hover_087c9a(pc),a1        | +02c
         move.l  a1,(a6)                         | +030
 .L087c54:
         jsr     0x2870a.l                       | +032
@@ -1677,11 +1713,11 @@ TaskHandler_087c22:
         rts                                     | +076
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087c9a  @ $087C9A  (130 B)
+|  Heli_Hover_087c9a  @ $087C9A  (130 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087c9a, "ax", @progbits
-        .global TaskHandler_087c9a
-TaskHandler_087c9a:
+        .section .text.Heli_Hover_087c9a, "ax", @progbits
+        .global Heli_Hover_087c9a
+Heli_Hover_087c9a:
         lea     0xee042.l,a1                    | +000
         move.w  #0x82,d0                        | +006
         move.b  #0x0,0x82(a6)                   | +00a
@@ -1691,7 +1727,7 @@ TaskHandler_087c9a:
 .L087cb6:
         jsr     0x28998.l                       | +01c
         jsr     0x2783a.l                       | +022
-        jsr     Sub_000883EC(pc)                | +028
+        jsr     Heli_RotorAnim_0883ec(pc)       | +028
         jsr     0x28d70.l                       | +02c
         jsr     0x2870a.l                       | +032
         bcc.w   .L087cee                        | +038
@@ -1702,7 +1738,7 @@ TaskHandler_087c9a:
 .L087cee:
         cmpi.w  #0xfc,0x66(a6)                  | +054
         bgt.w   .L087cfe                        | +05a
-        lea     TaskHandler_087d1c(pc),a1       | +05e
+        lea     Heli_Damaged1_087d1c(pc),a1     | +05e
         move.l  a1,(a6)                         | +062
 .L087cfe:
         jsr     0x4fa70.l                       | +064
@@ -1714,11 +1750,11 @@ TaskHandler_087c9a:
         rts                                     | +080
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087d1c  @ $087D1C  (130 B)
+|  Heli_Damaged1_087d1c  @ $087D1C  (130 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087d1c, "ax", @progbits
-        .global TaskHandler_087d1c
-TaskHandler_087d1c:
+        .section .text.Heli_Damaged1_087d1c, "ax", @progbits
+        .global Heli_Damaged1_087d1c
+Heli_Damaged1_087d1c:
         move.w  #0x1027,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x2ec2ce.l,a0                   | +00a
@@ -1728,7 +1764,7 @@ TaskHandler_087d1c:
 .L087d38:
         jsr     0x28998.l                       | +01c
         jsr     0x2783a.l                       | +022
-        jsr     Sub_000883EC(pc)                | +028
+        jsr     Heli_RotorAnim_0883ec(pc)       | +028
         jsr     0x28d70.l                       | +02c
         jsr     0x2870a.l                       | +032
         bcc.w   .L087d70                        | +038
@@ -1739,7 +1775,7 @@ TaskHandler_087d1c:
 .L087d70:
         cmpi.w  #0x7e,0x66(a6)                  | +054
         bgt.w   .L087d80                        | +05a
-        lea     TaskHandler_087d9e(pc),a1       | +05e
+        lea     Heli_Damaged2_087d9e(pc),a1     | +05e
         move.l  a1,(a6)                         | +062
 .L087d80:
         jsr     0x4fa70.l                       | +064
@@ -1751,11 +1787,11 @@ TaskHandler_087d1c:
         rts                                     | +080
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087d9e  @ $087D9E  (130 B)
+|  Heli_Damaged2_087d9e  @ $087D9E  (130 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087d9e, "ax", @progbits
-        .global TaskHandler_087d9e
-TaskHandler_087d9e:
+        .section .text.Heli_Damaged2_087d9e, "ax", @progbits
+        .global Heli_Damaged2_087d9e
+Heli_Damaged2_087d9e:
         move.w  #0x1027,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x2ec2de.l,a0                   | +00a
@@ -1765,7 +1801,7 @@ TaskHandler_087d9e:
 .L087dba:
         jsr     0x28998.l                       | +01c
         jsr     0x2783a.l                       | +022
-        jsr     Sub_000883EC(pc)                | +028
+        jsr     Heli_RotorAnim_0883ec(pc)       | +028
         jsr     0x28d70.l                       | +02c
         jsr     0x2870a.l                       | +032
         bcc.w   .L087df2                        | +038
@@ -1776,7 +1812,7 @@ TaskHandler_087d9e:
 .L087df2:
         jsr     0x28758.l                       | +054
         bcc.w   .L087e02                        | +05a
-        lea     TaskHandler_087e20(pc),a1       | +05e
+        lea     Heli_Crash_087e20(pc),a1        | +05e
         move.l  a1,(a6)                         | +062
 .L087e02:
         jsr     0x4fa70.l                       | +064
@@ -1788,11 +1824,11 @@ TaskHandler_087d9e:
         rts                                     | +080
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087e20  @ $087E20  (142 B)
+|  Heli_Crash_087e20  @ $087E20  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087e20, "ax", @progbits
-        .global TaskHandler_087e20
-TaskHandler_087e20:
+        .section .text.Heli_Crash_087e20, "ax", @progbits
+        .global Heli_Crash_087e20
+Heli_Crash_087e20:
         move.l  #0x5000,d0                      | +000
         jsr     0x51a28.l                       | +006
         move.w  #0x1023,d0                      | +00c
@@ -1823,11 +1859,11 @@ TaskHandler_087e20:
         rts                                     | +08c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087eae  @ $087EAE  (158 B)
+|  Heli_Dropper_087eae  @ $087EAE  (158 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087eae, "ax", @progbits
-        .global TaskHandler_087eae
-TaskHandler_087eae:
+        .section .text.Heli_Dropper_087eae, "ax", @progbits
+        .global Heli_Dropper_087eae
+Heli_Dropper_087eae:
         move.w  #0x88,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0xff,0x32(a6)                  | +00a
@@ -1861,11 +1897,11 @@ TaskHandler_087eae:
         rts                                     | +09c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087f4c  @ $087F4C  (112 B)
+|  Debris_Scatter_087f4c  @ $087F4C  (112 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087f4c, "ax", @progbits
-        .global TaskHandler_087f4c
-TaskHandler_087f4c:
+        .section .text.Debris_Scatter_087f4c, "ax", @progbits
+        .global Debris_Scatter_087f4c
+Debris_Scatter_087f4c:
         move.w  #0xf3,d1                        | +000
         jsr     0x236e.l                        | +004
         jsr     0x267e2.l                       | +00a
@@ -1896,84 +1932,84 @@ TaskHandler_087f4c:
         rts                                     | +06e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_087fbc  @ $087FBC  (80 B)
+|  Prop_Quad_Spawn_087fbc  @ $087FBC  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_087fbc, "ax", @progbits
-        .global TaskHandler_087fbc
-TaskHandler_087fbc:
+        .section .text.Prop_Quad_Spawn_087fbc, "ax", @progbits
+        .global Prop_Quad_Spawn_087fbc
+Prop_Quad_Spawn_087fbc:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        lea     TaskHandler_08800e(pc),a1       | +00a
+        lea     Prop_Quad_A_08800e(pc),a1       | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd22.l                       | +014
-        lea     TaskHandler_088028(pc),a1       | +01a
+        lea     Prop_Quad_B_088028(pc),a1       | +01a
         jsr     0x4ae.l                         | +01e
         jsr     0x5dd22.l                       | +024
-        lea     TaskHandler_088042(pc),a1       | +02a
+        lea     Prop_Quad_C_088042(pc),a1       | +02a
         jsr     0x4ae.l                         | +02e
         jsr     0x5dd22.l                       | +034
-        lea     TaskHandler_08805c(pc),a1       | +03a
+        lea     Prop_Quad_D_08805c(pc),a1       | +03a
         jsr     0x4ae.l                         | +03e
         jsr     0x5dd22.l                       | +044
         jmp     0x518.l                         | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08800c  @ $08800C  (2 B)
+|  Rts_08800c  @ $08800C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08800c, "ax", @progbits
-        .global TaskHandler_08800c
-TaskHandler_08800c:
+        .section .text.Rts_08800c, "ax", @progbits
+        .global Rts_08800c
+Rts_08800c:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08800e  @ $08800E  (26 B)
+|  Prop_Quad_A_08800e  @ $08800E  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08800e, "ax", @progbits
-        .global TaskHandler_08800e
-TaskHandler_08800e:
+        .section .text.Prop_Quad_A_08800e, "ax", @progbits
+        .global Prop_Quad_A_08800e
+Prop_Quad_A_08800e:
         lea     0x2ec30e.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0x2ed19a.l,a1                   | +00c
         move.l  a1,0x88(a6)                     | +012
-        bra.w   TaskHandler_08805c__L088076     | +016
+        bra.w   Prop_Quad_D_08805c__L088076     | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_088028  @ $088028  (26 B)
+|  Prop_Quad_B_088028  @ $088028  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_088028, "ax", @progbits
-        .global TaskHandler_088028
-TaskHandler_088028:
+        .section .text.Prop_Quad_B_088028, "ax", @progbits
+        .global Prop_Quad_B_088028
+Prop_Quad_B_088028:
         lea     0x2ec324.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0x2ed1ac.l,a1                   | +00c
         move.l  a1,0x88(a6)                     | +012
-        bra.w   TaskHandler_08805c__L088076     | +016
+        bra.w   Prop_Quad_D_08805c__L088076     | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_088042  @ $088042  (26 B)
+|  Prop_Quad_C_088042  @ $088042  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_088042, "ax", @progbits
-        .global TaskHandler_088042
-TaskHandler_088042:
+        .section .text.Prop_Quad_C_088042, "ax", @progbits
+        .global Prop_Quad_C_088042
+Prop_Quad_C_088042:
         lea     0x2ec33a.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0x2ed1be.l,a1                   | +00c
         move.l  a1,0x88(a6)                     | +012
-        bra.w   TaskHandler_08805c__L088076     | +016
+        bra.w   Prop_Quad_D_08805c__L088076     | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08805c  @ $08805C  (184 B)
+|  Prop_Quad_D_08805c  @ $08805C  (184 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08805c, "ax", @progbits
-        .global TaskHandler_08805c
-TaskHandler_08805c:
+        .section .text.Prop_Quad_D_08805c, "ax", @progbits
+        .global Prop_Quad_D_08805c
+Prop_Quad_D_08805c:
         lea     0x2ec350.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0x2ed1d0.l,a1                   | +00c
         move.l  a1,0x88(a6)                     | +012
-        bra.w   TaskHandler_08805c__L088076     | +016
-        .global TaskHandler_08805c__L088076
-TaskHandler_08805c__L088076:
+        bra.w   Prop_Quad_D_08805c__L088076     | +016
+        .global Prop_Quad_D_08805c__L088076
+Prop_Quad_D_08805c__L088076:
         move.w  #0xe4,d1                        | +01a
         jsr     0x236e.l                        | +01e
         move.b  #0xff,0x32(a6)                  | +024
@@ -2012,11 +2048,11 @@ TaskHandler_08805c__L088076:
         rts                                     | +0b6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_088114  @ $088114  (148 B)
+|  Barricade_Init_088114  @ $088114  (148 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_088114, "ax", @progbits
-        .global TaskHandler_088114
-TaskHandler_088114:
+        .section .text.Barricade_Init_088114, "ax", @progbits
+        .global Barricade_Init_088114
+Barricade_Init_088114:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0xe6,d1                        | +00a
@@ -2042,7 +2078,7 @@ TaskHandler_088114:
         bclr    #0x0,0x13(a6)                   | +06c
         cmpi.w  #0x50,0x22(a6)                  | +072
         bgt.w   .L088196                        | +078
-        lea     TaskHandler_0881a8(pc),a1       | +07c
+        lea     Barricade_Arm_0881a8(pc),a1     | +07c
         move.l  a1,(a6)                         | +080
 .L088196:
         jsr     0x4fa70.l                       | +082
@@ -2052,11 +2088,11 @@ TaskHandler_088114:
         rts                                     | +092
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0881a8  @ $0881A8  (98 B)
+|  Barricade_Arm_0881a8  @ $0881A8  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0881a8, "ax", @progbits
-        .global TaskHandler_0881a8
-TaskHandler_0881a8:
+        .section .text.Barricade_Arm_0881a8, "ax", @progbits
+        .global Barricade_Arm_0881a8
+Barricade_Arm_0881a8:
         lea     0x2ec366.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L0881ba(pc),a1                 | +00c
@@ -2065,7 +2101,7 @@ TaskHandler_0881a8:
         jsr     0x2783a.l                       | +012
         jsr     0x28d70.l                       | +018
         bcc.w   .L0881d0                        | +01e
-        lea     TaskHandler_08820a(pc),a1       | +022
+        lea     Barricade_Stage1_08820a(pc),a1  | +022
         move.l  a1,(a6)                         | +026
 .L0881d0:
         jsr     0x2870a.l                       | +028
@@ -2083,11 +2119,11 @@ TaskHandler_0881a8:
         rts                                     | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08820a  @ $08820A  (102 B)
+|  Barricade_Stage1_08820a  @ $08820A  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08820a, "ax", @progbits
-        .global TaskHandler_08820a
-TaskHandler_08820a:
+        .section .text.Barricade_Stage1_08820a, "ax", @progbits
+        .global Barricade_Stage1_08820a
+Barricade_Stage1_08820a:
         lea     0xee062.l,a1                    | +000
         move.w  #0x82,d0                        | +006
         move.b  #0x0,0x82(a6)                   | +00a
@@ -2105,7 +2141,7 @@ TaskHandler_08820a:
 .L08824e:
         cmpi.w  #0x28,0x66(a6)                  | +044
         bgt.w   .L08825e                        | +04a
-        lea     TaskHandler_088270(pc),a1       | +04e
+        lea     Barricade_Stage2_088270(pc),a1  | +04e
         move.l  a1,(a6)                         | +052
 .L08825e:
         jsr     0x4fa70.l                       | +054
@@ -2115,11 +2151,11 @@ TaskHandler_08820a:
         rts                                     | +064
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_088270  @ $088270  (92 B)
+|  Barricade_Stage2_088270  @ $088270  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_088270, "ax", @progbits
-        .global TaskHandler_088270
-TaskHandler_088270:
+        .section .text.Barricade_Stage2_088270, "ax", @progbits
+        .global Barricade_Stage2_088270
+Barricade_Stage2_088270:
         lea     0x2ec3de.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L088282(pc),a1                 | +00c
@@ -2135,7 +2171,7 @@ TaskHandler_088270:
 .L0882aa:
         cmpi.w  #0x1e,0x66(a6)                  | +03a
         bgt.w   .L0882ba                        | +040
-        lea     TaskHandler_0882cc(pc),a1       | +044
+        lea     Barricade_Stage3_0882cc(pc),a1  | +044
         move.l  a1,(a6)                         | +048
 .L0882ba:
         jsr     0x4fa70.l                       | +04a
@@ -2145,11 +2181,11 @@ TaskHandler_088270:
         rts                                     | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0882cc  @ $0882CC  (92 B)
+|  Barricade_Stage3_0882cc  @ $0882CC  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0882cc, "ax", @progbits
-        .global TaskHandler_0882cc
-TaskHandler_0882cc:
+        .section .text.Barricade_Stage3_0882cc, "ax", @progbits
+        .global Barricade_Stage3_0882cc
+Barricade_Stage3_0882cc:
         lea     0x2ec3ee.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L0882de(pc),a1                 | +00c
@@ -2165,7 +2201,7 @@ TaskHandler_0882cc:
 .L088306:
         cmpi.w  #0x14,0x66(a6)                  | +03a
         bgt.w   .L088316                        | +040
-        lea     TaskHandler_088328(pc),a1       | +044
+        lea     Barricade_Stage4_088328(pc),a1  | +044
         move.l  a1,(a6)                         | +048
 .L088316:
         jsr     0x4fa70.l                       | +04a
@@ -2175,11 +2211,11 @@ TaskHandler_0882cc:
         rts                                     | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_088328  @ $088328  (104 B)
+|  Barricade_Stage4_088328  @ $088328  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_088328, "ax", @progbits
-        .global TaskHandler_088328
-TaskHandler_088328:
+        .section .text.Barricade_Stage4_088328, "ax", @progbits
+        .global Barricade_Stage4_088328
+Barricade_Stage4_088328:
         lea     0x2ec3fe.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L08833a(pc),a1                 | +00c
@@ -2194,13 +2230,13 @@ TaskHandler_088328:
         bclr    #0x3,0x13(a6)                   | +034
 .L088362:
         cmpi.w  #0xa,0x66(a6)                   | +03a
-        bgt.w   TaskHandler_088328__L08837e     | +040
+        bgt.w   Barricade_Stage4_088328__L08837e | +040
         lea     0x2ed1e2.l,a1                   | +044
         jsr     0x77c7e.l                       | +04a
-        lea     TaskHandler_088390(pc),a1       | +050
+        lea     Barricade_Stage5_088390(pc),a1  | +050
         move.l  a1,(a6)                         | +054
-        .global TaskHandler_088328__L08837e
-TaskHandler_088328__L08837e:
+        .global Barricade_Stage4_088328__L08837e
+Barricade_Stage4_088328__L08837e:
         jsr     0x4fa70.l                       | +056
         bcc.w   .L08838e                        | +05c
         jmp     0x518.l                         | +060
@@ -2208,18 +2244,18 @@ TaskHandler_088328__L08837e:
         rts                                     | +066
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_088390  @ $088390  (92 B)
+|  Barricade_Stage5_088390  @ $088390  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_088390, "ax", @progbits
-        .global TaskHandler_088390
-TaskHandler_088390:
+        .section .text.Barricade_Stage5_088390, "ax", @progbits
+        .global Barricade_Stage5_088390
+Barricade_Stage5_088390:
         lea     0x2ec40e.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L0883a2(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L0883a2:
         jsr     Entity_CmpPrioWithSibling_086552(pc) | +012
-        bcs.b   TaskHandler_088328__L08837e     | +016
+        bcs.b   Barricade_Stage4_088328__L08837e | +016
         jsr     0x2783a.l                       | +018
         jsr     0x28d70.l                       | +01e
         jsr     0x2870a.l                       | +024
@@ -2238,11 +2274,11 @@ TaskHandler_088390:
         rts                                     | +05a
 
 | ----------------------------------------------------------------------------
-|  Sub_000883EC  @ $0883EC  (70 B)
+|  Heli_RotorAnim_0883ec  @ $0883EC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000883EC, "ax", @progbits
-        .global Sub_000883EC
-Sub_000883EC:
+        .section .text.Heli_RotorAnim_0883ec, "ax", @progbits
+        .global Heli_RotorAnim_0883ec
+Heli_RotorAnim_0883ec:
         move.b  0x106f28.l,d0                   | +000
         cmpi.w  #0x0,0x72(a6)                   | +006
         ble.w   .L08841c                        | +00c
@@ -2262,11 +2298,11 @@ Sub_000883EC:
         move.w  d0,0x16(a6)                     | +042
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_088438  @ $088438  (50 B)
+|  Entity_HitboxPulseTable_088438  @ $088438  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_088438, "ax", @progbits
-        .global PcThunkTarget_088438
-PcThunkTarget_088438:
+        .section .text.Entity_HitboxPulseTable_088438, "ax", @progbits
+        .global Entity_HitboxPulseTable_088438
+Entity_HitboxPulseTable_088438:
         addq.w  #0x1,0x72(a6)                   | +000
         move.w  0x72(a6),d0                     | +004
         andi.b  #0x3,d0                         | +008
@@ -2284,11 +2320,11 @@ PcThunkTarget_088438:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_08846a  @ $08846A  (34 B)
+|  Entity_HitboxPulseSaved_08846a  @ $08846A  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_08846a, "ax", @progbits
-        .global PcThunkTarget_08846a
-PcThunkTarget_08846a:
+        .section .text.Entity_HitboxPulseSaved_08846a, "ax", @progbits
+        .global Entity_HitboxPulseSaved_08846a
+Entity_HitboxPulseSaved_08846a:
         addq.w  #0x1,0x72(a6)                   | +000
         move.w  0x72(a6),d0                     | +004
         andi.b  #0x3,d0                         | +008
@@ -2301,11 +2337,11 @@ PcThunkTarget_08846a:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08848c  @ $08848C  (26 B)
+|  Entity_PropagateDamageToParent_08848c  @ $08848C  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08848c, "ax", @progbits
-        .global TaskHandler_08848c
-TaskHandler_08848c:
+        .section .text.Entity_PropagateDamageToParent_08848c, "ax", @progbits
+        .global Entity_PropagateDamageToParent_08848c
+Entity_PropagateDamageToParent_08848c:
         move.w  0x80(a6),d0                     | +000
         move.w  0x66(a6),d1                     | +004
         sub.w   d1,d0                           | +008
@@ -2315,12 +2351,12 @@ TaskHandler_08848c:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0884a6  @ $0884A6  (270 B)
+|  Fort_SpawnChildren_V0_0884a6  @ $0884A6  (270 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0884a6, "ax", @progbits
-        .global TaskHandler_0884a6
-TaskHandler_0884a6:
-        lea     TaskHandler_08686a__L0868a6(pc),a1 | +000
+        .section .text.Fort_SpawnChildren_V0_0884a6, "ax", @progbits
+        .global Fort_SpawnChildren_V0_0884a6
+Fort_SpawnChildren_V0_0884a6:
+        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x28,0x22(a0)                  | +010
@@ -2331,7 +2367,7 @@ TaskHandler_0884a6:
         move.w  #0x0,0x72(a0)                   | +02c
         lea     0xee066.l,a1                    | +032
         move.l  a1,0x7c(a0)                     | +038
-        lea     TaskHandler_08686a(pc),a1       | +03c
+        lea     Pillbox_Init_08686a(pc),a1      | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd22.l                       | +046
         addi.w  #0x68,0x22(a0)                  | +04c
@@ -2342,7 +2378,7 @@ TaskHandler_0884a6:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee07c.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     TaskHandler_08686a__L0868a6(pc),a1 | +078
+        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0xa8,0x22(a0)                  | +088
@@ -2353,7 +2389,7 @@ TaskHandler_0884a6:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee092.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     TaskHandler_086cd0(pc),a1       | +0b4
+        lea     Crate_Init_086cd0(pc),a1        | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0x30,0x22(a0)                  | +0c4
@@ -2361,7 +2397,7 @@ TaskHandler_0884a6:
         lea     0x2ed774.l,a1                   | +0d0
         move.l  a1,0x74(a0)                     | +0d6
         move.w  #0x3,0x72(a0)                   | +0da
-        lea     TaskHandler_086cd0(pc),a1       | +0e0
+        lea     Crate_Init_086cd0(pc),a1        | +0e0
         jsr     0x4ae.l                         | +0e4
         jsr     0x5dd22.l                       | +0ea
         addi.w  #0xa8,0x22(a0)                  | +0f0
@@ -2372,12 +2408,12 @@ TaskHandler_0884a6:
         rts                                     | +10c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0885b4  @ $0885B4  (270 B)
+|  Fort_SpawnChildren_V1_0885b4  @ $0885B4  (270 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0885b4, "ax", @progbits
-        .global TaskHandler_0885b4
-TaskHandler_0885b4:
-        lea     TaskHandler_08686a__L0868a6(pc),a1 | +000
+        .section .text.Fort_SpawnChildren_V1_0885b4, "ax", @progbits
+        .global Fort_SpawnChildren_V1_0885b4
+Fort_SpawnChildren_V1_0885b4:
+        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x28,0x22(a0)                  | +010
@@ -2388,7 +2424,7 @@ TaskHandler_0885b4:
         move.w  #0x0,0x72(a0)                   | +02c
         lea     0xee0a8.l,a1                    | +032
         move.l  a1,0x7c(a0)                     | +038
-        lea     TaskHandler_08686a(pc),a1       | +03c
+        lea     Pillbox_Init_08686a(pc),a1      | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd22.l                       | +046
         addi.w  #0x68,0x22(a0)                  | +04c
@@ -2399,7 +2435,7 @@ TaskHandler_0885b4:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee0be.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     TaskHandler_08686a__L0868a6(pc),a1 | +078
+        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0xa8,0x22(a0)                  | +088
@@ -2410,7 +2446,7 @@ TaskHandler_0885b4:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee0d4.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     TaskHandler_086cd0__L086ce4(pc),a1 | +0b4
+        lea     Crate_Init_086cd0__L086ce4(pc),a1 | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0x28,0x22(a0)                  | +0c4
@@ -2418,7 +2454,7 @@ TaskHandler_0885b4:
         lea     0x2ed7d8.l,a1                   | +0d0
         move.l  a1,0x74(a0)                     | +0d6
         move.w  #0x3,0x72(a0)                   | +0da
-        lea     TaskHandler_086cd0__L086ce4(pc),a1 | +0e0
+        lea     Crate_Init_086cd0__L086ce4(pc),a1 | +0e0
         jsr     0x4ae.l                         | +0e4
         jsr     0x5dd22.l                       | +0ea
         addi.w  #0xa0,0x22(a0)                  | +0f0
@@ -2429,12 +2465,12 @@ TaskHandler_0885b4:
         rts                                     | +10c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0886c2  @ $0886C2  (270 B)
+|  Fort_SpawnChildren_V2_0886c2  @ $0886C2  (270 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0886c2, "ax", @progbits
-        .global TaskHandler_0886c2
-TaskHandler_0886c2:
-        lea     TaskHandler_08686a__L0868ba(pc),a1 | +000
+        .section .text.Fort_SpawnChildren_V2_0886c2, "ax", @progbits
+        .global Fort_SpawnChildren_V2_0886c2
+Fort_SpawnChildren_V2_0886c2:
+        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x28,0x22(a0)                  | +010
@@ -2445,7 +2481,7 @@ TaskHandler_0886c2:
         move.w  #0x0,0x72(a0)                   | +02c
         lea     0xee0ea.l,a1                    | +032
         move.l  a1,0x7c(a0)                     | +038
-        lea     TaskHandler_08686a__L0868ba(pc),a1 | +03c
+        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd22.l                       | +046
         addi.w  #0x68,0x22(a0)                  | +04c
@@ -2456,7 +2492,7 @@ TaskHandler_0886c2:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee100.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     TaskHandler_08686a__L0868ba(pc),a1 | +078
+        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0xa8,0x22(a0)                  | +088
@@ -2467,7 +2503,7 @@ TaskHandler_0886c2:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee116.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     TaskHandler_086cd0__L086cf8(pc),a1 | +0b4
+        lea     Crate_Init_086cd0__L086cf8(pc),a1 | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0x28,0x22(a0)                  | +0c4
@@ -2475,7 +2511,7 @@ TaskHandler_0886c2:
         lea     0x2ed83c.l,a1                   | +0d0
         move.l  a1,0x74(a0)                     | +0d6
         move.w  #0x3,0x72(a0)                   | +0da
-        lea     TaskHandler_086cd0__L086cf8(pc),a1 | +0e0
+        lea     Crate_Init_086cd0__L086cf8(pc),a1 | +0e0
         jsr     0x4ae.l                         | +0e4
         jsr     0x5dd22.l                       | +0ea
         addi.w  #0xa0,0x22(a0)                  | +0f0
@@ -2486,12 +2522,12 @@ TaskHandler_0886c2:
         rts                                     | +10c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0887d0  @ $0887D0  (330 B)
+|  Fort_SpawnChildren_V3_0887d0  @ $0887D0  (330 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0887d0, "ax", @progbits
-        .global TaskHandler_0887d0
-TaskHandler_0887d0:
-        lea     TaskHandler_08686a__L086892(pc),a1 | +000
+        .section .text.Fort_SpawnChildren_V3_0887d0, "ax", @progbits
+        .global Fort_SpawnChildren_V3_0887d0
+Fort_SpawnChildren_V3_0887d0:
+        lea     Pillbox_Init_08686a__L086892(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x18,0x22(a0)                  | +010
@@ -2502,7 +2538,7 @@ TaskHandler_0887d0:
         move.w  #0x0,0x72(a0)                   | +02c
         lea     0xee12c.l,a1                    | +032
         move.l  a1,0x7c(a0)                     | +038
-        lea     TaskHandler_08686a__L0868a6(pc),a1 | +03c
+        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd22.l                       | +046
         addi.w  #0x48,0x22(a0)                  | +04c
@@ -2513,7 +2549,7 @@ TaskHandler_0887d0:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee130.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     TaskHandler_08686a__L0868a6(pc),a1 | +078
+        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0x78,0x22(a0)                  | +088
@@ -2524,7 +2560,7 @@ TaskHandler_0887d0:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee146.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     TaskHandler_08686a__L0868a6(pc),a1 | +0b4
+        lea     Pillbox_Init_08686a__L0868a6(pc),a1 | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0xa8,0x22(a0)                  | +0c4
@@ -2535,7 +2571,7 @@ TaskHandler_0887d0:
         move.w  #0x3,0x72(a0)                   | +0e0
         lea     0xee15c.l,a1                    | +0e6
         move.l  a1,0x7c(a0)                     | +0ec
-        lea     TaskHandler_086cd0__L086d0c(pc),a1 | +0f0
+        lea     Crate_Init_086cd0__L086d0c(pc),a1 | +0f0
         jsr     0x4ae.l                         | +0f4
         jsr     0x5dd22.l                       | +0fa
         addi.w  #0x28,0x22(a0)                  | +100
@@ -2543,7 +2579,7 @@ TaskHandler_0887d0:
         lea     0x2ed8dc.l,a1                   | +10c
         move.l  a1,0x74(a0)                     | +112
         move.w  #0x4,0x72(a0)                   | +116
-        lea     TaskHandler_086cd0__L086d0c(pc),a1 | +11c
+        lea     Crate_Init_086cd0__L086d0c(pc),a1 | +11c
         jsr     0x4ae.l                         | +120
         jsr     0x5dd22.l                       | +126
         addi.w  #0xa0,0x22(a0)                  | +12c
@@ -2554,12 +2590,12 @@ TaskHandler_0887d0:
         rts                                     | +148
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_08891a  @ $08891A  (270 B)
+|  Fort_SpawnChildren_V4_08891a  @ $08891A  (270 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_08891a, "ax", @progbits
-        .global TaskHandler_08891a
-TaskHandler_08891a:
-        lea     TaskHandler_08686a__L0868ba(pc),a1 | +000
+        .section .text.Fort_SpawnChildren_V4_08891a, "ax", @progbits
+        .global Fort_SpawnChildren_V4_08891a
+Fort_SpawnChildren_V4_08891a:
+        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
         addi.w  #0x28,0x22(a0)                  | +010
@@ -2570,7 +2606,7 @@ TaskHandler_08891a:
         move.w  #0x0,0x72(a0)                   | +02c
         lea     0xee172.l,a1                    | +032
         move.l  a1,0x7c(a0)                     | +038
-        lea     TaskHandler_08686a__L0868ba(pc),a1 | +03c
+        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd22.l                       | +046
         addi.w  #0x68,0x22(a0)                  | +04c
@@ -2581,7 +2617,7 @@ TaskHandler_08891a:
         move.w  #0x1,0x72(a0)                   | +068
         lea     0xee188.l,a1                    | +06e
         move.l  a1,0x7c(a0)                     | +074
-        lea     TaskHandler_08686a__L0868ba(pc),a1 | +078
+        lea     Pillbox_Init_08686a__L0868ba(pc),a1 | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd22.l                       | +082
         addi.w  #0xa8,0x22(a0)                  | +088
@@ -2592,7 +2628,7 @@ TaskHandler_08891a:
         move.w  #0x2,0x72(a0)                   | +0a4
         lea     0xee19e.l,a1                    | +0aa
         move.l  a1,0x7c(a0)                     | +0b0
-        lea     TaskHandler_086cd0__L086d20(pc),a1 | +0b4
+        lea     Crate_Init_086cd0__L086d20(pc),a1 | +0b4
         jsr     0x4ae.l                         | +0b8
         jsr     0x5dd22.l                       | +0be
         addi.w  #0x28,0x22(a0)                  | +0c4
@@ -2600,7 +2636,7 @@ TaskHandler_08891a:
         lea     0x2ed940.l,a1                   | +0d0
         move.l  a1,0x74(a0)                     | +0d6
         move.w  #0x3,0x72(a0)                   | +0da
-        lea     TaskHandler_086cd0__L086d20(pc),a1 | +0e0
+        lea     Crate_Init_086cd0__L086d20(pc),a1 | +0e0
         jsr     0x4ae.l                         | +0e4
         jsr     0x5dd22.l                       | +0ea
         addi.w  #0x98,0x22(a0)                  | +0f0
@@ -2611,11 +2647,11 @@ TaskHandler_08891a:
         rts                                     | +10c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_088a28  @ $088A28  (46 B)
+|  Fort_BlitWreck_088a28  @ $088A28  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_088a28, "ax", @progbits
-        .global TaskHandler_088a28
-TaskHandler_088a28:
+        .section .text.Fort_BlitWreck_088a28, "ax", @progbits
+        .global Fort_BlitWreck_088a28
+Fort_BlitWreck_088a28:
         cmpi.b  #0x0,0x20(a6)                   | +000
         bne.w   Sub_00088A64                    | +006  -> $088A64 (hueco futuro, defsym forward)
         lea     0x2edaa8.l,a2                   | +00a

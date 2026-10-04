@@ -335,8 +335,8 @@ extern void TaskHandler_084fca(void);
 extern void M4_PlatformSpawn_085134(void);
 extern void M4_Turret_Death_085484(void);
 extern void M4_CamFloor_Step_085a08(void);
-extern void TaskHandler_0865be(void);
-extern void TaskHandler_086854(void);
+extern void Boss_Shadow_Clear_0865be(void);
+extern void Fort_Idle_086854(void);
 extern void TaskHandler_089398(void);
 extern void TaskHandler_089504(void);
 extern void TaskHandler_0895cc(void);
@@ -4034,13 +4034,13 @@ void SetTaskHandler_085ac6(void) {
 
 __attribute__((section(".text.SetTaskHandler_0865b6")))
 void SetTaskHandler_0865b6(void) {
-    _a1_ptr = &TaskHandler_0865be;
+    _a1_ptr = &Boss_Shadow_Clear_0865be;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08684c")))
 void SetTaskHandler_08684c(void) {
-    _a1_ptr = &TaskHandler_086854;
+    _a1_ptr = &Fort_Idle_086854;
     STORE_A1_AT_FP();
 }
 
