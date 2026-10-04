@@ -695,14 +695,14 @@ SYMBOLS = {
     # 0x0008B03C promovido a TowerPort_Idle_08b03c en registry (Wave LLL).
     # 0x0008B10A promovido a Wreck_SparkBurst_08b10a en registry (Wave LLL).
     0x0008BB84: "TaskHandler_08bb84",
-    # 0x0008C678 promovido a TaskHandler_08c678 en registry (Wave MMM).
-    # 0x0008C8FA promovido a TaskHandler_08c8fa en registry (Wave MMM).
-    # 0x0008CF22 promovido a TaskHandler_08cf22 en registry (Wave MMM).
-    # 0x0008CF6C promovido a TaskHandler_08cf6c en registry (Wave MMM).
-    # 0x0008CFB6 promovido a TaskHandler_08cfb6 en registry (Wave MMM).
-    # 0x0008D000 promovido a TaskHandler_08d000 en registry (Wave MMM).
-    # 0x0008D04A promovido a TaskHandler_08d04a en registry (Wave MMM).
-    # 0x0008D094 promovido a TaskHandler_08d094 en registry (Wave MMM).
+    # 0x0008C678 promovido a Icon_Anchor_Run_08c678 en registry (Wave MMM).
+    # 0x0008C8FA promovido a Cut_Watcher_Play_08c8fa en registry (Wave MMM).
+    # 0x0008CF22 promovido a SceneB_Stage2_08cf22 en registry (Wave MMM).
+    # 0x0008CF6C promovido a SceneB_Stage3_08cf6c en registry (Wave MMM).
+    # 0x0008CFB6 promovido a SceneB_Stage4_08cfb6 en registry (Wave MMM).
+    # 0x0008D000 promovido a SceneB_Stage5_08d000 en registry (Wave MMM).
+    # 0x0008D04A promovido a SceneB_Stage6_08d04a en registry (Wave MMM).
+    # 0x0008D094 promovido a SceneB_Tail_08d094 en registry (Wave MMM).
     0x0008D41C: "TaskHandler_08d41c",
     0x0008D450: "TaskHandler_08d450",
     0x0008D472: "TaskHandler_08d472",
@@ -1231,13 +1231,13 @@ SYMBOLS = {
     0x000022C8: "Sub_000022C8",
     0x00028CD4: "Sub_00028CD4",
     0x00002308: "Sub_00002308",
-    # 0x0008BC74 promovido a Sub_0008BC74 en registry (Wave MMM).
-    # 0x0008C2B8 promovido a Sub_0008C2B8 en registry (Wave MMM).
-    # 0x0008C322 promovido a Sub_0008C322 en registry (Wave MMM).
-    # 0x0008C37E promovido a Sub_0008C37E en registry (Wave MMM).
-    # 0x0008C3DA promovido a Sub_0008C3DA en registry (Wave MMM).
-    # 0x0008C436 promovido a Sub_0008C436 en registry (Wave MMM).
-    # 0x0008C5B2 promovido a Sub_0008C5B2 en registry (Wave MMM).
+    # 0x0008BC74 promovido a Anim_ScriptStep_08bc74 en registry (Wave MMM).
+    # 0x0008C2B8 promovido a Icon_Base_08c2b8 en registry (Wave MMM).
+    # 0x0008C322 promovido a Icon_Slot1_08c322 en registry (Wave MMM).
+    # 0x0008C37E promovido a Icon_Slot2_08c37e en registry (Wave MMM).
+    # 0x0008C3DA promovido a Icon_Slot3_08c3da en registry (Wave MMM).
+    # 0x0008C436 promovido a Icon_Slot4_08c436 en registry (Wave MMM).
+    # 0x0008C5B2 promovido a Icon_Anchor_Init_08c5b2 en registry (Wave MMM).
 
     # ---- Wave XX: entradas mid-island (rts internos de islas C matcheadas
     #      en $0442xx..$04580x, referenciadas por bcc/bcs de los clusters
@@ -1267,7 +1267,7 @@ SYMBOLS = {
     0x00077F6A: "AnimSeq_00077F6A",       # secuencia anim explosion (Boss_Descend)
     0x00079298: "TaskProto_00079298",     # plantilla tarea aux (MissionDriver_Init)
     0x0008C85C: "Fn_0008C85C",            # init subsistema paralelo (MissionDriver_Init)
-    # 0x0008C864 promovido a TaskProto_0008C864 en registry (Wave MMM).
+    # 0x0008C864 promovido a Cut_Watcher_Init_08c864 en registry (Wave MMM).
     0x0008F6F2: "Fn_0008F6F2",            # tick contexto padre d1=1 (Boss_Descend)
     0x0008F714: "Fn_0008F714",            # tick contexto padre d1=8 (Boss_Active)
     # --- Wave YY: defsyms mid-isla + refs a huecos futuros ($04580C..$046258) ---
@@ -1428,10 +1428,10 @@ SYMBOLS = {
     0x0008B108: "SetHandlerRts_08b108",  # rts de SetTaskHandler_08b102 (+6)
     0x0008B716: "JsrPcRts_08b716",  # rts de JsrPcThunk_08b712 (+4)
     # Huecos futuros referenciados por pc-rel desde esta region:
-    # 0x0008BA0C promovido a Sub_0008BA0C en registry (Wave MMM).
-    # 0x0008BA52 promovido a Sub_0008BA52 en registry (Wave MMM).
-    # 0x0008BB34 promovido a Sub_0008BB34 en registry (Wave MMM).
-    # 0x0008BB5E promovido a Sub_0008BB5E en registry (Wave MMM).
+    # 0x0008BA0C promovido a Proj_Bounce_V1_08ba0c en registry (Wave MMM).
+    # 0x0008BA52 promovido a Proj_Bounce_V2_08ba52 en registry (Wave MMM).
+    # 0x0008BB34 promovido a Proj_Tmpl_InitHitboxProbe_08bb34 en registry (Wave MMM).
+    # 0x0008BB5E promovido a Proj_Tmpl_InitHitbox_08bb5e en registry (Wave MMM).
     # --- Wave MMM: RTS internos de islas C
     0x0008BB28: "SetHandlerRts_08bb28",  # rts de SetTaskHandler_08bb22 (+6)
     0x0008BCE4: "SetXNMid_08bce4",  # rts de SetXN_08bce0 (+4)

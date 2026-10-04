@@ -356,14 +356,14 @@ extern void TowerPort_Stage2_08af68(void);
 extern void TowerPort_Idle_08b03c(void);
 extern void Wreck_SparkBurst_08b10a(void);
 extern void TaskHandler_08bb84(void);
-extern void TaskHandler_08c678(void);
-extern void TaskHandler_08c8fa(void);
-extern void TaskHandler_08cf22(void);
-extern void TaskHandler_08cf6c(void);
-extern void TaskHandler_08cfb6(void);
-extern void TaskHandler_08d000(void);
-extern void TaskHandler_08d04a(void);
-extern void TaskHandler_08d094(void);
+extern void Icon_Anchor_Run_08c678(void);
+extern void Cut_Watcher_Play_08c8fa(void);
+extern void SceneB_Stage2_08cf22(void);
+extern void SceneB_Stage3_08cf6c(void);
+extern void SceneB_Stage4_08cfb6(void);
+extern void SceneB_Stage5_08d000(void);
+extern void SceneB_Stage6_08d04a(void);
+extern void SceneB_Tail_08d094(void);
 extern void TaskHandler_08d41c(void);
 extern void TaskHandler_08d450(void);
 extern void TaskHandler_08d472(void);
@@ -4166,49 +4166,49 @@ void SetTaskHandler_08bb22(void) {
 
 __attribute__((section(".text.SetTaskHandler_08c670")))
 void SetTaskHandler_08c670(void) {
-    _a1_ptr = &TaskHandler_08c678;
+    _a1_ptr = &Icon_Anchor_Run_08c678;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08c932")))
 void SetTaskHandler_08c932(void) {
-    _a1_ptr = &TaskHandler_08c8fa;
+    _a1_ptr = &Cut_Watcher_Play_08c8fa;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08cf1a")))
 void SetTaskHandler_08cf1a(void) {
-    _a1_ptr = &TaskHandler_08cf22;
+    _a1_ptr = &SceneB_Stage2_08cf22;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08cf64")))
 void SetTaskHandler_08cf64(void) {
-    _a1_ptr = &TaskHandler_08cf6c;
+    _a1_ptr = &SceneB_Stage3_08cf6c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08cfae")))
 void SetTaskHandler_08cfae(void) {
-    _a1_ptr = &TaskHandler_08cfb6;
+    _a1_ptr = &SceneB_Stage4_08cfb6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08cff8")))
 void SetTaskHandler_08cff8(void) {
-    _a1_ptr = &TaskHandler_08d000;
+    _a1_ptr = &SceneB_Stage5_08d000;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d042")))
 void SetTaskHandler_08d042(void) {
-    _a1_ptr = &TaskHandler_08d04a;
+    _a1_ptr = &SceneB_Stage6_08d04a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08d08c")))
 void SetTaskHandler_08d08c(void) {
-    _a1_ptr = &TaskHandler_08d094;
+    _a1_ptr = &SceneB_Tail_08d094;
     STORE_A1_AT_FP();
 }
 

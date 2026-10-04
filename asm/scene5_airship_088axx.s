@@ -3066,8 +3066,8 @@ Hitbox_08b950:
         .section .text.Proj_Tmpl168_08b9a2, "ax", @progbits
         .global Proj_Tmpl168_08b9a2
 Proj_Tmpl168_08b9a2:
-        jsr     Sub_0008BB5E(pc)                | +000  -> $08BB5E (hueco futuro, defsym forward)
-        bra.w   Sub_0008BA0C                    | +004  -> $08BA0C (hueco futuro, defsym forward)
+        jsr     Proj_Tmpl_InitHitbox_08bb5e(pc)                | +000  -> $08BB5E (hueco futuro, defsym forward)
+        bra.w   Proj_Bounce_V1_08ba0c                    | +004  -> $08BA0C (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  Proj_Tmpl169_08b9aa  @ $08B9AA  (8 B)
@@ -3075,7 +3075,7 @@ Proj_Tmpl168_08b9a2:
         .section .text.Proj_Tmpl169_08b9aa, "ax", @progbits
         .global Proj_Tmpl169_08b9aa
 Proj_Tmpl169_08b9aa:
-        jsr     Sub_0008BB34(pc)                | +000  -> $08BB34 (hueco futuro, defsym forward)
+        jsr     Proj_Tmpl_InitHitboxProbe_08bb34(pc)                | +000  -> $08BB34 (hueco futuro, defsym forward)
         bra.w   Proj_Bounce_08b9ba              | +004
 
 | ----------------------------------------------------------------------------
@@ -3084,11 +3084,11 @@ Proj_Tmpl169_08b9aa:
         .section .text.Proj_Tmpl170_08b9b2, "ax", @progbits
         .global Proj_Tmpl170_08b9b2
 Proj_Tmpl170_08b9b2:
-        jsr     Sub_0008BB34(pc)                | +000  -> $08BB34 (hueco futuro, defsym forward)
-        bra.w   Sub_0008BA52                    | +004  -> $08BA52 (hueco futuro, defsym forward)
+        jsr     Proj_Tmpl_InitHitboxProbe_08bb34(pc)                | +000  -> $08BB34 (hueco futuro, defsym forward)
+        bra.w   Proj_Bounce_V2_08ba52                    | +004  -> $08BA52 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
-|  Proj_Bounce_08b9ba  @ $08B9BA  (70 B)
+|  Proj_Bounce_08b9ba  @ $08B9BA  (74 B)
 | ----------------------------------------------------------------------------
         .section .text.Proj_Bounce_08b9ba, "ax", @progbits
         .global Proj_Bounce_08b9ba
@@ -3109,4 +3109,4 @@ Proj_Bounce_08b9ba:
 .L08b9f4:
         jsr     0x2870a.l                       | +03a
         lea     Proj_Bounce_HitTable_08b944(pc),a0  | +040
-        .dc.w   0x227c                        | +044  (dato / opcode no decodificado)
+        movea.l #0xffffffff,a1                  | +044
