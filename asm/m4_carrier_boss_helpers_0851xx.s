@@ -1,11 +1,107 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave JJJ — Mision 4: transporte, torreta, agua y helpers de spawn del boss
-|  Región: $08512C..$0865BE  (4,742 B, 65 entradas, 33 huecos)
+|  Wave JJJ — Misión 4: transporte, torreta, agua y helpers de spawn del boss
+|  Región: $08512C..$0865BE  (4,742 B, 65 entradas, 33 huecos cerrados)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  Dos bloques funcionalmente distintos que comparten región:
+|
+|  A) $08512C..$085F9E — ENTIDADES DE LA MISIÓN 4 (templates $E8000[35..40]
+|     = $859D4/$857F2/$858D0/$8577A/$84F26/$85190, usadas por el stream
+|     MissionStream_Slot03_0EB6EA con tmpl=$107..$10C):
+|
+|   * M4_Carrier_* ($85190..$85394): el transporte (snd $1C5, HP desde la
+|     tabla 2D $2C029A via Tbl_Decode2D_0799DE). Init spawnea la torreta
+|     ($85394) y espera a que el scroll Y ($106F5C) baje de $1F0; Approach
+|     (sprite $2E78CE, lista $2E93FA) y Fight (snd $102D, blit $2EA858)
+|     reciben daño con $2870A (flash $5E766/$5E798, flag +$89=$FF, bclr bit3
+|     de +$13) y al morir ($28758) montan los pares $2E9960/$2E9972, blit
+|     $2EAF02 y pasan a Wreck: snd $1028, 4 sprites via M4_SetupSprites4,
+|     MissionWatch_Spawn_04429E con lista $EC6C8 (datos aux de la M4,
+|     MissionAux_Slot03) y blit $2EA86C; espera +$21==$FF del hijo.
+|   * M4_Turret_* ($85394..$85526, $85D32..$85E64): torreta montada sobre
+|     el transporte. Init copia la posición del padre (+$C) y la proyecta
+|     con Coord_ScreenToLocal_044022 ($100,$2F6); Active encadena
+|     EdgeCheck (bordes $2D0/$310 según el signo de la velocidad +$2A),
+|     Shake (+$75 cuenta atrás alternando ±1 en Y) y Knockback (lista
+|     $2E94A2, +$66=$7FFF, retroceso aleatorio $2C031C, snd $108D, flag
+|     de dirección en bit0 de +$78 via SetTaskB_085e0e/_085e48). Death:
+|     snd $1033, par $2E9996, sprite $2E7940, cae hasta y<=$20 y marca
+|     +$21=$FF en el padre.
+|   * M4_SoldierDropper(B) ($85584/$85608): spawners de soldados $483E2 en
+|     ($180,$258)/($180,$2FF) con cadencia +$72 desde $2C0420; la variante
+|     B rellena los params +$98..+$9C (= $F,0,0,1,$1E).
+|   * M4_Wheel ($856AA, anim $85C32): rueda doble (snd $1D0/$1D1) con 4
+|     frames en $2E7BDE/$2E7BEE indexados por +$88 mod 4; gira en sentido
+|     según el signo de la velocidad del abuelo (+$C->+$C, +$2A bit15).
+|   * M4_Rail_* ($8577A/$857B4/$85D04): fila de 20 segmentos (+$21=0..19,
+|     paso X $10) que usan Entity_ProbeOnScreen $5DD5C con la caja $2E986A
+|     y la tabla de blits $2EAA10[+$21<<2] (StateMachineRun $5022A).
+|   * M4_Water_* ($857F2..$858D0): dos cuerpos de agua (uno por jugador,
+|     +$20=0/1 -> slot $100440/$1004E0) que, si el jugador toca la caja
+|     $2EB10E ($5E260) y tiene +$28!=0, spawnean el chapoteo M4_SplashFx
+|     (snd $1B3, sprite $2E7950) a 8 px sobre él.
+|   * M4_Debris_* ($858D0..$8595E): escombro (snd $1C9) con 4 variantes de
+|     sprite por +$98&3 ($2E7B2E idle / $2E7B3E golpeado) que alterna
+|     estados al tocar la caja $2EB118 ($5E086).
+|   * M4_CamFloor_* ($859D4/$85A08): "suelo de cámara": recorre la tabla
+|     de alturas $EC882 (words $490,$430,$3E8,...,$F0,$FFFF — datos aux de
+|     la M4) y publica el límite inferior del scroll en $10816A/$10816E
+|     cuando ambos jugadores vivos (M4_PlayersBelowY via $5E55C/$32E08)
+|     están por debajo de la altura actual. Caja $2E97E4 vía $283CA/$283D8.
+|   * Helpers: M4_SetupSprites4(B) = 4x Sprite_SetupSlotFromTableA ($2C26)
+|     para los tiles $4E..$51 con paletas $1F8..$1FB / $1F7,$1FC..$1FE;
+|     M4_PickTargetSlot = elige slot de jugador según $5E1AA (1/2) o el
+|     bit7 de $106F28; M4_SmokePuff = humo de 3 ticks con caja $2E96EC.
+|   * Flight_* ($85EE8..$85FB0): helpers del ciclo de vuelo del transporte
+|     de la Wave III (jsr pc desde $84F42..$850F6): bamboleo aleatorio
+|     (+$72 armado con prob. 1/32, pasos ±$100 en +$2A), caja de colisión
+|     ($60 a la izquierda, ancho $C0 -> cae en JsrAbsThunk_085f58 =
+|     $99812) y comprobación de altitud entre +$98<<4 y +$99<<4 según la
+|     dirección (CCR via SetXN/ClearXN_085f92..$85FAA).
+|
+|  B) $085FB0..$0865BE — HELPERS DE SPAWN DEL BOSS DE LA MISIÓN 3
+|     (jsr pc desde miniboss_module_0832xx.s / miniboss_finale_083bxx.s):
+|
+|   * Boss_RandomDropSpawn: con prob. 1/8 lanza 1..3 ($5E9E4) hijos $3FEC6
+|     a y=$200 con jitter X ±$30.
+|   * Boss_PhaseJingle(8): snd $1026 si +$21 es 1 ó 5, $1032 si es 8
+|     (cae en los thunks JsrAbsThunk_086034/_086048 -> $2352).
+|   * Boss_SineBob: fase +$34 += 8 (mod 256), amplitud $80 via $13C0E ->
+|     velocidad Y en +$2A (cae en JsrAbsThunk_08606e = probe $27CEE).
+|   * Boss_SpawnGuardList / SpawnStepList: recorren listas de registros de
+|     8 B {dx, dy, +$38, +$21, |= +$3A} en $2EAF1C (o $2EAF7E en la
+|     misión $106ECE==$B) / $2EAFE2, creando hijos TaskHandler_083c02 /
+|     TaskHandler_084836 — los 7 primeros via Entity_AllocFromFreeList
+|     $6FE + Entity_CopyTransform $5DD02, el resto via $4AE + $5DD22.
+|   * Boss_Spawn45Children / Spawn4Finale / SpawnRow8 / SpawnRow9: bucles
+|     de spawn con índice +$21 (45 x $845EC, 4 x $846E0, 8 x $83FD0 en
+|     fila de paso $20, 9 x $84282 en fila de paso $10).
+|   * Boss_SpawnTenEscorts (362 B, la entrada más grande): 10 escoltas
+|     $77FD6 (el mismo helper del escuadrón paracaidista) en posiciones
+|     fijas relativas con +$38=$C000, desenrollado a mano.
+|   * Boss_BlitTable_A..F: cargan a2 desde las tablas $2EAA60 (stride 16,
+|     +4/+C), $2EAAE0/$2EAB04 (stride 4) y $2EAB24 (stride 8, +0/+4) y
+|     caen en los thunks JsrAbsThunk_0864c8.. = StateMachineRun $5022A.
+|   * Entity_BobY1: +$72++ y Y ±1 según paridad; Entity_TickIfState2:
+|     $283CA sólo si +$21==2; Entity_CmpPrioWithSibling: compara +$10 con
+|     el sibling +$8 (cae en ClearXN/SetXN_086562/_086568).
+|   * Boss_Shadow_Init ($8656E): tres entradas (via $86586/$86582/$8656E)
+|     que eligen la caja $2ECEC4/$2ECD80, se colocan en ($0,$100) y
+|     setean $10E39E=1 (continúa en el hueco $8658E.. de la próxima wave).
+|
+|  Rarezas de matching: `jmp $518; rts` con rts muerto tras el jmp en
+|  $8555C/$85640/$85852/$85A22 (idiom del scheduler); `bra.w` doble en
+|  Boss_Shadow_Init (+$10/+$14, el segundo es inalcanzable); `move.w d0,d0`
+|  muerto en M4_Turret_RecoilLeft; `movea.l #$FFFFFFFF,a0` seguido de
+|  `lea` que lo sobreescribe (3 veces, ENTITY_NIL redundante).
+|
+|  Los bcc.w colgantes apuntan a los RTS internos de las islas C contiguas
+|  (SetHandlerRts_085482/_085acc +6, SetTaskWRts_085606/_0856a8 +4,
+|  JsrAbsRts_085d02/_08604e/_0863d4 +6).
+|
+|  Borrador generado con tools/gen_asm_region.py y verificado byte-exacto;
+|  análisis semántico manual sobre el borrador.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
