@@ -17,6 +17,18 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave OOO — 84 entries (3,980 B): `$08E4E4..$08F6D2`
+  (`critters_rings_08e4xx.s`, 54 gaps closed): small critters
+  (`Bobber_*`/`Leaper_*`/`Runner_*`, Mission-VM templates 182/183/184),
+  the 4-stage nest (`Nest_*`/`Nest2_*`, templates 185/187) with its
+  `Swarmer_*` children (atan2 + sine steering), props (`Static_Tmpl188`,
+  `CamProp_Tmpl189/190`, `Lob_Tmpl191`, `Shard_V0..V2`), the grunt-physics
+  helpers (`Phys_*`, `Snd_ByParam9A_*`, `Prio_Set8018`) and the three ring
+  buffers `$10E2F2`/`$10E33A`/`$10E362` (`Ring_*`, `ZoneRing_*`,
+  `PosRing_FindNear`, `TargetRing_*`, `Turret8_SndByState`).
+  `gen_asm_region.py` now emits `moveq` immediates signed. 19 defsyms
+  promoted; +4 island RTS; 144 call sites renamed (the 10 NNN forward
+  defsyms resolved). Matcher: 4,086/4,086, 170,326 B (8.12 %).
 - Wave NNN — 80 entries (4,442 B): `$08D17A..$08E4E4`
   (`grunts_capsule_08d1xx.s`, 67 gaps closed): latched on-screen tests
   (`Screen_InBounds*`), 8.8 fixed-point position integrators

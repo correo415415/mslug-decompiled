@@ -11,10 +11,44 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4002/4002 funciones
-BYTES   : 166,346/166,346 (registrados)
-ROM     : 166,346/2,097,152  (7.9320%)
+MATCHED : 4086/4086 funciones
+BYTES   : 170,326/170,326 (registrados)
+ROM     : 170,326/2,097,152  (8.1218%)
 ```
+
+> **Wave OOO** (84 entradas, 3 980 B, verde a la primera) — region
+> `$08E4E4..$08F6D2` en `critters_rings_08e4xx.s` (54 huecos cerrados).
+> Sexta wave de `tools/gen_asm_region.py` (5 `--entry`); fix del generador:
+> `moveq #$FF` se emite con signo (`#-1`), GAS rechazaba el inmediato.
+>
+> * **Bichos sencillos** (plantillas Mission VM 182/183/184): `Bobber_*`
+>   oscila en y con aceleracion ±4 entre y>=$1D0 e y<=$160; `Leaper_*`
+>   salta con vel y -($40+rand) y acel 4; `Runner_*` corre en x. Todos
+>   usan la **fisica de grunt** (`Phys_FacingFromParam`, `Phys_VelXFromParam`
+>   = +$99<<5, `Phys_GroundKill`, `Phys_PlayerNearX`, `Phys_ScrollTarget`/
+>   `_ScrollReached`, `Prio_Set8018`, `Snd_ByParam9A_*`) — los 10 defsyms
+>   forward de NNN quedan resueltos y renombrados (144 call-sites).
+> * **Nido de 4 etapas** (`Nest_*`, plantilla 185 + spawn desde `$4E274`):
+>   HP $64 por etapa, mapas de dano `$2F41F2 -> $2F4202 -> $2F4284 ->
+>   $2F4306 -> $2F4388`, crea 3 `Swarmer_*` (atan2 `$5E018` + seno
+>   `$13C0E` hacia el padre, huyen a magnitud $300 si el padre esta
+>   golpeado); `Nest2_*` (187) variante con flash; `Nest_DieIfParentGone`
+>   (jsr pc desde las etapas). `Swarmer_Tmpl186` version suelta.
+> * **Props**: `Static_Tmpl188`, `CamProp_Tmpl189/190` (siguen a la camara
+>   con `$4407A`; el 189 lo crea `MissionEnd_SpawnDropper`), `Lob_Tmpl191`
+>   (vel y = -(+$99<<5), aterriza en y<=$190), esquirlas `Shard_V0/V1/V2`
+>   (tabla `$1E9A42`, caen hasta la y del abuelo).
+> * **Rings** (`$10E2F2` zonas / `$10E33A` posiciones / `$10E362`
+>   targets; cabecera {tail, head, scan_end, count} + datos en +8):
+>   `Ring_Reset`/`Ring_Compact`, `Rings_InitAll` (desde
+>   `SceneLoader_Main_043568`) / `Rings_CompactAll`; `Zone_Tmpl152` +
+>   `ZoneRing_Push/PushOffset/HitTest` (rects 8 B en mundo);
+>   `PosRing_FindNear` (±$40/±$30, usado por `MeleeGuard_Think`);
+>   `TargetRing_NewId/Register/FindPending/InRange/ClaimById/ClaimByKey`
+>   (registros 6 B {x,y,key,state}, usados por `Turret8_*` y la IA del
+>   jugador en `$36xxx`); `Turret8_SndByState`.
+> * 19 defsyms promovidos; +4 RTS mid-isla. `Subsystem_AudioSceneInit_08F158`
+>   renombrado a `Rings_InitAll_08f158` (no era audio).
 
 > **Wave NNN** (80 entradas, 4 442 B, verde a la primera) — region
 > `$08D17A..$08E4E4` en `grunts_capsule_08d1xx.s` (67 huecos cerrados).
