@@ -13,8 +13,8 @@
 |  de 4 punteros $2F3712 {Grunt_Rand_Stand, _Stand2, _Walk, _Walk} y
 |  $2F3722 {Grunt2_Rand_Stand ×2, _Stand2, _Walk} elegidas con RNG
 |  ($5EA1C & 3) por Grunt_PickRand_*; Pos_IntegrateXY88 es llamada desde
-|  $3E9DE. Los helpers Sub_0008F002/F010/F02C/F040/F070/F084/F0D0/F108 y
-|  Sub_0008EFCE (hueco $8EFxx, próxima wave) son la "física de grunt":
+|  $3E9DE. Los helpers Phys_FacingFromParam_08f002/F010/F02C/F040/F070/F084/F0D0/F108 y
+|  Phys_PlayerNearX_08efce (hueco $8EFxx, próxima wave) son la "física de grunt":
 |  gravedad, suelo, giro hacia el jugador y test de distancia.
 |
 |  A) $08D184..$08D2B0 — TEST DE PANTALLA CON LATCH (bit7 de +$13)
@@ -52,7 +52,7 @@
 |     ScrollOut: vel scroll +$80=$20000 / +$88=-$10000 publicadas con
 |       Scroll_StepVelX/Y (MMM), mapa $2F3910, atenúa con +$5C; cuando el
 |       brillo baja de 2 crea MissionEnd_Flash (snd $F4, mapa $2F44F6, $14 f,
-|       Coord_ApplyCameraTerciaryToSelf) -> SpawnDropper: Sub_0008EDC6 +
+|       Coord_ApplyCameraTerciaryToSelf) -> SpawnDropper: CamProp_Tmpl189_08edc6 +
 |       Cut_Dropper (MMM) con +$98=$A,+$99=8 en ($A0,$100).
 |     Marker/Marker2/Marker3 (misión $C): ($F0,$1A0), snd $98, mapas
 |       $2F3960/$2F39DC/$2F39E8 al cruzar $106F5C $4300/$433F; luego
@@ -70,7 +70,7 @@
 |     Grunt_Tmpl162 -> HopDown/HopUp (vel y ±$E, 8+rand(7) frames, mapas
 |       $2F3C84/$2F3CB4, límites y $1D0/$160): soldado que salta.
 |     Grunt_Rand_Idle ($40,$150) -> Rand_Stand ($2F3C58): si +$99=0 testea
-|       distancia Sub_0008EFCE(#$60) -> Grunt_Hit; si no, PickRand $2F3712.
+|       distancia Phys_PlayerNearX_08efce(#$60) -> Grunt_Hit; si no, PickRand $2F3712.
 |       Rand_Stand2 ($2F3C64), Rand_Walk (vel x ±$80 al azar, $2F3C10, con
 |       Pos_IntegrateXY88).
 |     Grunt_Hit -> Hit_Angle (+$34 = $10+rand($1F)) -> Hit_Launch (+$36 =
@@ -541,7 +541,7 @@ MissionEnd_ScrollOut_08d670:
 .L08d6a8:
         jsr     Scroll_StepVelX_08ccc6(pc)      | +038
         jsr     Scroll_StepVelY_08ccd8(pc)      | +03c
-        jsr     PcThunkTarget_08efb0(pc)        | +040
+        jsr     Phys_GroundKill_08efb0(pc)        | +040
         cmpi.b  #0x2,0x32(a6)                   | +044
         bcs.w   .L08d6ce                        | +04a
         move.b  0x5c(a6),d0                     | +04e
@@ -582,7 +582,7 @@ MissionEnd_SpawnDropper_08d72a:
         jsr     0x4407a.l                       | +000
         jsr     0x28d70.l                       | +006
         bcc.w   .L08d772                        | +00c
-        lea     Sub_0008EDC6(pc),a1             | +010  -> $08EDC6 (hueco futuro, defsym forward)
+        lea     CamProp_Tmpl189_08edc6(pc),a1             | +010  -> $08EDC6 (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +014
         jsr     0x5dd02.l                       | +01a
         lea     Cut_Dropper_08ccea(pc),a1       | +020
@@ -765,16 +765,16 @@ MissionEnd_Idle_08d986:
         .section .text.Grunt_Tmpl157_08d994, "ax", @progbits
         .global Grunt_Tmpl157_08d994
 Grunt_Tmpl157_08d994:
-        jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F02C(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
-        jsr     Sub_0008F084(pc)                | +00c  -> $08F084 (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollTarget_08f02c(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
+        jsr     Snd_ByParam9A_A_08f084(pc)                | +00c  -> $08F084 (hueco futuro, defsym forward)
         lea     0x2f3ab4.l,a0                   | +010
         jsr     0x28cd4.l                       | +016
         lea     .L08d9b6(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L08d9b6:
-        jsr     Sub_0008F040(pc)                | +022  -> $08F040 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollReached_08f040(pc)                | +022  -> $08F040 (hueco futuro, defsym forward)
         bcc.w   .L08d9d0                        | +026
         lea     0x2f3ac0.l,a0                   | +02a
         jsr     0x28cd4.l                       | +030
@@ -782,7 +782,7 @@ Grunt_Tmpl157_08d994:
         move.l  a1,(a6)                         | +03a
 .L08d9d0:
         jsr     0x2783a.l                       | +03c
-        jsr     PcThunkTarget_08efb0(pc)        | +042
+        jsr     Phys_GroundKill_08efb0(pc)        | +042
 
 | ----------------------------------------------------------------------------
 |  Grunt_Tmpl158_08d9e2  @ $08D9E2  (70 B)
@@ -790,16 +790,16 @@ Grunt_Tmpl157_08d994:
         .section .text.Grunt_Tmpl158_08d9e2, "ax", @progbits
         .global Grunt_Tmpl158_08d9e2
 Grunt_Tmpl158_08d9e2:
-        jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F02C(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
-        jsr     Sub_0008F084(pc)                | +00c  -> $08F084 (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollTarget_08f02c(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
+        jsr     Snd_ByParam9A_A_08f084(pc)                | +00c  -> $08F084 (hueco futuro, defsym forward)
         lea     0x2f3af0.l,a0                   | +010
         jsr     0x28cd4.l                       | +016
         lea     .L08da04(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L08da04:
-        jsr     Sub_0008F040(pc)                | +022  -> $08F040 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollReached_08f040(pc)                | +022  -> $08F040 (hueco futuro, defsym forward)
         bcc.w   .L08da1e                        | +026
         lea     0x2f3afc.l,a0                   | +02a
         jsr     0x28cd4.l                       | +030
@@ -807,7 +807,7 @@ Grunt_Tmpl158_08d9e2:
         move.l  a1,(a6)                         | +03a
 .L08da1e:
         jsr     0x2783a.l                       | +03c
-        jsr     PcThunkTarget_08efb0(pc)        | +042
+        jsr     Phys_GroundKill_08efb0(pc)        | +042
 
 | ----------------------------------------------------------------------------
 |  Grunt_Carrier_08da30  @ $08DA30  (102 B)
@@ -820,17 +820,17 @@ Grunt_Carrier_08da30:
         move.w  #0x40,0x22(a6)                  | +00c
         move.w  #0x150,0x24(a6)                 | +012
         clr.w   0x26(a6)                        | +018
-        jsr     Sub_0008F108(pc)                | +01c  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +020  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F02C(pc)                | +024  -> $08F02C (hueco futuro, defsym forward)
-        jsr     Sub_0008F0D0(pc)                | +028  -> $08F0D0 (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +01c  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +020  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollTarget_08f02c(pc)                | +024  -> $08F02C (hueco futuro, defsym forward)
+        jsr     Snd_ByParam9A_B_08f0d0(pc)                | +028  -> $08F0D0 (hueco futuro, defsym forward)
         clr.w   0x5c(a6)                        | +02c
         lea     0x2f3b2c.l,a0                   | +030
         jsr     0x28cd4.l                       | +036
         lea     .L08da72(pc),a1                 | +03c
         move.l  a1,(a6)                         | +040
 .L08da72:
-        jsr     Sub_0008F040(pc)                | +042  -> $08F040 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollReached_08f040(pc)                | +042  -> $08F040 (hueco futuro, defsym forward)
         bcc.w   .L08da8c                        | +046
         lea     0x2f3b70.l,a0                   | +04a
         jsr     0x28cd4.l                       | +050
@@ -838,7 +838,7 @@ Grunt_Carrier_08da30:
         move.l  a1,(a6)                         | +05a
 .L08da8c:
         jsr     0x2783a.l                       | +05c
-        jsr     PcThunkTarget_08efb0(pc)        | +062
+        jsr     Phys_GroundKill_08efb0(pc)        | +062
 
 | ----------------------------------------------------------------------------
 |  Grunt_Carrier_Drop_08da9e  @ $08DA9E  (60 B)
@@ -858,7 +858,7 @@ Grunt_Carrier_Drop_08da9e:
         move.l  a1,(a6)                         | +030
 .L08dad0:
         jsr     0x2783a.l                       | +032
-        jsr     PcThunkTarget_08efb0(pc)        | +038
+        jsr     Phys_GroundKill_08efb0(pc)        | +038
 
 | ----------------------------------------------------------------------------
 |  Grunt_Dropped_08dae2  @ $08DAE2  (102 B)
@@ -869,12 +869,12 @@ Grunt_Dropped_08dae2:
         move.w  #0xc000,0x38(a6)                | +000
         andi.w  #0xffe3,0x38(a6)                | +006
         ori.w   #0x1c,0x38(a6)                  | +00c
-        jsr     Sub_0008F002(pc)                | +012  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +016  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +012  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +016  -> $08F010 (hueco futuro, defsym forward)
         neg.w   0x28(a6)                        | +01a
         move.w  #0x10,0x2e(a6)                  | +01e
         addi.w  #0x20,0x24(a6)                  | +024
-        jsr     Sub_0008F0D0(pc)                | +02a  -> $08F0D0 (hueco futuro, defsym forward)
+        jsr     Snd_ByParam9A_B_08f0d0(pc)                | +02a  -> $08F0D0 (hueco futuro, defsym forward)
         lea     0x2f3c04.l,a0                   | +02e
         jsr     0x28cd4.l                       | +034
         lea     .L08db22(pc),a1                 | +03a
@@ -895,8 +895,8 @@ Grunt_Dropped_08dae2:
         .global Grunt_Tmpl162_08db50
 Grunt_Tmpl162_08db50:
         move.w  #0xd000,0x38(a6)                | +000
-        jsr     Sub_0008F002(pc)                | +006  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +00a  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +006  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +00a  -> $08F010 (hueco futuro, defsym forward)
         move.w  #0xf8,d1                        | +00e
         jsr     0x236e.l                        | +012
         lea     0x2f3c84.l,a0                   | +018
@@ -981,9 +981,9 @@ Grunt_Rand_Idle_08dc4a:
         move.w  #0x40,0x22(a6)                  | +000
         move.w  #0x150,0x24(a6)                 | +006
         clr.w   0x26(a6)                        | +00c
-        jsr     Sub_0008F108(pc)                | +010  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +014  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F02C(pc)                | +018  -> $08F02C (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +010  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +014  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollTarget_08f02c(pc)                | +018  -> $08F02C (hueco futuro, defsym forward)
         move.w  #0xf8,d1                        | +01c
         jsr     0x236e.l                        | +020
         lea     0x2f3c58.l,a0                   | +026
@@ -1010,7 +1010,7 @@ Grunt_Rand_Stand_08dc94:
         cmpi.b  #0x0,0x99(a6)                   | +022
         bne.w   .L08dcde                        | +028
         move.w  #0x60,d0                        | +02c
-        jsr     Sub_0008EFCE(pc)                | +030  -> $08EFCE (hueco futuro, defsym forward)
+        jsr     Phys_PlayerNearX_08efce(pc)                | +030  -> $08EFCE (hueco futuro, defsym forward)
         bcc.w   .L08dcd6                        | +034
         lea     Grunt_Hit_08dd7e(pc),a1         | +038
         move.l  a1,(a6)                         | +03c
@@ -1020,7 +1020,7 @@ Grunt_Rand_Stand_08dc94:
 .L08dcda:
         bra.w   JsrPcThunk_08dcf4               | +046
 .L08dcde:
-        jsr     Sub_0008F040(pc)                | +04a  -> $08F040 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollReached_08f040(pc)                | +04a  -> $08F040 (hueco futuro, defsym forward)
         bcc.w   .L08dcf0                        | +04e
         lea     Grunt_Hit_08dd7e(pc),a1         | +052
         move.l  a1,(a6)                         | +056
@@ -1059,7 +1059,7 @@ Grunt_Rand_Walk_08dd26:
 .L08dd42:
         move.w  #0x80,0x28(a6)                  | +01c
 .L08dd48:
-        jsr     Sub_0008F002(pc)                | +022  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +022  -> $08F002 (hueco futuro, defsym forward)
         lea     0x2f3c10.l,a0                   | +026
         jsr     0x28cd4.l                       | +02c
         lea     .L08dd5e(pc),a1                 | +032
@@ -1152,9 +1152,9 @@ Grunt_Hit_Fly_08de2a:
 Grunt_Tmpl_Standing_08de64:
         move.b  #0x8,0x99(a6)                   | +000
         move.b  #0x1,0x98(a6)                   | +006
-        jsr     Sub_0008F108(pc)                | +00c  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +010  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +014  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +00c  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +010  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +014  -> $08F010 (hueco futuro, defsym forward)
         move.w  #0xf8,d1                        | +018
         jsr     0x236e.l                        | +01c
         lea     .L08de8c(pc),a1                 | +022
@@ -1168,7 +1168,7 @@ Grunt_Tmpl_Standing_08de64:
         jsr     0x2783a.l                       | +03a
         jsr     0x28d70.l                       | +040
         move.w  #0x60,d0                        | +046
-        jsr     Sub_0008EFCE(pc)                | +04a  -> $08EFCE (hueco futuro, defsym forward)
+        jsr     Phys_PlayerNearX_08efce(pc)                | +04a  -> $08EFCE (hueco futuro, defsym forward)
         bcc.w   JsrPcThunk_08debc               | +04e
         lea     Grunt_Hit_08dd7e(pc),a1         | +052
         move.l  a1,(a6)                         | +056
@@ -1199,9 +1199,9 @@ Grunt_Runner_08dee0:
         bne.w   .L08df0c                        | +022
         move.b  #0x10,0x99(a6)                  | +026
 .L08df0c:
-        jsr     Sub_0008F108(pc)                | +02c  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +030  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +034  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +02c  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +030  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +034  -> $08F010 (hueco futuro, defsym forward)
         move.w  #0xf9,d1                        | +038
         jsr     0x236e.l                        | +03c
         lea     0x2f3cc0.l,a0                   | +042
@@ -1211,7 +1211,7 @@ Grunt_Runner_08dee0:
 .L08df34:
         jsr     0x2783a.l                       | +054
         jsr     Pos_IntegrateX88_08d2b0(pc)     | +05a
-        jsr     PcThunkTarget_08efb0(pc)        | +05e
+        jsr     Phys_GroundKill_08efb0(pc)        | +05e
 
 | ----------------------------------------------------------------------------
 |  Grunt_Tmpl153_08df4a  @ $08DF4A  (32 B)
@@ -1219,10 +1219,10 @@ Grunt_Runner_08dee0:
         .section .text.Grunt_Tmpl153_08df4a, "ax", @progbits
         .global Grunt_Tmpl153_08df4a
 Grunt_Tmpl153_08df4a:
-        jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +008  -> $08F010 (hueco futuro, defsym forward)
-        jsr     Sub_0008F070(pc)                | +00c  -> $08F070 (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +008  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Snd_ByParam9A_Base_08f070(pc)                | +00c  -> $08F070 (hueco futuro, defsym forward)
         jsr     Grunt_LoadMapByDir_08e172(pc)   | +010
         jsr     0x27cee.l                       | +014
         jsr     0x28d70.l                       | +01a
@@ -1253,10 +1253,10 @@ Rts_08df8a:
         .section .text.Grunt_Tmpl154_08df94, "ax", @progbits
         .global Grunt_Tmpl154_08df94
 Grunt_Tmpl154_08df94:
-        jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +008  -> $08F010 (hueco futuro, defsym forward)
-        jsr     Sub_0008F070(pc)                | +00c  -> $08F070 (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +008  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Snd_ByParam9A_Base_08f070(pc)                | +00c  -> $08F070 (hueco futuro, defsym forward)
         jsr     0x27cee.l                       | +010
         jsr     0x28d70.l                       | +016
 
@@ -1275,15 +1275,15 @@ Grunt2_Rand_Stand_08dfb8:
         jsr     0x28d70.l                       | +018
         bcc.w   .L08e01a                        | +01e
         move.w  #0x60,d0                        | +022
-        jsr     Sub_0008EFCE(pc)                | +026  -> $08EFCE (hueco futuro, defsym forward)
+        jsr     Phys_PlayerNearX_08efce(pc)                | +026  -> $08EFCE (hueco futuro, defsym forward)
         bcc.w   .L08e016                        | +02a
         move.w  #0xf,d0                         | +02e
         jsr     0x5ea1c.l                       | +032
         move.b  #0x20,0x99(a6)                  | +038
         add.b   d0,0x99(a6)                     | +03e
         move.b  #0x1,0x98(a6)                   | +042
-        jsr     Sub_0008F002(pc)                | +048  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +04c  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +048  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +04c  -> $08F010 (hueco futuro, defsym forward)
         jsr     Grunt_LoadMapByDir_08e172(pc)   | +050
         lea     Grunt_Run_08df72(pc),a1         | +054
         move.l  a1,(a6)                         | +058
@@ -1366,10 +1366,10 @@ Grunt2_Spawn_08e0ba:
         move.b  #0x1,0x98(a6)                   | +010
         move.b  #0x2,0x9a(a6)                   | +016
         move.b  #0x8,0x99(a6)                   | +01c
-        jsr     Sub_0008F108(pc)                | +022  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +026  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +02a  -> $08F010 (hueco futuro, defsym forward)
-        jsr     Sub_0008F070(pc)                | +02e  -> $08F070 (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +022  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +026  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +02a  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Snd_ByParam9A_Base_08f070(pc)                | +02e  -> $08F070 (hueco futuro, defsym forward)
         jsr     0x27cee.l                       | +032
         jsr     0x28d70.l                       | +038
         lea     Grunt2_Run_08e10c(pc),a1        | +03e
@@ -1386,15 +1386,15 @@ Grunt2_Run_08e10c:
         jsr     0x28d70.l                       | +004
         bcc.w   .L08e162                        | +00a
         move.w  #0x60,d0                        | +00e
-        jsr     Sub_0008EFCE(pc)                | +012  -> $08EFCE (hueco futuro, defsym forward)
+        jsr     Phys_PlayerNearX_08efce(pc)                | +012  -> $08EFCE (hueco futuro, defsym forward)
         bcc.w   .L08e156                        | +016
         move.w  #0xf,d0                         | +01a
         jsr     0x5ea1c.l                       | +01e
         move.b  #0x20,0x99(a6)                  | +024
         add.b   d0,0x99(a6)                     | +02a
         move.b  #0x1,0x98(a6)                   | +02e
-        jsr     Sub_0008F002(pc)                | +034  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +038  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +034  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +038  -> $08F010 (hueco futuro, defsym forward)
         jsr     Grunt_LoadMapByDir_08e172(pc)   | +03c
         lea     Grunt_Run_08df72(pc),a1         | +040
         move.l  a1,(a6)                         | +044
@@ -1431,9 +1431,9 @@ Grunt_LoadMapByDir_08e172:
         .section .text.Grunt_Tmpl160_08e19c, "ax", @progbits
         .global Grunt_Tmpl160_08e19c
 Grunt_Tmpl160_08e19c:
-        jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F02C(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollTarget_08f02c(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
         move.w  #0xfd,d1                        | +00c
         jsr     0x236e.l                        | +010
         lea     0x2f3e86.l,a0                   | +016
@@ -1441,7 +1441,7 @@ Grunt_Tmpl160_08e19c:
         lea     .L08e1c4(pc),a1                 | +022
         move.l  a1,(a6)                         | +026
 .L08e1c4:
-        jsr     Sub_0008F040(pc)                | +028  -> $08F040 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollReached_08f040(pc)                | +028  -> $08F040 (hueco futuro, defsym forward)
         bcc.w   .L08e1de                        | +02c
         lea     0x2f3e92.l,a0                   | +030
         jsr     0x28cd4.l                       | +036
@@ -1465,8 +1465,8 @@ Sentry_Init_08e1fa:
         move.w  #0x40,0x22(a6)                  | +012
         move.w  #0x180,0x24(a6)                 | +018
         clr.w   0x26(a6)                        | +01e
-        jsr     Sub_0008F002(pc)                | +022  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +026  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +022  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +026  -> $08F010 (hueco futuro, defsym forward)
         eori.b  #0x1,0x3a(a6)                   | +02a
         move.w  #0xfe,d1                        | +030
         jsr     0x236e.l                        | +034
@@ -1478,7 +1478,7 @@ Sentry_Init_08e1fa:
         move.l  a1,(a6)                         | +056
         .global Sentry_Run_08e252
 Sentry_Run_08e252:
-        jsr     PcThunkTarget_08efb0(pc)        | +058
+        jsr     Phys_GroundKill_08efb0(pc)        | +058
         jsr     0x28d70.l                       | +05c
         bcc.w   SetHandlerRts_08e286            | +062
         cmpi.b  #0x0,0x98(a6)                   | +066
@@ -1511,9 +1511,9 @@ Sentry_Wait_08e288:
         .section .text.Grunt_Tmpl180_08e2ac, "ax", @progbits
         .global Grunt_Tmpl180_08e2ac
 Grunt_Tmpl180_08e2ac:
-        jsr     Sub_0008F108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
-        jsr     Sub_0008F002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F02C(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
+        jsr     Prio_Set8018_08f108(pc)                | +000  -> $08F108 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +004  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollTarget_08f02c(pc)                | +008  -> $08F02C (hueco futuro, defsym forward)
         move.w  #0x124,d1                       | +00c
         jsr     0x236e.l                        | +010
         lea     0x2f3f4c.l,a0                   | +016
@@ -1522,7 +1522,7 @@ Grunt_Tmpl180_08e2ac:
         bset    #0x6,0x12(a6)                   | +028
         lea     Grunt_Tmpl180_Run_08e2f0(pc),a1 | +02e
         move.l  a1,(a6)                         | +032
-        jsr     Sub_0008F040(pc)                | +034  -> $08F040 (hueco futuro, defsym forward)
+        jsr     Phys_ScrollReached_08f040(pc)                | +034  -> $08F040 (hueco futuro, defsym forward)
         bcc.w   SetHandlerRts_08e2ee            | +038
 
 | ----------------------------------------------------------------------------
@@ -1532,7 +1532,7 @@ Grunt_Tmpl180_08e2ac:
         .global Grunt_Tmpl180_Run_08e2f0
 Grunt_Tmpl180_Run_08e2f0:
         jsr     0x2783a.l                       | +000
-        jsr     PcThunkTarget_08efb0(pc)        | +006
+        jsr     Phys_GroundKill_08efb0(pc)        | +006
         jsr     0x28d70.l                       | +00a
         bcc.w   .L08e30a                        | +010
         jmp     0x518.l                         | +014
@@ -1545,8 +1545,8 @@ Grunt_Tmpl180_Run_08e2f0:
         .section .text.Swinger_Tmpl181_08e30c, "ax", @progbits
         .global Swinger_Tmpl181_08e30c
 Swinger_Tmpl181_08e30c:
-        jsr     Sub_0008F002(pc)                | +000  -> $08F002 (hueco futuro, defsym forward)
-        jsr     Sub_0008F010(pc)                | +004  -> $08F010 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +000  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_VelXFromParam_08f010(pc)                | +004  -> $08F010 (hueco futuro, defsym forward)
         asr.w   0x28(a6)                        | +008
         move.w  #0x125,d1                       | +00c
         jsr     0x236e.l                        | +010
@@ -1565,7 +1565,7 @@ Swinger_Swing_08e334:
 .L08e358:
         move.w  #0x8,0x2c(a6)                   | +04c
 .L08e35e:
-        jsr     Sub_0008F002(pc)                | +052  -> $08F002 (hueco futuro, defsym forward)
+        jsr     Phys_FacingFromParam_08f002(pc)                | +052  -> $08F002 (hueco futuro, defsym forward)
         lea     .L08e368(pc),a1                 | +056
         move.l  a1,(a6)                         | +05a
 .L08e368:

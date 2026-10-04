@@ -722,12 +722,12 @@ SYMBOLS = {
     # 0x0008DFB8 promovido a Grunt2_Rand_Stand_08dfb8 en registry (Wave NNN).
     # 0x0008E288 promovido a Sentry_Wait_08e288 en registry (Wave NNN).
     # 0x0008E2F0 promovido a Grunt_Tmpl180_Run_08e2f0 en registry (Wave NNN).
-    # 0x0008E4FE promovido a TaskHandler_08e4fe en registry (Wave OOO).
-    # 0x0008E566 promovido a TaskHandler_08e566 en registry (Wave OOO).
-    # 0x0008E622 promovido a TaskHandler_08e622 en registry (Wave OOO).
-    # 0x0008E716 promovido a TaskHandler_08e716 en registry (Wave OOO).
-    # 0x0008EA16 promovido a TaskHandler_08ea16 en registry (Wave OOO).
-    # 0x0008EB02 promovido a TaskHandler_08eb02 en registry (Wave OOO).
+    # 0x0008E4FE promovido a Bobber_Descend_08e4fe en registry (Wave OOO).
+    # 0x0008E566 promovido a Bobber_Ascend_08e566 en registry (Wave OOO).
+    # 0x0008E622 promovido a Leaper_Jump_08e622 en registry (Wave OOO).
+    # 0x0008E716 promovido a Runner_Run_08e716 en registry (Wave OOO).
+    # 0x0008EA16 promovido a Nest_FlyOff_Run_08ea16 en registry (Wave OOO).
+    # 0x0008EB02 promovido a Nest2_HitWait_08eb02 en registry (Wave OOO).
     0x0008F96A: "TaskHandler_08f96a",
     0x0008FCCA: "TaskHandler_08fcca",
     0x0008FD2E: "TaskHandler_08fd2e",
@@ -947,8 +947,8 @@ SYMBOLS = {
     # 0x0008846A promovido a Entity_HitboxPulseSaved_08846a en registry (Wave KKK).
     # 0x0008B82C promovido a Airship_DropSoldier_08b82c en registry (Wave LLL).
     # 0x0008D804 promovido a Capsule_CheckMissionEnd_08d804 en registry (Wave NNN).
-    # 0x0008EA50 promovido a PcThunkTarget_08ea50 en registry (Wave OOO).
-    # 0x0008EFB0 promovido a PcThunkTarget_08efb0 en registry (Wave OOO).
+    # 0x0008EA50 promovido a Nest_DieIfParentGone_08ea50 en registry (Wave OOO).
+    # 0x0008EFB0 promovido a Phys_GroundKill_08efb0 en registry (Wave OOO).
     0x00097A60: "PcThunkTarget_097a60",
     0x00097A72: "PcThunkTarget_097a72",
     0x00097C5C: "PcThunkTarget_097c5c",
@@ -1158,7 +1158,7 @@ SYMBOLS = {
     0x0005A88A: "Fn_0005A88A",
     0x00051ABE: "Entity_AllocAndInit_051ABE",
     0x0007707C: "Subsystem_HudInit_07707C",
-    # 0x0008F158 promovido a Subsystem_AudioSceneInit_08F158 en registry (Wave OOO).
+    # 0x0008F158 promovido a Rings_InitAll_08f158 en registry (Wave OOO).
     0x0003EE3A: "Subsystem_ScoresInit_03EE3A",
     0x000997B8: "Subsystem_AttractHookInit_997B8",
     0x0004CB5C: "Subsystem_MiscInit_04CB5C",
@@ -1467,16 +1467,16 @@ SYMBOLS = {
     0x0008E286: "SetHandlerRts_08e286",  # rts de SetTaskHandler_08e280 (+6)
     0x0008E2EE: "SetHandlerRts_08e2ee",  # rts de SetTaskHandler_08e2e8 (+6)
     # --- Wave NNN: refs forward a huecos futuros
-    # 0x0008EDC6 promovido a Sub_0008EDC6 en registry (Wave OOO).
-    # 0x0008EFCE promovido a Sub_0008EFCE en registry (Wave OOO).
-    # 0x0008F002 promovido a Sub_0008F002 en registry (Wave OOO).
-    # 0x0008F010 promovido a Sub_0008F010 en registry (Wave OOO).
-    # 0x0008F02C promovido a Sub_0008F02C en registry (Wave OOO).
-    # 0x0008F040 promovido a Sub_0008F040 en registry (Wave OOO).
-    # 0x0008F070 promovido a Sub_0008F070 en registry (Wave OOO).
-    # 0x0008F084 promovido a Sub_0008F084 en registry (Wave OOO).
-    # 0x0008F0D0 promovido a Sub_0008F0D0 en registry (Wave OOO).
-    # 0x0008F108 promovido a Sub_0008F108 en registry (Wave OOO).
+    # 0x0008EDC6 promovido a CamProp_Tmpl189_08edc6 en registry (Wave OOO).
+    # 0x0008EFCE promovido a Phys_PlayerNearX_08efce en registry (Wave OOO).
+    # 0x0008F002 promovido a Phys_FacingFromParam_08f002 en registry (Wave OOO).
+    # 0x0008F010 promovido a Phys_VelXFromParam_08f010 en registry (Wave OOO).
+    # 0x0008F02C promovido a Phys_ScrollTarget_08f02c en registry (Wave OOO).
+    # 0x0008F040 promovido a Phys_ScrollReached_08f040 en registry (Wave OOO).
+    # 0x0008F070 promovido a Snd_ByParam9A_Base_08f070 en registry (Wave OOO).
+    # 0x0008F084 promovido a Snd_ByParam9A_A_08f084 en registry (Wave OOO).
+    # 0x0008F0D0 promovido a Snd_ByParam9A_B_08f0d0 en registry (Wave OOO).
+    # 0x0008F108 promovido a Prio_Set8018_08f108 en registry (Wave OOO).
     # --- Wave OOO: RTS internos de islas C
     0x0008EA72: "SetHandlerRts_08ea72",  # rts de SetTaskHandler_08ea6c (+6)
     0x0008EFCC: "Jsr5B6Rts_08efcc",  # rts de Jsr5B6ThenJmpScheduler_08efc0 (+12)

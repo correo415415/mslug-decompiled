@@ -383,12 +383,12 @@ extern void Grunt_Run_08df72(void);
 extern void Grunt2_Rand_Stand_08dfb8(void);
 extern void Sentry_Wait_08e288(void);
 extern void Grunt_Tmpl180_Run_08e2f0(void);
-extern void TaskHandler_08e4fe(void);
-extern void TaskHandler_08e566(void);
-extern void TaskHandler_08e622(void);
-extern void TaskHandler_08e716(void);
-extern void TaskHandler_08ea16(void);
-extern void TaskHandler_08eb02(void);
+extern void Bobber_Descend_08e4fe(void);
+extern void Bobber_Ascend_08e566(void);
+extern void Leaper_Jump_08e622(void);
+extern void Runner_Run_08e716(void);
+extern void Nest_FlyOff_Run_08ea16(void);
+extern void Nest2_HitWait_08eb02(void);
 extern void TaskHandler_08f96a(void);
 extern void TaskHandler_08fcca(void);
 extern void TaskHandler_08fd2e(void);
@@ -4328,37 +4328,37 @@ void SetTaskHandler_08e2e8(void) {
 
 __attribute__((section(".text.SetTaskHandler_08e544")))
 void SetTaskHandler_08e544(void) {
-    _a1_ptr = &TaskHandler_08e566;
+    _a1_ptr = &Bobber_Ascend_08e566;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08e5ac")))
 void SetTaskHandler_08e5ac(void) {
-    _a1_ptr = &TaskHandler_08e4fe;
+    _a1_ptr = &Bobber_Descend_08e4fe;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08e61a")))
 void SetTaskHandler_08e61a(void) {
-    _a1_ptr = &TaskHandler_08e622;
+    _a1_ptr = &Leaper_Jump_08e622;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08e70e")))
 void SetTaskHandler_08e70e(void) {
-    _a1_ptr = &TaskHandler_08e716;
+    _a1_ptr = &Runner_Run_08e716;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08ea6c")))
 void SetTaskHandler_08ea6c(void) {
-    _a1_ptr = &TaskHandler_08ea16;
+    _a1_ptr = &Nest_FlyOff_Run_08ea16;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08eafa")))
 void SetTaskHandler_08eafa(void) {
-    _a1_ptr = &TaskHandler_08eb02;
+    _a1_ptr = &Nest2_HitWait_08eb02;
     STORE_A1_AT_FP();
 }
 

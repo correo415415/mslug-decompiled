@@ -308,6 +308,10 @@ def conv_insn(ins, labelfn):
             mn = base + ".w"
     # moveq: capstone da "moveq #$1, d0"
     gops = [conv_operand(o, ins, labelfn) for o in ops]
+    # moveq #$ff,dN: capstone muestra el byte sin signo; GAS exige -128..127
+    if base == "moveq" and len(ops) == 2 and ops[0].startswith("#"):
+        v = int.from_bytes(ins.bytes[1:2], "big", signed=True)
+        gops[0] = f"#{v}"
     # move.l #imm,dN con imm pequeño: GAS lo convierte a moveq -> forzar
     if base == "move" and suf == "l" and len(ops) == 2 and ops[0].startswith("#") \
        and re.match(r"^d[0-7]$", ops[1]) and ins.bytes[1] == 0x3c:

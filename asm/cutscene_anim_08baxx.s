@@ -104,7 +104,7 @@
 |       $106F5C>=$1000); si +$98=$A y y>=$170 -> Finish ($78 f, snd $60 en
 |       misión $C, spawn $5239E #4, $A0 f) -> Exit (clr $106ED2).
 |     Cut_Item_08ce1e (template 245): snd $5F, mapa $2F3B2C, Pos_IntegrateY88_08d2d4,
-|       contador +$99, luego PcThunkTarget_08efb0.
+|       contador +$99, luego Phys_GroundKill_08efb0.
 |
 |  G) $08CE64..$08D17A — ARRANQUE DE ESCENAS B Y C (misiones $0B/$0C)
 |     SceneB_Init_08ce64: snd $29, SceneLoader_Main ($43568, #$E), +$21=6,
@@ -1585,7 +1585,7 @@ Cut_Item_08ce1e:
         bne.w   .L08ce58                        | +030
         jmp     0x518.l                         | +034
 .L08ce58:
-        jsr     PcThunkTarget_08efb0(pc)        | +03a
+        jsr     Phys_GroundKill_08efb0(pc)        | +03a
 
 | ----------------------------------------------------------------------------
 |  SceneB_Init_08ce64  @ $08CE64  (182 B)
