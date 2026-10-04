@@ -1,11 +1,115 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave RRR — Gun / Items / Score popups / Chute / Crate / Thrown / Flag
 |  Región: $09A0BC..$09C608  (9,196 B, 96 entradas, 28 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) RESUMEN
+|  ----------
+|  Objetos recogibles y sus efectos visuales, mas una torreta genérica:
+|
+|   1. Gun_* ($9A0BC..$9A5F4): cañón orientable con hijo de sprite.
+|      Gun_Init (desde Airship_Wait_0893ac): snd $D1, prio $8000, registra
+|      id de target ($8F3A6, invertido en +$72), crea el hijo Gun_Child
+|      (+$73 = indice de pose, -1 = oculto; tabla de mapas +$74 y snd
+|      $2F65EE), HP 100. Gun_Idle/Gun_Aim: +$70 = angulo 8.8 (wrap),
+|      Gun_UpdateAngleSprite elige el mapa por octante en $2F6540 (bit 0 de
+|      +$3A = espejo), Gun_RegisterTarget publica la boca en el anillo de
+|      targets ($8F3BE con offset $2F6588), Gun_Aim persigue al jugador
+|      ($5E136 => angulo) con inercia +$80, dispara rafagas de 3
+|      (Gun_FireShell -> Gun_Shell $9A520 con tabla $2F66CA y seno $13C0E;
+|      Gun_FireBullet -> $3093A). Gun_FollowParent pega el cañón al padre
+|      (+$7B) o usa fisica simple $2783A. Gun_Destroyed: musica $1021,
+|      cola $77FD6.
+|
+|   2. Item_* ($9A5F4..$9BDAA): items de la tabla E8000 284..294/316/317.
+|      Item_SpawnTable_09a5f4: cabecera {hitbox, pickbox A/B} + 30 punteros
+|      a handlers (Item_SpawnTable_Handlers) indexados por el byte de tipo
+|      (0..29) por Item_SpawnFromParent_09a7cc (desde $3EFF6/$614A8; C=1 si
+|      creo el item, lee +$98/+$99 del padre en (a6,d1)).
+|        - Ammo 1..4 (tmpl 284-287, snd $17D) y AmmoSeq (288: secuencia de
+|          mapas $2F79CE[+$98] con fade $2F7A28, da el tipo $2F7A38/$2F7A3C).
+|        - Weapon (289, snd $17F/$1A7 -> $32C12), WeaponSwap (290: si el
+|          jugador +$70==2 llama $2A28E y popup kind 1, si no $32C7E/kind 0),
+|          Bombs (291: $2A2BA, popup kind 3).
+|        - Food (294, 21 variantes de mapa con bra-tabla, snd $1AC/$1C6):
+|          Wait -> Blink -> Rot/Thrown/Bounce (vel. $2F7A40/$2F7A58,
+|          gravedad $27D50); Item_Food_Pickup -> popup Score_Popup_Value
+|          con combo ($10E488 timer 45 f, $10E489 nivel 0..14, kind 2 = $F).
+|        - Pow (293: $28998, dano $2870A, muere con musica $102E).
+|        - ComboTimer (316): decrementa $10E488 y clampa $10E489 <= 14.
+|        - Static (317): blit $43FAC con lista Item_Tmpl317_BlitList.
+|      Pickup: Item_PickupTestA/B (+$45 cooldown 8 f, pickbox A/B via
+|      Data+$DA/+$E2), Item_GiveAmmoKind ($32B58, musica $10FD si el
+|      jugador esta en +$70==2). Item_Taken_Snd{A..D}: snd $1A6..$1A9,
+|      prio $C000, 2 frames y Item_Taken_Rise (snd $180, mapa $2F674C).
+|      Item_GroundTail: $5DD56/$5DD5C con hitbox y, si +$9F==0, cuenta
+|      $10E48B.
+|
+|   3. Score_Popup_* ($9B48A..$9BAD2): digitos de puntuacion flotantes.
+|      Score_Popup_Table (kind 0..3 -> lista de digitos $2F79A4) y
+|      Score_Popup_Value (valor packed BCD en +$80 via $51A44, longitud
+|      $2F798C/$2F7994, color por +$9C); cada digito Score_Digit (snd
+|      $1B8/$1B9 o $1CD/$1CE segun jugador +$68, mapa $2F77A4[d], vel X
+|      $5DCA4, gravedad $FEDD) con Lift/Hold/Blink (parpadeo con $106F28).
+|      Score_Popup_ForPlayer ($32C6E): kind 2 para el slot $100440/$1004E0.
+|
+|   4. Chute_* ($9BDC6..$9BE9E): paracaidas A/B/C (mapas $2DD4BA/$2DD594/
+|      $2DD37E, snd $163, prio $2000|$10) colocados con offset +$70/+$72.
+|
+|   5. Crate_* ($9BE9E..$9C218): caja lanzada (hitbox FFD0/0030).
+|      Crate_Init: prio $D000, snd $17C; +$98&1 elige mapa vertical
+|      ($2F7A70, hijo Crate_ChuteFollowX) o lateral ($2F7AC6/$2F7AAC, hijo
+|      Crate_ChuteFollow); bit 1 de +$98^+$99 espeja. Cae con $27D50,
+|      genera Crate_Debris cada 3 frames (seno $13C0E, amortiguacion /16),
+|      al tocar suelo -> Crate_Opened (musica $1025, snd 4) o Crate_Destroyed
+|      (cola $77EFE). Entity_IntegrateVelFrac_09c072 = integrador 8.8 de
+|      +$28/+$2A sobre +$22/+$24 (+$26/+$27 fraccion) usado tambien por
+|      $60618/$76F0A.
+|
+|   6. Thrown_* ($9C234..$9C4D4): objeto arrojado (snd $184, prio $D000):
+|      mapas $2F83A4/$2F84AE, sombra Thrown_Shadow/ShadowB (siguen al padre
+|      a 3/8 o 3/4), aterriza en Thrown_Landed.
+|
+|   7. Flag_Init_09c4d4 (desde $3C8BA): bandera/marcador (snd $19B, mapas
+|      $2F86EC/$2F865C, pone $10A2D1=1, musica $1086 al activarse bit 1 de
+|      +$5A).
+|
+|  B) EVIDENCIAS
+|  -------------
+|  - E8000: 284..291 -> Item_Tmpl*, 293 Pow, 294 Food, 316 ComboTimer,
+|    317 Static. Jump-table $9A6E2 (30 x u32) apunta a los Item_Tmpl*.
+|  - $8948A Airship_Wait -> Gun_Init; $3C9FC -> Thrown_Init; $3C8BA ->
+|    Flag_Init; $25B68 -> Item_SpawnAtOffset; $53D3E -> Score_Popup_Kind4.
+|
+|  C) HIPOTESIS / DUDAS
+|  --------------------
+|  - "Gun" podria ser el cañon del Hairbuster Riberts / torretas de la
+|    escena 5 (unico caller Airship_Wait).
+|  - El significado exacto de kind 0..4 de los popups (arma, cambio,
+|    comida, bombas, rescate) se infiere de los callers.
+|  - Las 21 variantes de Food se eligen por entrada multiple (bra-tabla
+|    de 12 B); los offsets intermedios no son entradas registradas.
+|
+|  D) DATOS EMBEBIDOS
+|  ------------------
+|  Gun_Hitbox_09a0d8 / Crate_Hitbox_09be9e / Thrown_Hitbox_09c234 (8 B,
+|  FFD0 0030 FFD0 0030), Item_FadeRamp_09ab54 (8 B), Item_SpawnTable_09a5f4
+|  (358 B), Item_Tmpl317_BlitList_09bb92 (536 B).
+|
+|  E) CALLEES EXTERNOS
+|  -------------------
+|  $4AE/$518/$5B6 tareas, $236E snd, $2352 musica, $28134 prio, $28CD4
+|  mapa, $28D70 hijos, $2870A dano, $2783A/$27D50 fisica, $27C8C/$27CEE
+|  probes, $27EBA efecto, $267E2 relink, $283CA/$283D8 flags, $5DD02 copia,
+|  $5DD56/$5DD5C suelo, $5CA2A sprite, $13C0E seno, $5E9B6 RNG, $5DCA4 rand,
+|  $5E45A fuera-de-mundo, $5E136 angulo, $799DE tabla 2D, $51A44 BCD,
+|  $43FAC blit, $13600/$138FE slots, $32B58/$32C12/$32C7E/$2A28E/$2A2BA
+|  inventario del jugador, $77FD6/$77EFE colas de muerte.
+|
+|  F) ESTADO
+|  ---------
+|  96/96 entradas byte-exactas (matcher 4397/4397, 9.37 % de la P ROM).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

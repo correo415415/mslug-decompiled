@@ -11,10 +11,31 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4301/4301 funciones
-BYTES   : 187,244/187,244 (registrados)
-ROM     : 187,244/2,097,152  (8.9285%)
+MATCHED : 4397/4397 funciones
+BYTES   : 196,440/196,440 (registrados)
+ROM     : 196,440/2,097,152  (9.3670%)
 ```
+
+> **Wave RRR** (96 entradas, 9 196 B, verde a la primera) — region
+> `$09A0BC..$09C608` en `items_score_crates_09a0xx.s` (28 huecos, 6 tablas
+> `--data`, 5 `--entry`). Novena wave de `tools/gen_asm_region.py`.
+>
+> * **Gun_***: cañon orientable (angulo 8.8 en +$70, mapas por octante
+>   `$2F6540`, hijo `Gun_Child` con poses +$73) que registra su boca en el
+>   anillo de targets (`$8F3A6/$8F3BE`) y dispara rafagas de 3
+>   (`Gun_FireShell` -> `Gun_Shell`, `Gun_FireBullet` -> `$3093A`); caller
+>   `Airship_Wait_0893ac`.
+> * **Item_*** (E8000 284-291/293/294/316/317): `Item_SpawnTable_09a5f4`
+>   {hitbox, pickbox A/B, 30 handlers} + `Item_SpawnFromParent` (C=1 si
+>   crea); Ammo1..4, AmmoSeq (fade `$2F7A28`), Weapon/WeaponSwap/Bombs
+>   (`$32C12/$2A28E/$32C7E/$2A2BA`), Food (21 mapas, Wait/Blink/Rot/
+>   Thrown/Bounce, combo `$10E488/$10E489`), Pow, ComboTimer, Static.
+>   `Item_Taken_Snd{A..D}` + `Item_Taken_Rise`.
+> * **Score_Popup_*/Score_Digit_***: digitos flotantes por kind 0..4 o
+>   valor BCD (`$51A44`), snd por jugador (+$68), Lift/Hold/Blink.
+> * **Chute_A/B/C**, **Crate_*** (caida `$27D50`, `Crate_Debris` con seno,
+>   seguidores de paracaidas, `Entity_IntegrateVelFrac_09c072`),
+>   **Thrown_*** (sombras a 3/8 y 3/4) y **Flag_Init** (`$10A2D1`).
 
 > **Wave QQQ** (125 entradas, 9 252 B, verde a la primera) — region
 > `$09773C..$099F3A` en `hiscore_memcard_mobs_0977xx.s` (96 huecos

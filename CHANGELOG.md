@@ -17,6 +17,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave RRR — 96 entries (9,196 B): `$09A0BC..$09C608`
+  (`items_score_crates_09a0xx.s`, 28 gaps closed): a generic aimable
+  gun with sprite child (`Gun_*`, spawned by `Airship_Wait`), the pickup
+  items of templates 284..294/316/317 (`Item_*`: ammo, weapon, weapon
+  swap, bombs, 21-variant food, POW, combo timer, static blit) driven by
+  the 30-entry spawn table at `$9A5F4` (`Item_SpawnFromParent`), floating
+  score digits (`Score_Popup_*`, `Score_Digit_*`, combo level in
+  `$10E488/$10E489`), parachutes (`Chute_*`), the thrown crate with
+  debris and chute followers (`Crate_*`, `Entity_IntegrateVelFrac`),
+  thrown objects with shadows (`Thrown_*`) and `Flag_Init`. Six embedded
+  data blocks via `--data`. Matcher: 4,397/4,397, 196,440 B (9.37 %).
 - Wave QQQ — 125 entries (9,252 B): `$09773C..$099F3A`
   (`hiscore_memcard_mobs_0977xx.s`, 96 gaps closed): the high-score
   table (`HiScore_*`: 10 x 12-byte records at `$100002`, defaults from
