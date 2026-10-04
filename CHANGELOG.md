@@ -29,12 +29,12 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   `SprCb_Lamp*`), the camp (`S5_Tent*`, `S5_Depot*`, `S5_Bunker`,
   `S5_Camp_Spawn`), breakable props, barrel row and falling rocks, and the
   projectile family (`Proj_Thrown`, `Proj_Drop_V0..V3 -> _Common`,
-  `Proj_Bounce` driven by the embedded data table `Proj_ScriptTable_08b944`).
+  `Proj_Bounce` driven by the embedded pointer table `Proj_Bounce_HitTable_08b944` (+ `Hitbox_08b950`)).
   20 defsyms promoted; +16 island RTS; +4 forward defsyms. Matcher:
   3,854/3,854, 156,910 B (7.48 %).
 - `tools/gen_asm_region.py`: new `--data START-END` option emits embedded
   data tables inside `.text` as `.dc.w` (first used for
-  `Proj_ScriptTable_08b944`); `scripts/bootstrap_sandbox.sh` now looks for
+  `Proj_Bounce_HitTable_08b944`); `scripts/bootstrap_sandbox.sh` now looks for
   the ROM zip in `/home/user/uploaded_files/` and `/mnt/aidrive/mslug_rom/`.
 - Wave KKK — 84 entries (9,334 B): **scene-4 fortress cluster** closing
   all 6 gaps in `$0865BE..$088A56` (`fort_scene4_0865xx.s`). Every

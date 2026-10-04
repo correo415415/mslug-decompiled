@@ -89,8 +89,11 @@
 |       Camera_PublishLockX_08b8e4, S5_*_BlitByIdx.
 |
 |  J) $08B944..$08BA00 — TABLA Y PLANTILLAS DE PROYECTIL
-|     Proj_ScriptTable_08b944 (datos, 94 B, .dc.w) usada por Proj_Bounce_08b9ba
-|       (`lea Proj_ScriptTable_08b944(pc),a0`); Proj_Tmpl168/169/170 son las
+|     Proj_Bounce_HitTable_08b944 (3 punteros: -1, $8BADA, $8BABE) usada por
+|       Proj_Bounce_08b9ba via el despachador por tabla $772 (`lea ...(pc),a0;
+|       movea.l #-1,a1; jsr $772`) tras el resultado de daño de $2870A.
+|     Hitbox_08b950 (82 B, .dc.w): hitbox de 2 cajas que instalan en +$48 los
+|       handlers $8BB34/$8BB5E (Wave MMM). Proj_Tmpl168/169/170 son las
 |       entradas de plantilla que saltan a Proj_Bounce.
 |
 |  Callees aún no emparejados (quedan en huecos futuros): $9A300, $38F14,
@@ -2997,58 +3000,65 @@ Entity_CmpPrioWithSibling_08b928:
         bcs.w   SetXN_08b93e                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Proj_ScriptTable_08b944  @ $08B944  (94 B)
+|  Proj_Bounce_HitTable_08b944  @ $08B944  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.Proj_ScriptTable_08b944, "ax", @progbits
-        .global Proj_ScriptTable_08b944
-Proj_ScriptTable_08b944:
+        .section .text.Proj_Bounce_HitTable_08b944, "ax", @progbits
+        .global Proj_Bounce_HitTable_08b944
+Proj_Bounce_HitTable_08b944:
         .dc.w   0xffff                        | +000  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0008                        | +004  (dato / opcode no decodificado)
         .dc.w   0xbada                        | +006  (dato / opcode no decodificado)
         .dc.w   0x0008                        | +008  (dato / opcode no decodificado)
         .dc.w   0xbabe                        | +00a  (dato / opcode no decodificado)
-        .dc.w   0x0002                        | +00c  (dato / opcode no decodificado)
-        .dc.w   0xffff                        | +00e  (dato / opcode no decodificado)
-        .dc.w   0xffff                        | +010  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +012  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +014  (dato / opcode no decodificado)
-        .dc.w   0xfff8                        | +016  (dato / opcode no decodificado)
-        .dc.w   0x0008                        | +018  (dato / opcode no decodificado)
+
+| ----------------------------------------------------------------------------
+|  Hitbox_08b950  @ $08B950  (82 B)
+| ----------------------------------------------------------------------------
+        .section .text.Hitbox_08b950, "ax", @progbits
+        .global Hitbox_08b950
+Hitbox_08b950:
+        .dc.w   0x0002                        | +000  (nº de cajas)
+        .dc.w   0xffff                        | +002  (dato / opcode no decodificado)
+        .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
+        .dc.w   0x0000                        | +006  (dato / opcode no decodificado)
+        .dc.w   0x0000                        | +008  (dato / opcode no decodificado)
+        .dc.w   0xfff8                        | +00a  (dato / opcode no decodificado)
+        .dc.w   0x0008                        | +00c  (dato / opcode no decodificado)
+        .dc.w   0x0000                        | +00e  (dato / opcode no decodificado)
+        .dc.w   0x0018                        | +010  (dato / opcode no decodificado)
+        .dc.w   0x0200                        | +012  (dato / opcode no decodificado)
+        .dc.w   0x0024                        | +014  (dato / opcode no decodificado)
+        .dc.w   0x366c                        | +016  (dato / opcode no decodificado)
+        .dc.w   0xffff                        | +018  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +01a  (dato / opcode no decodificado)
-        .dc.w   0x0018                        | +01c  (dato / opcode no decodificado)
+        .dc.w   0x0000                        | +01c  (dato / opcode no decodificado)
         .dc.w   0x0200                        | +01e  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +020  (dato / opcode no decodificado)
-        .dc.w   0x366c                        | +022  (dato / opcode no decodificado)
+        .dc.w   0x3676                        | +022  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +024  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +026  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +028  (dato / opcode no decodificado)
+        .dc.w   0xfff8                        | +026  (dato / opcode no decodificado)
+        .dc.w   0x0018                        | +028  (dato / opcode no decodificado)
         .dc.w   0x0200                        | +02a  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +02c  (dato / opcode no decodificado)
-        .dc.w   0x3676                        | +02e  (dato / opcode no decodificado)
+        .dc.w   0x3680                        | +02e  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +030  (dato / opcode no decodificado)
         .dc.w   0xfff8                        | +032  (dato / opcode no decodificado)
-        .dc.w   0x0018                        | +034  (dato / opcode no decodificado)
+        .dc.w   0x0000                        | +034  (dato / opcode no decodificado)
         .dc.w   0x0200                        | +036  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +038  (dato / opcode no decodificado)
-        .dc.w   0x3680                        | +03a  (dato / opcode no decodificado)
+        .dc.w   0x368a                        | +03a  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +03c  (dato / opcode no decodificado)
-        .dc.w   0xfff8                        | +03e  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +040  (dato / opcode no decodificado)
+        .dc.w   0x0008                        | +03e  (dato / opcode no decodificado)
+        .dc.w   0x0018                        | +040  (dato / opcode no decodificado)
         .dc.w   0x0200                        | +042  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +044  (dato / opcode no decodificado)
-        .dc.w   0x368a                        | +046  (dato / opcode no decodificado)
+        .dc.w   0x3694                        | +046  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +048  (dato / opcode no decodificado)
         .dc.w   0x0008                        | +04a  (dato / opcode no decodificado)
-        .dc.w   0x0018                        | +04c  (dato / opcode no decodificado)
-        .dc.w   0x0200                        | +04e  (dato / opcode no decodificado)
-        .dc.w   0x0024                        | +050  (dato / opcode no decodificado)
-        .dc.w   0x3694                        | +052  (dato / opcode no decodificado)
-        .dc.w   0xffff                        | +054  (dato / opcode no decodificado)
-        .dc.w   0x0008                        | +056  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +058  (dato / opcode no decodificado)
-        .dc.w   0x1d01                        | +05a  (dato / opcode no decodificado)
-        .dc.w   0xffff                        | +05c  (dato / opcode no decodificado)
+        .dc.w   0x0000                        | +04c  (dato / opcode no decodificado)
+        .dc.w   0x1d01                        | +04e  (dato / opcode no decodificado)
+        .dc.w   0xffff                        | +050  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
 |  Proj_Tmpl168_08b9a2  @ $08B9A2  (8 B)
@@ -3098,5 +3108,5 @@ Proj_Bounce_08b9ba:
         move.l  a1,(a6)                         | +038
 .L08b9f4:
         jsr     0x2870a.l                       | +03a
-        lea     Proj_ScriptTable_08b944(pc),a0  | +040
+        lea     Proj_Bounce_HitTable_08b944(pc),a0  | +040
         .dc.w   0x227c                        | +044  (dato / opcode no decodificado)

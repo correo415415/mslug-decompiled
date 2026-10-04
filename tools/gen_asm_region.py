@@ -458,6 +458,11 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
                 return entry_names[t]
             if t in cross_labels:
                 return cross_labels[t]
+            if t in GLOBAL_LABELS:
+                # label promovido a global por una referencia desde OTRO hueco
+                # (pase 1); debe usarse el mismo nombre también desde su propia
+                # entrada o GAS no resolverá el .L local.
+                return GLOBAL_LABELS[t]
             return f".L{t:06x}"
         if t in known_names:
             return known_names[t]

@@ -52,7 +52,7 @@ ROM     : 156,910/2,097,152  (7.4821%)
 >   `S5_Crate`, `S5_PropSolid`, fila de barriles, lluvia de rocas.
 > * **Proyectiles**: `Proj_Thrown` (parametros +$9A..+$9D), `Proj_Drop_V0..V3`
 >   -> `Proj_Drop_Common_08b3b4` (snd por cam x vs `$670`), `Proj_Bounce_08b9ba`
->   con tabla de script `Proj_ScriptTable_08b944` (datos en `.text`,
+>   con tabla de punteros `Proj_Bounce_HitTable_08b944` + `Hitbox_08b950` (datos en `.text`,
 >   emitidos como `.dc.w`).
 > * 20 defsyms promovidos; +16 RTS mid-isla; +4 forward (`$8BA0C`, `$8BA52`,
 >   `$8BB34`, `$8BB5E`, proxima wave). Callees pendientes: `$9A300`, `$38F14`,

@@ -695,14 +695,14 @@ SYMBOLS = {
     # 0x0008B03C promovido a TowerPort_Idle_08b03c en registry (Wave LLL).
     # 0x0008B10A promovido a Wreck_SparkBurst_08b10a en registry (Wave LLL).
     0x0008BB84: "TaskHandler_08bb84",
-    0x0008C678: "TaskHandler_08c678",
-    0x0008C8FA: "TaskHandler_08c8fa",
-    0x0008CF22: "TaskHandler_08cf22",
-    0x0008CF6C: "TaskHandler_08cf6c",
-    0x0008CFB6: "TaskHandler_08cfb6",
-    0x0008D000: "TaskHandler_08d000",
-    0x0008D04A: "TaskHandler_08d04a",
-    0x0008D094: "TaskHandler_08d094",
+    # 0x0008C678 promovido a TaskHandler_08c678 en registry (Wave MMM).
+    # 0x0008C8FA promovido a TaskHandler_08c8fa en registry (Wave MMM).
+    # 0x0008CF22 promovido a TaskHandler_08cf22 en registry (Wave MMM).
+    # 0x0008CF6C promovido a TaskHandler_08cf6c en registry (Wave MMM).
+    # 0x0008CFB6 promovido a TaskHandler_08cfb6 en registry (Wave MMM).
+    # 0x0008D000 promovido a TaskHandler_08d000 en registry (Wave MMM).
+    # 0x0008D04A promovido a TaskHandler_08d04a en registry (Wave MMM).
+    # 0x0008D094 promovido a TaskHandler_08d094 en registry (Wave MMM).
     0x0008D41C: "TaskHandler_08d41c",
     0x0008D450: "TaskHandler_08d450",
     0x0008D472: "TaskHandler_08d472",
@@ -1231,13 +1231,13 @@ SYMBOLS = {
     0x000022C8: "Sub_000022C8",
     0x00028CD4: "Sub_00028CD4",
     0x00002308: "Sub_00002308",
-    0x0008BC74: "Sub_0008BC74",
-    0x0008C2B8: "Sub_0008C2B8",
-    0x0008C322: "Sub_0008C322",
-    0x0008C37E: "Sub_0008C37E",
-    0x0008C3DA: "Sub_0008C3DA",
-    0x0008C436: "Sub_0008C436",
-    0x0008C5B2: "Sub_0008C5B2",
+    # 0x0008BC74 promovido a Sub_0008BC74 en registry (Wave MMM).
+    # 0x0008C2B8 promovido a Sub_0008C2B8 en registry (Wave MMM).
+    # 0x0008C322 promovido a Sub_0008C322 en registry (Wave MMM).
+    # 0x0008C37E promovido a Sub_0008C37E en registry (Wave MMM).
+    # 0x0008C3DA promovido a Sub_0008C3DA en registry (Wave MMM).
+    # 0x0008C436 promovido a Sub_0008C436 en registry (Wave MMM).
+    # 0x0008C5B2 promovido a Sub_0008C5B2 en registry (Wave MMM).
 
     # ---- Wave XX: entradas mid-island (rts internos de islas C matcheadas
     #      en $0442xx..$04580x, referenciadas por bcc/bcs de los clusters
@@ -1267,7 +1267,7 @@ SYMBOLS = {
     0x00077F6A: "AnimSeq_00077F6A",       # secuencia anim explosion (Boss_Descend)
     0x00079298: "TaskProto_00079298",     # plantilla tarea aux (MissionDriver_Init)
     0x0008C85C: "Fn_0008C85C",            # init subsistema paralelo (MissionDriver_Init)
-    0x0008C864: "TaskProto_0008C864",     # handler subsistema paralelo
+    # 0x0008C864 promovido a TaskProto_0008C864 en registry (Wave MMM).
     0x0008F6F2: "Fn_0008F6F2",            # tick contexto padre d1=1 (Boss_Descend)
     0x0008F714: "Fn_0008F714",            # tick contexto padre d1=8 (Boss_Active)
     # --- Wave YY: defsyms mid-isla + refs a huecos futuros ($04580C..$046258) ---
@@ -1428,8 +1428,26 @@ SYMBOLS = {
     0x0008B108: "SetHandlerRts_08b108",  # rts de SetTaskHandler_08b102 (+6)
     0x0008B716: "JsrPcRts_08b716",  # rts de JsrPcThunk_08b712 (+4)
     # Huecos futuros referenciados por pc-rel desde esta region:
-    0x0008BA0C: "Sub_0008BA0C",  # hueco futuro (ref pc-rel desde esta region)
-    0x0008BA52: "Sub_0008BA52",  # hueco futuro (ref pc-rel desde esta region)
-    0x0008BB34: "Sub_0008BB34",  # hueco futuro (ref pc-rel desde esta region)
-    0x0008BB5E: "Sub_0008BB5E",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0008BA0C promovido a Sub_0008BA0C en registry (Wave MMM).
+    # 0x0008BA52 promovido a Sub_0008BA52 en registry (Wave MMM).
+    # 0x0008BB34 promovido a Sub_0008BB34 en registry (Wave MMM).
+    # 0x0008BB5E promovido a Sub_0008BB5E en registry (Wave MMM).
+    # --- Wave MMM: RTS internos de islas C
+    0x0008BB28: "SetHandlerRts_08bb28",  # rts de SetTaskHandler_08bb22 (+6)
+    0x0008BCE4: "SetXNMid_08bce4",  # rts de SetXN_08bce0 (+4)
+    0x0008BE26: "SetXNMid_08be26",  # rts de SetXN_08be22 (+4)
+    0x0008BF94: "SetXNMid_08bf94",  # rts de SetXN_08bf90 (+4)
+    0x0008C006: "SetXNMid_08c006",  # rts de SetXN_08c002 (+4)
+    0x0008C72E: "Jsr5B6Rts_08c72e",  # rts de Jsr5B6ThenJmpScheduler_08c722 (+12)
+    0x0008C938: "SetHandlerRts_08c938",  # rts de SetTaskHandler_08c932 (+6)
+    0x0008CF20: "SetHandlerRts_08cf20",  # rts de SetTaskHandler_08cf1a (+6)
+    0x0008CF6A: "SetHandlerRts_08cf6a",  # rts de SetTaskHandler_08cf64 (+6)
+    0x0008CFB4: "SetHandlerRts_08cfb4",  # rts de SetTaskHandler_08cfae (+6)
+    0x0008CFFE: "SetHandlerRts_08cffe",  # rts de SetTaskHandler_08cff8 (+6)
+    0x0008D048: "SetHandlerRts_08d048",  # rts de SetTaskHandler_08d042 (+6)
+    0x0008D092: "SetHandlerRts_08d092",  # rts de SetTaskHandler_08d08c (+6)
+    # --- Wave MMM: refs forward a huecos futuros
+    0x0008D24C: "Sub_0008D24C",  # hueco futuro (ref pc-rel desde esta region)
+    0x0008D2D4: "Sub_0008D2D4",  # hueco futuro (ref pc-rel desde esta region)
+    0x0008D3B4: "Sub_0008D3B4",  # hueco futuro (ref pc-rel desde esta region)
 }
