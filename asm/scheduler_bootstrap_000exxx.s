@@ -295,7 +295,7 @@ AttractHandler_10002C:
         jsr     Sub_0005E998                    | +0e video update hook
         jsr     BIOS_FIX_CLEAR                  | +14 BIOS VBlank (BIOS $C004C2)
         jsr     Pubcleaner_10A2Cx_052712        | +1a Pubcleaner_10A2Cx (LL#1)
-        lea.l   TaskTpl_098720, a1              | +20 a1 = &task_tpl_$98720
+        lea.l   LogoScene_Tpl_098720, a1              | +20 a1 = &task_tpl_$98720
         jsr     ThunkTarget_0004ae              | +26 Task_Alloc
         move.b  #0xff, 0x106ece.l               | +2c key latch A = -1
         move.b  #0xff, 0x106ecf.l               | +34 key latch B = -1

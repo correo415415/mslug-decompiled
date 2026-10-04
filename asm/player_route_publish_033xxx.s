@@ -228,7 +228,7 @@ Sub_00027EBA:
         move.w  0x24(a6), d2                    | +04  d2 = y_coord
         subq.w  #0x1, d2                        | +08  d2 -= 1
         jsr     Sub_00027DB2(pc)                | +0a  helper $27DB2 (pc-rel)
-        jsr     Sub_0009993C                    | +0e  helper $9993C (abs.l)
+        jsr     Trail_FindNearest_09993c                    | +0e  helper $9993C (abs.l)
         move.b  d6, 0x106f44.l                  | +14  publish effect_id
         cmpi.b  #0xf, d6                        | +1a  if d6 == $F
         beq.w   .Lspe_probe                     | +1e    skip setup

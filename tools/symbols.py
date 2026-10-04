@@ -746,32 +746,32 @@ SYMBOLS = {
     # 0x0009152C promovido a Continue_Text_Clear_09152c en registry (Wave PPP).
     # 0x00091558 promovido a Continue_Text_Blink_091558 en registry (Wave PPP).
     0x000916C0: "TaskHandler_0916c0",
-    # 0x00097852 promovido a TaskHandler_097852 en registry (Wave QQQ).
-    # 0x0009788C promovido a TaskHandler_09788c en registry (Wave QQQ).
-    # 0x000978AC promovido a TaskHandler_0978ac en registry (Wave QQQ).
-    # 0x000978FA promovido a TaskHandler_0978fa en registry (Wave QQQ).
-    # 0x0009792E promovido a TaskHandler_09792e en registry (Wave QQQ).
+    # 0x00097852 promovido a HiScore_WaitLogo_097852 en registry (Wave QQQ).
+    # 0x0009788C promovido a HiScore_HeaderDelay_09788c en registry (Wave QQQ).
+    # 0x000978AC promovido a HiScore_DrawRowsStep_0978ac en registry (Wave QQQ).
+    # 0x000978FA promovido a HiScore_DrawAllRows_0978fa en registry (Wave QQQ).
+    # 0x0009792E promovido a HiScore_WaitExit_09792e en registry (Wave QQQ).
     0x0009794A: "TaskHandler_09794a",
-    # 0x0009806A promovido a TaskHandler_09806a en registry (Wave QQQ).
-    # 0x00098308 promovido a TaskHandler_098308 en registry (Wave QQQ).
-    # 0x000983F6 promovido a TaskHandler_0983f6 en registry (Wave QQQ).
-    # 0x00098482 promovido a TaskHandler_098482 en registry (Wave QQQ).
+    # 0x0009806A promovido a NameEntry_Blink_09806a en registry (Wave QQQ).
+    # 0x00098308 promovido a MemCard_LoadDialog_Run_098308 en registry (Wave QQQ).
+    # 0x000983F6 promovido a MemCard_Dialog_ExitDelay_0983f6 en registry (Wave QQQ).
+    # 0x00098482 promovido a MemCard_SaveDialog_Run_098482 en registry (Wave QQQ).
     0x00098836: "TaskHandler_098836",
-    # 0x00098886 promovido a TaskHandler_098886 en registry (Wave QQQ).
-    # 0x0009890C promovido a TaskHandler_09890c en registry (Wave QQQ).
-    # 0x000989E0 promovido a TaskHandler_0989e0 en registry (Wave QQQ).
-    # 0x00098AFE promovido a TaskHandler_098afe en registry (Wave QQQ).
-    # 0x00098C00 promovido a TaskHandler_098c00 en registry (Wave QQQ).
-    # 0x00098DC6 promovido a TaskHandler_098dc6 en registry (Wave QQQ).
-    # 0x00099004 promovido a TaskHandler_099004 en registry (Wave QQQ).
-    # 0x00099180 promovido a TaskHandler_099180 en registry (Wave QQQ).
-    # 0x0009921A promovido a TaskHandler_09921a en registry (Wave QQQ).
-    # 0x000993A2 promovido a TaskHandler_0993a2 en registry (Wave QQQ).
-    # 0x0009953E promovido a TaskHandler_09953e en registry (Wave QQQ).
-    # 0x00099610 promovido a TaskHandler_099610 en registry (Wave QQQ).
-    # 0x0009976A promovido a TaskHandler_09976a en registry (Wave QQQ).
+    # 0x00098886 promovido a LogoScene_Piece_Run_098886 en registry (Wave QQQ).
+    # 0x0009890C promovido a LogoScene_Center_Run_09890c en registry (Wave QQQ).
+    # 0x000989E0 promovido a Mob_Walk_0989e0 en registry (Wave QQQ).
+    # 0x00098AFE promovido a Mob_Tmpl175_Idle_098afe en registry (Wave QQQ).
+    # 0x00098C00 promovido a Mob_Tmpl176_Body_098c00 en registry (Wave QQQ).
+    # 0x00098DC6 promovido a Mob_Tmpl178_Body_098dc6 en registry (Wave QQQ).
+    # 0x00099004 promovido a Mob_Stand_099004 en registry (Wave QQQ).
+    # 0x00099180 promovido a Mob_Appear_099180 en registry (Wave QQQ).
+    # 0x0009921A promovido a Mob_Sit_09921a en registry (Wave QQQ).
+    # 0x000993A2 promovido a Mob_Tmpl209_Body_0993a2 en registry (Wave QQQ).
+    # 0x0009953E promovido a Mob_RunLeft_09953e en registry (Wave QQQ).
+    # 0x00099610 promovido a Mob_RunLeft2_099610 en registry (Wave QQQ).
+    # 0x0009976A promovido a Mob_PhysLoop_09976a en registry (Wave QQQ).
     0x00099794: "TaskHandler_099794",
-    # 0x00099A64 promovido a TaskHandler_099a64 en registry (Wave QQQ).
+    # 0x00099A64 promovido a DebugCursor_Run_099a64 en registry (Wave QQQ).
     0x0009A280: "TaskHandler_09a280",
     0x0009A2B8: "TaskHandler_09a2b8",
     0x0009B47C: "TaskHandler_09b47c",
@@ -949,13 +949,13 @@ SYMBOLS = {
     # 0x0008D804 promovido a Capsule_CheckMissionEnd_08d804 en registry (Wave NNN).
     # 0x0008EA50 promovido a Nest_DieIfParentGone_08ea50 en registry (Wave OOO).
     # 0x0008EFB0 promovido a Phys_GroundKill_08efb0 en registry (Wave OOO).
-    # 0x00097A60 promovido a PcThunkTarget_097a60 en registry (Wave QQQ).
-    # 0x00097A72 promovido a PcThunkTarget_097a72 en registry (Wave QQQ).
-    # 0x00097C5C promovido a PcThunkTarget_097c5c en registry (Wave QQQ).
-    # 0x00099DE4 promovido a PcThunkTarget_099de4 en registry (Wave QQQ).
-    # 0x00099E14 promovido a PcThunkTarget_099e14 en registry (Wave QQQ).
-    # 0x00099E9C promovido a PcThunkTarget_099e9c en registry (Wave QQQ).
-    # 0x00099EE4 promovido a PcThunkTarget_099ee4 en registry (Wave QQQ).
+    # 0x00097A60 promovido a HiScore_TryEnter_P1_097a60 en registry (Wave QQQ).
+    # 0x00097A72 promovido a HiScore_TryEnter_P2_097a72 en registry (Wave QQQ).
+    # 0x00097C5C promovido a HiScore_DrawNameChars_097c5c en registry (Wave QQQ).
+    # 0x00099DE4 promovido a OptionsMenu_AdjDifficulty_099de4 en registry (Wave QQQ).
+    # 0x00099E14 promovido a OptionsMenu_AdjLives_099e14 en registry (Wave QQQ).
+    # 0x00099E9C promovido a OptionsMenu_Adj2PMode_099e9c en registry (Wave QQQ).
+    # 0x00099EE4 promovido a OptionSelect_DrawCursor_099ee4 en registry (Wave QQQ).
     # 0x00099F3A promovido a FixGlyph16_DrawCursorA_099F3A en registry (Wave SS#7).
     # 0x00099FD2 promovido a FixGlyphRun_Draw2F61F0_099FD2 en registry (Wave SS#9).
     # 0x00099FF2 promovido a FixGlyph16_DrawDigit72EF_099FF2 en registry (Wave SS#10).
@@ -1013,7 +1013,7 @@ SYMBOLS = {
     0x00001E1C: "PcThunkTarget_001E1C",     # SchedulerBootstrap_Boot -> jsr pc+d $1E1C
     0x0005CACE: "Sub_0005CACE",             # SchedulerBootstrap_Boot -> jsr abs.l $5CACE
     0x0005E998: "Sub_0005E998",             # SchedulerBootstrap_Boot -> jsr abs.l $5E998 (x2)
-    # 0x00098720 promovido a TaskTpl_098720 en registry (Wave QQQ).
+    # 0x00098720 promovido a LogoScene_Tpl_098720 en registry (Wave QQQ).
 
     # ---- Wave MM batch 1: entradas de la super-tabla dispatch $000B92
     #      referenciadas por 6x lea.l XXX(pc), a0 en SchedulerBootstrap_Boot.
@@ -1042,9 +1042,9 @@ SYMBOLS = {
     #      lea.l XXX.l, a1 seguido de jsr ThunkTarget_0004ae = Task_Alloc):
     0x00091330: "TaskTpl_091330",           # AttractHandler_00109C
     # 0x000913AC promovido a Continue_Tpl_0913ac en registry (Wave PPP).
-    # 0x00099B06 promovido a TaskTpl_099B06 en registry (Wave QQQ).
-    # 0x000977D6 promovido a TaskTpl_0977D6 en registry (Wave QQQ).
-    # 0x000977EA promovido a TaskTpl_0977EA en registry (Wave QQQ).
+    # 0x00099B06 promovido a OptionSelect2_Tpl_099b06 en registry (Wave QQQ).
+    # 0x000977D6 promovido a HiScore_Tpl_Frame_0977d6 en registry (Wave QQQ).
+    # 0x000977EA promovido a HiScore_Tpl_Loader_0977ea en registry (Wave QQQ).
     #      2 probes CCR-C en la zona $5D0xxx (invocados por bcs.w desde
     #      AttractPhase2_Probes5D0_00122E):
     0x0005D09A: "Sub_0005D09A",             # probe #1 CCR-C
@@ -1064,7 +1064,7 @@ SYMBOLS = {
     #      Callees de SpritePubEffect_027EBA (helpers de probe y effect):
     0x00027DB2: "Sub_00027DB2",             # helper coord/probe (pc-rel)
     0x00027E28: "Sub_00027E28",             # probe rect/rect CCR-C (pc-rel)
-    # 0x0009993C promovido a Sub_0009993C en registry (Wave QQQ).
+    # 0x0009993C promovido a Trail_FindNearest_09993c en registry (Wave QQQ).
     0x00278BA8: "Data_00278BA8",            # array de configs de effect (data)
     #      Etiqueta fin-de-funcion para Probe_Bit3At100001_0334A2: el beq.w
     #      inicial salta al primer byte JUSTO DESPUES del rts (idioma
@@ -1160,7 +1160,7 @@ SYMBOLS = {
     0x0007707C: "Subsystem_HudInit_07707C",
     # 0x0008F158 promovido a Rings_InitAll_08f158 en registry (Wave OOO).
     0x0003EE3A: "Subsystem_ScoresInit_03EE3A",
-    # 0x000997B8 promovido a Subsystem_AttractHookInit_997B8 en registry (Wave QQQ).
+    # 0x000997B8 promovido a Trail_RingReset_0997b8 en registry (Wave QQQ).
     0x0004CB5C: "Subsystem_MiscInit_04CB5C",
     0x00043D6C: "Reset4CameraLongs_043D6C",
 

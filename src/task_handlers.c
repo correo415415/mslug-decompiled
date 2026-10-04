@@ -407,32 +407,32 @@ extern void Continue_Text_Init_091514(void);
 extern void Continue_Text_Clear_09152c(void);
 extern void Continue_Text_Blink_091558(void);
 extern void TaskHandler_0916c0(void);
-extern void TaskHandler_097852(void);
-extern void TaskHandler_09788c(void);
-extern void TaskHandler_0978ac(void);
-extern void TaskHandler_0978fa(void);
-extern void TaskHandler_09792e(void);
+extern void HiScore_WaitLogo_097852(void);
+extern void HiScore_HeaderDelay_09788c(void);
+extern void HiScore_DrawRowsStep_0978ac(void);
+extern void HiScore_DrawAllRows_0978fa(void);
+extern void HiScore_WaitExit_09792e(void);
 extern void TaskHandler_09794a(void);
-extern void TaskHandler_09806a(void);
-extern void TaskHandler_098308(void);
-extern void TaskHandler_0983f6(void);
-extern void TaskHandler_098482(void);
+extern void NameEntry_Blink_09806a(void);
+extern void MemCard_LoadDialog_Run_098308(void);
+extern void MemCard_Dialog_ExitDelay_0983f6(void);
+extern void MemCard_SaveDialog_Run_098482(void);
 extern void TaskHandler_098836(void);
-extern void TaskHandler_098886(void);
-extern void TaskHandler_09890c(void);
-extern void TaskHandler_0989e0(void);
-extern void TaskHandler_098afe(void);
-extern void TaskHandler_098c00(void);
-extern void TaskHandler_098dc6(void);
-extern void TaskHandler_099004(void);
-extern void TaskHandler_099180(void);
-extern void TaskHandler_09921a(void);
-extern void TaskHandler_0993a2(void);
-extern void TaskHandler_09953e(void);
-extern void TaskHandler_099610(void);
-extern void TaskHandler_09976a(void);
+extern void LogoScene_Piece_Run_098886(void);
+extern void LogoScene_Center_Run_09890c(void);
+extern void Mob_Walk_0989e0(void);
+extern void Mob_Tmpl175_Idle_098afe(void);
+extern void Mob_Tmpl176_Body_098c00(void);
+extern void Mob_Tmpl178_Body_098dc6(void);
+extern void Mob_Stand_099004(void);
+extern void Mob_Appear_099180(void);
+extern void Mob_Sit_09921a(void);
+extern void Mob_Tmpl209_Body_0993a2(void);
+extern void Mob_RunLeft_09953e(void);
+extern void Mob_RunLeft2_099610(void);
+extern void Mob_PhysLoop_09976a(void);
 extern void TaskHandler_099794(void);
-extern void TaskHandler_099a64(void);
+extern void DebugCursor_Run_099a64(void);
 extern void TaskHandler_09a280(void);
 extern void TaskHandler_09a2b8(void);
 extern void TaskHandler_09b47c(void);
@@ -4484,31 +4484,31 @@ void SetTaskHandler_0916b8(void) {
 
 __attribute__((section(".text.SetTaskHandler_09784a")))
 void SetTaskHandler_09784a(void) {
-    _a1_ptr = &TaskHandler_097852;
+    _a1_ptr = &HiScore_WaitLogo_097852;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_09787c")))
 void SetTaskHandler_09787c(void) {
-    _a1_ptr = &TaskHandler_09788c;
+    _a1_ptr = &HiScore_HeaderDelay_09788c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_097884")))
 void SetTaskHandler_097884(void) {
-    _a1_ptr = &TaskHandler_0978fa;
+    _a1_ptr = &HiScore_DrawAllRows_0978fa;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0978a4")))
 void SetTaskHandler_0978a4(void) {
-    _a1_ptr = &TaskHandler_0978ac;
+    _a1_ptr = &HiScore_DrawRowsStep_0978ac;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_097926")))
 void SetTaskHandler_097926(void) {
-    _a1_ptr = &TaskHandler_09792e;
+    _a1_ptr = &HiScore_WaitExit_09792e;
     STORE_A1_AT_FP();
 }
 
@@ -4520,25 +4520,25 @@ void SetTaskHandler_097944(void) {
 
 __attribute__((section(".text.SetTaskHandler_09804a")))
 void SetTaskHandler_09804a(void) {
-    _a1_ptr = &TaskHandler_09806a;
+    _a1_ptr = &NameEntry_Blink_09806a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_098300")))
 void SetTaskHandler_098300(void) {
-    _a1_ptr = &TaskHandler_098308;
+    _a1_ptr = &MemCard_LoadDialog_Run_098308;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0983ee")))
 void SetTaskHandler_0983ee(void) {
-    _a1_ptr = &TaskHandler_0983f6;
+    _a1_ptr = &MemCard_Dialog_ExitDelay_0983f6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_09847a")))
 void SetTaskHandler_09847a(void) {
-    _a1_ptr = &TaskHandler_098482;
+    _a1_ptr = &MemCard_SaveDialog_Run_098482;
     STORE_A1_AT_FP();
 }
 
@@ -4550,19 +4550,19 @@ void SetTaskHandler_098830(void) {
 
 __attribute__((section(".text.SetTaskHandler_09887e")))
 void SetTaskHandler_09887e(void) {
-    _a1_ptr = &TaskHandler_098886;
+    _a1_ptr = &LogoScene_Piece_Run_098886;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_098904")))
 void SetTaskHandler_098904(void) {
-    _a1_ptr = &TaskHandler_09890c;
+    _a1_ptr = &LogoScene_Center_Run_09890c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0989d8")))
 void SetTaskHandler_0989d8(void) {
-    _a1_ptr = &TaskHandler_0989e0;
+    _a1_ptr = &Mob_Walk_0989e0;
     STORE_A1_AT_FP();
 }
 
@@ -4580,7 +4580,7 @@ void SetTaskHandler_098acc(void) {
 
 __attribute__((section(".text.SetTaskHandler_098af6")))
 void SetTaskHandler_098af6(void) {
-    _a1_ptr = &TaskHandler_098afe;
+    _a1_ptr = &Mob_Tmpl175_Idle_098afe;
     STORE_A1_AT_FP();
 }
 
@@ -4598,7 +4598,7 @@ void SetTaskHandler_098baa(void) {
 
 __attribute__((section(".text.SetTaskHandler_098bf8")))
 void SetTaskHandler_098bf8(void) {
-    _a1_ptr = &TaskHandler_098c00;
+    _a1_ptr = &Mob_Tmpl176_Body_098c00;
     STORE_A1_AT_FP();
 }
 
@@ -4616,7 +4616,7 @@ void SetTaskHandler_098d84(void) {
 
 __attribute__((section(".text.SetTaskHandler_098dbe")))
 void SetTaskHandler_098dbe(void) {
-    _a1_ptr = &TaskHandler_098dc6;
+    _a1_ptr = &Mob_Tmpl178_Body_098dc6;
     STORE_A1_AT_FP();
 }
 
@@ -4640,13 +4640,13 @@ void SetTaskHandler_098f38(void) {
 
 __attribute__((section(".text.SetTaskHandler_098f9a")))
 void SetTaskHandler_098f9a(void) {
-    _a1_ptr = &TaskHandler_099004;
+    _a1_ptr = &Mob_Stand_099004;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_098ffc")))
 void SetTaskHandler_098ffc(void) {
-    _a1_ptr = &TaskHandler_099004;
+    _a1_ptr = &Mob_Stand_099004;
     STORE_A1_AT_FP();
 }
 
@@ -4664,13 +4664,13 @@ void SetTaskHandler_0990b4(void) {
 
 __attribute__((section(".text.SetTaskHandler_099116")))
 void SetTaskHandler_099116(void) {
-    _a1_ptr = &TaskHandler_099180;
+    _a1_ptr = &Mob_Appear_099180;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_099178")))
 void SetTaskHandler_099178(void) {
-    _a1_ptr = &TaskHandler_099180;
+    _a1_ptr = &Mob_Appear_099180;
     STORE_A1_AT_FP();
 }
 
@@ -4682,7 +4682,7 @@ void SetTaskHandler_0991d2(void) {
 
 __attribute__((section(".text.SetTaskHandler_099212")))
 void SetTaskHandler_099212(void) {
-    _a1_ptr = &TaskHandler_09921a;
+    _a1_ptr = &Mob_Sit_09921a;
     STORE_A1_AT_FP();
 }
 
@@ -4700,13 +4700,13 @@ void SetTaskHandler_0992d0(void) {
 
 __attribute__((section(".text.SetTaskHandler_09933e")))
 void SetTaskHandler_09933e(void) {
-    _a1_ptr = &TaskHandler_09976a;
+    _a1_ptr = &Mob_PhysLoop_09976a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_09939a")))
 void SetTaskHandler_09939a(void) {
-    _a1_ptr = &TaskHandler_0993a2;
+    _a1_ptr = &Mob_Tmpl209_Body_0993a2;
     STORE_A1_AT_FP();
 }
 
@@ -4724,19 +4724,19 @@ void SetTaskHandler_09943e(void) {
 
 __attribute__((section(".text.SetTaskHandler_09949a")))
 void SetTaskHandler_09949a(void) {
-    _a1_ptr = &TaskHandler_0993a2;
+    _a1_ptr = &Mob_Tmpl209_Body_0993a2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0994f6")))
 void SetTaskHandler_0994f6(void) {
-    _a1_ptr = &TaskHandler_0993a2;
+    _a1_ptr = &Mob_Tmpl209_Body_0993a2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_099536")))
 void SetTaskHandler_099536(void) {
-    _a1_ptr = &TaskHandler_09953e;
+    _a1_ptr = &Mob_RunLeft_09953e;
     STORE_A1_AT_FP();
 }
 
@@ -4754,7 +4754,7 @@ void SetTaskHandler_0995c4(void) {
 
 __attribute__((section(".text.SetTaskHandler_099608")))
 void SetTaskHandler_099608(void) {
-    _a1_ptr = &TaskHandler_099610;
+    _a1_ptr = &Mob_RunLeft2_099610;
     STORE_A1_AT_FP();
 }
 
@@ -4772,7 +4772,7 @@ void SetTaskHandler_0996ae(void) {
 
 __attribute__((section(".text.SetTaskHandler_099762")))
 void SetTaskHandler_099762(void) {
-    _a1_ptr = &TaskHandler_09976a;
+    _a1_ptr = &Mob_PhysLoop_09976a;
     STORE_A1_AT_FP();
 }
 
@@ -4784,7 +4784,7 @@ void SetTaskHandler_09978c(void) {
 
 __attribute__((section(".text.SetTaskHandler_099a5c")))
 void SetTaskHandler_099a5c(void) {
-    _a1_ptr = &TaskHandler_099a64;
+    _a1_ptr = &DebugCursor_Run_099a64;
     STORE_A1_AT_FP();
 }
 

@@ -327,7 +327,7 @@ SceneLoader_Main_043568:
         jsr     Subsystem_HudInit_07707C       | +156 (jsr abs.l)
         jsr     Rings_InitAll_08f158| +15c (jsr abs.l)
         jsr     Subsystem_ScoresInit_03EE3A    | +162 (jsr abs.l)
-        jsr     Subsystem_AttractHookInit_997B8| +168 (jsr abs.l)
+        jsr     Trail_RingReset_0997b8| +168 (jsr abs.l)
         jsr     Subsystem_MiscInit_04CB5C      | +16e (jsr abs.l)
         rts                                    | +174
 

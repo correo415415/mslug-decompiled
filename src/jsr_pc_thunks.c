@@ -891,50 +891,50 @@ void JsrPcThunk_08ed7c(void) {
 
 __attribute__((section(".text.JsrPcThunk_097a4e")))
 void JsrPcThunk_097a4e(void) {
-    extern void PcThunkTarget_097a60(void);
-    __asm__ volatile("jsr PcThunkTarget_097a60(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void HiScore_TryEnter_P1_097a60(void);
+    __asm__ volatile("jsr HiScore_TryEnter_P1_097a60(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_097a5a")))
 void JsrPcThunk_097a5a(void) {
-    extern void PcThunkTarget_097a72(void);
-    __asm__ volatile("jsr PcThunkTarget_097a72(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void HiScore_TryEnter_P2_097a72(void);
+    __asm__ volatile("jsr HiScore_TryEnter_P2_097a72(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0980e6")))
 void JsrPcThunk_0980e6(void) {
-    extern void PcThunkTarget_097c5c(void);
-    __asm__ volatile("jsr PcThunkTarget_097c5c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void HiScore_DrawNameChars_097c5c(void);
+    __asm__ volatile("jsr HiScore_DrawNameChars_097c5c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099b7e")))
 void JsrPcThunk_099b7e(void) {
-    extern void PcThunkTarget_099ee4(void);
-    __asm__ volatile("jsr PcThunkTarget_099ee4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionSelect_DrawCursor_099ee4(void);
+    __asm__ volatile("jsr OptionSelect_DrawCursor_099ee4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099b9e")))
 void JsrPcThunk_099b9e(void) {
-    extern void PcThunkTarget_099ee4(void);
-    __asm__ volatile("jsr PcThunkTarget_099ee4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionSelect_DrawCursor_099ee4(void);
+    __asm__ volatile("jsr OptionSelect_DrawCursor_099ee4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099d62")))
 void JsrPcThunk_099d62(void) {
-    extern void PcThunkTarget_099de4(void);
-    __asm__ volatile("jsr PcThunkTarget_099de4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionsMenu_AdjDifficulty_099de4(void);
+    __asm__ volatile("jsr OptionsMenu_AdjDifficulty_099de4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099d72")))
 void JsrPcThunk_099d72(void) {
-    extern void PcThunkTarget_099e14(void);
-    __asm__ volatile("jsr PcThunkTarget_099e14(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionsMenu_AdjLives_099e14(void);
+    __asm__ volatile("jsr OptionsMenu_AdjLives_099e14(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099d8e")))
 void JsrPcThunk_099d8e(void) {
-    extern void PcThunkTarget_099e9c(void);
-    __asm__ volatile("jsr PcThunkTarget_099e9c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionsMenu_Adj2PMode_099e9c(void);
+    __asm__ volatile("jsr OptionsMenu_Adj2PMode_099e9c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099db8")))

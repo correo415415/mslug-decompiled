@@ -77,7 +77,7 @@ AttractHandler_2Task_0010F2:
         jsr     Pubcleaner_10A2Cx_052712        | +0c  Pubcleaner_10A2Cx (LL#1)
         lea.l   Continue_Tpl_0913ac, a1              | +12  a1 = &task_tpl_$913AC
         jsr     ThunkTarget_0004ae              | +18  Task_Alloc (task 1)
-        lea.l   TaskTpl_099B06, a1              | +1e  a1 = &task_tpl_$99B06
+        lea.l   OptionSelect2_Tpl_099b06, a1              | +1e  a1 = &task_tpl_$99B06
         jsr     ThunkTarget_0004ae              | +24  Task_Alloc (task 2)
         move.w  #0x10e0, d0                     | +2a  d0 = $10E0
         jsr     InputGuardCall219c              | +2e  input guard w/ d0
@@ -128,7 +128,7 @@ AttractHandler_Frame_001172:
         jsr     BIOS_FIX_CLEAR                  | +14  BIOS VBlank
         jsr     Sub_00046AC6                    | +1a  FixLayer_QuadBatch (HH#3)
         jsr     Pubcleaner_10A2Cx_052712        | +20  Pubcleaner_10A2Cx (LL#1)
-        lea.l   TaskTpl_0977D6, a1              | +26  a1 = &task_tpl_$977D6
+        lea.l   HiScore_Tpl_Frame_0977d6, a1              | +26  a1 = &task_tpl_$977D6
         jsr     ThunkTarget_0004ae              | +2c  Task_Alloc
         move.b  #0xff, 0x106ece.l               | +32  key latch A = -1
         move.b  #0xff, 0x106ecf.l               | +3a  key latch B = -1
@@ -173,7 +173,7 @@ AttractHandler_Loader_0011EA:
         jsr     Pubcleaner_10A2Cx_052712        | +06  Pubcleaner_10A2Cx (LL#1)
         lea.l   ScriptSlotPairTable_0009B4(pc), a0            | +0c  a0 = &ctx_$09B4 (pc-rel)
         jsr     Sub_00002B58                    | +10  loader $2B58 w/ a0
-        lea.l   TaskTpl_0977EA, a1              | +16  a1 = &task_tpl_$977EA
+        lea.l   HiScore_Tpl_Loader_0977ea, a1              | +16  a1 = &task_tpl_$977EA
         jsr     ThunkTarget_0004ae              | +1c  Task_Alloc
         move.b  #0xff, 0x106ece.l               | +22  key latch A = -1
         move.b  #0xff, 0x106ecf.l               | +2a  key latch B = -1
