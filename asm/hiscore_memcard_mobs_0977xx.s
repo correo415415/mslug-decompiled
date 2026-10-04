@@ -1,11 +1,130 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave QQQ — HiScore / NameEntry / MemCard / LogoScene / Mobs / Trail / Options
 |  Región: $09773C..$099F3A  (9,252 B, 125 entradas, 96 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) RESUMEN
+|  ----------
+|  Siete subsistemas contiguos de "front-end" y critters de relleno:
+|
+|   1. HiScore_* ($9773C..$981CC): pantalla de ranking (attract) y entrada
+|      de nombre. Tabla de ranking en RAM $100002: 10 registros x 12 B
+|      {u8 player_tag, u8 rank_glyph, u32 score, u16 name[3]} copiados de
+|      los defaults de ROM $2F53B2 por HiScore_LoadDefaults_09773c (llamada
+|      desde TitleModeInit_024E38). Tres plantillas de tarea:
+|        - HiScore_Tpl_Frame_0977d6   (AttractHandler_Frame_001172)
+|        - HiScore_Tpl_Loader_0977ea  (AttractHandler_Loader_0011EA):
+|          limpia los tags, carga escena $0B via SceneLoader_Main ($43568),
+|          arranca el VM ($437DA) y dibuja el titulo con Fix_BlitStr $5DAD8.
+|        - HiScore_Tpl_StaticLogo_0977c2 (logo sin fade, entra por
+|          HiScore_Logo_Static_097962).
+|      Flujo: WaitLogo -> HeaderDelay(16f) -> DrawHeaders -> DrawRowsStep
+|      (una fila cada 2 frames, 10 filas: a0+=12, a1+=2) -> WaitExit
+|      (+$80 = 60 frames) -> clr $106ED2 (hud_dirty) -> $518.
+|      HiScore_InsertScore_097aaa(d0=score,d1=player_tag): borra tags
+|      previos del mismo jugador, busca posicion (cmp.l +2), desplaza las
+|      filas inferiores (copiando rank_glyph+1 salvo empate) e inserta con
+|      nombre "   " ($0B40 x3). C=1 si entro en el top-10 (via
+|      HiScore_InsertScore_NoRank_097b6a => C=0).
+|      HiScore_TryEnter_P1/P2 (desde $598D2/$598DC): calculan el score con
+|      $51AA4, insertan y, si procede, alocan NameEntry_InitStandalone con
+|      +$80=puntero fix de la fila y +$88=rank.
+|      HiScore_RankOfPlayer_098176 / HiScore_FindPlayerRow_0981ae buscan por
+|      player_tag (d1 = indice 1..10; 11 = no encontrado).
+|
+|   2. NameEntry_* ($97CC4..$98176): editor de 3 letras. Estado: +$70
+|      cursor de letra (0..2), +$72 indice en el alfabeto $2F54B2 (41
+|      glifos; $0CE6 = fin => espacio $0B40), +$74..+$78 letras, +$7A
+|      timeout total (900 f), +$7C timeout sin pulsar (300 f), +$7E
+|      parpadeo, +$80 fix base, +$84 offset (x$300 en ranking, x$C0
+|      standalone), +$88 rank. Entrada por Input_EdgePressedPlayers / masks
+|      $2F552C/$2F5534 (bits 2/3 = izq/der, 4 = aceptar, 5 = borrar).
+|      NameEntry_CensorName_098144: si las 3 letras son exactamente los
+|      glifos $0BA6/$0B8A/$0CA0 las sustituye por $0C8E/$0C80/$0B42
+|      (filtro de una palabra concreta). Finish copia las letras al registro y resta +$20 del
+|      padre (contador de editores activos).
+|
+|   3. MemCard_* ($981E8..$98720): dialogos de carga/guardado de memory
+|      card (UK/AES). Nombre de fichero "METAL SLUG" ($981E8, 20 B) en
+|      $10E3A2; parametros BIOS en $10FDC4.. ; llamadas $C00468 (op 2 read,
+|      3 write, 4 create) y $C0046E. Strings fix en MemCard_Str_* (listas
+|      de glifos terminadas en $FFFF, dibujadas por Fix_DrawGlyphList con
+|      paso $40 = una columna). Load: $98288 (desde $51636, hook +$98 =
+|      $5164A) / Save: $9840C (desde $5168A). MemCard_Detect_09826e lee
+|      $380000 & $30 (C=1 si no hay tarjeta).
+|
+|   4. LogoScene_* ($98720..$9898A): plantilla $98720 (AttractHandler_10002C)
+|      = musica $2C, escena $0D, 9 piezas (+$80 = 0..7 desde tabla
+|      $2F553C {x, delay}) con snd $11D y centro ($0988B2, snd $11E/$11F/
+|      $120, rampa de brillo +$33 desde $2F5560). Dura 200 frames.
+|
+|   5. Mob_* ($989A0..$9979C): critters/aldeanos de las plantillas E8000
+|      174/175/176/178/195/196/201/202/207/208/209/210/211/220/221/222
+|      (snd $124..$129). Cuerpo comun: $267E2 relink, $5E7C0, prio $8000
+|      ($28134), +$38 = (&$FFE3)|4, HP +$66 = 1, mapas por +$70 desde
+|      tablas $2F558E/$2F5596/$2F55AE/$2F55B6, dispatch final
+|      Mob_DispatchBy80 (tabla $2F55A6). Estados: Walk (probe $27A92 +
+|      $27EBA), Hit ($2783A), Flee (+$2A = -$20, probe $27C8C), Patrol/
+|      TurnAround (eor +$3A, neg +$28, +-8 px), Pause, Drop (vel X aleatoria
+|      $5DCA4(#$355) +-$3F, +$2A=$690, gravedad $27D50), Sit/Hop (60/40 f),
+|      RunLeft hasta x<=$B0. Todos terminan en Entity_Ground $5DD56 con
+|      tabla $2F61AC.
+|
+|   6. Trail_* ($997B8..$99A4A): anillo de 16 registros x 12 B en $10E3BE
+|      {u8 id_hi:4|lo:4, u8, s16 y, s16 x, u16 h, u16 d2, u16 d3}, indices
+|      $10E47E (head) / $10E480 (tail) / $10E482 (next). RingReset se llama
+|      desde SceneLoader_Main; RingAdvance desde SceneScriptVM. Busquedas:
+|      FindByKeyRange (desde $26B7C/$2705C/$272CE; C=1 si hay match y copia
+|      el nibble id), FindNearest (desde $26E92.. ; d6 = id o $F), LookupById
+|      (trap #F si d5 == nibble propio). Entity_TrailRecord_Alt_0997e2 es la
+|      variante usada por Airship_TrailRecordAlt_08b8ca.
+|
+|   7. OptionsMenu_* / OptionSelect2_* ($99A4A..$99F3A): DebugCursor
+|      (snd $0E, mapa $2507FA, mueve con $10FD9C y registra trail),
+|      OptionSelect2_Tpl_099b06 (AttractHandler_2Task_0010F2: 2 opciones,
+|      cursor en fila $2F6232[+$78], resultado en $106ED5) y
+|      OptionsMenu_Tpl_099ba6 ($1700: dificultad $10FD8B via $2F6244/$2F624C,
+|      vidas $10FD88 1..5, creditos $10E486 1..5, modo 2P $10FD92 solo si
+|      $10FD83 == 2; 3 o 4 filas). Input_PressedEither lee $10E215/$10E21B.
+|
+|  B) EVIDENCIAS
+|  -------------
+|  - $24E56 TitleModeInit -> $9773C;  $119A/$1202/$104E/$1112/$1712
+|    (AttractHandler_*) -> plantillas $977D6/$977EA/$98720/$99B06/$99BA6.
+|  - $436D2 SceneLoader_Main -> $997B8; $43802 SceneScriptVM -> $997CC.
+|  - $51636/$5168A -> dialogos memcard; $598D2/$598DC -> TryEnter P1/P2.
+|  - Indices E8000 confirmados por tabla de plantillas para los Mob_*_Init.
+|
+|  C) HIPOTESIS / DUDAS
+|  --------------------
+|  - El filtro NameEntry_CensorName_098144 compara 3 glifos concretos; el
+|    texto exacto depende del tileset fix (no verificado).
+|  - $2F5504 selecciona 1 de 2 mapas de logo aleatoriamente ($5E9B6 & 1).
+|  - "Mob" es generico: plantillas 174-222 parecen civiles/animales de
+|    escenario; falta cruzar con las listas de spawn ($96BBC..) por escena.
+|
+|  D) ISLAS ABSORBIDAS / CORRECCIONES
+|  ----------------------------------
+|  - NopCCR_099f0a / NopCCR_099f34 eliminadas de ccr_helpers.c: eran colas
+|    de `movem.w d0-d1,0x3c0000.l` en OptionSelect_Draw/EraseCursor.
+|  - Entity_TrailRecord_HasId_09985a / _StoreSlot_099896 exportadas en
+|    asm/entity_trail_record_099812.s (saltos desde $997E2).
+|  - Tablas de datos: MemCard_FileName_0981e8 (20 B ASCII) y
+|    MemCard_Str_LoadTitle_098692..MemCard_CursorGlyphs_098700 (114 B).
+|
+|  E) CALLEES EXTERNOS
+|  -------------------
+|  $4AE alloc, $518 free, $236E snd, $2352 music, $2C30/$2C66 sprite,
+|  $28CD4 map, $28D70 children, $2870A damage, $28134 prio, $2783A/$27D50
+|  fisica, $27A92/$27C8C probes, $27EBA efecto, $267E2 relink, $5DD02 copia,
+|  $5DD56 suelo, $5DA56/$5DA9C/$5DAD8/$5DB1A fix blits, $5D7BE numero fix,
+|  $51AA4 score, $4784C/$477FC fix strings, $43568/$437DA escena,
+|  $5E9B6 RNG, $5DCA4 rand, $C00468/$C0046E BIOS memcard.
+|
+|  F) ESTADO
+|  ---------
+|  125/125 entradas byte-exactas (matcher 4301/4301, 8.93 % de la P ROM).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

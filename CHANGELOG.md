@@ -17,6 +17,22 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave QQQ — 125 entries (9,252 B): `$09773C..$099F3A`
+  (`hiscore_memcard_mobs_0977xx.s`, 96 gaps closed): the high-score
+  table (`HiScore_*`: 10 x 12-byte records at `$100002`, defaults from
+  `$2F53B2`, insert/rank helpers, three attract task templates), the
+  3-letter name editor (`NameEntry_*`, alphabet `$2F54B2`, timeouts,
+  profanity filter), memory-card load/save dialogs (`MemCard_*`, BIOS
+  `$C00468` ops 2/3/4, file name "METAL SLUG"), the logo scene
+  (`LogoScene_*`, template `$98720`), 16 background-mob templates
+  (`Mob_Tmpl174..222_*` with shared Walk/Hit/Flee/Patrol/Drop states),
+  the 16-slot trail ring at `$10E3BE` (`Trail_*` reset/advance/lookups)
+  and the option menus (`OptionsMenu_*`, `OptionSelect2_*`,
+  `DebugCursor_*`). Two embedded data tables emitted via `--data`; two
+  false `NopCCR` C islands removed (tails of `movem.w ...,0x3c0000`);
+  `gen_asm_region.py` now emits signed `moveq` immediates. 36 defsyms
+  promoted; +28 island RTS; 73 call sites renamed. Matcher: 4,301/4,301,
+  187,244 B (8.93 %).
 - Wave PPP — 92 entries (7,678 B): `$08F6D2..$0916B8`
   (`gameover_continue_08f6xx.s`, 50 gaps closed): player-slot anchor
   masks (`PlayerSlot_*`, `Anchor_GetWorldPos*`), the Game Over sequence

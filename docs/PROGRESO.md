@@ -11,10 +11,44 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4178/4178 funciones
-BYTES   : 178,004/178,004 (registrados)
-ROM     : 178,004/2,097,152  (8.4879%)
+MATCHED : 4301/4301 funciones
+BYTES   : 187,244/187,244 (registrados)
+ROM     : 187,244/2,097,152  (8.9285%)
 ```
+
+> **Wave QQQ** (125 entradas, 9 252 B, verde a la primera) — region
+> `$09773C..$099F3A` en `hiscore_memcard_mobs_0977xx.s` (96 huecos
+> cerrados, 2 tablas `--data`). Octava wave de `tools/gen_asm_region.py`.
+>
+> * **HiScore / NameEntry**: tabla de ranking en `$100002` (10 x 12 B:
+>   tag, glifo de rango, score u32, 3 letras) con defaults en `$2F53B2`;
+>   plantillas `HiScore_Tpl_Frame/Loader/StaticLogo` (desde
+>   `AttractHandler_*`), `HiScore_InsertScore` (desplaza filas, C=1 si entra
+>   en el top-10), `HiScore_TryEnter_P1/P2` (desde `$598D2/$598DC`), editor
+>   `NameEntry_*` (alfabeto `$2F54B2`, timeouts 900/300 f, filtro
+>   `CensorName`).
+> * **MemCard**: dialogos load/save (`$51636/$5168A`) con BIOS `$C00468`
+>   (op 2/3/4) y `$C0046E`; fichero "METAL SLUG" (`$981E8`); strings fix
+>   `MemCard_Str_*` terminadas en `$FFFF`.
+> * **LogoScene** (`$98720`, `AttractHandler_10002C`): 8 piezas + centro
+>   con rampa de brillo `$2F5560`, 200 frames.
+> * **Mobs** plantillas E8000 174/175/176/178/195/196/201/202/207-211/
+>   220-222: cuerpo comun (`$267E2`, prio `$8000`, HP 1) y estados
+>   Walk/Hit/Flee/Patrol/TurnAround/Pause/Drop/Sit/RunLeft; tablas de
+>   mapas `$2F558E..$2F55B6`, dispatch `$2F55A6`.
+> * **Trail ring** `$10E3BE` (16 x 12 B; head/tail `$10E47E/$10E480`):
+>   `Trail_RingReset` (SceneLoader_Main), `Trail_RingAdvance`
+>   (SceneScriptVM), `FindByKeyRange/FindNearest/LookupById`
+>   (callers en `$26Bxx..$277xx`), variante `Entity_TrailRecord_Alt`.
+> * **Opciones**: `OptionSelect2_Tpl_099b06` (2 filas, resultado
+>   `$106ED5`), `OptionsMenu_Tpl_099ba6` (`$1700`: dificultad `$10FD8B`,
+>   vidas `$10FD88`, creditos `$10E486`, modo 2P `$10FD92`),
+>   `DebugCursor_*`.
+> * Correcciones: `NopCCR_099f0a/099f34` eliminadas (colas de `movem.w`
+>   a `$3C0000`); labels `Entity_TrailRecord_HasId/StoreSlot` exportadas;
+>   `gen_asm_region.py` emite `moveq` con signo. Regiones
+>   `$0916C8..$0967B4` (SceneDescriptor[256] + scripts) y
+>   `$096BBC..$097730` (listas de spawn) identificadas como datos.
 
 > **Wave PPP** (92 entradas, 7 678 B, verde a la primera) — region
 > `$08F6D2..$0916B8` en `gameover_continue_08f6xx.s` (50 huecos cerrados,
