@@ -17,6 +17,36 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave KKK — 84 entries (9,334 B): **scene-4 fortress cluster** closing
+  all 6 gaps in `$0865BE..$088A56` (`fort_scene4_0865xx.s`). Every
+  spawnable entry is referenced from spawn list 4 (`$0972CC`, 20-byte
+  records `{$0100,x,y,handler,...}` behind `JumpTable_096B9C`) or list 7
+  (`$0975A2`); `Heli_InitTmpl_087b26` is template `$E8000[269]`. The
+  fortress container (`Fort_Init_V0..V4` -> `Fort_Init_Common`,
+  `Fort_Destroyed`, per-variant `Fort_SpawnChildren_V0..V4`), its pillboxes
+  (`Pillbox_*`: 6 init variants by `+0x21` nibble, 3 damage stages,
+  collapse/fragment, damage propagated to the parent via
+  `Entity_PropagateDamageToParent_08848c`), crates (`Crate_*`), the troop
+  hatch cycle (`Hatch_WaitClosed -> Opening -> SpawnTroops -> WaitOpen ->
+  Closing`, final open when the fortress dies), breakable props and an
+  indestructible signboard, the 13-piece crate wall
+  (`CrateWall_Spawn13` + `CrateWall_Piece00..12` -> `_Common`), the armored
+  car (`ArmoredCar_*` with random HP `$2C0628`, two damage stages, turret
+  child, blast box and wreck), the helicopter (`Heli_*` with random HP
+  `$2C05A6`, rotor animation `Heli_RotorAnim_0883ec`, trooper dropper), the
+  scattering debris, the quad prop and the 5-stage barricade. Hitbox
+  "pulse" helpers `Entity_HitboxPulseTable/Saved` (formerly
+  `PcThunkTarget_088438/08846a`). 4 forward defsyms promoted; +1 island RTS
+  (`SetTaskWRts_088436`), +1 forward defsym (`Sub_00088A64`). Matcher:
+  3,756/3,756, 146,220 B (6.97 %).
+- `tools/gen_asm_region.py`: pc-relative/branch targets that fall in a
+  future gap without a symbol are now emitted as `Sub_XXXXXXXX` forward
+  defsyms (reported as "refs forward") instead of raw hex, so drafts link
+  and verify without manual edits.
+- `scripts/bootstrap_sandbox.sh`: looks for `mslug.zip` in
+  `/home/user/uploaded_files` and `/mnt/aidrive/mslug_rom`, and persists a
+  copy to AI Drive (sudo fallback) so sandbox resets don't require a
+  re-upload.
 - Wave JJJ — 65 entries (4,742 B): **Mission 4 entities + boss spawn
   helpers** closing all 33 gaps in `$08512C..$0865BE`
   (`m4_carrier_boss_helpers_0851xx.s`). Mission-4 templates

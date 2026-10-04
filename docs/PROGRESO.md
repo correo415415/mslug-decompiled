@@ -11,10 +11,62 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3672/3672 funciones
-BYTES   : 136,886/136,886 (registrados)
-ROM     : 136,886/2,097,152  (6.5272%)
+MATCHED : 3756/3756 funciones
+BYTES   : 146,220/146,220 (registrados)
+ROM     : 146,220/2,097,152  (6.9723%)
 ```
+
+> **Wave KKK** (84 entradas, 9 334 B, verde a la primera) — **cluster de la
+> fortaleza de la escena 4**: cierra los 6 huecos de la region
+> `$0865BE..$088A56` en `fort_scene4_0865xx.s`. Segunda wave producida con
+> `tools/gen_asm_region.py` (79 entradas automaticas + 5 fronteras forzadas
+> con `--entry` para separar las variantes `Fort_Init_V1..V4` y
+> `Heli_InitTmpl`), analizada semanticamente a mano.
+>
+> * **Origen de los spawns**: todas las entradas con `movea.l +$3C(a6),a1;
+>   jsr $2942A` estan en la **lista 4** (`$0972CC`) o la **lista 7**
+>   (`$0975A2`) de `JumpTable_096B9C` (registros de 20 B
+>   `{$0100, x, y, handler.l, 0, 0, FFFF x3}`), que hasta ahora figuraba
+>   como "sub-dispatcher attract pendiente" (Wave HH#2) — en realidad es la
+>   **tabla de listas de spawn por escena** (8 escenas: `$096BBC`,
+>   `$096CAE`, `$096FA8`, `$09718A`, `$0972CC`, `$097422`, `$097500`,
+>   `$0975A2`); las listas 0-3 apuntan a los clusters `$04D6EC..`,
+>   `$052902..`, `$053F96..` y `$0834A4..` (Waves GGG/HHH), la 5 al hueco
+>   `$088F74..$08A74E` (proxima wave). `Heli_InitTmpl_087b26` es ademas la
+>   plantilla `$E8000[269]`.
+> * **Fortaleza** (`Fort_*`): 5 variantes de init (+$20) que spawnean sus
+>   casamatas y cajas (`Fort_SpawnChildren_V0..V4`, 270-330 B cada una,
+>   desenrolladas) y una trampilla `Hatch_Init_V<n>`; HP `$140`, hitbox
+>   `$2EC41E`, muerte con tres pares de escombros, `Fort_BlitWreck` y
+>   `MissionWatch_Spawn_04429E` sobre la lista aux de +$7C.
+> * **Casamatas** (`Pillbox_*`): +$21 = `$00/$30/$60/$01/$31/$61` (nibble
+>   alto = fila de sprites `$2EB2C0`, bit0 = lado), HP `$28` con copia en
+>   +$80 para `Entity_PropagateDamageToParent_08848c` (el dano a la casamata
+>   se resta tambien a la fortaleza), 3 etapas de dano, colapso con
+>   fragmento (`ori.b #$F` en +$21 del padre) o explosion con score `$100`.
+> * **Trampilla** (`Hatch_*`): ciclo cerrada (90 f) -> abriendose -> spawn de
+>   tropas (`MissionWatch_Spawn` +$7C, avanza con
+>   `Entity_CmpPrioWithSibling_086552`) -> abierta (80 f) -> cerrandose;
+>   apertura final con +$8C cuando muere la fortaleza.
+> * **Muro de 13 cajas**, **blindado** (`ArmoredCar_*`, HP aleatorio
+>   `$2C0628`+`$2E4`, torreta hija que copia el sprite del padre por +$20,
+>   score `$5000`), **helicoptero** (`Heli_*`, HP aleatorio `$2C05A6`+`$17C`,
+>   rotor `Heli_RotorAnim_0883ec` alternando +$16/+$18 cada 4/16 frames,
+>   lanzador de soldados `$77228`/`$77F6A`), **escombro** con velocidad
+>   aleatoria `$5EA1C`, **atrezzo** (3 destruibles, 1 cartel indestructible
+>   con HP `$7FFF`, cuadruple) y **barricada** de 5 etapas.
+> * Helpers: `Entity_HitboxPulseTable_088438` / `_Saved_08846a` (hitbox
+>   activa 1 de cada 4 frames; antes `PcThunkTarget_*`),
+>   `Entity_PropagateDamageToParent_08848c`.
+> * Rarezas: `movea.l #-1,a0` pisado por `lea`, `addi.w #0,+$24(a0)` x4,
+>   `jmp $518; rts` x7, `bra.w` a la instruccion siguiente, `jsr $434DC`
+>   (rts puro), codigo muerto tras `bra.w` en `Barricade_Stage5`.
+> * symbols.py: -4 defsyms forward promovidos, +1 RTS mid-isla
+>   (`SetTaskWRts_088436`), +1 forward (`Sub_00088A64`).
+> * Herramientas: `gen_asm_region.py` emite ahora refs forward
+>   `Sub_XXXXXXXX` para targets pc-rel en huecos futuros;
+>   `scripts/bootstrap_sandbox.sh` localiza el zip en `uploaded_files`/AI
+>   Drive y lo persiste.
 
 > **Wave JJJ** (65 entradas, 4 742 B, verde a la primera) — **entidades de
 > la Mision 4 + helpers de spawn del boss de la Mision 3**: cierra los 33
