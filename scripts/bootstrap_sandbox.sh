@@ -40,7 +40,8 @@ if [[ -n "$ZIP" ]]; then
     unzip -o -q "$ZIP" 201-p1.bin -d "$ROOT/rom"
     # persistir en AI Drive si procede de otra ruta y el drive esta montado
     if [[ -d /mnt/aidrive && "$ZIP" != "$AIDRIVE_DIR/"* ]]; then
-        mkdir -p "$AIDRIVE_DIR" 2>/dev/null && cp -f "$ZIP" "$AIDRIVE_DIR/mslug.zip" 2>/dev/null \
+        ( mkdir -p "$AIDRIVE_DIR" 2>/dev/null || sudo mkdir -p "$AIDRIVE_DIR" 2>/dev/null ) \
+          && ( cp -f "$ZIP" "$AIDRIVE_DIR/mslug.zip" 2>/dev/null || sudo cp -f "$ZIP" "$AIDRIVE_DIR/mslug.zip" 2>/dev/null ) \
           && echo "[bootstrap] copia persistente guardada en $AIDRIVE_DIR/mslug.zip" || true
     fi
 elif [[ ! -f "$ROOT/rom/201-p1.bin" ]]; then
