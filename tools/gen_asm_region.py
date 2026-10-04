@@ -224,7 +224,7 @@ def conv_operand(op, ins, labelfn):
     m = re.match(r"^\$([0-9a-f]+)\(pc\)$", op)
     if m:
         t = int(m.group(1), 16)
-        return f"{labelfn(t)}(pc)"
+        return f"{labelfn(t, pcrel=True)}(pc)"
     # (aN, dN.w) / $d(aN, dN.w) / (pc, dN.w)
     m = re.match(r"^(-?\$[0-9a-f]+)?\((a[0-7]|sp|pc), ([ad][0-7])\.([wl])\)$", op)
     if m:
@@ -239,7 +239,7 @@ def conv_operand(op, ins, labelfn):
         if base == "pc":
             # capstone ya da el target absoluto en el displacement para pc
             t = int(disp.lstrip("-$"), 16) if disp else ins.addr + 2
-            return f"{labelfn(t)}(pc,{m.group(3)}.{m.group(4)})"
+            return f"{labelfn(t, pcrel=True)}(pc,{m.group(3)}.{m.group(4)})"
         return f"{d}({base},{m.group(3)}.{m.group(4)})"
     # $addr.l / $addr.w / $addr
     m = re.match(r"^\$([0-9a-f]+)\.([lw])$", op)
@@ -247,8 +247,8 @@ def conv_operand(op, ins, labelfn):
         return f"{fmt_hex(int(m.group(1), 16))}.{m.group(2)}"
     m = re.match(r"^\$([0-9a-f]+)$", op)
     if m:
-        # branch target
-        return labelfn(int(m.group(1), 16))
+        # branch target (bcc/bsr/dbcc): también necesita símbolo (no literal)
+        return labelfn(int(m.group(1), 16), pcrel=True)
     raise ValueError(f"operando no soportado '{op}' en {ins.addr:06x} {ins.mn} {ins.ops}")
 
 
@@ -344,6 +344,10 @@ def midisland_name(island, addr, plus):
 MIDISLAND_DEFS = {}   # addr -> (name, island, plus)
 PROMOTE_LABELS = {}   # addr -> (name, func, file, plus): labels .L de otros .s a promover
 GLOBAL_LABELS = {}    # addr -> nombre global para labels a mitad de entrada (cross-gap)
+FORWARD_REFS = {}     # addr -> nombre provisional Sub_XXXXXXXX para targets pc-rel/branch
+                      # fuera de la región y sin símbolo (huecos futuros): se emiten como
+                      # defsym forward en symbols.py en vez de hex crudo (los pc-rel no
+                      # admiten literal absoluto sin perder el matching del encoding).
 
 
 def collect_midisland(addr):
@@ -435,7 +439,7 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
                 if entry_of(t) != entry_of(off):
                     cross_labels[t] = f"{entry_names[entry_of(t)]}__L{t:06x}"
 
-    def labelfn(t):
+    def labelfn(t, pcrel=False):
         if t in names_override:
             return names_override[t]
         if start <= t < end:
@@ -451,6 +455,10 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
         collect_midisland(t)
         s = sym_for_external(t)
         if s is None:
+            if pcrel:
+                # referencia a un hueco futuro: símbolo provisional (defsym forward)
+                FORWARD_REFS.setdefault(t, f"Sub_{t:08X}")
+                return FORWARD_REFS[t]
             return f"0x{t:x}"
         return s
 
@@ -491,12 +499,16 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
                 continue
             text = f"{mn:<7} {','.join(gops)}"
             comment = f"| +{off - ea:03x}"
-            # anotar externos que son hex crudo
+            # anotar externos sin símbolo (hex crudo o forward Sub_XXXXXXXX)
             for t in filter(None, [branch_target(it), pcrel_target(it)]):
                 if not (start <= t < end) and sym_for_external(t) is None \
-                   and t not in known_names and t not in GLOBAL_LABELS:
-                    comment += f"  -> ${t:06X} (sin simbolo)"
-                    unresolved.add(off)
+                   and t not in known_names and t not in GLOBAL_LABELS \
+                   and t not in names_override:
+                    if t in FORWARD_REFS:
+                        comment += f"  -> ${t:06X} (hueco futuro, defsym forward)"
+                    else:
+                        comment += f"  -> ${t:06X} (sin simbolo)"
+                        unresolved.add(off)
             lines.append(f"        {text:<39} {comment}")
     header = [
         "| " + "=" * 76,
@@ -621,6 +633,7 @@ def main():
                 owner = known[all_entries[i]]
                 GLOBAL_LABELS[t] = f"{owner}__L{t:06x}"
     MIDISLAND_DEFS.clear()
+    FORWARD_REFS.clear()
     # Pase 2: emisión con referencias cruzadas resueltas por nombre
     lines, sizes, externals, unresolved, entries, entry_names = None, {}, set(), set(), [], {}
     for gi, (gs, ge) in enumerate(gaps):
@@ -652,8 +665,13 @@ def main():
         print(f"[i] {len(MIDISLAND_DEFS)} RTS internos de islas C nuevos (añadir a symbols.py):")
         for a, (n, isl, plus) in sorted(MIDISLAND_DEFS.items()):
             print(f'    0x{a:08X}: "{n}",  # rts de {isl} (+{plus})')
+    if FORWARD_REFS:
+        print(f"[i] {len(FORWARD_REFS)} refs forward a huecos futuros (añadir a symbols.py):")
+        for a, n in sorted(FORWARD_REFS.items()):
+            print(f'    0x{a:08X}: "{n}",  # hueco futuro (ref pc-rel desde esta region)')
     ext_unknown = sorted(t for t in externals if sym_for_external(t) is None
-                         and t not in known and t not in GLOBAL_LABELS and t not in names)
+                         and t not in known and t not in GLOBAL_LABELS and t not in names
+                         and t not in FORWARD_REFS)
     if ext_unknown:
         print(f"[i] {len(ext_unknown)} referencias externas sin símbolo (se dejan en hex):")
         for t in ext_unknown:
@@ -664,6 +682,7 @@ def main():
         extra = {n: a for a, (n, _, _) in MIDISLAND_DEFS.items()}
         extra.update({n: a for a, (n, _, _, _) in PROMOTE_LABELS.items() if a not in names})
         extra.update({n: a for a, n in names.items() if n not in sizes})
+        extra.update({n: a for a, n in FORWARD_REFS.items()})
         results, err = verify(text, sizes, rom, extra)
         if results is None:
             print("[ASM/LINK FAIL]\n" + err)
