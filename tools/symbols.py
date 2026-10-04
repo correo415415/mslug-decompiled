@@ -728,23 +728,23 @@ SYMBOLS = {
     # 0x0008E716 promovido a Runner_Run_08e716 en registry (Wave OOO).
     # 0x0008EA16 promovido a Nest_FlyOff_Run_08ea16 en registry (Wave OOO).
     # 0x0008EB02 promovido a Nest2_HitWait_08eb02 en registry (Wave OOO).
-    # 0x0008F96A promovido a TaskHandler_08f96a en registry (Wave PPP).
-    # 0x0008FCCA promovido a TaskHandler_08fcca en registry (Wave PPP).
-    # 0x0008FD2E promovido a TaskHandler_08fd2e en registry (Wave PPP).
-    # 0x0008FD68 promovido a TaskHandler_08fd68 en registry (Wave PPP).
-    # 0x0008FDAA promovido a TaskHandler_08fdaa en registry (Wave PPP).
-    # 0x0008FDF8 promovido a TaskHandler_08fdf8 en registry (Wave PPP).
-    # 0x0008FE32 promovido a TaskHandler_08fe32 en registry (Wave PPP).
-    # 0x0008FE9C promovido a TaskHandler_08fe9c en registry (Wave PPP).
-    # 0x0008FEB6 promovido a TaskHandler_08feb6 en registry (Wave PPP).
+    # 0x0008F96A promovido a GameOver_Spawn_08f96a en registry (Wave PPP).
+    # 0x0008FCCA promovido a GameOver_Wait_08fcca en registry (Wave PPP).
+    # 0x0008FD2E promovido a GameOver_Wait2_08fd2e en registry (Wave PPP).
+    # 0x0008FD68 promovido a GameOver_Final_08fd68 en registry (Wave PPP).
+    # 0x0008FDAA promovido a GameOver_WaitCredit_08fdaa en registry (Wave PPP).
+    # 0x0008FDF8 promovido a GameOver_Continue_08fdf8 en registry (Wave PPP).
+    # 0x0008FE32 promovido a GameOver_ContinuePath_08fe32 en registry (Wave PPP).
+    # 0x0008FE9C promovido a GameOver_ContinueHold_08fe9c en registry (Wave PPP).
+    # 0x0008FEB6 promovido a GameOver_ContinueEnd_08feb6 en registry (Wave PPP).
     0x0008FECA: "TaskHandler_08feca",
-    # 0x00090098 promovido a TaskHandler_090098 en registry (Wave PPP).
+    # 0x00090098 promovido a GO_Sprite_FollowParent_090098 en registry (Wave PPP).
     0x00090E7E: "TaskHandler_090e7e",
-    # 0x00091338 promovido a TaskHandler_091338 en registry (Wave PPP).
+    # 0x00091338 promovido a Continue_Spawn_091338 en registry (Wave PPP).
     0x000913AA: "TaskHandler_0913aa",
-    # 0x00091514 promovido a TaskHandler_091514 en registry (Wave PPP).
-    # 0x0009152C promovido a TaskHandler_09152c en registry (Wave PPP).
-    # 0x00091558 promovido a TaskHandler_091558 en registry (Wave PPP).
+    # 0x00091514 promovido a Continue_Text_Init_091514 en registry (Wave PPP).
+    # 0x0009152C promovido a Continue_Text_Clear_09152c en registry (Wave PPP).
+    # 0x00091558 promovido a Continue_Text_Blink_091558 en registry (Wave PPP).
     0x000916C0: "TaskHandler_0916c0",
     0x00097852: "TaskHandler_097852",
     0x0009788C: "TaskHandler_09788c",
@@ -1041,7 +1041,7 @@ SYMBOLS = {
     #      5 task templates en la region de datos $9xxxx (apuntados por
     #      lea.l XXX.l, a1 seguido de jsr ThunkTarget_0004ae = Task_Alloc):
     0x00091330: "TaskTpl_091330",           # AttractHandler_00109C
-    # 0x000913AC promovido a TaskTpl_0913AC en registry (Wave PPP).
+    # 0x000913AC promovido a Continue_Tpl_0913ac en registry (Wave PPP).
     0x00099B06: "TaskTpl_099B06",           # AttractHandler_2Task_0010F2 (task 2)
     0x000977D6: "TaskTpl_0977D6",           # AttractHandler_Frame_001172
     0x000977EA: "TaskTpl_0977EA",           # AttractHandler_Loader_0011EA
@@ -1079,7 +1079,7 @@ SYMBOLS = {
     #      (Wave QQ#1).
     0x00032FF2: "Sub_00032FF2",             # post-init hook 1 (pc-rel)
     0x0005E98A: "Sub_0005E98A",  # jsr desde PlayerEntity_InitAuxState_032A02
-    # 0x0008F6D2 promovido a Sub_0008F6D2 en registry (Wave PPP).
+    # 0x0008F6D2 promovido a PlayerSlot_MaskF0F0_08f6d2 en registry (Wave PPP).
     0x000517AA: "Sub_000517AA",  # jsr desde PlayerEntity_InitAuxState_032A02
     0x00032AA8: "Sub_00032AA8",             # post-init hook 3 (pc-rel)
     #      Callees abs.l del spawn constructor:
@@ -1268,8 +1268,8 @@ SYMBOLS = {
     0x00079298: "TaskProto_00079298",     # plantilla tarea aux (MissionDriver_Init)
     0x0008C85C: "Fn_0008C85C",            # init subsistema paralelo (MissionDriver_Init)
     # 0x0008C864 promovido a Cut_Watcher_Init_08c864 en registry (Wave MMM).
-    # 0x0008F6F2 promovido a Fn_0008F6F2 en registry (Wave PPP).
-    # 0x0008F714 promovido a Fn_0008F714 en registry (Wave PPP).
+    # 0x0008F6F2 promovido a PlayerSlot_SetLowNibble_08f6f2 en registry (Wave PPP).
+    # 0x0008F714 promovido a PlayerSlot_TestMaskCur_08f714 en registry (Wave PPP).
     # --- Wave YY: defsyms mid-isla + refs a huecos futuros ($04580C..$046258) ---
     0x00045DD2: "Jsr5B6Rts_045dd2",       # jsr $5B6 dentro de isla $45DC6 (cola Boss2Shot)
     0x00045F2A: "SetHandlerRts_045f2a",   # rts tras set-handler en isla $45F24

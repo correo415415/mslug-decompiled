@@ -389,23 +389,23 @@ extern void Leaper_Jump_08e622(void);
 extern void Runner_Run_08e716(void);
 extern void Nest_FlyOff_Run_08ea16(void);
 extern void Nest2_HitWait_08eb02(void);
-extern void TaskHandler_08f96a(void);
-extern void TaskHandler_08fcca(void);
-extern void TaskHandler_08fd2e(void);
-extern void TaskHandler_08fd68(void);
-extern void TaskHandler_08fdaa(void);
-extern void TaskHandler_08fdf8(void);
-extern void TaskHandler_08fe32(void);
-extern void TaskHandler_08fe9c(void);
-extern void TaskHandler_08feb6(void);
+extern void GameOver_Spawn_08f96a(void);
+extern void GameOver_Wait_08fcca(void);
+extern void GameOver_Wait2_08fd2e(void);
+extern void GameOver_Final_08fd68(void);
+extern void GameOver_WaitCredit_08fdaa(void);
+extern void GameOver_Continue_08fdf8(void);
+extern void GameOver_ContinuePath_08fe32(void);
+extern void GameOver_ContinueHold_08fe9c(void);
+extern void GameOver_ContinueEnd_08feb6(void);
 extern void TaskHandler_08feca(void);
-extern void TaskHandler_090098(void);
+extern void GO_Sprite_FollowParent_090098(void);
 extern void TaskHandler_090e7e(void);
-extern void TaskHandler_091338(void);
+extern void Continue_Spawn_091338(void);
 extern void TaskHandler_0913aa(void);
-extern void TaskHandler_091514(void);
-extern void TaskHandler_09152c(void);
-extern void TaskHandler_091558(void);
+extern void Continue_Text_Init_091514(void);
+extern void Continue_Text_Clear_09152c(void);
+extern void Continue_Text_Blink_091558(void);
 extern void TaskHandler_0916c0(void);
 extern void TaskHandler_097852(void);
 extern void TaskHandler_09788c(void);
@@ -4364,55 +4364,55 @@ void SetTaskHandler_08eafa(void) {
 
 __attribute__((section(".text.SetTaskHandler_08f962")))
 void SetTaskHandler_08f962(void) {
-    _a1_ptr = &TaskHandler_08f96a;
+    _a1_ptr = &GameOver_Spawn_08f96a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08fca2")))
 void SetTaskHandler_08fca2(void) {
-    _a1_ptr = &TaskHandler_08fcca;
+    _a1_ptr = &GameOver_Wait_08fcca;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08fd26")))
 void SetTaskHandler_08fd26(void) {
-    _a1_ptr = &TaskHandler_08fd2e;
+    _a1_ptr = &GameOver_Wait2_08fd2e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08fd60")))
 void SetTaskHandler_08fd60(void) {
-    _a1_ptr = &TaskHandler_08fd68;
+    _a1_ptr = &GameOver_Final_08fd68;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08fda2")))
 void SetTaskHandler_08fda2(void) {
-    _a1_ptr = &TaskHandler_08fdaa;
+    _a1_ptr = &GameOver_WaitCredit_08fdaa;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08fdf0")))
 void SetTaskHandler_08fdf0(void) {
-    _a1_ptr = &TaskHandler_08fdf8;
+    _a1_ptr = &GameOver_Continue_08fdf8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08fe2a")))
 void SetTaskHandler_08fe2a(void) {
-    _a1_ptr = &TaskHandler_08fe32;
+    _a1_ptr = &GameOver_ContinuePath_08fe32;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08fe94")))
 void SetTaskHandler_08fe94(void) {
-    _a1_ptr = &TaskHandler_08fe9c;
+    _a1_ptr = &GameOver_ContinueHold_08fe9c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_08feae")))
 void SetTaskHandler_08feae(void) {
-    _a1_ptr = &TaskHandler_08feb6;
+    _a1_ptr = &GameOver_ContinueEnd_08feb6;
     STORE_A1_AT_FP();
 }
 
@@ -4424,13 +4424,13 @@ void SetTaskHandler_08fec4(void) {
 
 __attribute__((section(".text.SetTaskHandler_090044")))
 void SetTaskHandler_090044(void) {
-    _a1_ptr = &TaskHandler_090098;
+    _a1_ptr = &GO_Sprite_FollowParent_090098;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_090090")))
 void SetTaskHandler_090090(void) {
-    _a1_ptr = &TaskHandler_090098;
+    _a1_ptr = &GO_Sprite_FollowParent_090098;
     STORE_A1_AT_FP();
 }
 
@@ -4448,7 +4448,7 @@ void SetTaskHandler_09108e(void) {
 
 __attribute__((section(".text.SetTaskHandler_091330")))
 void SetTaskHandler_091330(void) {
-    _a1_ptr = &TaskHandler_091338;
+    _a1_ptr = &Continue_Spawn_091338;
     STORE_A1_AT_FP();
 }
 
@@ -4460,19 +4460,19 @@ void SetTaskHandler_0913a4(void) {
 
 __attribute__((section(".text.SetTaskHandler_091550")))
 void SetTaskHandler_091550(void) {
-    _a1_ptr = &TaskHandler_091558;
+    _a1_ptr = &Continue_Text_Blink_091558;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_091570")))
 void SetTaskHandler_091570(void) {
-    _a1_ptr = &TaskHandler_09152c;
+    _a1_ptr = &Continue_Text_Clear_09152c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_091662")))
 void SetTaskHandler_091662(void) {
-    _a1_ptr = &TaskHandler_091514;
+    _a1_ptr = &Continue_Text_Init_091514;
     STORE_A1_AT_FP();
 }
 

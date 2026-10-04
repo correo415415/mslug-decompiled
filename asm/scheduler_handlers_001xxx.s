@@ -75,7 +75,7 @@ AttractHandler_2Task_0010F2:
         jsr     FUN_0000212e                    | +00  hook $212E
         jsr     BIOS_FIX_CLEAR                  | +06  BIOS VBlank
         jsr     Pubcleaner_10A2Cx_052712        | +0c  Pubcleaner_10A2Cx (LL#1)
-        lea.l   TaskTpl_0913AC, a1              | +12  a1 = &task_tpl_$913AC
+        lea.l   Continue_Tpl_0913ac, a1              | +12  a1 = &task_tpl_$913AC
         jsr     ThunkTarget_0004ae              | +18  Task_Alloc (task 1)
         lea.l   TaskTpl_099B06, a1              | +1e  a1 = &task_tpl_$99B06
         jsr     ThunkTarget_0004ae              | +24  Task_Alloc (task 2)

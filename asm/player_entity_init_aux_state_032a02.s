@@ -68,7 +68,7 @@
 |  caller original es la funcion instalada via a1.
 |
 |  Los tres jsr a helpers no matcheados ($5E98A, $8F6D2, $517AA) quedan
-|  con placeholder en tools/symbols.py (Sub_0005E98A, Sub_0008F6D2,
+|  con placeholder en tools/symbols.py (Sub_0005E98A, PlayerSlot_MaskF0F0_08f6d2,
 |  Sub_000517AA) para no bloquear este match; son candidatos naturales
 |  para la siguiente ola (usar tools/rank_candidates.py).
 |
@@ -95,7 +95,7 @@ PlayerEntity_InitAuxState_032A02:
         move.b  #0x1, 0x85(a6)          | +044  +85 = 1
         clr.b   0x8c(a6)                | +04a  +8c = 0
         clr.b   0x87(a6)                | +04e  +87 = 0
-        jsr     Sub_0008F6D2            | +052  helper (aun no matcheado)
+        jsr     PlayerSlot_MaskF0F0_08f6d2            | +052  helper (aun no matcheado)
         clr.w   0x72(a6)                | +058  +72 = 0
         clr.w   0x36(a6)                | +05c  +36 = 0
         clr.b   0x91(a6)                | +060  +91 = 0
