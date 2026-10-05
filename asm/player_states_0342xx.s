@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Sub_000342C4  @ $0342C4  (186 B)
+|  Player_ShootStand_0342c4  @ $0342C4  (186 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000342C4, "ax", @progbits
-        .global Sub_000342C4
-Sub_000342C4:
+        .section .text.Player_ShootStand_0342c4, "ax", @progbits
+        .global Player_ShootStand_0342c4
+Player_ShootStand_0342c4:
         bset    #0x1,0x8c(a6)                   | +000
         cmpi.w  #0x1,0x72(a6)                   | +006
         bne.w   .L03432c                        | +00c
@@ -38,7 +38,7 @@ Sub_000342C4:
 .L034318:
         move.w  #0x1,0x7c(a6)                   | +054
         move.w  #0x3,0x7e(a6)                   | +05a
-        jsr     Sub_000357FA(pc)                | +060
+        jsr     Player_WalkLoopShootPose_0357fa(pc) | +060
 .L034328:
         bra.w   .L03437a                        | +064
 .L03432c:
@@ -56,16 +56,16 @@ Sub_000342C4:
 .L03436a:
         move.w  #0x1,0x7c(a6)                   | +0a6
         move.w  #0x3,0x7e(a6)                   | +0ac
-        jsr     Sub_000357FA(pc)                | +0b2
+        jsr     Player_WalkLoopShootPose_0357fa(pc) | +0b2
 .L03437a:
-        bra.w   Sub_00034704__L0347e0           | +0b6
+        bra.w   Player_Stand_Setup_0347e0    | +0b6
 
 | ----------------------------------------------------------------------------
-|  Sub_0003437E  @ $03437E  (570 B)
+|  Player_ShootStandUp_03437e  @ $03437E  (570 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003437E, "ax", @progbits
-        .global Sub_0003437E
-Sub_0003437E:
+        .section .text.Player_ShootStandUp_03437e, "ax", @progbits
+        .global Player_ShootStandUp_03437e
+Player_ShootStandUp_03437e:
         bset    #0x1,0x8c(a6)                   | +000
         cmpi.w  #0x0,0x72(a6)                   | +006
         bne.w   .L0343e6                        | +00c
@@ -84,7 +84,7 @@ Sub_0003437E:
 .L0343d2:
         move.w  #0x0,0x7c(a6)                   | +054
         move.w  #0x4,0x7e(a6)                   | +05a
-        jsr     Sub_0003595A(pc)                | +060
+        jsr     Player_WalkLoopShootUpPose_03595a(pc) | +060
 .L0343e2:
         bra.w   .L034434                        | +064
 .L0343e6:
@@ -102,9 +102,9 @@ Sub_0003437E:
 .L034424:
         move.w  #0x0,0x7c(a6)                   | +0a6
         move.w  #0x4,0x7e(a6)                   | +0ac
-        jsr     Sub_0003595A(pc)                | +0b2
+        jsr     Player_WalkLoopShootUpPose_03595a(pc) | +0b2
 .L034434:
-        bra.w   Sub_00034704__L0347e0           | +0b6
+        bra.w   Player_Stand_Setup_0347e0    | +0b6
         bset    #0x1,0x8c(a6)                   | +0ba
         cmpi.w  #0x1,0x72(a6)                   | +0c0
         bne.w   .L0344a0                        | +0c6
@@ -123,7 +123,7 @@ Sub_0003437E:
 .L03448c:
         move.w  #0x1,0x7c(a6)                   | +10e
         move.w  #0x3,0x7e(a6)                   | +114
-        jsr     Sub_000357FA(pc)                | +11a
+        jsr     Player_WalkLoopShootPose_0357fa(pc) | +11a
 .L03449c:
         bra.w   .L0344ee                        | +11e
 .L0344a0:
@@ -141,9 +141,9 @@ Sub_0003437E:
 .L0344de:
         move.w  #0x1,0x7c(a6)                   | +160
         move.w  #0x3,0x7e(a6)                   | +166
-        jsr     Sub_000357FA(pc)                | +16c
+        jsr     Player_WalkLoopShootPose_0357fa(pc) | +16c
 .L0344ee:
-        bra.w   Sub_00034704__L0347e0           | +170
+        bra.w   Player_Stand_Setup_0347e0    | +170
         move.w  #0x0,0x7c(a6)                   | +174
         move.w  #0x0,0x7e(a6)                   | +17a
         bset    #0x1,0x8c(a6)                   | +180
@@ -164,7 +164,7 @@ Sub_0003437E:
 .L034552:
         move.w  #0x0,0x7c(a6)                   | +1d4
         move.w  #0x4,0x7e(a6)                   | +1da
-        jsr     Sub_0003595A(pc)                | +1e0
+        jsr     Player_WalkLoopShootUpPose_03595a(pc) | +1e0
 .L034562:
         bra.w   .L0345b4                        | +1e4
 .L034566:
@@ -182,44 +182,44 @@ Sub_0003437E:
 .L0345a4:
         move.w  #0x0,0x7c(a6)                   | +226
         move.w  #0x4,0x7e(a6)                   | +22c
-        jsr     Sub_0003595A(pc)                | +232
+        jsr     Player_WalkLoopShootUpPose_03595a(pc) | +232
 .L0345b4:
-        bra.w   Sub_00034704__L0347e0           | +236
+        bra.w   Player_Stand_Setup_0347e0    | +236
 
 | ----------------------------------------------------------------------------
-|  Sub_000345B8  @ $0345B8  (66 B)
+|  Player_ReenterByInput_0345b8  @ $0345B8  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000345B8, "ax", @progbits
-        .global Sub_000345B8
-Sub_000345B8:
+        .section .text.Player_ReenterByInput_0345b8, "ax", @progbits
+        .global Player_ReenterByInput_0345b8
+Player_ReenterByInput_0345b8:
         btst    #0x0,0x3a(a6)                   | +000
         bne.w   .L0345de                        | +006
         jsr     JmpAbsThunk_032e3c(pc)          | +00a
         bcc.w   .L0345ce                        | +00e
-        jmp     Sub_00034B38(pc)                | +012
+        jmp     Player_WalkRight_034b38(pc)     | +012
 .L0345ce:
         jsr     Input_RightThunk_032e42(pc)     | +016
         bcc.w   .L0345da                        | +01a
-        jmp     Sub_00035BF8(pc)                | +01e
+        jmp     Player_TurnLeft_035bf8(pc)      | +01e
 .L0345da:
         bra.w   .L0345f6                        | +022
 .L0345de:
         jsr     Input_RightThunk_032e42(pc)     | +026
         bcc.w   .L0345ea                        | +02a
-        jmp     Sub_00034D32(pc)                | +02e
+        jmp     Player_WalkLeft_034d32(pc)      | +02e
 .L0345ea:
         jsr     JmpAbsThunk_032e3c(pc)          | +032
         bcc.w   .L0345f6                        | +036
-        jmp     Sub_00035ABA(pc)                | +03a
+        jmp     Player_TurnRight_035aba(pc)     | +03a
 .L0345f6:
-        jmp     Sub_00034704(pc)                | +03e
+        jmp     Player_Stand_034704(pc)         | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0345fa  @ $0345FA  (266 B)
+|  Player_StandFromWalk_0345fa  @ $0345FA  (266 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0345fa, "ax", @progbits
-        .global TaskHandler_0345fa
-TaskHandler_0345fa:
+        .section .text.Player_StandFromWalk_0345fa, "ax", @progbits
+        .global Player_StandFromWalk_0345fa
+Player_StandFromWalk_0345fa:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
         bclr    #0x2,0x8c(a6)                   | +00c
@@ -239,7 +239,7 @@ TaskHandler_0345fa:
         jsr     0x27a92.l                       | +04c
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +052
         bcc.w   .L03465a                        | +056
-        lea     Sub_00034704(pc),a1             | +05a
+        lea     Player_Stand_034704(pc),a1      | +05a
         move.l  a1,(a6)                         | +05e
 .L03465a:
         cmpi.b  #0x4,0x78(a6)                   | +060
@@ -279,14 +279,14 @@ TaskHandler_0345fa:
         lea     Player_Crouch_033a5e(pc),a1     | +100
         move.l  a1,(a6)                         | +104
 .L034700:
-        bra.w   Sub_00034704__L034a00           | +106
+        bra.w   Player_Stand_InputMove_034a00    | +106
 
 | ----------------------------------------------------------------------------
-|  Sub_00034704  @ $034704  (1076 B)
+|  Player_Stand_034704  @ $034704  (1076 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00034704, "ax", @progbits
-        .global Sub_00034704
-Sub_00034704:
+        .section .text.Player_Stand_034704, "ax", @progbits
+        .global Player_Stand_034704
+Player_Stand_034704:
         cmpi.b  #0x13,0x70(a6)                  | +000
         bcs.w   .L034760                        | +006
         cmpi.b  #0x24,0x70(a6)                  | +00a
@@ -305,7 +305,7 @@ Sub_00034704:
         jsr     0x28cd4.l                       | +04c
 .L034756:
         bclr    #0x5,0x69(a6)                   | +052
-        bra.w   Sub_00034704__L0347e0           | +058
+        bra.w   Player_Stand_Setup_0347e0    | +058
 .L034760:
         bclr    #0x2,0x8c(a6)                   | +05c
         bclr    #0x1,0x8c(a6)                   | +062
@@ -320,7 +320,7 @@ Sub_00034704:
         move.b  #0xff,0x21(a6)                  | +096
         lea     0x2796a4.l,a0                   | +09c
         jsr     0x28cd4.l                       | +0a2
-        bra.w   Sub_00034704__L0347e0           | +0a8
+        bra.w   Player_Stand_Setup_0347e0    | +0a8
 .L0347b0:
         move.w  #0x0,0x7c(a6)                   | +0ac
         move.w  #0x0,0x7e(a6)                   | +0b2
@@ -330,8 +330,8 @@ Sub_00034704:
         move.b  #0xff,0x21(a6)                  | +0ca
         lea     0x279926.l,a0                   | +0d0
         jsr     0x28cd4.l                       | +0d6
-        .global Sub_00034704__L0347e0
-Sub_00034704__L0347e0:
+        .global Player_Stand_Setup_0347e0
+Player_Stand_Setup_0347e0:
         bset    #0x7,0x5b(a6)                   | +0dc
         move.l  #0x32500,0x60(a6)               | +0e2
         jsr     0x267e6.l                       | +0ea
@@ -344,7 +344,7 @@ Sub_00034704__L0347e0:
         jsr     Player_FrameCommon_032ff2(pc)   | +102
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +106
         bcc.w   .L034818                        | +10a
-        lea     Sub_000345B8(pc),a1             | +10e
+        lea     Player_ReenterByInput_0345b8(pc),a1 | +10e
         move.l  a1,(a6)                         | +112
 .L034818:
         jsr     0x27a92.l                       | +114
@@ -418,7 +418,7 @@ Sub_00034704__L0347e0:
         move.l  a1,(a6)                         | +23e
 .L034944:
         cmpi.b  #0x10,0x70(a6)                  | +240
-        bne.w   Sub_00034704__L034a00           | +246
+        bne.w   Player_Stand_InputMove_034a00    | +246
         cmpi.b  #0x4,0x78(a6)                   | +24a
         bne.w   .L0349ae                        | +250
         cmpi.w  #0x1,0x72(a6)                   | +254
@@ -439,10 +439,10 @@ Sub_00034704__L0347e0:
         bne.w   .L0349aa                        | +29c
         bset    #0x5,0x69(a6)                   | +2a0
 .L0349aa:
-        bra.w   Sub_00034704__L034a00           | +2a6
+        bra.w   Player_Stand_InputMove_034a00    | +2a6
 .L0349ae:
         cmpi.w  #0x0,0x72(a6)                   | +2aa
-        beq.w   Sub_00034704__L034a00           | +2b0
+        beq.w   Player_Stand_InputMove_034a00    | +2b0
         move.w  #0x0,0x72(a6)                   | +2b4
         jsr     0x2abcc.l                       | +2ba
         bcs.w   .L0349de                        | +2c0
@@ -456,34 +456,34 @@ Sub_00034704__L0347e0:
         move.l  -0x4(a0),0x74(a6)               | +2e6
 .L0349f0:
         cmpi.b  #0x41,0x79(a6)                  | +2ec
-        bne.w   Sub_00034704__L034a00           | +2f2
+        bne.w   Player_Stand_InputMove_034a00    | +2f2
         bset    #0x5,0x69(a6)                   | +2f6
-        .global Sub_00034704__L034a00
-Sub_00034704__L034a00:
+        .global Player_Stand_InputMove_034a00
+Player_Stand_InputMove_034a00:
         btst    #0x2,0x8c(a6)                   | +2fc
         bne.w   .L034a5e                        | +302
         btst    #0x0,0x3a(a6)                   | +306
         bne.w   .L034a34                        | +30c
         jsr     JmpAbsThunk_032e3c(pc)          | +310
         bcc.w   .L034a22                        | +314
-        lea     Sub_00034B38(pc),a1             | +318
+        lea     Player_WalkRight_034b38(pc),a1  | +318
         move.l  a1,(a6)                         | +31c
 .L034a22:
         jsr     Input_RightThunk_032e42(pc)     | +31e
         bcc.w   .L034a30                        | +322
-        lea     Sub_00035BF8(pc),a1             | +326
+        lea     Player_TurnLeft_035bf8(pc),a1   | +326
         move.l  a1,(a6)                         | +32a
 .L034a30:
         bra.w   .L034a50                        | +32c
 .L034a34:
         jsr     JmpAbsThunk_032e3c(pc)          | +330
         bcc.w   .L034a42                        | +334
-        lea     Sub_00035ABA(pc),a1             | +338
+        lea     Player_TurnRight_035aba(pc),a1  | +338
         move.l  a1,(a6)                         | +33c
 .L034a42:
         jsr     Input_RightThunk_032e42(pc)     | +33e
         bcc.w   .L034a50                        | +342
-        lea     Sub_00034D32(pc),a1             | +346
+        lea     Player_WalkLeft_034d32(pc),a1   | +346
         move.l  a1,(a6)                         | +34a
 .L034a50:
         jsr     Input_DownPressed_032e90(pc)    | +34c
@@ -496,41 +496,41 @@ Sub_00034704__L034a00:
         bra.w   .L034a76                        | +364
 .L034a6c:
         btst    #0x2,0x8c(a6)                   | +368
-        bne.w   Sub_00034704__L034ada           | +36e
+        bne.w   Player_Stand_Tail_034ada    | +36e
 .L034a76:
         jsr     Player_ActionSelect_0330d0(pc)  | +372
-        bcc.w   Sub_00034704__L034ada           | +376
+        bcc.w   Player_Stand_Tail_034ada    | +376
         btst    #0x3,0x8c(a6)                   | +37a
         bne.w   .L034abe                        | +380
         cmpi.b  #0xff,d1                        | +384
         bne.w   .L034a9a                        | +388
-        lea     Sub_00035D34(pc),a1             | +38c
+        lea     Player_Melee_035d34(pc),a1      | +38c
         move.l  a1,(a6)                         | +390
-        bra.w   Sub_00034704__L034ada           | +392
+        bra.w   Player_Stand_Tail_034ada    | +392
 .L034a9a:
         cmpi.b  #0x3,d1                         | +396
         bne.w   .L034aac                        | +39a
-        lea     Sub_000360BC(pc),a1             | +39e
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +39e
         move.l  a1,(a6)                         | +3a2
-        bra.w   Sub_00034704__L034ada           | +3a4
+        bra.w   Player_Stand_Tail_034ada    | +3a4
 .L034aac:
         cmpi.b  #0x4,d1                         | +3a8
         bne.w   .L034abe                        | +3ac
         lea     Sub_0003873C(pc),a1             | +3b0
         move.l  a1,(a6)                         | +3b4
-        bra.w   Sub_00034704__L034ada           | +3b6
+        bra.w   Player_Stand_Tail_034ada    | +3b6
 .L034abe:
         cmpi.b  #0x1,d1                         | +3ba
         bne.w   .L034ad0                        | +3be
-        lea     Sub_0003437E(pc),a1             | +3c2
+        lea     Player_ShootStandUp_03437e(pc),a1 | +3c2
         move.l  a1,(a6)                         | +3c6
-        bra.w   Sub_00034704__L034ada           | +3c8
+        bra.w   Player_Stand_Tail_034ada    | +3c8
 .L034ad0:
-        lea     Sub_000342C4(pc),a1             | +3cc
+        lea     Player_ShootStand_0342c4(pc),a1 | +3cc
         move.l  a1,(a6)                         | +3d0
-        bra.w   Sub_00034704__L034ada           | +3d2
-        .global Sub_00034704__L034ada
-Sub_00034704__L034ada:
+        bra.w   Player_Stand_Tail_034ada    | +3d2
+        .global Player_Stand_Tail_034ada
+Player_Stand_Tail_034ada:
         jsr     0x27eba.l                       | +3d6
         bcc.w   .L034aea                        | +3dc
         lea     TaskHandler_036d64(pc),a1       | +3e0
@@ -560,11 +560,11 @@ Sub_00034704__L034ada:
         rts                                     | +432
 
 | ----------------------------------------------------------------------------
-|  Sub_00034B38  @ $034B38  (506 B)
+|  Player_WalkRight_034b38  @ $034B38  (506 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00034B38, "ax", @progbits
-        .global Sub_00034B38
-Sub_00034B38:
+        .section .text.Player_WalkRight_034b38, "ax", @progbits
+        .global Player_WalkRight_034b38
+Player_WalkRight_034b38:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
         cmpi.b  #0x13,0x70(a6)                  | +00c
@@ -574,7 +574,7 @@ Sub_00034B38:
         lea     0x279882.l,a0                   | +020
         jsr     0x28cd4.l                       | +026
         bclr    #0x5,0x69(a6)                   | +02c
-        bra.w   Sub_00034B38__L034ba4           | +032
+        bra.w   Player_WalkRight_Setup_034ba4 | +032
 .L034b6e:
         bclr    #0x2,0x8c(a6)                   | +036
         bclr    #0x1,0x8c(a6)                   | +03c
@@ -585,8 +585,8 @@ Sub_00034B38:
         move.b  #0xff,0x21(a6)                  | +05a
         lea     0x279882.l,a0                   | +060
         jsr     0x28cd4.l                       | +066
-        .global Sub_00034B38__L034ba4
-Sub_00034B38__L034ba4:
+        .global Player_WalkRight_Setup_034ba4
+Player_WalkRight_Setup_034ba4:
         move.w  #0x300,0x28(a6)                 | +06c
         clr.w   0x2c(a6)                        | +072
         move.l  #0x32500,0x60(a6)               | +076
@@ -599,14 +599,14 @@ Sub_00034B38__L034ba4:
         jsr     Player_FrameCommon_032ff2(pc)   | +092
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +096
         bcc.w   .L034bdc                        | +09a
-        lea     Sub_000345B8(pc),a1             | +09e
+        lea     Player_ReenterByInput_0345b8(pc),a1 | +09e
         move.l  a1,(a6)                         | +0a2
 .L034bdc:
         move.w  #0x300,0x28(a6)                 | +0a4
         jsr     0x27a92.l                       | +0aa
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0b0
         bcc.w   .L034bf6                        | +0b4
-        lea     TaskHandler_0351d8(pc),a1       | +0b8
+        lea     Player_WalkLoopRight_0351d8(pc),a1 | +0b8
         move.l  a1,(a6)                         | +0bc
 .L034bf6:
         cmpi.b  #0x4,0x78(a6)                   | +0be
@@ -628,48 +628,48 @@ Sub_00034B38__L034ba4:
         move.l  -0x4(a0),0x74(a6)               | +10e
 .L034c4c:
         btst    #0x2,0x8c(a6)                   | +114
-        bne.w   Sub_00034B38__L034ccc           | +11a
+        bne.w   Player_WalkRight_Tail_034ccc | +11a
         jsr     JmpAbsThunk_032e3c(pc)          | +11e
         bcs.w   .L034c64                        | +122
-        lea     TaskHandler_0345fa(pc),a1       | +126
+        lea     Player_StandFromWalk_0345fa(pc),a1 | +126
         move.l  a1,(a6)                         | +12a
 .L034c64:
         jsr     Input_RightThunk_032e42(pc)     | +12c
         bcc.w   .L034c72                        | +130
-        lea     Sub_00035BF8(pc),a1             | +134
+        lea     Player_TurnLeft_035bf8(pc),a1   | +134
         move.l  a1,(a6)                         | +138
 .L034c72:
         jsr     Player_ActionSelect_0330d0(pc)  | +13a
-        bcc.w   Sub_00034B38__L034ccc           | +13e
+        bcc.w   Player_WalkRight_Tail_034ccc | +13e
         cmpi.b  #0xff,d1                        | +142
         bne.w   .L034c8c                        | +146
-        lea     Sub_00035D34(pc),a1             | +14a
+        lea     Player_Melee_035d34(pc),a1      | +14a
         move.l  a1,(a6)                         | +14e
-        bra.w   Sub_00034B38__L034ccc           | +150
+        bra.w   Player_WalkRight_Tail_034ccc | +150
 .L034c8c:
         cmpi.b  #0x3,d1                         | +154
         bne.w   .L034c9e                        | +158
-        lea     Sub_000360BC(pc),a1             | +15c
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +15c
         move.l  a1,(a6)                         | +160
-        bra.w   Sub_00034B38__L034ccc           | +162
+        bra.w   Player_WalkRight_Tail_034ccc | +162
 .L034c9e:
         cmpi.b  #0x4,d1                         | +166
         bne.w   .L034cb0                        | +16a
         lea     Sub_0003873C(pc),a1             | +16e
         move.l  a1,(a6)                         | +172
-        bra.w   Sub_00034B38__L034ccc           | +174
+        bra.w   Player_WalkRight_Tail_034ccc | +174
 .L034cb0:
         cmpi.b  #0x1,d1                         | +178
         bne.w   .L034cc2                        | +17c
-        lea     TaskHandler_03503e(pc),a1       | +180
+        lea     Player_WalkRight_ShootUp_03503e(pc),a1 | +180
         move.l  a1,(a6)                         | +184
-        bra.w   Sub_00034B38__L034ccc           | +186
+        bra.w   Player_WalkRight_Tail_034ccc | +186
 .L034cc2:
-        lea     TaskHandler_034eca(pc),a1       | +18a
+        lea     Player_WalkRight_Shoot_034eca(pc),a1 | +18a
         move.l  a1,(a6)                         | +18e
-        bra.w   Sub_00034B38__L034ccc           | +190
-        .global Sub_00034B38__L034ccc
-Sub_00034B38__L034ccc:
+        bra.w   Player_WalkRight_Tail_034ccc | +190
+        .global Player_WalkRight_Tail_034ccc
+Player_WalkRight_Tail_034ccc:
         jsr     Input_DownPressed_032e90(pc)    | +194
         bcc.w   .L034cda                        | +198
         lea     Sub_00037C74(pc),a1             | +19c
@@ -703,11 +703,11 @@ Sub_00034B38__L034ccc:
         rts                                     | +1f8
 
 | ----------------------------------------------------------------------------
-|  Sub_00034D32  @ $034D32  (408 B)
+|  Player_WalkLeft_034d32  @ $034D32  (408 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00034D32, "ax", @progbits
-        .global Sub_00034D32
-Sub_00034D32:
+        .section .text.Player_WalkLeft_034d32, "ax", @progbits
+        .global Player_WalkLeft_034d32
+Player_WalkLeft_034d32:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
         cmpi.b  #0x13,0x70(a6)                  | +00c
@@ -717,7 +717,7 @@ Sub_00034D32:
         lea     0x279882.l,a0                   | +020
         jsr     0x28cd4.l                       | +026
         bclr    #0x5,0x69(a6)                   | +02c
-        bra.w   Sub_00034D32__L034d9e           | +032
+        bra.w   Player_WalkLeft_Setup_034d9e | +032
 .L034d68:
         bclr    #0x2,0x8c(a6)                   | +036
         bclr    #0x1,0x8c(a6)                   | +03c
@@ -728,8 +728,8 @@ Sub_00034D32:
         move.b  #0xff,0x21(a6)                  | +05a
         lea     0x279882.l,a0                   | +060
         jsr     0x28cd4.l                       | +066
-        .global Sub_00034D32__L034d9e
-Sub_00034D32__L034d9e:
+        .global Player_WalkLeft_Setup_034d9e
+Player_WalkLeft_Setup_034d9e:
         move.w  #0xfd00,0x28(a6)                | +06c
         clr.w   0x2c(a6)                        | +072
         move.l  #0x32500,0x60(a6)               | +076
@@ -742,14 +742,14 @@ Sub_00034D32__L034d9e:
         jsr     Player_FrameCommon_032ff2(pc)   | +092
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +096
         bcc.w   .L034dd6                        | +09a
-        lea     Sub_000345B8(pc),a1             | +09e
+        lea     Player_ReenterByInput_0345b8(pc),a1 | +09e
         move.l  a1,(a6)                         | +0a2
 .L034dd6:
         move.w  #0xfd00,0x28(a6)                | +0a4
         jsr     0x27a92.l                       | +0aa
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0b0
         bcc.w   .L034df0                        | +0b4
-        lea     TaskHandler_0354f2(pc),a1       | +0b8
+        lea     Player_WalkLoopLeft_0354f2(pc),a1 | +0b8
         move.l  a1,(a6)                         | +0bc
 .L034df0:
         cmpi.b  #0x4,0x78(a6)                   | +0be
@@ -774,25 +774,25 @@ Sub_00034D32__L034d9e:
         bne.w   .L034ec6                        | +11a
         jsr     Input_RightThunk_032e42(pc)     | +11e
         bcs.w   .L034e5e                        | +122
-        lea     TaskHandler_0345fa(pc),a1       | +126
+        lea     Player_StandFromWalk_0345fa(pc),a1 | +126
         move.l  a1,(a6)                         | +12a
 .L034e5e:
         jsr     JmpAbsThunk_032e3c(pc)          | +12c
         bcc.w   .L034e6c                        | +130
-        lea     Sub_00035ABA(pc),a1             | +134
+        lea     Player_TurnRight_035aba(pc),a1  | +134
         move.l  a1,(a6)                         | +138
 .L034e6c:
         jsr     Player_ActionSelect_0330d0(pc)  | +13a
         bcc.w   .L034ec6                        | +13e
         cmpi.b  #0xff,d1                        | +142
         bne.w   .L034e86                        | +146
-        lea     Sub_00035D34(pc),a1             | +14a
+        lea     Player_Melee_035d34(pc),a1      | +14a
         move.l  a1,(a6)                         | +14e
         bra.w   .L034ec6                        | +150
 .L034e86:
         cmpi.b  #0x3,d1                         | +154
         bne.w   .L034e98                        | +158
-        lea     Sub_000360BC(pc),a1             | +15c
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +15c
         move.l  a1,(a6)                         | +160
         bra.w   .L034ec6                        | +162
 .L034e98:
@@ -800,37 +800,37 @@ Sub_00034D32__L034d9e:
         bne.w   .L034eaa                        | +16a
         lea     Sub_0003873C(pc),a1             | +16e
         move.l  a1,(a6)                         | +172
-        bra.w   TaskHandler_0351d8__L03548c     | +174
+        bra.w   Player_Walk_Tail_03548c | +174
 .L034eaa:
         cmpi.b  #0x1,d1                         | +178
         bne.w   .L034ebc                        | +17c
-        lea     TaskHandler_0351c4(pc),a1       | +180
+        lea     Player_WalkLeft_ShootUp_0351c4(pc),a1 | +180
         move.l  a1,(a6)                         | +184
         bra.w   .L034ec6                        | +186
 .L034ebc:
-        lea     TaskHandler_0351b0(pc),a1       | +18a
+        lea     Player_WalkLeft_Shoot_0351b0(pc),a1 | +18a
         move.l  a1,(a6)                         | +18e
         bra.w   .L034ec6                        | +190
 .L034ec6:
-        bra.w   Sub_00034B38__L034ccc           | +194
+        bra.w   Player_WalkRight_Tail_034ccc | +194
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_034eca  @ $034ECA  (20 B)
+|  Player_WalkRight_Shoot_034eca  @ $034ECA  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_034eca, "ax", @progbits
-        .global TaskHandler_034eca
-TaskHandler_034eca:
+        .section .text.Player_WalkRight_Shoot_034eca, "ax", @progbits
+        .global Player_WalkRight_Shoot_034eca
+Player_WalkRight_Shoot_034eca:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
-        jsr     Sub_00034EDE(pc)                | +00c
-        bra.w   Sub_00034B38__L034ba4           | +010
+        jsr     Player_WalkShootPose_034ede(pc) | +00c
+        bra.w   Player_WalkRight_Setup_034ba4 | +010
 
 | ----------------------------------------------------------------------------
-|  Sub_00034EDE  @ $034EDE  (352 B)
+|  Player_WalkShootPose_034ede  @ $034EDE  (352 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00034EDE, "ax", @progbits
-        .global Sub_00034EDE
-Sub_00034EDE:
+        .section .text.Player_WalkShootPose_034ede, "ax", @progbits
+        .global Player_WalkShootPose_034ede
+Player_WalkShootPose_034ede:
         bset    #0x1,0x8c(a6)                   | +000
         cmpi.w  #0x1,0x72(a6)                   | +006
         bne.w   .L034f3c                        | +00c
@@ -907,22 +907,22 @@ Sub_00034EDE:
         rts                                     | +15e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03503e  @ $03503E  (20 B)
+|  Player_WalkRight_ShootUp_03503e  @ $03503E  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03503e, "ax", @progbits
-        .global TaskHandler_03503e
-TaskHandler_03503e:
+        .section .text.Player_WalkRight_ShootUp_03503e, "ax", @progbits
+        .global Player_WalkRight_ShootUp_03503e
+Player_WalkRight_ShootUp_03503e:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
-        jsr     Sub_00035052(pc)                | +00c
-        bra.w   Sub_00034B38__L034ba4           | +010
+        jsr     Player_WalkShootUpPose_035052(pc) | +00c
+        bra.w   Player_WalkRight_Setup_034ba4 | +010
 
 | ----------------------------------------------------------------------------
-|  Sub_00035052  @ $035052  (350 B)
+|  Player_WalkShootUpPose_035052  @ $035052  (350 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00035052, "ax", @progbits
-        .global Sub_00035052
-Sub_00035052:
+        .section .text.Player_WalkShootUpPose_035052, "ax", @progbits
+        .global Player_WalkShootUpPose_035052
+Player_WalkShootUpPose_035052:
         bset    #0x1,0x8c(a6)                   | +000
         cmpi.w  #0x0,0x72(a6)                   | +006
         bne.w   .L0350b0                        | +00c
@@ -999,33 +999,33 @@ Sub_00035052:
         rts                                     | +15c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0351b0  @ $0351B0  (20 B)
+|  Player_WalkLeft_Shoot_0351b0  @ $0351B0  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0351b0, "ax", @progbits
-        .global TaskHandler_0351b0
-TaskHandler_0351b0:
+        .section .text.Player_WalkLeft_Shoot_0351b0, "ax", @progbits
+        .global Player_WalkLeft_Shoot_0351b0
+Player_WalkLeft_Shoot_0351b0:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
-        jsr     Sub_00034EDE(pc)                | +00c
-        bra.w   Sub_00034D32__L034d9e           | +010
+        jsr     Player_WalkShootPose_034ede(pc) | +00c
+        bra.w   Player_WalkLeft_Setup_034d9e | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0351c4  @ $0351C4  (20 B)
+|  Player_WalkLeft_ShootUp_0351c4  @ $0351C4  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0351c4, "ax", @progbits
-        .global TaskHandler_0351c4
-TaskHandler_0351c4:
+        .section .text.Player_WalkLeft_ShootUp_0351c4, "ax", @progbits
+        .global Player_WalkLeft_ShootUp_0351c4
+Player_WalkLeft_ShootUp_0351c4:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
-        jsr     Sub_00035052(pc)                | +00c
-        bra.w   Sub_00034D32__L034d9e           | +010
+        jsr     Player_WalkShootUpPose_035052(pc) | +00c
+        bra.w   Player_WalkLeft_Setup_034d9e | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0351d8  @ $0351D8  (794 B)
+|  Player_WalkLoopRight_0351d8  @ $0351D8  (794 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0351d8, "ax", @progbits
-        .global TaskHandler_0351d8
-TaskHandler_0351d8:
+        .section .text.Player_WalkLoopRight_0351d8, "ax", @progbits
+        .global Player_WalkLoopRight_0351d8
+Player_WalkLoopRight_0351d8:
         cmpi.b  #0x13,0x70(a6)                  | +000
         bcs.w   .L03520e                        | +006
         cmpi.b  #0x24,0x70(a6)                  | +00a
@@ -1035,7 +1035,7 @@ TaskHandler_0351d8:
         move.w  #0x0,0x7c(a6)                   | +020
         move.w  #0x3,0x7e(a6)                   | +026
         bclr    #0x5,0x69(a6)                   | +02c
-        bra.w   TaskHandler_0351d8__L035250     | +032
+        bra.w   Player_WalkLoopRight_Setup_035250 | +032
 .L03520e:
         move.w  #0x0,0x7c(a6)                   | +036
         move.w  #0xffff,0x7e(a6)                | +03c
@@ -1048,8 +1048,8 @@ TaskHandler_0351d8:
         move.b  #0xff,0x21(a6)                  | +066
         lea     0x279926.l,a0                   | +06c
         jsr     0x28cd4.l                       | +072
-        .global TaskHandler_0351d8__L035250
-TaskHandler_0351d8__L035250:
+        .global Player_WalkLoopRight_Setup_035250
+Player_WalkLoopRight_Setup_035250:
         move.w  #0x300,0x28(a6)                 | +078
         clr.w   0x2c(a6)                        | +07e
         move.l  #0x32500,0x60(a6)               | +082
@@ -1062,7 +1062,7 @@ TaskHandler_0351d8__L035250:
         jsr     Player_FrameCommon_032ff2(pc)   | +09e
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +0a2
         bcc.w   .L035288                        | +0a6
-        lea     Sub_000345B8(pc),a1             | +0aa
+        lea     Player_ReenterByInput_0345b8(pc),a1 | +0aa
         move.l  a1,(a6)                         | +0ae
 .L035288:
         move.w  #0x300,0x28(a6)                 | +0b0
@@ -1136,7 +1136,7 @@ TaskHandler_0351d8__L035250:
         beq.w   .L035402                        | +1f2
         jsr     JmpAbsThunk_032e3c(pc)          | +1f6
         bcs.w   .L0353dc                        | +1fa
-        lea     Sub_00034704(pc),a1             | +1fe
+        lea     Player_Stand_034704(pc),a1      | +1fe
         move.l  a1,(a6)                         | +202
 .L0353dc:
         jsr     Input_RightThunk_032e42(pc)     | +204
@@ -1146,10 +1146,10 @@ TaskHandler_0351d8__L035250:
         eori.b  #0x1,0x3a(a6)                   | +216
         bra.w   .L0353fe                        | +21c
 .L0353f8:
-        lea     Sub_00035BF8(pc),a1             | +220
+        lea     Player_TurnLeft_035bf8(pc),a1   | +220
         move.l  a1,(a6)                         | +224
 .L0353fe:
-        bra.w   TaskHandler_0351d8__L03548c     | +226
+        bra.w   Player_Walk_Tail_03548c | +226
 .L035402:
         jsr     JmpAbsThunk_032e3c(pc)          | +22a
         bcs.w   .L035410                        | +22e
@@ -1163,40 +1163,40 @@ TaskHandler_0351d8__L035250:
         eori.b  #0x1,0x3a(a6)                   | +24a
         bra.w   .L035432                        | +250
 .L03542c:
-        lea     Sub_00035BF8(pc),a1             | +254
+        lea     Player_TurnLeft_035bf8(pc),a1   | +254
         move.l  a1,(a6)                         | +258
 .L035432:
         jsr     Player_ActionSelect_0330d0(pc)  | +25a
-        bcc.w   TaskHandler_0351d8__L03548c     | +25e
+        bcc.w   Player_Walk_Tail_03548c | +25e
         cmpi.b  #0xff,d1                        | +262
         bne.w   .L03544c                        | +266
-        lea     Sub_00035D34(pc),a1             | +26a
+        lea     Player_Melee_035d34(pc),a1      | +26a
         move.l  a1,(a6)                         | +26e
-        bra.w   TaskHandler_0351d8__L03548c     | +270
+        bra.w   Player_Walk_Tail_03548c | +270
 .L03544c:
         cmpi.b  #0x3,d1                         | +274
         bne.w   .L03545e                        | +278
-        lea     Sub_000360BC(pc),a1             | +27c
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +27c
         move.l  a1,(a6)                         | +280
-        bra.w   TaskHandler_0351d8__L03548c     | +282
+        bra.w   Player_Walk_Tail_03548c | +282
 .L03545e:
         cmpi.b  #0x4,d1                         | +286
         bne.w   .L035470                        | +28a
         lea     Sub_0003873C(pc),a1             | +28e
         move.l  a1,(a6)                         | +292
-        bra.w   TaskHandler_0351d8__L03548c     | +294
+        bra.w   Player_Walk_Tail_03548c | +294
 .L035470:
         cmpi.b  #0x1,d1                         | +298
         bne.w   .L035482                        | +29c
-        lea     TaskHandler_0357be(pc),a1       | +2a0
+        lea     Player_WalkLoopRight_ShootUp_0357be(pc),a1 | +2a0
         move.l  a1,(a6)                         | +2a4
-        bra.w   TaskHandler_0351d8__L03548c     | +2a6
+        bra.w   Player_Walk_Tail_03548c | +2a6
 .L035482:
-        lea     TaskHandler_0357aa(pc),a1       | +2aa
+        lea     Player_WalkLoopRight_Shoot_0357aa(pc),a1 | +2aa
         move.l  a1,(a6)                         | +2ae
-        bra.w   TaskHandler_0351d8__L03548c     | +2b0
-        .global TaskHandler_0351d8__L03548c
-TaskHandler_0351d8__L03548c:
+        bra.w   Player_Walk_Tail_03548c | +2b0
+        .global Player_Walk_Tail_03548c
+Player_Walk_Tail_03548c:
         jsr     Input_DownPressed_032e90(pc)    | +2b4
         bcc.w   .L03549a                        | +2b8
         lea     Sub_00037C74(pc),a1             | +2bc
@@ -1230,11 +1230,11 @@ TaskHandler_0351d8__L03548c:
         rts                                     | +318
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0354f2  @ $0354F2  (158 B)
+|  Player_WalkLoopLeft_0354f2  @ $0354F2  (158 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0354f2, "ax", @progbits
-        .global TaskHandler_0354f2
-TaskHandler_0354f2:
+        .section .text.Player_WalkLoopLeft_0354f2, "ax", @progbits
+        .global Player_WalkLoopLeft_0354f2
+Player_WalkLoopLeft_0354f2:
         cmpi.b  #0x13,0x70(a6)                  | +000
         bcs.w   .L035528                        | +006
         cmpi.b  #0x24,0x70(a6)                  | +00a
@@ -1244,7 +1244,7 @@ TaskHandler_0354f2:
         move.w  #0x0,0x7c(a6)                   | +020
         move.w  #0x3,0x7e(a6)                   | +026
         bclr    #0x5,0x69(a6)                   | +02c
-        bra.w   TaskHandler_0354f2__L03556a     | +032
+        bra.w   Player_WalkLoopLeft_Setup_03556a | +032
 .L035528:
         move.w  #0x0,0x7c(a6)                   | +036
         move.w  #0xffff,0x7e(a6)                | +03c
@@ -1257,27 +1257,27 @@ TaskHandler_0354f2:
         move.b  #0xff,0x21(a6)                  | +066
         lea     0x279926.l,a0                   | +06c
         jsr     0x28cd4.l                       | +072
-        .global TaskHandler_0354f2__L03556a
-TaskHandler_0354f2__L03556a:
+        .global Player_WalkLoopLeft_Setup_03556a
+Player_WalkLoopLeft_Setup_03556a:
         move.w  #0xfd00,0x28(a6)                | +078
         clr.w   0x2c(a6)                        | +07e
         move.l  #0x32500,0x60(a6)               | +082
         lea     Sub_000326E0(pc),a0             | +08a
         move.l  a0,0x48(a6)                     | +08e
-        lea     TaskHandler_035590(pc),a1       | +092
+        lea     Player_WalkLoopLeft_Run_035590(pc),a1 | +092
         move.l  a1,(a6)                         | +096
         bset    #0x0,0x3a(a6)                   | +098
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_035590  @ $035590  (538 B)
+|  Player_WalkLoopLeft_Run_035590  @ $035590  (538 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_035590, "ax", @progbits
-        .global TaskHandler_035590
-TaskHandler_035590:
+        .section .text.Player_WalkLoopLeft_Run_035590, "ax", @progbits
+        .global Player_WalkLoopLeft_Run_035590
+Player_WalkLoopLeft_Run_035590:
         jsr     Player_FrameCommon_032ff2(pc)   | +000
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +004
         bcc.w   .L0355a2                        | +008
-        lea     Sub_000345B8(pc),a1             | +00c
+        lea     Player_ReenterByInput_0345b8(pc),a1 | +00c
         move.l  a1,(a6)                         | +010
 .L0355a2:
         move.w  #0xfd00,0x28(a6)                | +012
@@ -1351,7 +1351,7 @@ TaskHandler_035590:
         beq.w   .L03571c                        | +154
         jsr     Input_RightThunk_032e42(pc)     | +158
         bcs.w   .L0356f6                        | +15c
-        lea     Sub_00034704(pc),a1             | +160
+        lea     Player_Stand_034704(pc),a1      | +160
         move.l  a1,(a6)                         | +164
 .L0356f6:
         jsr     JmpAbsThunk_032e3c(pc)          | +166
@@ -1361,7 +1361,7 @@ TaskHandler_035590:
         eori.b  #0x1,0x3a(a6)                   | +178
         bra.w   .L035718                        | +17e
 .L035712:
-        lea     Sub_00035ABA(pc),a1             | +182
+        lea     Player_TurnRight_035aba(pc),a1  | +182
         move.l  a1,(a6)                         | +186
 .L035718:
         bra.w   .L0357a6                        | +188
@@ -1378,20 +1378,20 @@ TaskHandler_035590:
         eori.b  #0x1,0x3a(a6)                   | +1ac
         bra.w   .L03574c                        | +1b2
 .L035746:
-        lea     Sub_00035ABA(pc),a1             | +1b6
+        lea     Player_TurnRight_035aba(pc),a1  | +1b6
         move.l  a1,(a6)                         | +1ba
 .L03574c:
         jsr     Player_ActionSelect_0330d0(pc)  | +1bc
         bcc.w   .L0357a6                        | +1c0
         cmpi.b  #0xff,d1                        | +1c4
         bne.w   .L035766                        | +1c8
-        lea     Sub_00035D34(pc),a1             | +1cc
+        lea     Player_Melee_035d34(pc),a1      | +1cc
         move.l  a1,(a6)                         | +1d0
         bra.w   .L0357a6                        | +1d2
 .L035766:
         cmpi.b  #0x3,d1                         | +1d6
         bne.w   .L035778                        | +1da
-        lea     Sub_000360BC(pc),a1             | +1de
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +1de
         move.l  a1,(a6)                         | +1e2
         bra.w   .L0357a6                        | +1e4
 .L035778:
@@ -1403,66 +1403,66 @@ TaskHandler_035590:
 .L03578a:
         cmpi.b  #0x1,d1                         | +1fa
         bne.w   .L03579c                        | +1fe
-        lea     TaskHandler_0357e6(pc),a1       | +202
+        lea     Player_WalkLoopLeft_ShootUp_0357e6(pc),a1 | +202
         move.l  a1,(a6)                         | +206
         bra.w   .L0357a6                        | +208
 .L03579c:
-        lea     TaskHandler_0357d2(pc),a1       | +20c
+        lea     Player_WalkLoopLeft_Shoot_0357d2(pc),a1 | +20c
         move.l  a1,(a6)                         | +210
         bra.w   .L0357a6                        | +212
 .L0357a6:
-        bra.w   TaskHandler_0351d8__L03548c     | +216
+        bra.w   Player_Walk_Tail_03548c | +216
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0357aa  @ $0357AA  (20 B)
+|  Player_WalkLoopRight_Shoot_0357aa  @ $0357AA  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0357aa, "ax", @progbits
-        .global TaskHandler_0357aa
-TaskHandler_0357aa:
+        .section .text.Player_WalkLoopRight_Shoot_0357aa, "ax", @progbits
+        .global Player_WalkLoopRight_Shoot_0357aa
+Player_WalkLoopRight_Shoot_0357aa:
         move.w  #0x1,0x7c(a6)                   | +000
         move.w  #0x3,0x7e(a6)                   | +006
-        jsr     Sub_000357FA(pc)                | +00c
-        bra.w   TaskHandler_0351d8__L035250     | +010
+        jsr     Player_WalkLoopShootPose_0357fa(pc) | +00c
+        bra.w   Player_WalkLoopRight_Setup_035250 | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0357be  @ $0357BE  (20 B)
+|  Player_WalkLoopRight_ShootUp_0357be  @ $0357BE  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0357be, "ax", @progbits
-        .global TaskHandler_0357be
-TaskHandler_0357be:
+        .section .text.Player_WalkLoopRight_ShootUp_0357be, "ax", @progbits
+        .global Player_WalkLoopRight_ShootUp_0357be
+Player_WalkLoopRight_ShootUp_0357be:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x4,0x7e(a6)                   | +006
-        jsr     Sub_0003595A(pc)                | +00c
-        bra.w   TaskHandler_0351d8__L035250     | +010
+        jsr     Player_WalkLoopShootUpPose_03595a(pc) | +00c
+        bra.w   Player_WalkLoopRight_Setup_035250 | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0357d2  @ $0357D2  (20 B)
+|  Player_WalkLoopLeft_Shoot_0357d2  @ $0357D2  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0357d2, "ax", @progbits
-        .global TaskHandler_0357d2
-TaskHandler_0357d2:
+        .section .text.Player_WalkLoopLeft_Shoot_0357d2, "ax", @progbits
+        .global Player_WalkLoopLeft_Shoot_0357d2
+Player_WalkLoopLeft_Shoot_0357d2:
         move.w  #0x1,0x7c(a6)                   | +000
         move.w  #0x3,0x7e(a6)                   | +006
-        jsr     Sub_000357FA(pc)                | +00c
-        bra.w   TaskHandler_0354f2__L03556a     | +010
+        jsr     Player_WalkLoopShootPose_0357fa(pc) | +00c
+        bra.w   Player_WalkLoopLeft_Setup_03556a | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0357e6  @ $0357E6  (20 B)
+|  Player_WalkLoopLeft_ShootUp_0357e6  @ $0357E6  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0357e6, "ax", @progbits
-        .global TaskHandler_0357e6
-TaskHandler_0357e6:
+        .section .text.Player_WalkLoopLeft_ShootUp_0357e6, "ax", @progbits
+        .global Player_WalkLoopLeft_ShootUp_0357e6
+Player_WalkLoopLeft_ShootUp_0357e6:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x4,0x7e(a6)                   | +006
-        jsr     Sub_0003595A(pc)                | +00c
-        bra.w   TaskHandler_0354f2__L03556a     | +010
+        jsr     Player_WalkLoopShootUpPose_03595a(pc) | +00c
+        bra.w   Player_WalkLoopLeft_Setup_03556a | +010
 
 | ----------------------------------------------------------------------------
-|  Sub_000357FA  @ $0357FA  (176 B)
+|  Player_WalkLoopShootPose_0357fa  @ $0357FA  (176 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000357FA, "ax", @progbits
-        .global Sub_000357FA
-Sub_000357FA:
+        .section .text.Player_WalkLoopShootPose_0357fa, "ax", @progbits
+        .global Player_WalkLoopShootPose_0357fa
+Player_WalkLoopShootPose_0357fa:
         bset    #0x1,0x8c(a6)                   | +000
         cmpi.w  #0x1,0x72(a6)                   | +006
         bne.w   .L035858                        | +00c
@@ -1502,11 +1502,11 @@ Sub_000357FA:
         rts                                     | +0ae
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0358aa  @ $0358AA  (176 B)
+|  Player_WalkLoopShootPose_Alt_0358aa  @ $0358AA  (176 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0358aa, "ax", @progbits
-        .global TaskHandler_0358aa
-TaskHandler_0358aa:
+        .section .text.Player_WalkLoopShootPose_Alt_0358aa, "ax", @progbits
+        .global Player_WalkLoopShootPose_Alt_0358aa
+Player_WalkLoopShootPose_Alt_0358aa:
         bset    #0x1,0x8c(a6)                   | +000
         cmpi.w  #0x1,0x72(a6)                   | +006
         bne.w   .L035908                        | +00c
@@ -1546,11 +1546,11 @@ TaskHandler_0358aa:
         rts                                     | +0ae
 
 | ----------------------------------------------------------------------------
-|  Sub_0003595A  @ $03595A  (176 B)
+|  Player_WalkLoopShootUpPose_03595a  @ $03595A  (176 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003595A, "ax", @progbits
-        .global Sub_0003595A
-Sub_0003595A:
+        .section .text.Player_WalkLoopShootUpPose_03595a, "ax", @progbits
+        .global Player_WalkLoopShootUpPose_03595a
+Player_WalkLoopShootUpPose_03595a:
         bset    #0x1,0x8c(a6)                   | +000
         cmpi.w  #0x0,0x72(a6)                   | +006
         bne.w   .L0359b8                        | +00c
@@ -1590,11 +1590,11 @@ Sub_0003595A:
         rts                                     | +0ae
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_035a0a  @ $035A0A  (176 B)
+|  Player_WalkLoopShootUpPose_Alt_035a0a  @ $035A0A  (176 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_035a0a, "ax", @progbits
-        .global TaskHandler_035a0a
-TaskHandler_035a0a:
+        .section .text.Player_WalkLoopShootUpPose_Alt_035a0a, "ax", @progbits
+        .global Player_WalkLoopShootUpPose_Alt_035a0a
+Player_WalkLoopShootUpPose_Alt_035a0a:
         bset    #0x1,0x8c(a6)                   | +000
         cmpi.w  #0x0,0x72(a6)                   | +006
         bne.w   .L035a68                        | +00c
@@ -1634,11 +1634,11 @@ TaskHandler_035a0a:
         rts                                     | +0ae
 
 | ----------------------------------------------------------------------------
-|  Sub_00035ABA  @ $035ABA  (318 B)
+|  Player_TurnRight_035aba  @ $035ABA  (318 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00035ABA, "ax", @progbits
-        .global Sub_00035ABA
-Sub_00035ABA:
+        .section .text.Player_TurnRight_035aba, "ax", @progbits
+        .global Player_TurnRight_035aba
+Player_TurnRight_035aba:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bclr    #0x2,0x8c(a6)                   | +00c
@@ -1673,34 +1673,34 @@ Sub_00035ABA:
         jsr     Player_FrameCommon_032ff2(pc)   | +09a
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +09e
         bcc.w   .L035b66                        | +0a2
-        lea     Sub_000345B8(pc),a1             | +0a6
+        lea     Player_ReenterByInput_0345b8(pc),a1 | +0a6
         move.l  a1,(a6)                         | +0aa
 .L035b66:
         move.w  #0x300,0x28(a6)                 | +0ac
         jsr     0x27a92.l                       | +0b2
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0b8
-        bcc.w   Sub_00035ABA__L035b90           | +0bc
-        lea     Sub_00034704(pc),a1             | +0c0
+        bcc.w   Player_Turn_Actions_035b90 | +0bc
+        lea     Player_Stand_034704(pc),a1      | +0c0
         move.l  a1,(a6)                         | +0c4
         btst    #0x0,0x88(a6)                   | +0c6
-        beq.w   Sub_00035ABA__L035b90           | +0cc
+        beq.w   Player_Turn_Actions_035b90 | +0cc
         lea     Player_Crouch_033a5e(pc),a1     | +0d0
         move.l  a1,(a6)                         | +0d4
-        .global Sub_00035ABA__L035b90
-Sub_00035ABA__L035b90:
+        .global Player_Turn_Actions_035b90
+Player_Turn_Actions_035b90:
         btst    #0x2,0x8c(a6)                   | +0d6
         bne.w   .L035bf4                        | +0dc
         jsr     Player_ActionSelect_0330d0(pc)  | +0e0
         bcc.w   .L035bf4                        | +0e4
         cmpi.b  #0xff,d1                        | +0e8
         bne.w   .L035bb4                        | +0ec
-        lea     Sub_00035D34(pc),a1             | +0f0
+        lea     Player_Melee_035d34(pc),a1      | +0f0
         move.l  a1,(a6)                         | +0f4
         bra.w   .L035bf4                        | +0f6
 .L035bb4:
         cmpi.b  #0x3,d1                         | +0fa
         bne.w   .L035bc6                        | +0fe
-        lea     Sub_000360BC(pc),a1             | +102
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +102
         move.l  a1,(a6)                         | +106
         bra.w   .L035bf4                        | +108
 .L035bc6:
@@ -1712,22 +1712,22 @@ Sub_00035ABA__L035b90:
 .L035bd8:
         cmpi.b  #0x1,d1                         | +11e
         bne.w   .L035bea                        | +122
-        lea     Sub_0003437E(pc),a1             | +126
+        lea     Player_ShootStandUp_03437e(pc),a1 | +126
         move.l  a1,(a6)                         | +12a
         bra.w   .L035bf4                        | +12c
 .L035bea:
-        lea     Sub_000342C4(pc),a1             | +130
+        lea     Player_ShootStand_0342c4(pc),a1 | +130
         move.l  a1,(a6)                         | +134
         bra.w   .L035bf4                        | +136
 .L035bf4:
-        jmp     TaskHandler_0351d8__L03548c(pc) | +13a
+        jmp     Player_Walk_Tail_03548c(pc) | +13a
 
 | ----------------------------------------------------------------------------
-|  Sub_00035BF8  @ $035BF8  (160 B)
+|  Player_TurnLeft_035bf8  @ $035BF8  (160 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00035BF8, "ax", @progbits
-        .global Sub_00035BF8
-Sub_00035BF8:
+        .section .text.Player_TurnLeft_035bf8, "ax", @progbits
+        .global Player_TurnLeft_035bf8
+Player_TurnLeft_035bf8:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bclr    #0x2,0x8c(a6)                   | +00c
@@ -1756,52 +1756,52 @@ Sub_00035BF8:
         move.l  #0x32500,0x60(a6)               | +084
         lea     Sub_000326E0(pc),a0             | +08c
         move.l  a0,0x48(a6)                     | +090
-        lea     TaskHandler_035c98(pc),a1       | +094
+        lea     Player_TurnLeft_Run_035c98(pc),a1 | +094
         move.l  a1,(a6)                         | +098
         bset    #0x0,0x3a(a6)                   | +09a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_035c98  @ $035C98  (64 B)
+|  Player_TurnLeft_Run_035c98  @ $035C98  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_035c98, "ax", @progbits
-        .global TaskHandler_035c98
-TaskHandler_035c98:
+        .section .text.Player_TurnLeft_Run_035c98, "ax", @progbits
+        .global Player_TurnLeft_Run_035c98
+Player_TurnLeft_Run_035c98:
         jsr     Player_FrameCommon_032ff2(pc)   | +000
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +004
         bcc.w   .L035caa                        | +008
-        lea     Sub_000345B8(pc),a1             | +00c
+        lea     Player_ReenterByInput_0345b8(pc),a1 | +00c
         move.l  a1,(a6)                         | +010
 .L035caa:
         move.w  #0xfd00,0x28(a6)                | +012
         jsr     0x27a92.l                       | +018
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +01e
         bcc.w   .L035cd4                        | +022
-        lea     Sub_00034704(pc),a1             | +026
+        lea     Player_Stand_034704(pc),a1      | +026
         move.l  a1,(a6)                         | +02a
         btst    #0x0,0x88(a6)                   | +02c
         beq.w   .L035cd4                        | +032
         lea     Player_Crouch_033a5e(pc),a1     | +036
         move.l  a1,(a6)                         | +03a
 .L035cd4:
-        bra.w   Sub_00035ABA__L035b90           | +03c
+        bra.w   Player_Turn_Actions_035b90 | +03c
 
 | ----------------------------------------------------------------------------
-|  Sub_00035CD8  @ $035CD8  (92 B)
+|  Player_ActionDispatch_035cd8  @ $035CD8  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00035CD8, "ax", @progbits
-        .global Sub_00035CD8
-Sub_00035CD8:
+        .section .text.Player_ActionDispatch_035cd8, "ax", @progbits
+        .global Player_ActionDispatch_035cd8
+Player_ActionDispatch_035cd8:
         jsr     Player_ActionSelect_0330d0(pc)  | +000
         bcc.w   .L035d32                        | +004
         cmpi.b  #0xff,d1                        | +008
         bne.w   .L035cf2                        | +00c
-        lea     Sub_00035D34(pc),a1             | +010
+        lea     Player_Melee_035d34(pc),a1      | +010
         move.l  a1,(a6)                         | +014
         bra.w   .L035d32                        | +016
 .L035cf2:
         cmpi.b  #0x3,d1                         | +01a
         bne.w   .L035d04                        | +01e
-        lea     Sub_000360BC(pc),a1             | +022
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +022
         move.l  a1,(a6)                         | +026
         bra.w   .L035d32                        | +028
 .L035d04:
@@ -1813,28 +1813,28 @@ Sub_00035CD8:
 .L035d16:
         cmpi.b  #0x1,d1                         | +03e
         bne.w   .L035d28                        | +042
-        lea     Sub_0003437E(pc),a1             | +046
+        lea     Player_ShootStandUp_03437e(pc),a1 | +046
         move.l  a1,(a6)                         | +04a
         bra.w   .L035d32                        | +04c
 .L035d28:
-        lea     Sub_000342C4(pc),a1             | +050
+        lea     Player_ShootStand_0342c4(pc),a1 | +050
         move.l  a1,(a6)                         | +054
         bra.w   .L035d32                        | +056
 .L035d32:
         rts                                     | +05a
 
 | ----------------------------------------------------------------------------
-|  Sub_00035D34  @ $035D34  (172 B)
+|  Player_Melee_035d34  @ $035D34  (172 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00035D34, "ax", @progbits
-        .global Sub_00035D34
-Sub_00035D34:
+        .section .text.Player_Melee_035d34, "ax", @progbits
+        .global Player_Melee_035d34
+Player_Melee_035d34:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bclr    #0x2,0x8c(a6)                   | +00c
         bclr    #0x1,0x8c(a6)                   | +012
         bclr    #0x3,0x8c(a6)                   | +018
-        lea     Sub_00032638(pc),a0             | +01e  -> $032638 (hueco futuro, defsym forward)
+        lea     Sub_00032638(pc),a0             | +01e
         move.l  a0,0x4c(a6)                     | +022
         jsr     0x283ca.l                       | +026
         clr.w   0x28(a6)                        | +02c
@@ -1859,18 +1859,18 @@ Sub_00035D34:
         lea     0x279d56.l,a0                   | +08e
         jsr     0x28cd4.l                       | +094
 .L035dce:
-        lea     Sub_00032788(pc),a0             | +09a  -> $032788 (hueco futuro, defsym forward)
+        lea     Sub_00032788(pc),a0             | +09a
         move.l  a0,0x48(a6)                     | +09e
-        lea     TaskHandler_035de0(pc),a1       | +0a2
+        lea     Player_Melee_Run_035de0(pc),a1  | +0a2
         move.l  a1,(a6)                         | +0a6
-        bra.w   TaskHandler_035de0__L035e54     | +0a8
+        bra.w   Player_Melee_Frame_035e54 | +0a8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_035de0  @ $035DE0  (200 B)
+|  Player_Melee_Run_035de0  @ $035DE0  (200 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_035de0, "ax", @progbits
-        .global TaskHandler_035de0
-TaskHandler_035de0:
+        .section .text.Player_Melee_Run_035de0, "ax", @progbits
+        .global Player_Melee_Run_035de0
+Player_Melee_Run_035de0:
         clr.w   d7                              | +000
         jsr     JmpAbsThunk_032e3c(pc)          | +002
         bcc.w   .L035dee                        | +006
@@ -1901,14 +1901,14 @@ TaskHandler_035de0:
         bclr    #0x5,0x69(a6)                   | +06a
 .L035e50:
         move.w  d7,0x28(a6)                     | +070
-        .global TaskHandler_035de0__L035e54
-TaskHandler_035de0__L035e54:
+        .global Player_Melee_Frame_035e54
+Player_Melee_Frame_035e54:
         jsr     Player_FrameCommon_032ff2(pc)   | +074
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +078
         jsr     0x27a92.l                       | +07c
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +082
         bcc.w   .L035ea0                        | +086
-        lea     Sub_00034704(pc),a1             | +08a
+        lea     Player_Stand_034704(pc),a1      | +08a
         move.l  a1,(a6)                         | +08e
         move.b  #0x1,0x78(a6)                   | +090
         lsl.b   #0x4,d0                         | +096
@@ -1924,21 +1924,21 @@ TaskHandler_035de0__L035e54:
         lea     Player_Idle_033d64(pc),a1       | +0ba
         move.l  a1,(a6)                         | +0be
 .L035ea0:
-        jsr     Sub_00035CD8(pc)                | +0c0
-        jmp     Sub_00034704__L034ada(pc)       | +0c4
+        jsr     Player_ActionDispatch_035cd8(pc) | +0c0
+        jmp     Player_Stand_Tail_034ada(pc) | +0c4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_035ea8  @ $035EA8  (200 B)
+|  Player_MeleeAlt_035ea8  @ $035EA8  (200 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_035ea8, "ax", @progbits
-        .global TaskHandler_035ea8
-TaskHandler_035ea8:
+        .section .text.Player_MeleeAlt_035ea8, "ax", @progbits
+        .global Player_MeleeAlt_035ea8
+Player_MeleeAlt_035ea8:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bclr    #0x2,0x8c(a6)                   | +00c
         bclr    #0x1,0x8c(a6)                   | +012
         bclr    #0x3,0x8c(a6)                   | +018
-        lea     Sub_00032638(pc),a0             | +01e  -> $032638 (hueco futuro, defsym forward)
+        lea     Sub_00032638(pc),a0             | +01e
         move.l  a0,0x4c(a6)                     | +022
         jsr     0x283ca.l                       | +026
         move.l  #0x32500,0x60(a6)               | +02c
@@ -1959,7 +1959,7 @@ TaskHandler_035ea8:
         lea     0x279efe.l,a0                   | +07e
         jsr     0x28cd4.l                       | +084
 .L035f32:
-        lea     Sub_00032788(pc),a0             | +08a  -> $032788 (hueco futuro, defsym forward)
+        lea     Sub_00032788(pc),a0             | +08a
         move.l  a0,0x48(a6)                     | +08e
         lea     .L035f40(pc),a1                 | +092
         move.l  a1,(a6)                         | +096
@@ -1969,27 +1969,27 @@ TaskHandler_035ea8:
         jsr     0x27a92.l                       | +0a0
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0a6
         bcc.w   .L035f6c                        | +0aa
-        lea     Sub_00034704(pc),a1             | +0ae
+        lea     Player_Stand_034704(pc),a1      | +0ae
         move.l  a1,(a6)                         | +0b2
         move.b  #0x1,0x78(a6)                   | +0b4
         lsl.b   #0x4,d0                         | +0ba
         or.b    0x78(a6),d0                     | +0bc
         move.b  d0,0x79(a6)                     | +0c0
 .L035f6c:
-        jmp     Sub_00034B38__L034ccc(pc)       | +0c4
+        jmp     Player_WalkRight_Tail_034ccc(pc) | +0c4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_035f70  @ $035F70  (332 B)
+|  Player_MeleeAlt_Walk_035f70  @ $035F70  (332 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_035f70, "ax", @progbits
-        .global TaskHandler_035f70
-TaskHandler_035f70:
+        .section .text.Player_MeleeAlt_Walk_035f70, "ax", @progbits
+        .global Player_MeleeAlt_Walk_035f70
+Player_MeleeAlt_Walk_035f70:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
         bclr    #0x2,0x8c(a6)                   | +00c
         bclr    #0x1,0x8c(a6)                   | +012
         bclr    #0x3,0x8c(a6)                   | +018
-        lea     Sub_00032638(pc),a0             | +01e  -> $032638 (hueco futuro, defsym forward)
+        lea     Sub_00032638(pc),a0             | +01e
         move.l  a0,0x4c(a6)                     | +022
         jsr     0x283ca.l                       | +026
         move.l  #0x32500,0x60(a6)               | +02c
@@ -2010,7 +2010,7 @@ TaskHandler_035f70:
         lea     0x279efe.l,a0                   | +07e
         jsr     0x28cd4.l                       | +084
 .L035ffa:
-        lea     Sub_00032788(pc),a0             | +08a  -> $032788 (hueco futuro, defsym forward)
+        lea     Sub_00032788(pc),a0             | +08a
         move.l  a0,0x48(a6)                     | +08e
         lea     .L036008(pc),a1                 | +092
         move.l  a1,(a6)                         | +096
@@ -2032,7 +2032,7 @@ TaskHandler_035f70:
         jsr     0x27a92.l                       | +0ca
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0d0
         bcc.w   .L03605e                        | +0d4
-        lea     Sub_00034704(pc),a1             | +0d8
+        lea     Player_Stand_034704(pc),a1      | +0d8
         move.l  a1,(a6)                         | +0dc
         move.b  #0x1,0x78(a6)                   | +0de
         lsl.b   #0x4,d0                         | +0e4
@@ -2043,13 +2043,13 @@ TaskHandler_035f70:
         bcc.w   .L0360b8                        | +0f2
         cmpi.b  #0xff,d1                        | +0f6
         bne.w   .L036078                        | +0fa
-        lea     Sub_00035D34(pc),a1             | +0fe
+        lea     Player_Melee_035d34(pc),a1      | +0fe
         move.l  a1,(a6)                         | +102
         bra.w   .L0360b8                        | +104
 .L036078:
         cmpi.b  #0x3,d1                         | +108
         bne.w   .L03608a                        | +10c
-        lea     Sub_000360BC(pc),a1             | +110
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +110
         move.l  a1,(a6)                         | +114
         bra.w   .L0360b8                        | +116
 .L03608a:
@@ -2061,22 +2061,22 @@ TaskHandler_035f70:
 .L03609c:
         cmpi.b  #0x1,d1                         | +12c
         bne.w   .L0360ae                        | +130
-        lea     TaskHandler_0357be(pc),a1       | +134
+        lea     Player_WalkLoopRight_ShootUp_0357be(pc),a1 | +134
         move.l  a1,(a6)                         | +138
         bra.w   .L0360b8                        | +13a
 .L0360ae:
-        lea     TaskHandler_0357aa(pc),a1       | +13e
+        lea     Player_WalkLoopRight_Shoot_0357aa(pc),a1 | +13e
         move.l  a1,(a6)                         | +142
         bra.w   .L0360b8                        | +144
 .L0360b8:
-        jmp     TaskHandler_0351d8__L03548c(pc) | +148
+        jmp     Player_Walk_Tail_03548c(pc) | +148
 
 | ----------------------------------------------------------------------------
-|  Sub_000360BC  @ $0360BC  (342 B)
+|  Player_ThrowGrenade_Stand_0360bc  @ $0360BC  (342 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000360BC, "ax", @progbits
-        .global Sub_000360BC
-Sub_000360BC:
+        .section .text.Player_ThrowGrenade_Stand_0360bc, "ax", @progbits
+        .global Player_ThrowGrenade_Stand_0360bc
+Player_ThrowGrenade_Stand_0360bc:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bclr    #0x2,0x8c(a6)                   | +00c
@@ -2113,7 +2113,7 @@ Sub_000360BC:
         jsr     0x27a92.l                       | +09e
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0a4
         bcc.w   .L03619e                        | +0a8
-        lea     Sub_00034704(pc),a1             | +0ac
+        lea     Player_Stand_034704(pc),a1      | +0ac
         move.l  a1,(a6)                         | +0b0
         move.b  #0x1,0x78(a6)                   | +0b2
         lsl.b   #0x4,d0                         | +0b8
@@ -2135,24 +2135,24 @@ Sub_000360BC:
         bne.w   .L0361d2                        | +0f2
         jsr     JmpAbsThunk_032e3c(pc)          | +0f6
         bcc.w   .L0361c0                        | +0fa
-        lea     Sub_00034B38(pc),a1             | +0fe
+        lea     Player_WalkRight_034b38(pc),a1  | +0fe
         move.l  a1,(a6)                         | +102
 .L0361c0:
         jsr     Input_RightThunk_032e42(pc)     | +104
         bcc.w   .L0361ce                        | +108
-        lea     Sub_00035BF8(pc),a1             | +10c
+        lea     Player_TurnLeft_035bf8(pc),a1   | +10c
         move.l  a1,(a6)                         | +110
 .L0361ce:
         bra.w   .L0361ee                        | +112
 .L0361d2:
         jsr     JmpAbsThunk_032e3c(pc)          | +116
         bcc.w   .L0361e0                        | +11a
-        lea     Sub_00035ABA(pc),a1             | +11e
+        lea     Player_TurnRight_035aba(pc),a1  | +11e
         move.l  a1,(a6)                         | +122
 .L0361e0:
         jsr     Input_RightThunk_032e42(pc)     | +124
         bcc.w   .L0361ee                        | +128
-        lea     Sub_00034D32(pc),a1             | +12c
+        lea     Player_WalkLeft_034d32(pc),a1   | +12c
         move.l  a1,(a6)                         | +130
 .L0361ee:
         jsr     Input_DownPressed_032e90(pc)    | +132
@@ -2165,15 +2165,15 @@ Sub_000360BC:
         lea     Sub_00036914(pc),a1             | +148
         move.l  a1,(a6)                         | +14c
 .L03620a:
-        jsr     Sub_00035CD8(pc)                | +14e
-        jmp     Sub_00034704__L034ada(pc)       | +152
+        jsr     Player_ActionDispatch_035cd8(pc) | +14e
+        jmp     Player_Stand_Tail_034ada(pc) | +152
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_036212  @ $036212  (262 B)
+|  Player_ThrowGrenade_Walk_036212  @ $036212  (262 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_036212, "ax", @progbits
-        .global TaskHandler_036212
-TaskHandler_036212:
+        .section .text.Player_ThrowGrenade_Walk_036212, "ax", @progbits
+        .global Player_ThrowGrenade_Walk_036212
+Player_ThrowGrenade_Walk_036212:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bclr    #0x2,0x8c(a6)                   | +00c
@@ -2206,7 +2206,7 @@ TaskHandler_036212:
         jsr     0x27a92.l                       | +08e
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +094
         bcc.w   .L0362c4                        | +098
-        lea     Sub_00034704(pc),a1             | +09c
+        lea     Player_Stand_034704(pc),a1      | +09c
         move.l  a1,(a6)                         | +0a0
         move.b  #0x1,0x78(a6)                   | +0a2
         lsl.b   #0x4,d0                         | +0a8
@@ -2219,14 +2219,14 @@ TaskHandler_036212:
         bne.w   .L0362ea                        | +0c2
         jsr     Input_RightThunk_032e42(pc)     | +0c6
         bcc.w   .L0362e6                        | +0ca
-        lea     Sub_00035BF8(pc),a1             | +0ce
+        lea     Player_TurnLeft_035bf8(pc),a1   | +0ce
         move.l  a1,(a6)                         | +0d2
 .L0362e6:
         bra.w   .L0362f8                        | +0d4
 .L0362ea:
         jsr     JmpAbsThunk_032e3c(pc)          | +0d8
         bcc.w   .L0362f8                        | +0dc
-        lea     Sub_00035ABA(pc),a1             | +0e0
+        lea     Player_TurnRight_035aba(pc),a1  | +0e0
         move.l  a1,(a6)                         | +0e4
 .L0362f8:
         jsr     Input_DownPressed_032e90(pc)    | +0e6
@@ -2239,14 +2239,14 @@ TaskHandler_036212:
         lea     Sub_00036914(pc),a1             | +0fc
         move.l  a1,(a6)                         | +100
 .L036314:
-        jmp     Sub_00034B38__L034ccc(pc)       | +102
+        jmp     Player_WalkRight_Tail_034ccc(pc) | +102
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_036318  @ $036318  (394 B)
+|  Player_ThrowGrenade_WalkLoop_036318  @ $036318  (394 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_036318, "ax", @progbits
-        .global TaskHandler_036318
-TaskHandler_036318:
+        .section .text.Player_ThrowGrenade_WalkLoop_036318, "ax", @progbits
+        .global Player_ThrowGrenade_WalkLoop_036318
+Player_ThrowGrenade_WalkLoop_036318:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0xffff,0x7e(a6)                | +006
         bclr    #0x2,0x8c(a6)                   | +00c
@@ -2291,7 +2291,7 @@ TaskHandler_036318:
         jsr     0x27a92.l                       | +0b8
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0be
         bcc.w   .L0363f4                        | +0c2
-        lea     Sub_00034704(pc),a1             | +0c6
+        lea     Player_Stand_034704(pc),a1      | +0c6
         move.l  a1,(a6)                         | +0ca
         move.b  #0x1,0x78(a6)                   | +0cc
         lsl.b   #0x4,d0                         | +0d2
@@ -2304,14 +2304,14 @@ TaskHandler_036318:
         bne.w   .L03641a                        | +0ec
         jsr     Input_RightThunk_032e42(pc)     | +0f0
         bcc.w   .L036416                        | +0f4
-        lea     Sub_00035BF8(pc),a1             | +0f8
+        lea     Player_TurnLeft_035bf8(pc),a1   | +0f8
         move.l  a1,(a6)                         | +0fc
 .L036416:
         bra.w   .L036428                        | +0fe
 .L03641a:
         jsr     JmpAbsThunk_032e3c(pc)          | +102
         bcc.w   .L036428                        | +106
-        lea     Sub_00035ABA(pc),a1             | +10a
+        lea     Player_TurnRight_035aba(pc),a1  | +10a
         move.l  a1,(a6)                         | +10e
 .L036428:
         jsr     Input_DownPressed_032e90(pc)    | +110
@@ -2328,13 +2328,13 @@ TaskHandler_036318:
         bcc.w   .L03649e                        | +130
         cmpi.b  #0xff,d1                        | +134
         bne.w   .L03645e                        | +138
-        lea     Sub_00035D34(pc),a1             | +13c
+        lea     Player_Melee_035d34(pc),a1      | +13c
         move.l  a1,(a6)                         | +140
         bra.w   .L03649e                        | +142
 .L03645e:
         cmpi.b  #0x3,d1                         | +146
         bne.w   .L036470                        | +14a
-        lea     Sub_000360BC(pc),a1             | +14e
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1 | +14e
         move.l  a1,(a6)                         | +152
         bra.w   .L03649e                        | +154
 .L036470:
@@ -2346,27 +2346,27 @@ TaskHandler_036318:
 .L036482:
         cmpi.b  #0x1,d1                         | +16a
         bne.w   .L036494                        | +16e
-        lea     TaskHandler_0357be(pc),a1       | +172
+        lea     Player_WalkLoopRight_ShootUp_0357be(pc),a1 | +172
         move.l  a1,(a6)                         | +176
         bra.w   .L03649e                        | +178
 .L036494:
-        lea     TaskHandler_0357aa(pc),a1       | +17c
+        lea     Player_WalkLoopRight_Shoot_0357aa(pc),a1 | +17c
         move.l  a1,(a6)                         | +180
         bra.w   .L03649e                        | +182
 .L03649e:
-        jmp     TaskHandler_0351d8__L03548c(pc) | +186
+        jmp     Player_Walk_Tail_03548c(pc) | +186
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0364a2  @ $0364A2  (400 B)
+|  Player_RideSlug_0364a2  @ $0364A2  (400 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0364a2, "ax", @progbits
-        .global TaskHandler_0364a2
-TaskHandler_0364a2:
+        .section .text.Player_RideSlug_0364a2, "ax", @progbits
+        .global Player_RideSlug_0364a2
+Player_RideSlug_0364a2:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x1,0x8c(a6)                   | +006
         bclr    #0x3,0x8c(a6)                   | +00c
         bclr    #0x0,0x3a(a6)                   | +012
-        lea     Sub_000328D8(pc),a0             | +018  -> $0328D8 (hueco futuro, defsym forward)
+        lea     Sub_000328D8(pc),a0             | +018
         move.l  a0,0x48(a6)                     | +01c
         move.w  #0x0,0x7c(a6)                   | +020
         move.w  #0x10,0x7e(a6)                  | +026
@@ -2413,14 +2413,14 @@ TaskHandler_0364a2:
         bcc.w   .L036598                        | +0e2
         btst    #0x0,0x13(a0)                   | +0e6
         bne.w   .L036598                        | +0ec
-        lea     Sub_000366FE(pc),a1             | +0f0  -> $0366FE (hueco futuro, defsym forward)
+        lea     Sub_000366FE(pc),a1             | +0f0
         move.l  a1,(a6)                         | +0f4
 .L036598:
         jsr     0x5cdb4.l                       | +0f6
         bcc.w   .L0365bc                        | +0fc
         jsr     0x2abd2.l                       | +100
         bcc.w   .L0365bc                        | +106
-        lea     Sub_00036796(pc),a1             | +10a  -> $036796 (hueco futuro, defsym forward)
+        lea     Sub_00036796(pc),a1             | +10a
         move.l  a1,(a6)                         | +10e
         addi.w  #0x20,0x24(a6)                  | +110
         bra.w   .L0365f8                        | +116
@@ -2429,7 +2429,7 @@ TaskHandler_0364a2:
         bcs.w   .L0365e8                        | +120
         jsr     0x5d00e.l                       | +124
         bcc.w   .L0365e8                        | +12a
-        lea     Sub_00036796(pc),a1             | +12e  -> $036796 (hueco futuro, defsym forward)
+        lea     Sub_00036796(pc),a1             | +12e
         move.l  a1,(a6)                         | +132
         addi.w  #0x20,0x24(a6)                  | +134
         move.b  #0x3c,0x45(a6)                  | +13a
@@ -2437,7 +2437,7 @@ TaskHandler_0364a2:
 .L0365e8:
         jsr     0x2a25c.l                       | +146
         bcc.w   .L0365f8                        | +14c
-        lea     Sub_00036796(pc),a1             | +150  -> $036796 (hueco futuro, defsym forward)
+        lea     Sub_00036796(pc),a1             | +150
         move.l  a1,(a6)                         | +154
 .L0365f8:
         cmpi.b  #0x3,0x106ece.l                 | +156

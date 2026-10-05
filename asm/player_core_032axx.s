@@ -40,9 +40,9 @@
 |      frame y devuelve C=1 + d1 = código: $FF = golpeado (+$13 bit1),
 |      3 = disparo ($5CDC0), 4 = ..., 1/2 = por nibble (Player_DirNibble
 |      ToAction), 0 = nada; carga el mapa de sprites Sub_000325E4 en +$4C.
-|      Player_Idle_Tail_0341a4 lo consume: $FF -> Sub_00035D34 (hit),
-|      3 -> Sub_000360BC (fire), 4 -> Sub_0003873C, 1 -> Sub_0003437E,
-|      otro -> Sub_000342C4 (Wave siguiente).
+|      Player_Idle_Tail_0341a4 lo consume: $FF -> Player_Melee_035d34 (hit),
+|      3 -> Player_ThrowGrenade_Stand_0360bc (fire), 4 -> Sub_0003873C, 1 -> Player_ShootStandUp_03437e,
+|      otro -> Player_ShootStand_0342c4 (Wave siguiente).
 |   6. Granadas: Player_ThrowGrenade_0332bc / _Back / _Down: si +$80 > 0 lo
 |      decrementa, `lea JmpAbsThunk_033346(pc),a1; jsr $5EAB6` crea la
 |      granada (Grenade_ThrowHeavy via jmp $28D876), copia pos ($5DD02) y
@@ -59,8 +59,8 @@
 |      fuerza estado 5 (ahogado); cola jmp $28758.
 |   8. Estados base: Player_Idle_033d64 (anim $279828 = $21, +$82 = 10 de
 |      munición de pistola, decide Crouch (+$88 bit0), Reload (+$85/+$71),
-|      CrouchB al azar ($5E9B6 & 7 == 4 con +$82 == 4), Sub_00034704 al
-|      tocar suelo, Sub_00034B38/Sub_00034D32 por signo de vel X, Sub_000345B8,
+|      CrouchB al azar ($5E9B6 & 7 == 4 con +$82 == 4), Player_Stand_034704 al
+|      tocar suelo, Player_WalkRight_034b38/Player_WalkLeft_034d32 por signo de vel X, Player_ReenterByInput_0345b8,
 |      TaskHandler_036d64 / Sub_00037018 por efecto $27EBA, Sub_00036914 por
 |      disparo); Player_Crouch/CrouchB ($27973E/$27981E, anim 5),
 |      Player_Reload ($2796F8/$279702, anim $33). Todos pasan por
@@ -1310,7 +1310,7 @@ Player_SpawnLand_03386e:
         jsr     0x27a92.l                       | +030
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +036
         bcc.w   .L0338e4                        | +03a
-        lea     Sub_00034704(pc),a1             | +03e
+        lea     Player_Stand_034704(pc),a1             | +03e
         move.l  a1,(a6)                         | +042
         cmpa.l  #0x100440,a6                    | +044
         bne.w   .L0338cc                        | +04a
@@ -1462,16 +1462,16 @@ Player_Crouch_033a5e:
         jsr     0x27a92.l                       | +06a
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +070
         bcc.w   .L033af8                        | +074
-        lea     Sub_00034704(pc),a1             | +078
+        lea     Player_Stand_034704(pc),a1             | +078
         move.l  a1,(a6)                         | +07c
         tst.w   0x28(a6)                        | +07e
         beq.w   .L033af8                        | +082
         ble.w   .L033af2                        | +086
-        lea     Sub_00034B38(pc),a1             | +08a
+        lea     Player_WalkRight_034b38(pc),a1             | +08a
         move.l  a1,(a6)                         | +08e
         bra.w   .L033af8                        | +090
 .L033af2:
-        lea     Sub_00034D32(pc),a1             | +094
+        lea     Player_WalkLeft_034d32(pc),a1             | +094
         move.l  a1,(a6)                         | +098
 .L033af8:
         jmp     Player_Idle_Tail_0341a4(pc) | +09a
@@ -1506,16 +1506,16 @@ Player_CrouchB_033afc:
         jsr     0x27a92.l                       | +06a
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +070
         bcc.w   .L033b96                        | +074
-        lea     Sub_00034704(pc),a1             | +078
+        lea     Player_Stand_034704(pc),a1             | +078
         move.l  a1,(a6)                         | +07c
         tst.w   0x28(a6)                        | +07e
         beq.w   .L033b96                        | +082
         ble.w   .L033b90                        | +086
-        lea     Sub_00034B38(pc),a1             | +08a
+        lea     Player_WalkRight_034b38(pc),a1             | +08a
         move.l  a1,(a6)                         | +08e
         bra.w   .L033b96                        | +090
 .L033b90:
-        lea     Sub_00034D32(pc),a1             | +094
+        lea     Player_WalkLeft_034d32(pc),a1             | +094
         move.l  a1,(a6)                         | +098
 .L033b96:
         bra.w   Player_Idle_Tail_0341a4     | +09a
@@ -1554,16 +1554,16 @@ Player_Reload_033b9a:
         jsr     0x27a92.l                       | +078
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +07e
         bcc.w   .L033c6c                        | +082
-        lea     Sub_00034704(pc),a1             | +086
+        lea     Player_Stand_034704(pc),a1             | +086
         move.l  a1,(a6)                         | +08a
         tst.w   0x28(a6)                        | +08c
         beq.w   .L033c42                        | +090
         ble.w   .L033c3c                        | +094
-        lea     Sub_00034B38(pc),a1             | +098
+        lea     Player_WalkRight_034b38(pc),a1             | +098
         move.l  a1,(a6)                         | +09c
         bra.w   .L033c42                        | +09e
 .L033c3c:
-        lea     Sub_00034D32(pc),a1             | +0a2
+        lea     Player_WalkLeft_034d32(pc),a1             | +0a2
         move.l  a1,(a6)                         | +0a6
 .L033c42:
         jsr     0x5e9b6.l                       | +0a8
@@ -1585,7 +1585,7 @@ Player_Reload_033b9a:
 .L033c7c:
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +0e2
         bcc.w   .L033c8a                        | +0e6
-        lea     Sub_000345B8(pc),a1             | +0ea
+        lea     Player_ReenterByInput_0345b8(pc),a1             | +0ea
         move.l  a1,(a6)                         | +0ee
 .L033c8a:
         bra.w   Player_Idle_Tail_0341a4     | +0f0
@@ -1614,16 +1614,16 @@ Player_Reload_033b9a:
         jsr     0x27a92.l                       | +15e
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +164
         bcc.w   .L033d42                        | +168
-        lea     Sub_00034704(pc),a1             | +16c
+        lea     Player_Stand_034704(pc),a1             | +16c
         move.l  a1,(a6)                         | +170
         tst.w   0x28(a6)                        | +172
         beq.w   .L033d28                        | +176
         ble.w   .L033d22                        | +17a
-        lea     Sub_00034B38(pc),a1             | +17e
+        lea     Player_WalkRight_034b38(pc),a1             | +17e
         move.l  a1,(a6)                         | +182
         bra.w   .L033d28                        | +184
 .L033d22:
-        lea     Sub_00034D32(pc),a1             | +188
+        lea     Player_WalkLeft_034d32(pc),a1             | +188
         move.l  a1,(a6)                         | +18c
 .L033d28:
         jsr     0x5e9b6.l                       | +18e
@@ -1640,7 +1640,7 @@ Player_Reload_033b9a:
 .L033d52:
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +1b8
         bcc.w   .L033d60                        | +1bc
-        lea     Sub_000345B8(pc),a1             | +1c0
+        lea     Player_ReenterByInput_0345b8(pc),a1             | +1c0
         move.l  a1,(a6)                         | +1c4
 .L033d60:
         bra.w   Player_Idle_Tail_0341a4     | +1c6
@@ -1696,24 +1696,24 @@ Player_Idle_033d64:
         btst    #0x4,0x8c(a6)                   | +0ca
         beq.w   .L033e46                        | +0d0
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +0d4
-        lea     Sub_000345B8(pc),a1             | +0d8
+        lea     Player_ReenterByInput_0345b8(pc),a1             | +0d8
         move.l  a1,(a6)                         | +0dc
-        bra.w   Sub_000345B8                    | +0de
+        bra.w   Player_ReenterByInput_0345b8                    | +0de
 .L033e46:
         jsr     Player_FrameCommon_032ff2(pc)   | +0e2
         jsr     0x27a92.l                       | +0e6
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0ec
         bcc.w   .L033e7a                        | +0f0
-        lea     Sub_00034704(pc),a1             | +0f4
+        lea     Player_Stand_034704(pc),a1             | +0f4
         move.l  a1,(a6)                         | +0f8
         tst.w   0x28(a6)                        | +0fa
         beq.w   .L033e7a                        | +0fe
         ble.w   .L033e74                        | +102
-        lea     Sub_00034B38(pc),a1             | +106
+        lea     Player_WalkRight_034b38(pc),a1             | +106
         move.l  a1,(a6)                         | +10a
         bra.w   .L033e7a                        | +10c
 .L033e74:
-        lea     Sub_00034D32(pc),a1             | +110
+        lea     Player_WalkLeft_034d32(pc),a1             | +110
         move.l  a1,(a6)                         | +114
 .L033e7a:
         btst    #0x2,0x8c(a6)                   | +116
@@ -1794,13 +1794,13 @@ Player_SpawnLand_Done_033e8c:
         jsr     Player_FrameCommon_032ff2(pc)   | +24a
         jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +24e
         bcc.w   .L033fc0                        | +252
-        lea     Sub_000345B8(pc),a1             | +256
+        lea     Player_ReenterByInput_0345b8(pc),a1             | +256
         move.l  a1,(a6)                         | +25a
 .L033fc0:
         jsr     0x27a92.l                       | +25c
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +262
         bcc.w   .L034042                        | +266
-        lea     Sub_00034704(pc),a1             | +26a
+        lea     Player_Stand_034704(pc),a1             | +26a
         move.l  a1,(a6)                         | +26e
         move.b  #0x1,0x78(a6)                   | +270
         lsl.b   #0x4,d0                         | +276
@@ -1840,11 +1840,11 @@ Player_Idle_StateCheck_034046:              | $034046 entrada secundaria (lea de
         bcs.w   .L03405e                        | +2e8
         cmpi.b  #0x24,0x70(a6)                  | +2ec
         bcc.w   .L03405e                        | +2f2
-        jmp     Sub_00034704(pc)                | +2f6
+        jmp     Player_Stand_034704(pc)                | +2f6
 .L03405e:
         cmpi.w  #0x1,0x72(a6)                   | +2fa
         bne.w   .L03406c                        | +300
-        jmp     Sub_00034704(pc)                | +304
+        jmp     Player_Stand_034704(pc)                | +304
 .L03406c:
         move.w  #0x0,0x7c(a6)                   | +308
         move.w  #0x0,0x7e(a6)                   | +30e
@@ -1891,7 +1891,7 @@ Player_Idle_StateCheck_034046:              | $034046 entrada secundaria (lea de
         jsr     0x27a92.l                       | +3be
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +3c4
         bcc.w   Player_Idle_Tail_0341a4     | +3c8
-        lea     Sub_00034704(pc),a1             | +3cc
+        lea     Player_Stand_034704(pc),a1             | +3cc
         move.l  a1,(a6)                         | +3d0
         move.b  #0x1,0x78(a6)                   | +3d2
         lsl.b   #0x4,d0                         | +3d8
@@ -1931,24 +1931,24 @@ Player_Idle_Tail_0341a4:
         bne.w   .L0341d8                        | +450
         jsr     JmpAbsThunk_032e3c(pc)          | +454
         bcc.w   .L0341c6                        | +458
-        lea     Sub_00034B38(pc),a1             | +45c
+        lea     Player_WalkRight_034b38(pc),a1             | +45c
         move.l  a1,(a6)                         | +460
 .L0341c6:
         jsr     Input_RightThunk_032e42(pc)     | +462
         bcc.w   .L0341d4                        | +466
-        lea     Sub_00035BF8(pc),a1             | +46a
+        lea     Player_TurnLeft_035bf8(pc),a1             | +46a
         move.l  a1,(a6)                         | +46e
 .L0341d4:
         bra.w   .L0341f4                        | +470
 .L0341d8:
         jsr     JmpAbsThunk_032e3c(pc)          | +474
         bcc.w   .L0341e6                        | +478
-        lea     Sub_00035ABA(pc),a1             | +47c
+        lea     Player_TurnRight_035aba(pc),a1             | +47c
         move.l  a1,(a6)                         | +480
 .L0341e6:
         jsr     Input_RightThunk_032e42(pc)     | +482
         bcc.w   .L0341f4                        | +486
-        lea     Sub_00034D32(pc),a1             | +48a
+        lea     Player_WalkLeft_034d32(pc),a1             | +48a
         move.l  a1,(a6)                         | +48e
 .L0341f4:
         jsr     Input_DownPressed_032e90(pc)    | +490
@@ -1960,13 +1960,13 @@ Player_Idle_Tail_0341a4:
         bcc.w   .L03425c                        | +4a2
         cmpi.b  #0xff,d1                        | +4a6
         bne.w   .L03421c                        | +4aa
-        lea     Sub_00035D34(pc),a1             | +4ae
+        lea     Player_Melee_035d34(pc),a1             | +4ae
         move.l  a1,(a6)                         | +4b2
         bra.w   .L03425c                        | +4b4
 .L03421c:
         cmpi.b  #0x3,d1                         | +4b8
         bne.w   .L03422e                        | +4bc
-        lea     Sub_000360BC(pc),a1             | +4c0
+        lea     Player_ThrowGrenade_Stand_0360bc(pc),a1             | +4c0
         move.l  a1,(a6)                         | +4c4
         bra.w   .L03425c                        | +4c6
 .L03422e:
@@ -1978,11 +1978,11 @@ Player_Idle_Tail_0341a4:
 .L034240:
         cmpi.b  #0x1,d1                         | +4dc
         bne.w   .L034252                        | +4e0
-        lea     Sub_0003437E(pc),a1             | +4e4
+        lea     Player_ShootStandUp_03437e(pc),a1             | +4e4
         move.l  a1,(a6)                         | +4e8
         bra.w   .L03425c                        | +4ea
 .L034252:
-        lea     Sub_000342C4(pc),a1             | +4ee
+        lea     Player_ShootStand_0342c4(pc),a1             | +4ee
         move.l  a1,(a6)                         | +4f2
         bra.w   .L03425c                        | +4f4
 .L03425c:
