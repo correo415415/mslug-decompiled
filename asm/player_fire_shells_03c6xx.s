@@ -1,11 +1,84 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave YYY — disparo del player por arma, casquillos, escombros, brazo Slug
 |  Región: $03C62A..$03DA98  (5,230 B, 82 entradas, 1 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 5,230 B justo detrás de los handlers de brazo (Waves WWW/XXX):
+|
+|   1. Tres handlers de brazo residuales: PlayerArm_SlugRideA/B_03c632/03c67e
+|      (anim $02, montado en el Slug; refs $279F04/$279F18) y
+|      PlayerArm_Fall2_03c6c4 ($27968C, anim $26); PlayerArm_JsrAttack_03c62a
+|      (`jsr $283CA; rts`, antigua isla C).
+|   2. Spawners de proyectil del player, uno por arma (+$71):
+|        PlayerFire_Pistol_*   ($03C710): template $3093A vía $6FE, música
+|          $10F7, +$7A contador de ráfaga -> +$9A, +$98 = ángulo<<3, +$9B.
+|        PlayerFire_HMG_*      ($03C872): template $9C4D4 vía $5EAA4, snd
+|          $10F6, decrementa munición +$82 y +$85 del player.
+|        PlayerFire_Shotgun_*  ($03C9C4): template $9C25E vía $5EAA4, $10F3.
+|        PlayerFire_Rocket_*   ($03CB16): template $9BEC2 vía $5EAB6, $10F5;
+|          los `_Fwd/_Up/_Back/_FwdLow` crean antes el casquillo
+|          ShellCasing_Rocket_03d4ea/_RocketB_03d4f8.
+|        PlayerFire_Flame_*    ($03CCD2): template $308C2 vía $6FE, $10F4;
+|          variantes por dirección (Fwd/Up/Back/Ang17/Down) x desviación
+|          (Neg=-2 / 0 / Pos=+2 en +$9B) y `_SpreadN_M` que emiten dos
+|          llamas con ángulos N y M (1..$1F, abanico del lanzallamas).
+|      Todos: a2 = player (a6 si es slot $100440/$1004E0, si no +$C);
+|      si +$82 (munición) == 0 abortan sacando la dirección de retorno
+|      (`movem.l (a7)+,a0; rts` = salta al rts del llamador). El
+|      proyectil hereda +$22/+$24 (+$1C/+$14 de offset Y) y +$38; +$98/+$99
+|      = ángulo y signo (facing +$3A).
+|   3. ShellCasing_Pistol_03d396 (snd $184, $28134 con $D000, prio +$38
+|      |= $10 + $200, anim ShellCasing_Pistol_Anim/AnimB) y
+|      ShellCasing_Rocket (snd $17C): casquillos que caen con $2783A.
+|   4. Scene3Debris_Spawn*_03d616..03d72a: sólo en escena 3 ($106ECE == 3)
+|      crean Scene3Debris_Task_03d76e (snd $1BD, anim $3D7A0) con distintos
+|      offsets; referenciados desde datos de nivel $17Axxx/$17Exxx.
+|   5. Player_DebugMarker_03d842 (creado por Player_SpawnDebugTask_033358
+|      si $10FD8F != 0; snd $17A) y Player_SpawnFx3D8FA_03d8fa (snd $17C,
+|      anim $2F7D3A) creados desde player_core.
+|   6. SlugCannon_ArmOverlay_03d944: brazo del player montado en el Slug
+|      ($100580): elige slot vivo ($2AC0E), snd $176/$177+$190+$191/$192,
+|      tabla SlugCannon_ArmSpriteTbl_03da02 por arma/jugador, offset por
+|      $2FF8E y tabla Sub_0003DAA8 (siguiente región), sigue la posición
+|      del Slug; al terminar música $108B.
+|
+|  B. EVIDENCIAS
+|  -------------
+|   - Refs ROM de los PlayerFire_*: $17Bxxx (pistola), $180Bxx (HMG),
+|     $1814xx..$1818xx (shotgun), $181Exx..$1822xx (rocket), $17Exxx/
+|     $17Fxxx/$180xxx (flame) = tablas de anim del player en banco alto,
+|     indexadas por el mismo orden de armas que PlayerArm_SpriteTbl_*
+|     (0 pistola, 1 HMG, 2 shotgun, 3 rocket, 4 flame).
+|   - Música $10F3..$10F7 = un id por arma; $184/$17C = casquillo.
+|   - player_core: `lea $3D842,a1; jsr $4AE` tras `tst.b $10FD8F`; `lea
+|     $3D8FA,a1`.
+|
+|  C. CAMPOS (a2 = player, a0 = proyectil nuevo)
+|  ---------------------------------------------
+|   player: +$3A facing, +$71 arma, +$7A índice de ráfaga, +$82 munición,
+|   +$85 cadencia. proyectil: +$22/+$24 pos, +$38 prio, +$98 ángulo<<3 /
+|   tipo, +$99 signo ($00/$FF), +$9A ráfaga, +$9B desviación ($FE/0/2).
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|   $4AE alloc, $518 free, $6FE/$5EAA4/$5EAB6 alloc desde template,
+|   $517FE Entity_CopyField68AndCall, $236E snd, $2352 music, $28134
+|   setup física proyectil, $283CA ataque, $28CD4 sprite, $28D70 paso
+|   anim, $2783A física, $2AC0E slot vivo, $2FF8E, $5DD02 copia transform.
+|
+|  E. HIPÓTESIS ABIERTAS
+|  ---------------------
+|   - Nombres de arma (Pistol/HMG/Shotgun/Rocket/Flame) por el orden 0..4
+|     del índice +$71; el id 4 podría ser el lanzallamas o la escopeta
+|     según la convención de MS1 (HMG=1, Rocket=2, Flame=3, Shotgun=4?).
+|   - "Scene3Debris" es provisional (entidad decorativa de la escena 3).
+|
+|  F. SIGUIENTE
+|  ------------
+|   `$03DAA8..` (tabla de offsets del cañón + islas), `$02E000..$032A00`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

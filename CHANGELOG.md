@@ -17,6 +17,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave YYY — 82 entries (5,230 B): `$03C62A..$03DA98`
+  (`player_fire_shells_03c6xx.s`, 2 border C islands absorbed, 10 data
+  blocks): the player's per-weapon projectile spawners
+  `PlayerFire_Pistol/HMG/Shotgun/Rocket/Flame_*` (one entry per firing
+  direction; flame also has `_SpreadN_M` fan pairs), shell casings
+  (`ShellCasing_Pistol/Rocket`), scene-3 debris (`Scene3Debris_*`),
+  `Player_DebugMarker`, `Player_SpawnFx3D8FA`, the Slug cannon arm overlay
+  (`SlugCannon_ArmOverlay_03d944`) and 3 residual `PlayerArm_*` handlers.
+  Matcher: 4,867/4,867, 242,582 B (11.57 %); real code coverage 39.3 %.
 - Wave XXX — 152 entries (8,224 B): `$03A60A..$03C62A`
   (`player_arm_air_death_crouch_03a6xx.s`, clean region, no islands): the
   remaining 47 weapon-arm overlay handlers `PlayerArm_*` (air: Jump/Fall/

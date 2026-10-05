@@ -11,10 +11,27 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4787/4787 funciones
-BYTES   : 237,368/237,368 (registrados)
-ROM     : 237,368/2,097,152  (11.3186%)
+MATCHED : 4867/4867 funciones
+BYTES   : 242,582/242,582 (registrados)
+ROM     : 242,582/2,097,152  (11.5672%)
 ```
+
+> **Wave YYY** (82 entradas, 5 230 B, verde a la primera) —
+> `$03C62A..$03DA98` en `player_fire_shells_03c6xx.s` (absorbe
+> `JsrAbsThunk_03c62a/03c8d0`). Decimosexta wave de `gen_asm_region.py`.
+>
+> * **Spawners de proyectil por arma** `PlayerFire_<arma>_<dir>`: Pistol
+>   (template `$3093A`, musica $10F7), HMG (`$9C4D4`, $10F6, decrementa
+>   +$82/+$85), Shotgun (`$9C25E`, $10F3), Rocket (`$9BEC2`, $10F5, crea
+>   casquillo `ShellCasing_Rocket`), Flame (`$308C2`, $10F4; variantes
+>   Neg/0/Pos de desviacion y `_SpreadN_M` con dos llamas). Comun: a2 =
+>   player, abortan si +$82 == 0 (`movem.l (a7)+,a0; rts`), +$98/+$99 =
+>   angulo/signo, +$9A rafaga, +$9B desviacion.
+> * `ShellCasing_Pistol_03d396` (snd $184), `Scene3Debris_*` (solo
+>   `$106ECE == 3`), `Player_DebugMarker_03d842` (si `$10FD8F`),
+>   `Player_SpawnFx3D8FA`, `SlugCannon_ArmOverlay_03d944` (brazo sobre el
+>   Slug `$100580`, tabla `SlugCannon_ArmSpriteTbl_03da02`).
+> * 3 handlers de brazo residuales: `PlayerArm_SlugRideA/B`, `PlayerArm_Fall2`.
 
 > **Wave XXX** (152 entradas, 8 224 B, verde a la primera, region sin
 > islas) — `$03A60A..$03C62A` en `player_arm_air_death_crouch_03a6xx.s`.
