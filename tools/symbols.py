@@ -52,7 +52,7 @@ SYMBOLS = {
     0x00C004C2: "BIOS_FIX_CLEAR",
 
     # ---- Wave Y: targets externos referenciados por asm 68000 puro ----
-    0x000329EE: "OpcodeOffsetTable_0329EE",  # tabla de 16 word-offsets usada por Entity_DispatchOpcodeNibble (Y#6)
+    # 0x000329EE promovido a OpcodeOffsetTable_0329EE en registry (Wave AAAA).
     # 0x0009B51E promovido a Score_Popup_Value_09b51e en registry (Wave RRR).
     0x0004CB44: "PtrTable6_04CB44",          # tabla de 6 long-ptr usada por Table_LoadPtrByIdxClamp6 (Y#5)
     # Templates usados por Entity_Build3ChainCircular (Y#10)
@@ -412,7 +412,7 @@ SYMBOLS = {
     0x00030BF6: "TaskHandler_030bf6",
     0x00030D74: "TaskHandler_030d74",
     0x000318AC: "TaskHandler_0318ac",
-    0x000318D4: "TaskHandler_0318d4",
+    # 0x000318D4 promovido a TaskHandler_0318d4 en registry (Wave AAAA).
     0x000321BC: "TaskHandler_0321bc",
     # 0x00036D64 promovido a Player_Knockback_036d64 en registry (Wave VVV).
     # 0x00037B8E promovido a Player_DeathPit_037b8e en registry (Wave VVV).
@@ -1255,9 +1255,9 @@ SYMBOLS = {
     0x000280C6: "Fn_000280C6",            # consulta mapa de colision (Ent_GroundProbe)
     0x0002A1AA: "Fn_0002A1AA",            # init entidad con anim (Boss_Intro)
     0x0002AC6A: "Fn_0002AC6A",            # test dificultad para gate de spawn
-    0x00030C14: "TaskProto_00030C14",     # plantilla tarea (Boss_PhaseFire)
-    0x00030C70: "TaskProto_00030C70",     # plantilla tarea (Boss_PhaseFire)
-    0x000308C2: "AnimSeq_000308C2",       # secuencia anim (Boss_PhaseFire)
+    # 0x00030C14 promovido a TaskProto_00030C14 en registry (Wave AAAA).
+    # 0x00030C70 promovido a TaskProto_00030C70 en registry (Wave AAAA).
+    # 0x000308C2 promovido a AnimSeq_000308C2 en registry (Wave AAAA).
     0x0005DCA4: "Fn_0005DCA4",            # rand escalado por d0 (BossShot_Init)
     0x0005DD56: "Fn_0005DD56",            # variante wait-anim (BossShot_Fly)
     0x0005E452: "Fn_0005E452",            # probe estado jugador (Boss_Active)
@@ -1544,12 +1544,12 @@ SYMBOLS = {
     0x00033374: "JsrAbsRts_033374",  # rts de JsrAbsThunk_03336e (+6)
     0x000342C2: "SetHandlerRts_0342c2",  # rts de SetTaskHandler_0342bc (+6)
     # --- Wave TTT: refs forward a huecos futuros
-    0x000324BC: "Sub_000324BC",  # hueco futuro (ref pc-rel desde esta region)
-    0x000324C6: "Sub_000324C6",  # hueco futuro (ref pc-rel desde esta region)
-    0x000325E4: "Sub_000325E4",  # hueco futuro (ref pc-rel desde esta region)
-    0x000326E0: "Sub_000326E0",  # hueco futuro (ref pc-rel desde esta region)
-    0x000329D4: "Sub_000329D4",  # hueco futuro (ref pc-rel desde esta region)
-    0x000329E8: "Sub_000329E8",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x000324BC promovido a Sub_000324BC en registry (Wave AAAA).
+    # 0x000324C6 promovido a Sub_000324C6 en registry (Wave AAAA).
+    # 0x000325E4 promovido a Sub_000325E4 en registry (Wave AAAA).
+    # 0x000326E0 promovido a Sub_000326E0 en registry (Wave AAAA).
+    # 0x000329D4 promovido a Sub_000329D4 en registry (Wave AAAA).
+    # 0x000329E8 promovido a Sub_000329E8 en registry (Wave AAAA).
     # 0x000342C4 promovido a Player_ShootStand_0342c4 en registry (Wave UUU).
     # 0x0003437E promovido a Player_ShootStandUp_03437e en registry (Wave UUU).
     # 0x000345B8 promovido a Player_ReenterByInput_0345b8 en registry (Wave UUU).
@@ -1569,19 +1569,19 @@ SYMBOLS = {
     # 0x00038BE4 promovido a DroppedWeapon_Spawn_038be4 en registry (Wave WWW).
     # 0x00038CF6 promovido a Parachute_Spawn_038cf6 en registry (Wave WWW).
     # --- Wave UUU: refs forward a huecos futuros
-    0x00032638: "Sub_00032638",  # hueco futuro (ref pc-rel desde esta region)
-    0x00032788: "Sub_00032788",  # hueco futuro (ref pc-rel desde esta region)
-    0x000328D8: "Sub_000328D8",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00032638 promovido a Sub_00032638 en registry (Wave AAAA).
+    # 0x00032788 promovido a Sub_00032788 en registry (Wave AAAA).
+    # 0x000328D8 promovido a Sub_000328D8 en registry (Wave AAAA).
     # 0x000366FE promovido a Player_RideSlug_Pose2_0366fe en registry (Wave VVV).
     # 0x00036796 promovido a Player_SlugJumpOff_036796 en registry (Wave VVV).
     # --- Wave VVV: refs forward a huecos futuros
-    0x000324D0: "Sub_000324D0",  # hueco futuro (ref pc-rel desde esta region)
-    0x000324D8: "Sub_000324D8",  # hueco futuro (ref pc-rel desde esta region)
-    0x000324E8: "Sub_000324E8",  # hueco futuro (ref pc-rel desde esta region)
-    0x00032734: "Sub_00032734",  # hueco futuro (ref pc-rel desde esta region)
-    0x00032830: "Sub_00032830",  # hueco futuro (ref pc-rel desde esta region)
-    0x00032884: "Sub_00032884",  # hueco futuro (ref pc-rel desde esta region)
-    0x0003292C: "Sub_0003292C",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x000324D0 promovido a Sub_000324D0 en registry (Wave AAAA).
+    # 0x000324D8 promovido a Sub_000324D8 en registry (Wave AAAA).
+    # 0x000324E8 promovido a Sub_000324E8 en registry (Wave AAAA).
+    # 0x00032734 promovido a Sub_00032734 en registry (Wave AAAA).
+    # 0x00032830 promovido a Sub_00032830 en registry (Wave AAAA).
+    # 0x00032884 promovido a Sub_00032884 en registry (Wave AAAA).
+    # 0x0003292C promovido a Sub_0003292C en registry (Wave AAAA).
     # 0x000388F0 promovido a Player_CrouchThrowGrenade_0388f0 en registry (Wave WWW).
     # 0x00038A28 promovido a Player_CrouchMelee_038a28 en registry (Wave WWW).
     # 0x00038AE6 promovido a Player_CrouchReload_038ae6 en registry (Wave WWW).
@@ -1589,7 +1589,7 @@ SYMBOLS = {
     # 0x000391EE promovido a PlayerDeathFx_Ripple_0391ee en registry (Wave WWW).
     # 0x00039214 promovido a PlayerDeathFx_Alt_039214 en registry (Wave WWW).
     # --- Wave WWW: refs forward a huecos futuros
-    0x000327DC: "Sub_000327DC",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x000327DC promovido a Sub_000327DC en registry (Wave AAAA).
     # --- Wave YYY: RTS internos de islas C
     0x0003DA9E: "JsrAbsRts_03da9e",  # rts de JsrAbsThunk_03da98 (+6)
     # --- Wave YYY: refs forward a huecos futuros
@@ -1646,4 +1646,19 @@ SYMBOLS = {
     0x0002CFFA: "Sub_0002CFFA",  # hueco futuro (ref pc-rel desde esta region)
     0x0002DC5C: "Sub_0002DC5C",  # hueco futuro (ref pc-rel desde esta region)
     0x0002DCBC: "Sub_0002DCBC",  # hueco futuro (ref pc-rel desde esta region)
+    # --- Wave AAAA: RTS internos de islas C
+    0x00030BB4: "SetHandlerRts_030bb4",  # rts de SetTaskHandler_030bae (+6)
+    0x00030D02: "SetHandlerRts_030d02",  # rts de SetTaskHandler_030cfc (+6)
+    0x00030D5A: "SetHandlerRts_030d5a",  # rts de SetTaskHandler_030d54 (+6)
+    0x00031688: "SetHandlerRts_031688",  # rts de SetTaskHandler_031682 (+6)
+    0x000317D0: "SetHandlerRts_0317d0",  # rts de SetTaskHandler_0317ca (+6)
+    0x000319CE: "SetHandlerRts_0319ce",  # rts de SetTaskHandler_0319c8 (+6)
+    0x00031AB8: "Jsr5B6Rts_031ab8",  # rts de Jsr5B6ThenJmpScheduler_031aac (+12)
+    0x00031BCE: "Jsr5B6Rts_031bce",  # rts de Jsr5B6ThenJmpScheduler_031bc2 (+12)
+    0x00031C1E: "Jsr5B6Rts_031c1e",  # rts de Jsr5B6ThenJmpScheduler_031c12 (+12)
+    0x00031C68: "Jsr5B6Rts_031c68",  # rts de Jsr5B6ThenJmpScheduler_031c5c (+12)
+    0x00031DC0: "JsrAbsRts_031dc0",  # rts de JsrAbsThunk_031dba (+6)
+    0x0003206E: "SetHandlerRts_03206e",  # rts de SetTaskHandler_032068 (+6)
+    0x000320D2: "SetHandlerRts_0320d2",  # rts de SetTaskHandler_0320cc (+6)
+    0x000321BA: "SetHandlerRts_0321ba",  # rts de SetTaskHandler_0321b4 (+6)
 }
