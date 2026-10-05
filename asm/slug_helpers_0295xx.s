@@ -17,7 +17,7 @@
 |      00 24 36 xx ff ff` + offsets) indexadas por Slug_AttackPtrTbl_02a024
 |      (15 punteros, índice = índice de anim <<2, usado por Slug_Hunker,
 |      Slug_IdleAngled... para +$48) y Slug_StateByAnglePtrTbl_02a060 (38
-|      punteros: -1, Sub_0002D67C/D63E, -1, Slug_HitLaunchB_02d802/D736, 5x
+|      punteros: -1, Slug_HitReact_02d63e+$3E/+0, -1, Slug_HitLaunchB/A, 5x
 |      Slug_Drive_02e6c2, 5x Slug_DriveB_02e7fa, -1, Slug_IdleFlat_02b38c...; el
 |      despachador por ángulo de los estados Drive).
 |   2. Inicialización: Slug_Init_02a0f8 (snd d1 + $1, anim +$1C = $1E,
