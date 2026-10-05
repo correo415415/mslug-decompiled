@@ -5212,4 +5212,10 @@ REGISTRY = [
     ("TaskHandler_033afc",                         0x033AFC, 158, "wave_ttt_032axx.s"),
     ("TaskHandler_033b9a",                         0x033B9A, 458, "wave_ttt_032axx.s"),
     ("TaskHandler_033d64",                         0x033D64, 1368, "wave_ttt_032axx.s"),
+    # --- Wave TTT: Texto PAUSE en fix layer (5 entradas)
+    ("SetRamByteFF_013d20",                        0x013D20,  10, "fix_pause_text_013d20.s"),
+    ("Fix_Str_PAUSE_013d32",                       0x013D32,   6, "fix_pause_text_013d20.s"),
+    ("Fix_Str_Blank_013d38",                       0x013D38,   6, "fix_pause_text_013d20.s"),
+    ("Fix_DrawPauseBlank_013d3e",                  0x013D3E,   8, "fix_pause_text_013d20.s"),
+    ("Fix_DrawPause_013d46",                       0x013D46,  36, "fix_pause_text_013d20.s"),
 ]
