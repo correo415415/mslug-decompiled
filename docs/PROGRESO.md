@@ -11,10 +11,43 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4414/4414 funciones
-BYTES   : 198,938/198,938 (registrados)
-ROM     : 198,938/2,097,152  (9.4861%)
+MATCHED : 4485/4485 funciones
+BYTES   : 204,358/204,358 (registrados)
+ROM     : 204,358/2,097,152  (9.7445%)
 ```
+
+> **Wave TTT** (66 entradas, 5 354 B, verde a la primera) — region
+> `$032A02..$0342C4` en `player_core_032axx.s` (38 huecos, 3 tablas
+> `--data`, 1 `--entry`). Undecima wave de `tools/gen_asm_region.py`.
+>
+> * **Nucleo del jugador**: slots `$100440`/`$1004E0`; campos +$71 arma,
+>   +$82 municion (clamp 999), +$80 bombas (clamp 99), +$87 timer de
+>   invulnerabilidad, +$8C/+$8D bits de estado, +$78 nibble de direccion.
+> * `Player_SetWeaponAndAmmo` (tabla de municion por arma `$329D4`),
+>   `Item_GiveAmmo_ToPlayer` / `Item_GiveBombs_ToPlayer` (callers de RRR),
+>   `Player_InvulnBlinkStep` (paleta por `OpcodeOffsetTable_0329EE`),
+>   `Player_WeaponMusicTable_032d28` + `Player_PlayWeaponMusicIfFlag`,
+>   `Player_PlayLifeMusic` ($1123/$1087).
+> * **Input**: `Input_ForwardByFacing/BackwardByFacing` (espejo por +$3A),
+>   `Input_JumpOrFire`, `Input_FireByMode/JumpByMode` (layout `$106F2A`),
+>   `Player_ReadDirNibble/ReadFireNibble`, `Player_ActionSelect_0330d0`
+>   (d1 = $FF hit / 3 fire / 4 / 1 / 0) consumido por `Player_Idle_Tail`.
+> * **Granadas**: `Player_ThrowGrenade/_Back/_Down` (+$80--, `$5EAB6` con
+>   `JmpAbsThunk_033346`, `$5DD02`, `$517FE`), `Player_JmpGrenadeBounce/Down`.
+> * **Spawn**: `Player_SpawnStart_0336dc` -> `Player_SpawnByMode` (caida
+>   `$279F8A` / paracaidas `$279B2C`) -> `Player_SpawnLand/LandB` ->
+>   `Player_SpawnLand_Done` -> `Player_Idle_033d64`; `Player_DeathGate_0334c6`
+>   (muerte si `$106E92`==0, ahogado en escena 1 con `$27DB2`->$40).
+> * Estados: `Player_Idle` ($279828), `Player_Crouch/CrouchB`
+>   ($27973E/$27981E), `Player_Reload` ($2796F8/$279702); comun
+>   `Player_FrameCommon_032ff2`, suelo `$5DD56` con hitbox `$324C6/$324BC`.
+> * Tabla `Player_StateTable68_03338a` (68 ptrs -> 7 handlers `$37684..
+>   $37B00`), `PlayerStateLUT_03349A`. Correcciones: tamano real de
+>   `PlayerRoute_PublishState_033522` (80 B), defsym `Probe_Bit3At100001_End`
+>   -> `Player_DeathGate_0334c6`.
+> * Extra: isla **PAUSE** `$013D20..$013D6A` (`fix_pause_text_013d20.s`) y
+>   mapa curado de zonas en `tools/measure_coverage.py --zones` /
+>   `docs/COVERAGE.md` (codigo real cubierto 31.8 %).
 
 > **Wave SSS** (23 entradas, 2 546 B, verde a la primera) — region
 > `$18D152..$18DB78` en `player_grenade_18d1xx.s` (2 huecos, 5 tablas

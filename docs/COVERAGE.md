@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-05  (Wave SSS cerrada, Wave TTT en borrador)
+**Ultimo update:** 2026-10-05  (Wave TTT cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -86,9 +86,9 @@ Huecos pendientes en zonas CODE: 1432 huecos, 345,058 B
 - **`$024E10..$05E000` (CODE, 234 KB)**: el nucleo del juego. Ya cubiertos:
   dispatcher Start `$24E38`, cluster probes `$27A92/$27C8C/$27CEE/$27D50`,
   fisica `$2783A`, sprite map `$28CD4`, dano `$2870A`, prioridades `$28134`,
-  camara `$06896A`.., `PlayerRoute_PublishState_033522`, Wave TTT (borrador,
-  `$032A02..$0342C4`: cluster de estados del jugador con la tabla de 68
-  punteros `$3338A` -> `$376xx..$37B00`), squads/charger `$040EF2..$0434C2`,
+  camara `$06896A`.., `PlayerRoute_PublishState_033522`, Wave TTT (`player_core_032axx.s`,
+  `$032A02..$0342C4`: nucleo del jugador, tabla de 68 punteros `$3338A` ->
+  `$376xx..$37B00`), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
   `$02E000..$032A00` (player core), `$0354F2..$036632`, `$03A60A..$03C62A`
@@ -162,11 +162,10 @@ Huecos pendientes en zonas CODE: 1432 huecos, 345,058 B
 
 | # | Rango | Pendiente | Contexto |
 |---:|---|---:|---|
-| 1 | `$032A02..$0342C4` | 0 B (borrador TTT) | Pase semantico: estados del jugador, tabla `$3338A` |
-| 2 | `$0342C4..$036632` | ~9 KB | Continuacion natural de TTT (targets `$376xx` de la tabla) |
-| 3 | `$02E000..$032A00` | ~15 KB | Player core (publicadores `$2575C/$25766`, slots `$100440/$1004E0`) |
-| 4 | `$03A60A..$03C62A` | 8 KB | Bloque contiguo mas grande sin tocar del nucleo |
-| 5 | `$05AA96..$05CA2A` | 8 KB | Idem en runtime tardio |
+| 1 | `$0342C4..$036632` | ~9 KB | Continuacion natural de TTT (targets `$376xx` de la tabla) |
+| 2 | `$02E000..$032A00` | ~15 KB | Player core (publicadores `$2575C/$25766`, slots `$100440/$1004E0`) |
+| 3 | `$03A60A..$03C62A` | 8 KB | Bloque contiguo mas grande sin tocar del nucleo |
+| 4 | `$05AA96..$05CA2A` | 8 KB | Idem en runtime tardio |
 
 ---
 

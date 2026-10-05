@@ -17,6 +17,22 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave TTT — 66 entries (5,354 B): `$032A02..$0342C4`
+  (`player_core_032axx.s`, 38 gaps closed): the player core — weapon /
+  ammo setters with the per-weapon default table (`Player_SetWeaponAndAmmo`,
+  `Item_GiveAmmo_ToPlayer`, `Item_GiveBombs_ToPlayer`, clamp 999/99),
+  invulnerability blink (`Player_InvulnBlinkStep`), per-weapon music
+  table, pad input helpers mirrored by facing (`Input_*ByFacing`,
+  `Input_FireByMode/JumpByMode` honouring the `$106F2A` button layout),
+  the per-frame action selector (`Player_ActionSelect`), grenade throw
+  entry points (`Player_ThrowGrenade*` -> `$28Dxxx`), the spawn sequence
+  (`Player_SpawnStart` -> fall / parachute -> land -> `Player_Idle`), the
+  drowning/death gate and the idle / crouch / reload states. Three
+  embedded tables (`Player_StateTable68_03338a`, `PlayerStateLUT`,
+  weapon music). Plus the PAUSE fix-layer text island (`$013D20`) and a
+  curated ROM zone map in `tools/measure_coverage.py --zones` /
+  `docs/COVERAGE.md` (real code coverage 31.8 %). Matcher: 4,485/4,485,
+  204,358 B (9.74 %).
 - Wave SSS — 23 entries (2,546 B): `$18D152..$18DB78`
   (`player_grenade_18d1xx.s`, 2 gaps closed): the only code block in the
   upper 1 MiB bank (CPU `$28Dxxx`) — the player's grenade subsystem

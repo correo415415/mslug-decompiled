@@ -1,11 +1,104 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave TTT — Núcleo del jugador: armas/munición, input, spawn, idle
 |  Región: $032A02..$0342C4  (5,346 B, 66 entradas, 38 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) RESUMEN
+|  ----------
+|  Cluster del JUGADOR (entidad en a6 = slot $100440 P1 / $1004E0 P2, o su
+|  padre +$C cuando la llamada viene de un hijo). Campos usados:
+|   +$70 estado de anim, +$71 arma (0 = pistola, 4 = ?), +$72 modo, +$78/+$79
+|   nibble de dirección/disparo, +$80 bombas, +$81/+$84/+$8B flags de evento
+|   (consumidos a 0), +$82 munición (clamp 999 = $3E7), +$85, +$87 timer de
+|   invulnerabilidad (parpadeo con tabla OpcodeOffsetTable_0329EE), +$88 bit0
+|   (agachado), +$8C/+$8D bits de estado (bit2 = aire, bit4 = cambio de arma,
+|   +$8D bit1 = en suelo), +$5C, +$60 = $32500.
+|
+|   1. Munición / armas ($32B58..$32C7E): Player_SetWeaponAndAmmo (d0 = jugador,
+|      d1 = arma, d2 = munición; tabla Sub_000329D4 {$FFFF,10,999,10,999,15,
+|      999,20,999,150} = munición por defecto por arma), Player_RefillAmmo
+|      Clamp999, Item_GiveAmmo_ToPlayer (desde Item_GiveAmmoKind: +$98/+$99
+|      del item, popup Score_Popup_ForPlayer_09b9ba; $FF = sin cambio),
+|      Item_GiveBombs_ToPlayer (clamp 99). Player_GetAmmoOrFFFF/GetBombs/
+|      DecBombs: lectores para el HUD.
+|   2. Invulnerabilidad: Player_StartInvuln5 (+$87 = 5, +$8C bit4) y
+|      Player_InvulnBlinkStep (decrementa +$87 y copia a +$14 el word indexado
+|      por OpcodeOffsetTable_0329EE[+$87 & 15] -> paleta de parpadeo; al
+|      acabar restaura +$16).
+|   3. Música por arma: Player_WeaponMusicTable_032d28 {-1,$112F,$112C,$112E,
+|      $112D} y Player_PlayWeaponMusicIfFlag (bit4 de +$8C -> $2352).
+|      Player_PlayLifeMusic: $1123 (P1) / $1087 (P2).
+|   4. Input (d0 = bits de pad): Input_ForwardByFacing/BackwardByFacing (bit0
+|      de +$3A espeja JmpAbsThunk_032e3c=izq / Input_RightThunk=der),
+|      Input_JumpOrFire ($5CF84 -> $5CEEC -> $5CF9C), Input_DownPressed,
+|      Input_FireByMode/JumpByMode: según $106F2A (0/4 = layout alternativo,
+|      $5CDB4) y devuelven d0 = campo+1 de InputLayout_ReadField2_05D5B6.
+|      Player_ReadDirNibble/ReadFireNibble empaquetan el nibble previo << 4 |
+|      actual en d0 (+$78).
+|   5. Player_ActionSelect_0330d0 (y variante _B): decide la acción del
+|      frame y devuelve C=1 + d1 = código: $FF = golpeado (+$13 bit1),
+|      3 = disparo ($5CDC0), 4 = ..., 1/2 = por nibble (Player_DirNibble
+|      ToAction), 0 = nada; carga el mapa de sprites Sub_000325E4 en +$4C.
+|      Player_Idle_Tail_0341a4 lo consume: $FF -> Sub_00035D34 (hit),
+|      3 -> Sub_000360BC (fire), 4 -> Sub_0003873C, 1 -> Sub_0003437E,
+|      otro -> Sub_000342C4 (Wave siguiente).
+|   6. Granadas: Player_ThrowGrenade_0332bc / _Back / _Down: si +$80 > 0 lo
+|      decrementa, `lea JmpAbsThunk_033346(pc),a1; jsr $5EAB6` crea la
+|      granada (Grenade_ThrowHeavy via jmp $28D876), copia pos ($5DD02) y
+|      facing (espejado en _Back), $517FE, desplaza ±$10 en X y marca +$8C
+|      bit2. Player_JmpGrenadeBounce/Down = `jmp $28D9DC/$28D7AA`.
+|   7. Spawn: Player_SpawnStart_0336dc (pos $50/$1E0 + scroll, snd $177/
+|      $190/$192, $138FE, PlayerEntity_InitAuxState, hijo $394E6) ->
+|      Player_SpawnByMode (d2: 2 = Player_SpawnFall con paracaídas $279F8A,
+|      1 -> Sub_00036C8C, otro -> Player_SpawnParachute $279B2C) ->
+|      Player_SpawnLand/LandB -> Player_SpawnLand_Done (hijo $32112/$32142 por
+|      jugador, +$45/+$59 = $50 de invulnerabilidad) -> Player_Idle.
+|      Player_DeathGate_0334c6: si $106E92 == 0 marca muerte (+$13 bit0, HP
+|      +$66 = 0); en la escena $106ECE == 1 con Y < $10C y $27DB2 -> d7 == $40
+|      fuerza estado 5 (ahogado); cola jmp $28758.
+|   8. Estados base: Player_Idle_033d64 (anim $279828 = $21, +$82 = 10 de
+|      munición de pistola, decide Crouch (+$88 bit0), Reload (+$85/+$71),
+|      CrouchB al azar ($5E9B6 & 7 == 4 con +$82 == 4), Sub_00034704 al
+|      tocar suelo, Sub_00034B38/Sub_00034D32 por signo de vel X, Sub_000345B8,
+|      TaskHandler_036d64 / Sub_00037018 por efecto $27EBA, Sub_00036914 por
+|      disparo); Player_Crouch/CrouchB ($27973E/$27981E, anim 5),
+|      Player_Reload ($2796F8/$279702, anim $33). Todos pasan por
+|      Player_FrameCommon_032ff2 ($283CA, prio &= ~3, InvulnBlinkStep,
+|      $2A720) y el suelo $5DD56 con hitbox Sub_000324C6/Sub_000324BC (escena 3).
+|
+|  B) EVIDENCIAS
+|  -------------
+|  * Player_StateTable68_03338a: 68 punteros -> 7 handlers en $37684..$37B00
+|    (tabla de estados por +$70; PlayerStateLUT_03349A = {Player_*_03338a,
+|    $033412} par P1/P2).
+|  * Llamadas desde Item_GiveAmmoKind (RRR), Grenade_* (SSS) y
+|    PlayerRoute_PublishState_033522 (NN).
+|  * $033346..$033358 = tríada `jmp $28Dxxx.l` (ver player_grenade_18d1xx.s).
+|
+|  C) HIPÓTESIS / DUDAS
+|  --------------------
+|  * +$71: índice de arma (0 pistola, 1 HMG?, 2 shotgun?, 3 rocket?, 4 flame?)
+|    — la tabla de munición {10,999,10,999,15,999,20,999,150} sugiere pares
+|    {default, máximo}. Confirmar con los handlers $376xx.
+|  * $106F2A: layout de botones (opción de servicio).
+|  * Player_LinkRidePartner_032d6c: engancha un hijo (d2 = 1/2) a un jugador
+|    que esté en el aire cayendo (+$2A < 0) — probable "rescate"/vehículo.
+|
+|  D) ESTRUCTURAS
+|  --------------
+|  Tabla de munición Sub_000329D4: words {arma0, (def,max) x4, 150}.
+|  Player_WeaponMusicTable_032d28: 5 words (-1 = sin música).
+|  Player_StateTable68_03338a: 68 x u32.
+|
+|  E) ISLAS ABSORBIDAS
+|  -------------------
+|  Ninguna; se corrigió el tamaño de PlayerRoute_PublishState_033522 (72 -> 80)
+|  y el defsym Probe_Bit3At100001_End pasó a ser Player_DeathGate_0334c6.
+|
+|  F) ESTADO
+|  ---------
+|  66/66 entradas byte-exactas (5,354 B). 3 --data, 1 --entry, 2 labels __L.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
