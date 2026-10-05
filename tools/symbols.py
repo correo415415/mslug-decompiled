@@ -56,9 +56,9 @@ SYMBOLS = {
     # 0x0009B51E promovido a Score_Popup_Value_09b51e en registry (Wave RRR).
     0x0004CB44: "PtrTable6_04CB44",          # tabla de 6 long-ptr usada por Table_LoadPtrByIdxClamp6 (Y#5)
     # Templates usados por Entity_Build3ChainCircular (Y#10)
-    0x0003010C: "Template_03010C",
-    0x00030068: "Template_030068",
-    0x000300BA: "Template_0300BA",
+    # 0x0003010C promovido a Template_03010C en registry (Wave ZZZ).
+    # 0x00030068 promovido a Template_030068 en registry (Wave ZZZ).
+    # 0x000300BA promovido a Template_0300BA en registry (Wave ZZZ).
     # Templates usados por Entity_Build4FromTemplates (Y#11)
 
     # ---- Wave Z: externos referenciados por asm 68000 puro ----
@@ -867,7 +867,7 @@ SYMBOLS = {
     0x0002AB86: "PcThunkTarget_02ab86",
     0x0002AC4C: "PcThunkTarget_02ac4c",
     0x0002AC80: "PcThunkTarget_02ac80",
-    0x0002FADA: "PcThunkTarget_02fada",
+    # 0x0002FADA promovido a PcThunkTarget_02fada en registry (Wave ZZZ).
     0x00032EA4: "PcThunkTarget_032ea4",
     0x00032EBA: "PcThunkTarget_032eba",
     0x00032F3C: "PcThunkTarget_032f3c",
@@ -1594,4 +1594,56 @@ SYMBOLS = {
     0x0003DA9E: "JsrAbsRts_03da9e",  # rts de JsrAbsThunk_03da98 (+6)
     # --- Wave YYY: refs forward a huecos futuros
     0x0003DAA8: "Sub_0003DAA8",  # hueco futuro (ref pc-rel desde esta region)
+    # --- Wave ZZZ: RTS internos de islas C
+    0x000301EE: "JsrAbsRts_0301ee",  # rts de JsrAbsThunk_0301e8 (+6)
+    0x00030390: "JsrAbsRts_030390",  # rts de JsrAbsThunk_03038a (+6)
+    0x00030608: "JsrAbsRts_030608",  # rts de JsrAbsThunk_030602 (+6)
+    # --- Wave ZZZ: refs forward a huecos futuros
+    0x000295A6: "Sub_000295A6",  # hueco futuro (ref pc-rel desde esta region)
+    0x00029790: "Sub_00029790",  # hueco futuro (ref pc-rel desde esta region)
+    0x00029834: "Sub_00029834",  # hueco futuro (ref pc-rel desde esta region)
+    0x000298D8: "Sub_000298D8",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002999E: "Sub_0002999E",  # hueco futuro (ref pc-rel desde esta region)
+    0x00029A14: "Sub_00029A14",  # hueco futuro (ref pc-rel desde esta region)
+    0x00029A68: "Sub_00029A68",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A024: "Sub_0002A024",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A060: "Sub_0002A060",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A328: "Sub_0002A328",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A34E: "Sub_0002A34E",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A478: "Sub_0002A478",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A4EC: "Sub_0002A4EC",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A4F0: "Sub_0002A4F0",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A59A: "Sub_0002A59A",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A664: "Sub_0002A664",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A690: "Sub_0002A690",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A752: "Sub_0002A752",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A760: "Sub_0002A760",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A766: "Sub_0002A766",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A7D8: "Sub_0002A7D8",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A824: "Sub_0002A824",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A878: "Sub_0002A878",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A8C0: "Sub_0002A8C0",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A958: "Sub_0002A958",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002A9A0: "Sub_0002A9A0",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002AA0E: "Sub_0002AA0E",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002AA24: "Sub_0002AA24",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002AAC0: "Sub_0002AAC0",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002AAF0: "Sub_0002AAF0",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002AB3C: "Sub_0002AB3C",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002ACB8: "Sub_0002ACB8",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002B38C: "Sub_0002B38C",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002B4D2: "Sub_0002B4D2",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002B7DA: "Sub_0002B7DA",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002B8CE: "Sub_0002B8CE",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002BA34: "Sub_0002BA34",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002BB9A: "Sub_0002BB9A",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002BBA4: "Sub_0002BBA4",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002BBF2: "Sub_0002BBF2",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002BF64: "Sub_0002BF64",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002C07A: "Sub_0002C07A",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002C24A: "Sub_0002C24A",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002C95C: "Sub_0002C95C",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002CFFA: "Sub_0002CFFA",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002DC5C: "Sub_0002DC5C",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002DCBC: "Sub_0002DCBC",  # hueco futuro (ref pc-rel desde esta region)
 }
