@@ -61,14 +61,6 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-| Tipo | Total | Cubierto | % |
-|---|---:|---:|---:|
-| CODE | 505,608 B | 169,600 B | 33.5 % |
-| DATA-REG | 45,052 B | 43,736 B | 97.1 % |
-| DATA | 1,512,700 B | 14 B | 0.0 % |
-| SYSTEM | 1,024 B | 58 B | 5.7 % |
-| ZERO | 32,768 B | 0 B | 0.0 % |
-
 Huecos pendientes en zonas CODE: 1406 huecos, 327,542 B
 
 ### Notas por zona
