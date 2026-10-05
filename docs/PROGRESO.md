@@ -11,10 +11,32 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4534/4534 funciones
-BYTES   : 221,874/221,874 (registrados)
-ROM     : 221,874/2,097,152  (10.5798%)
+MATCHED : 4635/4635 funciones
+BYTES   : 229,144/229,144 (registrados)
+ROM     : 229,144/2,097,152  (10.9264%)
 ```
+
+> **Wave WWW** (125 entradas, 7 270 B de codigo + 47 bloques de datos,
+> verde a la primera) — region `$0388F0..$03A60A` en
+> `player_arm_weapon_fx_0388xx.s` (absorbe 24 islas C espurias).
+> Decimocuarta wave de `gen_asm_region.py`.
+>
+> * **Agachado** (cierre de VVV): `Player_CrouchThrowGrenade_0388f0`,
+>   `Player_CrouchMelee_038a28`, `Player_CrouchReload_038ae6`.
+> * **Entidades hijas del player**: `DroppedWeapon_Spawn_038be4` (arma que
+>   cae al perder municion; rebote, spawnea `$77D88`), `Parachute_Spawn_038cf6`
+>   (paracaidas del spawn: Open -> Swing por vel X del padre -> Release/
+>   FallAway), `DuckTrigger_SpawnPair*_038f12/038f48` (par de sensores por
+>   slot que marcan +$88 bit0 del player), `PlayerDeathFx_Splash/Ripple/Alt`.
+> * **Overlay de brazo/arma** `PlayerArm_*`: `PlayerArm_Spawn_0394a8` es el
+>   template que `PlayerEntitySpawn` crea con `jsr $4AE`; sigue al padre
+>   (`PlayerArm_FollowParent_03937c`), despacha por anim id del padre (+$70)
+>   e invoca el handler guardado en +$74 (puntero -4 de cada tabla de anim
+>   `$2796xx`). 31 handlers `PlayerArm_<pose>` (Stand/Walk/WalkLoop/
+>   ShootStand*/WalkShoot*/Melee*/Turn*/Crouch*/SpawnLand*/JumpMelee), cada
+>   uno con su `PlayerArm_SpriteTbl_*` de 10 punteros (5 armas x 2
+>   jugadores; indice `PlayerArm_WeaponTableIndex_03933a`).
+> * Resto de handlers de brazo (`$3A60A..$3C6C4`) -> siguiente wave.
 
 > **Wave VVV** (39 entradas, 8 466 B, verde a la primera) — region
 > `$036632..$0388F0` en `player_air_death_crouch_0366xx.s` (22 huecos;

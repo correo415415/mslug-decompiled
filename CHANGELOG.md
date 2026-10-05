@@ -17,6 +17,18 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave WWW — 125 entries (7,270 B code + data): `$0388F0..$03A60A`
+  (`player_arm_weapon_fx_0388xx.s`, 24 spurious C islands absorbed, 47
+  data blocks): the crouch actions `Player_CrouchThrowGrenade/Melee/Reload`,
+  the dropped-weapon entity (`DroppedWeapon_*`), the spawn parachute
+  (`Parachute_Open/Swing/Release/FallAway`), the paired duck sensors
+  (`DuckTrigger_*`, set player +$88 bit0), the fall-death splash fx
+  (`PlayerDeathFx_*`) and the player's weapon-arm overlay task
+  (`PlayerArm_Spawn_0394a8` created by `PlayerEntitySpawn`; dispatches on
+  the parent's anim id and calls the arm handler stored at +$74; 31
+  `PlayerArm_<pose>` handlers each indexing a 10-pointer
+  `PlayerArm_SpriteTbl_*` = 5 weapons x 2 players). Matcher: 4,635/4,635,
+  229,144 B (10.93 %); real code coverage 36.7 %.
 - Wave VVV — 39 entries (8,466 B): `$036632..$0388F0`
   (`player_air_death_crouch_0366xx.s`, 23 spurious C islands absorbed):
   the player's air / death / crouch sub-machines — `Player_JumpStart` /

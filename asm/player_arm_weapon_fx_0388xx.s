@@ -1,11 +1,101 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave WWW — brazo/arma del player, paracaídas, arma soltada, fx de muerte
 |  Región: $0388F0..$03A60A  (7,432 B, 125 entradas, 4 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 7,432 B con cinco familias de código relacionadas con el
+|  player, todas ejecutadas como tareas hijas (a6 = entity hija, +$C =
+|  player padre):
+|
+|   1. Acciones agachado del player (siguen a Wave VVV):
+|      Player_CrouchThrowGrenade_0388f0 (anim $30, hitbox $32598, cb
+|      Sub_00032734), Player_CrouchMelee_038a28 (+$4C=Sub_00032638,
+|      $283CA, cb Sub_000327DC), Player_CrouchReload_038ae6 (anim $33,
+|      +$85=1 "recargando").
+|   2. DroppedWeapon_* ($038BE4): arma que el player suelta al perder
+|      munición / morir (snd $176/$177, anim $27A28E, prio +$38|=$18);
+|      rebota con DroppedWeapon_Bounce_038c70 (spawnea $77D88) y se libera
+|      (jmp $518).
+|   3. Parachute_* ($038CF6): paracaídas del spawn (Player_SpawnParachute
+|      lo crea). Parachute_Open -> Swing (índice desde vel X del padre via
+|      Parachute_SwingIndexFromVelX_038e9a, tablas $28F8D4/$28FDBC) ->
+|      Release (anim $28FE2C, se suelta cuando el padre toca suelo) o
+|      FallAway (Parachute_FallTemplates_038ec8, cae por $2783A).
+|   4. DuckTrigger_* ($038F12..$03914x): par de sensores (izq/der) por
+|      slot de player ($100440/$1004E0) que marcan +$88 bit0 (agachado
+|      forzado) en el player cuando solapa (DuckTrigger_OverlapBox vía
+|      $5E260). Caen con $27BC8 y se asientan con $5DD5C.
+|   5. PlayerDeathFx_* ($039148): salpicaduras de la muerte por caída
+|      (Player_Death_FallSpawnFx los crea): Splash (anim $27A182 ->
+|      Loop $27A228), Ripple ($27A0FE, +$5C=$1C), Alt ($279F9A, snd $1DF).
+|   6. PlayerArm_* ($039234..$03A60A): overlay de "brazo/arma" del player.
+|      PlayerArm_Spawn_0394a8 es el template que PlayerEntitySpawn crea
+|      con jsr $4AE; sigue al padre (PlayerArm_FollowParent_03937c copia
+|      +$7C/+$7E, facing, +$59/+$5A) y despacha según el anim id del
+|      padre (+$70: $10 stand, $11/$12 walk, $21..$23 shoot, $25..$28
+|      aire, $30..$33 crouch/melee...) llamando al handler de brazo que el
+|      padre guardó en +$74 (puntero -4 de cada tabla de anim $2796xx).
+|      Cada PlayerArm_<pose>_xxx indexa una PlayerArm_SpriteTbl_* de 10
+|      punteros (5 armas x 2 jugadores: PlayerArm_WeaponTableIndex_03933a
+|      = (+$71 padre, +5 si P2) << 2) y carga el sprite con $28CD4.
+|
+|  B. EVIDENCIAS
+|  -------------
+|   - player_core_032axx.s / player_dispatch_0335xx.s: `lea $394A8,a1;
+|     jsr $4AE; jsr $5DD02` al spawnear el player -> PlayerArm_Spawn.
+|   - Los `lea $2797xx,a0; move.l -4(a0),$74(a6)` de player_states_0342xx
+|     apuntan a: $39E54 (anim $10), $3A058 ($11), $3A1B8/$3A268 ($12),
+|     $39A70..$39C8E ($21), $3A318..$3A482 ($22/$23), $39D82/$39DC8 ($33),
+|     $3A4C8/$3A514 ($31), $398A8/$398F4 ($05), $39940 ($21 idle),
+|     $3998C ($20), $399D8/$39A24 (spawn land), $3A560 ($25/$26 melee aéreo).
+|     Los demás destinos ($3A60A..$3C6C4) quedan para la siguiente wave.
+|   - PlayerArm_Spawn compara +$74 del padre con $39E54/$39F56,
+|     $3A058/$3A108, $3A1B8/$3A268, $3A656, $3A60A para decidir si
+|     reinvocar el handler cuando cambia +$72 (modo).
+|   - Player_CrouchIdle*/Crawl* (VVV) saltan a $388F0/$38A28/$38AE6 según
+|     la acción agachada; Player_Idle y CrouchWeaponEmpty crean $38BE4.
+|   - Player_SpawnParachute_033956 crea $38CF6; Player_Death_FallSpawnFx
+|     crea $391EE y $39148; Player_Death_Alt crea $39214.
+|
+|  C. CAMPOS DE ENTITY (a6)
+|  ------------------------
+|   +$00 handler, +$0C padre, +$13 bit0 muerto/bit3, +$21 fin de anim,
+|   +$22/+$24 pos, +$28/+$2A vel, +$38 prio (bits0-1 pasan a +$38 padre),
+|   +$3A facing, +$47 random, +$48 cb colisión, +$4C tabla ataque,
+|   +$5C flags sprite, +$59/+$5A invuln, +$70 anim id (padre), +$71 arma
+|   (padre) / 0 en paracaídas, +$72 modo, +$74 handler de brazo (padre)
+|   / target slot (DuckTrigger), +$78 bit2 / +$79 ($41/$14) dirección,
+|   +$7C/+$7E fase, +$88 bit0 agachado forzado, +$8C bit2 flag copiado al
+|   padre (PlayerArm_CopyBit2ToParent_039416), +$98 parámetro template.
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|   $4AE alloc, $518 free, $236E snd, $2352 music, $267E2/$267E6 reset vel,
+|   $2783A física, $27BC8 ground test, $283CA/$283D8 ataque, $28758 fin
+|   anim, $28CD4 carga sprite, $28D70 paso anim, $2ABCC ClearXN,
+|   $5CEEC/$5CEF8/$5CF04/$5CF10/$5CF84/$5CF9C InputEvt (abajo/izq/der/
+|   disparo), $5DD02 copia transform, $5DD5C asentar, $5E260 solape,
+|   $5E4B2/$5E4CA/$5E4EE seguir al padre, $5E7C0, $5E98A, $5E9B6 RNG,
+|   $32D00 dispatch nibble, $138FE timer.
+|
+|  E. HIPÓTESIS ABIERTAS
+|  ---------------------
+|   - "DuckTrigger" es provisional: el par de entidades marca +$88 bit0 del
+|     player al solaparse; podría ser el sensor de "techo bajo" que obliga
+|     a agacharse o el detector de los túneles de la misión 1.
+|   - Las PlayerArm_<pose> con sufijo A..F se nombran por orden; su
+|     correspondencia exacta con arma/pose se fijará al leer las tablas
+|     de anim $2796xx..$279Fxx.
+|   - Entity_CmpField10WithLink8_039234 y AnimCb_* no tienen llamador en
+|     esta región (referenciados desde $17xxxx = datos de nivel).
+|
+|  F. SIGUIENTE
+|  ------------
+|   Hueco $03A60A..$03C62A: resto de handlers de brazo (aire $3A60A/$3A656
+|   ..$3B952, muerte $3BC10.., crouch $3BEEC.., slug $3C632..).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
