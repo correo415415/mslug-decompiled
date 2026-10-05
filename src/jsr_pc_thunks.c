@@ -143,8 +143,8 @@ void JsrPcThunk_02fed4(void) {
 
 __attribute__((section(".text.JsrPcThunk_02ff1c")))
 void JsrPcThunk_02ff1c(void) {
-    extern void PcThunkTarget_02fada(void);
-    __asm__ volatile("jsr PcThunkTarget_02fada(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ResetDamageIdx_02fada(void);
+    __asm__ volatile("jsr Slug_ResetDamageIdx_02fada(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_032406")))

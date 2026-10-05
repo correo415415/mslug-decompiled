@@ -56,9 +56,9 @@ SYMBOLS = {
     # 0x0009B51E promovido a Score_Popup_Value_09b51e en registry (Wave RRR).
     0x0004CB44: "PtrTable6_04CB44",          # tabla de 6 long-ptr usada por Table_LoadPtrByIdxClamp6 (Y#5)
     # Templates usados por Entity_Build3ChainCircular (Y#10)
-    # 0x0003010C promovido a Template_03010C en registry (Wave ZZZ).
-    # 0x00030068 promovido a Template_030068 en registry (Wave ZZZ).
-    # 0x000300BA promovido a Template_0300BA en registry (Wave ZZZ).
+    # 0x0003010C promovido a Chain3_TplC_03010c en registry (Wave ZZZ).
+    # 0x00030068 promovido a Chain3_TplA_030068 en registry (Wave ZZZ).
+    # 0x000300BA promovido a Chain3_TplB_0300ba en registry (Wave ZZZ).
     # Templates usados por Entity_Build4FromTemplates (Y#11)
 
     # ---- Wave Z: externos referenciados por asm 68000 puro ----
@@ -867,7 +867,7 @@ SYMBOLS = {
     0x0002AB86: "PcThunkTarget_02ab86",
     0x0002AC4C: "PcThunkTarget_02ac4c",
     0x0002AC80: "PcThunkTarget_02ac80",
-    # 0x0002FADA promovido a PcThunkTarget_02fada en registry (Wave ZZZ).
+    # 0x0002FADA promovido a Slug_ResetDamageIdx_02fada en registry (Wave ZZZ).
     0x00032EA4: "PcThunkTarget_032ea4",
     0x00032EBA: "PcThunkTarget_032eba",
     0x00032F3C: "PcThunkTarget_032f3c",

@@ -94,8 +94,8 @@ Entity_Build3ChainCircular_03060A:
                                               |
         rts                                    | +8a
 
-        .equ    .LTpl1, Template_03010C
-        .equ    .LTpl2, Template_030068
-        .equ    .LTpl3, Template_0300BA
+        .equ    .LTpl1, Chain3_TplC_03010c
+        .equ    .LTpl2, Chain3_TplA_030068
+        .equ    .LTpl3, Chain3_TplB_0300ba
 
         .size   Entity_Build3ChainCircular_03060A, .-Entity_Build3ChainCircular_03060A
