@@ -11,10 +11,34 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4397/4397 funciones
-BYTES   : 196,440/196,440 (registrados)
-ROM     : 196,440/2,097,152  (9.3670%)
+MATCHED : 4414/4414 funciones
+BYTES   : 198,938/198,938 (registrados)
+ROM     : 198,938/2,097,152  (9.4861%)
 ```
+
+> **Wave SSS** (23 entradas, 2 546 B, verde a la primera) — region
+> `$18D152..$18DB78` en `player_grenade_18d1xx.s` (2 huecos, 5 tablas
+> `--data`, 8 `--entry`). Decima wave de `tools/gen_asm_region.py`.
+>
+> * Es el **unico bloque de codigo del banco alto** (archivo `$18Dxxx` =
+>   CPU `$28Dxxx`; el resto de `$09C608..$200000` son datos salvo las
+>   islas C ya registradas en `$19C95A/$19CB64`).
+> * **Grenade_***: granadas del jugador (item 291 Bombs). Tres lanzamientos
+>   despachados por la triada `jmp $28D876/$28D9DC/$28D7AA` en
+>   `$033346..$033358` (`Grenade_ThrowHeavy` con rebote unico y
+>   `Grenade_HeavyFall`, `Grenade_ThrowBounce` con timer +$5C=18 y
+>   `Grenade_BounceFall`, `Grenade_ThrowDown`), mas `Grenade_Throw/ThrowB`
+>   (via `Grenade_SpawnCopyA/B` + `$517FE`) -> `Grenade_Throw_Common`
+>   (snd `$7C`/`$14C` por jugador, prio `$D000`) -> `Grenade_Fly` (freno
+>   aereo vel X>>4, `$27D50`; `$1081AE` selecciona `$27BC8`).
+>   `Grenade_Explode{,_B,_C}` -> `Grenade_Explode_Common` (musica `$1027`,
+>   snd `$D`, humo `Grenade_Smoke_Init/Run`), `Grenade_ExplodeBig` (snd
+>   `$178`, mapa `$29E76C`).
+> * 5 tablas de animacion de 10 B/registro (`Grenade_AnimSpin/SpinAlt/
+>   ExplodeBig/Explode/Smoke`, terminadores `$1D00`/`$1600`/`$0100+ptr`).
+> * **6 islas espurias absorbidas**: `JsrAbsThunk_18d56c/18d57e/18d746/
+>   18d766/18d9d4` y `SetTaskHandler_18d6f0` eran colas de funciones
+>   reales (`jsr X.l; rts` finales); eliminadas de los .c y del registro.
 
 > **Wave RRR** (96 entradas, 9 196 B, verde a la primera) — region
 > `$09A0BC..$09C608` en `items_score_crates_09a0xx.s` (28 huecos, 6 tablas

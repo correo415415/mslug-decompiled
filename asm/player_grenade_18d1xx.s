@@ -1,11 +1,97 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave SSS — Granadas del jugador (cola de código del banco alto $28Dxxx)
 |  Región: $18D152..$18DB78  (2,546 B, 23 entradas, 2 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) RESUMEN
+|  ----------
+|  Único bloque de código de la segunda mitad de la P-ROM (archivo $18Dxxx,
+|  CPU $28Dxxx: el bootstrap intercambia los dos bancos de 1 MiB). Contiene
+|  el subsistema de GRANADAS del jugador (arma secundaria, item 291 "Bombs"):
+|  3 variantes de lanzamiento, el vuelo balístico, la explosión y el humo.
+|
+|   1. Tablas de animación ($18D152..$18D562, 5 bloques --data):
+|      Grenade_AnimSpin / AnimSpinAlt: 2 frames de 10 B {dx,dy,flags,tile}
+|      con cabecera {$03 ciclo,$17 frames,...}, terminador $1D00 (loop).
+|      Grenade_AnimExplodeBig ($0318 / 100 frames, 4 sub-sprites) y
+|      Grenade_AnimExplode ($0800 -> jsr $283CA al inicio, 2x15 frames
+|      espejados flags $08/$0B, cierra con $0100 + puntero CPU $28D3E8 =
+|      bucle al 2º registro). Grenade_AnimSmoke: 5 frames $2506E0..$25074A,
+|      terminador HOLD $1600.
+|
+|   2. Lanzamiento (desde Player_* vía JmpAbsThunk_033346 y la tríada
+|      `jmp $28D876/$28D9DC/$28D7AA` en $033346..$033358, enlazada por
+|      `lea X(pc),a1; jsr $5EAB6` en TaskHandler_0332bc (+$80(a0) = granadas
+|      restantes, decrementa) y `jsr $6FE` en TaskHandler_03331c):
+|        - Grenade_Throw_18d586 / ThrowB_18d5aa: vel X aleatoria ($5DCA4 con
+|          base $F64E/$F000), vel Y $0B9A/$0663, acc Y $FF4C/$FEB9 -> común
+|          Grenade_Throw_Common: bit4 +$6B, prio $D000, mapa AnimExplode,
+|          hitbox +$48 = -1, +$4C = AnimSpin, snd $7C (P1) / $14C (P2) según
+|          el padre +$C ($100440/$1004E0 directo, si no su padre), copia
+|          facing +$3A y pos del padre (+$24 + $20 -> también +$82), espejo
+|          de vel X si facing bit0.
+|        - Grenade_Fly_18d66a: freno aéreo (si vel Y < 0 resta vel X >> 4),
+|          gravedad/colisión $27D50 (C=1 -> Explode), $28D70, $283D8; +$13
+|          bit1 -> Explode_C, bit3 -> Explode_B; sale de pantalla
+|          (+$24 < $100 o +$22 >= $150) -> JmpToScheduler_18d794 (free).
+|        - Grenade_ThrowDown_18d7aa: variante "desde arriba" (vel X $FC00,
+|          vel Y $F800, sin acc); si el padre es la TCB idle $1008A0 usa la
+|          posición propia +$20.
+|        - Grenade_ThrowHeavy_18d876: snd $14C,$1,$14C, +$5C = 0 ->
+|          Grenade_HeavyFall: si $1081AE (flag global, tmpl 321/322
+|          SetGlobalFlagFF/ClearGlobalFlag) usa $27BC8 en vez de $27D50; al
+|          tocar suelo 1 rebote (+$5C++ , vel $FCE0/$03C0/$FF88, +$24 += 8)
+|          y al 2º ExplodeBig; +$3B >= 1 habilita el test de +$13 bit1.
+|        - Grenade_ThrowBounce_18d9dc: +$5C = 18 frames -> Grenade_BounceTimer
+|          (cuenta atrás y pasa a Grenade_BounceFall al expirar; $27D50 con
+|          C=1 -> Explode_C) y Grenade_BounceFall (rebote con $27BC8,
+|          vel $FF2B/$04FE/$FF2B, reinicia el timer).
+|
+|   3. Explosión: Grenade_Explode_18d6f8 / _B / _C (3 entradas idénticas con
+|      música $1027 -> Grenade_Explode_Common: $13600 flush, snd $D, mapa
+|      AnimSmoke, handler Grenade_Smoke_Init, +$4C = AnimSpinAlt);
+|      Grenade_ExplodeBig_18d6bc (snd $178, mapa $29E76C, +$4C =
+|      AnimExplodeBig). Grenade_Smoke_Init/Run: $283CA/$283D8, física
+|      $2783A, se libera (jmp $518) cuando $28D70 devuelve C=1.
+|
+|   4. Grenade_SpawnCopyA/B_18d562: `lea Throw/ThrowB(pc),a1; jsr $4AE;
+|      jsr $517FE` — crean la granada como tarea hija copiando +$68 (player).
+|
+|  B) EVIDENCIAS
+|  -------------
+|  * $033346..$033358: 3x `jmp $28Dxxx.l` apuntando a ThrowHeavy/ThrowBounce/
+|    ThrowDown — únicas referencias absolutas al bloque desde el banco bajo.
+|  * Crate_Debris_09c0a4+$4C referencia $28D643 (= Grenade_Throw_Common+$79,
+|    cola de spawn compartida).
+|  * $E8504/$E8508 (templates 321/322) -> $28DB5A/$28DB6A (flag $1081AE).
+|  * Las 5 tablas son referenciadas sólo por `lea X(pc),a0` internas.
+|
+|  C) HIPÓTESIS / DUDAS
+|  --------------------
+|  * "Granada" se infiere del item 291 Bombs (+$80 contador en el jugador,
+|    música $1027 de explosión compartida con helis/jefes) — nombre
+|    provisional hasta cruzar con Player_* ($0332BC/$03331C sin decompilar).
+|  * $1081AE: flag de modo (¿vehículo/agua?) que cambia el probe de suelo.
+|  * ThrowB ($F000/$0663/$FEB9) podría ser el tiro agachado.
+|
+|  D) ESTRUCTURAS
+|  --------------
+|  Registro de anim (10 B): .w dx, .w dy, .w flags ($0200|n sub-sprites,
+|  $08/$0B espejo), .l puntero de mapa $2436xx/$230Dxx/$2506xx; cabecera
+|  {.b tipo, .b frames, .w stride, ...}; terminadores $FFFF/$1D00/$1600/$0100+ptr.
+|
+|  E) ISLAS ABSORBIDAS
+|  -------------------
+|  JsrAbsThunk_18d56c/18d57e (falsos: cola de SpawnCopyA/B), JsrAbsThunk_18d746
+|  (cola de Explode_Common), JsrAbsThunk_18d766 (cola de Smoke_Init),
+|  JsrAbsThunk_18d9d4 (cola de HeavyFall), SetTaskHandler_18d6f0 (cola de
+|  Explode_Common). JmpToScheduler_18d794 / Jsr5B6ThenJmpScheduler_18d79c /
+|  SetGlobalFlagFF_18db5a / ClearGlobalFlag_18db6a se mantienen en C.
+|
+|  F) ESTADO
+|  ---------
+|  23/23 entradas byte-exactas (2,546 B). 8 --entry, 5 --data, 1 label __L.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

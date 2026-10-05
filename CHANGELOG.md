@@ -17,6 +17,16 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave SSS — 23 entries (2,546 B): `$18D152..$18DB78`
+  (`player_grenade_18d1xx.s`, 2 gaps closed): the only code block in the
+  upper 1 MiB bank (CPU `$28Dxxx`) — the player's grenade subsystem
+  (`Grenade_*`: three throw variants dispatched from `$033346..$033358`,
+  ballistic flight with air drag, bounce/heavy variants gated by the
+  global flag `$1081AE`, explosion with music `$1027`, smoke child) plus
+  five embedded animation tables via `--data`. Six spurious thunk islands
+  (`JsrAbsThunk_18d56c/57e/746/766/9d4`, `SetTaskHandler_18d6f0`) were
+  tails of real functions and got absorbed. Matcher: 4,414/4,414,
+  198,938 B (9.49 %).
 - Wave RRR — 96 entries (9,196 B): `$09A0BC..$09C608`
   (`items_score_crates_09a0xx.s`, 28 gaps closed): a generic aimable
   gun with sprite child (`Gun_*`, spawned by `Airship_Wait`), the pickup
