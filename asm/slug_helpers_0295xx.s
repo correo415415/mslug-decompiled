@@ -15,22 +15,22 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Sub_000295A6  @ $0295A6  (14 B)
+|  Slug_AngleToSpriteIdx_0295a6  @ $0295A6  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000295A6, "ax", @progbits
-        .global Sub_000295A6
-Sub_000295A6:
+        .section .text.Slug_AngleToSpriteIdx_0295a6, "ax", @progbits
+        .global Slug_AngleToSpriteIdx_0295a6
+Slug_AngleToSpriteIdx_0295a6:
         lea     0x2b0bee.l,a0                   | +000
         move.b  (a0,d0.w),d0                    | +006
         ext.w   d0                              | +00a
         rts                                     | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_0295b4  @ $0295B4  (76 B)
+|  Slug_HitboxIdle_0295b4  @ $0295B4  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0295b4, "ax", @progbits
-        .global Data_0295b4
-Data_0295b4:
+        .section .text.Slug_HitboxIdle_0295b4, "ax", @progbits
+        .global Slug_HitboxIdle_0295b4
+Slug_HitboxIdle_0295b4:
         .dc.w   0x8001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
@@ -71,11 +71,11 @@ Data_0295b4:
         .dc.w   0x1d01                        | +04a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029600  @ $029600  (76 B)
+|  Slug_HitboxIdleB_029600  @ $029600  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029600, "ax", @progbits
-        .global Data_029600
-Data_029600:
+        .section .text.Slug_HitboxIdleB_029600, "ax", @progbits
+        .global Slug_HitboxIdleB_029600
+Slug_HitboxIdleB_029600:
         .dc.w   0x8001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
@@ -116,11 +116,11 @@ Data_029600:
         .dc.w   0x1d01                        | +04a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_02964c  @ $02964C  (324 B)
+|  Slug_HitboxDestroyed_02964c  @ $02964C  (324 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02964c, "ax", @progbits
-        .global Data_02964c
-Data_02964c:
+        .section .text.Slug_HitboxDestroyed_02964c, "ax", @progbits
+        .global Slug_HitboxDestroyed_02964c
+Slug_HitboxDestroyed_02964c:
         .dc.w   0x8001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
@@ -285,11 +285,11 @@ Data_02964c:
         .dc.w   0xffff                        | +142  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00029790  @ $029790  (164 B)
+|  Slug_HitboxA_029790  @ $029790  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00029790, "ax", @progbits
-        .global Sub_00029790
-Sub_00029790:
+        .section .text.Slug_HitboxA_029790, "ax", @progbits
+        .global Slug_HitboxA_029790
+Slug_HitboxA_029790:
         .dc.w   0x031c                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0258                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -374,11 +374,11 @@ Sub_00029790:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00029834  @ $029834  (164 B)
+|  Slug_HitboxB_029834  @ $029834  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00029834, "ax", @progbits
-        .global Sub_00029834
-Sub_00029834:
+        .section .text.Slug_HitboxB_029834, "ax", @progbits
+        .global Slug_HitboxB_029834
+Slug_HitboxB_029834:
         .dc.w   0x031e                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -463,11 +463,11 @@ Sub_00029834:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000298D8  @ $0298D8  (164 B)
+|  Slug_HitboxC_0298d8  @ $0298D8  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000298D8, "ax", @progbits
-        .global Sub_000298D8
-Sub_000298D8:
+        .section .text.Slug_HitboxC_0298d8, "ax", @progbits
+        .global Slug_HitboxC_0298d8
+Slug_HitboxC_0298d8:
         .dc.w   0x031c                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0014                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -552,11 +552,11 @@ Sub_000298D8:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_02997c  @ $02997C  (34 B)
+|  Slug_HitboxD_02997c  @ $02997C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02997c, "ax", @progbits
-        .global Data_02997c
-Data_02997c:
+        .section .text.Slug_HitboxD_02997c, "ax", @progbits
+        .global Slug_HitboxD_02997c
+Slug_HitboxD_02997c:
         .dc.w   0x0101                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0101                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0101                        | +004  (dato / opcode no decodificado)
@@ -576,11 +576,11 @@ Data_02997c:
         .dc.w   0x0101                        | +020  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_0002999E  @ $02999E  (84 B)
+|  Slug_HitboxCb_02999e  @ $02999E  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002999E, "ax", @progbits
-        .global Sub_0002999E
-Sub_0002999E:
+        .section .text.Slug_HitboxCb_02999e, "ax", @progbits
+        .global Slug_HitboxCb_02999e
+Slug_HitboxCb_02999e:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x997c                        | +004  (dato / opcode no decodificado)
@@ -625,11 +625,11 @@ Sub_0002999E:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_0299f2  @ $0299F2  (34 B)
+|  Slug_HitboxCbB_0299f2  @ $0299F2  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0299f2, "ax", @progbits
-        .global Data_0299f2
-Data_0299f2:
+        .section .text.Slug_HitboxCbB_0299f2, "ax", @progbits
+        .global Slug_HitboxCbB_0299f2
+Slug_HitboxCbB_0299f2:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0101                        | +004  (dato / opcode no decodificado)
@@ -649,11 +649,11 @@ Data_0299f2:
         .dc.w   0x0101                        | +020  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00029A14  @ $029A14  (84 B)
+|  Slug_HitboxCbC_029a14  @ $029A14  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00029A14, "ax", @progbits
-        .global Sub_00029A14
-Sub_00029A14:
+        .section .text.Slug_HitboxCbC_029a14, "ax", @progbits
+        .global Slug_HitboxCbC_029a14
+Slug_HitboxCbC_029a14:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -698,11 +698,11 @@ Sub_00029A14:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00029A68  @ $029A68  (84 B)
+|  Slug_AttackTbl00_029a68  @ $029A68  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00029A68, "ax", @progbits
-        .global Sub_00029A68
-Sub_00029A68:
+        .section .text.Slug_AttackTbl00_029a68, "ax", @progbits
+        .global Slug_AttackTbl00_029a68
+Slug_AttackTbl00_029a68:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -747,11 +747,11 @@ Sub_00029A68:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029abc  @ $029ABC  (84 B)
+|  Slug_AttackTbl01_029abc  @ $029ABC  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029abc, "ax", @progbits
-        .global Data_029abc
-Data_029abc:
+        .section .text.Slug_AttackTbl01_029abc, "ax", @progbits
+        .global Slug_AttackTbl01_029abc
+Slug_AttackTbl01_029abc:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -796,11 +796,11 @@ Data_029abc:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029b10  @ $029B10  (84 B)
+|  Slug_AttackTbl02_029b10  @ $029B10  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029b10, "ax", @progbits
-        .global Data_029b10
-Data_029b10:
+        .section .text.Slug_AttackTbl02_029b10, "ax", @progbits
+        .global Slug_AttackTbl02_029b10
+Slug_AttackTbl02_029b10:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -845,11 +845,11 @@ Data_029b10:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029b64  @ $029B64  (84 B)
+|  Slug_AttackTbl03_029b64  @ $029B64  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029b64, "ax", @progbits
-        .global Data_029b64
-Data_029b64:
+        .section .text.Slug_AttackTbl03_029b64, "ax", @progbits
+        .global Slug_AttackTbl03_029b64
+Slug_AttackTbl03_029b64:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -894,11 +894,11 @@ Data_029b64:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029bb8  @ $029BB8  (84 B)
+|  Slug_AttackTbl04_029bb8  @ $029BB8  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029bb8, "ax", @progbits
-        .global Data_029bb8
-Data_029bb8:
+        .section .text.Slug_AttackTbl04_029bb8, "ax", @progbits
+        .global Slug_AttackTbl04_029bb8
+Slug_AttackTbl04_029bb8:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -943,11 +943,11 @@ Data_029bb8:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029c0c  @ $029C0C  (84 B)
+|  Slug_AttackTbl05_029c0c  @ $029C0C  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029c0c, "ax", @progbits
-        .global Data_029c0c
-Data_029c0c:
+        .section .text.Slug_AttackTbl05_029c0c, "ax", @progbits
+        .global Slug_AttackTbl05_029c0c
+Slug_AttackTbl05_029c0c:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -992,11 +992,11 @@ Data_029c0c:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029c60  @ $029C60  (84 B)
+|  Slug_AttackTbl06_029c60  @ $029C60  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029c60, "ax", @progbits
-        .global Data_029c60
-Data_029c60:
+        .section .text.Slug_AttackTbl06_029c60, "ax", @progbits
+        .global Slug_AttackTbl06_029c60
+Slug_AttackTbl06_029c60:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1041,11 +1041,11 @@ Data_029c60:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029cb4  @ $029CB4  (84 B)
+|  Slug_AttackTbl07_029cb4  @ $029CB4  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029cb4, "ax", @progbits
-        .global Data_029cb4
-Data_029cb4:
+        .section .text.Slug_AttackTbl07_029cb4, "ax", @progbits
+        .global Slug_AttackTbl07_029cb4
+Slug_AttackTbl07_029cb4:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1090,11 +1090,11 @@ Data_029cb4:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029d08  @ $029D08  (84 B)
+|  Slug_AttackTbl08_029d08  @ $029D08  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029d08, "ax", @progbits
-        .global Data_029d08
-Data_029d08:
+        .section .text.Slug_AttackTbl08_029d08, "ax", @progbits
+        .global Slug_AttackTbl08_029d08
+Slug_AttackTbl08_029d08:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1139,11 +1139,11 @@ Data_029d08:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029d5c  @ $029D5C  (84 B)
+|  Slug_AttackTbl09_029d5c  @ $029D5C  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029d5c, "ax", @progbits
-        .global Data_029d5c
-Data_029d5c:
+        .section .text.Slug_AttackTbl09_029d5c, "ax", @progbits
+        .global Slug_AttackTbl09_029d5c
+Slug_AttackTbl09_029d5c:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1188,11 +1188,11 @@ Data_029d5c:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029db0  @ $029DB0  (84 B)
+|  Slug_AttackTbl0A_029db0  @ $029DB0  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029db0, "ax", @progbits
-        .global Data_029db0
-Data_029db0:
+        .section .text.Slug_AttackTbl0A_029db0, "ax", @progbits
+        .global Slug_AttackTbl0A_029db0
+Slug_AttackTbl0A_029db0:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1237,11 +1237,11 @@ Data_029db0:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029e04  @ $029E04  (84 B)
+|  Slug_AttackTbl0B_029e04  @ $029E04  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029e04, "ax", @progbits
-        .global Data_029e04
-Data_029e04:
+        .section .text.Slug_AttackTbl0B_029e04, "ax", @progbits
+        .global Slug_AttackTbl0B_029e04
+Slug_AttackTbl0B_029e04:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1286,11 +1286,11 @@ Data_029e04:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029e58  @ $029E58  (84 B)
+|  Slug_AttackTbl0C_029e58  @ $029E58  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029e58, "ax", @progbits
-        .global Data_029e58
-Data_029e58:
+        .section .text.Slug_AttackTbl0C_029e58, "ax", @progbits
+        .global Slug_AttackTbl0C_029e58
+Slug_AttackTbl0C_029e58:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1335,11 +1335,11 @@ Data_029e58:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029eac  @ $029EAC  (84 B)
+|  Slug_AttackTbl0D_029eac  @ $029EAC  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029eac, "ax", @progbits
-        .global Data_029eac
-Data_029eac:
+        .section .text.Slug_AttackTbl0D_029eac, "ax", @progbits
+        .global Slug_AttackTbl0D_029eac
+Slug_AttackTbl0D_029eac:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1384,11 +1384,11 @@ Data_029eac:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029f00  @ $029F00  (84 B)
+|  Slug_AttackTbl0E_029f00  @ $029F00  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029f00, "ax", @progbits
-        .global Data_029f00
-Data_029f00:
+        .section .text.Slug_AttackTbl0E_029f00, "ax", @progbits
+        .global Slug_AttackTbl0E_029f00
+Slug_AttackTbl0E_029f00:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1433,11 +1433,11 @@ Data_029f00:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029f54  @ $029F54  (84 B)
+|  Slug_AttackTbl0F_029f54  @ $029F54  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029f54, "ax", @progbits
-        .global Data_029f54
-Data_029f54:
+        .section .text.Slug_AttackTbl0F_029f54, "ax", @progbits
+        .global Slug_AttackTbl0F_029f54
+Slug_AttackTbl0F_029f54:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1482,11 +1482,11 @@ Data_029f54:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_029fa8  @ $029FA8  (124 B)
+|  Slug_AttackTbl10_029fa8  @ $029FA8  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_029fa8, "ax", @progbits
-        .global Data_029fa8
-Data_029fa8:
+        .section .text.Slug_AttackTbl10_029fa8, "ax", @progbits
+        .global Slug_AttackTbl10_029fa8
+Slug_AttackTbl10_029fa8:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x99f2                        | +004  (dato / opcode no decodificado)
@@ -1551,11 +1551,11 @@ Data_029fa8:
         .dc.w   0x9f00                        | +07a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A024  @ $02A024  (60 B)
+|  Slug_AttackPtrTbl_02a024  @ $02A024  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A024, "ax", @progbits
-        .global Sub_0002A024
-Sub_0002A024:
+        .section .text.Slug_AttackPtrTbl_02a024, "ax", @progbits
+        .global Slug_AttackPtrTbl_02a024
+Slug_AttackPtrTbl_02a024:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x9a68                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
@@ -1588,11 +1588,11 @@ Sub_0002A024:
         .dc.w   0x9fa8                        | +03a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A060  @ $02A060  (152 B)
+|  Slug_StateByAnglePtrTbl_02a060  @ $02A060  (152 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A060, "ax", @progbits
-        .global Sub_0002A060
-Sub_0002A060:
+        .section .text.Slug_StateByAnglePtrTbl_02a060, "ax", @progbits
+        .global Slug_StateByAnglePtrTbl_02a060
+Slug_StateByAnglePtrTbl_02a060:
         .dc.w   0xffff                        | +000  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
@@ -1671,11 +1671,11 @@ Sub_0002A060:
         .dc.w   0x000c                        | +096  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a0f8  @ $02A0F8  (178 B)
+|  Slug_Init_02a0f8  @ $02A0F8  (178 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a0f8, "ax", @progbits
-        .global TaskHandler_02a0f8
-TaskHandler_02a0f8:
+        .section .text.Slug_Init_02a0f8, "ax", @progbits
+        .global Slug_Init_02a0f8
+Slug_Init_02a0f8:
         jsr     0x236e.l                        | +000
         move.w  #0x1,d1                         | +006
         jsr     0x236e.l                        | +00a
@@ -1710,11 +1710,11 @@ TaskHandler_02a0f8:
         rts                                     | +0b0
 
 | ----------------------------------------------------------------------------
-|  Fn_0002A1AA  @ $02A1AA  (152 B)
+|  Slug_InitBoss_02a1aa  @ $02A1AA  (152 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_0002A1AA, "ax", @progbits
-        .global Fn_0002A1AA
-Fn_0002A1AA:
+        .section .text.Slug_InitBoss_02a1aa, "ax", @progbits
+        .global Slug_InitBoss_02a1aa
+Slug_InitBoss_02a1aa:
         jsr     0x236e.l                        | +000
         move.w  #0x1,d1                         | +006
         jsr     0x236e.l                        | +00a
@@ -1744,42 +1744,42 @@ Fn_0002A1AA:
         jsr     0x5dd02.l                       | +092
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a252  @ $02A252  (10 B)
+|  Slug_MarkRidden_02a252  @ $02A252  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a252, "ax", @progbits
-        .global TaskHandler_02a252
-TaskHandler_02a252:
+        .section .text.Slug_MarkRidden_02a252, "ax", @progbits
+        .global Slug_MarkRidden_02a252
+Slug_MarkRidden_02a252:
         move.b  #0xff,0x106f4b.l                | +000
         rts                                     | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a25c  @ $02A25C  (20 B)
+|  Slug_IsIdleFlagClear_02a25c  @ $02A25C  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a25c, "ax", @progbits
-        .global TaskHandler_02a25c
-TaskHandler_02a25c:
+        .section .text.Slug_IsIdleFlagClear_02a25c, "ax", @progbits
+        .global Slug_IsIdleFlagClear_02a25c
+Slug_IsIdleFlagClear_02a25c:
         cmpi.b  #0x0,0x106ed3.l                 | +000
         bne.w   ClearXN_02a270                  | +008
         ori.b   #0x11,ccr                       | +00c
         bra.w   ClearXNMid_02a274               | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a276  @ $02A276  (18 B)
+|  Slug_TestBit5Field8D_02a276  @ $02A276  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a276, "ax", @progbits
-        .global TaskHandler_02a276
-TaskHandler_02a276:
+        .section .text.Slug_TestBit5Field8D_02a276, "ax", @progbits
+        .global Slug_TestBit5Field8D_02a276
+Slug_TestBit5Field8D_02a276:
         btst    #0x5,0x8d(a6)                   | +000
         beq.w   SetXN_02a288                    | +006
         andi.b  #0xee,ccr                       | +00a
         bra.w   SetXNMid_02a28c                 | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a28e  @ $02A28E  (30 B)
+|  Slug_AddGaugeFromField98_02a28e  @ $02A28E  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a28e, "ax", @progbits
-        .global TaskHandler_02a28e
-TaskHandler_02a28e:
+        .section .text.Slug_AddGaugeFromField98_02a28e, "ax", @progbits
+        .global Slug_AddGaugeFromField98_02a28e
+Slug_AddGaugeFromField98_02a28e:
         lea     0x100580.l,a1                   | +000
         cmpi.b  #0xff,0x98(a6)                  | +006
         beq.w   .L02a2aa                        | +00c
@@ -1790,22 +1790,22 @@ TaskHandler_02a28e:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a2ac  @ $02A2AC  (14 B)
+|  Slug_GetGauge_02a2ac  @ $02A2AC  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a2ac, "ax", @progbits
-        .global TaskHandler_02a2ac
-TaskHandler_02a2ac:
+        .section .text.Slug_GetGauge_02a2ac, "ax", @progbits
+        .global Slug_GetGauge_02a2ac
+Slug_GetGauge_02a2ac:
         lea     0x100580.l,a0                   | +000
         moveq   #0,d0                           | +006
         move.b  0x90(a0),d0                     | +008
         rts                                     | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a2ba  @ $02A2BA  (56 B)
+|  Slug_AddHP_02a2ba  @ $02A2BA  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a2ba, "ax", @progbits
-        .global TaskHandler_02a2ba
-TaskHandler_02a2ba:
+        .section .text.Slug_AddHP_02a2ba, "ax", @progbits
+        .global Slug_AddHP_02a2ba
+Slug_AddHP_02a2ba:
         lea     0x100580.l,a0                   | +000
         cmpi.w  #0x30,0x66(a0)                  | +006
         bge.w   SetXN_02a2f2                    | +00c
@@ -1822,11 +1822,11 @@ TaskHandler_02a2ba:
         bra.w   SetXNMid_02a2f6                 | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a2f8  @ $02A2F8  (24 B)
+|  Slug_StopMusic108F_02a2f8  @ $02A2F8  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a2f8, "ax", @progbits
-        .global TaskHandler_02a2f8
-TaskHandler_02a2f8:
+        .section .text.Slug_StopMusic108F_02a2f8, "ax", @progbits
+        .global Slug_StopMusic108F_02a2f8
+Slug_StopMusic108F_02a2f8:
         tst.b   0x8b(a6)                        | +000
         beq.w   .L02a30e                        | +004
         move.w  #0x108f,d0                      | +008
@@ -1836,11 +1836,11 @@ TaskHandler_02a2f8:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a310  @ $02A310  (24 B)
+|  Slug_StopMusic1092_02a310  @ $02A310  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a310, "ax", @progbits
-        .global TaskHandler_02a310
-TaskHandler_02a310:
+        .section .text.Slug_StopMusic1092_02a310, "ax", @progbits
+        .global Slug_StopMusic1092_02a310
+Slug_StopMusic1092_02a310:
         tst.b   0x8b(a6)                        | +000
         beq.w   .L02a326                        | +004
         move.w  #0x1092,d0                      | +008
@@ -1850,24 +1850,24 @@ TaskHandler_02a310:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A328  @ $02A328  (18 B)
+|  Slug_CallGroundProbeA_02a328  @ $02A328  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A328, "ax", @progbits
-        .global Sub_0002A328
-Sub_0002A328:
+        .section .text.Slug_CallGroundProbeA_02a328, "ax", @progbits
+        .global Slug_CallGroundProbeA_02a328
+Slug_CallGroundProbeA_02a328:
         move.w  0x94(a6),d0                     | +000
         asl.w   #0x2,d0                         | +004
-        lea     Data_02a33a(pc),a0              | +006
+        lea     Slug_GroundProbeTblA_02a33a(pc),a0 | +006
         movea.l (a0,d0.w),a0                    | +00a
         jsr     (a0)                            | +00e
         rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  Data_02a33a  @ $02A33A  (20 B)
+|  Slug_GroundProbeTblA_02a33a  @ $02A33A  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02a33a, "ax", @progbits
-        .global Data_02a33a
-Data_02a33a:
+        .section .text.Slug_GroundProbeTblA_02a33a, "ax", @progbits
+        .global Slug_GroundProbeTblA_02a33a
+Slug_GroundProbeTblA_02a33a:
         .dc.w   0x0005                        | +000  (dato / opcode no decodificado)
         .dc.w   0xcf04                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0005                        | +004  (dato / opcode no decodificado)
@@ -1880,24 +1880,24 @@ Data_02a33a:
         .dc.w   0xcf04                        | +012  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A34E  @ $02A34E  (18 B)
+|  Slug_CallGroundProbeB_02a34e  @ $02A34E  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A34E, "ax", @progbits
-        .global Sub_0002A34E
-Sub_0002A34E:
+        .section .text.Slug_CallGroundProbeB_02a34e, "ax", @progbits
+        .global Slug_CallGroundProbeB_02a34e
+Slug_CallGroundProbeB_02a34e:
         move.w  0x94(a6),d0                     | +000
         asl.w   #0x2,d0                         | +004
-        lea     Data_02a360(pc),a0              | +006
+        lea     Slug_GroundProbeTblB_02a360(pc),a0 | +006
         movea.l (a0,d0.w),a0                    | +00a
         jsr     (a0)                            | +00e
         rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  Data_02a360  @ $02A360  (20 B)
+|  Slug_GroundProbeTblB_02a360  @ $02A360  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02a360, "ax", @progbits
-        .global Data_02a360
-Data_02a360:
+        .section .text.Slug_GroundProbeTblB_02a360, "ax", @progbits
+        .global Slug_GroundProbeTblB_02a360
+Slug_GroundProbeTblB_02a360:
         .dc.w   0x0005                        | +000  (dato / opcode no decodificado)
         .dc.w   0xcf10                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0005                        | +004  (dato / opcode no decodificado)
@@ -1910,24 +1910,24 @@ Data_02a360:
         .dc.w   0xcf10                        | +012  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a374  @ $02A374  (18 B)
+|  Slug_CallGroundProbeC_02a374  @ $02A374  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a374, "ax", @progbits
-        .global TaskHandler_02a374
-TaskHandler_02a374:
+        .section .text.Slug_CallGroundProbeC_02a374, "ax", @progbits
+        .global Slug_CallGroundProbeC_02a374
+Slug_CallGroundProbeC_02a374:
         move.w  0x94(a6),d0                     | +000
         asl.w   #0x2,d0                         | +004
-        lea     Data_02a386(pc),a0              | +006
+        lea     Slug_GroundProbeTblC_02a386(pc),a0 | +006
         movea.l (a0,d0.w),a0                    | +00a
         jsr     (a0)                            | +00e
         rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  Data_02a386  @ $02A386  (20 B)
+|  Slug_GroundProbeTblC_02a386  @ $02A386  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02a386, "ax", @progbits
-        .global Data_02a386
-Data_02a386:
+        .section .text.Slug_GroundProbeTblC_02a386, "ax", @progbits
+        .global Slug_GroundProbeTblC_02a386
+Slug_GroundProbeTblC_02a386:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0xa39a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
@@ -1940,11 +1940,11 @@ Data_02a386:
         .dc.w   0xa39a                        | +012  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a39a  @ $02A39A  (30 B)
+|  Slug_ProbeFrontThenGround_02a39a  @ $02A39A  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a39a, "ax", @progbits
-        .global TaskHandler_02a39a
-TaskHandler_02a39a:
+        .section .text.Slug_ProbeFrontThenGround_02a39a, "ax", @progbits
+        .global Slug_ProbeFrontThenGround_02a39a
+Slug_ProbeFrontThenGround_02a39a:
         jsr     0x5cf84.l                       | +000
         bcc.w   .L02a3a6                        | +006
         rts                                     | +00a
@@ -1956,33 +1956,33 @@ TaskHandler_02a39a:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a3b8  @ $02A3B8  (18 B)
+|  Slug_ProbeFrontThenA_02a3b8  @ $02A3B8  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a3b8, "ax", @progbits
-        .global TaskHandler_02a3b8
-TaskHandler_02a3b8:
+        .section .text.Slug_ProbeFrontThenA_02a3b8, "ax", @progbits
+        .global Slug_ProbeFrontThenA_02a3b8
+Slug_ProbeFrontThenA_02a3b8:
         jsr     0x5cf84.l                       | +000
         bcc.w   ClearXN_02a3d0                  | +006
-        jsr     Sub_0002A328(pc)                | +00a
+        jsr     Slug_CallGroundProbeA_02a328(pc) | +00a
         bcs.w   ClearXN_02a3d0                  | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a3d6  @ $02A3D6  (18 B)
+|  Slug_ProbeFrontThenB_02a3d6  @ $02A3D6  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a3d6, "ax", @progbits
-        .global TaskHandler_02a3d6
-TaskHandler_02a3d6:
+        .section .text.Slug_ProbeFrontThenB_02a3d6, "ax", @progbits
+        .global Slug_ProbeFrontThenB_02a3d6
+Slug_ProbeFrontThenB_02a3d6:
         jsr     0x5cf84.l                       | +000
         bcc.w   ClearXN_02a3ee                  | +006
-        jsr     Sub_0002A34E(pc)                | +00a
+        jsr     Slug_CallGroundProbeB_02a34e(pc) | +00a
         bcs.w   ClearXN_02a3ee                  | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a3f4  @ $02A3F4  (30 B)
+|  Slug_ProbeLeftWall_02a3f4  @ $02A3F4  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a3f4, "ax", @progbits
-        .global TaskHandler_02a3f4
-TaskHandler_02a3f4:
+        .section .text.Slug_ProbeLeftWall_02a3f4, "ax", @progbits
+        .global Slug_ProbeLeftWall_02a3f4
+Slug_ProbeLeftWall_02a3f4:
         jsr     0x5cf2c.l                       | +000
         bcc.w   ClearXN_02a418                  | +006
         jsr     0x5cf5c.l                       | +00a
@@ -1991,11 +1991,11 @@ TaskHandler_02a3f4:
         bcs.w   ClearXN_02a418                  | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a41e  @ $02A41E  (26 B)
+|  Slug_ProbeRightWall_02a41e  @ $02A41E  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a41e, "ax", @progbits
-        .global TaskHandler_02a41e
-TaskHandler_02a41e:
+        .section .text.Slug_ProbeRightWall_02a41e, "ax", @progbits
+        .global Slug_ProbeRightWall_02a41e
+Slug_ProbeRightWall_02a41e:
         jsr     0x5cf3c.l                       | +000
         bcc.b   ClearXN_02a418                  | +006
         jsr     0x5cf4c.l                       | +008
@@ -2005,11 +2005,11 @@ TaskHandler_02a41e:
         bra.b   SetXN_02a412                    | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a438  @ $02A438  (26 B)
+|  Slug_ProbeRightWallB_02a438  @ $02A438  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a438, "ax", @progbits
-        .global TaskHandler_02a438
-TaskHandler_02a438:
+        .section .text.Slug_ProbeRightWallB_02a438, "ax", @progbits
+        .global Slug_ProbeRightWallB_02a438
+Slug_ProbeRightWallB_02a438:
         jsr     0x5cf4c.l                       | +000
         bcc.b   ClearXN_02a418                  | +006
         jsr     0x5cf3c.l                       | +008
@@ -2019,11 +2019,11 @@ TaskHandler_02a438:
         bra.b   SetXN_02a412                    | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a452  @ $02A452  (26 B)
+|  Slug_ProbeLeftWallB_02a452  @ $02A452  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a452, "ax", @progbits
-        .global TaskHandler_02a452
-TaskHandler_02a452:
+        .section .text.Slug_ProbeLeftWallB_02a452, "ax", @progbits
+        .global Slug_ProbeLeftWallB_02a452
+Slug_ProbeLeftWallB_02a452:
         jsr     0x5cf5c.l                       | +000
         bcc.b   ClearXN_02a418                  | +006
         jsr     0x5cf2c.l                       | +008
@@ -2033,21 +2033,21 @@ TaskHandler_02a452:
         bra.b   SetXN_02a412                    | +018
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_02a46c  @ $02A46C  (12 B)
+|  Slug_ClearFlags8D_02a46c  @ $02A46C  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_02a46c, "ax", @progbits
-        .global PcThunkTarget_02a46c
-PcThunkTarget_02a46c:
+        .section .text.Slug_ClearFlags8D_02a46c, "ax", @progbits
+        .global Slug_ClearFlags8D_02a46c
+Slug_ClearFlags8D_02a46c:
         lea     0x100580.l,a0                   | +000
         clr.b   0x8d(a0)                        | +006
         rts                                     | +00a
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A478  @ $02A478  (42 B)
+|  Slug_UpdateAirFlag_02a478  @ $02A478  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A478, "ax", @progbits
-        .global Sub_0002A478
-Sub_0002A478:
+        .section .text.Slug_UpdateAirFlag_02a478, "ax", @progbits
+        .global Slug_UpdateAirFlag_02a478
+Slug_UpdateAirFlag_02a478:
         jsr     0x5cf1c.l                       | +000
         bcc.w   .L02a48c                        | +006
         bset    #0x4,0x12(a6)                   | +00a
@@ -2061,44 +2061,44 @@ Sub_0002A478:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a4a2  @ $02A4A2  (6 B)
+|  Slug_ResetTurnTimer_02a4a2  @ $02A4A2  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a4a2, "ax", @progbits
-        .global TaskHandler_02a4a2
-TaskHandler_02a4a2:
+        .section .text.Slug_ResetTurnTimer_02a4a2, "ax", @progbits
+        .global Slug_ResetTurnTimer_02a4a2
+Slug_ResetTurnTimer_02a4a2:
         clr.b   0x84(a6)                        | +000
         rts                                     | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a4a8  @ $02A4A8  (20 B)
+|  Slug_TurnTimerTick_02a4a8  @ $02A4A8  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a4a8, "ax", @progbits
-        .global TaskHandler_02a4a8
-TaskHandler_02a4a8:
+        .section .text.Slug_TurnTimerTick_02a4a8, "ax", @progbits
+        .global Slug_TurnTimerTick_02a4a8
+Slug_TurnTimerTick_02a4a8:
         jsr     0x5cd60.l                       | +000
-        bcc.w   TaskHandler_02a4ce              | +006
+        bcc.w   Slug_TurnTimerTickB_02a4ce      | +006
         cmpi.b  #0x14,0x84(a6)                  | +00a
-        bne.w   TaskHandler_02a4c2__L02a4c6     | +010
+        bne.w   Slug_TurnTimerDone_02a4c2__L02a4c6 | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a4c2  @ $02A4C2  (12 B)
+|  Slug_TurnTimerDone_02a4c2  @ $02A4C2  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a4c2, "ax", @progbits
-        .global TaskHandler_02a4c2
-TaskHandler_02a4c2:
+        .section .text.Slug_TurnTimerDone_02a4c2, "ax", @progbits
+        .global Slug_TurnTimerDone_02a4c2
+Slug_TurnTimerDone_02a4c2:
         bra.w   .L02a4ca                        | +000
-        .global TaskHandler_02a4c2__L02a4c6
-TaskHandler_02a4c2__L02a4c6:
+        .global Slug_TurnTimerDone_02a4c2__L02a4c6
+Slug_TurnTimerDone_02a4c2__L02a4c6:
         addq.b  #0x1,0x84(a6)                   | +004
 .L02a4ca:
         bra.w   ClearXN_02a4e6                  | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a4ce  @ $02A4CE  (24 B)
+|  Slug_TurnTimerTickB_02a4ce  @ $02A4CE  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a4ce, "ax", @progbits
-        .global TaskHandler_02a4ce
-TaskHandler_02a4ce:
+        .section .text.Slug_TurnTimerTickB_02a4ce, "ax", @progbits
+        .global Slug_TurnTimerTickB_02a4ce
+Slug_TurnTimerTickB_02a4ce:
         cmpi.b  #0x14,0x84(a6)                  | +000
         bne.w   .L02a4e2                        | +006
         move.b  #0xff,0x84(a6)                  | +00a
@@ -2107,44 +2107,44 @@ TaskHandler_02a4ce:
         clr.b   0x84(a6)                        | +014
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A4EC  @ $02A4EC  (4 B)
+|  Slug_TerrainIsSlope_02a4ec  @ $02A4EC  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A4EC, "ax", @progbits
-        .global Sub_0002A4EC
-Sub_0002A4EC:
-        bra.w   TaskHandler_02a502__L02a506     | +000
+        .section .text.Slug_TerrainIsSlope_02a4ec, "ax", @progbits
+        .global Slug_TerrainIsSlope_02a4ec
+Slug_TerrainIsSlope_02a4ec:
+        bra.w   Slug_SetAngleIsSlope_02a502__L02a506 | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A4F0  @ $02A4F0  (12 B)
+|  Slug_UpdateAngleIsSlope_02a4f0  @ $02A4F0  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A4F0, "ax", @progbits
-        .global Sub_0002A4F0
-Sub_0002A4F0:
-        jsr     Sub_0002A958(pc)                | +000
+        .section .text.Slug_UpdateAngleIsSlope_02a4f0, "ax", @progbits
+        .global Slug_UpdateAngleIsSlope_02a4f0
+Slug_UpdateAngleIsSlope_02a4f0:
+        jsr     Slug_TerrainSlope_02a958(pc)    | +000
         cmp.w   0x80(a6),d2                     | +004
-        bne.w   TaskHandler_02a502              | +008
+        bne.w   Slug_SetAngleIsSlope_02a502     | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a502  @ $02A502  (22 B)
+|  Slug_SetAngleIsSlope_02a502  @ $02A502  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a502, "ax", @progbits
-        .global TaskHandler_02a502
-TaskHandler_02a502:
+        .section .text.Slug_SetAngleIsSlope_02a502, "ax", @progbits
+        .global Slug_SetAngleIsSlope_02a502
+Slug_SetAngleIsSlope_02a502:
         move.w  d2,0x80(a6)                     | +000
-        .global TaskHandler_02a502__L02a506
-TaskHandler_02a502__L02a506:
+        .global Slug_SetAngleIsSlope_02a502__L02a506
+Slug_SetAngleIsSlope_02a502__L02a506:
         move.w  0x80(a6),d7                     | +004
-        lea     Data_02a558(pc),a0              | +008
+        lea     Slug_SlopeByAngleTblB_02a558(pc),a0 | +008
         move.b  (a0,d7.w),d0                    | +00c
         cmpi.b  #0x1,d0                         | +010
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  Data_02a518  @ $02A518  (64 B)
+|  Slug_SlopeByAngleTblA_02a518  @ $02A518  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02a518, "ax", @progbits
-        .global Data_02a518
-Data_02a518:
+        .section .text.Slug_SlopeByAngleTblA_02a518, "ax", @progbits
+        .global Slug_SlopeByAngleTblA_02a518
+Slug_SlopeByAngleTblA_02a518:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
@@ -2179,11 +2179,11 @@ Data_02a518:
         .dc.w   0x0000                        | +03e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_02a558  @ $02A558  (66 B)
+|  Slug_SlopeByAngleTblB_02a558  @ $02A558  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02a558, "ax", @progbits
-        .global Data_02a558
-Data_02a558:
+        .section .text.Slug_SlopeByAngleTblB_02a558, "ax", @progbits
+        .global Slug_SlopeByAngleTblB_02a558
+Slug_SlopeByAngleTblB_02a558:
         .dc.w   0x0100                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
@@ -2219,20 +2219,20 @@ Data_02a558:
         .dc.w   0x0000                        | +040  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A59A  @ $02A59A  (8 B)
+|  Slug_CheckFreeThenC_02a59a  @ $02A59A  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A59A, "ax", @progbits
-        .global Sub_0002A59A
-Sub_0002A59A:
+        .section .text.Slug_CheckFreeThenC_02a59a, "ax", @progbits
+        .global Slug_CheckFreeThenC_02a59a
+Slug_CheckFreeThenC_02a59a:
         jsr     JmpAbsThunk_02abc6(pc)          | +000
         bcc.w   ClearXN_02a5a8                  | +004
 
 | ----------------------------------------------------------------------------
-|  Data_02a5ae  @ $02A5AE  (30 B)
+|  Slug_CheckFreeTbl_02a5ae  @ $02A5AE  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02a5ae, "ax", @progbits
-        .global Data_02a5ae
-Data_02a5ae:
+        .section .text.Slug_CheckFreeTbl_02a5ae, "ax", @progbits
+        .global Slug_CheckFreeTbl_02a5ae
+Slug_CheckFreeTbl_02a5ae:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0801                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0800                        | +004  (dato / opcode no decodificado)
@@ -2250,55 +2250,55 @@ Data_02a5ae:
         .dc.w   0xd596                        | +01c  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a5d4  @ $02A5D4  (30 B)
+|  Slug_MusicByTerrainA_02a5d4  @ $02A5D4  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a5d4, "ax", @progbits
-        .global TaskHandler_02a5d4
-TaskHandler_02a5d4:
+        .section .text.Slug_MusicByTerrainA_02a5d4, "ax", @progbits
+        .global Slug_MusicByTerrainA_02a5d4
+Slug_MusicByTerrainA_02a5d4:
         jsr     0x27eba.l                       | +000
         andi.b  #0xc0,d0                        | +006
         cmpi.b  #0x40,d0                        | +00a
-        beq.w   TaskHandler_02a5fa              | +00e
+        beq.w   Slug_Music1052_02a5fa           | +00e
         cmpi.b  #0x80,d0                        | +012
-        beq.w   TaskHandler_02a5fa              | +016
+        beq.w   Slug_Music1052_02a5fa           | +016
         move.w  #0x1090,d0                      | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a5fa  @ $02A5FA  (4 B)
+|  Slug_Music1052_02a5fa  @ $02A5FA  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a5fa, "ax", @progbits
-        .global TaskHandler_02a5fa
-TaskHandler_02a5fa:
+        .section .text.Slug_Music1052_02a5fa, "ax", @progbits
+        .global Slug_Music1052_02a5fa
+Slug_Music1052_02a5fa:
         move.w  #0x1052,d0                      | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a606  @ $02A606  (30 B)
+|  Slug_MusicByTerrainB_02a606  @ $02A606  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a606, "ax", @progbits
-        .global TaskHandler_02a606
-TaskHandler_02a606:
+        .section .text.Slug_MusicByTerrainB_02a606, "ax", @progbits
+        .global Slug_MusicByTerrainB_02a606
+Slug_MusicByTerrainB_02a606:
         jsr     0x27eba.l                       | +000
         andi.b  #0xc0,d0                        | +006
         cmpi.b  #0x40,d0                        | +00a
-        beq.w   TaskHandler_02a62c              | +00e
+        beq.w   Slug_Music1051_02a62c           | +00e
         cmpi.b  #0x80,d0                        | +012
-        beq.w   TaskHandler_02a62c              | +016
+        beq.w   Slug_Music1051_02a62c           | +016
         move.w  #0x1091,d0                      | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a62c  @ $02A62C  (4 B)
+|  Slug_Music1051_02a62c  @ $02A62C  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a62c, "ax", @progbits
-        .global TaskHandler_02a62c
-TaskHandler_02a62c:
+        .section .text.Slug_Music1051_02a62c, "ax", @progbits
+        .global Slug_Music1051_02a62c
+Slug_Music1051_02a62c:
         move.w  #0x1051,d0                      | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a638  @ $02A638  (36 B)
+|  Slug_DestroyedMusicAndBubble_02a638  @ $02A638  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a638, "ax", @progbits
-        .global TaskHandler_02a638
-TaskHandler_02a638:
+        .section .text.Slug_DestroyedMusicAndBubble_02a638, "ax", @progbits
+        .global Slug_DestroyedMusicAndBubble_02a638
+Slug_DestroyedMusicAndBubble_02a638:
         btst    #0x0,0x13(a6)                   | +000
         beq.w   .L02a64c                        | +006
         move.w  #0x10e9,d0                      | +00a
@@ -2309,47 +2309,47 @@ TaskHandler_02a638:
         lea     0x3207c.l,a1                    | +01e
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A664  @ $02A664  (32 B)
+|  Slug_TryStartDestroyed_02a664  @ $02A664  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A664, "ax", @progbits
-        .global Sub_0002A664
-Sub_0002A664:
+        .section .text.Slug_TryStartDestroyed_02a664, "ax", @progbits
+        .global Slug_TryStartDestroyed_02a664
+Slug_TryStartDestroyed_02a664:
         btst    #0x5,0x8d(a6)                   | +000
         bne.w   JmpAbsThunk_02a68a              | +006
         tst.w   0x106e92.l                      | +00a
         bne.w   JmpAbsThunk_02a68a              | +010
         bset    #0x0,0x13(a6)                   | +014
-        lea     Sub_0002DCC0(pc),a1             | +01a  -> $02DCC0 (hueco futuro, defsym forward)
+        lea     Sub_0002DCC0(pc),a1             | +01a
         move.l  a1,(a6)                         | +01e
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A690  @ $02A690  (40 B)
+|  Slug_TryStartDestroyedB_02a690  @ $02A690  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A690, "ax", @progbits
-        .global Sub_0002A690
-Sub_0002A690:
+        .section .text.Slug_TryStartDestroyedB_02a690, "ax", @progbits
+        .global Slug_TryStartDestroyedB_02a690
+Slug_TryStartDestroyedB_02a690:
         btst    #0x5,0x8d(a6)                   | +000
-        bne.w   TaskHandler_02a6be              | +006
+        bne.w   Slug_DamageTick_02a6be          | +006
         tst.w   0x106e92.l                      | +00a
-        bne.w   TaskHandler_02a6be              | +010
+        bne.w   Slug_DamageTick_02a6be          | +010
         bset    #0x3,0x13(a6)                   | +014
         bset    #0x0,0x13(a6)                   | +01a
-        lea     Sub_0002DCC0(pc),a1             | +020  -> $02DCC0 (hueco futuro, defsym forward)
+        lea     Sub_0002DCC0(pc),a1             | +020
         move.l  a1,(a6)                         | +024
         clr.w   d0                              | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a6be  @ $02A6BE  (72 B)
+|  Slug_DamageTick_02a6be  @ $02A6BE  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a6be, "ax", @progbits
-        .global TaskHandler_02a6be
-TaskHandler_02a6be:
+        .section .text.Slug_DamageTick_02a6be, "ax", @progbits
+        .global Slug_DamageTick_02a6be
+Slug_DamageTick_02a6be:
         tst.b   0x45(a6)                        | +000
         beq.w   .L02a6cc                        | +004
         jsr     0x8f6da.l                       | +008
 .L02a6cc:
         btst    #0x3,0x100001.l                 | +00e
-        bne.w   TaskHandler_02a712              | +016
+        bne.w   Slug_ResetHP_02a712             | +016
         btst    #0x5,0x100001.l                 | +01a
         beq.w   .L02a6ea                        | +022
         move.w  #0x300,0x66(a6)                 | +026
@@ -2362,20 +2362,20 @@ TaskHandler_02a6be:
         movem.w (a7)+,d0                        | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a712  @ $02A712  (8 B)
+|  Slug_ResetHP_02a712  @ $02A712  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a712, "ax", @progbits
-        .global TaskHandler_02a712
-TaskHandler_02a712:
+        .section .text.Slug_ResetHP_02a712, "ax", @progbits
+        .global Slug_ResetHP_02a712
+Slug_ResetHP_02a712:
         move.w  #0x30,0x66(a6)                  | +000
         clr.w   d0                              | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a720  @ $02A720  (50 B)
+|  Slug_UpdateInputFlags_02a720  @ $02A720  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a720, "ax", @progbits
-        .global TaskHandler_02a720
-TaskHandler_02a720:
+        .section .text.Slug_UpdateInputFlags_02a720, "ax", @progbits
+        .global Slug_UpdateInputFlags_02a720
+Slug_UpdateInputFlags_02a720:
         bclr    #0x4,0x13(a6)                   | +000
         bclr    #0x5,0x13(a6)                   | +006
         jsr     0x5ceec.l                       | +00c
@@ -2390,34 +2390,34 @@ TaskHandler_02a720:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A752  @ $02A752  (6 B)
+|  Slug_PhysicsA_02a752  @ $02A752  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A752, "ax", @progbits
-        .global Sub_0002A752
-Sub_0002A752:
+        .section .text.Slug_PhysicsA_02a752, "ax", @progbits
+        .global Slug_PhysicsA_02a752
+Slug_PhysicsA_02a752:
         jsr     0x28992.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A760  @ $02A760  (6 B)
+|  Slug_PhysicsB_02a760  @ $02A760  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A760, "ax", @progbits
-        .global Sub_0002A760
-Sub_0002A760:
+        .section .text.Slug_PhysicsB_02a760, "ax", @progbits
+        .global Slug_PhysicsB_02a760
+Slug_PhysicsB_02a760:
         jsr     0x28992.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A766  @ $02A766  (58 B)
+|  Slug_PhysicsC_02a766  @ $02A766  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A766, "ax", @progbits
-        .global Sub_0002A766
-Sub_0002A766:
+        .section .text.Slug_PhysicsC_02a766, "ax", @progbits
+        .global Slug_PhysicsC_02a766
+Slug_PhysicsC_02a766:
         jsr     0x304c4.l                       | +000
         jsr     0x30704.l                       | +006
         beq.w   .L02a77c                        | +00c
         jsr     0x281b0.l                       | +010
 .L02a77c:
         jsr     0x2788c.l                       | +016
-        jsr     TaskHandler_02a720(pc)          | +01c
+        jsr     Slug_UpdateInputFlags_02a720(pc) | +01c
         btst    #0x5,0x5a(a6)                   | +020
         beq.w   .L02a796                        | +026
         addi.w  #0x10,0x82(a6)                  | +02a
@@ -2426,24 +2426,24 @@ Sub_0002A766:
         beq.w   ClearXN_02a7a6                  | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a7ac  @ $02A7AC  (32 B)
+|  Slug_PhysicsD_02a7ac  @ $02A7AC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a7ac, "ax", @progbits
-        .global TaskHandler_02a7ac
-TaskHandler_02a7ac:
+        .section .text.Slug_PhysicsD_02a7ac, "ax", @progbits
+        .global Slug_PhysicsD_02a7ac
+Slug_PhysicsD_02a7ac:
         jsr     0x28992.l                       | +000
         jsr     0x304c4.l                       | +006
         jsr     0x27a18.l                       | +00c
-        jsr     TaskHandler_02a720(pc)          | +012
+        jsr     Slug_UpdateInputFlags_02a720(pc) | +012
         jsr     0x3076a.l                       | +016
         beq.w   ClearXN_02a7d2                  | +01c
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A7D8  @ $02A7D8  (64 B)
+|  Slug_PhysicsE_02a7d8  @ $02A7D8  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A7D8, "ax", @progbits
-        .global Sub_0002A7D8
-Sub_0002A7D8:
+        .section .text.Slug_PhysicsE_02a7d8, "ax", @progbits
+        .global Slug_PhysicsE_02a7d8
+Slug_PhysicsE_02a7d8:
         jsr     0x28992.l                       | +000
         jsr     0x30704.l                       | +006
         beq.w   .L02a7ee                        | +00c
@@ -2451,7 +2451,7 @@ Sub_0002A7D8:
 .L02a7ee:
         jsr     0x304c4.l                       | +016
         jsr     0x2788c.l                       | +01c
-        jsr     TaskHandler_02a720(pc)          | +022
+        jsr     Slug_UpdateInputFlags_02a720(pc) | +022
         btst    #0x5,0x5a(a6)                   | +026
         beq.w   .L02a80e                        | +02c
         addi.w  #0x10,0x82(a6)                  | +030
@@ -2460,66 +2460,66 @@ Sub_0002A7D8:
         beq.w   ClearXN_02a81e                  | +03c
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A824  @ $02A824  (42 B)
+|  Slug_PhysicsF_02a824  @ $02A824  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A824, "ax", @progbits
-        .global Sub_0002A824
-Sub_0002A824:
+        .section .text.Slug_PhysicsF_02a824, "ax", @progbits
+        .global Slug_PhysicsF_02a824
+Slug_PhysicsF_02a824:
         jsr     0x304c4.l                       | +000
         jsr     0x30704.l                       | +006
         beq.w   .L02a83a                        | +00c
         jsr     0x281b0.l                       | +010
 .L02a83a:
         jsr     0x2788c.l                       | +016
-        jsr     TaskHandler_02a720(pc)          | +01c
+        jsr     Slug_UpdateInputFlags_02a720(pc) | +01c
         jsr     0x3076a.l                       | +020
         beq.w   ClearXN_02a854                  | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a85a  @ $02A85A  (22 B)
+|  Slug_PhysicsG_02a85a  @ $02A85A  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a85a, "ax", @progbits
-        .global TaskHandler_02a85a
-TaskHandler_02a85a:
+        .section .text.Slug_PhysicsG_02a85a, "ax", @progbits
+        .global Slug_PhysicsG_02a85a
+Slug_PhysicsG_02a85a:
         jsr     0x28992.l                       | +000
         jsr     0x30704.l                       | +006
         beq.w   JsrAbsThunk_02a870              | +00c
         jsr     0x281b0.l                       | +010
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A878  @ $02A878  (54 B)
+|  Slug_PhysicsAir_02a878  @ $02A878  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A878, "ax", @progbits
-        .global Sub_0002A878
-Sub_0002A878:
+        .section .text.Slug_PhysicsAir_02a878, "ax", @progbits
+        .global Slug_PhysicsAir_02a878
+Slug_PhysicsAir_02a878:
         jsr     0x28992.l                       | +000
         jsr     0x30704.l                       | +006
         beq.w   .L02a88e                        | +00c
         jsr     0x281b0.l                       | +010
 .L02a88e:
         jsr     0x27a18.l                       | +016
-        bcs.w   TaskHandler_02a8b4              | +01c
+        bcs.w   Slug_ClearBit1Field8D_02a8b4    | +01c
         tst.w   0x2a(a6)                        | +020
         bge.w   .L02a8a8                        | +024
-        jsr     Sub_0002A8C0(pc)                | +028
-        bcc.w   TaskHandler_02a8b4              | +02c
+        jsr     Slug_GroundContact_02a8c0(pc)   | +028
+        bcc.w   Slug_ClearBit1Field8D_02a8b4    | +02c
 .L02a8a8:
         bset    #0x1,0x8d(a6)                   | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a8b4  @ $02A8B4  (6 B)
+|  Slug_ClearBit1Field8D_02a8b4  @ $02A8B4  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a8b4, "ax", @progbits
-        .global TaskHandler_02a8b4
-TaskHandler_02a8b4:
+        .section .text.Slug_ClearBit1Field8D_02a8b4, "ax", @progbits
+        .global Slug_ClearBit1Field8D_02a8b4
+Slug_ClearBit1Field8D_02a8b4:
         bclr    #0x1,0x8d(a6)                   | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A8C0  @ $02A8C0  (110 B)
+|  Slug_GroundContact_02a8c0  @ $02A8C0  (110 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A8C0, "ax", @progbits
-        .global Sub_0002A8C0
-Sub_0002A8C0:
+        .section .text.Slug_GroundContact_02a8c0, "ax", @progbits
+        .global Slug_GroundContact_02a8c0
+Slug_GroundContact_02a8c0:
         btst    #0x6,0x6b(a6)                   | +000
         beq.w   .L02a8d0                        | +006
         jmp     0x27eba.l                       | +00a
@@ -2533,7 +2533,7 @@ Sub_0002A8C0:
         movea.l 0x78(a6),a3                     | +02c
         movea.l 0x7c(a6),a4                     | +030
         moveq   #3,d1                           | +034
-        bra.w   TaskHandler_02a934__L02a940     | +036
+        bra.w   Slug_GroundContactWrapY_02a934__L02a940 | +036
 .L02a8fa:
         movea.l 0x74(a6),a2                     | +03a
         movea.l 0x78(a6),a3                     | +03e
@@ -2543,31 +2543,31 @@ Sub_0002A8C0:
         add.b   0x84(a2),d1                     | +04c
         add.b   0x84(a3),d1                     | +050
         cmpi.b  #0x2,d1                         | +054
-        bge.w   TaskHandler_02a934              | +058
+        bge.w   Slug_GroundContactWrapY_02a934  | +058
         andi.w  #0x1ff,0x24(a2)                 | +05c
         andi.w  #0x1ff,0x24(a3)                 | +062
         andi.w  #0x1ff,0x24(a4)                 | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02a934  @ $02A934  (30 B)
+|  Slug_GroundContactWrapY_02a934  @ $02A934  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02a934, "ax", @progbits
-        .global TaskHandler_02a934
-TaskHandler_02a934:
+        .section .text.Slug_GroundContactWrapY_02a934, "ax", @progbits
+        .global Slug_GroundContactWrapY_02a934
+Slug_GroundContactWrapY_02a934:
         bset    #0x3,0x5b(a6)                   | +000
         move.w  0x24(a6),0x82(a6)               | +006
-        .global TaskHandler_02a934__L02a940
-TaskHandler_02a934__L02a940:
+        .global Slug_GroundContactWrapY_02a934__L02a940
+Slug_GroundContactWrapY_02a934__L02a940:
         andi.w  #0x1ff,0x24(a2)                 | +00c
         andi.w  #0x1ff,0x24(a3)                 | +012
         andi.w  #0x1ff,0x24(a4)                 | +018
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A958  @ $02A958  (72 B)
+|  Slug_TerrainSlope_02a958  @ $02A958  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A958, "ax", @progbits
-        .global Sub_0002A958
-Sub_0002A958:
+        .section .text.Slug_TerrainSlope_02a958, "ax", @progbits
+        .global Slug_TerrainSlope_02a958
+Slug_TerrainSlope_02a958:
         movea.l 0x74(a6),a1                     | +000
         move.w  0x22(a1),d1                     | +004
         move.w  0x9a(a1),d2                     | +008
@@ -2595,11 +2595,11 @@ Sub_0002A958:
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
-|  Sub_0002A9A0  @ $02A9A0  (110 B)
+|  Slug_SlopeToAnimIdx_02a9a0  @ $02A9A0  (110 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002A9A0, "ax", @progbits
-        .global Sub_0002A9A0
-Sub_0002A9A0:
+        .section .text.Slug_SlopeToAnimIdx_02a9a0, "ax", @progbits
+        .global Slug_SlopeToAnimIdx_02a9a0
+Slug_SlopeToAnimIdx_02a9a0:
         bra.w   .L02a9ce                        | +000
         clr.w   d0                              | +004
         move.w  0x64(a6),d7                     | +006
@@ -2613,7 +2613,7 @@ Sub_0002A9A0:
         beq.w   .L02aa08                        | +026
         bra.w   .L02a9f4                        | +02a
 .L02a9ce:
-        jsr     Sub_0002A958(pc)                | +02e
+        jsr     Slug_TerrainSlope_02a958(pc)    | +02e
         clr.w   d0                              | +032
         cmpi.w  #0x384,d1                       | +034
         bge.w   .L02a9f6                        | +038
@@ -2639,22 +2639,22 @@ Sub_0002A9A0:
         bra.b   .L02a9f4                        | +06c
 
 | ----------------------------------------------------------------------------
-|  Sub_0002AA0E  @ $02AA0E  (16 B)
+|  Slug_UpdateAnimKeepIdx_02aa0e  @ $02AA0E  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002AA0E, "ax", @progbits
-        .global Sub_0002AA0E
-Sub_0002AA0E:
+        .section .text.Slug_UpdateAnimKeepIdx_02aa0e, "ax", @progbits
+        .global Slug_UpdateAnimKeepIdx_02aa0e
+Slug_UpdateAnimKeepIdx_02aa0e:
         move.w  0x94(a6),d0                     | +000
         movem.w d0,-(a7)                        | +004
-        jsr     Sub_0002AA24(pc)                | +008
+        jsr     Slug_UpdateAnimAndChassis_02aa24(pc) | +008
         movem.w (a7)+,d0                        | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_0002AA24  @ $02AA24  (140 B)
+|  Slug_UpdateAnimAndChassis_02aa24  @ $02AA24  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002AA24, "ax", @progbits
-        .global Sub_0002AA24
-Sub_0002AA24:
+        .section .text.Slug_UpdateAnimAndChassis_02aa24, "ax", @progbits
+        .global Slug_UpdateAnimAndChassis_02aa24
+Slug_UpdateAnimAndChassis_02aa24:
         jsr     0x283ca.l                       | +000
         cmpi.b  #0x0,0x68(a6)                   | +006
         beq.b   .L02aa3c                        | +00c
@@ -2663,12 +2663,12 @@ Sub_0002AA24:
 .L02aa3c:
         move.b  0x68(a6),0x85(a6)               | +018
 .L02aa42:
-        jsr     TaskHandler_02a4a2(pc)          | +01e
+        jsr     Slug_ResetTurnTimer_02a4a2(pc)  | +01e
         btst    #0x0,0x13(a6)                   | +022
         bne.w   .L02aa54                        | +028
         jsr     Slug_UpdateDamageSprite_02fae4(pc) | +02c
 .L02aa54:
-        jsr     Sub_0002A9A0(pc)                | +030
+        jsr     Slug_SlopeToAnimIdx_02a9a0(pc)  | +030
         move.w  d0,0x94(a6)                     | +034
         move.b  0x8e(a6),d0                     | +038
         clr.b   d1                              | +03c
@@ -2703,22 +2703,22 @@ Sub_0002AA24:
         rts                                     | +08a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02aab0  @ $02AAB0  (10 B)
+|  Slug_GaugeTick_02aab0  @ $02AAB0  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02aab0, "ax", @progbits
-        .global TaskHandler_02aab0
-TaskHandler_02aab0:
+        .section .text.Slug_GaugeTick_02aab0, "ax", @progbits
+        .global Slug_GaugeTick_02aab0
+Slug_GaugeTick_02aab0:
         move.b  0x90(a6),d0                     | +000
         moveq   #0,d1                           | +004
         subq.b  #0x1,d0                         | +006
         addx.b  d1,d0                           | +008
 
 | ----------------------------------------------------------------------------
-|  Sub_0002AAC0  @ $02AAC0  (30 B)
+|  Slug_CanFire_02aac0  @ $02AAC0  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002AAC0, "ax", @progbits
-        .global Sub_0002AAC0
-Sub_0002AAC0:
+        .section .text.Slug_CanFire_02aac0, "ax", @progbits
+        .global Slug_CanFire_02aac0
+Slug_CanFire_02aac0:
         cmpi.b  #0x0,0x90(a6)                   | +000
         beq.w   ClearXN_02aade                  | +006
         move.b  #0x2,d0                         | +00a
@@ -2728,19 +2728,19 @@ Sub_0002AAC0:
         beq.w   JsrPcThunk_02aae4               | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02aaea  @ $02AAEA  (6 B)
+|  Slug_JmpInput5CDA8_02aaea  @ $02AAEA  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02aaea, "ax", @progbits
-        .global TaskHandler_02aaea
-TaskHandler_02aaea:
+        .section .text.Slug_JmpInput5CDA8_02aaea, "ax", @progbits
+        .global Slug_JmpInput5CDA8_02aaea
+Slug_JmpInput5CDA8_02aaea:
         jmp     0x5cda8.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_0002AAF0  @ $02AAF0  (56 B)
+|  Slug_InputDirByLayoutA_02aaf0  @ $02AAF0  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002AAF0, "ax", @progbits
-        .global Sub_0002AAF0
-Sub_0002AAF0:
+        .section .text.Slug_InputDirByLayoutA_02aaf0, "ax", @progbits
+        .global Slug_InputDirByLayoutA_02aaf0
+Slug_InputDirByLayoutA_02aaf0:
         cmpi.b  #0x0,0x106f2a.l                 | +000
         bne.w   .L02ab06                        | +008
         jsr     0x5cdb4.l                       | +00c
@@ -2753,24 +2753,24 @@ Sub_0002AAF0:
 .L02ab1c:
         jsr     0x5ceec.l                       | +02c
 .L02ab22:
-        bcs.w   TaskHandler_02ab2e              | +032
+        bcs.w   Slug_InputDirA_02ab2e           | +032
         moveq   #0,d0                           | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02ab2e  @ $02AB2E  (8 B)
+|  Slug_InputDirA_02ab2e  @ $02AB2E  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02ab2e, "ax", @progbits
-        .global TaskHandler_02ab2e
-TaskHandler_02ab2e:
+        .section .text.Slug_InputDirA_02ab2e, "ax", @progbits
+        .global Slug_InputDirA_02ab2e
+Slug_InputDirA_02ab2e:
         jsr     0x5d5b6.l                       | +000
         addq.w  #0x1,d0                         | +006
 
 | ----------------------------------------------------------------------------
-|  Sub_0002AB3C  @ $02AB3C  (54 B)
+|  Slug_InputDirByLayoutB_02ab3c  @ $02AB3C  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002AB3C, "ax", @progbits
-        .global Sub_0002AB3C
-Sub_0002AB3C:
+        .section .text.Slug_InputDirByLayoutB_02ab3c, "ax", @progbits
+        .global Slug_InputDirByLayoutB_02ab3c
+Slug_InputDirByLayoutB_02ab3c:
         cmpi.b  #0x0,0x106f2a.l                 | +000
         bne.w   .L02ab52                        | +008
         jsr     0x5cdb4.l                       | +00c
@@ -2781,26 +2781,26 @@ Sub_0002AB3C:
         jsr     0x5cdb4.l                       | +022
         bra.w   .L02ab6c                        | +028
 .L02ab68:
-        jsr     TaskHandler_02a374(pc)          | +02c
+        jsr     Slug_CallGroundProbeC_02a374(pc) | +02c
 .L02ab6c:
-        bcs.w   TaskHandler_02ab78              | +030
+        bcs.w   Slug_InputDirB_02ab78           | +030
         moveq   #0,d0                           | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02ab78  @ $02AB78  (8 B)
+|  Slug_InputDirB_02ab78  @ $02AB78  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02ab78, "ax", @progbits
-        .global TaskHandler_02ab78
-TaskHandler_02ab78:
+        .section .text.Slug_InputDirB_02ab78, "ax", @progbits
+        .global Slug_InputDirB_02ab78
+Slug_InputDirB_02ab78:
         jsr     0x5d5b6.l                       | +000
         addq.w  #0x1,d0                         | +006
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_02ab86  @ $02AB86  (44 B)
+|  Slug_InputFireByLayout_02ab86  @ $02AB86  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_02ab86, "ax", @progbits
-        .global PcThunkTarget_02ab86
-PcThunkTarget_02ab86:
+        .section .text.Slug_InputFireByLayout_02ab86, "ax", @progbits
+        .global Slug_InputFireByLayout_02ab86
+Slug_InputFireByLayout_02ab86:
         cmpi.b  #0x4,0x106f2a.l                 | +000
         bne.w   .L02ab9c                        | +008
         jsr     0x5cda8.l                       | +00c
@@ -2812,11 +2812,11 @@ PcThunkTarget_02ab86:
         bra.w   JsrAbsRts_02abb8                | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02abd2  @ $02ABD2  (24 B)
+|  Slug_TestBit4Field8D_02abd2  @ $02ABD2  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02abd2, "ax", @progbits
-        .global TaskHandler_02abd2
-TaskHandler_02abd2:
+        .section .text.Slug_TestBit4Field8D_02abd2, "ax", @progbits
+        .global Slug_TestBit4Field8D_02abd2
+Slug_TestBit4Field8D_02abd2:
         lea     0x100580.l,a0                   | +000
         btst    #0x4,0x8d(a0)                   | +006
         bne.w   SetXN_02abea                    | +00c
@@ -2824,11 +2824,11 @@ TaskHandler_02abd2:
         bra.w   SetXNMid_02abee                 | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02abf0  @ $02ABF0  (24 B)
+|  Slug_TestBit1Field8D_02abf0  @ $02ABF0  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02abf0, "ax", @progbits
-        .global TaskHandler_02abf0
-TaskHandler_02abf0:
+        .section .text.Slug_TestBit1Field8D_02abf0, "ax", @progbits
+        .global Slug_TestBit1Field8D_02abf0
+Slug_TestBit1Field8D_02abf0:
         lea     0x100580.l,a0                   | +000
         btst    #0x1,0x8d(a0)                   | +006
         bne.w   SetXN_02ac08                    | +00c
@@ -2836,11 +2836,11 @@ TaskHandler_02abf0:
         bra.w   SetXNMid_02ac0c                 | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02ac0e  @ $02AC0E  (50 B)
+|  Slug_IsRiddenByPlayer_02ac0e  @ $02AC0E  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02ac0e, "ax", @progbits
-        .global TaskHandler_02ac0e
-TaskHandler_02ac0e:
+        .section .text.Slug_IsRiddenByPlayer_02ac0e, "ax", @progbits
+        .global Slug_IsRiddenByPlayer_02ac0e
+Slug_IsRiddenByPlayer_02ac0e:
         cmpa.l  #0x100440,a0                    | +000
         bne.w   .L02ac1e                        | +006
         moveq   #1,d0                           | +00a
@@ -2858,38 +2858,38 @@ TaskHandler_02ac0e:
         bne.w   ClearXN_02ac46                  | +02e
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_02ac4c  @ $02AC4C  (10 B)
+|  Slug_TestField100609_02ac4c  @ $02AC4C  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_02ac4c, "ax", @progbits
-        .global PcThunkTarget_02ac4c
-PcThunkTarget_02ac4c:
+        .section .text.Slug_TestField100609_02ac4c, "ax", @progbits
+        .global Slug_TestField100609_02ac4c
+Slug_TestField100609_02ac4c:
         move.b  0x100609.l,d0                   | +000
-        bne.w   TaskHandler_02ac5c              | +006
+        bne.w   Slug_CopyField68_02ac5c         | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02ac5c  @ $02AC5C  (8 B)
+|  Slug_CopyField68_02ac5c  @ $02AC5C  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02ac5c, "ax", @progbits
-        .global TaskHandler_02ac5c
-TaskHandler_02ac5c:
+        .section .text.Slug_CopyField68_02ac5c, "ax", @progbits
+        .global Slug_CopyField68_02ac5c
+Slug_CopyField68_02ac5c:
         move.b  0x68(a0),d2                     | +000
         move.b  d2,0x68(a6)                     | +004
 
 | ----------------------------------------------------------------------------
-|  Fn_0002AC6A  @ $02AC6A  (10 B)
+|  Slug_TestField100609B_02ac6a  @ $02AC6A  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_0002AC6A, "ax", @progbits
-        .global Fn_0002AC6A
-Fn_0002AC6A:
+        .section .text.Slug_TestField100609B_02ac6a, "ax", @progbits
+        .global Slug_TestField100609B_02ac6a
+Slug_TestField100609B_02ac6a:
         move.b  0x100609.l,d0                   | +000
         bne.w   SetXN_02ac7a                    | +006
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_02ac80  @ $02AC80  (28 B)
+|  Slug_ConsumeField89_02ac80  @ $02AC80  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_02ac80, "ax", @progbits
-        .global PcThunkTarget_02ac80
-PcThunkTarget_02ac80:
+        .section .text.Slug_ConsumeField89_02ac80, "ax", @progbits
+        .global Slug_ConsumeField89_02ac80
+Slug_ConsumeField89_02ac80:
         cmpi.b  #0x0,0x89(a6)                   | +000
         bne.w   .L02ac98                        | +006
         move.b  #0xff,0x6d(a6)                  | +00a
@@ -2899,11 +2899,11 @@ PcThunkTarget_02ac80:
         clr.b   0x89(a6)                        | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02aca2  @ $02ACA2  (22 B)
+|  Slug_SetField89_02aca2  @ $02ACA2  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02aca2, "ax", @progbits
-        .global TaskHandler_02aca2
-TaskHandler_02aca2:
+        .section .text.Slug_SetField89_02aca2, "ax", @progbits
+        .global Slug_SetField89_02aca2
+Slug_SetField89_02aca2:
         movem.l a0,-(a7)                        | +000
         lea     0x100580.l,a0                   | +004
         move.b  #0xff,0x89(a0)                  | +00a
@@ -2911,11 +2911,11 @@ TaskHandler_02aca2:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  Sub_0002ACB8  @ $02ACB8  (56 B)
+|  Slug_CheckPlayersNear_02acb8  @ $02ACB8  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002ACB8, "ax", @progbits
-        .global Sub_0002ACB8
-Sub_0002ACB8:
+        .section .text.Slug_CheckPlayersNear_02acb8, "ax", @progbits
+        .global Slug_CheckPlayersNear_02acb8
+Slug_CheckPlayersNear_02acb8:
         cmpi.b  #0x0,0x106ed3.l                 | +000
         bne.w   .L02acc8                        | +008
         bra.w   ClearXN_02acf0                  | +00c
@@ -2931,11 +2931,11 @@ Sub_0002ACB8:
         bcs.w   SetXN_02acf6                    | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02acfc  @ $02ACFC  (46 B)
+|  Slug_IsAlive_02acfc  @ $02ACFC  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02acfc, "ax", @progbits
-        .global TaskHandler_02acfc
-TaskHandler_02acfc:
+        .section .text.Slug_IsAlive_02acfc, "ax", @progbits
+        .global Slug_IsAlive_02acfc
+Slug_IsAlive_02acfc:
         lea     0x100580.l,a0                   | +000
         cmpi.l  #0xffffffff,(a0)                | +006
         beq.w   ClearXN_02ad30                  | +00c
@@ -2947,37 +2947,37 @@ TaskHandler_02acfc:
         beq.w   ClearXN_02ad30                  | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02ad36  @ $02AD36  (40 B)
+|  Slug_GetRiderAndField98_02ad36  @ $02AD36  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02ad36, "ax", @progbits
-        .global TaskHandler_02ad36
-TaskHandler_02ad36:
-        jsr     TaskHandler_02acfc(pc)          | +000
-        bcc.w   TaskHandler_02ad64              | +004
+        .section .text.Slug_GetRiderAndField98_02ad36, "ax", @progbits
+        .global Slug_GetRiderAndField98_02ad36
+Slug_GetRiderAndField98_02ad36:
+        jsr     Slug_IsAlive_02acfc(pc)         | +000
+        bcc.w   Slug_NoRider_02ad64              | +004
         move.b  0x85(a0),d0                     | +008
         cmp.b   0x6e(a6),d0                     | +00c
-        bne.w   TaskHandler_02ad64              | +010
+        bne.w   Slug_NoRider_02ad64              | +010
         move.l  0x98(a0),d2                     | +014
         cmpi.l  #0xffffffff,d2                  | +018
         bne.w   SetXN_02ad5e                    | +01e
         move.l  #0x10000,d2                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02ad64  @ $02AD64  (6 B)
+|  Slug_NoRider_02ad64  @ $02AD64  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02ad64, "ax", @progbits
-        .global TaskHandler_02ad64
-TaskHandler_02ad64:
+        .section .text.Slug_NoRider_02ad64, "ax", @progbits
+        .global Slug_NoRider_02ad64
+Slug_NoRider_02ad64:
         move.b  #0xff,d0                        | +000
         clr.l   d2                              | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02ad70  @ $02AD70  (102 B)
+|  Slug_SpawnRiderMarker_02ad70  @ $02AD70  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02ad70, "ax", @progbits
-        .global TaskHandler_02ad70
-TaskHandler_02ad70:
-        jsr     TaskHandler_02acfc(pc)          | +000
+        .section .text.Slug_SpawnRiderMarker_02ad70, "ax", @progbits
+        .global Slug_SpawnRiderMarker_02ad70
+Slug_SpawnRiderMarker_02ad70:
+        jsr     Slug_IsAlive_02acfc(pc)         | +000
         bcc.w   .L02add4                        | +004
         move.b  0x85(a0),d0                     | +008
         cmpi.b  #0x0,d0                         | +00c
@@ -3002,16 +3002,16 @@ TaskHandler_02ad70:
         rts                                     | +064
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02add6  @ $02ADD6  (96 B)
+|  Slug_SpawnAtBossArena_02add6  @ $02ADD6  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02add6, "ax", @progbits
-        .global TaskHandler_02add6
-TaskHandler_02add6:
+        .section .text.Slug_SpawnAtBossArena_02add6, "ax", @progbits
+        .global Slug_SpawnAtBossArena_02add6
+Slug_SpawnAtBossArena_02add6:
         move.w  #0x40,0x22(a6)                  | +000
         move.w  #0x171,0x24(a6)                 | +006
         move.w  #0x171,0x82(a6)                 | +00c
         move.w  #0x3,d1                         | +012
-        jsr     Fn_0002A1AA(pc)                 | +016
+        jsr     Slug_InitBoss_02a1aa(pc)        | +016
         ori.w   #0x2,0x38(a6)                   | +01a
         lea     0x2792b0.l,a0                   | +020
         jsr     0x28cd4.l                       | +026
@@ -3023,7 +3023,7 @@ TaskHandler_02add6:
         clr.b   0x27(a6)                        | +040
         clr.b   0x8e(a6)                        | +044
         bset    #0x6,0x13(a6)                   | +048
-        jsr     Sub_0002AA0E(pc)                | +04e
-        jsr     Sub_0002A878(pc)                | +052
-        jsr     Sub_0002A478(pc)                | +056
+        jsr     Slug_UpdateAnimKeepIdx_02aa0e(pc) | +04e
+        jsr     Slug_PhysicsAir_02a878(pc)      | +052
+        jsr     Slug_UpdateAirFlag_02a478(pc)   | +056
         jsr     0x28d70.l                       | +05a

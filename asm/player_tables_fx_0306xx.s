@@ -123,7 +123,7 @@
 |
 |  F. SIGUIENTE
 |  ------------
-|   Helpers del Slug `$029xxx..$02DD20` (despachador $2A078, Sub_0002A9A0),
+|   Helpers del Slug `$029xxx..$02DD20` (despachador $2A078, Slug_SlopeToAnimIdx_02a9a0),
 |   después `$05AA96..$05CA2A`, `$057D04..$059342`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU

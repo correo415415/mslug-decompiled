@@ -863,10 +863,10 @@ SYMBOLS = {
     0x000281C8: "PcThunkTarget_0281c8",
     0x0002870A: "JmpTarget_02870a",
     0x00028758: "JmpTarget_028758",
-    # 0x0002A46C promovido a PcThunkTarget_02a46c en registry (Wave BBBB).
-    # 0x0002AB86 promovido a PcThunkTarget_02ab86 en registry (Wave BBBB).
-    # 0x0002AC4C promovido a PcThunkTarget_02ac4c en registry (Wave BBBB).
-    # 0x0002AC80 promovido a PcThunkTarget_02ac80 en registry (Wave BBBB).
+    # 0x0002A46C promovido a Slug_ClearFlags8D_02a46c en registry (Wave BBBB).
+    # 0x0002AB86 promovido a Slug_InputFireByLayout_02ab86 en registry (Wave BBBB).
+    # 0x0002AC4C promovido a Slug_TestField100609_02ac4c en registry (Wave BBBB).
+    # 0x0002AC80 promovido a Slug_ConsumeField89_02ac80 en registry (Wave BBBB).
     # 0x0002FADA promovido a Slug_ResetDamageIdx_02fada en registry (Wave ZZZ).
     0x00032EA4: "PcThunkTarget_032ea4",
     0x00032EBA: "PcThunkTarget_032eba",
@@ -1253,8 +1253,8 @@ SYMBOLS = {
     0x00028C20: "Fn_00028C20",            # colision rect A vs rect B (Miniboss_Ride)
     0x00027D50: "Fn_00027D50",            # tick de vuelo del proyectil del boss
     0x000280C6: "Fn_000280C6",            # consulta mapa de colision (Ent_GroundProbe)
-    # 0x0002A1AA promovido a Fn_0002A1AA en registry (Wave BBBB).
-    # 0x0002AC6A promovido a Fn_0002AC6A en registry (Wave BBBB).
+    # 0x0002A1AA promovido a Slug_InitBoss_02a1aa en registry (Wave BBBB).
+    # 0x0002AC6A promovido a Slug_TestField100609B_02ac6a en registry (Wave BBBB).
     # 0x00030C14 promovido a EnemyShot_Straight_030c14 en registry (Wave AAAA).
     # 0x00030C70 promovido a EnemyShot_Bounce_030c70 en registry (Wave AAAA).
     # 0x000308C2 promovido a PlayerGrenade_Spawn_0308c2 en registry (Wave AAAA).
@@ -1599,38 +1599,38 @@ SYMBOLS = {
     0x00030390: "JsrAbsRts_030390",  # rts de JsrAbsThunk_03038a (+6)
     0x00030608: "JsrAbsRts_030608",  # rts de JsrAbsThunk_030602 (+6)
     # --- Wave ZZZ: refs forward a huecos futuros
-    # 0x000295A6 promovido a Sub_000295A6 en registry (Wave BBBB).
-    # 0x00029790 promovido a Sub_00029790 en registry (Wave BBBB).
-    # 0x00029834 promovido a Sub_00029834 en registry (Wave BBBB).
-    # 0x000298D8 promovido a Sub_000298D8 en registry (Wave BBBB).
-    # 0x0002999E promovido a Sub_0002999E en registry (Wave BBBB).
-    # 0x00029A14 promovido a Sub_00029A14 en registry (Wave BBBB).
-    # 0x00029A68 promovido a Sub_00029A68 en registry (Wave BBBB).
-    # 0x0002A024 promovido a Sub_0002A024 en registry (Wave BBBB).
-    # 0x0002A060 promovido a Sub_0002A060 en registry (Wave BBBB).
-    # 0x0002A328 promovido a Sub_0002A328 en registry (Wave BBBB).
-    # 0x0002A34E promovido a Sub_0002A34E en registry (Wave BBBB).
-    # 0x0002A478 promovido a Sub_0002A478 en registry (Wave BBBB).
-    # 0x0002A4EC promovido a Sub_0002A4EC en registry (Wave BBBB).
-    # 0x0002A4F0 promovido a Sub_0002A4F0 en registry (Wave BBBB).
-    # 0x0002A59A promovido a Sub_0002A59A en registry (Wave BBBB).
-    # 0x0002A664 promovido a Sub_0002A664 en registry (Wave BBBB).
-    # 0x0002A690 promovido a Sub_0002A690 en registry (Wave BBBB).
-    # 0x0002A752 promovido a Sub_0002A752 en registry (Wave BBBB).
-    # 0x0002A760 promovido a Sub_0002A760 en registry (Wave BBBB).
-    # 0x0002A766 promovido a Sub_0002A766 en registry (Wave BBBB).
-    # 0x0002A7D8 promovido a Sub_0002A7D8 en registry (Wave BBBB).
-    # 0x0002A824 promovido a Sub_0002A824 en registry (Wave BBBB).
-    # 0x0002A878 promovido a Sub_0002A878 en registry (Wave BBBB).
-    # 0x0002A8C0 promovido a Sub_0002A8C0 en registry (Wave BBBB).
-    # 0x0002A958 promovido a Sub_0002A958 en registry (Wave BBBB).
-    # 0x0002A9A0 promovido a Sub_0002A9A0 en registry (Wave BBBB).
-    # 0x0002AA0E promovido a Sub_0002AA0E en registry (Wave BBBB).
-    # 0x0002AA24 promovido a Sub_0002AA24 en registry (Wave BBBB).
-    # 0x0002AAC0 promovido a Sub_0002AAC0 en registry (Wave BBBB).
-    # 0x0002AAF0 promovido a Sub_0002AAF0 en registry (Wave BBBB).
-    # 0x0002AB3C promovido a Sub_0002AB3C en registry (Wave BBBB).
-    # 0x0002ACB8 promovido a Sub_0002ACB8 en registry (Wave BBBB).
+    # 0x000295A6 promovido a Slug_AngleToSpriteIdx_0295a6 en registry (Wave BBBB).
+    # 0x00029790 promovido a Slug_HitboxA_029790 en registry (Wave BBBB).
+    # 0x00029834 promovido a Slug_HitboxB_029834 en registry (Wave BBBB).
+    # 0x000298D8 promovido a Slug_HitboxC_0298d8 en registry (Wave BBBB).
+    # 0x0002999E promovido a Slug_HitboxCb_02999e en registry (Wave BBBB).
+    # 0x00029A14 promovido a Slug_HitboxCbC_029a14 en registry (Wave BBBB).
+    # 0x00029A68 promovido a Slug_AttackTbl00_029a68 en registry (Wave BBBB).
+    # 0x0002A024 promovido a Slug_AttackPtrTbl_02a024 en registry (Wave BBBB).
+    # 0x0002A060 promovido a Slug_StateByAnglePtrTbl_02a060 en registry (Wave BBBB).
+    # 0x0002A328 promovido a Slug_CallGroundProbeA_02a328 en registry (Wave BBBB).
+    # 0x0002A34E promovido a Slug_CallGroundProbeB_02a34e en registry (Wave BBBB).
+    # 0x0002A478 promovido a Slug_UpdateAirFlag_02a478 en registry (Wave BBBB).
+    # 0x0002A4EC promovido a Slug_TerrainIsSlope_02a4ec en registry (Wave BBBB).
+    # 0x0002A4F0 promovido a Slug_UpdateAngleIsSlope_02a4f0 en registry (Wave BBBB).
+    # 0x0002A59A promovido a Slug_CheckFreeThenC_02a59a en registry (Wave BBBB).
+    # 0x0002A664 promovido a Slug_TryStartDestroyed_02a664 en registry (Wave BBBB).
+    # 0x0002A690 promovido a Slug_TryStartDestroyedB_02a690 en registry (Wave BBBB).
+    # 0x0002A752 promovido a Slug_PhysicsA_02a752 en registry (Wave BBBB).
+    # 0x0002A760 promovido a Slug_PhysicsB_02a760 en registry (Wave BBBB).
+    # 0x0002A766 promovido a Slug_PhysicsC_02a766 en registry (Wave BBBB).
+    # 0x0002A7D8 promovido a Slug_PhysicsE_02a7d8 en registry (Wave BBBB).
+    # 0x0002A824 promovido a Slug_PhysicsF_02a824 en registry (Wave BBBB).
+    # 0x0002A878 promovido a Slug_PhysicsAir_02a878 en registry (Wave BBBB).
+    # 0x0002A8C0 promovido a Slug_GroundContact_02a8c0 en registry (Wave BBBB).
+    # 0x0002A958 promovido a Slug_TerrainSlope_02a958 en registry (Wave BBBB).
+    # 0x0002A9A0 promovido a Slug_SlopeToAnimIdx_02a9a0 en registry (Wave BBBB).
+    # 0x0002AA0E promovido a Slug_UpdateAnimKeepIdx_02aa0e en registry (Wave BBBB).
+    # 0x0002AA24 promovido a Slug_UpdateAnimAndChassis_02aa24 en registry (Wave BBBB).
+    # 0x0002AAC0 promovido a Slug_CanFire_02aac0 en registry (Wave BBBB).
+    # 0x0002AAF0 promovido a Slug_InputDirByLayoutA_02aaf0 en registry (Wave BBBB).
+    # 0x0002AB3C promovido a Slug_InputDirByLayoutB_02ab3c en registry (Wave BBBB).
+    # 0x0002ACB8 promovido a Slug_CheckPlayersNear_02acb8 en registry (Wave BBBB).
     0x0002B38C: "Sub_0002B38C",  # hueco futuro (ref pc-rel desde esta region)
     0x0002B4D2: "Sub_0002B4D2",  # hueco futuro (ref pc-rel desde esta region)
     0x0002B7DA: "Sub_0002B7DA",  # hueco futuro (ref pc-rel desde esta region)

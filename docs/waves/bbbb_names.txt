@@ -110,3 +110,4 @@
 0x2AD36=Slug_GetRiderAndField98_02ad36
 0x2AD70=Slug_SpawnRiderMarker_02ad70
 0x2ADD6=Slug_SpawnAtBossArena_02add6
+0x2AD64=Slug_NoRider_02ad64

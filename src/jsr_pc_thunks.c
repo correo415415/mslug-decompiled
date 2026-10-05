@@ -77,68 +77,68 @@ void JsrPcThunk_0294aa(void) {
 
 __attribute__((section(".text.JsrPcThunk_029582")))
 void JsrPcThunk_029582(void) {
-    extern void PcThunkTarget_02a46c(void);
-    __asm__ volatile("jsr PcThunkTarget_02a46c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ClearFlags8D_02a46c(void);
+    __asm__ volatile("jsr Slug_ClearFlags8D_02a46c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02aae4")))
 void JsrPcThunk_02aae4(void) {
-    extern void PcThunkTarget_02ab86(void);
-    __asm__ volatile("jsr PcThunkTarget_02ab86(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_InputFireByLayout_02ab86(void);
+    __asm__ volatile("jsr Slug_InputFireByLayout_02ab86(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02ac40")))
 void JsrPcThunk_02ac40(void) {
-    extern void PcThunkTarget_02ac4c(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac4c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_TestField100609_02ac4c(void);
+    __asm__ volatile("jsr Slug_TestField100609_02ac4c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02bcfa")))
 void JsrPcThunk_02bcfa(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02db4c")))
 void JsrPcThunk_02db4c(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02dc56")))
 void JsrPcThunk_02dc56(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02dca4")))
 void JsrPcThunk_02dca4(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02dd1a")))
 void JsrPcThunk_02dd1a(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02f1fc")))
 void JsrPcThunk_02f1fc(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02fe64")))
 void JsrPcThunk_02fe64(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02fed4")))
 void JsrPcThunk_02fed4(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02ff1c")))
