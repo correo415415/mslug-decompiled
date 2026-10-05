@@ -1735,12 +1735,16 @@ Player_SpawnLand_Done_033e8c:
         move.b  #0x50,0x45(a6)                  | +14e
         move.b  #0x50,0x59(a6)                  | +154
         jmp     .L033ede(pc)                    | +15a
+        .global Player_SpawnLand_SetInvuln1E_033ec2
+Player_SpawnLand_SetInvuln1E_033ec2:        | $033EC2 entrada secundaria (desde $036xxx)
         cmpi.b  #0x0,0x106ed3.l                 | +15e
         beq.w   .L033ed4                        | +166
         move.b  #0x1e,0x45(a6)                  | +16a
 .L033ed4:
         move.b  #0x1e,0x59(a6)                  | +170
         jmp     .L033ede(pc)                    | +176
+        .global Player_SpawnLand_Reset_033ede
+Player_SpawnLand_Reset_033ede:              | $033EDE entrada secundaria (desde $036xxx)
 .L033ede:
         bclr    #0x0,0x8c(a6)                   | +17a
         cmpi.w  #0x2,0x72(a6)                   | +180

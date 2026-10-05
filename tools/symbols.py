@@ -414,9 +414,9 @@ SYMBOLS = {
     0x000318AC: "TaskHandler_0318ac",
     0x000318D4: "TaskHandler_0318d4",
     0x000321BC: "TaskHandler_0321bc",
-    0x00036D64: "TaskHandler_036d64",
-    0x00037B8E: "TaskHandler_037b8e",
-    0x00037C1A: "TaskHandler_037c1a",
+    # 0x00036D64 promovido a TaskHandler_036d64 en registry (Wave VVV).
+    # 0x00037B8E promovido a TaskHandler_037b8e en registry (Wave VVV).
+    # 0x00037C1A promovido a TaskHandler_037c1a en registry (Wave VVV).
     0x00038CEE: "TaskHandler_038cee",
     0x00038E4A: "TaskHandler_038e4a",
     0x000391AA: "TaskHandler_0391aa",
@@ -877,7 +877,7 @@ SYMBOLS = {
     # ahora resuelven al simbolo canonico definido en el .text de la nueva Wave.
     # 0x000334A2: "PcThunkTarget_0334a2",
     0x00033522: "PcThunkTarget_033522",
-    0x00036DCA: "PcThunkTarget_036dca",
+    # 0x00036DCA promovido a PcThunkTarget_036dca en registry (Wave VVV).
     0x00039416: "PcThunkTarget_039416",
     0x0003E7A6: "PcThunkTarget_03e7a6",
     0x0003E84C: "PcThunkTarget_03e84c",
@@ -1560,18 +1560,32 @@ SYMBOLS = {
     # 0x00035BF8 promovido a Player_TurnLeft_035bf8 en registry (Wave UUU).
     # 0x00035D34 promovido a Player_Melee_035d34 en registry (Wave UUU).
     # 0x000360BC promovido a Player_ThrowGrenade_Stand_0360bc en registry (Wave UUU).
-    0x00036914: "Sub_00036914",  # hueco futuro (ref pc-rel desde esta region)
-    0x00036C8C: "Sub_00036C8C",  # hueco futuro (ref pc-rel desde esta region)
-    0x00037018: "Sub_00037018",  # hueco futuro (ref pc-rel desde esta region)
-    0x00037C74: "Sub_00037C74",  # hueco futuro (ref pc-rel desde esta region)
-    0x0003827A: "Sub_0003827A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0003873C: "Sub_0003873C",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00036914 promovido a Sub_00036914 en registry (Wave VVV).
+    # 0x00036C8C promovido a Sub_00036C8C en registry (Wave VVV).
+    # 0x00037018 promovido a Sub_00037018 en registry (Wave VVV).
+    # 0x00037C74 promovido a Sub_00037C74 en registry (Wave VVV).
+    # 0x0003827A promovido a Sub_0003827A en registry (Wave VVV).
+    # 0x0003873C promovido a Sub_0003873C en registry (Wave VVV).
     0x00038BE4: "Sub_00038BE4",  # hueco futuro (ref pc-rel desde esta region)
     0x00038CF6: "Sub_00038CF6",  # hueco futuro (ref pc-rel desde esta region)
     # --- Wave UUU: refs forward a huecos futuros
     0x00032638: "Sub_00032638",  # hueco futuro (ref pc-rel desde esta region)
     0x00032788: "Sub_00032788",  # hueco futuro (ref pc-rel desde esta region)
     0x000328D8: "Sub_000328D8",  # hueco futuro (ref pc-rel desde esta region)
-    0x000366FE: "Sub_000366FE",  # hueco futuro (ref pc-rel desde esta region)
-    0x00036796: "Sub_00036796",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x000366FE promovido a Sub_000366FE en registry (Wave VVV).
+    # 0x00036796 promovido a Sub_00036796 en registry (Wave VVV).
+    # --- Wave VVV: refs forward a huecos futuros
+    0x000324D0: "Sub_000324D0",  # hueco futuro (ref pc-rel desde esta region)
+    0x000324D8: "Sub_000324D8",  # hueco futuro (ref pc-rel desde esta region)
+    0x000324E8: "Sub_000324E8",  # hueco futuro (ref pc-rel desde esta region)
+    0x00032734: "Sub_00032734",  # hueco futuro (ref pc-rel desde esta region)
+    0x00032830: "Sub_00032830",  # hueco futuro (ref pc-rel desde esta region)
+    0x00032884: "Sub_00032884",  # hueco futuro (ref pc-rel desde esta region)
+    0x0003292C: "Sub_0003292C",  # hueco futuro (ref pc-rel desde esta region)
+    0x000388F0: "Sub_000388F0",  # hueco futuro (ref pc-rel desde esta region)
+    0x00038A28: "Sub_00038A28",  # hueco futuro (ref pc-rel desde esta region)
+    0x00038AE6: "Sub_00038AE6",  # hueco futuro (ref pc-rel desde esta region)
+    0x00039148: "Sub_00039148",  # hueco futuro (ref pc-rel desde esta region)
+    0x000391EE: "Sub_000391EE",  # hueco futuro (ref pc-rel desde esta region)
+    0x00039214: "Sub_00039214",  # hueco futuro (ref pc-rel desde esta region)
 }

@@ -2473,6 +2473,8 @@ Player_RideSlug_0364a2:
         move.w  d0,0x22(a6)                     | +080
         move.w  d1,0x24(a6)                     | +084
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +088
+        .global Player_RideSlug_Frame_03652e
+Player_RideSlug_Frame_03652e:               | $03652E entrada secundaria (desde $0366xx)
         jsr     0x2aca2.l                       | +08c
         lea     0x100580.l,a0                   | +092
         move.b  0x68(a6),d2                     | +098
@@ -2532,6 +2534,6 @@ Player_RideSlug_0364a2:
         lea     Sub_000324BC(pc),a0             | +17c
         jsr     0x5dd56.l                       | +180
 .L036628:
-        bcc.w   JsrPcThunk_036632               | +186
+        bcc.w   Player_RideSlug_Tail_036632     | +186
         lea     TaskHandler_037b8e(pc),a1       | +18a
         move.l  a1,(a6)                         | +18e
