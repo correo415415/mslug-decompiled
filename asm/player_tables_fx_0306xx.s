@@ -1,11 +1,130 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave AAAA — granada del player, proyectiles, caída del vehículo, fx, iconos, tablas del player
 |  Región: $030602..$032A02  (8,788 B, 96 entradas, 27 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 8,788 B entre el módulo del Slug (Wave ZZZ) y el player core
+|  (Wave TTT). Mezcla cuatro grupos distintos más el bloque de tablas
+|  estáticas del player:
+|
+|   1. Resto de Chain3 (continuación de ZZZ): Chain3_InitAlt_030696
+|      (variante de Chain3_Init que marca +$98 = 1 y bset #3,+$5B; ref
+|      $6BAD2) y los helpers Chain3_PickLink_030704 (elige el eslabón
+|      +$74/+$78 cuyo +$5A bit5 esté activo; refs $2A76E..$2A862),
+|      Chain3_LinkCmpField82_03073e, Chain3_LinksYDeltaIsStep_03076a
+|      (|dY| entre eslabones ∈ {0,1,2,7,8,9,$1F..$22}; refs $2A798..),
+|      Entity_CmpDepthWithLink8_0307e8 (+$10 vs link +$8 -> C).
+|   2. Granada del player: PlayerGrenade_Spawn_0308c2 (snd $2, ref desde
+|      PlayerFire_Flame/$44B68) y PlayerGrenade_SpawnB_03093a (refs
+|      $3C74C/$8B66A/$9A260), PlayerGrenade_SpawnFromVehicle_0308b0 (snd
+|      $1D6, jmp desde vehicle_deploy $45FE0): copian +$98/+$9A del
+|      template a +$70/+$7A, crean el fx $77A96, eligen sprite por
+|      +$70>>4 en $29D4D2/$29D452, calculan el ángulo de lanzamiento según
+|      el layout $106F2A (0,1,2,3,5) o el bit1 de $100000 (debug) con
+|      PlayerGrenade_AngleFromSpread_030bfe (+$9B = dispersión), velocidad
+|      $800 (+$F800 vertical si +$7A bit0) vía $13C0E (sin/cos), tabla de
+|      ataque PlayerGrenade_AttackTbl_030804 (2 x 80 B), rebote con
+|      $27CEE; al tocar suelo (PlayerGrenade_GroundTbl_0308a8 / $5DD56)
+|      -> PlayerGrenade_ExplodeGround_030bb6 (crea Fx_GroundBurst_031c72
+|      via $6FE), si +$13 bit1 -> PlayerGrenade_ExplodeAir_030bd6
+|      (Fx_AirBurst_031cca); +$76 = temporizador de mecha.
+|   3. Proyectiles enemigos genéricos: EnemyShot_Straight_030c14 (snd $1D6,
+|      ángulo +$70, sprite $29D7D2; refs mission_spawn_boss $44BEE,
+|      turret_boss2 $458B0) y EnemyShot_Bounce_030c70 (snd $6, velX
+|      aleatoria $5E9B6, sprite por RNG en $29D844, cae con $27D50, al
+|      tocar suelo EnemyShot_BounceB_030d04 y luego EnemyShot_ExplodeAir
+|      _030d5c; ref $44B4C).
+|   4. Lanzamiento/caída del vehículo (VehicleLaunch_*): VehicleLaunch_Init
+|      _0311c0 (ref $2C1EC) y VehicleLaunch_InitDrop_0318e6: usan +$94 del
+|      padre como índice en VehicleLaunch_OffsetTblA/B (registros de 10 B
+|      {?, dx, dy, ángulo}), sprite $29FA8A, tablas de ataque
+|      VehicleLaunch_AttackTblA/B, música $1084, fx $77AB6, snd $58; según
+|      $106F2A (2/3/5) consultan $5CD90 y Popcount4_0323b4 para elegir la
+|      fase (+$72 = $7400/$6000/$4400/$26AA) y el impulso +$36. Vuelo:
+|      VehicleLaunch_Fall_031594 -> VehicleLaunch_Glide_03168a (gravedad
+|      $27D50, tope $700 vía $267F4, hitbox dinámico $5E018); crea un hijo
+|      desde +$74 (= $31B78) cada N frames según +$20. Impacto:
+|      VehicleLaunch_Crash_0317d2 ($10A2D1 = 1, música $10F2, $434DC,
+|      cadena CrashA/B/C con tablas CrashTblA/B/C y $5E4B2),
+|      VehicleLaunch_Despawn_0318b8 ($5B6) y _ReleaseParent_0318d4 (padre
+|      +$8F--, $518).
+|   5. Fx del Slug/explosiones: SlugFx_ExhaustOrDrop_0319f0 (refs $2C21A..;
+|      si padre +$8D bit2 usa el ángulo +$80 y sprite $29E440, si no
+|      VehicleDrop_SpriteTbl_0319dc por +$94), SlugFx_Exhaust_031af6 (refs
+|      $2D31C/$2D3E2), Fx_Sparkle_031b52 (snd $58, $29FCCE), Fx_SmokePuff
+|      _031bd0 (snd $178, $29E64A, prio $2000), Fx_DustCloud_031c20 (snd
+|      $5, $29E568; refs $6E07E..), Fx_GroundBurst(_B) (snd $1D6/$4, par
+|      de sprites por RNG; refs $460F6, $6DFC2/$82AEE), Fx_AirBurst_031cca
+|      (snd $2, $2DD8B6), Fx_Spark_031d6a/_SparkAnim ($29E46A) con los
+|      spawners condicionales Entity_SpawnSpark*IfBit1_031d90/dc2/dfe
+|      (+$8C bit1, refs $1A3A14.., $1A682A.., $1A9472..), Fx_Dust_031e38/
+|      _DustAnim ($2DD72A), Fx_SpawnDustPair_031e5e (jsr desde
+|      Slug_AccelRight $2EE78 y $2B8DA; 10 variantes de offset ±$20/±$8/
+|      ±$13 con eori #1,+$3A para espejar), Fx_SmokeAnim_031fa2 ($2DD944).
+|   6. Iconos sobre el player: PlayerIcon_Pow_031fca (snd $1AD, anim
+|      PlayerIcon_PowAnim/PowAltAnim según escena $106ECE == 5, +$5C = $28
+|      de altura, sigue al padre con $5E4CA; ref $2AFAE),
+|      PlayerIcon_Bubble_03207c (snd $1B0, refs $2A658/$30CA0/$462DA/$4EB6E),
+|      PlayerIcon_SpawnFreeFallBoth_0320d4 (recorre slots con $5E3A2; ref
+|      $84514) -> PlayerIcon_FreeFallP1/P2_032112/032142 (sólo si el padre
+|      es $100440/$1004E0; snd $A2/$A3; refs Player_SpawnFreeFall_036c8c,
+|      Player_SpawnLand_03386e).
+|   7. Tablas estáticas del player (sólo datos, referenciadas por pc-rel
+|      desde player_core/states/air/arm): Player_WeaponStateByteTbl_032412
+|      (170 bytes 0/1), Player_GroundTblA/B_0324bc/c6 (sondas de suelo para
+|      $5DD56 por escena), Player_VelYTbl/B, Player_VelXTbl (indexadas por
+|      $5D5B6), Player_AttackTblA/B (+$4C), Player_Hitbox{Stand,Crouch,
+|      Melee,Grenade,Air,Knockback,Death,Slug} (+$48, registros `02 00 00
+|      24 36 xx ff ff` de 10 B + offsets), Player_WeaponAmmoTbl_0329d4
+|      (5 words: $03E7/$03E7/$03E7/$03E7/$0096 = munición por arma),
+|      Player_WeaponFlagTbl_0329e8 (6 bytes), OpcodeOffsetTable_0329EE y
+|      Entity_ClearCollisionCb_0329f8 (+$48 = -1).
+|
+|  B. EVIDENCIAS
+|  -------------
+|   - PlayerFire_Pistol/Flame (Wave YYY) hacen `lea $3093A/$308C2,a1; jsr
+|     $6FE` justo tras decrementar la munición +$82 -> son las granadas.
+|   - vehicle_deploy_045f2c (Wave YY) salta a $308B0 y mission_spawn_boss
+|     usa $30C14/$30C70/$308C2 como templates de proyectil.
+|   - Player_SpawnFreeFall_036c8c elige $32112 o $32142 según a6 ==
+|     $100440: iconos por jugador.
+|   - Slug_AccelRight_02ee78 empieza con `jsr $31E5E` (polvo de las orugas).
+|   - Player_WeaponAmmoTbl: 999/999/999/999/150 coincide con la munición
+|     inicial de HMG/shotgun/rocket/flame en MS1 (pistola infinita).
+|
+|  C. CAMPOS (a6 = entidad, +$C = padre)
+|  --------------------------------------
+|   +$20 contador de hijos, +$22/+$24 pos, +$28/+$2A vel, +$2C/+$2E grav,
+|   +$30 hitbox dinámico, +$34 ángulo, +$36 impulso, +$38 prio, +$3A
+|   facing, +$46, +$48 cb colisión, +$4C tabla ataque, +$5C altura icono,
+|   +$70 ángulo/contador, +$72 fase, +$74 template hijo, +$76 mecha,
+|   +$7A flags granada, +$8C/+$8D bits, +$94 índice, +$98..+$9B params.
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|   $4AE/$6FE alloc, $518 free, $5B6, $236E snd, $2352 music, $13C0E
+|   sin/cos, $267E2, $267F4 clamp, $2783A física, $27CEE/$27D50 caída,
+|   $27EBA, $283CA/$283D8 ataque, $28CD4 sprite, $28D70 paso anim,
+|   $434DC, $5CD90, $5DD02 copia transform, $5DD56 suelo, $5E018 hitbox,
+|   $5E3A2 slots, $5E4B2/$5E4CA seguir padre, $5E9B6 RNG.
+|
+|  E. HIPÓTESIS ABIERTAS
+|  ---------------------
+|   - "VehicleLaunch" = caída del vehículo lanzado desde el avión al inicio
+|     de misión (usa $10A2D1 y música $10F2); podría ser también la caída
+|     del Slug al pozo de la misión 2. Confirmar con $2C1EC.
+|   - Nombres de los Fx por sonido/sprite; "Sparkle/SmokePuff/DustCloud"
+|     son provisionales hasta ver los tiles $29Exxx.
+|   - El orden de Player_Hitbox* (Stand/Crouch/...) se deduce de los
+|     estados que los instalan en +$48 (Wave UUU/VVV/WWW).
+|
+|  F. SIGUIENTE
+|  ------------
+|   Helpers del Slug `$029xxx..$02DD20` (despachador $2A078, Sub_0002A9A0),
+|   después `$05AA96..$05CA2A`, `$057D04..$059342`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
