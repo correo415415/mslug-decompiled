@@ -11,10 +11,32 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4518/4518 funciones
-BYTES   : 213,408/213,408 (registrados)
-ROM     : 213,408/2,097,152  (10.1761%)
+MATCHED : 4534/4534 funciones
+BYTES   : 221,874/221,874 (registrados)
+ROM     : 221,874/2,097,152  (10.5798%)
 ```
+
+> **Wave VVV** (39 entradas, 8 466 B, verde a la primera) — region
+> `$036632..$0388F0` en `player_air_death_crouch_0366xx.s` (22 huecos;
+> absorbe 23 islas C espurias). Decimotercera wave de `gen_asm_region.py`.
+>
+> * **Aire**: `Player_JumpStart_036914` (anim $25/$26, vel Y $9CD, +$90 =
+>   5 frames de hold) -> `Player_JumpAir_036a70` (control aereo por tabla
+>   `Sub_000324D0[layout]`, clamp `$267F4`, suelo `$27B66`, anilla
+>   `TargetRing_FindPending` -> `Player_HangRing_036638`), golpe
+>   `Player_Knockback_036d64` -> `Player_Fall_Physics_036e42`,
+>   `Player_SlugJumpOff_036796`, `Player_SpawnFreeFall_036c8c`,
+>   `Player_AirActionSelect_037168`.
+> * **Muerte**: targets de la tabla de 68 (`Player_Death_Generic` x30,
+>   `Player_Death_Fall` x29, `_FallSpawnFx`, `_Alt`, `_PrioE000`, `_Debug`,
+>   `_Timed`), snd $1053 + musica $1123/$1087, cadaver `$78840`,
+>   `Player_DeathPit_037b8e`, `Player_Death_Despawn_037c1a`.
+> * **Agachado**: `Player_CrouchEnter_037c74` -> `Player_CrouchIdle_03827a`
+>   (anim $30, hitbox $32598), `Player_CrawlRight/Left` (±$120),
+>   `Player_CrouchShoot_03873c`, `Player_CrouchWeaponEmpty_038086`,
+>   `Player_CrouchExit_037ec2`.
+> * Etiquetas nuevas en ficheros previos: `Player_SpawnLand_SetInvuln1E_033ec2`,
+>   `Player_SpawnLand_Reset_033ede`, `Player_RideSlug_Frame_03652e`.
 
 > **Wave UUU** (36 entradas, 9 050 B, verde a la primera) — region
 > `$0342C4..$036632` en `player_states_0342xx.s` (4 huecos; absorbe las

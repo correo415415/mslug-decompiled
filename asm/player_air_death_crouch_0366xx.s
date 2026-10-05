@@ -1,11 +1,95 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave VVV — jugador: aire / muerte / agachado
 |  Región: $036632..$0388F0  (8,624 B, 39 entradas, 2 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  Tres sub-máquinas del jugador: (1) AIRE — salto (`Player_JumpStart` ->
+|  `Player_JumpAir`), caída tras golpe (`Player_Knockback*` -> 
+|  `Player_Fall_Physics`), caída libre del spawn (`Player_SpawnFreeFall`),
+|  colgarse de una anilla (`Player_HangRing`, TargetRing_*) y saltar del
+|  Slug (`Player_SlugJumpOff`), con el selector de acción en el aire
+|  (`Player_AirActionSelect`: anims $25/$26 según vel X); (2) MUERTE —
+|  los targets de `Player_StateTable68_03338a` (`Player_Death_Generic`
+|  x30, `Player_Death_Fall` x29, `_FallSpawnFx` x3, `_Alt`/`_PrioE000` x2,
+|  `_Debug`, `_Timed`) que suenan $1053 y la música de vida $1123/$1087,
+|  spawnean el cadáver `$78840` / fx `$39214/$391EE/$39148`, y acaban en
+|  `Player_Death_Despawn` ($5B6 -> $13600 -> handler $400 -> $5FE) o
+|  `Player_DeathPit` (caída a pozo); (3) AGACHADO — `Player_CrouchEnter`
+|  -> `Player_CrouchIdle` (anim $30, hitbox $32598, cb Sub_00032734),
+|  gateo `Player_CrawlRight/Left` (vel ±$120), `Player_CrouchShoot`,
+|  `Player_CrouchWeaponEmpty` (anim $20, suelta arma Sub_00038BE4) y
+|  `Player_CrouchExit` (vuelve a Stand / Idle / Walk).
+|
+|  B. ENTRADAS (39)
+|   Player_RideSlug_Tail_036632: `jsr PublishState; rts` compartido.
+|   Player_HangRing_036638: anim 3, cb Sub_0003292C; sigue a la anilla
+|     (+$86 id, TargetRing_ClaimByKey $8F5DC); soltar con $5CDB4 ->
+|     Player_SlugJumpOff (+$24 += $20, invuln $14).
+|   Player_RideSlug_Pose2_0366fe: anim 2 sobre el Slug, +$2C por tabla
+|     Sub_000324D0[layout]; vuelve a Player_RideSlug_Frame.
+|   Player_SlugJumpOff_036796: anim $26, vel Y $87F / accel -$91, X por
+|     tablas Sub_000324E8/$324D8 según layout ($5D5B6); suelo $27B66 ->
+|     Player_SpawnLand_SetInvuln1E.
+|   Player_JumpDropEmptyWeapon_0368e0: si +$82==0 y +$71!=0 spawnea
+|     Sub_00038BE4 (arma soltada) y cae a Player_JumpStart.
+|   Player_JumpStart_036914: anim $25 (con vel X) / $26 (vertical), +$72
+|     =3 si nibble $8 (abajo: pasa plataforma, +$38 &= ~1), vel Y $9CD,
+|     accel -$C1, +$90 = 5 frames de "jump hold" ($5CD6C).
+|   Player_JumpAir_036a70: control aéreo ($5CDE4 = izq/der layer 3) con
+|     tabla Sub_000324D0, roce ±$18, clamp $300/$780 ($267F4), suelo
+|     $27B66 -> Player_SpawnLand_Reset, pausa $100001 bit5 preserva vel,
+|     PlayerAnimState_03705A, anilla (TargetRing_FindPending $8F470 ->
+|     Player_HangRing), rebote en pared (+$69 bits0-2) -> JumpDrop...
+|   Player_SpawnFreeFall_036c8c: caída inicial (snd $32112/$32142 por
+|     slot), anim $26, accel -$80, invuln $3C|...
+|   Player_Knockback_036d64 (+Setup, AirCtrl_036dca): golpe recibido
+|     ($27EBA), anim $26, cb Sub_00032830; Fall_Physics_036e42 es el
+|     bucle común (suelo $27BC8). KnockbackDelay_036fc2 (+$46 = 12
+|     frames) / KnockbackHold_037018: esperan antes de permitir control.
+|   Player_AirActionSelect_037168: switch de Player_ActionSelect en el
+|     aire (d1 $FF/3/4/1/2/else) -> (+$7C,+$7E,+$70,+$72) para disparo
+|     abajo (+$38 |= 1 si pistola), arriba, granada...
+|   Player_Death_0375d2..Player_Death_Despawn_037c1a: ver A.
+|   Player_CrouchEnter_037c74 / _B_037dba / Exit_037ec2 /
+|     ReenterByInput_038044 / WeaponEmpty_038086 / IdleB_0381a2 /
+|     Idle_03827a (+Setup) / CrawlRight_03842c (+Setup) / CrawlLeft_03855a
+|     (+Setup) / _Alt_038688/_Alt_0386e2 / CrouchShoot_03873c: ver A.
+|     Acción agachado: $FF -> Sub_00038A28, 3 -> Sub_000388F0, else
+|     CrouchShoot; recarga -> Sub_00038AE6; soltar abajo ($5CEF8 C=0) ->
+|     CrouchExit.
+|
+|  C. CAMPOS DE ENTIDAD USADOS
+|   +$13 bit0 (muerto) / bit6, +$21, +$22/+$24 pos, +$28..+$2E vel/accel,
+|   +$38 bit0 (atraviesa plataformas) / prio $E000/$D000, +$3A facing,
+|   +$3B, +$45/+$59 invuln, +$46 timer, +$48 cb, +$5B bit7, +$60 hitbox
+|   ($32500 de pie, $32598 agachado), +$69 bits0-2 contacto pared/suelo,
+|   bit5, +$6C, +$70 anim, +$71 arma, +$72 modo, +$78 nibble, +$7C/+$7E,
+|   +$82 munición, +$85, +$86 id anilla, +$88 bit0, +$8C bits0-3,
+|   +$8D bit1 (en aire) / bit5 (aterrizando) / bit6 (agachado), +$90 timer.
+|
+|  D. HELPERS EXTERNOS
+|   $267E2/$267E6 reset vel, $267F4 clamp |d0|<=d1, $2783A/$27A92 física,
+|   $27B66/$27BC8 test suelo, $27CEE, $27DB2 agua (d7=$40), $27EBA golpe,
+|   $5DD56 suelo (Sub_000324C6/$324BC por escena $106ECE), $5D5B6
+|   InputLayout_ReadField2, $5CD6C/$5CDB4/$5CDE4/$5CEF8 InputEvtThunk,
+|   $5DCA4 rand, $5E9B6 RNG, $2352 música, $4AE alloc + $5DD02 copia,
+|   $8F470/$8F520/$8F5DC TargetRing_*, $5B6/$13600/$5FE despawn.
+|
+|  E. HIPÓTESIS / DUDAS
+|   - Player_Death_Generic_037a3e y Player_Death_Timed_037b00 son
+|     entradas a mitad de otros cuerpos (tabla de 68); se mantienen como
+|     etiquetas globales dentro de Player_Death_PrioE000 / _Debug.
+|   - Las copias `_Alt` de Crawl ($038688/$0386E2) y `Player_CrouchIdleB`
+|     son variantes de entrada con anim re-seleccionada (misma cola).
+|   - "HangRing" = anilla/liana de las TargetRing_*; podría ser también
+|     el gancho del helicóptero de rescate.
+|
+|  F. ORIGEN
+|   ASM a mano: `move.w #$400,d1; move.w #$300,d1` (constante sobre-
+|   escrita), `bra.w` a `bra.w`, `btst ...; bne .L+0` (saltos vacíos),
+|   `movea.l #-1,a0` seguido de `lea`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

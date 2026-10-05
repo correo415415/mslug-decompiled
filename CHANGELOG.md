@@ -17,6 +17,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave VVV — 39 entries (8,466 B): `$036632..$0388F0`
+  (`player_air_death_crouch_0366xx.s`, 23 spurious C islands absorbed):
+  the player's air / death / crouch sub-machines — `Player_JumpStart` /
+  `Player_JumpAir` (air control, wall bounce, ring grab via
+  `TargetRing_*` -> `Player_HangRing`), knockback (`Player_Knockback*`,
+  `Player_Fall_Physics`), `Player_SlugJumpOff`, `Player_SpawnFreeFall`,
+  the 7 death handlers targeted by `Player_StateTable68` (`Player_Death_*`,
+  `Player_DeathPit`, `Player_Death_Despawn`) and the crouch set
+  (`Player_CrouchEnter/Idle/Exit`, `Player_CrawlRight/Left`,
+  `Player_CrouchShoot`, `Player_CrouchWeaponEmpty`). Matcher: 4,534/4,534,
+  221,874 B (10.58 %).
 - Wave UUU — 36 entries (9,050 B): `$0342C4..$036632`
   (`player_states_0342xx.s`, 4 gaps closed, 3 spurious C islands
   absorbed): the player's ground state machine — `Player_Stand`,
