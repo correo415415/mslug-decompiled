@@ -15,34 +15,34 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c62a  @ $03C62A  (8 B)
+|  PlayerArm_JsrAttack_03c62a  @ $03C62A  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c62a, "ax", @progbits
-        .global TaskHandler_03c62a
-TaskHandler_03c62a:
+        .section .text.PlayerArm_JsrAttack_03c62a, "ax", @progbits
+        .global PlayerArm_JsrAttack_03c62a
+PlayerArm_JsrAttack_03c62a:
         jsr     0x283ca.l                       | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c632  @ $03C632  (34 B)
+|  PlayerArm_SlugRideA_03c632  @ $03C632  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c632, "ax", @progbits
-        .global TaskHandler_03c632
-TaskHandler_03c632:
+        .section .text.PlayerArm_SlugRideA_03c632, "ax", @progbits
+        .global PlayerArm_SlugRideA_03c632
+PlayerArm_SlugRideA_03c632:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
         jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
-        lea     Data_03c654(pc),a0              | +010
+        lea     PlayerArm_SpriteTbl_03c654(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_03c654__L03c67c            | +01e
+        bra.w   PlayerArm_SpriteTbl_03c654__L03c67c | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_03c654  @ $03C654  (42 B)
+|  PlayerArm_SpriteTbl_03c654  @ $03C654  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03c654, "ax", @progbits
-        .global Data_03c654
-Data_03c654:
+        .section .text.PlayerArm_SpriteTbl_03c654, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03c654
+PlayerArm_SpriteTbl_03c654:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xc7e4                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -63,29 +63,29 @@ Data_03c654:
         .dc.w   0xfe26                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xfe26                        | +026  (dato / opcode no decodificado)
-        .global Data_03c654__L03c67c
-Data_03c654__L03c67c:
+        .global PlayerArm_SpriteTbl_03c654__L03c67c
+PlayerArm_SpriteTbl_03c654__L03c67c:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c67e  @ $03C67E  (28 B)
+|  PlayerArm_SlugRideB_03c67e  @ $03C67E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c67e, "ax", @progbits
-        .global TaskHandler_03c67e
-TaskHandler_03c67e:
+        .section .text.PlayerArm_SlugRideB_03c67e, "ax", @progbits
+        .global PlayerArm_SlugRideB_03c67e
+PlayerArm_SlugRideB_03c67e:
         bclr    #0x2,0x8c(a6)                   | +000
         jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
-        lea     Data_03c69a(pc),a0              | +00a
+        lea     PlayerArm_SpriteTbl_03c69a(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_03c69a__L03c6c2            | +018
+        bra.w   PlayerArm_SpriteTbl_03c69a__L03c6c2 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_03c69a  @ $03C69A  (42 B)
+|  PlayerArm_SpriteTbl_03c69a  @ $03C69A  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03c69a, "ax", @progbits
-        .global Data_03c69a
-Data_03c69a:
+        .section .text.PlayerArm_SpriteTbl_03c69a, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03c69a
+PlayerArm_SpriteTbl_03c69a:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xc800                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -106,30 +106,30 @@ Data_03c69a:
         .dc.w   0xfe42                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xfe42                        | +026  (dato / opcode no decodificado)
-        .global Data_03c69a__L03c6c2
-Data_03c69a__L03c6c2:
+        .global PlayerArm_SpriteTbl_03c69a__L03c6c2
+PlayerArm_SpriteTbl_03c69a__L03c6c2:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c6c4  @ $03C6C4  (34 B)
+|  PlayerArm_Fall2_03c6c4  @ $03C6C4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c6c4, "ax", @progbits
-        .global TaskHandler_03c6c4
-TaskHandler_03c6c4:
+        .section .text.PlayerArm_Fall2_03c6c4, "ax", @progbits
+        .global PlayerArm_Fall2_03c6c4
+PlayerArm_Fall2_03c6c4:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
         jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
-        lea     Data_03c6e6(pc),a0              | +010
+        lea     PlayerArm_SpriteTbl_03c6e6(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_03c6e6__L03c70e            | +01e
+        bra.w   PlayerArm_SpriteTbl_03c6e6__L03c70e | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_03c6e6  @ $03C6E6  (42 B)
+|  PlayerArm_SpriteTbl_03c6e6  @ $03C6E6  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03c6e6, "ax", @progbits
-        .global Data_03c6e6
-Data_03c6e6:
+        .section .text.PlayerArm_SpriteTbl_03c6e6, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03c6e6
+PlayerArm_SpriteTbl_03c6e6:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xa30c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -150,16 +150,16 @@ Data_03c6e6:
         .dc.w   0xa30c                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xa30c                        | +026  (dato / opcode no decodificado)
-        .global Data_03c6e6__L03c70e
-Data_03c6e6__L03c70e:
+        .global PlayerArm_SpriteTbl_03c6e6__L03c70e
+PlayerArm_SpriteTbl_03c6e6__L03c70e:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  Sub_0003C710  @ $03C710  (102 B)
+|  PlayerFire_Pistol_Spawn_03c710  @ $03C710  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003C710, "ax", @progbits
-        .global Sub_0003C710
-Sub_0003C710:
+        .section .text.PlayerFire_Pistol_Spawn_03c710, "ax", @progbits
+        .global PlayerFire_Pistol_Spawn_03c710
+PlayerFire_Pistol_Spawn_03c710:
         cmpa.l  #0x100440,a6                    | +000
         beq.b   .L03c722                        | +006
         cmpa.l  #0x1004e0,a6                    | +008
@@ -187,12 +187,12 @@ Sub_0003C710:
         rts                                     | +064
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c776  @ $03C776  (52 B)
+|  PlayerFire_Pistol_Fwd_03c776  @ $03C776  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c776, "ax", @progbits
-        .global TaskHandler_03c776
-TaskHandler_03c776:
-        jsr     Sub_0003C710(pc)                | +000
+        .section .text.PlayerFire_Pistol_Fwd_03c776, "ax", @progbits
+        .global PlayerFire_Pistol_Fwd_03c776
+PlayerFire_Pistol_Fwd_03c776:
+        jsr     PlayerFire_Pistol_Spawn_03c710(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03c790                        | +00a
         move.b  #0x0,d0                         | +00e
@@ -209,12 +209,12 @@ TaskHandler_03c776:
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c7aa  @ $03C7AA  (30 B)
+|  PlayerFire_Pistol_Up_03c7aa  @ $03C7AA  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c7aa, "ax", @progbits
-        .global TaskHandler_03c7aa
-TaskHandler_03c7aa:
-        jsr     Sub_0003C710(pc)                | +000
+        .section .text.PlayerFire_Pistol_Up_03c7aa, "ax", @progbits
+        .global PlayerFire_Pistol_Up_03c7aa
+PlayerFire_Pistol_Up_03c7aa:
+        jsr     PlayerFire_Pistol_Spawn_03c710(pc) | +000
         move.b  #0x8,d0                         | +004
         move.b  #0x1,d1                         | +008
         lsl.b   #0x3,d0                         | +00c
@@ -224,12 +224,12 @@ TaskHandler_03c7aa:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c7c8  @ $03C7C8  (52 B)
+|  PlayerFire_Pistol_Back_03c7c8  @ $03C7C8  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c7c8, "ax", @progbits
-        .global TaskHandler_03c7c8
-TaskHandler_03c7c8:
-        jsr     Sub_0003C710(pc)                | +000
+        .section .text.PlayerFire_Pistol_Back_03c7c8, "ax", @progbits
+        .global PlayerFire_Pistol_Back_03c7c8
+PlayerFire_Pistol_Back_03c7c8:
+        jsr     PlayerFire_Pistol_Spawn_03c710(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         beq.w   .L03c7e2                        | +00a
         move.b  #0x10,d0                        | +00e
@@ -246,12 +246,12 @@ TaskHandler_03c7c8:
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c7fc  @ $03C7FC  (58 B)
+|  PlayerFire_Pistol_FwdLow_03c7fc  @ $03C7FC  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c7fc, "ax", @progbits
-        .global TaskHandler_03c7fc
-TaskHandler_03c7fc:
-        jsr     Sub_0003C710(pc)                | +000
+        .section .text.PlayerFire_Pistol_FwdLow_03c7fc, "ax", @progbits
+        .global PlayerFire_Pistol_FwdLow_03c7fc
+PlayerFire_Pistol_FwdLow_03c7fc:
+        jsr     PlayerFire_Pistol_Spawn_03c710(pc) | +000
         subi.w  #0xc,0x24(a0)                   | +004
         btst    #0x0,0x3a(a6)                   | +00a
         bne.w   .L03c81c                        | +010
@@ -269,12 +269,12 @@ TaskHandler_03c7fc:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c836  @ $03C836  (30 B)
+|  PlayerFire_Pistol_Down_03c836  @ $03C836  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c836, "ax", @progbits
-        .global TaskHandler_03c836
-TaskHandler_03c836:
-        jsr     Sub_0003C710(pc)                | +000
+        .section .text.PlayerFire_Pistol_Down_03c836, "ax", @progbits
+        .global PlayerFire_Pistol_Down_03c836
+PlayerFire_Pistol_Down_03c836:
+        jsr     PlayerFire_Pistol_Spawn_03c710(pc) | +000
         move.b  #0x18,d0                        | +004
         move.b  #0x0,d1                         | +008
         lsl.b   #0x3,d0                         | +00c
@@ -284,12 +284,12 @@ TaskHandler_03c836:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c854  @ $03C854  (30 B)
+|  PlayerFire_Pistol_DownB_03c854  @ $03C854  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c854, "ax", @progbits
-        .global TaskHandler_03c854
-TaskHandler_03c854:
-        jsr     Sub_0003C710(pc)                | +000
+        .section .text.PlayerFire_Pistol_DownB_03c854, "ax", @progbits
+        .global PlayerFire_Pistol_DownB_03c854
+PlayerFire_Pistol_DownB_03c854:
+        jsr     PlayerFire_Pistol_Spawn_03c710(pc) | +000
         move.b  #0x18,d0                        | +004
         move.b  #0x0,d1                         | +008
         lsl.b   #0x3,d0                         | +00c
@@ -299,11 +299,11 @@ TaskHandler_03c854:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  Sub_0003C872  @ $03C872  (108 B)
+|  PlayerFire_HMG_Spawn_03c872  @ $03C872  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003C872, "ax", @progbits
-        .global Sub_0003C872
-Sub_0003C872:
+        .section .text.PlayerFire_HMG_Spawn_03c872, "ax", @progbits
+        .global PlayerFire_HMG_Spawn_03c872
+PlayerFire_HMG_Spawn_03c872:
         cmpa.l  #0x100440,a6                    | +000
         beq.b   .L03c884                        | +006
         cmpa.l  #0x1004e0,a6                    | +008
@@ -334,12 +334,12 @@ Sub_0003C872:
         rts                                     | +06a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c8de  @ $03C8DE  (38 B)
+|  PlayerFire_HMG_Fwd_03c8de  @ $03C8DE  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c8de, "ax", @progbits
-        .global TaskHandler_03c8de
-TaskHandler_03c8de:
-        jsr     Sub_0003C872(pc)                | +000
+        .section .text.PlayerFire_HMG_Fwd_03c8de, "ax", @progbits
+        .global PlayerFire_HMG_Fwd_03c8de
+PlayerFire_HMG_Fwd_03c8de:
+        jsr     PlayerFire_HMG_Spawn_03c872(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03c8f4                        | +00a
         move.b  #0x0,d0                         | +00e
@@ -353,12 +353,12 @@ TaskHandler_03c8de:
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c904  @ $03C904  (22 B)
+|  PlayerFire_HMG_Up_03c904  @ $03C904  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c904, "ax", @progbits
-        .global TaskHandler_03c904
-TaskHandler_03c904:
-        jsr     Sub_0003C872(pc)                | +000
+        .section .text.PlayerFire_HMG_Up_03c904, "ax", @progbits
+        .global PlayerFire_HMG_Up_03c904
+PlayerFire_HMG_Up_03c904:
+        jsr     PlayerFire_HMG_Spawn_03c872(pc) | +000
         move.b  #0x1,d1                         | +004
         move.b  #0x0,d0                         | +008
         move.b  d1,0x98(a0)                     | +00c
@@ -366,12 +366,12 @@ TaskHandler_03c904:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c91a  @ $03C91A  (40 B)
+|  PlayerFire_HMG_Down_03c91a  @ $03C91A  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c91a, "ax", @progbits
-        .global TaskHandler_03c91a
-TaskHandler_03c91a:
-        jsr     Sub_0003C872(pc)                | +000
+        .section .text.PlayerFire_HMG_Down_03c91a, "ax", @progbits
+        .global PlayerFire_HMG_Down_03c91a
+PlayerFire_HMG_Down_03c91a:
+        jsr     PlayerFire_HMG_Spawn_03c872(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03c930                        | +00a
         move.b  #0x0,d0                         | +00e
@@ -385,12 +385,12 @@ TaskHandler_03c91a:
         rts                                     | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c942  @ $03C942  (38 B)
+|  PlayerFire_HMG_FwdB_03c942  @ $03C942  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c942, "ax", @progbits
-        .global TaskHandler_03c942
-TaskHandler_03c942:
-        jsr     Sub_0003C872(pc)                | +000
+        .section .text.PlayerFire_HMG_FwdB_03c942, "ax", @progbits
+        .global PlayerFire_HMG_FwdB_03c942
+PlayerFire_HMG_FwdB_03c942:
+        jsr     PlayerFire_HMG_Spawn_03c872(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03c958                        | +00a
         move.b  #0x0,d0                         | +00e
@@ -404,12 +404,12 @@ TaskHandler_03c942:
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c968  @ $03C968  (46 B)
+|  PlayerFire_HMG_Diag_03c968  @ $03C968  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c968, "ax", @progbits
-        .global TaskHandler_03c968
-TaskHandler_03c968:
-        jsr     Sub_0003C872(pc)                | +000
+        .section .text.PlayerFire_HMG_Diag_03c968, "ax", @progbits
+        .global PlayerFire_HMG_Diag_03c968
+PlayerFire_HMG_Diag_03c968:
+        jsr     PlayerFire_HMG_Spawn_03c872(pc) | +000
         subi.w  #0xc,0x24(a0)                   | +004
         btst    #0x0,0x3a(a6)                   | +00a
         bne.w   .L03c984                        | +010
@@ -424,12 +424,12 @@ TaskHandler_03c968:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03c996  @ $03C996  (46 B)
+|  PlayerFire_HMG_DiagB_03c996  @ $03C996  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03c996, "ax", @progbits
-        .global TaskHandler_03c996
-TaskHandler_03c996:
-        jsr     Sub_0003C872(pc)                | +000
+        .section .text.PlayerFire_HMG_DiagB_03c996, "ax", @progbits
+        .global PlayerFire_HMG_DiagB_03c996
+PlayerFire_HMG_DiagB_03c996:
+        jsr     PlayerFire_HMG_Spawn_03c872(pc) | +000
         subi.w  #0xc,0x24(a0)                   | +004
         btst    #0x0,0x3a(a6)                   | +00a
         bne.w   .L03c9b2                        | +010
@@ -444,11 +444,11 @@ TaskHandler_03c996:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  Sub_0003C9C4  @ $03C9C4  (98 B)
+|  PlayerFire_Shotgun_Spawn_03c9c4  @ $03C9C4  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003C9C4, "ax", @progbits
-        .global Sub_0003C9C4
-Sub_0003C9C4:
+        .section .text.PlayerFire_Shotgun_Spawn_03c9c4, "ax", @progbits
+        .global PlayerFire_Shotgun_Spawn_03c9c4
+PlayerFire_Shotgun_Spawn_03c9c4:
         cmpa.l  #0x100440,a6                    | +000
         beq.b   .L03c9d6                        | +006
         cmpa.l  #0x1004e0,a6                    | +008
@@ -476,12 +476,12 @@ Sub_0003C9C4:
         rts                                     | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ca26  @ $03CA26  (40 B)
+|  PlayerFire_Shotgun_Fwd_03ca26  @ $03CA26  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ca26, "ax", @progbits
-        .global TaskHandler_03ca26
-TaskHandler_03ca26:
-        jsr     Sub_0003C9C4(pc)                | +000
+        .section .text.PlayerFire_Shotgun_Fwd_03ca26, "ax", @progbits
+        .global PlayerFire_Shotgun_Fwd_03ca26
+PlayerFire_Shotgun_Fwd_03ca26:
+        jsr     PlayerFire_Shotgun_Spawn_03c9c4(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03ca3c                        | +00a
         move.b  #0x0,d0                         | +00e
@@ -495,12 +495,12 @@ TaskHandler_03ca26:
         rts                                     | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ca4e  @ $03CA4E  (22 B)
+|  PlayerFire_Shotgun_Up_03ca4e  @ $03CA4E  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ca4e, "ax", @progbits
-        .global TaskHandler_03ca4e
-TaskHandler_03ca4e:
-        jsr     Sub_0003C9C4(pc)                | +000
+        .section .text.PlayerFire_Shotgun_Up_03ca4e, "ax", @progbits
+        .global PlayerFire_Shotgun_Up_03ca4e
+PlayerFire_Shotgun_Up_03ca4e:
+        jsr     PlayerFire_Shotgun_Spawn_03c9c4(pc) | +000
         move.b  #0x1,d1                         | +004
         move.b  #0x0,d0                         | +008
         move.b  d1,0x98(a0)                     | +00c
@@ -508,12 +508,12 @@ TaskHandler_03ca4e:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ca64  @ $03CA64  (40 B)
+|  PlayerFire_Shotgun_Down_03ca64  @ $03CA64  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ca64, "ax", @progbits
-        .global TaskHandler_03ca64
-TaskHandler_03ca64:
-        jsr     Sub_0003C9C4(pc)                | +000
+        .section .text.PlayerFire_Shotgun_Down_03ca64, "ax", @progbits
+        .global PlayerFire_Shotgun_Down_03ca64
+PlayerFire_Shotgun_Down_03ca64:
+        jsr     PlayerFire_Shotgun_Spawn_03c9c4(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03ca7a                        | +00a
         move.b  #0x0,d0                         | +00e
@@ -527,12 +527,12 @@ TaskHandler_03ca64:
         rts                                     | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ca8c  @ $03CA8C  (46 B)
+|  PlayerFire_Shotgun_FwdLow_03ca8c  @ $03CA8C  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ca8c, "ax", @progbits
-        .global TaskHandler_03ca8c
-TaskHandler_03ca8c:
-        jsr     Sub_0003C9C4(pc)                | +000
+        .section .text.PlayerFire_Shotgun_FwdLow_03ca8c, "ax", @progbits
+        .global PlayerFire_Shotgun_FwdLow_03ca8c
+PlayerFire_Shotgun_FwdLow_03ca8c:
+        jsr     PlayerFire_Shotgun_Spawn_03c9c4(pc) | +000
         subi.w  #0xc,0x24(a0)                   | +004
         btst    #0x0,0x3a(a6)                   | +00a
         bne.w   .L03caa8                        | +010
@@ -547,12 +547,12 @@ TaskHandler_03ca8c:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03caba  @ $03CABA  (46 B)
+|  PlayerFire_Shotgun_Diag_03caba  @ $03CABA  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03caba, "ax", @progbits
-        .global TaskHandler_03caba
-TaskHandler_03caba:
-        jsr     Sub_0003C9C4(pc)                | +000
+        .section .text.PlayerFire_Shotgun_Diag_03caba, "ax", @progbits
+        .global PlayerFire_Shotgun_Diag_03caba
+PlayerFire_Shotgun_Diag_03caba:
+        jsr     PlayerFire_Shotgun_Spawn_03c9c4(pc) | +000
         subi.w  #0xc,0x24(a0)                   | +004
         btst    #0x0,0x3a(a6)                   | +00a
         bne.w   .L03cad6                        | +010
@@ -567,12 +567,12 @@ TaskHandler_03caba:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cae8  @ $03CAE8  (46 B)
+|  PlayerFire_Shotgun_DiagB_03cae8  @ $03CAE8  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cae8, "ax", @progbits
-        .global TaskHandler_03cae8
-TaskHandler_03cae8:
-        jsr     Sub_0003C9C4(pc)                | +000
+        .section .text.PlayerFire_Shotgun_DiagB_03cae8, "ax", @progbits
+        .global PlayerFire_Shotgun_DiagB_03cae8
+PlayerFire_Shotgun_DiagB_03cae8:
+        jsr     PlayerFire_Shotgun_Spawn_03c9c4(pc) | +000
         subi.w  #0xc,0x24(a0)                   | +004
         btst    #0x0,0x3a(a6)                   | +00a
         bne.w   .L03cb04                        | +010
@@ -587,11 +587,11 @@ TaskHandler_03cae8:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  Sub_0003CB16  @ $03CB16  (98 B)
+|  PlayerFire_Rocket_Spawn_03cb16  @ $03CB16  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003CB16, "ax", @progbits
-        .global Sub_0003CB16
-Sub_0003CB16:
+        .section .text.PlayerFire_Rocket_Spawn_03cb16, "ax", @progbits
+        .global PlayerFire_Rocket_Spawn_03cb16
+PlayerFire_Rocket_Spawn_03cb16:
         cmpa.l  #0x100440,a6                    | +000
         beq.b   .L03cb28                        | +006
         cmpa.l  #0x1004e0,a6                    | +008
@@ -619,15 +619,15 @@ Sub_0003CB16:
         rts                                     | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cb78  @ $03CB78  (68 B)
+|  PlayerFire_Rocket_Fwd_03cb78  @ $03CB78  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cb78, "ax", @progbits
-        .global TaskHandler_03cb78
-TaskHandler_03cb78:
-        lea     TaskHandler_03d4ea(pc),a1       | +000
+        .section .text.PlayerFire_Rocket_Fwd_03cb78, "ax", @progbits
+        .global PlayerFire_Rocket_Fwd_03cb78
+PlayerFire_Rocket_Fwd_03cb78:
+        lea     ShellCasing_Rocket_03d4ea(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
-        jsr     Sub_0003CB16(pc)                | +010
+        jsr     PlayerFire_Rocket_Spawn_03cb16(pc) | +010
         btst    #0x0,0x3a(a6)                   | +014
         bne.w   .L03cba4                        | +01a
         addi.w  #0x10,0x22(a0)                  | +01e
@@ -643,15 +643,15 @@ TaskHandler_03cb78:
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cbbc  @ $03CBBC  (38 B)
+|  PlayerFire_Rocket_Up_03cbbc  @ $03CBBC  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cbbc, "ax", @progbits
-        .global TaskHandler_03cbbc
-TaskHandler_03cbbc:
-        lea     TaskHandler_03d4f8(pc),a1       | +000
+        .section .text.PlayerFire_Rocket_Up_03cbbc, "ax", @progbits
+        .global PlayerFire_Rocket_Up_03cbbc
+PlayerFire_Rocket_Up_03cbbc:
+        lea     ShellCasing_RocketB_03d4f8(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
-        jsr     Sub_0003CB16(pc)                | +010
+        jsr     PlayerFire_Rocket_Spawn_03cb16(pc) | +010
         move.b  #0x1,d1                         | +014
         move.b  #0x0,d0                         | +018
         move.b  d1,0x98(a0)                     | +01c
@@ -659,18 +659,18 @@ TaskHandler_03cbbc:
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cbe2  @ $03CBE2  (80 B)
+|  PlayerFire_Rocket_Back_03cbe2  @ $03CBE2  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cbe2, "ax", @progbits
-        .global TaskHandler_03cbe2
-TaskHandler_03cbe2:
-        lea     TaskHandler_03d4ea(pc),a1       | +000
+        .section .text.PlayerFire_Rocket_Back_03cbe2, "ax", @progbits
+        .global PlayerFire_Rocket_Back_03cbe2
+PlayerFire_Rocket_Back_03cbe2:
+        lea     ShellCasing_Rocket_03d4ea(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.b  0x3a(a6),d0                     | +010
         eori.b  #0x1,d0                         | +014
         move.b  d0,0x3a(a0)                     | +018
-        jsr     Sub_0003CB16(pc)                | +01c
+        jsr     PlayerFire_Rocket_Spawn_03cb16(pc) | +01c
         btst    #0x0,0x3a(a6)                   | +020
         bne.w   .L03cc1a                        | +026
         subi.w  #0x10,0x22(a0)                  | +02a
@@ -686,16 +686,16 @@ TaskHandler_03cbe2:
         rts                                     | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cc32  @ $03CC32  (68 B)
+|  PlayerFire_Rocket_FwdLow_03cc32  @ $03CC32  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cc32, "ax", @progbits
-        .global TaskHandler_03cc32
-TaskHandler_03cc32:
-        lea     TaskHandler_03d4ea(pc),a1       | +000
+        .section .text.PlayerFire_Rocket_FwdLow_03cc32, "ax", @progbits
+        .global PlayerFire_Rocket_FwdLow_03cc32
+PlayerFire_Rocket_FwdLow_03cc32:
+        lea     ShellCasing_Rocket_03d4ea(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         subi.w  #0xc,0x24(a0)                   | +010
-        jsr     Sub_0003CB16(pc)                | +016
+        jsr     PlayerFire_Rocket_Spawn_03cb16(pc) | +016
         subi.w  #0xc,0x24(a0)                   | +01a
         btst    #0x0,0x3a(a6)                   | +020
         bne.w   .L03cc64                        | +026
@@ -710,12 +710,12 @@ TaskHandler_03cc32:
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cc76  @ $03CC76  (46 B)
+|  PlayerFire_Rocket_Diag_03cc76  @ $03CC76  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cc76, "ax", @progbits
-        .global TaskHandler_03cc76
-TaskHandler_03cc76:
-        jsr     Sub_0003CB16(pc)                | +000
+        .section .text.PlayerFire_Rocket_Diag_03cc76, "ax", @progbits
+        .global PlayerFire_Rocket_Diag_03cc76
+PlayerFire_Rocket_Diag_03cc76:
+        jsr     PlayerFire_Rocket_Spawn_03cb16(pc) | +000
         subi.w  #0xc,0x24(a0)                   | +004
         btst    #0x0,0x3a(a6)                   | +00a
         bne.w   .L03cc92                        | +010
@@ -730,12 +730,12 @@ TaskHandler_03cc76:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cca4  @ $03CCA4  (46 B)
+|  PlayerFire_Rocket_DiagB_03cca4  @ $03CCA4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cca4, "ax", @progbits
-        .global TaskHandler_03cca4
-TaskHandler_03cca4:
-        jsr     Sub_0003CB16(pc)                | +000
+        .section .text.PlayerFire_Rocket_DiagB_03cca4, "ax", @progbits
+        .global PlayerFire_Rocket_DiagB_03cca4
+PlayerFire_Rocket_DiagB_03cca4:
+        jsr     PlayerFire_Rocket_Spawn_03cb16(pc) | +000
         subi.w  #0xc,0x24(a0)                   | +004
         btst    #0x0,0x3a(a6)                   | +00a
         bne.w   .L03ccc0                        | +010
@@ -750,11 +750,11 @@ TaskHandler_03cca4:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  Sub_0003CCD2  @ $03CCD2  (108 B)
+|  PlayerFire_Flame_Spawn_03ccd2  @ $03CCD2  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003CCD2, "ax", @progbits
-        .global Sub_0003CCD2
-Sub_0003CCD2:
+        .section .text.PlayerFire_Flame_Spawn_03ccd2, "ax", @progbits
+        .global PlayerFire_Flame_Spawn_03ccd2
+PlayerFire_Flame_Spawn_03ccd2:
         cmpa.l  #0x100440,a6                    | +000
         beq.b   .L03cce4                        | +006
         cmpa.l  #0x1004e0,a6                    | +008
@@ -784,12 +784,12 @@ Sub_0003CCD2:
         rts                                     | +06a
 
 | ----------------------------------------------------------------------------
-|  Sub_0003CD3E  @ $03CD3E  (50 B)
+|  PlayerFire_Flame_FwdNeg_03cd3e  @ $03CD3E  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003CD3E, "ax", @progbits
-        .global Sub_0003CD3E
-Sub_0003CD3E:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_FwdNeg_03cd3e, "ax", @progbits
+        .global PlayerFire_Flame_FwdNeg_03cd3e
+PlayerFire_Flame_FwdNeg_03cd3e:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cd54                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -805,12 +805,12 @@ Sub_0003CD3E:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  Sub_0003CD70  @ $03CD70  (50 B)
+|  PlayerFire_Flame_Fwd0_03cd70  @ $03CD70  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003CD70, "ax", @progbits
-        .global Sub_0003CD70
-Sub_0003CD70:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Fwd0_03cd70, "ax", @progbits
+        .global PlayerFire_Flame_Fwd0_03cd70
+PlayerFire_Flame_Fwd0_03cd70:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cd86                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -826,12 +826,12 @@ Sub_0003CD70:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  Sub_0003CDA2  @ $03CDA2  (50 B)
+|  PlayerFire_Flame_FwdPos_03cda2  @ $03CDA2  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003CDA2, "ax", @progbits
-        .global Sub_0003CDA2
-Sub_0003CDA2:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_FwdPos_03cda2, "ax", @progbits
+        .global PlayerFire_Flame_FwdPos_03cda2
+PlayerFire_Flame_FwdPos_03cda2:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cdb8                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -847,12 +847,12 @@ Sub_0003CDA2:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cdd4  @ $03CDD4  (26 B)
+|  PlayerFire_Flame_FwdNegLow_03cdd4  @ $03CDD4  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cdd4, "ax", @progbits
-        .global TaskHandler_03cdd4
-TaskHandler_03cdd4:
-        jsr     Sub_0003CD3E(pc)                | +000
+        .section .text.PlayerFire_Flame_FwdNegLow_03cdd4, "ax", @progbits
+        .global PlayerFire_Flame_FwdNegLow_03cdd4
+PlayerFire_Flame_FwdNegLow_03cdd4:
+        jsr     PlayerFire_Flame_FwdNeg_03cd3e(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cde6                        | +00a
         bra.w   .L03cde6                        | +00e
@@ -861,12 +861,12 @@ TaskHandler_03cdd4:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cdee  @ $03CDEE  (26 B)
+|  PlayerFire_Flame_Fwd0Low_03cdee  @ $03CDEE  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cdee, "ax", @progbits
-        .global TaskHandler_03cdee
-TaskHandler_03cdee:
-        jsr     Sub_0003CD70(pc)                | +000
+        .section .text.PlayerFire_Flame_Fwd0Low_03cdee, "ax", @progbits
+        .global PlayerFire_Flame_Fwd0Low_03cdee
+PlayerFire_Flame_Fwd0Low_03cdee:
+        jsr     PlayerFire_Flame_Fwd0_03cd70(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03ce00                        | +00a
         bra.w   .L03ce00                        | +00e
@@ -875,12 +875,12 @@ TaskHandler_03cdee:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ce08  @ $03CE08  (26 B)
+|  PlayerFire_Flame_FwdPosLow_03ce08  @ $03CE08  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ce08, "ax", @progbits
-        .global TaskHandler_03ce08
-TaskHandler_03ce08:
-        jsr     Sub_0003CDA2(pc)                | +000
+        .section .text.PlayerFire_Flame_FwdPosLow_03ce08, "ax", @progbits
+        .global PlayerFire_Flame_FwdPosLow_03ce08
+PlayerFire_Flame_FwdPosLow_03ce08:
+        jsr     PlayerFire_Flame_FwdPos_03cda2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03ce1a                        | +00a
         bra.w   .L03ce1a                        | +00e
@@ -889,12 +889,12 @@ TaskHandler_03ce08:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ce22  @ $03CE22  (50 B)
+|  PlayerFire_Flame_UpNeg_03ce22  @ $03CE22  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ce22, "ax", @progbits
-        .global TaskHandler_03ce22
-TaskHandler_03ce22:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_UpNeg_03ce22, "ax", @progbits
+        .global PlayerFire_Flame_UpNeg_03ce22
+PlayerFire_Flame_UpNeg_03ce22:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03ce38                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -910,12 +910,12 @@ TaskHandler_03ce22:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ce54  @ $03CE54  (50 B)
+|  PlayerFire_Flame_Up0_03ce54  @ $03CE54  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ce54, "ax", @progbits
-        .global TaskHandler_03ce54
-TaskHandler_03ce54:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Up0_03ce54, "ax", @progbits
+        .global PlayerFire_Flame_Up0_03ce54
+PlayerFire_Flame_Up0_03ce54:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03ce6a                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -931,12 +931,12 @@ TaskHandler_03ce54:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ce86  @ $03CE86  (50 B)
+|  PlayerFire_Flame_UpPos_03ce86  @ $03CE86  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ce86, "ax", @progbits
-        .global TaskHandler_03ce86
-TaskHandler_03ce86:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_UpPos_03ce86, "ax", @progbits
+        .global PlayerFire_Flame_UpPos_03ce86
+PlayerFire_Flame_UpPos_03ce86:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03ce9c                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -952,12 +952,12 @@ TaskHandler_03ce86:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ceb8  @ $03CEB8  (50 B)
+|  PlayerFire_Flame_BackNeg_03ceb8  @ $03CEB8  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ceb8, "ax", @progbits
-        .global TaskHandler_03ceb8
-TaskHandler_03ceb8:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_BackNeg_03ceb8, "ax", @progbits
+        .global PlayerFire_Flame_BackNeg_03ceb8
+PlayerFire_Flame_BackNeg_03ceb8:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cece                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -973,12 +973,12 @@ TaskHandler_03ceb8:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03ceea  @ $03CEEA  (58 B)
+|  PlayerFire_Flame_Back0_03ceea  @ $03CEEA  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03ceea, "ax", @progbits
-        .global TaskHandler_03ceea
-TaskHandler_03ceea:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Back0_03ceea, "ax", @progbits
+        .global PlayerFire_Flame_Back0_03ceea
+PlayerFire_Flame_Back0_03ceea:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cf04                        | +00a
         move.b  #0x10,d0                        | +00e
@@ -996,12 +996,12 @@ TaskHandler_03ceea:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cf24  @ $03CF24  (50 B)
+|  PlayerFire_Flame_BackPos_03cf24  @ $03CF24  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cf24, "ax", @progbits
-        .global TaskHandler_03cf24
-TaskHandler_03cf24:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_BackPos_03cf24, "ax", @progbits
+        .global PlayerFire_Flame_BackPos_03cf24
+PlayerFire_Flame_BackPos_03cf24:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cf3a                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1017,12 +1017,12 @@ TaskHandler_03cf24:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cf56  @ $03CF56  (62 B)
+|  PlayerFire_Flame_Ang17Neg_03cf56  @ $03CF56  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cf56, "ax", @progbits
-        .global TaskHandler_03cf56
-TaskHandler_03cf56:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Ang17Neg_03cf56, "ax", @progbits
+        .global PlayerFire_Flame_Ang17Neg_03cf56
+PlayerFire_Flame_Ang17Neg_03cf56:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cf72                        | +00a
         subi.w  #0x10,0x22(a0)                  | +00e
@@ -1040,12 +1040,12 @@ TaskHandler_03cf56:
         rts                                     | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cf94  @ $03CF94  (62 B)
+|  PlayerFire_Flame_Ang17_0_03cf94  @ $03CF94  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cf94, "ax", @progbits
-        .global TaskHandler_03cf94
-TaskHandler_03cf94:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Ang17_0_03cf94, "ax", @progbits
+        .global PlayerFire_Flame_Ang17_0_03cf94
+PlayerFire_Flame_Ang17_0_03cf94:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cfb0                        | +00a
         subi.w  #0x10,0x22(a0)                  | +00e
@@ -1063,12 +1063,12 @@ TaskHandler_03cf94:
         rts                                     | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03cfd2  @ $03CFD2  (62 B)
+|  PlayerFire_Flame_Ang17Pos_03cfd2  @ $03CFD2  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03cfd2, "ax", @progbits
-        .global TaskHandler_03cfd2
-TaskHandler_03cfd2:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Ang17Pos_03cfd2, "ax", @progbits
+        .global PlayerFire_Flame_Ang17Pos_03cfd2
+PlayerFire_Flame_Ang17Pos_03cfd2:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03cfee                        | +00a
         subi.w  #0x10,0x22(a0)                  | +00e
@@ -1086,12 +1086,12 @@ TaskHandler_03cfd2:
         rts                                     | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d010  @ $03D010  (50 B)
+|  PlayerFire_Flame_DownNeg_03d010  @ $03D010  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d010, "ax", @progbits
-        .global TaskHandler_03d010
-TaskHandler_03d010:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_DownNeg_03d010, "ax", @progbits
+        .global PlayerFire_Flame_DownNeg_03d010
+PlayerFire_Flame_DownNeg_03d010:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d026                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1107,12 +1107,12 @@ TaskHandler_03d010:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d042  @ $03D042  (50 B)
+|  PlayerFire_Flame_Down0_03d042  @ $03D042  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d042, "ax", @progbits
-        .global TaskHandler_03d042
-TaskHandler_03d042:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Down0_03d042, "ax", @progbits
+        .global PlayerFire_Flame_Down0_03d042
+PlayerFire_Flame_Down0_03d042:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d058                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1128,12 +1128,12 @@ TaskHandler_03d042:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d074  @ $03D074  (50 B)
+|  PlayerFire_Flame_DownPos_03d074  @ $03D074  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d074, "ax", @progbits
-        .global TaskHandler_03d074
-TaskHandler_03d074:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_DownPos_03d074, "ax", @progbits
+        .global PlayerFire_Flame_DownPos_03d074
+PlayerFire_Flame_DownPos_03d074:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d08a                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1149,12 +1149,12 @@ TaskHandler_03d074:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d0a6  @ $03D0A6  (94 B)
+|  PlayerFire_Flame_Spread1_3_03d0a6  @ $03D0A6  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d0a6, "ax", @progbits
-        .global TaskHandler_03d0a6
-TaskHandler_03d0a6:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Spread1_3_03d0a6, "ax", @progbits
+        .global PlayerFire_Flame_Spread1_3_03d0a6
+PlayerFire_Flame_Spread1_3_03d0a6:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d0bc                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1167,7 +1167,7 @@ TaskHandler_03d0a6:
         move.b  d0,0x98(a0)                     | +020
         move.b  0x7a(a6),0x9a(a0)               | +024
         clr.b   0x9b(a0)                        | +02a
-        jsr     Sub_0003CCD2(pc)                | +02e
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +02e
         btst    #0x0,0x3a(a6)                   | +032
         bne.w   .L03d0ea                        | +038
         move.b  #0x0,d1                         | +03c
@@ -1183,12 +1183,12 @@ TaskHandler_03d0a6:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d104  @ $03D104  (94 B)
+|  PlayerFire_Flame_Spread5_7_03d104  @ $03D104  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d104, "ax", @progbits
-        .global TaskHandler_03d104
-TaskHandler_03d104:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Spread5_7_03d104, "ax", @progbits
+        .global PlayerFire_Flame_Spread5_7_03d104
+PlayerFire_Flame_Spread5_7_03d104:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d11a                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1201,7 +1201,7 @@ TaskHandler_03d104:
         move.b  d0,0x98(a0)                     | +020
         move.b  0x7a(a6),0x9a(a0)               | +024
         clr.b   0x9b(a0)                        | +02a
-        jsr     Sub_0003CCD2(pc)                | +02e
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +02e
         btst    #0x0,0x3a(a6)                   | +032
         bne.w   .L03d148                        | +038
         move.b  #0x0,d1                         | +03c
@@ -1217,12 +1217,12 @@ TaskHandler_03d104:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d162  @ $03D162  (94 B)
+|  PlayerFire_Flame_Spread9_B_03d162  @ $03D162  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d162, "ax", @progbits
-        .global TaskHandler_03d162
-TaskHandler_03d162:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Spread9_B_03d162, "ax", @progbits
+        .global PlayerFire_Flame_Spread9_B_03d162
+PlayerFire_Flame_Spread9_B_03d162:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d178                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1235,7 +1235,7 @@ TaskHandler_03d162:
         move.b  d0,0x98(a0)                     | +020
         move.b  0x7a(a6),0x9a(a0)               | +024
         clr.b   0x9b(a0)                        | +02a
-        jsr     Sub_0003CCD2(pc)                | +02e
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +02e
         btst    #0x0,0x3a(a6)                   | +032
         bne.w   .L03d1a6                        | +038
         move.b  #0x0,d1                         | +03c
@@ -1251,12 +1251,12 @@ TaskHandler_03d162:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d1c0  @ $03D1C0  (94 B)
+|  PlayerFire_Flame_SpreadD_F_03d1c0  @ $03D1C0  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d1c0, "ax", @progbits
-        .global TaskHandler_03d1c0
-TaskHandler_03d1c0:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_SpreadD_F_03d1c0, "ax", @progbits
+        .global PlayerFire_Flame_SpreadD_F_03d1c0
+PlayerFire_Flame_SpreadD_F_03d1c0:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d1d6                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1269,7 +1269,7 @@ TaskHandler_03d1c0:
         move.b  d0,0x98(a0)                     | +020
         move.b  0x7a(a6),0x9a(a0)               | +024
         clr.b   0x9b(a0)                        | +02a
-        jsr     Sub_0003CCD2(pc)                | +02e
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +02e
         btst    #0x0,0x3a(a6)                   | +032
         bne.w   .L03d204                        | +038
         move.b  #0x0,d1                         | +03c
@@ -1285,12 +1285,12 @@ TaskHandler_03d1c0:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d21e  @ $03D21E  (94 B)
+|  PlayerFire_Flame_Spread11_13_03d21e  @ $03D21E  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d21e, "ax", @progbits
-        .global TaskHandler_03d21e
-TaskHandler_03d21e:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Spread11_13_03d21e, "ax", @progbits
+        .global PlayerFire_Flame_Spread11_13_03d21e
+PlayerFire_Flame_Spread11_13_03d21e:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d234                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1303,7 +1303,7 @@ TaskHandler_03d21e:
         move.b  d0,0x98(a0)                     | +020
         move.b  0x7a(a6),0x9a(a0)               | +024
         clr.b   0x9b(a0)                        | +02a
-        jsr     Sub_0003CCD2(pc)                | +02e
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +02e
         btst    #0x0,0x3a(a6)                   | +032
         bne.w   .L03d262                        | +038
         move.b  #0x0,d1                         | +03c
@@ -1319,12 +1319,12 @@ TaskHandler_03d21e:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d27c  @ $03D27C  (94 B)
+|  PlayerFire_Flame_Spread15_17_03d27c  @ $03D27C  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d27c, "ax", @progbits
-        .global TaskHandler_03d27c
-TaskHandler_03d27c:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Spread15_17_03d27c, "ax", @progbits
+        .global PlayerFire_Flame_Spread15_17_03d27c
+PlayerFire_Flame_Spread15_17_03d27c:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d292                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1337,7 +1337,7 @@ TaskHandler_03d27c:
         move.b  d0,0x98(a0)                     | +020
         move.b  0x7a(a6),0x9a(a0)               | +024
         clr.b   0x9b(a0)                        | +02a
-        jsr     Sub_0003CCD2(pc)                | +02e
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +02e
         btst    #0x0,0x3a(a6)                   | +032
         bne.w   .L03d2c0                        | +038
         move.b  #0x0,d1                         | +03c
@@ -1353,12 +1353,12 @@ TaskHandler_03d27c:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d2da  @ $03D2DA  (94 B)
+|  PlayerFire_Flame_Spread19_1B_03d2da  @ $03D2DA  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d2da, "ax", @progbits
-        .global TaskHandler_03d2da
-TaskHandler_03d2da:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Spread19_1B_03d2da, "ax", @progbits
+        .global PlayerFire_Flame_Spread19_1B_03d2da
+PlayerFire_Flame_Spread19_1B_03d2da:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d2f0                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1371,7 +1371,7 @@ TaskHandler_03d2da:
         move.b  d0,0x98(a0)                     | +020
         move.b  0x7a(a6),0x9a(a0)               | +024
         clr.b   0x9b(a0)                        | +02a
-        jsr     Sub_0003CCD2(pc)                | +02e
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +02e
         btst    #0x0,0x3a(a6)                   | +032
         bne.w   .L03d31e                        | +038
         move.b  #0x0,d1                         | +03c
@@ -1387,12 +1387,12 @@ TaskHandler_03d2da:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d338  @ $03D338  (94 B)
+|  PlayerFire_Flame_Spread1D_1F_03d338  @ $03D338  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d338, "ax", @progbits
-        .global TaskHandler_03d338
-TaskHandler_03d338:
-        jsr     Sub_0003CCD2(pc)                | +000
+        .section .text.PlayerFire_Flame_Spread1D_1F_03d338, "ax", @progbits
+        .global PlayerFire_Flame_Spread1D_1F_03d338
+PlayerFire_Flame_Spread1D_1F_03d338:
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   .L03d34e                        | +00a
         move.b  #0x0,d1                         | +00e
@@ -1405,7 +1405,7 @@ TaskHandler_03d338:
         move.b  d0,0x98(a0)                     | +020
         move.b  0x7a(a6),0x9a(a0)               | +024
         clr.b   0x9b(a0)                        | +02a
-        jsr     Sub_0003CCD2(pc)                | +02e
+        jsr     PlayerFire_Flame_Spawn_03ccd2(pc) | +02e
         btst    #0x0,0x3a(a6)                   | +032
         bne.w   .L03d37c                        | +038
         move.b  #0x0,d1                         | +03c
@@ -1421,15 +1421,15 @@ TaskHandler_03d338:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d396  @ $03D396  (96 B)
+|  ShellCasing_Pistol_03d396  @ $03D396  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d396, "ax", @progbits
-        .global TaskHandler_03d396
-TaskHandler_03d396:
-        lea     Data_03d3f6(pc),a0              | +000
+        .section .text.ShellCasing_Pistol_03d396, "ax", @progbits
+        .global ShellCasing_Pistol_03d396
+ShellCasing_Pistol_03d396:
+        lea     ShellCasing_Pistol_Anim_03d3f6(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
         bra.w   .L03d3b2                        | +00a
-        lea     Data_03d470(pc),a0              | +00e
+        lea     ShellCasing_Pistol_AnimB_03d470(pc),a0 | +00e
         jsr     0x28cd4.l                       | +012
         bra.w   .L03d3b2                        | +018
 .L03d3b2:
@@ -1451,11 +1451,11 @@ TaskHandler_03d396:
         rts                                     | +05e
 
 | ----------------------------------------------------------------------------
-|  Data_03d3f6  @ $03D3F6  (122 B)
+|  ShellCasing_Pistol_Anim_03d3f6  @ $03D3F6  (122 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03d3f6, "ax", @progbits
-        .global Data_03d3f6
-Data_03d3f6:
+        .section .text.ShellCasing_Pistol_Anim_03d3f6, "ax", @progbits
+        .global ShellCasing_Pistol_Anim_03d3f6
+ShellCasing_Pistol_Anim_03d3f6:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0026                        | +004  (dato / opcode no decodificado)
@@ -1519,11 +1519,11 @@ Data_03d3f6:
         .dc.w   0x1600                        | +078  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_03d470  @ $03D470  (122 B)
+|  ShellCasing_Pistol_AnimB_03d470  @ $03D470  (122 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03d470, "ax", @progbits
-        .global Data_03d470
-Data_03d470:
+        .section .text.ShellCasing_Pistol_AnimB_03d470, "ax", @progbits
+        .global ShellCasing_Pistol_AnimB_03d470
+ShellCasing_Pistol_AnimB_03d470:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0026                        | +004  (dato / opcode no decodificado)
@@ -1587,26 +1587,26 @@ Data_03d470:
         .dc.w   0x1600                        | +078  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d4ea  @ $03D4EA  (14 B)
+|  ShellCasing_Rocket_03d4ea  @ $03D4EA  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d4ea, "ax", @progbits
-        .global TaskHandler_03d4ea
-TaskHandler_03d4ea:
-        lea     Data_03d54a(pc),a0              | +000
+        .section .text.ShellCasing_Rocket_03d4ea, "ax", @progbits
+        .global ShellCasing_Rocket_03d4ea
+ShellCasing_Rocket_03d4ea:
+        lea     ShellCasing_Rocket_Anim_03d54a(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
-        bra.w   TaskHandler_03d4f8__L03d506     | +00a
+        bra.w   ShellCasing_RocketB_03d4f8__L03d506 | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d4f8  @ $03D4F8  (82 B)
+|  ShellCasing_RocketB_03d4f8  @ $03D4F8  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d4f8, "ax", @progbits
-        .global TaskHandler_03d4f8
-TaskHandler_03d4f8:
-        lea     Data_03d5b0(pc),a0              | +000
+        .section .text.ShellCasing_RocketB_03d4f8, "ax", @progbits
+        .global ShellCasing_RocketB_03d4f8
+ShellCasing_RocketB_03d4f8:
+        lea     ShellCasing_Rocket_AnimB_03d5b0(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
-        bra.w   TaskHandler_03d4f8__L03d506     | +00a
-        .global TaskHandler_03d4f8__L03d506
-TaskHandler_03d4f8__L03d506:
+        bra.w   ShellCasing_RocketB_03d4f8__L03d506 | +00a
+        .global ShellCasing_RocketB_03d4f8__L03d506
+ShellCasing_RocketB_03d4f8__L03d506:
         move.w  #0x17c,d1                       | +00e
         jsr     0x236e.l                        | +012
         move.w  #0xd000,d0                      | +018
@@ -1625,11 +1625,11 @@ TaskHandler_03d4f8__L03d506:
         rts                                     | +050
 
 | ----------------------------------------------------------------------------
-|  Data_03d54a  @ $03D54A  (102 B)
+|  ShellCasing_Rocket_Anim_03d54a  @ $03D54A  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03d54a, "ax", @progbits
-        .global Data_03d54a
-Data_03d54a:
+        .section .text.ShellCasing_Rocket_Anim_03d54a, "ax", @progbits
+        .global ShellCasing_Rocket_Anim_03d54a
+ShellCasing_Rocket_Anim_03d54a:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +004  (dato / opcode no decodificado)
@@ -1683,11 +1683,11 @@ Data_03d54a:
         .dc.w   0x1600                        | +064  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_03d5b0  @ $03D5B0  (102 B)
+|  ShellCasing_Rocket_AnimB_03d5b0  @ $03D5B0  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03d5b0, "ax", @progbits
-        .global Data_03d5b0
-Data_03d5b0:
+        .section .text.ShellCasing_Rocket_AnimB_03d5b0, "ax", @progbits
+        .global ShellCasing_Rocket_AnimB_03d5b0
+ShellCasing_Rocket_AnimB_03d5b0:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +004  (dato / opcode no decodificado)
@@ -1741,14 +1741,14 @@ Data_03d5b0:
         .dc.w   0x1600                        | +064  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d616  @ $03D616  (42 B)
+|  Scene3Debris_Spawn_03d616  @ $03D616  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d616, "ax", @progbits
-        .global TaskHandler_03d616
-TaskHandler_03d616:
+        .section .text.Scene3Debris_Spawn_03d616, "ax", @progbits
+        .global Scene3Debris_Spawn_03d616
+Scene3Debris_Spawn_03d616:
         cmpi.b  #0x3,0x106ece.l                 | +000
         bne.w   .L03d63e                        | +008
-        lea     TaskHandler_03d76e(pc),a1       | +00c
+        lea     Scene3Debris_Task_03d76e(pc),a1 | +00c
         jsr     0x4ae.l                         | +010
         jsr     0x5dd02.l                       | +016
         andi.w  #0xffe3,0x38(a0)                | +01c
@@ -1757,14 +1757,14 @@ TaskHandler_03d616:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d640  @ $03D640  (46 B)
+|  Scene3Debris_SpawnLow8_03d640  @ $03D640  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d640, "ax", @progbits
-        .global TaskHandler_03d640
-TaskHandler_03d640:
+        .section .text.Scene3Debris_SpawnLow8_03d640, "ax", @progbits
+        .global Scene3Debris_SpawnLow8_03d640
+Scene3Debris_SpawnLow8_03d640:
         cmpi.b  #0x3,0x106ece.l                 | +000
         bne.w   .L03d66c                        | +008
-        lea     TaskHandler_03d76e(pc),a1       | +00c
+        lea     Scene3Debris_Task_03d76e(pc),a1 | +00c
         jsr     0x4ae.l                         | +010
         jsr     0x5dd02.l                       | +016
         andi.w  #0xffe3,0x38(a0)                | +01c
@@ -1774,14 +1774,14 @@ TaskHandler_03d640:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d66e  @ $03D66E  (70 B)
+|  Scene3Debris_SpawnUpD_03d66e  @ $03D66E  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d66e, "ax", @progbits
-        .global TaskHandler_03d66e
-TaskHandler_03d66e:
+        .section .text.Scene3Debris_SpawnUpD_03d66e, "ax", @progbits
+        .global Scene3Debris_SpawnUpD_03d66e
+Scene3Debris_SpawnUpD_03d66e:
         cmpi.b  #0x3,0x106ece.l                 | +000
         bne.w   .L03d6b2                        | +008
-        lea     TaskHandler_03d76e(pc),a1       | +00c
+        lea     Scene3Debris_Task_03d76e(pc),a1 | +00c
         jsr     0x4ae.l                         | +010
         jsr     0x5dd02.l                       | +016
         andi.w  #0xffe3,0x38(a0)                | +01c
@@ -1797,14 +1797,14 @@ TaskHandler_03d66e:
         rts                                     | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d6b4  @ $03D6B4  (48 B)
+|  Scene3Debris_SpawnUpC_03d6b4  @ $03D6B4  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d6b4, "ax", @progbits
-        .global TaskHandler_03d6b4
-TaskHandler_03d6b4:
+        .section .text.Scene3Debris_SpawnUpC_03d6b4, "ax", @progbits
+        .global Scene3Debris_SpawnUpC_03d6b4
+Scene3Debris_SpawnUpC_03d6b4:
         cmpi.b  #0x3,0x106ece.l                 | +000
         bne.w   .L03d6e2                        | +008
-        lea     TaskHandler_03d76e(pc),a1       | +00c
+        lea     Scene3Debris_Task_03d76e(pc),a1 | +00c
         jsr     0x4ae.l                         | +010
         jsr     0x5dd02.l                       | +016
         andi.w  #0xffe3,0x38(a0)                | +01c
@@ -1814,14 +1814,14 @@ TaskHandler_03d6b4:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d6e4  @ $03D6E4  (70 B)
+|  Scene3Debris_SpawnUpB_03d6e4  @ $03D6E4  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d6e4, "ax", @progbits
-        .global TaskHandler_03d6e4
-TaskHandler_03d6e4:
+        .section .text.Scene3Debris_SpawnUpB_03d6e4, "ax", @progbits
+        .global Scene3Debris_SpawnUpB_03d6e4
+Scene3Debris_SpawnUpB_03d6e4:
         cmpi.b  #0x3,0x106ece.l                 | +000
         bne.w   .L03d728                        | +008
-        lea     TaskHandler_03d76e(pc),a1       | +00c
+        lea     Scene3Debris_Task_03d76e(pc),a1 | +00c
         jsr     0x4ae.l                         | +010
         jsr     0x5dd02.l                       | +016
         andi.w  #0xffe3,0x38(a0)                | +01c
@@ -1837,14 +1837,14 @@ TaskHandler_03d6e4:
         rts                                     | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d72a  @ $03D72A  (68 B)
+|  Scene3Debris_SpawnPrio4_03d72a  @ $03D72A  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d72a, "ax", @progbits
-        .global TaskHandler_03d72a
-TaskHandler_03d72a:
+        .section .text.Scene3Debris_SpawnPrio4_03d72a, "ax", @progbits
+        .global Scene3Debris_SpawnPrio4_03d72a
+Scene3Debris_SpawnPrio4_03d72a:
         cmpi.b  #0x3,0x106ece.l                 | +000
         bne.w   .L03d76c                        | +008
-        lea     TaskHandler_03d76e(pc),a1       | +00c
+        lea     Scene3Debris_Task_03d76e(pc),a1 | +00c
         jsr     0x4ae.l                         | +010
         jsr     0x5dd02.l                       | +016
         andi.w  #0xffe3,0x38(a0)                | +01c
@@ -1860,14 +1860,14 @@ TaskHandler_03d72a:
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d76e  @ $03D76E  (50 B)
+|  Scene3Debris_Task_03d76e  @ $03D76E  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d76e, "ax", @progbits
-        .global TaskHandler_03d76e
-TaskHandler_03d76e:
+        .section .text.Scene3Debris_Task_03d76e, "ax", @progbits
+        .global Scene3Debris_Task_03d76e
+Scene3Debris_Task_03d76e:
         move.w  #0x1bd,d1                       | +000
         jsr     0x236e.l                        | +004
-        lea     Data_03d7a0(pc),a0              | +00a
+        lea     Scene3Debris_Anim_03d7a0(pc),a0 | +00a
         jsr     0x28cd4.l                       | +00e
         lea     .L03d788(pc),a1                 | +014
         move.l  a1,(a6)                         | +018
@@ -1880,11 +1880,11 @@ TaskHandler_03d76e:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  Data_03d7a0  @ $03D7A0  (162 B)
+|  Scene3Debris_Anim_03d7a0  @ $03D7A0  (162 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03d7a0, "ax", @progbits
-        .global Data_03d7a0
-Data_03d7a0:
+        .section .text.Scene3Debris_Anim_03d7a0, "ax", @progbits
+        .global Scene3Debris_Anim_03d7a0
+Scene3Debris_Anim_03d7a0:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +004  (dato / opcode no decodificado)
@@ -1968,12 +1968,12 @@ Data_03d7a0:
         .dc.w   0x1600                        | +0a0  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d842  @ $03D842  (82 B)
+|  Player_DebugMarker_03d842  @ $03D842  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d842, "ax", @progbits
-        .global TaskHandler_03d842
-TaskHandler_03d842:
-        lea     Data_03d894(pc),a0              | +000
+        .section .text.Player_DebugMarker_03d842, "ax", @progbits
+        .global Player_DebugMarker_03d842
+Player_DebugMarker_03d842:
+        lea     Player_DebugMarker_Anim_03d894(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
         bra.w   .L03d850                        | +00a
 .L03d850:
@@ -1995,11 +1995,11 @@ TaskHandler_03d842:
         rts                                     | +050
 
 | ----------------------------------------------------------------------------
-|  Data_03d894  @ $03D894  (102 B)
+|  Player_DebugMarker_Anim_03d894  @ $03D894  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03d894, "ax", @progbits
-        .global Data_03d894
-Data_03d894:
+        .section .text.Player_DebugMarker_Anim_03d894, "ax", @progbits
+        .global Player_DebugMarker_Anim_03d894
+Player_DebugMarker_Anim_03d894:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0026                        | +004  (dato / opcode no decodificado)
@@ -2053,11 +2053,11 @@ Data_03d894:
         .dc.w   0x1600                        | +064  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d8fa  @ $03D8FA  (74 B)
+|  Player_SpawnFx3D8FA_03d8fa  @ $03D8FA  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d8fa, "ax", @progbits
-        .global TaskHandler_03d8fa
-TaskHandler_03d8fa:
+        .section .text.Player_SpawnFx3D8FA_03d8fa, "ax", @progbits
+        .global Player_SpawnFx3D8FA_03d8fa
+Player_SpawnFx3D8FA_03d8fa:
         move.w  #0x17c,d1                       | +000
         jsr     0x236e.l                        | +004
         move.w  #0x2000,d0                      | +00a
@@ -2077,11 +2077,11 @@ TaskHandler_03d8fa:
         rts                                     | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03d944  @ $03D944  (190 B)
+|  SlugCannon_ArmOverlay_03d944  @ $03D944  (190 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03d944, "ax", @progbits
-        .global TaskHandler_03d944
-TaskHandler_03d944:
+        .section .text.SlugCannon_ArmOverlay_03d944, "ax", @progbits
+        .global SlugCannon_ArmOverlay_03d944
+SlugCannon_ArmOverlay_03d944:
         lea     0x100440.l,a0                   | +000
         jsr     0x2ac0e.l                       | +006
         bcc.w   .L03d98e                        | +00c
@@ -2121,17 +2121,17 @@ TaskHandler_03d944:
         addq.w  #0x5,d0                         | +0a8
 .L03d9ee:
         lsl.w   #0x2,d0                         | +0aa
-        lea     Data_03da02(pc),a0              | +0ac
+        lea     SlugCannon_ArmSpriteTbl_03da02(pc),a0 | +0ac
         movea.l (a0,d0.w),a0                    | +0b0
         jsr     0x28cd4.l                       | +0b4
-        bra.w   Data_03da02__L03da2a            | +0ba
+        bra.w   SlugCannon_ArmSpriteTbl_03da02__L03da2a | +0ba
 
 | ----------------------------------------------------------------------------
-|  Data_03da02  @ $03DA02  (150 B)
+|  SlugCannon_ArmSpriteTbl_03da02  @ $03DA02  (150 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03da02, "ax", @progbits
-        .global Data_03da02
-Data_03da02:
+        .section .text.SlugCannon_ArmSpriteTbl_03da02, "ax", @progbits
+        .global SlugCannon_ArmSpriteTbl_03da02
+SlugCannon_ArmSpriteTbl_03da02:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xd9e6                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2152,11 +2152,11 @@ Data_03da02:
         .dc.w   0x28b4                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +024  (dato / opcode no decodificado)
         .dc.w   0x28b4                        | +026  (dato / opcode no decodificado)
-        .global Data_03da02__L03da2a
-Data_03da02__L03da2a:
+        .global SlugCannon_ArmSpriteTbl_03da02__L03da2a
+SlugCannon_ArmSpriteTbl_03da02__L03da2a:
         jsr     0x2ff8e.l                       | +028
         lsl.w   #0x2,d0                         | +02e
-        lea     Sub_0003DAA8(pc),a0             | +030  -> $03DAA8 (hueco futuro, defsym forward)
+        lea     Sub_0003DAA8(pc),a0             | +030
         move.w  (a0,d0.w),d1                    | +034
         move.w  0x2(a0,d0.w),d2                 | +038
         move.w  d1,0x5c(a6)                     | +03c
