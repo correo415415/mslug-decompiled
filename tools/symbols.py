@@ -1590,4 +1590,8 @@ SYMBOLS = {
     # 0x00039214 promovido a PlayerDeathFx_Alt_039214 en registry (Wave WWW).
     # --- Wave WWW: refs forward a huecos futuros
     0x000327DC: "Sub_000327DC",  # hueco futuro (ref pc-rel desde esta region)
+    # --- Wave YYY: RTS internos de islas C
+    0x0003DA9E: "JsrAbsRts_03da9e",  # rts de JsrAbsThunk_03da98 (+6)
+    # --- Wave YYY: refs forward a huecos futuros
+    0x0003DAA8: "Sub_0003DAA8",  # hueco futuro (ref pc-rel desde esta region)
 }

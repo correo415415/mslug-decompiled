@@ -513,20 +513,6 @@ void JsrAbsThunk_03356a(void) {
     __asm__ volatile("" ::: "memory");
 }
 
-__attribute__((section(".text.JsrAbsThunk_03c62a")))
-void JsrAbsThunk_03c62a(void) {
-    extern void ThunkTarget_0283ca(void);
-    ThunkTarget_0283ca();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_03c8d0")))
-void JsrAbsThunk_03c8d0(void) {
-    extern void ThunkTarget_0517fe(void);
-    ThunkTarget_0517fe();
-    __asm__ volatile("" ::: "memory");
-}
-
 __attribute__((section(".text.JsrAbsThunk_03da98")))
 void JsrAbsThunk_03da98(void) {
     extern void InputGuardCall219c(void);
