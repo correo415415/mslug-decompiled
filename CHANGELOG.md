@@ -17,6 +17,16 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave UUU — 36 entries (9,050 B): `$0342C4..$036632`
+  (`player_states_0342xx.s`, 4 gaps closed, 3 spurious C islands
+  absorbed): the player's ground state machine — `Player_Stand`,
+  `Player_WalkRight/Left` and the `WalkLoop` second phase with their
+  `_Shoot` / `_ShootUp` pose variants, `Player_TurnRight/Left`,
+  `Player_Melee` (knife), `Player_ThrowGrenade_Stand/Walk/WalkLoop`,
+  `Player_RideSlug` (mount the SV-001 from slot `$100580`) and the shared
+  tails (`Player_Stand_Tail`, `Player_Walk_Tail`) that chain hit / fire /
+  ground tests. Four unreferenced duplicate bodies documented as dead code.
+  Matcher: 4,518/4,518, 213,408 B (10.18 %); real code coverage 33.5 %.
 - Wave TTT — 66 entries (5,354 B): `$032A02..$0342C4`
   (`player_core_032axx.s`, 38 gaps closed): the player core — weapon /
   ammo setters with the per-weapon default table (`Player_SetWeaponAndAmmo`,

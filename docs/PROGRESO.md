@@ -11,10 +11,31 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4485/4485 funciones
-BYTES   : 204,358/204,358 (registrados)
-ROM     : 204,358/2,097,152  (9.7445%)
+MATCHED : 4518/4518 funciones
+BYTES   : 213,408/213,408 (registrados)
+ROM     : 213,408/2,097,152  (10.1761%)
 ```
+
+> **Wave UUU** (36 entradas, 9 050 B, verde a la primera) — region
+> `$0342C4..$036632` en `player_states_0342xx.s` (4 huecos; absorbe las
+> islas C `JsrPcThunk_034d2c/0354ec` y `SetTaskHandler_034b30`, que eran
+> colas internas). Duodecima wave de `tools/gen_asm_region.py`.
+>
+> * **Maquina de estados en suelo**: `Player_Stand_034704` (anim $10) con
+>   `Setup/InputMove/Tail`; `Player_WalkRight/Left` (anim $11, vel ±$300,
+>   facing +$3A) -> `Player_WalkLoopRight/Left` (anim $12, giro en sitio
+>   con `eori +$3A`); variantes `_Shoot`/`_ShootUp` via poses
+>   `Player_WalkShootPose/WalkShootUpPose/WalkLoopShoot*Pose` (anim $22/$23).
+> * `Player_TurnRight/Left` (anim $31), `Player_Melee` (cuchillo, anim $33,
+>   +$4C = `Sub_00032638`, `$283CA`), `Player_ThrowGrenade_Stand/Walk/
+>   WalkLoop`, `Player_RideSlug_0364a2` (slot Slug `$100580`, invuln $3C).
+> * Patron comun: +$7C/+$7E fase, +$8C bits1-3, tabla sprite por +$72/+$78
+>   via `$28CD4`, +$60 = $32500, bucle de frame `Player_FrameCommon` +
+>   `$27A92` + `Player_CheckDeathOrState21`, switch de `Player_ActionSelect`
+>   (d1: $FF Melee / 3 Grenade / 4 `Sub_0003873C` / 1 ShootUp / else Shoot).
+> * Nueva etiqueta global `Player_Idle_StateCheck_034046` (entrada
+>   secundaria de `Player_Idle`, usada por WalkLoop).
+> * 4 cuerpos sin xrefs ($034438, $0344F2, `_Alt_0358aa`, `_Alt_035a0a`).
 
 > **Wave TTT** (66 entradas, 5 354 B, verde a la primera) — region
 > `$032A02..$0342C4` en `player_core_032axx.s` (38 huecos, 3 tablas

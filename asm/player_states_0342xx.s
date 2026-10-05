@@ -1,11 +1,92 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave UUU — máquina de estados en suelo del jugador
 |  Región: $0342C4..$036632  (9,070 B, 36 entradas, 1 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  Máquina de estados "en suelo" del jugador: Stand (de pie), Walk
+|  (derecha/izquierda, con y sin disparo/disparo arriba), Turn (giro),
+|  Melee (cuchillo), ThrowGrenade (lanzar granada) y RideSlug (subir al
+|  tanque). Todos los handlers comparten la misma plantilla: (1) fijar
+|  +$7C/+$7E (fase anim / modificador), limpiar +$8C bits 1-3, (2) elegir
+|  tabla de sprites $2796xx..$279Fxx según +$72 (modo) y +$78 (dir) y
+|  cargarla con $28CD4 (+$74 = -4(tabla) = "clave de anim"), (3) fijar
+|  +$60 = $32500 (hitbox) y +$48 (callback de colisión Sub_000326E0 /
+|  Sub_00032788 / Sub_000328D8), (4) instalar en (a6) el bucle de frame
+|  que llama a Player_FrameCommon, Player_PlayWeaponMusicIfFlag,
+|  $27A92 (física) y Player_CheckDeathOrState21, y (5) despachar al
+|  siguiente estado por input (Input_* y Player_ActionSelect: d1 = $FF
+|  golpe -> Melee, 3 -> ThrowGrenade, 4 -> Sub_0003873C, 1 -> *ShootUp,
+|  otro -> *Shoot).
+|
+|  B. ENTRADAS (36)
+|   Player_ShootStand_0342c4 / Player_ShootStandUp_03437e: disparo de pie
+|     (+$70 = $21, tablas $279716/$2796E4 o $279720/$2796EE); la copia
+|     muerta $034438/$0344F2 (sin xrefs) repite el cuerpo con $27972A /
+|     $279734 (versiones alternativas no enlazadas).
+|   Player_ReenterByInput_0345b8: tras cambio de arma re-elige Walk/Turn
+|     según facing (+$3A bit0) e input izq/der, si no -> Stand.
+|   Player_StandFromWalk_0345fa: variante de Stand sin re-selección de anim.
+|   Player_Stand_034704: estado base de pie (anim $10, $2796A4/$279926);
+|     etiquetas Setup_0347e0, InputMove_034a00 (izq/der/abajo -> Walk*/
+|     Sub_00037C74), Tail_034ada ($27EBA golpe -> TaskHandler_036d64,
+|     fuego -> Sub_00036914, PublishState, y test suelo $5DD56 con
+|     Sub_000324C6/$324BC según escena $106ECE==3 -> TaskHandler_037b8e).
+|   Player_WalkRight_034b38 / Player_WalkLeft_034d32: andar (anim $11,
+|     $279882/$279878, vel X ±$300, +$3A facing). Sufijos _Shoot/_ShootUp
+|     (+$7C/+$7E = 0/-1) usan los "pose" Player_WalkShootPose_034ede
+|     (anim $22, $2798F4/$2798E0) y Player_WalkShootUpPose_035052
+|     ($2798FE/$2798EA).
+|   Player_WalkLoopRight_0351d8 / Player_WalkLoopLeft_0354f2 (+_Run_035590):
+|     segunda fase de andar (anim $12, $279926/$27991C); al pulsar la
+|     dirección contraria con +$8C bit2 hace eori +$3A (giro en sitio).
+|     Pose variantes _Shoot/_ShootUp -> Player_WalkLoopShootPose_0357fa
+|     (anim $23) / Player_WalkLoopShootUpPose_03595a; las _Alt_0358aa /
+|     _Alt_035a0a ($279908/$279912) no tienen xrefs (copias muertas).
+|   Player_TurnRight_035aba / Player_TurnLeft_035bf8 (+_Run_035c98): giro
+|     (anim $31, $279A5A/$279A3C), etiqueta Turn_Actions_035b90.
+|   Player_ActionDispatch_035cd8: sólo el switch de Player_ActionSelect.
+|   Player_Melee_035d34 (+Run_035de0, Frame_035e54): cuchillo (anim $33,
+|     $279D56; +$4C = Sub_00032638 tabla de golpe, $283CA; vel según input
+|     ±$300 con tablas $279D76/$279E30). Player_MeleeAlt_035ea8 /
+|     _Walk_035f70: variante $279EFE.
+|   Player_ThrowGrenade_Stand_0360bc / _Walk_036212 / _WalkLoop_036318:
+|     anim $33, $279D2E/$279D38, +$3B = 0.
+|   Player_RideSlug_0364a2: subir al Slug (anim 2, $279F08, +$48 =
+|     Sub_000328D8); copia pos del slot $100580 (+$22/+$24+1), propaga
+|     +$68, y según input ($5CDC0 / $5CDB4 / $5D00E) salta a Sub_000366FE
+|     o Sub_00036796 (+$24 += $20, invuln +$45/+$59 = $3C).
+|
+|  C. CAMPOS DE ENTIDAD USADOS
+|   +$00 handler, +$13 bit0, +$21 (muerte), +$22/+$24 pos, +$28/+$2A vel,
+|   +$2C/+$2E accel, +$3A facing (bit0=izq), +$3B, +$45/+$59 invuln,
+|   +$48 cb colisión, +$4C tabla ataque, +$60 hitbox ptr, +$68 idx jugador,
+|   +$69 bit5 (flag anim espejada), +$70 anim id, +$71 arma, +$72 modo,
+|   +$74 clave anim, +$78/+$79 dir nibble, +$7C/+$7E fase, +$82 munición,
+|   +$85, +$88 bit0 agachado, +$8C bits1-3 (1=disparando, 2=aire,
+|   3=bloqueo acción), bit4 cambio de arma.
+|
+|  D. HELPERS EXTERNOS
+|   $2ABCC ClearXN (C=0 => rama "normal"), $28CD4 carga tabla sprite,
+|   $267E6, $27A92 física+colisión, $27EBA golpe recibido, $283CA ataque,
+|   $5DD56 test suelo, $5E9B6 RNG, $5CDB4/$5CDC0/$5CEF8/$5CF04/$5CF10/
+|   $5D00E InputEvtThunk_* (máscaras $20/$40/$02/$08/$04/$30), $2ABF0 /
+|   $2ABD2 / $2ACA2 / $2A25C helpers del slot Slug $100580.
+|
+|  E. HIPÓTESIS / DUDAS
+|   - $5CF04 (mask $08) se trata como "izquierda" y $5CF10 (mask $04) como
+|     "derecha" por el signo de la velocidad que fijan (-$300 / +$300 con
+|     bset/bclr de +$3A). Confirmar con la tabla de botones.
+|   - Cuatro cuerpos sin xrefs ($034438, $0344F2, Player_*_Alt_0358aa,
+|     _Alt_035a0a): código muerto o alcanzado por tabla no decodificada.
+|   - Sub_00036914 (fuego), Sub_00037C74 (abajo), Sub_0003873C (acción 4)
+|     y TaskHandler_036d64/037b8e se nombrarán en las waves siguientes.
+|
+|  F. ORIGEN
+|   ASM a mano (no GCC): secuencias duplicadas con etiquetas de salto
+|   cruzadas entre funciones (Stand_Tail, Walk_Tail), bra.w a bra.w,
+|   `movea.l #-1,a0` seguido de `lea` que lo sobreescribe.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

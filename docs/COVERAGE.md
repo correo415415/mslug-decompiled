@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-05  (Wave TTT cerrada)
+**Ultimo update:** 2026-10-05  (Wave UUU cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-SSS) | Que mide realmente |
+| Metrica | Cifra (post-UUU) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **9.74 %**  (204,358 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **31.8 %**  (160,550 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **10.18 %**  (213,408 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **33.5 %**  (169,600 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -43,7 +43,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Tablas de sprites/slots (pares {id,tile}, LUTs 16x16) | `$002F30..$0133B0` | DATA | 66,688 B | 0 B | 0.0 % |
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
-| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 44,920 B | 19.2 % |
+| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 53,970 B | 23.1 % |
 | Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 25,222 B | 16.6 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 160,550 B | 31.8 % |
+| CODE | 505,608 B | 169,600 B | 33.5 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 1432 huecos, 345,058 B
+Huecos pendientes en zonas CODE: 1428 huecos, 336,008 B
 
 ### Notas por zona
 
@@ -88,10 +88,12 @@ Huecos pendientes en zonas CODE: 1432 huecos, 345,058 B
   fisica `$2783A`, sprite map `$28CD4`, dano `$2870A`, prioridades `$28134`,
   camara `$06896A`.., `PlayerRoute_PublishState_033522`, Wave TTT (`player_core_032axx.s`,
   `$032A02..$0342C4`: nucleo del jugador, tabla de 68 punteros `$3338A` ->
-  `$376xx..$37B00`), squads/charger `$040EF2..$0434C2`,
+  `$376xx..$37B00`), Wave UUU (`player_states_0342xx.s`, `$0342C4..$036632`:
+  Stand/Walk/Turn/Melee/Grenade/RideSlug), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
-  `$02E000..$032A00` (player core), `$0354F2..$036632`, `$03A60A..$03C62A`
+  `$02E000..$032A00` (player core), `$036632..$03A60A` (estados aereos,
+  Slug, armas: targets `$376xx..$38Bxx`), `$03A60A..$03C62A`
   (8 KB), `$03C8D8..$03DA98`, `$0478FC..$048A3C`, `$04AC3A..$04BB8E`,
   `$0527BA..$0539E2`, `$053F96..$0550BE`, `$057D04..$059342`,
   `$05AA96..$05CA2A` (8 KB).
@@ -139,12 +141,13 @@ Huecos pendientes en zonas CODE: 1432 huecos, 345,058 B
 - **Enemigos/jefes de las 6 misiones** (`$083000..$09C608` al 77 %).
 - **Items, score popups, cajas, paracaidas** (Wave RRR), **hiscore, memcard,
   name entry, options, mobs** (Wave QQQ), **Game Over/Continue** (PPP).
-- **Granadas del jugador** (Wave SSS).
+- **Granadas del jugador** (Wave SSS); **estados en suelo del jugador**
+  (Wave UUU: stand/walk/turn/melee/grenade/ride).
 
 ### Cosas que faltan (por tamano de codigo pendiente)
 
 1. **Nucleo del jugador y armas de fuego** — `$02E000..$032A00` y
-   `$0354F2..$036632` (~20 KB): estados Marco/Tarma, pistola/HMG/shotgun/
+   `$036632..$03A60A` (~30 KB): estados Marco/Tarma, pistola/HMG/shotgun/
    bazooka, vehiculo SV-001. La tabla de 68 estados `$3338A` (Wave TTT) y
    los targets `$376xx..$37B00` son la puerta de entrada.
 2. **Proyectiles y efectos** — `$03A60A..$03C62A`, `$03C8D8..$03DA98`,
@@ -162,7 +165,7 @@ Huecos pendientes en zonas CODE: 1432 huecos, 345,058 B
 
 | # | Rango | Pendiente | Contexto |
 |---:|---|---:|---|
-| 1 | `$0342C4..$036632` | ~9 KB | Continuacion natural de TTT (targets `$376xx` de la tabla) |
+| 1 | `$036632..$03A60A` | ~16 KB | Continuacion de UUU: `Sub_00036914` (fuego), `TaskHandler_036d64/037b8e`, `Sub_00037C74`, `Sub_0003873C`, targets `$376xx..$37B00` de la tabla de 68 |
 | 2 | `$02E000..$032A00` | ~15 KB | Player core (publicadores `$2575C/$25766`, slots `$100440/$1004E0`) |
 | 3 | `$03A60A..$03C62A` | 8 KB | Bloque contiguo mas grande sin tocar del nucleo |
 | 4 | `$05AA96..$05CA2A` | 8 KB | Idem en runtime tardio |
