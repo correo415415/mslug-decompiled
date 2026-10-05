@@ -17,6 +17,14 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave BBBB — 113 entries (5,846 B): `$0295A6..$02AE3E`
+  (`slug_helpers_0295xx.s`, 29 hitbox/anim tables `$295B4..$2A0F8`, pointer
+  tables `$2A024/$2A060`): the SV-001 helpers — `Slug_Init_02a0f8` /
+  `Slug_InitBoss_02a1aa`, `Slug_AngleToSpriteIdx`, 17 attack tables +
+  `Slug_AttackPtrTbl`, `Slug_StateByAnglePtrTbl`, terrain probes, physics,
+  layout-dependent input, HP/gauge, `Slug_MarkRidden`, `Slug_NoRider`,
+  `Slug_SpawnAtBossArena`.
+  Matcher: 5,132/5,132, 267,432 B (12.75 %); real code coverage 44.2 %.
 - Wave AAAA — 96 entries (8,788 B): `$030602..$032A02`
   (`player_tables_fx_0306xx.s`, 14 C-island RTS absorbed, 44 data blocks):
   the player grenade (`PlayerGrenade_Spawn/SpawnB/SpawnFromVehicle`,

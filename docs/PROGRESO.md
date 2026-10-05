@@ -11,11 +11,28 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5019/5019 funciones
-BYTES   : 261,586/261,586 (registrados)
-ROM     : 261,586/2,097,152  (12.4734%)
+MATCHED : 5132/5132 funciones
+BYTES   : 267,432/267,432 (registrados)
+ROM     : 267,432/2,097,152  (12.7522%)
 ```
 
+> **Wave BBBB** (113 entradas, 5 846 B, verde a la primera) —
+> `$0295A6..$02AE3E` en `slug_helpers_0295xx.s` (29 tablas de hitbox/anim
+> `$295B4..$2A0F8`, tablas de punteros `$2A024`/`$2A060`, 5 bloques
+> menores). Decimonovena wave de `gen_asm_region.py`. Nombres y args en
+> `docs/waves/bbbb_*.txt`.
+>
+> * **Init del SV-001**: `Slug_Init_02a0f8` (spawn normal) y
+>   `Slug_InitBoss_02a1aa` (arena de jefe, via `Slug_SpawnAtBossArena_02add6`);
+>   `Slug_MarkRidden`, `Slug_NoRider_02ad64`.
+> * **Tablas**: `Slug_AngleToSpriteIdx_0295a6`, `Slug_Hitbox*`,
+>   `Slug_AttackTbl00..10` + `Slug_AttackPtrTbl_02a024`,
+>   `Slug_StateByAnglePtrTbl_02a060` (puente a los estados de ZZZ).
+> * **Sondas de terreno / fisica / input por layout / HP y gauge**: el
+>   resto de helpers compartidos por `Slug_*` (ZZZ) y `PlayerFire_*` (YYY).
+> * Cabecera A-F documentada. Siguiente: `$02AE3E..$02DD20` (estados del
+>   Slug, 1a mitad).
+>
 > **Wave AAAA** (96 entradas, 8 788 B, verde a la segunda: dos pares de
 > punteros `$29DAxx` delante de `$31C72/$31D26`) — `$030602..$032A02` en
 > `player_tables_fx_0306xx.s` (absorbe los RTS de 14 islas C; 44 bloques
