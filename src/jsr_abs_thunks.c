@@ -2940,41 +2940,6 @@ void JsrAbsThunk_09c600(void) {
     __asm__ volatile("" ::: "memory");
 }
 
-__attribute__((section(".text.JsrAbsThunk_18d56c")))
-void JsrAbsThunk_18d56c(void) {
-    extern void ThunkTarget_0517fe(void);
-    ThunkTarget_0517fe();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d57e")))
-void JsrAbsThunk_18d57e(void) {
-    extern void ThunkTarget_0517fe(void);
-    ThunkTarget_0517fe();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d746")))
-void JsrAbsThunk_18d746(void) {
-    extern void ThunkTarget_0283ca(void);
-    ThunkTarget_0283ca();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d766")))
-void JsrAbsThunk_18d766(void) {
-    extern void ThunkTarget_028d70(void);
-    ThunkTarget_028d70();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d9d4")))
-void JsrAbsThunk_18d9d4(void) {
-    extern void ThunkTarget_032afa(void);
-    ThunkTarget_032afa();
-    __asm__ volatile("" ::: "memory");
-}
-
 __attribute__((section(".text.JsrAbsThunk_19c95a")))
 void JsrAbsThunk_19c95a(void) {
     extern void ThunkTarget_00236e(void);

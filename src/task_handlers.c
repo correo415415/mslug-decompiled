@@ -436,7 +436,6 @@ extern void DebugCursor_Run_099a64(void);
 extern void Gun_Child_Init_09a280(void);
 extern void Gun_Child_Sync_09a2b8(void);
 extern void TaskHandler_09b47c(void);
-extern void TaskHandler_18d74e(void);
 
 __attribute__((section(".text.SetTaskHandler_000b8a")))
 void SetTaskHandler_000b8a(void) {
@@ -4827,12 +4826,6 @@ void SetTaskHandler_09b7f0(void) {
 __attribute__((section(".text.SetTaskHandler_09b824")))
 void SetTaskHandler_09b824(void) {
     _a1_ptr = &TaskHandler_09b47c;
-    STORE_A1_AT_FP();
-}
-
-__attribute__((section(".text.SetTaskHandler_18d6f0")))
-void SetTaskHandler_18d6f0(void) {
-    _a1_ptr = &TaskHandler_18d74e;
     STORE_A1_AT_FP();
 }
 

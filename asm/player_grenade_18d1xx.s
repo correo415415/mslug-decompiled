@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $18D152..$18DB78  (2,498 B, 17 entradas, 8 huecos)
+|  Región: $18D152..$18DB78  (2,546 B, 23 entradas, 2 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Data_18d152  @ $18D152  (164 B)
+|  Grenade_AnimSpin_18d152  @ $18D152  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_18d152, "ax", @progbits
-        .global Data_18d152
-Data_18d152:
+        .section .text.Grenade_AnimSpin_18d152, "ax", @progbits
+        .global Grenade_AnimSpin_18d152
+Grenade_AnimSpin_18d152:
         .dc.w   0x0317                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0204                        | +004  (dato / opcode no decodificado)
@@ -104,11 +104,11 @@ Data_18d152:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_18d1f6  @ $18D1F6  (164 B)
+|  Grenade_AnimSpinAlt_18d1f6  @ $18D1F6  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_18d1f6, "ax", @progbits
-        .global Data_18d1f6
-Data_18d1f6:
+        .section .text.Grenade_AnimSpinAlt_18d1f6, "ax", @progbits
+        .global Grenade_AnimSpinAlt_18d1f6
+Grenade_AnimSpinAlt_18d1f6:
         .dc.w   0x0306                        | +000  (dato / opcode no decodificado)
         .dc.w   0x00c8                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0204                        | +004  (dato / opcode no decodificado)
@@ -193,11 +193,11 @@ Data_18d1f6:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_18d29a  @ $18D29A  (328 B)
+|  Grenade_AnimExplodeBig_18d29a  @ $18D29A  (328 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_18d29a, "ax", @progbits
-        .global Data_18d29a
-Data_18d29a:
+        .section .text.Grenade_AnimExplodeBig_18d29a, "ax", @progbits
+        .global Grenade_AnimExplodeBig_18d29a
+Grenade_AnimExplodeBig_18d29a:
         .dc.w   0x0318                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0064                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -364,11 +364,11 @@ Data_18d29a:
         .dc.w   0xffff                        | +146  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_18d3e2  @ $18D3E2  (332 B)
+|  Grenade_AnimExplode_18d3e2  @ $18D3E2  (332 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_18d3e2, "ax", @progbits
-        .global Data_18d3e2
-Data_18d3e2:
+        .section .text.Grenade_AnimExplode_18d3e2, "ax", @progbits
+        .global Grenade_AnimExplode_18d3e2
+Grenade_AnimExplode_18d3e2:
         .dc.w   0x0800                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x83ca                        | +004  (dato / opcode no decodificado)
@@ -537,11 +537,11 @@ Data_18d3e2:
         .dc.w   0xd3e8                        | +14a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_18d52e  @ $18D52E  (62 B)
+|  Grenade_AnimSmoke_18d52e  @ $18D52E  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_18d52e, "ax", @progbits
-        .global Data_18d52e
-Data_18d52e:
+        .section .text.Grenade_AnimSmoke_18d52e, "ax", @progbits
+        .global Grenade_AnimSmoke_18d52e
+Grenade_AnimSmoke_18d52e:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +004  (dato / opcode no decodificado)
@@ -568,111 +568,136 @@ Data_18d52e:
         .dc.w   0x074a                        | +02e  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +030  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +032  (dato / opcode no decodificado)
-        .dc.w   0x43fa                        | +034  (dato / opcode no decodificado)
-        .dc.w   0x0022                        | +036  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +038  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +03a  (dato / opcode no decodificado)
-        .dc.w   0x04ae                        | +03c  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d574  @ $18D574  (10 B)
+|  Grenade_SpawnCopyA_18d562  @ $18D562  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d574, "ax", @progbits
-        .global TaskHandler_18d574
-TaskHandler_18d574:
-        lea     TaskHandler_18d586__L18d5aa(pc),a1 | +000
+        .section .text.Grenade_SpawnCopyA_18d562, "ax", @progbits
+        .global Grenade_SpawnCopyA_18d562
+Grenade_SpawnCopyA_18d562:
+        lea     Grenade_Throw_18d586(pc),a1     | +000
         jsr     0x4ae.l                         | +004
+        jsr     0x517fe.l                       | +00a
+        rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d586  @ $18D586  (310 B)
+|  Grenade_SpawnCopyB_18d574  @ $18D574  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d586, "ax", @progbits
-        .global TaskHandler_18d586
-TaskHandler_18d586:
+        .section .text.Grenade_SpawnCopyB_18d574, "ax", @progbits
+        .global Grenade_SpawnCopyB_18d574
+Grenade_SpawnCopyB_18d574:
+        lea     Grenade_ThrowB_18d5aa(pc),a1    | +000
+        jsr     0x4ae.l                         | +004
+        jsr     0x517fe.l                       | +00a
+        rts                                     | +010
+
+| ----------------------------------------------------------------------------
+|  Grenade_Throw_18d586  @ $18D586  (36 B)
+| ----------------------------------------------------------------------------
+        .section .text.Grenade_Throw_18d586, "ax", @progbits
+        .global Grenade_Throw_18d586
+Grenade_Throw_18d586:
         move.w  #0xf64e,d0                      | +000
         jsr     0x5dca4.l                       | +004
         move.w  d0,0x28(a6)                     | +00a
         move.w  #0xb9a,0x2a(a6)                 | +00e
         move.w  #0xff4c,0x2e(a6)                | +014
         move.w  #0x0,0x2c(a6)                   | +01a
-        bra.w   .L18d5ca                        | +020
-        .global TaskHandler_18d586__L18d5aa
-TaskHandler_18d586__L18d5aa:
-        move.w  #0xf000,d0                      | +024
-        jsr     0x5dca4.l                       | +028
-        move.w  d0,0x28(a6)                     | +02e
-        move.w  #0x663,0x2a(a6)                 | +032
-        move.w  #0xfeb9,0x2e(a6)                | +038
-        move.w  #0x0,0x2c(a6)                   | +03e
-.L18d5ca:
-        bset    #0x4,0x6b(a6)                   | +044
-        move.w  #0xd000,0x38(a6)                | +04a
-        lea     Data_18d3e2(pc),a0              | +050
-        jsr     0x28cd4.l                       | +054
-        lea     0xffff.w,a0                     | +05a
-        move.l  a0,0x48(a6)                     | +05e
-        lea     Data_18d152(pc),a0              | +062
-        move.l  a0,0x4c(a6)                     | +066
-        jsr     0x283ca.l                       | +06a
-        jsr     0x283ca.l                       | +070
-        movea.l 0xc(a6),a0                      | +076
-        cmpa.l  #0x100440,a0                    | +07a
-        beq.b   .L18d612                        | +080
-        cmpa.l  #0x1004e0,a0                    | +082
-        bne.w   .L18d616                        | +088
-.L18d612:
-        bra.w   .L18d61a                        | +08c
-.L18d616:
-        movea.l 0xc(a0),a0                      | +090
-.L18d61a:
-        cmpa.l  #0x100440,a0                    | +094
-        bne.w   .L18d62c                        | +09a
-        move.w  #0x7c,d1                        | +09e
-        bra.w   .L18d630                        | +0a2
-.L18d62c:
-        move.w  #0x14c,d1                       | +0a6
-.L18d630:
-        jsr     0x236e.l                        | +0aa
-        movea.l 0xc(a6),a0                      | +0b0
-        move.b  0x3a(a0),0x3a(a6)               | +0b4
-        move.w  0x22(a0),0x22(a6)               | +0ba
-        move.w  0x24(a0),d0                     | +0c0
-        addi.w  #0x20,d0                        | +0c4
-        move.w  d0,0x82(a6)                     | +0c8
-        move.w  d0,0x24(a6)                     | +0cc
-        btst    #0x0,0x3a(a6)                   | +0d0
-        beq.w   .L18d664                        | +0d6
-        neg.w   0x28(a6)                        | +0da
-.L18d664:
-        lea     .L18d66a(pc),a1                 | +0de
-        move.l  a1,(a6)                         | +0e2
-.L18d66a:
-        move.w  0x2a(a6),d0                     | +0e4
-        bpl.w   .L18d67c                        | +0e8
-        move.w  0x28(a6),d0                     | +0ec
-        asr.w   #0x4,d0                         | +0f0
-        sub.w   d0,0x28(a6)                     | +0f2
-.L18d67c:
-        jsr     0x27d50.l                       | +0f6
-        bcs.w   TaskHandler_18d6f8              | +0fc
-        jsr     0x28d70.l                       | +100
-        jsr     0x283d8.l                       | +106
-        btst    #0x1,0x13(a6)                   | +10c
-        bne.w   TaskHandler_18d6f8__L18d714     | +112
-        btst    #0x3,0x13(a6)                   | +116
-        bne.w   TaskHandler_18d6f8__L18d706     | +11c
-        cmpi.w  #0x100,0x24(a6)                 | +120
-        bmi.w   JmpToScheduler_18d794           | +126
-        cmpi.w  #0x150,0x22(a6)                 | +12a
-        bcc.w   JmpToScheduler_18d794           | +130
-        rts                                     | +134
+        bra.w   Grenade_Throw_Common_18d5ca     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d6bc  @ $18D6BC  (52 B)
+|  Grenade_ThrowB_18d5aa  @ $18D5AA  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d6bc, "ax", @progbits
-        .global TaskHandler_18d6bc
-TaskHandler_18d6bc:
+        .section .text.Grenade_ThrowB_18d5aa, "ax", @progbits
+        .global Grenade_ThrowB_18d5aa
+Grenade_ThrowB_18d5aa:
+        move.w  #0xf000,d0                      | +000
+        jsr     0x5dca4.l                       | +004
+        move.w  d0,0x28(a6)                     | +00a
+        move.w  #0x663,0x2a(a6)                 | +00e
+        move.w  #0xfeb9,0x2e(a6)                | +014
+        move.w  #0x0,0x2c(a6)                   | +01a
+
+| ----------------------------------------------------------------------------
+|  Grenade_Throw_Common_18d5ca  @ $18D5CA  (160 B)
+| ----------------------------------------------------------------------------
+        .section .text.Grenade_Throw_Common_18d5ca, "ax", @progbits
+        .global Grenade_Throw_Common_18d5ca
+Grenade_Throw_Common_18d5ca:
+        bset    #0x4,0x6b(a6)                   | +000
+        move.w  #0xd000,0x38(a6)                | +006
+        lea     Grenade_AnimExplode_18d3e2(pc),a0 | +00c
+        jsr     0x28cd4.l                       | +010
+        lea     0xffff.w,a0                     | +016
+        move.l  a0,0x48(a6)                     | +01a
+        lea     Grenade_AnimSpin_18d152(pc),a0  | +01e
+        move.l  a0,0x4c(a6)                     | +022
+        jsr     0x283ca.l                       | +026
+        jsr     0x283ca.l                       | +02c
+        movea.l 0xc(a6),a0                      | +032
+        cmpa.l  #0x100440,a0                    | +036
+        beq.b   .L18d612                        | +03c
+        cmpa.l  #0x1004e0,a0                    | +03e
+        bne.w   .L18d616                        | +044
+.L18d612:
+        bra.w   .L18d61a                        | +048
+.L18d616:
+        movea.l 0xc(a0),a0                      | +04c
+.L18d61a:
+        cmpa.l  #0x100440,a0                    | +050
+        bne.w   .L18d62c                        | +056
+        move.w  #0x7c,d1                        | +05a
+        bra.w   .L18d630                        | +05e
+.L18d62c:
+        move.w  #0x14c,d1                       | +062
+.L18d630:
+        jsr     0x236e.l                        | +066
+        movea.l 0xc(a6),a0                      | +06c
+        move.b  0x3a(a0),0x3a(a6)               | +070
+        move.w  0x22(a0),0x22(a6)               | +076
+        move.w  0x24(a0),d0                     | +07c
+        addi.w  #0x20,d0                        | +080
+        move.w  d0,0x82(a6)                     | +084
+        move.w  d0,0x24(a6)                     | +088
+        btst    #0x0,0x3a(a6)                   | +08c
+        beq.w   .L18d664                        | +092
+        neg.w   0x28(a6)                        | +096
+.L18d664:
+        lea     Grenade_Fly_18d66a(pc),a1       | +09a
+        move.l  a1,(a6)                         | +09e
+
+| ----------------------------------------------------------------------------
+|  Grenade_Fly_18d66a  @ $18D66A  (82 B)
+| ----------------------------------------------------------------------------
+        .section .text.Grenade_Fly_18d66a, "ax", @progbits
+        .global Grenade_Fly_18d66a
+Grenade_Fly_18d66a:
+        move.w  0x2a(a6),d0                     | +000
+        bpl.w   .L18d67c                        | +004
+        move.w  0x28(a6),d0                     | +008
+        asr.w   #0x4,d0                         | +00c
+        sub.w   d0,0x28(a6)                     | +00e
+.L18d67c:
+        jsr     0x27d50.l                       | +012
+        bcs.w   Grenade_Explode_18d6f8          | +018
+        jsr     0x28d70.l                       | +01c
+        jsr     0x283d8.l                       | +022
+        btst    #0x1,0x13(a6)                   | +028
+        bne.w   Grenade_Explode_C_18d714        | +02e
+        btst    #0x3,0x13(a6)                   | +032
+        bne.w   Grenade_Explode_B_18d706        | +038
+        cmpi.w  #0x100,0x24(a6)                 | +03c
+        bmi.w   JmpToScheduler_18d794           | +042
+        cmpi.w  #0x150,0x22(a6)                 | +046
+        bcc.w   JmpToScheduler_18d794           | +04c
+        rts                                     | +050
+
+| ----------------------------------------------------------------------------
+|  Grenade_ExplodeBig_18d6bc  @ $18D6BC  (60 B)
+| ----------------------------------------------------------------------------
+        .section .text.Grenade_ExplodeBig_18d6bc, "ax", @progbits
+        .global Grenade_ExplodeBig_18d6bc
+Grenade_ExplodeBig_18d6bc:
         move.w  #0x1027,d0                      | +000
         jsr     0x2352.l                        | +004
         jsr     0x13600.l                       | +00a
@@ -680,57 +705,75 @@ TaskHandler_18d6bc:
         jsr     0x236e.l                        | +014
         lea     0x29e76c.l,a0                   | +01a
         jsr     0x28cd4.l                       | +020
-        lea     Data_18d29a(pc),a0              | +026
+        lea     Grenade_AnimExplodeBig_18d29a(pc),a0 | +026
         move.l  a0,0x4c(a6)                     | +02a
         jsr     0x283ca.l                       | +02e
+        lea     Grenade_Smoke_Init_18d74e(pc),a1 | +034
+        move.l  a1,(a6)                         | +038
+        rts                                     | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d6f8  @ $18D6F8  (78 B)
+|  Grenade_Explode_18d6f8  @ $18D6F8  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d6f8, "ax", @progbits
-        .global TaskHandler_18d6f8
-TaskHandler_18d6f8:
+        .section .text.Grenade_Explode_18d6f8, "ax", @progbits
+        .global Grenade_Explode_18d6f8
+Grenade_Explode_18d6f8:
         move.w  #0x1027,d0                      | +000
         jsr     0x2352.l                        | +004
-        bra.w   .L18d71e                        | +00a
-        .global TaskHandler_18d6f8__L18d706
-TaskHandler_18d6f8__L18d706:
-        move.w  #0x1027,d0                      | +00e
-        jsr     0x2352.l                        | +012
-        bra.w   .L18d71e                        | +018
-        .global TaskHandler_18d6f8__L18d714
-TaskHandler_18d6f8__L18d714:
-        move.w  #0x1027,d0                      | +01c
-        jsr     0x2352.l                        | +020
-.L18d71e:
-        jsr     0x13600.l                       | +026
-        move.w  #0xd,d1                         | +02c
-        jsr     0x236e.l                        | +030
-        lea     Data_18d52e(pc),a0              | +036
-        jsr     0x28cd4.l                       | +03a
-        lea     TaskHandler_18d74e(pc),a1       | +040
-        move.l  a1,(a6)                         | +044
-        lea     Data_18d1f6(pc),a0              | +046
-        move.l  a0,0x4c(a6)                     | +04a
+        bra.w   Grenade_Explode_Common_18d71e | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d74e  @ $18D74E  (24 B)
+|  Grenade_Explode_B_18d706  @ $18D706  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d74e, "ax", @progbits
-        .global TaskHandler_18d74e
-TaskHandler_18d74e:
+        .section .text.Grenade_Explode_B_18d706, "ax", @progbits
+        .global Grenade_Explode_B_18d706
+Grenade_Explode_B_18d706:
+        move.w  #0x1027,d0                      | +000
+        jsr     0x2352.l                        | +004
+        bra.w   Grenade_Explode_Common_18d71e | +00a
+
+| ----------------------------------------------------------------------------
+|  Grenade_Explode_C_18d714  @ $18D714  (58 B)
+| ----------------------------------------------------------------------------
+        .section .text.Grenade_Explode_C_18d714, "ax", @progbits
+        .global Grenade_Explode_C_18d714
+Grenade_Explode_C_18d714:
+        move.w  #0x1027,d0                      | +000
+        jsr     0x2352.l                        | +004
+        .global Grenade_Explode_Common_18d71e
+Grenade_Explode_Common_18d71e:
+        jsr     0x13600.l                       | +00a
+        move.w  #0xd,d1                         | +010
+        jsr     0x236e.l                        | +014
+        lea     Grenade_AnimSmoke_18d52e(pc),a0 | +01a
+        jsr     0x28cd4.l                       | +01e
+        lea     Grenade_Smoke_Init_18d74e(pc),a1 | +024
+        move.l  a1,(a6)                         | +028
+        lea     Grenade_AnimSpinAlt_18d1f6(pc),a0 | +02a
+        move.l  a0,0x4c(a6)                     | +02e
+        jsr     0x283ca.l                       | +032
+        rts                                     | +038
+
+| ----------------------------------------------------------------------------
+|  Grenade_Smoke_Init_18d74e  @ $18D74E  (32 B)
+| ----------------------------------------------------------------------------
+        .section .text.Grenade_Smoke_Init_18d74e, "ax", @progbits
+        .global Grenade_Smoke_Init_18d74e
+Grenade_Smoke_Init_18d74e:
         jsr     0x283ca.l                       | +000
         jsr     0x283d8.l                       | +006
-        lea     TaskHandler_18d76e(pc),a1       | +00c
+        lea     Grenade_Smoke_Run_18d76e(pc),a1 | +00c
         move.l  a1,(a6)                         | +010
         jsr     0x2783a.l                       | +012
+        jsr     0x28d70.l                       | +018
+        rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d76e  @ $18D76E  (38 B)
+|  Grenade_Smoke_Run_18d76e  @ $18D76E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d76e, "ax", @progbits
-        .global TaskHandler_18d76e
-TaskHandler_18d76e:
+        .section .text.Grenade_Smoke_Run_18d76e, "ax", @progbits
+        .global Grenade_Smoke_Run_18d76e
+Grenade_Smoke_Run_18d76e:
         lea     0xffff.w,a0                     | +000
         move.l  a0,0x4c(a6)                     | +004
         jsr     0x283ca.l                       | +008
@@ -742,18 +785,18 @@ TaskHandler_18d76e:
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d7aa  @ $18D7AA  (204 B)
+|  Grenade_ThrowDown_18d7aa  @ $18D7AA  (204 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d7aa, "ax", @progbits
-        .global TaskHandler_18d7aa
-TaskHandler_18d7aa:
+        .section .text.Grenade_ThrowDown_18d7aa, "ax", @progbits
+        .global Grenade_ThrowDown_18d7aa
+Grenade_ThrowDown_18d7aa:
         bset    #0x4,0x6b(a6)                   | +000
         move.w  #0xd000,0x38(a6)                | +006
-        lea     Data_18d3e2(pc),a0              | +00c
+        lea     Grenade_AnimExplode_18d3e2(pc),a0 | +00c
         jsr     0x28cd4.l                       | +010
         lea     0xffff.w,a0                     | +016
         move.l  a0,0x48(a6)                     | +01a
-        lea     Data_18d152(pc),a0              | +01e
+        lea     Grenade_AnimSpin_18d152(pc),a0  | +01e
         move.l  a0,0x4c(a6)                     | +022
         jsr     0x283ca.l                       | +026
         jsr     0x283ca.l                       | +02c
@@ -781,13 +824,13 @@ TaskHandler_18d7aa:
         move.l  a1,(a6)                         | +08a
 .L18d836:
         jsr     0x27d50.l                       | +08c
-        bcs.w   TaskHandler_18d6f8              | +092
+        bcs.w   Grenade_Explode_18d6f8          | +092
         jsr     0x28d70.l                       | +096
         jsr     0x283d8.l                       | +09c
         btst    #0x1,0x13(a6)                   | +0a2
-        bne.w   TaskHandler_18d6f8__L18d714     | +0a8
+        bne.w   Grenade_Explode_C_18d714        | +0a8
         btst    #0x3,0x13(a6)                   | +0ac
-        bne.w   TaskHandler_18d6f8__L18d706     | +0b2
+        bne.w   Grenade_Explode_B_18d706        | +0b2
         cmpi.w  #0x100,0x24(a6)                 | +0b6
         bmi.w   JmpToScheduler_18d794           | +0bc
         cmpi.w  #0x150,0x22(a6)                 | +0c0
@@ -795,11 +838,11 @@ TaskHandler_18d7aa:
         rts                                     | +0ca
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d876  @ $18D876  (168 B)
+|  Grenade_ThrowHeavy_18d876  @ $18D876  (168 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d876, "ax", @progbits
-        .global TaskHandler_18d876
-TaskHandler_18d876:
+        .section .text.Grenade_ThrowHeavy_18d876, "ax", @progbits
+        .global Grenade_ThrowHeavy_18d876
+Grenade_ThrowHeavy_18d876:
         move.w  #0xfae2,d0                      | +000
         jsr     0x5dca4.l                       | +004
         move.w  d0,0x28(a6)                     | +00a
@@ -808,11 +851,11 @@ TaskHandler_18d876:
         move.w  #0x0,0x2c(a6)                   | +01a
         bset    #0x4,0x6b(a6)                   | +020
         move.w  #0xd000,0x38(a6)                | +026
-        lea     Data_18d3e2(pc),a0              | +02c
+        lea     Grenade_AnimExplode_18d3e2(pc),a0 | +02c
         jsr     0x28cd4.l                       | +030
         lea     0xffff.w,a0                     | +036
         move.l  a0,0x48(a6)                     | +03a
-        lea     Data_18d152(pc),a0              | +03e
+        lea     Grenade_AnimSpin_18d152(pc),a0  | +03e
         move.l  a0,0x4c(a6)                     | +042
         jsr     0x283ca.l                       | +046
         jsr     0x283ca.l                       | +04c
@@ -835,15 +878,15 @@ TaskHandler_18d876:
         move.w  d0,0x24(a6)                     | +09a
 .L18d914:
         clr.w   0x5c(a6)                        | +09e
-        lea     TaskHandler_18d91e(pc),a1       | +0a2
+        lea     Grenade_HeavyFall_18d91e(pc),a1 | +0a2
         move.l  a1,(a6)                         | +0a6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d91e  @ $18D91E  (182 B)
+|  Grenade_HeavyFall_18d91e  @ $18D91E  (190 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d91e, "ax", @progbits
-        .global TaskHandler_18d91e
-TaskHandler_18d91e:
+        .section .text.Grenade_HeavyFall_18d91e, "ax", @progbits
+        .global Grenade_HeavyFall_18d91e
+Grenade_HeavyFall_18d91e:
         move.w  0x2a(a6),d0                     | +000
         cmpi.w  #0xff00,d0                      | +004
         bpl.w   .L18d934                        | +008
@@ -861,7 +904,7 @@ TaskHandler_18d91e:
         bcc.w   .L18d996                        | +032
         cmpi.w  #0x1,0x5c(a6)                   | +036
         bcs.w   .L18d966                        | +03c
-        bra.w   TaskHandler_18d6bc              | +040
+        bra.w   Grenade_ExplodeBig_18d6bc       | +040
         bra.w   .L18d996                        | +044
 .L18d966:
         move.w  #0xfce0,d0                      | +048
@@ -872,7 +915,7 @@ TaskHandler_18d91e:
         move.w  #0x0,0x2c(a6)                   | +062
         addq.w  #0x8,0x24(a6)                   | +068
         addi.w  #0x1,0x5c(a6)                   | +06c
-        lea     TaskHandler_18d91e(pc),a1       | +072
+        lea     Grenade_HeavyFall_18d91e(pc),a1 | +072
         move.l  a1,(a6)                         | +076
 .L18d996:
         jsr     0x28d70.l                       | +078
@@ -880,21 +923,23 @@ TaskHandler_18d91e:
         bcs.w   .L18d9b6                        | +084
         jsr     0x283d8.l                       | +088
         btst    #0x1,0x13(a6)                   | +08e
-        bne.w   TaskHandler_18d6bc              | +094
+        bne.w   Grenade_ExplodeBig_18d6bc       | +094
 .L18d9b6:
         btst    #0x3,0x13(a6)                   | +098
-        bne.w   TaskHandler_18d6f8__L18d706     | +09e
+        bne.w   Grenade_Explode_B_18d706        | +09e
         cmpi.w  #0x100,0x24(a6)                 | +0a2
         bmi.w   JmpToScheduler_18d794           | +0a8
         cmpi.w  #0x150,0x22(a6)                 | +0ac
         bcc.w   JmpToScheduler_18d794           | +0b2
+        jsr     0x32afa.l                       | +0b6
+        rts                                     | +0bc
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18d9dc  @ $18D9DC  (154 B)
+|  Grenade_ThrowBounce_18d9dc  @ $18D9DC  (154 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18d9dc, "ax", @progbits
-        .global TaskHandler_18d9dc
-TaskHandler_18d9dc:
+        .section .text.Grenade_ThrowBounce_18d9dc, "ax", @progbits
+        .global Grenade_ThrowBounce_18d9dc
+Grenade_ThrowBounce_18d9dc:
         move.w  #0xfeab,d0                      | +000
         jsr     0x5dca4.l                       | +004
         move.w  d0,0x28(a6)                     | +00a
@@ -903,11 +948,11 @@ TaskHandler_18d9dc:
         move.w  #0x0,0x2c(a6)                   | +01a
         bset    #0x4,0x6b(a6)                   | +020
         move.w  #0xd000,0x38(a6)                | +026
-        lea     Data_18d3e2(pc),a0              | +02c
+        lea     Grenade_AnimExplode_18d3e2(pc),a0 | +02c
         jsr     0x28cd4.l                       | +030
         lea     0xffff.w,a0                     | +036
         move.l  a0,0x48(a6)                     | +03a
-        lea     Data_18d152(pc),a0              | +03e
+        lea     Grenade_AnimSpin_18d152(pc),a0  | +03e
         move.l  a0,0x4c(a6)                     | +042
         jsr     0x283ca.l                       | +046
         jsr     0x283ca.l                       | +04c
@@ -926,16 +971,16 @@ TaskHandler_18d9dc:
         move.w  d0,0x24(a6)                     | +086
 .L18da66:
         move.w  #0x12,0x5c(a6)                  | +08a
-        lea     TaskHandler_18daf4(pc),a1       | +090
+        lea     Grenade_BounceTimer_18daf4(pc),a1 | +090
         move.l  a1,(a6)                         | +094
-        bra.w   TaskHandler_18daf4              | +096
+        bra.w   Grenade_BounceTimer_18daf4      | +096
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18da76  @ $18DA76  (126 B)
+|  Grenade_BounceFall_18da76  @ $18DA76  (126 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18da76, "ax", @progbits
-        .global TaskHandler_18da76
-TaskHandler_18da76:
+        .section .text.Grenade_BounceFall_18da76, "ax", @progbits
+        .global Grenade_BounceFall_18da76
+Grenade_BounceFall_18da76:
         move.w  0x2a(a6),d0                     | +000
         bpl.w   .L18da88                        | +004
         move.w  0x28(a6),d0                     | +008
@@ -951,15 +996,15 @@ TaskHandler_18da76:
         move.w  #0xff2b,0x2e(a6)                | +030
         move.w  #0x0,0x2c(a6)                   | +036
         move.w  #0x12,0x5c(a6)                  | +03c
-        lea     TaskHandler_18daf4(pc),a1       | +042
+        lea     Grenade_BounceTimer_18daf4(pc),a1 | +042
         move.l  a1,(a6)                         | +046
 .L18dabe:
         jsr     0x28d70.l                       | +048
         jsr     0x283d8.l                       | +04e
         btst    #0x1,0x13(a6)                   | +054
-        bne.w   TaskHandler_18d6f8__L18d714     | +05a
+        bne.w   Grenade_Explode_C_18d714        | +05a
         btst    #0x3,0x13(a6)                   | +05e
-        bne.w   TaskHandler_18d6f8__L18d706     | +064
+        bne.w   Grenade_Explode_B_18d706        | +064
         cmpi.w  #0x100,0x24(a6)                 | +068
         bmi.w   JmpToScheduler_18d794           | +06e
         cmpi.w  #0x150,0x22(a6)                 | +072
@@ -967,11 +1012,11 @@ TaskHandler_18da76:
         rts                                     | +07c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_18daf4  @ $18DAF4  (102 B)
+|  Grenade_BounceTimer_18daf4  @ $18DAF4  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_18daf4, "ax", @progbits
-        .global TaskHandler_18daf4
-TaskHandler_18daf4:
+        .section .text.Grenade_BounceTimer_18daf4, "ax", @progbits
+        .global Grenade_BounceTimer_18daf4
+Grenade_BounceTimer_18daf4:
         move.w  0x2a(a6),d0                     | +000
         bpl.w   .L18db06                        | +004
         move.w  0x28(a6),d0                     | +008
@@ -980,19 +1025,19 @@ TaskHandler_18daf4:
 .L18db06:
         jsr     0x27d50.l                       | +012
         bcc.w   .L18db14                        | +018
-        bra.w   TaskHandler_18d6f8__L18d714     | +01c
+        bra.w   Grenade_Explode_C_18d714        | +01c
 .L18db14:
         subi.w  #0x1,0x5c(a6)                   | +020
         bne.w   .L18db24                        | +026
-        lea     TaskHandler_18da76(pc),a1       | +02a
+        lea     Grenade_BounceFall_18da76(pc),a1 | +02a
         move.l  a1,(a6)                         | +02e
 .L18db24:
         jsr     0x28d70.l                       | +030
         jsr     0x283d8.l                       | +036
         btst    #0x1,0x13(a6)                   | +03c
-        bne.w   TaskHandler_18d6f8__L18d714     | +042
+        bne.w   Grenade_Explode_C_18d714        | +042
         btst    #0x3,0x13(a6)                   | +046
-        bne.w   TaskHandler_18d6f8__L18d706     | +04c
+        bne.w   Grenade_Explode_B_18d706        | +04c
         cmpi.w  #0x100,0x24(a6)                 | +050
         bmi.w   JmpToScheduler_18d794           | +056
         cmpi.w  #0x150,0x22(a6)                 | +05a
