@@ -1,11 +1,103 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave ZZZ — vehículo Metal Slug SV-001: estados, daño, destrucción, Chain3
 |  Región: $02DD20..$030602  (10,258 B, 63 entradas, 28 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 10,258 B: máquina de estados del vehículo SV-001 "Metal Slug"
+|  (entidad en slot $100580) y las entidades "Chain3" (cadena circular de
+|  tres eslabones) que le siguen. Es la segunda mitad del módulo del Slug;
+|  los helpers que usa viven justo antes ($029xxx..$02DD20, aún sin wave).
+|
+|   1. Estados del Slug (handlers en (a6), todos del mismo patrón: ángulo
+|      del terreno vía Sub_0002A958 -> +$80, índice sprite por ángulo
+|      (Slug_AngleIndex_02ff8e / Sub_000295A6) sobre la tabla $2B0DC8 o
+|      $2B0C30, anim por arma/dirección vía Sub_0002A9A0 sobre tablas
+|      $2793xx/$2794xx/$2796xx, callback de colisión Sub_0002999E y tabla
+|      de ataque Sub_0002A024):
+|        Slug_IdleEnterA/B/C_02dd20/74/c8, Slug_Idle_02de18,
+|        Slug_IdleAngled_02deb4/_B_02e244 (parado en pendiente),
+|        Slug_Jump_02e092 / Slug_JumpB_02e04a (salto, snd $196..$199),
+|        Slug_Hunker_02e3b0 (agacharse), Slug_PlayerMount_02e496
+|        (recoge al player: recorre $100440/$1004E0 y lo engancha),
+|        Slug_Drive_02e6c2/_B_02e7fa, Slug_TurnToDrive_02e924,
+|        Slug_DriveAlt_02e9c8, Slug_TurnToDriveAlt_02eb14, Slug_Brake_02ebb0,
+|        Slug_Stall_02eca6, Slug_AccelRight/Left_02ee78/02efaa,
+|        Slug_Knocked_02f0dc (empujón por explosión), Slug_DecelA/B_02f202/
+|        02f312, Slug_CruiseRight/Left_02f422/02f4fc, Slug_SetSpeed_02f5d6.
+|      Slug_StatePtrTbl_02e582: 80 punteros a estos handlers, indexada
+|      desde el despachador $2A078..$2A09C (helper previo) por
+|      (modo +$72, arma, dirección).
+|   2. Daño acumulado: Slug_DamagePtrTbl_02fac8 -> Slug_DamageData_02faca,
+|      Slug_DamageSpriteTblA/B/C_02f886/02f8ae/02fa3c (registros de hitbox
+|      y sprites de abolladuras), Slug_ResetDamageIdx_02fada (destino del
+|      thunk JsrPcThunk_02ff1c) y Slug_UpdateDamageSprite_02fae4 (elige
+|      sprite por HP +$66). Slug_WheelAnim_02fb92 (+_Entry_02fc6a) anima
+|      las orugas con velocidad +$28.
+|   3. Destrucción: Slug_Destroyed_02fc70 (música $10E9 -> $10AF, +$92 =
+|      $30 frames, +$36 = $600 de impulso, hitbox $295B4/$2964C, bset #2,
+|      +$8D; en escena $106F2A == 3 corrige la velocidad con el ángulo),
+|      Slug_KillInit_02feda, Slug_SelfDestructAttack_02fe6a y
+|      Slug_BlastAttack_02ff4a (ataques $283CA/$283D8 con la tabla de
+|      explosión), Slug_ExplodeFx_02ff22 (snd $19A..$19E), SlugFx_Smoke_02f64c,
+|      SlugFx_Fall_02f692 y la tabla de 28 templates
+|      SlugFx_ExplosionAnim_02f6c0 (anims $2A0xxx..).
+|   4. Pequeños helpers: Slug_TypeIfAir_02f84a (ref $28F3A), Players_AnyFlag8D3
+|      _02f85a (+_SetC): ¿algún player con +$8D bit3? (ref $1B94),
+|      Slug_ClampField92_02ffb0 (+_ClearXN), Entity_CmpField10WithLink8_02ffe6
+|      (+_SetXN; ref $18A07E; gemelo de la versión $039234).
+|   5. Chain3_*: Chain3_Init_030002 crea 3 entidades enlazadas circularmente
+|      (Entity_Build3ChainCircular_03060A en la región siguiente) con los
+|      templates Chain3_TplA/B/C_030068/0300ba/03010c (anims $279668/
+|      $27966E/$274674); Chain3_Follow_0301f0 sigue al padre (+$C) usando
+|      Chain3_YDelta_030392, Chain3_Step_0303ee, Chain3_VelY_030416,
+|      Chain3_VelX_030462 y Chain3_CheckSyncA/B_0304c4/03050c; Chain3_DebugHud
+|      _030554 pinta ids $7412/$7413/$7415 con $5D6C2 si $100001 bit4.
+|      Refs: $2A768..$2A826 (helper previo), $38FBA, $74874, $77390.
+|
+|  B. EVIDENCIAS
+|  -------------
+|   - Slot $100580 (lea directo en Slug_PlayerMount) = entidad del Slug en
+|     el resto del proyecto; $100440/$1004E0 = players.
+|   - Tablas de sprites $2B0DC8/$2B0C30 indexadas por ángulo (0..$40) son
+|     las del casco del Slug; $2793xx..$2796xx = anims del Slug por arma.
+|   - Música $10E9/$10AF/$10B0/$1034 y snd $196..$19E, $163 sólo aparecen
+|     en el módulo del Slug (explosión/motor).
+|   - Slug_StatePtrTbl: los 80 punteros caen todos en esta región y la
+|     única referencia es el despachador $2A078.
+|
+|  C. CAMPOS (a6 = Slug)
+|  ---------------------
+|   +$00 handler, +$0C player montado, +$20 frame sprite, +$28/+$2A vel,
+|   +$2C, +$36 impulso, +$48 cb colisión, +$60 hitbox, +$66 HP, +$72 modo,
+|   +$80 ángulo terreno, +$8C bit5 (en el aire), +$8D bit2 (destruido) /
+|   bit3 (player montado), +$92 temporizador, +$9x índice de daño.
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|   $236E snd, $2352 music, $283CA/$283D8 ataque, $27EBA, $28992, $28CD4
+|   sprite, $28D70 paso anim, $4AE alloc, $5CEF8 input, $5DD56 suelo,
+|   $5D6C2 debug print; helpers del módulo Slug aún sin nombre:
+|   Sub_000295A6 (sprite por ángulo), Sub_0002A328/34E/478/4EC/4F0/664/
+|   690/766/7D8/824/8C0/958 (física del Slug), Sub_0002A9A0 (índice anim
+|   por arma/dir), Sub_0002AA24, JsrAbsThunk_02a5cc, PcThunkTarget_02ac80.
+|
+|  E. HIPÓTESIS ABIERTAS
+|  ---------------------
+|   - Los nombres de estado (Drive/Cruise/Accel/Decel/Brake/Stall/Hunker)
+|     se deducen de qué campos de velocidad tocan y de la tabla de 80
+|     punteros; confirmar con el despachador $2A078 al hacer su wave.
+|   - "Chain3" es provisional: podría ser la cadena/antena del Slug o el
+|     humo en tres segmentos; depende de los templates $279668..
+|   - Slug_DamageSpriteTbl* se trata como datos porque $02F886+0A no
+|     decodifica como código; el formato exacto de registro está abierto.
+|
+|  F. SIGUIENTE
+|  ------------
+|   `$030602..$032A02` (segunda mitad del player core), después los helpers
+|   del Slug `$029xxx..$02DD20` (Sub_0002A9A0 y compañía).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

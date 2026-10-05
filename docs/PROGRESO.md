@@ -11,10 +11,37 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4867/4867 funciones
-BYTES   : 242,582/242,582 (registrados)
-ROM     : 242,582/2,097,152  (11.5672%)
+MATCHED : 4923/4923 funciones
+BYTES   : 252,798/252,798 (registrados)
+ROM     : 252,798/2,097,152  (12.0543%)
 ```
+
+> **Wave ZZZ** (63 entradas, 10 258 B, verde a la segunda: `$02F886` era
+> datos) — `$02DD20..$030602` en `slug_vehicle_02ddxx.s` (absorbe 7 islas
+> CCR). Decimoseptima wave de `gen_asm_region.py`.
+>
+> * **Maquina de estados del SV-001** (slot `$100580`): `Slug_IdleEnterA/B/C`,
+>   `Slug_Idle`, `Slug_IdleAngled(B)`, `Slug_Jump(B)` (snd $196..$199),
+>   `Slug_Hunker`, `Slug_PlayerMount` (recorre `$100440/$1004E0`),
+>   `Slug_Drive(B)`, `Slug_TurnToDrive(Alt)`, `Slug_DriveAlt`, `Slug_Brake`,
+>   `Slug_Stall`, `Slug_AccelRight/Left`, `Slug_Knocked`, `Slug_DecelA/B`,
+>   `Slug_CruiseRight/Left`, `Slug_SetSpeed`. Patron comun: angulo del
+>   terreno `Sub_0002A958` -> +$80, sprite por angulo (`$2B0DC8/$2B0C30`),
+>   anim por arma/direccion `Sub_0002A9A0` (`$2793xx..$2796xx`).
+>   `Slug_StatePtrTbl_02e582` = 80 punteros (despachador `$2A078`).
+> * **Dano**: `Slug_DamageSpriteTblA/B/C`, `Slug_DamagePtrTbl/Data`,
+>   `Slug_ResetDamageIdx` (destino de `JsrPcThunk_02ff1c`),
+>   `Slug_UpdateDamageSprite` (por HP +$66), `Slug_WheelAnim`.
+> * **Destruccion**: `Slug_Destroyed_02fc70` (musica $10E9 -> $10AF, +$92 =
+>   $30, +$36 = $600, bset #2,+$8D), `Slug_KillInit`, `Slug_SelfDestructAttack`,
+>   `Slug_BlastAttack`, `Slug_ExplodeFx` (snd $19A..$19E), `SlugFx_Smoke/Fall`,
+>   tabla de 28 templates `SlugFx_ExplosionAnim_02f6c0`.
+> * `Chain3_Init_030002` (3 entidades circulares via
+>   `Entity_Build3ChainCircular_03060A`, templates `Chain3_TplA/B/C`),
+>   `Chain3_Follow/YDelta/Step/VelY/VelX/CheckSyncA/B`, `Chain3_DebugHud`
+>   (`$100001` bit4 -> `$5D6C2` ids $7412/$7413/$7415).
+> * Helpers: `Slug_TypeIfAir`, `Players_AnyFlag8D3(_SetC)`,
+>   `Slug_ClampField92(_ClearXN)`, `Entity_CmpField10WithLink8_02ffe6(_SetXN)`.
 
 > **Wave YYY** (82 entradas, 5 230 B, verde a la primera) —
 > `$03C62A..$03DA98` en `player_fire_shells_03c6xx.s` (absorbe
