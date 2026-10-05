@@ -1,11 +1,129 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave CCCC — vehículo SV-001: spawn/caída, estados en pendiente, disparo,
+|             salto, caída, impacto y muerte (1a mitad de los estados)
 |  Región: $02AE3E..$02DD20  (11,812 B, 70 entradas, 25 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 11,812 B: la primera mitad de la máquina de estados del Slug
+|  (entidad en $100580, handler en (a6)). Completa a slug_vehicle_02ddxx.s
+|  (Wave ZZZ) y usa los helpers de slug_helpers_0295xx.s (Wave BBBB). Todos
+|  los estados comparten la cola estándar: Slug_GroundContact -> Slug_Fall,
+|  Slug_InputDirByLayoutA/B + Slug_InputDirPtrTbl_02c9b0 ($772), Slug_CanFire
+|  -> Slug_Fire*, Slug_ConsumeField89 -> Slug_IdleEnterB, $5D00E (daño) ->
+|  Slug_Destroyed, Slug_TryStartDestroyed(B) + Slug_StateByAnglePtrTbl ($772)
+|  y, si $5DD56 con $27964E devuelve C, salto a Slug_DeathFinishJmp.
+|
+|   1. Spawn por paracaídas: Slug_SpawnDrop_02ae50 (template $2AE50 creado
+|      por cutscene_anim/anim_state_machine $8BD8E/$8BEE2/$8C088 con +$98 =
+|      variante 0..4) y Slug_SpawnDropB_02aea4 (ref índice $E8490) eligen
+|      en Slug_DropVariantPtrTbl(B)_02ae90/02aee4 uno de Slug_DropVariant0..4
+|      _02aef8..02af88: Slug_Init con d1 = 3, prio |= 2, crean la torreta
+|      Turret_InitDir0..4 ($459A8..$45ABE) + PlayerIcon_Pow + Slug_WheelAnim,
+|      sprite $2792B0, hitbox $29698, vel Y -$400; al pasar Y > $180 ->
+|      Slug_DropDescend_02b05e (anim $46, +$82 suelo += 8, clamp vel Y $400,
+|      al tocar suelo Slug_IdleEnterA). Slug_DropBossInit_02b166 /
+|      Slug_DropBossDescend_02b264: igual con Slug_InitBoss en ($68,$1D8) o
+|      ($40,$1E0) y +$13 bit6 (no referenciado: variante sin usar).
+|      Slug_DeadHandler_02ae3e: (a6) centinela "Slug muerto" (+$48/+$60 =
+|      -1; Slug_IsAlive y turret_boss2 $45DEC lo comparan).
+|   2. Parado: Slug_IdleFlat_02b38c ($267E6, anim por pendiente sobre
+|      $2792F4, ataque Slug_AttackTbl10+$54, frame base $14) y
+|      Slug_IdleSlope_02b4d2 (+Jmp_02b4ca; sprite por ángulo sobre $2B0C30,
+|      frame base 0, empuje d7 = ±$2A0 según sondas; en escena $106F2A == 3
+|      corrige con la pendiente); Slug_SlopeIdleEnter_02b6f4 (frame $41,
+|      tabla $2B0CB8, ref Slug_Stall) y Slug_SlopeMount_02b7da (frame $82,
+|      tabla $2B0CFC; destino de Slug_PlayerMount).
+|   3. Movimiento: Slug_AccelRightB/LeftB_02b8d8/02ba3e (Fx_SpawnDustPair
+|      $31E5E/$31E76, vel objetivo ±$2A0 en 8 frames (+$91), anim $27945C/
+|      $279538, frame $19/$1E, música por índice en Slug_AccelRight/LeftMusic
+|      Tbl $10AF/$10B0); Slug_BrakeRight/Left_02bd00/02be32 (decelera a 0,
+|      frame $A/$F); Slug_CruiseRightB/LeftB_02bf64/02c07a (vel fija ±$2A0,
+|      anim $2793D0/$279524, frame 0/5).
+|   4. Disparo del cañón: Slug_FireIdle_02c190 y Slug_FireFlat_02c24a
+|      (anim $279498, frame $14/$3C; PlayerSlot_TestMaskCur d1 = 4 -> crea el
+|      proyectil VehicleLaunch_Init $311C0/$312B2 ó $31240 según +$84, humo
+|      SlugFx_ExhaustOrDrop $319F0 / $31944; Slug_GaugeTick, +$8E = $1E
+|      cadencia, +$8D bit0), Slug_FireRecoil_02c432 (anim $2794E8),
+|      Slug_FireFlatResume_02c554, Slug_FireMoveRight/Left_02c572/02c648,
+|      Slug_FireSlope_02c71e (igual sobre pendiente, humo $31922).
+|   5. Salto: Slug_JumpCrouch_02c908 (+_Loop_02c95c; anim $279308, frame
+|      $2D, ataque Slug_AttackPtrTbl+$14; destino de Slug_SetSpeed) ->
+|      Slug_JumpLaunch_02ca0c (vel Y -$4A4 / grav -$63, anim $27931C, frame
+|      $32, ataque +$28) -> Slug_JumpAir_02ca8a (dirección aérea $5D5B6 en
+|      Slug_AirSteerAccelTbl_02c900 {0,-$80,+$80,0}, clamp ±$2A0/$400,
+|      $5CEF8 -> despacho $2A08C) -> Slug_JumpLand_02cc1a (invierte vel X
+|      *$80, anim $279330, frame $37, 17 frames) / Slug_JumpLandSlope_02ce1c.
+|      Slug_JumpNeutral/Right/Left_02c9c4/02c9d4/02c9f0 fijan vel X 0/±$2AA
+|      (tabla Slug_InputDirPtrTbl_02c9b0 indexada por input dirección).
+|      Slug_JumpAirFire_02cc02 -> Slug_FireAirB.
+|   6. Caída: Slug_FallStart_02cffa / Slug_Fall_02d02e (+_Loop_02d0c4,
+|      grav -$20, +$82 += 4; ref Slug_Hunker, IdleAngledB, Stall) ->
+|      Slug_JumpLand al tocar suelo; Slug_FallFire_02d26e.
+|   7. Disparo en el aire: Slug_FireJumpCrouch_02d286 (anim $27931C),
+|      Slug_FireAir_02d394 (+_Loop_02d49e, humo SlugFx_Exhaust $31AF6),
+|      Slug_FireAirB_02d380 / Slug_FireAirResume_02d38a.
+|   8. Impacto (desde Slug_StateByAnglePtrTbl[1,2,4,5]): Slug_HitReact_02d63e
+|      (anims $27954C/$279560, frame $96, +$45 = $28, snd $5E722, cb
+|      Slug_HitboxCbC), Slug_HitLaunchA/B_02d736/02d802 (vel Y -$3FC, anims
+|      $279574/$279588) -> Slug_HitLandA/B_02d8c8/02d980 ($27959C/$2795B0).
+|   9. Muerte: Slug_DeathStart_02dcc0 (destino de Slug_TryStartDestroyed(B):
+|      hitbox $2973C + 2 ataques $283CA, Slug_ExplodeFx) ->
+|      Slug_DeathExplode_02da38 (Slug_KillInit, +$13 bit0, elige anim por
+|      lado del impacto (+$54 vs centro de la hitbox +$48), bset #4 +$8D,
+|      Slug_UpdateDamageSprite) -> Slug_DeathFade_02dc5c ($28 frames,
+|      +$48/+$60 = -1, $5B6 + $13600, handler $400 vía
+|      Slug_DeathSetHandler400_02dcaa); Slug_DeathLaunch_02db52 (variante
+|      con salto -$3FC, $3C frames). Slug_DestroyedSlideInit_02bbf2 /
+|      Slug_DestroyedSlide_02bba4 (+_Loop_02bc78): música $10E9/$10B2
+|      (Slug_DestroyedMusicTbl), vel $600, hitbox $2964C, +$92 = $30 ->
+|      Slug_SelfDestructAttack cuando X >= $117 o expira.
+|
+|  B. EVIDENCIAS
+|  -------------
+|   - Los 70 handlers sólo son alcanzables desde slug_vehicle/slug_helpers
+|     o entre sí; todos operan sobre los campos del Slug (+$80 ángulo,
+|     +$82 suelo, +$8C/+$8D bits, +$90 gauge, +$94 anim idx).
+|   - $2AE50 lo crean los scripts de intro de misión ($8BD8E..$8C088) en
+|     ($A0,$1FF) con +$98 = 3: es el Slug que cae en paracaídas al inicio.
+|   - Turret_InitDir0..4 ($459A8..$45ABE) son las 5 torretas del cañón;
+|     una por variante de caída.
+|   - Slug_IsAlive_02acfc compara (a6) con $2AE3E: el centinela de muerte.
+|   - Las tablas de 5 words $2B8CE/$2BA34/$2BB9A sólo contienen ids de
+|     música ($10AF/$10B0/$10B2) y -1; se indexan con anim idx >> 1.
+|
+|  C. CAMPOS (a6 = Slug)
+|  ---------------------
+|   +$00 handler, +$13 bits 0/3/6, +$20 frame, +$22/+$24 pos, +$28/+$2A vel,
+|   +$2C/+$2E aceleración, +$36 impulso, +$45 anim timer, +$48 cb colisión,
+|   +$4C tabla de ataque, +$54, +$5B bits 3/7, +$60 hitbox, +$80 ángulo,
+|   +$82 Y de suelo, +$84 lado, +$8B, +$8C bit5 aire, +$8D bits 0/1/2/4,
+|   +$8E cadencia, +$90 gauge, +$91 temporizador, +$92 timer destrucción,
+|   +$94 anim idx, +$98 variante de caída.
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|   $4AE/$6FE alloc, $518 free, $5B6, $772 Table_LookupPointerBounded,
+|   $2352 music, $13600, $267E2/$267E6, $267F4 clamp, $283CA/$283D8 ataque,
+|   $28CD4 sprite, $28D70 anim, $5CEF8, $5D5B6 input dir, $5DD02 copia,
+|   $5DD56 suelo, $5E722 snd, $8F714 PlayerSlot_TestMaskCur, $517FE,
+|   $311C0/$31240/$312B2 proyectiles, $31922/$31944/$319F0/$31AF6 humo,
+|   $31E5E/$31E76 polvo, $31FCA icono POW, $459A8..$45ABE torretas.
+|
+|  E. HIPÓTESIS ABIERTAS
+|  ---------------------
+|   - Slug_DropBossInit/Descend no tienen referencias: posible variante
+|     recortada o entrada vía tabla de datos no identificada.
+|   - "Fire*" asume que PlayerSlot_TestMaskCur(d1 = 4) distingue el botón
+|     de cañón del de vulcan; nombres provisionales hasta trazar $8F714.
+|   - El criterio lado-del-impacto de Slug_DeathExplode (+$54 vs centro
+|     hitbox) podría ser "lado del atacante" en vez de "lado del Slug".
+|
+|  F. SIGUIENTE
+|  ------------
+|   `$05AA96..$05CA2A`, `$057D04..$059342`, `$0527BA..$0539E2`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
