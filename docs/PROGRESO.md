@@ -11,10 +11,26 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4635/4635 funciones
-BYTES   : 229,144/229,144 (registrados)
-ROM     : 229,144/2,097,152  (10.9264%)
+MATCHED : 4787/4787 funciones
+BYTES   : 237,368/237,368 (registrados)
+ROM     : 237,368/2,097,152  (11.3186%)
 ```
+
+> **Wave XXX** (152 entradas, 8 224 B, verde a la primera, region sin
+> islas) — `$03A60A..$03C62A` en `player_arm_air_death_crouch_03a6xx.s`.
+> Decimoquinta wave de `gen_asm_region.py`.
+>
+> * Los 47 handlers de brazo/arma `PlayerArm_*` restantes: aire
+>   (`PlayerArm_Jump_03a60a`, `PlayerArm_Fall_03a656`, `AirShootA..C`,
+>   `JumpShootA..D`/`FallShootA..D`, `JumpShootDownA..C`/`FallShootDownA..C`),
+>   muerte (`PlayerArm_DeathA..H` + `bset #0,+$13` para que
+>   `PlayerArm_Spawn` libere el brazo), `PlayerArm_SpawnFall_03bea0`,
+>   agachado (`CrouchEnterA/B`, `CrouchIdleA/B`, `CrouchShoot`, `CrawlA/B`,
+>   `CrouchGrenade`, `CrouchMelee`, `CrouchReload`), melee (`MeleeC`,
+>   `AirMeleeA/B`). Cada uno elige tabla por +$72 (modo de disparo) y
+>   carga el sprite con `$28CD4`; 105 tablas `PlayerArm_SpriteTbl_*`.
+> * Todas las direcciones verificadas contra las tablas de anim del player
+>   `$2796xx..$279Fxx` (campo -4); 5 handlers sin referencia.
 
 > **Wave WWW** (125 entradas, 7 270 B de codigo + 47 bloques de datos,
 > verde a la primera) — region `$0388F0..$03A60A` en

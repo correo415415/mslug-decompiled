@@ -17,6 +17,16 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave XXX — 152 entries (8,224 B): `$03A60A..$03C62A`
+  (`player_arm_air_death_crouch_03a6xx.s`, clean region, no islands): the
+  remaining 47 weapon-arm overlay handlers `PlayerArm_*` (air: Jump/Fall/
+  AirShoot*/JumpShoot*/FallShoot*/…ShootDown*; death: DeathA..H which also
+  flag the arm entity dead; SpawnFall; crouch: CrouchEnter/Idle/Shoot/
+  Crawl/Grenade/Melee/Reload; melee: MeleeC, AirMeleeA/B) and their 105
+  `PlayerArm_SpriteTbl_*` 10-pointer tables. Every handler address was
+  cross-checked against the player animation tables at `$2796xx..$279Fxx`
+  (5 handlers are unreferenced). Matcher: 4,787/4,787, 237,368 B
+  (11.32 %); real code coverage 38.3 %.
 - Wave WWW — 125 entries (7,270 B code + data): `$0388F0..$03A60A`
   (`player_arm_weapon_fx_0388xx.s`, 24 spurious C islands absorbed, 47
   data blocks): the crouch actions `Player_CrouchThrowGrenade/Melee/Reload`,

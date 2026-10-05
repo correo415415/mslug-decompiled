@@ -1,11 +1,74 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave XXX — handlers de brazo/arma del player: aire, muerte, agachado
 |  Región: $03A60A..$03C62A  (8,224 B, 152 entradas, 1 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Continuación directa de Wave WWW: los 47 handlers de brazo/arma
+|  (`PlayerArm_*`) que faltaban, con sus 105 tablas de sprites
+|  (`PlayerArm_SpriteTbl_*`, 10 punteros $27xxxx = 5 armas x 2 jugadores,
+|  índice `PlayerArm_WeaponTableIndex_03933a` = (+$71 padre, +5 si P2)<<2).
+|  Cada handler es llamado desde `PlayerArm_Spawn_0394a8` (jsr (a1) con
+|  a1 = +$74 del player padre) y hace: `bclr #2,+$8C(a6)`; elegir tabla
+|  según +$72 (modo: 0 neutro, 1 arriba, 2 abajo, 3 diagonal) y a veces
+|  según `$2ABCC` (C=parpadeo) o +$80 del padre; `jsr $28CD4` para cargar
+|  el sprite del brazo; rts.
+|
+|  Familias (por la tabla de anim del padre que apunta a cada handler):
+|   - Aire: PlayerArm_Jump_03a60a ($279C60/$279C74, anim $25),
+|     PlayerArm_Fall_03a656 ($279B28, anim $26/$04), AirB ($279AB0),
+|     AirShootA..C ($279B14/$279B00/$279B0A; 2-3 modos),
+|     JumpShootA..D / FallShootA..D ($279C24..$279C6A / $279ABA..$279AF6;
+|     modos 1/2/3), JumpShootDownA..C / FallShootDownA..C (modos 0/2).
+|   - Muerte: PlayerArm_DeathA..H_03bc10..03be4e ($279F2C..$279F86, anim 0);
+|     además hacen `bset #0,+$13(a6)` (marca la entidad de brazo como
+|     muerta para que PlayerArm_Spawn la libere).
+|   - Spawn: PlayerArm_SpawnFall_03bea0 ($279F86, anim $04).
+|   - Agachado: CrouchEnterA/B ($279860/$27986A), CrouchIdleA/B
+|     ($27984C/$279856, con rama por `$2ABCC`), CrouchShoot ($279838),
+|     CrawlA/B ($279A7E/$279A74), CrouchGrenade ($279D02),
+|     CrouchMelee_03c542 ($279D16), CrouchReload_03c588 ($279EE6: alterna
+|     +$30 par/impar y fija +$4C = PlayerArm_MeleeAttackTbl_0392a4 + $283CA).
+|   - Melee: MeleeC_03c2d4 ($279D2A/$279D34, rama por +$80 del padre),
+|     AirMeleeA/B_03c36e/03c458 ($279D3E/$279D48, modos 1/2 y 1/0).
+|   - Sin referencia en ROM (dead code o seleccionados dinámicamente):
+|     AirUnref_03a6a2, ShootDownUnrefA/B_03ba3c/03bb26, CrouchUnref_03bf38,
+|     CrawlUnref_03c1f6.
+|
+|  B. EVIDENCIAS
+|  -------------
+|   - Búsqueda de cada dirección como u32 en la P-ROM: todas las refs
+|     caen en $2796xx..$279Fxx (campo -4 de las tablas de anim del player
+|     que `Player_*` copian a +$74 con `move.l -4(a0),$74(a6)`).
+|   - PlayerArm_Spawn (WWW) compara +$74 con $3A60A y $3A656 para las
+|     ramas de anim $25..$28 (aire).
+|   - Patrón idéntico a los 31 handlers de WWW (ver player_arm_weapon_fx).
+|
+|  C. CAMPOS DE ENTITY (a6 = brazo, +$C = player)
+|  -----------------------------------------------
+|   +$13 bit0 muerto, +$30 contador de parpadeo (CrouchReload), +$4C tabla
+|   de ataque, +$72 modo de disparo, +$8C bit2 (limpiado al entrar),
+|   padre +$80 (byte consultado por MeleeC).
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|   $28CD4 carga sprite, $2ABCC ClearXN/parpadeo, $283CA ataque,
+|   PlayerArm_WeaponTableIndex_03933a, PlayerArm_MeleeAttackTbl_0392a4.
+|
+|  E. HIPÓTESIS ABIERTAS
+|  ---------------------
+|   - El significado exacto de +$72 (0/1/2/3) como dirección de disparo
+|     (neutro/arriba/abajo/diagonal) es inferido de los pares Jump/Fall;
+|     confirmar con las tablas $2796xx.
+|   - Los sufijos A..H son por orden de dirección; la pose concreta de
+|     cada uno se fijará al decodificar las tablas de anim.
+|
+|  F. SIGUIENTE
+|  ------------
+|   `$03C62A..$03C8D0` (islas C) y `$03C8D8..$03DA98` (proyectiles/efectos);
+|   `$02E000..$032A00` (player core, callbacks Sub_000324BC..Sub_0003292C).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

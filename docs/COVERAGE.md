@@ -17,8 +17,8 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 | Metrica | Cifra (post-VVV) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **10.93 %**  (229,144 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **36.7 %**  (185,336 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **11.32 %**  (237,368 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **38.3 %**  (193,560 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -43,7 +43,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Tablas de sprites/slots (pares {id,tile}, LUTs 16x16) | `$002F30..$0133B0` | DATA | 66,688 B | 0 B | 0.0 % |
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
-| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 69,706 B | 29.8 % |
+| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 77,930 B | 33.3 % |
 | Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 25,222 B | 16.6 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
@@ -61,7 +61,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 1384 huecos, 320,272 B
+Huecos pendientes en zonas CODE: 1383 huecos, 312,048 B
 
 ### Notas por zona
 
@@ -94,11 +94,12 @@ Huecos pendientes en zonas CODE: 1384 huecos, 320,272 B
   7 handlers de muerte de la tabla de 68, agachado/gateo), Wave WWW
   (`player_arm_weapon_fx_0388xx.s`, `$0388F0..$03A60A`: acciones agachado,
   arma soltada, paracaidas, sensores de agachado, fx de muerte y el overlay
-  de brazo/arma `PlayerArm_*` con 44 tablas de sprites), squads/charger `$040EF2..$0434C2`,
+  de brazo/arma `PlayerArm_*` con 44 tablas de sprites), Wave XXX
+  (`player_arm_air_death_crouch_03a6xx.s`, `$03A60A..$03C62A`: los 47
+  handlers de brazo restantes + 105 tablas), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
-  `$02E000..$032A00` (player core), `$03A60A..$03C62A` (8 KB, resto de
-  handlers de brazo `PlayerArm_*` aire/muerte/crouch/slug), `$03C8D8..$03DA98`, `$0478FC..$048A3C`, `$04AC3A..$04BB8E`,
+  `$02E000..$032A00` (player core), `$03C8D8..$03DA98`, `$0478FC..$048A3C`, `$04AC3A..$04BB8E`,
   `$0527BA..$0539E2`, `$053F96..$0550BE`, `$057D04..$059342`,
   `$05AA96..$05CA2A` (8 KB).
 - **`$05E000..$083000` (CODE, 152 KB)**: input mask dispatchers
@@ -148,13 +149,12 @@ Huecos pendientes en zonas CODE: 1384 huecos, 320,272 B
 - **Granadas del jugador** (Wave SSS); **estados en suelo del jugador**
   (Wave UUU: stand/walk/turn/melee/grenade/ride); **aire / muerte /
   agachado** (Wave VVV); **brazo/arma, paracaidas, arma soltada, fx de
-  muerte** (Wave WWW).
+  muerte** (Wave WWW); **handlers de brazo aire/muerte/agachado** (Wave XXX).
 
 ### Cosas que faltan (por tamano de codigo pendiente)
 
-1. **Nucleo del jugador y armas de fuego** — `$02E000..$032A00` y
-   `$03A60A..$03C62A` (~23 KB): callbacks del player core, resto de
-   handlers de brazo `PlayerArm_*`, pistola/HMG/shotgun/bazooka, SV-001. La tabla de 68 estados `$3338A` (Wave TTT) y
+1. **Nucleo del jugador y armas de fuego** — `$02E000..$032A00` (~15 KB):
+   callbacks del player core, pistola/HMG/shotgun/bazooka, SV-001. La tabla de 68 estados `$3338A` (Wave TTT) y
    los targets `$376xx..$37B00` son la puerta de entrada.
 2. **Proyectiles y efectos** — `$03C8D8..$03DA98`,
    `$060000..$083000` (~100 KB, muchas islas C ya cerradas).
@@ -171,10 +171,10 @@ Huecos pendientes en zonas CODE: 1384 huecos, 320,272 B
 
 | # | Rango | Pendiente | Contexto |
 |---:|---|---:|---|
-| 1 | `$03A60A..$03C62A` | 8 KB | Continuacion de WWW: handlers de brazo `PlayerArm_*` restantes (aire `$3A60A/$3A656..$3B952`, muerte `$3BC10..`, crouch `$3BEEC..`, slug `$3C632..`), referenciados desde las tablas de anim `$2796xx..$279Fxx` |
-| 2 | `$02E000..$032A00` | ~15 KB | Player core (publicadores `$2575C/$25766`, slots `$100440/$1004E0`, callbacks `Sub_000324BC..Sub_0003292C`) |
-| 3 | `$05AA96..$05CA2A` | 8 KB | Bloque contiguo mas grande sin tocar del runtime tardio |
-| 4 | `$03C8D8..$03DA98` | 4.5 KB | Proyectiles / efectos tras los handlers de brazo |
+| 1 | `$02E000..$032A00` | ~15 KB | Player core (publicadores `$2575C/$25766`, slots `$100440/$1004E0`, callbacks `Sub_000324BC..Sub_0003292C` usados por `Player_*`) |
+| 2 | `$05AA96..$05CA2A` | 8 KB | Bloque contiguo mas grande sin tocar del runtime tardio |
+| 3 | `$057D04..$059342` | 5.6 KB | Dispatcher grande del nucleo |
+| 4 | `$03C8D8..$03DA98` | 4.5 KB | Proyectiles / efectos tras los handlers de brazo (`JsrAbsThunk_03c62a/03c8d0` en el borde) |
 
 ---
 
