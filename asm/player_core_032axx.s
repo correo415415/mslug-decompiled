@@ -1834,6 +1834,8 @@ Player_SpawnLand_Done_033e8c:
         move.l  a1,(a6)                         | +2dc
 .L034042:
         jmp     Player_Idle_Tail_0341a4(pc) | +2de
+        .global Player_Idle_StateCheck_034046
+Player_Idle_StateCheck_034046:              | $034046 entrada secundaria (lea desde $034B38/$035590)
         cmpi.b  #0x13,0x70(a6)                  | +2e2
         bcs.w   .L03405e                        | +2e8
         cmpi.b  #0x24,0x70(a6)                  | +2ec

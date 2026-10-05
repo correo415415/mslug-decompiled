@@ -1550,16 +1550,16 @@ SYMBOLS = {
     0x000326E0: "Sub_000326E0",  # hueco futuro (ref pc-rel desde esta region)
     0x000329D4: "Sub_000329D4",  # hueco futuro (ref pc-rel desde esta region)
     0x000329E8: "Sub_000329E8",  # hueco futuro (ref pc-rel desde esta region)
-    0x000342C4: "Sub_000342C4",  # hueco futuro (ref pc-rel desde esta region)
-    0x0003437E: "Sub_0003437E",  # hueco futuro (ref pc-rel desde esta region)
-    0x000345B8: "Sub_000345B8",  # hueco futuro (ref pc-rel desde esta region)
-    0x00034704: "Sub_00034704",  # hueco futuro (ref pc-rel desde esta region)
-    0x00034B38: "Sub_00034B38",  # hueco futuro (ref pc-rel desde esta region)
-    0x00034D32: "Sub_00034D32",  # hueco futuro (ref pc-rel desde esta region)
-    0x00035ABA: "Sub_00035ABA",  # hueco futuro (ref pc-rel desde esta region)
-    0x00035BF8: "Sub_00035BF8",  # hueco futuro (ref pc-rel desde esta region)
-    0x00035D34: "Sub_00035D34",  # hueco futuro (ref pc-rel desde esta region)
-    0x000360BC: "Sub_000360BC",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x000342C4 promovido a Sub_000342C4 en registry (Wave UUU).
+    # 0x0003437E promovido a Sub_0003437E en registry (Wave UUU).
+    # 0x000345B8 promovido a Sub_000345B8 en registry (Wave UUU).
+    # 0x00034704 promovido a Sub_00034704 en registry (Wave UUU).
+    # 0x00034B38 promovido a Sub_00034B38 en registry (Wave UUU).
+    # 0x00034D32 promovido a Sub_00034D32 en registry (Wave UUU).
+    # 0x00035ABA promovido a Sub_00035ABA en registry (Wave UUU).
+    # 0x00035BF8 promovido a Sub_00035BF8 en registry (Wave UUU).
+    # 0x00035D34 promovido a Sub_00035D34 en registry (Wave UUU).
+    # 0x000360BC promovido a Sub_000360BC en registry (Wave UUU).
     0x00036914: "Sub_00036914",  # hueco futuro (ref pc-rel desde esta region)
     0x00036C8C: "Sub_00036C8C",  # hueco futuro (ref pc-rel desde esta region)
     0x00037018: "Sub_00037018",  # hueco futuro (ref pc-rel desde esta region)
@@ -1568,4 +1568,10 @@ SYMBOLS = {
     0x0003873C: "Sub_0003873C",  # hueco futuro (ref pc-rel desde esta region)
     0x00038BE4: "Sub_00038BE4",  # hueco futuro (ref pc-rel desde esta region)
     0x00038CF6: "Sub_00038CF6",  # hueco futuro (ref pc-rel desde esta region)
+    # --- Wave UUU: refs forward a huecos futuros
+    0x00032638: "Sub_00032638",  # hueco futuro (ref pc-rel desde esta region)
+    0x00032788: "Sub_00032788",  # hueco futuro (ref pc-rel desde esta region)
+    0x000328D8: "Sub_000328D8",  # hueco futuro (ref pc-rel desde esta region)
+    0x000366FE: "Sub_000366FE",  # hueco futuro (ref pc-rel desde esta region)
+    0x00036796: "Sub_00036796",  # hueco futuro (ref pc-rel desde esta region)
 }

@@ -641,12 +641,6 @@ void SetTaskHandler_0342bc(void) {
     STORE_A1_AT_FP();
 }
 
-__attribute__((section(".text.SetTaskHandler_034b30")))
-void SetTaskHandler_034b30(void) {
-    _a1_ptr = &TaskHandler_037b8e;
-    STORE_A1_AT_FP();
-}
-
 __attribute__((section(".text.SetTaskHandler_037652")))
 void SetTaskHandler_037652(void) {
     _a1_ptr = &TaskHandler_037b8e;

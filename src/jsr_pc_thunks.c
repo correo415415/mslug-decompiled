@@ -195,18 +195,6 @@ void JsrPcThunk_033a58(void) {
     __asm__ volatile("jsr PcThunkTarget_0334a2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
-__attribute__((section(".text.JsrPcThunk_034d2c")))
-void JsrPcThunk_034d2c(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_0354ec")))
-void JsrPcThunk_0354ec(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
 __attribute__((section(".text.JsrPcThunk_036632")))
 void JsrPcThunk_036632(void) {
     extern void PcThunkTarget_033522(void);
