@@ -11,10 +11,42 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 4923/4923 funciones
-BYTES   : 252,798/252,798 (registrados)
-ROM     : 252,798/2,097,152  (12.0543%)
+MATCHED : 5019/5019 funciones
+BYTES   : 261,586/261,586 (registrados)
+ROM     : 261,586/2,097,152  (12.4734%)
 ```
+
+> **Wave AAAA** (96 entradas, 8 788 B, verde a la segunda: dos pares de
+> punteros `$29DAxx` delante de `$31C72/$31D26`) — `$030602..$032A02` en
+> `player_tables_fx_0306xx.s` (absorbe los RTS de 14 islas C; 44 bloques
+> de datos). Decimoctava wave de `gen_asm_region.py`. Nombres y args en
+> `docs/waves/aaaa_*.txt`.
+>
+> * **Granada del player**: `PlayerGrenade_Spawn_0308c2` / `_SpawnB_03093a`
+>   (templates de `PlayerFire_Pistol/Flame` y `$44B68/$8B66A/$9A260`),
+>   `_SpawnFromVehicle_0308b0` (jmp desde `vehicle_deploy`); angulo segun
+>   layout `$106F2A` + `PlayerGrenade_AngleFromSpread_030bfe`, velocidad
+>   via `$13C0E`, rebote `$27CEE`, `ExplodeGround/ExplodeAir` ->
+>   `Fx_GroundBurst_031c72` / `Fx_AirBurst_031cca`.
+> * **Proyectiles enemigos** `EnemyShot_Straight_030c14` / `_Bounce_030c70`
+>   (`mission_spawn_boss`, `turret_boss2`).
+> * **Caida del vehiculo** `VehicleLaunch_Init_0311c0` / `_InitDrop_0318e6`
+>   (indice +$94 en `OffsetTblA/B`, musica $1084, fases +$72 por layout
+>   con `Popcount4_0323b4`), `_Fall`, `_Glide`, `_Crash(A/B/C)` (`$10A2D1`,
+>   musica $10F2), `_Despawn`, `_ReleaseParent`.
+> * **Fx**: `SlugFx_ExhaustOrDrop/Exhaust`, `Fx_Sparkle/SmokePuff/DustCloud/
+>   GroundBurst(B)/AirBurst/Spark/Dust/Smoke*`, `Fx_SpawnDustPair_031e5e`
+>   (10 variantes, desde `Slug_AccelRight`), `Entity_SpawnSpark*IfBit1`.
+> * **Iconos**: `PlayerIcon_Pow_031fca` (snd $1AD), `PlayerIcon_Bubble_03207c`
+>   (snd $1B0), `PlayerIcon_FreeFallP1/P2_032112/032142` (snd $A2/$A3, desde
+>   `Player_SpawnFreeFall_036c8c`).
+> * **Tablas del player** (antes `Sub_000324BC..Sub_000329E8`):
+>   `Player_GroundTblA/B`, `Player_VelYTbl(B)/VelXTbl`, `Player_AttackTblA/B`,
+>   `Player_Hitbox{Stand,Crouch,Melee,Grenade,Air,Knockback,Death,Slug}`,
+>   `Player_WeaponAmmoTbl_0329d4` (999x4 + 150), `Player_WeaponFlagTbl`,
+>   `Player_WeaponStateByteTbl_032412`, `Entity_ClearCollisionCb_0329f8`.
+> * Resto de Chain3: `Chain3_InitAlt_030696`, `Chain3_PickLink_030704`,
+>   `Chain3_LinkCmpField82`, `Chain3_LinksYDeltaIsStep`, `Entity_CmpDepthWithLink8(B)`.
 
 > **Wave ZZZ** (63 entradas, 10 258 B, verde a la segunda: `$02F886` era
 > datos) — `$02DD20..$030602` en `slug_vehicle_02ddxx.s` (absorbe 7 islas

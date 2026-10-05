@@ -17,6 +17,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave AAAA — 96 entries (8,788 B): `$030602..$032A02`
+  (`player_tables_fx_0306xx.s`, 14 C-island RTS absorbed, 44 data blocks):
+  the player grenade (`PlayerGrenade_Spawn/SpawnB/SpawnFromVehicle`,
+  layout-dependent throw angle, `ExplodeGround/ExplodeAir`), generic enemy
+  shots (`EnemyShot_Straight/Bounce`), the vehicle launch/drop sequence
+  (`VehicleLaunch_Init/Fall/Glide/Crash*`), Slug/explosion effects (`Fx_*`,
+  `SlugFx_Exhaust*`, `Fx_SpawnDustPair`), player icons (`PlayerIcon_Pow/
+  Bubble/FreeFallP1/P2`), the remaining `Chain3_*` helpers and the static
+  player tables (`Player_Hitbox*`, `Player_Vel*Tbl`, `Player_GroundTbl*`,
+  `Player_WeaponAmmoTbl` 999/999/999/999/150).
+  Matcher: 5,019/5,019, 261,586 B (12.47 %); real code coverage 64.3 %.
 - Wave ZZZ — 63 entries (10,258 B): `$02DD20..$030602`
   (`slug_vehicle_02ddxx.s`, 7 CCR C islands absorbed, 4 data blocks): the
   SV-001 Metal Slug vehicle state machine `Slug_*` (IdleEnter/Idle/
