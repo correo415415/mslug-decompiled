@@ -81,7 +81,7 @@ PlayerEntitySpawn_Alt_03364A:
         jsr     PlayerEntity_InitAuxState_032A02(pc) | +3e  Wave QQ#1
         bclr.b  #0x4, 0x12(a6)                  | +42  clear pause flag
         ori.w   #0x2, 0x38(a6)                  | +48  set spawn-active flag
-        lea.l   TaskTpl_0394A8, a1              | +4e  a1 = &task_tpl
+        lea.l   PlayerArm_Spawn_0394a8, a1              | +4e  a1 = &task_tpl
         jsr     ThunkTarget_0004ae              | +54  Task_Alloc
         jsr     ThunkTarget_05dd02              | +5a  Entity_CopyTransform (S)
         jsr     ThunkTarget_0517fe              | +60  init sprites hardware

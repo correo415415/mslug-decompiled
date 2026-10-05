@@ -1081,7 +1081,7 @@ SYMBOLS = {
     0x000517AA: "Sub_000517AA",  # jsr desde PlayerEntity_InitAuxState_032A02
     0x00032AA8: "Sub_00032AA8",             # post-init hook 3 (pc-rel)
     #      Callees abs.l del spawn constructor:
-    # 0x000394A8 promovido a TaskTpl_0394A8 en registry (Wave WWW).
+    # 0x000394A8 promovido a PlayerArm_Spawn_0394a8 en registry (Wave WWW).
     0x00027BC8: "Sub_00027BC8",
 
     # ---- Wave NN batch 3: externals de helpers del cluster player +
@@ -1566,8 +1566,8 @@ SYMBOLS = {
     # 0x00037C74 promovido a Player_CrouchEnter_037c74 en registry (Wave VVV).
     # 0x0003827A promovido a Player_CrouchIdle_03827a en registry (Wave VVV).
     # 0x0003873C promovido a Player_CrouchShoot_03873c en registry (Wave VVV).
-    # 0x00038BE4 promovido a Sub_00038BE4 en registry (Wave WWW).
-    # 0x00038CF6 promovido a Sub_00038CF6 en registry (Wave WWW).
+    # 0x00038BE4 promovido a DroppedWeapon_Spawn_038be4 en registry (Wave WWW).
+    # 0x00038CF6 promovido a Parachute_Spawn_038cf6 en registry (Wave WWW).
     # --- Wave UUU: refs forward a huecos futuros
     0x00032638: "Sub_00032638",  # hueco futuro (ref pc-rel desde esta region)
     0x00032788: "Sub_00032788",  # hueco futuro (ref pc-rel desde esta region)
@@ -1582,12 +1582,12 @@ SYMBOLS = {
     0x00032830: "Sub_00032830",  # hueco futuro (ref pc-rel desde esta region)
     0x00032884: "Sub_00032884",  # hueco futuro (ref pc-rel desde esta region)
     0x0003292C: "Sub_0003292C",  # hueco futuro (ref pc-rel desde esta region)
-    # 0x000388F0 promovido a Sub_000388F0 en registry (Wave WWW).
-    # 0x00038A28 promovido a Sub_00038A28 en registry (Wave WWW).
-    # 0x00038AE6 promovido a Sub_00038AE6 en registry (Wave WWW).
-    # 0x00039148 promovido a Sub_00039148 en registry (Wave WWW).
-    # 0x000391EE promovido a Sub_000391EE en registry (Wave WWW).
-    # 0x00039214 promovido a Sub_00039214 en registry (Wave WWW).
+    # 0x000388F0 promovido a Player_CrouchThrowGrenade_0388f0 en registry (Wave WWW).
+    # 0x00038A28 promovido a Player_CrouchMelee_038a28 en registry (Wave WWW).
+    # 0x00038AE6 promovido a Player_CrouchReload_038ae6 en registry (Wave WWW).
+    # 0x00039148 promovido a PlayerDeathFx_Splash_039148 en registry (Wave WWW).
+    # 0x000391EE promovido a PlayerDeathFx_Ripple_0391ee en registry (Wave WWW).
+    # 0x00039214 promovido a PlayerDeathFx_Alt_039214 en registry (Wave WWW).
     # --- Wave WWW: refs forward a huecos futuros
     0x000327DC: "Sub_000327DC",  # hueco futuro (ref pc-rel desde esta region)
 }

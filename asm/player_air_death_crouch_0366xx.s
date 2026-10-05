@@ -19,7 +19,7 @@
 |  `Player_DeathPit` (caída a pozo); (3) AGACHADO — `Player_CrouchEnter`
 |  -> `Player_CrouchIdle` (anim $30, hitbox $32598, cb Sub_00032734),
 |  gateo `Player_CrawlRight/Left` (vel ±$120), `Player_CrouchShoot`,
-|  `Player_CrouchWeaponEmpty` (anim $20, suelta arma Sub_00038BE4) y
+|  `Player_CrouchWeaponEmpty` (anim $20, suelta arma DroppedWeapon_Spawn_038be4) y
 |  `Player_CrouchExit` (vuelve a Stand / Idle / Walk).
 |
 |  B. ENTRADAS (39)
@@ -33,7 +33,7 @@
 |     tablas Sub_000324E8/$324D8 según layout ($5D5B6); suelo $27B66 ->
 |     Player_SpawnLand_SetInvuln1E.
 |   Player_JumpDropEmptyWeapon_0368e0: si +$82==0 y +$71!=0 spawnea
-|     Sub_00038BE4 (arma soltada) y cae a Player_JumpStart.
+|     DroppedWeapon_Spawn_038be4 (arma soltada) y cae a Player_JumpStart.
 |   Player_JumpStart_036914: anim $25 (con vel X) / $26 (vertical), +$72
 |     =3 si nibble $8 (abajo: pasa plataforma, +$38 &= ~1), vel Y $9CD,
 |     accel -$C1, +$90 = 5 frames de "jump hold" ($5CD6C).
@@ -56,8 +56,8 @@
 |     ReenterByInput_038044 / WeaponEmpty_038086 / IdleB_0381a2 /
 |     Idle_03827a (+Setup) / CrawlRight_03842c (+Setup) / CrawlLeft_03855a
 |     (+Setup) / _Alt_038688/_Alt_0386e2 / CrouchShoot_03873c: ver A.
-|     Acción agachado: $FF -> Sub_00038A28, 3 -> Sub_000388F0, else
-|     CrouchShoot; recarga -> Sub_00038AE6; soltar abajo ($5CEF8 C=0) ->
+|     Acción agachado: $FF -> Player_CrouchMelee_038a28, 3 -> Player_CrouchThrowGrenade_0388f0, else
+|     CrouchShoot; recarga -> Player_CrouchReload_038ae6; soltar abajo ($5CEF8 C=0) ->
 |     CrouchExit.
 |
 |  C. CAMPOS DE ENTIDAD USADOS
@@ -295,7 +295,7 @@ Player_JumpDropEmptyWeapon_0368e0:
         bne.w   .L036910                        | +006
         cmpi.b  #0x0,0x71(a6)                   | +00a
         beq.w   .L036910                        | +010
-        lea     Sub_00038BE4(pc),a1             | +014
+        lea     DroppedWeapon_Spawn_038be4(pc),a1             | +014
         jsr     0x4ae.l                         | +018
         jsr     0x5dd02.l                       | +01e
         move.b  #0x0,0x71(a6)                   | +024
@@ -1147,7 +1147,7 @@ Player_Death_Alt_037684:
         andi.b  #0xb,d0                         | +006
         bne.w   Player_Death_0375d2             | +00a
         move.b  #0xff,0x6c(a6)                  | +00e
-        lea     Sub_00039214(pc),a1             | +014
+        lea     PlayerDeathFx_Alt_039214(pc),a1             | +014
         jsr     0x4ae.l                         | +018
         jsr     0x5dd02.l                       | +01e
         lea     0x78840.l,a1                    | +024
@@ -1294,10 +1294,10 @@ Player_Death_FallLanded_037874:
         .section .text.Player_Death_FallSpawnFx_0378c6, "ax", @progbits
         .global Player_Death_FallSpawnFx_0378c6
 Player_Death_FallSpawnFx_0378c6:
-        lea     Sub_000391EE(pc),a1             | +000
+        lea     PlayerDeathFx_Ripple_0391ee(pc),a1             | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
-        lea     Sub_00039148(pc),a1             | +010
+        lea     PlayerDeathFx_Splash_039148(pc),a1             | +010
         jsr     0x4ae.l                         | +014
         jsr     0x5dd02.l                       | +01a
         move.w  #0x0,0x7c(a6)                   | +020
@@ -1614,13 +1614,13 @@ Player_CrouchEnter_037c74:
         bcc.w   .L037d62                        | +0bc
         cmpi.b  #0xff,d1                        | +0c0
         bne.w   .L037d46                        | +0c4
-        lea     Sub_00038A28(pc),a1             | +0c8
+        lea     Player_CrouchMelee_038a28(pc),a1             | +0c8
         move.l  a1,(a6)                         | +0cc
         bra.w   .L037d62                        | +0ce
 .L037d46:
         cmpi.b  #0x3,d1                         | +0d2
         bne.w   .L037d58                        | +0d6
-        lea     Sub_000388F0(pc),a1             | +0da
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1             | +0da
         move.l  a1,(a6)                         | +0de
         bra.w   .L037d62                        | +0e0
 .L037d58:
@@ -1707,13 +1707,13 @@ Player_CrouchEnterB_037dba:
         bcc.w   .L037e9e                        | +0b2
         cmpi.b  #0xff,d1                        | +0b6
         bne.w   .L037e82                        | +0ba
-        lea     Sub_00038A28(pc),a1             | +0be
+        lea     Player_CrouchMelee_038a28(pc),a1             | +0be
         move.l  a1,(a6)                         | +0c2
         bra.w   .L037e9e                        | +0c4
 .L037e82:
         cmpi.b  #0x3,d1                         | +0c8
         bne.w   .L037e94                        | +0cc
-        lea     Sub_000388F0(pc),a1             | +0d0
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1             | +0d0
         move.l  a1,(a6)                         | +0d4
         bra.w   .L037e9e                        | +0d6
 .L037e94:
@@ -1901,7 +1901,7 @@ Player_CrouchWeaponEmpty_038086:
         jsr     0x28cd4.l                       | +03e
         lea     0xffff.w,a0                     | +044
         move.l  a0,0x48(a6)                     | +048
-        lea     Sub_00038BE4(pc),a1             | +04c
+        lea     DroppedWeapon_Spawn_038be4(pc),a1             | +04c
         jsr     0x4ae.l                         | +050
         jsr     0x5dd02.l                       | +056
         move.b  #0x0,0x71(a6)                   | +05c
@@ -1933,13 +1933,13 @@ Player_CrouchWeaponEmpty_038086:
         bcc.w   .L03817e                        | +0c6
         cmpi.b  #0xff,d1                        | +0ca
         bne.w   .L038162                        | +0ce
-        lea     Sub_00038A28(pc),a1             | +0d2
+        lea     Player_CrouchMelee_038a28(pc),a1             | +0d2
         move.l  a1,(a6)                         | +0d6
         bra.w   .L03817e                        | +0d8
 .L038162:
         cmpi.b  #0x3,d1                         | +0dc
         bne.w   .L038174                        | +0e0
-        lea     Sub_000388F0(pc),a1             | +0e4
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1             | +0e4
         move.l  a1,(a6)                         | +0e8
         bra.w   .L03817e                        | +0ea
 .L038174:
@@ -2089,13 +2089,13 @@ Player_CrouchIdle_Setup_0382e2:
         bcc.w   .L0383b4                        | +108
         cmpi.b  #0xff,d1                        | +10c
         bne.w   .L038398                        | +110
-        lea     Sub_00038A28(pc),a1             | +114
+        lea     Player_CrouchMelee_038a28(pc),a1             | +114
         move.l  a1,(a6)                         | +118
         bra.w   .L0383b4                        | +11a
 .L038398:
         cmpi.b  #0x3,d1                         | +11e
         bne.w   .L0383aa                        | +122
-        lea     Sub_000388F0(pc),a1             | +126
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1             | +126
         move.l  a1,(a6)                         | +12a
         bra.w   .L0383b4                        | +12c
 .L0383aa:
@@ -2198,13 +2198,13 @@ Player_CrawlRight_Setup_038482:
         bcc.w   .L038536                        | +0d8
         cmpi.b  #0xff,d1                        | +0dc
         bne.w   .L03851a                        | +0e0
-        lea     Sub_00038A28(pc),a1             | +0e4
+        lea     Player_CrouchMelee_038a28(pc),a1             | +0e4
         move.l  a1,(a6)                         | +0e8
         bra.w   .L038536                        | +0ea
 .L03851a:
         cmpi.b  #0x3,d1                         | +0ee
         bne.w   .L03852c                        | +0f2
-        lea     Sub_000388F0(pc),a1             | +0f6
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1             | +0f6
         move.l  a1,(a6)                         | +0fa
         bra.w   .L038536                        | +0fc
 .L03852c:
@@ -2285,13 +2285,13 @@ Player_CrawlLeft_Setup_0385b0:
         bcc.w   .L038664                        | +0d8
         cmpi.b  #0xff,d1                        | +0dc
         bne.w   .L038648                        | +0e0
-        lea     Sub_00038A28(pc),a1             | +0e4
+        lea     Player_CrouchMelee_038a28(pc),a1             | +0e4
         move.l  a1,(a6)                         | +0e8
         bra.w   .L038664                        | +0ea
 .L038648:
         cmpi.b  #0x3,d1                         | +0ee
         bne.w   .L03865a                        | +0f2
-        lea     Sub_000388F0(pc),a1             | +0f6
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1             | +0f6
         move.l  a1,(a6)                         | +0fa
         bra.w   .L038664                        | +0fc
 .L03865a:
@@ -2425,13 +2425,13 @@ Player_CrouchShoot_03873c:
         bcc.w   .L03884e                        | +0e0
         cmpi.b  #0xff,d1                        | +0e4
         bne.w   .L038832                        | +0e8
-        lea     Sub_00038A28(pc),a1             | +0ec
+        lea     Player_CrouchMelee_038a28(pc),a1             | +0ec
         move.l  a1,(a6)                         | +0f0
         bra.w   .L03884e                        | +0f2
 .L038832:
         cmpi.b  #0x3,d1                         | +0f6
         bne.w   .L038844                        | +0fa
-        lea     Sub_000388F0(pc),a1             | +0fe
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1             | +0fe
         move.l  a1,(a6)                         | +102
         bra.w   .L03884e                        | +104
 .L038844:
@@ -2443,7 +2443,7 @@ Player_CrouchShoot_03873c:
         bne.w   .L038868                        | +118
         cmpi.b  #0x1,0x71(a6)                   | +11c
         bne.w   .L038868                        | +122
-        lea     Sub_00038AE6(pc),a1             | +126
+        lea     Player_CrouchReload_038ae6(pc),a1             | +126
         move.l  a1,(a6)                         | +12a
 .L038868:
         cmpi.w  #0x0,0x82(a6)                   | +12c

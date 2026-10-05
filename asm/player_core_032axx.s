@@ -1369,7 +1369,7 @@ Player_JmpState36C8C_033952:
         .section .text.Player_SpawnParachute_033956, "ax", @progbits
         .global Player_SpawnParachute_033956
 Player_SpawnParachute_033956:
-        lea     Sub_00038CF6(pc),a1             | +000
+        lea     Parachute_Spawn_038cf6(pc),a1             | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  #0x0,0x7c(a6)                   | +010
@@ -1680,7 +1680,7 @@ Player_Idle_033d64:
         beq.w   .L033e04                        | +084
         lea     0xffff.w,a0                     | +088
         move.l  a0,0x48(a6)                     | +08c
-        lea     Sub_00038BE4(pc),a1             | +090
+        lea     DroppedWeapon_Spawn_038be4(pc),a1             | +090
         jsr     0x4ae.l                         | +094
         jsr     0x5dd02.l                       | +09a
 .L033e04:

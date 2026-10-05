@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Sub_000388F0  @ $0388F0  (306 B)
+|  Player_CrouchThrowGrenade_0388f0  @ $0388F0  (306 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000388F0, "ax", @progbits
-        .global Sub_000388F0
-Sub_000388F0:
+        .section .text.Player_CrouchThrowGrenade_0388f0, "ax", @progbits
+        .global Player_CrouchThrowGrenade_0388f0
+Player_CrouchThrowGrenade_0388f0:
         bset    #0x1,0x8c(a6)                   | +000
         bclr    #0x1,0x8c(a6)                   | +006
         move.l  #0x32598,0x60(a6)               | +00c
@@ -77,13 +77,13 @@ Sub_000388F0:
         bcc.w   .L038a02                        | +0e0
         cmpi.b  #0xff,d1                        | +0e4
         bne.w   .L0389e6                        | +0e8
-        lea     Sub_00038A28(pc),a1             | +0ec
+        lea     Player_CrouchMelee_038a28(pc),a1 | +0ec
         move.l  a1,(a6)                         | +0f0
         bra.w   .L038a02                        | +0f2
 .L0389e6:
         cmpi.b  #0x3,d1                         | +0f6
         bne.w   .L0389f8                        | +0fa
-        lea     Sub_000388F0(pc),a1             | +0fe
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1 | +0fe
         move.l  a1,(a6)                         | +102
         bra.w   .L038a02                        | +104
 .L0389f8:
@@ -102,11 +102,11 @@ Sub_000388F0:
         move.l  a1,(a6)                         | +130
 
 | ----------------------------------------------------------------------------
-|  Sub_00038A28  @ $038A28  (184 B)
+|  Player_CrouchMelee_038a28  @ $038A28  (184 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00038A28, "ax", @progbits
-        .global Sub_00038A28
-Sub_00038A28:
+        .section .text.Player_CrouchMelee_038a28, "ax", @progbits
+        .global Player_CrouchMelee_038a28
+Player_CrouchMelee_038a28:
         bset    #0x1,0x8c(a6)                   | +000
         bclr    #0x1,0x8c(a6)                   | +006
         lea     Sub_00032638(pc),a0             | +00c
@@ -134,7 +134,7 @@ Sub_00038A28:
         lea     0x279eea.l,a0                   | +07c
         jsr     0x28cd4.l                       | +082
 .L038ab0:
-        lea     Sub_000327DC(pc),a0             | +088  -> $0327DC (hueco futuro, defsym forward)
+        lea     Sub_000327DC(pc),a0             | +088
         move.l  a0,0x48(a6)                     | +08c
         lea     .L038abe(pc),a1                 | +090
         move.l  a1,(a6)                         | +094
@@ -149,11 +149,11 @@ Sub_00038A28:
         move.l  a1,(a6)                         | +0b6
 
 | ----------------------------------------------------------------------------
-|  Sub_00038AE6  @ $038AE6  (248 B)
+|  Player_CrouchReload_038ae6  @ $038AE6  (248 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00038AE6, "ax", @progbits
-        .global Sub_00038AE6
-Sub_00038AE6:
+        .section .text.Player_CrouchReload_038ae6, "ax", @progbits
+        .global Player_CrouchReload_038ae6
+Player_CrouchReload_038ae6:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bset    #0x2,0x8c(a6)                   | +00c
@@ -195,13 +195,13 @@ Sub_00038AE6:
         bcc.w   .L038bc0                        | +0a8
         cmpi.b  #0xff,d1                        | +0ac
         bne.w   .L038ba4                        | +0b0
-        lea     Sub_00038A28(pc),a1             | +0b4
+        lea     Player_CrouchMelee_038a28(pc),a1 | +0b4
         move.l  a1,(a6)                         | +0b8
         bra.w   .L038bc0                        | +0ba
 .L038ba4:
         cmpi.b  #0x3,d1                         | +0be
         bne.w   .L038bb6                        | +0c2
-        lea     Sub_000388F0(pc),a1             | +0c6
+        lea     Player_CrouchThrowGrenade_0388f0(pc),a1 | +0c6
         move.l  a1,(a6)                         | +0ca
         bra.w   .L038bc0                        | +0cc
 .L038bb6:
@@ -220,11 +220,11 @@ Sub_00038AE6:
         move.l  a1,(a6)                         | +0f6
 
 | ----------------------------------------------------------------------------
-|  Sub_00038BE4  @ $038BE4  (140 B)
+|  DroppedWeapon_Spawn_038be4  @ $038BE4  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00038BE4, "ax", @progbits
-        .global Sub_00038BE4
-Sub_00038BE4:
+        .section .text.DroppedWeapon_Spawn_038be4, "ax", @progbits
+        .global DroppedWeapon_Spawn_038be4
+DroppedWeapon_Spawn_038be4:
         movea.l 0xc(a6),a0                      | +000
         cmpi.b  #0x2,0x6d(a0)                   | +004
         bne.w   .L038bfa                        | +00a
@@ -249,24 +249,24 @@ Sub_00038BE4:
 .L038c42:
         jsr     0x27bc8.l                       | +05e
         bcc.w   .L038c52                        | +064
-        lea     TaskHandler_038c70(pc),a1       | +068
+        lea     DroppedWeapon_Bounce_038c70(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
 .L038c52:
         jsr     0x28d70.l                       | +06e
         movea.l #0xffffffff,a0                  | +074
         jsr     0x5dd56.l                       | +07a
         bcc.w   .L038c6e                        | +080
-        lea     TaskHandler_038cee(pc),a1       | +084
+        lea     DroppedWeapon_Free_038cee(pc),a1 | +084
         move.l  a1,(a6)                         | +088
 .L038c6e:
         rts                                     | +08a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038c70  @ $038C70  (126 B)
+|  DroppedWeapon_Bounce_038c70  @ $038C70  (126 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038c70, "ax", @progbits
-        .global TaskHandler_038c70
-TaskHandler_038c70:
+        .section .text.DroppedWeapon_Bounce_038c70, "ax", @progbits
+        .global DroppedWeapon_Bounce_038c70
+DroppedWeapon_Bounce_038c70:
         jsr     0x77d88.l                       | +000
         move.w  0x22(a6),0x22(a0)               | +006
         move.w  0x24(a6),0x24(a0)               | +00c
@@ -285,58 +285,58 @@ TaskHandler_038c70:
         andi.b  #0xfe,0x46(a6)                  | +04a
         jsr     0x27bc8.l                       | +050
         bcc.w   .L038cd0                        | +056
-        lea     TaskHandler_038cee(pc),a1       | +05a
+        lea     DroppedWeapon_Free_038cee(pc),a1 | +05a
         move.l  a1,(a6)                         | +05e
 .L038cd0:
         jsr     0x28d70.l                       | +060
         movea.l #0xffffffff,a0                  | +066
         jsr     0x5dd56.l                       | +06c
         bcc.w   .L038cec                        | +072
-        lea     TaskHandler_038cee(pc),a1       | +076
+        lea     DroppedWeapon_Free_038cee(pc),a1 | +076
         move.l  a1,(a6)                         | +07a
 .L038cec:
         rts                                     | +07c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038cee  @ $038CEE  (6 B)
+|  DroppedWeapon_Free_038cee  @ $038CEE  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038cee, "ax", @progbits
-        .global TaskHandler_038cee
-TaskHandler_038cee:
+        .section .text.DroppedWeapon_Free_038cee, "ax", @progbits
+        .global DroppedWeapon_Free_038cee
+DroppedWeapon_Free_038cee:
         jmp     0x518.l                         | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038cf4  @ $038CF4  (2 B)
+|  DroppedWeapon_Rts_038cf4  @ $038CF4  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038cf4, "ax", @progbits
-        .global TaskHandler_038cf4
-TaskHandler_038cf4:
+        .section .text.DroppedWeapon_Rts_038cf4, "ax", @progbits
+        .global DroppedWeapon_Rts_038cf4
+DroppedWeapon_Rts_038cf4:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_00038CF6  @ $038CF6  (18 B)
+|  Parachute_Spawn_038cf6  @ $038CF6  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00038CF6, "ax", @progbits
-        .global Sub_00038CF6
-Sub_00038CF6:
+        .section .text.Parachute_Spawn_038cf6, "ax", @progbits
+        .global Parachute_Spawn_038cf6
+Parachute_Spawn_038cf6:
         move.w  #0x18d,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0xffff.w,a0                     | +00a
         move.l  a0,0x48(a6)                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038d08  @ $038D08  (128 B)
+|  Parachute_Open_038d08  @ $038D08  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038d08, "ax", @progbits
-        .global TaskHandler_038d08
-TaskHandler_038d08:
+        .section .text.Parachute_Open_038d08, "ax", @progbits
+        .global Parachute_Open_038d08
+Parachute_Open_038d08:
         lea     .L038d0e(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L038d0e:
         jsr     0x5e4ee.l                       | +006
         subi.w  #0x20,0x38(a6)                  | +00c
         clr.l   d0                              | +012
-        jsr     Sub_00038E9A(pc)                | +014
+        jsr     Parachute_SwingIndexFromVelX_038e9a(pc) | +014
         movea.l #0x28f8d4,a0                    | +018
         lsl.w   #0x2,d0                         | +01e
         movea.l (a0,d0.w),a0                    | +020
@@ -347,35 +347,35 @@ TaskHandler_038d08:
         jsr     0x28d70.l                       | +034
         jsr     0x28758.l                       | +03a
         bcc.w   .L038d52                        | +040
-        lea     TaskHandler_038e4a(pc),a1       | +044
+        lea     Parachute_FallAway_038e4a(pc),a1 | +044
         move.l  a1,(a6)                         | +048
 .L038d52:
         movea.l 0xc(a6),a0                      | +04a
         btst    #0x2,0x8c(a0)                   | +04e
         beq.w   .L038d66                        | +054
-        lea     TaskHandler_038d88(pc),a1       | +058
+        lea     Parachute_Swing_038d88(pc),a1   | +058
         move.l  a1,(a6)                         | +05c
 .L038d66:
         cmpi.b  #0x4,0x70(a0)                   | +05e
         beq.w   .L038d76                        | +064
-        lea     TaskHandler_038e10(pc),a1       | +068
+        lea     Parachute_Release_038e10(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
 .L038d76:
         btst    #0x0,0x13(a0)                   | +06e
         beq.w   .L038d86                        | +074
-        lea     TaskHandler_038e4a(pc),a1       | +078
+        lea     Parachute_FallAway_038e4a(pc),a1 | +078
         move.l  a1,(a6)                         | +07c
 .L038d86:
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038d88  @ $038D88  (136 B)
+|  Parachute_Swing_038d88  @ $038D88  (136 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038d88, "ax", @progbits
-        .global TaskHandler_038d88
-TaskHandler_038d88:
+        .section .text.Parachute_Swing_038d88, "ax", @progbits
+        .global Parachute_Swing_038d88
+Parachute_Swing_038d88:
         clr.l   d0                              | +000
-        jsr     Sub_00038E9A(pc)                | +002
+        jsr     Parachute_SwingIndexFromVelX_038e9a(pc) | +002
         movea.l #0x28fdbc,a0                    | +006
         lsl.w   #0x2,d0                         | +00c
         movea.l (a0,d0.w),a0                    | +00e
@@ -390,37 +390,37 @@ TaskHandler_038d88:
         subq.w  #0x1,0x38(a6)                   | +02e
         jsr     0x28d70.l                       | +032
         bcc.w   .L038dca                        | +038
-        lea     TaskHandler_038d08(pc),a1       | +03c
+        lea     Parachute_Open_038d08(pc),a1    | +03c
         move.l  a1,(a6)                         | +040
 .L038dca:
         jsr     0x28758.l                       | +042
         bcc.w   .L038dda                        | +048
-        lea     TaskHandler_038e4a(pc),a1       | +04c
+        lea     Parachute_FallAway_038e4a(pc),a1 | +04c
         move.l  a1,(a6)                         | +050
 .L038dda:
         movea.l 0xc(a6),a0                      | +052
         cmpi.b  #0x4,0x70(a0)                   | +056
         bne.w   .L038dfe                        | +05c
-        lea     TaskHandler_038e10(pc),a1       | +060
+        lea     Parachute_Release_038e10(pc),a1 | +060
         move.l  a1,(a6)                         | +064
         cmpi.b  #0x26,0x70(a0)                  | +066
         bne.w   .L038dfe                        | +06c
-        lea     TaskHandler_038e4a(pc),a1       | +070
+        lea     Parachute_FallAway_038e4a(pc),a1 | +070
         move.l  a1,(a6)                         | +074
 .L038dfe:
         btst    #0x0,0x13(a0)                   | +076
         beq.w   .L038e0e                        | +07c
-        lea     TaskHandler_038e4a(pc),a1       | +080
+        lea     Parachute_FallAway_038e4a(pc),a1 | +080
         move.l  a1,(a6)                         | +084
 .L038e0e:
         rts                                     | +086
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038e10  @ $038E10  (58 B)
+|  Parachute_Release_038e10  @ $038E10  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038e10, "ax", @progbits
-        .global TaskHandler_038e10
-TaskHandler_038e10:
+        .section .text.Parachute_Release_038e10, "ax", @progbits
+        .global Parachute_Release_038e10
+Parachute_Release_038e10:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x3a(a0),d0                     | +004
         eori.b  #0x1,d0                         | +008
@@ -438,15 +438,15 @@ TaskHandler_038e10:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038e4a  @ $038E4A  (80 B)
+|  Parachute_FallAway_038e4a  @ $038E4A  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038e4a, "ax", @progbits
-        .global TaskHandler_038e4a
-TaskHandler_038e4a:
+        .section .text.Parachute_FallAway_038e4a, "ax", @progbits
+        .global Parachute_FallAway_038e4a
+Parachute_FallAway_038e4a:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x3a(a0),0x3a(a6)               | +004
         move.b  #0x0,0x71(a6)                   | +00a
-        lea     Data_038ec8(pc),a0              | +010
+        lea     Parachute_FallTemplates_038ec8(pc),a0 | +010
         jsr     0x28cd4.l                       | +014
         lea     .L038e6a(pc),a1                 | +01a
         move.l  a1,(a6)                         | +01e
@@ -466,11 +466,11 @@ TaskHandler_038e4a:
         rts                                     | +04e
 
 | ----------------------------------------------------------------------------
-|  Sub_00038E9A  @ $038E9A  (46 B)
+|  Parachute_SwingIndexFromVelX_038e9a  @ $038E9A  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00038E9A, "ax", @progbits
-        .global Sub_00038E9A
-Sub_00038E9A:
+        .section .text.Parachute_SwingIndexFromVelX_038e9a, "ax", @progbits
+        .global Parachute_SwingIndexFromVelX_038e9a
+Parachute_SwingIndexFromVelX_038e9a:
         movea.l 0xc(a6),a0                      | +000
         move.w  0x28(a0),d1                     | +004
         addi.w  #0x400,d1                       | +008
@@ -489,11 +489,11 @@ Sub_00038E9A:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  Data_038ec8  @ $038EC8  (74 B)
+|  Parachute_FallTemplates_038ec8  @ $038EC8  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_038ec8, "ax", @progbits
-        .global Data_038ec8
-Data_038ec8:
+        .section .text.Parachute_FallTemplates_038ec8, "ax", @progbits
+        .global Parachute_FallTemplates_038ec8
+Parachute_FallTemplates_038ec8:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x1e08                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +004  (dato / opcode no decodificado)
@@ -533,60 +533,60 @@ Data_038ec8:
         .dc.w   0x0000                        | +048  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038f12  @ $038F12  (52 B)
+|  DuckTrigger_SpawnPairRight_038f12  @ $038F12  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038f12, "ax", @progbits
-        .global TaskHandler_038f12
-TaskHandler_038f12:
+        .section .text.DuckTrigger_SpawnPairRight_038f12, "ax", @progbits
+        .global DuckTrigger_SpawnPairRight_038f12
+DuckTrigger_SpawnPairRight_038f12:
         move.b  d0,d3                           | +000
-        lea     TaskHandler_039010(pc),a1       | +002
+        lea     DuckTrigger_P1Right_039010(pc),a1 | +002
         jsr     0x4ae.l                         | +006
         jsr     0x5dd02.l                       | +00c
         move.b  0x98(a6),0x98(a0)               | +012
-        lea     TaskHandler_039050(pc),a1       | +018
+        lea     DuckTrigger_P2Right_039050(pc),a1 | +018
         jsr     0x4ae.l                         | +01c
         jsr     0x5dd02.l                       | +022
         move.b  0x98(a6),0x98(a0)               | +028
         jmp     0x518.l                         | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038f46  @ $038F46  (2 B)
+|  DuckTrigger_Rts_038f46  @ $038F46  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038f46, "ax", @progbits
-        .global TaskHandler_038f46
-TaskHandler_038f46:
+        .section .text.DuckTrigger_Rts_038f46, "ax", @progbits
+        .global DuckTrigger_Rts_038f46
+DuckTrigger_Rts_038f46:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038f48  @ $038F48  (50 B)
+|  DuckTrigger_SpawnPairLeft_038f48  @ $038F48  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038f48, "ax", @progbits
-        .global TaskHandler_038f48
-TaskHandler_038f48:
-        lea     TaskHandler_039030(pc),a1       | +000
+        .section .text.DuckTrigger_SpawnPairLeft_038f48, "ax", @progbits
+        .global DuckTrigger_SpawnPairLeft_038f48
+DuckTrigger_SpawnPairLeft_038f48:
+        lea     DuckTrigger_P1Left_039030(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.b  0x98(a6),0x98(a0)               | +010
-        lea     TaskHandler_039070(pc),a1       | +016
+        lea     DuckTrigger_P2Left_039070(pc),a1 | +016
         jsr     0x4ae.l                         | +01a
         jsr     0x5dd02.l                       | +020
         move.b  0x98(a6),0x98(a0)               | +026
         jmp     0x518.l                         | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038f7a  @ $038F7A  (2 B)
+|  DuckTrigger_RtsB_038f7a  @ $038F7A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038f7a, "ax", @progbits
-        .global TaskHandler_038f7a
-TaskHandler_038f7a:
+        .section .text.DuckTrigger_RtsB_038f7a, "ax", @progbits
+        .global DuckTrigger_RtsB_038f7a
+DuckTrigger_RtsB_038f7a:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  Data_038f7c  @ $038F7C  (34 B)
+|  DuckTrigger_ByteTbl_038f7c  @ $038F7C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_038f7c, "ax", @progbits
-        .global Data_038f7c
-Data_038f7c:
+        .section .text.DuckTrigger_ByteTbl_038f7c, "ax", @progbits
+        .global DuckTrigger_ByteTbl_038f7c
+DuckTrigger_ByteTbl_038f7c:
         .dc.w   0x0101                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0101                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0101                        | +004  (dato / opcode no decodificado)
@@ -606,11 +606,11 @@ Data_038f7c:
         .dc.w   0x0101                        | +020  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038f9e  @ $038F9E  (10 B)
+|  DuckTrigger_Hitbox_038f9e  @ $038F9E  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038f9e, "ax", @progbits
-        .global TaskHandler_038f9e
-TaskHandler_038f9e:
+        .section .text.DuckTrigger_Hitbox_038f9e, "ax", @progbits
+        .global DuckTrigger_Hitbox_038f9e
+DuckTrigger_Hitbox_038f9e:
         .dc.w   0xffe0                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0020                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffd0                        | +004  (dato / opcode no decodificado)
@@ -618,11 +618,11 @@ TaskHandler_038f9e:
         .dc.w   0xffff                        | +008  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038fa8  @ $038FA8  (12 B)
+|  DuckTrigger_Sprite_038fa8  @ $038FA8  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038fa8, "ax", @progbits
-        .global TaskHandler_038fa8
-TaskHandler_038fa8:
+        .section .text.DuckTrigger_Sprite_038fa8, "ax", @progbits
+        .global DuckTrigger_Sprite_038fa8
+DuckTrigger_Sprite_038fa8:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0022                        | +004  (dato / opcode no decodificado)
@@ -631,22 +631,22 @@ TaskHandler_038fa8:
         .dc.w   0x1600                        | +00a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038fb4  @ $038FB4  (8 B)
+|  DuckTrigger_OverlapBox_038fb4  @ $038FB4  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038fb4, "ax", @progbits
-        .global TaskHandler_038fb4
-TaskHandler_038fb4:
+        .section .text.DuckTrigger_OverlapBox_038fb4, "ax", @progbits
+        .global DuckTrigger_OverlapBox_038fb4
+DuckTrigger_OverlapBox_038fb4:
         .dc.w   0xfff4                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +002  (dato / opcode no decodificado)
         .dc.w   0xfffd                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_038fbc  @ $038FBC  (84 B)
+|  DuckTrigger_Template_038fbc  @ $038FBC  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_038fbc, "ax", @progbits
-        .global TaskHandler_038fbc
-TaskHandler_038fbc:
+        .section .text.DuckTrigger_Template_038fbc, "ax", @progbits
+        .global DuckTrigger_Template_038fbc
+DuckTrigger_Template_038fbc:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x8f7c                        | +004  (dato / opcode no decodificado)
@@ -691,66 +691,66 @@ TaskHandler_038fbc:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039010  @ $039010  (32 B)
+|  DuckTrigger_P1Right_039010  @ $039010  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039010, "ax", @progbits
-        .global TaskHandler_039010
-TaskHandler_039010:
-        lea     TaskHandler_038fbc(pc),a0       | +000
+        .section .text.DuckTrigger_P1Right_039010, "ax", @progbits
+        .global DuckTrigger_P1Right_039010
+DuckTrigger_P1Right_039010:
+        lea     DuckTrigger_Template_038fbc(pc),a0 | +000
         move.l  a0,0x48(a6)                     | +004
         lea     0x100440.l,a0                   | +008
-        lea     TaskHandler_038fb4(pc),a1       | +00e
+        lea     DuckTrigger_OverlapBox_038fb4(pc),a1 | +00e
         bclr    #0x0,0x3a(a6)                   | +012
         move.w  #0x2,d1                         | +018
-        bra.w   TaskHandler_039070__L039090     | +01c
+        bra.w   DuckTrigger_P2Left_039070__L039090 | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039030  @ $039030  (32 B)
+|  DuckTrigger_P1Left_039030  @ $039030  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039030, "ax", @progbits
-        .global TaskHandler_039030
-TaskHandler_039030:
-        lea     TaskHandler_038fbc(pc),a0       | +000
+        .section .text.DuckTrigger_P1Left_039030, "ax", @progbits
+        .global DuckTrigger_P1Left_039030
+DuckTrigger_P1Left_039030:
+        lea     DuckTrigger_Template_038fbc(pc),a0 | +000
         move.l  a0,0x48(a6)                     | +004
         lea     0x100440.l,a0                   | +008
-        lea     TaskHandler_038fb4(pc),a1       | +00e
+        lea     DuckTrigger_OverlapBox_038fb4(pc),a1 | +00e
         bset    #0x0,0x3a(a6)                   | +012
         move.w  #0x1,d1                         | +018
-        bra.w   TaskHandler_039070__L039090     | +01c
+        bra.w   DuckTrigger_P2Left_039070__L039090 | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039050  @ $039050  (32 B)
+|  DuckTrigger_P2Right_039050  @ $039050  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039050, "ax", @progbits
-        .global TaskHandler_039050
-TaskHandler_039050:
-        lea     TaskHandler_038fbc(pc),a0       | +000
+        .section .text.DuckTrigger_P2Right_039050, "ax", @progbits
+        .global DuckTrigger_P2Right_039050
+DuckTrigger_P2Right_039050:
+        lea     DuckTrigger_Template_038fbc(pc),a0 | +000
         move.l  a0,0x48(a6)                     | +004
         lea     0x1004e0.l,a0                   | +008
-        lea     TaskHandler_038fb4(pc),a1       | +00e
+        lea     DuckTrigger_OverlapBox_038fb4(pc),a1 | +00e
         bclr    #0x0,0x3a(a6)                   | +012
         move.w  #0x2,d1                         | +018
-        bra.w   TaskHandler_039070__L039090     | +01c
+        bra.w   DuckTrigger_P2Left_039070__L039090 | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039070  @ $039070  (112 B)
+|  DuckTrigger_P2Left_039070  @ $039070  (112 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039070, "ax", @progbits
-        .global TaskHandler_039070
-TaskHandler_039070:
-        lea     TaskHandler_038fbc(pc),a0       | +000
+        .section .text.DuckTrigger_P2Left_039070, "ax", @progbits
+        .global DuckTrigger_P2Left_039070
+DuckTrigger_P2Left_039070:
+        lea     DuckTrigger_Template_038fbc(pc),a0 | +000
         move.l  a0,0x48(a6)                     | +004
         lea     0x1004e0.l,a0                   | +008
-        lea     TaskHandler_038fb4(pc),a1       | +00e
+        lea     DuckTrigger_OverlapBox_038fb4(pc),a1 | +00e
         bset    #0x0,0x3a(a6)                   | +012
         move.w  #0x1,d1                         | +018
-        bra.w   TaskHandler_039070__L039090     | +01c
-        .global TaskHandler_039070__L039090
-TaskHandler_039070__L039090:
+        bra.w   DuckTrigger_P2Left_039070__L039090 | +01c
+        .global DuckTrigger_P2Left_039070__L039090
+DuckTrigger_P2Left_039070__L039090:
         move.l  a0,0x70(a6)                     | +020
         move.l  a1,0x74(a6)                     | +024
         jsr     0x236e.l                        | +028
-        lea     TaskHandler_038fa8(pc),a0       | +02e
+        lea     DuckTrigger_Sprite_038fa8(pc),a0 | +02e
         jsr     0x28cd4.l                       | +032
         jsr     0x267e2.l                       | +038
         cmpi.b  #0x1,0x98(a6)                   | +03e
@@ -759,35 +759,35 @@ TaskHandler_039070__L039090:
         bcs.w   .L0390d6                        | +04e
         addq.w  #0x3,0x24(a6)                   | +052
         move.w  #0xfc00,0x2a(a6)                | +056
-        lea     TaskHandler_0390e0(pc),a1       | +05c
+        lea     DuckTrigger_Fall_0390e0(pc),a1  | +05c
         move.l  a1,(a6)                         | +060
-        bra.w   TaskHandler_0390e0              | +062
+        bra.w   DuckTrigger_Fall_0390e0         | +062
 .L0390d6:
-        lea     TaskHandler_0390f0(pc),a1       | +066
+        lea     DuckTrigger_Ground_0390f0(pc),a1 | +066
         move.l  a1,(a6)                         | +06a
-        bra.w   TaskHandler_0390f0              | +06c
+        bra.w   DuckTrigger_Ground_0390f0       | +06c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0390e0  @ $0390E0  (16 B)
+|  DuckTrigger_Fall_0390e0  @ $0390E0  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0390e0, "ax", @progbits
-        .global TaskHandler_0390e0
-TaskHandler_0390e0:
+        .section .text.DuckTrigger_Fall_0390e0, "ax", @progbits
+        .global DuckTrigger_Fall_0390e0
+DuckTrigger_Fall_0390e0:
         jsr     0x27bc8.l                       | +000
-        bcc.w   TaskHandler_0390f0              | +006
-        lea     TaskHandler_0390f0(pc),a1       | +00a
+        bcc.w   DuckTrigger_Ground_0390f0       | +006
+        lea     DuckTrigger_Ground_0390f0(pc),a1 | +00a
         move.l  a1,(a6)                         | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0390f0  @ $0390F0  (88 B)
+|  DuckTrigger_Ground_0390f0  @ $0390F0  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0390f0, "ax", @progbits
-        .global TaskHandler_0390f0
-TaskHandler_0390f0:
+        .section .text.DuckTrigger_Ground_0390f0, "ax", @progbits
+        .global DuckTrigger_Ground_0390f0
+DuckTrigger_Ground_0390f0:
         jsr     0x2783a.l                       | +000
         jsr     0x28d70.l                       | +006
         movea.l #0xffffffff,a0                  | +00c
-        lea     TaskHandler_038f9e(pc),a0       | +012
+        lea     DuckTrigger_Hitbox_038f9e(pc),a0 | +012
         jsr     0x5dd5c.l                       | +016
         bcc.w   .L039118                        | +01c
         jmp     0x518.l                         | +020
@@ -808,11 +808,11 @@ TaskHandler_0390f0:
         rts                                     | +056
 
 | ----------------------------------------------------------------------------
-|  Sub_00039148  @ $039148  (98 B)
+|  PlayerDeathFx_Splash_039148  @ $039148  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00039148, "ax", @progbits
-        .global Sub_00039148
-Sub_00039148:
+        .section .text.PlayerDeathFx_Splash_039148, "ax", @progbits
+        .global PlayerDeathFx_Splash_039148
+PlayerDeathFx_Splash_039148:
         move.w  #0x185,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x27a182.l,a0                   | +00a
@@ -829,30 +829,30 @@ Sub_00039148:
         move.w  d0,0x38(a6)                     | +038
         jsr     0x28d70.l                       | +03c
         bcc.w   .L039194                        | +042
-        lea     TaskHandler_0391aa(pc),a1       | +046
+        lea     PlayerDeathFx_Loop_0391aa(pc),a1 | +046
         move.l  a1,(a6)                         | +04a
 .L039194:
         movea.l 0xc(a6),a0                      | +04c
         btst    #0x1,0x8d(a0)                   | +050
         bne.w   .L0391a8                        | +056
-        lea     TaskHandler_0391aa(pc),a1       | +05a
+        lea     PlayerDeathFx_Loop_0391aa(pc),a1 | +05a
         move.l  a1,(a6)                         | +05e
 .L0391a8:
         rts                                     | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0391aa  @ $0391AA  (68 B)
+|  PlayerDeathFx_Loop_0391aa  @ $0391AA  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0391aa, "ax", @progbits
-        .global TaskHandler_0391aa
-TaskHandler_0391aa:
+        .section .text.PlayerDeathFx_Loop_0391aa, "ax", @progbits
+        .global PlayerDeathFx_Loop_0391aa
+PlayerDeathFx_Loop_0391aa:
         lea     0x27a228.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         move.w  #0x0,0x5c(a6)                   | +00c
-        lea     TaskHandler_0391aa__L0391c2(pc),a1 | +012
+        lea     PlayerDeathFx_Loop_0391aa__L0391c2(pc),a1 | +012
         move.l  a1,(a6)                         | +016
-        .global TaskHandler_0391aa__L0391c2
-TaskHandler_0391aa__L0391c2:
+        .global PlayerDeathFx_Loop_0391aa__L0391c2
+PlayerDeathFx_Loop_0391aa__L0391c2:
         jsr     0x5e4ca.l                       | +018
         move.w  d1,0x22(a6)                     | +01e
         move.w  d2,0x24(a6)                     | +022
@@ -866,11 +866,11 @@ TaskHandler_0391aa__L0391c2:
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
-|  Sub_000391EE  @ $0391EE  (38 B)
+|  PlayerDeathFx_Ripple_0391ee  @ $0391EE  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000391EE, "ax", @progbits
-        .global Sub_000391EE
-Sub_000391EE:
+        .section .text.PlayerDeathFx_Ripple_0391ee, "ax", @progbits
+        .global PlayerDeathFx_Ripple_0391ee
+PlayerDeathFx_Ripple_0391ee:
         move.w  #0x185,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x27a0fe.l,a0                   | +00a
@@ -879,14 +879,14 @@ Sub_000391EE:
         lea     .L039210(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L039210:
-        jmp     TaskHandler_0391aa__L0391c2(pc) | +022
+        jmp     PlayerDeathFx_Loop_0391aa__L0391c2(pc) | +022
 
 | ----------------------------------------------------------------------------
-|  Sub_00039214  @ $039214  (32 B)
+|  PlayerDeathFx_Alt_039214  @ $039214  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00039214, "ax", @progbits
-        .global Sub_00039214
-Sub_00039214:
+        .section .text.PlayerDeathFx_Alt_039214, "ax", @progbits
+        .global PlayerDeathFx_Alt_039214
+PlayerDeathFx_Alt_039214:
         move.w  #0x1df,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x279f9a.l,a0                   | +00a
@@ -894,14 +894,14 @@ Sub_00039214:
         lea     .L039230(pc),a1                 | +016
         move.l  a1,(a6)                         | +01a
 .L039230:
-        jmp     TaskHandler_0391aa__L0391c2(pc) | +01c
+        jmp     PlayerDeathFx_Loop_0391aa__L0391c2(pc) | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039234  @ $039234  (28 B)
+|  Entity_CmpField10WithLink8_039234  @ $039234  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039234, "ax", @progbits
-        .global TaskHandler_039234
-TaskHandler_039234:
+        .section .text.Entity_CmpField10WithLink8_039234, "ax", @progbits
+        .global Entity_CmpField10WithLink8_039234
+Entity_CmpField10WithLink8_039234:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
@@ -913,11 +913,11 @@ TaskHandler_039234:
         rts                                     | +01a
 
 | ----------------------------------------------------------------------------
-|  Data_039250  @ $039250  (84 B)
+|  PlayerArm_AttackTbl_039250  @ $039250  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039250, "ax", @progbits
-        .global Data_039250
-Data_039250:
+        .section .text.PlayerArm_AttackTbl_039250, "ax", @progbits
+        .global PlayerArm_AttackTbl_039250
+PlayerArm_AttackTbl_039250:
         .dc.w   0x030b                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
@@ -962,11 +962,11 @@ Data_039250:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0392a4  @ $0392A4  (84 B)
+|  PlayerArm_MeleeAttackTbl_0392a4  @ $0392A4  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0392a4, "ax", @progbits
-        .global TaskHandler_0392a4
-TaskHandler_0392a4:
+        .section .text.PlayerArm_MeleeAttackTbl_0392a4, "ax", @progbits
+        .global PlayerArm_MeleeAttackTbl_0392a4
+PlayerArm_MeleeAttackTbl_0392a4:
         .dc.w   0x030a                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0032                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -1011,11 +1011,11 @@ TaskHandler_0392a4:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0392f8  @ $0392F8  (66 B)
+|  PlayerArm_ResetState_0392f8  @ $0392F8  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0392f8, "ax", @progbits
-        .global TaskHandler_0392f8
-TaskHandler_0392f8:
+        .section .text.PlayerArm_ResetState_0392f8, "ax", @progbits
+        .global PlayerArm_ResetState_0392f8
+PlayerArm_ResetState_0392f8:
         move.w  0x16(a6),0x14(a6)               | +000
         bset    #0x6,0x6b(a6)                   | +006
         move.b  #0xff,0x32(a6)                  | +00c
@@ -1032,11 +1032,11 @@ TaskHandler_0392f8:
         rts                                     | +040
 
 | ----------------------------------------------------------------------------
-|  Sub_0003933A  @ $03933A  (26 B)
+|  PlayerArm_WeaponTableIndex_03933a  @ $03933A  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003933A, "ax", @progbits
-        .global Sub_0003933A
-Sub_0003933A:
+        .section .text.PlayerArm_WeaponTableIndex_03933a, "ax", @progbits
+        .global PlayerArm_WeaponTableIndex_03933a
+PlayerArm_WeaponTableIndex_03933a:
         movea.l 0xc(a6),a0                      | +000
         moveq   #0,d0                           | +004
         move.b  0x71(a0),d0                     | +006
@@ -1048,11 +1048,11 @@ Sub_0003933A:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  Sub_00039354  @ $039354  (40 B)
+|  PlayerArm_AnimStepToParentDeath_039354  @ $039354  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00039354, "ax", @progbits
-        .global Sub_00039354
-Sub_00039354:
+        .section .text.PlayerArm_AnimStepToParentDeath_039354, "ax", @progbits
+        .global PlayerArm_AnimStepToParentDeath_039354
+PlayerArm_AnimStepToParentDeath_039354:
         jsr     0x28d70.l                       | +000
         bcc.w   .L03936c                        | +006
         movea.l 0xc(a6),a0                      | +00a
@@ -1066,11 +1066,11 @@ Sub_00039354:
         rts                                     | +026
 
 | ----------------------------------------------------------------------------
-|  Sub_0003937C  @ $03937C  (82 B)
+|  PlayerArm_FollowParent_03937c  @ $03937C  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003937C, "ax", @progbits
-        .global Sub_0003937C
-Sub_0003937C:
+        .section .text.PlayerArm_FollowParent_03937c, "ax", @progbits
+        .global PlayerArm_FollowParent_03937c
+PlayerArm_FollowParent_03937c:
         jsr     0x5e4b2.l                       | +000
         move.w  0x7c(a0),d1                     | +006
         move.w  0x7e(a0),d2                     | +00a
@@ -1094,35 +1094,35 @@ Sub_0003937C:
         rts                                     | +050
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0393ce  @ $0393CE  (6 B)
+|  InputThunk_Left_0393ce  @ $0393CE  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0393ce, "ax", @progbits
-        .global TaskHandler_0393ce
-TaskHandler_0393ce:
+        .section .text.InputThunk_Left_0393ce, "ax", @progbits
+        .global InputThunk_Left_0393ce
+InputThunk_Left_0393ce:
         jmp     0x5cf04.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0393d4  @ $0393D4  (6 B)
+|  InputThunk_Right_0393d4  @ $0393D4  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0393d4, "ax", @progbits
-        .global TaskHandler_0393d4
-TaskHandler_0393d4:
+        .section .text.InputThunk_Right_0393d4, "ax", @progbits
+        .global InputThunk_Right_0393d4
+InputThunk_Right_0393d4:
         jmp     0x5cf10.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0393da  @ $0393DA  (4 B)
+|  InputThunk_ShootHeld_0393da  @ $0393DA  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0393da, "ax", @progbits
-        .global TaskHandler_0393da
-TaskHandler_0393da:
-        jmp     TaskHandler_0393de(pc)          | +000
+        .section .text.InputThunk_ShootHeld_0393da, "ax", @progbits
+        .global InputThunk_ShootHeld_0393da
+InputThunk_ShootHeld_0393da:
+        jmp     Input_ShootHeldCheck_0393de(pc) | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0393de  @ $0393DE  (30 B)
+|  Input_ShootHeldCheck_0393de  @ $0393DE  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0393de, "ax", @progbits
-        .global TaskHandler_0393de
-TaskHandler_0393de:
+        .section .text.Input_ShootHeldCheck_0393de, "ax", @progbits
+        .global Input_ShootHeldCheck_0393de
+Input_ShootHeldCheck_0393de:
         jsr     0x5cf84.l                       | +000
         bcc.w   .L0393ea                        | +006
         rts                                     | +00a
@@ -1134,12 +1134,12 @@ TaskHandler_0393de:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0393fc  @ $0393FC  (20 B)
+|  Input_DownToCCR_0393fc  @ $0393FC  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0393fc, "ax", @progbits
-        .global TaskHandler_0393fc
-TaskHandler_0393fc:
-        jsr     Sub_00039410(pc)                | +000
+        .section .text.Input_DownToCCR_0393fc, "ax", @progbits
+        .global Input_DownToCCR_0393fc
+Input_DownToCCR_0393fc:
+        jsr     InputThunk_Down_039410(pc)      | +000
         bcc.w   .L03940a                        | +004
         ori.b   #0x11,ccr                       | +008
         rts                                     | +00c
@@ -1148,19 +1148,19 @@ TaskHandler_0393fc:
         rts                                     | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_00039410  @ $039410  (6 B)
+|  InputThunk_Down_039410  @ $039410  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00039410, "ax", @progbits
-        .global Sub_00039410
-Sub_00039410:
+        .section .text.InputThunk_Down_039410, "ax", @progbits
+        .global InputThunk_Down_039410
+InputThunk_Down_039410:
         jmp     0x5cef8.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_039416  @ $039416  (24 B)
+|  PlayerArm_CopyBit2ToParent_039416  @ $039416  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_039416, "ax", @progbits
-        .global PcThunkTarget_039416
-PcThunkTarget_039416:
+        .section .text.PlayerArm_CopyBit2ToParent_039416, "ax", @progbits
+        .global PlayerArm_CopyBit2ToParent_039416
+PlayerArm_CopyBit2ToParent_039416:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x8c(a6),d0                     | +004
         andi.b  #0x4,d0                         | +008
@@ -1169,11 +1169,11 @@ PcThunkTarget_039416:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03942e  @ $03942E  (34 B)
+|  AnimCb_AttackProbeMusic_03942e  @ $03942E  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03942e, "ax", @progbits
-        .global TaskHandler_03942e
-TaskHandler_03942e:
+        .section .text.AnimCb_AttackProbeMusic_03942e, "ax", @progbits
+        .global AnimCb_AttackProbeMusic_03942e
+AnimCb_AttackProbeMusic_03942e:
         jsr     0x283ca.l                       | +000
         jsr     0x283d8.l                       | +006
         btst    #0x2,0x5a(a6)                   | +00c
@@ -1184,35 +1184,35 @@ TaskHandler_03942e:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039450  @ $039450  (16 B)
+|  AnimCb_RandField47_039450  @ $039450  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039450, "ax", @progbits
-        .global TaskHandler_039450
-TaskHandler_039450:
+        .section .text.AnimCb_RandField47_039450, "ax", @progbits
+        .global AnimCb_RandField47_039450
+AnimCb_RandField47_039450:
         jsr     0x5e9b6.l                       | +000
         andi.b  #0xa,d0                         | +006
         move.b  d0,0x47(a6)                     | +00a
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039460  @ $039460  (28 B)
+|  PlayerArm_Pose00_039460  @ $039460  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039460, "ax", @progbits
-        .global TaskHandler_039460
-TaskHandler_039460:
+        .section .text.PlayerArm_Pose00_039460, "ax", @progbits
+        .global PlayerArm_Pose00_039460
+PlayerArm_Pose00_039460:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_03947c(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_03947c(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_03947c__L0394a4            | +018
+        bra.w   PlayerArm_SpriteTbl_03947c__L0394a4 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_03947c  @ $03947C  (44 B)
+|  PlayerArm_SpriteTbl_03947c  @ $03947C  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03947c, "ax", @progbits
-        .global Data_03947c
-Data_03947c:
+        .section .text.PlayerArm_SpriteTbl_03947c, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03947c
+PlayerArm_SpriteTbl_03947c:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaf9a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -1233,16 +1233,16 @@ Data_03947c:
         .dc.w   0xe588                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe588                        | +026  (dato / opcode no decodificado)
-        .global Data_03947c__L0394a4
-Data_03947c__L0394a4:
-        bra.w   TaskTpl_0394A8__L03960e         | +028
+        .global PlayerArm_SpriteTbl_03947c__L0394a4
+PlayerArm_SpriteTbl_03947c__L0394a4:
+        bra.w   PlayerArm_Spawn_0394a8__L03960e | +028
 
 | ----------------------------------------------------------------------------
-|  TaskTpl_0394A8  @ $0394A8  (1024 B)
+|  PlayerArm_Spawn_0394a8  @ $0394A8  (1024 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskTpl_0394A8, "ax", @progbits
-        .global TaskTpl_0394A8
-TaskTpl_0394A8:
+        .section .text.PlayerArm_Spawn_0394a8, "ax", @progbits
+        .global PlayerArm_Spawn_0394a8
+PlayerArm_Spawn_0394a8:
         move.w  #0x176,d1                       | +000
         jsr     0x236e.l                        | +004
         move.w  #0x190,d1                       | +00a
@@ -1251,7 +1251,7 @@ TaskTpl_0394A8:
         jsr     0x236e.l                        | +018
         move.w  #0x1b,0x1c(a6)                  | +01e
         jsr     0x138fe.l                       | +024
-        jsr     TaskHandler_0392f8(pc)          | +02a
+        jsr     PlayerArm_ResetState_0392f8(pc) | +02a
         bclr    #0x4,0x12(a6)                   | +02e
         ori.w   #0x2,0x38(a6)                   | +034
         bra.w   .L039520                        | +03a
@@ -1263,7 +1263,7 @@ TaskTpl_0394A8:
         jsr     0x236e.l                        | +056
         move.w  #0x1c,0x1c(a6)                  | +05c
         jsr     0x138fe.l                       | +062
-        jsr     TaskHandler_0392f8(pc)          | +068
+        jsr     PlayerArm_ResetState_0392f8(pc) | +068
         bset    #0x4,0x12(a6)                   | +06c
         ori.w   #0x0,0x38(a6)                   | +072
 .L039520:
@@ -1272,7 +1272,7 @@ TaskTpl_0394A8:
         lea     .L039532(pc),a1                 | +084
         move.l  a1,(a6)                         | +088
 .L039532:
-        jsr     Sub_0003937C(pc)                | +08a
+        jsr     PlayerArm_FollowParent_03937c(pc) | +08a
         movea.l 0xc(a6),a0                      | +08e
         move.b  0x70(a0),d0                     | +092
         cmpi.b  #0x10,d0                        | +096
@@ -1325,17 +1325,17 @@ TaskTpl_0394A8:
 .L0395ee:
         movea.l 0xc(a6),a0                      | +146
         btst    #0x5,0x69(a0)                   | +14a
-        beq.w   TaskTpl_0394A8__L03960e         | +150
+        beq.w   PlayerArm_Spawn_0394a8__L03960e | +150
         movea.l 0x74(a0),a1                     | +154
         jsr     (a1)                            | +158
         movea.l 0xc(a6),a0                      | +15a
         move.w  0x72(a0),d0                     | +15e
         move.w  d0,0x72(a6)                     | +162
-        .global TaskTpl_0394A8__L03960e
-TaskTpl_0394A8__L03960e:
+        .global PlayerArm_Spawn_0394a8__L03960e
+PlayerArm_Spawn_0394a8__L03960e:
         clr.w   0x72(a6)                        | +166
-        jsr     Sub_00039354(pc)                | +16a
-        jsr     PcThunkTarget_039416(pc)        | +16e
+        jsr     PlayerArm_AnimStepToParentDeath_039354(pc) | +16a
+        jsr     PlayerArm_CopyBit2ToParent_039416(pc) | +16e
         rts                                     | +172
 .L03961c:
         movea.l 0xc(a6),a0                      | +174
@@ -1378,8 +1378,8 @@ TaskTpl_0394A8__L03960e:
         jsr     (a1)                            | +1f8
         bra.w   .L0396a6                        | +1fa
 .L0396a6:
-        jsr     Sub_00039354(pc)                | +1fe
-        jsr     PcThunkTarget_039416(pc)        | +202
+        jsr     PlayerArm_AnimStepToParentDeath_039354(pc) | +1fe
+        jsr     PlayerArm_CopyBit2ToParent_039416(pc) | +202
         rts                                     | +206
 .L0396b0:
         movea.l 0xc(a6),a0                      | +208
@@ -1422,8 +1422,8 @@ TaskTpl_0394A8__L03960e:
         jsr     (a1)                            | +28c
         bra.w   .L03973a                        | +28e
 .L03973a:
-        jsr     Sub_00039354(pc)                | +292
-        jsr     PcThunkTarget_039416(pc)        | +296
+        jsr     PlayerArm_AnimStepToParentDeath_039354(pc) | +292
+        jsr     PlayerArm_CopyBit2ToParent_039416(pc) | +296
         rts                                     | +29a
 .L039744:
         movea.l 0xc(a6),a0                      | +29c
@@ -1467,8 +1467,8 @@ TaskTpl_0394A8__L03960e:
         jsr     (a1)                            | +324
         bra.w   .L0397d2                        | +326
 .L0397d2:
-        jsr     Sub_00039354(pc)                | +32a
-        jsr     PcThunkTarget_039416(pc)        | +32e
+        jsr     PlayerArm_AnimStepToParentDeath_039354(pc) | +32a
+        jsr     PlayerArm_CopyBit2ToParent_039416(pc) | +32e
         rts                                     | +332
 .L0397dc:
         movea.l 0xc(a6),a0                      | +334
@@ -1497,8 +1497,8 @@ TaskTpl_0394A8__L03960e:
         move.w  d0,0x72(a6)                     | +388
         bra.w   .L039838                        | +38c
 .L039838:
-        jsr     Sub_00039354(pc)                | +390
-        jsr     PcThunkTarget_039416(pc)        | +394
+        jsr     PlayerArm_AnimStepToParentDeath_039354(pc) | +390
+        jsr     PlayerArm_CopyBit2ToParent_039416(pc) | +394
         rts                                     | +398
 .L039842:
         movea.l 0xc(a6),a0                      | +39a
@@ -1527,30 +1527,30 @@ TaskTpl_0394A8__L03960e:
         move.w  d0,0x72(a6)                     | +3ee
         bra.w   .L03989e                        | +3f2
 .L03989e:
-        jsr     Sub_00039354(pc)                | +3f6
-        jsr     PcThunkTarget_039416(pc)        | +3fa
+        jsr     PlayerArm_AnimStepToParentDeath_039354(pc) | +3f6
+        jsr     PlayerArm_CopyBit2ToParent_039416(pc) | +3fa
         rts                                     | +3fe
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0398a8  @ $0398A8  (34 B)
+|  PlayerArm_Crouch_0398a8  @ $0398A8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0398a8, "ax", @progbits
-        .global TaskHandler_0398a8
-TaskHandler_0398a8:
+        .section .text.PlayerArm_Crouch_0398a8, "ax", @progbits
+        .global PlayerArm_Crouch_0398a8
+PlayerArm_Crouch_0398a8:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_0398ca(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_0398ca(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_0398ca__L0398f2            | +01e
+        bra.w   PlayerArm_SpriteTbl_0398ca__L0398f2 | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_0398ca  @ $0398CA  (42 B)
+|  PlayerArm_SpriteTbl_0398ca  @ $0398CA  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0398ca, "ax", @progbits
-        .global Data_0398ca
-Data_0398ca:
+        .section .text.PlayerArm_SpriteTbl_0398ca, "ax", @progbits
+        .global PlayerArm_SpriteTbl_0398ca
+PlayerArm_SpriteTbl_0398ca:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xa62e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -1571,30 +1571,30 @@ Data_0398ca:
         .dc.w   0xda6c                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xda6c                        | +026  (dato / opcode no decodificado)
-        .global Data_0398ca__L0398f2
-Data_0398ca__L0398f2:
+        .global PlayerArm_SpriteTbl_0398ca__L0398f2
+PlayerArm_SpriteTbl_0398ca__L0398f2:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0398f4  @ $0398F4  (34 B)
+|  PlayerArm_CrouchB_0398f4  @ $0398F4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0398f4, "ax", @progbits
-        .global TaskHandler_0398f4
-TaskHandler_0398f4:
+        .section .text.PlayerArm_CrouchB_0398f4, "ax", @progbits
+        .global PlayerArm_CrouchB_0398f4
+PlayerArm_CrouchB_0398f4:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_039916(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_039916(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_039916__L03993e            | +01e
+        bra.w   PlayerArm_SpriteTbl_039916__L03993e | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_039916  @ $039916  (42 B)
+|  PlayerArm_SpriteTbl_039916  @ $039916  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039916, "ax", @progbits
-        .global Data_039916
-Data_039916:
+        .section .text.PlayerArm_SpriteTbl_039916, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039916
+PlayerArm_SpriteTbl_039916:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xa904                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -1615,30 +1615,30 @@ Data_039916:
         .dc.w   0xdd42                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xdd42                        | +026  (dato / opcode no decodificado)
-        .global Data_039916__L03993e
-Data_039916__L03993e:
+        .global PlayerArm_SpriteTbl_039916__L03993e
+PlayerArm_SpriteTbl_039916__L03993e:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039940  @ $039940  (34 B)
+|  PlayerArm_Idle_039940  @ $039940  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039940, "ax", @progbits
-        .global TaskHandler_039940
-TaskHandler_039940:
+        .section .text.PlayerArm_Idle_039940, "ax", @progbits
+        .global PlayerArm_Idle_039940
+PlayerArm_Idle_039940:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_039962(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_039962(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_039962__L03998a            | +01e
+        bra.w   PlayerArm_SpriteTbl_039962__L03998a | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_039962  @ $039962  (42 B)
+|  PlayerArm_SpriteTbl_039962  @ $039962  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039962, "ax", @progbits
-        .global Data_039962
-Data_039962:
+        .section .text.PlayerArm_SpriteTbl_039962, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039962
+PlayerArm_SpriteTbl_039962:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaf9a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -1659,30 +1659,30 @@ Data_039962:
         .dc.w   0xe588                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe588                        | +026  (dato / opcode no decodificado)
-        .global Data_039962__L03998a
-Data_039962__L03998a:
+        .global PlayerArm_SpriteTbl_039962__L03998a
+PlayerArm_SpriteTbl_039962__L03998a:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03998c  @ $03998C  (34 B)
+|  PlayerArm_CrouchWeaponEmpty_03998c  @ $03998C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03998c, "ax", @progbits
-        .global TaskHandler_03998c
-TaskHandler_03998c:
+        .section .text.PlayerArm_CrouchWeaponEmpty_03998c, "ax", @progbits
+        .global PlayerArm_CrouchWeaponEmpty_03998c
+PlayerArm_CrouchWeaponEmpty_03998c:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_0399ae(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_0399ae(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_0399ae__L0399d6            | +01e
+        bra.w   PlayerArm_SpriteTbl_0399ae__L0399d6 | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_0399ae  @ $0399AE  (42 B)
+|  PlayerArm_SpriteTbl_0399ae  @ $0399AE  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0399ae, "ax", @progbits
-        .global Data_0399ae
-Data_0399ae:
+        .section .text.PlayerArm_SpriteTbl_0399ae, "ax", @progbits
+        .global PlayerArm_SpriteTbl_0399ae
+PlayerArm_SpriteTbl_0399ae:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xe684                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -1703,30 +1703,30 @@ Data_0399ae:
         .dc.w   0xe684                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe684                        | +026  (dato / opcode no decodificado)
-        .global Data_0399ae__L0399d6
-Data_0399ae__L0399d6:
+        .global PlayerArm_SpriteTbl_0399ae__L0399d6
+PlayerArm_SpriteTbl_0399ae__L0399d6:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0399d8  @ $0399D8  (34 B)
+|  PlayerArm_SpawnLand_0399d8  @ $0399D8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0399d8, "ax", @progbits
-        .global TaskHandler_0399d8
-TaskHandler_0399d8:
+        .section .text.PlayerArm_SpawnLand_0399d8, "ax", @progbits
+        .global PlayerArm_SpawnLand_0399d8
+PlayerArm_SpawnLand_0399d8:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_0399fa(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_0399fa(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_0399fa__L039a22            | +01e
+        bra.w   PlayerArm_SpriteTbl_0399fa__L039a22 | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_0399fa  @ $0399FA  (42 B)
+|  PlayerArm_SpriteTbl_0399fa  @ $0399FA  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0399fa, "ax", @progbits
-        .global Data_0399fa
-Data_0399fa:
+        .section .text.PlayerArm_SpriteTbl_0399fa, "ax", @progbits
+        .global PlayerArm_SpriteTbl_0399fa
+PlayerArm_SpriteTbl_0399fa:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb7d6                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -1747,30 +1747,30 @@ Data_0399fa:
         .dc.w   0xedfe                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xedfe                        | +026  (dato / opcode no decodificado)
-        .global Data_0399fa__L039a22
-Data_0399fa__L039a22:
+        .global PlayerArm_SpriteTbl_0399fa__L039a22
+PlayerArm_SpriteTbl_0399fa__L039a22:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039a24  @ $039A24  (34 B)
+|  PlayerArm_SpawnLandB_039a24  @ $039A24  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039a24, "ax", @progbits
-        .global TaskHandler_039a24
-TaskHandler_039a24:
+        .section .text.PlayerArm_SpawnLandB_039a24, "ax", @progbits
+        .global PlayerArm_SpawnLandB_039a24
+PlayerArm_SpawnLandB_039a24:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_039a46(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_039a46(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_039a46__L039a6e            | +01e
+        bra.w   PlayerArm_SpriteTbl_039a46__L039a6e | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_039a46  @ $039A46  (42 B)
+|  PlayerArm_SpriteTbl_039a46  @ $039A46  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039a46, "ax", @progbits
-        .global Data_039a46
-Data_039a46:
+        .section .text.PlayerArm_SpriteTbl_039a46, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039a46
+PlayerArm_SpriteTbl_039a46:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb7d6                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -1791,29 +1791,29 @@ Data_039a46:
         .dc.w   0xedfe                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xedfe                        | +026  (dato / opcode no decodificado)
-        .global Data_039a46__L039a6e
-Data_039a46__L039a6e:
+        .global PlayerArm_SpriteTbl_039a46__L039a6e
+PlayerArm_SpriteTbl_039a46__L039a6e:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039a70  @ $039A70  (28 B)
+|  PlayerArm_ShootStandA_039a70  @ $039A70  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039a70, "ax", @progbits
-        .global TaskHandler_039a70
-TaskHandler_039a70:
+        .section .text.PlayerArm_ShootStandA_039a70, "ax", @progbits
+        .global PlayerArm_ShootStandA_039a70
+PlayerArm_ShootStandA_039a70:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_039a8c(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_039a8c(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_039a8c__L039ab4            | +018
+        bra.w   PlayerArm_SpriteTbl_039a8c__L039ab4 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_039a8c  @ $039A8C  (42 B)
+|  PlayerArm_SpriteTbl_039a8c  @ $039A8C  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039a8c, "ax", @progbits
-        .global Data_039a8c
-Data_039a8c:
+        .section .text.PlayerArm_SpriteTbl_039a8c, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039a8c
+PlayerArm_SpriteTbl_039a8c:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbc22                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -1834,30 +1834,30 @@ Data_039a8c:
         .dc.w   0x21aa                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf32c                        | +026  (dato / opcode no decodificado)
-        .global Data_039a8c__L039ab4
-Data_039a8c__L039ab4:
+        .global PlayerArm_SpriteTbl_039a8c__L039ab4
+PlayerArm_SpriteTbl_039a8c__L039ab4:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039ab6  @ $039AB6  (34 B)
+|  PlayerArm_ShootStandB_039ab6  @ $039AB6  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039ab6, "ax", @progbits
-        .global TaskHandler_039ab6
-TaskHandler_039ab6:
+        .section .text.PlayerArm_ShootStandB_039ab6, "ax", @progbits
+        .global PlayerArm_ShootStandB_039ab6
+PlayerArm_ShootStandB_039ab6:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_039ad8(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_039ad8(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_039ad8__L039b00            | +01e
+        bra.w   PlayerArm_SpriteTbl_039ad8__L039b00 | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_039ad8  @ $039AD8  (42 B)
+|  PlayerArm_SpriteTbl_039ad8  @ $039AD8  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039ad8, "ax", @progbits
-        .global Data_039ad8
-Data_039ad8:
+        .section .text.PlayerArm_SpriteTbl_039ad8, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039ad8
+PlayerArm_SpriteTbl_039ad8:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaec2                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -1878,30 +1878,30 @@ Data_039ad8:
         .dc.w   0x1fe6                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe460                        | +026  (dato / opcode no decodificado)
-        .global Data_039ad8__L039b00
-Data_039ad8__L039b00:
+        .global PlayerArm_SpriteTbl_039ad8__L039b00
+PlayerArm_SpriteTbl_039ad8__L039b00:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039b02  @ $039B02  (34 B)
+|  PlayerArm_ShootStandC_039b02  @ $039B02  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039b02, "ax", @progbits
-        .global TaskHandler_039b02
-TaskHandler_039b02:
+        .section .text.PlayerArm_ShootStandC_039b02, "ax", @progbits
+        .global PlayerArm_ShootStandC_039b02
+PlayerArm_ShootStandC_039b02:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_039b24(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_039b24(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_039b24__L039b4c            | +01e
+        bra.w   PlayerArm_SpriteTbl_039b24__L039b4c | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_039b24  @ $039B24  (42 B)
+|  PlayerArm_SpriteTbl_039b24  @ $039B24  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039b24, "ax", @progbits
-        .global Data_039b24
-Data_039b24:
+        .section .text.PlayerArm_SpriteTbl_039b24, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039b24
+PlayerArm_SpriteTbl_039b24:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaef8                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -1922,29 +1922,29 @@ Data_039b24:
         .dc.w   0x201c                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe4aa                        | +026  (dato / opcode no decodificado)
-        .global Data_039b24__L039b4c
-Data_039b24__L039b4c:
+        .global PlayerArm_SpriteTbl_039b24__L039b4c
+PlayerArm_SpriteTbl_039b24__L039b4c:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039b4e  @ $039B4E  (28 B)
+|  PlayerArm_ShootStandD_039b4e  @ $039B4E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039b4e, "ax", @progbits
-        .global TaskHandler_039b4e
-TaskHandler_039b4e:
+        .section .text.PlayerArm_ShootStandD_039b4e, "ax", @progbits
+        .global PlayerArm_ShootStandD_039b4e
+PlayerArm_ShootStandD_039b4e:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_039b6a(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_039b6a(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_039b6a__L039b92            | +018
+        bra.w   PlayerArm_SpriteTbl_039b6a__L039b92 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_039b6a  @ $039B6A  (42 B)
+|  PlayerArm_SpriteTbl_039b6a  @ $039B6A  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039b6a, "ax", @progbits
-        .global Data_039b6a
-Data_039b6a:
+        .section .text.PlayerArm_SpriteTbl_039b6a, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039b6a
+PlayerArm_SpriteTbl_039b6a:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbb20                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -1965,32 +1965,32 @@ Data_039b6a:
         .dc.w   0x20be                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf1c4                        | +026  (dato / opcode no decodificado)
-        .global Data_039b6a__L039b92
-Data_039b6a__L039b92:
+        .global PlayerArm_SpriteTbl_039b6a__L039b92
+PlayerArm_SpriteTbl_039b6a__L039b92:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039b94  @ $039B94  (42 B)
+|  PlayerArm_ShootStandUpA_039b94  @ $039B94  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039b94, "ax", @progbits
-        .global TaskHandler_039b94
-TaskHandler_039b94:
+        .section .text.PlayerArm_ShootStandUpA_039b94, "ax", @progbits
+        .global PlayerArm_ShootStandUpA_039b94
+PlayerArm_ShootStandUpA_039b94:
         movea.l 0xc(a6),a0                      | +000
         btst    #0x2,0x78(a0)                   | +004
-        bne.w   Data_039bbe__L039bf0            | +00a
+        bne.w   PlayerArm_SpriteTbl_039bbe__L039bf0 | +00a
         bclr    #0x2,0x8c(a6)                   | +00e
-        jsr     Sub_0003933A(pc)                | +014
-        lea     Data_039bbe(pc),a0              | +018
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +014
+        lea     PlayerArm_SpriteTbl_039bbe(pc),a0 | +018
         movea.l (a0,d0.w),a0                    | +01c
         jsr     0x28cd4.l                       | +020
-        bra.w   Data_039bbe__L039be6            | +026
+        bra.w   PlayerArm_SpriteTbl_039bbe__L039be6 | +026
 
 | ----------------------------------------------------------------------------
-|  Data_039bbe  @ $039BBE  (94 B)
+|  PlayerArm_SpriteTbl_039bbe  @ $039BBE  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039bbe, "ax", @progbits
-        .global Data_039bbe
-Data_039bbe:
+        .section .text.PlayerArm_SpriteTbl_039bbe, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039bbe
+PlayerArm_SpriteTbl_039bbe:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaef8                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2011,28 +2011,28 @@ Data_039bbe:
         .dc.w   0x201c                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe4aa                        | +026  (dato / opcode no decodificado)
-        .global Data_039bbe__L039be6
-Data_039bbe__L039be6:
+        .global PlayerArm_SpriteTbl_039bbe__L039be6
+PlayerArm_SpriteTbl_039bbe__L039be6:
         bclr    #0x2,0x8c(a6)                   | +028
-        bra.w   Data_039c64__L039c8c            | +02e
-        .global Data_039bbe__L039bf0
-Data_039bbe__L039bf0:
+        bra.w   PlayerArm_SpriteTbl_039c64__L039c8c | +02e
+        .global PlayerArm_SpriteTbl_039bbe__L039bf0
+PlayerArm_SpriteTbl_039bbe__L039bf0:
         bclr    #0x2,0x8c(a6)                   | +032
         jsr     0x2abcc.l                       | +038
-        bcs.w   Data_039c1c__L039c48            | +03e
+        bcs.w   PlayerArm_SpriteTbl_039c1c__L039c48 | +03e
         bclr    #0x2,0x8c(a6)                   | +042
-        jsr     Sub_0003933A(pc)                | +048
-        lea     Data_039c1c(pc),a0              | +04c
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +048
+        lea     PlayerArm_SpriteTbl_039c1c(pc),a0 | +04c
         movea.l (a0,d0.w),a0                    | +050
         jsr     0x28cd4.l                       | +054
-        bra.w   Data_039c1c__L039c44            | +05a
+        bra.w   PlayerArm_SpriteTbl_039c1c__L039c44 | +05a
 
 | ----------------------------------------------------------------------------
-|  Data_039c1c  @ $039C1C  (72 B)
+|  PlayerArm_SpriteTbl_039c1c  @ $039C1C  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039c1c, "ax", @progbits
-        .global Data_039c1c
-Data_039c1c:
+        .section .text.PlayerArm_SpriteTbl_039c1c, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039c1c
+PlayerArm_SpriteTbl_039c1c:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbc22                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2053,24 +2053,24 @@ Data_039c1c:
         .dc.w   0x21aa                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf3dc                        | +026  (dato / opcode no decodificado)
-        .global Data_039c1c__L039c44
-Data_039c1c__L039c44:
-        bra.w   Data_039c64__L039c8c            | +028
-        .global Data_039c1c__L039c48
-Data_039c1c__L039c48:
+        .global PlayerArm_SpriteTbl_039c1c__L039c44
+PlayerArm_SpriteTbl_039c1c__L039c44:
+        bra.w   PlayerArm_SpriteTbl_039c64__L039c8c | +028
+        .global PlayerArm_SpriteTbl_039c1c__L039c48
+PlayerArm_SpriteTbl_039c1c__L039c48:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_039c64(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_039c64(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_039c64__L039c8c            | +044
+        bra.w   PlayerArm_SpriteTbl_039c64__L039c8c | +044
 
 | ----------------------------------------------------------------------------
-|  Data_039c64  @ $039C64  (42 B)
+|  PlayerArm_SpriteTbl_039c64  @ $039C64  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039c64, "ax", @progbits
-        .global Data_039c64
-Data_039c64:
+        .section .text.PlayerArm_SpriteTbl_039c64, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039c64
+PlayerArm_SpriteTbl_039c64:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbd2a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2091,33 +2091,33 @@ Data_039c64:
         .dc.w   0x21aa                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf4b6                        | +026  (dato / opcode no decodificado)
-        .global Data_039c64__L039c8c
-Data_039c64__L039c8c:
+        .global PlayerArm_SpriteTbl_039c64__L039c8c
+PlayerArm_SpriteTbl_039c64__L039c8c:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039c8e  @ $039C8E  (48 B)
+|  PlayerArm_ShootStandUpB_039c8e  @ $039C8E  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039c8e, "ax", @progbits
-        .global TaskHandler_039c8e
-TaskHandler_039c8e:
+        .section .text.PlayerArm_ShootStandUpB_039c8e, "ax", @progbits
+        .global PlayerArm_ShootStandUpB_039c8e
+PlayerArm_ShootStandUpB_039c8e:
         movea.l 0xc(a6),a0                      | +000
         btst    #0x2,0x78(a0)                   | +004
-        beq.w   Data_039cbe__L039cea            | +00a
+        beq.w   PlayerArm_SpriteTbl_039cbe__L039cea | +00a
         bclr    #0x2,0x8c(a6)                   | +00e
         bclr    #0x2,0x8c(a6)                   | +014
-        jsr     Sub_0003933A(pc)                | +01a
-        lea     Data_039cbe(pc),a0              | +01e
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +01a
+        lea     PlayerArm_SpriteTbl_039cbe(pc),a0 | +01e
         movea.l (a0,d0.w),a0                    | +022
         jsr     0x28cd4.l                       | +026
-        bra.w   Data_039cbe__L039ce6            | +02c
+        bra.w   PlayerArm_SpriteTbl_039cbe__L039ce6 | +02c
 
 | ----------------------------------------------------------------------------
-|  Data_039cbe  @ $039CBE  (82 B)
+|  PlayerArm_SpriteTbl_039cbe  @ $039CBE  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039cbe, "ax", @progbits
-        .global Data_039cbe
-Data_039cbe:
+        .section .text.PlayerArm_SpriteTbl_039cbe, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039cbe
+PlayerArm_SpriteTbl_039cbe:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaec2                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2138,26 +2138,26 @@ Data_039cbe:
         .dc.w   0x1fe6                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe460                        | +026  (dato / opcode no decodificado)
-        .global Data_039cbe__L039ce6
-Data_039cbe__L039ce6:
-        bra.w   Data_039d58__L039d80            | +028
-        .global Data_039cbe__L039cea
-Data_039cbe__L039cea:
+        .global PlayerArm_SpriteTbl_039cbe__L039ce6
+PlayerArm_SpriteTbl_039cbe__L039ce6:
+        bra.w   PlayerArm_SpriteTbl_039d58__L039d80 | +028
+        .global PlayerArm_SpriteTbl_039cbe__L039cea
+PlayerArm_SpriteTbl_039cbe__L039cea:
         jsr     0x2abcc.l                       | +02c
-        bcs.w   Data_039d10__L039d3c            | +032
+        bcs.w   PlayerArm_SpriteTbl_039d10__L039d3c | +032
         bclr    #0x2,0x8c(a6)                   | +036
-        jsr     Sub_0003933A(pc)                | +03c
-        lea     Data_039d10(pc),a0              | +040
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +03c
+        lea     PlayerArm_SpriteTbl_039d10(pc),a0 | +040
         movea.l (a0,d0.w),a0                    | +044
         jsr     0x28cd4.l                       | +048
-        bra.w   Data_039d10__L039d38            | +04e
+        bra.w   PlayerArm_SpriteTbl_039d10__L039d38 | +04e
 
 | ----------------------------------------------------------------------------
-|  Data_039d10  @ $039D10  (72 B)
+|  PlayerArm_SpriteTbl_039d10  @ $039D10  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039d10, "ax", @progbits
-        .global Data_039d10
-Data_039d10:
+        .section .text.PlayerArm_SpriteTbl_039d10, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039d10
+PlayerArm_SpriteTbl_039d10:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbb20                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2178,24 +2178,24 @@ Data_039d10:
         .dc.w   0x20be                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf24e                        | +026  (dato / opcode no decodificado)
-        .global Data_039d10__L039d38
-Data_039d10__L039d38:
-        bra.w   Data_039d58__L039d80            | +028
-        .global Data_039d10__L039d3c
-Data_039d10__L039d3c:
+        .global PlayerArm_SpriteTbl_039d10__L039d38
+PlayerArm_SpriteTbl_039d10__L039d38:
+        bra.w   PlayerArm_SpriteTbl_039d58__L039d80 | +028
+        .global PlayerArm_SpriteTbl_039d10__L039d3c
+PlayerArm_SpriteTbl_039d10__L039d3c:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_039d58(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_039d58(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_039d58__L039d80            | +044
+        bra.w   PlayerArm_SpriteTbl_039d58__L039d80 | +044
 
 | ----------------------------------------------------------------------------
-|  Data_039d58  @ $039D58  (42 B)
+|  PlayerArm_SpriteTbl_039d58  @ $039D58  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039d58, "ax", @progbits
-        .global Data_039d58
-Data_039d58:
+        .section .text.PlayerArm_SpriteTbl_039d58, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039d58
+PlayerArm_SpriteTbl_039d58:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbd24                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2216,29 +2216,29 @@ Data_039d58:
         .dc.w   0x20be                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf4aa                        | +026  (dato / opcode no decodificado)
-        .global Data_039d58__L039d80
-Data_039d58__L039d80:
+        .global PlayerArm_SpriteTbl_039d58__L039d80
+PlayerArm_SpriteTbl_039d58__L039d80:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039d82  @ $039D82  (28 B)
+|  PlayerArm_MeleeA_039d82  @ $039D82  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039d82, "ax", @progbits
-        .global TaskHandler_039d82
-TaskHandler_039d82:
+        .section .text.PlayerArm_MeleeA_039d82, "ax", @progbits
+        .global PlayerArm_MeleeA_039d82
+PlayerArm_MeleeA_039d82:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_039d9e(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_039d9e(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_039d9e__L039dc6            | +018
+        bra.w   PlayerArm_SpriteTbl_039d9e__L039dc6 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_039d9e  @ $039D9E  (42 B)
+|  PlayerArm_SpriteTbl_039d9e  @ $039D9E  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039d9e, "ax", @progbits
-        .global Data_039d9e
-Data_039d9e:
+        .section .text.PlayerArm_SpriteTbl_039d9e, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039d9e
+PlayerArm_SpriteTbl_039d9e:
         .dc.w   0x0028                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0dbc                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2259,29 +2259,29 @@ Data_039d9e:
         .dc.w   0x0dbc                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +024  (dato / opcode no decodificado)
         .dc.w   0x0dbc                        | +026  (dato / opcode no decodificado)
-        .global Data_039d9e__L039dc6
-Data_039d9e__L039dc6:
+        .global PlayerArm_SpriteTbl_039d9e__L039dc6
+PlayerArm_SpriteTbl_039d9e__L039dc6:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039dc8  @ $039DC8  (28 B)
+|  PlayerArm_MeleeB_039dc8  @ $039DC8  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039dc8, "ax", @progbits
-        .global TaskHandler_039dc8
-TaskHandler_039dc8:
+        .section .text.PlayerArm_MeleeB_039dc8, "ax", @progbits
+        .global PlayerArm_MeleeB_039dc8
+PlayerArm_MeleeB_039dc8:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_039de4(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_039de4(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_039de4__L039e0c            | +018
+        bra.w   PlayerArm_SpriteTbl_039de4__L039e0c | +018
 
 | ----------------------------------------------------------------------------
-|  Data_039de4  @ $039DE4  (42 B)
+|  PlayerArm_SpriteTbl_039de4  @ $039DE4  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039de4, "ax", @progbits
-        .global Data_039de4
-Data_039de4:
+        .section .text.PlayerArm_SpriteTbl_039de4, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039de4
+PlayerArm_SpriteTbl_039de4:
         .dc.w   0x0028                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0e5c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2302,29 +2302,29 @@ Data_039de4:
         .dc.w   0x0e5c                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +024  (dato / opcode no decodificado)
         .dc.w   0x0e5c                        | +026  (dato / opcode no decodificado)
-        .global Data_039de4__L039e0c
-Data_039de4__L039e0c:
+        .global PlayerArm_SpriteTbl_039de4__L039e0c
+PlayerArm_SpriteTbl_039de4__L039e0c:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039e0e  @ $039E0E  (28 B)
+|  PlayerArm_Pose_039e0e  @ $039E0E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039e0e, "ax", @progbits
-        .global TaskHandler_039e0e
-TaskHandler_039e0e:
+        .section .text.PlayerArm_Pose_039e0e, "ax", @progbits
+        .global PlayerArm_Pose_039e0e
+PlayerArm_Pose_039e0e:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_039e2a(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_039e2a(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_039e2a__L039e52            | +018
+        bra.w   PlayerArm_SpriteTbl_039e2a__L039e52 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_039e2a  @ $039E2A  (42 B)
+|  PlayerArm_SpriteTbl_039e2a  @ $039E2A  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039e2a, "ax", @progbits
-        .global Data_039e2a
-Data_039e2a:
+        .section .text.PlayerArm_SpriteTbl_039e2a, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039e2a
+PlayerArm_SpriteTbl_039e2a:
         .dc.w   0x0028                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0efc                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -2345,37 +2345,37 @@ Data_039e2a:
         .dc.w   0x0efc                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +024  (dato / opcode no decodificado)
         .dc.w   0x0efc                        | +026  (dato / opcode no decodificado)
-        .global Data_039e2a__L039e52
-Data_039e2a__L039e52:
+        .global PlayerArm_SpriteTbl_039e2a__L039e52
+PlayerArm_SpriteTbl_039e2a__L039e52:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039e54  @ $039E54  (62 B)
+|  PlayerArm_Stand_039e54  @ $039E54  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039e54, "ax", @progbits
-        .global TaskHandler_039e54
-TaskHandler_039e54:
+        .section .text.PlayerArm_Stand_039e54, "ax", @progbits
+        .global PlayerArm_Stand_039e54
+PlayerArm_Stand_039e54:
         bclr    #0x2,0x8c(a6)                   | +000
         movea.l 0xc(a6),a0                      | +006
         cmpi.w  #0x1,0x72(a0)                   | +00a
         bne.w   .L039e6c                        | +010
-        jmp     TaskHandler_039f56(pc)          | +014
+        jmp     PlayerArm_StandAlt_039f56(pc)   | +014
 .L039e6c:
         cmpi.b  #0x41,0x79(a0)                  | +018
-        bne.w   Data_039e92__L039ebe            | +01e
+        bne.w   PlayerArm_SpriteTbl_039e92__L039ebe | +01e
         bclr    #0x2,0x8c(a6)                   | +022
-        jsr     Sub_0003933A(pc)                | +028
-        lea     Data_039e92(pc),a0              | +02c
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +028
+        lea     PlayerArm_SpriteTbl_039e92(pc),a0 | +02c
         movea.l (a0,d0.w),a0                    | +030
         jsr     0x28cd4.l                       | +034
-        bra.w   Data_039e92__L039eba            | +03a
+        bra.w   PlayerArm_SpriteTbl_039e92__L039eba | +03a
 
 | ----------------------------------------------------------------------------
-|  Data_039e92  @ $039E92  (82 B)
+|  PlayerArm_SpriteTbl_039e92  @ $039E92  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039e92, "ax", @progbits
-        .global Data_039e92
-Data_039e92:
+        .section .text.PlayerArm_SpriteTbl_039e92, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039e92
+PlayerArm_SpriteTbl_039e92:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xae2c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2396,26 +2396,26 @@ Data_039e92:
         .dc.w   0xe3ca                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe3ca                        | +026  (dato / opcode no decodificado)
-        .global Data_039e92__L039eba
-Data_039e92__L039eba:
-        bra.w   Data_039f2c__L039f54            | +028
-        .global Data_039e92__L039ebe
-Data_039e92__L039ebe:
+        .global PlayerArm_SpriteTbl_039e92__L039eba
+PlayerArm_SpriteTbl_039e92__L039eba:
+        bra.w   PlayerArm_SpriteTbl_039f2c__L039f54 | +028
+        .global PlayerArm_SpriteTbl_039e92__L039ebe
+PlayerArm_SpriteTbl_039e92__L039ebe:
         jsr     0x2abcc.l                       | +02c
-        bcs.w   Data_039ee4__L039f10            | +032
+        bcs.w   PlayerArm_SpriteTbl_039ee4__L039f10 | +032
         bclr    #0x2,0x8c(a6)                   | +036
-        jsr     Sub_0003933A(pc)                | +03c
-        lea     Data_039ee4(pc),a0              | +040
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +03c
+        lea     PlayerArm_SpriteTbl_039ee4(pc),a0 | +040
         movea.l (a0,d0.w),a0                    | +044
         jsr     0x28cd4.l                       | +048
-        bra.w   Data_039ee4__L039f0c            | +04e
+        bra.w   PlayerArm_SpriteTbl_039ee4__L039f0c | +04e
 
 | ----------------------------------------------------------------------------
-|  Data_039ee4  @ $039EE4  (72 B)
+|  PlayerArm_SpriteTbl_039ee4  @ $039EE4  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039ee4, "ax", @progbits
-        .global Data_039ee4
-Data_039ee4:
+        .section .text.PlayerArm_SpriteTbl_039ee4, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039ee4
+PlayerArm_SpriteTbl_039ee4:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaaea                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2436,24 +2436,24 @@ Data_039ee4:
         .dc.w   0xdfd8                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xdfd8                        | +026  (dato / opcode no decodificado)
-        .global Data_039ee4__L039f0c
-Data_039ee4__L039f0c:
-        bra.w   Data_039f2c__L039f54            | +028
-        .global Data_039ee4__L039f10
-Data_039ee4__L039f10:
+        .global PlayerArm_SpriteTbl_039ee4__L039f0c
+PlayerArm_SpriteTbl_039ee4__L039f0c:
+        bra.w   PlayerArm_SpriteTbl_039f2c__L039f54 | +028
+        .global PlayerArm_SpriteTbl_039ee4__L039f10
+PlayerArm_SpriteTbl_039ee4__L039f10:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_039f2c(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_039f2c(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_039f2c__L039f54            | +044
+        bra.w   PlayerArm_SpriteTbl_039f2c__L039f54 | +044
 
 | ----------------------------------------------------------------------------
-|  Data_039f2c  @ $039F2C  (42 B)
+|  PlayerArm_SpriteTbl_039f2c  @ $039F2C  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039f2c, "ax", @progbits
-        .global Data_039f2c
-Data_039f2c:
+        .section .text.PlayerArm_SpriteTbl_039f2c, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039f2c
+PlayerArm_SpriteTbl_039f2c:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb42c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2474,37 +2474,37 @@ Data_039f2c:
         .dc.w   0xea54                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xea54                        | +026  (dato / opcode no decodificado)
-        .global Data_039f2c__L039f54
-Data_039f2c__L039f54:
+        .global PlayerArm_SpriteTbl_039f2c__L039f54
+PlayerArm_SpriteTbl_039f2c__L039f54:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_039f56  @ $039F56  (62 B)
+|  PlayerArm_StandAlt_039f56  @ $039F56  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_039f56, "ax", @progbits
-        .global TaskHandler_039f56
-TaskHandler_039f56:
+        .section .text.PlayerArm_StandAlt_039f56, "ax", @progbits
+        .global PlayerArm_StandAlt_039f56
+PlayerArm_StandAlt_039f56:
         bclr    #0x2,0x8c(a6)                   | +000
         movea.l 0xc(a6),a0                      | +006
         cmpi.w  #0x0,0x72(a0)                   | +00a
         bne.w   .L039f6e                        | +010
-        jmp     TaskHandler_039e54(pc)          | +014
+        jmp     PlayerArm_Stand_039e54(pc)      | +014
 .L039f6e:
         cmpi.b  #0x14,0x79(a0)                  | +018
-        bne.w   Data_039f94__L039fc0            | +01e
+        bne.w   PlayerArm_SpriteTbl_039f94__L039fc0 | +01e
         bclr    #0x2,0x8c(a6)                   | +022
-        jsr     Sub_0003933A(pc)                | +028
-        lea     Data_039f94(pc),a0              | +02c
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +028
+        lea     PlayerArm_SpriteTbl_039f94(pc),a0 | +02c
         movea.l (a0,d0.w),a0                    | +030
         jsr     0x28cd4.l                       | +034
-        bra.w   Data_039f94__L039fbc            | +03a
+        bra.w   PlayerArm_SpriteTbl_039f94__L039fbc | +03a
 
 | ----------------------------------------------------------------------------
-|  Data_039f94  @ $039F94  (82 B)
+|  PlayerArm_SpriteTbl_039f94  @ $039F94  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039f94, "ax", @progbits
-        .global Data_039f94
-Data_039f94:
+        .section .text.PlayerArm_SpriteTbl_039f94, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039f94
+PlayerArm_SpriteTbl_039f94:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xadfa                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2525,26 +2525,26 @@ Data_039f94:
         .dc.w   0xe398                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe398                        | +026  (dato / opcode no decodificado)
-        .global Data_039f94__L039fbc
-Data_039f94__L039fbc:
-        bra.w   Data_03a02e__L03a056            | +028
-        .global Data_039f94__L039fc0
-Data_039f94__L039fc0:
+        .global PlayerArm_SpriteTbl_039f94__L039fbc
+PlayerArm_SpriteTbl_039f94__L039fbc:
+        bra.w   PlayerArm_SpriteTbl_03a02e__L03a056 | +028
+        .global PlayerArm_SpriteTbl_039f94__L039fc0
+PlayerArm_SpriteTbl_039f94__L039fc0:
         jsr     0x2abcc.l                       | +02c
-        bcs.w   Data_039fe6__L03a012            | +032
+        bcs.w   PlayerArm_SpriteTbl_039fe6__L03a012 | +032
         bclr    #0x2,0x8c(a6)                   | +036
-        jsr     Sub_0003933A(pc)                | +03c
-        lea     Data_039fe6(pc),a0              | +040
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +03c
+        lea     PlayerArm_SpriteTbl_039fe6(pc),a0 | +040
         movea.l (a0,d0.w),a0                    | +044
         jsr     0x28cd4.l                       | +048
-        bra.w   Data_039fe6__L03a00e            | +04e
+        bra.w   PlayerArm_SpriteTbl_039fe6__L03a00e | +04e
 
 | ----------------------------------------------------------------------------
-|  Data_039fe6  @ $039FE6  (72 B)
+|  PlayerArm_SpriteTbl_039fe6  @ $039FE6  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_039fe6, "ax", @progbits
-        .global Data_039fe6
-Data_039fe6:
+        .section .text.PlayerArm_SpriteTbl_039fe6, "ax", @progbits
+        .global PlayerArm_SpriteTbl_039fe6
+PlayerArm_SpriteTbl_039fe6:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xad6a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2565,24 +2565,24 @@ Data_039fe6:
         .dc.w   0xe308                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe308                        | +026  (dato / opcode no decodificado)
-        .global Data_039fe6__L03a00e
-Data_039fe6__L03a00e:
-        bra.w   Data_03a02e__L03a056            | +028
-        .global Data_039fe6__L03a012
-Data_039fe6__L03a012:
+        .global PlayerArm_SpriteTbl_039fe6__L03a00e
+PlayerArm_SpriteTbl_039fe6__L03a00e:
+        bra.w   PlayerArm_SpriteTbl_03a02e__L03a056 | +028
+        .global PlayerArm_SpriteTbl_039fe6__L03a012
+PlayerArm_SpriteTbl_039fe6__L03a012:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_03a02e(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_03a02e(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_03a02e__L03a056            | +044
+        bra.w   PlayerArm_SpriteTbl_03a02e__L03a056 | +044
 
 | ----------------------------------------------------------------------------
-|  Data_03a02e  @ $03A02E  (42 B)
+|  PlayerArm_SpriteTbl_03a02e  @ $03A02E  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a02e, "ax", @progbits
-        .global Data_03a02e
-Data_03a02e:
+        .section .text.PlayerArm_SpriteTbl_03a02e, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a02e
+PlayerArm_SpriteTbl_03a02e:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb53a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2603,37 +2603,37 @@ Data_03a02e:
         .dc.w   0xeb62                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xeb62                        | +026  (dato / opcode no decodificado)
-        .global Data_03a02e__L03a056
-Data_03a02e__L03a056:
+        .global PlayerArm_SpriteTbl_03a02e__L03a056
+PlayerArm_SpriteTbl_03a02e__L03a056:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a058  @ $03A058  (62 B)
+|  PlayerArm_Walk_03a058  @ $03A058  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a058, "ax", @progbits
-        .global TaskHandler_03a058
-TaskHandler_03a058:
+        .section .text.PlayerArm_Walk_03a058, "ax", @progbits
+        .global PlayerArm_Walk_03a058
+PlayerArm_Walk_03a058:
         bclr    #0x2,0x8c(a6)                   | +000
         movea.l 0xc(a6),a0                      | +006
         cmpi.w  #0x1,0x72(a0)                   | +00a
         bne.w   .L03a070                        | +010
-        jmp     TaskHandler_03a108(pc)          | +014
+        jmp     PlayerArm_WalkAlt_03a108(pc)    | +014
 .L03a070:
         cmpi.b  #0x41,0x79(a0)                  | +018
-        bne.w   Data_03a096__L03a0c2            | +01e
+        bne.w   PlayerArm_SpriteTbl_03a096__L03a0c2 | +01e
         bclr    #0x2,0x8c(a6)                   | +022
-        jsr     Sub_0003933A(pc)                | +028
-        lea     Data_03a096(pc),a0              | +02c
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +028
+        lea     PlayerArm_SpriteTbl_03a096(pc),a0 | +02c
         movea.l (a0,d0.w),a0                    | +030
         jsr     0x28cd4.l                       | +034
-        bra.w   Data_03a096__L03a0be            | +03a
+        bra.w   PlayerArm_SpriteTbl_03a096__L03a0be | +03a
 
 | ----------------------------------------------------------------------------
-|  Data_03a096  @ $03A096  (72 B)
+|  PlayerArm_SpriteTbl_03a096  @ $03A096  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a096, "ax", @progbits
-        .global Data_03a096
-Data_03a096:
+        .section .text.PlayerArm_SpriteTbl_03a096, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a096
+PlayerArm_SpriteTbl_03a096:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xae90                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2654,24 +2654,24 @@ Data_03a096:
         .dc.w   0xe42e                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe42e                        | +026  (dato / opcode no decodificado)
-        .global Data_03a096__L03a0be
-Data_03a096__L03a0be:
-        bra.w   Data_03a0de__L03a106            | +028
-        .global Data_03a096__L03a0c2
-Data_03a096__L03a0c2:
+        .global PlayerArm_SpriteTbl_03a096__L03a0be
+PlayerArm_SpriteTbl_03a096__L03a0be:
+        bra.w   PlayerArm_SpriteTbl_03a0de__L03a106 | +028
+        .global PlayerArm_SpriteTbl_03a096__L03a0c2
+PlayerArm_SpriteTbl_03a096__L03a0c2:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_03a0de(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_03a0de(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_03a0de__L03a106            | +044
+        bra.w   PlayerArm_SpriteTbl_03a0de__L03a106 | +044
 
 | ----------------------------------------------------------------------------
-|  Data_03a0de  @ $03A0DE  (42 B)
+|  PlayerArm_SpriteTbl_03a0de  @ $03A0DE  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a0de, "ax", @progbits
-        .global Data_03a0de
-Data_03a0de:
+        .section .text.PlayerArm_SpriteTbl_03a0de, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a0de
+PlayerArm_SpriteTbl_03a0de:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb368                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2692,37 +2692,37 @@ Data_03a0de:
         .dc.w   0xe990                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe990                        | +026  (dato / opcode no decodificado)
-        .global Data_03a0de__L03a106
-Data_03a0de__L03a106:
+        .global PlayerArm_SpriteTbl_03a0de__L03a106
+PlayerArm_SpriteTbl_03a0de__L03a106:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a108  @ $03A108  (62 B)
+|  PlayerArm_WalkAlt_03a108  @ $03A108  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a108, "ax", @progbits
-        .global TaskHandler_03a108
-TaskHandler_03a108:
+        .section .text.PlayerArm_WalkAlt_03a108, "ax", @progbits
+        .global PlayerArm_WalkAlt_03a108
+PlayerArm_WalkAlt_03a108:
         bclr    #0x2,0x8c(a6)                   | +000
         movea.l 0xc(a6),a0                      | +006
         cmpi.w  #0x0,0x72(a0)                   | +00a
         bne.w   .L03a120                        | +010
-        jmp     TaskHandler_03a058(pc)          | +014
+        jmp     PlayerArm_Walk_03a058(pc)       | +014
 .L03a120:
         cmpi.b  #0x14,0x79(a0)                  | +018
-        bne.w   Data_03a146__L03a172            | +01e
+        bne.w   PlayerArm_SpriteTbl_03a146__L03a172 | +01e
         bclr    #0x2,0x8c(a6)                   | +022
-        jsr     Sub_0003933A(pc)                | +028
-        lea     Data_03a146(pc),a0              | +02c
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +028
+        lea     PlayerArm_SpriteTbl_03a146(pc),a0 | +02c
         movea.l (a0,d0.w),a0                    | +030
         jsr     0x28cd4.l                       | +034
-        bra.w   Data_03a146__L03a16e            | +03a
+        bra.w   PlayerArm_SpriteTbl_03a146__L03a16e | +03a
 
 | ----------------------------------------------------------------------------
-|  Data_03a146  @ $03A146  (72 B)
+|  PlayerArm_SpriteTbl_03a146  @ $03A146  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a146, "ax", @progbits
-        .global Data_03a146
-Data_03a146:
+        .section .text.PlayerArm_SpriteTbl_03a146, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a146
+PlayerArm_SpriteTbl_03a146:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xae5e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2743,24 +2743,24 @@ Data_03a146:
         .dc.w   0xe3fc                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe3fc                        | +026  (dato / opcode no decodificado)
-        .global Data_03a146__L03a16e
-Data_03a146__L03a16e:
-        bra.w   Data_03a18e__L03a1b6            | +028
-        .global Data_03a146__L03a172
-Data_03a146__L03a172:
+        .global PlayerArm_SpriteTbl_03a146__L03a16e
+PlayerArm_SpriteTbl_03a146__L03a16e:
+        bra.w   PlayerArm_SpriteTbl_03a18e__L03a1b6 | +028
+        .global PlayerArm_SpriteTbl_03a146__L03a172
+PlayerArm_SpriteTbl_03a146__L03a172:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_03a18e(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_03a18e(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_03a18e__L03a1b6            | +044
+        bra.w   PlayerArm_SpriteTbl_03a18e__L03a1b6 | +044
 
 | ----------------------------------------------------------------------------
-|  Data_03a18e  @ $03A18E  (42 B)
+|  PlayerArm_SpriteTbl_03a18e  @ $03A18E  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a18e, "ax", @progbits
-        .global Data_03a18e
-Data_03a18e:
+        .section .text.PlayerArm_SpriteTbl_03a18e, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a18e
+PlayerArm_SpriteTbl_03a18e:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb3d2                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2781,37 +2781,37 @@ Data_03a18e:
         .dc.w   0xe9fa                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe9fa                        | +026  (dato / opcode no decodificado)
-        .global Data_03a18e__L03a1b6
-Data_03a18e__L03a1b6:
+        .global PlayerArm_SpriteTbl_03a18e__L03a1b6
+PlayerArm_SpriteTbl_03a18e__L03a1b6:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a1b8  @ $03A1B8  (62 B)
+|  PlayerArm_WalkLoop_03a1b8  @ $03A1B8  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a1b8, "ax", @progbits
-        .global TaskHandler_03a1b8
-TaskHandler_03a1b8:
+        .section .text.PlayerArm_WalkLoop_03a1b8, "ax", @progbits
+        .global PlayerArm_WalkLoop_03a1b8
+PlayerArm_WalkLoop_03a1b8:
         bclr    #0x2,0x8c(a6)                   | +000
         movea.l 0xc(a6),a0                      | +006
         cmpi.w  #0x1,0x72(a0)                   | +00a
         bne.w   .L03a1d0                        | +010
-        jmp     TaskHandler_03a268(pc)          | +014
+        jmp     PlayerArm_WalkLoopAlt_03a268(pc) | +014
 .L03a1d0:
         cmpi.b  #0x41,0x79(a0)                  | +018
-        bne.w   Data_03a1f6__L03a222            | +01e
+        bne.w   PlayerArm_SpriteTbl_03a1f6__L03a222 | +01e
         bclr    #0x2,0x8c(a6)                   | +022
-        jsr     Sub_0003933A(pc)                | +028
-        lea     Data_03a1f6(pc),a0              | +02c
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +028
+        lea     PlayerArm_SpriteTbl_03a1f6(pc),a0 | +02c
         movea.l (a0,d0.w),a0                    | +030
         jsr     0x28cd4.l                       | +034
-        bra.w   Data_03a1f6__L03a21e            | +03a
+        bra.w   PlayerArm_SpriteTbl_03a1f6__L03a21e | +03a
 
 | ----------------------------------------------------------------------------
-|  Data_03a1f6  @ $03A1F6  (72 B)
+|  PlayerArm_SpriteTbl_03a1f6  @ $03A1F6  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a1f6, "ax", @progbits
-        .global Data_03a1f6
-Data_03a1f6:
+        .section .text.PlayerArm_SpriteTbl_03a1f6, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a1f6
+PlayerArm_SpriteTbl_03a1f6:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xae90                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2832,24 +2832,24 @@ Data_03a1f6:
         .dc.w   0xe42e                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe42e                        | +026  (dato / opcode no decodificado)
-        .global Data_03a1f6__L03a21e
-Data_03a1f6__L03a21e:
-        bra.w   Data_03a23e__L03a266            | +028
-        .global Data_03a1f6__L03a222
-Data_03a1f6__L03a222:
+        .global PlayerArm_SpriteTbl_03a1f6__L03a21e
+PlayerArm_SpriteTbl_03a1f6__L03a21e:
+        bra.w   PlayerArm_SpriteTbl_03a23e__L03a266 | +028
+        .global PlayerArm_SpriteTbl_03a1f6__L03a222
+PlayerArm_SpriteTbl_03a1f6__L03a222:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_03a23e(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_03a23e(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_03a23e__L03a266            | +044
+        bra.w   PlayerArm_SpriteTbl_03a23e__L03a266 | +044
 
 | ----------------------------------------------------------------------------
-|  Data_03a23e  @ $03A23E  (42 B)
+|  PlayerArm_SpriteTbl_03a23e  @ $03A23E  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a23e, "ax", @progbits
-        .global Data_03a23e
-Data_03a23e:
+        .section .text.PlayerArm_SpriteTbl_03a23e, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a23e
+PlayerArm_SpriteTbl_03a23e:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb42c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2870,37 +2870,37 @@ Data_03a23e:
         .dc.w   0xea54                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xea54                        | +026  (dato / opcode no decodificado)
-        .global Data_03a23e__L03a266
-Data_03a23e__L03a266:
+        .global PlayerArm_SpriteTbl_03a23e__L03a266
+PlayerArm_SpriteTbl_03a23e__L03a266:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a268  @ $03A268  (62 B)
+|  PlayerArm_WalkLoopAlt_03a268  @ $03A268  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a268, "ax", @progbits
-        .global TaskHandler_03a268
-TaskHandler_03a268:
+        .section .text.PlayerArm_WalkLoopAlt_03a268, "ax", @progbits
+        .global PlayerArm_WalkLoopAlt_03a268
+PlayerArm_WalkLoopAlt_03a268:
         bclr    #0x2,0x8c(a6)                   | +000
         movea.l 0xc(a6),a0                      | +006
         cmpi.w  #0x0,0x72(a0)                   | +00a
         bne.w   .L03a280                        | +010
-        jmp     TaskHandler_03a1b8(pc)          | +014
+        jmp     PlayerArm_WalkLoop_03a1b8(pc)   | +014
 .L03a280:
         cmpi.b  #0x14,0x79(a0)                  | +018
-        bne.w   Data_03a2a6__L03a2d2            | +01e
+        bne.w   PlayerArm_SpriteTbl_03a2a6__L03a2d2 | +01e
         bclr    #0x2,0x8c(a6)                   | +022
-        jsr     Sub_0003933A(pc)                | +028
-        lea     Data_03a2a6(pc),a0              | +02c
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +028
+        lea     PlayerArm_SpriteTbl_03a2a6(pc),a0 | +02c
         movea.l (a0,d0.w),a0                    | +030
         jsr     0x28cd4.l                       | +034
-        bra.w   Data_03a2a6__L03a2ce            | +03a
+        bra.w   PlayerArm_SpriteTbl_03a2a6__L03a2ce | +03a
 
 | ----------------------------------------------------------------------------
-|  Data_03a2a6  @ $03A2A6  (72 B)
+|  PlayerArm_SpriteTbl_03a2a6  @ $03A2A6  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a2a6, "ax", @progbits
-        .global Data_03a2a6
-Data_03a2a6:
+        .section .text.PlayerArm_SpriteTbl_03a2a6, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a2a6
+PlayerArm_SpriteTbl_03a2a6:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xae5e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2921,24 +2921,24 @@ Data_03a2a6:
         .dc.w   0xe3fc                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe3fc                        | +026  (dato / opcode no decodificado)
-        .global Data_03a2a6__L03a2ce
-Data_03a2a6__L03a2ce:
-        bra.w   Data_03a2ee__L03a316            | +028
-        .global Data_03a2a6__L03a2d2
-Data_03a2a6__L03a2d2:
+        .global PlayerArm_SpriteTbl_03a2a6__L03a2ce
+PlayerArm_SpriteTbl_03a2a6__L03a2ce:
+        bra.w   PlayerArm_SpriteTbl_03a2ee__L03a316 | +028
+        .global PlayerArm_SpriteTbl_03a2a6__L03a2d2
+PlayerArm_SpriteTbl_03a2a6__L03a2d2:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_03a2ee(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_03a2ee(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_03a2ee__L03a316            | +044
+        bra.w   PlayerArm_SpriteTbl_03a2ee__L03a316 | +044
 
 | ----------------------------------------------------------------------------
-|  Data_03a2ee  @ $03A2EE  (42 B)
+|  PlayerArm_SpriteTbl_03a2ee  @ $03A2EE  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a2ee, "ax", @progbits
-        .global Data_03a2ee
-Data_03a2ee:
+        .section .text.PlayerArm_SpriteTbl_03a2ee, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a2ee
+PlayerArm_SpriteTbl_03a2ee:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb53a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -2959,29 +2959,29 @@ Data_03a2ee:
         .dc.w   0xeb62                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xeb62                        | +026  (dato / opcode no decodificado)
-        .global Data_03a2ee__L03a316
-Data_03a2ee__L03a316:
+        .global PlayerArm_SpriteTbl_03a2ee__L03a316
+PlayerArm_SpriteTbl_03a2ee__L03a316:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a318  @ $03A318  (28 B)
+|  PlayerArm_WalkShootA_03a318  @ $03A318  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a318, "ax", @progbits
-        .global TaskHandler_03a318
-TaskHandler_03a318:
+        .section .text.PlayerArm_WalkShootA_03a318, "ax", @progbits
+        .global PlayerArm_WalkShootA_03a318
+PlayerArm_WalkShootA_03a318:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_03a334(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_03a334(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_03a334__L03a35c            | +018
+        bra.w   PlayerArm_SpriteTbl_03a334__L03a35c | +018
 
 | ----------------------------------------------------------------------------
-|  Data_03a334  @ $03A334  (42 B)
+|  PlayerArm_SpriteTbl_03a334  @ $03A334  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a334, "ax", @progbits
-        .global Data_03a334
-Data_03a334:
+        .section .text.PlayerArm_SpriteTbl_03a334, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a334
+PlayerArm_SpriteTbl_03a334:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbd2a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -3002,29 +3002,29 @@ Data_03a334:
         .dc.w   0x21aa                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf4b0                        | +026  (dato / opcode no decodificado)
-        .global Data_03a334__L03a35c
-Data_03a334__L03a35c:
+        .global PlayerArm_SpriteTbl_03a334__L03a35c
+PlayerArm_SpriteTbl_03a334__L03a35c:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a35e  @ $03A35E  (28 B)
+|  PlayerArm_WalkShootB_03a35e  @ $03A35E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a35e, "ax", @progbits
-        .global TaskHandler_03a35e
-TaskHandler_03a35e:
+        .section .text.PlayerArm_WalkShootB_03a35e, "ax", @progbits
+        .global PlayerArm_WalkShootB_03a35e
+PlayerArm_WalkShootB_03a35e:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_03a37a(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_03a37a(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_03a37a__L03a3a2            | +018
+        bra.w   PlayerArm_SpriteTbl_03a37a__L03a3a2 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_03a37a  @ $03A37A  (42 B)
+|  PlayerArm_SpriteTbl_03a37a  @ $03A37A  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a37a, "ax", @progbits
-        .global Data_03a37a
-Data_03a37a:
+        .section .text.PlayerArm_SpriteTbl_03a37a, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a37a
+PlayerArm_SpriteTbl_03a37a:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbd24                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -3045,30 +3045,30 @@ Data_03a37a:
         .dc.w   0x20be                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf4a4                        | +026  (dato / opcode no decodificado)
-        .global Data_03a37a__L03a3a2
-Data_03a37a__L03a3a2:
+        .global PlayerArm_SpriteTbl_03a37a__L03a3a2
+PlayerArm_SpriteTbl_03a37a__L03a3a2:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a3a4  @ $03A3A4  (34 B)
+|  PlayerArm_WalkShootC_03a3a4  @ $03A3A4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a3a4, "ax", @progbits
-        .global TaskHandler_03a3a4
-TaskHandler_03a3a4:
+        .section .text.PlayerArm_WalkShootC_03a3a4, "ax", @progbits
+        .global PlayerArm_WalkShootC_03a3a4
+PlayerArm_WalkShootC_03a3a4:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_03a3c6(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_03a3c6(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_03a3c6__L03a3ee            | +01e
+        bra.w   PlayerArm_SpriteTbl_03a3c6__L03a3ee | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_03a3c6  @ $03A3C6  (42 B)
+|  PlayerArm_SpriteTbl_03a3c6  @ $03A3C6  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a3c6, "ax", @progbits
-        .global Data_03a3c6
-Data_03a3c6:
+        .section .text.PlayerArm_SpriteTbl_03a3c6, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a3c6
+PlayerArm_SpriteTbl_03a3c6:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaec2                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -3089,30 +3089,30 @@ Data_03a3c6:
         .dc.w   0x1fe6                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe460                        | +026  (dato / opcode no decodificado)
-        .global Data_03a3c6__L03a3ee
-Data_03a3c6__L03a3ee:
+        .global PlayerArm_SpriteTbl_03a3c6__L03a3ee
+PlayerArm_SpriteTbl_03a3c6__L03a3ee:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a3f0  @ $03A3F0  (34 B)
+|  PlayerArm_WalkShootD_03a3f0  @ $03A3F0  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a3f0, "ax", @progbits
-        .global TaskHandler_03a3f0
-TaskHandler_03a3f0:
+        .section .text.PlayerArm_WalkShootD_03a3f0, "ax", @progbits
+        .global PlayerArm_WalkShootD_03a3f0
+PlayerArm_WalkShootD_03a3f0:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_03a412(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_03a412(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_03a412__L03a43a            | +01e
+        bra.w   PlayerArm_SpriteTbl_03a412__L03a43a | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_03a412  @ $03A412  (42 B)
+|  PlayerArm_SpriteTbl_03a412  @ $03A412  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a412, "ax", @progbits
-        .global Data_03a412
-Data_03a412:
+        .section .text.PlayerArm_SpriteTbl_03a412, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a412
+PlayerArm_SpriteTbl_03a412:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xaef8                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -3133,29 +3133,29 @@ Data_03a412:
         .dc.w   0x201c                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xe4aa                        | +026  (dato / opcode no decodificado)
-        .global Data_03a412__L03a43a
-Data_03a412__L03a43a:
+        .global PlayerArm_SpriteTbl_03a412__L03a43a
+PlayerArm_SpriteTbl_03a412__L03a43a:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a43c  @ $03A43C  (28 B)
+|  PlayerArm_WalkShootE_03a43c  @ $03A43C  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a43c, "ax", @progbits
-        .global TaskHandler_03a43c
-TaskHandler_03a43c:
+        .section .text.PlayerArm_WalkShootE_03a43c, "ax", @progbits
+        .global PlayerArm_WalkShootE_03a43c
+PlayerArm_WalkShootE_03a43c:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_03a458(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_03a458(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_03a458__L03a480            | +018
+        bra.w   PlayerArm_SpriteTbl_03a458__L03a480 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_03a458  @ $03A458  (42 B)
+|  PlayerArm_SpriteTbl_03a458  @ $03A458  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a458, "ax", @progbits
-        .global Data_03a458
-Data_03a458:
+        .section .text.PlayerArm_SpriteTbl_03a458, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a458
+PlayerArm_SpriteTbl_03a458:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbd2a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -3176,29 +3176,29 @@ Data_03a458:
         .dc.w   0x21aa                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf4b6                        | +026  (dato / opcode no decodificado)
-        .global Data_03a458__L03a480
-Data_03a458__L03a480:
+        .global PlayerArm_SpriteTbl_03a458__L03a480
+PlayerArm_SpriteTbl_03a458__L03a480:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a482  @ $03A482  (28 B)
+|  PlayerArm_WalkShootF_03a482  @ $03A482  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a482, "ax", @progbits
-        .global TaskHandler_03a482
-TaskHandler_03a482:
+        .section .text.PlayerArm_WalkShootF_03a482, "ax", @progbits
+        .global PlayerArm_WalkShootF_03a482
+PlayerArm_WalkShootF_03a482:
         bclr    #0x2,0x8c(a6)                   | +000
-        jsr     Sub_0003933A(pc)                | +006
-        lea     Data_03a49e(pc),a0              | +00a
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +006
+        lea     PlayerArm_SpriteTbl_03a49e(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
-        bra.w   Data_03a49e__L03a4c6            | +018
+        bra.w   PlayerArm_SpriteTbl_03a49e__L03a4c6 | +018
 
 | ----------------------------------------------------------------------------
-|  Data_03a49e  @ $03A49E  (42 B)
+|  PlayerArm_SpriteTbl_03a49e  @ $03A49E  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a49e, "ax", @progbits
-        .global Data_03a49e
-Data_03a49e:
+        .section .text.PlayerArm_SpriteTbl_03a49e, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a49e
+PlayerArm_SpriteTbl_03a49e:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbd24                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -3219,30 +3219,30 @@ Data_03a49e:
         .dc.w   0x20be                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xf4aa                        | +026  (dato / opcode no decodificado)
-        .global Data_03a49e__L03a4c6
-Data_03a49e__L03a4c6:
+        .global PlayerArm_SpriteTbl_03a49e__L03a4c6
+PlayerArm_SpriteTbl_03a49e__L03a4c6:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a4c8  @ $03A4C8  (34 B)
+|  PlayerArm_TurnA_03a4c8  @ $03A4C8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a4c8, "ax", @progbits
-        .global TaskHandler_03a4c8
-TaskHandler_03a4c8:
+        .section .text.PlayerArm_TurnA_03a4c8, "ax", @progbits
+        .global PlayerArm_TurnA_03a4c8
+PlayerArm_TurnA_03a4c8:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_03a4ea(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_03a4ea(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_03a4ea__L03a512            | +01e
+        bra.w   PlayerArm_SpriteTbl_03a4ea__L03a512 | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_03a4ea  @ $03A4EA  (42 B)
+|  PlayerArm_SpriteTbl_03a4ea  @ $03A4EA  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a4ea, "ax", @progbits
-        .global Data_03a4ea
-Data_03a4ea:
+        .section .text.PlayerArm_SpriteTbl_03a4ea, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a4ea
+PlayerArm_SpriteTbl_03a4ea:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb6a8                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -3263,30 +3263,30 @@ Data_03a4ea:
         .dc.w   0xecd0                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xecd0                        | +026  (dato / opcode no decodificado)
-        .global Data_03a4ea__L03a512
-Data_03a4ea__L03a512:
+        .global PlayerArm_SpriteTbl_03a4ea__L03a512
+PlayerArm_SpriteTbl_03a4ea__L03a512:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a514  @ $03A514  (34 B)
+|  PlayerArm_TurnB_03a514  @ $03A514  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a514, "ax", @progbits
-        .global TaskHandler_03a514
-TaskHandler_03a514:
+        .section .text.PlayerArm_TurnB_03a514, "ax", @progbits
+        .global PlayerArm_TurnB_03a514
+PlayerArm_TurnB_03a514:
         bclr    #0x2,0x8c(a6)                   | +000
         bclr    #0x2,0x8c(a6)                   | +006
-        jsr     Sub_0003933A(pc)                | +00c
-        lea     Data_03a536(pc),a0              | +010
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +00c
+        lea     PlayerArm_SpriteTbl_03a536(pc),a0 | +010
         movea.l (a0,d0.w),a0                    | +014
         jsr     0x28cd4.l                       | +018
-        bra.w   Data_03a536__L03a55e            | +01e
+        bra.w   PlayerArm_SpriteTbl_03a536__L03a55e | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_03a536  @ $03A536  (42 B)
+|  PlayerArm_SpriteTbl_03a536  @ $03A536  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a536, "ax", @progbits
-        .global Data_03a536
-Data_03a536:
+        .section .text.PlayerArm_SpriteTbl_03a536, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a536
+PlayerArm_SpriteTbl_03a536:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb6d6                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -3307,32 +3307,32 @@ Data_03a536:
         .dc.w   0xecfe                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xecfe                        | +026  (dato / opcode no decodificado)
-        .global Data_03a536__L03a55e
-Data_03a536__L03a55e:
+        .global PlayerArm_SpriteTbl_03a536__L03a55e
+PlayerArm_SpriteTbl_03a536__L03a55e:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03a560  @ $03A560  (42 B)
+|  PlayerArm_JumpMelee_03a560  @ $03A560  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03a560, "ax", @progbits
-        .global TaskHandler_03a560
-TaskHandler_03a560:
+        .section .text.PlayerArm_JumpMelee_03a560, "ax", @progbits
+        .global PlayerArm_JumpMelee_03a560
+PlayerArm_JumpMelee_03a560:
         addq.b  #0x1,0x30(a6)                   | +000
         btst    #0x0,0x30(a6)                   | +004
-        bne.w   Data_03a58a__L03a5b6            | +00a
+        bne.w   PlayerArm_SpriteTbl_03a58a__L03a5b6 | +00a
         bclr    #0x2,0x8c(a6)                   | +00e
-        jsr     Sub_0003933A(pc)                | +014
-        lea     Data_03a58a(pc),a0              | +018
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +014
+        lea     PlayerArm_SpriteTbl_03a58a(pc),a0 | +018
         movea.l (a0,d0.w),a0                    | +01c
         jsr     0x28cd4.l                       | +020
-        bra.w   Data_03a58a__L03a5b2            | +026
+        bra.w   PlayerArm_SpriteTbl_03a58a__L03a5b2 | +026
 
 | ----------------------------------------------------------------------------
-|  Data_03a58a  @ $03A58A  (72 B)
+|  PlayerArm_SpriteTbl_03a58a  @ $03A58A  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a58a, "ax", @progbits
-        .global Data_03a58a
-Data_03a58a:
+        .section .text.PlayerArm_SpriteTbl_03a58a, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a58a
+PlayerArm_SpriteTbl_03a58a:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xc3f2                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -3353,24 +3353,24 @@ Data_03a58a:
         .dc.w   0xfa34                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xfa34                        | +026  (dato / opcode no decodificado)
-        .global Data_03a58a__L03a5b2
-Data_03a58a__L03a5b2:
-        bra.w   Data_03a5d2__L03a5fa            | +028
-        .global Data_03a58a__L03a5b6
-Data_03a58a__L03a5b6:
+        .global PlayerArm_SpriteTbl_03a58a__L03a5b2
+PlayerArm_SpriteTbl_03a58a__L03a5b2:
+        bra.w   PlayerArm_SpriteTbl_03a5d2__L03a5fa | +028
+        .global PlayerArm_SpriteTbl_03a58a__L03a5b6
+PlayerArm_SpriteTbl_03a58a__L03a5b6:
         bclr    #0x2,0x8c(a6)                   | +02c
-        jsr     Sub_0003933A(pc)                | +032
-        lea     Data_03a5d2(pc),a0              | +036
+        jsr     PlayerArm_WeaponTableIndex_03933a(pc) | +032
+        lea     PlayerArm_SpriteTbl_03a5d2(pc),a0 | +036
         movea.l (a0,d0.w),a0                    | +03a
         jsr     0x28cd4.l                       | +03e
-        bra.w   Data_03a5d2__L03a5fa            | +044
+        bra.w   PlayerArm_SpriteTbl_03a5d2__L03a5fa | +044
 
 | ----------------------------------------------------------------------------
-|  Data_03a5d2  @ $03A5D2  (56 B)
+|  PlayerArm_SpriteTbl_03a5d2  @ $03A5D2  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03a5d2, "ax", @progbits
-        .global Data_03a5d2
-Data_03a5d2:
+        .section .text.PlayerArm_SpriteTbl_03a5d2, "ax", @progbits
+        .global PlayerArm_SpriteTbl_03a5d2
+PlayerArm_SpriteTbl_03a5d2:
         .dc.w   0x0027                        | +000  (dato / opcode no decodificado)
         .dc.w   0xc4de                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +004  (dato / opcode no decodificado)
@@ -3391,9 +3391,9 @@ Data_03a5d2:
         .dc.w   0xfb20                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0027                        | +024  (dato / opcode no decodificado)
         .dc.w   0xfb20                        | +026  (dato / opcode no decodificado)
-        .global Data_03a5d2__L03a5fa
-Data_03a5d2__L03a5fa:
-        lea     TaskHandler_0392a4(pc),a0       | +028
+        .global PlayerArm_SpriteTbl_03a5d2__L03a5fa
+PlayerArm_SpriteTbl_03a5d2__L03a5fa:
+        lea     PlayerArm_MeleeAttackTbl_0392a4(pc),a0 | +028
         move.l  a0,0x4c(a6)                     | +02c
         jsr     0x283ca.l                       | +030
         rts                                     | +036
