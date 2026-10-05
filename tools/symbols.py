@@ -863,10 +863,10 @@ SYMBOLS = {
     0x000281C8: "PcThunkTarget_0281c8",
     0x0002870A: "JmpTarget_02870a",
     0x00028758: "JmpTarget_028758",
-    0x0002A46C: "PcThunkTarget_02a46c",
-    0x0002AB86: "PcThunkTarget_02ab86",
-    0x0002AC4C: "PcThunkTarget_02ac4c",
-    0x0002AC80: "PcThunkTarget_02ac80",
+    # 0x0002A46C promovido a PcThunkTarget_02a46c en registry (Wave BBBB).
+    # 0x0002AB86 promovido a PcThunkTarget_02ab86 en registry (Wave BBBB).
+    # 0x0002AC4C promovido a PcThunkTarget_02ac4c en registry (Wave BBBB).
+    # 0x0002AC80 promovido a PcThunkTarget_02ac80 en registry (Wave BBBB).
     # 0x0002FADA promovido a Slug_ResetDamageIdx_02fada en registry (Wave ZZZ).
     0x00032EA4: "PcThunkTarget_032ea4",
     0x00032EBA: "PcThunkTarget_032eba",
@@ -1253,8 +1253,8 @@ SYMBOLS = {
     0x00028C20: "Fn_00028C20",            # colision rect A vs rect B (Miniboss_Ride)
     0x00027D50: "Fn_00027D50",            # tick de vuelo del proyectil del boss
     0x000280C6: "Fn_000280C6",            # consulta mapa de colision (Ent_GroundProbe)
-    0x0002A1AA: "Fn_0002A1AA",            # init entidad con anim (Boss_Intro)
-    0x0002AC6A: "Fn_0002AC6A",            # test dificultad para gate de spawn
+    # 0x0002A1AA promovido a Fn_0002A1AA en registry (Wave BBBB).
+    # 0x0002AC6A promovido a Fn_0002AC6A en registry (Wave BBBB).
     # 0x00030C14 promovido a EnemyShot_Straight_030c14 en registry (Wave AAAA).
     # 0x00030C70 promovido a EnemyShot_Bounce_030c70 en registry (Wave AAAA).
     # 0x000308C2 promovido a PlayerGrenade_Spawn_0308c2 en registry (Wave AAAA).
@@ -1599,38 +1599,38 @@ SYMBOLS = {
     0x00030390: "JsrAbsRts_030390",  # rts de JsrAbsThunk_03038a (+6)
     0x00030608: "JsrAbsRts_030608",  # rts de JsrAbsThunk_030602 (+6)
     # --- Wave ZZZ: refs forward a huecos futuros
-    0x000295A6: "Sub_000295A6",  # hueco futuro (ref pc-rel desde esta region)
-    0x00029790: "Sub_00029790",  # hueco futuro (ref pc-rel desde esta region)
-    0x00029834: "Sub_00029834",  # hueco futuro (ref pc-rel desde esta region)
-    0x000298D8: "Sub_000298D8",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002999E: "Sub_0002999E",  # hueco futuro (ref pc-rel desde esta region)
-    0x00029A14: "Sub_00029A14",  # hueco futuro (ref pc-rel desde esta region)
-    0x00029A68: "Sub_00029A68",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A024: "Sub_0002A024",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A060: "Sub_0002A060",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A328: "Sub_0002A328",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A34E: "Sub_0002A34E",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A478: "Sub_0002A478",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A4EC: "Sub_0002A4EC",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A4F0: "Sub_0002A4F0",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A59A: "Sub_0002A59A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A664: "Sub_0002A664",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A690: "Sub_0002A690",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A752: "Sub_0002A752",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A760: "Sub_0002A760",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A766: "Sub_0002A766",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A7D8: "Sub_0002A7D8",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A824: "Sub_0002A824",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A878: "Sub_0002A878",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A8C0: "Sub_0002A8C0",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A958: "Sub_0002A958",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002A9A0: "Sub_0002A9A0",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002AA0E: "Sub_0002AA0E",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002AA24: "Sub_0002AA24",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002AAC0: "Sub_0002AAC0",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002AAF0: "Sub_0002AAF0",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002AB3C: "Sub_0002AB3C",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002ACB8: "Sub_0002ACB8",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x000295A6 promovido a Sub_000295A6 en registry (Wave BBBB).
+    # 0x00029790 promovido a Sub_00029790 en registry (Wave BBBB).
+    # 0x00029834 promovido a Sub_00029834 en registry (Wave BBBB).
+    # 0x000298D8 promovido a Sub_000298D8 en registry (Wave BBBB).
+    # 0x0002999E promovido a Sub_0002999E en registry (Wave BBBB).
+    # 0x00029A14 promovido a Sub_00029A14 en registry (Wave BBBB).
+    # 0x00029A68 promovido a Sub_00029A68 en registry (Wave BBBB).
+    # 0x0002A024 promovido a Sub_0002A024 en registry (Wave BBBB).
+    # 0x0002A060 promovido a Sub_0002A060 en registry (Wave BBBB).
+    # 0x0002A328 promovido a Sub_0002A328 en registry (Wave BBBB).
+    # 0x0002A34E promovido a Sub_0002A34E en registry (Wave BBBB).
+    # 0x0002A478 promovido a Sub_0002A478 en registry (Wave BBBB).
+    # 0x0002A4EC promovido a Sub_0002A4EC en registry (Wave BBBB).
+    # 0x0002A4F0 promovido a Sub_0002A4F0 en registry (Wave BBBB).
+    # 0x0002A59A promovido a Sub_0002A59A en registry (Wave BBBB).
+    # 0x0002A664 promovido a Sub_0002A664 en registry (Wave BBBB).
+    # 0x0002A690 promovido a Sub_0002A690 en registry (Wave BBBB).
+    # 0x0002A752 promovido a Sub_0002A752 en registry (Wave BBBB).
+    # 0x0002A760 promovido a Sub_0002A760 en registry (Wave BBBB).
+    # 0x0002A766 promovido a Sub_0002A766 en registry (Wave BBBB).
+    # 0x0002A7D8 promovido a Sub_0002A7D8 en registry (Wave BBBB).
+    # 0x0002A824 promovido a Sub_0002A824 en registry (Wave BBBB).
+    # 0x0002A878 promovido a Sub_0002A878 en registry (Wave BBBB).
+    # 0x0002A8C0 promovido a Sub_0002A8C0 en registry (Wave BBBB).
+    # 0x0002A958 promovido a Sub_0002A958 en registry (Wave BBBB).
+    # 0x0002A9A0 promovido a Sub_0002A9A0 en registry (Wave BBBB).
+    # 0x0002AA0E promovido a Sub_0002AA0E en registry (Wave BBBB).
+    # 0x0002AA24 promovido a Sub_0002AA24 en registry (Wave BBBB).
+    # 0x0002AAC0 promovido a Sub_0002AAC0 en registry (Wave BBBB).
+    # 0x0002AAF0 promovido a Sub_0002AAF0 en registry (Wave BBBB).
+    # 0x0002AB3C promovido a Sub_0002AB3C en registry (Wave BBBB).
+    # 0x0002ACB8 promovido a Sub_0002ACB8 en registry (Wave BBBB).
     0x0002B38C: "Sub_0002B38C",  # hueco futuro (ref pc-rel desde esta region)
     0x0002B4D2: "Sub_0002B4D2",  # hueco futuro (ref pc-rel desde esta region)
     0x0002B7DA: "Sub_0002B7DA",  # hueco futuro (ref pc-rel desde esta region)
@@ -1661,4 +1661,15 @@ SYMBOLS = {
     0x0003206E: "SetHandlerRts_03206e",  # rts de SetTaskHandler_032068 (+6)
     0x000320D2: "SetHandlerRts_0320d2",  # rts de SetTaskHandler_0320cc (+6)
     0x000321BA: "SetHandlerRts_0321ba",  # rts de SetTaskHandler_0321b4 (+6)
+    # --- Wave BBBB: RTS internos de islas C
+    0x0002A274: "ClearXNMid_02a274",  # rts de ClearXN_02a270 (+4)
+    0x0002A28C: "SetXNMid_02a28c",  # rts de SetXN_02a288 (+4)
+    0x0002A2F6: "SetXNMid_02a2f6",  # rts de SetXN_02a2f2 (+4)
+    0x0002A662: "JsrAbsRts_02a662",  # rts de JsrAbsThunk_02a65c (+6)
+    0x0002ABB8: "JsrAbsRts_02abb8",  # rts de JsrAbsThunk_02abb2 (+6)
+    0x0002ABEE: "SetXNMid_02abee",  # rts de SetXN_02abea (+4)
+    0x0002AC0C: "SetXNMid_02ac0c",  # rts de SetXN_02ac08 (+4)
+    0x0002ACA0: "ClearXNMid_02aca0",  # rts de ClearXN_02ac9c (+4)
+    # --- Wave BBBB: refs forward a huecos futuros
+    0x0002DCC0: "Sub_0002DCC0",  # hueco futuro (ref pc-rel desde esta region)
 }
