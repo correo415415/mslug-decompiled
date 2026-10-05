@@ -1987,6 +1987,8 @@ Player_CrouchIdleB_0381a2:
         jsr     0x28cd4.l                       | +062
 .L03820a:
         bra.w   Player_CrouchIdle_Setup_0382e2 | +068
+        .global Player_CrouchIdleC_03820e
+Player_CrouchIdleC_03820e:                  | $03820E entrada secundaria (desde $0388xx)
         bclr    #0x2,0x8c(a6)                   | +06c
         bclr    #0x1,0x8c(a6)                   | +072
         bclr    #0x3,0x8c(a6)                   | +078

@@ -417,9 +417,9 @@ SYMBOLS = {
     # 0x00036D64 promovido a Player_Knockback_036d64 en registry (Wave VVV).
     # 0x00037B8E promovido a Player_DeathPit_037b8e en registry (Wave VVV).
     # 0x00037C1A promovido a TaskHandler_037c1a en registry (Wave VVV).
-    0x00038CEE: "TaskHandler_038cee",
-    0x00038E4A: "TaskHandler_038e4a",
-    0x000391AA: "TaskHandler_0391aa",
+    # 0x00038CEE promovido a TaskHandler_038cee en registry (Wave WWW).
+    # 0x00038E4A promovido a TaskHandler_038e4a en registry (Wave WWW).
+    # 0x000391AA promovido a TaskHandler_0391aa en registry (Wave WWW).
     0x0003DC16: "TaskHandler_03dc16",
     0x0003DC2C: "TaskHandler_03dc2c",
     0x0003DC74: "TaskHandler_03dc74",
@@ -878,7 +878,7 @@ SYMBOLS = {
     # 0x000334A2: "PcThunkTarget_0334a2",
     0x00033522: "PcThunkTarget_033522",
     # 0x00036DCA promovido a Player_Knockback_AirCtrl_036dca en registry (Wave VVV).
-    0x00039416: "PcThunkTarget_039416",
+    # 0x00039416 promovido a PcThunkTarget_039416 en registry (Wave WWW).
     0x0003E7A6: "PcThunkTarget_03e7a6",
     0x0003E84C: "PcThunkTarget_03e84c",
     0x0003EE48: "JmpTarget_03ee48",
@@ -1081,7 +1081,7 @@ SYMBOLS = {
     0x000517AA: "Sub_000517AA",  # jsr desde PlayerEntity_InitAuxState_032A02
     0x00032AA8: "Sub_00032AA8",             # post-init hook 3 (pc-rel)
     #      Callees abs.l del spawn constructor:
-    0x000394A8: "TaskTpl_0394A8",           # task template para player spawn
+    # 0x000394A8 promovido a TaskTpl_0394A8 en registry (Wave WWW).
     0x00027BC8: "Sub_00027BC8",
 
     # ---- Wave NN batch 3: externals de helpers del cluster player +
@@ -1566,8 +1566,8 @@ SYMBOLS = {
     # 0x00037C74 promovido a Player_CrouchEnter_037c74 en registry (Wave VVV).
     # 0x0003827A promovido a Player_CrouchIdle_03827a en registry (Wave VVV).
     # 0x0003873C promovido a Player_CrouchShoot_03873c en registry (Wave VVV).
-    0x00038BE4: "Sub_00038BE4",  # hueco futuro (ref pc-rel desde esta region)
-    0x00038CF6: "Sub_00038CF6",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00038BE4 promovido a Sub_00038BE4 en registry (Wave WWW).
+    # 0x00038CF6 promovido a Sub_00038CF6 en registry (Wave WWW).
     # --- Wave UUU: refs forward a huecos futuros
     0x00032638: "Sub_00032638",  # hueco futuro (ref pc-rel desde esta region)
     0x00032788: "Sub_00032788",  # hueco futuro (ref pc-rel desde esta region)
@@ -1582,10 +1582,12 @@ SYMBOLS = {
     0x00032830: "Sub_00032830",  # hueco futuro (ref pc-rel desde esta region)
     0x00032884: "Sub_00032884",  # hueco futuro (ref pc-rel desde esta region)
     0x0003292C: "Sub_0003292C",  # hueco futuro (ref pc-rel desde esta region)
-    0x000388F0: "Sub_000388F0",  # hueco futuro (ref pc-rel desde esta region)
-    0x00038A28: "Sub_00038A28",  # hueco futuro (ref pc-rel desde esta region)
-    0x00038AE6: "Sub_00038AE6",  # hueco futuro (ref pc-rel desde esta region)
-    0x00039148: "Sub_00039148",  # hueco futuro (ref pc-rel desde esta region)
-    0x000391EE: "Sub_000391EE",  # hueco futuro (ref pc-rel desde esta region)
-    0x00039214: "Sub_00039214",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x000388F0 promovido a Sub_000388F0 en registry (Wave WWW).
+    # 0x00038A28 promovido a Sub_00038A28 en registry (Wave WWW).
+    # 0x00038AE6 promovido a Sub_00038AE6 en registry (Wave WWW).
+    # 0x00039148 promovido a Sub_00039148 en registry (Wave WWW).
+    # 0x000391EE promovido a Sub_000391EE en registry (Wave WWW).
+    # 0x00039214 promovido a Sub_00039214 en registry (Wave WWW).
+    # --- Wave WWW: refs forward a huecos futuros
+    0x000327DC: "Sub_000327DC",  # hueco futuro (ref pc-rel desde esta region)
 }

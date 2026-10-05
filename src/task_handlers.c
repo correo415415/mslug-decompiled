@@ -641,36 +641,6 @@ void SetTaskHandler_0342bc(void) {
     STORE_A1_AT_FP();
 }
 
-__attribute__((section(".text.SetTaskHandler_038c68")))
-void SetTaskHandler_038c68(void) {
-    _a1_ptr = &TaskHandler_038cee;
-    STORE_A1_AT_FP();
-}
-
-__attribute__((section(".text.SetTaskHandler_038ce6")))
-void SetTaskHandler_038ce6(void) {
-    _a1_ptr = &TaskHandler_038cee;
-    STORE_A1_AT_FP();
-}
-
-__attribute__((section(".text.SetTaskHandler_038d80")))
-void SetTaskHandler_038d80(void) {
-    _a1_ptr = &TaskHandler_038e4a;
-    STORE_A1_AT_FP();
-}
-
-__attribute__((section(".text.SetTaskHandler_038e08")))
-void SetTaskHandler_038e08(void) {
-    _a1_ptr = &TaskHandler_038e4a;
-    STORE_A1_AT_FP();
-}
-
-__attribute__((section(".text.SetTaskHandler_0391a2")))
-void SetTaskHandler_0391a2(void) {
-    _a1_ptr = &TaskHandler_0391aa;
-    STORE_A1_AT_FP();
-}
-
 __attribute__((section(".text.SetTaskHandler_03dc0e")))
 void SetTaskHandler_03dc0e(void) {
     _a1_ptr = &TaskHandler_03dc16;

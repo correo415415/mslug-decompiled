@@ -46,20 +46,6 @@ void JmpAbsThunk_033346(void) {
     __builtin_unreachable();
 }
 
-__attribute__((section(".text.JmpAbsThunk_0393ce"), noreturn))
-void JmpAbsThunk_0393ce(void) {
-    extern void JmpTarget_05cf04(void);
-    __asm__ volatile("jmp JmpTarget_05cf04" ::: "memory");
-    __builtin_unreachable();
-}
-
-__attribute__((section(".text.JmpAbsThunk_039410"), noreturn))
-void JmpAbsThunk_039410(void) {
-    extern void JmpTarget_05cef8(void);
-    __asm__ volatile("jmp JmpTarget_05cef8" ::: "memory");
-    __builtin_unreachable();
-}
-
 __attribute__((section(".text.JmpAbsThunk_044df2"), noreturn))
 void JmpAbsThunk_044df2(void) {
     extern void FUN_00000518(void);
