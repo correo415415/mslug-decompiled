@@ -1,11 +1,115 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave BBBB — helpers del vehículo SV-001: tablas, init, sondas, física, input
 |  Región: $0295A6..$02AE3E  (5,846 B, 113 entradas, 51 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 5,846 B: primera mitad del módulo del vehículo SV-001 (slot
+|  $100580). Tablas estáticas del Slug + helpers compartidos por todos los
+|  estados de slug_vehicle_02ddxx.s (Wave ZZZ):
+|
+|   1. Tablas ($295B4..$2A0F8, sólo datos): Slug_HitboxIdle/IdleB/Destroyed
+|      (+$60; $295B4/$2964C los instalan Slug_Init y Slug_Destroyed),
+|      Slug_HitboxA..D y Slug_HitboxCb/B/C (+$48 callbacks de colisión),
+|      Slug_AttackTbl00..10 (17 tablas de ataque de 84 B, registros `02 00
+|      00 24 36 xx ff ff` + offsets) indexadas por Slug_AttackPtrTbl_02a024
+|      (15 punteros, índice = índice de anim <<2, usado por Slug_Hunker,
+|      Slug_IdleAngled... para +$48) y Slug_StateByAnglePtrTbl_02a060 (38
+|      punteros: -1, Sub_0002D67C/D63E, -1, Sub_0002D802/D736, 5x
+|      Slug_Drive_02e6c2, 5x Slug_DriveB_02e7fa, -1, Sub_0002B38C...; el
+|      despachador por ángulo de los estados Drive).
+|   2. Inicialización: Slug_Init_02a0f8 (snd d1 + $1, anim +$1C = $1E,
+|      $138FE, +$38 = $800C, hitbox $295B4, $8F6D2, HP +$66 = $30,
+|      Slug_ResetDamageIdx, +$90 = $A (gauge), crea $7773E y la cadena
+|      Entity_Build3ChainCircular_03060A, +$98 = $10000) y Slug_InitBoss
+|      _02a1aa (misma secuencia con +$1C = 3; ref mission_spawn_boss
+|      $449D4). Slug_SpawnAtBossArena_02add6 coloca el Slug en ($40,$171)
+|      con sprite $2792B0 y llama a InitBoss.
+|   3. Consultas desde fuera del módulo (lea $100580): Slug_MarkRidden
+|      ($106F4B = $FF; ref $3E3FE), Slug_IsIdleFlagClear ($106ED3; ref
+|      $365EA), Slug_TestBit5/Bit4/Bit1Field8D (refs $26912, $265D2,
+|      $36544..), Slug_AddGaugeFromField98 (ref $9ACF2), Slug_GetGauge (ref
+|      $2663C), Slug_AddHP_02a2ba (tope $30, música $1083; ref $9ADDE =
+|      item de reparación), Slug_StopMusic108F/1092 (refs $1A3A0E..),
+|      Slug_MusicByTerrainA/B ($27EBA & $C0 -> $1090/$1052 ó $1091/$1051;
+|      refs $1A2886..), Slug_DestroyedMusicAndBubble ($10E9 +
+|      PlayerIcon_Bubble_03207c; refs $1A4C22..), Slug_IsRiddenByPlayer
+|      _02ac0e (a0 = $100440/$1004E0 vs +$6D; refs $26162, $3D94C),
+|      Slug_IsAlive_02acfc ((a6) no es -1/$52A/$400/$2AE3E),
+|      Slug_GetRiderAndField98_02ad36 (refs $3E304/$3EB12),
+|      Slug_SpawnRiderMarker_02ad70 (crea $28DD3C en ($30|$B8,$174) según
+|      +$85; ref $3E324).
+|   4. Sondas de terreno: Slug_CallGroundProbeA/B/C_02a328/34e/374
+|      despachan por +$94 (índice de anim) en Slug_GroundProbeTblA/B/C
+|      (5 punteros a $5CF04/$5CF10/$2A39A); Slug_ProbeFrontThenGround/A/B
+|      y Slug_ProbeLeft/RightWall(B) ($5CF2C/$5CF3C/$5CF4C/$5CF5C/$5D140/
+|      $5D14C); Slug_UpdateAirFlag_02a478 ($5CF1C -> +$12 bit4);
+|      Slug_TerrainIsSlope/UpdateAngleIsSlope/SetAngleIsSlope (ángulo +$80
+|      -> Slug_SlopeByAngleTblA/B, 64 bytes 0/1); Slug_CheckFreeThenC.
+|   5. Física: Slug_PhysicsA..G y Slug_PhysicsAir_02a878 (combinaciones de
+|      $28992, $304C4, Chain3_PickLink_030704, $281B0, $2788C, $27A18,
+|      Chain3_LinksYDeltaIsStep_03076a, +$82 += $10 si +$5A bit5);
+|      Slug_GroundContact_02a8c0 (si +$6B bit6 -> $27EBA; si no $27EC2 y
+|      cuenta eslabones +$84 de los tres hijos +$74/+$78/+$7C, +$24 &=
+|      $1FF); Slug_TerrainSlope_02a958 (pendiente entre los eslabones
+|      +$74/+$78: d1 = dx*dy, d2 = dy limitado a ±$40 -> ángulo +$80);
+|      Slug_SlopeToAnimIdx_02a9a0 (umbrales ±$384/±$5A -> 0..4 ó por +$64
+|      = ±$400/±$1000); Slug_UpdateAnimAndChassis_02aa24 ($283CA, +$85 =
+|      +$68, Slug_UpdateDamageSprite, +$94 = anim idx, +$24 interpolado
+|      entre los eslabones); Slug_UpdateAnimKeepIdx.
+|   6. Daño/estado: Slug_TryStartDestroyed(B)_02a664/02a690 (si +$8D bit5 y
+|      $106E92 == 0 -> Sub_0002DCC0 y +$13 bit0/bit3), Slug_DamageTick
+|      _02a6be ($8F6DA, debug $100001 bit3/bit5 -> HP $300, $2870A ->
+|      música $1089), Slug_ResetHP ($30), Slug_UpdateInputFlags_02a720
+|      ($5CEEC/$5CEF8 -> +$13 bit4/bit5), Slug_TurnTimer* (+$84 hasta $14),
+|      Slug_GaugeTick (+$90--), Slug_CanFire_02aac0 (+$90 != 0, +$8F < 2,
+|      +$8E == 0), Slug_InputDirByLayoutA/B y Slug_InputFireByLayout_02ab86
+|      (eligen $5CDB4/$5CEEC/$5CDA8/$5CDC0 según $106F2A = 0/4; luego
+|      $5D5B6 + 1), Slug_ConsumeField89/SetField89, Slug_CheckPlayersNear
+|      ($3EECC/$3EF14 + $32D6C), Slug_CopyField68, Slug_TestField100609(B).
+|
+|  B. EVIDENCIAS
+|  -------------
+|   - Todos los `lea $100580` del juego fuera del módulo pasan por aquí.
+|   - Slug_AttackPtrTbl: las 15 entradas apuntan a Slug_AttackTbl00..10;
+|     Slug_Hunker hace `lea $2A024,a1; movea.l (a1,d0.w),a0; move.l
+|     a0,$48(a6)` con d0 = índice de anim << 2.
+|   - Slug_StateByAnglePtrTbl: 10 de sus punteros son Slug_Drive/DriveB
+|     (Wave ZZZ); los estados Drive lo usan tras Slug_TryStartDestroyedB.
+|   - HP +$66 = $30 en Init/ResetHP y tope en AddHP; debug bit5 lo pone a
+|     $300 (invulnerable de facto).
+|
+|  C. CAMPOS (a6 = Slug)
+|  ---------------------
+|   +$12 bit4 aire, +$13 bits 0/3/4/5 (destruido/.../input), +$1C anim,
+|   +$24 Y, +$38 prio, +$48 cb colisión, +$4C tabla ataque, +$5A/+$5B bits,
+|   +$60 hitbox, +$64 ángulo forzado, +$66 HP, +$68/+$85, +$6B bit6,
+|   +$6D jugador montado (1/2), +$74/+$78/+$7C eslabones Chain3, +$80
+|   ángulo, +$82 Y de suelo, +$84 temporizador de giro, +$89, +$8C/+$8D
+|   bits, +$8E, +$8F, +$90 gauge, +$94 índice de anim, +$98 long.
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|   $4AE alloc, $236E snd, $2352 music, $138FE, $27A18, $27EBA/$27EC2
+|   terreno, $2788C, $281B0, $2870A, $28992, $283CA ataque, $28CD4 sprite,
+|   $28D70 anim, $5CDA8/$5CDB4/$5CDC0/$5CEEC/$5CEF8/$5CF04..$5CF9C sondas
+|   e input, $5D140/$5D14C, $5D5B6, $5DD02, $5E98A, $8F6D2/$8F6DA.
+|
+|  E. HIPÓTESIS ABIERTAS
+|  ---------------------
+|   - "Gauge" (+$90, inicial $A) podría ser munición del cañón o el
+|     contador de vulcan; se decrementa en GaugeTick y gatea CanFire.
+|   - Los Physics A..G son variantes casi idénticas por estado; nombres
+|     provisionales hasta mapear qué estado llama a cuál.
+|   - Slug_HitboxA..D / HitboxCb*: formato igual que las tablas de ataque;
+|     podrían ser tablas de ataque del cañón en vez de hitboxes.
+|
+|  F. SIGUIENTE
+|  ------------
+|   `$02AE3E..$02DD20` (estados del Slug, 1a mitad: Sub_0002B38C, D63E,
+|   D67C, D736, D802, DCC0...), después `$05AA96..$05CA2A`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
