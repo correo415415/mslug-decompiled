@@ -27,7 +27,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   Bubble/FreeFallP1/P2`), the remaining `Chain3_*` helpers and the static
   player tables (`Player_Hitbox*`, `Player_Vel*Tbl`, `Player_GroundTbl*`,
   `Player_WeaponAmmoTbl` 999/999/999/999/150).
-  Matcher: 5,019/5,019, 261,586 B (12.47 %); real code coverage 64.3 %.
+  Matcher: 5,019/5,019, 261,586 B (12.47 %); real code coverage 43.1 %.
 - Wave ZZZ — 63 entries (10,258 B): `$02DD20..$030602`
   (`slug_vehicle_02ddxx.s`, 7 CCR C islands absorbed, 4 data blocks): the
   SV-001 Metal Slug vehicle state machine `Slug_*` (IdleEnter/Idle/

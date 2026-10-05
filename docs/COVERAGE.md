@@ -18,7 +18,7 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 | Metrica | Cifra (post-VVV) | Que mide realmente |
 |---|---:|---|
 | **`ROM total`** (`match_batch.py`) | **12.47 %**  (261,586 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **64.3 %**  (7,106 / 11,056 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`Codigo real`** (mapa curado) | **43.1 %**  (217,778 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
