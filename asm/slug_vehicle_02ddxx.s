@@ -2787,6 +2787,8 @@ Slug_UpdateDamageSprite_02fae4:
 .L02faf6:
         andi.b  #0xee,ccr                       | +012
         rts                                     | +016
+        .global Slug_UpdateDamageSprite_02fae4__L02fafc
+Slug_UpdateDamageSprite_02fae4__L02fafc:
         lea     Slug_DamageSpriteTblB_02f8ae(pc),a1 | +018
         bra.w   .L02fb0c                        | +01c
         .global Slug_UpdateDamageSprite_02fae4__L02fb04
@@ -2841,6 +2843,8 @@ Slug_UpdateDamageSprite_02fae4__L02fb04:
 Slug_WheelAnim_02fb92:
         ori.b   #0x18,(a6)                      | +000
         ori.b   #0x1c,(a2)+                     | +004
+        .global Slug_WheelAnim_02fb92__L02fb9a
+Slug_WheelAnim_02fb92__L02fb9a:
         clr.w   0x70(a6)                        | +008
         move.w  #0x196,d1                       | +00c
         jsr     0x236e.l                        | +010

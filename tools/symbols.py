@@ -404,10 +404,10 @@ SYMBOLS = {
     0x00025B34: "TaskHandler_025b34",
     0x00025D5C: "TaskHandler_025d5c",
     0x00025D64: "TaskHandler_025d64",
-    0x0002B05E: "TaskHandler_02b05e",
-    0x0002B264: "TaskHandler_02b264",
-    0x0002D02E: "TaskHandler_02d02e",
-    0x0002DA38: "TaskHandler_02da38",
+    # 0x0002B05E promovido a TaskHandler_02b05e en registry (Wave CCCC).
+    # 0x0002B264 promovido a TaskHandler_02b264 en registry (Wave CCCC).
+    # 0x0002D02E promovido a TaskHandler_02d02e en registry (Wave CCCC).
+    # 0x0002DA38 promovido a TaskHandler_02da38 en registry (Wave CCCC).
     0x0002FF86: "TaskHandler_02ff86",
     0x00030BF6: "TaskHandler_030bf6",
     0x00030D74: "TaskHandler_030d74",
@@ -1631,21 +1631,21 @@ SYMBOLS = {
     # 0x0002AAF0 promovido a Slug_InputDirByLayoutA_02aaf0 en registry (Wave BBBB).
     # 0x0002AB3C promovido a Slug_InputDirByLayoutB_02ab3c en registry (Wave BBBB).
     # 0x0002ACB8 promovido a Slug_CheckPlayersNear_02acb8 en registry (Wave BBBB).
-    0x0002B38C: "Sub_0002B38C",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002B4D2: "Sub_0002B4D2",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002B7DA: "Sub_0002B7DA",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002B8CE: "Sub_0002B8CE",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002BA34: "Sub_0002BA34",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002BB9A: "Sub_0002BB9A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002BBA4: "Sub_0002BBA4",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002BBF2: "Sub_0002BBF2",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002BF64: "Sub_0002BF64",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002C07A: "Sub_0002C07A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002C24A: "Sub_0002C24A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002C95C: "Sub_0002C95C",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002CFFA: "Sub_0002CFFA",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002DC5C: "Sub_0002DC5C",  # hueco futuro (ref pc-rel desde esta region)
-    0x0002DCBC: "Sub_0002DCBC",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0002B38C promovido a Sub_0002B38C en registry (Wave CCCC).
+    # 0x0002B4D2 promovido a Sub_0002B4D2 en registry (Wave CCCC).
+    # 0x0002B7DA promovido a Sub_0002B7DA en registry (Wave CCCC).
+    # 0x0002B8CE promovido a Sub_0002B8CE en registry (Wave CCCC).
+    # 0x0002BA34 promovido a Sub_0002BA34 en registry (Wave CCCC).
+    # 0x0002BB9A promovido a Sub_0002BB9A en registry (Wave CCCC).
+    # 0x0002BBA4 promovido a Sub_0002BBA4 en registry (Wave CCCC).
+    # 0x0002BBF2 promovido a Sub_0002BBF2 en registry (Wave CCCC).
+    # 0x0002BF64 promovido a Sub_0002BF64 en registry (Wave CCCC).
+    # 0x0002C07A promovido a Sub_0002C07A en registry (Wave CCCC).
+    # 0x0002C24A promovido a Sub_0002C24A en registry (Wave CCCC).
+    # 0x0002C95C promovido a Sub_0002C95C en registry (Wave CCCC).
+    # 0x0002CFFA promovido a Sub_0002CFFA en registry (Wave CCCC).
+    # 0x0002DC5C promovido a Sub_0002DC5C en registry (Wave CCCC).
+    # 0x0002DCBC promovido a Sub_0002DCBC en registry (Wave CCCC).
     # --- Wave AAAA: RTS internos de islas C
     0x00030BB4: "SetHandlerRts_030bb4",  # rts de SetTaskHandler_030bae (+6)
     0x00030D02: "SetHandlerRts_030d02",  # rts de SetTaskHandler_030cfc (+6)
@@ -1671,5 +1671,8 @@ SYMBOLS = {
     0x0002AC0C: "SetXNMid_02ac0c",  # rts de SetXN_02ac08 (+4)
     0x0002ACA0: "ClearXNMid_02aca0",  # rts de ClearXN_02ac9c (+4)
     # --- Wave BBBB: refs forward a huecos futuros
-    0x0002DCC0: "Sub_0002DCC0",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0002DCC0 promovido a Sub_0002DCC0 en registry (Wave CCCC).
+    # --- Wave CCCC: RTS internos de islas C
+    0x0002B262: "SetHandlerRts_02b262",  # rts de SetTaskHandler_02b25c (+6)
+    0x0002D734: "SetHandlerRts_02d734",  # rts de SetTaskHandler_02d72e (+6)
 }

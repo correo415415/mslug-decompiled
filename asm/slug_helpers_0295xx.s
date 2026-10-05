@@ -263,6 +263,8 @@ Slug_HitboxDestroyed_02964c:
         .dc.w   0x000a                        | +046  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +048  (dato / opcode no decodificado)
         .dc.w   0x1d01                        | +04a  (dato / opcode no decodificado)
+        .global Slug_HitboxDestroyed_02964c__L029698
+Slug_HitboxDestroyed_02964c__L029698:
         .dc.w   0x0304                        | +04c  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +04e  (dato / opcode no decodificado)
         .dc.w   0x0204                        | +050  (dato / opcode no decodificado)
@@ -345,6 +347,8 @@ Slug_HitboxDestroyed_02964c:
         .dc.w   0x1d00                        | +0ea  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0ec  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0ee  (dato / opcode no decodificado)
+        .global Slug_HitboxDestroyed_02964c__L02973c
+Slug_HitboxDestroyed_02964c__L02973c:
         .dc.w   0x031c                        | +0f0  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +0f2  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +0f4  (dato / opcode no decodificado)
@@ -1633,6 +1637,8 @@ Slug_AttackTbl10_029fa8:
         .dc.w   0x1d01                        | +04e  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +050  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
+        .global Slug_AttackTbl10_029fa8__L029ffc
+Slug_AttackTbl10_029fa8__L029ffc:
         .dc.w   0x0002                        | +054  (dato / opcode no decodificado)
         .dc.w   0x9a14                        | +056  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +058  (dato / opcode no decodificado)
@@ -1670,6 +1676,8 @@ Slug_AttackPtrTbl_02a024:
         .dc.w   0x9db0                        | +00e  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +010  (dato / opcode no decodificado)
         .dc.w   0x9f00                        | +012  (dato / opcode no decodificado)
+        .global Slug_AttackPtrTbl_02a024__L02a038
+Slug_AttackPtrTbl_02a024__L02a038:
         .dc.w   0x0002                        | +014  (dato / opcode no decodificado)
         .dc.w   0x9abc                        | +016  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +018  (dato / opcode no decodificado)
@@ -1680,6 +1688,8 @@ Slug_AttackPtrTbl_02a024:
         .dc.w   0x9e04                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +024  (dato / opcode no decodificado)
         .dc.w   0x9f54                        | +026  (dato / opcode no decodificado)
+        .global Slug_AttackPtrTbl_02a024__L02a04c
+Slug_AttackPtrTbl_02a024__L02a04c:
         .dc.w   0x0002                        | +028  (dato / opcode no decodificado)
         .dc.w   0x9b10                        | +02a  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +02c  (dato / opcode no decodificado)
@@ -1703,12 +1713,16 @@ Slug_StateByAnglePtrTbl_02a060:
         .dc.w   0xd67c                        | +006  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +008  (dato / opcode no decodificado)
         .dc.w   0xd63e                        | +00a  (dato / opcode no decodificado)
+        .global Slug_StateByAnglePtrTbl_02a060__L02a06c
+Slug_StateByAnglePtrTbl_02a060__L02a06c:
         .dc.w   0xffff                        | +00c  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +00e  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +010  (dato / opcode no decodificado)
         .dc.w   0xd802                        | +012  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +014  (dato / opcode no decodificado)
         .dc.w   0xd736                        | +016  (dato / opcode no decodificado)
+        .global Slug_StateByAnglePtrTbl_02a060__L02a078
+Slug_StateByAnglePtrTbl_02a060__L02a078:
         .dc.w   0x0002                        | +018  (dato / opcode no decodificado)
         .dc.w   0xe6c2                        | +01a  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +01c  (dato / opcode no decodificado)
@@ -1719,6 +1733,8 @@ Slug_StateByAnglePtrTbl_02a060:
         .dc.w   0xe6c2                        | +026  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +028  (dato / opcode no decodificado)
         .dc.w   0xe6c2                        | +02a  (dato / opcode no decodificado)
+        .global Slug_StateByAnglePtrTbl_02a060__L02a08c
+Slug_StateByAnglePtrTbl_02a060__L02a08c:
         .dc.w   0x0002                        | +02c  (dato / opcode no decodificado)
         .dc.w   0xe7fa                        | +02e  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +030  (dato / opcode no decodificado)
