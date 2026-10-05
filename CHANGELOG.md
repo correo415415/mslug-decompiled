@@ -17,6 +17,18 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave CCCC — 70 entries (11,812 B): `$02AE3E..$02DD20`
+  (`slug_states_02aexx.s`, 7 data blocks: two 5-pointer drop-variant
+  tables `$2AE90/$2AEE4`, music tables `$2B8CE/$2BA34/$2BB9A`, air-steer
+  table `$2C900`, input-dir table `$2C9B0`): first half of the SV-001
+  state machine — parachute spawn (`Slug_SpawnDrop`, `Slug_DropVariant0..4`
+  creating `Turret_InitDir0..4`, `Slug_DropDescend`), idle on flat/slope,
+  `Slug_AccelRightB/LeftB`, `Slug_BrakeRight/Left`, `Slug_CruiseRightB/LeftB`,
+  cannon fire (`Slug_Fire*`), jump (`Slug_Jump*`), fall (`Slug_Fall*`),
+  hit reaction (`Slug_Hit*`) and death (`Slug_Death*`, `Slug_DestroyedSlide*`).
+  The whole Slug module `$0295A6..$030602` is now covered. 10 interior labels
+  of `slug_helpers`/`slug_vehicle` promoted to globals.
+  Matcher: 5,202/5,202, 279,244 B (13.32 %); real code coverage 46.6 %.
 - Wave BBBB — 113 entries (5,846 B): `$0295A6..$02AE3E`
   (`slug_helpers_0295xx.s`, 29 hitbox/anim tables `$295B4..$2A0F8`, pointer
   tables `$2A024/$2A060`): the SV-001 helpers — `Slug_Init_02a0f8` /

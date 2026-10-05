@@ -11,11 +11,37 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5132/5132 funciones
-BYTES   : 267,432/267,432 (registrados)
-ROM     : 267,432/2,097,152  (12.7522%)
+MATCHED : 5202/5202 funciones
+BYTES   : 279,244/279,244 (registrados)
+ROM     : 279,244/2,097,152  (13.3154%)
 ```
 
+> **Wave CCCC** (70 entradas, 11 812 B, verde a la tercera: dos tablas
+> de 5 punteros `$2AE90/$2AEE4` + 8 B `$2C900` delante de código) —
+> `$02AE3E..$02DD20` en `slug_states_02aexx.s` (7 bloques de datos).
+> Vigésima wave de `gen_asm_region.py`. Nombres y args en
+> `docs/waves/cccc_*.txt`. **Cierra el módulo del Slug `$0295A6..$030602`.**
+>
+> * **Spawn en paracaídas**: `Slug_SpawnDrop_02ae50` (template creado por
+>   los scripts de intro `$8BD8E..$8C088` con +$98 = variante) ->
+>   `Slug_DropVariant0..4` (Slug_Init + torreta `Turret_InitDir0..4` +
+>   `PlayerIcon_Pow`) -> `Slug_DropDescend_02b05e` -> `Slug_IdleEnterA`.
+>   `Slug_DeadHandler_02ae3e` = centinela que compara `Slug_IsAlive`.
+> * **Parado / movimiento**: `Slug_IdleFlat_02b38c`, `Slug_IdleSlope_02b4d2`,
+>   `Slug_SlopeIdleEnter/SlopeMount`, `Slug_AccelRightB/LeftB` (música
+>   `$10AF/$10B0` por tabla), `Slug_BrakeRight/Left`, `Slug_CruiseRightB/LeftB`.
+> * **Cañón**: `Slug_FireIdle/FireFlat/FireRecoil/FireMoveRight/Left/
+>   FireSlope`, `Slug_FireAir*` (PlayerSlot_TestMaskCur d1=4 ->
+>   `VehicleLaunch_Init` + humo `SlugFx_*`; cadencia +$8E = $1E).
+> * **Salto / caída**: `Slug_JumpCrouch -> JumpLaunch (-$4A4) -> JumpAir
+>   (tabla `Slug_AirSteerAccelTbl_02c900`) -> JumpLand/JumpLandSlope`;
+>   `Slug_FallStart/Fall/Fall_Loop/FallFire`.
+> * **Impacto / muerte**: `Slug_HitReact`, `Slug_HitLaunchA/B`,
+>   `Slug_HitLandA/B` (entradas 1/2/4/5 de `Slug_StateByAnglePtrTbl`);
+>   `Slug_DeathStart -> DeathExplode -> DeathFade` (handler final `$400`),
+>   `Slug_DeathLaunch`, `Slug_DestroyedSlide*` (música `$10E9/$10B2`).
+> * Cabecera A-F documentada. Siguiente: `$05AA96..$05CA2A`.
+>
 > **Wave BBBB** (113 entradas, 5 846 B, verde a la primera) —
 > `$0295A6..$02AE3E` en `slug_helpers_0295xx.s` (29 tablas de hitbox/anim
 > `$295B4..$2A0F8`, tablas de punteros `$2A024`/`$2A060`, 5 bloques

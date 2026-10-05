@@ -17,8 +17,8 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 | Metrica | Cifra (post-VVV) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **12.75 %**  (267,432 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **44.2 %**  (223,624 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **13.32 %**  (279,244 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **46.6 %**  (235,436 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -43,7 +43,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Tablas de sprites/slots (pares {id,tile}, LUTs 16x16) | `$002F30..$0133B0` | DATA | 66,688 B | 0 B | 0.0 % |
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
-| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 107,994 B | 46.2 % |
+| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 119,806 B | 51.2 % |
 | Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 25,222 B | 16.6 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 223,624 B | 44.2 % |
+| CODE | 505,608 B | 235,436 B | 46.6 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 1272 huecos, 281,984 B
+Huecos pendientes en zonas CODE: 1247 huecos, 270,172 B
 
 ### Notas por zona
 
@@ -106,10 +106,13 @@ Huecos pendientes en zonas CODE: 1272 huecos, 281,984 B
   `PlayerIcon_*`, tablas estaticas `Player_Hitbox*`/`Player_*Tbl`), Wave BBBB
   (`slug_helpers_0295xx.s`, `$0295A6..$02AE3E`: `Slug_Init/InitBoss`,
   hitboxes, 17 tablas de ataque, `Slug_StateByAnglePtrTbl`, sondas de
-  terreno, fisica, input por layout, HP/gauge), squads/charger `$040EF2..$0434C2`,
+  terreno, fisica, input por layout, HP/gauge), Wave CCCC
+  (`slug_states_02aexx.s`, `$02AE3E..$02DD20`: spawn en paracaidas
+  `Slug_SpawnDrop/DropVariant0..4`, `Slug_IdleFlat/IdleSlope`, `Slug_Fire*`,
+  `Slug_Jump*`, `Slug_Fall*`, `Slug_Hit*`, `Slug_Death*`), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
-  `$02AE3E..$02DD20` (estados del Slug 1a mitad), `$0478FC..$048A3C`, `$04AC3A..$04BB8E`,
+  `$0478FC..$048A3C`, `$04AC3A..$04BB8E`,
   `$0527BA..$0539E2`, `$053F96..$0550BE`, `$057D04..$059342`,
   `$05AA96..$05CA2A` (8 KB).
 - **`$05E000..$083000` (CODE, 152 KB)**: input mask dispatchers
@@ -163,13 +166,15 @@ Huecos pendientes en zonas CODE: 1272 huecos, 281,984 B
   **disparo por arma, casquillos** (Wave YYY); **vehiculo SV-001: estados,
   dano, destruccion, Chain3** (Wave ZZZ); **granada, proyectiles, caida del
   vehiculo, fx, iconos y tablas del player** (Wave AAAA); **helpers del
-  SV-001: init, hitboxes, tablas de ataque, sondas, HP** (Wave BBBB).
+  SV-001: init, hitboxes, tablas de ataque, sondas, HP** (Wave BBBB);
+  **estados del SV-001 1a mitad: paracaidas, pendiente, disparo, salto,
+  caida, impacto, muerte** (Wave CCCC). El modulo del Slug
+  `$0295A6..$030602` esta completo.
 
 ### Cosas que faltan (por tamano de codigo pendiente)
 
-1. **Estados del Slug (1a mitad)** — `$02AE3E..$02DD20` (~12 KB):
-   callbacks del player core, pistola/HMG/shotgun/bazooka, SV-001. La tabla de 68 estados `$3338A` (Wave TTT) y
-   los targets `$376xx..$37B00` son la puerta de entrada.
+1. **Dispatcher `$05AA96..$05CA2A`** (8 KB) y los runtime tardios de
+   `$05E000..$083000` (input, debug, blits, VRAM).
 2. **Proyectiles y efectos** —
    `$060000..$083000` (~100 KB, muchas islas C ya cerradas).
 3. **Dispatchers grandes** — `$0478FC`, `$04AC3A`, `$0527BA`, `$053F96`,
