@@ -215,7 +215,7 @@ Slug_Idle_02de18:
 .L02de60:
         jsr     Slug_TryStartDestroyed_02a664(pc)                | +048
         bcc.w   .L02de6e                        | +04c
-        lea     TaskHandler_02da38(pc),a1       | +050
+        lea     Slug_DeathExplode_02da38(pc),a1       | +050
         move.l  a1,(a6)                         | +054
 .L02de6e:
         cmpi.b  #0x0,0x106f4a.l                 | +056
@@ -224,7 +224,7 @@ Slug_Idle_02de18:
         lea     0x27964e.l,a0                   | +068
         jsr     0x5dd56.l                       | +06e
         bcc.w   .L02de94                        | +074
-        jmp     Sub_0002DCBC(pc)                | +078
+        jmp     Slug_DeathFinishJmp_02dcbc(pc)                | +078
 .L02de94:
         bra.w   .L02deb2                        | +07c
 .L02de98:
@@ -232,7 +232,7 @@ Slug_Idle_02de18:
         lea     0x27965a.l,a0                   | +086
         jsr     0x5dd56.l                       | +08c
         bcc.w   .L02deb2                        | +092
-        jmp     Sub_0002DCBC(pc)                | +096
+        jmp     Slug_DeathFinishJmp_02dcbc(pc)                | +096
 .L02deb2:
         rts                                     | +09a
 
@@ -337,7 +337,7 @@ Slug_IdleAngled_02deb4:
 .L02dff6:
         jsr     Slug_TryStartDestroyed_02a664(pc)                | +142
         bcc.w   .L02e004                        | +146
-        lea     TaskHandler_02da38(pc),a1       | +14a
+        lea     Slug_DeathExplode_02da38(pc),a1       | +14a
         move.l  a1,(a6)                         | +14e
 .L02e004:
         cmpi.b  #0x0,0x106f4a.l                 | +150
@@ -346,7 +346,7 @@ Slug_IdleAngled_02deb4:
         lea     0x27964e.l,a0                   | +162
         jsr     0x5dd56.l                       | +168
         bcc.w   .L02e02a                        | +16e
-        jmp     Sub_0002DCBC(pc)                | +172
+        jmp     Slug_DeathFinishJmp_02dcbc(pc)                | +172
 .L02e02a:
         bra.w   .L02e048                        | +176
 .L02e02e:
@@ -354,7 +354,7 @@ Slug_IdleAngled_02deb4:
         lea     0x27965a.l,a0                   | +180
         jsr     0x5dd56.l                       | +186
         bcc.w   .L02e048                        | +18c
-        jmp     Sub_0002DCBC(pc)                | +190
+        jmp     Slug_DeathFinishJmp_02dcbc(pc)                | +190
 .L02e048:
         rts                                     | +194
 
@@ -485,7 +485,7 @@ Slug_Jump_02e092__L02e12c:
         bne.w   .L02e1fe                        | +15a
         jsr     Slug_TryStartDestroyed_02a664(pc)                | +15e
         bcc.w   .L02e1fe                        | +162
-        lea     TaskHandler_02da38(pc),a1       | +166
+        lea     Slug_DeathExplode_02da38(pc),a1       | +166
         move.l  a1,(a6)                         | +16a
 .L02e1fe:
         cmpi.b  #0x0,0x106f4a.l                 | +16c
@@ -494,7 +494,7 @@ Slug_Jump_02e092__L02e12c:
         lea     0x27964e.l,a0                   | +17e
         jsr     0x5dd56.l                       | +184
         bcc.w   .L02e224                        | +18a
-        jmp     Sub_0002DCBC(pc)                | +18e
+        jmp     Slug_DeathFinishJmp_02dcbc(pc)                | +18e
 .L02e224:
         bra.w   .L02e242                        | +192
 .L02e228:
@@ -502,7 +502,7 @@ Slug_Jump_02e092__L02e12c:
         lea     0x27965a.l,a0                   | +19c
         jsr     0x5dd56.l                       | +1a2
         bcc.w   .L02e242                        | +1a8
-        jmp     Sub_0002DCBC(pc)                | +1ac
+        jmp     Slug_DeathFinishJmp_02dcbc(pc)                | +1ac
 .L02e242:
         rts                                     | +1b0
 
@@ -607,7 +607,7 @@ Slug_IdleAngledB_02e244:
 .L02e38c:
         jsr     Slug_GroundContact_02a8c0(pc)                | +148
         bcc.w   .L02e39a                        | +14c
-        lea     Sub_0002CFFA(pc),a1             | +150
+        lea     Slug_FallStart_02cffa(pc),a1             | +150
         move.l  a1,(a6)                         | +154
 .L02e39a:
         jsr     Slug_TryStartDestroyedB_02a690(pc)                | +156
@@ -664,12 +664,12 @@ Slug_Hunker_02e3b0:
 .L02e464:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0b4
         bcc.w   .L02e472                        | +0b8
-        lea     TaskHandler_02d02e(pc),a1       | +0bc
+        lea     Slug_Fall_02d02e(pc),a1       | +0bc
         move.l  a1,(a6)                         | +0c0
 .L02e472:
         jsr     JsrAbsThunk_02a5cc(pc)          | +0c2
         bcc.w   .L02e480                        | +0c6
-        lea     Sub_0002BBF2(pc),a1             | +0ca
+        lea     Slug_DestroyedSlideInit_02bbf2(pc),a1             | +0ca
         move.l  a1,(a6)                         | +0ce
 .L02e480:
         jsr     Slug_TryStartDestroyedB_02a690(pc)                | +0d0
@@ -726,12 +726,12 @@ Slug_PlayerMount_02e496:
         jsr     Slug_PhysicsB_02a760(pc)                | +0a6
         jsr     0x28d70.l                       | +0aa
         bcc.w   .L02e550                        | +0b0
-        lea     Sub_0002B7DA(pc),a1             | +0b4
+        lea     Slug_SlopeMount_02b7da(pc),a1             | +0b4
         move.l  a1,(a6)                         | +0b8
 .L02e550:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0ba
         bcc.w   .L02e55e                        | +0be
-        lea     Sub_0002CFFA(pc),a1             | +0c2
+        lea     Slug_FallStart_02cffa(pc),a1             | +0c2
         move.l  a1,(a6)                         | +0c6
 .L02e55e:
         jsr     JsrAbsThunk_02a5cc(pc)          | +0c8
@@ -983,7 +983,7 @@ Slug_Drive_02e6c2__L02e710:
 .L02e7ac:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0ea
         bcc.w   .L02e7ba                        | +0ee
-        lea     TaskHandler_02d02e(pc),a1       | +0f2
+        lea     Slug_Fall_02d02e(pc),a1       | +0f2
         move.l  a1,(a6)                         | +0f6
 .L02e7ba:
         jsr     Slug_InputDirByLayoutA_02aaf0(pc)                | +0f8
@@ -1071,7 +1071,7 @@ Slug_DriveB_02e7fa:
 .L02e8d6:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0dc
         bcc.w   .L02e8e4                        | +0e0
-        lea     TaskHandler_02d02e(pc),a1       | +0e4
+        lea     Slug_Fall_02d02e(pc),a1       | +0e4
         move.l  a1,(a6)                         | +0e8
 .L02e8e4:
         jsr     Slug_InputDirByLayoutB_02ab3c(pc)                | +0ea
@@ -1193,7 +1193,7 @@ Slug_DriveAlt_02e9c8__L02ea1c:
         jsr     0x28992.l                       | +08a
         jsr     Slug_PhysicsE_02a7d8(pc)                | +090
         bcc.w   .L02ea66                        | +094
-        lea     Sub_0002B4D2(pc),a1             | +098
+        lea     Slug_IdleSlope_02b4d2(pc),a1             | +098
         move.l  a1,(a6)                         | +09c
 .L02ea66:
         clr.w   0x28(a6)                        | +09e
@@ -1203,16 +1203,16 @@ Slug_DriveAlt_02e9c8__L02ea1c:
         lea     Slug_HitboxCbC_029a14(pc),a0             | +0b0
         move.l  a0,0x48(a6)                     | +0b4
         move.l  #0x29600,0x60(a6)               | +0b8
-        lea     Sub_0002B38C(pc),a1             | +0c0
+        lea     Slug_IdleFlat_02b38c(pc),a1             | +0c0
         move.l  a1,(a6)                         | +0c4
         jsr     Slug_CallGroundProbeA_02a328(pc)                | +0c6
         bcc.w   .L02ea9c                        | +0ca
-        lea     Sub_0002BF64(pc),a1             | +0ce
+        lea     Slug_CruiseRightB_02bf64(pc),a1             | +0ce
         move.l  a1,(a6)                         | +0d2
 .L02ea9c:
         jsr     Slug_CallGroundProbeB_02a34e(pc)                | +0d4
         bcc.w   .L02eaaa                        | +0d8
-        lea     Sub_0002C07A(pc),a1             | +0dc
+        lea     Slug_CruiseLeftB_02c07a(pc),a1             | +0dc
         move.l  a1,(a6)                         | +0e0
 .L02eaaa:
         jsr     Slug_CheckFreeThenC_02a59a(pc)                | +0e2
@@ -1222,7 +1222,7 @@ Slug_DriveAlt_02e9c8__L02ea1c:
 .L02eab8:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0f0
         bcc.w   .L02eac6                        | +0f4
-        lea     TaskHandler_02d02e(pc),a1       | +0f8
+        lea     Slug_Fall_02d02e(pc),a1       | +0f8
         move.l  a1,(a6)                         | +0fc
 .L02eac6:
         jsr     Slug_InputDirByLayoutA_02aaf0(pc)                | +0fe
@@ -1232,7 +1232,7 @@ Slug_DriveAlt_02e9c8__L02ea1c:
 .L02ead4:
         jsr     Slug_CanFire_02aac0(pc)                | +10c
         bcc.w   .L02eae2                        | +110
-        lea     Sub_0002C24A(pc),a1             | +114
+        lea     Slug_FireFlat_02c24a(pc),a1             | +114
         move.l  a1,(a6)                         | +118
 .L02eae2:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +11a
@@ -1242,7 +1242,7 @@ Slug_DriveAlt_02e9c8__L02ea1c:
 .L02eaf0:
         jsr     JsrAbsThunk_02a5cc(pc)          | +128
         bcc.w   .L02eafe                        | +12c
-        lea     Sub_0002BBF2(pc),a1             | +130
+        lea     Slug_DestroyedSlideInit_02bbf2(pc),a1             | +130
         move.l  a1,(a6)                         | +134
 .L02eafe:
         jsr     Slug_TryStartDestroyedB_02a690(pc)                | +136
@@ -1360,7 +1360,7 @@ Slug_Brake_02ebb0:
 .L02ec66:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0b6
         bcc.w   .L02ec74                        | +0ba
-        lea     TaskHandler_02d02e(pc),a1       | +0be
+        lea     Slug_Fall_02d02e(pc),a1       | +0be
         move.l  a1,(a6)                         | +0c2
 .L02ec74:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +0c4
@@ -1499,12 +1499,12 @@ Slug_Stall_02eca6__L02ecc2:
 .L02ee2a:
         jsr     Slug_CheckFreeThenC_02a59a(pc)                | +184
         bcs.w   .L02ee38                        | +188
-        lea     Sub_0002B7DA(pc),a1             | +18c
+        lea     Slug_SlopeMount_02b7da(pc),a1             | +18c
         move.l  a1,(a6)                         | +190
 .L02ee38:
         jsr     Slug_GroundContact_02a8c0(pc)                | +192
         bcc.w   .L02ee46                        | +196
-        lea     Sub_0002CFFA(pc),a1             | +19a
+        lea     Slug_FallStart_02cffa(pc),a1             | +19a
         move.l  a1,(a6)                         | +19e
 .L02ee46:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +1a0
@@ -1544,7 +1544,7 @@ Slug_AccelRight_02ee78__L02ee7e:
         jsr     0x28cd4.l                       | +034
 .L02eeb2:
         lsr.w   #0x1,d0                         | +03a
-        lea     Sub_0002B8CE(pc),a0             | +03c
+        lea     Slug_AccelRightMusicTbl_02b8ce(pc),a0             | +03c
         move.w  (a0,d0.w),d0                    | +040
         cmpi.w  #0xffff,d0                      | +044
         beq.w   .L02eeca                        | +048
@@ -1601,7 +1601,7 @@ Slug_AccelRight_02ee78__L02ee7e:
 .L02ef6a:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0f2
         bcc.w   .L02ef78                        | +0f6
-        lea     TaskHandler_02d02e(pc),a1       | +0fa
+        lea     Slug_Fall_02d02e(pc),a1       | +0fa
         move.l  a1,(a6)                         | +0fe
 .L02ef78:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +100
@@ -1641,7 +1641,7 @@ Slug_AccelLeft_02efaa__L02efb0:
         jsr     0x28cd4.l                       | +034
 .L02efe4:
         lsr.w   #0x1,d0                         | +03a
-        lea     Sub_0002BA34(pc),a0             | +03c
+        lea     Slug_AccelLeftMusicTbl_02ba34(pc),a0             | +03c
         move.w  (a0,d0.w),d0                    | +040
         cmpi.w  #0xffff,d0                      | +044
         beq.w   .L02effc                        | +048
@@ -1698,7 +1698,7 @@ Slug_AccelLeft_02efaa__L02efb0:
 .L02f09c:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0f2
         bcc.w   .L02f0aa                        | +0f6
-        lea     TaskHandler_02d02e(pc),a1       | +0fa
+        lea     Slug_Fall_02d02e(pc),a1       | +0fa
         move.l  a1,(a6)                         | +0fe
 .L02f0aa:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +100
@@ -1741,7 +1741,7 @@ Slug_Knocked_02f0dc__L02f0e6:
         jsr     0x28cd4.l                       | +040
 .L02f122:
         lsr.w   #0x1,d0                         | +046
-        lea     Sub_0002BB9A(pc),a0             | +048
+        lea     Slug_DestroyedMusicTbl_02bb9a(pc),a0             | +048
         move.w  (a0,d0.w),d0                    | +04c
         cmpi.w  #0xffff,d0                      | +050
         beq.w   .L02f13a                        | +054
@@ -1872,7 +1872,7 @@ Slug_DecelA_02f202:
 .L02f2d2:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0d0
         bcc.w   .L02f2e0                        | +0d4
-        lea     TaskHandler_02d02e(pc),a1       | +0d8
+        lea     Slug_Fall_02d02e(pc),a1       | +0d8
         move.l  a1,(a6)                         | +0dc
 .L02f2e0:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +0de
@@ -1959,7 +1959,7 @@ Slug_DecelB_02f312:
 .L02f3e2:
         jsr     Slug_GroundContact_02a8c0(pc)                | +0d0
         bcc.w   .L02f3f0                        | +0d4
-        lea     TaskHandler_02d02e(pc),a1       | +0d8
+        lea     Slug_Fall_02d02e(pc),a1       | +0d8
         move.l  a1,(a6)                         | +0dc
 .L02f3f0:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +0de
@@ -2027,7 +2027,7 @@ Slug_CruiseRight_02f422:
         jsr     0x283d8.l                       | +094
         jsr     Slug_GroundContact_02a8c0(pc)                | +09a
         bcc.w   .L02f4ca                        | +09e
-        lea     TaskHandler_02d02e(pc),a1       | +0a2
+        lea     Slug_Fall_02d02e(pc),a1       | +0a2
         move.l  a1,(a6)                         | +0a6
 .L02f4ca:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +0a8
@@ -2095,7 +2095,7 @@ Slug_CruiseLeft_02f4fc:
         jsr     0x283d8.l                       | +094
         jsr     Slug_GroundContact_02a8c0(pc)                | +09a
         bcc.w   .L02f5a4                        | +09e
-        lea     TaskHandler_02d02e(pc),a1       | +0a2
+        lea     Slug_Fall_02d02e(pc),a1       | +0a2
         move.l  a1,(a6)                         | +0a6
 .L02f5a4:
         jsr     Slug_ConsumeField89_02ac80(pc)        | +0a8
@@ -2131,9 +2131,9 @@ Slug_SetSpeed_02f5d6:
         andi.w  #0xff,d0                        | +02a
         lsr.w   #0x2,d0                         | +02e
         add.b   d0,0x20(a6)                     | +030
-        lea     Sub_0002C95C(pc),a1             | +034
+        lea     Slug_JumpCrouch_Loop_02c95c(pc),a1             | +034
         move.l  a1,(a6)                         | +038
-        bra.w   Sub_0002C95C                    | +03a
+        bra.w   Slug_JumpCrouch_Loop_02c95c                    | +03a
         .global Slug_SetSpeed_02f5d6__L02f614
 Slug_SetSpeed_02f5d6__L02f614:
         move.w  #0x0,0x28(a6)                   | +03e
@@ -3026,7 +3026,7 @@ Slug_Destroyed_02fc70__L02fc8e:
         beq.w   .L02fe0c                        | +18a
         tst.w   0x36(a6)                        | +18e
         ble.w   .L02fe0c                        | +192
-        lea     Sub_0002BBA4(pc),a1             | +196
+        lea     Slug_DestroyedSlide_02bba4(pc),a1             | +196
         move.l  a1,(a6)                         | +19a
 .L02fe0c:
         tst.b   0x3b(a6)                        | +19c
@@ -3084,7 +3084,7 @@ Slug_SelfDestructAttack_02fe6a:
         jsr     0x517fe.l                       | +054
         jsr     Slug_PhysicsA_02a752(pc)                | +05a
         jsr     0x28d70.l                       | +05e
-        lea     Sub_0002DC5C(pc),a1             | +064
+        lea     Slug_DeathFade_02dc5c(pc),a1             | +064
         move.l  a1,(a6)                         | +068
 
 | ----------------------------------------------------------------------------

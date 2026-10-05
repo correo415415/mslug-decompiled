@@ -45,10 +45,10 @@ extern void TaskHandler_025ad8(void);
 extern void TaskHandler_025b34(void);
 extern void TaskHandler_025d5c(void);
 extern void TaskHandler_025d64(void);
-extern void TaskHandler_02b05e(void);
-extern void TaskHandler_02b264(void);
-extern void TaskHandler_02d02e(void);
-extern void TaskHandler_02da38(void);
+extern void Slug_DropDescend_02b05e(void);
+extern void Slug_DropBossDescend_02b264(void);
+extern void Slug_Fall_02d02e(void);
+extern void Slug_DeathExplode_02da38(void);
 extern void TaskHandler_02ff86(void);
 extern void TaskHandler_030bf6(void);
 extern void TaskHandler_030d74(void);
@@ -517,25 +517,25 @@ void SetTaskHandler_025e40(void) {
 
 __attribute__((section(".text.SetTaskHandler_02ae36")))
 void SetTaskHandler_02ae36(void) {
-    _a1_ptr = &TaskHandler_02d02e;
+    _a1_ptr = &Slug_Fall_02d02e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_02b056")))
 void SetTaskHandler_02b056(void) {
-    _a1_ptr = &TaskHandler_02b05e;
+    _a1_ptr = &Slug_DropDescend_02b05e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_02b25c")))
 void SetTaskHandler_02b25c(void) {
-    _a1_ptr = &TaskHandler_02b264;
+    _a1_ptr = &Slug_DropBossDescend_02b264;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_02d72e")))
 void SetTaskHandler_02d72e(void) {
-    _a1_ptr = &TaskHandler_02da38;
+    _a1_ptr = &Slug_DeathExplode_02da38;
     STORE_A1_AT_FP();
 }
 

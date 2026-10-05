@@ -17,8 +17,8 @@
 |      00 24 36 xx ff ff` + offsets) indexadas por Slug_AttackPtrTbl_02a024
 |      (15 punteros, índice = índice de anim <<2, usado por Slug_Hunker,
 |      Slug_IdleAngled... para +$48) y Slug_StateByAnglePtrTbl_02a060 (38
-|      punteros: -1, Sub_0002D67C/D63E, -1, Sub_0002D802/D736, 5x
-|      Slug_Drive_02e6c2, 5x Slug_DriveB_02e7fa, -1, Sub_0002B38C...; el
+|      punteros: -1, Sub_0002D67C/D63E, -1, Slug_HitLaunchB_02d802/D736, 5x
+|      Slug_Drive_02e6c2, 5x Slug_DriveB_02e7fa, -1, Slug_IdleFlat_02b38c...; el
 |      despachador por ángulo de los estados Drive).
 |   2. Inicialización: Slug_Init_02a0f8 (snd d1 + $1, anim +$1C = $1E,
 |      $138FE, +$38 = $800C, hitbox $295B4, $8F6D2, HP +$66 = $30,
@@ -60,7 +60,7 @@
 |      +$68, Slug_UpdateDamageSprite, +$94 = anim idx, +$24 interpolado
 |      entre los eslabones); Slug_UpdateAnimKeepIdx.
 |   6. Daño/estado: Slug_TryStartDestroyed(B)_02a664/02a690 (si +$8D bit5 y
-|      $106E92 == 0 -> Sub_0002DCC0 y +$13 bit0/bit3), Slug_DamageTick
+|      $106E92 == 0 -> Slug_DeathStart_02dcc0 y +$13 bit0/bit3), Slug_DamageTick
 |      _02a6be ($8F6DA, debug $100001 bit3/bit5 -> HP $300, $2870A ->
 |      música $1089), Slug_ResetHP ($30), Slug_UpdateInputFlags_02a720
 |      ($5CEEC/$5CEF8 -> +$13 bit4/bit5), Slug_TurnTimer* (+$84 hasta $14),
@@ -108,7 +108,7 @@
 |
 |  F. SIGUIENTE
 |  ------------
-|   `$02AE3E..$02DD20` (estados del Slug, 1a mitad: Sub_0002B38C, D63E,
+|   `$02AE3E..$02DD20` (estados del Slug, 1a mitad: Slug_IdleFlat_02b38c, D63E,
 |   D67C, D736, D802, DCC0...), después `$05AA96..$05CA2A`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
@@ -2439,7 +2439,7 @@ Slug_TryStartDestroyed_02a664:
         tst.w   0x106e92.l                      | +00a
         bne.w   JmpAbsThunk_02a68a              | +010
         bset    #0x0,0x13(a6)                   | +014
-        lea     Sub_0002DCC0(pc),a1             | +01a
+        lea     Slug_DeathStart_02dcc0(pc),a1             | +01a
         move.l  a1,(a6)                         | +01e
 
 | ----------------------------------------------------------------------------
@@ -2454,7 +2454,7 @@ Slug_TryStartDestroyedB_02a690:
         bne.w   Slug_DamageTick_02a6be          | +010
         bset    #0x3,0x13(a6)                   | +014
         bset    #0x0,0x13(a6)                   | +01a
-        lea     Sub_0002DCC0(pc),a1             | +020
+        lea     Slug_DeathStart_02dcc0(pc),a1             | +020
         move.l  a1,(a6)                         | +024
         clr.w   d0                              | +026
 

@@ -404,10 +404,10 @@ SYMBOLS = {
     0x00025B34: "TaskHandler_025b34",
     0x00025D5C: "TaskHandler_025d5c",
     0x00025D64: "TaskHandler_025d64",
-    # 0x0002B05E promovido a TaskHandler_02b05e en registry (Wave CCCC).
-    # 0x0002B264 promovido a TaskHandler_02b264 en registry (Wave CCCC).
-    # 0x0002D02E promovido a TaskHandler_02d02e en registry (Wave CCCC).
-    # 0x0002DA38 promovido a TaskHandler_02da38 en registry (Wave CCCC).
+    # 0x0002B05E promovido a Slug_DropDescend_02b05e en registry (Wave CCCC).
+    # 0x0002B264 promovido a Slug_DropBossDescend_02b264 en registry (Wave CCCC).
+    # 0x0002D02E promovido a Slug_Fall_02d02e en registry (Wave CCCC).
+    # 0x0002DA38 promovido a Slug_DeathExplode_02da38 en registry (Wave CCCC).
     0x0002FF86: "TaskHandler_02ff86",
     0x00030BF6: "TaskHandler_030bf6",
     0x00030D74: "TaskHandler_030d74",
@@ -1631,21 +1631,21 @@ SYMBOLS = {
     # 0x0002AAF0 promovido a Slug_InputDirByLayoutA_02aaf0 en registry (Wave BBBB).
     # 0x0002AB3C promovido a Slug_InputDirByLayoutB_02ab3c en registry (Wave BBBB).
     # 0x0002ACB8 promovido a Slug_CheckPlayersNear_02acb8 en registry (Wave BBBB).
-    # 0x0002B38C promovido a Sub_0002B38C en registry (Wave CCCC).
-    # 0x0002B4D2 promovido a Sub_0002B4D2 en registry (Wave CCCC).
-    # 0x0002B7DA promovido a Sub_0002B7DA en registry (Wave CCCC).
-    # 0x0002B8CE promovido a Sub_0002B8CE en registry (Wave CCCC).
-    # 0x0002BA34 promovido a Sub_0002BA34 en registry (Wave CCCC).
-    # 0x0002BB9A promovido a Sub_0002BB9A en registry (Wave CCCC).
-    # 0x0002BBA4 promovido a Sub_0002BBA4 en registry (Wave CCCC).
-    # 0x0002BBF2 promovido a Sub_0002BBF2 en registry (Wave CCCC).
-    # 0x0002BF64 promovido a Sub_0002BF64 en registry (Wave CCCC).
-    # 0x0002C07A promovido a Sub_0002C07A en registry (Wave CCCC).
-    # 0x0002C24A promovido a Sub_0002C24A en registry (Wave CCCC).
-    # 0x0002C95C promovido a Sub_0002C95C en registry (Wave CCCC).
-    # 0x0002CFFA promovido a Sub_0002CFFA en registry (Wave CCCC).
-    # 0x0002DC5C promovido a Sub_0002DC5C en registry (Wave CCCC).
-    # 0x0002DCBC promovido a Sub_0002DCBC en registry (Wave CCCC).
+    # 0x0002B38C promovido a Slug_IdleFlat_02b38c en registry (Wave CCCC).
+    # 0x0002B4D2 promovido a Slug_IdleSlope_02b4d2 en registry (Wave CCCC).
+    # 0x0002B7DA promovido a Slug_SlopeMount_02b7da en registry (Wave CCCC).
+    # 0x0002B8CE promovido a Slug_AccelRightMusicTbl_02b8ce en registry (Wave CCCC).
+    # 0x0002BA34 promovido a Slug_AccelLeftMusicTbl_02ba34 en registry (Wave CCCC).
+    # 0x0002BB9A promovido a Slug_DestroyedMusicTbl_02bb9a en registry (Wave CCCC).
+    # 0x0002BBA4 promovido a Slug_DestroyedSlide_02bba4 en registry (Wave CCCC).
+    # 0x0002BBF2 promovido a Slug_DestroyedSlideInit_02bbf2 en registry (Wave CCCC).
+    # 0x0002BF64 promovido a Slug_CruiseRightB_02bf64 en registry (Wave CCCC).
+    # 0x0002C07A promovido a Slug_CruiseLeftB_02c07a en registry (Wave CCCC).
+    # 0x0002C24A promovido a Slug_FireFlat_02c24a en registry (Wave CCCC).
+    # 0x0002C95C promovido a Slug_JumpCrouch_Loop_02c95c en registry (Wave CCCC).
+    # 0x0002CFFA promovido a Slug_FallStart_02cffa en registry (Wave CCCC).
+    # 0x0002DC5C promovido a Slug_DeathFade_02dc5c en registry (Wave CCCC).
+    # 0x0002DCBC promovido a Slug_DeathFinishJmp_02dcbc en registry (Wave CCCC).
     # --- Wave AAAA: RTS internos de islas C
     0x00030BB4: "SetHandlerRts_030bb4",  # rts de SetTaskHandler_030bae (+6)
     0x00030D02: "SetHandlerRts_030d02",  # rts de SetTaskHandler_030cfc (+6)
@@ -1671,7 +1671,7 @@ SYMBOLS = {
     0x0002AC0C: "SetXNMid_02ac0c",  # rts de SetXN_02ac08 (+4)
     0x0002ACA0: "ClearXNMid_02aca0",  # rts de ClearXN_02ac9c (+4)
     # --- Wave BBBB: refs forward a huecos futuros
-    # 0x0002DCC0 promovido a Sub_0002DCC0 en registry (Wave CCCC).
+    # 0x0002DCC0 promovido a Slug_DeathStart_02dcc0 en registry (Wave CCCC).
     # --- Wave CCCC: RTS internos de islas C
     0x0002B262: "SetHandlerRts_02b262",  # rts de SetTaskHandler_02b25c (+6)
     0x0002D734: "SetHandlerRts_02d734",  # rts de SetTaskHandler_02d72e (+6)
