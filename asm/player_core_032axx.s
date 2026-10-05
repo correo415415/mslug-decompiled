@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $032A02..$0342C4  (5,354 B, 67 entradas, 39 huecos)
+|  Región: $032A02..$0342C4  (5,346 B, 66 entradas, 38 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -15,22 +15,22 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Sub_00032AA8  @ $032AA8  (20 B)
+|  Player_CheckDeathOrState21_032aa8  @ $032AA8  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032AA8, "ax", @progbits
-        .global Sub_00032AA8
-Sub_00032AA8:
+        .section .text.Player_CheckDeathOrState21_032aa8, "ax", @progbits
+        .global Player_CheckDeathOrState21_032aa8
+Player_CheckDeathOrState21_032aa8:
         jsr     0x28d70.l                       | +000
         bcs.w   SetXN_032ac2                    | +006
         cmpi.b  #0x0,0x21(a6)                   | +00a
         beq.w   SetXN_032ac2                    | +010
 
 | ----------------------------------------------------------------------------
-|  Sub_00032AC8  @ $032AC8  (34 B)
+|  Player_PlaceAtScrollOffset_032ac8  @ $032AC8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032AC8, "ax", @progbits
-        .global Sub_00032AC8
-Sub_00032AC8:
+        .section .text.Player_PlaceAtScrollOffset_032ac8, "ax", @progbits
+        .global Player_PlaceAtScrollOffset_032ac8
+Player_PlaceAtScrollOffset_032ac8:
         jsr     0x4cac4.l                       | +000
         cmpa.l  #0x100440,a6                    | +006
         bne.w   .L032ade                        | +00c
@@ -44,11 +44,11 @@ Sub_00032AC8:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032aea  @ $032AEA  (16 B)
+|  Player_ConsumeFlag81_032aea  @ $032AEA  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032aea, "ax", @progbits
-        .global TaskHandler_032aea
-TaskHandler_032aea:
+        .section .text.Player_ConsumeFlag81_032aea, "ax", @progbits
+        .global Player_ConsumeFlag81_032aea
+Player_ConsumeFlag81_032aea:
         move.b  #0x1,d1                         | +000
         move.b  0x81(a6),d0                     | +004
         clr.b   0x81(a6)                        | +008
@@ -56,12 +56,12 @@ TaskHandler_032aea:
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032b1c  @ $032B1C  (26 B)
+|  Player_ConsumeFireFlag84_032b1c  @ $032B1C  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032b1c, "ax", @progbits
-        .global TaskHandler_032b1c
-TaskHandler_032b1c:
-        lea     Sub_000329E8(pc),a1             | +000  -> $0329E8 (hueco futuro, defsym forward)
+        .section .text.Player_ConsumeFireFlag84_032b1c, "ax", @progbits
+        .global Player_ConsumeFireFlag84_032b1c
+Player_ConsumeFireFlag84_032b1c:
+        lea     Sub_000329E8(pc),a1             | +000
         moveq   #0,d0                           | +004
         move.b  0x71(a6),d0                     | +006
         move.b  (a1,d0.w),d1                    | +00a
@@ -71,23 +71,23 @@ TaskHandler_032b1c:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032b58  @ $032B58  (18 B)
+|  Player_SetWeaponAndAmmo_032b58  @ $032B58  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032b58, "ax", @progbits
-        .global TaskHandler_032b58
-TaskHandler_032b58:
+        .section .text.Player_SetWeaponAndAmmo_032b58, "ax", @progbits
+        .global Player_SetWeaponAndAmmo_032b58
+Player_SetWeaponAndAmmo_032b58:
         movem.w d1,-(a7)                        | +000
-        jsr     Sub_00032B6A(pc)                | +004
+        jsr     Player_SetAmmoForWeapon_032b6a(pc) | +004
         movem.w (a7)+,d1                        | +008
         move.b  d1,0x71(a1)                     | +00c
         rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  Sub_00032B6A  @ $032B6A  (92 B)
+|  Player_SetAmmoForWeapon_032b6a  @ $032B6A  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032B6A, "ax", @progbits
-        .global Sub_00032B6A
-Sub_00032B6A:
+        .section .text.Player_SetAmmoForWeapon_032b6a, "ax", @progbits
+        .global Player_SetAmmoForWeapon_032b6a
+Player_SetAmmoForWeapon_032b6a:
         andi.w  #0xff,d2                        | +000
         cmpi.b  #0x0,d0                         | +004
         bne.w   .L032b80                        | +008
@@ -97,7 +97,7 @@ Sub_00032B6A:
         lea     0x1004e0.l,a1                   | +016
 .L032b86:
         andi.w  #0xff,d1                        | +01c
-        lea     Sub_000329D4(pc),a2             | +020  -> $0329D4 (hueco futuro, defsym forward)
+        lea     Sub_000329D4(pc),a2             | +020
         cmp.b   0x71(a1),d1                     | +024
         bne.w   .L032bb2                        | +028
         cmpi.b  #0x0,d2                         | +02c
@@ -120,11 +120,11 @@ Sub_00032B6A:
         rts                                     | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032bc6  @ $032BC6  (76 B)
+|  Player_RefillAmmoClamp999_032bc6  @ $032BC6  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032bc6, "ax", @progbits
-        .global TaskHandler_032bc6
-TaskHandler_032bc6:
+        .section .text.Player_RefillAmmoClamp999_032bc6, "ax", @progbits
+        .global Player_RefillAmmoClamp999_032bc6
+Player_RefillAmmoClamp999_032bc6:
         cmpi.b  #0x0,d0                         | +000
         bne.w   .L032bd8                        | +004
         lea     0x100440.l,a1                   | +008
@@ -136,7 +136,7 @@ TaskHandler_032bc6:
         cmpi.b  #0x0,d1                         | +01c
         beq.w   .L032c10                        | +020
         andi.w  #0xff,d1                        | +024
-        lea     Sub_000329D4(pc),a2             | +028  -> $0329D4 (hueco futuro, defsym forward)
+        lea     Sub_000329D4(pc),a2             | +028
         lsl.w   #0x2,d1                         | +02c
         move.w  0x82(a1),d0                     | +02e
         add.w   0x2(a2,d1.w),d0                 | +032
@@ -150,11 +150,11 @@ TaskHandler_032bc6:
         rts                                     | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032c12  @ $032C12  (100 B)
+|  Item_GiveAmmo_ToPlayer_032c12  @ $032C12  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032c12, "ax", @progbits
-        .global TaskHandler_032c12
-TaskHandler_032c12:
+        .section .text.Item_GiveAmmo_ToPlayer_032c12, "ax", @progbits
+        .global Item_GiveAmmo_ToPlayer_032c12
+Item_GiveAmmo_ToPlayer_032c12:
         cmpi.b  #0x0,d0                         | +000
         bne.w   .L032c24                        | +004
         lea     0x100440.l,a1                   | +008
@@ -187,11 +187,11 @@ TaskHandler_032c12:
         bra.w   JsrAbsRts_032c7c                | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032c7e  @ $032C7E  (60 B)
+|  Item_GiveBombs_ToPlayer_032c7e  @ $032C7E  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032c7e, "ax", @progbits
-        .global TaskHandler_032c7e
-TaskHandler_032c7e:
+        .section .text.Item_GiveBombs_ToPlayer_032c7e, "ax", @progbits
+        .global Item_GiveBombs_ToPlayer_032c7e
+Item_GiveBombs_ToPlayer_032c7e:
         cmpi.b  #0x0,d0                         | +000
         bne.w   .L032c90                        | +004
         lea     0x100440.l,a1                   | +008
@@ -212,21 +212,21 @@ TaskHandler_032c7e:
         rts                                     | +03a
 
 | ----------------------------------------------------------------------------
-|  ThunkTarget_032cba  @ $032CBA  (14 B)
+|  Player_StartInvuln5_032cba  @ $032CBA  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.ThunkTarget_032cba, "ax", @progbits
-        .global ThunkTarget_032cba
-ThunkTarget_032cba:
+        .section .text.Player_StartInvuln5_032cba, "ax", @progbits
+        .global Player_StartInvuln5_032cba
+Player_StartInvuln5_032cba:
         move.b  #0x5,0x87(a1)                   | +000
         bset    #0x4,0x8c(a1)                   | +006
         rts                                     | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032cc8  @ $032CC8  (56 B)
+|  Player_InvulnBlinkStep_032cc8  @ $032CC8  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032cc8, "ax", @progbits
-        .global TaskHandler_032cc8
-TaskHandler_032cc8:
+        .section .text.Player_InvulnBlinkStep_032cc8, "ax", @progbits
+        .global Player_InvulnBlinkStep_032cc8
+Player_InvulnBlinkStep_032cc8:
         cmpi.b  #0x0,0x87(a6)                   | +000
         beq.w   .L032cf8                        | +006
         subi.b  #0x1,0x87(a6)                   | +00a
@@ -245,11 +245,11 @@ TaskHandler_032cc8:
         rts                                     | +036
 
 | ----------------------------------------------------------------------------
-|  Data_032d28  @ $032D28  (10 B)
+|  Player_WeaponMusicTable_032d28  @ $032D28  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_032d28, "ax", @progbits
-        .global Data_032d28
-Data_032d28:
+        .section .text.Player_WeaponMusicTable_032d28, "ax", @progbits
+        .global Player_WeaponMusicTable_032d28
+Player_WeaponMusicTable_032d28:
         .dc.w   0xffff                        | +000  (dato / opcode no decodificado)
         .dc.w   0x112f                        | +002  (dato / opcode no decodificado)
         .dc.w   0x112c                        | +004  (dato / opcode no decodificado)
@@ -257,29 +257,29 @@ Data_032d28:
         .dc.w   0x112d                        | +008  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032d32  @ $032D32  (46 B)
+|  Player_PlayWeaponMusicIfFlag_032d32  @ $032D32  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032d32, "ax", @progbits
-        .global TaskHandler_032d32
-TaskHandler_032d32:
+        .section .text.Player_PlayWeaponMusicIfFlag_032d32, "ax", @progbits
+        .global Player_PlayWeaponMusicIfFlag_032d32
+Player_PlayWeaponMusicIfFlag_032d32:
         btst    #0x4,0x8c(a6)                   | +000
         beq.w   ClearXN_032d66                  | +006
         bclr    #0x4,0x8c(a6)                   | +00a
         moveq   #0,d0                           | +010
         move.b  0x71(a6),d0                     | +012
         lsl.w   #0x1,d0                         | +016
-        lea     Data_032d28(pc),a0              | +018
+        lea     Player_WeaponMusicTable_032d28(pc),a0 | +018
         move.w  (a0,d0.w),d0                    | +01c
         cmpi.w  #0xffff,d0                      | +020
         beq.w   SetXN_032d60                    | +024
         jsr     0x2352.l                        | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032d6c  @ $032D6C  (104 B)
+|  Player_LinkRidePartner_032d6c  @ $032D6C  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032d6c, "ax", @progbits
-        .global TaskHandler_032d6c
-TaskHandler_032d6c:
+        .section .text.Player_LinkRidePartner_032d6c, "ax", @progbits
+        .global Player_LinkRidePartner_032d6c
+Player_LinkRidePartner_032d6c:
         cmpi.b  #0x1,d2                         | +000
         bne.w   .L032d7e                        | +004
         lea     0x100440.l,a0                   | +008
@@ -307,11 +307,11 @@ TaskHandler_032d6c:
         jsr     0x2aca2.l                       | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032de0  @ $032DE0  (28 B)
+|  Player_IsSlotRidingReady_032de0  @ $032DE0  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032de0, "ax", @progbits
-        .global TaskHandler_032de0
-TaskHandler_032de0:
+        .section .text.Player_IsSlotRidingReady_032de0, "ax", @progbits
+        .global Player_IsSlotRidingReady_032de0
+Player_IsSlotRidingReady_032de0:
         cmpa.l  #0x100440,a0                    | +000
         beq.b   .L032df2                        | +006
         cmpa.l  #0x1004e0,a0                    | +008
@@ -321,22 +321,22 @@ TaskHandler_032de0:
         beq.w   ClearXN_032e02                  | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e08  @ $032E08  (18 B)
+|  Player_SlotBit1Test_032e08  @ $032E08  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e08, "ax", @progbits
-        .global TaskHandler_032e08
-TaskHandler_032e08:
+        .section .text.Player_SlotBit1Test_032e08, "ax", @progbits
+        .global Player_SlotBit1Test_032e08
+Player_SlotBit1Test_032e08:
         btst    #0x1,0x8d(a0)                   | +000
         beq.w   ClearXN_032e1a                  | +006
         ori.b   #0x11,ccr                       | +00a
         bra.w   ClearXNMid_032e1e               | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e20  @ $032E20  (14 B)
+|  Player_Consume8B_032e20  @ $032E20  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e20, "ax", @progbits
-        .global TaskHandler_032e20
-TaskHandler_032e20:
+        .section .text.Player_Consume8B_032e20, "ax", @progbits
+        .global Player_Consume8B_032e20
+Player_Consume8B_032e20:
         tst.b   0x8b(a6)                        | +000
         beq.w   .L032e2c                        | +004
         clr.b   0x8b(a6)                        | +008
@@ -344,11 +344,11 @@ TaskHandler_032e20:
         rts                                     | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e2e  @ $032E2E  (14 B)
+|  Player_Consume8B_Alt_032e2e  @ $032E2E  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e2e, "ax", @progbits
-        .global TaskHandler_032e2e
-TaskHandler_032e2e:
+        .section .text.Player_Consume8B_Alt_032e2e, "ax", @progbits
+        .global Player_Consume8B_Alt_032e2e
+Player_Consume8B_Alt_032e2e:
         tst.b   0x8b(a6)                        | +000
         beq.w   .L032e3a                        | +004
         clr.b   0x8b(a6)                        | +008
@@ -356,51 +356,51 @@ TaskHandler_032e2e:
         rts                                     | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e42  @ $032E42  (6 B)
+|  Input_RightThunk_032e42  @ $032E42  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e42, "ax", @progbits
-        .global TaskHandler_032e42
-TaskHandler_032e42:
+        .section .text.Input_RightThunk_032e42, "ax", @progbits
+        .global Input_RightThunk_032e42
+Input_RightThunk_032e42:
         jmp     0x5cf10.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e48  @ $032E48  (18 B)
+|  Input_ForwardByFacing_032e48  @ $032E48  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e48, "ax", @progbits
-        .global TaskHandler_032e48
-TaskHandler_032e48:
+        .section .text.Input_ForwardByFacing_032e48, "ax", @progbits
+        .global Input_ForwardByFacing_032e48
+Input_ForwardByFacing_032e48:
         btst    #0x0,0x3a(a6)                   | +000
         bne.w   .L032e56                        | +006
         jmp     JmpAbsThunk_032e3c(pc)          | +00a
 .L032e56:
-        jmp     TaskHandler_032e42(pc)          | +00e
+        jmp     Input_RightThunk_032e42(pc)     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e5a  @ $032E5A  (18 B)
+|  Input_BackwardByFacing_032e5a  @ $032E5A  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e5a, "ax", @progbits
-        .global TaskHandler_032e5a
-TaskHandler_032e5a:
+        .section .text.Input_BackwardByFacing_032e5a, "ax", @progbits
+        .global Input_BackwardByFacing_032e5a
+Input_BackwardByFacing_032e5a:
         btst    #0x0,0x3a(a6)                   | +000
         bne.w   .L032e68                        | +006
-        jmp     TaskHandler_032e42(pc)          | +00a
+        jmp     Input_RightThunk_032e42(pc)     | +00a
 .L032e68:
         jmp     JmpAbsThunk_032e3c(pc)          | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e6c  @ $032E6C  (4 B)
+|  Input_JumpThunk_032e6c  @ $032E6C  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e6c, "ax", @progbits
-        .global TaskHandler_032e6c
-TaskHandler_032e6c:
-        jmp     TaskHandler_032e70(pc)          | +000
+        .section .text.Input_JumpThunk_032e6c, "ax", @progbits
+        .global Input_JumpThunk_032e6c
+Input_JumpThunk_032e6c:
+        jmp     Input_JumpOrFire_032e70(pc)     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e70  @ $032E70  (30 B)
+|  Input_JumpOrFire_032e70  @ $032E70  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e70, "ax", @progbits
-        .global TaskHandler_032e70
-TaskHandler_032e70:
+        .section .text.Input_JumpOrFire_032e70, "ax", @progbits
+        .global Input_JumpOrFire_032e70
+Input_JumpOrFire_032e70:
         jsr     0x5cf84.l                       | +000
         bcc.w   .L032e7c                        | +006
         rts                                     | +00a
@@ -412,20 +412,20 @@ TaskHandler_032e70:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032e90  @ $032E90  (8 B)
+|  Input_DownPressed_032e90  @ $032E90  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032e90, "ax", @progbits
-        .global TaskHandler_032e90
-TaskHandler_032e90:
+        .section .text.Input_DownPressed_032e90, "ax", @progbits
+        .global Input_DownPressed_032e90
+Input_DownPressed_032e90:
         jsr     JmpAbsThunk_0330ca(pc)          | +000
         bcc.w   ClearXN_032e9e                  | +004
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_032ea4  @ $032EA4  (22 B)
+|  Player_ClearBoth8D_032ea4  @ $032EA4  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_032ea4, "ax", @progbits
-        .global PcThunkTarget_032ea4
-PcThunkTarget_032ea4:
+        .section .text.Player_ClearBoth8D_032ea4, "ax", @progbits
+        .global Player_ClearBoth8D_032ea4
+Player_ClearBoth8D_032ea4:
         lea     0x100440.l,a0                   | +000
         clr.b   0x8d(a0)                        | +006
         lea     0x1004e0.l,a0                   | +00a
@@ -433,11 +433,11 @@ PcThunkTarget_032ea4:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_032eba  @ $032EBA  (22 B)
+|  Player_ClearBoth88_032eba  @ $032EBA  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_032eba, "ax", @progbits
-        .global PcThunkTarget_032eba
-PcThunkTarget_032eba:
+        .section .text.Player_ClearBoth88_032eba, "ax", @progbits
+        .global Player_ClearBoth88_032eba
+Player_ClearBoth88_032eba:
         lea     0x100440.l,a0                   | +000
         clr.b   0x88(a0)                        | +006
         lea     0x1004e0.l,a0                   | +00a
@@ -445,11 +445,11 @@ PcThunkTarget_032eba:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032ed0  @ $032ED0  (48 B)
+|  Player_PlayLifeMusic_032ed0  @ $032ED0  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032ed0, "ax", @progbits
-        .global TaskHandler_032ed0
-TaskHandler_032ed0:
+        .section .text.Player_PlayLifeMusic_032ed0, "ax", @progbits
+        .global Player_PlayLifeMusic_032ed0
+Player_PlayLifeMusic_032ed0:
         movem.l a0,-(a7)                        | +000
         movea.l 0xc(a6),a0                      | +004
         cmpa.l  #0x100440,a0                    | +008
@@ -465,11 +465,11 @@ TaskHandler_032ed0:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032f00  @ $032F00  (28 B)
+|  Player_EffectHit40or80_032f00  @ $032F00  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032f00, "ax", @progbits
-        .global TaskHandler_032f00
-TaskHandler_032f00:
+        .section .text.Player_EffectHit40or80_032f00, "ax", @progbits
+        .global Player_EffectHit40or80_032f00
+Player_EffectHit40or80_032f00:
         jsr     0x27eba.l                       | +000
         andi.b  #0xc0,d0                        | +006
         cmpi.b  #0x40,d0                        | +00a
@@ -479,11 +479,11 @@ TaskHandler_032f00:
         rts                                     | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032f1e  @ $032F1E  (28 B)
+|  Player_EffectHit40or80_B_032f1e  @ $032F1E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032f1e, "ax", @progbits
-        .global TaskHandler_032f1e
-TaskHandler_032f1e:
+        .section .text.Player_EffectHit40or80_B_032f1e, "ax", @progbits
+        .global Player_EffectHit40or80_B_032f1e
+Player_EffectHit40or80_B_032f1e:
         jsr     0x27eba.l                       | +000
         andi.b  #0xc0,d0                        | +006
         cmpi.b  #0x40,d0                        | +00a
@@ -493,15 +493,15 @@ TaskHandler_032f1e:
         rts                                     | +01a
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_032f3c  @ $032F3C  (70 B)
+|  Player_ReadDirNibble_032f3c  @ $032F3C  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_032f3c, "ax", @progbits
-        .global PcThunkTarget_032f3c
-PcThunkTarget_032f3c:
+        .section .text.Player_ReadDirNibble_032f3c, "ax", @progbits
+        .global Player_ReadDirNibble_032f3c
+Player_ReadDirNibble_032f3c:
         move.b  0x78(a6),d0                     | +000
         movem.w d0,-(a7)                        | +004
         move.b  #0x1,0x78(a6)                   | +008
-        jsr     TaskHandler_032e48(pc)          | +00e
+        jsr     Input_ForwardByFacing_032e48(pc) | +00e
         bcc.w   .L032f58                        | +012
         move.b  #0x1,0x78(a6)                   | +016
 .L032f58:
@@ -518,11 +518,11 @@ PcThunkTarget_032f3c:
         or.b    0x78(a6),d0                     | +042
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_032f88  @ $032F88  (44 B)
+|  Player_ReadFireNibble_032f88  @ $032F88  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_032f88, "ax", @progbits
-        .global PcThunkTarget_032f88
-PcThunkTarget_032f88:
+        .section .text.Player_ReadFireNibble_032f88, "ax", @progbits
+        .global Player_ReadFireNibble_032f88
+Player_ReadFireNibble_032f88:
         move.b  0x78(a6),d0                     | +000
         movem.w d0,-(a7)                        | +004
         jsr     0x5ceec.l                       | +008
@@ -537,11 +537,11 @@ PcThunkTarget_032f88:
         or.b    0x78(a6),d0                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032fba  @ $032FBA  (20 B)
+|  Player_GetAmmoOrFFFF_032fba  @ $032FBA  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032fba, "ax", @progbits
-        .global TaskHandler_032fba
-TaskHandler_032fba:
+        .section .text.Player_GetAmmoOrFFFF_032fba, "ax", @progbits
+        .global Player_GetAmmoOrFFFF_032fba
+Player_GetAmmoOrFFFF_032fba:
         move.w  0x82(a0),d0                     | +000
         cmpi.b  #0x0,0x71(a0)                   | +004
         bne.w   .L032fcc                        | +00a
@@ -550,64 +550,64 @@ TaskHandler_032fba:
         rts                                     | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032fce  @ $032FCE  (6 B)
+|  Player_GetBombs_032fce  @ $032FCE  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032fce, "ax", @progbits
-        .global TaskHandler_032fce
-TaskHandler_032fce:
+        .section .text.Player_GetBombs_032fce, "ax", @progbits
+        .global Player_GetBombs_032fce
+Player_GetBombs_032fce:
         move.b  0x80(a0),d0                     | +000
         rts                                     | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032fd4  @ $032FD4  (14 B)
+|  Player_DecBombs_032fd4  @ $032FD4  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032fd4, "ax", @progbits
-        .global TaskHandler_032fd4
-TaskHandler_032fd4:
+        .section .text.Player_DecBombs_032fd4, "ax", @progbits
+        .global Player_DecBombs_032fd4
+Player_DecBombs_032fd4:
         moveq   #1,d1                           | +000
         move.b  0x80(a0),d0                     | +002
-        beq.w   TaskHandler_032fe8              | +006
+        beq.w   Player_DecBombs_Zero_032fe8     | +006
         sub.w   d1,0x80(a0)                     | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032fe8  @ $032FE8  (2 B)
+|  Player_DecBombs_Zero_032fe8  @ $032FE8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032fe8, "ax", @progbits
-        .global TaskHandler_032fe8
-TaskHandler_032fe8:
+        .section .text.Player_DecBombs_Zero_032fe8, "ax", @progbits
+        .global Player_DecBombs_Zero_032fe8
+Player_DecBombs_Zero_032fe8:
         clr.b   d1                              | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_00032FF2  @ $032FF2  (30 B)
+|  Player_FrameCommon_032ff2  @ $032FF2  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032FF2, "ax", @progbits
-        .global Sub_00032FF2
-Sub_00032FF2:
+        .section .text.Player_FrameCommon_032ff2, "ax", @progbits
+        .global Player_FrameCommon_032ff2
+Player_FrameCommon_032ff2:
         jsr     Stub_00032FF0(pc)               | +000
         jsr     0x283ca.l                       | +004
         andi.w  #0xfffc,0x38(a6)                | +00a
-        jsr     TaskHandler_032cc8(pc)          | +010
+        jsr     Player_InvulnBlinkStep_032cc8(pc) | +010
         jsr     0x2a720.l                       | +014
         jsr     Stub_00032E8E(pc)               | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033016  @ $033016  (24 B)
+|  Player_FrameCommon_NoPrio_033016  @ $033016  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033016, "ax", @progbits
-        .global TaskHandler_033016
-TaskHandler_033016:
+        .section .text.Player_FrameCommon_NoPrio_033016, "ax", @progbits
+        .global Player_FrameCommon_NoPrio_033016
+Player_FrameCommon_NoPrio_033016:
         jsr     Stub_00032FF0(pc)               | +000
         jsr     0x283ca.l                       | +004
-        jsr     TaskHandler_032cc8(pc)          | +00a
+        jsr     Player_InvulnBlinkStep_032cc8(pc) | +00a
         jsr     0x2a720.l                       | +00e
         jsr     Stub_00032E8E(pc)               | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033034  @ $033034  (56 B)
+|  Input_FireByMode_033034  @ $033034  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033034, "ax", @progbits
-        .global TaskHandler_033034
-TaskHandler_033034:
+        .section .text.Input_FireByMode_033034, "ax", @progbits
+        .global Input_FireByMode_033034
+Input_FireByMode_033034:
         cmpi.b  #0x0,0x106f2a.l                 | +000
         bne.w   .L03304a                        | +008
         jsr     0x5cdb4.l                       | +00c
@@ -620,24 +620,24 @@ TaskHandler_033034:
 .L033060:
         jsr     0x5ceec.l                       | +02c
 .L033066:
-        bcs.w   TaskHandler_033072              | +032
+        bcs.w   Input_FireByMode_Hit_033072     | +032
         moveq   #0,d0                           | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033072  @ $033072  (8 B)
+|  Input_FireByMode_Hit_033072  @ $033072  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033072, "ax", @progbits
-        .global TaskHandler_033072
-TaskHandler_033072:
+        .section .text.Input_FireByMode_Hit_033072, "ax", @progbits
+        .global Input_FireByMode_Hit_033072
+Input_FireByMode_Hit_033072:
         jsr     0x5d5b6.l                       | +000
         addq.w  #0x1,d0                         | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033080  @ $033080  (54 B)
+|  Input_JumpByMode_033080  @ $033080  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033080, "ax", @progbits
-        .global TaskHandler_033080
-TaskHandler_033080:
+        .section .text.Input_JumpByMode_033080, "ax", @progbits
+        .global Input_JumpByMode_033080
+Input_JumpByMode_033080:
         cmpi.b  #0x0,0x106f2a.l                 | +000
         bne.w   .L033096                        | +008
         jsr     0x5cdb4.l                       | +00c
@@ -648,37 +648,37 @@ TaskHandler_033080:
         jsr     0x5cdb4.l                       | +022
         bra.w   .L0330b0                        | +028
 .L0330ac:
-        jsr     TaskHandler_032e6c(pc)          | +02c
+        jsr     Input_JumpThunk_032e6c(pc)      | +02c
 .L0330b0:
-        bcs.w   TaskHandler_0330bc              | +030
+        bcs.w   Input_JumpByMode_Hit_0330bc     | +030
         moveq   #0,d0                           | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0330bc  @ $0330BC  (8 B)
+|  Input_JumpByMode_Hit_0330bc  @ $0330BC  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0330bc, "ax", @progbits
-        .global TaskHandler_0330bc
-TaskHandler_0330bc:
+        .section .text.Input_JumpByMode_Hit_0330bc, "ax", @progbits
+        .global Input_JumpByMode_Hit_0330bc
+Input_JumpByMode_Hit_0330bc:
         jsr     0x5d5b6.l                       | +000
         addq.w  #0x1,d0                         | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0330d0  @ $0330D0  (150 B)
+|  Player_ActionSelect_0330d0  @ $0330D0  (150 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0330d0, "ax", @progbits
-        .global TaskHandler_0330d0
-TaskHandler_0330d0:
+        .section .text.Player_ActionSelect_0330d0, "ax", @progbits
+        .global Player_ActionSelect_0330d0
+Player_ActionSelect_0330d0:
         btst    #0x2,0x8c(a6)                   | +000
         beq.w   .L0330de                        | +006
         jmp     .L033162(pc)                    | +00a
 .L0330de:
         jsr     0x5cef8.l                       | +00e
-        bcs.w   TaskHandler_0331ce              | +014
-        jsr     TaskHandler_032b1c(pc)          | +018
+        bcs.w   Player_ActionSelect_B_Fire_0331ce | +014
+        jsr     Player_ConsumeFireFlag84_032b1c(pc) | +018
         bcs.w   .L033148                        | +01c
         jsr     0x5cda8.l                       | +020
         bcc.w   .L033148                        | +026
-        lea     Sub_000325E4(pc),a0             | +02a  -> $0325E4 (hueco futuro, defsym forward)
+        lea     Sub_000325E4(pc),a0             | +02a
         move.l  a0,0x4c(a6)                     | +02e
         jsr     0x283ca.l                       | +032
         jsr     0x283ca.l                       | +038
@@ -693,13 +693,13 @@ TaskHandler_0330d0:
         cmpi.b  #0x0,0x71(a6)                   | +05e
         bne.w   .L033144                        | +064
 .L033138:
-        jsr     TaskHandler_033172(pc)          | +068
+        jsr     Player_DirNibbleToAction_033172(pc) | +068
         bra.w   SetXN_03316c                    | +06c
         bra.w   .L033148                        | +070
 .L033144:
         bra.w   .L033162                        | +074
 .L033148:
-        jsr     TaskHandler_032aea(pc)          | +078
+        jsr     Player_ConsumeFlag81_032aea(pc) | +078
         bcs.w   .L033162                        | +07c
         jsr     0x5cdc0.l                       | +080
         bcc.w   .L033162                        | +086
@@ -709,11 +709,11 @@ TaskHandler_0330d0:
         move.b  #0x0,d1                         | +092
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033172  @ $033172  (60 B)
+|  Player_DirNibbleToAction_033172  @ $033172  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033172, "ax", @progbits
-        .global TaskHandler_033172
-TaskHandler_033172:
+        .section .text.Player_DirNibbleToAction_033172, "ax", @progbits
+        .global Player_DirNibbleToAction_033172
+Player_DirNibbleToAction_033172:
         cmpi.b  #0x4,0x78(a6)                   | +000
         bne.w   .L033184                        | +006
         move.b  #0x1,d1                         | +00a
@@ -734,38 +734,38 @@ TaskHandler_033172:
         rts                                     | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0331ae  @ $0331AE  (26 B)
+|  Player_ActionSelect_B_0331ae  @ $0331AE  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0331ae, "ax", @progbits
-        .global TaskHandler_0331ae
-TaskHandler_0331ae:
+        .section .text.Player_ActionSelect_B_0331ae, "ax", @progbits
+        .global Player_ActionSelect_B_0331ae
+Player_ActionSelect_B_0331ae:
         btst    #0x2,0x8c(a6)                   | +000
         beq.w   .L0331bc                        | +006
         jmp     .L0331c6(pc)                    | +00a
 .L0331bc:
         jsr     0x5cef8.l                       | +00e
-        bcs.w   TaskHandler_0331ce              | +014
+        bcs.w   Player_ActionSelect_B_Fire_0331ce | +014
 .L0331c6:
         clr.b   d1                              | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0331ce  @ $0331CE  (124 B)
+|  Player_ActionSelect_B_Fire_0331ce  @ $0331CE  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0331ce, "ax", @progbits
-        .global TaskHandler_0331ce
-TaskHandler_0331ce:
-        jsr     TaskHandler_032aea(pc)          | +000
+        .section .text.Player_ActionSelect_B_Fire_0331ce, "ax", @progbits
+        .global Player_ActionSelect_B_Fire_0331ce
+Player_ActionSelect_B_Fire_0331ce:
+        jsr     Player_ConsumeFlag81_032aea(pc) | +000
         bcs.w   .L0331e8                        | +004
         jsr     0x5cdc0.l                       | +008
         bcc.w   .L0331e8                        | +00e
         move.b  #0x3,d1                         | +012
         bra.w   SetXN_033250                    | +016
 .L0331e8:
-        jsr     TaskHandler_032b1c(pc)          | +01a
+        jsr     Player_ConsumeFireFlag84_032b1c(pc) | +01a
         bcs.w   .L033248                        | +01e
         jsr     0x5cda8.l                       | +022
         bcc.w   .L033248                        | +028
-        lea     Sub_000325E4(pc),a0             | +02c  -> $0325E4 (hueco futuro, defsym forward)
+        lea     Sub_000325E4(pc),a0             | +02c
         move.l  a0,0x4c(a6)                     | +030
         jsr     0x283ca.l                       | +034
         jsr     0x283ca.l                       | +03a
@@ -789,11 +789,11 @@ TaskHandler_0331ce:
         clr.b   d1                              | +07a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033256  @ $033256  (100 B)
+|  Player_ThrowGrenadeBack_033256  @ $033256  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033256, "ax", @progbits
-        .global TaskHandler_033256
-TaskHandler_033256:
+        .section .text.Player_ThrowGrenadeBack_033256, "ax", @progbits
+        .global Player_ThrowGrenadeBack_033256
+Player_ThrowGrenadeBack_033256:
         movem.l a0,-(a7)                        | +000
         cmpa.l  0x100440.l,a6                   | +004
         beq.b   .L03326c                        | +00a
@@ -822,11 +822,11 @@ TaskHandler_033256:
         rts                                     | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0332bc  @ $0332BC  (96 B)
+|  Player_ThrowGrenade_0332bc  @ $0332BC  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0332bc, "ax", @progbits
-        .global TaskHandler_0332bc
-TaskHandler_0332bc:
+        .section .text.Player_ThrowGrenade_0332bc, "ax", @progbits
+        .global Player_ThrowGrenade_0332bc
+Player_ThrowGrenade_0332bc:
         movem.l a0,-(a7)                        | +000
         cmpa.l  0x100440.l,a6                   | +004
         beq.b   .L0332d2                        | +00a
@@ -854,12 +854,12 @@ TaskHandler_0332bc:
         rts                                     | +05e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03331c  @ $03331C  (42 B)
+|  Player_ThrowGrenadeDown_03331c  @ $03331C  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03331c, "ax", @progbits
-        .global TaskHandler_03331c
-TaskHandler_03331c:
-        lea     TaskHandler_033352(pc),a1       | +000
+        .section .text.Player_ThrowGrenadeDown_03331c, "ax", @progbits
+        .global Player_ThrowGrenadeDown_03331c
+Player_ThrowGrenadeDown_03331c:
+        lea     Player_JmpGrenadeDown_033352(pc),a1 | +000
         jsr     0x6fe.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.b  0x3a(a6),d0                     | +010
@@ -870,47 +870,47 @@ TaskHandler_03331c:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03334c  @ $03334C  (6 B)
+|  Player_JmpGrenadeBounce_03334c  @ $03334C  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03334c, "ax", @progbits
-        .global TaskHandler_03334c
-TaskHandler_03334c:
+        .section .text.Player_JmpGrenadeBounce_03334c, "ax", @progbits
+        .global Player_JmpGrenadeBounce_03334c
+Player_JmpGrenadeBounce_03334c:
         jmp     0x28d9dc.l                      | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033352  @ $033352  (6 B)
+|  Player_JmpGrenadeDown_033352  @ $033352  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033352, "ax", @progbits
-        .global TaskHandler_033352
-TaskHandler_033352:
+        .section .text.Player_JmpGrenadeDown_033352, "ax", @progbits
+        .global Player_JmpGrenadeDown_033352
+Player_JmpGrenadeDown_033352:
         jmp     0x28d7aa.l                      | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033358  @ $033358  (22 B)
+|  Player_SpawnDebugTask_033358  @ $033358  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033358, "ax", @progbits
-        .global TaskHandler_033358
-TaskHandler_033358:
+        .section .text.Player_SpawnDebugTask_033358, "ax", @progbits
+        .global Player_SpawnDebugTask_033358
+Player_SpawnDebugTask_033358:
         tst.b   0x10fd8f.l                      | +000
         beq.w   JsrAbsRts_033374                | +006
         lea     0x3d842.l,a1                    | +00a
         jsr     0x4ae.l                         | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033376  @ $033376  (12 B)
+|  Player_SpawnTask3D8FA_033376  @ $033376  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033376, "ax", @progbits
-        .global TaskHandler_033376
-TaskHandler_033376:
+        .section .text.Player_SpawnTask3D8FA_033376, "ax", @progbits
+        .global Player_SpawnTask3D8FA_033376
+Player_SpawnTask3D8FA_033376:
         lea     0x3d8fa.l,a1                    | +000
         jsr     0x4ae.l                         | +006
 
 | ----------------------------------------------------------------------------
-|  Data_03338a  @ $03338A  (272 B)
+|  Player_StateTable68_03338a  @ $03338A  (272 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03338a, "ax", @progbits
-        .global Data_03338a
-Data_03338a:
+        .section .text.Player_StateTable68_03338a, "ax", @progbits
+        .global Player_StateTable68_03338a
+Player_StateTable68_03338a:
         .dc.w   0x0003                        | +000  (dato / opcode no decodificado)
         .dc.w   0x7a3e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +004  (dato / opcode no decodificado)
@@ -1060,11 +1060,11 @@ PlayerStateLUT_03349A:
         .dc.w   0x3412                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Probe_Bit3At100001_End  @ $0334C6  (92 B)
+|  Player_DeathGate_0334c6  @ $0334C6  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.Probe_Bit3At100001_End, "ax", @progbits
-        .global Probe_Bit3At100001_End
-Probe_Bit3At100001_End:
+        .section .text.Player_DeathGate_0334c6, "ax", @progbits
+        .global Player_DeathGate_0334c6
+Player_DeathGate_0334c6:
         tst.w   0x106e92.l                      | +000
         bne.w   .L0334da                        | +006
         bset    #0x0,0x13(a6)                   | +00a
@@ -1088,14 +1088,14 @@ Probe_Bit3At100001_End:
         jmp     0x28758.l                       | +056
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0336dc  @ $0336DC  (102 B)
+|  Player_SpawnStart_0336dc  @ $0336DC  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0336dc, "ax", @progbits
-        .global TaskHandler_0336dc
-TaskHandler_0336dc:
+        .section .text.Player_SpawnStart_0336dc, "ax", @progbits
+        .global Player_SpawnStart_0336dc
+Player_SpawnStart_0336dc:
         move.w  #0x50,0x22(a6)                  | +000
         move.w  #0x1e0,0x24(a6)                 | +006
-        jsr     Sub_00032AC8(pc)                | +00c
+        jsr     Player_PlaceAtScrollOffset_032ac8(pc) | +00c
         movem.w d2,-(a7)                        | +010
         move.w  #0x177,d1                       | +014
         jsr     0x236e.l                        | +018
@@ -1114,11 +1114,11 @@ TaskHandler_0336dc:
         jsr     0x517fe.l                       | +060
 
 | ----------------------------------------------------------------------------
-|  Sub_00033742  @ $033742  (102 B)
+|  Player_SpawnByMode_033742  @ $033742  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00033742, "ax", @progbits
-        .global Sub_00033742
-Sub_00033742:
+        .section .text.Player_SpawnByMode_033742, "ax", @progbits
+        .global Player_SpawnByMode_033742
+Player_SpawnByMode_033742:
         clr.w   0x28(a6)                        | +000
         clr.w   0x2a(a6)                        | +004
         clr.w   0x2c(a6)                        | +008
@@ -1134,24 +1134,24 @@ Sub_00033742:
         movem.w (a7)+,d2                        | +02e
         cmpi.w  #0x2,d2                         | +032
         bne.w   .L033780                        | +036
-        jmp     TaskHandler_0337a8(pc)          | +03a
+        jmp     Player_SpawnFall_0337a8(pc)     | +03a
 .L033780:
         cmpi.w  #0x1,d2                         | +03e
         bne.w   .L033798                        | +042
         move.b  #0x7f,0x59(a6)                  | +046
         move.b  #0x7f,0x45(a6)                  | +04c
-        jmp     TaskHandler_033952(pc)          | +052
+        jmp     Player_JmpState36C8C_033952(pc) | +052
 .L033798:
         move.b  #0x7f,0x59(a6)                  | +056
         move.b  #0x7f,0x45(a6)                  | +05c
-        jmp     TaskHandler_033956(pc)          | +062
+        jmp     Player_SpawnParachute_033956(pc) | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0337a8  @ $0337A8  (192 B)
+|  Player_SpawnFall_0337a8  @ $0337A8  (192 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0337a8, "ax", @progbits
-        .global TaskHandler_0337a8
-TaskHandler_0337a8:
+        .section .text.Player_SpawnFall_0337a8, "ax", @progbits
+        .global Player_SpawnFall_0337a8
+Player_SpawnFall_0337a8:
         addq.w  #0x3,0x24(a6)                   | +000
         move.b  #0x4,0x70(a6)                   | +004
         lea     0x279f8a.l,a0                   | +00a
@@ -1168,29 +1168,29 @@ TaskHandler_0337a8:
 .L0337ea:
         bset    #0x6,0x13(a6)                   | +042
         bset    #0x1,0x8d(a6)                   | +048
-        jsr     Sub_00032FF2(pc)                | +04e
-        jsr     TaskHandler_032d32(pc)          | +052
-        lea     TaskHandler_03386e(pc),a1       | +056
+        jsr     Player_FrameCommon_032ff2(pc)   | +04e
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +052
+        lea     Player_SpawnLand_03386e(pc),a1  | +056
         move.l  a1,(a6)                         | +05a
         bclr    #0x1,0x8d(a6)                   | +05c
         jsr     0x27bc8.l                       | +062
         bcs.w   .L03382a                        | +068
         jsr     0x27bc8.l                       | +06c
         bcs.w   .L03382a                        | +072
-        lea     TaskHandler_0338fa(pc),a1       | +076
+        lea     Player_SpawnLandB_0338fa(pc),a1 | +076
         move.l  a1,(a6)                         | +07a
         bset    #0x1,0x8d(a6)                   | +07c
 .L03382a:
-        jsr     Sub_00032AA8(pc)                | +082
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +082
         cmpi.b  #0x3,0x106ece.l                 | +086
         beq.w   .L03384e                        | +08e
         movea.l #0xffffffff,a0                  | +092
-        lea     Sub_000324C6(pc),a0             | +098  -> $0324C6 (hueco futuro, defsym forward)
+        lea     Sub_000324C6(pc),a0             | +098
         jsr     0x5dd56.l                       | +09c
         bra.w   .L03385e                        | +0a2
 .L03384e:
         movea.l #0xffffffff,a0                  | +0a6
-        lea     Sub_000324BC(pc),a0             | +0ac  -> $0324BC (hueco futuro, defsym forward)
+        lea     Sub_000324BC(pc),a0             | +0ac
         jsr     0x5dd56.l                       | +0b0
 .L03385e:
         bcc.w   JsrPcThunk_033868               | +0b6
@@ -1198,11 +1198,11 @@ TaskHandler_0337a8:
         move.l  a1,(a6)                         | +0be
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03386e  @ $03386E  (134 B)
+|  Player_SpawnLand_03386e  @ $03386E  (134 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03386e, "ax", @progbits
-        .global TaskHandler_03386e
-TaskHandler_03386e:
+        .section .text.Player_SpawnLand_03386e, "ax", @progbits
+        .global Player_SpawnLand_03386e
+Player_SpawnLand_03386e:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bset    #0x7,0x5b(a6)                   | +00c
@@ -1212,12 +1212,12 @@ TaskHandler_03386e:
         lea     .L033896(pc),a1                 | +022
         move.l  a1,(a6)                         | +026
 .L033896:
-        jsr     Sub_00032FF2(pc)                | +028
-        jsr     TaskHandler_032d32(pc)          | +02c
+        jsr     Player_FrameCommon_032ff2(pc)   | +028
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +02c
         jsr     0x27a92.l                       | +030
-        jsr     Sub_00032AA8(pc)                | +036
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +036
         bcc.w   .L0338e4                        | +03a
-        lea     Sub_00034704(pc),a1             | +03e  -> $034704 (hueco futuro, defsym forward)
+        lea     Sub_00034704(pc),a1             | +03e
         move.l  a1,(a6)                         | +042
         cmpa.l  #0x100440,a6                    | +044
         bne.w   .L0338cc                        | +04a
@@ -1233,15 +1233,15 @@ TaskHandler_03386e:
 .L0338e4:
         jsr     0x27eba.l                       | +076
         bcc.w   JsrPcThunk_0338f4               | +07c
-        lea     Sub_00036C8C(pc),a1             | +080  -> $036C8C (hueco futuro, defsym forward)
+        lea     Sub_00036C8C(pc),a1             | +080
         move.l  a1,(a6)                         | +084
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0338fa  @ $0338FA  (82 B)
+|  Player_SpawnLandB_0338fa  @ $0338FA  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0338fa, "ax", @progbits
-        .global TaskHandler_0338fa
-TaskHandler_0338fa:
+        .section .text.Player_SpawnLandB_0338fa, "ax", @progbits
+        .global Player_SpawnLandB_0338fa
+Player_SpawnLandB_0338fa:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bset    #0x7,0x5b(a6)                   | +00c
@@ -1254,29 +1254,29 @@ TaskHandler_0338fa:
         move.l  a1,(a6)                         | +02e
 .L03392a:
         bset    #0x1,0x8d(a6)                   | +030
-        jsr     Sub_00032FF2(pc)                | +036
-        jsr     TaskHandler_032d32(pc)          | +03a
+        jsr     Player_FrameCommon_032ff2(pc)   | +036
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +03a
         jsr     0x27bc8.l                       | +03e
-        jsr     Sub_00032AA8(pc)                | +044
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +044
         bcc.w   JsrPcThunk_03394c               | +048
-        lea     Sub_00036C8C(pc),a1             | +04c  -> $036C8C (hueco futuro, defsym forward)
+        lea     Sub_00036C8C(pc),a1             | +04c
         move.l  a1,(a6)                         | +050
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033952  @ $033952  (4 B)
+|  Player_JmpState36C8C_033952  @ $033952  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033952, "ax", @progbits
-        .global TaskHandler_033952
-TaskHandler_033952:
-        jmp     Sub_00036C8C(pc)                | +000  -> $036C8C (hueco futuro, defsym forward)
+        .section .text.Player_JmpState36C8C_033952, "ax", @progbits
+        .global Player_JmpState36C8C_033952
+Player_JmpState36C8C_033952:
+        jmp     Sub_00036C8C(pc)                | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033956  @ $033956  (258 B)
+|  Player_SpawnParachute_033956  @ $033956  (258 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033956, "ax", @progbits
-        .global TaskHandler_033956
-TaskHandler_033956:
-        lea     Sub_00038CF6(pc),a1             | +000  -> $038CF6 (hueco futuro, defsym forward)
+        .section .text.Player_SpawnParachute_033956, "ax", @progbits
+        .global Player_SpawnParachute_033956
+Player_SpawnParachute_033956:
+        lea     Sub_00038CF6(pc),a1             | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  #0x0,0x7c(a6)                   | +010
@@ -1295,15 +1295,15 @@ TaskHandler_033956:
 .L0339aa:
         bset    #0x6,0x13(a6)                   | +054
         bset    #0x1,0x8d(a6)                   | +05a
-        jsr     Sub_00032FF2(pc)                | +060
-        jsr     TaskHandler_032d32(pc)          | +064
+        jsr     Player_FrameCommon_032ff2(pc)   | +060
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +064
         move.w  0x2a(a6),d0                     | +068
         move.w  #0x400,d1                       | +06c
         jsr     0x267f4.l                       | +070
         move.w  d0,0x2a(a6)                     | +076
         jsr     0x27bc8.l                       | +07a
         bcc.w   .L0339e6                        | +080
-        lea     TaskHandler_033d64__L033e8c(pc),a1 | +084
+        lea     Player_SpawnLand_Done_033e8c(pc),a1 | +084
         move.l  a1,(a6)                         | +088
         bclr    #0x1,0x8d(a6)                   | +08a
 .L0339e6:
@@ -1313,26 +1313,26 @@ TaskHandler_033956:
         ori.w   #0x10,d0                        | +09c
         or.w    d0,d1                           | +0a0
         move.w  d1,0x38(a6)                     | +0a2
-        jsr     Sub_00032AA8(pc)                | +0a6
-        jsr     TaskHandler_033034(pc)          | +0aa
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +0a6
+        jsr     Input_FireByMode_033034(pc)     | +0aa
         bcc.w   .L033a0e                        | +0ae
-        lea     Sub_00036C8C(pc),a1             | +0b2  -> $036C8C (hueco futuro, defsym forward)
+        lea     Sub_00036C8C(pc),a1             | +0b2
         move.l  a1,(a6)                         | +0b6
 .L033a0e:
         cmpi.w  #0x170,0x24(a6)                 | +0b8
         bgt.w   .L033a1e                        | +0be
-        lea     Sub_00036C8C(pc),a1             | +0c2  -> $036C8C (hueco futuro, defsym forward)
+        lea     Sub_00036C8C(pc),a1             | +0c2
         move.l  a1,(a6)                         | +0c6
 .L033a1e:
         cmpi.b  #0x3,0x106ece.l                 | +0c8
         beq.w   .L033a3e                        | +0d0
         movea.l #0xffffffff,a0                  | +0d4
-        lea     Sub_000324C6(pc),a0             | +0da  -> $0324C6 (hueco futuro, defsym forward)
+        lea     Sub_000324C6(pc),a0             | +0da
         jsr     0x5dd56.l                       | +0de
         bra.w   .L033a4e                        | +0e4
 .L033a3e:
         movea.l #0xffffffff,a0                  | +0e8
-        lea     Sub_000324BC(pc),a0             | +0ee  -> $0324BC (hueco futuro, defsym forward)
+        lea     Sub_000324BC(pc),a0             | +0ee
         jsr     0x5dd56.l                       | +0f2
 .L033a4e:
         bcc.w   JsrPcThunk_033a58               | +0f8
@@ -1340,11 +1340,11 @@ TaskHandler_033956:
         move.l  a1,(a6)                         | +100
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033a5e  @ $033A5E  (158 B)
+|  Player_Crouch_033a5e  @ $033A5E  (158 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033a5e, "ax", @progbits
-        .global TaskHandler_033a5e
-TaskHandler_033a5e:
+        .section .text.Player_Crouch_033a5e, "ax", @progbits
+        .global Player_Crouch_033a5e
+Player_Crouch_033a5e:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bclr    #0x2,0x8c(a6)                   | +00c
@@ -1356,7 +1356,7 @@ TaskHandler_033a5e:
         move.b  #0xff,0x21(a6)                  | +030
         lea     0x27973e.l,a0                   | +036
         jsr     0x28cd4.l                       | +03c
-        lea     Sub_000326E0(pc),a0             | +042  -> $0326E0 (hueco futuro, defsym forward)
+        lea     Sub_000326E0(pc),a0             | +042
         move.l  a0,0x48(a6)                     | +046
         move.l  #0x32500,0x60(a6)               | +04a
         jsr     0x267e6.l                       | +052
@@ -1364,31 +1364,31 @@ TaskHandler_033a5e:
         lea     .L033ac0(pc),a1                 | +05c
         move.l  a1,(a6)                         | +060
 .L033ac0:
-        jsr     Sub_00032FF2(pc)                | +062
-        jsr     TaskHandler_032d32(pc)          | +066
+        jsr     Player_FrameCommon_032ff2(pc)   | +062
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +066
         jsr     0x27a92.l                       | +06a
-        jsr     Sub_00032AA8(pc)                | +070
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +070
         bcc.w   .L033af8                        | +074
-        lea     Sub_00034704(pc),a1             | +078  -> $034704 (hueco futuro, defsym forward)
+        lea     Sub_00034704(pc),a1             | +078
         move.l  a1,(a6)                         | +07c
         tst.w   0x28(a6)                        | +07e
         beq.w   .L033af8                        | +082
         ble.w   .L033af2                        | +086
-        lea     Sub_00034B38(pc),a1             | +08a  -> $034B38 (hueco futuro, defsym forward)
+        lea     Sub_00034B38(pc),a1             | +08a
         move.l  a1,(a6)                         | +08e
         bra.w   .L033af8                        | +090
 .L033af2:
-        lea     Sub_00034D32(pc),a1             | +094  -> $034D32 (hueco futuro, defsym forward)
+        lea     Sub_00034D32(pc),a1             | +094
         move.l  a1,(a6)                         | +098
 .L033af8:
-        jmp     TaskHandler_033d64__L0341a4(pc) | +09a
+        jmp     Player_Idle_Tail_0341a4(pc) | +09a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033afc  @ $033AFC  (158 B)
+|  Player_CrouchB_033afc  @ $033AFC  (158 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033afc, "ax", @progbits
-        .global TaskHandler_033afc
-TaskHandler_033afc:
+        .section .text.Player_CrouchB_033afc, "ax", @progbits
+        .global Player_CrouchB_033afc
+Player_CrouchB_033afc:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bclr    #0x2,0x8c(a6)                   | +00c
@@ -1400,7 +1400,7 @@ TaskHandler_033afc:
         move.b  #0xff,0x21(a6)                  | +030
         lea     0x27981e.l,a0                   | +036
         jsr     0x28cd4.l                       | +03c
-        lea     Sub_000326E0(pc),a0             | +042  -> $0326E0 (hueco futuro, defsym forward)
+        lea     Sub_000326E0(pc),a0             | +042
         move.l  a0,0x48(a6)                     | +046
         move.l  #0x32500,0x60(a6)               | +04a
         jsr     0x267e6.l                       | +052
@@ -1408,31 +1408,31 @@ TaskHandler_033afc:
         lea     .L033b5e(pc),a1                 | +05c
         move.l  a1,(a6)                         | +060
 .L033b5e:
-        jsr     Sub_00032FF2(pc)                | +062
-        jsr     TaskHandler_032d32(pc)          | +066
+        jsr     Player_FrameCommon_032ff2(pc)   | +062
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +066
         jsr     0x27a92.l                       | +06a
-        jsr     Sub_00032AA8(pc)                | +070
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +070
         bcc.w   .L033b96                        | +074
-        lea     Sub_00034704(pc),a1             | +078  -> $034704 (hueco futuro, defsym forward)
+        lea     Sub_00034704(pc),a1             | +078
         move.l  a1,(a6)                         | +07c
         tst.w   0x28(a6)                        | +07e
         beq.w   .L033b96                        | +082
         ble.w   .L033b90                        | +086
-        lea     Sub_00034B38(pc),a1             | +08a  -> $034B38 (hueco futuro, defsym forward)
+        lea     Sub_00034B38(pc),a1             | +08a
         move.l  a1,(a6)                         | +08e
         bra.w   .L033b96                        | +090
 .L033b90:
-        lea     Sub_00034D32(pc),a1             | +094  -> $034D32 (hueco futuro, defsym forward)
+        lea     Sub_00034D32(pc),a1             | +094
         move.l  a1,(a6)                         | +098
 .L033b96:
-        bra.w   TaskHandler_033d64__L0341a4     | +09a
+        bra.w   Player_Idle_Tail_0341a4     | +09a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033b9a  @ $033B9A  (458 B)
+|  Player_Reload_033b9a  @ $033B9A  (458 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033b9a, "ax", @progbits
-        .global TaskHandler_033b9a
-TaskHandler_033b9a:
+        .section .text.Player_Reload_033b9a, "ax", @progbits
+        .global Player_Reload_033b9a
+Player_Reload_033b9a:
         cmpi.w  #0x1,0x72(a6)                   | +000
         bne.w   .L033ba8                        | +006
         jmp     .L033c8e(pc)                    | +00a
@@ -1448,7 +1448,7 @@ TaskHandler_033b9a:
         move.b  #0xff,0x21(a6)                  | +03e
         lea     0x2796f8.l,a0                   | +044
         jsr     0x28cd4.l                       | +04a
-        lea     Sub_000326E0(pc),a0             | +050  -> $0326E0 (hueco futuro, defsym forward)
+        lea     Sub_000326E0(pc),a0             | +050
         move.l  a0,0x48(a6)                     | +054
         move.l  #0x32500,0x60(a6)               | +058
         jsr     0x267e6.l                       | +060
@@ -1456,21 +1456,21 @@ TaskHandler_033b9a:
         lea     .L033c0a(pc),a1                 | +06a
         move.l  a1,(a6)                         | +06e
 .L033c0a:
-        jsr     Sub_00032FF2(pc)                | +070
-        jsr     TaskHandler_032d32(pc)          | +074
+        jsr     Player_FrameCommon_032ff2(pc)   | +070
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +074
         jsr     0x27a92.l                       | +078
-        jsr     Sub_00032AA8(pc)                | +07e
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +07e
         bcc.w   .L033c6c                        | +082
-        lea     Sub_00034704(pc),a1             | +086  -> $034704 (hueco futuro, defsym forward)
+        lea     Sub_00034704(pc),a1             | +086
         move.l  a1,(a6)                         | +08a
         tst.w   0x28(a6)                        | +08c
         beq.w   .L033c42                        | +090
         ble.w   .L033c3c                        | +094
-        lea     Sub_00034B38(pc),a1             | +098  -> $034B38 (hueco futuro, defsym forward)
+        lea     Sub_00034B38(pc),a1             | +098
         move.l  a1,(a6)                         | +09c
         bra.w   .L033c42                        | +09e
 .L033c3c:
-        lea     Sub_00034D32(pc),a1             | +0a2  -> $034D32 (hueco futuro, defsym forward)
+        lea     Sub_00034D32(pc),a1             | +0a2
         move.l  a1,(a6)                         | +0a6
 .L033c42:
         jsr     0x5e9b6.l                       | +0a8
@@ -1478,24 +1478,24 @@ TaskHandler_033b9a:
         moveq   #4,d0                           | +0b2
         cmp.w   0x82(a6),d0                     | +0b4
         bne.w   .L033c5c                        | +0b8
-        lea     TaskHandler_033afc(pc),a1       | +0bc
+        lea     Player_CrouchB_033afc(pc),a1    | +0bc
         move.l  a1,(a6)                         | +0c0
 .L033c5c:
         cmpi.w  #0x0,0x82(a6)                   | +0c2
         bne.w   .L033c6c                        | +0c8
-        lea     TaskHandler_033d64(pc),a1       | +0cc
+        lea     Player_Idle_033d64(pc),a1       | +0cc
         move.l  a1,(a6)                         | +0d0
 .L033c6c:
         btst    #0x2,0x8c(a6)                   | +0d2
         bne.w   .L033c7c                        | +0d8
         move.b  #0x1,0x85(a6)                   | +0dc
 .L033c7c:
-        jsr     TaskHandler_032d32(pc)          | +0e2
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +0e2
         bcc.w   .L033c8a                        | +0e6
-        lea     Sub_000345B8(pc),a1             | +0ea  -> $0345B8 (hueco futuro, defsym forward)
+        lea     Sub_000345B8(pc),a1             | +0ea
         move.l  a1,(a6)                         | +0ee
 .L033c8a:
-        bra.w   TaskHandler_033d64__L0341a4     | +0f0
+        bra.w   Player_Idle_Tail_0341a4     | +0f0
 .L033c8e:
         move.w  #0x0,0x7c(a6)                   | +0f4
         move.w  #0x0,0x7e(a6)                   | +0fa
@@ -1508,7 +1508,7 @@ TaskHandler_033b9a:
         move.b  #0xff,0x21(a6)                  | +124
         lea     0x279702.l,a0                   | +12a
         jsr     0x28cd4.l                       | +130
-        lea     Sub_000326E0(pc),a0             | +136  -> $0326E0 (hueco futuro, defsym forward)
+        lea     Sub_000326E0(pc),a0             | +136
         move.l  a0,0x48(a6)                     | +13a
         move.l  #0x32500,0x60(a6)               | +13e
         jsr     0x267e6.l                       | +146
@@ -1516,21 +1516,21 @@ TaskHandler_033b9a:
         lea     .L033cf0(pc),a1                 | +150
         move.l  a1,(a6)                         | +154
 .L033cf0:
-        jsr     Sub_00032FF2(pc)                | +156
-        jsr     TaskHandler_032d32(pc)          | +15a
+        jsr     Player_FrameCommon_032ff2(pc)   | +156
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +15a
         jsr     0x27a92.l                       | +15e
-        jsr     Sub_00032AA8(pc)                | +164
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +164
         bcc.w   .L033d42                        | +168
-        lea     Sub_00034704(pc),a1             | +16c  -> $034704 (hueco futuro, defsym forward)
+        lea     Sub_00034704(pc),a1             | +16c
         move.l  a1,(a6)                         | +170
         tst.w   0x28(a6)                        | +172
         beq.w   .L033d28                        | +176
         ble.w   .L033d22                        | +17a
-        lea     Sub_00034B38(pc),a1             | +17e  -> $034B38 (hueco futuro, defsym forward)
+        lea     Sub_00034B38(pc),a1             | +17e
         move.l  a1,(a6)                         | +182
         bra.w   .L033d28                        | +184
 .L033d22:
-        lea     Sub_00034D32(pc),a1             | +188  -> $034D32 (hueco futuro, defsym forward)
+        lea     Sub_00034D32(pc),a1             | +188
         move.l  a1,(a6)                         | +18c
 .L033d28:
         jsr     0x5e9b6.l                       | +18e
@@ -1538,26 +1538,26 @@ TaskHandler_033b9a:
         moveq   #4,d0                           | +198
         cmp.w   0x82(a6),d0                     | +19a
         bne.w   .L033d42                        | +19e
-        lea     TaskHandler_033afc(pc),a1       | +1a2
+        lea     Player_CrouchB_033afc(pc),a1    | +1a2
         move.l  a1,(a6)                         | +1a6
 .L033d42:
         btst    #0x2,0x8c(a6)                   | +1a8
         bne.w   .L033d52                        | +1ae
         move.b  #0x1,0x85(a6)                   | +1b2
 .L033d52:
-        jsr     TaskHandler_032d32(pc)          | +1b8
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +1b8
         bcc.w   .L033d60                        | +1bc
-        lea     Sub_000345B8(pc),a1             | +1c0  -> $0345B8 (hueco futuro, defsym forward)
+        lea     Sub_000345B8(pc),a1             | +1c0
         move.l  a1,(a6)                         | +1c4
 .L033d60:
-        bra.w   TaskHandler_033d64__L0341a4     | +1c6
+        bra.w   Player_Idle_Tail_0341a4     | +1c6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_033d64  @ $033D64  (1368 B)
+|  Player_Idle_033d64  @ $033D64  (1368 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_033d64, "ax", @progbits
-        .global TaskHandler_033d64
-TaskHandler_033d64:
+        .section .text.Player_Idle_033d64, "ax", @progbits
+        .global Player_Idle_033d64
+Player_Idle_033d64:
         move.w  #0x0,0x7c(a6)                   | +000
         move.w  #0x0,0x7e(a6)                   | +006
         bset    #0x2,0x8c(a6)                   | +00c
@@ -1581,13 +1581,13 @@ TaskHandler_033d64:
         lea     0x279828.l,a0                   | +06a
         jsr     0x28cd4.l                       | +070
 .L033dda:
-        lea     Sub_000326E0(pc),a0             | +076  -> $0326E0 (hueco futuro, defsym forward)
+        lea     Sub_000326E0(pc),a0             | +076
         move.l  a0,0x48(a6)                     | +07a
         cmpi.b  #0x0,0x71(a6)                   | +07e
         beq.w   .L033e04                        | +084
         lea     0xffff.w,a0                     | +088
         move.l  a0,0x48(a6)                     | +08c
-        lea     Sub_00038BE4(pc),a1             | +090  -> $038BE4 (hueco futuro, defsym forward)
+        lea     Sub_00038BE4(pc),a1             | +090
         jsr     0x4ae.l                         | +094
         jsr     0x5dd02.l                       | +09a
 .L033e04:
@@ -1602,34 +1602,34 @@ TaskHandler_033d64:
 .L033e2e:
         btst    #0x4,0x8c(a6)                   | +0ca
         beq.w   .L033e46                        | +0d0
-        jsr     TaskHandler_032d32(pc)          | +0d4
-        lea     Sub_000345B8(pc),a1             | +0d8  -> $0345B8 (hueco futuro, defsym forward)
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +0d4
+        lea     Sub_000345B8(pc),a1             | +0d8
         move.l  a1,(a6)                         | +0dc
-        bra.w   Sub_000345B8                    | +0de  -> $0345B8 (hueco futuro, defsym forward)
+        bra.w   Sub_000345B8                    | +0de
 .L033e46:
-        jsr     Sub_00032FF2(pc)                | +0e2
+        jsr     Player_FrameCommon_032ff2(pc)   | +0e2
         jsr     0x27a92.l                       | +0e6
-        jsr     Sub_00032AA8(pc)                | +0ec
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +0ec
         bcc.w   .L033e7a                        | +0f0
-        lea     Sub_00034704(pc),a1             | +0f4  -> $034704 (hueco futuro, defsym forward)
+        lea     Sub_00034704(pc),a1             | +0f4
         move.l  a1,(a6)                         | +0f8
         tst.w   0x28(a6)                        | +0fa
         beq.w   .L033e7a                        | +0fe
         ble.w   .L033e74                        | +102
-        lea     Sub_00034B38(pc),a1             | +106  -> $034B38 (hueco futuro, defsym forward)
+        lea     Sub_00034B38(pc),a1             | +106
         move.l  a1,(a6)                         | +10a
         bra.w   .L033e7a                        | +10c
 .L033e74:
-        lea     Sub_00034D32(pc),a1             | +110  -> $034D32 (hueco futuro, defsym forward)
+        lea     Sub_00034D32(pc),a1             | +110
         move.l  a1,(a6)                         | +114
 .L033e7a:
         btst    #0x2,0x8c(a6)                   | +116
         bne.w   .L033e88                        | +11c
-        bra.w   TaskHandler_033d64__L0341a4     | +120
+        bra.w   Player_Idle_Tail_0341a4     | +120
 .L033e88:
-        bra.w   TaskHandler_033d64__L0341a4     | +124
-        .global TaskHandler_033d64__L033e8c
-TaskHandler_033d64__L033e8c:
+        bra.w   Player_Idle_Tail_0341a4     | +124
+        .global Player_SpawnLand_Done_033e8c
+Player_SpawnLand_Done_033e8c:
         cmpa.l  #0x100440,a6                    | +128
         bne.w   .L033ea6                        | +12e
         lea     0x32112.l,a1                    | +132
@@ -1666,48 +1666,48 @@ TaskHandler_033d64__L033e8c:
         lea     0x279a96.l,a0                   | +1c6
         jsr     0x28cd4.l                       | +1cc
         bset    #0x7,0x5b(a6)                   | +1d2
-        jsr     TaskHandler_032e90(pc)          | +1d8
+        jsr     Input_DownPressed_032e90(pc)    | +1d8
         bcc.w   .L033f48                        | +1dc
-        jmp     Sub_0003827A(pc)                | +1e0  -> $03827A (hueco futuro, defsym forward)
+        jmp     Sub_0003827A(pc)                | +1e0
 .L033f48:
         cmpi.w  #0x0,0x82(a6)                   | +1e4
         bne.w   .L033f5c                        | +1ea
-        lea     TaskHandler_033d64(pc),a1       | +1ee
+        lea     Player_Idle_033d64(pc),a1       | +1ee
         move.l  a1,(a6)                         | +1f2
-        bra.w   TaskHandler_033d64              | +1f4
+        bra.w   Player_Idle_033d64              | +1f4
 .L033f5c:
         cmpi.b  #0x0,0x85(a6)                   | +1f8
         bne.w   .L033f7a                        | +1fe
         cmpi.b  #0x1,0x71(a6)                   | +202
         bne.w   .L033f7a                        | +208
-        lea     TaskHandler_033b9a(pc),a1       | +20c
+        lea     Player_Reload_033b9a(pc),a1     | +20c
         move.l  a1,(a6)                         | +210
-        bra.w   TaskHandler_033b9a              | +212
+        bra.w   Player_Reload_033b9a            | +212
 .L033f7a:
         btst    #0x0,0x88(a6)                   | +216
         beq.w   .L033f8e                        | +21c
-        lea     TaskHandler_033a5e(pc),a1       | +220
+        lea     Player_Crouch_033a5e(pc),a1     | +220
         move.l  a1,(a6)                         | +224
-        bra.w   TaskHandler_033a5e              | +226
+        bra.w   Player_Crouch_033a5e            | +226
 .L033f8e:
         move.l  #0x32500,0x60(a6)               | +22a
         jsr     0x267e6.l                       | +232
         clr.w   0x28(a6)                        | +238
-        lea     Sub_000326E0(pc),a0             | +23c  -> $0326E0 (hueco futuro, defsym forward)
+        lea     Sub_000326E0(pc),a0             | +23c
         move.l  a0,0x48(a6)                     | +240
         lea     .L033fae(pc),a1                 | +244
         move.l  a1,(a6)                         | +248
 .L033fae:
-        jsr     Sub_00032FF2(pc)                | +24a
-        jsr     TaskHandler_032d32(pc)          | +24e
+        jsr     Player_FrameCommon_032ff2(pc)   | +24a
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +24e
         bcc.w   .L033fc0                        | +252
-        lea     Sub_000345B8(pc),a1             | +256  -> $0345B8 (hueco futuro, defsym forward)
+        lea     Sub_000345B8(pc),a1             | +256
         move.l  a1,(a6)                         | +25a
 .L033fc0:
         jsr     0x27a92.l                       | +25c
-        jsr     Sub_00032AA8(pc)                | +262
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +262
         bcc.w   .L034042                        | +266
-        lea     Sub_00034704(pc),a1             | +26a  -> $034704 (hueco futuro, defsym forward)
+        lea     Sub_00034704(pc),a1             | +26a
         move.l  a1,(a6)                         | +26e
         move.b  #0x1,0x78(a6)                   | +270
         lsl.b   #0x4,d0                         | +276
@@ -1715,14 +1715,14 @@ TaskHandler_033d64__L033e8c:
         move.b  d0,0x79(a6)                     | +27c
         btst    #0x0,0x88(a6)                   | +280
         beq.w   .L033ff4                        | +286
-        lea     TaskHandler_033a5e(pc),a1       | +28a
+        lea     Player_Crouch_033a5e(pc),a1     | +28a
         move.l  a1,(a6)                         | +28e
 .L033ff4:
         cmpi.b  #0x0,0x85(a6)                   | +290
         bne.w   .L03400e                        | +296
         cmpi.b  #0x1,0x71(a6)                   | +29a
         bne.w   .L03400e                        | +2a0
-        lea     TaskHandler_033b9a(pc),a1       | +2a4
+        lea     Player_Reload_033b9a(pc),a1     | +2a4
         move.l  a1,(a6)                         | +2a8
 .L03400e:
         jsr     0x5e9b6.l                       | +2aa
@@ -1732,24 +1732,24 @@ TaskHandler_033d64__L033e8c:
         bne.w   .L034032                        | +2bc
         cmp.w   0x82(a6),d0                     | +2c0
         bne.w   .L034032                        | +2c4
-        lea     TaskHandler_033afc(pc),a1       | +2c8
+        lea     Player_CrouchB_033afc(pc),a1    | +2c8
         move.l  a1,(a6)                         | +2cc
 .L034032:
         cmpi.w  #0x0,0x82(a6)                   | +2ce
         bne.w   .L034042                        | +2d4
-        lea     TaskHandler_033d64(pc),a1       | +2d8
+        lea     Player_Idle_033d64(pc),a1       | +2d8
         move.l  a1,(a6)                         | +2dc
 .L034042:
-        jmp     TaskHandler_033d64__L0341a4(pc) | +2de
+        jmp     Player_Idle_Tail_0341a4(pc) | +2de
         cmpi.b  #0x13,0x70(a6)                  | +2e2
         bcs.w   .L03405e                        | +2e8
         cmpi.b  #0x24,0x70(a6)                  | +2ec
         bcc.w   .L03405e                        | +2f2
-        jmp     Sub_00034704(pc)                | +2f6  -> $034704 (hueco futuro, defsym forward)
+        jmp     Sub_00034704(pc)                | +2f6
 .L03405e:
         cmpi.w  #0x1,0x72(a6)                   | +2fa
         bne.w   .L03406c                        | +300
-        jmp     Sub_00034704(pc)                | +304  -> $034704 (hueco futuro, defsym forward)
+        jmp     Sub_00034704(pc)                | +304
 .L03406c:
         move.w  #0x0,0x7c(a6)                   | +308
         move.w  #0x0,0x7e(a6)                   | +30e
@@ -1766,37 +1766,37 @@ TaskHandler_033d64__L033e8c:
         move.l  #0x32500,0x60(a6)               | +350
         jsr     0x267e6.l                       | +358
         clr.w   0x28(a6)                        | +35e
-        lea     Sub_000326E0(pc),a0             | +362  -> $0326E0 (hueco futuro, defsym forward)
+        lea     Sub_000326E0(pc),a0             | +362
         move.l  a0,0x48(a6)                     | +366
         cmpi.w  #0x0,0x82(a6)                   | +36a
         bne.w   .L0340e2                        | +370
-        lea     TaskHandler_033d64(pc),a1       | +374
+        lea     Player_Idle_033d64(pc),a1       | +374
         move.l  a1,(a6)                         | +378
-        bra.w   TaskHandler_033d64              | +37a
+        bra.w   Player_Idle_033d64              | +37a
 .L0340e2:
         cmpi.b  #0x0,0x85(a6)                   | +37e
         bne.w   .L034100                        | +384
         cmpi.b  #0x1,0x71(a6)                   | +388
         bne.w   .L034100                        | +38e
-        lea     TaskHandler_033b9a(pc),a1       | +392
+        lea     Player_Reload_033b9a(pc),a1     | +392
         move.l  a1,(a6)                         | +396
-        bra.w   TaskHandler_033b9a              | +398
+        bra.w   Player_Reload_033b9a            | +398
 .L034100:
         btst    #0x0,0x88(a6)                   | +39c
         beq.w   .L034114                        | +3a2
-        lea     TaskHandler_033a5e(pc),a1       | +3a6
+        lea     Player_Crouch_033a5e(pc),a1     | +3a6
         move.l  a1,(a6)                         | +3aa
-        bra.w   TaskHandler_033a5e              | +3ac
+        bra.w   Player_Crouch_033a5e            | +3ac
 .L034114:
         lea     .L03411a(pc),a1                 | +3b0
         move.l  a1,(a6)                         | +3b4
 .L03411a:
-        jsr     Sub_00032FF2(pc)                | +3b6
-        jsr     TaskHandler_032d32(pc)          | +3ba
+        jsr     Player_FrameCommon_032ff2(pc)   | +3b6
+        jsr     Player_PlayWeaponMusicIfFlag_032d32(pc) | +3ba
         jsr     0x27a92.l                       | +3be
-        jsr     Sub_00032AA8(pc)                | +3c4
-        bcc.w   TaskHandler_033d64__L0341a4     | +3c8
-        lea     Sub_00034704(pc),a1             | +3cc  -> $034704 (hueco futuro, defsym forward)
+        jsr     Player_CheckDeathOrState21_032aa8(pc) | +3c4
+        bcc.w   Player_Idle_Tail_0341a4     | +3c8
+        lea     Sub_00034704(pc),a1             | +3cc
         move.l  a1,(a6)                         | +3d0
         move.b  #0x1,0x78(a6)                   | +3d2
         lsl.b   #0x4,d0                         | +3d8
@@ -1804,14 +1804,14 @@ TaskHandler_033d64__L033e8c:
         move.b  d0,0x79(a6)                     | +3de
         btst    #0x0,0x88(a6)                   | +3e2
         beq.w   .L034156                        | +3e8
-        lea     TaskHandler_033a5e(pc),a1       | +3ec
+        lea     Player_Crouch_033a5e(pc),a1     | +3ec
         move.l  a1,(a6)                         | +3f0
 .L034156:
         cmpi.b  #0x0,0x85(a6)                   | +3f2
         bne.w   .L034170                        | +3f8
         cmpi.b  #0x1,0x71(a6)                   | +3fc
         bne.w   .L034170                        | +402
-        lea     TaskHandler_033b9a(pc),a1       | +406
+        lea     Player_Reload_033b9a(pc),a1     | +406
         move.l  a1,(a6)                         | +40a
 .L034170:
         jsr     0x5e9b6.l                       | +40c
@@ -1821,73 +1821,73 @@ TaskHandler_033d64__L033e8c:
         bne.w   .L034194                        | +41e
         cmp.w   0x82(a6),d0                     | +422
         bne.w   .L034194                        | +426
-        lea     TaskHandler_033afc(pc),a1       | +42a
+        lea     Player_CrouchB_033afc(pc),a1    | +42a
         move.l  a1,(a6)                         | +42e
 .L034194:
         cmpi.w  #0x0,0x82(a6)                   | +430
-        bne.w   TaskHandler_033d64__L0341a4     | +436
-        lea     TaskHandler_033d64(pc),a1       | +43a
+        bne.w   Player_Idle_Tail_0341a4     | +436
+        lea     Player_Idle_033d64(pc),a1       | +43a
         move.l  a1,(a6)                         | +43e
-        .global TaskHandler_033d64__L0341a4
-TaskHandler_033d64__L0341a4:
+        .global Player_Idle_Tail_0341a4
+Player_Idle_Tail_0341a4:
         btst    #0x2,0x8c(a6)                   | +440
         bne.w   .L03425c                        | +446
         btst    #0x0,0x3a(a6)                   | +44a
         bne.w   .L0341d8                        | +450
         jsr     JmpAbsThunk_032e3c(pc)          | +454
         bcc.w   .L0341c6                        | +458
-        lea     Sub_00034B38(pc),a1             | +45c  -> $034B38 (hueco futuro, defsym forward)
+        lea     Sub_00034B38(pc),a1             | +45c
         move.l  a1,(a6)                         | +460
 .L0341c6:
-        jsr     TaskHandler_032e42(pc)          | +462
+        jsr     Input_RightThunk_032e42(pc)     | +462
         bcc.w   .L0341d4                        | +466
-        lea     Sub_00035BF8(pc),a1             | +46a  -> $035BF8 (hueco futuro, defsym forward)
+        lea     Sub_00035BF8(pc),a1             | +46a
         move.l  a1,(a6)                         | +46e
 .L0341d4:
         bra.w   .L0341f4                        | +470
 .L0341d8:
         jsr     JmpAbsThunk_032e3c(pc)          | +474
         bcc.w   .L0341e6                        | +478
-        lea     Sub_00035ABA(pc),a1             | +47c  -> $035ABA (hueco futuro, defsym forward)
+        lea     Sub_00035ABA(pc),a1             | +47c
         move.l  a1,(a6)                         | +480
 .L0341e6:
-        jsr     TaskHandler_032e42(pc)          | +482
+        jsr     Input_RightThunk_032e42(pc)     | +482
         bcc.w   .L0341f4                        | +486
-        lea     Sub_00034D32(pc),a1             | +48a  -> $034D32 (hueco futuro, defsym forward)
+        lea     Sub_00034D32(pc),a1             | +48a
         move.l  a1,(a6)                         | +48e
 .L0341f4:
-        jsr     TaskHandler_032e90(pc)          | +490
+        jsr     Input_DownPressed_032e90(pc)    | +490
         bcc.w   .L034202                        | +494
-        lea     Sub_00037C74(pc),a1             | +498  -> $037C74 (hueco futuro, defsym forward)
+        lea     Sub_00037C74(pc),a1             | +498
         move.l  a1,(a6)                         | +49c
 .L034202:
-        jsr     TaskHandler_0330d0(pc)          | +49e
+        jsr     Player_ActionSelect_0330d0(pc)  | +49e
         bcc.w   .L03425c                        | +4a2
         cmpi.b  #0xff,d1                        | +4a6
         bne.w   .L03421c                        | +4aa
-        lea     Sub_00035D34(pc),a1             | +4ae  -> $035D34 (hueco futuro, defsym forward)
+        lea     Sub_00035D34(pc),a1             | +4ae
         move.l  a1,(a6)                         | +4b2
         bra.w   .L03425c                        | +4b4
 .L03421c:
         cmpi.b  #0x3,d1                         | +4b8
         bne.w   .L03422e                        | +4bc
-        lea     Sub_000360BC(pc),a1             | +4c0  -> $0360BC (hueco futuro, defsym forward)
+        lea     Sub_000360BC(pc),a1             | +4c0
         move.l  a1,(a6)                         | +4c4
         bra.w   .L03425c                        | +4c6
 .L03422e:
         cmpi.b  #0x4,d1                         | +4ca
         bne.w   .L034240                        | +4ce
-        lea     Sub_0003873C(pc),a1             | +4d2  -> $03873C (hueco futuro, defsym forward)
+        lea     Sub_0003873C(pc),a1             | +4d2
         move.l  a1,(a6)                         | +4d6
         bra.w   .L03425c                        | +4d8
 .L034240:
         cmpi.b  #0x1,d1                         | +4dc
         bne.w   .L034252                        | +4e0
-        lea     Sub_0003437E(pc),a1             | +4e4  -> $03437E (hueco futuro, defsym forward)
+        lea     Sub_0003437E(pc),a1             | +4e4
         move.l  a1,(a6)                         | +4e8
         bra.w   .L03425c                        | +4ea
 .L034252:
-        lea     Sub_000342C4(pc),a1             | +4ee  -> $0342C4 (hueco futuro, defsym forward)
+        lea     Sub_000342C4(pc),a1             | +4ee
         move.l  a1,(a6)                         | +4f2
         bra.w   .L03425c                        | +4f4
 .L03425c:
@@ -1896,24 +1896,24 @@ TaskHandler_033d64__L0341a4:
         lea     TaskHandler_036d64(pc),a1       | +502
         move.l  a1,(a6)                         | +506
         beq.w   .L034276                        | +508
-        lea     Sub_00037018(pc),a1             | +50c  -> $037018 (hueco futuro, defsym forward)
+        lea     Sub_00037018(pc),a1             | +50c
         move.l  a1,(a6)                         | +510
 .L034276:
-        jsr     TaskHandler_033034(pc)          | +512
+        jsr     Input_FireByMode_033034(pc)     | +512
         bcc.w   .L034284                        | +516
-        lea     Sub_00036914(pc),a1             | +51a  -> $036914 (hueco futuro, defsym forward)
+        lea     Sub_00036914(pc),a1             | +51a
         move.l  a1,(a6)                         | +51e
 .L034284:
         jsr     PlayerRoute_PublishState_033522(pc) | +520
         cmpi.b  #0x3,0x106ece.l                 | +524
         beq.w   .L0342a8                        | +52c
         movea.l #0xffffffff,a0                  | +530
-        lea     Sub_000324C6(pc),a0             | +536  -> $0324C6 (hueco futuro, defsym forward)
+        lea     Sub_000324C6(pc),a0             | +536
         jsr     0x5dd56.l                       | +53a
         bra.w   .L0342b8                        | +540
 .L0342a8:
         movea.l #0xffffffff,a0                  | +544
-        lea     Sub_000324BC(pc),a0             | +54a  -> $0324BC (hueco futuro, defsym forward)
+        lea     Sub_000324BC(pc),a0             | +54a
         jsr     0x5dd56.l                       | +54e
 .L0342b8:
         bcc.w   SetHandlerRts_0342c2            | +554

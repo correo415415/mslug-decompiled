@@ -1068,7 +1068,6 @@ SYMBOLS = {
     #      Etiqueta fin-de-funcion para Probe_Bit3At100001_0334A2: el beq.w
     #      inicial salta al primer byte JUSTO DESPUES del rts (idioma
     #      "salida por el borde"). El linker resuelve a $0334C6.
-    0x000334C6: "Probe_Bit3At100001_End",
 
     # ---- Wave NN batch 2: externals del dispatcher + spawn constructor.
     #      LUT de 2 punteros en $3349A (P1/P2) referenciada por lea pc-rel:

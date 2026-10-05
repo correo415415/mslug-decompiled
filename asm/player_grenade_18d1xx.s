@@ -22,8 +22,8 @@
 |
 |   2. Lanzamiento (desde Player_* vía JmpAbsThunk_033346 y la tríada
 |      `jmp $28D876/$28D9DC/$28D7AA` en $033346..$033358, enlazada por
-|      `lea X(pc),a1; jsr $5EAB6` en TaskHandler_0332bc (+$80(a0) = granadas
-|      restantes, decrementa) y `jsr $6FE` en TaskHandler_03331c):
+|      `lea X(pc),a1; jsr $5EAB6` en Player_ThrowGrenade_0332bc (+$80(a0) = granadas
+|      restantes, decrementa) y `jsr $6FE` en Player_ThrowGrenadeDown_03331c):
 |        - Grenade_Throw_18d586 / ThrowB_18d5aa: vel X aleatoria ($5DCA4 con
 |          base $F64E/$F000), vel Y $0B9A/$0663, acc Y $FF4C/$FEB9 -> común
 |          Grenade_Throw_Common: bit4 +$6B, prio $D000, mapa AnimExplode,

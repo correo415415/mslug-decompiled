@@ -121,7 +121,7 @@
 Probe_Bit3At100001_0334A2:
 PcThunkTarget_0334a2:
         btst.b  #0x3, 0x100001.l                | +00  test DIP bit 3
-        beq.w   Probe_Bit3At100001_End          | +08  if clear -> exit (fall-out to $0334C6)
+        beq.w   Player_DeathGate_0334c6          | +08  if clear -> exit (fall-out to $0334C6)
         bclr.b  #0x3, 0x13(a6)                  | +0c  clear flag bit 3
         bclr.b  #0x0, 0x13(a6)                  | +12  clear flag bit 0
         move.w  #0x1, 0x66(a6)                  | +18  event_ctr = 1
