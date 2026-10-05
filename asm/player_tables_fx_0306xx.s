@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_030696  @ $030696  (106 B)
+|  Chain3_InitAlt_030696  @ $030696  (106 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_030696, "ax", @progbits
-        .global TaskHandler_030696
-TaskHandler_030696:
+        .section .text.Chain3_InitAlt_030696, "ax", @progbits
+        .global Chain3_InitAlt_030696
+Chain3_InitAlt_030696:
         bset    #0x3,0x5b(a6)                   | +000
         lea     Chain3_TplC_03010c(pc),a1       | +006
         jsr     0x4ae.l                         | +00a
@@ -42,19 +42,19 @@ TaskHandler_030696:
         bra.w   Entity_Build3ChainCircular_03060A__L030664 | +066
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_030700  @ $030700  (2 B)
+|  Chain3_Nop_030700  @ $030700  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_030700, "ax", @progbits
-        .global TaskHandler_030700
-TaskHandler_030700:
+        .section .text.Chain3_Nop_030700, "ax", @progbits
+        .global Chain3_Nop_030700
+Chain3_Nop_030700:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_00030704  @ $030704  (58 B)
+|  Chain3_PickLink_030704  @ $030704  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00030704, "ax", @progbits
-        .global Sub_00030704
-Sub_00030704:
+        .section .text.Chain3_PickLink_030704, "ax", @progbits
+        .global Chain3_PickLink_030704
+Chain3_PickLink_030704:
         movea.l 0x74(a6),a1                     | +000
         movea.l 0x78(a6),a2                     | +004
         movea.l a1,a0                           | +008
@@ -75,12 +75,12 @@ Sub_00030704:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03073e  @ $03073E  (32 B)
+|  Chain3_LinkCmpField82_03073e  @ $03073E  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03073e, "ax", @progbits
-        .global TaskHandler_03073e
-TaskHandler_03073e:
-        jsr     Sub_00030704(pc)                | +000
+        .section .text.Chain3_LinkCmpField82_03073e, "ax", @progbits
+        .global Chain3_LinkCmpField82_03073e
+Chain3_LinkCmpField82_03073e:
+        jsr     Chain3_PickLink_030704(pc)      | +000
         bne.w   ClearXN_030764                  | +004
         move.w  0x82(a1),d1                     | +008
         move.w  #0x1,d0                         | +00c
@@ -90,11 +90,11 @@ TaskHandler_03073e:
         move.w  #0xffff,d0                      | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03076a  @ $03076A  (126 B)
+|  Chain3_LinksYDeltaIsStep_03076a  @ $03076A  (126 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03076a, "ax", @progbits
-        .global TaskHandler_03076a
-TaskHandler_03076a:
+        .section .text.Chain3_LinksYDeltaIsStep_03076a, "ax", @progbits
+        .global Chain3_LinksYDeltaIsStep_03076a
+Chain3_LinksYDeltaIsStep_03076a:
         movea.l 0x74(a6),a1                     | +000
         movea.l 0x78(a6),a2                     | +004
         move.b  0x5a(a1),d1                     | +008
@@ -133,22 +133,22 @@ TaskHandler_03076a:
         rts                                     | +07c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0307e8  @ $0307E8  (16 B)
+|  Entity_CmpDepthWithLink8_0307e8  @ $0307E8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0307e8, "ax", @progbits
-        .global TaskHandler_0307e8
-TaskHandler_0307e8:
+        .section .text.Entity_CmpDepthWithLink8_0307e8, "ax", @progbits
+        .global Entity_CmpDepthWithLink8_0307e8
+Entity_CmpDepthWithLink8_0307e8:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_0307fe                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_030804  @ $030804  (164 B)
+|  PlayerGrenade_AttackTbl_030804  @ $030804  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_030804, "ax", @progbits
-        .global Data_030804
-Data_030804:
+        .section .text.PlayerGrenade_AttackTbl_030804, "ax", @progbits
+        .global PlayerGrenade_AttackTbl_030804
+PlayerGrenade_AttackTbl_030804:
         .dc.w   0x0301                        | +000  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0204                        | +004  (dato / opcode no decodificado)
@@ -233,38 +233,38 @@ Data_030804:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_0308a8  @ $0308A8  (8 B)
+|  PlayerGrenade_GroundTbl_0308a8  @ $0308A8  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0308a8, "ax", @progbits
-        .global Data_0308a8
-Data_0308a8:
+        .section .text.PlayerGrenade_GroundTbl_0308a8, "ax", @progbits
+        .global PlayerGrenade_GroundTbl_0308a8
+PlayerGrenade_GroundTbl_0308a8:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffd0                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0308b0  @ $0308B0  (18 B)
+|  PlayerGrenade_SpawnFromVehicle_0308b0  @ $0308B0  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0308b0, "ax", @progbits
-        .global TaskHandler_0308b0
-TaskHandler_0308b0:
+        .section .text.PlayerGrenade_SpawnFromVehicle_0308b0, "ax", @progbits
+        .global PlayerGrenade_SpawnFromVehicle_0308b0
+PlayerGrenade_SpawnFromVehicle_0308b0:
         move.w  #0x1d6,d1                       | +000
         move.w  d1,0x9e(a6)                     | +004
         jsr     0x236e.l                        | +008
-        bra.w   AnimSeq_000308C2__L0308d0       | +00e
+        bra.w   PlayerGrenade_Spawn_0308c2__L0308d0 | +00e
 
 | ----------------------------------------------------------------------------
-|  AnimSeq_000308C2  @ $0308C2  (120 B)
+|  PlayerGrenade_Spawn_0308c2  @ $0308C2  (120 B)
 | ----------------------------------------------------------------------------
-        .section .text.AnimSeq_000308C2, "ax", @progbits
-        .global AnimSeq_000308C2
-AnimSeq_000308C2:
+        .section .text.PlayerGrenade_Spawn_0308c2, "ax", @progbits
+        .global PlayerGrenade_Spawn_0308c2
+PlayerGrenade_Spawn_0308c2:
         move.w  #0x2,d1                         | +000
         move.w  d1,0x9e(a6)                     | +004
         jsr     0x236e.l                        | +008
-        .global AnimSeq_000308C2__L0308d0
-AnimSeq_000308C2__L0308d0:
+        .global PlayerGrenade_Spawn_0308c2__L0308d0
+PlayerGrenade_Spawn_0308c2__L0308d0:
         move.b  0x98(a6),0x70(a6)               | +00e
         move.b  0x9a(a6),0x7a(a6)               | +014
         bset    #0x4,0x6b(a6)                   | +01a
@@ -284,21 +284,21 @@ AnimSeq_000308C2__L0308d0:
         beq.w   .L030928                        | +05c
         jsr     0x28cd4.l                       | +060
 .L030928:
-        lea     Data_030804(pc),a0              | +066
+        lea     PlayerGrenade_AttackTbl_030804(pc),a0 | +066
         move.l  a0,0x4c(a6)                     | +06a
         jsr     0x283ca.l                       | +06e
-        jmp     TaskHandler_03093a__L0309ae(pc) | +074
+        jmp     PlayerGrenade_SpawnB_03093a__L0309ae(pc) | +074
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03093a  @ $03093A  (628 B)
+|  PlayerGrenade_SpawnB_03093a  @ $03093A  (628 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03093a, "ax", @progbits
-        .global TaskHandler_03093a
-TaskHandler_03093a:
+        .section .text.PlayerGrenade_SpawnB_03093a, "ax", @progbits
+        .global PlayerGrenade_SpawnB_03093a
+PlayerGrenade_SpawnB_03093a:
         move.b  0x98(a6),0x70(a6)               | +000
         move.b  0x9a(a6),0x7a(a6)               | +006
         bset    #0x4,0x6b(a6)                   | +00c
-        lea     Data_030804(pc),a0              | +012
+        lea     PlayerGrenade_AttackTbl_030804(pc),a0 | +012
         move.l  a0,0x4c(a6)                     | +016
         jsr     0x283ca.l                       | +01a
         move.w  #0xd000,0x38(a6)                | +020
@@ -317,10 +317,10 @@ TaskHandler_03093a:
         lsl.w   #0x2,d0                         | +05e
         movea.l (a0,d0.w),a0                    | +060
         cmpa.l  #0xffffffff,a0                  | +064
-        beq.w   TaskHandler_03093a__L0309ae     | +06a
+        beq.w   PlayerGrenade_SpawnB_03093a__L0309ae | +06a
         jsr     0x28cd4.l                       | +06e
-        .global TaskHandler_03093a__L0309ae
-TaskHandler_03093a__L0309ae:
+        .global PlayerGrenade_SpawnB_03093a__L0309ae
+PlayerGrenade_SpawnB_03093a__L0309ae:
         jsr     0x267e2.l                       | +074
         move.b  0x70(a6),d0                     | +07a
         andi.w  #0xf8,d0                        | +07e
@@ -372,17 +372,17 @@ TaskHandler_03093a__L0309ae:
         subq.w  #0x1,d0                         | +10c
         add.w   d1,d0                           | +10e
         andi.w  #0xff,d0                        | +110
-        jsr     TaskHandler_030bfe(pc)          | +114
+        jsr     PlayerGrenade_AngleFromSpread_030bfe(pc) | +114
         bra.w   .L030aa4                        | +118
 .L030a56:
         cmpi.b  #0x3,0x106f2a.l                 | +11c
         bne.w   .L030a6a                        | +124
-        jsr     TaskHandler_030bfe(pc)          | +128
+        jsr     PlayerGrenade_AngleFromSpread_030bfe(pc) | +128
         bra.w   .L030aa4                        | +12c
 .L030a6a:
         cmpi.b  #0x2,0x106f2a.l                 | +130
         bne.w   .L030a7e                        | +138
-        jsr     TaskHandler_030bfe(pc)          | +13c
+        jsr     PlayerGrenade_AngleFromSpread_030bfe(pc) | +13c
         bra.w   .L030aa4                        | +140
 .L030a7e:
         cmpi.b  #0x0,0x106f2a.l                 | +144
@@ -438,7 +438,7 @@ TaskHandler_03093a__L0309ae:
         jsr     0x27cee.l                       | +1fe
         bcc.w   .L030b6e                        | +204
 .L030b42:
-        lea     TaskHandler_030bb6(pc),a1       | +208
+        lea     PlayerGrenade_ExplodeGround_030bb6(pc),a1 | +208
         move.l  a1,(a6)                         | +20c
         cmpi.b  #0x38,d0                        | +20e
         beq.w   .L030b64                        | +212
@@ -461,44 +461,44 @@ TaskHandler_03093a__L0309ae:
         jsr     0x283d8.l                       | +24a
         btst    #0x1,0x13(a6)                   | +250
         beq.w   .L030b9a                        | +256
-        lea     TaskHandler_030bd6(pc),a1       | +25a
+        lea     PlayerGrenade_ExplodeAir_030bd6(pc),a1 | +25a
         move.l  a1,(a6)                         | +25e
 .L030b9a:
         movea.l #0xffffffff,a0                  | +260
-        lea     Data_0308a8(pc),a0              | +266
+        lea     PlayerGrenade_GroundTbl_0308a8(pc),a0 | +266
         jsr     0x5dd56.l                       | +26a
         bcc.w   SetHandlerRts_030bb4            | +270
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_030bb6  @ $030BB6  (24 B)
+|  PlayerGrenade_ExplodeGround_030bb6  @ $030BB6  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_030bb6, "ax", @progbits
-        .global TaskHandler_030bb6
-TaskHandler_030bb6:
-        lea     TaskHandler_031c72(pc),a1       | +000
+        .section .text.PlayerGrenade_ExplodeGround_030bb6, "ax", @progbits
+        .global PlayerGrenade_ExplodeGround_030bb6
+PlayerGrenade_ExplodeGround_030bb6:
+        lea     Fx_GroundBurst_031c72(pc),a1    | +000
         jsr     0x6fe.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  0x9e(a6),d1                     | +010
         move.w  d1,0x9e(a0)                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_030bd6  @ $030BD6  (24 B)
+|  PlayerGrenade_ExplodeAir_030bd6  @ $030BD6  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_030bd6, "ax", @progbits
-        .global TaskHandler_030bd6
-TaskHandler_030bd6:
-        lea     TaskHandler_031cca(pc),a1       | +000
+        .section .text.PlayerGrenade_ExplodeAir_030bd6, "ax", @progbits
+        .global PlayerGrenade_ExplodeAir_030bd6
+PlayerGrenade_ExplodeAir_030bd6:
+        lea     Fx_AirBurst_031cca(pc),a1       | +000
         jsr     0x6fe.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  0x9e(a6),d1                     | +010
         move.w  d1,0x9e(a0)                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_030bfe  @ $030BFE  (22 B)
+|  PlayerGrenade_AngleFromSpread_030bfe  @ $030BFE  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_030bfe, "ax", @progbits
-        .global TaskHandler_030bfe
-TaskHandler_030bfe:
+        .section .text.PlayerGrenade_AngleFromSpread_030bfe, "ax", @progbits
+        .global PlayerGrenade_AngleFromSpread_030bfe
+PlayerGrenade_AngleFromSpread_030bfe:
         move.w  d0,d1                           | +000
         moveq   #0,d0                           | +002
         move.b  0x9b(a6),d0                     | +004
@@ -509,11 +509,11 @@ TaskHandler_030bfe:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskProto_00030C14  @ $030C14  (92 B)
+|  EnemyShot_Straight_030c14  @ $030C14  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskProto_00030C14, "ax", @progbits
-        .global TaskProto_00030C14
-TaskProto_00030C14:
+        .section .text.EnemyShot_Straight_030c14, "ax", @progbits
+        .global EnemyShot_Straight_030c14
+EnemyShot_Straight_030c14:
         move.b  0x98(a6),0x70(a6)               | +000
         move.w  #0x1d6,d1                       | +006
         jsr     0x236e.l                        | +00a
@@ -538,11 +538,11 @@ TaskProto_00030C14:
         rts                                     | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskProto_00030C70  @ $030C70  (140 B)
+|  EnemyShot_Bounce_030c70  @ $030C70  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskProto_00030C70, "ax", @progbits
-        .global TaskProto_00030C70
-TaskProto_00030C70:
+        .section .text.EnemyShot_Bounce_030c70, "ax", @progbits
+        .global EnemyShot_Bounce_030c70
+EnemyShot_Bounce_030c70:
         move.w  #0x6,d1                         | +000
         jsr     0x236e.l                        | +004
         move.w  #0x400,0x2a(a6)                 | +00a
@@ -571,7 +571,7 @@ TaskProto_00030C70:
         move.w  d0,0x2a(a6)                     | +062
         jsr     0x27d50.l                       | +066
         bcc.w   .L030ce6                        | +06c
-        lea     TaskHandler_030d04(pc),a1       | +070
+        lea     EnemyShot_BounceB_030d04(pc),a1 | +070
         move.l  a1,(a6)                         | +074
 .L030ce6:
         jsr     0x28d70.l                       | +076
@@ -580,11 +580,11 @@ TaskProto_00030C70:
         bcc.w   SetHandlerRts_030d02            | +088
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_030d04  @ $030D04  (80 B)
+|  EnemyShot_BounceB_030d04  @ $030D04  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_030d04, "ax", @progbits
-        .global TaskHandler_030d04
-TaskHandler_030d04:
+        .section .text.EnemyShot_BounceB_030d04, "ax", @progbits
+        .global EnemyShot_BounceB_030d04
+EnemyShot_BounceB_030d04:
         move.w  #0x4c4,0x2a(a6)                 | +000
         move.w  #0xff86,0x2e(a6)                | +006
         move.b  #0xfe,0x59(a6)                  | +00c
@@ -606,21 +606,21 @@ TaskHandler_030d04:
         bcc.w   SetHandlerRts_030d5a            | +04c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_030d5c  @ $030D5C  (16 B)
+|  EnemyShot_ExplodeAir_030d5c  @ $030D5C  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_030d5c, "ax", @progbits
-        .global TaskHandler_030d5c
-TaskHandler_030d5c:
-        lea     TaskHandler_031cca(pc),a1       | +000
+        .section .text.EnemyShot_ExplodeAir_030d5c, "ax", @progbits
+        .global EnemyShot_ExplodeAir_030d5c
+EnemyShot_ExplodeAir_030d5c:
+        lea     Fx_AirBurst_031cca(pc),a1       | +000
         jsr     0x6fe.l                         | +004
         jsr     0x5dd02.l                       | +00a
 
 | ----------------------------------------------------------------------------
-|  Data_030d7c  @ $030D7C  (164 B)
+|  VehicleLaunch_AttackTblA_030d7c  @ $030D7C  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_030d7c, "ax", @progbits
-        .global Data_030d7c
-Data_030d7c:
+        .section .text.VehicleLaunch_AttackTblA_030d7c, "ax", @progbits
+        .global VehicleLaunch_AttackTblA_030d7c
+VehicleLaunch_AttackTblA_030d7c:
         .dc.w   0x0302                        | +000  (dato / opcode no decodificado)
         .dc.w   0x000c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0304                        | +004  (dato / opcode no decodificado)
@@ -705,11 +705,11 @@ Data_030d7c:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_030e20  @ $030E20  (328 B)
+|  VehicleLaunch_AttackTblB_030e20  @ $030E20  (328 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_030e20, "ax", @progbits
-        .global Data_030e20
-Data_030e20:
+        .section .text.VehicleLaunch_AttackTblB_030e20, "ax", @progbits
+        .global VehicleLaunch_AttackTblB_030e20
+VehicleLaunch_AttackTblB_030e20:
         .dc.w   0x0302                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0304                        | +004  (dato / opcode no decodificado)
@@ -876,11 +876,11 @@ Data_030e20:
         .dc.w   0xffff                        | +146  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_030f68  @ $030F68  (164 B)
+|  VehicleLaunch_CrashTblA_030f68  @ $030F68  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_030f68, "ax", @progbits
-        .global Data_030f68
-Data_030f68:
+        .section .text.VehicleLaunch_CrashTblA_030f68, "ax", @progbits
+        .global VehicleLaunch_CrashTblA_030f68
+VehicleLaunch_CrashTblA_030f68:
         .dc.w   0x0319                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0064                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -965,11 +965,11 @@ Data_030f68:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_03100c  @ $03100C  (164 B)
+|  VehicleLaunch_CrashTblB_03100c  @ $03100C  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03100c, "ax", @progbits
-        .global Data_03100c
-Data_03100c:
+        .section .text.VehicleLaunch_CrashTblB_03100c, "ax", @progbits
+        .global VehicleLaunch_CrashTblB_03100c
+VehicleLaunch_CrashTblB_03100c:
         .dc.w   0x031b                        | +000  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -1054,11 +1054,11 @@ Data_03100c:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_0310b0  @ $0310B0  (164 B)
+|  VehicleLaunch_CrashTblC_0310b0  @ $0310B0  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0310b0, "ax", @progbits
-        .global Data_0310b0
-Data_0310b0:
+        .section .text.VehicleLaunch_CrashTblC_0310b0, "ax", @progbits
+        .global VehicleLaunch_CrashTblC_0310b0
+VehicleLaunch_CrashTblC_0310b0:
         .dc.w   0x031a                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0032                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -1143,22 +1143,22 @@ Data_0310b0:
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_031154  @ $031154  (8 B)
+|  VehicleLaunch_GroundTbl_031154  @ $031154  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_031154, "ax", @progbits
-        .global Data_031154
-Data_031154:
+        .section .text.VehicleLaunch_GroundTbl_031154, "ax", @progbits
+        .global VehicleLaunch_GroundTbl_031154
+VehicleLaunch_GroundTbl_031154:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffc0                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_03115c  @ $03115C  (50 B)
+|  VehicleLaunch_OffsetTblA_03115c  @ $03115C  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03115c, "ax", @progbits
-        .global Data_03115c
-Data_03115c:
+        .section .text.VehicleLaunch_OffsetTblA_03115c, "ax", @progbits
+        .global VehicleLaunch_OffsetTblA_03115c
+VehicleLaunch_OffsetTblA_03115c:
         .dc.w   0x0029                        | +000  (dato / opcode no decodificado)
         .dc.w   0xfa8a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0018                        | +004  (dato / opcode no decodificado)
@@ -1186,11 +1186,11 @@ Data_03115c:
         .dc.w   0x00f8                        | +030  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_03118e  @ $03118E  (50 B)
+|  VehicleLaunch_OffsetTblB_03118e  @ $03118E  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03118e, "ax", @progbits
-        .global Data_03118e
-Data_03118e:
+        .section .text.VehicleLaunch_OffsetTblB_03118e, "ax", @progbits
+        .global VehicleLaunch_OffsetTblB_03118e
+VehicleLaunch_OffsetTblB_03118e:
         .dc.w   0x0029                        | +000  (dato / opcode no decodificado)
         .dc.w   0xfa8a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0018                        | +004  (dato / opcode no decodificado)
@@ -1218,18 +1218,18 @@ Data_03118e:
         .dc.w   0x00f0                        | +030  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0311c0  @ $0311C0  (980 B)
+|  VehicleLaunch_Init_0311c0  @ $0311C0  (980 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0311c0, "ax", @progbits
-        .global TaskHandler_0311c0
-TaskHandler_0311c0:
-        lea     Data_030e20(pc),a0              | +000
+        .section .text.VehicleLaunch_Init_0311c0, "ax", @progbits
+        .global VehicleLaunch_Init_0311c0
+VehicleLaunch_Init_0311c0:
+        lea     VehicleLaunch_AttackTblB_030e20(pc),a0 | +000
         move.l  a0,0x4c(a6)                     | +004
         jsr     0x283ca.l                       | +008
         movea.l 0xc(a6),a0                      | +00e
         move.w  0x94(a0),d3                     | +012
         mulu.w  #0xa,d3                         | +016
-        lea     Data_03115c(pc),a1              | +01a
+        lea     VehicleLaunch_OffsetTblA_03115c(pc),a1 | +01a
         lea     0x29fa8a.l,a0                   | +01e
         jsr     0x28cd4.l                       | +024
         move.w  0x4(a1,d3.w),d1                 | +02a
@@ -1248,11 +1248,11 @@ TaskHandler_0311c0:
         move.w  d1,0x28(a6)                     | +062
         move.w  d2,0x2a(a6)                     | +066
         bra.w   .L0314f0                        | +06a
-        lea     Data_030d7c(pc),a0              | +06e
+        lea     VehicleLaunch_AttackTblA_030d7c(pc),a0 | +06e
         move.l  a0,0x4c(a6)                     | +072
         jsr     0x283ca.l                       | +076
         bra.w   .L0312c0                        | +07c
-        lea     Data_030e20(pc),a0              | +080
+        lea     VehicleLaunch_AttackTblB_030e20(pc),a0 | +080
         move.l  a0,0x4c(a6)                     | +084
         jsr     0x283ca.l                       | +088
         lea     0x29fa8a.l,a0                   | +08e
@@ -1280,7 +1280,7 @@ TaskHandler_0311c0:
         clr.b   0x20(a6)                        | +0e2
         move.l  #0x31b78,0x74(a6)               | +0e6
         bra.w   .L0314d0                        | +0ee
-        lea     Data_030e20(pc),a0              | +0f2
+        lea     VehicleLaunch_AttackTblB_030e20(pc),a0 | +0f2
         move.l  a0,0x4c(a6)                     | +0f6
         jsr     0x283ca.l                       | +0fa
 .L0312c0:
@@ -1315,7 +1315,7 @@ TaskHandler_0311c0:
         jsr     0x5cd90.l                       | +174
         movem.l (a7)+,a6                        | +17a
         bcc.w   .L0313a6                        | +17e
-        jsr     TaskHandler_0323b4(pc)          | +182
+        jsr     Popcount4_0323b4(pc)            | +182
         cmpi.b  #0x4,d0                         | +186
         bne.w   .L031362                        | +18a
         move.w  #0xc00,0x36(a6)                 | +18e
@@ -1350,7 +1350,7 @@ TaskHandler_0311c0:
         jsr     0x5cd90.l                       | +1f6
         movem.l (a7)+,a6                        | +1fc
         bcc.w   .L031428                        | +200
-        jsr     TaskHandler_0323b4(pc)          | +204
+        jsr     Popcount4_0323b4(pc)            | +204
         cmpi.b  #0x4,d0                         | +208
         bne.w   .L0313e4                        | +20c
         move.w  #0xc00,0x36(a6)                 | +210
@@ -1385,7 +1385,7 @@ TaskHandler_0311c0:
         jsr     0x5cd90.l                       | +278
         movem.l (a7)+,a6                        | +27e
         bcc.w   .L0314ac                        | +282
-        jsr     TaskHandler_0323b4(pc)          | +286
+        jsr     Popcount4_0323b4(pc)            | +286
         bra.w   .L031452                        | +28a
         bra.w   .L0314ac                        | +28e
 .L031452:
@@ -1466,8 +1466,8 @@ TaskHandler_0311c0:
         move.w  0x72(a6),d0                     | +3b4
         move.w  0x70(a6),d1                     | +3b8
         cmp.w   d0,d1                           | +3bc
-        bcs.w   TaskHandler_031594__L0315a2     | +3be
-        lea     TaskHandler_031594(pc),a1       | +3c2
+        bcs.w   VehicleLaunch_Fall_031594__L0315a2 | +3be
+        lea     VehicleLaunch_Fall_031594(pc),a1 | +3c2
         move.l  a1,(a6)                         | +3c6
         move.w  0x36(a6),d0                     | +3c8
         asr.w   #0x4,d0                         | +3cc
@@ -1475,17 +1475,17 @@ TaskHandler_0311c0:
         move.w  d0,0x2e(a6)                     | +3d0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031594  @ $031594  (238 B)
+|  VehicleLaunch_Fall_031594  @ $031594  (238 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031594, "ax", @progbits
-        .global TaskHandler_031594
-TaskHandler_031594:
+        .section .text.VehicleLaunch_Fall_031594, "ax", @progbits
+        .global VehicleLaunch_Fall_031594
+VehicleLaunch_Fall_031594:
         tst.w   0x2a(a6)                        | +000
-        bgt.w   TaskHandler_031594__L0315a2     | +004
-        lea     TaskHandler_03168a(pc),a1       | +008
+        bgt.w   VehicleLaunch_Fall_031594__L0315a2 | +004
+        lea     VehicleLaunch_Glide_03168a(pc),a1 | +008
         move.l  a1,(a6)                         | +00c
-        .global TaskHandler_031594__L0315a2
-TaskHandler_031594__L0315a2:
+        .global VehicleLaunch_Fall_031594__L0315a2
+VehicleLaunch_Fall_031594__L0315a2:
         move.w  0x28(a6),d0                     | +00e
         move.w  0x2a(a6),d1                     | +012
         asr.w   #0x4,d0                         | +016
@@ -1520,36 +1520,36 @@ TaskHandler_031594__L0315a2:
         bset    #0x6,0x13(a6)                   | +08a
         jsr     0x27cee.l                       | +090
         bcc.w   .L031634                        | +096
-        lea     TaskHandler_0318b4(pc),a1       | +09a
+        lea     VehicleLaunch_JmpCrash_0318b4(pc),a1 | +09a
         move.l  a1,(a6)                         | +09e
 .L031634:
         jsr     0x28d70.l                       | +0a0
         jsr     0x283d8.l                       | +0a6
         btst    #0x5,0x5a(a6)                   | +0ac
         beq.w   .L031650                        | +0b2
-        lea     TaskHandler_0317d2(pc),a1       | +0b6
+        lea     VehicleLaunch_Crash_0317d2(pc),a1 | +0b6
         move.l  a1,(a6)                         | +0ba
 .L031650:
         btst    #0x1,0x13(a6)                   | +0bc
         beq.w   .L03166e                        | +0c2
-        lea     TaskHandler_0318b4(pc),a1       | +0c6
+        lea     VehicleLaunch_JmpCrash_0318b4(pc),a1 | +0c6
         move.l  a1,(a6)                         | +0ca
         cmpi.b  #0x6,d1                         | +0cc
         bne.w   .L03166e                        | +0d0
-        lea     TaskHandler_0318b8(pc),a1       | +0d4
+        lea     VehicleLaunch_Despawn_0318b8(pc),a1 | +0d4
         move.l  a1,(a6)                         | +0d8
 .L03166e:
         movea.l #0xffffffff,a0                  | +0da
-        lea     Data_031154(pc),a0              | +0e0
+        lea     VehicleLaunch_GroundTbl_031154(pc),a0 | +0e0
         jsr     0x5dd56.l                       | +0e4
         bcc.w   SetHandlerRts_031688            | +0ea
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03168a  @ $03168A  (320 B)
+|  VehicleLaunch_Glide_03168a  @ $03168A  (320 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03168a, "ax", @progbits
-        .global TaskHandler_03168a
-TaskHandler_03168a:
+        .section .text.VehicleLaunch_Glide_03168a, "ax", @progbits
+        .global VehicleLaunch_Glide_03168a
+VehicleLaunch_Glide_03168a:
         cmpi.w  #0x7400,0x72(a6)                | +000
         bne.w   .L0316ac                        | +006
         move.w  #0x600,0x36(a6)                 | +00a
@@ -1598,11 +1598,11 @@ TaskHandler_03168a:
         bset    #0x6,0x13(a6)                   | +0b4
         jsr     0x27d50.l                       | +0ba
         bcc.w   .L031764                        | +0c0
-        lea     TaskHandler_0318b4(pc),a1       | +0c4
+        lea     VehicleLaunch_JmpCrash_0318b4(pc),a1 | +0c4
         move.l  a1,(a6)                         | +0c8
         jsr     0x27eba.l                       | +0ca
         bcs.w   .L031764                        | +0d0
-        lea     TaskHandler_0317d2(pc),a1       | +0d4
+        lea     VehicleLaunch_Crash_0317d2(pc),a1 | +0d4
         move.l  a1,(a6)                         | +0d8
 .L031764:
         move.w  0x28(a6),d0                     | +0da
@@ -1616,29 +1616,29 @@ TaskHandler_03168a:
         jsr     0x283d8.l                       | +0f8
         btst    #0x5,0x5a(a6)                   | +0fe
         beq.w   .L031798                        | +104
-        lea     TaskHandler_0317d2(pc),a1       | +108
+        lea     VehicleLaunch_Crash_0317d2(pc),a1 | +108
         move.l  a1,(a6)                         | +10c
 .L031798:
         btst    #0x1,0x13(a6)                   | +10e
         beq.w   .L0317b6                        | +114
-        lea     TaskHandler_0318b4(pc),a1       | +118
+        lea     VehicleLaunch_JmpCrash_0318b4(pc),a1 | +118
         move.l  a1,(a6)                         | +11c
         cmpi.b  #0x6,d1                         | +11e
         bne.w   .L0317b6                        | +122
-        lea     TaskHandler_0318b8(pc),a1       | +126
+        lea     VehicleLaunch_Despawn_0318b8(pc),a1 | +126
         move.l  a1,(a6)                         | +12a
 .L0317b6:
         movea.l #0xffffffff,a0                  | +12c
-        lea     Data_031154(pc),a0              | +132
+        lea     VehicleLaunch_GroundTbl_031154(pc),a0 | +132
         jsr     0x5dd56.l                       | +136
         bcc.w   SetHandlerRts_0317d0            | +13c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0317d2  @ $0317D2  (76 B)
+|  VehicleLaunch_Crash_0317d2  @ $0317D2  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0317d2, "ax", @progbits
-        .global TaskHandler_0317d2
-TaskHandler_0317d2:
+        .section .text.VehicleLaunch_Crash_0317d2, "ax", @progbits
+        .global VehicleLaunch_Crash_0317d2
+VehicleLaunch_Crash_0317d2:
         move.b  #0x1,0x10a2d1.l                 | +000
         move.w  #0x10f2,d0                      | +008
         jsr     0x2352.l                        | +00c
@@ -1649,48 +1649,48 @@ TaskHandler_0317d2:
         jsr     0x283ca.l                       | +026
         movea.l 0xc(a6),a0                      | +02c
         subi.b  #0x1,0x8f(a0)                   | +030
-        lea     TaskHandler_031bd0(pc),a1       | +036
+        lea     Fx_SmokePuff_031bd0(pc),a1      | +036
         move.l  a1,(a6)                         | +03a
-        lea     TaskHandler_031826(pc),a1       | +03c
+        lea     VehicleLaunch_CrashA_031826(pc),a1 | +03c
         jsr     0x4ae.l                         | +040
         jsr     0x5dd02.l                       | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031826  @ $031826  (32 B)
+|  VehicleLaunch_CrashA_031826  @ $031826  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031826, "ax", @progbits
-        .global TaskHandler_031826
-TaskHandler_031826:
-        lea     TaskHandler_03184e(pc),a1       | +000
+        .section .text.VehicleLaunch_CrashA_031826, "ax", @progbits
+        .global VehicleLaunch_CrashA_031826
+VehicleLaunch_CrashA_031826:
+        lea     VehicleLaunch_CrashB_03184e(pc),a1 | +000
         move.l  a1,(a6)                         | +004
         jsr     0x283ca.l                       | +006
-        lea     Data_030f68(pc),a0              | +00c
+        lea     VehicleLaunch_CrashTblA_030f68(pc),a0 | +00c
         move.l  a0,0x4c(a6)                     | +010
         jsr     0x283ca.l                       | +014
         jsr     0x283d8.l                       | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03184e  @ $03184E  (32 B)
+|  VehicleLaunch_CrashB_03184e  @ $03184E  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03184e, "ax", @progbits
-        .global TaskHandler_03184e
-TaskHandler_03184e:
+        .section .text.VehicleLaunch_CrashB_03184e, "ax", @progbits
+        .global VehicleLaunch_CrashB_03184e
+VehicleLaunch_CrashB_03184e:
         jsr     0x283ca.l                       | +000
-        lea     Data_03100c(pc),a0              | +006
+        lea     VehicleLaunch_CrashTblB_03100c(pc),a0 | +006
         move.l  a0,0x4c(a6)                     | +00a
         jsr     0x283ca.l                       | +00e
         jsr     0x283d8.l                       | +014
-        lea     TaskHandler_031876(pc),a1       | +01a
+        lea     VehicleLaunch_CrashC_031876(pc),a1 | +01a
         move.l  a1,(a6)                         | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031876  @ $031876  (46 B)
+|  VehicleLaunch_CrashC_031876  @ $031876  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031876, "ax", @progbits
-        .global TaskHandler_031876
-TaskHandler_031876:
+        .section .text.VehicleLaunch_CrashC_031876, "ax", @progbits
+        .global VehicleLaunch_CrashC_031876
+VehicleLaunch_CrashC_031876:
         jsr     0x283ca.l                       | +000
-        lea     Data_0310b0(pc),a0              | +006
+        lea     VehicleLaunch_CrashTblC_0310b0(pc),a0 | +006
         move.l  a0,0x4c(a6)                     | +00a
         jsr     0x283ca.l                       | +00e
         jsr     0x283d8.l                       | +014
@@ -1700,79 +1700,79 @@ TaskHandler_031876:
         jsr     0x283ca.l                       | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0318b4  @ $0318B4  (4 B)
+|  VehicleLaunch_JmpCrash_0318b4  @ $0318B4  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0318b4, "ax", @progbits
-        .global TaskHandler_0318b4
-TaskHandler_0318b4:
-        jmp     TaskHandler_0317d2(pc)          | +000
+        .section .text.VehicleLaunch_JmpCrash_0318b4, "ax", @progbits
+        .global VehicleLaunch_JmpCrash_0318b4
+VehicleLaunch_JmpCrash_0318b4:
+        jmp     VehicleLaunch_Crash_0317d2(pc)  | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0318b8  @ $0318B8  (20 B)
+|  VehicleLaunch_Despawn_0318b8  @ $0318B8  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0318b8, "ax", @progbits
-        .global TaskHandler_0318b8
-TaskHandler_0318b8:
+        .section .text.VehicleLaunch_Despawn_0318b8, "ax", @progbits
+        .global VehicleLaunch_Despawn_0318b8
+VehicleLaunch_Despawn_0318b8:
         jsr     0x5b6.l                         | +000
         lea     0xffff.w,a0                     | +006
         move.l  a0,0x4c(a6)                     | +00a
         jsr     0x283ca.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0318d4  @ $0318D4  (16 B)
+|  VehicleLaunch_ReleaseParent_0318d4  @ $0318D4  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0318d4, "ax", @progbits
-        .global TaskHandler_0318d4
-TaskHandler_0318d4:
+        .section .text.VehicleLaunch_ReleaseParent_0318d4, "ax", @progbits
+        .global VehicleLaunch_ReleaseParent_0318d4
+VehicleLaunch_ReleaseParent_0318d4:
         movea.l 0xc(a6),a0                      | +000
         subi.b  #0x1,0x8f(a0)                   | +004
         jmp     0x518.l                         | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0318e4  @ $0318E4  (2 B)
+|  VehicleLaunch_Nop_0318e4  @ $0318E4  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0318e4, "ax", @progbits
-        .global TaskHandler_0318e4
-TaskHandler_0318e4:
+        .section .text.VehicleLaunch_Nop_0318e4, "ax", @progbits
+        .global VehicleLaunch_Nop_0318e4
+VehicleLaunch_Nop_0318e4:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0318e6  @ $0318E6  (226 B)
+|  VehicleLaunch_InitDrop_0318e6  @ $0318E6  (226 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0318e6, "ax", @progbits
-        .global TaskHandler_0318e6
-TaskHandler_0318e6:
-        lea     Data_030e20(pc),a0              | +000
+        .section .text.VehicleLaunch_InitDrop_0318e6, "ax", @progbits
+        .global VehicleLaunch_InitDrop_0318e6
+VehicleLaunch_InitDrop_0318e6:
+        lea     VehicleLaunch_AttackTblB_030e20(pc),a0 | +000
         move.l  a0,0x4c(a6)                     | +004
         jsr     0x283ca.l                       | +008
         movea.l 0xc(a6),a0                      | +00e
         move.w  0x94(a0),d3                     | +012
         mulu.w  #0xa,d3                         | +016
-        lea     Data_03115c(pc),a1              | +01a
-        lea     Data_0319d0(pc),a0              | +01e
+        lea     VehicleLaunch_OffsetTblA_03115c(pc),a1 | +01a
+        lea     VehicleDrop_Template_0319d0(pc),a0 | +01e
         jsr     0x28cd4.l                       | +022
         move.w  0x4(a1,d3.w),d1                 | +028
         add.w   d1,0x22(a6)                     | +02c
         move.w  0x6(a1,d3.w),d2                 | +030
         add.w   d2,0x24(a6)                     | +034
         bra.w   .L03197c                        | +038
-        lea     Data_030e20(pc),a0              | +03c
+        lea     VehicleLaunch_AttackTblB_030e20(pc),a0 | +03c
         move.l  a0,0x4c(a6)                     | +040
         jsr     0x283ca.l                       | +044
         movea.l 0xc(a6),a0                      | +04a
         move.w  0x94(a0),d3                     | +04e
         mulu.w  #0xa,d3                         | +052
-        lea     Data_03118e(pc),a1              | +056
+        lea     VehicleLaunch_OffsetTblB_03118e(pc),a1 | +056
         bra.w   .L031962                        | +05a
-        lea     Data_030e20(pc),a0              | +05e
+        lea     VehicleLaunch_AttackTblB_030e20(pc),a0 | +05e
         move.l  a0,0x4c(a6)                     | +062
         jsr     0x283ca.l                       | +066
         movea.l 0xc(a6),a0                      | +06c
         move.w  0x94(a0),d3                     | +070
         mulu.w  #0xa,d3                         | +074
-        lea     Data_03115c(pc),a1              | +078
+        lea     VehicleLaunch_OffsetTblA_03115c(pc),a1 | +078
 .L031962:
-        lea     Data_0319d0(pc),a0              | +07c
+        lea     VehicleDrop_Template_0319d0(pc),a0 | +07c
         jsr     0x28cd4.l                       | +080
         move.w  0x4(a1,d3.w),d1                 | +086
         add.w   d1,0x22(a6)                     | +08a
@@ -1790,7 +1790,7 @@ TaskHandler_0318e6:
         jsr     0x2783a.l                       | +0b6
         jsr     0x28d70.l                       | +0bc
         bcc.w   .L0319b2                        | +0c2
-        lea     TaskHandler_0318d4(pc),a1       | +0c6
+        lea     VehicleLaunch_ReleaseParent_0318d4(pc),a1 | +0c6
         move.l  a1,(a6)                         | +0ca
 .L0319b2:
         jsr     0x283d8.l                       | +0cc
@@ -1799,11 +1799,11 @@ TaskHandler_0318e6:
         bcc.w   SetHandlerRts_0319ce            | +0de
 
 | ----------------------------------------------------------------------------
-|  Data_0319d0  @ $0319D0  (12 B)
+|  VehicleDrop_Template_0319d0  @ $0319D0  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0319d0, "ax", @progbits
-        .global Data_0319d0
-Data_0319d0:
+        .section .text.VehicleDrop_Template_0319d0, "ax", @progbits
+        .global VehicleDrop_Template_0319d0
+VehicleDrop_Template_0319d0:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
@@ -1812,11 +1812,11 @@ Data_0319d0:
         .dc.w   0x1600                        | +00a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_0319dc  @ $0319DC  (20 B)
+|  VehicleDrop_SpriteTbl_0319dc  @ $0319DC  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0319dc, "ax", @progbits
-        .global Data_0319dc
-Data_0319dc:
+        .section .text.VehicleDrop_SpriteTbl_0319dc, "ax", @progbits
+        .global VehicleDrop_SpriteTbl_0319dc
+VehicleDrop_SpriteTbl_0319dc:
         .dc.w   0x0029                        | +000  (dato / opcode no decodificado)
         .dc.w   0xdca4                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0029                        | +004  (dato / opcode no decodificado)
@@ -1829,11 +1829,11 @@ Data_0319dc:
         .dc.w   0xe030                        | +012  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0319f0  @ $0319F0  (188 B)
+|  SlugFx_ExhaustOrDrop_0319f0  @ $0319F0  (188 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0319f0, "ax", @progbits
-        .global TaskHandler_0319f0
-TaskHandler_0319f0:
+        .section .text.SlugFx_ExhaustOrDrop_0319f0, "ax", @progbits
+        .global SlugFx_ExhaustOrDrop_0319f0
+SlugFx_ExhaustOrDrop_0319f0:
         movea.l 0xc(a6),a0                      | +000
         btst    #0x2,0x8d(a0)                   | +004
         beq.w   .L031a56                        | +00a
@@ -1859,7 +1859,7 @@ TaskHandler_0319f0:
         add.w   d2,0x24(a6)                     | +052
         lea     0x29e440.l,a0                   | +056
         jsr     0x28cd4.l                       | +05c
-        bra.w   TaskHandler_0319f0__L031a86     | +062
+        bra.w   SlugFx_ExhaustOrDrop_0319f0__L031a86 | +062
 .L031a56:
         movea.l 0xc(a6),a1                      | +066
         move.w  0x94(a1),0x34(a6)               | +06a
@@ -1869,27 +1869,27 @@ TaskHandler_0319f0:
         lsl.w   #0x2,d0                         | +080
         movea.l (a0,d0.w),a0                    | +082
         cmpa.l  #0xffffffff,a0                  | +086
-        beq.w   TaskHandler_0319f0__L031a86     | +08c
+        beq.w   SlugFx_ExhaustOrDrop_0319f0__L031a86 | +08c
         jsr     0x28cd4.l                       | +090
-        .global TaskHandler_0319f0__L031a86
-TaskHandler_0319f0__L031a86:
+        .global SlugFx_ExhaustOrDrop_0319f0__L031a86
+SlugFx_ExhaustOrDrop_0319f0__L031a86:
         move.w  #0x8,d1                         | +096
         jsr     0x236e.l                        | +09a
         subi.w  #0x4,0x22(a6)                   | +0a0
-        lea     TaskHandler_0319f0__L031a9c(pc),a1 | +0a6
+        lea     SlugFx_ExhaustOrDrop_0319f0__L031a9c(pc),a1 | +0a6
         move.l  a1,(a6)                         | +0aa
-        .global TaskHandler_0319f0__L031a9c
-TaskHandler_0319f0__L031a9c:
+        .global SlugFx_ExhaustOrDrop_0319f0__L031a9c
+SlugFx_ExhaustOrDrop_0319f0__L031a9c:
         jsr     0x2783a.l                       | +0ac
         jsr     0x28d70.l                       | +0b2
         bcc.w   Jsr5B6Rts_031ab8                | +0b8
 
 | ----------------------------------------------------------------------------
-|  Data_031aba  @ $031ABA  (60 B)
+|  SlugFx_ExhaustSpriteTbl_031aba  @ $031ABA  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_031aba, "ax", @progbits
-        .global Data_031aba
-Data_031aba:
+        .section .text.SlugFx_ExhaustSpriteTbl_031aba, "ax", @progbits
+        .global SlugFx_ExhaustSpriteTbl_031aba
+SlugFx_ExhaustSpriteTbl_031aba:
         .dc.w   0x0029                        | +000  (dato / opcode no decodificado)
         .dc.w   0xe11c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
@@ -1922,11 +1922,11 @@ Data_031aba:
         .dc.w   0xe37a                        | +03a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031af6  @ $031AF6  (92 B)
+|  SlugFx_Exhaust_031af6  @ $031AF6  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031af6, "ax", @progbits
-        .global TaskHandler_031af6
-TaskHandler_031af6:
+        .section .text.SlugFx_Exhaust_031af6, "ax", @progbits
+        .global SlugFx_Exhaust_031af6
+SlugFx_Exhaust_031af6:
         movea.l 0xc(a6),a0                      | +000
         movea.l 0x70(a0),a1                     | +004
         movea.l (a1),a1                         | +008
@@ -1950,36 +1950,36 @@ TaskHandler_031af6:
         add.w   d2,0x24(a6)                     | +048
         lea     0x29e440.l,a0                   | +04c
         jsr     0x28cd4.l                       | +052
-        bra.w   TaskHandler_0319f0__L031a86     | +058
+        bra.w   SlugFx_ExhaustOrDrop_0319f0__L031a86 | +058
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031b52  @ $031B52  (70 B)
+|  Fx_Sparkle_031b52  @ $031B52  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031b52, "ax", @progbits
-        .global TaskHandler_031b52
-TaskHandler_031b52:
+        .section .text.Fx_Sparkle_031b52, "ax", @progbits
+        .global Fx_Sparkle_031b52
+Fx_Sparkle_031b52:
         move.w  #0x58,d1                        | +000
         jsr     0x236e.l                        | +004
         lea     0x29fcce.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
         move.w  #0x2,0x70(a6)                   | +016
-        lea     TaskHandler_031b98(pc),a1       | +01c
+        lea     Fx_Sparkle_Tick_031b98(pc),a1   | +01c
         move.l  a1,(a6)                         | +020
-        bra.w   TaskHandler_031b98              | +022
+        bra.w   Fx_Sparkle_Tick_031b98          | +022
         move.w  #0x4,d1                         | +026
         jsr     0x236e.l                        | +02a
-        lea     Data_0323cc(pc),a0              | +030
+        lea     Fx_SparkleAnim_0323cc(pc),a0    | +030
         jsr     0x28cd4.l                       | +034
         move.w  #0x2,0x70(a6)                   | +03a
-        lea     TaskHandler_031b98(pc),a1       | +040
+        lea     Fx_Sparkle_Tick_031b98(pc),a1   | +040
         move.l  a1,(a6)                         | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031b98  @ $031B98  (42 B)
+|  Fx_Sparkle_Tick_031b98  @ $031B98  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031b98, "ax", @progbits
-        .global TaskHandler_031b98
-TaskHandler_031b98:
+        .section .text.Fx_Sparkle_Tick_031b98, "ax", @progbits
+        .global Fx_Sparkle_Tick_031b98
+Fx_Sparkle_Tick_031b98:
         subi.w  #0x1,0x38(a6)                   | +000
         jsr     0x2783a.l                       | +006
         jsr     0x28d70.l                       | +00c
@@ -1991,11 +1991,11 @@ TaskHandler_031b98:
         bgt.w   Jsr5B6Rts_031bce                | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031bd0  @ $031BD0  (66 B)
+|  Fx_SmokePuff_031bd0  @ $031BD0  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031bd0, "ax", @progbits
-        .global TaskHandler_031bd0
-TaskHandler_031bd0:
+        .section .text.Fx_SmokePuff_031bd0, "ax", @progbits
+        .global Fx_SmokePuff_031bd0
+Fx_SmokePuff_031bd0:
         move.w  #0x178,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x29e64a.l,a0                   | +00a
@@ -2013,11 +2013,11 @@ TaskHandler_031bd0:
         bcc.w   Jsr5B6Rts_031c1e                | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031c20  @ $031C20  (60 B)
+|  Fx_DustCloud_031c20  @ $031C20  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031c20, "ax", @progbits
-        .global TaskHandler_031c20
-TaskHandler_031c20:
+        .section .text.Fx_DustCloud_031c20, "ax", @progbits
+        .global Fx_DustCloud_031c20
+Fx_DustCloud_031c20:
         move.w  #0x5,d1                         | +000
         jsr     0x236e.l                        | +004
         jsr     0x5e9b6.l                       | +00a
@@ -2034,22 +2034,22 @@ TaskHandler_031c20:
         bcc.w   Jsr5B6Rts_031c68                | +038
 
 | ----------------------------------------------------------------------------
-|  Data_031c6a  @ $031C6A  (8 B)
+|  Fx_GroundBurst_SpriteTbl_031c6a  @ $031C6A  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_031c6a, "ax", @progbits
-        .global Data_031c6a
-Data_031c6a:
+        .section .text.Fx_GroundBurst_SpriteTbl_031c6a, "ax", @progbits
+        .global Fx_GroundBurst_SpriteTbl_031c6a
+Fx_GroundBurst_SpriteTbl_031c6a:
         .dc.w   0x0029                        | +000  (dato / opcode no decodificado)
         .dc.w   0xda80                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0029                        | +004  (dato / opcode no decodificado)
         .dc.w   0xdb0e                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031c72  @ $031C72  (88 B)
+|  Fx_GroundBurst_031c72  @ $031C72  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031c72, "ax", @progbits
-        .global TaskHandler_031c72
-TaskHandler_031c72:
+        .section .text.Fx_GroundBurst_031c72, "ax", @progbits
+        .global Fx_GroundBurst_031c72
+Fx_GroundBurst_031c72:
         move.w  0x9e(a6),d1                     | +000
         cmpi.w  #0x1d6,d1                       | +004
         bne.w   .L031c86                        | +008
@@ -2071,16 +2071,16 @@ TaskHandler_031c72:
         beq.w   .L031cc0                        | +044
         jsr     0x28cd4.l                       | +048
 .L031cc0:
-        lea     TaskHandler_0319f0__L031a9c(pc),a1 | +04e
+        lea     SlugFx_ExhaustOrDrop_0319f0__L031a9c(pc),a1 | +04e
         move.l  a1,(a6)                         | +052
-        bra.w   TaskHandler_0319f0__L031a9c     | +054
+        bra.w   SlugFx_ExhaustOrDrop_0319f0__L031a9c | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031cca  @ $031CCA  (84 B)
+|  Fx_AirBurst_031cca  @ $031CCA  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031cca, "ax", @progbits
-        .global TaskHandler_031cca
-TaskHandler_031cca:
+        .section .text.Fx_AirBurst_031cca, "ax", @progbits
+        .global Fx_AirBurst_031cca
+Fx_AirBurst_031cca:
         move.w  0x9e(a6),d1                     | +000
         cmpi.w  #0x1d6,d1                       | +004
         bne.w   .L031cde                        | +008
@@ -2100,27 +2100,27 @@ TaskHandler_031cca:
         add.w   d0,0x24(a6)                     | +03a
         lea     0x2dd8b6.l,a0                   | +03e
         jsr     0x28cd4.l                       | +044
-        lea     TaskHandler_0319f0__L031a9c(pc),a1 | +04a
+        lea     SlugFx_ExhaustOrDrop_0319f0__L031a9c(pc),a1 | +04a
         move.l  a1,(a6)                         | +04e
-        bra.w   TaskHandler_0319f0__L031a9c     | +050
+        bra.w   SlugFx_ExhaustOrDrop_0319f0__L031a9c | +050
 
 | ----------------------------------------------------------------------------
-|  Data_031d1e  @ $031D1E  (8 B)
+|  Fx_GroundBurstB_SpriteTbl_031d1e  @ $031D1E  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_031d1e, "ax", @progbits
-        .global Data_031d1e
-Data_031d1e:
+        .section .text.Fx_GroundBurstB_SpriteTbl_031d1e, "ax", @progbits
+        .global Fx_GroundBurstB_SpriteTbl_031d1e
+Fx_GroundBurstB_SpriteTbl_031d1e:
         .dc.w   0x0029                        | +000  (dato / opcode no decodificado)
         .dc.w   0xdb88                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0029                        | +004  (dato / opcode no decodificado)
         .dc.w   0xdc16                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031d26  @ $031D26  (68 B)
+|  Fx_GroundBurstB_031d26  @ $031D26  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031d26, "ax", @progbits
-        .global TaskHandler_031d26
-TaskHandler_031d26:
+        .section .text.Fx_GroundBurstB_031d26, "ax", @progbits
+        .global Fx_GroundBurstB_031d26
+Fx_GroundBurstB_031d26:
         move.w  #0x4,d1                         | +000
         jsr     0x236e.l                        | +004
         jsr     0x5e9b6.l                       | +00a
@@ -2135,38 +2135,38 @@ TaskHandler_031d26:
         beq.w   .L031d60                        | +030
         jsr     0x28cd4.l                       | +034
 .L031d60:
-        lea     TaskHandler_0319f0__L031a9c(pc),a1 | +03a
+        lea     SlugFx_ExhaustOrDrop_0319f0__L031a9c(pc),a1 | +03a
         move.l  a1,(a6)                         | +03e
-        bra.w   TaskHandler_0319f0__L031a9c     | +040
+        bra.w   SlugFx_ExhaustOrDrop_0319f0__L031a9c | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031d6a  @ $031D6A  (6 B)
+|  Fx_Spark_031d6a  @ $031D6A  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031d6a, "ax", @progbits
-        .global TaskHandler_031d6a
-TaskHandler_031d6a:
+        .section .text.Fx_Spark_031d6a, "ax", @progbits
+        .global Fx_Spark_031d6a
+Fx_Spark_031d6a:
         jmp     0x518.l                         | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031d70  @ $031D70  (32 B)
+|  Fx_SparkAnim_031d70  @ $031D70  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031d70, "ax", @progbits
-        .global TaskHandler_031d70
-TaskHandler_031d70:
+        .section .text.Fx_SparkAnim_031d70, "ax", @progbits
+        .global Fx_SparkAnim_031d70
+Fx_SparkAnim_031d70:
         move.w  #0x4,d1                         | +000
         jsr     0x236e.l                        | +004
         lea     0x29e46a.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
-        lea     TaskHandler_0319f0__L031a9c(pc),a1 | +016
+        lea     SlugFx_ExhaustOrDrop_0319f0__L031a9c(pc),a1 | +016
         move.l  a1,(a6)                         | +01a
-        bra.w   TaskHandler_0319f0__L031a9c     | +01c
+        bra.w   SlugFx_ExhaustOrDrop_0319f0__L031a9c | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031d90  @ $031D90  (42 B)
+|  Entity_SpawnSparkIfBit1_031d90  @ $031D90  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031d90, "ax", @progbits
-        .global TaskHandler_031d90
-TaskHandler_031d90:
+        .section .text.Entity_SpawnSparkIfBit1_031d90, "ax", @progbits
+        .global Entity_SpawnSparkIfBit1_031d90
+Entity_SpawnSparkIfBit1_031d90:
         btst    #0x1,0x8c(a6)                   | +000
         beq.w   .L031da8                        | +006
         bclr    #0x1,0x8c(a6)                   | +00a
@@ -2176,15 +2176,15 @@ TaskHandler_031d90:
         andi.b  #0xee,ccr                       | +018
 .L031dac:
         bcc.w   JsrAbsRts_031dc0                | +01c
-        lea     TaskHandler_031d6a(pc),a1       | +020
+        lea     Fx_Spark_031d6a(pc),a1          | +020
         jsr     0x4ae.l                         | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031dc2  @ $031DC2  (60 B)
+|  Entity_SpawnSparkLeftIfBit1_031dc2  @ $031DC2  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031dc2, "ax", @progbits
-        .global TaskHandler_031dc2
-TaskHandler_031dc2:
+        .section .text.Entity_SpawnSparkLeftIfBit1_031dc2, "ax", @progbits
+        .global Entity_SpawnSparkLeftIfBit1_031dc2
+Entity_SpawnSparkLeftIfBit1_031dc2:
         btst    #0x1,0x8c(a6)                   | +000
         beq.w   .L031dda                        | +006
         bclr    #0x1,0x8c(a6)                   | +00a
@@ -2194,7 +2194,7 @@ TaskHandler_031dc2:
         andi.b  #0xee,ccr                       | +018
 .L031dde:
         bcc.b   JsrAbsRts_031dc0                | +01c
-        lea     TaskHandler_031d6a(pc),a1       | +01e
+        lea     Fx_Spark_031d6a(pc),a1          | +01e
         jsr     0x4ae.l                         | +022
         jsr     0x5dd02.l                       | +028
         addi.w  #0xffff,0x22(a0)                | +02e
@@ -2202,11 +2202,11 @@ TaskHandler_031dc2:
         bra.b   JsrAbsRts_031dc0                | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031dfe  @ $031DFE  (58 B)
+|  Entity_SpawnSparkRightIfBit1_031dfe  @ $031DFE  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031dfe, "ax", @progbits
-        .global TaskHandler_031dfe
-TaskHandler_031dfe:
+        .section .text.Entity_SpawnSparkRightIfBit1_031dfe, "ax", @progbits
+        .global Entity_SpawnSparkRightIfBit1_031dfe
+Entity_SpawnSparkRightIfBit1_031dfe:
         btst    #0x1,0x8c(a6)                   | +000
         beq.w   .L031e16                        | +006
         bclr    #0x1,0x8c(a6)                   | +00a
@@ -2216,7 +2216,7 @@ TaskHandler_031dfe:
         andi.b  #0xee,ccr                       | +018
 .L031e1a:
         bcc.b   JsrAbsRts_031dc0                | +01c
-        lea     TaskHandler_031d6a(pc),a1       | +01e
+        lea     Fx_Spark_031d6a(pc),a1          | +01e
         jsr     0x4ae.l                         | +022
         jsr     0x5dd02.l                       | +028
         addq.w  #0x1,0x22(a0)                   | +02e
@@ -2224,91 +2224,91 @@ TaskHandler_031dfe:
         bra.b   JsrAbsRts_031dc0                | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031e38  @ $031E38  (6 B)
+|  Fx_Dust_031e38  @ $031E38  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031e38, "ax", @progbits
-        .global TaskHandler_031e38
-TaskHandler_031e38:
+        .section .text.Fx_Dust_031e38, "ax", @progbits
+        .global Fx_Dust_031e38
+Fx_Dust_031e38:
         jmp     0x518.l                         | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031e3e  @ $031E3E  (32 B)
+|  Fx_DustAnim_031e3e  @ $031E3E  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031e3e, "ax", @progbits
-        .global TaskHandler_031e3e
-TaskHandler_031e3e:
+        .section .text.Fx_DustAnim_031e3e, "ax", @progbits
+        .global Fx_DustAnim_031e3e
+Fx_DustAnim_031e3e:
         move.w  #0x4,d1                         | +000
         jsr     0x236e.l                        | +004
         lea     0x2dd72a.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
-        lea     TaskHandler_0319f0__L031a9c(pc),a1 | +016
+        lea     SlugFx_ExhaustOrDrop_0319f0__L031a9c(pc),a1 | +016
         move.l  a1,(a6)                         | +01a
-        bra.w   TaskHandler_0319f0__L031a9c     | +01c
+        bra.w   SlugFx_ExhaustOrDrop_0319f0__L031a9c | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031e5e  @ $031E5E  (324 B)
+|  Fx_SpawnDustPair_031e5e  @ $031E5E  (324 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031e5e, "ax", @progbits
-        .global TaskHandler_031e5e
-TaskHandler_031e5e:
-        lea     TaskHandler_031e38(pc),a1       | +000
+        .section .text.Fx_SpawnDustPair_031e5e, "ax", @progbits
+        .global Fx_SpawnDustPair_031e5e
+Fx_SpawnDustPair_031e5e:
+        lea     Fx_Dust_031e38(pc),a1           | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         addi.w  #0xffe0,0x22(a0)                | +010
 .L031e74:
         rts                                     | +016
-        lea     TaskHandler_031e38(pc),a1       | +018
+        lea     Fx_Dust_031e38(pc),a1           | +018
         jsr     0x4ae.l                         | +01c
         jsr     0x5dd02.l                       | +022
         addi.w  #0x20,0x22(a0)                  | +028
         eori.b  #0x1,0x3a(a0)                   | +02e
         bra.b   .L031e74                        | +034
-        lea     TaskHandler_031e38(pc),a1       | +036
+        lea     Fx_Dust_031e38(pc),a1           | +036
         jsr     0x4ae.l                         | +03a
         jsr     0x5dd02.l                       | +040
         addi.w  #0xffe0,0x22(a0)                | +046
         addi.w  #0xfff8,0x24(a0)                | +04c
         bra.b   .L031e74                        | +052
-        lea     TaskHandler_031e38(pc),a1       | +054
+        lea     Fx_Dust_031e38(pc),a1           | +054
         jsr     0x4ae.l                         | +058
         jsr     0x5dd02.l                       | +05e
         addi.w  #0x20,0x22(a0)                  | +064
         addi.w  #0xfff8,0x24(a0)                | +06a
         eori.b  #0x1,0x3a(a0)                   | +070
         bra.b   .L031e74                        | +076
-        lea     TaskHandler_031e38(pc),a1       | +078
+        lea     Fx_Dust_031e38(pc),a1           | +078
         jsr     0x4ae.l                         | +07c
         jsr     0x5dd02.l                       | +082
         addi.w  #0xffe0,0x22(a0)                | +088
         addq.w  #0x8,0x24(a0)                   | +08e
         bra.b   .L031e74                        | +092
-        lea     TaskHandler_031e38(pc),a1       | +094
+        lea     Fx_Dust_031e38(pc),a1           | +094
         jsr     0x4ae.l                         | +098
         jsr     0x5dd02.l                       | +09e
         addi.w  #0x20,0x22(a0)                  | +0a4
         addq.w  #0x8,0x24(a0)                   | +0aa
         eori.b  #0x1,0x3a(a0)                   | +0ae
         bra.w   .L031e74                        | +0b4
-        lea     TaskHandler_031e38(pc),a1       | +0b8
+        lea     Fx_Dust_031e38(pc),a1           | +0b8
         jsr     0x4ae.l                         | +0bc
         jsr     0x5dd02.l                       | +0c2
         addi.w  #0xffed,0x22(a0)                | +0c8
         addi.w  #0xfff4,0x24(a0)                | +0ce
         bra.w   .L031e74                        | +0d4
-        lea     TaskHandler_031e38(pc),a1       | +0d8
+        lea     Fx_Dust_031e38(pc),a1           | +0d8
         jsr     0x4ae.l                         | +0dc
         jsr     0x5dd02.l                       | +0e2
         addi.w  #0x13,0x22(a0)                  | +0e8
         addi.w  #0xfff4,0x24(a0)                | +0ee
         eori.b  #0x1,0x3a(a0)                   | +0f4
         bra.w   .L031e74                        | +0fa
-        lea     TaskHandler_031e38(pc),a1       | +0fe
+        lea     Fx_Dust_031e38(pc),a1           | +0fe
         jsr     0x4ae.l                         | +102
         jsr     0x5dd02.l                       | +108
         addi.w  #0xffed,0x22(a0)                | +10e
         addi.w  #0xc,0x24(a0)                   | +114
         bra.w   .L031e74                        | +11a
-        lea     TaskHandler_031e38(pc),a1       | +11e
+        lea     Fx_Dust_031e38(pc),a1           | +11e
         jsr     0x4ae.l                         | +122
         jsr     0x5dd02.l                       | +128
         addi.w  #0x13,0x22(a0)                  | +12e
@@ -2317,43 +2317,43 @@ TaskHandler_031e5e:
         bra.w   .L031e74                        | +140
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031fa2  @ $031FA2  (32 B)
+|  Fx_SmokeAnim_031fa2  @ $031FA2  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031fa2, "ax", @progbits
-        .global TaskHandler_031fa2
-TaskHandler_031fa2:
+        .section .text.Fx_SmokeAnim_031fa2, "ax", @progbits
+        .global Fx_SmokeAnim_031fa2
+Fx_SmokeAnim_031fa2:
         move.w  #0x4,d1                         | +000
         jsr     0x236e.l                        | +004
         lea     0x2dd944.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
-        lea     TaskHandler_0319f0__L031a9c(pc),a1 | +016
+        lea     SlugFx_ExhaustOrDrop_0319f0__L031a9c(pc),a1 | +016
         move.l  a1,(a6)                         | +01a
-        bra.w   TaskHandler_0319f0__L031a9c     | +01c
+        bra.w   SlugFx_ExhaustOrDrop_0319f0__L031a9c | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031fc2  @ $031FC2  (8 B)
+|  Entity_TestBit2Field8C_031fc2  @ $031FC2  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031fc2, "ax", @progbits
-        .global TaskHandler_031fc2
-TaskHandler_031fc2:
+        .section .text.Entity_TestBit2Field8C_031fc2, "ax", @progbits
+        .global Entity_TestBit2Field8C_031fc2
+Entity_TestBit2Field8C_031fc2:
         btst    #0x2,0x8c(a0)                   | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_031fca  @ $031FCA  (158 B)
+|  PlayerIcon_Pow_031fca  @ $031FCA  (158 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_031fca, "ax", @progbits
-        .global TaskHandler_031fca
-TaskHandler_031fca:
+        .section .text.PlayerIcon_Pow_031fca, "ax", @progbits
+        .global PlayerIcon_Pow_031fca
+PlayerIcon_Pow_031fca:
         move.w  #0x1ad,d1                       | +000
         jsr     0x236e.l                        | +004
         cmpi.b  #0x5,0x106ece.l                 | +00a
         bne.w   .L031fee                        | +012
-        lea     Data_032286(pc),a0              | +016
+        lea     PlayerIcon_PowAltAnim_032286(pc),a0 | +016
         jsr     0x28cd4.l                       | +01a
         bra.w   .L031ff8                        | +020
 .L031fee:
-        lea     Data_032292(pc),a0              | +024
+        lea     PlayerIcon_PowAnim_032292(pc),a0 | +024
         jsr     0x28cd4.l                       | +028
 .L031ff8:
         move.w  #0x28,0x5c(a6)                  | +02e
@@ -2373,7 +2373,7 @@ TaskHandler_031fca:
         btst    #0x5,0x8d(a0)                   | +06c
         beq.w   .L03205a                        | +072
         movea.l #0xffffffff,a0                  | +076
-        lea     Data_032070(pc),a0              | +07c
+        lea     PlayerIcon_GroundTbl_032070(pc),a0 | +07c
         jsr     0x5dd56.l                       | +080
         bcs.w   .L03205a                        | +086
         jsr     0x28d70.l                       | +08a
@@ -2383,11 +2383,11 @@ TaskHandler_031fca:
         beq.w   SetHandlerRts_03206e            | +09a
 
 | ----------------------------------------------------------------------------
-|  Data_032070  @ $032070  (12 B)
+|  PlayerIcon_GroundTbl_032070  @ $032070  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_032070, "ax", @progbits
-        .global Data_032070
-Data_032070:
+        .section .text.PlayerIcon_GroundTbl_032070, "ax", @progbits
+        .global PlayerIcon_GroundTbl_032070
+PlayerIcon_GroundTbl_032070:
         .dc.w   0xfff0                        | +000  (dato / opcode no decodificado)
         .dc.w   0xffe0                        | +002  (dato / opcode no decodificado)
         .dc.w   0xfff0                        | +004  (dato / opcode no decodificado)
@@ -2396,14 +2396,14 @@ Data_032070:
         .dc.w   0xffff                        | +00a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_03207c  @ $03207C  (80 B)
+|  PlayerIcon_Bubble_03207c  @ $03207C  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_03207c, "ax", @progbits
-        .global TaskHandler_03207c
-TaskHandler_03207c:
+        .section .text.PlayerIcon_Bubble_03207c, "ax", @progbits
+        .global PlayerIcon_Bubble_03207c
+PlayerIcon_Bubble_03207c:
         move.w  #0x1b0,d1                       | +000
         jsr     0x236e.l                        | +004
-        lea     Data_03232a(pc),a0              | +00a
+        lea     PlayerIcon_BubbleAnim_03232a(pc),a0 | +00a
         jsr     0x28cd4.l                       | +00e
         move.w  #0x38,0x5c(a6)                  | +014
         bra.w   .L03209a                        | +01a
@@ -2422,63 +2422,63 @@ TaskHandler_03207c:
         bcc.w   SetHandlerRts_0320d2            | +04c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0320d4  @ $0320D4  (62 B)
+|  PlayerIcon_SpawnFreeFallBoth_0320d4  @ $0320D4  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0320d4, "ax", @progbits
-        .global TaskHandler_0320d4
-TaskHandler_0320d4:
+        .section .text.PlayerIcon_SpawnFreeFallBoth_0320d4, "ax", @progbits
+        .global PlayerIcon_SpawnFreeFallBoth_0320d4
+PlayerIcon_SpawnFreeFallBoth_0320d4:
         movem.l a6,-(a7)                        | +000
         move.w  #0x0,d0                         | +004
         jsr     0x5e3a2.l                       | +008
         bcc.w   .L0320f2                        | +00e
         movea.l a0,a6                           | +012
-        lea     TaskHandler_032112(pc),a1       | +014
+        lea     PlayerIcon_FreeFallP1_032112(pc),a1 | +014
         jsr     0x4ae.l                         | +018
 .L0320f2:
         move.w  #0x1,d0                         | +01e
         jsr     0x5e3a2.l                       | +022
         bcc.w   .L03210c                        | +028
         movea.l a0,a6                           | +02c
-        lea     TaskHandler_032142(pc),a1       | +02e
+        lea     PlayerIcon_FreeFallP2_032142(pc),a1 | +02e
         jsr     0x4ae.l                         | +032
 .L03210c:
         movem.l (a7)+,a6                        | +038
         rts                                     | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032112  @ $032112  (48 B)
+|  PlayerIcon_FreeFallP1_032112  @ $032112  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032112, "ax", @progbits
-        .global TaskHandler_032112
-TaskHandler_032112:
+        .section .text.PlayerIcon_FreeFallP1_032112, "ax", @progbits
+        .global PlayerIcon_FreeFallP1_032112
+PlayerIcon_FreeFallP1_032112:
         cmpi.l  #0x100440,0xc(a6)               | +000
         beq.w   .L032124                        | +008
         jmp     0x518.l                         | +00c
 .L032124:
         move.w  #0xa2,d1                        | +012
         jsr     0x236e.l                        | +016
-        lea     Data_0321c2(pc),a0              | +01c
+        lea     PlayerIcon_FreeFallP1_Anim_0321c2(pc),a0 | +01c
         jsr     0x28cd4.l                       | +020
         move.w  #0x30,0x5c(a6)                  | +026
-        bra.w   TaskHandler_032142__L03216e     | +02c
+        bra.w   PlayerIcon_FreeFallP2_032142__L03216e | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_032142  @ $032142  (114 B)
+|  PlayerIcon_FreeFallP2_032142  @ $032142  (114 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_032142, "ax", @progbits
-        .global TaskHandler_032142
-TaskHandler_032142:
+        .section .text.PlayerIcon_FreeFallP2_032142, "ax", @progbits
+        .global PlayerIcon_FreeFallP2_032142
+PlayerIcon_FreeFallP2_032142:
         cmpi.l  #0x1004e0,0xc(a6)               | +000
         beq.w   .L032154                        | +008
         jmp     0x518.l                         | +00c
 .L032154:
         move.w  #0xa3,d1                        | +012
         jsr     0x236e.l                        | +016
-        lea     Data_032224(pc),a0              | +01c
+        lea     PlayerIcon_FreeFallP2_Anim_032224(pc),a0 | +01c
         jsr     0x28cd4.l                       | +020
         move.w  #0x38,0x5c(a6)                  | +026
-        .global TaskHandler_032142__L03216e
-TaskHandler_032142__L03216e:
+        .global PlayerIcon_FreeFallP2_032142__L03216e
+PlayerIcon_FreeFallP2_032142__L03216e:
         move.w  #0xffff,0x38(a6)                | +02c
         bset    #0x6,0x12(a6)                   | +032
         lea     .L032180(pc),a1                 | +038
@@ -2499,11 +2499,11 @@ TaskHandler_032142__L03216e:
         beq.w   SetHandlerRts_0321ba            | +06e
 
 | ----------------------------------------------------------------------------
-|  Data_0321c2  @ $0321C2  (98 B)
+|  PlayerIcon_FreeFallP1_Anim_0321c2  @ $0321C2  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0321c2, "ax", @progbits
-        .global Data_0321c2
-Data_0321c2:
+        .section .text.PlayerIcon_FreeFallP1_Anim_0321c2, "ax", @progbits
+        .global PlayerIcon_FreeFallP1_Anim_0321c2
+PlayerIcon_FreeFallP1_Anim_0321c2:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +004  (dato / opcode no decodificado)
@@ -2555,11 +2555,11 @@ Data_0321c2:
         .dc.w   0x1600                        | +060  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_032224  @ $032224  (98 B)
+|  PlayerIcon_FreeFallP2_Anim_032224  @ $032224  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_032224, "ax", @progbits
-        .global Data_032224
-Data_032224:
+        .section .text.PlayerIcon_FreeFallP2_Anim_032224, "ax", @progbits
+        .global PlayerIcon_FreeFallP2_Anim_032224
+PlayerIcon_FreeFallP2_Anim_032224:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +004  (dato / opcode no decodificado)
@@ -2611,11 +2611,11 @@ Data_032224:
         .dc.w   0x1600                        | +060  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_032286  @ $032286  (12 B)
+|  PlayerIcon_PowAltAnim_032286  @ $032286  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_032286, "ax", @progbits
-        .global Data_032286
-Data_032286:
+        .section .text.PlayerIcon_PowAltAnim_032286, "ax", @progbits
+        .global PlayerIcon_PowAltAnim_032286
+PlayerIcon_PowAltAnim_032286:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
@@ -2624,11 +2624,11 @@ Data_032286:
         .dc.w   0x1600                        | +00a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_032292  @ $032292  (152 B)
+|  PlayerIcon_PowAnim_032292  @ $032292  (152 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_032292, "ax", @progbits
-        .global Data_032292
-Data_032292:
+        .section .text.PlayerIcon_PowAnim_032292, "ax", @progbits
+        .global PlayerIcon_PowAnim_032292
+PlayerIcon_PowAnim_032292:
         .dc.w   0x000a                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
@@ -2707,11 +2707,11 @@ Data_032292:
         .dc.w   0x2292                        | +096  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_03232a  @ $03232A  (138 B)
+|  PlayerIcon_BubbleAnim_03232a  @ $03232A  (138 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_03232a, "ax", @progbits
-        .global Data_03232a
-Data_03232a:
+        .section .text.PlayerIcon_BubbleAnim_03232a, "ax", @progbits
+        .global PlayerIcon_BubbleAnim_03232a
+PlayerIcon_BubbleAnim_03232a:
         .dc.w   0x0003                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
@@ -2783,11 +2783,11 @@ Data_03232a:
         .dc.w   0x1600                        | +088  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0323b4  @ $0323B4  (24 B)
+|  Popcount4_0323b4  @ $0323B4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0323b4, "ax", @progbits
-        .global TaskHandler_0323b4
-TaskHandler_0323b4:
+        .section .text.Popcount4_0323b4, "ax", @progbits
+        .global Popcount4_0323b4
+Popcount4_0323b4:
         moveq   #0,d1                           | +000
         moveq   #0,d2                           | +002
         lsl.b   #0x1,d0                         | +004
@@ -2802,11 +2802,11 @@ TaskHandler_0323b4:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  Data_0323cc  @ $0323CC  (28 B)
+|  Fx_SparkleAnim_0323cc  @ $0323CC  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0323cc, "ax", @progbits
-        .global Data_0323cc
-Data_0323cc:
+        .section .text.Fx_SparkleAnim_0323cc, "ax", @progbits
+        .global Fx_SparkleAnim_0323cc
+Fx_SparkleAnim_0323cc:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x1e08                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0022                        | +004  (dato / opcode no decodificado)
@@ -2823,11 +2823,11 @@ Data_0323cc:
         .dc.w   0x0000                        | +01a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0323e8  @ $0323E8  (18 B)
+|  Entity_CmpDepthWithLink8B_0323e8  @ $0323E8  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0323e8, "ax", @progbits
-        .global TaskHandler_0323e8
-TaskHandler_0323e8:
+        .section .text.Entity_CmpDepthWithLink8B_0323e8, "ax", @progbits
+        .global Entity_CmpDepthWithLink8B_0323e8
+Entity_CmpDepthWithLink8B_0323e8:
         move.b  d0,d3                           | +000
         movea.l 0x8(a6),a1                      | +002
         move.b  0x10(a6),d0                     | +006
@@ -2835,11 +2835,11 @@ TaskHandler_0323e8:
         bcs.w   SetXN_032400                    | +00e
 
 | ----------------------------------------------------------------------------
-|  Data_032412  @ $032412  (170 B)
+|  Player_WeaponStateByteTbl_032412  @ $032412  (170 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_032412, "ax", @progbits
-        .global Data_032412
-Data_032412:
+        .section .text.Player_WeaponStateByteTbl_032412, "ax", @progbits
+        .global Player_WeaponStateByteTbl_032412
+Player_WeaponStateByteTbl_032412:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +004  (dato / opcode no decodificado)
@@ -2927,11 +2927,11 @@ Data_032412:
         .dc.w   0x0101                        | +0a8  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000324BC  @ $0324BC  (10 B)
+|  Player_GroundTblA_0324bc  @ $0324BC  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000324BC, "ax", @progbits
-        .global Sub_000324BC
-Sub_000324BC:
+        .section .text.Player_GroundTblA_0324bc, "ax", @progbits
+        .global Player_GroundTblA_0324bc
+Player_GroundTblA_0324bc:
         .dc.w   0xffe0                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0040                        | +002  (dato / opcode no decodificado)
         .dc.w   0xff80                        | +004  (dato / opcode no decodificado)
@@ -2939,11 +2939,11 @@ Sub_000324BC:
         .dc.w   0xffff                        | +008  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000324C6  @ $0324C6  (10 B)
+|  Player_GroundTblB_0324c6  @ $0324C6  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000324C6, "ax", @progbits
-        .global Sub_000324C6
-Sub_000324C6:
+        .section .text.Player_GroundTblB_0324c6, "ax", @progbits
+        .global Player_GroundTblB_0324c6
+Player_GroundTblB_0324c6:
         .dc.w   0xffe0                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0040                        | +002  (dato / opcode no decodificado)
         .dc.w   0xff80                        | +004  (dato / opcode no decodificado)
@@ -2951,22 +2951,22 @@ Sub_000324C6:
         .dc.w   0xffff                        | +008  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000324D0  @ $0324D0  (8 B)
+|  Player_VelYTbl_0324d0  @ $0324D0  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000324D0, "ax", @progbits
-        .global Sub_000324D0
-Sub_000324D0:
+        .section .text.Player_VelYTbl_0324d0, "ax", @progbits
+        .global Player_VelYTbl_0324d0
+Player_VelYTbl_0324d0:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0xfe80                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0180                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000324D8  @ $0324D8  (16 B)
+|  Player_VelYTblB_0324d8  @ $0324D8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000324D8, "ax", @progbits
-        .global Sub_000324D8
-Sub_000324D8:
+        .section .text.Player_VelYTblB_0324d8, "ax", @progbits
+        .global Player_VelYTblB_0324d8
+Player_VelYTblB_0324d8:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0xff00                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0100                        | +004  (dato / opcode no decodificado)
@@ -2977,11 +2977,11 @@ Sub_000324D8:
         .dc.w   0x0000                        | +00e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000324E8  @ $0324E8  (252 B)
+|  Player_VelXTbl_0324e8  @ $0324E8  (252 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000324E8, "ax", @progbits
-        .global Sub_000324E8
-Sub_000324E8:
+        .section .text.Player_VelXTbl_0324e8, "ax", @progbits
+        .global Player_VelXTbl_0324e8
+Player_VelXTbl_0324e8:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0xfe00                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0100                        | +004  (dato / opcode no decodificado)
@@ -3110,11 +3110,11 @@ Sub_000324E8:
         .dc.w   0x1d01                        | +0fa  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000325E4  @ $0325E4  (84 B)
+|  Player_AttackTblA_0325e4  @ $0325E4  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000325E4, "ax", @progbits
-        .global Sub_000325E4
-Sub_000325E4:
+        .section .text.Player_AttackTblA_0325e4, "ax", @progbits
+        .global Player_AttackTblA_0325e4
+Player_AttackTblA_0325e4:
         .dc.w   0x030b                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
@@ -3159,11 +3159,11 @@ Sub_000325E4:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00032638  @ $032638  (168 B)
+|  Player_AttackTblB_032638  @ $032638  (168 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032638, "ax", @progbits
-        .global Sub_00032638
-Sub_00032638:
+        .section .text.Player_AttackTblB_032638, "ax", @progbits
+        .global Player_AttackTblB_032638
+Player_AttackTblB_032638:
         .dc.w   0x030a                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0032                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -3250,11 +3250,11 @@ Sub_00032638:
         .dc.w   0xffff                        | +0a6  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000326E0  @ $0326E0  (84 B)
+|  Player_HitboxStand_0326e0  @ $0326E0  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000326E0, "ax", @progbits
-        .global Sub_000326E0
-Sub_000326E0:
+        .section .text.Player_HitboxStand_0326e0, "ax", @progbits
+        .global Player_HitboxStand_0326e0
+Player_HitboxStand_0326e0:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x2412                        | +004  (dato / opcode no decodificado)
@@ -3299,11 +3299,11 @@ Sub_000326E0:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00032734  @ $032734  (84 B)
+|  Player_HitboxCrouch_032734  @ $032734  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032734, "ax", @progbits
-        .global Sub_00032734
-Sub_00032734:
+        .section .text.Player_HitboxCrouch_032734, "ax", @progbits
+        .global Player_HitboxCrouch_032734
+Player_HitboxCrouch_032734:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x2412                        | +004  (dato / opcode no decodificado)
@@ -3348,11 +3348,11 @@ Sub_00032734:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00032788  @ $032788  (84 B)
+|  Player_HitboxMelee_032788  @ $032788  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032788, "ax", @progbits
-        .global Sub_00032788
-Sub_00032788:
+        .section .text.Player_HitboxMelee_032788, "ax", @progbits
+        .global Player_HitboxMelee_032788
+Player_HitboxMelee_032788:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x249a                        | +004  (dato / opcode no decodificado)
@@ -3397,11 +3397,11 @@ Sub_00032788:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000327DC  @ $0327DC  (84 B)
+|  Player_HitboxGrenade_0327dc  @ $0327DC  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000327DC, "ax", @progbits
-        .global Sub_000327DC
-Sub_000327DC:
+        .section .text.Player_HitboxGrenade_0327dc, "ax", @progbits
+        .global Player_HitboxGrenade_0327dc
+Player_HitboxGrenade_0327dc:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x249a                        | +004  (dato / opcode no decodificado)
@@ -3446,11 +3446,11 @@ Sub_000327DC:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00032830  @ $032830  (84 B)
+|  Player_HitboxAir_032830  @ $032830  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032830, "ax", @progbits
-        .global Sub_00032830
-Sub_00032830:
+        .section .text.Player_HitboxAir_032830, "ax", @progbits
+        .global Player_HitboxAir_032830
+Player_HitboxAir_032830:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x2434                        | +004  (dato / opcode no decodificado)
@@ -3495,11 +3495,11 @@ Sub_00032830:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00032884  @ $032884  (84 B)
+|  Player_HitboxKnockback_032884  @ $032884  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00032884, "ax", @progbits
-        .global Sub_00032884
-Sub_00032884:
+        .section .text.Player_HitboxKnockback_032884, "ax", @progbits
+        .global Player_HitboxKnockback_032884
+Player_HitboxKnockback_032884:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x2478                        | +004  (dato / opcode no decodificado)
@@ -3544,11 +3544,11 @@ Sub_00032884:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000328D8  @ $0328D8  (84 B)
+|  Player_HitboxDeath_0328d8  @ $0328D8  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000328D8, "ax", @progbits
-        .global Sub_000328D8
-Sub_000328D8:
+        .section .text.Player_HitboxDeath_0328d8, "ax", @progbits
+        .global Player_HitboxDeath_0328d8
+Player_HitboxDeath_0328d8:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x2456                        | +004  (dato / opcode no decodificado)
@@ -3593,11 +3593,11 @@ Sub_000328D8:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_0003292C  @ $03292C  (168 B)
+|  Player_HitboxSlug_03292c  @ $03292C  (168 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0003292C, "ax", @progbits
-        .global Sub_0003292C
-Sub_0003292C:
+        .section .text.Player_HitboxSlug_03292c, "ax", @progbits
+        .global Player_HitboxSlug_03292c
+Player_HitboxSlug_03292c:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +002  (dato / opcode no decodificado)
         .dc.w   0x2412                        | +004  (dato / opcode no decodificado)
@@ -3684,11 +3684,11 @@ Sub_0003292C:
         .dc.w   0xffff                        | +0a6  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000329D4  @ $0329D4  (20 B)
+|  Player_WeaponAmmoTbl_0329d4  @ $0329D4  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000329D4, "ax", @progbits
-        .global Sub_000329D4
-Sub_000329D4:
+        .section .text.Player_WeaponAmmoTbl_0329d4, "ax", @progbits
+        .global Player_WeaponAmmoTbl_0329d4
+Player_WeaponAmmoTbl_0329d4:
         .dc.w   0xffff                        | +000  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x03e7                        | +004  (dato / opcode no decodificado)
@@ -3701,11 +3701,11 @@ Sub_000329D4:
         .dc.w   0x0096                        | +012  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000329E8  @ $0329E8  (6 B)
+|  Player_WeaponFlagTbl_0329e8  @ $0329E8  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000329E8, "ax", @progbits
-        .global Sub_000329E8
-Sub_000329E8:
+        .section .text.Player_WeaponFlagTbl_0329e8, "ax", @progbits
+        .global Player_WeaponFlagTbl_0329e8
+Player_WeaponFlagTbl_0329e8:
         .dc.w   0x1400                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
         .dc.w   0x14ff                        | +004  (dato / opcode no decodificado)
@@ -3723,10 +3723,10 @@ OpcodeOffsetTable_0329EE:
         .dc.w   0x0018                        | +008  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0329f8  @ $0329F8  (10 B)
+|  Entity_ClearCollisionCb_0329f8  @ $0329F8  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0329f8, "ax", @progbits
-        .global TaskHandler_0329f8
-TaskHandler_0329f8:
+        .section .text.Entity_ClearCollisionCb_0329f8, "ax", @progbits
+        .global Entity_ClearCollisionCb_0329f8
+Entity_ClearCollisionCb_0329f8:
         move.l  #0xffffffff,0x48(a6)            | +000
         rts                                     | +008

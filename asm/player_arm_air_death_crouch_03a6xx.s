@@ -68,7 +68,7 @@
 |  F. SIGUIENTE
 |  ------------
 |   `$03C62A..$03C8D0` (islas C) y `$03C8D8..$03DA98` (proyectiles/efectos);
-|   `$02E000..$032A00` (player core, callbacks Sub_000324BC..Sub_0003292C).
+|   `$02E000..$032A00` (player core, callbacks Player_GroundTblA_0324bc..Player_HitboxSlug_03292c).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

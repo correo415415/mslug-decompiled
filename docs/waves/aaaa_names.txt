@@ -93,3 +93,4 @@
 0x329D4=Player_WeaponAmmoTbl_0329d4
 0x329E8=Player_WeaponFlagTbl_0329e8
 0x329F8=Entity_ClearCollisionCb_0329f8
+0x329EE=OpcodeOffsetTable_0329EE

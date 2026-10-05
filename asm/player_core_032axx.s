@@ -16,7 +16,7 @@
 |   +$8D bit1 = en suelo), +$5C, +$60 = $32500.
 |
 |   1. Munición / armas ($32B58..$32C7E): Player_SetWeaponAndAmmo (d0 = jugador,
-|      d1 = arma, d2 = munición; tabla Sub_000329D4 {$FFFF,10,999,10,999,15,
+|      d1 = arma, d2 = munición; tabla Player_WeaponAmmoTbl_0329d4 {$FFFF,10,999,10,999,15,
 |      999,20,999,150} = munición por defecto por arma), Player_RefillAmmo
 |      Clamp999, Item_GiveAmmo_ToPlayer (desde Item_GiveAmmoKind: +$98/+$99
 |      del item, popup Score_Popup_ForPlayer_09b9ba; $FF = sin cambio),
@@ -39,7 +39,7 @@
 |   5. Player_ActionSelect_0330d0 (y variante _B): decide la acción del
 |      frame y devuelve C=1 + d1 = código: $FF = golpeado (+$13 bit1),
 |      3 = disparo ($5CDC0), 4 = ..., 1/2 = por nibble (Player_DirNibble
-|      ToAction), 0 = nada; carga el mapa de sprites Sub_000325E4 en +$4C.
+|      ToAction), 0 = nada; carga el mapa de sprites Player_AttackTblA_0325e4 en +$4C.
 |      Player_Idle_Tail_0341a4 lo consume: $FF -> Player_Melee_035d34 (hit),
 |      3 -> Player_ThrowGrenade_Stand_0360bc (fire), 4 -> Player_CrouchShoot_03873c, 1 -> Player_ShootStandUp_03437e,
 |      otro -> Player_ShootStand_0342c4 (Wave siguiente).
@@ -65,7 +65,7 @@
 |      disparo); Player_Crouch/CrouchB ($27973E/$27981E, anim 5),
 |      Player_Reload ($2796F8/$279702, anim $33). Todos pasan por
 |      Player_FrameCommon_032ff2 ($283CA, prio &= ~3, InvulnBlinkStep,
-|      $2A720) y el suelo $5DD56 con hitbox Sub_000324C6/Sub_000324BC (escena 3).
+|      $2A720) y el suelo $5DD56 con hitbox Player_GroundTblB_0324c6/Player_GroundTblA_0324bc (escena 3).
 |
 |  B) EVIDENCIAS
 |  -------------
@@ -87,7 +87,7 @@
 |
 |  D) ESTRUCTURAS
 |  --------------
-|  Tabla de munición Sub_000329D4: words {arma0, (def,max) x4, 150}.
+|  Tabla de munición Player_WeaponAmmoTbl_0329d4: words {arma0, (def,max) x4, 150}.
 |  Player_WeaponMusicTable_032d28: 5 words (-1 = sin música).
 |  Player_StateTable68_03338a: 68 x u32.
 |
@@ -154,7 +154,7 @@ Player_ConsumeFlag81_032aea:
         .section .text.Player_ConsumeFireFlag84_032b1c, "ax", @progbits
         .global Player_ConsumeFireFlag84_032b1c
 Player_ConsumeFireFlag84_032b1c:
-        lea     Sub_000329E8(pc),a1             | +000
+        lea     Player_WeaponFlagTbl_0329e8(pc),a1             | +000
         moveq   #0,d0                           | +004
         move.b  0x71(a6),d0                     | +006
         move.b  (a1,d0.w),d1                    | +00a
@@ -190,7 +190,7 @@ Player_SetAmmoForWeapon_032b6a:
         lea     0x1004e0.l,a1                   | +016
 .L032b86:
         andi.w  #0xff,d1                        | +01c
-        lea     Sub_000329D4(pc),a2             | +020
+        lea     Player_WeaponAmmoTbl_0329d4(pc),a2             | +020
         cmp.b   0x71(a1),d1                     | +024
         bne.w   .L032bb2                        | +028
         cmpi.b  #0x0,d2                         | +02c
@@ -229,7 +229,7 @@ Player_RefillAmmoClamp999_032bc6:
         cmpi.b  #0x0,d1                         | +01c
         beq.w   .L032c10                        | +020
         andi.w  #0xff,d1                        | +024
-        lea     Sub_000329D4(pc),a2             | +028
+        lea     Player_WeaponAmmoTbl_0329d4(pc),a2             | +028
         lsl.w   #0x2,d1                         | +02c
         move.w  0x82(a1),d0                     | +02e
         add.w   0x2(a2,d1.w),d0                 | +032
@@ -771,7 +771,7 @@ Player_ActionSelect_0330d0:
         bcs.w   .L033148                        | +01c
         jsr     0x5cda8.l                       | +020
         bcc.w   .L033148                        | +026
-        lea     Sub_000325E4(pc),a0             | +02a
+        lea     Player_AttackTblA_0325e4(pc),a0             | +02a
         move.l  a0,0x4c(a6)                     | +02e
         jsr     0x283ca.l                       | +032
         jsr     0x283ca.l                       | +038
@@ -858,7 +858,7 @@ Player_ActionSelect_B_Fire_0331ce:
         bcs.w   .L033248                        | +01e
         jsr     0x5cda8.l                       | +022
         bcc.w   .L033248                        | +028
-        lea     Sub_000325E4(pc),a0             | +02c
+        lea     Player_AttackTblA_0325e4(pc),a0             | +02c
         move.l  a0,0x4c(a6)                     | +030
         jsr     0x283ca.l                       | +034
         jsr     0x283ca.l                       | +03a
@@ -1278,12 +1278,12 @@ Player_SpawnFall_0337a8:
         cmpi.b  #0x3,0x106ece.l                 | +086
         beq.w   .L03384e                        | +08e
         movea.l #0xffffffff,a0                  | +092
-        lea     Sub_000324C6(pc),a0             | +098
+        lea     Player_GroundTblB_0324c6(pc),a0             | +098
         jsr     0x5dd56.l                       | +09c
         bra.w   .L03385e                        | +0a2
 .L03384e:
         movea.l #0xffffffff,a0                  | +0a6
-        lea     Sub_000324BC(pc),a0             | +0ac
+        lea     Player_GroundTblA_0324bc(pc),a0             | +0ac
         jsr     0x5dd56.l                       | +0b0
 .L03385e:
         bcc.w   JsrPcThunk_033868               | +0b6
@@ -1420,12 +1420,12 @@ Player_SpawnParachute_033956:
         cmpi.b  #0x3,0x106ece.l                 | +0c8
         beq.w   .L033a3e                        | +0d0
         movea.l #0xffffffff,a0                  | +0d4
-        lea     Sub_000324C6(pc),a0             | +0da
+        lea     Player_GroundTblB_0324c6(pc),a0             | +0da
         jsr     0x5dd56.l                       | +0de
         bra.w   .L033a4e                        | +0e4
 .L033a3e:
         movea.l #0xffffffff,a0                  | +0e8
-        lea     Sub_000324BC(pc),a0             | +0ee
+        lea     Player_GroundTblA_0324bc(pc),a0             | +0ee
         jsr     0x5dd56.l                       | +0f2
 .L033a4e:
         bcc.w   JsrPcThunk_033a58               | +0f8
@@ -1449,7 +1449,7 @@ Player_Crouch_033a5e:
         move.b  #0xff,0x21(a6)                  | +030
         lea     0x27973e.l,a0                   | +036
         jsr     0x28cd4.l                       | +03c
-        lea     Sub_000326E0(pc),a0             | +042
+        lea     Player_HitboxStand_0326e0(pc),a0             | +042
         move.l  a0,0x48(a6)                     | +046
         move.l  #0x32500,0x60(a6)               | +04a
         jsr     0x267e6.l                       | +052
@@ -1493,7 +1493,7 @@ Player_CrouchB_033afc:
         move.b  #0xff,0x21(a6)                  | +030
         lea     0x27981e.l,a0                   | +036
         jsr     0x28cd4.l                       | +03c
-        lea     Sub_000326E0(pc),a0             | +042
+        lea     Player_HitboxStand_0326e0(pc),a0             | +042
         move.l  a0,0x48(a6)                     | +046
         move.l  #0x32500,0x60(a6)               | +04a
         jsr     0x267e6.l                       | +052
@@ -1541,7 +1541,7 @@ Player_Reload_033b9a:
         move.b  #0xff,0x21(a6)                  | +03e
         lea     0x2796f8.l,a0                   | +044
         jsr     0x28cd4.l                       | +04a
-        lea     Sub_000326E0(pc),a0             | +050
+        lea     Player_HitboxStand_0326e0(pc),a0             | +050
         move.l  a0,0x48(a6)                     | +054
         move.l  #0x32500,0x60(a6)               | +058
         jsr     0x267e6.l                       | +060
@@ -1601,7 +1601,7 @@ Player_Reload_033b9a:
         move.b  #0xff,0x21(a6)                  | +124
         lea     0x279702.l,a0                   | +12a
         jsr     0x28cd4.l                       | +130
-        lea     Sub_000326E0(pc),a0             | +136
+        lea     Player_HitboxStand_0326e0(pc),a0             | +136
         move.l  a0,0x48(a6)                     | +13a
         move.l  #0x32500,0x60(a6)               | +13e
         jsr     0x267e6.l                       | +146
@@ -1674,7 +1674,7 @@ Player_Idle_033d64:
         lea     0x279828.l,a0                   | +06a
         jsr     0x28cd4.l                       | +070
 .L033dda:
-        lea     Sub_000326E0(pc),a0             | +076
+        lea     Player_HitboxStand_0326e0(pc),a0             | +076
         move.l  a0,0x48(a6)                     | +07a
         cmpi.b  #0x0,0x71(a6)                   | +07e
         beq.w   .L033e04                        | +084
@@ -1790,7 +1790,7 @@ Player_SpawnLand_Reset_033ede:              | $033EDE entrada secundaria (desde 
         move.l  #0x32500,0x60(a6)               | +22a
         jsr     0x267e6.l                       | +232
         clr.w   0x28(a6)                        | +238
-        lea     Sub_000326E0(pc),a0             | +23c
+        lea     Player_HitboxStand_0326e0(pc),a0             | +23c
         move.l  a0,0x48(a6)                     | +240
         lea     .L033fae(pc),a1                 | +244
         move.l  a1,(a6)                         | +248
@@ -1865,7 +1865,7 @@ Player_Idle_StateCheck_034046:              | $034046 entrada secundaria (lea de
         move.l  #0x32500,0x60(a6)               | +350
         jsr     0x267e6.l                       | +358
         clr.w   0x28(a6)                        | +35e
-        lea     Sub_000326E0(pc),a0             | +362
+        lea     Player_HitboxStand_0326e0(pc),a0             | +362
         move.l  a0,0x48(a6)                     | +366
         cmpi.w  #0x0,0x82(a6)                   | +36a
         bne.w   .L0340e2                        | +370
@@ -2007,12 +2007,12 @@ Player_Idle_Tail_0341a4:
         cmpi.b  #0x3,0x106ece.l                 | +524
         beq.w   .L0342a8                        | +52c
         movea.l #0xffffffff,a0                  | +530
-        lea     Sub_000324C6(pc),a0             | +536
+        lea     Player_GroundTblB_0324c6(pc),a0             | +536
         jsr     0x5dd56.l                       | +53a
         bra.w   .L0342b8                        | +540
 .L0342a8:
         movea.l #0xffffffff,a0                  | +544
-        lea     Sub_000324BC(pc),a0             | +54a
+        lea     Player_GroundTblA_0324bc(pc),a0             | +54a
         jsr     0x5dd56.l                       | +54e
 .L0342b8:
         bcc.w   SetHandlerRts_0342c2            | +554

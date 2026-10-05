@@ -12,8 +12,8 @@
 |  +$7C/+$7E (fase anim / modificador), limpiar +$8C bits 1-3, (2) elegir
 |  tabla de sprites $2796xx..$279Fxx según +$72 (modo) y +$78 (dir) y
 |  cargarla con $28CD4 (+$74 = -4(tabla) = "clave de anim"), (3) fijar
-|  +$60 = $32500 (hitbox) y +$48 (callback de colisión Sub_000326E0 /
-|  Sub_00032788 / Sub_000328D8), (4) instalar en (a6) el bucle de frame
+|  +$60 = $32500 (hitbox) y +$48 (callback de colisión Player_HitboxStand_0326e0 /
+|  Player_HitboxMelee_032788 / Player_HitboxDeath_0328d8), (4) instalar en (a6) el bucle de frame
 |  que llama a Player_FrameCommon, Player_PlayWeaponMusicIfFlag,
 |  $27A92 (física) y Player_CheckDeathOrState21, y (5) despachar al
 |  siguiente estado por input (Input_* y Player_ActionSelect: d1 = $FF
@@ -32,7 +32,7 @@
 |     etiquetas Setup_0347e0, InputMove_034a00 (izq/der/abajo -> Walk*/
 |     Player_CrouchEnter_037c74), Tail_034ada ($27EBA golpe -> Player_Knockback_036d64,
 |     fuego -> Player_JumpStart_036914, PublishState, y test suelo $5DD56 con
-|     Sub_000324C6/$324BC según escena $106ECE==3 -> Player_DeathPit_037b8e).
+|     Player_GroundTblB_0324c6/$324BC según escena $106ECE==3 -> Player_DeathPit_037b8e).
 |   Player_WalkRight_034b38 / Player_WalkLeft_034d32: andar (anim $11,
 |     $279882/$279878, vel X ±$300, +$3A facing). Sufijos _Shoot/_ShootUp
 |     (+$7C/+$7E = 0/-1) usan los "pose" Player_WalkShootPose_034ede
@@ -48,13 +48,13 @@
 |     (anim $31, $279A5A/$279A3C), etiqueta Turn_Actions_035b90.
 |   Player_ActionDispatch_035cd8: sólo el switch de Player_ActionSelect.
 |   Player_Melee_035d34 (+Run_035de0, Frame_035e54): cuchillo (anim $33,
-|     $279D56; +$4C = Sub_00032638 tabla de golpe, $283CA; vel según input
+|     $279D56; +$4C = Player_AttackTblB_032638 tabla de golpe, $283CA; vel según input
 |     ±$300 con tablas $279D76/$279E30). Player_MeleeAlt_035ea8 /
 |     _Walk_035f70: variante $279EFE.
 |   Player_ThrowGrenade_Stand_0360bc / _Walk_036212 / _WalkLoop_036318:
 |     anim $33, $279D2E/$279D38, +$3B = 0.
 |   Player_RideSlug_0364a2: subir al Slug (anim 2, $279F08, +$48 =
-|     Sub_000328D8); copia pos del slot $100580 (+$22/+$24+1), propaga
+|     Player_HitboxDeath_0328d8); copia pos del slot $100580 (+$22/+$24+1), propaga
 |     +$68, y según input ($5CDC0 / $5CDB4 / $5D00E) salta a Player_RideSlug_Pose2_0366fe
 |     o Player_SlugJumpOff_036796 (+$24 += $20, invuln +$45/+$59 = $3C).
 |
@@ -310,7 +310,7 @@ Player_StandFromWalk_0345fa:
         move.l  #0x32500,0x60(a6)               | +024
         jsr     0x267e6.l                       | +02c
         clr.w   0x28(a6)                        | +032
-        lea     Sub_000326E0(pc),a0             | +036
+        lea     Player_HitboxStand_0326e0(pc),a0             | +036
         move.l  a0,0x48(a6)                     | +03a
         lea     .L03463e(pc),a1                 | +03e
         move.l  a1,(a6)                         | +042
@@ -417,7 +417,7 @@ Player_Stand_Setup_0347e0:
         move.l  #0x32500,0x60(a6)               | +0e2
         jsr     0x267e6.l                       | +0ea
         clr.w   0x28(a6)                        | +0f0
-        lea     Sub_000326E0(pc),a0             | +0f4
+        lea     Player_HitboxStand_0326e0(pc),a0             | +0f4
         move.l  a0,0x48(a6)                     | +0f8
         lea     .L034806(pc),a1                 | +0fc
         move.l  a1,(a6)                         | +100
@@ -626,12 +626,12 @@ Player_Stand_Tail_034ada:
         cmpi.b  #0x3,0x106ece.l                 | +3f8
         beq.w   .L034b1c                        | +400
         movea.l #0xffffffff,a0                  | +404
-        lea     Sub_000324C6(pc),a0             | +40a
+        lea     Player_GroundTblB_0324c6(pc),a0             | +40a
         jsr     0x5dd56.l                       | +40e
         bra.w   .L034b2c                        | +414
 .L034b1c:
         movea.l #0xffffffff,a0                  | +418
-        lea     Sub_000324BC(pc),a0             | +41e
+        lea     Player_GroundTblA_0324bc(pc),a0             | +41e
         jsr     0x5dd56.l                       | +422
 .L034b2c:
         bcc.w   .L034b36                        | +428
@@ -671,7 +671,7 @@ Player_WalkRight_Setup_034ba4:
         move.w  #0x300,0x28(a6)                 | +06c
         clr.w   0x2c(a6)                        | +072
         move.l  #0x32500,0x60(a6)               | +076
-        lea     Sub_000326E0(pc),a0             | +07e
+        lea     Player_HitboxStand_0326e0(pc),a0             | +07e
         move.l  a0,0x48(a6)                     | +082
         bclr    #0x0,0x3a(a6)                   | +086
         lea     .L034bca(pc),a1                 | +08c
@@ -814,7 +814,7 @@ Player_WalkLeft_Setup_034d9e:
         move.w  #0xfd00,0x28(a6)                | +06c
         clr.w   0x2c(a6)                        | +072
         move.l  #0x32500,0x60(a6)               | +076
-        lea     Sub_000326E0(pc),a0             | +07e
+        lea     Player_HitboxStand_0326e0(pc),a0             | +07e
         move.l  a0,0x48(a6)                     | +082
         bset    #0x0,0x3a(a6)                   | +086
         lea     .L034dc4(pc),a1                 | +08c
@@ -1134,7 +1134,7 @@ Player_WalkLoopRight_Setup_035250:
         move.w  #0x300,0x28(a6)                 | +078
         clr.w   0x2c(a6)                        | +07e
         move.l  #0x32500,0x60(a6)               | +082
-        lea     Sub_000326E0(pc),a0             | +08a
+        lea     Player_HitboxStand_0326e0(pc),a0             | +08a
         move.l  a0,0x48(a6)                     | +08e
         bclr    #0x0,0x3a(a6)                   | +092
         lea     .L035276(pc),a1                 | +098
@@ -1343,7 +1343,7 @@ Player_WalkLoopLeft_Setup_03556a:
         move.w  #0xfd00,0x28(a6)                | +078
         clr.w   0x2c(a6)                        | +07e
         move.l  #0x32500,0x60(a6)               | +082
-        lea     Sub_000326E0(pc),a0             | +08a
+        lea     Player_HitboxStand_0326e0(pc),a0             | +08a
         move.l  a0,0x48(a6)                     | +08e
         lea     Player_WalkLoopLeft_Run_035590(pc),a1 | +092
         move.l  a1,(a6)                         | +096
@@ -1745,7 +1745,7 @@ Player_TurnRight_035aba:
         move.w  #0x300,0x28(a6)                 | +074
         clr.w   0x2c(a6)                        | +07a
         move.l  #0x32500,0x60(a6)               | +07e
-        lea     Sub_000326E0(pc),a0             | +086
+        lea     Player_HitboxStand_0326e0(pc),a0             | +086
         move.l  a0,0x48(a6)                     | +08a
         bclr    #0x0,0x3a(a6)                   | +08e
         lea     .L035b54(pc),a1                 | +094
@@ -1835,7 +1835,7 @@ Player_TurnLeft_035bf8:
         move.w  #0xfd00,0x28(a6)                | +07a
         clr.w   0x2c(a6)                        | +080
         move.l  #0x32500,0x60(a6)               | +084
-        lea     Sub_000326E0(pc),a0             | +08c
+        lea     Player_HitboxStand_0326e0(pc),a0             | +08c
         move.l  a0,0x48(a6)                     | +090
         lea     Player_TurnLeft_Run_035c98(pc),a1 | +094
         move.l  a1,(a6)                         | +098
@@ -1915,7 +1915,7 @@ Player_Melee_035d34:
         bclr    #0x2,0x8c(a6)                   | +00c
         bclr    #0x1,0x8c(a6)                   | +012
         bclr    #0x3,0x8c(a6)                   | +018
-        lea     Sub_00032638(pc),a0             | +01e
+        lea     Player_AttackTblB_032638(pc),a0             | +01e
         move.l  a0,0x4c(a6)                     | +022
         jsr     0x283ca.l                       | +026
         clr.w   0x28(a6)                        | +02c
@@ -1940,7 +1940,7 @@ Player_Melee_035d34:
         lea     0x279d56.l,a0                   | +08e
         jsr     0x28cd4.l                       | +094
 .L035dce:
-        lea     Sub_00032788(pc),a0             | +09a
+        lea     Player_HitboxMelee_032788(pc),a0             | +09a
         move.l  a0,0x48(a6)                     | +09e
         lea     Player_Melee_Run_035de0(pc),a1  | +0a2
         move.l  a1,(a6)                         | +0a6
@@ -2019,7 +2019,7 @@ Player_MeleeAlt_035ea8:
         bclr    #0x2,0x8c(a6)                   | +00c
         bclr    #0x1,0x8c(a6)                   | +012
         bclr    #0x3,0x8c(a6)                   | +018
-        lea     Sub_00032638(pc),a0             | +01e
+        lea     Player_AttackTblB_032638(pc),a0             | +01e
         move.l  a0,0x4c(a6)                     | +022
         jsr     0x283ca.l                       | +026
         move.l  #0x32500,0x60(a6)               | +02c
@@ -2040,7 +2040,7 @@ Player_MeleeAlt_035ea8:
         lea     0x279efe.l,a0                   | +07e
         jsr     0x28cd4.l                       | +084
 .L035f32:
-        lea     Sub_00032788(pc),a0             | +08a
+        lea     Player_HitboxMelee_032788(pc),a0             | +08a
         move.l  a0,0x48(a6)                     | +08e
         lea     .L035f40(pc),a1                 | +092
         move.l  a1,(a6)                         | +096
@@ -2070,7 +2070,7 @@ Player_MeleeAlt_Walk_035f70:
         bclr    #0x2,0x8c(a6)                   | +00c
         bclr    #0x1,0x8c(a6)                   | +012
         bclr    #0x3,0x8c(a6)                   | +018
-        lea     Sub_00032638(pc),a0             | +01e
+        lea     Player_AttackTblB_032638(pc),a0             | +01e
         move.l  a0,0x4c(a6)                     | +022
         jsr     0x283ca.l                       | +026
         move.l  #0x32500,0x60(a6)               | +02c
@@ -2091,7 +2091,7 @@ Player_MeleeAlt_Walk_035f70:
         lea     0x279efe.l,a0                   | +07e
         jsr     0x28cd4.l                       | +084
 .L035ffa:
-        lea     Sub_00032788(pc),a0             | +08a
+        lea     Player_HitboxMelee_032788(pc),a0             | +08a
         move.l  a0,0x48(a6)                     | +08e
         lea     .L036008(pc),a1                 | +092
         move.l  a1,(a6)                         | +096
@@ -2447,7 +2447,7 @@ Player_RideSlug_0364a2:
         bclr    #0x1,0x8c(a6)                   | +006
         bclr    #0x3,0x8c(a6)                   | +00c
         bclr    #0x0,0x3a(a6)                   | +012
-        lea     Sub_000328D8(pc),a0             | +018
+        lea     Player_HitboxDeath_0328d8(pc),a0             | +018
         move.l  a0,0x48(a6)                     | +01c
         move.w  #0x0,0x7c(a6)                   | +020
         move.w  #0x10,0x7e(a6)                  | +026
@@ -2526,12 +2526,12 @@ Player_RideSlug_Frame_03652e:               | $03652E entrada secundaria (desde 
         cmpi.b  #0x3,0x106ece.l                 | +156
         beq.w   .L036618                        | +15e
         movea.l #0xffffffff,a0                  | +162
-        lea     Sub_000324C6(pc),a0             | +168
+        lea     Player_GroundTblB_0324c6(pc),a0             | +168
         jsr     0x5dd56.l                       | +16c
         bra.w   .L036628                        | +172
 .L036618:
         movea.l #0xffffffff,a0                  | +176
-        lea     Sub_000324BC(pc),a0             | +17c
+        lea     Player_GroundTblA_0324bc(pc),a0             | +17c
         jsr     0x5dd56.l                       | +180
 .L036628:
         bcc.w   Player_RideSlug_Tail_036632     | +186

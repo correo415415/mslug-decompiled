@@ -17,20 +17,20 @@
 |  spawnean el cadáver `$78840` / fx `$39214/$391EE/$39148`, y acaban en
 |  `Player_Death_Despawn` ($5B6 -> $13600 -> handler $400 -> $5FE) o
 |  `Player_DeathPit` (caída a pozo); (3) AGACHADO — `Player_CrouchEnter`
-|  -> `Player_CrouchIdle` (anim $30, hitbox $32598, cb Sub_00032734),
+|  -> `Player_CrouchIdle` (anim $30, hitbox $32598, cb Player_HitboxCrouch_032734),
 |  gateo `Player_CrawlRight/Left` (vel ±$120), `Player_CrouchShoot`,
 |  `Player_CrouchWeaponEmpty` (anim $20, suelta arma DroppedWeapon_Spawn_038be4) y
 |  `Player_CrouchExit` (vuelve a Stand / Idle / Walk).
 |
 |  B. ENTRADAS (39)
 |   Player_RideSlug_Tail_036632: `jsr PublishState; rts` compartido.
-|   Player_HangRing_036638: anim 3, cb Sub_0003292C; sigue a la anilla
+|   Player_HangRing_036638: anim 3, cb Player_HitboxSlug_03292c; sigue a la anilla
 |     (+$86 id, TargetRing_ClaimByKey $8F5DC); soltar con $5CDB4 ->
 |     Player_SlugJumpOff (+$24 += $20, invuln $14).
 |   Player_RideSlug_Pose2_0366fe: anim 2 sobre el Slug, +$2C por tabla
-|     Sub_000324D0[layout]; vuelve a Player_RideSlug_Frame.
+|     Player_VelYTbl_0324d0[layout]; vuelve a Player_RideSlug_Frame.
 |   Player_SlugJumpOff_036796: anim $26, vel Y $87F / accel -$91, X por
-|     tablas Sub_000324E8/$324D8 según layout ($5D5B6); suelo $27B66 ->
+|     tablas Player_VelXTbl_0324e8/$324D8 según layout ($5D5B6); suelo $27B66 ->
 |     Player_SpawnLand_SetInvuln1E.
 |   Player_JumpDropEmptyWeapon_0368e0: si +$82==0 y +$71!=0 spawnea
 |     DroppedWeapon_Spawn_038be4 (arma soltada) y cae a Player_JumpStart.
@@ -38,14 +38,14 @@
 |     =3 si nibble $8 (abajo: pasa plataforma, +$38 &= ~1), vel Y $9CD,
 |     accel -$C1, +$90 = 5 frames de "jump hold" ($5CD6C).
 |   Player_JumpAir_036a70: control aéreo ($5CDE4 = izq/der layer 3) con
-|     tabla Sub_000324D0, roce ±$18, clamp $300/$780 ($267F4), suelo
+|     tabla Player_VelYTbl_0324d0, roce ±$18, clamp $300/$780 ($267F4), suelo
 |     $27B66 -> Player_SpawnLand_Reset, pausa $100001 bit5 preserva vel,
 |     PlayerAnimState_03705A, anilla (TargetRing_FindPending $8F470 ->
 |     Player_HangRing), rebote en pared (+$69 bits0-2) -> JumpDrop...
 |   Player_SpawnFreeFall_036c8c: caída inicial (snd $32112/$32142 por
 |     slot), anim $26, accel -$80, invuln $3C|...
 |   Player_Knockback_036d64 (+Setup, AirCtrl_036dca): golpe recibido
-|     ($27EBA), anim $26, cb Sub_00032830; Fall_Physics_036e42 es el
+|     ($27EBA), anim $26, cb Player_HitboxAir_032830; Fall_Physics_036e42 es el
 |     bucle común (suelo $27BC8). KnockbackDelay_036fc2 (+$46 = 12
 |     frames) / KnockbackHold_037018: esperan antes de permitir control.
 |   Player_AirActionSelect_037168: switch de Player_ActionSelect en el
@@ -72,7 +72,7 @@
 |  D. HELPERS EXTERNOS
 |   $267E2/$267E6 reset vel, $267F4 clamp |d0|<=d1, $2783A/$27A92 física,
 |   $27B66/$27BC8 test suelo, $27CEE, $27DB2 agua (d7=$40), $27EBA golpe,
-|   $5DD56 suelo (Sub_000324C6/$324BC por escena $106ECE), $5D5B6
+|   $5DD56 suelo (Player_GroundTblB_0324c6/$324BC por escena $106ECE), $5D5B6
 |   InputLayout_ReadField2, $5CD6C/$5CDB4/$5CDE4/$5CEF8 InputEvtThunk,
 |   $5DCA4 rand, $5E9B6 RNG, $2352 música, $4AE alloc + $5DD02 copia,
 |   $8F470/$8F520/$8F5DC TargetRing_*, $5B6/$13600/$5FE despawn.
@@ -117,7 +117,7 @@ Player_HangRing_036638:
         bclr    #0x1,0x8c(a6)                   | +006
         bclr    #0x3,0x8c(a6)                   | +00c
         bclr    #0x0,0x3a(a6)                   | +012
-        lea     Sub_0003292C(pc),a0             | +018
+        lea     Player_HitboxSlug_03292c(pc),a0             | +018
         move.l  a0,0x48(a6)                     | +01c
         move.w  #0x0,0x7c(a6)                   | +020
         move.w  #0x10,0x7e(a6)                  | +026
@@ -173,9 +173,9 @@ Player_RideSlug_Pose2_0366fe:
         bclr    #0x3,0x8c(a6)                   | +018
         jsr     0x5d5b6.l                       | +01e
         asl.w   #0x1,d0                         | +024
-        lea     Sub_000324D0(pc),a0             | +026
+        lea     Player_VelYTbl_0324d0(pc),a0             | +026
         move.w  (a0,d0.w),0x2c(a6)              | +02a
-        lea     Sub_000328D8(pc),a0             | +030
+        lea     Player_HitboxDeath_0328d8(pc),a0             | +030
         move.l  a0,0x48(a6)                     | +034
         move.b  #0x2,0x70(a6)                   | +038
         lea     0x279f1c.l,a0                   | +03e
@@ -222,10 +222,10 @@ Player_SlugJumpOff_036796:
         jsr     0x28cd4.l                       | +04a
         move.w  #0x87f,0x2a(a6)                 | +050
         move.w  #0xff6f,0x2e(a6)                | +056
-        lea     Sub_00032884(pc),a0             | +05c
+        lea     Player_HitboxKnockback_032884(pc),a0             | +05c
         move.l  a0,0x48(a6)                     | +060
         jsr     0x5d5b6.l                       | +064
-        lea     Sub_000324E8(pc),a0             | +06a
+        lea     Player_VelXTbl_0324e8(pc),a0             | +06a
         asl.w   #0x1,d0                         | +06e
         move.w  (a0,d0.w),d1                    | +070
         move.w  d1,0x28(a6)                     | +074
@@ -234,7 +234,7 @@ Player_SlugJumpOff_036796:
 .L036814:
         jsr     0x5d5b6.l                       | +07e
         asl.w   #0x1,d0                         | +084
-        lea     Sub_000324D8(pc),a0             | +086
+        lea     Player_VelYTblB_0324d8(pc),a0             | +086
         move.w  (a0,d0.w),0x2c(a6)              | +08a
         move.w  0x28(a6),d0                     | +090
         move.w  #0x200,d1                       | +094
@@ -270,12 +270,12 @@ Player_SlugJumpOff_036796:
         cmpi.b  #0x3,0x106ece.l                 | +10a
         beq.w   .L0368c0                        | +112
         movea.l #0xffffffff,a0                  | +116
-        lea     Sub_000324C6(pc),a0             | +11c
+        lea     Player_GroundTblB_0324c6(pc),a0             | +11c
         jsr     0x5dd56.l                       | +120
         bra.w   .L0368d0                        | +126
 .L0368c0:
         movea.l #0xffffffff,a0                  | +12a
-        lea     Sub_000324BC(pc),a0             | +130
+        lea     Player_GroundTblA_0324bc(pc),a0             | +130
         jsr     0x5dd56.l                       | +134
 .L0368d0:
         bcc.w   .L0368da                        | +13a
@@ -361,7 +361,7 @@ Player_JumpStart_036914:
         move.w  #0x9cd,0x2a(a6)                 | +102
         move.w  #0xff3f,0x2e(a6)                | +108
         move.b  #0x5,0x90(a6)                   | +10e
-        lea     Sub_00032830(pc),a0             | +114
+        lea     Player_HitboxAir_032830(pc),a0             | +114
         move.l  a0,0x48(a6)                     | +118
         lea     .L036a36(pc),a1                 | +11c
         move.l  a1,(a6)                         | +120
@@ -392,7 +392,7 @@ Player_JumpAir_036a70:
         bcc.w   .L036aa8                        | +006
         jsr     0x5d5b6.l                       | +00a
         asl.w   #0x1,d0                         | +010
-        lea     Sub_000324D0(pc),a0             | +012
+        lea     Player_VelYTbl_0324d0(pc),a0             | +012
         move.w  (a0,d0.w),0x2c(a6)              | +016
         beq.w   .L036aa4                        | +01c
         ble.w   .L036a9e                        | +020
@@ -405,7 +405,7 @@ Player_JumpAir_036a70:
 .L036aa8:
         jsr     0x5d5b6.l                       | +038
         asl.w   #0x1,d0                         | +03e
-        lea     Sub_000324D0(pc),a0             | +040
+        lea     Player_VelYTbl_0324d0(pc),a0             | +040
         move.w  (a0,d0.w),0x2c(a6)              | +044
 .L036aba:
         cmpi.w  #0x0,0x2c(a6)                   | +04a
@@ -511,12 +511,12 @@ Player_Air_Tail_036c3a:
         cmpi.b  #0x3,0x106ece.l                 | +1d4
         beq.w   .L036c64                        | +1dc
         movea.l #0xffffffff,a0                  | +1e0
-        lea     Sub_000324C6(pc),a0             | +1e6
+        lea     Player_GroundTblB_0324c6(pc),a0             | +1e6
         jsr     0x5dd56.l                       | +1ea
         bra.w   .L036c74                        | +1f0
 .L036c64:
         movea.l #0xffffffff,a0                  | +1f4
-        lea     Sub_000324BC(pc),a0             | +1fa
+        lea     Player_GroundTblA_0324bc(pc),a0             | +1fa
         jsr     0x5dd56.l                       | +1fe
 .L036c74:
         bcc.w   .L036c7e                        | +204
@@ -608,7 +608,7 @@ Player_Knockback_Setup_036d72:
         move.b  #0xff,0x21(a6)                  | +046
         lea     0x279b2c.l,a0                   | +04c
         jsr     0x28cd4.l                       | +052
-        lea     Sub_00032830(pc),a0             | +058
+        lea     Player_HitboxAir_032830(pc),a0             | +058
         move.l  a0,0x48(a6)                     | +05c
         lea     Player_Knockback_AirCtrl_036dca(pc),a1 | +060
         move.l  a1,(a6)                         | +064
@@ -623,7 +623,7 @@ Player_Knockback_AirCtrl_036dca:
         bcc.w   .L036e02                        | +006
         jsr     0x5d5b6.l                       | +00a
         asl.w   #0x1,d0                         | +010
-        lea     Sub_000324D0(pc),a0             | +012
+        lea     Player_VelYTbl_0324d0(pc),a0             | +012
         move.w  (a0,d0.w),0x2c(a6)              | +016
         beq.w   .L036dfe                        | +01c
         ble.w   .L036df8                        | +020
@@ -636,7 +636,7 @@ Player_Knockback_AirCtrl_036dca:
 .L036e02:
         jsr     0x5d5b6.l                       | +038
         asl.w   #0x1,d0                         | +03e
-        lea     Sub_000324D0(pc),a0             | +040
+        lea     Player_VelYTbl_0324d0(pc),a0             | +040
         move.w  (a0,d0.w),0x2c(a6)              | +044
 .L036e14:
         cmpi.w  #0x0,0x2c(a6)                   | +04a
@@ -742,12 +742,12 @@ Player_Fall_Physics_036e42:
         cmpi.b  #0x3,0x106ece.l                 | +138
         beq.w   .L036f9a                        | +140
         movea.l #0xffffffff,a0                  | +144
-        lea     Sub_000324C6(pc),a0             | +14a
+        lea     Player_GroundTblB_0324c6(pc),a0             | +14a
         jsr     0x5dd56.l                       | +14e
         bra.w   .L036faa                        | +154
 .L036f9a:
         movea.l #0xffffffff,a0                  | +158
-        lea     Sub_000324BC(pc),a0             | +15e
+        lea     Player_GroundTblA_0324bc(pc),a0             | +15e
         jsr     0x5dd56.l                       | +162
 .L036faa:
         bcc.w   .L036fb4                        | +168
@@ -1104,12 +1104,12 @@ Player_Death_GroundTest_03761e:
         cmpi.b  #0x3,0x106ece.l                 | +04c
         beq.w   .L03763e                        | +054
         movea.l #0xffffffff,a0                  | +058
-        lea     Sub_000324C6(pc),a0             | +05e
+        lea     Player_GroundTblB_0324c6(pc),a0             | +05e
         jsr     0x5dd56.l                       | +062
         bra.w   .L03764e                        | +068
 .L03763e:
         movea.l #0xffffffff,a0                  | +06c
-        lea     Sub_000324BC(pc),a0             | +072
+        lea     Player_GroundTblA_0324bc(pc),a0             | +072
         jsr     0x5dd56.l                       | +076
 .L03764e:
         bcc.w   .L037658                        | +07c
@@ -1183,12 +1183,12 @@ Player_Death_Alt_037684:
         cmpi.b  #0x3,0x106ece.l                 | +0b8
         beq.w   .L03775c                        | +0c0
         movea.l #0xffffffff,a0                  | +0c4
-        lea     Sub_000324C6(pc),a0             | +0ca
+        lea     Player_GroundTblB_0324c6(pc),a0             | +0ca
         jsr     0x5dd56.l                       | +0ce
         bra.w   .L03776c                        | +0d4
 .L03775c:
         movea.l #0xffffffff,a0                  | +0d8
-        lea     Sub_000324BC(pc),a0             | +0de
+        lea     Player_GroundTblA_0324bc(pc),a0             | +0de
         jsr     0x5dd56.l                       | +0e2
 .L03776c:
         bcc.w   .L037776                        | +0e8
@@ -1247,12 +1247,12 @@ Player_Death_Fall_037778:
         cmpi.b  #0x3,0x106ece.l                 | +0c0
         beq.w   .L037858                        | +0c8
         movea.l #0xffffffff,a0                  | +0cc
-        lea     Sub_000324C6(pc),a0             | +0d2
+        lea     Player_GroundTblB_0324c6(pc),a0             | +0d2
         jsr     0x5dd56.l                       | +0d6
         bra.w   .L037868                        | +0dc
 .L037858:
         movea.l #0xffffffff,a0                  | +0e0
-        lea     Sub_000324BC(pc),a0             | +0e6
+        lea     Player_GroundTblA_0324bc(pc),a0             | +0e6
         jsr     0x5dd56.l                       | +0ea
 .L037868:
         bcc.w   .L037872                        | +0f0
@@ -1344,12 +1344,12 @@ Player_Death_FallSpawnFx_0378c6:
         cmpi.b  #0x3,0x106ece.l                 | +0e0
         beq.w   .L0379c6                        | +0e8
         movea.l #0xffffffff,a0                  | +0ec
-        lea     Sub_000324C6(pc),a0             | +0f2
+        lea     Player_GroundTblB_0324c6(pc),a0             | +0f2
         jsr     0x5dd56.l                       | +0f6
         bra.w   .L0379d6                        | +0fc
 .L0379c6:
         movea.l #0xffffffff,a0                  | +100
-        lea     Sub_000324BC(pc),a0             | +106
+        lea     Player_GroundTblA_0324bc(pc),a0             | +106
         jsr     0x5dd56.l                       | +10a
 .L0379d6:
         bcc.w   .L0379e0                        | +110
@@ -1578,7 +1578,7 @@ Player_CrouchEnter_037c74:
         jsr     0x28cd4.l                       | +03c
         move.l  #0x32598,0x60(a6)               | +042
         clr.w   0x2c(a6)                        | +04a
-        lea     Sub_00032734(pc),a0             | +04e
+        lea     Player_HitboxCrouch_032734(pc),a0             | +04e
         move.l  a0,0x48(a6)                     | +052
         lea     .L037cd0(pc),a1                 | +056
         move.l  a1,(a6)                         | +05a
@@ -1673,7 +1673,7 @@ Player_CrouchEnterB_037dba:
         move.b  #0xff,0x21(a6)                  | +036
         lea     0x279864.l,a0                   | +03c
         jsr     0x28cd4.l                       | +042
-        lea     Sub_00032734(pc),a0             | +048
+        lea     Player_HitboxCrouch_032734(pc),a0             | +048
         move.l  a0,0x48(a6)                     | +04c
         clr.w   0x2c(a6)                        | +050
         lea     .L037e14(pc),a1                 | +054
@@ -1752,7 +1752,7 @@ Player_CrouchExit_037ec2:
         lea     0x27986e.l,a0                   | +036
         jsr     0x28cd4.l                       | +03c
         clr.w   0x2c(a6)                        | +042
-        lea     Sub_00032734(pc),a0             | +046
+        lea     Player_HitboxCrouch_032734(pc),a0             | +046
         move.l  a0,0x48(a6)                     | +04a
         lea     .L037f16(pc),a1                 | +04e
         move.l  a1,(a6)                         | +052
@@ -2042,7 +2042,7 @@ Player_CrouchIdle_Setup_0382e2:
         jsr     0x267e6.l                       | +070
         clr.w   0x28(a6)                        | +076
         clr.w   0x2c(a6)                        | +07a
-        lea     Sub_00032734(pc),a0             | +07e
+        lea     Player_HitboxCrouch_032734(pc),a0             | +07e
         move.l  a0,0x48(a6)                     | +082
         lea     .L038306(pc),a1                 | +086
         move.l  a1,(a6)                         | +08a
@@ -2124,12 +2124,12 @@ Player_CrouchIdle_Setup_0382e2:
         cmpi.b  #0x3,0x106ece.l                 | +176
         beq.w   .L038410                        | +17e
         movea.l #0xffffffff,a0                  | +182
-        lea     Sub_000324C6(pc),a0             | +188
+        lea     Player_GroundTblB_0324c6(pc),a0             | +188
         jsr     0x5dd56.l                       | +18c
         bra.w   .L038420                        | +192
 .L038410:
         movea.l #0xffffffff,a0                  | +196
-        lea     Sub_000324BC(pc),a0             | +19c
+        lea     Player_GroundTblA_0324bc(pc),a0             | +19c
         jsr     0x5dd56.l                       | +1a0
 .L038420:
         bcc.w   .L03842a                        | +1a6
@@ -2168,7 +2168,7 @@ Player_CrawlRight_Setup_038482:
         move.l  #0x32598,0x60(a6)               | +068
         move.w  #0x120,0x28(a6)                 | +070
         clr.w   0x2c(a6)                        | +076
-        lea     Sub_00032734(pc),a0             | +07a
+        lea     Player_HitboxCrouch_032734(pc),a0             | +07a
         move.l  a0,0x48(a6)                     | +07e
         bclr    #0x0,0x3a(a6)                   | +082
         lea     .L0384ba(pc),a1                 | +088
@@ -2255,7 +2255,7 @@ Player_CrawlLeft_Setup_0385b0:
         move.l  #0x32598,0x60(a6)               | +068
         move.w  #0xfee0,0x28(a6)                | +070
         clr.w   0x2c(a6)                        | +076
-        lea     Sub_00032734(pc),a0             | +07a
+        lea     Player_HitboxCrouch_032734(pc),a0             | +07a
         move.l  a0,0x48(a6)                     | +07e
         bset    #0x0,0x3a(a6)                   | +082
         lea     .L0385e8(pc),a1                 | +088
@@ -2391,7 +2391,7 @@ Player_CrouchShoot_03873c:
         lea     0x279d06.l,a0                   | +06c
         jsr     0x28cd4.l                       | +072
 .L0387b4:
-        lea     Sub_00032734(pc),a0             | +078
+        lea     Player_HitboxCrouch_032734(pc),a0             | +078
         move.l  a0,0x48(a6)                     | +07c
         lea     .L0387c2(pc),a1                 | +080
         move.l  a1,(a6)                         | +084
@@ -2472,12 +2472,12 @@ Player_CrouchShoot_03873c:
         cmpi.b  #0x3,0x106ece.l                 | +178
         beq.w   .L0388d4                        | +180
         movea.l #0xffffffff,a0                  | +184
-        lea     Sub_000324C6(pc),a0             | +18a
+        lea     Player_GroundTblB_0324c6(pc),a0             | +18a
         jsr     0x5dd56.l                       | +18e
         bra.w   .L0388e4                        | +194
 .L0388d4:
         movea.l #0xffffffff,a0                  | +198
-        lea     Sub_000324BC(pc),a0             | +19e
+        lea     Player_GroundTblA_0324bc(pc),a0             | +19e
         jsr     0x5dd56.l                       | +1a2
 .L0388e4:
         bcc.w   .L0388ee                        | +1a8

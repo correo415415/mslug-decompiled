@@ -12,8 +12,8 @@
 |
 |   1. Acciones agachado del player (siguen a Wave VVV):
 |      Player_CrouchThrowGrenade_0388f0 (anim $30, hitbox $32598, cb
-|      Sub_00032734), Player_CrouchMelee_038a28 (+$4C=Sub_00032638,
-|      $283CA, cb Sub_000327DC), Player_CrouchReload_038ae6 (anim $33,
+|      Player_HitboxCrouch_032734), Player_CrouchMelee_038a28 (+$4C=Player_AttackTblB_032638,
+|      $283CA, cb Player_HitboxGrenade_0327dc), Player_CrouchReload_038ae6 (anim $33,
 |      +$85=1 "recargando").
 |   2. DroppedWeapon_* ($038BE4): arma que el player suelta al perder
 |      munición / morir (snd $176/$177, anim $27A28E, prio +$38|=$18);
@@ -133,7 +133,7 @@ Player_CrouchThrowGrenade_0388f0:
         lea     0x279d1a.l,a0                   | +06c
         jsr     0x28cd4.l                       | +072
 .L038968:
-        lea     Sub_00032734(pc),a0             | +078
+        lea     Player_HitboxCrouch_032734(pc),a0             | +078
         move.l  a0,0x48(a6)                     | +07c
         lea     .L038976(pc),a1                 | +080
         move.l  a1,(a6)                         | +084
@@ -199,7 +199,7 @@ Player_CrouchThrowGrenade_0388f0:
 Player_CrouchMelee_038a28:
         bset    #0x1,0x8c(a6)                   | +000
         bclr    #0x1,0x8c(a6)                   | +006
-        lea     Sub_00032638(pc),a0             | +00c
+        lea     Player_AttackTblB_032638(pc),a0             | +00c
         move.l  a0,0x4c(a6)                     | +010
         jsr     0x283ca.l                       | +014
         clr.w   0x28(a6)                        | +01a
@@ -224,7 +224,7 @@ Player_CrouchMelee_038a28:
         lea     0x279eea.l,a0                   | +07c
         jsr     0x28cd4.l                       | +082
 .L038ab0:
-        lea     Sub_000327DC(pc),a0             | +088
+        lea     Player_HitboxGrenade_0327dc(pc),a0             | +088
         move.l  a0,0x48(a6)                     | +08c
         lea     .L038abe(pc),a1                 | +090
         move.l  a1,(a6)                         | +094
@@ -255,7 +255,7 @@ Player_CrouchReload_038ae6:
         move.b  #0xff,0x21(a6)                  | +030
         lea     0x27970c.l,a0                   | +036
         jsr     0x28cd4.l                       | +03c
-        lea     Sub_00032734(pc),a0             | +042
+        lea     Player_HitboxCrouch_032734(pc),a0             | +042
         move.l  a0,0x48(a6)                     | +046
         move.l  #0x32500,0x60(a6)               | +04a
         jsr     0x267e6.l                       | +052

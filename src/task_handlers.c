@@ -53,7 +53,7 @@ extern void TaskHandler_02ff86(void);
 extern void TaskHandler_030bf6(void);
 extern void TaskHandler_030d74(void);
 extern void TaskHandler_0318ac(void);
-extern void TaskHandler_0318d4(void);
+extern void VehicleLaunch_ReleaseParent_0318d4(void);
 extern void TaskHandler_0321bc(void);
 extern void Player_Knockback_036d64(void);
 extern void Player_DeathPit_037b8e(void);
@@ -583,13 +583,13 @@ void SetTaskHandler_030d6c(void) {
 
 __attribute__((section(".text.SetTaskHandler_031682")))
 void SetTaskHandler_031682(void) {
-    _a1_ptr = &TaskHandler_0318d4;
+    _a1_ptr = &VehicleLaunch_ReleaseParent_0318d4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0317ca")))
 void SetTaskHandler_0317ca(void) {
-    _a1_ptr = &TaskHandler_0318d4;
+    _a1_ptr = &VehicleLaunch_ReleaseParent_0318d4;
     STORE_A1_AT_FP();
 }
 
@@ -601,13 +601,13 @@ void SetTaskHandler_0318a4(void) {
 
 __attribute__((section(".text.SetTaskHandler_0318cc")))
 void SetTaskHandler_0318cc(void) {
-    _a1_ptr = &TaskHandler_0318d4;
+    _a1_ptr = &VehicleLaunch_ReleaseParent_0318d4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0319c8")))
 void SetTaskHandler_0319c8(void) {
-    _a1_ptr = &TaskHandler_0318d4;
+    _a1_ptr = &VehicleLaunch_ReleaseParent_0318d4;
     STORE_A1_AT_FP();
 }
 
