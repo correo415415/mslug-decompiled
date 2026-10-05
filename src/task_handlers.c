@@ -55,8 +55,8 @@ extern void TaskHandler_030d74(void);
 extern void TaskHandler_0318ac(void);
 extern void TaskHandler_0318d4(void);
 extern void TaskHandler_0321bc(void);
-extern void TaskHandler_036d64(void);
-extern void TaskHandler_037b8e(void);
+extern void Player_Knockback_036d64(void);
+extern void Player_DeathPit_037b8e(void);
 extern void TaskHandler_037c1a(void);
 extern void TaskHandler_038cee(void);
 extern void TaskHandler_038e4a(void);
@@ -631,13 +631,13 @@ void SetTaskHandler_0321b4(void) {
 
 __attribute__((section(".text.SetTaskHandler_033630")))
 void SetTaskHandler_033630(void) {
-    _a1_ptr = &TaskHandler_036d64;
+    _a1_ptr = &Player_Knockback_036d64;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0342bc")))
 void SetTaskHandler_0342bc(void) {
-    _a1_ptr = &TaskHandler_037b8e;
+    _a1_ptr = &Player_DeathPit_037b8e;
     STORE_A1_AT_FP();
 }
 

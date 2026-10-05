@@ -414,8 +414,8 @@ SYMBOLS = {
     0x000318AC: "TaskHandler_0318ac",
     0x000318D4: "TaskHandler_0318d4",
     0x000321BC: "TaskHandler_0321bc",
-    # 0x00036D64 promovido a TaskHandler_036d64 en registry (Wave VVV).
-    # 0x00037B8E promovido a TaskHandler_037b8e en registry (Wave VVV).
+    # 0x00036D64 promovido a Player_Knockback_036d64 en registry (Wave VVV).
+    # 0x00037B8E promovido a Player_DeathPit_037b8e en registry (Wave VVV).
     # 0x00037C1A promovido a TaskHandler_037c1a en registry (Wave VVV).
     0x00038CEE: "TaskHandler_038cee",
     0x00038E4A: "TaskHandler_038e4a",
@@ -877,7 +877,7 @@ SYMBOLS = {
     # ahora resuelven al simbolo canonico definido en el .text de la nueva Wave.
     # 0x000334A2: "PcThunkTarget_0334a2",
     0x00033522: "PcThunkTarget_033522",
-    # 0x00036DCA promovido a PcThunkTarget_036dca en registry (Wave VVV).
+    # 0x00036DCA promovido a Player_Knockback_AirCtrl_036dca en registry (Wave VVV).
     0x00039416: "PcThunkTarget_039416",
     0x0003E7A6: "PcThunkTarget_03e7a6",
     0x0003E84C: "PcThunkTarget_03e84c",
@@ -1560,20 +1560,20 @@ SYMBOLS = {
     # 0x00035BF8 promovido a Player_TurnLeft_035bf8 en registry (Wave UUU).
     # 0x00035D34 promovido a Player_Melee_035d34 en registry (Wave UUU).
     # 0x000360BC promovido a Player_ThrowGrenade_Stand_0360bc en registry (Wave UUU).
-    # 0x00036914 promovido a Sub_00036914 en registry (Wave VVV).
-    # 0x00036C8C promovido a Sub_00036C8C en registry (Wave VVV).
-    # 0x00037018 promovido a Sub_00037018 en registry (Wave VVV).
-    # 0x00037C74 promovido a Sub_00037C74 en registry (Wave VVV).
-    # 0x0003827A promovido a Sub_0003827A en registry (Wave VVV).
-    # 0x0003873C promovido a Sub_0003873C en registry (Wave VVV).
+    # 0x00036914 promovido a Player_JumpStart_036914 en registry (Wave VVV).
+    # 0x00036C8C promovido a Player_SpawnFreeFall_036c8c en registry (Wave VVV).
+    # 0x00037018 promovido a Player_KnockbackHold_037018 en registry (Wave VVV).
+    # 0x00037C74 promovido a Player_CrouchEnter_037c74 en registry (Wave VVV).
+    # 0x0003827A promovido a Player_CrouchIdle_03827a en registry (Wave VVV).
+    # 0x0003873C promovido a Player_CrouchShoot_03873c en registry (Wave VVV).
     0x00038BE4: "Sub_00038BE4",  # hueco futuro (ref pc-rel desde esta region)
     0x00038CF6: "Sub_00038CF6",  # hueco futuro (ref pc-rel desde esta region)
     # --- Wave UUU: refs forward a huecos futuros
     0x00032638: "Sub_00032638",  # hueco futuro (ref pc-rel desde esta region)
     0x00032788: "Sub_00032788",  # hueco futuro (ref pc-rel desde esta region)
     0x000328D8: "Sub_000328D8",  # hueco futuro (ref pc-rel desde esta region)
-    # 0x000366FE promovido a Sub_000366FE en registry (Wave VVV).
-    # 0x00036796 promovido a Sub_00036796 en registry (Wave VVV).
+    # 0x000366FE promovido a Player_RideSlug_Pose2_0366fe en registry (Wave VVV).
+    # 0x00036796 promovido a Player_SlugJumpOff_036796 en registry (Wave VVV).
     # --- Wave VVV: refs forward a huecos futuros
     0x000324D0: "Sub_000324D0",  # hueco futuro (ref pc-rel desde esta region)
     0x000324D8: "Sub_000324D8",  # hueco futuro (ref pc-rel desde esta region)

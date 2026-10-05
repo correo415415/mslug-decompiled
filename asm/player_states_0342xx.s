@@ -17,7 +17,7 @@
 |  que llama a Player_FrameCommon, Player_PlayWeaponMusicIfFlag,
 |  $27A92 (física) y Player_CheckDeathOrState21, y (5) despachar al
 |  siguiente estado por input (Input_* y Player_ActionSelect: d1 = $FF
-|  golpe -> Melee, 3 -> ThrowGrenade, 4 -> Sub_0003873C, 1 -> *ShootUp,
+|  golpe -> Melee, 3 -> ThrowGrenade, 4 -> Player_CrouchShoot_03873c, 1 -> *ShootUp,
 |  otro -> *Shoot).
 |
 |  B. ENTRADAS (36)
@@ -30,9 +30,9 @@
 |   Player_StandFromWalk_0345fa: variante de Stand sin re-selección de anim.
 |   Player_Stand_034704: estado base de pie (anim $10, $2796A4/$279926);
 |     etiquetas Setup_0347e0, InputMove_034a00 (izq/der/abajo -> Walk*/
-|     Sub_00037C74), Tail_034ada ($27EBA golpe -> TaskHandler_036d64,
-|     fuego -> Sub_00036914, PublishState, y test suelo $5DD56 con
-|     Sub_000324C6/$324BC según escena $106ECE==3 -> TaskHandler_037b8e).
+|     Player_CrouchEnter_037c74), Tail_034ada ($27EBA golpe -> Player_Knockback_036d64,
+|     fuego -> Player_JumpStart_036914, PublishState, y test suelo $5DD56 con
+|     Sub_000324C6/$324BC según escena $106ECE==3 -> Player_DeathPit_037b8e).
 |   Player_WalkRight_034b38 / Player_WalkLeft_034d32: andar (anim $11,
 |     $279882/$279878, vel X ±$300, +$3A facing). Sufijos _Shoot/_ShootUp
 |     (+$7C/+$7E = 0/-1) usan los "pose" Player_WalkShootPose_034ede
@@ -55,8 +55,8 @@
 |     anim $33, $279D2E/$279D38, +$3B = 0.
 |   Player_RideSlug_0364a2: subir al Slug (anim 2, $279F08, +$48 =
 |     Sub_000328D8); copia pos del slot $100580 (+$22/+$24+1), propaga
-|     +$68, y según input ($5CDC0 / $5CDB4 / $5D00E) salta a Sub_000366FE
-|     o Sub_00036796 (+$24 += $20, invuln +$45/+$59 = $3C).
+|     +$68, y según input ($5CDC0 / $5CDB4 / $5D00E) salta a Player_RideSlug_Pose2_0366fe
+|     o Player_SlugJumpOff_036796 (+$24 += $20, invuln +$45/+$59 = $3C).
 |
 |  C. CAMPOS DE ENTIDAD USADOS
 |   +$00 handler, +$13 bit0, +$21 (muerte), +$22/+$24 pos, +$28/+$2A vel,
@@ -80,8 +80,8 @@
 |     bset/bclr de +$3A). Confirmar con la tabla de botones.
 |   - Cuatro cuerpos sin xrefs ($034438, $0344F2, Player_*_Alt_0358aa,
 |     _Alt_035a0a): código muerto o alcanzado por tabla no decodificada.
-|   - Sub_00036914 (fuego), Sub_00037C74 (abajo), Sub_0003873C (acción 4)
-|     y TaskHandler_036d64/037b8e se nombrarán en las waves siguientes.
+|   - Player_JumpStart_036914 (fuego), Player_CrouchEnter_037c74 (abajo), Player_CrouchShoot_03873c (acción 4)
+|     y Player_Knockback_036d64/037b8e se nombrarán en las waves siguientes.
 |
 |  F. ORIGEN
 |   ASM a mano (no GCC): secuencias duplicadas con etiquetas de salto
@@ -569,7 +569,7 @@ Player_Stand_InputMove_034a00:
 .L034a50:
         jsr     Input_DownPressed_032e90(pc)    | +34c
         bcc.w   .L034a5e                        | +350
-        lea     Sub_00037C74(pc),a1             | +354
+        lea     Player_CrouchEnter_037c74(pc),a1             | +354
         move.l  a1,(a6)                         | +358
 .L034a5e:
         cmpi.b  #0x4,0x71(a6)                   | +35a
@@ -597,7 +597,7 @@ Player_Stand_InputMove_034a00:
 .L034aac:
         cmpi.b  #0x4,d1                         | +3a8
         bne.w   .L034abe                        | +3ac
-        lea     Sub_0003873C(pc),a1             | +3b0
+        lea     Player_CrouchShoot_03873c(pc),a1             | +3b0
         move.l  a1,(a6)                         | +3b4
         bra.w   Player_Stand_Tail_034ada    | +3b6
 .L034abe:
@@ -614,12 +614,12 @@ Player_Stand_InputMove_034a00:
 Player_Stand_Tail_034ada:
         jsr     0x27eba.l                       | +3d6
         bcc.w   .L034aea                        | +3dc
-        lea     TaskHandler_036d64(pc),a1       | +3e0
+        lea     Player_Knockback_036d64(pc),a1       | +3e0
         move.l  a1,(a6)                         | +3e4
 .L034aea:
         jsr     Input_FireByMode_033034(pc)     | +3e6
         bcc.w   .L034af8                        | +3ea
-        lea     Sub_00036914(pc),a1             | +3ee
+        lea     Player_JumpStart_036914(pc),a1             | +3ee
         move.l  a1,(a6)                         | +3f2
 .L034af8:
         jsr     PlayerRoute_PublishState_033522(pc) | +3f4
@@ -635,7 +635,7 @@ Player_Stand_Tail_034ada:
         jsr     0x5dd56.l                       | +422
 .L034b2c:
         bcc.w   .L034b36                        | +428
-        lea     TaskHandler_037b8e(pc),a1       | +42c
+        lea     Player_DeathPit_037b8e(pc),a1       | +42c
         move.l  a1,(a6)                         | +430
 .L034b36:
         rts                                     | +432
@@ -736,7 +736,7 @@ Player_WalkRight_Setup_034ba4:
 .L034c9e:
         cmpi.b  #0x4,d1                         | +166
         bne.w   .L034cb0                        | +16a
-        lea     Sub_0003873C(pc),a1             | +16e
+        lea     Player_CrouchShoot_03873c(pc),a1             | +16e
         move.l  a1,(a6)                         | +172
         bra.w   Player_WalkRight_Tail_034ccc | +174
 .L034cb0:
@@ -753,7 +753,7 @@ Player_WalkRight_Setup_034ba4:
 Player_WalkRight_Tail_034ccc:
         jsr     Input_DownPressed_032e90(pc)    | +194
         bcc.w   .L034cda                        | +198
-        lea     Sub_00037C74(pc),a1             | +19c
+        lea     Player_CrouchEnter_037c74(pc),a1             | +19c
         move.l  a1,(a6)                         | +1a0
 .L034cda:
         cmpi.b  #0x0,0x85(a6)                   | +1a2
@@ -772,12 +772,12 @@ Player_WalkRight_Tail_034ccc:
 .L034d0e:
         jsr     0x27eba.l                       | +1d6
         bcc.w   .L034d1e                        | +1dc
-        lea     TaskHandler_036d64(pc),a1       | +1e0
+        lea     Player_Knockback_036d64(pc),a1       | +1e0
         move.l  a1,(a6)                         | +1e4
 .L034d1e:
         jsr     Input_FireByMode_033034(pc)     | +1e6
         bcc.w   .L034d2c                        | +1ea
-        lea     Sub_00036914(pc),a1             | +1ee
+        lea     Player_JumpStart_036914(pc),a1             | +1ee
         move.l  a1,(a6)                         | +1f2
 .L034d2c:
         jsr     PlayerRoute_PublishState_033522(pc) | +1f4
@@ -879,7 +879,7 @@ Player_WalkLeft_Setup_034d9e:
 .L034e98:
         cmpi.b  #0x4,d1                         | +166
         bne.w   .L034eaa                        | +16a
-        lea     Sub_0003873C(pc),a1             | +16e
+        lea     Player_CrouchShoot_03873c(pc),a1             | +16e
         move.l  a1,(a6)                         | +172
         bra.w   Player_Walk_Tail_03548c | +174
 .L034eaa:
@@ -1263,7 +1263,7 @@ Player_WalkLoopRight_Setup_035250:
 .L03545e:
         cmpi.b  #0x4,d1                         | +286
         bne.w   .L035470                        | +28a
-        lea     Sub_0003873C(pc),a1             | +28e
+        lea     Player_CrouchShoot_03873c(pc),a1             | +28e
         move.l  a1,(a6)                         | +292
         bra.w   Player_Walk_Tail_03548c | +294
 .L035470:
@@ -1280,7 +1280,7 @@ Player_WalkLoopRight_Setup_035250:
 Player_Walk_Tail_03548c:
         jsr     Input_DownPressed_032e90(pc)    | +2b4
         bcc.w   .L03549a                        | +2b8
-        lea     Sub_00037C74(pc),a1             | +2bc
+        lea     Player_CrouchEnter_037c74(pc),a1             | +2bc
         move.l  a1,(a6)                         | +2c0
 .L03549a:
         cmpi.b  #0x0,0x85(a6)                   | +2c2
@@ -1299,12 +1299,12 @@ Player_Walk_Tail_03548c:
 .L0354ce:
         jsr     0x27eba.l                       | +2f6
         bcc.w   .L0354de                        | +2fc
-        lea     TaskHandler_036d64(pc),a1       | +300
+        lea     Player_Knockback_036d64(pc),a1       | +300
         move.l  a1,(a6)                         | +304
 .L0354de:
         jsr     Input_FireByMode_033034(pc)     | +306
         bcc.w   .L0354ec                        | +30a
-        lea     Sub_00036914(pc),a1             | +30e
+        lea     Player_JumpStart_036914(pc),a1             | +30e
         move.l  a1,(a6)                         | +312
 .L0354ec:
         jsr     PlayerRoute_PublishState_033522(pc) | +314
@@ -1478,7 +1478,7 @@ Player_WalkLoopLeft_Run_035590:
 .L035778:
         cmpi.b  #0x4,d1                         | +1e8
         bne.w   .L03578a                        | +1ec
-        lea     Sub_0003873C(pc),a1             | +1f0
+        lea     Player_CrouchShoot_03873c(pc),a1             | +1f0
         move.l  a1,(a6)                         | +1f4
         bra.w   .L0357a6                        | +1f6
 .L03578a:
@@ -1787,7 +1787,7 @@ Player_Turn_Actions_035b90:
 .L035bc6:
         cmpi.b  #0x4,d1                         | +10c
         bne.w   .L035bd8                        | +110
-        lea     Sub_0003873C(pc),a1             | +114
+        lea     Player_CrouchShoot_03873c(pc),a1             | +114
         move.l  a1,(a6)                         | +118
         bra.w   .L035bf4                        | +11a
 .L035bd8:
@@ -1888,7 +1888,7 @@ Player_ActionDispatch_035cd8:
 .L035d04:
         cmpi.b  #0x4,d1                         | +02c
         bne.w   .L035d16                        | +030
-        lea     Sub_0003873C(pc),a1             | +034
+        lea     Player_CrouchShoot_03873c(pc),a1             | +034
         move.l  a1,(a6)                         | +038
         bra.w   .L035d32                        | +03a
 .L035d16:
@@ -2136,7 +2136,7 @@ Player_MeleeAlt_Walk_035f70:
 .L03608a:
         cmpi.b  #0x4,d1                         | +11a
         bne.w   .L03609c                        | +11e
-        lea     Sub_0003873C(pc),a1             | +122
+        lea     Player_CrouchShoot_03873c(pc),a1             | +122
         move.l  a1,(a6)                         | +126
         bra.w   .L0360b8                        | +128
 .L03609c:
@@ -2238,12 +2238,12 @@ Player_ThrowGrenade_Stand_0360bc:
 .L0361ee:
         jsr     Input_DownPressed_032e90(pc)    | +132
         bcc.w   .L0361fc                        | +136
-        lea     Sub_00037C74(pc),a1             | +13a
+        lea     Player_CrouchEnter_037c74(pc),a1             | +13a
         move.l  a1,(a6)                         | +13e
 .L0361fc:
         jsr     Input_FireByMode_033034(pc)     | +140
         bcc.w   .L03620a                        | +144
-        lea     Sub_00036914(pc),a1             | +148
+        lea     Player_JumpStart_036914(pc),a1             | +148
         move.l  a1,(a6)                         | +14c
 .L03620a:
         jsr     Player_ActionDispatch_035cd8(pc) | +14e
@@ -2312,12 +2312,12 @@ Player_ThrowGrenade_Walk_036212:
 .L0362f8:
         jsr     Input_DownPressed_032e90(pc)    | +0e6
         bcc.w   .L036306                        | +0ea
-        lea     Sub_00037C74(pc),a1             | +0ee
+        lea     Player_CrouchEnter_037c74(pc),a1             | +0ee
         move.l  a1,(a6)                         | +0f2
 .L036306:
         jsr     Input_FireByMode_033034(pc)     | +0f4
         bcc.w   .L036314                        | +0f8
-        lea     Sub_00036914(pc),a1             | +0fc
+        lea     Player_JumpStart_036914(pc),a1             | +0fc
         move.l  a1,(a6)                         | +100
 .L036314:
         jmp     Player_WalkRight_Tail_034ccc(pc) | +102
@@ -2397,12 +2397,12 @@ Player_ThrowGrenade_WalkLoop_036318:
 .L036428:
         jsr     Input_DownPressed_032e90(pc)    | +110
         bcc.w   .L036436                        | +114
-        lea     Sub_00037C74(pc),a1             | +118
+        lea     Player_CrouchEnter_037c74(pc),a1             | +118
         move.l  a1,(a6)                         | +11c
 .L036436:
         jsr     Input_FireByMode_033034(pc)     | +11e
         bcc.w   .L036444                        | +122
-        lea     Sub_00036914(pc),a1             | +126
+        lea     Player_JumpStart_036914(pc),a1             | +126
         move.l  a1,(a6)                         | +12a
 .L036444:
         jsr     Player_ActionSelect_0330d0(pc)  | +12c
@@ -2421,7 +2421,7 @@ Player_ThrowGrenade_WalkLoop_036318:
 .L036470:
         cmpi.b  #0x4,d1                         | +158
         bne.w   .L036482                        | +15c
-        lea     Sub_0003873C(pc),a1             | +160
+        lea     Player_CrouchShoot_03873c(pc),a1             | +160
         move.l  a1,(a6)                         | +164
         bra.w   .L03649e                        | +166
 .L036482:
@@ -2496,14 +2496,14 @@ Player_RideSlug_Frame_03652e:               | $03652E entrada secundaria (desde 
         bcc.w   .L036598                        | +0e2
         btst    #0x0,0x13(a0)                   | +0e6
         bne.w   .L036598                        | +0ec
-        lea     Sub_000366FE(pc),a1             | +0f0
+        lea     Player_RideSlug_Pose2_0366fe(pc),a1             | +0f0
         move.l  a1,(a6)                         | +0f4
 .L036598:
         jsr     0x5cdb4.l                       | +0f6
         bcc.w   .L0365bc                        | +0fc
         jsr     0x2abd2.l                       | +100
         bcc.w   .L0365bc                        | +106
-        lea     Sub_00036796(pc),a1             | +10a
+        lea     Player_SlugJumpOff_036796(pc),a1             | +10a
         move.l  a1,(a6)                         | +10e
         addi.w  #0x20,0x24(a6)                  | +110
         bra.w   .L0365f8                        | +116
@@ -2512,7 +2512,7 @@ Player_RideSlug_Frame_03652e:               | $03652E entrada secundaria (desde 
         bcs.w   .L0365e8                        | +120
         jsr     0x5d00e.l                       | +124
         bcc.w   .L0365e8                        | +12a
-        lea     Sub_00036796(pc),a1             | +12e
+        lea     Player_SlugJumpOff_036796(pc),a1             | +12e
         move.l  a1,(a6)                         | +132
         addi.w  #0x20,0x24(a6)                  | +134
         move.b  #0x3c,0x45(a6)                  | +13a
@@ -2520,7 +2520,7 @@ Player_RideSlug_Frame_03652e:               | $03652E entrada secundaria (desde 
 .L0365e8:
         jsr     0x2a25c.l                       | +146
         bcc.w   .L0365f8                        | +14c
-        lea     Sub_00036796(pc),a1             | +150
+        lea     Player_SlugJumpOff_036796(pc),a1             | +150
         move.l  a1,(a6)                         | +154
 .L0365f8:
         cmpi.b  #0x3,0x106ece.l                 | +156
@@ -2535,5 +2535,5 @@ Player_RideSlug_Frame_03652e:               | $03652E entrada secundaria (desde 
         jsr     0x5dd56.l                       | +180
 .L036628:
         bcc.w   Player_RideSlug_Tail_036632     | +186
-        lea     TaskHandler_037b8e(pc),a1       | +18a
+        lea     Player_DeathPit_037b8e(pc),a1       | +18a
         move.l  a1,(a6)                         | +18e

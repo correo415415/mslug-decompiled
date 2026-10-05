@@ -41,7 +41,7 @@
 |      3 = disparo ($5CDC0), 4 = ..., 1/2 = por nibble (Player_DirNibble
 |      ToAction), 0 = nada; carga el mapa de sprites Sub_000325E4 en +$4C.
 |      Player_Idle_Tail_0341a4 lo consume: $FF -> Player_Melee_035d34 (hit),
-|      3 -> Player_ThrowGrenade_Stand_0360bc (fire), 4 -> Sub_0003873C, 1 -> Player_ShootStandUp_03437e,
+|      3 -> Player_ThrowGrenade_Stand_0360bc (fire), 4 -> Player_CrouchShoot_03873c, 1 -> Player_ShootStandUp_03437e,
 |      otro -> Player_ShootStand_0342c4 (Wave siguiente).
 |   6. Granadas: Player_ThrowGrenade_0332bc / _Back / _Down: si +$80 > 0 lo
 |      decrementa, `lea JmpAbsThunk_033346(pc),a1; jsr $5EAB6` crea la
@@ -51,7 +51,7 @@
 |   7. Spawn: Player_SpawnStart_0336dc (pos $50/$1E0 + scroll, snd $177/
 |      $190/$192, $138FE, PlayerEntity_InitAuxState, hijo $394E6) ->
 |      Player_SpawnByMode (d2: 2 = Player_SpawnFall con paracaídas $279F8A,
-|      1 -> Sub_00036C8C, otro -> Player_SpawnParachute $279B2C) ->
+|      1 -> Player_SpawnFreeFall_036c8c, otro -> Player_SpawnParachute $279B2C) ->
 |      Player_SpawnLand/LandB -> Player_SpawnLand_Done (hijo $32112/$32142 por
 |      jugador, +$45/+$59 = $50 de invulnerabilidad) -> Player_Idle.
 |      Player_DeathGate_0334c6: si $106E92 == 0 marca muerte (+$13 bit0, HP
@@ -61,7 +61,7 @@
 |      munición de pistola, decide Crouch (+$88 bit0), Reload (+$85/+$71),
 |      CrouchB al azar ($5E9B6 & 7 == 4 con +$82 == 4), Player_Stand_034704 al
 |      tocar suelo, Player_WalkRight_034b38/Player_WalkLeft_034d32 por signo de vel X, Player_ReenterByInput_0345b8,
-|      TaskHandler_036d64 / Sub_00037018 por efecto $27EBA, Sub_00036914 por
+|      Player_Knockback_036d64 / Player_KnockbackHold_037018 por efecto $27EBA, Player_JumpStart_036914 por
 |      disparo); Player_Crouch/CrouchB ($27973E/$27981E, anim 5),
 |      Player_Reload ($2796F8/$279702, anim $33). Todos pasan por
 |      Player_FrameCommon_032ff2 ($283CA, prio &= ~3, InvulnBlinkStep,
@@ -1287,7 +1287,7 @@ Player_SpawnFall_0337a8:
         jsr     0x5dd56.l                       | +0b0
 .L03385e:
         bcc.w   JsrPcThunk_033868               | +0b6
-        lea     TaskHandler_037b8e(pc),a1       | +0ba
+        lea     Player_DeathPit_037b8e(pc),a1       | +0ba
         move.l  a1,(a6)                         | +0be
 
 | ----------------------------------------------------------------------------
@@ -1326,7 +1326,7 @@ Player_SpawnLand_03386e:
 .L0338e4:
         jsr     0x27eba.l                       | +076
         bcc.w   JsrPcThunk_0338f4               | +07c
-        lea     Sub_00036C8C(pc),a1             | +080
+        lea     Player_SpawnFreeFall_036c8c(pc),a1             | +080
         move.l  a1,(a6)                         | +084
 
 | ----------------------------------------------------------------------------
@@ -1352,7 +1352,7 @@ Player_SpawnLandB_0338fa:
         jsr     0x27bc8.l                       | +03e
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +044
         bcc.w   JsrPcThunk_03394c               | +048
-        lea     Sub_00036C8C(pc),a1             | +04c
+        lea     Player_SpawnFreeFall_036c8c(pc),a1             | +04c
         move.l  a1,(a6)                         | +050
 
 | ----------------------------------------------------------------------------
@@ -1361,7 +1361,7 @@ Player_SpawnLandB_0338fa:
         .section .text.Player_JmpState36C8C_033952, "ax", @progbits
         .global Player_JmpState36C8C_033952
 Player_JmpState36C8C_033952:
-        jmp     Sub_00036C8C(pc)                | +000
+        jmp     Player_SpawnFreeFall_036c8c(pc)                | +000
 
 | ----------------------------------------------------------------------------
 |  Player_SpawnParachute_033956  @ $033956  (258 B)
@@ -1409,12 +1409,12 @@ Player_SpawnParachute_033956:
         jsr     Player_CheckDeathOrState21_032aa8(pc) | +0a6
         jsr     Input_FireByMode_033034(pc)     | +0aa
         bcc.w   .L033a0e                        | +0ae
-        lea     Sub_00036C8C(pc),a1             | +0b2
+        lea     Player_SpawnFreeFall_036c8c(pc),a1             | +0b2
         move.l  a1,(a6)                         | +0b6
 .L033a0e:
         cmpi.w  #0x170,0x24(a6)                 | +0b8
         bgt.w   .L033a1e                        | +0be
-        lea     Sub_00036C8C(pc),a1             | +0c2
+        lea     Player_SpawnFreeFall_036c8c(pc),a1             | +0c2
         move.l  a1,(a6)                         | +0c6
 .L033a1e:
         cmpi.b  #0x3,0x106ece.l                 | +0c8
@@ -1429,7 +1429,7 @@ Player_SpawnParachute_033956:
         jsr     0x5dd56.l                       | +0f2
 .L033a4e:
         bcc.w   JsrPcThunk_033a58               | +0f8
-        lea     TaskHandler_037b8e(pc),a1       | +0fc
+        lea     Player_DeathPit_037b8e(pc),a1       | +0fc
         move.l  a1,(a6)                         | +100
 
 | ----------------------------------------------------------------------------
@@ -1765,7 +1765,7 @@ Player_SpawnLand_Reset_033ede:              | $033EDE entrada secundaria (desde 
         bset    #0x7,0x5b(a6)                   | +1d2
         jsr     Input_DownPressed_032e90(pc)    | +1d8
         bcc.w   .L033f48                        | +1dc
-        jmp     Sub_0003827A(pc)                | +1e0
+        jmp     Player_CrouchIdle_03827a(pc)                | +1e0
 .L033f48:
         cmpi.w  #0x0,0x82(a6)                   | +1e4
         bne.w   .L033f5c                        | +1ea
@@ -1957,7 +1957,7 @@ Player_Idle_Tail_0341a4:
 .L0341f4:
         jsr     Input_DownPressed_032e90(pc)    | +490
         bcc.w   .L034202                        | +494
-        lea     Sub_00037C74(pc),a1             | +498
+        lea     Player_CrouchEnter_037c74(pc),a1             | +498
         move.l  a1,(a6)                         | +49c
 .L034202:
         jsr     Player_ActionSelect_0330d0(pc)  | +49e
@@ -1976,7 +1976,7 @@ Player_Idle_Tail_0341a4:
 .L03422e:
         cmpi.b  #0x4,d1                         | +4ca
         bne.w   .L034240                        | +4ce
-        lea     Sub_0003873C(pc),a1             | +4d2
+        lea     Player_CrouchShoot_03873c(pc),a1             | +4d2
         move.l  a1,(a6)                         | +4d6
         bra.w   .L03425c                        | +4d8
 .L034240:
@@ -1992,15 +1992,15 @@ Player_Idle_Tail_0341a4:
 .L03425c:
         jsr     0x27eba.l                       | +4f8
         bcc.w   .L034276                        | +4fe
-        lea     TaskHandler_036d64(pc),a1       | +502
+        lea     Player_Knockback_036d64(pc),a1       | +502
         move.l  a1,(a6)                         | +506
         beq.w   .L034276                        | +508
-        lea     Sub_00037018(pc),a1             | +50c
+        lea     Player_KnockbackHold_037018(pc),a1             | +50c
         move.l  a1,(a6)                         | +510
 .L034276:
         jsr     Input_FireByMode_033034(pc)     | +512
         bcc.w   .L034284                        | +516
-        lea     Sub_00036914(pc),a1             | +51a
+        lea     Player_JumpStart_036914(pc),a1             | +51a
         move.l  a1,(a6)                         | +51e
 .L034284:
         jsr     PlayerRoute_PublishState_033522(pc) | +520
