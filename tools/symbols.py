@@ -500,11 +500,11 @@ SYMBOLS = {
     0x00056058: "TaskHandler_056058",
     0x00056204: "TaskHandler_056204",
     0x00056596: "TaskHandler_056596",
-    0x00057F4E: "TaskHandler_057f4e",
-    0x00058412: "TaskHandler_058412",
-    0x00058B1E: "TaskHandler_058b1e",
-    0x00058C8E: "TaskHandler_058c8e",
-    0x00058CCE: "TaskHandler_058cce",
+    # 0x00057F4E promovido a TaskHandler_057f4e en registry (Wave EEEE).
+    # 0x00058412 promovido a TaskHandler_058412 en registry (Wave EEEE).
+    # 0x00058B1E promovido a TaskHandler_058b1e en registry (Wave EEEE).
+    # 0x00058C8E promovido a TaskHandler_058c8e en registry (Wave EEEE).
+    # 0x00058CCE promovido a TaskHandler_058cce en registry (Wave EEEE).
     0x0005943A: "TaskHandler_05943a",
     0x0005947A: "TaskHandler_05947a",
     0x000594BA: "TaskHandler_0594ba",
@@ -1677,4 +1677,18 @@ SYMBOLS = {
     0x0002D734: "SetHandlerRts_02d734",  # rts de SetTaskHandler_02d72e (+6)
     # --- Wave DDDD: refs forward a huecos futuros
     0x0005A8BA: "Sub_0005A8BA",  # hueco futuro (ref pc-rel desde esta region)
+    # --- Wave EEEE: refs forward a huecos futuros
+    0x00056ACC: "Sub_00056ACC",  # hueco futuro (ref pc-rel desde esta region)
+    0x00056B92: "Sub_00056B92",  # hueco futuro (ref pc-rel desde esta region)
+    0x00056E36: "Sub_00056E36",  # hueco futuro (ref pc-rel desde esta region)
+    0x00056F64: "Sub_00056F64",  # hueco futuro (ref pc-rel desde esta region)
+    0x00056F8A: "Sub_00056F8A",  # hueco futuro (ref pc-rel desde esta region)
+    0x00056FA0: "Sub_00056FA0",  # hueco futuro (ref pc-rel desde esta region)
+    0x00056FEC: "Sub_00056FEC",  # hueco futuro (ref pc-rel desde esta region)
+    0x0005740E: "Sub_0005740E",  # hueco futuro (ref pc-rel desde esta region)
+    0x00057494: "Sub_00057494",  # hueco futuro (ref pc-rel desde esta region)
+    0x000574E8: "Sub_000574E8",  # hueco futuro (ref pc-rel desde esta region)
+    0x00057558: "Sub_00057558",  # hueco futuro (ref pc-rel desde esta region)
+    0x00057AE4: "Sub_00057AE4",  # hueco futuro (ref pc-rel desde esta region)
+    0x00057CA8: "Sub_00057CA8",  # hueco futuro (ref pc-rel desde esta region)
 }
