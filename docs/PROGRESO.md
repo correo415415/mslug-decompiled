@@ -11,10 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5504/5504 funciones
-BYTES   : 319,728/319,728 (registrados)
-ROM     : 319,728/2,097,152  (15.2458%)
+MATCHED : 5545/5545 funciones
+BYTES   : 324,474/324,474 (registrados)
+ROM     : 324,474/2,097,152  (15.4721%)
 ```
+
+> **Wave MMMM** (41 entradas, 4 746 B; sin `--data` ni `--entry`) —
+> `$053F96..$055258` en `props_mission_053fxx.s`. Trigésima wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/mmmm_names.txt`.
+>
+> * Segunda tanda de props destructibles (misma plantilla que Wave GGGG:
+>   `$2942A` template, HP +$66, `$2870A` -> flash `$5E770`, `$28758` ->
+>   música + escombros `$77C7E` + puntos `$51A28` + registro `$43FAC`):
+>   `Prop_Building` (3 fases), `Prop_Column`, `Prop_CompoundWall` (2
+>   variantes, 3 fases) + entidad compuesta `Prop_Compound_Spawn/PhaseA/
+>   PhaseB/Done/TriggerSpawn`, `Prop_NeonSign` con actualización del fix
+>   layer (`NeonSign_Fix*`, `NeonSign_Tiles*` vía `$2C26`, flag `$1081B1`),
+>   `Prop_Stall`, `Prop_Fragile` (3 fases), `Prop_Breakable`,
+>   `Prop_HitStages` (sprite por impacto `$298C46`), `Prop_Small`,
+>   `Prop_ScaledHP` (HP por dificultad), `Prop_MultiStage` (5 variantes, 4
+>   fases, hijo `$6293E`), `FixBlink2_PhaseA/B`, `Prop_Blocker`.
+> * Referenciados por los registros de spawn de misión `$096FAE..$097166`.
+>   Cierra el bloque `$0527BA..$055258`.
+> * Matcher: 5545/5545, 324,474 B, 15.47 %; código real 55.5 %.
 
 > **Wave LLLL** (25 entradas, 2 880 B; 1 `--data` para las tablas de
 > estados de muerte, 2 `--entry`) — `$049430..$049FC4` en

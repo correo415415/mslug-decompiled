@@ -17,6 +17,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave MMMM — 41 entries (4,746 B): `$053F96..$055258`
+  (`props_mission_053fxx.s`): second batch of destructible mission props
+  sharing the Wave GGGG template (`Prop_Building`, `Prop_Column`,
+  `Prop_CompoundWall` + compound parent `Prop_Compound_*`, `Prop_NeonSign`
+  with fix-layer updates `NeonSign_Fix*`/`NeonSign_Tiles*`, `Prop_Stall`,
+  `Prop_Fragile`, `Prop_Breakable`, `Prop_HitStages`, `Prop_Small`,
+  `Prop_ScaledHP`, 5-variant `Prop_MultiStage`, `FixBlink2_PhaseA/B`,
+  `Prop_Blocker`). Referenced from the mission spawn records at
+  `$096FAE..$097166`. Closes `$0527BA..$055258`. Matcher 5545/5545, 15.47 %.
 - Wave LLLL — 25 entries (2,880 B, of which 560 B are the human-death
   state pointer tables): `$049430..$049FC4` (`pow_hang_0494xx.s`): the POW
   hanging from a rope (`PowHang_SpawnVariants`, `Swing`/`Struggle` with
