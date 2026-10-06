@@ -461,19 +461,23 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
                 if entry_of(t) != entry_of(off):
                     cross_labels[t] = f"{entry_names[entry_of(t)]}__L{t:06x}"
 
+    _cur_entry = [None]
+
     def labelfn(t, pcrel=False):
         if t in names_override:
             return names_override[t]
         if start <= t < end:
             if t in entry_names:
                 return entry_names[t]
-            if t in cross_labels:
-                return cross_labels[t]
-            if t in GLOBAL_LABELS:
-                # label promovido a global por una referencia desde OTRO hueco
-                # (pase 1); debe usarse el mismo nombre también desde su propia
-                # entrada o GAS no resolverá el .L local.
-                return GLOBAL_LABELS[t]
+            if t in cross_labels or t in GLOBAL_LABELS:
+                # label promovido a global (referenciado desde otra entrada u
+                # otro hueco). Dentro de su PROPIA entrada usamos el alias
+                # local .L (emitido junto al global): GAS no resuelve bien
+                # bra.b hacia atras a un simbolo global (>128 B) en la misma
+                # seccion ("value too large for field of 1 byte").
+                if _cur_entry[0] is not None and entry_of(t) == _cur_entry[0]:
+                    return f".L{t:06x}"
+                return cross_labels.get(t) or GLOBAL_LABELS[t]
             return f".L{t:06x}"
         if t in known_names:
             return known_names[t]
@@ -495,6 +499,7 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
     for ei, ea in enumerate(entries):
         eend = entries[ei + 1] if ei + 1 < len(entries) else end
         name = entry_names[ea]
+        _cur_entry[0] = ea
         sizes[name] = (ea, eend - ea)
         lines.append("")
         lines.append("| " + "-" * 76)
@@ -510,6 +515,7 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
                 gl = cross_labels.get(off) or GLOBAL_LABELS[off]
                 lines.append(f"        .global {gl}")
                 lines.append(f"{gl}:")
+                lines.append(f".L{off:06x}:")
             elif off in needed_labels.get(ea, ()):
                 lines.append(f".L{off:06x}:")
             if kind == "data":

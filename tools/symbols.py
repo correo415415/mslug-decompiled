@@ -476,9 +476,9 @@ SYMBOLS = {
     # 0x00048DDC promovido a PowRope_BrokenA_048ddc en registry (Wave JJJJ).
     # 0x00048DEC promovido a PowRope_BrokenB_048dec en registry (Wave JJJJ).
     0x0004968A: "TaskHandler_04968a",
-    0x0004A014: "Handler_0004A014",     # handler PC-rel instalado (canal B)
-    0x0004A024: "TaskHandler_04a024",
-    0x0004A18C: "TaskHandler_04a18c",
+    # 0x0004A014 promovido a Handler_0004A014 en registry (Wave KKKK).
+    # 0x0004A024 promovido a TaskHandler_04a024 en registry (Wave KKKK).
+    # 0x0004A18C promovido a TaskHandler_04a18c en registry (Wave KKKK).
     0x0004AC32: "TaskHandler_04ac32",
     0x0004BC48: "TaskHandler_04bc48",
     0x0004C578: "TaskHandler_04c578",
@@ -981,7 +981,7 @@ SYMBOLS = {
     # 0x00027EBA promovido a SpritePubEffect_027EBA en registry (Wave NN#1).
     # Los callers via jsr $27EBA.l se resuelven al simbolo canonico del .text.
     # 0x00027EBA: "Sub_00027EBA",         # probe global llamado por Entity_ProbeAndInstallHandler_049FD0
-    0x0004A034: "Handler_0004A034",     # handler PC-rel instalado (canal A)
+    # 0x0004A034 promovido a Handler_0004A034 en registry (Wave KKKK).
     0x000799A4: "Sub_0007_99A4",        # subindice usado por Tbl_Decode2D_0799DE
     0x00079A0E: "Tbl_DecodeShort_079A0E", # rama "tabla corta" (magic==2)
     0x0028D876: "JmpTarget_28d876",
@@ -1750,4 +1750,9 @@ SYMBOLS = {
     0x00048D0C: "SetHandlerRts_048d0c",  # rts de SetTaskHandler_048d06 (+6)
     0x00048E2A: "SetHandlerRts_048e2a",  # rts de SetTaskHandler_048e24 (+6)
     0x00048EA4: "SetHandlerRts_048ea4",  # rts de SetTaskHandler_048e9e (+6)
+    # --- Wave KKKK: RTS internos de islas C
+    0x0004A012: "SetHandlerRts_04a012",  # rts de SetTaskHandler_04a00c (+6)
+    0x0004AC30: "SetHandlerRts_04ac30",  # rts de SetTaskHandler_04ac2a (+6)
+    # --- Wave KKKK: refs forward a huecos futuros
+    0x00049FAA: "Sub_00049FAA",  # hueco futuro (ref pc-rel desde esta region)
 }
