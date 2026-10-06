@@ -17,6 +17,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave LLLL — 25 entries (2,880 B, of which 560 B are the human-death
+  state pointer tables): `$049430..$049FC4` (`pow_hang_0494xx.s`): the POW
+  hanging from a rope (`PowHang_SpawnVariants`, `Swing`/`Struggle` with
+  sin/cos swing physics and angle-driven animation, rope child
+  `RopeIdle/RopeStruggle/RopeCut/RopeBroken` driven by the parent/child
+  +$78/+$79 protocol, `Freed`), the falling POW template `$E81B8`
+  (`PowFall_Spawn` + `PowFall_Shadow`), animation-script callbacks, slot/hit
+  checks, `HumanDeath_StateTbls_049d8a`/`StateTblPtrs_049faa`. Closes the
+  whole `$0478FC..$04BB8E` block. Matcher 5504/5504, 15.25 %.
 - Wave KKKK — 42 entries (6,990 B, of which 3,876 B are sprite/pointer
   tables): `$049FF2..$04BB8E` (`human_death_049fxx.s`): the shared death
   module of human entities (soldiers, POWs) — `HumanDeath_Dispatch_049ff2`

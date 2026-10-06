@@ -11,10 +11,31 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5479/5479 funciones
-BYTES   : 316,848/316,848 (registrados)
-ROM     : 316,848/2,097,152  (15.1085%)
+MATCHED : 5504/5504 funciones
+BYTES   : 319,728/319,728 (registrados)
+ROM     : 319,728/2,097,152  (15.2458%)
 ```
+
+> **Wave LLLL** (25 entradas, 2 880 B; 1 `--data` para las tablas de
+> estados de muerte, 2 `--entry`) — `$049430..$049FC4` en
+> `pow_hang_0494xx.s`. Vigesimonovena wave de `gen_asm_region.py`.
+> Nombres en `docs/waves/llll_names.txt`, args en `docs/waves/llll_args.txt`.
+>
+> * POW colgado de la cuerda: `PowHang_SpawnVariants_04954a` (amplitudes
+>   +$7A/+$7C por parámetro y dificultad, hijo `PowHang_RopeSpawn_0497ac`),
+>   `PowHang_Swing/Struggle` (física `SwingStep` con `$13C0E`, anim por
+>   ángulo `$5E136`, gotas `DropFxTimer` -> hijo `$48B56`), protocolo
+>   padre/hijo +$78/+$79 con la cuerda (`RopeIdle/RopeStruggle/RopeCut/
+>   RopeBroken`), `PowHang_Freed_049742` (cuerpo `$4ACFE` + ítem `$48CA4`).
+> * POW en caída (plantilla `$E81B8`): `PowFall_Spawn_049baa` + sombra/
+>   ataque `PowFall_Shadow_049ca4`.
+> * Callbacks de scripts de animación (`0800 <addr>` en `$18E612/$18E6CA/
+>   $18EC56`), checks de slot/golpe, `HumanDeath_StateTbls_049d8a` (4×34
+>   punteros) + `HumanDeath_StateTblPtrs_049faa`,
+>   `HumanDeath_HitCheckUnlessCutscene_049fba`.
+> * Promovida la etiqueta interior `PowItem_Toss_048ba0__L048bca` en
+>   `pow_helpers_048axx.s`. Cierra el bloque `$0478FC..$04BB8E`.
+> * Matcher: 5504/5504, 319,728 B, 15.25 %; código real 54.6 %.
 
 > **Wave KKKK** (42 entradas, 6 990 B; 3 `--data` para tablas de sprites
 > y punteros, 4 `--entry`; parche del generador) — `$049FF2..$04BB8E` en
