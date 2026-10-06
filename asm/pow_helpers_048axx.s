@@ -1,11 +1,137 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave JJJJ — helpers del prisionero (POW): colas de estado, ítem lanzado,
+|              cuerda del atado, decisión por distancia al player, probes
 |  Región: $048A44..$049430  (2,242 B, 45 entradas, 31 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 2,242 B (45 entradas): helpers pc-relativos del prisionero
+|  POW (Wave IIII, $0478FC..$048A3C). Todos se alcanzan sólo desde
+|  pow_prisoner_0478xx.s (jsr/bra pc-rel) o desde hijos lanzados con $4AE
+|  dentro de esta misma región; ninguna dirección aparece en el índice de
+|  templates. Grupos:
+|   1. Colas de estado comunes (bra.w desde el final de cada estado):
+|      Pow_FreeStateTail_048a44 (variante libre: Pow_RetargetIfLost,
+|      +$72--, $2870A impacto -> hijo PowFx_HitBurst a +$10 px + $49FF2,
+|      despawn $5DD5C con lista $28E196) y Pow_TiedStateTail_048a90
+|      (variante atada: igual pero hijo a +$18 px con vel X = vel del
+|      atacante/16, +$83 = 2 "liberado"; si +$9E < 0 y X <= -$20, o
+|      X >= $160 -> JmpToScheduler (sale de pantalla); lista $28E19E).
+|   2. Ítem que lanza el POW al ser rescatado: PowItem_Toss_048ba0 (hijo;
+|      vel por $799DE de $2BFDB8 con signo según +$3A, o 2a entrada en
+|      +$24 que usa +$98 -> +$7B como índice de las tablas de seno/coseno
+|      $2C07AC/$2C072C; +$70 = 150 frames de vida, snd $17B, prio $D000|$14,
+|      bset 4 de +$6B, música $1064, sprite $28F51C; cae con $27CEE y
+|      $283D8; al tocar suelo/expirar/bit1 de +$13 -> PowItem_Settle_048b34
+|      (prio $2000|$14, $13600 y jmp $77F6A = cola común de ítems)).
+|   3. Efectos: PowFx_HitBurst_048ca4 (hijo al recibir impacto: vel X
+|      aleatoria -$44 +- $5DCA4, vel Y $32A, grav -$36, snd $38, sprite
+|      $29CA36, guiado $27BC8 -> JmpScheduler), PowFx_DirSprite_048b56
+|      (hijo de Pow_SpawnFxByDir: snd 4, sprite $28F556, +$5C puntero de
+|      secuencia elegido por dirección; muere al acabar la animación),
+|      Pow_SpawnFxFromTurnAngle_0493e4 / Pow_SpawnFxByDir_04940e (eligen
+|      +$5C en las tablas $28E2D2 / $28E292 por +$78/2+8 o +$7B y lanzan
+|      PowFx_DirSprite con $4AE).
+|   4. Cuerda del prisionero atado (hijo lanzado por Pow_SpawnTiedVariant):
+|      PowRope_Spawn_048d0e (snd $18D, colisión $28E0E6, HP por $799DE de
+|      $2BFE8A) -> PowRope_Idle_048d30 (sprite $28EF54; lee +$78 del
+|      padre y pierde prio -1; cuando el padre tiene +$83 == 1 pasa a
+|      PowRope_Struggle_048d7a, sprite por tabla $28E26E[+$78/2 & 15]) <->
+|      Idle; PowRope_CheckPhase3/2_048e2c/048e42 (si +$83 del padre es 3 o
+|      2 -> PowRope_BrokenA/B_048ddc/048dec, sprites $28F3CC/$28F478, sin
+|      colisión, animan hasta el final sólo si el frame es impar en
+|      $106F28); PowRope_HitCheck_048e54 ($2870A; con HP agotado $28758
+|      copia su posición/+$58 al padre en +$50/+$54/+$56 y marca bit 3 de
+|      +$13 del padre = "cuerda cortada", y pasa a BrokenB; $5E45A fuera de
+|      mundo).
+|   5. Inicialización/física de la variante libre: Pow_FreeInit_048ea6
+|      ($267E2 relink, mira a la izquierda si X > $A0, snd $38, HP 1,
+|      colisión $28DF42, +$5C = $28E364, +$72 por $799DE de $2BFC32, prio
+|      $8000|$18), Pow_SetRunVelAndSprite_048f04 (vel X = +-+$36, +$5C de
+|      $28E354 por +$36>>7), Pow_ScrollAndProbe_048fb0 ($2783A + $27EBA,
+|      si carry $27C8C = cae), Pow_ScrollProbeOrFall_048f2e (idem con
+|      $27A92 en la rama sin carry), Pow_TiedSwingStep_048f54 (balanceo del
+|      atado: ángulo +$7F -= 2, seno $13C0E -> vel X = $B0*sin + +$8C, vel
+|      Y = -|cos|/2 + $20 - +$8E; $27CEE; devuelve carry invertido de
+|      $27FAC o $27EBA según +$80).
+|   6. Decisión por distancia al player (+$94 = target; todas devuelven
+|      carry): Pow_RetargetIfLost_04936e ($5E338 pierde target -> $5E1EA),
+|      Pow_TargetInBox_049128 ($5E260 con caja $2BFE3A[+$99 & 3]),
+|      Pow_TargetAngleInMask_04914c (ángulo $5E070 + +$7E enmascarado por
+|      +$7D), Pow_TargetInReach_0490fa ($5E0D4 + InBox + YNear + AngleMask),
+|      Pow_CanBeRescued_049010 (+$77 <= 5 giros y +$72 agotado, o +$98 y
+|      YNear + AngleMask), Pow_PickIdleSpriteIdx_048fcc (0/1/2 según reach,
+|      +$7D == $C0 y RNG), Pow_TargetFarX_049172 (|dx| > $C0),
+|      Pow_ShouldRunAway_049196 / Pow_ShouldWait_0491de / Pow_TargetNearX
+|      _04921e (|dx| < umbral 0/2/4 de la tabla $2BFE6A[+$9A & 3] y, las
+|      dos primeras, YNearB; RunAway exige además no estar en el borde),
+|      Pow_TargetWithin30/60_0492a4/0492ce (|dx| <= $30 / $60),
+|      Pow_ShouldTurn_04926a (dentro de $28E1A6 pero fuera de $28E1AE, o
+|      $5E618), Pow_TurnTimerAndCheck_049256 (+$76 cuenta hasta 30 ->
+|      ShouldTurn), Pow_AtScreenEdge_0492f8 (X <= $20 mirando a la
+|      izquierda o X >= $120 mirando a la derecha; +$7C = lado),
+|      Pow_AbsDistX_049388, Pow_TargetYNear/YNearB_04939c/0493c0
+|      (dy en -$10..$18), Pow_HitReceivedCheck_04932c ($27EBA; limpia +$75
+|      si no), Pow_BlockedTimer/Reset_049346/049364 (bit 5 de +$5A 30
+|      frames -> carry), Pow_TiedTurnTowardTarget_049054 /
+|      Pow_TiedTurnStep_0490e2 (ángulo $5E070 -> sector; gira +$78 en
+|      pasos de +-1 cada 4 frames hasta 0 o $10).
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - Ningún puntero absoluto ni entrada del índice $E8000 apunta a esta
+|    región: sólo referencias pc-rel desde $0478FC..$048A3C y lea+$4AE
+|    internas (PowItem_Toss desde Pow_RescueGiveItem; PowFx_DirSprite desde
+|    Pow_SpawnFxByDir; PowRope_Spawn desde Pow_SpawnTiedVariant).
+|  - PowRope_* leen +$83 del padre (0/1/2/3 = fases de liberación que fija
+|    Pow_TiedStateTail con +$83 = 2 al recibir un impacto) y escriben +$50/
+|    +$54/+$56 + bit 3 de +$13 del padre: Pow_TiedFreed_0489c6 comprueba
+|    ese bit.
+|  - Las tablas $2BFE3A/$2BFE6A indexadas por +$99/+$9A (bytes del
+|    template) parametrizan el radio de reacción por variante: el mismo
+|    código sirve para los POW de todas las misiones.
+|  - $77F6A es la cola común de los ítems recogibles (AnimSeq_00077F6A):
+|    confirma que PowItem_Toss es el objeto que da el prisionero.
+|
+|  C. HIPÓTESIS / DUDAS
+|  --------------------
+|  - La fórmula +$7B = +$98 como índice de seno/coseno en PowItem_Toss
+|    (2a entrada, +$24) sugiere un lanzamiento con ángulo por variante;
+|    no se ha identificado quién entra por +$24 (sin referencia conocida).
+|  - $5E618 en Pow_ShouldTurn se interpreta como "player detrás" (confirm
+|    de ProbeTwoAttemptsCcr); pendiente de verificar al decompilar $5E000+.
+|  - Los umbrales $18/-$10 de YNear (dos copias idénticas 04939c/0493c0)
+|    son probablemente la misma función duplicada por el compilador/macro.
+|
+|  D. CAMPOS DE LA ENTIDAD (a6) USADOS
+|  ----------------------------------
+|  +$00 handler  +$0C padre  +$13 flags (bit1 suelo, bit3 cuerda cortada)
+|  +$22/+$24 X/Y  +$28/+$2A vel  +$2C/+$2E grav  +$36 vel base  +$38 prio
+|  +$3A facing  +$48 colisión  +$50/+$54/+$56 atacante/pos impacto  +$58
+|  +$5A estado colisión  +$5C secuencia sprite  +$66 HP  +$6B  +$70 vida
+|  +$72 timer  +$74/+$75/+$76 contadores  +$77 giros  +$78 ángulo/paso
+|  +$7B índice sprite  +$7C lado  +$7D/+$7E máscara/offset ángulo  +$7F
+|  fase balanceo  +$80 flag probe  +$83 fase liberación  +$8C/+$8E centro
+|  del balanceo  +$94 target  +$98 variante  +$99/+$9A índices de tabla
+|  +$9E signo de salida
+|
+|  E. CALLEES EXTERNOS
+|  -------------------
+|  $4AE alloc hijo  $236E snd  $2352 música  $13600  $13C0E seno/coseno
+|  $267E2 relink  $2783A scroll  $27A92/$27C8C/$27CEE/$27BC8 probes y
+|  guiado  $27EBA/$27FAC efecto/impacto  $2870A impacto  $28758 HP
+|  agotado  $283D8 ataque  $28134 prio  $28CD4 sprite  $28D70 anim
+|  $49FD0/$49FF2 probe+install  $5DCA4 rand  $5DD02 copia pos  $5DD56/
+|  $5DD5C despawn  $5E070 ángulo  $5E0D4/$5E1EA target  $5E260 caja
+|  $5E338 target perdido  $5E45A fuera de mundo  $5E506 getter  $5E618
+|  $5E9B6 RNG  $799DE tabla por dificultad  $77F6A cola ítems.
+|
+|  F. SIGUIENTE
+|  ------------
+|  Módulo del POW $0478FC..$049430 completo. Siguientes huecos del core:
+|  $04AC3A..$04BB8E, $053F96..$0550BE.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
