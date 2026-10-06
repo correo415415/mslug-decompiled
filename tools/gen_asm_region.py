@@ -323,7 +323,8 @@ def conv_insn(ins, labelfn):
        and re.match(r"^d[0-7]$", ops[1]) and ins.bytes[1] == 0x3c:
         v = int.from_bytes(ins.bytes[2:6], "big", signed=True)
         if -128 <= v <= 127:
-            gops[0] = gops[0] + ":l"
+            # GAS optimiza siempre a moveq (incluso con :l) -> emitir crudo
+            raise ValueError("move.l #imm8,dN no optimizado (GAS lo haría moveq)")
     # addi/subi/andi/ori/eori/cmpi: capstone ya los nombra así; add.w #q
     # con 1..8 => GAS emitiría addq: capstone emite addq cuando lo es.
     return mn, gops
@@ -518,9 +519,13 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
             try:
                 mn, gops = conv_insn(it, labelfn)
             except ValueError as e:
-                lines.append(f"        .dc.w   " + ",".join(f"0x{w:04x}" for w in
-                             [int.from_bytes(it.bytes[i:i + 2], 'big') for i in range(0, it.size, 2)])
-                             + f"   | +{off - ea:03x}  !! {it.mn} {it.ops}")
+                raw = ",".join(f"0x{w:04x}" for w in
+                               [int.from_bytes(it.bytes[i:i + 2], 'big') for i in range(0, it.size, 2)])
+                if str(e).startswith("move.l #imm8"):
+                    # bytes crudos byte-exactos; no es un hueco sin resolver
+                    lines.append(f"        .dc.w   {raw:<28} | +{off - ea:03x}  {it.mn} {it.ops} (sin moveq)")
+                    continue
+                lines.append(f"        .dc.w   " + raw + f"   | +{off - ea:03x}  !! {it.mn} {it.ops}")
                 unresolved.add(off)
                 continue
             text = f"{mn:<7} {','.join(gops)}"

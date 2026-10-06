@@ -1695,4 +1695,17 @@ SYMBOLS = {
     0x00057042: "SetHandlerRts_057042",  # rts de SetTaskHandler_05703c (+6)
     0x00057556: "SetHandlerRts_057556",  # rts de SetTaskHandler_057550 (+6)
     0x00057D02: "SetHandlerRts_057d02",  # rts de SetTaskHandler_057cfc (+6)
+    # --- Wave GGGG: RTS internos de islas C
+    0x000539EE: "Jsr5B6Rts_0539ee",  # rts de Jsr5B6ThenJmpScheduler_0539e2 (+12)
+    # --- Wave GGGG: refs forward a huecos futuros
+    0x000539F0: "Sub_000539F0",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053D80: "Sub_00053D80",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053E0C: "Sub_00053E0C",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053E78: "Sub_00053E78",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053E9C: "Sub_00053E9C",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053EBA: "Sub_00053EBA",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053EE2: "Sub_00053EE2",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053F08: "Sub_00053F08",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053F2E: "Sub_00053F2E",  # hueco futuro (ref pc-rel desde esta region)
+    0x00053F54: "Sub_00053F54",  # hueco futuro (ref pc-rel desde esta region)
 }
