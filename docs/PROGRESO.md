@@ -11,10 +11,31 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5437/5437 funciones
-BYTES   : 309,858/309,858 (registrados)
-ROM     : 309,858/2,097,152  (14.7752%)
+MATCHED : 5479/5479 funciones
+BYTES   : 316,848/316,848 (registrados)
+ROM     : 316,848/2,097,152  (15.1085%)
 ```
+
+> **Wave KKKK** (42 entradas, 6 990 B; 3 `--data` para tablas de sprites
+> y punteros, 4 `--entry`; parche del generador) — `$049FF2..$04BB8E` en
+> `human_death_049fxx.s`. Vigesimoctava wave de `gen_asm_region.py`.
+> Nombres en `docs/waves/kkkk_names.txt`, args en `docs/waves/kkkk_args.txt`.
+>
+> * Módulo compartido de muerte de humanos (lo llaman las colas de estado
+>   del soldado y del POW tras `$2870A`): `HumanDeath_Dispatch_049ff2`
+>   elige el estado en las 4 tablas `$49FAA[kind]` (34 punteros cada una,
+>   hueco anterior) por el tipo de daño +$58; estados `TumbleBack/Fwd`
+>   (5 sprites por tabla), `Collapse`, `Knockdown`, `InitBurst`/`BurstLand`,
+>   `Launched` (escala 8.8 en +$5C -> +$32/+$33, "vuela hacia la cámara"),
+>   `Burning`/`BurnedDown` + `FlameChild`; hijos `SpawnCorpseA/B`,
+>   `SpawnBloodSplash` (A/B), `SpawnSmokePair`; helpers de física
+>   (`PhysicsAir/Ground/Fall`, `DampVelocity` = vel -= vel/32) y 3,8 KB de
+>   tablas de sprites (`HumanDeath_SpriteTbls_04ac56`).
+> * `gen_asm_region.py`: alias local `.L` para labels globales usados desde
+>   su propia entrada (GAS fallaba con `bra.b` hacia atrás a un símbolo
+>   global a >128 B).
+> * Cobertura de código real: 54.0 % (273,040 / 505,608 B); huecos CODE:
+>   1172 / 232,568 B.
 
 > **Wave JJJJ** (45 entradas, 2 242 B, verde a la primera; 3 `--entry`
 > para entradas fusionadas en el regen) — `$048A44..$049430` en

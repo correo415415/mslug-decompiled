@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-06  (Wave JJJJ cerrada)
+**Ultimo update:** 2026-10-06  (Wave KKKK cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-JJJJ) | Que mide realmente |
+| Metrica | Cifra (post-KKKK) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **14.78 %**  (309,858 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **52.6 %**  (266,050 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **15.11 %**  (316,848 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **54.0 %**  (273,040 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -43,7 +43,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Tablas de sprites/slots (pares {id,tile}, LUTs 16x16) | `$002F30..$0133B0` | DATA | 66,688 B | 0 B | 0.0 % |
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
-| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 150,420 B | 64.3 % |
+| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 157,410 B | 67.3 % |
 | Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 25,222 B | 16.6 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 266,050 B | 52.6 % |
+| CODE | 505,608 B | 273,040 B | 54.0 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 1182 huecos, 239,558 B
+Huecos pendientes en zonas CODE: 1172 huecos, 232,568 B
 
 ### Notas por zona
 
@@ -112,7 +112,10 @@ Huecos pendientes en zonas CODE: 1182 huecos, 239,558 B
   `Slug_Jump*`, `Slug_Fall*`, `Slug_Hit*`, `Slug_Death*`), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
-  `$04AC3A..$04BB8E`, `$053F96..$0550BE`. Wave JJJJ
+  `$049430..$049FF2`, `$053F96..$0550BE`. Wave KKKK
+  (`human_death_049fxx.s`, `$049FF2..$04BB8E`): muerte de humanos
+  (despacho por tipo de daño, caídas, lanzamiento, quemado, sangre, humo,
+  3.8 KB de tablas de sprites). Wave JJJJ
   (`pow_helpers_048axx.s`, `$048A44..$049430`): helpers del POW (colas de
   estado, ítem lanzado, cuerda del atado, decisión por distancia). Wave IIII (`pow_prisoner_0478xx.s`,
   `$0478FC..$048A3C`): prisionero POW (atado, rescate, saludo, regalo de
@@ -197,12 +200,13 @@ Huecos pendientes en zonas CODE: 1182 huecos, 239,558 B
   quemado del jugador)** (Wave HHHH). Props `$0527BA..$053F96` completos. **Prisionero POW: atado, liberación, saludo,
   entrega de item, agradecimiento y huida** (Wave IIII). **Helpers del POW: cuerda, ítem,
   efectos y decisión por distancia** (Wave JJJJ). POW `$0478FC..$049430`
-  completo.
+  completo. **Muerte de humanos: despacho por tipo de daño, caídas,
+  desplome, lanzamiento, quemado, sangre y humo** (Wave KKKK).
 
 ### Cosas que faltan (por tamano de codigo pendiente)
 
 1. **Runtime tardio `$05E000..$083000`** (input, debug, blits, VRAM) y
-   los dispatchers `$04AC3A`, `$053F96`.
+   los huecos `$049430..$049FF2` y `$053F96`.
 2. **Proyectiles y efectos** —
    `$060000..$083000` (~100 KB, muchas islas C ya cerradas).
 3. **Dispatchers grandes** — `$0478FC`, `$04AC3A`, `$0527BA`, `$053F96`,

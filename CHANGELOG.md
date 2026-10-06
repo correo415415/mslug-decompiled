@@ -17,6 +17,19 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave KKKK — 42 entries (6,990 B, of which 3,876 B are sprite/pointer
+  tables): `$049FF2..$04BB8E` (`human_death_049fxx.s`): the shared death
+  module of human entities (soldiers, POWs) — `HumanDeath_Dispatch_049ff2`
+  (selects the death state from the 4 tables at `$49FAA[kind]` indexed by
+  damage type +$58), `HumanDeath_TumbleBack/TumbleFwd`, `Collapse`,
+  `Knockdown`, `InitBurst`/`BurstLand`, `Launched` (8.8 zoom towards the
+  camera), `Burning`/`BurnedDown` + `FlameChild`, corpses, blood splashes,
+  smoke pair, physics helpers (`PhysicsAir/Ground/Fall`, `DampVelocity`)
+  and the sprite tables `HumanDeath_SpriteTbls_04ac56`.
+  `gen_asm_region.py`: promoted global labels now also get a local `.L`
+  alias used from inside their own entry (GAS rejected backward `bra.b`
+  to a global symbol > 128 B away).
+  Matcher: 5,479/5,479, 316,848 B (15.11 %); real code coverage 54.0 %.
 - Wave JJJJ — 45 entries (2,242 B): `$048A44..$049430`
   (`pow_helpers_048axx.s`): the pc-relative helpers of the POW prisoner —
   common state tails (`Pow_FreeStateTail_048a44`, `Pow_TiedStateTail_048a90`),
