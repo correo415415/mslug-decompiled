@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-06  (Wave GGGG cerrada)
+**Ultimo update:** 2026-10-06  (Wave HHHH cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-GGGG) | Que mide realmente |
+| Metrica | Cifra (post-HHHH) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **14.40 %**  (301,884 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **51.0 %**  (258,076 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **14.46 %**  (303,200 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **51.3 %**  (259,392 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -43,7 +43,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Tablas de sprites/slots (pares {id,tile}, LUTs 16x16) | `$002F30..$0133B0` | DATA | 66,688 B | 0 B | 0.0 % |
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
-| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 142,446 B | 60.9 % |
+| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 143,762 B | 61.4 % |
 | Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 25,222 B | 16.6 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 258,076 B | 51.0 % |
+| CODE | 505,608 B | 259,392 B | 51.3 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 1225 huecos, 247,532 B
+Huecos pendientes en zonas CODE: 1213 huecos, 246,216 B
 
 ### Notas por zona
 
@@ -113,7 +113,9 @@ Huecos pendientes en zonas CODE: 1225 huecos, 247,532 B
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
   `$0478FC..$048A3C`, `$04AC3A..$04BB8E`,
-  `$0539F0..$053F96`, `$053F96..$0550BE`. Wave GGGG
+  `$053F96..$0550BE`. Wave HHHH (`props_helpers_0539xx.s`,
+  `$0539F0..$053F96`): trampa de fuego, quemado, música/escombros por fase.
+  Wave GGGG
   (`props_destructible_0527xx.s`, `$0527BA..$0539E2`): props destructibles
   del escenario (`Prop_Sign/Wall/Large/Explosive/HouseVariants/HutVariants/
   Tower/Gate` + `*Stage2/*Wreck`, `PropDebris_*`, `PropDrop_Item`,
@@ -188,7 +190,8 @@ Huecos pendientes en zonas CODE: 1225 huecos, 247,532 B
   decisión, física, agarre por anclas, spawn por variante** (Wave FFFF).
   El soldado rebelde `$056ACC..$059342` esta completo. **Props
   destructibles del escenario (carteles, muros, casas, chozas, torres,
-  portones, escombros)** (Wave GGGG).
+  portones, escombros)** (Wave GGGG) **y sus helpers (trampa de fuego,
+  quemado del jugador)** (Wave HHHH). Props `$0527BA..$053F96` completos.
 
 ### Cosas que faltan (por tamano de codigo pendiente)
 

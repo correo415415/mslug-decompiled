@@ -17,6 +17,16 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave HHHH — 20 entries (1,316 B): `$0539F0..$053F96`
+  (`props_helpers_0539xx.s`): the pc-relative helpers of the destructible
+  props — the flame trap (`Prop_TrapFlame_053a42` + base/hit fx, victim
+  pointer in +$50 = P1/P2), player burning (`Prop_BurnFollowVictim_053c64`,
+  `Prop_BurnSmokePuff_053cf2`), `Prop_PlayBreakMusicByPhase_053e0c`,
+  debris script runners (`Prop_RunDebrisScriptByPhase/ByPrio`,
+  `Prop_GateDebrisA..D`), `Prop_PickRandomItemPtr_053e9c`,
+  sprite sync helpers and `Prop_IndestructibleChild_0539f0`. The props
+  module `$0527BA..$053F96` is now complete.
+  Matcher: 5,350/5,350, 303,200 B (14.46 %); real code coverage 51.3 %.
 - Wave GGGG — 27 entries (4,648 B): `$0527BA..$0539E2`
   (`props_destructible_0527xx.s`): the destructible scenery props spawned
   from the mission spawn lists (`$096Cxx`) — `Prop_Sign/Wall/Large/

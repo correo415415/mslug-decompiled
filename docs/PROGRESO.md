@@ -11,10 +11,25 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5330/5330 funciones
-BYTES   : 301,884/301,884 (registrados)
-ROM     : 301,884/2,097,152  (14.3950%)
+MATCHED : 5350/5350 funciones
+BYTES   : 303,200/303,200 (registrados)
+ROM     : 303,200/2,097,152  (14.4577%)
 ```
+
+> **Wave HHHH** (20 entradas, 1 316 B, verde a la primera) —
+> `$0539F0..$053F96` en `props_helpers_0539xx.s`. Vigesimoquinta wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/hhhh_names.txt`.
+>
+> * Helpers pc-relativos de la Wave GGGG: trampa de fuego
+>   (`Prop_TrapFlame_053a42` prueba 3 tablas de ataque y guarda la víctima
+>   P1/P2 en +$50; `Prop_BurnFollowVictim_053c64` la sigue soltando humo),
+>   `Prop_PlayBreakMusicByPhase_053e0c`, `Prop_RunDebrisScriptByPhase/
+>   ByPrio` (tablas `$297F50`/`$298062`/`$298074` → StateMachineRun),
+>   `Prop_GateDebrisA..D`, `Prop_PickRandomItemPtr_053e9c`,
+>   `Prop_SyncSpriteWithParent`, `Prop_IndestructibleChild_0539f0`.
+> * Módulo de props `$0527BA..$053F96` completo.
+> * Cobertura de código real: 51.3 % (259,392 / 505,608 B); huecos CODE:
+>   1213 / 246,216 B.
 
 > **Wave GGGG** (27 entradas, 4 648 B, verde tras parchear el generador)
 > — `$0527BA..$0539E2` en `props_destructible_0527xx.s`. Vigesimocuarta
