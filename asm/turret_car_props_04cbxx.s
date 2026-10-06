@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04cbd4  @ $04CBD4  (114 B)
+|  TurretCar_Spawn_04cbd4  @ $04CBD4  (114 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04cbd4, "ax", @progbits
-        .global TaskHandler_04cbd4
-TaskHandler_04cbd4:
+        .section .text.TurretCar_Spawn_04cbd4, "ax", @progbits
+        .global TurretCar_Spawn_04cbd4
+TurretCar_Spawn_04cbd4:
         move.b  #0x44,0x20(a6)                  | +000
         move.b  #0xff,0x80(a6)                  | +006
         move.b  #0x1,0x98(a6)                   | +00c
@@ -39,16 +39,16 @@ TaskHandler_04cbd4:
         move.b  #0x0,0x21(a6)                   | +050
         move.w  #0x0,0x34(a6)                   | +056
         jsr     0x267e2.l                       | +05c
-        lea     TaskHandler_04cf2e(pc),a1       | +062
+        lea     TurretCar_Body_04cf2e(pc),a1    | +062
         jsr     0x4ae.l                         | +066
         jsr     0x5dd02.l                       | +06c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04cc46  @ $04CC46  (314 B)
+|  TurretCar_Idle_04cc46  @ $04CC46  (314 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04cc46, "ax", @progbits
-        .global TaskHandler_04cc46
-TaskHandler_04cc46:
+        .section .text.TurretCar_Idle_04cc46, "ax", @progbits
+        .global TurretCar_Idle_04cc46
+TurretCar_Idle_04cc46:
         move.w  #0x1f,d0                        | +000
         move.w  0x34(a6),d1                     | +004
         btst    #0x3,d1                         | +008
@@ -64,7 +64,7 @@ TaskHandler_04cc46:
         lea     .L04cc82(pc),a1                 | +036
         move.l  a1,(a6)                         | +03a
 .L04cc82:
-        jsr     Sub_0004D3CE(pc)                | +03c
+        jsr     TurretCar_SyncPosIfBase_04d3ce(pc) | +03c
         addq.w  #0x1,0x70(a6)                   | +040
         move.w  #0x7,d0                         | +044
         cmpi.b  #0x0,0x98(a6)                   | +048
@@ -74,7 +74,7 @@ TaskHandler_04cc46:
         and.w   d0,0x70(a6)                     | +056
         bne.w   .L04ccba                        | +05a
         move.w  0x78(a6),d0                     | +05e
-        jsr     TaskHandler_04d4b0(pc)          | +062
+        jsr     TurretCar_AngleStep16_04d4b0(pc) | +062
         move.w  0x34(a6),d1                     | +066
         add.w   d0,0x34(a6)                     | +06a
         andi.w  #0x1f,0x34(a6)                  | +06e
@@ -93,15 +93,15 @@ TaskHandler_04cc46:
         lea     0x776e2.l,a1                    | +0a4
         jsr     0x4ae.l                         | +0aa
         jsr     0x5dd02.l                       | +0b0
-        jsr     TaskHandler_04d646(pc)          | +0b6
-        jsr     TaskHandler_04d474(pc)          | +0ba
+        jsr     TurretCar_AddOffsetB_04d646(pc) | +0b6
+        jsr     TurretCar_ClearParentStateIfBase_04d474(pc) | +0ba
 .L04cd04:
         move.w  0x78(a6),d0                     | +0be
         cmp.w   0x34(a6),d0                     | +0c2
         bne.w   .L04cd5e                        | +0c6
         cmpi.b  #0xff,0x75(a6)                  | +0ca
         bne.w   .L04cd24                        | +0d0
-        lea     TaskHandler_04cd80(pc),a1       | +0d4
+        lea     TurretCar_Track_04cd80(pc),a1   | +0d4
         move.l  a1,(a6)                         | +0d8
         bra.w   .L04cd5e                        | +0da
 .L04cd24:
@@ -113,35 +113,35 @@ TaskHandler_04cc46:
         asr.b   #0x3,d0                         | +0f8
         andi.b  #0x1,d0                         | +0fa
         or.b    d0,0x3a(a6)                     | +0fe
-        lea     TaskHandler_04d048(pc),a1       | +102
+        lea     TurretCar_Driver_04d048(pc),a1  | +102
         jsr     0x6fe.l                         | +106
         jsr     0x5dd02.l                       | +10c
         move.b  #0x80,0x75(a6)                  | +112
 .L04cd5e:
-        jsr     TaskHandler_04d454(pc)          | +118
+        jsr     TurretCar_IsBaseIdleDone_04d454(pc) | +118
         bcs.w   .L04cd6e                        | +11c
-        jsr     TaskHandler_04d5ac(pc)          | +120
+        jsr     TurretCar_OffworldA_04d5ac(pc)  | +120
         bcc.w   .L04cd7e                        | +124
 .L04cd6e:
         move.b  #0xff,0x7c(a6)                  | +128
-        jsr     TaskHandler_04d474(pc)          | +12e
+        jsr     TurretCar_ClearParentStateIfBase_04d474(pc) | +12e
         jmp     0x518.l                         | +132
 .L04cd7e:
         rts                                     | +138
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04cd80  @ $04CD80  (226 B)
+|  TurretCar_Track_04cd80  @ $04CD80  (226 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04cd80, "ax", @progbits
-        .global TaskHandler_04cd80
-TaskHandler_04cd80:
+        .section .text.TurretCar_Track_04cd80, "ax", @progbits
+        .global TurretCar_Track_04cd80
+TurretCar_Track_04cd80:
         lea     0x2b791e.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x72(a6)                     | +00c
         lea     .L04cd96(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L04cd96:
-        jsr     Sub_0004D3CE(pc)                | +016
+        jsr     TurretCar_SyncPosIfBase_04d3ce(pc) | +016
         addq.w  #0x1,0x70(a6)                   | +01a
         move.w  #0x7,d0                         | +01e
         cmpi.b  #0x0,0x98(a6)                   | +022
@@ -150,9 +150,9 @@ TaskHandler_04cd80:
 .L04cdb0:
         and.w   d0,0x70(a6)                     | +030
         bne.w   .L04cdd2                        | +034
-        jsr     TaskHandler_04d58a(pc)          | +038
-        jsr     TaskHandler_04d612(pc)          | +03c
-        jsr     TaskHandler_04d4b0(pc)          | +040
+        jsr     TurretCar_AngleToTargetMirror_04d58a(pc) | +038
+        jsr     TurretCar_SpriteIdxByAngle_04d612(pc) | +03c
+        jsr     TurretCar_AngleStep16_04d4b0(pc) | +040
         move.w  0x34(a6),d1                     | +044
         add.w   d0,0x34(a6)                     | +048
         andi.w  #0x1f,0x34(a6)                  | +04c
@@ -171,8 +171,8 @@ TaskHandler_04cd80:
         lea     0x776e2.l,a1                    | +082
         jsr     0x4ae.l                         | +088
         jsr     0x5dd02.l                       | +08e
-        jsr     TaskHandler_04d646(pc)          | +094
-        jsr     TaskHandler_04d474(pc)          | +098
+        jsr     TurretCar_AddOffsetB_04d646(pc) | +094
+        jsr     TurretCar_ClearParentStateIfBase_04d474(pc) | +098
 .L04ce1c:
         cmpi.b  #0xff,0x7d(a6)                  | +09c
         bne.w   .L04ce40                        | +0a2
@@ -180,26 +180,26 @@ TaskHandler_04cd80:
         bne.w   .L04ce40                        | +0aa
         move.b  #0x0,0x7d(a6)                   | +0ae
         move.b  #0xff,0x7b(a6)                  | +0b4
-        lea     TaskHandler_04ce62(pc),a1       | +0ba
+        lea     TurretCar_Recoil_04ce62(pc),a1  | +0ba
         move.l  a1,(a6)                         | +0be
 .L04ce40:
-        jsr     TaskHandler_04d454(pc)          | +0c0
+        jsr     TurretCar_IsBaseIdleDone_04d454(pc) | +0c0
         bcs.w   .L04ce50                        | +0c4
-        jsr     TaskHandler_04d5ac(pc)          | +0c8
+        jsr     TurretCar_OffworldA_04d5ac(pc)  | +0c8
         bcc.w   .L04ce60                        | +0cc
 .L04ce50:
         move.b  #0xff,0x7c(a6)                  | +0d0
-        jsr     TaskHandler_04d474(pc)          | +0d6
+        jsr     TurretCar_ClearParentStateIfBase_04d474(pc) | +0d6
         jmp     0x518.l                         | +0da
 .L04ce60:
         rts                                     | +0e0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ce62  @ $04CE62  (204 B)
+|  TurretCar_Recoil_04ce62  @ $04CE62  (204 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ce62, "ax", @progbits
-        .global TaskHandler_04ce62
-TaskHandler_04ce62:
+        .section .text.TurretCar_Recoil_04ce62, "ax", @progbits
+        .global TurretCar_Recoil_04ce62
+TurretCar_Recoil_04ce62:
         move.b  #0x0,0x7b(a6)                   | +000
         move.w  0x34(a6),d0                     | +006
         asr.b   #0x3,d0                         | +00a
@@ -211,16 +211,16 @@ TaskHandler_04ce62:
         lea     .L04ce8e(pc),a1                 | +026
         move.l  a1,(a6)                         | +02a
 .L04ce8e:
-        jsr     Sub_0004D3CE(pc)                | +02c
+        jsr     TurretCar_SyncPosIfBase_04d3ce(pc) | +02c
         move.w  0x22(a6),d0                     | +030
         move.w  0x24(a6),d1                     | +034
         movem.w d0-d1,-(a7)                     | +038
-        jsr     TaskHandler_04d646(pc)          | +03c
+        jsr     TurretCar_AddOffsetB_04d646(pc) | +03c
         jsr     0x28d70.l                       | +040
         subq.w  #0x1,0x7e(a6)                   | +046
         bne.w   .L04cebc                        | +04a
         move.b  #0x0,0x3a(a6)                   | +04e
-        lea     TaskHandler_04cc46(pc),a1       | +054
+        lea     TurretCar_Idle_04cc46(pc),a1    | +054
         move.l  a1,(a6)                         | +058
 .L04cebc:
         movem.w (a7)+,d0-d1                     | +05a
@@ -239,26 +239,26 @@ TaskHandler_04ce62:
         lea     0x776e2.l,a1                    | +090
         jsr     0x4ae.l                         | +096
         jsr     0x5dd02.l                       | +09c
-        jsr     TaskHandler_04d646(pc)          | +0a2
-        jsr     TaskHandler_04d474(pc)          | +0a6
+        jsr     TurretCar_AddOffsetB_04d646(pc) | +0a2
+        jsr     TurretCar_ClearParentStateIfBase_04d474(pc) | +0a6
 .L04cf0c:
-        jsr     TaskHandler_04d454(pc)          | +0aa
+        jsr     TurretCar_IsBaseIdleDone_04d454(pc) | +0aa
         bcs.w   .L04cf1c                        | +0ae
-        jsr     TaskHandler_04d5ac(pc)          | +0b2
+        jsr     TurretCar_OffworldA_04d5ac(pc)  | +0b2
         bcc.w   .L04cf2c                        | +0b6
 .L04cf1c:
         move.b  #0xff,0x7c(a6)                  | +0ba
-        jsr     TaskHandler_04d474(pc)          | +0c0
+        jsr     TurretCar_ClearParentStateIfBase_04d474(pc) | +0c0
         jmp     0x518.l                         | +0c4
 .L04cf2c:
         rts                                     | +0ca
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04cf2e  @ $04CF2E  (282 B)
+|  TurretCar_Body_04cf2e  @ $04CF2E  (282 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04cf2e, "ax", @progbits
-        .global TaskHandler_04cf2e
-TaskHandler_04cf2e:
+        .section .text.TurretCar_Body_04cf2e, "ax", @progbits
+        .global TurretCar_Body_04cf2e
+TurretCar_Body_04cf2e:
         move.w  #0x22,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0xff,0x32(a6)                  | +00a
@@ -268,7 +268,7 @@ TaskHandler_04cf2e:
         jsr     0x799de.l                       | +022
         move.w  d0,0x66(a6)                     | +028
         jsr     0x267e2.l                       | +02c
-        jsr     TaskHandler_04d5e4(pc)          | +032
+        jsr     TurretCar_CopyParentAngle_04d5e4(pc) | +032
         lea     0x2912d6.l,a0                   | +036
         jsr     0x28cd4.l                       | +03c
         lea     .L04cf76(pc),a1                 | +042
@@ -278,7 +278,7 @@ TaskHandler_04cf2e:
         move.w  0x22(a0),0x22(a6)               | +04c
         move.w  0x24(a0),0x24(a6)               | +052
         move.w  0x38(a0),0x38(a6)               | +058
-        jsr     TaskHandler_04d5e4(pc)          | +05e
+        jsr     TurretCar_CopyParentAngle_04d5e4(pc) | +05e
         movea.l 0xc(a6),a0                      | +062
         cmpi.b  #0xff,0x7b(a0)                  | +066
         bne.w   .L04cfaa                        | +06c
@@ -289,7 +289,7 @@ TaskHandler_04cf2e:
         movea.l 0xc(a6),a0                      | +082
         cmpi.b  #0x44,0x20(a0)                  | +086
         bne.w   .L04cfc6                        | +08c
-        jsr     TaskHandler_04d48a(pc)          | +090
+        jsr     TurretCar_ParentOffworld_04d48a(pc) | +090
         bcs.w   .L04cfde                        | +094
 .L04cfc6:
         movea.l 0xc(a6),a0                      | +098
@@ -323,11 +323,11 @@ TaskHandler_04cf2e:
         rts                                     | +118
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d048  @ $04D048  (154 B)
+|  TurretCar_Driver_04d048  @ $04D048  (154 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d048, "ax", @progbits
-        .global TaskHandler_04d048
-TaskHandler_04d048:
+        .section .text.TurretCar_Driver_04d048, "ax", @progbits
+        .global TurretCar_Driver_04d048
+TurretCar_Driver_04d048:
         move.w  #0x23,d1                        | +000
         jsr     0x236e.l                        | +004
         movea.l 0xc(a6),a0                      | +00a
@@ -350,12 +350,12 @@ TaskHandler_04d048:
         move.l  a1,(a6)                         | +05e
 .L04d0a8:
         jsr     0x5e4dc.l                       | +060
-        jsr     TaskHandler_04d5e4(pc)          | +066
+        jsr     TurretCar_CopyParentAngle_04d5e4(pc) | +066
         jsr     0x28d70.l                       | +06a
         bcc.w   .L04d0cc                        | +070
         movea.l 0xc(a6),a0                      | +074
         move.b  #0xff,0x75(a0)                  | +078
-        lea     TaskHandler_04d0e2(pc),a1       | +07e
+        lea     TurretCar_DriverPanic_04d0e2(pc),a1 | +07e
         move.l  a1,(a6)                         | +082
 .L04d0cc:
         movea.l 0xc(a6),a0                      | +084
@@ -366,11 +366,11 @@ TaskHandler_04d048:
         rts                                     | +098
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d0e2  @ $04D0E2  (88 B)
+|  TurretCar_DriverPanic_04d0e2  @ $04D0E2  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d0e2, "ax", @progbits
-        .global TaskHandler_04d0e2
-TaskHandler_04d0e2:
+        .section .text.TurretCar_DriverPanic_04d0e2, "ax", @progbits
+        .global TurretCar_DriverPanic_04d0e2
+TurretCar_DriverPanic_04d0e2:
         move.b  #0x0,0x3a(a6)                   | +000
         move.w  #0x12c,0x70(a6)                 | +006
         lea     0x292a48.l,a0                   | +00c
@@ -379,12 +379,12 @@ TaskHandler_04d0e2:
         move.l  a1,(a6)                         | +01c
 .L04d100:
         jsr     0x5e4dc.l                       | +01e
-        jsr     TaskHandler_04d5e4(pc)          | +024
+        jsr     TurretCar_CopyParentAngle_04d5e4(pc) | +024
         jsr     0x28d70.l                       | +028
         movea.l 0xc(a6),a0                      | +02e
         cmpi.b  #0xff,0x7b(a0)                  | +032
         bne.w   .L04d124                        | +038
-        lea     TaskHandler_04d13a(pc),a1       | +03c
+        lea     TurretCar_DriverFlee_04d13a(pc),a1 | +03c
         move.l  a1,(a6)                         | +040
 .L04d124:
         movea.l 0xc(a6),a0                      | +042
@@ -395,11 +395,11 @@ TaskHandler_04d0e2:
         rts                                     | +056
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d13a  @ $04D13A  (76 B)
+|  TurretCar_DriverFlee_04d13a  @ $04D13A  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d13a, "ax", @progbits
-        .global TaskHandler_04d13a
-TaskHandler_04d13a:
+        .section .text.TurretCar_DriverFlee_04d13a, "ax", @progbits
+        .global TurretCar_DriverFlee_04d13a
+TurretCar_DriverFlee_04d13a:
         move.w  #0x10a3,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x292c92.l,a0                   | +00a
@@ -408,10 +408,10 @@ TaskHandler_04d13a:
         move.l  a1,(a6)                         | +01a
 .L04d156:
         jsr     0x5e4dc.l                       | +01c
-        jsr     TaskHandler_04d5e4(pc)          | +022
+        jsr     TurretCar_CopyParentAngle_04d5e4(pc) | +022
         jsr     0x28d70.l                       | +026
         bcc.w   .L04d170                        | +02c
-        lea     TaskHandler_04d186(pc),a1       | +030
+        lea     TurretCar_Cannon_04d186(pc),a1  | +030
         move.l  a1,(a6)                         | +034
 .L04d170:
         movea.l 0xc(a6),a0                      | +036
@@ -422,19 +422,19 @@ TaskHandler_04d13a:
         rts                                     | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d186  @ $04D186  (442 B)
+|  TurretCar_Cannon_04d186  @ $04D186  (442 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d186, "ax", @progbits
-        .global TaskHandler_04d186
-TaskHandler_04d186:
-        jsr     TaskHandler_04d624(pc)          | +000
+        .section .text.TurretCar_Cannon_04d186, "ax", @progbits
+        .global TurretCar_Cannon_04d186
+TurretCar_Cannon_04d186:
+        jsr     TurretCar_AddOffsetA_04d624(pc) | +000
         addq.w  #0x2,0x38(a6)                   | +004
         move.b  #0x0,0x7a(a6)                   | +008
         move.w  #0xffff,0x70(a6)                | +00e
         lea     0x2b781a.l,a0                   | +014
         jsr     0x799de.l                       | +01a
         move.w  d0,0x36(a6)                     | +020
-        jsr     TaskHandler_04d5e4(pc)          | +024
+        jsr     TurretCar_CopyParentAngle_04d5e4(pc) | +024
         lea     0x2927f8.l,a0                   | +028
         jsr     0x28cd4.l                       | +02e
         move.w  0x34(a6),d0                     | +034
@@ -444,7 +444,7 @@ TaskHandler_04d186:
         subq.w  #0x1,d1                         | +040
         cmpi.w  #0x88,d1                        | +042
         bgt.b   .L04d1c2                        | +046
-        jsr     TaskHandler_04d6ac(pc)          | +048
+        jsr     TurretCar_ClampAngle_04d6ac(pc) | +048
         lea     .L04d1d8(pc),a1                 | +04c
         move.l  a1,(a6)                         | +050
 .L04d1d8:
@@ -455,21 +455,21 @@ TaskHandler_04d186:
         move.w  0x70(a6),d0                     | +064
         andi.w  #0xf,d0                         | +068
         bne.w   .L04d240                        | +06c
-        jsr     TaskHandler_04d4f0(pc)          | +070
+        jsr     TurretCar_AngleToTarget_04d4f0(pc) | +070
         cmpi.b  #0xff,0x7a(a6)                  | +074
         beq.w   .L04d218                        | +07a
-        jsr     TaskHandler_04d57e(pc)          | +07e
+        jsr     TurretCar_Angle16_04d57e(pc)    | +07e
         cmpi.w  #0x1c0,0x24(a6)                 | +082
         blt.w   .L04d218                        | +088
         move.b  #0xff,0x7a(a6)                  | +08c
 .L04d218:
-        jsr     TaskHandler_04d668(pc)          | +092
+        jsr     TurretCar_GroundProbeUp_04d668(pc) | +092
         bcc.w   .L04d224                        | +096
         move.w  #0x8,d0                         | +09a
 .L04d224:
         move.w  d0,0x78(a6)                     | +09e
 .L04d228:
-        jsr     TaskHandler_04d4b0(pc)          | +0a2
+        jsr     TurretCar_AngleStep16_04d4b0(pc) | +0a2
         ori.w   #0x1,d0                         | +0a6
         move.w  0x70(a6),d1                     | +0aa
         andi.w  #0x1f,d1                        | +0ae
@@ -484,8 +484,8 @@ TaskHandler_04d186:
         add.w   d0,0x34(a6)                     | +0ce
         andi.w  #0x1f,0x34(a6)                  | +0d2
 .L04d25e:
-        jsr     TaskHandler_04d51c(pc)          | +0d8
-        jsr     TaskHandler_04d3fe(pc)          | +0dc
+        jsr     TurretCar_ShiftAngleHistory_04d51c(pc) | +0d8
+        jsr     TurretCar_ProbeGuided_04d3fe(pc) | +0dc
         bcs.w   .L04d2f4                        | +0e0
         jsr     0x28d70.l                       | +0e4
         move.w  0x70(a6),d0                     | +0ea
@@ -493,17 +493,17 @@ TaskHandler_04d186:
         bne.w   .L04d2be                        | +0f2
         cmpi.w  #0x10,0x34(a6)                  | +0f6
         bgt.w   .L04d29a                        | +0fc
-        lea     TaskHandler_04d340(pc),a1       | +100
+        lea     TurretCar_Shell_04d340(pc),a1   | +100
         jsr     0x4ae.l                         | +104
         jsr     0x5dd02.l                       | +10a
         bra.w   .L04d2ae                        | +110
 .L04d29a:
-        lea     TaskHandler_04d340(pc),a1       | +114
+        lea     TurretCar_Shell_04d340(pc),a1   | +114
         jsr     0x6fe.l                         | +118
         jsr     0x5dd02.l                       | +11e
         subq.w  #0x1,0x38(a0)                   | +124
 .L04d2ae:
-        jsr     TaskHandler_04d5f0(pc)          | +128
+        jsr     TurretCar_AddMuzzleOffset_04d5f0(pc) | +128
         move.b  0x97(a6),d1                     | +12c
         andi.w  #0x1f,d1                        | +130
         move.w  d1,0x34(a0)                     | +134
@@ -530,7 +530,7 @@ TaskHandler_04d186:
         jsr     0x2352.l                        | +196
         bra.w   .L04d32e                        | +19c
 .L04d326:
-        jsr     TaskHandler_04d5c8(pc)          | +1a0
+        jsr     TurretCar_OffworldB_04d5c8(pc)  | +1a0
         bcc.w   .L04d33e                        | +1a4
 .L04d32e:
         movea.l 0xc(a6),a0                      | +1a8
@@ -540,11 +540,11 @@ TaskHandler_04d186:
         rts                                     | +1b8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d340  @ $04D340  (142 B)
+|  TurretCar_Shell_04d340  @ $04D340  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d340, "ax", @progbits
-        .global TaskHandler_04d340
-TaskHandler_04d340:
+        .section .text.TurretCar_Shell_04d340, "ax", @progbits
+        .global TurretCar_Shell_04d340
+TurretCar_Shell_04d340:
         lea     0x2911bc.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0x293fe8.l,a0                   | +00c
@@ -562,7 +562,7 @@ TaskHandler_04d340:
 .L04d386:
         add.w   d0,0x34(a6)                     | +046
         andi.w  #0x1f,0x34(a6)                  | +04a
-        jsr     TaskHandler_04d502(pc)          | +050
+        jsr     TurretCar_VelFromAngle_04d502(pc) | +050
         movea.l 0x70(a6),a0                     | +054
         jsr     0x5dd56.l                       | +058
         bcs.w   .L04d3c6                        | +05e
@@ -581,20 +581,20 @@ TaskHandler_04d340:
         rts                                     | +08c
 
 | ----------------------------------------------------------------------------
-|  Sub_0004D3CE  @ $04D3CE  (10 B)
+|  TurretCar_SyncPosIfBase_04d3ce  @ $04D3CE  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004D3CE, "ax", @progbits
-        .global Sub_0004D3CE
-Sub_0004D3CE:
+        .section .text.TurretCar_SyncPosIfBase_04d3ce, "ax", @progbits
+        .global TurretCar_SyncPosIfBase_04d3ce
+TurretCar_SyncPosIfBase_04d3ce:
         cmpi.b  #0x44,0x20(a6)                  | +000
-        beq.w   TaskHandler_04d3e0              | +006
+        beq.w   TurretCar_SyncPosToParent_04d3e0 | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d3e0  @ $04D3E0  (24 B)
+|  TurretCar_SyncPosToParent_04d3e0  @ $04D3E0  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d3e0, "ax", @progbits
-        .global TaskHandler_04d3e0
-TaskHandler_04d3e0:
+        .section .text.TurretCar_SyncPosToParent_04d3e0, "ax", @progbits
+        .global TurretCar_SyncPosToParent_04d3e0
+TurretCar_SyncPosToParent_04d3e0:
         movea.l 0xc(a6),a0                      | +000
         move.w  0x22(a0),d0                     | +004
         subi.w  #0x23,d0                        | +008
@@ -603,11 +603,11 @@ TaskHandler_04d3e0:
         addi.w  #0x2d,d0                        | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d3fe  @ $04D3FE  (66 B)
+|  TurretCar_ProbeGuided_04d3fe  @ $04D3FE  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d3fe, "ax", @progbits
-        .global TaskHandler_04d3fe
-TaskHandler_04d3fe:
+        .section .text.TurretCar_ProbeGuided_04d3fe, "ax", @progbits
+        .global TurretCar_ProbeGuided_04d3fe
+TurretCar_ProbeGuided_04d3fe:
         movea.l 0xc(a6),a0                      | +000
         cmpi.b  #0x44,0x20(a0)                  | +004
         bne.w   JsrAbsThunk_04d44c              | +00a
@@ -627,22 +627,22 @@ TaskHandler_04d3fe:
         beq.w   ClearXN_04d446                  | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d454  @ $04D454  (20 B)
+|  TurretCar_IsBaseIdleDone_04d454  @ $04D454  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d454, "ax", @progbits
-        .global TaskHandler_04d454
-TaskHandler_04d454:
+        .section .text.TurretCar_IsBaseIdleDone_04d454, "ax", @progbits
+        .global TurretCar_IsBaseIdleDone_04d454
+TurretCar_IsBaseIdleDone_04d454:
         cmpi.b  #0x44,0x20(a6)                  | +000
         bne.w   ClearXN_04d46e                  | +006
         cmpi.b  #0x0,0x80(a6)                   | +00a
         bne.w   ClearXN_04d46e                  | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d474  @ $04D474  (22 B)
+|  TurretCar_ClearParentStateIfBase_04d474  @ $04D474  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d474, "ax", @progbits
-        .global TaskHandler_04d474
-TaskHandler_04d474:
+        .section .text.TurretCar_ClearParentStateIfBase_04d474, "ax", @progbits
+        .global TurretCar_ClearParentStateIfBase_04d474
+TurretCar_ClearParentStateIfBase_04d474:
         cmpi.b  #0x44,0x20(a6)                  | +000
         bne.w   .L04d488                        | +006
         movea.l 0xc(a6),a0                      | +00a
@@ -651,31 +651,31 @@ TaskHandler_04d474:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d48a  @ $04D48A  (22 B)
+|  TurretCar_ParentOffworld_04d48a  @ $04D48A  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d48a, "ax", @progbits
-        .global TaskHandler_04d48a
-TaskHandler_04d48a:
+        .section .text.TurretCar_ParentOffworld_04d48a, "ax", @progbits
+        .global TurretCar_ParentOffworld_04d48a
+TurretCar_ParentOffworld_04d48a:
         movem.l a6,-(a7)                        | +000
         movea.l 0xc(a6),a6                      | +004
         jsr     0x5e45a.l                       | +008
-        bcs.w   TaskHandler_04d4a6              | +00e
+        bcs.w   TurretCar_ParentOffworldRestore_04d4a6 | +00e
         movem.l (a7)+,a6                        | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d4a6  @ $04D4A6  (4 B)
+|  TurretCar_ParentOffworldRestore_04d4a6  @ $04D4A6  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d4a6, "ax", @progbits
-        .global TaskHandler_04d4a6
-TaskHandler_04d4a6:
+        .section .text.TurretCar_ParentOffworldRestore_04d4a6, "ax", @progbits
+        .global TurretCar_ParentOffworldRestore_04d4a6
+TurretCar_ParentOffworldRestore_04d4a6:
         movem.l (a7)+,a6                        | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d4b0  @ $04D4B0  (32 B)
+|  TurretCar_AngleStep16_04d4b0  @ $04D4B0  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d4b0, "ax", @progbits
-        .global TaskHandler_04d4b0
-TaskHandler_04d4b0:
+        .section .text.TurretCar_AngleStep16_04d4b0, "ax", @progbits
+        .global TurretCar_AngleStep16_04d4b0
+TurretCar_AngleStep16_04d4b0:
         move.w  0x34(a6),d1                     | +000
         sub.w   d1,d0                           | +004
         beq.w   .L04d4ce                        | +006
@@ -689,11 +689,11 @@ TaskHandler_04d4b0:
         rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d4d0  @ $04D4D0  (32 B)
+|  TurretCar_AngleStep8_04d4d0  @ $04D4D0  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d4d0, "ax", @progbits
-        .global TaskHandler_04d4d0
-TaskHandler_04d4d0:
+        .section .text.TurretCar_AngleStep8_04d4d0, "ax", @progbits
+        .global TurretCar_AngleStep8_04d4d0
+TurretCar_AngleStep8_04d4d0:
         move.w  0x34(a6),d1                     | +000
         sub.w   d1,d0                           | +004
         beq.w   .L04d4ee                        | +006
@@ -707,11 +707,11 @@ TaskHandler_04d4d0:
         rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d4f0  @ $04D4F0  (18 B)
+|  TurretCar_AngleToTarget_04d4f0  @ $04D4F0  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d4f0, "ax", @progbits
-        .global TaskHandler_04d4f0
-TaskHandler_04d4f0:
+        .section .text.TurretCar_AngleToTarget_04d4f0, "ax", @progbits
+        .global TurretCar_AngleToTarget_04d4f0
+TurretCar_AngleToTarget_04d4f0:
         jsr     0x5e136.l                       | +000
         addi.w  #0x8,d0                         | +006
         asr.w   #0x3,d0                         | +00a
@@ -719,11 +719,11 @@ TaskHandler_04d4f0:
         rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d502  @ $04D502  (26 B)
+|  TurretCar_VelFromAngle_04d502  @ $04D502  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d502, "ax", @progbits
-        .global TaskHandler_04d502
-TaskHandler_04d502:
+        .section .text.TurretCar_VelFromAngle_04d502, "ax", @progbits
+        .global TurretCar_VelFromAngle_04d502
+TurretCar_VelFromAngle_04d502:
         move.w  0x34(a6),d0                     | +000
         asl.w   #0x3,d0                         | +004
         move.w  0x36(a6),d1                     | +006
@@ -733,11 +733,11 @@ TaskHandler_04d502:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d51c  @ $04D51C  (98 B)
+|  TurretCar_ShiftAngleHistory_04d51c  @ $04D51C  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d51c, "ax", @progbits
-        .global TaskHandler_04d51c
-TaskHandler_04d51c:
+        .section .text.TurretCar_ShiftAngleHistory_04d51c, "ax", @progbits
+        .global TurretCar_ShiftAngleHistory_04d51c
+TurretCar_ShiftAngleHistory_04d51c:
         move.w  #0x97,d1                        | +000
 .L04d520:
         move.b  -0x1(a6,d1.w),(a6,d1.w)         | +004
@@ -750,7 +750,7 @@ TaskHandler_04d51c:
         andi.w  #0x1f,d0                        | +01e
         asl.w   #0x3,d0                         | +022
         move.w  0x36(a6),d1                     | +024
-        jsr     TaskHandler_04d668(pc)          | +028
+        jsr     TurretCar_GroundProbeUp_04d668(pc) | +028
         bcc.w   .L04d558                        | +02c
         btst    #0x4,0x97(a6)                   | +030
         beq.w   .L04d558                        | +036
@@ -767,19 +767,19 @@ TaskHandler_04d51c:
         rts                                     | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d57e  @ $04D57E  (4 B)
+|  TurretCar_Angle16_04d57e  @ $04D57E  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d57e, "ax", @progbits
-        .global TaskHandler_04d57e
-TaskHandler_04d57e:
+        .section .text.TurretCar_Angle16_04d57e, "ax", @progbits
+        .global TurretCar_Angle16_04d57e
+TurretCar_Angle16_04d57e:
         move.w  #0x10,d0                        | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d58a  @ $04D58A  (34 B)
+|  TurretCar_AngleToTargetMirror_04d58a  @ $04D58A  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d58a, "ax", @progbits
-        .global TaskHandler_04d58a
-TaskHandler_04d58a:
+        .section .text.TurretCar_AngleToTargetMirror_04d58a, "ax", @progbits
+        .global TurretCar_AngleToTargetMirror_04d58a
+TurretCar_AngleToTargetMirror_04d58a:
         jsr     0x5e136.l                       | +000
         addi.w  #0x8,d0                         | +006
         asr.w   #0x3,d0                         | +00a
@@ -794,41 +794,41 @@ TaskHandler_04d58a:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d5ac  @ $04D5AC  (16 B)
+|  TurretCar_OffworldA_04d5ac  @ $04D5AC  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d5ac, "ax", @progbits
-        .global TaskHandler_04d5ac
-TaskHandler_04d5ac:
+        .section .text.TurretCar_OffworldA_04d5ac, "ax", @progbits
+        .global TurretCar_OffworldA_04d5ac
+TurretCar_OffworldA_04d5ac:
         lea     0x293fd4.l,a0                   | +000
         jsr     0x5dd5c.l                       | +006
         bcc.w   ClearC_04d5c2                   | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d5c8  @ $04D5C8  (16 B)
+|  TurretCar_OffworldB_04d5c8  @ $04D5C8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d5c8, "ax", @progbits
-        .global TaskHandler_04d5c8
-TaskHandler_04d5c8:
+        .section .text.TurretCar_OffworldB_04d5c8, "ax", @progbits
+        .global TurretCar_OffworldB_04d5c8
+TurretCar_OffworldB_04d5c8:
         lea     0x293fde.l,a0                   | +000
         jsr     0x5dd56.l                       | +006
         bcc.w   ClearC_04d5de                   | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d5e4  @ $04D5E4  (12 B)
+|  TurretCar_CopyParentAngle_04d5e4  @ $04D5E4  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d5e4, "ax", @progbits
-        .global TaskHandler_04d5e4
-TaskHandler_04d5e4:
+        .section .text.TurretCar_CopyParentAngle_04d5e4, "ax", @progbits
+        .global TurretCar_CopyParentAngle_04d5e4
+TurretCar_CopyParentAngle_04d5e4:
         movea.l 0xc(a6),a0                      | +000
         move.w  0x34(a0),0x34(a6)               | +004
         rts                                     | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d5f0  @ $04D5F0  (34 B)
+|  TurretCar_AddMuzzleOffset_04d5f0  @ $04D5F0  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d5f0, "ax", @progbits
-        .global TaskHandler_04d5f0
-TaskHandler_04d5f0:
+        .section .text.TurretCar_AddMuzzleOffset_04d5f0, "ax", @progbits
+        .global TurretCar_AddMuzzleOffset_04d5f0
+TurretCar_AddMuzzleOffset_04d5f0:
         lea     0x294044.l,a1                   | +000
         move.w  0x34(a6),d0                     | +006
         andi.w  #0x1f,d0                        | +00a
@@ -840,11 +840,11 @@ TaskHandler_04d5f0:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d612  @ $04D612  (18 B)
+|  TurretCar_SpriteIdxByAngle_04d612  @ $04D612  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d612, "ax", @progbits
-        .global TaskHandler_04d612
-TaskHandler_04d612:
+        .section .text.TurretCar_SpriteIdxByAngle_04d612, "ax", @progbits
+        .global TurretCar_SpriteIdxByAngle_04d612
+TurretCar_SpriteIdxByAngle_04d612:
         andi.w  #0x1f,d0                        | +000
         lea     0x2941c4.l,a0                   | +004
         asl.w   #0x1,d0                         | +00a
@@ -852,11 +852,11 @@ TaskHandler_04d612:
         rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d624  @ $04D624  (34 B)
+|  TurretCar_AddOffsetA_04d624  @ $04D624  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d624, "ax", @progbits
-        .global TaskHandler_04d624
-TaskHandler_04d624:
+        .section .text.TurretCar_AddOffsetA_04d624, "ax", @progbits
+        .global TurretCar_AddOffsetA_04d624
+TurretCar_AddOffsetA_04d624:
         lea     0x2940c4.l,a1                   | +000
         move.w  0x34(a6),d0                     | +006
         andi.w  #0x1f,d0                        | +00a
@@ -868,11 +868,11 @@ TaskHandler_04d624:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d646  @ $04D646  (34 B)
+|  TurretCar_AddOffsetB_04d646  @ $04D646  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d646, "ax", @progbits
-        .global TaskHandler_04d646
-TaskHandler_04d646:
+        .section .text.TurretCar_AddOffsetB_04d646, "ax", @progbits
+        .global TurretCar_AddOffsetB_04d646
+TurretCar_AddOffsetB_04d646:
         lea     0x294144.l,a1                   | +000
         move.w  0x34(a6),d0                     | +006
         andi.w  #0x1f,d0                        | +00a
@@ -884,11 +884,11 @@ TaskHandler_04d646:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d668  @ $04D668  (52 B)
+|  TurretCar_GroundProbeUp_04d668  @ $04D668  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d668, "ax", @progbits
-        .global TaskHandler_04d668
-TaskHandler_04d668:
+        .section .text.TurretCar_GroundProbeUp_04d668, "ax", @progbits
+        .global TurretCar_GroundProbeUp_04d668
+TurretCar_GroundProbeUp_04d668:
         movem.w d0-d1,-(a7)                     | +000
         move.w  0x22(a6),d1                     | +004
         move.w  0x24(a6),d2                     | +008
@@ -896,7 +896,7 @@ TaskHandler_04d668:
 .L04d678:
         subi.w  #0x8,d2                         | +010
         subi.w  #0x1,d5                         | +014
-        beq.w   TaskHandler_04d6a2              | +018
+        beq.w   TurretCar_GroundProbeRestore_04d6a2 | +018
         movem.w d5,-(a7)                        | +01c
         jsr     0x280c6.l                       | +020
         movem.w (a7)+,d5                        | +026
@@ -905,19 +905,19 @@ TaskHandler_04d668:
         movem.w (a7)+,d0-d1                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d6a2  @ $04D6A2  (4 B)
+|  TurretCar_GroundProbeRestore_04d6a2  @ $04D6A2  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d6a2, "ax", @progbits
-        .global TaskHandler_04d6a2
-TaskHandler_04d6a2:
+        .section .text.TurretCar_GroundProbeRestore_04d6a2, "ax", @progbits
+        .global TurretCar_GroundProbeRestore_04d6a2
+TurretCar_GroundProbeRestore_04d6a2:
         movem.w (a7)+,d0-d1                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d6ac  @ $04D6AC  (36 B)
+|  TurretCar_ClampAngle_04d6ac  @ $04D6AC  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d6ac, "ax", @progbits
-        .global TaskHandler_04d6ac
-TaskHandler_04d6ac:
+        .section .text.TurretCar_ClampAngle_04d6ac, "ax", @progbits
+        .global TurretCar_ClampAngle_04d6ac
+TurretCar_ClampAngle_04d6ac:
         cmpi.w  #0x11,0x34(a6)                  | +000
         bne.w   .L04d6be                        | +006
         addi.w  #0x2,0x34(a6)                   | +00a
@@ -930,22 +930,22 @@ TaskHandler_04d6ac:
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d6d0  @ $04D6D0  (16 B)
+|  TurretCar_SlotPrioCheck_04d6d0  @ $04D6D0  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d6d0, "ax", @progbits
-        .global TaskHandler_04d6d0
-TaskHandler_04d6d0:
+        .section .text.TurretCar_SlotPrioCheck_04d6d0, "ax", @progbits
+        .global TurretCar_SlotPrioCheck_04d6d0
+TurretCar_SlotPrioCheck_04d6d0:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_04d6e6                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d6ec  @ $04D6EC  (94 B)
+|  Prop_Static_04d6ec  @ $04D6EC  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d6ec, "ax", @progbits
-        .global TaskHandler_04d6ec
-TaskHandler_04d6ec:
+        .section .text.Prop_Static_04d6ec, "ax", @progbits
+        .global Prop_Static_04d6ec
+Prop_Static_04d6ec:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x8000,0x38(a6)                | +00a
@@ -963,18 +963,18 @@ TaskHandler_04d6ec:
 .L04d72e:
         jsr     0x2783a.l                       | +042
         jsr     0x28d70.l                       | +048
-        jsr     Sub_0004FA70(pc)                | +04e  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +04e
         bcc.w   .L04d748                        | +052
         jmp     0x518.l                         | +056
 .L04d748:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d74a  @ $04D74A  (56 B)
+|  Prop_Lamp_04d74a  @ $04D74A  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d74a, "ax", @progbits
-        .global TaskHandler_04d74a
-TaskHandler_04d74a:
+        .section .text.Prop_Lamp_04d74a, "ax", @progbits
+        .global Prop_Lamp_04d74a
+Prop_Lamp_04d74a:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x41,d1                        | +00a
@@ -984,15 +984,15 @@ TaskHandler_04d74a:
         move.b  #0x0,0x3a(a6)                   | +020
         lea     0x294280.l,a0                   | +026
         jsr     0x28cd4.l                       | +02c
-        lea     TaskHandler_04d782(pc),a1       | +032
+        lea     Prop_LampIdle_04d782(pc),a1     | +032
         move.l  a1,(a6)                         | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d782  @ $04D782  (90 B)
+|  Prop_LampIdle_04d782  @ $04D782  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d782, "ax", @progbits
-        .global TaskHandler_04d782
-TaskHandler_04d782:
+        .section .text.Prop_LampIdle_04d782, "ax", @progbits
+        .global Prop_LampIdle_04d782
+Prop_LampIdle_04d782:
         jsr     0x2783a.l                       | +000
         jsr     0x28d70.l                       | +006
         jsr     0x2870a.l                       | +00c
@@ -1002,26 +1002,26 @@ TaskHandler_04d782:
         jsr     0x5e9b6.l                       | +020
         andi.w  #0x3,d0                         | +026
         bne.w   .L04d7c6                        | +02a
-        lea     TaskHandler_04d81a(pc),a1       | +02e
+        lea     Prop_LampSpark_04d81a(pc),a1    | +02e
         jsr     0x6fe.l                         | +032
         jsr     0x5dd02.l                       | +038
         addi.w  #0x18,0x24(a0)                  | +03e
 .L04d7c6:
-        lea     TaskHandler_04d7dc(pc),a1       | +044
+        lea     Prop_LampHit_04d7dc(pc),a1      | +044
         move.l  a1,(a6)                         | +048
 .L04d7cc:
-        jsr     Sub_0004FA70(pc)                | +04a  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +04a
         bcc.w   .L04d7da                        | +04e
         jmp     0x518.l                         | +052
 .L04d7da:
         rts                                     | +058
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d7dc  @ $04D7DC  (62 B)
+|  Prop_LampHit_04d7dc  @ $04D7DC  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d7dc, "ax", @progbits
-        .global TaskHandler_04d7dc
-TaskHandler_04d7dc:
+        .section .text.Prop_LampHit_04d7dc, "ax", @progbits
+        .global Prop_LampHit_04d7dc
+Prop_LampHit_04d7dc:
         lea     0x294296.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L04d7ee(pc),a1                 | +00c
@@ -1031,21 +1031,21 @@ TaskHandler_04d7dc:
         jsr     0x28d70.l                       | +018
         bcc.w   .L04d80a                        | +01e
         bclr    #0x3,0x13(a6)                   | +022
-        lea     TaskHandler_04d782(pc),a1       | +028
+        lea     Prop_LampIdle_04d782(pc),a1     | +028
         move.l  a1,(a6)                         | +02c
 .L04d80a:
-        jsr     Sub_0004FA70(pc)                | +02e  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +02e
         bcc.w   .L04d818                        | +032
         jmp     0x518.l                         | +036
 .L04d818:
         rts                                     | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d81a  @ $04D81A  (216 B)
+|  Prop_LampSpark_04d81a  @ $04D81A  (216 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d81a, "ax", @progbits
-        .global TaskHandler_04d81a
-TaskHandler_04d81a:
+        .section .text.Prop_LampSpark_04d81a, "ax", @progbits
+        .global Prop_LampSpark_04d81a
+Prop_LampSpark_04d81a:
         move.w  #0x41,d1                        | +000
         jsr     0x236e.l                        | +004
         bset    #0x6,0x12(a6)                   | +00a
@@ -1100,11 +1100,11 @@ TaskHandler_04d81a:
         rts                                     | +0d6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d8f2  @ $04D8F2  (164 B)
+|  Prop_Hut_04d8f2  @ $04D8F2  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d8f2, "ax", @progbits
-        .global TaskHandler_04d8f2
-TaskHandler_04d8f2:
+        .section .text.Prop_Hut_04d8f2, "ax", @progbits
+        .global Prop_Hut_04d8f2
+Prop_Hut_04d8f2:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x3f,d1                        | +00a
@@ -1118,7 +1118,7 @@ TaskHandler_04d8f2:
         jsr     0x5dd22.l                       | +038
         addi.w  #0x28,0x22(a0)                  | +03e
         addi.w  #0x1,0x24(a0)                   | +044
-        lea     TaskHandler_04d9d6(pc),a1       | +04a
+        lea     Prop_HutRoof_04d9d6(pc),a1      | +04a
         jsr     0x4ae.l                         | +04e
         jsr     0x5dd22.l                       | +054
         addi.w  #0x28,0x22(a0)                  | +05a
@@ -1132,21 +1132,21 @@ TaskHandler_04d8f2:
         jsr     0x28d70.l                       | +07e
         cmpi.b  #0xff,0x21(a6)                  | +084
         bne.w   .L04d986                        | +08a
-        lea     TaskHandler_04d996(pc),a1       | +08e
+        lea     Prop_HutWreck_04d996(pc),a1     | +08e
         move.l  a1,(a6)                         | +092
 .L04d986:
-        jsr     Sub_0004FA70(pc)                | +094  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +094
         bcc.w   .L04d994                        | +098
         jmp     0x518.l                         | +09c
 .L04d994:
         rts                                     | +0a2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d996  @ $04D996  (64 B)
+|  Prop_HutWreck_04d996  @ $04D996  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d996, "ax", @progbits
-        .global TaskHandler_04d996
-TaskHandler_04d996:
+        .section .text.Prop_HutWreck_04d996, "ax", @progbits
+        .global Prop_HutWreck_04d996
+Prop_HutWreck_04d996:
         jsr     0x2783a.l                       | +000
         lea     0x295d38.l,a1                   | +006
         jsr     0x43fac.l                       | +00c
@@ -1157,18 +1157,18 @@ TaskHandler_04d996:
 .L04d9ba:
         jsr     0x2783a.l                       | +024
         jsr     0x28d70.l                       | +02a
-        jsr     Sub_0004FA70(pc)                | +030  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +030
         bcc.w   .L04d9d4                        | +034
         jmp     0x518.l                         | +038
 .L04d9d4:
         rts                                     | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04d9d6  @ $04D9D6  (124 B)
+|  Prop_HutRoof_04d9d6  @ $04D9D6  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04d9d6, "ax", @progbits
-        .global TaskHandler_04d9d6
-TaskHandler_04d9d6:
+        .section .text.Prop_HutRoof_04d9d6, "ax", @progbits
+        .global Prop_HutRoof_04d9d6
+Prop_HutRoof_04d9d6:
         move.w  #0x3d,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0xff,0x32(a6)                  | +00a
@@ -1190,21 +1190,21 @@ TaskHandler_04d9d6:
 .L04da32:
         jsr     0x28758.l                       | +05c
         bcc.w   .L04da42                        | +062
-        lea     TaskHandler_04da52(pc),a1       | +066
+        lea     Prop_HutRoofFall_04da52(pc),a1  | +066
         move.l  a1,(a6)                         | +06a
 .L04da42:
-        jsr     Sub_0004FA70(pc)                | +06c  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +06c
         bcc.w   .L04da50                        | +070
         jmp     0x518.l                         | +074
 .L04da50:
         rts                                     | +07a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04da52  @ $04DA52  (120 B)
+|  Prop_HutRoofFall_04da52  @ $04DA52  (120 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04da52, "ax", @progbits
-        .global TaskHandler_04da52
-TaskHandler_04da52:
+        .section .text.Prop_HutRoofFall_04da52, "ax", @progbits
+        .global Prop_HutRoofFall_04da52
+Prop_HutRoofFall_04da52:
         move.l  #0x1000,d0                      | +000
         jsr     0x51a28.l                       | +006
         lea     0x295fba.l,a0                   | +00c
@@ -1231,22 +1231,22 @@ TaskHandler_04da52:
         jsr     0x77c7e.l                       | +072
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04dad2  @ $04DAD2  (154 B)
+|  Prop_Tower_04dad2  @ $04DAD2  (154 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04dad2, "ax", @progbits
-        .global TaskHandler_04dad2
-TaskHandler_04dad2:
+        .section .text.Prop_Tower_04dad2, "ax", @progbits
+        .global Prop_Tower_04dad2
+Prop_Tower_04dad2:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        lea     Sub_0004F2C2(pc),a1             | +00a  -> $04F2C2 (hueco futuro, defsym forward)
+        lea     Sub_0004F2C2(pc),a1             | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd22.l                       | +014
         addi.w  #0x5c,0x22(a0)                  | +01a
         addi.w  #0x22,0x24(a0)                  | +020
-        lea     TaskHandler_04db72(pc),a1       | +026
+        lea     Prop_TowerTop_04db72(pc),a1     | +026
         jsr     0x4ae.l                         | +02a
         jsr     0x5dd22.l                       | +030
-        lea     TaskHandler_04dce6(pc),a1       | +036
+        lea     Prop_TowerBase_04dce6(pc),a1    | +036
         jsr     0x4ae.l                         | +03a
         jsr     0x5dd22.l                       | +040
         addi.w  #0x80,0x22(a0)                  | +046
@@ -1264,7 +1264,7 @@ TaskHandler_04dad2:
         move.b  0x20(a6),d0                     | +076
         cmp.b   0x21(a6),d0                     | +07a
         beq.w   .L04db58                        | +07e
-        jsr     Sub_0004FA8A(pc)                | +082  -> $04FA8A (hueco futuro, defsym forward)
+        jsr     Sub_0004FA8A(pc)                | +082
 .L04db58:
         cmpi.b  #0x12,0x21(a6)                  | +086
         bne.w   .L04db68                        | +08c
@@ -1273,11 +1273,11 @@ TaskHandler_04dad2:
         move.b  0x21(a6),d0                     | +096
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04db72  @ $04DB72  (208 B)
+|  Prop_TowerTop_04db72  @ $04DB72  (208 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04db72, "ax", @progbits
-        .global TaskHandler_04db72
-TaskHandler_04db72:
+        .section .text.Prop_TowerTop_04db72, "ax", @progbits
+        .global Prop_TowerTop_04db72
+Prop_TowerTop_04db72:
         lea     0xe92b2.l,a1                    | +000
         move.w  #0x75,d0                        | +006
         move.b  #0x0,0x75(a6)                   | +00a
@@ -1312,21 +1312,21 @@ TaskHandler_04db72:
         movea.l 0xc(a6),a0                      | +0a2
         addi.b  #0x10,0x21(a0)                  | +0a6
         move.b  #0xff,0x20(a6)                  | +0ac
-        lea     TaskHandler_04dc4a(pc),a1       | +0b2
+        lea     Prop_TowerTopWreck_04dc4a(pc),a1 | +0b2
         move.l  a1,(a6)                         | +0b6
 .L04dc2a:
-        jsr     Sub_0004FA70(pc)                | +0b8  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +0b8
         bcc.w   SetHandlerRts_04dc48            | +0bc
         move.b  #0xff,0x20(a6)                  | +0c0
         movea.l 0xc(a6),a0                      | +0c6
         ori.b   #0xf0,0x21(a0)                  | +0ca
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04dc4a  @ $04DC4A  (62 B)
+|  Prop_TowerTopWreck_04dc4a  @ $04DC4A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04dc4a, "ax", @progbits
-        .global TaskHandler_04dc4a
-TaskHandler_04dc4a:
+        .section .text.Prop_TowerTopWreck_04dc4a, "ax", @progbits
+        .global Prop_TowerTopWreck_04dc4a
+Prop_TowerTopWreck_04dc4a:
         move.l  #0x1000,d0                      | +000
         jsr     0x51a28.l                       | +006
         lea     0xffff.w,a0                     | +00c
@@ -1338,23 +1338,23 @@ TaskHandler_04dc4a:
         jsr     Sprite_InvokeBlit8Params(pc)    | +02a
         lea     0x2955e2.l,a2                   | +02e
         jsr     Sprite_InvokeBlit8Params(pc)    | +034
-        lea     TaskHandler_04dc88(pc),a1       | +038
+        lea     Prop_TowerTopWreckLoop_04dc88(pc),a1 | +038
         move.l  a1,(a6)                         | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04dc88  @ $04DC88  (6 B)
+|  Prop_TowerTopWreckLoop_04dc88  @ $04DC88  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04dc88, "ax", @progbits
-        .global TaskHandler_04dc88
-TaskHandler_04dc88:
+        .section .text.Prop_TowerTopWreckLoop_04dc88, "ax", @progbits
+        .global Prop_TowerTopWreckLoop_04dc88
+Prop_TowerTopWreckLoop_04dc88:
         jsr     0x2783a.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04dc96  @ $04DC96  (80 B)
+|  Prop_TowerFlag_04dc96  @ $04DC96  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04dc96, "ax", @progbits
-        .global TaskHandler_04dc96
-TaskHandler_04dc96:
+        .section .text.Prop_TowerFlag_04dc96, "ax", @progbits
+        .global Prop_TowerFlag_04dc96
+Prop_TowerFlag_04dc96:
         move.w  #0x40,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0xff,0x32(a6)                  | +00a
@@ -1375,11 +1375,11 @@ TaskHandler_04dc96:
         rts                                     | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04dce6  @ $04DCE6  (254 B)
+|  Prop_TowerBase_04dce6  @ $04DCE6  (254 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04dce6, "ax", @progbits
-        .global TaskHandler_04dce6
-TaskHandler_04dce6:
+        .section .text.Prop_TowerBase_04dce6, "ax", @progbits
+        .global Prop_TowerBase_04dce6
+Prop_TowerBase_04dce6:
         lea     0x5f384.l,a1                    | +000
         jsr     0x4ae.l                         | +006
         jsr     0x5dd22.l                       | +00c
@@ -1425,20 +1425,20 @@ TaskHandler_04dce6:
         jsr     0x77c7e.l                       | +0d6
         movea.l 0xc(a6),a0                      | +0dc
         addi.b  #0x1,0x21(a0)                   | +0e0
-        lea     TaskHandler_04ddec(pc),a1       | +0e6
+        lea     Prop_TowerBaseWreck_04ddec(pc),a1 | +0e6
         move.l  a1,(a6)                         | +0ea
 .L04ddd2:
-        jsr     Sub_0004FA70(pc)                | +0ec  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +0ec
         bcc.w   SetHandlerRts_04ddea            | +0f0
         movea.l 0xc(a6),a0                      | +0f4
         ori.b   #0xf,0x21(a0)                   | +0f8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ddec  @ $04DDEC  (70 B)
+|  Prop_TowerBaseWreck_04ddec  @ $04DDEC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ddec, "ax", @progbits
-        .global TaskHandler_04ddec
-TaskHandler_04ddec:
+        .section .text.Prop_TowerBaseWreck_04ddec, "ax", @progbits
+        .global Prop_TowerBaseWreck_04ddec
+Prop_TowerBaseWreck_04ddec:
         move.l  #0x1000,d0                      | +000
         jsr     0x51a28.l                       | +006
         lea     0xffff.w,a0                     | +00c
@@ -1451,23 +1451,23 @@ TaskHandler_04ddec:
         jsr     0x77c7e.l                       | +02e
         addi.w  #0xffe0,0x22(a0)                | +034
         addi.w  #0x30,0x24(a0)                  | +03a
-        lea     TaskHandler_04de32(pc),a1       | +040
+        lea     Prop_TowerBaseWreckLoop_04de32(pc),a1 | +040
         move.l  a1,(a6)                         | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04de32  @ $04DE32  (6 B)
+|  Prop_TowerBaseWreckLoop_04de32  @ $04DE32  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04de32, "ax", @progbits
-        .global TaskHandler_04de32
-TaskHandler_04de32:
+        .section .text.Prop_TowerBaseWreckLoop_04de32, "ax", @progbits
+        .global Prop_TowerBaseWreckLoop_04de32
+Prop_TowerBaseWreckLoop_04de32:
         jsr     0x2783a.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04de40  @ $04DE40  (234 B)
+|  Prop_Bunker_04de40  @ $04DE40  (234 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04de40, "ax", @progbits
-        .global TaskHandler_04de40
-TaskHandler_04de40:
+        .section .text.Prop_Bunker_04de40, "ax", @progbits
+        .global Prop_Bunker_04de40
+Prop_Bunker_04de40:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         lea     0xe92ea.l,a1                    | +00a
@@ -1505,13 +1505,13 @@ TaskHandler_04de40:
         jsr     0x77c7e.l                       | +0b2
         addi.w  #0x20,0x22(a0)                  | +0b8
         addi.w  #0x20,0x24(a0)                  | +0be
-        lea     TaskHandler_04df30(pc),a1       | +0c4
+        lea     Prop_BunkerWreck_04df30(pc),a1  | +0c4
         move.l  a1,(a6)                         | +0c8
 .L04df0a:
-        jsr     Sub_0004FA70(pc)                | +0ca  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +0ca
         bcc.w   .L04df1e                        | +0ce
         move.b  #0xff,0x20(a6)                  | +0d2
-        lea     TaskHandler_04df30__L04df72(pc),a1 | +0d8
+        lea     Prop_BunkerWreck_04df30__L04df72(pc),a1 | +0d8
         move.l  a1,(a6)                         | +0dc
 .L04df1e:
         move.b  0x74(a6),d0                     | +0de
@@ -1519,11 +1519,11 @@ TaskHandler_04de40:
         beq.w   JsrPcRts_04df2e                 | +0e6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04df30  @ $04DF30  (98 B)
+|  Prop_BunkerWreck_04df30  @ $04DF30  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04df30, "ax", @progbits
-        .global TaskHandler_04df30
-TaskHandler_04df30:
+        .section .text.Prop_BunkerWreck_04df30, "ax", @progbits
+        .global Prop_BunkerWreck_04df30
+Prop_BunkerWreck_04df30:
         move.l  #0x1000,d0                      | +000
         jsr     0x51a28.l                       | +006
         lea     0xffff.w,a0                     | +00c
@@ -1540,11 +1540,11 @@ TaskHandler_04df30:
         jsr     Sprite_InvokeBlit8Params(pc)    | +038
         lea     .L04df72(pc),a1                 | +03c
         move.l  a1,(a6)                         | +040
-        .global TaskHandler_04df30__L04df72
-TaskHandler_04df30__L04df72:
+        .global Prop_BunkerWreck_04df30__L04df72
+Prop_BunkerWreck_04df30__L04df72:
 .L04df72:
         jsr     0x2783a.l                       | +042
-        jsr     Sub_0004FA70(pc)                | +048  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +048
         bcc.w   .L04df86                        | +04c
         lea     TaskHandler_04f2a4(pc),a1       | +050
         move.l  a1,(a6)                         | +054
@@ -1554,17 +1554,17 @@ TaskHandler_04df30__L04df72:
         beq.w   JsrPcRts_04df96                 | +05e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04df98  @ $04DF98  (198 B)
+|  Prop_Bridge_04df98  @ $04DF98  (198 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04df98, "ax", @progbits
-        .global TaskHandler_04df98
-TaskHandler_04df98:
+        .section .text.Prop_Bridge_04df98, "ax", @progbits
+        .global Prop_Bridge_04df98
+Prop_Bridge_04df98:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        lea     TaskHandler_04e12c(pc),a1       | +00a
+        lea     Prop_BridgePillar_04e12c(pc),a1 | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd22.l                       | +014
-        lea     TaskHandler_04e12c(pc),a1       | +01a
+        lea     Prop_BridgePillar_04e12c(pc),a1 | +01a
         jsr     0x4ae.l                         | +01e
         jsr     0x5dd22.l                       | +024
         addi.w  #0xd0,0x22(a0)                  | +02a
@@ -1593,21 +1593,21 @@ TaskHandler_04df98:
         jsr     Sprite_InvokeBlit8Params(pc)    | +0a2
         lea     0x2956e6.l,a2                   | +0a6
         jsr     Sprite_InvokeBlit8Params(pc)    | +0ac
-        lea     TaskHandler_04e05e(pc),a1       | +0b0
+        lea     Prop_BridgeCollapse_04e05e(pc),a1 | +0b0
         move.l  a1,(a6)                         | +0b4
 .L04e04e:
-        jsr     Sub_0004FA70(pc)                | +0b6  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +0b6
         bcc.w   .L04e05c                        | +0ba
         jmp     0x518.l                         | +0be
 .L04e05c:
         rts                                     | +0c4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e05e  @ $04E05E  (206 B)
+|  Prop_BridgeCollapse_04e05e  @ $04E05E  (206 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e05e, "ax", @progbits
-        .global TaskHandler_04e05e
-TaskHandler_04e05e:
+        .section .text.Prop_BridgeCollapse_04e05e, "ax", @progbits
+        .global Prop_BridgeCollapse_04e05e
+Prop_BridgeCollapse_04e05e:
         move.w  #0x3c,0x66(a6)                  | +000
         lea     0x294488.l,a0                   | +006
         jsr     0x28cd4.l                       | +00c
@@ -1646,7 +1646,7 @@ TaskHandler_04e05e:
         jsr     Sprite_InvokeBlit8Params(pc)    | +0b0
         bra.w   .L04e11e                        | +0b4
 .L04e116:
-        jsr     Sub_0004FA70(pc)                | +0b8  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +0b8
         bcc.w   .L04e12a                        | +0bc
 .L04e11e:
         move.b  #0xff,0x75(a6)                  | +0c0
@@ -1655,11 +1655,11 @@ TaskHandler_04e05e:
         rts                                     | +0cc
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e12c  @ $04E12C  (284 B)
+|  Prop_BridgePillar_04e12c  @ $04E12C  (284 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e12c, "ax", @progbits
-        .global TaskHandler_04e12c
-TaskHandler_04e12c:
+        .section .text.Prop_BridgePillar_04e12c, "ax", @progbits
+        .global Prop_BridgePillar_04e12c
+Prop_BridgePillar_04e12c:
         lea     0x5f38a.l,a1                    | +000
         jsr     0x4ae.l                         | +006
         jsr     0x5dd22.l                       | +00c
@@ -1708,7 +1708,7 @@ TaskHandler_04e12c:
         neg.w   d0                              | +0de
 .L04e20c:
         add.w   d0,0x22(a0)                     | +0e0
-        jsr     Sub_0004FB3C(pc)                | +0e4  -> $04FB3C (hueco futuro, defsym forward)
+        jsr     Sub_0004FB3C(pc)                | +0e4
         movea.l 0xc(a6),a0                      | +0e8
         move.b  #0x10,d0                        | +0ec
         btst    #0x0,0x3a(a6)                   | +0f0
@@ -1719,7 +1719,7 @@ TaskHandler_04e12c:
         move.b  #0xff,0x21(a6)                  | +102
         bra.w   .L04e240                        | +108
 .L04e238:
-        jsr     Sub_0004FA70(pc)                | +10c  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +10c
         bcc.w   .L04e246                        | +110
 .L04e240:
         jmp     0x518.l                         | +114
@@ -1727,11 +1727,11 @@ TaskHandler_04e12c:
         rts                                     | +11a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e248  @ $04E248  (96 B)
+|  Prop_Nest_04e248  @ $04E248  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e248, "ax", @progbits
-        .global TaskHandler_04e248
-TaskHandler_04e248:
+        .section .text.Prop_Nest_04e248, "ax", @progbits
+        .global Prop_Nest_04e248
+Prop_Nest_04e248:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x40,d1                        | +00a
@@ -1749,15 +1749,15 @@ TaskHandler_04e248:
         move.l  a1,(a6)                         | +04e
 .L04e298:
         cmpi.w  #0x110,0x22(a6)                 | +050
-        blt.w   TaskHandler_04e2b0              | +056
+        blt.w   Prop_NestActive_04e2b0          | +056
         jsr     0x2783a.l                       | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e2b0  @ $04E2B0  (124 B)
+|  Prop_NestActive_04e2b0  @ $04E2B0  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e2b0, "ax", @progbits
-        .global TaskHandler_04e2b0
-TaskHandler_04e2b0:
+        .section .text.Prop_NestActive_04e2b0, "ax", @progbits
+        .global Prop_NestActive_04e2b0
+Prop_NestActive_04e2b0:
         lea     .L04e2b6(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L04e2b6:
@@ -1779,21 +1779,21 @@ TaskHandler_04e2b0:
         jsr     0x77c7e.l                       | +054
         lea     0x295ce6.l,a1                   | +05a
         jsr     0x77c7e.l                       | +060
-        lea     TaskHandler_04e32c(pc),a1       | +066
+        lea     Prop_NestWreck_04e32c(pc),a1    | +066
         move.l  a1,(a6)                         | +06a
 .L04e31c:
-        jsr     Sub_0004FA70(pc)                | +06c  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +06c
         bcc.w   .L04e32a                        | +070
         jmp     0x518.l                         | +074
 .L04e32a:
         rts                                     | +07a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e32c  @ $04E32C  (94 B)
+|  Prop_NestWreck_04e32c  @ $04E32C  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e32c, "ax", @progbits
-        .global TaskHandler_04e32c
-TaskHandler_04e32c:
+        .section .text.Prop_NestWreck_04e32c, "ax", @progbits
+        .global Prop_NestWreck_04e32c
+Prop_NestWreck_04e32c:
         move.l  #0x3000,d0                      | +000
         jsr     0x51a28.l                       | +006
         lea     0xffff.w,a0                     | +00c
@@ -1810,21 +1810,21 @@ TaskHandler_04e32c:
 .L04e36e:
         jsr     0x2783a.l                       | +042
         jsr     0x28d70.l                       | +048
-        jsr     Sub_0004FA70(pc)                | +04e  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +04e
         bcc.w   .L04e388                        | +052
         jmp     0x518.l                         | +056
 .L04e388:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e38a  @ $04E38A  (198 B)
+|  Prop_Shed_04e38a  @ $04E38A  (198 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e38a, "ax", @progbits
-        .global TaskHandler_04e38a
-TaskHandler_04e38a:
+        .section .text.Prop_Shed_04e38a, "ax", @progbits
+        .global Prop_Shed_04e38a
+Prop_Shed_04e38a:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        lea     Sub_0004F2C2(pc),a1             | +00a  -> $04F2C2 (hueco futuro, defsym forward)
+        lea     Sub_0004F2C2(pc),a1             | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd22.l                       | +014
         addi.w  #0x40,0x22(a0)                  | +01a
@@ -1857,21 +1857,21 @@ TaskHandler_04e38a:
         jsr     0x77c7e.l                       | +09e
         addi.w  #0x20,0x22(a0)                  | +0a4
         addi.w  #0x30,0x24(a0)                  | +0aa
-        lea     TaskHandler_04e450(pc),a1       | +0b0
+        lea     Prop_ShedDamaged_04e450(pc),a1  | +0b0
         move.l  a1,(a6)                         | +0b4
 .L04e440:
-        jsr     Sub_0004FA70(pc)                | +0b6  -> $04FA70 (hueco futuro, defsym forward)
+        jsr     Sub_0004FA70(pc)                | +0b6
         bcc.w   .L04e44e                        | +0ba
         jmp     0x518.l                         | +0be
 .L04e44e:
         rts                                     | +0c4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e450  @ $04E450  (186 B)
+|  Prop_ShedDamaged_04e450  @ $04E450  (186 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e450, "ax", @progbits
-        .global TaskHandler_04e450
-TaskHandler_04e450:
+        .section .text.Prop_ShedDamaged_04e450, "ax", @progbits
+        .global Prop_ShedDamaged_04e450
+Prop_ShedDamaged_04e450:
         move.w  #0x1028,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x295786.l,a2                   | +00a
@@ -1908,29 +1908,29 @@ TaskHandler_04e450:
         addi.w  #0x30,0x24(a0)                  | +09e
         lea     0x29579a.l,a2                   | +0a4
         jsr     Sprite_InvokeBlit8Params(pc)    | +0aa
-        jsr     Sub_0004E50A(pc)                | +0ae
+        jsr     Prop_FreeOrRts_04e50a(pc)       | +0ae
 .L04e502:
-        jsr     Sub_0004FA70(pc)                | +0b2  -> $04FA70 (hueco futuro, defsym forward)
-        bcc.w   Sub_0004E50A__L04e510           | +0b6
+        jsr     Sub_0004FA70(pc)                | +0b2
+        bcc.w   Prop_FreeOrRts_04e50a__L04e510  | +0b6
 
 | ----------------------------------------------------------------------------
-|  Sub_0004E50A  @ $04E50A  (8 B)
+|  Prop_FreeOrRts_04e50a  @ $04E50A  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004E50A, "ax", @progbits
-        .global Sub_0004E50A
-Sub_0004E50A:
+        .section .text.Prop_FreeOrRts_04e50a, "ax", @progbits
+        .global Prop_FreeOrRts_04e50a
+Prop_FreeOrRts_04e50a:
         jmp     0x518.l                         | +000
-        .global Sub_0004E50A__L04e510
-Sub_0004E50A__L04e510:
+        .global Prop_FreeOrRts_04e50a__L04e510
+Prop_FreeOrRts_04e50a__L04e510:
 .L04e510:
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e512  @ $04E512  (102 B)
+|  Prop_Barrier_04e512  @ $04E512  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e512, "ax", @progbits
-        .global TaskHandler_04e512
-TaskHandler_04e512:
+        .section .text.Prop_Barrier_04e512, "ax", @progbits
+        .global Prop_Barrier_04e512
+Prop_Barrier_04e512:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x40,d1                        | +00a
@@ -1939,7 +1939,7 @@ TaskHandler_04e512:
         jsr     0x28cd4.l                       | +01a
         bset    #0x6,0x12(a6)                   | +020
         move.l  #0x296272,0x60(a6)              | +026
-        lea     Sub_0004ED90(pc),a1             | +02e  -> $04ED90 (hueco futuro, defsym forward)
+        lea     Sub_0004ED90(pc),a1             | +02e
         jsr     0x4ae.l                         | +032
         jsr     0x5dd22.l                       | +038
         addi.w  #0x10,0x24(a0)                  | +03e
@@ -1950,5 +1950,5 @@ TaskHandler_04e512:
         move.l  0x106f50.l,d0                   | +050
         swap    d0                              | +056
         cmpi.w  #0xa10,d0                       | +058
-        bgt.w   Sub_0004E580                    | +05c  -> $04E580 (hueco futuro, defsym forward)
+        bgt.w   Sub_0004E580                    | +05c
         jsr     0x28998.l                       | +060

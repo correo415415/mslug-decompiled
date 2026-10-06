@@ -127,8 +127,8 @@ extern void GunPlatform_FreeClearBit1_04c58c(void);
 extern void GunPlatform_DestroyedWithWreck_04c606(void);
 extern void GunPlatform_Wreck_04c68a(void);
 extern void TaskHandler_04c934(void);
-extern void TaskHandler_04dc88(void);
-extern void TaskHandler_04de32(void);
+extern void Prop_TowerTopWreckLoop_04dc88(void);
+extern void Prop_TowerBaseWreckLoop_04de32(void);
 extern void TaskHandler_04eb94(void);
 extern void TaskHandler_04f2a4(void);
 extern void TaskHandler_050976(void);
@@ -1267,7 +1267,7 @@ void SetTaskHandler_04daca(void) {
 
 __attribute__((section(".text.SetTaskHandler_04dc42")))
 void SetTaskHandler_04dc42(void) {
-    _a1_ptr = &TaskHandler_04dc88;
+    _a1_ptr = &Prop_TowerTopWreckLoop_04dc88;
     STORE_A1_AT_FP();
 }
 
@@ -1279,7 +1279,7 @@ void SetTaskHandler_04dc8e(void) {
 
 __attribute__((section(".text.SetTaskHandler_04dde4")))
 void SetTaskHandler_04dde4(void) {
-    _a1_ptr = &TaskHandler_04de32;
+    _a1_ptr = &Prop_TowerBaseWreckLoop_04de32;
     STORE_A1_AT_FP();
 }
 

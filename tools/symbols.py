@@ -486,8 +486,8 @@ SYMBOLS = {
     # 0x0004C606 promovido a GunPlatform_DestroyedWithWreck_04c606 en registry (Wave NNNN).
     # 0x0004C68A promovido a GunPlatform_Wreck_04c68a en registry (Wave NNNN).
     0x0004C934: "TaskHandler_04c934",
-    # 0x0004DC88 promovido a TaskHandler_04dc88 en registry (Wave OOOO).
-    # 0x0004DE32 promovido a TaskHandler_04de32 en registry (Wave OOOO).
+    # 0x0004DC88 promovido a Prop_TowerTopWreckLoop_04dc88 en registry (Wave OOOO).
+    # 0x0004DE32 promovido a Prop_TowerBaseWreckLoop_04de32 en registry (Wave OOOO).
     0x0004EB94: "TaskHandler_04eb94",
     0x0004F2A4: "TaskHandler_04f2a4",
     0x00050976: "TaskHandler_050976",
