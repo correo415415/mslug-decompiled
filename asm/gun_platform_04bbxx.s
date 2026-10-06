@@ -1,11 +1,132 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave NNNN — emplazamiento de cañón enemigo (plantillas $E8214..$E8220):
+|              base con 4 variantes, escotilla, escudo, dos tiradores,
+|              cañón hijo, destrucción y piezas volantes; lector del
+|              stream de spawn por scroll
 |  Región: $04BB9A..$04CBD4  (3,814 B, 53 entradas, 34 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 3,814 B (53 entradas; 24 B de tabla de punteros $4CB44) justo
+|  después del módulo de muerte de humanos. Es una entidad compuesta: una
+|  BASE ($4BB9A, variantes 0..3 en +$70 por las 4 plantillas de spawn
+|  $E8214/$E8218/$E821C/$E8220) que crea hijos según tablas de variante en
+|  $2902E8/$2902EC/$2902F0/$2902F4 y un CAÑÓN ($4C776) que dispara; todo
+|  comparte el protocolo padre/hijo +$20 (0 idle, 1 abriendo, 2 fuego, 3
+|  fuego alt, $FF muerto) y +$21 (variante de sprite / "dañado").
+|   1. GunPlatform_Spawn_04bb9a (4 entradas -> +$70 = 0..3): snd $84,
+|      temporizador +$1C = $19 ($138FE), prio $4000 ($28134) con bits
+|      +$38 = ...01000, +$20/+$21 = 0, HP +$66 por dificultad
+|      $799DE[$2BD0DA], relink $267E2, $5E7C0, registro en MissionDriver
+|      $43FAC con $2902D8[variante], hijo GunPlatform_Gun_04c776 que
+|      hereda +$70. GunPlatform_SpawnCrewAndIdle_04bc48: según las tablas
+|      por variante crea RiderA_Init ($2902F0 == 1, +$18 px abajo) o
+|      RiderB_Init (== 2), Hatch ($2902E8 != 0, con +$72 = offset Y de
+|      $2902F4) y Shield ($2902EC != 0); luego cola __L04bcf8: LoadIdleTimer
+|      (+$80 por dificultad [$2BD260]), +$88 = 0, bucle: scroll, sprite
+|      SpriteByStateVariant($290304[+$21][+$70]), anim, TickTimer (+$80--
+|      llega a 0 -> +$20 = 1 y Rearm__L04bd6c), HitCheckUnlessDead, fuera de
+|      mundo $5DD5C[$290912].
+|   2. Ciclo de fuego: GunPlatform_Rearm_04bd5e (LoadBurstParams: +$82 =
+|      nº ráfagas [$2BD364], +$84 = intervalo [$2BD2E2], +$86 = 0; 30
+|      frames con +$20 = 1) -> Aim_04bd90 (TickFireInterval: +$86++ hasta
+|      +$84 -> alterna FireA/FireB por bit0 de +$8A, +$20 = 2/3) ->
+|      FireA_04be04 / FireB_04be72 ($1B frames, +$8A++, +$82--; quedan
+|      ráfagas -> Rearm, si no -> __L04bcf8 idle).
+|   3. Hijos: GunPlatform_Hatch_04bee0 (snd $84, prio $8000; espera +$20
+|      del padre == 1 -> HatchOpen_04bf58 (sprite $290344[+$21], sigue al
+|      padre con offset +$72, hereda bit7 de +$5A como bit0, prio por Y
+|      $28108; padre == 2 -> HatchFire_04bff0 ($29033C) -> HatchHold_04c088
+|      ($290334; padre 0 -> HatchClose_04c128 ($29034C) -> vuelve a
+|      esperar)). GunPlatform_Shield_04c1b0 (snd $84, +$12 bit1, prio 0,
+|      HP por dificultad [$2BD15C], sprite SpriteByParentState($29030C
+|      [+$21 del padre][+$70]); padre == 2 -> ShieldFire_04c276; recibe
+|      daño con PartHitCheck: flash $5E770 y, al agotar HP, marca al padre
+|      +$20 = $FF). GunPlatform_RiderA/RiderB_Init_04c44a/04c2e4 (HP 1,
+|      snd $38, colisión +$48 = $290C20/$290C74, prio $2000; RiderB a
+|      (+$A,-$B)): Idle (sprite $28E6B0/$28E312, el del POW/soldado) ->
+|      Alert ($28E6BC/$28E8F4) -> Anim -> Fire ($28E6C8/$28EC54 mientras
+|      el padre está en 3) -> Return (RiderB $28E934); si $2870A les
+|      golpea saltan a HumanDeath $4A154/$4A146 (variantes de caída).
+|   4. GunPlatform_Gun_04c776: snd $84, +$1C = $19, offset (+$74,+$76) =
+|      $290EFE[variante], tabla de ataque +$4C = $290D70, sprite $290876;
+|      bucle: $5E506 (sigue al padre; si el padre tiene +$78 = "golpeado"
+|      hereda bit0 de +$5A), $283CA/$283D8 ataque, padre +$21 == 1 ->
+|      GunDamaged_04c832 (sprite $290882), padre muerto -> Jsr5B6Then
+|      JmpScheduler, offworld $5E45A.
+|   5. Destrucción: GunPlatform_HitCheck_04c6ea (+$78 = 1 al recibir golpe,
+|      bclr +$13 bit3; HP < $32 y aún no dañado -> +$21 = 1, música $1027,
+|      escombros $77C7E ($290EEC o $290EC8 si daño tipo 1, + $290EDA);
+|      $28758 HP agotado -> Destroyed_04c5a4), HitCheckUnlessDead_04c6d4
+|      (si +$20 == $FF -> RegisterKill $43FAC[$290E6C]). Destroyed_04c5a4
+|      (SndByVariant, música $1023, escombros $290EA4/$290EB6, 10 frames,
+|      +$20 = $FF, RegisterKill, bclr +$12 bit1, SetHandler ->
+|      MarkDead/FreeClearBit1). DestroyedWithWreck_04c606 (sprite de
+|      restos $290374[variante] o Destroyed si -1; hijo Wreck_04c68a con
+|      prio -8 que muestra $290864). FlyingPart_04c846 / Land_04c910
+|      (pieza lanzada: sprite $2908C8/$29088E, vel X por dificultad
+|      [$2BD1DE] con signo del facing, snd $1CF, prio $D000, cae con
+|      $27CEE hasta el suelo o bit1 de +$13 -> prio $4000, sin colisión,
+|      jmp $77F6A AnimSeq). SpawnFlyingPart_04ca7c, SpawnExplosionMusic
+|      _04ca58 (música $1067 + hijo $620DA 32 px arriba).
+|   6. Helpers: FreeIfParentDead_04c942, SlotPrioCheck_04caa8/04cbb8,
+|      SpriteByStateVariant/ByParentState (tabla[+$21][+$70]).
+|   7. SpawnStream_ReadNext_04cac4 + SpawnStream_Dispatch_04cb88 (módulo
+|      aparte, lo llaman $032ACA/$09B874 y $043CDA): lee el registro de 16
+|      B apuntado por $1081B2 (X, Y, flags relativos a scroll $106F50/
+|      $106F54, d2..d6 params); avanza cuando la cámara $106F5C alcanza
+|      +$10; si $1081B2 < 0 devuelve un registro por defecto ($50,$1F8,
+|      0,$10). Dispatch: si bit0 de $100001 (DIP/debug) monta con
+|      $243608 vía JsrAbsThunk_04cbb0 ($5A9D6). SpriteSetPtrTbl6_04cb44 =
+|      6 punteros $288D54/$28845E/$288EE6/$288980/$2890D8/$288C22 leídos
+|      por Table_LoadPtrByIdxClamp6_04CB5C.
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - $E8214..$E8220 (índice de plantillas de spawn) apuntan a las 4
+|    entradas de GunPlatform_Spawn; $0620D6 referencia FlyingPart_04c846.
+|  - Las tablas $2902E8/$EC/$F0 son bytes por variante (0/1/2) y deciden
+|    qué hijos existen; $2902D8 son 4 punteros de registro MissionDriver.
+|  - Los Riders usan los sprites del soldado/POW ($28E312/$28E6B0) y al
+|    ser golpeados saltan a las entradas __L04a146/__L04a154 de
+|    HumanDeath_PlayCryByKind (caída + grito): son humanos montados.
+|  - $1081B2 lo inicializa init_entity_spawn_0018da.s; el formato de 16 B
+|    coincide con las listas de spawn de misión.
+|
+|  C. HIPÓTESIS / DUDAS
+|  --------------------
+|  - "Emplazamiento de cañón" (GunPlatform) es la lectura funcional: base
+|    estática con cañón hijo que dispara en ráfagas, escotilla que se
+|    abre al disparar, escudo con HP propio y tiradores humanos. Podría
+|    ser el búnker/torreta de la misión 2-3 o el cañón del fuerte; se
+|    confirmará por los tiles ($290304..).
+|  - Las variantes 0..3 difieren en registro de misión, offset del cañón
+|    y qué hijos se crean; no se ha identificado cuál es cada misión.
+|  - SpawnStream_* no pertenece a la entidad (lo llaman el bucle de misión
+|    y el modo debug); se deja aquí por contigüidad.
+|
+|  D. CAMPOS DE LA ENTIDAD (a6) USADOS
+|  ----------------------------------
+|  +$00 handler  +$0C padre  +$12 bit1  +$13 bits 1/3  +$1C timer  +$20
+|  estado (protocolo)  +$21 variante sprite/dañado  +$22/+$24 X/Y  +$28 vel
+|  +$36  +$38 prio+bits  +$3A facing  +$48 colisión  +$4C ataque  +$5A
+|  bit0/bit7  +$58 tipo daño  +$66 HP  +$6B bit4  +$70 variante  +$72
+|  offset Y  +$74/+$76 offset cañón  +$78 golpeado  +$80 timer idle  +$82
+|  ráfagas  +$84 intervalo  +$86 contador  +$88 frames  +$8A alternancia
+|  +$98 param snd
+|
+|  E. CALLEES EXTERNOS
+|  -------------------
+|  $4AE alloc  $518 free  $5B6  $236E snd  $2352 música  $138FE timer
+|  $267E2 relink  $2783A scroll  $27CEE  $28108 prio por Y  $28134 prio
+|  $283CA/$283D8 ataque  $28758 HP agotado  $2870A impacto  $28CD4 sprite
+|  $28D70 anim  $43FAC registro  $4A146/$4A154 HumanDeath  $5DD02 copia
+|  pos  $5DD56/$5DD5C fuera de mundo  $5E45A  $5E506 seguir padre  $5E766/
+|  $5E770 flash  $5E7C0  $620DA explosión  $77C7E escombros  $77F6A
+|  AnimSeq  $799DE dificultad  $5A9D6  $100001 DIP  $1081B2 stream
+|  $106F50/$106F54/$106F5C scroll  $10E39A.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
