@@ -1,11 +1,100 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave DDDD — cola de sprites: variantes de encolado, ordenación y volcado
+|              a SCB1..SCB4 de la VRAM (render del frame)
 |  Región: $05AA96..$05CA2A  (8,084 B, 9 entradas, 1 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 8,084 B (9 entradas): el backend de la cola de sprites que
+|  alimenta Sprite_Dispatch_05A9D6/05A9E2 (sprite_dispatch_dual_05a9d6.s) y
+|  el volcado por VBlank a la VRAM del Neo-Geo ($3C0000). Arena a5 = $108080:
+|  +$4254 cursor del pool de registros (límite $11D0), +$4258 pool de
+|  registros de sprite (12 B: ptr tiles, x/y, flags, pal, n filas), +$5428
+|  cola ADD (claves long ascendentes, head +$6148), +$5428+$348 cola SUB
+|  (head +$614A, crece hacia abajo), +$614C/+$6158 descriptores de rango
+|  (base SCB, primer/último sprite hw, cursor, flags), +$6168/+$616A
+|  sprites hw usados, +$616C "frame listo".
+|
+|   1. SpriteDispatchJT_05AA96: 8 variantes (`bra.w` x8, indexadas por
+|      d7 = (flags & 3 | modo) << 2 desde Sprite_Dispatch) que recorren la
+|      lista de piezas del sprite ((a0) = {ptr tiles.l, dx.b, dy.b} x n,
+|      cuenta en la pila) y encolan {ptr, pal^d5, $FFF, clave} de 12 B en la
+|      cola a3 hasta a2; descartan piezas fuera de pantalla (clave Y entre
+|      $A000 y $F800). Variantes 1/3/5/7 niegan X (flip H, `not.w`), 2/3/6/7
+|      niegan Y (flip V), 4..7 ordenan por clave invertida (cola SUB).
+|   2. Sprite_DispatchSplashHook_05b1b2 (jsr desde Sprite_Dispatch+$10):
+|      si escena $106ECE == 0, cámara $106F50 <= $780 y el punto
+|      (x, y+8) cae en tile $3A según CollMap_TestPoint_043F02 (agua),
+|      re-encola el sprite con flip V (d5 ^= 2, pal $7F) a la altura
+|      espejo calculada por Sprite_SplashScreenY_05b212 (reflejo en el agua
+|      de la misión 1). Vuelve a entrar en Sprite_Dispatch_05A9D6__L05a9ea.
+|   3. SpriteQueue_SortAndRenderSCB1_05b232 (jsr desde $20CE, fin de frame):
+|      heapsort in-place de la cola ADD (claves de 32 bits, hijo = 2i) e
+|      inserción en la cola SUB; luego SCB1 (tiles) de ambos rangos via
+|      SpriteQueue_RenderRange_05b370 (rango +$614C: sprites hw
+|      $10E1F6..$10E1FA; rango +$6158: $10E1F8..$17C) y marca +$616C = $FF.
+|   4. SpriteQueue_RenderRange_05b370: por cada clave de la cola toma el
+|      registro +$4258 y llama a SCB1_WriteTileColumn_05b52e por cada
+|      sprite hw (d0 = nº sprite, d1 = d0 << 6 = offset SCB1) hasta agotar
+|      el rango; sentido ascendente (bit7 de +$8) o descendente.
+|   5. SCB1_WriteTileColumn_05b52e: jump table 4 x 32 (`jmp (pc,d7)` por
+|      flip V/"última columna", `jmp (pc,d6)` por nº filas 1..32):
+|      desenrollado Duff de `move.w (a6)+,d7; move.l d7,(a4); add.l d4,d7;
+|      move.l d5,(a4); add.l d4,d5` que escribe {tile, atributos} por fila
+|      en VRAMRW ($3C0000, a4) con auto-incremento d4 = $20000; cierra la
+|      columna con el marcador $8401+n / $2000000.
+|      SCB1_WriteTileColumnTerm_05bf76: idéntica + escribe +$8(a3) (SCB
+|      de cierre) tras cada columna (variante para el último sprite).
+|   6. SpriteQueue_RenderSCB234_05b400: segunda pasada (SCB2 zoom, SCB3
+|      Y/altura, SCB4 X) para los sprites hw del rango: $8201+n ->
+|      coordenadas desde +$8(a3) o SCB1_WriteTileColumnTerm; rellena los
+|      sprites sobrantes con altura 0 ($8201 + i, paso $10000) y guarda
+|      en +$A(a0) cuántos quedan libres.
+|   7. Vblank_FlushSpriteQueue_05c9d6 (jsr desde vblank_tick_master
+|      $1EE8): si $10E1EC (frame pendiente) -> limpia el flag y lanza
+|      SpriteQueue_RenderSCB234 para los dos rangos, guardando los libres
+|      en +$6168/+$616A.
+|
+|  B. EVIDENCIAS
+|  -------------
+|   - a4 = $3C0000 (VRAMRW) y pasos $20000/$10000 (VRAMMOD) son los puertos
+|     LSPC del Neo-Geo; los marcadores $8201/$8401 son las bases SCB2/SCB3
+|     ($8000 + 0x200/0x400) + nº de sprite.
+|   - Sprite_Dispatch ya documentaba el arena $108080 con +$4254/+$5428/
+|     +$6148/+$614A y el `jsr $5AA96(pc,d7.w)` a esta jump table.
+|   - $10E1F6/$10E1F8/$10E1FA los fija sprite_allocator_0139xx.s (límites
+|     de pool de sprites hw); $10E1EC lo pone el scheduler de frame.
+|   - La única referencia a $5C9D6 es vblank_tick_master+$88, y la única a
+|     $5B232 es $20CE (tick de fin de frame).
+|   - CollMap_TestPoint == $3A y cámara <= $780 sólo se cumplen en la zona
+|     de agua del arranque de la misión 1: reflejo de sprites.
+|
+|  C. CAMPOS (a5 = $108080; a3 = registro de sprite de 12 B)
+|  ----------------------------------------------------------
+|   a3: +$0 ptr lista de tiles, +$4 atributos/pal, +$6 flags (bit7 = fin,
+|   +1 = flip V), +$8 SCB de cierre, +$A nº filas. Rango a0 (+$614C/
+|   +$6158): +$0 primer sprite hw, +$2 último, +$4 tope, +$6 cursor, +$8
+|   dirección (bit7), +$A libres. Cola: claves long, head en +$6148/+$614A.
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|   CollMap_TestPoint_043F02, Viewport_CoordToScreen_096A5A,
+|   Sprite_Dispatch_05A9D6(__L05a9ea), $20CE, vblank_tick_master $1EE8.
+|
+|  E. HIPÓTESIS ABIERTAS
+|  ---------------------
+|   - El "hook de reflejo" se infiere del tile $3A + flip V + pal $7F; no
+|     está verificado en emulador que sea el agua de la misión 1.
+|   - El sentido de las colas ADD/SUB podría ser prioridad (delante/detrás
+|     del fondo) y no sólo orden de dibujo.
+|   - SCB1_WriteTileColumnTerm: "Term" = escribe +$8(a3) de cierre; podría
+|     ser la variante con sombra/segunda paleta.
+|
+|  F. SIGUIENTE
+|  ------------
+|   `$057D04..$059342`, `$0527BA..$0539E2`, `$0478FC..$048A3C`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
