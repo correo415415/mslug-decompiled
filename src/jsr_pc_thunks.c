@@ -365,20 +365,20 @@ void JsrPcThunk_053a3c(void) {
 
 __attribute__((section(".text.JsrPcThunk_055108")))
 void JsrPcThunk_055108(void) {
-    extern void PcThunkTarget_055214(void);
-    __asm__ volatile("jsr PcThunkTarget_055214(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void NeonSign_TilesOnB_055214(void);
+    __asm__ volatile("jsr NeonSign_TilesOnB_055214(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_05511c")))
 void JsrPcThunk_05511c(void) {
-    extern void PcThunkTarget_055148(void);
-    __asm__ volatile("jsr PcThunkTarget_055148(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void NeonSign_TilesOffA_055148(void);
+    __asm__ volatile("jsr NeonSign_TilesOffA_055148(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_055142")))
 void JsrPcThunk_055142(void) {
-    extern void PcThunkTarget_055148(void);
-    __asm__ volatile("jsr PcThunkTarget_055148(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void NeonSign_TilesOffA_055148(void);
+    __asm__ volatile("jsr NeonSign_TilesOffA_055148(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0577b6")))

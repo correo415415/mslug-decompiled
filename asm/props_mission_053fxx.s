@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053f96  @ $053F96  (198 B)
+|  Prop_Building_053f96  @ $053F96  (198 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053f96, "ax", @progbits
-        .global TaskHandler_053f96
-TaskHandler_053f96:
+        .section .text.Prop_Building_053f96, "ax", @progbits
+        .global Prop_Building_053f96
+Prop_Building_053f96:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x8b,d1                        | +00a
@@ -55,7 +55,7 @@ TaskHandler_053f96:
         jsr     0x77c7e.l                       | +09c
         lea     0x29a28a.l,a1                   | +0a2
         jsr     0x77c7e.l                       | +0a8
-        lea     TaskHandler_05405c(pc),a1       | +0ae
+        lea     Prop_BuildingDamaged_05405c(pc),a1 | +0ae
         move.l  a1,(a6)                         | +0b2
 .L05404a:
         jsr     0x4fa70.l                       | +0b4
@@ -65,11 +65,11 @@ TaskHandler_053f96:
         rts                                     | +0c4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05405c  @ $05405C  (174 B)
+|  Prop_BuildingDamaged_05405c  @ $05405C  (174 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05405c, "ax", @progbits
-        .global TaskHandler_05405c
-TaskHandler_05405c:
+        .section .text.Prop_BuildingDamaged_05405c, "ax", @progbits
+        .global Prop_BuildingDamaged_05405c
+Prop_BuildingDamaged_05405c:
         jsr     0x2783a.l                       | +000
         lea     0x29b29a.l,a1                   | +006
         jsr     0x43fac.l                       | +00c
@@ -99,7 +99,7 @@ TaskHandler_05405c:
         lea     0x29a3ce.l,a1                   | +084
         jsr     0x77c7e.l                       | +08a
         move.w  #0xf000,0x38(a0)                | +090
-        lea     TaskHandler_05410a(pc),a1       | +096
+        lea     Prop_BuildingWreck_05410a(pc),a1 | +096
         move.l  a1,(a6)                         | +09a
 .L0540f8:
         jsr     0x4fa70.l                       | +09c
@@ -109,11 +109,11 @@ TaskHandler_05405c:
         rts                                     | +0ac
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05410a  @ $05410A  (86 B)
+|  Prop_BuildingWreck_05410a  @ $05410A  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05410a, "ax", @progbits
-        .global TaskHandler_05410a
-TaskHandler_05410a:
+        .section .text.Prop_BuildingWreck_05410a, "ax", @progbits
+        .global Prop_BuildingWreck_05410a
+Prop_BuildingWreck_05410a:
         move.l  #0x2000,d0                      | +000
         jsr     0x51a28.l                       | +006
         jsr     0x2783a.l                       | +00c
@@ -135,11 +135,11 @@ TaskHandler_05410a:
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054160  @ $054160  (244 B)
+|  Prop_Column_054160  @ $054160  (244 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054160, "ax", @progbits
-        .global TaskHandler_054160
-TaskHandler_054160:
+        .section .text.Prop_Column_054160, "ax", @progbits
+        .global Prop_Column_054160
+Prop_Column_054160:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x8c,d1                        | +00a
@@ -192,11 +192,11 @@ TaskHandler_054160:
         rts                                     | +0f2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054254  @ $054254  (228 B)
+|  Prop_CompoundWall_054254  @ $054254  (228 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054254, "ax", @progbits
-        .global TaskHandler_054254
-TaskHandler_054254:
+        .section .text.Prop_CompoundWall_054254, "ax", @progbits
+        .global Prop_CompoundWall_054254
+Prop_CompoundWall_054254:
         move.b  #0x0,0x20(a6)                   | +000
         move.w  #0x118,0x66(a6)                 | +006
         lea     0x2989b4.l,a0                   | +00c
@@ -238,7 +238,7 @@ TaskHandler_054254:
         beq.w   .L054320                        | +0c2
         subi.w  #0x30,0x22(a0)                  | +0c6
 .L054320:
-        lea     TaskHandler_054338(pc),a1       | +0cc
+        lea     Prop_CompoundWallDamaged_054338(pc),a1 | +0cc
         move.l  a1,(a6)                         | +0d0
 .L054326:
         jsr     0x4fa70.l                       | +0d2
@@ -248,11 +248,11 @@ TaskHandler_054254:
         rts                                     | +0e2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054338  @ $054338  (192 B)
+|  Prop_CompoundWallDamaged_054338  @ $054338  (192 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054338, "ax", @progbits
-        .global TaskHandler_054338
-TaskHandler_054338:
+        .section .text.Prop_CompoundWallDamaged_054338, "ax", @progbits
+        .global Prop_CompoundWallDamaged_054338
+Prop_CompoundWallDamaged_054338:
         cmpi.b  #0x0,0x20(a6)                   | +000
         bne.w   .L054352                        | +006
         lea     0x2989ca.l,a0                   | +00a
@@ -289,7 +289,7 @@ TaskHandler_054338:
         lea     0x29a3f2.l,a1                   | +096
         jsr     0x77c7e.l                       | +09c
         move.w  #0xc000,0x38(a0)                | +0a2
-        lea     TaskHandler_0543f8(pc),a1       | +0a8
+        lea     Prop_CompoundWallWreck_0543f8(pc),a1 | +0a8
         move.l  a1,(a6)                         | +0ac
 .L0543e6:
         jsr     0x4fa70.l                       | +0ae
@@ -299,11 +299,11 @@ TaskHandler_054338:
         rts                                     | +0be
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0543f8  @ $0543F8  (132 B)
+|  Prop_CompoundWallWreck_0543f8  @ $0543F8  (132 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0543f8, "ax", @progbits
-        .global TaskHandler_0543f8
-TaskHandler_0543f8:
+        .section .text.Prop_CompoundWallWreck_0543f8, "ax", @progbits
+        .global Prop_CompoundWallWreck_0543f8
+Prop_CompoundWallWreck_0543f8:
         jsr     0x2783a.l                       | +000
         cmpi.b  #0x0,0x20(a6)                   | +006
         bne.w   .L05443a                        | +00c
@@ -333,40 +333,40 @@ TaskHandler_0543f8:
         jmp     0x518.l                         | +07e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05447c  @ $05447C  (2 B)
+|  Prop_Nop_05447c  @ $05447C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05447c, "ax", @progbits
-        .global TaskHandler_05447c
-TaskHandler_05447c:
+        .section .text.Prop_Nop_05447c, "ax", @progbits
+        .global Prop_Nop_05447c
+Prop_Nop_05447c:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05447e  @ $05447E  (76 B)
+|  Prop_Compound_Spawn_05447e  @ $05447E  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05447e, "ax", @progbits
-        .global TaskHandler_05447e
-TaskHandler_05447e:
+        .section .text.Prop_Compound_Spawn_05447e, "ax", @progbits
+        .global Prop_Compound_Spawn_05447e
+Prop_Compound_Spawn_05447e:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x60,0x70(a6)                  | +00a
-        lea     TaskHandler_054254(pc),a1       | +010
+        lea     Prop_CompoundWall_054254(pc),a1 | +010
         jsr     0x4ae.l                         | +014
         jsr     0x5dd22.l                       | +01a
-        lea     TaskHandler_0545c0(pc),a1       | +020
+        lea     Prop_NeonSign_0545c0(pc),a1     | +020
         jsr     0x4ae.l                         | +024
         jsr     0x5dd22.l                       | +02a
-        lea     TaskHandler_054584(pc),a1       | +030
+        lea     Prop_Compound_TriggerSpawn_054584(pc),a1 | +030
         jsr     0x4ae.l                         | +034
         jsr     0x5dd22.l                       | +03a
         move.b  #0x0,0x20(a6)                   | +040
         move.b  #0x0,0x80(a6)                   | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0544ca  @ $0544CA  (78 B)
+|  Prop_Compound_PhaseA_0544ca  @ $0544CA  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0544ca, "ax", @progbits
-        .global TaskHandler_0544ca
-TaskHandler_0544ca:
+        .section .text.Prop_Compound_PhaseA_0544ca, "ax", @progbits
+        .global Prop_Compound_PhaseA_0544ca
+Prop_Compound_PhaseA_0544ca:
         move.b  #0x0,0x21(a6)                   | +000
         lea     .L0544d6(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -374,12 +374,12 @@ TaskHandler_0544ca:
         jsr     0x2783a.l                       | +00c
         cmpi.b  #0x1,0x21(a6)                   | +012
         bne.w   .L0544ec                        | +018
-        lea     TaskHandler_054518(pc),a1       | +01c
+        lea     Prop_Compound_PhaseB_054518(pc),a1 | +01c
         move.l  a1,(a6)                         | +020
 .L0544ec:
         cmpi.b  #0xff,0x80(a6)                  | +022
         bne.w   .L0544fc                        | +028
-        lea     TaskHandler_054566(pc),a1       | +02c
+        lea     Prop_Compound_Done_054566(pc),a1 | +02c
         move.l  a1,(a6)                         | +030
 .L0544fc:
         jsr     0x6f0.l                         | +032
@@ -391,11 +391,11 @@ TaskHandler_0544ca:
         rts                                     | +04c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054518  @ $054518  (78 B)
+|  Prop_Compound_PhaseB_054518  @ $054518  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054518, "ax", @progbits
-        .global TaskHandler_054518
-TaskHandler_054518:
+        .section .text.Prop_Compound_PhaseB_054518, "ax", @progbits
+        .global Prop_Compound_PhaseB_054518
+Prop_Compound_PhaseB_054518:
         move.b  #0xff,0x21(a6)                  | +000
         lea     .L054524(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -403,12 +403,12 @@ TaskHandler_054518:
         jsr     0x2783a.l                       | +00c
         cmpi.b  #0x2,0x21(a6)                   | +012
         bne.w   .L05453a                        | +018
-        lea     TaskHandler_0544ca(pc),a1       | +01c
+        lea     Prop_Compound_PhaseA_0544ca(pc),a1 | +01c
         move.l  a1,(a6)                         | +020
 .L05453a:
         cmpi.b  #0xff,0x80(a6)                  | +022
         bne.w   .L05454a                        | +028
-        lea     TaskHandler_054566(pc),a1       | +02c
+        lea     Prop_Compound_Done_054566(pc),a1 | +02c
         move.l  a1,(a6)                         | +030
 .L05454a:
         jsr     0x6f0.l                         | +032
@@ -420,11 +420,11 @@ TaskHandler_054518:
         rts                                     | +04c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054566  @ $054566  (30 B)
+|  Prop_Compound_Done_054566  @ $054566  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054566, "ax", @progbits
-        .global TaskHandler_054566
-TaskHandler_054566:
+        .section .text.Prop_Compound_Done_054566, "ax", @progbits
+        .global Prop_Compound_Done_054566
+Prop_Compound_Done_054566:
         move.b  #0xff,0x21(a6)                  | +000
         lea     .L054572(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -436,11 +436,11 @@ TaskHandler_054566:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054584  @ $054584  (60 B)
+|  Prop_Compound_TriggerSpawn_054584  @ $054584  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054584, "ax", @progbits
-        .global TaskHandler_054584
-TaskHandler_054584:
+        .section .text.Prop_Compound_TriggerSpawn_054584, "ax", @progbits
+        .global Prop_Compound_TriggerSpawn_054584
+Prop_Compound_TriggerSpawn_054584:
         lea     .L05458a(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L05458a:
@@ -457,11 +457,11 @@ TaskHandler_054584:
         rts                                     | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0545c0  @ $0545C0  (250 B)
+|  Prop_NeonSign_0545c0  @ $0545C0  (250 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0545c0, "ax", @progbits
-        .global TaskHandler_0545c0
-TaskHandler_0545c0:
+        .section .text.Prop_NeonSign_0545c0, "ax", @progbits
+        .global Prop_NeonSign_0545c0
+Prop_NeonSign_0545c0:
         jsr     0x2783a.l                       | +000
         cmpi.w  #0x120,0x22(a6)                 | +006
         ble.w   .L0545d2                        | +00c
@@ -488,7 +488,7 @@ TaskHandler_0545c0:
 .L054632:
         jsr     0x2783a.l                       | +072
         jsr     0x28108.l                       | +078
-        jsr     Sub_0005509C(pc)                | +07e
+        jsr     NeonSign_FixUpdate_05509c(pc)   | +07e
         jsr     0x28d70.l                       | +082
         jsr     0x2870a.l                       | +088
         bcc.w   .L054664                        | +08e
@@ -507,7 +507,7 @@ TaskHandler_0545c0:
         jsr     0x77c7e.l                       | +0d0
         lea     0x29a404.l,a1                   | +0d6
         jsr     0x77c7e.l                       | +0dc
-        lea     TaskHandler_0546ba(pc),a1       | +0e2
+        lea     Prop_NeonSignWreck_0546ba(pc),a1 | +0e2
         move.l  a1,(a6)                         | +0e6
 .L0546a8:
         jsr     0x4fa70.l                       | +0e8
@@ -517,11 +517,11 @@ TaskHandler_0545c0:
         rts                                     | +0f8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0546ba  @ $0546BA  (58 B)
+|  Prop_NeonSignWreck_0546ba  @ $0546BA  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0546ba, "ax", @progbits
-        .global TaskHandler_0546ba
-TaskHandler_0546ba:
+        .section .text.Prop_NeonSignWreck_0546ba, "ax", @progbits
+        .global Prop_NeonSignWreck_0546ba
+Prop_NeonSignWreck_0546ba:
         lea     0x2990a2.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L0546cc(pc),a1                 | +00c
@@ -529,7 +529,7 @@ TaskHandler_0546ba:
 .L0546cc:
         jsr     0x2783a.l                       | +012
         jsr     0x28108.l                       | +018
-        jsr     Sub_0005509C(pc)                | +01e
+        jsr     NeonSign_FixUpdate_05509c(pc)   | +01e
         jsr     0x28d70.l                       | +022
         jsr     0x4fa70.l                       | +028
         bcc.w   .L0546f2                        | +02e
@@ -538,11 +538,11 @@ TaskHandler_0546ba:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0546f4  @ $0546F4  (214 B)
+|  Prop_Stall_0546f4  @ $0546F4  (214 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0546f4, "ax", @progbits
-        .global TaskHandler_0546f4
-TaskHandler_0546f4:
+        .section .text.Prop_Stall_0546f4, "ax", @progbits
+        .global Prop_Stall_0546f4
+Prop_Stall_0546f4:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x91,d1                        | +00a
@@ -580,7 +580,7 @@ TaskHandler_0546f4:
         jsr     0x77c7e.l                       | +0ac
         lea     0x29a428.l,a1                   | +0b2
         jsr     0x77c7e.l                       | +0b8
-        lea     TaskHandler_0547ca(pc),a1       | +0be
+        lea     Prop_StallWreck_0547ca(pc),a1   | +0be
         move.l  a1,(a6)                         | +0c2
 .L0547b8:
         jsr     0x4fa70.l                       | +0c4
@@ -590,11 +590,11 @@ TaskHandler_0546f4:
         rts                                     | +0d4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0547ca  @ $0547CA  (80 B)
+|  Prop_StallWreck_0547ca  @ $0547CA  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0547ca, "ax", @progbits
-        .global TaskHandler_0547ca
-TaskHandler_0547ca:
+        .section .text.Prop_StallWreck_0547ca, "ax", @progbits
+        .global Prop_StallWreck_0547ca
+Prop_StallWreck_0547ca:
         jsr     0x2783a.l                       | +000
         lea     0x298b24.l,a0                   | +006
         jsr     0x28cd4.l                       | +00c
@@ -615,19 +615,19 @@ TaskHandler_0547ca:
         jmp     0x518.l                         | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05481a  @ $05481A  (2 B)
+|  Prop_Nop_05481a  @ $05481A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05481a, "ax", @progbits
-        .global TaskHandler_05481a
-TaskHandler_05481a:
+        .section .text.Prop_Nop_05481a, "ax", @progbits
+        .global Prop_Nop_05481a
+Prop_Nop_05481a:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05481c  @ $05481C  (172 B)
+|  Prop_Fragile_05481c  @ $05481C  (172 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05481c, "ax", @progbits
-        .global TaskHandler_05481c
-TaskHandler_05481c:
+        .section .text.Prop_Fragile_05481c, "ax", @progbits
+        .global Prop_Fragile_05481c
+Prop_Fragile_05481c:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x92,d1                        | +00a
@@ -657,7 +657,7 @@ TaskHandler_05481c:
         jsr     0x77c7e.l                       | +082
         lea     0x29a43a.l,a1                   | +088
         jsr     0x77c7e.l                       | +08e
-        lea     TaskHandler_0548c8(pc),a1       | +094
+        lea     Prop_FragileBreaking_0548c8(pc),a1 | +094
         move.l  a1,(a6)                         | +098
 .L0548b6:
         jsr     0x4fa70.l                       | +09a
@@ -667,11 +667,11 @@ TaskHandler_05481c:
         rts                                     | +0aa
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0548c8  @ $0548C8  (68 B)
+|  Prop_FragileBreaking_0548c8  @ $0548C8  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0548c8, "ax", @progbits
-        .global TaskHandler_0548c8
-TaskHandler_0548c8:
+        .section .text.Prop_FragileBreaking_0548c8, "ax", @progbits
+        .global Prop_FragileBreaking_0548c8
+Prop_FragileBreaking_0548c8:
         move.w  #0x1054,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x298b4a.l,a0                   | +00a
@@ -682,7 +682,7 @@ TaskHandler_0548c8:
         jsr     0x2783a.l                       | +01c
         jsr     0x28d70.l                       | +022
         bcc.w   .L0548fa                        | +028
-        lea     TaskHandler_05490c(pc),a1       | +02c
+        lea     Prop_FragileWreck_05490c(pc),a1 | +02c
         move.l  a1,(a6)                         | +030
 .L0548fa:
         jsr     0x4fa70.l                       | +032
@@ -692,11 +692,11 @@ TaskHandler_0548c8:
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05490c  @ $05490C  (78 B)
+|  Prop_FragileWreck_05490c  @ $05490C  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05490c, "ax", @progbits
-        .global TaskHandler_05490c
-TaskHandler_05490c:
+        .section .text.Prop_FragileWreck_05490c, "ax", @progbits
+        .global Prop_FragileWreck_05490c
+Prop_FragileWreck_05490c:
         jsr     0x2783a.l                       | +000
         move.l  #0x1000,d0                      | +006
         jsr     0x51a28.l                       | +00c
@@ -716,11 +716,11 @@ TaskHandler_05490c:
         rts                                     | +04c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05495a  @ $05495A  (192 B)
+|  Prop_Breakable_05495a  @ $05495A  (192 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05495a, "ax", @progbits
-        .global TaskHandler_05495a
-TaskHandler_05495a:
+        .section .text.Prop_Breakable_05495a, "ax", @progbits
+        .global Prop_Breakable_05495a
+Prop_Breakable_05495a:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x93,d1                        | +00a
@@ -764,11 +764,11 @@ TaskHandler_05495a:
         rts                                     | +0be
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054a1a  @ $054A1A  (258 B)
+|  Prop_HitStages_054a1a  @ $054A1A  (258 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054a1a, "ax", @progbits
-        .global TaskHandler_054a1a
-TaskHandler_054a1a:
+        .section .text.Prop_HitStages_054a1a, "ax", @progbits
+        .global Prop_HitStages_054a1a
+Prop_HitStages_054a1a:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x7a,d1                        | +00a
@@ -826,11 +826,11 @@ TaskHandler_054a1a:
         rts                                     | +100
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054b1c  @ $054B1C  (194 B)
+|  Prop_Small_054b1c  @ $054B1C  (194 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054b1c, "ax", @progbits
-        .global TaskHandler_054b1c
-TaskHandler_054b1c:
+        .section .text.Prop_Small_054b1c, "ax", @progbits
+        .global Prop_Small_054b1c
+Prop_Small_054b1c:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x94,d1                        | +00a
@@ -864,7 +864,7 @@ TaskHandler_054b1c:
         jsr     0x77c7e.l                       | +098
         lea     0x29a470.l,a1                   | +09e
         jsr     0x77c7e.l                       | +0a4
-        lea     TaskHandler_054bde(pc),a1       | +0aa
+        lea     Prop_SmallWreck_054bde(pc),a1   | +0aa
         move.l  a1,(a6)                         | +0ae
 .L054bcc:
         jsr     0x4fa70.l                       | +0b0
@@ -874,11 +874,11 @@ TaskHandler_054b1c:
         rts                                     | +0c0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054bde  @ $054BDE  (48 B)
+|  Prop_SmallWreck_054bde  @ $054BDE  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054bde, "ax", @progbits
-        .global TaskHandler_054bde
-TaskHandler_054bde:
+        .section .text.Prop_SmallWreck_054bde, "ax", @progbits
+        .global Prop_SmallWreck_054bde
+Prop_SmallWreck_054bde:
         lea     0x299066.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L054bf0(pc),a1                 | +00c
@@ -893,11 +893,11 @@ TaskHandler_054bde:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054c0e  @ $054C0E  (228 B)
+|  Prop_ScaledHP_054c0e  @ $054C0E  (228 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054c0e, "ax", @progbits
-        .global TaskHandler_054c0e
-TaskHandler_054c0e:
+        .section .text.Prop_ScaledHP_054c0e, "ax", @progbits
+        .global Prop_ScaledHP_054c0e
+Prop_ScaledHP_054c0e:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         jsr     0x2783a.l                       | +00a
@@ -947,11 +947,11 @@ TaskHandler_054c0e:
         rts                                     | +0e2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054cf2  @ $054CF2  (382 B)
+|  Prop_MultiStage_054cf2  @ $054CF2  (382 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054cf2, "ax", @progbits
-        .global TaskHandler_054cf2
-TaskHandler_054cf2:
+        .section .text.Prop_MultiStage_054cf2, "ax", @progbits
+        .global Prop_MultiStage_054cf2
+Prop_MultiStage_054cf2:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x0,0x72(a6)                   | +00a
@@ -1025,7 +1025,7 @@ TaskHandler_054cf2:
         bgt.w   .L054e5e                        | +158
         move.w  #0x1027,d0                      | +15c
         jsr     0x2352.l                        | +160
-        lea     TaskHandler_054e70(pc),a1       | +166
+        lea     Prop_MultiStageDamaged_054e70(pc),a1 | +166
         move.l  a1,(a6)                         | +16a
 .L054e5e:
         jsr     0x4fa70.l                       | +16c
@@ -1035,11 +1035,11 @@ TaskHandler_054cf2:
         rts                                     | +17c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054e70  @ $054E70  (122 B)
+|  Prop_MultiStageDamaged_054e70  @ $054E70  (122 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054e70, "ax", @progbits
-        .global TaskHandler_054e70
-TaskHandler_054e70:
+        .section .text.Prop_MultiStageDamaged_054e70, "ax", @progbits
+        .global Prop_MultiStageDamaged_054e70
+Prop_MultiStageDamaged_054e70:
         move.w  0x72(a6),d0                     | +000
         movea.l #0x2990ce,a0                    | +004
         lsl.w   #0x2,d0                         | +00a
@@ -1063,7 +1063,7 @@ TaskHandler_054e70:
         bgt.w   .L054ed8                        | +054
         move.w  #0x1027,d0                      | +058
         jsr     0x2352.l                        | +05c
-        lea     TaskHandler_054eea(pc),a1       | +062
+        lea     Prop_MultiStageCritical_054eea(pc),a1 | +062
         move.l  a1,(a6)                         | +066
 .L054ed8:
         jsr     0x4fa70.l                       | +068
@@ -1073,11 +1073,11 @@ TaskHandler_054e70:
         rts                                     | +078
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054eea  @ $054EEA  (128 B)
+|  Prop_MultiStageCritical_054eea  @ $054EEA  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054eea, "ax", @progbits
-        .global TaskHandler_054eea
-TaskHandler_054eea:
+        .section .text.Prop_MultiStageCritical_054eea, "ax", @progbits
+        .global Prop_MultiStageCritical_054eea
+Prop_MultiStageCritical_054eea:
         move.w  0x72(a6),d0                     | +000
         movea.l #0x2990de,a0                    | +004
         lsl.w   #0x2,d0                         | +00a
@@ -1102,7 +1102,7 @@ TaskHandler_054eea:
         bclr    #0x0,0x13(a6)                   | +058
         move.w  #0x1035,d0                      | +05e
         jsr     0x2352.l                        | +062
-        lea     TaskHandler_054f6a(pc),a1       | +068
+        lea     Prop_MultiStageWreck_054f6a(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
 .L054f58:
         jsr     0x4fa70.l                       | +06e
@@ -1112,11 +1112,11 @@ TaskHandler_054eea:
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054f6a  @ $054F6A  (80 B)
+|  Prop_MultiStageWreck_054f6a  @ $054F6A  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054f6a, "ax", @progbits
-        .global TaskHandler_054f6a
-TaskHandler_054f6a:
+        .section .text.Prop_MultiStageWreck_054f6a, "ax", @progbits
+        .global Prop_MultiStageWreck_054f6a
+Prop_MultiStageWreck_054f6a:
         move.l  #0x4000,d0                      | +000
         jsr     0x51a28.l                       | +006
         move.w  0x72(a6),d0                     | +00c
@@ -1139,11 +1139,11 @@ TaskHandler_054f6a:
         rts                                     | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_054fba  @ $054FBA  (72 B)
+|  FixBlink2_PhaseA_054fba  @ $054FBA  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_054fba, "ax", @progbits
-        .global TaskHandler_054fba
-TaskHandler_054fba:
+        .section .text.FixBlink2_PhaseA_054fba, "ax", @progbits
+        .global FixBlink2_PhaseA_054fba
+FixBlink2_PhaseA_054fba:
         move.w  #0x48,d1                        | +000
         move.w  #0x79,d2                        | +004
         move.w  #0x2,d3                         | +008
@@ -1155,7 +1155,7 @@ TaskHandler_054fba:
 .L054fdc:
         subq.w  #0x1,0x72(a6)                   | +022
         bne.w   .L054fea                        | +026
-        lea     TaskHandler_055002(pc),a1       | +02a
+        lea     FixBlink2_PhaseB_055002(pc),a1  | +02a
         move.l  a1,(a6)                         | +02e
 .L054fea:
         move.l  0x106f5c.l,d0                   | +030
@@ -1167,11 +1167,11 @@ TaskHandler_054fba:
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055002  @ $055002  (72 B)
+|  FixBlink2_PhaseB_055002  @ $055002  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055002, "ax", @progbits
-        .global TaskHandler_055002
-TaskHandler_055002:
+        .section .text.FixBlink2_PhaseB_055002, "ax", @progbits
+        .global FixBlink2_PhaseB_055002
+FixBlink2_PhaseB_055002:
         move.w  #0x48,d1                        | +000
         move.w  #0x78,d2                        | +004
         move.w  #0x1,d3                         | +008
@@ -1183,7 +1183,7 @@ TaskHandler_055002:
 .L055024:
         subq.w  #0x1,0x72(a6)                   | +022
         bne.w   .L055032                        | +026
-        lea     TaskHandler_054fba(pc),a1       | +02a
+        lea     FixBlink2_PhaseA_054fba(pc),a1  | +02a
         move.l  a1,(a6)                         | +02e
 .L055032:
         move.l  0x106f5c.l,d0                   | +030
@@ -1195,11 +1195,11 @@ TaskHandler_055002:
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05504a  @ $05504A  (82 B)
+|  Prop_Blocker_05504a  @ $05504A  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05504a, "ax", @progbits
-        .global TaskHandler_05504a
-TaskHandler_05504a:
+        .section .text.Prop_Blocker_05504a, "ax", @progbits
+        .global Prop_Blocker_05504a
+Prop_Blocker_05504a:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0xe,d1                         | +00a
@@ -1220,31 +1220,31 @@ TaskHandler_05504a:
         rts                                     | +050
 
 | ----------------------------------------------------------------------------
-|  Sub_0005509C  @ $05509C  (34 B)
+|  NeonSign_FixUpdate_05509c  @ $05509C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005509C, "ax", @progbits
-        .global Sub_0005509C
-Sub_0005509C:
+        .section .text.NeonSign_FixUpdate_05509c, "ax", @progbits
+        .global NeonSign_FixUpdate_05509c
+NeonSign_FixUpdate_05509c:
         cmpi.b  #0x0,0x74(a6)                   | +000
         bne.w   JsrPcRts_055146                 | +006
         move.b  0x1081b1.l,d0                   | +00a
         cmpi.b  #0x0,d0                         | +010
-        beq.w   TaskHandler_0550c4              | +014
-        jsr     TaskHandler_0551d0(pc)          | +018
+        beq.w   NeonSign_FixByParentPhase_0550c4 | +014
+        jsr     NeonSign_TilesDark_0551d0(pc)   | +018
         move.b  0x1081b1.l,d0                   | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0550c4  @ $0550C4  (68 B)
+|  NeonSign_FixByParentPhase_0550c4  @ $0550C4  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0550c4, "ax", @progbits
-        .global TaskHandler_0550c4
-TaskHandler_0550c4:
+        .section .text.NeonSign_FixByParentPhase_0550c4, "ax", @progbits
+        .global NeonSign_FixByParentPhase_0550c4
+NeonSign_FixByParentPhase_0550c4:
         movea.l 0xc(a6),a0                      | +000
         cmpi.b  #0x7f,0x80(a0)                  | +004
         beq.w   .L0550e6                        | +00a
         cmpi.b  #0xff,0x80(a0)                  | +00e
         bne.w   .L0550e8                        | +014
-        jsr     TaskHandler_0551d0(pc)          | +018
+        jsr     NeonSign_TilesDark_0551d0(pc)   | +018
         move.b  #0x7f,0x80(a0)                  | +01c
 .L0550e6:
         rts                                     | +022
@@ -1255,39 +1255,39 @@ TaskHandler_0550c4:
         addq.w  #0x1,0x72(a6)                   | +032
         movea.l 0xc(a6),a0                      | +036
         cmpi.b  #0x1,0x21(a0)                   | +03a
-        bne.w   TaskHandler_05510e              | +040
+        bne.w   NeonSign_FixPhase2_05510e       | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05510e  @ $05510E  (14 B)
+|  NeonSign_FixPhase2_05510e  @ $05510E  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05510e, "ax", @progbits
-        .global TaskHandler_05510e
-TaskHandler_05510e:
+        .section .text.NeonSign_FixPhase2_05510e, "ax", @progbits
+        .global NeonSign_FixPhase2_05510e
+NeonSign_FixPhase2_05510e:
         movea.l 0xc(a6),a0                      | +000
         cmpi.b  #0x2,0x21(a0)                   | +004
-        bne.w   TaskHandler_055122              | +00a
+        bne.w   NeonSign_FixBlink_055122        | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055122  @ $055122  (32 B)
+|  NeonSign_FixBlink_055122  @ $055122  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055122, "ax", @progbits
-        .global TaskHandler_055122
-TaskHandler_055122:
+        .section .text.NeonSign_FixBlink_055122, "ax", @progbits
+        .global NeonSign_FixBlink_055122
+NeonSign_FixBlink_055122:
         move.w  0x72(a6),d0                     | +000
         andi.w  #0x3,d0                         | +004
         bne.w   JsrPcRts_055146                 | +008
         move.w  0x72(a6),d0                     | +00c
         btst    #0x2,d0                         | +010
         bne.w   JsrPcThunk_055142               | +014
-        jsr     TaskHandler_05518c(pc)          | +018
+        jsr     NeonSign_TilesOnA_05518c(pc)    | +018
         bra.w   JsrPcRts_055146                 | +01c
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_055148  @ $055148  (60 B)
+|  NeonSign_TilesOffA_055148  @ $055148  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_055148, "ax", @progbits
-        .global PcThunkTarget_055148
-PcThunkTarget_055148:
+        .section .text.NeonSign_TilesOffA_055148, "ax", @progbits
+        .global NeonSign_TilesOffA_055148
+NeonSign_TilesOffA_055148:
         move.w  #0x1a,d1                        | +000
         move.w  #0x4b,d2                        | +004
         move.w  #0xffff,d3                      | +008
@@ -1304,11 +1304,11 @@ PcThunkTarget_055148:
         move.w  #0x1,d4                         | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05518c  @ $05518C  (60 B)
+|  NeonSign_TilesOnA_05518c  @ $05518C  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05518c, "ax", @progbits
-        .global TaskHandler_05518c
-TaskHandler_05518c:
+        .section .text.NeonSign_TilesOnA_05518c, "ax", @progbits
+        .global NeonSign_TilesOnA_05518c
+NeonSign_TilesOnA_05518c:
         move.w  #0x1a,d1                        | +000
         move.w  #0x4a,d2                        | +004
         move.w  #0xffff,d3                      | +008
@@ -1325,11 +1325,11 @@ TaskHandler_05518c:
         move.w  #0x1,d4                         | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0551d0  @ $0551D0  (60 B)
+|  NeonSign_TilesDark_0551d0  @ $0551D0  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0551d0, "ax", @progbits
-        .global TaskHandler_0551d0
-TaskHandler_0551d0:
+        .section .text.NeonSign_TilesDark_0551d0, "ax", @progbits
+        .global NeonSign_TilesDark_0551d0
+NeonSign_TilesDark_0551d0:
         move.w  #0x1a,d1                        | +000
         move.w  #0xbd,d2                        | +004
         move.w  #0x1,d3                         | +008
@@ -1346,11 +1346,11 @@ TaskHandler_0551d0:
         move.w  #0x2,d4                         | +038
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_055214  @ $055214  (60 B)
+|  NeonSign_TilesOnB_055214  @ $055214  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_055214, "ax", @progbits
-        .global PcThunkTarget_055214
-PcThunkTarget_055214:
+        .section .text.NeonSign_TilesOnB_055214, "ax", @progbits
+        .global NeonSign_TilesOnB_055214
+NeonSign_TilesOnB_055214:
         move.w  #0x1a,d1                        | +000
         move.w  #0x4c,d2                        | +004
         move.w  #0x1,d3                         | +008
