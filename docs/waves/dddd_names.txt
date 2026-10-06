@@ -1,0 +1,9 @@
+0x5AA96=SpriteDispatchJT_05AA96
+0x5B1B2=Sprite_DispatchSplashHook_05b1b2
+0x5B212=Sprite_SplashScreenY_05b212
+0x5B232=SpriteQueue_SortAndRenderSCB1_05b232
+0x5B370=SpriteQueue_RenderRange_05b370
+0x5B400=SpriteQueue_RenderSCB234_05b400
+0x5B52E=SCB1_WriteTileColumn_05b52e
+0x5BF76=SCB1_WriteTileColumnTerm_05bf76
+0x5C9D6=Vblank_FlushSpriteQueue_05c9d6
