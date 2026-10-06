@@ -76,9 +76,9 @@ SYMBOLS = {
     0x0005E3A2: "Sub_0005E3A2",              # probe llamado por ProbeTwoAttemptsCcr (Z2 #1)
     0x0005E618: "Sub_0005E618",              # confirm llamado por ProbeTwoAttemptsCcr (Z2 #1)
     # 0x00028A96 promovido a Entity_HitboxCollide_028A96 en registry (Wave SS#2).
-    0x00051862: "Sub_00051862",              # bsr desde Player_StateDispatch (Z2 #3)
-    0x00051828: "Sub_00051828",              # bsr post-jt desde Player_StateDispatch
-    0x0005188C: "StateJumpTable_05188C",     # jump-table PC-rel de Player_StateDispatch
+    # 0x00051862 promovido a Sub_00051862 en registry (Wave QQQQ).
+    # 0x00051828 promovido a Sub_00051828 en registry (Wave QQQQ).
+    # 0x0005188C promovido a StateJumpTable_05188C en registry (Wave QQQQ).
     0x000272A8: "Sub_000272A8",              # colision PC-rel de Entity_ProbeRevertCcr_027AFC (Z2 #5)
     0x0006DD5C: "Template_06DD5C",           # template del spawner-16x Entity_SpawnLoop16 (Z2 #6)
     0x0006DF32: "Template_06DF32",           # template del spawner Entity_SpawnAndTag (Z2 #7)
@@ -490,8 +490,8 @@ SYMBOLS = {
     # 0x0004DE32 promovido a Prop_TowerBaseWreckLoop_04de32 en registry (Wave OOOO).
     # 0x0004EB94 promovido a Prop_FortressWaitScroll_04eb94 en registry (Wave PPPP).
     # 0x0004F2A4 promovido a Prop_SlotPrioCheckRts_04f2a4 en registry (Wave PPPP).
-    0x00050976: "TaskHandler_050976",
-    0x00051452: "TaskHandler_051452",
+    # 0x00050976 promovido a TaskHandler_050976 en registry (Wave QQQQ).
+    # 0x00051452 promovido a TaskHandler_051452 en registry (Wave QQQQ).
     0x0005147E: "TaskHandler_05147e",
     0x00052514: "TaskHandler_052514",
     0x000526AA: "TaskHandler_0526aa",
@@ -812,7 +812,7 @@ SYMBOLS = {
     0x0005026C: "ThunkTarget_05026c",
     0x0005170C: "ThunkTarget_05170c",
     0x000517FE: "ThunkTarget_0517fe",
-    0x0005180C: "ThunkTarget_05180c",
+    # 0x0005180C promovido a ThunkTarget_05180c en registry (Wave QQQQ).
     0x00051914: "ThunkTarget_051914",
     0x000519BE: "ThunkTarget_0519be",
     # 0x00051DE2 promovido a CellCommit_MMIO_051DE2 en registry (Wave LL#1).
@@ -915,7 +915,7 @@ SYMBOLS = {
     0x0004290A: "JsrAbsRts_04290a",      # rts de JsrAbsThunk_042904 (Charger_TrackTarget)
     0x0004698C: "PcThunkTarget_04698c",
     0x0004707E: "PcThunkTarget_04707e",
-    0x0004FAF8: "PcThunkTarget_04faf8",
+    # 0x0004FAF8 promovido a PcThunkTarget_04faf8 en registry (Wave QQQQ).
     # 0x00053DCA promovido a Prop_SyncSpriteWithParent_053dca en registry (Wave HHHH).
     # 0x00055148 promovido a NeonSign_TilesOffA_055148 en registry (Wave MMMM).
     # 0x00055214 promovido a NeonSign_TilesOnB_055214 en registry (Wave MMMM).
@@ -1078,7 +1078,7 @@ SYMBOLS = {
     0x00032FF2: "Sub_00032FF2",             # post-init hook 1 (pc-rel)
     0x0005E98A: "Sub_0005E98A",  # jsr desde PlayerEntity_InitAuxState_032A02
     # 0x0008F6D2 promovido a PlayerSlot_MaskF0F0_08f6d2 en registry (Wave PPP).
-    0x000517AA: "Sub_000517AA",  # jsr desde PlayerEntity_InitAuxState_032A02
+    # 0x000517AA promovido a Sub_000517AA en registry (Wave QQQQ).
     0x00032AA8: "Sub_00032AA8",             # post-init hook 3 (pc-rel)
     #      Callees abs.l del spawn constructor:
     # 0x000394A8 promovido a PlayerArm_Spawn_0394a8 en registry (Wave WWW).
@@ -1791,31 +1791,36 @@ SYMBOLS = {
     # 0x0004E580 promovido a Prop_BarrierActive_04e580 en registry (Wave PPPP).
     # 0x0004ED90 promovido a Prop_BarrierPost_04ed90 en registry (Wave PPPP).
     # 0x0004F2C2 promovido a Prop_Roof_04f2c2 en registry (Wave PPPP).
-    0x0004FA70: "Sub_0004FA70",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FA8A: "Sub_0004FA8A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FB3C: "Sub_0004FB3C",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0004FA70 promovido a Sub_0004FA70 en registry (Wave QQQQ).
+    # 0x0004FA8A promovido a Sub_0004FA8A en registry (Wave QQQQ).
+    # 0x0004FB3C promovido a Sub_0004FB3C en registry (Wave QQQQ).
     # --- Wave PPPP: RTS internos de islas C
     0x0004EBBA: "JsrAbsRts_04ebba",  # rts de JsrAbsThunk_04ebb4 (+6)
     0x0004F3AC: "SetHandlerRts_04f3ac",  # rts de SetTaskHandler_04f3a6 (+6)
     # --- Wave PPPP: refs forward a huecos futuros
-    0x0004FB8A: "Sub_0004FB8A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FBE0: "Sub_0004FBE0",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FC36: "Sub_0004FC36",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FC8C: "Sub_0004FC8C",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FCD8: "Sub_0004FCD8",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FD2C: "Sub_0004FD2C",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FD8A: "Sub_0004FD8A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FDDE: "Sub_0004FDDE",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FE32: "Sub_0004FE32",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FE86: "Sub_0004FE86",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FEDA: "Sub_0004FEDA",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FF2E: "Sub_0004FF2E",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FF82: "Sub_0004FF82",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004FFD6: "Sub_0004FFD6",  # hueco futuro (ref pc-rel desde esta region)
-    0x0005002A: "Sub_0005002A",  # hueco futuro (ref pc-rel desde esta region)
-    0x0005007E: "Sub_0005007E",  # hueco futuro (ref pc-rel desde esta region)
-    0x000500D2: "Sub_000500D2",  # hueco futuro (ref pc-rel desde esta region)
-    0x00050126: "Sub_00050126",  # hueco futuro (ref pc-rel desde esta region)
-    0x0005017A: "Sub_0005017A",  # hueco futuro (ref pc-rel desde esta region)
-    0x000501D8: "Sub_000501D8",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0004FB8A promovido a Sub_0004FB8A en registry (Wave QQQQ).
+    # 0x0004FBE0 promovido a Sub_0004FBE0 en registry (Wave QQQQ).
+    # 0x0004FC36 promovido a Sub_0004FC36 en registry (Wave QQQQ).
+    # 0x0004FC8C promovido a Sub_0004FC8C en registry (Wave QQQQ).
+    # 0x0004FCD8 promovido a Sub_0004FCD8 en registry (Wave QQQQ).
+    # 0x0004FD2C promovido a Sub_0004FD2C en registry (Wave QQQQ).
+    # 0x0004FD8A promovido a Sub_0004FD8A en registry (Wave QQQQ).
+    # 0x0004FDDE promovido a Sub_0004FDDE en registry (Wave QQQQ).
+    # 0x0004FE32 promovido a Sub_0004FE32 en registry (Wave QQQQ).
+    # 0x0004FE86 promovido a Sub_0004FE86 en registry (Wave QQQQ).
+    # 0x0004FEDA promovido a Sub_0004FEDA en registry (Wave QQQQ).
+    # 0x0004FF2E promovido a Sub_0004FF2E en registry (Wave QQQQ).
+    # 0x0004FF82 promovido a Sub_0004FF82 en registry (Wave QQQQ).
+    # 0x0004FFD6 promovido a Sub_0004FFD6 en registry (Wave QQQQ).
+    # 0x0005002A promovido a Sub_0005002A en registry (Wave QQQQ).
+    # 0x0005007E promovido a Sub_0005007E en registry (Wave QQQQ).
+    # 0x000500D2 promovido a Sub_000500D2 en registry (Wave QQQQ).
+    # 0x00050126 promovido a Sub_00050126 en registry (Wave QQQQ).
+    # 0x0005017A promovido a Sub_0005017A en registry (Wave QQQQ).
+    # 0x000501D8 promovido a Sub_000501D8 en registry (Wave QQQQ).
+    # --- Wave QQQQ: RTS internos de islas C
+    0x0004FAF6: "JsrPcRts_04faf6",  # rts de JsrPcThunk_04faf2 (+4)
+    0x0004FB72: "JsrPcRts_04fb72",  # rts de JsrPcThunk_04fb6e (+4)
+    0x00051390: "SetHandlerRts_051390",  # rts de SetTaskHandler_05138a (+6)
+    0x00051694: "JsrAbsRts_051694",  # rts de JsrAbsThunk_05168e (+6)
 }
