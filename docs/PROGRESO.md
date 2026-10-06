@@ -11,10 +11,34 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5303/5303 funciones
-BYTES   : 297,236/297,236 (registrados)
-ROM     : 297,236/2,097,152  (14.1733%)
+MATCHED : 5330/5330 funciones
+BYTES   : 301,884/301,884 (registrados)
+ROM     : 301,884/2,097,152  (14.3950%)
 ```
+
+> **Wave GGGG** (27 entradas, 4 648 B, verde tras parchear el generador)
+> — `$0527BA..$0539E2` en `props_destructible_0527xx.s`. Vigesimocuarta
+> wave de `gen_asm_region.py`. Nombres en `docs/waves/gggg_names.txt`.
+>
+> * **Generador**: `move.l #imm8,dN` ($203C) se emite como `.dc.w` crudo
+>   porque GAS lo convierte a `moveq` incluso con `:l` (2 casos en
+>   `Prop_Wall*`, puntos $10).
+> * **Props**: patrón común init ($2942A copia template, snd, HP +$66,
+>   puntos +$70, sprite) / loop ($2783A, $28D70, $2870A impacto → flash
+>   $5E770, $28758 HP agotada → música $10xx + escombros $77C7E + puntos
+>   $51A28 + siguiente estado, $4FA70 fuera de pantalla → $518).
+>   `Prop_Sign/Wall/Large/Explosive/Tower/Gate` + `*Stage2/*Wreck`,
+>   `Prop_HouseVariants_052e20` (7 variantes, spawnea la pareja de patos
+>   `DuckTrigger_SpawnPairLeft_038f48`), `Prop_HutVariants_0530cc` (10),
+>   `Prop_Breakable2Stage` (suelta 1..4 `PropDrop_Item`),
+>   `Prop_Indestructible`.
+> * **Efectos**: `PropDebris_Chunk/Flying` (hereda 2x la velocidad del
+>   atacante), `FixBlink_PhaseA/B` (tiles del fix layer vía $2C26 hasta
+>   que la cámara pasa de $140).
+> * Templates confirmados: sus direcciones aparecen en las listas de spawn
+>   `$096CB4..$096F0C` / `$09751A..$097556`.
+> * Cobertura de código real: 51.0 % (258,076 / 505,608 B); huecos CODE:
+>   1225 / 247,532 B.
 
 > **Wave FFFF** (38 entradas, 4 214 B, verde tras 2 bloques de datos +
 > 3 `--entry`) — `$056ACC..$057D04` en `soldier_helpers_056axx.s`.

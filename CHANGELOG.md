@@ -17,6 +17,20 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave GGGG — 27 entries (4,648 B): `$0527BA..$0539E2`
+  (`props_destructible_0527xx.s`): the destructible scenery props spawned
+  from the mission spawn lists (`$096Cxx`) — `Prop_Sign/Wall/Large/
+  Explosive/Tower/Gate` with their `*Stage2`/`*Wreck` states,
+  `Prop_HouseVariants_052e20` (7 entries, duck pair spawn) and
+  `Prop_HutVariants_0530cc` (10 entries), `Prop_Breakable2Stage_0527ba`,
+  `Prop_Indestructible_053964`, debris (`PropDebris_Chunk/Flying*`), item
+  drops (`PropDrop_Item_053768`) and the fix-layer blinker
+  `FixBlink_PhaseA/B`. All share the init/scroll/anim/hit/HP/offscreen
+  skeleton documented in the header.
+  `tools/gen_asm_region.py`: `move.l #imm8,dN` ($203C, not optimised by
+  SNK) is now emitted as raw `.dc.w` — GAS turned it into `moveq` even
+  with the `:l` suffix.
+  Matcher: 5,330/5,330, 301,884 B (14.40 %); real code coverage 51.0 %.
 - Wave FFFF — 38 entries (4,214 B): `$056ACC..$057D04`
   (`soldier_helpers_056axx.s`, 3 data blocks: popcount table `$56ED2`, two
   84-byte melee attack tables `$57440/$57494`): the rebel soldier helper
