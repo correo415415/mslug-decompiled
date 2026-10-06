@@ -486,8 +486,8 @@ SYMBOLS = {
     # 0x0004C606 promovido a GunPlatform_DestroyedWithWreck_04c606 en registry (Wave NNNN).
     # 0x0004C68A promovido a GunPlatform_Wreck_04c68a en registry (Wave NNNN).
     0x0004C934: "TaskHandler_04c934",
-    0x0004DC88: "TaskHandler_04dc88",
-    0x0004DE32: "TaskHandler_04de32",
+    # 0x0004DC88 promovido a TaskHandler_04dc88 en registry (Wave OOOO).
+    # 0x0004DE32 promovido a TaskHandler_04de32 en registry (Wave OOOO).
     0x0004EB94: "TaskHandler_04eb94",
     0x0004F2A4: "TaskHandler_04f2a4",
     0x00050976: "TaskHandler_050976",
@@ -1781,4 +1781,17 @@ SYMBOLS = {
     0x0004C90E: "SetHandlerRts_04c90e",  # rts de SetTaskHandler_04c908 (+6)
     0x0004C956: "SetHandlerRts_04c956",  # rts de SetTaskHandler_04c950 (+6)
     0x0004CBB6: "JsrAbsRts_04cbb6",  # rts de JsrAbsThunk_04cbb0 (+6)
+    # --- Wave OOOO: RTS internos de islas C
+    0x0004DAD0: "SetHandlerRts_04dad0",  # rts de SetTaskHandler_04daca (+6)
+    0x0004DC48: "SetHandlerRts_04dc48",  # rts de SetTaskHandler_04dc42 (+6)
+    0x0004DDEA: "SetHandlerRts_04ddea",  # rts de SetTaskHandler_04dde4 (+6)
+    0x0004DF2E: "JsrPcRts_04df2e",  # rts de JsrPcThunk_04df2a (+4)
+    0x0004DF96: "JsrPcRts_04df96",  # rts de JsrPcThunk_04df92 (+4)
+    # --- Wave OOOO: refs forward a huecos futuros
+    0x0004E580: "Sub_0004E580",  # hueco futuro (ref pc-rel desde esta region)
+    0x0004ED90: "Sub_0004ED90",  # hueco futuro (ref pc-rel desde esta region)
+    0x0004F2C2: "Sub_0004F2C2",  # hueco futuro (ref pc-rel desde esta region)
+    0x0004FA70: "Sub_0004FA70",  # hueco futuro (ref pc-rel desde esta region)
+    0x0004FA8A: "Sub_0004FA8A",  # hueco futuro (ref pc-rel desde esta region)
+    0x0004FB3C: "Sub_0004FB3C",  # hueco futuro (ref pc-rel desde esta region)
 }
