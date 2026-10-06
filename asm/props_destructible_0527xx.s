@@ -169,8 +169,8 @@ Prop_Breakable2Stage_0527ba:
         subq.w  #0x1,0x72(a6)                   | +0d4
         bne.b   .L05287e                        | +0d8
 .L052894:
-        jsr     Sub_00053EBA(pc)                | +0da
-        jsr     Sub_00053E78(pc)                | +0de
+        jsr     Prop_RunDebrisScriptByPrio_053eba(pc)                | +0da
+        jsr     Prop_RunDebrisScriptByPhase_053e78(pc)                | +0de
         addq.b  #0x1,0x21(a6)                   | +0e2
         cmpi.b  #0x2,0x21(a6)                   | +0e6
         beq.w   .L0528b4                        | +0ec
@@ -791,7 +791,7 @@ Prop_HutVariants_0530cc:
 .L0532a6:
         jsr     0x28758.l                       | +1da
         bcc.w   .L0532f4                        | +1e0
-        jsr     Sub_00053E0C(pc)                | +1e4
+        jsr     Prop_PlayBreakMusicByPhase_053e0c(pc)                | +1e4
         lea     0xffff.w,a0                     | +1e8
         move.l  a0,0x48(a6)                     | +1ec
         move.l  #0x500,d0                       | +1f0
@@ -992,10 +992,10 @@ Prop_Gate_0534d8__L05357e:
 Prop_GateStage2_05359e:
         cmpi.w  #0x0,0x38(a6)                   | +000
         beq.w   .L0535b0                        | +006
-        jsr     Sub_00053F2E(pc)                | +00a
+        jsr     Prop_GateDebrisC_053f2e(pc)                | +00a
         bra.w   .L0535b4                        | +00e
 .L0535b0:
-        jsr     Sub_00053EE2(pc)                | +012
+        jsr     Prop_GateDebrisA_053ee2(pc)                | +012
 .L0535b4:
         move.w  #0x28,0x66(a6)                  | +016
         lea     0x297648.l,a0                   | +01c
@@ -1043,10 +1043,10 @@ Prop_GateWreck_053652:
         jsr     0x51a28.l                       | +006
         cmpi.w  #0x0,0x38(a6)                   | +00c
         beq.w   .L053670                        | +012
-        jsr     Sub_00053F54(pc)                | +016
+        jsr     Prop_GateDebrisD_053f54(pc)                | +016
         bra.w   .L053674                        | +01a
 .L053670:
-        jsr     Sub_00053F08(pc)                | +01e
+        jsr     Prop_GateDebrisB_053f08(pc)                | +01e
 .L053674:
         lea     0xffff.w,a0                     | +022
         move.l  a0,0x48(a6)                     | +026
@@ -1137,7 +1137,7 @@ FixBlink_PhaseB_05370a:
 PropDrop_Item_053768:
         move.w  #0xa,d1                         | +000
         jsr     0x236e.l                        | +004
-        jsr     Sub_00053E9C(pc)                | +00a
+        jsr     Prop_PickRandomItemPtr_053e9c(pc)                | +00a
         movea.l 0xc(a6),a0                      | +00e
         move.w  0x54(a0),0x22(a6)               | +012
         move.w  0x56(a0),0x24(a6)               | +018
@@ -1267,7 +1267,7 @@ PropDebris_Flying_053894__L05389e:
         ori.w   #0x100,d0                       | +06a
         andi.w  #0x1ff,d0                       | +06e
         sub.w   d0,0x2e(a6)                     | +072
-        jsr     Sub_00053E9C(pc)                | +076
+        jsr     Prop_PickRandomItemPtr_053e9c(pc)                | +076
         lea     .L053914(pc),a1                 | +07a
         move.l  a1,(a6)                         | +07e
 .L053914:
@@ -1307,7 +1307,7 @@ Prop_Indestructible_053964:
         lea     0x297728.l,a0                   | +020
         jsr     0x28cd4.l                       | +026
         move.b  #0x0,0x21(a6)                   | +02c
-        lea     Sub_000539F0(pc),a1             | +032
+        lea     Prop_IndestructibleChild_0539f0(pc),a1             | +032
         jsr     0x4ae.l                         | +036
         jsr     0x5dd22.l                       | +03c
         addi.w  #0x60,0x22(a0)                  | +042
@@ -1319,7 +1319,7 @@ Prop_Indestructible_053964:
         move.w  #0x7fff,0x66(a6)                | +05a
         jsr     0x2870a.l                       | +060
         bcc.w   .L0539d8                        | +066
-        jsr     Sub_00053D80(pc)                | +06a
+        jsr     Prop_PickSpriteByVictimDir_053d80(pc)                | +06a
         bclr    #0x3,0x13(a6)                   | +06e
 .L0539d8:
         jsr     0x4fa70.l                       | +074

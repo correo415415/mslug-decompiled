@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Sub_000539F0  @ $0539F0  (76 B)
+|  Prop_IndestructibleChild_0539f0  @ $0539F0  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000539F0, "ax", @progbits
-        .global Sub_000539F0
-Sub_000539F0:
+        .section .text.Prop_IndestructibleChild_0539f0, "ax", @progbits
+        .global Prop_IndestructibleChild_0539f0
+Prop_IndestructibleChild_0539f0:
         move.w  #0x1af,d1                       | +000
         jsr     0x236e.l                        | +004
         jsr     0x267e2.l                       | +00a
@@ -38,11 +38,11 @@ Sub_000539F0:
         bcc.w   JsrPcRts_053a40                 | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053a42  @ $053A42  (348 B)
+|  Prop_TrapFlame_053a42  @ $053A42  (348 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053a42, "ax", @progbits
-        .global TaskHandler_053a42
-TaskHandler_053a42:
+        .section .text.Prop_TrapFlame_053a42, "ax", @progbits
+        .global Prop_TrapFlame_053a42
+Prop_TrapFlame_053a42:
         move.w  #0x1e4,d1                       | +000
         jsr     0x236e.l                        | +004
         jsr     0x267e2.l                       | +00a
@@ -52,7 +52,7 @@ TaskHandler_053a42:
         jsr     0x28cd4.l                       | +022
         move.w  #0x0,0x72(a6)                   | +028
         move.b  #0x0,0x20(a6)                   | +02e
-        lea     TaskHandler_053b9e(pc),a1       | +034
+        lea     Prop_TrapFlameBase_053b9e(pc),a1 | +034
         jsr     0x4ae.l                         | +038
         lea     .L053a86(pc),a1                 | +03e
         move.l  a1,(a6)                         | +042
@@ -103,7 +103,7 @@ TaskHandler_053a42:
         move.l  a0,0x50(a6)                     | +112
 .L053b58:
         bclr    #0x1,0x13(a6)                   | +116
-        lea     TaskHandler_053c44(pc),a1       | +11c
+        lea     Prop_TrapFlameHitSpawn_053c44(pc),a1 | +11c
         jsr     0x4ae.l                         | +120
         jsr     0x5dd02.l                       | +126
         move.l  0x50(a6),0x50(a0)               | +12c
@@ -119,11 +119,11 @@ TaskHandler_053a42:
         rts                                     | +15a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053b9e  @ $053B9E  (96 B)
+|  Prop_TrapFlameBase_053b9e  @ $053B9E  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053b9e, "ax", @progbits
-        .global TaskHandler_053b9e
-TaskHandler_053b9e:
+        .section .text.Prop_TrapFlameBase_053b9e, "ax", @progbits
+        .global Prop_TrapFlameBase_053b9e
+Prop_TrapFlameBase_053b9e:
         move.w  #0x1e4,d1                       | +000
         jsr     0x236e.l                        | +004
         jsr     0x267e2.l                       | +00a
@@ -147,11 +147,11 @@ TaskHandler_053b9e:
         rts                                     | +05e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053bfe  @ $053BFE  (70 B)
+|  Prop_TrapFlameHitFx_053bfe  @ $053BFE  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053bfe, "ax", @progbits
-        .global TaskHandler_053bfe
-TaskHandler_053bfe:
+        .section .text.Prop_TrapFlameHitFx_053bfe, "ax", @progbits
+        .global Prop_TrapFlameHitFx_053bfe
+Prop_TrapFlameHitFx_053bfe:
         move.w  #0x1e4,d1                       | +000
         jsr     0x236e.l                        | +004
         jsr     0x267e2.l                       | +00a
@@ -170,21 +170,21 @@ TaskHandler_053bfe:
         rts                                     | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053c44  @ $053C44  (16 B)
+|  Prop_TrapFlameHitSpawn_053c44  @ $053C44  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053c44, "ax", @progbits
-        .global TaskHandler_053c44
-TaskHandler_053c44:
-        lea     TaskHandler_053bfe(pc),a1       | +000
+        .section .text.Prop_TrapFlameHitSpawn_053c44, "ax", @progbits
+        .global Prop_TrapFlameHitSpawn_053c44
+Prop_TrapFlameHitSpawn_053c44:
+        lea     Prop_TrapFlameHitFx_053bfe(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053c64  @ $053C64  (142 B)
+|  Prop_BurnFollowVictim_053c64  @ $053C64  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053c64, "ax", @progbits
-        .global TaskHandler_053c64
-TaskHandler_053c64:
+        .section .text.Prop_BurnFollowVictim_053c64, "ax", @progbits
+        .global Prop_BurnFollowVictim_053c64
+Prop_BurnFollowVictim_053c64:
         movea.l 0x50(a6),a0                     | +000
         move.l  a0,d0                           | +004
         cmpi.l  #0xffffffff,d0                  | +006
@@ -211,7 +211,7 @@ TaskHandler_053c64:
         move.w  0x72(a6),d0                     | +056
         andi.w  #0x3,d0                         | +05a
         bne.w   .L053ce2                        | +05e
-        lea     TaskHandler_053cf2(pc),a1       | +062
+        lea     Prop_BurnSmokePuff_053cf2(pc),a1 | +062
         jsr     0x4ae.l                         | +066
         jsr     0x5dd22.l                       | +06c
         addi.w  #0x10,0x24(a0)                  | +072
@@ -224,11 +224,11 @@ TaskHandler_053c64:
         rts                                     | +08c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053cf2  @ $053CF2  (58 B)
+|  Prop_BurnSmokePuff_053cf2  @ $053CF2  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053cf2, "ax", @progbits
-        .global TaskHandler_053cf2
-TaskHandler_053cf2:
+        .section .text.Prop_BurnSmokePuff_053cf2, "ax", @progbits
+        .global Prop_BurnSmokePuff_053cf2
+Prop_BurnSmokePuff_053cf2:
         move.w  #0x2,d1                         | +000
         jsr     0x236e.l                        | +004
         jsr     0x267e2.l                       | +00a
@@ -245,11 +245,11 @@ TaskHandler_053cf2:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053d2c  @ $053D2C  (36 B)
+|  Prop_SpawnBonusOnce_053d2c  @ $053D2C  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053d2c, "ax", @progbits
-        .global TaskHandler_053d2c
-TaskHandler_053d2c:
+        .section .text.Prop_SpawnBonusOnce_053d2c, "ax", @progbits
+        .global Prop_SpawnBonusOnce_053d2c
+Prop_SpawnBonusOnce_053d2c:
         cmpi.b  #0x0,0x21(a6)                   | +000
         bne.w   .L053d4e                        | +006
         move.b  #0xff,0x21(a6)                  | +00a
@@ -260,11 +260,11 @@ TaskHandler_053d2c:
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053d50  @ $053D50  (48 B)
+|  Prop_ToggleSpriteByTimer_053d50  @ $053D50  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053d50, "ax", @progbits
-        .global TaskHandler_053d50
-TaskHandler_053d50:
+        .section .text.Prop_ToggleSpriteByTimer_053d50, "ax", @progbits
+        .global Prop_ToggleSpriteByTimer_053d50
+Prop_ToggleSpriteByTimer_053d50:
         cmpi.w  #0x0,0x72(a6)                   | +000
         ble.w   .L053d78                        | +006
         clr.l   d0                              | +00a
@@ -281,11 +281,11 @@ TaskHandler_053d50:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  Sub_00053D80  @ $053D80  (66 B)
+|  Prop_PickSpriteByVictimDir_053d80  @ $053D80  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053D80, "ax", @progbits
-        .global Sub_00053D80
-Sub_00053D80:
+        .section .text.Prop_PickSpriteByVictimDir_053d80, "ax", @progbits
+        .global Prop_PickSpriteByVictimDir_053d80
+Prop_PickSpriteByVictimDir_053d80:
         movea.l 0x50(a6),a0                     | +000
         clr.l   d0                              | +004
         move.w  0x28(a0),d0                     | +006
@@ -304,11 +304,11 @@ Sub_00053D80:
         lea     0x297668.l,a0                   | +03c
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_053dca  @ $053DCA  (66 B)
+|  Prop_SyncSpriteWithParent_053dca  @ $053DCA  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_053dca, "ax", @progbits
-        .global PcThunkTarget_053dca
-PcThunkTarget_053dca:
+        .section .text.Prop_SyncSpriteWithParent_053dca, "ax", @progbits
+        .global Prop_SyncSpriteWithParent_053dca
+Prop_SyncSpriteWithParent_053dca:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x20(a0),d0                     | +004
         cmp.b   0x20(a6),d0                     | +008
@@ -327,11 +327,11 @@ PcThunkTarget_053dca:
         rts                                     | +040
 
 | ----------------------------------------------------------------------------
-|  Sub_00053E0C  @ $053E0C  (100 B)
+|  Prop_PlayBreakMusicByPhase_053e0c  @ $053E0C  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053E0C, "ax", @progbits
-        .global Sub_00053E0C
-Sub_00053E0C:
+        .section .text.Prop_PlayBreakMusicByPhase_053e0c, "ax", @progbits
+        .global Prop_PlayBreakMusicByPhase_053e0c
+Prop_PlayBreakMusicByPhase_053e0c:
         cmpi.b  #0x0,0x21(a6)                   | +000
         bne.w   .L053e24                        | +006
         move.w  #0x102c,d0                      | +00a
@@ -359,11 +359,11 @@ Sub_00053E0C:
         move.w  #0x1023,d0                      | +060
 
 | ----------------------------------------------------------------------------
-|  Sub_00053E78  @ $053E78  (28 B)
+|  Prop_RunDebrisScriptByPhase_053e78  @ $053E78  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053E78, "ax", @progbits
-        .global Sub_00053E78
-Sub_00053E78:
+        .section .text.Prop_RunDebrisScriptByPhase_053e78, "ax", @progbits
+        .global Prop_RunDebrisScriptByPhase_053e78
+Prop_RunDebrisScriptByPhase_053e78:
         lea     0x297f50.l,a0                   | +000
         move.b  0x21(a6),d0                     | +006
         andi.w  #0xff,d0                        | +00a
@@ -374,11 +374,11 @@ Sub_00053E78:
         movea.l (a0,d0.w),a2                    | +018
 
 | ----------------------------------------------------------------------------
-|  Sub_00053E9C  @ $053E9C  (22 B)
+|  Prop_PickRandomItemPtr_053e9c  @ $053E9C  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053E9C, "ax", @progbits
-        .global Sub_00053E9C
-Sub_00053E9C:
+        .section .text.Prop_PickRandomItemPtr_053e9c, "ax", @progbits
+        .global Prop_PickRandomItemPtr_053e9c
+Prop_PickRandomItemPtr_053e9c:
         move.w  #0x3,d0                         | +000
         jsr     0x5ea1c.l                       | +004
         asl.w   #0x2,d0                         | +00a
@@ -386,11 +386,11 @@ Sub_00053E9C:
         movea.l (a0,d0.w),a0                    | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_00053EBA  @ $053EBA  (32 B)
+|  Prop_RunDebrisScriptByPrio_053eba  @ $053EBA  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053EBA, "ax", @progbits
-        .global Sub_00053EBA
-Sub_00053EBA:
+        .section .text.Prop_RunDebrisScriptByPrio_053eba, "ax", @progbits
+        .global Prop_RunDebrisScriptByPrio_053eba
+Prop_RunDebrisScriptByPrio_053eba:
         lea     0x298074.l,a1                   | +000
         cmpi.w  #0x0,0x38(a6)                   | +006
         beq.w   JsrAbsThunk_053eda              | +00c
@@ -399,55 +399,55 @@ Sub_00053EBA:
         lea     0x298062.l,a1                   | +01a
 
 | ----------------------------------------------------------------------------
-|  Sub_00053EE2  @ $053EE2  (24 B)
+|  Prop_GateDebrisA_053ee2  @ $053EE2  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053EE2, "ax", @progbits
-        .global Sub_00053EE2
-Sub_00053EE2:
+        .section .text.Prop_GateDebrisA_053ee2, "ax", @progbits
+        .global Prop_GateDebrisA_053ee2
+Prop_GateDebrisA_053ee2:
         lea     0x29860c.l,a2                   | +000
         jsr     0x5022a.l                       | +006
         lea     0x298620.l,a2                   | +00c
         jsr     0x5022a.l                       | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_00053F08  @ $053F08  (24 B)
+|  Prop_GateDebrisB_053f08  @ $053F08  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053F08, "ax", @progbits
-        .global Sub_00053F08
-Sub_00053F08:
+        .section .text.Prop_GateDebrisB_053f08, "ax", @progbits
+        .global Prop_GateDebrisB_053f08
+Prop_GateDebrisB_053f08:
         lea     0x298648.l,a2                   | +000
         jsr     0x5022a.l                       | +006
         lea     0x29865c.l,a2                   | +00c
         jsr     0x5022a.l                       | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_00053F2E  @ $053F2E  (24 B)
+|  Prop_GateDebrisC_053f2e  @ $053F2E  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053F2E, "ax", @progbits
-        .global Sub_00053F2E
-Sub_00053F2E:
+        .section .text.Prop_GateDebrisC_053f2e, "ax", @progbits
+        .global Prop_GateDebrisC_053f2e
+Prop_GateDebrisC_053f2e:
         lea     0x298684.l,a2                   | +000
         jsr     0x5022a.l                       | +006
         lea     0x298698.l,a2                   | +00c
         jsr     0x5022a.l                       | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_00053F54  @ $053F54  (24 B)
+|  Prop_GateDebrisD_053f54  @ $053F54  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00053F54, "ax", @progbits
-        .global Sub_00053F54
-Sub_00053F54:
+        .section .text.Prop_GateDebrisD_053f54, "ax", @progbits
+        .global Prop_GateDebrisD_053f54
+Prop_GateDebrisD_053f54:
         lea     0x2986c0.l,a2                   | +000
         jsr     0x5022a.l                       | +006
         lea     0x2986d4.l,a2                   | +00c
         jsr     0x5022a.l                       | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_053f7a  @ $053F7A  (16 B)
+|  Entity_CmpField10WithLink8_053f7a  @ $053F7A  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_053f7a, "ax", @progbits
-        .global TaskHandler_053f7a
-TaskHandler_053f7a:
+        .section .text.Entity_CmpField10WithLink8_053f7a, "ax", @progbits
+        .global Entity_CmpField10WithLink8_053f7a
+Entity_CmpField10WithLink8_053f7a:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008

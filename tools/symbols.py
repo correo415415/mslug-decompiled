@@ -496,7 +496,7 @@ SYMBOLS = {
     0x00052514: "TaskHandler_052514",
     0x000526AA: "TaskHandler_0526aa",
     0x00053C5C: "TaskHandler_053c5c",
-    # 0x00053C64 promovido a TaskHandler_053c64 en registry (Wave HHHH).
+    # 0x00053C64 promovido a Prop_BurnFollowVictim_053c64 en registry (Wave HHHH).
     0x00056058: "TaskHandler_056058",
     0x00056204: "TaskHandler_056204",
     0x00056596: "TaskHandler_056596",
@@ -916,7 +916,7 @@ SYMBOLS = {
     0x0004698C: "PcThunkTarget_04698c",
     0x0004707E: "PcThunkTarget_04707e",
     0x0004FAF8: "PcThunkTarget_04faf8",
-    # 0x00053DCA promovido a PcThunkTarget_053dca en registry (Wave HHHH).
+    # 0x00053DCA promovido a Prop_SyncSpriteWithParent_053dca en registry (Wave HHHH).
     0x00055148: "PcThunkTarget_055148",
     0x00055214: "PcThunkTarget_055214",
     # 0x00056E1E promovido a Soldier_DespawnIfOffscreen_056e1e en registry (Wave FFFF).
@@ -1698,16 +1698,16 @@ SYMBOLS = {
     # --- Wave GGGG: RTS internos de islas C
     0x000539EE: "Jsr5B6Rts_0539ee",  # rts de Jsr5B6ThenJmpScheduler_0539e2 (+12)
     # --- Wave GGGG: refs forward a huecos futuros
-    # 0x000539F0 promovido a Sub_000539F0 en registry (Wave HHHH).
-    # 0x00053D80 promovido a Sub_00053D80 en registry (Wave HHHH).
-    # 0x00053E0C promovido a Sub_00053E0C en registry (Wave HHHH).
-    # 0x00053E78 promovido a Sub_00053E78 en registry (Wave HHHH).
-    # 0x00053E9C promovido a Sub_00053E9C en registry (Wave HHHH).
-    # 0x00053EBA promovido a Sub_00053EBA en registry (Wave HHHH).
-    # 0x00053EE2 promovido a Sub_00053EE2 en registry (Wave HHHH).
-    # 0x00053F08 promovido a Sub_00053F08 en registry (Wave HHHH).
-    # 0x00053F2E promovido a Sub_00053F2E en registry (Wave HHHH).
-    # 0x00053F54 promovido a Sub_00053F54 en registry (Wave HHHH).
+    # 0x000539F0 promovido a Prop_IndestructibleChild_0539f0 en registry (Wave HHHH).
+    # 0x00053D80 promovido a Prop_PickSpriteByVictimDir_053d80 en registry (Wave HHHH).
+    # 0x00053E0C promovido a Prop_PlayBreakMusicByPhase_053e0c en registry (Wave HHHH).
+    # 0x00053E78 promovido a Prop_RunDebrisScriptByPhase_053e78 en registry (Wave HHHH).
+    # 0x00053E9C promovido a Prop_PickRandomItemPtr_053e9c en registry (Wave HHHH).
+    # 0x00053EBA promovido a Prop_RunDebrisScriptByPrio_053eba en registry (Wave HHHH).
+    # 0x00053EE2 promovido a Prop_GateDebrisA_053ee2 en registry (Wave HHHH).
+    # 0x00053F08 promovido a Prop_GateDebrisB_053f08 en registry (Wave HHHH).
+    # 0x00053F2E promovido a Prop_GateDebrisC_053f2e en registry (Wave HHHH).
+    # 0x00053F54 promovido a Prop_GateDebrisD_053f54 en registry (Wave HHHH).
     # --- Wave HHHH: RTS internos de islas C
     0x00053A40: "JsrPcRts_053a40",  # rts de JsrPcThunk_053a3c (+4)
     0x00053DC8: "JsrAbsRts_053dc8",  # rts de JsrAbsThunk_053dc2 (+6)

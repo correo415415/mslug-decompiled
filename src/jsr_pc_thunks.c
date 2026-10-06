@@ -359,8 +359,8 @@ void JsrPcThunk_050224(void) {
 
 __attribute__((section(".text.JsrPcThunk_053a3c")))
 void JsrPcThunk_053a3c(void) {
-    extern void PcThunkTarget_053dca(void);
-    __asm__ volatile("jsr PcThunkTarget_053dca(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Prop_SyncSpriteWithParent_053dca(void);
+    __asm__ volatile("jsr Prop_SyncSpriteWithParent_053dca(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_055108")))

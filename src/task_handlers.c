@@ -137,7 +137,7 @@ extern void TaskHandler_05147e(void);
 extern void TaskHandler_052514(void);
 extern void TaskHandler_0526aa(void);
 extern void TaskHandler_053c5c(void);
-extern void TaskHandler_053c64(void);
+extern void Prop_BurnFollowVictim_053c64(void);
 extern void TaskHandler_056058(void);
 extern void TaskHandler_056204(void);
 extern void TaskHandler_056596(void);
@@ -1339,7 +1339,7 @@ void SetTaskHandler_053c54(void) {
 
 __attribute__((section(".text.SetTaskHandler_053c5c")))
 void SetTaskHandler_053c5c(void) {
-    _a1_ptr = &TaskHandler_053c64;
+    _a1_ptr = &Prop_BurnFollowVictim_053c64;
     STORE_A1_AT_FP();
 }
 
