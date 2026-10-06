@@ -54,7 +54,7 @@ SYMBOLS = {
     # ---- Wave Y: targets externos referenciados por asm 68000 puro ----
     # 0x000329EE promovido a OpcodeOffsetTable_0329EE en registry (Wave AAAA).
     # 0x0009B51E promovido a Score_Popup_Value_09b51e en registry (Wave RRR).
-    0x0004CB44: "PtrTable6_04CB44",          # tabla de 6 long-ptr usada por Table_LoadPtrByIdxClamp6 (Y#5)
+    # 0x0004CB44 promovido a PtrTable6_04CB44 en registry (Wave NNNN).
     # Templates usados por Entity_Build3ChainCircular (Y#10)
     # 0x0003010C promovido a Chain3_TplC_03010c en registry (Wave ZZZ).
     # 0x00030068 promovido a Chain3_TplA_030068 en registry (Wave ZZZ).
@@ -480,11 +480,11 @@ SYMBOLS = {
     # 0x0004A024 promovido a HumanDeath_EntryKind1_04a024 en registry (Wave KKKK).
     # 0x0004A18C promovido a HumanDeath_CorpseA_04a18c en registry (Wave KKKK).
     0x0004AC32: "TaskHandler_04ac32",
-    0x0004BC48: "TaskHandler_04bc48",
-    0x0004C578: "TaskHandler_04c578",
-    0x0004C58C: "TaskHandler_04c58c",
-    0x0004C606: "TaskHandler_04c606",
-    0x0004C68A: "TaskHandler_04c68a",
+    # 0x0004BC48 promovido a TaskHandler_04bc48 en registry (Wave NNNN).
+    # 0x0004C578 promovido a TaskHandler_04c578 en registry (Wave NNNN).
+    # 0x0004C58C promovido a TaskHandler_04c58c en registry (Wave NNNN).
+    # 0x0004C606 promovido a TaskHandler_04c606 en registry (Wave NNNN).
+    # 0x0004C68A promovido a TaskHandler_04c68a en registry (Wave NNNN).
     0x0004C934: "TaskHandler_04c934",
     0x0004DC88: "TaskHandler_04dc88",
     0x0004DE32: "TaskHandler_04de32",
@@ -1760,4 +1760,25 @@ SYMBOLS = {
     0x00049B56: "SetHandlerRts_049b56",  # rts de SetTaskHandler_049b50 (+6)
     # --- Wave MMMM: RTS internos de islas C
     0x00055146: "JsrPcRts_055146",  # rts de JsrPcThunk_055142 (+4)
+    # --- Wave NNNN: RTS internos de islas C
+    0x0004BD5C: "SetHandlerRts_04bd5c",  # rts de SetTaskHandler_04bd56 (+6)
+    0x0004BE02: "SetHandlerRts_04be02",  # rts de SetTaskHandler_04bdfc (+6)
+    0x0004BE70: "SetHandlerRts_04be70",  # rts de SetTaskHandler_04be6a (+6)
+    0x0004BEDE: "SetHandlerRts_04bede",  # rts de SetTaskHandler_04bed8 (+6)
+    0x0004BF56: "SetHandlerRts_04bf56",  # rts de SetTaskHandler_04bf50 (+6)
+    0x0004BFEE: "SetHandlerRts_04bfee",  # rts de SetTaskHandler_04bfe8 (+6)
+    0x0004C086: "SetHandlerRts_04c086",  # rts de SetTaskHandler_04c080 (+6)
+    0x0004C126: "SetHandlerRts_04c126",  # rts de SetTaskHandler_04c120 (+6)
+    0x0004C1AE: "SetHandlerRts_04c1ae",  # rts de SetTaskHandler_04c1a8 (+6)
+    0x0004C274: "SetHandlerRts_04c274",  # rts de SetTaskHandler_04c26e (+6)
+    0x0004C2E2: "SetHandlerRts_04c2e2",  # rts de SetTaskHandler_04c2dc (+6)
+    0x0004C448: "SetHandlerRts_04c448",  # rts de SetTaskHandler_04c442 (+6)
+    0x0004C576: "SetHandlerRts_04c576",  # rts de SetTaskHandler_04c570 (+6)
+    0x0004C604: "SetHandlerRts_04c604",  # rts de SetTaskHandler_04c5fe (+6)
+    0x0004C688: "SetHandlerRts_04c688",  # rts de SetTaskHandler_04c682 (+6)
+    0x0004C6D2: "SetHandlerRts_04c6d2",  # rts de SetTaskHandler_04c6cc (+6)
+    0x0004C830: "SetHandlerRts_04c830",  # rts de SetTaskHandler_04c82a (+6)
+    0x0004C90E: "SetHandlerRts_04c90e",  # rts de SetTaskHandler_04c908 (+6)
+    0x0004C956: "SetHandlerRts_04c956",  # rts de SetTaskHandler_04c950 (+6)
+    0x0004CBB6: "JsrAbsRts_04cbb6",  # rts de JsrAbsThunk_04cbb0 (+6)
 }
