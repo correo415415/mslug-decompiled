@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Sub_00056ACC  @ $056ACC  (70 B)
+|  Soldier_PhysicsStep_056acc  @ $056ACC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056ACC, "ax", @progbits
-        .global Sub_00056ACC
-Sub_00056ACC:
+        .section .text.Soldier_PhysicsStep_056acc, "ax", @progbits
+        .global Soldier_PhysicsStep_056acc
+Soldier_PhysicsStep_056acc:
         jsr     0x27f08.l                       | +000
         bcc.w   .L056ade                        | +006
         move.b  d3,0x78(a6)                     | +00a
@@ -43,11 +43,11 @@ Sub_00056ACC:
         rts                                     | +044
 
 | ----------------------------------------------------------------------------
-|  Sub_00056B12  @ $056B12  (38 B)
+|  Soldier_ApproxDist_056b12  @ $056B12  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056B12, "ax", @progbits
-        .global Sub_00056B12
-Sub_00056B12:
+        .section .text.Soldier_ApproxDist_056b12, "ax", @progbits
+        .global Soldier_ApproxDist_056b12
+Soldier_ApproxDist_056b12:
         ext.l   d0                              | +000
         move.l  d0,d2                           | +002
         swap    d2                              | +004
@@ -61,18 +61,18 @@ Sub_00056B12:
         lsr.w   #0x1,d0                         | +016
         add.w   d1,d0                           | +018
         rts                                     | +01a
-        bra.w   Sub_00056B38                    | +01c
+        bra.w   Soldier_FindNearestPlayer_056b38 | +01c
 .L056b32:
         lsr.w   #0x1,d1                         | +020
         add.w   d1,d0                           | +022
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  Sub_00056B38  @ $056B38  (90 B)
+|  Soldier_FindNearestPlayer_056b38  @ $056B38  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056B38, "ax", @progbits
-        .global Sub_00056B38
-Sub_00056B38:
+        .section .text.Soldier_FindNearestPlayer_056b38, "ax", @progbits
+        .global Soldier_FindNearestPlayer_056b38
+Soldier_FindNearestPlayer_056b38:
         clr.l   -(a7)                           | +000
         move.w  #0xffff,-(a7)                   | +002
         moveq   #0,d0                           | +006
@@ -82,7 +82,7 @@ Sub_00056B38:
         sub.w   0x22(a0),d0                     | +016
         move.w  0x24(a6),d1                     | +01a
         sub.w   0x24(a6),d1                     | +01e
-        bsr.b   Sub_00056B12                    | +022
+        bsr.b   Soldier_ApproxDist_056b12       | +022
         move.l  a0,0x2(a7)                      | +024
         move.w  d0,(a7)                         | +028
 .L056b62:
@@ -93,7 +93,7 @@ Sub_00056B38:
         sub.w   0x22(a0),d0                     | +03a
         move.w  0x24(a6),d1                     | +03e
         sub.w   0x24(a0),d1                     | +042
-        bsr.b   Sub_00056B12                    | +046
+        bsr.b   Soldier_ApproxDist_056b12       | +046
         cmp.w   (a7),d0                         | +048
         bhi.w   .L056b8c                        | +04a
         move.w  d0,(a7)                         | +04e
@@ -104,11 +104,11 @@ Sub_00056B38:
         rts                                     | +058
 
 | ----------------------------------------------------------------------------
-|  Sub_00056B92  @ $056B92  (646 B)
+|  Soldier_Think_056b92  @ $056B92  (646 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056B92, "ax", @progbits
-        .global Sub_00056B92
-Sub_00056B92:
+        .section .text.Soldier_Think_056b92, "ax", @progbits
+        .global Soldier_Think_056b92
+Soldier_Think_056b92:
         move.w  0x8c(a6),d0                     | +000
         beq.w   .L056ba0                        | +004
         subq.w  #0x1,d0                         | +008
@@ -140,7 +140,7 @@ Sub_00056B92:
 .L056bf6:
         bset    #0x6,0x72(a6)                   | +064
 .L056bfc:
-        bsr.w   Sub_00056B38                    | +06a
+        bsr.w   Soldier_FindNearestPlayer_056b38 | +06a
         move.w  d0,0x7e(a6)                     | +06e
         move.l  a0,d0                           | +072
         beq.w   .L056df0                        | +074
@@ -291,11 +291,11 @@ Sub_00056B92:
         move.w  d0,0x88(a6)                     | +282
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_056e1e  @ $056E1E  (24 B)
+|  Soldier_DespawnIfOffscreen_056e1e  @ $056E1E  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_056e1e, "ax", @progbits
-        .global PcThunkTarget_056e1e
-PcThunkTarget_056e1e:
+        .section .text.Soldier_DespawnIfOffscreen_056e1e, "ax", @progbits
+        .global Soldier_DespawnIfOffscreen_056e1e
+Soldier_DespawnIfOffscreen_056e1e:
         lea     0x2b71d4.l,a0                   | +000
         jsr     0x5dd56.l                       | +006
         bcc.w   .L056e34                        | +00c
@@ -304,20 +304,20 @@ PcThunkTarget_056e1e:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  Sub_00056E36  @ $056E36  (8 B)
+|  Soldier_LeaveTimerExpired_056e36  @ $056E36  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056E36, "ax", @progbits
-        .global Sub_00056E36
-Sub_00056E36:
+        .section .text.Soldier_LeaveTimerExpired_056e36, "ax", @progbits
+        .global Soldier_LeaveTimerExpired_056e36
+Soldier_LeaveTimerExpired_056e36:
         tst.w   0x8e(a6)                        | +000
         beq.w   SetC_056e44                     | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056e4a  @ $056E4A  (124 B)
+|  Soldier_PickGrabAnchor_056e4a  @ $056E4A  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056e4a, "ax", @progbits
-        .global TaskHandler_056e4a
-TaskHandler_056e4a:
+        .section .text.Soldier_PickGrabAnchor_056e4a, "ax", @progbits
+        .global Soldier_PickGrabAnchor_056e4a
+Soldier_PickGrabAnchor_056e4a:
         move.b  0x74(a6),d0                     | +000
         andi.b  #0x7,d0                         | +004
         beq.w   ClearC_056ecc                   | +008
@@ -358,22 +358,22 @@ TaskHandler_056e4a:
         adda.w  d1,a7                           | +07a
 
 | ----------------------------------------------------------------------------
-|  Data_056ed2  @ $056ED2  (8 B)
+|  Soldier_AnchorPickTbl_056ed2  @ $056ED2  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_056ed2, "ax", @progbits
-        .global Data_056ed2
-Data_056ed2:
+        .section .text.Soldier_AnchorPickTbl_056ed2, "ax", @progbits
+        .global Soldier_AnchorPickTbl_056ed2
+Soldier_AnchorPickTbl_056ed2:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0102                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0102                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0203                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056eda  @ $056EDA  (42 B)
+|  Soldier_TestPlayerInSlug_056eda  @ $056EDA  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056eda, "ax", @progbits
-        .global TaskHandler_056eda
-TaskHandler_056eda:
+        .section .text.Soldier_TestPlayerInSlug_056eda, "ax", @progbits
+        .global Soldier_TestPlayerInSlug_056eda
+Soldier_TestPlayerInSlug_056eda:
         move.b  0x74(a6),d0                     | +000
         andi.b  #0x7,d0                         | +004
         beq.w   ClearC_056f0a                   | +008
@@ -386,11 +386,11 @@ TaskHandler_056eda:
         bcs.w   ClearC_056f0a                   | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056f10  @ $056F10  (72 B)
+|  Soldier_GrabStruggleProgress_056f10  @ $056F10  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056f10, "ax", @progbits
-        .global TaskHandler_056f10
-TaskHandler_056f10:
+        .section .text.Soldier_GrabStruggleProgress_056f10, "ax", @progbits
+        .global Soldier_GrabStruggleProgress_056f10
+Soldier_GrabStruggleProgress_056f10:
         move.w  0x80(a6),d0                     | +000
         move.w  d0,0x82(a6)                     | +004
         beq.w   .L056f28                        | +008
@@ -415,11 +415,11 @@ TaskHandler_056f10:
         bcs.w   ClearC_056f5e                   | +044
 
 | ----------------------------------------------------------------------------
-|  Sub_00056F64  @ $056F64  (26 B)
+|  Soldier_TestGrabBreak_056f64  @ $056F64  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056F64, "ax", @progbits
-        .global Sub_00056F64
-Sub_00056F64:
+        .section .text.Soldier_TestGrabBreak_056f64, "ax", @progbits
+        .global Soldier_TestGrabBreak_056f64
+Soldier_TestGrabBreak_056f64:
         move.w  0x80(a6),d0                     | +000
         cmpi.w  #0x300,d0                       | +004
         bcc.w   SetC_056f84                     | +008
@@ -429,22 +429,22 @@ Sub_00056F64:
         beq.w   SetC_056f84                     | +016
 
 | ----------------------------------------------------------------------------
-|  Sub_00056F8A  @ $056F8A  (16 B)
+|  Soldier_SetVelXByFacing_056f8a  @ $056F8A  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056F8A, "ax", @progbits
-        .global Sub_00056F8A
-Sub_00056F8A:
+        .section .text.Soldier_SetVelXByFacing_056f8a, "ax", @progbits
+        .global Soldier_SetVelXByFacing_056f8a
+Soldier_SetVelXByFacing_056f8a:
         move.w  0x36(a6),d0                     | +000
         btst    #0x0,0x3a(a6)                   | +004
         bne.w   SetTaskW_056f9a                 | +00a
         neg.w   d0                              | +00e
 
 | ----------------------------------------------------------------------------
-|  Sub_00056FA0  @ $056FA0  (64 B)
+|  Soldier_TestSurrender_056fa0  @ $056FA0  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056FA0, "ax", @progbits
-        .global Sub_00056FA0
-Sub_00056FA0:
+        .section .text.Soldier_TestSurrender_056fa0, "ax", @progbits
+        .global Soldier_TestSurrender_056fa0
+Soldier_TestSurrender_056fa0:
         btst    #0x3,0x74(a6)                   | +000
         beq.w   ClearC_056fe6                   | +006
         move.w  0x22(a6),d0                     | +00a
@@ -461,11 +461,11 @@ Sub_00056FA0:
         move.b  0x9a(a6),0x8d(a6)               | +03a
 
 | ----------------------------------------------------------------------------
-|  Sub_00056FEC  @ $056FEC  (54 B)
+|  Soldier_ProbeWalkEdge_056fec  @ $056FEC  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00056FEC, "ax", @progbits
-        .global Sub_00056FEC
-Sub_00056FEC:
+        .section .text.Soldier_ProbeWalkEdge_056fec, "ax", @progbits
+        .global Soldier_ProbeWalkEdge_056fec
+Soldier_ProbeWalkEdge_056fec:
         btst    #0x0,0x3a(a6)                   | +000
         seq.b   d1                              | +006
         move.b  0x28(a6),d2                     | +008
@@ -480,14 +480,14 @@ Sub_00056FEC:
         sne.b   d2                              | +02a
         and.b   d1,d2                           | +02c
         andi.b  #0x1,d2                         | +02e
-        beq.w   TaskHandler_05702a              | +032
+        beq.w   Soldier_ProbeWalkEdge_Bit5_05702a | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05702a  @ $05702A  (18 B)
+|  Soldier_ProbeWalkEdge_Bit5_05702a  @ $05702A  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05702a, "ax", @progbits
-        .global TaskHandler_05702a
-TaskHandler_05702a:
+        .section .text.Soldier_ProbeWalkEdge_Bit5_05702a, "ax", @progbits
+        .global Soldier_ProbeWalkEdge_Bit5_05702a
+Soldier_ProbeWalkEdge_Bit5_05702a:
         btst    #0x5,0x13(a6)                   | +000
         sne.b   d2                              | +006
         and.b   d1,d2                           | +008
@@ -495,11 +495,11 @@ TaskHandler_05702a:
         beq.w   SetHandlerRts_057042            | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0570a8  @ $0570A8  (204 B)
+|  Soldier_InitCommon_0570a8  @ $0570A8  (204 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0570a8, "ax", @progbits
-        .global TaskHandler_0570a8
-TaskHandler_0570a8:
+        .section .text.Soldier_InitCommon_0570a8, "ax", @progbits
+        .global Soldier_InitCommon_0570a8
+Soldier_InitCommon_0570a8:
         jsr     0x27f60.l                       | +000
         scc.b   0x78(a6)                        | +006
         bset    #0x3,0x6b(a6)                   | +00a
@@ -547,18 +547,18 @@ TaskHandler_0570a8:
         jsr     0x4ae.l                         | +0a6
         clr.w   0x84(a6)                        | +0ac
         clr.w   0x86(a6)                        | +0b0
-        bsr.w   Sub_00056B92                    | +0b4
+        bsr.w   Soldier_Think_056b92            | +0b4
         clr.b   0x74(a6)                        | +0b8
         jsr     0x5e9b6.l                       | +0bc
         move.w  d0,0x70(a6)                     | +0c2
         jsr     0x5e9b6.l                       | +0c6
 
 | ----------------------------------------------------------------------------
-|  JmpTarget_057226  @ $057226  (392 B)
+|  Soldier_SpawnVariants_057226  @ $057226  (392 B)
 | ----------------------------------------------------------------------------
-        .section .text.JmpTarget_057226, "ax", @progbits
-        .global JmpTarget_057226
-JmpTarget_057226:
+        .section .text.Soldier_SpawnVariants_057226, "ax", @progbits
+        .global Soldier_SpawnVariants_057226
+Soldier_SpawnVariants_057226:
         jsr     0x13600.l                       | +000
         bset    #0x1,0x12(a6)                   | +006
         move.b  #0x2,0x98(a6)                   | +00c
@@ -573,94 +573,94 @@ JmpTarget_057226:
         move.b  #0x1e,0x9a(a6)                  | +040
         move.b  #0xa,0x9b(a6)                   | +046
         bra.w   .L0572a6                        | +04c
-        bsr.w   TaskHandler_0570a8              | +050
+        bsr.w   Soldier_InitCommon_0570a8       | +050
         bsr.w   EntityState_SetSubstate1_0571D8 | +054
-        bra.w   TaskHandler_05752c              | +058
-        bsr.w   TaskHandler_0570a8              | +05c
+        bra.w   Soldier_SpawnDispatch_05752c    | +058
+        bsr.w   Soldier_InitCommon_0570a8       | +05c
         bsr.w   EntityState_SetSubstate2_0571C4 | +060
-        bra.w   TaskHandler_05752c              | +064
-        bsr.w   TaskHandler_0570a8              | +068
+        bra.w   Soldier_SpawnDispatch_05752c    | +064
+        bsr.w   Soldier_InitCommon_0570a8       | +068
         bsr.w   EntityState_SetSubstate3_0571EC | +06c
-        bra.w   TaskHandler_05752c              | +070
-        bsr.w   TaskHandler_0570a8              | +074
+        bra.w   Soldier_SpawnDispatch_05752c    | +070
+        bsr.w   Soldier_InitCommon_0570a8       | +074
         bsr.w   EntityState_SetState74Bit0_05720E | +078
-        bra.w   TaskHandler_05752c              | +07c
+        bra.w   Soldier_SpawnDispatch_05752c    | +07c
 .L0572a6:
-        bsr.w   TaskHandler_0570a8              | +080
+        bsr.w   Soldier_InitCommon_0570a8       | +080
         bsr.w   EntityState_SetState74Bit1_05721E | +084
-        bra.w   TaskHandler_05752c              | +088
-        bsr.w   TaskHandler_0570a8              | +08c
+        bra.w   Soldier_SpawnDispatch_05752c    | +088
+        bsr.w   Soldier_InitCommon_0570a8       | +08c
         bsr.w   EntityState_SetState74Bit2_057216 | +090
-        bra.w   TaskHandler_05752c              | +094
-        bsr.w   TaskHandler_0570a8              | +098
+        bra.w   Soldier_SpawnDispatch_05752c    | +094
+        bsr.w   Soldier_InitCommon_0570a8       | +098
         bsr.w   EntityState_SetState74Bit0_05720E | +09c
         bsr.w   EntityState_SetState74Bit1_05721E | +0a0
         bsr.w   EntityState_SetState74Bit2_057216 | +0a4
-        bra.w   TaskHandler_05752c              | +0a8
-        bsr.w   TaskHandler_0570a8              | +0ac
+        bra.w   Soldier_SpawnDispatch_05752c    | +0a8
+        bsr.w   Soldier_InitCommon_0570a8       | +0ac
         bsr.w   EntityState_SetState74Bit0_05720E | +0b0
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +0b4
-        bra.w   TaskHandler_05752c              | +0b8
-        bsr.w   TaskHandler_0570a8              | +0bc
+        bra.w   Soldier_SpawnDispatch_05752c    | +0b8
+        bsr.w   Soldier_InitCommon_0570a8       | +0bc
         bsr.w   EntityState_SetState74Bit1_05721E | +0c0
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +0c4
-        bra.w   TaskHandler_05752c              | +0c8
-        bsr.w   TaskHandler_0570a8              | +0cc
+        bra.w   Soldier_SpawnDispatch_05752c    | +0c8
+        bsr.w   Soldier_InitCommon_0570a8       | +0cc
         bsr.w   EntityState_SetState74Bit2_057216 | +0d0
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +0d4
-        bra.w   TaskHandler_05752c              | +0d8
-        bsr.w   TaskHandler_0570a8              | +0dc
+        bra.w   Soldier_SpawnDispatch_05752c    | +0d8
+        bsr.w   Soldier_InitCommon_0570a8       | +0dc
         bsr.w   EntityState_SetState74Bit0_05720E | +0e0
         bsr.w   EntityState_SetState74Bit1_05721E | +0e4
         bsr.w   EntityState_SetState74Bit2_057216 | +0e8
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +0ec
-        bra.w   TaskHandler_05752c              | +0f0
-        bsr.w   TaskHandler_0570a8              | +0f4
+        bra.w   Soldier_SpawnDispatch_05752c    | +0f0
+        bsr.w   Soldier_InitCommon_0570a8       | +0f4
         bsr.w   EntityState_SetState74Bit0_05720E | +0f8
-        bra.w   TaskHandler_05752c              | +0fc
-        bsr.w   TaskHandler_0570a8              | +100
+        bra.w   Soldier_SpawnDispatch_05752c    | +0fc
+        bsr.w   Soldier_InitCommon_0570a8       | +100
         bsr.w   EntityState_SetState74Bit1_05721E | +104
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +108
         bsr.w   EntityState_SetState74Bit4_057200 | +10c
-        bra.w   TaskHandler_05752c              | +110
-        bsr.w   TaskHandler_0570a8              | +114
+        bra.w   Soldier_SpawnDispatch_05752c    | +110
+        bsr.w   Soldier_InitCommon_0570a8       | +114
         bsr.w   EntityState_SetState74Bit2_057216 | +118
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +11c
         bsr.w   EntityState_SetState74Bit4_057200 | +120
-        bra.w   TaskHandler_05752c              | +124
-        bsr.w   TaskHandler_0570a8              | +128
+        bra.w   Soldier_SpawnDispatch_05752c    | +124
+        bsr.w   Soldier_InitCommon_0570a8       | +128
         bsr.w   EntityState_SetState74Bit0_05720E | +12c
         bsr.w   EntityState_SetState74Bit1_05721E | +130
         bsr.w   EntityState_SetState74Bit2_057216 | +134
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +138
         bsr.w   EntityState_SetState74Bit4_057200 | +13c
-        bra.w   TaskHandler_05752c              | +140
+        bra.w   Soldier_SpawnDispatch_05752c    | +140
         bclr    #0x0,0x3a(a6)                   | +144
         bra.w   .L05737a                        | +14a
         bset    #0x0,0x3a(a6)                   | +14e
 .L05737a:
-        bsr.w   TaskHandler_0570a8              | +154
+        bsr.w   Soldier_InitCommon_0570a8       | +154
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +158
         bra.w   Soldier_TauntInit_058e08        | +15c
-        bsr.w   TaskHandler_0570a8              | +160
+        bsr.w   Soldier_InitCommon_0570a8       | +160
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +164
         bsr.w   EntityState_SetState74Bit4_057200 | +168
-        bra.w   TaskHandler_05752c              | +16c
-        bsr.w   TaskHandler_0570a8              | +170
+        bra.w   Soldier_SpawnDispatch_05752c    | +16c
+        bsr.w   Soldier_InitCommon_0570a8       | +170
         bsr.w   EntityState_SetState74Bit4_057200 | +174
-        bra.w   TaskHandler_05752c              | +178
+        bra.w   Soldier_SpawnDispatch_05752c    | +178
 .L0573a2:
-        bsr.w   TaskHandler_0570a8              | +17c
+        bsr.w   Soldier_InitCommon_0570a8       | +17c
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +180
-        bra.w   TaskHandler_05752c              | +184
+        bra.w   Soldier_SpawnDispatch_05752c    | +184
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0573ae  @ $0573AE  (40 B)
+|  Soldier_SpawnAtGroundA_0573ae  @ $0573AE  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0573ae, "ax", @progbits
-        .global TaskHandler_0573ae
-TaskHandler_0573ae:
-        bsr.w   TaskHandler_0570a8              | +000
+        .section .text.Soldier_SpawnAtGroundA_0573ae, "ax", @progbits
+        .global Soldier_SpawnAtGroundA_0573ae
+Soldier_SpawnAtGroundA_0573ae:
+        bsr.w   Soldier_InitCommon_0570a8       | +000
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +004
         jsr     0x77148.l                       | +008
         tst.w   d0                              | +00e
@@ -672,12 +672,12 @@ TaskHandler_0573ae:
         move.b  d0,0x77(a6)                     | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0573de  @ $0573DE  (40 B)
+|  Soldier_SpawnAtGroundB_0573de  @ $0573DE  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0573de, "ax", @progbits
-        .global TaskHandler_0573de
-TaskHandler_0573de:
-        bsr.w   TaskHandler_0570a8              | +000
+        .section .text.Soldier_SpawnAtGroundB_0573de, "ax", @progbits
+        .global Soldier_SpawnAtGroundB_0573de
+Soldier_SpawnAtGroundB_0573de:
+        bsr.w   Soldier_InitCommon_0570a8       | +000
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +004
         jsr     0x77148.l                       | +008
         tst.w   d0                              | +00e
@@ -689,11 +689,11 @@ TaskHandler_0573de:
         move.b  d0,0x77(a6)                     | +024
 
 | ----------------------------------------------------------------------------
-|  Sub_0005740E  @ $05740E  (42 B)
+|  Soldier_PickFallAnim_05740e  @ $05740E  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005740E, "ax", @progbits
-        .global Sub_0005740E
-Sub_0005740E:
+        .section .text.Soldier_PickFallAnim_05740e, "ax", @progbits
+        .global Soldier_PickFallAnim_05740e
+Soldier_PickFallAnim_05740e:
         move.w  0x28(a6),d0                     | +000
         bpl.w   .L057418                        | +004
         neg.w   d0                              | +008
@@ -710,11 +710,11 @@ Sub_0005740E:
         lea     0x29b7c8.l,a0                   | +024
 
 | ----------------------------------------------------------------------------
-|  Data_057440  @ $057440  (84 B)
+|  Soldier_AttackTblMeleeProbe_057440  @ $057440  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_057440, "ax", @progbits
-        .global Data_057440
-Data_057440:
+        .section .text.Soldier_AttackTblMeleeProbe_057440, "ax", @progbits
+        .global Soldier_AttackTblMeleeProbe_057440
+Soldier_AttackTblMeleeProbe_057440:
         .dc.w   0x000a                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
@@ -759,11 +759,11 @@ Data_057440:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00057494  @ $057494  (84 B)
+|  Soldier_AttackTblMelee_057494  @ $057494  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00057494, "ax", @progbits
-        .global Sub_00057494
-Sub_00057494:
+        .section .text.Soldier_AttackTblMelee_057494, "ax", @progbits
+        .global Soldier_AttackTblMelee_057494
+Soldier_AttackTblMelee_057494:
         .dc.w   0x000a                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0010                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +004  (dato / opcode no decodificado)
@@ -808,17 +808,17 @@ Sub_00057494:
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000574E8  @ $0574E8  (56 B)
+|  Soldier_TestMeleeRange_0574e8  @ $0574E8  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000574E8, "ax", @progbits
-        .global Sub_000574E8
-Sub_000574E8:
+        .section .text.Soldier_TestMeleeRange_0574e8, "ax", @progbits
+        .global Soldier_TestMeleeRange_0574e8
+Soldier_TestMeleeRange_0574e8:
         move.w  0x22(a6),d0                     | +000
         cmpi.w  #0x20,d0                        | +004
         bmi.w   ClearC_057526                   | +008
         cmpi.w  #0x300,d0                       | +00c
         bpl.w   ClearC_057526                   | +010
-        lea     Data_057440(pc),a0              | +014
+        lea     Soldier_AttackTblMeleeProbe_057440(pc),a0 | +014
         move.l  a0,0x4c(a6)                     | +018
         jsr     0x283ca.l                       | +01c
         jsr     0x283ca.l                       | +022
@@ -827,11 +827,11 @@ Sub_000574E8:
         beq.w   ClearC_057526                   | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05752c  @ $05752C  (36 B)
+|  Soldier_SpawnDispatch_05752c  @ $05752C  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05752c, "ax", @progbits
-        .global TaskHandler_05752c
-TaskHandler_05752c:
+        .section .text.Soldier_SpawnDispatch_05752c, "ax", @progbits
+        .global Soldier_SpawnDispatch_05752c
+Soldier_SpawnDispatch_05752c:
         move.w  0x22(a6),d0                     | +000
         cmpi.w  #0xa0,d0                        | +004
         bpl.w   .L05753e                        | +008
@@ -839,48 +839,48 @@ TaskHandler_05752c:
 .L05753e:
         tst.b   0x78(a6)                        | +012
         beq.w   SetTaskHandler_057550           | +016
-        lea     Sub_00057558(pc),a1             | +01a
+        lea     Soldier_WalkStart_057558(pc),a1 | +01a
         move.l  a1,(a6)                         | +01e
         bra.w   SetHandlerRts_057556            | +020
 
 | ----------------------------------------------------------------------------
-|  Sub_00057558  @ $057558  (42 B)
+|  Soldier_WalkStart_057558  @ $057558  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00057558, "ax", @progbits
-        .global Sub_00057558
-Sub_00057558:
+        .section .text.Soldier_WalkStart_057558, "ax", @progbits
+        .global Soldier_WalkStart_057558
+Soldier_WalkStart_057558:
         lea     0x29b744.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0x2b756e.l,a0                   | +00c
         jsr     0x799de.l                       | +012
         move.w  d0,0x36(a6)                     | +018
-        bsr.w   Sub_00056F8A                    | +01c
+        bsr.w   Soldier_SetVelXByFacing_056f8a  | +01c
         clr.w   0x2a(a6)                        | +020
-        lea     TaskHandler_057582(pc),a1       | +024
+        lea     Soldier_Walk_Loop_057582(pc),a1 | +024
         move.l  a1,(a6)                         | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057582  @ $057582  (388 B)
+|  Soldier_Walk_Loop_057582  @ $057582  (388 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057582, "ax", @progbits
-        .global TaskHandler_057582
-TaskHandler_057582:
-        bsr.w   Sub_00056ACC                    | +000
-        bsr.w   Sub_00056B92                    | +004
-        bsr.w   TaskHandler_056e4a              | +008
+        .section .text.Soldier_Walk_Loop_057582, "ax", @progbits
+        .global Soldier_Walk_Loop_057582
+Soldier_Walk_Loop_057582:
+        bsr.w   Soldier_PhysicsStep_056acc      | +000
+        bsr.w   Soldier_Think_056b92            | +004
+        bsr.w   Soldier_PickGrabAnchor_056e4a   | +008
         bcc.w   .L05759c                        | +00c
-        lea     TaskHandler_057728(pc),a1       | +010
+        lea     Soldier_GrabApproach_057728(pc),a1 | +010
         move.l  a1,(a6)                         | +014
-        bra.w   TaskHandler_057728              | +016
+        bra.w   Soldier_GrabApproach_057728     | +016
 .L05759c:
-        bsr.w   TaskHandler_056eda              | +01a
+        bsr.w   Soldier_TestPlayerInSlug_056eda | +01a
         bcc.w   .L0575ae                        | +01e
-        lea     TaskHandler_0577bc(pc),a1       | +022
+        lea     Soldier_SlugApproach_0577bc(pc),a1 | +022
         move.l  a1,(a6)                         | +026
-        bra.w   TaskHandler_0577bc              | +028
+        bra.w   Soldier_SlugApproach_0577bc     | +028
 .L0575ae:
         jsr     0x28d70.l                       | +02c
-        bsr.w   Sub_00056FEC                    | +032
+        bsr.w   Soldier_ProbeWalkEdge_056fec    | +032
         btst    #0x0,0x72(a6)                   | +036
         beq.w   .L05767c                        | +03c
         move.w  0x82(a6),d1                     | +040
@@ -973,62 +973,62 @@ TaskHandler_057582:
         lea     Soldier_SurrenderFlee_0589f8__L058a50(pc),a1 | +13a
         move.l  a1,(a6)                         | +13e
 .L0576c2:
-        jsr     Sub_00056E36(pc)                | +140
+        jsr     Soldier_LeaveTimerExpired_056e36(pc) | +140
         bcc.w   .L0576d0                        | +144
         lea     Soldier_SpawnFaceTarget_059062(pc),a1 | +148
         move.l  a1,(a6)                         | +14c
 .L0576d0:
-        jsr     Sub_00056FA0(pc)                | +14e
+        jsr     Soldier_TestSurrender_056fa0(pc) | +14e
         bcc.w   .L0576de                        | +152
         lea     Soldier_Surrender_058968(pc),a1 | +156
         move.l  a1,(a6)                         | +15a
 .L0576de:
         tst.b   0x78(a6)                        | +15c
         bne.w   .L0576ec                        | +160
-        lea     TaskHandler_057706(pc),a1       | +164
+        lea     Soldier_AirborneDispatch_057706(pc),a1 | +164
         move.l  a1,(a6)                         | +168
 .L0576ec:
-        jsr     Sub_000574E8(pc)                | +16a
+        jsr     Soldier_TestMeleeRange_0574e8(pc) | +16a
         bcc.w   .L0576fa                        | +16e
         lea     Soldier_MeleeAttack_0585ae(pc),a1 | +172
         move.l  a1,(a6)                         | +176
 .L0576fa:
         jsr     0x49fd0.l                       | +178
-        bsr.w   PcThunkTarget_056e1e            | +17e
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e | +17e
         rts                                     | +182
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057706  @ $057706  (18 B)
+|  Soldier_AirborneDispatch_057706  @ $057706  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057706, "ax", @progbits
-        .global TaskHandler_057706
-TaskHandler_057706:
+        .section .text.Soldier_AirborneDispatch_057706, "ax", @progbits
+        .global Soldier_AirborneDispatch_057706
+Soldier_AirborneDispatch_057706:
         jsr     0x5e9b6.l                       | +000
-        lea     TaskHandler_057718(pc),a0       | +006
+        lea     Soldier_AirborneJT_057718(pc),a0 | +006
         andi.w  #0xc,d0                         | +00a
         jmp     (a0,d0.w)                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057718  @ $057718  (16 B)
+|  Soldier_AirborneJT_057718  @ $057718  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057718, "ax", @progbits
-        .global TaskHandler_057718
-TaskHandler_057718:
+        .section .text.Soldier_AirborneJT_057718, "ax", @progbits
+        .global Soldier_AirborneJT_057718
+Soldier_AirborneJT_057718:
         bra.w   Soldier_SurrenderFlee_0589f8__L058a50 | +000
         bra.w   Soldier_Flee_058658             | +004
         bra.w   Soldier_Hurt_058412             | +008
         bra.w   Soldier_SurrenderFlee_0589f8__L058a50 | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057728  @ $057728  (142 B)
+|  Soldier_GrabApproach_057728  @ $057728  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057728, "ax", @progbits
-        .global TaskHandler_057728
-TaskHandler_057728:
-        bsr.w   Sub_00056ACC                    | +000
-        bsr.w   Sub_00056B92                    | +004
+        .section .text.Soldier_GrabApproach_057728, "ax", @progbits
+        .global Soldier_GrabApproach_057728
+Soldier_GrabApproach_057728:
+        bsr.w   Soldier_PhysicsStep_056acc      | +000
+        bsr.w   Soldier_Think_056b92            | +004
         jsr     0x28d70.l                       | +008
-        bsr.w   TaskHandler_056e4a              | +00e
+        bsr.w   Soldier_PickGrabAnchor_056e4a   | +00e
         bcc.w   .L0577aa                        | +012
         move.w  0x80(a6),d1                     | +016
         mulu.w  d1,d1                           | +01a
@@ -1043,7 +1043,7 @@ TaskHandler_057728:
 .L05775c:
         addq.w  #0x2,a7                         | +034
         bcc.w   .L057768                        | +036
-        lea     TaskHandler_057880__L0578dc(pc),a1 | +03a
+        lea     Soldier_Leap_057880__L0578dc(pc),a1 | +03a
         move.l  a1,(a6)                         | +03e
 .L057768:
         btst    #0x0,0x72(a6)                   | +040
@@ -1053,7 +1053,7 @@ TaskHandler_057728:
 .L057778:
         tst.b   0x78(a6)                        | +050
         bne.w   .L057786                        | +054
-        lea     TaskHandler_057880__L0578dc(pc),a1 | +058
+        lea     Soldier_Leap_057880__L0578dc(pc),a1 | +058
         move.l  a1,(a6)                         | +05c
 .L057786:
         btst    #0x6,0x72(a6)                   | +05e
@@ -1068,19 +1068,19 @@ TaskHandler_057728:
 .L0577a6:
         bra.w   .L0577b0                        | +07e
 .L0577aa:
-        lea     TaskHandler_057582(pc),a1       | +082
+        lea     Soldier_Walk_Loop_057582(pc),a1 | +082
         move.l  a1,(a6)                         | +086
 .L0577b0:
         jsr     0x49fd0.l                       | +088
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0577bc  @ $0577BC  (124 B)
+|  Soldier_SlugApproach_0577bc  @ $0577BC  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0577bc, "ax", @progbits
-        .global TaskHandler_0577bc
-TaskHandler_0577bc:
-        bsr.w   Sub_00056ACC                    | +000
-        bsr.w   Sub_00056B92                    | +004
+        .section .text.Soldier_SlugApproach_0577bc, "ax", @progbits
+        .global Soldier_SlugApproach_0577bc
+Soldier_SlugApproach_0577bc:
+        bsr.w   Soldier_PhysicsStep_056acc      | +000
+        bsr.w   Soldier_Think_056b92            | +004
         jsr     0x28d70.l                       | +008
         move.w  0x80(a6),d1                     | +00e
         mulu.w  d1,d1                           | +012
@@ -1095,7 +1095,7 @@ TaskHandler_0577bc:
 .L0577e8:
         addq.w  #0x2,a7                         | +02c
         bcc.w   .L0577f4                        | +02e
-        lea     TaskHandler_057880__L05799e(pc),a1 | +032
+        lea     Soldier_Leap_057880__L05799e(pc),a1 | +032
         move.l  a1,(a6)                         | +036
 .L0577f4:
         btst    #0x0,0x72(a6)                   | +038
@@ -1105,7 +1105,7 @@ TaskHandler_0577bc:
 .L057804:
         tst.b   0x78(a6)                        | +048
         bne.w   .L057812                        | +04c
-        lea     TaskHandler_057880__L05799e(pc),a1 | +050
+        lea     Soldier_Leap_057880__L05799e(pc),a1 | +050
         move.l  a1,(a6)                         | +054
 .L057812:
         btst    #0x6,0x72(a6)                   | +056
@@ -1121,12 +1121,12 @@ TaskHandler_0577bc:
         jsr     0x49fd0.l                       | +076
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05783e  @ $05783E  (66 B)
+|  Soldier_SpawnJumpIn_05783e  @ $05783E  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05783e, "ax", @progbits
-        .global TaskHandler_05783e
-TaskHandler_05783e:
-        bsr.w   TaskHandler_0570a8              | +000
+        .section .text.Soldier_SpawnJumpIn_05783e, "ax", @progbits
+        .global Soldier_SpawnJumpIn_05783e
+Soldier_SpawnJumpIn_05783e:
+        bsr.w   Soldier_InitCommon_0570a8       | +000
         bsr.w   EntityState_PublishByProbeN_ClearSub75_05719C | +004
         lea     0x2b69d8.l,a0                   | +008
         jsr     0x28cd4.l                       | +00e
@@ -1142,12 +1142,12 @@ TaskHandler_05783e:
         bra.w   Soldier_SurrenderFlee_0589f8__L058a82 | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057880  @ $057880  (542 B)
+|  Soldier_Leap_057880  @ $057880  (542 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057880, "ax", @progbits
-        .global TaskHandler_057880
-TaskHandler_057880:
-        bsr.w   TaskHandler_0570a8              | +000
+        .section .text.Soldier_Leap_057880, "ax", @progbits
+        .global Soldier_Leap_057880
+Soldier_Leap_057880:
+        bsr.w   Soldier_InitCommon_0570a8       | +000
         bsr.w   EntityState_SetState74Bit0_05720E | +004
         bsr.w   EntityState_SetState74Bit1_05721E | +008
         bsr.w   EntityState_SetState74Bit2_057216 | +00c
@@ -1160,14 +1160,14 @@ TaskHandler_057880:
         move.w  #0xffd8,0x2e(a6)                | +030
         move.w  #0x0,0x2c(a6)                   | +036
         clr.w   0x2a(a6)                        | +03c
-        bsr.w   Sub_00056B92                    | +040
-        bsr.w   TaskHandler_056eda              | +044
+        bsr.w   Soldier_Think_056b92            | +040
+        bsr.w   Soldier_TestPlayerInSlug_056eda | +044
         bcc.w   .L057908                        | +048
         lea     0x2b6fee.l,a0                   | +04c
         jsr     0x28cd4.l                       | +052
         bra.w   .L057a5a                        | +058
-        .global TaskHandler_057880__L0578dc
-TaskHandler_057880__L0578dc:
+        .global Soldier_Leap_057880__L0578dc
+Soldier_Leap_057880__L0578dc:
         lea     0x2b6922.l,a0                   | +05c
         jsr     0x28cd4.l                       | +062
         move.w  #0xfdde,d0                      | +068
@@ -1199,7 +1199,7 @@ TaskHandler_057880__L0578dc:
         move.l  a1,(a6)                         | +0d2
 .L057954:
         jsr     0x28d70.l                       | +0d4
-        bsr.w   TaskHandler_056e4a              | +0da
+        bsr.w   Soldier_PickGrabAnchor_056e4a   | +0da
         bcc.w   .L057994                        | +0de
         tst.w   0x2a(a6)                        | +0e2
         bpl.w   .L057994                        | +0e6
@@ -1211,13 +1211,13 @@ TaskHandler_057880__L0578dc:
         addi.w  #0x10,d0                        | +102
         cmp.w   0x24(a6),d0                     | +106
         bpl.w   .L057994                        | +10a
-        lea     TaskHandler_057b06(pc),a1       | +10e
+        lea     Soldier_GrabLatch_057b06(pc),a1 | +10e
         move.l  a1,(a6)                         | +112
 .L057994:
         jsr     0x49fd0.l                       | +114
-        bra.w   PcThunkTarget_056e1e            | +11a
-        .global TaskHandler_057880__L05799e
-TaskHandler_057880__L05799e:
+        bra.w   Soldier_DespawnIfOffscreen_056e1e | +11a
+        .global Soldier_Leap_057880__L05799e
+Soldier_Leap_057880__L05799e:
         lea     0x2b6f40.l,a0                   | +11e
         jsr     0x28cd4.l                       | +124
         cmpi.b  #0xff,0x9d(a6)                  | +12a
@@ -1274,18 +1274,18 @@ TaskHandler_057880__L05799e:
 .L057a84:
         btst    #0x1,0x13(a6)                   | +204
         beq.w   .L057a94                        | +20a
-        lea     TaskHandler_057a9e(pc),a1       | +20e
+        lea     Soldier_LeapLand_057a9e(pc),a1  | +20e
         move.l  a1,(a6)                         | +212
 .L057a94:
         jsr     0x49fd0.l                       | +214
-        bra.w   PcThunkTarget_056e1e            | +21a
+        bra.w   Soldier_DespawnIfOffscreen_056e1e | +21a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057a9e  @ $057A9E  (70 B)
+|  Soldier_LeapLand_057a9e  @ $057A9E  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057a9e, "ax", @progbits
-        .global TaskHandler_057a9e
-TaskHandler_057a9e:
+        .section .text.Soldier_LeapLand_057a9e, "ax", @progbits
+        .global Soldier_LeapLand_057a9e
+Soldier_LeapLand_057a9e:
         lea     0x2b6fba.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         jsr     0x283ca.l                       | +00c
@@ -1302,14 +1302,14 @@ TaskHandler_057a9e:
         move.l  a1,(a6)                         | +03a
 .L057ada:
         jsr     0x49fd0.l                       | +03c
-        bra.w   PcThunkTarget_056e1e            | +042
+        bra.w   Soldier_DespawnIfOffscreen_056e1e | +042
 
 | ----------------------------------------------------------------------------
-|  Sub_00057AE4  @ $057AE4  (34 B)
+|  Soldier_HitCheckTail_057ae4  @ $057AE4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00057AE4, "ax", @progbits
-        .global Sub_00057AE4
-Sub_00057AE4:
+        .section .text.Soldier_HitCheckTail_057ae4, "ax", @progbits
+        .global Soldier_HitCheckTail_057ae4
+Soldier_HitCheckTail_057ae4:
         jsr     0x2870a.l                       | +000
         bcc.w   .L057b04                        | +006
         cmpi.b  #0x1c,0x58(a6)                  | +00a
@@ -1321,11 +1321,11 @@ Sub_00057AE4:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057b06  @ $057B06  (174 B)
+|  Soldier_GrabLatch_057b06  @ $057B06  (174 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057b06, "ax", @progbits
-        .global TaskHandler_057b06
-TaskHandler_057b06:
+        .section .text.Soldier_GrabLatch_057b06, "ax", @progbits
+        .global Soldier_GrabLatch_057b06
+Soldier_GrabLatch_057b06:
         lea     0x2b6a02.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0x2b67de.l,a0                   | +00c
@@ -1335,7 +1335,7 @@ TaskHandler_057b06:
         move.l  a0,0x4c(a6)                     | +020
         jsr     0x283ca.l                       | +024
         clr.w   0x80(a6)                        | +02a
-        bsr.w   TaskHandler_056e4a              | +02e
+        bsr.w   Soldier_PickGrabAnchor_056e4a   | +02e
         bcs.w   .L057b44                        | +032
         bra.w   Soldier_GrabThrownB_057fc6      | +036
         bra.w   .L057b66                        | +03a
@@ -1350,7 +1350,7 @@ TaskHandler_057b06:
         lea     .L057b66(pc),a1                 | +05a
         move.l  a1,(a6)                         | +05e
 .L057b66:
-        bsr.w   TaskHandler_056e4a              | +060
+        bsr.w   Soldier_PickGrabAnchor_056e4a   | +060
         bcs.w   .L057b74                        | +064
         lea     Soldier_GrabThrownB_057fc6(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
@@ -1368,21 +1368,21 @@ TaskHandler_057b06:
         move.w  d1,0x24(a6)                     | +096
         jsr     0x28d70.l                       | +09a
         bcc.w   .L057bb0                        | +0a0
-        lea     TaskHandler_057bb4(pc),a1       | +0a4
+        lea     Soldier_GrabSlideToAnchor_057bb4(pc),a1 | +0a4
         move.l  a1,(a6)                         | +0a8
 .L057bb0:
-        jmp     Sub_00057AE4(pc)                | +0aa
+        jmp     Soldier_HitCheckTail_057ae4(pc) | +0aa
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057bb4  @ $057BB4  (244 B)
+|  Soldier_GrabSlideToAnchor_057bb4  @ $057BB4  (244 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057bb4, "ax", @progbits
-        .global TaskHandler_057bb4
-TaskHandler_057bb4:
+        .section .text.Soldier_GrabSlideToAnchor_057bb4, "ax", @progbits
+        .global Soldier_GrabSlideToAnchor_057bb4
+Soldier_GrabSlideToAnchor_057bb4:
         lea     0x2b6a60.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         bclr    #0x0,0x3a(a6)                   | +00c
-        bsr.w   TaskHandler_056e4a              | +012
+        bsr.w   Soldier_PickGrabAnchor_056e4a   | +012
         bcc.w   Soldier_GrabThrownB_057fc6      | +016
         move.b  d0,0x76(a6)                     | +01a
         movea.l 0x7a(a6),a0                     | +01e
@@ -1452,24 +1452,24 @@ TaskHandler_057bb4:
         lea     Soldier_GrabPlayer_057d04__L057e0a(pc),a1 | +0ea
         move.l  a1,(a6)                         | +0ee
 .L057ca4:
-        jmp     Sub_00057AE4(pc)                | +0f0
+        jmp     Soldier_HitCheckTail_057ae4(pc) | +0f0
 
 | ----------------------------------------------------------------------------
-|  Sub_00057CA8  @ $057CA8  (16 B)
+|  Soldier_GrabHoldFlag_057ca8  @ $057CA8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00057CA8, "ax", @progbits
-        .global Sub_00057CA8
-Sub_00057CA8:
+        .section .text.Soldier_GrabHoldFlag_057ca8, "ax", @progbits
+        .global Soldier_GrabHoldFlag_057ca8
+Soldier_GrabHoldFlag_057ca8:
         tst.b   0x106ed3.l                      | +000
-        bne.w   TaskHandler_057cc0              | +006
+        bne.w   Soldier_GrabFollowPlayer_057cc0 | +006
         bset    #0x3,0x13(a6)                   | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057cc0  @ $057CC0  (60 B)
+|  Soldier_GrabFollowPlayer_057cc0  @ $057CC0  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057cc0, "ax", @progbits
-        .global TaskHandler_057cc0
-TaskHandler_057cc0:
+        .section .text.Soldier_GrabFollowPlayer_057cc0, "ax", @progbits
+        .global Soldier_GrabFollowPlayer_057cc0
+Soldier_GrabFollowPlayer_057cc0:
         move.b  0x76(a6),d0                     | +000
         movea.l 0x7a(a6),a0                     | +004
         jsr     0x8f884.l                       | +008
@@ -1485,5 +1485,5 @@ TaskHandler_057cc0:
         lea     Soldier_GrabThrownB_057fc6(pc),a1 | +02e
         move.l  a1,(a6)                         | +032
 .L057cf4:
-        bsr.w   TaskHandler_056f10              | +034
+        bsr.w   Soldier_GrabStruggleProgress_056f10 | +034
         bcc.w   SetHandlerRts_057d02            | +038

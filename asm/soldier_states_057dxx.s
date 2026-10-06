@@ -11,8 +11,8 @@
 |  estándar (infantería de la misión 1 en adelante). Cada estado es una
 |  rutina a la que apunta (a6) y que se re-engancha a sí misma o a la
 |  siguiente con `lea X(pc),a1 / move.l a1,(a6)`. Depende del clúster de
-|  helpers inmediatamente anterior ($056ACC..$057D04: Sub_00056ACC/56B92/
-|  56E36/56F64/56F8A/56FA0/56FEC/5740E/574E8/57CA8, PcThunkTarget_056e1e),
+|  helpers inmediatamente anterior ($056ACC..$057D04: Soldier_PhysicsStep_056acc/56B92/
+|  56E36/56F64/56F8A/56FA0/56FEC/5740E/574E8/57CA8, Soldier_DespawnIfOffscreen_056e1e),
 |  pendiente de la Wave FFFF.
 |
 |   1. Agarre al player ($57D04..$5804C): Soldier_GrabPlayer toma el ancla
@@ -29,7 +29,7 @@
 |      (RNG $5E9B6 contra umbrales en +$80..+$8A) entre fidget, pasos,
 |      ataque cuerpo a cuerpo, retirada y burla.
 |   4. Hurt/Hurt_Loop/Land ($58412..$584C4): impacto recibido, caída y
-|      aterrizaje (test de suelo vía Sub_00056B92).
+|      aterrizaje (test de suelo vía Soldier_Think_056b92).
 |   5. StepRight/StepLeft/Step_Loop ($584C4..$585AE): pasos laterales
 |      cortos; MeleeAttack ($585AE) golpe de cuchillo con tabla de ataque
 |      +$4C (Attack_* $283CA); Brake ($585F6) frenado.
@@ -120,8 +120,8 @@ Soldier_GrabPlayer_057d04:
         lea     .L057d32(pc),a1                 | +028
         move.l  a1,(a6)                         | +02c
 .L057d32:
-        bsr.w   Sub_00057CA8                    | +02e
-        jsr     Sub_00056F64(pc)                | +032
+        bsr.w   Soldier_GrabHoldFlag_057ca8                    | +02e
+        jsr     Soldier_TestGrabBreak_056f64(pc)                | +032
         bcc.w   .L057d44                        | +036
         lea     Soldier_GrabBreakA_057ece(pc),a1 | +03a
         move.l  a1,(a6)                         | +03e
@@ -137,7 +137,7 @@ Soldier_GrabPlayer_057d04:
         move.w  #0x0,d0                         | +05c
         jsr     0x8f8c2.l                       | +060
 .L057d6a:
-        jmp     Sub_00057AE4(pc)                | +066
+        jmp     Soldier_HitCheckTail_057ae4(pc)                | +066
         .global Soldier_GrabPlayer_057d04__L057d6e
 Soldier_GrabPlayer_057d04__L057d6e:
         bclr    #0x0,0x3a(a6)                   | +06a
@@ -167,8 +167,8 @@ Soldier_GrabPlayer_057d04__L057d6e:
         lea     .L057de4(pc),a1                 | +0da
         move.l  a1,(a6)                         | +0de
 .L057de4:
-        bsr.w   Sub_00057CA8                    | +0e0
-        jsr     Sub_00056F64(pc)                | +0e4
+        bsr.w   Soldier_GrabHoldFlag_057ca8                    | +0e0
+        jsr     Soldier_TestGrabBreak_056f64(pc)                | +0e4
         bcc.w   .L057df6                        | +0e8
         lea     Soldier_GrabBreakB_057ee2(pc),a1 | +0ec
         move.l  a1,(a6)                         | +0f0
@@ -178,7 +178,7 @@ Soldier_GrabPlayer_057d04__L057d6e:
         lea     Soldier_GrabThrownB_057fc6(pc),a1 | +0fc
         move.l  a1,(a6)                         | +100
 .L057e06:
-        jmp     Sub_00057AE4(pc)                | +102
+        jmp     Soldier_HitCheckTail_057ae4(pc)                | +102
         .global Soldier_GrabPlayer_057d04__L057e0a
 Soldier_GrabPlayer_057d04__L057e0a:
         bclr    #0x0,0x3a(a6)                   | +106
@@ -201,9 +201,9 @@ Soldier_GrabStruggle_057e26:
         lea     .L057e44(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L057e44:
-        bsr.w   Sub_00057CA8                    | +01e
+        bsr.w   Soldier_GrabHoldFlag_057ca8                    | +01e
         jsr     0x28d70.l                       | +022
-        jsr     Sub_00056F64(pc)                | +028
+        jsr     Soldier_TestGrabBreak_056f64(pc)                | +028
         bcc.w   .L057e5c                        | +02c
         lea     Soldier_GrabBreakC_057ef6(pc),a1 | +030
         move.l  a1,(a6)                         | +034
@@ -215,7 +215,7 @@ Soldier_GrabStruggle_057e26:
         lea     Soldier_GrabStruggleNext_057e7a(pc),a1 | +04a
         move.l  a1,(a6)                         | +04e
 .L057e76:
-        jmp     Sub_00057AE4(pc)                | +050
+        jmp     Soldier_HitCheckTail_057ae4(pc)                | +050
 
 | ----------------------------------------------------------------------------
 |  Soldier_GrabStruggleNext_057e7a  @ $057E7A  (84 B)
@@ -238,13 +238,13 @@ Soldier_GrabStruggleNext_057e7a:
         lea     .L057eb6(pc),a1                 | +036
         move.l  a1,(a6)                         | +03a
 .L057eb6:
-        bsr.w   Sub_00057CA8                    | +03c
+        bsr.w   Soldier_GrabHoldFlag_057ca8                    | +03c
         jsr     0x28d70.l                       | +040
         bcc.w   .L057eca                        | +046
         lea     Soldier_GrabStruggle_057e26(pc),a1 | +04a
         move.l  a1,(a6)                         | +04e
 .L057eca:
-        jmp     Sub_00057AE4(pc)                | +050
+        jmp     Soldier_HitCheckTail_057ae4(pc)                | +050
 
 | ----------------------------------------------------------------------------
 |  Soldier_GrabBreakA_057ece  @ $057ECE  (20 B)
@@ -286,10 +286,10 @@ Soldier_GrabBreak_057f06:
         lea     .L057f16(pc),a1                 | +00a
         move.l  a1,(a6)                         | +00e
 .L057f16:
-        bsr.w   Sub_00057CA8                    | +010
+        bsr.w   Soldier_GrabHoldFlag_057ca8                    | +010
         jsr     0x28d70.l                       | +014
         bcc.w   .L057f3a                        | +01a
-        bsr.w   Sub_00056F64                    | +01e
+        bsr.w   Soldier_TestGrabBreak_056f64                    | +01e
         bcc.w   .L057f36                        | +022
         lea     Soldier_GrabBreak_057f06(pc),a1 | +026
         move.l  a1,(a6)                         | +02a
@@ -302,7 +302,7 @@ Soldier_GrabBreak_057f06:
         lea     Soldier_GrabStruggleNext_057e7a(pc),a1 | +03e
         move.l  a1,(a6)                         | +042
 .L057f4a:
-        jmp     Sub_00057AE4(pc)                | +044
+        jmp     Soldier_HitCheckTail_057ae4(pc)                | +044
 
 | ----------------------------------------------------------------------------
 |  Soldier_GrabThrownA_057f4e  @ $057F4E  (120 B)
@@ -338,7 +338,7 @@ Soldier_GrabThrownA_057f4e:
 .L057fb4:
         jsr     0x28d70.l                       | +066
         jsr     0x49fd0.l                       | +06c
-        bsr.w   PcThunkTarget_056e1e            | +072
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +072
         rts                                     | +076
 
 | ----------------------------------------------------------------------------
@@ -378,7 +378,7 @@ Soldier_GrabThrownB_057fc6:
 .L05803a:
         jsr     0x28d70.l                       | +074
         jsr     0x49fd0.l                       | +07a
-        bsr.w   PcThunkTarget_056e1e            | +080
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +080
         rts                                     | +084
 
 | ----------------------------------------------------------------------------
@@ -392,7 +392,7 @@ Soldier_RunToward_05804c:
         lea     0x29b7c8.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
         move.w  #0x100,0x36(a6)                 | +016
-        bsr.w   Sub_00056F8A                    | +01c
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +01c
         lea     Soldier_Run_Loop_05809e(pc),a1  | +020
         move.l  a1,(a6)                         | +024
         bra.w   Soldier_Run_Loop_05809e         | +026
@@ -409,7 +409,7 @@ Soldier_RunByTable_058076:
         jsr     0x799de.l                       | +012
         neg.w   d0                              | +018
         move.w  d0,0x36(a6)                     | +01a
-        bsr.w   Sub_00056F8A                    | +01e
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +01e
         lea     Soldier_Run_Loop_05809e(pc),a1  | +022
         move.l  a1,(a6)                         | +026
 
@@ -419,8 +419,8 @@ Soldier_RunByTable_058076:
         .section .text.Soldier_Run_Loop_05809e, "ax", @progbits
         .global Soldier_Run_Loop_05809e
 Soldier_Run_Loop_05809e:
-        bsr.w   Sub_00056ACC                    | +000
-        bsr.w   Sub_00056B92                    | +004
+        bsr.w   Soldier_PhysicsStep_056acc                    | +000
+        bsr.w   Soldier_Think_056b92                    | +004
         move.w  0x28(a6),d0                     | +008
         asr.w   #0x4,d0                         | +00c
         sub.w   d0,0x28(a6)                     | +00e
@@ -429,7 +429,7 @@ Soldier_Run_Loop_05809e:
         lea     Soldier_Idle_058144(pc),a1      | +01c
         move.l  a1,(a6)                         | +020
 .L0580c0:
-        bsr.w   Sub_00056FEC                    | +022
+        bsr.w   Soldier_ProbeWalkEdge_056fec                    | +022
         jsr     0x5e9b6.l                       | +026
         move.w  d0,-(a7)                        | +02c
         andi.w  #0xff,d0                        | +02e
@@ -443,7 +443,7 @@ Soldier_Run_Loop_05809e:
         lea     Soldier_Flee_058658(pc),a1      | +046
         move.l  a1,(a6)                         | +04a
 .L0580ea:
-        jsr     Sub_00056E36(pc)                | +04c
+        jsr     Soldier_LeaveTimerExpired_056e36(pc)                | +04c
         bcc.w   .L0580f8                        | +050
         lea     Soldier_SpawnFaceTarget_059062(pc),a1 | +054
         move.l  a1,(a6)                         | +058
@@ -466,13 +466,13 @@ Soldier_Run_Loop_05809e:
         lea     Soldier_Jump_0588f6(pc),a1      | +088
         move.l  a1,(a6)                         | +08c
 .L05812c:
-        jsr     Sub_000574E8(pc)                | +08e
+        jsr     Soldier_TestMeleeRange_0574e8(pc)                | +08e
         bcc.w   .L05813a                        | +092
         lea     Soldier_MeleeAttack_0585ae(pc),a1 | +096
         move.l  a1,(a6)                         | +09a
 .L05813a:
         jsr     0x49fd0.l                       | +09c
-        bra.w   PcThunkTarget_056e1e            | +0a2
+        bra.w   Soldier_DespawnIfOffscreen_056e1e            | +0a2
 
 | ----------------------------------------------------------------------------
 |  Soldier_Idle_058144  @ $058144  (648 B)
@@ -503,10 +503,10 @@ Soldier_Idle_058144:
         lea     .L058196(pc),a1                 | +04c
         move.l  a1,(a6)                         | +050
 .L058196:
-        bsr.w   Sub_00056ACC                    | +052
-        bsr.w   Sub_00056B92                    | +056
+        bsr.w   Soldier_PhysicsStep_056acc                    | +052
+        bsr.w   Soldier_Think_056b92                    | +056
         jsr     0x28d70.l                       | +05a
-        bsr.w   Sub_00056FEC                    | +060
+        bsr.w   Soldier_ProbeWalkEdge_056fec                    | +060
         btst    #0x0,0x72(a6)                   | +064
         beq.w   .L05828c                        | +06a
         move.w  0x80(a6),d1                     | +06e
@@ -587,7 +587,7 @@ Soldier_Idle_058144:
 .L05827c:
         addq.w  #0x2,a7                         | +138
         bcc.w   .L058288                        | +13a
-        lea     Sub_00057558(pc),a1             | +13e
+        lea     Soldier_WalkStart_057558(pc),a1             | +13e
         move.l  a1,(a6)                         | +142
 .L058288:
         bra.w   .L0582d8                        | +144
@@ -602,7 +602,7 @@ Soldier_Idle_058144:
 .L0582a6:
         addq.w  #0x2,a7                         | +162
         bcc.w   .L0582b2                        | +164
-        lea     Sub_00057558(pc),a1             | +168
+        lea     Soldier_WalkStart_057558(pc),a1             | +168
         move.l  a1,(a6)                         | +16c
 .L0582b2:
         jsr     0x5e9b6.l                       | +16e
@@ -641,7 +641,7 @@ Soldier_Idle_058144:
 .L058318:
         addq.w  #0x2,a7                         | +1d4
         bcc.w   .L058324                        | +1d6
-        lea     Sub_00057558(pc),a1             | +1da
+        lea     Soldier_WalkStart_057558(pc),a1             | +1da
         move.l  a1,(a6)                         | +1de
 .L058324:
         move.w  0x34(a6),d0                     | +1e0
@@ -659,12 +659,12 @@ Soldier_Idle_058144:
         lea     Soldier_Flee_058658(pc),a1      | +208
         move.l  a1,(a6)                         | +20c
 .L058352:
-        jsr     Sub_00056E36(pc)                | +20e
+        jsr     Soldier_LeaveTimerExpired_056e36(pc)                | +20e
         bcc.w   .L058360                        | +212
         lea     Soldier_SpawnFaceTarget_059062(pc),a1 | +216
         move.l  a1,(a6)                         | +21a
 .L058360:
-        jsr     Sub_00056FA0(pc)                | +21c
+        jsr     Soldier_TestSurrender_056fa0(pc)                | +21c
         bcc.w   .L05836e                        | +220
         lea     Soldier_Surrender_058968(pc),a1 | +224
         move.l  a1,(a6)                         | +228
@@ -687,7 +687,7 @@ Soldier_Idle_058144:
         lea     Soldier_Jump_0588f6(pc),a1      | +25a
         move.l  a1,(a6)                         | +25e
 .L0583a4:
-        jsr     Sub_000574E8(pc)                | +260
+        jsr     Soldier_TestMeleeRange_0574e8(pc)                | +260
         bcc.w   .L0583b2                        | +264
         lea     Soldier_MeleeAttack_0585ae(pc),a1 | +268
         move.l  a1,(a6)                         | +26c
@@ -698,7 +698,7 @@ Soldier_Idle_058144:
         move.l  a1,(a6)                         | +27a
 .L0583c0:
         jsr     0x49fd0.l                       | +27c
-        bsr.w   PcThunkTarget_056e1e            | +282
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +282
         rts                                     | +286
 
 | ----------------------------------------------------------------------------
@@ -716,14 +716,14 @@ Soldier_IdleFidget_0583cc:
         move.l  a1,(a6)                         | +01e
 .L0583ec:
         jsr     0x2783a.l                       | +020
-        bsr.w   Sub_00056B92                    | +026
+        bsr.w   Soldier_Think_056b92                    | +026
         jsr     0x28d70.l                       | +02a
         bcc.w   .L058406                        | +030
         lea     Soldier_Idle_058144(pc),a1      | +034
         move.l  a1,(a6)                         | +038
 .L058406:
         jsr     0x49fd0.l                       | +03a
-        bsr.w   PcThunkTarget_056e1e            | +040
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +040
         rts                                     | +044
 
 | ----------------------------------------------------------------------------
@@ -754,7 +754,7 @@ Soldier_Hurt_Loop_058424:
 .L058442:
         jsr     0x28d70.l                       | +01e
         jsr     0x49fd0.l                       | +024
-        bsr.w   PcThunkTarget_056e1e            | +02a
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +02a
         rts                                     | +02e
         .global Soldier_Hurt_Loop_058424__L058454
 Soldier_Hurt_Loop_058424__L058454:
@@ -786,12 +786,12 @@ Soldier_Land_058464__L05848a:
         lea     .L058494(pc),a1                 | +02a
         move.l  a1,(a6)                         | +02e
 .L058494:
-        bsr.w   Sub_00056ACC                    | +030
+        bsr.w   Soldier_PhysicsStep_056acc                    | +030
         jsr     0x28d70.l                       | +034
         bcc.w   .L0584ba                        | +03a
         tst.b   0x78(a6)                        | +03e
         beq.w   .L0584b4                        | +042
-        lea     Sub_00057558(pc),a1             | +046
+        lea     Soldier_WalkStart_057558(pc),a1             | +046
         move.l  a1,(a6)                         | +04a
         bra.w   .L0584ba                        | +04c
 .L0584b4:
@@ -799,7 +799,7 @@ Soldier_Land_058464__L05848a:
         move.l  a1,(a6)                         | +054
 .L0584ba:
         jsr     0x49fd0.l                       | +056
-        bra.w   PcThunkTarget_056e1e            | +05c
+        bra.w   Soldier_DespawnIfOffscreen_056e1e            | +05c
 
 | ----------------------------------------------------------------------------
 |  Soldier_StepRight_0584c4  @ $0584C4  (60 B)
@@ -817,7 +817,7 @@ Soldier_StepRight_0584c4:
         jsr     0x28cd4.l                       | +01e
 .L0584e8:
         move.w  #0x80,0x36(a6)                  | +024
-        bsr.w   Sub_00056F8A                    | +02a
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +02a
         clr.w   0x2a(a6)                        | +02e
         lea     Soldier_Step_Loop_058538(pc),a1 | +032
         move.l  a1,(a6)                         | +036
@@ -839,7 +839,7 @@ Soldier_StepLeft_058500:
         jsr     0x28cd4.l                       | +01e
 .L058524:
         move.w  #0xff80,0x36(a6)                | +024
-        bsr.w   Sub_00056F8A                    | +02a
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +02a
         clr.w   0x2a(a6)                        | +02e
         lea     Soldier_Step_Loop_058538(pc),a1 | +032
         move.l  a1,(a6)                         | +036
@@ -850,14 +850,14 @@ Soldier_StepLeft_058500:
         .section .text.Soldier_Step_Loop_058538, "ax", @progbits
         .global Soldier_Step_Loop_058538
 Soldier_Step_Loop_058538:
-        bsr.w   Sub_00056ACC                    | +000
-        bsr.w   Sub_00056B92                    | +004
+        bsr.w   Soldier_PhysicsStep_056acc                    | +000
+        bsr.w   Soldier_Think_056b92                    | +004
         jsr     0x28d70.l                       | +008
         bcc.w   .L058550                        | +00e
         lea     Soldier_Idle_058144(pc),a1      | +012
         move.l  a1,(a6)                         | +016
 .L058550:
-        bsr.w   Sub_00056FEC                    | +018
+        bsr.w   Soldier_ProbeWalkEdge_056fec                    | +018
         jsr     0x5e9b6.l                       | +01c
         move.w  d0,-(a7)                        | +022
         andi.w  #0xff,d0                        | +024
@@ -876,18 +876,18 @@ Soldier_Step_Loop_058538:
         lea     Soldier_Hurt_058412(pc),a1      | +04a
         move.l  a1,(a6)                         | +04e
 .L058588:
-        jsr     Sub_00056FA0(pc)                | +050
+        jsr     Soldier_TestSurrender_056fa0(pc)                | +050
         bcc.w   .L058596                        | +054
         lea     Soldier_Surrender_058968(pc),a1 | +058
         move.l  a1,(a6)                         | +05c
 .L058596:
-        jsr     Sub_000574E8(pc)                | +05e
+        jsr     Soldier_TestMeleeRange_0574e8(pc)                | +05e
         bcc.w   .L0585a4                        | +062
         lea     Soldier_MeleeAttack_0585ae(pc),a1 | +066
         move.l  a1,(a6)                         | +06a
 .L0585a4:
         jsr     0x49fd0.l                       | +06c
-        bra.w   PcThunkTarget_056e1e            | +072
+        bra.w   Soldier_DespawnIfOffscreen_056e1e            | +072
 
 | ----------------------------------------------------------------------------
 |  Soldier_MeleeAttack_0585ae  @ $0585AE  (72 B)
@@ -898,21 +898,21 @@ Soldier_MeleeAttack_0585ae:
         clr.w   0x28(a6)                        | +000
         lea     0x2b70d2.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
-        lea     Sub_00057494(pc),a0             | +010
+        lea     Soldier_AttackTblMelee_057494(pc),a0             | +010
         move.l  a0,0x4c(a6)                     | +014
         jsr     0x283ca.l                       | +018
         jsr     0x283ca.l                       | +01e
         lea     .L0585d8(pc),a1                 | +024
         move.l  a1,(a6)                         | +028
 .L0585d8:
-        bsr.w   Sub_00056ACC                    | +02a
+        bsr.w   Soldier_PhysicsStep_056acc                    | +02a
         jsr     0x28d70.l                       | +02e
         bcc.w   .L0585ec                        | +034
         lea     Soldier_Idle_058144(pc),a1      | +038
         move.l  a1,(a6)                         | +03c
 .L0585ec:
         jsr     0x49fd0.l                       | +03e
-        bra.w   PcThunkTarget_056e1e            | +044
+        bra.w   Soldier_DespawnIfOffscreen_056e1e            | +044
 
 | ----------------------------------------------------------------------------
 |  Soldier_Brake_0585f6  @ $0585F6  (98 B)
@@ -925,11 +925,11 @@ Soldier_Brake_0585f6:
         lea     .L058608(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L058608:
-        bsr.w   Sub_00056B92                    | +012
+        bsr.w   Soldier_Think_056b92                    | +012
         move.w  0x28(a6),d0                     | +016
         asr.w   #0x4,d0                         | +01a
         sub.w   d0,0x28(a6)                     | +01c
-        bsr.w   Sub_00056ACC                    | +020
+        bsr.w   Soldier_PhysicsStep_056acc                    | +020
         jsr     0x28d70.l                       | +024
         bcc.w   .L05863e                        | +02a
         btst    #0x0,0x72(a6)                   | +02e
@@ -938,7 +938,7 @@ Soldier_Brake_0585f6:
         move.l  a1,(a6)                         | +03c
         bra.w   .L05863e                        | +03e
 .L058638:
-        lea     Sub_00057558(pc),a1             | +042
+        lea     Soldier_WalkStart_057558(pc),a1             | +042
         move.l  a1,(a6)                         | +046
 .L05863e:
         tst.b   0x78(a6)                        | +048
@@ -947,7 +947,7 @@ Soldier_Brake_0585f6:
         move.l  a1,(a6)                         | +054
 .L05864c:
         jsr     0x49fd0.l                       | +056
-        bsr.w   PcThunkTarget_056e1e            | +05c
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +05c
         rts                                     | +060
 
 | ----------------------------------------------------------------------------
@@ -970,8 +970,8 @@ Soldier_Flee_058658:
         move.w  0x28(a6),d0                     | +02a
         asr.w   #0x5,d0                         | +02e
         sub.w   d0,0x28(a6)                     | +030
-        bsr.w   Sub_00056ACC                    | +034
-        bsr.w   Sub_00056B92                    | +038
+        bsr.w   Soldier_PhysicsStep_056acc                    | +034
+        bsr.w   Soldier_Think_056b92                    | +038
         jsr     0x28d70.l                       | +03c
         bcc.w   .L0586ac                        | +042
         tst.b   0x78(a6)                        | +046
@@ -980,7 +980,7 @@ Soldier_Flee_058658:
         move.l  a1,(a6)                         | +052
 .L0586ac:
         jsr     0x49fd0.l                       | +054
-        bsr.w   PcThunkTarget_056e1e            | +05a
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +05a
         rts                                     | +05e
 
 | ----------------------------------------------------------------------------
@@ -995,8 +995,8 @@ Soldier_FleeStop_0586b8:
         lea     .L0586ce(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L0586ce:
-        bsr.w   Sub_00056ACC                    | +016
-        bsr.w   Sub_00056B92                    | +01a
+        bsr.w   Soldier_PhysicsStep_056acc                    | +016
+        bsr.w   Soldier_Think_056b92                    | +01a
         jsr     0x28d70.l                       | +01e
         move.w  0x8a(a6),d1                     | +024
         neg.w   d1                              | +028
@@ -1048,12 +1048,12 @@ Soldier_FleeStop_0586b8:
         lea     Soldier_Retreat_0587ac(pc),a1   | +0aa
         move.l  a1,(a6)                         | +0ae
 .L058768:
-        jsr     Sub_00056E36(pc)                | +0b0
+        jsr     Soldier_LeaveTimerExpired_056e36(pc)                | +0b0
         bcc.w   .L058776                        | +0b4
         lea     Soldier_SpawnStand_0591c8(pc),a1 | +0b8
         move.l  a1,(a6)                         | +0bc
 .L058776:
-        jsr     Sub_00056FA0(pc)                | +0be
+        jsr     Soldier_TestSurrender_056fa0(pc)                | +0be
         bcc.w   .L058784                        | +0c2
         lea     Soldier_SurrenderFlee_0589f8(pc),a1 | +0c6
         move.l  a1,(a6)                         | +0ca
@@ -1064,7 +1064,7 @@ Soldier_FleeStop_0586b8:
         move.l  a1,(a6)                         | +0d8
 .L058792:
         jsr     0x49ff2.l                       | +0da
-        bsr.w   PcThunkTarget_056e1e            | +0e0
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +0e0
         rts                                     | +0e4
 
 | ----------------------------------------------------------------------------
@@ -1095,7 +1095,7 @@ Soldier_Retreat_0587ac__L0587b6:
         add.w   d0,d0                           | +024
 .L0587d2:
         move.w  d0,0x36(a6)                     | +026
-        bsr.w   Sub_00056F8A                    | +02a
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +02a
         lea     Soldier_Retreat_Loop_058800(pc),a1 | +02e
         move.l  a1,(a6)                         | +032
         bra.w   Soldier_Retreat_Loop_058800     | +034
@@ -1104,7 +1104,7 @@ Soldier_Retreat_0587ac__L0587e4:
         lea     0x2b5bcc.l,a0                   | +038
         jsr     0x28cd4.l                       | +03e
         move.w  #0xff00,0x36(a6)                | +044
-        bsr.w   Sub_00056F8A                    | +04a
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +04a
         lea     Soldier_Retreat_Loop_058800(pc),a1 | +04e
         move.l  a1,(a6)                         | +052
 
@@ -1121,7 +1121,7 @@ Soldier_Retreat_Loop_058800:
 .L058810:
         jsr     0x27eba.l                       | +010
         scc.b   0x78(a6)                        | +016
-        bsr.w   Sub_00056B92                    | +01a
+        bsr.w   Soldier_Think_056b92                    | +01a
         move.w  0x34(a6),d0                     | +01e
         beq.w   .L05882c                        | +022
         lea     Soldier_Stand_0588ae(pc),a1     | +026
@@ -1153,12 +1153,12 @@ Soldier_Retreat_Loop_058800:
         lea     Soldier_Stand_0588ae(pc),a1     | +072
         move.l  a1,(a6)                         | +076
 .L058878:
-        jsr     Sub_00056E36(pc)                | +078
+        jsr     Soldier_LeaveTimerExpired_056e36(pc)                | +078
         bcc.w   .L058886                        | +07c
         lea     Soldier_SpawnStand_0591c8(pc),a1 | +080
         move.l  a1,(a6)                         | +084
 .L058886:
-        jsr     Sub_00056FA0(pc)                | +086
+        jsr     Soldier_TestSurrender_056fa0(pc)                | +086
         bcc.w   .L058894                        | +08a
         lea     Soldier_SurrenderFlee_0589f8(pc),a1 | +08e
         move.l  a1,(a6)                         | +092
@@ -1169,7 +1169,7 @@ Soldier_Retreat_Loop_058800:
         move.l  a1,(a6)                         | +0a0
 .L0588a2:
         jsr     0x49ff2.l                       | +0a2
-        bsr.w   PcThunkTarget_056e1e            | +0a8
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +0a8
         rts                                     | +0ac
 
 | ----------------------------------------------------------------------------
@@ -1184,11 +1184,11 @@ Soldier_Stand_0588ae:
         lea     .L0588c4(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L0588c4:
-        jsr     Sub_00056ACC(pc)                | +016
-        bsr.w   Sub_00056B92                    | +01a
+        jsr     Soldier_PhysicsStep_056acc(pc)                | +016
+        bsr.w   Soldier_Think_056b92                    | +01a
         jsr     0x28d70.l                       | +01e
         bcc.w   .L0588dc                        | +024
-        lea     Sub_00057558(pc),a1             | +028
+        lea     Soldier_WalkStart_057558(pc),a1             | +028
         move.l  a1,(a6)                         | +02c
 .L0588dc:
         tst.b   0x78(a6)                        | +02e
@@ -1197,7 +1197,7 @@ Soldier_Stand_0588ae:
         move.l  a1,(a6)                         | +03a
 .L0588ea:
         jsr     0x49fd0.l                       | +03c
-        bsr.w   PcThunkTarget_056e1e            | +042
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +042
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
@@ -1233,7 +1233,7 @@ Soldier_Jump_0588f6:
         lsl.w   #0x3,d0                         | +058
         move.w  d0,0x2a(a6)                     | +05a
         move.w  #0xff00,0x36(a6)                | +05e
-        bsr.w   Sub_00056F8A                    | +064
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +064
         lea     Soldier_Hurt_Loop_058424(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
         bra.w   Soldier_Hurt_Loop_058424        | +06e
@@ -1270,8 +1270,8 @@ Soldier_Surrender_058968:
         lea     .L0589c8(pc),a1                 | +05a
         move.l  a1,(a6)                         | +05e
 .L0589c8:
-        bsr.w   Sub_00056FA0                    | +060
-        bsr.w   Sub_00056ACC                    | +064
+        bsr.w   Soldier_TestSurrender_056fa0                    | +060
+        bsr.w   Soldier_PhysicsStep_056acc                    | +064
         jsr     0x28d70.l                       | +068
         bcc.w   .L0589e0                        | +06e
         lea     Soldier_Idle_058144(pc),a1      | +072
@@ -1283,7 +1283,7 @@ Soldier_Surrender_058968:
         move.l  a1,(a6)                         | +084
 .L0589ee:
         jsr     0x49fd0.l                       | +086
-        bra.w   PcThunkTarget_056e1e            | +08c
+        bra.w   Soldier_DespawnIfOffscreen_056e1e            | +08c
 
 | ----------------------------------------------------------------------------
 |  Soldier_SurrenderFlee_0589f8  @ $0589F8  (294 B)
@@ -1301,8 +1301,8 @@ Soldier_SurrenderFlee_0589f8:
         lea     .L058a20(pc),a1                 | +022
         move.l  a1,(a6)                         | +026
 .L058a20:
-        bsr.w   Sub_00056FA0                    | +028
-        bsr.w   Sub_00056ACC                    | +02c
+        bsr.w   Soldier_TestSurrender_056fa0                    | +028
+        bsr.w   Soldier_PhysicsStep_056acc                    | +02c
         jsr     0x28d70.l                       | +030
         bcc.w   .L058a38                        | +036
         lea     Soldier_FleeStop_0586b8(pc),a1  | +03a
@@ -1314,7 +1314,7 @@ Soldier_SurrenderFlee_0589f8:
         move.l  a1,(a6)                         | +04c
 .L058a46:
         jsr     0x49ff2.l                       | +04e
-        bra.w   PcThunkTarget_056e1e            | +054
+        bra.w   Soldier_DespawnIfOffscreen_056e1e            | +054
         .global Soldier_SurrenderFlee_0589f8__L058a50
 Soldier_SurrenderFlee_0589f8__L058a50:
         lea     0x2b5d58.l,a0                   | +058
@@ -1338,15 +1338,15 @@ Soldier_SurrenderFlee_0589f8__L058a82:
 .L058a96:
         jsr     0x28d70.l                       | +09e
         jsr     0x49fd0.l                       | +0a4
-        bsr.w   PcThunkTarget_056e1e            | +0aa
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +0aa
         rts                                     | +0ae
         .global Soldier_SurrenderFlee_0589f8__L058aa8
 Soldier_SurrenderFlee_0589f8__L058aa8:
-        bsr.w   Sub_00056B92                    | +0b0
+        bsr.w   Soldier_Think_056b92                    | +0b0
         btst    #0x0,0x72(a6)                   | +0b4
         beq.w   Soldier_Brake_0585f6            | +0ba
         move.w  #0x190,0x36(a6)                 | +0be
-        bsr.w   Sub_00056F8A                    | +0c4
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +0c4
         lea     0x29b9ce.l,a0                   | +0c8
         jsr     0x28cd4.l                       | +0ce
         lea     .L058ad2(pc),a1                 | +0d4
@@ -1360,7 +1360,7 @@ Soldier_SurrenderFlee_0589f8__L058aa8:
 .L058ae4:
         sub.w   d0,0x28(a6)                     | +0ec
 .L058ae8:
-        bsr.w   Sub_00056ACC                    | +0f0
+        bsr.w   Soldier_PhysicsStep_056acc                    | +0f0
         jsr     0x28d70.l                       | +0f4
         bcc.w   .L058b12                        | +0fa
         move.b  0x74(a6),d0                     | +0fe
@@ -1374,7 +1374,7 @@ Soldier_SurrenderFlee_0589f8__L058aa8:
         move.l  a1,(a6)                         | +118
 .L058b12:
         jsr     0x49fd0.l                       | +11a
-        bsr.w   PcThunkTarget_056e1e            | +120
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +120
         rts                                     | +124
 
 | ----------------------------------------------------------------------------
@@ -1398,7 +1398,7 @@ Soldier_ThrowGrenadeA_058b1e:
         move.l  a1,(a6)                         | +032
 .L058b52:
         jsr     0x49fd0.l                       | +034
-        bsr.w   PcThunkTarget_056e1e            | +03a
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +03a
         rts                                     | +03e
 
 | ----------------------------------------------------------------------------
@@ -1414,7 +1414,7 @@ Soldier_ThrowGrenadeA_Loop_058b5e:
         lea     .L058b7a(pc),a1                 | +016
         move.l  a1,(a6)                         | +01a
 .L058b7a:
-        jsr     Sub_00056B92(pc)                | +01c
+        jsr     Soldier_Think_056b92(pc)                | +01c
         move.b  0x77(a6),d0                     | +020
         jsr     0x77190.l                       | +024
         move.w  d0,-(a7)                        | +02a
@@ -1422,7 +1422,7 @@ Soldier_ThrowGrenadeA_Loop_058b5e:
         bcc.w   .L058ba8                        | +032
         lea     Soldier_ThrowGrenadeA_Loop_058b5e(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
-        jsr     Sub_00056FA0(pc)                | +03c
+        jsr     Soldier_TestSurrender_056fa0(pc)                | +03c
         bcc.w   .L058ba8                        | +040
         lea     Soldier_ThrowGrenadeAim_058d78(pc),a1 | +044
         move.l  a1,(a6)                         | +048
@@ -1440,7 +1440,7 @@ Soldier_ThrowGrenadeA_Loop_058b5e:
         move.l  a1,(a6)                         | +06a
 .L058bca:
         jsr     0x49fd0.l                       | +06c
-        bsr.w   PcThunkTarget_056e1e            | +072
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +072
         rts                                     | +076
 
 | ----------------------------------------------------------------------------
@@ -1455,14 +1455,14 @@ Soldier_ThrowGrenadeRecover_058bd6:
         move.l  a1,(a6)                         | +010
 .L058be8:
         jsr     0x2783a.l                       | +012
-        bsr.w   Sub_00056B92                    | +018
+        bsr.w   Soldier_Think_056b92                    | +018
         jsr     0x28d70.l                       | +01c
         bcc.w   .L058c02                        | +022
         lea     Soldier_HopBack_058c0e(pc),a1   | +026
         move.l  a1,(a6)                         | +02a
 .L058c02:
         jsr     0x49fd0.l                       | +02c
-        bsr.w   PcThunkTarget_056e1e            | +032
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +032
         rts                                     | +036
 
 | ----------------------------------------------------------------------------
@@ -1491,8 +1491,8 @@ Soldier_HopBack_058c0e:
         sub.w   d1,d0                           | +044
         sub.w   d0,0x28(a6)                     | +046
 .L058c58:
-        jsr     Sub_00056ACC(pc)                | +04a
-        bsr.w   Sub_00056B92                    | +04e
+        jsr     Soldier_PhysicsStep_056acc(pc)                | +04a
+        bsr.w   Soldier_Think_056b92                    | +04e
         jsr     0x28d70.l                       | +052
         bcc.w   .L058c82                        | +058
         tst.b   0x78(a6)                        | +05c
@@ -1505,7 +1505,7 @@ Soldier_HopBack_058c0e:
         move.l  a1,(a6)                         | +072
 .L058c82:
         jsr     0x49fd0.l                       | +074
-        bsr.w   PcThunkTarget_056e1e            | +07a
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +07a
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
@@ -1529,7 +1529,7 @@ Soldier_ThrowGrenadeB_058c8e:
         move.l  a1,(a6)                         | +032
 .L058cc2:
         jsr     0x49fd0.l                       | +034
-        bsr.w   PcThunkTarget_056e1e            | +03a
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +03a
         rts                                     | +03e
 
 | ----------------------------------------------------------------------------
@@ -1545,7 +1545,7 @@ Soldier_ThrowGrenadeB_Loop_058cce:
         lea     .L058cea(pc),a1                 | +016
         move.l  a1,(a6)                         | +01a
 .L058cea:
-        jsr     Sub_00056B92(pc)                | +01c
+        jsr     Soldier_Think_056b92(pc)                | +01c
         move.b  0x77(a6),d0                     | +020
         jsr     0x77190.l                       | +024
         move.w  d0,-(a7)                        | +02a
@@ -1553,7 +1553,7 @@ Soldier_ThrowGrenadeB_Loop_058cce:
         bcc.w   .L058d18                        | +032
         lea     Soldier_ThrowGrenadeB_Loop_058cce(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
-        jsr     Sub_00056FA0(pc)                | +03c
+        jsr     Soldier_TestSurrender_056fa0(pc)                | +03c
         bcc.w   .L058d18                        | +040
         lea     Soldier_ThrowGrenadeAim_058d78(pc),a1 | +044
         move.l  a1,(a6)                         | +048
@@ -1570,7 +1570,7 @@ Soldier_ThrowGrenadeB_Loop_058cce:
         move.l  a1,(a6)                         | +068
 .L058d38:
         jsr     0x49fd0.l                       | +06a
-        bsr.w   PcThunkTarget_056e1e            | +070
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +070
         rts                                     | +074
 
 | ----------------------------------------------------------------------------
@@ -1591,7 +1591,7 @@ Soldier_ThrowGrenadeBRecover_058d44:
         move.l  a1,(a6)                         | +026
 .L058d6c:
         jsr     0x49fd0.l                       | +028
-        bsr.w   PcThunkTarget_056e1e            | +02e
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +02e
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
@@ -1632,7 +1632,7 @@ Soldier_ThrowGrenadeAim_058d78:
         move.l  a1,(a6)                         | +072
 .L058dec:
         jsr     0x49fd0.l                       | +074
-        bsr.w   PcThunkTarget_056e1e            | +07a
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +07a
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
@@ -1674,8 +1674,8 @@ Soldier_Taunt_058e14:
         lea     .L058e32(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L058e32:
-        jsr     Sub_00056ACC(pc)                | +01e
-        jsr     Sub_00056B92(pc)                | +022
+        jsr     Soldier_PhysicsStep_056acc(pc)                | +01e
+        jsr     Soldier_Think_056b92(pc)                | +022
         jsr     0x28d70.l                       | +026
         bcc.w   .L058e4a                        | +02c
         lea     Soldier_Taunt_058e14(pc),a1     | +030
@@ -1722,7 +1722,7 @@ Soldier_Taunt_058e14:
         move.l  a1,(a6)                         | +0b0
 .L058ec6:
         jsr     0x49fd0.l                       | +0b2
-        bsr.w   PcThunkTarget_056e1e            | +0b8
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +0b8
         rts                                     | +0bc
 
 | ----------------------------------------------------------------------------
@@ -1737,7 +1737,7 @@ Soldier_TauntEnd_058ed2:
         move.l  a1,(a6)                         | +010
 .L058ee4:
         jsr     0x2783a.l                       | +012
-        bsr.w   Sub_00056B92                    | +018
+        bsr.w   Soldier_Think_056b92                    | +018
         jsr     0x28d70.l                       | +01c
         bcc.w   .L058f12                        | +022
         btst    #0x0,0x72(a6)                   | +026
@@ -1746,11 +1746,11 @@ Soldier_TauntEnd_058ed2:
         move.l  a1,(a6)                         | +034
         bra.w   .L058f12                        | +036
 .L058f0c:
-        lea     Sub_00057558(pc),a1             | +03a
+        lea     Soldier_WalkStart_057558(pc),a1             | +03a
         move.l  a1,(a6)                         | +03e
 .L058f12:
         jsr     0x49fd0.l                       | +040
-        bsr.w   PcThunkTarget_056e1e            | +046
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +046
         rts                                     | +04a
 
 | ----------------------------------------------------------------------------
@@ -1856,13 +1856,13 @@ Soldier_SpawnEnter_059086:
         lea     0x2b75d0.l,a0                   | +026
         jsr     0x799de.l                       | +02c
         move.w  d0,0x36(a6)                     | +032
-        bsr.w   Sub_00056F8A                    | +036
+        bsr.w   Soldier_SetVelXByFacing_056f8a                    | +036
         clr.w   0x2a(a6)                        | +03a
         lea     .L0590ca(pc),a1                 | +03e
         move.l  a1,(a6)                         | +042
 .L0590ca:
-        jsr     Sub_00056ACC(pc)                | +044
-        bsr.w   Sub_00056B92                    | +048
+        jsr     Soldier_PhysicsStep_056acc(pc)                | +044
+        bsr.w   Soldier_Think_056b92                    | +048
         jsr     0x28d70.l                       | +04c
         btst    #0x0,0x72(a6)                   | +052
         beq.w   .L05910c                        | +058
@@ -1897,7 +1897,7 @@ Soldier_SpawnEnter_059086:
         move.l  a1,(a6)                         | +0b2
 .L05913a:
         jsr     0x49fd0.l                       | +0b4
-        bsr.w   PcThunkTarget_056e1e            | +0ba
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +0ba
         rts                                     | +0be
 
 | ----------------------------------------------------------------------------
@@ -1914,8 +1914,8 @@ Soldier_SpawnWait_059146:
         lea     .L059168(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L059168:
-        jsr     Sub_00056ACC(pc)                | +022
-        bsr.w   Sub_00056B92                    | +026
+        jsr     Soldier_PhysicsStep_056acc(pc)                | +022
+        bsr.w   Soldier_Think_056b92                    | +026
         jsr     0x28d70.l                       | +02a
         btst    #0x0,0x72(a6)                   | +030
         beq.w   .L059190                        | +036
@@ -1940,7 +1940,7 @@ Soldier_SpawnWait_059146:
         move.l  a1,(a6)                         | +074
 .L0591bc:
         jsr     0x49fd0.l                       | +076
-        bsr.w   PcThunkTarget_056e1e            | +07c
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +07c
         rts                                     | +080
 
 | ----------------------------------------------------------------------------
@@ -1968,7 +1968,7 @@ Soldier_SpawnStand_0591c8__L0591de:
         .section .text.Soldier_SpawnStand_Loop_0591f4, "ax", @progbits
         .global Soldier_SpawnStand_Loop_0591f4
 Soldier_SpawnStand_Loop_0591f4:
-        jsr     Sub_00056ACC(pc)                | +000
+        jsr     Soldier_PhysicsStep_056acc(pc)                | +000
         jsr     0x28d70.l                       | +004
         bcc.w   .L05920e                        | +00a
         lea     Soldier_SpawnBrake_059228(pc),a1 | +00e
@@ -1981,7 +1981,7 @@ Soldier_SpawnStand_Loop_0591f4:
         move.l  a1,(a6)                         | +026
 .L05921c:
         jsr     0x49fd0.l                       | +028
-        bsr.w   PcThunkTarget_056e1e            | +02e
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +02e
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
@@ -1995,14 +1995,14 @@ Soldier_SpawnBrake_059228:
         lea     .L05923a(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L05923a:
-        jsr     Sub_00056ACC(pc)                | +012
+        jsr     Soldier_PhysicsStep_056acc(pc)                | +012
         jsr     0x28d70.l                       | +016
         bcc.w   .L05924e                        | +01c
         lea     Soldier_SpawnEnter_059086(pc),a1 | +020
         move.l  a1,(a6)                         | +024
 .L05924e:
         jsr     0x49fd0.l                       | +026
-        bsr.w   PcThunkTarget_056e1e            | +02c
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +02c
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
@@ -2030,7 +2030,7 @@ Soldier_SpawnLeap_05925a:
 .L0592a0:
         jsr     0x28d70.l                       | +046
         jsr     0x49fd0.l                       | +04c
-        bsr.w   PcThunkTarget_056e1e            | +052
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +052
         rts                                     | +056
 
 | ----------------------------------------------------------------------------
@@ -2048,7 +2048,7 @@ Soldier_SpawnHurt_0592b2:
         move.w  0x28(a6),d0                     | +016
         asr.w   #0x6,d0                         | +01a
         sub.w   d0,0x28(a6)                     | +01c
-        bsr.w   Sub_00056ACC                    | +020
+        bsr.w   Soldier_PhysicsStep_056acc                    | +020
         tst.b   0x78(a6)                        | +024
         beq.w   .L0592e4                        | +028
         lea     Soldier_SpawnRecover_0592f6(pc),a1 | +02c
@@ -2056,7 +2056,7 @@ Soldier_SpawnHurt_0592b2:
 .L0592e4:
         jsr     0x28d70.l                       | +032
         jsr     0x49fd0.l                       | +038
-        bsr.w   PcThunkTarget_056e1e            | +03e
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +03e
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
@@ -2065,12 +2065,12 @@ Soldier_SpawnHurt_0592b2:
         .section .text.Soldier_SpawnRecover_0592f6, "ax", @progbits
         .global Soldier_SpawnRecover_0592f6
 Soldier_SpawnRecover_0592f6:
-        bsr.w   Sub_0005740E                    | +000
+        bsr.w   Soldier_PickFallAnim_05740e                    | +000
         clr.w   0x28(a6)                        | +004
         lea     .L059304(pc),a1                 | +008
         move.l  a1,(a6)                         | +00c
 .L059304:
-        jsr     Sub_00056ACC(pc)                | +00e
+        jsr     Soldier_PhysicsStep_056acc(pc)                | +00e
         jsr     0x28d70.l                       | +012
         bcc.w   .L059318                        | +018
         lea     Soldier_SpawnEnter_059086(pc),a1 | +01c
@@ -2082,7 +2082,7 @@ Soldier_SpawnRecover_0592f6:
         move.l  a1,(a6)                         | +02e
 .L059326:
         jsr     0x49fd0.l                       | +030
-        bsr.w   PcThunkTarget_056e1e            | +036
+        bsr.w   Soldier_DespawnIfOffscreen_056e1e            | +036
         rts                                     | +03a
 
 | ----------------------------------------------------------------------------

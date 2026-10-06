@@ -83,8 +83,8 @@ void JmpAbsThunk_05a63c(void) {
 
 __attribute__((section(".text.JmpAbsThunk_06313c"), noreturn))
 void JmpAbsThunk_06313c(void) {
-    extern void JmpTarget_057226(void);
-    __asm__ volatile("jmp JmpTarget_057226" ::: "memory");
+    extern void Soldier_SpawnVariants_057226(void);
+    __asm__ volatile("jmp Soldier_SpawnVariants_057226" ::: "memory");
     __builtin_unreachable();
 }
 

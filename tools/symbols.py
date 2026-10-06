@@ -919,8 +919,8 @@ SYMBOLS = {
     0x00053DCA: "PcThunkTarget_053dca",
     0x00055148: "PcThunkTarget_055148",
     0x00055214: "PcThunkTarget_055214",
-    # 0x00056E1E promovido a PcThunkTarget_056e1e en registry (Wave FFFF).
-    # 0x00057226 promovido a JmpTarget_057226 en registry (Wave FFFF).
+    # 0x00056E1E promovido a Soldier_DespawnIfOffscreen_056e1e en registry (Wave FFFF).
+    # 0x00057226 promovido a Soldier_SpawnVariants_057226 en registry (Wave FFFF).
     0x0005CDA8: "JmpTarget_05cda8",
     0x0005CEF8: "JmpTarget_05cef8",
     0x0005CF04: "JmpTarget_05cf04",
@@ -1678,19 +1678,19 @@ SYMBOLS = {
     # --- Wave DDDD: refs forward a huecos futuros
     0x0005A8BA: "Sub_0005A8BA",  # hueco futuro (ref pc-rel desde esta region)
     # --- Wave EEEE: refs forward a huecos futuros
-    # 0x00056ACC promovido a Sub_00056ACC en registry (Wave FFFF).
-    # 0x00056B92 promovido a Sub_00056B92 en registry (Wave FFFF).
-    # 0x00056E36 promovido a Sub_00056E36 en registry (Wave FFFF).
-    # 0x00056F64 promovido a Sub_00056F64 en registry (Wave FFFF).
-    # 0x00056F8A promovido a Sub_00056F8A en registry (Wave FFFF).
-    # 0x00056FA0 promovido a Sub_00056FA0 en registry (Wave FFFF).
-    # 0x00056FEC promovido a Sub_00056FEC en registry (Wave FFFF).
-    # 0x0005740E promovido a Sub_0005740E en registry (Wave FFFF).
-    # 0x00057494 promovido a Sub_00057494 en registry (Wave FFFF).
-    # 0x000574E8 promovido a Sub_000574E8 en registry (Wave FFFF).
-    # 0x00057558 promovido a Sub_00057558 en registry (Wave FFFF).
-    # 0x00057AE4 promovido a Sub_00057AE4 en registry (Wave FFFF).
-    # 0x00057CA8 promovido a Sub_00057CA8 en registry (Wave FFFF).
+    # 0x00056ACC promovido a Soldier_PhysicsStep_056acc en registry (Wave FFFF).
+    # 0x00056B92 promovido a Soldier_Think_056b92 en registry (Wave FFFF).
+    # 0x00056E36 promovido a Soldier_LeaveTimerExpired_056e36 en registry (Wave FFFF).
+    # 0x00056F64 promovido a Soldier_TestGrabBreak_056f64 en registry (Wave FFFF).
+    # 0x00056F8A promovido a Soldier_SetVelXByFacing_056f8a en registry (Wave FFFF).
+    # 0x00056FA0 promovido a Soldier_TestSurrender_056fa0 en registry (Wave FFFF).
+    # 0x00056FEC promovido a Soldier_ProbeWalkEdge_056fec en registry (Wave FFFF).
+    # 0x0005740E promovido a Soldier_PickFallAnim_05740e en registry (Wave FFFF).
+    # 0x00057494 promovido a Soldier_AttackTblMelee_057494 en registry (Wave FFFF).
+    # 0x000574E8 promovido a Soldier_TestMeleeRange_0574e8 en registry (Wave FFFF).
+    # 0x00057558 promovido a Soldier_WalkStart_057558 en registry (Wave FFFF).
+    # 0x00057AE4 promovido a Soldier_HitCheckTail_057ae4 en registry (Wave FFFF).
+    # 0x00057CA8 promovido a Soldier_GrabHoldFlag_057ca8 en registry (Wave FFFF).
     # --- Wave FFFF: RTS internos de islas C
     0x00057042: "SetHandlerRts_057042",  # rts de SetTaskHandler_05703c (+6)
     0x00057556: "SetHandlerRts_057556",  # rts de SetTaskHandler_057550 (+6)
