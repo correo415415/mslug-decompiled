@@ -1,11 +1,126 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave LLLL — POW colgado de la cuerda (balanceo, forcejeo, cuerda hija,
+|              liberación), POW en caída con sombra, tablas de estados de
+|              muerte de humanos y comprobaciones de slot/golpe
 |  Región: $049430..$049FC4  (2,880 B, 25 entradas, 9 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 2,880 B (25 entradas; 560 B son las tablas de punteros de
+|  estados de muerte $49D8A/$49FAA que consume human_death_049fxx.s).
+|  Cierra el módulo del POW ($0478FC..$049430 en pow_prisoner/pow_helpers)
+|  con sus dos variantes "especiales":
+|   1. POW COLGADO (PowHang_*): PowHang_SpawnVariants_04954a (2 entradas:
+|      +$7F = 0/1 = variante de hit-check; snd $38, HP +$66 = 1, +$70 = 3,
+|      +$34 = 12 = ángulo/fase de balanceo, prio $8000, relink $267E2,
+|      $27CEE, colisión +$48 = $28FF2A, +$76 = temporizador de gotas por
+|      dificultad $799DE[$2BFF0C], +$7C = amplitud Y por dificultad
+|      [$2BFF8E], +$7A = +$9E (param del spawn) << 4 = amplitud X, +$79 = 0
+|      = fase de la cuerda; crea hijo PowHang_RopeSpawn_0497ac y cae en
+|      Swing). PowHang_Swing_0495d6: sprite $28F708[+$34 & 15], +$78 = 0
+|      (fase visible para la cuerda hija); bucle __L049608 = SwingStep +
+|      SwingAnimByAngle + HitCheck (golpe -> +$78 = $FD "cortado" y pasa
+|      a Pow_SpawnInit_04797c con facing = signo de (12 - +$34), igual que
+|      cuando la cuerda hija pone +$79 = $FF "rota") / DropFxTimer + $2870A
+|      impacto -> +$78 = $FF y PowHang_Freed_049742 / fuera de mundo
+|      $5DD5C[$28FFD2] -> +$78 = $FE y free. PowHang_Struggle_04968a
+|      (instalado por SetTaskHandler_049b50 en task_handlers.c): igual que
+|      Swing pero con sprite $28F838[+$71] + anim $28D70 y +$78 = 1
+|      (la cuerda hija pasa a RopeStruggle). PowHang_Freed_049742: facing
+|      por ángulo, sprite de cuerpo $4ACFE (tabla de HumanDeath), hijo
+|      $48CA4 (PowItem) 24 px más abajo con vel X = vel X del atacante
+|      +$50 / 16, luego scroll + anim -> free.
+|   2. CUERDA HIJA (PowHang_Rope*): RopeSpawn_0497ac (snd $18D, prio por
+|      dificultad [$2BFE8A], colisión $28FF7E) -> RopeIdle_0497d0: cada
+|      frame $5E4EE, prio = padre - 1, sprite $28F8D4[+$71 del padre],
+|      anim, $28758 (HP agotado -> padre +$79 = $FF y RopeBroken); según
+|      +$78 del padre: 1 -> RopeStruggle_049884 (sprite $28FDBC[fase]),
+|      $FD -> se desengancha (+$0C = a6) y RopeCut_04992e (sprite $28FE2C,
+|      scroll + anim -> free), $FF -> RopeBroken_049976 (+$7E = 0, sprite
+|      $28FDE0, scroll, parpadeo por $106F28, anim -> free), $FE -> free.
+|   3. FÍSICA DEL BALANCEO: PowHang_SwingStep_0499dc (+$74 -= 2 mod 256 =
+|      ángulo; $13C0E sin/cos con radio $B0: vel X = sin*radio + +$7A,
+|      vel Y = (|cos|/2 + $20) - +$7C), PowHang_SwingAnimByAngle_049a20
+|      (anim $28D70; ángulo hacia el objetivo $5E136 -> +$34 = fase 0..$18
+|      con sprites $28F748/$28F782/$28F708 según tramo; +$70 = 3; llama
+|      $4D4D0), PowHang_DropFxTimer_049b06 (+$76-- ; al llegar a 0 y si
+|      +$20 != 1 recarga por dificultad y crea hijo $48B56 (gota/efecto)
+|      desplazado +$80/+$82).
+|   4. POW EN CAÍDA (PowFall_*): PowFall_Spawn_049baa (plantilla $E81B8 del
+|      índice de spawn $E8000): $5E7C0, snd $E, prio $8000, HP 1, sprite
+|      $28FFDC, vel X por dificultad [$2BDC88] con signo = +$98 bit0 (=
+|      facing), grav -$60; si el scroll $106F54 >= $D0 y RNG & 7 == 0,
+|      vel X *= 1.75; hijo PowFall_Shadow_049ca4 que hereda vel y facing;
+|      bucle: $27A92 suelo + anim + $2870A (impacto -> +$20 = $FF y
+|      Entity_ProbeAndInstallHandler $49FD0) / fuera de mundo [$2902C4] ->
+|      free. PowFall_Shadow_049ca4: snd $144, prio = padre - 1, sprite
+|      $290090, ataque $283CA[$290106] con tabla $29024E; al tocar suelo
+|      ($27A92) vel X = 0; luego $283D8 + $2870A (-> HP +$66 = $7FFF
+|      "invulnerable") / fuera de mundo [$2902CE] -> free.
+|   5. Callbacks de scripts de animación (opcode $0800 <addr> en los
+|      scripts de $18E612/$18E6CA/$18EC56): PowHang_LoadTimerAndSlotCheck
+|      _04951e (+$72 = temporizador por dificultad [$2BFCB4] + comparación
+|      de +$10 con el slot +$08 -> SetXN), PowHang_SpawnFxAndItemA/B_049472
+|      /0494c8 (dos hijos: efecto en la posición del sprite +$5C y
+|      PowItem_Toss_048ba0__L048bca con +$7B heredado) y el helper común
+|      PowHang_SpawnItemAndFxAtSprite_049430.
+|   6. Comprobaciones: PowHang_HitCheck_049b58 (+$7F == 0 -> $27EBA, si no
+|      HitCheckAlt_049b78 = $27FAC; carry = golpeado), PowHang/PowFall
+|      _SlotPrioCheck_049b8e/049d6e (+$10 vs +$10 del slot +$08 -> SetXN),
+|      HumanDeath_HitCheckUnlessCutscene_049fba (si $106ED3 cutscene != 0
+|      salta a $2870A vía JmpAbsThunk_049fca; si no SetC = "sin golpe").
+|   7. Datos: HumanDeath_StateTbls_049d8a = 4 tablas de 34 punteros a
+|      estados de human_death_049fxx.s (indexadas por tipo de daño +$58) y
+|      HumanDeath_StateTblPtrs_049faa = las 4 direcciones (índice = kind).
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - $E81B8 (índice de plantillas de spawn) apunta a PowFall_Spawn_049baa;
+|    +$98 lo escribe el spawner como parámetro de la entidad.
+|  - $18E612/$18E6CA/$18EC56 contienen `0800 0004951E/00049472/000494C8`
+|    dentro de secuencias de sprites: llamadas desde el intérprete de
+|    scripts de animación (misma convención que otros callbacks del POW).
+|  - La cuerda hija lee +$78 del padre (0/1/$FD/$FE/$FF) y escribe +$79;
+|    el padre consulta +$79 == $FF: protocolo bidireccional padre/hijo.
+|  - El facing (12 - +$34) >> 15 reaparece en Swing y Freed; Freed usa el
+|    sprite $4ACFE de HumanDeath y el hijo PowItem $48CA4: el POW cae y
+|    suelta su objeto como el POW normal.
+|  - Las tablas $49D8A.. las lee HumanDeath_Dispatch vía $49FAA[kind*4].
+|
+|  C. HIPÓTESIS / DUDAS
+|  --------------------
+|  - +$7A/+$7C se interpretan como amplitudes X/Y del balanceo (vel = sin
+|    *radio + +$7A; vel Y = |cos|/2 + 32 - +$7C); el radio fijo $B0 podría
+|    ser la escala del seno de $13C0E más que una longitud de cuerda.
+|  - +$7F = 0/1 elige entre $27EBA y $27FAC: probablemente "colgado sobre
+|    suelo sólido" vs "sobre agua/vacío" (dos tipos de probe).
+|  - $4D4D0 en SwingAnimByAngle no está decompilado: ¿gestor de objetivo
+|    o de voz del POW?
+|  - La entrada en $49554 (+$7F = 1) no tiene referencia estática: la
+|    llamará un script de animación o una plantilla no indexada.
+|
+|  D. CAMPOS DE LA ENTIDAD (a6) USADOS
+|  ----------------------------------
+|  +$00 handler  +$08 slot  +$0C padre  +$10 índice slot  +$20 estado
+|  +$22/+$24 X/Y  +$28/+$2A vel  +$2E grav  +$34 fase/ángulo  +$38 prio
+|  +$3A facing  +$48 colisión  +$50 atacante  +$5C sprite actual  +$66 HP
+|  +$70  +$71 fase anim  +$72 timer  +$74 ángulo  +$76 timer gotas  +$78
+|  fase visible (hijo)  +$79 fase cuerda (padre)  +$7A/+$7C amplitudes
+|  +$7B param item  +$7E  +$7F variante hit  +$80/+$82 offset efecto
+|  +$98 variante spawn  +$9E param amplitud
+|
+|  E. CALLEES EXTERNOS
+|  -------------------
+|  $4AE alloc hijo  $518 free  $236E snd  $13C0E sin/cos  $267E2 relink
+|  $2783A scroll  $27A92 suelo  $27CEE  $27EBA/$27FAC impacto  $2870A
+|  impacto recibido  $28758 HP agotado  $283CA/$283D8 ataque  $28CD4
+|  sprite  $28D70 anim  $4797C Pow_SpawnInit  $48B56/$48CA4 hijos POW
+|  $4ACFE sprite HumanDeath  $49FD0 ProbeAndInstall  $4D4D0  $5DD02 copia
+|  pos  $5DD5C fuera de mundo  $5E136 ángulo  $5E4EE  $5E7C0  $5E9B6 RNG
+|  $799DE tabla por dificultad  $106ED3 cutscene  $106F28 frames  $106F54
+|  scroll.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
