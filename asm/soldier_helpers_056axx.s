@@ -1,11 +1,133 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave FFFF — soldado rebelde (infantería): helpers compartidos — física,
+|              IA de decisión, búsqueda del player, agarre, spawn por variante
 |  Región: $056ACC..$057D04  (4,214 B, 38 entradas, 20 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 4,214 B (38 entradas, 3 bloques de datos): el clúster de
+|  helpers del soldado rebelde que usan los estados de la Wave EEEE
+|  (`soldier_states_057dxx.s`, $057D04..$059342). Se intercala con islas C
+|  ya cerradas (ccr_helpers.c, task_handlers.c, task_setters_w.c,
+|  entity_state_publishers_057044.s).
+|
+|   1. Física y sensores por frame:
+|      - Soldier_PhysicsStep_056acc: integra con $27F08 / $28292 (en el
+|        aire) o $28364 (en suelo) y mantiene +$78 = "tocando suelo"
+|        ($FF si cambió de plataforma).
+|      - Soldier_ApproxDist_056b12: |dx| + |dy| aproximado (max + min/2)
+|        usando el truco swap/eor para el valor absoluto sin saltos.
+|      - Soldier_FindNearestPlayer_056b38: recorre los slots 0/1 con
+|        $5E3A2 y devuelve a0 = player más cercano, d0 = distancia.
+|      - Soldier_Think_056b92 (646 B): decrementa los timers +$8C/+$8E,
+|        sondea bordes de plataforma 3 px por delante (+$72 bit5/bit6 vía
+|        $280C6), elige objetivo (+$7A), fija el lado (+$72 bit0/bit1),
+|        consulta el anillo de posiciones $8F344 para repartir
+|        preferencias (+$84/+$86 = $400 o aleatorias &$3FF, +$88/+$8A =
+|        $80) y deriva los umbrales +$80 (acercarse) y +$82 (alejarse) de
+|        la distancia (+$7E) menos el radio de +$90, escalados por
+|        +$9C&7; fuera de $30..$120 de X los resetea. Sin objetivo:
+|        todos los umbrales a $20.
+|   2. Ciclo de vida: Soldier_DespawnIfOffscreen_056e1e ($5DD56 → $518),
+|      Soldier_LeaveTimerExpired_056e36 (+$8E == 0 → C=1),
+|      Soldier_TestSurrender_056fa0 (+$74 bit3, X en $30..$120, timer +$8C
+|      agotado, de cara al player y ZoneRing_HitTest $8F2A0 → copia +$9A
+|      a +$8D), Soldier_ProbeWalkEdge_056fec / _Bit5 ($770CC devuelve la
+|      columna; comprueba +$13 bits 4/5 según el sentido de marcha).
+|   3. Agarre al player: Soldier_PickGrabAnchor_056e4a (máscara +$74&7 de
+|      anclas permitidas menos las ocupadas por
+|      PlayerSlot_FindFreeAnchor $8F7CE; elige una al azar con $5E9E4
+|      sobre una lista en pila), Soldier_AnchorPickTbl_056ed2 (8 B),
+|      Soldier_TestPlayerInSlug_056eda (Slug_IsRiddenByPlayer $2AC0E),
+|      Soldier_GrabStruggleProgress_056f10 (+$80 decae /64; si el player
+|      pulsa (+$C→+$72→+3 != 0) sube $100 y a $B00 se rompe el agarre),
+|      Soldier_TestGrabBreak_056f64, Soldier_GrabLatch_057b06 (fija
+|      offset +$88/+$8A respecto al player y prioridad +$38 = la del
+|      player | $18), Soldier_GrabSlideToAnchor_057bb4 (PlayerSlot_TryAnchor
+|      $8F82A; interpola el offset /32 hasta 0 y salta a GrabPlayer /
+|      __L057d6e / __L057e0a según el ancla +$76),
+|      Soldier_GrabHoldFlag_057ca8, Soldier_GrabFollowPlayer_057cc0
+|      (PlayerSlot_ClaimAnchorIfFree $8F884).
+|   4. Spawn: Soldier_InitCommon_0570a8 (snd $E, prioridad $18, alloc
+|      $4AE con handler $776E2, timers +$8C/+$8E desde +$99/+$9B, agresividad
+|      +$9A por $799DE) y Soldier_SpawnVariants_057226 (392 B, destino de
+|      JmpAbsThunk_06313c: 24 stubs `bsr InitCommon; bsr EntityState_*;
+|      bra SpawnDispatch` que fijan +$74 bits 0/1/2/4 y +$75 según la
+|      variante del template), Soldier_SpawnAtGroundA/B_0573ae/0573de
+|      ($77148 busca suelo; si no, libera), Soldier_SpawnDispatch_05752c
+|      (X < $A0 → mira a la derecha; en el aire → Soldier_Leap),
+|      Soldier_SpawnJumpIn_05783e, Soldier_Leap_057880 (salto con tablas
+|      de ataque $2B71DC/$2B7230 según sea P1 o P2; en descenso sobre el
+|      player → GrabLatch; sub-entradas __L0578dc / __L05799e con 4
+|      parábolas por +$9D), Soldier_LeapLand_057a9e.
+|   5. Locomoción: Soldier_WalkStart_057558 → Soldier_Walk_Loop_057582
+|      (388 B; cada frame: física, Think, PickGrabAnchor → GrabApproach,
+|      TestPlayerInSlug → SlugApproach, y tiradas RNG contra +$80..+$8A
+|      para RunToward / Flee / Brake / Jump; bordes → Brake /
+|      SurrenderFlee__L058a50), Soldier_AirborneDispatch_057706 +
+|      Soldier_AirborneJT_057718 (4 `bra` por RNG&$C),
+|      Soldier_GrabApproach_057728, Soldier_SlugApproach_0577bc,
+|      Soldier_SetVelXByFacing_056f8a, Soldier_PickFallAnim_05740e.
+|   6. Ataque: Soldier_TestMeleeRange_0574e8 (X en $20..$300; instala
+|      Soldier_AttackTblMeleeProbe_057440 en +$4C y llama a $283CA x2 +
+|      $283D8; C=1 si +$13 bit1 marca contacto),
+|      Soldier_AttackTblMelee_057494 (84 B, misma forma: n=$A y 6
+|      cajas {dx,dy,w,h,flags}), Soldier_HitCheckTail_057ae4 ($2870A; si
+|      +$58 == $1C vuelve a sondear con $49FD0).
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - $57226 es `JmpTarget_057226` del thunk C `JmpAbsThunk_06313c`
+|    (src/jmp_abs_thunks.c) y cada stub termina en `bra SpawnDispatch`:
+|    tabla de entradas por variante de template.
+|  - $57440 y $57494 empiezan por $000A y contienen pares $FFFF/$FFxx
+|    (dx/dy negativos) y $0008/$0024 (w/h): mismo formato que las
+|    `Slug_AttackTbl*` de la Wave BBBB; $574E8 carga $57440 en +$4C.
+|  - $56ED2 = 00 01 01 02 01 02 02 03 = popcount de 0..7: índice de
+|    cuántas anclas quedan libres en la máscara de 3 bits (+$74&7).
+|  - Walk_Loop usa `cmp.w +$8A` / `cmp.w +$88` / `cmp.w +$80` /
+|    `cmp.w +$82`: confirma que los umbrales RNG viven en +$80..+$8A y los
+|    fija Soldier_Think.
+|  - GrabLatch/GrabFollowPlayer copian +$38 del player con `andi #$FFE3 /
+|    ori #$18`: el soldado agarrado hereda la capa de dibujo del player.
+|
+|  C. CAMPOS DEL OBJETO (a6)
+|  -------------------------
+|  +$00 handler  +$12/+$13 flags de sondeo  +$22/+$24 x/y  +$28/+$2A vel
+|  +$2C/+$2E acel/grav  +$36 vel X base  +$38 prio/capa  +$3A facing
+|  +$48 cb colisión  +$4C tabla de ataque  +$58 id de impacto  +$5A flags
+|  +$6B  +$70 semilla  +$72 bit0 lado, bit1 detrás, bit5/6 borde
+|  +$73 bit0 sin objetivo, bit1..3 preferencia  +$74 bit0..2 anclas,
+|  bit3 puede rendirse, bit4  +$75 subestado  +$76 ancla elegida
+|  +$77 columna de suelo  +$78 en suelo  +$7A ptr player  +$7E distancia
+|  +$80/+$82/+$84/+$86/+$88/+$8A umbrales  +$8C/+$8E timers
+|  +$90 radio  +$98 variante  +$99/+$9A/+$9B/+$9C/+$9D params de template
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|  $4AE alloc  $518 free  $5B6  $236E snd  $13600  $27D50  $27F08
+|  $27F60  $280C6 (sonda de borde)  $28134  $28292/$28364 (física)
+|  $283CA/$283D8 attack  $2870A  $28CD4 sprite  $28D70 anim
+|  $2AC0E Slug_IsRiddenByPlayer  $49FD0 Entity_ProbeAndInstallHandler
+|  $5DCA4 rand escalado  $5DD56 fuera de pantalla  $5E3A2 iterador de
+|  players  $5E8DA  $5E9B6 RNG  $5E9E4 RNG acotado  $770CC/$77148 suelo
+|  $776E2 handler hijo  $799DE escala por dificultad
+|  $8F2A0 ZoneRing_HitTest  $8F344 PosRing_FindNear
+|  $8F7CE/$8F82A/$8F884 PlayerSlot_*
+|
+|  E. HIPÓTESIS
+|  ------------
+|  - "Think" como nombre de $56B92 porque es la única rutina que fija
+|    objetivo y umbrales; los estados solo tiran dados contra ellos.
+|  - Las 3 anclas (+$74&7) corresponderían a las 3 posiciones de agarre
+|    visibles en el juego (brazo izq., brazo der., espalda).
+|  - +$9A es la "agresividad" (probabilidad de rendirse se copia a +$8D).
+|
+|  F. SIGUIENTE
+|  ------------
+|  $0527BA..$0539E2, $0478FC..$048A3C, $04AC3A..$04BB8E.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
