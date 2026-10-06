@@ -141,11 +141,11 @@ extern void TaskHandler_053c64(void);
 extern void TaskHandler_056058(void);
 extern void TaskHandler_056204(void);
 extern void TaskHandler_056596(void);
-extern void TaskHandler_057f4e(void);
-extern void TaskHandler_058412(void);
-extern void TaskHandler_058b1e(void);
-extern void TaskHandler_058c8e(void);
-extern void TaskHandler_058cce(void);
+extern void Soldier_GrabThrownA_057f4e(void);
+extern void Soldier_Hurt_058412(void);
+extern void Soldier_ThrowGrenadeA_058b1e(void);
+extern void Soldier_ThrowGrenadeB_058c8e(void);
+extern void Soldier_ThrowGrenadeB_Loop_058cce(void);
 extern void TaskHandler_05943a(void);
 extern void TaskHandler_05947a(void);
 extern void TaskHandler_0594ba(void);
@@ -1363,43 +1363,43 @@ void SetTaskHandler_05658e(void) {
 
 __attribute__((section(".text.SetTaskHandler_057022")))
 void SetTaskHandler_057022(void) {
-    _a1_ptr = &TaskHandler_058b1e;
+    _a1_ptr = &Soldier_ThrowGrenadeA_058b1e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05703c")))
 void SetTaskHandler_05703c(void) {
-    _a1_ptr = &TaskHandler_058c8e;
+    _a1_ptr = &Soldier_ThrowGrenadeB_058c8e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0573d6")))
 void SetTaskHandler_0573d6(void) {
-    _a1_ptr = &TaskHandler_058b1e;
+    _a1_ptr = &Soldier_ThrowGrenadeA_058b1e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_057406")))
 void SetTaskHandler_057406(void) {
-    _a1_ptr = &TaskHandler_058cce;
+    _a1_ptr = &Soldier_ThrowGrenadeB_Loop_058cce;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_057550")))
 void SetTaskHandler_057550(void) {
-    _a1_ptr = &TaskHandler_058412;
+    _a1_ptr = &Soldier_Hurt_058412;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_057cb8")))
 void SetTaskHandler_057cb8(void) {
-    _a1_ptr = &TaskHandler_057f4e;
+    _a1_ptr = &Soldier_GrabThrownA_057f4e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_057cfc")))
 void SetTaskHandler_057cfc(void) {
-    _a1_ptr = &TaskHandler_057f4e;
+    _a1_ptr = &Soldier_GrabThrownA_057f4e;
     STORE_A1_AT_FP();
 }
 

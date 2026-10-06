@@ -500,11 +500,11 @@ SYMBOLS = {
     0x00056058: "TaskHandler_056058",
     0x00056204: "TaskHandler_056204",
     0x00056596: "TaskHandler_056596",
-    # 0x00057F4E promovido a TaskHandler_057f4e en registry (Wave EEEE).
-    # 0x00058412 promovido a TaskHandler_058412 en registry (Wave EEEE).
-    # 0x00058B1E promovido a TaskHandler_058b1e en registry (Wave EEEE).
-    # 0x00058C8E promovido a TaskHandler_058c8e en registry (Wave EEEE).
-    # 0x00058CCE promovido a TaskHandler_058cce en registry (Wave EEEE).
+    # 0x00057F4E promovido a Soldier_GrabThrownA_057f4e en registry (Wave EEEE).
+    # 0x00058412 promovido a Soldier_Hurt_058412 en registry (Wave EEEE).
+    # 0x00058B1E promovido a Soldier_ThrowGrenadeA_058b1e en registry (Wave EEEE).
+    # 0x00058C8E promovido a Soldier_ThrowGrenadeB_058c8e en registry (Wave EEEE).
+    # 0x00058CCE promovido a Soldier_ThrowGrenadeB_Loop_058cce en registry (Wave EEEE).
     0x0005943A: "TaskHandler_05943a",
     0x0005947A: "TaskHandler_05947a",
     0x000594BA: "TaskHandler_0594ba",

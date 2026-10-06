@@ -15,31 +15,31 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057d04  @ $057D04  (290 B)
+|  Soldier_GrabPlayer_057d04  @ $057D04  (290 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057d04, "ax", @progbits
-        .global TaskHandler_057d04
-TaskHandler_057d04:
+        .section .text.Soldier_GrabPlayer_057d04, "ax", @progbits
+        .global Soldier_GrabPlayer_057d04
+Soldier_GrabPlayer_057d04:
         bclr    #0x0,0x3a(a6)                   | +000
         movea.l 0x7a(a6),a0                     | +006
         move.w  #0x0,d0                         | +00a
         jsr     0x8f85c.l                       | +00e
-        bcc.w   TaskHandler_057fc6              | +014
+        bcc.w   Soldier_GrabThrownB_057fc6      | +014
         lea     0x2b6d64.l,a0                   | +018
         jsr     0x28cd4.l                       | +01e
         clr.b   0x20(a6)                        | +024
         lea     .L057d32(pc),a1                 | +028
         move.l  a1,(a6)                         | +02c
 .L057d32:
-        bsr.w   Sub_00057CA8                    | +02e  -> $057CA8 (hueco futuro, defsym forward)
-        jsr     Sub_00056F64(pc)                | +032  -> $056F64 (hueco futuro, defsym forward)
+        bsr.w   Sub_00057CA8                    | +02e
+        jsr     Sub_00056F64(pc)                | +032
         bcc.w   .L057d44                        | +036
-        lea     TaskHandler_057ece(pc),a1       | +03a
+        lea     Soldier_GrabBreakA_057ece(pc),a1 | +03a
         move.l  a1,(a6)                         | +03e
 .L057d44:
         jsr     0x28d70.l                       | +040
         bcc.w   .L057d54                        | +046
-        lea     TaskHandler_057fc6(pc),a1       | +04a
+        lea     Soldier_GrabThrownB_057fc6(pc),a1 | +04a
         move.l  a1,(a6)                         | +04e
 .L057d54:
         tst.b   0x20(a6)                        | +050
@@ -48,12 +48,12 @@ TaskHandler_057d04:
         move.w  #0x0,d0                         | +05c
         jsr     0x8f8c2.l                       | +060
 .L057d6a:
-        jmp     Sub_00057AE4(pc)                | +066  -> $057AE4 (hueco futuro, defsym forward)
+        jmp     Sub_00057AE4(pc)                | +066
         bclr    #0x0,0x3a(a6)                   | +06a
         movea.l 0x7a(a6),a0                     | +070
         move.w  #0x1,d0                         | +074
         jsr     0x8f85c.l                       | +078
-        bcc.w   TaskHandler_057fc6              | +07e
+        bcc.w   Soldier_GrabThrownB_057fc6      | +07e
         jsr     0x13600.l                       | +082
         lea     0x2b6aa4.l,a0                   | +088
         jsr     0x28cd4.l                       | +08e
@@ -76,31 +76,31 @@ TaskHandler_057d04:
         lea     .L057de4(pc),a1                 | +0da
         move.l  a1,(a6)                         | +0de
 .L057de4:
-        bsr.w   Sub_00057CA8                    | +0e0  -> $057CA8 (hueco futuro, defsym forward)
-        jsr     Sub_00056F64(pc)                | +0e4  -> $056F64 (hueco futuro, defsym forward)
+        bsr.w   Sub_00057CA8                    | +0e0
+        jsr     Sub_00056F64(pc)                | +0e4
         bcc.w   .L057df6                        | +0e8
-        lea     TaskHandler_057ee2(pc),a1       | +0ec
+        lea     Soldier_GrabBreakB_057ee2(pc),a1 | +0ec
         move.l  a1,(a6)                         | +0f0
 .L057df6:
         jsr     0x28d70.l                       | +0f2
         bcc.w   .L057e06                        | +0f8
-        lea     TaskHandler_057fc6(pc),a1       | +0fc
+        lea     Soldier_GrabThrownB_057fc6(pc),a1 | +0fc
         move.l  a1,(a6)                         | +100
 .L057e06:
-        jmp     Sub_00057AE4(pc)                | +102  -> $057AE4 (hueco futuro, defsym forward)
+        jmp     Sub_00057AE4(pc)                | +102
         bclr    #0x0,0x3a(a6)                   | +106
         movea.l 0x7a(a6),a0                     | +10c
         move.w  #0x2,d0                         | +110
         jsr     0x8f85c.l                       | +114
-        bcc.w   TaskHandler_057fc6              | +11a
+        bcc.w   Soldier_GrabThrownB_057fc6      | +11a
         clr.b   0x30(a6)                        | +11e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057e26  @ $057E26  (84 B)
+|  Soldier_GrabStruggle_057e26  @ $057E26  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057e26, "ax", @progbits
-        .global TaskHandler_057e26
-TaskHandler_057e26:
+        .section .text.Soldier_GrabStruggle_057e26, "ax", @progbits
+        .global Soldier_GrabStruggle_057e26
+Soldier_GrabStruggle_057e26:
         lea     0x2b6832.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         bclr    #0x3,0x13(a6)                   | +00c
@@ -108,35 +108,35 @@ TaskHandler_057e26:
         lea     .L057e44(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L057e44:
-        bsr.w   Sub_00057CA8                    | +01e  -> $057CA8 (hueco futuro, defsym forward)
+        bsr.w   Sub_00057CA8                    | +01e
         jsr     0x28d70.l                       | +022
-        jsr     Sub_00056F64(pc)                | +028  -> $056F64 (hueco futuro, defsym forward)
+        jsr     Sub_00056F64(pc)                | +028
         bcc.w   .L057e5c                        | +02c
-        lea     TaskHandler_057ef6(pc),a1       | +030
+        lea     Soldier_GrabBreakC_057ef6(pc),a1 | +030
         move.l  a1,(a6)                         | +034
 .L057e5c:
         jsr     0x2870a.l                       | +036
         bcc.w   .L057e76                        | +03c
         cmpi.b  #0x2,0x58(a6)                   | +040
         bne.w   .L057e76                        | +046
-        lea     TaskHandler_057e7a(pc),a1       | +04a
+        lea     Soldier_GrabStruggleNext_057e7a(pc),a1 | +04a
         move.l  a1,(a6)                         | +04e
 .L057e76:
-        jmp     Sub_00057AE4(pc)                | +050  -> $057AE4 (hueco futuro, defsym forward)
+        jmp     Sub_00057AE4(pc)                | +050
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057e7a  @ $057E7A  (84 B)
+|  Soldier_GrabStruggleNext_057e7a  @ $057E7A  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057e7a, "ax", @progbits
-        .global TaskHandler_057e7a
-TaskHandler_057e7a:
+        .section .text.Soldier_GrabStruggleNext_057e7a, "ax", @progbits
+        .global Soldier_GrabStruggleNext_057e7a
+Soldier_GrabStruggleNext_057e7a:
         move.b  0x30(a6),d0                     | +000
         addi.b  #0x1,d0                         | +004
         move.b  d0,0x30(a6)                     | +008
         cmpi.b  #0x3,d0                         | +00c
         bcs.w   .L057e98                        | +010
         bset    #0x3,0x13(a6)                   | +014
-        bra.w   TaskHandler_057f4e              | +01a
+        bra.w   Soldier_GrabThrownA_057f4e      | +01a
 .L057e98:
         bclr    #0x3,0x13(a6)                   | +01e
         bclr    #0x0,0x13(a6)                   | +024
@@ -145,60 +145,60 @@ TaskHandler_057e7a:
         lea     .L057eb6(pc),a1                 | +036
         move.l  a1,(a6)                         | +03a
 .L057eb6:
-        bsr.w   Sub_00057CA8                    | +03c  -> $057CA8 (hueco futuro, defsym forward)
+        bsr.w   Sub_00057CA8                    | +03c
         jsr     0x28d70.l                       | +040
         bcc.w   .L057eca                        | +046
-        lea     TaskHandler_057e26(pc),a1       | +04a
+        lea     Soldier_GrabStruggle_057e26(pc),a1 | +04a
         move.l  a1,(a6)                         | +04e
 .L057eca:
-        jmp     Sub_00057AE4(pc)                | +050  -> $057AE4 (hueco futuro, defsym forward)
+        jmp     Sub_00057AE4(pc)                | +050
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057ece  @ $057ECE  (20 B)
+|  Soldier_GrabBreakA_057ece  @ $057ECE  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057ece, "ax", @progbits
-        .global TaskHandler_057ece
-TaskHandler_057ece:
+        .section .text.Soldier_GrabBreakA_057ece, "ax", @progbits
+        .global Soldier_GrabBreakA_057ece
+Soldier_GrabBreakA_057ece:
         move.l  #0x57d1c,0x5c(a6)               | +000
         move.l  #0x2b6c32,0x92(a6)              | +008
-        bra.w   TaskHandler_057f06              | +010
+        bra.w   Soldier_GrabBreak_057f06        | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057ee2  @ $057EE2  (20 B)
+|  Soldier_GrabBreakB_057ee2  @ $057EE2  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057ee2, "ax", @progbits
-        .global TaskHandler_057ee2
-TaskHandler_057ee2:
+        .section .text.Soldier_GrabBreakB_057ee2, "ax", @progbits
+        .global Soldier_GrabBreakB_057ee2
+Soldier_GrabBreakB_057ee2:
         move.l  #0x57d86,0x5c(a6)               | +000
         move.l  #0x2b6c32,0x92(a6)              | +008
-        bra.w   TaskHandler_057f06              | +010
+        bra.w   Soldier_GrabBreak_057f06        | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057ef6  @ $057EF6  (16 B)
+|  Soldier_GrabBreakC_057ef6  @ $057EF6  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057ef6, "ax", @progbits
-        .global TaskHandler_057ef6
-TaskHandler_057ef6:
+        .section .text.Soldier_GrabBreakC_057ef6, "ax", @progbits
+        .global Soldier_GrabBreakC_057ef6
+Soldier_GrabBreakC_057ef6:
         move.l  #0x57e26,0x5c(a6)               | +000
         move.l  #0x2b6bc0,0x92(a6)              | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057f06  @ $057F06  (72 B)
+|  Soldier_GrabBreak_057f06  @ $057F06  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057f06, "ax", @progbits
-        .global TaskHandler_057f06
-TaskHandler_057f06:
+        .section .text.Soldier_GrabBreak_057f06, "ax", @progbits
+        .global Soldier_GrabBreak_057f06
+Soldier_GrabBreak_057f06:
         movea.l 0x92(a6),a0                     | +000
         jsr     0x28cd4.l                       | +004
         lea     .L057f16(pc),a1                 | +00a
         move.l  a1,(a6)                         | +00e
 .L057f16:
-        bsr.w   Sub_00057CA8                    | +010  -> $057CA8 (hueco futuro, defsym forward)
+        bsr.w   Sub_00057CA8                    | +010
         jsr     0x28d70.l                       | +014
         bcc.w   .L057f3a                        | +01a
-        bsr.w   Sub_00056F64                    | +01e  -> $056F64 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056F64                    | +01e
         bcc.w   .L057f36                        | +022
-        lea     TaskHandler_057f06(pc),a1       | +026
+        lea     Soldier_GrabBreak_057f06(pc),a1 | +026
         move.l  a1,(a6)                         | +02a
         bra.w   .L057f3a                        | +02c
 .L057f36:
@@ -206,17 +206,17 @@ TaskHandler_057f06:
 .L057f3a:
         jsr     0x2870a.l                       | +034
         bcc.w   .L057f4a                        | +03a
-        lea     TaskHandler_057e7a(pc),a1       | +03e
+        lea     Soldier_GrabStruggleNext_057e7a(pc),a1 | +03e
         move.l  a1,(a6)                         | +042
 .L057f4a:
-        jmp     Sub_00057AE4(pc)                | +044  -> $057AE4 (hueco futuro, defsym forward)
+        jmp     Sub_00057AE4(pc)                | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057f4e  @ $057F4E  (120 B)
+|  Soldier_GrabThrownA_057f4e  @ $057F4E  (120 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057f4e, "ax", @progbits
-        .global TaskHandler_057f4e
-TaskHandler_057f4e:
+        .section .text.Soldier_GrabThrownA_057f4e, "ax", @progbits
+        .global Soldier_GrabThrownA_057f4e
+Soldier_GrabThrownA_057f4e:
         lea     0x2b6ca4.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         movea.l 0x7a(a6),a0                     | +00c
@@ -240,7 +240,7 @@ TaskHandler_057f4e:
         jsr     0x2831e.l                       | +052
         scs.b   0x78(a6)                        | +058
         bcc.w   .L057fb4                        | +05c
-        lea     TaskHandler_0588ae(pc),a1       | +060
+        lea     Soldier_Stand_0588ae(pc),a1     | +060
         move.l  a1,(a6)                         | +064
 .L057fb4:
         jsr     0x28d70.l                       | +066
@@ -249,11 +249,11 @@ TaskHandler_057f4e:
         rts                                     | +076
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_057fc6  @ $057FC6  (134 B)
+|  Soldier_GrabThrownB_057fc6  @ $057FC6  (134 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_057fc6, "ax", @progbits
-        .global TaskHandler_057fc6
-TaskHandler_057fc6:
+        .section .text.Soldier_GrabThrownB_057fc6, "ax", @progbits
+        .global Soldier_GrabThrownB_057fc6
+Soldier_GrabThrownB_057fc6:
         lea     0xffff.w,a0                     | +000
         move.l  a0,0x4c(a6)                     | +004
         jsr     0x283ca.l                       | +008
@@ -280,7 +280,7 @@ TaskHandler_057fc6:
         jsr     0x2831e.l                       | +060
         scs.b   0x78(a6)                        | +066
         bcc.w   .L05803a                        | +06a
-        lea     TaskHandler_058464(pc),a1       | +06e
+        lea     Soldier_Land_058464(pc),a1      | +06e
         move.l  a1,(a6)                         | +072
 .L05803a:
         jsr     0x28d70.l                       | +074
@@ -289,54 +289,54 @@ TaskHandler_057fc6:
         rts                                     | +084
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05804c  @ $05804C  (42 B)
+|  Soldier_RunToward_05804c  @ $05804C  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05804c, "ax", @progbits
-        .global TaskHandler_05804c
-TaskHandler_05804c:
+        .section .text.Soldier_RunToward_05804c, "ax", @progbits
+        .global Soldier_RunToward_05804c
+Soldier_RunToward_05804c:
         btst    #0x4,0x74(a6)                   | +000
-        bne.w   TaskHandler_0589f8__L058aa8     | +006
+        bne.w   Soldier_SurrenderFlee_0589f8__L058aa8 | +006
         lea     0x29b7c8.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
         move.w  #0x100,0x36(a6)                 | +016
-        bsr.w   Sub_00056F8A                    | +01c  -> $056F8A (hueco futuro, defsym forward)
-        lea     TaskHandler_05809e(pc),a1       | +020
+        bsr.w   Sub_00056F8A                    | +01c
+        lea     Soldier_Run_Loop_05809e(pc),a1  | +020
         move.l  a1,(a6)                         | +024
-        bra.w   TaskHandler_05809e              | +026
+        bra.w   Soldier_Run_Loop_05809e         | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058076  @ $058076  (40 B)
+|  Soldier_RunByTable_058076  @ $058076  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058076, "ax", @progbits
-        .global TaskHandler_058076
-TaskHandler_058076:
+        .section .text.Soldier_RunByTable_058076, "ax", @progbits
+        .global Soldier_RunByTable_058076
+Soldier_RunByTable_058076:
         lea     0x2b5d14.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0x2b756e.l,a0                   | +00c
         jsr     0x799de.l                       | +012
         neg.w   d0                              | +018
         move.w  d0,0x36(a6)                     | +01a
-        bsr.w   Sub_00056F8A                    | +01e  -> $056F8A (hueco futuro, defsym forward)
-        lea     TaskHandler_05809e(pc),a1       | +022
+        bsr.w   Sub_00056F8A                    | +01e
+        lea     Soldier_Run_Loop_05809e(pc),a1  | +022
         move.l  a1,(a6)                         | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05809e  @ $05809E  (166 B)
+|  Soldier_Run_Loop_05809e  @ $05809E  (166 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05809e, "ax", @progbits
-        .global TaskHandler_05809e
-TaskHandler_05809e:
-        bsr.w   Sub_00056ACC                    | +000  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +004  -> $056B92 (hueco futuro, defsym forward)
+        .section .text.Soldier_Run_Loop_05809e, "ax", @progbits
+        .global Soldier_Run_Loop_05809e
+Soldier_Run_Loop_05809e:
+        bsr.w   Sub_00056ACC                    | +000
+        bsr.w   Sub_00056B92                    | +004
         move.w  0x28(a6),d0                     | +008
         asr.w   #0x4,d0                         | +00c
         sub.w   d0,0x28(a6)                     | +00e
         jsr     0x28d70.l                       | +012
         bcc.w   .L0580c0                        | +018
-        lea     TaskHandler_058144(pc),a1       | +01c
+        lea     Soldier_Idle_058144(pc),a1      | +01c
         move.l  a1,(a6)                         | +020
 .L0580c0:
-        bsr.w   Sub_00056FEC                    | +022  -> $056FEC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056FEC                    | +022
         jsr     0x5e9b6.l                       | +026
         move.w  d0,-(a7)                        | +02c
         andi.w  #0xff,d0                        | +02e
@@ -347,17 +347,17 @@ TaskHandler_05809e:
 .L0580de:
         addq.w  #0x2,a7                         | +040
         bcc.w   .L0580ea                        | +042
-        lea     TaskHandler_058658(pc),a1       | +046
+        lea     Soldier_Flee_058658(pc),a1      | +046
         move.l  a1,(a6)                         | +04a
 .L0580ea:
-        jsr     Sub_00056E36(pc)                | +04c  -> $056E36 (hueco futuro, defsym forward)
+        jsr     Sub_00056E36(pc)                | +04c
         bcc.w   .L0580f8                        | +050
-        lea     TaskHandler_059062(pc),a1       | +054
+        lea     Soldier_SpawnFaceTarget_059062(pc),a1 | +054
         move.l  a1,(a6)                         | +058
 .L0580f8:
         tst.b   0x78(a6)                        | +05a
         bne.w   .L058106                        | +05e
-        lea     TaskHandler_058412(pc),a1       | +062
+        lea     Soldier_Hurt_058412(pc),a1      | +062
         move.l  a1,(a6)                         | +066
 .L058106:
         jsr     0x5e9b6.l                       | +068
@@ -370,23 +370,23 @@ TaskHandler_05809e:
 .L058120:
         addq.w  #0x2,a7                         | +082
         bcc.w   .L05812c                        | +084
-        lea     TaskHandler_0588f6(pc),a1       | +088
+        lea     Soldier_Jump_0588f6(pc),a1      | +088
         move.l  a1,(a6)                         | +08c
 .L05812c:
-        jsr     Sub_000574E8(pc)                | +08e  -> $0574E8 (hueco futuro, defsym forward)
+        jsr     Sub_000574E8(pc)                | +08e
         bcc.w   .L05813a                        | +092
-        lea     TaskHandler_0585ae(pc),a1       | +096
+        lea     Soldier_MeleeAttack_0585ae(pc),a1 | +096
         move.l  a1,(a6)                         | +09a
 .L05813a:
         jsr     0x49fd0.l                       | +09c
         bra.w   PcThunkTarget_056e1e            | +0a2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058144  @ $058144  (648 B)
+|  Soldier_Idle_058144  @ $058144  (648 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058144, "ax", @progbits
-        .global TaskHandler_058144
-TaskHandler_058144:
+        .section .text.Soldier_Idle_058144, "ax", @progbits
+        .global Soldier_Idle_058144
+Soldier_Idle_058144:
         tst.w   0x34(a6)                        | +000
         bne.w   .L05815c                        | +004
         lea     0x29b816.l,a0                   | +008
@@ -410,10 +410,10 @@ TaskHandler_058144:
         lea     .L058196(pc),a1                 | +04c
         move.l  a1,(a6)                         | +050
 .L058196:
-        bsr.w   Sub_00056ACC                    | +052  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +056  -> $056B92 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056ACC                    | +052
+        bsr.w   Sub_00056B92                    | +056
         jsr     0x28d70.l                       | +05a
-        bsr.w   Sub_00056FEC                    | +060  -> $056FEC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056FEC                    | +060
         btst    #0x0,0x72(a6)                   | +064
         beq.w   .L05828c                        | +06a
         move.w  0x80(a6),d1                     | +06e
@@ -431,7 +431,7 @@ TaskHandler_058144:
 .L0581d8:
         addq.w  #0x2,a7                         | +094
         bcc.w   .L0581e4                        | +096
-        lea     TaskHandler_058500(pc),a1       | +09a
+        lea     Soldier_StepLeft_058500(pc),a1  | +09a
         move.l  a1,(a6)                         | +09e
 .L0581e4:
         mulu.w  d1,d1                           | +0a0
@@ -446,7 +446,7 @@ TaskHandler_058144:
 .L0581fe:
         addq.w  #0x2,a7                         | +0ba
         bcc.w   .L05820a                        | +0bc
-        lea     TaskHandler_058076(pc),a1       | +0c0
+        lea     Soldier_RunByTable_058076(pc),a1 | +0c0
         move.l  a1,(a6)                         | +0c4
 .L05820a:
         mulu.w  d1,d1                           | +0c6
@@ -461,7 +461,7 @@ TaskHandler_058144:
 .L058224:
         addq.w  #0x2,a7                         | +0e0
         bcc.w   .L058230                        | +0e2
-        lea     TaskHandler_0585f6(pc),a1       | +0e6
+        lea     Soldier_Brake_0585f6(pc),a1     | +0e6
         move.l  a1,(a6)                         | +0ea
 .L058230:
         move.w  0x82(a6),d1                     | +0ec
@@ -479,7 +479,7 @@ TaskHandler_058144:
 .L058256:
         addq.w  #0x2,a7                         | +112
         bcc.w   .L058262                        | +114
-        lea     TaskHandler_0584c4(pc),a1       | +118
+        lea     Soldier_StepRight_0584c4(pc),a1 | +118
         move.l  a1,(a6)                         | +11c
 .L058262:
         mulu.w  d1,d1                           | +11e
@@ -494,7 +494,7 @@ TaskHandler_058144:
 .L05827c:
         addq.w  #0x2,a7                         | +138
         bcc.w   .L058288                        | +13a
-        lea     Sub_00057558(pc),a1             | +13e  -> $057558 (hueco futuro, defsym forward)
+        lea     Sub_00057558(pc),a1             | +13e
         move.l  a1,(a6)                         | +142
 .L058288:
         bra.w   .L0582d8                        | +144
@@ -509,7 +509,7 @@ TaskHandler_058144:
 .L0582a6:
         addq.w  #0x2,a7                         | +162
         bcc.w   .L0582b2                        | +164
-        lea     Sub_00057558(pc),a1             | +168  -> $057558 (hueco futuro, defsym forward)
+        lea     Sub_00057558(pc),a1             | +168
         move.l  a1,(a6)                         | +16c
 .L0582b2:
         jsr     0x5e9b6.l                       | +16e
@@ -522,7 +522,7 @@ TaskHandler_058144:
 .L0582cc:
         addq.w  #0x2,a7                         | +188
         bcc.w   .L0582d8                        | +18a
-        lea     TaskHandler_0583cc(pc),a1       | +18e
+        lea     Soldier_IdleFidget_0583cc(pc),a1 | +18e
         move.l  a1,(a6)                         | +192
 .L0582d8:
         jsr     0x5e9b6.l                       | +194
@@ -535,7 +535,7 @@ TaskHandler_058144:
 .L0582f2:
         addq.w  #0x2,a7                         | +1ae
         bcc.w   .L0582fe                        | +1b0
-        lea     TaskHandler_0585f6(pc),a1       | +1b4
+        lea     Soldier_Brake_0585f6(pc),a1     | +1b4
         move.l  a1,(a6)                         | +1b8
 .L0582fe:
         jsr     0x5e9b6.l                       | +1ba
@@ -548,7 +548,7 @@ TaskHandler_058144:
 .L058318:
         addq.w  #0x2,a7                         | +1d4
         bcc.w   .L058324                        | +1d6
-        lea     Sub_00057558(pc),a1             | +1da  -> $057558 (hueco futuro, defsym forward)
+        lea     Sub_00057558(pc),a1             | +1da
         move.l  a1,(a6)                         | +1de
 .L058324:
         move.w  0x34(a6),d0                     | +1e0
@@ -563,22 +563,22 @@ TaskHandler_058144:
 .L058346:
         addq.w  #0x2,a7                         | +202
         bcc.w   .L058352                        | +204
-        lea     TaskHandler_058658(pc),a1       | +208
+        lea     Soldier_Flee_058658(pc),a1      | +208
         move.l  a1,(a6)                         | +20c
 .L058352:
-        jsr     Sub_00056E36(pc)                | +20e  -> $056E36 (hueco futuro, defsym forward)
+        jsr     Sub_00056E36(pc)                | +20e
         bcc.w   .L058360                        | +212
-        lea     TaskHandler_059062(pc),a1       | +216
+        lea     Soldier_SpawnFaceTarget_059062(pc),a1 | +216
         move.l  a1,(a6)                         | +21a
 .L058360:
-        jsr     Sub_00056FA0(pc)                | +21c  -> $056FA0 (hueco futuro, defsym forward)
+        jsr     Sub_00056FA0(pc)                | +21c
         bcc.w   .L05836e                        | +220
-        lea     TaskHandler_058968(pc),a1       | +224
+        lea     Soldier_Surrender_058968(pc),a1 | +224
         move.l  a1,(a6)                         | +228
 .L05836e:
         btst    #0x0,0x73(a6)                   | +22a
         beq.w   .L05837e                        | +230
-        lea     TaskHandler_058e08(pc),a1       | +234
+        lea     Soldier_TauntInit_058e08(pc),a1 | +234
         move.l  a1,(a6)                         | +238
 .L05837e:
         jsr     0x5e9b6.l                       | +23a
@@ -591,17 +591,17 @@ TaskHandler_058144:
 .L058398:
         addq.w  #0x2,a7                         | +254
         bcc.w   .L0583a4                        | +256
-        lea     TaskHandler_0588f6(pc),a1       | +25a
+        lea     Soldier_Jump_0588f6(pc),a1      | +25a
         move.l  a1,(a6)                         | +25e
 .L0583a4:
-        jsr     Sub_000574E8(pc)                | +260  -> $0574E8 (hueco futuro, defsym forward)
+        jsr     Sub_000574E8(pc)                | +260
         bcc.w   .L0583b2                        | +264
-        lea     TaskHandler_0585ae(pc),a1       | +268
+        lea     Soldier_MeleeAttack_0585ae(pc),a1 | +268
         move.l  a1,(a6)                         | +26c
 .L0583b2:
         tst.b   0x78(a6)                        | +26e
         bne.w   .L0583c0                        | +272
-        lea     TaskHandler_058412(pc),a1       | +276
+        lea     Soldier_Hurt_058412(pc),a1      | +276
         move.l  a1,(a6)                         | +27a
 .L0583c0:
         jsr     0x49fd0.l                       | +27c
@@ -609,24 +609,24 @@ TaskHandler_058144:
         rts                                     | +286
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0583cc  @ $0583CC  (70 B)
+|  Soldier_IdleFidget_0583cc  @ $0583CC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0583cc, "ax", @progbits
-        .global TaskHandler_0583cc
-TaskHandler_0583cc:
+        .section .text.Soldier_IdleFidget_0583cc, "ax", @progbits
+        .global Soldier_IdleFidget_0583cc
+Soldier_IdleFidget_0583cc:
         jsr     0x5e9b6.l                       | +000
         andi.b  #0xf,d0                         | +006
-        bne.w   TaskHandler_0585f6              | +00a
+        bne.w   Soldier_Brake_0585f6            | +00a
         lea     0x29bf34.l,a0                   | +00e
         jsr     0x28cd4.l                       | +014
         lea     .L0583ec(pc),a1                 | +01a
         move.l  a1,(a6)                         | +01e
 .L0583ec:
         jsr     0x2783a.l                       | +020
-        bsr.w   Sub_00056B92                    | +026  -> $056B92 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056B92                    | +026
         jsr     0x28d70.l                       | +02a
         bcc.w   .L058406                        | +030
-        lea     TaskHandler_058144(pc),a1       | +034
+        lea     Soldier_Idle_058144(pc),a1      | +034
         move.l  a1,(a6)                         | +038
 .L058406:
         jsr     0x49fd0.l                       | +03a
@@ -634,29 +634,29 @@ TaskHandler_0583cc:
         rts                                     | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058412  @ $058412  (18 B)
+|  Soldier_Hurt_058412  @ $058412  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058412, "ax", @progbits
-        .global TaskHandler_058412
-TaskHandler_058412:
+        .section .text.Soldier_Hurt_058412, "ax", @progbits
+        .global Soldier_Hurt_058412
+Soldier_Hurt_058412:
         lea     0x2b5b92.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
-        lea     TaskHandler_058424(pc),a1       | +00c
+        lea     Soldier_Hurt_Loop_058424(pc),a1 | +00c
         move.l  a1,(a6)                         | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058424  @ $058424  (64 B)
+|  Soldier_Hurt_Loop_058424  @ $058424  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058424, "ax", @progbits
-        .global TaskHandler_058424
-TaskHandler_058424:
+        .section .text.Soldier_Hurt_Loop_058424, "ax", @progbits
+        .global Soldier_Hurt_Loop_058424
+Soldier_Hurt_Loop_058424:
         move.w  0x28(a6),d0                     | +000
         asr.w   #0x6,d0                         | +004
         sub.w   d0,0x28(a6)                     | +006
         jsr     0x28364.l                       | +00a
         scs.b   0x78(a6)                        | +010
         bcc.w   .L058442                        | +014
-        lea     TaskHandler_058464(pc),a1       | +018
+        lea     Soldier_Land_058464(pc),a1      | +018
         move.l  a1,(a6)                         | +01c
 .L058442:
         jsr     0x28d70.l                       | +01e
@@ -665,14 +665,14 @@ TaskHandler_058424:
         rts                                     | +02e
         lea     0x2b7030.l,a0                   | +030
         jsr     0x28cd4.l                       | +036
-        bra.w   TaskHandler_058464__L05848a     | +03c
+        bra.w   Soldier_Land_058464__L05848a    | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058464  @ $058464  (96 B)
+|  Soldier_Land_058464  @ $058464  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058464, "ax", @progbits
-        .global TaskHandler_058464
-TaskHandler_058464:
+        .section .text.Soldier_Land_058464, "ax", @progbits
+        .global Soldier_Land_058464
+Soldier_Land_058464:
         move.w  0x28(a6),d0                     | +000
         bpl.w   .L05846e                        | +004
         neg.w   d0                              | +008
@@ -682,36 +682,36 @@ TaskHandler_058464:
         neg.w   d1                              | +012
 .L058478:
         cmp.w   d0,d1                           | +014
-        bcs.w   TaskHandler_05804c              | +016
+        bcs.w   Soldier_RunToward_05804c        | +016
         lea     0x2b5c22.l,a0                   | +01a
         jsr     0x28cd4.l                       | +020
-        .global TaskHandler_058464__L05848a
-TaskHandler_058464__L05848a:
+        .global Soldier_Land_058464__L05848a
+Soldier_Land_058464__L05848a:
         clr.w   0x28(a6)                        | +026
         lea     .L058494(pc),a1                 | +02a
         move.l  a1,(a6)                         | +02e
 .L058494:
-        bsr.w   Sub_00056ACC                    | +030  -> $056ACC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056ACC                    | +030
         jsr     0x28d70.l                       | +034
         bcc.w   .L0584ba                        | +03a
         tst.b   0x78(a6)                        | +03e
         beq.w   .L0584b4                        | +042
-        lea     Sub_00057558(pc),a1             | +046  -> $057558 (hueco futuro, defsym forward)
+        lea     Sub_00057558(pc),a1             | +046
         move.l  a1,(a6)                         | +04a
         bra.w   .L0584ba                        | +04c
 .L0584b4:
-        lea     TaskHandler_058412(pc),a1       | +050
+        lea     Soldier_Hurt_058412(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L0584ba:
         jsr     0x49fd0.l                       | +056
         bra.w   PcThunkTarget_056e1e            | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0584c4  @ $0584C4  (60 B)
+|  Soldier_StepRight_0584c4  @ $0584C4  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0584c4, "ax", @progbits
-        .global TaskHandler_0584c4
-TaskHandler_0584c4:
+        .section .text.Soldier_StepRight_0584c4, "ax", @progbits
+        .global Soldier_StepRight_0584c4
+Soldier_StepRight_0584c4:
         tst.w   0x34(a6)                        | +000
         bne.w   .L0584dc                        | +004
         lea     0x2b5c56.l,a0                   | +008
@@ -722,18 +722,18 @@ TaskHandler_0584c4:
         jsr     0x28cd4.l                       | +01e
 .L0584e8:
         move.w  #0x80,0x36(a6)                  | +024
-        bsr.w   Sub_00056F8A                    | +02a  -> $056F8A (hueco futuro, defsym forward)
+        bsr.w   Sub_00056F8A                    | +02a
         clr.w   0x2a(a6)                        | +02e
-        lea     TaskHandler_058538(pc),a1       | +032
+        lea     Soldier_Step_Loop_058538(pc),a1 | +032
         move.l  a1,(a6)                         | +036
-        bra.w   TaskHandler_058538              | +038
+        bra.w   Soldier_Step_Loop_058538        | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058500  @ $058500  (56 B)
+|  Soldier_StepLeft_058500  @ $058500  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058500, "ax", @progbits
-        .global TaskHandler_058500
-TaskHandler_058500:
+        .section .text.Soldier_StepLeft_058500, "ax", @progbits
+        .global Soldier_StepLeft_058500
+Soldier_StepLeft_058500:
         tst.w   0x34(a6)                        | +000
         bne.w   .L058518                        | +004
         lea     0x2b5ca8.l,a0                   | +008
@@ -744,25 +744,25 @@ TaskHandler_058500:
         jsr     0x28cd4.l                       | +01e
 .L058524:
         move.w  #0xff80,0x36(a6)                | +024
-        bsr.w   Sub_00056F8A                    | +02a  -> $056F8A (hueco futuro, defsym forward)
+        bsr.w   Sub_00056F8A                    | +02a
         clr.w   0x2a(a6)                        | +02e
-        lea     TaskHandler_058538(pc),a1       | +032
+        lea     Soldier_Step_Loop_058538(pc),a1 | +032
         move.l  a1,(a6)                         | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058538  @ $058538  (118 B)
+|  Soldier_Step_Loop_058538  @ $058538  (118 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058538, "ax", @progbits
-        .global TaskHandler_058538
-TaskHandler_058538:
-        bsr.w   Sub_00056ACC                    | +000  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +004  -> $056B92 (hueco futuro, defsym forward)
+        .section .text.Soldier_Step_Loop_058538, "ax", @progbits
+        .global Soldier_Step_Loop_058538
+Soldier_Step_Loop_058538:
+        bsr.w   Sub_00056ACC                    | +000
+        bsr.w   Sub_00056B92                    | +004
         jsr     0x28d70.l                       | +008
         bcc.w   .L058550                        | +00e
-        lea     TaskHandler_058144(pc),a1       | +012
+        lea     Soldier_Idle_058144(pc),a1      | +012
         move.l  a1,(a6)                         | +016
 .L058550:
-        bsr.w   Sub_00056FEC                    | +018  -> $056FEC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056FEC                    | +018
         jsr     0x5e9b6.l                       | +01c
         move.w  d0,-(a7)                        | +022
         andi.w  #0xff,d0                        | +024
@@ -773,82 +773,82 @@ TaskHandler_058538:
 .L05856e:
         addq.w  #0x2,a7                         | +036
         bcc.w   .L05857a                        | +038
-        lea     TaskHandler_0588f6(pc),a1       | +03c
+        lea     Soldier_Jump_0588f6(pc),a1      | +03c
         move.l  a1,(a6)                         | +040
 .L05857a:
         tst.b   0x78(a6)                        | +042
         bne.w   .L058588                        | +046
-        lea     TaskHandler_058412(pc),a1       | +04a
+        lea     Soldier_Hurt_058412(pc),a1      | +04a
         move.l  a1,(a6)                         | +04e
 .L058588:
-        jsr     Sub_00056FA0(pc)                | +050  -> $056FA0 (hueco futuro, defsym forward)
+        jsr     Sub_00056FA0(pc)                | +050
         bcc.w   .L058596                        | +054
-        lea     TaskHandler_058968(pc),a1       | +058
+        lea     Soldier_Surrender_058968(pc),a1 | +058
         move.l  a1,(a6)                         | +05c
 .L058596:
-        jsr     Sub_000574E8(pc)                | +05e  -> $0574E8 (hueco futuro, defsym forward)
+        jsr     Sub_000574E8(pc)                | +05e
         bcc.w   .L0585a4                        | +062
-        lea     TaskHandler_0585ae(pc),a1       | +066
+        lea     Soldier_MeleeAttack_0585ae(pc),a1 | +066
         move.l  a1,(a6)                         | +06a
 .L0585a4:
         jsr     0x49fd0.l                       | +06c
         bra.w   PcThunkTarget_056e1e            | +072
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0585ae  @ $0585AE  (72 B)
+|  Soldier_MeleeAttack_0585ae  @ $0585AE  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0585ae, "ax", @progbits
-        .global TaskHandler_0585ae
-TaskHandler_0585ae:
+        .section .text.Soldier_MeleeAttack_0585ae, "ax", @progbits
+        .global Soldier_MeleeAttack_0585ae
+Soldier_MeleeAttack_0585ae:
         clr.w   0x28(a6)                        | +000
         lea     0x2b70d2.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
-        lea     Sub_00057494(pc),a0             | +010  -> $057494 (hueco futuro, defsym forward)
+        lea     Sub_00057494(pc),a0             | +010
         move.l  a0,0x4c(a6)                     | +014
         jsr     0x283ca.l                       | +018
         jsr     0x283ca.l                       | +01e
         lea     .L0585d8(pc),a1                 | +024
         move.l  a1,(a6)                         | +028
 .L0585d8:
-        bsr.w   Sub_00056ACC                    | +02a  -> $056ACC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056ACC                    | +02a
         jsr     0x28d70.l                       | +02e
         bcc.w   .L0585ec                        | +034
-        lea     TaskHandler_058144(pc),a1       | +038
+        lea     Soldier_Idle_058144(pc),a1      | +038
         move.l  a1,(a6)                         | +03c
 .L0585ec:
         jsr     0x49fd0.l                       | +03e
         bra.w   PcThunkTarget_056e1e            | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0585f6  @ $0585F6  (98 B)
+|  Soldier_Brake_0585f6  @ $0585F6  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0585f6, "ax", @progbits
-        .global TaskHandler_0585f6
-TaskHandler_0585f6:
+        .section .text.Soldier_Brake_0585f6, "ax", @progbits
+        .global Soldier_Brake_0585f6
+Soldier_Brake_0585f6:
         lea     0x2b5cfa.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L058608(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L058608:
-        bsr.w   Sub_00056B92                    | +012  -> $056B92 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056B92                    | +012
         move.w  0x28(a6),d0                     | +016
         asr.w   #0x4,d0                         | +01a
         sub.w   d0,0x28(a6)                     | +01c
-        bsr.w   Sub_00056ACC                    | +020  -> $056ACC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056ACC                    | +020
         jsr     0x28d70.l                       | +024
         bcc.w   .L05863e                        | +02a
         btst    #0x0,0x72(a6)                   | +02e
         beq.w   .L058638                        | +034
-        lea     TaskHandler_05804c(pc),a1       | +038
+        lea     Soldier_RunToward_05804c(pc),a1 | +038
         move.l  a1,(a6)                         | +03c
         bra.w   .L05863e                        | +03e
 .L058638:
-        lea     Sub_00057558(pc),a1             | +042  -> $057558 (hueco futuro, defsym forward)
+        lea     Sub_00057558(pc),a1             | +042
         move.l  a1,(a6)                         | +046
 .L05863e:
         tst.b   0x78(a6)                        | +048
         bne.w   .L05864c                        | +04c
-        lea     TaskHandler_058412(pc),a1       | +050
+        lea     Soldier_Hurt_058412(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L05864c:
         jsr     0x49fd0.l                       | +056
@@ -856,13 +856,13 @@ TaskHandler_0585f6:
         rts                                     | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058658  @ $058658  (96 B)
+|  Soldier_Flee_058658  @ $058658  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058658, "ax", @progbits
-        .global TaskHandler_058658
-TaskHandler_058658:
+        .section .text.Soldier_Flee_058658, "ax", @progbits
+        .global Soldier_Flee_058658
+Soldier_Flee_058658:
         btst    #0x4,0x74(a6)                   | +000
-        bne.w   TaskHandler_0589f8__L058aa8     | +006
+        bne.w   Soldier_SurrenderFlee_0589f8__L058aa8 | +006
         lea     0x29b956.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
         move.w  0x28(a6),d0                     | +016
@@ -875,13 +875,13 @@ TaskHandler_058658:
         move.w  0x28(a6),d0                     | +02a
         asr.w   #0x5,d0                         | +02e
         sub.w   d0,0x28(a6)                     | +030
-        bsr.w   Sub_00056ACC                    | +034  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +038  -> $056B92 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056ACC                    | +034
+        bsr.w   Sub_00056B92                    | +038
         jsr     0x28d70.l                       | +03c
         bcc.w   .L0586ac                        | +042
         tst.b   0x78(a6)                        | +046
         beq.w   .L0586ac                        | +04a
-        lea     TaskHandler_0586b8(pc),a1       | +04e
+        lea     Soldier_FleeStop_0586b8(pc),a1  | +04e
         move.l  a1,(a6)                         | +052
 .L0586ac:
         jsr     0x49fd0.l                       | +054
@@ -889,19 +889,19 @@ TaskHandler_058658:
         rts                                     | +05e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0586b8  @ $0586B8  (230 B)
+|  Soldier_FleeStop_0586b8  @ $0586B8  (230 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0586b8, "ax", @progbits
-        .global TaskHandler_0586b8
-TaskHandler_0586b8:
+        .section .text.Soldier_FleeStop_0586b8, "ax", @progbits
+        .global Soldier_FleeStop_0586b8
+Soldier_FleeStop_0586b8:
         lea     0x2b5c10.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x28(a6)                        | +00c
         lea     .L0586ce(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L0586ce:
-        bsr.w   Sub_00056ACC                    | +016  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +01a  -> $056B92 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056ACC                    | +016
+        bsr.w   Sub_00056B92                    | +01a
         jsr     0x28d70.l                       | +01e
         move.w  0x8a(a6),d1                     | +024
         neg.w   d1                              | +028
@@ -916,7 +916,7 @@ TaskHandler_0586b8:
 .L0586fc:
         addq.w  #0x2,a7                         | +044
         bcc.w   .L058708                        | +046
-        lea     TaskHandler_0588ae(pc),a1       | +04a
+        lea     Soldier_Stand_0588ae(pc),a1     | +04a
         move.l  a1,(a6)                         | +04e
 .L058708:
         btst    #0x0,0x72(a6)                   | +050
@@ -931,7 +931,7 @@ TaskHandler_0586b8:
 .L05872c:
         addq.w  #0x2,a7                         | +074
         bcc.w   .L058738                        | +076
-        lea     TaskHandler_05879e(pc),a1       | +07a
+        lea     Soldier_RetreatJmp_05879e(pc),a1 | +07a
         move.l  a1,(a6)                         | +07e
 .L058738:
         move.w  0x80(a6),d1                     | +080
@@ -945,27 +945,27 @@ TaskHandler_0586b8:
 .L058752:
         addq.w  #0x2,a7                         | +09a
         bcc.w   .L05875e                        | +09c
-        lea     TaskHandler_0587ac(pc),a1       | +0a0
+        lea     Soldier_Retreat_0587ac(pc),a1   | +0a0
         move.l  a1,(a6)                         | +0a4
 .L05875e:
         bra.w   .L058768                        | +0a6
 .L058762:
-        lea     TaskHandler_0587ac(pc),a1       | +0aa
+        lea     Soldier_Retreat_0587ac(pc),a1   | +0aa
         move.l  a1,(a6)                         | +0ae
 .L058768:
-        jsr     Sub_00056E36(pc)                | +0b0  -> $056E36 (hueco futuro, defsym forward)
+        jsr     Sub_00056E36(pc)                | +0b0
         bcc.w   .L058776                        | +0b4
-        lea     TaskHandler_0591c8(pc),a1       | +0b8
+        lea     Soldier_SpawnStand_0591c8(pc),a1 | +0b8
         move.l  a1,(a6)                         | +0bc
 .L058776:
-        jsr     Sub_00056FA0(pc)                | +0be  -> $056FA0 (hueco futuro, defsym forward)
+        jsr     Sub_00056FA0(pc)                | +0be
         bcc.w   .L058784                        | +0c2
-        lea     TaskHandler_0589f8(pc),a1       | +0c6
+        lea     Soldier_SurrenderFlee_0589f8(pc),a1 | +0c6
         move.l  a1,(a6)                         | +0ca
 .L058784:
         tst.b   0x78(a6)                        | +0cc
         bne.w   .L058792                        | +0d0
-        lea     TaskHandler_058412(pc),a1       | +0d4
+        lea     Soldier_Hurt_058412(pc),a1      | +0d4
         move.l  a1,(a6)                         | +0d8
 .L058792:
         jsr     0x49ff2.l                       | +0da
@@ -973,25 +973,25 @@ TaskHandler_0586b8:
         rts                                     | +0e4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05879e  @ $05879E  (14 B)
+|  Soldier_RetreatJmp_05879e  @ $05879E  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05879e, "ax", @progbits
-        .global TaskHandler_05879e
-TaskHandler_05879e:
+        .section .text.Soldier_RetreatJmp_05879e, "ax", @progbits
+        .global Soldier_RetreatJmp_05879e
+Soldier_RetreatJmp_05879e:
         btst    #0x0,0x72(a6)                   | +000
-        bne.w   TaskHandler_0587ac__L0587b6     | +006
-        bra.w   TaskHandler_0587ac__L0587e4     | +00a
+        bne.w   Soldier_Retreat_0587ac__L0587b6 | +006
+        bra.w   Soldier_Retreat_0587ac__L0587e4 | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0587ac  @ $0587AC  (84 B)
+|  Soldier_Retreat_0587ac  @ $0587AC  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0587ac, "ax", @progbits
-        .global TaskHandler_0587ac
-TaskHandler_0587ac:
+        .section .text.Soldier_Retreat_0587ac, "ax", @progbits
+        .global Soldier_Retreat_0587ac
+Soldier_Retreat_0587ac:
         btst    #0x0,0x72(a6)                   | +000
-        bne.w   TaskHandler_0587ac__L0587e4     | +006
-        .global TaskHandler_0587ac__L0587b6
-TaskHandler_0587ac__L0587b6:
+        bne.w   Soldier_Retreat_0587ac__L0587e4 | +006
+        .global Soldier_Retreat_0587ac__L0587b6
+Soldier_Retreat_0587ac__L0587b6:
         lea     0x2b5bcc.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
         move.w  #0x100,d0                       | +016
@@ -1000,41 +1000,41 @@ TaskHandler_0587ac__L0587b6:
         add.w   d0,d0                           | +024
 .L0587d2:
         move.w  d0,0x36(a6)                     | +026
-        bsr.w   Sub_00056F8A                    | +02a  -> $056F8A (hueco futuro, defsym forward)
-        lea     TaskHandler_058800(pc),a1       | +02e
+        bsr.w   Sub_00056F8A                    | +02a
+        lea     Soldier_Retreat_Loop_058800(pc),a1 | +02e
         move.l  a1,(a6)                         | +032
-        bra.w   TaskHandler_058800              | +034
-        .global TaskHandler_0587ac__L0587e4
-TaskHandler_0587ac__L0587e4:
+        bra.w   Soldier_Retreat_Loop_058800     | +034
+        .global Soldier_Retreat_0587ac__L0587e4
+Soldier_Retreat_0587ac__L0587e4:
         lea     0x2b5bcc.l,a0                   | +038
         jsr     0x28cd4.l                       | +03e
         move.w  #0xff00,0x36(a6)                | +044
-        bsr.w   Sub_00056F8A                    | +04a  -> $056F8A (hueco futuro, defsym forward)
-        lea     TaskHandler_058800(pc),a1       | +04e
+        bsr.w   Sub_00056F8A                    | +04a
+        lea     Soldier_Retreat_Loop_058800(pc),a1 | +04e
         move.l  a1,(a6)                         | +052
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058800  @ $058800  (174 B)
+|  Soldier_Retreat_Loop_058800  @ $058800  (174 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058800, "ax", @progbits
-        .global TaskHandler_058800
-TaskHandler_058800:
+        .section .text.Soldier_Retreat_Loop_058800, "ax", @progbits
+        .global Soldier_Retreat_Loop_058800
+Soldier_Retreat_Loop_058800:
         jsr     0x282d8.l                       | +000
         bcc.w   .L058810                        | +006
-        lea     TaskHandler_0588ae(pc),a1       | +00a
+        lea     Soldier_Stand_0588ae(pc),a1     | +00a
         move.l  a1,(a6)                         | +00e
 .L058810:
         jsr     0x27eba.l                       | +010
         scc.b   0x78(a6)                        | +016
-        bsr.w   Sub_00056B92                    | +01a  -> $056B92 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056B92                    | +01a
         move.w  0x34(a6),d0                     | +01e
         beq.w   .L05882c                        | +022
-        lea     TaskHandler_0588ae(pc),a1       | +026
+        lea     Soldier_Stand_0588ae(pc),a1     | +026
         move.l  a1,(a6)                         | +02a
 .L05882c:
         jsr     0x28d70.l                       | +02c
         bcc.w   .L05883c                        | +032
-        lea     TaskHandler_0586b8(pc),a1       | +036
+        lea     Soldier_FleeStop_0586b8(pc),a1  | +036
         move.l  a1,(a6)                         | +03a
 .L05883c:
         move.w  0x8a(a6),d1                     | +03c
@@ -1050,27 +1050,27 @@ TaskHandler_058800:
 .L05885c:
         addq.w  #0x2,a7                         | +05c
         bcc.w   .L058868                        | +05e
-        lea     TaskHandler_0588ae(pc),a1       | +062
+        lea     Soldier_Stand_0588ae(pc),a1     | +062
         move.l  a1,(a6)                         | +066
 .L058868:
         btst    #0x5,0x5a(a6)                   | +068
         beq.w   .L058878                        | +06e
-        lea     TaskHandler_0588ae(pc),a1       | +072
+        lea     Soldier_Stand_0588ae(pc),a1     | +072
         move.l  a1,(a6)                         | +076
 .L058878:
-        jsr     Sub_00056E36(pc)                | +078  -> $056E36 (hueco futuro, defsym forward)
+        jsr     Sub_00056E36(pc)                | +078
         bcc.w   .L058886                        | +07c
-        lea     TaskHandler_0591c8(pc),a1       | +080
+        lea     Soldier_SpawnStand_0591c8(pc),a1 | +080
         move.l  a1,(a6)                         | +084
 .L058886:
-        jsr     Sub_00056FA0(pc)                | +086  -> $056FA0 (hueco futuro, defsym forward)
+        jsr     Sub_00056FA0(pc)                | +086
         bcc.w   .L058894                        | +08a
-        lea     TaskHandler_0589f8(pc),a1       | +08e
+        lea     Soldier_SurrenderFlee_0589f8(pc),a1 | +08e
         move.l  a1,(a6)                         | +092
 .L058894:
         tst.b   0x78(a6)                        | +094
         bne.w   .L0588a2                        | +098
-        lea     TaskHandler_058412(pc),a1       | +09c
+        lea     Soldier_Hurt_058412(pc),a1      | +09c
         move.l  a1,(a6)                         | +0a0
 .L0588a2:
         jsr     0x49ff2.l                       | +0a2
@@ -1078,27 +1078,27 @@ TaskHandler_058800:
         rts                                     | +0ac
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0588ae  @ $0588AE  (72 B)
+|  Soldier_Stand_0588ae  @ $0588AE  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0588ae, "ax", @progbits
-        .global TaskHandler_0588ae
-TaskHandler_0588ae:
+        .section .text.Soldier_Stand_0588ae, "ax", @progbits
+        .global Soldier_Stand_0588ae
+Soldier_Stand_0588ae:
         lea     0x29bd84.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x28(a6)                        | +00c
         lea     .L0588c4(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L0588c4:
-        jsr     Sub_00056ACC(pc)                | +016  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +01a  -> $056B92 (hueco futuro, defsym forward)
+        jsr     Sub_00056ACC(pc)                | +016
+        bsr.w   Sub_00056B92                    | +01a
         jsr     0x28d70.l                       | +01e
         bcc.w   .L0588dc                        | +024
-        lea     Sub_00057558(pc),a1             | +028  -> $057558 (hueco futuro, defsym forward)
+        lea     Sub_00057558(pc),a1             | +028
         move.l  a1,(a6)                         | +02c
 .L0588dc:
         tst.b   0x78(a6)                        | +02e
         bne.w   .L0588ea                        | +032
-        lea     TaskHandler_058412(pc),a1       | +036
+        lea     Soldier_Hurt_058412(pc),a1      | +036
         move.l  a1,(a6)                         | +03a
 .L0588ea:
         jsr     0x49fd0.l                       | +03c
@@ -1106,11 +1106,11 @@ TaskHandler_0588ae:
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0588f6  @ $0588F6  (114 B)
+|  Soldier_Jump_0588f6  @ $0588F6  (114 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0588f6, "ax", @progbits
-        .global TaskHandler_0588f6
-TaskHandler_0588f6:
+        .section .text.Soldier_Jump_0588f6, "ax", @progbits
+        .global Soldier_Jump_0588f6
+Soldier_Jump_0588f6:
         move.w  0x84(a6),d0                     | +000
         add.w   0x82(a6),d0                     | +004
         sub.w   0x86(a6),d0                     | +008
@@ -1128,9 +1128,9 @@ TaskHandler_0588f6:
         move.w  0x88(a6),d0                     | +034
         lsl.w   #0x3,d0                         | +038
         move.w  d0,0x2a(a6)                     | +03a
-        lea     TaskHandler_058424(pc),a1       | +03e
+        lea     Soldier_Hurt_Loop_058424(pc),a1 | +03e
         move.l  a1,(a6)                         | +042
-        bra.w   TaskHandler_058424              | +044
+        bra.w   Soldier_Hurt_Loop_058424        | +044
 .L05893e:
         lea     0x2b5e68.l,a0                   | +048
         jsr     0x28cd4.l                       | +04e
@@ -1138,17 +1138,17 @@ TaskHandler_0588f6:
         lsl.w   #0x3,d0                         | +058
         move.w  d0,0x2a(a6)                     | +05a
         move.w  #0xff00,0x36(a6)                | +05e
-        bsr.w   Sub_00056F8A                    | +064  -> $056F8A (hueco futuro, defsym forward)
-        lea     TaskHandler_058424(pc),a1       | +068
+        bsr.w   Sub_00056F8A                    | +064
+        lea     Soldier_Hurt_Loop_058424(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
-        bra.w   TaskHandler_058424              | +06e
+        bra.w   Soldier_Hurt_Loop_058424        | +06e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058968  @ $058968  (144 B)
+|  Soldier_Surrender_058968  @ $058968  (144 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058968, "ax", @progbits
-        .global TaskHandler_058968
-TaskHandler_058968:
+        .section .text.Soldier_Surrender_058968, "ax", @progbits
+        .global Soldier_Surrender_058968
+Soldier_Surrender_058968:
         move.b  0x75(a6),d0                     | +000
         lea     0x29ba70.l,a0                   | +004
         cmpi.b  #0x3,d0                         | +00a
@@ -1175,30 +1175,30 @@ TaskHandler_058968:
         lea     .L0589c8(pc),a1                 | +05a
         move.l  a1,(a6)                         | +05e
 .L0589c8:
-        bsr.w   Sub_00056FA0                    | +060  -> $056FA0 (hueco futuro, defsym forward)
-        bsr.w   Sub_00056ACC                    | +064  -> $056ACC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056FA0                    | +060
+        bsr.w   Sub_00056ACC                    | +064
         jsr     0x28d70.l                       | +068
         bcc.w   .L0589e0                        | +06e
-        lea     TaskHandler_058144(pc),a1       | +072
+        lea     Soldier_Idle_058144(pc),a1      | +072
         move.l  a1,(a6)                         | +076
 .L0589e0:
         tst.b   0x78(a6)                        | +078
         bne.w   .L0589ee                        | +07c
-        lea     TaskHandler_058412(pc),a1       | +080
+        lea     Soldier_Hurt_058412(pc),a1      | +080
         move.l  a1,(a6)                         | +084
 .L0589ee:
         jsr     0x49fd0.l                       | +086
         bra.w   PcThunkTarget_056e1e            | +08c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0589f8  @ $0589F8  (294 B)
+|  Soldier_SurrenderFlee_0589f8  @ $0589F8  (294 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0589f8, "ax", @progbits
-        .global TaskHandler_0589f8
-TaskHandler_0589f8:
+        .section .text.Soldier_SurrenderFlee_0589f8, "ax", @progbits
+        .global Soldier_SurrenderFlee_0589f8
+Soldier_SurrenderFlee_0589f8:
         move.b  0x75(a6),d0                     | +000
         cmpi.b  #0x0,d0                         | +004
-        bne.w   TaskHandler_0587ac              | +008
+        bne.w   Soldier_Retreat_0587ac          | +008
         lea     0x29bb4c.l,a0                   | +00c
         jsr     0x28cd4.l                       | +012
         move.b  #0x6,0x5c(a6)                   | +018
@@ -1206,16 +1206,16 @@ TaskHandler_0589f8:
         lea     .L058a20(pc),a1                 | +022
         move.l  a1,(a6)                         | +026
 .L058a20:
-        bsr.w   Sub_00056FA0                    | +028  -> $056FA0 (hueco futuro, defsym forward)
-        bsr.w   Sub_00056ACC                    | +02c  -> $056ACC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056FA0                    | +028
+        bsr.w   Sub_00056ACC                    | +02c
         jsr     0x28d70.l                       | +030
         bcc.w   .L058a38                        | +036
-        lea     TaskHandler_0586b8(pc),a1       | +03a
+        lea     Soldier_FleeStop_0586b8(pc),a1  | +03a
         move.l  a1,(a6)                         | +03e
 .L058a38:
         tst.b   0x78(a6)                        | +040
         bne.w   .L058a46                        | +044
-        lea     TaskHandler_058412(pc),a1       | +048
+        lea     Soldier_Hurt_058412(pc),a1      | +048
         move.l  a1,(a6)                         | +04c
 .L058a46:
         jsr     0x49ff2.l                       | +04e
@@ -1234,20 +1234,20 @@ TaskHandler_0589f8:
         jsr     0x2831e.l                       | +08a
         scs.b   0x78(a6)                        | +090
         bcc.w   .L058a96                        | +094
-        lea     TaskHandler_058464(pc),a1       | +098
+        lea     Soldier_Land_058464(pc),a1      | +098
         move.l  a1,(a6)                         | +09c
 .L058a96:
         jsr     0x28d70.l                       | +09e
         jsr     0x49fd0.l                       | +0a4
         bsr.w   PcThunkTarget_056e1e            | +0aa
         rts                                     | +0ae
-        .global TaskHandler_0589f8__L058aa8
-TaskHandler_0589f8__L058aa8:
-        bsr.w   Sub_00056B92                    | +0b0  -> $056B92 (hueco futuro, defsym forward)
+        .global Soldier_SurrenderFlee_0589f8__L058aa8
+Soldier_SurrenderFlee_0589f8__L058aa8:
+        bsr.w   Sub_00056B92                    | +0b0
         btst    #0x0,0x72(a6)                   | +0b4
-        beq.w   TaskHandler_0585f6              | +0ba
+        beq.w   Soldier_Brake_0585f6            | +0ba
         move.w  #0x190,0x36(a6)                 | +0be
-        bsr.w   Sub_00056F8A                    | +0c4  -> $056F8A (hueco futuro, defsym forward)
+        bsr.w   Sub_00056F8A                    | +0c4
         lea     0x29b9ce.l,a0                   | +0c8
         jsr     0x28cd4.l                       | +0ce
         lea     .L058ad2(pc),a1                 | +0d4
@@ -1261,17 +1261,17 @@ TaskHandler_0589f8__L058aa8:
 .L058ae4:
         sub.w   d0,0x28(a6)                     | +0ec
 .L058ae8:
-        bsr.w   Sub_00056ACC                    | +0f0  -> $056ACC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056ACC                    | +0f0
         jsr     0x28d70.l                       | +0f4
         bcc.w   .L058b12                        | +0fa
         move.b  0x74(a6),d0                     | +0fe
         andi.b  #0x7,d0                         | +102
         beq.w   .L058b0c                        | +106
-        lea     TaskHandler_0588ae(pc),a1       | +10a
+        lea     Soldier_Stand_0588ae(pc),a1     | +10a
         move.l  a1,(a6)                         | +10e
         bra.w   .L058b12                        | +110
 .L058b0c:
-        lea     TaskHandler_0591c8(pc),a1       | +114
+        lea     Soldier_SpawnStand_0591c8(pc),a1 | +114
         move.l  a1,(a6)                         | +118
 .L058b12:
         jsr     0x49fd0.l                       | +11a
@@ -1279,11 +1279,11 @@ TaskHandler_0589f8__L058aa8:
         rts                                     | +124
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058b1e  @ $058B1E  (64 B)
+|  Soldier_ThrowGrenadeA_058b1e  @ $058B1E  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058b1e, "ax", @progbits
-        .global TaskHandler_058b1e
-TaskHandler_058b1e:
+        .section .text.Soldier_ThrowGrenadeA_058b1e, "ax", @progbits
+        .global Soldier_ThrowGrenadeA_058b1e
+Soldier_ThrowGrenadeA_058b1e:
         lea     0x2b60ce.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L058b30(pc),a1                 | +00c
@@ -1295,7 +1295,7 @@ TaskHandler_058b1e:
         jsr     0x77190.l                       | +01e
         jsr     0x28d70.l                       | +024
         bcc.w   .L058b52                        | +02a
-        lea     TaskHandler_058b5e(pc),a1       | +02e
+        lea     Soldier_ThrowGrenadeA_Loop_058b5e(pc),a1 | +02e
         move.l  a1,(a6)                         | +032
 .L058b52:
         jsr     0x49fd0.l                       | +034
@@ -1303,11 +1303,11 @@ TaskHandler_058b1e:
         rts                                     | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058b5e  @ $058B5E  (120 B)
+|  Soldier_ThrowGrenadeA_Loop_058b5e  @ $058B5E  (120 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058b5e, "ax", @progbits
-        .global TaskHandler_058b5e
-TaskHandler_058b5e:
+        .section .text.Soldier_ThrowGrenadeA_Loop_058b5e, "ax", @progbits
+        .global Soldier_ThrowGrenadeA_Loop_058b5e
+Soldier_ThrowGrenadeA_Loop_058b5e:
         lea     0x2b63f6.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x2e(a6)                        | +00c
@@ -1315,29 +1315,29 @@ TaskHandler_058b5e:
         lea     .L058b7a(pc),a1                 | +016
         move.l  a1,(a6)                         | +01a
 .L058b7a:
-        jsr     Sub_00056B92(pc)                | +01c  -> $056B92 (hueco futuro, defsym forward)
+        jsr     Sub_00056B92(pc)                | +01c
         move.b  0x77(a6),d0                     | +020
         jsr     0x77190.l                       | +024
         move.w  d0,-(a7)                        | +02a
         jsr     0x28d70.l                       | +02c
         bcc.w   .L058ba8                        | +032
-        lea     TaskHandler_058b5e(pc),a1       | +036
+        lea     Soldier_ThrowGrenadeA_Loop_058b5e(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
-        jsr     Sub_00056FA0(pc)                | +03c  -> $056FA0 (hueco futuro, defsym forward)
+        jsr     Sub_00056FA0(pc)                | +03c
         bcc.w   .L058ba8                        | +040
-        lea     TaskHandler_058d78(pc),a1       | +044
+        lea     Soldier_ThrowGrenadeAim_058d78(pc),a1 | +044
         move.l  a1,(a6)                         | +048
 .L058ba8:
         move.w  (a7)+,d0                        | +04a
         bpl.w   .L058bb8                        | +04c
-        lea     TaskHandler_058412(pc),a1       | +050
+        lea     Soldier_Hurt_058412(pc),a1      | +050
         move.l  a1,(a6)                         | +054
         bra.w   .L058bca                        | +056
 .L058bb8:
         subi.w  #0x24,d0                        | +05a
         sub.w   0x24(a6),d0                     | +05e
         bcc.w   .L058bca                        | +062
-        lea     TaskHandler_058bd6(pc),a1       | +066
+        lea     Soldier_ThrowGrenadeRecover_058bd6(pc),a1 | +066
         move.l  a1,(a6)                         | +06a
 .L058bca:
         jsr     0x49fd0.l                       | +06c
@@ -1345,21 +1345,21 @@ TaskHandler_058b5e:
         rts                                     | +076
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058bd6  @ $058BD6  (56 B)
+|  Soldier_ThrowGrenadeRecover_058bd6  @ $058BD6  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058bd6, "ax", @progbits
-        .global TaskHandler_058bd6
-TaskHandler_058bd6:
+        .section .text.Soldier_ThrowGrenadeRecover_058bd6, "ax", @progbits
+        .global Soldier_ThrowGrenadeRecover_058bd6
+Soldier_ThrowGrenadeRecover_058bd6:
         lea     0x2b6124.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L058be8(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L058be8:
         jsr     0x2783a.l                       | +012
-        bsr.w   Sub_00056B92                    | +018  -> $056B92 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056B92                    | +018
         jsr     0x28d70.l                       | +01c
         bcc.w   .L058c02                        | +022
-        lea     TaskHandler_058c0e(pc),a1       | +026
+        lea     Soldier_HopBack_058c0e(pc),a1   | +026
         move.l  a1,(a6)                         | +02a
 .L058c02:
         jsr     0x49fd0.l                       | +02c
@@ -1367,11 +1367,11 @@ TaskHandler_058bd6:
         rts                                     | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058c0e  @ $058C0E  (128 B)
+|  Soldier_HopBack_058c0e  @ $058C0E  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058c0e, "ax", @progbits
-        .global TaskHandler_058c0e
-TaskHandler_058c0e:
+        .section .text.Soldier_HopBack_058c0e, "ax", @progbits
+        .global Soldier_HopBack_058c0e
+Soldier_HopBack_058c0e:
         clr.b   0x78(a6)                        | +000
         lea     0x2b6204.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
@@ -1392,17 +1392,17 @@ TaskHandler_058c0e:
         sub.w   d1,d0                           | +044
         sub.w   d0,0x28(a6)                     | +046
 .L058c58:
-        jsr     Sub_00056ACC(pc)                | +04a  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +04e  -> $056B92 (hueco futuro, defsym forward)
+        jsr     Sub_00056ACC(pc)                | +04a
+        bsr.w   Sub_00056B92                    | +04e
         jsr     0x28d70.l                       | +052
         bcc.w   .L058c82                        | +058
         tst.b   0x78(a6)                        | +05c
         bne.w   .L058c7c                        | +060
-        lea     TaskHandler_058412(pc),a1       | +064
+        lea     Soldier_Hurt_058412(pc),a1      | +064
         move.l  a1,(a6)                         | +068
         bra.w   .L058c82                        | +06a
 .L058c7c:
-        lea     TaskHandler_058144(pc),a1       | +06e
+        lea     Soldier_Idle_058144(pc),a1      | +06e
         move.l  a1,(a6)                         | +072
 .L058c82:
         jsr     0x49fd0.l                       | +074
@@ -1410,11 +1410,11 @@ TaskHandler_058c0e:
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058c8e  @ $058C8E  (64 B)
+|  Soldier_ThrowGrenadeB_058c8e  @ $058C8E  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058c8e, "ax", @progbits
-        .global TaskHandler_058c8e
-TaskHandler_058c8e:
+        .section .text.Soldier_ThrowGrenadeB_058c8e, "ax", @progbits
+        .global Soldier_ThrowGrenadeB_058c8e
+Soldier_ThrowGrenadeB_058c8e:
         lea     0x2b6284.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x2a(a6)                        | +00c
@@ -1426,7 +1426,7 @@ TaskHandler_058c8e:
         jsr     0x77190.l                       | +01e
         jsr     0x28d70.l                       | +024
         bcc.w   .L058cc2                        | +02a
-        lea     TaskHandler_058cce(pc),a1       | +02e
+        lea     Soldier_ThrowGrenadeB_Loop_058cce(pc),a1 | +02e
         move.l  a1,(a6)                         | +032
 .L058cc2:
         jsr     0x49fd0.l                       | +034
@@ -1434,11 +1434,11 @@ TaskHandler_058c8e:
         rts                                     | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058cce  @ $058CCE  (118 B)
+|  Soldier_ThrowGrenadeB_Loop_058cce  @ $058CCE  (118 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058cce, "ax", @progbits
-        .global TaskHandler_058cce
-TaskHandler_058cce:
+        .section .text.Soldier_ThrowGrenadeB_Loop_058cce, "ax", @progbits
+        .global Soldier_ThrowGrenadeB_Loop_058cce
+Soldier_ThrowGrenadeB_Loop_058cce:
         lea     0x2b648a.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x2e(a6)                        | +00c
@@ -1446,28 +1446,28 @@ TaskHandler_058cce:
         lea     .L058cea(pc),a1                 | +016
         move.l  a1,(a6)                         | +01a
 .L058cea:
-        jsr     Sub_00056B92(pc)                | +01c  -> $056B92 (hueco futuro, defsym forward)
+        jsr     Sub_00056B92(pc)                | +01c
         move.b  0x77(a6),d0                     | +020
         jsr     0x77190.l                       | +024
         move.w  d0,-(a7)                        | +02a
         jsr     0x28d70.l                       | +02c
         bcc.w   .L058d18                        | +032
-        lea     TaskHandler_058cce(pc),a1       | +036
+        lea     Soldier_ThrowGrenadeB_Loop_058cce(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
-        jsr     Sub_00056FA0(pc)                | +03c  -> $056FA0 (hueco futuro, defsym forward)
+        jsr     Sub_00056FA0(pc)                | +03c
         bcc.w   .L058d18                        | +040
-        lea     TaskHandler_058d78(pc),a1       | +044
+        lea     Soldier_ThrowGrenadeAim_058d78(pc),a1 | +044
         move.l  a1,(a6)                         | +048
 .L058d18:
         move.w  (a7)+,d0                        | +04a
         bpl.w   .L058d24                        | +04c
-        lea     TaskHandler_058412(pc),a1       | +050
+        lea     Soldier_Hurt_058412(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L058d24:
         jsr     0x27eba.l                       | +056
         scc.b   0x78(a6)                        | +05c
         bcs.w   .L058d38                        | +060
-        lea     TaskHandler_058d44(pc),a1       | +064
+        lea     Soldier_ThrowGrenadeBRecover_058d44(pc),a1 | +064
         move.l  a1,(a6)                         | +068
 .L058d38:
         jsr     0x49fd0.l                       | +06a
@@ -1475,11 +1475,11 @@ TaskHandler_058cce:
         rts                                     | +074
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058d44  @ $058D44  (52 B)
+|  Soldier_ThrowGrenadeBRecover_058d44  @ $058D44  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058d44, "ax", @progbits
-        .global TaskHandler_058d44
-TaskHandler_058d44:
+        .section .text.Soldier_ThrowGrenadeBRecover_058d44, "ax", @progbits
+        .global Soldier_ThrowGrenadeBRecover_058d44
+Soldier_ThrowGrenadeBRecover_058d44:
         lea     0x2b63b4.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L058d56(pc),a1                 | +00c
@@ -1488,7 +1488,7 @@ TaskHandler_058d44:
         jsr     0x2783a.l                       | +012
         jsr     0x28d70.l                       | +018
         bcc.w   .L058d6c                        | +01e
-        lea     TaskHandler_058144(pc),a1       | +022
+        lea     Soldier_Idle_058144(pc),a1      | +022
         move.l  a1,(a6)                         | +026
 .L058d6c:
         jsr     0x49fd0.l                       | +028
@@ -1496,11 +1496,11 @@ TaskHandler_058d44:
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058d78  @ $058D78  (128 B)
+|  Soldier_ThrowGrenadeAim_058d78  @ $058D78  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058d78, "ax", @progbits
-        .global TaskHandler_058d78
-TaskHandler_058d78:
+        .section .text.Soldier_ThrowGrenadeAim_058d78, "ax", @progbits
+        .global Soldier_ThrowGrenadeAim_058d78
+Soldier_ThrowGrenadeAim_058d78:
         btst    #0x0,0x72(a6)                   | +000
         beq.w   .L058d98                        | +006
         lea     0x2b6596.l,a0                   | +00a
@@ -1525,11 +1525,11 @@ TaskHandler_058d78:
         bcc.w   .L058dec                        | +058
         tst.w   0x2a(a6)                        | +05c
         bmi.w   .L058de6                        | +060
-        lea     TaskHandler_058b5e(pc),a1       | +064
+        lea     Soldier_ThrowGrenadeA_Loop_058b5e(pc),a1 | +064
         move.l  a1,(a6)                         | +068
         bra.w   .L058dec                        | +06a
 .L058de6:
-        lea     TaskHandler_058cce(pc),a1       | +06e
+        lea     Soldier_ThrowGrenadeB_Loop_058cce(pc),a1 | +06e
         move.l  a1,(a6)                         | +072
 .L058dec:
         jsr     0x49fd0.l                       | +074
@@ -1537,11 +1537,11 @@ TaskHandler_058d78:
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
-|  Data_058df8  @ $058DF8  (16 B)
+|  Soldier_TauntAnimPtrTbl_058df8  @ $058DF8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_058df8, "ax", @progbits
-        .global Data_058df8
-Data_058df8:
+        .section .text.Soldier_TauntAnimPtrTbl_058df8, "ax", @progbits
+        .global Soldier_TauntAnimPtrTbl_058df8
+Soldier_TauntAnimPtrTbl_058df8:
         .dc.w   0x0029                        | +000  (dato / opcode no decodificado)
         .dc.w   0xbde8                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0029                        | +004  (dato / opcode no decodificado)
@@ -1552,34 +1552,34 @@ Data_058df8:
         .dc.w   0xbf04                        | +00e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058e08  @ $058E08  (12 B)
+|  Soldier_TauntInit_058e08  @ $058E08  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058e08, "ax", @progbits
-        .global TaskHandler_058e08
-TaskHandler_058e08:
+        .section .text.Soldier_TauntInit_058e08, "ax", @progbits
+        .global Soldier_TauntInit_058e08
+Soldier_TauntInit_058e08:
         clr.w   0x30(a6)                        | +000
         clr.w   0x28(a6)                        | +004
         clr.w   0x2a(a6)                        | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058e14  @ $058E14  (190 B)
+|  Soldier_Taunt_058e14  @ $058E14  (190 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058e14, "ax", @progbits
-        .global TaskHandler_058e14
-TaskHandler_058e14:
+        .section .text.Soldier_Taunt_058e14, "ax", @progbits
+        .global Soldier_Taunt_058e14
+Soldier_Taunt_058e14:
         jsr     0x5e9b6.l                       | +000
         andi.w  #0xc,d0                         | +006
-        lea     Data_058df8(pc),a0              | +00a
+        lea     Soldier_TauntAnimPtrTbl_058df8(pc),a0 | +00a
         movea.l (a0,d0.w),a0                    | +00e
         jsr     0x28cd4.l                       | +012
         lea     .L058e32(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L058e32:
-        jsr     Sub_00056ACC(pc)                | +01e  -> $056ACC (hueco futuro, defsym forward)
-        jsr     Sub_00056B92(pc)                | +022  -> $056B92 (hueco futuro, defsym forward)
+        jsr     Sub_00056ACC(pc)                | +01e
+        jsr     Sub_00056B92(pc)                | +022
         jsr     0x28d70.l                       | +026
         bcc.w   .L058e4a                        | +02c
-        lea     TaskHandler_058e14(pc),a1       | +030
+        lea     Soldier_Taunt_058e14(pc),a1     | +030
         move.l  a1,(a6)                         | +034
 .L058e4a:
         btst    #0x0,0x73(a6)                   | +036
@@ -1589,7 +1589,7 @@ TaskHandler_058e14:
 .L058e5e:
         tst.b   0x30(a6)                        | +04a
         beq.w   .L058e6c                        | +04e
-        lea     TaskHandler_058ed2(pc),a1       | +052
+        lea     Soldier_TauntEnd_058ed2(pc),a1  | +052
         move.l  a1,(a6)                         | +056
 .L058e6c:
         move.w  0x80(a6),d1                     | +058
@@ -1605,21 +1605,21 @@ TaskHandler_058e14:
         bcc.w   .L058ea6                        | +074
         btst    #0x0,0x72(a6)                   | +078
         beq.w   .L058ea0                        | +07e
-        lea     TaskHandler_058ed2(pc),a1       | +082
+        lea     Soldier_TauntEnd_058ed2(pc),a1  | +082
         move.l  a1,(a6)                         | +086
         bra.w   .L058ea6                        | +088
 .L058ea0:
-        lea     TaskHandler_0585f6(pc),a1       | +08c
+        lea     Soldier_Brake_0585f6(pc),a1     | +08c
         move.l  a1,(a6)                         | +090
 .L058ea6:
         btst    #0x3,0x73(a6)                   | +092
         beq.w   .L058eb6                        | +098
-        lea     TaskHandler_058ed2(pc),a1       | +09c
+        lea     Soldier_TauntEnd_058ed2(pc),a1  | +09c
         move.l  a1,(a6)                         | +0a0
 .L058eb6:
         btst    #0x2,0x73(a6)                   | +0a2
         beq.w   .L058ec6                        | +0a8
-        lea     TaskHandler_0585f6(pc),a1       | +0ac
+        lea     Soldier_Brake_0585f6(pc),a1     | +0ac
         move.l  a1,(a6)                         | +0b0
 .L058ec6:
         jsr     0x49fd0.l                       | +0b2
@@ -1627,27 +1627,27 @@ TaskHandler_058e14:
         rts                                     | +0bc
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058ed2  @ $058ED2  (76 B)
+|  Soldier_TauntEnd_058ed2  @ $058ED2  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058ed2, "ax", @progbits
-        .global TaskHandler_058ed2
-TaskHandler_058ed2:
+        .section .text.Soldier_TauntEnd_058ed2, "ax", @progbits
+        .global Soldier_TauntEnd_058ed2
+Soldier_TauntEnd_058ed2:
         lea     0x29bfc4.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L058ee4(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L058ee4:
         jsr     0x2783a.l                       | +012
-        bsr.w   Sub_00056B92                    | +018  -> $056B92 (hueco futuro, defsym forward)
+        bsr.w   Sub_00056B92                    | +018
         jsr     0x28d70.l                       | +01c
         bcc.w   .L058f12                        | +022
         btst    #0x0,0x72(a6)                   | +026
         beq.w   .L058f0c                        | +02c
-        lea     TaskHandler_0585f6(pc),a1       | +030
+        lea     Soldier_Brake_0585f6(pc),a1     | +030
         move.l  a1,(a6)                         | +034
         bra.w   .L058f12                        | +036
 .L058f0c:
-        lea     Sub_00057558(pc),a1             | +03a  -> $057558 (hueco futuro, defsym forward)
+        lea     Sub_00057558(pc),a1             | +03a
         move.l  a1,(a6)                         | +03e
 .L058f12:
         jsr     0x49fd0.l                       | +040
@@ -1655,11 +1655,11 @@ TaskHandler_058ed2:
         rts                                     | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_058f1e  @ $058F1E  (324 B)
+|  Soldier_SpawnVariantTbl_058f1e  @ $058F1E  (324 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_058f1e, "ax", @progbits
-        .global TaskHandler_058f1e
-TaskHandler_058f1e:
+        .section .text.Soldier_SpawnVariantTbl_058f1e, "ax", @progbits
+        .global Soldier_SpawnVariantTbl_058f1e
+Soldier_SpawnVariantTbl_058f1e:
         bset    #0x1,0x12(a6)                   | +000
         bset    #0x4,0x72(a6)                   | +006
         move.b  #0x1,0x98(a6)                   | +00c
@@ -1672,7 +1672,7 @@ TaskHandler_058f1e:
 .L058f4e:
         bset    #0x0,0x3a(a6)                   | +030
 .L058f54:
-        bra.w   TaskHandler_059086              | +036
+        bra.w   Soldier_SpawnEnter_059086       | +036
         bset    #0x1,0x12(a6)                   | +03a
         bset    #0x4,0x72(a6)                   | +040
         move.b  #0x1,0x98(a6)                   | +046
@@ -1680,71 +1680,71 @@ TaskHandler_058f1e:
         scc.b   0x78(a6)                        | +052
         move.w  #0xe,d1                         | +056
         jsr     0x236e.l                        | +05a
-        bra.w   TaskHandler_059062              | +060
+        bra.w   Soldier_SpawnFaceTarget_059062  | +060
         bset    #0x1,0x12(a6)                   | +064
         bset    #0x4,0x72(a6)                   | +06a
         move.b  #0x1,0x98(a6)                   | +070
         jsr     0x27f60.l                       | +076
         scc.b   0x78(a6)                        | +07c
-        bra.w   TaskHandler_059062              | +080
+        bra.w   Soldier_SpawnFaceTarget_059062  | +080
         bset    #0x1,0x12(a6)                   | +084
         bset    #0x4,0x72(a6)                   | +08a
         move.b  #0x1,0x98(a6)                   | +090
         jsr     0x27f60.l                       | +096
         scc.b   0x78(a6)                        | +09c
-        bra.w   TaskHandler_0591c8              | +0a0
+        bra.w   Soldier_SpawnStand_0591c8       | +0a0
         bset    #0x1,0x12(a6)                   | +0a4
         bset    #0x4,0x72(a6)                   | +0aa
         move.b  #0x1,0x98(a6)                   | +0b0
         jsr     0x27f60.l                       | +0b6
         scc.b   0x78(a6)                        | +0bc
-        bra.w   TaskHandler_0591c8__L0591de     | +0c0
+        bra.w   Soldier_SpawnStand_0591c8__L0591de | +0c0
         bset    #0x1,0x12(a6)                   | +0c4
         bclr    #0x4,0x72(a6)                   | +0ca
         move.b  #0x1,0x98(a6)                   | +0d0
         jsr     0x27f60.l                       | +0d6
         scc.b   0x78(a6)                        | +0dc
-        bra.w   TaskHandler_059062              | +0e0
+        bra.w   Soldier_SpawnFaceTarget_059062  | +0e0
         bset    #0x1,0x12(a6)                   | +0e4
         bclr    #0x4,0x72(a6)                   | +0ea
         move.b  #0x1,0x98(a6)                   | +0f0
         jsr     0x27f60.l                       | +0f6
         scc.b   0x78(a6)                        | +0fc
-        bra.w   TaskHandler_0591c8              | +100
+        bra.w   Soldier_SpawnStand_0591c8       | +100
         bset    #0x1,0x12(a6)                   | +104
         bclr    #0x4,0x72(a6)                   | +10a
         move.b  #0x1,0x98(a6)                   | +110
         jsr     0x27f60.l                       | +116
         scc.b   0x78(a6)                        | +11c
-        bra.w   TaskHandler_0591c8__L0591de     | +120
+        bra.w   Soldier_SpawnStand_0591c8__L0591de | +120
         bset    #0x1,0x12(a6)                   | +124
         bclr    #0x4,0x72(a6)                   | +12a
         move.b  #0x1,0x98(a6)                   | +130
         jsr     0x27f60.l                       | +136
         scc.b   0x78(a6)                        | +13c
-        bra.w   TaskHandler_059228              | +140
+        bra.w   Soldier_SpawnBrake_059228       | +140
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059062  @ $059062  (36 B)
+|  Soldier_SpawnFaceTarget_059062  @ $059062  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059062, "ax", @progbits
-        .global TaskHandler_059062
-TaskHandler_059062:
+        .section .text.Soldier_SpawnFaceTarget_059062, "ax", @progbits
+        .global Soldier_SpawnFaceTarget_059062
+Soldier_SpawnFaceTarget_059062:
         move.w  #0xffff,d0                      | +000
         jsr     0x2352.l                        | +004
         cmpi.w  #0xa0,0x22(a6)                  | +00a
         bmi.w   .L059080                        | +010
         bset    #0x0,0x3a(a6)                   | +014
-        bra.w   TaskHandler_059086              | +01a
+        bra.w   Soldier_SpawnEnter_059086       | +01a
 .L059080:
         bclr    #0x0,0x3a(a6)                   | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059086  @ $059086  (192 B)
+|  Soldier_SpawnEnter_059086  @ $059086  (192 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059086, "ax", @progbits
-        .global TaskHandler_059086
-TaskHandler_059086:
+        .section .text.Soldier_SpawnEnter_059086, "ax", @progbits
+        .global Soldier_SpawnEnter_059086
+Soldier_SpawnEnter_059086:
         btst    #0x4,0x72(a6)                   | +000
         bne.w   .L0590a0                        | +006
         lea     0x29b744.l,a0                   | +00a
@@ -1757,13 +1757,13 @@ TaskHandler_059086:
         lea     0x2b75d0.l,a0                   | +026
         jsr     0x799de.l                       | +02c
         move.w  d0,0x36(a6)                     | +032
-        bsr.w   Sub_00056F8A                    | +036  -> $056F8A (hueco futuro, defsym forward)
+        bsr.w   Sub_00056F8A                    | +036
         clr.w   0x2a(a6)                        | +03a
         lea     .L0590ca(pc),a1                 | +03e
         move.l  a1,(a6)                         | +042
 .L0590ca:
-        jsr     Sub_00056ACC(pc)                | +044  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +048  -> $056B92 (hueco futuro, defsym forward)
+        jsr     Sub_00056ACC(pc)                | +044
+        bsr.w   Sub_00056B92                    | +048
         jsr     0x28d70.l                       | +04c
         btst    #0x0,0x72(a6)                   | +052
         beq.w   .L05910c                        | +058
@@ -1777,24 +1777,24 @@ TaskHandler_059086:
 .L0590fc:
         addq.w  #0x2,a7                         | +076
         bcc.w   .L059108                        | +078
-        lea     TaskHandler_059228(pc),a1       | +07c
+        lea     Soldier_SpawnBrake_059228(pc),a1 | +07c
         move.l  a1,(a6)                         | +080
 .L059108:
         bra.w   .L05911c                        | +082
 .L05910c:
         btst    #0x6,0x72(a6)                   | +086
         beq.w   .L05911c                        | +08c
-        lea     TaskHandler_05925a(pc),a1       | +090
+        lea     Soldier_SpawnLeap_05925a(pc),a1 | +090
         move.l  a1,(a6)                         | +094
 .L05911c:
         btst    #0x5,0x72(a6)                   | +096
         beq.w   .L05912c                        | +09c
-        lea     TaskHandler_059146(pc),a1       | +0a0
+        lea     Soldier_SpawnWait_059146(pc),a1 | +0a0
         move.l  a1,(a6)                         | +0a4
 .L05912c:
         tst.b   0x78(a6)                        | +0a6
         bne.w   .L05913a                        | +0aa
-        lea     TaskHandler_05925a(pc),a1       | +0ae
+        lea     Soldier_SpawnLeap_05925a(pc),a1 | +0ae
         move.l  a1,(a6)                         | +0b2
 .L05913a:
         jsr     0x49fd0.l                       | +0b4
@@ -1802,42 +1802,42 @@ TaskHandler_059086:
         rts                                     | +0be
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059146  @ $059146  (130 B)
+|  Soldier_SpawnWait_059146  @ $059146  (130 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059146, "ax", @progbits
-        .global TaskHandler_059146
-TaskHandler_059146:
+        .section .text.Soldier_SpawnWait_059146, "ax", @progbits
+        .global Soldier_SpawnWait_059146
+Soldier_SpawnWait_059146:
         btst    #0x0,0x72(a6)                   | +000
-        bne.w   TaskHandler_059228              | +006
+        bne.w   Soldier_SpawnBrake_059228       | +006
         move.b  #0xb4,0x5c(a6)                  | +00a
         lea     0x2b6ef8.l,a0                   | +010
         jsr     0x28cd4.l                       | +016
         lea     .L059168(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L059168:
-        jsr     Sub_00056ACC(pc)                | +022  -> $056ACC (hueco futuro, defsym forward)
-        bsr.w   Sub_00056B92                    | +026  -> $056B92 (hueco futuro, defsym forward)
+        jsr     Sub_00056ACC(pc)                | +022
+        bsr.w   Sub_00056B92                    | +026
         jsr     0x28d70.l                       | +02a
         btst    #0x0,0x72(a6)                   | +030
         beq.w   .L059190                        | +036
         btst    #0x0,0x73(a6)                   | +03a
         bne.w   .L059190                        | +040
-        lea     TaskHandler_059228(pc),a1       | +044
+        lea     Soldier_SpawnBrake_059228(pc),a1 | +044
         move.l  a1,(a6)                         | +048
 .L059190:
         btst    #0x5,0x72(a6)                   | +04a
         bne.w   .L0591a0                        | +050
-        lea     TaskHandler_059086(pc),a1       | +054
+        lea     Soldier_SpawnEnter_059086(pc),a1 | +054
         move.l  a1,(a6)                         | +058
 .L0591a0:
         tst.b   0x78(a6)                        | +05a
         bne.w   .L0591ae                        | +05e
-        lea     TaskHandler_0592b2(pc),a1       | +062
+        lea     Soldier_SpawnHurt_0592b2(pc),a1 | +062
         move.l  a1,(a6)                         | +066
 .L0591ae:
         subq.b  #0x1,0x5c(a6)                   | +068
         bne.w   .L0591bc                        | +06c
-        lea     TaskHandler_059228(pc),a1       | +070
+        lea     Soldier_SpawnBrake_059228(pc),a1 | +070
         move.l  a1,(a6)                         | +074
 .L0591bc:
         jsr     0x49fd0.l                       | +076
@@ -1845,40 +1845,40 @@ TaskHandler_059146:
         rts                                     | +080
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0591c8  @ $0591C8  (44 B)
+|  Soldier_SpawnStand_0591c8  @ $0591C8  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0591c8, "ax", @progbits
-        .global TaskHandler_0591c8
-TaskHandler_0591c8:
+        .section .text.Soldier_SpawnStand_0591c8, "ax", @progbits
+        .global Soldier_SpawnStand_0591c8
+Soldier_SpawnStand_0591c8:
         lea     0x29bd84.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
-        lea     TaskHandler_0591f4(pc),a1       | +00c
+        lea     Soldier_SpawnStand_Loop_0591f4(pc),a1 | +00c
         move.l  a1,(a6)                         | +010
-        bra.w   TaskHandler_0591f4              | +012
-        .global TaskHandler_0591c8__L0591de
-TaskHandler_0591c8__L0591de:
+        bra.w   Soldier_SpawnStand_Loop_0591f4  | +012
+        .global Soldier_SpawnStand_0591c8__L0591de
+Soldier_SpawnStand_0591c8__L0591de:
         lea     0x29bd40.l,a0                   | +016
         jsr     0x28cd4.l                       | +01c
         clr.w   0x28(a6)                        | +022
-        lea     TaskHandler_0591f4(pc),a1       | +026
+        lea     Soldier_SpawnStand_Loop_0591f4(pc),a1 | +026
         move.l  a1,(a6)                         | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0591f4  @ $0591F4  (52 B)
+|  Soldier_SpawnStand_Loop_0591f4  @ $0591F4  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0591f4, "ax", @progbits
-        .global TaskHandler_0591f4
-TaskHandler_0591f4:
-        jsr     Sub_00056ACC(pc)                | +000  -> $056ACC (hueco futuro, defsym forward)
+        .section .text.Soldier_SpawnStand_Loop_0591f4, "ax", @progbits
+        .global Soldier_SpawnStand_Loop_0591f4
+Soldier_SpawnStand_Loop_0591f4:
+        jsr     Sub_00056ACC(pc)                | +000
         jsr     0x28d70.l                       | +004
         bcc.w   .L05920e                        | +00a
-        lea     TaskHandler_059228(pc),a1       | +00e
+        lea     Soldier_SpawnBrake_059228(pc),a1 | +00e
         move.l  a1,(a6)                         | +012
         jsr     0x8f308.l                       | +014
 .L05920e:
         tst.b   0x78(a6)                        | +01a
         bne.w   .L05921c                        | +01e
-        lea     TaskHandler_0592b2(pc),a1       | +022
+        lea     Soldier_SpawnHurt_0592b2(pc),a1 | +022
         move.l  a1,(a6)                         | +026
 .L05921c:
         jsr     0x49fd0.l                       | +028
@@ -1886,20 +1886,20 @@ TaskHandler_0591f4:
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059228  @ $059228  (50 B)
+|  Soldier_SpawnBrake_059228  @ $059228  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059228, "ax", @progbits
-        .global TaskHandler_059228
-TaskHandler_059228:
+        .section .text.Soldier_SpawnBrake_059228, "ax", @progbits
+        .global Soldier_SpawnBrake_059228
+Soldier_SpawnBrake_059228:
         lea     0x2b5cfa.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L05923a(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L05923a:
-        jsr     Sub_00056ACC(pc)                | +012  -> $056ACC (hueco futuro, defsym forward)
+        jsr     Sub_00056ACC(pc)                | +012
         jsr     0x28d70.l                       | +016
         bcc.w   .L05924e                        | +01c
-        lea     TaskHandler_059086(pc),a1       | +020
+        lea     Soldier_SpawnEnter_059086(pc),a1 | +020
         move.l  a1,(a6)                         | +024
 .L05924e:
         jsr     0x49fd0.l                       | +026
@@ -1907,11 +1907,11 @@ TaskHandler_059228:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05925a  @ $05925A  (88 B)
+|  Soldier_SpawnLeap_05925a  @ $05925A  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05925a, "ax", @progbits
-        .global TaskHandler_05925a
-TaskHandler_05925a:
+        .section .text.Soldier_SpawnLeap_05925a, "ax", @progbits
+        .global Soldier_SpawnLeap_05925a
+Soldier_SpawnLeap_05925a:
         lea     0x2b5d58.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         move.w  #0xfe15,d0                      | +00c
@@ -1926,7 +1926,7 @@ TaskHandler_05925a:
         jsr     0x2831e.l                       | +032
         scs.b   0x78(a6)                        | +038
         bcc.w   .L0592a0                        | +03c
-        lea     TaskHandler_0592f6(pc),a1       | +040
+        lea     Soldier_SpawnRecover_0592f6(pc),a1 | +040
         move.l  a1,(a6)                         | +044
 .L0592a0:
         jsr     0x28d70.l                       | +046
@@ -1935,11 +1935,11 @@ TaskHandler_05925a:
         rts                                     | +056
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0592b2  @ $0592B2  (68 B)
+|  Soldier_SpawnHurt_0592b2  @ $0592B2  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0592b2, "ax", @progbits
-        .global TaskHandler_0592b2
-TaskHandler_0592b2:
+        .section .text.Soldier_SpawnHurt_0592b2, "ax", @progbits
+        .global Soldier_SpawnHurt_0592b2
+Soldier_SpawnHurt_0592b2:
         lea     0x2b5b92.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x2a(a6)                        | +00c
@@ -1949,10 +1949,10 @@ TaskHandler_0592b2:
         move.w  0x28(a6),d0                     | +016
         asr.w   #0x6,d0                         | +01a
         sub.w   d0,0x28(a6)                     | +01c
-        bsr.w   Sub_00056ACC                    | +020  -> $056ACC (hueco futuro, defsym forward)
+        bsr.w   Sub_00056ACC                    | +020
         tst.b   0x78(a6)                        | +024
         beq.w   .L0592e4                        | +028
-        lea     TaskHandler_0592f6(pc),a1       | +02c
+        lea     Soldier_SpawnRecover_0592f6(pc),a1 | +02c
         move.l  a1,(a6)                         | +030
 .L0592e4:
         jsr     0x28d70.l                       | +032
@@ -1961,25 +1961,25 @@ TaskHandler_0592b2:
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0592f6  @ $0592F6  (60 B)
+|  Soldier_SpawnRecover_0592f6  @ $0592F6  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0592f6, "ax", @progbits
-        .global TaskHandler_0592f6
-TaskHandler_0592f6:
-        bsr.w   Sub_0005740E                    | +000  -> $05740E (hueco futuro, defsym forward)
+        .section .text.Soldier_SpawnRecover_0592f6, "ax", @progbits
+        .global Soldier_SpawnRecover_0592f6
+Soldier_SpawnRecover_0592f6:
+        bsr.w   Sub_0005740E                    | +000
         clr.w   0x28(a6)                        | +004
         lea     .L059304(pc),a1                 | +008
         move.l  a1,(a6)                         | +00c
 .L059304:
-        jsr     Sub_00056ACC(pc)                | +00e  -> $056ACC (hueco futuro, defsym forward)
+        jsr     Sub_00056ACC(pc)                | +00e
         jsr     0x28d70.l                       | +012
         bcc.w   .L059318                        | +018
-        lea     TaskHandler_059086(pc),a1       | +01c
+        lea     Soldier_SpawnEnter_059086(pc),a1 | +01c
         move.l  a1,(a6)                         | +020
 .L059318:
         tst.b   0x78(a6)                        | +022
         bne.w   .L059326                        | +026
-        lea     TaskHandler_0592b2(pc),a1       | +02a
+        lea     Soldier_SpawnHurt_0592b2(pc),a1 | +02a
         move.l  a1,(a6)                         | +02e
 .L059326:
         jsr     0x49fd0.l                       | +030
@@ -1987,11 +1987,11 @@ TaskHandler_0592f6:
         rts                                     | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059332  @ $059332  (16 B)
+|  Entity_CmpField10WithLink8_059332  @ $059332  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059332, "ax", @progbits
-        .global TaskHandler_059332
-TaskHandler_059332:
+        .section .text.Entity_CmpField10WithLink8_059332, "ax", @progbits
+        .global Entity_CmpField10WithLink8_059332
+Entity_CmpField10WithLink8_059332:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
