@@ -1,11 +1,100 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave EEEE — soldado rebelde (infantería): agarre al player, carrera,
+|              pasos, huida, rendición, granadas, burla y entrada en escena
 |  Región: $057D04..$059342  (5,694 B, 54 entradas, 1 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 5,694 B (54 entradas): máquina de estados del soldado rebelde
+|  estándar (infantería de la misión 1 en adelante). Cada estado es una
+|  rutina a la que apunta (a6) y que se re-engancha a sí misma o a la
+|  siguiente con `lea X(pc),a1 / move.l a1,(a6)`. Depende del clúster de
+|  helpers inmediatamente anterior ($056ACC..$057D04: Sub_00056ACC/56B92/
+|  56E36/56F64/56F8A/56FA0/56FEC/5740E/574E8/57CA8, PcThunkTarget_056e1e),
+|  pendiente de la Wave FFFF.
+|
+|   1. Agarre al player ($57D04..$5804C): Soldier_GrabPlayer toma el ancla
+|      del player enlazado en +$7A (PlayerSlot_ClaimAnchor $8F85C, modo 0);
+|      GrabStruggle/GrabStruggleNext alternan animación mientras el player
+|      forcejea; GrabBreakA/B/C y GrabBreak sueltan al player (snd $20 si el
+|      enlazado es $100440, $14B en otro caso) y GrabThrownA/B lanzan al
+|      soldado por los aires (velocidad +$28/+$2A, gravedad +$2E) hasta
+|      tocar suelo.
+|   2. Locomoción ($5804C..$58144): RunToward gira hacia el objetivo
+|      (facing +$3A) y entra en Run_Loop; RunByTable toma la velocidad de
+|      una tabla indexada por +$98.
+|   3. Idle/IdleFidget ($58144..$58412): espera con cambios aleatorios
+|      (RNG $5E9B6 contra umbrales en +$80..+$8A) entre fidget, pasos,
+|      ataque cuerpo a cuerpo, retirada y burla.
+|   4. Hurt/Hurt_Loop/Land ($58412..$584C4): impacto recibido, caída y
+|      aterrizaje (test de suelo vía Sub_00056B92).
+|   5. StepRight/StepLeft/Step_Loop ($584C4..$585AE): pasos laterales
+|      cortos; MeleeAttack ($585AE) golpe de cuchillo con tabla de ataque
+|      +$4C (Attack_* $283CA); Brake ($585F6) frenado.
+|   6. Flee/FleeStop/RetreatJmp/Retreat/Retreat_Loop/Stand/Jump
+|      ($58658..$58968): huida corriendo, retirada andando hacia atrás,
+|      quedarse de pie y salto con parábola.
+|   7. Surrender/SurrenderFlee ($58968..$58B1E): rendición (brazos arriba,
+|      flag +$73) y posterior huida corriendo sin colisión.
+|   8. Granadas ($58B1E..$58DF8): ThrowGrenadeA/B (dos posturas) con
+|      Loop/Recover y ThrowGrenadeAim que ajusta ángulo +$80 según la
+|      distancia al player; HopBack salto corto hacia atrás.
+|   9. Burla ($58DF8..$58F1E): Soldier_TauntAnimPtrTbl (4 punteros a
+|      animación), TauntInit/Taunt/TauntEnd.
+|  10. Entrada en escena ($58F1E..$59332): Soldier_SpawnVariantTbl es la
+|      tabla de variantes referida desde MeleeGuard_DeathToExtern_0427CA;
+|      SpawnFaceTarget/SpawnEnter/SpawnWait/SpawnStand(+Loop)/SpawnBrake/
+|      SpawnLeap/SpawnHurt/SpawnRecover cubren la aparición (caer desde
+|      arriba, saltar desde un lateral, esperar al scroll).
+|  11. Entity_CmpField10WithLink8_059332: helper hoja; compara +$10 del
+|      objeto con +$8 del enlazado (orden/profundidad).
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - +$7A se compara con #$100440 (slot del player 1) antes de elegir el
+|    sonido $20/$14B: +$7A es el puntero al player agarrado.
+|  - jsr $8F85C (PlayerSlot_ClaimAnchor) con a0 = +$7A y d0 = 0 en
+|    GrabPlayer/GrabStruggle*: reclama/valida el ancla del player; `bcc`
+|    => el player se soltó -> GrabThrownB.
+|  - 23 llamadas a $5E9B6 (RNG) seguidas de `cmp.b +$80..+$8A(a6)`: los
+|    umbrales de comportamiento por dificultad viven en +$80..+$8A.
+|  - 52 x $28CD4 (sprite) y 40 x $28D70 (anim): cada estado fija sprite y
+|    avanza animación por frame.
+|  - 32 x $49FD0 (Entity_ProbeAndInstallHandler): transición por sondeo
+|    del entorno (colisión con el player / fuera de pantalla).
+|  - $58DF8 contiene 4 longs apuntando dentro de $2Bxxxx (banco de
+|    animaciones) -> tabla de punteros, excluida del código con --data.
+|
+|  C. CAMPOS DEL OBJETO (a6)
+|  -------------------------
+|  +$00 handler  +$20 contador  +$22/+$24 x/y  +$28/+$2A vel  +$2E grav
+|  +$3A facing (bit 0)  +$4C tabla de ataque  +$60 hitbox  +$66 HP
+|  +$72/+$73/+$74 flags  +$75 subestado  +$7A ptr player enlazado
+|  +$80 ángulo/umbral RNG  +$82 groundY  +$84..+$8A umbrales RNG
+|  +$94 índice anim  +$98 parámetro de spawn (variante)
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|  $236E snd  $2352 música  $13600  $27EBA/$27F60 (ptr objeto / lista)
+|  $2783A  $282D8/$2831E/$28364  $2870A  $283CA attack  $28CD4 sprite
+|  $28D70 anim  $49FD0/$49FF2 probe+install  $5DCA4 rand escalado
+|  $5E9B6 RNG  $77190  $799DE  $8F308  $8F85C/$8F8C2 PlayerSlot_*
+|  $56ACC..$57CA8 helpers del soldado (Wave FFFF).
+|
+|  E. HIPÓTESIS
+|  ------------
+|  - "Soldier" = rebelde de infantería genérico; las variantes de spawn
+|    y la tabla $58F1E sugieren que el mismo código sirve a varios tipos
+|    (cuchillo, granada, escudo) seleccionados por +$98.
+|  - Taunt (burla) se elige desde Idle con baja probabilidad; nombre por
+|    la tabla de 4 animaciones y el retorno a Idle sin efectos.
+|
+|  F. SIGUIENTE
+|  ------------
+|  $056ACC..$057D04 (helpers del soldado), $0527BA..$0539E2,
+|  $0478FC..$048A3C.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
