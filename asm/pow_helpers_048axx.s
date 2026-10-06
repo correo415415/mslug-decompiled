@@ -253,6 +253,8 @@ PowItem_Toss_048ba0:
         clr.w   0x2a(a6)                        | +01c
         bra.w   .L048c04                        | +020
         move.b  0x98(a6),0x7b(a6)               | +024
+        .global PowItem_Toss_048ba0__L048bca
+PowItem_Toss_048ba0__L048bca:
         lea     0x2bfdb8.l,a0                   | +02a
         jsr     0x799de.l                       | +030
         move.b  0x7b(a6),d3                     | +036

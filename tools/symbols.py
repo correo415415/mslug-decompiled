@@ -475,7 +475,7 @@ SYMBOLS = {
     0x00048B26: "TaskHandler_048b26",
     # 0x00048DDC promovido a PowRope_BrokenA_048ddc en registry (Wave JJJJ).
     # 0x00048DEC promovido a PowRope_BrokenB_048dec en registry (Wave JJJJ).
-    0x0004968A: "TaskHandler_04968a",
+    # 0x0004968A promovido a TaskHandler_04968a en registry (Wave LLLL).
     # 0x0004A014 promovido a HumanDeath_EntryKind0_04a014 en registry (Wave KKKK).
     # 0x0004A024 promovido a HumanDeath_EntryKind1_04a024 en registry (Wave KKKK).
     # 0x0004A18C promovido a HumanDeath_CorpseA_04a18c en registry (Wave KKKK).
@@ -977,7 +977,7 @@ SYMBOLS = {
     0x00002BC4: "Sub_00002BC4",        # release slot idx, llamado por Entity_FlushSlotHistory_013600 (W#9)
     0x00005E4CA: "Sub_00005E4CA",      # helper local (RNG?), llamado por Entity_ReserveAndSetPos_05E4B2 (W#10)
     # ---- Wave V (continuacion): destinos externos de los helpers 049FD0 / 0799DE ---
-    0x00049FBA: "Sub_00049FBA",         # probe local llamado por Entity_ProbeAndInstallHandler_049FD0
+    # 0x00049FBA promovido a Sub_00049FBA en registry (Wave LLLL).
     # 0x00027EBA promovido a SpritePubEffect_027EBA en registry (Wave NN#1).
     # Los callers via jsr $27EBA.l se resuelven al simbolo canonico del .text.
     # 0x00027EBA: "Sub_00027EBA",         # probe global llamado por Entity_ProbeAndInstallHandler_049FD0
@@ -1754,5 +1754,8 @@ SYMBOLS = {
     0x0004A012: "SetHandlerRts_04a012",  # rts de SetTaskHandler_04a00c (+6)
     0x0004AC30: "SetHandlerRts_04ac30",  # rts de SetTaskHandler_04ac2a (+6)
     # --- Wave KKKK: refs forward a huecos futuros
-    0x00049FAA: "Sub_00049FAA",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00049FAA promovido a Sub_00049FAA en registry (Wave LLLL).
+    # --- Wave LLLL: RTS internos de islas C
+    0x00049B04: "JsrAbsRts_049b04",  # rts de JsrAbsThunk_049afe (+6)
+    0x00049B56: "SetHandlerRts_049b56",  # rts de SetTaskHandler_049b50 (+6)
 }
