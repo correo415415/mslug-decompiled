@@ -1,11 +1,137 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave KKKK — muerte de humanos (soldados/POW): despacho por tipo de
+|              impacto, caídas, desplome, lanzamiento, quemado, sangre, humo
 |  Región: $049FF2..$04BB8E  (6,990 B, 42 entradas, 10 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 6,990 B (42 entradas; 3,876 B son tablas de sprites/punteros
+|  `.dc.w`): el módulo compartido de MUERTE de las entidades humanas
+|  (soldado rebelde, POW, otros humanos). Lo invocan con jsr $49FF2 las
+|  colas de estado del soldado ($058794/$0588A4/$058A48 en
+|  soldier_states_057dxx.s) y del POW (Pow_FreeStateTail_048a44) cuando
+|  $2870A detecta impacto; sus hijos y variantes también se usan desde
+|  $065E7A/$065E9A/$07C376/$07C388 (SpawnCorpseA).
+|   1. Despacho: HumanDeath_Dispatch_049ff2 (bsr $49FBA = ¿HP agotado?;
+|      si no, $27EBA golpe -> SetTaskHandler_04a00c; si sí ->
+|      HumanDeath_EntryKind2). HumanDeath_EntryKind0/1/2_04a014/24/34 y
+|      la 4a entrada __L04a044 fijan d7 = 0..3 ("kind" = tipo de humano) y
+|      caen en __L04a050: +$71 = (X del atacante +$54 <-> X propia) XOR
+|      facing = "golpeado por la espalda"; eligen la tabla $49FAA[kind]
+|      (4 tablas de 34 punteros en $49D8A/$49E12/$49E9A/$49F22, hueco
+|      anterior) indexada por +$58 = tipo de daño (0..$21; >= $22 -> 15),
+|      llaman HumanDeath_ResetBody_04a09c ($2783A, grito por kind, limpian
+|      +$12 bit1, +$34 = -1, +$60 = -1 sin hitbox, prio $C000) y $8F308,
+|      y saltan al estado de muerte elegido.
+|   2. Estados de muerte (todos acaban en la cola __L04a35e: despawn si
+|      X+$20 >= $180 o Y >= $E0; __L04a382 = bucle "anim hasta el final ->
+|      HumanDeath_FadeOut_04a39e" que parpadea +$5C = 10 frames y despawn):
+|      HumanDeath_TumbleBack/TumbleFwd_04a438/04a4e0 (secuencia de 5
+|      sprites por tablas $4A408/$4A4B0 indexadas por +$72, cada rebote
+|      vel X -+$80 y vel Y +$80; si recibe otro impacto repite; al acabar
+|      TumbleBackLand / Collapse), HumanDeath_TumbleBackStart/FwdStart
+|      (RandBelowY + RNG: con signo negativo -> Collapse__L04a568),
+|      HumanDeath_Collapse_04a54a (variantes: caída de espaldas/de frente
+|      según +$71 con vel X -+$400 y Y $100; __L04a5a6 sprite $4B34A;
+|      __L04a5c4 sprites $4AD90/$4AE22; __L04a5d8 grito $154/$155 (según
+|      $10FD8F = modo debug/sonido alternativo) + sprite $4B13C;
+|      __L04a620 voltereta $4B74C con cambio de facing y vel X -$C8, grav
+|      -$C0 -> Knockdown), HumanDeath_Knockdown_04a672 (sprite $4B7B8;
+|      __L04a680 con RNG: sprite $4ACFE + PhysicsGround -> despawn),
+|      HumanDeath_InitBurst_04a6b2 (vel X aleatoria $5DCA4, vel Y $CC6
+|      +RNG&$3FF, grav -$6D, dirección alejándose del atacante;
+|      __L04a702 reparte por RNG entre Launched/FadeOut/BurstLand;
+|      __L04a72e = cuerpo lanzado sprite $4AF08 con +$48 = $4AEB4 al caer,
+|      gib aleatorio por PickGibPtr), HumanDeath_BurstLand_04a798
+|      (__L04a7b0: sprite $4B078, snd $19, PhysicsGround ->
+|      HumanDeath_Launched), HumanDeath_Launched_04a7f4 (__L04a802:
+|      snd $8A, vel Y $870 grav -$48, sprite $4B7EC, +$5C = $2800 escala
+|      que decrece 1/32 por frame y se copia a +$32/+$33 = zoom del
+|      sprite ("sale volando hacia la cámara"), $27CEE; __L04a88c..
+|      __L04a948 variantes: golpe de espaldas según +$5C del atacante,
+|      sprite $4B1F6/$4AF08 + sangre, prio $8000 y sprite $4B82A con
+|      +$30 = 30 frames -> Burning), HumanDeath_Burning_04a9b0 (sprite
+|      $4B898; __L04a9be: sprite $2B604A, música $1042, hijo FlameChild,
+|      corre a +-$200 cambiando de sentido cada +$72 (10 o 255) frames, 40
+|      frames o bit 5 de +$5A -> BurnedDown_04aa62 (+$21 = -1 "muerto")).
+|   3. Hijos/efectos: HumanDeath_SpawnCorpseA/B_04a16e/04a194 (copian pos
+|      y +$54; CorpseA -> __L04a72e lanzado, CorpseB -> Launched),
+|      HumanDeath_FlameChild_04aa76 (snd 4, sprite $4B926, sigue al padre
+|      +$1E px por debajo con su prio; muere con $7B2 o cuando el padre
+|      tiene +$21 != 0), HumanDeath_SpawnBloodSplash_04aad2 (hijo A o B
+|      a +-8 px según facing; BloodSplashA/B_04ab10/04ab52 snd $17A/$1BA,
+|      prio $C000|$10, sprites $4BAD2/$4B9F0, Loop_04ab90 $2783A + anim ->
+|      free $518), HumanDeath_SpawnSmokePair_04abc0 (hijo SmokeChild a
+|      +$18 px, snd $19F/$1A3, sprite $4BB44; SmokeChild_04ac3a snd $D y
+|      sprite $4BB4A; ambos scroll + anim -> JmpToScheduler_04ac32).
+|   4. Helpers: HumanDeath_PlayCryByKind_04a0d4 (4 entradas: snd $E/$2F
+|      según $10FD8F, $1A, $14, $15C, $21, $E, $185; todas vía $13600 +
+|      $236E), HumanDeath_DampVelocity_04a1c6 (vel -= vel/32 con redondeo
+|      hacia 0 en X e Y), HumanDeath_SetVelXByFacing_04a1f0 (d0 negado si
+|      mira a la izquierda -> SetTaskW_04a1fc), HumanDeath_RandBelowY_04a202
+|      (RNG < Y), HumanDeath_PhysicsAir/Ground/Fall_04a218/04a268/04a2be
+|      (variantes del integrador: probe $27F08/$27FD8 + +$70 = flag suelo,
+|      DampVelocity, grav -$C0 con guiado $27BC8 o caída $27D50; en suelo
+|      $27A92 + $27EBA/$27FAC), HumanDeath_PickGibPtr_04aba8 (+$76 =
+|      $4AF5A[RNG & 7]), HumanDeath_LoadTimer_04a1ba.
+|   5. Datos: HumanDeath_SpriteTbls_04ac56 ($4AC56..$4BB4A, 3,828 B):
+|      secuencias de sprites {prio, tile, dx, dy...} terminadas en -1
+|      referenciadas por pc-rel desde todos los estados anteriores
+|      (__L04acfe, __L04ad90, __L04ae22, __L04aeb4, __L04af08, __L04af5a
+|      tabla de 8 gibs, __L04af9e, __L04b078, __L04b0c6, __L04b136/13c,
+|      __L04b1f6, __L04b28c, __L04b34a, __L04b404..__L04b55c (10 frames
+|      de voltereta), __L04b57c, __L04b61a, __L04b6b8, __L04b74c, __L04b78c,
+|      __L04b7b8, __L04b7ec, __L04b82a, __L04b898, __L04b926, __L04b9f0,
+|      __L04bad2, __L04bb44) y HumanDeath_SmokeSprite_04bb4a.
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - Las 4 tablas de 34 punteros en $49D8A..$49FAA apuntan todas a
+|    entradas de esta región (TumbleBack__L04a3f8, Collapse__L04a568/5a6/
+|    5b4, Knockdown__L04a680/68c, InitBurst__L04a702/72e, BurstLand
+|    __L04a7b0, Launched__L04a802/88c/89a/8fa/948): el índice +$58 es el
+|    tipo de daño que fija el proyectil/arma al golpear (0..$21).
+|  - Las referencias externas a $49FF2 están en las colas de estado del
+|    soldado y del POW justo tras $2870A (impacto recibido).
+|  - $4B401 (byte dentro de la tabla) lo referencian 6 entradas de datos
+|    en $EEC74..$EECCE: índice de animaciones externas a la misma tabla.
+|  - $10FD8F se usa en el módulo del player como flag de sonido/debug
+|    alternativo: aquí selecciona gritos alternativos ($2F/$1BA/$1A3).
+|
+|  C. HIPÓTESIS / DUDAS
+|  --------------------
+|  - "kind" d7 = 0..3 se interpreta como tipo de humano (soldado, POW,
+|    oficial, civil); las 4 tablas difieren sobre todo en las entradas
+|    0..3 y 18..20. Falta decompilar $49FBA/$49D8A.. (hueco anterior) para
+|    confirmar quién llama a cada EntryKind.
+|  - +$5C se reutiliza como contador de parpadeo (FadeOut), escala 8.8
+|    (Launched) y, leído del atacante +$50, como "golpe fuerte".
+|  - $8F308 (tras ResetBody) probablemente libera al humano del anclaje
+|    PlayerSlot/PosRing ($8F344/$8F85C están al lado).
+|
+|  D. CAMPOS DE LA ENTIDAD (a6) USADOS
+|  ----------------------------------
+|  +$00 handler  +$0C padre  +$12 bits 1/6  +$13 bit3  +$21 muerto
+|  +$22/+$24 X/Y  +$28/+$2A vel  +$2C/+$2E grav  +$30 timer  +$32/+$33
+|  zoom  +$34  +$38 prio  +$3A facing  +$48 colisión  +$50 atacante  +$54
+|  X del atacante  +$58 tipo de daño  +$5A estado colisión  +$5C
+|  contador/escala  +$60 hitbox  +$70 flag suelo  +$71 por la espalda
+|  +$72/+$73 índice de frame / contador de giros  +$74  +$76 puntero gib
+|
+|  E. CALLEES EXTERNOS
+|  -------------------
+|  $4AE alloc hijo  $518 free  $7B2 test padre  $236E snd  $2352 música
+|  $13600  $2783A scroll  $27A92/$27BC8/$27CEE/$27D50 probes/guiado
+|  $27EBA/$27FAC/$27F08/$27F60/$27FD8 impacto/suelo  $2870A impacto
+|  $28134 prio  $28CD4 sprite  $28D70 anim  $5DCA4 rand  $5DD02 copia pos
+|  $5DD56 despawn  $5E9B6 RNG  $8F308  $49FBA/$49FAA (hueco anterior).
+|
+|  F. SIGUIENTE
+|  ------------
+|  Hueco anterior $049430..$049FF2 (tablas $49D8A.. + $49FBA) para cerrar
+|  el módulo; después $053F96..$0550BE.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
