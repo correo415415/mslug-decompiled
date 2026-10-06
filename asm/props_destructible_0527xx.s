@@ -1,11 +1,111 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave GGGG — props destructibles del escenario: carteles, muros, casas,
+|              chozas, torres, portones; escombros, drops y parpadeo del fix
 |  Región: $0527BA..$0539E2  (4,648 B, 27 entradas, 1 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 4,648 B (27 entradas): handlers de los objetos de escenario
+|  destructibles (templates de spawn de misión referenciados desde las
+|  listas de $096Cxx..$0975xx y $198070) y sus efectos secundarios. Todos
+|  siguen el mismo patrón:
+|
+|    init:  a1 = +$3C (template) -> $2942A (copia pos/params), snd $236E,
+|           +$70 puntos, +$66 HP, +$32/+$33 = $FF, +$3A = 0, sprite $28CD4
+|    loop:  $2783A (scroll) ; $28D70 (anim) ; $2870A (impacto recibido?)
+|           -> flash $5E770 con tabla $5E766, bclr +$13 bit3 ;
+|           $28758 (HP agotada?) -> música $2352 $10xx, escombros
+|           $77C7E con listas $297Fxx/$2980xx, puntos $51A28, siguiente
+|           estado ; $4FA70 (fuera de pantalla?) -> $518 (liberar).
+|
+|   1. Prop_Breakable2Stage_0527ba: dos fases (+$21 0/1/2); al romperse la
+|      1a suelta 1..4 PropDrop_Item ($5EA1C) y re-arma con HP $1E; la 2a
+|      llama a $53EBA/$53E78 (hueco futuro) y libera.
+|   2. Prop_OneShotAnim_0528bc: anim única hasta que $28D70 devuelve C=0.
+|   3. Prop_Sign_052902 -> Prop_SignBroken_052986 -> Prop_SignWreck_0529ca
+|      (música $1029 al caer, puntos $500).
+|   4. Prop_Wall_052a26 -> Prop_WallStage2_052af4: cada impacto suelta
+|      PropDebris_Chunk ($6FE + $5DD02), rota +$47 (0..3), música $10BB,
+|      puntos $10 (`move.l #$10,d0` sin optimizar a moveq).
+|   5. Prop_Large_052b8a: HP $64, hijo $77228 (+8 px, +$98=$81, +$99=$75),
+|      al romperse spawnea $77E10 (humo) y, si $106F28 bit0,
+|      PropDebris_Flying; música $1024 -> Prop_LargeWreck_052ca0 (puntos
+|      $1000).
+|   6. Prop_Explosive_052cea: HP $14, al romperse música $1076, escombros,
+|      instala tabla de ataque $29874A (daña al jugador) y pasa a
+|      Prop_ExplosiveWreck_052dce (puntos $500).
+|   7. Prop_HouseVariants_052e20 (684 B): 7 entradas (cada $24 B) que
+|      eligen la lista de escombros +$80 ($2983F0..$298454) y el sprite;
+|      dos variantes spawnean DuckTrigger_SpawnPairLeft_038f48/$38F14
+|      (pareja de patos) y ejecutan la StateMachine $5022A directamente.
+|      Loop común en +$1A0: al romperse música $1035, puntos $300, patos,
+|      $434DC, 3 listas de escombros, StateMachineRun.
+|   8. Prop_HutVariants_0530cc (570 B): 10 entradas (+$21 = 0..4 por
+|      pares, listas $298468..$29851C); al romperse $53E0C (hueco), puntos
+|      $500, 2 listas de escombros.
+|   9. Prop_Tower_053306 -> Prop_TowerStage2_0533da -> Prop_TowerWreck_053482:
+|      hitbox +$60 = $2988EA, registra en $4429E (MissionDriver, slot $74)
+|      y limpia $10E39A; música $1023/$1030; puntos $2000.
+|  10. Prop_Gate_0534d8 -> Prop_GateStage2_05359e -> Prop_GateWreck_053652:
+|      HP $28, puntos $C0; solo activo con X en -$20..$90; variantes por
+|      +$38 == 0 ($53F2E/$53EE2/$53F54/$53F08, hueco futuro).
+|  11. FixBlink_PhaseA_0536ac / PhaseB_05370a: escriben tiles del fix
+|      layer ($2C26: col $19/$1B, fila $C..$F) alternando cada $B4/$78
+|      frames hasta que la cámara $106F5C >= $140.
+|  12. PropDrop_Item_053768: ítem soltado (snd $A, $53E9C, pos del padre
+|      +$54/+$56, vel X aleatoria) -> handler $6DCE0.
+|  13. PropDebris_Chunk_0537ea / ChunkAlt_05379c: cascote con gravedad
+|      -$10, vel aleatoria, sprite $2DE4B0, 40 frames, snd $29/$B.
+|  14. PropDebris_Flying_053894 / FlyingAlt_053886: trozo lanzado (snd
+|      $9E/$AD) que hereda 2x la velocidad del atacante (+$50 -> +$28/+$2A)
+|      salvo si +$58 == 4; rebota a mitad de vel Y y spawnea humo $77E10.
+|  15. Prop_Indestructible_053964: HP $7FFF, hijo $539F0 (hueco), snd
+|      $1AE; solo reacciona con flash ($53D80).
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - Las direcciones $528BC/$52902/$52A26/$52B8A/$52CEA/$52E20/$530CC/
+|    $53306/$53964 aparecen como longs en $096CB4..$096F0C y $09751A..
+|    $097556 (listas de spawn de misión, zona DATA) -> templates.
+|  - Patrón idéntico de init/loop/ruptura en los 10 props; los sprites
+|    $2971xx..$2977xx son consecutivos (banco de escenario).
+|  - $2C26 con (col, fila, ancho, alto) y la cámara $106F5C: fix layer.
+|  - `move.l #$10,d0` codificado como $203C: SNK no usaba moveq aquí.
+|
+|  C. CAMPOS DEL OBJETO (a6)
+|  -------------------------
+|  +$00 handler  +$0C padre  +$13 bit0 roto, bit3 impacto  +$21 fase
+|  +$22/+$24 x/y  +$28/+$2A vel  +$2E grav  +$32/+$33  +$36 vel X base
+|  +$38 variante/prio  +$3A facing  +$3C template  +$47 índice de cascote
+|  +$48 cb colisión  +$4C tabla de ataque  +$54/+$56 pos de spawn
+|  +$58 id de impacto  +$60 hitbox  +$66 HP  +$70 puntos  +$72 contador
+|  +$74 slot de misión  +$75  +$80 lista de escombros  +$98/+$99 params hijo
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|  $4AE/$6FE alloc  $518 free  $236E snd  $2352 música  $2C26 fix tile
+|  $267E2  $2783A scroll  $27CEE  $27D50  $2870A impacto  $28758 HP
+|  $283CA/$283D8 attack  $28998  $28CD4 sprite  $28D70 anim  $2942A
+|  copiar template  $38F14/$38F48 patos  $434DC  $43FAC  $4429E
+|  MissionDriver slot  $4FA70 fuera de pantalla  $5022A StateMachineRun
+|  $51A28 puntos  $5DD02/$5DD22 copiar pos  $5DD56  $5E722  $5E766/$5E770
+|  flash  $5EA1C rand acotado  $6DCE0 ítem  $77228/$77E10 hijos
+|  $77C7E escombros  $53D80..$53F54 (hueco $0539F0..$053F96, siguiente)
+|
+|  E. HIPÓTESIS
+|  ------------
+|  - Casa/choza/torre/portón son nombres por tamaño de HP, puntos y
+|    número de listas de escombros; confirmar con los sprites de la
+|    misión 1 (aldea) y misión 3 (fuerte).
+|  - $5E770 = parpadeo blanco al recibir daño (tabla de paletas $5E766).
+|
+|  F. SIGUIENTE
+|  ------------
+|  $0539F0..$053F96 (helpers de props: $53D80/$53E0C/$53E78/$53E9C/$53EBA/
+|  $53EE2/$53F08/$53F2E/$53F54 + hijo $539F0), $0478FC..$048A3C,
+|  $04AC3A..$04BB8E.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
