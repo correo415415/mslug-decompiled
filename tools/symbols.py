@@ -62,7 +62,7 @@ SYMBOLS = {
     # Templates usados por Entity_Build4FromTemplates (Y#11)
 
     # ---- Wave Z: externos referenciados por asm 68000 puro ----
-    # 0x0005B1B2 promovido a Sub_0005B1B2 en registry (Wave DDDD).
+    # 0x0005B1B2 promovido a Sprite_DispatchSplashHook_05b1b2 en registry (Wave DDDD).
     # 0x0005AA96 promovido a SpriteDispatchJT_05AA96 en registry (Wave DDDD).
     0x00044182: "Sub_00044182",              # colisión llamada por Entity_Probe_02785C
     0x00027036: "Sub_00027036",              # colisión pc-rel de Entity_Probe_02788C

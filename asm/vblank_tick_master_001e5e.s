@@ -90,7 +90,7 @@ VBlankTick_Master_001E5E:
         jsr     0x137c6.l                      | +7e  Sub_000137C6
 .Ldo_heavy:
         jsr     .Ltick_helper(pc)              | +84  jsr $001EFE (pc-rel)
-        jsr     0x5c9d6.l                      | +88  Sub_0005C9D6
+        jsr     0x5c9d6.l                      | +88  Vblank_FlushSpriteQueue_05c9d6
         move.b  #0x1, 0x106ed8.l               | +8e  $106ED8 = 1 (done)
         rts                                    | +96
 .Lskip_heavy:

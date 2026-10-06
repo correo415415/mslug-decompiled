@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $05AA96..$05CA2A  (8,084 B, 8 entradas, 1 huecos)
+|  Región: $05AA96..$05CA2A  (8,084 B, 9 entradas, 1 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -325,7 +325,7 @@ SpriteDispatchJT_05AA96:
         lsl.b   #0x4,d6                         | +2b6
         swap    d2                              | +2b8
         or.b    d2,d6                           | +2ba
-        lea     Sub_0005A8BA(pc),a4             | +2bc  -> $05A8BA (hueco futuro, defsym forward)
+        lea     Sub_0005A8BA(pc),a4             | +2bc
         move.b  (a4,d6.w),d6                    | +2c0
         swap    d2                              | +2c4
         bra.w   .L05ad66                        | +2c6
@@ -454,7 +454,7 @@ SpriteDispatchJT_05AA96:
         lsl.b   #0x4,d6                         | +3e6
         swap    d2                              | +3e8
         or.b    d2,d6                           | +3ea
-        lea     Sub_0005A8BA(pc),a4             | +3ec  -> $05A8BA (hueco futuro, defsym forward)
+        lea     Sub_0005A8BA(pc),a4             | +3ec
         move.b  (a4,d6.w),d6                    | +3f0
         swap    d2                              | +3f4
         bra.w   .L05ae96                        | +3f6
@@ -585,7 +585,7 @@ SpriteDispatchJT_05AA96:
         lsl.b   #0x4,d6                         | +520
         swap    d2                              | +522
         or.b    d2,d6                           | +524
-        lea     Sub_0005A8BA(pc),a4             | +526  -> $05A8BA (hueco futuro, defsym forward)
+        lea     Sub_0005A8BA(pc),a4             | +526
         move.b  (a4,d6.w),d6                    | +52a
         swap    d2                              | +52e
         bra.w   .L05afd0                        | +530
@@ -722,7 +722,7 @@ SpriteDispatchJT_05AA96:
         lsl.b   #0x4,d6                         | +664
         swap    d2                              | +666
         or.b    d2,d6                           | +668
-        lea     Sub_0005A8BA(pc),a4             | +66a  -> $05A8BA (hueco futuro, defsym forward)
+        lea     Sub_0005A8BA(pc),a4             | +66a
         move.b  (a4,d6.w),d6                    | +66e
         swap    d2                              | +672
         bra.w   .L05b114                        | +674
@@ -798,11 +798,11 @@ SpriteDispatchJT_05AA96:
         rts                                     | +71a
 
 | ----------------------------------------------------------------------------
-|  Sub_0005B1B2  @ $05B1B2  (96 B)
+|  Sprite_DispatchSplashHook_05b1b2  @ $05B1B2  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005B1B2, "ax", @progbits
-        .global Sub_0005B1B2
-Sub_0005B1B2:
+        .section .text.Sprite_DispatchSplashHook_05b1b2, "ax", @progbits
+        .global Sprite_DispatchSplashHook_05b1b2
+Sprite_DispatchSplashHook_05b1b2:
         movem.l d0-d5/a0-a1,-(a7)               | +000
         cmpi.b  #0x0,0x106ece.l                 | +004
         bne.w   .L05b20c                        | +00c
@@ -821,7 +821,7 @@ Sub_0005B1B2:
         movem.l d0-d5/a0-a1,-(a7)               | +040
         eori.b  #0x2,d5                         | +044
         move.b  #0x7f,d3                        | +048
-        jsr     Sub_0005B212(pc)                | +04c
+        jsr     Sprite_SplashScreenY_05b212(pc) | +04c
         jsr     Sprite_Dispatch_05A9D6__L05a9ea(pc) | +050
         movem.l (a7)+,d0-d5/a0-a1               | +054
         rts                                     | +058
@@ -830,11 +830,11 @@ Sub_0005B1B2:
         rts                                     | +05e
 
 | ----------------------------------------------------------------------------
-|  Sub_0005B212  @ $05B212  (32 B)
+|  Sprite_SplashScreenY_05b212  @ $05B212  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005B212, "ax", @progbits
-        .global Sub_0005B212
-Sub_0005B212:
+        .section .text.Sprite_SplashScreenY_05b212, "ax", @progbits
+        .global Sprite_SplashScreenY_05b212
+Sprite_SplashScreenY_05b212:
         movem.l d0-d4,-(a7)                     | +000
         move.w  d0,d6                           | +004
         addq.w  #0x2,d6                         | +006
@@ -848,11 +848,11 @@ Sub_0005B212:
         rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05b232  @ $05B232  (318 B)
+|  SpriteQueue_SortAndRenderSCB1_05b232  @ $05B232  (318 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05b232, "ax", @progbits
-        .global TaskHandler_05b232
-TaskHandler_05b232:
+        .section .text.SpriteQueue_SortAndRenderSCB1_05b232, "ax", @progbits
+        .global SpriteQueue_SortAndRenderSCB1_05b232
+SpriteQueue_SortAndRenderSCB1_05b232:
         lea     0x108080.l,a5                   | +000
         lea     0x5424(a5),a0                   | +006
         move.w  0x6148(a5),d7                   | +00a
@@ -955,7 +955,7 @@ TaskHandler_05b232:
         lea     0x542a(a5),a1                   | +102
         move.w  0x6148(a5),d7                   | +106
         lea     (a1,d7.w),a2                    | +10a
-        bsr.w   Sub_0005B370                    | +10e
+        bsr.w   SpriteQueue_RenderRange_05b370  | +10e
         lea     0x6158(a5),a0                   | +112
         move.w  0x10e1f8.l,(a0)                 | +116
         move.w  #0x17c,0x2(a0)                  | +11c
@@ -963,17 +963,17 @@ TaskHandler_05b232:
         lea     0x348(a1),a2                    | +126
         move.w  0x614a(a5),d7                   | +12a
         adda.w  d7,a1                           | +12e
-        bsr.w   Sub_0005B370                    | +130
+        bsr.w   SpriteQueue_RenderRange_05b370  | +130
         movea.l (a7)+,a6                        | +134
         move.b  #0xff,0x616c(a5)                | +136
         rts                                     | +13c
 
 | ----------------------------------------------------------------------------
-|  Sub_0005B370  @ $05B370  (144 B)
+|  SpriteQueue_RenderRange_05b370  @ $05B370  (144 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005B370, "ax", @progbits
-        .global Sub_0005B370
-Sub_0005B370:
+        .section .text.SpriteQueue_RenderRange_05b370, "ax", @progbits
+        .global SpriteQueue_RenderRange_05b370
+SpriteQueue_RenderRange_05b370:
         move.w  0x4(a0),d2                      | +000
         not.b   0x8(a0)                         | +004
         bpl.w   .L05b3be                        | +008
@@ -992,7 +992,7 @@ Sub_0005B370:
         bcc.w   .L05b3fa                        | +026
         cmp.w   d2,d0                           | +02a
         bcc.w   .L05b3fa                        | +02c
-        bsr.w   Sub_0005B52E                    | +030
+        bsr.w   SCB1_WriteTileColumn_05b52e     | +030
         addq.w  #0x1,d0                         | +034
         addi.w  #0x40,d1                        | +036
         tst.b   0x6(a3)                         | +03a
@@ -1021,7 +1021,7 @@ Sub_0005B370:
         bcc.w   .L05b3fa                        | +070
         subq.w  #0x1,d0                         | +074
         subi.w  #0x40,d1                        | +076
-        bsr.w   Sub_0005B52E                    | +07a
+        bsr.w   SCB1_WriteTileColumn_05b52e     | +07a
         tst.b   0x6(a3)                         | +07e
         adda.w  #0xc,a3                         | +082
         bpl.b   .L05b3d8                        | +086
@@ -1031,11 +1031,11 @@ Sub_0005B370:
         rts                                     | +08e
 
 | ----------------------------------------------------------------------------
-|  Sub_0005B400  @ $05B400  (302 B)
+|  SpriteQueue_RenderSCB234_05b400  @ $05B400  (302 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005B400, "ax", @progbits
-        .global Sub_0005B400
-Sub_0005B400:
+        .section .text.SpriteQueue_RenderSCB234_05b400, "ax", @progbits
+        .global SpriteQueue_RenderSCB234_05b400
+SpriteQueue_RenderSCB234_05b400:
         tst.b   0x8(a0)                         | +000
         bpl.w   .L05b496                        | +004
         move.w  (a0),d0                         | +008
@@ -1061,7 +1061,7 @@ Sub_0005B400:
         move.l  d7,(a4)                         | +03e
         bra.w   .L05b448                        | +040
 .L05b444:
-        bsr.w   Sub_0005BF76                    | +044
+        bsr.w   SCB1_WriteTileColumnTerm_05bf76 | +044
 .L05b448:
         addq.w  #0x1,d0                         | +048
         add.w   d3,d1                           | +04a
@@ -1122,7 +1122,7 @@ Sub_0005B400:
         move.l  d7,(a4)                         | +0d2
         bra.w   .L05b4dc                        | +0d4
 .L05b4d8:
-        bsr.w   Sub_0005BF76                    | +0d8
+        bsr.w   SCB1_WriteTileColumnTerm_05bf76 | +0d8
 .L05b4dc:
         tst.b   0x6(a3)                         | +0dc
         adda.w  #0xc,a3                         | +0e0
@@ -1161,11 +1161,11 @@ Sub_0005B400:
         rts                                     | +12c
 
 | ----------------------------------------------------------------------------
-|  Sub_0005B52E  @ $05B52E  (2632 B)
+|  SCB1_WriteTileColumn_05b52e  @ $05B52E  (2632 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005B52E, "ax", @progbits
-        .global Sub_0005B52E
-Sub_0005B52E:
+        .section .text.SCB1_WriteTileColumn_05b52e, "ax", @progbits
+        .global SCB1_WriteTileColumn_05b52e
+SCB1_WriteTileColumn_05b52e:
         move.w  0x6(a3),d7                      | +000
         addq.b  #0x1,d7                         | +004
         sne.b   d6                              | +006
@@ -2445,11 +2445,11 @@ Sub_0005B52E:
         rts                                     | +a46
 
 | ----------------------------------------------------------------------------
-|  Sub_0005BF76  @ $05BF76  (2740 B)
+|  SCB1_WriteTileColumnTerm_05bf76  @ $05BF76  (2656 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005BF76, "ax", @progbits
-        .global Sub_0005BF76
-Sub_0005BF76:
+        .section .text.SCB1_WriteTileColumnTerm_05bf76, "ax", @progbits
+        .global SCB1_WriteTileColumnTerm_05bf76
+SCB1_WriteTileColumnTerm_05bf76:
         move.w  0x6(a3),d7                      | +000
         addq.b  #0x1,d7                         | +004
         sne.b   d6                              | +006
@@ -3735,24 +3735,31 @@ Sub_0005BF76:
         move.w  0x6(a3),d6                      | +a58
         move.l  d6,(a4)                         | +a5c
         rts                                     | +a5e
-        tst.b   0x10e1ec.l                      | +a60
-        beq.w   .L05ca28                        | +a66
-        clr.b   0x10e1ec.l                      | +a6a
-        lea     0x3c0000.l,a4                   | +a70
-        lea     0x108080.l,a5                   | +a76
-        lea     0x614c(a5),a0                   | +a7c
-        lea     0x542a(a5),a1                   | +a80
-        move.w  0x6148(a5),d7                   | +a84
-        movea.l a1,a2                           | +a88
-        adda.w  d7,a2                           | +a8a
-        bsr.w   Sub_0005B400                    | +a8c
-        move.w  0xa(a0),0x6168(a5)              | +a90
-        lea     0x6158(a5),a0                   | +a96
-        lea     0x542a(a5),a1                   | +a9a
-        lea     0x348(a1),a2                    | +a9e
-        move.w  0x614a(a5),d7                   | +aa2
-        adda.w  d7,a1                           | +aa6
-        bsr.w   Sub_0005B400                    | +aa8
-        move.w  0xa(a0),0x616a(a5)              | +aac
+
+| ----------------------------------------------------------------------------
+|  Vblank_FlushSpriteQueue_05c9d6  @ $05C9D6  (84 B)
+| ----------------------------------------------------------------------------
+        .section .text.Vblank_FlushSpriteQueue_05c9d6, "ax", @progbits
+        .global Vblank_FlushSpriteQueue_05c9d6
+Vblank_FlushSpriteQueue_05c9d6:
+        tst.b   0x10e1ec.l                      | +000
+        beq.w   .L05ca28                        | +006
+        clr.b   0x10e1ec.l                      | +00a
+        lea     0x3c0000.l,a4                   | +010
+        lea     0x108080.l,a5                   | +016
+        lea     0x614c(a5),a0                   | +01c
+        lea     0x542a(a5),a1                   | +020
+        move.w  0x6148(a5),d7                   | +024
+        movea.l a1,a2                           | +028
+        adda.w  d7,a2                           | +02a
+        bsr.w   SpriteQueue_RenderSCB234_05b400 | +02c
+        move.w  0xa(a0),0x6168(a5)              | +030
+        lea     0x6158(a5),a0                   | +036
+        lea     0x542a(a5),a1                   | +03a
+        lea     0x348(a1),a2                    | +03e
+        move.w  0x614a(a5),d7                   | +042
+        adda.w  d7,a1                           | +046
+        bsr.w   SpriteQueue_RenderSCB234_05b400 | +048
+        move.w  0xa(a0),0x616a(a5)              | +04c
 .L05ca28:
-        rts                                     | +ab2
+        rts                                     | +052

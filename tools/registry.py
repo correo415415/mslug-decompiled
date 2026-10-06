@@ -5952,13 +5952,14 @@ REGISTRY = [
     ("Slug_DeathSetHandler400_02dcaa",             0x02DCAA,  10, "slug_states_02aexx.s"),
     ("Slug_DeathFinishJmp_02dcbc",                 0x02DCBC,   4, "slug_states_02aexx.s"),
     ("Slug_DeathStart_02dcc0",                     0x02DCC0,  90, "slug_states_02aexx.s"),
-    # --- Wave DDDD: blitters de sprites $05AA96..$05CA2A (8 entradas)
-    ("SpriteDispatchJT_05AA96",                    0x05AA96, 1820, "wave_dddd_05aaxx.s"),
-    ("Sub_0005B1B2",                               0x05B1B2,  96, "wave_dddd_05aaxx.s"),
-    ("Sub_0005B212",                               0x05B212,  32, "wave_dddd_05aaxx.s"),
-    ("TaskHandler_05b232",                         0x05B232, 318, "wave_dddd_05aaxx.s"),
-    ("Sub_0005B370",                               0x05B370, 144, "wave_dddd_05aaxx.s"),
-    ("Sub_0005B400",                               0x05B400, 302, "wave_dddd_05aaxx.s"),
-    ("Sub_0005B52E",                               0x05B52E, 2632, "wave_dddd_05aaxx.s"),
-    ("Sub_0005BF76",                               0x05BF76, 2740, "wave_dddd_05aaxx.s"),
+    # --- Wave DDDD: cola de sprites / render SCB $05AA96..$05CA2A (9 entradas)
+    ("SpriteDispatchJT_05AA96",                    0x05AA96, 1820, "sprite_queue_render_05aaxx.s"),
+    ("Sprite_DispatchSplashHook_05b1b2",           0x05B1B2,  96, "sprite_queue_render_05aaxx.s"),
+    ("Sprite_SplashScreenY_05b212",                0x05B212,  32, "sprite_queue_render_05aaxx.s"),
+    ("SpriteQueue_SortAndRenderSCB1_05b232",       0x05B232, 318, "sprite_queue_render_05aaxx.s"),
+    ("SpriteQueue_RenderRange_05b370",             0x05B370, 144, "sprite_queue_render_05aaxx.s"),
+    ("SpriteQueue_RenderSCB234_05b400",            0x05B400, 302, "sprite_queue_render_05aaxx.s"),
+    ("SCB1_WriteTileColumn_05b52e",                0x05B52E, 2632, "sprite_queue_render_05aaxx.s"),
+    ("SCB1_WriteTileColumnTerm_05bf76",            0x05BF76, 2656, "sprite_queue_render_05aaxx.s"),
+    ("Vblank_FlushSpriteQueue_05c9d6",             0x05C9D6,  84, "sprite_queue_render_05aaxx.s"),
 ]

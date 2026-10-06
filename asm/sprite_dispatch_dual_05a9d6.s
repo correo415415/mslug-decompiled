@@ -75,7 +75,7 @@ Sprite_Dispatch_05A9D6:
 Sprite_Dispatch_05A9E2:
         andi.b  #0x3, d5                       | +0c  d5 &= 0x03  (respetar bit 2 recibido)
 .Lmerge:
-        jsr     .Laux_5b1b2(pc)                | +10  aux hook (unknown)
+        jsr     .Laux_5b1b2(pc)                | +10  Sprite_DispatchSplashHook_05b1b2
         .global Sprite_Dispatch_05A9D6__L05a9ea
 Sprite_Dispatch_05A9D6__L05a9ea:
         move    a1, usp                        | +14  save a1 via USP (trick)
@@ -151,7 +151,7 @@ Sprite_Dispatch_05A9D6__L05a9ea:
         move    usp, a1                        | +bc  restore a1 from USP
         rts                                    | +be
 
-        .equ    .Laux_5b1b2,   Sub_0005B1B2
+        .equ    .Laux_5b1b2,   Sprite_DispatchSplashHook_05b1b2
         .equ    .Ljump_table,  SpriteDispatchJT_05AA96
 
         .size   Sprite_Dispatch_05A9D6, .-Sprite_Dispatch_05A9D6
