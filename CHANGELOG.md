@@ -17,6 +17,18 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave DDDD — 9 entries (8,084 B): `$05AA96..$05CA2A`
+  (`sprite_queue_render_05aaxx.s`): the sprite-queue backend — the 8-way
+  enqueue jump table `SpriteDispatchJT_05AA96` (flip H/V, ADD/SUB queue),
+  the water-reflection hook `Sprite_DispatchSplashHook_05b1b2`, the
+  end-of-frame heapsort + SCB1 writer `SpriteQueue_SortAndRenderSCB1_05b232`
+  / `SpriteQueue_RenderRange_05b370`, the Duff-unrolled VRAM column writers
+  `SCB1_WriteTileColumn_05b52e` / `SCB1_WriteTileColumnTerm_05bf76`
+  (4x32 `jmp (pc,dN)` tables), the SCB2/3/4 pass
+  `SpriteQueue_RenderSCB234_05b400` and `Vblank_FlushSpriteQueue_05c9d6`.
+  `tools/gen_asm_region.py`: `pcrel_target` now resolves the base of
+  `jmp X(pc,dN.w)` so indexed jump tables get their local label.
+  Matcher: 5,211/5,211, 287,328 B (13.70 %); real code coverage 48.2 %.
 - Wave CCCC — 70 entries (11,812 B): `$02AE3E..$02DD20`
   (`slug_states_02aexx.s`, 7 data blocks: two 5-pointer drop-variant
   tables `$2AE90/$2AEE4`, music tables `$2B8CE/$2BA34/$2BB9A`, air-steer

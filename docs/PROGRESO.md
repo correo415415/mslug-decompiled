@@ -11,11 +11,30 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5202/5202 funciones
-BYTES   : 279,244/279,244 (registrados)
-ROM     : 279,244/2,097,152  (13.3154%)
+MATCHED : 5211/5211 funciones
+BYTES   : 287,328/287,328 (registrados)
+ROM     : 287,328/2,097,152  (13.7009%)
 ```
 
+> **Wave DDDD** (9 entradas, 8 084 B, verde tras parchear el generador) —
+> `$05AA96..$05CA2A` en `sprite_queue_render_05aaxx.s`. Vigesimoprimera
+> wave de `gen_asm_region.py`. Nombres y args en `docs/waves/dddd_*.txt`.
+>
+> * **Generador**: `pcrel_target` ahora devuelve la base de
+>   `jmp X(pc,dN.w)` (capstone da X absoluto); sin ello GAS fallaba con
+>   "value too large for field of 1 byte" en las 14 jump tables indexadas.
+> * **Encolado**: `SpriteDispatchJT_05AA96` (8 variantes por flip H/V y
+>   cola ADD/SUB, destino del `jsr $5AA96(pc,d7.w)` de `Sprite_Dispatch`);
+>   `Sprite_DispatchSplashHook_05b1b2` re-encola con flip V y pal $7F los
+>   sprites sobre tile $3A (reflejo en el agua, misión 1).
+> * **Render**: `SpriteQueue_SortAndRenderSCB1_05b232` (heapsort de la
+>   cola ADD + inserción de la SUB, jsr desde $20CE) ->
+>   `SpriteQueue_RenderRange_05b370` -> `SCB1_WriteTileColumn_05b52e` /
+>   `_Term_05bf76` (Duff 4x32 sobre VRAMRW $3C0000, mod $20000);
+>   `SpriteQueue_RenderSCB234_05b400` (zoom/Y/X, $8201+n) desde
+>   `Vblank_FlushSpriteQueue_05c9d6` (vblank_tick_master+$88, flag $10E1EC).
+> * Cabecera A-F documentada. Siguiente: `$057D04..$059342`.
+>
 > **Wave CCCC** (70 entradas, 11 812 B, verde a la tercera: dos tablas
 > de 5 punteros `$2AE90/$2AEE4` + 8 B `$2C900` delante de código) —
 > `$02AE3E..$02DD20` en `slug_states_02aexx.s` (7 bloques de datos).
