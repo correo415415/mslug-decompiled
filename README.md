@@ -22,9 +22,9 @@ runtime and never bundles it.
 
 | Metric | Value |
 |---|---:|
-| Matched functions | **5 598 / 5 598** registered |
-| Matched bytes | **328 288 / 328 288** registered |
-| P ROM coverage | **328 288 / 2 097 152 B** (15.65 %) |
+| Matched functions | **5 662 / 5 662** registered |
+| Matched bytes | **334 672 / 334 672** registered |
+| P ROM coverage | **334 672 / 2 097 152 B** (15.96 %) |
 | Processed P ROM MD5 (target) | `816b3f74c76b3373993407615f1850fe` |
 
 Matched functions are guaranteed to reassemble to bytes that are bitwise

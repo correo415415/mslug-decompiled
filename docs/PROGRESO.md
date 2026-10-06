@@ -11,10 +11,27 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5598/5598 funciones
-BYTES   : 328,288/328,288 (registrados)
-ROM     : 328,288/2,097,152  (15.6540%)
+MATCHED : 5662/5662 funciones
+BYTES   : 334,672/334,672 (registrados)
+ROM     : 334,672/2,097,152  (15.9584%)
 ```
+
+> **Wave OOOO** (64 entradas, 6 384 B; 2 `--entry`) — `$04CBD4..$04E580`
+> en `turret_car_props_04cbxx.s`. Trigesimosegunda wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/oooo_names.txt`, args en
+> `docs/waves/oooo_args.txt`.
+>
+> * Vehículo-torreta (`TurretCar_*`, creado desde `$070EC0`): base con
+>   ángulo 0..31 (`Idle/Track/Recoil`, pasos `AngleStep16/8`), hijo cuerpo
+>   (`Body`, HP por dificultad, muerte → padre `+$21 = $FF`), conductor
+>   (`Driver/DriverPanic/DriverFlee`), cañón guiado (`Cannon`: histórico de
+>   16 ángulos +$88..+$97, `GroundProbeUp`, dispara `Shell` cada 8 frames),
+>   helpers de ángulo/offset/offworld.
+> * Props de misión 3ª tanda (`Prop_Static/Lamp/Hut/Tower/TowerFlag/Bunker/
+>   Bridge/Nest/Shed/Barrier` + fases/wrecks), misma plantilla que GGGG/MMMM,
+>   con MissionWatch `$4429E` y blits `$5022A`; registros de spawn en
+>   `$096BFE..$096C8A`/`$0975F8..$097670`.
+> * Matcher: 5662/5662, 334,672 B, 15.96 %; código real 57.5 %.
 
 > **Wave NNNN** (53 entradas, 3 814 B; 1 `--data` para la tabla de 6
 > punteros `$4CB44`) — `$04BB9A..$04CBD4` en `gun_platform_04bbxx.s`.

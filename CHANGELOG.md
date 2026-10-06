@@ -17,6 +17,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave OOOO — 64 entries (6,384 B): `$04CBD4..$04E580`
+  (`turret_car_props_04cbxx.s`): enemy turret vehicle (`TurretCar_*`: 32-step
+  turret angle with `Idle/Track/Recoil`, `Body`, `Driver*`, guided `Cannon`
+  with a 16-entry angle history firing `Shell`s, angle/offset helpers) and
+  the third batch of destructible mission props (`Prop_Static/Lamp/Hut/
+  Tower/TowerFlag/Bunker/Bridge/Nest/Shed/Barrier` with their damaged/wreck
+  phases, MissionWatch `$4429E`, blits `$5022A`). Matcher 5662/5662, 15.96 %.
 - Wave NNNN — 53 entries (3,814 B, incl. a 24 B pointer table):
   `$04BB9A..$04CBD4` (`gun_platform_04bbxx.s`): enemy gun emplacement
   (templates `$E8214..$E8220`): 4-variant base `GunPlatform_Spawn`, burst
