@@ -15,59 +15,59 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049ff2  @ $049FF2  (26 B)
+|  HumanDeath_Dispatch_049ff2  @ $049FF2  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049ff2, "ax", @progbits
-        .global TaskHandler_049ff2
-TaskHandler_049ff2:
+        .section .text.HumanDeath_Dispatch_049ff2, "ax", @progbits
+        .global HumanDeath_Dispatch_049ff2
+HumanDeath_Dispatch_049ff2:
         bsr.b   Sub_00049FBA                    | +000
         bcc.w   SetHandlerRts_04a012            | +002
         jsr     0x27eba.l                       | +006
         bcc.w   SetTaskHandler_04a00c           | +00c
-        lea     Handler_0004A034(pc),a1         | +010
+        lea     HumanDeath_EntryKind2_04a034(pc),a1 | +010
         move.l  a1,(a6)                         | +014
         bra.w   SetHandlerRts_04a012            | +016
 
 | ----------------------------------------------------------------------------
-|  Handler_0004A014  @ $04A014  (16 B)
+|  HumanDeath_EntryKind0_04a014  @ $04A014  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Handler_0004A014, "ax", @progbits
-        .global Handler_0004A014
-Handler_0004A014:
+        .section .text.HumanDeath_EntryKind0_04a014, "ax", @progbits
+        .global HumanDeath_EntryKind0_04a014
+HumanDeath_EntryKind0_04a014:
         jsr     0x27f60.l                       | +000
         scc.b   0x70(a6)                        | +006
         moveq   #0,d7                           | +00a
-        bra.w   Handler_0004A034__L04a050       | +00c
+        bra.w   HumanDeath_EntryKind2_04a034__L04a050 | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a024  @ $04A024  (16 B)
+|  HumanDeath_EntryKind1_04a024  @ $04A024  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a024, "ax", @progbits
-        .global TaskHandler_04a024
-TaskHandler_04a024:
+        .section .text.HumanDeath_EntryKind1_04a024, "ax", @progbits
+        .global HumanDeath_EntryKind1_04a024
+HumanDeath_EntryKind1_04a024:
         jsr     0x27f60.l                       | +000
         scc.b   0x70(a6)                        | +006
         moveq   #1,d7                           | +00a
-        bra.w   Handler_0004A034__L04a050       | +00c
+        bra.w   HumanDeath_EntryKind2_04a034__L04a050 | +00c
 
 | ----------------------------------------------------------------------------
-|  Handler_0004A034  @ $04A034  (104 B)
+|  HumanDeath_EntryKind2_04a034  @ $04A034  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.Handler_0004A034, "ax", @progbits
-        .global Handler_0004A034
-Handler_0004A034:
+        .section .text.HumanDeath_EntryKind2_04a034, "ax", @progbits
+        .global HumanDeath_EntryKind2_04a034
+HumanDeath_EntryKind2_04a034:
         jsr     0x27f60.l                       | +000
         scc.b   0x70(a6)                        | +006
         moveq   #2,d7                           | +00a
         bra.w   .L04a050                        | +00c
-        .global Handler_0004A034__L04a044
-Handler_0004A034__L04a044:
+        .global HumanDeath_EntryKind2_04a034__L04a044
+HumanDeath_EntryKind2_04a034__L04a044:
 .L04a044:
         jsr     0x27f60.l                       | +010
         scc.b   0x70(a6)                        | +016
         moveq   #3,d7                           | +01a
-        .global Handler_0004A034__L04a050
-Handler_0004A034__L04a050:
+        .global HumanDeath_EntryKind2_04a034__L04a050
+HumanDeath_EntryKind2_04a034__L04a050:
 .L04a050:
         move.w  0x22(a6),d0                     | +01c
         sub.w   0x54(a6),d0                     | +020
@@ -78,7 +78,7 @@ Handler_0004A034__L04a050:
         move.b  d1,0x71(a6)                     | +030
         andi.w  #0xff,d7                        | +034
         lsl.w   #0x2,d7                         | +038
-        lea     Sub_00049FAA(pc),a0             | +03a  -> $049FAA (hueco futuro, defsym forward)
+        lea     Sub_00049FAA(pc),a0             | +03a
         movea.l (a0,d7.w),a0                    | +03e
         moveq   #0,d0                           | +042
         move.b  0x58(a6),d0                     | +044
@@ -88,19 +88,19 @@ Handler_0004A034__L04a050:
 .L04a088:
         lsl.w   #0x2,d0                         | +054
         move.l  (a0,d0.w),-(a7)                 | +056
-        bsr.w   Sub_0004A09C                    | +05a
+        bsr.w   HumanDeath_ResetBody_04a09c     | +05a
         jsr     0x8f308.l                       | +05e
         movea.l (a7)+,a0                        | +064
         jmp     (a0)                            | +066
 
 | ----------------------------------------------------------------------------
-|  Sub_0004A09C  @ $04A09C  (56 B)
+|  HumanDeath_ResetBody_04a09c  @ $04A09C  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004A09C, "ax", @progbits
-        .global Sub_0004A09C
-Sub_0004A09C:
+        .section .text.HumanDeath_ResetBody_04a09c, "ax", @progbits
+        .global HumanDeath_ResetBody_04a09c
+HumanDeath_ResetBody_04a09c:
         jsr     0x2783a.l                       | +000
-        bsr.w   Sub_0004A0D4                    | +006
+        bsr.w   HumanDeath_PlayCryByKind_04a0d4 | +006
         bclr    #0x1,0x12(a6)                   | +00a
         move.w  #0xffff,0x34(a6)                | +010
         move.l  #0xffffffff,0x60(a6)            | +016
@@ -112,11 +112,11 @@ Sub_0004A09C:
         rts                                     | +036
 
 | ----------------------------------------------------------------------------
-|  Sub_0004A0D4  @ $04A0D4  (146 B)
+|  HumanDeath_PlayCryByKind_04a0d4  @ $04A0D4  (146 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004A0D4, "ax", @progbits
-        .global Sub_0004A0D4
-Sub_0004A0D4:
+        .section .text.HumanDeath_PlayCryByKind_04a0d4, "ax", @progbits
+        .global HumanDeath_PlayCryByKind_04a0d4
+HumanDeath_PlayCryByKind_04a0d4:
         move.w  #0xe,d1                         | +000
         tst.b   0x10fd8f.l                      | +004
         bne.w   .L04a0e6                        | +00a
@@ -149,19 +149,19 @@ Sub_0004A0D4:
         jmp     0x236e.l                        | +06c
         jsr     0x27f60.l                       | +072
         scc.b   0x70(a6)                        | +078
-        bra.w   TaskHandler_04a4a2              | +07c
+        bra.w   HumanDeath_TumbleBackLand_04a4a2 | +07c
         jsr     0x27f60.l                       | +080
         scc.b   0x70(a6)                        | +086
-        bsr.w   Sub_0004A0D4                    | +08a
-        bra.w   TaskHandler_04a54a__L04a5a6     | +08e
+        bsr.w   HumanDeath_PlayCryByKind_04a0d4 | +08a
+        bra.w   HumanDeath_Collapse_04a54a__L04a5a6 | +08e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a16e  @ $04A16E  (30 B)
+|  HumanDeath_SpawnCorpseA_04a16e  @ $04A16E  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a16e, "ax", @progbits
-        .global TaskHandler_04a16e
-TaskHandler_04a16e:
-        lea     TaskHandler_04a18c(pc),a1       | +000
+        .section .text.HumanDeath_SpawnCorpseA_04a16e, "ax", @progbits
+        .global HumanDeath_SpawnCorpseA_04a16e
+HumanDeath_SpawnCorpseA_04a16e:
+        lea     HumanDeath_CorpseA_04a18c(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  0x22(a6),0x54(a0)               | +010
@@ -169,21 +169,21 @@ TaskHandler_04a16e:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a18c  @ $04A18C  (8 B)
+|  HumanDeath_CorpseA_04a18c  @ $04A18C  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a18c, "ax", @progbits
-        .global TaskHandler_04a18c
-TaskHandler_04a18c:
-        bsr.w   Sub_0004A09C                    | +000
-        bra.w   Sub_0004A6B2__L04a72e           | +004
+        .section .text.HumanDeath_CorpseA_04a18c, "ax", @progbits
+        .global HumanDeath_CorpseA_04a18c
+HumanDeath_CorpseA_04a18c:
+        bsr.w   HumanDeath_ResetBody_04a09c     | +000
+        bra.w   HumanDeath_InitBurst_04a6b2__L04a72e | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a194  @ $04A194  (30 B)
+|  HumanDeath_SpawnCorpseB_04a194  @ $04A194  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a194, "ax", @progbits
-        .global TaskHandler_04a194
-TaskHandler_04a194:
-        lea     TaskHandler_04a1b2(pc),a1       | +000
+        .section .text.HumanDeath_SpawnCorpseB_04a194, "ax", @progbits
+        .global HumanDeath_SpawnCorpseB_04a194
+HumanDeath_SpawnCorpseB_04a194:
+        lea     HumanDeath_CorpseB_04a1b2(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  0x22(a6),0x54(a0)               | +010
@@ -191,28 +191,28 @@ TaskHandler_04a194:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a1b2  @ $04A1B2  (8 B)
+|  HumanDeath_CorpseB_04a1b2  @ $04A1B2  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a1b2, "ax", @progbits
-        .global TaskHandler_04a1b2
-TaskHandler_04a1b2:
-        bsr.w   Sub_0004A09C                    | +000
-        bra.w   TaskHandler_04a7f4__L04a802     | +004
+        .section .text.HumanDeath_CorpseB_04a1b2, "ax", @progbits
+        .global HumanDeath_CorpseB_04a1b2
+HumanDeath_CorpseB_04a1b2:
+        bsr.w   HumanDeath_ResetBody_04a09c     | +000
+        bra.w   HumanDeath_Launched_04a7f4__L04a802 | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a1ba  @ $04A1BA  (4 B)
+|  HumanDeath_LoadTimer_04a1ba  @ $04A1BA  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a1ba, "ax", @progbits
-        .global TaskHandler_04a1ba
-TaskHandler_04a1ba:
+        .section .text.HumanDeath_LoadTimer_04a1ba, "ax", @progbits
+        .global HumanDeath_LoadTimer_04a1ba
+HumanDeath_LoadTimer_04a1ba:
         move.w  0x74(a6),d0                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a1c6  @ $04A1C6  (42 B)
+|  HumanDeath_DampVelocity_04a1c6  @ $04A1C6  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a1c6, "ax", @progbits
-        .global TaskHandler_04a1c6
-TaskHandler_04a1c6:
+        .section .text.HumanDeath_DampVelocity_04a1c6, "ax", @progbits
+        .global HumanDeath_DampVelocity_04a1c6
+HumanDeath_DampVelocity_04a1c6:
         move.w  0x28(a6),d0                     | +000
         beq.w   .L04a1da                        | +004
         asr.w   #0x5,d0                         | +008
@@ -232,32 +232,32 @@ TaskHandler_04a1c6:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a1f0  @ $04A1F0  (12 B)
+|  HumanDeath_SetVelXByFacing_04a1f0  @ $04A1F0  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a1f0, "ax", @progbits
-        .global TaskHandler_04a1f0
-TaskHandler_04a1f0:
+        .section .text.HumanDeath_SetVelXByFacing_04a1f0, "ax", @progbits
+        .global HumanDeath_SetVelXByFacing_04a1f0
+HumanDeath_SetVelXByFacing_04a1f0:
         btst    #0x0,0x3a(a6)                   | +000
         bne.w   SetTaskW_04a1fc                 | +006
         neg.w   d0                              | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a202  @ $04A202  (14 B)
+|  HumanDeath_RandBelowY_04a202  @ $04A202  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a202, "ax", @progbits
-        .global TaskHandler_04a202
-TaskHandler_04a202:
+        .section .text.HumanDeath_RandBelowY_04a202, "ax", @progbits
+        .global HumanDeath_RandBelowY_04a202
+HumanDeath_RandBelowY_04a202:
         jsr     0x5e9b6.l                       | +000
         move.w  0x24(a6),d1                     | +006
         cmp.b   d1,d0                           | +00a
         rts                                     | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a218  @ $04A218  (72 B)
+|  HumanDeath_PhysicsAir_04a218  @ $04A218  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a218, "ax", @progbits
-        .global TaskHandler_04a218
-TaskHandler_04a218:
+        .section .text.HumanDeath_PhysicsAir_04a218, "ax", @progbits
+        .global HumanDeath_PhysicsAir_04a218
+HumanDeath_PhysicsAir_04a218:
         jsr     0x27f08.l                       | +000
         bcc.w   .L04a22a                        | +006
         move.b  d3,0x70(a6)                     | +00a
@@ -270,7 +270,7 @@ TaskHandler_04a218:
 .L04a23a:
         move.b  #0xff,0x70(a6)                  | +022
 .L04a240:
-        bsr.b   TaskHandler_04a1c6              | +028
+        bsr.b   HumanDeath_DampVelocity_04a1c6  | +028
         tst.b   0x70(a6)                        | +02a
         bne.w   .L04a25c                        | +02e
         move.w  #0xff40,0x2e(a6)                | +032
@@ -278,14 +278,14 @@ TaskHandler_04a218:
         scs.b   0x70(a6)                        | +03e
         rts                                     | +042
 .L04a25c:
-        bsr.w   TaskHandler_04a1c6              | +044
+        bsr.w   HumanDeath_DampVelocity_04a1c6  | +044
 
 | ----------------------------------------------------------------------------
-|  Sub_0004A268  @ $04A268  (86 B)
+|  HumanDeath_PhysicsGround_04a268  @ $04A268  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004A268, "ax", @progbits
-        .global Sub_0004A268
-Sub_0004A268:
+        .section .text.HumanDeath_PhysicsGround_04a268, "ax", @progbits
+        .global HumanDeath_PhysicsGround_04a268
+HumanDeath_PhysicsGround_04a268:
         jsr     0x27fd8.l                       | +000
         bcc.w   .L04a27a                        | +006
         move.b  d3,0x70(a6)                     | +00a
@@ -298,25 +298,25 @@ Sub_0004A268:
 .L04a28a:
         move.b  #0xff,0x70(a6)                  | +022
 .L04a290:
-        bsr.w   TaskHandler_04a1c6              | +028
+        bsr.w   HumanDeath_DampVelocity_04a1c6  | +028
         tst.b   0x70(a6)                        | +02c
         bne.w   .L04a2a8                        | +030
         jsr     0x27d50.l                       | +034
         scs.b   0x70(a6)                        | +03a
         rts                                     | +03e
 .L04a2a8:
-        bsr.w   TaskHandler_04a1c6              | +040
+        bsr.w   HumanDeath_DampVelocity_04a1c6  | +040
         jsr     0x27a92.l                       | +044
         jsr     0x27fac.l                       | +04a
         scc.b   0x70(a6)                        | +050
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  Sub_0004A2BE  @ $04A2BE  (224 B)
+|  HumanDeath_PhysicsFall_04a2be  @ $04A2BE  (224 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004A2BE, "ax", @progbits
-        .global Sub_0004A2BE
-Sub_0004A2BE:
+        .section .text.HumanDeath_PhysicsFall_04a2be, "ax", @progbits
+        .global HumanDeath_PhysicsFall_04a2be
+HumanDeath_PhysicsFall_04a2be:
         jsr     0x27f08.l                       | +000
         bcc.w   .L04a2d0                        | +006
         move.b  d3,0x70(a6)                     | +00a
@@ -361,8 +361,8 @@ Sub_0004A2BE:
         jsr     0x27fac.l                       | +094
         scc.b   0x70(a6)                        | +09a
         rts                                     | +09e
-        .global Sub_0004A2BE__L04a35e
-Sub_0004A2BE__L04a35e:
+        .global HumanDeath_PhysicsFall_04a2be__L04a35e
+HumanDeath_PhysicsFall_04a2be__L04a35e:
 .L04a35e:
         move.w  0x22(a6),d0                     | +0a0
         addi.w  #0x20,d0                        | +0a4
@@ -375,44 +375,44 @@ Sub_0004A2BE__L04a35e:
         jmp     JmpToScheduler_04a210(pc)       | +0be
 .L04a380:
         rts                                     | +0c2
-        .global Sub_0004A2BE__L04a382
-Sub_0004A2BE__L04a382:
+        .global HumanDeath_PhysicsFall_04a2be__L04a382
+HumanDeath_PhysicsFall_04a2be__L04a382:
 .L04a382:
         lea     .L04a388(pc),a1                 | +0c4
         move.l  a1,(a6)                         | +0c8
 .L04a388:
-        bsr.w   TaskHandler_04a218              | +0ca
+        bsr.w   HumanDeath_PhysicsAir_04a218    | +0ca
         jsr     0x28d70.l                       | +0ce
         bcc.w   .L04a39c                        | +0d4
-        lea     TaskHandler_04a39e(pc),a1       | +0d8
+        lea     HumanDeath_FadeOut_04a39e(pc),a1 | +0d8
         move.l  a1,(a6)                         | +0dc
 .L04a39c:
         bra.b   .L04a35e                        | +0de
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a39e  @ $04A39E  (106 B)
+|  HumanDeath_FadeOut_04a39e  @ $04A39E  (106 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a39e, "ax", @progbits
-        .global TaskHandler_04a39e
-TaskHandler_04a39e:
+        .section .text.HumanDeath_FadeOut_04a39e, "ax", @progbits
+        .global HumanDeath_FadeOut_04a39e
+HumanDeath_FadeOut_04a39e:
         move.b  #0xa,0x5c(a6)                   | +000
         lea     .L04a3aa(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
 .L04a3aa:
-        bsr.w   TaskHandler_04a218              | +00c
+        bsr.w   HumanDeath_PhysicsAir_04a218    | +00c
         jsr     0x28d70.l                       | +010
         subq.b  #0x1,0x5c(a6)                   | +016
         bne.w   .L04a3c2                        | +01a
         lea     .L04a3c4(pc),a1                 | +01e
         move.l  a1,(a6)                         | +022
 .L04a3c2:
-        bra.b   Sub_0004A2BE__L04a35e           | +024
+        bra.b   HumanDeath_PhysicsFall_04a2be__L04a35e | +024
 .L04a3c4:
         move.b  #0xa,0x5c(a6)                   | +026
         lea     .L04a3d0(pc),a1                 | +02c
         move.l  a1,(a6)                         | +030
 .L04a3d0:
-        jsr     TaskHandler_04a218(pc)          | +032
+        jsr     HumanDeath_PhysicsAir_04a218(pc) | +032
         subq.b  #0x1,0x5c(a6)                   | +036
         bne.w   .L04a3e4                        | +03a
         jmp     JmpToScheduler_04a210(pc)       | +03e
@@ -422,21 +422,21 @@ TaskHandler_04a39e:
         bne.w   .L04a3f4                        | +04c
         jsr     0x28d70.l                       | +050
 .L04a3f4:
-        bra.w   Sub_0004A2BE__L04a35e           | +056
-        .global TaskHandler_04a39e__L04a3f8
-TaskHandler_04a39e__L04a3f8:
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +056
+        .global HumanDeath_FadeOut_04a39e__L04a3f8
+HumanDeath_FadeOut_04a39e__L04a3f8:
 .L04a3f8:
-        bsr.w   TaskHandler_04aad2__L04aae0     | +05a
+        bsr.w   HumanDeath_SpawnBloodSplash_04aad2__L04aae0 | +05a
         tst.b   0x71(a6)                        | +05e
-        bne.w   TaskHandler_04a420              | +062
-        bra.w   TaskHandler_04a4c8              | +066
+        bne.w   HumanDeath_TumbleBackStart_04a420 | +062
+        bra.w   HumanDeath_TumbleFwdStart_04a4c8 | +066
 
 | ----------------------------------------------------------------------------
-|  Data_04a408  @ $04A408  (24 B)
+|  HumanDeath_TumbleBackSpriteTbl_04a408  @ $04A408  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_04a408, "ax", @progbits
-        .global Data_04a408
-Data_04a408:
+        .section .text.HumanDeath_TumbleBackSpriteTbl_04a408, "ax", @progbits
+        .global HumanDeath_TumbleBackSpriteTbl_04a408
+HumanDeath_TumbleBackSpriteTbl_04a408:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb404                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
@@ -451,71 +451,71 @@ Data_04a408:
         .dc.w   0x0000                        | +016  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a420  @ $04A420  (24 B)
+|  HumanDeath_TumbleBackStart_04a420  @ $04A420  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a420, "ax", @progbits
-        .global TaskHandler_04a420
-TaskHandler_04a420:
-        bsr.w   TaskHandler_04a202              | +000
-        bcs.w   TaskHandler_04a54a__L04a620     | +004
+        .section .text.HumanDeath_TumbleBackStart_04a420, "ax", @progbits
+        .global HumanDeath_TumbleBackStart_04a420
+HumanDeath_TumbleBackStart_04a420:
+        bsr.w   HumanDeath_RandBelowY_04a202    | +000
+        bcs.w   HumanDeath_Collapse_04a54a__L04a620 | +004
         jsr     0x5e9b6.l                       | +008
         tst.w   d0                              | +00e
-        bmi.w   TaskHandler_04a54a__L04a568     | +010
+        bmi.w   HumanDeath_Collapse_04a54a__L04a568 | +010
         clr.b   0x72(a6)                        | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a438  @ $04A438  (106 B)
+|  HumanDeath_TumbleBack_04a438  @ $04A438  (106 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a438, "ax", @progbits
-        .global TaskHandler_04a438
-TaskHandler_04a438:
-        lea     Data_04a408(pc),a0              | +000
+        .section .text.HumanDeath_TumbleBack_04a438, "ax", @progbits
+        .global HumanDeath_TumbleBack_04a438
+HumanDeath_TumbleBack_04a438:
+        lea     HumanDeath_TumbleBackSpriteTbl_04a408(pc),a0 | +000
         moveq   #0,d0                           | +004
         move.b  0x72(a6),d0                     | +006
         lsl.w   #0x2,d0                         | +00a
         move.l  (a0,d0.w),d0                    | +00c
-        beq.w   TaskHandler_04a4a2              | +010
+        beq.w   HumanDeath_TumbleBackLand_04a4a2 | +010
         movea.l d0,a0                           | +014
         jsr     0x28cd4.l                       | +016
         addq.b  #0x1,0x72(a6)                   | +01c
         bclr    #0x3,0x13(a6)                   | +020
         move.w  #0xff80,d0                      | +026
-        bsr.w   TaskHandler_04a1f0              | +02a
+        bsr.w   HumanDeath_SetVelXByFacing_04a1f0 | +02a
         addi.w  #0x80,0x2a(a6)                  | +02e
         addq.w  #0x2,0x24(a6)                   | +034
         lea     .L04a476(pc),a1                 | +038
         move.l  a1,(a6)                         | +03c
 .L04a476:
-        bsr.w   TaskHandler_04a218              | +03e
+        bsr.w   HumanDeath_PhysicsAir_04a218    | +03e
         jsr     0x28d70.l                       | +042
         bcc.w   .L04a49e                        | +048
         jsr     0x2870a.l                       | +04c
         bcc.w   .L04a498                        | +052
-        lea     TaskHandler_04a438(pc),a1       | +056
+        lea     HumanDeath_TumbleBack_04a438(pc),a1 | +056
         move.l  a1,(a6)                         | +05a
         bra.w   .L04a49e                        | +05c
 .L04a498:
-        lea     TaskHandler_04a4a2(pc),a1       | +060
+        lea     HumanDeath_TumbleBackLand_04a4a2(pc),a1 | +060
         move.l  a1,(a6)                         | +064
 .L04a49e:
-        bra.w   Sub_0004A2BE__L04a35e           | +066
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +066
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a4a2  @ $04A4A2  (14 B)
+|  HumanDeath_TumbleBackLand_04a4a2  @ $04A4A2  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a4a2, "ax", @progbits
-        .global TaskHandler_04a4a2
-TaskHandler_04a4a2:
-        lea     Data_04ac56__L04b6b8(pc),a0     | +000
+        .section .text.HumanDeath_TumbleBackLand_04a4a2, "ax", @progbits
+        .global HumanDeath_TumbleBackLand_04a4a2
+HumanDeath_TumbleBackLand_04a4a2:
+        lea     HumanDeath_SpriteTbls_04ac56__L04b6b8(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
-        bra.w   Sub_0004A2BE__L04a382           | +00a
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +00a
 
 | ----------------------------------------------------------------------------
-|  Data_04a4b0  @ $04A4B0  (24 B)
+|  HumanDeath_TumbleFwdSpriteTbl_04a4b0  @ $04A4B0  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_04a4b0, "ax", @progbits
-        .global Data_04a4b0
-Data_04a4b0:
+        .section .text.HumanDeath_TumbleFwdSpriteTbl_04a4b0, "ax", @progbits
+        .global HumanDeath_TumbleFwdSpriteTbl_04a4b0
+HumanDeath_TumbleFwdSpriteTbl_04a4b0:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0xb4c0                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
@@ -530,101 +530,101 @@ Data_04a4b0:
         .dc.w   0x0000                        | +016  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a4c8  @ $04A4C8  (24 B)
+|  HumanDeath_TumbleFwdStart_04a4c8  @ $04A4C8  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a4c8, "ax", @progbits
-        .global TaskHandler_04a4c8
-TaskHandler_04a4c8:
-        bsr.w   TaskHandler_04a202              | +000
-        bcs.w   TaskHandler_04a54a__L04a620     | +004
+        .section .text.HumanDeath_TumbleFwdStart_04a4c8, "ax", @progbits
+        .global HumanDeath_TumbleFwdStart_04a4c8
+HumanDeath_TumbleFwdStart_04a4c8:
+        bsr.w   HumanDeath_RandBelowY_04a202    | +000
+        bcs.w   HumanDeath_Collapse_04a54a__L04a620 | +004
         jsr     0x5e9b6.l                       | +008
         tst.w   d0                              | +00e
-        bmi.w   TaskHandler_04a54a__L04a568     | +010
+        bmi.w   HumanDeath_Collapse_04a54a__L04a568 | +010
         clr.b   0x72(a6)                        | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a4e0  @ $04A4E0  (106 B)
+|  HumanDeath_TumbleFwd_04a4e0  @ $04A4E0  (106 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a4e0, "ax", @progbits
-        .global TaskHandler_04a4e0
-TaskHandler_04a4e0:
-        lea     Data_04a4b0(pc),a0              | +000
+        .section .text.HumanDeath_TumbleFwd_04a4e0, "ax", @progbits
+        .global HumanDeath_TumbleFwd_04a4e0
+HumanDeath_TumbleFwd_04a4e0:
+        lea     HumanDeath_TumbleFwdSpriteTbl_04a4b0(pc),a0 | +000
         moveq   #0,d0                           | +004
         move.b  0x72(a6),d0                     | +006
         lsl.w   #0x2,d0                         | +00a
         move.l  (a0,d0.w),d0                    | +00c
-        beq.w   TaskHandler_04a54a              | +010
+        beq.w   HumanDeath_Collapse_04a54a      | +010
         movea.l d0,a0                           | +014
         jsr     0x28cd4.l                       | +016
         addq.b  #0x1,0x72(a6)                   | +01c
         bclr    #0x3,0x13(a6)                   | +020
         move.w  #0x80,d0                        | +026
-        bsr.w   TaskHandler_04a1f0              | +02a
+        bsr.w   HumanDeath_SetVelXByFacing_04a1f0 | +02a
         addi.w  #0x80,0x2a(a6)                  | +02e
         addq.w  #0x2,0x24(a6)                   | +034
         lea     .L04a51e(pc),a1                 | +038
         move.l  a1,(a6)                         | +03c
 .L04a51e:
-        bsr.w   TaskHandler_04a218              | +03e
+        bsr.w   HumanDeath_PhysicsAir_04a218    | +03e
         jsr     0x28d70.l                       | +042
         bcc.w   .L04a546                        | +048
         jsr     0x2870a.l                       | +04c
         bcc.w   .L04a540                        | +052
-        lea     TaskHandler_04a4e0(pc),a1       | +056
+        lea     HumanDeath_TumbleFwd_04a4e0(pc),a1 | +056
         move.l  a1,(a6)                         | +05a
         bra.w   .L04a546                        | +05c
 .L04a540:
-        lea     TaskHandler_04a54a(pc),a1       | +060
+        lea     HumanDeath_Collapse_04a54a(pc),a1 | +060
         move.l  a1,(a6)                         | +064
 .L04a546:
-        bra.w   Sub_0004A2BE__L04a35e           | +066
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +066
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a54a  @ $04A54A  (296 B)
+|  HumanDeath_Collapse_04a54a  @ $04A54A  (296 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a54a, "ax", @progbits
-        .global TaskHandler_04a54a
-TaskHandler_04a54a:
+        .section .text.HumanDeath_Collapse_04a54a, "ax", @progbits
+        .global HumanDeath_Collapse_04a54a
+HumanDeath_Collapse_04a54a:
         jsr     0x5e9b6.l                       | +000
-        lea     Data_04ac56__L04b57c(pc),a0     | +006
+        lea     HumanDeath_SpriteTbls_04ac56__L04b57c(pc),a0 | +006
         tst.w   d0                              | +00a
         bpl.w   .L04a55e                        | +00c
-        lea     Data_04ac56__L04b61a(pc),a0     | +010
+        lea     HumanDeath_SpriteTbls_04ac56__L04b61a(pc),a0 | +010
 .L04a55e:
         jsr     0x28cd4.l                       | +014
-        bra.w   Sub_0004A2BE__L04a382           | +01a
-        .global TaskHandler_04a54a__L04a568
-TaskHandler_04a54a__L04a568:
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +01a
+        .global HumanDeath_Collapse_04a54a__L04a568
+HumanDeath_Collapse_04a54a__L04a568:
 .L04a568:
         tst.b   0x71(a6)                        | +01e
         beq.w   .L04a586                        | +022
-        lea     Data_04ac56__L04b1f6(pc),a0     | +026
+        lea     HumanDeath_SpriteTbls_04ac56__L04b1f6(pc),a0 | +026
         jsr     0x28cd4.l                       | +02a
         move.w  #0xfc00,d0                      | +030
-        bsr.w   TaskHandler_04a1f0              | +034
+        bsr.w   HumanDeath_SetVelXByFacing_04a1f0 | +034
         bra.w   .L04a598                        | +038
 .L04a586:
-        lea     Data_04ac56__L04b28c(pc),a0     | +03c
+        lea     HumanDeath_SpriteTbls_04ac56__L04b28c(pc),a0 | +03c
         jsr     0x28cd4.l                       | +040
         move.w  #0x400,d0                       | +046
-        bsr.w   TaskHandler_04a1f0              | +04a
+        bsr.w   HumanDeath_SetVelXByFacing_04a1f0 | +04a
 .L04a598:
         move.w  #0x100,0x2a(a6)                 | +04e
         addq.w  #0x2,0x24(a6)                   | +054
-        bra.w   Sub_0004A2BE__L04a382           | +058
-        .global TaskHandler_04a54a__L04a5a6
-TaskHandler_04a54a__L04a5a6:
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +058
+        .global HumanDeath_Collapse_04a54a__L04a5a6
+HumanDeath_Collapse_04a54a__L04a5a6:
 .L04a5a6:
-        lea     Data_04ac56__L04b34a(pc),a0     | +05c
+        lea     HumanDeath_SpriteTbls_04ac56__L04b34a(pc),a0 | +05c
         jsr     0x28cd4.l                       | +060
-        bra.w   Sub_0004A2BE__L04a382           | +066
-        lea     Data_04ac56__L04ad90(pc),a0     | +06a
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +066
+        lea     HumanDeath_SpriteTbls_04ac56__L04ad90(pc),a0 | +06a
         tst.b   0x71(a6)                        | +06e
         beq.w   .L04a5c4                        | +072
-        lea     Data_04ac56__L04ae22(pc),a0     | +076
+        lea     HumanDeath_SpriteTbls_04ac56__L04ae22(pc),a0 | +076
 .L04a5c4:
         jsr     0x28cd4.l                       | +07a
-        bra.w   Sub_0004A2BE__L04a382           | +080
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +080
         jsr     0x27f60.l                       | +084
         scc.b   0x70(a6)                        | +08a
         jsr     0x13600.l                       | +08e
@@ -634,22 +634,22 @@ TaskHandler_04a54a__L04a5a6:
         move.w  #0x155,d1                       | +0a2
 .L04a5f0:
         jsr     0x236e.l                        | +0a6
-        lea     Data_04ac56__L04b13c(pc),a0     | +0ac
+        lea     HumanDeath_SpriteTbls_04ac56__L04b13c(pc),a0 | +0ac
         jsr     0x28cd4.l                       | +0b0
-        bra.w   Sub_0004A2BE__L04a382           | +0b6
-        lea     Data_04ac56__L04b136(pc),a0     | +0ba
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +0b6
+        lea     HumanDeath_SpriteTbls_04ac56__L04b136(pc),a0 | +0ba
         jsr     0x28cd4.l                       | +0be
-        bra.w   Sub_0004A2BE__L04a382           | +0c4
-        .global TaskHandler_04a54a__L04a612
-TaskHandler_04a54a__L04a612:
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +0c4
+        .global HumanDeath_Collapse_04a54a__L04a612
+HumanDeath_Collapse_04a54a__L04a612:
 .L04a612:
-        lea     Data_04ac56__L04b78c(pc),a0     | +0c8
+        lea     HumanDeath_SpriteTbls_04ac56__L04b78c(pc),a0 | +0c8
         jsr     0x28cd4.l                       | +0cc
         bra.w   .L04a62a                        | +0d2
-        .global TaskHandler_04a54a__L04a620
-TaskHandler_04a54a__L04a620:
+        .global HumanDeath_Collapse_04a54a__L04a620
+HumanDeath_Collapse_04a54a__L04a620:
 .L04a620:
-        lea     Data_04ac56__L04b74c(pc),a0     | +0d6
+        lea     HumanDeath_SpriteTbls_04ac56__L04b74c(pc),a0 | +0d6
         jsr     0x28cd4.l                       | +0da
 .L04a62a:
         tst.b   0x71(a6)                        | +0e0
@@ -657,52 +657,52 @@ TaskHandler_04a54a__L04a620:
         bchg    #0x0,0x3a(a6)                   | +0e8
 .L04a638:
         move.w  #0xff38,d0                      | +0ee
-        bsr.w   TaskHandler_04a1f0              | +0f2
+        bsr.w   HumanDeath_SetVelXByFacing_04a1f0 | +0f2
         move.w  #0xff40,0x2e(a6)                | +0f6
         move.w  #0x0,0x2a(a6)                   | +0fc
         lea     .L04a652(pc),a1                 | +102
         move.l  a1,(a6)                         | +106
 .L04a652:
-        bsr.w   Sub_0004A268                    | +108
+        bsr.w   HumanDeath_PhysicsGround_04a268 | +108
         jsr     0x28d70.l                       | +10c
         bcc.w   .L04a66e                        | +112
         tst.b   0x70(a6)                        | +116
         beq.w   .L04a66e                        | +11a
-        lea     TaskHandler_04a672(pc),a1       | +11e
+        lea     HumanDeath_Knockdown_04a672(pc),a1 | +11e
         move.l  a1,(a6)                         | +122
 .L04a66e:
-        bra.w   Sub_0004A2BE__L04a35e           | +124
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +124
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a672  @ $04A672  (64 B)
+|  HumanDeath_Knockdown_04a672  @ $04A672  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a672, "ax", @progbits
-        .global TaskHandler_04a672
-TaskHandler_04a672:
-        lea     Data_04ac56__L04b7b8(pc),a0     | +000
+        .section .text.HumanDeath_Knockdown_04a672, "ax", @progbits
+        .global HumanDeath_Knockdown_04a672
+HumanDeath_Knockdown_04a672:
+        lea     HumanDeath_SpriteTbls_04ac56__L04b7b8(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
-        bra.w   Sub_0004A2BE__L04a382           | +00a
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +00a
         jsr     0x5e9b6.l                       | +00e
         tst.w   d0                              | +014
-        bmi.w   TaskHandler_04a54a__L04a612     | +016
-        lea     Data_04ac56__L04acfe(pc),a0     | +01a
+        bmi.w   HumanDeath_Collapse_04a54a__L04a612 | +016
+        lea     HumanDeath_SpriteTbls_04ac56__L04acfe(pc),a0 | +01a
         jsr     0x28cd4.l                       | +01e
         lea     .L04a69c(pc),a1                 | +024
         move.l  a1,(a6)                         | +028
 .L04a69c:
-        bsr.w   Sub_0004A268                    | +02a
+        bsr.w   HumanDeath_PhysicsGround_04a268 | +02a
         jsr     0x28d70.l                       | +02e
         bcc.w   .L04a6ae                        | +034
         jmp     JmpToScheduler_04a210(pc)       | +038
 .L04a6ae:
-        bra.w   Sub_0004A2BE__L04a35e           | +03c
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +03c
 
 | ----------------------------------------------------------------------------
-|  Sub_0004A6B2  @ $04A6B2  (230 B)
+|  HumanDeath_InitBurst_04a6b2  @ $04A6B2  (230 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004A6B2, "ax", @progbits
-        .global Sub_0004A6B2
-Sub_0004A6B2:
+        .section .text.HumanDeath_InitBurst_04a6b2, "ax", @progbits
+        .global HumanDeath_InitBurst_04a6b2
+HumanDeath_InitBurst_04a6b2:
         move.w  #0x0,d0                         | +000
         jsr     0x5dca4.l                       | +004
         move.w  d0,0x28(a6)                     | +00a
@@ -724,22 +724,22 @@ Sub_0004A6B2:
         rts                                     | +04e
         jsr     0x5e9b6.l                       | +050
         andi.b  #0x7f,d0                        | +056
-        beq.w   TaskHandler_04a7f4__L04a802     | +05a
+        beq.w   HumanDeath_Launched_04a7f4__L04a802 | +05a
         jsr     0x5e9b6.l                       | +05e
         tst.w   d0                              | +064
-        bmi.w   TaskHandler_04a39e__L04a3f8     | +066
+        bmi.w   HumanDeath_FadeOut_04a39e__L04a3f8 | +066
         jsr     0x5e9b6.l                       | +06a
         andi.w  #0x3,d0                         | +070
-        beq.w   TaskHandler_04a798__L04a7b0     | +074
+        beq.w   HumanDeath_BurstLand_04a798__L04a7b0 | +074
         bra.w   .L04a732                        | +078
-        .global Sub_0004A6B2__L04a72e
-Sub_0004A6B2__L04a72e:
+        .global HumanDeath_InitBurst_04a6b2__L04a72e
+HumanDeath_InitBurst_04a6b2__L04a72e:
 .L04a72e:
         addq.w  #0x4,0x24(a6)                   | +07c
 .L04a732:
-        lea     Data_04ac56__L04af08(pc),a0     | +080
+        lea     HumanDeath_SpriteTbls_04ac56__L04af08(pc),a0 | +080
         jsr     0x28cd4.l                       | +084
-        bsr.w   Sub_0004A6B2                    | +08a
+        bsr.w   HumanDeath_InitBurst_04a6b2     | +08a
         lea     0xffff.w,a0                     | +08e
         move.l  a0,0x48(a6)                     | +092
         bclr    #0x3,0x13(a6)                   | +096
@@ -748,69 +748,69 @@ Sub_0004A6B2__L04a72e:
 .L04a754:
         move.w  0x2a(a6),d0                     | +0a2
         bpl.w   .L04a76a                        | +0a6
-        lea     Data_04ac56__L04aeb4(pc),a0     | +0aa
+        lea     HumanDeath_SpriteTbls_04ac56__L04aeb4(pc),a0 | +0aa
         move.l  a0,0x48(a6)                     | +0ae
         lea     .L04a76a(pc),a1                 | +0b2
         move.l  a1,(a6)                         | +0b6
 .L04a76a:
-        jsr     Sub_0004A268(pc)                | +0b8
+        jsr     HumanDeath_PhysicsGround_04a268(pc) | +0b8
         jsr     0x5e9b6.l                       | +0bc
-        jsr     TaskHandler_04aba8(pc)          | +0c2
+        jsr     HumanDeath_PickGibPtr_04aba8(pc) | +0c2
         jsr     0x2870a.l                       | +0c6
         bcc.w   .L04a786                        | +0cc
-        bsr.w   Handler_0004A034__L04a044       | +0d0
+        bsr.w   HumanDeath_EntryKind2_04a034__L04a044 | +0d0
 .L04a786:
         tst.b   0x70(a6)                        | +0d4
         beq.w   .L04a794                        | +0d8
-        lea     TaskHandler_04a798(pc),a1       | +0dc
+        lea     HumanDeath_BurstLand_04a798(pc),a1 | +0dc
         move.l  a1,(a6)                         | +0e0
 .L04a794:
-        bra.w   Sub_0004A2BE__L04a35e           | +0e2
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +0e2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a798  @ $04A798  (92 B)
+|  HumanDeath_BurstLand_04a798  @ $04A798  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a798, "ax", @progbits
-        .global TaskHandler_04a798
-TaskHandler_04a798:
-        lea     Data_04ac56__L04af9e(pc),a0     | +000
+        .section .text.HumanDeath_BurstLand_04a798, "ax", @progbits
+        .global HumanDeath_BurstLand_04a798
+HumanDeath_BurstLand_04a798:
+        lea     HumanDeath_SpriteTbls_04ac56__L04af9e(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
-        bra.w   Sub_0004A2BE__L04a382           | +00a
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +00a
         jsr     0x27f60.l                       | +00e
         scc.b   0x70(a6)                        | +014
-        .global TaskHandler_04a798__L04a7b0
-TaskHandler_04a798__L04a7b0:
+        .global HumanDeath_BurstLand_04a798__L04a7b0
+HumanDeath_BurstLand_04a798__L04a7b0:
 .L04a7b0:
         addq.w  #0x4,0x24(a6)                   | +018
-        lea     Data_04ac56__L04b078(pc),a0     | +01c
+        lea     HumanDeath_SpriteTbls_04ac56__L04b078(pc),a0 | +01c
         jsr     0x28cd4.l                       | +020
-        bsr.w   Sub_0004A6B2                    | +026
+        bsr.w   HumanDeath_InitBurst_04a6b2     | +026
         jsr     0x13600.l                       | +02a
         move.w  #0x19,d1                        | +030
         jsr     0x236e.l                        | +034
         lea     .L04a7d8(pc),a1                 | +03a
         move.l  a1,(a6)                         | +03e
 .L04a7d8:
-        jsr     Sub_0004A268(pc)                | +040
+        jsr     HumanDeath_PhysicsGround_04a268(pc) | +040
         jsr     0x28d70.l                       | +044
         tst.b   0x70(a6)                        | +04a
         beq.w   .L04a7f0                        | +04e
-        lea     TaskHandler_04a7f4(pc),a1       | +052
+        lea     HumanDeath_Launched_04a7f4(pc),a1 | +052
         move.l  a1,(a6)                         | +056
 .L04a7f0:
-        bra.w   Sub_0004A2BE__L04a35e           | +058
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +058
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a7f4  @ $04A7F4  (444 B)
+|  HumanDeath_Launched_04a7f4  @ $04A7F4  (444 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a7f4, "ax", @progbits
-        .global TaskHandler_04a7f4
-TaskHandler_04a7f4:
-        lea     Data_04ac56__L04b0c6(pc),a0     | +000
+        .section .text.HumanDeath_Launched_04a7f4, "ax", @progbits
+        .global HumanDeath_Launched_04a7f4
+HumanDeath_Launched_04a7f4:
+        lea     HumanDeath_SpriteTbls_04ac56__L04b0c6(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
-        bra.w   Sub_0004A2BE__L04a382           | +00a
-        .global TaskHandler_04a7f4__L04a802
-TaskHandler_04a7f4__L04a802:
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +00a
+        .global HumanDeath_Launched_04a7f4__L04a802
+HumanDeath_Launched_04a7f4__L04a802:
 .L04a802:
         jsr     0x27f60.l                       | +00e
         scc.b   0x70(a6)                        | +014
@@ -823,7 +823,7 @@ TaskHandler_04a7f4__L04a802:
         move.w  #0x870,0x2a(a6)                 | +036
         move.w  #0xffb8,0x2e(a6)                | +03c
         move.w  #0x0,0x2c(a6)                   | +042
-        lea     Data_04ac56__L04b7ec(pc),a0     | +048
+        lea     HumanDeath_SpriteTbls_04ac56__L04b7ec(pc),a0 | +048
         jsr     0x28cd4.l                       | +04c
         move.w  #0x2800,0x5c(a6)                | +052
         move.w  #0xffff,0x38(a6)                | +058
@@ -844,11 +844,11 @@ TaskHandler_04a7f4__L04a802:
         move.b  d1,0x33(a6)                     | +084
         jsr     0x27cee.l                       | +088
         jsr     0x28d70.l                       | +08e
-        bra.w   Sub_0004A2BE__L04a35e           | +094
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +094
         jsr     0x27f60.l                       | +098
         scc.b   0x70(a6)                        | +09e
-        jmp     TaskHandler_04a798__L04a7b0(pc) | +0a2
-        lea     Data_04ac56__L04b1f6(pc),a0     | +0a6
+        jmp     HumanDeath_BurstLand_04a798__L04a7b0(pc) | +0a2
+        lea     HumanDeath_SpriteTbls_04ac56__L04b1f6(pc),a0 | +0a6
         jsr     0x28cd4.l                       | +0aa
         movea.l 0x50(a6),a0                     | +0b0
         cmpi.w  #0x0,0x5c(a0)                   | +0b4
@@ -859,56 +859,56 @@ TaskHandler_04a7f4__L04a802:
         bclr    #0x0,0x3a(a6)                   | +0c8
 .L04a8c2:
         move.w  #0xf800,d0                      | +0ce
-        bsr.w   TaskHandler_04a1f0              | +0d2
+        bsr.w   HumanDeath_SetVelXByFacing_04a1f0 | +0d2
         move.w  #0x100,0x2a(a6)                 | +0d6
         addq.w  #0x2,0x24(a6)                   | +0dc
-        bsr.w   TaskHandler_04aad2              | +0e0
+        bsr.w   HumanDeath_SpawnBloodSplash_04aad2 | +0e0
         lea     .L04a8de(pc),a1                 | +0e4
         move.l  a1,(a6)                         | +0e8
 .L04a8de:
-        bsr.w   TaskHandler_04a218              | +0ea
-        bsr.w   Sub_0004A2BE                    | +0ee
+        bsr.w   HumanDeath_PhysicsAir_04a218    | +0ea
+        bsr.w   HumanDeath_PhysicsFall_04a2be   | +0ee
         jsr     0x28d70.l                       | +0f2
         bcc.w   .L04a8f6                        | +0f8
-        lea     TaskHandler_04a39e(pc),a1       | +0fc
+        lea     HumanDeath_FadeOut_04a39e(pc),a1 | +0fc
         move.l  a1,(a6)                         | +100
 .L04a8f6:
-        bra.w   Sub_0004A2BE__L04a35e           | +102
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +102
         clr.w   0x28(a6)                        | +106
-        lea     Data_04ac56__L04af08(pc),a0     | +10a
+        lea     HumanDeath_SpriteTbls_04ac56__L04af08(pc),a0 | +10a
         jsr     0x28cd4.l                       | +10e
         move.w  #0x800,0x2a(a6)                 | +114
         addq.w  #0x2,0x24(a6)                   | +11a
         clr.w   0x28(a6)                        | +11e
-        bsr.w   TaskHandler_04aad2              | +122
+        bsr.w   HumanDeath_SpawnBloodSplash_04aad2 | +122
         lea     .L04a920(pc),a1                 | +126
         move.l  a1,(a6)                         | +12a
 .L04a920:
-        jsr     TaskHandler_04a218(pc)          | +12c
+        jsr     HumanDeath_PhysicsAir_04a218(pc) | +12c
         clr.w   0x2e(a6)                        | +130
-        bsr.w   Sub_0004A2BE                    | +134
+        bsr.w   HumanDeath_PhysicsFall_04a2be   | +134
         jsr     0x5e9b6.l                       | +138
-        jsr     TaskHandler_04aba8(pc)          | +13e
+        jsr     HumanDeath_PickGibPtr_04aba8(pc) | +13e
         tst.b   0x70(a6)                        | +142
         beq.w   .L04a944                        | +146
-        lea     TaskHandler_04a798(pc),a1       | +14a
+        lea     HumanDeath_BurstLand_04a798(pc),a1 | +14a
         move.l  a1,(a6)                         | +14e
 .L04a944:
-        bra.w   Sub_0004A2BE__L04a35e           | +150
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +150
         move.w  #0x8000,d0                      | +154
         jsr     0x28134.l                       | +158
         andi.w  #0xffe3,0x38(a6)                | +15e
         ori.w   #0x0,0x38(a6)                   | +164
         jsr     0x5e9b6.l                       | +16a
         andi.b  #0x3,d0                         | +170
-        beq.w   TaskHandler_04a9b0__L04a9be     | +174
-        lea     Data_04ac56__L04b82a(pc),a0     | +178
+        beq.w   HumanDeath_Burning_04a9b0__L04a9be | +174
+        lea     HumanDeath_SpriteTbls_04ac56__L04b82a(pc),a0 | +178
         jsr     0x28cd4.l                       | +17c
         move.w  #0x1e,0x30(a6)                  | +182
         lea     .L04a982(pc),a1                 | +188
         move.l  a1,(a6)                         | +18c
 .L04a982:
-        bsr.w   TaskHandler_04a218              | +18e
+        bsr.w   HumanDeath_PhysicsAir_04a218    | +18e
         jsr     0x28d70.l                       | +192
         move.w  0x30(a6),d0                     | +198
         beq.w   .L04a99e                        | +19c
@@ -918,32 +918,32 @@ TaskHandler_04a7f4__L04a802:
 .L04a99e:
         tst.b   0x70(a6)                        | +1aa
         beq.w   .L04a9ac                        | +1ae
-        lea     TaskHandler_04a9b0(pc),a1       | +1b2
+        lea     HumanDeath_Burning_04a9b0(pc),a1 | +1b2
         move.l  a1,(a6)                         | +1b6
 .L04a9ac:
-        bra.w   Sub_0004A2BE__L04a35e           | +1b8
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a35e | +1b8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04a9b0  @ $04A9B0  (178 B)
+|  HumanDeath_Burning_04a9b0  @ $04A9B0  (178 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04a9b0, "ax", @progbits
-        .global TaskHandler_04a9b0
-TaskHandler_04a9b0:
-        lea     Data_04ac56__L04b898(pc),a0     | +000
+        .section .text.HumanDeath_Burning_04a9b0, "ax", @progbits
+        .global HumanDeath_Burning_04a9b0
+HumanDeath_Burning_04a9b0:
+        lea     HumanDeath_SpriteTbls_04ac56__L04b898(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
-        bra.w   Sub_0004A2BE__L04a382           | +00a
-        .global TaskHandler_04a9b0__L04a9be
-TaskHandler_04a9b0__L04a9be:
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +00a
+        .global HumanDeath_Burning_04a9b0__L04a9be
+HumanDeath_Burning_04a9b0__L04a9be:
 .L04a9be:
         lea     0x2b604a.l,a0                   | +00e
         jsr     0x28cd4.l                       | +014
         move.w  #0x1042,d0                      | +01a
         jsr     0x2352.l                        | +01e
         clr.b   0x21(a6)                        | +024
-        lea     TaskHandler_04aa76(pc),a1       | +028
+        lea     HumanDeath_FlameChild_04aa76(pc),a1 | +028
         jsr     0x4ae.l                         | +02c
         move.w  #0x200,d0                       | +032
-        bsr.w   TaskHandler_04a1f0              | +036
+        bsr.w   HumanDeath_SetVelXByFacing_04a1f0 | +036
         move.w  #0x28,0x30(a6)                  | +03a
         jsr     0x5e9b6.l                       | +040
         tst.w   d0                              | +046
@@ -958,16 +958,16 @@ TaskHandler_04a9b0__L04a9be:
         lea     .L04aa1e(pc),a1                 | +068
         move.l  a1,(a6)                         | +06c
 .L04aa1e:
-        jsr     Sub_0004A268(pc)                | +06e
+        jsr     HumanDeath_PhysicsGround_04a268(pc) | +06e
         jsr     0x28d70.l                       | +072
         btst    #0x5,0x5a(a6)                   | +078
         beq.w   .L04aa38                        | +07e
-        lea     TaskHandler_04aa62(pc),a1       | +082
+        lea     HumanDeath_BurnedDown_04aa62(pc),a1 | +082
         move.l  a1,(a6)                         | +086
 .L04aa38:
         subq.w  #0x1,0x30(a6)                   | +088
         bne.w   .L04aa46                        | +08c
-        lea     TaskHandler_04aa62(pc),a1       | +090
+        lea     HumanDeath_BurnedDown_04aa62(pc),a1 | +090
         move.l  a1,(a6)                         | +094
 .L04aa46:
         subq.b  #0x1,0x73(a6)                   | +096
@@ -976,28 +976,28 @@ TaskHandler_04a9b0__L04a9be:
         move.b  0x72(a6),0x73(a6)               | +0a4
         neg.w   0x28(a6)                        | +0aa
 .L04aa5e:
-        jmp     Sub_0004A2BE__L04a35e(pc)       | +0ae
+        jmp     HumanDeath_PhysicsFall_04a2be__L04a35e(pc) | +0ae
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04aa62  @ $04AA62  (20 B)
+|  HumanDeath_BurnedDown_04aa62  @ $04AA62  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04aa62, "ax", @progbits
-        .global TaskHandler_04aa62
-TaskHandler_04aa62:
-        lea     Data_04ac56__L04b0c6(pc),a0     | +000
+        .section .text.HumanDeath_BurnedDown_04aa62, "ax", @progbits
+        .global HumanDeath_BurnedDown_04aa62
+HumanDeath_BurnedDown_04aa62:
+        lea     HumanDeath_SpriteTbls_04ac56__L04b0c6(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
         move.b  #0xff,0x21(a6)                  | +00a
-        bra.w   Sub_0004A2BE__L04a382           | +010
+        bra.w   HumanDeath_PhysicsFall_04a2be__L04a382 | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04aa76  @ $04AA76  (84 B)
+|  HumanDeath_FlameChild_04aa76  @ $04AA76  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04aa76, "ax", @progbits
-        .global TaskHandler_04aa76
-TaskHandler_04aa76:
+        .section .text.HumanDeath_FlameChild_04aa76, "ax", @progbits
+        .global HumanDeath_FlameChild_04aa76
+HumanDeath_FlameChild_04aa76:
         move.w  #0x4,d1                         | +000
         jsr     0x236e.l                        | +004
-        lea     Data_04ac56__L04b926(pc),a0     | +00a
+        lea     HumanDeath_SpriteTbls_04ac56__L04b926(pc),a0 | +00a
         jsr     0x28cd4.l                       | +00e
         lea     .L04aa90(pc),a1                 | +014
         move.l  a1,(a6)                         | +018
@@ -1018,18 +1018,18 @@ TaskHandler_04aa76:
         move.w  0x38(a0),0x38(a6)               | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04aad2  @ $04AAD2  (62 B)
+|  HumanDeath_SpawnBloodSplash_04aad2  @ $04AAD2  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04aad2, "ax", @progbits
-        .global TaskHandler_04aad2
-TaskHandler_04aad2:
-        lea     TaskHandler_04ab10(pc),a1       | +000
+        .section .text.HumanDeath_SpawnBloodSplash_04aad2, "ax", @progbits
+        .global HumanDeath_SpawnBloodSplash_04aad2
+HumanDeath_SpawnBloodSplash_04aad2:
+        lea     HumanDeath_BloodSplashA_04ab10(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         bra.w   .L04aaea                        | +00a
-        .global TaskHandler_04aad2__L04aae0
-TaskHandler_04aad2__L04aae0:
+        .global HumanDeath_SpawnBloodSplash_04aad2__L04aae0
+HumanDeath_SpawnBloodSplash_04aad2__L04aae0:
 .L04aae0:
-        lea     TaskHandler_04ab52(pc),a1       | +00e
+        lea     HumanDeath_BloodSplashB_04ab52(pc),a1 | +00e
         jsr     0x4ae.l                         | +012
 .L04aaea:
         move.w  0x24(a6),0x24(a0)               | +018
@@ -1044,11 +1044,11 @@ TaskHandler_04aad2__L04aae0:
         rts                                     | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ab10  @ $04AB10  (66 B)
+|  HumanDeath_BloodSplashA_04ab10  @ $04AB10  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ab10, "ax", @progbits
-        .global TaskHandler_04ab10
-TaskHandler_04ab10:
+        .section .text.HumanDeath_BloodSplashA_04ab10, "ax", @progbits
+        .global HumanDeath_BloodSplashA_04ab10
+HumanDeath_BloodSplashA_04ab10:
         move.w  #0x17a,d1                       | +000
         tst.b   0x10fd8f.l                      | +004
         bne.w   .L04ab22                        | +00a
@@ -1059,18 +1059,18 @@ TaskHandler_04ab10:
         jsr     0x28134.l                       | +01c
         andi.w  #0xffe3,0x38(a6)                | +022
         ori.w   #0x10,0x38(a6)                  | +028
-        lea     Data_04ac56__L04bad2(pc),a0     | +02e
+        lea     HumanDeath_SpriteTbls_04ac56__L04bad2(pc),a0 | +02e
         jsr     0x28cd4.l                       | +032
-        lea     TaskHandler_04ab90(pc),a1       | +038
+        lea     HumanDeath_BloodSplash_Loop_04ab90(pc),a1 | +038
         move.l  a1,(a6)                         | +03c
-        bra.w   TaskHandler_04ab90              | +03e
+        bra.w   HumanDeath_BloodSplash_Loop_04ab90 | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ab52  @ $04AB52  (62 B)
+|  HumanDeath_BloodSplashB_04ab52  @ $04AB52  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ab52, "ax", @progbits
-        .global TaskHandler_04ab52
-TaskHandler_04ab52:
+        .section .text.HumanDeath_BloodSplashB_04ab52, "ax", @progbits
+        .global HumanDeath_BloodSplashB_04ab52
+HumanDeath_BloodSplashB_04ab52:
         move.w  #0x17a,d1                       | +000
         tst.b   0x10fd8f.l                      | +004
         bne.w   .L04ab64                        | +00a
@@ -1081,17 +1081,17 @@ TaskHandler_04ab52:
         jsr     0x28134.l                       | +01c
         andi.w  #0xffe3,0x38(a6)                | +022
         ori.w   #0x10,0x38(a6)                  | +028
-        lea     Data_04ac56__L04b9f0(pc),a0     | +02e
+        lea     HumanDeath_SpriteTbls_04ac56__L04b9f0(pc),a0 | +02e
         jsr     0x28cd4.l                       | +032
-        lea     TaskHandler_04ab90(pc),a1       | +038
+        lea     HumanDeath_BloodSplash_Loop_04ab90(pc),a1 | +038
         move.l  a1,(a6)                         | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ab90  @ $04AB90  (24 B)
+|  HumanDeath_BloodSplash_Loop_04ab90  @ $04AB90  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ab90, "ax", @progbits
-        .global TaskHandler_04ab90
-TaskHandler_04ab90:
+        .section .text.HumanDeath_BloodSplash_Loop_04ab90, "ax", @progbits
+        .global HumanDeath_BloodSplash_Loop_04ab90
+HumanDeath_BloodSplash_Loop_04ab90:
         jsr     0x2783a.l                       | +000
         jsr     0x28d70.l                       | +006
         bcc.w   .L04aba6                        | +00c
@@ -1100,23 +1100,23 @@ TaskHandler_04ab90:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04aba8  @ $04ABA8  (16 B)
+|  HumanDeath_PickGibPtr_04aba8  @ $04ABA8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04aba8, "ax", @progbits
-        .global TaskHandler_04aba8
-TaskHandler_04aba8:
+        .section .text.HumanDeath_PickGibPtr_04aba8, "ax", @progbits
+        .global HumanDeath_PickGibPtr_04aba8
+HumanDeath_PickGibPtr_04aba8:
         andi.w  #0x7,d0                         | +000
-        lea     Data_04ac56__L04af5a(pc),a0     | +004
+        lea     HumanDeath_SpriteTbls_04ac56__L04af5a(pc),a0 | +004
         asl.w   #0x2,d0                         | +008
         move.l  (a0,d0.w),0x76(a6)              | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04abc0  @ $04ABC0  (106 B)
+|  HumanDeath_SpawnSmokePair_04abc0  @ $04ABC0  (106 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04abc0, "ax", @progbits
-        .global TaskHandler_04abc0
-TaskHandler_04abc0:
-        lea     TaskHandler_04ac3a(pc),a1       | +000
+        .section .text.HumanDeath_SpawnSmokePair_04abc0, "ax", @progbits
+        .global HumanDeath_SpawnSmokePair_04abc0
+HumanDeath_SpawnSmokePair_04abc0:
+        lea     HumanDeath_SmokeChild_04ac3a(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         addi.w  #0x18,0x24(a0)                  | +010
@@ -1127,12 +1127,12 @@ TaskHandler_04abc0:
         move.w  #0x1a3,d1                       | +02a
 .L04abee:
         jsr     0x236e.l                        | +02e
-        lea     Data_04ac56__L04bb44(pc),a0     | +034
+        lea     HumanDeath_SpriteTbls_04ac56__L04bb44(pc),a0 | +034
         jsr     0x28cd4.l                       | +038
         lea     .L04ac04(pc),a1                 | +03e
         move.l  a1,(a6)                         | +042
-        .global TaskHandler_04abc0__L04ac04
-TaskHandler_04abc0__L04ac04:
+        .global HumanDeath_SpawnSmokePair_04abc0__L04ac04
+HumanDeath_SpawnSmokePair_04abc0__L04ac04:
 .L04ac04:
         jsr     0x2783a.l                       | +044
         jsr     0x28d70.l                       | +04a
@@ -1145,25 +1145,25 @@ TaskHandler_04abc0__L04ac04:
         bcc.w   SetHandlerRts_04ac30            | +066
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ac3a  @ $04AC3A  (28 B)
+|  HumanDeath_SmokeChild_04ac3a  @ $04AC3A  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ac3a, "ax", @progbits
-        .global TaskHandler_04ac3a
-TaskHandler_04ac3a:
+        .section .text.HumanDeath_SmokeChild_04ac3a, "ax", @progbits
+        .global HumanDeath_SmokeChild_04ac3a
+HumanDeath_SmokeChild_04ac3a:
         move.w  #0xd,d1                         | +000
         jsr     0x236e.l                        | +004
-        lea     TaskHandler_04bb4a(pc),a0       | +00a
+        lea     HumanDeath_SmokeSprite_04bb4a(pc),a0 | +00a
         jsr     0x28cd4.l                       | +00e
-        lea     TaskHandler_04abc0__L04ac04(pc),a1 | +014
+        lea     HumanDeath_SpawnSmokePair_04abc0__L04ac04(pc),a1 | +014
         move.l  a1,(a6)                         | +018
-        bra.b   TaskHandler_04abc0__L04ac04     | +01a
+        bra.b   HumanDeath_SpawnSmokePair_04abc0__L04ac04 | +01a
 
 | ----------------------------------------------------------------------------
-|  Data_04ac56  @ $04AC56  (3828 B)
+|  HumanDeath_SpriteTbls_04ac56  @ $04AC56  (3828 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_04ac56, "ax", @progbits
-        .global Data_04ac56
-Data_04ac56:
+        .section .text.HumanDeath_SpriteTbls_04ac56, "ax", @progbits
+        .global HumanDeath_SpriteTbls_04ac56
+HumanDeath_SpriteTbls_04ac56:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
@@ -1248,8 +1248,8 @@ Data_04ac56:
         .dc.w   0x1d01                        | +0a2  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0a4  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0a6  (dato / opcode no decodificado)
-        .global Data_04ac56__L04acfe
-Data_04ac56__L04acfe:
+        .global HumanDeath_SpriteTbls_04ac56__L04acfe
+HumanDeath_SpriteTbls_04ac56__L04acfe:
 .L04acfe:
         .dc.w   0x0800                        | +0a8  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +0aa  (dato / opcode no decodificado)
@@ -1324,8 +1324,8 @@ Data_04ac56__L04acfe:
         .dc.w   0x28b2                        | +134  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +136  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +138  (dato / opcode no decodificado)
-        .global Data_04ac56__L04ad90
-Data_04ac56__L04ad90:
+        .global HumanDeath_SpriteTbls_04ac56__L04ad90
+HumanDeath_SpriteTbls_04ac56__L04ad90:
 .L04ad90:
         .dc.w   0x0800                        | +13a  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +13c  (dato / opcode no decodificado)
@@ -1400,8 +1400,8 @@ Data_04ac56__L04ad90:
         .dc.w   0x2064                        | +1c6  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +1c8  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +1ca  (dato / opcode no decodificado)
-        .global Data_04ac56__L04ae22
-Data_04ac56__L04ae22:
+        .global HumanDeath_SpriteTbls_04ac56__L04ae22
+HumanDeath_SpriteTbls_04ac56__L04ae22:
 .L04ae22:
         .dc.w   0x0800                        | +1cc  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +1ce  (dato / opcode no decodificado)
@@ -1476,8 +1476,8 @@ Data_04ac56__L04ae22:
         .dc.w   0x214e                        | +258  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +25a  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +25c  (dato / opcode no decodificado)
-        .global Data_04ac56__L04aeb4
-Data_04ac56__L04aeb4:
+        .global HumanDeath_SpriteTbls_04ac56__L04aeb4
+HumanDeath_SpriteTbls_04ac56__L04aeb4:
 .L04aeb4:
         .dc.w   0x0001                        | +25e  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +260  (dato / opcode no decodificado)
@@ -1521,8 +1521,8 @@ Data_04ac56__L04aeb4:
         .dc.w   0x1d01                        | +2ac  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +2ae  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +2b0  (dato / opcode no decodificado)
-        .global Data_04ac56__L04af08
-Data_04ac56__L04af08:
+        .global HumanDeath_SpriteTbls_04ac56__L04af08
+HumanDeath_SpriteTbls_04ac56__L04af08:
 .L04af08:
         .dc.w   0x0600                        | +2b2  (dato / opcode no decodificado)
         .dc.w   0x1042                        | +2b4  (dato / opcode no decodificado)
@@ -1565,8 +1565,8 @@ Data_04ac56__L04af08:
         .dc.w   0x0100                        | +2fe  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +300  (dato / opcode no decodificado)
         .dc.w   0xaf14                        | +302  (dato / opcode no decodificado)
-        .global Data_04ac56__L04af5a
-Data_04ac56__L04af5a:
+        .global HumanDeath_SpriteTbls_04ac56__L04af5a
+HumanDeath_SpriteTbls_04ac56__L04af5a:
 .L04af5a:
         .dc.w   0x0004                        | +304  (dato / opcode no decodificado)
         .dc.w   0xaf7a                        | +306  (dato / opcode no decodificado)
@@ -1602,8 +1602,8 @@ Data_04ac56__L04af5a:
         .dc.w   0x0404                        | +342  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +344  (dato / opcode no decodificado)
         .dc.w   0x0404                        | +346  (dato / opcode no decodificado)
-        .global Data_04ac56__L04af9e
-Data_04ac56__L04af9e:
+        .global HumanDeath_SpriteTbls_04ac56__L04af9e
+HumanDeath_SpriteTbls_04ac56__L04af9e:
 .L04af9e:
         .dc.w   0x0900                        | +348  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +34a  (dato / opcode no decodificado)
@@ -1714,8 +1714,8 @@ Data_04ac56__L04af9e:
         .dc.w   0x0000                        | +41c  (dato / opcode no decodificado)
         .dc.w   0x002c                        | +41e  (dato / opcode no decodificado)
         .dc.w   0x4e75                        | +420  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b078
-Data_04ac56__L04b078:
+        .global HumanDeath_SpriteTbls_04ac56__L04b078
+HumanDeath_SpriteTbls_04ac56__L04b078:
 .L04b078:
         .dc.w   0x0600                        | +422  (dato / opcode no decodificado)
         .dc.w   0x1042                        | +424  (dato / opcode no decodificado)
@@ -1756,8 +1756,8 @@ Data_04ac56__L04b078:
         .dc.w   0x0100                        | +46a  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +46c  (dato / opcode no decodificado)
         .dc.w   0xb084                        | +46e  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b0c6
-Data_04ac56__L04b0c6:
+        .global HumanDeath_SpriteTbls_04ac56__L04b0c6
+HumanDeath_SpriteTbls_04ac56__L04b0c6:
 .L04b0c6:
         .dc.w   0x0001                        | +470  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +472  (dato / opcode no decodificado)
@@ -1815,14 +1815,14 @@ Data_04ac56__L04b0c6:
         .dc.w   0x1f78                        | +4da  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +4dc  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +4de  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b136
-Data_04ac56__L04b136:
+        .global HumanDeath_SpriteTbls_04ac56__L04b136
+HumanDeath_SpriteTbls_04ac56__L04b136:
 .L04b136:
         .dc.w   0x0800                        | +4e0  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +4e2  (dato / opcode no decodificado)
         .dc.w   0xa0d4                        | +4e4  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b13c
-Data_04ac56__L04b13c:
+        .global HumanDeath_SpriteTbls_04ac56__L04b13c
+HumanDeath_SpriteTbls_04ac56__L04b13c:
 .L04b13c:
         .dc.w   0x0900                        | +4e6  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +4e8  (dato / opcode no decodificado)
@@ -1917,8 +1917,8 @@ Data_04ac56__L04b13c:
         .dc.w   0x22c4                        | +59a  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +59c  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +59e  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b1f6
-Data_04ac56__L04b1f6:
+        .global HumanDeath_SpriteTbls_04ac56__L04b1f6
+HumanDeath_SpriteTbls_04ac56__L04b1f6:
 .L04b1f6:
         .dc.w   0x0600                        | +5a0  (dato / opcode no decodificado)
         .dc.w   0x103f                        | +5a2  (dato / opcode no decodificado)
@@ -1995,8 +1995,8 @@ Data_04ac56__L04b1f6:
         .dc.w   0x1d7e                        | +630  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +632  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +634  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b28c
-Data_04ac56__L04b28c:
+        .global HumanDeath_SpriteTbls_04ac56__L04b28c
+HumanDeath_SpriteTbls_04ac56__L04b28c:
 .L04b28c:
         .dc.w   0x0600                        | +636  (dato / opcode no decodificado)
         .dc.w   0x103f                        | +638  (dato / opcode no decodificado)
@@ -2093,8 +2093,8 @@ Data_04ac56__L04b28c:
         .dc.w   0x2d5c                        | +6ee  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +6f0  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +6f2  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b34a
-Data_04ac56__L04b34a:
+        .global HumanDeath_SpriteTbls_04ac56__L04b34a
+HumanDeath_SpriteTbls_04ac56__L04b34a:
 .L04b34a:
         .dc.w   0x0800                        | +6f4  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +6f6  (dato / opcode no decodificado)
@@ -2377,8 +2377,8 @@ Data_04ac56__L04b34a:
         .dc.w   0x1b94                        | +920  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +922  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +924  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b57c
-Data_04ac56__L04b57c:
+        .global HumanDeath_SpriteTbls_04ac56__L04b57c
+HumanDeath_SpriteTbls_04ac56__L04b57c:
 .L04b57c:
         .dc.w   0x0900                        | +926  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +928  (dato / opcode no decodificado)
@@ -2459,8 +2459,8 @@ Data_04ac56__L04b57c:
         .dc.w   0x1c14                        | +9be  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +9c0  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +9c2  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b61a
-Data_04ac56__L04b61a:
+        .global HumanDeath_SpriteTbls_04ac56__L04b61a
+HumanDeath_SpriteTbls_04ac56__L04b61a:
 .L04b61a:
         .dc.w   0x0900                        | +9c4  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +9c6  (dato / opcode no decodificado)
@@ -2541,8 +2541,8 @@ Data_04ac56__L04b61a:
         .dc.w   0x1b38                        | +a5c  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +a5e  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +a60  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b6b8
-Data_04ac56__L04b6b8:
+        .global HumanDeath_SpriteTbls_04ac56__L04b6b8
+HumanDeath_SpriteTbls_04ac56__L04b6b8:
 .L04b6b8:
         .dc.w   0x0900                        | +a62  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +a64  (dato / opcode no decodificado)
@@ -2618,8 +2618,8 @@ Data_04ac56__L04b6b8:
         .dc.w   0x1b38                        | +af0  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +af2  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +af4  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b74c
-Data_04ac56__L04b74c:
+        .global HumanDeath_SpriteTbls_04ac56__L04b74c
+HumanDeath_SpriteTbls_04ac56__L04b74c:
 .L04b74c:
         .dc.w   0x0600                        | +af6  (dato / opcode no decodificado)
         .dc.w   0x103e                        | +af8  (dato / opcode no decodificado)
@@ -2653,8 +2653,8 @@ Data_04ac56__L04b74c:
         .dc.w   0x0100                        | +b30  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +b32  (dato / opcode no decodificado)
         .dc.w   0xb798                        | +b34  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b78c
-Data_04ac56__L04b78c:
+        .global HumanDeath_SpriteTbls_04ac56__L04b78c
+HumanDeath_SpriteTbls_04ac56__L04b78c:
 .L04b78c:
         .dc.w   0x0600                        | +b36  (dato / opcode no decodificado)
         .dc.w   0x103e                        | +b38  (dato / opcode no decodificado)
@@ -2678,8 +2678,8 @@ Data_04ac56__L04b78c:
         .dc.w   0x1e2a                        | +b5c  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +b5e  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +b60  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b7b8
-Data_04ac56__L04b7b8:
+        .global HumanDeath_SpriteTbls_04ac56__L04b7b8
+HumanDeath_SpriteTbls_04ac56__L04b7b8:
 .L04b7b8:
         .dc.w   0x0001                        | +b62  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +b64  (dato / opcode no decodificado)
@@ -2707,8 +2707,8 @@ Data_04ac56__L04b7b8:
         .dc.w   0x1e3e                        | +b90  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +b92  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +b94  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b7ec
-Data_04ac56__L04b7ec:
+        .global HumanDeath_SpriteTbls_04ac56__L04b7ec
+HumanDeath_SpriteTbls_04ac56__L04b7ec:
 .L04b7ec:
         .dc.w   0x0900                        | +b96  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +b98  (dato / opcode no decodificado)
@@ -2741,8 +2741,8 @@ Data_04ac56__L04b7ec:
         .dc.w   0x0100                        | +bce  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +bd0  (dato / opcode no decodificado)
         .dc.w   0xb810                        | +bd2  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b82a
-Data_04ac56__L04b82a:
+        .global HumanDeath_SpriteTbls_04ac56__L04b82a
+HumanDeath_SpriteTbls_04ac56__L04b82a:
 .L04b82a:
         .dc.w   0x0800                        | +bd4  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +bd6  (dato / opcode no decodificado)
@@ -2799,8 +2799,8 @@ Data_04ac56__L04b82a:
         .dc.w   0x0100                        | +c3c  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +c3e  (dato / opcode no decodificado)
         .dc.w   0xb83c                        | +c40  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b898
-Data_04ac56__L04b898:
+        .global HumanDeath_SpriteTbls_04ac56__L04b898
+HumanDeath_SpriteTbls_04ac56__L04b898:
 .L04b898:
         .dc.w   0x0002                        | +c42  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +c44  (dato / opcode no decodificado)
@@ -2873,8 +2873,8 @@ Data_04ac56__L04b898:
         .dc.w   0x273c                        | +cca  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +ccc  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +cce  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b926
-Data_04ac56__L04b926:
+        .global HumanDeath_SpriteTbls_04ac56__L04b926
+HumanDeath_SpriteTbls_04ac56__L04b926:
 .L04b926:
         .dc.w   0x0003                        | +cd0  (dato / opcode no decodificado)
         .dc.w   0x1e08                        | +cd2  (dato / opcode no decodificado)
@@ -2977,8 +2977,8 @@ Data_04ac56__L04b926:
         .dc.w   0x0100                        | +d94  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +d96  (dato / opcode no decodificado)
         .dc.w   0xb926                        | +d98  (dato / opcode no decodificado)
-        .global Data_04ac56__L04b9f0
-Data_04ac56__L04b9f0:
+        .global HumanDeath_SpriteTbls_04ac56__L04b9f0
+HumanDeath_SpriteTbls_04ac56__L04b9f0:
 .L04b9f0:
         .dc.w   0x0002                        | +d9a  (dato / opcode no decodificado)
         .dc.w   0x1e08                        | +d9c  (dato / opcode no decodificado)
@@ -3093,8 +3093,8 @@ Data_04ac56__L04b9f0:
         .dc.w   0x0000                        | +e76  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +e78  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +e7a  (dato / opcode no decodificado)
-        .global Data_04ac56__L04bad2
-Data_04ac56__L04bad2:
+        .global HumanDeath_SpriteTbls_04ac56__L04bad2
+HumanDeath_SpriteTbls_04ac56__L04bad2:
 .L04bad2:
         .dc.w   0x0001                        | +e7c  (dato / opcode no decodificado)
         .dc.w   0x1e08                        | +e7e  (dato / opcode no decodificado)
@@ -3153,19 +3153,19 @@ Data_04ac56__L04bad2:
         .dc.w   0x0000                        | +ee8  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +eea  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +eec  (dato / opcode no decodificado)
-        .global Data_04ac56__L04bb44
-Data_04ac56__L04bb44:
+        .global HumanDeath_SpriteTbls_04ac56__L04bb44
+HumanDeath_SpriteTbls_04ac56__L04bb44:
 .L04bb44:
         .dc.w   0x0100                        | +eee  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +ef0  (dato / opcode no decodificado)
         .dc.w   0xad04                        | +ef2  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04bb4a  @ $04BB4A  (68 B)
+|  HumanDeath_SmokeSprite_04bb4a  @ $04BB4A  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04bb4a, "ax", @progbits
-        .global TaskHandler_04bb4a
-TaskHandler_04bb4a:
+        .section .text.HumanDeath_SmokeSprite_04bb4a, "ax", @progbits
+        .global HumanDeath_SmokeSprite_04bb4a
+HumanDeath_SmokeSprite_04bb4a:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +004  (dato / opcode no decodificado)

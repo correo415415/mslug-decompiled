@@ -117,9 +117,9 @@ extern void TaskHandler_048b26(void);
 extern void PowRope_BrokenA_048ddc(void);
 extern void PowRope_BrokenB_048dec(void);
 extern void TaskHandler_04968a(void);
-extern void TaskHandler_04a014(void);
-extern void TaskHandler_04a024(void);
-extern void TaskHandler_04a18c(void);
+extern void HumanDeath_EntryKind0_04a014(void);
+extern void HumanDeath_EntryKind1_04a024(void);
+extern void HumanDeath_CorpseA_04a18c(void);
 extern void TaskHandler_04ac32(void);
 extern void TaskHandler_04bc48(void);
 extern void TaskHandler_04c578(void);
@@ -1103,7 +1103,7 @@ void SetTaskHandler_049b50(void) {
  * Los 8 bytes 43fa00282c894e75 en $049FEA no son un setter independiente,
  * sino el brazo .Linstall_channel_b del helper de dispatch triple
  * Entity_ProbeAndInstallHandler_049FD0 (Wave V#8) que termina justo aqui
- * con lea Handler_0004A014(pc),a1 + move.l a1,(a6) + rts.
+ * con lea HumanDeath_EntryKind0_04a014(pc),a1 + move.l a1,(a6) + rts.
  *
  * Es el TERCER falso positivo por reuso de epilogos detectado, tras
  * ex-JsrAbsThunk_050248 (absorbido por Sprite_InvokeBlit8Params, Wave S)
@@ -1117,13 +1117,13 @@ void SetTaskHandler_049b50(void) {
 
 __attribute__((section(".text.SetTaskHandler_04a00c")))
 void SetTaskHandler_04a00c(void) {
-    _a1_ptr = &TaskHandler_04a024;
+    _a1_ptr = &HumanDeath_EntryKind1_04a024;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04a166")))
 void SetTaskHandler_04a166(void) {
-    _a1_ptr = &TaskHandler_04a18c;
+    _a1_ptr = &HumanDeath_CorpseA_04a18c;
     STORE_A1_AT_FP();
 }
 
