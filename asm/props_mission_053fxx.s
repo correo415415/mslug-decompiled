@@ -1,11 +1,137 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave MMMM — props destructibles de misión (2ª tanda): edificio, columna,
+|              muro del recinto, letrero de neón con fix-layer, puesto,
+|              props frágiles/multietapa, bloqueador, parpadeo del fix
 |  Región: $053F96..$055258  (4,746 B, 41 entradas, 8 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 4,746 B (41 entradas, todo código) que continúa el módulo de
+|  props destructibles de props_destructible_0527xx.s (Wave GGGG) y cierra
+|  el bloque $0527BA..$055258 junto a las islas C (SetTaskB/JsrThunks/SDS).
+|  Todos los props siguen la misma plantilla: init a1 = +$3C (template) ->
+|  $2942A (copia pos/params), snd $236E, +$70 = ancho/alto de colisión,
+|  +$32/+$33 = $FF (zoom), facing 0, HP +$66, sprite $28CD4; bucle: scroll
+|  $2783A (+ $28108 prio por Y en algunos), anim $28D70, $2870A impacto ->
+|  flash $5E770 (tabla $5E766) + bclr +$13 bit3; $28758 HP agotado ->
+|  bclr +$13 bit0 (deja de colisionar), música $2352, escombros $77C7E con
+|  listas $29A2xx..$29A4xx, puntos $51A28, registro en MissionDriver
+|  $43FAC con bloques $29B2xx/$29B3xx, siguiente estado; $4FA70 (fuera de
+|  pantalla) -> free $518. Las entradas las referencian los registros de
+|  spawn de misión en $096FAE..$097166 (20 B: handler, flags, pos...).
+|   1. Prop_Building_053f96 (snd $8B, HP $78, sprite $298936, limpia
+|      $10E39A cada frame; daño tipo +$58 == 5 o HP <= $3C -> música $1023,
+|      escombros $29A278/$29A28A -> BuildingDamaged_05405c (registro
+|      $29B29A, sprite $298958; HP agotado -> música $1030, 3 escombros,
+|      el 3º con prio $F000 -> BuildingWreck_05410a: puntos $2000, registro
+|      $29B2B2, sin colisión (+$48 = -1), sprite $29897A).
+|   2. Prop_Column_054160 (snd $8C, HP $3C, prio $8000 + relink $267E2 +
+|      $27CEE, sprite $29899E; HP agotado -> puntos $3000, música $1023,
+|      registro $29B368, 3 escombros, SDS_055266 y free).
+|   3. Prop_CompoundWall_054254 (2 entradas: +$20 = 0 HP $118 sprite
+|      $2989B4 registro $29B2CA / +$20 = 1 HP $280 sprite $298A10 registro
+|      $29B2F2; HP <= $A0 -> música $102A, escombro $29A2D2 (-$30 px en la
+|      variante 1) -> CompoundWallDamaged_054338 (sprites $2989CA/$298A26;
+|      HP agotado -> música $102B, escombros $29A2C0/$29A3F2 con prio
+|      $C000 -> CompoundWallWreck_0543f8: variante 0 puntos $3000 y marca
+|      al padre +$20 = $FF, variante 1 puntos $1000 y X += $30).
+|   4. Prop_Compound_Spawn_05447e: entidad compuesta que crea 3 hijos
+|      (CompoundWall, NeonSign, TriggerSpawn) con $5DD22 y arranca el
+|      autómata PhaseA_0544ca / PhaseB_054518 (+$21 = 0/$FF/1/2 lo mueven
+|      los hijos; +$80 == $FF -> Done_054566; probe $6F0 + $4FA70 -> free).
+|      Prop_Compound_TriggerSpawn_054584: cuando X <= $E0 crea $79EB8 a
+|      (+$B0,+$40) y se libera.
+|   5. Prop_NeonSign_0545c0: espera a X <= $120, snd $8D, se desplaza
+|      (+$A0,+$60), hitbox $2813C ($8000,$B0), HP $3C, sprite $29908C,
+|      +$72 = contador, +$74 = 0; cada frame NeonSign_FixUpdate_05509c
+|      (si $1081B1 == 0 -> FixByParentPhase_0550c4: según +$80/+$21 del
+|      padre (+$0C) elige TilesDark_0551d0 (apagado, pal 1/2), o cada 4
+|      frames alterna TilesOnA_05518c / TilesOffA_055148 (bit 2 de +$72)
+|      vía JsrPcThunk_055142; FixPhase2_05510e / FixBlink_055122 son las
+|      colas internas; TilesOnB_055214 = variante pal 1); HP agotado ->
+|      música $102A, 3 escombros -> NeonSignWreck_0546ba (sprite $2990A2,
+|      sigue actualizando el fix).
+|   6. Prop_Stall_0546f4 (snd $91, HP $3C, hitbox $2813C ($8000,$A0),
+|      sprite $298AA8; HP agotado -> música $102C, 3 escombros ->
+|      StallWreck_0547ca: sprite $298B24; si el scroll $106F50 < $390
+|      llama SDS_0552c8 y registra $29B3B2).
+|   7. Prop_Fragile_05481c (snd $92, HP 1, sprite $298B34; al romperse 2
+|      escombros -> FragileBreaking_0548c8 (música $1054, sprite $298B4A,
+|      al acabar la anim -> FragileWreck_05490c: puntos $1000, registro
+|      $29B380, sprite $298B78)). Prop_Breakable_05495a (snd $93, HP 1,
+|      sprite $298B88; música $102E, registro $29B358, 3 escombros, free).
+|   8. Prop_HitStages_054a1a (snd $7A, HP $46, +$44 = 6, sprite $298B9E
+|      que se reinicia al acabar; cada impacto cambia el sprite por la
+|      tabla $298C46[+$72]; HP agotado -> puntos $300, música $1023, 3
+|      escombros, free). Prop_Small_054b1c (snd $94, HP $28, sprite
+|      $299050; música $102E, 3 escombros -> SmallWreck_054bde $299066).
+|   9. Prop_ScaledHP_054c0e (registro $29B31A, HP por dificultad
+|      $799DE[$2C0196], sprite $298A52; HP agotado -> puntos $1000, música
+|      $102B, registro $29B32E, StateMachineRun $5022A con $29A606, 3
+|      escombros, free).
+|  10. Prop_MultiStage_054cf2 (5 entradas: +$72 = 0..4 variante; sprite
+|      $2990B8 o $299D6E para la 4; snd $95; variantes 0..3 crean hijo
+|      $6293E con +$62 = variante a +$40 px; HP = $799DE[$2C0114] + $140;
+|      variante 4 sin colisión; HP <= $D4 -> música $1027 ->
+|      MultiStageDamaged_054e70 (sprite $2990CE[var]; HP <= $6A -> música
+|      $1027 -> MultiStageCritical_054eea (sprite $2990DE[var]; HP agotado
+|      -> música $1035 -> MultiStageWreck_054f6a: puntos $4000, sprite
+|      $2990EE[var]))).
+|  11. FixBlink2_PhaseA_054fba / PhaseB_055002: tiles del fix layer $2C26
+|      (col $48, filas $79/$78) alternando cada $40/$20 frames hasta que la
+|      cámara $106F5C >= $300 (misma idea que FixBlink_PhaseA_0536ac).
+|  12. Prop_Blocker_05504a: snd $E, +$12 bit6, prio $F000, hitbox +$60 =
+|      $29B3C0, cada frame $28998 + scroll; sólo bloquea, sin HP.
+|      Prop_Nop_05447c/05481a: rts de relleno entre handlers.
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - Registros de spawn de misión en $096FAE..$097166 (20 B cada uno) con
+|    handler = $53F96/$54160/$5447E/$546F4/$5481C/$5495A/$54A1A/$54B1C/
+|    $54C0E/$54CF2/$5504A (y $54282/$54D12/$54D32/$54D52/$54D72 = entradas
+|    alternativas interiores): mismo formato que los que apuntan a los
+|    props de Wave GGGG ($096CB4..$096F0C).
+|  - Patrón idéntico al de props_destructible_0527xx.s ($2942A, $5E770,
+|    $77C7E, $43FAC, $51A28, $4FA70): mismo módulo de props.
+|  - $2C26 con (col, fila, ancho, alto) + cámara $106F5C -> fix layer;
+|    $1081B1 es el flag global que init_entity_spawn_0018da.s limpia a 0.
+|  - Pow en caída/humanos no intervienen: aquí sólo hay escenario.
+|
+|  C. HIPÓTESIS / DUDAS
+|  --------------------
+|  - Los nombres (Building, Column, CompoundWall, NeonSign, Stall, Fragile,
+|    Breakable, HitStages, Small, ScaledHP, MultiStage, Blocker) describen
+|    el comportamiento; el objeto concreto de cada misión se confirmará con
+|    los tiles de sprite ($298936.., $2990B8..) y las listas de spawn.
+|  - NeonSign: las tablas de tiles $4A..$4F/$8D..$8F/$BD..$BE/$123 con
+|    paletas 1/2 sugieren "letrero encendido/apagado/oscuro" en el fix
+|    layer; el "neón" es la interpretación más plausible pero no está
+|    verificada en el juego.
+|  - +$80 del padre: $FF = destruido (Compound) / $7F = ya oscurecido
+|    (NeonSign) — el mismo byte lo usan padre e hijo con sentidos distintos.
+|  - SDS_055266 / SDS_0552c8 (state_dispatch_stubs.c) son stubs de
+|    despacho a estados de escena aún sin semántica.
+|
+|  D. CAMPOS DE LA ENTIDAD (a6) USADOS
+|  ----------------------------------
+|  +$00 handler  +$0C padre  +$12 bit6  +$13 bits 0/3  +$14 fila fix
+|  +$20 variante/estado  +$21 fase (Compound)  +$22/+$24 X/Y  +$32/+$33
+|  zoom  +$38 prio  +$3A facing  +$3C template  +$44  +$48 colisión  +$58
+|  tipo de daño  +$60 hitbox  +$62 (hijo) variante  +$66 HP  +$70 tamaño
+|  colisión  +$72 contador/variante  +$74 flag fix  +$80 estado compartido
+|
+|  E. CALLEES EXTERNOS
+|  -------------------
+|  $4AE alloc hijo  $518 free  $6F0 probe  $236E snd  $2352 música  $2C26
+|  tile fix  $267E2 relink  $2783A scroll  $27CEE  $28108 prio por Y
+|  $2813C hitbox  $28758 HP agotado  $2870A impacto  $28998  $28CD4 sprite
+|  $28D70 anim  $2942A copiar template  $43FAC registro MissionDriver
+|  $4FA70 fuera de pantalla  $5022A StateMachineRun  $51A28 puntos  $5DD22
+|  copia pos  $5E766/$5E770 flash  $6293E hijo MultiStage  $77C7E escombros
+|  $799DE tabla por dificultad  $79EB8 spawn  $10E39A  $1081B1 flag
+|  $106F50/$106F5C scroll/cámara  SDS_055266/SDS_0552c8  JsrPcThunk_055142.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
