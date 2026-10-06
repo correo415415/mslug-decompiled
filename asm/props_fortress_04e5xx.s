@@ -1,11 +1,68 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave PPPP — props de la misión del fuerte: barrera, caseta/portón,
+|  fortaleza (cadena de spawns por scroll), tejado, sensor, caja,
+|  escombros rebotantes, carteles, barca; parpadeo del fix
 |  Región: $04E580..$04FA50  (5,296 B, 40 entradas, 5 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  40 handlers de tarea (entidad en a6) para los props de la misión del
+|  fuerte/portón y utilidades afines. Tres familias enlazadas: la BARRERA
+|  ($04E580..$04E7FE: activa → dañada → restos, con poste $04ED90 y luz
+|  $04EE0A/$04EECA), la CASETA/PORTÓN ($04E7FE..$04EB18: intacta → dañada
+|  → restos, bloqueador de paso $04EAE8, tejado $04EF0A/$04EFA2, puerta
+|  $04EFE6) y la FORTALEZA ($04EB18..$04ED90: espera de scroll → activa →
+|  restos, bloqueador $04EDDA, soporte de torreta $04F030/$04F0B0 y lateral
+|  $04F138). Además: secuencia de blits $04F1F4, chequeo slot/prio $04F2A4,
+|  tejado genérico $04F2C2/$04F344 (plantilla $E840C), parpadeo del fix en
+|  3 fases $04F3AE/$04F40C, sensor de disparo $04F46A..$04F4EE, caja
+|  destructible $04F4EE, escombros rebotantes $04F5BE..$04F70E, carteles
+|  A/B $04F70E/$04F76C (plantillas $E8414/$E8418), barca $04F7CA..$04FA40
+|  (plantilla $E8410, salpicadura $99812) y FixTile_Set11C2 $04FA40.
+|
+|  B) CÓMO FUNCIONA
+|  Protocolo de estado +$20/+$21 habitual; cada etapa instala el siguiente
+|  handler en +$00. Los props del fuerte se inicializan con la batería de
+|  subrutinas $4FB8A..$4FD2C (hueco siguiente) que fijan hitbox (+$48),
+|  HP (+$66), tipo de daño (+$58) y prioridad; usan $44022
+|  (Coord_ScreenToLocal) para colocar hijos en posiciones absolutas del
+|  mapa y $4429E (MissionWatch_Spawn) con listas $E9348/$E93B0/$E9442
+|  para encadenar spawns según umbrales de scroll $A10/$A20/$A70 leídos
+|  de $106F50. Al agotarse HP ($28758) saltan a la etapa "Damaged"/"Wreck"
+|  que lanza explosiones ($77F6A), escombros ($77C7E) y puntos ($51A28).
+|  El sensor consulta $5E086/$31FC2 y dispara la etapa Triggered. Los
+|  escombros rebotantes aplican gravedad +$2E con rebote (Hop) y rodadura
+|  (Roll) hasta quedar fuera de pantalla. FixBlink3 alterna el tile fijo
+|  ($2C26) en dos fases con contador. FixTile_Set11C2 escribe el tile
+|  $11C2 referenciando $1948A8/$1948D0.
+|
+|  C) INTERFAZ
+|  Entrada: a6 = entidad; los padres dejan en +$0C el enlace; posición
+|  +$22/+$24, velocidad +$28/+$2A, gravedad +$2E, prio +$38, facing
+|  +$3A, plantilla +$3C, colisión +$48, HP +$66, +$70 flags de daño.
+|  Salida: nuevas entidades vía $4AE/$6FE (copia de pos con $5DD22),
+|  sonidos $236E, música $2352, registro de misión $43FAC.
+|
+|  D) EVIDENCIAS
+|  - Plantillas $E840C (Roof), $E8410 (Boat), $E8414/$E8418 (SignA/B)
+|    coinciden con el índice de spawn $E8000 usado en waves anteriores.
+|  - Umbrales $A10/$A20/$A70 comparados contra $106F50 (scroll X).
+|  - Llamadas a $28758/$2870A (HP agotado / golpe recibido) delimitan
+|    las transiciones Active→Damaged→Wreck.
+|  - $77F6A (AnimSeq explosión) y $77C7E (debris) en todas las etapas Wreck.
+|
+|  E) HIPÓTESIS / DUDAS
+|  - Los nombres Barrier/Gatehouse/Fortress son por morfología del código
+|    y plantillas; falta confirmar con el mapa de la misión in-game.
+|  - Las subs $4FB8A..$5017A (setup de props) quedan para la wave QQQQ;
+|    aquí se referencian como Sub_* provisionales.
+|  - Prop_SlotPrioCheckRts_04f2a4 podría ser un helper compartido con
+|    otras misiones (varios call-sites externos).
+|
+|  F) ESTADO
+|  40/40 entradas byte-exactas; 5 huecos internos (datos/alineación) que
+|  siguen en el pool de pendientes. Sin C: todo ASM a mano.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
