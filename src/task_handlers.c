@@ -121,11 +121,11 @@ extern void HumanDeath_EntryKind0_04a014(void);
 extern void HumanDeath_EntryKind1_04a024(void);
 extern void HumanDeath_CorpseA_04a18c(void);
 extern void TaskHandler_04ac32(void);
-extern void TaskHandler_04bc48(void);
-extern void TaskHandler_04c578(void);
-extern void TaskHandler_04c58c(void);
-extern void TaskHandler_04c606(void);
-extern void TaskHandler_04c68a(void);
+extern void GunPlatform_SpawnCrewAndIdle_04bc48(void);
+extern void GunPlatform_MarkDead_04c578(void);
+extern void GunPlatform_FreeClearBit1_04c58c(void);
+extern void GunPlatform_DestroyedWithWreck_04c606(void);
+extern void GunPlatform_Wreck_04c68a(void);
 extern void TaskHandler_04c934(void);
 extern void TaskHandler_04dc88(void);
 extern void TaskHandler_04de32(void);
@@ -1135,109 +1135,109 @@ void SetTaskHandler_04ac2a(void) {
 
 __attribute__((section(".text.SetTaskHandler_04bc40")))
 void SetTaskHandler_04bc40(void) {
-    _a1_ptr = &TaskHandler_04bc48;
+    _a1_ptr = &GunPlatform_SpawnCrewAndIdle_04bc48;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04bd56")))
 void SetTaskHandler_04bd56(void) {
-    _a1_ptr = &TaskHandler_04c578;
+    _a1_ptr = &GunPlatform_MarkDead_04c578;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04bdfc")))
 void SetTaskHandler_04bdfc(void) {
-    _a1_ptr = &TaskHandler_04c578;
+    _a1_ptr = &GunPlatform_MarkDead_04c578;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04be6a")))
 void SetTaskHandler_04be6a(void) {
-    _a1_ptr = &TaskHandler_04c578;
+    _a1_ptr = &GunPlatform_MarkDead_04c578;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04bed8")))
 void SetTaskHandler_04bed8(void) {
-    _a1_ptr = &TaskHandler_04c578;
+    _a1_ptr = &GunPlatform_MarkDead_04c578;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04bf50")))
 void SetTaskHandler_04bf50(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04bfe8")))
 void SetTaskHandler_04bfe8(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c080")))
 void SetTaskHandler_04c080(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c120")))
 void SetTaskHandler_04c120(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c1a8")))
 void SetTaskHandler_04c1a8(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c26e")))
 void SetTaskHandler_04c26e(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c2dc")))
 void SetTaskHandler_04c2dc(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c442")))
 void SetTaskHandler_04c442(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c570")))
 void SetTaskHandler_04c570(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c5fe")))
 void SetTaskHandler_04c5fe(void) {
-    _a1_ptr = &TaskHandler_04c68a;
+    _a1_ptr = &GunPlatform_Wreck_04c68a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c682")))
 void SetTaskHandler_04c682(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c6cc")))
 void SetTaskHandler_04c6cc(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04c6e2")))
 void SetTaskHandler_04c6e2(void) {
-    _a1_ptr = &TaskHandler_04c606;
+    _a1_ptr = &GunPlatform_DestroyedWithWreck_04c606;
     STORE_A1_AT_FP();
 }
 
@@ -1255,7 +1255,7 @@ void SetTaskHandler_04c908(void) {
 
 __attribute__((section(".text.SetTaskHandler_04c950")))
 void SetTaskHandler_04c950(void) {
-    _a1_ptr = &TaskHandler_04c58c;
+    _a1_ptr = &GunPlatform_FreeClearBit1_04c58c;
     STORE_A1_AT_FP();
 }
 

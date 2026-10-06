@@ -54,7 +54,7 @@ SYMBOLS = {
     # ---- Wave Y: targets externos referenciados por asm 68000 puro ----
     # 0x000329EE promovido a OpcodeOffsetTable_0329EE en registry (Wave AAAA).
     # 0x0009B51E promovido a Score_Popup_Value_09b51e en registry (Wave RRR).
-    # 0x0004CB44 promovido a PtrTable6_04CB44 en registry (Wave NNNN).
+    # 0x0004CB44 promovido a SpriteSetPtrTbl6_04cb44 en registry (Wave NNNN).
     # Templates usados por Entity_Build3ChainCircular (Y#10)
     # 0x0003010C promovido a Chain3_TplC_03010c en registry (Wave ZZZ).
     # 0x00030068 promovido a Chain3_TplA_030068 en registry (Wave ZZZ).
@@ -480,11 +480,11 @@ SYMBOLS = {
     # 0x0004A024 promovido a HumanDeath_EntryKind1_04a024 en registry (Wave KKKK).
     # 0x0004A18C promovido a HumanDeath_CorpseA_04a18c en registry (Wave KKKK).
     0x0004AC32: "TaskHandler_04ac32",
-    # 0x0004BC48 promovido a TaskHandler_04bc48 en registry (Wave NNNN).
-    # 0x0004C578 promovido a TaskHandler_04c578 en registry (Wave NNNN).
-    # 0x0004C58C promovido a TaskHandler_04c58c en registry (Wave NNNN).
-    # 0x0004C606 promovido a TaskHandler_04c606 en registry (Wave NNNN).
-    # 0x0004C68A promovido a TaskHandler_04c68a en registry (Wave NNNN).
+    # 0x0004BC48 promovido a GunPlatform_SpawnCrewAndIdle_04bc48 en registry (Wave NNNN).
+    # 0x0004C578 promovido a GunPlatform_MarkDead_04c578 en registry (Wave NNNN).
+    # 0x0004C58C promovido a GunPlatform_FreeClearBit1_04c58c en registry (Wave NNNN).
+    # 0x0004C606 promovido a GunPlatform_DestroyedWithWreck_04c606 en registry (Wave NNNN).
+    # 0x0004C68A promovido a GunPlatform_Wreck_04c68a en registry (Wave NNNN).
     0x0004C934: "TaskHandler_04c934",
     0x0004DC88: "TaskHandler_04dc88",
     0x0004DE32: "TaskHandler_04de32",

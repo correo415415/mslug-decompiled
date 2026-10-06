@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04bb9a  @ $04BB9A  (166 B)
+|  GunPlatform_Spawn_04bb9a  @ $04BB9A  (166 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04bb9a, "ax", @progbits
-        .global TaskHandler_04bb9a
-TaskHandler_04bb9a:
+        .section .text.GunPlatform_Spawn_04bb9a, "ax", @progbits
+        .global GunPlatform_Spawn_04bb9a
+GunPlatform_Spawn_04bb9a:
         move.w  #0x0,0x70(a6)                   | +000
         bra.w   .L04bbbe                        | +006
         move.w  #0x1,0x70(a6)                   | +00a
@@ -50,22 +50,22 @@ TaskHandler_04bb9a:
         lsl.w   #0x2,d0                         | +084
         movea.l (a0,d0.w),a1                    | +086
         jsr     0x43fac.l                       | +08a
-        lea     TaskHandler_04c776(pc),a1       | +090
+        lea     GunPlatform_Gun_04c776(pc),a1   | +090
         jsr     0x4ae.l                         | +094
         jsr     0x5dd02.l                       | +09a
         move.w  0x70(a6),0x70(a0)               | +0a0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04bc48  @ $04BC48  (270 B)
+|  GunPlatform_SpawnCrewAndIdle_04bc48  @ $04BC48  (270 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04bc48, "ax", @progbits
-        .global TaskHandler_04bc48
-TaskHandler_04bc48:
+        .section .text.GunPlatform_SpawnCrewAndIdle_04bc48, "ax", @progbits
+        .global GunPlatform_SpawnCrewAndIdle_04bc48
+GunPlatform_SpawnCrewAndIdle_04bc48:
         lea     0x2902f0.l,a0                   | +000
         move.w  0x70(a6),d0                     | +006
         cmpi.b  #0x1,(a0,d0.w)                  | +00a
         bne.w   .L04bc76                        | +010
-        lea     TaskHandler_04c44a(pc),a1       | +014
+        lea     GunPlatform_RiderA_Init_04c44a(pc),a1 | +014
         jsr     0x4ae.l                         | +018
         jsr     0x5dd02.l                       | +01e
         addi.w  #0x18,0x24(a0)                  | +024
@@ -73,7 +73,7 @@ TaskHandler_04bc48:
 .L04bc76:
         cmpi.b  #0x2,(a0,d0.w)                  | +02e
         bne.w   .L04bc96                        | +034
-        lea     TaskHandler_04c2e4(pc),a1       | +038
+        lea     GunPlatform_RiderB_Init_04c2e4(pc),a1 | +038
         jsr     0x4ae.l                         | +03c
         jsr     0x5dd02.l                       | +042
         addi.w  #0x18,0x24(a0)                  | +048
@@ -82,7 +82,7 @@ TaskHandler_04bc48:
         move.w  0x70(a6),d0                     | +054
         tst.b   (a0,d0.w)                       | +058
         beq.w   .L04bcd0                        | +05c
-        lea     TaskHandler_04bee0(pc),a1       | +060
+        lea     GunPlatform_Hatch_04bee0(pc),a1 | +060
         jsr     0x4ae.l                         | +064
         jsr     0x5dd02.l                       | +06a
         lea     0x2902f4.l,a1                   | +070
@@ -96,14 +96,14 @@ TaskHandler_04bc48:
         move.w  0x70(a6),d0                     | +08e
         tst.b   (a0,d0.w)                       | +092
         beq.w   .L04bcf8                        | +096
-        lea     TaskHandler_04c1b0(pc),a1       | +09a
+        lea     GunPlatform_Shield_04c1b0(pc),a1 | +09a
         jsr     0x4ae.l                         | +09e
         jsr     0x5dd02.l                       | +0a4
         move.w  0x70(a6),0x70(a0)               | +0aa
-        .global TaskHandler_04bc48__L04bcf8
-TaskHandler_04bc48__L04bcf8:
+        .global GunPlatform_SpawnCrewAndIdle_04bc48__L04bcf8
+GunPlatform_SpawnCrewAndIdle_04bc48__L04bcf8:
 .L04bcf8:
-        jsr     TaskHandler_04ca0e(pc)          | +0b0
+        jsr     GunPlatform_LoadIdleTimer_04ca0e(pc) | +0b0
         moveq   #0,d0                           | +0b4
         move.b  d0,0x20(a6)                     | +0b6
         move.w  d0,0x88(a6)                     | +0ba
@@ -112,149 +112,149 @@ TaskHandler_04bc48__L04bcf8:
 .L04bd0c:
         jsr     0x2783a.l                       | +0c4
         lea     0x290304.l,a1                   | +0ca
-        jsr     TaskHandler_04c98a(pc)          | +0d0
+        jsr     GunPlatform_SpriteByStateVariant_04c98a(pc) | +0d0
         jsr     0x28d70.l                       | +0d4
-        jsr     TaskHandler_04c9d6(pc)          | +0da
+        jsr     GunPlatform_TickTimer_04c9d6(pc) | +0da
         bcc.w   .L04bd36                        | +0de
         move.b  #0x1,0x20(a6)                   | +0e2
-        lea     TaskHandler_04bd5e__L04bd6c(pc),a1 | +0e8
+        lea     GunPlatform_Rearm_04bd5e__L04bd6c(pc),a1 | +0e8
         move.l  a1,(a6)                         | +0ec
 .L04bd36:
         clr.b   0x10e39a.l                      | +0ee
-        jsr     TaskHandler_04c6d4(pc)          | +0f4
+        jsr     GunPlatform_HitCheckUnlessDead_04c6d4(pc) | +0f4
         movea.l #0xffffffff,a0                  | +0f8
         lea     0x290912.l,a0                   | +0fe
         jsr     0x5dd5c.l                       | +104
         bcc.w   SetHandlerRts_04bd5c            | +10a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04bd5e  @ $04BD5E  (50 B)
+|  GunPlatform_Rearm_04bd5e  @ $04BD5E  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04bd5e, "ax", @progbits
-        .global TaskHandler_04bd5e
-TaskHandler_04bd5e:
+        .section .text.GunPlatform_Rearm_04bd5e, "ax", @progbits
+        .global GunPlatform_Rearm_04bd5e
+GunPlatform_Rearm_04bd5e:
         clr.w   0x88(a6)                        | +000
-        lea     TaskHandler_04bd90(pc),a1       | +004
+        lea     GunPlatform_Aim_04bd90(pc),a1   | +004
         move.l  a1,(a6)                         | +008
-        bra.w   TaskHandler_04bd90              | +00a
-        .global TaskHandler_04bd5e__L04bd6c
-TaskHandler_04bd5e__L04bd6c:
+        bra.w   GunPlatform_Aim_04bd90          | +00a
+        .global GunPlatform_Rearm_04bd5e__L04bd6c
+GunPlatform_Rearm_04bd5e__L04bd6c:
 .L04bd6c:
-        jsr     TaskHandler_04ca24(pc)          | +00e
+        jsr     GunPlatform_LoadBurstParams_04ca24(pc) | +00e
         move.w  #0x1e,0x88(a6)                  | +012
         move.b  #0x1,0x20(a6)                   | +018
         lea     .L04bd82(pc),a1                 | +01e
         move.l  a1,(a6)                         | +022
 .L04bd82:
         subq.w  #0x1,0x88(a6)                   | +024
-        bne.w   TaskHandler_04bd90              | +028
-        lea     TaskHandler_04bd90(pc),a1       | +02c
+        bne.w   GunPlatform_Aim_04bd90          | +028
+        lea     GunPlatform_Aim_04bd90(pc),a1   | +02c
         move.l  a1,(a6)                         | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04bd90  @ $04BD90  (108 B)
+|  GunPlatform_Aim_04bd90  @ $04BD90  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04bd90, "ax", @progbits
-        .global TaskHandler_04bd90
-TaskHandler_04bd90:
+        .section .text.GunPlatform_Aim_04bd90, "ax", @progbits
+        .global GunPlatform_Aim_04bd90
+GunPlatform_Aim_04bd90:
         jsr     0x2783a.l                       | +000
         lea     0x290304.l,a1                   | +006
-        jsr     TaskHandler_04c98a(pc)          | +00c
+        jsr     GunPlatform_SpriteByStateVariant_04c98a(pc) | +00c
         jsr     0x28d70.l                       | +010
         tst.w   0x88(a6)                        | +016
         bne.w   .L04bddc                        | +01a
-        jsr     TaskHandler_04c9ee(pc)          | +01e
+        jsr     GunPlatform_TickFireInterval_04c9ee(pc) | +01e
         bcc.w   .L04bddc                        | +022
         btst    #0x0,0x8a(a6)                   | +026
         bne.w   .L04bdd0                        | +02c
         move.b  #0x2,0x20(a6)                   | +030
-        lea     TaskHandler_04be04(pc),a1       | +036
+        lea     GunPlatform_FireA_04be04(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
         bra.w   .L04bddc                        | +03c
 .L04bdd0:
         move.b  #0x3,0x20(a6)                   | +040
-        lea     TaskHandler_04be72(pc),a1       | +046
+        lea     GunPlatform_FireB_04be72(pc),a1 | +046
         move.l  a1,(a6)                         | +04a
 .L04bddc:
         clr.b   0x10e39a.l                      | +04c
-        jsr     TaskHandler_04c6d4(pc)          | +052
+        jsr     GunPlatform_HitCheckUnlessDead_04c6d4(pc) | +052
         movea.l #0xffffffff,a0                  | +056
         lea     0x290912.l,a0                   | +05c
         jsr     0x5dd5c.l                       | +062
         bcc.w   SetHandlerRts_04be02            | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04be04  @ $04BE04  (102 B)
+|  GunPlatform_FireA_04be04  @ $04BE04  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04be04, "ax", @progbits
-        .global TaskHandler_04be04
-TaskHandler_04be04:
+        .section .text.GunPlatform_FireA_04be04, "ax", @progbits
+        .global GunPlatform_FireA_04be04
+GunPlatform_FireA_04be04:
         move.w  #0x1b,0x88(a6)                  | +000
         lea     .L04be10(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
 .L04be10:
         jsr     0x2783a.l                       | +00c
         lea     0x290304.l,a1                   | +012
-        jsr     TaskHandler_04c98a(pc)          | +018
+        jsr     GunPlatform_SpriteByStateVariant_04c98a(pc) | +018
         jsr     0x28d70.l                       | +01c
         subq.w  #0x1,0x88(a6)                   | +022
         bne.w   .L04be4a                        | +026
         addq.b  #0x1,0x8a(a6)                   | +02a
         subq.b  #0x1,0x82(a6)                   | +02e
         bne.w   .L04be44                        | +032
-        lea     TaskHandler_04bc48__L04bcf8(pc),a1 | +036
+        lea     GunPlatform_SpawnCrewAndIdle_04bc48__L04bcf8(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
         bra.w   .L04be4a                        | +03c
 .L04be44:
-        lea     TaskHandler_04bd5e(pc),a1       | +040
+        lea     GunPlatform_Rearm_04bd5e(pc),a1 | +040
         move.l  a1,(a6)                         | +044
 .L04be4a:
         clr.b   0x10e39a.l                      | +046
-        jsr     TaskHandler_04c6d4(pc)          | +04c
+        jsr     GunPlatform_HitCheckUnlessDead_04c6d4(pc) | +04c
         movea.l #0xffffffff,a0                  | +050
         lea     0x290912.l,a0                   | +056
         jsr     0x5dd5c.l                       | +05c
         bcc.w   SetHandlerRts_04be70            | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04be72  @ $04BE72  (102 B)
+|  GunPlatform_FireB_04be72  @ $04BE72  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04be72, "ax", @progbits
-        .global TaskHandler_04be72
-TaskHandler_04be72:
+        .section .text.GunPlatform_FireB_04be72, "ax", @progbits
+        .global GunPlatform_FireB_04be72
+GunPlatform_FireB_04be72:
         move.w  #0x1b,0x88(a6)                  | +000
         lea     .L04be7e(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
 .L04be7e:
         jsr     0x2783a.l                       | +00c
         lea     0x290304.l,a1                   | +012
-        jsr     TaskHandler_04c98a(pc)          | +018
+        jsr     GunPlatform_SpriteByStateVariant_04c98a(pc) | +018
         jsr     0x28d70.l                       | +01c
         subq.w  #0x1,0x88(a6)                   | +022
         bne.w   .L04beb8                        | +026
         addq.b  #0x1,0x8a(a6)                   | +02a
         subq.b  #0x1,0x82(a6)                   | +02e
         bne.w   .L04beb2                        | +032
-        lea     TaskHandler_04bc48__L04bcf8(pc),a1 | +036
+        lea     GunPlatform_SpawnCrewAndIdle_04bc48__L04bcf8(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
         bra.w   .L04beb8                        | +03c
 .L04beb2:
-        lea     TaskHandler_04bd5e(pc),a1       | +040
+        lea     GunPlatform_Rearm_04bd5e(pc),a1 | +040
         move.l  a1,(a6)                         | +044
 .L04beb8:
         clr.b   0x10e39a.l                      | +046
-        jsr     TaskHandler_04c6d4(pc)          | +04c
+        jsr     GunPlatform_HitCheckUnlessDead_04c6d4(pc) | +04c
         movea.l #0xffffffff,a0                  | +050
         lea     0x290912.l,a0                   | +056
         jsr     0x5dd5c.l                       | +05c
         bcc.w   SetHandlerRts_04bede            | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04bee0  @ $04BEE0  (112 B)
+|  GunPlatform_Hatch_04bee0  @ $04BEE0  (112 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04bee0, "ax", @progbits
-        .global TaskHandler_04bee0
-TaskHandler_04bee0:
+        .section .text.GunPlatform_Hatch_04bee0, "ax", @progbits
+        .global GunPlatform_Hatch_04bee0
+GunPlatform_Hatch_04bee0:
         move.w  #0x84,d1                        | +000
         jsr     0x236e.l                        | +004
         move.w  #0x19,0x1c(a6)                  | +00a
@@ -267,8 +267,8 @@ TaskHandler_04bee0:
         move.b  d0,0x20(a6)                     | +02e
         move.b  d0,0x21(a6)                     | +032
         jsr     0x267e2.l                       | +036
-        .global TaskHandler_04bee0__L04bf1c
-TaskHandler_04bee0__L04bf1c:
+        .global GunPlatform_Hatch_04bee0__L04bf1c
+GunPlatform_Hatch_04bee0__L04bf1c:
 .L04bf1c:
         lea     .L04bf22(pc),a1                 | +03c
         move.l  a1,(a6)                         | +040
@@ -276,21 +276,21 @@ TaskHandler_04bee0__L04bf1c:
         movea.l 0xc(a6),a0                      | +042
         cmpi.b  #0x1,0x20(a0)                   | +046
         bne.w   .L04bf36                        | +04c
-        lea     TaskHandler_04bf58(pc),a1       | +050
+        lea     GunPlatform_HatchOpen_04bf58(pc),a1 | +050
         move.l  a1,(a6)                         | +054
 .L04bf36:
-        jsr     TaskHandler_04c942(pc)          | +056
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +056
         movea.l #0xffffffff,a0                  | +05a
         lea     0x290912.l,a0                   | +060
         jsr     0x5dd5c.l                       | +066
         bcc.w   SetHandlerRts_04bf56            | +06c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04bf58  @ $04BF58  (144 B)
+|  GunPlatform_HatchOpen_04bf58  @ $04BF58  (144 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04bf58, "ax", @progbits
-        .global TaskHandler_04bf58
-TaskHandler_04bf58:
+        .section .text.GunPlatform_HatchOpen_04bf58, "ax", @progbits
+        .global GunPlatform_HatchOpen_04bf58
+GunPlatform_HatchOpen_04bf58:
         move.b  0x21(a6),d0                     | +000
         andi.w  #0xff,d0                        | +004
         movea.l #0x290344,a0                    | +008
@@ -318,21 +318,21 @@ TaskHandler_04bf58:
         movea.l 0xc(a6),a0                      | +062
         cmpi.b  #0x2,0x20(a0)                   | +066
         bne.w   .L04bfce                        | +06c
-        lea     TaskHandler_04bff0(pc),a1       | +070
+        lea     GunPlatform_HatchFire_04bff0(pc),a1 | +070
         move.l  a1,(a6)                         | +074
 .L04bfce:
-        jsr     TaskHandler_04c942(pc)          | +076
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +076
         movea.l #0xffffffff,a0                  | +07a
         lea     0x290912.l,a0                   | +080
         jsr     0x5dd5c.l                       | +086
         bcc.w   SetHandlerRts_04bfee            | +08c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04bff0  @ $04BFF0  (144 B)
+|  GunPlatform_HatchFire_04bff0  @ $04BFF0  (144 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04bff0, "ax", @progbits
-        .global TaskHandler_04bff0
-TaskHandler_04bff0:
+        .section .text.GunPlatform_HatchFire_04bff0, "ax", @progbits
+        .global GunPlatform_HatchFire_04bff0
+GunPlatform_HatchFire_04bff0:
         move.b  0x21(a6),d0                     | +000
         andi.w  #0xff,d0                        | +004
         movea.l #0x29033c,a0                    | +008
@@ -360,21 +360,21 @@ TaskHandler_04bff0:
         movea.l 0xc(a6),a0                      | +062
         cmpi.b  #0x2,0x20(a0)                   | +066
         beq.w   .L04c066                        | +06c
-        lea     TaskHandler_04c088(pc),a1       | +070
+        lea     GunPlatform_HatchHold_04c088(pc),a1 | +070
         move.l  a1,(a6)                         | +074
 .L04c066:
-        jsr     TaskHandler_04c942(pc)          | +076
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +076
         movea.l #0xffffffff,a0                  | +07a
         lea     0x290912.l,a0                   | +080
         jsr     0x5dd5c.l                       | +086
         bcc.w   SetHandlerRts_04c086            | +08c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c088  @ $04C088  (152 B)
+|  GunPlatform_HatchHold_04c088  @ $04C088  (152 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c088, "ax", @progbits
-        .global TaskHandler_04c088
-TaskHandler_04c088:
+        .section .text.GunPlatform_HatchHold_04c088, "ax", @progbits
+        .global GunPlatform_HatchHold_04c088
+GunPlatform_HatchHold_04c088:
         movea.l 0xc(a6),a0                      | +000
         move.w  0x22(a0),0x22(a6)               | +004
         move.w  0x24(a0),0x24(a6)               | +00a
@@ -399,26 +399,26 @@ TaskHandler_04c088:
         movea.l 0xc(a6),a0                      | +05c
         tst.b   0x20(a0)                        | +060
         bne.w   .L04c0f6                        | +064
-        lea     TaskHandler_04c128(pc),a1       | +068
+        lea     GunPlatform_HatchClose_04c128(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
 .L04c0f6:
         cmpi.b  #0x2,0x20(a0)                   | +06e
         bne.w   .L04c106                        | +074
-        lea     TaskHandler_04bff0(pc),a1       | +078
+        lea     GunPlatform_HatchFire_04bff0(pc),a1 | +078
         move.l  a1,(a6)                         | +07c
 .L04c106:
-        jsr     TaskHandler_04c942(pc)          | +07e
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +07e
         movea.l #0xffffffff,a0                  | +082
         lea     0x290912.l,a0                   | +088
         jsr     0x5dd5c.l                       | +08e
         bcc.w   SetHandlerRts_04c126            | +094
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c128  @ $04C128  (128 B)
+|  GunPlatform_HatchClose_04c128  @ $04C128  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c128, "ax", @progbits
-        .global TaskHandler_04c128
-TaskHandler_04c128:
+        .section .text.GunPlatform_HatchClose_04c128, "ax", @progbits
+        .global GunPlatform_HatchClose_04c128
+GunPlatform_HatchClose_04c128:
         move.b  0x21(a6),d0                     | +000
         andi.w  #0xff,d0                        | +004
         movea.l #0x29034c,a0                    | +008
@@ -443,21 +443,21 @@ TaskHandler_04c128:
 .L04c17e:
         jsr     0x28d70.l                       | +056
         bcc.w   .L04c18e                        | +05c
-        lea     TaskHandler_04bee0__L04bf1c(pc),a1 | +060
+        lea     GunPlatform_Hatch_04bee0__L04bf1c(pc),a1 | +060
         move.l  a1,(a6)                         | +064
 .L04c18e:
-        jsr     TaskHandler_04c942(pc)          | +066
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +066
         movea.l #0xffffffff,a0                  | +06a
         lea     0x290912.l,a0                   | +070
         jsr     0x5dd5c.l                       | +076
         bcc.w   SetHandlerRts_04c1ae            | +07c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c1b0  @ $04C1B0  (190 B)
+|  GunPlatform_Shield_04c1b0  @ $04C1B0  (190 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c1b0, "ax", @progbits
-        .global TaskHandler_04c1b0
-TaskHandler_04c1b0:
+        .section .text.GunPlatform_Shield_04c1b0, "ax", @progbits
+        .global GunPlatform_Shield_04c1b0
+GunPlatform_Shield_04c1b0:
         move.w  #0x84,d1                        | +000
         jsr     0x236e.l                        | +004
         move.w  #0x19,0x1c(a6)                  | +00a
@@ -476,14 +476,14 @@ TaskHandler_04c1b0:
         jsr     0x267e2.l                       | +04c
         lea     .L04c208(pc),a1                 | +052
         move.l  a1,(a6)                         | +056
-        .global TaskHandler_04c1b0__L04c208
-TaskHandler_04c1b0__L04c208:
+        .global GunPlatform_Shield_04c1b0__L04c208
+GunPlatform_Shield_04c1b0__L04c208:
 .L04c208:
         movea.l 0xc(a6),a0                      | +058
         move.w  0x22(a0),0x22(a6)               | +05c
         move.w  0x24(a0),0x24(a6)               | +062
         lea     0x29030c.l,a1                   | +068
-        jsr     TaskHandler_04c9ae(pc)          | +06e
+        jsr     GunPlatform_SpriteByParentState_04c9ae(pc) | +06e
         movea.l 0xc(a6),a0                      | +072
         btst    #0x7,0x5a(a0)                   | +076
         beq.w   .L04c236                        | +07c
@@ -493,22 +493,22 @@ TaskHandler_04c1b0__L04c208:
         movea.l 0xc(a6),a0                      | +08c
         cmpi.b  #0x2,0x20(a0)                   | +090
         bne.w   .L04c250                        | +096
-        lea     TaskHandler_04c276(pc),a1       | +09a
+        lea     GunPlatform_ShieldFire_04c276(pc),a1 | +09a
         move.l  a1,(a6)                         | +09e
 .L04c250:
-        jsr     TaskHandler_04c942(pc)          | +0a0
-        jsr     TaskHandler_04c958(pc)          | +0a4
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +0a0
+        jsr     GunPlatform_PartHitCheck_04c958(pc) | +0a4
         movea.l #0xffffffff,a0                  | +0a8
         lea     0x290912.l,a0                   | +0ae
         jsr     0x5dd5c.l                       | +0b4
         bcc.w   SetHandlerRts_04c274            | +0ba
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c276  @ $04C276  (102 B)
+|  GunPlatform_ShieldFire_04c276  @ $04C276  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c276, "ax", @progbits
-        .global TaskHandler_04c276
-TaskHandler_04c276:
+        .section .text.GunPlatform_ShieldFire_04c276, "ax", @progbits
+        .global GunPlatform_ShieldFire_04c276
+GunPlatform_ShieldFire_04c276:
         movea.l 0xc(a6),a0                      | +000
         move.w  0x22(a0),0x22(a6)               | +004
         move.w  0x24(a0),0x24(a6)               | +00a
@@ -518,27 +518,27 @@ TaskHandler_04c276:
         bset    #0x0,0x5a(a6)                   | +01e
 .L04c29a:
         lea     0x29030c.l,a1                   | +024
-        jsr     TaskHandler_04c9ae(pc)          | +02a
+        jsr     GunPlatform_SpriteByParentState_04c9ae(pc) | +02a
         jsr     0x28d70.l                       | +02e
         movea.l 0xc(a6),a0                      | +034
         cmpi.b  #0x2,0x20(a0)                   | +038
         beq.w   .L04c2be                        | +03e
-        lea     TaskHandler_04c1b0__L04c208(pc),a1 | +042
+        lea     GunPlatform_Shield_04c1b0__L04c208(pc),a1 | +042
         move.l  a1,(a6)                         | +046
 .L04c2be:
-        jsr     TaskHandler_04c942(pc)          | +048
-        jsr     TaskHandler_04c958(pc)          | +04c
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +048
+        jsr     GunPlatform_PartHitCheck_04c958(pc) | +04c
         movea.l #0xffffffff,a0                  | +050
         lea     0x290912.l,a0                   | +056
         jsr     0x5dd5c.l                       | +05c
         bcc.w   SetHandlerRts_04c2e2            | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c2e4  @ $04C2E4  (80 B)
+|  GunPlatform_RiderB_Init_04c2e4  @ $04C2E4  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c2e4, "ax", @progbits
-        .global TaskHandler_04c2e4
-TaskHandler_04c2e4:
+        .section .text.GunPlatform_RiderB_Init_04c2e4, "ax", @progbits
+        .global GunPlatform_RiderB_Init_04c2e4
+GunPlatform_RiderB_Init_04c2e4:
         clr.b   0x20(a6)                        | +000
         clr.b   0x21(a6)                        | +004
         move.w  #0x1,0x66(a6)                   | +008
@@ -556,11 +556,11 @@ TaskHandler_04c2e4:
         ori.w   #0x8,0x38(a6)                   | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c334  @ $04C334  (52 B)
+|  GunPlatform_RiderB_Idle_04c334  @ $04C334  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c334, "ax", @progbits
-        .global TaskHandler_04c334
-TaskHandler_04c334:
+        .section .text.GunPlatform_RiderB_Idle_04c334, "ax", @progbits
+        .global GunPlatform_RiderB_Idle_04c334
+GunPlatform_RiderB_Idle_04c334:
         lea     0x28e312.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L04c346(pc),a1                 | +00c
@@ -571,26 +571,26 @@ TaskHandler_04c334:
         movea.l 0xc(a6),a0                      | +01e
         tst.b   0x20(a0)                        | +022
         beq.w   .L04c364                        | +026
-        lea     TaskHandler_04c368(pc),a1       | +02a
+        lea     GunPlatform_RiderB_Alert_04c368(pc),a1 | +02a
         move.l  a1,(a6)                         | +02e
 .L04c364:
-        bra.w   TaskHandler_04c3ea__L04c416     | +030
+        bra.w   GunPlatform_RiderB_Return_04c3ea__L04c416 | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c368  @ $04C368  (12 B)
+|  GunPlatform_RiderB_Alert_04c368  @ $04C368  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c368, "ax", @progbits
-        .global TaskHandler_04c368
-TaskHandler_04c368:
+        .section .text.GunPlatform_RiderB_Alert_04c368, "ax", @progbits
+        .global GunPlatform_RiderB_Alert_04c368
+GunPlatform_RiderB_Alert_04c368:
         lea     0x28e8f4.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c374  @ $04C374  (64 B)
+|  GunPlatform_RiderB_Anim_04c374  @ $04C374  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c374, "ax", @progbits
-        .global TaskHandler_04c374
-TaskHandler_04c374:
+        .section .text.GunPlatform_RiderB_Anim_04c374, "ax", @progbits
+        .global GunPlatform_RiderB_Anim_04c374
+GunPlatform_RiderB_Anim_04c374:
         lea     .L04c37a(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L04c37a:
@@ -600,23 +600,23 @@ TaskHandler_04c374:
         movea.l 0xc(a6),a0                      | +016
         tst.b   0x20(a0)                        | +01a
         bne.w   .L04c39c                        | +01e
-        lea     TaskHandler_04c3ea(pc),a1       | +022
+        lea     GunPlatform_RiderB_Return_04c3ea(pc),a1 | +022
         move.l  a1,(a6)                         | +026
 .L04c39c:
         movea.l 0xc(a6),a0                      | +028
         cmpi.b  #0x3,0x20(a0)                   | +02c
         bne.w   .L04c3b0                        | +032
-        lea     TaskHandler_04c3b4(pc),a1       | +036
+        lea     GunPlatform_RiderB_Fire_04c3b4(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
 .L04c3b0:
-        bra.w   TaskHandler_04c3ea__L04c416     | +03c
+        bra.w   GunPlatform_RiderB_Return_04c3ea__L04c416 | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c3b4  @ $04C3B4  (54 B)
+|  GunPlatform_RiderB_Fire_04c3b4  @ $04C3B4  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c3b4, "ax", @progbits
-        .global TaskHandler_04c3b4
-TaskHandler_04c3b4:
+        .section .text.GunPlatform_RiderB_Fire_04c3b4, "ax", @progbits
+        .global GunPlatform_RiderB_Fire_04c3b4
+GunPlatform_RiderB_Fire_04c3b4:
         lea     0x28ec54.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L04c3c6(pc),a1                 | +00c
@@ -627,17 +627,17 @@ TaskHandler_04c3b4:
         movea.l 0xc(a6),a0                      | +01e
         cmpi.b  #0x3,0x20(a0)                   | +022
         beq.w   .L04c3e6                        | +028
-        lea     TaskHandler_04c374(pc),a1       | +02c
+        lea     GunPlatform_RiderB_Anim_04c374(pc),a1 | +02c
         move.l  a1,(a6)                         | +030
 .L04c3e6:
-        bra.w   TaskHandler_04c3ea__L04c416     | +032
+        bra.w   GunPlatform_RiderB_Return_04c3ea__L04c416 | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c3ea  @ $04C3EA  (88 B)
+|  GunPlatform_RiderB_Return_04c3ea  @ $04C3EA  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c3ea, "ax", @progbits
-        .global TaskHandler_04c3ea
-TaskHandler_04c3ea:
+        .section .text.GunPlatform_RiderB_Return_04c3ea, "ax", @progbits
+        .global GunPlatform_RiderB_Return_04c3ea
+GunPlatform_RiderB_Return_04c3ea:
         lea     0x28e934.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L04c3fc(pc),a1                 | +00c
@@ -646,30 +646,30 @@ TaskHandler_04c3ea:
         jsr     0x2783a.l                       | +012
         jsr     0x28d70.l                       | +018
         bcc.w   .L04c412                        | +01e
-        lea     TaskHandler_04c334(pc),a1       | +022
+        lea     GunPlatform_RiderB_Idle_04c334(pc),a1 | +022
         move.l  a1,(a6)                         | +026
 .L04c412:
         bra.w   .L04c416                        | +028
-        .global TaskHandler_04c3ea__L04c416
-TaskHandler_04c3ea__L04c416:
+        .global GunPlatform_RiderB_Return_04c3ea__L04c416
+GunPlatform_RiderB_Return_04c3ea__L04c416:
 .L04c416:
         jsr     0x2870a.l                       | +02c
         bcc.w   .L04c428                        | +032
         lea     0x4a146.l,a1                    | +036
         move.l  a1,(a6)                         | +03c
 .L04c428:
-        jsr     TaskHandler_04c942(pc)          | +03e
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +03e
         movea.l #0xffffffff,a0                  | +042
         lea     0x290912.l,a0                   | +048
         jsr     0x5dd5c.l                       | +04e
         bcc.w   SetHandlerRts_04c448            | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c44a  @ $04C44A  (68 B)
+|  GunPlatform_RiderA_Init_04c44a  @ $04C44A  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c44a, "ax", @progbits
-        .global TaskHandler_04c44a
-TaskHandler_04c44a:
+        .section .text.GunPlatform_RiderA_Init_04c44a, "ax", @progbits
+        .global GunPlatform_RiderA_Init_04c44a
+GunPlatform_RiderA_Init_04c44a:
         clr.b   0x20(a6)                        | +000
         clr.b   0x21(a6)                        | +004
         move.w  #0x1,0x66(a6)                   | +008
@@ -685,11 +685,11 @@ TaskHandler_04c44a:
         ori.w   #0x8,0x38(a6)                   | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c48e  @ $04C48E  (52 B)
+|  GunPlatform_RiderA_Idle_04c48e  @ $04C48E  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c48e, "ax", @progbits
-        .global TaskHandler_04c48e
-TaskHandler_04c48e:
+        .section .text.GunPlatform_RiderA_Idle_04c48e, "ax", @progbits
+        .global GunPlatform_RiderA_Idle_04c48e
+GunPlatform_RiderA_Idle_04c48e:
         lea     0x28e6b0.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L04c4a0(pc),a1                 | +00c
@@ -700,26 +700,26 @@ TaskHandler_04c48e:
         movea.l 0xc(a6),a0                      | +01e
         tst.b   0x20(a0)                        | +022
         beq.w   .L04c4be                        | +026
-        lea     TaskHandler_04c4c2(pc),a1       | +02a
+        lea     GunPlatform_RiderA_Alert_04c4c2(pc),a1 | +02a
         move.l  a1,(a6)                         | +02e
 .L04c4be:
-        bra.w   TaskHandler_04c50e__L04c544     | +030
+        bra.w   GunPlatform_RiderA_Fire_04c50e__L04c544 | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c4c2  @ $04C4C2  (12 B)
+|  GunPlatform_RiderA_Alert_04c4c2  @ $04C4C2  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c4c2, "ax", @progbits
-        .global TaskHandler_04c4c2
-TaskHandler_04c4c2:
+        .section .text.GunPlatform_RiderA_Alert_04c4c2, "ax", @progbits
+        .global GunPlatform_RiderA_Alert_04c4c2
+GunPlatform_RiderA_Alert_04c4c2:
         lea     0x28e6bc.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c4ce  @ $04C4CE  (64 B)
+|  GunPlatform_RiderA_Anim_04c4ce  @ $04C4CE  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c4ce, "ax", @progbits
-        .global TaskHandler_04c4ce
-TaskHandler_04c4ce:
+        .section .text.GunPlatform_RiderA_Anim_04c4ce, "ax", @progbits
+        .global GunPlatform_RiderA_Anim_04c4ce
+GunPlatform_RiderA_Anim_04c4ce:
         lea     .L04c4d4(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L04c4d4:
@@ -729,23 +729,23 @@ TaskHandler_04c4ce:
         movea.l 0xc(a6),a0                      | +016
         tst.b   0x20(a0)                        | +01a
         bne.w   .L04c4f6                        | +01e
-        lea     TaskHandler_04c48e(pc),a1       | +022
+        lea     GunPlatform_RiderA_Idle_04c48e(pc),a1 | +022
         move.l  a1,(a6)                         | +026
 .L04c4f6:
         movea.l 0xc(a6),a0                      | +028
         cmpi.b  #0x3,0x20(a0)                   | +02c
         bne.w   .L04c50a                        | +032
-        lea     TaskHandler_04c50e(pc),a1       | +036
+        lea     GunPlatform_RiderA_Fire_04c50e(pc),a1 | +036
         move.l  a1,(a6)                         | +03a
 .L04c50a:
-        bra.w   TaskHandler_04c50e__L04c544     | +03c
+        bra.w   GunPlatform_RiderA_Fire_04c50e__L04c544 | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c50e  @ $04C50E  (98 B)
+|  GunPlatform_RiderA_Fire_04c50e  @ $04C50E  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c50e, "ax", @progbits
-        .global TaskHandler_04c50e
-TaskHandler_04c50e:
+        .section .text.GunPlatform_RiderA_Fire_04c50e, "ax", @progbits
+        .global GunPlatform_RiderA_Fire_04c50e
+GunPlatform_RiderA_Fire_04c50e:
         lea     0x28e6c8.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L04c520(pc),a1                 | +00c
@@ -756,38 +756,38 @@ TaskHandler_04c50e:
         movea.l 0xc(a6),a0                      | +01e
         cmpi.b  #0x3,0x20(a0)                   | +022
         beq.w   .L04c540                        | +028
-        lea     TaskHandler_04c4ce(pc),a1       | +02c
+        lea     GunPlatform_RiderA_Anim_04c4ce(pc),a1 | +02c
         move.l  a1,(a6)                         | +030
 .L04c540:
         bra.w   .L04c544                        | +032
-        .global TaskHandler_04c50e__L04c544
-TaskHandler_04c50e__L04c544:
+        .global GunPlatform_RiderA_Fire_04c50e__L04c544
+GunPlatform_RiderA_Fire_04c50e__L04c544:
 .L04c544:
         jsr     0x2870a.l                       | +036
         bcc.w   .L04c556                        | +03c
         lea     0x4a154.l,a1                    | +040
         move.l  a1,(a6)                         | +046
 .L04c556:
-        jsr     TaskHandler_04c942(pc)          | +048
+        jsr     GunPlatform_FreeIfParentDead_04c942(pc) | +048
         movea.l #0xffffffff,a0                  | +04c
         lea     0x290912.l,a0                   | +052
         jsr     0x5dd5c.l                       | +058
         bcc.w   SetHandlerRts_04c576            | +05e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c578  @ $04C578  (6 B)
+|  GunPlatform_MarkDead_04c578  @ $04C578  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c578, "ax", @progbits
-        .global TaskHandler_04c578
-TaskHandler_04c578:
+        .section .text.GunPlatform_MarkDead_04c578, "ax", @progbits
+        .global GunPlatform_MarkDead_04c578
+GunPlatform_MarkDead_04c578:
         move.b  #0xff,0x20(a6)                  | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c58c  @ $04C58C  (22 B)
+|  GunPlatform_FreeClearBit1_04c58c  @ $04C58C  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c58c, "ax", @progbits
-        .global TaskHandler_04c58c
-TaskHandler_04c58c:
+        .section .text.GunPlatform_FreeClearBit1_04c58c, "ax", @progbits
+        .global GunPlatform_FreeClearBit1_04c58c
+GunPlatform_FreeClearBit1_04c58c:
         btst    #0x1,0x12(a6)                   | +000
         beq.w   .L04c59c                        | +006
         bclr    #0x1,0x12(a6)                   | +00a
@@ -795,21 +795,21 @@ TaskHandler_04c58c:
         jmp     0x518.l                         | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c5a2  @ $04C5A2  (2 B)
+|  GunPlatform_Nop_04c5a2  @ $04C5A2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c5a2, "ax", @progbits
-        .global TaskHandler_04c5a2
-TaskHandler_04c5a2:
+        .section .text.GunPlatform_Nop_04c5a2, "ax", @progbits
+        .global GunPlatform_Nop_04c5a2
+GunPlatform_Nop_04c5a2:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c5a4  @ $04C5A4  (90 B)
+|  GunPlatform_Destroyed_04c5a4  @ $04C5A4  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c5a4, "ax", @progbits
-        .global TaskHandler_04c5a4
-TaskHandler_04c5a4:
+        .section .text.GunPlatform_Destroyed_04c5a4, "ax", @progbits
+        .global GunPlatform_Destroyed_04c5a4
+GunPlatform_Destroyed_04c5a4:
         clr.b   0x78(a6)                        | +000
-        jsr     TaskHandler_04ca98(pc)          | +004
+        jsr     GunPlatform_SndByVariant_04ca98(pc) | +004
         move.w  #0x1023,d0                      | +008
         jsr     0x2352.l                        | +00c
         lea     0x290ea4.l,a1                   | +012
@@ -825,17 +825,17 @@ TaskHandler_04c5a4:
         subq.w  #0x1,0x88(a6)                   | +042
         bne.w   SetHandlerRts_04c604            | +046
         move.b  #0xff,0x20(a6)                  | +04a
-        jsr     TaskHandler_04ca4a(pc)          | +050
+        jsr     GunPlatform_RegisterKill_04ca4a(pc) | +050
         bclr    #0x1,0x12(a6)                   | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c606  @ $04C606  (124 B)
+|  GunPlatform_DestroyedWithWreck_04c606  @ $04C606  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c606, "ax", @progbits
-        .global TaskHandler_04c606
-TaskHandler_04c606:
+        .section .text.GunPlatform_DestroyedWithWreck_04c606, "ax", @progbits
+        .global GunPlatform_DestroyedWithWreck_04c606
+GunPlatform_DestroyedWithWreck_04c606:
         clr.b   0x78(a6)                        | +000
-        jsr     TaskHandler_04ca98(pc)          | +004
+        jsr     GunPlatform_SndByVariant_04ca98(pc) | +004
         bclr    #0x1,0x12(a6)                   | +008
         lea     0x290374.l,a1                   | +00e
         move.w  0x70(a6),d1                     | +014
@@ -843,9 +843,9 @@ TaskHandler_04c606:
         add.w   d1,d1                           | +01a
         movea.l (a1,d1.w),a0                    | +01c
         cmpa.l  #0xffffffff,a0                  | +020
-        beq.w   TaskHandler_04c5a4              | +026
+        beq.w   GunPlatform_Destroyed_04c5a4    | +026
         jsr     0x28cd4.l                       | +02a
-        lea     TaskHandler_04c68a(pc),a1       | +030
+        lea     GunPlatform_Wreck_04c68a(pc),a1 | +030
         jsr     0x4ae.l                         | +034
         jsr     0x5dd02.l                       | +03a
         move.w  0x38(a6),d0                     | +040
@@ -857,7 +857,7 @@ TaskHandler_04c606:
         jsr     0x2783a.l                       | +050
         jsr     0x28d70.l                       | +056
         bcc.w   .L04c66c                        | +05c
-        lea     TaskHandler_04c68a(pc),a1       | +060
+        lea     GunPlatform_Wreck_04c68a(pc),a1 | +060
         move.l  a1,(a6)                         | +064
 .L04c66c:
         movea.l #0xffffffff,a0                  | +066
@@ -866,11 +866,11 @@ TaskHandler_04c606:
         bcc.w   SetHandlerRts_04c688            | +078
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c68a  @ $04C68A  (66 B)
+|  GunPlatform_Wreck_04c68a  @ $04C68A  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c68a, "ax", @progbits
-        .global TaskHandler_04c68a
-TaskHandler_04c68a:
+        .section .text.GunPlatform_Wreck_04c68a, "ax", @progbits
+        .global GunPlatform_Wreck_04c68a
+GunPlatform_Wreck_04c68a:
         clr.b   0x78(a6)                        | +000
         move.w  #0x84,d1                        | +004
         jsr     0x236e.l                        | +008
@@ -887,21 +887,21 @@ TaskHandler_04c68a:
         bcc.w   SetHandlerRts_04c6d2            | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c6d4  @ $04C6D4  (14 B)
+|  GunPlatform_HitCheckUnlessDead_04c6d4  @ $04C6D4  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c6d4, "ax", @progbits
-        .global TaskHandler_04c6d4
-TaskHandler_04c6d4:
+        .section .text.GunPlatform_HitCheckUnlessDead_04c6d4, "ax", @progbits
+        .global GunPlatform_HitCheckUnlessDead_04c6d4
+GunPlatform_HitCheckUnlessDead_04c6d4:
         cmpi.b  #0xff,0x20(a6)                  | +000
-        bne.w   TaskHandler_04c6ea              | +006
-        jsr     TaskHandler_04ca4a(pc)          | +00a
+        bne.w   GunPlatform_HitCheck_04c6ea     | +006
+        jsr     GunPlatform_RegisterKill_04ca4a(pc) | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c6ea  @ $04C6EA  (128 B)
+|  GunPlatform_HitCheck_04c6ea  @ $04C6EA  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c6ea, "ax", @progbits
-        .global TaskHandler_04c6ea
-TaskHandler_04c6ea:
+        .section .text.GunPlatform_HitCheck_04c6ea, "ax", @progbits
+        .global GunPlatform_HitCheck_04c6ea
+GunPlatform_HitCheck_04c6ea:
         clr.b   0x78(a6)                        | +000
         jsr     0x2870a.l                       | +004
         bcc.w   .L04c75a                        | +00a
@@ -928,15 +928,15 @@ TaskHandler_04c6ea:
 .L04c75a:
         jsr     0x28758.l                       | +070
         bcc.w   ClearXN_04c770                  | +076
-        lea     TaskHandler_04c5a4(pc),a1       | +07a
+        lea     GunPlatform_Destroyed_04c5a4(pc),a1 | +07a
         move.l  a1,(a6)                         | +07e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c776  @ $04C776  (180 B)
+|  GunPlatform_Gun_04c776  @ $04C776  (180 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c776, "ax", @progbits
-        .global TaskHandler_04c776
-TaskHandler_04c776:
+        .section .text.GunPlatform_Gun_04c776, "ax", @progbits
+        .global GunPlatform_Gun_04c776
+GunPlatform_Gun_04c776:
         move.w  #0x84,d1                        | +000
         jsr     0x236e.l                        | +004
         move.w  #0x19,0x1c(a6)                  | +00a
@@ -956,10 +956,10 @@ TaskHandler_04c776:
         movea.l 0xc(a6),a0                      | +04c
         cmpi.b  #0x1,0x21(a0)                   | +050
         bne.w   .L04c7d6                        | +056
-        lea     TaskHandler_04c832(pc),a1       | +05a
+        lea     GunPlatform_GunDamaged_04c832(pc),a1 | +05a
         move.l  a1,(a6)                         | +05e
-        .global TaskHandler_04c776__L04c7d6
-TaskHandler_04c776__L04c7d6:
+        .global GunPlatform_Gun_04c776__L04c7d6
+GunPlatform_Gun_04c776__L04c7d6:
 .L04c7d6:
         jsr     0x5e506.l                       | +060
         tst.b   0x78(a0)                        | +066
@@ -983,24 +983,24 @@ TaskHandler_04c776__L04c7d6:
         bcc.w   SetHandlerRts_04c830            | +0b0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c832  @ $04C832  (20 B)
+|  GunPlatform_GunDamaged_04c832  @ $04C832  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c832, "ax", @progbits
-        .global TaskHandler_04c832
-TaskHandler_04c832:
+        .section .text.GunPlatform_GunDamaged_04c832, "ax", @progbits
+        .global GunPlatform_GunDamaged_04c832
+GunPlatform_GunDamaged_04c832:
         lea     0x290882.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L04c844(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L04c844:
-        bra.b   TaskHandler_04c776__L04c7d6     | +012
+        bra.b   GunPlatform_Gun_04c776__L04c7d6 | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c846  @ $04C846  (194 B)
+|  GunPlatform_FlyingPart_04c846  @ $04C846  (194 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c846, "ax", @progbits
-        .global TaskHandler_04c846
-TaskHandler_04c846:
+        .section .text.GunPlatform_FlyingPart_04c846, "ax", @progbits
+        .global GunPlatform_FlyingPart_04c846
+GunPlatform_FlyingPart_04c846:
         lea     0x2908c8.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         subq.w  #0x8,0x24(a6)                   | +00c
@@ -1010,8 +1010,8 @@ TaskHandler_04c846:
         move.w  0x36(a6),d0                     | +01c
         cmpi.w  #0x0,d0                         | +020
         bgt.w   .L04c87a                        | +024
-        .global TaskHandler_04c846__L04c86e
-TaskHandler_04c846__L04c86e:
+        .global GunPlatform_FlyingPart_04c846__L04c86e
+GunPlatform_FlyingPart_04c846__L04c86e:
 .L04c86e:
         lea     0x2bd1de.l,a0                   | +028
         jsr     0x799de.l                       | +02e
@@ -1039,14 +1039,14 @@ TaskHandler_04c846__L04c86e:
         jsr     0x27cee.l                       | +086
         bcc.w   .L04c8dc                        | +08c
 .L04c8d6:
-        lea     TaskHandler_04c910(pc),a1       | +090
+        lea     GunPlatform_FlyingPartLand_04c910(pc),a1 | +090
         move.l  a1,(a6)                         | +094
 .L04c8dc:
         jsr     0x28d70.l                       | +096
         jsr     0x283d8.l                       | +09c
         btst    #0x1,0x13(a6)                   | +0a2
         beq.w   .L04c8f8                        | +0a8
-        lea     TaskHandler_04c910(pc),a1       | +0ac
+        lea     GunPlatform_FlyingPartLand_04c910(pc),a1 | +0ac
         move.l  a1,(a6)                         | +0b0
 .L04c8f8:
         movea.l #0xffffffff,a0                  | +0b2
@@ -1054,11 +1054,11 @@ TaskHandler_04c846__L04c86e:
         bcc.w   SetHandlerRts_04c90e            | +0be
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c910  @ $04C910  (36 B)
+|  GunPlatform_FlyingPartLand_04c910  @ $04C910  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c910, "ax", @progbits
-        .global TaskHandler_04c910
-TaskHandler_04c910:
+        .section .text.GunPlatform_FlyingPartLand_04c910, "ax", @progbits
+        .global GunPlatform_FlyingPartLand_04c910
+GunPlatform_FlyingPartLand_04c910:
         move.w  #0x4000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -1067,21 +1067,21 @@ TaskHandler_04c910:
         jmp     0x77f6a.l                       | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c942  @ $04C942  (14 B)
+|  GunPlatform_FreeIfParentDead_04c942  @ $04C942  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c942, "ax", @progbits
-        .global TaskHandler_04c942
-TaskHandler_04c942:
+        .section .text.GunPlatform_FreeIfParentDead_04c942, "ax", @progbits
+        .global GunPlatform_FreeIfParentDead_04c942
+GunPlatform_FreeIfParentDead_04c942:
         movea.l 0xc(a6),a0                      | +000
         cmpi.b  #0xff,0x20(a0)                  | +004
         bne.w   SetHandlerRts_04c956            | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c958  @ $04C958  (50 B)
+|  GunPlatform_PartHitCheck_04c958  @ $04C958  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c958, "ax", @progbits
-        .global TaskHandler_04c958
-TaskHandler_04c958:
+        .section .text.GunPlatform_PartHitCheck_04c958, "ax", @progbits
+        .global GunPlatform_PartHitCheck_04c958
+GunPlatform_PartHitCheck_04c958:
         jsr     0x2870a.l                       | +000
         bcc.w   .L04c974                        | +006
         lea     0x5e766.l,a0                    | +00a
@@ -1096,11 +1096,11 @@ TaskHandler_04c958:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c98a  @ $04C98A  (28 B)
+|  GunPlatform_SpriteByStateVariant_04c98a  @ $04C98A  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c98a, "ax", @progbits
-        .global TaskHandler_04c98a
-TaskHandler_04c98a:
+        .section .text.GunPlatform_SpriteByStateVariant_04c98a, "ax", @progbits
+        .global GunPlatform_SpriteByStateVariant_04c98a
+GunPlatform_SpriteByStateVariant_04c98a:
         move.b  0x21(a6),d1                     | +000
         andi.w  #0xff,d1                        | +004
         add.w   d1,d1                           | +008
@@ -1112,11 +1112,11 @@ TaskHandler_04c98a:
         movea.l (a0,d0.w),a0                    | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c9ae  @ $04C9AE  (32 B)
+|  GunPlatform_SpriteByParentState_04c9ae  @ $04C9AE  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c9ae, "ax", @progbits
-        .global TaskHandler_04c9ae
-TaskHandler_04c9ae:
+        .section .text.GunPlatform_SpriteByParentState_04c9ae, "ax", @progbits
+        .global GunPlatform_SpriteByParentState_04c9ae
+GunPlatform_SpriteByParentState_04c9ae:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x21(a0),d1                     | +004
         andi.w  #0xff,d1                        | +008
@@ -1129,21 +1129,21 @@ TaskHandler_04c9ae:
         movea.l (a0,d0.w),a0                    | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c9d6  @ $04C9D6  (12 B)
+|  GunPlatform_TickTimer_04c9d6  @ $04C9D6  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c9d6, "ax", @progbits
-        .global TaskHandler_04c9d6
-TaskHandler_04c9d6:
+        .section .text.GunPlatform_TickTimer_04c9d6, "ax", @progbits
+        .global GunPlatform_TickTimer_04c9d6
+GunPlatform_TickTimer_04c9d6:
         subq.w  #0x1,0x80(a6)                   | +000
         bgt.w   ClearXN_04c9e8                  | +004
         clr.w   0x80(a6)                        | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04c9ee  @ $04C9EE  (20 B)
+|  GunPlatform_TickFireInterval_04c9ee  @ $04C9EE  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04c9ee, "ax", @progbits
-        .global TaskHandler_04c9ee
-TaskHandler_04c9ee:
+        .section .text.GunPlatform_TickFireInterval_04c9ee, "ax", @progbits
+        .global GunPlatform_TickFireInterval_04c9ee
+GunPlatform_TickFireInterval_04c9ee:
         addq.w  #0x1,0x86(a6)                   | +000
         move.w  0x86(a6),d0                     | +004
         cmp.w   0x84(a6),d0                     | +008
@@ -1151,11 +1151,11 @@ TaskHandler_04c9ee:
         clr.w   0x86(a6)                        | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ca0e  @ $04CA0E  (22 B)
+|  GunPlatform_LoadIdleTimer_04ca0e  @ $04CA0E  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ca0e, "ax", @progbits
-        .global TaskHandler_04ca0e
-TaskHandler_04ca0e:
+        .section .text.GunPlatform_LoadIdleTimer_04ca0e, "ax", @progbits
+        .global GunPlatform_LoadIdleTimer_04ca0e
+GunPlatform_LoadIdleTimer_04ca0e:
         lea     0x2bd260.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x80(a6)                     | +00c
@@ -1163,11 +1163,11 @@ TaskHandler_04ca0e:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ca24  @ $04CA24  (38 B)
+|  GunPlatform_LoadBurstParams_04ca24  @ $04CA24  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ca24, "ax", @progbits
-        .global TaskHandler_04ca24
-TaskHandler_04ca24:
+        .section .text.GunPlatform_LoadBurstParams_04ca24, "ax", @progbits
+        .global GunPlatform_LoadBurstParams_04ca24
+GunPlatform_LoadBurstParams_04ca24:
         lea     0x2bd364.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.b  d0,0x82(a6)                     | +00c
@@ -1178,19 +1178,19 @@ TaskHandler_04ca24:
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ca4a  @ $04CA4A  (6 B)
+|  GunPlatform_RegisterKill_04ca4a  @ $04CA4A  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ca4a, "ax", @progbits
-        .global TaskHandler_04ca4a
-TaskHandler_04ca4a:
+        .section .text.GunPlatform_RegisterKill_04ca4a, "ax", @progbits
+        .global GunPlatform_RegisterKill_04ca4a
+GunPlatform_RegisterKill_04ca4a:
         lea     0x290e6c.l,a1                   | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ca58  @ $04CA58  (36 B)
+|  GunPlatform_SpawnExplosionMusic_04ca58  @ $04CA58  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ca58, "ax", @progbits
-        .global TaskHandler_04ca58
-TaskHandler_04ca58:
+        .section .text.GunPlatform_SpawnExplosionMusic_04ca58, "ax", @progbits
+        .global GunPlatform_SpawnExplosionMusic_04ca58
+GunPlatform_SpawnExplosionMusic_04ca58:
         move.w  #0x1067,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x620da.l,a1                    | +00a
@@ -1200,12 +1200,12 @@ TaskHandler_04ca58:
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ca7c  @ $04CA7C  (28 B)
+|  GunPlatform_SpawnFlyingPart_04ca7c  @ $04CA7C  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ca7c, "ax", @progbits
-        .global TaskHandler_04ca7c
-TaskHandler_04ca7c:
-        lea     TaskHandler_04c846__L04c86e(pc),a1 | +000
+        .section .text.GunPlatform_SpawnFlyingPart_04ca7c, "ax", @progbits
+        .global GunPlatform_SpawnFlyingPart_04ca7c
+GunPlatform_SpawnFlyingPart_04ca7c:
+        lea     GunPlatform_FlyingPart_04c846__L04c86e(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         subi.w  #0x20,0x22(a0)                  | +010
@@ -1213,31 +1213,31 @@ TaskHandler_04ca7c:
         rts                                     | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ca98  @ $04CA98  (8 B)
+|  GunPlatform_SndByVariant_04ca98  @ $04CA98  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ca98, "ax", @progbits
-        .global TaskHandler_04ca98
-TaskHandler_04ca98:
+        .section .text.GunPlatform_SndByVariant_04ca98, "ax", @progbits
+        .global GunPlatform_SndByVariant_04ca98
+GunPlatform_SndByVariant_04ca98:
         move.b  0x98(a6),d0                     | +000
         move.w  #0x99,d1                        | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04caa8  @ $04CAA8  (16 B)
+|  GunPlatform_SlotPrioCheck_04caa8  @ $04CAA8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04caa8, "ax", @progbits
-        .global TaskHandler_04caa8
-TaskHandler_04caa8:
+        .section .text.GunPlatform_SlotPrioCheck_04caa8, "ax", @progbits
+        .global GunPlatform_SlotPrioCheck_04caa8
+GunPlatform_SlotPrioCheck_04caa8:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_04cabe                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04cac4  @ $04CAC4  (128 B)
+|  SpawnStream_ReadNext_04cac4  @ $04CAC4  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04cac4, "ax", @progbits
-        .global TaskHandler_04cac4
-TaskHandler_04cac4:
+        .section .text.SpawnStream_ReadNext_04cac4, "ax", @progbits
+        .global SpawnStream_ReadNext_04cac4
+SpawnStream_ReadNext_04cac4:
         movea.l 0x1081b2.l,a0                   | +000
         cmpa.w  #0x0,a0                         | +006
         bpl.w   .L04caec                        | +00a
@@ -1277,11 +1277,11 @@ TaskHandler_04cac4:
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
-|  PtrTable6_04CB44  @ $04CB44  (24 B)
+|  SpriteSetPtrTbl6_04cb44  @ $04CB44  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.PtrTable6_04CB44, "ax", @progbits
-        .global PtrTable6_04CB44
-PtrTable6_04CB44:
+        .section .text.SpriteSetPtrTbl6_04cb44, "ax", @progbits
+        .global SpriteSetPtrTbl6_04cb44
+SpriteSetPtrTbl6_04cb44:
         .dc.w   0x0028                        | +000  (dato / opcode no decodificado)
         .dc.w   0x8d54                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
@@ -1296,12 +1296,12 @@ PtrTable6_04CB44:
         .dc.w   0x8c22                        | +016  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04cb88  @ $04CB88  (40 B)
+|  SpawnStream_Dispatch_04cb88  @ $04CB88  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04cb88, "ax", @progbits
-        .global TaskHandler_04cb88
-TaskHandler_04cb88:
-        jsr     TaskHandler_04cac4(pc)          | +000
+        .section .text.SpawnStream_Dispatch_04cb88, "ax", @progbits
+        .global SpawnStream_Dispatch_04cb88
+SpawnStream_Dispatch_04cb88:
+        jsr     SpawnStream_ReadNext_04cac4(pc) | +000
         btst    #0x0,0x100001.l                 | +004
         beq.w   JsrAbsRts_04cbb6                | +00c
         swap    d0                              | +010
@@ -1314,11 +1314,11 @@ TaskHandler_04cb88:
         lea     0x243608.l,a0                   | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04cbb8  @ $04CBB8  (16 B)
+|  SlotPrioCheck_04cbb8  @ $04CBB8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04cbb8, "ax", @progbits
-        .global TaskHandler_04cbb8
-TaskHandler_04cbb8:
+        .section .text.SlotPrioCheck_04cbb8, "ax", @progbits
+        .global SlotPrioCheck_04cbb8
+SlotPrioCheck_04cbb8:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
