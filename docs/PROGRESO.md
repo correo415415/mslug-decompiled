@@ -11,10 +11,35 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5265/5265 funciones
-BYTES   : 293,022/293,022 (registrados)
-ROM     : 293,022/2,097,152  (13.9724%)
+MATCHED : 5303/5303 funciones
+BYTES   : 297,236/297,236 (registrados)
+ROM     : 297,236/2,097,152  (14.1733%)
 ```
+
+> **Wave FFFF** (38 entradas, 4 214 B, verde tras 2 bloques de datos +
+> 3 `--entry`) — `$056ACC..$057D04` en `soldier_helpers_056axx.s`.
+> Vigesimotercera wave de `gen_asm_region.py`. Nombres y args en
+> `docs/waves/ffff_*.txt`.
+>
+> * **IA**: `Soldier_Think_056b92` (646 B) elige objetivo
+>   (`Soldier_FindNearestPlayer_056b38`, distancia aproximada
+>   `Soldier_ApproxDist_056b12`), sondea bordes de plataforma, reparte
+>   preferencias con `PosRing_FindNear $8F344` y fija los umbrales RNG
+>   +$80..+$8A que consumen los estados de la Wave EEEE.
+> * **Agarre**: `Soldier_PickGrabAnchor_056e4a` (máscara +$74&7 menos
+>   anclas ocupadas, tabla popcount `$56ED2`), `Soldier_GrabLatch_057b06`,
+>   `Soldier_GrabSlideToAnchor_057bb4`, `Soldier_GrabFollowPlayer_057cc0`,
+>   `Soldier_GrabStruggleProgress_056f10` (forcejeo: +$80 sube $100 por
+>   pulsación, se rompe a $B00).
+> * **Spawn**: `Soldier_InitCommon_0570a8` + `Soldier_SpawnVariants_057226`
+>   (24 stubs, destino de `JmpAbsThunk_06313c`), `Soldier_SpawnDispatch`,
+>   `Soldier_Leap_057880` (4 parábolas por +$9D, tablas de ataque por
+>   player), `Soldier_Walk_Loop_057582` (bucle principal).
+> * **Datos**: dos tablas de ataque de 84 B (`Soldier_AttackTblMelee*`,
+>   formato `Slug_AttackTbl*`). Módulo del soldado `$056ACC..$059342`
+>   completo.
+> * Cobertura de código real: 50.1 % (253,428 / 505,608 B); huecos CODE:
+>   1226 / 252,180 B.
 
 > **Wave EEEE** (54 entradas, 5 694 B, verde a la primera) —
 > `$057D04..$059342` en `soldier_states_057dxx.s`. Vigesimosegunda wave de

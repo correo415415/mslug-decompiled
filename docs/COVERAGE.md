@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-06  (Wave EEEE cerrada)
+**Ultimo update:** 2026-10-06  (Wave FFFF cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-EEEE) | Que mide realmente |
+| Metrica | Cifra (post-FFFF) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **13.97 %**  (293,022 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **49.3 %**  (249,214 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **14.17 %**  (297,236 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **50.1 %**  (253,428 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -43,7 +43,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Tablas de sprites/slots (pares {id,tile}, LUTs 16x16) | `$002F30..$0133B0` | DATA | 66,688 B | 0 B | 0.0 % |
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
-| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 133,584 B | 57.1 % |
+| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 137,798 B | 58.9 % |
 | Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 25,222 B | 16.6 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 249,214 B | 49.3 % |
+| CODE | 505,608 B | 253,428 B | 50.1 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 1245 huecos, 256,394 B
+Huecos pendientes en zonas CODE: 1226 huecos, 252,180 B
 
 ### Notas por zona
 
@@ -113,7 +113,11 @@ Huecos pendientes en zonas CODE: 1245 huecos, 256,394 B
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
   `$0478FC..$048A3C`, `$04AC3A..$04BB8E`,
-  `$0527BA..$0539E2`, `$053F96..$0550BE`, `$056ACC..$057D04`. Wave EEEE
+  `$0527BA..$0539E2`, `$053F96..$0550BE`. Wave FFFF
+  (`soldier_helpers_056axx.s`, `$056ACC..$057D04`): helpers del soldado
+  (`Soldier_Think`, `Soldier_PhysicsStep`, `Soldier_FindNearestPlayer`,
+  `Soldier_PickGrabAnchor`, `Soldier_SpawnVariants`, `Soldier_Walk_Loop`,
+  `Soldier_Leap`, `Soldier_Grab*`, tablas `Soldier_AttackTblMelee*`). Wave EEEE
   (`soldier_states_057dxx.s`, `$057D04..$059342`): estados del soldado
   rebelde (`Soldier_Grab*`, `Soldier_Run*`, `Soldier_Idle`, `Soldier_Flee*`,
   `Soldier_Surrender*`, `Soldier_ThrowGrenade*`, `Soldier_Taunt*`,
@@ -176,16 +180,18 @@ Huecos pendientes en zonas CODE: 1245 huecos, 256,394 B
   caida, impacto, muerte** (Wave CCCC). El modulo del Slug
   `$0295A6..$030602` esta completo. **Cola de sprites y volcado a VRAM
   (heapsort, SCB1..SCB4, reflejo en agua)** (Wave DDDD). **Soldado rebelde:
-  agarre, carrera, huida, rendicion, granadas, burla, spawn** (Wave EEEE).
+  agarre, carrera, huida, rendicion, granadas, burla, spawn** (Wave EEEE) y **sus helpers: IA de
+  decisión, física, agarre por anclas, spawn por variante** (Wave FFFF).
+  El soldado rebelde `$056ACC..$059342` esta completo.
 
 ### Cosas que faltan (por tamano de codigo pendiente)
 
 1. **Runtime tardio `$05E000..$083000`** (input, debug, blits, VRAM) y
-   los dispatchers `$056ACC`, `$0527BA`, `$0478FC`.
+   los dispatchers `$0527BA`, `$0478FC`, `$04AC3A`.
 2. **Proyectiles y efectos** —
    `$060000..$083000` (~100 KB, muchas islas C ya cerradas).
 3. **Dispatchers grandes** — `$0478FC`, `$04AC3A`, `$0527BA`, `$053F96`,
-   `$056ACC` (4..8 KB cada uno).
+   (4..8 KB cada uno).
 4. **Attract/title residual** — `$001354..$001744`.
 5. **Bridge de sonido M68K<->Z80** — `$236E`/`$2352` ya nombrados
    (`Entity_AllocSpriteSlot_00236E` es en realidad el emisor de snd id;

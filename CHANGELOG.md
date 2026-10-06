@@ -17,6 +17,23 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave FFFF — 38 entries (4,214 B): `$056ACC..$057D04`
+  (`soldier_helpers_056axx.s`, 3 data blocks: popcount table `$56ED2`, two
+  84-byte melee attack tables `$57440/$57494`): the rebel soldier helper
+  cluster — per-frame physics `Soldier_PhysicsStep_056acc`, the decision
+  routine `Soldier_Think_056b92` (target pick via
+  `Soldier_FindNearestPlayer_056b38`, platform-edge probes, RNG thresholds
+  +$80..+$8A), grab anchors (`Soldier_PickGrabAnchor_056e4a`,
+  `Soldier_GrabLatch_057b06`, `Soldier_GrabSlideToAnchor_057bb4`,
+  `Soldier_GrabFollowPlayer_057cc0`, `Soldier_GrabStruggleProgress_056f10`),
+  spawn (`Soldier_InitCommon_0570a8`, the 24-stub variant table
+  `Soldier_SpawnVariants_057226` targeted by `JmpAbsThunk_06313c`,
+  `Soldier_SpawnDispatch_05752c`, `Soldier_Leap_057880`), the main
+  `Soldier_Walk_Loop_057582`, `Soldier_TestMeleeRange_0574e8`,
+  `Soldier_TestSurrender_056fa0`. 5 interior labels promoted in
+  `soldier_states_057dxx.s`. The whole rebel soldier module
+  `$056ACC..$059342` is now complete.
+  Matcher: 5,303/5,303, 297,236 B (14.17 %); real code coverage 50.1 %.
 - Wave EEEE — 54 entries (5,694 B): `$057D04..$059342`
   (`soldier_states_057dxx.s`, 1 data block: 4-pointer taunt animation table
   `$58DF8`): the rebel infantry soldier state machine — player grab
