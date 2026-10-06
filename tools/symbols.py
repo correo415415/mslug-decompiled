@@ -473,8 +473,8 @@ SYMBOLS = {
     0x00047362: "TaskHandler_047362",
     0x00048B1E: "TaskHandler_048b1e",
     0x00048B26: "TaskHandler_048b26",
-    0x00048DDC: "TaskHandler_048ddc",
-    0x00048DEC: "TaskHandler_048dec",
+    # 0x00048DDC promovido a TaskHandler_048ddc en registry (Wave JJJJ).
+    # 0x00048DEC promovido a TaskHandler_048dec en registry (Wave JJJJ).
     0x0004968A: "TaskHandler_04968a",
     0x0004A014: "Handler_0004A014",     # handler PC-rel instalado (canal B)
     0x0004A024: "TaskHandler_04a024",
@@ -1715,31 +1715,39 @@ SYMBOLS = {
     # --- Wave IIII: RTS internos de islas C
     0x00048A42: "SetHandlerRts_048a42",  # rts de SetTaskHandler_048a3c (+6)
     # --- Wave IIII: refs forward a huecos futuros
-    0x00048A44: "Sub_00048A44",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048A90: "Sub_00048A90",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048CA4: "Sub_00048CA4",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048D0E: "Sub_00048D0E",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048EA6: "Sub_00048EA6",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048F04: "Sub_00048F04",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048F2E: "Sub_00048F2E",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048F54: "Sub_00048F54",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048FB0: "Sub_00048FB0",  # hueco futuro (ref pc-rel desde esta region)
-    0x00048FCC: "Sub_00048FCC",  # hueco futuro (ref pc-rel desde esta region)
-    0x00049010: "Sub_00049010",  # hueco futuro (ref pc-rel desde esta region)
-    0x00049054: "Sub_00049054",  # hueco futuro (ref pc-rel desde esta region)
-    0x000490FA: "Sub_000490FA",  # hueco futuro (ref pc-rel desde esta region)
-    0x00049172: "Sub_00049172",  # hueco futuro (ref pc-rel desde esta region)
-    0x00049196: "Sub_00049196",  # hueco futuro (ref pc-rel desde esta region)
-    0x000491DE: "Sub_000491DE",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004921E: "Sub_0004921E",  # hueco futuro (ref pc-rel desde esta region)
-    0x00049256: "Sub_00049256",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004926A: "Sub_0004926A",  # hueco futuro (ref pc-rel desde esta region)
-    0x000492A4: "Sub_000492A4",  # hueco futuro (ref pc-rel desde esta region)
-    0x000492F8: "Sub_000492F8",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004932C: "Sub_0004932C",  # hueco futuro (ref pc-rel desde esta region)
-    0x00049346: "Sub_00049346",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004936E: "Sub_0004936E",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004939C: "Sub_0004939C",  # hueco futuro (ref pc-rel desde esta region)
-    0x000493E4: "Sub_000493E4",  # hueco futuro (ref pc-rel desde esta region)
-    0x0004940E: "Sub_0004940E",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00048A44 promovido a Sub_00048A44 en registry (Wave JJJJ).
+    # 0x00048A90 promovido a Sub_00048A90 en registry (Wave JJJJ).
+    # 0x00048CA4 promovido a Sub_00048CA4 en registry (Wave JJJJ).
+    # 0x00048D0E promovido a Sub_00048D0E en registry (Wave JJJJ).
+    # 0x00048EA6 promovido a Sub_00048EA6 en registry (Wave JJJJ).
+    # 0x00048F04 promovido a Sub_00048F04 en registry (Wave JJJJ).
+    # 0x00048F2E promovido a Sub_00048F2E en registry (Wave JJJJ).
+    # 0x00048F54 promovido a Sub_00048F54 en registry (Wave JJJJ).
+    # 0x00048FB0 promovido a Sub_00048FB0 en registry (Wave JJJJ).
+    # 0x00048FCC promovido a Sub_00048FCC en registry (Wave JJJJ).
+    # 0x00049010 promovido a Sub_00049010 en registry (Wave JJJJ).
+    # 0x00049054 promovido a Sub_00049054 en registry (Wave JJJJ).
+    # 0x000490FA promovido a Sub_000490FA en registry (Wave JJJJ).
+    # 0x00049172 promovido a Sub_00049172 en registry (Wave JJJJ).
+    # 0x00049196 promovido a Sub_00049196 en registry (Wave JJJJ).
+    # 0x000491DE promovido a Sub_000491DE en registry (Wave JJJJ).
+    # 0x0004921E promovido a Sub_0004921E en registry (Wave JJJJ).
+    # 0x00049256 promovido a Sub_00049256 en registry (Wave JJJJ).
+    # 0x0004926A promovido a Sub_0004926A en registry (Wave JJJJ).
+    # 0x000492A4 promovido a Sub_000492A4 en registry (Wave JJJJ).
+    # 0x000492F8 promovido a Sub_000492F8 en registry (Wave JJJJ).
+    # 0x0004932C promovido a Sub_0004932C en registry (Wave JJJJ).
+    # 0x00049346 promovido a Sub_00049346 en registry (Wave JJJJ).
+    # 0x0004936E promovido a Sub_0004936E en registry (Wave JJJJ).
+    # 0x0004939C promovido a Sub_0004939C en registry (Wave JJJJ).
+    # 0x000493E4 promovido a Sub_000493E4 en registry (Wave JJJJ).
+    # 0x0004940E promovido a Sub_0004940E en registry (Wave JJJJ).
+    # --- Wave JJJJ: RTS internos de islas C
+    0x00048A8E: "SetHandlerRts_048a8e",  # rts de SetTaskHandler_048a88 (+6)
+    0x00048B1C: "SetHandlerRts_048b1c",  # rts de SetTaskHandler_048b16 (+6)
+    0x00048B9E: "SetHandlerRts_048b9e",  # rts de SetTaskHandler_048b98 (+6)
+    0x00048CA2: "SetHandlerRts_048ca2",  # rts de SetTaskHandler_048c9c (+6)
+    0x00048D0C: "SetHandlerRts_048d0c",  # rts de SetTaskHandler_048d06 (+6)
+    0x00048E2A: "SetHandlerRts_048e2a",  # rts de SetTaskHandler_048e24 (+6)
+    0x00048EA4: "SetHandlerRts_048ea4",  # rts de SetTaskHandler_048e9e (+6)
 }
