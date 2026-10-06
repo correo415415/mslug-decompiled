@@ -11,10 +11,33 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5211/5211 funciones
-BYTES   : 287,328/287,328 (registrados)
-ROM     : 287,328/2,097,152  (13.7009%)
+MATCHED : 5265/5265 funciones
+BYTES   : 293,022/293,022 (registrados)
+ROM     : 293,022/2,097,152  (13.9724%)
 ```
+
+> **Wave EEEE** (54 entradas, 5 694 B, verde a la primera) —
+> `$057D04..$059342` en `soldier_states_057dxx.s`. Vigesimosegunda wave de
+> `gen_asm_region.py`. Nombres y args en `docs/waves/eeee_*.txt`
+> (`--data 0x58DF8-0x58E08 --entry 0x57F4E`).
+>
+> * **Agarre al player**: `Soldier_GrabPlayer` reclama el ancla del player
+>   enlazado en +$7A (`PlayerSlot_ClaimAnchor $8F85C`); `GrabStruggle*`
+>   alterna animación mientras el player forcejea; `GrabBreak*` suelta (snd
+>   $20 si el enlazado es `$100440`, $14B si no) y `GrabThrownA/B` lanzan al
+>   soldado con parábola (+$28/+$2A, gravedad +$2E).
+> * **Comportamiento**: `Soldier_Idle` elige con el RNG `$5E9B6` contra los
+>   umbrales +$80..+$8A entre fidget, pasos laterales, cuchillo
+>   (`Soldier_MeleeAttack`, tabla +$4C), retirada, salto, huida, rendición y
+>   burla (`Soldier_TauntAnimPtrTbl_058df8`, 4 punteros).
+> * **Granadas**: dos posturas (`ThrowGrenadeA/B` + Loop/Recover) y
+>   `ThrowGrenadeAim` que ajusta el ángulo +$80 por distancia al player.
+> * **Spawn**: `Soldier_SpawnVariantTbl_058f1e` (referida desde
+>   `MeleeGuard_DeathToExtern_0427CA`) y `Soldier_Spawn*` (caída, salto
+>   lateral, espera al scroll). Helpers `$056ACC..$057D04` quedan para la
+>   Wave FFFF.
+> * Cobertura de código real: 49.3 % (249,214 / 505,608 B); huecos CODE:
+>   1245 / 256,394 B.
 
 > **Wave DDDD** (9 entradas, 8 084 B, verde tras parchear el generador) —
 > `$05AA96..$05CA2A` en `sprite_queue_render_05aaxx.s`. Vigesimoprimera

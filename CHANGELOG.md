@@ -17,6 +17,18 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave EEEE — 54 entries (5,694 B): `$057D04..$059342`
+  (`soldier_states_057dxx.s`, 1 data block: 4-pointer taunt animation table
+  `$58DF8`): the rebel infantry soldier state machine — player grab
+  (`Soldier_GrabPlayer/GrabStruggle*/GrabBreak*/GrabThrown*`, anchored via
+  `PlayerSlot_ClaimAnchor $8F85C` on +$7A), locomotion (`Soldier_RunToward/
+  RunByTable/Run_Loop/Step*/Brake`), `Soldier_Idle/IdleFidget` with RNG
+  thresholds in +$80..+$8A, hurt/land, `Soldier_Flee*/Retreat*/Stand/Jump`,
+  `Soldier_Surrender*`, two grenade throws (`Soldier_ThrowGrenadeA/B*`,
+  `ThrowGrenadeAim`), `Soldier_Taunt*`, and the spawn variants
+  (`Soldier_SpawnVariantTbl_058f1e`, `Soldier_Spawn*`) referenced from
+  `MeleeGuard_DeathToExtern_0427CA`. Leaf `Entity_CmpField10WithLink8_059332`.
+  Matcher: 5,265/5,265, 293,022 B (13.97 %); real code coverage 49.3 %.
 - Wave DDDD — 9 entries (8,084 B): `$05AA96..$05CA2A`
   (`sprite_queue_render_05aaxx.s`): the sprite-queue backend — the 8-way
   enqueue jump table `SpriteDispatchJT_05AA96` (flip H/V, ADD/SUB queue),
