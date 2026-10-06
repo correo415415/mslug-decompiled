@@ -138,6 +138,8 @@ Soldier_GrabPlayer_057d04:
         jsr     0x8f8c2.l                       | +060
 .L057d6a:
         jmp     Sub_00057AE4(pc)                | +066
+        .global Soldier_GrabPlayer_057d04__L057d6e
+Soldier_GrabPlayer_057d04__L057d6e:
         bclr    #0x0,0x3a(a6)                   | +06a
         movea.l 0x7a(a6),a0                     | +070
         move.w  #0x1,d0                         | +074
@@ -177,6 +179,8 @@ Soldier_GrabPlayer_057d04:
         move.l  a1,(a6)                         | +100
 .L057e06:
         jmp     Sub_00057AE4(pc)                | +102
+        .global Soldier_GrabPlayer_057d04__L057e0a
+Soldier_GrabPlayer_057d04__L057e0a:
         bclr    #0x0,0x3a(a6)                   | +106
         movea.l 0x7a(a6),a0                     | +10c
         move.w  #0x2,d0                         | +110
@@ -752,6 +756,8 @@ Soldier_Hurt_Loop_058424:
         jsr     0x49fd0.l                       | +024
         bsr.w   PcThunkTarget_056e1e            | +02a
         rts                                     | +02e
+        .global Soldier_Hurt_Loop_058424__L058454
+Soldier_Hurt_Loop_058424__L058454:
         lea     0x2b7030.l,a0                   | +030
         jsr     0x28cd4.l                       | +036
         bra.w   Soldier_Land_058464__L05848a    | +03c
@@ -1309,6 +1315,8 @@ Soldier_SurrenderFlee_0589f8:
 .L058a46:
         jsr     0x49ff2.l                       | +04e
         bra.w   PcThunkTarget_056e1e            | +054
+        .global Soldier_SurrenderFlee_0589f8__L058a50
+Soldier_SurrenderFlee_0589f8__L058a50:
         lea     0x2b5d58.l,a0                   | +058
         jsr     0x28cd4.l                       | +05e
         move.w  #0xfe67,d0                      | +064
@@ -1320,6 +1328,8 @@ Soldier_SurrenderFlee_0589f8:
         lea     .L058a82(pc),a1                 | +084
         move.l  a1,(a6)                         | +088
 .L058a82:
+        .global Soldier_SurrenderFlee_0589f8__L058a82
+Soldier_SurrenderFlee_0589f8__L058a82:
         jsr     0x2831e.l                       | +08a
         scs.b   0x78(a6)                        | +090
         bcc.w   .L058a96                        | +094

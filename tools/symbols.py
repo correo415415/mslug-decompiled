@@ -919,8 +919,8 @@ SYMBOLS = {
     0x00053DCA: "PcThunkTarget_053dca",
     0x00055148: "PcThunkTarget_055148",
     0x00055214: "PcThunkTarget_055214",
-    0x00056E1E: "PcThunkTarget_056e1e",
-    0x00057226: "JmpTarget_057226",
+    # 0x00056E1E promovido a PcThunkTarget_056e1e en registry (Wave FFFF).
+    # 0x00057226 promovido a JmpTarget_057226 en registry (Wave FFFF).
     0x0005CDA8: "JmpTarget_05cda8",
     0x0005CEF8: "JmpTarget_05cef8",
     0x0005CF04: "JmpTarget_05cf04",
@@ -1678,17 +1678,21 @@ SYMBOLS = {
     # --- Wave DDDD: refs forward a huecos futuros
     0x0005A8BA: "Sub_0005A8BA",  # hueco futuro (ref pc-rel desde esta region)
     # --- Wave EEEE: refs forward a huecos futuros
-    0x00056ACC: "Sub_00056ACC",  # hueco futuro (ref pc-rel desde esta region)
-    0x00056B92: "Sub_00056B92",  # hueco futuro (ref pc-rel desde esta region)
-    0x00056E36: "Sub_00056E36",  # hueco futuro (ref pc-rel desde esta region)
-    0x00056F64: "Sub_00056F64",  # hueco futuro (ref pc-rel desde esta region)
-    0x00056F8A: "Sub_00056F8A",  # hueco futuro (ref pc-rel desde esta region)
-    0x00056FA0: "Sub_00056FA0",  # hueco futuro (ref pc-rel desde esta region)
-    0x00056FEC: "Sub_00056FEC",  # hueco futuro (ref pc-rel desde esta region)
-    0x0005740E: "Sub_0005740E",  # hueco futuro (ref pc-rel desde esta region)
-    0x00057494: "Sub_00057494",  # hueco futuro (ref pc-rel desde esta region)
-    0x000574E8: "Sub_000574E8",  # hueco futuro (ref pc-rel desde esta region)
-    0x00057558: "Sub_00057558",  # hueco futuro (ref pc-rel desde esta region)
-    0x00057AE4: "Sub_00057AE4",  # hueco futuro (ref pc-rel desde esta region)
-    0x00057CA8: "Sub_00057CA8",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00056ACC promovido a Sub_00056ACC en registry (Wave FFFF).
+    # 0x00056B92 promovido a Sub_00056B92 en registry (Wave FFFF).
+    # 0x00056E36 promovido a Sub_00056E36 en registry (Wave FFFF).
+    # 0x00056F64 promovido a Sub_00056F64 en registry (Wave FFFF).
+    # 0x00056F8A promovido a Sub_00056F8A en registry (Wave FFFF).
+    # 0x00056FA0 promovido a Sub_00056FA0 en registry (Wave FFFF).
+    # 0x00056FEC promovido a Sub_00056FEC en registry (Wave FFFF).
+    # 0x0005740E promovido a Sub_0005740E en registry (Wave FFFF).
+    # 0x00057494 promovido a Sub_00057494 en registry (Wave FFFF).
+    # 0x000574E8 promovido a Sub_000574E8 en registry (Wave FFFF).
+    # 0x00057558 promovido a Sub_00057558 en registry (Wave FFFF).
+    # 0x00057AE4 promovido a Sub_00057AE4 en registry (Wave FFFF).
+    # 0x00057CA8 promovido a Sub_00057CA8 en registry (Wave FFFF).
+    # --- Wave FFFF: RTS internos de islas C
+    0x00057042: "SetHandlerRts_057042",  # rts de SetTaskHandler_05703c (+6)
+    0x00057556: "SetHandlerRts_057556",  # rts de SetTaskHandler_057550 (+6)
+    0x00057D02: "SetHandlerRts_057d02",  # rts de SetTaskHandler_057cfc (+6)
 }
