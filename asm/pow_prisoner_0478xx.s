@@ -1,11 +1,107 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave IIII — prisionero (POW): templates, deambular, rescate (saludo,
+|              entrega de ítem, agradecimiento), variantes libre y atado
 |  Región: $0478FC..$048A3C  (4,416 B, 42 entradas, 1 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 4,416 B (42 entradas): máquina de estados del prisionero
+|  rescatable (POW, el barbudo con taparrabos). Es el template 96..107 del
+|  índice $E8000 (slots $E8180..$E81AC): 8 stubs de Pow_SpawnVariantTbl +
+|  Pow_SpawnFreeVariantA/B ($E81A0/$E81A4) + Pow_SpawnTiedVariant ($E81A8).
+|  Pow_SpawnFreeVariantB también lo lanzan $0855E0/$085664 (cutscenes).
+|  Depende de un bloque de helpers pc-relativos aún pendiente en
+|  $048A44..$049430 (Sub_00048EA6/48FB0/48F04/48F2E/49010/490FA/49172/
+|  49196/491DE/4921E/49256/4926A/492A4/492F8/4932C/49346/4936E/4939C/
+|  493E4/4940E, Sub_00048A44/48A90/48CA4/48D0E/48F54/49054) -> Wave JJJJ.
+|
+|   1. Spawn: Pow_SpawnVariantTbl_0478fc (8 x {+$7D máscara, +$7E paso}
+|      -> 4 entradas de Pow_SpawnInit_04797c: con/sin $13600, +$85 =
+|      "ya libre"), Pow_SpawnInit fija el objetivo (+$94 = $5E0D4, player
+|      más cercano) y entra en Idle o WalkToward según +$98 (variante
+|      que camina).
+|   2. Deambular (prisionero atado de pies, aún no rescatado):
+|      Pow_Idle_047a4c (sprite $28E312; si +$98: busca al player con
+|      $5E338 y, según los helpers de decisión 49172/49256/49196/491DE,
+|      pasa a WalkToward / Turn / RunAway / Wait; con X en $18..$128 y
+|      $49010 (player cerca) -> RescueStart), Pow_WalkToward_047b1e (vel
+|      por $799DE de $2BFB2E), Pow_RunRight_047bac / Pow_RunLeft_047c50
+|      (par simétrico, $492F8 = borde -> cambian de lado),
+|      Pow_RunAway_047cfe, Pow_Wait_047dbc, Pow_WalkFree_047e24,
+|      Pow_Stop_047e88, Pow_Turn_047ed2 (+$77 cuenta giros),
+|      Pow_Hurt_047f12 (vel/2, anim $28E75E, $27C8C) -> Pow_GetUp_047f48.
+|   3. Rescate (el player lo toca; $4932C = golpe recibido ->
+|      Pow_Hurt): Pow_RescueStart_047f84 (+$7A = índice de ítem desde
+|      $5E070 + +$7E, enmascarado por +$7D; si > 8 usa el 2o set de
+|      sprites +$81), Pow_RescueFaceCount_048044 (gira hacia el player
+|      contando +$78 pasos de 1/8 o 1/6 de vuelta),
+|      Pow_RescueStartSalute_0480f0 / Pow_RescueSalute_048108 (sprite
+|      por tabla $28E1CA / $28E20A indexada por +$7B, $4940E, repite +$82
+|      veces), Pow_RescueTurnBack_0481be, Pow_RescueGiveItem_048260
+|      (colisión +$48 = $28E03E, sprite $28E656 = lanza el ítem),
+|      Pow_RescueThanksInit/Thanks_048300/048314 (colisión $28E092),
+|      Pow_RescueLeave_048392 (colisión $28DF42, vuelve a
+|      RetargetPlayer).
+|   4. Variante "libre" (ya rescatado, sigue al player): Pow_SpawnFree
+|      VariantA/B_0483d2/0483e2 (+$9B = 1 marca "libre"; +$9C = retardo),
+|      Pow_FreeHurt/FreeGetUp, Pow_FreeWalkOut_048492 (sale de pantalla
+|      a +$98*16), Pow_FreeJumpOut_048502 (parábola $FCCD/$CCB),
+|      Pow_FreeThanks*, Pow_FreeLeave_04867a ($58FE2 + hijo
+|      Sub_00048CA4 a +$18 px), Pow_FreeStand_048710 ($492A4),
+|      Pow_FreeSalute*, Pow_FreeIdle_0487fa, Pow_FreeExit_04883e.
+|   5. Variante "atado" (colgado/amarrado, se libera al golpearlo):
+|      Pow_SpawnTiedVariant_048898 (snd $38, HP 1, prio $8000 | $18,
+|      colisión $28DF96, +$8C/+$8E desde +$9E y $2BFF8E, hijo
+|      Sub_00048D0E), Pow_TiedIdle_04891a (sprite $28ED0A),
+|      Pow_TiedStruggle_04896e (tabla $28E24A por +$78/2),
+|      Pow_TiedFreed_0489c6 (sprite $28EF0C -> Pow_SpawnInit).
+|      La cola común __L0489f8: $4936E, $2870A impacto, hijo $48CA4,
+|      $49FD0 y despawn con $5DD5C / $28E196.
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - $E8180..$E81AC del índice de templates apuntan a $478FC + n*$10,
+|    $483D2, $483E2 y $48898: entradas de spawn por template.
+|  - Pow_RescueStart usa Player_IsSlotRidingReady_032de0 y copia la Y del
+|    player: el rescate requiere que el player esté a su altura.
+|  - Tablas de sprites $28E1CA/$28E20A/$28E24A terminadas en -1 e
+|    indexadas por el ítem +$7A/+$7B: el saludo depende del ítem que da.
+|  - Colisiones +$48 $28DF42/$28DF96/$28DFEA/$28E03E/$28E092 cambian por
+|    fase: solo se le puede "tocar" en algunas.
+|
+|  C. CAMPOS DEL OBJETO (a6)
+|  -------------------------
+|  +$00 handler  +$22/+$24 x/y  +$28/+$2A vel  +$2C/+$2E acel/grav
+|  +$36 vel X base  +$38 prio  +$3A facing  +$48 cb colisión  +$66 HP
+|  +$72 contador  +$77 giros  +$78 pasos/fase  +$7A/+$7B ítem
+|  +$7C facing inicial  +$7D máscara ítem  +$7E paso ítem  +$80  +$81 set
+|  de sprites  +$82 repeticiones  +$83 estado atado  +$85 ya libre
+|  +$86  +$8C/+$8E timers  +$94 ptr player objetivo  +$98 variante
+|  +$9B libre  +$9C retardo  +$9E param
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|  $4AE alloc  $772 Table_LookupPointerBounded  $13600  $236E snd
+|  $2783A scroll  $27BC8  $27C8C  $28134  $2870A impacto  $28CD4 sprite
+|  $28D70 anim  $32DE0 Player_IsSlotRidingReady  $49FD0 probe
+|  $58FE2  $5DCA4 rand escalado  $5DD02 copiar pos  $5DD5C despawn
+|  $5E070/$5E086/$5E0D4/$5E1EA/$5E338 (objetivo/player: índice, buscar,
+|  más cercano, re-elegir, ¿visible?)  $5E7C0  $799DE escala
+|
+|  E. HIPÓTESIS
+|  ------------
+|  - "Pow" = prisoner of war (los rehenes de Metal Slug); +$7A/+$7B es el
+|    ítem que entrega (arma, bomba, comida) elegido de $5E070 (contador
+|    global de rescates) con máscara/paso por variante de template.
+|  - Las 3 variantes (deambula, libre, atado) corresponden a los POW de
+|    campo, los que siguen al player tras el rescate y los colgados de
+|    los postes.
+|
+|  F. SIGUIENTE
+|  ------------
+|  $048A44..$049430 (helpers del POW), $04AC3A..$04BB8E, $053F96..$0550BE.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
