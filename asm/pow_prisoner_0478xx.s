@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $0478FC..$048A3C  (4,416 B, 39 entradas, 1 huecos)
+|  Región: $0478FC..$048A3C  (4,416 B, 42 entradas, 1 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -15,80 +15,80 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0478fc  @ $0478FC  (128 B)
+|  Pow_SpawnVariantTbl_0478fc  @ $0478FC  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0478fc, "ax", @progbits
-        .global TaskHandler_0478fc
-TaskHandler_0478fc:
+        .section .text.Pow_SpawnVariantTbl_0478fc, "ax", @progbits
+        .global Pow_SpawnVariantTbl_0478fc
+Pow_SpawnVariantTbl_0478fc:
         move.b  #0xc0,0x7d(a6)                  | +000
         move.b  #0x20,0x7e(a6)                  | +006
-        bra.w   TaskHandler_04797c__L047992     | +00c
+        bra.w   Pow_SpawnInit_04797c__L047992   | +00c
         move.b  #0xe0,0x7d(a6)                  | +010
         move.b  #0x10,0x7e(a6)                  | +016
-        bra.w   TaskHandler_04797c__L047992     | +01c
+        bra.w   Pow_SpawnInit_04797c__L047992   | +01c
         move.b  #0xf0,0x7d(a6)                  | +020
         move.b  #0x8,0x7e(a6)                   | +026
-        bra.w   TaskHandler_04797c__L047992     | +02c
+        bra.w   Pow_SpawnInit_04797c__L047992   | +02c
         move.b  #0xc0,0x7d(a6)                  | +030
         move.b  #0x20,0x7e(a6)                  | +036
-        bra.w   TaskHandler_04797c__L0479e4     | +03c
+        bra.w   Pow_SpawnInit_04797c__L0479e4   | +03c
         move.b  #0xe0,0x7d(a6)                  | +040
         move.b  #0x10,0x7e(a6)                  | +046
-        bra.w   TaskHandler_04797c__L0479e4     | +04c
+        bra.w   Pow_SpawnInit_04797c__L0479e4   | +04c
         move.b  #0xf0,0x7d(a6)                  | +050
         move.b  #0x8,0x7e(a6)                   | +056
-        bra.w   TaskHandler_04797c__L0479e4     | +05c
+        bra.w   Pow_SpawnInit_04797c__L0479e4   | +05c
         move.b  #0xf0,0x7d(a6)                  | +060
         move.b  #0x8,0x7e(a6)                   | +066
-        bra.w   TaskHandler_04797c__L0479ba     | +06c
+        bra.w   Pow_SpawnInit_04797c__L0479ba   | +06c
         move.b  #0xf0,0x7d(a6)                  | +070
         move.b  #0x8,0x7e(a6)                   | +076
-        bra.w   TaskHandler_04797c__L0479ec     | +07c
+        bra.w   Pow_SpawnInit_04797c__L0479ec   | +07c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04797c  @ $04797C  (198 B)
+|  Pow_SpawnInit_04797c  @ $04797C  (198 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04797c, "ax", @progbits
-        .global TaskHandler_04797c
-TaskHandler_04797c:
+        .section .text.Pow_SpawnInit_04797c, "ax", @progbits
+        .global Pow_SpawnInit_04797c
+Pow_SpawnInit_04797c:
         jsr     0x13600.l                       | +000
         move.b  #0xf0,0x7d(a6)                  | +006
         move.b  #0x8,0x7e(a6)                   | +00c
         bra.w   .L047998                        | +012
-        .global TaskHandler_04797c__L047992
-TaskHandler_04797c__L047992:
+        .global Pow_SpawnInit_04797c__L047992
+Pow_SpawnInit_04797c__L047992:
         jsr     0x5e7c0.l                       | +016
 .L047998:
         clr.b   0x86(a6)                        | +01c
         clr.b   0x85(a6)                        | +020
-        jsr     Sub_00048EA6(pc)                | +024  -> $048EA6 (hueco futuro, defsym forward)
+        jsr     Sub_00048EA6(pc)                | +024
         jsr     0x5e0d4.l                       | +028
         move.l  a0,0x94(a6)                     | +02e
         tst.b   0x98(a6)                        | +032
-        beq.w   TaskHandler_047a4c              | +036
-        bra.w   TaskHandler_047b1e              | +03a
-        .global TaskHandler_04797c__L0479ba
-TaskHandler_04797c__L0479ba:
+        beq.w   Pow_Idle_047a4c                 | +036
+        bra.w   Pow_WalkToward_047b1e           | +03a
+        .global Pow_SpawnInit_04797c__L0479ba
+Pow_SpawnInit_04797c__L0479ba:
         clr.b   0x86(a6)                        | +03e
         move.b  #0x1,0x85(a6)                   | +042
         jsr     0x5e7c0.l                       | +048
-        jsr     Sub_00048EA6(pc)                | +04e  -> $048EA6 (hueco futuro, defsym forward)
+        jsr     Sub_00048EA6(pc)                | +04e
         jsr     0x5e0d4.l                       | +052
         move.l  a0,0x94(a6)                     | +058
         tst.b   0x98(a6)                        | +05c
-        beq.w   TaskHandler_047a4c              | +060
-        bra.w   TaskHandler_047b1e              | +064
-        .global TaskHandler_04797c__L0479e4
-TaskHandler_04797c__L0479e4:
+        beq.w   Pow_Idle_047a4c                 | +060
+        bra.w   Pow_WalkToward_047b1e           | +064
+        .global Pow_SpawnInit_04797c__L0479e4
+Pow_SpawnInit_04797c__L0479e4:
         clr.b   0x85(a6)                        | +068
         bra.w   .L0479f2                        | +06c
-        .global TaskHandler_04797c__L0479ec
-TaskHandler_04797c__L0479ec:
+        .global Pow_SpawnInit_04797c__L0479ec
+Pow_SpawnInit_04797c__L0479ec:
         move.b  #0x1,0x85(a6)                   | +070
 .L0479f2:
         clr.b   0x86(a6)                        | +076
         jsr     0x5e7c0.l                       | +07a
-        jsr     Sub_00048EA6(pc)                | +080  -> $048EA6 (hueco futuro, defsym forward)
+        jsr     Sub_00048EA6(pc)                | +080
         jsr     0x5e0d4.l                       | +084
         move.l  a0,0x94(a6)                     | +08a
         lea     0x28f4c0.l,a0                   | +08e
@@ -96,34 +96,34 @@ TaskHandler_04797c__L0479ec:
         lea     .L047a1c(pc),a1                 | +09a
         move.l  a1,(a6)                         | +09e
 .L047a1c:
-        jsr     Sub_00048FB0(pc)                | +0a0  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +0a0
         jsr     0x28d70.l                       | +0a4
         bcc.w   .L047a30                        | +0aa
-        lea     TaskHandler_047a4c(pc),a1       | +0ae
+        lea     Pow_Idle_047a4c(pc),a1          | +0ae
         move.l  a1,(a6)                         | +0b2
 .L047a30:
-        jsr     Sub_0004932C(pc)                | +0b4  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +0b4
         bcc.w   .L047a3e                        | +0b8
-        lea     TaskHandler_047f12(pc),a1       | +0bc
+        lea     Pow_Hurt_047f12(pc),a1          | +0bc
         move.l  a1,(a6)                         | +0c0
 .L047a3e:
-        bra.w   TaskHandler_0489c6__L0489f8     | +0c2
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +0c2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047a42  @ $047A42  (10 B)
+|  Pow_RetargetPlayer_047a42  @ $047A42  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047a42, "ax", @progbits
-        .global TaskHandler_047a42
-TaskHandler_047a42:
+        .section .text.Pow_RetargetPlayer_047a42, "ax", @progbits
+        .global Pow_RetargetPlayer_047a42
+Pow_RetargetPlayer_047a42:
         jsr     0x5e1ea.l                       | +000
         move.l  a0,0x94(a6)                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047a4c  @ $047A4C  (210 B)
+|  Pow_Idle_047a4c  @ $047A4C  (210 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047a4c, "ax", @progbits
-        .global TaskHandler_047a4c
-TaskHandler_047a4c:
+        .section .text.Pow_Idle_047a4c, "ax", @progbits
+        .global Pow_Idle_047a4c
+Pow_Idle_047a4c:
         clr.w   0x28(a6)                        | +000
         move.b  0x3a(a6),d0                     | +004
         eori.b  #0x1,d0                         | +008
@@ -133,35 +133,35 @@ TaskHandler_047a4c:
         lea     .L047a6e(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L047a6e:
-        jsr     Sub_00048FB0(pc)                | +022  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +022
         jsr     0x28d70.l                       | +026
         tst.b   0x98(a6)                        | +02c
         beq.w   .L047aea                        | +030
         movea.l 0x94(a6),a0                     | +034
         jsr     0x5e338.l                       | +038
         bcs.w   .L047ae0                        | +03e
-        jsr     Sub_00048FCC(pc)                | +042  -> $048FCC (hueco futuro, defsym forward)
+        jsr     Sub_00048FCC(pc)                | +042
         lea     0x28e1be.l,a0                   | +046
         movea.l #0xffffffff,a1                  | +04c
         jsr     0x772.l                         | +052
-        jsr     Sub_00049172(pc)                | +058  -> $049172 (hueco futuro, defsym forward)
+        jsr     Sub_00049172(pc)                | +058
         bcc.w   .L047ab2                        | +05c
-        lea     TaskHandler_047b1e(pc),a1       | +060
+        lea     Pow_WalkToward_047b1e(pc),a1    | +060
         move.l  a1,(a6)                         | +064
 .L047ab2:
-        jsr     Sub_00049256(pc)                | +066  -> $049256 (hueco futuro, defsym forward)
+        jsr     Sub_00049256(pc)                | +066
         bcc.w   .L047ac0                        | +06a
-        lea     TaskHandler_047ed2(pc),a1       | +06e
+        lea     Pow_Turn_047ed2(pc),a1          | +06e
         move.l  a1,(a6)                         | +072
 .L047ac0:
-        jsr     Sub_00049196(pc)                | +074  -> $049196 (hueco futuro, defsym forward)
+        jsr     Sub_00049196(pc)                | +074
         bcc.w   .L047ace                        | +078
-        lea     TaskHandler_047cfe(pc),a1       | +07c
+        lea     Pow_RunAway_047cfe(pc),a1       | +07c
         move.l  a1,(a6)                         | +080
 .L047ace:
-        jsr     Sub_000491DE(pc)                | +082  -> $0491DE (hueco futuro, defsym forward)
+        jsr     Sub_000491DE(pc)                | +082
         bcc.w   .L047adc                        | +086
-        lea     TaskHandler_047dbc(pc),a1       | +08a
+        lea     Pow_Wait_047dbc(pc),a1          | +08a
         move.l  a1,(a6)                         | +08e
 .L047adc:
         bra.w   .L047aea                        | +090
@@ -173,262 +173,262 @@ TaskHandler_047a4c:
         blt.w   .L047b0c                        | +0a4
         cmpi.w  #0x128,0x22(a6)                 | +0a8
         bgt.w   .L047b0c                        | +0ae
-        jsr     Sub_00049010(pc)                | +0b2  -> $049010 (hueco futuro, defsym forward)
+        jsr     Sub_00049010(pc)                | +0b2
         bcc.w   .L047b0c                        | +0b6
-        lea     TaskHandler_047f84(pc),a1       | +0ba
+        lea     Pow_RescueStart_047f84(pc),a1   | +0ba
         move.l  a1,(a6)                         | +0be
 .L047b0c:
-        jsr     Sub_0004932C(pc)                | +0c0  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +0c0
         bcc.w   .L047b1a                        | +0c4
-        lea     TaskHandler_047f12(pc),a1       | +0c8
+        lea     Pow_Hurt_047f12(pc),a1          | +0c8
         move.l  a1,(a6)                         | +0cc
 .L047b1a:
-        bra.w   TaskHandler_0489c6__L0489f8     | +0ce
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +0ce
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047b1e  @ $047B1E  (142 B)
+|  Pow_WalkToward_047b1e  @ $047B1E  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047b1e, "ax", @progbits
-        .global TaskHandler_047b1e
-TaskHandler_047b1e:
+        .section .text.Pow_WalkToward_047b1e, "ax", @progbits
+        .global Pow_WalkToward_047b1e
+Pow_WalkToward_047b1e:
         move.b  0x3a(a6),0x7c(a6)               | +000
         lea     0x2bfb2e.l,a0                   | +006
         jsr     0x799de.l                       | +00c
         move.w  d0,0x36(a6)                     | +012
-        jsr     Sub_00048F04(pc)                | +016  -> $048F04 (hueco futuro, defsym forward)
+        jsr     Sub_00048F04(pc)                | +016
         lea     0x28e394.l,a0                   | +01a
         jsr     0x28cd4.l                       | +020
         lea     .L047b4a(pc),a1                 | +026
         move.l  a1,(a6)                         | +02a
 .L047b4a:
-        jsr     Sub_00048F2E(pc)                | +02c  -> $048F2E (hueco futuro, defsym forward)
+        jsr     Sub_00048F2E(pc)                | +02c
         jsr     0x28d70.l                       | +030
-        jsr     Sub_00049346(pc)                | +036  -> $049346 (hueco futuro, defsym forward)
+        jsr     Sub_00049346(pc)                | +036
         bcc.w   .L047b62                        | +03a
-        lea     TaskHandler_047e88(pc),a1       | +03e
+        lea     Pow_Stop_047e88(pc),a1          | +03e
         move.l  a1,(a6)                         | +042
 .L047b62:
-        jsr     Sub_000490FA(pc)                | +044  -> $0490FA (hueco futuro, defsym forward)
+        jsr     Sub_000490FA(pc)                | +044
         bcc.w   .L047b70                        | +048
-        lea     TaskHandler_047e88(pc),a1       | +04c
+        lea     Pow_Stop_047e88(pc),a1          | +04c
         move.l  a1,(a6)                         | +050
 .L047b70:
-        jsr     Sub_00049256(pc)                | +052  -> $049256 (hueco futuro, defsym forward)
+        jsr     Sub_00049256(pc)                | +052
         bcc.w   .L047b7e                        | +056
-        lea     TaskHandler_047e88(pc),a1       | +05a
+        lea     Pow_Stop_047e88(pc),a1          | +05a
         move.l  a1,(a6)                         | +05e
 .L047b7e:
-        jsr     Sub_00049196(pc)                | +060  -> $049196 (hueco futuro, defsym forward)
+        jsr     Sub_00049196(pc)                | +060
         bcc.w   .L047b8c                        | +064
-        lea     TaskHandler_047e88(pc),a1       | +068
+        lea     Pow_Stop_047e88(pc),a1          | +068
         move.l  a1,(a6)                         | +06c
 .L047b8c:
-        jsr     Sub_000491DE(pc)                | +06e  -> $0491DE (hueco futuro, defsym forward)
+        jsr     Sub_000491DE(pc)                | +06e
         bcc.w   .L047b9a                        | +072
-        lea     TaskHandler_047e88(pc),a1       | +076
+        lea     Pow_Stop_047e88(pc),a1          | +076
         move.l  a1,(a6)                         | +07a
 .L047b9a:
-        jsr     Sub_0004932C(pc)                | +07c  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +07c
         bcc.w   .L047ba8                        | +080
-        lea     TaskHandler_047f12(pc),a1       | +084
+        lea     Pow_Hurt_047f12(pc),a1          | +084
         move.l  a1,(a6)                         | +088
 .L047ba8:
-        bra.w   TaskHandler_0489c6__L0489f8     | +08a
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +08a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047bac  @ $047BAC  (164 B)
+|  Pow_RunRight_047bac  @ $047BAC  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047bac, "ax", @progbits
-        .global TaskHandler_047bac
-TaskHandler_047bac:
+        .section .text.Pow_RunRight_047bac, "ax", @progbits
+        .global Pow_RunRight_047bac
+Pow_RunRight_047bac:
         move.b  0x3a(a6),0x7c(a6)               | +000
-        jsr     Sub_000492F8(pc)                | +006  -> $0492F8 (hueco futuro, defsym forward)
-        bcs.w   TaskHandler_047c50              | +00a
+        jsr     Sub_000492F8(pc)                | +006
+        bcs.w   Pow_RunLeft_047c50              | +00a
         lea     0x2bfbb0.l,a0                   | +00e
         jsr     0x799de.l                       | +014
         move.w  d0,0x36(a6)                     | +01a
-        jsr     Sub_00048F04(pc)                | +01e  -> $048F04 (hueco futuro, defsym forward)
+        jsr     Sub_00048F04(pc)                | +01e
         lea     0x28e44e.l,a0                   | +022
         jsr     0x28cd4.l                       | +028
         lea     .L047be0(pc),a1                 | +02e
         move.l  a1,(a6)                         | +032
 .L047be0:
-        jsr     Sub_00048F2E(pc)                | +034  -> $048F2E (hueco futuro, defsym forward)
+        jsr     Sub_00048F2E(pc)                | +034
         jsr     0x28d70.l                       | +038
-        jsr     Sub_00049346(pc)                | +03e  -> $049346 (hueco futuro, defsym forward)
+        jsr     Sub_00049346(pc)                | +03e
         bcc.w   .L047bf8                        | +042
-        lea     TaskHandler_047c50(pc),a1       | +046
+        lea     Pow_RunLeft_047c50(pc),a1       | +046
         move.l  a1,(a6)                         | +04a
 .L047bf8:
-        jsr     Sub_000490FA(pc)                | +04c  -> $0490FA (hueco futuro, defsym forward)
+        jsr     Sub_000490FA(pc)                | +04c
         bcc.w   .L047c06                        | +050
-        lea     TaskHandler_047a4c(pc),a1       | +054
+        lea     Pow_Idle_047a4c(pc),a1          | +054
         move.l  a1,(a6)                         | +058
 .L047c06:
-        jsr     Sub_00049256(pc)                | +05a  -> $049256 (hueco futuro, defsym forward)
+        jsr     Sub_00049256(pc)                | +05a
         bcc.w   .L047c14                        | +05e
-        lea     TaskHandler_047ed2(pc),a1       | +062
+        lea     Pow_Turn_047ed2(pc),a1          | +062
         move.l  a1,(a6)                         | +066
 .L047c14:
-        jsr     Sub_00049196(pc)                | +068  -> $049196 (hueco futuro, defsym forward)
+        jsr     Sub_00049196(pc)                | +068
         bcc.w   .L047c22                        | +06c
-        lea     TaskHandler_047cfe(pc),a1       | +070
+        lea     Pow_RunAway_047cfe(pc),a1       | +070
         move.l  a1,(a6)                         | +074
 .L047c22:
-        jsr     Sub_000492F8(pc)                | +076  -> $0492F8 (hueco futuro, defsym forward)
+        jsr     Sub_000492F8(pc)                | +076
         bcc.w   .L047c30                        | +07a
-        lea     TaskHandler_047c50(pc),a1       | +07e
+        lea     Pow_RunLeft_047c50(pc),a1       | +07e
         move.l  a1,(a6)                         | +082
 .L047c30:
-        jsr     Sub_000491DE(pc)                | +084  -> $0491DE (hueco futuro, defsym forward)
+        jsr     Sub_000491DE(pc)                | +084
         bcc.w   .L047c3e                        | +088
-        lea     TaskHandler_047dbc(pc),a1       | +08c
+        lea     Pow_Wait_047dbc(pc),a1          | +08c
         move.l  a1,(a6)                         | +090
 .L047c3e:
-        jsr     Sub_0004932C(pc)                | +092  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +092
         bcc.w   .L047c4c                        | +096
-        lea     TaskHandler_047f12(pc),a1       | +09a
+        lea     Pow_Hurt_047f12(pc),a1          | +09a
         move.l  a1,(a6)                         | +09e
 .L047c4c:
-        bra.w   TaskHandler_0489c6__L0489f8     | +0a0
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +0a0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047c50  @ $047C50  (174 B)
+|  Pow_RunLeft_047c50  @ $047C50  (174 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047c50, "ax", @progbits
-        .global TaskHandler_047c50
-TaskHandler_047c50:
+        .section .text.Pow_RunLeft_047c50, "ax", @progbits
+        .global Pow_RunLeft_047c50
+Pow_RunLeft_047c50:
         move.b  0x3a(a6),d0                     | +000
         eori.b  #0x1,d0                         | +004
         move.b  d0,0x7c(a6)                     | +008
-        jsr     Sub_000492F8(pc)                | +00c  -> $0492F8 (hueco futuro, defsym forward)
-        bcs.w   TaskHandler_047bac              | +010
+        jsr     Sub_000492F8(pc)                | +00c
+        bcs.w   Pow_RunRight_047bac             | +010
         lea     0x2bfbb0.l,a0                   | +014
         jsr     0x799de.l                       | +01a
         move.w  d0,0x36(a6)                     | +020
-        jsr     Sub_00048F04(pc)                | +024  -> $048F04 (hueco futuro, defsym forward)
+        jsr     Sub_00048F04(pc)                | +024
         neg.w   0x28(a6)                        | +028
         lea     0x28e49e.l,a0                   | +02c
         jsr     0x28cd4.l                       | +032
         lea     .L047c8e(pc),a1                 | +038
         move.l  a1,(a6)                         | +03c
 .L047c8e:
-        jsr     Sub_00048F2E(pc)                | +03e  -> $048F2E (hueco futuro, defsym forward)
+        jsr     Sub_00048F2E(pc)                | +03e
         jsr     0x28d70.l                       | +042
-        jsr     Sub_00049346(pc)                | +048  -> $049346 (hueco futuro, defsym forward)
+        jsr     Sub_00049346(pc)                | +048
         bcc.w   .L047ca6                        | +04c
-        lea     TaskHandler_047bac(pc),a1       | +050
+        lea     Pow_RunRight_047bac(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L047ca6:
-        jsr     Sub_000490FA(pc)                | +056  -> $0490FA (hueco futuro, defsym forward)
+        jsr     Sub_000490FA(pc)                | +056
         bcc.w   .L047cb4                        | +05a
-        lea     TaskHandler_047a4c(pc),a1       | +05e
+        lea     Pow_Idle_047a4c(pc),a1          | +05e
         move.l  a1,(a6)                         | +062
 .L047cb4:
-        jsr     Sub_00049256(pc)                | +064  -> $049256 (hueco futuro, defsym forward)
+        jsr     Sub_00049256(pc)                | +064
         bcc.w   .L047cc2                        | +068
-        lea     TaskHandler_047ed2(pc),a1       | +06c
+        lea     Pow_Turn_047ed2(pc),a1          | +06c
         move.l  a1,(a6)                         | +070
 .L047cc2:
-        jsr     Sub_00049196(pc)                | +072  -> $049196 (hueco futuro, defsym forward)
+        jsr     Sub_00049196(pc)                | +072
         bcc.w   .L047cd0                        | +076
-        lea     TaskHandler_047cfe(pc),a1       | +07a
+        lea     Pow_RunAway_047cfe(pc),a1       | +07a
         move.l  a1,(a6)                         | +07e
 .L047cd0:
-        jsr     Sub_000492F8(pc)                | +080  -> $0492F8 (hueco futuro, defsym forward)
+        jsr     Sub_000492F8(pc)                | +080
         bcc.w   .L047cde                        | +084
-        lea     TaskHandler_047bac(pc),a1       | +088
+        lea     Pow_RunRight_047bac(pc),a1      | +088
         move.l  a1,(a6)                         | +08c
 .L047cde:
-        jsr     Sub_000491DE(pc)                | +08e  -> $0491DE (hueco futuro, defsym forward)
+        jsr     Sub_000491DE(pc)                | +08e
         bcc.w   .L047cec                        | +092
-        lea     TaskHandler_047dbc(pc),a1       | +096
+        lea     Pow_Wait_047dbc(pc),a1          | +096
         move.l  a1,(a6)                         | +09a
 .L047cec:
-        jsr     Sub_0004932C(pc)                | +09c  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +09c
         bcc.w   .L047cfa                        | +0a0
-        lea     TaskHandler_047f12(pc),a1       | +0a4
+        lea     Pow_Hurt_047f12(pc),a1          | +0a4
         move.l  a1,(a6)                         | +0a8
 .L047cfa:
-        bra.w   TaskHandler_0489c6__L0489f8     | +0aa
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +0aa
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047cfe  @ $047CFE  (190 B)
+|  Pow_RunAway_047cfe  @ $047CFE  (190 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047cfe, "ax", @progbits
-        .global TaskHandler_047cfe
-TaskHandler_047cfe:
+        .section .text.Pow_RunAway_047cfe, "ax", @progbits
+        .global Pow_RunAway_047cfe
+Pow_RunAway_047cfe:
         move.b  0x3a(a6),d0                     | +000
         eori.b  #0x1,d0                         | +004
         move.b  d0,0x7c(a6)                     | +008
-        jsr     Sub_000492F8(pc)                | +00c  -> $0492F8 (hueco futuro, defsym forward)
-        bcs.w   TaskHandler_047a4c              | +010
+        jsr     Sub_000492F8(pc)                | +00c
+        bcs.w   Pow_Idle_047a4c                 | +010
         lea     0x28e1b6.l,a0                   | +014
         jsr     0x5e086.l                       | +01a
         move.l  a0,0x94(a6)                     | +020
         lea     0x2bfbb0.l,a0                   | +024
         jsr     0x799de.l                       | +02a
         move.w  d0,0x36(a6)                     | +030
-        jsr     Sub_00048F04(pc)                | +034  -> $048F04 (hueco futuro, defsym forward)
+        jsr     Sub_00048F04(pc)                | +034
         neg.w   0x28(a6)                        | +038
         lea     0x28e49e.l,a0                   | +03c
         jsr     0x28cd4.l                       | +042
         lea     .L047d4c(pc),a1                 | +048
         move.l  a1,(a6)                         | +04c
 .L047d4c:
-        jsr     Sub_00048F2E(pc)                | +04e  -> $048F2E (hueco futuro, defsym forward)
+        jsr     Sub_00048F2E(pc)                | +04e
         jsr     0x28d70.l                       | +052
-        jsr     Sub_00049346(pc)                | +058  -> $049346 (hueco futuro, defsym forward)
+        jsr     Sub_00049346(pc)                | +058
         bcc.w   .L047d64                        | +05c
-        lea     TaskHandler_047f84(pc),a1       | +060
+        lea     Pow_RescueStart_047f84(pc),a1   | +060
         move.l  a1,(a6)                         | +064
 .L047d64:
-        jsr     Sub_00049010(pc)                | +066  -> $049010 (hueco futuro, defsym forward)
+        jsr     Sub_00049010(pc)                | +066
         bcc.w   .L047d72                        | +06a
-        lea     TaskHandler_047a4c(pc),a1       | +06e
+        lea     Pow_Idle_047a4c(pc),a1          | +06e
         move.l  a1,(a6)                         | +072
 .L047d72:
-        jsr     Sub_00049256(pc)                | +074  -> $049256 (hueco futuro, defsym forward)
+        jsr     Sub_00049256(pc)                | +074
         bcc.w   .L047d80                        | +078
-        lea     TaskHandler_047ed2(pc),a1       | +07c
+        lea     Pow_Turn_047ed2(pc),a1          | +07c
         move.l  a1,(a6)                         | +080
 .L047d80:
-        jsr     Sub_00049196(pc)                | +082  -> $049196 (hueco futuro, defsym forward)
+        jsr     Sub_00049196(pc)                | +082
         bcs.w   .L047d8e                        | +086
-        lea     TaskHandler_047a4c(pc),a1       | +08a
+        lea     Pow_Idle_047a4c(pc),a1          | +08a
         move.l  a1,(a6)                         | +08e
 .L047d8e:
-        jsr     Sub_000492F8(pc)                | +090  -> $0492F8 (hueco futuro, defsym forward)
+        jsr     Sub_000492F8(pc)                | +090
         bcc.w   .L047d9c                        | +094
-        lea     TaskHandler_047a4c(pc),a1       | +098
+        lea     Pow_Idle_047a4c(pc),a1          | +098
         move.l  a1,(a6)                         | +09c
 .L047d9c:
-        jsr     Sub_000491DE(pc)                | +09e  -> $0491DE (hueco futuro, defsym forward)
+        jsr     Sub_000491DE(pc)                | +09e
         bcc.w   .L047daa                        | +0a2
-        lea     TaskHandler_047dbc(pc),a1       | +0a6
+        lea     Pow_Wait_047dbc(pc),a1          | +0a6
         move.l  a1,(a6)                         | +0aa
 .L047daa:
-        jsr     Sub_0004932C(pc)                | +0ac  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +0ac
         bcc.w   .L047db8                        | +0b0
-        lea     TaskHandler_047f12(pc),a1       | +0b4
+        lea     Pow_Hurt_047f12(pc),a1          | +0b4
         move.l  a1,(a6)                         | +0b8
 .L047db8:
-        bra.w   TaskHandler_0489c6__L0489f8     | +0ba
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +0ba
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047dbc  @ $047DBC  (104 B)
+|  Pow_Wait_047dbc  @ $047DBC  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047dbc, "ax", @progbits
-        .global TaskHandler_047dbc
-TaskHandler_047dbc:
+        .section .text.Pow_Wait_047dbc, "ax", @progbits
+        .global Pow_Wait_047dbc
+Pow_Wait_047dbc:
         clr.w   0x28(a6)                        | +000
         move.b  0x3a(a6),d0                     | +004
         andi.b  #0x1,d0                         | +008
         move.b  d0,0x7c(a6)                     | +00c
-        jsr     Sub_000492F8(pc)                | +010  -> $0492F8 (hueco futuro, defsym forward)
-        bcs.w   TaskHandler_047ed2              | +014
-        jsr     Sub_0004926A(pc)                | +018  -> $04926A (hueco futuro, defsym forward)
-        bcs.w   TaskHandler_047e24              | +01c
+        jsr     Sub_000492F8(pc)                | +010
+        bcs.w   Pow_Turn_047ed2                 | +014
+        jsr     Sub_0004926A(pc)                | +018
+        bcs.w   Pow_WalkFree_047e24             | +01c
         lea     0x28e1b6.l,a0                   | +020
         jsr     0x5e086.l                       | +026
         move.l  a0,0x94(a6)                     | +02c
@@ -437,88 +437,88 @@ TaskHandler_047dbc:
         lea     .L047dfe(pc),a1                 | +03c
         move.l  a1,(a6)                         | +040
 .L047dfe:
-        jsr     Sub_00048FB0(pc)                | +042  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +042
         jsr     0x28d70.l                       | +046
         bcc.w   .L047e12                        | +04c
-        lea     TaskHandler_047e24(pc),a1       | +050
+        lea     Pow_WalkFree_047e24(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L047e12:
-        jsr     Sub_0004932C(pc)                | +056  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +056
         bcc.w   .L047e20                        | +05a
-        lea     TaskHandler_047f12(pc),a1       | +05e
+        lea     Pow_Hurt_047f12(pc),a1          | +05e
         move.l  a1,(a6)                         | +062
 .L047e20:
-        bra.w   TaskHandler_0489c6__L0489f8     | +064
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +064
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047e24  @ $047E24  (100 B)
+|  Pow_WalkFree_047e24  @ $047E24  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047e24, "ax", @progbits
-        .global TaskHandler_047e24
-TaskHandler_047e24:
+        .section .text.Pow_WalkFree_047e24, "ax", @progbits
+        .global Pow_WalkFree_047e24
+Pow_WalkFree_047e24:
         move.b  0x3a(a6),0x7c(a6)               | +000
         lea     0x2bfb2e.l,a0                   | +006
         jsr     0x799de.l                       | +00c
         move.w  d0,0x36(a6)                     | +012
-        jsr     Sub_00048F04(pc)                | +016  -> $048F04 (hueco futuro, defsym forward)
+        jsr     Sub_00048F04(pc)                | +016
         lea     0x28e394.l,a0                   | +01a
         jsr     0x28cd4.l                       | +020
         lea     .L047e50(pc),a1                 | +026
         move.l  a1,(a6)                         | +02a
 .L047e50:
-        jsr     Sub_00048F2E(pc)                | +02c  -> $048F2E (hueco futuro, defsym forward)
+        jsr     Sub_00048F2E(pc)                | +02c
         jsr     0x28d70.l                       | +030
-        jsr     Sub_0004921E(pc)                | +036  -> $04921E (hueco futuro, defsym forward)
+        jsr     Sub_0004921E(pc)                | +036
         bcs.w   .L047e68                        | +03a
-        lea     TaskHandler_047e88(pc),a1       | +03e
+        lea     Pow_Stop_047e88(pc),a1          | +03e
         move.l  a1,(a6)                         | +042
 .L047e68:
-        jsr     Sub_000492F8(pc)                | +044  -> $0492F8 (hueco futuro, defsym forward)
+        jsr     Sub_000492F8(pc)                | +044
         bcc.w   .L047e76                        | +048
-        lea     TaskHandler_047e88(pc),a1       | +04c
+        lea     Pow_Stop_047e88(pc),a1          | +04c
         move.l  a1,(a6)                         | +050
 .L047e76:
-        jsr     Sub_0004932C(pc)                | +052  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +052
         bcc.w   .L047e84                        | +056
-        lea     TaskHandler_047f12(pc),a1       | +05a
+        lea     Pow_Hurt_047f12(pc),a1          | +05a
         move.l  a1,(a6)                         | +05e
 .L047e84:
-        bra.w   TaskHandler_0489c6__L0489f8     | +060
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047e88  @ $047E88  (74 B)
+|  Pow_Stop_047e88  @ $047E88  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047e88, "ax", @progbits
-        .global TaskHandler_047e88
-TaskHandler_047e88:
+        .section .text.Pow_Stop_047e88, "ax", @progbits
+        .global Pow_Stop_047e88
+Pow_Stop_047e88:
         movea.l 0x94(a6),a0                     | +000
         jsr     0x5e338.l                       | +004
-        bcs.w   TaskHandler_047a42              | +00a
+        bcs.w   Pow_RetargetPlayer_047a42       | +00a
         clr.w   0x28(a6)                        | +00e
         lea     0x28e416.l,a0                   | +012
         jsr     0x28cd4.l                       | +018
         lea     .L047eac(pc),a1                 | +01e
         move.l  a1,(a6)                         | +022
 .L047eac:
-        jsr     Sub_00048FB0(pc)                | +024  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +024
         jsr     0x28d70.l                       | +028
         bcc.w   .L047ec0                        | +02e
-        lea     TaskHandler_047a4c(pc),a1       | +032
+        lea     Pow_Idle_047a4c(pc),a1          | +032
         move.l  a1,(a6)                         | +036
 .L047ec0:
-        jsr     Sub_0004932C(pc)                | +038  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +038
         bcc.w   .L047ece                        | +03c
-        lea     TaskHandler_047f12(pc),a1       | +040
+        lea     Pow_Hurt_047f12(pc),a1          | +040
         move.l  a1,(a6)                         | +044
 .L047ece:
-        bra.w   TaskHandler_0489c6__L0489f8     | +046
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047ed2  @ $047ED2  (64 B)
+|  Pow_Turn_047ed2  @ $047ED2  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047ed2, "ax", @progbits
-        .global TaskHandler_047ed2
-TaskHandler_047ed2:
+        .section .text.Pow_Turn_047ed2, "ax", @progbits
+        .global Pow_Turn_047ed2
+Pow_Turn_047ed2:
         addq.b  #0x1,0x77(a6)                   | +000
         clr.w   0x28(a6)                        | +004
         lea     0x28e858.l,a0                   | +008
@@ -526,25 +526,25 @@ TaskHandler_047ed2:
         lea     .L047eec(pc),a1                 | +014
         move.l  a1,(a6)                         | +018
 .L047eec:
-        jsr     Sub_00048FB0(pc)                | +01a  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +01a
         jsr     0x28d70.l                       | +01e
         bcc.w   .L047f00                        | +024
-        lea     TaskHandler_047a4c(pc),a1       | +028
+        lea     Pow_Idle_047a4c(pc),a1          | +028
         move.l  a1,(a6)                         | +02c
 .L047f00:
-        jsr     Sub_0004932C(pc)                | +02e  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +02e
         bcc.w   .L047f0e                        | +032
-        lea     TaskHandler_047f12(pc),a1       | +036
+        lea     Pow_Hurt_047f12(pc),a1          | +036
         move.l  a1,(a6)                         | +03a
 .L047f0e:
-        bra.w   TaskHandler_0489c6__L0489f8     | +03c
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047f12  @ $047F12  (54 B)
+|  Pow_Hurt_047f12  @ $047F12  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047f12, "ax", @progbits
-        .global TaskHandler_047f12
-TaskHandler_047f12:
+        .section .text.Pow_Hurt_047f12, "ax", @progbits
+        .global Pow_Hurt_047f12
+Pow_Hurt_047f12:
         move.w  0x28(a6),d0                     | +000
         asr.w   #0x1,d0                         | +004
         move.w  d0,0x28(a6)                     | +006
@@ -555,43 +555,43 @@ TaskHandler_047f12:
 .L047f2e:
         jsr     0x27c8c.l                       | +01c
         bcc.w   .L047f3e                        | +022
-        lea     TaskHandler_047f48(pc),a1       | +026
+        lea     Pow_GetUp_047f48(pc),a1         | +026
         move.l  a1,(a6)                         | +02a
 .L047f3e:
         jsr     0x28d70.l                       | +02c
-        bra.w   TaskHandler_0489c6__L0489f8     | +032
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047f48  @ $047F48  (60 B)
+|  Pow_GetUp_047f48  @ $047F48  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047f48, "ax", @progbits
-        .global TaskHandler_047f48
-TaskHandler_047f48:
+        .section .text.Pow_GetUp_047f48, "ax", @progbits
+        .global Pow_GetUp_047f48
+Pow_GetUp_047f48:
         clr.w   0x28(a6)                        | +000
         lea     0x28e79c.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
         lea     .L047f5e(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L047f5e:
-        jsr     Sub_00048FB0(pc)                | +016  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +016
         jsr     0x28d70.l                       | +01a
         bcc.w   .L047f72                        | +020
-        lea     TaskHandler_047a4c(pc),a1       | +024
+        lea     Pow_Idle_047a4c(pc),a1          | +024
         move.l  a1,(a6)                         | +028
 .L047f72:
-        jsr     Sub_0004932C(pc)                | +02a  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +02a
         bcc.w   .L047f80                        | +02e
-        lea     TaskHandler_047f12(pc),a1       | +032
+        lea     Pow_Hurt_047f12(pc),a1          | +032
         move.l  a1,(a6)                         | +036
 .L047f80:
-        bra.w   TaskHandler_0489c6__L0489f8     | +038
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_047f84  @ $047F84  (192 B)
+|  Pow_RescueStart_047f84  @ $047F84  (192 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_047f84, "ax", @progbits
-        .global TaskHandler_047f84
-TaskHandler_047f84:
+        .section .text.Pow_RescueStart_047f84, "ax", @progbits
+        .global Pow_RescueStart_047f84
+Pow_RescueStart_047f84:
         tst.b   0x85(a6)                        | +000
         beq.w   .L047faa                        | +004
         movea.l 0x94(a6),a0                     | +008
@@ -600,7 +600,7 @@ TaskHandler_047f84:
         movea.l 0x94(a6),a0                     | +016
         move.w  0x24(a0),d0                     | +01a
         cmp.w   0x24(a6),d0                     | +01e
-        beq.w   TaskHandler_048260__L0482c0     | +022
+        beq.w   Pow_RescueGiveItem_048260__L0482c0 | +022
 .L047faa:
         clr.b   0x77(a6)                        | +026
         clr.w   0x28(a6)                        | +02a
@@ -609,7 +609,7 @@ TaskHandler_047f84:
         add.b   0x7e(a6),d0                     | +038
         move.b  d0,0x7a(a6)                     | +03c
         move.b  0x7d(a6),d1                     | +040
-        jsr     Sub_0004939C(pc)                | +044  -> $04939C (hueco futuro, defsym forward)
+        jsr     Sub_0004939C(pc)                | +044
         bcs.w   .L047fd4                        | +048
         move.b  #0x80,d1                        | +04c
 .L047fd4:
@@ -631,25 +631,25 @@ TaskHandler_047f84:
         lea     .L04801e(pc),a1                 | +094
         move.l  a1,(a6)                         | +098
 .L04801e:
-        jsr     Sub_00048FB0(pc)                | +09a  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +09a
         jsr     0x28d70.l                       | +09e
         bcc.w   .L048032                        | +0a4
-        lea     TaskHandler_048044(pc),a1       | +0a8
+        lea     Pow_RescueFaceCount_048044(pc),a1 | +0a8
         move.l  a1,(a6)                         | +0ac
 .L048032:
-        jsr     Sub_0004932C(pc)                | +0ae  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +0ae
         bcc.w   .L048040                        | +0b2
-        lea     TaskHandler_047f12(pc),a1       | +0b6
+        lea     Pow_Hurt_047f12(pc),a1          | +0b6
         move.l  a1,(a6)                         | +0ba
 .L048040:
-        bra.w   TaskHandler_0489c6__L0489f8     | +0bc
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +0bc
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048044  @ $048044  (172 B)
+|  Pow_RescueFaceCount_048044  @ $048044  (172 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048044, "ax", @progbits
-        .global TaskHandler_048044
-TaskHandler_048044:
+        .section .text.Pow_RescueFaceCount_048044, "ax", @progbits
+        .global Pow_RescueFaceCount_048044
+Pow_RescueFaceCount_048044:
         clr.w   0x28(a6)                        | +000
         andi.b  #0xf,0x7a(a6)                   | +004
         tst.b   0x81(a6)                        | +00a
@@ -679,29 +679,29 @@ TaskHandler_048044:
         lea     .L0480ba(pc),a1                 | +070
         move.l  a1,(a6)                         | +074
 .L0480ba:
-        jsr     Sub_00048FB0(pc)                | +076  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +076
         jsr     0x28d70.l                       | +07a
         move.b  0x7a(a6),d0                     | +080
         andi.w  #0x1f,d0                        | +084
         cmp.w   0x78(a6),d0                     | +088
         bne.w   .L0480da                        | +08c
-        lea     TaskHandler_0480f0(pc),a1       | +090
+        lea     Pow_RescueStartSalute_0480f0(pc),a1 | +090
         move.l  a1,(a6)                         | +094
 .L0480da:
         addq.w  #0x1,0x78(a6)                   | +096
-        jsr     Sub_0004932C(pc)                | +09a  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +09a
         bcc.w   .L0480ec                        | +09e
-        lea     TaskHandler_047f12(pc),a1       | +0a2
+        lea     Pow_Hurt_047f12(pc),a1          | +0a2
         move.l  a1,(a6)                         | +0a6
 .L0480ec:
-        bra.w   TaskHandler_0489c6__L0489f8     | +0a8
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +0a8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0480f0  @ $0480F0  (24 B)
+|  Pow_RescueStartSalute_0480f0  @ $0480F0  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0480f0, "ax", @progbits
-        .global TaskHandler_0480f0
-TaskHandler_0480f0:
+        .section .text.Pow_RescueStartSalute_0480f0, "ax", @progbits
+        .global Pow_RescueStartSalute_0480f0
+Pow_RescueStartSalute_0480f0:
         clr.w   0x28(a6)                        | +000
         subq.w  #0x1,0x78(a6)                   | +004
         lea     0x2bfd36.l,a0                   | +008
@@ -709,11 +709,11 @@ TaskHandler_0480f0:
         move.b  d0,0x82(a6)                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048108  @ $048108  (182 B)
+|  Pow_RescueSalute_048108  @ $048108  (182 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048108, "ax", @progbits
-        .global TaskHandler_048108
-TaskHandler_048108:
+        .section .text.Pow_RescueSalute_048108, "ax", @progbits
+        .global Pow_RescueSalute_048108
+Pow_RescueSalute_048108:
         move.b  0x7b(a6),d0                     | +000
         andi.w  #0xf,d0                         | +004
         btst    #0x0,0x3a(a6)                   | +008
@@ -734,14 +734,14 @@ TaskHandler_048108:
         beq.w   .L048156                        | +044
         jsr     0x28cd4.l                       | +048
 .L048156:
-        jsr     Sub_0004940E(pc)                | +04e  -> $04940E (hueco futuro, defsym forward)
+        jsr     Sub_0004940E(pc)                | +04e
         lea     0x2bfcb4.l,a0                   | +052
         jsr     0x799de.l                       | +058
         move.w  d0,0x72(a6)                     | +05e
         lea     .L048170(pc),a1                 | +062
         move.l  a1,(a6)                         | +066
 .L048170:
-        jsr     Sub_00048FB0(pc)                | +068  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +068
         jsr     0x28d70.l                       | +06c
         bcs.w   .L048188                        | +072
         cmpi.b  #0x1,0x82(a6)                   | +076
@@ -749,27 +749,27 @@ TaskHandler_048108:
 .L048188:
         cmpi.w  #0x0,0x72(a6)                   | +080
         bgt.w   .L0481ac                        | +086
-        lea     TaskHandler_048108(pc),a1       | +08a
+        lea     Pow_RescueSalute_048108(pc),a1  | +08a
         move.l  a1,(a6)                         | +08e
         subq.b  #0x1,0x82(a6)                   | +090
         cmpi.b  #0x0,0x82(a6)                   | +094
         bgt.w   .L0481ac                        | +09a
-        lea     TaskHandler_0481be(pc),a1       | +09e
+        lea     Pow_RescueTurnBack_0481be(pc),a1 | +09e
         move.l  a1,(a6)                         | +0a2
 .L0481ac:
-        jsr     Sub_0004932C(pc)                | +0a4  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +0a4
         bcc.w   .L0481ba                        | +0a8
-        lea     TaskHandler_047f12(pc),a1       | +0ac
+        lea     Pow_Hurt_047f12(pc),a1          | +0ac
         move.l  a1,(a6)                         | +0b0
 .L0481ba:
-        bra.w   TaskHandler_0489c6__L0489f8     | +0b2
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +0b2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0481be  @ $0481BE  (162 B)
+|  Pow_RescueTurnBack_0481be  @ $0481BE  (162 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0481be, "ax", @progbits
-        .global TaskHandler_0481be
-TaskHandler_0481be:
+        .section .text.Pow_RescueTurnBack_0481be, "ax", @progbits
+        .global Pow_RescueTurnBack_0481be
+Pow_RescueTurnBack_0481be:
         clr.w   0x28(a6)                        | +000
         tst.b   0x81(a6)                        | +004
         bne.w   .L0481f6                        | +008
@@ -795,11 +795,11 @@ TaskHandler_0481be:
         lea     .L048224(pc),a1                 | +060
         move.l  a1,(a6)                         | +064
 .L048224:
-        jsr     Sub_00048FB0(pc)                | +066  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +066
         jsr     0x28d70.l                       | +06a
         tst.w   0x78(a6)                        | +070
         bne.w   .L04823c                        | +074
-        lea     TaskHandler_048260(pc),a1       | +078
+        lea     Pow_RescueGiveItem_048260(pc),a1 | +078
         move.l  a1,(a6)                         | +07c
 .L04823c:
         move.b  0x106f28.l,d0                   | +07e
@@ -807,19 +807,19 @@ TaskHandler_0481be:
         bne.w   .L04824e                        | +088
         subq.w  #0x1,0x78(a6)                   | +08c
 .L04824e:
-        jsr     Sub_0004932C(pc)                | +090  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +090
         bcc.w   .L04825c                        | +094
-        lea     TaskHandler_047f12(pc),a1       | +098
+        lea     Pow_Hurt_047f12(pc),a1          | +098
         move.l  a1,(a6)                         | +09c
 .L04825c:
-        bra.w   TaskHandler_0489c6__L0489f8     | +09e
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +09e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048260  @ $048260  (160 B)
+|  Pow_RescueGiveItem_048260  @ $048260  (160 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048260, "ax", @progbits
-        .global TaskHandler_048260
-TaskHandler_048260:
+        .section .text.Pow_RescueGiveItem_048260, "ax", @progbits
+        .global Pow_RescueGiveItem_048260
+Pow_RescueGiveItem_048260:
         clr.w   0x28(a6)                        | +000
         lea     0x2bfc32.l,a0                   | +004
         jsr     0x799de.l                       | +00a
@@ -834,56 +834,56 @@ TaskHandler_048260:
         lea     .L04829a(pc),a1                 | +034
         move.l  a1,(a6)                         | +038
 .L04829a:
-        jsr     Sub_00048FB0(pc)                | +03a  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +03a
         jsr     0x28d70.l                       | +03e
         bcc.w   .L0482ae                        | +044
-        lea     TaskHandler_047a42(pc),a1       | +048
+        lea     Pow_RetargetPlayer_047a42(pc),a1 | +048
         move.l  a1,(a6)                         | +04c
 .L0482ae:
-        jsr     Sub_0004932C(pc)                | +04e  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +04e
         bcc.w   .L0482bc                        | +052
-        lea     TaskHandler_047f12(pc),a1       | +056
+        lea     Pow_Hurt_047f12(pc),a1          | +056
         move.l  a1,(a6)                         | +05a
 .L0482bc:
-        bra.w   TaskHandler_0489c6__L0489f8     | +05c
-        .global TaskHandler_048260__L0482c0
-TaskHandler_048260__L0482c0:
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +05c
+        .global Pow_RescueGiveItem_048260__L0482c0
+Pow_RescueGiveItem_048260__L0482c0:
         move.l  #0x28e03e,0x48(a6)              | +060
         lea     0x28e656.l,a0                   | +068
         jsr     0x28cd4.l                       | +06e
         lea     .L0482da(pc),a1                 | +074
         move.l  a1,(a6)                         | +078
 .L0482da:
-        jsr     Sub_00048FB0(pc)                | +07a  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +07a
         jsr     0x28d70.l                       | +07e
         bcc.w   .L0482ee                        | +084
-        lea     TaskHandler_048300(pc),a1       | +088
+        lea     Pow_RescueThanksInit_048300(pc),a1 | +088
         move.l  a1,(a6)                         | +08c
 .L0482ee:
-        jsr     Sub_0004932C(pc)                | +08e  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +08e
         bcc.w   .L0482fc                        | +092
-        lea     TaskHandler_047f12(pc),a1       | +096
+        lea     Pow_Hurt_047f12(pc),a1          | +096
         move.l  a1,(a6)                         | +09a
 .L0482fc:
-        bra.w   TaskHandler_0489c6__L0489f8     | +09c
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +09c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048300  @ $048300  (20 B)
+|  Pow_RescueThanksInit_048300  @ $048300  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048300, "ax", @progbits
-        .global TaskHandler_048300
-TaskHandler_048300:
+        .section .text.Pow_RescueThanksInit_048300, "ax", @progbits
+        .global Pow_RescueThanksInit_048300
+Pow_RescueThanksInit_048300:
         clr.w   0x28(a6)                        | +000
         lea     0x2bfd36.l,a0                   | +004
         jsr     0x799de.l                       | +00a
         move.b  d0,0x82(a6)                     | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048314  @ $048314  (126 B)
+|  Pow_RescueThanks_048314  @ $048314  (126 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048314, "ax", @progbits
-        .global TaskHandler_048314
-TaskHandler_048314:
+        .section .text.Pow_RescueThanks_048314, "ax", @progbits
+        .global Pow_RescueThanks_048314
+Pow_RescueThanks_048314:
         lea     0x2bfcb4.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x72(a6)                     | +00c
@@ -893,81 +893,96 @@ TaskHandler_048314:
         lea     .L04833e(pc),a1                 | +024
         move.l  a1,(a6)                         | +028
 .L04833e:
-        jsr     Sub_00048FB0(pc)                | +02a  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +02a
         jsr     0x28d70.l                       | +02e
         bcc.w   .L048380                        | +034
         cmpi.w  #0x0,0x72(a6)                   | +038
         bgt.w   .L048380                        | +03e
-        lea     TaskHandler_048314(pc),a1       | +042
+        lea     Pow_RescueThanks_048314(pc),a1  | +042
         move.l  a1,(a6)                         | +046
         subq.b  #0x1,0x82(a6)                   | +048
         cmpi.b  #0x0,0x82(a6)                   | +04c
         bgt.w   .L048380                        | +052
-        lea     TaskHandler_048392(pc),a1       | +056
+        lea     Pow_RescueLeave_048392(pc),a1   | +056
         move.l  a1,(a6)                         | +05a
         lea     0x2bfc32.l,a0                   | +05c
         jsr     0x799de.l                       | +062
         move.w  d0,0x72(a6)                     | +068
 .L048380:
-        jsr     Sub_0004932C(pc)                | +06c  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +06c
         bcc.w   .L04838e                        | +070
-        lea     TaskHandler_047f12(pc),a1       | +074
+        lea     Pow_Hurt_047f12(pc),a1          | +074
         move.l  a1,(a6)                         | +078
 .L04838e:
-        bra.w   Sub_00048A44                    | +07a  -> $048A44 (hueco futuro, defsym forward)
+        bra.w   Sub_00048A44                    | +07a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048392  @ $048392  (142 B)
+|  Pow_RescueLeave_048392  @ $048392  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048392, "ax", @progbits
-        .global TaskHandler_048392
-TaskHandler_048392:
+        .section .text.Pow_RescueLeave_048392, "ax", @progbits
+        .global Pow_RescueLeave_048392
+Pow_RescueLeave_048392:
         lea     0x28e6ee.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L0483a4(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L0483a4:
-        jsr     Sub_00048FB0(pc)                | +012  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +012
         jsr     0x28d70.l                       | +016
         bcc.w   .L0483c0                        | +01c
         move.l  #0x28df42,0x48(a6)              | +020
-        lea     TaskHandler_047a42(pc),a1       | +028
+        lea     Pow_RetargetPlayer_047a42(pc),a1 | +028
         move.l  a1,(a6)                         | +02c
 .L0483c0:
-        jsr     Sub_0004932C(pc)                | +02e  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +02e
         bcc.w   .L0483ce                        | +032
-        lea     TaskHandler_047f12(pc),a1       | +036
+        lea     Pow_Hurt_047f12(pc),a1          | +036
         move.l  a1,(a6)                         | +03a
 .L0483ce:
-        bra.w   Sub_00048A44                    | +03c  -> $048A44 (hueco futuro, defsym forward)
-        move.b  #0x1,0x9b(a6)                   | +040
-        move.b  #0x1,0x86(a6)                   | +046
-        bra.w   .L0483e6                        | +04c
-        clr.b   0x86(a6)                        | +050
-.L0483e6:
-        jsr     0x5e7c0.l                       | +054
-        jsr     Sub_00048EA6(pc)                | +05a  -> $048EA6 (hueco futuro, defsym forward)
-        tst.b   0x98(a6)                        | +05e
-        bne.w   .L048404                        | +062
-        tst.b   0x9b(a6)                        | +066
-        bne.w   TaskHandler_04857c              | +06a
-        bra.w   TaskHandler_048710              | +06e
-.L048404:
-        tst.b   0x9c(a6)                        | +072
-        beq.w   .L048418                        | +076
-        move.b  0x9c(a6),d0                     | +07a
-        andi.w  #0xff,d0                        | +07e
-        move.w  d0,0x72(a6)                     | +082
-.L048418:
-        jsr     Sub_0004932C(pc)                | +086  -> $04932C (hueco futuro, defsym forward)
-        bcc.w   TaskHandler_048492              | +08a
+        bra.w   Sub_00048A44                    | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048420  @ $048420  (54 B)
+|  Pow_SpawnFreeVariantA_0483d2  @ $0483D2  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048420, "ax", @progbits
-        .global TaskHandler_048420
-TaskHandler_048420:
+        .section .text.Pow_SpawnFreeVariantA_0483d2, "ax", @progbits
+        .global Pow_SpawnFreeVariantA_0483d2
+Pow_SpawnFreeVariantA_0483d2:
+        move.b  #0x1,0x9b(a6)                   | +000
+        move.b  #0x1,0x86(a6)                   | +006
+        bra.w   Pow_SpawnFreeVariantB_0483e2__L0483e6 | +00c
+
+| ----------------------------------------------------------------------------
+|  Pow_SpawnFreeVariantB_0483e2  @ $0483E2  (62 B)
+| ----------------------------------------------------------------------------
+        .section .text.Pow_SpawnFreeVariantB_0483e2, "ax", @progbits
+        .global Pow_SpawnFreeVariantB_0483e2
+Pow_SpawnFreeVariantB_0483e2:
+        clr.b   0x86(a6)                        | +000
+        .global Pow_SpawnFreeVariantB_0483e2__L0483e6
+Pow_SpawnFreeVariantB_0483e2__L0483e6:
+        jsr     0x5e7c0.l                       | +004
+        jsr     Sub_00048EA6(pc)                | +00a
+        tst.b   0x98(a6)                        | +00e
+        bne.w   .L048404                        | +012
+        tst.b   0x9b(a6)                        | +016
+        bne.w   Pow_FreeThanksLoop_04857c       | +01a
+        bra.w   Pow_FreeStand_048710            | +01e
+.L048404:
+        tst.b   0x9c(a6)                        | +022
+        beq.w   .L048418                        | +026
+        move.b  0x9c(a6),d0                     | +02a
+        andi.w  #0xff,d0                        | +02e
+        move.w  d0,0x72(a6)                     | +032
+.L048418:
+        jsr     Sub_0004932C(pc)                | +036
+        bcc.w   Pow_FreeWalkOut_048492          | +03a
+
+| ----------------------------------------------------------------------------
+|  Pow_FreeHurt_048420  @ $048420  (54 B)
+| ----------------------------------------------------------------------------
+        .section .text.Pow_FreeHurt_048420, "ax", @progbits
+        .global Pow_FreeHurt_048420
+Pow_FreeHurt_048420:
         move.w  0x28(a6),d0                     | +000
         asr.w   #0x1,d0                         | +004
         move.w  d0,0x28(a6)                     | +006
@@ -978,53 +993,53 @@ TaskHandler_048420:
 .L04843c:
         jsr     0x27c8c.l                       | +01c
         bcc.w   .L04844c                        | +022
-        lea     TaskHandler_048456(pc),a1       | +026
+        lea     Pow_FreeGetUp_048456(pc),a1     | +026
         move.l  a1,(a6)                         | +02a
 .L04844c:
         jsr     0x28d70.l                       | +02c
-        bra.w   TaskHandler_0489c6__L0489f8     | +032
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048456  @ $048456  (60 B)
+|  Pow_FreeGetUp_048456  @ $048456  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048456, "ax", @progbits
-        .global TaskHandler_048456
-TaskHandler_048456:
+        .section .text.Pow_FreeGetUp_048456, "ax", @progbits
+        .global Pow_FreeGetUp_048456
+Pow_FreeGetUp_048456:
         clr.w   0x28(a6)                        | +000
         lea     0x28e79c.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
         lea     .L04846c(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L04846c:
-        jsr     Sub_00048FB0(pc)                | +016  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +016
         jsr     0x28d70.l                       | +01a
         bcc.w   .L048480                        | +020
-        lea     TaskHandler_048492(pc),a1       | +024
+        lea     Pow_FreeWalkOut_048492(pc),a1   | +024
         move.l  a1,(a6)                         | +028
 .L048480:
-        jsr     Sub_0004932C(pc)                | +02a  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +02a
         bcc.w   .L04848e                        | +02e
-        lea     TaskHandler_048420(pc),a1       | +032
+        lea     Pow_FreeHurt_048420(pc),a1      | +032
         move.l  a1,(a6)                         | +036
 .L04848e:
-        bra.w   TaskHandler_0489c6__L0489f8     | +038
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048492  @ $048492  (112 B)
+|  Pow_FreeWalkOut_048492  @ $048492  (112 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048492, "ax", @progbits
-        .global TaskHandler_048492
-TaskHandler_048492:
+        .section .text.Pow_FreeWalkOut_048492, "ax", @progbits
+        .global Pow_FreeWalkOut_048492
+Pow_FreeWalkOut_048492:
         lea     0x2bfb2e.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x36(a6)                     | +00c
-        jsr     Sub_00048F04(pc)                | +010  -> $048F04 (hueco futuro, defsym forward)
+        jsr     Sub_00048F04(pc)                | +010
         lea     0x28e394.l,a0                   | +014
         jsr     0x28cd4.l                       | +01a
         lea     .L0484b8(pc),a1                 | +020
         move.l  a1,(a6)                         | +024
 .L0484b8:
-        jsr     Sub_00048F2E(pc)                | +026  -> $048F2E (hueco futuro, defsym forward)
+        jsr     Sub_00048F2E(pc)                | +026
         jsr     0x28d70.l                       | +02a
         move.b  0x98(a6),d0                     | +030
         andi.w  #0xff,d0                        | +034
@@ -1038,24 +1053,24 @@ TaskHandler_048492:
         cmp.w   0x22(a6),d0                     | +050
         bgt.w   .L0484f0                        | +054
 .L0484ea:
-        lea     TaskHandler_048502(pc),a1       | +058
+        lea     Pow_FreeJumpOut_048502(pc),a1   | +058
         move.l  a1,(a6)                         | +05c
 .L0484f0:
-        jsr     Sub_0004932C(pc)                | +05e  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +05e
         bcc.w   .L0484fe                        | +062
-        lea     TaskHandler_048420(pc),a1       | +066
+        lea     Pow_FreeHurt_048420(pc),a1      | +066
         move.l  a1,(a6)                         | +06a
 .L0484fe:
-        bra.w   TaskHandler_0489c6__L0489f8     | +06c
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +06c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048502  @ $048502  (122 B)
+|  Pow_FreeJumpOut_048502  @ $048502  (122 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048502, "ax", @progbits
-        .global TaskHandler_048502
-TaskHandler_048502:
+        .section .text.Pow_FreeJumpOut_048502, "ax", @progbits
+        .global Pow_FreeJumpOut_048502
+Pow_FreeJumpOut_048502:
         tst.b   0x9b(a6)                        | +000
-        beq.w   TaskHandler_04867a__L0486d4     | +004
+        beq.w   Pow_FreeLeave_04867a__L0486d4   | +004
         move.w  #0xfccd,d0                      | +008
         jsr     0x5dca4.l                       | +00c
         move.w  d0,0x28(a6)                     | +012
@@ -1075,24 +1090,24 @@ TaskHandler_048502:
         bcc.w   .L048562                        | +04e
         tst.w   0x28(a6)                        | +052
         bne.w   .L048562                        | +056
-        lea     TaskHandler_04857c(pc),a1       | +05a
+        lea     Pow_FreeThanksLoop_04857c(pc),a1 | +05a
         move.l  a1,(a6)                         | +05e
 .L048562:
         tst.b   0x86(a6)                        | +060
         beq.w   .L048578                        | +064
-        jsr     Sub_0004932C(pc)                | +068  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +068
         bcc.w   .L048578                        | +06c
-        lea     TaskHandler_048420(pc),a1       | +070
+        lea     Pow_FreeHurt_048420(pc),a1      | +070
         move.l  a1,(a6)                         | +074
 .L048578:
-        bra.w   TaskHandler_0489c6__L0489f8     | +076
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +076
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04857c  @ $04857C  (108 B)
+|  Pow_FreeThanksLoop_04857c  @ $04857C  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04857c, "ax", @progbits
-        .global TaskHandler_04857c
-TaskHandler_04857c:
+        .section .text.Pow_FreeThanksLoop_04857c, "ax", @progbits
+        .global Pow_FreeThanksLoop_04857c
+Pow_FreeThanksLoop_04857c:
         clr.w   0x28(a6)                        | +000
         move.l  #0x28e03e,0x48(a6)              | +004
         lea     0x28e6b0.l,a0                   | +00c
@@ -1100,11 +1115,11 @@ TaskHandler_04857c:
         lea     .L04859a(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L04859a:
-        jsr     Sub_00048FB0(pc)                | +01e  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +01e
         jsr     0x28d70.l                       | +022
-        jsr     Sub_000492A4(pc)                | +028  -> $0492A4 (hueco futuro, defsym forward)
+        jsr     Sub_000492A4(pc)                | +028
         bcc.w   .L0485b2                        | +02c
-        lea     TaskHandler_04867a(pc),a1       | +030
+        lea     Pow_FreeLeave_04867a(pc),a1     | +030
         move.l  a1,(a6)                         | +034
 .L0485b2:
         cmpi.w  #0x18,0x22(a6)                  | +036
@@ -1113,33 +1128,33 @@ TaskHandler_04857c:
         bgt.w   .L0485d6                        | +046
         cmpi.w  #0x0,0x72(a6)                   | +04a
         bgt.w   .L0485d6                        | +050
-        lea     TaskHandler_0485e8(pc),a1       | +054
+        lea     Pow_FreeThanksInit_0485e8(pc),a1 | +054
         move.l  a1,(a6)                         | +058
 .L0485d6:
-        jsr     Sub_0004932C(pc)                | +05a  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +05a
         bcc.w   .L0485e4                        | +05e
-        lea     TaskHandler_048420(pc),a1       | +062
+        lea     Pow_FreeHurt_048420(pc),a1      | +062
         move.l  a1,(a6)                         | +066
 .L0485e4:
-        bra.w   Sub_00048A44                    | +068  -> $048A44 (hueco futuro, defsym forward)
+        bra.w   Sub_00048A44                    | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0485e8  @ $0485E8  (20 B)
+|  Pow_FreeThanksInit_0485e8  @ $0485E8  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0485e8, "ax", @progbits
-        .global TaskHandler_0485e8
-TaskHandler_0485e8:
+        .section .text.Pow_FreeThanksInit_0485e8, "ax", @progbits
+        .global Pow_FreeThanksInit_0485e8
+Pow_FreeThanksInit_0485e8:
         clr.w   0x28(a6)                        | +000
         lea     0x2bfd36.l,a0                   | +004
         jsr     0x799de.l                       | +00a
         move.b  d0,0x82(a6)                     | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0485fc  @ $0485FC  (126 B)
+|  Pow_FreeThanks_0485fc  @ $0485FC  (126 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0485fc, "ax", @progbits
-        .global TaskHandler_0485fc
-TaskHandler_0485fc:
+        .section .text.Pow_FreeThanks_0485fc, "ax", @progbits
+        .global Pow_FreeThanks_0485fc
+Pow_FreeThanks_0485fc:
         lea     0x2bfcb4.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x72(a6)                     | +00c
@@ -1149,35 +1164,35 @@ TaskHandler_0485fc:
         lea     .L048626(pc),a1                 | +024
         move.l  a1,(a6)                         | +028
 .L048626:
-        jsr     Sub_00048FB0(pc)                | +02a  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +02a
         jsr     0x28d70.l                       | +02e
         bcc.w   .L048668                        | +034
         cmpi.w  #0x0,0x72(a6)                   | +038
         bgt.w   .L048668                        | +03e
-        lea     TaskHandler_0485fc(pc),a1       | +042
+        lea     Pow_FreeThanks_0485fc(pc),a1    | +042
         move.l  a1,(a6)                         | +046
         subq.b  #0x1,0x82(a6)                   | +048
         cmpi.b  #0x0,0x82(a6)                   | +04c
         bgt.w   .L048668                        | +052
-        lea     TaskHandler_04857c(pc),a1       | +056
+        lea     Pow_FreeThanksLoop_04857c(pc),a1 | +056
         move.l  a1,(a6)                         | +05a
         lea     0x2bfc32.l,a0                   | +05c
         jsr     0x799de.l                       | +062
         move.w  d0,0x72(a6)                     | +068
 .L048668:
-        jsr     Sub_0004932C(pc)                | +06c  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +06c
         bcc.w   .L048676                        | +070
-        lea     TaskHandler_048420(pc),a1       | +074
+        lea     Pow_FreeHurt_048420(pc),a1      | +074
         move.l  a1,(a6)                         | +078
 .L048676:
-        bra.w   Sub_00048A44                    | +07a  -> $048A44 (hueco futuro, defsym forward)
+        bra.w   Sub_00048A44                    | +07a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04867a  @ $04867A  (150 B)
+|  Pow_FreeLeave_04867a  @ $04867A  (150 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04867a, "ax", @progbits
-        .global TaskHandler_04867a
-TaskHandler_04867a:
+        .section .text.Pow_FreeLeave_04867a, "ax", @progbits
+        .global Pow_FreeLeave_04867a
+Pow_FreeLeave_04867a:
         clr.w   0x28(a6)                        | +000
         move.l  #0x28df42,0x48(a6)              | +004
         lea     0x28e6ee.l,a0                   | +00c
@@ -1185,48 +1200,48 @@ TaskHandler_04867a:
         lea     .L048698(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L048698:
-        jsr     Sub_00048FB0(pc)                | +01e  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L0486c2                        | +028
         jsr     0x58fe2.l                       | +02c
-        lea     Sub_00048CA4(pc),a1             | +032  -> $048CA4 (hueco futuro, defsym forward)
+        lea     Sub_00048CA4(pc),a1             | +032
         jsr     0x4ae.l                         | +036
         jsr     0x5dd02.l                       | +03c
         addi.w  #0x18,0x24(a0)                  | +042
 .L0486c2:
-        jsr     Sub_0004932C(pc)                | +048  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +048
         bcc.w   .L0486d0                        | +04c
-        lea     TaskHandler_048420(pc),a1       | +050
+        lea     Pow_FreeHurt_048420(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L0486d0:
-        bra.w   Sub_00048A44                    | +056  -> $048A44 (hueco futuro, defsym forward)
-        .global TaskHandler_04867a__L0486d4
-TaskHandler_04867a__L0486d4:
+        bra.w   Sub_00048A44                    | +056
+        .global Pow_FreeLeave_04867a__L0486d4
+Pow_FreeLeave_04867a__L0486d4:
         clr.w   0x28(a6)                        | +05a
         lea     0x28e4ee.l,a0                   | +05e
         jsr     0x28cd4.l                       | +064
         lea     .L0486ea(pc),a1                 | +06a
         move.l  a1,(a6)                         | +06e
 .L0486ea:
-        jsr     Sub_00048FB0(pc)                | +070  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +070
         jsr     0x28d70.l                       | +074
         bcc.w   .L0486fe                        | +07a
-        lea     TaskHandler_048710(pc),a1       | +07e
+        lea     Pow_FreeStand_048710(pc),a1     | +07e
         move.l  a1,(a6)                         | +082
 .L0486fe:
-        jsr     Sub_0004932C(pc)                | +084  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +084
         bcc.w   .L04870c                        | +088
-        lea     TaskHandler_048420(pc),a1       | +08c
+        lea     Pow_FreeHurt_048420(pc),a1      | +08c
         move.l  a1,(a6)                         | +090
 .L04870c:
-        bra.w   TaskHandler_0489c6__L0489f8     | +092
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +092
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048710  @ $048710  (88 B)
+|  Pow_FreeStand_048710  @ $048710  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048710, "ax", @progbits
-        .global TaskHandler_048710
-TaskHandler_048710:
+        .section .text.Pow_FreeStand_048710, "ax", @progbits
+        .global Pow_FreeStand_048710
+Pow_FreeStand_048710:
         clr.w   0x28(a6)                        | +000
         move.l  #0x28dfea,0x48(a6)              | +004
         lea     0x28e536.l,a0                   | +00c
@@ -1234,31 +1249,31 @@ TaskHandler_048710:
         lea     .L04872e(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L04872e:
-        jsr     Sub_00048FB0(pc)                | +01e  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +01e
         jsr     0x28d70.l                       | +022
-        jsr     Sub_000492A4(pc)                | +028  -> $0492A4 (hueco futuro, defsym forward)
+        jsr     Sub_000492A4(pc)                | +028
         bcc.w   .L048746                        | +02c
-        lea     TaskHandler_04883e(pc),a1       | +030
+        lea     Pow_FreeExit_04883e(pc),a1      | +030
         move.l  a1,(a6)                         | +034
 .L048746:
         cmpi.w  #0x0,0x72(a6)                   | +036
         bgt.w   .L048756                        | +03c
-        lea     TaskHandler_048768(pc),a1       | +040
+        lea     Pow_FreeSaluteInit_048768(pc),a1 | +040
         move.l  a1,(a6)                         | +044
 .L048756:
-        jsr     Sub_0004932C(pc)                | +046  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +046
         bcc.w   .L048764                        | +04a
-        lea     TaskHandler_048420(pc),a1       | +04e
+        lea     Pow_FreeHurt_048420(pc),a1      | +04e
         move.l  a1,(a6)                         | +052
 .L048764:
-        bra.w   TaskHandler_0489c6__L0489f8     | +054
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048768  @ $048768  (44 B)
+|  Pow_FreeSaluteInit_048768  @ $048768  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048768, "ax", @progbits
-        .global TaskHandler_048768
-TaskHandler_048768:
+        .section .text.Pow_FreeSaluteInit_048768, "ax", @progbits
+        .global Pow_FreeSaluteInit_048768
+Pow_FreeSaluteInit_048768:
         clr.w   0x28(a6)                        | +000
         move.l  #0x28df42,0x48(a6)              | +004
         lea     0x2bfd36.l,a0                   | +00c
@@ -1266,50 +1281,50 @@ TaskHandler_048768:
         move.b  d0,0x82(a6)                     | +018
         lea     0x28e5b6.l,a0                   | +01c
         jsr     0x28cd4.l                       | +022
-        bra.w   TaskHandler_048794__L0487a0     | +028
+        bra.w   Pow_FreeSalute_048794__L0487a0  | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_048794  @ $048794  (102 B)
+|  Pow_FreeSalute_048794  @ $048794  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_048794, "ax", @progbits
-        .global TaskHandler_048794
-TaskHandler_048794:
+        .section .text.Pow_FreeSalute_048794, "ax", @progbits
+        .global Pow_FreeSalute_048794
+Pow_FreeSalute_048794:
         lea     0x28e610.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
-        .global TaskHandler_048794__L0487a0
-TaskHandler_048794__L0487a0:
+        .global Pow_FreeSalute_048794__L0487a0
+Pow_FreeSalute_048794__L0487a0:
         lea     .L0487a6(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L0487a6:
-        jsr     Sub_00048FB0(pc)                | +012  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +012
         jsr     0x28d70.l                       | +016
         bcc.w   .L0487e8                        | +01c
         cmpi.w  #0x0,0x72(a6)                   | +020
         bgt.w   .L0487e8                        | +026
-        lea     TaskHandler_048794(pc),a1       | +02a
+        lea     Pow_FreeSalute_048794(pc),a1    | +02a
         move.l  a1,(a6)                         | +02e
         subq.b  #0x1,0x82(a6)                   | +030
         cmpi.b  #0x0,0x82(a6)                   | +034
         bgt.w   .L0487e8                        | +03a
-        lea     TaskHandler_0487fa(pc),a1       | +03e
+        lea     Pow_FreeIdle_0487fa(pc),a1      | +03e
         move.l  a1,(a6)                         | +042
         lea     0x2bfc32.l,a0                   | +044
         jsr     0x799de.l                       | +04a
         move.w  d0,0x72(a6)                     | +050
 .L0487e8:
-        jsr     Sub_0004932C(pc)                | +054  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +054
         bcc.w   .L0487f6                        | +058
-        lea     TaskHandler_048420(pc),a1       | +05c
+        lea     Pow_FreeHurt_048420(pc),a1      | +05c
         move.l  a1,(a6)                         | +060
 .L0487f6:
-        bra.w   TaskHandler_0489c6__L0489f8     | +062
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0487fa  @ $0487FA  (68 B)
+|  Pow_FreeIdle_0487fa  @ $0487FA  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0487fa, "ax", @progbits
-        .global TaskHandler_0487fa
-TaskHandler_0487fa:
+        .section .text.Pow_FreeIdle_0487fa, "ax", @progbits
+        .global Pow_FreeIdle_0487fa
+Pow_FreeIdle_0487fa:
         clr.w   0x28(a6)                        | +000
         move.l  #0x28dfea,0x48(a6)              | +004
         lea     0x28e632.l,a0                   | +00c
@@ -1317,25 +1332,25 @@ TaskHandler_0487fa:
         lea     .L048818(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L048818:
-        jsr     Sub_00048FB0(pc)                | +01e  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L04882c                        | +028
-        lea     TaskHandler_048710(pc),a1       | +02c
+        lea     Pow_FreeStand_048710(pc),a1     | +02c
         move.l  a1,(a6)                         | +030
 .L04882c:
-        jsr     Sub_0004932C(pc)                | +032  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +032
         bcc.w   .L04883a                        | +036
-        lea     TaskHandler_048420(pc),a1       | +03a
+        lea     Pow_FreeHurt_048420(pc),a1      | +03a
         move.l  a1,(a6)                         | +03e
 .L04883a:
-        bra.w   TaskHandler_0489c6__L0489f8     | +040
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04883e  @ $04883E  (220 B)
+|  Pow_FreeExit_04883e  @ $04883E  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04883e, "ax", @progbits
-        .global TaskHandler_04883e
-TaskHandler_04883e:
+        .section .text.Pow_FreeExit_04883e, "ax", @progbits
+        .global Pow_FreeExit_04883e
+Pow_FreeExit_04883e:
         clr.w   0x28(a6)                        | +000
         move.l  #0x28df42,0x48(a6)              | +004
         lea     0x28e578.l,a0                   | +00c
@@ -1343,55 +1358,62 @@ TaskHandler_04883e:
         lea     .L04885c(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L04885c:
-        jsr     Sub_00048FB0(pc)                | +01e  -> $048FB0 (hueco futuro, defsym forward)
+        jsr     Sub_00048FB0(pc)                | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L048886                        | +028
         jsr     0x58fe2.l                       | +02c
-        lea     Sub_00048CA4(pc),a1             | +032  -> $048CA4 (hueco futuro, defsym forward)
+        lea     Sub_00048CA4(pc),a1             | +032
         jsr     0x4ae.l                         | +036
         jsr     0x5dd02.l                       | +03c
         addi.w  #0x18,0x24(a0)                  | +042
 .L048886:
-        jsr     Sub_0004932C(pc)                | +048  -> $04932C (hueco futuro, defsym forward)
+        jsr     Sub_0004932C(pc)                | +048
         bcc.w   .L048894                        | +04c
-        lea     TaskHandler_048420(pc),a1       | +050
+        lea     Pow_FreeHurt_048420(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L048894:
-        bra.w   TaskHandler_0489c6__L0489f8     | +056
-        clr.b   0x80(a6)                        | +05a
-        bra.w   .L0488a6                        | +05e
-        move.b  #0x1,0x80(a6)                   | +062
-.L0488a6:
-        move.w  #0x38,d1                        | +068
-        jsr     0x236e.l                        | +06c
-        move.w  #0x1,0x66(a6)                   | +072
-        move.w  #0x8000,d0                      | +078
-        jsr     0x28134.l                       | +07c
-        andi.w  #0xffe3,0x38(a6)                | +082
-        ori.w   #0x18,0x38(a6)                  | +088
-        move.l  #0x28df96,0x48(a6)              | +08e
-        move.b  0x9e(a6),d0                     | +096
-        ext.w   d0                              | +09a
-        lsl.w   #0x4,d0                         | +09c
-        move.w  d0,0x8c(a6)                     | +09e
-        lea     0x2bff8e.l,a0                   | +0a2
-        jsr     0x799de.l                       | +0a8
-        move.w  d0,0x8e(a6)                     | +0ae
-        jsr     0x5e0d4.l                       | +0b2
-        move.l  a0,0x94(a6)                     | +0b8
-        clr.w   0x78(a6)                        | +0bc
-        move.b  #0x8,0x7e(a6)                   | +0c0
-        move.b  #0xf0,0x7d(a6)                  | +0c6
-        lea     Sub_00048D0E(pc),a1             | +0cc  -> $048D0E (hueco futuro, defsym forward)
-        jsr     0x4ae.l                         | +0d0
-        jsr     0x5dd02.l                       | +0d6
+        bra.w   Pow_TiedFreed_0489c6__L0489f8   | +056
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04891a  @ $04891A  (84 B)
+|  Pow_SpawnTiedVariant_048898  @ $048898  (130 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04891a, "ax", @progbits
-        .global TaskHandler_04891a
-TaskHandler_04891a:
+        .section .text.Pow_SpawnTiedVariant_048898, "ax", @progbits
+        .global Pow_SpawnTiedVariant_048898
+Pow_SpawnTiedVariant_048898:
+        clr.b   0x80(a6)                        | +000
+        bra.w   .L0488a6                        | +004
+        move.b  #0x1,0x80(a6)                   | +008
+.L0488a6:
+        move.w  #0x38,d1                        | +00e
+        jsr     0x236e.l                        | +012
+        move.w  #0x1,0x66(a6)                   | +018
+        move.w  #0x8000,d0                      | +01e
+        jsr     0x28134.l                       | +022
+        andi.w  #0xffe3,0x38(a6)                | +028
+        ori.w   #0x18,0x38(a6)                  | +02e
+        move.l  #0x28df96,0x48(a6)              | +034
+        move.b  0x9e(a6),d0                     | +03c
+        ext.w   d0                              | +040
+        lsl.w   #0x4,d0                         | +042
+        move.w  d0,0x8c(a6)                     | +044
+        lea     0x2bff8e.l,a0                   | +048
+        jsr     0x799de.l                       | +04e
+        move.w  d0,0x8e(a6)                     | +054
+        jsr     0x5e0d4.l                       | +058
+        move.l  a0,0x94(a6)                     | +05e
+        clr.w   0x78(a6)                        | +062
+        move.b  #0x8,0x7e(a6)                   | +066
+        move.b  #0xf0,0x7d(a6)                  | +06c
+        lea     Sub_00048D0E(pc),a1             | +072
+        jsr     0x4ae.l                         | +076
+        jsr     0x5dd02.l                       | +07c
+
+| ----------------------------------------------------------------------------
+|  Pow_TiedIdle_04891a  @ $04891A  (84 B)
+| ----------------------------------------------------------------------------
+        .section .text.Pow_TiedIdle_04891a, "ax", @progbits
+        .global Pow_TiedIdle_04891a
+Pow_TiedIdle_04891a:
         lea     0x2bff0c.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x72(a6)                     | +00c
@@ -1401,28 +1423,28 @@ TaskHandler_04891a:
         lea     .L048942(pc),a1                 | +022
         move.l  a1,(a6)                         | +026
 .L048942:
-        jsr     Sub_00048F54(pc)                | +028  -> $048F54 (hueco futuro, defsym forward)
+        jsr     Sub_00048F54(pc)                | +028
         bcc.w   .L048950                        | +02c
-        lea     TaskHandler_0489c6(pc),a1       | +030
+        lea     Pow_TiedFreed_0489c6(pc),a1     | +030
         move.l  a1,(a6)                         | +034
 .L048950:
         jsr     0x28d70.l                       | +036
-        jsr     Sub_00049054(pc)                | +03c  -> $049054 (hueco futuro, defsym forward)
+        jsr     Sub_00049054(pc)                | +03c
         bcc.w   .L04896a                        | +040
         move.b  #0x1,0x83(a6)                   | +044
-        lea     TaskHandler_04896e(pc),a1       | +04a
+        lea     Pow_TiedStruggle_04896e(pc),a1  | +04a
         move.l  a1,(a6)                         | +04e
 .L04896a:
-        bra.w   Sub_00048A90                    | +050  -> $048A90 (hueco futuro, defsym forward)
+        bra.w   Sub_00048A90                    | +050
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04896e  @ $04896E  (88 B)
+|  Pow_TiedStruggle_04896e  @ $04896E  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04896e, "ax", @progbits
-        .global TaskHandler_04896e
-TaskHandler_04896e:
+        .section .text.Pow_TiedStruggle_04896e, "ax", @progbits
+        .global Pow_TiedStruggle_04896e
+Pow_TiedStruggle_04896e:
         move.b  #0x1,0x83(a6)                   | +000
-        jsr     Sub_000493E4(pc)                | +006  -> $0493E4 (hueco futuro, defsym forward)
+        jsr     Sub_000493E4(pc)                | +006
         move.w  0x78(a6),d0                     | +00a
         lsr.w   #0x1,d0                         | +00e
         andi.w  #0xf,d0                         | +010
@@ -1436,24 +1458,24 @@ TaskHandler_04896e:
         lea     .L0489a4(pc),a1                 | +030
         move.l  a1,(a6)                         | +034
 .L0489a4:
-        jsr     Sub_00048F54(pc)                | +036  -> $048F54 (hueco futuro, defsym forward)
+        jsr     Sub_00048F54(pc)                | +036
         bcc.w   .L0489b2                        | +03a
-        lea     TaskHandler_0489c6(pc),a1       | +03e
+        lea     Pow_TiedFreed_0489c6(pc),a1     | +03e
         move.l  a1,(a6)                         | +042
 .L0489b2:
         jsr     0x28d70.l                       | +044
         bcc.w   .L0489c2                        | +04a
-        lea     TaskHandler_04891a(pc),a1       | +04e
+        lea     Pow_TiedIdle_04891a(pc),a1      | +04e
         move.l  a1,(a6)                         | +052
 .L0489c2:
-        bra.w   Sub_00048A90                    | +054  -> $048A90 (hueco futuro, defsym forward)
+        bra.w   Sub_00048A90                    | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0489c6  @ $0489C6  (118 B)
+|  Pow_TiedFreed_0489c6  @ $0489C6  (118 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0489c6, "ax", @progbits
-        .global TaskHandler_0489c6
-TaskHandler_0489c6:
+        .section .text.Pow_TiedFreed_0489c6, "ax", @progbits
+        .global Pow_TiedFreed_0489c6
+Pow_TiedFreed_0489c6:
         move.b  #0x3,0x83(a6)                   | +000
         lea     0x28ef0c.l,a0                   | +006
         jsr     0x28cd4.l                       | +00c
@@ -1463,17 +1485,17 @@ TaskHandler_0489c6:
         jsr     0x2783a.l                       | +018
         jsr     0x28d70.l                       | +01e
         bcc.w   .L0489f4                        | +024
-        lea     TaskHandler_04797c(pc),a1       | +028
+        lea     Pow_SpawnInit_04797c(pc),a1     | +028
         move.l  a1,(a6)                         | +02c
 .L0489f4:
-        bra.w   Sub_00048A90                    | +02e  -> $048A90 (hueco futuro, defsym forward)
-        .global TaskHandler_0489c6__L0489f8
-TaskHandler_0489c6__L0489f8:
-        jsr     Sub_0004936E(pc)                | +032  -> $04936E (hueco futuro, defsym forward)
+        bra.w   Sub_00048A90                    | +02e
+        .global Pow_TiedFreed_0489c6__L0489f8
+Pow_TiedFreed_0489c6__L0489f8:
+        jsr     Sub_0004936E(pc)                | +032
         subq.w  #0x1,0x72(a6)                   | +036
         jsr     0x2870a.l                       | +03a
         bcc.w   .L048a26                        | +040
-        lea     Sub_00048CA4(pc),a1             | +044  -> $048CA4 (hueco futuro, defsym forward)
+        lea     Sub_00048CA4(pc),a1             | +044
         jsr     0x4ae.l                         | +048
         jsr     0x5dd02.l                       | +04e
         addi.w  #0x18,0x24(a0)                  | +054
