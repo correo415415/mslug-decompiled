@@ -11,10 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5350/5350 funciones
-BYTES   : 303,200/303,200 (registrados)
-ROM     : 303,200/2,097,152  (14.4577%)
+MATCHED : 5392/5392 funciones
+BYTES   : 307,616/307,616 (registrados)
+ROM     : 307,616/2,097,152  (14.6683%)
 ```
+
+> **Wave IIII** (42 entradas, 4 416 B, verde a la primera; 3 `--entry`
+> para funciones solo alcanzadas por el índice de templates) —
+> `$0478FC..$048A3C` en `pow_prisoner_0478xx.s`. Vigesimosexta wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/iiii_names.txt`, args en
+> `docs/waves/iiii_args.txt`.
+>
+> * Entidad del prisionero POW: tabla de variantes de spawn
+>   (`Pow_SpawnVariantTbl_0478fc` → `Pow_SpawnInit_04797c`), estados
+>   libres (`Pow_Idle/WalkToward/RunRight/RunLeft/RunAway/Wait/WalkFree/
+>   Stop/Turn/Hurt/GetUp`), secuencia de rescate (`Pow_RescueStart` →
+>   `Pow_RescueFaceCount` → `Pow_RescueSalute` → `Pow_RescueTurnBack` →
+>   `Pow_RescueGiveItem` → `Pow_RescueThanks` → `Pow_RescueLeave`),
+>   variantes ya libres (`Pow_Free*`, spawns `$0483D2/$0483E2`) y el
+>   prisionero atado (`Pow_SpawnTiedVariant_048898`,
+>   `Pow_TiedIdle/Struggle/Freed`).
+> * Siguiente: helpers del POW `$048A44..$049430` (Wave JJJJ).
+> * Cobertura de código real: 52.2 % (263,808 / 505,608 B); huecos CODE:
+>   1212 / 241,800 B.
 
 > **Wave HHHH** (20 entradas, 1 316 B, verde a la primera) —
 > `$0539F0..$053F96` en `props_helpers_0539xx.s`. Vigesimoquinta wave de

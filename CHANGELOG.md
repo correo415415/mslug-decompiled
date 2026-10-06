@@ -17,6 +17,16 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave IIII — 42 entries (4,416 B): `$0478FC..$048A3C`
+  (`pow_prisoner_0478xx.s`): the POW prisoner entity — spawn variant table
+  (`Pow_SpawnVariantTbl_0478fc`, `Pow_SpawnInit_04797c`), free-roaming
+  states (`Pow_Idle/WalkToward/RunRight/RunLeft/RunAway/Wait/WalkFree/
+  Stop/Turn/Hurt/GetUp`), the rescue sequence (`Pow_RescueStart`,
+  `Pow_RescueSalute`, `Pow_RescueGiveItem`, `Pow_RescueThanks`,
+  `Pow_RescueLeave`), the already-free variants (`Pow_Free*`, two spawn
+  variants `$0483D2/$0483E2`) and the tied-up prisoner
+  (`Pow_SpawnTiedVariant_048898`, `Pow_TiedIdle/Struggle/Freed`).
+  Matcher: 5,392/5,392, 307,616 B (14.67 %); real code coverage 52.2 %.
 - Wave HHHH — 20 entries (1,316 B): `$0539F0..$053F96`
   (`props_helpers_0539xx.s`): the pc-relative helpers of the destructible
   props — the flame trap (`Prop_TrapFlame_053a42` + base/hit fx, victim
