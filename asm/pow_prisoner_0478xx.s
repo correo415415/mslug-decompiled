@@ -13,9 +13,9 @@
 |  Pow_SpawnFreeVariantA/B ($E81A0/$E81A4) + Pow_SpawnTiedVariant ($E81A8).
 |  Pow_SpawnFreeVariantB también lo lanzan $0855E0/$085664 (cutscenes).
 |  Depende de un bloque de helpers pc-relativos aún pendiente en
-|  $048A44..$049430 (Sub_00048EA6/48FB0/48F04/48F2E/49010/490FA/49172/
+|  $048A44..$049430 (Pow_FreeInit_048ea6/48FB0/48F04/48F2E/49010/490FA/49172/
 |  49196/491DE/4921E/49256/4926A/492A4/492F8/4932C/49346/4936E/4939C/
-|  493E4/4940E, Sub_00048A44/48A90/48CA4/48D0E/48F54/49054) -> Wave JJJJ.
+|  493E4/4940E, Pow_FreeStateTail_048a44/48A90/48CA4/48D0E/48F54/49054) -> Wave JJJJ.
 |
 |   1. Spawn: Pow_SpawnVariantTbl_0478fc (8 x {+$7D máscara, +$7E paso}
 |      -> 4 entradas de Pow_SpawnInit_04797c: con/sin $13600, +$85 =
@@ -49,12 +49,12 @@
 |      Pow_FreeHurt/FreeGetUp, Pow_FreeWalkOut_048492 (sale de pantalla
 |      a +$98*16), Pow_FreeJumpOut_048502 (parábola $FCCD/$CCB),
 |      Pow_FreeThanks*, Pow_FreeLeave_04867a ($58FE2 + hijo
-|      Sub_00048CA4 a +$18 px), Pow_FreeStand_048710 ($492A4),
+|      PowFx_HitBurst_048ca4 a +$18 px), Pow_FreeStand_048710 ($492A4),
 |      Pow_FreeSalute*, Pow_FreeIdle_0487fa, Pow_FreeExit_04883e.
 |   5. Variante "atado" (colgado/amarrado, se libera al golpearlo):
 |      Pow_SpawnTiedVariant_048898 (snd $38, HP 1, prio $8000 | $18,
 |      colisión $28DF96, +$8C/+$8E desde +$9E y $2BFF8E, hijo
-|      Sub_00048D0E), Pow_TiedIdle_04891a (sprite $28ED0A),
+|      PowRope_Spawn_048d0e), Pow_TiedIdle_04891a (sprite $28ED0A),
 |      Pow_TiedStruggle_04896e (tabla $28E24A por +$78/2),
 |      Pow_TiedFreed_0489c6 (sprite $28EF0C -> Pow_SpawnInit).
 |      La cola común __L0489f8: $4936E, $2870A impacto, hijo $48CA4,
@@ -157,7 +157,7 @@ Pow_SpawnInit_04797c__L047992:
 .L047998:
         clr.b   0x86(a6)                        | +01c
         clr.b   0x85(a6)                        | +020
-        jsr     Sub_00048EA6(pc)                | +024
+        jsr     Pow_FreeInit_048ea6(pc)                | +024
         jsr     0x5e0d4.l                       | +028
         move.l  a0,0x94(a6)                     | +02e
         tst.b   0x98(a6)                        | +032
@@ -168,7 +168,7 @@ Pow_SpawnInit_04797c__L0479ba:
         clr.b   0x86(a6)                        | +03e
         move.b  #0x1,0x85(a6)                   | +042
         jsr     0x5e7c0.l                       | +048
-        jsr     Sub_00048EA6(pc)                | +04e
+        jsr     Pow_FreeInit_048ea6(pc)                | +04e
         jsr     0x5e0d4.l                       | +052
         move.l  a0,0x94(a6)                     | +058
         tst.b   0x98(a6)                        | +05c
@@ -184,7 +184,7 @@ Pow_SpawnInit_04797c__L0479ec:
 .L0479f2:
         clr.b   0x86(a6)                        | +076
         jsr     0x5e7c0.l                       | +07a
-        jsr     Sub_00048EA6(pc)                | +080
+        jsr     Pow_FreeInit_048ea6(pc)                | +080
         jsr     0x5e0d4.l                       | +084
         move.l  a0,0x94(a6)                     | +08a
         lea     0x28f4c0.l,a0                   | +08e
@@ -192,13 +192,13 @@ Pow_SpawnInit_04797c__L0479ec:
         lea     .L047a1c(pc),a1                 | +09a
         move.l  a1,(a6)                         | +09e
 .L047a1c:
-        jsr     Sub_00048FB0(pc)                | +0a0
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +0a0
         jsr     0x28d70.l                       | +0a4
         bcc.w   .L047a30                        | +0aa
         lea     Pow_Idle_047a4c(pc),a1          | +0ae
         move.l  a1,(a6)                         | +0b2
 .L047a30:
-        jsr     Sub_0004932C(pc)                | +0b4
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +0b4
         bcc.w   .L047a3e                        | +0b8
         lea     Pow_Hurt_047f12(pc),a1          | +0bc
         move.l  a1,(a6)                         | +0c0
@@ -229,33 +229,33 @@ Pow_Idle_047a4c:
         lea     .L047a6e(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L047a6e:
-        jsr     Sub_00048FB0(pc)                | +022
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +022
         jsr     0x28d70.l                       | +026
         tst.b   0x98(a6)                        | +02c
         beq.w   .L047aea                        | +030
         movea.l 0x94(a6),a0                     | +034
         jsr     0x5e338.l                       | +038
         bcs.w   .L047ae0                        | +03e
-        jsr     Sub_00048FCC(pc)                | +042
+        jsr     Pow_PickIdleSpriteIdx_048fcc(pc)                | +042
         lea     0x28e1be.l,a0                   | +046
         movea.l #0xffffffff,a1                  | +04c
         jsr     0x772.l                         | +052
-        jsr     Sub_00049172(pc)                | +058
+        jsr     Pow_TargetFarX_049172(pc)                | +058
         bcc.w   .L047ab2                        | +05c
         lea     Pow_WalkToward_047b1e(pc),a1    | +060
         move.l  a1,(a6)                         | +064
 .L047ab2:
-        jsr     Sub_00049256(pc)                | +066
+        jsr     Pow_TurnTimerAndCheck_049256(pc)                | +066
         bcc.w   .L047ac0                        | +06a
         lea     Pow_Turn_047ed2(pc),a1          | +06e
         move.l  a1,(a6)                         | +072
 .L047ac0:
-        jsr     Sub_00049196(pc)                | +074
+        jsr     Pow_ShouldRunAway_049196(pc)                | +074
         bcc.w   .L047ace                        | +078
         lea     Pow_RunAway_047cfe(pc),a1       | +07c
         move.l  a1,(a6)                         | +080
 .L047ace:
-        jsr     Sub_000491DE(pc)                | +082
+        jsr     Pow_ShouldWait_0491de(pc)                | +082
         bcc.w   .L047adc                        | +086
         lea     Pow_Wait_047dbc(pc),a1          | +08a
         move.l  a1,(a6)                         | +08e
@@ -269,12 +269,12 @@ Pow_Idle_047a4c:
         blt.w   .L047b0c                        | +0a4
         cmpi.w  #0x128,0x22(a6)                 | +0a8
         bgt.w   .L047b0c                        | +0ae
-        jsr     Sub_00049010(pc)                | +0b2
+        jsr     Pow_CanBeRescued_049010(pc)                | +0b2
         bcc.w   .L047b0c                        | +0b6
         lea     Pow_RescueStart_047f84(pc),a1   | +0ba
         move.l  a1,(a6)                         | +0be
 .L047b0c:
-        jsr     Sub_0004932C(pc)                | +0c0
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +0c0
         bcc.w   .L047b1a                        | +0c4
         lea     Pow_Hurt_047f12(pc),a1          | +0c8
         move.l  a1,(a6)                         | +0cc
@@ -291,40 +291,40 @@ Pow_WalkToward_047b1e:
         lea     0x2bfb2e.l,a0                   | +006
         jsr     0x799de.l                       | +00c
         move.w  d0,0x36(a6)                     | +012
-        jsr     Sub_00048F04(pc)                | +016
+        jsr     Pow_SetRunVelAndSprite_048f04(pc)                | +016
         lea     0x28e394.l,a0                   | +01a
         jsr     0x28cd4.l                       | +020
         lea     .L047b4a(pc),a1                 | +026
         move.l  a1,(a6)                         | +02a
 .L047b4a:
-        jsr     Sub_00048F2E(pc)                | +02c
+        jsr     Pow_ScrollProbeOrFall_048f2e(pc)                | +02c
         jsr     0x28d70.l                       | +030
-        jsr     Sub_00049346(pc)                | +036
+        jsr     Pow_BlockedTimer_049346(pc)                | +036
         bcc.w   .L047b62                        | +03a
         lea     Pow_Stop_047e88(pc),a1          | +03e
         move.l  a1,(a6)                         | +042
 .L047b62:
-        jsr     Sub_000490FA(pc)                | +044
+        jsr     Pow_TargetInReach_0490fa(pc)                | +044
         bcc.w   .L047b70                        | +048
         lea     Pow_Stop_047e88(pc),a1          | +04c
         move.l  a1,(a6)                         | +050
 .L047b70:
-        jsr     Sub_00049256(pc)                | +052
+        jsr     Pow_TurnTimerAndCheck_049256(pc)                | +052
         bcc.w   .L047b7e                        | +056
         lea     Pow_Stop_047e88(pc),a1          | +05a
         move.l  a1,(a6)                         | +05e
 .L047b7e:
-        jsr     Sub_00049196(pc)                | +060
+        jsr     Pow_ShouldRunAway_049196(pc)                | +060
         bcc.w   .L047b8c                        | +064
         lea     Pow_Stop_047e88(pc),a1          | +068
         move.l  a1,(a6)                         | +06c
 .L047b8c:
-        jsr     Sub_000491DE(pc)                | +06e
+        jsr     Pow_ShouldWait_0491de(pc)                | +06e
         bcc.w   .L047b9a                        | +072
         lea     Pow_Stop_047e88(pc),a1          | +076
         move.l  a1,(a6)                         | +07a
 .L047b9a:
-        jsr     Sub_0004932C(pc)                | +07c
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +07c
         bcc.w   .L047ba8                        | +080
         lea     Pow_Hurt_047f12(pc),a1          | +084
         move.l  a1,(a6)                         | +088
@@ -338,50 +338,50 @@ Pow_WalkToward_047b1e:
         .global Pow_RunRight_047bac
 Pow_RunRight_047bac:
         move.b  0x3a(a6),0x7c(a6)               | +000
-        jsr     Sub_000492F8(pc)                | +006
+        jsr     Pow_AtScreenEdge_0492f8(pc)                | +006
         bcs.w   Pow_RunLeft_047c50              | +00a
         lea     0x2bfbb0.l,a0                   | +00e
         jsr     0x799de.l                       | +014
         move.w  d0,0x36(a6)                     | +01a
-        jsr     Sub_00048F04(pc)                | +01e
+        jsr     Pow_SetRunVelAndSprite_048f04(pc)                | +01e
         lea     0x28e44e.l,a0                   | +022
         jsr     0x28cd4.l                       | +028
         lea     .L047be0(pc),a1                 | +02e
         move.l  a1,(a6)                         | +032
 .L047be0:
-        jsr     Sub_00048F2E(pc)                | +034
+        jsr     Pow_ScrollProbeOrFall_048f2e(pc)                | +034
         jsr     0x28d70.l                       | +038
-        jsr     Sub_00049346(pc)                | +03e
+        jsr     Pow_BlockedTimer_049346(pc)                | +03e
         bcc.w   .L047bf8                        | +042
         lea     Pow_RunLeft_047c50(pc),a1       | +046
         move.l  a1,(a6)                         | +04a
 .L047bf8:
-        jsr     Sub_000490FA(pc)                | +04c
+        jsr     Pow_TargetInReach_0490fa(pc)                | +04c
         bcc.w   .L047c06                        | +050
         lea     Pow_Idle_047a4c(pc),a1          | +054
         move.l  a1,(a6)                         | +058
 .L047c06:
-        jsr     Sub_00049256(pc)                | +05a
+        jsr     Pow_TurnTimerAndCheck_049256(pc)                | +05a
         bcc.w   .L047c14                        | +05e
         lea     Pow_Turn_047ed2(pc),a1          | +062
         move.l  a1,(a6)                         | +066
 .L047c14:
-        jsr     Sub_00049196(pc)                | +068
+        jsr     Pow_ShouldRunAway_049196(pc)                | +068
         bcc.w   .L047c22                        | +06c
         lea     Pow_RunAway_047cfe(pc),a1       | +070
         move.l  a1,(a6)                         | +074
 .L047c22:
-        jsr     Sub_000492F8(pc)                | +076
+        jsr     Pow_AtScreenEdge_0492f8(pc)                | +076
         bcc.w   .L047c30                        | +07a
         lea     Pow_RunLeft_047c50(pc),a1       | +07e
         move.l  a1,(a6)                         | +082
 .L047c30:
-        jsr     Sub_000491DE(pc)                | +084
+        jsr     Pow_ShouldWait_0491de(pc)                | +084
         bcc.w   .L047c3e                        | +088
         lea     Pow_Wait_047dbc(pc),a1          | +08c
         move.l  a1,(a6)                         | +090
 .L047c3e:
-        jsr     Sub_0004932C(pc)                | +092
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +092
         bcc.w   .L047c4c                        | +096
         lea     Pow_Hurt_047f12(pc),a1          | +09a
         move.l  a1,(a6)                         | +09e
@@ -397,51 +397,51 @@ Pow_RunLeft_047c50:
         move.b  0x3a(a6),d0                     | +000
         eori.b  #0x1,d0                         | +004
         move.b  d0,0x7c(a6)                     | +008
-        jsr     Sub_000492F8(pc)                | +00c
+        jsr     Pow_AtScreenEdge_0492f8(pc)                | +00c
         bcs.w   Pow_RunRight_047bac             | +010
         lea     0x2bfbb0.l,a0                   | +014
         jsr     0x799de.l                       | +01a
         move.w  d0,0x36(a6)                     | +020
-        jsr     Sub_00048F04(pc)                | +024
+        jsr     Pow_SetRunVelAndSprite_048f04(pc)                | +024
         neg.w   0x28(a6)                        | +028
         lea     0x28e49e.l,a0                   | +02c
         jsr     0x28cd4.l                       | +032
         lea     .L047c8e(pc),a1                 | +038
         move.l  a1,(a6)                         | +03c
 .L047c8e:
-        jsr     Sub_00048F2E(pc)                | +03e
+        jsr     Pow_ScrollProbeOrFall_048f2e(pc)                | +03e
         jsr     0x28d70.l                       | +042
-        jsr     Sub_00049346(pc)                | +048
+        jsr     Pow_BlockedTimer_049346(pc)                | +048
         bcc.w   .L047ca6                        | +04c
         lea     Pow_RunRight_047bac(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L047ca6:
-        jsr     Sub_000490FA(pc)                | +056
+        jsr     Pow_TargetInReach_0490fa(pc)                | +056
         bcc.w   .L047cb4                        | +05a
         lea     Pow_Idle_047a4c(pc),a1          | +05e
         move.l  a1,(a6)                         | +062
 .L047cb4:
-        jsr     Sub_00049256(pc)                | +064
+        jsr     Pow_TurnTimerAndCheck_049256(pc)                | +064
         bcc.w   .L047cc2                        | +068
         lea     Pow_Turn_047ed2(pc),a1          | +06c
         move.l  a1,(a6)                         | +070
 .L047cc2:
-        jsr     Sub_00049196(pc)                | +072
+        jsr     Pow_ShouldRunAway_049196(pc)                | +072
         bcc.w   .L047cd0                        | +076
         lea     Pow_RunAway_047cfe(pc),a1       | +07a
         move.l  a1,(a6)                         | +07e
 .L047cd0:
-        jsr     Sub_000492F8(pc)                | +080
+        jsr     Pow_AtScreenEdge_0492f8(pc)                | +080
         bcc.w   .L047cde                        | +084
         lea     Pow_RunRight_047bac(pc),a1      | +088
         move.l  a1,(a6)                         | +08c
 .L047cde:
-        jsr     Sub_000491DE(pc)                | +08e
+        jsr     Pow_ShouldWait_0491de(pc)                | +08e
         bcc.w   .L047cec                        | +092
         lea     Pow_Wait_047dbc(pc),a1          | +096
         move.l  a1,(a6)                         | +09a
 .L047cec:
-        jsr     Sub_0004932C(pc)                | +09c
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +09c
         bcc.w   .L047cfa                        | +0a0
         lea     Pow_Hurt_047f12(pc),a1          | +0a4
         move.l  a1,(a6)                         | +0a8
@@ -457,7 +457,7 @@ Pow_RunAway_047cfe:
         move.b  0x3a(a6),d0                     | +000
         eori.b  #0x1,d0                         | +004
         move.b  d0,0x7c(a6)                     | +008
-        jsr     Sub_000492F8(pc)                | +00c
+        jsr     Pow_AtScreenEdge_0492f8(pc)                | +00c
         bcs.w   Pow_Idle_047a4c                 | +010
         lea     0x28e1b6.l,a0                   | +014
         jsr     0x5e086.l                       | +01a
@@ -465,46 +465,46 @@ Pow_RunAway_047cfe:
         lea     0x2bfbb0.l,a0                   | +024
         jsr     0x799de.l                       | +02a
         move.w  d0,0x36(a6)                     | +030
-        jsr     Sub_00048F04(pc)                | +034
+        jsr     Pow_SetRunVelAndSprite_048f04(pc)                | +034
         neg.w   0x28(a6)                        | +038
         lea     0x28e49e.l,a0                   | +03c
         jsr     0x28cd4.l                       | +042
         lea     .L047d4c(pc),a1                 | +048
         move.l  a1,(a6)                         | +04c
 .L047d4c:
-        jsr     Sub_00048F2E(pc)                | +04e
+        jsr     Pow_ScrollProbeOrFall_048f2e(pc)                | +04e
         jsr     0x28d70.l                       | +052
-        jsr     Sub_00049346(pc)                | +058
+        jsr     Pow_BlockedTimer_049346(pc)                | +058
         bcc.w   .L047d64                        | +05c
         lea     Pow_RescueStart_047f84(pc),a1   | +060
         move.l  a1,(a6)                         | +064
 .L047d64:
-        jsr     Sub_00049010(pc)                | +066
+        jsr     Pow_CanBeRescued_049010(pc)                | +066
         bcc.w   .L047d72                        | +06a
         lea     Pow_Idle_047a4c(pc),a1          | +06e
         move.l  a1,(a6)                         | +072
 .L047d72:
-        jsr     Sub_00049256(pc)                | +074
+        jsr     Pow_TurnTimerAndCheck_049256(pc)                | +074
         bcc.w   .L047d80                        | +078
         lea     Pow_Turn_047ed2(pc),a1          | +07c
         move.l  a1,(a6)                         | +080
 .L047d80:
-        jsr     Sub_00049196(pc)                | +082
+        jsr     Pow_ShouldRunAway_049196(pc)                | +082
         bcs.w   .L047d8e                        | +086
         lea     Pow_Idle_047a4c(pc),a1          | +08a
         move.l  a1,(a6)                         | +08e
 .L047d8e:
-        jsr     Sub_000492F8(pc)                | +090
+        jsr     Pow_AtScreenEdge_0492f8(pc)                | +090
         bcc.w   .L047d9c                        | +094
         lea     Pow_Idle_047a4c(pc),a1          | +098
         move.l  a1,(a6)                         | +09c
 .L047d9c:
-        jsr     Sub_000491DE(pc)                | +09e
+        jsr     Pow_ShouldWait_0491de(pc)                | +09e
         bcc.w   .L047daa                        | +0a2
         lea     Pow_Wait_047dbc(pc),a1          | +0a6
         move.l  a1,(a6)                         | +0aa
 .L047daa:
-        jsr     Sub_0004932C(pc)                | +0ac
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +0ac
         bcc.w   .L047db8                        | +0b0
         lea     Pow_Hurt_047f12(pc),a1          | +0b4
         move.l  a1,(a6)                         | +0b8
@@ -521,9 +521,9 @@ Pow_Wait_047dbc:
         move.b  0x3a(a6),d0                     | +004
         andi.b  #0x1,d0                         | +008
         move.b  d0,0x7c(a6)                     | +00c
-        jsr     Sub_000492F8(pc)                | +010
+        jsr     Pow_AtScreenEdge_0492f8(pc)                | +010
         bcs.w   Pow_Turn_047ed2                 | +014
-        jsr     Sub_0004926A(pc)                | +018
+        jsr     Pow_ShouldTurn_04926a(pc)                | +018
         bcs.w   Pow_WalkFree_047e24             | +01c
         lea     0x28e1b6.l,a0                   | +020
         jsr     0x5e086.l                       | +026
@@ -533,13 +533,13 @@ Pow_Wait_047dbc:
         lea     .L047dfe(pc),a1                 | +03c
         move.l  a1,(a6)                         | +040
 .L047dfe:
-        jsr     Sub_00048FB0(pc)                | +042
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +042
         jsr     0x28d70.l                       | +046
         bcc.w   .L047e12                        | +04c
         lea     Pow_WalkFree_047e24(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L047e12:
-        jsr     Sub_0004932C(pc)                | +056
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +056
         bcc.w   .L047e20                        | +05a
         lea     Pow_Hurt_047f12(pc),a1          | +05e
         move.l  a1,(a6)                         | +062
@@ -556,25 +556,25 @@ Pow_WalkFree_047e24:
         lea     0x2bfb2e.l,a0                   | +006
         jsr     0x799de.l                       | +00c
         move.w  d0,0x36(a6)                     | +012
-        jsr     Sub_00048F04(pc)                | +016
+        jsr     Pow_SetRunVelAndSprite_048f04(pc)                | +016
         lea     0x28e394.l,a0                   | +01a
         jsr     0x28cd4.l                       | +020
         lea     .L047e50(pc),a1                 | +026
         move.l  a1,(a6)                         | +02a
 .L047e50:
-        jsr     Sub_00048F2E(pc)                | +02c
+        jsr     Pow_ScrollProbeOrFall_048f2e(pc)                | +02c
         jsr     0x28d70.l                       | +030
-        jsr     Sub_0004921E(pc)                | +036
+        jsr     Pow_TargetNearX_04921e(pc)                | +036
         bcs.w   .L047e68                        | +03a
         lea     Pow_Stop_047e88(pc),a1          | +03e
         move.l  a1,(a6)                         | +042
 .L047e68:
-        jsr     Sub_000492F8(pc)                | +044
+        jsr     Pow_AtScreenEdge_0492f8(pc)                | +044
         bcc.w   .L047e76                        | +048
         lea     Pow_Stop_047e88(pc),a1          | +04c
         move.l  a1,(a6)                         | +050
 .L047e76:
-        jsr     Sub_0004932C(pc)                | +052
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +052
         bcc.w   .L047e84                        | +056
         lea     Pow_Hurt_047f12(pc),a1          | +05a
         move.l  a1,(a6)                         | +05e
@@ -596,13 +596,13 @@ Pow_Stop_047e88:
         lea     .L047eac(pc),a1                 | +01e
         move.l  a1,(a6)                         | +022
 .L047eac:
-        jsr     Sub_00048FB0(pc)                | +024
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +024
         jsr     0x28d70.l                       | +028
         bcc.w   .L047ec0                        | +02e
         lea     Pow_Idle_047a4c(pc),a1          | +032
         move.l  a1,(a6)                         | +036
 .L047ec0:
-        jsr     Sub_0004932C(pc)                | +038
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +038
         bcc.w   .L047ece                        | +03c
         lea     Pow_Hurt_047f12(pc),a1          | +040
         move.l  a1,(a6)                         | +044
@@ -622,13 +622,13 @@ Pow_Turn_047ed2:
         lea     .L047eec(pc),a1                 | +014
         move.l  a1,(a6)                         | +018
 .L047eec:
-        jsr     Sub_00048FB0(pc)                | +01a
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +01a
         jsr     0x28d70.l                       | +01e
         bcc.w   .L047f00                        | +024
         lea     Pow_Idle_047a4c(pc),a1          | +028
         move.l  a1,(a6)                         | +02c
 .L047f00:
-        jsr     Sub_0004932C(pc)                | +02e
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +02e
         bcc.w   .L047f0e                        | +032
         lea     Pow_Hurt_047f12(pc),a1          | +036
         move.l  a1,(a6)                         | +03a
@@ -669,13 +669,13 @@ Pow_GetUp_047f48:
         lea     .L047f5e(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L047f5e:
-        jsr     Sub_00048FB0(pc)                | +016
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +016
         jsr     0x28d70.l                       | +01a
         bcc.w   .L047f72                        | +020
         lea     Pow_Idle_047a4c(pc),a1          | +024
         move.l  a1,(a6)                         | +028
 .L047f72:
-        jsr     Sub_0004932C(pc)                | +02a
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +02a
         bcc.w   .L047f80                        | +02e
         lea     Pow_Hurt_047f12(pc),a1          | +032
         move.l  a1,(a6)                         | +036
@@ -705,7 +705,7 @@ Pow_RescueStart_047f84:
         add.b   0x7e(a6),d0                     | +038
         move.b  d0,0x7a(a6)                     | +03c
         move.b  0x7d(a6),d1                     | +040
-        jsr     Sub_0004939C(pc)                | +044
+        jsr     Pow_TargetYNear_04939c(pc)                | +044
         bcs.w   .L047fd4                        | +048
         move.b  #0x80,d1                        | +04c
 .L047fd4:
@@ -727,13 +727,13 @@ Pow_RescueStart_047f84:
         lea     .L04801e(pc),a1                 | +094
         move.l  a1,(a6)                         | +098
 .L04801e:
-        jsr     Sub_00048FB0(pc)                | +09a
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +09a
         jsr     0x28d70.l                       | +09e
         bcc.w   .L048032                        | +0a4
         lea     Pow_RescueFaceCount_048044(pc),a1 | +0a8
         move.l  a1,(a6)                         | +0ac
 .L048032:
-        jsr     Sub_0004932C(pc)                | +0ae
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +0ae
         bcc.w   .L048040                        | +0b2
         lea     Pow_Hurt_047f12(pc),a1          | +0b6
         move.l  a1,(a6)                         | +0ba
@@ -775,7 +775,7 @@ Pow_RescueFaceCount_048044:
         lea     .L0480ba(pc),a1                 | +070
         move.l  a1,(a6)                         | +074
 .L0480ba:
-        jsr     Sub_00048FB0(pc)                | +076
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +076
         jsr     0x28d70.l                       | +07a
         move.b  0x7a(a6),d0                     | +080
         andi.w  #0x1f,d0                        | +084
@@ -785,7 +785,7 @@ Pow_RescueFaceCount_048044:
         move.l  a1,(a6)                         | +094
 .L0480da:
         addq.w  #0x1,0x78(a6)                   | +096
-        jsr     Sub_0004932C(pc)                | +09a
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +09a
         bcc.w   .L0480ec                        | +09e
         lea     Pow_Hurt_047f12(pc),a1          | +0a2
         move.l  a1,(a6)                         | +0a6
@@ -830,14 +830,14 @@ Pow_RescueSalute_048108:
         beq.w   .L048156                        | +044
         jsr     0x28cd4.l                       | +048
 .L048156:
-        jsr     Sub_0004940E(pc)                | +04e
+        jsr     Pow_SpawnFxByDir_04940e(pc)                | +04e
         lea     0x2bfcb4.l,a0                   | +052
         jsr     0x799de.l                       | +058
         move.w  d0,0x72(a6)                     | +05e
         lea     .L048170(pc),a1                 | +062
         move.l  a1,(a6)                         | +066
 .L048170:
-        jsr     Sub_00048FB0(pc)                | +068
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +068
         jsr     0x28d70.l                       | +06c
         bcs.w   .L048188                        | +072
         cmpi.b  #0x1,0x82(a6)                   | +076
@@ -853,7 +853,7 @@ Pow_RescueSalute_048108:
         lea     Pow_RescueTurnBack_0481be(pc),a1 | +09e
         move.l  a1,(a6)                         | +0a2
 .L0481ac:
-        jsr     Sub_0004932C(pc)                | +0a4
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +0a4
         bcc.w   .L0481ba                        | +0a8
         lea     Pow_Hurt_047f12(pc),a1          | +0ac
         move.l  a1,(a6)                         | +0b0
@@ -891,7 +891,7 @@ Pow_RescueTurnBack_0481be:
         lea     .L048224(pc),a1                 | +060
         move.l  a1,(a6)                         | +064
 .L048224:
-        jsr     Sub_00048FB0(pc)                | +066
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +066
         jsr     0x28d70.l                       | +06a
         tst.w   0x78(a6)                        | +070
         bne.w   .L04823c                        | +074
@@ -903,7 +903,7 @@ Pow_RescueTurnBack_0481be:
         bne.w   .L04824e                        | +088
         subq.w  #0x1,0x78(a6)                   | +08c
 .L04824e:
-        jsr     Sub_0004932C(pc)                | +090
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +090
         bcc.w   .L04825c                        | +094
         lea     Pow_Hurt_047f12(pc),a1          | +098
         move.l  a1,(a6)                         | +09c
@@ -930,13 +930,13 @@ Pow_RescueGiveItem_048260:
         lea     .L04829a(pc),a1                 | +034
         move.l  a1,(a6)                         | +038
 .L04829a:
-        jsr     Sub_00048FB0(pc)                | +03a
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +03a
         jsr     0x28d70.l                       | +03e
         bcc.w   .L0482ae                        | +044
         lea     Pow_RetargetPlayer_047a42(pc),a1 | +048
         move.l  a1,(a6)                         | +04c
 .L0482ae:
-        jsr     Sub_0004932C(pc)                | +04e
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +04e
         bcc.w   .L0482bc                        | +052
         lea     Pow_Hurt_047f12(pc),a1          | +056
         move.l  a1,(a6)                         | +05a
@@ -950,13 +950,13 @@ Pow_RescueGiveItem_048260__L0482c0:
         lea     .L0482da(pc),a1                 | +074
         move.l  a1,(a6)                         | +078
 .L0482da:
-        jsr     Sub_00048FB0(pc)                | +07a
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +07a
         jsr     0x28d70.l                       | +07e
         bcc.w   .L0482ee                        | +084
         lea     Pow_RescueThanksInit_048300(pc),a1 | +088
         move.l  a1,(a6)                         | +08c
 .L0482ee:
-        jsr     Sub_0004932C(pc)                | +08e
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +08e
         bcc.w   .L0482fc                        | +092
         lea     Pow_Hurt_047f12(pc),a1          | +096
         move.l  a1,(a6)                         | +09a
@@ -989,7 +989,7 @@ Pow_RescueThanks_048314:
         lea     .L04833e(pc),a1                 | +024
         move.l  a1,(a6)                         | +028
 .L04833e:
-        jsr     Sub_00048FB0(pc)                | +02a
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +02a
         jsr     0x28d70.l                       | +02e
         bcc.w   .L048380                        | +034
         cmpi.w  #0x0,0x72(a6)                   | +038
@@ -1005,12 +1005,12 @@ Pow_RescueThanks_048314:
         jsr     0x799de.l                       | +062
         move.w  d0,0x72(a6)                     | +068
 .L048380:
-        jsr     Sub_0004932C(pc)                | +06c
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +06c
         bcc.w   .L04838e                        | +070
         lea     Pow_Hurt_047f12(pc),a1          | +074
         move.l  a1,(a6)                         | +078
 .L04838e:
-        bra.w   Sub_00048A44                    | +07a
+        bra.w   Pow_FreeStateTail_048a44                    | +07a
 
 | ----------------------------------------------------------------------------
 |  Pow_RescueLeave_048392  @ $048392  (64 B)
@@ -1023,19 +1023,19 @@ Pow_RescueLeave_048392:
         lea     .L0483a4(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L0483a4:
-        jsr     Sub_00048FB0(pc)                | +012
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +012
         jsr     0x28d70.l                       | +016
         bcc.w   .L0483c0                        | +01c
         move.l  #0x28df42,0x48(a6)              | +020
         lea     Pow_RetargetPlayer_047a42(pc),a1 | +028
         move.l  a1,(a6)                         | +02c
 .L0483c0:
-        jsr     Sub_0004932C(pc)                | +02e
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +02e
         bcc.w   .L0483ce                        | +032
         lea     Pow_Hurt_047f12(pc),a1          | +036
         move.l  a1,(a6)                         | +03a
 .L0483ce:
-        bra.w   Sub_00048A44                    | +03c
+        bra.w   Pow_FreeStateTail_048a44                    | +03c
 
 | ----------------------------------------------------------------------------
 |  Pow_SpawnFreeVariantA_0483d2  @ $0483D2  (16 B)
@@ -1057,7 +1057,7 @@ Pow_SpawnFreeVariantB_0483e2:
         .global Pow_SpawnFreeVariantB_0483e2__L0483e6
 Pow_SpawnFreeVariantB_0483e2__L0483e6:
         jsr     0x5e7c0.l                       | +004
-        jsr     Sub_00048EA6(pc)                | +00a
+        jsr     Pow_FreeInit_048ea6(pc)                | +00a
         tst.b   0x98(a6)                        | +00e
         bne.w   .L048404                        | +012
         tst.b   0x9b(a6)                        | +016
@@ -1070,7 +1070,7 @@ Pow_SpawnFreeVariantB_0483e2__L0483e6:
         andi.w  #0xff,d0                        | +02e
         move.w  d0,0x72(a6)                     | +032
 .L048418:
-        jsr     Sub_0004932C(pc)                | +036
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +036
         bcc.w   Pow_FreeWalkOut_048492          | +03a
 
 | ----------------------------------------------------------------------------
@@ -1107,13 +1107,13 @@ Pow_FreeGetUp_048456:
         lea     .L04846c(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L04846c:
-        jsr     Sub_00048FB0(pc)                | +016
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +016
         jsr     0x28d70.l                       | +01a
         bcc.w   .L048480                        | +020
         lea     Pow_FreeWalkOut_048492(pc),a1   | +024
         move.l  a1,(a6)                         | +028
 .L048480:
-        jsr     Sub_0004932C(pc)                | +02a
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +02a
         bcc.w   .L04848e                        | +02e
         lea     Pow_FreeHurt_048420(pc),a1      | +032
         move.l  a1,(a6)                         | +036
@@ -1129,13 +1129,13 @@ Pow_FreeWalkOut_048492:
         lea     0x2bfb2e.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x36(a6)                     | +00c
-        jsr     Sub_00048F04(pc)                | +010
+        jsr     Pow_SetRunVelAndSprite_048f04(pc)                | +010
         lea     0x28e394.l,a0                   | +014
         jsr     0x28cd4.l                       | +01a
         lea     .L0484b8(pc),a1                 | +020
         move.l  a1,(a6)                         | +024
 .L0484b8:
-        jsr     Sub_00048F2E(pc)                | +026
+        jsr     Pow_ScrollProbeOrFall_048f2e(pc)                | +026
         jsr     0x28d70.l                       | +02a
         move.b  0x98(a6),d0                     | +030
         andi.w  #0xff,d0                        | +034
@@ -1152,7 +1152,7 @@ Pow_FreeWalkOut_048492:
         lea     Pow_FreeJumpOut_048502(pc),a1   | +058
         move.l  a1,(a6)                         | +05c
 .L0484f0:
-        jsr     Sub_0004932C(pc)                | +05e
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +05e
         bcc.w   .L0484fe                        | +062
         lea     Pow_FreeHurt_048420(pc),a1      | +066
         move.l  a1,(a6)                         | +06a
@@ -1191,7 +1191,7 @@ Pow_FreeJumpOut_048502:
 .L048562:
         tst.b   0x86(a6)                        | +060
         beq.w   .L048578                        | +064
-        jsr     Sub_0004932C(pc)                | +068
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +068
         bcc.w   .L048578                        | +06c
         lea     Pow_FreeHurt_048420(pc),a1      | +070
         move.l  a1,(a6)                         | +074
@@ -1211,9 +1211,9 @@ Pow_FreeThanksLoop_04857c:
         lea     .L04859a(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L04859a:
-        jsr     Sub_00048FB0(pc)                | +01e
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +01e
         jsr     0x28d70.l                       | +022
-        jsr     Sub_000492A4(pc)                | +028
+        jsr     Pow_TargetWithin30_0492a4(pc)                | +028
         bcc.w   .L0485b2                        | +02c
         lea     Pow_FreeLeave_04867a(pc),a1     | +030
         move.l  a1,(a6)                         | +034
@@ -1227,12 +1227,12 @@ Pow_FreeThanksLoop_04857c:
         lea     Pow_FreeThanksInit_0485e8(pc),a1 | +054
         move.l  a1,(a6)                         | +058
 .L0485d6:
-        jsr     Sub_0004932C(pc)                | +05a
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +05a
         bcc.w   .L0485e4                        | +05e
         lea     Pow_FreeHurt_048420(pc),a1      | +062
         move.l  a1,(a6)                         | +066
 .L0485e4:
-        bra.w   Sub_00048A44                    | +068
+        bra.w   Pow_FreeStateTail_048a44                    | +068
 
 | ----------------------------------------------------------------------------
 |  Pow_FreeThanksInit_0485e8  @ $0485E8  (20 B)
@@ -1260,7 +1260,7 @@ Pow_FreeThanks_0485fc:
         lea     .L048626(pc),a1                 | +024
         move.l  a1,(a6)                         | +028
 .L048626:
-        jsr     Sub_00048FB0(pc)                | +02a
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +02a
         jsr     0x28d70.l                       | +02e
         bcc.w   .L048668                        | +034
         cmpi.w  #0x0,0x72(a6)                   | +038
@@ -1276,12 +1276,12 @@ Pow_FreeThanks_0485fc:
         jsr     0x799de.l                       | +062
         move.w  d0,0x72(a6)                     | +068
 .L048668:
-        jsr     Sub_0004932C(pc)                | +06c
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +06c
         bcc.w   .L048676                        | +070
         lea     Pow_FreeHurt_048420(pc),a1      | +074
         move.l  a1,(a6)                         | +078
 .L048676:
-        bra.w   Sub_00048A44                    | +07a
+        bra.w   Pow_FreeStateTail_048a44                    | +07a
 
 | ----------------------------------------------------------------------------
 |  Pow_FreeLeave_04867a  @ $04867A  (150 B)
@@ -1296,21 +1296,21 @@ Pow_FreeLeave_04867a:
         lea     .L048698(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L048698:
-        jsr     Sub_00048FB0(pc)                | +01e
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L0486c2                        | +028
         jsr     0x58fe2.l                       | +02c
-        lea     Sub_00048CA4(pc),a1             | +032
+        lea     PowFx_HitBurst_048ca4(pc),a1             | +032
         jsr     0x4ae.l                         | +036
         jsr     0x5dd02.l                       | +03c
         addi.w  #0x18,0x24(a0)                  | +042
 .L0486c2:
-        jsr     Sub_0004932C(pc)                | +048
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +048
         bcc.w   .L0486d0                        | +04c
         lea     Pow_FreeHurt_048420(pc),a1      | +050
         move.l  a1,(a6)                         | +054
 .L0486d0:
-        bra.w   Sub_00048A44                    | +056
+        bra.w   Pow_FreeStateTail_048a44                    | +056
         .global Pow_FreeLeave_04867a__L0486d4
 Pow_FreeLeave_04867a__L0486d4:
         clr.w   0x28(a6)                        | +05a
@@ -1319,13 +1319,13 @@ Pow_FreeLeave_04867a__L0486d4:
         lea     .L0486ea(pc),a1                 | +06a
         move.l  a1,(a6)                         | +06e
 .L0486ea:
-        jsr     Sub_00048FB0(pc)                | +070
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +070
         jsr     0x28d70.l                       | +074
         bcc.w   .L0486fe                        | +07a
         lea     Pow_FreeStand_048710(pc),a1     | +07e
         move.l  a1,(a6)                         | +082
 .L0486fe:
-        jsr     Sub_0004932C(pc)                | +084
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +084
         bcc.w   .L04870c                        | +088
         lea     Pow_FreeHurt_048420(pc),a1      | +08c
         move.l  a1,(a6)                         | +090
@@ -1345,9 +1345,9 @@ Pow_FreeStand_048710:
         lea     .L04872e(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L04872e:
-        jsr     Sub_00048FB0(pc)                | +01e
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +01e
         jsr     0x28d70.l                       | +022
-        jsr     Sub_000492A4(pc)                | +028
+        jsr     Pow_TargetWithin30_0492a4(pc)                | +028
         bcc.w   .L048746                        | +02c
         lea     Pow_FreeExit_04883e(pc),a1      | +030
         move.l  a1,(a6)                         | +034
@@ -1357,7 +1357,7 @@ Pow_FreeStand_048710:
         lea     Pow_FreeSaluteInit_048768(pc),a1 | +040
         move.l  a1,(a6)                         | +044
 .L048756:
-        jsr     Sub_0004932C(pc)                | +046
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +046
         bcc.w   .L048764                        | +04a
         lea     Pow_FreeHurt_048420(pc),a1      | +04e
         move.l  a1,(a6)                         | +052
@@ -1392,7 +1392,7 @@ Pow_FreeSalute_048794__L0487a0:
         lea     .L0487a6(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L0487a6:
-        jsr     Sub_00048FB0(pc)                | +012
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +012
         jsr     0x28d70.l                       | +016
         bcc.w   .L0487e8                        | +01c
         cmpi.w  #0x0,0x72(a6)                   | +020
@@ -1408,7 +1408,7 @@ Pow_FreeSalute_048794__L0487a0:
         jsr     0x799de.l                       | +04a
         move.w  d0,0x72(a6)                     | +050
 .L0487e8:
-        jsr     Sub_0004932C(pc)                | +054
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +054
         bcc.w   .L0487f6                        | +058
         lea     Pow_FreeHurt_048420(pc),a1      | +05c
         move.l  a1,(a6)                         | +060
@@ -1428,13 +1428,13 @@ Pow_FreeIdle_0487fa:
         lea     .L048818(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L048818:
-        jsr     Sub_00048FB0(pc)                | +01e
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L04882c                        | +028
         lea     Pow_FreeStand_048710(pc),a1     | +02c
         move.l  a1,(a6)                         | +030
 .L04882c:
-        jsr     Sub_0004932C(pc)                | +032
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +032
         bcc.w   .L04883a                        | +036
         lea     Pow_FreeHurt_048420(pc),a1      | +03a
         move.l  a1,(a6)                         | +03e
@@ -1454,16 +1454,16 @@ Pow_FreeExit_04883e:
         lea     .L04885c(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L04885c:
-        jsr     Sub_00048FB0(pc)                | +01e
+        jsr     Pow_ScrollAndProbe_048fb0(pc)                | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L048886                        | +028
         jsr     0x58fe2.l                       | +02c
-        lea     Sub_00048CA4(pc),a1             | +032
+        lea     PowFx_HitBurst_048ca4(pc),a1             | +032
         jsr     0x4ae.l                         | +036
         jsr     0x5dd02.l                       | +03c
         addi.w  #0x18,0x24(a0)                  | +042
 .L048886:
-        jsr     Sub_0004932C(pc)                | +048
+        jsr     Pow_HitReceivedCheck_04932c(pc)                | +048
         bcc.w   .L048894                        | +04c
         lea     Pow_FreeHurt_048420(pc),a1      | +050
         move.l  a1,(a6)                         | +054
@@ -1500,7 +1500,7 @@ Pow_SpawnTiedVariant_048898:
         clr.w   0x78(a6)                        | +062
         move.b  #0x8,0x7e(a6)                   | +066
         move.b  #0xf0,0x7d(a6)                  | +06c
-        lea     Sub_00048D0E(pc),a1             | +072
+        lea     PowRope_Spawn_048d0e(pc),a1             | +072
         jsr     0x4ae.l                         | +076
         jsr     0x5dd02.l                       | +07c
 
@@ -1519,19 +1519,19 @@ Pow_TiedIdle_04891a:
         lea     .L048942(pc),a1                 | +022
         move.l  a1,(a6)                         | +026
 .L048942:
-        jsr     Sub_00048F54(pc)                | +028
+        jsr     Pow_TiedSwingStep_048f54(pc)                | +028
         bcc.w   .L048950                        | +02c
         lea     Pow_TiedFreed_0489c6(pc),a1     | +030
         move.l  a1,(a6)                         | +034
 .L048950:
         jsr     0x28d70.l                       | +036
-        jsr     Sub_00049054(pc)                | +03c
+        jsr     Pow_TiedTurnTowardTarget_049054(pc)                | +03c
         bcc.w   .L04896a                        | +040
         move.b  #0x1,0x83(a6)                   | +044
         lea     Pow_TiedStruggle_04896e(pc),a1  | +04a
         move.l  a1,(a6)                         | +04e
 .L04896a:
-        bra.w   Sub_00048A90                    | +050
+        bra.w   Pow_TiedStateTail_048a90                    | +050
 
 | ----------------------------------------------------------------------------
 |  Pow_TiedStruggle_04896e  @ $04896E  (88 B)
@@ -1540,7 +1540,7 @@ Pow_TiedIdle_04891a:
         .global Pow_TiedStruggle_04896e
 Pow_TiedStruggle_04896e:
         move.b  #0x1,0x83(a6)                   | +000
-        jsr     Sub_000493E4(pc)                | +006
+        jsr     Pow_SpawnFxFromTurnAngle_0493e4(pc)                | +006
         move.w  0x78(a6),d0                     | +00a
         lsr.w   #0x1,d0                         | +00e
         andi.w  #0xf,d0                         | +010
@@ -1554,7 +1554,7 @@ Pow_TiedStruggle_04896e:
         lea     .L0489a4(pc),a1                 | +030
         move.l  a1,(a6)                         | +034
 .L0489a4:
-        jsr     Sub_00048F54(pc)                | +036
+        jsr     Pow_TiedSwingStep_048f54(pc)                | +036
         bcc.w   .L0489b2                        | +03a
         lea     Pow_TiedFreed_0489c6(pc),a1     | +03e
         move.l  a1,(a6)                         | +042
@@ -1564,7 +1564,7 @@ Pow_TiedStruggle_04896e:
         lea     Pow_TiedIdle_04891a(pc),a1      | +04e
         move.l  a1,(a6)                         | +052
 .L0489c2:
-        bra.w   Sub_00048A90                    | +054
+        bra.w   Pow_TiedStateTail_048a90                    | +054
 
 | ----------------------------------------------------------------------------
 |  Pow_TiedFreed_0489c6  @ $0489C6  (118 B)
@@ -1584,14 +1584,14 @@ Pow_TiedFreed_0489c6:
         lea     Pow_SpawnInit_04797c(pc),a1     | +028
         move.l  a1,(a6)                         | +02c
 .L0489f4:
-        bra.w   Sub_00048A90                    | +02e
+        bra.w   Pow_TiedStateTail_048a90                    | +02e
         .global Pow_TiedFreed_0489c6__L0489f8
 Pow_TiedFreed_0489c6__L0489f8:
-        jsr     Sub_0004936E(pc)                | +032
+        jsr     Pow_RetargetIfLost_04936e(pc)                | +032
         subq.w  #0x1,0x72(a6)                   | +036
         jsr     0x2870a.l                       | +03a
         bcc.w   .L048a26                        | +040
-        lea     Sub_00048CA4(pc),a1             | +044
+        lea     PowFx_HitBurst_048ca4(pc),a1             | +044
         jsr     0x4ae.l                         | +048
         jsr     0x5dd02.l                       | +04e
         addi.w  #0x18,0x24(a0)                  | +054

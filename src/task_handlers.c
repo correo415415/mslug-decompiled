@@ -114,8 +114,8 @@ extern void TaskHandler_04731c(void);
 extern void TaskHandler_047362(void);
 extern void TaskHandler_048b1e(void);
 extern void TaskHandler_048b26(void);
-extern void TaskHandler_048ddc(void);
-extern void TaskHandler_048dec(void);
+extern void PowRope_BrokenA_048ddc(void);
+extern void PowRope_BrokenB_048dec(void);
 extern void TaskHandler_04968a(void);
 extern void TaskHandler_04a014(void);
 extern void TaskHandler_04a024(void);
@@ -1075,13 +1075,13 @@ void SetTaskHandler_048e24(void) {
 
 __attribute__((section(".text.SetTaskHandler_048e3a")))
 void SetTaskHandler_048e3a(void) {
-    _a1_ptr = &TaskHandler_048ddc;
+    _a1_ptr = &PowRope_BrokenA_048ddc;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_048e4c")))
 void SetTaskHandler_048e4c(void) {
-    _a1_ptr = &TaskHandler_048dec;
+    _a1_ptr = &PowRope_BrokenB_048dec;
     STORE_A1_AT_FP();
 }
 

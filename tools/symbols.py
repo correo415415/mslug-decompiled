@@ -473,8 +473,8 @@ SYMBOLS = {
     0x00047362: "TaskHandler_047362",
     0x00048B1E: "TaskHandler_048b1e",
     0x00048B26: "TaskHandler_048b26",
-    # 0x00048DDC promovido a TaskHandler_048ddc en registry (Wave JJJJ).
-    # 0x00048DEC promovido a TaskHandler_048dec en registry (Wave JJJJ).
+    # 0x00048DDC promovido a PowRope_BrokenA_048ddc en registry (Wave JJJJ).
+    # 0x00048DEC promovido a PowRope_BrokenB_048dec en registry (Wave JJJJ).
     0x0004968A: "TaskHandler_04968a",
     0x0004A014: "Handler_0004A014",     # handler PC-rel instalado (canal B)
     0x0004A024: "TaskHandler_04a024",
@@ -1715,33 +1715,33 @@ SYMBOLS = {
     # --- Wave IIII: RTS internos de islas C
     0x00048A42: "SetHandlerRts_048a42",  # rts de SetTaskHandler_048a3c (+6)
     # --- Wave IIII: refs forward a huecos futuros
-    # 0x00048A44 promovido a Sub_00048A44 en registry (Wave JJJJ).
-    # 0x00048A90 promovido a Sub_00048A90 en registry (Wave JJJJ).
-    # 0x00048CA4 promovido a Sub_00048CA4 en registry (Wave JJJJ).
-    # 0x00048D0E promovido a Sub_00048D0E en registry (Wave JJJJ).
-    # 0x00048EA6 promovido a Sub_00048EA6 en registry (Wave JJJJ).
-    # 0x00048F04 promovido a Sub_00048F04 en registry (Wave JJJJ).
-    # 0x00048F2E promovido a Sub_00048F2E en registry (Wave JJJJ).
-    # 0x00048F54 promovido a Sub_00048F54 en registry (Wave JJJJ).
-    # 0x00048FB0 promovido a Sub_00048FB0 en registry (Wave JJJJ).
-    # 0x00048FCC promovido a Sub_00048FCC en registry (Wave JJJJ).
-    # 0x00049010 promovido a Sub_00049010 en registry (Wave JJJJ).
-    # 0x00049054 promovido a Sub_00049054 en registry (Wave JJJJ).
-    # 0x000490FA promovido a Sub_000490FA en registry (Wave JJJJ).
-    # 0x00049172 promovido a Sub_00049172 en registry (Wave JJJJ).
-    # 0x00049196 promovido a Sub_00049196 en registry (Wave JJJJ).
-    # 0x000491DE promovido a Sub_000491DE en registry (Wave JJJJ).
-    # 0x0004921E promovido a Sub_0004921E en registry (Wave JJJJ).
-    # 0x00049256 promovido a Sub_00049256 en registry (Wave JJJJ).
-    # 0x0004926A promovido a Sub_0004926A en registry (Wave JJJJ).
-    # 0x000492A4 promovido a Sub_000492A4 en registry (Wave JJJJ).
-    # 0x000492F8 promovido a Sub_000492F8 en registry (Wave JJJJ).
-    # 0x0004932C promovido a Sub_0004932C en registry (Wave JJJJ).
-    # 0x00049346 promovido a Sub_00049346 en registry (Wave JJJJ).
-    # 0x0004936E promovido a Sub_0004936E en registry (Wave JJJJ).
-    # 0x0004939C promovido a Sub_0004939C en registry (Wave JJJJ).
-    # 0x000493E4 promovido a Sub_000493E4 en registry (Wave JJJJ).
-    # 0x0004940E promovido a Sub_0004940E en registry (Wave JJJJ).
+    # 0x00048A44 promovido a Pow_FreeStateTail_048a44 en registry (Wave JJJJ).
+    # 0x00048A90 promovido a Pow_TiedStateTail_048a90 en registry (Wave JJJJ).
+    # 0x00048CA4 promovido a PowFx_HitBurst_048ca4 en registry (Wave JJJJ).
+    # 0x00048D0E promovido a PowRope_Spawn_048d0e en registry (Wave JJJJ).
+    # 0x00048EA6 promovido a Pow_FreeInit_048ea6 en registry (Wave JJJJ).
+    # 0x00048F04 promovido a Pow_SetRunVelAndSprite_048f04 en registry (Wave JJJJ).
+    # 0x00048F2E promovido a Pow_ScrollProbeOrFall_048f2e en registry (Wave JJJJ).
+    # 0x00048F54 promovido a Pow_TiedSwingStep_048f54 en registry (Wave JJJJ).
+    # 0x00048FB0 promovido a Pow_ScrollAndProbe_048fb0 en registry (Wave JJJJ).
+    # 0x00048FCC promovido a Pow_PickIdleSpriteIdx_048fcc en registry (Wave JJJJ).
+    # 0x00049010 promovido a Pow_CanBeRescued_049010 en registry (Wave JJJJ).
+    # 0x00049054 promovido a Pow_TiedTurnTowardTarget_049054 en registry (Wave JJJJ).
+    # 0x000490FA promovido a Pow_TargetInReach_0490fa en registry (Wave JJJJ).
+    # 0x00049172 promovido a Pow_TargetFarX_049172 en registry (Wave JJJJ).
+    # 0x00049196 promovido a Pow_ShouldRunAway_049196 en registry (Wave JJJJ).
+    # 0x000491DE promovido a Pow_ShouldWait_0491de en registry (Wave JJJJ).
+    # 0x0004921E promovido a Pow_TargetNearX_04921e en registry (Wave JJJJ).
+    # 0x00049256 promovido a Pow_TurnTimerAndCheck_049256 en registry (Wave JJJJ).
+    # 0x0004926A promovido a Pow_ShouldTurn_04926a en registry (Wave JJJJ).
+    # 0x000492A4 promovido a Pow_TargetWithin30_0492a4 en registry (Wave JJJJ).
+    # 0x000492F8 promovido a Pow_AtScreenEdge_0492f8 en registry (Wave JJJJ).
+    # 0x0004932C promovido a Pow_HitReceivedCheck_04932c en registry (Wave JJJJ).
+    # 0x00049346 promovido a Pow_BlockedTimer_049346 en registry (Wave JJJJ).
+    # 0x0004936E promovido a Pow_RetargetIfLost_04936e en registry (Wave JJJJ).
+    # 0x0004939C promovido a Pow_TargetYNear_04939c en registry (Wave JJJJ).
+    # 0x000493E4 promovido a Pow_SpawnFxFromTurnAngle_0493e4 en registry (Wave JJJJ).
+    # 0x0004940E promovido a Pow_SpawnFxByDir_04940e en registry (Wave JJJJ).
     # --- Wave JJJJ: RTS internos de islas C
     0x00048A8E: "SetHandlerRts_048a8e",  # rts de SetTaskHandler_048a88 (+6)
     0x00048B1C: "SetHandlerRts_048b1c",  # rts de SetTaskHandler_048b16 (+6)
