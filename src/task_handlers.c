@@ -116,7 +116,7 @@ extern void TaskHandler_048b1e(void);
 extern void TaskHandler_048b26(void);
 extern void PowRope_BrokenA_048ddc(void);
 extern void PowRope_BrokenB_048dec(void);
-extern void TaskHandler_04968a(void);
+extern void PowHang_Struggle_04968a(void);
 extern void HumanDeath_EntryKind0_04a014(void);
 extern void HumanDeath_EntryKind1_04a024(void);
 extern void HumanDeath_CorpseA_04a18c(void);
@@ -1093,7 +1093,7 @@ void SetTaskHandler_048e9e(void) {
 
 __attribute__((section(".text.SetTaskHandler_049b50")))
 void SetTaskHandler_049b50(void) {
-    _a1_ptr = &TaskHandler_04968a;
+    _a1_ptr = &PowHang_Struggle_04968a;
     STORE_A1_AT_FP();
 }
 

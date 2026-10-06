@@ -146,7 +146,7 @@
         .section .text.HumanDeath_Dispatch_049ff2, "ax", @progbits
         .global HumanDeath_Dispatch_049ff2
 HumanDeath_Dispatch_049ff2:
-        bsr.b   Sub_00049FBA                    | +000
+        bsr.b   HumanDeath_HitCheckUnlessCutscene_049fba                    | +000
         bcc.w   SetHandlerRts_04a012            | +002
         jsr     0x27eba.l                       | +006
         bcc.w   SetTaskHandler_04a00c           | +00c
@@ -204,7 +204,7 @@ HumanDeath_EntryKind2_04a034__L04a050:
         move.b  d1,0x71(a6)                     | +030
         andi.w  #0xff,d7                        | +034
         lsl.w   #0x2,d7                         | +038
-        lea     Sub_00049FAA(pc),a0             | +03a
+        lea     HumanDeath_StateTblPtrs_049faa(pc),a0             | +03a
         movea.l (a0,d7.w),a0                    | +03e
         moveq   #0,d0                           | +042
         move.b  0x58(a6),d0                     | +044

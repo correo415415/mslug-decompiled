@@ -47,7 +47,7 @@
         .section .text.Entity_ProbeAndInstallHandler_049FD0, "ax", @progbits
 
 Entity_ProbeAndInstallHandler_049FD0:
-        bsr.b   Sub_00049FBA            | +00  probe local (retorna CCR)
+        bsr.b   HumanDeath_HitCheckUnlessCutscene_049fba            | +00  probe local (retorna CCR)
         bcc.w   .Ldone                  | +02  C=0 -> exito, ir a rts
         jsr     Sub_00027EBA            | +06  probe global
         bcc.w   .Linstall_channel_b     | +0c  C=0 -> instalar handler B ($4A014)

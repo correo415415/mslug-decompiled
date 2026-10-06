@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049430  @ $049430  (66 B)
+|  PowHang_SpawnItemAndFxAtSprite_049430  @ $049430  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049430, "ax", @progbits
-        .global TaskHandler_049430
-TaskHandler_049430:
+        .section .text.PowHang_SpawnItemAndFxAtSprite_049430, "ax", @progbits
+        .global PowHang_SpawnItemAndFxAtSprite_049430
+PowHang_SpawnItemAndFxAtSprite_049430:
         jsr     0x5dd02.l                       | +000
         movea.l 0x5c(a6),a1                     | +006
         move.w  (a1),d0                         | +00a
@@ -38,11 +38,11 @@ TaskHandler_049430:
         rts                                     | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049472  @ $049472  (86 B)
+|  PowHang_SpawnFxAndItemA_049472  @ $049472  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049472, "ax", @progbits
-        .global TaskHandler_049472
-TaskHandler_049472:
+        .section .text.PowHang_SpawnFxAndItemA_049472, "ax", @progbits
+        .global PowHang_SpawnFxAndItemA_049472
+PowHang_SpawnFxAndItemA_049472:
         lea     PowFx_DirSprite_048b56(pc),a1   | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
@@ -66,11 +66,11 @@ TaskHandler_049472:
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0494c8  @ $0494C8  (86 B)
+|  PowHang_SpawnFxAndItemB_0494c8  @ $0494C8  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0494c8, "ax", @progbits
-        .global TaskHandler_0494c8
-TaskHandler_0494c8:
+        .section .text.PowHang_SpawnFxAndItemB_0494c8, "ax", @progbits
+        .global PowHang_SpawnFxAndItemB_0494c8
+PowHang_SpawnFxAndItemB_0494c8:
         lea     PowFx_DirSprite_048b56(pc),a1   | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
@@ -94,11 +94,11 @@ TaskHandler_0494c8:
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04951e  @ $04951E  (32 B)
+|  PowHang_LoadTimerAndSlotCheck_04951e  @ $04951E  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04951e, "ax", @progbits
-        .global TaskHandler_04951e
-TaskHandler_04951e:
+        .section .text.PowHang_LoadTimerAndSlotCheck_04951e, "ax", @progbits
+        .global PowHang_LoadTimerAndSlotCheck_04951e
+PowHang_LoadTimerAndSlotCheck_04951e:
         lea     0x2bfcb4.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x72(a6)                     | +00c
@@ -108,11 +108,11 @@ TaskHandler_04951e:
         bcs.w   SetXN_049544                    | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04954a  @ $04954A  (140 B)
+|  PowHang_SpawnVariants_04954a  @ $04954A  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04954a, "ax", @progbits
-        .global TaskHandler_04954a
-TaskHandler_04954a:
+        .section .text.PowHang_SpawnVariants_04954a, "ax", @progbits
+        .global PowHang_SpawnVariants_04954a
+PowHang_SpawnVariants_04954a:
         move.b  #0x0,0x7f(a6)                   | +000
         bra.w   .L04955a                        | +006
         move.b  #0x1,0x7f(a6)                   | +00a
@@ -139,16 +139,16 @@ TaskHandler_04954a:
         asl.w   #0x4,d0                         | +070
         move.w  d0,0x7a(a6)                     | +072
         move.b  #0x0,0x79(a6)                   | +076
-        lea     TaskHandler_0497ac(pc),a1       | +07c
+        lea     PowHang_RopeSpawn_0497ac(pc),a1 | +07c
         jsr     0x4ae.l                         | +080
         jsr     0x5dd02.l                       | +086
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0495d6  @ $0495D6  (180 B)
+|  PowHang_Swing_0495d6  @ $0495D6  (180 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0495d6, "ax", @progbits
-        .global TaskHandler_0495d6
-TaskHandler_0495d6:
+        .section .text.PowHang_Swing_0495d6, "ax", @progbits
+        .global PowHang_Swing_0495d6
+PowHang_Swing_0495d6:
         clr.l   d0                              | +000
         move.w  0x34(a6),d0                     | +002
         andi.w  #0xf,d0                         | +006
@@ -163,9 +163,9 @@ TaskHandler_0495d6:
         lea     .L049608(pc),a1                 | +02c
         move.l  a1,(a6)                         | +030
 .L049608:
-        jsr     Sub_000499DC(pc)                | +032
-        jsr     TaskHandler_049a20(pc)          | +036
-        jsr     TaskHandler_049b58(pc)          | +03a
+        jsr     PowHang_SwingStep_0499dc(pc)    | +032
+        jsr     PowHang_SwingAnimByAngle_049a20(pc) | +036
+        jsr     PowHang_HitCheck_049b58(pc)     | +03a
         bcc.w   .L049622                        | +03e
         move.b  #0xfd,0x78(a6)                  | +042
         bra.w   .L04962c                        | +048
@@ -183,11 +183,11 @@ TaskHandler_0495d6:
         move.l  a1,(a6)                         | +070
         bra.w   .L049688                        | +072
 .L04964c:
-        jsr     TaskHandler_049b06(pc)          | +076
+        jsr     PowHang_DropFxTimer_049b06(pc)  | +076
         jsr     0x2870a.l                       | +07a
         bcc.w   .L049666                        | +080
         move.b  #0xff,0x78(a6)                  | +084
-        lea     TaskHandler_049742(pc),a1       | +08a
+        lea     PowHang_Freed_049742(pc),a1     | +08a
         move.l  a1,(a6)                         | +08e
 .L049666:
         movea.l #0xffffffff,a0                  | +090
@@ -200,11 +200,11 @@ TaskHandler_0495d6:
         rts                                     | +0b2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04968a  @ $04968A  (184 B)
+|  PowHang_Struggle_04968a  @ $04968A  (184 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04968a, "ax", @progbits
-        .global TaskHandler_04968a
-TaskHandler_04968a:
+        .section .text.PowHang_Struggle_04968a, "ax", @progbits
+        .global PowHang_Struggle_04968a
+PowHang_Struggle_04968a:
         clr.l   d0                              | +000
         move.b  0x71(a6),d0                     | +002
         movea.l #0x28f838,a0                    | +006
@@ -218,13 +218,13 @@ TaskHandler_04968a:
         lea     .L0496b8(pc),a1                 | +028
         move.l  a1,(a6)                         | +02c
 .L0496b8:
-        jsr     Sub_000499DC(pc)                | +02e
+        jsr     PowHang_SwingStep_0499dc(pc)    | +02e
         jsr     0x28d70.l                       | +032
         bcc.w   .L0496cc                        | +038
-        lea     TaskHandler_0495d6(pc),a1       | +03c
+        lea     PowHang_Swing_0495d6(pc),a1     | +03c
         move.l  a1,(a6)                         | +040
 .L0496cc:
-        jsr     TaskHandler_049b58(pc)          | +042
+        jsr     PowHang_HitCheck_049b58(pc)     | +042
         bcc.w   .L0496de                        | +046
         move.b  #0xfd,0x78(a6)                  | +04a
         bra.w   .L0496e8                        | +050
@@ -245,7 +245,7 @@ TaskHandler_04968a:
         jsr     0x2870a.l                       | +07e
         bcc.w   .L04971e                        | +084
         move.b  #0xff,0x78(a6)                  | +088
-        lea     TaskHandler_049742(pc),a1       | +08e
+        lea     PowHang_Freed_049742(pc),a1     | +08e
         move.l  a1,(a6)                         | +092
 .L04971e:
         movea.l #0xffffffff,a0                  | +094
@@ -258,11 +258,11 @@ TaskHandler_04968a:
         rts                                     | +0b6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049742  @ $049742  (106 B)
+|  PowHang_Freed_049742  @ $049742  (106 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049742, "ax", @progbits
-        .global TaskHandler_049742
-TaskHandler_049742:
+        .section .text.PowHang_Freed_049742, "ax", @progbits
+        .global PowHang_Freed_049742
+PowHang_Freed_049742:
         move.w  #0xc,d0                         | +000
         sub.w   0x34(a6),d0                     | +004
         asr.w   #0x8,d0                         | +008
@@ -291,11 +291,11 @@ TaskHandler_049742:
         rts                                     | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0497ac  @ $0497AC  (36 B)
+|  PowHang_RopeSpawn_0497ac  @ $0497AC  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0497ac, "ax", @progbits
-        .global TaskHandler_0497ac
-TaskHandler_0497ac:
+        .section .text.PowHang_RopeSpawn_0497ac, "ax", @progbits
+        .global PowHang_RopeSpawn_0497ac
+PowHang_RopeSpawn_0497ac:
         move.w  #0x18d,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x2bfe8a.l,a0                   | +00a
@@ -305,11 +305,11 @@ TaskHandler_0497ac:
         move.l  a0,0x48(a6)                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0497d0  @ $0497D0  (180 B)
+|  PowHang_RopeIdle_0497d0  @ $0497D0  (180 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0497d0, "ax", @progbits
-        .global TaskHandler_0497d0
-TaskHandler_0497d0:
+        .section .text.PowHang_RopeIdle_0497d0, "ax", @progbits
+        .global PowHang_RopeIdle_0497d0
+PowHang_RopeIdle_0497d0:
         lea     .L0497d6(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L0497d6:
@@ -330,28 +330,28 @@ TaskHandler_0497d0:
         bcc.w   .L04982a                        | +042
         movea.l 0xc(a6),a0                      | +046
         move.b  #0xff,0x79(a0)                  | +04a
-        lea     TaskHandler_049976(pc),a1       | +050
+        lea     PowHang_RopeBroken_049976(pc),a1 | +050
         move.l  a1,(a6)                         | +054
         bra.w   .L049882                        | +056
 .L04982a:
         movea.l 0xc(a6),a0                      | +05a
         cmpi.b  #0x1,0x78(a0)                   | +05e
         bne.w   .L049842                        | +064
-        lea     TaskHandler_049884(pc),a1       | +068
+        lea     PowHang_RopeStruggle_049884(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
         bra.w   .L049882                        | +06e
 .L049842:
         cmpi.b  #0xfd,0x78(a0)                  | +072
         bne.w   .L04985a                        | +078
         move.l  a6,0xc(a6)                      | +07c
-        lea     TaskHandler_04992e(pc),a1       | +080
+        lea     PowHang_RopeCut_04992e(pc),a1   | +080
         move.l  a1,(a6)                         | +084
         bra.w   .L049882                        | +086
 .L04985a:
         cmpi.b  #0xff,0x78(a0)                  | +08a
         bne.w   .L049872                        | +090
         move.l  a6,0xc(a6)                      | +094
-        lea     TaskHandler_049976(pc),a1       | +098
+        lea     PowHang_RopeBroken_049976(pc),a1 | +098
         move.l  a1,(a6)                         | +09c
         bra.w   .L049882                        | +09e
 .L049872:
@@ -362,11 +362,11 @@ TaskHandler_0497d0:
         rts                                     | +0b2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049884  @ $049884  (170 B)
+|  PowHang_RopeStruggle_049884  @ $049884  (170 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049884, "ax", @progbits
-        .global TaskHandler_049884
-TaskHandler_049884:
+        .section .text.PowHang_RopeStruggle_049884, "ax", @progbits
+        .global PowHang_RopeStruggle_049884
+PowHang_RopeStruggle_049884:
         clr.l   d0                              | +000
         movea.l 0xc(a6),a0                      | +002
         move.b  0x71(a0),d0                     | +006
@@ -384,14 +384,14 @@ TaskHandler_049884:
         subq.w  #0x1,0x38(a6)                   | +032
         jsr     0x28d70.l                       | +036
         bcc.w   .L0498ca                        | +03c
-        lea     TaskHandler_0497d0(pc),a1       | +040
+        lea     PowHang_RopeIdle_0497d0(pc),a1  | +040
         move.l  a1,(a6)                         | +044
 .L0498ca:
         jsr     0x28758.l                       | +046
         bcc.w   .L0498e8                        | +04c
         movea.l 0xc(a6),a0                      | +050
         move.b  #0xff,0x79(a0)                  | +054
-        lea     TaskHandler_049976(pc),a1       | +05a
+        lea     PowHang_RopeBroken_049976(pc),a1 | +05a
         move.l  a1,(a6)                         | +05e
         bra.w   .L04992c                        | +060
 .L0498e8:
@@ -399,14 +399,14 @@ TaskHandler_049884:
         cmpi.b  #0xfd,0x78(a0)                  | +068
         bne.w   .L049904                        | +06e
         move.l  a6,0xc(a6)                      | +072
-        lea     TaskHandler_04992e(pc),a1       | +076
+        lea     PowHang_RopeCut_04992e(pc),a1   | +076
         move.l  a1,(a6)                         | +07a
         bra.w   .L04992c                        | +07c
 .L049904:
         cmpi.b  #0xff,0x78(a0)                  | +080
         bne.w   .L04991c                        | +086
         move.l  a6,0xc(a6)                      | +08a
-        lea     TaskHandler_049976(pc),a1       | +08e
+        lea     PowHang_RopeBroken_049976(pc),a1 | +08e
         move.l  a1,(a6)                         | +092
         bra.w   .L04992c                        | +094
 .L04991c:
@@ -417,11 +417,11 @@ TaskHandler_049884:
         rts                                     | +0a8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04992e  @ $04992E  (72 B)
+|  PowHang_RopeCut_04992e  @ $04992E  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04992e, "ax", @progbits
-        .global TaskHandler_04992e
-TaskHandler_04992e:
+        .section .text.PowHang_RopeCut_04992e, "ax", @progbits
+        .global PowHang_RopeCut_04992e
+PowHang_RopeCut_04992e:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x3a(a0),0x3a(a6)               | +004
         lea     0x28fe2c.l,a0                   | +00a
@@ -442,11 +442,11 @@ TaskHandler_04992e:
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049976  @ $049976  (102 B)
+|  PowHang_RopeBroken_049976  @ $049976  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049976, "ax", @progbits
-        .global TaskHandler_049976
-TaskHandler_049976:
+        .section .text.PowHang_RopeBroken_049976, "ax", @progbits
+        .global PowHang_RopeBroken_049976
+PowHang_RopeBroken_049976:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x3a(a0),0x3a(a6)               | +004
         move.b  #0x0,0x7e(a6)                   | +00a
@@ -475,11 +475,11 @@ TaskHandler_049976:
         rts                                     | +064
 
 | ----------------------------------------------------------------------------
-|  Sub_000499DC  @ $0499DC  (60 B)
+|  PowHang_SwingStep_0499dc  @ $0499DC  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000499DC, "ax", @progbits
-        .global Sub_000499DC
-Sub_000499DC:
+        .section .text.PowHang_SwingStep_0499dc, "ax", @progbits
+        .global PowHang_SwingStep_0499dc
+PowHang_SwingStep_0499dc:
         subi.w  #0x2,0x74(a6)                   | +000
         andi.w  #0xff,0x74(a6)                  | +006
         move.w  0x74(a6),d0                     | +00c
@@ -498,11 +498,11 @@ Sub_000499DC:
         move.w  d2,0x2a(a6)                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049a20  @ $049A20  (222 B)
+|  PowHang_SwingAnimByAngle_049a20  @ $049A20  (222 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049a20, "ax", @progbits
-        .global TaskHandler_049a20
-TaskHandler_049a20:
+        .section .text.PowHang_SwingAnimByAngle_049a20, "ax", @progbits
+        .global PowHang_SwingAnimByAngle_049a20
+PowHang_SwingAnimByAngle_049a20:
         move.w  0x34(a6),0x72(a6)               | +000
         jsr     0x28d70.l                       | +006
         bcc.w   JsrAbsRts_049b04                | +00c
@@ -562,11 +562,11 @@ TaskHandler_049a20:
         beq.w   JsrAbsRts_049b04                | +0da
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049b06  @ $049B06  (74 B)
+|  PowHang_DropFxTimer_049b06  @ $049B06  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049b06, "ax", @progbits
-        .global TaskHandler_049b06
-TaskHandler_049b06:
+        .section .text.PowHang_DropFxTimer_049b06, "ax", @progbits
+        .global PowHang_DropFxTimer_049b06
+PowHang_DropFxTimer_049b06:
         subq.w  #0x1,0x76(a6)                   | +000
         cmpi.w  #0x0,0x76(a6)                   | +004
         bgt.w   SetHandlerRts_049b56            | +00a
@@ -584,42 +584,42 @@ TaskHandler_049b06:
         add.w   d1,0x24(a0)                     | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049b58  @ $049B58  (20 B)
+|  PowHang_HitCheck_049b58  @ $049B58  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049b58, "ax", @progbits
-        .global TaskHandler_049b58
-TaskHandler_049b58:
+        .section .text.PowHang_HitCheck_049b58, "ax", @progbits
+        .global PowHang_HitCheck_049b58
+PowHang_HitCheck_049b58:
         cmpi.b  #0x0,0x7f(a6)                   | +000
-        bne.w   TaskHandler_049b78              | +006
+        bne.w   PowHang_HitCheckAlt_049b78      | +006
         jsr     0x27eba.l                       | +00a
         bcc.w   SetXN_049b72                    | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049b78  @ $049B78  (10 B)
+|  PowHang_HitCheckAlt_049b78  @ $049B78  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049b78, "ax", @progbits
-        .global TaskHandler_049b78
-TaskHandler_049b78:
+        .section .text.PowHang_HitCheckAlt_049b78, "ax", @progbits
+        .global PowHang_HitCheckAlt_049b78
+PowHang_HitCheckAlt_049b78:
         jsr     0x27fac.l                       | +000
         bcc.w   SetXN_049b88                    | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049b8e  @ $049B8E  (16 B)
+|  PowHang_SlotPrioCheck_049b8e  @ $049B8E  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049b8e, "ax", @progbits
-        .global TaskHandler_049b8e
-TaskHandler_049b8e:
+        .section .text.PowHang_SlotPrioCheck_049b8e, "ax", @progbits
+        .global PowHang_SlotPrioCheck_049b8e
+PowHang_SlotPrioCheck_049b8e:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_049ba4                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049baa  @ $049BAA  (250 B)
+|  PowFall_Spawn_049baa  @ $049BAA  (250 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049baa, "ax", @progbits
-        .global TaskHandler_049baa
-TaskHandler_049baa:
+        .section .text.PowFall_Spawn_049baa, "ax", @progbits
+        .global PowFall_Spawn_049baa
+PowFall_Spawn_049baa:
         jsr     0x5e7c0.l                       | +000
         move.w  #0xe,d1                         | +006
         jsr     0x236e.l                        | +00a
@@ -653,7 +653,7 @@ TaskHandler_049baa:
         add.w   d0,0x28(a6)                     | +082
 .L049c30:
         move.b  #0x0,0x20(a6)                   | +086
-        lea     TaskHandler_049ca4(pc),a1       | +08c
+        lea     PowFall_Shadow_049ca4(pc),a1    | +08c
         jsr     0x4ae.l                         | +090
         jsr     0x5dd02.l                       | +096
         move.w  0x28(a6),0x28(a0)               | +09c
@@ -679,11 +679,11 @@ TaskHandler_049baa:
         rts                                     | +0f8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049ca4  @ $049CA4  (202 B)
+|  PowFall_Shadow_049ca4  @ $049CA4  (202 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049ca4, "ax", @progbits
-        .global TaskHandler_049ca4
-TaskHandler_049ca4:
+        .section .text.PowFall_Shadow_049ca4, "ax", @progbits
+        .global PowFall_Shadow_049ca4
+PowFall_Shadow_049ca4:
         jsr     0x5e7c0.l                       | +000
         move.w  #0x144,d1                       | +006
         jsr     0x236e.l                        | +00a
@@ -732,22 +732,22 @@ TaskHandler_049ca4:
         rts                                     | +0c8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_049d6e  @ $049D6E  (16 B)
+|  PowFall_SlotPrioCheck_049d6e  @ $049D6E  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_049d6e, "ax", @progbits
-        .global TaskHandler_049d6e
-TaskHandler_049d6e:
+        .section .text.PowFall_SlotPrioCheck_049d6e, "ax", @progbits
+        .global PowFall_SlotPrioCheck_049d6e
+PowFall_SlotPrioCheck_049d6e:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_049d84                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_049d8a  @ $049D8A  (544 B)
+|  HumanDeath_StateTbls_049d8a  @ $049D8A  (544 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_049d8a, "ax", @progbits
-        .global Data_049d8a
-Data_049d8a:
+        .section .text.HumanDeath_StateTbls_049d8a, "ax", @progbits
+        .global HumanDeath_StateTbls_049d8a
+HumanDeath_StateTbls_049d8a:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0xa3f8                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
@@ -1022,11 +1022,11 @@ Data_049d8a:
         .dc.w   0xa7b0                        | +21e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00049FAA  @ $049FAA  (16 B)
+|  HumanDeath_StateTblPtrs_049faa  @ $049FAA  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00049FAA, "ax", @progbits
-        .global Sub_00049FAA
-Sub_00049FAA:
+        .section .text.HumanDeath_StateTblPtrs_049faa, "ax", @progbits
+        .global HumanDeath_StateTblPtrs_049faa
+HumanDeath_StateTblPtrs_049faa:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x9d8a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
@@ -1037,10 +1037,10 @@ Sub_00049FAA:
         .dc.w   0x9f22                        | +00e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00049FBA  @ $049FBA  (10 B)
+|  HumanDeath_HitCheckUnlessCutscene_049fba  @ $049FBA  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00049FBA, "ax", @progbits
-        .global Sub_00049FBA
-Sub_00049FBA:
+        .section .text.HumanDeath_HitCheckUnlessCutscene_049fba, "ax", @progbits
+        .global HumanDeath_HitCheckUnlessCutscene_049fba
+HumanDeath_HitCheckUnlessCutscene_049fba:
         tst.b   0x106ed3.l                      | +000
         bne.w   JmpAbsThunk_049fca              | +006
