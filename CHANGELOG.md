@@ -17,6 +17,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave PPPP — 40 entries (5,296 B): `$04E580..$04FA50`
+  (`props_fortress_04e5xx.s`): fortress-mission props — barrier, gatehouse/
+  gate and fortress chains (`Active → Damaged → Wreck`, blockers, roof, door,
+  turret mount, side) spawning each other via `Coord_ScreenToLocal $44022`
+  and `MissionWatch_Spawn $4429E` on scroll thresholds; generic roof, 3-phase
+  fix blink, trigger sensor, crate, bouncing debris (`Hop/Roll`), signs A/B,
+  boat (+ blast/debris) and `FixTile_Set11C2`. Matcher 5702/5702, 16.21 %.
 - Wave OOOO — 64 entries (6,384 B): `$04CBD4..$04E580`
   (`turret_car_props_04cbxx.s`): enemy turret vehicle (`TurretCar_*`: 32-step
   turret angle with `Idle/Track/Recoil`, `Body`, `Driver*`, guided `Cannon`

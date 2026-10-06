@@ -11,10 +11,28 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5662/5662 funciones
-BYTES   : 334,672/334,672 (registrados)
-ROM     : 334,672/2,097,152  (15.9584%)
+MATCHED : 5702/5702 funciones
+BYTES   : 339,968/339,968 (registrados)
+ROM     : 339,968/2,097,152  (16.2109%)
 ```
+
+> **Wave PPPP** (40 entradas, 5 296 B) — `$04E580..$04FA50`
+> en `props_fortress_04e5xx.s`. Trigesimotercera wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/pppp_names.txt`, args en
+> `docs/waves/pppp_args.txt`.
+>
+> * Props de la misión del fuerte: `Prop_Barrier*` (activa/dañada/restos,
+>   poste, luz), `Prop_Gatehouse*` (intacta/dañada/restos, bloqueador,
+>   tejado, puerta) y `Prop_Fortress*` (espera de scroll → activa → restos,
+>   bloqueador, soporte de torreta, lateral). Se encadenan con `$44022`
+>   (posiciones absolutas) y `MissionWatch_Spawn $4429E` (listas
+>   `$E9348/$E93B0/$E9442`) según umbrales de scroll `$A10/$A20/$A70`.
+> * Misceláneos: `Prop_Roof*` (`$E840C`), `FixBlink3_PhaseA/B`,
+>   `Prop_Sensor*`, `Prop_Crate`, `Debris_Bouncer/Hop/Roll`, `Prop_SignA/B`
+>   (`$E8414/$E8418`), `Prop_Boat/BoatBlast/BoatDebris` (`$E8410`),
+>   `FixTile_Set11C2`.
+> * Las subs de setup `$4FB8A..$5017A` que invocan quedan para QQQQ.
+> * Matcher: 5702/5702, 339,968 B, 16.21 %; código real 58.6 %.
 
 > **Wave OOOO** (64 entradas, 6 384 B; 2 `--entry`) — `$04CBD4..$04E580`
 > en `turret_car_props_04cbxx.s`. Trigesimosegunda wave de
