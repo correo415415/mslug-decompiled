@@ -496,7 +496,7 @@ SYMBOLS = {
     0x00052514: "TaskHandler_052514",
     0x000526AA: "TaskHandler_0526aa",
     0x00053C5C: "TaskHandler_053c5c",
-    0x00053C64: "TaskHandler_053c64",
+    # 0x00053C64 promovido a TaskHandler_053c64 en registry (Wave HHHH).
     0x00056058: "TaskHandler_056058",
     0x00056204: "TaskHandler_056204",
     0x00056596: "TaskHandler_056596",
@@ -916,7 +916,7 @@ SYMBOLS = {
     0x0004698C: "PcThunkTarget_04698c",
     0x0004707E: "PcThunkTarget_04707e",
     0x0004FAF8: "PcThunkTarget_04faf8",
-    0x00053DCA: "PcThunkTarget_053dca",
+    # 0x00053DCA promovido a PcThunkTarget_053dca en registry (Wave HHHH).
     0x00055148: "PcThunkTarget_055148",
     0x00055214: "PcThunkTarget_055214",
     # 0x00056E1E promovido a Soldier_DespawnIfOffscreen_056e1e en registry (Wave FFFF).
@@ -1698,14 +1698,18 @@ SYMBOLS = {
     # --- Wave GGGG: RTS internos de islas C
     0x000539EE: "Jsr5B6Rts_0539ee",  # rts de Jsr5B6ThenJmpScheduler_0539e2 (+12)
     # --- Wave GGGG: refs forward a huecos futuros
-    0x000539F0: "Sub_000539F0",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053D80: "Sub_00053D80",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053E0C: "Sub_00053E0C",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053E78: "Sub_00053E78",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053E9C: "Sub_00053E9C",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053EBA: "Sub_00053EBA",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053EE2: "Sub_00053EE2",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053F08: "Sub_00053F08",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053F2E: "Sub_00053F2E",  # hueco futuro (ref pc-rel desde esta region)
-    0x00053F54: "Sub_00053F54",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x000539F0 promovido a Sub_000539F0 en registry (Wave HHHH).
+    # 0x00053D80 promovido a Sub_00053D80 en registry (Wave HHHH).
+    # 0x00053E0C promovido a Sub_00053E0C en registry (Wave HHHH).
+    # 0x00053E78 promovido a Sub_00053E78 en registry (Wave HHHH).
+    # 0x00053E9C promovido a Sub_00053E9C en registry (Wave HHHH).
+    # 0x00053EBA promovido a Sub_00053EBA en registry (Wave HHHH).
+    # 0x00053EE2 promovido a Sub_00053EE2 en registry (Wave HHHH).
+    # 0x00053F08 promovido a Sub_00053F08 en registry (Wave HHHH).
+    # 0x00053F2E promovido a Sub_00053F2E en registry (Wave HHHH).
+    # 0x00053F54 promovido a Sub_00053F54 en registry (Wave HHHH).
+    # --- Wave HHHH: RTS internos de islas C
+    0x00053A40: "JsrPcRts_053a40",  # rts de JsrPcThunk_053a3c (+4)
+    0x00053DC8: "JsrAbsRts_053dc8",  # rts de JsrAbsThunk_053dc2 (+6)
+    0x00053E76: "JsrAbsRts_053e76",  # rts de JsrAbsThunk_053e70 (+6)
 }
