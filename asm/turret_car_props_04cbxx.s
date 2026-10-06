@@ -1,11 +1,143 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave OOOO — vehículo-torreta enemigo (base, cañón giratorio con
+|              histórico de ángulos, conductor, proyectil) y 3ª tanda de
+|              props destructibles de misión (farola, choza, torre,
+|              búnker, puente, nido, cobertizo, barrera)
 |  Región: $04CBD4..$04E580  (6,384 B, 64 entradas, 22 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 6,384 B (64 entradas, todo código) con dos módulos:
+|  I. VEHÍCULO-TORRETA ($4CBD4..$4D6EC, TurretCar_*): entidad compuesta
+|  cuyo estado se comparte con los hijos por +$20 ($44 = base viva, $88 =
+|  variante "jefe"), +$21 ($FF = destruida), +$34 = ángulo 0..31 de la
+|  torreta, +$75 (hijo conductor: $FF = ha huido, $80 = en marcha), +$7B
+|  ($FF = retroceso), +$7C ($FF = cuerpo destruido), +$7D ($FF = cañón
+|  vivo), +$80 (fin de idle).
+|   1. TurretCar_Spawn_04cbd4 (2 entradas: la 1ª pone +$20 = $44, +$80 =
+|      $FF, +$98 = 1; la 2ª espera a X <= $140): snd $E, prio $8000,
+|      +$7D = $FF, relink, hijo TurretCar_Body_04cf2e; cae en
+|      TurretCar_Idle_04cc46: ángulo objetivo +$78 = $1F o $11 según bit3
+|      de +$34, sprite $290F6E, cada 8 (o 2 si +$98) frames gira 1 paso
+|      hacia +$78 (AngleStep16), anim; si +$21 == $FF -> destruida (si
+|      +$20 == $88 incrementa +$21 del padre, +$7C = $FF, handler
+|      Soldier $58F82 "salida B", sombra $776E2, offsets B, limpia padre);
+|      al llegar al ángulo: si +$75 == $FF -> Track, si no crea el
+|      conductor TurretCar_Driver_04d048 (con $6FE) y +$75 = $80;
+|      IsBaseIdleDone / OffworldA -> free.
+|   2. TurretCar_Track_04cd80: +$72 = temporizador por dificultad
+|      [$2B791E]; gira hacia el ángulo al objetivo (AngleToTargetMirror ->
+|      SpriteIdxByAngle $2941C4) y al expirar con el cañón vivo (+$7D)
+|      -> +$7B = $FF y TurretCar_Recoil_04ce62 (50 frames de sprite
+|      $29BFC4 con offsets B, facing por bit3 del ángulo) -> Idle.
+|   3. TurretCar_Body_04cf2e (hijo): snd $22, HP por dificultad [$2B7798],
+|      sprite $2912D6 ($291526 en retroceso), sigue pos/prio del padre,
+|      copia su ángulo; $2870A impacto -> flash; HP agotado -> música
+|      $1023, padre +$21 = $FF, escombros $293EB4/$293EC6 y, si el padre
+|      es "jefe" ($88), StateMachineRun $5022A[$295682]; free.
+|   4. TurretCar_Driver_04d048 (hijo): snd $23, HP [$2B789C], ataque +$4C
+|      = $293ED8, sprite $29276A; al acabar la anim marca al padre +$75 =
+|      $FF -> DriverPanic_04d0e2 (sprite $292A48, 300 frames; si el padre
+|      retrocede -> DriverFlee_04d13a: música $10A3, sprite $292C92 ->
+|      TurretCar_Cannon_04d186).
+|   5. TurretCar_Cannon_04d186: prio +2, vel base +$36 [$2B781A], sprite
+|      $2927F8, histórico de 16 ángulos en +$88..+$97 (ShiftAngleHistory
+|      desplaza y añade +$34); cada 16 frames recalcula el ángulo objetivo
+|      (AngleToTarget $5E136; si Y >= $1C0 fija +$7A y sube; GroundProbeUp
+|      $280C6 7 pasos de 8 px -> ángulo 8 si hay suelo), cada 32 fija el
+|      sentido +$76, cada 4 gira; velocidad desde el ángulo de hace 16
+|      frames ($13C0E, grav -$60 si bit4), ProbeGuided $27BC8; cada 8
+|      frames dispara TurretCar_Shell_04d340 (hijo con $4AE o $6FE según
+|      el ángulo, AddMuzzleOffset $294044, ángulo del histórico);
+|      $283D8, impacto/HP agotado o 600 frames -> explosión $77F6A prio
+|      $4000, escombros $293FF2, música $1022, padre +$7D = $FF, free.
+|      TurretCar_Shell_04d340: sprite $2911BC, colisión $293FE8, snd $D,
+|      vel +$36 = $80 con jitter RNG $5E9E4 +-2 del ángulo, VelFromAngle,
+|      $27CEE; offworld/anim -> free.
+|   6. Helpers: SyncPosIfBase/ToParent (offset -$23,+$2D), AngleStep16/8
+|      (+-1 según bit4/bit3 de la diferencia), Angle16, ClampAngle (evita
+|      $11/$1F), AddOffsetA/B ($2940C4/$294144 por ángulo), OffworldA/B
+|      ($293FD4/$293FDE), ParentOffworld (a6 = padre, $5E45A),
+|      SlotPrioCheck.
+|  II. PROPS DE MISIÓN, 3ª tanda ($4D6EC..$4E580, Prop_*), misma plantilla
+|  que Waves GGGG/MMMM ($2942A template, HP +$66, $2870A -> flash $5E770,
+|  $28758 -> música + escombros $77C7E + puntos $51A28 + blits $5022A +
+|  registro $43FAC/$4429E, $4FA70 offscreen -> free), referenciados por los
+|  registros de spawn $096BFE..$096C8A y $0975F8..$097670 (y $096FFE..
+|  $09709E para Prop_Static):
+|   7. Prop_Static_04d6ec (2 entradas, sin HP, solo scroll+anim),
+|      Prop_Lamp_04d74a (snd $41, sprite $294280; LampIdle: golpe ->
+|      música $10A9, 1/4 de crear LampSpark_04d81a (chispa con vel RNG,
+|      240+ frames, parpadeo final), LampHit $294296 -> Idle),
+|      Prop_Hut_04d8f2 (snd $3F, hijos $5FA00 y HutRoof_04d9d6 a +$28;
+|      techo HP $14, al caer HutRoofFall_04da52 puntos $1000, ataque
+|      $295FBA, música $1028, padre +$21 = $FF -> HutWreck_04d996 registro
+|      $295D38), Prop_Tower_04dad2 (hijos $4F2C2, TowerTop_04db72 y
+|      TowerBase_04dce6; cuenta las partes destruidas en +$21 ($10 por la
+|      cima, 1 por la base; $12 = todo -> free; $4FA8A al cambiar);
+|      TowerTop: MissionWatch $4429E[$E92B2] slot $75, HP $3C, música
+|      $1030, blits $29556A/$2955E2; TowerBase: hijo $5F384, HP $3C, a
+|      HP <= $1E música $1028 + escombro + blit $2955F6),
+|      Prop_TowerFlag_04dc96 (snd $40, muere con el padre),
+|      Prop_Bunker_04de40 (MissionWatch [$E92EA], HP $3C, música $1030,
+|      blit $29561E/$295632 según signo de X; espera a que +$74 == +$21),
+|      Prop_Bridge_04df98 (2 hijos BridgePillar_04e12c a 0 y +$D0 px con
+|      facing; MissionWatch [$E9310]; cuando +$21 == $11 (ambos pilares)
+|      -> música $1030, escombros, blits $2956AA/$2956E6 ->
+|      BridgeCollapse_04e05e: HP $3C, puntos $5000, música $1028, 4 blits;
+|      Pillar: hijo $5F38A, HP $3C, música $102F, $4FB3C, suma $10 o 1 al
+|      padre según facing), Prop_Nest_04e248 (snd $40, HP $12C, hijo Nest
+|      $8E738 a (+$98,+$38); activo con X < $110 -> NestActive_04e2b0:
+|      música $102F, escombros -> NestWreck_04e32c puntos $3000 registro
+|      $295D78 música $1030), Prop_Shed_04e38a (hijo $4F2C2, HP $1E; ->
+|      ShedDamaged_04e450 música $1028 blit $295786, HP $1E; -> puntos
+|      $1000 música $1030 blit $29579A free), Prop_Barrier_04e512 (snd
+|      $40, +$12 bit6, hitbox $296272, hijo $4ED90; se libera con el
+|      scroll $106F50 > $A10 vía $4E580 (hueco siguiente)).
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - $070EC0 (lea $4CBD4 + jsr $4AE + $5DD02) crea el TurretCar como hijo
+|    desde el módulo de vehículos $070xxx; $049A74 (PowHang) llama a
+|    AngleStep8_04d4d0; $08F25A llama a GroundProbeUp_04d668.
+|  - Los props aparecen en las listas de spawn de misión $096BFE..$096C8A
+|    (misión A) y $0975F8..$097670 (misión B), 20 B por registro.
+|  - $58F82 = "handler salida B" del soldado (MeleeGuard lo pone en +$80):
+|    la base destruida se convierte en un soldado que huye.
+|
+|  C. HIPÓTESIS / DUDAS
+|  --------------------
+|  - "TurretCar" = vehículo con torreta giratoria (el blindado/jeep con
+|    cañón de la misión 2-3); el cañón hijo con histórico de ángulos es
+|    el proyectil guiado que sigue la trayectoria de la torreta.
+|  - Los nombres de props (Lamp, Hut, Tower, Bunker, Bridge, Nest, Shed,
+|    Barrier) son funcionales; se confirmarán por tiles.
+|  - $4F2C2/$4ED90/$4FA70/$4FA8A/$4FB3C/$4E580 están en el hueco siguiente
+|    ($04E580..$04FA50).
+|
+|  D. CAMPOS DE LA ENTIDAD (a6) USADOS
+|  ----------------------------------
+|  +$00 handler  +$0C padre  +$12 bit6  +$13 bits 1/3/6  +$20/+$21 estado
+|  +$22/+$24 X/Y  +$28/+$2A vel  +$2E grav  +$32/+$33 zoom  +$34 ángulo
+|  +$36 vel base  +$38 prio  +$3A facing  +$3C template  +$46  +$48
+|  colisión  +$4C ataque  +$60 hitbox  +$66 HP  +$70 contador/ptr  +$72
+|  timer  +$74  +$75 conductor  +$76 sentido  +$78 ángulo objetivo  +$7A
+|  +$7B retroceso  +$7C/+$7D destruido/cañón  +$7E  +$80  +$88..+$97
+|  histórico de ángulos  +$98 rápido
+|
+|  E. CALLEES EXTERNOS
+|  -------------------
+|  $4AE/$6FE alloc  $518 free  $236E snd  $2352 música  $13C0E sin/cos
+|  $267E2 relink  $2783A scroll  $27BC8 guiado  $27CEE  $280C6 probe
+|  $283CA/$283D8 ataque  $28758 HP agotado  $2870A impacto  $28998
+|  $28CD4 sprite  $28D70 anim  $2942A template  $43FAC registro  $4429E
+|  MissionWatch  $51A28 puntos  $5022A blits  $58F82 soldado  $5DD02/
+|  $5DD22 copia pos  $5DD56/$5DD5C offworld  $5E136 ángulo  $5E45A  $5E4DC
+|  $5E766/$5E770 flash  $5E9B6/$5E9E4 RNG  $5F384/$5F38A/$5FA00 hijos
+|  $776E2 sombra  $77C7E escombros  $77F6A explosión  $799DE dificultad
+|  $8E738 nido  $106F50 scroll.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
