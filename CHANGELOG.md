@@ -17,6 +17,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave NNNN — 53 entries (3,814 B, incl. a 24 B pointer table):
+  `$04BB9A..$04CBD4` (`gun_platform_04bbxx.s`): enemy gun emplacement
+  (templates `$E8214..$E8220`): 4-variant base `GunPlatform_Spawn`, burst
+  cycle `Rearm/Aim/FireA/FireB`, children `Hatch*`, `Shield*`, human
+  `RiderA/B_*` (die through HumanDeath), `GunPlatform_Gun`, destruction
+  states and flying parts; plus the scroll-driven spawn-stream reader
+  `SpawnStream_ReadNext/Dispatch` (`$1081B2`). Matcher 5598/5598, 15.65 %.
 - Wave MMMM — 41 entries (4,746 B): `$053F96..$055258`
   (`props_mission_053fxx.s`): second batch of destructible mission props
   sharing the Wave GGGG template (`Prop_Building`, `Prop_Column`,

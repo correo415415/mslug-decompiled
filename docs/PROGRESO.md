@@ -11,10 +11,27 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5545/5545 funciones
-BYTES   : 324,474/324,474 (registrados)
-ROM     : 324,474/2,097,152  (15.4721%)
+MATCHED : 5598/5598 funciones
+BYTES   : 328,288/328,288 (registrados)
+ROM     : 328,288/2,097,152  (15.6540%)
 ```
+
+> **Wave NNNN** (53 entradas, 3 814 B; 1 `--data` para la tabla de 6
+> punteros `$4CB44`) — `$04BB9A..$04CBD4` en `gun_platform_04bbxx.s`.
+> Trigesimoprimera wave de `gen_asm_region.py`. Nombres en
+> `docs/waves/nnnn_names.txt`, args en `docs/waves/nnnn_args.txt`.
+>
+> * Emplazamiento de cañón enemigo (plantillas `$E8214..$E8220`):
+>   `GunPlatform_Spawn_04bb9a` (4 variantes +$70, hijos según tablas
+>   `$2902E8..$2902F4`), ciclo `Rearm/Aim/FireA/FireB` con parámetros por
+>   dificultad, hijos `Hatch*` (escotilla por estado del padre), `Shield*`
+>   (HP propio, mata al padre), `RiderA/B_*` (tiradores humanos con sprites
+>   del soldado/POW que mueren vía HumanDeath `$4A146/$4A154`),
+>   `GunPlatform_Gun_04c776` (ataque `$290D70`, sigue al padre con `$5E506`),
+>   destrucción `HitCheck/Destroyed/DestroyedWithWreck/Wreck/FlyingPart`.
+> * `SpawnStream_ReadNext_04cac4` / `SpawnStream_Dispatch_04cb88`: lector del
+>   stream de spawn de 16 B en `$1081B2` por scroll; `SpriteSetPtrTbl6_04cb44`.
+> * Matcher: 5598/5598, 328,288 B, 15.65 %; código real 56.3 %.
 
 > **Wave MMMM** (41 entradas, 4 746 B; sin `--data` ni `--entry`) —
 > `$053F96..$055258` en `props_mission_053fxx.s`. Trigésima wave de
