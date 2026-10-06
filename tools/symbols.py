@@ -917,8 +917,8 @@ SYMBOLS = {
     0x0004707E: "PcThunkTarget_04707e",
     0x0004FAF8: "PcThunkTarget_04faf8",
     # 0x00053DCA promovido a Prop_SyncSpriteWithParent_053dca en registry (Wave HHHH).
-    0x00055148: "PcThunkTarget_055148",
-    0x00055214: "PcThunkTarget_055214",
+    # 0x00055148 promovido a PcThunkTarget_055148 en registry (Wave MMMM).
+    # 0x00055214 promovido a PcThunkTarget_055214 en registry (Wave MMMM).
     # 0x00056E1E promovido a Soldier_DespawnIfOffscreen_056e1e en registry (Wave FFFF).
     # 0x00057226 promovido a Soldier_SpawnVariants_057226 en registry (Wave FFFF).
     0x0005CDA8: "JmpTarget_05cda8",
@@ -1758,4 +1758,6 @@ SYMBOLS = {
     # --- Wave LLLL: RTS internos de islas C
     0x00049B04: "JsrAbsRts_049b04",  # rts de JsrAbsThunk_049afe (+6)
     0x00049B56: "SetHandlerRts_049b56",  # rts de SetTaskHandler_049b50 (+6)
+    # --- Wave MMMM: RTS internos de islas C
+    0x00055146: "JsrPcRts_055146",  # rts de JsrPcThunk_055142 (+4)
 }
