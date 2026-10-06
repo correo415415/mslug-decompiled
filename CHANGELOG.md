@@ -17,6 +17,19 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave JJJJ — 45 entries (2,242 B): `$048A44..$049430`
+  (`pow_helpers_048axx.s`): the pc-relative helpers of the POW prisoner —
+  common state tails (`Pow_FreeStateTail_048a44`, `Pow_TiedStateTail_048a90`),
+  the thrown reward item (`PowItem_Toss_048ba0` → `PowItem_Settle_048b34`),
+  hit/direction fx (`PowFx_HitBurst_048ca4`, `PowFx_DirSprite_048b56`), the
+  rope child of the tied prisoner (`PowRope_Spawn/Idle/Struggle/BrokenA/B/
+  HitCheck`), free-variant init/physics (`Pow_FreeInit_048ea6`,
+  `Pow_TiedSwingStep_048f54`, `Pow_ScrollAndProbe_048fb0`) and the
+  distance-based decision helpers (`Pow_TargetInReach/InBox/AngleInMask`,
+  `Pow_ShouldRunAway/ShouldWait/ShouldTurn`, `Pow_CanBeRescued`,
+  `Pow_AtScreenEdge`, `Pow_HitReceivedCheck`). The POW module
+  `$0478FC..$049430` is now complete.
+  Matcher: 5,437/5,437, 309,858 B (14.78 %); real code coverage 52.6 %.
 - Wave IIII — 42 entries (4,416 B): `$0478FC..$048A3C`
   (`pow_prisoner_0478xx.s`): the POW prisoner entity — spawn variant table
   (`Pow_SpawnVariantTbl_0478fc`, `Pow_SpawnInit_04797c`), free-roaming

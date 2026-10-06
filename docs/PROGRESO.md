@@ -11,10 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5392/5392 funciones
-BYTES   : 307,616/307,616 (registrados)
-ROM     : 307,616/2,097,152  (14.6683%)
+MATCHED : 5437/5437 funciones
+BYTES   : 309,858/309,858 (registrados)
+ROM     : 309,858/2,097,152  (14.7752%)
 ```
+
+> **Wave JJJJ** (45 entradas, 2 242 B, verde a la primera; 3 `--entry`
+> para entradas fusionadas en el regen) — `$048A44..$049430` en
+> `pow_helpers_048axx.s`. Vigesimoséptima wave de `gen_asm_region.py`.
+> Nombres en `docs/waves/jjjj_names.txt`, args en `docs/waves/jjjj_args.txt`.
+>
+> * Helpers pc-relativos del POW: colas de estado comunes
+>   (`Pow_FreeStateTail_048a44` / `Pow_TiedStateTail_048a90`), el ítem que
+>   lanza al ser rescatado (`PowItem_Toss_048ba0` → `PowItem_Settle_048b34`
+>   → cola común `$77F6A`), efectos (`PowFx_HitBurst`, `PowFx_DirSprite`),
+>   la cuerda del prisionero atado (`PowRope_Spawn/Idle/Struggle/BrokenA/B/
+>   HitCheck`, fases por +$83 del padre, bit 3 de +$13 = cuerda cortada),
+>   física del balanceo (`Pow_TiedSwingStep_048f54`) y decisión por
+>   distancia al player (`Pow_TargetInReach/InBox/AngleInMask`,
+>   `Pow_ShouldRunAway/Wait/Turn`, `Pow_CanBeRescued`, `Pow_AtScreenEdge`,
+>   tablas `$2BFE3A`/`$2BFE6A` por variante).
+> * Módulo del POW `$0478FC..$049430` completo.
+> * Cobertura de código real: 52.6 % (266,050 / 505,608 B); huecos CODE:
+>   1182 / 239,558 B.
 
 > **Wave IIII** (42 entradas, 4 416 B, verde a la primera; 3 `--entry`
 > para funciones solo alcanzadas por el índice de templates) —
