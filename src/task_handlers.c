@@ -129,8 +129,8 @@ extern void GunPlatform_Wreck_04c68a(void);
 extern void TaskHandler_04c934(void);
 extern void Prop_TowerTopWreckLoop_04dc88(void);
 extern void Prop_TowerBaseWreckLoop_04de32(void);
-extern void TaskHandler_04eb94(void);
-extern void TaskHandler_04f2a4(void);
+extern void Prop_FortressWaitScroll_04eb94(void);
+extern void Prop_SlotPrioCheckRts_04f2a4(void);
 extern void TaskHandler_050976(void);
 extern void TaskHandler_051452(void);
 extern void TaskHandler_05147e(void);
@@ -1261,7 +1261,7 @@ void SetTaskHandler_04c950(void) {
 
 __attribute__((section(".text.SetTaskHandler_04daca")))
 void SetTaskHandler_04daca(void) {
-    _a1_ptr = &TaskHandler_04f2a4;
+    _a1_ptr = &Prop_SlotPrioCheckRts_04f2a4;
     STORE_A1_AT_FP();
 }
 
@@ -1273,7 +1273,7 @@ void SetTaskHandler_04dc42(void) {
 
 __attribute__((section(".text.SetTaskHandler_04dc8e")))
 void SetTaskHandler_04dc8e(void) {
-    _a1_ptr = &TaskHandler_04f2a4;
+    _a1_ptr = &Prop_SlotPrioCheckRts_04f2a4;
     STORE_A1_AT_FP();
 }
 
@@ -1285,19 +1285,19 @@ void SetTaskHandler_04dde4(void) {
 
 __attribute__((section(".text.SetTaskHandler_04de38")))
 void SetTaskHandler_04de38(void) {
-    _a1_ptr = &TaskHandler_04f2a4;
+    _a1_ptr = &Prop_SlotPrioCheckRts_04f2a4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04eb8c")))
 void SetTaskHandler_04eb8c(void) {
-    _a1_ptr = &TaskHandler_04eb94;
+    _a1_ptr = &Prop_FortressWaitScroll_04eb94;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04f3a6")))
 void SetTaskHandler_04f3a6(void) {
-    _a1_ptr = &TaskHandler_04f2a4;
+    _a1_ptr = &Prop_SlotPrioCheckRts_04f2a4;
     STORE_A1_AT_FP();
 }
 

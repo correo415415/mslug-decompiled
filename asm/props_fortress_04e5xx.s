@@ -15,24 +15,24 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Sub_0004E580  @ $04E580  (266 B)
+|  Prop_BarrierActive_04e580  @ $04E580  (266 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004E580, "ax", @progbits
-        .global Sub_0004E580
-Sub_0004E580:
+        .section .text.Prop_BarrierActive_04e580, "ax", @progbits
+        .global Prop_BarrierActive_04e580
+Prop_BarrierActive_04e580:
         lea     0x294e7c.l,a0                   | +000
         move.l  a0,0x48(a6)                     | +006
         move.w  #0x80,0x70(a6)                  | +00a
         move.w  #0x64,0x66(a6)                  | +010
         move.b  #0x0,0x21(a6)                   | +016
         move.b  #0x0,0x20(a6)                   | +01c
-        jsr     Sub_0004FB8A(pc)                | +022  -> $04FB8A (hueco futuro, defsym forward)
-        jsr     Sub_0004FBE0(pc)                | +026  -> $04FBE0 (hueco futuro, defsym forward)
-        jsr     Sub_0004FC36(pc)                | +02a  -> $04FC36 (hueco futuro, defsym forward)
-        jsr     Sub_0004FC8C(pc)                | +02e  -> $04FC8C (hueco futuro, defsym forward)
-        jsr     Sub_0004FCD8(pc)                | +032  -> $04FCD8 (hueco futuro, defsym forward)
-        jsr     Sub_0004FD2C(pc)                | +036  -> $04FD2C (hueco futuro, defsym forward)
-        lea     TaskHandler_04ee0a(pc),a1       | +03a
+        jsr     Sub_0004FB8A(pc)                | +022
+        jsr     Sub_0004FBE0(pc)                | +026
+        jsr     Sub_0004FC36(pc)                | +02a
+        jsr     Sub_0004FC8C(pc)                | +02e
+        jsr     Sub_0004FCD8(pc)                | +032
+        jsr     Sub_0004FD2C(pc)                | +036
+        lea     Prop_BarrierLight_04ee0a(pc),a1 | +03a
         jsr     0x4ae.l                         | +03e
         jsr     0x5dd22.l                       | +044
         addi.w  #0x20,0x22(a0)                  | +04a
@@ -70,7 +70,7 @@ Sub_0004E580:
         lea     0x295cd4.l,a1                   | +0e2
         jsr     0x77c7e.l                       | +0e8
         move.b  #0xff,0x20(a6)                  | +0ee
-        lea     TaskHandler_04e68a(pc),a1       | +0f4
+        lea     Prop_BarrierDamaged_04e68a(pc),a1 | +0f4
         move.l  a1,(a6)                         | +0f8
 .L04e67a:
         jsr     Sub_0004FA70(pc)                | +0fa
@@ -80,11 +80,11 @@ Sub_0004E580:
         rts                                     | +108
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e68a  @ $04E68A  (194 B)
+|  Prop_BarrierDamaged_04e68a  @ $04E68A  (194 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e68a, "ax", @progbits
-        .global TaskHandler_04e68a
-TaskHandler_04e68a:
+        .section .text.Prop_BarrierDamaged_04e68a, "ax", @progbits
+        .global Prop_BarrierDamaged_04e68a
+Prop_BarrierDamaged_04e68a:
         move.w  #0x102f,d0                      | +000
         jsr     0x2352.l                        | +004
         move.w  #0x64,0x66(a6)                  | +00a
@@ -118,7 +118,7 @@ TaskHandler_04e68a:
         jsr     0x43fac.l                       | +098
         move.b  #0x88,0x20(a6)                  | +09e
         move.b  #0x1,0x10e39e.l                 | +0a4
-        lea     TaskHandler_04e74c(pc),a1       | +0ac
+        lea     Prop_BarrierWreck_04e74c(pc),a1 | +0ac
         move.l  a1,(a6)                         | +0b0
 .L04e73c:
         jsr     Sub_0004FA70(pc)                | +0b2
@@ -128,11 +128,11 @@ TaskHandler_04e68a:
         rts                                     | +0c0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e74c  @ $04E74C  (178 B)
+|  Prop_BarrierWreck_04e74c  @ $04E74C  (178 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e74c, "ax", @progbits
-        .global TaskHandler_04e74c
-TaskHandler_04e74c:
+        .section .text.Prop_BarrierWreck_04e74c, "ax", @progbits
+        .global Prop_BarrierWreck_04e74c
+Prop_BarrierWreck_04e74c:
         move.l  #0x1000,d0                      | +000
         jsr     0x51a28.l                       | +006
         move.b  #0x0,0x10e39e.l                 | +00c
@@ -150,7 +150,7 @@ TaskHandler_04e74c:
         jsr     Sprite_InvokeBlit8Params(pc)    | +052
         lea     0x2957fe.l,a2                   | +056
         jsr     Sprite_InvokeBlit8Params(pc)    | +05c
-        lea     TaskHandler_04e7fe(pc),a1       | +060
+        lea     Prop_Gatehouse_04e7fe(pc),a1    | +060
         jsr     0x4ae.l                         | +064
         jsr     0x5dd22.l                       | +06a
         addi.w  #0x40,0x22(a0)                  | +070
@@ -171,13 +171,13 @@ TaskHandler_04e74c:
         rts                                     | +0b0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e7fe  @ $04E7FE  (410 B)
+|  Prop_Gatehouse_04e7fe  @ $04E7FE  (410 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e7fe, "ax", @progbits
-        .global TaskHandler_04e7fe
-TaskHandler_04e7fe:
+        .section .text.Prop_Gatehouse_04e7fe, "ax", @progbits
+        .global Prop_Gatehouse_04e7fe
+Prop_Gatehouse_04e7fe:
         jsr     0x2783a.l                       | +000
-        lea     TaskHandler_04eae8(pc),a1       | +006
+        lea     Prop_GatehouseBlocker_04eae8(pc),a1 | +006
         jsr     0x4ae.l                         | +00a
         jsr     0x5dd22.l                       | +010
         addi.w  #0x34,0x22(a0)                  | +016
@@ -198,7 +198,7 @@ TaskHandler_04e7fe:
         move.w  d1,0x24(a6)                     | +04c
         move.b  #0x0,0x21(a6)                   | +050
         move.b  #0x0,0x20(a6)                   | +056
-        lea     TaskHandler_04f5be(pc),a1       | +05c
+        lea     Debris_Bouncer_04f5be(pc),a1    | +05c
         jsr     0x4ae.l                         | +060
         jsr     0x5dd22.l                       | +066
         addi.w  #0x58,0x22(a0)                  | +06c
@@ -209,18 +209,18 @@ TaskHandler_04e7fe:
         move.w  #0xb4,0x66(a6)                  | +088
         bset    #0x6,0x12(a6)                   | +08e
         move.w  #0xf000,0x38(a6)                | +094
-        jsr     Sub_0004FD8A(pc)                | +09a  -> $04FD8A (hueco futuro, defsym forward)
-        jsr     Sub_0004FDDE(pc)                | +09e  -> $04FDDE (hueco futuro, defsym forward)
-        jsr     Sub_0004FE32(pc)                | +0a2  -> $04FE32 (hueco futuro, defsym forward)
-        jsr     Sub_0004FE86(pc)                | +0a6  -> $04FE86 (hueco futuro, defsym forward)
-        jsr     Sub_0004FEDA(pc)                | +0aa  -> $04FEDA (hueco futuro, defsym forward)
-        jsr     Sub_0004FF2E(pc)                | +0ae  -> $04FF2E (hueco futuro, defsym forward)
-        jsr     Sub_0004FF82(pc)                | +0b2  -> $04FF82 (hueco futuro, defsym forward)
-        jsr     Sub_0004FFD6(pc)                | +0b6  -> $04FFD6 (hueco futuro, defsym forward)
-        lea     TaskHandler_04ef0a(pc),a1       | +0ba
+        jsr     Sub_0004FD8A(pc)                | +09a
+        jsr     Sub_0004FDDE(pc)                | +09e
+        jsr     Sub_0004FE32(pc)                | +0a2
+        jsr     Sub_0004FE86(pc)                | +0a6
+        jsr     Sub_0004FEDA(pc)                | +0aa
+        jsr     Sub_0004FF2E(pc)                | +0ae
+        jsr     Sub_0004FF82(pc)                | +0b2
+        jsr     Sub_0004FFD6(pc)                | +0b6
+        lea     Prop_GatehouseRoof_04ef0a(pc),a1 | +0ba
         jsr     0x4ae.l                         | +0be
         jsr     0x5dd22.l                       | +0c4
-        lea     TaskHandler_04efe6(pc),a1       | +0ca
+        lea     Prop_GatehouseDoor_04efe6(pc),a1 | +0ca
         jsr     0x4ae.l                         | +0ce
         jsr     0x5dd22.l                       | +0d4
         lea     0x2944fa.l,a0                   | +0da
@@ -258,7 +258,7 @@ TaskHandler_04e7fe:
         jsr     0x77c7e.l                       | +172
         lea     0x295cd4.l,a1                   | +178
         jsr     0x77c7e.l                       | +17e
-        lea     TaskHandler_04e998(pc),a1       | +184
+        lea     Prop_GatehouseDamaged_04e998(pc),a1 | +184
         move.l  a1,(a6)                         | +188
 .L04e988:
         jsr     Sub_0004FA70(pc)                | +18a
@@ -268,16 +268,16 @@ TaskHandler_04e7fe:
         rts                                     | +198
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04e998  @ $04E998  (166 B)
+|  Prop_GatehouseDamaged_04e998  @ $04E998  (166 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04e998, "ax", @progbits
-        .global TaskHandler_04e998
-TaskHandler_04e998:
+        .section .text.Prop_GatehouseDamaged_04e998, "ax", @progbits
+        .global Prop_GatehouseDamaged_04e998
+Prop_GatehouseDamaged_04e998:
         move.w  #0x102f,d0                      | +000
         jsr     0x2352.l                        | +004
         move.w  #0xb4,0x66(a6)                  | +00a
         bclr    #0x0,0x13(a6)                   | +010
-        jsr     Sub_000501D8(pc)                | +016  -> $0501D8 (hueco futuro, defsym forward)
+        jsr     Sub_000501D8(pc)                | +016
         lea     0x29451c.l,a0                   | +01a
         jsr     0x28cd4.l                       | +020
         lea     .L04e9c4(pc),a1                 | +026
@@ -301,7 +301,7 @@ TaskHandler_04e998:
         jsr     0x77c7e.l                       | +07c
         move.b  #0x88,0x20(a6)                  | +082
         move.b  #0x1,0x10e39e.l                 | +088
-        lea     TaskHandler_04ea3e(pc),a1       | +090
+        lea     Prop_GatehouseWreck_04ea3e(pc),a1 | +090
         move.l  a1,(a6)                         | +094
 .L04ea2e:
         jsr     Sub_0004FA70(pc)                | +096
@@ -311,11 +311,11 @@ TaskHandler_04e998:
         rts                                     | +0a4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ea3e  @ $04EA3E  (170 B)
+|  Prop_GatehouseWreck_04ea3e  @ $04EA3E  (170 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ea3e, "ax", @progbits
-        .global TaskHandler_04ea3e
-TaskHandler_04ea3e:
+        .section .text.Prop_GatehouseWreck_04ea3e, "ax", @progbits
+        .global Prop_GatehouseWreck_04ea3e
+Prop_GatehouseWreck_04ea3e:
         move.l  #0x2000,d0                      | +000
         jsr     0x51a28.l                       | +006
         move.b  #0x2,0x10e39a.l                 | +00c
@@ -333,7 +333,7 @@ TaskHandler_04ea3e:
         jsr     Sprite_InvokeBlit8Params(pc)    | +052
         lea     0x2958da.l,a2                   | +056
         jsr     Sprite_InvokeBlit8Params(pc)    | +05c
-        lea     TaskHandler_04eb18(pc),a1       | +060
+        lea     Prop_Fortress_04eb18(pc),a1     | +060
         jsr     0x4ae.l                         | +064
         jsr     0x5dd22.l                       | +06a
         addi.w  #0xa0,0x22(a0)                  | +070
@@ -352,11 +352,11 @@ TaskHandler_04ea3e:
         rts                                     | +0a8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04eae8  @ $04EAE8  (48 B)
+|  Prop_GatehouseBlocker_04eae8  @ $04EAE8  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04eae8, "ax", @progbits
-        .global TaskHandler_04eae8
-TaskHandler_04eae8:
+        .section .text.Prop_GatehouseBlocker_04eae8, "ax", @progbits
+        .global Prop_GatehouseBlocker_04eae8
+Prop_GatehouseBlocker_04eae8:
         move.l  #0x2962be,0x60(a6)              | +000
         lea     .L04eaf6(pc),a1                 | +008
         move.l  a1,(a6)                         | +00c
@@ -371,11 +371,11 @@ TaskHandler_04eae8:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04eb18  @ $04EB18  (116 B)
+|  Prop_Fortress_04eb18  @ $04EB18  (116 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04eb18, "ax", @progbits
-        .global TaskHandler_04eb18
-TaskHandler_04eb18:
+        .section .text.Prop_Fortress_04eb18, "ax", @progbits
+        .global Prop_Fortress_04eb18
+Prop_Fortress_04eb18:
         move.w  #0x440,d0                       | +000
         move.w  #0xe0,d1                        | +004
         jsr     0x44022.l                       | +008
@@ -383,7 +383,7 @@ TaskHandler_04eb18:
         move.w  d1,0x24(a6)                     | +012
         move.b  #0x0,0x21(a6)                   | +016
         move.b  #0x0,0x20(a6)                   | +01c
-        lea     TaskHandler_04f030(pc),a1       | +022
+        lea     Prop_FortressTurretMount_04f030(pc),a1 | +022
         jsr     0x4ae.l                         | +026
         jsr     0x5dd22.l                       | +02c
         subi.w  #0x10,0x22(a0)                  | +032
@@ -401,40 +401,40 @@ TaskHandler_04eb18:
         jsr     0x28cd4.l                       | +06e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04eb94  @ $04EB94  (32 B)
+|  Prop_FortressWaitScroll_04eb94  @ $04EB94  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04eb94, "ax", @progbits
-        .global TaskHandler_04eb94
-TaskHandler_04eb94:
+        .section .text.Prop_FortressWaitScroll_04eb94, "ax", @progbits
+        .global Prop_FortressWaitScroll_04eb94
+Prop_FortressWaitScroll_04eb94:
         cmpi.w  #0x130,0x22(a6)                 | +000
-        ble.w   TaskHandler_04ebbc              | +006
+        ble.w   Prop_FortressActive_04ebbc      | +006
         clr.b   0x10e39a.l                      | +00a
         jsr     0x2783a.l                       | +010
         cmpi.w  #0xd0,0x22(a6)                  | +016
         bgt.w   JsrAbsRts_04ebba                | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ebbc  @ $04EBBC  (324 B)
+|  Prop_FortressActive_04ebbc  @ $04EBBC  (324 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ebbc, "ax", @progbits
-        .global TaskHandler_04ebbc
-TaskHandler_04ebbc:
+        .section .text.Prop_FortressActive_04ebbc, "ax", @progbits
+        .global Prop_FortressActive_04ebbc
+Prop_FortressActive_04ebbc:
         move.w  #0x120,0x70(a6)                 | +000
         lea     0x2c0010.l,a0                   | +006
         jsr     0x799de.l                       | +00c
         move.w  d0,0x66(a6)                     | +012
         bset    #0x6,0x12(a6)                   | +016
         move.w  #0xf000,0x38(a6)                | +01c
-        jsr     Sub_0005002A(pc)                | +022  -> $05002A (hueco futuro, defsym forward)
-        jsr     Sub_0005007E(pc)                | +026  -> $05007E (hueco futuro, defsym forward)
-        jsr     Sub_000500D2(pc)                | +02a  -> $0500D2 (hueco futuro, defsym forward)
-        jsr     Sub_00050126(pc)                | +02e  -> $050126 (hueco futuro, defsym forward)
-        jsr     Sub_0005017A(pc)                | +032  -> $05017A (hueco futuro, defsym forward)
+        jsr     Sub_0005002A(pc)                | +022
+        jsr     Sub_0005007E(pc)                | +026
+        jsr     Sub_000500D2(pc)                | +02a
+        jsr     Sub_00050126(pc)                | +02e
+        jsr     Sub_0005017A(pc)                | +032
         lea     0xe9442.l,a1                    | +036
         move.w  #0x75,d0                        | +03c
         move.b  #0x0,0x75(a6)                   | +040
         jsr     0x4429e.l                       | +046
-        lea     TaskHandler_04edda(pc),a1       | +04c
+        lea     Prop_FortressBlocker_04edda(pc),a1 | +04c
         jsr     0x4ae.l                         | +050
         jsr     0x5dd22.l                       | +056
         addi.w  #0x78,0x22(a0)                  | +05c
@@ -482,7 +482,7 @@ TaskHandler_04ebbc:
         lea     0x295cd4.l,a1                   | +11c
         jsr     0x77c7e.l                       | +122
         jsr     0x434dc.l                       | +128
-        lea     TaskHandler_04ed00(pc),a1       | +12e
+        lea     Prop_FortressWreck_04ed00(pc),a1 | +12e
         move.l  a1,(a6)                         | +132
 .L04ecf0:
         jsr     Sub_0004FA70(pc)                | +134
@@ -492,11 +492,11 @@ TaskHandler_04ebbc:
         rts                                     | +142
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ed00  @ $04ED00  (144 B)
+|  Prop_FortressWreck_04ed00  @ $04ED00  (144 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ed00, "ax", @progbits
-        .global TaskHandler_04ed00
-TaskHandler_04ed00:
+        .section .text.Prop_FortressWreck_04ed00, "ax", @progbits
+        .global Prop_FortressWreck_04ed00
+Prop_FortressWreck_04ed00:
         move.l  #0x5000,d0                      | +000
         jsr     0x51a28.l                       | +006
         lea     0x86586.l,a1                    | +00c
@@ -529,11 +529,11 @@ TaskHandler_04ed00:
         rts                                     | +08e
 
 | ----------------------------------------------------------------------------
-|  Sub_0004ED90  @ $04ED90  (74 B)
+|  Prop_BarrierPost_04ed90  @ $04ED90  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004ED90, "ax", @progbits
-        .global Sub_0004ED90
-Sub_0004ED90:
+        .section .text.Prop_BarrierPost_04ed90, "ax", @progbits
+        .global Prop_BarrierPost_04ed90
+Prop_BarrierPost_04ed90:
         move.w  #0x3f,d1                        | +000
         jsr     0x236e.l                        | +004
         jsr     0x267e2.l                       | +00a
@@ -553,11 +553,11 @@ Sub_0004ED90:
         rts                                     | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04edda  @ $04EDDA  (48 B)
+|  Prop_FortressBlocker_04edda  @ $04EDDA  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04edda, "ax", @progbits
-        .global TaskHandler_04edda
-TaskHandler_04edda:
+        .section .text.Prop_FortressBlocker_04edda, "ax", @progbits
+        .global Prop_FortressBlocker_04edda
+Prop_FortressBlocker_04edda:
         move.l  #0x29630a,0x60(a6)              | +000
         lea     .L04ede8(pc),a1                 | +008
         move.l  a1,(a6)                         | +00c
@@ -572,11 +572,11 @@ TaskHandler_04edda:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ee0a  @ $04EE0A  (192 B)
+|  Prop_BarrierLight_04ee0a  @ $04EE0A  (192 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ee0a, "ax", @progbits
-        .global TaskHandler_04ee0a
-TaskHandler_04ee0a:
+        .section .text.Prop_BarrierLight_04ee0a, "ax", @progbits
+        .global Prop_BarrierLight_04ee0a
+Prop_BarrierLight_04ee0a:
         move.w  #0x80,0x70(a6)                  | +000
         move.w  #0x3c,0x66(a6)                  | +006
         lea     0x294620.l,a0                   | +00c
@@ -614,7 +614,7 @@ TaskHandler_04ee0a:
         jsr     Sprite_InvokeBlit8Params(pc)    | +09c
         lea     0x2958c6.l,a2                   | +0a0
         jsr     Sprite_InvokeBlit8Params(pc)    | +0a6
-        lea     TaskHandler_04eeca(pc),a1       | +0aa
+        lea     Prop_BarrierLightWreck_04eeca(pc),a1 | +0aa
         move.l  a1,(a6)                         | +0ae
 .L04eeba:
         jsr     Sub_0004FA70(pc)                | +0b0
@@ -625,11 +625,11 @@ TaskHandler_04ee0a:
         rts                                     | +0be
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04eeca  @ $04EECA  (64 B)
+|  Prop_BarrierLightWreck_04eeca  @ $04EECA  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04eeca, "ax", @progbits
-        .global TaskHandler_04eeca
-TaskHandler_04eeca:
+        .section .text.Prop_BarrierLightWreck_04eeca, "ax", @progbits
+        .global Prop_BarrierLightWreck_04eeca
+Prop_BarrierLightWreck_04eeca:
         lea     0xffff.w,a0                     | +000
         move.l  a0,0x48(a6)                     | +004
         lea     .L04eed8(pc),a1                 | +008
@@ -651,11 +651,11 @@ TaskHandler_04eeca:
         rts                                     | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04ef0a  @ $04EF0A  (152 B)
+|  Prop_GatehouseRoof_04ef0a  @ $04EF0A  (152 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04ef0a, "ax", @progbits
-        .global TaskHandler_04ef0a
-TaskHandler_04ef0a:
+        .section .text.Prop_GatehouseRoof_04ef0a, "ax", @progbits
+        .global Prop_GatehouseRoof_04ef0a
+Prop_GatehouseRoof_04ef0a:
         move.w  #0x3f,d1                        | +000
         jsr     0x236e.l                        | +004
         move.w  #0x40,0x70(a6)                  | +00a
@@ -685,7 +685,7 @@ TaskHandler_04ef0a:
 .L04ef82:
         lea     0x295a2e.l,a2                   | +078
         jsr     Sprite_InvokeBlit8Params(pc)    | +07e
-        lea     TaskHandler_04efa2(pc),a1       | +082
+        lea     Prop_GatehouseRoofWreck_04efa2(pc),a1 | +082
         move.l  a1,(a6)                         | +086
 .L04ef92:
         jsr     Sub_0004FA70(pc)                | +088
@@ -695,11 +695,11 @@ TaskHandler_04ef0a:
         rts                                     | +096
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04efa2  @ $04EFA2  (68 B)
+|  Prop_GatehouseRoofWreck_04efa2  @ $04EFA2  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04efa2, "ax", @progbits
-        .global TaskHandler_04efa2
-TaskHandler_04efa2:
+        .section .text.Prop_GatehouseRoofWreck_04efa2, "ax", @progbits
+        .global Prop_GatehouseRoofWreck_04efa2
+Prop_GatehouseRoofWreck_04efa2:
         lea     0x29464c.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     0xffff.w,a0                     | +00c
@@ -720,11 +720,11 @@ TaskHandler_04efa2:
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04efe6  @ $04EFE6  (74 B)
+|  Prop_GatehouseDoor_04efe6  @ $04EFE6  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04efe6, "ax", @progbits
-        .global TaskHandler_04efe6
-TaskHandler_04efe6:
+        .section .text.Prop_GatehouseDoor_04efe6, "ax", @progbits
+        .global Prop_GatehouseDoor_04efe6
+Prop_GatehouseDoor_04efe6:
         move.w  #0x40,d1                        | +000
         jsr     0x236e.l                        | +004
         lea     0x29465c.l,a0                   | +00a
@@ -744,11 +744,11 @@ TaskHandler_04efe6:
         rts                                     | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f030  @ $04F030  (128 B)
+|  Prop_FortressTurretMount_04f030  @ $04F030  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f030, "ax", @progbits
-        .global TaskHandler_04f030
-TaskHandler_04f030:
+        .section .text.Prop_FortressTurretMount_04f030, "ax", @progbits
+        .global Prop_FortressTurretMount_04f030
+Prop_FortressTurretMount_04f030:
         move.w  #0x40,d1                        | +000
         jsr     0x236e.l                        | +004
         move.w  #0x60,0x70(a6)                  | +00a
@@ -772,7 +772,7 @@ TaskHandler_04f030:
         jsr     0x77c7e.l                       | +058
         lea     0x295cd4.l,a1                   | +05e
         jsr     0x77c7e.l                       | +064
-        lea     TaskHandler_04f0b0(pc),a1       | +06a
+        lea     Prop_FortressTurretMountFall_04f0b0(pc),a1 | +06a
         move.l  a1,(a6)                         | +06e
 .L04f0a0:
         jsr     Sub_0004FA70(pc)                | +070
@@ -782,11 +782,11 @@ TaskHandler_04f030:
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f0b0  @ $04F0B0  (136 B)
+|  Prop_FortressTurretMountFall_04f0b0  @ $04F0B0  (136 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f0b0, "ax", @progbits
-        .global TaskHandler_04f0b0
-TaskHandler_04f0b0:
+        .section .text.Prop_FortressTurretMountFall_04f0b0, "ax", @progbits
+        .global Prop_FortressTurretMountFall_04f0b0
+Prop_FortressTurretMountFall_04f0b0:
         lea     0x29467c.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         jsr     0x267e2.l                       | +00c
@@ -819,11 +819,11 @@ TaskHandler_04f0b0:
         rts                                     | +086
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f138  @ $04F138  (188 B)
+|  Prop_FortressSide_04f138  @ $04F138  (188 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f138, "ax", @progbits
-        .global TaskHandler_04f138
-TaskHandler_04f138:
+        .section .text.Prop_FortressSide_04f138, "ax", @progbits
+        .global Prop_FortressSide_04f138
+Prop_FortressSide_04f138:
         move.w  #0x24,d1                        | +000
         jsr     0x236e.l                        | +004
         move.w  #0x60,0x70(a6)                  | +00a
@@ -869,11 +869,11 @@ TaskHandler_04f138:
         rts                                     | +0ba
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f1f4  @ $04F1F4  (176 B)
+|  Prop_BlitSequence_04f1f4  @ $04F1F4  (176 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f1f4, "ax", @progbits
-        .global TaskHandler_04f1f4
-TaskHandler_04f1f4:
+        .section .text.Prop_BlitSequence_04f1f4, "ax", @progbits
+        .global Prop_BlitSequence_04f1f4
+Prop_BlitSequence_04f1f4:
         move.b  #0x0,0x20(a6)                   | +000
         move.w  #0x1e,0x66(a6)                  | +006
         lea     .L04f206(pc),a1                 | +00c
@@ -920,11 +920,11 @@ TaskHandler_04f1f4:
         rts                                     | +0ae
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f2a4  @ $04F2A4  (30 B)
+|  Prop_SlotPrioCheckRts_04f2a4  @ $04F2A4  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f2a4, "ax", @progbits
-        .global TaskHandler_04f2a4
-TaskHandler_04f2a4:
+        .section .text.Prop_SlotPrioCheckRts_04f2a4, "ax", @progbits
+        .global Prop_SlotPrioCheckRts_04f2a4
+Prop_SlotPrioCheckRts_04f2a4:
         jsr     0x2783a.l                       | +000
         movea.l 0x8(a6),a1                      | +006
         move.b  0x10(a6),d0                     | +00a
@@ -935,11 +935,11 @@ TaskHandler_04f2a4:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  Sub_0004F2C2  @ $04F2C2  (130 B)
+|  Prop_Roof_04f2c2  @ $04F2C2  (130 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004F2C2, "ax", @progbits
-        .global Sub_0004F2C2
-Sub_0004F2C2:
+        .section .text.Prop_Roof_04f2c2, "ax", @progbits
+        .global Prop_Roof_04f2c2
+Prop_Roof_04f2c2:
         move.w  #0x3d,d1                        | +000
         jsr     0x236e.l                        | +004
         move.b  #0xff,0x32(a6)                  | +00a
@@ -962,7 +962,7 @@ Sub_0004F2C2:
 .L04f324:
         jsr     0x28758.l                       | +062
         bcc.w   .L04f334                        | +068
-        lea     TaskHandler_04f344(pc),a1       | +06c
+        lea     Prop_RoofFall_04f344(pc),a1     | +06c
         move.l  a1,(a6)                         | +070
 .L04f334:
         jsr     Sub_0004FA70(pc)                | +072
@@ -972,11 +972,11 @@ Sub_0004F2C2:
         rts                                     | +080
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f344  @ $04F344  (98 B)
+|  Prop_RoofFall_04f344  @ $04F344  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f344, "ax", @progbits
-        .global TaskHandler_04f344
-TaskHandler_04f344:
+        .section .text.Prop_RoofFall_04f344, "ax", @progbits
+        .global Prop_RoofFall_04f344
+Prop_RoofFall_04f344:
         lea     0x295fba.l,a0                   | +000
         move.l  a0,0x4c(a6)                     | +006
         jsr     0x283ca.l                       | +00a
@@ -999,11 +999,11 @@ TaskHandler_04f344:
         jsr     0x77c7e.l                       | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f3ae  @ $04F3AE  (94 B)
+|  FixBlink3_PhaseA_04f3ae  @ $04F3AE  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f3ae, "ax", @progbits
-        .global TaskHandler_04f3ae
-TaskHandler_04f3ae:
+        .section .text.FixBlink3_PhaseA_04f3ae, "ax", @progbits
+        .global FixBlink3_PhaseA_04f3ae
+FixBlink3_PhaseA_04f3ae:
         move.w  #0x1e,d1                        | +000
         move.w  #0x111,d2                       | +004
         move.w  #0xffff,d3                      | +008
@@ -1015,7 +1015,7 @@ TaskHandler_04f3ae:
 .L04f3d0:
         subq.w  #0x1,0x72(a6)                   | +022
         bne.w   .L04f3de                        | +026
-        lea     TaskHandler_04f40c(pc),a1       | +02a
+        lea     FixBlink3_PhaseB_04f40c(pc),a1  | +02a
         move.l  a1,(a6)                         | +02e
 .L04f3de:
         move.l  0x106f5c.l,d0                   | +030
@@ -1032,11 +1032,11 @@ TaskHandler_04f3ae:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f40c  @ $04F40C  (94 B)
+|  FixBlink3_PhaseB_04f40c  @ $04F40C  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f40c, "ax", @progbits
-        .global TaskHandler_04f40c
-TaskHandler_04f40c:
+        .section .text.FixBlink3_PhaseB_04f40c, "ax", @progbits
+        .global FixBlink3_PhaseB_04f40c
+FixBlink3_PhaseB_04f40c:
         move.w  #0x1e,d1                        | +000
         move.w  #0xce,d2                        | +004
         move.w  #0xffff,d3                      | +008
@@ -1048,7 +1048,7 @@ TaskHandler_04f40c:
 .L04f42e:
         subq.w  #0x1,0x72(a6)                   | +022
         bne.w   .L04f43c                        | +026
-        lea     TaskHandler_04f3ae(pc),a1       | +02a
+        lea     FixBlink3_PhaseA_04f3ae(pc),a1  | +02a
         move.l  a1,(a6)                         | +02e
 .L04f43c:
         move.l  0x106f5c.l,d0                   | +030
@@ -1065,21 +1065,21 @@ TaskHandler_04f40c:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f46a  @ $04F46A  (16 B)
+|  Prop_Sensor_04f46a  @ $04F46A  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f46a, "ax", @progbits
-        .global TaskHandler_04f46a
-TaskHandler_04f46a:
+        .section .text.Prop_Sensor_04f46a, "ax", @progbits
+        .global Prop_Sensor_04f46a
+Prop_Sensor_04f46a:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x90,0x70(a6)                  | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f47a  @ $04F47A  (60 B)
+|  Prop_SensorWait_04f47a  @ $04F47A  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f47a, "ax", @progbits
-        .global TaskHandler_04f47a
-TaskHandler_04f47a:
+        .section .text.Prop_SensorWait_04f47a, "ax", @progbits
+        .global Prop_SensorWait_04f47a
+Prop_SensorWait_04f47a:
         lea     .L04f480(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L04f480:
@@ -1089,7 +1089,7 @@ TaskHandler_04f47a:
         bcs.w   .L04f4a6                        | +018
         jsr     0x31fc2.l                       | +01c
         beq.w   .L04f4a6                        | +022
-        lea     TaskHandler_04f4b6(pc),a1       | +026
+        lea     Prop_SensorTriggered_04f4b6(pc),a1 | +026
         move.l  a1,(a6)                         | +02a
 .L04f4a6:
         jsr     Sub_0004FA70(pc)                | +02c
@@ -1099,11 +1099,11 @@ TaskHandler_04f47a:
         rts                                     | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f4b6  @ $04F4B6  (56 B)
+|  Prop_SensorTriggered_04f4b6  @ $04F4B6  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f4b6, "ax", @progbits
-        .global TaskHandler_04f4b6
-TaskHandler_04f4b6:
+        .section .text.Prop_SensorTriggered_04f4b6, "ax", @progbits
+        .global Prop_SensorTriggered_04f4b6
+Prop_SensorTriggered_04f4b6:
         lea     0x2948a6.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L04f4c8(pc),a1                 | +00c
@@ -1112,7 +1112,7 @@ TaskHandler_04f4b6:
         jsr     0x2783a.l                       | +012
         jsr     0x28d70.l                       | +018
         bcc.w   .L04f4de                        | +01e
-        lea     TaskHandler_04f47a(pc),a1       | +022
+        lea     Prop_SensorWait_04f47a(pc),a1   | +022
         move.l  a1,(a6)                         | +026
 .L04f4de:
         jsr     Sub_0004FA70(pc)                | +028
@@ -1122,11 +1122,11 @@ TaskHandler_04f4b6:
         rts                                     | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f4ee  @ $04F4EE  (200 B)
+|  Prop_Crate_04f4ee  @ $04F4EE  (200 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f4ee, "ax", @progbits
-        .global TaskHandler_04f4ee
-TaskHandler_04f4ee:
+        .section .text.Prop_Crate_04f4ee, "ax", @progbits
+        .global Prop_Crate_04f4ee
+Prop_Crate_04f4ee:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
         move.w  #0x20,0x70(a6)                  | +00a
@@ -1172,11 +1172,11 @@ TaskHandler_04f4ee:
         rts                                     | +0c6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f5be  @ $04F5BE  (142 B)
+|  Debris_Bouncer_04f5be  @ $04F5BE  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f5be, "ax", @progbits
-        .global TaskHandler_04f5be
-TaskHandler_04f5be:
+        .section .text.Debris_Bouncer_04f5be, "ax", @progbits
+        .global Debris_Bouncer_04f5be
+Debris_Bouncer_04f5be:
         jsr     0x5e7c0.l                       | +000
         move.w  #0x126,d1                       | +006
         jsr     0x236e.l                        | +00a
@@ -1194,7 +1194,7 @@ TaskHandler_04f5be:
         jsr     0x28d70.l                       | +046
         jsr     0x27eba.l                       | +04c
         bcc.w   .L04f61a                        | +052
-        lea     TaskHandler_04f64c(pc),a1       | +056
+        lea     Debris_BouncerHop_04f64c(pc),a1 | +056
         move.l  a1,(a6)                         | +05a
 .L04f61a:
         jsr     0x5e9b6.l                       | +05c
@@ -1211,11 +1211,11 @@ TaskHandler_04f5be:
         rts                                     | +08c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f64c  @ $04F64C  (70 B)
+|  Debris_BouncerHop_04f64c  @ $04F64C  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f64c, "ax", @progbits
-        .global TaskHandler_04f64c
-TaskHandler_04f64c:
+        .section .text.Debris_BouncerHop_04f64c, "ax", @progbits
+        .global Debris_BouncerHop_04f64c
+Debris_BouncerHop_04f64c:
         move.w  #0x400,0x2a(a6)                 | +000
         lea     0x29494e.l,a0                   | +006
         jsr     0x28cd4.l                       | +00c
@@ -1224,7 +1224,7 @@ TaskHandler_04f64c:
 .L04f664:
         jsr     0x27c8c.l                       | +018
         bcc.w   .L04f674                        | +01e
-        lea     TaskHandler_04f692(pc),a1       | +022
+        lea     Debris_BouncerRoll_04f692(pc),a1 | +022
         move.l  a1,(a6)                         | +026
 .L04f674:
         jsr     0x28d70.l                       | +028
@@ -1236,11 +1236,11 @@ TaskHandler_04f64c:
         rts                                     | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f692  @ $04F692  (124 B)
+|  Debris_BouncerRoll_04f692  @ $04F692  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f692, "ax", @progbits
-        .global TaskHandler_04f692
-TaskHandler_04f692:
+        .section .text.Debris_BouncerRoll_04f692, "ax", @progbits
+        .global Debris_BouncerRoll_04f692
+Debris_BouncerRoll_04f692:
         jsr     0x267e2.l                       | +000
         move.w  #0x80,0x28(a6)                  | +006
         lea     0x2948f8.l,a0                   | +00c
@@ -1257,13 +1257,13 @@ TaskHandler_04f692:
         jsr     0x28d70.l                       | +03a
         jsr     0x27eba.l                       | +040
         bcc.w   .L04f6e2                        | +046
-        lea     TaskHandler_04f64c(pc),a1       | +04a
+        lea     Debris_BouncerHop_04f64c(pc),a1 | +04a
         move.l  a1,(a6)                         | +04e
 .L04f6e2:
         jsr     0x5e9b6.l                       | +050
         andi.w  #0xf,d0                         | +056
         bne.w   .L04f6f6                        | +05a
-        lea     TaskHandler_04f64c(pc),a1       | +05e
+        lea     Debris_BouncerHop_04f64c(pc),a1 | +05e
         move.l  a1,(a6)                         | +062
 .L04f6f6:
         lea     0x29624a.l,a0                   | +064
@@ -1274,11 +1274,11 @@ TaskHandler_04f692:
         rts                                     | +07a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f70e  @ $04F70E  (94 B)
+|  Prop_SignA_04f70e  @ $04F70E  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f70e, "ax", @progbits
-        .global TaskHandler_04f70e
-TaskHandler_04f70e:
+        .section .text.Prop_SignA_04f70e, "ax", @progbits
+        .global Prop_SignA_04f70e
+Prop_SignA_04f70e:
         move.w  #0x186,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x2949ae.l,a0                   | +00a
@@ -1301,11 +1301,11 @@ TaskHandler_04f70e:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f76c  @ $04F76C  (94 B)
+|  Prop_SignB_04f76c  @ $04F76C  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f76c, "ax", @progbits
-        .global TaskHandler_04f76c
-TaskHandler_04f76c:
+        .section .text.Prop_SignB_04f76c, "ax", @progbits
+        .global Prop_SignB_04f76c
+Prop_SignB_04f76c:
         move.w  #0x1b6,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x2949be.l,a0                   | +00a
@@ -1328,11 +1328,11 @@ TaskHandler_04f76c:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f7ca  @ $04F7CA  (394 B)
+|  Prop_Boat_04f7ca  @ $04F7CA  (394 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f7ca, "ax", @progbits
-        .global TaskHandler_04f7ca
-TaskHandler_04f7ca:
+        .section .text.Prop_Boat_04f7ca, "ax", @progbits
+        .global Prop_Boat_04f7ca
+Prop_Boat_04f7ca:
         move.w  #0x1ca,d1                       | +000
         jsr     0x236e.l                        | +004
         move.w  #0x1d8,d1                       | +00a
@@ -1395,7 +1395,7 @@ TaskHandler_04f7ca:
         bcc.w   .L04f936                        | +108
         move.w  #0x1030,d0                      | +10c
         jsr     0x2352.l                        | +110
-        lea     TaskHandler_04f954(pc),a1       | +116
+        lea     Prop_BoatBlast_04f954(pc),a1    | +116
         jsr     0x4ae.l                         | +11a
         jsr     0x5dd02.l                       | +120
         lea     0x295c7a.l,a1                   | +126
@@ -1407,7 +1407,7 @@ TaskHandler_04f7ca:
         jsr     0x5e9b6.l                       | +14a
         andi.b  #0x3f,d0                        | +150
         bne.w   .L04f94c                        | +154
-        lea     TaskHandler_04f992(pc),a1       | +158
+        lea     Prop_BoatDebris_04f992(pc),a1   | +158
         jsr     0x4ae.l                         | +15c
         jsr     0x5dd02.l                       | +162
         bra.w   .L04f94c                        | +168
@@ -1422,11 +1422,11 @@ TaskHandler_04f7ca:
         rts                                     | +188
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f954  @ $04F954  (62 B)
+|  Prop_BoatBlast_04f954  @ $04F954  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f954, "ax", @progbits
-        .global TaskHandler_04f954
-TaskHandler_04f954:
+        .section .text.Prop_BoatBlast_04f954, "ax", @progbits
+        .global Prop_BoatBlast_04f954
+Prop_BoatBlast_04f954:
         move.w  #0x8,0x72(a6)                   | +000
         lea     .L04f960(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -1444,11 +1444,11 @@ TaskHandler_04f954:
         rts                                     | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04f992  @ $04F992  (174 B)
+|  Prop_BoatDebris_04f992  @ $04F992  (174 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04f992, "ax", @progbits
-        .global TaskHandler_04f992
-TaskHandler_04f992:
+        .section .text.Prop_BoatDebris_04f992, "ax", @progbits
+        .global Prop_BoatDebris_04f992
+Prop_BoatDebris_04f992:
         move.w  #0x1c6,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x2949de.l,a0                   | +00a
@@ -1493,11 +1493,11 @@ TaskHandler_04f992:
         rts                                     | +0ac
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04fa40  @ $04FA40  (16 B)
+|  FixTile_Set11C2_04fa40  @ $04FA40  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04fa40, "ax", @progbits
-        .global TaskHandler_04fa40
-TaskHandler_04fa40:
+        .section .text.FixTile_Set11C2_04fa40, "ax", @progbits
+        .global FixTile_Set11C2_04fa40
+FixTile_Set11C2_04fa40:
         move.w  #0x11,d1                        | +000
         move.w  #0xc2,d2                        | +004
         move.w  #0xffff,d3                      | +008

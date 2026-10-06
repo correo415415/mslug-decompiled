@@ -488,8 +488,8 @@ SYMBOLS = {
     0x0004C934: "TaskHandler_04c934",
     # 0x0004DC88 promovido a Prop_TowerTopWreckLoop_04dc88 en registry (Wave OOOO).
     # 0x0004DE32 promovido a Prop_TowerBaseWreckLoop_04de32 en registry (Wave OOOO).
-    # 0x0004EB94 promovido a TaskHandler_04eb94 en registry (Wave PPPP).
-    # 0x0004F2A4 promovido a TaskHandler_04f2a4 en registry (Wave PPPP).
+    # 0x0004EB94 promovido a Prop_FortressWaitScroll_04eb94 en registry (Wave PPPP).
+    # 0x0004F2A4 promovido a Prop_SlotPrioCheckRts_04f2a4 en registry (Wave PPPP).
     0x00050976: "TaskHandler_050976",
     0x00051452: "TaskHandler_051452",
     0x0005147E: "TaskHandler_05147e",
@@ -1788,9 +1788,9 @@ SYMBOLS = {
     0x0004DF2E: "JsrPcRts_04df2e",  # rts de JsrPcThunk_04df2a (+4)
     0x0004DF96: "JsrPcRts_04df96",  # rts de JsrPcThunk_04df92 (+4)
     # --- Wave OOOO: refs forward a huecos futuros
-    # 0x0004E580 promovido a Sub_0004E580 en registry (Wave PPPP).
-    # 0x0004ED90 promovido a Sub_0004ED90 en registry (Wave PPPP).
-    # 0x0004F2C2 promovido a Sub_0004F2C2 en registry (Wave PPPP).
+    # 0x0004E580 promovido a Prop_BarrierActive_04e580 en registry (Wave PPPP).
+    # 0x0004ED90 promovido a Prop_BarrierPost_04ed90 en registry (Wave PPPP).
+    # 0x0004F2C2 promovido a Prop_Roof_04f2c2 en registry (Wave PPPP).
     0x0004FA70: "Sub_0004FA70",  # hueco futuro (ref pc-rel desde esta region)
     0x0004FA8A: "Sub_0004FA8A",  # hueco futuro (ref pc-rel desde esta region)
     0x0004FB3C: "Sub_0004FB3C",  # hueco futuro (ref pc-rel desde esta region)

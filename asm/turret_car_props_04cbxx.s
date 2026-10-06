@@ -1370,7 +1370,7 @@ Prop_HutRoofFall_04da52:
 Prop_Tower_04dad2:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        lea     Sub_0004F2C2(pc),a1             | +00a
+        lea     Prop_Roof_04f2c2(pc),a1             | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd22.l                       | +014
         addi.w  #0x5c,0x22(a0)                  | +01a
@@ -1678,7 +1678,7 @@ Prop_BunkerWreck_04df30__L04df72:
         jsr     0x2783a.l                       | +042
         jsr     Sub_0004FA70(pc)                | +048
         bcc.w   .L04df86                        | +04c
-        lea     TaskHandler_04f2a4(pc),a1       | +050
+        lea     Prop_SlotPrioCheckRts_04f2a4(pc),a1       | +050
         move.l  a1,(a6)                         | +054
 .L04df86:
         move.b  0x74(a6),d0                     | +056
@@ -1956,7 +1956,7 @@ Prop_NestWreck_04e32c:
 Prop_Shed_04e38a:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        lea     Sub_0004F2C2(pc),a1             | +00a
+        lea     Prop_Roof_04f2c2(pc),a1             | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd22.l                       | +014
         addi.w  #0x40,0x22(a0)                  | +01a
@@ -2071,7 +2071,7 @@ Prop_Barrier_04e512:
         jsr     0x28cd4.l                       | +01a
         bset    #0x6,0x12(a6)                   | +020
         move.l  #0x296272,0x60(a6)              | +026
-        lea     Sub_0004ED90(pc),a1             | +02e
+        lea     Prop_BarrierPost_04ed90(pc),a1             | +02e
         jsr     0x4ae.l                         | +032
         jsr     0x5dd22.l                       | +038
         addi.w  #0x10,0x24(a0)                  | +03e
@@ -2082,5 +2082,5 @@ Prop_Barrier_04e512:
         move.l  0x106f50.l,d0                   | +050
         swap    d0                              | +056
         cmpi.w  #0xa10,d0                       | +058
-        bgt.w   Sub_0004E580                    | +05c
+        bgt.w   Prop_BarrierActive_04e580                    | +05c
         jsr     0x28998.l                       | +060
