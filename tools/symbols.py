@@ -62,8 +62,8 @@ SYMBOLS = {
     # Templates usados por Entity_Build4FromTemplates (Y#11)
 
     # ---- Wave Z: externos referenciados por asm 68000 puro ----
-    0x0005B1B2: "Sub_0005B1B2",              # jsr pc-rel desde Sprite_Dispatch dual entry
-    0x0005AA96: "SpriteDispatchJT_05AA96",   # jump-table target del dispatch dual
+    # 0x0005B1B2 promovido a Sub_0005B1B2 en registry (Wave DDDD).
+    # 0x0005AA96 promovido a SpriteDispatchJT_05AA96 en registry (Wave DDDD).
     0x00044182: "Sub_00044182",              # colisión llamada por Entity_Probe_02785C
     0x00027036: "Sub_00027036",              # colisión pc-rel de Entity_Probe_02788C
     0x00026B56: "Sub_00026B56",              # colisión pc-rel de Entity_Probe_027A92
@@ -1675,4 +1675,6 @@ SYMBOLS = {
     # --- Wave CCCC: RTS internos de islas C
     0x0002B262: "SetHandlerRts_02b262",  # rts de SetTaskHandler_02b25c (+6)
     0x0002D734: "SetHandlerRts_02d734",  # rts de SetTaskHandler_02d72e (+6)
+    # --- Wave DDDD: refs forward a huecos futuros
+    0x0005A8BA: "Sub_0005A8BA",  # hueco futuro (ref pc-rel desde esta region)
 }

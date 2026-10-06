@@ -126,9 +126,15 @@ def branch_target(ins):
 
 
 def pcrel_target(ins):
-    """Target de `X(pc)` en jsr/jmp/lea/pea/move (sin índice)."""
+    """Target de `X(pc)` en jsr/jmp/lea/pea/move, y la base de
+    `X(pc, dN.w)` (jump tables indexadas: capstone da X absoluto)."""
     m = re.search(r"\$([0-9a-f]+)\(pc\)", ins.ops)
-    return int(m.group(1), 16) if m else None
+    if m:
+        return int(m.group(1), 16)
+    m = re.search(r"(-?\$[0-9a-f]+)?\(pc, [ad][0-7]\.[wl]\)", ins.ops)
+    if m:
+        return int(m.group(1).lstrip("-$"), 16) if m.group(1) else ins.addr + 2
+    return None
 
 
 # ---------------------------------------------------------------------------

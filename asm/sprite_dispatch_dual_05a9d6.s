@@ -76,6 +76,8 @@ Sprite_Dispatch_05A9E2:
         andi.b  #0x3, d5                       | +0c  d5 &= 0x03  (respetar bit 2 recibido)
 .Lmerge:
         jsr     .Laux_5b1b2(pc)                | +10  aux hook (unknown)
+        .global Sprite_Dispatch_05A9D6__L05a9ea
+Sprite_Dispatch_05A9D6__L05a9ea:
         move    a1, usp                        | +14  save a1 via USP (trick)
         lea.l   0x108080.l, a5                 | +16  a5 = BASE arena global
                                               |

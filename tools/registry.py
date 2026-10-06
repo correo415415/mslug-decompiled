@@ -5952,4 +5952,13 @@ REGISTRY = [
     ("Slug_DeathSetHandler400_02dcaa",             0x02DCAA,  10, "slug_states_02aexx.s"),
     ("Slug_DeathFinishJmp_02dcbc",                 0x02DCBC,   4, "slug_states_02aexx.s"),
     ("Slug_DeathStart_02dcc0",                     0x02DCC0,  90, "slug_states_02aexx.s"),
+    # --- Wave DDDD: blitters de sprites $05AA96..$05CA2A (8 entradas)
+    ("SpriteDispatchJT_05AA96",                    0x05AA96, 1820, "wave_dddd_05aaxx.s"),
+    ("Sub_0005B1B2",                               0x05B1B2,  96, "wave_dddd_05aaxx.s"),
+    ("Sub_0005B212",                               0x05B212,  32, "wave_dddd_05aaxx.s"),
+    ("TaskHandler_05b232",                         0x05B232, 318, "wave_dddd_05aaxx.s"),
+    ("Sub_0005B370",                               0x05B370, 144, "wave_dddd_05aaxx.s"),
+    ("Sub_0005B400",                               0x05B400, 302, "wave_dddd_05aaxx.s"),
+    ("Sub_0005B52E",                               0x05B52E, 2632, "wave_dddd_05aaxx.s"),
+    ("Sub_0005BF76",                               0x05BF76, 2740, "wave_dddd_05aaxx.s"),
 ]
