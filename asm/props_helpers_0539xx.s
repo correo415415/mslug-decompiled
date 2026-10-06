@@ -1,11 +1,82 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave HHHH — helpers de los props destructibles: trampa de fuego, quemado
+|              del jugador, música/escombros por fase, sprites por padre
 |  Región: $0539F0..$053F96  (1,316 B, 20 entradas, 12 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. RESUMEN
+|  ----------
+|  Región de 1,316 B (20 entradas, 12 huecos ya cerrados en C): las
+|  subrutinas que `props_destructible_0527xx.s` (Wave GGGG) llama en
+|  pc-relativo y el hijo del prop indestructible.
+|
+|   1. Prop_IndestructibleChild_0539f0: hijo de Prop_Indestructible_053964
+|      (prio $F000, sprite $2977D0) que se desplaza con el scroll
+|      ($107FE8/$107FEA) y se libera al acabar la animación.
+|   2. Trampa de fuego: Prop_TrapFlame_053a42 (348 B; snd $1E4, prio
+|      $4000, música $1098 aleatoria 1/8, hijo Prop_TrapFlameBase_053b9e;
+|      prueba 3 tablas de ataque $298896/$2987EE/$298842 y, según cuál
+|      acierta, apunta +$50 a -1 / player 1 $100440 / player 2 $1004E0 y
+|      spawnea Prop_TrapFlameHitSpawn_053c44 (que a su vez lanza
+|      Prop_TrapFlameHitFx_053bfe) cada 12 frames; muere fuera de pantalla
+|      con $5DD5C y marca +$20 = $FF para que la base se libere).
+|   3. Quemado: Prop_BurnFollowVictim_053c64 sigue a la víctima +$50
+|      (copia x/y/prio; si +$45 <= 0 duplica su vel X y fija vel Y $1000,
+|      25 frames) y cada 4 frames suelta Prop_BurnSmokePuff_053cf2 (snd 2).
+|   4. Prop_SpawnBonusOnce_053d2c: una sola vez (+$21) crea el bonus
+|      $9BA56 desplazado (-$18, +$30).
+|   5. Prop_ToggleSpriteByTimer_053d50: alterna +$14 entre +$16/+$18 según
+|      la paridad del contador +$72.
+|   6. Prop_PickSpriteByVictimDir_053d80: sprite $2976D2/$297668 según el
+|      signo de la vel X de la víctima y +$20.
+|   7. Prop_SyncSpriteWithParent_053dca: si +$20 del padre cambió, elige
+|      sprite $297798 (0) / $297750 (otro) y copia el valor.
+|   8. Prop_PlayBreakMusicByPhase_053e0c: música $102C/$102C/$1023/$1035
+|      /$1023 según la fase +$21.
+|   9. Prop_RunDebrisScriptByPhase_053e78: a2 = $297F50[(+$21)*4 +
+|      (+$38)*16] -> StateMachineRun (thunk $53E70);
+|      Prop_RunDebrisScriptByPrio_053eba: lista $298074 si +$38 es 0 o 6,
+|      si no $298062 -> thunk $53EDA.
+|  10. Prop_PickRandomItemPtr_053e9c: a0 = $2980FC[rand(0..3)*4] -> thunk
+|      $53E94 (ítem aleatorio para PropDrop_Item).
+|  11. Prop_GateDebrisA..D_053ee2/053f08/053f2e/053f54: pares de scripts
+|      de escombros ($29860C..$2986D4) ejecutados con StateMachineRun y
+|      rematados por los SDS_053exx/053fxx (state_dispatch_stubs.c).
+|  12. Entity_CmpField10WithLink8_053f7a: hoja; compara +$10 con el del
+|      enlazado +$8 (misma forma que Entity_CmpField10WithLink8_059332).
+|
+|  B. EVIDENCIAS
+|  -------------
+|  - Todas las entradas son destino de `jsr X(pc)` / `lea X(pc),a1` desde
+|    la Wave GGGG (ver comentarios "hueco futuro" ya resueltos).
+|  - +$50 toma $100440/$1004E0 tras acertar la tabla de ataque: puntero a
+|    la víctima (player) que luego sigue Prop_BurnFollowVictim.
+|  - $5022A = StateMachineRun con a2 = script: los 4 GateDebris son solo
+|    pares de scripts.
+|
+|  C. CAMPOS DEL OBJETO (a6)
+|  -------------------------
+|  +$00 handler  +$0C padre  +$13 bit1 contacto  +$14/+$16/+$18 sprite
+|  actual/alternativos  +$20 estado compartido con hijos  +$21 fase
+|  +$22/+$24 x/y  +$28/+$2A vel  +$38 prio  +$45 (víctima) HP/estado
+|  +$4C tabla de ataque  +$50 víctima  +$72 contador
+|
+|  D. HELPERS EXTERNOS
+|  -------------------
+|  $4AE alloc  $518 free  $236E snd  $2352 música  $267E2  $2783A scroll
+|  $27CEE  $283CA/$283D8 attack  $28CD4 sprite  $28D70 anim  $5022A
+|  StateMachineRun  $5DD02/$5DD22 copiar pos  $5DD5C fuera de pantalla
+|  $5E9B6 RNG  $5EA1C rand acotado  $9BA56 bonus
+|
+|  E. HIPÓTESIS
+|  ------------
+|  - "TrapFlame" por el patrón ataque->víctima->seguir+humo: fuego que
+|    prende al jugador (barriles/antorchas de la misión 2).
+|
+|  F. SIGUIENTE
+|  ------------
+|  $0478FC..$048A3C, $04AC3A..$04BB8E, $053F96..$0550BE.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
