@@ -17,6 +17,14 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave TTTT — 210 entries (15,242 B, no data ranges): `$062000..$066000`
+  (`sniper_camper_mortar_062xxx.s`): LateProp tail (TakeHit/HPCheck/Spawn
+  helpers), turret-car gunner, sniper (aim via Atan2, flees as soldier),
+  entrenched camper (converts to soldier via `$4A0D4`), scene-5 tent debris,
+  mortar (crew, shells, `jmp $6A7D6`), fixed cannon, hostage/POW (rescue
+  counter `$10E276..$10E27B`, music `$105D`, 7 template entries), patrol
+  soldier (sprite table `$2C6510`), scene-3 prop, barrel (tmpl 141). Templates
+  `$E8000[59..63,76..85,141]`. 210/210 byte-exact.
 - Wave SSSS — 221 entries (15,144 B, 10 data ranges): `$05E000..$062000`
   (`late_props_turrets_05exxx.s`): late-runtime shared helpers (`Atan2_Angle256`,
   `Target_AcquireNearestPlayer`, `Players_AliveMask`, `Player_GetEntity`,

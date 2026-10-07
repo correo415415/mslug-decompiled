@@ -11,10 +11,41 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 6146/6146 funciones
-BYTES   : 375,382/375,382 (registrados)
-ROM     : 375,382/2,097,152  (17.8996%)
+MATCHED : 6356/6356 funciones
+BYTES   : 390,624/390,624 (registrados)
+ROM     : 390,624/2,097,152  (18.6264%)
 ```
+
+> **Wave TTTT** (210 entradas, 15 242 B; sin `--data`) — `$062000..$066000`
+> en `sniper_camper_mortar_062xxx.s`. Trigesimoséptima wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/tttt_names.txt`, args en
+> `docs/waves/tttt_args.txt`.
+>
+> * **Cola de LateProp** (`$62008..$620B6`, `$626F0..$62922`): TakeHit/
+>   HPCheck (daño `$2870A`, flash `$5E770`), StepX/ClampX/StepAnim, Register
+>   (`$43FAC`), SpawnDebris2 (`$77C7E`), SpawnPair/Child A..D.
+> * **TurretCar_Gunner_0620da**: artillero hijo del coche-torreta (`$4CA64`).
+> * **Sniper_\*** (`$6212A..`): Init → Aim (Atan2 `$5E018`) → Fire (Shell/
+>   Muzzle/Flash) → Flee como soldado (`$58F82/$58FE2`) / Die; Grenade,
+>   SmokeA/B, Spark. `Facing_SignDelta_0626b8` / `Matches77`.
+> * **MultiStage_Decal_06293e**: hijo de `Prop_MultiStage_054cf2`.
+> * **Camper_\*** (`$62A4E..$631D0`): soldado atrincherado (Idle/Watch/Alert/
+>   Fire/Fire2/Rearm/Die/Explode), ToSoldier(Flee) vía `$4A0D4`+`$5724E/
+>   $58FC2`, DropItem `$9A7CC`, Music `$2352`.
+> * **Tent_\*** (`$631D0..`): escombros de la tienda de escena 5 (`$89202`).
+> * **Mortar_Tmpl3C_06361e** (tmpl 60/61): Active/Die/Wreck, Shell/ShellB/
+>   ShellAim, Crew/CrewHit/CrewToSoldier (`$57226`), `ToJump6A7D6`.
+> * **Cannon_Tmpl3E_063ec6** (tmpl 62/63): Idle → Acquire `$5E086` → Fire
+>   A/B/C → Rearm; HitCheck A/B; Explode/Die.
+> * **Hostage_\*** (tmpl 76..85, `$64550..$64D98`): rehén/POW (Walk/Pose/
+>   Kneel/Stand/Shoot/Run/Fall/Thrown/Die/Free), contador `$10E276..$10E27B`
+>   (`CountRead_065d4a`/`CountInc_065d7a`), música `$105D`, `trap #15` assert.
+> * **Patrol_\*** (`$64D98..$65F40`): soldado de patrulla (sprites `$2C6510`
+>   por `+$20&$F`), PlayerNear/AimAtPlayer/FollowParent, Register0..4.
+>   **Scene3Prop_\*** (hijo de `Scene3Debris_SpawnPrio4_03d72a`).
+> * **Barrel_Tmpl8D_065f40** (tmpl 141): snd `$179`, HP 1, sprite `$2C756C`;
+>   continúa en `$066000+` (Wave UUUU).
+> * Matcher 6356/6356, 390,624 B (18.63 %); código real 68.6 %.
 
 > **Wave SSSS** (221 entradas, 15 144 B; 10 `--data`) — `$05E000..$062000`
 > en `late_props_turrets_05exxx.s`. Trigesimosexta wave de
