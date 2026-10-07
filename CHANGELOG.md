@@ -17,6 +17,14 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave RRRR — 126 entries (12,874 B, 5 data ranges): `$03DA98..$040EF2`
+  (`results_pow_squadleader_03daxx.s`): mission-results screen (`Results_*`:
+  per-player columns Score→Bonus→Total→Winner, rescued-POW roster with
+  random name/portrait pick, prize sprite, blinking banners, fix-layer
+  drawing), POW prisoner (`Pow_*`: tied/freed/idle/walk/jump/crouch/fall/
+  rescued chain, rescue credit per player, anim tables) and the flying
+  squad leader (`SquadLeader_*`: formation orders +$84, swoop/dive/circle,
+  death with 6 explosions, respawn). Matcher 5925/5925, 17.18 %.
 - Wave QQQQ — 97 entries (7,396 B, 7 data ranges): `$04FA50..$051914`
   (`allen_oneil_04fa50.s`): boss Allen O'Neil (`Allen_*`: target acquisition,
   physics with step-probe mover, decision checks, jumps, knife, machine gun

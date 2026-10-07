@@ -11,10 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5799/5799 funciones
-BYTES   : 347,364/347,364 (registrados)
-ROM     : 347,364/2,097,152  (16.5636%)
+MATCHED : 5925/5925 funciones
+BYTES   : 360,238/360,238 (registrados)
+ROM     : 360,238/2,097,152  (17.1775%)
 ```
+
+> **Wave RRRR** (126 entradas, 12 874 B; 5 `--data`) — `$03DA98..$040EF2`
+> en `results_pow_squadleader_03daxx.s`. Trigesimoquinta wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/rrrr_names.txt`, args en
+> `docs/waves/rrrr_args.txt`.
+>
+> * **Pantalla de resultados** (`Results_*`): tarea `$3DBC8` (instalada por
+>   `Attract_InitTaskAdd`), una `Results_PlayerColumn` por jugador con fases
+>   Score→Wait→Commit→Bonus→Total→Pause→WaitAll→Winner, premio
+>   (`PrizeSprite/Fall/Land`), roster de POWs (`RosterPickA/B`, `RosterDrawA/B`),
+>   banners A/B/C, `DrawFrame/DrawLabels` en VRAM fix, `PollStart*`.
+> * **POW** (`Pow_*`): crédito de rescate por jugador (`$106F4C/$106F4E`),
+>   `RectOverlap`, tablas `AnimTblA/B/C`, estados Tied/Freed/Idle/Walk/Jump/
+>   Crouch/Fall/Land/WaitRider/Rescued→Bow→Run→Exit, `Despawn`.
+> * **Líder de escuadrón** (`SquadLeader_*`): Spawn/Enter/Turn/Hover/
+>   Formation/Swoop/PickAttack/Dive/Regroup/Reform/Circle, órdenes +$84,
+>   `HitCheck`, `Death/DeathDone/Respawn`.
+> * `SlugCannon_ArmOffsetCurve` (tabla de 65 pares del brazo en el Slug).
+> * Matcher: 5925/5925, 360,238 B, 17.18 %; código real 62.6 %.
 
 > **Wave QQQQ** (97 entradas, 7 396 B; 7 `--data`) — `$04FA50..$051914`
 > en `allen_oneil_04fa50.s`. Trigesimocuarta wave de `gen_asm_region.py`.
