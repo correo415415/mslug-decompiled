@@ -90,8 +90,8 @@ void JmpAbsThunk_06313c(void) {
 
 __attribute__((section(".text.JmpAbsThunk_09a848"), noreturn))
 void JmpAbsThunk_09a848(void) {
-    extern void JmpTarget_03ee48(void);
-    __asm__ volatile("jmp JmpTarget_03ee48" ::: "memory");
+    extern void Pow_CountIfPending_03ee48(void);
+    __asm__ volatile("jmp Pow_CountIfPending_03ee48" ::: "memory");
     __builtin_unreachable();
 }
 

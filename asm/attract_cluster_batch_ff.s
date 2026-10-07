@@ -119,7 +119,7 @@ Attract_InitBIOS_001744:
 
 Attract_InitTaskAdd_3DBC8_0017C8:
         move.b  #0xff, 0x106ed2.l              | +00  seal pending flag
-        lea.l   0x3dbc8.l, a1                  | +08  a1 = TaskHandler_0003DBC8
+        lea.l   0x3dbc8.l, a1                  | +08  a1 = Results_Entry_03dbc8
         jsr     0x4ae.l                        | +0e  scheduler_add(a1)
         jsr     0x46ac6.l                      | +14  Sub_00046AC6 (init pesado)
         bra.w   Sub_00000FE0                   | +1a  tail al scheduler

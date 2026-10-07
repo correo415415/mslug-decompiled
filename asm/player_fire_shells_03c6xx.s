@@ -42,7 +42,7 @@
 |   6. SlugCannon_ArmOverlay_03d944: brazo del player montado en el Slug
 |      ($100580): elige slot vivo ($2AC0E), snd $176/$177+$190+$191/$192,
 |      tabla SlugCannon_ArmSpriteTbl_03da02 por arma/jugador, offset por
-|      $2FF8E y tabla Sub_0003DAA8 (siguiente región), sigue la posición
+|      $2FF8E y tabla SlugCannon_ArmOffsetCurve_03daa8 (siguiente región), sigue la posición
 |      del Slug; al terminar música $108B.
 |
 |  B. EVIDENCIAS
@@ -2229,7 +2229,7 @@ SlugCannon_ArmSpriteTbl_03da02:
 SlugCannon_ArmSpriteTbl_03da02__L03da2a:
         jsr     0x2ff8e.l                       | +028
         lsl.w   #0x2,d0                         | +02e
-        lea     Sub_0003DAA8(pc),a0             | +030
+        lea     SlugCannon_ArmOffsetCurve_03daa8(pc),a0             | +030
         move.w  (a0,d0.w),d1                    | +034
         move.w  0x2(a0,d0.w),d2                 | +038
         move.w  d1,0x5c(a6)                     | +03c
