@@ -5241,6 +5241,8 @@ Frag_Shell_06daec__L06db16:
 Frag_Debris_06dbd4:
         move.b  #0x1,0x89(a6)                   | +000
         bra.w   .L06dbe2                        | +006
+        .global Frag_Debris_06dbd4__L06dbde
+Frag_Debris_06dbd4__L06dbde:
         jsr     Sub_0006E176(pc)                | +00a  -> $06E176 (hueco futuro, defsym forward)
 .L06dbe2:
         bset    #0x4,0x6b(a6)                   | +00e
@@ -5359,6 +5361,8 @@ Frag_Scatter_06dd5c:
         jsr     0x28cd4.l                       | +020
 .L06dd82:
         bra.w   .L06ddac                        | +026
+        .global Frag_Scatter_06dd5c__L06dd86
+Frag_Scatter_06dd5c__L06dd86:
         jsr     0x5e9b6.l                       | +02a
         andi.w  #0xf,d0                         | +030
         movea.l #0x2d4146,a0                    | +034
