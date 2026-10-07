@@ -5132,6 +5132,8 @@ FinalBoss_Cannon_071be6:
         lea     0x2d9cbe.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         bra.w   .L071c02                        | +00c
+        .global FinalBoss_Cannon_071be6__L071bf6
+FinalBoss_Cannon_071be6__L071bf6:
         lea     0x2d9d66.l,a0                   | +010
         jsr     0x28cd4.l                       | +016
 .L071c02:

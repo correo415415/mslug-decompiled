@@ -86,6 +86,16 @@ class Insn:
         if self.mn.startswith("exg"):
             self.mn = "exg"
         self.ops = cs.op_str
+        # capstone calcula mal el target de `movem.l $d(pc),regs` (forma
+        # memoria->registros): usa PC+2 como base cuando la palabra de
+        # mascara va ANTES del desplazamiento (base real PC+4). Recalculamos
+        # el target absoluto desde los bytes crudos.
+        if self.mn.startswith("movem") and "(pc)" in self.ops \
+                and self.size == 6 and (self.bytes[1] & 0x38) == 0x38 \
+                and (self.bytes[1] & 0x07) == 0x02 and (self.bytes[0] & 0x04) == 0x04:
+            disp = int.from_bytes(self.bytes[4:6], "big", signed=True)
+            t = self.addr + 4 + disp
+            self.ops = re.sub(r"\$[0-9a-f]+\(pc\)", f"${t:x}(pc)", self.ops, count=1)
 
 
 DATA_RANGES = []      # [(a, b)] rangos marcados como datos con --data (tablas en .text)
