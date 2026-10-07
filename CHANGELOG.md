@@ -17,6 +17,14 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave UUUU — 180 entries (15,488 B, 1 data range): `$066000..$06A000`
+  (`barrel_paratrooper_shield_tank_066xxx.s`): floating barrel / sea mine
+  (tail of `Barrel_Tmpl8D`), paratrooper spawner + paratrooper (anim script
+  table `$66CD8`), shield soldier (tmpl 108/109, child `Shield_*` absorbs
+  frontal hits, converts to soldier when lost), scene-5 gate and airship
+  (parts, lights, hatch, camera hook on `$106F6C`), enemy tank (driver bails
+  to soldier, turret, homing missile, `trap #15` sprite-index asserts).
+  Templates `$E8000[53..55,94,95,108,109]`. 180/180 byte-exact.
 - Wave TTTT — 210 entries (15,242 B, no data ranges): `$062000..$066000`
   (`sniper_camper_mortar_062xxx.s`): LateProp tail (TakeHit/HPCheck/Spawn
   helpers), turret-car gunner, sniper (aim via Atan2, flees as soldier),

@@ -11,10 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 6356/6356 funciones
-BYTES   : 390,624/390,624 (registrados)
-ROM     : 390,624/2,097,152  (18.6264%)
+MATCHED : 6536/6536 funciones
+BYTES   : 406,112/406,112 (registrados)
+ROM     : 406,112/2,097,152  (19.3649%)
 ```
+
+> **Wave UUUU** (180 entradas, 15 488 B; 1 `--data`) — `$066000..$06A000`
+> en `barrel_paratrooper_shield_tank_066xxx.s`. Trigesimoctava wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/uuuu_names.txt`, args en
+> `docs/waves/uuuu_args.txt` (tabla de scripts de animación `$66CD8..$670B6`).
+>
+> * **FloatBarrel_\*** / **FloatMine_\***: cola de `Barrel_Tmpl8D_065f40`
+>   (Submerge/Surface/Drift/Bob/Splash/Pop/Shard; mina con HP `$64`).
+> * **Paratrooper_\*** (tmpl 94/95): spawner con cadencia `$2B889A` y
+>   umbral de scroll; paracaidista Init → Land → WalkA/B → Leave; Frag/Smoke.
+> * **ShieldSoldier_\*** / **ShieldSoldierB_\*** (tmpl 108/109; también
+>   desde `M4_PlatformSpawn_085134`) + **Shield_\*** hijo (absorbe golpes
+>   frontales; `ShieldLost` → `jmp $58F82`).
+> * **S5Gate_\*** / **S5Airship_\***: puerta y dirigible de escena 5 sobre
+>   `$106F5E/$106F60`, gancho de cámara `$106F6C`, DropPow (`Pow_EntryB`).
+> * **Tank_\*** (tmpl 53/54/55): Drive/Idle/Turn/Brake/AimPlayer/FireBurst
+>   → Die/Wreck; Driver (Bail/ToSoldier `$58F82/$5724E`), Turret, Missile
+>   guiado (`$5E070`), `SetSpriteByIndex` con asserts `trap #15`.
+> * Matcher 6536/6536, 406,112 B (19.36 %); código real 71.7 %.
 
 > **Wave TTTT** (210 entradas, 15 242 B; sin `--data`) — `$062000..$066000`
 > en `sniper_camper_mortar_062xxx.s`. Trigesimoséptima wave de
