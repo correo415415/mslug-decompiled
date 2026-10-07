@@ -1,11 +1,113 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave VVVV — bazooka, vehículo lanzacohetes, walker y fragmentos
 |  Región: $06A000..$06DFE8  (15,616 B, 179 entradas, 71 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  ---------
+|  Cuatro familias de entidades enemigas/aliadas de la mitad tardía del
+|  runtime, todas siguiendo el protocolo estándar (a6 = entidad, +$00
+|  handler, +$0C padre, +$72 estado, +$98..+$9F parámetros de la VM de
+|  misión) y 19 plantillas del índice $E8000:
+|   1. $06A000..$06A07E — Tank_*: cola del tanque de la Wave UUUU (ataque
+|      por variante +$7D/+$7E, sonidos $E/$1A, comparación de slot).
+|   2. $06A07E..$06ACB2 — Bazooka_* / BazookaB_* / BazookaCrew_* /
+|      AllyBazooka_*: soldado bazooka (tmpl 86/87 y 90/91), dotación bazooka
+|      de mortero/emplazamiento (tmpl 92/93, entrada externa $6A7D6 desde
+|      Mortar_ToJump6A7D6_063960) y el bazooka aliado del escuadrón de
+|      rescate (tmpl 64, spawner tmpl 65; lo crea TaskHandler_0849ba).
+|   3. $06ACB2..$06BA2C — BazookaWeapon_* y helpers Bazooka_*: hijo "arma"
+|      que sigue al padre (+$0C) con offsets $2CA470 y despacha por estado
+|      del padre (tabla $2CA644/$2CA664 → jmp (a1)); fogonazo, cohete
+|      ($2CA4B0: vel/grav por octante, snd $173, música $1025 al impactar),
+|      puntería por tabla $2CA5F0/$2CA612/$2CA634, muerte (debris $77C7E,
+|      explosiones $77FD6, músicas $1033/$1021).
+|   4. $06BA2C..$06D654 — RocketVehicle_*: vehículo con ruedas (tmpl 88/89)
+|      sobre tres eslabones Chain3 (+$74/+$78/+$7C, $30696/$30704/$3076A,
+|      físicas de suelo $2785C/$2A8C0/$27A18), fase de rueda +$8A → +$97
+|      que selecciona entre 29 tablas inline de 4 punteros de sprite
+|      (RocketVehicle_Sprites*/RiderSprites*; 4º puntero siempre
+|      $2CD62A), conductor hijo (RocketVehicle_Rider, tmpl vía $4AE),
+|      lanzacohetes (MuzzleFlash/Rocket, tablas $2CD10A/$2CD11A por
+|      +$97/+$98), muerte con Wreck/Corpse y DetachLinks (eslabones →
+|      $6C554).
+|   5. $06D654..$06DA9E — Walker_*: enemigo de aproximación (tmpl 66..74:
+|      nueve variantes = 3 modos +$70 × 3 combinaciones +$7E/+$7F), HP de
+|      $2B8D6C, X límite +$86 = +$9A<<4 (o $150), hijo $723D2, ataque por
+|      ráfagas (tablas $2B8DEE/$2B8E70/$2B8EF2), explosión final con
+|      Entity_SpawnLoop16 (16 Frag_Scatter) y $518.
+|   6. $06DA9E..$06DFE8 — Frag_* / FireBurst_*: fragmentos (Shell, Debris
+|      $6DBD4 ← Tank_Debris_069af8, Smoke, Spark, Scatter/ScatterSlow con
+|      velocidad sin/cos $2C072C/$2C07AC × RNG $5E9B6) y chorro de fuego
+|      ($6DF32: música $108E, snd 2, sprites $2D4666, FX $31D26; continúa
+|      en $6E15E, Wave WWWW).
+|
+|  B) CÓMO FUNCIONA
+|  ----------------
+|  Bazooka (tmpl 87): máquina +$72 = 0 Idle/Walk, 1 Alert, 2→4→3 Attack
+|  (timer +$70 de Tbl_Decode2D $2BD4EA/$2BD56C/$2BD5EE, +$1E tras disparo),
+|  5 Hurt, 6 Die/Corpse ($3C frames), 7 HitTest. Facing +$75 ≠ +$3A dispara
+|  Turn ($2CAA94/$2CABAA). El arma es una entidad hija (BazookaWeapon_Child)
+|  que copia el estado del padre cada frame (StateLookup) y dibuja su propio
+|  sprite ($2CB082, o $2CB1AC[+$34&$F] al apuntar); al disparar, Bazooka_Fire
+|  crea MuzzleFlash ($2DD6D2, snd 8) y Rocket (vel $2CA4B0[+$98&7][+$34&$F],
+|  ángulo con Atan2 $5E018, hit $283D8, impacto → $1025 + $77F6A).
+|  BazookaB (tmpl 90/91): igual pero con +$9C/+$9D/+$9E (modo, lado,
+|  reacquire), objetivo +$90 vía Player_GetEntity $5E3A2.
+|  AllyBazooka (tmpl 64): avanza hasta +$98=$110 y dispara ráfagas +$74
+|  ($2BD5EE); muere si el padre tiene +$20=$FF; HitTest con clases +$58 2/3.
+|  RocketVehicle: Drive/Stop/Turn/Idle/Alert/Attack/Hurt/Die/Wreck/Corpse
+|  con sprites por fase de rueda; GroundPhysics usa Chain3 cuando +$13 bit6
+|  está limpio; SlopeAngle (Atan2 entre eslabones +$74/+$78) → SlopeToSpeed.
+|  Walker: Init (snap $5E7C0, scroll $267E2, Sub_0006E31E snd por +$9B,
+|  prio $14; si +$9D: prio $8000 + Sub_0006E484 + hijo $723D2) → Approach
+|  (sprites $2D428C/$2D42B0/$2D4298, hasta +$86 o a $60 del jugador) →
+|  Attack (ráfagas $2B8E70 / pausas $2B8DEE / cuenta $2B8EF2, FX $5E086
+|  con $2D4036) → Die ($2D4394, debris) → Explode ($1033, $77FD6, 16 Frag).
+|  Frag_Scatter: sprite aleatorio $2D4106/$2D4146[rnd&$F], velocidad
+|  (sin,cos)[rnd&$3E+$20] × (rnd&7+1)/4 × +$36/256, rebote con +$80/+$82,
+|  Scroll_IsPastQuarter $5E804 al terminar.
+|
+|  C) INTERFAZ
+|  -----------
+|   Entradas E8000: 64 $6AA14, 65 $6AC5C, 66..74 $6D654..$6D6D4, 86 $6A08A,
+|   87 $6A07E, 88 $6BA34, 89 $6BA2C, 90 $6A476, 91 $6A486, 92 $6A7BC,
+|   93 $6A7CA. Entradas externas: $6A7D6 (mortero), $6DBD4 (Tank_Debris),
+|   $6DCE0/$6DD16 (props/para_squad/sniper), $6DD5C (Entity_SpawnLoop16).
+|   Campos: +$34 índice de puntería (0..$F), +$36 velocidad base, +$70 timer,
+|   +$72 estado, +$73/+$74 contadores, +$75 facing lógico, +$7A kind de
+|   grito, +$80/+$82 rebotes, +$86 X límite, +$88 ráfagas, +$89 flag,
+|   +$8A fase rueda, +$8D facing vehículo, +$8E/+$8F offset jinete,
+|   +$90 objetivo, +$96/+$97 fase, +$98..+$9F parámetros VM.
+|
+|  D) EVIDENCIAS
+|  -------------
+|   - Índice $E8000 leído directamente del P ROM (19 plantillas en rango).
+|   - Mortar_ToJump6A7D6_063960 prepara +$98..+$9E y salta a $6A7D6.
+|   - rescue_squad TaskHandler_0849ba hace `lea $6AA14; jsr $4AE` (aliado).
+|   - Tank_Debris_069af8 → jmp $6DBD4; props/para_squad → $6DCE0/$6DD16.
+|   - Chain3_* ($30696/$30704/$3076A) ya identificados en slug_helpers
+|     como eslabones de suspensión → vehículo con ruedas.
+|   - 29 tablas de 4 punteros ($2CDxxx..$2D3xxx, 4º = $2CD62A) tras bra.w,
+|     indexadas por +$97&3: poses por fase de rueda.
+|   - Entity_SpawnLoop16_06E412 ya documentado: 16 × Frag_Scatter.
+|
+|  E) HIPÓTESIS / DUDAS
+|  --------------------
+|   - "Bazooka": soldado con lanzacohetes (cohete con gravedad $663 y snd
+|     $173). Podría ser el soldado con mortero portátil; nombre provisional.
+|   - "RocketVehicle": vehículo enemigo con ruedas y lanzacohetes (¿Girida-O
+|     de la misión 2?). "Walker": enemigo que avanza hasta un X y ataca en
+|     ráfagas (¿Mission 4 enemigo mecánico?). Verificar con sprites.
+|   - "Frag"/"FireBurst" nombrados por comportamiento (dispersión sin/cos,
+|     música $108E); su atribución exacta a un arma queda pendiente.
+|   - Helpers $6E15E/$6E176/$6E20C/$6E2FE/$6E31E/$6E34A/$6E356/$6E394/
+|     $6E484 pertenecen a la Wave WWWW (Sub_0006Exxx provisionales).
+|
+|  F) ESTADO
+|  ---------
+|   179/179 entradas byte-exactas (gen_asm_region --registry); lint OK.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
