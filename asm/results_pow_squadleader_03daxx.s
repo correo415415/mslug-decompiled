@@ -1,11 +1,87 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave RRRR — pantalla de resultados de misión (columnas por jugador,
+|  roster de POWs rescatados, premio, banners), prisioneros de guerra
+|  (POW: atado → liberado → rescatado, crédito de rescate) y líder del
+|  escuadrón volador (Squad, par de squad_member_states_040fxx.s)
 |  Región: $03DA98..$040EF2  (12,874 B, 126 entradas, 63 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  126 entradas en cuatro bloques:
+|  1. $03DAA8 — SlugCannon_ArmOffsetCurve: 65 pares (dx,dy) de la curva
+|     del brazo del jugador montado en el Slug (índice desde $2FF8E).
+|  2. $03DBC8..$03EE3A — PANTALLA DE RESULTADOS ("MISSION COMPLETE"):
+|     Results_Entry (tarea $3DBC8 añadida por Attract_InitTaskAdd) espera
+|     por nivel ($28293A[$106ECF&7]), inicia fade ($22C8/$2308/$52580),
+|     Results_SetupPlayers crea una Results_PlayerColumn por jugador
+|     activo ($10FDB6/$10FDB7) con el score $106F4C/$106F4E y decide el
+|     ganador (+$8C: 0/1/2 empate) con Counters_AddSaturate ($516DA);
+|     Results_DrawFrame escribe el marco en VRAM fix ($3C0000, tiles
+|     $71E6..$72E6 / $9000+pal) o vía List_ApplyWithSentinelFF ($477FC)
+|     en modo $10FD83≠0; Results_WaitDone/FadeOut/Teardown/ToBanner
+|     (BannerComplete_Boot $7A9F0). Cada columna pasa por las fases
+|     Score → Wait → Commit → Bonus → Total → Pause → WaitAll → Winner
+|     (dígitos vía $4772A/$4768A en tiles $714C/$71CF/$710F; bonus
+|     $51A44 ×$1000/$10000; música $10D8) y spawnea un premio
+|     (Results_PrizeSprite/Fall/Land, $8D2F8 gravedad). Results_PowRoster
+|     muestra hasta 7 POWs rescatados: RosterPickA/B eligen al azar
+|     ($5E9E4) nombre+retrato de las tablas $282DE0/$2831B2 (A) o
+|     $282C3C/$282D88 (B, modo $10FD83) y RosterDrawA/B los dibujan
+|     (Fix_BlitRect $5DA9C, Fix_BlitStream $5DAD8). Banners A/B/C
+|     parpadean listas $282A4C.. con List_ApplyWithSentinelFF.
+|     Results_DrawLabels pinta las etiquetas fijas (tiles $23BA..$23CE).
+|     Results_PollStart* leen $10E214/$10E21A (START) para saltar.
+|     Subsystem_ScoresInit limpia $106F4C/$106F4E.
+|  3. $03EE48..$0403E4 — POW (prisionero barbudo): Pow_CountIfPending /
+|     Pow_RescueCredit* suman al contador de rescatados del jugador
+|     correspondiente ($5E3A2 identifica P1/P2 por $100440) y
+|     Pow_AddRescued incrementa $106F4C/$106F4E; Pow_RectOverlap compara
+|     hitboxes; Pow_OffworldFree ($5DD56 → $518). Tablas de animación
+|     Pow_AnimTblA/B/C ($3EFFA/$3F636/$3FA0E, cabecera de hitbox
+|     Pow_HitboxHdr). Estados: Tied (atado, Struggle/Break al recibir
+|     daño $2870A → Freed/FreedCheer/FreedWait, snd $182), Entry/Idle/
+|     IdleWave, Walk/WalkTurn/WalkStop, Jump/JumpAir, Crouch/CrouchHop,
+|     Fall/FallAir/Land ($77190/$770CC sondas), WaitRider/RiderGreet
+|     (tipo de vehículo $52A, $5CA2A), Rescued → Bow → Run → Exit
+|     (snd $113A, suelta ítem Item_SpawnFromParent $9A7CC vía +$9B),
+|     Pow_Despawn (flush $13600, snd $181). Pow_Physics = $27F08 + $28364.
+|  4. $0403E4..$040EF2 — SQUAD LEADER (entidad invisible que dirige a los
+|     8 miembros de Squad_SpawnEight_041FB4): Spawn (HP $799DE, prio
+|     $4000, estado compartido +$80..+$87 = $80), Enter/Turn/Hover con
+|     Squad_SteerTowardTarget/TurnRateStepClamp/BobY*, Formation
+|     (Squad_InitFormationSlot, dispatch de orden +$84 = $84/$85/$86/$88/
+|     $89/$8A), Swoop/PickAttack/Dive/DiveTurn/Regroup/Reform/Circle,
+|     HitCheck ($2870A/$28758), Death (limpia $106ED3/$10A2D0-1, 6
+|     explosiones $4AE, debris $77C7E, música $1032) → DeathDone
+|     ($1033), Respawn/RespawnWait (nuevo Squad_SpawnEight).
+|
+|  B) CÓMO FUNCIONA
+|  Protocolo threaded-scheduler habitual (+$00 handler, +$70 contador).
+|  Las columnas de resultados comparten con el padre (+$0C) los flags
+|  +$88/+$89/+$8A/+$8E/+$90 para sincronizar fases entre jugadores.
+|  El POW usa +$20 como "pendiente de contar", +$5C temporizador y
+|  +$70 en-aire. El líder escribe órdenes en +$80..+$87 que los miembros
+|  leen con Squad_PollSharedState_041FF6.
+|
+|  C) INTERFAZ
+|  a6 = entidad; a1 = destino fix (movea.w #tile), d1/d2 = ancho/alto en
+|  los blits; d4 = tile base de dígitos en $4772A/$4768A.
+|
+|  D) EVIDENCIAS
+|  - $10FDB6/$10FDB7 = jugadores activos; $106F4C/$106F4E = contadores
+|    por jugador (ya usados en allen_oneil Players_SnapshotMods).
+|  - Attract_InitTaskAdd_3DBC8 instala $3DBC8 al terminar la misión.
+|  - squad_member_states_040fxx.s documenta el protocolo +$80/+$84.
+|
+|  E) HIPÓTESIS / DUDAS
+|  - Los nombres de fases de columna/POW son por morfología; "premio"
+|    ($3E91C) podría ser la medalla/ítem de bonus. Sin verificar in-game.
+|  - RosterPickA/B: A usa tabla de 946 entradas ($3B2), B de 332 ($14C):
+|    quizá POW normales vs. especiales (modo $10FD83).
+|
+|  F) ESTADO
+|  126/126 byte-exactas; 5 rangos --data. Sin C.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
