@@ -69,7 +69,7 @@
 |
 |  Los tres jsr a helpers no matcheados ($5E98A, $8F6D2, $517AA) quedan
 |  con placeholder en tools/symbols.py (Sub_0005E98A, PlayerSlot_MaskF0F0_08f6d2,
-|  Sub_000517AA) para no bloquear este match; son candidatos naturales
+|  Player_SetIndexFromParent_0517aa) para no bloquear este match; son candidatos naturales
 |  para la siguiente ola (usar tools/rank_candidates.py).
 |
 |  Toolchain:  m68k-linux-gnu-as -m68000 --register-prefix-optional
@@ -106,7 +106,7 @@ PlayerEntity_InitAuxState_032A02:
         move.w  #0x0, 0x7c(a6)          | +07a  +7c = 0
         move.w  #0x0, 0x7e(a6)          | +080  +7e = 0
         bclr.b  #3, 0x13(a6)            | +086  clear flag +13 bit 3
-        jsr     Sub_000517AA            | +08c  helper (aun no matcheado)
+        jsr     Player_SetIndexFromParent_0517aa            | +08c  helper (aun no matcheado)
         lea.l   0x776e2.l, a1           | +092  a1 = &TaskTpl_0776E2
         jsr     ThunkTarget_0004ae      | +098  Task_AllocFromFreeList(a1)
 

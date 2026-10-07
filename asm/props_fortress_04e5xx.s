@@ -83,12 +83,12 @@ Prop_BarrierActive_04e580:
         move.w  #0x64,0x66(a6)                  | +010
         move.b  #0x0,0x21(a6)                   | +016
         move.b  #0x0,0x20(a6)                   | +01c
-        jsr     Sub_0004FB8A(pc)                | +022
-        jsr     Sub_0004FBE0(pc)                | +026
-        jsr     Sub_0004FC36(pc)                | +02a
-        jsr     Sub_0004FC8C(pc)                | +02e
-        jsr     Sub_0004FCD8(pc)                | +032
-        jsr     Sub_0004FD2C(pc)                | +036
+        jsr     Barrier_SpawnPiece01_04fb8a(pc)                | +022
+        jsr     Barrier_SpawnPiece02_04fbe0(pc)                | +026
+        jsr     Barrier_SpawnPiece04_04fc36(pc)                | +02a
+        jsr     Barrier_SpawnPiece08_04fc8c(pc)                | +02e
+        jsr     Barrier_SpawnPieceLeft_04fcd8(pc)                | +032
+        jsr     Barrier_SpawnPieceRight_04fd2c(pc)                | +036
         lea     Prop_BarrierLight_04ee0a(pc),a1 | +03a
         jsr     0x4ae.l                         | +03e
         jsr     0x5dd22.l                       | +044
@@ -130,7 +130,7 @@ Prop_BarrierActive_04e580:
         lea     Prop_BarrierDamaged_04e68a(pc),a1 | +0f4
         move.l  a1,(a6)                         | +0f8
 .L04e67a:
-        jsr     Sub_0004FA70(pc)                | +0fa
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0fa
         bcc.w   .L04e688                        | +0fe
         jmp     0x518.l                         | +102
 .L04e688:
@@ -178,7 +178,7 @@ Prop_BarrierDamaged_04e68a:
         lea     Prop_BarrierWreck_04e74c(pc),a1 | +0ac
         move.l  a1,(a6)                         | +0b0
 .L04e73c:
-        jsr     Sub_0004FA70(pc)                | +0b2
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0b2
         bcc.w   .L04e74a                        | +0b6
         jmp     0x518.l                         | +0ba
 .L04e74a:
@@ -221,7 +221,7 @@ Prop_BarrierWreck_04e74c:
 .L04e7e2:
         jsr     0x2783a.l                       | +096
         jsr     0x28d70.l                       | +09c
-        jsr     Sub_0004FA70(pc)                | +0a2
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0a2
         bcc.w   .L04e7fc                        | +0a6
         jmp     0x518.l                         | +0aa
 .L04e7fc:
@@ -266,14 +266,14 @@ Prop_Gatehouse_04e7fe:
         move.w  #0xb4,0x66(a6)                  | +088
         bset    #0x6,0x12(a6)                   | +08e
         move.w  #0xf000,0x38(a6)                | +094
-        jsr     Sub_0004FD8A(pc)                | +09a
-        jsr     Sub_0004FDDE(pc)                | +09e
-        jsr     Sub_0004FE32(pc)                | +0a2
-        jsr     Sub_0004FE86(pc)                | +0a6
-        jsr     Sub_0004FEDA(pc)                | +0aa
-        jsr     Sub_0004FF2E(pc)                | +0ae
-        jsr     Sub_0004FF82(pc)                | +0b2
-        jsr     Sub_0004FFD6(pc)                | +0b6
+        jsr     Gatehouse_SpawnPiece01_04fd8a(pc)                | +09a
+        jsr     Gatehouse_SpawnPiece02_04fdde(pc)                | +09e
+        jsr     Gatehouse_SpawnPiece04_04fe32(pc)                | +0a2
+        jsr     Gatehouse_SpawnPiece08_04fe86(pc)                | +0a6
+        jsr     Gatehouse_SpawnPiece10_04feda(pc)                | +0aa
+        jsr     Gatehouse_SpawnPiece20_04ff2e(pc)                | +0ae
+        jsr     Gatehouse_SpawnPiece40_04ff82(pc)                | +0b2
+        jsr     Gatehouse_SpawnPiece80_04ffd6(pc)                | +0b6
         lea     Prop_GatehouseRoof_04ef0a(pc),a1 | +0ba
         jsr     0x4ae.l                         | +0be
         jsr     0x5dd22.l                       | +0c4
@@ -318,7 +318,7 @@ Prop_Gatehouse_04e7fe:
         lea     Prop_GatehouseDamaged_04e998(pc),a1 | +184
         move.l  a1,(a6)                         | +188
 .L04e988:
-        jsr     Sub_0004FA70(pc)                | +18a
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +18a
         bcc.w   .L04e996                        | +18e
         jmp     0x518.l                         | +192
 .L04e996:
@@ -334,7 +334,7 @@ Prop_GatehouseDamaged_04e998:
         jsr     0x2352.l                        | +004
         move.w  #0xb4,0x66(a6)                  | +00a
         bclr    #0x0,0x13(a6)                   | +010
-        jsr     Sub_000501D8(pc)                | +016
+        jsr     Gatehouse_BlitDamaged_0501d8(pc)                | +016
         lea     0x29451c.l,a0                   | +01a
         jsr     0x28cd4.l                       | +020
         lea     .L04e9c4(pc),a1                 | +026
@@ -361,7 +361,7 @@ Prop_GatehouseDamaged_04e998:
         lea     Prop_GatehouseWreck_04ea3e(pc),a1 | +090
         move.l  a1,(a6)                         | +094
 .L04ea2e:
-        jsr     Sub_0004FA70(pc)                | +096
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +096
         bcc.w   .L04ea3c                        | +09a
         jmp     0x518.l                         | +09e
 .L04ea3c:
@@ -402,7 +402,7 @@ Prop_GatehouseWreck_04ea3e:
 .L04eacc:
         jsr     0x2783a.l                       | +08e
         jsr     0x28d70.l                       | +094
-        jsr     Sub_0004FA70(pc)                | +09a
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +09a
         bcc.w   .L04eae6                        | +09e
         jmp     0x518.l                         | +0a2
 .L04eae6:
@@ -482,11 +482,11 @@ Prop_FortressActive_04ebbc:
         move.w  d0,0x66(a6)                     | +012
         bset    #0x6,0x12(a6)                   | +016
         move.w  #0xf000,0x38(a6)                | +01c
-        jsr     Sub_0005002A(pc)                | +022
-        jsr     Sub_0005007E(pc)                | +026
-        jsr     Sub_000500D2(pc)                | +02a
-        jsr     Sub_00050126(pc)                | +02e
-        jsr     Sub_0005017A(pc)                | +032
+        jsr     Fortress_SpawnPiece01_05002a(pc)                | +022
+        jsr     Fortress_SpawnPiece02_05007e(pc)                | +026
+        jsr     Fortress_SpawnPiece04_0500d2(pc)                | +02a
+        jsr     Fortress_SpawnPiece08_050126(pc)                | +02e
+        jsr     Fortress_SpawnPiece10_05017a(pc)                | +032
         lea     0xe9442.l,a1                    | +036
         move.w  #0x75,d0                        | +03c
         move.b  #0x0,0x75(a6)                   | +040
@@ -542,7 +542,7 @@ Prop_FortressActive_04ebbc:
         lea     Prop_FortressWreck_04ed00(pc),a1 | +12e
         move.l  a1,(a6)                         | +132
 .L04ecf0:
-        jsr     Sub_0004FA70(pc)                | +134
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +134
         bcc.w   .L04ecfe                        | +138
         jmp     0x518.l                         | +13c
 .L04ecfe:
@@ -579,7 +579,7 @@ Prop_FortressWreck_04ed00:
 .L04ed74:
         jsr     0x2783a.l                       | +074
         jsr     0x28d70.l                       | +07a
-        jsr     Sub_0004FA70(pc)                | +080
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +080
         bcc.w   .L04ed8e                        | +084
         jmp     0x518.l                         | +088
 .L04ed8e:
@@ -674,7 +674,7 @@ Prop_BarrierLight_04ee0a:
         lea     Prop_BarrierLightWreck_04eeca(pc),a1 | +0aa
         move.l  a1,(a6)                         | +0ae
 .L04eeba:
-        jsr     Sub_0004FA70(pc)                | +0b0
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0b0
         bcc.w   .L04eec8                        | +0b4
 .L04eec2:
         jmp     0x518.l                         | +0b8
@@ -700,7 +700,7 @@ Prop_BarrierLightWreck_04eeca:
         jsr     Sprite_InvokeBlit8Params(pc)    | +028
         bra.w   .L04ef02                        | +02c
 .L04eefa:
-        jsr     Sub_0004FA70(pc)                | +030
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +030
         bcc.w   .L04ef08                        | +034
 .L04ef02:
         jmp     0x518.l                         | +038
@@ -745,7 +745,7 @@ Prop_GatehouseRoof_04ef0a:
         lea     Prop_GatehouseRoofWreck_04efa2(pc),a1 | +082
         move.l  a1,(a6)                         | +086
 .L04ef92:
-        jsr     Sub_0004FA70(pc)                | +088
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +088
         bcc.w   .L04efa0                        | +08c
         jmp     0x518.l                         | +090
 .L04efa0:
@@ -769,7 +769,7 @@ Prop_GatehouseRoofWreck_04efa2:
         movea.l 0xc(a6),a0                      | +026
         cmpi.b  #0x88,0x20(a0)                  | +02a
         beq.w   .L04efde                        | +030
-        jsr     Sub_0004FA70(pc)                | +034
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +034
         bcc.w   .L04efe4                        | +038
 .L04efde:
         jmp     0x518.l                         | +03c
@@ -832,7 +832,7 @@ Prop_FortressTurretMount_04f030:
         lea     Prop_FortressTurretMountFall_04f0b0(pc),a1 | +06a
         move.l  a1,(a6)                         | +06e
 .L04f0a0:
-        jsr     Sub_0004FA70(pc)                | +070
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +070
         bcc.w   .L04f0ae                        | +074
         jmp     0x518.l                         | +078
 .L04f0ae:
@@ -868,7 +868,7 @@ Prop_FortressTurretMountFall_04f0b0:
         jsr     0x77c7e.l                       | +06e
         bra.w   .L04f130                        | +074
 .L04f128:
-        jsr     Sub_0004FA70(pc)                | +078
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +078
         bcc.w   .L04f136                        | +07c
 .L04f130:
         jmp     0x518.l                         | +080
@@ -918,7 +918,7 @@ Prop_FortressSide_04f138:
         bgt.w   .L04f1e4                        | +0a2
         jsr     0x28d70.l                       | +0a6
 .L04f1e4:
-        jsr     Sub_0004FA70(pc)                | +0ac
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0ac
         bcc.w   .L04f1f2                        | +0b0
 .L04f1ec:
         jmp     0x518.l                         | +0b4
@@ -969,7 +969,7 @@ Prop_BlitSequence_04f1f4:
         or.b    d0,0x21(a0)                     | +098
         bra.w   .L04f29c                        | +09c
 .L04f294:
-        jsr     Sub_0004FA70(pc)                | +0a0
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0a0
         bcc.w   .L04f2a2                        | +0a4
 .L04f29c:
         jmp     0x518.l                         | +0a8
@@ -1022,7 +1022,7 @@ Prop_Roof_04f2c2:
         lea     Prop_RoofFall_04f344(pc),a1     | +06c
         move.l  a1,(a6)                         | +070
 .L04f334:
-        jsr     Sub_0004FA70(pc)                | +072
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +072
         bcc.w   .L04f342                        | +076
         jmp     0x518.l                         | +07a
 .L04f342:
@@ -1149,7 +1149,7 @@ Prop_SensorWait_04f47a:
         lea     Prop_SensorTriggered_04f4b6(pc),a1 | +026
         move.l  a1,(a6)                         | +02a
 .L04f4a6:
-        jsr     Sub_0004FA70(pc)                | +02c
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +02c
         bcc.w   .L04f4b4                        | +030
         jmp     0x518.l                         | +034
 .L04f4b4:
@@ -1172,7 +1172,7 @@ Prop_SensorTriggered_04f4b6:
         lea     Prop_SensorWait_04f47a(pc),a1   | +022
         move.l  a1,(a6)                         | +026
 .L04f4de:
-        jsr     Sub_0004FA70(pc)                | +028
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +028
         bcc.w   .L04f4ec                        | +02c
         jmp     0x518.l                         | +030
 .L04f4ec:
@@ -1222,7 +1222,7 @@ Prop_Crate_04f4ee:
         move.l  a1,(a6)                         | +0b2
         bra.w   .L04f5b4                        | +0b4
 .L04f5a6:
-        jsr     Sub_0004FA70(pc)                | +0b8
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0b8
         bcc.w   .L04f5b4                        | +0bc
         jmp     0x518.l                         | +0c0
 .L04f5b4:

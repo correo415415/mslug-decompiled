@@ -131,8 +131,8 @@ extern void Prop_TowerTopWreckLoop_04dc88(void);
 extern void Prop_TowerBaseWreckLoop_04de32(void);
 extern void Prop_FortressWaitScroll_04eb94(void);
 extern void Prop_SlotPrioCheckRts_04f2a4(void);
-extern void TaskHandler_050976(void);
-extern void TaskHandler_051452(void);
+extern void Allen_Spawn_050976(void);
+extern void Allen_GrenadeExplodeTick_051452(void);
 extern void TaskHandler_05147e(void);
 extern void TaskHandler_052514(void);
 extern void TaskHandler_0526aa(void);
@@ -1303,7 +1303,7 @@ void SetTaskHandler_04f3a6(void) {
 
 __attribute__((section(".text.SetTaskHandler_05096e")))
 void SetTaskHandler_05096e(void) {
-    _a1_ptr = &TaskHandler_050976;
+    _a1_ptr = &Allen_Spawn_050976;
     STORE_A1_AT_FP();
 }
 
@@ -1315,7 +1315,7 @@ void SetTaskHandler_05138a(void) {
 
 __attribute__((section(".text.SetTaskHandler_05144a")))
 void SetTaskHandler_05144a(void) {
-    _a1_ptr = &TaskHandler_051452;
+    _a1_ptr = &Allen_GrenadeExplodeTick_051452;
     STORE_A1_AT_FP();
 }
 

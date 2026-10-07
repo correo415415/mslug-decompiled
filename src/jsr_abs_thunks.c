@@ -116,8 +116,8 @@ void JsrAbsThunk_024e6e(void) {
 
 __attribute__((section(".text.JsrAbsThunk_0257e4")))
 void JsrAbsThunk_0257e4(void) {
-    extern void ThunkTarget_05180c(void);
-    ThunkTarget_05180c();
+    extern void Clear8Bytes_05180c(void);
+    Clear8Bytes_05180c();
     __asm__ volatile("" ::: "memory");
 }
 

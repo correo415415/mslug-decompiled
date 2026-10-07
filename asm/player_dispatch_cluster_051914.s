@@ -96,7 +96,7 @@ Player_DispatchStateBySlot_051914:
         lea.l   0x1081b6.l, a1                 | +54  a1 = state_buffer (overwrite)
         move.w  d1, -(a7)                      | +5a  push d1 (preserve state_idx
                                               |             sobre .Lprep)
-        bsr.w   .L1_prep                       | +5c  Sub_00051862 (prep)
+        bsr.w   .L1_prep                       | +5c  Nibbles_Pack8_051862 (prep)
         move.w  (a7)+, d1                      | +60  restore d1
         lea     .L1_jt(pc), a2                 | +62  a2 = &StateJT[0]
         andi.w  #0x1f, d1                      | +66  d1 &= 0x1F
@@ -106,15 +106,15 @@ Player_DispatchStateBySlot_051914:
         adda.w  d1, a2                         | +70  a2 = &StateJT[idx+1]
         bsr.w   .L1_bcd                        | +72  BCD_AddClamp99999999
         suba.w  #0x8, a0                       | +76  a0 -= 8 (undo shift)
-        bsr.w   .L1_post                       | +7a  Sub_00051828 (post-jt)
+        bsr.w   .L1_post                       | +7a  Nibbles_Unpack4_051828 (post-jt)
         movem.l (a7)+, a0-a2                   | +7e  pop a0-a2
 .L1_exit:
         rts                                    | +82
 
-        .equ    .L1_prep, Sub_00051862
-        .equ    .L1_jt,   StateJumpTable_05188C
+        .equ    .L1_prep, Nibbles_Pack8_051862
+        .equ    .L1_jt,   PlayerState_FlagTable_05188c
         .equ    .L1_bcd,  BCD_AddClamp99999999_051A10
-        .equ    .L1_post, Sub_00051828
+        .equ    .L1_post, Nibbles_Unpack4_051828
 
         .size   Player_DispatchStateBySlot_051914, .-Player_DispatchStateBySlot_051914
 
@@ -160,7 +160,7 @@ Player_BuildTableAddrOnly_05199A:
         movem.l (a7)+, a0-a2                   | +1e  pop a0-a2
         rts                                    | +22
 
-        .equ    .L2_jt, StateJumpTable_05188C
+        .equ    .L2_jt, PlayerState_FlagTable_05188c
 
         .size   Player_BuildTableAddrOnly_05199A, .-Player_BuildTableAddrOnly_05199A
 
@@ -222,18 +222,18 @@ Player_DispatchOrLoadFromSlot50_051A28:
         lea.l   0x1081b6.l, a1                 | +3c  a1 = state_buffer
         lea.l   0x1081ba.l, a2                 | +42  a2 = state_buffer + 4
         move.l  d0, (a2)                       | +48  publica d0 en (a2)
-        bsr.w   .L3_prep                       | +4a  Sub_00051862 (prep)
+        bsr.w   .L3_prep                       | +4a  Nibbles_Pack8_051862 (prep)
         addq.w  #0x4, a2                       | +4e  a2 += 4
         bsr.b   .L3_bcd                        | +50  BCD_AddClamp99999999
         subq.w  #0x8, a0                       | +52  a0 -= 8 (undo shift)
-        bsr.w   .L3_post                       | +54  Sub_00051828 (post-jt)
+        bsr.w   .L3_post                       | +54  Nibbles_Unpack4_051828 (post-jt)
 .L3_exit:
         movem.l (a7)+, d0/a0-a2                | +58  pop d0/a0-a2
         rts                                    | +5c
 
-        .equ    .L3_prep, Sub_00051862
+        .equ    .L3_prep, Nibbles_Pack8_051862
         .equ    .L3_bcd,  BCD_AddClamp99999999_051A10
-        .equ    .L3_post, Sub_00051828
+        .equ    .L3_post, Nibbles_Unpack4_051828
 
         .size   Player_DispatchOrLoadFromSlot50_051A28, .-Player_DispatchOrLoadFromSlot50_051A28
 

@@ -43,7 +43,7 @@ Player_StateDispatch_0519BE:
         lea.l   0x106e9c.l, a0                 | +20  a0 = P2_ctx
 .Lloaded:
         lea.l   0x1081b6.l, a1                 | +26  a1 = state_buffer
-        bsr.w   .Lprep                         | +2c  bsr Sub_00051862  (prep)
+        bsr.w   .Lprep                         | +2c  bsr Nibbles_Pack8_051862  (prep)
         lea     .Ljt(pc), a2                   | +30  a2 = &StateJT[0]
         move.b  0x58(a6), d1                   | +34  d1 = self->state_idx
         andi.w  #0x1f, d1                      | +38  d1 &= 0x1F
@@ -53,13 +53,13 @@ Player_StateDispatch_0519BE:
         adda.w  d1, a2                         | +42  a2 = &StateJT[idx+1]
         bsr.w   .Lbcd_helper                   | +44  BCD_AddClamp99999999_051A10
         suba.w  #0x8, a0                       | +48  a0 -= 8 (undo shift)
-        bsr.w   .Lpost                         | +4c  bsr Sub_00051828  (post-jt)
+        bsr.w   .Lpost                         | +4c  bsr Nibbles_Unpack4_051828  (post-jt)
 .Lexit:
         rts                                    | +50
 
-        .equ    .Lprep,       Sub_00051862
-        .equ    .Ljt,         StateJumpTable_05188C
+        .equ    .Lprep,       Nibbles_Pack8_051862
+        .equ    .Ljt,         PlayerState_FlagTable_05188c
         .equ    .Lbcd_helper, BCD_AddClamp99999999_051A10
-        .equ    .Lpost,       Sub_00051828
+        .equ    .Lpost,       Nibbles_Unpack4_051828
 
         .size   Player_StateDispatch_0519BE, .-Player_StateDispatch_0519BE

@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $04FA50..$051914  (7,396 B, 96 entradas, 36 huecos)
+|  Región: $04FA50..$051914  (7,396 B, 97 entradas, 36 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -15,113 +15,113 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04fa58  @ $04FA58  (16 B)
+|  FixTile_Set11C1_04fa58  @ $04FA58  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04fa58, "ax", @progbits
-        .global TaskHandler_04fa58
-TaskHandler_04fa58:
+        .section .text.FixTile_Set11C1_04fa58, "ax", @progbits
+        .global FixTile_Set11C1_04fa58
+FixTile_Set11C1_04fa58:
         move.w  #0x11,d1                        | +000
         move.w  #0xc1,d2                        | +004
         move.w  #0xffff,d3                      | +008
         move.w  #0x1,d4                         | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FA70  @ $04FA70  (14 B)
+|  Prop_OffscreenLeftCheck_04fa70  @ $04FA70  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FA70, "ax", @progbits
-        .global Sub_0004FA70
-Sub_0004FA70:
+        .section .text.Prop_OffscreenLeftCheck_04fa70, "ax", @progbits
+        .global Prop_OffscreenLeftCheck_04fa70
+Prop_OffscreenLeftCheck_04fa70:
         move.w  0x70(a6),d0                     | +000
         neg.w   d0                              | +004
         cmp.w   0x22(a6),d0                     | +006
         ble.w   ClearC_04fa84                   | +00a
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FA8A  @ $04FA8A  (16 B)
+|  Prop_TowerBlitState10_04fa8a  @ $04FA8A  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FA8A, "ax", @progbits
-        .global Sub_0004FA8A
-Sub_0004FA8A:
+        .section .text.Prop_TowerBlitState10_04fa8a, "ax", @progbits
+        .global Prop_TowerBlitState10_04fa8a
+Prop_TowerBlitState10_04fa8a:
         cmpi.b  #0x10,0x21(a6)                  | +000
-        bne.w   TaskHandler_04faa0              | +006
+        bne.w   Prop_TowerBlitState11_04faa0    | +006
         lea     0x29557e.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04faa0  @ $04FAA0  (16 B)
+|  Prop_TowerBlitState11_04faa0  @ $04FAA0  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04faa0, "ax", @progbits
-        .global TaskHandler_04faa0
-TaskHandler_04faa0:
+        .section .text.Prop_TowerBlitState11_04faa0, "ax", @progbits
+        .global Prop_TowerBlitState11_04faa0
+Prop_TowerBlitState11_04faa0:
         cmpi.b  #0x11,0x21(a6)                  | +000
-        bne.w   TaskHandler_04fab6              | +006
+        bne.w   Prop_TowerBlitState12_04fab6    | +006
         lea     0x295592.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04fab6  @ $04FAB6  (16 B)
+|  Prop_TowerBlitState12_04fab6  @ $04FAB6  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04fab6, "ax", @progbits
-        .global TaskHandler_04fab6
-TaskHandler_04fab6:
+        .section .text.Prop_TowerBlitState12_04fab6, "ax", @progbits
+        .global Prop_TowerBlitState12_04fab6
+Prop_TowerBlitState12_04fab6:
         cmpi.b  #0x12,0x21(a6)                  | +000
-        bne.w   TaskHandler_04facc              | +006
+        bne.w   Prop_TowerBlitState01_04facc    | +006
         lea     0x2955a6.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04facc  @ $04FACC  (16 B)
+|  Prop_TowerBlitState01_04facc  @ $04FACC  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04facc, "ax", @progbits
-        .global TaskHandler_04facc
-TaskHandler_04facc:
+        .section .text.Prop_TowerBlitState01_04facc, "ax", @progbits
+        .global Prop_TowerBlitState01_04facc
+Prop_TowerBlitState01_04facc:
         cmpi.b  #0x1,0x21(a6)                   | +000
-        bne.w   TaskHandler_04fae2              | +006
+        bne.w   Prop_TowerBlitState02_04fae2    | +006
         lea     0x2955ba.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04fae2  @ $04FAE2  (16 B)
+|  Prop_TowerBlitState02_04fae2  @ $04FAE2  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04fae2, "ax", @progbits
-        .global TaskHandler_04fae2
-TaskHandler_04fae2:
+        .section .text.Prop_TowerBlitState02_04fae2, "ax", @progbits
+        .global Prop_TowerBlitState02_04fae2
+Prop_TowerBlitState02_04fae2:
         cmpi.b  #0x2,0x21(a6)                   | +000
         bne.w   JsrPcRts_04faf6                 | +006
         lea     0x2955ce.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_04faf8  @ $04FAF8  (16 B)
+|  Prop_BunkerBlitState10_04faf8  @ $04FAF8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_04faf8, "ax", @progbits
-        .global PcThunkTarget_04faf8
-PcThunkTarget_04faf8:
+        .section .text.Prop_BunkerBlitState10_04faf8, "ax", @progbits
+        .global Prop_BunkerBlitState10_04faf8
+Prop_BunkerBlitState10_04faf8:
         cmpi.b  #0x10,0x21(a6)                  | +000
-        bne.w   TaskHandler_04fb0e              | +006
+        bne.w   Prop_BunkerBlitState01_04fb0e   | +006
         lea     0x295646.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04fb0e  @ $04FB0E  (16 B)
+|  Prop_BunkerBlitState01_04fb0e  @ $04FB0E  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04fb0e, "ax", @progbits
-        .global TaskHandler_04fb0e
-TaskHandler_04fb0e:
+        .section .text.Prop_BunkerBlitState01_04fb0e, "ax", @progbits
+        .global Prop_BunkerBlitState01_04fb0e
+Prop_BunkerBlitState01_04fb0e:
         cmpi.b  #0x1,0x21(a6)                   | +000
-        bne.w   TaskHandler_04fb24              | +006
+        bne.w   Prop_BunkerBlitState11_04fb24   | +006
         lea     0x29565a.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04fb24  @ $04FB24  (16 B)
+|  Prop_BunkerBlitState11_04fb24  @ $04FB24  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04fb24, "ax", @progbits
-        .global TaskHandler_04fb24
-TaskHandler_04fb24:
+        .section .text.Prop_BunkerBlitState11_04fb24, "ax", @progbits
+        .global Prop_BunkerBlitState11_04fb24
+Prop_BunkerBlitState11_04fb24:
         cmpi.b  #0x11,0x21(a6)                  | +000
         bne.w   Stub_0004FB3A                   | +006
         lea     0x29566e.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FB3C  @ $04FB3C  (50 B)
+|  Prop_NestBlitByFacing_04fb3c  @ $04FB3C  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FB3C, "ax", @progbits
-        .global Sub_0004FB3C
-Sub_0004FB3C:
+        .section .text.Prop_NestBlitByFacing_04fb3c, "ax", @progbits
+        .global Prop_NestBlitByFacing_04fb3c
+Prop_NestBlitByFacing_04fb3c:
         btst    #0x0,0x3a(a6)                   | +000
         beq.w   .L04fb5e                        | +006
         lea     0x2956d2.l,a2                   | +00a
@@ -135,21 +135,21 @@ Sub_0004FB3C:
         lea     0x29570e.l,a2                   | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_04fb74  @ $04FB74  (16 B)
+|  Prop_NestBlitPair_04fb74  @ $04FB74  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_04fb74, "ax", @progbits
-        .global TaskHandler_04fb74
-TaskHandler_04fb74:
+        .section .text.Prop_NestBlitPair_04fb74, "ax", @progbits
+        .global Prop_NestBlitPair_04fb74
+Prop_NestBlitPair_04fb74:
         lea     0x29575e.l,a2                   | +000
         jsr     Sprite_InvokeBlit8Params(pc)    | +006
         lea     0x295772.l,a2                   | +00a
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FB8A  @ $04FB8A  (86 B)
+|  Barrier_SpawnPiece01_04fb8a  @ $04FB8A  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FB8A, "ax", @progbits
-        .global Sub_0004FB8A
-Sub_0004FB8A:
+        .section .text.Barrier_SpawnPiece01_04fb8a, "ax", @progbits
+        .global Barrier_SpawnPiece01_04fb8a
+Barrier_SpawnPiece01_04fb8a:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -169,11 +169,11 @@ Sub_0004FB8A:
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FBE0  @ $04FBE0  (86 B)
+|  Barrier_SpawnPiece02_04fbe0  @ $04FBE0  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FBE0, "ax", @progbits
-        .global Sub_0004FBE0
-Sub_0004FBE0:
+        .section .text.Barrier_SpawnPiece02_04fbe0, "ax", @progbits
+        .global Barrier_SpawnPiece02_04fbe0
+Barrier_SpawnPiece02_04fbe0:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -193,11 +193,11 @@ Sub_0004FBE0:
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FC36  @ $04FC36  (86 B)
+|  Barrier_SpawnPiece04_04fc36  @ $04FC36  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FC36, "ax", @progbits
-        .global Sub_0004FC36
-Sub_0004FC36:
+        .section .text.Barrier_SpawnPiece04_04fc36, "ax", @progbits
+        .global Barrier_SpawnPiece04_04fc36
+Barrier_SpawnPiece04_04fc36:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -217,11 +217,11 @@ Sub_0004FC36:
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FC8C  @ $04FC8C  (76 B)
+|  Barrier_SpawnPiece08_04fc8c  @ $04FC8C  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FC8C, "ax", @progbits
-        .global Sub_0004FC8C
-Sub_0004FC8C:
+        .section .text.Barrier_SpawnPiece08_04fc8c, "ax", @progbits
+        .global Barrier_SpawnPiece08_04fc8c
+Barrier_SpawnPiece08_04fc8c:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -239,11 +239,11 @@ Sub_0004FC8C:
         rts                                     | +04a
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FCD8  @ $04FCD8  (84 B)
+|  Barrier_SpawnPieceLeft_04fcd8  @ $04FCD8  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FCD8, "ax", @progbits
-        .global Sub_0004FCD8
-Sub_0004FCD8:
+        .section .text.Barrier_SpawnPieceLeft_04fcd8, "ax", @progbits
+        .global Barrier_SpawnPieceLeft_04fcd8
+Barrier_SpawnPieceLeft_04fcd8:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -263,11 +263,11 @@ Sub_0004FCD8:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FD2C  @ $04FD2C  (94 B)
+|  Barrier_SpawnPieceRight_04fd2c  @ $04FD2C  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FD2C, "ax", @progbits
-        .global Sub_0004FD2C
-Sub_0004FD2C:
+        .section .text.Barrier_SpawnPieceRight_04fd2c, "ax", @progbits
+        .global Barrier_SpawnPieceRight_04fd2c
+Barrier_SpawnPieceRight_04fd2c:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -289,11 +289,11 @@ Sub_0004FD2C:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FD8A  @ $04FD8A  (84 B)
+|  Gatehouse_SpawnPiece01_04fd8a  @ $04FD8A  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FD8A, "ax", @progbits
-        .global Sub_0004FD8A
-Sub_0004FD8A:
+        .section .text.Gatehouse_SpawnPiece01_04fd8a, "ax", @progbits
+        .global Gatehouse_SpawnPiece01_04fd8a
+Gatehouse_SpawnPiece01_04fd8a:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -313,11 +313,11 @@ Sub_0004FD8A:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FDDE  @ $04FDDE  (84 B)
+|  Gatehouse_SpawnPiece02_04fdde  @ $04FDDE  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FDDE, "ax", @progbits
-        .global Sub_0004FDDE
-Sub_0004FDDE:
+        .section .text.Gatehouse_SpawnPiece02_04fdde, "ax", @progbits
+        .global Gatehouse_SpawnPiece02_04fdde
+Gatehouse_SpawnPiece02_04fdde:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -337,11 +337,11 @@ Sub_0004FDDE:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FE32  @ $04FE32  (84 B)
+|  Gatehouse_SpawnPiece04_04fe32  @ $04FE32  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FE32, "ax", @progbits
-        .global Sub_0004FE32
-Sub_0004FE32:
+        .section .text.Gatehouse_SpawnPiece04_04fe32, "ax", @progbits
+        .global Gatehouse_SpawnPiece04_04fe32
+Gatehouse_SpawnPiece04_04fe32:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -361,11 +361,11 @@ Sub_0004FE32:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FE86  @ $04FE86  (84 B)
+|  Gatehouse_SpawnPiece08_04fe86  @ $04FE86  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FE86, "ax", @progbits
-        .global Sub_0004FE86
-Sub_0004FE86:
+        .section .text.Gatehouse_SpawnPiece08_04fe86, "ax", @progbits
+        .global Gatehouse_SpawnPiece08_04fe86
+Gatehouse_SpawnPiece08_04fe86:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -385,11 +385,11 @@ Sub_0004FE86:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FEDA  @ $04FEDA  (84 B)
+|  Gatehouse_SpawnPiece10_04feda  @ $04FEDA  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FEDA, "ax", @progbits
-        .global Sub_0004FEDA
-Sub_0004FEDA:
+        .section .text.Gatehouse_SpawnPiece10_04feda, "ax", @progbits
+        .global Gatehouse_SpawnPiece10_04feda
+Gatehouse_SpawnPiece10_04feda:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -409,11 +409,11 @@ Sub_0004FEDA:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FF2E  @ $04FF2E  (84 B)
+|  Gatehouse_SpawnPiece20_04ff2e  @ $04FF2E  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FF2E, "ax", @progbits
-        .global Sub_0004FF2E
-Sub_0004FF2E:
+        .section .text.Gatehouse_SpawnPiece20_04ff2e, "ax", @progbits
+        .global Gatehouse_SpawnPiece20_04ff2e
+Gatehouse_SpawnPiece20_04ff2e:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -433,11 +433,11 @@ Sub_0004FF2E:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FF82  @ $04FF82  (84 B)
+|  Gatehouse_SpawnPiece40_04ff82  @ $04FF82  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FF82, "ax", @progbits
-        .global Sub_0004FF82
-Sub_0004FF82:
+        .section .text.Gatehouse_SpawnPiece40_04ff82, "ax", @progbits
+        .global Gatehouse_SpawnPiece40_04ff82
+Gatehouse_SpawnPiece40_04ff82:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -457,11 +457,11 @@ Sub_0004FF82:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0004FFD6  @ $04FFD6  (84 B)
+|  Gatehouse_SpawnPiece80_04ffd6  @ $04FFD6  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0004FFD6, "ax", @progbits
-        .global Sub_0004FFD6
-Sub_0004FFD6:
+        .section .text.Gatehouse_SpawnPiece80_04ffd6, "ax", @progbits
+        .global Gatehouse_SpawnPiece80_04ffd6
+Gatehouse_SpawnPiece80_04ffd6:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -481,11 +481,11 @@ Sub_0004FFD6:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0005002A  @ $05002A  (84 B)
+|  Fortress_SpawnPiece01_05002a  @ $05002A  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005002A, "ax", @progbits
-        .global Sub_0005002A
-Sub_0005002A:
+        .section .text.Fortress_SpawnPiece01_05002a, "ax", @progbits
+        .global Fortress_SpawnPiece01_05002a
+Fortress_SpawnPiece01_05002a:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -505,11 +505,11 @@ Sub_0005002A:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0005007E  @ $05007E  (84 B)
+|  Fortress_SpawnPiece02_05007e  @ $05007E  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005007E, "ax", @progbits
-        .global Sub_0005007E
-Sub_0005007E:
+        .section .text.Fortress_SpawnPiece02_05007e, "ax", @progbits
+        .global Fortress_SpawnPiece02_05007e
+Fortress_SpawnPiece02_05007e:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -529,11 +529,11 @@ Sub_0005007E:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_000500D2  @ $0500D2  (84 B)
+|  Fortress_SpawnPiece04_0500d2  @ $0500D2  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000500D2, "ax", @progbits
-        .global Sub_000500D2
-Sub_000500D2:
+        .section .text.Fortress_SpawnPiece04_0500d2, "ax", @progbits
+        .global Fortress_SpawnPiece04_0500d2
+Fortress_SpawnPiece04_0500d2:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -553,11 +553,11 @@ Sub_000500D2:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_00050126  @ $050126  (84 B)
+|  Fortress_SpawnPiece08_050126  @ $050126  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00050126, "ax", @progbits
-        .global Sub_00050126
-Sub_00050126:
+        .section .text.Fortress_SpawnPiece08_050126, "ax", @progbits
+        .global Fortress_SpawnPiece08_050126
+Fortress_SpawnPiece08_050126:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -577,11 +577,11 @@ Sub_00050126:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_0005017A  @ $05017A  (94 B)
+|  Fortress_SpawnPiece10_05017a  @ $05017A  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005017A, "ax", @progbits
-        .global Sub_0005017A
-Sub_0005017A:
+        .section .text.Fortress_SpawnPiece10_05017a, "ax", @progbits
+        .global Fortress_SpawnPiece10_05017a
+Fortress_SpawnPiece10_05017a:
         lea     Prop_BlitSequence_04f1f4(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd22.l                       | +00a
@@ -603,11 +603,11 @@ Sub_0005017A:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  Sub_000501D8  @ $0501D8  (76 B)
+|  Gatehouse_BlitDamaged_0501d8  @ $0501D8  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000501D8, "ax", @progbits
-        .global Sub_000501D8
-Sub_000501D8:
+        .section .text.Gatehouse_BlitDamaged_0501d8, "ax", @progbits
+        .global Gatehouse_BlitDamaged_0501d8
+Gatehouse_BlitDamaged_0501d8:
         lea     0x295902.l,a2                   | +000
         jsr     Sprite_InvokeBlit8Params(pc)    | +006
         lea     0x29592a.l,a2                   | +00a
@@ -625,26 +625,26 @@ Sub_000501D8:
         lea     0x295a1a.l,a2                   | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050250  @ $050250  (16 B)
+|  SlotPrioCheck_050250  @ $050250  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050250, "ax", @progbits
-        .global TaskHandler_050250
-TaskHandler_050250:
+        .section .text.SlotPrioCheck_050250, "ax", @progbits
+        .global SlotPrioCheck_050250
+SlotPrioCheck_050250:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_050266                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_0005029C  @ $05029C  (196 B)
+|  Entity_StepMoveWithProbe_05029c  @ $05029C  (196 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005029C, "ax", @progbits
-        .global Sub_0005029C
-Sub_0005029C:
+        .section .text.Entity_StepMoveWithProbe_05029c, "ax", @progbits
+        .global Entity_StepMoveWithProbe_05029c
+Entity_StepMoveWithProbe_05029c:
         move.l  #0x27bc8,-(a7)                  | +000
         bra.w   .L0502ac                        | +006
-        .global Sub_0005029C__L0502a6
-Sub_0005029C__L0502a6:
+        .global Entity_StepMoveWithProbe_05029c__L0502a6
+Entity_StepMoveWithProbe_05029c__L0502a6:
 .L0502a6:
         move.l  #0x27d50,-(a7)                  | +00a
 .L0502ac:
@@ -710,11 +710,11 @@ Sub_0005029C__L0502a6:
         rts                                     | +0c2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050360  @ $050360  (138 B)
+|  Allen_Physics_050360  @ $050360  (138 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050360, "ax", @progbits
-        .global TaskHandler_050360
-TaskHandler_050360:
+        .section .text.Allen_Physics_050360, "ax", @progbits
+        .global Allen_Physics_050360
+Allen_Physics_050360:
         tst.b   0x70(a6)                        | +000
         beq.w   .L0503ce                        | +004
         move.w  0x24(a6),d1                     | +008
@@ -725,7 +725,7 @@ TaskHandler_050360:
 .L050380:
         tst.b   0x71(a6)                        | +020
         beq.w   .L050394                        | +024
-        jsr     Sub_0005029C(pc)                | +028
+        jsr     Entity_StepMoveWithProbe_05029c(pc) | +028
         scc.b   0x70(a6)                        | +02c
         bra.w   .L0503ca                        | +030
 .L050394:
@@ -754,17 +754,17 @@ TaskHandler_050360:
         rts                                     | +088
 
 | ----------------------------------------------------------------------------
-|  Data_0503ea  @ $0503EA  (166 B)
+|  Allen_AcquireTarget_0503ea  @ $0503EA  (166 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0503ea, "ax", @progbits
-        .global Data_0503ea
-Data_0503ea:
+        .section .text.Allen_AcquireTarget_0503ea, "ax", @progbits
+        .global Allen_AcquireTarget_0503ea
+Allen_AcquireTarget_0503ea:
         .dc.w   0xff00                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0100                        | +002  (dato / opcode no decodificado)
         .dc.w   0xfff0                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0010                        | +006  (dato / opcode no decodificado)
-        .global Data_0503ea__L0503f2
-Data_0503ea__L0503f2:
+        .global Allen_AcquireTarget_0503ea__L0503f2
+Allen_AcquireTarget_0503ea__L0503f2:
 .L0503f2:
         move.b  0x7b(a6),d0                     | +008
         beq.w   .L050400                        | +00c
@@ -779,7 +779,7 @@ Data_0503ea__L0503f2:
         move.l  #0xffffffff,0x72(a6)            | +02a
         bra.w   .L05043a                        | +032
 .L050420:
-        lea     Data_0503ea(pc),a0              | +036
+        lea     Allen_AcquireTarget_0503ea(pc),a0 | +036
         jsr     0x5e086.l                       | +03a
         scc.b   0x79(a6)                        | +040
         bcs.w   .L050436                        | +044
@@ -787,7 +787,7 @@ Data_0503ea__L0503f2:
 .L050436:
         bra.w   .L050462                        | +04c
 .L05043a:
-        lea     Data_0503ea(pc),a0              | +050
+        lea     Allen_AcquireTarget_0503ea(pc),a0 | +050
         jsr     0x5e086.l                       | +054
         scc.b   0x79(a6)                        | +05a
         bcs.w   .L050454                        | +05e
@@ -815,11 +815,11 @@ Data_0503ea__L0503f2:
         rts                                     | +0a4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050490  @ $050490  (90 B)
+|  Allen_CheckTargetAbove_050490  @ $050490  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050490, "ax", @progbits
-        .global TaskHandler_050490
-TaskHandler_050490:
+        .section .text.Allen_CheckTargetAbove_050490, "ax", @progbits
+        .global Allen_CheckTargetAbove_050490
+Allen_CheckTargetAbove_050490:
         move.w  0x22(a6),d0                     | +000
         subi.w  #0x20,d0                        | +004
         cmpi.w  #0x100,d0                       | +008
@@ -849,11 +849,11 @@ TaskHandler_050490:
         rts                                     | +058
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0504f0  @ $0504F0  (36 B)
+|  Allen_CheckTargetFront_0504f0  @ $0504F0  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0504f0, "ax", @progbits
-        .global TaskHandler_0504f0
-TaskHandler_0504f0:
+        .section .text.Allen_CheckTargetFront_0504f0, "ax", @progbits
+        .global Allen_CheckTargetFront_0504f0
+Allen_CheckTargetFront_0504f0:
         move.w  0x22(a6),d0                     | +000
         subi.w  #0x20,d0                        | +004
         cmpi.w  #0x100,d0                       | +008
@@ -865,11 +865,11 @@ TaskHandler_0504f0:
         beq.w   ClearC_05051a                   | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050520  @ $050520  (32 B)
+|  Allen_CheckScreenEdge_050520  @ $050520  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050520, "ax", @progbits
-        .global TaskHandler_050520
-TaskHandler_050520:
+        .section .text.Allen_CheckScreenEdge_050520, "ax", @progbits
+        .global Allen_CheckScreenEdge_050520
+Allen_CheckScreenEdge_050520:
         move.w  0x28(a6),d0                     | +000
         bmi.w   .L050536                        | +004
         cmpi.w  #0x110,0x22(a6)                 | +008
@@ -880,11 +880,11 @@ TaskHandler_050520:
         bmi.w   SetC_050546                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05054c  @ $05054C  (72 B)
+|  Allen_CheckJumpRandom_05054c  @ $05054C  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05054c, "ax", @progbits
-        .global TaskHandler_05054c
-TaskHandler_05054c:
+        .section .text.Allen_CheckJumpRandom_05054c, "ax", @progbits
+        .global Allen_CheckJumpRandom_05054c
+Allen_CheckJumpRandom_05054c:
         move.l  0x72(a6),d0                     | +000
         bmi.w   ClearC_050594                   | +004
         move.w  0x24(a6),d1                     | +008
@@ -905,11 +905,11 @@ TaskHandler_05054c:
         bcs.w   SetC_05059a                     | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0505a0  @ $0505A0  (68 B)
+|  Allen_CheckTargetFar_0505a0  @ $0505A0  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0505a0, "ax", @progbits
-        .global TaskHandler_0505a0
-TaskHandler_0505a0:
+        .section .text.Allen_CheckTargetFar_0505a0, "ax", @progbits
+        .global Allen_CheckTargetFar_0505a0
+Allen_CheckTargetFar_0505a0:
         tst.b   0x86(a6)                        | +000
         beq.w   .L0505ac                        | +004
         subq.b  #0x1,0x86(a6)                   | +008
@@ -933,11 +933,11 @@ TaskHandler_0505a0:
         bcs.w   ClearC_0505ea                   | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0505f0  @ $0505F0  (66 B)
+|  Allen_KnifeHitCheck_0505f0  @ $0505F0  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0505f0, "ax", @progbits
-        .global TaskHandler_0505f0
-TaskHandler_0505f0:
+        .section .text.Allen_KnifeHitCheck_0505f0, "ax", @progbits
+        .global Allen_KnifeHitCheck_0505f0
+Allen_KnifeHitCheck_0505f0:
         tst.b   0x45(a6)                        | +000
         bne.w   ClearC_050638                   | +004
         move.w  0x22(a6),d0                     | +008
@@ -954,16 +954,16 @@ TaskHandler_0505f0:
         beq.w   ClearC_050638                   | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05063e  @ $05063E  (100 B)
+|  Allen_ThrowGrenade_05063e  @ $05063E  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05063e, "ax", @progbits
-        .global TaskHandler_05063e
-TaskHandler_05063e:
+        .section .text.Allen_ThrowGrenade_05063e, "ax", @progbits
+        .global Allen_ThrowGrenade_05063e
+Allen_ThrowGrenade_05063e:
         move.l  0x72(a6),d0                     | +000
         bmi.w   .L0506a0                        | +004
         move.l  a6,-(a7)                        | +008
         lea     0x100800.l,a6                   | +00a
-        lea     Data_051208__L0512b4(pc),a1     | +010
+        lea     Allen_Grenade_051208__L0512b4(pc),a1 | +010
         jsr     0x4ae.l                         | +014
         movea.l (a7)+,a6                        | +01a
         move.w  0x22(a6),0x22(a0)               | +01c
@@ -988,11 +988,11 @@ TaskHandler_05063e:
         rts                                     | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0506a2  @ $0506A2  (72 B)
+|  Allen_CheckJumpHigh_0506a2  @ $0506A2  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0506a2, "ax", @progbits
-        .global TaskHandler_0506a2
-TaskHandler_0506a2:
+        .section .text.Allen_CheckJumpHigh_0506a2, "ax", @progbits
+        .global Allen_CheckJumpHigh_0506a2
+Allen_CheckJumpHigh_0506a2:
         move.l  0x72(a6),d0                     | +000
         bmi.w   ClearC_050594                   | +004
         move.w  0x24(a6),d1                     | +008
@@ -1013,11 +1013,11 @@ TaskHandler_0506a2:
         bcs.w   SetC_0506f0                     | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0506f6  @ $0506F6  (36 B)
+|  Allen_CheckTouchKnife_0506f6  @ $0506F6  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0506f6, "ax", @progbits
-        .global TaskHandler_0506f6
-TaskHandler_0506f6:
+        .section .text.Allen_CheckTouchKnife_0506f6, "ax", @progbits
+        .global Allen_CheckTouchKnife_0506f6
+Allen_CheckTouchKnife_0506f6:
         tst.b   0x45(a6)                        | +000
         bne.w   ClearC_05071a                   | +004
         tst.b   0x78(a6)                        | +008
@@ -1030,17 +1030,17 @@ TaskHandler_0506f6:
         bne.w   SetC_050720                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_050726  @ $050726  (228 B)
+|  Allen_CommonTick_050726  @ $050726  (228 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_050726, "ax", @progbits
-        .global Data_050726
-Data_050726:
+        .section .text.Allen_CommonTick_050726, "ax", @progbits
+        .global Allen_CommonTick_050726
+Allen_CommonTick_050726:
         .dc.w   0xffe0                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0020                        | +002  (dato / opcode no decodificado)
         .dc.w   0xfff0                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0040                        | +006  (dato / opcode no decodificado)
-        .global Data_050726__L05072e
-Data_050726__L05072e:
+        .global Allen_CommonTick_050726__L05072e
+Allen_CommonTick_050726__L05072e:
 .L05072e:
         tst.b   0x87(a6)                        | +008
         beq.w   .L05073a                        | +00c
@@ -1091,13 +1091,13 @@ Data_050726__L05072e:
 .L0507de:
         jsr     0x28758.l                       | +0b8
         bcc.w   .L0507ee                        | +0be
-        lea     TaskHandler_050e40(pc),a1       | +0c2
+        lea     Allen_Death_050e40(pc),a1       | +0c2
         move.l  a1,(a6)                         | +0c6
-        .global Data_050726__L0507ee
-Data_050726__L0507ee:
+        .global Allen_CommonTick_050726__L0507ee
+Allen_CommonTick_050726__L0507ee:
 .L0507ee:
         move.w  0x66(a6),0x84(a6)               | +0c8
-        lea     Data_050726(pc),a0              | +0ce
+        lea     Allen_CommonTick_050726(pc),a0  | +0ce
         jsr     0x5dd56.l                       | +0d2
         bcc.w   .L050808                        | +0d8
         jmp     0x518.l                         | +0dc
@@ -1105,32 +1105,32 @@ Data_050726__L0507ee:
         rts                                     | +0e2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05080a  @ $05080A  (4 B)
+|  Allen_SpawnMuzzleFlashA_05080a  @ $05080A  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05080a, "ax", @progbits
-        .global TaskHandler_05080a
-TaskHandler_05080a:
-        lea     TaskHandler_05100e(pc),a1       | +000
+        .section .text.Allen_SpawnMuzzleFlashA_05080a, "ax", @progbits
+        .global Allen_SpawnMuzzleFlashA_05080a
+Allen_SpawnMuzzleFlashA_05080a:
+        lea     Allen_MuzzleFlash_05100e(pc),a1 | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050816  @ $050816  (4 B)
+|  Allen_SpawnMuzzleFlashB_050816  @ $050816  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050816, "ax", @progbits
-        .global TaskHandler_050816
-TaskHandler_050816:
-        lea     TaskHandler_05100e__L05101e(pc),a1 | +000
+        .section .text.Allen_SpawnMuzzleFlashB_050816, "ax", @progbits
+        .global Allen_SpawnMuzzleFlashB_050816
+Allen_SpawnMuzzleFlashB_050816:
+        lea     Allen_MuzzleFlash_05100e__L05101e(pc),a1 | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050822  @ $050822  (90 B)
+|  Allen_SpawnBulletLevel_050822  @ $050822  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050822, "ax", @progbits
-        .global TaskHandler_050822
-TaskHandler_050822:
+        .section .text.Allen_SpawnBulletLevel_050822, "ax", @progbits
+        .global Allen_SpawnBulletLevel_050822
+Allen_SpawnBulletLevel_050822:
         move.w  #0x10f4,d0                      | +000
         jsr     0x2352.l                        | +004
         move.l  a6,-(a7)                        | +00a
         lea     0x100800.l,a6                   | +00c
-        lea     Data_05148c__L051530(pc),a1     | +012
+        lea     Allen_Bullet_05148c__L051530(pc),a1 | +012
         jsr     0x4ae.l                         | +016
         movea.l (a7)+,a6                        | +01c
         move.b  0x3a(a6),0x3a(a0)               | +01e
@@ -1151,16 +1151,16 @@ TaskHandler_050822:
         rts                                     | +058
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05087c  @ $05087C  (90 B)
+|  Allen_SpawnBulletDiag_05087c  @ $05087C  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05087c, "ax", @progbits
-        .global TaskHandler_05087c
-TaskHandler_05087c:
+        .section .text.Allen_SpawnBulletDiag_05087c, "ax", @progbits
+        .global Allen_SpawnBulletDiag_05087c
+Allen_SpawnBulletDiag_05087c:
         move.w  #0x10f4,d0                      | +000
         jsr     0x2352.l                        | +004
         move.l  a6,-(a7)                        | +00a
         lea     0x100800.l,a6                   | +00c
-        lea     Data_05148c__L051530(pc),a1     | +012
+        lea     Allen_Bullet_05148c__L051530(pc),a1 | +012
         jsr     0x4ae.l                         | +016
         movea.l (a7)+,a6                        | +01c
         move.b  0x3a(a6),0x3a(a0)               | +01e
@@ -1181,11 +1181,11 @@ TaskHandler_05087c:
         rts                                     | +058
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0508d6  @ $0508D6  (152 B)
+|  Allen_Init_0508d6  @ $0508D6  (152 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0508d6, "ax", @progbits
-        .global TaskHandler_0508d6
-TaskHandler_0508d6:
+        .section .text.Allen_Init_0508d6, "ax", @progbits
+        .global Allen_Init_0508d6
+Allen_Init_0508d6:
         lea     0x296e7a.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x66(a6)                     | +00c
@@ -1206,13 +1206,13 @@ TaskHandler_0508d6:
         move.w  #0x18e,d1                       | +038
         jsr     0x29f2.l                        | +03c
         clr.b   0x76(a6)                        | +042
-        lea     TaskHandler_050f7e__L050fa6(pc),a1 | +046
+        lea     Allen_TouchSensor_050f7e__L050fa6(pc),a1 | +046
         jsr     0x4ae.l                         | +04a
-        lea     TaskHandler_050f7e__L050fba(pc),a1 | +050
+        lea     Allen_TouchSensor_050f7e__L050fba(pc),a1 | +050
         jsr     0x4ae.l                         | +054
-        lea     TaskHandler_050f7e(pc),a1       | +05a
+        lea     Allen_TouchSensor_050f7e(pc),a1 | +05a
         jsr     0x4ae.l                         | +05e
-        lea     TaskHandler_050f7e__L050f92(pc),a1 | +064
+        lea     Allen_TouchSensor_050f7e__L050f92(pc),a1 | +064
         jsr     0x4ae.l                         | +068
         clr.b   0x7b(a6)                        | +06e
         clr.b   0x7a(a6)                        | +072
@@ -1224,14 +1224,14 @@ TaskHandler_0508d6:
         bset    #0x0,0x3a(a6)                   | +08a
         clr.b   0x78(a6)                        | +090
 .L05096a:
-        bsr.w   Data_0503ea__L0503f2            | +094
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +094
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050976  @ $050976  (96 B)
+|  Allen_Spawn_050976  @ $050976  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050976, "ax", @progbits
-        .global TaskHandler_050976
-TaskHandler_050976:
+        .section .text.Allen_Spawn_050976, "ax", @progbits
+        .global Allen_Spawn_050976
+Allen_Spawn_050976:
         lea     0xffff.w,a0                     | +000
         move.l  a0,0x48(a6)                     | +004
         lea     0x296894.l,a0                   | +008
@@ -1247,35 +1247,35 @@ TaskHandler_050976:
         move.l  a1,(a6)                         | +030
 .L0509a8:
         move.b  #0x1e,0x45(a6)                  | +032
-        bsr.w   Data_0503ea__L0503f2            | +038
-        bsr.w   TaskHandler_050360              | +03c
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +038
+        bsr.w   Allen_Physics_050360            | +03c
         jsr     0x28d70.l                       | +040
         move.w  0x22(a6),d0                     | +046
         subi.w  #0x30,d0                        | +04a
         cmpi.w  #0xe0,d0                        | +04e
         bcc.w   .L0509d2                        | +052
-        lea     TaskHandler_0509de(pc),a1       | +056
+        lea     Allen_Intro_0509de(pc),a1       | +056
         move.l  a1,(a6)                         | +05a
 .L0509d2:
-        bra.w   Data_050726__L05072e            | +05c
+        bra.w   Allen_CommonTick_050726__L05072e | +05c
 
 | ----------------------------------------------------------------------------
-|  Data_0509d6  @ $0509D6  (8 B)
+|  Allen_TauntVoiceTbl_0509d6  @ $0509D6  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0509d6, "ax", @progbits
-        .global Data_0509d6
-Data_0509d6:
+        .section .text.Allen_TauntVoiceTbl_0509d6, "ax", @progbits
+        .global Allen_TauntVoiceTbl_0509d6
+Allen_TauntVoiceTbl_0509d6:
         .dc.w   0x113c                        | +000  (dato / opcode no decodificado)
         .dc.w   0x113d                        | +002  (dato / opcode no decodificado)
         .dc.w   0x113e                        | +004  (dato / opcode no decodificado)
         .dc.w   0x113c                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0509de  @ $0509DE  (76 B)
+|  Allen_Intro_0509de  @ $0509DE  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0509de, "ax", @progbits
-        .global TaskHandler_0509de
-TaskHandler_0509de:
+        .section .text.Allen_Intro_0509de, "ax", @progbits
+        .global Allen_Intro_0509de
+Allen_Intro_0509de:
         lea     0x296bd8.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         move.w  #0x5a,0x30(a6)                  | +00c
@@ -1284,24 +1284,24 @@ TaskHandler_0509de:
         move.l  a1,(a6)                         | +01a
 .L0509fa:
         move.b  #0x1e,0x45(a6)                  | +01c
-        bsr.w   Data_0503ea__L0503f2            | +022
-        bsr.w   TaskHandler_050360              | +026
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +022
+        bsr.w   Allen_Physics_050360            | +026
         jsr     0x28d70.l                       | +02a
         subq.w  #0x1,0x30(a6)                   | +030
         bne.w   .L050a26                        | +034
         lea     0x2963c4.l,a0                   | +038
         move.l  a0,0x48(a6)                     | +03e
-        lea     TaskHandler_050a2a(pc),a1       | +042
+        lea     Allen_Main_050a2a(pc),a1        | +042
         move.l  a1,(a6)                         | +046
 .L050a26:
-        bra.w   Data_050726__L05072e            | +048
+        bra.w   Allen_CommonTick_050726__L05072e | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050a2a  @ $050A2A  (248 B)
+|  Allen_Main_050a2a  @ $050A2A  (248 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050a2a, "ax", @progbits
-        .global TaskHandler_050a2a
-TaskHandler_050a2a:
+        .section .text.Allen_Main_050a2a, "ax", @progbits
+        .global Allen_Main_050a2a
+Allen_Main_050a2a:
         tst.b   0x78(a6)                        | +000
         beq.w   .L050a3c                        | +004
         move.w  #0xfa00,0x28(a6)                | +008
@@ -1324,72 +1324,72 @@ TaskHandler_050a2a:
         lea     .L050a76(pc),a1                 | +046
         move.l  a1,(a6)                         | +04a
 .L050a76:
-        bsr.w   Data_0503ea__L0503f2            | +04c
-        bsr.w   TaskHandler_050360              | +050
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +04c
+        bsr.w   Allen_Physics_050360            | +050
         jsr     0x28d70.l                       | +054
         move.l  0x72(a6),d0                     | +05a
         bpl.w   .L050a92                        | +05e
-        lea     TaskHandler_050c18(pc),a1       | +062
+        lea     Allen_IdleNoTarget_050c18(pc),a1 | +062
         move.l  a1,(a6)                         | +066
 .L050a92:
         tst.b   0x77(a6)                        | +068
         bne.w   .L050aa0                        | +06c
-        lea     TaskHandler_050b22(pc),a1       | +070
+        lea     Allen_Turn_050b22(pc),a1        | +070
         move.l  a1,(a6)                         | +074
 .L050aa0:
-        jsr     TaskHandler_050490(pc)          | +076
+        jsr     Allen_CheckTargetAbove_050490(pc) | +076
         bcc.w   .L050aae                        | +07a
-        lea     TaskHandler_050bd2(pc),a1       | +07e
+        lea     Allen_FireMGLevel_050bd2(pc),a1 | +07e
         move.l  a1,(a6)                         | +082
 .L050aae:
-        jsr     TaskHandler_0504f0(pc)          | +084
+        jsr     Allen_CheckTargetFront_0504f0(pc) | +084
         bcc.w   .L050abc                        | +088
-        lea     TaskHandler_050bc2(pc),a1       | +08c
+        lea     Allen_FireMGHigh_050bc2(pc),a1  | +08c
         move.l  a1,(a6)                         | +090
 .L050abc:
-        jsr     TaskHandler_0505f0(pc)          | +092
+        jsr     Allen_KnifeHitCheck_0505f0(pc)  | +092
         bcc.w   .L050aca                        | +096
-        lea     TaskHandler_050dfc(pc),a1       | +09a
+        lea     Allen_KnifeAttack_050dfc(pc),a1 | +09a
         move.l  a1,(a6)                         | +09e
 .L050aca:
-        jsr     TaskHandler_0505a0(pc)          | +0a0
+        jsr     Allen_CheckTargetFar_0505a0(pc) | +0a0
         bcc.w   .L050ad8                        | +0a4
-        lea     TaskHandler_050b6a(pc),a1       | +0a8
+        lea     Allen_Taunt_050b6a(pc),a1       | +0a8
         move.l  a1,(a6)                         | +0ac
 .L050ad8:
-        jsr     TaskHandler_050520(pc)          | +0ae
+        jsr     Allen_CheckScreenEdge_050520(pc) | +0ae
         bcc.w   .L050ae6                        | +0b2
-        lea     TaskHandler_050b5e(pc),a1       | +0b6
+        lea     Allen_ToggleRetreat_050b5e(pc),a1 | +0b6
         move.l  a1,(a6)                         | +0ba
 .L050ae6:
-        jsr     TaskHandler_05054c(pc)          | +0bc
+        jsr     Allen_CheckJumpRandom_05054c(pc) | +0bc
         bcc.w   .L050af4                        | +0c0
-        lea     TaskHandler_050d1a(pc),a1       | +0c4
+        lea     Allen_JumpToward_050d1a(pc),a1  | +0c4
         move.l  a1,(a6)                         | +0c8
 .L050af4:
-        jsr     TaskHandler_0506a2(pc)          | +0ca
+        jsr     Allen_CheckJumpHigh_0506a2(pc)  | +0ca
         bcc.w   .L050b02                        | +0ce
-        lea     TaskHandler_050dbe(pc),a1       | +0d2
+        lea     Allen_JumpHigh_050dbe(pc),a1    | +0d2
         move.l  a1,(a6)                         | +0d6
 .L050b02:
-        jsr     TaskHandler_0506f6(pc)          | +0d8
+        jsr     Allen_CheckTouchKnife_0506f6(pc) | +0d8
         bcc.w   .L050b10                        | +0dc
-        lea     TaskHandler_050b5e(pc),a1       | +0e0
+        lea     Allen_ToggleRetreat_050b5e(pc),a1 | +0e0
         move.l  a1,(a6)                         | +0e4
 .L050b10:
         tst.b   0x70(a6)                        | +0e6
         beq.w   .L050b1e                        | +0ea
-        lea     TaskHandler_050c88(pc),a1       | +0ee
+        lea     Allen_JumpDecide_050c88(pc),a1  | +0ee
         move.l  a1,(a6)                         | +0f2
 .L050b1e:
-        bra.w   Data_050726__L05072e            | +0f4
+        bra.w   Allen_CommonTick_050726__L05072e | +0f4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050b22  @ $050B22  (60 B)
+|  Allen_Turn_050b22  @ $050B22  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050b22, "ax", @progbits
-        .global TaskHandler_050b22
-TaskHandler_050b22:
+        .section .text.Allen_Turn_050b22, "ax", @progbits
+        .global Allen_Turn_050b22
+Allen_Turn_050b22:
         clr.b   0x86(a6)                        | +000
         lea     0x296954.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
@@ -1397,38 +1397,38 @@ TaskHandler_050b22:
         lea     .L050b3c(pc),a1                 | +014
         move.l  a1,(a6)                         | +018
 .L050b3c:
-        bsr.w   Data_0503ea__L0503f2            | +01a
-        bsr.w   TaskHandler_050360              | +01e
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +01a
+        bsr.w   Allen_Physics_050360            | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L050b5a                        | +028
         bchg    #0x0,0x3a(a6)                   | +02c
-        lea     TaskHandler_050a2a(pc),a1       | +032
+        lea     Allen_Main_050a2a(pc),a1        | +032
         move.l  a1,(a6)                         | +036
 .L050b5a:
-        bra.w   Data_050726__L05072e            | +038
+        bra.w   Allen_CommonTick_050726__L05072e | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050b5e  @ $050B5E  (12 B)
+|  Allen_ToggleRetreat_050b5e  @ $050B5E  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050b5e, "ax", @progbits
-        .global TaskHandler_050b5e
-TaskHandler_050b5e:
+        .section .text.Allen_ToggleRetreat_050b5e, "ax", @progbits
+        .global Allen_ToggleRetreat_050b5e
+Allen_ToggleRetreat_050b5e:
         addq.b  #0x1,0x7a(a6)                   | +000
         not.b   0x78(a6)                        | +004
-        bra.w   TaskHandler_050a2a              | +008
+        bra.w   Allen_Main_050a2a               | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050b6a  @ $050B6A  (88 B)
+|  Allen_Taunt_050b6a  @ $050B6A  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050b6a, "ax", @progbits
-        .global TaskHandler_050b6a
-TaskHandler_050b6a:
+        .section .text.Allen_Taunt_050b6a, "ax", @progbits
+        .global Allen_Taunt_050b6a
+Allen_Taunt_050b6a:
         tst.b   0x86(a6)                        | +000
         bne.w   .L050b90                        | +004
         move.b  #0x1e,0x86(a6)                  | +008
         jsr     0x5e9b6.l                       | +00e
         andi.w  #0x6,d0                         | +014
-        lea     Data_0509d6(pc),a0              | +018
+        lea     Allen_TauntVoiceTbl_0509d6(pc),a0 | +018
         move.w  (a0,d0.w),d0                    | +01c
         jsr     0x2352.l                        | +020
 .L050b90:
@@ -1438,81 +1438,81 @@ TaskHandler_050b6a:
         lea     .L050ba6(pc),a1                 | +036
         move.l  a1,(a6)                         | +03a
 .L050ba6:
-        bsr.w   Data_0503ea__L0503f2            | +03c
-        bsr.w   TaskHandler_050360              | +040
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +03c
+        bsr.w   Allen_Physics_050360            | +040
         jsr     0x28d70.l                       | +044
         bcc.w   .L050bbe                        | +04a
-        lea     TaskHandler_050a2a(pc),a1       | +04e
+        lea     Allen_Main_050a2a(pc),a1        | +04e
         move.l  a1,(a6)                         | +052
 .L050bbe:
-        bra.w   Data_050726__L05072e            | +054
+        bra.w   Allen_CommonTick_050726__L05072e | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050bc2  @ $050BC2  (16 B)
+|  Allen_FireMGHigh_050bc2  @ $050BC2  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050bc2, "ax", @progbits
-        .global TaskHandler_050bc2
-TaskHandler_050bc2:
+        .section .text.Allen_FireMGHigh_050bc2, "ax", @progbits
+        .global Allen_FireMGHigh_050bc2
+Allen_FireMGHigh_050bc2:
         lea     0x29658a.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
-        bra.w   TaskHandler_050bd2__L050bde     | +00c
+        bra.w   Allen_FireMGLevel_050bd2__L050bde | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050bd2  @ $050BD2  (70 B)
+|  Allen_FireMGLevel_050bd2  @ $050BD2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050bd2, "ax", @progbits
-        .global TaskHandler_050bd2
-TaskHandler_050bd2:
+        .section .text.Allen_FireMGLevel_050bd2, "ax", @progbits
+        .global Allen_FireMGLevel_050bd2
+Allen_FireMGLevel_050bd2:
         lea     0x29668c.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
-        .global TaskHandler_050bd2__L050bde
-TaskHandler_050bd2__L050bde:
+        .global Allen_FireMGLevel_050bd2__L050bde
+Allen_FireMGLevel_050bd2__L050bde:
 .L050bde:
         clr.b   0x86(a6)                        | +00c
         clr.w   0x28(a6)                        | +010
         lea     .L050bec(pc),a1                 | +014
         move.l  a1,(a6)                         | +018
 .L050bec:
-        bsr.w   Data_0503ea__L0503f2            | +01a
-        bsr.w   TaskHandler_050360              | +01e
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +01a
+        bsr.w   Allen_Physics_050360            | +01e
         jsr     0x28d70.l                       | +022
         bcc.w   .L050c14                        | +028
         lea     0x296efc.l,a0                   | +02c
         jsr     0x799de.l                       | +032
         move.b  d0,0x7b(a6)                     | +038
-        lea     TaskHandler_050a2a(pc),a1       | +03c
+        lea     Allen_Main_050a2a(pc),a1        | +03c
         move.l  a1,(a6)                         | +040
 .L050c14:
-        bra.w   Data_050726__L05072e            | +042
+        bra.w   Allen_CommonTick_050726__L05072e | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050c18  @ $050C18  (54 B)
+|  Allen_IdleNoTarget_050c18  @ $050C18  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050c18, "ax", @progbits
-        .global TaskHandler_050c18
-TaskHandler_050c18:
+        .section .text.Allen_IdleNoTarget_050c18, "ax", @progbits
+        .global Allen_IdleNoTarget_050c18
+Allen_IdleNoTarget_050c18:
         clr.w   0x28(a6)                        | +000
         lea     0x296bd8.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
         lea     .L050c2e(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L050c2e:
-        bsr.w   Data_0503ea__L0503f2            | +016
-        bsr.w   TaskHandler_050360              | +01a
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +016
+        bsr.w   Allen_Physics_050360            | +01a
         jsr     0x28d70.l                       | +01e
         move.l  0x72(a6),d0                     | +024
         bmi.w   .L050c4a                        | +028
-        lea     TaskHandler_050a2a(pc),a1       | +02c
+        lea     Allen_Main_050a2a(pc),a1        | +02c
         move.l  a1,(a6)                         | +030
 .L050c4a:
-        bra.w   Data_050726__L05072e            | +032
+        bra.w   Allen_CommonTick_050726__L05072e | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050c4e  @ $050C4E  (58 B)
+|  Allen_Land_050c4e  @ $050C4E  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050c4e, "ax", @progbits
-        .global TaskHandler_050c4e
-TaskHandler_050c4e:
+        .section .text.Allen_Land_050c4e, "ax", @progbits
+        .global Allen_Land_050c4e
+Allen_Land_050c4e:
         clr.b   0x86(a6)                        | +000
         lea     0x296a04.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
@@ -1521,21 +1521,21 @@ TaskHandler_050c4e:
         lea     .L050c6c(pc),a1                 | +018
         move.l  a1,(a6)                         | +01c
 .L050c6c:
-        bsr.w   Data_0503ea__L0503f2            | +01e
-        bsr.w   TaskHandler_050360              | +022
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +01e
+        bsr.w   Allen_Physics_050360            | +022
         jsr     0x28d70.l                       | +026
         bcc.w   .L050c84                        | +02c
-        lea     TaskHandler_050a2a(pc),a1       | +030
+        lea     Allen_Main_050a2a(pc),a1        | +030
         move.l  a1,(a6)                         | +034
 .L050c84:
-        bra.w   Data_050726__L05072e            | +036
+        bra.w   Allen_CommonTick_050726__L05072e | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050c88  @ $050C88  (146 B)
+|  Allen_JumpDecide_050c88  @ $050C88  (146 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050c88, "ax", @progbits
-        .global TaskHandler_050c88
-TaskHandler_050c88:
+        .section .text.Allen_JumpDecide_050c88, "ax", @progbits
+        .global Allen_JumpDecide_050c88
+Allen_JumpDecide_050c88:
         move.w  0x24(a6),d1                     | +000
         jsr     0x4400e.l                       | +004
         cmpi.w  #0x8f,d1                        | +00a
@@ -1545,7 +1545,7 @@ TaskHandler_050c88:
         movea.l d0,a0                           | +01a
         move.w  0x24(a0),d0                     | +01c
         cmp.w   0x24(a6),d0                     | +020
-        bcs.w   TaskHandler_050d1a              | +024
+        bcs.w   Allen_JumpToward_050d1a         | +024
         bra.w   .L050cf6                        | +028
 .L050cb4:
         tst.b   0x79(a6)                        | +02c
@@ -1561,25 +1561,25 @@ TaskHandler_050c88:
 .L050ce2:
         move.w  d0,0x28(a6)                     | +05a
         move.b  #0xff,0x70(a6)                  | +05e
-        lea     TaskHandler_050d90(pc),a1       | +064
+        lea     Allen_Airborne_050d90(pc),a1    | +064
         move.l  a1,(a6)                         | +068
-        bra.w   TaskHandler_050d90              | +06a
+        bra.w   Allen_Airborne_050d90           | +06a
 .L050cf6:
         lea     0x2969bc.l,a0                   | +06e
         jsr     0x28cd4.l                       | +074
         clr.w   0x28(a6)                        | +07a
         clr.w   0x2a(a6)                        | +07e
         move.w  #0xffc0,0x2e(a6)                | +082
-        lea     TaskHandler_050d90(pc),a1       | +088
+        lea     Allen_Airborne_050d90(pc),a1    | +088
         move.l  a1,(a6)                         | +08c
-        bra.w   TaskHandler_050d90              | +08e
+        bra.w   Allen_Airborne_050d90           | +08e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050d1a  @ $050D1A  (118 B)
+|  Allen_JumpToward_050d1a  @ $050D1A  (118 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050d1a, "ax", @progbits
-        .global TaskHandler_050d1a
-TaskHandler_050d1a:
+        .section .text.Allen_JumpToward_050d1a, "ax", @progbits
+        .global Allen_JumpToward_050d1a
+Allen_JumpToward_050d1a:
         lea     0x2969bc.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         move.l  #0x1111,d0                      | +00c
@@ -1612,36 +1612,36 @@ TaskHandler_050d1a:
         muls.w  #0x11,d0                        | +062
         move.w  d0,0x28(a6)                     | +066
         move.b  #0xff,0x70(a6)                  | +06a
-        lea     TaskHandler_050d90(pc),a1       | +070
+        lea     Allen_Airborne_050d90(pc),a1    | +070
         move.l  a1,(a6)                         | +074
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050d90  @ $050D90  (46 B)
+|  Allen_Airborne_050d90  @ $050D90  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050d90, "ax", @progbits
-        .global TaskHandler_050d90
-TaskHandler_050d90:
-        bsr.w   Data_0503ea__L0503f2            | +000
-        bsr.w   TaskHandler_050360              | +004
+        .section .text.Allen_Airborne_050d90, "ax", @progbits
+        .global Allen_Airborne_050d90
+Allen_Airborne_050d90:
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +000
+        bsr.w   Allen_Physics_050360            | +004
         jsr     0x28d70.l                       | +008
         tst.b   0x70(a6)                        | +00e
         bne.w   .L050dac                        | +012
-        lea     TaskHandler_050c4e(pc),a1       | +016
+        lea     Allen_Land_050c4e(pc),a1        | +016
         move.l  a1,(a6)                         | +01a
 .L050dac:
-        jsr     TaskHandler_0505f0(pc)          | +01c
+        jsr     Allen_KnifeHitCheck_0505f0(pc)  | +01c
         bcc.w   .L050dba                        | +020
-        lea     TaskHandler_050dfc(pc),a1       | +024
+        lea     Allen_KnifeAttack_050dfc(pc),a1 | +024
         move.l  a1,(a6)                         | +028
 .L050dba:
-        bra.w   Data_050726__L05072e            | +02a
+        bra.w   Allen_CommonTick_050726__L05072e | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050dbe  @ $050DBE  (62 B)
+|  Allen_JumpHigh_050dbe  @ $050DBE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050dbe, "ax", @progbits
-        .global TaskHandler_050dbe
-TaskHandler_050dbe:
+        .section .text.Allen_JumpHigh_050dbe, "ax", @progbits
+        .global Allen_JumpHigh_050dbe
+Allen_JumpHigh_050dbe:
         lea     0x2969bc.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         move.w  #0x0,d0                         | +00c
@@ -1652,16 +1652,16 @@ TaskHandler_050dbe:
         move.w  #0x0,0x2c(a6)                   | +026
         move.b  #0xff,0x70(a6)                  | +02c
         clr.b   0x71(a6)                        | +032
-        lea     TaskHandler_050d90(pc),a1       | +036
+        lea     Allen_Airborne_050d90(pc),a1    | +036
         move.l  a1,(a6)                         | +03a
-        bra.b   TaskHandler_050d90              | +03c
+        bra.b   Allen_Airborne_050d90           | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050dfc  @ $050DFC  (68 B)
+|  Allen_KnifeAttack_050dfc  @ $050DFC  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050dfc, "ax", @progbits
-        .global TaskHandler_050dfc
-TaskHandler_050dfc:
+        .section .text.Allen_KnifeAttack_050dfc, "ax", @progbits
+        .global Allen_KnifeAttack_050dfc
+Allen_KnifeAttack_050dfc:
         clr.b   0x86(a6)                        | +000
         lea     0x296c82.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
@@ -1669,25 +1669,25 @@ TaskHandler_050dfc:
         lea     .L050e18(pc),a1                 | +016
         move.l  a1,(a6)                         | +01a
 .L050e18:
-        bsr.w   Data_0503ea__L0503f2            | +01c
-        bsr.w   TaskHandler_050360              | +020
+        bsr.w   Allen_AcquireTarget_0503ea__L0503f2 | +01c
+        bsr.w   Allen_Physics_050360            | +020
         jsr     0x28d70.l                       | +024
         bcc.w   .L050e30                        | +02a
-        lea     TaskHandler_050a2a(pc),a1       | +02e
+        lea     Allen_Main_050a2a(pc),a1        | +02e
         move.l  a1,(a6)                         | +032
 .L050e30:
         tst.b   0x70(a6)                        | +034
         bne.w   .L050e3c                        | +038
         clr.w   0x28(a6)                        | +03c
 .L050e3c:
-        bra.w   Data_050726__L05072e            | +040
+        bra.w   Allen_CommonTick_050726__L05072e | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050e40  @ $050E40  (68 B)
+|  Allen_Death_050e40  @ $050E40  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050e40, "ax", @progbits
-        .global TaskHandler_050e40
-TaskHandler_050e40:
+        .section .text.Allen_Death_050e40, "ax", @progbits
+        .global Allen_Death_050e40
+Allen_Death_050e40:
         jsr     0x4aad2.l                       | +000
         move.w  #0x1140,d0                      | +006
         jsr     0x2352.l                        | +00a
@@ -1697,29 +1697,29 @@ TaskHandler_050e40:
         move.w  #0x1,d4                         | +01c
         jsr     0x2c30.l                        | +020
         tst.b   0x70(a6)                        | +026
-        bne.w   TaskHandler_050e84__L050ea2     | +02a
+        bne.w   Allen_DeathFall_050e84__L050ea2 | +02a
         lea     0x296a4c.l,a0                   | +02e
         jsr     0x28cd4.l                       | +034
         clr.w   0x28(a6)                        | +03a
-        lea     TaskHandler_050e84(pc),a1       | +03e
+        lea     Allen_DeathFall_050e84(pc),a1   | +03e
         move.l  a1,(a6)                         | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050e84  @ $050E84  (114 B)
+|  Allen_DeathFall_050e84  @ $050E84  (114 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050e84, "ax", @progbits
-        .global TaskHandler_050e84
-TaskHandler_050e84:
+        .section .text.Allen_DeathFall_050e84, "ax", @progbits
+        .global Allen_DeathFall_050e84
+Allen_DeathFall_050e84:
         move.b  #0x2,0x45(a6)                   | +000
-        bsr.w   TaskHandler_050360              | +006
+        bsr.w   Allen_Physics_050360            | +006
         jsr     0x28d70.l                       | +00a
         bcc.w   .L050e9e                        | +010
-        lea     TaskHandler_050f56(pc),a1       | +014
+        lea     Allen_DeathFade_050f56(pc),a1   | +014
         move.l  a1,(a6)                         | +018
 .L050e9e:
-        bra.w   Data_050726__L0507ee            | +01a
-        .global TaskHandler_050e84__L050ea2
-TaskHandler_050e84__L050ea2:
+        bra.w   Allen_CommonTick_050726__L0507ee | +01a
+        .global Allen_DeathFall_050e84__L050ea2
+Allen_DeathFall_050e84__L050ea2:
 .L050ea2:
         lea     0x296abc.l,a0                   | +01e
         jsr     0x28cd4.l                       | +024
@@ -1733,34 +1733,34 @@ TaskHandler_050e84__L050ea2:
         move.l  a1,(a6)                         | +04e
 .L050ed4:
         move.b  #0x2,0x45(a6)                   | +050
-        jsr     TaskHandler_050360(pc)          | +056
+        jsr     Allen_Physics_050360(pc)        | +056
         jsr     0x28d70.l                       | +05a
         tst.b   0x70(a6)                        | +060
         bne.w   .L050ef2                        | +064
-        lea     TaskHandler_050ef6(pc),a1       | +068
+        lea     Allen_DeathLand_050ef6(pc),a1   | +068
         move.l  a1,(a6)                         | +06c
 .L050ef2:
-        bra.w   Data_050726__L0507ee            | +06e
+        bra.w   Allen_CommonTick_050726__L0507ee | +06e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050ef6  @ $050EF6  (26 B)
+|  Allen_DeathLand_050ef6  @ $050EF6  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050ef6, "ax", @progbits
-        .global TaskHandler_050ef6
-TaskHandler_050ef6:
+        .section .text.Allen_DeathLand_050ef6, "ax", @progbits
+        .global Allen_DeathLand_050ef6
+Allen_DeathLand_050ef6:
         lea     0x296adc.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x28(a6)                        | +00c
-        lea     TaskHandler_050e84(pc),a1       | +010
+        lea     Allen_DeathFall_050e84(pc),a1   | +010
         move.l  a1,(a6)                         | +014
-        bra.w   TaskHandler_050e84              | +016
+        bra.w   Allen_DeathFall_050e84          | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050f10  @ $050F10  (70 B)
+|  Allen_Stagger_050f10  @ $050F10  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050f10, "ax", @progbits
-        .global TaskHandler_050f10
-TaskHandler_050f10:
+        .section .text.Allen_Stagger_050f10, "ax", @progbits
+        .global Allen_Stagger_050f10
+Allen_Stagger_050f10:
         lea     0x296b24.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x28(a6)                        | +00c
@@ -1768,61 +1768,61 @@ TaskHandler_050f10:
         move.l  a1,(a6)                         | +014
 .L050f26:
         move.b  #0x2,0x45(a6)                   | +016
-        bsr.w   TaskHandler_050360              | +01c
+        bsr.w   Allen_Physics_050360            | +01c
         jsr     0x28d70.l                       | +020
         bcc.w   .L050f52                        | +026
         move.b  #0xf,0x45(a6)                   | +02a
         move.b  0x45(a6),0x59(a6)               | +030
         bclr    #0x3,0x13(a6)                   | +036
-        lea     TaskHandler_050a2a(pc),a1       | +03c
+        lea     Allen_Main_050a2a(pc),a1        | +03c
         move.l  a1,(a6)                         | +040
 .L050f52:
-        bra.w   Data_050726__L0507ee            | +042
+        bra.w   Allen_CommonTick_050726__L0507ee | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050f56  @ $050F56  (40 B)
+|  Allen_DeathFade_050f56  @ $050F56  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050f56, "ax", @progbits
-        .global TaskHandler_050f56
-TaskHandler_050f56:
+        .section .text.Allen_DeathFade_050f56, "ax", @progbits
+        .global Allen_DeathFade_050f56
+Allen_DeathFade_050f56:
         move.b  #0x1e,0x59(a6)                  | +000
         lea     .L050f62(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
 .L050f62:
-        bsr.w   TaskHandler_050360              | +00c
+        bsr.w   Allen_Physics_050360            | +00c
         jsr     0x28d70.l                       | +010
         tst.b   0x59(a6)                        | +016
         bne.w   .L050f7a                        | +01a
         jmp     0x518.l                         | +01e
 .L050f7a:
-        bra.w   Data_050726__L0507ee            | +024
+        bra.w   Allen_CommonTick_050726__L0507ee | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_050f7e  @ $050F7E  (144 B)
+|  Allen_TouchSensor_050f7e  @ $050F7E  (144 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_050f7e, "ax", @progbits
-        .global TaskHandler_050f7e
-TaskHandler_050f7e:
+        .section .text.Allen_TouchSensor_050f7e, "ax", @progbits
+        .global Allen_TouchSensor_050f7e
+Allen_TouchSensor_050f7e:
         lea     0x29643a.l,a0                   | +000
         move.l  a0,0x48(a6)                     | +006
         move.w  #0x7e,0x5c(a6)                  | +00a
         bra.w   .L050fca                        | +010
-        .global TaskHandler_050f7e__L050f92
-TaskHandler_050f7e__L050f92:
+        .global Allen_TouchSensor_050f7e__L050f92
+Allen_TouchSensor_050f7e__L050f92:
 .L050f92:
         lea     0x29648e.l,a0                   | +014
         move.l  a0,0x48(a6)                     | +01a
         move.w  #0x7f,0x5c(a6)                  | +01e
         bra.w   .L050fca                        | +024
-        .global TaskHandler_050f7e__L050fa6
-TaskHandler_050f7e__L050fa6:
+        .global Allen_TouchSensor_050f7e__L050fa6
+Allen_TouchSensor_050f7e__L050fa6:
 .L050fa6:
         lea     0x2964e2.l,a0                   | +028
         move.l  a0,0x48(a6)                     | +02e
         move.w  #0x7c,0x5c(a6)                  | +032
         bra.w   .L050fca                        | +038
-        .global TaskHandler_050f7e__L050fba
-TaskHandler_050f7e__L050fba:
+        .global Allen_TouchSensor_050f7e__L050fba
+Allen_TouchSensor_050f7e__L050fba:
 .L050fba:
         lea     0x296536.l,a0                   | +03c
         move.l  a0,0x48(a6)                     | +042
@@ -1850,16 +1850,16 @@ TaskHandler_050f7e__L050fba:
         rts                                     | +08e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05100e  @ $05100E  (90 B)
+|  Allen_MuzzleFlash_05100e  @ $05100E  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05100e, "ax", @progbits
-        .global TaskHandler_05100e
-TaskHandler_05100e:
+        .section .text.Allen_MuzzleFlash_05100e, "ax", @progbits
+        .global Allen_MuzzleFlash_05100e
+Allen_MuzzleFlash_05100e:
         lea     0x29663a.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         bra.w   .L05102a                        | +00c
-        .global TaskHandler_05100e__L05101e
-TaskHandler_05100e__L05101e:
+        .global Allen_MuzzleFlash_05100e__L05101e
+Allen_MuzzleFlash_05100e__L05101e:
 .L05101e:
         lea     0x296784.l,a0                   | +010
         jsr     0x28cd4.l                       | +016
@@ -1881,22 +1881,22 @@ TaskHandler_05100e__L05101e:
         rts                                     | +058
 
 | ----------------------------------------------------------------------------
-|  Data_051068  @ $051068  (8 B)
+|  Allen_GrenadeFrameOffsets_051068  @ $051068  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_051068, "ax", @progbits
-        .global Data_051068
-Data_051068:
+        .section .text.Allen_GrenadeFrameOffsets_051068, "ax", @progbits
+        .global Allen_GrenadeFrameOffsets_051068
+Allen_GrenadeFrameOffsets_051068:
         .dc.w   0x0016                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0018                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0016                        | +004  (dato / opcode no decodificado)
         .dc.w   0x001a                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051070  @ $051070  (408 B)
+|  Allen_GrenadeAttackTbl_051070  @ $051070  (408 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051070, "ax", @progbits
-        .global TaskHandler_051070
-TaskHandler_051070:
+        .section .text.Allen_GrenadeAttackTbl_051070, "ax", @progbits
+        .global Allen_GrenadeAttackTbl_051070
+Allen_GrenadeAttackTbl_051070:
         .dc.w   0x0006                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0008                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0204                        | +004  (dato / opcode no decodificado)
@@ -1979,8 +1979,8 @@ TaskHandler_051070:
         .dc.w   0x1d00                        | +09e  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0a0  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
-        .global TaskHandler_051070__L051114
-TaskHandler_051070__L051114:
+        .global Allen_GrenadeAttackTbl_051070__L051114
+Allen_GrenadeAttackTbl_051070__L051114:
 .L051114:
         .dc.w   0x0018                        | +0a4  (dato / opcode no decodificado)
         .dc.w   0x0064                        | +0a6  (dato / opcode no decodificado)
@@ -2106,11 +2106,11 @@ TaskHandler_051070__L051114:
         .dc.w   0xffff                        | +196  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Data_051208  @ $051208  (386 B)
+|  Allen_Grenade_051208  @ $051208  (386 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_051208, "ax", @progbits
-        .global Data_051208
-Data_051208:
+        .section .text.Allen_Grenade_051208, "ax", @progbits
+        .global Allen_Grenade_051208
+Allen_Grenade_051208:
         .dc.w   0x0800                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +002  (dato / opcode no decodificado)
         .dc.w   0x83ca                        | +004  (dato / opcode no decodificado)
@@ -2197,8 +2197,8 @@ Data_051208:
         .dc.w   0x0100                        | +0a6  (dato / opcode no decodificado)
         .dc.w   0x0005                        | +0a8  (dato / opcode no decodificado)
         .dc.w   0x120e                        | +0aa  (dato / opcode no decodificado)
-        .global Data_051208__L0512b4
-Data_051208__L0512b4:
+        .global Allen_Grenade_051208__L0512b4
+Allen_Grenade_051208__L0512b4:
 .L0512b4:
         bset    #0x4,0x6b(a6)                   | +0ac
         move.w  #0xd000,0x38(a6)                | +0b2
@@ -2217,35 +2217,35 @@ Data_051208__L0512b4:
         jsr     0x236e.l                        | +0ee
         move.w  #0x165,d1                       | +0f4
         jsr     0x236e.l                        | +0f8
-        lea     Data_051208(pc),a0              | +0fe
+        lea     Allen_Grenade_051208(pc),a0     | +0fe
         jsr     0x28cd4.l                       | +102
-        lea     TaskHandler_051070(pc),a0       | +108
+        lea     Allen_GrenadeAttackTbl_051070(pc),a0 | +108
         move.l  a0,0x4c(a6)                     | +10c
         jsr     0x283ca.l                       | +110
         lea     .L051324(pc),a1                 | +116
         move.l  a1,(a6)                         | +11a
 .L051324:
-        jsr     Sub_0005029C__L0502a6(pc)       | +11c
+        jsr     Entity_StepMoveWithProbe_05029c__L0502a6(pc) | +11c
         bcc.w   .L051332                        | +120
-        lea     TaskHandler_051392(pc),a1       | +124
+        lea     Allen_GrenadeExplode_051392(pc),a1 | +124
         move.l  a1,(a6)                         | +128
 .L051332:
         moveq   #0,d0                           | +12a
         move.b  0x106f28.l,d0                   | +12c
         andi.w  #0x3,d0                         | +132
         lsl.w   #0x1,d0                         | +136
-        lea     Data_051068(pc),a0              | +138
+        lea     Allen_GrenadeFrameOffsets_051068(pc),a0 | +138
         move.w  (a0,d0.w),d1                    | +13c
         move.w  (a6,d1.w),0x14(a6)              | +140
         jsr     0x28d70.l                       | +146
         btst    #0x1,0x13(a6)                   | +14c
         beq.w   .L051364                        | +152
-        lea     TaskHandler_051392__L0513da(pc),a1 | +156
+        lea     Allen_GrenadeExplode_051392__L0513da(pc),a1 | +156
         move.l  a1,(a6)                         | +15a
 .L051364:
         jsr     0x2870a.l                       | +15c
         bcc.w   .L051374                        | +162
-        lea     TaskHandler_051392__L0513b6(pc),a1 | +166
+        lea     Allen_GrenadeExplode_051392__L0513b6(pc),a1 | +166
         move.l  a1,(a6)                         | +16a
 .L051374:
         movea.l #0xffffffff,a0                  | +16c
@@ -2254,11 +2254,11 @@ Data_051208__L0512b4:
         bcc.w   SetHandlerRts_051390            | +17e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051392  @ $051392  (184 B)
+|  Allen_GrenadeExplode_051392  @ $051392  (184 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051392, "ax", @progbits
-        .global TaskHandler_051392
-TaskHandler_051392:
+        .section .text.Allen_GrenadeExplode_051392, "ax", @progbits
+        .global Allen_GrenadeExplode_051392
+Allen_GrenadeExplode_051392:
         move.w  #0x2000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -2266,8 +2266,8 @@ TaskHandler_051392:
         move.w  #0x1027,d0                      | +016
         jsr     0x2352.l                        | +01a
         bra.w   .L0513fa                        | +020
-        .global TaskHandler_051392__L0513b6
-TaskHandler_051392__L0513b6:
+        .global Allen_GrenadeExplode_051392__L0513b6
+Allen_GrenadeExplode_051392__L0513b6:
 .L0513b6:
         move.w  #0x8000,d0                      | +024
         jsr     0x28134.l                       | +028
@@ -2276,8 +2276,8 @@ TaskHandler_051392__L0513b6:
         move.w  #0x1027,d0                      | +03a
         jsr     0x2352.l                        | +03e
         bra.w   .L0513fa                        | +044
-        .global TaskHandler_051392__L0513da
-TaskHandler_051392__L0513da:
+        .global Allen_GrenadeExplode_051392__L0513da
+Allen_GrenadeExplode_051392__L0513da:
 .L0513da:
         move.w  #0x8000,d0                      | +048
         jsr     0x28134.l                       | +04c
@@ -2295,18 +2295,18 @@ TaskHandler_051392__L0513da:
         jsr     0x236e.l                        | +08c
         lea     0x29e76c.l,a0                   | +092
         jsr     0x28cd4.l                       | +098
-        lea     TaskHandler_051070__L051114(pc),a0 | +09e
+        lea     Allen_GrenadeAttackTbl_051070__L051114(pc),a0 | +09e
         move.l  a0,0x4c(a6)                     | +0a2
         jsr     0x283ca.l                       | +0a6
         jsr     0x283ca.l                       | +0ac
         jsr     0x283d8.l                       | +0b2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051452  @ $051452  (36 B)
+|  Allen_GrenadeExplodeTick_051452  @ $051452  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051452, "ax", @progbits
-        .global TaskHandler_051452
-TaskHandler_051452:
+        .section .text.Allen_GrenadeExplodeTick_051452, "ax", @progbits
+        .global Allen_GrenadeExplodeTick_051452
+Allen_GrenadeExplodeTick_051452:
         jsr     0x2783a.l                       | +000
         jsr     0x28d70.l                       | +006
         bcc.w   .L05146e                        | +00c
@@ -2317,11 +2317,11 @@ TaskHandler_051452:
         move.l  a0,0x4c(a6)                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_05148c  @ $05148C  (368 B)
+|  Allen_Bullet_05148c  @ $05148C  (366 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05148c, "ax", @progbits
-        .global Data_05148c
-Data_05148c:
+        .section .text.Allen_Bullet_05148c, "ax", @progbits
+        .global Allen_Bullet_05148c
+Allen_Bullet_05148c:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0204                        | +004  (dato / opcode no decodificado)
@@ -2404,129 +2404,87 @@ Data_05148c:
         .dc.w   0x1d00                        | +09e  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0a0  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0a2  (dato / opcode no decodificado)
-        .global Data_05148c__L051530
-Data_05148c__L051530:
+        .global Allen_Bullet_05148c__L051530
+Allen_Bullet_05148c__L051530:
 .L051530:
-        .dc.w   0x323c                        | +0a4  (dato / opcode no decodificado)
-        .dc.w   0x018f                        | +0a6  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +0a8  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +0aa  (dato / opcode no decodificado)
-        .dc.w   0x236e                        | +0ac  (dato / opcode no decodificado)
-        .dc.w   0x41f9                        | +0ae  (dato / opcode no decodificado)
-        .dc.w   0x0029                        | +0b0  (dato / opcode no decodificado)
-        .dc.w   0x67d6                        | +0b2  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +0b4  (dato / opcode no decodificado)
-        .dc.w   0x0002                        | +0b6  (dato / opcode no decodificado)
-        .dc.w   0x8cd4                        | +0b8  (dato / opcode no decodificado)
-        .dc.w   0x41f9                        | +0ba  (dato / opcode no decodificado)
-        .dc.w   0x0029                        | +0bc  (dato / opcode no decodificado)
-        .dc.w   0x7000                        | +0be  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +0c0  (dato / opcode no decodificado)
-        .dc.w   0x0007                        | +0c2  (dato / opcode no decodificado)
-        .dc.w   0x99de                        | +0c4  (dato / opcode no decodificado)
-        .dc.w   0x3200                        | +0c6  (dato / opcode no decodificado)
-        .dc.w   0x302e                        | +0c8  (dato / opcode no decodificado)
-        .dc.w   0x0034                        | +0ca  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +0cc  (dato / opcode no decodificado)
-        .dc.w   0x0001                        | +0ce  (dato / opcode no decodificado)
-        .dc.w   0x3c0e                        | +0d0  (dato / opcode no decodificado)
-        .dc.w   0x3d41                        | +0d2  (dato / opcode no decodificado)
-        .dc.w   0x0028                        | +0d4  (dato / opcode no decodificado)
-        .dc.w   0x3d42                        | +0d6  (dato / opcode no decodificado)
-        .dc.w   0x002a                        | +0d8  (dato / opcode no decodificado)
-        .dc.w   0x41fa                        | +0da  (dato / opcode no decodificado)
-        .dc.w   0xff24                        | +0dc  (dato / opcode no decodificado)
-        .dc.w   0x2d48                        | +0de  (dato / opcode no decodificado)
-        .dc.w   0x004c                        | +0e0  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +0e2  (dato / opcode no decodificado)
-        .dc.w   0x0002                        | +0e4  (dato / opcode no decodificado)
-        .dc.w   0x83ca                        | +0e6  (dato / opcode no decodificado)
-        .dc.w   0x43fa                        | +0e8  (dato / opcode no decodificado)
-        .dc.w   0x0004                        | +0ea  (dato / opcode no decodificado)
-        .dc.w   0x2c89                        | +0ec  (dato / opcode no decodificado)
-        .dc.w   0x4eba                        | +0ee  (dato / opcode no decodificado)
-        .dc.w   0xed2a                        | +0f0  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +0f2  (dato / opcode no decodificado)
-        .dc.w   0x0002                        | +0f4  (dato / opcode no decodificado)
-        .dc.w   0x8d70                        | +0f6  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +0f8  (dato / opcode no decodificado)
-        .dc.w   0x0002                        | +0fa  (dato / opcode no decodificado)
-        .dc.w   0x83d8                        | +0fc  (dato / opcode no decodificado)
-        .dc.w   0x6500                        | +0fe  (dato / opcode no decodificado)
-        .dc.w   0x0024                        | +100  (dato / opcode no decodificado)
-        .dc.w   0x302e                        | +102  (dato / opcode no decodificado)
-        .dc.w   0x0022                        | +104  (dato / opcode no decodificado)
-        .dc.w   0x0640                        | +106  (dato / opcode no decodificado)
-        .dc.w   0x0010                        | +108  (dato / opcode no decodificado)
-        .dc.w   0x0c40                        | +10a  (dato / opcode no decodificado)
-        .dc.w   0x0160                        | +10c  (dato / opcode no decodificado)
-        .dc.w   0x6400                        | +10e  (dato / opcode no decodificado)
-        .dc.w   0x0058                        | +110  (dato / opcode no decodificado)
-        .dc.w   0x302e                        | +112  (dato / opcode no decodificado)
-        .dc.w   0x0024                        | +114  (dato / opcode no decodificado)
-        .dc.w   0x0440                        | +116  (dato / opcode no decodificado)
-        .dc.w   0x00f0                        | +118  (dato / opcode no decodificado)
-        .dc.w   0x0c40                        | +11a  (dato / opcode no decodificado)
-        .dc.w   0x0120                        | +11c  (dato / opcode no decodificado)
-        .dc.w   0x6400                        | +11e  (dato / opcode no decodificado)
-        .dc.w   0x0048                        | +120  (dato / opcode no decodificado)
-        .dc.w   0x4e75                        | +122  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +124  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +126  (dato / opcode no decodificado)
-        .dc.w   0x236e                        | +128  (dato / opcode no decodificado)
-        .dc.w   0x302e                        | +12a  (dato / opcode no decodificado)
-        .dc.w   0x002a                        | +12c  (dato / opcode no decodificado)
-        .dc.w   0x6600                        | +12e  (dato / opcode no decodificado)
-        .dc.w   0x0012                        | +130  (dato / opcode no decodificado)
-        .dc.w   0x41f9                        | +132  (dato / opcode no decodificado)
-        .dc.w   0x0029                        | +134  (dato / opcode no decodificado)
-        .dc.w   0x6d26                        | +136  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +138  (dato / opcode no decodificado)
-        .dc.w   0x0002                        | +13a  (dato / opcode no decodificado)
-        .dc.w   0x8cd4                        | +13c  (dato / opcode no decodificado)
-        .dc.w   0x6000                        | +13e  (dato / opcode no decodificado)
-        .dc.w   0x000e                        | +140  (dato / opcode no decodificado)
-        .dc.w   0x41f9                        | +142  (dato / opcode no decodificado)
-        .dc.w   0x0029                        | +144  (dato / opcode no decodificado)
-        .dc.w   0x6d78                        | +146  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +148  (dato / opcode no decodificado)
-        .dc.w   0x0002                        | +14a  (dato / opcode no decodificado)
-        .dc.w   0x8cd4                        | +14c  (dato / opcode no decodificado)
-        .dc.w   0x426e                        | +14e  (dato / opcode no decodificado)
-        .dc.w   0x0028                        | +150  (dato / opcode no decodificado)
-        .dc.w   0x426e                        | +152  (dato / opcode no decodificado)
-        .dc.w   0x002a                        | +154  (dato / opcode no decodificado)
-        .dc.w   0x43fa                        | +156  (dato / opcode no decodificado)
-        .dc.w   0x0004                        | +158  (dato / opcode no decodificado)
-        .dc.w   0x2c89                        | +15a  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +15c  (dato / opcode no decodificado)
-        .dc.w   0x0002                        | +15e  (dato / opcode no decodificado)
-        .dc.w   0x8d70                        | +160  (dato / opcode no decodificado)
-        .dc.w   0x6500                        | +162  (dato / opcode no decodificado)
-        .dc.w   0x0004                        | +164  (dato / opcode no decodificado)
-        .dc.w   0x609a                        | +166  (dato / opcode no decodificado)
-        .dc.w   0x4ef9                        | +168  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +16a  (dato / opcode no decodificado)
-        .dc.w   0x0518                        | +16c  (dato / opcode no decodificado)
-        rts                                     | +16e
+        move.w  #0x18f,d1                       | +0a4
+        jsr     0x236e.l                        | +0a8
+        lea     0x2967d6.l,a0                   | +0ae
+        jsr     0x28cd4.l                       | +0b4
+        lea     0x297000.l,a0                   | +0ba
+        jsr     0x799de.l                       | +0c0
+        move.w  d0,d1                           | +0c6
+        move.w  0x34(a6),d0                     | +0c8
+        jsr     0x13c0e.l                       | +0cc
+        move.w  d1,0x28(a6)                     | +0d2
+        move.w  d2,0x2a(a6)                     | +0d6
+        lea     Allen_Bullet_05148c(pc),a0      | +0da
+        move.l  a0,0x4c(a6)                     | +0de
+        jsr     0x283ca.l                       | +0e2
+        lea     .L05157a(pc),a1                 | +0e8
+        move.l  a1,(a6)                         | +0ec
+.L05157a:
+        jsr     Entity_StepMoveWithProbe_05029c__L0502a6(pc) | +0ee
+        jsr     0x28d70.l                       | +0f2
+        jsr     0x283d8.l                       | +0f8
+        bcs.w   .L0515b0                        | +0fe
+.L05158e:
+        move.w  0x22(a6),d0                     | +102
+        addi.w  #0x10,d0                        | +106
+        cmpi.w  #0x160,d0                       | +10a
+        bcc.w   .L0515f4                        | +10e
+        move.w  0x24(a6),d0                     | +112
+        subi.w  #0xf0,d0                        | +116
+        cmpi.w  #0x120,d0                       | +11a
+        bcc.w   .L0515f4                        | +11e
+        rts                                     | +122
+.L0515b0:
+        jsr     0x236e.l                        | +124
+        move.w  0x2a(a6),d0                     | +12a
+        bne.w   .L0515ce                        | +12e
+        lea     0x296d26.l,a0                   | +132
+        jsr     0x28cd4.l                       | +138
+        bra.w   .L0515da                        | +13e
+.L0515ce:
+        lea     0x296d78.l,a0                   | +142
+        jsr     0x28cd4.l                       | +148
+.L0515da:
+        clr.w   0x28(a6)                        | +14e
+        clr.w   0x2a(a6)                        | +152
+        lea     .L0515e8(pc),a1                 | +156
+        move.l  a1,(a6)                         | +15a
+.L0515e8:
+        jsr     0x28d70.l                       | +15c
+        bcs.w   .L0515f4                        | +162
+        bra.b   .L05158e                        | +166
+.L0515f4:
+        jmp     0x518.l                         | +168
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0515fc  @ $0515FC  (16 B)
+|  Rts_0515fa  @ $0515FA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0515fc, "ax", @progbits
-        .global TaskHandler_0515fc
-TaskHandler_0515fc:
+        .section .text.Rts_0515fa, "ax", @progbits
+        .global Rts_0515fa
+Rts_0515fa:
+        rts                                     | +000
+
+| ----------------------------------------------------------------------------
+|  SlotPrioCheck_0515fc  @ $0515FC  (16 B)
+| ----------------------------------------------------------------------------
+        .section .text.SlotPrioCheck_0515fc, "ax", @progbits
+        .global SlotPrioCheck_0515fc
+SlotPrioCheck_0515fc:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_051612                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_051618  @ $051618  (50 B)
+|  MemCard_OpenLoadDialog_051618  @ $051618  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_051618, "ax", @progbits
-        .global Data_051618
-Data_051618:
+        .section .text.MemCard_OpenLoadDialog_051618, "ax", @progbits
+        .global MemCard_OpenLoadDialog_051618
+MemCard_OpenLoadDialog_051618:
         .dc.w   0x4d45                        | +000  (dato / opcode no decodificado)
         .dc.w   0x5441                        | +002  (dato / opcode no decodificado)
         .dc.w   0x4c20                        | +004  (dato / opcode no decodificado)
@@ -2544,11 +2502,11 @@ Data_051618:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  Sub_0005164A  @ $05164A  (22 B)
+|  MemCard_LoadScene_05164a  @ $05164A  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005164A, "ax", @progbits
-        .global Sub_0005164A
-Sub_0005164A:
+        .section .text.MemCard_LoadScene_05164a, "ax", @progbits
+        .global MemCard_LoadScene_05164a
+MemCard_LoadScene_05164a:
         lea     0x2970f8.l,a0                   | +000
         jsr     0x43562.l                       | +006
         moveq   #0,d0                           | +00c
@@ -2556,46 +2514,46 @@ Sub_0005164A:
         jmp     0x437da.l                       | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051660  @ $051660  (46 B)
+|  MemCard_DetectAndSave_051660  @ $051660  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051660, "ax", @progbits
-        .global TaskHandler_051660
-TaskHandler_051660:
+        .section .text.MemCard_DetectAndSave_051660, "ax", @progbits
+        .global MemCard_DetectAndSave_051660
+MemCard_DetectAndSave_051660:
         jsr     0x9826e.l                       | +000
         bcs.w   .L051674                        | +006
         clr.b   0x106ed2.l                      | +00a
         bra.w   JsrAbsRts_051694                | +010
 .L051674:
         move.b  #0x1,0x106ed2.l                 | +014
-        jsr     Sub_0005164A(pc)                | +01c
+        jsr     MemCard_LoadScene_05164a(pc)    | +01c
         move.b  #0xff,0x10e3b6.l                | +020
         lea     0x9840c.l,a1                    | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051696  @ $051696  (14 B)
+|  MemCard_CopySlotFlag_051696  @ $051696  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051696, "ax", @progbits
-        .global TaskHandler_051696
-TaskHandler_051696:
+        .section .text.MemCard_CopySlotFlag_051696, "ax", @progbits
+        .global MemCard_CopySlotFlag_051696
+MemCard_CopySlotFlag_051696:
         move.b  0x10e3b7.l,d0                   | +000
         move.b  d0,0x106ed0.l                   | +006
         rts                                     | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0516a4  @ $0516A4  (10 B)
+|  MemCard_IsPending_0516a4  @ $0516A4  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0516a4, "ax", @progbits
-        .global TaskHandler_0516a4
-TaskHandler_0516a4:
+        .section .text.MemCard_IsPending_0516a4, "ax", @progbits
+        .global MemCard_IsPending_0516a4
+MemCard_IsPending_0516a4:
         tst.b   0x10e3b6.l                      | +000
         bne.w   SetC_0516b4                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0516ba  @ $0516BA  (32 B)
+|  Players_SnapshotMods_0516ba  @ $0516BA  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0516ba, "ax", @progbits
-        .global TaskHandler_0516ba
-TaskHandler_0516ba:
+        .section .text.Players_SnapshotMods_0516ba, "ax", @progbits
+        .global Players_SnapshotMods_0516ba
+Players_SnapshotMods_0516ba:
         lea     0x10e3a2.l,a4                   | +000
         move.b  0x106ed0.l,0x15(a4)             | +006
         move.b  0x10fdb6.l,0x16(a4)             | +00e
@@ -2603,11 +2561,11 @@ TaskHandler_0516ba:
         rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0516da  @ $0516DA  (50 B)
+|  Counters_AddSaturate_0516da  @ $0516DA  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0516da, "ax", @progbits
-        .global TaskHandler_0516da
-TaskHandler_0516da:
+        .section .text.Counters_AddSaturate_0516da, "ax", @progbits
+        .global Counters_AddSaturate_0516da
+Counters_AddSaturate_0516da:
         movem.w d1-d2,-(a7)                     | +000
         add.b   0x10e3bc.l,d1                   | +004
         bcc.w   .L0516ec                        | +00a
@@ -2623,11 +2581,11 @@ TaskHandler_0516da:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05174c  @ $05174C  (54 B)
+|  Players_ActiveMask_05174c  @ $05174C  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05174c, "ax", @progbits
-        .global TaskHandler_05174c
-TaskHandler_05174c:
+        .section .text.Players_ActiveMask_05174c, "ax", @progbits
+        .global Players_ActiveMask_05174c
+Players_ActiveMask_05174c:
         lea     0x10e3a2.l,a0                   | +000
         clr.b   d0                              | +006
         clr.b   d1                              | +008
@@ -2646,22 +2604,22 @@ TaskHandler_05174c:
         bne.w   ClearC_051788                   | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05178e  @ $05178E  (16 B)
+|  SlotPrioCheck_05178e  @ $05178E  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05178e, "ax", @progbits
-        .global TaskHandler_05178e
-TaskHandler_05178e:
+        .section .text.SlotPrioCheck_05178e, "ax", @progbits
+        .global SlotPrioCheck_05178e
+SlotPrioCheck_05178e:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_0517a4                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_000517AA  @ $0517AA  (84 B)
+|  Player_SetIndexFromParent_0517aa  @ $0517AA  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000517AA, "ax", @progbits
-        .global Sub_000517AA
-Sub_000517AA:
+        .section .text.Player_SetIndexFromParent_0517aa, "ax", @progbits
+        .global Player_SetIndexFromParent_0517aa
+Player_SetIndexFromParent_0517aa:
         movea.l 0xc(a6),a0                      | +000
         cmpa.l  #0x100300,a0                    | +004
         bne.w   .L0517c6                        | +00a
@@ -2688,35 +2646,35 @@ Sub_000517AA:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  ThunkTarget_05180c  @ $05180C  (8 B)
+|  Clear8Bytes_05180c  @ $05180C  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.ThunkTarget_05180c, "ax", @progbits
-        .global ThunkTarget_05180c
-ThunkTarget_05180c:
+        .section .text.Clear8Bytes_05180c, "ax", @progbits
+        .global Clear8Bytes_05180c
+Clear8Bytes_05180c:
         clr.l   (a1)                            | +000
         clr.l   0x4(a1)                         | +002
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051814  @ $051814  (20 B)
+|  Nibbles_Unpack4Store_051814  @ $051814  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051814, "ax", @progbits
-        .global TaskHandler_051814
-TaskHandler_051814:
+        .section .text.Nibbles_Unpack4Store_051814, "ax", @progbits
+        .global Nibbles_Unpack4Store_051814
+Nibbles_Unpack4Store_051814:
         move.l  a1,-(a7)                        | +000
         movea.l a1,a0                           | +002
         lea     0x1081b6.l,a1                   | +004
         move.l  d0,(a1)                         | +00a
-        bsr.w   Sub_00051828                    | +00c
+        bsr.w   Nibbles_Unpack4_051828          | +00c
         movea.l (a7)+,a1                        | +010
         rts                                     | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_00051828  @ $051828  (58 B)
+|  Nibbles_Unpack4_051828  @ $051828  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00051828, "ax", @progbits
-        .global Sub_00051828
-Sub_00051828:
+        .section .text.Nibbles_Unpack4_051828, "ax", @progbits
+        .global Nibbles_Unpack4_051828
+Nibbles_Unpack4_051828:
         move.b  (a1)+,d0                        | +000
         move.b  d0,d1                           | +002
         lsr.b   #0x4,d1                         | +004
@@ -2744,11 +2702,11 @@ Sub_00051828:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  Sub_00051862  @ $051862  (42 B)
+|  Nibbles_Pack8_051862  @ $051862  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00051862, "ax", @progbits
-        .global Sub_00051862
-Sub_00051862:
+        .section .text.Nibbles_Pack8_051862, "ax", @progbits
+        .global Nibbles_Pack8_051862
+Nibbles_Pack8_051862:
         move.b  (a0)+,d0                        | +000
         move.b  (a0)+,d1                        | +002
         lsl.b   #0x4,d0                         | +004
@@ -2772,11 +2730,11 @@ Sub_00051862:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  StateJumpTable_05188C  @ $05188C  (136 B)
+|  PlayerState_FlagTable_05188c  @ $05188C  (136 B)
 | ----------------------------------------------------------------------------
-        .section .text.StateJumpTable_05188C, "ax", @progbits
-        .global StateJumpTable_05188C
-StateJumpTable_05188C:
+        .section .text.PlayerState_FlagTable_05188c, "ax", @progbits
+        .global PlayerState_FlagTable_05188c
+PlayerState_FlagTable_05188c:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)

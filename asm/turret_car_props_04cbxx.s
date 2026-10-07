@@ -1095,7 +1095,7 @@ Prop_Static_04d6ec:
 .L04d72e:
         jsr     0x2783a.l                       | +042
         jsr     0x28d70.l                       | +048
-        jsr     Sub_0004FA70(pc)                | +04e
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +04e
         bcc.w   .L04d748                        | +052
         jmp     0x518.l                         | +056
 .L04d748:
@@ -1142,7 +1142,7 @@ Prop_LampIdle_04d782:
         lea     Prop_LampHit_04d7dc(pc),a1      | +044
         move.l  a1,(a6)                         | +048
 .L04d7cc:
-        jsr     Sub_0004FA70(pc)                | +04a
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +04a
         bcc.w   .L04d7da                        | +04e
         jmp     0x518.l                         | +052
 .L04d7da:
@@ -1166,7 +1166,7 @@ Prop_LampHit_04d7dc:
         lea     Prop_LampIdle_04d782(pc),a1     | +028
         move.l  a1,(a6)                         | +02c
 .L04d80a:
-        jsr     Sub_0004FA70(pc)                | +02e
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +02e
         bcc.w   .L04d818                        | +032
         jmp     0x518.l                         | +036
 .L04d818:
@@ -1267,7 +1267,7 @@ Prop_Hut_04d8f2:
         lea     Prop_HutWreck_04d996(pc),a1     | +08e
         move.l  a1,(a6)                         | +092
 .L04d986:
-        jsr     Sub_0004FA70(pc)                | +094
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +094
         bcc.w   .L04d994                        | +098
         jmp     0x518.l                         | +09c
 .L04d994:
@@ -1289,7 +1289,7 @@ Prop_HutWreck_04d996:
 .L04d9ba:
         jsr     0x2783a.l                       | +024
         jsr     0x28d70.l                       | +02a
-        jsr     Sub_0004FA70(pc)                | +030
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +030
         bcc.w   .L04d9d4                        | +034
         jmp     0x518.l                         | +038
 .L04d9d4:
@@ -1325,7 +1325,7 @@ Prop_HutRoof_04d9d6:
         lea     Prop_HutRoofFall_04da52(pc),a1  | +066
         move.l  a1,(a6)                         | +06a
 .L04da42:
-        jsr     Sub_0004FA70(pc)                | +06c
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +06c
         bcc.w   .L04da50                        | +070
         jmp     0x518.l                         | +074
 .L04da50:
@@ -1396,7 +1396,7 @@ Prop_Tower_04dad2:
         move.b  0x20(a6),d0                     | +076
         cmp.b   0x21(a6),d0                     | +07a
         beq.w   .L04db58                        | +07e
-        jsr     Sub_0004FA8A(pc)                | +082
+        jsr     Prop_TowerBlitState10_04fa8a(pc)                | +082
 .L04db58:
         cmpi.b  #0x12,0x21(a6)                  | +086
         bne.w   .L04db68                        | +08c
@@ -1447,7 +1447,7 @@ Prop_TowerTop_04db72:
         lea     Prop_TowerTopWreck_04dc4a(pc),a1 | +0b2
         move.l  a1,(a6)                         | +0b6
 .L04dc2a:
-        jsr     Sub_0004FA70(pc)                | +0b8
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0b8
         bcc.w   SetHandlerRts_04dc48            | +0bc
         move.b  #0xff,0x20(a6)                  | +0c0
         movea.l 0xc(a6),a0                      | +0c6
@@ -1560,7 +1560,7 @@ Prop_TowerBase_04dce6:
         lea     Prop_TowerBaseWreck_04ddec(pc),a1 | +0e6
         move.l  a1,(a6)                         | +0ea
 .L04ddd2:
-        jsr     Sub_0004FA70(pc)                | +0ec
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0ec
         bcc.w   SetHandlerRts_04ddea            | +0f0
         movea.l 0xc(a6),a0                      | +0f4
         ori.b   #0xf,0x21(a0)                   | +0f8
@@ -1640,7 +1640,7 @@ Prop_Bunker_04de40:
         lea     Prop_BunkerWreck_04df30(pc),a1  | +0c4
         move.l  a1,(a6)                         | +0c8
 .L04df0a:
-        jsr     Sub_0004FA70(pc)                | +0ca
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0ca
         bcc.w   .L04df1e                        | +0ce
         move.b  #0xff,0x20(a6)                  | +0d2
         lea     Prop_BunkerWreck_04df30__L04df72(pc),a1 | +0d8
@@ -1676,7 +1676,7 @@ Prop_BunkerWreck_04df30:
 Prop_BunkerWreck_04df30__L04df72:
 .L04df72:
         jsr     0x2783a.l                       | +042
-        jsr     Sub_0004FA70(pc)                | +048
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +048
         bcc.w   .L04df86                        | +04c
         lea     Prop_SlotPrioCheckRts_04f2a4(pc),a1       | +050
         move.l  a1,(a6)                         | +054
@@ -1728,7 +1728,7 @@ Prop_Bridge_04df98:
         lea     Prop_BridgeCollapse_04e05e(pc),a1 | +0b0
         move.l  a1,(a6)                         | +0b4
 .L04e04e:
-        jsr     Sub_0004FA70(pc)                | +0b6
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0b6
         bcc.w   .L04e05c                        | +0ba
         jmp     0x518.l                         | +0be
 .L04e05c:
@@ -1778,7 +1778,7 @@ Prop_BridgeCollapse_04e05e:
         jsr     Sprite_InvokeBlit8Params(pc)    | +0b0
         bra.w   .L04e11e                        | +0b4
 .L04e116:
-        jsr     Sub_0004FA70(pc)                | +0b8
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0b8
         bcc.w   .L04e12a                        | +0bc
 .L04e11e:
         move.b  #0xff,0x75(a6)                  | +0c0
@@ -1840,7 +1840,7 @@ Prop_BridgePillar_04e12c:
         neg.w   d0                              | +0de
 .L04e20c:
         add.w   d0,0x22(a0)                     | +0e0
-        jsr     Sub_0004FB3C(pc)                | +0e4
+        jsr     Prop_NestBlitByFacing_04fb3c(pc)                | +0e4
         movea.l 0xc(a6),a0                      | +0e8
         move.b  #0x10,d0                        | +0ec
         btst    #0x0,0x3a(a6)                   | +0f0
@@ -1851,7 +1851,7 @@ Prop_BridgePillar_04e12c:
         move.b  #0xff,0x21(a6)                  | +102
         bra.w   .L04e240                        | +108
 .L04e238:
-        jsr     Sub_0004FA70(pc)                | +10c
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +10c
         bcc.w   .L04e246                        | +110
 .L04e240:
         jmp     0x518.l                         | +114
@@ -1914,7 +1914,7 @@ Prop_NestActive_04e2b0:
         lea     Prop_NestWreck_04e32c(pc),a1    | +066
         move.l  a1,(a6)                         | +06a
 .L04e31c:
-        jsr     Sub_0004FA70(pc)                | +06c
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +06c
         bcc.w   .L04e32a                        | +070
         jmp     0x518.l                         | +074
 .L04e32a:
@@ -1942,7 +1942,7 @@ Prop_NestWreck_04e32c:
 .L04e36e:
         jsr     0x2783a.l                       | +042
         jsr     0x28d70.l                       | +048
-        jsr     Sub_0004FA70(pc)                | +04e
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +04e
         bcc.w   .L04e388                        | +052
         jmp     0x518.l                         | +056
 .L04e388:
@@ -1992,7 +1992,7 @@ Prop_Shed_04e38a:
         lea     Prop_ShedDamaged_04e450(pc),a1  | +0b0
         move.l  a1,(a6)                         | +0b4
 .L04e440:
-        jsr     Sub_0004FA70(pc)                | +0b6
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0b6
         bcc.w   .L04e44e                        | +0ba
         jmp     0x518.l                         | +0be
 .L04e44e:
@@ -2042,7 +2042,7 @@ Prop_ShedDamaged_04e450:
         jsr     Sprite_InvokeBlit8Params(pc)    | +0aa
         jsr     Prop_FreeOrRts_04e50a(pc)       | +0ae
 .L04e502:
-        jsr     Sub_0004FA70(pc)                | +0b2
+        jsr     Prop_OffscreenLeftCheck_04fa70(pc)                | +0b2
         bcc.w   Prop_FreeOrRts_04e50a__L04e510  | +0b6
 
 | ----------------------------------------------------------------------------
