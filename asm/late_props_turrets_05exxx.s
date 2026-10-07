@@ -1,11 +1,151 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave SSSS — helpers de runtime tardío (Atan2, target de jugadores,
+|  RNG, clasificación de golpes), debug de colisión, soldado de torre /
+|  ocupante de choza, rompibles, cartel, obstáculos, cajas, torreta
+|  apuntadora y props tardíos (plantillas $E8000[30..52,122..150,272..319])
 |  Región: $05E000..$062000  (15,144 B, 221 entradas, 108 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  221 entradas en seis bloques:
+|  1. $05E000..$05EB98 — HELPERS DE RUNTIME TARDÍO (compartidos por todo el
+|     juego, >200 call-sites externos):
+|     - AtanTable_Tail_05e000 (cola de la tabla $5DE18/$5DF18) +
+|       Atan2_Angle256_05e018 (dx=d0,dy=d1 -> ángulo 0..255 en d0; octantes
+|       por signo y |dx|<|dy| con exg, cuadrante final por bit7).
+|     - Target_*: AcquireNearestPlayer_05e086 (a0=caja [xmin,xmax,ymin,ymax]
+|       opcional, elige entre $100440/P1 y $1004E0/P2 por máscara de vivos y
+|       distancia |dx|; C=1 si nadie), AngleToPlayer_05e136, InRangeBox_05e260
+|       (caja relativa al facing +$3A), DeltaThenAtan2_05e070, IsAhead_05e618.
+|     - Players_*: AliveMask_05e1aa (bits 0/1), PickRandomAlive_05e1ea (RNG
+|       si ambos vivos), AnyAliveNotHit_05e366, AnyAhead_05e5e0.
+|     - Player_GetEntity_05e3a2 (d0 = idx -> a0 vía PlayerEntityPtrs_05e3f4;
+|       C=0 si handler es $FFFFFFFF/$52A/$400/$2AE3E = muerto/libre) y
+|       Parent_*: IsFreed_05e45a, CopyPos_05e4dc, CopyPosPrio_05e4ee,
+|       CopyPosPrioFacing_05e506, GetPrioPos_05e4ca (padre en +$0C).
+|     - Dist_Approx_05e22a (max + min/2), Entity_SnapToGround_05e7c0 (baja
+|       Y hasta $27C8C), Entity_IsOnscreenMin_05e8ba, Scroll_IsPastQuarter.
+|     - Hit_ClassifyAttack_05e6a4 (tabla de 34 clases por +$58, trap #15 en
+|       fuera de rango = assert de depuración), Hit_SoundA/B_05e728 (+$5A
+|       bits), HitSoundTable_05e766 + Hit_SoundByAttackClassTbl_05e798,
+|       Attack_IsHeavyType_05e844 (+$58 in {2,3,$15..$18,$1E}).
+|     - RNG: Rng_Seed_05e998 (32 words LCG $B7C7/$81F5 en $10E230, índice
+|       $10E270), Rng_Mask_05ea1c (lagged-Fibonacci xor, offset -$15, AND
+|       d0), Rng_PickFromTable5_05e544 (5 words RngTable5_05e552).
+|     - Hud_WriteTimerCounters_05e912 (+$30/+$32 clamp 1..255 -> fix $70A5,
+|       $10E1E4 -> $70A7, $10E1E6 -> $7147).
+|     - Slot1008A0_*: slot de tarea fija $1008A0 (alloc $4AE/$6FE, handler
+|       $400 = libre), Task_Clear106F42_05ea96.
+|     - Fix_DrawMessageRow_05eae4 (jmp desde $150E; d3 = fila de
+|       MessageTileRows_05eb98: 30 punteros a filas de 14 tiles $0B00/$4Bxx
+|       terminadas en $FFFF, paso $40 en VRAM fix) + variantes Step40/Step20.
+|  2. $05EFCA..$05F384 — DEBUG DE COLISIÓN (DebugColl_*): tarea de
+|     depuración residual activada por bit1 de $100001 (DIP): cursor (+$22,
+|     +$24) movido con $5CEA4..$5CEDA, lee el byte de colisión $43F02 y
+|     dibuja el nibble bajo/alto como tiles $5000+ en toda la pantalla
+|     ($10..$128 x $118..$1E8, paso 8) con BIOS_FIX_CLEAR; muestra X/Y/col
+|     en $7425..$7428. DebugColl_Tiles_05f30a = 16 tiles "0".."F" ($2030..)
+|     + cabecera de sprite + caja offworld.
+|  3. $05F384..$05FD78 — SOLDADO DE TORRE y OCUPANTE DE CHOZA (hijos de
+|     Prop_TowerBase_04dce6 y Prop_Hut_04d8f2 en turret_car_props_04cbxx.s):
+|     TowerSoldier_Init (snd $27, prio $4000, sprite $2C0BE2) -> Watch (busca
+|     jugador con caja $2C0EF2/$2C0EFC según facing, +$71 cooldown; lanza
+|     TowerSoldier_Grenade_05f6c4 snd $1D con gravedad $280C6 -> GrenadeBurst
+|     + Shell/Muzzle) -> Fire (+$21 $EE = recarga) -> Die ($5F508, puntos
+|     $283CA, sprite $2C0C5E) / Fall ($D000) / Flee (música $2352, prio
+|     $8000, registro $43FAC[$2C0F06]). HutOccupant_Init_05fa00 (HP $10,
+|     hijo HutDoor_05fba0 snd $19): Idle espera a +$21=$FF del padre o
+|     jugadores cerca (PlayersNear_05fd08) -> Emerge ($2C0F9C) -> si el
+|     padre murió se convierte en soldado que huye ($58F82 + hijo $776E2)
+|     -> Out. HutDoor: Idle -> Open ($2C14E2) -> Break (música, $2C1546).
+|  4. $05FD78..$060576 — ROMPIBLES genéricos y CARTEL (plantillas $E8000):
+|     Breakable_Tmpl1F/22/23/24 (índices 31..39: cada una 3 variantes a +$10
+|     con sprites $2C175E/$2C17AC/$2C1886, $2C1B02/$2C1B2A, $2C1D44/$2C1D88,
+|     $2C1D98..$2C1F28); Init: snd $E, prio $8000, HP 1, $267E2 scroll;
+|     Idle con $2870A -> Destroyed (SpawnShards_06034c -> Shard_06025e snd
+|     $15D/$164/$165, velocidad por Atan2 y $5E018, prio $D000, ataque
+|     $2C2168) ; Breakable_SpawnPiece_060210 ($519BE + RNG). Sign_Tmpl28
+|     (índices 40..49, 10 variantes a +$20/+$6 con sprites $2C21DC/$2C09AC/
+|     $2C226A, registro $4498E) -> Sign_Idle -> Free. Facing_FromAngleHi.
+|  5. $060576..$060E62 — MARCADOR HOMING y OBSTÁCULOS: HomingMarker_Targets
+|     (16 pares (x,y) indexados por $10E208 & $F; el código en +$40 anima la
+|     posición a 1/16 por frame hacia el objetivo con snd $E y plantilla
+|     $2507FA, luego $9C072/$99812/$5CA2A). ItemProp_Tmpl114..118 (5
+|     variantes de ítem registradas en $43FAC con plantillas $25086E..
+|     $25085C -> Idle $5CA2A). Obstacle_* (Tmpl110/111/094/095): CommonInit
+|     snd $6C, prio $28134 | $C, HP por dificultad $799DE, sprites $2C2416..
+|     $2C2504; Idle/Damaged/Destroyed (A y B) con $28758, Smoke ($2000),
+|     Flames (Task_WalkList $5B6), Obstacle095 con SoundTable_060b74 (3
+|     sonidos por +$98) y HP $64. Crate_Tmpl07C (índices 122..124, snd $4F,
+|     HP $799DE, 4 registros $2C2B98..$2C2C28, flash $5E770 al morir).
+|  6. $060E62..$062000 — TORRETA APUNTADORA y PROPS TARDÍOS:
+|     AimTurret_Tmpl08E (índice 142; snd $187/$188/$18A + música, prio
+|     $8000, HP x2 $799DE, sprite $2C32D6): Active/ActiveB (Acquire_06179e
+|     caja $100x$10 -> AimAtPlayer_06164c Atan2 -> ángulo /32 -> $5E23A,
+|     $13C0E sin/cos; Anim_0617d2 script $2C3212; HitCheck_061580; Gun
+|     ($189/$18B, GunAttack $2C3282), Barrel, Shell ($187, HP $3C,
+|     ataque $2C322E/$2C334C, gravedad $27D50) -> Die/DieB (escombros
+|     $77C7E[$2C3406/$2C33B4], ítem $9A7CC $9E vía DropItem_061482, música)
+|     ; Dormant, SpawnPair_061910, ScrollGate ($106F50). GroundNest_Tmpl32
+|     (índices 50..52: snap $5E7C0, snd $F2/$1CC, $138FE, prio |8, 2 hijos).
+|     LateProp_* ($61AA2..$62000, continúa en $062000+: helpers $6269x/
+|     $6271x/$6273x/$62758 del siguiente hueco): Init ($2C3812/$2C3880 con
+|     $28998 anim dual), Idle/Hit (flash), Die ($2C39DA/$2C3A22, música),
+|     Piece/PieceIdle ($2C3A6A/$2C3AEC/$2C3B6E), Debris ($2C3C74/$2C3BE0),
+|     Spark/SparkHit ($2C3D7A/$2C3CEC), Shot/ShotB ($2C3DA4, $2C3E48/
+|     $2C3E9C, caja $2C36F4).
+|
+|  B) CÓMO FUNCIONA
+|  Todas las entidades siguen el protocolo a6: +$00 handler, +$0C padre,
+|  +$12/+$13 flags, +$20/+$21 estado/orden del padre, +$22/+$24 pos,
+|  +$28/+$2A vel, +$38 prio, +$3A facing, +$3C plantilla, +$58 clase de
+|  ataque, +$66 HP, +$70.. contadores. Los helpers 1 son hojas reentrantes
+|  (solo d0-d3/a0-a1 salvo RNG que usa a4/d5-d7). Las plantillas $E8000[n]
+|  son puntos de entrada "Init" que el Mission VM invoca con a6 recién
+|  reservado; las variantes a +$10/+$20 solo cambian la lea del sprite y
+|  saltan al cuerpo común.
+|
+|  C) INTERFAZ
+|  Entradas externas: Atan2 ($5E018: 25+ sitios), Target_Acquire ($5E086:
+|  $47D1A, $4F48E...), Player_GetEntity ($5E3A2: $1B24, $25A58, $320DE...),
+|  Rng_Seed ($5E998: boot $EAA..$1462), Rng_Mask ($5EA1C: $52874, $5378C..),
+|  Fix_DrawMessageRow (jmp $150E), DebugColl_Init ($1DFE), plantillas
+|  $E8000[30..52,122..124,142,144..150,272..280,319] y los hijos de
+|  turret_car_props ($4DCE8 -> $5F384, $4D920 -> $5FA00). Salidas: $236E
+|  snd, $2352 música, $28CD4/$28D70 sprite/anim, $2870A/$28758 daño/HP,
+|  $283CA/$283D8 ataque, $267E2/$2783A scroll, $5DD02/$5DD22 pos padre,
+|  $5DD56/$5DD5C offworld, $43FAC registro, $77C7E escombros, $799DE
+|  dificultad, $9A7CC ítem, $5CA2A, $9C072/$99812.
+|
+|  D) EVIDENCIAS
+|  - $E8000 (tabla de plantillas del Mission VM) apunta a 42 entradas de
+|    esta región (índices listados en C); mission_streams_0e8524.s usa
+|    tmpl $034 (8x), $090, $091, $093, $096.
+|  - turret_car_props_04cbxx.s cabecera: "TowerBase: hijo $5F384", "Hut:
+|    hijos $5FA00 y HutRoof"; $58F82 = soldado que huye (MeleeGuard).
+|  - $150E: jmp $5EAE4 con d3 = byte de la entrada $C0A[$106ED0*8+4]
+|    (dispatch de mensajes de boot/modo).
+|  - Rng_Seed ($5E998) llamado 6 veces desde SchedulerBootstrap ($EAA..).
+|  - DebugColl usa BIOS_FIX_CLEAR ($C004C2) y los lectores de pad $5CCxx/
+|    $5CExx (mismos que los menús), nunca referenciada por $E8000.
+|
+|  E) HIPÓTESIS / DUDAS
+|  - "TowerSoldier" / "HutOccupant": nombres por el padre (TowerBase/Hut);
+|    la identidad visual exacta (soldado vs. francotirador) no verificada.
+|  - "Breakable", "Sign", "Obstacle", "Crate", "AimTurret", "LateProp",
+|    "GroundNest" son hipótesis por comportamiento (HP, escombros, registro
+|    $43FAC, apuntado con Atan2); los sprites $2Cxxxx no se han renderizado.
+|  - HomingMarker_Targets_060576: 16 pares (x,y) animados hacia el destino
+|    indexado por $10E208; podría ser el cursor del mapa de misiones.
+|  - Hit_ClassifyAttack: trap #15 tras nops = macro assert del SDK SNK.
+|  - $5E4CA está registrado como Sub_00005E4CA (9 dígitos, nombre heredado
+|    W#10); renombrado a Parent_GetPrioPos_05e4ca.
+|
+|  F) ESTADO
+|  221/221 byte-exactas; 10 rangos --data (docs/waves/ssss_args.txt).
+|  Nombres en docs/waves/ssss_names.txt. Pendiente: $062000+ (LateProp
+|  helpers), identidad de sprites.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
