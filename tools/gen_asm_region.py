@@ -82,6 +82,9 @@ class Insn:
         self.size = cs.size
         self.bytes = bytes(cs.bytes)
         self.mn = cs.mnemonic
+        # capstone emite "exg.l dX,dY"; GAS no admite sufijo de tamaño en EXG.
+        if self.mn.startswith("exg"):
+            self.mn = "exg"
         self.ops = cs.op_str
 
 
