@@ -543,15 +543,15 @@ SYMBOLS = {
     # 0x00060C40 promovido a Obstacle_FlushMusicJmp77FD6_060c40 en registry (Wave SSSS).
     # 0x00060D3A promovido a Crate_Idle_060d3a en registry (Wave SSSS).
     0x00060DE8: "TaskHandler_060de8",
-    # 0x000620A0 promovido a TaskHandler_0620a0 en registry (Wave TTTT).
+    # 0x000620A0 promovido a JmpScheduler_0620a0 en registry (Wave TTTT).
     0x000620A8: "TaskHandler_0620a8",
     0x00062F8C: "TaskHandler_062f8c",
     0x00062F9A: "TaskHandler_062f9a",
-    # 0x00063942 promovido a TaskHandler_063942 en registry (Wave TTTT).
+    # 0x00063942 promovido a JmpScheduler_063942 en registry (Wave TTTT).
     0x00063952: "TaskHandler_063952",
     0x00064222: "TaskHandler_064222",
     0x0006422A: "TaskHandler_06422a",
-    # 0x00064D7A promovido a TaskHandler_064d7a en registry (Wave TTTT).
+    # 0x00064D7A promovido a Hostage_Free_064d7a en registry (Wave TTTT).
     0x00064D8A: "TaskHandler_064d8a",
     0x0006515E: "TaskHandler_06515e",
     0x000667A4: "TaskHandler_0667a4",
@@ -929,8 +929,8 @@ SYMBOLS = {
     0x0005DD5C: "PcThunkTarget_05dd5c",
     # 0x0005E018 promovido a Atan2_Angle256_05e018 en registry (Wave SSSS).
     # 0x0005E530 promovido a Rng_PickWordFromTable_05e530 en registry (Wave SSSS).
-    # 0x00063336 promovido a PcThunkTarget_063336 en registry (Wave TTTT).
-    # 0x000634F6 promovido a PcThunkTarget_0634f6 en registry (Wave TTTT).
+    # 0x00063336 promovido a Camper_ScrollGate_063336 en registry (Wave TTTT).
+    # 0x000634F6 promovido a Camper_SpawnPairB_0634f6 en registry (Wave TTTT).
     # 0x00065C94 promovido a EntityGroup_SpawnLinkedFromTemplateList_065C94 en registry (Wave RR#5).
     # 0x0006896A promovido a Camera0_RelinkAndWrapScroll_06896A en registry (Wave RR#3).
     0x00068AB8: "PcThunkTarget_068ab8",
@@ -1859,16 +1859,16 @@ SYMBOLS = {
     0x0000FFD0: "Sub_0000FFD0",  # hueco futuro (ref pc-rel desde esta region)
     0x0005DE18: "Sub_0005DE18",  # hueco futuro (ref pc-rel desde esta region)
     0x0005DF18: "Sub_0005DF18",  # hueco futuro (ref pc-rel desde esta region)
-    # 0x00062008 promovido a Sub_00062008 en registry (Wave TTTT).
-    # 0x00062014 promovido a Sub_00062014 en registry (Wave TTTT).
-    # 0x00062046 promovido a Sub_00062046 en registry (Wave TTTT).
-    # 0x00062084 promovido a Sub_00062084 en registry (Wave TTTT).
-    # 0x000626B8 promovido a Sub_000626B8 en registry (Wave TTTT).
-    # 0x000626D8 promovido a Sub_000626D8 en registry (Wave TTTT).
-    # 0x000626F0 promovido a Sub_000626F0 en registry (Wave TTTT).
-    # 0x00062710 promovido a Sub_00062710 en registry (Wave TTTT).
-    # 0x00062732 promovido a Sub_00062732 en registry (Wave TTTT).
-    # 0x00062758 promovido a Sub_00062758 en registry (Wave TTTT).
+    # 0x00062008 promovido a LateProp_HitThenDie_062008 en registry (Wave TTTT).
+    # 0x00062014 promovido a LateProp_TakeHit_062014 en registry (Wave TTTT).
+    # 0x00062046 promovido a LateProp_HPCheck_062046 en registry (Wave TTTT).
+    # 0x00062084 promovido a LateProp_TakeHitB_062084 en registry (Wave TTTT).
+    # 0x000626B8 promovido a Facing_SignDelta_0626b8 en registry (Wave TTTT).
+    # 0x000626D8 promovido a Facing_Matches77_0626d8 en registry (Wave TTTT).
+    # 0x000626F0 promovido a LateProp_XPastThreshold_0626f0 en registry (Wave TTTT).
+    # 0x00062710 promovido a LateProp_StepX_062710 en registry (Wave TTTT).
+    # 0x00062732 promovido a LateProp_ClampX_062732 en registry (Wave TTTT).
+    # 0x00062758 promovido a LateProp_StepAnim_062758 en registry (Wave TTTT).
     # --- Wave TTTT: RTS internos de islas C
     0x00062082: "SetHandlerRts_062082",  # rts de SetTaskHandler_06207c (+6)
     0x00062128: "SetHandlerRts_062128",  # rts de SetTaskHandler_062122 (+6)

@@ -429,14 +429,14 @@ void JsrPcThunk_05e8ce(void) {
 
 __attribute__((section(".text.JsrPcThunk_062b7e")))
 void JsrPcThunk_062b7e(void) {
-    extern void PcThunkTarget_063336(void);
-    __asm__ volatile("jsr PcThunkTarget_063336(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Camper_ScrollGate_063336(void);
+    __asm__ volatile("jsr Camper_ScrollGate_063336(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0634f0")))
 void JsrPcThunk_0634f0(void) {
-    extern void PcThunkTarget_0634f6(void);
-    __asm__ volatile("jsr PcThunkTarget_0634f6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Camper_SpawnPairB_0634f6(void);
+    __asm__ volatile("jsr Camper_SpawnPairB_0634f6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_065eee")))

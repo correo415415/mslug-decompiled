@@ -5400,7 +5400,7 @@ LateProp_Init_061aa2:
         move.w  #0x109d,d0                      | +008
         jsr     0x2352.l                        | +00c
         jsr     0x267e2.l                       | +012
-        jsr     Sub_000626D8(pc)                | +018  -> $0626D8 (hueco futuro, defsym forward)
+        jsr     Facing_Matches77_0626d8(pc)                | +018  -> $0626D8 (hueco futuro, defsym forward)
         bcs.w   .L061adc                        | +01c
         lea     0x2c3812.l,a0                   | +020
         jsr     0x28cd4.l                       | +026
@@ -5420,7 +5420,7 @@ LateProp_Init_061aa2:
         move.l  d1,0x7c(a6)                     | +05c
         move.w  d0,0x28(a6)                     | +060
         clr.w   0x78(a6)                        | +064
-        jsr     Sub_00062732(pc)                | +068  -> $062732 (hueco futuro, defsym forward)
+        jsr     LateProp_ClampX_062732(pc)                | +068  -> $062732 (hueco futuro, defsym forward)
         lea     .L061b14(pc),a1                 | +06c
         move.l  a1,(a6)                         | +070
 .L061b14:
@@ -5431,24 +5431,24 @@ LateProp_Init_061aa2:
         move.l  a1,(a6)                         | +086
 .L061b2a:
         jsr     0x28d70.l                       | +088
-        jsr     Sub_000626F0(pc)                | +08e  -> $0626F0 (hueco futuro, defsym forward)
+        jsr     LateProp_XPastThreshold_0626f0(pc)                | +08e  -> $0626F0 (hueco futuro, defsym forward)
         bcc.w   .L061b3e                        | +092
         lea     LateProp_Rts_061c4e(pc),a1      | +096
         move.l  a1,(a6)                         | +09a
 .L061b3e:
-        jsr     Sub_00062710(pc)                | +09c  -> $062710 (hueco futuro, defsym forward)
+        jsr     LateProp_StepX_062710(pc)                | +09c  -> $062710 (hueco futuro, defsym forward)
         bcc.w   .L061b4c                        | +0a0
         lea     LateProp_Die_061c54(pc),a1      | +0a4
         move.l  a1,(a6)                         | +0a8
 .L061b4c:
-        jsr     Sub_00062758(pc)                | +0aa  -> $062758 (hueco futuro, defsym forward)
+        jsr     LateProp_StepAnim_062758(pc)                | +0aa  -> $062758 (hueco futuro, defsym forward)
         bcc.w   .L061b5a                        | +0ae
         lea     LateProp_Die_061c54(pc),a1      | +0b2
         move.l  a1,(a6)                         | +0b6
 .L061b5a:
         jsr     0x283ca.l                       | +0b8
         jsr     0x283d8.l                       | +0be
-        bra.w   Sub_00062014                    | +0c4  -> $062014 (hueco futuro, defsym forward)
+        bra.w   LateProp_TakeHit_062014                    | +0c4  -> $062014 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_Idle_061b6a  @ $061B6A  (136 B)
@@ -5484,7 +5484,7 @@ LateProp_Idle_061b6a:
         jsr     0x5e770.l                       | +072
         jsr     0x283ca.l                       | +078
         jsr     0x283d8.l                       | +07e
-        bra.w   Sub_00062046                    | +084  -> $062046 (hueco futuro, defsym forward)
+        bra.w   LateProp_HPCheck_062046                    | +084  -> $062046 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_Hit_061bf2  @ $061BF2  (92 B)
@@ -5508,17 +5508,17 @@ LateProp_Hit_061bf2:
         lea     LateProp_Hit_061bf2(pc),a1      | +036
         move.l  a1,(a6)                         | +03a
 .L061c2e:
-        jsr     Sub_00062710(pc)                | +03c  -> $062710 (hueco futuro, defsym forward)
+        jsr     LateProp_StepX_062710(pc)                | +03c  -> $062710 (hueco futuro, defsym forward)
         bcc.w   .L061c3c                        | +040
         lea     LateProp_PieceIdle_061d84(pc),a1 | +044
         move.l  a1,(a6)                         | +048
 .L061c3c:
-        jsr     Sub_00062758(pc)                | +04a  -> $062758 (hueco futuro, defsym forward)
+        jsr     LateProp_StepAnim_062758(pc)                | +04a  -> $062758 (hueco futuro, defsym forward)
         bcc.w   .L061c4a                        | +04e
         lea     LateProp_Idle_061b6a(pc),a1     | +052
         move.l  a1,(a6)                         | +056
 .L061c4a:
-        bra.w   Sub_00062014                    | +058  -> $062014 (hueco futuro, defsym forward)
+        bra.w   LateProp_TakeHit_062014                    | +058  -> $062014 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_Rts_061c4e  @ $061C4E  (6 B)
@@ -5573,14 +5573,14 @@ LateProp_Die_061c54:
         blt.w   .L061ce8                        | +08c
         bra.w   .L061ce8                        | +090
 .L061ce8:
-        jsr     Sub_00062732(pc)                | +094  -> $062732 (hueco futuro, defsym forward)
+        jsr     LateProp_ClampX_062732(pc)                | +094  -> $062732 (hueco futuro, defsym forward)
         jsr     0x28d70.l                       | +098
         bcc.w   .L061cfc                        | +09e
         lea     LateProp_Hit_061bf2(pc),a1      | +0a2
         move.l  a1,(a6)                         | +0a6
 .L061cfc:
-        jsr     Sub_00062710(pc)                | +0a8  -> $062710 (hueco futuro, defsym forward)
-        bra.w   Sub_00062014                    | +0ac  -> $062014 (hueco futuro, defsym forward)
+        jsr     LateProp_StepX_062710(pc)                | +0a8  -> $062710 (hueco futuro, defsym forward)
+        bra.w   LateProp_TakeHit_062014                    | +0ac  -> $062014 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_Piece_061d04  @ $061D04  (128 B)
@@ -5588,11 +5588,11 @@ LateProp_Die_061c54:
         .section .text.LateProp_Piece_061d04, "ax", @progbits
         .global LateProp_Piece_061d04
 LateProp_Piece_061d04:
-        jsr     Sub_00062710(pc)                | +000  -> $062710 (hueco futuro, defsym forward)
+        jsr     LateProp_StepX_062710(pc)                | +000  -> $062710 (hueco futuro, defsym forward)
         bcs.w   LateProp_PieceIdle_061d84       | +004
         tst.b   0x98(a6)                        | +008
         bne.w   LateProp_Hit_061bf2             | +00c
-        jsr     Sub_000626D8(pc)                | +010  -> $0626D8 (hueco futuro, defsym forward)
+        jsr     Facing_Matches77_0626d8(pc)                | +010  -> $0626D8 (hueco futuro, defsym forward)
         bcs.w   .L061d30                        | +014
         lea     0x2c3a6a.l,a0                   | +018
         jsr     0x28cd4.l                       | +01e
@@ -5621,7 +5621,7 @@ LateProp_Piece_061d04:
 .L061d74:
         jsr     0x283ca.l                       | +070
         jsr     0x283d8.l                       | +076
-        bra.w   Sub_00062014                    | +07c  -> $062014 (hueco futuro, defsym forward)
+        bra.w   LateProp_TakeHit_062014                    | +07c  -> $062014 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_PieceIdle_061d84  @ $061D84  (50 B)
@@ -5641,7 +5641,7 @@ LateProp_PieceIdle_061d84:
         lea     LateProp_RngHP_061db6(pc),a1    | +028
         move.l  a1,(a6)                         | +02c
 .L061db2:
-        bra.w   Sub_00062084                    | +02e  -> $062084 (hueco futuro, defsym forward)
+        bra.w   LateProp_TakeHitB_062084                    | +02e  -> $062084 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_RngHP_061db6  @ $061DB6  (16 B)
@@ -5699,7 +5699,7 @@ LateProp_Debris_061dc6:
         lea     LateProp_Debris_061dc6(pc),a1   | +0a2
         move.l  a1,(a6)                         | +0a6
 .L061e6e:
-        bra.w   Sub_00062084                    | +0a8  -> $062084 (hueco futuro, defsym forward)
+        bra.w   LateProp_TakeHitB_062084                    | +0a8  -> $062084 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_Spark_061e72  @ $061E72  (76 B)
@@ -5723,8 +5723,8 @@ LateProp_Spark_061e72:
         lea     LateProp_Piece_061d04(pc),a1    | +03e
         move.l  a1,(a6)                         | +042
 .L061eb6:
-        jsr     Sub_00062710(pc)                | +044  -> $062710 (hueco futuro, defsym forward)
-        bra.w   Sub_00062014                    | +048  -> $062014 (hueco futuro, defsym forward)
+        jsr     LateProp_StepX_062710(pc)                | +044  -> $062710 (hueco futuro, defsym forward)
+        bra.w   LateProp_TakeHit_062014                    | +048  -> $062014 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_SparkHit_061ebe  @ $061EBE  (104 B)
@@ -5748,14 +5748,14 @@ LateProp_SparkHit_061ebe:
         lea     LateProp_Piece_061d04(pc),a1    | +03e
         move.l  a1,(a6)                         | +042
 .L061f02:
-        jsr     Sub_00062710(pc)                | +044  -> $062710 (hueco futuro, defsym forward)
+        jsr     LateProp_StepX_062710(pc)                | +044  -> $062710 (hueco futuro, defsym forward)
         jsr     0x2870a.l                       | +048
         bcc.w   .L061f22                        | +04e
         lea     0x5e766.l,a0                    | +052
         jsr     0x5e770.l                       | +058
         bclr    #0x3,0x13(a6)                   | +05e
 .L061f22:
-        bra.w   Sub_00062046                    | +064  -> $062046 (hueco futuro, defsym forward)
+        bra.w   LateProp_HPCheck_062046                    | +064  -> $062046 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  LateProp_Shot_061f26  @ $061F26  (112 B)
@@ -5768,7 +5768,7 @@ LateProp_Shot_061f26:
         jsr     0x4ae.l                         | +00c
         jsr     0x5dd02.l                       | +012
         move.w  #0x18,d0                        | +018
-        jsr     Sub_000626B8(pc)                | +01c  -> $0626B8 (hueco futuro, defsym forward)
+        jsr     Facing_SignDelta_0626b8(pc)                | +01c  -> $0626B8 (hueco futuro, defsym forward)
         add.w   d0,0x22(a0)                     | +020
         move.b  #0xff,0x20(a6)                  | +024
         lea     0x2c3da4.l,a0                   | +02a
@@ -5814,7 +5814,7 @@ LateProp_ShotB_061f9e__L061fae:
         bcc.w   .L061fea                        | +03a
         tst.b   0x83(a6)                        | +03e
         beq.w   .L061fea                        | +042
-        lea     Sub_00062008(pc),a1             | +046  -> $062008 (hueco futuro, defsym forward)
+        lea     LateProp_HitThenDie_062008(pc),a1             | +046  -> $062008 (hueco futuro, defsym forward)
         move.l  a1,(a6)                         | +04a
 .L061fea:
         movea.l #0xffffffff,a0                  | +04c

@@ -184,15 +184,15 @@ extern void Obstacle095_Idle_060bf6(void);
 extern void Obstacle_FlushMusicJmp77FD6_060c40(void);
 extern void Crate_Idle_060d3a(void);
 extern void TaskHandler_060de8(void);
-extern void TaskHandler_0620a0(void);
+extern void JmpScheduler_0620a0(void);
 extern void TaskHandler_0620a8(void);
 extern void TaskHandler_062f8c(void);
 extern void TaskHandler_062f9a(void);
-extern void TaskHandler_063942(void);
+extern void JmpScheduler_063942(void);
 extern void TaskHandler_063952(void);
 extern void TaskHandler_064222(void);
 extern void TaskHandler_06422a(void);
-extern void TaskHandler_064d7a(void);
+extern void Hostage_Free_064d7a(void);
 extern void TaskHandler_064d8a(void);
 extern void TaskHandler_06515e(void);
 extern void TaskHandler_0667a4(void);
@@ -1675,25 +1675,25 @@ void SetTaskHandler_060de0(void) {
 
 __attribute__((section(".text.SetTaskHandler_061f96")))
 void SetTaskHandler_061f96(void) {
-    _a1_ptr = &TaskHandler_0620a0;
+    _a1_ptr = &JmpScheduler_0620a0;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_062000")))
 void SetTaskHandler_062000(void) {
-    _a1_ptr = &TaskHandler_0620a0;
+    _a1_ptr = &JmpScheduler_0620a0;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06200c")))
 void SetTaskHandler_06200c(void) {
-    _a1_ptr = &TaskHandler_0620a0;
+    _a1_ptr = &JmpScheduler_0620a0;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06207c")))
 void SetTaskHandler_06207c(void) {
-    _a1_ptr = &TaskHandler_0620a0;
+    _a1_ptr = &JmpScheduler_0620a0;
     STORE_A1_AT_FP();
 }
 
@@ -1705,13 +1705,13 @@ void SetTaskHandler_062122(void) {
 
 __attribute__((section(".text.SetTaskHandler_06231e")))
 void SetTaskHandler_06231e(void) {
-    _a1_ptr = &TaskHandler_0620a0;
+    _a1_ptr = &JmpScheduler_0620a0;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_062352")))
 void SetTaskHandler_062352(void) {
-    _a1_ptr = &TaskHandler_0620a0;
+    _a1_ptr = &JmpScheduler_0620a0;
     STORE_A1_AT_FP();
 }
 
@@ -1825,13 +1825,13 @@ void SetTaskHandler_063312(void) {
 
 __attribute__((section(".text.SetTaskHandler_063882")))
 void SetTaskHandler_063882(void) {
-    _a1_ptr = &TaskHandler_063942;
+    _a1_ptr = &JmpScheduler_063942;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0638fc")))
 void SetTaskHandler_0638fc(void) {
-    _a1_ptr = &TaskHandler_063942;
+    _a1_ptr = &JmpScheduler_063942;
     STORE_A1_AT_FP();
 }
 
@@ -1879,49 +1879,49 @@ void SetTaskHandler_0643d2(void) {
 
 __attribute__((section(".text.SetTaskHandler_0646f8")))
 void SetTaskHandler_0646f8(void) {
-    _a1_ptr = &TaskHandler_064d7a;
+    _a1_ptr = &Hostage_Free_064d7a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_064a78")))
 void SetTaskHandler_064a78(void) {
-    _a1_ptr = &TaskHandler_064d7a;
+    _a1_ptr = &Hostage_Free_064d7a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_064ad0")))
 void SetTaskHandler_064ad0(void) {
-    _a1_ptr = &TaskHandler_064d7a;
+    _a1_ptr = &Hostage_Free_064d7a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_064b10")))
 void SetTaskHandler_064b10(void) {
-    _a1_ptr = &TaskHandler_064d7a;
+    _a1_ptr = &Hostage_Free_064d7a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_064ce6")))
 void SetTaskHandler_064ce6(void) {
-    _a1_ptr = &TaskHandler_064d7a;
+    _a1_ptr = &Hostage_Free_064d7a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_064d72")))
 void SetTaskHandler_064d72(void) {
-    _a1_ptr = &TaskHandler_064d7a;
+    _a1_ptr = &Hostage_Free_064d7a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_065034")))
 void SetTaskHandler_065034(void) {
-    _a1_ptr = &TaskHandler_064d7a;
+    _a1_ptr = &Hostage_Free_064d7a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_065046")))
 void SetTaskHandler_065046(void) {
-    _a1_ptr = &TaskHandler_064d7a;
+    _a1_ptr = &Hostage_Free_064d7a;
     STORE_A1_AT_FP();
 }
 
