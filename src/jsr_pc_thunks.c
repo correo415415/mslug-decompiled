@@ -507,8 +507,8 @@ void JsrPcThunk_0687ae(void) {
 
 __attribute__((section(".text.JsrPcThunk_06d130")))
 void JsrPcThunk_06d130(void) {
-    extern void PcThunkTarget_06d13c(void);
-    __asm__ volatile("jsr PcThunkTarget_06d13c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void RocketVehicle_LinkBlocked_06d13c(void);
+    __asm__ volatile("jsr RocketVehicle_LinkBlocked_06d13c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 /* JsrPcThunk_06e244 ABSORBIDO por Entity_SpawnAndTag_06E224 (Wave Z batch 2 #7).

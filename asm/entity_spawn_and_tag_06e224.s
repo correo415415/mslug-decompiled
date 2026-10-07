@@ -31,7 +31,7 @@
 
 Entity_SpawnAndTag_06E224:
         movem.w d0, -(a7)                      | +00  push d0 (idioma canonico)
-        lea     .LTpl(pc), a1                  | +04  a1 = &Template_06DF32
+        lea     .LTpl(pc), a1                  | +04  a1 = &FireBurst_Tmpl_06df32
         jsr     0x4ae.l                        | +08  Task_AllocFromFreeList (T#4)
         jsr     0x5dd02.l                      | +0e  Entity_CopyTransform (S#4)
         movem.w (a7)+, d0                      | +14  pop d0
@@ -40,7 +40,7 @@ Entity_SpawnAndTag_06E224:
         jsr     .Lpost(pc)                     | +20  post-hook en $06E2BC
         rts                                    | +24
 
-        .equ    .LTpl,  Template_06DF32
+        .equ    .LTpl,  FireBurst_Tmpl_06df32
         .equ    .Lpost, Entity_CopyAnimFromLeader_06E2BC     | nombre canonico historico
 
         .size   Entity_SpawnAndTag_06E224, .-Entity_SpawnAndTag_06E224

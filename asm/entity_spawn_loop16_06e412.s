@@ -32,7 +32,7 @@ Entity_SpawnLoop16_06E412:
         move.w  #0x10, d0                      | +00  d0 = 16 (contador)
 .Lloop:
         move.w  d0, -(a7)                      | +04  push d0 (over jsrs)
-        lea     .LTpl(pc), a1                  | +06  a1 = &Template_06DD5C
+        lea     .LTpl(pc), a1                  | +06  a1 = &Frag_Scatter_06dd5c
         jsr     0x4ae.l                        | +0a  Task_AllocFromFreeList (T#4)
         jsr     0x5dd02.l                      | +10  Entity_CopyTransform (S#4)
         move.b  0x9b(a6), 0x9b(a0)             | +16  new->field9B = parent->field9B
@@ -41,6 +41,6 @@ Entity_SpawnLoop16_06E412:
         bne.b   .Lloop                         | +20  loop until 0
         rts                                    | +22
 
-        .equ    .LTpl, Template_06DD5C
+        .equ    .LTpl, Frag_Scatter_06dd5c
 
         .size   Entity_SpawnLoop16_06E412, .-Entity_SpawnLoop16_06E412

@@ -208,12 +208,12 @@ extern void S5Airship_HatchFinal_0688f8(void);
 extern void TaskHandler_06895c(void);
 extern void TaskHandler_06986a(void);
 extern void TaskHandler_069872(void);
-extern void TaskHandler_06a41c(void);
+extern void Bazooka_Corpse_06a41c(void);
 extern void TaskHandler_06a452(void);
 extern void TaskHandler_06a468(void);
-extern void TaskHandler_06a93e(void);
+extern void BazookaCrew_Die_06a93e(void);
 extern void TaskHandler_06acaa(void);
-extern void TaskHandler_06c4c6(void);
+extern void RocketVehicle_DetachLinks_06c4c6(void);
 extern void TaskHandler_06c53e(void);
 extern void TaskHandler_06c554(void);
 extern void TaskHandler_06da7a(void);
@@ -2173,13 +2173,13 @@ void SetTaskHandler_069cc8(void) {
 
 __attribute__((section(".text.SetTaskHandler_06a3ce")))
 void SetTaskHandler_06a3ce(void) {
-    _a1_ptr = &TaskHandler_06a41c;
+    _a1_ptr = &Bazooka_Corpse_06a41c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06a414")))
 void SetTaskHandler_06a414(void) {
-    _a1_ptr = &TaskHandler_06a41c;
+    _a1_ptr = &Bazooka_Corpse_06a41c;
     STORE_A1_AT_FP();
 }
 
@@ -2191,31 +2191,31 @@ void SetTaskHandler_06a44a(void) {
 
 __attribute__((section(".text.SetTaskHandler_06a7b4")))
 void SetTaskHandler_06a7b4(void) {
-    _a1_ptr = &TaskHandler_06a41c;
+    _a1_ptr = &Bazooka_Corpse_06a41c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06a964")))
 void SetTaskHandler_06a964(void) {
-    _a1_ptr = &TaskHandler_06a41c;
+    _a1_ptr = &Bazooka_Corpse_06a41c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06a9fc")))
 void SetTaskHandler_06a9fc(void) {
-    _a1_ptr = &TaskHandler_06a93e;
+    _a1_ptr = &BazookaCrew_Die_06a93e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06abda")))
 void SetTaskHandler_06abda(void) {
-    _a1_ptr = &TaskHandler_06a41c;
+    _a1_ptr = &Bazooka_Corpse_06a41c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06ac54")))
 void SetTaskHandler_06ac54(void) {
-    _a1_ptr = &TaskHandler_06a41c;
+    _a1_ptr = &Bazooka_Corpse_06a41c;
     STORE_A1_AT_FP();
 }
 
@@ -2245,13 +2245,13 @@ void SetTaskHandler_06b1cc(void) {
 
 __attribute__((section(".text.SetTaskHandler_06c460")))
 void SetTaskHandler_06c460(void) {
-    _a1_ptr = &TaskHandler_06c4c6;
+    _a1_ptr = &RocketVehicle_DetachLinks_06c4c6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06c4be")))
 void SetTaskHandler_06c4be(void) {
-    _a1_ptr = &TaskHandler_06c4c6;
+    _a1_ptr = &RocketVehicle_DetachLinks_06c4c6;
     STORE_A1_AT_FP();
 }
 

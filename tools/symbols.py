@@ -80,8 +80,8 @@ SYMBOLS = {
     # 0x00051828 promovido a Nibbles_Unpack4_051828 en registry (Wave QQQQ).
     # 0x0005188C promovido a PlayerState_FlagTable_05188c en registry (Wave QQQQ).
     0x000272A8: "Sub_000272A8",              # colision PC-rel de Entity_ProbeRevertCcr_027AFC (Z2 #5)
-    # 0x0006DD5C promovido a Template_06DD5C en registry (Wave VVVV).
-    # 0x0006DF32 promovido a Template_06DF32 en registry (Wave VVVV).
+    # 0x0006DD5C promovido a Frag_Scatter_06dd5c en registry (Wave VVVV).
+    # 0x0006DF32 promovido a FireBurst_Tmpl_06df32 en registry (Wave VVVV).
     # 0x0006E2BC: se usa PcThunkTarget_06e2bc (ya expuesto abajo, linea ~931).
     #             El nombre canonico historico se conserva; Sub_0006E2BC eliminado.
     0x00047822: "Sub_00047822",              # callback del list-apply $04784C (Z2 #8)
@@ -567,12 +567,12 @@ SYMBOLS = {
     0x0006895C: "TaskHandler_06895c",
     0x0006986A: "TaskHandler_06986a",
     0x00069872: "TaskHandler_069872",
-    # 0x0006A41C promovido a TaskHandler_06a41c en registry (Wave VVVV).
+    # 0x0006A41C promovido a Bazooka_Corpse_06a41c en registry (Wave VVVV).
     0x0006A452: "TaskHandler_06a452",
     0x0006A468: "TaskHandler_06a468",
-    # 0x0006A93E promovido a TaskHandler_06a93e en registry (Wave VVVV).
+    # 0x0006A93E promovido a BazookaCrew_Die_06a93e en registry (Wave VVVV).
     0x0006ACAA: "TaskHandler_06acaa",
-    # 0x0006C4C6 promovido a TaskHandler_06c4c6 en registry (Wave VVVV).
+    # 0x0006C4C6 promovido a RocketVehicle_DetachLinks_06c4c6 en registry (Wave VVVV).
     0x0006C53E: "TaskHandler_06c53e",
     0x0006C554: "TaskHandler_06c554",
     0x0006DA7A: "TaskHandler_06da7a",
@@ -934,7 +934,7 @@ SYMBOLS = {
     # 0x00065C94 promovido a EntityGroup_SpawnLinkedFromTemplateList_065C94 en registry (Wave RR#5).
     # 0x0006896A promovido a Camera0_RelinkAndWrapScroll_06896A en registry (Wave RR#3).
     # 0x00068AB8 promovido a S5Airship_PastRightEdge_068ab8 en registry (Wave UUUU).
-    # 0x0006D13C promovido a PcThunkTarget_06d13c en registry (Wave VVVV).
+    # 0x0006D13C promovido a RocketVehicle_LinkBlocked_06d13c en registry (Wave VVVV).
     # 0x0006E2BC promovido a Entity_CopyAnimFromLeader_06E2BC en registry (Wave SS#1).
     0x00070AB0: "PcThunkTarget_070ab0",
     0x00072A94: "PcThunkTarget_072a94",
