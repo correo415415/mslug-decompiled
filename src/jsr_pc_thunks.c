@@ -543,8 +543,8 @@ void JsrPcThunk_06e2b6(void) {
 
 __attribute__((section(".text.JsrPcThunk_06fab4")))
 void JsrPcThunk_06fab4(void) {
-    extern void PcThunkTarget_070ab0(void);
-    __asm__ volatile("jsr PcThunkTarget_070ab0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void M5Boss_AnimStep_070ab0(void);
+    __asm__ volatile("jsr M5Boss_AnimStep_070ab0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_072826")))

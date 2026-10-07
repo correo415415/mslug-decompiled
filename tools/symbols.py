@@ -577,28 +577,28 @@ SYMBOLS = {
     0x0006C554: "TaskHandler_06c554",
     0x0006DA7A: "TaskHandler_06da7a",
     0x0006DA90: "TaskHandler_06da90",
-    # 0x0006E062 promovido a TaskHandler_06e062 en registry (Wave WWWW).
-    # 0x0006E80A promovido a TaskHandler_06e80a en registry (Wave WWWW).
+    # 0x0006E062 promovido a FireBurst_Fly_06e062 en registry (Wave WWWW).
+    # 0x0006E80A promovido a Gunship_Free_06e80a en registry (Wave WWWW).
     0x0006E818: "TaskHandler_06e818",
-    # 0x0006E88C promovido a TaskHandler_06e88c en registry (Wave WWWW).
-    # 0x0006E932 promovido a TaskHandler_06e932 en registry (Wave WWWW).
-    # 0x0006F340 promovido a TaskHandler_06f340 en registry (Wave WWWW).
-    # 0x0006F38C promovido a TaskHandler_06f38c en registry (Wave WWWW).
-    # 0x0006F9CA promovido a TaskHandler_06f9ca en registry (Wave WWWW).
-    # 0x0006FA60 promovido a TaskHandler_06fa60 en registry (Wave WWWW).
+    # 0x0006E88C promovido a Gunship_SpawnCrewArc_06e88c en registry (Wave WWWW).
+    # 0x0006E932 promovido a Gunship_FallToGround_06e932 en registry (Wave WWWW).
+    # 0x0006F340 promovido a M5Boss_WaitScroll_06f340 en registry (Wave WWWW).
+    # 0x0006F38C promovido a M5Boss_PlayMusic10BA_06f38c en registry (Wave WWWW).
+    # 0x0006F9CA promovido a M5Boss_Die_06f9ca en registry (Wave WWWW).
+    # 0x0006FA60 promovido a M5Boss_Explode_06fa60 en registry (Wave WWWW).
     0x0006FB02: "TaskHandler_06fb02",
-    # 0x000700A6 promovido a TaskHandler_0700a6 en registry (Wave WWWW).
-    # 0x00070290 promovido a TaskHandler_070290 en registry (Wave WWWW).
+    # 0x000700A6 promovido a M5Boss_Free_0700a6 en registry (Wave WWWW).
+    # 0x00070290 promovido a M5Boss_SparkEnd_070290 en registry (Wave WWWW).
     0x000704F2: "TaskHandler_0704f2",
-    # 0x00070694 promovido a TaskHandler_070694 en registry (Wave WWWW).
-    # 0x0007079E promovido a TaskHandler_07079e en registry (Wave WWWW).
+    # 0x00070694 promovido a M5Boss_Grenade_070694 en registry (Wave WWWW).
+    # 0x0007079E promovido a M5Boss_GrenadeRest_07079e en registry (Wave WWWW).
     0x000707C8: "TaskHandler_0707c8",
-    # 0x000713A2 promovido a TaskHandler_0713a2 en registry (Wave WWWW).
-    # 0x000716B6 promovido a TaskHandler_0716b6 en registry (Wave WWWW).
+    # 0x000713A2 promovido a FinalBoss_SnapIdle_0713a2 en registry (Wave WWWW).
+    # 0x000716B6 promovido a FinalBoss_ResetParts_0716b6 en registry (Wave WWWW).
     0x000716E2: "TaskHandler_0716e2",
     0x000716EA: "TaskHandler_0716ea",
     0x000716F2: "TaskHandler_0716f2",
-    # 0x00071B9A promovido a TaskHandler_071b9a en registry (Wave WWWW).
+    # 0x00071B9A promovido a FinalBoss_HeadDieB_071b9a en registry (Wave WWWW).
     0x000724D4: "TaskHandler_0724d4",
     0x00073454: "TaskHandler_073454",
     0x000734F4: "TaskHandler_0734f4",
@@ -936,7 +936,7 @@ SYMBOLS = {
     # 0x00068AB8 promovido a S5Airship_PastRightEdge_068ab8 en registry (Wave UUUU).
     # 0x0006D13C promovido a RocketVehicle_LinkBlocked_06d13c en registry (Wave VVVV).
     # 0x0006E2BC promovido a Entity_CopyAnimFromLeader_06E2BC en registry (Wave SS#1).
-    # 0x00070AB0 promovido a PcThunkTarget_070ab0 en registry (Wave WWWW).
+    # 0x00070AB0 promovido a M5Boss_AnimStep_070ab0 en registry (Wave WWWW).
     0x00072A94: "PcThunkTarget_072a94",
     # 0x00072C98 promovido a Entity_CheckActiveBoxOverlap_072C98 en registry (Wave RR#1).
     0x00074166: "PcThunkTarget_074166",
@@ -1987,15 +1987,15 @@ SYMBOLS = {
     0x0006DCDE: "SetHandlerRts_06dcde",  # rts de SetTaskHandler_06dcd8 (+6)
     0x0006DF04: "SetHandlerRts_06df04",  # rts de SetTaskHandler_06defe (+6)
     # --- Wave VVVV: refs forward a huecos futuros
-    # 0x0006E15E promovido a Sub_0006E15E en registry (Wave WWWW).
-    # 0x0006E176 promovido a Sub_0006E176 en registry (Wave WWWW).
-    # 0x0006E20C promovido a Sub_0006E20C en registry (Wave WWWW).
-    # 0x0006E2FE promovido a Sub_0006E2FE en registry (Wave WWWW).
-    # 0x0006E31E promovido a Sub_0006E31E en registry (Wave WWWW).
-    # 0x0006E34A promovido a Sub_0006E34A en registry (Wave WWWW).
-    # 0x0006E356 promovido a Sub_0006E356 en registry (Wave WWWW).
-    # 0x0006E394 promovido a Sub_0006E394 en registry (Wave WWWW).
-    # 0x0006E484 promovido a Sub_0006E484 en registry (Wave WWWW).
+    # 0x0006E15E promovido a FireBurst_FreeIfOffWorld_06e15e en registry (Wave WWWW).
+    # 0x0006E176 promovido a Walker_PickBurstVel_06e176 en registry (Wave WWWW).
+    # 0x0006E20C promovido a Facing_NegIfLeft_06e20c en registry (Wave WWWW).
+    # 0x0006E2FE promovido a FireBurst_TickHit_06e2fe en registry (Wave WWWW).
+    # 0x0006E31E promovido a Walker_PlayCry_06e31e en registry (Wave WWWW).
+    # 0x0006E34A promovido a Entity_CopyParentAnimTimer_06e34a en registry (Wave WWWW).
+    # 0x0006E356 promovido a Frag_PlaySnd157To159_06e356 en registry (Wave WWWW).
+    # 0x0006E394 promovido a Walker_ClearFlag10E39A_06e394 en registry (Wave WWWW).
+    # 0x0006E484 promovido a Walker_SetSpriteByFlags7E7F_06e484 en registry (Wave WWWW).
     # --- Wave WWWW: RTS internos de islas C
     0x0006E15C: "SetHandlerRts_06e15c",  # rts de SetTaskHandler_06e156 (+6)
     0x0006E174: "SetHandlerRts_06e174",  # rts de SetTaskHandler_06e16e (+6)

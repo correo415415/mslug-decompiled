@@ -218,28 +218,28 @@ extern void TaskHandler_06c53e(void);
 extern void TaskHandler_06c554(void);
 extern void TaskHandler_06da7a(void);
 extern void TaskHandler_06da90(void);
-extern void TaskHandler_06e062(void);
-extern void TaskHandler_06e80a(void);
+extern void FireBurst_Fly_06e062(void);
+extern void Gunship_Free_06e80a(void);
 extern void TaskHandler_06e818(void);
-extern void TaskHandler_06e88c(void);
-extern void TaskHandler_06e932(void);
-extern void TaskHandler_06f340(void);
-extern void TaskHandler_06f38c(void);
-extern void TaskHandler_06f9ca(void);
-extern void TaskHandler_06fa60(void);
+extern void Gunship_SpawnCrewArc_06e88c(void);
+extern void Gunship_FallToGround_06e932(void);
+extern void M5Boss_WaitScroll_06f340(void);
+extern void M5Boss_PlayMusic10BA_06f38c(void);
+extern void M5Boss_Die_06f9ca(void);
+extern void M5Boss_Explode_06fa60(void);
 extern void TaskHandler_06fb02(void);
-extern void TaskHandler_0700a6(void);
-extern void TaskHandler_070290(void);
+extern void M5Boss_Free_0700a6(void);
+extern void M5Boss_SparkEnd_070290(void);
 extern void TaskHandler_0704f2(void);
-extern void TaskHandler_070694(void);
-extern void TaskHandler_07079e(void);
+extern void M5Boss_Grenade_070694(void);
+extern void M5Boss_GrenadeRest_07079e(void);
 extern void TaskHandler_0707c8(void);
-extern void TaskHandler_0713a2(void);
-extern void TaskHandler_0716b6(void);
+extern void FinalBoss_SnapIdle_0713a2(void);
+extern void FinalBoss_ResetParts_0716b6(void);
 extern void TaskHandler_0716e2(void);
 extern void TaskHandler_0716ea(void);
 extern void TaskHandler_0716f2(void);
-extern void TaskHandler_071b9a(void);
+extern void FinalBoss_HeadDieB_071b9a(void);
 extern void TaskHandler_0724d4(void);
 extern void TaskHandler_073454(void);
 extern void TaskHandler_0734f4(void);
@@ -2323,7 +2323,7 @@ void SetTaskHandler_06defe(void) {
 
 __attribute__((section(".text.SetTaskHandler_06e05a")))
 void SetTaskHandler_06e05a(void) {
-    _a1_ptr = &TaskHandler_06e062;
+    _a1_ptr = &FireBurst_Fly_06e062;
     STORE_A1_AT_FP();
 }
 
@@ -2341,25 +2341,25 @@ void SetTaskHandler_06e16e(void) {
 
 __attribute__((section(".text.SetTaskHandler_06e664")))
 void SetTaskHandler_06e664(void) {
-    _a1_ptr = &TaskHandler_06e80a;
+    _a1_ptr = &Gunship_Free_06e80a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06e74a")))
 void SetTaskHandler_06e74a(void) {
-    _a1_ptr = &TaskHandler_06e80a;
+    _a1_ptr = &Gunship_Free_06e80a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06e884")))
 void SetTaskHandler_06e884(void) {
-    _a1_ptr = &TaskHandler_06e88c;
+    _a1_ptr = &Gunship_SpawnCrewArc_06e88c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06e92a")))
 void SetTaskHandler_06e92a(void) {
-    _a1_ptr = &TaskHandler_06e932;
+    _a1_ptr = &Gunship_FallToGround_06e932;
     STORE_A1_AT_FP();
 }
 
@@ -2401,25 +2401,25 @@ void SetTaskHandler_06f1ee(void) {
 
 __attribute__((section(".text.SetTaskHandler_06f338")))
 void SetTaskHandler_06f338(void) {
-    _a1_ptr = &TaskHandler_06f340;
+    _a1_ptr = &M5Boss_WaitScroll_06f340;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06f384")))
 void SetTaskHandler_06f384(void) {
-    _a1_ptr = &TaskHandler_06f38c;
+    _a1_ptr = &M5Boss_PlayMusic10BA_06f38c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06fa58")))
 void SetTaskHandler_06fa58(void) {
-    _a1_ptr = &TaskHandler_06fa60;
+    _a1_ptr = &M5Boss_Explode_06fa60;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06faf2")))
 void SetTaskHandler_06faf2(void) {
-    _a1_ptr = &TaskHandler_06f9ca;
+    _a1_ptr = &M5Boss_Die_06f9ca;
     STORE_A1_AT_FP();
 }
 
@@ -2437,7 +2437,7 @@ void SetTaskHandler_06fc48(void) {
 
 __attribute__((section(".text.SetTaskHandler_06fee8")))
 void SetTaskHandler_06fee8(void) {
-    _a1_ptr = &TaskHandler_0700a6;
+    _a1_ptr = &M5Boss_Free_0700a6;
     STORE_A1_AT_FP();
 }
 
@@ -2455,13 +2455,13 @@ void SetTaskHandler_070166(void) {
 
 __attribute__((section(".text.SetTaskHandler_070206")))
 void SetTaskHandler_070206(void) {
-    _a1_ptr = &TaskHandler_0700a6;
+    _a1_ptr = &M5Boss_Free_0700a6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_070288")))
 void SetTaskHandler_070288(void) {
-    _a1_ptr = &TaskHandler_070290;
+    _a1_ptr = &M5Boss_SparkEnd_070290;
     STORE_A1_AT_FP();
 }
 
@@ -2485,19 +2485,19 @@ void SetTaskHandler_0704ea(void) {
 
 __attribute__((section(".text.SetTaskHandler_07068c")))
 void SetTaskHandler_07068c(void) {
-    _a1_ptr = &TaskHandler_070694;
+    _a1_ptr = &M5Boss_Grenade_070694;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_070734")))
 void SetTaskHandler_070734(void) {
-    _a1_ptr = &TaskHandler_07079e;
+    _a1_ptr = &M5Boss_GrenadeRest_07079e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_070796")))
 void SetTaskHandler_070796(void) {
-    _a1_ptr = &TaskHandler_07079e;
+    _a1_ptr = &M5Boss_GrenadeRest_07079e;
     STORE_A1_AT_FP();
 }
 
@@ -2509,13 +2509,13 @@ void SetTaskHandler_0707c0(void) {
 
 __attribute__((section(".text.SetTaskHandler_07080e")))
 void SetTaskHandler_07080e(void) {
-    _a1_ptr = &TaskHandler_070694;
+    _a1_ptr = &M5Boss_Grenade_070694;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_070854")))
 void SetTaskHandler_070854(void) {
-    _a1_ptr = &TaskHandler_070694;
+    _a1_ptr = &M5Boss_Grenade_070694;
     STORE_A1_AT_FP();
 }
 
@@ -2551,19 +2551,19 @@ void SetTaskHandler_070a2a(void) {
 
 __attribute__((section(".text.SetTaskHandler_07139a")))
 void SetTaskHandler_07139a(void) {
-    _a1_ptr = &TaskHandler_0713a2;
+    _a1_ptr = &FinalBoss_SnapIdle_0713a2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0715f2")))
 void SetTaskHandler_0715f2(void) {
-    _a1_ptr = &TaskHandler_0716b6;
+    _a1_ptr = &FinalBoss_ResetParts_0716b6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0716ae")))
 void SetTaskHandler_0716ae(void) {
-    _a1_ptr = &TaskHandler_0716b6;
+    _a1_ptr = &FinalBoss_ResetParts_0716b6;
     STORE_A1_AT_FP();
 }
 
@@ -2581,19 +2581,19 @@ void SetTaskHandler_071866(void) {
 
 __attribute__((section(".text.SetTaskHandler_071a46")))
 void SetTaskHandler_071a46(void) {
-    _a1_ptr = &TaskHandler_071b9a;
+    _a1_ptr = &FinalBoss_HeadDieB_071b9a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_071afc")))
 void SetTaskHandler_071afc(void) {
-    _a1_ptr = &TaskHandler_071b9a;
+    _a1_ptr = &FinalBoss_HeadDieB_071b9a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_071b4e")))
 void SetTaskHandler_071b4e(void) {
-    _a1_ptr = &TaskHandler_071b9a;
+    _a1_ptr = &FinalBoss_HeadDieB_071b9a;
     STORE_A1_AT_FP();
 }
 

@@ -60,8 +60,8 @@
 |  RocketVehicle: Drive/Stop/Turn/Idle/Alert/Attack/Hurt/Die/Wreck/Corpse
 |  con sprites por fase de rueda; GroundPhysics usa Chain3 cuando +$13 bit6
 |  está limpio; SlopeAngle (Atan2 entre eslabones +$74/+$78) → SlopeToSpeed.
-|  Walker: Init (snap $5E7C0, scroll $267E2, Sub_0006E31E snd por +$9B,
-|  prio $14; si +$9D: prio $8000 + Sub_0006E484 + hijo $723D2) → Approach
+|  Walker: Init (snap $5E7C0, scroll $267E2, Walker_PlayCry_06e31e snd por +$9B,
+|  prio $14; si +$9D: prio $8000 + Walker_SetSpriteByFlags7E7F_06e484 + hijo $723D2) → Approach
 |  (sprites $2D428C/$2D42B0/$2D4298, hasta +$86 o a $60 del jugador) →
 |  Attack (ráfagas $2B8E70 / pausas $2B8DEE / cuenta $2B8EF2, FX $5E086
 |  con $2D4036) → Die ($2D4394, debris) → Explode ($1033, $77FD6, 16 Frag).
@@ -4876,7 +4876,7 @@ Walker_Tmpl42_06d654:
 Walker_Init_06d6ee:
         jsr     0x5e7c0.l                       | +000
         jsr     0x267e2.l                       | +006
-        jsr     Sub_0006E31E(pc)                | +00c  -> $06E31E (hueco futuro, defsym forward)
+        jsr     Walker_PlayCry_06e31e(pc)                | +00c  -> $06E31E (hueco futuro, defsym forward)
         move.w  #0x8,0x1c(a6)                   | +010
         jsr     0x138fe.l                       | +016
         lea     0x2b8d6c.l,a0                   | +01c
@@ -4906,7 +4906,7 @@ Walker_Init_06d6ee:
         andi.w  #0xffe3,0x38(a6)                | +08c
         ori.w   #0x14,0x38(a6)                  | +092
 .L06d786:
-        jsr     Sub_0006E484(pc)                | +098  -> $06E484 (hueco futuro, defsym forward)
+        jsr     Walker_SetSpriteByFlags7E7F_06e484(pc)                | +098  -> $06E484 (hueco futuro, defsym forward)
         lea     0x723d2.l,a1                    | +09c
         jsr     0x4ae.l                         | +0a2
         jsr     0x5dd02.l                       | +0a8
@@ -5077,7 +5077,7 @@ Walker_Attack_06d926__L06d932:
         .global Walker_Attack_06d926__L06d986
 Walker_Attack_06d926__L06d986:
 .L06d986:
-        jsr     Sub_0006E394(pc)                | +060  -> $06E394 (hueco futuro, defsym forward)
+        jsr     Walker_ClearFlag10E39A_06e394(pc)                | +060  -> $06E394 (hueco futuro, defsym forward)
         jsr     0x2870a.l                       | +064
         bcc.w   .L06d9a6                        | +06a
         bclr    #0x3,0x13(a6)                   | +06e
@@ -5243,10 +5243,10 @@ Frag_Debris_06dbd4:
         bra.w   .L06dbe2                        | +006
         .global Frag_Debris_06dbd4__L06dbde
 Frag_Debris_06dbd4__L06dbde:
-        jsr     Sub_0006E176(pc)                | +00a  -> $06E176 (hueco futuro, defsym forward)
+        jsr     Walker_PickBurstVel_06e176(pc)                | +00a  -> $06E176 (hueco futuro, defsym forward)
 .L06dbe2:
         bset    #0x4,0x6b(a6)                   | +00e
-        jsr     Sub_0006E356(pc)                | +014  -> $06E356 (hueco futuro, defsym forward)
+        jsr     Frag_PlaySnd157To159_06e356(pc)                | +014  -> $06E356 (hueco futuro, defsym forward)
         move.w  #0xd000,d0                      | +018
         jsr     0x28134.l                       | +01c
         andi.w  #0xffe3,0x38(a6)                | +022
@@ -5279,13 +5279,13 @@ Frag_Debris_06dbd4__L06dbde:
         .section .text.Frag_Smoke_06dc5e, "ax", @progbits
         .global Frag_Smoke_06dc5e
 Frag_Smoke_06dc5e:
-        jsr     Sub_0006E356(pc)                | +000  -> $06E356 (hueco futuro, defsym forward)
+        jsr     Frag_PlaySnd157To159_06e356(pc)                | +000  -> $06E356 (hueco futuro, defsym forward)
         lea     0x2d4628.l,a0                   | +004
         jsr     0x28cd4.l                       | +00a
         lea     .L06dc74(pc),a1                 | +010
         move.l  a1,(a6)                         | +014
 .L06dc74:
-        jsr     Sub_0006E34A(pc)                | +016  -> $06E34A (hueco futuro, defsym forward)
+        jsr     Entity_CopyParentAnimTimer_06e34a(pc)                | +016  -> $06E34A (hueco futuro, defsym forward)
         jsr     0x2783a.l                       | +01a
         jsr     0x28d70.l                       | +020
         bcc.w   SetHandlerRts_06dc8e            | +026
@@ -5382,7 +5382,7 @@ Frag_Scatter_06dd5c__L06dd86:
         move.w  d0,0x36(a6)                     | +074
         move.w  #0x3,0x80(a6)                   | +078
         move.w  #0x3,0x82(a6)                   | +07e
-        jsr     Sub_0006E31E(pc)                | +084  -> $06E31E (hueco futuro, defsym forward)
+        jsr     Walker_PlayCry_06e31e(pc)                | +084  -> $06E31E (hueco futuro, defsym forward)
         .global Frag_Scatter_06dd5c__L06dde4
 Frag_Scatter_06dd5c__L06dde4:
 .L06dde4:
@@ -5477,7 +5477,7 @@ FireBurst_Wide_06df06:
         jsr     0x5e9b6.l                       | +000
         andi.w  #0xf00,d0                       | +006
         addi.w  #0x800,d0                       | +00a
-        jsr     Sub_0006E20C(pc)                | +00e  -> $06E20C (hueco futuro, defsym forward)
+        jsr     Facing_NegIfLeft_06e20c(pc)                | +00e  -> $06E20C (hueco futuro, defsym forward)
         move.w  d0,0x28(a6)                     | +012
         jsr     0x5e9b6.l                       | +016
         andi.w  #0xf00,d0                       | +01c
@@ -5494,7 +5494,7 @@ FireBurst_Tmpl_06df32:
         jsr     0x5e9b6.l                       | +000
         andi.w  #0x700,d0                       | +006
         addi.w  #0x300,d0                       | +00a
-        jsr     Sub_0006E20C(pc)                | +00e  -> $06E20C (hueco futuro, defsym forward)
+        jsr     Facing_NegIfLeft_06e20c(pc)                | +00e  -> $06E20C (hueco futuro, defsym forward)
         move.w  d0,0x28(a6)                     | +012
         jsr     0x5e9b6.l                       | +016
         andi.w  #0x700,d0                       | +01c
@@ -5527,10 +5527,10 @@ FireBurst_Tmpl_06df32__L06df5a:
         move.l  a1,(a6)                         | +094
 .L06dfc8:
         jsr     0x28d70.l                       | +096
-        jsr     Sub_0006E2FE(pc)                | +09c  -> $06E2FE (hueco futuro, defsym forward)
+        jsr     FireBurst_TickHit_06e2fe(pc)                | +09c  -> $06E2FE (hueco futuro, defsym forward)
         btst    #0x1,0x13(a6)                   | +0a0
         beq.w   .L06dfe4                        | +0a6
         lea     0x31d26.l,a1                    | +0aa
         move.l  a1,(a6)                         | +0b0
 .L06dfe4:
-        bra.w   Sub_0006E15E                    | +0b2  -> $06E15E (hueco futuro, defsym forward)
+        bra.w   FireBurst_FreeIfOffWorld_06e15e                    | +0b2  -> $06E15E (hueco futuro, defsym forward)
