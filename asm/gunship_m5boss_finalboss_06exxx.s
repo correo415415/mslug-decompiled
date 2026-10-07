@@ -1,11 +1,110 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave WWWW — chorros de fuego, aeronave, jefe de misión 5 y jefe final
 |  Región: $06DFE8..$071FFC  (15,422 B, 221 entradas, 97 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  ---------
+|  Cierre de los fragmentos de la Wave VVVV y tres entidades grandes del
+|  tramo final del runtime tardío (7 plantillas del índice $E8000: 75,
+|  111..116), siempre con el protocolo estándar de entidad (a6; +$00 handler,
+|  +$0C padre, +$72 estado/contador, +$98..+$9F parámetros de la VM):
+|   1. $06DFE8..$06E52A — FireBurst_* / Walker_* / Frag_* / Spawn_*: variantes
+|      del chorro de fuego (Low/Fly/Arc: música $1086, snd 3/$58, tablas de
+|      velocidad $2D4212 por RNG, FX $31C20 Fx_DustCloud, 5 ticks de hit
+|      $283D8), helpers del Walker (PickBurstVel de $2B8F74/$2D4186, PlayCry
+|      por +$9B en $2D4284, SetSpriteByFlags7E7F $2D422A/$2D424A,
+|      Spawn12Scatter, SpawnSmokeCycle $6FE) y spawners (+$3A heredado del
+|      bit 0 de d0).
+|   2. $06E52A..$06F17E — Gunship_* (tmpl 75): aeronave con tripulación
+|      (Crew $6E966 ×1 + Gunner $6E9C0 ×1 + hijo $723DA), trayectoria por
+|      +$98 en $2D4A2E (SetPathByParam98), HP $2B91FE, ataque con música
+|      $10B8 y colisión $2D4816, gunner con Aim/Fire/FireB/Reload/Wait
+|      (sprites $2D4E64..$2D4EE4, hitbox embebida `Gunship_Hitbox` $6EB84),
+|      muerte (Die → $78890, $434DC, música $1023, 4 WreckPiece → jmp
+|      $6DCE0 Frag_ScatterSlow), Shell (snd, $2DD8B6) y Explode ($77F6A).
+|   3. $06F17E..$071068 — M5Boss_* (tmpl 111/112/113): jefe de la misión 5
+|      (Intro tmpl 112 con músicas $10B5/$10C3 y S5Gate/S5Airship de la
+|      Wave UUUU como hijos; cuerpo tmpl 111 con Rotor ×1, Part ×3, HP de
+|      $2B9B22/$2B9BA4, música $10B9/$10BA). Máquina Idle → PickAttack →
+|      {Hover, AttackA/B/C, Charge, Barrage} → Idle, con hijos: Bomb
+|      (rebote), Missile (homing $5E1EA/$5E018), Shell, Spark/SparkBurst,
+|      Soldier (walk/aim/fire con sprites $29Bxxx), Grenadier + Grenade,
+|      Rocket (snd $1DE/$173), TurretCar ($4CBD4), FX diversos. Die/Explode
+|      con `LateProp_SpawnChildC $628EA` ×2 y Frag. Dispatcher de poses por
+|      +$8C en $2D541A (DispatchBy8C → jmp (a1)), movimiento por ángulo con
+|      sin/cos $2C072C/$2C07AC (MoveByAngle/MoveSin), assert `trap #15` en
+|      AssertAngle (+$76 < $B).
+|   4. $071068..$071FFC — FinalBoss_* (tmpl 114/115/116): jefe final en dos
+|      mitades (Left tmpl 115 / Right tmpl 116) creadas por tmpl 114 que
+|      espera a los hijos (WaitChildren) y lanza `$1071` + jmp $518 al
+|      terminar. Cada mitad: Coord $440D0, snd $5B/$5C, cinco Limb (+$80 =
+|      tablas $2D9138/$2D9168/$2D9198) y Head ($2D91C8, snd $38); Idle/Walk/
+|      WalkB/WalkC/Stand con Player_Dispatch3Slots y $27AFC; Die ($1033,
+|      sprites $2D94F0) → Explode ($102F, 3 × $77FD6, $518). Head con
+|      Idle/Hit/Die/Flash/Respawn (Player_StateDispatch $519BE, música $1041,
+|      HumanDeath cry $4A0D4). Cannon/CannonB (snd $5D/$1E6) con
+|      CannonShell (Players_AnyAhead $5E5E0, Atan2), Casing, Flame, Beam
+|      (+$84, snd $1CF) y Debris ($2BAA28). Helpers en $72xxx (Wave XXXX).
+|
+|  B) CÓMO FUNCIONA
+|  ----------------
+|  Gunship: Tmpl4B → timer $138FE, path $2D4A4E[+$9A], HP, prio, hijos; luego
+|  bucle Attack (RNG → +$9C, música $10B8, probe $27D50, hit $283CA/$283D8,
+|  Players_Dispatch) hasta HP=0 → Die (spawns de escombros, música $1023).
+|  El Gunner copia +$99/+$9B/+$9D/+$9E del padre, se posiciona con $5E506 +
+|  CrewOffsetByParent7D ($2D4A5E[+$7D&7]) y alterna Aim/Fire según
+|  InScreenByMode (+$99/+$9B) y SpeedReached (+$28 vs +$36).
+|  M5Boss: el cuerpo lleva +$73 fase (0..3) y +$9A/+$9B flags; PickAttack
+|  elige por RNG y objetivo $5E1EA entre tablas $2D547E/$2D549E; cada ataque
+|  reproduce música $1074/$1075 y vuelve a Idle por HitTest (HP $28758 →
+|  Die). Rotor y Part siguen al padre (PartFollow $2D5372[+$98&3,+$73&3]).
+|  FinalBoss: WalkB/WalkC alternan sprites $2D93CC/$2D93EE con probe de
+|  suelo $27AFC; PartDispatch salta por +$88 (<5) a $2D9272[]; Head respawnea
+|  tras timer $2BADB6 si la mitad sigue viva.
+|
+|  C) INTERFAZ
+|  -----------
+|   Entradas E8000: 75 $6E52A, 111 $6F1F6, 112 $6F17E, 113 $6F198 (= Tmpl6F
+|   +$1A, variante), 114 $71068, 115 $7114E, 116 $71216 (= Right +$1A).
+|   Entradas externas: $6E15E/$6E176/$6E20C/$6E2FE/$6E31E/$6E34A/$6E356/
+|   $6E394/$6E484 (desde Walker_*/Frag_* de la Wave VVVV), $6E820
+|   (Gunship_FlashCount5, lo crea M5Boss_Grenade).
+|   Campos: +$34 ángulo, +$36 velocidad objetivo, +$70 timer, +$72 estado,
+|   +$73 fase, +$74 flag, +$76 ángulo (FinalBoss), +$7A/+$7C HP partes,
+|   +$7E/+$7F flags de sprite, +$80 tabla de limb, +$83..+$87 contadores,
+|   +$88 índice de parte, +$8A estado de cabeza, +$8C índice de pose,
+|   +$90/+$94 path, +$9C puntero a objetivo, +$98..+$9F parámetros VM.
+|
+|  D) EVIDENCIAS
+|  -------------
+|   - Índice $E8000 leído del P ROM (7 plantillas en rango).
+|   - Walker_Init (VVVV) llama $6E31E/$6E484; Frag_Debris → $6E176/$6E356;
+|     Walker_Explode usa Entity_SpawnLoop16 (16 × Frag_Scatter) — coherente
+|     con Walker_Spawn12Scatter (12 ×) aquí.
+|   - M5Boss_Tmpl6F crea S5Gate_Init_0682d0 y S5Airship_Init_0683f0 (UUUU,
+|     escena 5) → jefe de la misión 5; músicas $10B5/$10B9/$10BA/$1074/$1075.
+|   - FinalBoss_Tmpl72 crea Left/Right y termina con música $1071 + $518;
+|     Head usa Player_StateDispatch_0519BE y HumanDeath_PlayCryByKind.
+|   - `Gunship_Hitbox` $6EB84 referenciada por `move.l #$6EB84,+$60(a6)`
+|     (puntero de hitbox) → datos, no código (--data).
+|   - Fx_DustCloud_031c20 y LateProp_SpawnChildC_0628ea ya nombrados.
+|
+|  E) HIPÓTESIS / DUDAS
+|  --------------------
+|   - "Gunship": aeronave enemiga con artillero (¿el helicóptero/dirigible
+|     de la misión 4 o el "Flying Tara"?). Nombre por comportamiento.
+|   - "M5Boss": jefe de la misión 5 (¿"Shoe & Karn"/"Tani Oh"?) — la
+|     relación con S5Gate/S5Airship apunta a la escena final de la misión
+|     5; "FinalBoss" (mitades Left/Right + Head + Cannon) ¿"Hi-Do"? Ambos
+|     por confirmar con sprites.
+|   - $723DA (hijo del Gunship), $78890/$78F8A/$78F90/$434DC, $7801E y los
+|     helpers Sub_00072xxx pertenecen a waves futuras.
+|
+|  F) ESTADO
+|  ---------
+|   221/221 entradas byte-exactas (gen_asm_region --registry); lint OK.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
