@@ -71,7 +71,7 @@
 Init_ModeToggle_001260:
         clr.b   0x106f28.l                     | +00  publica flag = 0
         moveq   #0x0, d0                       | +06  d0 = 0  (arg para $5E998)
-        jsr     0x5e998.l                      | +08  Sub_0005E998(0)
+        jsr     0x5e998.l                      | +08  Rng_Seed_05e998(0)
         jsr     0xc004c2.l                     | +0e  BIOS_ClearMainAudioBank
         jsr     0x46ac6.l                      | +14  Sub_00046AC6 (init pesado)
         lea.l   0x91630.l, a1                  | +1a  a1 = TaskHandler_00091630

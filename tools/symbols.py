@@ -73,8 +73,8 @@ SYMBOLS = {
     0x000524AA: "Template_0524AA",           # template del spawner Helper_0523B2
 
     # ---- Wave Z batch 2: externos referenciados por asm 68000 puro ----
-    # 0x0005E3A2 promovido a Sub_0005E3A2 en registry (Wave SSSS).
-    # 0x0005E618 promovido a Sub_0005E618 en registry (Wave SSSS).
+    # 0x0005E3A2 promovido a Player_GetEntity_05e3a2 en registry (Wave SSSS).
+    # 0x0005E618 promovido a Target_IsAhead_05e618 en registry (Wave SSSS).
     # 0x00028A96 promovido a Entity_HitboxCollide_028A96 en registry (Wave SS#2).
     # 0x00051862 promovido a Nibbles_Pack8_051862 en registry (Wave QQQQ).
     # 0x00051828 promovido a Nibbles_Unpack4_051828 en registry (Wave QQQQ).
@@ -531,17 +531,17 @@ SYMBOLS = {
     0x0005A66E: "TaskHandler_05a66e",
     0x0005A764: "TaskHandler_05a764",
     0x0005CBEA: "TaskHandler_05cbea",
-    # 0x0005F00A promovido a TaskHandler_05f00a en registry (Wave SSSS).
-    # 0x0005F0B0 promovido a TaskHandler_05f0b0 en registry (Wave SSSS).
-    # 0x0005F482 promovido a TaskHandler_05f482 en registry (Wave SSSS).
-    # 0x0005FA56 promovido a TaskHandler_05fa56 en registry (Wave SSSS).
-    # 0x0005FB88 promovido a TaskHandler_05fb88 en registry (Wave SSSS).
-    # 0x0005FBE6 promovido a TaskHandler_05fbe6 en registry (Wave SSSS).
-    # 0x0005FCE6 promovido a TaskHandler_05fce6 en registry (Wave SSSS).
-    # 0x000606EE promovido a TaskHandler_0606ee en registry (Wave SSSS).
-    # 0x00060BF6 promovido a TaskHandler_060bf6 en registry (Wave SSSS).
-    # 0x00060C40 promovido a TaskHandler_060c40 en registry (Wave SSSS).
-    # 0x00060D3A promovido a TaskHandler_060d3a en registry (Wave SSSS).
+    # 0x0005F00A promovido a DebugColl_Idle_05f00a en registry (Wave SSSS).
+    # 0x0005F0B0 promovido a DebugColl_ShowHighNibble_05f0b0 en registry (Wave SSSS).
+    # 0x0005F482 promovido a TowerSoldier_Fire_05f482 en registry (Wave SSSS).
+    # 0x0005FA56 promovido a HutOccupant_Idle_05fa56 en registry (Wave SSSS).
+    # 0x0005FB88 promovido a HutOccupant_WaitParent_05fb88 en registry (Wave SSSS).
+    # 0x0005FBE6 promovido a HutDoor_Idle_05fbe6 en registry (Wave SSSS).
+    # 0x0005FCE6 promovido a HutDoor_Free_05fce6 en registry (Wave SSSS).
+    # 0x000606EE promovido a ItemProp_Idle_0606ee en registry (Wave SSSS).
+    # 0x00060BF6 promovido a Obstacle095_Idle_060bf6 en registry (Wave SSSS).
+    # 0x00060C40 promovido a Obstacle_FlushMusicJmp77FD6_060c40 en registry (Wave SSSS).
+    # 0x00060D3A promovido a Crate_Idle_060d3a en registry (Wave SSSS).
     0x00060DE8: "TaskHandler_060de8",
     0x000620A0: "TaskHandler_0620a0",
     0x000620A8: "TaskHandler_0620a8",
@@ -927,8 +927,8 @@ SYMBOLS = {
     0x0005CF6C: "PcThunkTarget_05cf6c",
     0x0005DBC2: "PcThunkTarget_05dbc2",
     0x0005DD5C: "PcThunkTarget_05dd5c",
-    # 0x0005E018 promovido a PcThunkTarget_05e018 en registry (Wave SSSS).
-    # 0x0005E530 promovido a PcThunkTarget_05e530 en registry (Wave SSSS).
+    # 0x0005E018 promovido a Atan2_Angle256_05e018 en registry (Wave SSSS).
+    # 0x0005E530 promovido a Rng_PickWordFromTable_05e530 en registry (Wave SSSS).
     0x00063336: "PcThunkTarget_063336",
     0x000634F6: "PcThunkTarget_0634f6",
     # 0x00065C94 promovido a EntityGroup_SpawnLinkedFromTemplateList_065C94 en registry (Wave RR#5).
@@ -975,7 +975,7 @@ SYMBOLS = {
     0x0005D904: "Sub_BinToDecimalDecoder_05D904",  # tail-call desde Decimal_Clamp99999999_05D8F2 (X#2): bin-to-BCD 8-nibble decoder
     0x0005D944: "Trap15_DivByZero_05D944",  # brazo d1==0 de Sub_LongDivide_05D920 (X#4): TRAP #15 halt sistema
     0x00002BC4: "Sub_00002BC4",        # release slot idx, llamado por Entity_FlushSlotHistory_013600 (W#9)
-    0x00005E4CA: "Sub_00005E4CA",      # helper local (RNG?), llamado por Entity_ReserveAndSetPos_05E4B2 (W#10)
+    0x00005E4CA: "Parent_GetPrioPos_05e4ca",      # helper local (RNG?), llamado por Entity_ReserveAndSetPos_05E4B2 (W#10)
     # ---- Wave V (continuacion): destinos externos de los helpers 049FD0 / 0799DE ---
     # 0x00049FBA promovido a HumanDeath_HitCheckUnlessCutscene_049fba en registry (Wave LLLL).
     # 0x00027EBA promovido a SpritePubEffect_027EBA en registry (Wave NN#1).
@@ -1011,7 +1011,7 @@ SYMBOLS = {
     0x00001DA4: "Sub_00001DA4",             # SchedulerBootstrap_Boot -> bsr.w $1DA4
     0x00001E1C: "PcThunkTarget_001E1C",     # SchedulerBootstrap_Boot -> jsr pc+d $1E1C
     0x0005CACE: "Sub_0005CACE",             # SchedulerBootstrap_Boot -> jsr abs.l $5CACE
-    # 0x0005E998 promovido a Sub_0005E998 en registry (Wave SSSS).
+    # 0x0005E998 promovido a Rng_Seed_05e998 en registry (Wave SSSS).
     # 0x00098720 promovido a LogoScene_Tpl_098720 en registry (Wave QQQ).
 
     # ---- Wave MM batch 1: entradas de la super-tabla dispatch $000B92
@@ -1076,7 +1076,7 @@ SYMBOLS = {
     # 0x00032A02 promovido a PlayerEntity_InitAuxState_032A02 en registry
     #      (Wave QQ#1).
     0x00032FF2: "Sub_00032FF2",             # post-init hook 1 (pc-rel)
-    # 0x0005E98A promovido a Sub_0005E98A en registry (Wave SSSS).
+    # 0x0005E98A promovido a Entity_MarkFlag2TimerMax_05e98a en registry (Wave SSSS).
     # 0x0008F6D2 promovido a PlayerSlot_MaskF0F0_08f6d2 en registry (Wave PPP).
     # 0x000517AA promovido a Player_SetIndexFromParent_0517aa en registry (Wave QQQQ).
     0x00032AA8: "Sub_00032AA8",             # post-init hook 3 (pc-rel)
@@ -1260,8 +1260,8 @@ SYMBOLS = {
     # 0x000308C2 promovido a PlayerGrenade_Spawn_0308c2 en registry (Wave AAAA).
     0x0005DCA4: "Fn_0005DCA4",            # rand escalado por d0 (BossShot_Init)
     0x0005DD56: "Fn_0005DD56",            # variante wait-anim (BossShot_Fly)
-    # 0x0005E452 promovido a Fn_0005E452 en registry (Wave SSSS).
-    # 0x0005E912 promovido a Fn_0005E912 en registry (Wave SSSS).
+    # 0x0005E452 promovido a Parent_IsLiveHandler_05e452 en registry (Wave SSSS).
+    # 0x0005E912 promovido a Hud_WriteTimerCounters_05e912 en registry (Wave SSSS).
     0x00077F6A: "AnimSeq_00077F6A",       # secuencia anim explosion (Boss_Descend)
     0x00079298: "TaskProto_00079298",     # plantilla tarea aux (MissionDriver_Init)
     0x0008C85C: "Fn_0008C85C",            # init subsistema paralelo (MissionDriver_Init)

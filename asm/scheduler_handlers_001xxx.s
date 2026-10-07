@@ -124,7 +124,7 @@ AttractHandler_Frame_001172:
         move.w  0x10007c.l, d0                  | +00  d0 = frame_counter
         addq.w  #0x1, d0                        | +06  ++d0
         move.w  d0, 0x10007c.l                  | +08  frame_counter = d0
-        jsr     Sub_0005E998                    | +0e  video update hook
+        jsr     Rng_Seed_05e998                    | +0e  video update hook
         jsr     BIOS_FIX_CLEAR                  | +14  BIOS VBlank
         jsr     Sub_00046AC6                    | +1a  FixLayer_QuadBatch (HH#3)
         jsr     Pubcleaner_10A2Cx_052712        | +20  Pubcleaner_10A2Cx (LL#1)

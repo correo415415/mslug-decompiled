@@ -48,7 +48,7 @@
 
 Entity_ReserveAndSetPos_05E4B2:
         bset.b  #0x6, 0x13(a6)          | +00  entity->flags13 |= SLOT_RESERVED
-        jsr     Sub_00005E4CA(pc)       | +06  (d0,d1,d2) = helper local
+        jsr     Parent_GetPrioPos_05e4ca(pc)       | +06  (d0,d1,d2) = helper local
         move.w  d0, 0x38(a6)            | +0a  entity->flags38 = d0
         move.w  d1, 0x22(a6)            | +0e  entity->pos_x   = d1
         move.w  d2, 0x24(a6)            | +12  entity->pos_y   = d2

@@ -292,7 +292,7 @@ AttractHandler_10002C:
         move.w  0x10007c.l, d0                  | +00 d0 = frame_counter
         addq.w  #0x1, d0                        | +06 ++d0
         move.w  d0, 0x10007c.l                  | +08 frame_counter = d0
-        jsr     Sub_0005E998                    | +0e video update hook
+        jsr     Rng_Seed_05e998                    | +0e video update hook
         jsr     BIOS_FIX_CLEAR                  | +14 BIOS VBlank (BIOS $C004C2)
         jsr     Pubcleaner_10A2Cx_052712        | +1a Pubcleaner_10A2Cx (LL#1)
         lea.l   LogoScene_Tpl_098720, a1              | +20 a1 = &task_tpl_$98720

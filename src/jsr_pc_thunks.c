@@ -411,14 +411,14 @@ void JsrPcThunk_05d6aa(void) {
 
 __attribute__((section(".text.JsrPcThunk_05e080")))
 void JsrPcThunk_05e080(void) {
-    extern void PcThunkTarget_05e018(void);
-    __asm__ volatile("jsr PcThunkTarget_05e018(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Atan2_Angle256_05e018(void);
+    __asm__ volatile("jsr Atan2_Angle256_05e018(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_05e54c")))
 void JsrPcThunk_05e54c(void) {
-    extern void PcThunkTarget_05e530(void);
-    __asm__ volatile("jsr PcThunkTarget_05e530(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Rng_PickWordFromTable_05e530(void);
+    __asm__ volatile("jsr Rng_PickWordFromTable_05e530(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_05e8ce")))

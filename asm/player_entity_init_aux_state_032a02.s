@@ -68,7 +68,7 @@
 |  caller original es la funcion instalada via a1.
 |
 |  Los tres jsr a helpers no matcheados ($5E98A, $8F6D2, $517AA) quedan
-|  con placeholder en tools/symbols.py (Sub_0005E98A, PlayerSlot_MaskF0F0_08f6d2,
+|  con placeholder en tools/symbols.py (Entity_MarkFlag2TimerMax_05e98a, PlayerSlot_MaskF0F0_08f6d2,
 |  Player_SetIndexFromParent_0517aa) para no bloquear este match; son candidatos naturales
 |  para la siguiente ola (usar tools/rank_candidates.py).
 |
@@ -89,7 +89,7 @@ PlayerEntity_InitAuxState_032A02:
         move.b  #0xff, 0x33(a6)         | +020  +33 = 0xFF (cooldown off)
         move.w  #0x8000, 0x38(a6)       | +026  +38 = 0x8000 (overwrite)
         ori.w   #0x10, 0x38(a6)         | +02c  +38 |= 0x0010
-        jsr     Sub_0005E98A            | +032  helper (aun no matcheado)
+        jsr     Entity_MarkFlag2TimerMax_05e98a            | +032  helper (aun no matcheado)
         move.b  #0xa, 0x80(a6)          | +038  +80 = 10
         move.w  #0x0, 0x82(a6)          | +03e  +82 = 0
         move.b  #0x1, 0x85(a6)          | +044  +85 = 1

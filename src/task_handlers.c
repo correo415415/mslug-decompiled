@@ -172,17 +172,17 @@ extern void TaskHandler_05a28a(void);
 extern void TaskHandler_05a66e(void);
 extern void TaskHandler_05a764(void);
 extern void TaskHandler_05cbea(void);
-extern void TaskHandler_05f00a(void);
-extern void TaskHandler_05f0b0(void);
-extern void TaskHandler_05f482(void);
-extern void TaskHandler_05fa56(void);
-extern void TaskHandler_05fb88(void);
-extern void TaskHandler_05fbe6(void);
-extern void TaskHandler_05fce6(void);
-extern void TaskHandler_0606ee(void);
-extern void TaskHandler_060bf6(void);
-extern void TaskHandler_060c40(void);
-extern void TaskHandler_060d3a(void);
+extern void DebugColl_Idle_05f00a(void);
+extern void DebugColl_ShowHighNibble_05f0b0(void);
+extern void TowerSoldier_Fire_05f482(void);
+extern void HutOccupant_Idle_05fa56(void);
+extern void HutOccupant_WaitParent_05fb88(void);
+extern void HutDoor_Idle_05fbe6(void);
+extern void HutDoor_Free_05fce6(void);
+extern void ItemProp_Idle_0606ee(void);
+extern void Obstacle095_Idle_060bf6(void);
+extern void Obstacle_FlushMusicJmp77FD6_060c40(void);
+extern void Crate_Idle_060d3a(void);
 extern void TaskHandler_060de8(void);
 extern void TaskHandler_0620a0(void);
 extern void TaskHandler_0620a8(void);
@@ -1567,97 +1567,97 @@ void SetTaskHandler_05cbe4(void) {
 
 __attribute__((section(".text.SetTaskHandler_05f03e")))
 void SetTaskHandler_05f03e(void) {
-    _a1_ptr = &TaskHandler_05f0b0;
+    _a1_ptr = &DebugColl_ShowHighNibble_05f0b0;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05f0a8")))
 void SetTaskHandler_05f0a8(void) {
-    _a1_ptr = &TaskHandler_05f00a;
+    _a1_ptr = &DebugColl_Idle_05f00a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05f112")))
 void SetTaskHandler_05f112(void) {
-    _a1_ptr = &TaskHandler_05f00a;
+    _a1_ptr = &DebugColl_Idle_05f00a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05f3ea")))
 void SetTaskHandler_05f3ea(void) {
-    _a1_ptr = &TaskHandler_05f482;
+    _a1_ptr = &TowerSoldier_Fire_05f482;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05fa4e")))
 void SetTaskHandler_05fa4e(void) {
-    _a1_ptr = &TaskHandler_05fa56;
+    _a1_ptr = &HutOccupant_Idle_05fa56;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05fa9e")))
 void SetTaskHandler_05fa9e(void) {
-    _a1_ptr = &TaskHandler_05fb88;
+    _a1_ptr = &HutOccupant_WaitParent_05fb88;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05fb1c")))
 void SetTaskHandler_05fb1c(void) {
-    _a1_ptr = &TaskHandler_05fb88;
+    _a1_ptr = &HutOccupant_WaitParent_05fb88;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05fb80")))
 void SetTaskHandler_05fb80(void) {
-    _a1_ptr = &TaskHandler_05fb88;
+    _a1_ptr = &HutOccupant_WaitParent_05fb88;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05fbde")))
 void SetTaskHandler_05fbde(void) {
-    _a1_ptr = &TaskHandler_05fbe6;
+    _a1_ptr = &HutDoor_Idle_05fbe6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05fc1e")))
 void SetTaskHandler_05fc1e(void) {
-    _a1_ptr = &TaskHandler_05fce6;
+    _a1_ptr = &HutDoor_Free_05fce6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05fc70")))
 void SetTaskHandler_05fc70(void) {
-    _a1_ptr = &TaskHandler_05fce6;
+    _a1_ptr = &HutDoor_Free_05fce6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_05fcde")))
 void SetTaskHandler_05fcde(void) {
-    _a1_ptr = &TaskHandler_05fce6;
+    _a1_ptr = &HutDoor_Free_05fce6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0606e6")))
 void SetTaskHandler_0606e6(void) {
-    _a1_ptr = &TaskHandler_0606ee;
+    _a1_ptr = &ItemProp_Idle_0606ee;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_060bee")))
 void SetTaskHandler_060bee(void) {
-    _a1_ptr = &TaskHandler_060bf6;
+    _a1_ptr = &Obstacle095_Idle_060bf6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_060c92")))
 void SetTaskHandler_060c92(void) {
-    _a1_ptr = &TaskHandler_060c40;
+    _a1_ptr = &Obstacle_FlushMusicJmp77FD6_060c40;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_060d32")))
 void SetTaskHandler_060d32(void) {
-    _a1_ptr = &TaskHandler_060d3a;
+    _a1_ptr = &Crate_Idle_060d3a;
     STORE_A1_AT_FP();
 }
 
