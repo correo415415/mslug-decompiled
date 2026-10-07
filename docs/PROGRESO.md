@@ -11,10 +11,26 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 6715/6715 funciones
-BYTES   : 421,728/421,728 (registrados)
-ROM     : 421,728/2,097,152  (20.1096%)
+MATCHED : 6936/6936 funciones
+BYTES   : 437,150/437,150 (registrados)
+ROM     : 437,150/2,097,152  (20.8449%)
 ```
+
+> **Wave WWWW** (221 entradas, 15 122 B; 1 `--data`) — `$06DFE8..$071FFC`
+> en `gunship_m5boss_finalboss_06exxx.s`. Cuadragésima wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/wwww_names.txt`, args en
+> `docs/waves/wwww_args.txt` (hitbox `Gunship_Hitbox` `$6EB84..$6EBD0`).
+>
+> * **FireBurst_\*** / **Walker_\*** / **Frag_\*** / **Spawn_\***: cierre de
+>   los forward refs de VVVV (`Sub_0006Exxx` → nombres).
+> * **Gunship_\*** (tmpl 75): path `$2D4A2E[+$98]`, Crew + Gunner (Aim/Fire/
+>   Reload/Wait), Die → 4 WreckPiece (`jmp $6DCE0`), Shell, Explode.
+> * **M5Boss_\*** (tmpl 111/112/113): Intro con S5Gate/S5Airship, Idle →
+>   PickAttack → Hover/AttackA-C/Charge/Barrage; hijos Bomb/Missile/Shell/
+>   Spark/Soldier/Grenadier/Grenade/Rocket/TurretCar; DispatchBy8C.
+> * **FinalBoss_\*** (tmpl 114/115/116): Left/Right + 5 Limb + Head
+>   (respawn) + Cannon/Casing/Flame/Beam/Debris; fin con `$1071` + `$518`.
+> * Matcher 6936/6936, 437,150 B (20.84 %); código real 77.8 %.
 
 > **Wave VVVV** (179 entradas, 15 616 B; 29 `--data`) — `$06A000..$06DFE8`
 > en `bazooka_rocketvehicle_walker_06axxx.s`. Trigesimonovena wave de

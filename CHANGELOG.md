@@ -17,6 +17,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave WWWW — 221 entries (15,122 B, 1 data range): `$06DFE8..$071FFC`
+  (`gunship_m5boss_finalboss_06exxx.s`): fire-burst variants and Walker
+  helpers (closing VVVV forward refs), Gunship (tmpl 75: crew, gunner with
+  embedded hitbox table, wreck pieces), mission-5 boss (tmpl 111..113: rotor,
+  parts, bombs, homing missiles, soldier/grenadier/rocket children, pose
+  dispatcher by +$8C), final boss (tmpl 114..116: Left/Right halves, five
+  limbs, respawning head, cannon/flame/beam).
 - Wave VVVV — 179 entries (15,616 B, 29 data ranges): `$06A000..$06DFE8`
   (`bazooka_rocketvehicle_walker_06axxx.s`): tank tail, bazooka soldier
   (tmpl 86/87, 90/91, crew 92/93 entered from the mortar, allied bazooka
