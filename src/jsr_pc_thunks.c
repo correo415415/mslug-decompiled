@@ -489,20 +489,20 @@ void JsrPcThunk_0683ea(void) {
 
 __attribute__((section(".text.JsrPcThunk_068724")))
 void JsrPcThunk_068724(void) {
-    extern void PcThunkTarget_068ab8(void);
-    __asm__ volatile("jsr PcThunkTarget_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void S5Airship_PastRightEdge_068ab8(void);
+    __asm__ volatile("jsr S5Airship_PastRightEdge_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_068758")))
 void JsrPcThunk_068758(void) {
-    extern void PcThunkTarget_068ab8(void);
-    __asm__ volatile("jsr PcThunkTarget_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void S5Airship_PastRightEdge_068ab8(void);
+    __asm__ volatile("jsr S5Airship_PastRightEdge_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0687ae")))
 void JsrPcThunk_0687ae(void) {
-    extern void PcThunkTarget_068ab8(void);
-    __asm__ volatile("jsr PcThunkTarget_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void S5Airship_PastRightEdge_068ab8(void);
+    __asm__ volatile("jsr S5Airship_PastRightEdge_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_06d130")))

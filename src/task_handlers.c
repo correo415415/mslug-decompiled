@@ -195,16 +195,16 @@ extern void TaskHandler_06422a(void);
 extern void Hostage_Free_064d7a(void);
 extern void TaskHandler_064d8a(void);
 extern void TaskHandler_06515e(void);
-extern void TaskHandler_0667a4(void);
+extern void Paratrooper_Spawner_Done_0667a4(void);
 extern void TaskHandler_066a86(void);
 extern void TaskHandler_066a8e(void);
 extern void TaskHandler_067b7c(void);
 extern void TaskHandler_067b84(void);
-extern void TaskHandler_068310(void);
-extern void TaskHandler_068346(void);
-extern void TaskHandler_06850e(void);
-extern void TaskHandler_068684(void);
-extern void TaskHandler_0688f8(void);
+extern void S5Gate_WaitScroll_068310(void);
+extern void S5Gate_Begin_068346(void);
+extern void S5Airship_PartIdle_06850e(void);
+extern void S5Airship_PartState3_068684(void);
+extern void S5Airship_HatchFinal_0688f8(void);
 extern void TaskHandler_06895c(void);
 extern void TaskHandler_06986a(void);
 extern void TaskHandler_069872(void);
@@ -2011,13 +2011,13 @@ void SetTaskHandler_065aec(void) {
 
 __attribute__((section(".text.SetTaskHandler_066794")))
 void SetTaskHandler_066794(void) {
-    _a1_ptr = &TaskHandler_0667a4;
+    _a1_ptr = &Paratrooper_Spawner_Done_0667a4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06679c")))
 void SetTaskHandler_06679c(void) {
-    _a1_ptr = &TaskHandler_0667a4;
+    _a1_ptr = &Paratrooper_Spawner_Done_0667a4;
     STORE_A1_AT_FP();
 }
 
@@ -2089,37 +2089,37 @@ void SetTaskHandler_067e72(void) {
 
 __attribute__((section(".text.SetTaskHandler_068308")))
 void SetTaskHandler_068308(void) {
-    _a1_ptr = &TaskHandler_068310;
+    _a1_ptr = &S5Gate_WaitScroll_068310;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06833e")))
 void SetTaskHandler_06833e(void) {
-    _a1_ptr = &TaskHandler_068346;
+    _a1_ptr = &S5Gate_Begin_068346;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0685d0")))
 void SetTaskHandler_0685d0(void) {
-    _a1_ptr = &TaskHandler_068684;
+    _a1_ptr = &S5Airship_PartState3_068684;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06861a")))
 void SetTaskHandler_06861a(void) {
-    _a1_ptr = &TaskHandler_068684;
+    _a1_ptr = &S5Airship_PartState3_068684;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_06867c")))
 void SetTaskHandler_06867c(void) {
-    _a1_ptr = &TaskHandler_06850e;
+    _a1_ptr = &S5Airship_PartIdle_06850e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0686c6")))
 void SetTaskHandler_0686c6(void) {
-    _a1_ptr = &TaskHandler_06850e;
+    _a1_ptr = &S5Airship_PartIdle_06850e;
     STORE_A1_AT_FP();
 }
 
@@ -2131,7 +2131,7 @@ void SetTaskHandler_068942(void) {
 
 __attribute__((section(".text.SetTaskHandler_068954")))
 void SetTaskHandler_068954(void) {
-    _a1_ptr = &TaskHandler_0688f8;
+    _a1_ptr = &S5Airship_HatchFinal_0688f8;
     STORE_A1_AT_FP();
 }
 

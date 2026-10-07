@@ -554,16 +554,16 @@ SYMBOLS = {
     # 0x00064D7A promovido a Hostage_Free_064d7a en registry (Wave TTTT).
     0x00064D8A: "TaskHandler_064d8a",
     0x0006515E: "TaskHandler_06515e",
-    0x000667A4: "TaskHandler_0667a4",
+    # 0x000667A4 promovido a Paratrooper_Spawner_Done_0667a4 en registry (Wave UUUU).
     0x00066A86: "TaskHandler_066a86",
     0x00066A8E: "TaskHandler_066a8e",
     0x00067B7C: "TaskHandler_067b7c",
     0x00067B84: "TaskHandler_067b84",
-    0x00068310: "TaskHandler_068310",
-    0x00068346: "TaskHandler_068346",
-    0x0006850E: "TaskHandler_06850e",
-    0x00068684: "TaskHandler_068684",
-    0x000688F8: "TaskHandler_0688f8",
+    # 0x00068310 promovido a S5Gate_WaitScroll_068310 en registry (Wave UUUU).
+    # 0x00068346 promovido a S5Gate_Begin_068346 en registry (Wave UUUU).
+    # 0x0006850E promovido a S5Airship_PartIdle_06850e en registry (Wave UUUU).
+    # 0x00068684 promovido a S5Airship_PartState3_068684 en registry (Wave UUUU).
+    # 0x000688F8 promovido a S5Airship_HatchFinal_0688f8 en registry (Wave UUUU).
     0x0006895C: "TaskHandler_06895c",
     0x0006986A: "TaskHandler_06986a",
     0x00069872: "TaskHandler_069872",
@@ -933,7 +933,7 @@ SYMBOLS = {
     # 0x000634F6 promovido a Camper_SpawnPairB_0634f6 en registry (Wave TTTT).
     # 0x00065C94 promovido a EntityGroup_SpawnLinkedFromTemplateList_065C94 en registry (Wave RR#5).
     # 0x0006896A promovido a Camera0_RelinkAndWrapScroll_06896A en registry (Wave RR#3).
-    0x00068AB8: "PcThunkTarget_068ab8",
+    # 0x00068AB8 promovido a S5Airship_PastRightEdge_068ab8 en registry (Wave UUUU).
     0x0006D13C: "PcThunkTarget_06d13c",
     # 0x0006E2BC promovido a Entity_CopyAnimFromLeader_06E2BC en registry (Wave SS#1).
     0x00070AB0: "PcThunkTarget_070ab0",
@@ -1922,9 +1922,9 @@ SYMBOLS = {
     0x00065AA2: "SetHandlerRts_065aa2",  # rts de SetTaskHandler_065a9c (+6)
     0x00065AF2: "SetHandlerRts_065af2",  # rts de SetTaskHandler_065aec (+6)
     # --- Wave TTTT: refs forward a huecos futuros
-    0x0006600E: "Sub_0006600E",  # hueco futuro (ref pc-rel desde esta region)
-    0x00066622: "Sub_00066622",  # hueco futuro (ref pc-rel desde esta region)
-    0x00066644: "Sub_00066644",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0006600E promovido a FloatBarrel_Submerge_06600e en registry (Wave UUUU).
+    # 0x00066622 promovido a FloatBarrel_FaceTarget_066622 en registry (Wave UUUU).
+    # 0x00066644 promovido a FloatBarrel_TargetInRange_066644 en registry (Wave UUUU).
     # --- Wave UUUU: RTS internos de islas C
     0x000665E6: "SetTaskWRts_0665e6",  # rts de SetTaskW_0665e2 (+4)
     0x0006679A: "SetHandlerRts_06679a",  # rts de SetTaskHandler_066794 (+6)

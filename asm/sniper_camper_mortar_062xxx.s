@@ -98,7 +98,7 @@
 |    varias aserciones trap #15 (Hostage_Assert_065d94) tras nops = macro
 |    assert del SDK SNK.
 |  - Barrel_Tmpl8D: snd $179, prio $8000, HP 1, sprite $2C756C, caja $2C7998;
-|    refs adelante Sub_00066622/Sub_00066644/Sub_0006600E (Wave UUUU).
+|    refs adelante FloatBarrel_FaceTarget_066622/FloatBarrel_TargetInRange_066644/FloatBarrel_Submerge_06600e (Wave UUUU).
 |  - Entity_MirrorDeltaByFacing_065D32 (12 B, preexistente) queda dentro de
 |    la región y se conserva como entrada registrada.
 |
@@ -5250,8 +5250,8 @@ Barrel_Tmpl8D_065f40:
 .L065f7a:
         jsr     0x2783a.l                       | +03a
         jsr     0x28d70.l                       | +040
-        jsr     Sub_00066622(pc)                | +046  -> $066622 (hueco futuro, defsym forward)
-        jsr     Sub_00066644(pc)                | +04a  -> $066644 (hueco futuro, defsym forward)
+        jsr     FloatBarrel_FaceTarget_066622(pc)                | +046  -> $066622 (hueco futuro, defsym forward)
+        jsr     FloatBarrel_TargetInRange_066644(pc)                | +04a  -> $066644 (hueco futuro, defsym forward)
         bcc.w   .L065f9c                        | +04e
         move.l  a0,0x70(a6)                     | +052
         lea     Barrel_Idle_065fba(pc),a1       | +056
@@ -5282,7 +5282,7 @@ Barrel_Idle_065fba:
         bcc.w   .L065ff0                        | +024
         subq.b  #0x1,0x74(a6)                   | +028
         bne.w   .L065ff0                        | +02c
-        lea     Sub_0006600E(pc),a1             | +030  -> $06600E (hueco futuro, defsym forward)
+        lea     FloatBarrel_Submerge_06600e(pc),a1             | +030  -> $06600E (hueco futuro, defsym forward)
         move.l  a1,(a6)                         | +034
 .L065ff0:
         movea.l #0xffffffff,a0                  | +036
