@@ -17,6 +17,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave QQQQ — 97 entries (7,396 B, 7 data ranges): `$04FA50..$051914`
+  (`allen_oneil_04fa50.s`): boss Allen O'Neil (`Allen_*`: target acquisition,
+  physics with step-probe mover, decision checks, jumps, knife, machine gun
+  with `Allen_Bullet`, `Allen_Grenade` + explosion, 5-segment HP bar, death
+  chain, touch sensors), 19 piece spawners for the barrier/gatehouse/fortress
+  props of Wave PPPP, tower/bunker/nest blit helpers, memory-card glue
+  (`MemCard_*`), player helpers and nibble pack/unpack. Matcher 5799/5799, 16.56 %.
 - Wave PPPP — 40 entries (5,296 B): `$04E580..$04FA50`
   (`props_fortress_04e5xx.s`): fortress-mission props — barrier, gatehouse/
   gate and fortress chains (`Active → Damaged → Wreck`, blockers, roof, door,

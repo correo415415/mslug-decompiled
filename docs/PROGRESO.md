@@ -11,10 +11,26 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5702/5702 funciones
-BYTES   : 339,968/339,968 (registrados)
-ROM     : 339,968/2,097,152  (16.2109%)
+MATCHED : 5799/5799 funciones
+BYTES   : 347,364/347,364 (registrados)
+ROM     : 347,364/2,097,152  (16.5636%)
 ```
+
+> **Wave QQQQ** (97 entradas, 7 396 B; 7 `--data`) — `$04FA50..$051914`
+> en `allen_oneil_04fa50.s`. Trigesimocuarta wave de `gen_asm_region.py`.
+> Nombres en `docs/waves/qqqq_names.txt`, args en `docs/waves/qqqq_args.txt`.
+>
+> * Jefe **Allen O'Neil** (`Allen_*`): `AcquireTarget` (+$72 objetivo),
+>   `Physics`, `Entity_StepMoveWithProbe`, decisiones `Check*` evaluadas en
+>   `Allen_Main`, saltos (`JumpDecide/JumpToward/JumpHigh/Airborne/Land`),
+>   `KnifeAttack`, `FireMGHigh/Level` + `Allen_Bullet`, `ThrowGrenade` +
+>   `Allen_Grenade/GrenadeExplode`, barra de vida de 5 tramos (`$296E72`
+>   vía `$2C30`), `Death/DeathFall/DeathLand/DeathFade`, `TouchSensor` ×4.
+> * 19 spawners `Barrier/Gatehouse/Fortress_SpawnPiece*` (máscara de bit
+>   en +$21, tablas de blit +$70/+$74) usados por la Wave PPPP.
+> * Blits por estado de torre/búnker/nido (OOOO), `MemCard_*` glue,
+>   `Players_*`, `Nibbles_*`, `PlayerState_FlagTable`.
+> * Matcher: 5799/5799, 347,364 B, 16.56 %; código real 60.0 %.
 
 > **Wave PPPP** (40 entradas, 5 296 B) — `$04E580..$04FA50`
 > en `props_fortress_04e5xx.s`. Trigesimotercera wave de
