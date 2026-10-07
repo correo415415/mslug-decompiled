@@ -1,11 +1,145 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave UUUU — barril flotante / mina acuática (cola de Barrel_Tmpl8D),
+|  spawner de paracaidistas, soldado con escudo (dos variantes), escudo
+|  desprendido, puerta de escena 5 y dirigible (partes, luces, escotilla,
+|  gancho de cámara) y tanque enemigo (conductor, torreta, misil guiado)
+|  (plantillas $E8000[53..55,94,95,108,109])
 |  Región: $066000..$06A000  (15,488 B, 180 entradas, 79 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  180 entradas en seis bloques (continúa sniper_camper_mortar_062xxx.s):
+|  1. $066000..$0666AE — FloatBarrel_* / FloatMine_*: cola del barril de
+|     tmpl 141 (Barrel_Tmpl8D_065f40): Submerge (vel +$2A=$A00, gravedad
+|     negativa por nibble +$99), Surface/Drift/Bob/BobSettle (sondas $27CEE/
+|     $27D50/$27EBA, target $5E086 con cajas $2C79AC/$2C79B6), Splash/Pop
+|     (música $1052/$103E, hijo $788C0), Shard (fragmento con vel heredada
+|     del abuelo +$50). FloatMine_Init/Armed: mina flotante (snd $179/$1DA,
+|     HP $64, ataque $283CA, explosión $77F6A, WaveBob con Math_AbsW $8B58E).
+|  2. $0666AE..$0670B6 — Paratrooper_*: Spawner_Tmpl5E (tmpl 94/95: hasta
+|     +$98 paracaidistas, cadencia Tbl_Decode2D $2B889A, umbral de scroll
+|     +$7E vs camera_x $106F50), Init (snd $183, prio $4000, X aleatoria
+|     hacia el jugador $5E1EA) → Land → PickWalk → WalkA/WalkB (timers
+|     $2B8A60/$2B89DE) → Leave; Die (snd $183/$1D7 según $10FD8F, música
+|     $1043, flush $13600); Frag (vel por sin/cos $2C07AC/$2C072C, snd $17B)
+|     → FragExplode ($77F6A); Smoke; SpawnPairA/B, SpawnChute ($788E4).
+|     Paratrooper_Sprites_066cd8: 1,006 B de scripts de animación (frames
+|     {dur,flags,ptr $2Cxxxx}, terminadores $0100 = loop).
+|  3. $0670B6..$0682D0 — ShieldSoldier_* (tmpl 108, $670D2) y
+|     ShieldSoldierB_* (tmpl 109, $676BA, también spawneado por
+|     M4_PlatformSpawn_085134): Setup (snd $38/$1C7, HP 1, hijo Shield_Init
+|     en +$90, anim $2C79E2/$2C7C82/$2C7D74) → Guard/Fall/Land/Crouch/
+|     CrouchHold/Rise/Aim/Attack ($283CA/$283D8)/Recover → ShieldLost
+|     (sprite $29BFC4, ToFlee = jmp $58F82) / Die (HumanDeath $4ABC0).
+|     Predicados CanAttackA/B/C, PlayerFar/Near(+Edge), AtScreenEdge,
+|     GuardTick, FallCheck, ShieldAlive, TakeShieldHit (+$5A/+$58 desde el
+|     escudo), AbsDX, DropItem/B ($9A7AA), HitCheck.
+|     Shield_*: Init (HP $2BF59A, sprites por +$80&7 en $2C7CFE, sigue al
+|     padre $5E506), Break (música $10FF, Smoke+Debris), FlyOff/Bounce (RNG
+|     $5DCA4, sondas $27C8C) → Blink (parpadeo con $106F28 bit0) → Free.
+|  4. $0682D0..$0683F0 — S5Gate_*: tarea de puerta/compuerta de escena 5:
+|     espera camera_x ≥ $E20/$1000 (nivel $10E39C=4), Begin (música $1032,
+|     $106F5E=1, rampa $106F60 hasta $60000) → HoldOffset → Release
+|     (Camera0_RelinkAndWrapScroll_06896A).
+|  5. $0683F0..$068C1E — S5Airship_*: dirigible (Init: pos por
+|     Coord_ScreenToLocalSecondary $440D0, hijos Part×3 con offset +$80,
+|     Nose, prio $C000), Part/PartIdle/PartHold/PartSway/PartState1/3 (estado
+|     +$20 del padre, jitter RNG $5E9B6, sello $106ED3), Light/LightBlink,
+|     Hull, Nose (registro $43FAC con caja $2C84C2), Hatch/HatchClosed/
+|     HatchOpen (música $10A8)/HatchAnim/HatchClose/HatchFinal (sprites por
+|     +$3B&$F en $2C8626/$2C8686), CameraHook ($51B3E/$43DF4/$51B1C sobre
+|     $106F6C), FollowParent/Grandparent, ShadowA/B/C, DropPow (spawnea
+|     Pow_EntryB_03fec6 con probabilidad $2BA618), HitCheck.
+|  6. $068C1E..$06A000 — Tank_*: tanque enemigo tmpl 53/54/55 (variantes
+|     por +$7D/+$7E), Tmpl35: snd motor $1B/$1C, HP $64, hijos Driver
+|     ($69880, en +$88) y Turret ($69A32, en +$8C), oruga $723D2 y sombra
+|     $7773E, caja $2C89CC. Fall/Drive (música $109E, Player_Dispatch3Slots
+|     $28998)/Idle/Turn/Brake/Resume/AimPlayer/FireBurst (RngReload
+|     $2B807A, FireDone) → Die (explosión $77FD6, music $109E via $2222) →
+|     Wreck/WreckBlast. Driver: Bail/Hit/Die/ToSoldier ($4A0D4 + jmp
+|     $58F82/$5724E)/Wreck. Turret: HP $2B7DF0, estado +$20 $33/$77,
+|     música $102D. Debris (jmp $6DBD4), Smoke/SmokeExplode ($77EFE),
+|     Missile/MissileFly/MissileHome (ángulo +$82 hacia el jugador con
+|     $5E070, vel por sin/cos) /MissileExplode. Helpers: SetSpriteByIndex
+|     (con asserts trap #15 índice ≤ $E/$A), SetHandlerIfValid,
+|     MirrorByFacing/Dir, PastRangeX, CooldownTick, AnimFrame, VelFromAngle,
+|     RecoilTick, CopyParentAnim(+Prio), OffsetAbove, ItemFlag,
+|     SpawnExplosion, DeathBlast (16× Sniper_SmokeA $62536), DropItem,
+|     SpawnSmokeMissile/Debris, SetPrio4000.
+|
+|  B) CÓMO FUNCIONA
+|  Protocolo a6 habitual: +$00 handler, +$0C padre, +$12/+$13 flags, +$20/
+|  +$21 estado y orden del padre, +$22/+$24 pos, +$28/+$2A vel, +$2E grav,
+|  +$38 prio, +$3A facing, +$3C plantilla, +$58 clase de ataque, +$66 HP,
+|  +$70.. contadores; +$98..+$9C parámetros del Mission VM (cuenta, lado,
+|  ítem). El soldado con escudo delega la colisión frontal en el hijo
+|  Shield (bit0 de +$5A del hijo → TakeShieldHit copia +$58 y marca +$13
+|  bit3); al perder el escudo pasa a soldado genérico. El tanque mantiene
+|  punteros a sus hijos en +$88/+$8C y cambia sus sprites con
+|  SetSpriteByIndex (tablas $2C8B96/$2C8BC2 con -1 = sin cambio). La
+|  puerta y el dirigible de escena 5 usan las variables globales de
+|  cámara $106F50/$106F5E/$106F60/$106F64 y el sello $106ED3 (misma
+|  familia que cutscene_anim_08baxx.s). Los paracaidistas se auto-limitan
+|  a la franja X $20..$120 (TimerInBounds).
+|
+|  C) INTERFAZ
+|  Entradas externas: plantillas $E8000[53]=$68C1E, [54]=$68C2A, [55]=$68C38,
+|  [94]=$666AE, [95]=$666B6, [108]=$670D2, [109]=$676BA; $85134
+|  (M4_PlatformSpawn) -> $676BA; Barrel_Tmpl8D_065f40 (W TTTT) → $6600E/
+|  $66622/$66644; mission_streams usa tmpl $037 (4×).
+|  Salidas: $236E snd, $2352/$2222 música, $28CD4/$28D70 sprite/anim,
+|  $2870A/$28758 daño/HP, $283CA/$283D8 ataque, $267E2/$2783A scroll,
+|  $28134 prio, $27CEE/$27D50/$27AFC/$27C8C/$27EBA/$27A92/$27FAC sondas,
+|  $43FAC registro, $4A0D4/$4ABC0 muerte humana, $58F82/$5724E soldier,
+|  $5DCA4 RNG escalado, $5DD02 pos padre, $5DD56/$5DD5C offworld, $5E070
+|  Atan2 delta, $5E086/$5E0D4/$5E1EA target, $5E45A padre liberado,
+|  $5E506 copia pos/prio/facing, $5E5A8 probe 2 intentos, $5E766/$5E770
+|  flash, $5E7C0 snap suelo, $5E844 ataque pesado, $5E9B6 RNG, $6DBD4
+|  (jmp, Wave VVVV), $723D2/$7773E/$788C0/$788E4 hijos, $77EFE/$77F6A/
+|  $77FD6 explosiones, $799DE Tbl_Decode2D, $8B58E abs, $9A7AA probe
+|  move X, $13600 flush, $138FE timer, $3FEC6 POW, $440D0/$43DF4/$51B1C/
+|  $51B3E cámara, $518 free, $4AE alloc. Datos: $2B7Dxx..$2BA6xx (tablas
+|  por dificultad), $2C07AC/$2C072C sin/cos, sprites $2C76xx..$2C9Cxx.
+|
+|  D) EVIDENCIAS
+|  - $E8000 apunta a 7 entradas de esta región (índices en C); Barrel_Tmpl8D
+|    (TTTT) referenciaba $6600E/$66622/$66644 como defsym forward.
+|  - m4_carrier_boss_helpers_0851xx.s: M4_PlatformSpawn_085134 hace
+|    `lea $676BA,a1 ; jsr $4AE` → tmpl 109 es el soldado con escudo de la
+|    plataforma del jefe de misión 4.
+|  - Shield_Init: cuando su HP se agota escribe `move.l #$67656,(a0)` en el
+|    padre (ShieldSoldier_ShieldLost) → relación padre/hijo confirmada.
+|  - Tank: asserts `cmpi.w #$E,d0 / trap #15` antes de indexar $2C8BC2
+|    (15 sprites de torreta) y `#$A` para $2C8B96 (11 de casco).
+|  - S5Gate/S5Airship usan $106F5E/$106F60 igual que cutscene_anim_08baxx.s
+|    ($1C000/$18000) y el sello $106ED3 de attract_cluster_batch_ff.s.
+|  - Paratrooper_Die elige snd $183/$1D7 según $10FD8F (misma bandera que
+|    otros gritos de muerte); Tank_DriverToSoldier salta a $58F82/$5724E.
+|  - Tabla $66CD8..$670B6 identificada como datos por el patrón
+|    {$0001,$0208,$0023,$4xxx,$FFFF} y el bucle $0100 $0006 ← code real
+|    retoma en $670B6 (`movea.l 8(a6),a1`).
+|
+|  E) HIPÓTESIS / DUDAS
+|  - "FloatBarrel"/"FloatMine": por gravedad negativa, flotación (WaveBob)
+|    y mina con HP; el barril de TTTT podría ser otro objeto flotante.
+|  - "Paratrooper": spawner con cadencia + hijo con paracaídas ($788E4,
+|    nombre por comportamiento de caída lenta y SpawnChute); no verificado
+|    visualmente.
+|  - "ShieldSoldier": inferido por el hijo con HP propio que absorbe golpes
+|    frontales y por la transición a soldado al perderlo.
+|  - "S5Gate"/"S5Airship": por el uso de las globales de cámara de escena
+|    5 y el gancho $106F6C; la identidad de "Part/Light/Hull/Nose/Hatch" es
+|    aproximada (nombres por offsets y sprites).
+|  - "Tank": vehículo con conductor que salta (Bail) y torreta con misil
+|    guiado; podría ser otro vehículo blindado. $6DBD4 (Tank_Debris) y
+|    $6A7D6 quedan para Wave VVVV.
+|  - $66C06 (ApproachFail) y $67F7A (ProbeRevert) son colas de función
+|    alcanzadas por fall-through; nombres por su efecto.
+|
+|  F) ESTADO
+|  180/180 byte-exactas; 1 rango --data (docs/waves/uuuu_args.txt).
+|  Nombres en docs/waves/uuuu_names.txt. Pendiente: $06A000..$083000.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
