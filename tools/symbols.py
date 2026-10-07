@@ -543,15 +543,15 @@ SYMBOLS = {
     # 0x00060C40 promovido a Obstacle_FlushMusicJmp77FD6_060c40 en registry (Wave SSSS).
     # 0x00060D3A promovido a Crate_Idle_060d3a en registry (Wave SSSS).
     0x00060DE8: "TaskHandler_060de8",
-    0x000620A0: "TaskHandler_0620a0",
+    # 0x000620A0 promovido a TaskHandler_0620a0 en registry (Wave TTTT).
     0x000620A8: "TaskHandler_0620a8",
     0x00062F8C: "TaskHandler_062f8c",
     0x00062F9A: "TaskHandler_062f9a",
-    0x00063942: "TaskHandler_063942",
+    # 0x00063942 promovido a TaskHandler_063942 en registry (Wave TTTT).
     0x00063952: "TaskHandler_063952",
     0x00064222: "TaskHandler_064222",
     0x0006422A: "TaskHandler_06422a",
-    0x00064D7A: "TaskHandler_064d7a",
+    # 0x00064D7A promovido a TaskHandler_064d7a en registry (Wave TTTT).
     0x00064D8A: "TaskHandler_064d8a",
     0x0006515E: "TaskHandler_06515e",
     0x000667A4: "TaskHandler_0667a4",
@@ -929,8 +929,8 @@ SYMBOLS = {
     0x0005DD5C: "PcThunkTarget_05dd5c",
     # 0x0005E018 promovido a Atan2_Angle256_05e018 en registry (Wave SSSS).
     # 0x0005E530 promovido a Rng_PickWordFromTable_05e530 en registry (Wave SSSS).
-    0x00063336: "PcThunkTarget_063336",
-    0x000634F6: "PcThunkTarget_0634f6",
+    # 0x00063336 promovido a PcThunkTarget_063336 en registry (Wave TTTT).
+    # 0x000634F6 promovido a PcThunkTarget_0634f6 en registry (Wave TTTT).
     # 0x00065C94 promovido a EntityGroup_SpawnLinkedFromTemplateList_065C94 en registry (Wave RR#5).
     # 0x0006896A promovido a Camera0_RelinkAndWrapScroll_06896A en registry (Wave RR#3).
     0x00068AB8: "PcThunkTarget_068ab8",
@@ -1859,14 +1859,70 @@ SYMBOLS = {
     0x0000FFD0: "Sub_0000FFD0",  # hueco futuro (ref pc-rel desde esta region)
     0x0005DE18: "Sub_0005DE18",  # hueco futuro (ref pc-rel desde esta region)
     0x0005DF18: "Sub_0005DF18",  # hueco futuro (ref pc-rel desde esta region)
-    0x00062008: "Sub_00062008",  # hueco futuro (ref pc-rel desde esta region)
-    0x00062014: "Sub_00062014",  # hueco futuro (ref pc-rel desde esta region)
-    0x00062046: "Sub_00062046",  # hueco futuro (ref pc-rel desde esta region)
-    0x00062084: "Sub_00062084",  # hueco futuro (ref pc-rel desde esta region)
-    0x000626B8: "Sub_000626B8",  # hueco futuro (ref pc-rel desde esta region)
-    0x000626D8: "Sub_000626D8",  # hueco futuro (ref pc-rel desde esta region)
-    0x000626F0: "Sub_000626F0",  # hueco futuro (ref pc-rel desde esta region)
-    0x00062710: "Sub_00062710",  # hueco futuro (ref pc-rel desde esta region)
-    0x00062732: "Sub_00062732",  # hueco futuro (ref pc-rel desde esta region)
-    0x00062758: "Sub_00062758",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00062008 promovido a Sub_00062008 en registry (Wave TTTT).
+    # 0x00062014 promovido a Sub_00062014 en registry (Wave TTTT).
+    # 0x00062046 promovido a Sub_00062046 en registry (Wave TTTT).
+    # 0x00062084 promovido a Sub_00062084 en registry (Wave TTTT).
+    # 0x000626B8 promovido a Sub_000626B8 en registry (Wave TTTT).
+    # 0x000626D8 promovido a Sub_000626D8 en registry (Wave TTTT).
+    # 0x000626F0 promovido a Sub_000626F0 en registry (Wave TTTT).
+    # 0x00062710 promovido a Sub_00062710 en registry (Wave TTTT).
+    # 0x00062732 promovido a Sub_00062732 en registry (Wave TTTT).
+    # 0x00062758 promovido a Sub_00062758 en registry (Wave TTTT).
+    # --- Wave TTTT: RTS internos de islas C
+    0x00062082: "SetHandlerRts_062082",  # rts de SetTaskHandler_06207c (+6)
+    0x00062128: "SetHandlerRts_062128",  # rts de SetTaskHandler_062122 (+6)
+    0x00062324: "SetHandlerRts_062324",  # rts de SetTaskHandler_06231e (+6)
+    0x00062358: "SetHandlerRts_062358",  # rts de SetTaskHandler_062352 (+6)
+    0x0006241A: "SetHandlerRts_06241a",  # rts de SetTaskHandler_062414 (+6)
+    0x000624D4: "SetHandlerRts_0624d4",  # rts de SetTaskHandler_0624ce (+6)
+    0x00062534: "SetHandlerRts_062534",  # rts de SetTaskHandler_06252e (+6)
+    0x00062638: "SetHandlerRts_062638",  # rts de SetTaskHandler_062632 (+6)
+    0x00062682: "SetHandlerRts_062682",  # rts de SetTaskHandler_06267c (+6)
+    0x000627C8: "JsrAbsRts_0627c8",  # rts de JsrAbsThunk_0627c2 (+6)
+    0x00062A06: "SetHandlerRts_062a06",  # rts de SetTaskHandler_062a00 (+6)
+    0x00062DCA: "SetHandlerRts_062dca",  # rts de SetTaskHandler_062dc4 (+6)
+    0x00062E42: "SetHandlerRts_062e42",  # rts de SetTaskHandler_062e3c (+6)
+    0x00062E88: "SetHandlerRts_062e88",  # rts de SetTaskHandler_062e82 (+6)
+    0x00062EDE: "SetHandlerRts_062ede",  # rts de SetTaskHandler_062ed8 (+6)
+    0x00062F8A: "SetHandlerRts_062f8a",  # rts de SetTaskHandler_062f84 (+6)
+    0x00063046: "SetHandlerRts_063046",  # rts de SetTaskHandler_063040 (+6)
+    0x000630BA: "SetHandlerRts_0630ba",  # rts de SetTaskHandler_0630b4 (+6)
+    0x00063104: "SetHandlerRts_063104",  # rts de SetTaskHandler_0630fe (+6)
+    0x000631CE: "SetHandlerRts_0631ce",  # rts de SetTaskHandler_0631c8 (+6)
+    0x00063224: "SetHandlerRts_063224",  # rts de SetTaskHandler_06321e (+6)
+    0x00063318: "SetHandlerRts_063318",  # rts de SetTaskHandler_063312 (+6)
+    0x00063888: "SetHandlerRts_063888",  # rts de SetTaskHandler_063882 (+6)
+    0x00063902: "SetHandlerRts_063902",  # rts de SetTaskHandler_0638fc (+6)
+    0x00063B36: "SetHandlerRts_063b36",  # rts de SetTaskHandler_063b30 (+6)
+    0x00063BB4: "SetHandlerRts_063bb4",  # rts de SetTaskHandler_063bae (+6)
+    0x00063C0A: "SetHandlerRts_063c0a",  # rts de SetTaskHandler_063c04 (+6)
+    0x00064220: "SetHandlerRts_064220",  # rts de SetTaskHandler_06421a (+6)
+    0x00064378: "SetHandlerRts_064378",  # rts de SetTaskHandler_064372 (+6)
+    0x000643D8: "SetHandlerRts_0643d8",  # rts de SetTaskHandler_0643d2 (+6)
+    0x000646FE: "SetHandlerRts_0646fe",  # rts de SetTaskHandler_0646f8 (+6)
+    0x00064A7E: "SetHandlerRts_064a7e",  # rts de SetTaskHandler_064a78 (+6)
+    0x00064AD6: "SetHandlerRts_064ad6",  # rts de SetTaskHandler_064ad0 (+6)
+    0x00064B16: "SetHandlerRts_064b16",  # rts de SetTaskHandler_064b10 (+6)
+    0x00064CEC: "SetHandlerRts_064cec",  # rts de SetTaskHandler_064ce6 (+6)
+    0x00064D78: "SetHandlerRts_064d78",  # rts de SetTaskHandler_064d72 (+6)
+    0x0006504C: "SetHandlerRts_06504c",  # rts de SetTaskHandler_065046 (+6)
+    0x000650B6: "SetHandlerRts_0650b6",  # rts de SetTaskHandler_0650b0 (+6)
+    0x000650FC: "SetHandlerRts_0650fc",  # rts de SetTaskHandler_0650f6 (+6)
+    0x0006515C: "SetHandlerRts_06515c",  # rts de SetTaskHandler_065156 (+6)
+    0x0006527A: "SetHandlerRts_06527a",  # rts de SetTaskHandler_065274 (+6)
+    0x000652F2: "SetHandlerRts_0652f2",  # rts de SetTaskHandler_0652ec (+6)
+    0x00065378: "SetHandlerRts_065378",  # rts de SetTaskHandler_065372 (+6)
+    0x000653BC: "SetHandlerRts_0653bc",  # rts de SetTaskHandler_0653b6 (+6)
+    0x00065412: "SetHandlerRts_065412",  # rts de SetTaskHandler_06540c (+6)
+    0x00065468: "SetHandlerRts_065468",  # rts de SetTaskHandler_065462 (+6)
+    0x000655F2: "SetHandlerRts_0655f2",  # rts de SetTaskHandler_0655ec (+6)
+    0x00065666: "SetHandlerRts_065666",  # rts de SetTaskHandler_065660 (+6)
+    0x0006576A: "SetHandlerRts_06576a",  # rts de SetTaskHandler_065764 (+6)
+    0x00065AA2: "SetHandlerRts_065aa2",  # rts de SetTaskHandler_065a9c (+6)
+    0x00065AF2: "SetHandlerRts_065af2",  # rts de SetTaskHandler_065aec (+6)
+    # --- Wave TTTT: refs forward a huecos futuros
+    0x0006600E: "Sub_0006600E",  # hueco futuro (ref pc-rel desde esta region)
+    0x00066622: "Sub_00066622",  # hueco futuro (ref pc-rel desde esta region)
+    0x00066644: "Sub_00066644",  # hueco futuro (ref pc-rel desde esta region)
 }

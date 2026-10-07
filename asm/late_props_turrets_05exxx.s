@@ -5798,6 +5798,9 @@ LateProp_ShotB_061f9e:
         lea     0x2c3e48.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         bra.w   .L061fba                        | +00c
+        .global LateProp_ShotB_061f9e__L061fae
+LateProp_ShotB_061f9e__L061fae:
+.L061fae:
         lea     0x2c3e9c.l,a0                   | +010
         jsr     0x28cd4.l                       | +016
 .L061fba:
