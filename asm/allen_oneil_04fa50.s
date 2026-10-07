@@ -1,11 +1,79 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave QQQQ — jefe Allen O'Neil (IA, saltos, cuchillo, ametralladora,
+|  granada, bala), spawners de piezas de barrera/caseta/fortaleza, blits
+|  de torre/búnker/nido, pegamento de memory card y utilidades de nibbles
 |  Región: $04FA50..$051914  (7,396 B, 97 entradas, 36 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  97 entradas en cuatro bloques:
+|  1. $04FA58..$04FB8A — utilidades de props de misión: FixTile_Set11C1,
+|     Prop_OffscreenLeftCheck (compara +$22 con -(+$70)), blits por estado
+|     +$21 de la torre ($10/$11/$12/$01/$02), del búnker ($10/$01/$11) y del
+|     nido (por facing +$3A), con Sprite_InvokeBlit8Params y tablas $2955xx.
+|  2. $04FB8A..$050250 — 19 spawners "pieza" de la barrera, caseta y
+|     fortaleza (Wave PPPP): cada uno aloca una Prop_BlitSequence_04f1f4,
+|     copia la posición ($5DD22), fija la máscara de pieza en +$21 (bit
+|     1,2,4,8,...), tablas de blit en +$70/+$74 (+$78 = -1 fin), desplaza
+|     +$22/+$24 y aplica el sprite ($28CD4) con plantillas $2946A2/$2946CE/
+|     $2946FA/$294710/$294726/$29473C/$2946B8. Gatehouse_BlitDamaged
+|     encadena 8 blits de la caseta dañada.
+|  3. $05029C..$051618 — JEFE ALLEN O'NEIL (entidad enemiga humana grande):
+|     Entity_StepMoveWithProbe (mueve por pasos de $800 sondeando con
+|     $27BC8/$27D50 hasta chocar), Allen_Physics (suelo $280C6, gravedad
+|     -$40, caída fuera de pantalla), Allen_AcquireTarget (busca jugador
+|     $5E086/$5E0D4, valida $5E338; +$72 puntero objetivo, +$77 lado, +$79
+|     visible, +$7B cooldown), decisiones Check* (objetivo arriba/delante,
+|     borde de pantalla, salto aleatorio con RNG $5E9B6 vs +$7A, lejanía,
+|     salto alto, tocar cuchillo), Allen_CommonTick (daño recibido $2870A
+|     → sangre $4AAE0 y parpadeo $5E766/$5E770; HP +$66 con umbral de
+|     retroceso +$80/+$82 que avanza el fix de la barra de vida $296E72
+|     vía $2C30 y +$76; muerte $28758 → Allen_Death; limpieza offworld
+|     $5DD56 → $518), Allen_Init (HP por dificultad $799DE tabla $296E7A,
+|     divu 5 → tramos de barra, 4 sensores táctiles Allen_TouchSensor con
+|     +$5C = $7C..$7F), estados Spawn/Intro/Main/Turn/Taunt/FireMG*/Idle/
+|     Land/Jump*/Airborne/Knife/Death*/Stagger, armas: Allen_MuzzleFlash,
+|     Allen_SpawnBullet* (plantilla Allen_Bullet $5148C+$A4, música $10F4),
+|     Allen_ThrowGrenade (Allen_Grenade $51208+$AC con tabla de ataque
+|     $51070 y offsets de frame $51068; explota en Allen_GrenadeExplode
+|     → prio $28134, flush $13600, sprite $29E76C).
+|  4. $051618..$051914 — pegamento de memory card (abre diálogo de carga
+|     $98288 con hook de escena MemCard_LoadScene → $43562/$437DA; detecta
+|     tarjeta $9826E y lanza guardado $9840C; flags $106ED2/$10E3B6),
+|     Players_SnapshotMods/ActiveMask ($10E3A2+), Counters_AddSaturate,
+|     Player_SetIndexFromParent ($100300 → P1, $1003A0 → P2),
+|     Clear8Bytes, Nibbles_Unpack4/Pack8 (para $1081B6) y la tabla de
+|     flags por estado de jugador PlayerState_FlagTable_05188c.
+|
+|  B) CÓMO FUNCIONA
+|  Allen usa el protocolo clásico: cada estado instala +$00 y en su bucle
+|  llama AcquireTarget → Physics → anim ($28D70) → CommonTick. Allen_Main
+|  evalúa en orden los Check* y salta al estado que devuelva C=1. Las
+|  piezas de props se agrupan con máscaras de bit en +$21 para que el
+|  padre sepa qué fragmentos siguen vivos.
+|
+|  C) INTERFAZ
+|  a6 = entidad. Campos extra de Allen: +$70 en aire, +$71 suelo visto,
+|  +$72 objetivo, +$76 tramo barra, +$77 lado, +$78 retirada, +$79 visible,
+|  +$7A umbral RNG, +$7B cooldown, +$7C..+$7F sensores, +$80/+$82/+$84 HP
+|  umbrales, +$86/+$87 temporizadores. Spawners: a0 = nueva entidad.
+|
+|  D) EVIDENCIAS
+|  - Tabla de dificultad $296E7A y barra de vida de 5 tramos ⇒ jefe.
+|  - Música $10F4 al disparar, $1140 al morir, taunts $113C..$113E.
+|  - Sangre $4AAE0 (HumanDeath_SpawnBloodSplash) ⇒ enemigo humano.
+|  - $100300/$1003A0 son los bloques de entidad de P1/P2.
+|
+|  E) HIPÓTESIS / DUDAS
+|  - "Allen O'Neil" por morfología (humano grande, cuchillo+MG+granada,
+|    barra de vida, taunt); no verificado in-game. Nombres de estados
+|    inferidos de velocidades/sprites.
+|  - Cadena "METAL SLUG" en $51618..$5162C: posible resto de depuración.
+|
+|  F) ESTADO
+|  97/97 byte-exactas; 7 rangos --data (cabeceras de hitbox de 8 B,
+|  tabla de voces, tablas de ataque/plantillas). Sin C.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
