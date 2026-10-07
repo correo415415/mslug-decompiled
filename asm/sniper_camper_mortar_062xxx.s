@@ -1,11 +1,123 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave TTTT — props tardíos (cola de LateProp), artillero del coche-torreta,
+|  francotirador, soldado atrincherado (Camper), escombros de tienda,
+|  mortero, cañón, rehén (POW), patrulla, prop de escena 3 y barril
+|  (plantillas $E8000[59..63,76..85,141])
 |  Región: $062000..$066000  (15,242 B, 210 entradas, 110 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  210 entradas en diez bloques (continúa late_props_turrets_05exxx.s):
+|  1. $062008..$0620B6 — COLA DE LateProp: HitThenDie/TakeHit/HPCheck/
+|     TakeHitB (daño vía $2870A, flash $5E770, chispa LateProp_Spark/
+|     SparkHit de SSSS), JmpScheduler_0620a0 / Rts_0620a6.
+|  2. $0620B6..$06212A — TurretCar_SetHP / TurretCar_Gunner: artillero del
+|     coche-torreta (hijo spawneado desde $4CA64 en turret_car_props).
+|  3. $06212A..$062922 — Sniper_*: francotirador (Init -> Aim (Atan2 hacia el
+|     jugador) -> Fire (Shell/Muzzle/Flash) -> Flee (huye como soldado:
+|     $58F82/$58FE2) / Die; Grenade/GrenadeBurst, SmokeA/B, Spark, ChildPos);
+|     helpers Facing_SignDelta_0626b8 / SignDelta77 / Matches77 y la cola de
+|     utilidades LateProp (XPastThreshold, StepX, ClampX, StepAnim, Register
+|     ($43FAC), SpawnDebris2 ($77C7E), SpawnPair/Child/B/C/D, Sound9C, Stub).
+|  4. $06293E..$062A4E — MultiStage_Decal: calcomanía/decal del prop
+|     multietapa de props_mission_053fxx (Prop_MultiStage_054cf2 -> $6293E).
+|  5. $062A4E..$0631D0 — Camper_*: soldado atrincherado (Idle -> Watch ->
+|     Alert -> Fire/Fire2 -> Rearm; Die/Explode; Bullet/Flash/Smoke/Burst/
+|     Spark; Grenade; DropItem ($9A7CC); ToSoldier/ToSoldierFlee (convierte
+|     la entidad en soldado normal vía $4A0D4 + $5724E/$58FC2); Music ($2352);
+|     ScrollGate, RngHP, PlayerSide, SetFacing, Offset, Timer, SpawnPair...).
+|  6. $0631D0..$06361E — Tent_Debris/SmokeA/SmokeB/Spark/SparkB: escombros de
+|     la tienda de la escena 5 (S5_Tent_089160 -> $631D0; $8B844).
+|  7. $06361E..$063EC6 — Mortar_Tmpl3C (+variante $63626): mortero (Active ->
+|     Die -> Wreck; Explode; Shell/ShellB/ShellAim con RngDelay; Crew/CrewHit/
+|     CrewToSoldier ($4A0D4+$57226); HPStage; SpawnByTable; FollowParent;
+|     AnimByFacing; Points; SpawnSmoke/SpawnDebris; ToJump6A7D6 = jmp $6A7D6).
+|  8. $063EC6..$064550 — Cannon_Tmpl3E (+variante $63ED8): cañón fijo (Idle ->
+|     Acquire ($5E086) -> Fire/FireB/FireC -> Rearm; Shell/Flash; HitCheck/
+|     HitCheckB; Explode/Die; Timer; Offset; SpawnPair/B; Register).
+|  9. $064550..$064D98 — Hostage_*: rehén/POW (ResetState, SetFlags3435,
+|     Tmpl4C y 7 variantes de entrada $645F8..$64632, Init -> Walk/Pose/
+|     Kneel/Stand/Shoot -> Run/Fall/Thrown; Die/Explode/Wreck/Free; HitCheck;
+|     Counter via CountRead_065d4a/CountInc_065d7a sobre $10E276..$10E27B;
+|     Music $105D; StepAnim/B, SinCos ($13C0E), SpawnAtAngle, Assert_065d94).
+|  10. $064D98..$066000 — Patrol_* (soldado de patrulla: Idle/Walk/Rearm/Fire/
+|     Turn; ParentCheck; Die/Wreck; Grenade/Smoke/Shell/ShellB/Burst/Flash;
+|     Debris/DebrisFall/DebrisBounce; PlayerNear_065af4, AimAtPlayer_065b36,
+|     FollowParent_065bb0, Timer_065db4, SpawnTriple/Pair/PairPrio,
+|     Register0..4 $65EE8..$65F18), Scene3Prop_* (Init/Move/Aim/Rng/Clamp/
+|     Sound/Spark/Shell/ShellB; hijo de Scene3Debris_SpawnPrio4_03d72a) y
+|     Barrel_Tmpl8D_065f40 / Barrel_Idle_065fba (continúa en $066000+).
+|
+|  B) CÓMO FUNCIONA
+|  Protocolo a6 habitual: +$00 handler, +$0C padre, +$12/+$13 flags, +$20/
+|  +$21 estado y orden del padre, +$22/+$24 pos, +$28/+$2A vel, +$2E grav,
+|  +$38 prio, +$3A facing, +$3C plantilla, +$58 clase de ataque, +$66 HP,
+|  +$70.. contadores. Los enemigos humanos (Sniper, Camper, Mortar crew,
+|  Patrol) comparten el patrón "al morir o al perder la cobertura se
+|  transforman en soldado genérico": escriben el handler de soldier_*
+|  ($5724E/$57226/$58FC2/$58F82/$58FE2) tras pasar por $4A0D4. Los
+|  proyectiles (Shell/Grenade/Bullet) usan gravedad +$2E y las sondas de
+|  suelo $27CEE/$27D50/$27EBA; las chispas y humos son hijos sin colisión
+|  que terminan con $518. Patrol indexa su tabla de sprites $2C6510 con
+|  +$20 & $F; las tablas RNG $2B9816/$2B9898/$2B991A escalan con $5DCA4.
+|  Hostage lleva un contador global de rescatados en $10E276..$10E27B
+|  (flags +$34/+$35) que leen los resultados de misión.
+|
+|  C) INTERFAZ
+|  Entradas externas: plantillas $E8000[59]=$6293E, [60]=$6361E, [61]=$63626,
+|  [62]=$63EC6, [63]=$63ED8, [76]=$645A8, [77]=$645AE, [78]=$6462C,
+|  [79]=$64632, [80]=$6461C, [81]=$64622, [82]=$645F8, [83]=$645FE,
+|  [84]=$64550, [85]=$6458A, [141]=$65F40; $4CA64 (TurretCar) -> $620DA;
+|  $54DA4 (Prop_MultiStage_054cf2) -> $6293E; $89202 (S5_Tent_089160) y
+|  $8B844 -> $631D0; $3D766 (Scene3Debris_SpawnPrio4) -> $65668; $40D5E
+|  (SquadLeader_DeathDone) -> $628EA; $63D92/$69F38/$72DC8/$7456A -> $62536;
+|  $260CA/$265F8/$3E626 -> $6327C; $28EEA/$2F852 (Slug_TypeIfAir) -> $6342E.
+|  Salidas: $236E snd, $2352 música, $28CD4/$28D70 sprite/anim, $2870A/
+|  $28758 daño/HP, $283CA/$283D8 ataque, $267E2/$2783A scroll, $28134 prio,
+|  $27CEE/$27D50/$27AFC/$27C8C/$27EBA/$27A92 sondas/gravedad, $43FAC
+|  registro, $4A0D4 + soldier_* ($5724E/$57226/$58F82/$58FC2/$58FE2),
+|  $5DCA4 RNG escalado, $5DD02/$5DD22 pos padre, $5E018 Atan2, $5E086
+|  target, $5E45A padre liberado, $5E506 copia pos/prio/facing, $5E770
+|  flash, $5E7C0 snap suelo, $5E9B6/$5E9E4 RNG, $6A7D6 (jmp), $77C7E
+|  escombros, $77F6A/$77EFE explosión, $799DE dificultad, $9A7CC ítem,
+|  $13C0E sin/cos, $518 free, $4AE/$6FE alloc. Datos: $1C3xxx..$1C6xxx
+|  (tablas de offsets/anim), sprites $2C5xxx..$2C7xxx (Barrel $2C756C,
+|  caja $2C7998), $2B98xx (RNG).
+|
+|  D) EVIDENCIAS
+|  - $E8000 apunta a 16 entradas de esta región (índices en C);
+|    mission_streams_0e8524.s usa tmpl $053 (5x, slots 4/5/11/12), $054
+|    (4x) y $055 (3x) -> los rehenes son los props más spawneados aquí.
+|  - turret_car_props_04cbxx.s: TurretCar region $4CA64 spawnea $620DA
+|    (artillero); props_mission_053fxx.s: Prop_MultiStage_054cf2 -> $6293E.
+|  - scene5_airship_088axx.s: S5_Tent_089160 -> $631D0 (escombros de tienda).
+|  - Sniper_Flee/Camper_ToSoldier*/Mortar_CrewToSoldier escriben handlers
+|    de soldier (W $57xxx/$58xxx) tras $4A0D4 -> transformación en soldado.
+|  - Hostage: contadores $10E276..$10E27B y música $105D (jingle de rescate);
+|    varias aserciones trap #15 (Hostage_Assert_065d94) tras nops = macro
+|    assert del SDK SNK.
+|  - Barrel_Tmpl8D: snd $179, prio $8000, HP 1, sprite $2C756C, caja $2C7998;
+|    refs adelante Sub_00066622/Sub_00066644/Sub_0006600E (Wave UUUU).
+|  - Entity_MirrorDeltaByFacing_065D32 (12 B, preexistente) queda dentro de
+|    la región y se conserva como entrada registrada.
+|
+|  E) HIPÓTESIS / DUDAS
+|  - "Sniper", "Camper", "Patrol", "Mortar", "Cannon", "Hostage", "Barrel"
+|    son hipótesis por comportamiento (apuntado Atan2, huida como soldado,
+|    proyectil balístico, contador de rescatados, HP 1 + escombros); los
+|    sprites $2Cxxxx no se han renderizado para confirmar identidad visual.
+|  - MultiStage_Decal: se asume calcomanía/estado visual del prop multietapa;
+|    podría ser un hijo de daño.
+|  - Scene3Prop: solo se conoce su padre (Scene3Debris_SpawnPrio4_03d72a).
+|  - Las 7 variantes de entrada Hostage ($645F8..$64632) difieren solo en la
+|    lea del sprite/pose inicial; nombres por índice de plantilla.
+|  - Mortar_ToJump6A7D6: jmp a código aún sin cubrir ($6A7D6, Wave UUUU+).
+|
+|  F) ESTADO
+|  210/210 byte-exactas; sin rangos --data (docs/waves/tttt_args.txt).
+|  Nombres en docs/waves/tttt_names.txt. Pendiente: $066000..$083000
+|  (Barrel continúa, $6A7D6), identidad de sprites.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
