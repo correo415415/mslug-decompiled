@@ -17,6 +17,16 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave SSSS — 221 entries (15,144 B, 10 data ranges): `$05E000..$062000`
+  (`late_props_turrets_05exxx.s`): late-runtime shared helpers (`Atan2_Angle256`,
+  `Target_AcquireNearestPlayer`, `Players_AliveMask`, `Player_GetEntity`,
+  `Parent_Copy*`, `Rng_Seed`/`Rng_Mask`, `Hit_ClassifyAttack`, hit-sound
+  tables, `Fix_DrawMessageRow` + 30 message tile rows), residual collision
+  debug task (`DebugColl_*`, DIP bit1), tower soldier / hut occupant / hut
+  door (children of `Prop_TowerBase`/`Prop_Hut`), generic breakables + shards,
+  signs, homing marker targets, item props, obstacles, crates, aiming turret
+  (`AimTurret_*`) and late props — 42 `$E8000` Mission-VM templates.
+  `gen_asm_region.py`: normalize `exg.l` → `exg` (GAS rejects the suffix).
 - Wave RRRR — 126 entries (12,874 B, 5 data ranges): `$03DA98..$040EF2`
   (`results_pow_squadleader_03daxx.s`): mission-results screen (`Results_*`:
   per-player columns Score→Bonus→Total→Winner, rescued-POW roster with

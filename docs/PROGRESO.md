@@ -11,10 +11,35 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 5925/5925 funciones
-BYTES   : 360,238/360,238 (registrados)
-ROM     : 360,238/2,097,152  (17.1775%)
+MATCHED : 6146/6146 funciones
+BYTES   : 375,382/375,382 (registrados)
+ROM     : 375,382/2,097,152  (17.8996%)
 ```
+
+> **Wave SSSS** (221 entradas, 15 144 B; 10 `--data`) — `$05E000..$062000`
+> en `late_props_turrets_05exxx.s`. Trigesimosexta wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/ssss_names.txt`, args en
+> `docs/waves/ssss_args.txt`. Fix de herramienta: `exg.l` → `exg`.
+>
+> * **Helpers de runtime tardío** (`$5E000..$5EB98`, >200 call-sites):
+>   `Atan2_Angle256_05e018`, `Target_AcquireNearestPlayer_05e086` (caja
+>   opcional, P1/P2 por máscara de vivos y |dx|), `Players_AliveMask`,
+>   `Player_GetEntity_05e3a2` (handler $FFFFFFFF/$52A/$400/$2AE3E = libre),
+>   `Parent_CopyPos*`, `Dist_Approx`, `Rng_Seed_05e998` (LCG 32 words en
+>   `$10E230`) / `Rng_Mask_05ea1c`, `Hit_ClassifyAttack_05e6a4` (34 clases,
+>   `trap #15` = assert), `HitSoundTable`, `Hud_WriteTimerCounters`,
+>   `Fix_DrawMessageRow_05eae4` (jmp desde `$150E`, 30 filas en `$5EB98`).
+> * **DebugColl_\*** (`$5EFCA..$5F384`): tarea de depuración de colisión
+>   (DIP `$100001` bit1), dibuja el nibble del byte `$43F02` en pantalla.
+> * **TowerSoldier_\*** / **HutOccupant_\*** / **HutDoor_\*** (`$5F384..
+>   $5FD78`): hijos de `Prop_TowerBase_04dce6` / `Prop_Hut_04d8f2`; el
+>   ocupante huye como soldado `$58F82` si el padre muere.
+> * **Breakable_\*** (tmpl 31..39), **Sign_\*** (40..49), **ItemProp**
+>   (276..280), **Obstacle_\*** (110/111/094/095), **Crate_\*** (122..124),
+>   **AimTurret_\*** (142: Atan2 → `$5E23A`, `$13C0E`, escombros `$77C7E`,
+>   ítem `$9A7CC`), **GroundNest** (50..52), **LateProp_\*** (`$61AA2..`,
+>   helpers en `$062000+` pendientes), `HomingMarker_Targets_060576`.
+> * Matcher 6146/6146, 375,382 B (17.90 %); código real 65.6 %.
 
 > **Wave RRRR** (126 entradas, 12 874 B; 5 `--data`) — `$03DA98..$040EF2`
 > en `results_pow_squadleader_03daxx.s`. Trigesimoquinta wave de
