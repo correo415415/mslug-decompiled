@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-07  (Wave UUUU cerrada)
+**Ultimo update:** 2026-10-07  (Wave VVVV cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-UUUU) | Que mide realmente |
+| Metrica | Cifra (post-VVVV) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **19.36 %**  (406,112 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **71.7 %**  (362,304 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **20.11 %**  (421,728 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **74.7 %**  (377,920 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -44,7 +44,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
 | Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 200,800 B | 85.8 % |
-| Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 71,096 B | 46.9 % |
+| Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 86,712 B | 57.2 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
 | Indice de templates $E8000 + streams de mision | `$0E8000..$0F2FFC` | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 362,304 B | 71.7 % |
+| CODE | 505,608 B | 377,920 B | 74.7 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 700 huecos, 143,304 B
+Huecos pendientes en zonas CODE: 630 huecos, 127,688 B
 
 ### Notas por zona
 
@@ -112,7 +112,11 @@ Huecos pendientes en zonas CODE: 700 huecos, 143,304 B
   `Slug_Jump*`, `Slug_Fall*`, `Slug_Hit*`, `Slug_Death*`), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
-  siguiente por determinar (ver huecos). Wave UUUU (`barrel_paratrooper_shield_tank_066xxx.s`,
+  siguiente por determinar (ver huecos). Wave VVVV (`bazooka_rocketvehicle_walker_06axxx.s`,
+  `$06A000..$06DFE8`): soldado bazooka (3 variantes + aliado del escuadrón de
+  rescate, arma hija con cohete), vehículo lanzacohetes sobre eslabones Chain3
+  (29 tablas de poses por fase de rueda, jinete), enemigo Walker (9 plantillas),
+  fragmentos y chorro de fuego (19 plantillas `$E8000`). Wave UUUU (`barrel_paratrooper_shield_tank_066xxx.s`,
   `$066000..$06A000`): barril flotante / mina acuática, spawner de
   paracaidistas, soldado con escudo (2 variantes) + escudo, puerta y
   dirigible de escena 5, tanque enemigo (conductor, torreta, misil guiado)
@@ -251,6 +255,8 @@ Huecos pendientes en zonas CODE: 700 huecos, 143,304 B
   **Francotirador, soldado atrincherado, mortero, cañón, rehén, patrulla,
   barril y escombros de tienda** (Wave TTTT). **Barril flotante, paracaidistas,
   soldado con escudo, puerta/dirigible S5, tanque enemigo** (Wave UUUU).
+  **Soldado bazooka (+aliado), vehículo lanzacohetes, Walker, fragmentos y
+  chorro de fuego** (Wave VVVV).
 
 ### Cosas que faltan (por tamano de codigo pendiente)
 

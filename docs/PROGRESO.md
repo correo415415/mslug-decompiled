@@ -11,10 +11,31 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 6536/6536 funciones
-BYTES   : 406,112/406,112 (registrados)
-ROM     : 406,112/2,097,152  (19.3649%)
+MATCHED : 6715/6715 funciones
+BYTES   : 421,728/421,728 (registrados)
+ROM     : 421,728/2,097,152  (20.1096%)
 ```
+
+> **Wave VVVV** (179 entradas, 15 616 B; 29 `--data`) — `$06A000..$06DFE8`
+> en `bazooka_rocketvehicle_walker_06axxx.s`. Trigesimonovena wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/vvvv_names.txt`, args en
+> `docs/waves/vvvv_args.txt` (29 tablas inline de 4 punteros de sprite).
+>
+> * **Tank_\*** cola de UUUU (ataque por variante, snd `$E/$1A`).
+> * **Bazooka_\*** / **BazookaB_\*** / **BazookaCrew_\*** (tmpl 86/87,
+>   90/91, 92/93 ← `Mortar_ToJump6A7D6`): Idle/Walk/Turn/Alert/Attack/Die
+>   con arma hija **BazookaWeapon_\*** (espejo de estado `$2CA644`,
+>   MuzzleFlash, Rocket `$2CA4B0`, impacto `$1025`).
+> * **AllyBazooka_\*** (tmpl 64/65, lo crea `TaskHandler_0849ba` del
+>   escuadrón de rescate): avanza a `$110`, ráfagas, muere con el padre.
+> * **RocketVehicle_\*** (tmpl 88/89): eslabones Chain3 (`$30696/$30704/
+>   $3076A`), fase de rueda `+$8A→+$97` → 29 tablas de poses, Rider hijo,
+>   Rocket/MuzzleFlash, Die/Wreck/Corpse/DetachLinks.
+> * **Walker_\*** (tmpl 66..74): Init/Approach/Attack(ráfagas)/Die/Explode
+>   (16 × `Frag_Scatter` vía `Entity_SpawnLoop16_06E412`).
+> * **Frag_\*** / **FireBurst_\***: Shell/Debris(`$6DBD4`)/Smoke/Spark/
+>   Scatter (sin/cos `$2C072C/$2C07AC`), chorro `$6DF32` (→ WWWW).
+> * Matcher 6715/6715, 421,728 B (20.11 %); código real 74.7 %.
 
 > **Wave UUUU** (180 entradas, 15 488 B; 1 `--data`) — `$066000..$06A000`
 > en `barrel_paratrooper_shield_tank_066xxx.s`. Trigesimoctava wave de

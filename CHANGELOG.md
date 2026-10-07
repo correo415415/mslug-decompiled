@@ -17,6 +17,14 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave VVVV — 179 entries (15,616 B, 29 data ranges): `$06A000..$06DFE8`
+  (`bazooka_rocketvehicle_walker_06axxx.s`): tank tail, bazooka soldier
+  (tmpl 86/87, 90/91, crew 92/93 entered from the mortar, allied bazooka
+  64/65 spawned by the rescue squad) with a child weapon entity (state
+  mirror, muzzle flash, rocket), rocket vehicle (tmpl 88/89) riding three
+  Chain3 links with 29 inline 4-pointer pose tables per wheel phase and a
+  rider child, Walker enemy (tmpl 66..74, burst attack, 16 Frag_Scatter on
+  death), Frag_*/FireBurst_* particles (sin/cos scatter, `$108E` jingle).
 - Wave UUUU — 180 entries (15,488 B, 1 data range): `$066000..$06A000`
   (`barrel_paratrooper_shield_tank_066xxx.s`): floating barrel / sea mine
   (tail of `Barrel_Tmpl8D`), paratrooper spawner + paratrooper (anim script
