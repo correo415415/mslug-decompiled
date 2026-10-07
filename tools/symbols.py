@@ -420,29 +420,29 @@ SYMBOLS = {
     # 0x00038CEE promovido a TaskHandler_038cee en registry (Wave WWW).
     # 0x00038E4A promovido a TaskHandler_038e4a en registry (Wave WWW).
     # 0x000391AA promovido a TaskHandler_0391aa en registry (Wave WWW).
-    0x0003DC16: "TaskHandler_03dc16",
-    0x0003DC2C: "TaskHandler_03dc2c",
-    0x0003DC74: "TaskHandler_03dc74",
-    0x0003DEA8: "TaskHandler_03dea8",
-    0x0003DEBE: "TaskHandler_03debe",
-    0x0003DEE2: "TaskHandler_03dee2",
-    0x0003DF32: "TaskHandler_03df32",
+    # 0x0003DC16 promovido a TaskHandler_03dc16 en registry (Wave RRRR).
+    # 0x0003DC2C promovido a TaskHandler_03dc2c en registry (Wave RRRR).
+    # 0x0003DC74 promovido a TaskHandler_03dc74 en registry (Wave RRRR).
+    # 0x0003DEA8 promovido a TaskHandler_03dea8 en registry (Wave RRRR).
+    # 0x0003DEBE promovido a TaskHandler_03debe en registry (Wave RRRR).
+    # 0x0003DEE2 promovido a TaskHandler_03dee2 en registry (Wave RRRR).
+    # 0x0003DF32 promovido a TaskHandler_03df32 en registry (Wave RRRR).
     0x0003DF54: "TaskHandler_03df54",
-    0x0003E084: "TaskHandler_03e084",
-    0x0003E4E6: "TaskHandler_03e4e6",
+    # 0x0003E084 promovido a TaskHandler_03e084 en registry (Wave RRRR).
+    # 0x0003E4E6 promovido a TaskHandler_03e4e6 en registry (Wave RRRR).
     0x0003E50C: "TaskHandler_03e50c",
-    0x0003EAA2: "TaskHandler_03eaa2",
+    # 0x0003EAA2 promovido a TaskHandler_03eaa2 en registry (Wave RRRR).
     0x0003EB82: "TaskHandler_03eb82",
-    0x0003EBF8: "TaskHandler_03ebf8",
+    # 0x0003EBF8 promovido a TaskHandler_03ebf8 en registry (Wave RRRR).
     0x0003EC16: "TaskHandler_03ec16",
-    0x0003EC8C: "TaskHandler_03ec8c",
+    # 0x0003EC8C promovido a TaskHandler_03ec8c en registry (Wave RRRR).
     0x0003ECAA: "TaskHandler_03ecaa",
-    0x0003FCC0: "TaskHandler_03fcc0",
-    0x0003FDD0: "TaskHandler_03fdd0",
-    0x0003FE66: "TaskHandler_03fe66",
-    0x0004049C: "TaskHandler_04049c",
-    0x00040D18: "TaskHandler_040d18",
-    0x00040E54: "TaskHandler_040e54",
+    # 0x0003FCC0 promovido a TaskHandler_03fcc0 en registry (Wave RRRR).
+    # 0x0003FDD0 promovido a TaskHandler_03fdd0 en registry (Wave RRRR).
+    # 0x0003FE66 promovido a TaskHandler_03fe66 en registry (Wave RRRR).
+    # 0x0004049C promovido a TaskHandler_04049c en registry (Wave RRRR).
+    # 0x00040D18 promovido a TaskHandler_040d18 en registry (Wave RRRR).
+    # 0x00040E54 promovido a TaskHandler_040e54 en registry (Wave RRRR).
     0x00040EF2: "TaskHandler_040ef2",
     0x0004155A: "TaskHandler_04155a",
     0x0004157E: "TaskHandler_04157e",
@@ -879,9 +879,9 @@ SYMBOLS = {
     0x00033522: "PcThunkTarget_033522",
     # 0x00036DCA promovido a Player_Knockback_AirCtrl_036dca en registry (Wave VVV).
     # 0x00039416 promovido a PcThunkTarget_039416 en registry (Wave WWW).
-    0x0003E7A6: "PcThunkTarget_03e7a6",
-    0x0003E84C: "PcThunkTarget_03e84c",
-    0x0003EE48: "JmpTarget_03ee48",
+    # 0x0003E7A6 promovido a PcThunkTarget_03e7a6 en registry (Wave RRRR).
+    # 0x0003E84C promovido a PcThunkTarget_03e84c en registry (Wave RRRR).
+    # 0x0003EE48 promovido a JmpTarget_03ee48 en registry (Wave RRRR).
     # 0x00041C1A: promovido a Squad_ComputeTargetPos_041C1A (Wave TT)
     # 0x00041DDC: promovido a Squad_BobYWide_041DDC (Wave TT)
     # 0x00041E02: promovido a Squad_BobYNarrow_041E02 (Wave TT)
@@ -1117,7 +1117,7 @@ SYMBOLS = {
                                              # TaskSlots_BootInstall_000A7C (Wave SS#5).
     0x00002352: "InputGuardCall219c",
     0x00001C44: "TaskHandler_001C44",
-    0x0003DBC8: "TaskHandler_0003DBC8",
+    # 0x0003DBC8 promovido a TaskHandler_0003DBC8 en registry (Wave RRRR).
     0x00046608: "TaskHandler_00046608",
     0x00000F76: "PcThunkTarget_000F76",
     0x0005D288: "Sub_0005D288",
@@ -1157,7 +1157,7 @@ SYMBOLS = {
     0x00051ABE: "Entity_AllocAndInit_051ABE",
     0x0007707C: "Subsystem_HudInit_07707C",
     # 0x0008F158 promovido a Rings_InitAll_08f158 en registry (Wave OOO).
-    0x0003EE3A: "Subsystem_ScoresInit_03EE3A",
+    # 0x0003EE3A promovido a Subsystem_ScoresInit_03EE3A en registry (Wave RRRR).
     # 0x000997B8 promovido a Trail_RingReset_0997b8 en registry (Wave QQQ).
     0x0004CB5C: "Subsystem_MiscInit_04CB5C",
     0x00043D6C: "Reset4CameraLongs_043D6C",
@@ -1593,7 +1593,7 @@ SYMBOLS = {
     # --- Wave YYY: RTS internos de islas C
     0x0003DA9E: "JsrAbsRts_03da9e",  # rts de JsrAbsThunk_03da98 (+6)
     # --- Wave YYY: refs forward a huecos futuros
-    0x0003DAA8: "Sub_0003DAA8",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0003DAA8 promovido a Sub_0003DAA8 en registry (Wave RRRR).
     # --- Wave ZZZ: RTS internos de islas C
     0x000301EE: "JsrAbsRts_0301ee",  # rts de JsrAbsThunk_0301e8 (+6)
     0x00030390: "JsrAbsRts_030390",  # rts de JsrAbsThunk_03038a (+6)
@@ -1823,4 +1823,17 @@ SYMBOLS = {
     0x0004FB72: "JsrPcRts_04fb72",  # rts de JsrPcThunk_04fb6e (+4)
     0x00051390: "SetHandlerRts_051390",  # rts de SetTaskHandler_05138a (+6)
     0x00051694: "JsrAbsRts_051694",  # rts de JsrAbsThunk_05168e (+6)
+    # --- Wave RRRR: RTS internos de islas C
+    0x0003DC2A: "SetHandlerRts_03dc2a",  # rts de SetTaskHandler_03dc24 (+6)
+    0x0003DC72: "SetHandlerRts_03dc72",  # rts de SetTaskHandler_03dc6c (+6)
+    0x0003DEBC: "SetHandlerRts_03debc",  # rts de SetTaskHandler_03deb6 (+6)
+    0x0003DF30: "SetHandlerRts_03df30",  # rts de SetTaskHandler_03df2a (+6)
+    0x0003DF52: "SetHandlerRts_03df52",  # rts de SetTaskHandler_03df4c (+6)
+    0x0003E6D8: "JsrPcRts_03e6d8",  # rts de JsrPcThunk_03e6d4 (+4)
+    0x0003E7BE: "JsrPcRts_03e7be",  # rts de JsrPcThunk_03e7ba (+4)
+    0x0003FF12: "JsrAbsRts_03ff12",  # rts de JsrAbsThunk_03ff0c (+6)
+    0x0004049A: "SetHandlerRts_04049a",  # rts de SetTaskHandler_040494 (+6)
+    0x00040D16: "SetHandlerRts_040d16",  # rts de SetTaskHandler_040d10 (+6)
+    0x00040E52: "SetHandlerRts_040e52",  # rts de SetTaskHandler_040e4c (+6)
+    0x00040EB8: "SetHandlerRts_040eb8",  # rts de SetTaskHandler_040eb2 (+6)
 }
