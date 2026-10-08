@@ -1,11 +1,124 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave YYYY — hijos del prop guionizado, fragmentos, plataformas, FX de
+|  cañón, explosiones/humo, destructibles, PathScript VM, autodemo y
+|  tripulación de vehículos
 |  Región: $076000..$07A000  (15,600 B, 251 entradas, 67 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  ---------
+|  Región de 15.6 KB de código de "efectos y utilidades de escena" que
+|  cierra el hueco entre el prop guionizado de misión ($075100) y el
+|  banner de misión ($07A970). Diez módulos independientes:
+|   1. $076000..$076D16 — hijos de ScriptedProp (tmpl 151): muros/torres/
+|      puertas (Wall/Tower/Door con variantes B) que copian +$14/+$16 del
+|      padre, parpadean con Child_Flash ($75F44) y degradan el sprite
+|      cuando HP padre +$7E < +$66; Window/Roof/Gate/Base (spawneados por
+|      Tmpl97+$3A..+$66) caen al activarse +$76..+$7B del padre y lanzan
+|      debris (Entity_InstallHandlerAndCopyXf + Sprites_07466e). Cb_Spawn*
+|      son callbacks `0800 <ptr>` del sprite-script de $75654/$75B50.
+|   2. $076D16..$076FCE — Frag_*: fragmento balístico genérico (música
+|      $10EA, snd $1E1..$1E3, 3 sprites de $23A394) con velocidad polar
+|      por VelFromScale (divu 65536/escala) hacia el jugador más cercano o
+|      aleatoria; hijo de animación Child_Run sigue +$14 del padre.
+|   3. $076FCE..$077224 — Platform_*: dos listas de 8 plataformas de 6 B
+|      (x, y, w, id) en $10E27C/$10E2AE (una por jugador, bit0 $106F28);
+|      Register añade (+$30 = cuenta×6), FindNearestX busca la más próxima
+|      bajo los pies, ProbeUnderFeet/ProbeNearest devuelven id en d0 (−1
+|      si ninguna) y SnapToId ajusta +$28 para aterrizar. Llamado por
+|      Pow_Walk ($3FFBC), Soldier_ProbeWalkEdge ($57002) y scene VM.
+|   4. $077224..$0775AC — MovingPlatform_Tmpl143 (+$70/+$72 = pos mundo,
+|      +$74 ancho de +$98, +$75 id incremental $10E2E0) y BridgePlank:
+|      7 spawners (tabla $96F20 de escena) que leen registros de 40 B en
+|      $7730A.. (x,y en /16 → Coord_ScreenToLocal) y alinean tablones.
+|   5. $0775AC..$077C98 — MuzzleFx_*: fogonazo/humo de cañón hijo de un
+|      vehículo (slug, tanque, torreta, Proj_Shell): Init* eligen 4 tablas
+|      de sprites $2DCA..; Attach/Track/Flash siguen +$22/+$24 del padre y
+|      su ángulo (+$72 clase, +$88 ángulo, +$73 cambio) leído con $27FAC;
+|      Shot* son el proyectil hijo; SceneGate solo vive en escenas 0/9 y
+|      SndByScene usa $138 en escena 5.
+|   6. $077C98..$077E10 — Spawner_Handler: handler literal instalado por
+|      Entity_InstallHandlerAndCopyXf; interpreta registros (+0 tipo, +1
+|      ciclos, +2 repeticiones, +4/+8 offset, +6/+A rango rand, +D flag
+|      tabla, +E puntero/tabla de handlers) y spawnea hijos con $6FE.
+|   7. $077E10..$078840 — Explosion_*: 17 variantes directas (sprite
+|      $2DD..., anim $2DF1F2.., snd $4/$D/$6C/$82/$12D/$145/$16C) + 32
+|      variantes en tabla $78218 (stride 30 B, usadas por scripts de
+|      misión $1980xx/$1E9Bxx/$1EDxxx) + Debris_Arc (balística rand).
+|      Todas comparten el núcleo FireFront+$30: RandFlipFacing, anim hasta
+|      fin (C=1 → $518). Explosion_Std ($77EFE) es la más llamada.
+|   8. $078840..$078F6E — Smoke_* (7 variantes) y Breakable_Tmpl23..26
+|      (cajas/barriles E8000 23-26, snd $1E, +$86 variante, bit0 +$3A
+|      espejo): al destruirse (Destroyed) recorren FallPath ($78BE0, 33
+|      pares dx/dy) y Wreck_SpawnSoldier libera un soldado (Leap/JumpIn).
+|   9. $078F6E..$079250 — PathScript VM: intérprete de 11 opcodes sobre
+|      cursor +$90(a6) (op0 mover dist, 1 jump, 2 call, 3 música, 4/5/6
+|      set byte/word/long en (a6,d1) con assert d1<$A0 → trap #15, 7 set
+|      ángulo +$34, 8 repeat, 9 mover longitud acumulada +$94, A arco)
+|      e IntegratePolar (sin/cos $2C072C/$2C07AC, subpíxel +$26/+$27).
+|      Lo usan gunship, M5Tank y POW ($3FE5A).
+|  10. $079250..$079A6C — AutoDemo_*: tarea del attract (instalada por
+|      MissionDriver_Init) que inyecta entradas sintéticas en $10E2E3..
+|      $10E2EC (pad P1/P2) según nivel $10E39C (1..4, cada script fuerza
+|      dirección/salto); DebugWarpKeys (A+B+C en $10E200) teleporta al
+|      jugador y RecordBest guarda el máximo de $106E92.
+|  11. $079A6C..$07A000 — Crew_Tmpl125..128: tripulantes que saltan de un
+|      vehículo destruido (Jump→Land→Flee→Free, variante B con snd $1D5 y
+|      sprites $29C244), Hatch* marcan bit +$72 en +$70 del padre;
+|      Tmpl127/128 (Gunner/Driver) spawnean 3 tripulantes y heredan +$20.
+|
+|  B) CÓMO FUNCIONA
+|  ----------------
+|  Todas las tareas usan el patrón `lea next(pc),a1; move.l a1,(a6)` para
+|  avanzar de estado y `jsr $28D70` (anim) con C=1 al terminar; los
+|  "RetGate" (`cmp.b $10(a1),d0 ; bcs`) comparan prioridad con el padre.
+|  PathScript: d5 = +$36 (velocidad) se consume por op (OpMoveLen resta
+|  distancia acumulada en +$94.l formato 8.8 ×256); OpArc suma +$1(a0) al
+|  ángulo hasta igualar +$2(a0). Platform_FindNearestX usa smi/eor/sub
+|  para |dx| sin salto (idiom de abs) y devuelve d5=−1 si nada.
+|  Explosion_VarTbl es una tabla de código: cada entrada de 30 B carga
+|  sprite+anim y hace `bra.w` al núcleo con d1 = snd (10/11).
+|
+|  C) INTERFAZ
+|  -----------
+|   Entradas E8000: 23..26 $78C98/$78C78/$78CA2/$78C88, 125 $79A6C,
+|   126 $79C8C, 127 $79EB8, 128 $79EC2, 143 $77224.
+|   Externas más llamadas: Explosion_Std $77EFE (9), Explosion_FlashLoud
+|   $7808A (6), Explosion_FireLoud $78066, Smoke_Pair20 $78890, MuzzleFx_
+|   InitE $7773E (slug/tanques), Platform_ProbeUnderFeet $770CC, Path-
+|   Script_StepCtx $78F8A, Spawner_Handler $77C98, Crew_Hatch $79B6E
+|   (desde $7EB84, hueco futuro) y Frag_Launch $76E10 (script de $749E8).
+|   Forward: Sub_0007A19E (hijo extra de Crew_Tmpl127/128).
+|
+|  D) EVIDENCIAS
+|  -------------
+|   - $78FC0: 16 punteros long a los 11 opcodes (+5 rellenos a $79000 =
+|     trap #15); assert duplicado con `nop;nop;cmpi;nop;trap` = macro de
+|     depuración SNK que sobrevive en ROM.
+|   - $78BE0..$78C64: 33 pares (dx,dy) con dy creciente −8..−$79 y vuelta:
+|     trayectoria de caída pre-calculada (cmpa.l #$78C64 marca el fin).
+|   - $772A8: 24 punteros a Explosion_Var01..06 + 7 registros de 40 B con
+|     $106F6C/$298244 (scroll y sprite base de tablones).
+|   - $2DF442: tabla de 5 handlers por nivel de autodemo (−1 = ninguno).
+|
+|  E) DUDAS / HIPÓTESIS
+|  --------------------
+|   - El nombre "BridgePlank" asume que los 7 registros con offsets X
+|     crecientes de $20 (puente de misión 1 a $96F20) son tablones; podría
+|     ser otro decorado segmentado.
+|   - Explosion_Var01..32 se nombran por índice; el mapeo semántico
+|     (agua, barro, chispas...) requiere ver los sprites $2DDxxx.
+|   - Platform_ClearListByScroll limpia por jugador según bit0 $106F28;
+|     el significado exacto de ese bit (cámara dividida?) no está confirmado.
+|
+|  F) RELACIÓN CON OTRAS WAVES
+|  ---------------------------
+|   XXXX (ScriptedProp_Tmpl97/Sprites/SpriteTable), T (Entity_Install-
+|   HandlerAndCopyXf $77C7E, dentro de esta región), V (Tbl_Decode2D
+|   $799DE, Entity_CheckBoxOverlapWithSelector $798AC), CCC (Squad_Track-
+|   Arc/LeaderDeadGate usados por Crew), late_props_turrets (Breakable_
+|   Tmpl23/24 en $060050/$06013C comparten familia con Tmpl23..26 aquí).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
