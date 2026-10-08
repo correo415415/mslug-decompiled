@@ -17,6 +17,18 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave ZZZZ — 192 entries (18,154 B, 1 data range, 6 forced entries):
+  `$07A002..$083000` (`boss2_crab_carrier_soundtest_07axxx.s`): Crew_Hostage/
+  Crew_Captor (extra children of Crew_Tmpl127/128), SOUND TEST service menu
+  (ASCII strings as data, 4 two-digit columns, pads $10E203/$10E209/$10E20A,
+  driver $2152/$219C), M2Boss tmpl 132 (body, pendular arm, turret with
+  Atan2 aiming, shell + trail/flash/spark, side smoke, debris, 9+9 wreck/burst
+  spawn patterns, 7 LeaSprite thunks), Crab tmpl 138..140 (two claws, three
+  legs with detach, shards, charge/pause/retreat, patrol variant), Carrier
+  tmpl 129..131 (3 hull parts with damage rank, cockpit eject, hatch, cannon,
+  3-slot trooper spawner, troopers, roof gunner, side rider). 27 renames,
+  10 promoted mid-labels in squad_deploy_module. Zone `$05E000..$083000` now
+  100 %; real code 87.6 %.
 - Wave YYYY — 251 entries (15,600 B, 11 data ranges, 76 forced entries):
   `$076000..$07A000` (`props_fx_explosions_platforms_crew_076xxx.s`):
   ScriptedProp children (walls/towers/doors/window/roof/gate/base), generic

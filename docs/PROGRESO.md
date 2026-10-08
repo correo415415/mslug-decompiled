@@ -11,11 +11,22 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 7364/7364 funciones
-BYTES   : 468,412/468,412 (registrados)
-ROM     : 468,412/2,097,152  (22.3356%)
+MATCHED : 7556/7556 funciones
+BYTES   : 486,568/486,568 (registrados)
+ROM     : 486,568/2,097,152  (23.2014%)
 ```
 
+> **Wave ZZZZ** (192 entradas, 18 154 B; 1 `--data`, 6 `--entry`) — `$07A002..$083000`
+> en `boss2_crab_carrier_soundtest_07axxx.s`. Cuadragésimo tercera wave.
+> Nombres en `docs/waves/zzzz_names.txt`, args en `docs/waves/zzzz_args.txt`
+> (strings del sound test `$7A7E8..$7A954`; entradas forzadas por plantillas
+> $E8000 y refs absolutas externas). Módulos: Crew_Hostage_*/Crew_Captor_*,
+> SoundTest_Init/Run, M2Boss_* (tmpl 132: Body/Arm/Turret/Shell/Smoke/Debris/
+> Wreck/Burst), Crab_* (tmpl 138..140: Claw/Leg/Shard/Patrol), Carrier_* (tmpl
+> 129..131: Hull/Cockpit/Mark/Hatch/Cannon/Spawner/Trooper/Gunner/Rider). 27
+> renombres; 10 labels promovidos en squad_deploy_module. Código real 87.6 %;
+> zona `$05E000..$083000` al 100 %. Siguiente: huecos de `$083000..$09C608`.
+>
 > **Wave YYYY** (251 entradas, 15 600 B; 11 `--data`, 76 `--entry`) — `$076000..$07A000`
 > en `props_fx_explosions_platforms_crew_076xxx.s`. Cuadragésimo segunda wave.
 > Nombres en `docs/waves/yyyy_names.txt`, args en `docs/waves/yyyy_args.txt`
