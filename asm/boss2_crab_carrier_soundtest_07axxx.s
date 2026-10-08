@@ -1,11 +1,153 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave ZZZZ — jefe M2, cangrejo mecánico, transporte blindado, sound test
+|  y rehén/captor de la tripulación
 |  Región: $07A002..$083000  (18,154 B, 192 entradas, 125 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Cinco bloques independientes que rellenan los 125 huecos entre las
+|  islas C (SetTaskHandler_*/SetXN_*/ClearXN_*/JmpToScheduler_*) y los
+|  módulos ya cerrados banner_mission_07a970.s, squad_deploy_module_07fbxx.s,
+|  squad_death_handlers_0807xx.s, para_squad_module_0818xx.s y
+|  para_squad_helpers_082cxx.s:
+|   1. $07A00A..$07A456 — Crew_Hostage_*/Crew_Captor_*: hijos extra de
+|      Crew_Tmpl127/128 (props_fx_..._076xxx.s). Crew_Hostage_Init_07a19e
+|      (snd $2E) es el tercer tripulante; el "captor" vigila (+$72 del padre
+|      = 1/2 → burla Taunt), marca al abuelo (+$0C→+$0C) con +$21=1/2 y a
+|      su muerte (Crew_Captor_Death: música $109F, Explosion_Fire $77F6A)
+|      pone +$80=$FF. Crew_Captor_PickRandCmd elige un word aleatorio de
+|      $2DF4EA para +$72 del padre; Crew_Captor_ToHut salta al handler
+|      HutOccupant_Init_05fa00. El rehén huye vía $58FC2 cuando el padre
+|      muere y se desvanece (FadeOut: +$59=$14, 20 ticks) o espera fuera
+|      de pantalla (caja $2DF594/$2DF59C con $5DD5C).
+|   2. $07A456..$07A954 — SOUND TEST (menú de servicio): SoundTest_Init
+|      imprime las cadenas ASCII SoundTest_Strings_07a7e8 ("SOUND TEST",
+|      "1P JOYSTICK", "PUSH A-CSL CHANGE"...) con $5DAD8 en VRAM $7072/
+|      $72D2/$71E8, crea dos cursores Heading16Sprite_Handler_0433BE y
+|      entra en SoundTest_Run: 4 columnas de 2 dígitos (+$70..+$76, rango
+|      $20..$FF) con cursor +$80 (0..3), pads $10E203/$10E209/$10E20A
+|      (↑↓ ±1, ←→ ±$10 con wrap, A/B/C/D envían el código al driver
+|      $219C/$2152 con offset por página $7A7F4[+$78..+$7E]); los dígitos
+|      se pintan con Sprite_HexFormat4_05D6C2 en $724A..$7250 y el texto
+|      del cursor desde la tabla de 4 punteros $7A914.
+|   3. $07BA7C..$07CEE6 — M2Boss_* (plantilla $E8000[132], misión 2,
+|      pos (2655,390); también en el stream de demo): jefe de la misión 2.
+|      M2Boss_Tmpl132 suena $34, coloca el cuerpo con
+|      Viewport_CoordToScreen_096A5A, espera a que el scroll pase $2BCF52
+|      (WaitScroll) y hace la intro con música $28 (IntroAnim). Body
+|      (música $2A, HP tabla 2D $2BCF54 por dificultad) crea el brazo
+|      (Arm_Swing*: ángulo +$72 con aceleración +$74 clamp $180, 20 golpes
+|      de pared alternan Left/Right/Far; Arm_PosFromAngle lee la curva
+|      $2DF8A4) y la torreta (Turret_Init: HP 2D $2BCF54, AimAtPlayer con
+|      Players_AliveMask_05e1aa + Target_DeltaThenAtan2_05e070 y 7 sectores
+|      $2DF818; Recoil $2DF86C; DeathSwing/DeathFall con snd $102D/$1032/
+|      $1033/$23; Destroyed monta $2E0124/$2E0136 y marca +$20=$FF del
+|      padre, $10A2D1=1). Shell_*: proyectil (snd $122, trayectoria 2D
+|      $2BD058 + física $13C0E) con estela, destello, chispas y 5 humos
+|      Smoke_* ($77FD6) al impactar (snd $1021). Smoke_Init/SmokePuff_*:
+|      vapor lateral (snd $D, sprite $2DFE06) con cadencias $2DF802 según
+|      HP/10. Debris_Init: fragmentos con ángulo/velocidad aleatorios
+|      ($2C072C/$2C07AC). Wreck_Spawn0..8 / Burst_Spawn0..8: 9+9 patrones
+|      de piezas ($2DF73E..$2DF798 via $77C7E) y de hitbox de explosión
+|      (Burst_HitboxA/B/C → $2E001E/$2E0072/$2E00C6, snd $122, $F000).
+|      LeaSprite0..6: a2 ← $29856C+$14*n (saltan a SdsRts_07cede).
+|   4. $07CEE6..$07DFA8 — Crab_* (plantillas $E8000[138]/[139] variante
+|      +$70=0/1 y [140] "Patrol"; misión 6 en (352,135)/(352,719)):
+|      cangrejo mecánico. Tmpl138/139 suena $4B, tipo $A, HP 2D $2BDA80,
+|      hereda facing +$9A→+$3A y crea dos pinzas (Crab_Claw_Init /
+|      __L07d520 con sprites $2E0770/$2E081E, Open/Close por tablas
+|      $2E0456/$2E044E, PosFromParent suma +$74 del padre a y). Idle →
+|      Charge (vel ±$20 → clamp ±$400, ProbeRevertCcr $27AFC) → Pause
+|      ($28 ticks, snd $109E vía $2222) → Retreat (vel +$20) y vuelta;
+|      Death (sprite $2E064A) → Explode (música $1033, $77F6A); Knockback
+|      ($D3E2) cuando SpritePubEffect $27EBA acierta (anim $2E075A, deja
+|      Smoke_Pair40 $78864 si y>$120). Leg_Init/Step/Detach: 3 patas
+|      (+$70=0/1/2, +$74=$26/$2F/$38) animadas por tablas $2E045E/$2E03F8/
+|      $2E03E6 (stride por fase del padre), que se sueltan al morir
+|      (Detach: velocidades aleatorias, hitboxes $2E141A[fase], humo
+|      Smoke_Pair20 $78890) y los Shard_Big/Small (esquirlas, $5DCA4 +
+|      RNG). Tmpl140 (Patrol): límites ±(+$98<<4) desde el origen, HP 2D
+|      $2BDA80 y radio de detección 2D $2BDB02 (PlayerNear).
+|   5. $07DFA8..$07FBD2 — Carrier_* (plantillas $E8000[129..131], misión 2
+|      en (392,544)/(-104,544) y demo): transporte blindado de tropas.
+|      Tmpl129/130 (HP 2D $2BCB42) y 131 (+$82=$FF, HP 2D $2BCC46) crean
+|      Carrier_Child_FreeWhenDone y entran en Carrier_Init (con o sin
+|      HatchB): 3 cascos Hull/HullB/HullC (HP = padre/3, rango de daño
+|      Squad_RankFromDist → RankChanged cambia sprite $2E1D52[rango] y
+|      suelta piezas $2E2B0C), cabina Cockpit (HP 2D $2BCBC4/$2BCCC8,
+|      marca +$78/+$7A del padre, Eject al morir: jsr $434DC, tres
+|      Player_Dispatch3Slots $2E23CA/$2E2416/$2E2462, humo $77FD6),
+|      marcadores Mark_Left/Right/Cockpit ($28998), trampilla Hatch
+|      (Open→Open2→Drop→Fall por +$21 del padre), cañón Cannon (cae al
+|      morir, sprite $2E20AA/$2E20E4), Spawner (3 ranuras bitmask +$70,
+|      cadencias 2D $2BCD4A/$2BCDCC ×30 según +$76) que lanza Trooper_*
+|      (HP 2D $2BCE4E/$2BCED0; Init→Jump→Land→Run con vel $FE00 hasta la
+|      columna +$70; Stand/Idle/Aim/Walk/Stop/Turn/Fire; OnHit libera la
+|      ranura con bclr +$70 del padre y suma +$76; DecideByPlayer compara
+|      con Target $5E0D4 a 48 px) y Gunner_* (ametrallador del techo:
+|      Reload/Hold/Pose/Fire con sprites $2E2286/$2E2128/$2E21AC/$2E2194,
+|      Land/Stand/Walk/Stop/Ride/Idle/Decide tras caer). Rider_*: jinete
+|      lateral (snd $28, sprites $29C77C/$29C7C0/$29C858) que salta
+|      (Jump/JumpB con $13600), cae hasta y=+$70-$10, huye ($2DE7C2/
+|      $2DE6E0) o se tira en plancha (Dive/DiveRun/DiveLand). Phase4/
+|      Phase5/WaitChildrenGone: fin del transporte (+$20=4/5, +$21=1..3,
+|      ENTITY_NIL en +$48, salto final a TaskHandler_07fdbc).
+|   Cierres: Banner_RetGate_07a954 / Boss2Intro_RetGate / Crab_RetGate /
+|   Carrier_RetGate: gates de prioridad (+$10 vs padre) que caen en SetXN_*.
+|   Banner_LetterTimingFromDist_07ba2e: distancia $5E23A >>4 restada a
+|   +$32/+$33 de la letra del banner (banner_mission_07a970.s).
+|
+|  B. EVIDENCIAS
+|   - Índice $E8000: [129]=$7DFC4 [130]=$7E000 [131]=$7E03C [132]=$7BA7C
+|     [138]=$7CF02 [139]=$7CF0C [140]=$7DC3E. Streams: tmpl $84 en
+|     MissionStream_Slot01 (misión 2) y demo; $81..$83 misión 2; $8C
+|     misión 6; $89 ($800A6, squad_deploy) misión 2 y 6.
+|   - Sound test: cadenas ASCII en claro ($7A7E8..$7A952, terminador
+|     $FE00), accesos a pads $10E203/$10E209/$10E20A y al driver $2152/$219C.
+|   - Refs externas: $1E043A → Crab_Idle (tabla de handlers de misión 6),
+|     $3DC04/$3DF20/$9B506/$9B5D0 → Carrier_Hull_RankChanged (results/
+|     attract), $3D14E → Carrier_Cockpit_MarkHit; task_handlers.c referencia
+|     Crew_Hostage_Idle/Crew_Captor_Idle/Crew_Captor_MarkParentDead.
+|   - 10 labels de squad_deploy_module_07fbxx.s promovidos a globales
+|     (Squad_HatchRow3Spawn __L07fc38/54/6c/88/a6, Squad_LeaderNotify
+|     __L07fdc4, Squad_TrackArc __L07fe66/__L07feb4, Squad_AIDecide
+|     __L07fffc/__L080026) por saltos pc-relativos desde Carrier_*.
+|
+|  C. HIPÓTESIS (nombres provisionales)
+|   - "M2Boss" = jefe de la misión 2 (el "Hairbuster Riberts"?); "Crab" =
+|     cangrejo mecánico de la misión final; "Carrier" = transporte blindado
+|     (el vehículo "Tetsuyuki"/"Girida"?) — nombres oficiales sin confirmar.
+|   - El bloque 1 se llama Crew_Hostage/Captor por el flujo (rehén que
+|     huye por $58FC2 y captor con burla); podría ser otro dúo escoltado.
+|   - M2Boss_Arm: "brazo" por el movimiento pendular con 20 golpes; podría
+|     ser una grúa/cadena.
+|
+|  D. CAMPOS (a6) usados en este archivo
+|   +$0C padre  +$10 prioridad  +$12/+$13 flags  +$20/+$21 fase/muerte
+|   +$22/+$24 x/y  +$26/+$27 fracciones  +$28/+$2A/+$2C/+$2E velocidades
+|   +$32/+$33 timing anim  +$36 HP  +$38 flags sprite/prio  +$3A facing
+|   +$44 visibilidad  +$48 recompensa  +$4C hitbox  +$50 atacante
+|   +$54/+$56 pos pieza  +$58 tipo golpe  +$59 fade  +$5A flags hijo
+|   +$5C variante  +$60 slot dispatch  +$66 HP/cupo  +$6B flags
+|   +$70..+$82 estado local (ver bloques)  +$84 slot  +$88 retardo
+|   +$90 timer  +$92 cadencia  +$98..+$9D params de plantilla
+|
+|  E. HELPERS EXTERNOS
+|   $4AE alloc  $518 free  $2152/$219C/$2222/$2352/$236E sonido
+|   $13600 salto  $138FE timer  $13C0E vel polar  $27AFC/$27BC8/$27CEE/
+|   $27D50/$2783A física  $27EBA pub-effect  $28134 prio  $283CA/$283D8
+|   ataque  $2870A hit  $28758 HP  $28998 dispatch 3 slots  $28CD4 sprite
+|   $28D70 anim  $434CE/$434DC stubs  $44048 cámara  $49FD0 probe
+|   $5D6C2 hex  $5DAD8 texto  $5DCA4 ángulo  $5DD02 copia pos  $5DD56/
+|   $5DD5C offworld  $5E070 atan2  $5E0D4 target  $5E1AA alive mask
+|   $5E23A dist  $5E770 hit snd  $5E7C0 suelo  $5E9B6 RNG  $77C7E
+|   instala  $77F6A/$77FD6/$78864/$78890/$79B6E (YYYY)  $799DE tabla 2D
+|   $96A5A viewport  $99812 trail  $9A7AA probe X
+|
+|  F. ESTADO
+|   192/192 entradas byte-exactas (gen_asm_region --verify). 27 renombres
+|   aplicados en asm/src/tools. Lint OK.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
