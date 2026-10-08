@@ -1,11 +1,108 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave XXXX — helpers del jefe final, tanque de misión 5, misil y prop guionizado
 |  Región: $071FFC..$076000  (15,662 B, 177 entradas, 69 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  ---------
+|  Cuatro bloques del tramo final del runtime tardío (3 plantillas del
+|  índice $E8000: 118, 119 y 151), con el protocolo estándar de entidad (a6;
+|  +$00 handler, +$0C padre, +$72 estado/contador, +$98..+$9F parámetros VM):
+|   1. $071FFC..$072FC8 — FinalBoss_*: cierre de los forward refs de la Wave
+|      WWWW. Piezas de chatarra (WreckA/WreckB: snd $1CF/$39, caen con
+|      gravedad de $2BACB2/$2BAD34, cull $5DD56 contra $2D90BC), chispas
+|      (Spark: rand $5DCA4 #$111/#-$44, snd $38, cull $27BC8), explosiones
+|      derivadas ($77F6A/$77FD6 tras flush $13600), humo (SmokeA/B $2DA680/
+|      $2DA5C4, snd $D, scroll $267E2, reposición por RNG), LimbPart (hijo
+|      que copia +$32/+$33/+$22/+$24/+$38/+$13 del padre, con probe $7B2 si
+|      +$9A; Damaged/Critical escupen humo cada 8/16 frames), patrones de
+|      ataque PickCannonPattern/PickBeamPattern[B] (+$83..+$89 contadores
+|      de ráfaga, timers $2BA924/$2BABAE/$2BAB2C) y spawners de los
+|      proyectiles de WWWW (Beam+Casing, Wreck+Flame, CannonPair[B] con
+|      +$9A/+$9C, Smoke+WreckB vía Paratrooper_Smoke, Puff A/B/C).
+|   2. $072FC8..$0745DA — M5Tank_* (tmpl 118): tanque pesado de la misión 5
+|      (stream slot 4, registro $EDC36 en (384,200)): música $28 → $1073,
+|      snd $EC, timer $138FE +$1C=$16, HP $2BAEF8 y umbral de retirada
+|      $2BAF7A (+$82); hijos Hull/Cabin/Launcher/Gun (+$7C -1/0 fase) y
+|      Turret ($743AC). FSM: Drive (sprite por +$74&3 y sentido en
+|      $2DB11C[]) ↔ Turn (cada 60 frames; $2DB0FC[+$74&7]) → al bajar de +$82
+|      HP, Retreat hacia Coord_ScreenToLocalSecondary($1050,$CF) con música
+|      $1032 → Pause → Phase2 (música $10A7, $2DB5A4) → Phase3 (watch
+|      $EE1B4 vía MissionWatch_Spawn d0=$92) → Die (música $1033, $2DB6CE,
+|      limpia $106ED3) → Sink → Explode (3× $77FD6 + SmokeColumn 17×
+|      Sniper_SmokeA + $518). Rocket (Launch/Fly/Home con sin/cos $2C072C/
+|      $2C07AC por +$7E, suelo $78F8A, target $5E1EA, Explode música $1022),
+|      Casing/CasingGround/CasingExplode, Muzzle A..E ($2DC374..$2DC5AE),
+|      Frag (tablas $2BB696/$2BB6A6 → Frag_Debris_06dbd4), SmokeTrail/SmokeB,
+|      spawners (Rocket, Casing, Turret, Explosion[B], Debris B/C/D,
+|      SmokeAndFrag, Scrap3 → 3× $3FE5A, SmokeByVel LUT 10 B $74460).
+|   3. $073FCA..$07405C — M5Missile_Tmpl77 (tmpl 119, 12 registros en
+|      $ECA16/$EDB82..$EDC24): +$98/+$99 ×16 = velocidad X y altura
+|      objetivo +$5C, snd $23, sprite $2DBE40; al alcanzar +$5C fija
+|      gravedad -$20 y cae; ángulo $5E018 → +$7E; comparte Fly/Explode con
+|      M5Tank_Rocket.
+|   4. $0745DA..$076000 — MiniScript_* + ScriptedProp_* (tmpl 151, stream
+|      slots 0 y 2): intérprete de 8 opcodes sobre un cursor en +$80(a6)
+|      (+$84 timer): op0 fin (C=1), op1 timer, op2 wait, op3 call, op4
+|      call-loop, op5 st byte(a6,d0), op6 clr byte(a6,d0), op7 música. El
+|      prop ejecuta IdleScript ($74F5A) y, al recibir daño con scroll ≥
+|      $EA8 o agotar +$7D=150 golpes, el Script ($749E8..$74F58: 34 pasos
+|      de código inline con blobs `movem.l d(pc),d0/a1` para
+|      MissionWatch_Spawn, Sprite_InvokeBlit8Params, $4AE, Debris_77C7E)
+|      que lo hace explotar por fases con música $28. Child_Flash (hitbox
+|      $75F34/$75F3C) parpadea con $2B58 sobre $7475E/$74784.
+|
+|  B) CÓMO FUNCIONA
+|  ----------------
+|  FinalBoss: Facing_NegIfLeft_072782 (bit 0 de +$3A) es el helper más
+|  llamado (26 call-sites). LimbPart_SyncWithParent devuelve N/Z de
+|  cmp HP padre/hijo para que Init→Damaged→Critical degraden el sprite.
+|  TickAttackTimers decrementa +$72/+$74 y elige patrón según +$20
+|  (fase 0/1) y +$88/+$8A (subestado del patrón).
+|  M5Tank: InScreen (+$73 sentido) decide por X $A0/$118 o por
+|  Coord_ScreenToLocalSecondary; FollowParent* copian pos/prio/+$77/+$78
+|  del padre y sprite por +$76 en la tabla +$8C. Hull/Cabin/Launcher/Gun
+|  detectan muerte del padre por +$75==6 y +$76==5.
+|  ScriptedProp: Run calcula +$74 = HP·256/HPmax para la fase de daño;
+|  cada paso del Script termina con `move.l #next,(a0); rts` (cursor
+|  avanzado por el propio código, op3) o cede con C=0 (op4 re-poll).
+|
+|  C) INTERFAZ
+|  -----------
+|   Entradas E8000: 118 $72FC8, 119 $73FCA, 151 $75100.
+|   Entradas externas: $723D2/$72782/$7279A/$726D4/$72750/$727C4/$727EA/
+|   $72B5A/$72B96/$72BCE/$72BDE/$72C08/$72C44/$72DB8 desde WWWW
+|   (FinalBoss_*). Islas C/asm preexistentes respetadas: $72C98
+|   Entity_CheckActiveBoxOverlap, $750E2 ClrRamWord, SetHandlerRts_*.
+|   Campos: +$36 velocidad, +$5C Y objetivo, +$66 HP, +$70 timer, +$72/+$74
+|   timers de ataque, +$73 sentido, +$75 fase, +$76 sprite idx, +$7C
+|   fase hijo, +$7D golpes, +$7E ángulo, +$80 cursor script, +$82 umbral
+|   retirada, +$83..+$8B contadores de patrón, +$8C tabla de sprites,
+|   +$90/+$92 offset/path, +$98.. parámetros VM.
+|
+|  D) EVIDENCIAS
+|  -------------
+|   - Índice $E8000 leído del P ROM (3 plantillas en rango); registros
+|     de spawn localizados en mission_streams_0e8524.s (slots 0/2/4).
+|   - Script $749E8..$74F58 recorrido paso a paso con el intérprete
+|     $745E2 (8 ops, strides exactos); cada blob delimitado por la
+|     máscara del `movem.l` (gen_asm_region corregido: base PC+4).
+|   - Tabla de sprites $75270..$75EE8 referenciada por `lea $75270,a0;
+|     jsr $28CD4` en Tmpl97 y por 11 punteros internos.
+|
+|  E) HIPÓTESIS
+|  ------------
+|   - "M5Tank" = jefe/miniboss blindado de la misión 5 (único registro de
+|     tmpl 118, en slot 4); el nombre de la unidad real está por confirmar.
+|   - "ScriptedProp" = estructura destructible por fases de las misiones
+|     1 y 3 (slots 0 y 2), con hijos Child_* que parpadean al recibir daño.
+|   - Opcodes del MiniScript nombrados por efecto observado.
+|
+|  F) PENDIENTE
+|  ------------
+|   - Nombres de las tablas de sprites $2DAxxx/$2DBxxx/$2DCxxx (C ROM).
+|   - Confirmar la identidad de la unidad tmpl 118 y del prop tmpl 151.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
