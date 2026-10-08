@@ -241,15 +241,15 @@ extern void TaskHandler_0716ea(void);
 extern void TaskHandler_0716f2(void);
 extern void FinalBoss_HeadDieB_071b9a(void);
 extern void TaskHandler_0724d4(void);
-extern void TaskHandler_073454(void);
+extern void M5Tank_Sink_073454(void);
 extern void TaskHandler_0734f4(void);
 extern void TaskHandler_0734fc(void);
-extern void TaskHandler_0735a6(void);
-extern void TaskHandler_0738da(void);
-extern void TaskHandler_073b62(void);
-extern void TaskHandler_073f9a(void);
-extern void TaskHandler_0751a6(void);
-extern void TaskHandler_07525c(void);
+extern void M5Tank_PartExplode_0735a6(void);
+extern void M5Tank_TurretWreck_0738da(void);
+extern void M5Tank_CasingGround_073b62(void);
+extern void M5Tank_MuzzleE_073f9a(void);
+extern void ScriptedProp_Run_0751a6(void);
+extern void ScriptedProp_Dead_07525c(void);
 extern void TaskHandler_076056(void);
 extern void TaskHandler_0760a8(void);
 extern void TaskHandler_0760c8(void);
@@ -2701,13 +2701,13 @@ void SetTaskHandler_0726cc(void) {
 
 __attribute__((section(".text.SetTaskHandler_07344c")))
 void SetTaskHandler_07344c(void) {
-    _a1_ptr = &TaskHandler_073454;
+    _a1_ptr = &M5Tank_Sink_073454;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07359e")))
 void SetTaskHandler_07359e(void) {
-    _a1_ptr = &TaskHandler_0735a6;
+    _a1_ptr = &M5Tank_PartExplode_0735a6;
     STORE_A1_AT_FP();
 }
 
@@ -2725,7 +2725,7 @@ void SetTaskHandler_073754(void) {
 
 __attribute__((section(".text.SetTaskHandler_0737fc")))
 void SetTaskHandler_0737fc(void) {
-    _a1_ptr = &TaskHandler_0738da;
+    _a1_ptr = &M5Tank_TurretWreck_0738da;
     STORE_A1_AT_FP();
 }
 
@@ -2743,7 +2743,7 @@ void SetTaskHandler_073a2a(void) {
 
 __attribute__((section(".text.SetTaskHandler_073b5a")))
 void SetTaskHandler_073b5a(void) {
-    _a1_ptr = &TaskHandler_073b62;
+    _a1_ptr = &M5Tank_CasingGround_073b62;
     STORE_A1_AT_FP();
 }
 
@@ -2767,7 +2767,7 @@ void SetTaskHandler_073e54(void) {
 
 __attribute__((section(".text.SetTaskHandler_073ec8")))
 void SetTaskHandler_073ec8(void) {
-    _a1_ptr = &TaskHandler_073f9a;
+    _a1_ptr = &M5Tank_MuzzleE_073f9a;
     STORE_A1_AT_FP();
 }
 
@@ -2785,13 +2785,13 @@ void SetTaskHandler_074106(void) {
 
 __attribute__((section(".text.SetTaskHandler_07519e")))
 void SetTaskHandler_07519e(void) {
-    _a1_ptr = &TaskHandler_0751a6;
+    _a1_ptr = &ScriptedProp_Run_0751a6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_075254")))
 void SetTaskHandler_075254(void) {
-    _a1_ptr = &TaskHandler_07525c;
+    _a1_ptr = &ScriptedProp_Dead_07525c;
     STORE_A1_AT_FP();
 }
 

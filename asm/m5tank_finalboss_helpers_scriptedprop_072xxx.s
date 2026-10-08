@@ -15,22 +15,22 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Sub_00071FFC  @ $071FFC  (22 B)
+|  FinalBoss_FlameTail_FreeIfOffWorld_071ffc  @ $071FFC  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00071FFC, "ax", @progbits
-        .global Sub_00071FFC
-Sub_00071FFC:
+        .section .text.FinalBoss_FlameTail_FreeIfOffWorld_071ffc, "ax", @progbits
+        .global FinalBoss_FlameTail_FreeIfOffWorld_071ffc
+FinalBoss_FlameTail_FreeIfOffWorld_071ffc:
         movea.l #0xffffffff,a0                  | +000
         lea     0x2d90bc.l,a0                   | +006
         jsr     0x5dd56.l                       | +00c
         bcc.w   SetHandlerRts_072018            | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07201a  @ $07201A  (132 B)
+|  FinalBoss_WreckA_07201a  @ $07201A  (132 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07201a, "ax", @progbits
-        .global TaskHandler_07201a
-TaskHandler_07201a:
+        .section .text.FinalBoss_WreckA_07201a, "ax", @progbits
+        .global FinalBoss_WreckA_07201a
+FinalBoss_WreckA_07201a:
         move.w  #0x1,0x84(a6)                   | +000
         move.w  #0x1cf,d1                       | +006
         jsr     0x236e.l                        | +00a
@@ -39,25 +39,25 @@ TaskHandler_07201a:
         lea     .L07203c(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L07203c:
-        jsr     Sub_00072BCE(pc)                | +022
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc) | +022
         move.w  #0xffc4,d0                      | +026
-        jsr     Sub_00072782(pc)                | +02a
+        jsr     Facing_NegIfLeft_072782(pc)     | +02a
         add.w   d0,0x22(a6)                     | +02e
         addi.w  #0x28,0x24(a6)                  | +032
         jsr     0x28d70.l                       | +038
         bcc.w   .L072062                        | +03e
-        lea     TaskHandler_0720a6(pc),a1       | +042
+        lea     FinalBoss_WreckA_Fall_0720a6(pc),a1 | +042
         move.l  a1,(a6)                         | +046
 .L072062:
         jsr     0x283d8.l                       | +048
         btst    #0x1,0x13(a6)                   | +04e
         beq.w   .L072078                        | +054
-        lea     Sub_0007233A(pc),a1             | +058
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1 | +058
         move.l  a1,(a6)                         | +05c
 .L072078:
         jsr     0x5e45a.l                       | +05e
         bcc.w   .L072088                        | +064
-        lea     Sub_0007233A(pc),a1             | +068
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1 | +068
         move.l  a1,(a6)                         | +06c
 .L072088:
         movea.l #0xffffffff,a0                  | +06e
@@ -66,16 +66,16 @@ TaskHandler_07201a:
         bcc.w   SetHandlerRts_0720a4            | +080
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0720a6  @ $0720A6  (150 B)
+|  FinalBoss_WreckA_Fall_0720a6  @ $0720A6  (150 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0720a6, "ax", @progbits
-        .global TaskHandler_0720a6
-TaskHandler_0720a6:
+        .section .text.FinalBoss_WreckA_Fall_0720a6, "ax", @progbits
+        .global FinalBoss_WreckA_Fall_0720a6
+FinalBoss_WreckA_Fall_0720a6:
         bset    #0x4,0x6b(a6)                   | +000
         lea     0x2baaaa.l,a0                   | +006
         jsr     0x799de.l                       | +00c
         neg.w   d0                              | +012
-        jsr     Sub_00072782(pc)                | +014
+        jsr     Facing_NegIfLeft_072782(pc)     | +014
         move.w  d0,0x28(a6)                     | +018
         move.w  #0xd000,d0                      | +01c
         jsr     0x28134.l                       | +020
@@ -88,19 +88,19 @@ TaskHandler_0720a6:
 .L0720ea:
         jsr     0x27cee.l                       | +044
         bcc.w   .L0720fa                        | +04a
-        lea     Sub_0007231E__L072326(pc),a1    | +04e
+        lea     FinalBoss_ShiftX_Explode_07231e__L072326(pc),a1 | +04e
         move.l  a1,(a6)                         | +052
 .L0720fa:
         jsr     0x28d70.l                       | +054
         jsr     0x283d8.l                       | +05a
         btst    #0x1,0x13(a6)                   | +060
         beq.w   .L072116                        | +066
-        lea     Sub_0007231E__L072326(pc),a1    | +06a
+        lea     FinalBoss_ShiftX_Explode_07231e__L072326(pc),a1 | +06a
         move.l  a1,(a6)                         | +06e
 .L072116:
         jsr     0x5e45a.l                       | +070
         bcc.w   .L072126                        | +076
-        lea     Sub_0007231E__L072326(pc),a1    | +07a
+        lea     FinalBoss_ShiftX_Explode_07231e__L072326(pc),a1 | +07a
         move.l  a1,(a6)                         | +07e
 .L072126:
         movea.l #0xffffffff,a0                  | +080
@@ -109,11 +109,11 @@ TaskHandler_0720a6:
         bcc.w   SetHandlerRts_072142            | +092
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072144  @ $072144  (158 B)
+|  FinalBoss_WreckB_072144  @ $072144  (158 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072144, "ax", @progbits
-        .global TaskHandler_072144
-TaskHandler_072144:
+        .section .text.FinalBoss_WreckB_072144, "ax", @progbits
+        .global FinalBoss_WreckB_072144
+FinalBoss_WreckB_072144:
         move.w  #0x39,d1                        | +000
         jsr     0x236e.l                        | +004
         move.w  #0xd000,d0                      | +00a
@@ -127,7 +127,7 @@ TaskHandler_072144:
 .L072176:
         movea.l 0xc(a6),a0                      | +032
         cmpi.b  #0x5,0x8a(a0)                   | +036
-        beq.w   Sub_0007233A                    | +03c
+        beq.w   FinalBoss_FlushAndExplodeB_07233a | +03c
         move.w  0x22(a0),d0                     | +040
         add.w   0x90(a6),d0                     | +044
         move.w  d0,0x22(a6)                     | +048
@@ -136,18 +136,18 @@ TaskHandler_072144:
         move.w  d0,0x24(a6)                     | +054
         jsr     0x28d70.l                       | +058
         bcc.w   .L0721ac                        | +05e
-        lea     TaskHandler_0721ea(pc),a1       | +062
+        lea     FinalBoss_WreckB_Fall_0721ea(pc),a1 | +062
         move.l  a1,(a6)                         | +066
 .L0721ac:
         jsr     0x283d8.l                       | +068
         btst    #0x1,0x13(a6)                   | +06e
         beq.w   .L0721c2                        | +074
-        lea     Sub_0007233A(pc),a1             | +078
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1 | +078
         move.l  a1,(a6)                         | +07c
 .L0721c2:
         jsr     0x5e45a.l                       | +07e
         bcc.w   .L0721d2                        | +084
-        lea     Sub_0007233A(pc),a1             | +088
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1 | +088
         move.l  a1,(a6)                         | +08c
 .L0721d2:
         movea.l #0xffffffff,a0                  | +08e
@@ -155,18 +155,18 @@ TaskHandler_072144:
         bcc.w   SetHandlerRts_0721e8            | +09a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0721ea  @ $0721EA  (134 B)
+|  FinalBoss_WreckB_Fall_0721ea  @ $0721EA  (134 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0721ea, "ax", @progbits
-        .global TaskHandler_0721ea
-TaskHandler_0721ea:
+        .section .text.FinalBoss_WreckB_Fall_0721ea, "ax", @progbits
+        .global FinalBoss_WreckB_Fall_0721ea
+FinalBoss_WreckB_Fall_0721ea:
         lea     0x2bacb2.l,a0                   | +000
         jsr     0x799de.l                       | +006
-        jsr     Sub_00072782(pc)                | +00c
+        jsr     Facing_NegIfLeft_072782(pc)     | +00c
         move.w  d0,0x28(a6)                     | +010
         lea     0x2bad34.l,a0                   | +014
         jsr     0x799de.l                       | +01a
-        jsr     Sub_00072782(pc)                | +020
+        jsr     Facing_NegIfLeft_072782(pc)     | +020
         move.w  d0,0x2c(a6)                     | +024
         lea     0x2da58a.l,a0                   | +028
         jsr     0x28cd4.l                       | +02e
@@ -175,19 +175,19 @@ TaskHandler_0721ea:
 .L072224:
         jsr     0x27cee.l                       | +03a
         bcc.w   .L072234                        | +040
-        lea     Sub_0007233A(pc),a1             | +044
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1 | +044
         move.l  a1,(a6)                         | +048
 .L072234:
         jsr     0x28d70.l                       | +04a
         jsr     0x283d8.l                       | +050
         btst    #0x1,0x13(a6)                   | +056
         beq.w   .L072250                        | +05c
-        lea     Sub_0007233A(pc),a1             | +060
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1 | +060
         move.l  a1,(a6)                         | +064
 .L072250:
         jsr     0x5e45a.l                       | +066
         bcc.w   .L072260                        | +06c
-        lea     Sub_0007233A(pc),a1             | +070
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1 | +070
         move.l  a1,(a6)                         | +074
 .L072260:
         movea.l #0xffffffff,a0                  | +076
@@ -195,33 +195,33 @@ TaskHandler_0721ea:
         bcc.w   SetHandlerRts_072276            | +082
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072278  @ $072278  (36 B)
+|  FinalBoss_Spark_Left_072278  @ $072278  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072278, "ax", @progbits
-        .global TaskHandler_072278
-TaskHandler_072278:
+        .section .text.FinalBoss_Spark_Left_072278, "ax", @progbits
+        .global FinalBoss_Spark_Left_072278
+FinalBoss_Spark_Left_072278:
         move.w  #0xffbc,d0                      | +000
         jsr     0x5dca4.l                       | +004
         move.w  d0,0x28(a6)                     | +00a
         move.w  #0x32a,0x2a(a6)                 | +00e
         move.w  #0xffca,0x2e(a6)                | +014
         move.w  #0x0,0x2c(a6)                   | +01a
-        bra.w   Sub_0007229C__L0722bc           | +020
+        bra.w   FinalBoss_Spark_07229c__L0722bc | +020
 
 | ----------------------------------------------------------------------------
-|  Sub_0007229C  @ $07229C  (98 B)
+|  FinalBoss_Spark_07229c  @ $07229C  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0007229C, "ax", @progbits
-        .global Sub_0007229C
-Sub_0007229C:
+        .section .text.FinalBoss_Spark_07229c, "ax", @progbits
+        .global FinalBoss_Spark_07229c
+FinalBoss_Spark_07229c:
         move.w  #0x111,d0                       | +000
         jsr     0x5dca4.l                       | +004
         move.w  d0,0x28(a6)                     | +00a
         move.w  #0x87f,0x2a(a6)                 | +00e
         move.w  #0xff6f,0x2e(a6)                | +014
         move.w  #0x0,0x2c(a6)                   | +01a
-        .global Sub_0007229C__L0722bc
-Sub_0007229C__L0722bc:
+        .global FinalBoss_Spark_07229c__L0722bc
+FinalBoss_Spark_07229c__L0722bc:
 .L0722bc:
         move.w  #0x38,d1                        | +020
         jsr     0x236e.l                        | +024
@@ -241,11 +241,11 @@ Sub_0007229C__L0722bc:
         bcc.w   SetHandlerRts_072304            | +05e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072306  @ $072306  (24 B)
+|  FinalBoss_RandDispatch4_072306  @ $072306  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072306, "ax", @progbits
-        .global TaskHandler_072306
-TaskHandler_072306:
+        .section .text.FinalBoss_RandDispatch4_072306, "ax", @progbits
+        .global FinalBoss_RandDispatch4_072306
+FinalBoss_RandDispatch4_072306:
         jsr     0x5e9b6.l                       | +000
         andi.w  #0x3,d0                         | +006
         lsl.w   #0x2,d0                         | +00a
@@ -254,15 +254,15 @@ TaskHandler_072306:
         jmp     (a1)                            | +016
 
 | ----------------------------------------------------------------------------
-|  Sub_0007231E  @ $07231E  (28 B)
+|  FinalBoss_ShiftX_Explode_07231e  @ $07231E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0007231E, "ax", @progbits
-        .global Sub_0007231E
-Sub_0007231E:
+        .section .text.FinalBoss_ShiftX_Explode_07231e, "ax", @progbits
+        .global FinalBoss_ShiftX_Explode_07231e
+FinalBoss_ShiftX_Explode_07231e:
         move.w  #0xffd8,d0                      | +000
         bra.w   .L07232a                        | +004
-        .global Sub_0007231E__L072326
-Sub_0007231E__L072326:
+        .global FinalBoss_ShiftX_Explode_07231e__L072326
+FinalBoss_ShiftX_Explode_07231e__L072326:
 .L072326:
         move.w  #0xffd0,d0                      | +008
 .L07232a:
@@ -273,11 +273,11 @@ Sub_0007231E__L072326:
         add.w   d0,0x22(a6)                     | +018
 
 | ----------------------------------------------------------------------------
-|  Sub_0007233A  @ $07233A  (42 B)
+|  FinalBoss_FlushAndExplodeB_07233a  @ $07233A  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0007233A, "ax", @progbits
-        .global Sub_0007233A
-Sub_0007233A:
+        .section .text.FinalBoss_FlushAndExplodeB_07233a, "ax", @progbits
+        .global FinalBoss_FlushAndExplodeB_07233a
+FinalBoss_FlushAndExplodeB_07233a:
         jsr     0x13600.l                       | +000
         move.w  #0x4000,d0                      | +006
         jsr     0x28134.l                       | +00a
@@ -287,11 +287,11 @@ Sub_0007233A:
         jmp     0x77f6a.l                       | +024
 
 | ----------------------------------------------------------------------------
-|  Sub_00072364  @ $072364  (36 B)
+|  FinalBoss_ExplodeC_072364  @ $072364  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072364, "ax", @progbits
-        .global Sub_00072364
-Sub_00072364:
+        .section .text.FinalBoss_ExplodeC_072364, "ax", @progbits
+        .global FinalBoss_ExplodeC_072364
+FinalBoss_ExplodeC_072364:
         move.w  #0x4000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -300,11 +300,11 @@ Sub_00072364:
         jmp     0x77fd6.l                       | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072388  @ $072388  (66 B)
+|  FinalBoss_SmokePuff_072388  @ $072388  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072388, "ax", @progbits
-        .global TaskHandler_072388
-TaskHandler_072388:
+        .section .text.FinalBoss_SmokePuff_072388, "ax", @progbits
+        .global FinalBoss_SmokePuff_072388
+FinalBoss_SmokePuff_072388:
         move.w  #0xc000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -321,11 +321,11 @@ TaskHandler_072388:
         bcc.w   SetHandlerRts_0723d0            | +03e
 
 | ----------------------------------------------------------------------------
-|  Sub_000723D2  @ $0723D2  (92 B)
+|  FinalBoss_LimbPart_Init_0723d2  @ $0723D2  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000723D2, "ax", @progbits
-        .global Sub_000723D2
-Sub_000723D2:
+        .section .text.FinalBoss_LimbPart_Init_0723d2, "ax", @progbits
+        .global FinalBoss_LimbPart_Init_0723d2
+FinalBoss_LimbPart_Init_0723d2:
         clr.b   0x9a(a6)                        | +000
         bra.w   .L0723e0                        | +004
         move.b  #0x1,0x9a(a6)                   | +008
@@ -340,9 +340,9 @@ Sub_000723D2:
         lea     .L072406(pc),a1                 | +02e
         move.l  a1,(a6)                         | +032
 .L072406:
-        jsr     TaskHandler_0724dc(pc)          | +034
+        jsr     FinalBoss_LimbPart_SyncWithParent_0724dc(pc) | +034
         bgt.w   .L072414                        | +038
-        lea     TaskHandler_072436(pc),a1       | +03c
+        lea     FinalBoss_LimbPart_Damaged_072436(pc),a1 | +03c
         move.l  a1,(a6)                         | +040
 .L072414:
         btst    #0x0,0x13(a6)                   | +042
@@ -354,27 +354,27 @@ Sub_000723D2:
         bcc.w   SetHandlerRts_072434            | +058
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072436  @ $072436  (76 B)
+|  FinalBoss_LimbPart_Damaged_072436  @ $072436  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072436, "ax", @progbits
-        .global TaskHandler_072436
-TaskHandler_072436:
+        .section .text.FinalBoss_LimbPart_Damaged_072436, "ax", @progbits
+        .global FinalBoss_LimbPart_Damaged_072436
+FinalBoss_LimbPart_Damaged_072436:
         move.w  0x66(a6),d0                     | +000
         lsr.w   #0x1,d0                         | +004
         move.w  d0,0x66(a6)                     | +006
         lea     .L072446(pc),a1                 | +00a
         move.l  a1,(a6)                         | +00e
 .L072446:
-        jsr     TaskHandler_0724dc(pc)          | +010
+        jsr     FinalBoss_LimbPart_SyncWithParent_0724dc(pc) | +010
         bgt.w   .L072454                        | +014
-        lea     TaskHandler_07248a(pc),a1       | +018
+        lea     FinalBoss_LimbPart_Critical_07248a(pc),a1 | +018
         move.l  a1,(a6)                         | +01c
 .L072454:
         addq.b  #0x1,0x70(a6)                   | +01e
         move.b  0x70(a6),d0                     | +022
         andi.b  #0x7,d0                         | +026
         bne.w   .L072468                        | +02a
-        jsr     TaskHandler_072540__L072554(pc) | +02e
+        jsr     FinalBoss_SpawnSmokeA_072540__L072554(pc) | +02e
 .L072468:
         btst    #0x0,0x13(a6)                   | +032
         beq.w   .L072478                        | +038
@@ -385,22 +385,22 @@ TaskHandler_072436:
         bcc.w   SetHandlerRts_072488            | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07248a  @ $07248A  (66 B)
+|  FinalBoss_LimbPart_Critical_07248a  @ $07248A  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07248a, "ax", @progbits
-        .global TaskHandler_07248a
-TaskHandler_07248a:
-        jsr     TaskHandler_0724dc(pc)          | +000
+        .section .text.FinalBoss_LimbPart_Critical_07248a, "ax", @progbits
+        .global FinalBoss_LimbPart_Critical_07248a
+FinalBoss_LimbPart_Critical_07248a:
+        jsr     FinalBoss_LimbPart_SyncWithParent_0724dc(pc) | +000
         addq.b  #0x1,0x70(a6)                   | +004
         move.b  0x70(a6),d0                     | +008
         andi.b  #0xf,d0                         | +00c
         bne.w   .L0724a6                        | +010
-        jsr     TaskHandler_072540(pc)          | +014
+        jsr     FinalBoss_SpawnSmokeA_072540(pc) | +014
         bra.w   .L0724b2                        | +018
 .L0724a6:
         andi.b  #0x3,d0                         | +01c
         bne.w   .L0724b2                        | +020
-        jsr     TaskHandler_072540__L072554(pc) | +024
+        jsr     FinalBoss_SpawnSmokeA_072540__L072554(pc) | +024
 .L0724b2:
         btst    #0x0,0x13(a6)                   | +028
         beq.w   .L0724c2                        | +02e
@@ -411,11 +411,11 @@ TaskHandler_07248a:
         bcc.w   SetHandlerRts_0724d2            | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0724dc  @ $0724DC  (100 B)
+|  FinalBoss_LimbPart_SyncWithParent_0724dc  @ $0724DC  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0724dc, "ax", @progbits
-        .global TaskHandler_0724dc
-TaskHandler_0724dc:
+        .section .text.FinalBoss_LimbPart_SyncWithParent_0724dc, "ax", @progbits
+        .global FinalBoss_LimbPart_SyncWithParent_0724dc
+FinalBoss_LimbPart_SyncWithParent_0724dc:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x32(a0),0x32(a6)               | +004
         move.b  0x33(a0),0x33(a6)               | +00a
@@ -441,19 +441,19 @@ TaskHandler_0724dc:
         rts                                     | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072540  @ $072540  (138 B)
+|  FinalBoss_SpawnSmokeA_072540  @ $072540  (138 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072540, "ax", @progbits
-        .global TaskHandler_072540
-TaskHandler_072540:
-        lea     TaskHandler_072606(pc),a1       | +000
+        .section .text.FinalBoss_SpawnSmokeA_072540, "ax", @progbits
+        .global FinalBoss_SpawnSmokeA_072540
+FinalBoss_SpawnSmokeA_072540:
+        lea     FinalBoss_SmokeA_072606(pc),a1  | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         bra.w   .L072564                        | +010
-        .global TaskHandler_072540__L072554
-TaskHandler_072540__L072554:
+        .global FinalBoss_SpawnSmokeA_072540__L072554
+FinalBoss_SpawnSmokeA_072540__L072554:
 .L072554:
-        lea     TaskHandler_0725f6(pc),a1       | +014
+        lea     FinalBoss_SmokeB_0725f6(pc),a1  | +014
         jsr     0x4ae.l                         | +018
         jsr     0x5dd02.l                       | +01e
 .L072564:
@@ -487,11 +487,11 @@ TaskHandler_072540__L072554:
         rts                                     | +088
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0725ca  @ $0725CA  (44 B)
+|  FinalBoss_Smoke_Reposition_0725ca  @ $0725CA  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0725ca, "ax", @progbits
-        .global TaskHandler_0725ca
-TaskHandler_0725ca:
+        .section .text.FinalBoss_Smoke_Reposition_0725ca, "ax", @progbits
+        .global FinalBoss_Smoke_Reposition_0725ca
+FinalBoss_Smoke_Reposition_0725ca:
         jsr     0x5e9b6.l                       | +000
         andi.w  #0x1f,d0                        | +006
         addi.w  #0x14,d0                        | +00a
@@ -501,36 +501,36 @@ TaskHandler_0725ca:
         subi.w  #0x20,d0                        | +01c
         add.w   d0,0x22(a6)                     | +020
         subq.w  #0x1,0x38(a6)                   | +024
-        bra.w   TaskHandler_072606__L07262a     | +028
+        bra.w   FinalBoss_SmokeA_072606__L07262a | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0725f6  @ $0725F6  (16 B)
+|  FinalBoss_SmokeB_0725f6  @ $0725F6  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0725f6, "ax", @progbits
-        .global TaskHandler_0725f6
-TaskHandler_0725f6:
+        .section .text.FinalBoss_SmokeB_0725f6, "ax", @progbits
+        .global FinalBoss_SmokeB_0725f6
+FinalBoss_SmokeB_0725f6:
         lea     0x2da5c4.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
-        bra.w   TaskHandler_072606__L072612     | +00c
+        bra.w   FinalBoss_SmokeA_072606__L072612 | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072606  @ $072606  (198 B)
+|  FinalBoss_SmokeA_072606  @ $072606  (198 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072606, "ax", @progbits
-        .global TaskHandler_072606
-TaskHandler_072606:
+        .section .text.FinalBoss_SmokeA_072606, "ax", @progbits
+        .global FinalBoss_SmokeA_072606
+FinalBoss_SmokeA_072606:
         lea     0x2da680.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
-        .global TaskHandler_072606__L072612
-TaskHandler_072606__L072612:
+        .global FinalBoss_SmokeA_072606__L072612
+FinalBoss_SmokeA_072606__L072612:
 .L072612:
         move.w  #0xd,d1                         | +00c
         jsr     0x236e.l                        | +010
         addq.w  #0x1,0x38(a6)                   | +016
         cmpi.b  #0xff,0x33(a6)                  | +01a
         bne.w   .L07262a                        | +020
-        .global TaskHandler_072606__L07262a
-TaskHandler_072606__L07262a:
+        .global FinalBoss_SmokeA_072606__L07262a
+FinalBoss_SmokeA_072606__L07262a:
 .L07262a:
         jsr     0x267e2.l                       | +024
         jsr     0x5e9b6.l                       | +02a
@@ -579,11 +579,11 @@ TaskHandler_072606__L07262a:
         bcc.w   SetHandlerRts_0726d2            | +0c2
 
 | ----------------------------------------------------------------------------
-|  Sub_000726D4  @ $0726D4  (34 B)
+|  FinalBoss_InScreenByVel_0726d4  @ $0726D4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000726D4, "ax", @progbits
-        .global Sub_000726D4
-Sub_000726D4:
+        .section .text.FinalBoss_InScreenByVel_0726d4, "ax", @progbits
+        .global FinalBoss_InScreenByVel_0726d4
+FinalBoss_InScreenByVel_0726d4:
         cmpi.w  #0x0,0x28(a6)                   | +000
         bgt.w   .L0726ec                        | +006
         cmpi.w  #0x50,0x22(a6)                  | +00a
@@ -594,11 +594,11 @@ Sub_000726D4:
         bgt.w   SetXN_0726fc                    | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072702  @ $072702  (66 B)
+|  FinalBoss_TargetAheadByVel_072702  @ $072702  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072702, "ax", @progbits
-        .global TaskHandler_072702
-TaskHandler_072702:
+        .section .text.FinalBoss_TargetAheadByVel_072702, "ax", @progbits
+        .global FinalBoss_TargetAheadByVel_072702
+FinalBoss_TargetAheadByVel_072702:
         move.b  0x106f28.l,d0                   | +000
         andi.b  #0x3,d0                         | +006
         bne.w   ClearXN_07274a                  | +00a
@@ -617,11 +617,11 @@ TaskHandler_072702:
         bcs.w   ClearXN_07274a                  | +03e
 
 | ----------------------------------------------------------------------------
-|  Sub_00072750  @ $072750  (38 B)
+|  FinalBoss_EdgeFlagByVel_072750  @ $072750  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072750, "ax", @progbits
-        .global Sub_00072750
-Sub_00072750:
+        .section .text.FinalBoss_EdgeFlagByVel_072750, "ax", @progbits
+        .global FinalBoss_EdgeFlagByVel_072750
+FinalBoss_EdgeFlagByVel_072750:
         cmpi.w  #0x0,0x28(a6)                   | +000
         beq.w   ClearXN_07277c                  | +006
         bgt.w   .L07276c                        | +00a
@@ -633,21 +633,21 @@ Sub_00072750:
         beq.w   ClearXN_07277c                  | +022
 
 | ----------------------------------------------------------------------------
-|  Sub_00072782  @ $072782  (12 B)
+|  Facing_NegIfLeft_072782  @ $072782  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072782, "ax", @progbits
-        .global Sub_00072782
-Sub_00072782:
+        .section .text.Facing_NegIfLeft_072782, "ax", @progbits
+        .global Facing_NegIfLeft_072782
+Facing_NegIfLeft_072782:
         btst    #0x0,0x3a(a6)                   | +000
         beq.w   ClearXN_072794                  | +006
         neg.w   d0                              | +00a
 
 | ----------------------------------------------------------------------------
-|  Sub_0007279A  @ $07279A  (42 B)
+|  FinalBoss_SyncStateToParentAndTick_07279a  @ $07279A  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0007279A, "ax", @progbits
-        .global Sub_0007279A
-Sub_0007279A:
+        .section .text.FinalBoss_SyncStateToParentAndTick_07279a, "ax", @progbits
+        .global FinalBoss_SyncStateToParentAndTick_07279a
+FinalBoss_SyncStateToParentAndTick_07279a:
         btst    #0x0,0x77(a6)                   | +000
         beq.w   .L0727c2                        | +006
         move.l  0xc(a6),d0                      | +00a
@@ -661,11 +661,11 @@ Sub_0007279A:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  Sub_000727C4  @ $0727C4  (38 B)
+|  FinalBoss_SyncStateToParent_0727c4  @ $0727C4  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000727C4, "ax", @progbits
-        .global Sub_000727C4
-Sub_000727C4:
+        .section .text.FinalBoss_SyncStateToParent_0727c4, "ax", @progbits
+        .global FinalBoss_SyncStateToParent_0727c4
+FinalBoss_SyncStateToParent_0727c4:
         btst    #0x0,0x77(a6)                   | +000
         beq.w   .L0727e8                        | +006
         move.l  0xc(a6),d0                      | +00a
@@ -678,33 +678,33 @@ Sub_000727C4:
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  Sub_000727EA  @ $0727EA  (60 B)
+|  FinalBoss_TickAttackTimers_0727ea  @ $0727EA  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000727EA, "ax", @progbits
-        .global Sub_000727EA
-Sub_000727EA:
+        .section .text.FinalBoss_TickAttackTimers_0727ea, "ax", @progbits
+        .global FinalBoss_TickAttackTimers_0727ea
+FinalBoss_TickAttackTimers_0727ea:
         subq.w  #0x1,0x72(a6)                   | +000
         cmpi.w  #0x0,0x72(a6)                   | +004
         bgt.w   .L072806                        | +00a
         cmpi.b  #0x0,0x88(a6)                   | +00e
         bne.w   .L072802                        | +014
 .L072802:
-        jsr     TaskHandler_07282c(pc)          | +018
+        jsr     FinalBoss_PickCannonPattern_07282c(pc) | +018
 .L072806:
         subq.w  #0x1,0x74(a6)                   | +01c
         cmpi.w  #0x0,0x74(a6)                   | +020
         bgt.w   JsrPcRts_07282a                 | +026
         cmpi.b  #0x1,0x20(a6)                   | +02a
         beq.w   JsrPcThunk_072826               | +030
-        jsr     TaskHandler_072996(pc)          | +034
+        jsr     FinalBoss_PickBeamPattern_072996(pc) | +034
         bra.w   JsrPcRts_07282a                 | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07282c  @ $07282C  (362 B)
+|  FinalBoss_PickCannonPattern_07282c  @ $07282C  (362 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07282c, "ax", @progbits
-        .global TaskHandler_07282c
-TaskHandler_07282c:
+        .section .text.FinalBoss_PickCannonPattern_07282c, "ax", @progbits
+        .global FinalBoss_PickCannonPattern_07282c
+FinalBoss_PickCannonPattern_07282c:
         cmpi.b  #0x0,0x88(a6)                   | +000
         bne.w   .L0728ca                        | +006
         cmpi.b  #0x1,0x20(a6)                   | +00a
@@ -782,11 +782,11 @@ TaskHandler_07282c:
         rts                                     | +168
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072996  @ $072996  (254 B)
+|  FinalBoss_PickBeamPattern_072996  @ $072996  (254 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072996, "ax", @progbits
-        .global TaskHandler_072996
-TaskHandler_072996:
+        .section .text.FinalBoss_PickBeamPattern_072996, "ax", @progbits
+        .global FinalBoss_PickBeamPattern_072996
+FinalBoss_PickBeamPattern_072996:
         cmpi.b  #0x0,0x8a(a6)                   | +000
         bne.w   .L0729ea                        | +006
         lea     0x2bac30.l,a0                   | +00a
@@ -841,11 +841,11 @@ TaskHandler_072996:
         rts                                     | +0fc
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_072a94  @ $072A94  (198 B)
+|  FinalBoss_PickBeamPatternB_072a94  @ $072A94  (198 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_072a94, "ax", @progbits
-        .global PcThunkTarget_072a94
-PcThunkTarget_072a94:
+        .section .text.FinalBoss_PickBeamPatternB_072a94, "ax", @progbits
+        .global FinalBoss_PickBeamPatternB_072a94
+FinalBoss_PickBeamPatternB_072a94:
         cmpi.b  #0x0,0x8a(a6)                   | +000
         bne.w   .L072ada                        | +006
         lea     0x2babae.l,a0                   | +00a
@@ -890,11 +890,11 @@ PcThunkTarget_072a94:
         rts                                     | +0c4
 
 | ----------------------------------------------------------------------------
-|  Sub_00072B5A  @ $072B5A  (48 B)
+|  FinalBoss_HeadTargetTimer_072b5a  @ $072B5A  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072B5A, "ax", @progbits
-        .global Sub_00072B5A
-Sub_00072B5A:
+        .section .text.FinalBoss_HeadTargetTimer_072b5a, "ax", @progbits
+        .global FinalBoss_HeadTargetTimer_072b5a
+FinalBoss_HeadTargetTimer_072b5a:
         subq.w  #0x1,0x72(a6)                   | +000
         cmpi.w  #0x0,0x72(a6)                   | +004
         bgt.w   ClearXN_072b90                  | +00a
@@ -907,11 +907,11 @@ Sub_00072B5A:
         move.w  d0,0x72(a6)                     | +02c
 
 | ----------------------------------------------------------------------------
-|  Sub_00072B96  @ $072B96  (48 B)
+|  FinalBoss_PlayPartCry_072b96  @ $072B96  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072B96, "ax", @progbits
-        .global Sub_00072B96
-Sub_00072B96:
+        .section .text.FinalBoss_PlayPartCry_072b96, "ax", @progbits
+        .global FinalBoss_PlayPartCry_072b96
+FinalBoss_PlayPartCry_072b96:
         move.w  #0x5b,d1                        | +000
         movea.l 0xc(a6),a0                      | +004
         cmpi.b  #0x0,0x80(a0)                   | +008
@@ -926,22 +926,22 @@ Sub_00072B96:
         move.w  #0xc,0x1c(a6)                   | +02a
 
 | ----------------------------------------------------------------------------
-|  Sub_00072BCE  @ $072BCE  (16 B)
+|  FinalBoss_CopyParentPosPrio_072bce  @ $072BCE  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072BCE, "ax", @progbits
-        .global Sub_00072BCE
-Sub_00072BCE:
+        .section .text.FinalBoss_CopyParentPosPrio_072bce, "ax", @progbits
+        .global FinalBoss_CopyParentPosPrio_072bce
+FinalBoss_CopyParentPosPrio_072bce:
         jsr     0x5e506.l                       | +000
         move.w  0x84(a6),d0                     | +006
         add.w   d0,0x38(a6)                     | +00a
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  Sub_00072BDE  @ $072BDE  (42 B)
+|  FinalBoss_OffsetByLimbTable_072bde  @ $072BDE  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072BDE, "ax", @progbits
-        .global Sub_00072BDE
-Sub_00072BDE:
+        .section .text.FinalBoss_OffsetByLimbTable_072bde, "ax", @progbits
+        .global FinalBoss_OffsetByLimbTable_072bde
+FinalBoss_OffsetByLimbTable_072bde:
         movea.l 0x80(a6),a1                     | +000
         movea.l 0xc(a6),a0                      | +004
         move.b  0x82(a0),d1                     | +008
@@ -951,42 +951,42 @@ Sub_00072BDE:
         move.w  0x2(a1,d1.w),d0                 | +014
         add.w   d0,0x24(a6)                     | +018
         move.w  (a1,d1.w),d0                    | +01c
-        jsr     Sub_00072782(pc)                | +020
+        jsr     Facing_NegIfLeft_072782(pc)     | +020
         add.w   d0,0x22(a6)                     | +024
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  Sub_00072C08  @ $072C08  (42 B)
+|  FinalBoss_FetchPartSprite_072c08  @ $072C08  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072C08, "ax", @progbits
-        .global Sub_00072C08
-Sub_00072C08:
+        .section .text.FinalBoss_FetchPartSprite_072c08, "ax", @progbits
+        .global FinalBoss_FetchPartSprite_072c08
+FinalBoss_FetchPartSprite_072c08:
         movea.l 0xc(a6),a1                      | +000
         move.w  0x86(a6),d1                     | +004
         move.b  (a1,d1.w),d0                    | +008
         clr.b   (a1,d1.w)                       | +00c
         andi.w  #0xf,d0                         | +010
-        beq.w   TaskHandler_072c38              | +014
+        beq.w   FinalBoss_NullSprite_072c38     | +014
         lsl.w   #0x2,d0                         | +018
         move.l  (a0,d0.w),d0                    | +01a
         cmpi.l  #0xffffffff,d0                  | +01e
-        beq.w   TaskHandler_072c38              | +024
+        beq.w   FinalBoss_NullSprite_072c38     | +024
         movea.l d0,a0                           | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072c38  @ $072C38  (6 B)
+|  FinalBoss_NullSprite_072c38  @ $072C38  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072c38, "ax", @progbits
-        .global TaskHandler_072c38
-TaskHandler_072c38:
+        .section .text.FinalBoss_NullSprite_072c38, "ax", @progbits
+        .global FinalBoss_NullSprite_072c38
+FinalBoss_NullSprite_072c38:
         movea.l #0xffffffff,a0                  | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_00072C44  @ $072C44  (78 B)
+|  FinalBoss_HitTestPlayers_072c44  @ $072C44  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072C44, "ax", @progbits
-        .global Sub_00072C44
-Sub_00072C44:
+        .section .text.FinalBoss_HitTestPlayers_072c44, "ax", @progbits
+        .global FinalBoss_HitTestPlayers_072c44
+FinalBoss_HitTestPlayers_072c44:
         clr.w   d0                              | +000
         jsr     0x5e42a.l                       | +002
         bcc.w   .L072c6c                        | +008
@@ -1010,34 +1010,34 @@ Sub_00072C44:
         movea.l 0x78(a0),a1                     | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072d28  @ $072D28  (72 B)
+|  FinalBoss_SpawnBeamAndCasing_072d28  @ $072D28  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072d28, "ax", @progbits
-        .global TaskHandler_072d28
-TaskHandler_072d28:
+        .section .text.FinalBoss_SpawnBeamAndCasing_072d28, "ax", @progbits
+        .global FinalBoss_SpawnBeamAndCasing_072d28
+FinalBoss_SpawnBeamAndCasing_072d28:
         lea     FinalBoss_Beam_071ee6(pc),a1    | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  #0xffd6,d0                      | +010
-        jsr     Sub_00072782(pc)                | +014
+        jsr     Facing_NegIfLeft_072782(pc)     | +014
         add.w   d0,0x22(a0)                     | +018
         addi.w  #0x40,0x24(a0)                  | +01c
         lea     FinalBoss_Casing_071e50(pc),a1  | +022
         jsr     0x4ae.l                         | +026
         jsr     0x5dd02.l                       | +02c
         move.w  #0xfff0,d0                      | +032
-        jsr     Sub_00072782(pc)                | +036
+        jsr     Facing_NegIfLeft_072782(pc)     | +036
         add.w   d0,0x22(a0)                     | +03a
         addi.w  #0x16,0x24(a0)                  | +03e
         move.w  #0x1064,d0                      | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072d78  @ $072D78  (36 B)
+|  FinalBoss_SpawnWreckAndFlame_072d78  @ $072D78  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072d78, "ax", @progbits
-        .global TaskHandler_072d78
-TaskHandler_072d78:
-        lea     TaskHandler_07201a(pc),a1       | +000
+        .section .text.FinalBoss_SpawnWreckAndFlame_072d78, "ax", @progbits
+        .global FinalBoss_SpawnWreckAndFlame_072d78
+FinalBoss_SpawnWreckAndFlame_072d78:
+        lea     FinalBoss_WreckA_07201a(pc),a1  | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         lea     FinalBoss_Flame_071eb6(pc),a1   | +010
@@ -1046,20 +1046,20 @@ TaskHandler_072d78:
         move.w  #0x1066,d0                      | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072da4  @ $072DA4  (12 B)
+|  FinalBoss_SpawnDebris2D91F8_072da4  @ $072DA4  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072da4, "ax", @progbits
-        .global TaskHandler_072da4
-TaskHandler_072da4:
+        .section .text.FinalBoss_SpawnDebris2D91F8_072da4, "ax", @progbits
+        .global FinalBoss_SpawnDebris2D91F8_072da4
+FinalBoss_SpawnDebris2D91F8_072da4:
         lea     0x2d91f8.l,a1                   | +000
         jsr     0x77c7e.l                       | +006
 
 | ----------------------------------------------------------------------------
-|  Sub_00072DB8  @ $072DB8  (48 B)
+|  FinalBoss_SpawnSmokeColumn_072db8  @ $072DB8  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00072DB8, "ax", @progbits
-        .global Sub_00072DB8
-Sub_00072DB8:
+        .section .text.FinalBoss_SpawnSmokeColumn_072db8, "ax", @progbits
+        .global FinalBoss_SpawnSmokeColumn_072db8
+FinalBoss_SpawnSmokeColumn_072db8:
         jsr     0x6e412.l                       | +000
         move.w  #0x10,d0                        | +006
 .L072dc2:
@@ -1074,11 +1074,11 @@ Sub_00072DB8:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072dea  @ $072DEA  (34 B)
+|  FinalBoss_AttackThenDebris_072dea  @ $072DEA  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072dea, "ax", @progbits
-        .global TaskHandler_072dea
-TaskHandler_072dea:
+        .section .text.FinalBoss_AttackThenDebris_072dea, "ax", @progbits
+        .global FinalBoss_AttackThenDebris_072dea
+FinalBoss_AttackThenDebris_072dea:
         move.l  #0x2d8f1c,0x4c(a6)              | +000
         jsr     0x283ca.l                       | +008
         jsr     0x283d8.l                       | +00e
@@ -1086,16 +1086,16 @@ TaskHandler_072dea:
         lea     0x2d920a.l,a1                   | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072e14  @ $072E14  (100 B)
+|  FinalBoss_SpawnCannonPair_072e14  @ $072E14  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072e14, "ax", @progbits
-        .global TaskHandler_072e14
-TaskHandler_072e14:
+        .section .text.FinalBoss_SpawnCannonPair_072e14, "ax", @progbits
+        .global FinalBoss_SpawnCannonPair_072e14
+FinalBoss_SpawnCannonPair_072e14:
         lea     FinalBoss_CannonB_071dc8(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  #0x29,d0                        | +010
-        jsr     Sub_00072782(pc)                | +014
+        jsr     Facing_NegIfLeft_072782(pc)     | +014
         move.w  d0,0x9a(a0)                     | +018
         addi.w  #0x1e,0x9c(a0)                  | +01c
         jsr     0x5e9b6.l                       | +022
@@ -1108,22 +1108,22 @@ TaskHandler_072e14:
         move.b  d0,0x98(a0)                     | +044
         move.b  0x20(a6),0x20(a0)               | +048
         move.w  #0x25,d0                        | +04e
-        jsr     Sub_00072782(pc)                | +052
+        jsr     Facing_NegIfLeft_072782(pc)     | +052
         move.w  d0,0x9a(a0)                     | +056
         move.w  #0x44,0x9c(a0)                  | +05a
         move.w  #0x10c6,d0                      | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072e80  @ $072E80  (96 B)
+|  FinalBoss_SpawnCannonPairB_072e80  @ $072E80  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072e80, "ax", @progbits
-        .global TaskHandler_072e80
-TaskHandler_072e80:
+        .section .text.FinalBoss_SpawnCannonPairB_072e80, "ax", @progbits
+        .global FinalBoss_SpawnCannonPairB_072e80
+FinalBoss_SpawnCannonPairB_072e80:
         lea     FinalBoss_CannonB_071dc8(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  #0x2c,d0                        | +010
-        jsr     Sub_00072782(pc)                | +014
+        jsr     Facing_NegIfLeft_072782(pc)     | +014
         move.w  d0,0x9a(a0)                     | +018
         addi.w  #0x1e,0x9c(a0)                  | +01c
         jsr     0x5e9b6.l                       | +022
@@ -1136,96 +1136,96 @@ TaskHandler_072e80:
         addq.w  #0x8,d0                         | +044
         move.b  d0,0x98(a6)                     | +046
         move.w  #0x2c,d0                        | +04a
-        jsr     Sub_00072782(pc)                | +04e
+        jsr     Facing_NegIfLeft_072782(pc)     | +04e
         move.w  d0,0x9a(a0)                     | +052
         move.w  #0x44,0x9c(a0)                  | +056
         move.w  #0x10c6,d0                      | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072ee8  @ $072EE8  (80 B)
+|  FinalBoss_SpawnSmokeAndWreckB_072ee8  @ $072EE8  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072ee8, "ax", @progbits
-        .global TaskHandler_072ee8
-TaskHandler_072ee8:
+        .section .text.FinalBoss_SpawnSmokeAndWreckB_072ee8, "ax", @progbits
+        .global FinalBoss_SpawnSmokeAndWreckB_072ee8
+FinalBoss_SpawnSmokeAndWreckB_072ee8:
         lea     0x66b6c.l,a1                    | +000
         jsr     0x4ae.l                         | +006
         jsr     0x5dd02.l                       | +00c
         eori.b  #0x1,0x3a(a0)                   | +012
         move.w  #0x18,d0                        | +018
-        jsr     Sub_00072782(pc)                | +01c
+        jsr     Facing_NegIfLeft_072782(pc)     | +01c
         add.w   d0,0x22(a0)                     | +020
         addi.w  #0x10,0x24(a0)                  | +024
-        lea     TaskHandler_072144(pc),a1       | +02a
+        lea     FinalBoss_WreckB_072144(pc),a1  | +02a
         jsr     0x4ae.l                         | +02e
         jsr     0x5dd02.l                       | +034
         move.w  #0x20,d0                        | +03a
-        jsr     Sub_00072782(pc)                | +03e
+        jsr     Facing_NegIfLeft_072782(pc)     | +03e
         move.w  d0,0x90(a0)                     | +042
         addi.w  #0x10,0x92(a0)                  | +046
         move.w  #0x10a4,d0                      | +04c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072f40  @ $072F40  (36 B)
+|  FinalBoss_SpawnPuffA_072f40  @ $072F40  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072f40, "ax", @progbits
-        .global TaskHandler_072f40
-TaskHandler_072f40:
-        lea     TaskHandler_072388(pc),a1       | +000
+        .section .text.FinalBoss_SpawnPuffA_072f40, "ax", @progbits
+        .global FinalBoss_SpawnPuffA_072f40
+FinalBoss_SpawnPuffA_072f40:
+        lea     FinalBoss_SmokePuff_072388(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  #0xfff0,d0                      | +010
-        jsr     Sub_00072782(pc)                | +014
+        jsr     Facing_NegIfLeft_072782(pc)     | +014
         add.w   d0,0x22(a0)                     | +018
         addi.w  #0xe,0x24(a0)                   | +01c
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072f64  @ $072F64  (36 B)
+|  FinalBoss_SpawnPuffB_072f64  @ $072F64  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072f64, "ax", @progbits
-        .global TaskHandler_072f64
-TaskHandler_072f64:
-        lea     TaskHandler_072388(pc),a1       | +000
+        .section .text.FinalBoss_SpawnPuffB_072f64, "ax", @progbits
+        .global FinalBoss_SpawnPuffB_072f64
+FinalBoss_SpawnPuffB_072f64:
+        lea     FinalBoss_SmokePuff_072388(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  #0xfff4,d0                      | +010
-        jsr     Sub_00072782(pc)                | +014
+        jsr     Facing_NegIfLeft_072782(pc)     | +014
         add.w   d0,0x22(a0)                     | +018
         addi.w  #0xfffe,0x24(a0)                | +01c
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072f88  @ $072F88  (36 B)
+|  FinalBoss_SpawnPuffC_072f88  @ $072F88  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072f88, "ax", @progbits
-        .global TaskHandler_072f88
-TaskHandler_072f88:
-        lea     TaskHandler_072388(pc),a1       | +000
+        .section .text.FinalBoss_SpawnPuffC_072f88, "ax", @progbits
+        .global FinalBoss_SpawnPuffC_072f88
+FinalBoss_SpawnPuffC_072f88:
+        lea     FinalBoss_SmokePuff_072388(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
         move.w  #0x4,d0                         | +010
-        jsr     Sub_00072782(pc)                | +014
+        jsr     Facing_NegIfLeft_072782(pc)     | +014
         add.w   d0,0x22(a0)                     | +018
         addi.w  #0xfffe,0x24(a0)                | +01c
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072fac  @ $072FAC  (16 B)
+|  FinalBoss_CmpDepthToParent_072fac  @ $072FAC  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072fac, "ax", @progbits
-        .global TaskHandler_072fac
-TaskHandler_072fac:
+        .section .text.FinalBoss_CmpDepthToParent_072fac, "ax", @progbits
+        .global FinalBoss_CmpDepthToParent_072fac
+FinalBoss_CmpDepthToParent_072fac:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_072fc2                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_072fc8  @ $072FC8  (244 B)
+|  M5Tank_Tmpl76_072fc8  @ $072FC8  (244 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_072fc8, "ax", @progbits
-        .global TaskHandler_072fc8
-TaskHandler_072fc8:
+        .section .text.M5Tank_Tmpl76_072fc8, "ax", @progbits
+        .global M5Tank_Tmpl76_072fc8
+M5Tank_Tmpl76_072fc8:
         move.w  #0x28,d0                        | +000
         jsr     0x2352.l                        | +004
         move.w  #0xec,d1                        | +00a
@@ -1250,19 +1250,19 @@ TaskHandler_072fc8:
         jsr     0x4ae.l                         | +07a
         jsr     0x5dd02.l                       | +080
         move.w  #0x3c,0x98(a0)                  | +086
-        lea     TaskHandler_07350a(pc),a1       | +08c
+        lea     M5Tank_Hull_07350a(pc),a1       | +08c
         jsr     0x4ae.l                         | +090
         jsr     0x5dd02.l                       | +096
         clr.w   0x7c(a0)                        | +09c
-        lea     TaskHandler_0735b8(pc),a1       | +0a0
+        lea     M5Tank_Cabin_0735b8(pc),a1      | +0a0
         jsr     0x4ae.l                         | +0a4
         jsr     0x5dd02.l                       | +0aa
         move.w  #0xffff,0x7c(a0)                | +0b0
-        lea     TaskHandler_073688(pc),a1       | +0b6
+        lea     M5Tank_Launcher_073688(pc),a1   | +0b6
         jsr     0x4ae.l                         | +0ba
         jsr     0x5dd02.l                       | +0c0
         move.w  #0xffff,0x7c(a0)                | +0c6
-        lea     TaskHandler_073952(pc),a1       | +0cc
+        lea     M5Tank_Gun_073952(pc),a1        | +0cc
         jsr     0x4ae.l                         | +0d0
         jsr     0x5dd02.l                       | +0d6
         clr.b   0x73(a6)                        | +0dc
@@ -1272,15 +1272,15 @@ TaskHandler_072fc8:
         jsr     0x2352.l                        | +0ee
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0730bc  @ $0730BC  (140 B)
+|  M5Tank_Drive_0730bc  @ $0730BC  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0730bc, "ax", @progbits
-        .global TaskHandler_0730bc
-TaskHandler_0730bc:
+        .section .text.M5Tank_Drive_0730bc, "ax", @progbits
+        .global M5Tank_Drive_0730bc
+M5Tank_Drive_0730bc:
         tst.b   0x75(a6)                        | +000
-        bne.w   TaskHandler_0731b4              | +004
-        jsr     TaskHandler_074122(pc)          | +008
-        bcs.w   TaskHandler_073148              | +00c
+        bne.w   M5Tank_Retreat_0731b4           | +004
+        jsr     M5Tank_InScreen_074122(pc)      | +008
+        bcs.w   M5Tank_Turn_073148              | +00c
         move.w  0x36(a6),d0                     | +010
         move.w  #0x4,d1                         | +014
         btst    #0x0,0x73(a6)                   | +018
@@ -1306,23 +1306,23 @@ TaskHandler_0730bc:
         jsr     0x28998.l                       | +05e
         jsr     0x27afc.l                       | +064
         bcc.w   .L073130                        | +06a
-        lea     TaskHandler_073148(pc),a1       | +06e
+        lea     M5Tank_Turn_073148(pc),a1       | +06e
         move.l  a1,(a6)                         | +072
 .L073130:
-        jsr     TaskHandler_07410e(pc)          | +074
+        jsr     M5Tank_InScreenSetC_07410e(pc)  | +074
         bcc.w   .L07313e                        | +078
-        lea     TaskHandler_073148(pc),a1       | +07c
+        lea     M5Tank_Turn_073148(pc),a1       | +07c
         move.l  a1,(a6)                         | +080
 .L07313e:
         jsr     0x28d70.l                       | +082
-        bra.w   TaskHandler_0732e8__L073382     | +088
+        bra.w   M5Tank_Phase3_0732e8__L073382   | +088
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073148  @ $073148  (108 B)
+|  M5Tank_Turn_073148  @ $073148  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073148, "ax", @progbits
-        .global TaskHandler_073148
-TaskHandler_073148:
+        .section .text.M5Tank_Turn_073148, "ax", @progbits
+        .global M5Tank_Turn_073148
+M5Tank_Turn_073148:
         eori.b  #0x1,0x73(a6)                   | +000
         clr.w   0x28(a6)                        | +006
         move.w  #0x3c,0x70(a6)                  | +00a
@@ -1345,17 +1345,17 @@ TaskHandler_073148:
         subq.w  #0x1,0x70(a6)                   | +054
         cmpi.w  #0x0,0x70(a6)                   | +058
         bgt.w   .L0731b0                        | +05e
-        lea     TaskHandler_0730bc(pc),a1       | +062
+        lea     M5Tank_Drive_0730bc(pc),a1      | +062
         move.l  a1,(a6)                         | +066
 .L0731b0:
-        bra.w   TaskHandler_0732e8__L073382     | +068
+        bra.w   M5Tank_Phase3_0732e8__L073382   | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0731b4  @ $0731B4  (170 B)
+|  M5Tank_Retreat_0731b4  @ $0731B4  (170 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0731b4, "ax", @progbits
-        .global TaskHandler_0731b4
-TaskHandler_0731b4:
+        .section .text.M5Tank_Retreat_0731b4, "ax", @progbits
+        .global M5Tank_Retreat_0731b4
+M5Tank_Retreat_0731b4:
         move.w  #0x1050,d0                      | +000
         move.w  #0xcf,d1                        | +004
         jsr     0x440d0.l                       | +008
@@ -1389,26 +1389,26 @@ TaskHandler_0731b4:
 .L073226:
         jsr     0x28998.l                       | +072
         jsr     0x27afc.l                       | +078
-        jsr     TaskHandler_074196(pc)          | +07e
+        jsr     M5Tank_AtGoalX_074196(pc)       | +07e
         bcc.w   .L073240                        | +082
-        lea     TaskHandler_07325e(pc),a1       | +086
+        lea     M5Tank_Pause_07325e(pc),a1      | +086
         move.l  a1,(a6)                         | +08a
 .L073240:
         jsr     0x28d70.l                       | +08c
         subq.w  #0x1,0x70(a6)                   | +092
         cmpi.w  #0x0,0x70(a6)                   | +096
         bgt.w   .L07325a                        | +09c
-        lea     TaskHandler_07325e(pc),a1       | +0a0
+        lea     M5Tank_Pause_07325e(pc),a1      | +0a0
         move.l  a1,(a6)                         | +0a4
 .L07325a:
-        bra.w   TaskHandler_0732e8__L073382     | +0a6
+        bra.w   M5Tank_Phase3_0732e8__L073382   | +0a6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07325e  @ $07325E  (50 B)
+|  M5Tank_Pause_07325e  @ $07325E  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07325e, "ax", @progbits
-        .global TaskHandler_07325e
-TaskHandler_07325e:
+        .section .text.M5Tank_Pause_07325e, "ax", @progbits
+        .global M5Tank_Pause_07325e
+M5Tank_Pause_07325e:
         move.w  #0x14,0x70(a6)                  | +000
         move.b  #0x2,0x75(a6)                   | +006
         move.l  #0x2dab18,0x4c(a6)              | +00c
@@ -1418,31 +1418,31 @@ TaskHandler_07325e:
         subq.w  #0x1,0x70(a6)                   | +01a
         cmpi.w  #0x0,0x70(a6)                   | +01e
         bgt.w   .L07328c                        | +024
-        lea     TaskHandler_073290(pc),a1       | +028
+        lea     M5Tank_Phase2_073290(pc),a1     | +028
         move.l  a1,(a6)                         | +02c
 .L07328c:
-        bra.w   TaskHandler_073290__L0732ac     | +02e
+        bra.w   M5Tank_Phase2_073290__L0732ac   | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073290  @ $073290  (88 B)
+|  M5Tank_Phase2_073290  @ $073290  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073290, "ax", @progbits
-        .global TaskHandler_073290
-TaskHandler_073290:
+        .section .text.M5Tank_Phase2_073290, "ax", @progbits
+        .global M5Tank_Phase2_073290
+M5Tank_Phase2_073290:
         move.w  #0x10a7,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x2db5a4.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
         lea     .L0732ac(pc),a1                 | +016
         move.l  a1,(a6)                         | +01a
-        .global TaskHandler_073290__L0732ac
-TaskHandler_073290__L0732ac:
+        .global M5Tank_Phase2_073290__L0732ac
+M5Tank_Phase2_073290__L0732ac:
 .L0732ac:
         jsr     0x28998.l                       | +01c
         jsr     0x2783a.l                       | +022
         jsr     0x28d70.l                       | +028
         bcc.w   .L0732c8                        | +02e
-        lea     TaskHandler_0732e8(pc),a1       | +032
+        lea     M5Tank_Phase3_0732e8(pc),a1     | +032
         move.l  a1,(a6)                         | +036
 .L0732c8:
         jsr     0x2870a.l                       | +038
@@ -1451,14 +1451,14 @@ TaskHandler_073290__L0732ac:
         lea     0x5e766.l,a0                    | +048
         jsr     0x5e770.l                       | +04e
 .L0732e4:
-        bra.w   TaskHandler_0732e8__L0733d4     | +054
+        bra.w   M5Tank_Phase3_0732e8__L0733d4   | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0732e8  @ $0732E8  (282 B)
+|  M5Tank_Phase3_0732e8  @ $0732E8  (282 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0732e8, "ax", @progbits
-        .global TaskHandler_0732e8
-TaskHandler_0732e8:
+        .section .text.M5Tank_Phase3_0732e8, "ax", @progbits
+        .global M5Tank_Phase3_0732e8
+M5Tank_Phase3_0732e8:
         lea     0x2bb07e.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x90(a6)                     | +00c
@@ -1487,7 +1487,7 @@ TaskHandler_0732e8:
         bcc.w   .L07337e                        | +072
         cmpi.w  #0x0,0x90(a6)                   | +076
         bgt.w   .L073372                        | +07c
-        lea     TaskHandler_07340a(pc),a1       | +080
+        lea     M5Tank_Die_07340a(pc),a1        | +080
         move.l  a1,(a6)                         | +084
         bra.w   .L07337e                        | +086
 .L073372:
@@ -1495,8 +1495,8 @@ TaskHandler_0732e8:
         move.w  #0x14,0x66(a6)                  | +090
 .L07337e:
         bra.w   .L0733fc                        | +096
-        .global TaskHandler_0732e8__L073382
-TaskHandler_0732e8__L073382:
+        .global M5Tank_Phase3_0732e8__L073382
+M5Tank_Phase3_0732e8__L073382:
 .L073382:
         jsr     0x2870a.l                       | +09a
         bcc.w   .L0733d4                        | +0a0
@@ -1513,10 +1513,10 @@ TaskHandler_0732e8__L073382:
         jsr     0x77c7e.l                       | +0d6
         move.w  #0x1032,d0                      | +0dc
         jsr     0x2352.l                        | +0e0
-        lea     TaskHandler_0731b4(pc),a1       | +0e6
+        lea     M5Tank_Retreat_0731b4(pc),a1    | +0e6
         move.l  a1,(a6)                         | +0ea
-        .global TaskHandler_0732e8__L0733d4
-TaskHandler_0732e8__L0733d4:
+        .global M5Tank_Phase3_0732e8__L0733d4
+M5Tank_Phase3_0732e8__L0733d4:
 .L0733d4:
         jsr     0x28758.l                       | +0ec
         bcc.w   .L0733fc                        | +0f2
@@ -1529,12 +1529,12 @@ TaskHandler_0732e8__L0733d4:
         jsr     0x283ca.l                       | +114
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07340a  @ $07340A  (66 B)
+|  M5Tank_Die_07340a  @ $07340A  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07340a, "ax", @progbits
-        .global TaskHandler_07340a
-TaskHandler_07340a:
-        jsr     TaskHandler_0745b0(pc)          | +000
+        .section .text.M5Tank_Die_07340a, "ax", @progbits
+        .global M5Tank_Die_07340a
+M5Tank_Die_07340a:
+        jsr     M5Tank_SpawnDebrisD_0745b0(pc)  | +000
         clr.b   0x106ed3.l                      | +004
         move.w  #0x1033,d0                      | +00a
         jsr     0x2352.l                        | +00e
@@ -1550,11 +1550,11 @@ TaskHandler_07340a:
         clr.b   0x106ed2.l                      | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073454  @ $073454  (48 B)
+|  M5Tank_Sink_073454  @ $073454  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073454, "ax", @progbits
-        .global TaskHandler_073454
-TaskHandler_073454:
+        .section .text.M5Tank_Sink_073454, "ax", @progbits
+        .global M5Tank_Sink_073454
+M5Tank_Sink_073454:
         lea     0x2db6de.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L073466(pc),a1                 | +00c
@@ -1563,18 +1563,18 @@ TaskHandler_073454:
         jsr     0x2783a.l                       | +012
         jsr     0x28d70.l                       | +018
         bcc.w   .L07347c                        | +01e
-        lea     TaskHandler_073484(pc),a1       | +022
+        lea     M5Tank_Explode_073484(pc),a1    | +022
         move.l  a1,(a6)                         | +026
 .L07347c:
         move.b  #0xff,0x92(a6)                  | +028
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073484  @ $073484  (110 B)
+|  M5Tank_Explode_073484  @ $073484  (110 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073484, "ax", @progbits
-        .global TaskHandler_073484
-TaskHandler_073484:
+        .section .text.M5Tank_Explode_073484, "ax", @progbits
+        .global M5Tank_Explode_073484
+M5Tank_Explode_073484:
         addi.w  #0x20,0x24(a6)                  | +000
         move.w  #0x102f,d0                      | +006
         jsr     0x2352.l                        | +00a
@@ -1590,25 +1590,25 @@ TaskHandler_073484:
         jsr     0x4ae.l                         | +046
         jsr     0x5dd02.l                       | +04c
         addi.w  #0x38,0x22(a0)                  | +052
-        jsr     TaskHandler_07455a(pc)          | +058
+        jsr     M5Tank_SpawnSmokeColumn_07455a(pc) | +058
         subi.w  #0x20,0x24(a6)                  | +05c
         jsr     0x28d70.l                       | +062
         jmp     0x518.l                         | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0734f2  @ $0734F2  (2 B)
+|  M5Tank_Rts_0734f2  @ $0734F2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0734f2, "ax", @progbits
-        .global TaskHandler_0734f2
-TaskHandler_0734f2:
+        .section .text.M5Tank_Rts_0734f2, "ax", @progbits
+        .global M5Tank_Rts_0734f2
+M5Tank_Rts_0734f2:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07350a  @ $07350A  (148 B)
+|  M5Tank_Hull_07350a  @ $07350A  (148 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07350a, "ax", @progbits
-        .global TaskHandler_07350a
-TaskHandler_07350a:
+        .section .text.M5Tank_Hull_07350a, "ax", @progbits
+        .global M5Tank_Hull_07350a
+M5Tank_Hull_07350a:
         move.l  #0x2db15c,0x8c(a6)              | +000
         move.l  #0x2dadb4,0x48(a6)              | +008
         move.w  #0x64,0x66(a6)                  | +010
@@ -1621,7 +1621,7 @@ TaskHandler_07350a:
         lea     .L073548(pc),a1                 | +038
         move.l  a1,(a6)                         | +03c
 .L073548:
-        jsr     TaskHandler_0741f8(pc)          | +03e
+        jsr     M5Tank_FollowParentSprite_0741f8(pc) | +03e
         jsr     0x28d70.l                       | +042
         jsr     0x2870a.l                       | +048
         bcc.w   .L07356e                        | +04e
@@ -1631,13 +1631,13 @@ TaskHandler_07350a:
 .L07356e:
         jsr     0x28758.l                       | +064
         bcc.w   .L07357e                        | +06a
-        lea     TaskHandler_0735a6(pc),a1       | +06e
+        lea     M5Tank_PartExplode_0735a6(pc),a1 | +06e
         move.l  a1,(a6)                         | +072
 .L07357e:
         movea.l 0xc(a6),a0                      | +074
         tst.b   0x75(a0)                        | +078
         beq.w   .L073590                        | +07c
-        lea     TaskHandler_0735a6(pc),a1       | +080
+        lea     M5Tank_PartExplode_0735a6(pc),a1 | +080
         move.l  a1,(a6)                         | +084
 .L073590:
         movea.l 0xc(a6),a0                      | +086
@@ -1645,21 +1645,21 @@ TaskHandler_07350a:
         bne.w   SetHandlerRts_0735a4            | +090
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0735a6  @ $0735A6  (18 B)
+|  M5Tank_PartExplode_0735a6  @ $0735A6  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0735a6, "ax", @progbits
-        .global TaskHandler_0735a6
-TaskHandler_0735a6:
+        .section .text.M5Tank_PartExplode_0735a6, "ax", @progbits
+        .global M5Tank_PartExplode_0735a6
+M5Tank_PartExplode_0735a6:
         move.l  #0xffffffff,0x48(a6)            | +000
         addi.w  #0x40,0x24(a6)                  | +008
         bra.w   Sub_00077FD6                    | +00e  -> $077FD6 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0735b8  @ $0735B8  (200 B)
+|  M5Tank_Cabin_0735b8  @ $0735B8  (200 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0735b8, "ax", @progbits
-        .global TaskHandler_0735b8
-TaskHandler_0735b8:
+        .section .text.M5Tank_Cabin_0735b8, "ax", @progbits
+        .global M5Tank_Cabin_0735b8
+M5Tank_Cabin_0735b8:
         clr.b   0x20(a6)                        | +000
         lea     0x6a7de.l,a1                    | +004
         jsr     0x4ae.l                         | +00a
@@ -1688,7 +1688,7 @@ TaskHandler_0735b8:
         lea     .L07363e(pc),a1                 | +080
         move.l  a1,(a6)                         | +084
 .L07363e:
-        jsr     TaskHandler_0741f8(pc)          | +086
+        jsr     M5Tank_FollowParentSprite_0741f8(pc) | +086
         movea.l 0xc(a6),a0                      | +08a
         btst    #0x7,0x5a(a0)                   | +08e
         beq.w   .L073656                        | +094
@@ -1705,11 +1705,11 @@ TaskHandler_0735b8:
         bcc.w   SetHandlerRts_073686            | +0c4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073688  @ $073688  (204 B)
+|  M5Tank_Launcher_073688  @ $073688  (204 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073688, "ax", @progbits
-        .global TaskHandler_073688
-TaskHandler_073688:
+        .section .text.M5Tank_Launcher_073688, "ax", @progbits
+        .global M5Tank_Launcher_073688
+M5Tank_Launcher_073688:
         clr.b   0x79(a6)                        | +000
         lea     0x2bb286.l,a0                   | +004
         jsr     0x799de.l                       | +00a
@@ -1727,7 +1727,7 @@ TaskHandler_073688:
         lea     .L0736dc(pc),a1                 | +04e
         move.l  a1,(a6)                         | +052
 .L0736dc:
-        jsr     TaskHandler_0741f8(pc)          | +054
+        jsr     M5Tank_FollowParentSprite_0741f8(pc) | +054
         movea.l 0xc(a6),a0                      | +058
         btst    #0x7,0x5a(a0)                   | +05c
         beq.w   .L0736f4                        | +062
@@ -1737,7 +1737,7 @@ TaskHandler_073688:
         subq.w  #0x1,0x70(a6)                   | +072
         cmpi.w  #0x0,0x70(a6)                   | +076
         bgt.w   .L07374a                        | +07c
-        jsr     TaskHandler_074336(pc)          | +080
+        jsr     M5Tank_SpawnRocket_074336(pc)   | +080
         lea     0x2bb38a.l,a0                   | +084
         jsr     0x799de.l                       | +08a
         move.w  d0,0x70(a6)                     | +090
@@ -1755,12 +1755,12 @@ TaskHandler_073688:
         bcc.w   SetHandlerRts_07375a            | +0c8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07375c  @ $07375C  (160 B)
+|  M5Tank_Turret_07375c  @ $07375C  (160 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07375c, "ax", @progbits
-        .global TaskHandler_07375c
-TaskHandler_07375c:
-        jsr     TaskHandler_0745a2(pc)          | +000
+        .section .text.M5Tank_Turret_07375c, "ax", @progbits
+        .global M5Tank_Turret_07375c
+M5Tank_Turret_07375c:
+        jsr     M5Tank_SpawnDebrisC_0745a2(pc)  | +000
         lea     0x2baffc.l,a0                   | +004
         jsr     0x799de.l                       | +00a
         move.w  d0,0x66(a6)                     | +010
@@ -1778,10 +1778,10 @@ TaskHandler_07375c:
         jsr     0x2783a.l                       | +04a
         jsr     0x28d70.l                       | +050
         bcc.w   .L0737bc                        | +056
-        lea     TaskHandler_073804(pc),a1       | +05a
+        lea     M5Tank_TurretFire_073804(pc),a1 | +05a
         move.l  a1,(a6)                         | +05e
-        .global TaskHandler_07375c__L0737bc
-TaskHandler_07375c__L0737bc:
+        .global M5Tank_Turret_07375c__L0737bc
+M5Tank_Turret_07375c__L0737bc:
 .L0737bc:
         jsr     0x2870a.l                       | +060
         bcc.w   .L0737de                        | +066
@@ -1792,7 +1792,7 @@ TaskHandler_07375c__L0737bc:
 .L0737de:
         jsr     0x28758.l                       | +082
         bcc.w   .L0737ee                        | +088
-        lea     TaskHandler_0738d6(pc),a1       | +08c
+        lea     M5Tank_TurretDie_0738d6(pc),a1  | +08c
         move.l  a1,(a6)                         | +090
 .L0737ee:
         movea.l 0xc(a6),a0                      | +092
@@ -1800,21 +1800,21 @@ TaskHandler_07375c__L0737bc:
         bne.w   SetHandlerRts_073802            | +09c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073804  @ $073804  (16 B)
+|  M5Tank_TurretFire_073804  @ $073804  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073804, "ax", @progbits
-        .global TaskHandler_073804
-TaskHandler_073804:
-        lea     TaskHandler_073e5c(pc),a1       | +000
+        .section .text.M5Tank_TurretFire_073804, "ax", @progbits
+        .global M5Tank_TurretFire_073804
+M5Tank_TurretFire_073804:
+        lea     M5Tank_Muzzle_073e5c(pc),a1     | +000
         jsr     0x4ae.l                         | +004
         jsr     0x5dd02.l                       | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073814  @ $073814  (82 B)
+|  M5Tank_TurretAim_073814  @ $073814  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073814, "ax", @progbits
-        .global TaskHandler_073814
-TaskHandler_073814:
+        .section .text.M5Tank_TurretAim_073814, "ax", @progbits
+        .global M5Tank_TurretAim_073814
+M5Tank_TurretAim_073814:
         move.b  #0x0,0x20(a6)                   | +000
         lea     0x2bb182.l,a0                   | +006
         jsr     0x799de.l                       | +00c
@@ -1830,17 +1830,17 @@ TaskHandler_073814:
         subq.w  #0x1,0x70(a6)                   | +03a
         cmpi.w  #0x0,0x70(a6)                   | +03e
         bgt.w   .L073862                        | +044
-        lea     TaskHandler_073866(pc),a1       | +048
+        lea     M5Tank_TurretRecoil_073866(pc),a1 | +048
         move.l  a1,(a6)                         | +04c
 .L073862:
-        bra.w   TaskHandler_07375c__L0737bc     | +04e
+        bra.w   M5Tank_Turret_07375c__L0737bc   | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073866  @ $073866  (112 B)
+|  M5Tank_TurretRecoil_073866  @ $073866  (112 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073866, "ax", @progbits
-        .global TaskHandler_073866
-TaskHandler_073866:
+        .section .text.M5Tank_TurretRecoil_073866, "ax", @progbits
+        .global M5Tank_TurretRecoil_073866
+M5Tank_TurretRecoil_073866:
         clr.b   0x21(a6)                        | +000
         lea     0x2bb204.l,a0                   | +004
         jsr     0x799de.l                       | +00a
@@ -1862,27 +1862,27 @@ TaskHandler_073866:
         jsr     0x28d70.l                       | +04e
         tst.b   0x21(a6)                        | +054
         beq.w   .L0738c8                        | +058
-        lea     TaskHandler_073814(pc),a1       | +05c
+        lea     M5Tank_TurretAim_073814(pc),a1  | +05c
         move.l  a1,(a6)                         | +060
 .L0738c8:
         movea.l 0xc(a6),a0                      | +062
         move.b  #0x1,0x93(a0)                   | +066
-        bra.w   TaskHandler_07375c__L0737bc     | +06c
+        bra.w   M5Tank_Turret_07375c__L0737bc   | +06c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0738d6  @ $0738D6  (4 B)
+|  M5Tank_TurretDie_0738d6  @ $0738D6  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0738d6, "ax", @progbits
-        .global TaskHandler_0738d6
-TaskHandler_0738d6:
-        jsr     TaskHandler_0744aa(pc)          | +000
+        .section .text.M5Tank_TurretDie_0738d6, "ax", @progbits
+        .global M5Tank_TurretDie_0738d6
+M5Tank_TurretDie_0738d6:
+        jsr     M5Tank_SpawnScrap3_0744aa(pc)   | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0738da  @ $0738DA  (64 B)
+|  M5Tank_TurretWreck_0738da  @ $0738DA  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0738da, "ax", @progbits
-        .global TaskHandler_0738da
-TaskHandler_0738da:
+        .section .text.M5Tank_TurretWreck_0738da, "ax", @progbits
+        .global M5Tank_TurretWreck_0738da
+M5Tank_TurretWreck_0738da:
         movea.l 0xc(a6),a0                      | +000
         move.b  #0x5,0x75(a0)                   | +004
         move.l  #0xffffffff,0x60(a6)            | +00a
@@ -1891,25 +1891,25 @@ TaskHandler_0738da:
         move.l  #0xffffffff,0x48(a6)            | +01c
         lea     0x2dba94.l,a0                   | +024
         jsr     0x28cd4.l                       | +02a
-        lea     TaskHandler_07391a(pc),a1       | +030
+        lea     M5Tank_TurretWreck_Watch_07391a(pc),a1 | +030
         move.l  a1,(a6)                         | +034
         move.b  #0xff,0x92(a6)                  | +036
-        bra.w   TaskHandler_07391a__L073934     | +03c
+        bra.w   M5Tank_TurretWreck_Watch_07391a__L073934 | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07391a  @ $07391A  (48 B)
+|  M5Tank_TurretWreck_Watch_07391a  @ $07391A  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07391a, "ax", @progbits
-        .global TaskHandler_07391a
-TaskHandler_07391a:
+        .section .text.M5Tank_TurretWreck_Watch_07391a, "ax", @progbits
+        .global M5Tank_TurretWreck_Watch_07391a
+M5Tank_TurretWreck_Watch_07391a:
         clr.b   0x92(a6)                        | +000
         move.w  #0x92,d0                        | +004
         lea     0xee1da.l,a1                    | +008
         jsr     0x4429e.l                       | +00e
         lea     .L073934(pc),a1                 | +014
         move.l  a1,(a6)                         | +018
-        .global TaskHandler_07391a__L073934
-TaskHandler_07391a__L073934:
+        .global M5Tank_TurretWreck_Watch_07391a__L073934
+M5Tank_TurretWreck_Watch_07391a__L073934:
 .L073934:
         jsr     0x2783a.l                       | +01a
         jsr     0x28d70.l                       | +020
@@ -1917,11 +1917,11 @@ TaskHandler_07391a__L073934:
         bcc.w   SetHandlerRts_073950            | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073952  @ $073952  (216 B)
+|  M5Tank_Gun_073952  @ $073952  (216 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073952, "ax", @progbits
-        .global TaskHandler_073952
-TaskHandler_073952:
+        .section .text.M5Tank_Gun_073952, "ax", @progbits
+        .global M5Tank_Gun_073952
+M5Tank_Gun_073952:
         lea     0x2bb40c.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x70(a6)                     | +00c
@@ -1937,13 +1937,13 @@ TaskHandler_073952:
         move.l  #0x2db1b0,0x8c(a6)              | +03e
         lea     0x2dbabc.l,a0                   | +046
         jsr     0x28cd4.l                       | +04c
-        .global TaskHandler_073952__L0739a4
-TaskHandler_073952__L0739a4:
+        .global M5Tank_Gun_073952__L0739a4
+M5Tank_Gun_073952__L0739a4:
 .L0739a4:
         lea     .L0739aa(pc),a1                 | +052
         move.l  a1,(a6)                         | +056
 .L0739aa:
-        jsr     TaskHandler_07422c(pc)          | +058
+        jsr     M5Tank_FollowParentSpriteB_07422c(pc) | +058
         movea.l 0xc(a6),a0                      | +05c
         move.b  0x93(a0),d0                     | +060
         clr.b   0x93(a0)                        | +064
@@ -1963,12 +1963,12 @@ TaskHandler_073952__L0739a4:
         subi.w  #0x1,0x70(a6)                   | +09e
         cmpi.w  #0x0,0x70(a6)                   | +0a4
         bgt.w   .L073a06                        | +0aa
-        lea     TaskHandler_073a32(pc),a1       | +0ae
+        lea     M5Tank_GunFire_073a32(pc),a1    | +0ae
         move.l  a1,(a6)                         | +0b2
 .L073a06:
         jsr     0x28d70.l                       | +0b4
-        .global TaskHandler_073952__L073a0c
-TaskHandler_073952__L073a0c:
+        .global M5Tank_Gun_073952__L073a0c
+M5Tank_Gun_073952__L073a0c:
 .L073a0c:
         movea.l 0xc(a6),a0                      | +0ba
         cmpi.b  #0x6,0x75(a0)                   | +0be
@@ -1980,11 +1980,11 @@ TaskHandler_073952__L073a0c:
         bcc.w   SetHandlerRts_073a30            | +0d4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073a32  @ $073A32  (188 B)
+|  M5Tank_GunFire_073a32  @ $073A32  (188 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073a32, "ax", @progbits
-        .global TaskHandler_073a32
-TaskHandler_073a32:
+        .section .text.M5Tank_GunFire_073a32, "ax", @progbits
+        .global M5Tank_GunFire_073a32
+M5Tank_GunFire_073a32:
         movea.l 0xc(a6),a0                      | +000
         cmpi.b  #0x2,0x75(a0)                   | +004
         ble.w   .L073a54                        | +00a
@@ -2010,10 +2010,10 @@ TaskHandler_073a32:
         lea     .L073a92(pc),a1                 | +05a
         move.l  a1,(a6)                         | +05e
 .L073a92:
-        jsr     TaskHandler_07422c__L074234(pc) | +060
+        jsr     M5Tank_FollowParentSpriteB_07422c__L074234(pc) | +060
         jsr     0x28d70.l                       | +064
         bcc.w   .L073aea                        | +06a
-        lea     TaskHandler_073952__L0739a4(pc),a1 | +06e
+        lea     M5Tank_Gun_073952__L0739a4(pc),a1 | +06e
         move.l  a1,(a6)                         | +072
         subi.b  #0x1,0x72(a6)                   | +074
         cmpi.b  #0x0,0x72(a6)                   | +07a
@@ -2029,14 +2029,14 @@ TaskHandler_073a32:
         jsr     0x799de.l                       | +0ae
         move.b  d0,0x72(a6)                     | +0b4
 .L073aea:
-        bra.w   TaskHandler_073952__L073a0c     | +0b8
+        bra.w   M5Tank_Gun_073952__L073a0c      | +0b8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073aee  @ $073AEE  (108 B)
+|  M5Tank_Casing_073aee  @ $073AEE  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073aee, "ax", @progbits
-        .global TaskHandler_073aee
-TaskHandler_073aee:
+        .section .text.M5Tank_Casing_073aee, "ax", @progbits
+        .global M5Tank_Casing_073aee
+M5Tank_Casing_073aee:
         move.w  #0xec,d1                        | +000
         jsr     0x236e.l                        | +004
         move.w  #0x16,0x1c(a6)                  | +00a
@@ -2062,11 +2062,11 @@ TaskHandler_073aee:
         bne.w   SetHandlerRts_073b60            | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073b62  @ $073B62  (40 B)
+|  M5Tank_CasingGround_073b62  @ $073B62  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073b62, "ax", @progbits
-        .global TaskHandler_073b62
-TaskHandler_073b62:
+        .section .text.M5Tank_CasingGround_073b62, "ax", @progbits
+        .global M5Tank_CasingGround_073b62
+M5Tank_CasingGround_073b62:
         lea     0x2dbddc.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L073b74(pc),a1                 | +00c
@@ -2078,11 +2078,11 @@ TaskHandler_073b62:
         bcc.w   SetHandlerRts_073b90            | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073b92  @ $073B92  (26 B)
+|  M5Tank_CasingExplode_073b92  @ $073B92  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073b92, "ax", @progbits
-        .global TaskHandler_073b92
-TaskHandler_073b92:
+        .section .text.M5Tank_CasingExplode_073b92, "ax", @progbits
+        .global M5Tank_CasingExplode_073b92
+M5Tank_CasingExplode_073b92:
         move.w  #0x4000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -2090,11 +2090,11 @@ TaskHandler_073b92:
         bra.w   AnimSeq_00077F6A                | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073bac  @ $073BAC  (116 B)
+|  M5Tank_Rocket_Launch_073bac  @ $073BAC  (116 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073bac, "ax", @progbits
-        .global TaskHandler_073bac
-TaskHandler_073bac:
+        .section .text.M5Tank_Rocket_Launch_073bac, "ax", @progbits
+        .global M5Tank_Rocket_Launch_073bac
+M5Tank_Rocket_Launch_073bac:
         bset    #0x4,0x6b(a6)                   | +000
         move.w  #0x23,d1                        | +006
         jsr     0x236e.l                        | +00a
@@ -2105,20 +2105,20 @@ TaskHandler_073bac:
         lea     .L073bd8(pc),a1                 | +026
         move.l  a1,(a6)                         | +02a
 .L073bd8:
-        jsr     TaskHandler_074260(pc)          | +02c
+        jsr     M5Tank_FollowParentGun_074260(pc) | +02c
         jsr     0x28d70.l                       | +030
         bcc.w   .L073bf6                        | +036
         move.w  #0x10a4,d0                      | +03a
         jsr     0x2352.l                        | +03e
-        lea     TaskHandler_073c28(pc),a1       | +044
+        lea     M5Tank_Rocket_Fly_073c28(pc),a1 | +044
         move.l  a1,(a6)                         | +048
-        .global TaskHandler_073bac__L073bf6
-TaskHandler_073bac__L073bf6:
+        .global M5Tank_Rocket_Launch_073bac__L073bf6
+M5Tank_Rocket_Launch_073bac__L073bf6:
 .L073bf6:
         movea.l 0xc(a6),a0                      | +04a
         cmpi.b  #0x5,0x76(a0)                   | +04e
         bne.w   .L073c0a                        | +054
-        lea     TaskHandler_073d76(pc),a1       | +058
+        lea     M5Tank_Rocket_Explode_073d76(pc),a1 | +058
         move.l  a1,(a6)                         | +05c
 .L073c0a:
         movea.l #0xffffffff,a0                  | +05e
@@ -2127,11 +2127,11 @@ TaskHandler_073bac__L073bf6:
         bcc.w   SetHandlerRts_073c26            | +070
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073c28  @ $073C28  (334 B)
+|  M5Tank_Rocket_Fly_073c28  @ $073C28  (334 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073c28, "ax", @progbits
-        .global TaskHandler_073c28
-TaskHandler_073c28:
+        .section .text.M5Tank_Rocket_Fly_073c28, "ax", @progbits
+        .global M5Tank_Rocket_Fly_073c28
+M5Tank_Rocket_Fly_073c28:
         clr.w   0x80(a6)                        | +000
         move.w  #0x14,0x66(a6)                  | +004
         move.w  #0x400,0x36(a6)                 | +00a
@@ -2167,7 +2167,7 @@ TaskHandler_073c28:
 .L073cba:
         jsr     0x78f8a.l                       | +092
         bcc.w   .L073cca                        | +098
-        lea     TaskHandler_073d76(pc),a1       | +09c
+        lea     M5Tank_Rocket_Explode_073d76(pc),a1 | +09c
         move.l  a1,(a6)                         | +0a0
 .L073cca:
         move.b  0x34(a6),d0                     | +0a2
@@ -2175,13 +2175,13 @@ TaskHandler_073c28:
         lsr.w   #0x3,d0                         | +0aa
         move.w  d0,0x7e(a6)                     | +0ac
         jsr     0x28d70.l                       | +0b0
-        .global TaskHandler_073c28__L073cde
-TaskHandler_073c28__L073cde:
+        .global M5Tank_Rocket_Fly_073c28__L073cde
+M5Tank_Rocket_Fly_073c28__L073cde:
 .L073cde:
         jsr     0x283d8.l                       | +0b6
         btst    #0x1,0x13(a6)                   | +0bc
         beq.w   .L073cf4                        | +0c2
-        lea     TaskHandler_073b92(pc),a1       | +0c6
+        lea     M5Tank_CasingExplode_073b92(pc),a1 | +0c6
         move.l  a1,(a6)                         | +0ca
 .L073cf4:
         jsr     0x2870a.l                       | +0cc
@@ -2192,42 +2192,42 @@ TaskHandler_073c28__L073cde:
 .L073d10:
         jsr     0x28758.l                       | +0e8
         bcc.w   .L073d20                        | +0ee
-        lea     TaskHandler_073d76(pc),a1       | +0f2
+        lea     M5Tank_Rocket_Explode_073d76(pc),a1 | +0f2
         move.l  a1,(a6)                         | +0f6
 .L073d20:
-        bra.w   TaskHandler_073bac__L073bf6     | +0f8
+        bra.w   M5Tank_Rocket_Launch_073bac__L073bf6 | +0f8
         move.w  #0xb4,0x70(a6)                  | +0fc
         andi.w  #0x1f,0x7e(a6)                  | +102
-        jsr     TaskHandler_074306(pc)          | +108
+        jsr     M5Tank_VelByAngle7E_074306(pc)  | +108
         jsr     0x5e1ea.l                       | +10c
         move.l  a0,0x84(a6)                     | +112
         lea     .L073d44(pc),a1                 | +116
         move.l  a1,(a6)                         | +11a
 .L073d44:
-        jsr     TaskHandler_07429e(pc)          | +11c
+        jsr     M5Tank_Rocket_Home_07429e(pc)   | +11c
         jsr     0x27cee.l                       | +120
         bcc.w   .L073d58                        | +126
-        lea     TaskHandler_073d76(pc),a1       | +12a
+        lea     M5Tank_Rocket_Explode_073d76(pc),a1 | +12a
         move.l  a1,(a6)                         | +12e
 .L073d58:
         jsr     0x28d70.l                       | +130
         subq.w  #0x1,0x70(a6)                   | +136
         cmpi.w  #0x0,0x70(a6)                   | +13a
         bgt.w   .L073d72                        | +140
-        lea     TaskHandler_073d76(pc),a1       | +144
+        lea     M5Tank_Rocket_Explode_073d76(pc),a1 | +144
         move.l  a1,(a6)                         | +148
 .L073d72:
         bra.w   .L073cde                        | +14a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073d76  @ $073D76  (172 B)
+|  M5Tank_Rocket_Explode_073d76  @ $073D76  (172 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073d76, "ax", @progbits
-        .global TaskHandler_073d76
-TaskHandler_073d76:
+        .section .text.M5Tank_Rocket_Explode_073d76, "ax", @progbits
+        .global M5Tank_Rocket_Explode_073d76
+M5Tank_Rocket_Explode_073d76:
         move.w  #0x1022,d0                      | +000
         jsr     0x2352.l                        | +004
-        bra.w   TaskHandler_073b92              | +00a
+        bra.w   M5Tank_CasingExplode_073b92     | +00a
         move.w  #0x14,0x66(a6)                  | +00e
         addi.w  #0xffc8,0x22(a6)                | +014
         addi.w  #0xf,0x24(a6)                   | +01a
@@ -2254,7 +2254,7 @@ TaskHandler_073d76:
 .L073dec:
         jsr     0x27d50.l                       | +076
         bcc.w   .L073dfc                        | +07c
-        lea     TaskHandler_073d76(pc),a1       | +080
+        lea     M5Tank_Rocket_Explode_073d76(pc),a1 | +080
         move.l  a1,(a6)                         | +084
 .L073dfc:
         jsr     0x28d70.l                       | +086
@@ -2266,14 +2266,14 @@ TaskHandler_073d76:
         lsr.w   #0x3,d0                         | +09e
         andi.w  #0x1f,d0                        | +0a0
         move.w  d0,0x7e(a6)                     | +0a4
-        bra.w   TaskHandler_073c28__L073cde     | +0a8
+        bra.w   M5Tank_Rocket_Fly_073c28__L073cde | +0a8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073e22  @ $073E22  (50 B)
+|  M5Tank_SmokeTrail_073e22  @ $073E22  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073e22, "ax", @progbits
-        .global TaskHandler_073e22
-TaskHandler_073e22:
+        .section .text.M5Tank_SmokeTrail_073e22, "ax", @progbits
+        .global M5Tank_SmokeTrail_073e22
+M5Tank_SmokeTrail_073e22:
         move.w  #0x2000,0x38(a6)                | +000
         move.w  #0xd,d1                         | +006
         jsr     0x236e.l                        | +00a
@@ -2287,15 +2287,15 @@ TaskHandler_073e22:
         bcc.w   SetHandlerRts_073e5a            | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073e5c  @ $073E5C  (108 B)
+|  M5Tank_Muzzle_073e5c  @ $073E5C  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073e5c, "ax", @progbits
-        .global TaskHandler_073e5c
-TaskHandler_073e5c:
+        .section .text.M5Tank_Muzzle_073e5c, "ax", @progbits
+        .global M5Tank_Muzzle_073e5c
+M5Tank_Muzzle_073e5c:
         move.w  #0xef,d1                        | +000
         jsr     0x236e.l                        | +004
-        .global TaskHandler_073e5c__L073e66
-TaskHandler_073e5c__L073e66:
+        .global M5Tank_Muzzle_073e5c__L073e66
+M5Tank_Muzzle_073e5c__L073e66:
 .L073e66:
         move.l  #0x2daf54,0x4c(a6)              | +00a
         lea     0x2dc374.l,a0                   | +012
@@ -2303,52 +2303,52 @@ TaskHandler_073e5c__L073e66:
         lea     .L073e80(pc),a1                 | +01e
         move.l  a1,(a6)                         | +022
 .L073e80:
-        jsr     TaskHandler_07428c(pc)          | +024
+        jsr     M5Tank_FollowParentMuzzle_07428c(pc) | +024
         jsr     0x28d70.l                       | +028
         movea.l 0xc(a6),a0                      | +02e
         cmpi.b  #0x1,0x20(a0)                   | +032
         bne.w   .L073e9e                        | +038
-        lea     TaskHandler_073ed0(pc),a1       | +03c
+        lea     M5Tank_MuzzleB_073ed0(pc),a1    | +03c
         move.l  a1,(a6)                         | +040
-        .global TaskHandler_073e5c__L073e9e
-TaskHandler_073e5c__L073e9e:
+        .global M5Tank_Muzzle_073e5c__L073e9e
+M5Tank_Muzzle_073e5c__L073e9e:
 .L073e9e:
         jsr     0x283ca.l                       | +042
         jsr     0x283d8.l                       | +048
         movea.l 0xc(a6),a0                      | +04e
         cmpi.l  #0x7391a,(a0)                   | +052
         bne.w   .L073ebe                        | +058
-        lea     TaskHandler_073f9a(pc),a1       | +05c
+        lea     M5Tank_MuzzleE_073f9a(pc),a1    | +05c
         move.l  a1,(a6)                         | +060
 .L073ebe:
         jsr     0x5e45a.l                       | +062
         bcc.w   SetHandlerRts_073ece            | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073ed0  @ $073ED0  (40 B)
+|  M5Tank_MuzzleB_073ed0  @ $073ED0  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073ed0, "ax", @progbits
-        .global TaskHandler_073ed0
-TaskHandler_073ed0:
+        .section .text.M5Tank_MuzzleB_073ed0, "ax", @progbits
+        .global M5Tank_MuzzleB_073ed0
+M5Tank_MuzzleB_073ed0:
         lea     0x2dc406.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L073ee2(pc),a1                 | +00c
         move.l  a1,(a6)                         | +010
 .L073ee2:
-        jsr     TaskHandler_07428c(pc)          | +012
+        jsr     M5Tank_FollowParentMuzzle_07428c(pc) | +012
         jsr     0x28d70.l                       | +016
         bcc.w   .L073ef6                        | +01c
-        lea     TaskHandler_073ef8(pc),a1       | +020
+        lea     M5Tank_MuzzleC_073ef8(pc),a1    | +020
         move.l  a1,(a6)                         | +024
 .L073ef6:
-        bra.b   TaskHandler_073e5c__L073e9e     | +026
+        bra.b   M5Tank_Muzzle_073e5c__L073e9e   | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073ef8  @ $073EF8  (102 B)
+|  M5Tank_MuzzleC_073ef8  @ $073EF8  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073ef8, "ax", @progbits
-        .global TaskHandler_073ef8
-TaskHandler_073ef8:
+        .section .text.M5Tank_MuzzleC_073ef8, "ax", @progbits
+        .global M5Tank_MuzzleC_073ef8
+M5Tank_MuzzleC_073ef8:
         move.w  #0x10c6,d0                      | +000
         jsr     0x2352.l                        | +004
         move.l  #0x2daeb0,0x4c(a6)              | +00a
@@ -2360,7 +2360,7 @@ TaskHandler_073ef8:
         lea     .L073f2c(pc),a1                 | +02e
         move.l  a1,(a6)                         | +032
 .L073f2c:
-        jsr     TaskHandler_07428c(pc)          | +034
+        jsr     M5Tank_FollowParentMuzzle_07428c(pc) | +034
         jsr     0x28d70.l                       | +038
         bcc.w   .L073f5a                        | +03e
         lea     0x2dc50c.l,a0                   | +042
@@ -2368,17 +2368,17 @@ TaskHandler_073ef8:
         subq.b  #0x1,0x72(a6)                   | +04e
         cmpi.b  #0x0,0x72(a6)                   | +052
         bgt.w   .L073f5a                        | +058
-        lea     TaskHandler_073f5e(pc),a1       | +05c
+        lea     M5Tank_MuzzleD_073f5e(pc),a1    | +05c
         move.l  a1,(a6)                         | +060
 .L073f5a:
-        bra.w   TaskHandler_073e5c__L073e9e     | +062
+        bra.w   M5Tank_Muzzle_073e5c__L073e9e   | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073f5e  @ $073F5E  (60 B)
+|  M5Tank_MuzzleD_073f5e  @ $073F5E  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073f5e, "ax", @progbits
-        .global TaskHandler_073f5e
-TaskHandler_073f5e:
+        .section .text.M5Tank_MuzzleD_073f5e, "ax", @progbits
+        .global M5Tank_MuzzleD_073f5e
+M5Tank_MuzzleD_073f5e:
         movea.l 0xc(a6),a0                      | +000
         move.b  #0xff,0x21(a0)                  | +004
         move.l  #0xffffffff,0x4c(a6)            | +00a
@@ -2387,36 +2387,36 @@ TaskHandler_073f5e:
         lea     .L073f82(pc),a1                 | +01e
         move.l  a1,(a6)                         | +022
 .L073f82:
-        jsr     TaskHandler_07428c(pc)          | +024
+        jsr     M5Tank_FollowParentMuzzle_07428c(pc) | +024
         jsr     0x28d70.l                       | +028
         bcc.w   .L073f96                        | +02e
-        lea     TaskHandler_073e5c__L073e66(pc),a1 | +032
+        lea     M5Tank_Muzzle_073e5c__L073e66(pc),a1 | +032
         move.l  a1,(a6)                         | +036
 .L073f96:
-        bra.w   TaskHandler_073e5c__L073e9e     | +038
+        bra.w   M5Tank_Muzzle_073e5c__L073e9e   | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073f9a  @ $073F9A  (40 B)
+|  M5Tank_MuzzleE_073f9a  @ $073F9A  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073f9a, "ax", @progbits
-        .global TaskHandler_073f9a
-TaskHandler_073f9a:
+        .section .text.M5Tank_MuzzleE_073f9a, "ax", @progbits
+        .global M5Tank_MuzzleE_073f9a
+M5Tank_MuzzleE_073f9a:
         move.l  #0xffffffff,0x4c(a6)            | +000
         lea     0x2dc5ae.l,a0                   | +008
         jsr     0x28cd4.l                       | +00e
         lea     .L073fb4(pc),a1                 | +014
         move.l  a1,(a6)                         | +018
 .L073fb4:
-        jsr     TaskHandler_07428c(pc)          | +01a
+        jsr     M5Tank_FollowParentMuzzle_07428c(pc) | +01a
         jsr     0x28d70.l                       | +01e
         bcc.w   SetHandlerRts_073fc8            | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_073fca  @ $073FCA  (146 B)
+|  M5Missile_Tmpl77_073fca  @ $073FCA  (146 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_073fca, "ax", @progbits
-        .global TaskHandler_073fca
-TaskHandler_073fca:
+        .section .text.M5Missile_Tmpl77_073fca, "ax", @progbits
+        .global M5Missile_Tmpl77_073fca
+M5Missile_Tmpl77_073fca:
         move.b  0x98(a6),d0                     | +000
         andi.w  #0xff,d0                        | +004
         lsl.w   #0x4,d0                         | +008
@@ -2444,7 +2444,7 @@ TaskHandler_073fca:
 .L074026:
         jsr     0x27d50.l                       | +05c
         bcc.w   .L074036                        | +062
-        lea     TaskHandler_073d76(pc),a1       | +066
+        lea     M5Tank_Rocket_Explode_073d76(pc),a1 | +066
         move.l  a1,(a6)                         | +06a
 .L074036:
         move.w  0x28(a6),d0                     | +06c
@@ -2456,14 +2456,14 @@ TaskHandler_073fca:
         andi.w  #0x1f,d0                        | +080
         move.w  d0,0x7e(a6)                     | +084
         jsr     0x28d70.l                       | +088
-        bra.w   TaskHandler_073c28__L073cde     | +08e
+        bra.w   M5Tank_Rocket_Fly_073c28__L073cde | +08e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07405c  @ $07405C  (104 B)
+|  M5Tank_Frag_07405c  @ $07405C  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07405c, "ax", @progbits
-        .global TaskHandler_07405c
-TaskHandler_07405c:
+        .section .text.M5Tank_Frag_07405c, "ax", @progbits
+        .global M5Tank_Frag_07405c
+M5Tank_Frag_07405c:
         move.w  #0xd000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -2489,11 +2489,11 @@ TaskHandler_07405c:
         jmp     0x6dbd4.l                       | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0740c4  @ $0740C4  (66 B)
+|  M5Tank_SmokeB_0740c4  @ $0740C4  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0740c4, "ax", @progbits
-        .global TaskHandler_0740c4
-TaskHandler_0740c4:
+        .section .text.M5Tank_SmokeB_0740c4, "ax", @progbits
+        .global M5Tank_SmokeB_0740c4
+M5Tank_SmokeB_0740c4:
         move.w  #0x193,d1                       | +000
         jsr     0x236e.l                        | +004
         lea     0x2dc616.l,a0                   | +00a
@@ -2512,20 +2512,20 @@ TaskHandler_0740c4:
         bcc.w   SetHandlerRts_07410c            | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07410e  @ $07410E  (8 B)
+|  M5Tank_InScreenSetC_07410e  @ $07410E  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07410e, "ax", @progbits
-        .global TaskHandler_07410e
-TaskHandler_07410e:
-        jsr     TaskHandler_074122(pc)          | +000
+        .section .text.M5Tank_InScreenSetC_07410e, "ax", @progbits
+        .global M5Tank_InScreenSetC_07410e
+M5Tank_InScreenSetC_07410e:
+        jsr     M5Tank_InScreen_074122(pc)      | +000
         bcs.w   SetXN_07411c                    | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074122  @ $074122  (56 B)
+|  M5Tank_InScreen_074122  @ $074122  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074122, "ax", @progbits
-        .global TaskHandler_074122
-TaskHandler_074122:
+        .section .text.M5Tank_InScreen_074122, "ax", @progbits
+        .global M5Tank_InScreen_074122
+M5Tank_InScreen_074122:
         btst    #0x0,0x73(a6)                   | +000
         bne.w   .L07413a                        | +006
         cmpi.w  #0xa0,0x22(a6)                  | +00a
@@ -2541,11 +2541,11 @@ TaskHandler_074122:
         blt.w   SetXN_074160                    | +034
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_074166  @ $074166  (36 B)
+|  M5Tank_TargetNear_074166  @ $074166  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_074166, "ax", @progbits
-        .global PcThunkTarget_074166
-PcThunkTarget_074166:
+        .section .text.M5Tank_TargetNear_074166, "ax", @progbits
+        .global M5Tank_TargetNear_074166
+M5Tank_TargetNear_074166:
         btst    #0x0,0x73(a6)                   | +000
         bne.w   ClearXN_07418a                  | +006
         jsr     0x5e0d4.l                       | +00a
@@ -2556,11 +2556,11 @@ PcThunkTarget_074166:
         blt.w   SetXN_074190                    | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074196  @ $074196  (30 B)
+|  M5Tank_AtGoalX_074196  @ $074196  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074196, "ax", @progbits
-        .global TaskHandler_074196
-TaskHandler_074196:
+        .section .text.M5Tank_AtGoalX_074196, "ax", @progbits
+        .global M5Tank_AtGoalX_074196
+M5Tank_AtGoalX_074196:
         move.w  0x5c(a6),d0                     | +000
         move.w  d0,d1                           | +004
         subi.w  #0x10,d0                        | +006
@@ -2571,11 +2571,11 @@ TaskHandler_074196:
         ble.w   ClearXN_0741ba                  | +01a
 
 | ----------------------------------------------------------------------------
-|  Sub_000741C0  @ $0741C0  (56 B)
+|  M5Tank_FollowParent_0741c0  @ $0741C0  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000741C0, "ax", @progbits
-        .global Sub_000741C0
-Sub_000741C0:
+        .section .text.M5Tank_FollowParent_0741c0, "ax", @progbits
+        .global M5Tank_FollowParent_0741c0
+M5Tank_FollowParent_0741c0:
         jsr     0x5e506.l                       | +000
         move.w  0x7c(a6),d0                     | +006
         cmpi.b  #0x3,0x75(a0)                   | +00a
@@ -2594,12 +2594,12 @@ Sub_000741C0:
         rts                                     | +036
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0741f8  @ $0741F8  (44 B)
+|  M5Tank_FollowParentSprite_0741f8  @ $0741F8  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0741f8, "ax", @progbits
-        .global TaskHandler_0741f8
-TaskHandler_0741f8:
-        jsr     Sub_000741C0(pc)                | +000
+        .section .text.M5Tank_FollowParentSprite_0741f8, "ax", @progbits
+        .global M5Tank_FollowParentSprite_0741f8
+M5Tank_FollowParentSprite_0741f8:
+        jsr     M5Tank_FollowParent_0741c0(pc)  | +000
         move.b  0x76(a0),d0                     | +004
         cmp.b   0x76(a6),d0                     | +008
         beq.w   JsrAbsRts_07422a                | +00c
@@ -2612,17 +2612,17 @@ TaskHandler_0741f8:
         beq.w   JsrAbsRts_07422a                | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07422c  @ $07422C  (52 B)
+|  M5Tank_FollowParentSpriteB_07422c  @ $07422C  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07422c, "ax", @progbits
-        .global TaskHandler_07422c
-TaskHandler_07422c:
-        jsr     TaskHandler_0741f8(pc)          | +000
+        .section .text.M5Tank_FollowParentSpriteB_07422c, "ax", @progbits
+        .global M5Tank_FollowParentSpriteB_07422c
+M5Tank_FollowParentSpriteB_07422c:
+        jsr     M5Tank_FollowParentSprite_0741f8(pc) | +000
         bra.w   .L074238                        | +004
-        .global TaskHandler_07422c__L074234
-TaskHandler_07422c__L074234:
+        .global M5Tank_FollowParentSpriteB_07422c__L074234
+M5Tank_FollowParentSpriteB_07422c__L074234:
 .L074234:
-        jsr     Sub_000741C0(pc)                | +008
+        jsr     M5Tank_FollowParent_0741c0(pc)  | +008
 .L074238:
         move.w  #0x58,d0                        | +00c
         movea.l 0xc(a6),a0                      | +010
@@ -2636,12 +2636,12 @@ TaskHandler_07422c__L074234:
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074260  @ $074260  (44 B)
+|  M5Tank_FollowParentGun_074260  @ $074260  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074260, "ax", @progbits
-        .global TaskHandler_074260
-TaskHandler_074260:
-        jsr     Sub_000741C0(pc)                | +000
+        .section .text.M5Tank_FollowParentGun_074260, "ax", @progbits
+        .global M5Tank_FollowParentGun_074260
+M5Tank_FollowParentGun_074260:
+        jsr     M5Tank_FollowParent_0741c0(pc)  | +000
         move.b  0x7a(a0),d0                     | +004
         move.w  #0x2,d1                         | +008
         btst    #0x0,0x79(a6)                   | +00c
@@ -2655,31 +2655,31 @@ TaskHandler_074260:
         rts                                     | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07428c  @ $07428C  (18 B)
+|  M5Tank_FollowParentMuzzle_07428c  @ $07428C  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07428c, "ax", @progbits
-        .global TaskHandler_07428c
-TaskHandler_07428c:
+        .section .text.M5Tank_FollowParentMuzzle_07428c, "ax", @progbits
+        .global M5Tank_FollowParentMuzzle_07428c
+M5Tank_FollowParentMuzzle_07428c:
         jsr     0x5e506.l                       | +000
         subi.w  #0x30,0x22(a6)                  | +006
         subq.w  #0x8,0x24(a6)                   | +00c
         rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07429e  @ $07429E  (74 B)
+|  M5Tank_Rocket_Home_07429e  @ $07429E  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07429e, "ax", @progbits
-        .global TaskHandler_07429e
-TaskHandler_07429e:
+        .section .text.M5Tank_Rocket_Home_07429e, "ax", @progbits
+        .global M5Tank_Rocket_Home_07429e
+M5Tank_Rocket_Home_07429e:
         move.b  0x106f28.l,d0                   | +000
         andi.b  #0x7,d0                         | +006
-        bne.w   TaskHandler_0742ee              | +00a
+        bne.w   M5Tank_Rocket_RandFlip_0742ee   | +00a
         movea.l 0x84(a6),a0                     | +00e
         jsr     0x5e070.l                       | +012
         lsr.w   #0x3,d0                         | +018
         move.w  #0x1,d1                         | +01a
         cmp.w   0x7e(a6),d0                     | +01e
-        beq.w   TaskHandler_0742ee              | +022
+        beq.w   M5Tank_Rocket_RandFlip_0742ee   | +022
         bgt.w   .L0742cc                        | +026
         move.w  #0xffff,d1                      | +02a
 .L0742cc:
@@ -2689,25 +2689,25 @@ TaskHandler_07429e:
 .L0742da:
         add.w   d1,0x7e(a6)                     | +03c
         andi.w  #0x1f,0x7e(a6)                  | +040
-        jsr     TaskHandler_074306(pc)          | +046
+        jsr     M5Tank_VelByAngle7E_074306(pc)  | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0742ee  @ $0742EE  (18 B)
+|  M5Tank_Rocket_RandFlip_0742ee  @ $0742EE  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0742ee, "ax", @progbits
-        .global TaskHandler_0742ee
-TaskHandler_0742ee:
+        .section .text.M5Tank_Rocket_RandFlip_0742ee, "ax", @progbits
+        .global M5Tank_Rocket_RandFlip_0742ee
+M5Tank_Rocket_RandFlip_0742ee:
         jsr     0x5e9b6.l                       | +000
         andi.w  #0x1f,d0                        | +006
         bne.w   ClearXN_074300                  | +00a
         neg.w   0x80(a6)                        | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074306  @ $074306  (48 B)
+|  M5Tank_VelByAngle7E_074306  @ $074306  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074306, "ax", @progbits
-        .global TaskHandler_074306
-TaskHandler_074306:
+        .section .text.M5Tank_VelByAngle7E_074306, "ax", @progbits
+        .global M5Tank_VelByAngle7E_074306
+M5Tank_VelByAngle7E_074306:
         move.w  0x7e(a6),d0                     | +000
         lsl.w   #0x4,d0                         | +004
         lea     0x2c072c.l,a1                   | +006
@@ -2724,11 +2724,11 @@ TaskHandler_074306:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074336  @ $074336  (100 B)
+|  M5Tank_SpawnRocket_074336  @ $074336  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074336, "ax", @progbits
-        .global TaskHandler_074336
-TaskHandler_074336:
+        .section .text.M5Tank_SpawnRocket_074336, "ax", @progbits
+        .global M5Tank_SpawnRocket_074336
+M5Tank_SpawnRocket_074336:
         cmpi.b  #0x5,0x76(a6)                   | +000
         beq.w   .L074398                        | +006
         clr.b   0x94(a6)                        | +00a
@@ -2744,7 +2744,7 @@ TaskHandler_074336:
         bne.w   .L074378                        | +03a
         clr.b   0x94(a6)                        | +03e
 .L074378:
-        lea     TaskHandler_073bac(pc),a1       | +042
+        lea     M5Tank_Rocket_Launch_073bac(pc),a1 | +042
         jsr     0x4ae.l                         | +046
         jsr     0x5dd02.l                       | +04c
         move.b  0x94(a6),0x98(a0)               | +052
@@ -2754,42 +2754,42 @@ TaskHandler_074336:
         rts                                     | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07439a  @ $07439A  (10 B)
+|  M5Tank_SpawnCasing_07439a  @ $07439A  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07439a, "ax", @progbits
-        .global TaskHandler_07439a
-TaskHandler_07439a:
-        lea     TaskHandler_073aee(pc),a1       | +000
+        .section .text.M5Tank_SpawnCasing_07439a, "ax", @progbits
+        .global M5Tank_SpawnCasing_07439a
+M5Tank_SpawnCasing_07439a:
+        lea     M5Tank_Casing_073aee(pc),a1     | +000
         jsr     0x4ae.l                         | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0743ac  @ $0743AC  (30 B)
+|  M5Tank_SpawnTurret_0743ac  @ $0743AC  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0743ac, "ax", @progbits
-        .global TaskHandler_0743ac
-TaskHandler_0743ac:
+        .section .text.M5Tank_SpawnTurret_0743ac, "ax", @progbits
+        .global M5Tank_SpawnTurret_0743ac
+M5Tank_SpawnTurret_0743ac:
         move.l  #0x2db064,0x60(a6)              | +000
-        lea     TaskHandler_07375c(pc),a1       | +008
+        lea     M5Tank_Turret_07375c(pc),a1     | +008
         jsr     0x4ae.l                         | +00c
         jsr     0x5dd02.l                       | +012
         clr.w   0x7c(a0)                        | +018
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0743ca  @ $0743CA  (12 B)
+|  M5Tank_SpawnExplosion_0743ca  @ $0743CA  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0743ca, "ax", @progbits
-        .global TaskHandler_0743ca
-TaskHandler_0743ca:
+        .section .text.M5Tank_SpawnExplosion_0743ca, "ax", @progbits
+        .global M5Tank_SpawnExplosion_0743ca
+M5Tank_SpawnExplosion_0743ca:
         lea     0x77f6a.l,a1                    | +000
         jsr     0x4ae.l                         | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0743de  @ $0743DE  (34 B)
+|  M5Tank_SpawnExplosionB_0743de  @ $0743DE  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0743de, "ax", @progbits
-        .global TaskHandler_0743de
-TaskHandler_0743de:
+        .section .text.M5Tank_SpawnExplosionB_0743de, "ax", @progbits
+        .global M5Tank_SpawnExplosionB_0743de
+M5Tank_SpawnExplosionB_0743de:
         move.w  #0x1021,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x77fd6.l,a1                    | +00a
@@ -2798,25 +2798,25 @@ TaskHandler_0743de:
         lea     0x2db28c.l,a1                   | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074408  @ $074408  (6 B)
+|  M5Tank_SpawnDebrisB_074408  @ $074408  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074408, "ax", @progbits
-        .global TaskHandler_074408
-TaskHandler_074408:
+        .section .text.M5Tank_SpawnDebrisB_074408, "ax", @progbits
+        .global M5Tank_SpawnDebrisB_074408
+M5Tank_SpawnDebrisB_074408:
         lea     0x2db27a.l,a1                   | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074416  @ $074416  (74 B)
+|  M5Tank_SpawnSmokeAndFrag_074416  @ $074416  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074416, "ax", @progbits
-        .global TaskHandler_074416
-TaskHandler_074416:
+        .section .text.M5Tank_SpawnSmokeAndFrag_074416, "ax", @progbits
+        .global M5Tank_SpawnSmokeAndFrag_074416
+M5Tank_SpawnSmokeAndFrag_074416:
         move.w  #0x10ea,d0                      | +000
         jsr     0x2352.l                        | +004
-        lea     TaskHandler_0740c4(pc),a1       | +00a
+        lea     M5Tank_SmokeB_0740c4(pc),a1     | +00a
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd02.l                       | +014
-        lea     TaskHandler_07405c(pc),a1       | +01a
+        lea     M5Tank_Frag_07405c(pc),a1       | +01a
         jsr     0x4ae.l                         | +01e
         jsr     0x5dd02.l                       | +024
         addi.w  #0xffe4,0x22(a0)                | +02a
@@ -2827,11 +2827,11 @@ TaskHandler_074416:
         rts                                     | +048
 
 | ----------------------------------------------------------------------------
-|  Data_074460  @ $074460  (74 B)
+|  M5Tank_SmokeByVel_Lut_074460  @ $074460  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074460, "ax", @progbits
-        .global Data_074460
-Data_074460:
+        .section .text.M5Tank_SmokeByVel_Lut_074460, "ax", @progbits
+        .global M5Tank_SmokeByVel_Lut_074460
+M5Tank_SmokeByVel_Lut_074460:
         .dc.w   0x180e                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0a07                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0504                        | +004  (dato / opcode no decodificado)
@@ -2842,13 +2842,13 @@ Data_074460:
         cmpi.w  #0x400,d0                       | +010
         bgt.w   .L07448a                        | +014
         lsr.w   #0x7,d0                         | +018
-        lea     Data_074460(pc),a1              | +01a
+        lea     M5Tank_SmokeByVel_Lut_074460(pc),a1 | +01a
         move.b  (a1,d0.w),d1                    | +01e
         cmp.b   0x3b(a6),d1                     | +022
         bcc.w   .L0744a8                        | +026
 .L07448a:
         move.b  d1,0x3b(a6)                     | +02a
-        lea     TaskHandler_073e22(pc),a1       | +02e
+        lea     M5Tank_SmokeTrail_073e22(pc),a1 | +02e
         jsr     0x6fe.l                         | +032
         jsr     0x5dd02.l                       | +038
         move.b  0x3b(a6),0x44(a0)               | +03e
@@ -2857,11 +2857,11 @@ Data_074460:
         rts                                     | +048
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0744aa  @ $0744AA  (176 B)
+|  M5Tank_SpawnScrap3_0744aa  @ $0744AA  (176 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0744aa, "ax", @progbits
-        .global TaskHandler_0744aa
-TaskHandler_0744aa:
+        .section .text.M5Tank_SpawnScrap3_0744aa, "ax", @progbits
+        .global M5Tank_SpawnScrap3_0744aa
+M5Tank_SpawnScrap3_0744aa:
         lea     0x3fe5a.l,a1                    | +000
         jsr     0x4ae.l                         | +006
         jsr     0x5dd02.l                       | +00c
@@ -2897,11 +2897,11 @@ TaskHandler_0744aa:
         rts                                     | +0ae
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07455a  @ $07455A  (48 B)
+|  M5Tank_SpawnSmokeColumn_07455a  @ $07455A  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07455a, "ax", @progbits
-        .global TaskHandler_07455a
-TaskHandler_07455a:
+        .section .text.M5Tank_SpawnSmokeColumn_07455a, "ax", @progbits
+        .global M5Tank_SpawnSmokeColumn_07455a
+M5Tank_SpawnSmokeColumn_07455a:
         jsr     0x6e412.l                       | +000
         move.w  #0x10,d0                        | +006
 .L074564:
@@ -2916,11 +2916,11 @@ TaskHandler_07455a:
         rts                                     | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07458a  @ $07458A  (24 B)
+|  M5Tank_SetPrioD000_07458a  @ $07458A  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07458a, "ax", @progbits
-        .global TaskHandler_07458a
-TaskHandler_07458a:
+        .section .text.M5Tank_SetPrioD000_07458a, "ax", @progbits
+        .global M5Tank_SetPrioD000_07458a
+M5Tank_SetPrioD000_07458a:
         move.w  #0xd000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -2928,48 +2928,48 @@ TaskHandler_07458a:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0745a2  @ $0745A2  (6 B)
+|  M5Tank_SpawnDebrisC_0745a2  @ $0745A2  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0745a2, "ax", @progbits
-        .global TaskHandler_0745a2
-TaskHandler_0745a2:
+        .section .text.M5Tank_SpawnDebrisC_0745a2, "ax", @progbits
+        .global M5Tank_SpawnDebrisC_0745a2
+M5Tank_SpawnDebrisC_0745a2:
         lea     0x2db2de.l,a1                   | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0745b0  @ $0745B0  (6 B)
+|  M5Tank_SpawnDebrisD_0745b0  @ $0745B0  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0745b0, "ax", @progbits
-        .global TaskHandler_0745b0
-TaskHandler_0745b0:
+        .section .text.M5Tank_SpawnDebrisD_0745b0, "ax", @progbits
+        .global M5Tank_SpawnDebrisD_0745b0
+M5Tank_SpawnDebrisD_0745b0:
         lea     0x2db364.l,a1                   | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0745be  @ $0745BE  (16 B)
+|  M5Tank_CmpDepthToParent_0745be  @ $0745BE  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0745be, "ax", @progbits
-        .global TaskHandler_0745be
-TaskHandler_0745be:
+        .section .text.M5Tank_CmpDepthToParent_0745be, "ax", @progbits
+        .global M5Tank_CmpDepthToParent_0745be
+M5Tank_CmpDepthToParent_0745be:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_0745d4                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0745da  @ $0745DA  (8 B)
+|  MiniScript_Init_0745da  @ $0745DA  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0745da, "ax", @progbits
-        .global TaskHandler_0745da
-TaskHandler_0745da:
+        .section .text.MiniScript_Init_0745da, "ax", @progbits
+        .global MiniScript_Init_0745da
+MiniScript_Init_0745da:
         move.l  a1,(a0)                         | +000
         clr.w   0x4(a0)                         | +002
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_0745e2  @ $0745E2  (66 B)
+|  MiniScript_Step_0745e2  @ $0745E2  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_0745e2, "ax", @progbits
-        .global PcThunkTarget_0745e2
-PcThunkTarget_0745e2:
+        .section .text.MiniScript_Step_0745e2, "ax", @progbits
+        .global MiniScript_Step_0745e2
+MiniScript_Step_0745e2:
         movea.l (a0),a1                         | +000
         move.w  (a1)+,d0                        | +002
         lsl.w   #0x2,d0                         | +004
@@ -2977,12 +2977,12 @@ PcThunkTarget_0745e2:
         jmp     (a2,d0.w)                       | +00a
 .L0745f0:
         bra.w   SetC_074624                     | +00e
-        bra.w   TaskHandler_07462a              | +012
-        bra.w   TaskHandler_074632              | +016
-        bra.w   TaskHandler_07464a              | +01a
-        bra.w   TaskHandler_074668              | +01e
-        bra.w   TaskHandler_074652              | +022
-        bra.w   TaskHandler_07465c              | +026
+        bra.w   MiniScript_OpSetTimer_07462a    | +012
+        bra.w   MiniScript_OpWait_074632        | +016
+        bra.w   MiniScript_OpCall_07464a        | +01a
+        bra.w   MiniScript_OpCallLoop_074668    | +01e
+        bra.w   MiniScript_OpSetFlag_074652     | +022
+        bra.w   MiniScript_OpClrFlag_07465c     | +026
         bra.w   .L074610                        | +02a
 .L074610:
         move.w  (a1)+,d0                        | +02e
@@ -2990,77 +2990,77 @@ PcThunkTarget_0745e2:
         movem.l a0,-(a7)                        | +032
         jsr     0x2352.l                        | +036
         movem.l (a7)+,a0                        | +03c
-        bra.b   PcThunkTarget_0745e2            | +040
+        bra.b   MiniScript_Step_0745e2          | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07462a  @ $07462A  (8 B)
+|  MiniScript_OpSetTimer_07462a  @ $07462A  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07462a, "ax", @progbits
-        .global TaskHandler_07462a
-TaskHandler_07462a:
+        .section .text.MiniScript_OpSetTimer_07462a, "ax", @progbits
+        .global MiniScript_OpSetTimer_07462a
+MiniScript_OpSetTimer_07462a:
         move.w  (a1)+,0x4(a0)                   | +000
         move.l  a1,(a0)                         | +004
-        bra.b   PcThunkTarget_0745e2            | +006
+        bra.b   MiniScript_Step_0745e2          | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074632  @ $074632  (18 B)
+|  MiniScript_OpWait_074632  @ $074632  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074632, "ax", @progbits
-        .global TaskHandler_074632
-TaskHandler_074632:
+        .section .text.MiniScript_OpWait_074632, "ax", @progbits
+        .global MiniScript_OpWait_074632
+MiniScript_OpWait_074632:
         move.w  0x4(a0),d0                      | +000
         bne.w   .L07463e                        | +004
         move.l  a1,(a0)                         | +008
-        bra.b   PcThunkTarget_0745e2            | +00a
+        bra.b   MiniScript_Step_0745e2          | +00a
 .L07463e:
         subq.w  #0x1,d0                         | +00c
         move.w  d0,0x4(a0)                      | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07464a  @ $07464A  (2 B)
+|  MiniScript_OpCall_07464a  @ $07464A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07464a, "ax", @progbits
-        .global TaskHandler_07464a
-TaskHandler_07464a:
+        .section .text.MiniScript_OpCall_07464a, "ax", @progbits
+        .global MiniScript_OpCall_07464a
+MiniScript_OpCall_07464a:
         jsr     (a1)                            | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074652  @ $074652  (10 B)
+|  MiniScript_OpSetFlag_074652  @ $074652  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074652, "ax", @progbits
-        .global TaskHandler_074652
-TaskHandler_074652:
+        .section .text.MiniScript_OpSetFlag_074652, "ax", @progbits
+        .global MiniScript_OpSetFlag_074652
+MiniScript_OpSetFlag_074652:
         move.w  (a1)+,d0                        | +000
         move.l  a1,(a0)                         | +002
         st.b    (a6,d0.w)                       | +004
-        bra.b   PcThunkTarget_0745e2            | +008
+        bra.b   MiniScript_Step_0745e2          | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07465c  @ $07465C  (12 B)
+|  MiniScript_OpClrFlag_07465c  @ $07465C  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07465c, "ax", @progbits
-        .global TaskHandler_07465c
-TaskHandler_07465c:
+        .section .text.MiniScript_OpClrFlag_07465c, "ax", @progbits
+        .global MiniScript_OpClrFlag_07465c
+MiniScript_OpClrFlag_07465c:
         move.w  (a1)+,d0                        | +000
         move.l  a1,(a0)                         | +002
         clr.b   (a6,d0.w)                       | +004
-        bra.w   PcThunkTarget_0745e2            | +008
+        bra.w   MiniScript_Step_0745e2          | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074668  @ $074668  (6 B)
+|  MiniScript_OpCallLoop_074668  @ $074668  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074668, "ax", @progbits
-        .global TaskHandler_074668
-TaskHandler_074668:
+        .section .text.MiniScript_OpCallLoop_074668, "ax", @progbits
+        .global MiniScript_OpCallLoop_074668
+MiniScript_OpCallLoop_074668:
         jsr     (a1)                            | +000
-        bra.w   PcThunkTarget_0745e2            | +002
+        bra.w   MiniScript_Step_0745e2          | +002
 
 | ----------------------------------------------------------------------------
-|  Data_07466e  @ $07466E  (928 B)
+|  ScriptedProp_Sprites_07466e  @ $07466E  (928 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_07466e, "ax", @progbits
-        .global Data_07466e
-Data_07466e:
+        .section .text.ScriptedProp_Sprites_07466e, "ax", @progbits
+        .global ScriptedProp_Sprites_07466e
+ScriptedProp_Sprites_07466e:
         .dc.w   0x0003                        | +000  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
@@ -3101,8 +3101,8 @@ Data_07466e:
         .dc.w   0x0060                        | +04a  (dato / opcode no decodificado)
         .dc.w   0x0040                        | +04c  (dato / opcode no decodificado)
         .dc.w   0x1d01                        | +04e  (dato / opcode no decodificado)
-        .global Data_07466e__L0746be
-Data_07466e__L0746be:
+        .global ScriptedProp_Sprites_07466e__L0746be
+ScriptedProp_Sprites_07466e__L0746be:
 .L0746be:
         .dc.w   0x0003                        | +050  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +052  (dato / opcode no decodificado)
@@ -3184,8 +3184,8 @@ Data_07466e__L0746be:
         .dc.w   0x0070                        | +0ea  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +0ec  (dato / opcode no decodificado)
         .dc.w   0x1d01                        | +0ee  (dato / opcode no decodificado)
-        .global Data_07466e__L07475e
-Data_07466e__L07475e:
+        .global ScriptedProp_Sprites_07466e__L07475e
+ScriptedProp_Sprites_07466e__L07475e:
 .L07475e:
         .dc.w   0x005b                        | +0f0  (dato / opcode no decodificado)
         .dc.w   0x010b                        | +0f2  (dato / opcode no decodificado)
@@ -3206,8 +3206,8 @@ Data_07466e__L07475e:
         .dc.w   0x0074                        | +110  (dato / opcode no decodificado)
         .dc.w   0x017f                        | +112  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +114  (dato / opcode no decodificado)
-        .global Data_07466e__L074784
-Data_07466e__L074784:
+        .global ScriptedProp_Sprites_07466e__L074784
+ScriptedProp_Sprites_07466e__L074784:
 .L074784:
         .dc.w   0x005b                        | +116  (dato / opcode no decodificado)
         .dc.w   0x0180                        | +118  (dato / opcode no decodificado)
@@ -3515,8 +3515,8 @@ Data_07466e__L074784:
         .dc.w   0x0000                        | +374  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +376  (dato / opcode no decodificado)
         .dc.w   0x8740                        | +378  (dato / opcode no decodificado)
-        .global Data_07466e__L0749e8
-Data_07466e__L0749e8:
+        .global ScriptedProp_Sprites_07466e__L0749e8
+ScriptedProp_Sprites_07466e__L0749e8:
 .L0749e8:
         .dc.w   0x0005                        | +37a  (dato / opcode no decodificado)
         .dc.w   0x0070                        | +37c  (dato / opcode no decodificado)
@@ -3524,18 +3524,18 @@ Data_07466e__L0749e8:
         .dc.w   0x0071                        | +380  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +382  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +384
-        movem.l Data_074a0e(pc),d0/a1           | +388
+        movem.l ScriptedProp_Script_Blob0_074a0e(pc),d0/a1 | +388
         jsr     0x4429e.l                       | +38e
         movem.l (a7)+,a0/a6                     | +394
         move.l  #0x74a16,(a0)                   | +398
         rts                                     | +39e
 
 | ----------------------------------------------------------------------------
-|  Data_074a0e  @ $074A0E  (28 B)
+|  ScriptedProp_Script_Blob0_074a0e  @ $074A0E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074a0e, "ax", @progbits
-        .global Data_074a0e
-Data_074a0e:
+        .section .text.ScriptedProp_Script_Blob0_074a0e, "ax", @progbits
+        .global ScriptedProp_Script_Blob0_074a0e
+ScriptedProp_Script_Blob0_074a0e:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0071                        | +002  (dato / opcode no decodificado)
         .dc.w   0x000e                        | +004  (dato / opcode no decodificado)
@@ -3548,27 +3548,27 @@ Data_074a0e:
         rts                                     | +01a
 
 | ----------------------------------------------------------------------------
-|  Data_074a2a  @ $074A2A  (34 B)
+|  ScriptedProp_Script_Step1_074a2a  @ $074A2A  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074a2a, "ax", @progbits
-        .global Data_074a2a
-Data_074a2a:
+        .section .text.ScriptedProp_Script_Step1_074a2a, "ax", @progbits
+        .global ScriptedProp_Script_Step1_074a2a
+ScriptedProp_Script_Step1_074a2a:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x1076                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074a4c(pc),a2              | +00a
+        movem.l ScriptedProp_Script_Blob1_074a4c(pc),a2 | +00a
         jsr     0x5022a.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74a50,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074a4c  @ $074A4C  (24 B)
+|  ScriptedProp_Script_Blob1_074a4c  @ $074A4C  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074a4c, "ax", @progbits
-        .global Data_074a4c
-Data_074a4c:
+        .section .text.ScriptedProp_Script_Blob1_074a4c, "ax", @progbits
+        .global ScriptedProp_Script_Blob1_074a4c
+ScriptedProp_Script_Blob1_074a4c:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x4852                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +004  (dato / opcode no decodificado)
@@ -3579,27 +3579,27 @@ Data_074a4c:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  Data_074a64  @ $074A64  (34 B)
+|  ScriptedProp_Script_Step2_074a64  @ $074A64  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074a64, "ax", @progbits
-        .global Data_074a64
-Data_074a64:
+        .section .text.ScriptedProp_Script_Step2_074a64, "ax", @progbits
+        .global ScriptedProp_Script_Step2_074a64
+ScriptedProp_Script_Step2_074a64:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x1076                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074a86(pc),a2              | +00a
+        movem.l ScriptedProp_Script_Blob2_074a86(pc),a2 | +00a
         jsr     0x5022a.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74a8a,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074a86  @ $074A86  (24 B)
+|  ScriptedProp_Script_Blob2_074a86  @ $074A86  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074a86, "ax", @progbits
-        .global Data_074a86
-Data_074a86:
+        .section .text.ScriptedProp_Script_Blob2_074a86, "ax", @progbits
+        .global ScriptedProp_Script_Blob2_074a86
+ScriptedProp_Script_Blob2_074a86:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x487a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +004  (dato / opcode no decodificado)
@@ -3610,61 +3610,61 @@ Data_074a86:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  Data_074a9e  @ $074A9E  (38 B)
+|  ScriptedProp_Script_Step3_074a9e  @ $074A9E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074a9e, "ax", @progbits
-        .global Data_074a9e
-Data_074a9e:
+        .section .text.ScriptedProp_Script_Step3_074a9e, "ax", @progbits
+        .global ScriptedProp_Script_Step3_074a9e
+ScriptedProp_Script_Step3_074a9e:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x102c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0005                        | +004  (dato / opcode no decodificado)
         .dc.w   0x007a                        | +006  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +008  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +00a
-        movem.l Data_074ac4(pc),a2              | +00e
+        movem.l ScriptedProp_Script_Step4_074ac4(pc),a2 | +00e
         jsr     0x5022a.l                       | +014
         movem.l (a7)+,a0/a6                     | +01a
         move.l  #0x74ac8,(a0)                   | +01e
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  Data_074ac4  @ $074AC4  (34 B)
+|  ScriptedProp_Script_Step4_074ac4  @ $074AC4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074ac4, "ax", @progbits
-        .global Data_074ac4
-Data_074ac4:
+        .section .text.ScriptedProp_Script_Step4_074ac4, "ax", @progbits
+        .global ScriptedProp_Script_Step4_074ac4
+ScriptedProp_Script_Step4_074ac4:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x4866                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074ae6(pc),a2              | +00a
+        movem.l ScriptedProp_Script_Step5_074ae6(pc),a2 | +00a
         jsr     0x5022a.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74aea,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074ae6  @ $074AE6  (34 B)
+|  ScriptedProp_Script_Step5_074ae6  @ $074AE6  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074ae6, "ax", @progbits
-        .global Data_074ae6
-Data_074ae6:
+        .section .text.ScriptedProp_Script_Step5_074ae6, "ax", @progbits
+        .global ScriptedProp_Script_Step5_074ae6
+ScriptedProp_Script_Step5_074ae6:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x483e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074b08(pc),a2              | +00a
+        movem.l ScriptedProp_Script_Blob5_074b08(pc),a2 | +00a
         jsr     0x5022a.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74b0c,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074b08  @ $074B08  (24 B)
+|  ScriptedProp_Script_Blob5_074b08  @ $074B08  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074b08, "ax", @progbits
-        .global Data_074b08
-Data_074b08:
+        .section .text.ScriptedProp_Script_Blob5_074b08, "ax", @progbits
+        .global ScriptedProp_Script_Blob5_074b08
+ScriptedProp_Script_Blob5_074b08:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x482a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +004  (dato / opcode no decodificado)
@@ -3675,43 +3675,43 @@ Data_074b08:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  Data_074b20  @ $074B20  (34 B)
+|  ScriptedProp_Script_Step6_074b20  @ $074B20  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074b20, "ax", @progbits
-        .global Data_074b20
-Data_074b20:
+        .section .text.ScriptedProp_Script_Step6_074b20, "ax", @progbits
+        .global ScriptedProp_Script_Step6_074b20
+ScriptedProp_Script_Step6_074b20:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x1076                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074b42(pc),d0              | +00a
+        movem.l ScriptedProp_Script_Step7_074b42(pc),d0 | +00a
         jsr     0x2352.l                        | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74b46,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074b42  @ $074B42  (34 B)
+|  ScriptedProp_Script_Step7_074b42  @ $074B42  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074b42, "ax", @progbits
-        .global Data_074b42
-Data_074b42:
+        .section .text.ScriptedProp_Script_Step7_074b42, "ax", @progbits
+        .global ScriptedProp_Script_Step7_074b42
+ScriptedProp_Script_Step7_074b42:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x1076                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074b64(pc),a2              | +00a
+        movem.l ScriptedProp_Script_Blob7_074b64(pc),a2 | +00a
         jsr     0x5022a.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74b68,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074b64  @ $074B64  (24 B)
+|  ScriptedProp_Script_Blob7_074b64  @ $074B64  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074b64, "ax", @progbits
-        .global Data_074b64
-Data_074b64:
+        .section .text.ScriptedProp_Script_Blob7_074b64, "ax", @progbits
+        .global ScriptedProp_Script_Blob7_074b64
+ScriptedProp_Script_Blob7_074b64:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x4816                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +004  (dato / opcode no decodificado)
@@ -3722,27 +3722,27 @@ Data_074b64:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  Data_074b7c  @ $074B7C  (34 B)
+|  ScriptedProp_Script_Step8_074b7c  @ $074B7C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074b7c, "ax", @progbits
-        .global Data_074b7c
-Data_074b7c:
+        .section .text.ScriptedProp_Script_Step8_074b7c, "ax", @progbits
+        .global ScriptedProp_Script_Step8_074b7c
+ScriptedProp_Script_Step8_074b7c:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x102e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074b9e(pc),a2              | +00a
+        movem.l ScriptedProp_Script_Blob8_074b9e(pc),a2 | +00a
         jsr     0x5022a.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74ba2,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074b9e  @ $074B9E  (24 B)
+|  ScriptedProp_Script_Blob8_074b9e  @ $074B9E  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074b9e, "ax", @progbits
-        .global Data_074b9e
-Data_074b9e:
+        .section .text.ScriptedProp_Script_Blob8_074b9e, "ax", @progbits
+        .global ScriptedProp_Script_Blob8_074b9e
+ScriptedProp_Script_Blob8_074b9e:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x4802                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +004  (dato / opcode no decodificado)
@@ -3753,45 +3753,45 @@ Data_074b9e:
         rts                                     | +016
 
 | ----------------------------------------------------------------------------
-|  Data_074bb6  @ $074BB6  (38 B)
+|  ScriptedProp_Script_Step9_074bb6  @ $074BB6  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074bb6, "ax", @progbits
-        .global Data_074bb6
-Data_074bb6:
+        .section .text.ScriptedProp_Script_Step9_074bb6, "ax", @progbits
+        .global ScriptedProp_Script_Step9_074bb6
+ScriptedProp_Script_Step9_074bb6:
         .dc.w   0x0005                        | +000  (dato / opcode no decodificado)
         .dc.w   0x007c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0005                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0071                        | +006  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +008  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +00a
-        movem.l Data_074bdc(pc),a1              | +00e
+        movem.l ScriptedProp_Script_Step10_074bdc(pc),a1 | +00e
         jsr     0x4ae.l                         | +014
         movem.l (a7)+,a0/a6                     | +01a
         move.l  #0x74be0,(a0)                   | +01e
         rts                                     | +024
 
 | ----------------------------------------------------------------------------
-|  Data_074bdc  @ $074BDC  (34 B)
+|  ScriptedProp_Script_Step10_074bdc  @ $074BDC  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074bdc, "ax", @progbits
-        .global Data_074bdc
-Data_074bdc:
+        .section .text.ScriptedProp_Script_Step10_074bdc, "ax", @progbits
+        .global ScriptedProp_Script_Step10_074bdc
+ScriptedProp_Script_Step10_074bdc:
         .dc.w   0x0008                        | +000  (dato / opcode no decodificado)
         .dc.w   0x656e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074bfe(pc),a1              | +00a
+        movem.l ScriptedProp_Script_Step11_074bfe(pc),a1 | +00a
         jsr     0x77c7e.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74c02,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074bfe  @ $074BFE  (32 B)
+|  ScriptedProp_Script_Step11_074bfe  @ $074BFE  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074bfe, "ax", @progbits
-        .global Data_074bfe
-Data_074bfe:
+        .section .text.ScriptedProp_Script_Step11_074bfe, "ax", @progbits
+        .global ScriptedProp_Script_Step11_074bfe
+ScriptedProp_Script_Step11_074bfe:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x49a0                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +004  (dato / opcode no decodificado)
@@ -3804,140 +3804,140 @@ Data_074bfe:
         rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_074c1e  @ $074C1E  (36 B)
+|  ScriptedProp_Script_Step12_074c1e  @ $074C1E  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074c1e, "ax", @progbits
-        .global Data_074c1e
-Data_074c1e:
+        .section .text.ScriptedProp_Script_Step12_074c1e, "ax", @progbits
+        .global ScriptedProp_Script_Step12_074c1e
+ScriptedProp_Script_Step12_074c1e:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +006  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +008
-        movem.l Data_074c42(pc),a1              | +00c
+        movem.l ScriptedProp_Script_Step13_074c42(pc),a1 | +00c
         jsr     0x4ae.l                         | +012
         movem.l (a7)+,a0/a6                     | +018
         move.l  #0x74c46,(a0)                   | +01c
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  Data_074c42  @ $074C42  (34 B)
+|  ScriptedProp_Script_Step13_074c42  @ $074C42  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074c42, "ax", @progbits
-        .global Data_074c42
-Data_074c42:
+        .section .text.ScriptedProp_Script_Step13_074c42, "ax", @progbits
+        .global ScriptedProp_Script_Step13_074c42
+ScriptedProp_Script_Step13_074c42:
         .dc.w   0x0008                        | +000  (dato / opcode no decodificado)
         .dc.w   0x656e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074c64(pc),a1              | +00a
+        movem.l ScriptedProp_Script_Step14_074c64(pc),a1 | +00a
         jsr     0x77c7e.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74c68,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074c64  @ $074C64  (34 B)
+|  ScriptedProp_Script_Step14_074c64  @ $074C64  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074c64, "ax", @progbits
-        .global Data_074c64
-Data_074c64:
+        .section .text.ScriptedProp_Script_Step14_074c64, "ax", @progbits
+        .global ScriptedProp_Script_Step14_074c64
+ScriptedProp_Script_Step14_074c64:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x4922                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074c86(pc),a1              | +00a
+        movem.l ScriptedProp_Script_Step15_074c86(pc),a1 | +00a
         jsr     0x77c7e.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74c8a,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074c86  @ $074C86  (34 B)
+|  ScriptedProp_Script_Step15_074c86  @ $074C86  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074c86, "ax", @progbits
-        .global Data_074c86
-Data_074c86:
+        .section .text.ScriptedProp_Script_Step15_074c86, "ax", @progbits
+        .global ScriptedProp_Script_Step15_074c86
+ScriptedProp_Script_Step15_074c86:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x4934                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074ca8(pc),a1              | +00a
+        movem.l ScriptedProp_Script_Step16_074ca8(pc),a1 | +00a
         jsr     0x77c7e.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74cac,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074ca8  @ $074CA8  (34 B)
+|  ScriptedProp_Script_Step16_074ca8  @ $074CA8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074ca8, "ax", @progbits
-        .global Data_074ca8
-Data_074ca8:
+        .section .text.ScriptedProp_Script_Step16_074ca8, "ax", @progbits
+        .global ScriptedProp_Script_Step16_074ca8
+ScriptedProp_Script_Step16_074ca8:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x4946                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074cca(pc),a1              | +00a
+        movem.l ScriptedProp_Script_Step17_074cca(pc),a1 | +00a
         jsr     0x77c7e.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74cce,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074cca  @ $074CCA  (34 B)
+|  ScriptedProp_Script_Step17_074cca  @ $074CCA  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074cca, "ax", @progbits
-        .global Data_074cca
-Data_074cca:
+        .section .text.ScriptedProp_Script_Step17_074cca, "ax", @progbits
+        .global ScriptedProp_Script_Step17_074cca
+ScriptedProp_Script_Step17_074cca:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x4958                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074cec(pc),a1              | +00a
+        movem.l ScriptedProp_Script_Step18_074cec(pc),a1 | +00a
         jsr     0x77c7e.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74cf0,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074cec  @ $074CEC  (34 B)
+|  ScriptedProp_Script_Step18_074cec  @ $074CEC  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074cec, "ax", @progbits
-        .global Data_074cec
-Data_074cec:
+        .section .text.ScriptedProp_Script_Step18_074cec, "ax", @progbits
+        .global ScriptedProp_Script_Step18_074cec
+ScriptedProp_Script_Step18_074cec:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x496a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074d0e(pc),a1              | +00a
+        movem.l ScriptedProp_Script_Step19_074d0e(pc),a1 | +00a
         jsr     0x77c7e.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74d12,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074d0e  @ $074D0E  (34 B)
+|  ScriptedProp_Script_Step19_074d0e  @ $074D0E  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074d0e, "ax", @progbits
-        .global Data_074d0e
-Data_074d0e:
+        .section .text.ScriptedProp_Script_Step19_074d0e, "ax", @progbits
+        .global ScriptedProp_Script_Step19_074d0e
+ScriptedProp_Script_Step19_074d0e:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x497c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074d30(pc),a1              | +00a
+        movem.l ScriptedProp_Script_Step20_074d30(pc),a1 | +00a
         jsr     0x77c7e.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74d34,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074d30  @ $074D30  (32 B)
+|  ScriptedProp_Script_Step20_074d30  @ $074D30  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074d30, "ax", @progbits
-        .global Data_074d30
-Data_074d30:
+        .section .text.ScriptedProp_Script_Step20_074d30, "ax", @progbits
+        .global ScriptedProp_Script_Step20_074d30
+ScriptedProp_Script_Step20_074d30:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x498e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +004  (dato / opcode no decodificado)
@@ -3950,28 +3950,28 @@ Data_074d30:
         rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_074d50  @ $074D50  (36 B)
+|  ScriptedProp_Script_Step21_074d50  @ $074D50  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074d50, "ax", @progbits
-        .global Data_074d50
-Data_074d50:
+        .section .text.ScriptedProp_Script_Step21_074d50, "ax", @progbits
+        .global ScriptedProp_Script_Step21_074d50
+ScriptedProp_Script_Step21_074d50:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +006  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +008
-        movem.l Data_074d74(pc),a1              | +00c
+        movem.l ScriptedProp_Script_Step22_074d74(pc),a1 | +00c
         jsr     0x4ae.l                         | +012
         movem.l (a7)+,a0/a6                     | +018
         move.l  #0x74d78,(a0)                   | +01c
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  Data_074d74  @ $074D74  (58 B)
+|  ScriptedProp_Script_Step22_074d74  @ $074D74  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074d74, "ax", @progbits
-        .global Data_074d74
-Data_074d74:
+        .section .text.ScriptedProp_Script_Step22_074d74, "ax", @progbits
+        .global ScriptedProp_Script_Step22_074d74
+ScriptedProp_Script_Step22_074d74:
         .dc.w   0x0008                        | +000  (dato / opcode no decodificado)
         .dc.w   0x656e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0005                        | +004  (dato / opcode no decodificado)
@@ -3988,18 +3988,18 @@ Data_074d74:
         .dc.w   0x0002                        | +01a  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +01c  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +01e
-        movem.l Data_074dae(pc),a1              | +022
+        movem.l ScriptedProp_Script_Step23_074dae(pc),a1 | +022
         jsr     0x77c7e.l                       | +028
         movem.l (a7)+,a0/a6                     | +02e
         move.l  #0x74db2,(a0)                   | +032
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  Data_074dae  @ $074DAE  (32 B)
+|  ScriptedProp_Script_Step23_074dae  @ $074DAE  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074dae, "ax", @progbits
-        .global Data_074dae
-Data_074dae:
+        .section .text.ScriptedProp_Script_Step23_074dae, "ax", @progbits
+        .global ScriptedProp_Script_Step23_074dae
+ScriptedProp_Script_Step23_074dae:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x49b2                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +004  (dato / opcode no decodificado)
@@ -4012,62 +4012,62 @@ Data_074dae:
         rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_074dce  @ $074DCE  (36 B)
+|  ScriptedProp_Script_Step24_074dce  @ $074DCE  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074dce, "ax", @progbits
-        .global Data_074dce
-Data_074dce:
+        .section .text.ScriptedProp_Script_Step24_074dce, "ax", @progbits
+        .global ScriptedProp_Script_Step24_074dce
+ScriptedProp_Script_Step24_074dce:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +006  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +008
-        movem.l Data_074df2(pc),a1              | +00c
+        movem.l ScriptedProp_Script_Step25_074df2(pc),a1 | +00c
         jsr     0x4ae.l                         | +012
         movem.l (a7)+,a0/a6                     | +018
         move.l  #0x74df6,(a0)                   | +01c
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  Data_074df2  @ $074DF2  (36 B)
+|  ScriptedProp_Script_Step25_074df2  @ $074DF2  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074df2, "ax", @progbits
-        .global Data_074df2
-Data_074df2:
+        .section .text.ScriptedProp_Script_Step25_074df2, "ax", @progbits
+        .global ScriptedProp_Script_Step25_074df2
+ScriptedProp_Script_Step25_074df2:
         .dc.w   0x0008                        | +000  (dato / opcode no decodificado)
         .dc.w   0x656e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0005                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0078                        | +006  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +008  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +00a
-        movem.l Data_074e16(pc),a2              | +00e
-        jsr     Sub_000750D4(pc)                | +014
+        movem.l ScriptedProp_Script_Step26_074e16(pc),a2 | +00e
+        jsr     ScriptedProp_BlitParams_0750d4(pc) | +014
         movem.l (a7)+,a0/a6                     | +018
         move.l  #0x74e1a,(a0)                   | +01c
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  Data_074e16  @ $074E16  (34 B)
+|  ScriptedProp_Script_Step26_074e16  @ $074E16  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074e16, "ax", @progbits
-        .global Data_074e16
-Data_074e16:
+        .section .text.ScriptedProp_Script_Step26_074e16, "ax", @progbits
+        .global ScriptedProp_Script_Step26_074e16
+ScriptedProp_Script_Step26_074e16:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x48ca                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074e38(pc),a2              | +00a
+        movem.l ScriptedProp_Script_Step27_074e38(pc),a2 | +00a
         jsr     0x5022a.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74e3c,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074e38  @ $074E38  (40 B)
+|  ScriptedProp_Script_Step27_074e38  @ $074E38  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074e38, "ax", @progbits
-        .global Data_074e38
-Data_074e38:
+        .section .text.ScriptedProp_Script_Step27_074e38, "ax", @progbits
+        .global ScriptedProp_Script_Step27_074e38
+ScriptedProp_Script_Step27_074e38:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x488e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +004  (dato / opcode no decodificado)
@@ -4075,18 +4075,18 @@ Data_074e38:
         .dc.w   0x0002                        | +008  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +00a  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +00c
-        movem.l Data_074e60(pc),a1              | +010
+        movem.l ScriptedProp_Script_Step28_074e60(pc),a1 | +010
         jsr     0x77c7e.l                       | +016
         movem.l (a7)+,a0/a6                     | +01c
         move.l  #0x74e64,(a0)                   | +020
         rts                                     | +026
 
 | ----------------------------------------------------------------------------
-|  Data_074e60  @ $074E60  (40 B)
+|  ScriptedProp_Script_Step28_074e60  @ $074E60  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074e60, "ax", @progbits
-        .global Data_074e60
-Data_074e60:
+        .section .text.ScriptedProp_Script_Step28_074e60, "ax", @progbits
+        .global ScriptedProp_Script_Step28_074e60
+ScriptedProp_Script_Step28_074e60:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x49c4                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +004  (dato / opcode no decodificado)
@@ -4098,47 +4098,47 @@ Data_074e60:
         .dc.w   0x0079                        | +010  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +012  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +014
-        jsr     Sub_000750A4(pc)                | +018
+        jsr     ScriptedProp_WarpOriginAndRunScript_0750a4(pc) | +018
         movem.l (a7)+,a0/a6                     | +01c
         move.l  #0x74e88,(a0)                   | +020
         rts                                     | +026
 
 | ----------------------------------------------------------------------------
-|  Data_074e88  @ $074E88  (28 B)
+|  ScriptedProp_Script_Step29_074e88  @ $074E88  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074e88, "ax", @progbits
-        .global Data_074e88
-Data_074e88:
+        .section .text.ScriptedProp_Script_Step29_074e88, "ax", @progbits
+        .global ScriptedProp_Script_Step29_074e88
+ScriptedProp_Script_Step29_074e88:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +002
-        movem.l Data_074ea4(pc),a2              | +006
-        jsr     Sub_000750D4(pc)                | +00c
+        movem.l ScriptedProp_Script_Step30_074ea4(pc),a2 | +006
+        jsr     ScriptedProp_BlitParams_0750d4(pc) | +00c
         movem.l (a7)+,a0/a6                     | +010
         move.l  #0x74ea8,(a0)                   | +014
         rts                                     | +01a
 
 | ----------------------------------------------------------------------------
-|  Data_074ea4  @ $074EA4  (34 B)
+|  ScriptedProp_Script_Step30_074ea4  @ $074EA4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074ea4, "ax", @progbits
-        .global Data_074ea4
-Data_074ea4:
+        .section .text.ScriptedProp_Script_Step30_074ea4, "ax", @progbits
+        .global ScriptedProp_Script_Step30_074ea4
+ScriptedProp_Script_Step30_074ea4:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x48d6                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +006
-        movem.l Data_074ec6(pc),a2              | +00a
+        movem.l ScriptedProp_Script_Step31_074ec6(pc),a2 | +00a
         jsr     0x5022a.l                       | +010
         movem.l (a7)+,a0/a6                     | +016
         move.l  #0x74eca,(a0)                   | +01a
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  Data_074ec6  @ $074EC6  (42 B)
+|  ScriptedProp_Script_Step31_074ec6  @ $074EC6  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074ec6, "ax", @progbits
-        .global Data_074ec6
-Data_074ec6:
+        .section .text.ScriptedProp_Script_Step31_074ec6, "ax", @progbits
+        .global ScriptedProp_Script_Step31_074ec6
+ScriptedProp_Script_Step31_074ec6:
         .dc.w   0x0007                        | +000  (dato / opcode no decodificado)
         .dc.w   0x48a2                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +004  (dato / opcode no decodificado)
@@ -4147,18 +4147,18 @@ Data_074ec6:
         .dc.w   0x0071                        | +00a  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +00c  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +00e
-        movem.l Data_074ef0(pc),d0/a1           | +012
+        movem.l ScriptedProp_Script_Step32_074ef0(pc),d0/a1 | +012
         jsr     0x4429e.l                       | +018
         movem.l (a7)+,a0/a6                     | +01e
         move.l  #0x74ef8,(a0)                   | +022
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  Data_074ef0  @ $074EF0  (32 B)
+|  ScriptedProp_Script_Step32_074ef0  @ $074EF0  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074ef0, "ax", @progbits
-        .global Data_074ef0
-Data_074ef0:
+        .section .text.ScriptedProp_Script_Step32_074ef0, "ax", @progbits
+        .global ScriptedProp_Script_Step32_074ef0
+ScriptedProp_Script_Step32_074ef0:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0071                        | +002  (dato / opcode no decodificado)
         .dc.w   0x000e                        | +004  (dato / opcode no decodificado)
@@ -4171,28 +4171,28 @@ Data_074ef0:
         rts                                     | +01e
 
 | ----------------------------------------------------------------------------
-|  Data_074f10  @ $074F10  (36 B)
+|  ScriptedProp_Script_Step33_074f10  @ $074F10  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074f10, "ax", @progbits
-        .global Data_074f10
-Data_074f10:
+        .section .text.ScriptedProp_Script_Step33_074f10, "ax", @progbits
+        .global ScriptedProp_Script_Step33_074f10
+ScriptedProp_Script_Step33_074f10:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +006  (dato / opcode no decodificado)
         movem.l a0/a6,-(a7)                     | +008
-        movem.l Data_074f34(pc),a1              | +00c
+        movem.l ScriptedProp_Script_Step34_074f34(pc),a1 | +00c
         jsr     0x4ae.l                         | +012
         movem.l (a7)+,a0/a6                     | +018
         move.l  #0x74f38,(a0)                   | +01c
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  Data_074f34  @ $074F34  (36 B)
+|  ScriptedProp_Script_Step34_074f34  @ $074F34  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074f34, "ax", @progbits
-        .global Data_074f34
-Data_074f34:
+        .section .text.ScriptedProp_Script_Step34_074f34, "ax", @progbits
+        .global ScriptedProp_Script_Step34_074f34
+ScriptedProp_Script_Step34_074f34:
         .dc.w   0x0008                        | +000  (dato / opcode no decodificado)
         .dc.w   0x656e                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +004  (dato / opcode no decodificado)
@@ -4208,19 +4208,19 @@ Data_074f34:
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  Data_074f58  @ $074F58  (2 B)
+|  ScriptedProp_Script_End_074f58  @ $074F58  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_074f58, "ax", @progbits
-        .global Data_074f58
-Data_074f58:
+        .section .text.ScriptedProp_Script_End_074f58, "ax", @progbits
+        .global ScriptedProp_Script_End_074f58
+ScriptedProp_Script_End_074f58:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_074f5a  @ $074F5A  (330 B)
+|  ScriptedProp_IdleScript_074f5a  @ $074F5A  (330 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_074f5a, "ax", @progbits
-        .global TaskHandler_074f5a
-TaskHandler_074f5a:
+        .section .text.ScriptedProp_IdleScript_074f5a, "ax", @progbits
+        .global ScriptedProp_IdleScript_074f5a
+ScriptedProp_IdleScript_074f5a:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0xffc0                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0020                        | +004  (dato / opcode no decodificado)
@@ -4388,25 +4388,25 @@ TaskHandler_074f5a:
         .dc.w   0x0000                        | +148  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_000750A4  @ $0750A4  (28 B)
+|  ScriptedProp_WarpOriginAndRunScript_0750a4  @ $0750A4  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000750A4, "ax", @progbits
-        .global Sub_000750A4
-Sub_000750A4:
+        .section .text.ScriptedProp_WarpOriginAndRunScript_0750a4, "ax", @progbits
+        .global ScriptedProp_WarpOriginAndRunScript_0750a4
+ScriptedProp_WarpOriginAndRunScript_0750a4:
         clr.w   d0                              | +000
         clr.w   d1                              | +002
         jsr     0x44022.l                       | +004
         move.w  d0,0x22(a6)                     | +00a
         move.w  d1,0x24(a6)                     | +00e
-        lea     TaskHandler_074f5a(pc),a1       | +012
+        lea     ScriptedProp_IdleScript_074f5a(pc),a1 | +012
         jmp     0x43fac.l                       | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0750c0  @ $0750C0  (20 B)
+|  ScriptedProp_ClampLocalX_0750c0  @ $0750C0  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0750c0, "ax", @progbits
-        .global TaskHandler_0750c0
-TaskHandler_0750c0:
+        .section .text.ScriptedProp_ClampLocalX_0750c0, "ax", @progbits
+        .global ScriptedProp_ClampLocalX_0750c0
+ScriptedProp_ClampLocalX_0750c0:
         jsr     0x440d0.l                       | +000
         cmpi.w  #0x180,d0                       | +006
         bcs.w   .L0750d2                        | +00a
@@ -4415,34 +4415,34 @@ TaskHandler_0750c0:
         rts                                     | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_000750D4  @ $0750D4  (14 B)
+|  ScriptedProp_BlitParams_0750d4  @ $0750D4  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000750D4, "ax", @progbits
-        .global Sub_000750D4
-Sub_000750D4:
+        .section .text.ScriptedProp_BlitParams_0750d4, "ax", @progbits
+        .global ScriptedProp_BlitParams_0750d4
+ScriptedProp_BlitParams_0750d4:
         movem.l (a2)+,a0                        | +000
         movem.w (a2)+,d0-d1/d4-d5               | +004
         jmp     0x51e74.l                       | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0750ea  @ $0750EA  (22 B)
+|  ScriptedProp_SnapToAnchor_0750ea  @ $0750EA  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0750ea, "ax", @progbits
-        .global TaskHandler_0750ea
-TaskHandler_0750ea:
+        .section .text.ScriptedProp_SnapToAnchor_0750ea, "ax", @progbits
+        .global ScriptedProp_SnapToAnchor_0750ea
+ScriptedProp_SnapToAnchor_0750ea:
         move.w  #0xfc0,d0                       | +000
         move.w  #0xe0,d1                        | +004
-        jsr     TaskHandler_0750c0(pc)          | +008
+        jsr     ScriptedProp_ClampLocalX_0750c0(pc) | +008
         move.w  d0,0x22(a6)                     | +00c
         move.w  d1,0x24(a6)                     | +010
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_075100  @ $075100  (158 B)
+|  ScriptedProp_Tmpl97_075100  @ $075100  (158 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_075100, "ax", @progbits
-        .global TaskHandler_075100
-TaskHandler_075100:
+        .section .text.ScriptedProp_Tmpl97_075100, "ax", @progbits
+        .global ScriptedProp_Tmpl97_075100
+ScriptedProp_Tmpl97_075100:
         lea     0x2bf004.l,a0                   | +000
         jsr     0x799de.l                       | +006
         move.w  d0,0x66(a6)                     | +00c
@@ -4470,20 +4470,20 @@ TaskHandler_075100:
         move.w  #0xc000,0x38(a6)                | +06c
         move.b  #0x96,0x7d(a6)                  | +072
         lea     0x80(a6),a0                     | +078
-        lea     Data_074f58(pc),a1              | +07c
-        jsr     TaskHandler_0745da(pc)          | +080
+        lea     ScriptedProp_Script_End_074f58(pc),a1 | +07c
+        jsr     MiniScript_Init_0745da(pc)      | +080
         move.l  #0x74712,0x60(a6)               | +084
-        lea     Data_07466e__L0746be(pc),a0     | +08c
+        lea     ScriptedProp_Sprites_07466e__L0746be(pc),a0 | +08c
         move.l  a0,0x48(a6)                     | +090
-        lea     Data_075270(pc),a0              | +094
+        lea     ScriptedProp_SpriteTable_075270(pc),a0 | +094
         jsr     0x28cd4.l                       | +098
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0751a6  @ $0751A6  (174 B)
+|  ScriptedProp_Run_0751a6  @ $0751A6  (174 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0751a6, "ax", @progbits
-        .global TaskHandler_0751a6
-TaskHandler_0751a6:
+        .section .text.ScriptedProp_Run_0751a6, "ax", @progbits
+        .global ScriptedProp_Run_0751a6
+ScriptedProp_Run_0751a6:
         jsr     0x2870a.l                       | +000
         bcs.w   .L0751c8                        | +006
         cmpi.w  #0xea8,0x106f50.l               | +00a
@@ -4492,17 +4492,17 @@ TaskHandler_0751a6:
         tst.b   0x7d(a6)                        | +01a
         bne.w   .L0751ec                        | +01e
 .L0751c8:
-        lea     Data_07466e(pc),a0              | +022
+        lea     ScriptedProp_Sprites_07466e(pc),a0 | +022
         move.l  a0,0x48(a6)                     | +026
         move.w  #0x28,d0                        | +02a
         jsr     0x2352.l                        | +02e
         lea     0x80(a6),a0                     | +034
-        lea     Data_07466e__L0749e8(pc),a1     | +038
-        jsr     TaskHandler_0745da(pc)          | +03c
+        lea     ScriptedProp_Sprites_07466e__L0749e8(pc),a1 | +038
+        jsr     MiniScript_Init_0745da(pc)      | +03c
         lea     .L0751ec(pc),a1                 | +040
         move.l  a1,(a6)                         | +044
 .L0751ec:
-        bsr.w   TaskHandler_0750ea              | +046
+        bsr.w   ScriptedProp_SnapToAnchor_0750ea | +046
         jsr     0x28998.l                       | +04a
         move.w  0x22(a6),d0                     | +050
         cmpi.w  #0x12c,d0                       | +054
@@ -4515,7 +4515,7 @@ TaskHandler_0751a6:
         divu.w  0x72(a6),d0                     | +06a
         move.w  d0,0x74(a6)                     | +06e
         lea     0x80(a6),a0                     | +072
-        jsr     PcThunkTarget_0745e2(pc)        | +076
+        jsr     MiniScript_Step_0745e2(pc)      | +076
         jsr     0x2870a.l                       | +07a
         scs.b   0x7b(a6)                        | +080
         bcc.w   .L07523a                        | +084
@@ -4529,23 +4529,23 @@ TaskHandler_0751a6:
         clr.b   0x7b(a6)                        | +0aa
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_07525c  @ $07525C  (14 B)
+|  ScriptedProp_Dead_07525c  @ $07525C  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_07525c, "ax", @progbits
-        .global TaskHandler_07525c
-TaskHandler_07525c:
+        .section .text.ScriptedProp_Dead_07525c, "ax", @progbits
+        .global ScriptedProp_Dead_07525c
+ScriptedProp_Dead_07525c:
         lea     .L075262(pc),a1                 | +000
         move.l  a1,(a6)                         | +004
 .L075262:
-        bsr.w   TaskHandler_0750ea              | +006
+        bsr.w   ScriptedProp_SnapToAnchor_0750ea | +006
         lea     0x80(a6),a0                     | +00a
 
 | ----------------------------------------------------------------------------
-|  Data_075270  @ $075270  (3268 B)
+|  ScriptedProp_SpriteTable_075270  @ $075270  (3268 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_075270, "ax", @progbits
-        .global Data_075270
-Data_075270:
+        .section .text.ScriptedProp_SpriteTable_075270, "ax", @progbits
+        .global ScriptedProp_SpriteTable_075270
+ScriptedProp_SpriteTable_075270:
         .dc.w   0x0001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
@@ -6150,10 +6150,10 @@ Data_075270:
         move.w  0x7e(a1),d0                     | +c8e
         cmp.w   0x66(a1),d0                     | +c92
         blt.w   .L075f12                        | +c96
-        lea     TaskHandler_075f3c(pc),a1       | +c9a
+        lea     ScriptedProp_Child_Flash_075f3c(pc),a1 | +c9a
         bra.w   .L075f16                        | +c9e
 .L075f12:
-        lea     Data_075f34(pc),a1              | +ca2
+        lea     ScriptedProp_Hitbox_075f34(pc),a1 | +ca2
 .L075f16:
         move.l  a1,0x7c(a0)                     | +ca6
         movea.l (a7)+,a6                        | +caa
@@ -6166,29 +6166,29 @@ Data_075270:
         rts                                     | +cc2
 
 | ----------------------------------------------------------------------------
-|  Data_075f34  @ $075F34  (8 B)
+|  ScriptedProp_Hitbox_075f34  @ $075F34  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_075f34, "ax", @progbits
-        .global Data_075f34
-Data_075f34:
+        .section .text.ScriptedProp_Hitbox_075f34, "ax", @progbits
+        .global ScriptedProp_Hitbox_075f34
+ScriptedProp_Hitbox_075f34:
         .dc.w   0xfe80                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0060                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0100                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_075f3c  @ $075F3C  (140 B)
+|  ScriptedProp_Child_Flash_075f3c  @ $075F3C  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_075f3c, "ax", @progbits
-        .global TaskHandler_075f3c
-TaskHandler_075f3c:
+        .section .text.ScriptedProp_Child_Flash_075f3c, "ax", @progbits
+        .global ScriptedProp_Child_Flash_075f3c
+ScriptedProp_Child_Flash_075f3c:
         .dc.w   0xfe80                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0060                        | +002  (dato / opcode no decodificado)
         .dc.w   0xff80                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0100                        | +006  (dato / opcode no decodificado)
         move.w  #0xfe0,d0                       | +008
         move.w  #0xa0,d1                        | +00c
-        jsr     TaskHandler_0750c0(pc)          | +010
+        jsr     ScriptedProp_ClampLocalX_0750c0(pc) | +010
         move.w  d0,0x22(a6)                     | +014
         move.w  d1,0x24(a6)                     | +018
         move.w  0x70(a6),d0                     | +01c
@@ -6201,7 +6201,7 @@ TaskHandler_075f3c:
         bne.w   .L075f96                        | +032
         btst    #0x3,0x13(a6)                   | +036
         beq.w   .L075f8c                        | +03c
-        lea     Data_07466e__L07475e(pc),a0     | +040
+        lea     ScriptedProp_Sprites_07466e__L07475e(pc),a0 | +040
         jsr     0x2b58.l                        | +044
         bclr    #0x3,0x13(a6)                   | +04a
 .L075f8c:
@@ -6210,7 +6210,7 @@ TaskHandler_075f3c:
 .L075f96:
         btst    #0x3,0x13(a6)                   | +05a
         bne.w   .L075fb0                        | +060
-        lea     Data_07466e__L074784(pc),a0     | +064
+        lea     ScriptedProp_Sprites_07466e__L074784(pc),a0 | +064
         jsr     0x2b58.l                        | +068
         bset    #0x3,0x13(a6)                   | +06e
 .L075fb0:
@@ -6223,11 +6223,11 @@ TaskHandler_075f3c:
         rts                                     | +08a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_075fc8  @ $075FC8  (46 B)
+|  ScriptedProp_Child_Timer_075fc8  @ $075FC8  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_075fc8, "ax", @progbits
-        .global TaskHandler_075fc8
-TaskHandler_075fc8:
+        .section .text.ScriptedProp_Child_Timer_075fc8, "ax", @progbits
+        .global ScriptedProp_Child_Timer_075fc8
+ScriptedProp_Child_Timer_075fc8:
         move.w  0x72(a6),d0                     | +000
         beq.w   .L075fea                        | +004
         subq.w  #0x1,d0                         | +008
@@ -6241,9 +6241,9 @@ TaskHandler_075fc8:
         jsr     0x799de.l                       | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_075ffc  @ $075FFC  (4 B)
+|  ScriptedProp_Child_Parent_075ffc  @ $075FFC  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_075ffc, "ax", @progbits
-        .global TaskHandler_075ffc
-TaskHandler_075ffc:
+        .section .text.ScriptedProp_Child_Parent_075ffc, "ax", @progbits
+        .global ScriptedProp_Child_Parent_075ffc
+ScriptedProp_Child_Parent_075ffc:
         movea.l 0xc(a6),a0                      | +000

@@ -600,15 +600,15 @@ SYMBOLS = {
     0x000716F2: "TaskHandler_0716f2",
     # 0x00071B9A promovido a FinalBoss_HeadDieB_071b9a en registry (Wave WWWW).
     0x000724D4: "TaskHandler_0724d4",
-    # 0x00073454 promovido a TaskHandler_073454 en registry (Wave XXXX).
+    # 0x00073454 promovido a M5Tank_Sink_073454 en registry (Wave XXXX).
     0x000734F4: "TaskHandler_0734f4",
     0x000734FC: "TaskHandler_0734fc",
-    # 0x000735A6 promovido a TaskHandler_0735a6 en registry (Wave XXXX).
-    # 0x000738DA promovido a TaskHandler_0738da en registry (Wave XXXX).
-    # 0x00073B62 promovido a TaskHandler_073b62 en registry (Wave XXXX).
-    # 0x00073F9A promovido a TaskHandler_073f9a en registry (Wave XXXX).
-    # 0x000751A6 promovido a TaskHandler_0751a6 en registry (Wave XXXX).
-    # 0x0007525C promovido a TaskHandler_07525c en registry (Wave XXXX).
+    # 0x000735A6 promovido a M5Tank_PartExplode_0735a6 en registry (Wave XXXX).
+    # 0x000738DA promovido a M5Tank_TurretWreck_0738da en registry (Wave XXXX).
+    # 0x00073B62 promovido a M5Tank_CasingGround_073b62 en registry (Wave XXXX).
+    # 0x00073F9A promovido a M5Tank_MuzzleE_073f9a en registry (Wave XXXX).
+    # 0x000751A6 promovido a ScriptedProp_Run_0751a6 en registry (Wave XXXX).
+    # 0x0007525C promovido a ScriptedProp_Dead_07525c en registry (Wave XXXX).
     0x00076056: "TaskHandler_076056",
     0x000760A8: "TaskHandler_0760a8",
     0x000760C8: "TaskHandler_0760c8",
@@ -937,10 +937,10 @@ SYMBOLS = {
     # 0x0006D13C promovido a RocketVehicle_LinkBlocked_06d13c en registry (Wave VVVV).
     # 0x0006E2BC promovido a Entity_CopyAnimFromLeader_06E2BC en registry (Wave SS#1).
     # 0x00070AB0 promovido a M5Boss_AnimStep_070ab0 en registry (Wave WWWW).
-    # 0x00072A94 promovido a PcThunkTarget_072a94 en registry (Wave XXXX).
+    # 0x00072A94 promovido a FinalBoss_PickBeamPatternB_072a94 en registry (Wave XXXX).
     # 0x00072C98 promovido a Entity_CheckActiveBoxOverlap_072C98 en registry (Wave RR#1).
-    # 0x00074166 promovido a PcThunkTarget_074166 en registry (Wave XXXX).
-    # 0x000745E2 promovido a PcThunkTarget_0745e2 en registry (Wave XXXX).
+    # 0x00074166 promovido a M5Tank_TargetNear_074166 en registry (Wave XXXX).
+    # 0x000745E2 promovido a MiniScript_Step_0745e2 en registry (Wave XXXX).
     # 0x000798AC promovido a Entity_CheckBoxOverlapWithSelector_0798AC en registry (Wave RR#2).
     # 0x00088438 promovido a Entity_HitboxPulseTable_088438 en registry (Wave KKK).
     # 0x0008846A promovido a Entity_HitboxPulseSaved_08846a en registry (Wave KKK).
@@ -2049,25 +2049,25 @@ SYMBOLS = {
     0x00071EB4: "SetHandlerRts_071eb4",  # rts de SetTaskHandler_071eae (+6)
     0x00071F70: "SetHandlerRts_071f70",  # rts de SetTaskHandler_071f6a (+6)
     # --- Wave WWWW: refs forward a huecos futuros
-    # 0x00071FFC promovido a Sub_00071FFC en registry (Wave XXXX).
-    # 0x0007229C promovido a Sub_0007229C en registry (Wave XXXX).
-    # 0x0007231E promovido a Sub_0007231E en registry (Wave XXXX).
-    # 0x0007233A promovido a Sub_0007233A en registry (Wave XXXX).
-    # 0x00072364 promovido a Sub_00072364 en registry (Wave XXXX).
-    # 0x000723D2 promovido a Sub_000723D2 en registry (Wave XXXX).
-    # 0x000726D4 promovido a Sub_000726D4 en registry (Wave XXXX).
-    # 0x00072750 promovido a Sub_00072750 en registry (Wave XXXX).
-    # 0x00072782 promovido a Sub_00072782 en registry (Wave XXXX).
-    # 0x0007279A promovido a Sub_0007279A en registry (Wave XXXX).
-    # 0x000727C4 promovido a Sub_000727C4 en registry (Wave XXXX).
-    # 0x000727EA promovido a Sub_000727EA en registry (Wave XXXX).
-    # 0x00072B5A promovido a Sub_00072B5A en registry (Wave XXXX).
-    # 0x00072B96 promovido a Sub_00072B96 en registry (Wave XXXX).
-    # 0x00072BCE promovido a Sub_00072BCE en registry (Wave XXXX).
-    # 0x00072BDE promovido a Sub_00072BDE en registry (Wave XXXX).
-    # 0x00072C08 promovido a Sub_00072C08 en registry (Wave XXXX).
-    # 0x00072C44 promovido a Sub_00072C44 en registry (Wave XXXX).
-    # 0x00072DB8 promovido a Sub_00072DB8 en registry (Wave XXXX).
+    # 0x00071FFC promovido a FinalBoss_FlameTail_FreeIfOffWorld_071ffc en registry (Wave XXXX).
+    # 0x0007229C promovido a FinalBoss_Spark_07229c en registry (Wave XXXX).
+    # 0x0007231E promovido a FinalBoss_ShiftX_Explode_07231e en registry (Wave XXXX).
+    # 0x0007233A promovido a FinalBoss_FlushAndExplodeB_07233a en registry (Wave XXXX).
+    # 0x00072364 promovido a FinalBoss_ExplodeC_072364 en registry (Wave XXXX).
+    # 0x000723D2 promovido a FinalBoss_LimbPart_Init_0723d2 en registry (Wave XXXX).
+    # 0x000726D4 promovido a FinalBoss_InScreenByVel_0726d4 en registry (Wave XXXX).
+    # 0x00072750 promovido a FinalBoss_EdgeFlagByVel_072750 en registry (Wave XXXX).
+    # 0x00072782 promovido a Facing_NegIfLeft_072782 en registry (Wave XXXX).
+    # 0x0007279A promovido a FinalBoss_SyncStateToParentAndTick_07279a en registry (Wave XXXX).
+    # 0x000727C4 promovido a FinalBoss_SyncStateToParent_0727c4 en registry (Wave XXXX).
+    # 0x000727EA promovido a FinalBoss_TickAttackTimers_0727ea en registry (Wave XXXX).
+    # 0x00072B5A promovido a FinalBoss_HeadTargetTimer_072b5a en registry (Wave XXXX).
+    # 0x00072B96 promovido a FinalBoss_PlayPartCry_072b96 en registry (Wave XXXX).
+    # 0x00072BCE promovido a FinalBoss_CopyParentPosPrio_072bce en registry (Wave XXXX).
+    # 0x00072BDE promovido a FinalBoss_OffsetByLimbTable_072bde en registry (Wave XXXX).
+    # 0x00072C08 promovido a FinalBoss_FetchPartSprite_072c08 en registry (Wave XXXX).
+    # 0x00072C44 promovido a FinalBoss_HitTestPlayers_072c44 en registry (Wave XXXX).
+    # 0x00072DB8 promovido a FinalBoss_SpawnSmokeColumn_072db8 en registry (Wave XXXX).
     # --- Wave XXXX: RTS internos de islas C
     0x00072018: "SetHandlerRts_072018",  # rts de SetTaskHandler_072012 (+6)
     0x000720A4: "SetHandlerRts_0720a4",  # rts de SetTaskHandler_07209e (+6)

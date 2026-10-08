@@ -4368,7 +4368,7 @@ FinalBoss_Right_Tmpl74_07122e__L071250:
         .global FinalBoss_Right_Tmpl74_07122e__L0712e0
 FinalBoss_Right_Tmpl74_07122e__L0712e0:
 .L0712e0:
-        lea     Sub_000723D2(pc),a1             | +0b2  -> $0723D2 (hueco futuro, defsym forward)
+        lea     FinalBoss_LimbPart_Init_0723d2(pc),a1             | +0b2  -> $0723D2 (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +0b6
         jsr     0x5dd02.l                       | +0bc
         clr.w   0x98(a0)                        | +0c2
@@ -4397,12 +4397,12 @@ FinalBoss_Right_Tmpl74_07122e__L0712e0:
         move.l  #0x2d9068,0x4c(a6)              | +13a
         move.w  #0x1,0x70(a6)                   | +142
         move.w  #0xff40,d0                      | +148
-        jsr     Sub_00072782(pc)                | +14c  -> $072782 (hueco futuro, defsym forward)
+        jsr     Facing_NegIfLeft_072782(pc)                | +14c  -> $072782 (hueco futuro, defsym forward)
         move.w  d0,0x28(a6)                     | +150
         lea     .L071388(pc),a1                 | +154
         move.l  a1,(a6)                         | +158
 .L071388:
-        jsr     Sub_0007279A(pc)                | +15a  -> $07279A (hueco futuro, defsym forward)
+        jsr     FinalBoss_SyncStateToParentAndTick_07279a(pc)                | +15a  -> $07279A (hueco futuro, defsym forward)
         subq.w  #0x1,0x70(a6)                   | +15e
         cmpi.w  #0x0,0x70(a6)                   | +162
         bgt.w   SetHandlerRts_0713a0            | +168
@@ -4442,19 +4442,19 @@ FinalBoss_Idle_0713ac:
         move.l  a1,(a6)                         | +042
 .L0713f0:
         jsr     0x28998.l                       | +044
-        jsr     Sub_00072C44(pc)                | +04a  -> $072C44 (hueco futuro, defsym forward)
+        jsr     FinalBoss_HitTestPlayers_072c44(pc)                | +04a  -> $072C44 (hueco futuro, defsym forward)
         jsr     0x27afc.l                       | +04e
         bcc.w   .L07140a                        | +054
         lea     FinalBoss_Walk_071448(pc),a1    | +058
         move.l  a1,(a6)                         | +05c
 .L07140a:
         jsr     0x28d70.l                       | +05e
-        jsr     Sub_000726D4(pc)                | +064  -> $0726D4 (hueco futuro, defsym forward)
+        jsr     FinalBoss_InScreenByVel_0726d4(pc)                | +064  -> $0726D4 (hueco futuro, defsym forward)
         bcc.w   .L07141e                        | +068
         lea     FinalBoss_Walk_071448(pc),a1    | +06c
         move.l  a1,(a6)                         | +070
 .L07141e:
-        jsr     Sub_00072750(pc)                | +072  -> $072750 (hueco futuro, defsym forward)
+        jsr     FinalBoss_EdgeFlagByVel_072750(pc)                | +072  -> $072750 (hueco futuro, defsym forward)
         bcc.w   .L07142c                        | +076
         lea     FinalBoss_Walk_071448(pc),a1    | +07a
         move.l  a1,(a6)                         | +07e
@@ -4492,7 +4492,7 @@ FinalBoss_Walk_071448__L07144e:
         move.l  a1,(a6)                         | +024
 .L07146e:
         jsr     0x28998.l                       | +026
-        jsr     Sub_00072C44(pc)                | +02c  -> $072C44 (hueco futuro, defsym forward)
+        jsr     FinalBoss_HitTestPlayers_072c44(pc)                | +02c  -> $072C44 (hueco futuro, defsym forward)
         jsr     0x2783a.l                       | +030
         jsr     0x28d70.l                       | +036
         bcc.w   .L07148e                        | +03c
@@ -4523,7 +4523,7 @@ FinalBoss_WalkB_0714a4:
         move.l  a1,(a6)                         | +010
 .L0714b6:
         jsr     0x28998.l                       | +012
-        jsr     Sub_00072C44(pc)                | +018  -> $072C44 (hueco futuro, defsym forward)
+        jsr     FinalBoss_HitTestPlayers_072c44(pc)                | +018  -> $072C44 (hueco futuro, defsym forward)
         jsr     0x2783a.l                       | +01c
         jsr     0x28d70.l                       | +022
         subq.w  #0x1,0x70(a6)                   | +028
@@ -4546,7 +4546,7 @@ FinalBoss_WalkC_0714e4:
         move.l  a1,(a6)                         | +010
 .L0714f6:
         jsr     0x28998.l                       | +012
-        jsr     Sub_00072C44(pc)                | +018  -> $072C44 (hueco futuro, defsym forward)
+        jsr     FinalBoss_HitTestPlayers_072c44(pc)                | +018  -> $072C44 (hueco futuro, defsym forward)
         jsr     0x2783a.l                       | +01c
         jsr     0x28d70.l                       | +022
         bcc.w   .L071516                        | +028
@@ -4577,7 +4577,7 @@ FinalBoss_Stand_071526:
         move.l  a1,(a6)                         | +036
 .L07155e:
         jsr     0x28998.l                       | +038
-        jsr     Sub_00072C44(pc)                | +03e  -> $072C44 (hueco futuro, defsym forward)
+        jsr     FinalBoss_HitTestPlayers_072c44(pc)                | +03e  -> $072C44 (hueco futuro, defsym forward)
         jsr     0x2783a.l                       | +042
         jsr     0x28d70.l                       | +048
         bcc.w   .L07157e                        | +04e
@@ -4611,7 +4611,7 @@ FinalBoss_Die_071582:
         lea     FinalBoss_Explode_0715fa(pc),a1 | +050
         move.l  a1,(a6)                         | +054
 .L0715d8:
-        jsr     Sub_000727C4(pc)                | +056  -> $0727C4 (hueco futuro, defsym forward)
+        jsr     FinalBoss_SyncStateToParent_0727c4(pc)                | +056  -> $0727C4 (hueco futuro, defsym forward)
         movea.l #0xffffffff,a0                  | +05a
         lea     0x2d90bc.l,a0                   | +060
         jsr     0x5dd5c.l                       | +066
@@ -4638,7 +4638,7 @@ FinalBoss_Explode_0715fa:
         jsr     0x4ae.l                         | +046
         jsr     0x5dd02.l                       | +04c
         addi.w  #0x38,0x22(a0)                  | +052
-        jsr     Sub_00072DB8(pc)                | +058  -> $072DB8 (hueco futuro, defsym forward)
+        jsr     FinalBoss_SpawnSmokeColumn_072db8(pc)                | +058  -> $072DB8 (hueco futuro, defsym forward)
         jsr     0x28d70.l                       | +05c
         jmp     0x518.l                         | +062
 
@@ -4656,8 +4656,8 @@ FinalBoss_Nop_071662:
         .section .text.FinalBoss_HitTest_071664, "ax", @progbits
         .global FinalBoss_HitTest_071664
 FinalBoss_HitTest_071664:
-        jsr     Sub_0007279A(pc)                | +000  -> $07279A (hueco futuro, defsym forward)
-        jsr     Sub_000727EA(pc)                | +004  -> $0727EA (hueco futuro, defsym forward)
+        jsr     FinalBoss_SyncStateToParentAndTick_07279a(pc)                | +000  -> $07279A (hueco futuro, defsym forward)
+        jsr     FinalBoss_TickAttackTimers_0727ea(pc)                | +004  -> $0727EA (hueco futuro, defsym forward)
         jsr     0x2870a.l                       | +008
         bcc.w   .L071688                        | +00e
         lea     0x5e766.l,a0                    | +012
@@ -4695,7 +4695,7 @@ FinalBoss_ResetParts_0716b6:
 FinalBoss_PartDispatch_071700:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x77(a0),0x77(a6)               | +004
-        jsr     Sub_00072B96(pc)                | +00a  -> $072B96 (hueco futuro, defsym forward)
+        jsr     FinalBoss_PlayPartCry_072b96(pc)                | +00a  -> $072B96 (hueco futuro, defsym forward)
         move.w  0x88(a6),d0                     | +00e
         cmpi.w  #0x5,d0                         | +012
         bcs.w   .L071726                        | +016
@@ -4719,10 +4719,10 @@ FinalBoss_PartDispatch_071700__L071742:
 .L071748:
         movea.l 0xc(a6),a0                      | +048
         move.b  0x20(a0),0x20(a6)               | +04c
-        jsr     Sub_00072BCE(pc)                | +052  -> $072BCE (hueco futuro, defsym forward)
-        jsr     Sub_00072BDE(pc)                | +056  -> $072BDE (hueco futuro, defsym forward)
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc)                | +052  -> $072BCE (hueco futuro, defsym forward)
+        jsr     FinalBoss_OffsetByLimbTable_072bde(pc)                | +056  -> $072BDE (hueco futuro, defsym forward)
         lea     0x2d9272.l,a0                   | +05a
-        jsr     Sub_00072C08(pc)                | +060  -> $072C08 (hueco futuro, defsym forward)
+        jsr     FinalBoss_FetchPartSprite_072c08(pc)                | +060  -> $072C08 (hueco futuro, defsym forward)
         bcc.w   .L07176a                        | +064
         jmp     (a0)                            | +068
 .L07176a:
@@ -4932,7 +4932,7 @@ FinalBoss_HeadIdle_071976:
 .L0719a6:
         movea.l 0xc(a6),a0                      | +030
         move.b  0x20(a0),0x20(a6)               | +034
-        jsr     Sub_00072B5A(pc)                | +03a  -> $072B5A (hueco futuro, defsym forward)
+        jsr     FinalBoss_HeadTargetTimer_072b5a(pc)                | +03a  -> $072B5A (hueco futuro, defsym forward)
         bcc.w   .L0719be                        | +03e
         lea     FinalBoss_HeadSpriteC_071a7a(pc),a1 | +042
         move.l  a1,(a6)                         | +046
@@ -4945,7 +4945,7 @@ FinalBoss_HeadIdle_071976:
         move.l  a1,(a6)                         | +05e
 .L0719d6:
         lea     0x2d928e.l,a0                   | +060
-        jsr     Sub_00072C08(pc)                | +066  -> $072C08 (hueco futuro, defsym forward)
+        jsr     FinalBoss_FetchPartSprite_072c08(pc)                | +066  -> $072C08 (hueco futuro, defsym forward)
         bcc.w   .L0719e6                        | +06a
         jmp     (a0)                            | +06e
 .L0719e6:
@@ -4963,8 +4963,8 @@ FinalBoss_HeadHit_0719e8:
         lea     .L071a00(pc),a1                 | +012
         move.l  a1,(a6)                         | +016
 .L071a00:
-        jsr     Sub_00072BCE(pc)                | +018  -> $072BCE (hueco futuro, defsym forward)
-        jsr     Sub_00072BDE(pc)                | +01c  -> $072BDE (hueco futuro, defsym forward)
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc)                | +018  -> $072BCE (hueco futuro, defsym forward)
+        jsr     FinalBoss_OffsetByLimbTable_072bde(pc)                | +01c  -> $072BDE (hueco futuro, defsym forward)
         jsr     0x28d70.l                       | +020
         bcc.w   .L071a18                        | +026
         lea     FinalBoss_HeadIdle_071976(pc),a1 | +02a
@@ -5024,7 +5024,7 @@ FinalBoss_HeadSpriteC_071a7a:
 FinalBoss_HeadDie_071a90:
         cmpi.b  #0x4,0x8a(a6)                   | +000
         bne.w   .L071aaa                        | +006
-        lea     Sub_0007229C(pc),a1             | +00a  -> $07229C (hueco futuro, defsym forward)
+        lea     FinalBoss_Spark_07229c(pc),a1             | +00a  -> $07229C (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd02.l                       | +014
 .L071aaa:
@@ -5036,8 +5036,8 @@ FinalBoss_HeadDie_071a90:
         lea     .L071acc(pc),a1                 | +036
         move.l  a1,(a6)                         | +03a
 .L071acc:
-        jsr     Sub_00072BCE(pc)                | +03c  -> $072BCE (hueco futuro, defsym forward)
-        jsr     Sub_00072BDE(pc)                | +040  -> $072BDE (hueco futuro, defsym forward)
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc)                | +03c  -> $072BCE (hueco futuro, defsym forward)
+        jsr     FinalBoss_OffsetByLimbTable_072bde(pc)                | +040  -> $072BDE (hueco futuro, defsym forward)
         jsr     0x28d70.l                       | +044
         bcc.w   .L071ae4                        | +04a
         lea     FinalBoss_HeadFlash_071b04(pc),a1 | +04e
@@ -5060,8 +5060,8 @@ FinalBoss_HeadFlash_071b04:
         lea     .L071b10(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
 .L071b10:
-        jsr     Sub_00072BCE(pc)                | +00c  -> $072BCE (hueco futuro, defsym forward)
-        jsr     Sub_00072BDE(pc)                | +010  -> $072BDE (hueco futuro, defsym forward)
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc)                | +00c  -> $072BCE (hueco futuro, defsym forward)
+        jsr     FinalBoss_OffsetByLimbTable_072bde(pc)                | +010  -> $072BDE (hueco futuro, defsym forward)
         subq.b  #0x1,0x70(a6)                   | +014
         bne.w   .L071b26                        | +018
         lea     FinalBoss_HeadRespawn_071b56(pc),a1 | +01c
@@ -5110,12 +5110,12 @@ FinalBoss_HeadRespawn_071b56:
 FinalBoss_HeadDieB_071b9a:
         cmpi.b  #0x4,0x8a(a6)                   | +000
         bne.w   .L071bb4                        | +006
-        lea     Sub_0007229C(pc),a1             | +00a  -> $07229C (hueco futuro, defsym forward)
+        lea     FinalBoss_Spark_07229c(pc),a1             | +00a  -> $07229C (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +00e
         jsr     0x5dd02.l                       | +014
 .L071bb4:
-        jsr     Sub_00072BCE(pc)                | +01a  -> $072BCE (hueco futuro, defsym forward)
-        jsr     Sub_00072BDE(pc)                | +01e  -> $072BDE (hueco futuro, defsym forward)
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc)                | +01a  -> $072BCE (hueco futuro, defsym forward)
+        jsr     FinalBoss_OffsetByLimbTable_072bde(pc)                | +01e  -> $072BDE (hueco futuro, defsym forward)
         jsr     0x28d70.l                       | +022
         move.w  #0xd000,d0                      | +028
         jsr     0x28134.l                       | +02c
@@ -5151,7 +5151,7 @@ FinalBoss_Cannon_071be6__L071bf6:
         lea     .L071c32(pc),a1                 | +046
         move.l  a1,(a6)                         | +04a
 .L071c32:
-        jsr     Sub_00072BCE(pc)                | +04c  -> $072BCE (hueco futuro, defsym forward)
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc)                | +04c  -> $072BCE (hueco futuro, defsym forward)
         move.w  0x9a(a6),d0                     | +050
         add.w   d0,0x22(a6)                     | +054
         move.w  0x9c(a6),d0                     | +058
@@ -5192,7 +5192,7 @@ FinalBoss_CannonShell_071c84:
         move.w  0x2(a0,d0.w),0x2e(a6)           | +02c
         move.w  0x4(a0,d0.w),0x2a(a6)           | +032
         move.w  (a0,d0.w),d0                    | +038
-        jsr     Sub_00072782(pc)                | +03c  -> $072782 (hueco futuro, defsym forward)
+        jsr     Facing_NegIfLeft_072782(pc)                | +03c  -> $072782 (hueco futuro, defsym forward)
         move.w  d0,0x28(a6)                     | +040
         jsr     0x5e5e0.l                       | +044
         bcc.w   .L071cd6                        | +04a
@@ -5232,7 +5232,7 @@ FinalBoss_CannonShell_071c84:
         jsr     0x283d8.l                       | +0ca
         btst    #0x1,0x13(a6)                   | +0d0
         beq.w   .L071d64                        | +0d6
-        lea     Sub_00072364(pc),a1             | +0da  -> $072364 (hueco futuro, defsym forward)
+        lea     FinalBoss_ExplodeC_072364(pc),a1             | +0da  -> $072364 (hueco futuro, defsym forward)
         move.l  a1,(a6)                         | +0de
 .L071d64:
         jsr     0x2870a.l                       | +0e0
@@ -5262,7 +5262,7 @@ FinalBoss_CannonShell_071c84:
 FinalBoss_CannonHit_071dba:
         move.w  #0x1022,d0                      | +000
         jsr     0x2352.l                        | +004
-        bra.w   Sub_00072364                    | +00a  -> $072364 (hueco futuro, defsym forward)
+        bra.w   FinalBoss_ExplodeC_072364                    | +00a  -> $072364 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  FinalBoss_CannonB_071dc8  @ $071DC8  (128 B)
@@ -5288,7 +5288,7 @@ FinalBoss_CannonB_071dc8__L071df8:
         lea     .L071dfe(pc),a1                 | +030
         move.l  a1,(a6)                         | +034
 .L071dfe:
-        jsr     Sub_00072BCE(pc)                | +036  -> $072BCE (hueco futuro, defsym forward)
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc)                | +036  -> $072BCE (hueco futuro, defsym forward)
         move.w  0x9a(a6),d0                     | +03a
         add.w   d0,0x22(a6)                     | +03e
         move.w  0x9c(a6),d0                     | +042
@@ -5347,7 +5347,7 @@ FinalBoss_Flame_071eb6:
         lea     0x2d997a.l,a0                   | +00a
         jsr     0x28cd4.l                       | +010
         move.w  #0xffea,d0                      | +016
-        jsr     Sub_00072782(pc)                | +01a  -> $072782 (hueco futuro, defsym forward)
+        jsr     Facing_NegIfLeft_072782(pc)                | +01a  -> $072782 (hueco futuro, defsym forward)
         move.w  d0,0x9a(a6)                     | +01e
         move.w  #0x28,0x9c(a6)                  | +022
         clr.w   0x84(a6)                        | +028
@@ -5367,9 +5367,9 @@ FinalBoss_Beam_071ee6:
         lea     .L071f08(pc),a1                 | +01c
         move.l  a1,(a6)                         | +020
 .L071f08:
-        jsr     Sub_00072BCE(pc)                | +022  -> $072BCE (hueco futuro, defsym forward)
+        jsr     FinalBoss_CopyParentPosPrio_072bce(pc)                | +022  -> $072BCE (hueco futuro, defsym forward)
         move.w  #0xffb0,d0                      | +026
-        jsr     Sub_00072782(pc)                | +02a  -> $072782 (hueco futuro, defsym forward)
+        jsr     Facing_NegIfLeft_072782(pc)                | +02a  -> $072782 (hueco futuro, defsym forward)
         add.w   d0,0x22(a6)                     | +02e
         addi.w  #0x38,0x24(a6)                  | +032
         jsr     0x28d70.l                       | +038
@@ -5380,12 +5380,12 @@ FinalBoss_Beam_071ee6:
         jsr     0x283d8.l                       | +048
         btst    #0x1,0x13(a6)                   | +04e
         beq.w   .L071f44                        | +054
-        lea     Sub_0007233A(pc),a1             | +058  -> $07233A (hueco futuro, defsym forward)
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1             | +058  -> $07233A (hueco futuro, defsym forward)
         move.l  a1,(a6)                         | +05c
 .L071f44:
         jsr     0x5e45a.l                       | +05e
         bcc.w   .L071f54                        | +064
-        lea     Sub_0007233A(pc),a1             | +068  -> $07233A (hueco futuro, defsym forward)
+        lea     FinalBoss_FlushAndExplodeB_07233a(pc),a1             | +068  -> $07233A (hueco futuro, defsym forward)
         move.l  a1,(a6)                         | +06c
 .L071f54:
         movea.l #0xffffffff,a0                  | +06e
@@ -5403,7 +5403,7 @@ FinalBoss_Debris_071f72:
         lea     0x2baa28.l,a0                   | +006
         jsr     0x799de.l                       | +00c
         neg.w   d0                              | +012
-        jsr     Sub_00072782(pc)                | +014  -> $072782 (hueco futuro, defsym forward)
+        jsr     Facing_NegIfLeft_072782(pc)                | +014  -> $072782 (hueco futuro, defsym forward)
         move.w  d0,0x28(a6)                     | +018
         move.w  #0xd000,d0                      | +01c
         jsr     0x28134.l                       | +020
@@ -5418,17 +5418,17 @@ FinalBoss_Debris_071f72:
 .L071fc0:
         jsr     0x27cee.l                       | +04e
         bcc.w   .L071fd0                        | +054
-        lea     Sub_0007231E(pc),a1             | +058  -> $07231E (hueco futuro, defsym forward)
+        lea     FinalBoss_ShiftX_Explode_07231e(pc),a1             | +058  -> $07231E (hueco futuro, defsym forward)
         move.l  a1,(a6)                         | +05c
 .L071fd0:
         jsr     0x28d70.l                       | +05e
         jsr     0x283d8.l                       | +064
         btst    #0x1,0x13(a6)                   | +06a
         beq.w   .L071fec                        | +070
-        lea     Sub_0007231E(pc),a1             | +074  -> $07231E (hueco futuro, defsym forward)
+        lea     FinalBoss_ShiftX_Explode_07231e(pc),a1             | +074  -> $07231E (hueco futuro, defsym forward)
         move.l  a1,(a6)                         | +078
 .L071fec:
         jsr     0x5e45a.l                       | +07a
-        bcc.w   Sub_00071FFC                    | +080  -> $071FFC (hueco futuro, defsym forward)
-        lea     Sub_0007231E(pc),a1             | +084  -> $07231E (hueco futuro, defsym forward)
+        bcc.w   FinalBoss_FlameTail_FreeIfOffWorld_071ffc                    | +080  -> $071FFC (hueco futuro, defsym forward)
+        lea     FinalBoss_ShiftX_Explode_07231e(pc),a1             | +084  -> $07231E (hueco futuro, defsym forward)
         move.l  a1,(a6)                         | +088
