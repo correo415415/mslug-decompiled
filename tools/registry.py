@@ -7892,7 +7892,7 @@ REGISTRY = [
     ("ScriptedProp_Child_Flash_075f3c",            0x075F3C, 140, "m5tank_finalboss_helpers_scriptedprop_072xxx.s"),
     ("ScriptedProp_Child_Timer_075fc8",            0x075FC8,  46, "m5tank_finalboss_helpers_scriptedprop_072xxx.s"),
     ("ScriptedProp_Child_Parent_075ffc",           0x075FFC,   4, "m5tank_finalboss_helpers_scriptedprop_072xxx.s"),
-    # --- Wave YYYY: borrador $076000..$07A000 (249 entradas)
+    # --- Wave YYYY: borrador $076000..$07A000 (251 entradas)
     ("TaskHandler_076000",                         0x076000,  10, "wave_yyyy_076000.s"),
     ("Sub_00076012",                               0x076012,  60, "wave_yyyy_076000.s"),
     ("TaskHandler_076056",                         0x076056,  74, "wave_yyyy_076000.s"),
@@ -8072,7 +8072,9 @@ REGISTRY = [
     ("TaskHandler_078d2e",                         0x078D2E,  42, "wave_yyyy_076000.s"),
     ("TaskHandler_078d58",                         0x078D58, 150, "wave_yyyy_076000.s"),
     ("TaskHandler_078df6",                         0x078DF6,  86, "wave_yyyy_076000.s"),
-    ("Data_078e4c",                                0x078E4C, 224, "wave_yyyy_076000.s"),
+    ("Data_078e4c",                                0x078E4C, 146, "wave_yyyy_076000.s"),
+    ("TaskHandler_078ede",                         0x078EDE,  54, "wave_yyyy_076000.s"),
+    ("TaskHandler_078f14",                         0x078F14,  24, "wave_yyyy_076000.s"),
     ("TaskHandler_078f2c",                         0x078F2C,  66, "wave_yyyy_076000.s"),
     ("TaskHandler_078f6e",                         0x078F6E,  16, "wave_yyyy_076000.s"),
     ("TaskHandler_078f8a",                         0x078F8A,   6, "wave_yyyy_076000.s"),

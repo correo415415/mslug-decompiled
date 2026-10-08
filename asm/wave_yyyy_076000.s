@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $076000..$07A000  (15,600 B, 249 entradas, 67 huecos)
+|  Región: $076000..$07A000  (15,600 B, 251 entradas, 67 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -4653,7 +4653,7 @@ TaskHandler_078df6:
         jmp     0x518.l                         | +050
 
 | ----------------------------------------------------------------------------
-|  Data_078e4c  @ $078E4C  (224 B)
+|  Data_078e4c  @ $078E4C  (146 B)
 | ----------------------------------------------------------------------------
         .section .text.Data_078e4c, "ax", @progbits
         .global Data_078e4c
@@ -4731,27 +4731,43 @@ Data_078e4c:
         .dc.w   0x74e0                        | +08c  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +08e  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +090  (dato / opcode no decodificado)
-        lea     TaskHandler_078f2c(pc),a1       | +092
-        jsr     0x4ae.l                         | +096
-        move.b  0x3a(a6),0x3a(a0)               | +09c
+
+| ----------------------------------------------------------------------------
+|  TaskHandler_078ede  @ $078EDE  (54 B)
+| ----------------------------------------------------------------------------
+        .section .text.TaskHandler_078ede, "ax", @progbits
+        .global TaskHandler_078ede
+TaskHandler_078ede:
+        lea     TaskHandler_078f2c(pc),a1       | +000
+        jsr     0x4ae.l                         | +004
+        move.b  0x3a(a6),0x3a(a0)               | +00a
+        .global TaskHandler_078ede__L078eee
+TaskHandler_078ede__L078eee:
 .L078eee:
-        move.w  0x74(a6),d0                     | +0a2
-        move.w  0x78(a6),d1                     | +0a6
-        btst    #0x0,0x3a(a6)                   | +0aa
-        beq.w   .L078f02                        | +0b0
-        neg.w   d0                              | +0b4
+        move.w  0x74(a6),d0                     | +010
+        move.w  0x78(a6),d1                     | +014
+        btst    #0x0,0x3a(a6)                   | +018
+        beq.w   .L078f02                        | +01e
+        neg.w   d0                              | +022
 .L078f02:
-        add.w   0x22(a6),d0                     | +0b6
-        add.w   0x24(a6),d1                     | +0ba
-        move.w  d0,0x22(a0)                     | +0be
-        move.w  d1,0x24(a0)                     | +0c2
-        rts                                     | +0c6
-        lea     TaskHandler_078f2c(pc),a1       | +0c8
-        jsr     0x4ae.l                         | +0cc
-        move.b  0x3a(a6),d0                     | +0d2
-        bchg    #0x0,d0                         | +0d6
-        move.b  d0,0x3a(a0)                     | +0da
-        bra.b   .L078eee                        | +0de
+        add.w   0x22(a6),d0                     | +024
+        add.w   0x24(a6),d1                     | +028
+        move.w  d0,0x22(a0)                     | +02c
+        move.w  d1,0x24(a0)                     | +030
+        rts                                     | +034
+
+| ----------------------------------------------------------------------------
+|  TaskHandler_078f14  @ $078F14  (24 B)
+| ----------------------------------------------------------------------------
+        .section .text.TaskHandler_078f14, "ax", @progbits
+        .global TaskHandler_078f14
+TaskHandler_078f14:
+        lea     TaskHandler_078f2c(pc),a1       | +000
+        jsr     0x4ae.l                         | +004
+        move.b  0x3a(a6),d0                     | +00a
+        bchg    #0x0,d0                         | +00e
+        move.b  d0,0x3a(a0)                     | +012
+        bra.b   TaskHandler_078ede__L078eee     | +016
 
 | ----------------------------------------------------------------------------
 |  TaskHandler_078f2c  @ $078F2C  (66 B)
