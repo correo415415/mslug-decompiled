@@ -96,6 +96,8 @@ Squad_HatchRow3Spawn_07fc1a:
         jsr     0x5dd02.l                       | +00c
         addi.w  #0x28,0x38(a0)                  | +012
         subi.w  #0x30,0x22(a0)                  | +018
+        .global Squad_HatchRow3Spawn_07fc1a__L07fc38
+Squad_HatchRow3Spawn_07fc1a__L07fc38:
         move.w  #0xffb8,0x70(a6)                | +01e
         lea     0x2e1dca.l,a0                   | +024
         jsr     0x28cd4.l                       | +02a
@@ -104,10 +106,14 @@ Squad_HatchRow3Spawn_07fc1a:
         bra.w   .L7fcbe                         | +036
         .global Squad_HatchRowB_07fc54
 Squad_HatchRowB_07fc54:
+        .global Squad_HatchRow3Spawn_07fc1a__L07fc54
+Squad_HatchRow3Spawn_07fc1a__L07fc54:
         lea     0x77fd6.l,a1                    | +03a
         jsr     0x4ae.l                         | +040
         jsr     0x5dd02.l                       | +046
         addi.w  #0x28,0x38(a0)                  | +04c
+        .global Squad_HatchRow3Spawn_07fc1a__L07fc6c
+Squad_HatchRow3Spawn_07fc1a__L07fc6c:
         move.w  #0x0,0x70(a6)                   | +052
         lea     0x2e1e5c.l,a0                   | +058
         jsr     0x28cd4.l                       | +05e
@@ -116,11 +122,15 @@ Squad_HatchRowB_07fc54:
         bra.w   .L7fcbe                         | +06a
         .global Squad_HatchRowC_07fc88
 Squad_HatchRowC_07fc88:
+        .global Squad_HatchRow3Spawn_07fc1a__L07fc88
+Squad_HatchRow3Spawn_07fc1a__L07fc88:
         lea     0x77fd6.l,a1                    | +06e
         jsr     0x4ae.l                         | +074
         jsr     0x5dd02.l                       | +07a
         addi.w  #0x28,0x38(a0)                  | +080
         addi.w  #0x40,0x22(a0)                  | +086
+        .global Squad_HatchRow3Spawn_07fc1a__L07fca6
+Squad_HatchRow3Spawn_07fc1a__L07fca6:
         move.w  #0x40,0x70(a6)                  | +08c
         lea     0x2e1eee.l,a0                   | +092
         jsr     0x28cd4.l                       | +098
@@ -201,6 +211,8 @@ Squad_KillSelf_07fdbc:
         rts                                     | +01a
         .global Squad_ProbeLeader_07fdc4
 Squad_ProbeLeader_07fdc4:
+        .global Squad_LeaderNotify_07fda8__L07fdc4
+Squad_LeaderNotify_07fda8__L07fdc4:
         lea     0x2e2ad8.l,a0                   | +01c
         jsr     0x5dd5c.l                       | +022
         bcc.w   ClearC_07fdda                   | +028
@@ -253,6 +265,8 @@ Squad_TrackArc_07fdfa:
         rts                                     | +06a
         .global Squad_FollowLeader_07fe66
 Squad_FollowLeader_07fe66:
+        .global Squad_TrackArc_07fdfa__L07fe66
+Squad_TrackArc_07fdfa__L07fe66:
         movea.l 0xc(a6),a0                      | +06c
         movea.l 0xc(a0),a0                      | +070
         move.w  0x78(a0),0x22(a6)               | +074
@@ -276,6 +290,8 @@ Squad_FollowLeader_07fe66:
         rts                                     | +0b8
         .global Squad_BobOscillate_07feb4
 Squad_BobOscillate_07feb4:
+        .global Squad_TrackArc_07fdfa__L07feb4
+Squad_TrackArc_07fdfa__L07feb4:
         addi.w  #0x2,0x74(a6)                   | +0ba
         andi.w  #0x7f,0x74(a6)                  | +0c0
         move.w  0x76(a6),d0                     | +0c6
@@ -377,6 +393,8 @@ Squad_AIDecide_07fee8:
         rts                                     | +112
         .global Squad_RankFromDist_07fffc
 Squad_RankFromDist_07fffc:
+        .global Squad_AIDecide_07fee8__L07fffc
+Squad_AIDecide_07fee8__L07fffc:
         move.w  0x72(a6),d0                     | +114
         andi.l  #0xffff,d0                      | +118
         divu.w  #0x4,d0                         | +11e
@@ -392,6 +410,8 @@ Squad_RankFromDist_07fffc:
         rts                                     | +13c
         .global Squad_ReadLeaderReward_080026
 Squad_ReadLeaderReward_080026:
+        .global Squad_AIDecide_07fee8__L080026
+Squad_AIDecide_07fee8__L080026:
         movea.l 0xc(a6),a0                      | +13e
         move.w  0x7c(a0),d0                     | +142
 
