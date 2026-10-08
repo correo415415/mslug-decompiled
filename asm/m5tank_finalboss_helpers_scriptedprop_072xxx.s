@@ -3329,6 +3329,8 @@ ScriptedProp_Sprites_07466e__L074784:
         .dc.w   0x000f                        | +13e  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +140  (dato / opcode no decodificado)
         .dc.w   0xb478                        | +142  (dato / opcode no decodificado)
+        .global ScriptedProp_Sprites_07466e__L0747b2
+ScriptedProp_Sprites_07466e__L0747b2:
         .dc.w   0x0010                        | +144  (dato / opcode no decodificado)
         .dc.w   0x6f6c                        | +146  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +148  (dato / opcode no decodificado)
@@ -3339,6 +3341,8 @@ ScriptedProp_Sprites_07466e__L074784:
         .dc.w   0x0000                        | +152  (dato / opcode no decodificado)
         .dc.w   0x0008                        | +154  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +156  (dato / opcode no decodificado)
+        .global ScriptedProp_Sprites_07466e__L0747c6
+ScriptedProp_Sprites_07466e__L0747c6:
         .dc.w   0x0010                        | +158  (dato / opcode no decodificado)
         .dc.w   0x6f6c                        | +15a  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +15c  (dato / opcode no decodificado)
@@ -3349,6 +3353,8 @@ ScriptedProp_Sprites_07466e__L074784:
         .dc.w   0x0000                        | +166  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +168  (dato / opcode no decodificado)
         .dc.w   0x0006                        | +16a  (dato / opcode no decodificado)
+        .global ScriptedProp_Sprites_07466e__L0747da
+ScriptedProp_Sprites_07466e__L0747da:
         .dc.w   0x0010                        | +16c  (dato / opcode no decodificado)
         .dc.w   0x6f6c                        | +16e  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +170  (dato / opcode no decodificado)
@@ -3359,6 +3365,8 @@ ScriptedProp_Sprites_07466e__L074784:
         .dc.w   0x000b                        | +17a  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +17c  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +17e  (dato / opcode no decodificado)
+        .global ScriptedProp_Sprites_07466e__L0747ee
+ScriptedProp_Sprites_07466e__L0747ee:
         .dc.w   0x0010                        | +180  (dato / opcode no decodificado)
         .dc.w   0x6f6c                        | +182  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +184  (dato / opcode no decodificado)
@@ -3459,6 +3467,8 @@ ScriptedProp_Sprites_07466e__L074784:
         .dc.w   0x0000                        | +242  (dato / opcode no decodificado)
         .dc.w   0x000a                        | +244  (dato / opcode no decodificado)
         .dc.w   0x000d                        | +246  (dato / opcode no decodificado)
+        .global ScriptedProp_Sprites_07466e__L0748b6
+ScriptedProp_Sprites_07466e__L0748b6:
         .dc.w   0x0010                        | +248  (dato / opcode no decodificado)
         .dc.w   0x6f6c                        | +24a  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +24c  (dato / opcode no decodificado)
@@ -3585,6 +3595,8 @@ ScriptedProp_Sprites_07466e__L074784:
         .dc.w   0x0000                        | +33e  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +340  (dato / opcode no decodificado)
         .dc.w   0x7fd6                        | +342  (dato / opcode no decodificado)
+        .global ScriptedProp_Sprites_07466e__L0749b2
+ScriptedProp_Sprites_07466e__L0749b2:
         .dc.w   0xffff                        | +344  (dato / opcode no decodificado)
         .dc.w   0x0008                        | +346  (dato / opcode no decodificado)
         .dc.w   0xff00                        | +348  (dato / opcode no decodificado)
@@ -3594,6 +3606,8 @@ ScriptedProp_Sprites_07466e__L074784:
         .dc.w   0x0000                        | +350  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +352  (dato / opcode no decodificado)
         .dc.w   0x7f6a                        | +354  (dato / opcode no decodificado)
+        .global ScriptedProp_Sprites_07466e__L0749c4
+ScriptedProp_Sprites_07466e__L0749c4:
         .dc.w   0xffff                        | +356  (dato / opcode no decodificado)
         .dc.w   0x000c                        | +358  (dato / opcode no decodificado)
         .dc.w   0xff30                        | +35a  (dato / opcode no decodificado)
@@ -3603,6 +3617,8 @@ ScriptedProp_Sprites_07466e__L074784:
         .dc.w   0x0001                        | +362  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +364  (dato / opcode no decodificado)
         .dc.w   0x48e2                        | +366  (dato / opcode no decodificado)
+        .global ScriptedProp_Sprites_07466e__L0749d6
+ScriptedProp_Sprites_07466e__L0749d6:
         .dc.w   0xffff                        | +368  (dato / opcode no decodificado)
         .dc.w   0x000f                        | +36a  (dato / opcode no decodificado)
         .dc.w   0xffe0                        | +36c  (dato / opcode no decodificado)
@@ -4649,12 +4665,16 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0xffff                        | +006  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +008  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +00a  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L07527c
+ScriptedProp_SpriteTable_075270__L07527c:
         .dc.w   0x0001                        | +00c  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +00e  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +010  (dato / opcode no decodificado)
         .dc.w   0x3290                        | +012  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +014  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +016  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075288
+ScriptedProp_SpriteTable_075270__L075288:
         .dc.w   0x0001                        | +018  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +01a  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +01c  (dato / opcode no decodificado)
@@ -4715,6 +4735,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0024                        | +08a  (dato / opcode no decodificado)
         .dc.w   0x3276                        | +08c  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +08e  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075300
+ScriptedProp_SpriteTable_075270__L075300:
         .dc.w   0x0001                        | +090  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +092  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +094  (dato / opcode no decodificado)
@@ -4753,6 +4775,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0400                        | +0d6  (dato / opcode no decodificado)
         .dc.w   0x1075                        | +0d8  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +0da  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L07534c
+ScriptedProp_SpriteTable_075270__L07534c:
         .dc.w   0x0001                        | +0dc  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +0de  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +0e0  (dato / opcode no decodificado)
@@ -4796,6 +4820,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0400                        | +12c  (dato / opcode no decodificado)
         .dc.w   0x1075                        | +12e  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +130  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L0753a2
+ScriptedProp_SpriteTable_075270__L0753a2:
         .dc.w   0x0001                        | +132  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +134  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +136  (dato / opcode no decodificado)
@@ -4894,6 +4920,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0400                        | +1f0  (dato / opcode no decodificado)
         .dc.w   0x1075                        | +1f2  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +1f4  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075466
+ScriptedProp_SpriteTable_075270__L075466:
         .dc.w   0x0001                        | +1f6  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +1f8  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +1fa  (dato / opcode no decodificado)
@@ -4932,6 +4960,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0400                        | +23c  (dato / opcode no decodificado)
         .dc.w   0x1075                        | +23e  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +240  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L0754b2
+ScriptedProp_SpriteTable_075270__L0754b2:
         .dc.w   0x0400                        | +242  (dato / opcode no decodificado)
         .dc.w   0x1099                        | +244  (dato / opcode no decodificado)
         .dc.w   0x0600                        | +246  (dato / opcode no decodificado)
@@ -5167,6 +5197,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0100                        | +412  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +414  (dato / opcode no decodificado)
         .dc.w   0x565e                        | +416  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075688
+ScriptedProp_SpriteTable_075270__L075688:
         .dc.w   0x0700                        | +418  (dato / opcode no decodificado)
         .dc.w   0x0025                        | +41a  (dato / opcode no decodificado)
         .dc.w   0x9b94                        | +41c  (dato / opcode no decodificado)
@@ -5229,6 +5261,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x997a                        | +48e  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +490  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +492  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075704
+ScriptedProp_SpriteTable_075270__L075704:
         .dc.w   0x0800                        | +494  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +496  (dato / opcode no decodificado)
         .dc.w   0x83ca                        | +498  (dato / opcode no decodificado)
@@ -5676,6 +5710,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0xff00                        | +80c  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +80e  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +810  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075a82
+ScriptedProp_SpriteTable_075270__L075a82:
         .dc.w   0x0600                        | +812  (dato / opcode no decodificado)
         .dc.w   0x0156                        | +814  (dato / opcode no decodificado)
         .dc.w   0x007a                        | +816  (dato / opcode no decodificado)
@@ -5815,6 +5851,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x346a                        | +922  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +924  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +926  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075b98
+ScriptedProp_SpriteTable_075270__L075b98:
         .dc.w   0x0800                        | +928  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +92a  (dato / opcode no decodificado)
         .dc.w   0x83ca                        | +92c  (dato / opcode no decodificado)
@@ -5841,12 +5879,16 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0100                        | +956  (dato / opcode no decodificado)
         .dc.w   0x0007                        | +958  (dato / opcode no decodificado)
         .dc.w   0x5b98                        | +95a  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075bcc
+ScriptedProp_SpriteTable_075270__L075bcc:
         .dc.w   0x001e                        | +95c  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +95e  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +960  (dato / opcode no decodificado)
         .dc.w   0x6040                        | +962  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +964  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +966  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075bd8
+ScriptedProp_SpriteTable_075270__L075bd8:
         .dc.w   0x0001                        | +968  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +96a  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +96c  (dato / opcode no decodificado)
@@ -5893,6 +5935,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x7d62                        | +9be  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +9c0  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +9c2  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075c34
+ScriptedProp_SpriteTable_075270__L075c34:
         .dc.w   0x0600                        | +9c4  (dato / opcode no decodificado)
         .dc.w   0x0156                        | +9c6  (dato / opcode no decodificado)
         .dc.w   0x007a                        | +9c8  (dato / opcode no decodificado)
@@ -5971,6 +6015,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x7e7c                        | +a5a  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +a5c  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +a5e  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075cd0
+ScriptedProp_SpriteTable_075270__L075cd0:
         .dc.w   0x0001                        | +a60  (dato / opcode no decodificado)
         .dc.w   0x0208                        | +a62  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +a64  (dato / opcode no decodificado)
@@ -6017,6 +6063,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x7c3c                        | +ab6  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +ab8  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +aba  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075d2c
+ScriptedProp_SpriteTable_075270__L075d2c:
         .dc.w   0x0001                        | +abc  (dato / opcode no decodificado)
         .dc.w   0x0200                        | +abe  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +ac0  (dato / opcode no decodificado)
@@ -6081,6 +6129,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0000                        | +b36  (dato / opcode no decodificado)
         .dc.w   0xffe2                        | +b38  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +b3a  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075dac
+ScriptedProp_SpriteTable_075270__L075dac:
         .dc.w   0x0600                        | +b3c  (dato / opcode no decodificado)
         .dc.w   0x0156                        | +b3e  (dato / opcode no decodificado)
         .dc.w   0x007a                        | +b40  (dato / opcode no decodificado)
@@ -6182,6 +6232,8 @@ ScriptedProp_SpriteTable_075270:
         .dc.w   0x0000                        | +c00  (dato / opcode no decodificado)
         .dc.w   0xffe2                        | +c02  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +c04  (dato / opcode no decodificado)
+        .global ScriptedProp_SpriteTable_075270__L075e76
+ScriptedProp_SpriteTable_075270__L075e76:
         .dc.w   0x0001                        | +c06  (dato / opcode no decodificado)
         .dc.w   0x0200                        | +c08  (dato / opcode no decodificado)
         .dc.w   0x0024                        | +c0a  (dato / opcode no decodificado)
@@ -6283,6 +6335,8 @@ ScriptedProp_Child_Flash_075f3c:
         .dc.w   0x0060                        | +002  (dato / opcode no decodificado)
         .dc.w   0xff80                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0100                        | +006  (dato / opcode no decodificado)
+        .global ScriptedProp_Child_Flash_075f3c__L075f44
+ScriptedProp_Child_Flash_075f3c__L075f44:
         move.w  #0xfe0,d0                       | +008
         move.w  #0xa0,d1                        | +00c
         jsr     ScriptedProp_ClampLocalX_0750c0(pc) | +010
