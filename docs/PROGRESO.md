@@ -11,11 +11,22 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 7113/7113 funciones
-BYTES   : 452,812/452,812 (registrados)
-ROM     : 452,812/2,097,152  (21.5918%)
+MATCHED : 7364/7364 funciones
+BYTES   : 468,412/468,412 (registrados)
+ROM     : 468,412/2,097,152  (22.3356%)
 ```
 
+> **Wave YYYY** (251 entradas, 15 600 B; 11 `--data`, 76 `--entry`) — `$076000..$07A000`
+> en `props_fx_explosions_platforms_crew_076xxx.s`. Cuadragésimo segunda wave.
+> Nombres en `docs/waves/yyyy_names.txt`, args en `docs/waves/yyyy_args.txt`
+> (tablas de sprites, tabla de tablones `$772A8`, FallPath `$78BE0`, jump table
+> PathScript `$78FC0`; entradas forzadas por refs absolutas de scripts de misión
+> a Explosion_Var01..32 y a los spawners de tablones). Módulos: ScriptedProp_
+> hijos, Frag_*, Platform_*, MovingPlatform/BridgePlank, MuzzleFx_*, Spawner_*,
+> Explosion_*/Smoke_*/Debris_*, Breakable_Tmpl23..26, PathScript_* (VM de 11
+> ops), AutoDemo_*, Crew_Tmpl125..128. Código real 84.0 %; zona `$05E000..$083000`
+> al 88.0 %. Siguiente: `$07A000..$083000`.
+>
 > **Wave XXXX** (177 entradas, 15 662 B; 46 `--data`) — `$071FFC..$076000`
 > en `m5tank_finalboss_helpers_scriptedprop_072xxx.s`. Cuadragésimo primera
 > wave de `gen_asm_region.py`. Nombres en `docs/waves/xxxx_names.txt`, args en

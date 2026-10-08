@@ -17,6 +17,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave YYYY — 251 entries (15,600 B, 11 data ranges, 76 forced entries):
+  `$076000..$07A000` (`props_fx_explosions_platforms_crew_076xxx.s`):
+  ScriptedProp children (walls/towers/doors/window/roof/gate/base), generic
+  Frag projectile, per-player platform lists ($10E27C/$10E2AE) with
+  ProbeUnderFeet/SnapToId, MovingPlatform tmpl 143 + bridge planks, MuzzleFx
+  vehicle muzzle flash/shots, Spawner_Handler literal, 17+32 Explosion
+  variants + Smoke/Debris, Breakable tmpl 23..26 with fall path, PathScript
+  VM (11 opcodes, polar integrator), attract AutoDemo input injector, vehicle
+  Crew tmpl 125..128. gen_asm_region: `--entry` used for 76 external abs refs.
 - Wave XXXX — 177 entries (15,662 B, 46 data ranges): `$071FFC..$076000`
   (`m5tank_finalboss_helpers_scriptedprop_072xxx.s`): FinalBoss helpers
   closing WWWW forward refs (wreck pieces, sparks, smoke, limb parts, attack
