@@ -78,7 +78,7 @@ Squad_EscortInit_07fbd2:
         jsr     Squad_FollowLeader_07fe66(pc)   | +020
         jsr     0x28d70.l                       | +024
         bcc.w   .L7fc06                         | +02a
-        lea     TaskHandler_07fb28(pc),a1       | +02e
+        lea     Carrier_Gunner_Idle_07fb28(pc),a1       | +02e
         move.l  a1,(a6)                         | +032
 .L7fc06:
         jsr     Squad_DeferredRelease_080054(pc) | +034
@@ -153,7 +153,7 @@ Squad_HatchRow3Spawn_07fc1a__L07fca6:
         lea     0x2e2afa.l,a1                   | +0e8
         jsr     0x77c7e.l                       | +0ee
         addi.w  #0x28,0x38(a0)                  | +0f4
-        lea     TaskHandler_07f22a(pc),a1       | +0fa
+        lea     Carrier_Rider_Init_07f22a(pc),a1       | +0fa
         jsr     0x4ae.l                         | +0fe
         jsr     0x5dd02.l                       | +104
         addi.w  #0xc000,0x38(a0)                | +10a

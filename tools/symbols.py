@@ -630,36 +630,36 @@ SYMBOLS = {
     # 0x00079E68 promovido a Crew_HatchB_Flee_079e68 en registry (Wave YYYY).
     # 0x00079E94 promovido a Crew_HatchB_Free_079e94 en registry (Wave YYYY).
     # 0x00079F6A promovido a Crew_Gunner_Run_079f6a en registry (Wave YYYY).
-    # 0x0007A00A promovido a TaskHandler_07a00a en registry (Wave ZZZZ).
-    # 0x0007A1C0 promovido a TaskHandler_07a1c0 en registry (Wave ZZZZ).
+    # 0x0007A00A promovido a Crew_Hostage_Idle_07a00a en registry (Wave ZZZZ).
+    # 0x0007A1C0 promovido a Crew_Captor_Idle_07a1c0 en registry (Wave ZZZZ).
     0x0007A3E6: "TaskHandler_07a3e6",
-    # 0x0007A3EE promovido a TaskHandler_07a3ee en registry (Wave ZZZZ).
+    # 0x0007A3EE promovido a Crew_Captor_MarkParentDead_07a3ee en registry (Wave ZZZZ).
     0x0007AA78: "TaskHandler_07aa78",
     0x0007AA94: "TaskHandler_07aa94",
     0x0007ABF4: "TaskHandler_07abf4",
     0x0007AC4A: "TaskHandler_07ac4a",
-    # 0x0007BACE promovido a TaskHandler_07bace en registry (Wave ZZZZ).
-    # 0x0007BB1A promovido a TaskHandler_07bb1a en registry (Wave ZZZZ).
-    # 0x0007C106 promovido a TaskHandler_07c106 en registry (Wave ZZZZ).
-    # 0x0007C374 promovido a TaskHandler_07c374 en registry (Wave ZZZZ).
-    # 0x0007C424 promovido a TaskHandler_07c424 en registry (Wave ZZZZ).
-    # 0x0007C644 promovido a TaskHandler_07c644 en registry (Wave ZZZZ).
+    # 0x0007BACE promovido a M2Boss_WaitScroll_07bace en registry (Wave ZZZZ).
+    # 0x0007BB1A promovido a M2Boss_IntroAnim_07bb1a en registry (Wave ZZZZ).
+    # 0x0007C106 promovido a M2Boss_Turret_Recoil_07c106 en registry (Wave ZZZZ).
+    # 0x0007C374 promovido a M2Boss_Turret_DeathSwing_07c374 en registry (Wave ZZZZ).
+    # 0x0007C424 promovido a M2Boss_Turret_DeathFall_07c424 en registry (Wave ZZZZ).
+    # 0x0007C644 promovido a M2Boss_Turret_FreeWithParent_07c644 en registry (Wave ZZZZ).
     0x0007C65C: "TaskHandler_07c65c",
-    # 0x0007CF5C promovido a TaskHandler_07cf5c en registry (Wave ZZZZ).
-    # 0x0007D898 promovido a TaskHandler_07d898 en registry (Wave ZZZZ).
-    # 0x0007DBA2 promovido a TaskHandler_07dba2 en registry (Wave ZZZZ).
-    # 0x0007DBA8 promovido a TaskHandler_07dba8 en registry (Wave ZZZZ).
-    # 0x0007DCB6 promovido a TaskHandler_07dcb6 en registry (Wave ZZZZ).
-    # 0x0007E078 promovido a TaskHandler_07e078 en registry (Wave ZZZZ).
-    # 0x0007E08C promovido a TaskHandler_07e08c en registry (Wave ZZZZ).
-    # 0x0007E674 promovido a TaskHandler_07e674 en registry (Wave ZZZZ).
-    # 0x0007E880 promovido a TaskHandler_07e880 en registry (Wave ZZZZ).
-    # 0x0007EBE6 promovido a TaskHandler_07ebe6 en registry (Wave ZZZZ).
-    # 0x0007F022 promovido a TaskHandler_07f022 en registry (Wave ZZZZ).
-    # 0x0007F186 promovido a TaskHandler_07f186 en registry (Wave ZZZZ).
-    # 0x0007F282 promovido a TaskHandler_07f282 en registry (Wave ZZZZ).
-    # 0x0007F2CA promovido a TaskHandler_07f2ca en registry (Wave ZZZZ).
-    # 0x0007F87C promovido a TaskHandler_07f87c en registry (Wave ZZZZ).
+    # 0x0007CF5C promovido a Crab_SpawnClaws_07cf5c en registry (Wave ZZZZ).
+    # 0x0007D898 promovido a Crab_Leg_Detach_07d898 en registry (Wave ZZZZ).
+    # 0x0007DBA2 promovido a Crab_MarkDetached_07dba2 en registry (Wave ZZZZ).
+    # 0x0007DBA8 promovido a Crab_Free_07dba8 en registry (Wave ZZZZ).
+    # 0x0007DCB6 promovido a Crab_Patrol_Walk_07dcb6 en registry (Wave ZZZZ).
+    # 0x0007E078 promovido a Carrier_InitWithHatchB_07e078 en registry (Wave ZZZZ).
+    # 0x0007E08C promovido a Carrier_Init_07e08c en registry (Wave ZZZZ).
+    # 0x0007E674 promovido a Carrier_Cockpit_Run_07e674 en registry (Wave ZZZZ).
+    # 0x0007E880 promovido a Carrier_Mark_Run_07e880 en registry (Wave ZZZZ).
+    # 0x0007EBE6 promovido a Carrier_Spawner_Run_07ebe6 en registry (Wave ZZZZ).
+    # 0x0007F022 promovido a Carrier_Trooper_Aim_07f022 en registry (Wave ZZZZ).
+    # 0x0007F186 promovido a Carrier_Trooper_Fire_07f186 en registry (Wave ZZZZ).
+    # 0x0007F282 promovido a Carrier_Rider_Ride_07f282 en registry (Wave ZZZZ).
+    # 0x0007F2CA promovido a Carrier_Rider_Jump_07f2ca en registry (Wave ZZZZ).
+    # 0x0007F87C promovido a Carrier_Gunner_PoseRun_07f87c en registry (Wave ZZZZ).
     0x0007FDB6: "TaskHandler_07fdb6",
     0x0007FDBC: "TaskHandler_07fdbc",
     0x00080382: "TaskHandler_080382",
@@ -1285,8 +1285,8 @@ SYMBOLS = {
 
     # --- Wave CCC: modulo Squad Deploy ($07FBD2..$08072E) -----------------
     # Handlers en huecos futuros (aun sin matchear) referenciados por asm:
-    # 0x0007FB28 promovido a TaskHandler_07fb28 en registry (Wave ZZZZ).
-    # 0x0007F22A promovido a TaskHandler_07f22a en registry (Wave ZZZZ).
+    # 0x0007FB28 promovido a Carrier_Gunner_Idle_07fb28 en registry (Wave ZZZZ).
+    # 0x0007F22A promovido a Carrier_Rider_Init_07f22a en registry (Wave ZZZZ).
     # RTS internos (+6) de islas C ya matcheadas (targets de bcc.w):
     0x0007FC18: "SetHandlerRts_07fc18",  # rts de SetTaskHandler_07fc12
     0x0007FD46: "SetHandlerRts_07fd46",  # rts de SetTaskHandler_07fd40
@@ -2132,7 +2132,7 @@ SYMBOLS = {
     0x00079E66: "SetHandlerRts_079e66",  # rts de SetTaskHandler_079e60 (+6)
     0x00079FE6: "SetHandlerRts_079fe6",  # rts de SetTaskHandler_079fe0 (+6)
     # --- Wave YYYY: refs forward a huecos futuros
-    # 0x0007A19E promovido a Sub_0007A19E en registry (Wave ZZZZ).
+    # 0x0007A19E promovido a Crew_Hostage_Init_07a19e en registry (Wave ZZZZ).
     # --- Wave ZZZZ: RTS internos de islas C
     0x0007A0AE: "SetHandlerRts_07a0ae",  # rts de SetTaskHandler_07a0a8 (+6)
     0x0007A130: "SetHandlerRts_07a130",  # rts de SetTaskHandler_07a12a (+6)

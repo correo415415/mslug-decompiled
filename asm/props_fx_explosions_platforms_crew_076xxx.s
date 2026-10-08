@@ -89,7 +89,7 @@
 |   InitE $7773E (slug/tanques), Platform_ProbeUnderFeet $770CC, Path-
 |   Script_StepCtx $78F8A, Spawner_Handler $77C98, Crew_Hatch $79B6E
 |   (desde $7EB84, hueco futuro) y Frag_Launch $76E10 (script de $749E8).
-|   Forward: Sub_0007A19E (hijo extra de Crew_Tmpl127/128).
+|   Forward: Crew_Hostage_Init_07a19e (hijo extra de Crew_Tmpl127/128).
 |
 |  D) EVIDENCIAS
 |  -------------
@@ -6248,7 +6248,7 @@ Crew_Tmpl128_079ec2__L079ec8:
         jsr     0x4ae.l                         | +014
         jsr     0x5dd02.l                       | +01a
         subi.w  #0x40,0x22(a0)                  | +020
-        lea     Sub_0007A19E(pc),a1             | +026  -> $07A19E (hueco futuro, defsym forward)
+        lea     Crew_Hostage_Init_07a19e(pc),a1             | +026  -> $07A19E (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +02a
         jsr     0x5dd02.l                       | +030
         subi.w  #0x20,0x22(a0)                  | +036

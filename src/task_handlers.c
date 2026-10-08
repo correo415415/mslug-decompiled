@@ -271,36 +271,36 @@ extern void Crew_FreeB_079d76(void);
 extern void Crew_HatchB_Flee_079e68(void);
 extern void Crew_HatchB_Free_079e94(void);
 extern void Crew_Gunner_Run_079f6a(void);
-extern void TaskHandler_07a00a(void);
-extern void TaskHandler_07a1c0(void);
+extern void Crew_Hostage_Idle_07a00a(void);
+extern void Crew_Captor_Idle_07a1c0(void);
 extern void TaskHandler_07a3e6(void);
-extern void TaskHandler_07a3ee(void);
+extern void Crew_Captor_MarkParentDead_07a3ee(void);
 extern void TaskHandler_07aa78(void);
 extern void TaskHandler_07aa94(void);
 extern void TaskHandler_07abf4(void);
 extern void TaskHandler_07ac4a(void);
-extern void TaskHandler_07bace(void);
-extern void TaskHandler_07bb1a(void);
-extern void TaskHandler_07c106(void);
-extern void TaskHandler_07c374(void);
-extern void TaskHandler_07c424(void);
-extern void TaskHandler_07c644(void);
+extern void M2Boss_WaitScroll_07bace(void);
+extern void M2Boss_IntroAnim_07bb1a(void);
+extern void M2Boss_Turret_Recoil_07c106(void);
+extern void M2Boss_Turret_DeathSwing_07c374(void);
+extern void M2Boss_Turret_DeathFall_07c424(void);
+extern void M2Boss_Turret_FreeWithParent_07c644(void);
 extern void TaskHandler_07c65c(void);
-extern void TaskHandler_07cf5c(void);
-extern void TaskHandler_07d898(void);
-extern void TaskHandler_07dba2(void);
-extern void TaskHandler_07dba8(void);
-extern void TaskHandler_07dcb6(void);
-extern void TaskHandler_07e078(void);
-extern void TaskHandler_07e08c(void);
-extern void TaskHandler_07e674(void);
-extern void TaskHandler_07e880(void);
-extern void TaskHandler_07ebe6(void);
-extern void TaskHandler_07f022(void);
-extern void TaskHandler_07f186(void);
-extern void TaskHandler_07f282(void);
-extern void TaskHandler_07f2ca(void);
-extern void TaskHandler_07f87c(void);
+extern void Crab_SpawnClaws_07cf5c(void);
+extern void Crab_Leg_Detach_07d898(void);
+extern void Crab_MarkDetached_07dba2(void);
+extern void Crab_Free_07dba8(void);
+extern void Crab_Patrol_Walk_07dcb6(void);
+extern void Carrier_InitWithHatchB_07e078(void);
+extern void Carrier_Init_07e08c(void);
+extern void Carrier_Cockpit_Run_07e674(void);
+extern void Carrier_Mark_Run_07e880(void);
+extern void Carrier_Spawner_Run_07ebe6(void);
+extern void Carrier_Trooper_Aim_07f022(void);
+extern void Carrier_Trooper_Fire_07f186(void);
+extern void Carrier_Rider_Ride_07f282(void);
+extern void Carrier_Rider_Jump_07f2ca(void);
+extern void Carrier_Gunner_PoseRun_07f87c(void);
 extern void TaskHandler_07fdb6(void);
 extern void TaskHandler_07fdbc(void);
 extern void TaskHandler_080382(void);
@@ -2965,7 +2965,7 @@ void SetTaskHandler_079fe0(void) {
 
 __attribute__((section(".text.SetTaskHandler_07a002")))
 void SetTaskHandler_07a002(void) {
-    _a1_ptr = &TaskHandler_07a00a;
+    _a1_ptr = &Crew_Hostage_Idle_07a00a;
     STORE_A1_AT_FP();
 }
 
@@ -2989,19 +2989,19 @@ void SetTaskHandler_07a196(void) {
 
 __attribute__((section(".text.SetTaskHandler_07a1b8")))
 void SetTaskHandler_07a1b8(void) {
-    _a1_ptr = &TaskHandler_07a1c0;
+    _a1_ptr = &Crew_Captor_Idle_07a1c0;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07a274")))
 void SetTaskHandler_07a274(void) {
-    _a1_ptr = &TaskHandler_07a3ee;
+    _a1_ptr = &Crew_Captor_MarkParentDead_07a3ee;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07a2fe")))
 void SetTaskHandler_07a2fe(void) {
-    _a1_ptr = &TaskHandler_07a3ee;
+    _a1_ptr = &Crew_Captor_MarkParentDead_07a3ee;
     STORE_A1_AT_FP();
 }
 
@@ -3043,13 +3043,13 @@ void SetTaskHandler_07ac42(void) {
 
 __attribute__((section(".text.SetTaskHandler_07bac6")))
 void SetTaskHandler_07bac6(void) {
-    _a1_ptr = &TaskHandler_07bace;
+    _a1_ptr = &M2Boss_WaitScroll_07bace;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07bb12")))
 void SetTaskHandler_07bb12(void) {
-    _a1_ptr = &TaskHandler_07bb1a;
+    _a1_ptr = &M2Boss_IntroAnim_07bb1a;
     STORE_A1_AT_FP();
 }
 
@@ -3061,25 +3061,25 @@ void SetTaskHandler_07bc86(void) {
 
 __attribute__((section(".text.SetTaskHandler_07bd1a")))
 void SetTaskHandler_07bd1a(void) {
-    _a1_ptr = &TaskHandler_07c374;
+    _a1_ptr = &M2Boss_Turret_DeathSwing_07c374;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07bdc4")))
 void SetTaskHandler_07bdc4(void) {
-    _a1_ptr = &TaskHandler_07c374;
+    _a1_ptr = &M2Boss_Turret_DeathSwing_07c374;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07be74")))
 void SetTaskHandler_07be74(void) {
-    _a1_ptr = &TaskHandler_07c374;
+    _a1_ptr = &M2Boss_Turret_DeathSwing_07c374;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07beec")))
 void SetTaskHandler_07beec(void) {
-    _a1_ptr = &TaskHandler_07c374;
+    _a1_ptr = &M2Boss_Turret_DeathSwing_07c374;
     STORE_A1_AT_FP();
 }
 
@@ -3091,7 +3091,7 @@ void SetTaskHandler_07c068(void) {
 
 __attribute__((section(".text.SetTaskHandler_07c0fe")))
 void SetTaskHandler_07c0fe(void) {
-    _a1_ptr = &TaskHandler_07c106;
+    _a1_ptr = &M2Boss_Turret_Recoil_07c106;
     STORE_A1_AT_FP();
 }
 
@@ -3109,13 +3109,13 @@ void SetTaskHandler_07c36c(void) {
 
 __attribute__((section(".text.SetTaskHandler_07c41c")))
 void SetTaskHandler_07c41c(void) {
-    _a1_ptr = &TaskHandler_07c424;
+    _a1_ptr = &M2Boss_Turret_DeathFall_07c424;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07c472")))
 void SetTaskHandler_07c472(void) {
-    _a1_ptr = &TaskHandler_07c644;
+    _a1_ptr = &M2Boss_Turret_FreeWithParent_07c644;
     STORE_A1_AT_FP();
 }
 
@@ -3151,121 +3151,121 @@ void SetTaskHandler_07ca58(void) {
 
 __attribute__((section(".text.SetTaskHandler_07cf54")))
 void SetTaskHandler_07cf54(void) {
-    _a1_ptr = &TaskHandler_07cf5c;
+    _a1_ptr = &Crab_SpawnClaws_07cf5c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d04e")))
 void SetTaskHandler_07d04e(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d170")))
 void SetTaskHandler_07d170(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d226")))
 void SetTaskHandler_07d226(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d32a")))
 void SetTaskHandler_07d32a(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d3a8")))
 void SetTaskHandler_07d3a8(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d4a2")))
 void SetTaskHandler_07d4a2(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d5b8")))
 void SetTaskHandler_07d5b8(void) {
-    _a1_ptr = &TaskHandler_07dba8;
+    _a1_ptr = &Crab_Free_07dba8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d630")))
 void SetTaskHandler_07d630(void) {
-    _a1_ptr = &TaskHandler_07dba8;
+    _a1_ptr = &Crab_Free_07dba8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d69e")))
 void SetTaskHandler_07d69e(void) {
-    _a1_ptr = &TaskHandler_07dba8;
+    _a1_ptr = &Crab_Free_07dba8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d766")))
 void SetTaskHandler_07d766(void) {
-    _a1_ptr = &TaskHandler_07dba8;
+    _a1_ptr = &Crab_Free_07dba8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07d890")))
 void SetTaskHandler_07d890(void) {
-    _a1_ptr = &TaskHandler_07d898;
+    _a1_ptr = &Crab_Leg_Detach_07d898;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07da3e")))
 void SetTaskHandler_07da3e(void) {
-    _a1_ptr = &TaskHandler_07dba8;
+    _a1_ptr = &Crab_Free_07dba8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07dcae")))
 void SetTaskHandler_07dcae(void) {
-    _a1_ptr = &TaskHandler_07dcb6;
+    _a1_ptr = &Crab_Patrol_Walk_07dcb6;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07ddd8")))
 void SetTaskHandler_07ddd8(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07de86")))
 void SetTaskHandler_07de86(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07df64")))
 void SetTaskHandler_07df64(void) {
-    _a1_ptr = &TaskHandler_07dba2;
+    _a1_ptr = &Crab_MarkDetached_07dba2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07dff8")))
 void SetTaskHandler_07dff8(void) {
-    _a1_ptr = &TaskHandler_07e078;
+    _a1_ptr = &Carrier_InitWithHatchB_07e078;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07e034")))
 void SetTaskHandler_07e034(void) {
-    _a1_ptr = &TaskHandler_07e08c;
+    _a1_ptr = &Carrier_Init_07e08c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07e070")))
 void SetTaskHandler_07e070(void) {
-    _a1_ptr = &TaskHandler_07e078;
+    _a1_ptr = &Carrier_InitWithHatchB_07e078;
     STORE_A1_AT_FP();
 }
 
@@ -3313,7 +3313,7 @@ void SetTaskHandler_07e5fa(void) {
 
 __attribute__((section(".text.SetTaskHandler_07e66c")))
 void SetTaskHandler_07e66c(void) {
-    _a1_ptr = &TaskHandler_07e674;
+    _a1_ptr = &Carrier_Cockpit_Run_07e674;
     STORE_A1_AT_FP();
 }
 
@@ -3331,13 +3331,13 @@ void SetTaskHandler_07e84c(void) {
 
 __attribute__((section(".text.SetTaskHandler_07e862")))
 void SetTaskHandler_07e862(void) {
-    _a1_ptr = &TaskHandler_07e880;
+    _a1_ptr = &Carrier_Mark_Run_07e880;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07e878")))
 void SetTaskHandler_07e878(void) {
-    _a1_ptr = &TaskHandler_07e880;
+    _a1_ptr = &Carrier_Mark_Run_07e880;
     STORE_A1_AT_FP();
 }
 
@@ -3385,7 +3385,7 @@ void SetTaskHandler_07eb6e(void) {
 
 __attribute__((section(".text.SetTaskHandler_07ebde")))
 void SetTaskHandler_07ebde(void) {
-    _a1_ptr = &TaskHandler_07ebe6;
+    _a1_ptr = &Carrier_Spawner_Run_07ebe6;
     STORE_A1_AT_FP();
 }
 
@@ -3439,13 +3439,13 @@ void SetTaskHandler_07efc4(void) {
 
 __attribute__((section(".text.SetTaskHandler_07f012")))
 void SetTaskHandler_07f012(void) {
-    _a1_ptr = &TaskHandler_07f186;
+    _a1_ptr = &Carrier_Trooper_Fire_07f186;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07f01a")))
 void SetTaskHandler_07f01a(void) {
-    _a1_ptr = &TaskHandler_07f022;
+    _a1_ptr = &Carrier_Trooper_Aim_07f022;
     STORE_A1_AT_FP();
 }
 
@@ -3481,7 +3481,7 @@ void SetTaskHandler_07f222(void) {
 
 __attribute__((section(".text.SetTaskHandler_07f27a")))
 void SetTaskHandler_07f27a(void) {
-    _a1_ptr = &TaskHandler_07f2ca;
+    _a1_ptr = &Carrier_Rider_Jump_07f2ca;
     STORE_A1_AT_FP();
 }
 
@@ -3535,7 +3535,7 @@ void SetTaskHandler_07f634(void) {
 
 __attribute__((section(".text.SetTaskHandler_07f66c")))
 void SetTaskHandler_07f66c(void) {
-    _a1_ptr = &TaskHandler_07f282;
+    _a1_ptr = &Carrier_Rider_Ride_07f282;
     STORE_A1_AT_FP();
 }
 
@@ -3559,7 +3559,7 @@ void SetTaskHandler_07f842(void) {
 
 __attribute__((section(".text.SetTaskHandler_07f874")))
 void SetTaskHandler_07f874(void) {
-    _a1_ptr = &TaskHandler_07f87c;
+    _a1_ptr = &Carrier_Gunner_PoseRun_07f87c;
     STORE_A1_AT_FP();
 }
 
