@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $076000..$07A000  (15,600 B, 175 entradas, 67 huecos)
+|  Región: $076000..$07A000  (15,600 B, 176 entradas, 67 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -5266,7 +5266,7 @@ TaskHandler_079b4a:
         bcc.w   ClearC_079b5e                   | +00a
 
 | ----------------------------------------------------------------------------
-|  Data_079b64  @ $079B64  (166 B)
+|  Data_079b64  @ $079B64  (10 B)
 | ----------------------------------------------------------------------------
         .section .text.Data_079b64, "ax", @progbits
         .global Data_079b64
@@ -5276,44 +5276,51 @@ Data_079b64:
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
         .dc.w   0x0030                        | +006  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +008  (dato / opcode no decodificado)
-        jsr     0x5e9b6.l                       | +00a
-        btst    #0x0,d0                         | +010
-        beq.w   .L079b82                        | +014
-        jmp     0x79d9a.l                       | +018
+
+| ----------------------------------------------------------------------------
+|  TaskHandler_079b6e  @ $079B6E  (156 B)
+| ----------------------------------------------------------------------------
+        .section .text.TaskHandler_079b6e, "ax", @progbits
+        .global TaskHandler_079b6e
+TaskHandler_079b6e:
+        jsr     0x5e9b6.l                       | +000
+        btst    #0x0,d0                         | +006
+        beq.w   .L079b82                        | +00a
+        jmp     0x79d9a.l                       | +00e
 .L079b82:
-        movea.l 0xc(a6),a0                      | +01e
-        move.w  0x72(a6),d0                     | +022
-        bset    d0,0x70(a0)                     | +026
-        move.w  #0x19,d1                        | +02a
-        jsr     0x236e.l                        | +02e
-        addq.w  #0x3,0x38(a6)                   | +034
-        move.w  0x38(a6),d0                     | +038
-        jsr     0x28134.l                       | +03c
-        move.w  #0x1,0x66(a6)                   | +042
-        jsr     0x267e2.l                       | +048
-        lea     0x29c0ae.l,a0                   | +04e
-        jsr     0x28cd4.l                       | +054
-        lea     .L079bc4(pc),a1                 | +05a
-        move.l  a1,(a6)                         | +05e
+        movea.l 0xc(a6),a0                      | +014
+        move.w  0x72(a6),d0                     | +018
+        bset    d0,0x70(a0)                     | +01c
+        move.w  #0x19,d1                        | +020
+        jsr     0x236e.l                        | +024
+        addq.w  #0x3,0x38(a6)                   | +02a
+        move.w  0x38(a6),d0                     | +02e
+        jsr     0x28134.l                       | +032
+        move.w  #0x1,0x66(a6)                   | +038
+        jsr     0x267e2.l                       | +03e
+        lea     0x29c0ae.l,a0                   | +044
+        jsr     0x28cd4.l                       | +04a
+        lea     .L079bc4(pc),a1                 | +050
+        move.l  a1,(a6)                         | +054
 .L079bc4:
-        jsr     0x7fdfa.l                       | +060
-        jsr     0x28d70.l                       | +066
-        movea.l 0xc(a6),a0                      | +06c
-        cmpi.b  #0x3,0x21(a0)                   | +070
-        beq.w   .L079be8                        | +076
-        cmpi.b  #0xff,0x20(a0)                  | +07a
-        bne.w   .L079bf0                        | +080
+        jsr     0x7fdfa.l                       | +056
+        jsr     0x28d70.l                       | +05c
+        movea.l 0xc(a6),a0                      | +062
+        cmpi.b  #0x3,0x21(a0)                   | +066
+        beq.w   .L079be8                        | +06c
+        cmpi.b  #0xff,0x20(a0)                  | +070
+        bne.w   .L079bf0                        | +076
 .L079be8:
-        lea     0x77efe.l,a1                    | +084
-        move.l  a1,(a6)                         | +08a
+        lea     0x77efe.l,a1                    | +07a
+        move.l  a1,(a6)                         | +080
 .L079bf0:
-        jsr     0x2870a.l                       | +08c
-        bcc.w   .L079c00                        | +092
-        lea     TaskHandler_079c12(pc),a1       | +096
-        move.l  a1,(a6)                         | +09a
+        jsr     0x2870a.l                       | +082
+        bcc.w   .L079c00                        | +088
+        lea     TaskHandler_079c12(pc),a1       | +08c
+        move.l  a1,(a6)                         | +090
 .L079c00:
-        jsr     0x7fde0.l                       | +09c
-        bcc.w   SetHandlerRts_079c10            | +0a2
+        jsr     0x7fde0.l                       | +092
+        bcc.w   SetHandlerRts_079c10            | +098
 
 | ----------------------------------------------------------------------------
 |  TaskHandler_079c12  @ $079C12  (34 B)
