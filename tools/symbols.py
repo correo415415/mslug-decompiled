@@ -23,7 +23,7 @@ SYMBOLS = {
     # ---- Wave T: targets llamados desde ASM (por nombre estable) ------
     0x00043F5E: "Sub_00043F5E",  # blitter de fila (PC-rel desde $43fac)
     0x00000506: "Task_AllocFail_0506",  # rama 'free-list vacia' de Task_AllocFromFreeList
-    0x00077C98: "Handler_077c98",  # handler literal instalado por Entity_InstallHandlerAndCopyXf
+    # 0x00077C98 promovido a Spawner_Handler_077c98 en registry (Wave YYYY).
     0x000277C4: "Sub_000277C4",  # probe/collision llamado por Entity_ProbeTransformFreeCcr (T#7)
     0x000273FC: "Sub_000273FC",  # probe/collision llamado por Entity_ProbeTransformFreeCcr_027c8c (T#9)
     0x000027444: "Sub_000027444",  # probe/collision compartido por T#11 y T#13
@@ -609,27 +609,27 @@ SYMBOLS = {
     # 0x00073F9A promovido a M5Tank_MuzzleE_073f9a en registry (Wave XXXX).
     # 0x000751A6 promovido a ScriptedProp_Run_0751a6 en registry (Wave XXXX).
     # 0x0007525C promovido a ScriptedProp_Dead_07525c en registry (Wave XXXX).
-    0x00076056: "TaskHandler_076056",
-    0x000760A8: "TaskHandler_0760a8",
-    0x000760C8: "TaskHandler_0760c8",
-    0x00076290: "TaskHandler_076290",
-    0x0007646E: "TaskHandler_07646e",
-    0x0007692C: "TaskHandler_07692c",
-    0x00076A90: "TaskHandler_076a90",
-    0x00076B3A: "TaskHandler_076b3a",
-    0x00076BD0: "TaskHandler_076bd0",
-    0x0007726A: "TaskHandler_07726a",
+    # 0x00076056 promovido a ScriptedProp_Wall_Idle_076056 en registry (Wave YYYY).
+    # 0x000760A8 promovido a ScriptedProp_Wall_WaitTimer_0760a8 en registry (Wave YYYY).
+    # 0x000760C8 promovido a ScriptedProp_Wall_Alt_0760c8 en registry (Wave YYYY).
+    # 0x00076290 promovido a ScriptedProp_TowerB_Aim_076290 en registry (Wave YYYY).
+    # 0x0007646E promovido a ScriptedProp_Child_Collapse_07646e en registry (Wave YYYY).
+    # 0x0007692C promovido a ScriptedProp_Window_Idle_07692c en registry (Wave YYYY).
+    # 0x00076A90 promovido a ScriptedProp_RoofA_Debris_076a90 en registry (Wave YYYY).
+    # 0x00076B3A promovido a ScriptedProp_RoofB_Debris_076b3a en registry (Wave YYYY).
+    # 0x00076BD0 promovido a ScriptedProp_Gate_Idle_076bd0 en registry (Wave YYYY).
+    # 0x0007726A promovido a MovingPlatform_Run_07726a en registry (Wave YYYY).
     0x00077A8E: "TaskHandler_077a8e",
-    0x00079326: "TaskHandler_079326",
-    0x00079A8A: "TaskHandler_079a8a",
-    0x00079B42: "TaskHandler_079b42",
-    0x00079C3C: "TaskHandler_079c3c",
-    0x00079C68: "TaskHandler_079c68",
-    0x00079CAA: "TaskHandler_079caa",
-    0x00079D76: "TaskHandler_079d76",
-    0x00079E68: "TaskHandler_079e68",
-    0x00079E94: "TaskHandler_079e94",
-    0x00079F6A: "TaskHandler_079f6a",
+    # 0x00079326 promovido a AutoDemo_Stop_079326 en registry (Wave YYYY).
+    # 0x00079A8A promovido a Crew_Jump_Run_079a8a en registry (Wave YYYY).
+    # 0x00079B42 promovido a Crew_Free_079b42 en registry (Wave YYYY).
+    # 0x00079C3C promovido a Crew_Hatch_Flee_079c3c en registry (Wave YYYY).
+    # 0x00079C68 promovido a Crew_Hatch_Free_079c68 en registry (Wave YYYY).
+    # 0x00079CAA promovido a Crew_JumpB_Run_079caa en registry (Wave YYYY).
+    # 0x00079D76 promovido a Crew_FreeB_079d76 en registry (Wave YYYY).
+    # 0x00079E68 promovido a Crew_HatchB_Flee_079e68 en registry (Wave YYYY).
+    # 0x00079E94 promovido a Crew_HatchB_Free_079e94 en registry (Wave YYYY).
+    # 0x00079F6A promovido a Crew_Gunner_Run_079f6a en registry (Wave YYYY).
     0x0007A00A: "TaskHandler_07a00a",
     0x0007A1C0: "TaskHandler_07a1c0",
     0x0007A3E6: "TaskHandler_07a3e6",
@@ -982,8 +982,8 @@ SYMBOLS = {
     # Los callers via jsr $27EBA.l se resuelven al simbolo canonico del .text.
     # 0x00027EBA: "Sub_00027EBA",         # probe global llamado por Entity_ProbeAndInstallHandler_049FD0
     # 0x0004A034 promovido a HumanDeath_EntryKind2_04a034 en registry (Wave KKKK).
-    0x000799A4: "Sub_0007_99A4",        # subindice usado por Tbl_Decode2D_0799DE
-    0x00079A0E: "Tbl_DecodeShort_079A0E", # rama "tabla corta" (magic==2)
+    # 0x000799A4 promovido a Rank_SubIndex_0799a4 en registry (Wave YYYY).
+    # 0x00079A0E promovido a Tbl_DecodeShort_079A0E en registry (Wave YYYY).
     0x0028D876: "JmpTarget_28d876",
 
     # ---- Wave EE batch 1: labels/thunks internos del cluster $001260..$001AB4
@@ -1155,7 +1155,7 @@ SYMBOLS = {
     # interno $05A88A, no al inicio de la funcion contenedora.
     0x0005A88A: "Fn_0005A88A",
     0x00051ABE: "Entity_AllocAndInit_051ABE",
-    0x0007707C: "Subsystem_HudInit_07707C",
+    # 0x0007707C promovido a Platform_ListsInit_07707c en registry (Wave YYYY).
     # 0x0008F158 promovido a Rings_InitAll_08f158 en registry (Wave OOO).
     # 0x0003EE3A promovido a Subsystem_ScoresInit_03EE3A en registry (Wave RRRR).
     # 0x000997B8 promovido a Trail_RingReset_0997b8 en registry (Wave QQQ).
@@ -1262,8 +1262,8 @@ SYMBOLS = {
     0x0005DD56: "Fn_0005DD56",            # variante wait-anim (BossShot_Fly)
     # 0x0005E452 promovido a Parent_IsLiveHandler_05e452 en registry (Wave SSSS).
     # 0x0005E912 promovido a Hud_WriteTimerCounters_05e912 en registry (Wave SSSS).
-    0x00077F6A: "AnimSeq_00077F6A",       # secuencia anim explosion (Boss_Descend)
-    0x00079298: "TaskProto_00079298",     # plantilla tarea aux (MissionDriver_Init)
+    # 0x00077F6A promovido a Explosion_Fire_077f6a en registry (Wave YYYY).
+    # 0x00079298 promovido a AutoDemo_Tmpl_Driver_079298 en registry (Wave YYYY).
     0x0008C85C: "Fn_0008C85C",            # init subsistema paralelo (MissionDriver_Init)
     # 0x0008C864 promovido a Cut_Watcher_Init_08c864 en registry (Wave MMM).
     # 0x0008F6F2 promovido a PlayerSlot_SetLowNibble_08f6f2 en registry (Wave PPP).
@@ -2100,13 +2100,13 @@ SYMBOLS = {
     0x0007525A: "SetHandlerRts_07525a",  # rts de SetTaskHandler_075254 (+6)
     0x00075FFA: "SetTaskWRts_075ffa",  # rts de SetTaskW_075ff6 (+4)
     # --- Wave XXXX: refs forward a huecos futuros
-    0x00076012: "Sub_00076012",  # hueco futuro (ref pc-rel desde esta region)
-    0x0007690A: "Sub_0007690A",  # hueco futuro (ref pc-rel desde esta region)
-    0x00076A2A: "Sub_00076A2A",  # hueco futuro (ref pc-rel desde esta region)
-    0x00076ADE: "Sub_00076ADE",  # hueco futuro (ref pc-rel desde esta region)
-    0x00076BE8: "Sub_00076BE8",  # hueco futuro (ref pc-rel desde esta region)
-    0x00076E10: "Sub_00076E10",  # hueco futuro (ref pc-rel desde esta region)
-    0x00077FD6: "Sub_00077FD6",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00076012 promovido a ScriptedProp_SpawnFlagAndInit_076012 en registry (Wave YYYY).
+    # 0x0007690A promovido a ScriptedProp_Window_Init_07690a en registry (Wave YYYY).
+    # 0x00076A2A promovido a ScriptedProp_RoofA_Run_076a2a en registry (Wave YYYY).
+    # 0x00076ADE promovido a ScriptedProp_RoofB_Run_076ade en registry (Wave YYYY).
+    # 0x00076BE8 promovido a ScriptedProp_Base_Run_076be8 en registry (Wave YYYY).
+    # 0x00076E10 promovido a Frag_Launch_076e10 en registry (Wave YYYY).
+    # 0x00077FD6 promovido a Explosion_FlashSndB_077fd6 en registry (Wave YYYY).
     # --- Wave YYYY: RTS internos de islas C
     0x00076010: "SetHandlerRts_076010",  # rts de SetTaskHandler_07600a (+6)
     0x000760A6: "SetHandlerRts_0760a6",  # rts de SetTaskHandler_0760a0 (+6)

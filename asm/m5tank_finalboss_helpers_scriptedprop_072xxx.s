@@ -1749,7 +1749,7 @@ M5Tank_Hull_07350a:
 M5Tank_PartExplode_0735a6:
         move.l  #0xffffffff,0x48(a6)            | +000
         addi.w  #0x40,0x24(a6)                  | +008
-        bra.w   Sub_00077FD6                    | +00e  -> $077FD6 (hueco futuro, defsym forward)
+        bra.w   Explosion_FlashSndB_077fd6                    | +00e  -> $077FD6 (hueco futuro, defsym forward)
 
 | ----------------------------------------------------------------------------
 |  M5Tank_Cabin_0735b8  @ $0735B8  (200 B)
@@ -2184,7 +2184,7 @@ M5Tank_CasingExplode_073b92:
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
         ori.w   #0x0,0x38(a6)                   | +010
-        bra.w   AnimSeq_00077F6A                | +016
+        bra.w   Explosion_Fire_077f6a                | +016
 
 | ----------------------------------------------------------------------------
 |  M5Tank_Rocket_Launch_073bac  @ $073BAC  (116 B)
@@ -4570,15 +4570,15 @@ ScriptedProp_Tmpl97_075100:
         clr.b   0x7a(a6)                        | +02e
         clr.b   0x71(a6)                        | +032
         clr.b   0x7c(a6)                        | +036
-        lea     Sub_0007690A(pc),a1             | +03a  -> $07690A (hueco futuro, defsym forward)
+        lea     ScriptedProp_Window_Init_07690a(pc),a1             | +03a  -> $07690A (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +03e
-        lea     Sub_00076012(pc),a1             | +044  -> $076012 (hueco futuro, defsym forward)
+        lea     ScriptedProp_SpawnFlagAndInit_076012(pc),a1             | +044  -> $076012 (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +048
-        lea     Sub_00076ADE(pc),a1             | +04e  -> $076ADE (hueco futuro, defsym forward)
+        lea     ScriptedProp_RoofB_Run_076ade(pc),a1             | +04e  -> $076ADE (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +052
-        lea     Sub_00076A2A(pc),a1             | +058  -> $076A2A (hueco futuro, defsym forward)
+        lea     ScriptedProp_RoofA_Run_076a2a(pc),a1             | +058  -> $076A2A (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +05c
-        lea     Sub_00076BE8(pc),a1             | +062  -> $076BE8 (hueco futuro, defsym forward)
+        lea     ScriptedProp_Base_Run_076be8(pc),a1             | +062  -> $076BE8 (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +066
         move.w  #0xc000,0x38(a6)                | +06c
         move.b  #0x96,0x7d(a6)                  | +072
@@ -6293,7 +6293,7 @@ ScriptedProp_SpriteTable_075270__L075e76:
         .dc.w   0x1600                        | +c76  (dato / opcode no decodificado)
         move.l  a6,-(a7)                        | +c78
         lea     0x100800.l,a6                   | +c7a
-        lea     Sub_00076E10(pc),a1             | +c80  -> $076E10 (hueco futuro, defsym forward)
+        lea     Frag_Launch_076e10(pc),a1             | +c80  -> $076E10 (hueco futuro, defsym forward)
         jsr     0x4ae.l                         | +c84
         movea.l 0xc(a6),a1                      | +c8a
         move.w  0x7e(a1),d0                     | +c8e

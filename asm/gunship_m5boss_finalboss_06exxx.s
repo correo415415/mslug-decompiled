@@ -3407,7 +3407,7 @@ M5Boss_GrenadeExplode_07085c:
         jsr     0x2352.l                        | +004
         jsr     0x13600.l                       | +00a
         move.l  #0xffffffff,0x48(a6)            | +010
-        bra.w   AnimSeq_00077F6A                | +018
+        bra.w   Explosion_Fire_077f6a                | +018
 
 | ----------------------------------------------------------------------------
 |  M5Boss_Fx2D8770_070878  @ $070878  (50 B)

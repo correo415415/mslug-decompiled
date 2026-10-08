@@ -92,7 +92,7 @@
 |  - Las tablas $2BFE3A/$2BFE6A indexadas por +$99/+$9A (bytes del
 |    template) parametrizan el radio de reacción por variante: el mismo
 |    código sirve para los POW de todas las misiones.
-|  - $77F6A es la cola común de los ítems recogibles (AnimSeq_00077F6A):
+|  - $77F6A es la cola común de los ítems recogibles (Explosion_Fire_077f6a):
 |    confirma que PowItem_Toss es el objeto que da el prisionero.
 |
 |  C. HIPÓTESIS / DUDAS

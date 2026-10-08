@@ -250,27 +250,27 @@ extern void M5Tank_CasingGround_073b62(void);
 extern void M5Tank_MuzzleE_073f9a(void);
 extern void ScriptedProp_Run_0751a6(void);
 extern void ScriptedProp_Dead_07525c(void);
-extern void TaskHandler_076056(void);
-extern void TaskHandler_0760a8(void);
-extern void TaskHandler_0760c8(void);
-extern void TaskHandler_076290(void);
-extern void TaskHandler_07646e(void);
-extern void TaskHandler_07692c(void);
-extern void TaskHandler_076a90(void);
-extern void TaskHandler_076b3a(void);
-extern void TaskHandler_076bd0(void);
-extern void TaskHandler_07726a(void);
+extern void ScriptedProp_Wall_Idle_076056(void);
+extern void ScriptedProp_Wall_WaitTimer_0760a8(void);
+extern void ScriptedProp_Wall_Alt_0760c8(void);
+extern void ScriptedProp_TowerB_Aim_076290(void);
+extern void ScriptedProp_Child_Collapse_07646e(void);
+extern void ScriptedProp_Window_Idle_07692c(void);
+extern void ScriptedProp_RoofA_Debris_076a90(void);
+extern void ScriptedProp_RoofB_Debris_076b3a(void);
+extern void ScriptedProp_Gate_Idle_076bd0(void);
+extern void MovingPlatform_Run_07726a(void);
 extern void TaskHandler_077a8e(void);
-extern void TaskHandler_079326(void);
-extern void TaskHandler_079a8a(void);
-extern void TaskHandler_079b42(void);
-extern void TaskHandler_079c3c(void);
-extern void TaskHandler_079c68(void);
-extern void TaskHandler_079caa(void);
-extern void TaskHandler_079d76(void);
-extern void TaskHandler_079e68(void);
-extern void TaskHandler_079e94(void);
-extern void TaskHandler_079f6a(void);
+extern void AutoDemo_Stop_079326(void);
+extern void Crew_Jump_Run_079a8a(void);
+extern void Crew_Free_079b42(void);
+extern void Crew_Hatch_Flee_079c3c(void);
+extern void Crew_Hatch_Free_079c68(void);
+extern void Crew_JumpB_Run_079caa(void);
+extern void Crew_FreeB_079d76(void);
+extern void Crew_HatchB_Flee_079e68(void);
+extern void Crew_HatchB_Free_079e94(void);
+extern void Crew_Gunner_Run_079f6a(void);
 extern void TaskHandler_07a00a(void);
 extern void TaskHandler_07a1c0(void);
 extern void TaskHandler_07a3e6(void);
@@ -2797,61 +2797,61 @@ void SetTaskHandler_075254(void) {
 
 __attribute__((section(".text.SetTaskHandler_07600a")))
 void SetTaskHandler_07600a(void) {
-    _a1_ptr = &TaskHandler_07646e;
+    _a1_ptr = &ScriptedProp_Child_Collapse_07646e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_07604e")))
 void SetTaskHandler_07604e(void) {
-    _a1_ptr = &TaskHandler_076056;
+    _a1_ptr = &ScriptedProp_Wall_Idle_076056;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0760a0")))
 void SetTaskHandler_0760a0(void) {
-    _a1_ptr = &TaskHandler_0760a8;
+    _a1_ptr = &ScriptedProp_Wall_WaitTimer_0760a8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0760c0")))
 void SetTaskHandler_0760c0(void) {
-    _a1_ptr = &TaskHandler_0760c8;
+    _a1_ptr = &ScriptedProp_Wall_Alt_0760c8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0760ec")))
 void SetTaskHandler_0760ec(void) {
-    _a1_ptr = &TaskHandler_076290;
+    _a1_ptr = &ScriptedProp_TowerB_Aim_076290;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_076924")))
 void SetTaskHandler_076924(void) {
-    _a1_ptr = &TaskHandler_07692c;
+    _a1_ptr = &ScriptedProp_Window_Idle_07692c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_076a88")))
 void SetTaskHandler_076a88(void) {
-    _a1_ptr = &TaskHandler_076a90;
+    _a1_ptr = &ScriptedProp_RoofA_Debris_076a90;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_076b32")))
 void SetTaskHandler_076b32(void) {
-    _a1_ptr = &TaskHandler_076b3a;
+    _a1_ptr = &ScriptedProp_RoofB_Debris_076b3a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_076bc8")))
 void SetTaskHandler_076bc8(void) {
-    _a1_ptr = &TaskHandler_076bd0;
+    _a1_ptr = &ScriptedProp_Gate_Idle_076bd0;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_077262")))
 void SetTaskHandler_077262(void) {
-    _a1_ptr = &TaskHandler_07726a;
+    _a1_ptr = &MovingPlatform_Run_07726a;
     STORE_A1_AT_FP();
 }
 
@@ -2887,73 +2887,73 @@ void SetTaskHandler_077b60(void) {
 
 __attribute__((section(".text.SetTaskHandler_07943c")))
 void SetTaskHandler_07943c(void) {
-    _a1_ptr = &TaskHandler_079326;
+    _a1_ptr = &AutoDemo_Stop_079326;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079a82")))
 void SetTaskHandler_079a82(void) {
-    _a1_ptr = &TaskHandler_079a8a;
+    _a1_ptr = &Crew_Jump_Run_079a8a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079adc")))
 void SetTaskHandler_079adc(void) {
-    _a1_ptr = &TaskHandler_079b42;
+    _a1_ptr = &Crew_Free_079b42;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079b1a")))
 void SetTaskHandler_079b1a(void) {
-    _a1_ptr = &TaskHandler_079b42;
+    _a1_ptr = &Crew_Free_079b42;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079c0a")))
 void SetTaskHandler_079c0a(void) {
-    _a1_ptr = &TaskHandler_079c68;
+    _a1_ptr = &Crew_Hatch_Free_079c68;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079c34")))
 void SetTaskHandler_079c34(void) {
-    _a1_ptr = &TaskHandler_079c3c;
+    _a1_ptr = &Crew_Hatch_Flee_079c3c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079ca2")))
 void SetTaskHandler_079ca2(void) {
-    _a1_ptr = &TaskHandler_079caa;
+    _a1_ptr = &Crew_JumpB_Run_079caa;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079cfc")))
 void SetTaskHandler_079cfc(void) {
-    _a1_ptr = &TaskHandler_079d76;
+    _a1_ptr = &Crew_FreeB_079d76;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079d4e")))
 void SetTaskHandler_079d4e(void) {
-    _a1_ptr = &TaskHandler_079d76;
+    _a1_ptr = &Crew_FreeB_079d76;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079e22")))
 void SetTaskHandler_079e22(void) {
-    _a1_ptr = &TaskHandler_079e94;
+    _a1_ptr = &Crew_HatchB_Free_079e94;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079e60")))
 void SetTaskHandler_079e60(void) {
-    _a1_ptr = &TaskHandler_079e68;
+    _a1_ptr = &Crew_HatchB_Flee_079e68;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_079f62")))
 void SetTaskHandler_079f62(void) {
-    _a1_ptr = &TaskHandler_079f6a;
+    _a1_ptr = &Crew_Gunner_Run_079f6a;
     STORE_A1_AT_FP();
 }
 
