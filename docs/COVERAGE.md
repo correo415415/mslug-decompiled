@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-07  (Wave WWWW cerrada)
+**Ultimo update:** 2026-10-07  (Wave XXXX cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-WWWW) | Que mide realmente |
+| Metrica | Cifra (post-XXXX) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **20.84 %**  (437,150 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **77.8 %**  (393,342 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **21.59 %**  (452,812 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **80.9 %**  (409,004 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -44,7 +44,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
 | Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 200,800 B | 85.8 % |
-| Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 102,134 B | 67.4 % |
+| Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 117,796 B | 77.7 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
 | Indice de templates $E8000 + streams de mision | `$0E8000..$0F2FFC` | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 393,342 B | 77.8 % |
+| CODE | 505,608 B | 409,004 B | 80.9 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 534 huecos, 112,266 B
+Huecos pendientes en zonas CODE: 466 huecos, 96,604 B
 
 ### Notas por zona
 
@@ -112,7 +112,11 @@ Huecos pendientes en zonas CODE: 534 huecos, 112,266 B
   `Slug_Jump*`, `Slug_Fall*`, `Slug_Hit*`, `Slug_Death*`), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
-  siguiente por determinar (ver huecos). Wave WWWW (`gunship_m5boss_finalboss_06exxx.s`,
+  siguiente por determinar (ver huecos). Wave XXXX (`m5tank_finalboss_helpers_scriptedprop_072xxx.s`,
+  `$071FFC..$076000`): helpers del jefe final (chatarra, chispas, humo, partes,
+  patrones de ataque), tanque pesado de la misión 5 con torreta/cohetes/casquillos,
+  misil M5, intérprete MiniScript de 8 ops y prop destructible guionizado
+  (3 plantillas `$E8000`). Wave WWWW (`gunship_m5boss_finalboss_06exxx.s`,
   `$06DFE8..$071FFC`): chorros de fuego y helpers del Walker, aeronave con
   artillero (Gunship), jefe de la misión 5 (M5Boss: rotor, partes, bombas,
   misiles, soldados/granaderos hijos) y jefe final en dos mitades con cabeza y
@@ -261,7 +265,8 @@ Huecos pendientes en zonas CODE: 534 huecos, 112,266 B
   soldado con escudo, puerta/dirigible S5, tanque enemigo** (Wave UUUU).
   **Soldado bazooka (+aliado), vehículo lanzacohetes, Walker, fragmentos y
   chorro de fuego** (Wave VVVV). **Aeronave con artillero, jefe de misión 5 y
-  jefe final** (Wave WWWW).
+  jefe final** (Wave WWWW). **Helpers del jefe final, tanque pesado M5, misil M5,
+  MiniScript y prop guionizado** (Wave XXXX).
 
 ### Cosas que faltan (por tamano de codigo pendiente)
 

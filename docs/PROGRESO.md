@@ -11,10 +11,27 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 6936/6936 funciones
-BYTES   : 437,150/437,150 (registrados)
-ROM     : 437,150/2,097,152  (20.8449%)
+MATCHED : 7113/7113 funciones
+BYTES   : 452,812/452,812 (registrados)
+ROM     : 452,812/2,097,152  (21.5918%)
 ```
+
+> **Wave XXXX** (177 entradas, 15 662 B; 46 `--data`) — `$071FFC..$076000`
+> en `m5tank_finalboss_helpers_scriptedprop_072xxx.s`. Cuadragésimo primera
+> wave de `gen_asm_region.py`. Nombres en `docs/waves/xxxx_names.txt`, args en
+> `docs/waves/xxxx_args.txt` (LUT `$74460`, sprites `$7466E`/`$75270`, 34 blobs
+> del script inline `$749E8..$74F58`, bloque cero, hitbox `$75F34`).
+>
+> * **FinalBoss_\*** helpers: cierre de los forward refs de WWWW (Wreck A/B,
+>   Spark, Smoke A/B, LimbPart Init/Damaged/Critical, Pick*Pattern, spawners).
+> * **M5Tank_\*** (tmpl 118, slot 4 `$EDC36`): Drive/Turn/Retreat/Pause/
+>   Phase2/Phase3/Die/Sink/Explode; hijos Hull/Cabin/Launcher/Gun/Turret;
+>   Rocket Launch/Fly/Home/Explode, Casing, Muzzle A..E, Frag.
+> * **M5Missile_Tmpl77** (tmpl 119): velocidad/altura desde +$98/+$99.
+> * **MiniScript_\*** (8 ops) + **ScriptedProp_\*** (tmpl 151, slots 0/2):
+>   prop destructible por fases con script inline de 34 pasos.
+> * Fix `gen_asm_region.py`: target de `movem.l d(pc),regs` (base PC+4).
+> * Matcher 7113/7113, 452,812 B (21.59 %); código real 80.9 %.
 
 > **Wave WWWW** (221 entradas, 15 122 B; 1 `--data`) — `$06DFE8..$071FFC`
 > en `gunship_m5boss_finalboss_06exxx.s`. Cuadragésima wave de

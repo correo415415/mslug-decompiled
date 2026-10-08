@@ -17,6 +17,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- Wave XXXX — 177 entries (15,662 B, 46 data ranges): `$071FFC..$076000`
+  (`m5tank_finalboss_helpers_scriptedprop_072xxx.s`): FinalBoss helpers
+  closing WWWW forward refs (wreck pieces, sparks, smoke, limb parts, attack
+  pattern pickers, projectile spawners), mission-5 heavy tank (tmpl 118:
+  hull/cabin/launcher/gun/turret children, rockets, casings, muzzles),
+  M5 missile (tmpl 119), 8-opcode MiniScript interpreter and scripted
+  destructible prop (tmpl 151) with a 34-step inline script.
+  `tools/gen_asm_region.py`: fixed capstone `movem.l d(pc),regs` target
+  (base PC+4). Matcher 7113/7113, 452,812 B (21.59 %); real code 80.9 %.
 - Wave WWWW — 221 entries (15,122 B, 1 data range): `$06DFE8..$071FFC`
   (`gunship_m5boss_finalboss_06exxx.s`): fire-burst variants and Walker
   helpers (closing VVVV forward refs), Gunship (tmpl 75: crew, gunner with
