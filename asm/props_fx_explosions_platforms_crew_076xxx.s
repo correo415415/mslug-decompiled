@@ -6319,7 +6319,7 @@ Crew_Gunner_Run_079f6a:
         bcc.w   SetHandlerRts_079fe6            | +072
 
 | ----------------------------------------------------------------------------
-|  Crew_Driver_079fe8  @ $079FE8  (24 B)
+|  Crew_Driver_079fe8  @ $079FE8  (26 B)
 | ----------------------------------------------------------------------------
         .section .text.Crew_Driver_079fe8, "ax", @progbits
         .global Crew_Driver_079fe8
@@ -6329,4 +6329,4 @@ Crew_Driver_079fe8:
         move.w  #0x1,0x66(a6)                   | +00a
         moveq   #0,d0                           | +010
         move.b  d0,0x20(a6)                     | +012
-        .dc.w   0x1d40                        | +016  (dato / opcode no decodificado)
+        move.b  d0,0x21(a6)                     | +016

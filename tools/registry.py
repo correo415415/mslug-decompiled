@@ -8143,5 +8143,5 @@ REGISTRY = [
     ("Crew_Tmpl128_079ec2",                        0x079EC2, 134, "props_fx_explosions_platforms_crew_076xxx.s"),
     ("Crew_Gunner_079f48",                         0x079F48,  26, "props_fx_explosions_platforms_crew_076xxx.s"),
     ("Crew_Gunner_Run_079f6a",                     0x079F6A, 118, "props_fx_explosions_platforms_crew_076xxx.s"),
-    ("Crew_Driver_079fe8",                         0x079FE8,  24, "props_fx_explosions_platforms_crew_076xxx.s"),
+    ("Crew_Driver_079fe8",                          0x079FE8,  26, "props_fx_explosions_platforms_crew_076xxx.s"),
 ]
