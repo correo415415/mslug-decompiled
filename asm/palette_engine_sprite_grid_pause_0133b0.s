@@ -1,14 +1,111 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave IIIII — motor de paletas, spawn de rejillas de sprites, sondeo de
+|  pausa  (asm/palette_engine_sprite_grid_pause_0133b0.s)
 |  Región: $0133B0..$013D18  (2,082 B, 26 entradas, 8 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Runtime temprano de vídeo que cierra la zona `$0133B0..$013D6A` entre
+|  Entity_FlushSlotHistory_013600 / sprite_allocator_0139xx.s /
+|  fix_pause_text_013d20.s. Tres bloques:
 |
-|  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
-|  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
+|  1) $0133B0..$01390E  Motor de paletas. Paleta sombra en `$10A2D4`
+|     (256 slots x 32 B = 16 colores; word 0 de cada slot = flag "dirty"),
+|     tabla `$2F30` (32768 words: índice RGB555 r<<10|g<<5|b → color Neo Geo
+|     con bit de brillo), rampas `$12F30` (32 punteros a tablas de 32 B que
+|     dan, para cada distancia |dst-src| y paso t, el incremento por canal),
+|     bloque de fade `$10A2C8..D2` (C8 modo: 0 sin fade, 1 oscurecer, $FF
+|     aclarar; CA/CB/CC nivel por canal 0..31; CE flag flush; D0/D1 retardo
+|     de refresco; D2 banco del white-out).
+|     - Pal_LoadRaw16_0133b0: 15 colores desde (a2) en formato 3 bytes
+|       {r,g,b} (+1 relleno) → convierte por `$2F30` y marca el slot dirty;
+|       limpia bit 0 del descriptor (a1,d1). Pal_ClearSlot16_0133e6: slot a
+|       cero y descriptor = $80.
+|     - PalAnim_StepSlot_013408: descriptor de animación en (a1,d1): +2 ptr
+|       origen, +$A ptr destino, +8 periodo ($FFFF = fin), +$10 contador,
+|       +$E paso actual (0..31), +$F incremento. Cada periodo avanza el paso
+|       y llama a PalAnim_Blend16_013480; al llegar a 32 o terminar
+|       (d7≠0: todos los canales igualados) copia destino→origen y pone
+|       bit 0 (idle) / limpia bit 1.
+|     - PalAnim_Blend16_013480: para los 16 colores, PalAnim_StepRGB_013504
+|       interpola cada canal de (a2) hacia (a3) usando la rampa `$12F30`
+|       [|Δ|][paso] (signo aparte), cuenta canales igualados (d7==3 ⇒ color
+|       terminado, d0=-1); luego aplica el fade global según `$10A2C8`
+|       (Pal_ApplyFadeDarken_013624 resta rampa[c][nivel], _Lighten_013694
+|       suma rampa[31-c][nivel]) y empaqueta vía `$2F30` en la sombra.
+|     - Pal_PackRGB_01370a / Pal_UnpackRGB_013752: conversión entre RGB555
+|       (con bits 13/14 de brillo bajo) y el formato Neo Geo
+|       (dark bit 15, r/g/b 4 bits + LSB común en bits 12..14).
+|     - Pal_ShadowClearAll_01379a: borra los 8 KB de sombra, `$10A2D2`=0 y
+|       encadena SpriteTable_Init256_0526b8.
+|     - Pal_FlushDirtyToHW_0137c6: si `$10A2CE`, selecciona banco de paleta
+|       (`$3A000F`) y copia cada slot dirty (196 primeros + el slot $FF
+|       aparte) a la RAM de paleta `$400000`, limpiando el flag; gestiona el
+|       retardo `$10A2D0/D1` alternando `$3A000F`/`$3A001F`.
+|     - Pal_WhiteOutNextBank_01387e / Pal_WhiteOutIsDone_0138e6: rellena un
+|       banco de 16 slots con $7FFF (blanco) por frame (`$10A2D2` 0..15, $FF
+|       = fin) sobre el banco alternativo `$3A001F`.
+|     - Sprite_AdvanceY74_013906: `$1C(a0)` += $74 (relleno de 8 B).
+|
+|  2) $0139FE..$013C3C  Rejillas de sprites (strip de tiles → SCB1):
+|     - Sprite_FillTileGrid_0139fe: con a0 = mapa de tiles (filas de d3
+|       words), d4 = {alto<<16 | ancho}, d7 flags de flip (bit0 H, bit1 V →
+|       recorre el mapa invertido y aplica eor a los atributos), escribe por
+|       columna de sprite d0 los pares {tile, attr} en SCB1 (`$3C0000`,
+|       dirección (col+1)<<6 + fila*2 con wrap a 32 filas), avanzando a la
+|       siguiente columna o volviendo a d5 si supera d6.
+|     - SpriteAlloc_ResetCounters_013aac / SpriteAlloc_LoadBase_013ac8:
+|       `$10E1F4/FE` a 0, d1 = `$10E1F6`-1; d0 = `$10E1FA` → `$10E1FC`,
+|       d1 = $17B (380 sprites).
+|     - Sprite_SpawnGridB_013ade / _GridA_013b36: reservan ancho sprites con
+|       Spawn_TypeB_013952 / Spawn_TypeA_013982, rellenan la rejilla y
+|       escriben SCB2 (shrink `$8201+n` = alto<<7|ancho) y SCB3 (`$8401+n`
+|       = y<<7 | alto). Sprite_SpawnGridB_Scaled_013b4c: idem con zoom d5
+|       (hi = H, lo = V): calcula posiciones centradas y escribe SCB2
+|       individual por columna distribuyendo el ancho reducido (acumulador
+|       de error d7/d2) + variantes de entrada (GridA / sólo refresco).
+|     - Vec_PolarToXY_013c0e: d1,d2 = r*cos/sin(ángulo d0) con tablas
+|       `$2C07AC` / `$2C072C` (8.8). Div_FixedRatio_013c2c: d1 = (d1<<8)/|d2|
+|       +1.
+|
+|  3) $013C3C..$013D18  Sondeo de pausa (PAUSE):
+|     - Pause_Poll_013c3c: sin modo de pago (`$10FD82`=0) y con `$10E274`
+|       (en partida), construye en d7 la máscara de START de los jugadores
+|       activos (`$10FDB6/B7`==1 → bits 1/3) y la compara con las pulsaciones
+|       nuevas `$10E20D`. Flanco → `$10E272`=$FF (pausado), `$10E273`=0 y
+|       sonido $10E0 (InputGuardCall219c); si ya pausado → Pause_Active.
+|     - Pause_Active_013cae: START de nuevo → despausa (sonido $10E0 vía
+|       `$2222`, $10E1 vía `$2352`, borra el texto); si no, parpadea "PAUSE"
+|       con `$10E273` (dibuja en 0 mod 32, borra en 24) → SetC (pausado).
+|     - Pause_Poll_Reject_013caa / Pause_Clear_013d12: ClearC; `$10E272`=0.
+|
+|  B. CÓMO SE DESCUBRIÓ
+|  Huecos de measure_coverage en `$0133B0..$013D6A`. Los campos del bloque
+|  `$10A2C8..D2` ya estaban documentados en pubcleaner_10a2cx_052712.s y en
+|  los PalFade_* de Wave HHHHH (que escriben CA/CB/CC); `$2F30` y `$12F30`
+|  son tablas en zonas DATA (pendientes de transcribir) referenciadas por
+|  `lea`. Los nombres de rejilla salen de los callers SpriteBlock20x14_* y
+|  de los registros SCB1-3 del LSPC.
+|
+|  C. DEPENDENCIAS EXTERNAS
+|  Spawn_TypeA_013982, Spawn_TypeB_013952, SpriteTable_Init256_0526b8,
+|  Fix_DrawPause_013d46, Fix_DrawPauseBlank_013d3e, InputGuardCall219c
+|  ($2352), `$2222` (sonido), tablas `$2F30`, `$12F30`, `$2C072C/$2C07AC`,
+|  islas C SetXN_0138f8 / SetC_013d06 / ClearC_013d0c. HW: `$3A000F/$3A001F`
+|  (banco de paleta), `$400000` (RAM de paleta), `$3C0000` (LSPC).
+|
+|  D. ESTADO
+|  26/26 entradas byte-exactas. Zona `$0133B0..$013D6A` cerrada. Pendiente:
+|  transcribir `$12F30` (rampas) y `$2F30` (LUT RGB) como datos.
+|
+|  E. NOTAS
+|  PalAnim_StepRGB repite el mismo bloque tres veces (R,G,B) con registros
+|  distintos (d2/d3/d1) en vez de un bucle: así en la ROM.
+|
+|  F. VERIFICACIÓN
+|  Cada sección .text.<Sym> se coloca en su dirección CPU absoluta y
+|  reensambla byte-exacta contra build/mslug_prom.bin
 |  (MD5 816b3f74c76b3373993407615f1850fe).
 | ============================================================================
 
