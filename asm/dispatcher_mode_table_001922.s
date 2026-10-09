@@ -46,7 +46,7 @@
 |       *   - si algun operando == 1 -> jsr $981FC.l + fall-through al
 |       *                                bloque post-rts $001AB6 (que es
 |       *                                otra funcion del cluster)
-|       *   - default (ambos == 0)   -> bsr Sub_00001E0A + publish
+|       *   - default (ambos == 0)   -> bsr Set106ECC_CD_001e0a + publish
 |       *                                handler ptr $E42 en $70(a6) +
 |       *                                tail-jump $FC6.
 |       */
@@ -141,7 +141,7 @@ Label_00199A:
 
                                               | ---- state=6 ($0019D6) - con scheduler_add extra ----
         move.b  #0x6, 0x106ece.l               | +b4
-        lea.l   TaskHandler_001b4c(pc), a1     | +bc  aux handler: $1B4C
+        lea.l   Rank_DelayStart_001b4c(pc), a1     | +bc  aux handler: $1B4C
         jsr     0x4ae.l                        | +c0  scheduler_add(a1)
         lea.l   0x100260.l, a0                 | +c6
         move.l  #0x96840, (a0)                 | +cc
@@ -178,7 +178,7 @@ Label_00199A:
                                               | como puntero long "$001A64".
         move.b  #0x2, 0x45(a6)                 | +142  timer_b = 2
         move.b  #0x2, 0x44(a6)                 | +148  timer_a = 2
-        bsr.w   Sub_00001DB8                   | +14e  probe/setup
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                   | +14e  probe/setup
         lea.l   0x10fdb6.l, a4                 | +152  a4 = &INPUT_MASK
         move.b  (a4)+, d0                      | +158  d0 = mask_p1
         move.b  (a4),  d1                      | +15a  d1 = mask_p2
@@ -192,7 +192,7 @@ Label_00199A:
         beq.w   .Lone_path                     | +178
                                               |
                                               | ---- default: ambos == 0 ----
-        bsr.w   Sub_00001E0A                   | +17c
+        bsr.w   Set106ECC_CD_001e0a                   | +17c
         move.l  #0xe42, 0x70(a6)               | +180  publish handler ptr $E42
         bra.w   Sub_00000FC6                   | +188  tail al scheduler
 

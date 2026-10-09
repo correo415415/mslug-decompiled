@@ -80,7 +80,7 @@
         .section .text.Anim_State_F1_08C008, "ax", @progbits
 
 Anim_State_F1_08C008:
-        jsr     0x22c8.l                       | +00  Sub_000022C8 (init)
+        jsr     0x22c8.l                       | +00  Sound_Push06_0022c8 (init)
         move.w  #0x2b, d0                      | +06  d0 = $2B (opcode)
         jsr     0x2352.l                       | +0a  InputGuardCall219c(#$2b)
         move.w  #0x12e, d1                     | +10  d1 = $12E
@@ -280,7 +280,7 @@ Anim_State_F5_08C23A:
         ble.w   .Lf5_tail                      | +1e
                                               | ---- phase >= $40: fire "sound + fade" ----
         move.b  #0x80, d0                      | +22  d0 = $80 (opcode SFX)
-        jsr     0x2308.l                       | +26  Sub_00002308(d0) (audio trigger)
+        jsr     0x2308.l                       | +26  Sound_Push0A_0B_002308(d0) (audio trigger)
         move.w  #0x2, d0                       | +2c  d0 = 2
         jsr     0x5239e.l                      | +30  ThunkTarget_05239e(#2) (fade)
         move.w  #0x3c, 0x70(a6)                | +36  timer_70 = $3C (60 frames)

@@ -2004,8 +2004,8 @@ canonica.
 | 1 | `Entity_CopyAnimFromLeader_06E2BC` | `$06E2BC` | 66 | Copia 9 campos (pos, anim, flags) de la entity "lider" (`a6->+0x50`) al destino `a0`. La copia de `+0x30` aparece DOS veces (store muerto que un compilador habría eliminado — evidencia de asm a mano). 4 callers, 2 de ellos `JsrPcThunk_*` matcheados. |
 | 2 | `Entity_HitboxCollide_028A96` | `$028A96` | 114 | Caller del barrido de colisión: filtra self-hit, descriptor NIL, tipo != $80 e inmunidad (bit 3 de `flags69`); invoca #3 con los extents (+6 de cabecera) y propaga el resultado como bits dinámicos (`bset d7/d6`) en los `flags69` de ambas entities. Sale por las islas `ClearXN_028b08`/`SetXN_028b0e` (que siguen matcheadas aparte). |
 | 3 | `Hitbox_OverlapTestXY_028B14` | `$028B14` | 268 | Test AABB entity-vs-entity con espejado por facing (bit 0 de `flags3a`, eje X) y flip vertical (bit 1, eje Y). Calcula además la intersección `[max(min), min(max)]` y el lado relativo (`slt d7`/`sge d6`) que #2 consume. **Contiene 4 bloques de ASSERT `trap #15` nop-patched** (ver hallazgo mayor abajo). Absorbe FPs #49–#51. |
-| 4 | `ScriptSlotPairTable_0009B4` | `$0009B4` | 200 | Tabla de datos-en-.text: DOS sub-tablas de pares word (id, script) terminadas en `$FFFF`, consumidas por `Sub_00002B58` desde 3 handlers del scheduler (`lea $9b4(pc), a0`). Cada par asigna `$1CE00 + script*64` al slot `$1082C8 + id*32`. |
-| 5 | `TaskSlots_BootInstall_000A7C` | `$000A7C` | 270 | Instalador boot de los 12 TCBs estáticos `$100xxx` vía `Task_InstallHandler_0000050E` (símbolo nuevo): 8 con handler idle `RtsStub_0400`, 3 con thunks reales y `$1001C0` con `SchedulerBootstrap_Boot_000E8E` (MM#1) por PC-rel — cierra el círculo del arranque. Arranca 3 tasks al vuelo y enlaza los pares player/partner (`$10044C`/`$1004EC` = campo `+0xC`). SIN caller directo: se alcanza vía la tabla (TCB, handler) de `$178000`. Fall-through en `SetTaskHandler_000b8a`. |
+| 4 | `ScriptSlotPairTable_0009B4` | `$0009B4` | 200 | Tabla de datos-en-.text: DOS sub-tablas de pares word (id, script) terminadas en `$FFFF`, consumidas por `PalSlot_LoadListHi_002b58` desde 3 handlers del scheduler (`lea $9b4(pc), a0`). Cada par asigna `$1CE00 + script*64` al slot `$1082C8 + id*32`. |
+| 5 | `TaskSlots_BootInstall_000A7C` | `$000A7C` | 270 | Instalador boot de los 12 TCBs estáticos `$100xxx` vía `Task_AllocAndMarkBusy_00050e` (símbolo nuevo): 8 con handler idle `Task_IdleRts_000400`, 3 con thunks reales y `$1001C0` con `SchedulerBootstrap_Boot_000E8E` (MM#1) por PC-rel — cierra el círculo del arranque. Arranca 3 tasks al vuelo y enlaza los pares player/partner (`$10044C`/`$1004EC` = campo `+0xC`). SIN caller directo: se alcanza vía la tabla (TCB, handler) de `$178000`. Fall-through en `SetTaskHandler_000b8a`. |
 | 6 | `TaskList_ChangeAndRunEight_001CD4` | `$001CD4` | 96 | Batch de `Task_ChangeAndRun_0626` sobre los 8 TCBs de gameplay. Es el "callee $1CD4" documentado en MM#3 (7 callers). Fall-through en `JsrAbsThunk_001d34` (la 9ª operación implícita es `FUN_000005B6`). |
 | 7 | `FixGlyph16_DrawCursorA_099F3A` | `$099F3A` | 76 | Dibuja un glifo 16x16 (bloque 2x2 de fix tiles, base `$4B22`) vía puerto LSPC `$3C0000`, en la celda leída de la tabla `a6->+0x80[a6->+0x78]` — cursor de menú en posición variable. |
 | 8 | `FixGlyph16_DrawCursorB_099F86` | `$099F86` | 76 | Clon byte-a-byte de #7 con tile base `$4B40` (estado alternativo del cursor). 9º par de clones no factorizados. |
@@ -2241,7 +2241,7 @@ cluster).
 |---|---|---|---:|---|
 | 1 | `BlitterTile_2D_043E8C` | `$043E8C` | 78 | Blit 2D de un tile en el buffer local de un sistema de cámara. **Target de tail-jump** (`bra.w $43E8C`) de los tres hooks de cámara JJ#1 cuando el probe pasa y el enlace no es NULL. Doble bucle con `dbra` sobre filas y columnas, cascada de 4 `add.w dX,dX` intercalados como `<<2` hand-coded, máscaras `$F80`/`$7C` como aritmética modular del tile-map. |
 | 2 | `Integrator_XY_051B80` | `$051B80` | 40 | Integrador de coordenadas 2D. Suma incrementos `d0`/`d1` a los acumuladores long (`+$4`, `+$8` del struct sprite), publica el word alto como delta visible (`(a0)`, `$2(a0)`). Idioma `swap/sub.w/move.w` repetido sin factorizar entre X e Y. Es el `Transform_Publish` invocado por `CameraApplyOne_043DAA` (JJ#1). |
-| 3 | `TransformCommit_MMIO_051F30` | `$051F30` | 100 | Commit de la transformación. Gate por bit 0 de `$C(a0)` (rama corta con `rts` propio), calcula 4 valores intermedios (`$2A/$2C/$2E/$30`), y llama al dispatcher `Fn_00001F4A` pasándole por `a0` el **handler inline** en `$051F94` (patrón "call by continuation"). Es el `Transform_Commit` de `CameraApplyOne_043DAA` (JJ#1). |
+| 3 | `TransformCommit_MMIO_051F30` | `$051F30` | 100 | Commit de la transformación. Gate por bit 0 de `$C(a0)` (rama corta con `rts` propio), calcula 4 valores intermedios (`$2A/$2C/$2E/$30`), y llama al dispatcher `Deferred_Push_001f4a` pasándole por `a0` el **handler inline** en `$051F94` (patrón "call by continuation"). Es el `Transform_Commit` de `CameraApplyOne_043DAA` (JJ#1). |
 
 **Sin FPs absorbidos** — los 4 rangos del batch estaban limpios (auditoría
 previa con `scan_unmatched_callees.py`).
@@ -2256,12 +2256,12 @@ previa con `scan_unmatched_callees.py`).
    movem.l a0/a6, -(a7)              ; save frame ptrs
    movea.l a0, a6                     ; a6 = struct sprite
    lea.l   TileMap_HandlerInline_051F94(pc), a0  ; a0 = ptr handler
-   jsr     Fn_00001F4A                ; dispatcher generico
+   jsr     Deferred_Push_001f4a                ; dispatcher generico
    movea.l a6, a0                     ; restore a0
    movem.l (a7)+, a0/a6
    ```
 
-   `Fn_00001F4A` es un dispatcher que ejecuta el handler apuntado por `a0`
+   `Deferred_Push_001f4a` es un dispatcher que ejecuta el handler apuntado por `a0`
    con `a6` como contexto activo. Es la variante 68000 del "trampoline"
    clásico. GCC no genera este patrón: usaría punteros a función
    convencionales. **Añadir a `include/mslug.h` como documentación del ABI
@@ -2276,7 +2276,7 @@ previa con `scan_unmatched_callees.py`).
 ### Wave KK en detalle (batch 2) — probes de colisión + handler MMIO
 
 Cierra los tres probes CCR referenciados por los hooks de cámara JJ#1
-(`Probe08/82/F6`) y el handler inline pasado por `a0` a `Fn_00001F4A`
+(`Probe08/82/F6`) y el handler inline pasado por `a0` a `Deferred_Push_001f4a`
 desde `TransformCommit_MMIO` (KK#1). **7 FPs absorbidos** en un solo batch
 (récord del proyecto por batch, previamente 6 en HH#2).
 
@@ -2285,7 +2285,7 @@ desde `TransformCommit_MMIO` (KK#1). **7 FPs absorbidos** en un solo batch
 | 1 | `Collision_ProbeRange_051C08` | `$051C08` | 120 | Probe de rango completo. Recorre `d4` iteraciones con `dbra`, invoca `$51D84` (colisión) y aplica `$51BA8`/`$51DE2` por celda actualizando dos tile-maps locales (`+$32`, `+$52`). Retorno CCR bilateral: `ori.b #$1, ccr; rts` (colisión) vs `rts` puro (no colisión). Absorbió `Stub_00051C80` (FP #48) y `SetC_051c7a` (FP #42). |
 | 2 | `Collision_ProbeX_051C82` | `$051C82` | 110 | Probe de una sola columna X con **cache en `$1E(a0)`** que salta el probe si la posición no cambió. Aplicación directa sin bucle. Absorbió `SetC_051cea` (FP #43) y `ClearC_051cf0` (FP #44). |
 | 3 | `Collision_ProbeY_051CF6` | `$051CF6` | 136 | **Clon estructural** de ProbeX con ejes X/Y intercambiados y bucle `dbra` interno (por eso 26 B más que ProbeX). Cache en `$20(a0)`. **6º par de clones no factorizados del proyecto** (tras BB#2, Z#5/#6, HH#2, II#1, II#2 y JJ#2). Absorbió `SetC_051d78` (FP #45) y `ClearC_051d7e` (FP #46). |
-| 4 | `TileMap_HandlerInline_051F94` | `$051F94` | 158 | Handler MMIO pasado por `a0` a `Fn_00001F4A` desde `TransformCommit_MMIO_051F30` (KK#1). Recorre `[tile_row_start, tile_row_end]` publicando cada celda en el puerto VRAM `$3C0000/$3C0002` con `<<11` compuesto vía `moveq #$B, d4; lsl.w d4, dX`. Absorbió `SetV_05202c` (FP #47). |
+| 4 | `TileMap_HandlerInline_051F94` | `$051F94` | 158 | Handler MMIO pasado por `a0` a `Deferred_Push_001f4a` desde `TransformCommit_MMIO_051F30` (KK#1). Recorre `[tile_row_start, tile_row_end]` publicando cada celda en el puerto VRAM `$3C0000/$3C0002` con `<<11` compuesto vía `moveq #$B, d4; lsl.w d4, dX`. Absorbió `SetV_05202c` (FP #47). |
 
 **Falsos positivos absorbidos Wave KK batch 2 (7 nuevos, 48 totales del proyecto):**
 
@@ -2728,7 +2728,7 @@ lookup, timer decrement y colas comunes.
 | 2 | `Anim_State_F2_08C15E` | `$08C15E` | 78 | LUT sobre `$2C072C[$34(a6)*2]`, actualiza `$32(a6)`, incrementa `$34` por 4. Cuando `$34 > $3F`, publica `$32 = $FF` y transita a F3. |
 | 3 | `Anim_State_F3_08C1AC` | `$08C1AC` | 62 | Probe `Sub_0008BC74` (CCR-C); si `C=1` llama MMIO blitter `$5DA9C(#$7084, #$2320, #$20, #$19)` (VRAM $7084, tile-id, W×H), reset `$34=0`, transita a F4. |
 | 4 | `Anim_State_F4_08C1EA` | `$08C1EA` | 80 | LUT sobre `$2C07AC[]` con bias `-1` (bcc/clr), fase decrement. Transita a F5. |
-| 5 | `Anim_State_F5_08C23A` | `$08C23A` | 92 | LUT sobre `$2C07AC[]` para `$33(a6)`. Al terminar (`$34 > $3F`): dispara SFX `Sub_00002308(#$80)` + fade `ThunkTarget_05239e(#2)` + timer `$70=$3C`, transita a F6. |
+| 5 | `Anim_State_F5_08C23A` | `$08C23A` | 92 | LUT sobre `$2C07AC[]` para `$33(a6)`. Al terminar (`$34 > $3F`): dispara SFX `Sound_Push0A_0B_002308(#$80)` + fade `ThunkTarget_05239e(#2)` + timer `$70=$3C`, transita a F6. |
 | 6 | `Anim_State_F6_08C296` | `$08C296` | 34 | Final: decrementa `$70(a6)`, cuando ≤0 clear `$106ED2`. Tail acortado (2 jsr en lugar de 3). |
 
 **Falsos positivos absorbidos Wave GG batch 2 (6 nuevos, 37 totales del proyecto):**
@@ -2863,7 +2863,7 @@ descriptores `$000BA2..$000E8A`).
 | 2 | `Attract_InitTaskAdd_3DBC8_0017C8` | `$0017C8` | 30 | 12 | Handler minimo mas usado del cluster: seal `$106ED2=$FF`, task-add `$3DBC8`, init pesado `$46AC6`, tail. |
 | 3 | `Attract_InitShow27_TaskAdd_0017E6` | `$0017E6` | 44 | 1 | Dispara opcode `$27` sobre `InputGuardCall219c` (Wave A#4) — primer caller no-thunk registrado, task-add `$46608`, marca `$21(a6)=$FF`. |
 | 4 | `Attract_SetTimers2_And_Gate21_001812` | `$001812` | 26 | 1 | Probe + timers `$45=$2, $44=$2` + gate `$21(a6) != 0 → rts`. Fall-through a #5. |
-| 5 | `Attract_TailChain_1CD4_1DA4_00182C` | `$00182C` | 12 | fall-through | Encadena `PcThunkTarget_001CD4 + Sub_00001DA4 + tail`. Continuacion natural de #4. |
+| 5 | `Attract_TailChain_1CD4_1DA4_00182C` | `$00182C` | 12 | fall-through | Encadena `PcThunkTarget_001CD4 + Task_InstallBootSlots_001da4 + tail`. Continuacion natural de #4. |
 | 6 | `Attract_SoftReset_10FDAF_001838` | `$001838` | 14 | 3 | Thunk tail-call: `move.b #1, $10FDAF; jmp $85E.l` (SoftReset del BIOS). |
 | 7 | `Attract_DoubleCheck_400_Publish_001846` | `$001846` | 68 | 12 | Handler mas referenciado. Doble-check `$100300==$400` y `$1003A0==$400`, publica `$2575C/$25766` cuando aplica. Patron `cmpi.l #$400, addr.l` de 10 B/lado incompatible con GCC. |
 | 8 | `Attract_WaitStateBackbone_00188A` | `$00188A` | 80 | ≥11 `bra.w` | **Backbone comun** del cluster. Target de todos los `bra.w $188A` de `Dispatcher_ModeTable_001922` (EE#3) y del path init de F2. Emite el bucle "wait state loop" completo (`InputQueue + palette fade + task-adds + seal + BIOS_FIX_CLEAR`) y termina con `.byte 0x4e, 0xb9` (opcode `jsr abs.l` sin operando — los 4 bytes del operando son los bytes literales al inicio de `Init_EntitySpawn_0018DA` de Wave EE#2, formando la instruccion completa `jsr $46AC6.l` a nivel fisico). Fall-through a EE#2 offset +4. |
@@ -3681,7 +3681,7 @@ contiene grandes bloques de ensamblador 68000 escrito a mano. Evidencias:
   detectar por overlap del linker que cae dentro de `VRAM_FixLayerAutoclear
   _05A824` (Wave DD). Sin FPs absorbidos. **Primer idioma `call by
   continuation`** documentado: `TransformCommit_MMIO` pasa un handler
-  inline via `a0` a un dispatcher generico (`Fn_00001F4A`).
+  inline via `a0` a un dispatcher generico (`Deferred_Push_001f4a`).
 
   **Batch 2** (probes de colision + handler MMIO, 4 funciones, 524 B):
   `Collision_ProbeRange_051C08` (120 B), `Collision_ProbeX_051C82` (110 B),
@@ -3695,7 +3695,7 @@ contiene grandes bloques de ensamblador 68000 escrito a mano. Evidencias:
 
   **Descubrimientos clave**:
     - **Idioma `call by continuation`** documentado por primera vez
-      (`TransformCommit_MMIO` -> `Fn_00001F4A` -> handler inline).
+      (`TransformCommit_MMIO` -> `Deferred_Push_001f4a` -> handler inline).
     - **Sexto par de clones no factorizados** del proyecto: ProbeX/ProbeY.
       Refuerza definitivamente la hipotesis de macros ASM pesadas.
     - **Cache de posicion en probes X/Y** (`$1E(a0)`/`$20(a0)`): optimizacion
@@ -4084,7 +4084,7 @@ Cluster natural detectado para la **próxima Wave EE batch 2**: cerrar
 las 9 funciones vecinas del cluster attract (`$001744..$001AF7`, unas
 ~470 B netos), que completan el subsistema junto con las 3 grandes de
 EE batch 1. Todas ya tienen mapa de flujo cerrado, símbolos externos
-resueltos (`Sub_00001DB8`, `Sub_00001E0A`, `PcThunkTarget_001CD4`,
+resueltos (`Hud_DrawCreditsAndOverlay_001db8`, `Set106ECC_CD_001e0a`, `PcThunkTarget_001CD4`,
 etc.) y forman una unidad arquitectónica: dispatcher-tabla (EE#3) +
 handlers de estado (EE-B) + backbone `$188A`. Después, **Wave FF**
 sobre `$0436de` y **Wave GG** sobre la triada `$000Cxxx`.

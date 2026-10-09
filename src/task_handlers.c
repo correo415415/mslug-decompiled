@@ -36,9 +36,9 @@
 extern void TaskHandler_000b90(void);
 extern void TaskHandler_000ef0(void);
 extern void TaskHandler_000f1a(void);
-extern void TaskHandler_001b4c(void);
-extern void TaskHandler_001b70(void);
-extern void TaskHandler_001b80(void);
+extern void Rank_DelayStart_001b4c(void);
+extern void Rank_DelayTick_001b70(void);
+extern void Rank_DelayGate_001b80(void);
 extern void HUD_State_InsertCoin_0257ec(void);
 extern void HUD_State_Continue_025882(void);
 extern void HUD_State_Respawn_025ad8(void);
@@ -457,19 +457,19 @@ void SetTaskHandler_001b14(void) {
 
 __attribute__((section(".text.SetTaskHandler_001b68")))
 void SetTaskHandler_001b68(void) {
-    _a1_ptr = &TaskHandler_001b70;
+    _a1_ptr = &Rank_DelayTick_001b70;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_001b78")))
 void SetTaskHandler_001b78(void) {
-    _a1_ptr = &TaskHandler_001b80;
+    _a1_ptr = &Rank_DelayGate_001b80;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_001c3c")))
 void SetTaskHandler_001c3c(void) {
-    _a1_ptr = &TaskHandler_001b4c;
+    _a1_ptr = &Rank_DelayStart_001b4c;
     STORE_A1_AT_FP();
 }
 

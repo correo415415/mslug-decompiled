@@ -68,10 +68,10 @@
 |  * op $0D (60 usos) apunta a los pre-thunks $52756/$5276C/$52776/$52780/
 |    $52796 (cargan d1..d4 / d0 desde los 8 B de args inline y llaman a
 |    ThunkTarget_002c26 / _05239e / _0523b2 / _05dd2a / _05026c) y a
-|    Sub_000022C8 (x8).
+|    Sound_Push06_0022c8 (x8).
 |  * op $0E (spawn de tarea) no aparece en ninguna escena: las tareas se crean
 |    con op $04 (`$51B1C`, 53 usos) sobre los 4 contextos de cámara.
-|  * op $0A: 22 bloques `{slot,bank}` para Sub_00002B58 (slots de tiles ->
+|  * op $0A: 22 bloques `{slot,bank}` para PalSlot_LoadListHi_002b58 (slots de tiles ->
 |    bancos $1CE00 + bank*64); la escena 0 remapea 116 slots de golpe.
 |  * Las 26 SceneTrig están referenciadas por 37 op $11 (varias compartidas
 |    entre las escenas 0/14 y 5/15: los mismos mapas reutilizados en la

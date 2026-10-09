@@ -20,7 +20,7 @@
 |       * $10007B (mod-2) y despacha:
 |       *   - bit0 == 0 -> jsr Sub_00024FEC(0); jmp Label_001940 (submodo A)
 |       *   - bit0 == 1 -> jsr Sub_00024FEC(1); jmp Label_00199A (submodo B)
-|       *   - fallback  -> bsr Sub_00001DB8; si $106ED2 != 0 => tail-call
+|       *   - fallback  -> bsr Hud_DrawCreditsAndOverlay_001db8; si $106ED2 != 0 => tail-call
 |       *                   PcThunk_001AF8 + rts; si == 0 => reset con
 |       *                   $FFFF + jsr PcThunk_001CD4 + tail al scheduler
 |       *                   ($FE0). */
@@ -39,7 +39,7 @@
 |
 |  Punteros pasados a scheduler_add ($4AE):
 |      $91630  (TaskHandler_00091630)  \  ambos aparecen tambien en Wave R
-|      $1C88   (PcThunkTarget_001C88)  /  como epilogo compartido de otros
+|      $1C88   (Hud_Delay1200_ClearDirty_001c88)  /  como epilogo compartido de otros
 |                                          handlers de la zona baja.
 |
 |  Notas forenses (por que NO es rederivable por GCC 1:1):
@@ -76,7 +76,7 @@ Init_ModeToggle_001260:
         jsr     0x46ac6.l                      | +14  Sub_00046AC6 (init pesado)
         lea.l   0x91630.l, a1                  | +1a  a1 = TaskHandler_00091630
         jsr     0x4ae.l                        | +20  scheduler_add(a1)
-        lea.l   .Lpc_thunk_1c88(pc), a1        | +26  a1 = PcThunkTarget_001C88  (PC-rel)
+        lea.l   .Lpc_thunk_1c88(pc), a1        | +26  a1 = Hud_Delay1200_ClearDirty_001c88  (PC-rel)
         jsr     0x4ae.l                        | +2a  scheduler_add(a1)
                                               |
                                               | ---- mode-tick advance ($10007B++ mod 2) ----
@@ -100,7 +100,7 @@ Init_ModeToggle_001260:
         jmp     .Ltail_b(pc)                   | +66  jmp $199A (continuacion externa)
 
 .Lfallback:                                    | $12CA
-        bsr.w   Sub_00001DB8                   | +6a  Sub_00001DB8() (probe)
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                   | +6a  Hud_DrawCreditsAndOverlay_001db8() (probe)
         tst.b   0x106ed2.l                     | +6e  if (pending_work == 0)
         beq.w   .Lreset_path                   | +74    goto reset
         bra.w   .Ltail_pending                 | +78  else tail_pending
@@ -118,10 +118,10 @@ Init_ModeToggle_001260:
         | ------------------------------------------------------------------
         | Symbols alcanzados por PC-rel corto: se resuelven al enlazar.
         | ------------------------------------------------------------------
-        .equ    .Lpc_thunk_1c88,   PcThunkTarget_001C88
+        .equ    .Lpc_thunk_1c88,   Hud_Delay1200_ClearDirty_001c88
         .equ    .Ltail_a,          Label_001940
         .equ    .Ltail_b,          Label_00199A
         .equ    .Lpc_reset,        TaskList_ChangeAndRunEight_001CD4
-        .equ    .Lpc_tail_thunk,   PcThunkTarget_001af8
+        .equ    .Lpc_tail_thunk,   Attract_StartIfP2Flag_001af8
 
         .size   Init_ModeToggle_001260, .-Init_ModeToggle_001260

@@ -27,7 +27,7 @@
 |      uint32_t Decimal_Clamp99999999(uint32_t value /*d0*/);
 |
 |  NOVENO caso identificado en el proyecto de "tail-call a funcion
-|  contigua" (tras W#16 EmptyEntity_Init_00076A). Idioma clasico de asm
+|  contigua" (tras W#16 Entity_AllocFail_00076a). Idioma clasico de asm
 |  hand-coded para reutilizar el codigo de la funcion siguiente sin
 |  gastar espacio en un rts adicional ni en un branch mas largo.
 |

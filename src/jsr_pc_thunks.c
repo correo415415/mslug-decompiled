@@ -6,14 +6,14 @@
 
 __attribute__((section(".text.JsrPcThunk_001096")))
 void JsrPcThunk_001096(void) {
-    extern void PcThunkTarget_001af8(void);
-    __asm__ volatile("jsr PcThunkTarget_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Attract_StartIfP2Flag_001af8(void);
+    __asm__ volatile("jsr Attract_StartIfP2Flag_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0010ec")))
 void JsrPcThunk_0010ec(void) {
-    extern void PcThunkTarget_001af8(void);
-    __asm__ volatile("jsr PcThunkTarget_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Attract_StartIfP2Flag_001af8(void);
+    __asm__ volatile("jsr Attract_StartIfP2Flag_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 /* JsrPcThunk_0012ee ABSORBIDO por Init_ModeToggle_001260 (Wave EE batch 1 - FP #28)
@@ -22,8 +22,8 @@ void JsrPcThunk_0010ec(void) {
 
 __attribute__((section(".text.JsrPcThunk_00134e")))
 void JsrPcThunk_00134e(void) {
-    extern void PcThunkTarget_001af8(void);
-    __asm__ volatile("jsr PcThunkTarget_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Attract_StartIfP2Flag_001af8(void);
+    __asm__ volatile("jsr Attract_StartIfP2Flag_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 /* JsrPcThunk_01394c absorbido por Scratch_Alloc_01390E (Wave JJ#2).

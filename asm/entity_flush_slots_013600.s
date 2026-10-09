@@ -17,7 +17,7 @@
 |          d2 = entity->timer0 * 2                -- word offset en slot_history
 |          d1 = entity->slot_history[d2]          -- lee slot idx
 |          entity->slot_history[d2] = 0           -- limpia entrada
-|          jsr Sub_00002BC4                       -- procesa slot (probablemente
+|          jsr PalSlot_Release_002bc4                       -- procesa slot (probablemente
 |                                                    "release/deactivate slot idx")
 |          -- loop back al tst.w $1e(a6) --
 |      rts
@@ -57,7 +57,7 @@ Entity_FlushSlotHistory_013600:
         add.w   d2, d2                  | +10  d2 *= 2 (word offset)
         move.w  0x16(a6, d2.w), d1      | +12  d1 = slot_history[timer0]
         clr.w   0x16(a6, d2.w)          | +16  slot_history[timer0] = 0
-        jsr     Sub_00002BC4            | +1a  procesa slot (release)
+        jsr     PalSlot_Release_002bc4            | +1a  procesa slot (release)
         bra.b   Entity_FlushSlotHistory_013600 | +20  loop back al tst
 .Ldone:
         rts                             | +22

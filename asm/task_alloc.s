@@ -20,7 +20,7 @@
 |
 |  Flujo (ver secuencia exacta abajo):
 |      1. a0 = *free_list_head  (leer cabeza).
-|      2. Si cabeza == ENTITY_NIL ($FFFFFFFF), salta a Task_AllocFail_0506
+|      2. Si cabeza == ENTITY_NIL ($FFFFFFFF), salta a Task_AllocFail_000506
 |         (rama de "sin memoria libre") -- NO retorna por rts local.
 |      3. Consumir nodo: free_list_head = a0->next  (leyendo a0[+8]).
 |      4. Bracket movem.l d0-d7/a0-a6, -(a7)   ->   guardar TODOS los
@@ -79,7 +79,7 @@
 Task_AllocFromFreeList:
         movea.l 0x106e80, a0            | +00  20 79 00 10 6e 80    a0 = free_list_head
         cmpa.l  #-1, a0                 | +06  b1 fc ff ff ff ff    lista vacia ?
-        beq.w   Task_AllocFail_0506     | +0c  67 00 00 4a          si, ir al handler
+        beq.w   Task_AllocFail_000506     | +0c  67 00 00 4a          si, ir al handler
         move.l  8(a0), 0x106e80         | +10  23 e8 00 08 00 10 6e 80   consumir nodo
         .global Task_AllocFromFreeList__L0004c6
 Task_AllocFromFreeList__L0004c6:

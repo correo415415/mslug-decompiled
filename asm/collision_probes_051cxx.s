@@ -20,7 +20,7 @@
 |      CameraHook_Probe82_043E0E  -> Collision_ProbeX_051C82     (JJ#1)
 |      CameraHook_ProbeF6_043E24  -> Collision_ProbeY_051CF6     (JJ#1)
 |      TransformCommit_MMIO_051F30 -> TileMap_HandlerInline_051F94 (KK#1,
-|                                     pasado por a0 a Fn_00001F4A)
+|                                     pasado por a0 a Deferred_Push_001f4a)
 |
 |  ---------- Convencion CCR de los tres probes ------------------------------
 |
@@ -201,7 +201,7 @@ Collision_ProbeY_051CF6:
 |
 | ---------------------------------------------------------------------------
 |  TileMap_HandlerInline_051F94  @ $051F94  (160 bytes)
-|  Handler pasado por a0 al dispatcher Fn_00001F4A desde
+|  Handler pasado por a0 al dispatcher Deferred_Push_001f4a desde
 |  TransformCommit_MMIO_051F30 (KK#1).
 | ---------------------------------------------------------------------------
 |

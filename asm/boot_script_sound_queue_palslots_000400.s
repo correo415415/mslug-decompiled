@@ -1,79 +1,154 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
-|  Región: $000400..$002F30  (3,938 B, 76 entradas, 26 huecos)
+|  asm/boot_script_sound_queue_palslots_000400.s
+|  Wave JJJJJ — zona baja $000400..$002F30 (restos: 73 entradas, 3,940 B)
+|  Con esta ola la zona CODE "BIOS entries, IRQ, scheduler, bootstrap, task
+|  runtime" queda al 100 % y TODAS las zonas CODE del P-ROM están cubiertas.
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A) QUÉ ES
+|  Cuatro familias de código de runtime base, intercaladas entre módulos ya
+|  matcheados (scheduler, BIOS user dispatch, boot dispatch table...):
+|  1. BootScr_* / BootMsg_* ($12F4..$172E): handlers del boot script
+|     (bytecode continuation-passing interpretado por SchedulerBootstrap/
+|     SchedulerDispatch_LoopB_000FE0; cada handler termina con `bra.w
+|     SchedulerDispatch_LoopB_000FE0` o `rts` para esperar un frame).
+|     Cubren: game over ($12F4), arranque de misión ($1368/$13C6), pantalla
+|     de mensajes de servicio ($1416..$1554, índice $106ED0 en la subtabla
+|     $C0A de BootDispatchTable con pares (handler, fila de texto)),
+|     memory card ($1526), sound test ($1566), ending ($15B6..$163C),
+|     cut-scene fade ($16D2), menú de opciones ($1700).
+|  2. Runtime de arranque/partida ($1AF8..$1E56): conteo de jugadores
+|     activos (Players_CountActive via Player_GetEntity), delay por rango
+|     (Rank_Delay*: timer en $30(a6) + gate con Debug_DrawHexCounter),
+|     reset/instalación de los 8 slots fijos de tarea ($100260..$1008A0:
+|     Task_ResetAllSlots / Task_InstallBootSlots / Task_InstallMissionSlots
+|     — este último instala Task_Clear106F42 y MissionDriver_Init, y el
+|     DebugColl si DIP bit0 de $100001).
+|  3. VBlank + cola diferida ($1EFE..$20DA): Deferred_RunQueue/Push es un
+|     anillo de 8 pares (handler,a6) en $106EE6 con índices $106F26/27;
+|     VBlank_FrameLoop_001f84 es el bucle principal de frame (espera
+|     $106ED8, Pause_Poll, lectura de pad vía Sound_PollReply, contador
+|     $106F28) y VBlank_RenderFrame_002098 hace PalSlot_UpdateAll +
+|     SpriteQueue_SortAndRenderSCB1 con watchdog ($3A0001).
+|  4. Sound_* ($21A6..$232A): cola de comandos al Z80. $320000 es el puerto
+|     de sonido; el anillo es $108184 (32 B) con tail $1081A4 / head
+|     $1081A6, respuesta del Z80 en $1081A8/A9, mute en $1081AA. (El módulo
+|     previo InputQueue_InitAndPushOp4_00212E es en realidad el init de esta
+|     misma cola; se conserva su nombre histórico.)
+|  5. PalSlot_* ($29F2..$2F30): gestor de slots de paleta. Tabla $1082C8 de
+|     256 entradas x 32 B (flags, puntero a paleta fuente, contador de
+|     usos); paletas fuente en $14E00 (banco bajo, 64 B c/u) y $1CE00
+|     (LoadListHi). Pila de slots libres dinámicos $1081C2 (48 ids, base
+|     $94) con head/tail $1082C4/$1082C6 y contador $1082C2.
+|     PalSlot_UpdateAll_002c86 recorre los 196 (+ resto) slots cada frame
+|     aplicando fade ($10A2C8 modo, $10A2CA..CC niveles) con Pal_ApplyFade*
+|     y la LUT RGB555 de $2F30, y marca $10A2CE para el flush.
 |
-|  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
-|  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
-|  (MD5 816b3f74c76b3373993407615f1850fe).
+|  B) CÓMO ENCAJA
+|  BootDispatchTable_000B92 referencia 39 de estas direcciones; el VBlank
+|  (VBlankTick_Master_001E5E) salta a VBlank_FrameLoop; Deferred_Push es
+|  llamado desde camera_sprite_helpers y collision_probes; Sound_Push* desde
+|  decenas de entidades (efectos de sonido); PalSlot_* desde Entity_Alloc,
+|  escenas y props.
+|
+|  C) DECISIONES DE MATCHING
+|  - BootMsg_RowIds_001514 (18 B) es una tabla de bytes tras `jmp $5EAE4`:
+|    ids de fila de MessageTileRows_05eb98 indexados por $106ED0 (--data).
+|  - Handler_TimerAndReplace se realineó a $1BCA (su primera instrucción
+|    `movem.l d0-d1,-(a7)` es la caída desde Rank_DelayGate_001b80).
+|  - 10 labels locales de módulos vecinos promovidos a globales
+|    (BootDispatchTable_000B92__L000c0a/d62/d76/d8a, etc.).
+|  - `move.w LUT(pc,d4.l)` hacia $2F30 (zona DATA aún sin módulo) se emite
+|    como `PalSlot_UpdateAll_002c86+0x2aa(pc,d4.l)` para que GAS resuelva el
+|    fixup PC8 en la misma sección.
+|  - Las colas de 3 islas C (UserMode0_080C, BiosEntry_DEMO, BiosEntry_
+|    COIN_SOUND) tenían el registry corto; se corrigió el tamaño en vez de
+|    registrar sus `rts`/`jmp` como entradas.
+|
+|  D) EVIDENCIAS
+|  - $320000 = NEO-GEO REG_SOUND; el handshake $1081A8/$1081A9 coincide con
+|    el protocolo de respuesta del driver Z80 (bit7 = respuesta válida).
+|  - $1082C8 y $10A2D4 son los mismos arrays que usa el motor de paletas
+|    de la Wave IIIII (Pal_LoadRaw16/Pal_ClearSlot16/PalAnim_StepSlot).
+|  - La subtabla $C0A alterna (handler, id de fila) y los ids coinciden con
+|    el orden de BootMsg_RowIds ($0A..$13,$18,$15,$1B,$1D,$04,$1C).
+|
+|  E) HIPÓTESIS / DUDAS
+|  - Nombres de los pasos del boot script (GameOver, MemCardSave, SoundTest,
+|    Ending, OptionsMenu) derivados de la plantilla que cargan ($8F91A,
+|    $51660, $7A456, $598FC, $99BA6); la pantalla exacta no se ha verificado
+|    en emulador.
+|  - Bios_TrapF_CalendarSeq_0008a4: 5 `trap #15` con d0=$1234, d1=$0A..$0E
+|    — parece secuencia de servicio del BIOS (MVS calendar); sin confirmar.
+|
+|  F) TOOLCHAIN
+|  m68k-linux-gnu-as -m68000 --register-prefix-optional; verificación
+|  byte-exacta 73/73 con tools/gen_asm_region.py y tools/match_batch.py.
 | ============================================================================
 
         .text
 
 | ----------------------------------------------------------------------------
-|  RtsStub_0400  @ $000400  (2 B)
+|  Task_IdleRts_000400  @ $000400  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.RtsStub_0400, "ax", @progbits
-        .global RtsStub_0400
-RtsStub_0400:
+        .section .text.Task_IdleRts_000400, "ax", @progbits
+        .global Task_IdleRts_000400
+Task_IdleRts_000400:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_000402  @ $000402  (6 B)
+|  Boot_Thunk02783a_000402  @ $000402  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_000402, "ax", @progbits
-        .global TaskHandler_000402
-TaskHandler_000402:
+        .section .text.Boot_Thunk02783a_000402, "ax", @progbits
+        .global Boot_Thunk02783a_000402
+Boot_Thunk02783a_000402:
         jsr     0x2783a.l                       | +000
 
 | ----------------------------------------------------------------------------
-|  Task_AllocFail_0506  @ $000506  (8 B)
+|  Task_AllocFail_000506  @ $000506  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Task_AllocFail_0506, "ax", @progbits
-        .global Task_AllocFail_0506
-Task_AllocFail_0506:
+        .section .text.Task_AllocFail_000506, "ax", @progbits
+        .global Task_AllocFail_000506
+Task_AllocFail_000506:
         lea     0x1009e0.l,a0                   | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  Task_InstallHandler_0000050E  @ $00050E  (10 B)
+|  Task_AllocAndMarkBusy_00050e  @ $00050E  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Task_InstallHandler_0000050E, "ax", @progbits
-        .global Task_InstallHandler_0000050E
-Task_InstallHandler_0000050E:
+        .section .text.Task_AllocAndMarkBusy_00050e, "ax", @progbits
+        .global Task_AllocAndMarkBusy_00050e
+Task_AllocAndMarkBusy_00050e:
         bsr.b   Task_AllocFromFreeList__L0004c6 | +000
         bset    #0x0,0x12(a0)                   | +002
         rts                                     | +008
 
 | ----------------------------------------------------------------------------
-|  EmptyEntity_Init_00076A  @ $00076A  (8 B)
+|  Entity_AllocFail_00076a  @ $00076A  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.EmptyEntity_Init_00076A, "ax", @progbits
-        .global EmptyEntity_Init_00076A
-EmptyEntity_Init_00076A:
+        .section .text.Entity_AllocFail_00076a, "ax", @progbits
+        .global Entity_AllocFail_00076a
+Entity_AllocFail_00076a:
         lea     0x1009e0.l,a0                   | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0007b2  @ $0007B2  (14 B)
+|  Entity_IsMagic52A_0007b2  @ $0007B2  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0007b2, "ax", @progbits
-        .global TaskHandler_0007b2
-TaskHandler_0007b2:
+        .section .text.Entity_IsMagic52A_0007b2, "ax", @progbits
+        .global Entity_IsMagic52A_0007b2
+Entity_IsMagic52A_0007b2:
         movea.l 0xc(a6),a0                      | +000
         cmpi.l  #0x52a,(a0)                     | +004
         beq.w   SetXN_0007c6                    | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0008a4  @ $0008A4  (50 B)
+|  Bios_TrapF_CalendarSeq_0008a4  @ $0008A4  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0008a4, "ax", @progbits
-        .global TaskHandler_0008a4
-TaskHandler_0008a4:
+        .section .text.Bios_TrapF_CalendarSeq_0008a4, "ax", @progbits
+        .global Bios_TrapF_CalendarSeq_0008a4
+Bios_TrapF_CalendarSeq_0008a4:
         move.w  #0x1234,d0                      | +000
         move.w  #0xa,d1                         | +004
         trap    #0xf                            | +008
@@ -91,26 +166,26 @@ TaskHandler_0008a4:
         trap    #0xf                            | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0012f4  @ $0012F4  (44 B)
+|  BootScr_GameOver_0012f4  @ $0012F4  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0012f4, "ax", @progbits
-        .global TaskHandler_0012f4
-TaskHandler_0012f4:
+        .section .text.BootScr_GameOver_0012f4, "ax", @progbits
+        .global BootScr_GameOver_0012f4
+BootScr_GameOver_0012f4:
         jsr     0xc004c2.l                      | +000
         jsr     0x52712.l                       | +006
         lea     0x8f91a.l,a1                    | +00c
         jsr     0x4ae.l                         | +012
         move.b  #0xff,0x106ece.l                | +018
         move.b  #0xff,0x106ecf.l                | +020
-        jsr     PcThunkTarget_001af8(pc)        | +028
+        jsr     Attract_StartIfP2Flag_001af8(pc) | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001332  @ $001332  (28 B)
+|  BootScr_WaitHudThenLoop_001332  @ $001332  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001332, "ax", @progbits
-        .global TaskHandler_001332
-TaskHandler_001332:
-        bsr.w   Sub_00001DB8                    | +000
+        .section .text.BootScr_WaitHudThenLoop_001332, "ax", @progbits
+        .global BootScr_WaitHudThenLoop_001332
+BootScr_WaitHudThenLoop_001332:
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8 | +000
         tst.b   0x106ed2.l                      | +004
         beq.w   .L001344                        | +00a
         bra.w   JsrPcThunk_00134e               | +00e
@@ -119,29 +194,29 @@ TaskHandler_001332:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001354  @ $001354  (10 B)
+|  BootScr_Clr13d2a_001354  @ $001354  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001354, "ax", @progbits
-        .global TaskHandler_001354
-TaskHandler_001354:
+        .section .text.BootScr_Clr13d2a_001354, "ax", @progbits
+        .global BootScr_Clr13d2a_001354
+BootScr_Clr13d2a_001354:
         jsr     0x13d2a.l                       | +000
         bra.w   SchedulerDispatch_LoopB_000FE0  | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_00135e  @ $00135E  (10 B)
+|  BootScr_SetFF13d20_00135e  @ $00135E  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_00135e, "ax", @progbits
-        .global TaskHandler_00135e
-TaskHandler_00135e:
+        .section .text.BootScr_SetFF13d20_00135e, "ax", @progbits
+        .global BootScr_SetFF13d20_00135e
+BootScr_SetFF13d20_00135e:
         jsr     0x13d20.l                       | +000
         bra.w   SchedulerDispatch_LoopB_000FE0  | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001368  @ $001368  (94 B)
+|  BootScr_Mission_Start_001368  @ $001368  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001368, "ax", @progbits
-        .global TaskHandler_001368
-TaskHandler_001368:
+        .section .text.BootScr_Mission_Start_001368, "ax", @progbits
+        .global BootScr_Mission_Start_001368
+BootScr_Mission_Start_001368:
         jsr     0xc004c2.l                      | +000
         jsr     0x52712.l                       | +006
         jsr     0x212e.l                        | +00c
@@ -161,12 +236,12 @@ TaskHandler_001368:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0013c6  @ $0013C6  (78 B)
+|  BootScr_Mission_WaitStart_0013c6  @ $0013C6  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0013c6, "ax", @progbits
-        .global TaskHandler_0013c6
-TaskHandler_0013c6:
-        bsr.w   Sub_00001DB8                    | +000
+        .section .text.BootScr_Mission_WaitStart_0013c6, "ax", @progbits
+        .global BootScr_Mission_WaitStart_0013c6
+BootScr_Mission_WaitStart_0013c6:
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8 | +000
         tst.b   0x106ed2.l                      | +004
         beq.w   .L00140c                        | +00a
         jsr     0x138e6.l                       | +00e
@@ -187,19 +262,19 @@ TaskHandler_0013c6:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001414  @ $001414  (2 B)
+|  BootScr_Nop_001414  @ $001414  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001414, "ax", @progbits
-        .global TaskHandler_001414
-TaskHandler_001414:
+        .section .text.BootScr_Nop_001414, "ax", @progbits
+        .global BootScr_Nop_001414
+BootScr_Nop_001414:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001416  @ $001416  (34 B)
+|  BootScr_Message_Prepare_001416  @ $001416  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001416, "ax", @progbits
-        .global TaskHandler_001416
-TaskHandler_001416:
+        .section .text.BootScr_Message_Prepare_001416, "ax", @progbits
+        .global BootScr_Message_Prepare_001416
+BootScr_Message_Prepare_001416:
         jsr     0xc004c2.l                      | +000
         jsr     0x46ac6.l                       | +006
         clr.b   0x106ed0.l                      | +00c
@@ -208,12 +283,12 @@ TaskHandler_001416:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001438  @ $001438  (26 B)
+|  BootScr_Message_WaitRun_001438  @ $001438  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001438, "ax", @progbits
-        .global TaskHandler_001438
-TaskHandler_001438:
-        bsr.w   Sub_00001DB8                    | +000
+        .section .text.BootScr_Message_WaitRun_001438, "ax", @progbits
+        .global BootScr_Message_WaitRun_001438
+BootScr_Message_WaitRun_001438:
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8 | +000
         tst.b   0x106ed2.l                      | +004
         bne.w   .L001450                        | +00a
         jsr     0x44236.l                       | +00e
@@ -222,11 +297,11 @@ TaskHandler_001438:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001452  @ $001452  (138 B)
+|  BootScr_MsgSelect_Dispatch_001452  @ $001452  (138 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001452, "ax", @progbits
-        .global TaskHandler_001452
-TaskHandler_001452:
+        .section .text.BootScr_MsgSelect_Dispatch_001452, "ax", @progbits
+        .global BootScr_MsgSelect_Dispatch_001452
+BootScr_MsgSelect_Dispatch_001452:
         move.w  0x10007c.l,d0                   | +000
         addq.w  #0x1,d0                         | +006
         move.w  d0,0x10007c.l                   | +008
@@ -251,22 +326,22 @@ TaskHandler_001452:
         bra.w   Sub_00000FC6                    | +058
         move.b  #0x0,0x106ed0.l                 | +05c
         jsr     0xc004c2.l                      | +064
-        bsr.w   Sub_000014F4                    | +06a
+        bsr.w   BootMsg_DrawRow_0014f4          | +06a
         bra.w   SchedulerDispatch_LoopB_000FE0  | +06e
         jsr     0x5ce26.l                       | +072
         bcc.w   .L0014d2                        | +078
-        bsr.w   Sub_000014DC                    | +07c
+        bsr.w   BootMsg_AdvanceIndex_0014dc     | +07c
 .L0014d2:
         jsr     0x5ce14.l                       | +080
         bcs.b   .L001482                        | +086
         rts                                     | +088
 
 | ----------------------------------------------------------------------------
-|  Sub_000014DC  @ $0014DC  (24 B)
+|  BootMsg_AdvanceIndex_0014dc  @ $0014DC  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000014DC, "ax", @progbits
-        .global Sub_000014DC
-Sub_000014DC:
+        .section .text.BootMsg_AdvanceIndex_0014dc, "ax", @progbits
+        .global BootMsg_AdvanceIndex_0014dc
+BootMsg_AdvanceIndex_0014dc:
         move.b  0x106ed0.l,d0                   | +000
         addq.b  #0x1,d0                         | +006
         cmpi.b  #0x10,d0                        | +008
@@ -276,28 +351,28 @@ Sub_000014DC:
         move.b  d0,0x106ed0.l                   | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_000014F4  @ $0014F4  (32 B)
+|  BootMsg_DrawRow_0014f4  @ $0014F4  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000014F4, "ax", @progbits
-        .global Sub_000014F4
-Sub_000014F4:
+        .section .text.BootMsg_DrawRow_0014f4, "ax", @progbits
+        .global BootMsg_DrawRow_0014f4
+BootMsg_DrawRow_0014f4:
         moveq   #0,d0                           | +000
         move.b  0x106ed0.l,d0                   | +002
         lea     BootDispatchTable_000B92__L000c0a(pc),a0 | +008
         lsl.w   #0x3,d0                         | +00c
         move.l  0x4(a0,d0.w),d1                 | +00e
-        bmi.b   Sub_000014DC                    | +012
+        bmi.b   BootMsg_AdvanceIndex_0014dc     | +012
         movea.l d1,a0                           | +014
         moveq   #0,d3                           | +016
         move.b  (a0),d3                         | +018
         jmp     0x5eae4.l                       | +01a
 
 | ----------------------------------------------------------------------------
-|  Data_001514  @ $001514  (18 B)
+|  BootMsg_RowIds_001514  @ $001514  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_001514, "ax", @progbits
-        .global Data_001514
-Data_001514:
+        .section .text.BootMsg_RowIds_001514, "ax", @progbits
+        .global BootMsg_RowIds_001514
+BootMsg_RowIds_001514:
         .dc.b   0x0a                          | +000  '.'  (dato, rango --data)
         .dc.b   0x0b                          | +001  '.'  (dato, rango --data)
         .dc.b   0x0c                          | +002  '.'  (dato, rango --data)
@@ -318,11 +393,11 @@ Data_001514:
         .dc.b   0x00                          | +011  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001526  @ $001526  (30 B)
+|  BootScr_MemCardSave_001526  @ $001526  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001526, "ax", @progbits
-        .global TaskHandler_001526
-TaskHandler_001526:
+        .section .text.BootScr_MemCardSave_001526, "ax", @progbits
+        .global BootScr_MemCardSave_001526
+BootScr_MemCardSave_001526:
         jsr     0xc004c2.l                      | +000
         jsr     0x46ac6.l                       | +006
         move.b  #0x1,0x106ed2.l                 | +00c
@@ -330,36 +405,36 @@ TaskHandler_001526:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001544  @ $001544  (16 B)
+|  BootScr_WaitHudDirty_001544  @ $001544  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001544, "ax", @progbits
-        .global TaskHandler_001544
-TaskHandler_001544:
-        bsr.w   Sub_00001DB8                    | +000
+        .section .text.BootScr_WaitHudDirty_001544, "ax", @progbits
+        .global BootScr_WaitHudDirty_001544
+BootScr_WaitHudDirty_001544:
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8 | +000
         tst.b   0x106ed2.l                      | +004
         beq.w   SchedulerDispatch_LoopB_000FE0  | +00a
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001554  @ $001554  (18 B)
+|  BootScr_MsgNext_Snapshot_001554  @ $001554  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001554, "ax", @progbits
-        .global TaskHandler_001554
-TaskHandler_001554:
+        .section .text.BootScr_MsgNext_Snapshot_001554, "ax", @progbits
+        .global BootScr_MsgNext_Snapshot_001554
+BootScr_MsgNext_Snapshot_001554:
         addi.b  #0x1,0x106ed0.l                 | +000
         jsr     0x516ba.l                       | +008
         jmp     SchedulerDispatch_LoopB_000FE0(pc) | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001566  @ $001566  (56 B)
+|  BootScr_SoundTest_001566  @ $001566  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001566, "ax", @progbits
-        .global TaskHandler_001566
-TaskHandler_001566:
+        .section .text.BootScr_SoundTest_001566, "ax", @progbits
+        .global BootScr_SoundTest_001566
+BootScr_SoundTest_001566:
         jsr     0x44036.l                       | +000
-        jsr     PcThunkTarget_001E1C(pc)        | +006
+        jsr     Scratch_AllocZero_001e1c(pc)    | +006
         jsr     0x52712.l                       | +00a
-        bsr.w   Sub_00001DA4                    | +010
+        bsr.w   Task_InstallBootSlots_001da4    | +010
         jsr     0xc004c2.l                      | +014
         jsr     0x46ac6.l                       | +01a
         lea     0x7a456.l,a1                    | +020
@@ -368,12 +443,12 @@ TaskHandler_001566:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_00159e  @ $00159E  (24 B)
+|  BootScr_SoundTest_Wait_00159e  @ $00159E  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_00159e, "ax", @progbits
-        .global TaskHandler_00159e
-TaskHandler_00159e:
-        bsr.w   Sub_00001DB8                    | +000
+        .section .text.BootScr_SoundTest_Wait_00159e, "ax", @progbits
+        .global BootScr_SoundTest_Wait_00159e
+BootScr_SoundTest_Wait_00159e:
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8 | +000
         jsr     0x5d288.l                       | +004
         bcs.w   .L0015ae                        | +00a
         rts                                     | +00e
@@ -382,16 +457,16 @@ TaskHandler_00159e:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0015b6  @ $0015B6  (62 B)
+|  BootScr_Ending_0015b6  @ $0015B6  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0015b6, "ax", @progbits
-        .global TaskHandler_0015b6
-TaskHandler_0015b6:
+        .section .text.BootScr_Ending_0015b6, "ax", @progbits
+        .global BootScr_Ending_0015b6
+BootScr_Ending_0015b6:
         jsr     0xc004c2.l                      | +000
         jsr     0x46ac6.l                       | +006
-        bsr.w   PcThunkTarget_001E1C            | +00c
+        bsr.w   Scratch_AllocZero_001e1c        | +00c
         jsr     0x52712.l                       | +010
-        bsr.w   Sub_00001DA4                    | +016
+        bsr.w   Task_InstallBootSlots_001da4    | +016
         clr.b   0x20(a6)                        | +01a
         move.b  #0xff,0x106ed2.l                | +01e
         move.b  #0xd,0x106ece.l                 | +026
@@ -400,22 +475,22 @@ TaskHandler_0015b6:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0015f4  @ $0015F4  (16 B)
+|  BootScr_Ending_WaitFlag20_0015f4  @ $0015F4  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0015f4, "ax", @progbits
-        .global TaskHandler_0015f4
-TaskHandler_0015f4:
+        .section .text.BootScr_Ending_WaitFlag20_0015f4, "ax", @progbits
+        .global BootScr_Ending_WaitFlag20_0015f4
+BootScr_Ending_WaitFlag20_0015f4:
         move.b  #0x2,0x45(a6)                   | +000
         tst.b   0x20(a6)                        | +006
         bne.w   SchedulerDispatch_LoopB_000FE0  | +00a
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001604  @ $001604  (56 B)
+|  BootScr_Ending_SelectBranch_001604  @ $001604  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001604, "ax", @progbits
-        .global TaskHandler_001604
-TaskHandler_001604:
+        .section .text.BootScr_Ending_SelectBranch_001604, "ax", @progbits
+        .global BootScr_Ending_SelectBranch_001604
+BootScr_Ending_SelectBranch_001604:
         move.b  #0x2,0x45(a6)                   | +000
         jsr     0x5174c.l                       | +006
         bcc.w   .L00161c                        | +00c
@@ -428,15 +503,15 @@ TaskHandler_001604:
         lea     BootDispatchTable_000B92__L000d76(pc),a0 | +028
 .L001630:
         move.l  a0,0x70(a6)                     | +02c
-        bsr.w   Sub_00001DA4                    | +030
+        bsr.w   Task_InstallBootSlots_001da4    | +030
         bra.w   Sub_00000FC6                    | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_00163c  @ $00163C  (134 B)
+|  BootScr_SceneBCD_Init_00163c  @ $00163C  (134 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_00163c, "ax", @progbits
-        .global TaskHandler_00163c
-TaskHandler_00163c:
+        .section .text.BootScr_SceneBCD_Init_00163c, "ax", @progbits
+        .global BootScr_SceneBCD_Init_00163c
+BootScr_SceneBCD_Init_00163c:
         move.b  #0xb,0x106ece.l                 | +000
         lea     0x100260.l,a0                   | +008
         move.l  #0x8ce64,(a0)                   | +00e
@@ -457,29 +532,29 @@ TaskHandler_00163c:
         jsr     0x52712.l                       | +062
         move.b  #0xff,0x106ecf.l                | +068
         move.b  #0xff,0x106ed2.l                | +070
-        bsr.w   PcThunkTarget_001DCC            | +078
+        bsr.w   Task_InstallMissionSlots_001dcc | +078
         jsr     0x46ac6.l                       | +07c
         bra.w   SchedulerDispatch_LoopB_000FE0  | +082
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0016c2  @ $0016C2  (16 B)
+|  BootScr_SetFlags44_45_0016c2  @ $0016C2  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0016c2, "ax", @progbits
-        .global TaskHandler_0016c2
-TaskHandler_0016c2:
+        .section .text.BootScr_SetFlags44_45_0016c2, "ax", @progbits
+        .global BootScr_SetFlags44_45_0016c2
+BootScr_SetFlags44_45_0016c2:
         move.b  #0x2,0x45(a6)                   | +000
         move.b  #0x2,0x44(a6)                   | +006
         bra.w   Attract_PostStart_Cleanup_001AB6__L001adc | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0016d2  @ $0016D2  (46 B)
+|  BootScr_CutFade_0016d2  @ $0016D2  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0016d2, "ax", @progbits
-        .global TaskHandler_0016d2
-TaskHandler_0016d2:
+        .section .text.BootScr_CutFade_0016d2, "ax", @progbits
+        .global BootScr_CutFade_0016d2
+BootScr_CutFade_0016d2:
         jsr     0xc004c2.l                      | +000
-        bsr.w   PcThunkTarget_001E1C            | +006
-        bsr.w   Sub_00001DA4                    | +00a
+        bsr.w   Scratch_AllocZero_001e1c        | +006
+        bsr.w   Task_InstallBootSlots_001da4    | +00a
         move.b  #0xff,0x106ed2.l                | +00e
         move.b  #0xff,0x106ece.l                | +016
         lea     0x8c956.l,a1                    | +01e
@@ -487,13 +562,13 @@ TaskHandler_0016d2:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001700  @ $001700  (46 B)
+|  BootScr_OptionsMenu_001700  @ $001700  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001700, "ax", @progbits
-        .global TaskHandler_001700
-TaskHandler_001700:
+        .section .text.BootScr_OptionsMenu_001700, "ax", @progbits
+        .global BootScr_OptionsMenu_001700
+BootScr_OptionsMenu_001700:
         jsr     0xc004c2.l                      | +000
-        bsr.w   Sub_00001DB8                    | +006
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8 | +006
         jsr     0x52712.l                       | +00a
         lea     0x99ba6.l,a1                    | +010
         jsr     0x4ae.l                         | +016
@@ -502,11 +577,11 @@ TaskHandler_001700:
         bra.w   SchedulerDispatch_LoopB_000FE0  | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_00172e  @ $00172E  (22 B)
+|  BootScr_WaitHudThenWalk_00172e  @ $00172E  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_00172e, "ax", @progbits
-        .global TaskHandler_00172e
-TaskHandler_00172e:
+        .section .text.BootScr_WaitHudThenWalk_00172e, "ax", @progbits
+        .global BootScr_WaitHudThenWalk_00172e
+BootScr_WaitHudThenWalk_00172e:
         tst.b   0x106ed2.l                      | +000
         bne.w   .L001742                        | +006
         jsr     0x5b6.l                         | +00a
@@ -515,11 +590,11 @@ TaskHandler_00172e:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_001af8  @ $001AF8  (28 B)
+|  Attract_StartIfP2Flag_001af8  @ $001AF8  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_001af8, "ax", @progbits
-        .global PcThunkTarget_001af8
-PcThunkTarget_001af8:
+        .section .text.Attract_StartIfP2Flag_001af8, "ax", @progbits
+        .global Attract_StartIfP2Flag_001af8
+Attract_StartIfP2Flag_001af8:
         move.b  0x10fdaf.l,d0                   | +000
         cmpi.b  #0x2,d0                         | +006
         bne.w   SetHandlerRts_001b1a            | +00a
@@ -528,11 +603,11 @@ PcThunkTarget_001af8:
         jsr     0x24fec.l                       | +016
 
 | ----------------------------------------------------------------------------
-|  Sub_00001B1C  @ $001B1C  (36 B)
+|  Players_CountActive_001b1c  @ $001B1C  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00001B1C, "ax", @progbits
-        .global Sub_00001B1C
-Sub_00001B1C:
+        .section .text.Players_CountActive_001b1c, "ax", @progbits
+        .global Players_CountActive_001b1c
+Players_CountActive_001b1c:
         move.w  #0x0,-(a7)                      | +000
         moveq   #0,d0                           | +004
         jsr     0x5e3a2.l                       | +006
@@ -548,21 +623,21 @@ Sub_00001B1C:
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001b40  @ $001B40  (12 B)
+|  Players_StoreActiveCount_001b40  @ $001B40  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001b40, "ax", @progbits
-        .global TaskHandler_001b40
-TaskHandler_001b40:
-        jsr     Sub_00001B1C(pc)                | +000
+        .section .text.Players_StoreActiveCount_001b40, "ax", @progbits
+        .global Players_StoreActiveCount_001b40
+Players_StoreActiveCount_001b40:
+        jsr     Players_CountActive_001b1c(pc)  | +000
         move.b  d0,0x106ed1.l                   | +004
         rts                                     | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001b4c  @ $001B4C  (28 B)
+|  Rank_DelayStart_001b4c  @ $001B4C  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001b4c, "ax", @progbits
-        .global TaskHandler_001b4c
-TaskHandler_001b4c:
+        .section .text.Rank_DelayStart_001b4c, "ax", @progbits
+        .global Rank_DelayStart_001b4c
+Rank_DelayStart_001b4c:
         jsr     0x79970.l                       | +000
         move.w  d0,0x106e92.l                   | +006
         move.b  #0xff,d1                        | +00c
@@ -570,21 +645,21 @@ TaskHandler_001b4c:
         move.w  #0x5a,0x30(a6)                  | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001b70  @ $001B70  (8 B)
+|  Rank_DelayTick_001b70  @ $001B70  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001b70, "ax", @progbits
-        .global TaskHandler_001b70
-TaskHandler_001b70:
+        .section .text.Rank_DelayTick_001b70, "ax", @progbits
+        .global Rank_DelayTick_001b70
+Rank_DelayTick_001b70:
         subq.w  #0x1,0x30(a6)                   | +000
         bne.w   SetHandlerRts_001b7e            | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001b80  @ $001B80  (74 B)
+|  Rank_DelayGate_001b80  @ $001B80  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001b80, "ax", @progbits
-        .global TaskHandler_001b80
-TaskHandler_001b80:
-        jsr     TaskHandler_001cac(pc)          | +000
+        .section .text.Rank_DelayGate_001b80, "ax", @progbits
+        .global Rank_DelayGate_001b80
+Rank_DelayGate_001b80:
+        jsr     Players_StartMask_Probe_001cac(pc) | +000
         bcs.w   Handler_TimerAndReplace_001BCA__L001c32 | +004
         tst.b   0x106ed3.l                      | +008
         beq.w   Handler_TimerAndReplace_001BCA__L001c32 | +00e
@@ -602,20 +677,20 @@ TaskHandler_001b80:
         bne.w   Handler_TimerAndReplace_001BCA__L001bde | +046
 
 | ----------------------------------------------------------------------------
-|  Sub_00001C34  @ $001C34  (8 B)
+|  Timer_WaitFlag21_001c34  @ $001C34  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00001C34, "ax", @progbits
-        .global Sub_00001C34
-Sub_00001C34:
+        .section .text.Timer_WaitFlag21_001c34, "ax", @progbits
+        .global Timer_WaitFlag21_001c34
+Timer_WaitFlag21_001c34:
         tst.b   0x21(a6)                        | +000
         bne.w   SetHandlerRts_001c42            | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001C44  @ $001C44  (68 B)
+|  Banner_DelayThenStart_001c44  @ $001C44  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001C44, "ax", @progbits
-        .global TaskHandler_001C44
-TaskHandler_001C44:
+        .section .text.Banner_DelayThenStart_001c44, "ax", @progbits
+        .global Banner_DelayThenStart_001c44
+Banner_DelayThenStart_001c44:
         cmpi.b  #0x2,0x10fdaf.l                 | +000
         beq.w   .L001c56                        | +008
         jmp     0x518.l                         | +00c
@@ -636,11 +711,11 @@ TaskHandler_001C44:
         rts                                     | +042
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_001C88  @ $001C88  (36 B)
+|  Hud_Delay1200_ClearDirty_001c88  @ $001C88  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_001C88, "ax", @progbits
-        .global PcThunkTarget_001C88
-PcThunkTarget_001C88:
+        .section .text.Hud_Delay1200_ClearDirty_001c88, "ax", @progbits
+        .global Hud_Delay1200_ClearDirty_001c88
+Hud_Delay1200_ClearDirty_001c88:
         move.w  #0x4b0,0x22(a6)                 | +000
         lea     .L001c94(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -653,11 +728,11 @@ PcThunkTarget_001C88:
         rts                                     | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001cac  @ $001CAC  (28 B)
+|  Players_StartMask_Probe_001cac  @ $001CAC  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001cac, "ax", @progbits
-        .global TaskHandler_001cac
-TaskHandler_001cac:
+        .section .text.Players_StartMask_Probe_001cac, "ax", @progbits
+        .global Players_StartMask_Probe_001cac
+Players_StartMask_Probe_001cac:
         lea     0x10fdb6.l,a0                   | +000
         move.b  (a0),d0                         | +006
         move.b  0x1(a0),d2                      | +008
@@ -667,11 +742,11 @@ TaskHandler_001cac:
         beq.w   ClearXN_001cce                  | +018
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_001D3C  @ $001D3C  (96 B)
+|  Task_ResetAllSlots_001d3c  @ $001D3C  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_001D3C, "ax", @progbits
-        .global PcThunkTarget_001D3C
-PcThunkTarget_001D3C:
+        .section .text.Task_ResetAllSlots_001d3c, "ax", @progbits
+        .global Task_ResetAllSlots_001d3c
+Task_ResetAllSlots_001d3c:
         lea     0x100260.l,a0                   | +000
         jsr     0x626.l                         | +006
         lea     0x100800.l,a0                   | +00c
@@ -690,32 +765,32 @@ PcThunkTarget_001D3C:
         jsr     0x5da.l                         | +05a
 
 | ----------------------------------------------------------------------------
-|  Sub_00001DA4  @ $001DA4  (20 B)
+|  Task_InstallBootSlots_001da4  @ $001DA4  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00001DA4, "ax", @progbits
-        .global Sub_00001DA4
-Sub_00001DA4:
+        .section .text.Task_InstallBootSlots_001da4, "ax", @progbits
+        .global Task_InstallBootSlots_001da4
+Task_InstallBootSlots_001da4:
         lea     ScriptSlotPairTable_0009B4__L0009fa(pc),a0 | +000
         jsr     0x2aec.l                        | +004
         lea     ScriptSlotPairTable_0009B4(pc),a0 | +00a
         jmp     0x2b58.l                        | +00e
 
 | ----------------------------------------------------------------------------
-|  Sub_00001DB8  @ $001DB8  (20 B)
+|  Hud_DrawCreditsAndOverlay_001db8  @ $001DB8  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00001DB8, "ax", @progbits
-        .global Sub_00001DB8
-Sub_00001DB8:
+        .section .text.Hud_DrawCreditsAndOverlay_001db8, "ax", @progbits
+        .global Hud_DrawCreditsAndOverlay_001db8
+Hud_DrawCreditsAndOverlay_001db8:
         move.b  #0x5,0x1081be.l                 | +000
         jsr     0x52050.l                       | +008
         jmp     0x5223a.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_001DCC  @ $001DCC  (54 B)
+|  Task_InstallMissionSlots_001dcc  @ $001DCC  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_001DCC, "ax", @progbits
-        .global PcThunkTarget_001DCC
-PcThunkTarget_001DCC:
+        .section .text.Task_InstallMissionSlots_001dcc, "ax", @progbits
+        .global Task_InstallMissionSlots_001dcc
+Task_InstallMissionSlots_001dcc:
         lea     0x1008a0.l,a0                   | +000
         move.l  #0x5ea96,(a0)                   | +006
         jsr     0x5fe.l                         | +00c
@@ -727,32 +802,32 @@ PcThunkTarget_001DCC:
         lea     0x5efca.l,a1                    | +030
 
 | ----------------------------------------------------------------------------
-|  Sub_00001E0A  @ $001E0A  (18 B)
+|  Set106ECC_CD_001e0a  @ $001E0A  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00001E0A, "ax", @progbits
-        .global Sub_00001E0A
-Sub_00001E0A:
+        .section .text.Set106ECC_CD_001e0a, "ax", @progbits
+        .global Set106ECC_CD_001e0a
+Set106ECC_CD_001e0a:
         move.b  #0x1,0x106ecc.l                 | +000
         move.b  #0x1,0x106ecd.l                 | +008
         rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_001E1C  @ $001E1C  (12 B)
+|  Scratch_AllocZero_001e1c  @ $001E1C  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_001E1C, "ax", @progbits
-        .global PcThunkTarget_001E1C
-PcThunkTarget_001E1C:
+        .section .text.Scratch_AllocZero_001e1c, "ax", @progbits
+        .global Scratch_AllocZero_001e1c
+Scratch_AllocZero_001e1c:
         clr.w   d0                              | +000
         clr.w   d1                              | +002
         clr.w   d2                              | +004
         jmp     0x1390e.l                       | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001e28  @ $001E28  (24 B)
+|  Player1_DeadOrPaused_Check_001e28  @ $001E28  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001e28, "ax", @progbits
-        .global TaskHandler_001e28
-TaskHandler_001e28:
+        .section .text.Player1_DeadOrPaused_Check_001e28, "ax", @progbits
+        .global Player1_DeadOrPaused_Check_001e28
+Player1_DeadOrPaused_Check_001e28:
         lea     0x1001c0.l,a0                   | +000
         tst.b   0x45(a0)                        | +006
         bne.w   ClearC_001e46                   | +00a
@@ -760,29 +835,29 @@ TaskHandler_001e28:
         bne.w   ClearC_001e46                   | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001e4c  @ $001E4C  (10 B)
+|  Set106ED6_FF_001e4c  @ $001E4C  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001e4c, "ax", @progbits
-        .global TaskHandler_001e4c
-TaskHandler_001e4c:
+        .section .text.Set106ED6_FF_001e4c, "ax", @progbits
+        .global Set106ED6_FF_001e4c
+Set106ED6_FF_001e4c:
         move.b  #0xff,0x106ed6.l                | +000
         rts                                     | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001e56  @ $001E56  (8 B)
+|  Store106EDA_001e56  @ $001E56  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001e56, "ax", @progbits
-        .global TaskHandler_001e56
-TaskHandler_001e56:
+        .section .text.Store106EDA_001e56, "ax", @progbits
+        .global Store106EDA_001e56
+Store106EDA_001e56:
         move.b  d0,0x106eda.l                   | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001efe  @ $001EFE  (76 B)
+|  Deferred_RunQueue_001efe  @ $001EFE  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001efe, "ax", @progbits
-        .global TaskHandler_001efe
-TaskHandler_001efe:
+        .section .text.Deferred_RunQueue_001efe, "ax", @progbits
+        .global Deferred_RunQueue_001efe
+Deferred_RunQueue_001efe:
         move.w  0x106ee4.l,d0                   | +000
         move.w  d0,-(a7)                        | +006
 .L001f06:
@@ -808,11 +883,11 @@ TaskHandler_001efe:
         rts                                     | +04a
 
 | ----------------------------------------------------------------------------
-|  Fn_00001F4A  @ $001F4A  (58 B)
+|  Deferred_Push_001f4a  @ $001F4A  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_00001F4A, "ax", @progbits
-        .global Fn_00001F4A
-Fn_00001F4A:
+        .section .text.Deferred_Push_001f4a, "ax", @progbits
+        .global Deferred_Push_001f4a
+Deferred_Push_001f4a:
         move.b  0x106f27.l,d0                   | +000
         addq.b  #0x1,d0                         | +006
         cmpi.b  #0x8,d0                         | +008
@@ -832,11 +907,11 @@ Fn_00001F4A:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_001f84  @ $001F84  (276 B)
+|  VBlank_FrameLoop_001f84  @ $001F84  (276 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_001f84, "ax", @progbits
-        .global TaskHandler_001f84
-TaskHandler_001f84:
+        .section .text.VBlank_FrameLoop_001f84, "ax", @progbits
+        .global VBlank_FrameLoop_001f84
+VBlank_FrameLoop_001f84:
         move.b  #0x0,0x106f2a.l                 | +000
         move.b  #0x3,0x106f2b.l                 | +008
         clr.b   0x12(a6)                        | +010
@@ -893,11 +968,11 @@ TaskHandler_001f84:
         rts                                     | +112
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_002098  @ $002098  (66 B)
+|  VBlank_RenderFrame_002098  @ $002098  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_002098, "ax", @progbits
-        .global TaskHandler_002098
-TaskHandler_002098:
+        .section .text.VBlank_RenderFrame_002098, "ax", @progbits
+        .global VBlank_RenderFrame_002098
+VBlank_RenderFrame_002098:
         clr.b   0x12(a6)                        | +000
         clr.b   0x13(a6)                        | +004
         clr.b   0x5b(a6)                        | +008
@@ -913,11 +988,11 @@ TaskHandler_002098:
         movea.l (a7)+,a6                        | +040
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0021a6  @ $0021A6  (124 B)
+|  Sound_PushCommandFiltered_0021a6  @ $0021A6  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0021a6, "ax", @progbits
-        .global TaskHandler_0021a6
-TaskHandler_0021a6:
+        .section .text.Sound_PushCommandFiltered_0021a6, "ax", @progbits
+        .global Sound_PushCommandFiltered_0021a6
+Sound_PushCommandFiltered_0021a6:
         cmpi.b  #0x20,d0                        | +000
         bcc.w   .L0021b0                        | +004
         rts                                     | +008
@@ -958,11 +1033,11 @@ TaskHandler_0021a6:
         bra.w   InputQueue_InitAndPushOp4_00212E__L002152 | +078
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_002222  @ $002222  (14 B)
+|  Sound_Push0C_ThenClamp_002222  @ $002222  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_002222, "ax", @progbits
-        .global TaskHandler_002222
-TaskHandler_002222:
+        .section .text.Sound_Push0C_ThenClamp_002222, "ax", @progbits
+        .global Sound_Push0C_ThenClamp_002222
+Sound_Push0C_ThenClamp_002222:
         move.w  d0,-(a7)                        | +000
         moveq   #12,d0                          | +002
         bsr.w   InputQueue_InitAndPushOp4_00212E__L002152 | +004
@@ -970,20 +1045,20 @@ TaskHandler_002222:
         bra.w   ClampD0ToRange                  | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_002230  @ $002230  (10 B)
+|  Sound_SetMute_002230  @ $002230  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_002230, "ax", @progbits
-        .global TaskHandler_002230
-TaskHandler_002230:
+        .section .text.Sound_SetMute_002230, "ax", @progbits
+        .global Sound_SetMute_002230
+Sound_SetMute_002230:
         move.b  #0xff,0x1081aa.l                | +000
         rts                                     | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_002242  @ $002242  (40 B)
+|  Sound_PollReply_002242  @ $002242  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_002242, "ax", @progbits
-        .global TaskHandler_002242
-TaskHandler_002242:
+        .section .text.Sound_PollReply_002242, "ax", @progbits
+        .global Sound_PollReply_002242
+Sound_PollReply_002242:
         move.b  0x1081a8.l,d0                   | +000
         cmp.b   0x1081a9.l,d0                   | +006
         beq.w   .L002264                        | +00c
@@ -997,11 +1072,11 @@ TaskHandler_002242:
         rts                                     | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_00226a  @ $00226A  (84 B)
+|  Sound_PumpQueue_00226a  @ $00226A  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_00226a, "ax", @progbits
-        .global TaskHandler_00226a
-TaskHandler_00226a:
+        .section .text.Sound_PumpQueue_00226a, "ax", @progbits
+        .global Sound_PumpQueue_00226a
+Sound_PumpQueue_00226a:
         tst.b   0x10007a.l                      | +000
         beq.w   .L002286                        | +006
         clr.b   0x10007a.l                      | +00a
@@ -1022,29 +1097,29 @@ TaskHandler_00226a:
         rts                                     | +052
 
 | ----------------------------------------------------------------------------
-|  Sub_000022C8  @ $0022C8  (6 B)
+|  Sound_Push06_0022c8  @ $0022C8  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000022C8, "ax", @progbits
-        .global Sub_000022C8
-Sub_000022C8:
+        .section .text.Sound_Push06_0022c8, "ax", @progbits
+        .global Sound_Push06_0022c8
+Sound_Push06_0022c8:
         moveq   #6,d0                           | +000
         bra.w   InputQueue_InitAndPushOp4_00212E__L002152 | +002
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0022ce  @ $0022CE  (6 B)
+|  Sound_Push05_0022ce  @ $0022CE  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0022ce, "ax", @progbits
-        .global TaskHandler_0022ce
-TaskHandler_0022ce:
+        .section .text.Sound_Push05_0022ce, "ax", @progbits
+        .global Sound_Push05_0022ce
+Sound_Push05_0022ce:
         moveq   #5,d0                           | +000
         bra.w   InputQueue_InitAndPushOp4_00212E__L002152 | +002
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0022d4  @ $0022D4  (52 B)
+|  Sound_PushPair07_08_0022d4  @ $0022D4  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0022d4, "ax", @progbits
-        .global TaskHandler_0022d4
-TaskHandler_0022d4:
+        .section .text.Sound_PushPair07_08_0022d4, "ax", @progbits
+        .global Sound_PushPair07_08_0022d4
+Sound_PushPair07_08_0022d4:
         addi.b  #0x20,d0                        | +000
         scs.b   d2                              | +004
         or.b    d2,d0                           | +006
@@ -1064,11 +1139,11 @@ TaskHandler_0022d4:
         bra.w   InputQueue_InitAndPushOp4_00212E__L002152 | +030
 
 | ----------------------------------------------------------------------------
-|  Sub_00002308  @ $002308  (34 B)
+|  Sound_Push0A_0B_002308  @ $002308  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00002308, "ax", @progbits
-        .global Sub_00002308
-Sub_00002308:
+        .section .text.Sound_Push0A_0B_002308, "ax", @progbits
+        .global Sound_Push0A_0B_002308
+Sound_Push0A_0B_002308:
         move.b  d0,-(a7)                        | +000
         move.b  #0xa,d0                         | +002
         bra.w   .L002318                        | +006
@@ -1083,11 +1158,11 @@ Sub_00002308:
         bra.w   InputQueue_InitAndPushOp4_00212E__L002152 | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_00232a  @ $00232A  (40 B)
+|  Sound_Push09_00_00232a  @ $00232A  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_00232a, "ax", @progbits
-        .global TaskHandler_00232a
-TaskHandler_00232a:
+        .section .text.Sound_Push09_00_00232a, "ax", @progbits
+        .global Sound_Push09_00_00232a
+Sound_Push09_00_00232a:
         move.b  d0,-(a7)                        | +000
         move.b  d1,-(a7)                        | +002
         move.b  #0x9,d0                         | +004
@@ -1103,11 +1178,11 @@ TaskHandler_00232a:
         bra.w   InputQueue_InitAndPushOp4_00212E__L002152 | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0029f2  @ $0029F2  (138 B)
+|  PalSlot_AllocDynamic_0029f2  @ $0029F2  (138 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0029f2, "ax", @progbits
-        .global TaskHandler_0029f2
-TaskHandler_0029f2:
+        .section .text.PalSlot_AllocDynamic_0029f2, "ax", @progbits
+        .global PalSlot_AllocDynamic_0029f2
+PalSlot_AllocDynamic_0029f2:
         cmpi.w  #0x3,0x1e(a6)                   | +000
         bge.w   .L002a7a                        | +006
         tst.w   0x1082c2.l                      | +00a
@@ -1144,11 +1219,11 @@ TaskHandler_0029f2:
         rts                                     | +088
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_002a7c  @ $002A7C  (220 B)
+|  PalSlot_LoadList_002a7c  @ $002A7C  (220 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_002a7c, "ax", @progbits
-        .global TaskHandler_002a7c
-TaskHandler_002a7c:
+        .section .text.PalSlot_LoadList_002a7c, "ax", @progbits
+        .global PalSlot_LoadList_002a7c
+PalSlot_LoadList_002a7c:
         move.w  (a0),d1                         | +000
         cmpi.w  #0xffff,d1                      | +002
         beq.w   .L002ad8                        | +006
@@ -1171,16 +1246,16 @@ TaskHandler_002a7c:
         move.b  (a0),(a1,d1.w)                  | +04e
         ori.b   #0x1,(a1,d1.w)                  | +052
         addq.l  #0x4,a0                         | +058
-        bra.b   TaskHandler_002a7c              | +05a
+        bra.b   PalSlot_LoadList_002a7c         | +05a
 .L002ad8:
         rts                                     | +05c
 .L002ada:
         clr.w   0x6(a1,d1.w)                    | +05e
         move.b  #0x40,(a1,d1.w)                 | +062
         addq.l  #0x4,a0                         | +068
-        bra.b   TaskHandler_002a7c              | +06a
-        .global TaskHandler_002a7c__L002ae8
-TaskHandler_002a7c__L002ae8:
+        bra.b   PalSlot_LoadList_002a7c         | +06a
+        .global PalSlot_LoadList_002a7c__L002ae8
+PalSlot_LoadList_002a7c__L002ae8:
 .L002ae8:
         trap    #0xf                            | +06c
         bra.b   .L002ae8                        | +06e
@@ -1218,11 +1293,11 @@ TaskHandler_002a7c__L002ae8:
         bra.b   .L002aec                        | +0da
 
 | ----------------------------------------------------------------------------
-|  Sub_00002B58  @ $002B58  (108 B)
+|  PalSlot_LoadListHi_002b58  @ $002B58  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00002B58, "ax", @progbits
-        .global Sub_00002B58
-Sub_00002B58:
+        .section .text.PalSlot_LoadListHi_002b58, "ax", @progbits
+        .global PalSlot_LoadListHi_002b58
+PalSlot_LoadListHi_002b58:
         move.w  (a0),d1                         | +000
         cmpi.w  #0xffff,d1                      | +002
         beq.w   .L002bb4                        | +006
@@ -1230,7 +1305,7 @@ Sub_00002B58:
         cmpi.w  #0xff,d1                        | +010
         beq.w   .L002b78                        | +014
         cmpi.w  #0x74,d1                        | +018
-        bgt.w   TaskHandler_002a7c__L002ae8     | +01c
+        bgt.w   PalSlot_LoadList_002a7c__L002ae8 | +01c
 .L002b78:
         lsl.w   #0x5,d1                         | +020
         lea     0x1082c8.l,a1                   | +022
@@ -1246,21 +1321,21 @@ Sub_00002B58:
         move.b  (a0),(a1,d1.w)                  | +04e
         ori.b   #0x1,(a1,d1.w)                  | +052
         addq.l  #0x4,a0                         | +058
-        bra.b   Sub_00002B58                    | +05a
+        bra.b   PalSlot_LoadListHi_002b58       | +05a
 .L002bb4:
         rts                                     | +05c
 .L002bb6:
         clr.w   0x6(a1,d1.w)                    | +05e
         move.b  #0x40,(a1,d1.w)                 | +062
         addq.l  #0x4,a0                         | +068
-        bra.b   Sub_00002B58                    | +06a
+        bra.b   PalSlot_LoadListHi_002b58       | +06a
 
 | ----------------------------------------------------------------------------
-|  Sub_00002BC4  @ $002BC4  (98 B)
+|  PalSlot_Release_002bc4  @ $002BC4  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00002BC4, "ax", @progbits
-        .global Sub_00002BC4
-Sub_00002BC4:
+        .section .text.PalSlot_Release_002bc4, "ax", @progbits
+        .global PalSlot_Release_002bc4
+PalSlot_Release_002bc4:
         movem.l d1-d3/a1-a2,-(a7)               | +000
         move.w  d1,d2                           | +004
         lsl.w   #0x5,d1                         | +006
@@ -1286,33 +1361,33 @@ Sub_00002BC4:
         rts                                     | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_002c66  @ $002C66  (16 B)
+|  PalSlot_SetBit3_002c66  @ $002C66  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_002c66, "ax", @progbits
-        .global TaskHandler_002c66
-TaskHandler_002c66:
+        .section .text.PalSlot_SetBit3_002c66, "ax", @progbits
+        .global PalSlot_SetBit3_002c66
+PalSlot_SetBit3_002c66:
         lea     0x1082c8.l,a1                   | +000
         lsl.w   #0x5,d1                         | +006
         ori.b   #0x8,(a1,d1.w)                  | +008
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_002c76  @ $002C76  (16 B)
+|  PalSlot_ClrBit3_002c76  @ $002C76  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_002c76, "ax", @progbits
-        .global TaskHandler_002c76
-TaskHandler_002c76:
+        .section .text.PalSlot_ClrBit3_002c76, "ax", @progbits
+        .global PalSlot_ClrBit3_002c76
+PalSlot_ClrBit3_002c76:
         lea     0x1082c8.l,a1                   | +000
         lsl.w   #0x5,d1                         | +006
         andi.b  #0xf7,(a1,d1.w)                 | +008
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_002c86  @ $002C86  (682 B)
+|  PalSlot_UpdateAll_002c86  @ $002C86  (682 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_002c86, "ax", @progbits
-        .global TaskHandler_002c86
-TaskHandler_002c86:
+        .section .text.PalSlot_UpdateAll_002c86, "ax", @progbits
+        .global PalSlot_UpdateAll_002c86
+PalSlot_UpdateAll_002c86:
         cmpi.b  #0xff,0x10a2d2.l                | +000
         beq.w   .L002c9e                        | +008
         lea     0x1387e.l,a0                    | +00c
@@ -1469,7 +1544,7 @@ TaskHandler_002c86:
         addq.l  #0x1,a2                         | +25a
         jsr     0x13694.l                       | +25c
         add.w   d4,d4                           | +262
-        move.w  TaskHandler_002c86+0x2aa(pc,d4.l),d4 | +264  -> $002F30 (hueco futuro, defsym forward)
+        move.w  PalSlot_UpdateAll_002c86+0x2aa(pc,d4.l),d4 | +264  -> $002F30 (hueco futuro, defsym forward)
         move.w  d4,(a3)+                        | +268
         dbra    d5,.L002eda                     | +26a
         andi.b  #0xfe,(a1,d1.w)                 | +26e

@@ -313,7 +313,7 @@ TransformCommit_MMIO_051F30:
         movem.l a0/a6, -(a7)                    | +4c  save frame ptrs
         movea.l a0, a6                          | +50  a6 = struct sprite
         lea.l   TileMap_HandlerInline_051F94(pc), a0             | +52  a0 = &handler_inline
-        jsr     Fn_00001F4A                     | +56  Scratch_RunHandler(a0)
+        jsr     Deferred_Push_001f4a                     | +56  Scratch_RunHandler(a0)
         movea.l a6, a0                          | +5c  restore a0
         movem.l (a7)+, a0/a6                    | +5e  restore frame ptrs
         rts                                     | +62
