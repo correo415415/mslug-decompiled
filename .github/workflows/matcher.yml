@@ -82,13 +82,22 @@ jobs:
             else
               cp /tmp/mslug_rom.bin rom/201-p1.bin; echo "zip=" >> "$GITHUB_OUTPUT"
             fi
-          elif [ -f "$DIR/mslug.zip" ]; then
-            echo "zip=$DIR/mslug.zip" >> "$GITHUB_OUTPUT"
-          elif [ -f "$DIR/201-p1.bin" ]; then
-            cp "$DIR/201-p1.bin" rom/201-p1.bin; echo "zip=" >> "$GITHUB_OUTPUT"
           else
-            echo "::error::No se encontró la P-ROM. Coloca mslug.zip (o 201-p1.bin) en $DIR del runner, o define la variable MSLUG_ROM_URL."
-            exit 1
+            FOUND=""
+            for d in "$DIR" "$HOME/mslug_rom" "$HOME" "/opt/mslug_rom" "${RUNNER_WORKSPACE:-.}/.." "${RUNNER_WORKSPACE:-.}/../.." ; do
+              for f in mslug.zip 201-p1.bin; do
+                if [ -z "$FOUND" ] && [ -f "$d/$f" ]; then FOUND="$d/$f"; fi
+              done
+            done
+            if [ -z "$FOUND" ]; then
+              echo "::error::No se encontró la P-ROM. Coloca mslug.zip (o 201-p1.bin) en $DIR del runner (p. ej. mkdir -p ~/mslug_rom && cp mslug.zip ~/mslug_rom/), o define la variable de repositorio MSLUG_ROM_URL."
+              exit 1
+            fi
+            echo "ROM: $FOUND"
+            case "$FOUND" in
+              *.zip) echo "zip=$FOUND" >> "$GITHUB_OUTPUT" ;;
+              *)     cp "$FOUND" rom/201-p1.bin; echo "zip=" >> "$GITHUB_OUTPUT" ;;
+            esac
           fi
 
       - name: Preparar build/mslug_prom.bin
