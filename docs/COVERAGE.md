@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-08  (Wave ZZZZ cerrada)
+**Ultimo update:** 2026-10-09  (Wave AAAAA cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-ZZZZ) | Que mide realmente |
+| Metrica | Cifra (post-AAAAA) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **23.20 %**  (486,568 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **87.6 %**  (442,760 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **24.33 %**  (510,216 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **92.2 %**  (466,408 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -45,7 +45,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
 | Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 200,800 B | 85.8 % |
 | Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 151,552 B | 100.0 % |
-| Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 80,296 B | 77.2 % |
+| Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 103,944 B | 100.0 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
 | Indice de templates $E8000 + streams de mision | `$0E8000..$0F2FFC` | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | Datos graficos / mapas / scripts de nivel | `$0F2FFC..$18D152` | DATA | 631,126 B | 0 B | 0.0 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 442,760 B | 87.6 % |
+| CODE | 505,608 B | 466,408 B | 92.2 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 274 huecos, 62,848 B
+Huecos pendientes en zonas CODE: 272 huecos, 39,200 B
 
 ### Notas por zona
 
@@ -112,7 +112,7 @@ Huecos pendientes en zonas CODE: 274 huecos, 62,848 B
   `Slug_Jump*`, `Slug_Fall*`, `Slug_Hit*`, `Slug_Death*`), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
-  `$083000..$09C608` (77.2 %) y `$024E10..$05E000` (85.8 %). Wave ZZZZ
+  `$024E10..$05E000` (85.8 %), `$000400..$002F30` (64 %), `$0133B0..$013D6A` (16 %). Wave ZZZZ
   (`boss2_crab_carrier_soundtest_07axxx.s`, `$07A002..$083000`): rehén/captor de
   la tripulación, menú SOUND TEST (strings ASCII + driver $2152/$219C), jefe de
   misión 2 (tmpl 132: cuerpo, brazo pendular, torreta, proyectil, humo, 9+9
@@ -198,13 +198,14 @@ Huecos pendientes en zonas CODE: 274 huecos, 62,848 B
   `$5DD02`, suelo `$5DD56/$5DD5C`, RNG `$5E9B6`, `$5DCA4`, VRAM autoclear
   `$5A824`, proyectiles/efectos `$06xxxx..$07xxxx` (muchas islas pequenas ya
   en C). Pendiente la mayoria de `$060000..$083000`.
-- **`$083000..$09C608` (CODE, 104 KB, 77 %)**: Waves GG..RRR: miniboss
+- **`$083000..$09C608` (CODE, 104 KB, 100 %)**: Waves GG..RRR: miniboss
   finale, rescates, carrier M4, fuerte escena 4, dirigible escena 5,
   cutscenes, grunts, bichos, Game Over/Continue, hiscore/memcard/mobs,
-  items/score/cajas. Pendiente: `$0916C8..$0967B4` (SceneDescriptor[256] +
-  scripts, DATOS) y `$096BBC..$097730` (listas de spawn, DATOS) — ambos
-  dentro de esta zona pero clasificables como datos (~24 KB), por lo que el
-  codigo real pendiente aqui es < 1 KB.
+  items/score/cajas. Wave AAAAA cerro la zona: `$0916C8..$0967B4`
+  (`scene_scripts_0916c8.s`: SceneDescTable[16], 14 scripts de la VM de
+  escena con callbacks 68000 embebidos, entidades-camara, tablas de trigger)
+  y `$096BBC..$097730` (`attract_sprite_lists_096bbc.s`: 8 listas de sprites
+  del attract, registros de 20 B) transcritos byte-exacto como datos (~24 KB).
 - **`$09C608..$0E8000` (DATA)**: animaciones (registros de 10 B
   `{dx,dy,flags,ptr}`), paletas, listas. Un unico falso `rts` en 310 KB.
 - **`$0E8000..$0F2FFC` (DATA-REG)**: indice de templates `$E8000[idx]`
@@ -234,7 +235,7 @@ Huecos pendientes en zonas CODE: 274 huecos, 62,848 B
   **VRAM/fix layer** (`$5A824`, blits `$5DA56..`, texto PAUSE).
 - **Scene VM + Mission VM** (`SceneLoader_Main`, `SceneScriptVM`,
   `MissionDriver`, streams `$E8524..`).
-- **Enemigos/jefes de las 6 misiones** (`$083000..$09C608` al 77 %).
+- **Enemigos/jefes de las 6 misiones** (`$083000..$09C608` al 100 %).
 - **Items, score popups, cajas, paracaidas** (Wave RRR), **hiscore, memcard,
   name entry, options, mobs** (Wave QQQ), **Game Over/Continue** (PPP).
 - **Granadas del jugador** (Wave SSS); **estados en suelo del jugador**

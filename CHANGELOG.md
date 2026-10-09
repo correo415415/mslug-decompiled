@@ -18,6 +18,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave AAAAA — 65 entries (23,648 B, all data, byte-exact): `$0916C8..$0967B4`
+  (`scene_scripts_0916c8.s`: `SceneDescTable_0916C8[16]`, 14 scene VM scripts
+  with embedded 68000 callbacks (`lea d(pc),a1/a0 ; rts`), `SceneEntity`
+  camera lists, trigger tables) and `$096BBC..$097730`
+  (`attract_sprite_lists_096bbc.s`: 8 attract sprite lists, 20 B records).
+  New generators `tools/scene_script_dump.py` / `tools/attract_sprites_dump.py`
+  (capstone, self-verifying link). Zone `$083000..$09C608` now 100 %; real
+  code 92.2 %. First green runs of the self-hosted matcher CI (releases
+  `matcher-*`).
 - Wave ZZZZ — 192 entries (18,154 B, 1 data range, 6 forced entries):
   `$07A002..$083000` (`boss2_crab_carrier_soundtest_07axxx.s`): Crew_Hostage/
   Crew_Captor (extra children of Crew_Tmpl127/128), SOUND TEST service menu

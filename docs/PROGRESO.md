@@ -11,11 +11,25 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 7556/7556 funciones
-BYTES   : 486,568/486,568 (registrados)
-ROM     : 486,568/2,097,152  (23.2014%)
+MATCHED : 7621/7621 funciones
+BYTES   : 510,216/510,216 (registrados)
+ROM     : 510,216/2,097,152  (24.3290%)
 ```
 
+> **Wave AAAAA** (65 entradas, 23 648 B; todo datos, byte-exacto) — `$0916C8..$0967B4`
+> en `scene_scripts_0916c8.s` y `$096BBC..$097730` en `attract_sprite_lists_096bbc.s`.
+> Cuadragésimo cuarta wave. Generadores `tools/scene_script_dump.py` y
+> `tools/attract_sprites_dump.py` (capstone; verifican enlazando con defsyms de
+> SYMBOLS+REGISTRY). Contenido: `SceneDescTable_0916C8[16]` `{script.l, entities.l}`,
+> 14 scripts de la VM de escena (`SceneScript_*`, opcodes $00..$16 con callbacks
+> 68000 embebidos tras `lea d(pc),a1/a0 ; rts`), listas `SceneEntities_*` (14 B,
+> ctx de cámara $1080E0/$108064/$107FE8/$106F6C), tablas `SceneTrig_*` (op $11),
+> colas CCR `ChildRank_CmpByte10_0967A4/_097720` como código, 8 listas
+> `AttractSprites_List0..7_*` (registros de 20 B `{flags,x,y,tmpl.l,params[10]}`).
+> Zona `$083000..$09C608` al 100 %; código real 92.2 %. CI matcher (runner
+> self-hosted) en verde con releases `matcher-*`. Siguiente: huecos de
+> `$024E10..$05E000` (Wave BBBBB: `$024E10..$027400`).
+>
 > **Wave ZZZZ** (192 entradas, 18 154 B; 1 `--data`, 6 `--entry`) — `$07A002..$083000`
 > en `boss2_crab_carrier_soundtest_07axxx.s`. Cuadragésimo tercera wave.
 > Nombres en `docs/waves/zzzz_names.txt`, args en `docs/waves/zzzz_args.txt`
