@@ -65,7 +65,7 @@ Collision_ProbeRange_051C08:
         move.w  d1, d3                          | +22  d3 = d1
         move.w  0x1a(a0), d4                    | +24  d4 = width
         move.w  0x1c(a0), d5                    | +28  d5 = height
-        bsr.w   Fn_00051D84                     | +2c  probe basico
+        bsr.w   CellMap_ClipRectToWindow_051d84                     | +2c  probe basico
         bcc.w   .Lprobe_range_none              | +30  if (!C) no colision
         movem.w d0-d6, -(a7)                    | +34  save d0-d6
         movem.w d0/d4, -(a7)                    | +38  save d0/d4 (loop)
@@ -121,7 +121,7 @@ Collision_ProbeX_051C82:
         move.w  d1, d3                          | +32  d3 = d1
         moveq   #0x1, d4                        | +34  d4 = 1 (una columna)
         move.w  0x1c(a0), d5                    | +36  d5 = height
-        bsr.w   Fn_00051D84                     | +3a  probe basico
+        bsr.w   CellMap_ClipRectToWindow_051d84                     | +3a  probe basico
         bcc.w   .Lprobe_x_none                  | +3e  if (!C) skip
         movem.w d0-d6, -(a7)                    | +42  save d0-d6
         bsr.w   Fn_00051BA8                     | +46  apply_basico()
@@ -171,7 +171,7 @@ Collision_ProbeY_051CF6:
         move.w  d1, d3                          | +34  d3 = d1
         move.w  0x1a(a0), d4                    | +36  d4 = width
         moveq   #0x1, d5                        | +3a  d5 = 1 (una fila)
-        bsr.w   Fn_00051D84                     | +3c  probe basico
+        bsr.w   CellMap_ClipRectToWindow_051d84                     | +3c  probe basico
         bcc.w   .Lprobe_y_none                  | +40  if (!C) skip
         movem.w d0-d6, -(a7)                    | +44  save d0-d6
         movem.w d0/d4, -(a7)                    | +48  save d0/d4
