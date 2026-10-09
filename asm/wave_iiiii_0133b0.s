@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0133b0  @ $0133B0  (54 B)
+|  Pal_LoadRaw16_0133b0  @ $0133B0  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0133b0, "ax", @progbits
-        .global TaskHandler_0133b0
-TaskHandler_0133b0:
+        .section .text.Pal_LoadRaw16_0133b0, "ax", @progbits
+        .global Pal_LoadRaw16_0133b0
+Pal_LoadRaw16_0133b0:
         movea.l a3,a4                           | +000
         addq.w  #0x2,a3                         | +002
         addq.l  #0x4,a2                         | +004
@@ -43,11 +43,11 @@ TaskHandler_0133b0:
         rts                                     | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0133e6  @ $0133E6  (34 B)
+|  Pal_ClearSlot16_0133e6  @ $0133E6  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0133e6, "ax", @progbits
-        .global TaskHandler_0133e6
-TaskHandler_0133e6:
+        .section .text.Pal_ClearSlot16_0133e6, "ax", @progbits
+        .global Pal_ClearSlot16_0133e6
+Pal_ClearSlot16_0133e6:
         movea.l a3,a4                           | +000
         addq.w  #0x2,a3                         | +002
         moveq   #0,d4                           | +004
@@ -64,11 +64,11 @@ TaskHandler_0133e6:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013408  @ $013408  (120 B)
+|  PalAnim_StepSlot_013408  @ $013408  (120 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013408, "ax", @progbits
-        .global TaskHandler_013408
-TaskHandler_013408:
+        .section .text.PalAnim_StepSlot_013408, "ax", @progbits
+        .global PalAnim_StepSlot_013408
+PalAnim_StepSlot_013408:
         movem.l d0-d7/a0-a6,-(a7)               | +000
         move.w  0x8(a1,d1.w),d2                 | +004
         cmpi.w  #0xffff,d2                      | +008
@@ -88,7 +88,7 @@ TaskHandler_013408:
         movea.l 0x2(a1,d1.w),a2                 | +03e
         movea.l 0xa(a1,d1.w),a3                 | +042
         move.b  0xe(a1,d1.w),d5                 | +046
-        jsr     Sub_00013480(pc)                | +04a
+        jsr     PalAnim_Blend16_013480(pc)      | +04a
         and.w   d7,d7                           | +04e
         bne.w   .L013462                        | +050
 .L01345c:
@@ -104,11 +104,11 @@ TaskHandler_013408:
         rts                                     | +076
 
 | ----------------------------------------------------------------------------
-|  Sub_00013480  @ $013480  (132 B)
+|  PalAnim_Blend16_013480  @ $013480  (132 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00013480, "ax", @progbits
-        .global Sub_00013480
-Sub_00013480:
+        .section .text.PalAnim_Blend16_013480, "ax", @progbits
+        .global PalAnim_Blend16_013480
+PalAnim_Blend16_013480:
         movem.l d1/a1,-(a7)                     | +000
         lea     0x10a2d4.l,a4                   | +004
         move.w  #0xf,d6                         | +00a
@@ -116,7 +116,7 @@ Sub_00013480:
         moveq   #0,d4                           | +010
         move.w  #0xffff,d7                      | +012
 .L013496:
-        jsr     Sub_00013504(pc)                | +016
+        jsr     PalAnim_StepRGB_013504(pc)      | +016
         andi.w  #0x1f,d2                        | +01a
         andi.w  #0x1f,d3                        | +01e
         andi.w  #0x1f,d4                        | +022
@@ -124,10 +124,10 @@ Sub_00013480:
         beq.w   .L0134cc                        | +02c
         cmpi.b  #0xff,0x10a2c8.l                | +030
         beq.w   .L0134c4                        | +038
-        jsr     TaskHandler_013624(pc)          | +03c
+        jsr     Pal_ApplyFadeDarken_013624(pc)  | +03c
         bra.w   .L0134d4                        | +040
 .L0134c4:
-        jsr     TaskHandler_013694(pc)          | +044
+        jsr     Pal_ApplyFadeLighten_013694(pc) | +044
         bra.w   .L0134d4                        | +048
 .L0134cc:
         lsl.w   #0x5,d2                         | +04c
@@ -150,11 +150,11 @@ Sub_00013480:
         rts                                     | +082
 
 | ----------------------------------------------------------------------------
-|  Sub_00013504  @ $013504  (252 B)
+|  PalAnim_StepRGB_013504  @ $013504  (252 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00013504, "ax", @progbits
-        .global Sub_00013504
-Sub_00013504:
+        .section .text.PalAnim_StepRGB_013504, "ax", @progbits
+        .global PalAnim_StepRGB_013504
+PalAnim_StepRGB_013504:
         move.w  d1,-(a7)                        | +000
         movem.l d5-d7/a0,-(a7)                  | +002
         tst.b   d5                              | +006
@@ -264,11 +264,11 @@ Sub_00013504:
         rts                                     | +0fa
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013624  @ $013624  (112 B)
+|  Pal_ApplyFadeDarken_013624  @ $013624  (112 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013624, "ax", @progbits
-        .global TaskHandler_013624
-TaskHandler_013624:
+        .section .text.Pal_ApplyFadeDarken_013624, "ax", @progbits
+        .global Pal_ApplyFadeDarken_013624
+Pal_ApplyFadeDarken_013624:
         move.l  d0,-(a7)                        | +000
         movem.l d5-d6/a0-a1,-(a7)               | +002
         clr.w   d5                              | +006
@@ -311,11 +311,11 @@ TaskHandler_013624:
         rts                                     | +06e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013694  @ $013694  (118 B)
+|  Pal_ApplyFadeLighten_013694  @ $013694  (118 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013694, "ax", @progbits
-        .global TaskHandler_013694
-TaskHandler_013694:
+        .section .text.Pal_ApplyFadeLighten_013694, "ax", @progbits
+        .global Pal_ApplyFadeLighten_013694
+Pal_ApplyFadeLighten_013694:
         move.l  d0,-(a7)                        | +000
         movem.l d5-d6/a0-a1,-(a7)               | +002
         lea     Sub_00012F30(pc),a1             | +006  -> $012F30 (hueco futuro, defsym forward)
@@ -358,11 +358,11 @@ TaskHandler_013694:
         rts                                     | +074
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_01370a  @ $01370A  (72 B)
+|  Pal_PackRGB_01370a  @ $01370A  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_01370a, "ax", @progbits
-        .global TaskHandler_01370a
-TaskHandler_01370a:
+        .section .text.Pal_PackRGB_01370a, "ax", @progbits
+        .global Pal_PackRGB_01370a
+Pal_PackRGB_01370a:
         movem.l d1-d2,-(a7)                     | +000
         move.b  d4,d2                           | +004
         move.w  d4,d1                           | +006
@@ -391,11 +391,11 @@ TaskHandler_01370a:
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013752  @ $013752  (72 B)
+|  Pal_UnpackRGB_013752  @ $013752  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013752, "ax", @progbits
-        .global TaskHandler_013752
-TaskHandler_013752:
+        .section .text.Pal_UnpackRGB_013752, "ax", @progbits
+        .global Pal_UnpackRGB_013752
+Pal_UnpackRGB_013752:
         movem.l d1-d2,-(a7)                     | +000
         move.w  d4,d1                           | +004
         lsr.w   #0x3,d1                         | +006
@@ -423,11 +423,11 @@ TaskHandler_013752:
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_01379a  @ $01379A  (44 B)
+|  Pal_ShadowClearAll_01379a  @ $01379A  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_01379a, "ax", @progbits
-        .global TaskHandler_01379a
-TaskHandler_01379a:
+        .section .text.Pal_ShadowClearAll_01379a, "ax", @progbits
+        .global Pal_ShadowClearAll_01379a
+Pal_ShadowClearAll_01379a:
         lea     0x10a2d4.l,a0                   | +000
         moveq   #0,d1                           | +006
         move.w  #0xff,d0                        | +008
@@ -445,11 +445,11 @@ TaskHandler_01379a:
         jmp     0x526b8.l                       | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0137c6  @ $0137C6  (184 B)
+|  Pal_FlushDirtyToHW_0137c6  @ $0137C6  (184 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0137c6, "ax", @progbits
-        .global TaskHandler_0137c6
-TaskHandler_0137c6:
+        .section .text.Pal_FlushDirtyToHW_0137c6, "ax", @progbits
+        .global Pal_FlushDirtyToHW_0137c6
+Pal_FlushDirtyToHW_0137c6:
         tst.b   0x10a2ce.l                      | +000
         beq.w   .L01382a                        | +006
         move.b  #0x1,0x3a000f.l                 | +00a
@@ -507,11 +507,11 @@ TaskHandler_0137c6:
         bra.w   .L0137f4                        | +0b4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_01387e  @ $01387E  (104 B)
+|  Pal_WhiteOutNextBank_01387e  @ $01387E  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_01387e, "ax", @progbits
-        .global TaskHandler_01387e
-TaskHandler_01387e:
+        .section .text.Pal_WhiteOutNextBank_01387e, "ax", @progbits
+        .global Pal_WhiteOutNextBank_01387e
+Pal_WhiteOutNextBank_01387e:
         move.b  #0x1,0x3a001f.l                 | +000
         movea.l #0x400000,a0                    | +008
         move.b  0x10a2d2.l,d0                   | +00e
@@ -541,29 +541,29 @@ TaskHandler_01387e:
         rts                                     | +066
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0138e6  @ $0138E6  (12 B)
+|  Pal_WhiteOutIsDone_0138e6  @ $0138E6  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0138e6, "ax", @progbits
-        .global TaskHandler_0138e6
-TaskHandler_0138e6:
+        .section .text.Pal_WhiteOutIsDone_0138e6, "ax", @progbits
+        .global Pal_WhiteOutIsDone_0138e6
+Pal_WhiteOutIsDone_0138e6:
         cmpi.b  #0xff,0x10a2d2.l                | +000
         beq.w   SetXN_0138f8                    | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013906  @ $013906  (8 B)
+|  Sprite_AdvanceY74_013906  @ $013906  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013906, "ax", @progbits
-        .global TaskHandler_013906
-TaskHandler_013906:
+        .section .text.Sprite_AdvanceY74_013906, "ax", @progbits
+        .global Sprite_AdvanceY74_013906
+Sprite_AdvanceY74_013906:
         addi.w  #0x74,0x1c(a0)                  | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0139fe  @ $0139FE  (174 B)
+|  Sprite_FillTileGrid_0139fe  @ $0139FE  (174 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0139fe, "ax", @progbits
-        .global TaskHandler_0139fe
-TaskHandler_0139fe:
+        .section .text.Sprite_FillTileGrid_0139fe, "ax", @progbits
+        .global Sprite_FillTileGrid_0139fe
+Sprite_FillTileGrid_0139fe:
         andi.w  #0x3,d7                         | +000
         movea.l #0x3c0000,a3                    | +004
         move.l  d0,-(a7)                        | +00a
@@ -642,11 +642,11 @@ TaskHandler_0139fe:
         rts                                     | +0ac
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013aac  @ $013AAC  (22 B)
+|  SpriteAlloc_ResetCounters_013aac  @ $013AAC  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013aac, "ax", @progbits
-        .global TaskHandler_013aac
-TaskHandler_013aac:
+        .section .text.SpriteAlloc_ResetCounters_013aac, "ax", @progbits
+        .global SpriteAlloc_ResetCounters_013aac
+SpriteAlloc_ResetCounters_013aac:
         clr.w   0x10e1f4.l                      | +000
         clr.w   0x10e1fe.l                      | +006
         moveq   #0,d0                           | +00c
@@ -654,21 +654,21 @@ TaskHandler_013aac:
         subq.w  #0x1,d1                         | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013ac8  @ $013AC8  (16 B)
+|  SpriteAlloc_LoadBase_013ac8  @ $013AC8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013ac8, "ax", @progbits
-        .global TaskHandler_013ac8
-TaskHandler_013ac8:
+        .section .text.SpriteAlloc_LoadBase_013ac8, "ax", @progbits
+        .global SpriteAlloc_LoadBase_013ac8
+SpriteAlloc_LoadBase_013ac8:
         move.w  0x10e1fa.l,d0                   | +000
         move.w  d0,0x10e1fc.l                   | +006
         move.w  #0x17b,d1                       | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_00013ADE  @ $013ADE  (88 B)
+|  Sprite_SpawnGridB_013ade  @ $013ADE  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00013ADE, "ax", @progbits
-        .global Sub_00013ADE
-Sub_00013ADE:
+        .section .text.Sprite_SpawnGridB_013ade, "ax", @progbits
+        .global Sprite_SpawnGridB_013ade
+Sprite_SpawnGridB_013ade:
         move.b  d4,d7                           | +000
         move.w  d1,d4                           | +002
         swap    d4                              | +004
@@ -676,8 +676,8 @@ Sub_00013ADE:
         movem.l d2-d4/d7/a0,-(a7)               | +008
         jsr     Spawn_TypeB_013952(pc)          | +00c
         movem.l (a7)+,d2-d4/d7/a0               | +010
-        .global Sub_00013ADE__L013af2
-Sub_00013ADE__L013af2:
+        .global Sprite_SpawnGridB_013ade__L013af2
+Sprite_SpawnGridB_013ade__L013af2:
 .L013af2:
         movem.l d0-d4,-(a7)                     | +014
         move.w  d0,d5                           | +018
@@ -687,7 +687,7 @@ Sub_00013ADE__L013af2:
         swap    d4                              | +020
         move.w  d4,d3                           | +022
         swap    d4                              | +024
-        jsr     TaskHandler_0139fe(pc)          | +026
+        jsr     Sprite_FillTileGrid_0139fe(pc)  | +026
         movem.l (a7)+,d0-d4                     | +02a
         movem.w d0-d1,-(a7)                     | +02e
         addi.w  #0x8201,d0                      | +032
@@ -702,11 +702,11 @@ Sub_00013ADE__L013af2:
         rts                                     | +056
 
 | ----------------------------------------------------------------------------
-|  Sub_00013B36  @ $013B36  (22 B)
+|  Sprite_SpawnGridA_013b36  @ $013B36  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00013B36, "ax", @progbits
-        .global Sub_00013B36
-Sub_00013B36:
+        .section .text.Sprite_SpawnGridA_013b36, "ax", @progbits
+        .global Sprite_SpawnGridA_013b36
+Sprite_SpawnGridA_013b36:
         move.b  d4,d7                           | +000
         move.w  d1,d4                           | +002
         swap    d4                              | +004
@@ -714,16 +714,16 @@ Sub_00013B36:
         movem.l d2-d4/d7/a0,-(a7)               | +008
         jsr     Spawn_TypeA_013982(pc)          | +00c
         movem.l (a7)+,d2-d4/d7/a0               | +010
-        bra.b   Sub_00013ADE__L013af2           | +014
+        bra.b   Sprite_SpawnGridB_013ade__L013af2 | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013b4c  @ $013B4C  (194 B)
+|  Sprite_SpawnGridB_Scaled_013b4c  @ $013B4C  (194 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013b4c, "ax", @progbits
-        .global TaskHandler_013b4c
-TaskHandler_013b4c:
+        .section .text.Sprite_SpawnGridB_Scaled_013b4c, "ax", @progbits
+        .global Sprite_SpawnGridB_Scaled_013b4c
+Sprite_SpawnGridB_Scaled_013b4c:
         movem.l d0/d2-d3/d5-d7,-(a7)            | +000
-        jsr     Sub_00013ADE(pc)                | +004
+        jsr     Sprite_SpawnGridB_013ade(pc)    | +004
         movea.w d0,a0                           | +008
         movea.w d1,a1                           | +00a
         movem.l (a7)+,d0/d2-d3/d5-d7            | +00c
@@ -785,7 +785,7 @@ TaskHandler_013b4c:
         move.w  a1,d1                           | +09a
         rts                                     | +09c
         movem.l d0/d2-d3/d5-d7,-(a7)            | +09e
-        jsr     Sub_00013B36(pc)                | +0a2
+        jsr     Sprite_SpawnGridA_013b36(pc)    | +0a2
         movea.w d0,a0                           | +0a6
         movea.w d1,a1                           | +0a8
         movem.l (a7)+,d0/d2-d3/d5-d7            | +0aa
@@ -799,11 +799,11 @@ TaskHandler_013b4c:
         bra.w   .L013b5c                        | +0be
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013c0e  @ $013C0E  (30 B)
+|  Vec_PolarToXY_013c0e  @ $013C0E  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013c0e, "ax", @progbits
-        .global TaskHandler_013c0e
-TaskHandler_013c0e:
+        .section .text.Vec_PolarToXY_013c0e, "ax", @progbits
+        .global Vec_PolarToXY_013c0e
+Vec_PolarToXY_013c0e:
         add.w   d0,d0                           | +000
         move.w  d1,d2                           | +002
         lea     0x2c07ac.l,a2                   | +004
@@ -815,11 +815,11 @@ TaskHandler_013c0e:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013c2c  @ $013C2C  (16 B)
+|  Div_FixedRatio_013c2c  @ $013C2C  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013c2c, "ax", @progbits
-        .global TaskHandler_013c2c
-TaskHandler_013c2c:
+        .section .text.Div_FixedRatio_013c2c, "ax", @progbits
+        .global Div_FixedRatio_013c2c
+Div_FixedRatio_013c2c:
         tst.w   d2                              | +000
         bge.w   .L013c34                        | +002
         neg.w   d2                              | +006
@@ -830,11 +830,11 @@ TaskHandler_013c2c:
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013c3c  @ $013C3C  (104 B)
+|  Pause_Poll_013c3c  @ $013C3C  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013c3c, "ax", @progbits
-        .global TaskHandler_013c3c
-TaskHandler_013c3c:
+        .section .text.Pause_Poll_013c3c, "ax", @progbits
+        .global Pause_Poll_013c3c
+Pause_Poll_013c3c:
         tst.b   0x10fd82.l                      | +000
         beq.w   .L013c4a                        | +006
         bra.w   ClearC_013d0c                   | +00a
@@ -851,29 +851,29 @@ TaskHandler_013c3c:
         andi.b  #0x8,d6                         | +034
         or.b    d6,d7                           | +038
         tst.b   0x10e272.l                      | +03a
-        bne.w   TaskHandler_013cae              | +040
+        bne.w   Pause_Active_013cae             | +040
         move.b  0x10e20d.l,d0                   | +044
         and.b   d7,d0                           | +04a
-        beq.w   TaskHandler_013caa              | +04c
+        beq.w   Pause_Poll_Reject_013caa        | +04c
         move.b  #0xff,0x10e272.l                | +050
         clr.b   0x10e273.l                      | +058
         move.w  #0x10e0,d0                      | +05e
         jsr     0x2352.l                        | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013caa  @ $013CAA  (4 B)
+|  Pause_Poll_Reject_013caa  @ $013CAA  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013caa, "ax", @progbits
-        .global TaskHandler_013caa
-TaskHandler_013caa:
+        .section .text.Pause_Poll_Reject_013caa, "ax", @progbits
+        .global Pause_Poll_Reject_013caa
+Pause_Poll_Reject_013caa:
         bra.w   ClearC_013d0c                   | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013cae  @ $013CAE  (88 B)
+|  Pause_Active_013cae  @ $013CAE  (88 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013cae, "ax", @progbits
-        .global TaskHandler_013cae
-TaskHandler_013cae:
+        .section .text.Pause_Active_013cae, "ax", @progbits
+        .global Pause_Active_013cae
+Pause_Active_013cae:
         move.b  0x10e20d.l,d0                   | +000
         and.b   d7,d0                           | +006
         beq.w   .L013cdc                        | +008
@@ -898,9 +898,9 @@ TaskHandler_013cae:
         bsr.w   Fix_DrawPauseBlank_013d3e       | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_013d12  @ $013D12  (6 B)
+|  Pause_Clear_013d12  @ $013D12  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_013d12, "ax", @progbits
-        .global TaskHandler_013d12
-TaskHandler_013d12:
+        .section .text.Pause_Clear_013d12, "ax", @progbits
+        .global Pause_Clear_013d12
+Pause_Clear_013d12:
         clr.b   0x10e272.l                      | +000
