@@ -1,14 +1,98 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave FFFFF — proyectiles enemigos: granada, bola rebotante, obús de
+|  mortero y rodillo  (asm/enemy_projectiles_grenade_mortar_roller_055b96.s)
 |  Región: $055B96..$056ACC  (3,738 B, 33 entradas, 15 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Cuatro familias de proyectiles enemigos que comparten el patrón "tarea
+|  hija spawneada por el padre": el padre reserva slot, copia su posición,
+|  fija velocidad inicial y la hija corre su propio bucle físico hasta tocar
+|  suelo/agua/jugador y convertirse en explosión. Rellenan los 15 huecos
+|  entre las islas C (SetTaskHandler_*, Jsr*/Jmp* thunks, Scheduler_*) de
+|  esta zona:
 |
-|  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
-|  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
+|  1) $055B96..$056066  Granada (Grenade_*):
+|     - Entity_CmpDepthToParent_055b96/055bb2 (+ 056a38..056aa8 abajo):
+|       comparadores de profundidad `$2C(a6)` contra la tarea padre `$24(a6)`
+|       usados por la cola de sprites para ordenar hijo/padre; difieren sólo
+|       en el signo/offset del test (variantes inline de 16-28 B).
+|     - Grenade_SpawnFromThrower_055bce: el lanzador (soldado) reserva una
+|       tarea hija, copia X/Y/flip, elige la trayectoria con `$5C(a6)` (tipo
+|       de lanzamiento) y pone Grenade_Task como handler.
+|     - Grenade_TrajTable_055c08: 8 B/entrada {vx, ay, vy, timer}, indexada
+|       por `$5C(a6)`; Grenade_ProbeBox_055cc8 = caja de 4 words para los
+|       probes de suelo; Grenade_PalFieldOffs_055cd0 = offsets de paleta.
+|     - Grenade_Task_055cd8: integra posición; en modos de escena `$106F2B`
+|       1/2/3 usa velocidad polar (`$13C0E` + tabla seno `$5E172`), sprites
+|       `$2C72C0/$2C72BA`, hitbox `$29CBFE`, plantillas $15D/$164/$165.
+|       Probes de suelo con Entity_ProbeTransformFreeCcr_027bc8/027d50 y
+|       Entity_SwapProbeCommit_028292; al impactar → Grenade_Explode_055fca.
+|     - Grenade_Explode_055fca: variante agua/fuego según tile bajo el
+|       proyectil (Entity_TileUnderToShade); sonido vía `$28134` (o $FFFF =
+|       silencio) y Explosion_Water_077eda / Explosion_Fire_077f6a.
+|
+|  2) $056066..$05627A  Bola rebotante (Bounce_*):
+|     - Bounce_SpawnFromParent_056066 → Bounce_Task_05608e: gravedad
+|       (Entity_ProbeSwapGravity_C_028364), rebote invirtiendo vy con pérdida,
+|       sprites `$29CDA4/$29CDB6/$29CFA8/$29CFD2/$29D01A`, plantillas
+|       $12/$13/$16B, sonido $1022.
+|     - Bounce_Rest_05617a / Bounce_Rest2_0561ae: reposo en suelo (dos
+|       animaciones) hasta agotar `$5E(a6)`; Bounce_Fizzle_0561da: apagado
+|       sin explosión; Bounce_Explode_056204: explosión + marca `$48(a6)`=-1
+|       (también destino del jmp desde para_squad_helpers $828D2).
+|
+|  3) $05627A..$0565C8  Obús de mortero (Mortar_*):
+|     - Mortar_HitboxList_05627a / _B_0562ce y SpriteMap_Mortar_056378:
+|       listas de hitboxes (word pairs terminadas en $FFFF) y mapa de sprites.
+|     - Mortar_ApplyDrag_0563f4: reduce |vx| por frame usando
+|       Entity_GravityToIndex; Mortar_SpawnFromParent_056438 (entrada
+|       forzada: el padre salta aquí por jsr): decodifica destino con
+|       Tbl_Decode2D `$2B7632`, vy $195 / ay -$51, plantilla $E.
+|     - Mortar_Shell_Task_05646c: vuelo balístico con Fn_0005DCA4(-$200) y
+|       Fn_0005DD56 (probe); Mortar_Shell_Explode_05659c → Explosion_Fire.
+|
+|  4) $0565C8..$056ACC  Rodillo (Roller_*):
+|     - Roller_HitboxList_0565c8 / _B_05661c, SpriteMap_Roller_056670.
+|     - Roller_SpawnFromParent_05684c (entrada forzada; precedida por un
+|       puntero long dentro de la isla de datos) → Roller_Task_056870:
+|       avanza vx ±$10/frame, probes de pared con Entity_TileUnderToShade,
+|       rebote con velocidad $300, sonido $108D; Roller_Explode_056a0c.
+|     - Soldier_PhysicsBox_056ac4 = {-$40, 0, $40, $10}: caja usada por
+|       Soldier_PhysicsStep_056acc (módulo siguiente).
+|
+|  B. CÓMO SE DESCUBRIÓ
+|  Huecos de `tools/measure_coverage.py --zones` en $055B96..$056ACC; las
+|  5 islas de datos ($55C08, $5627A, $565C8, $56670, $56AC4) se detectaron
+|  por fallos de enlace (`Sub_0000FFxx`, refs `.L` indefinidas) y por los
+|  `lea Tabla(pc),aN` de las tareas. Los dos *_SpawnFromParent se forzaron
+|  como entradas porque sólo se alcanzan desde jsr externos (no caen en
+|  flujo lineal). Nombres por las plantillas de sprite/sonido que cargan y
+|  por las tareas que los invocan (soldier_states_057dxx.s, para_squad_*).
+|
+|  C. DEPENDENCIAS EXTERNAS
+|  Entity_ProbeTransformFreeCcr_027bc8/027d50/027c8c, Entity_SwapProbeCommit_028292,
+|  Entity_ProbeSwapGravity_C_028364, Hitbox_CheckBit0_028758,
+|  Hitbox_SideOfImpact_02870a, Atan2_Angle256_05e018, Fn_0005DD56,
+|  Fn_0005DCA4, Explosion_Water_077eda, Explosion_Fire_077f6a,
+|  Entity_FlushSlotHistory_013600, tabla seno `$5E172`, `$13C0E`.
+|  Globales: `$106F2B` (modo de escena), `$106F28` (paridad de frame),
+|  `$10E39E`. Scratch de colisión a5 = `$108080`.
+|
+|  D. ESTADO
+|  33/33 entradas byte-exactas (gen_asm_region --verify, match_batch).
+|  Datos transcritos como .dc.w/.dc.b con offsets; pendiente estructurar
+|  SpriteMap_* en campos nombrados.
+|
+|  E. NOTAS
+|  Las 7 copias de Entity_CmpDepthToParent son thunks casi idénticos que el
+|  compilador/ensamblador original dejó inline por función llamadora; se
+|  conservan separados para mantener el byte-exact.
+|
+|  F. VERIFICACIÓN
+|  Cada sección .text.<Sym> se coloca en su dirección CPU absoluta y
+|  reensambla byte-exacta contra build/mslug_prom.bin
 |  (MD5 816b3f74c76b3373993407615f1850fe).
 | ============================================================================
 
