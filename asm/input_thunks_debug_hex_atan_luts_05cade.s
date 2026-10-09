@@ -2,7 +2,7 @@
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave GGGGG — thunks de input, HUD hexadecimal de debug, LUTs de atan,
 |  comprobaciones de pantalla  (asm/input_thunks_debug_hex_atan_luts_05cade.s)
-|  Región: $05CADE..$05E000  (2,320 B, 55 entradas, 22 huecos)
+|  Región: $05CADE..$05E000  (2,318 B, 54 entradas, 22 huecos)
 | ============================================================================
 |
 |  A. QUÉ HAY AQUÍ
@@ -14,7 +14,7 @@
 |  camera_list_ctx_helpers_wave_ii.s:
 |
 |  1) $05CADE..$05CC0E  Restos del scheduler/bootstrap:
-|     - Nop_Rts_05cade: rts suelto (relleno tras Camera_ResetCenter_05CACE).
+|     - ($05CADE: el rts final pertenece a Camera_ResetCenter_05CACE, 18 B.)
 |     - Scheduler_CompareField10_05cae0 / _05cbec: comparan `$10(a6)` con
 |       `$10(a1)` de la tarea enlazada `$8(a6)` y caen en SetXN_* (C).
 |     - SpriteBlock20x14_Setup_05cafc / _SetupDup_05cb68: reservan un bloque
@@ -113,7 +113,7 @@
 |  `$10E22E` (índice de ruido), `$106EE4` (latch LSPC).
 |
 |  D. ESTADO
-|  55/55 entradas byte-exactas. Zona $05E000 ahora contigua con
+|  54/54 entradas byte-exactas. Zona $05E000 ahora contigua con
 |  late_props_turrets_05exxx.s. Pendiente: nombres para `$139FE`/`$2A7C`.
 |
 |  E. NOTAS
@@ -127,14 +127,6 @@
 | ============================================================================
 
         .text
-
-| ----------------------------------------------------------------------------
-|  Nop_Rts_05cade  @ $05CADE  (2 B)
-| ----------------------------------------------------------------------------
-        .section .text.Nop_Rts_05cade, "ax", @progbits
-        .global Nop_Rts_05cade
-Nop_Rts_05cade:
-        rts                                     | +000
 
 | ----------------------------------------------------------------------------
 |  Scheduler_CompareField10_05cae0  @ $05CAE0  (16 B)

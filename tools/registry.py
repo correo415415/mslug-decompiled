@@ -3141,7 +3141,7 @@ REGISTRY = [
     ("Global_Clear10E486_099AFC",             0x099AFC,   10, "global_clear_10e486_099afc.s"),
     ("Entity_SwapProbeCommit_028292",         0x028292,   70, "entity_swap_probe_028292.s"),
     ("Sprite_Dispatch_05CA2A",                0x05CA2A,  164, "sprite_setup_dispatch_05ca2a.s"),
-    ("Camera_ResetCenter_05CACE",             0x05CACE,   16, "camera_reset_center_05cace.s"),
+    ("Camera_ResetCenter_05CACE",             0x05CACE,   18, "camera_reset_center_05cace.s"),
     ("Entity_ClearPtrSlots_05DC1C",           0x05DC1C,   24, "entity_clear_ptr_slots_05dc1c.s"),
     ("Entity_AllocFromFreeList_0006FE",       0x0006FE,  108, "entity_alloc_from_freelist_0006fe.s"),
 
@@ -8794,7 +8794,6 @@ REGISTRY = [
     ("Entity_CmpDepthToParent_056aa8",             0x056AA8,  16, "enemy_projectiles_grenade_mortar_roller_055b96.s"),
     ("Soldier_PhysicsBox_056ac4",                  0x056AC4,   8, "enemy_projectiles_grenade_mortar_roller_055b96.s"),
     # --- Wave GGGGG: input thunks, hex/debug HUD, LUTs atan, screen checks $05CADE..$05E000 (55 entradas)
-    ("Nop_Rts_05cade",                             0x05CADE,   2, "input_thunks_debug_hex_atan_luts_05cade.s"),
     ("Scheduler_CompareField10_05cae0",            0x05CAE0,  16, "input_thunks_debug_hex_atan_luts_05cade.s"),
     ("SpriteBlock20x14_Setup_05cafc",              0x05CAFC, 108, "input_thunks_debug_hex_atan_luts_05cade.s"),
     ("SpriteBlock20x14_SetupDup_05cb68",           0x05CB68, 124, "input_thunks_debug_hex_atan_luts_05cade.s"),

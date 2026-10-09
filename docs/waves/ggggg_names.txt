@@ -1,4 +1,3 @@
-0x05CADE=Nop_Rts_05cade
 0x05CAE0=Scheduler_CompareField10_05cae0
 0x05CAFC=SpriteBlock20x14_Setup_05cafc
 0x05CB68=SpriteBlock20x14_SetupDup_05cb68
