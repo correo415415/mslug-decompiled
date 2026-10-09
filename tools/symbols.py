@@ -498,7 +498,7 @@ SYMBOLS = {
     0x00053C5C: "TaskHandler_053c5c",
     # 0x00053C64 promovido a Prop_BurnFollowVictim_053c64 en registry (Wave HHHH).
     0x00056058: "TaskHandler_056058",
-    # 0x00056204 promovido a TaskHandler_056204 en registry (Wave FFFFF).
+    # 0x00056204 promovido a Bounce_Explode_056204 en registry (Wave FFFFF).
     0x00056596: "TaskHandler_056596",
     # 0x00057F4E promovido a Soldier_GrabThrownA_057f4e en registry (Wave EEEE).
     # 0x00058412 promovido a Soldier_Hurt_058412 en registry (Wave EEEE).

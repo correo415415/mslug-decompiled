@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $055B96..$056ACC  (3,738 B, 31 entradas, 15 huecos)
+|  Región: $055B96..$056ACC  (3,738 B, 33 entradas, 15 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -15,36 +15,36 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055b96  @ $055B96  (16 B)
+|  Entity_CmpDepthToParent_055b96  @ $055B96  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055b96, "ax", @progbits
-        .global TaskHandler_055b96
-TaskHandler_055b96:
+        .section .text.Entity_CmpDepthToParent_055b96, "ax", @progbits
+        .global Entity_CmpDepthToParent_055b96
+Entity_CmpDepthToParent_055b96:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_055bac                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055bb2  @ $055BB2  (16 B)
+|  Entity_CmpDepthToParent_055bb2  @ $055BB2  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055bb2, "ax", @progbits
-        .global TaskHandler_055bb2
-TaskHandler_055bb2:
+        .section .text.Entity_CmpDepthToParent_055bb2, "ax", @progbits
+        .global Entity_CmpDepthToParent_055bb2
+Entity_CmpDepthToParent_055bb2:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_055bc8                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055bce  @ $055BCE  (58 B)
+|  Grenade_SpawnFromThrower_055bce  @ $055BCE  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055bce, "ax", @progbits
-        .global TaskHandler_055bce
-TaskHandler_055bce:
+        .section .text.Grenade_SpawnFromThrower_055bce, "ax", @progbits
+        .global Grenade_SpawnFromThrower_055bce
+Grenade_SpawnFromThrower_055bce:
         movem.l a6,-(a7)                        | +000
         lea     0x100800.l,a6                   | +004
-        lea     TaskHandler_055cd8(pc),a1       | +00a
+        lea     Grenade_Task_055cd8(pc),a1      | +00a
         jsr     0x4ae.l                         | +00e
         movem.l (a7)+,a6                        | +014
         move.w  0x22(a6),d0                     | +018
@@ -57,11 +57,11 @@ TaskHandler_055bce:
         rts                                     | +038
 
 | ----------------------------------------------------------------------------
-|  Data_055c08  @ $055C08  (192 B)
+|  Grenade_TrajTable_055c08  @ $055C08  (192 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_055c08, "ax", @progbits
-        .global Data_055c08
-Data_055c08:
+        .section .text.Grenade_TrajTable_055c08, "ax", @progbits
+        .global Grenade_TrajTable_055c08
+Grenade_TrajTable_055c08:
         .dc.b   0xfe                          | +000  '.'  (dato, rango --data)
         .dc.b   0xf7                          | +001  '.'  (dato, rango --data)
         .dc.b   0xff                          | +002  '.'  (dato, rango --data)
@@ -256,11 +256,11 @@ Data_055c08:
         .dc.b   0xff                          | +0bf  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055cc8  @ $055CC8  (8 B)
+|  Grenade_ProbeBox_055cc8  @ $055CC8  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055cc8, "ax", @progbits
-        .global TaskHandler_055cc8
-TaskHandler_055cc8:
+        .section .text.Grenade_ProbeBox_055cc8, "ax", @progbits
+        .global Grenade_ProbeBox_055cc8
+Grenade_ProbeBox_055cc8:
         .dc.b   0xff                          | +000  '.'  (dato, rango --data)
         .dc.b   0xf0                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -271,11 +271,11 @@ TaskHandler_055cc8:
         .dc.b   0x10                          | +007  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055cd0  @ $055CD0  (8 B)
+|  Grenade_PalFieldOffs_055cd0  @ $055CD0  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055cd0, "ax", @progbits
-        .global TaskHandler_055cd0
-TaskHandler_055cd0:
+        .section .text.Grenade_PalFieldOffs_055cd0, "ax", @progbits
+        .global Grenade_PalFieldOffs_055cd0
+Grenade_PalFieldOffs_055cd0:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x16                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -286,14 +286,14 @@ TaskHandler_055cd0:
         .dc.b   0x1a                          | +007  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055cd8  @ $055CD8  (746 B)
+|  Grenade_Task_055cd8  @ $055CD8  (746 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055cd8, "ax", @progbits
-        .global TaskHandler_055cd8
-TaskHandler_055cd8:
+        .section .text.Grenade_Task_055cd8, "ax", @progbits
+        .global Grenade_Task_055cd8
+Grenade_Task_055cd8:
         bset    #0x4,0x6b(a6)                   | +000
         move.w  #0xd000,0x38(a6)                | +006
-        lea     Data_055c08(pc),a0              | +00c
+        lea     Grenade_TrajTable_055c08(pc),a0 | +00c
         moveq   #0,d0                           | +010
         move.b  0x5c(a6),d0                     | +012
         lsl.w   #0x3,d0                         | +016
@@ -314,7 +314,7 @@ TaskHandler_055cd8:
         bcc.w   .L055d3a                        | +05a
         bra.w   Jsr5B6ThenJmpScheduler_056058   | +05e
 .L055d3a:
-        lea     Data_055c08(pc),a0              | +062
+        lea     Grenade_TrajTable_055c08(pc),a0 | +062
         moveq   #0,d1                           | +066
         move.b  0x5c(a6),d1                     | +068
         lsl.w   #0x3,d1                         | +06c
@@ -406,7 +406,7 @@ TaskHandler_055cd8:
         bset    #0x6,0x13(a6)                   | +1ac
         jsr     0x27bc8.l                       | +1b2
         bcc.w   .L055e9a                        | +1b8
-        lea     TaskHandler_055fca(pc),a1       | +1bc
+        lea     Grenade_Explode_055fca(pc),a1   | +1bc
         move.l  a1,(a6)                         | +1c0
 .L055e9a:
         bra.w   .L055eca                        | +1c2
@@ -415,19 +415,19 @@ TaskHandler_055cd8:
         bne.w   .L055eba                        | +1ca
         jsr     0x27bc8.l                       | +1ce
         bcc.w   .L055eb6                        | +1d4
-        lea     TaskHandler_055fca(pc),a1       | +1d8
+        lea     Grenade_Explode_055fca(pc),a1   | +1d8
         move.l  a1,(a6)                         | +1dc
 .L055eb6:
         bra.w   .L055eca                        | +1de
 .L055eba:
         jsr     0x27d50.l                       | +1e2
         bcc.w   .L055eca                        | +1e8
-        lea     TaskHandler_055fca(pc),a1       | +1ec
+        lea     Grenade_Explode_055fca(pc),a1   | +1ec
         move.l  a1,(a6)                         | +1f0
 .L055eca:
         jsr     0x280c6.l                       | +1f2
         cmpi.b  #0x1,d0                         | +1f8
-        beq.w   TaskHandler_055fca              | +1fc
+        beq.w   Grenade_Explode_055fca          | +1fc
         cmpi.b  #0x2,0x106f2b.l                 | +200
         beq.w   .L055f0e                        | +208
         move.w  0x24(a6),d0                     | +20c
@@ -448,7 +448,7 @@ TaskHandler_055cd8:
         move.b  0x106f28.l,d0                   | +238
         andi.w  #0x3,d0                         | +23e
         lsl.w   #0x1,d0                         | +242
-        lea     TaskHandler_055cd0(pc),a0       | +244
+        lea     Grenade_PalFieldOffs_055cd0(pc),a0 | +244
         move.w  (a0,d0.w),d1                    | +248
         move.w  (a6,d1.w),0x14(a6)              | +24c
         cmpi.b  #0x3,0x106f2b.l                 | +252
@@ -475,30 +475,30 @@ TaskHandler_055cd8:
         jsr     0x283d8.l                       | +2a0
         btst    #0x1,0x13(a6)                   | +2a6
         beq.w   .L055f8e                        | +2ac
-        lea     TaskHandler_055fca__L056012(pc),a1 | +2b0
+        lea     Grenade_Explode_055fca__L056012(pc),a1 | +2b0
         move.l  a1,(a6)                         | +2b4
 .L055f8e:
         jsr     0x2870a.l                       | +2b6
         bcc.w   .L055f9e                        | +2bc
-        lea     TaskHandler_055fca__L055fee(pc),a1 | +2c0
+        lea     Grenade_Explode_055fca__L055fee(pc),a1 | +2c0
         move.l  a1,(a6)                         | +2c4
 .L055f9e:
         tst.b   0x10e39e.l                      | +2c6
         beq.w   .L055fae                        | +2cc
-        lea     TaskHandler_055fca__L056012(pc),a1 | +2d0
+        lea     Grenade_Explode_055fca__L056012(pc),a1 | +2d0
         move.l  a1,(a6)                         | +2d4
 .L055fae:
         movea.l #0xffffffff,a0                  | +2d6
-        lea     TaskHandler_055cc8(pc),a0       | +2dc
+        lea     Grenade_ProbeBox_055cc8(pc),a0  | +2dc
         jsr     0x5dd56.l                       | +2e0
         bcc.w   SetHandlerRts_055fc8            | +2e6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_055fca  @ $055FCA  (142 B)
+|  Grenade_Explode_055fca  @ $055FCA  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_055fca, "ax", @progbits
-        .global TaskHandler_055fca
-TaskHandler_055fca:
+        .section .text.Grenade_Explode_055fca, "ax", @progbits
+        .global Grenade_Explode_055fca
+Grenade_Explode_055fca:
         move.w  #0x2000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -506,8 +506,8 @@ TaskHandler_055fca:
         move.w  #0x1027,d0                      | +016
         jsr     0x2352.l                        | +01a
         bra.w   .L056032                        | +020
-        .global TaskHandler_055fca__L055fee
-TaskHandler_055fca__L055fee:
+        .global Grenade_Explode_055fca__L055fee
+Grenade_Explode_055fca__L055fee:
 .L055fee:
         move.w  #0x8000,d0                      | +024
         jsr     0x28134.l                       | +028
@@ -516,8 +516,8 @@ TaskHandler_055fca__L055fee:
         move.w  #0x1027,d0                      | +03a
         jsr     0x2352.l                        | +03e
         bra.w   .L056032                        | +044
-        .global TaskHandler_055fca__L056012
-TaskHandler_055fca__L056012:
+        .global Grenade_Explode_055fca__L056012
+Grenade_Explode_055fca__L056012:
 .L056012:
         move.w  #0x8000,d0                      | +048
         jsr     0x28134.l                       | +04c
@@ -534,14 +534,14 @@ TaskHandler_055fca__L056012:
         jmp     0x77eda.l                       | +088
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056066  @ $056066  (40 B)
+|  Bounce_SpawnFromParent_056066  @ $056066  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056066, "ax", @progbits
-        .global TaskHandler_056066
-TaskHandler_056066:
+        .section .text.Bounce_SpawnFromParent_056066, "ax", @progbits
+        .global Bounce_SpawnFromParent_056066
+Bounce_SpawnFromParent_056066:
         move.l  a6,-(a7)                        | +000
         lea     0x100800.l,a6                   | +002
-        lea     TaskHandler_05608e(pc),a1       | +008
+        lea     Bounce_Task_05608e(pc),a1       | +008
         jsr     0x4ae.l                         | +00c
         movea.l (a7)+,a6                        | +012
         move.w  0x22(a6),0x22(a0)               | +014
@@ -550,11 +550,11 @@ TaskHandler_056066:
         rts                                     | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05608e  @ $05608E  (228 B)
+|  Bounce_Task_05608e  @ $05608E  (228 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05608e, "ax", @progbits
-        .global TaskHandler_05608e
-TaskHandler_05608e:
+        .section .text.Bounce_Task_05608e, "ax", @progbits
+        .global Bounce_Task_05608e
+Bounce_Task_05608e:
         bset    #0x2,0x5b(a6)                   | +000
         bset    #0x4,0x6b(a6)                   | +006
         move.w  #0xd000,d0                      | +00c
@@ -586,16 +586,16 @@ TaskHandler_05608e:
 .L05610c:
         jsr     0x27c8c.l                       | +07e
         bcc.w   .L05611c                        | +084
-        lea     TaskHandler_05617a(pc),a1       | +088
+        lea     Bounce_Rest_05617a(pc),a1       | +088
         move.l  a1,(a6)                         | +08c
 .L05611c:
         jsr     0x28d70.l                       | +08e
-        .global TaskHandler_05608e__L056122
-TaskHandler_05608e__L056122:
+        .global Bounce_Task_05608e__L056122
+Bounce_Task_05608e__L056122:
 .L056122:
         jsr     0x2870a.l                       | +094
         bcc.w   .L056132                        | +09a
-        lea     TaskHandler_0561da(pc),a1       | +09e
+        lea     Bounce_Fizzle_0561da(pc),a1     | +09e
         move.l  a1,(a6)                         | +0a2
 .L056132:
         subq.b  #0x1,0x5c(a6)                   | +0a4
@@ -610,17 +610,17 @@ TaskHandler_05608e__L056122:
         move.w  d0,0x14(a6)                     | +0c6
 .L056158:
         movea.l #0xffffffff,a0                  | +0ca
-        lea     TaskHandler_055cc8(pc),a0       | +0d0
+        lea     Grenade_ProbeBox_055cc8(pc),a0  | +0d0
         jsr     0x5dd56.l                       | +0d4
         bcc.w   JsrAbsThunk_056172              | +0da
         jmp     0x518.l                         | +0de
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05617a  @ $05617A  (52 B)
+|  Bounce_Rest_05617a  @ $05617A  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05617a, "ax", @progbits
-        .global TaskHandler_05617a
-TaskHandler_05617a:
+        .section .text.Bounce_Rest_05617a, "ax", @progbits
+        .global Bounce_Rest_05617a
+Bounce_Rest_05617a:
         lea     0x29cdb6.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         clr.w   0x28(a6)                        | +00c
@@ -631,17 +631,17 @@ TaskHandler_05617a:
         jsr     0x27c8c.l                       | +01a
         jsr     0x28d70.l                       | +020
         bcc.w   .L0561aa                        | +026
-        lea     TaskHandler_0561ae(pc),a1       | +02a
+        lea     Bounce_Rest2_0561ae(pc),a1      | +02a
         move.l  a1,(a6)                         | +02e
 .L0561aa:
-        bra.w   TaskHandler_05608e__L056122     | +030
+        bra.w   Bounce_Task_05608e__L056122     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0561ae  @ $0561AE  (44 B)
+|  Bounce_Rest2_0561ae  @ $0561AE  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0561ae, "ax", @progbits
-        .global TaskHandler_0561ae
-TaskHandler_0561ae:
+        .section .text.Bounce_Rest2_0561ae, "ax", @progbits
+        .global Bounce_Rest2_0561ae
+Bounce_Rest2_0561ae:
         lea     0x29cfa8.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L0561c0(pc),a1                 | +00c
@@ -650,17 +650,17 @@ TaskHandler_0561ae:
         jsr     0x27c8c.l                       | +012
         jsr     0x28d70.l                       | +018
         bcc.w   .L0561d6                        | +01e
-        lea     TaskHandler_0561da(pc),a1       | +022
+        lea     Bounce_Fizzle_0561da(pc),a1     | +022
         move.l  a1,(a6)                         | +026
 .L0561d6:
-        bra.w   TaskHandler_05608e__L056122     | +028
+        bra.w   Bounce_Task_05608e__L056122     | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0561da  @ $0561DA  (34 B)
+|  Bounce_Fizzle_0561da  @ $0561DA  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0561da, "ax", @progbits
-        .global TaskHandler_0561da
-TaskHandler_0561da:
+        .section .text.Bounce_Fizzle_0561da, "ax", @progbits
+        .global Bounce_Fizzle_0561da
+Bounce_Fizzle_0561da:
         lea     0x29cfd2.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L0561ec(pc),a1                 | +00c
@@ -671,11 +671,11 @@ TaskHandler_0561da:
         bcc.w   SetHandlerRts_056202            | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056204  @ $056204  (104 B)
+|  Bounce_Explode_056204  @ $056204  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056204, "ax", @progbits
-        .global TaskHandler_056204
-TaskHandler_056204:
+        .section .text.Bounce_Explode_056204, "ax", @progbits
+        .global Bounce_Explode_056204
+Bounce_Explode_056204:
         move.w  #0x1022,d0                      | +000
         jsr     0x2352.l                        | +004
         lea     0x29cca6.l,a0                   | +00a
@@ -699,11 +699,11 @@ TaskHandler_056204:
         bcc.w   Jsr5B6Rts_056278                | +064
 
 | ----------------------------------------------------------------------------
-|  Data_05627a  @ $05627A  (84 B)
+|  Mortar_HitboxList_05627a  @ $05627A  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05627a, "ax", @progbits
-        .global Data_05627a
-Data_05627a:
+        .section .text.Mortar_HitboxList_05627a, "ax", @progbits
+        .global Mortar_HitboxList_05627a
+Mortar_HitboxList_05627a:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x03                          | +001  '.'  (dato, rango --data)
         .dc.b   0xff                          | +002  '.'  (dato, rango --data)
@@ -790,11 +790,11 @@ Data_05627a:
         .dc.b   0xff                          | +053  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0562ce  @ $0562CE  (170 B)
+|  Mortar_HitboxList_B_0562ce  @ $0562CE  (170 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0562ce, "ax", @progbits
-        .global TaskHandler_0562ce
-TaskHandler_0562ce:
+        .section .text.Mortar_HitboxList_B_0562ce, "ax", @progbits
+        .global Mortar_HitboxList_B_0562ce
+Mortar_HitboxList_B_0562ce:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x06                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -967,11 +967,11 @@ TaskHandler_0562ce:
         .dc.b   0xce                          | +0a9  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056378  @ $056378  (124 B)
+|  SpriteMap_Mortar_056378  @ $056378  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056378, "ax", @progbits
-        .global TaskHandler_056378
-TaskHandler_056378:
+        .section .text.SpriteMap_Mortar_056378, "ax", @progbits
+        .global SpriteMap_Mortar_056378
+SpriteMap_Mortar_056378:
         .dc.b   0x09                          | +000  '.'  (dato, rango --data)
         .dc.b   0x00                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -1098,11 +1098,11 @@ TaskHandler_056378:
         .dc.b   0x7e                          | +07b  '~'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  Sub_000563F4  @ $0563F4  (120 B)
+|  Mortar_ApplyDrag_0563f4  @ $0563F4  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000563F4, "ax", @progbits
-        .global Sub_000563F4
-Sub_000563F4:
+        .section .text.Mortar_ApplyDrag_0563f4, "ax", @progbits
+        .global Mortar_ApplyDrag_0563f4
+Mortar_ApplyDrag_0563f4:
         move.w  0x28(a6),d0                     | +000
         beq.w   .L056408                        | +004
         asr.w   #0x8,d0                         | +008
@@ -1128,27 +1128,34 @@ Sub_000563F4:
         sub.w   d1,0x28(a6)                     | +03e
 .L056436:
         rts                                     | +042
-        move.l  a6,-(a7)                        | +044
-        lea     0x100800.l,a6                   | +046
-        lea     TaskHandler_05646c(pc),a1       | +04c
-        jsr     0x4ae.l                         | +050
-        movea.l (a7)+,a6                        | +056
-        move.w  0x22(a6),0x22(a0)               | +058
-        move.w  0x24(a6),0x24(a0)               | +05e
-        move.b  0x3a(a6),0x3a(a0)               | +064
-        move.b  0x11(a6),0x11(a0)               | +06a
-        addi.w  #0x14,0x24(a0)                  | +070
-        rts                                     | +076
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05646c  @ $05646C  (290 B)
+|  Mortar_SpawnFromParent_056438  @ $056438  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05646c, "ax", @progbits
-        .global TaskHandler_05646c
-TaskHandler_05646c:
+        .section .text.Mortar_SpawnFromParent_056438, "ax", @progbits
+        .global Mortar_SpawnFromParent_056438
+Mortar_SpawnFromParent_056438:
+        move.l  a6,-(a7)                        | +000
+        lea     0x100800.l,a6                   | +002
+        lea     Mortar_Shell_Task_05646c(pc),a1 | +008
+        jsr     0x4ae.l                         | +00c
+        movea.l (a7)+,a6                        | +012
+        move.w  0x22(a6),0x22(a0)               | +014
+        move.w  0x24(a6),0x24(a0)               | +01a
+        move.b  0x3a(a6),0x3a(a0)               | +020
+        move.b  0x11(a6),0x11(a0)               | +026
+        addi.w  #0x14,0x24(a0)                  | +02c
+        rts                                     | +032
+
+| ----------------------------------------------------------------------------
+|  Mortar_Shell_Task_05646c  @ $05646C  (290 B)
+| ----------------------------------------------------------------------------
+        .section .text.Mortar_Shell_Task_05646c, "ax", @progbits
+        .global Mortar_Shell_Task_05646c
+Mortar_Shell_Task_05646c:
         move.w  #0xe,d1                         | +000
         jsr     0x236e.l                        | +004
-        lea     TaskHandler_0562ce(pc),a0       | +00a
+        lea     Mortar_HitboxList_B_0562ce(pc),a0 | +00a
         move.l  a0,0x4c(a6)                     | +00e
         jsr     0x283ca.l                       | +012
         jsr     0x283ca.l                       | +018
@@ -1166,7 +1173,7 @@ TaskHandler_05646c:
         move.w  #0x195,0x2a(a6)                 | +058
         move.w  #0xffaf,0x2e(a6)                | +05e
         move.w  #0x0,0x2c(a6)                   | +064
-        lea     TaskHandler_056378(pc),a0       | +06a
+        lea     SpriteMap_Mortar_056378(pc),a0  | +06a
         jsr     0x28cd4.l                       | +06e
         lea     .L0564e6(pc),a1                 | +074
         move.l  a1,(a6)                         | +078
@@ -1178,52 +1185,52 @@ TaskHandler_05646c:
         bra.w   .L05650a                        | +090
 .L056500:
         jsr     0x28292.l                       | +094
-        bsr.w   Sub_000563F4                    | +09a
+        bsr.w   Mortar_ApplyDrag_0563f4         | +09a
 .L05650a:
         move.w  0x28(a6),d0                     | +09e
         btst    #0x0,0x3a(a6)                   | +0a2
         bne.w   .L05652a                        | +0a8
         cmpi.w  #0x0,d0                         | +0ac
         blt.w   .L056526                        | +0b0
-        lea     TaskHandler_05659c(pc),a1       | +0b4
+        lea     Mortar_Shell_Explode_05659c(pc),a1 | +0b4
         move.l  a1,(a6)                         | +0b8
 .L056526:
         bra.w   .L056538                        | +0ba
 .L05652a:
         cmpi.w  #0x0,d0                         | +0be
         bgt.w   .L056538                        | +0c2
-        lea     TaskHandler_05659c(pc),a1       | +0c6
+        lea     Mortar_Shell_Explode_05659c(pc),a1 | +0c6
         move.l  a1,(a6)                         | +0ca
 .L056538:
         btst    #0x5,0x5a(a6)                   | +0cc
         beq.w   .L056548                        | +0d2
-        lea     TaskHandler_05659c(pc),a1       | +0d6
+        lea     Mortar_Shell_Explode_05659c(pc),a1 | +0d6
         move.l  a1,(a6)                         | +0da
 .L056548:
         jsr     0x28d70.l                       | +0dc
         jsr     0x283d8.l                       | +0e2
         btst    #0x1,0x13(a6)                   | +0e8
         beq.w   .L056564                        | +0ee
-        lea     TaskHandler_05659c(pc),a1       | +0f2
+        lea     Mortar_Shell_Explode_05659c(pc),a1 | +0f2
         move.l  a1,(a6)                         | +0f6
 .L056564:
         bclr    #0x3,0x13(a6)                   | +0f8
         jsr     0x28758.l                       | +0fe
         bcc.w   .L05657a                        | +104
-        lea     TaskHandler_05659c(pc),a1       | +108
+        lea     Mortar_Shell_Explode_05659c(pc),a1 | +108
         move.l  a1,(a6)                         | +10c
 .L05657a:
         movea.l #0xffffffff,a0                  | +10e
-        lea     TaskHandler_055cc8(pc),a0       | +114
+        lea     Grenade_ProbeBox_055cc8(pc),a0  | +114
         jsr     0x5dd56.l                       | +118
         bcc.w   SetHandlerRts_056594            | +11e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05659c  @ $05659C  (44 B)
+|  Mortar_Shell_Explode_05659c  @ $05659C  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05659c, "ax", @progbits
-        .global TaskHandler_05659c
-TaskHandler_05659c:
+        .section .text.Mortar_Shell_Explode_05659c, "ax", @progbits
+        .global Mortar_Shell_Explode_05659c
+Mortar_Shell_Explode_05659c:
         move.w  #0x1022,d0                      | +000
         jsr     0x2352.l                        | +004
         jsr     0x13600.l                       | +00a
@@ -1234,11 +1241,11 @@ TaskHandler_05659c:
         jmp     0x77f6a.l                       | +026
 
 | ----------------------------------------------------------------------------
-|  Data_0565c8  @ $0565C8  (84 B)
+|  Roller_HitboxList_0565c8  @ $0565C8  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0565c8, "ax", @progbits
-        .global Data_0565c8
-Data_0565c8:
+        .section .text.Roller_HitboxList_0565c8, "ax", @progbits
+        .global Roller_HitboxList_0565c8
+Roller_HitboxList_0565c8:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x06                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -1325,11 +1332,11 @@ Data_0565c8:
         .dc.b   0xff                          | +053  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05661c  @ $05661C  (84 B)
+|  Roller_HitboxList_B_05661c  @ $05661C  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05661c, "ax", @progbits
-        .global TaskHandler_05661c
-TaskHandler_05661c:
+        .section .text.Roller_HitboxList_B_05661c, "ax", @progbits
+        .global Roller_HitboxList_B_05661c
+Roller_HitboxList_B_05661c:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x03                          | +001  '.'  (dato, rango --data)
         .dc.b   0xff                          | +002  '.'  (dato, rango --data)
@@ -1416,11 +1423,11 @@ TaskHandler_05661c:
         .dc.b   0xff                          | +053  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  Data_056670  @ $056670  (512 B)
+|  SpriteMap_Roller_056670  @ $056670  (476 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_056670, "ax", @progbits
-        .global Data_056670
-Data_056670:
+        .section .text.SpriteMap_Roller_056670, "ax", @progbits
+        .global SpriteMap_Roller_056670
+SpriteMap_Roller_056670:
         .dc.b   0x04                          | +000  '.'  (dato, rango --data)
         .dc.b   0x00                          | +001  '.'  (dato, rango --data)
         .dc.b   0x10                          | +002  '.'  (dato, rango --data)
@@ -1897,21 +1904,28 @@ Data_056670:
         .dc.b   0x10                          | +1d9  '.'  (dato, rango --data)
         .dc.b   0x08                          | +1da  '.'  (dato, rango --data)
         .dc.b   0x00                          | +1db  '.'  (dato, rango --data)
-        lea     TaskHandler_056870(pc),a1       | +1dc
-        jsr     0x4ae.l                         | +1e0
-        movea.l (a7)+,a6                        | +1e6
-        move.w  0x22(a6),0x22(a0)               | +1e8
-        move.w  0x24(a6),0x24(a0)               | +1ee
-        move.b  0x3a(a6),0x3a(a0)               | +1f4
-        clr.w   0x70(a6)                        | +1fa
-        rts                                     | +1fe
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056870  @ $056870  (406 B)
+|  Roller_SpawnFromParent_05684c  @ $05684C  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056870, "ax", @progbits
-        .global TaskHandler_056870
-TaskHandler_056870:
+        .section .text.Roller_SpawnFromParent_05684c, "ax", @progbits
+        .global Roller_SpawnFromParent_05684c
+Roller_SpawnFromParent_05684c:
+        lea     Roller_Task_056870(pc),a1       | +000
+        jsr     0x4ae.l                         | +004
+        movea.l (a7)+,a6                        | +00a
+        move.w  0x22(a6),0x22(a0)               | +00c
+        move.w  0x24(a6),0x24(a0)               | +012
+        move.b  0x3a(a6),0x3a(a0)               | +018
+        clr.w   0x70(a6)                        | +01e
+        rts                                     | +022
+
+| ----------------------------------------------------------------------------
+|  Roller_Task_056870  @ $056870  (406 B)
+| ----------------------------------------------------------------------------
+        .section .text.Roller_Task_056870, "ax", @progbits
+        .global Roller_Task_056870
+Roller_Task_056870:
         bset    #0x4,0x6b(a6)                   | +000
         move.w  #0xd000,d0                      | +006
         jsr     0x28134.l                       | +00a
@@ -1919,16 +1933,16 @@ TaskHandler_056870:
         ori.w   #0x10,0x38(a6)                  | +016
         move.w  #0xe,d1                         | +01c
         jsr     0x236e.l                        | +020
-        lea     Data_056670(pc),a0              | +026
+        lea     SpriteMap_Roller_056670(pc),a0  | +026
         jsr     0x28cd4.l                       | +02a
         move.w  #0x80,0x2a(a6)                  | +030
         move.w  #0xfffc,0x2e(a6)                | +036
         clr.w   0x28(a6)                        | +03c
         addi.w  #0x28,0x24(a6)                  | +040
         move.w  #0x64,0x66(a6)                  | +046
-        lea     TaskHandler_05661c(pc),a0       | +04c
+        lea     Roller_HitboxList_B_05661c(pc),a0 | +04c
         move.l  a0,0x48(a6)                     | +050
-        lea     Data_0565c8(pc),a0              | +054
+        lea     Roller_HitboxList_0565c8(pc),a0 | +054
         move.l  a0,0x4c(a6)                     | +058
         jsr     0x283ca.l                       | +05c
         jsr     0x283ca.l                       | +062
@@ -1996,16 +2010,16 @@ TaskHandler_056870:
 .L0569a6:
         jsr     0x28d70.l                       | +136
         movea.l #0xffffffff,a0                  | +13c
-        lea     TaskHandler_055cc8(pc),a0       | +142
+        lea     Grenade_ProbeBox_055cc8(pc),a0  | +142
         jsr     0x5dd56.l                       | +146
         bcs.w   JmpAbsThunk_056a06              | +14c
         jsr     0x283d8.l                       | +150
         btst    #0x1,0x13(a6)                   | +156
-        bne.w   TaskHandler_056a0c              | +15c
+        bne.w   Roller_Explode_056a0c           | +15c
         jsr     0x28758.l                       | +160
-        bcs.w   TaskHandler_056a0c              | +166
+        bcs.w   Roller_Explode_056a0c           | +166
         btst    #0x5,0x5a(a6)                   | +16a
-        bne.w   TaskHandler_056a0c              | +170
+        bne.w   Roller_Explode_056a0c           | +170
         jsr     0x2870a.l                       | +174
         bcc.w   .L056a04                        | +17a
         move.w  #0x108d,d0                      | +17e
@@ -2016,11 +2030,11 @@ TaskHandler_056870:
         rts                                     | +194
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056a0c  @ $056A0C  (44 B)
+|  Roller_Explode_056a0c  @ $056A0C  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056a0c, "ax", @progbits
-        .global TaskHandler_056a0c
-TaskHandler_056a0c:
+        .section .text.Roller_Explode_056a0c, "ax", @progbits
+        .global Roller_Explode_056a0c
+Roller_Explode_056a0c:
         move.w  #0x1022,d0                      | +000
         jsr     0x2352.l                        | +004
         jsr     0x13600.l                       | +00a
@@ -2031,66 +2045,66 @@ TaskHandler_056a0c:
         jmp     0x77f6a.l                       | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056a38  @ $056A38  (16 B)
+|  Entity_CmpDepthToParent_056a38  @ $056A38  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056a38, "ax", @progbits
-        .global TaskHandler_056a38
-TaskHandler_056a38:
+        .section .text.Entity_CmpDepthToParent_056a38, "ax", @progbits
+        .global Entity_CmpDepthToParent_056a38
+Entity_CmpDepthToParent_056a38:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_056a4e                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056a54  @ $056A54  (16 B)
+|  Entity_CmpDepthToParent_056a54  @ $056A54  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056a54, "ax", @progbits
-        .global TaskHandler_056a54
-TaskHandler_056a54:
+        .section .text.Entity_CmpDepthToParent_056a54, "ax", @progbits
+        .global Entity_CmpDepthToParent_056a54
+Entity_CmpDepthToParent_056a54:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_056a6a                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056a70  @ $056A70  (16 B)
+|  Entity_CmpDepthToParent_056a70  @ $056A70  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056a70, "ax", @progbits
-        .global TaskHandler_056a70
-TaskHandler_056a70:
+        .section .text.Entity_CmpDepthToParent_056a70, "ax", @progbits
+        .global Entity_CmpDepthToParent_056a70
+Entity_CmpDepthToParent_056a70:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_056a86                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056a8c  @ $056A8C  (16 B)
+|  Entity_CmpDepthToParent_056a8c  @ $056A8C  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056a8c, "ax", @progbits
-        .global TaskHandler_056a8c
-TaskHandler_056a8c:
+        .section .text.Entity_CmpDepthToParent_056a8c, "ax", @progbits
+        .global Entity_CmpDepthToParent_056a8c
+Entity_CmpDepthToParent_056a8c:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_056aa2                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_056aa8  @ $056AA8  (16 B)
+|  Entity_CmpDepthToParent_056aa8  @ $056AA8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_056aa8, "ax", @progbits
-        .global TaskHandler_056aa8
-TaskHandler_056aa8:
+        .section .text.Entity_CmpDepthToParent_056aa8, "ax", @progbits
+        .global Entity_CmpDepthToParent_056aa8
+Entity_CmpDepthToParent_056aa8:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_056abe                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_056ac4  @ $056AC4  (8 B)
+|  Soldier_PhysicsBox_056ac4  @ $056AC4  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_056ac4, "ax", @progbits
-        .global Data_056ac4
-Data_056ac4:
+        .section .text.Soldier_PhysicsBox_056ac4, "ax", @progbits
+        .global Soldier_PhysicsBox_056ac4
+Soldier_PhysicsBox_056ac4:
         .dc.b   0xff                          | +000  '.'  (dato, rango --data)
         .dc.b   0xc0                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
