@@ -73,7 +73,7 @@ Attract_InitBIOS_001744:
         jsr     0x4ae.l                        | +12  scheduler_add(a1)
         cmpi.b  #0x6, 0x106ed0.l               | +18  if (state_gate < 6)
         bcs.w   .Lff2_skip_aux                 | +20    skip second task-add
-        lea.l   0x59b6a.l, a1                  | +24  a1 = TaskHandler_00059B6A
+        lea.l   0x59b6a.l, a1                  | +24  a1 = Ending_PeaceWait_059b6a
         jsr     0x4ae.l                        | +2a  scheduler_add(a1)
 .Lff2_skip_aux:                                | $001774
         jsr     0x46ac6.l                      | +30  Sub_00046AC6 (init pesado)

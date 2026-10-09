@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $05934E..$05A9D6  (5,290 B, 66 entradas, 38 huecos)
+|  Región: $05934E..$05A9D6  (5,290 B, 71 entradas, 38 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Data_05934e  @ $05934E  (228 B)
+|  ResultText_Strings_05934e  @ $05934E  (172 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05934e, "ax", @progbits
-        .global Data_05934e
-Data_05934e:
+        .section .text.ResultText_Strings_05934e, "ax", @progbits
+        .global ResultText_Strings_05934e
+ResultText_Strings_05934e:
         .dc.b   0x4d                          | +000  'M'  (dato, rango --data)
         .dc.b   0x45                          | +001  'E'  (dato, rango --data)
         .dc.b   0x54                          | +002  'T'  (dato, rango --data)
@@ -76,8 +76,8 @@ Data_05934e:
         .dc.b   0x20                          | +035  ' '  (dato, rango --data)
         .dc.b   0x20                          | +036  ' '  (dato, rango --data)
         .dc.b   0xff                          | +037  '.'  (dato, rango --data)
-        .global Data_05934e__L059386
-Data_05934e__L059386:
+        .global ResultText_Strings_05934e__L059386
+ResultText_Strings_05934e__L059386:
 .L059386:
         .dc.b   0x20                          | +038  ' '  (dato, rango --data)
         .dc.b   0x20                          | +039  ' '  (dato, rango --data)
@@ -92,8 +92,8 @@ Data_05934e__L059386:
         .dc.b   0x4c                          | +042  'L'  (dato, rango --data)
         .dc.b   0x54                          | +043  'T'  (dato, rango --data)
         .dc.b   0xff                          | +044  '.'  (dato, rango --data)
-        .global Data_05934e__L059393
-Data_05934e__L059393:
+        .global ResultText_Strings_05934e__L059393
+ResultText_Strings_05934e__L059393:
 .L059393:
         .dc.b   0x20                          | +045  ' '  (dato, rango --data)
         .dc.b   0x20                          | +046  ' '  (dato, rango --data)
@@ -108,8 +108,8 @@ Data_05934e__L059393:
         .dc.b   0x4c                          | +04f  'L'  (dato, rango --data)
         .dc.b   0x54                          | +050  'T'  (dato, rango --data)
         .dc.b   0xff                          | +051  '.'  (dato, rango --data)
-        .global Data_05934e__L0593a0
-Data_05934e__L0593a0:
+        .global ResultText_Strings_05934e__L0593a0
+ResultText_Strings_05934e__L0593a0:
 .L0593a0:
         .dc.b   0x53                          | +052  'S'  (dato, rango --data)
         .dc.b   0x43                          | +053  'C'  (dato, rango --data)
@@ -117,8 +117,8 @@ Data_05934e__L0593a0:
         .dc.b   0x52                          | +055  'R'  (dato, rango --data)
         .dc.b   0x45                          | +056  'E'  (dato, rango --data)
         .dc.b   0xff                          | +057  '.'  (dato, rango --data)
-        .global Data_05934e__L0593a6
-Data_05934e__L0593a6:
+        .global ResultText_Strings_05934e__L0593a6
+ResultText_Strings_05934e__L0593a6:
 .L0593a6:
         .dc.b   0x43                          | +058  'C'  (dato, rango --data)
         .dc.b   0x4f                          | +059  'O'  (dato, rango --data)
@@ -135,8 +135,8 @@ Data_05934e__L0593a6:
         .dc.b   0x41                          | +064  'A'  (dato, rango --data)
         .dc.b   0x4c                          | +065  'L'  (dato, rango --data)
         .dc.b   0xff                          | +066  '.'  (dato, rango --data)
-        .global Data_05934e__L0593b5
-Data_05934e__L0593b5:
+        .global ResultText_Strings_05934e__L0593b5
+ResultText_Strings_05934e__L0593b5:
 .L0593b5:
         .dc.b   0x52                          | +067  'R'  (dato, rango --data)
         .dc.b   0x45                          | +068  'E'  (dato, rango --data)
@@ -161,8 +161,8 @@ Data_05934e__L0593b5:
         .dc.b   0x20                          | +07b  ' '  (dato, rango --data)
         .dc.b   0xfe                          | +07c  '.'  (dato, rango --data)
         .dc.b   0x00                          | +07d  '.'  (dato, rango --data)
-        .global Data_05934e__L0593cc
-Data_05934e__L0593cc:
+        .global ResultText_Strings_05934e__L0593cc
+ResultText_Strings_05934e__L0593cc:
 .L0593cc:
         .dc.b   0x0d                          | +07e  '.'  (dato, rango --data)
         .dc.b   0x22                          | +07f  '"'  (dato, rango --data)
@@ -176,8 +176,8 @@ Data_05934e__L0593cc:
         .dc.b   0xea                          | +087  '.'  (dato, rango --data)
         .dc.b   0x00                          | +088  '.'  (dato, rango --data)
         .dc.b   0xff                          | +089  '.'  (dato, rango --data)
-        .global Data_05934e__L0593d8
-Data_05934e__L0593d8:
+        .global ResultText_Strings_05934e__L0593d8
+ResultText_Strings_05934e__L0593d8:
 .L0593d8:
         .dc.b   0x08                          | +08a  '.'  (dato, rango --data)
         .dc.b   0x00                          | +08b  '.'  (dato, rango --data)
@@ -213,28 +213,32 @@ Data_05934e__L0593d8:
         .dc.b   0x00                          | +0a9  '.'  (dato, rango --data)
         .dc.b   0xff                          | +0aa  '.'  (dato, rango --data)
         .dc.b   0xff                          | +0ab  '.'  (dato, rango --data)
-        .global Data_05934e__L0593fa
-Data_05934e__L0593fa:
-.L0593fa:
-        lea     0x4737e.l,a1                    | +0ac
-        jsr     0x4ae.l                         | +0b2
-        move.w  #0x708f,d0                      | +0b8
-        move.w  d0,0x22(a0)                     | +0bc
-        move.l  #0x5936a,0x3c(a0)               | +0c0
-        move.w  #0x1,0x30(a0)                   | +0c8
-        move.b  #0x4,0x16(a0)                   | +0ce
-        lea     .L059428(pc),a1                 | +0d4
-        move.l  a1,(a6)                         | +0d8
-.L059428:
-        jsr     0x6f0.l                         | +0da
-        bcs.w   SetHandlerRts_059438            | +0e0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05943a  @ $05943A  (56 B)
+|  Ending_ShowMission_0593fa  @ $0593FA  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05943a, "ax", @progbits
-        .global TaskHandler_05943a
-TaskHandler_05943a:
+        .section .text.Ending_ShowMission_0593fa, "ax", @progbits
+        .global Ending_ShowMission_0593fa
+Ending_ShowMission_0593fa:
+        lea     0x4737e.l,a1                    | +000
+        jsr     0x4ae.l                         | +006
+        move.w  #0x708f,d0                      | +00c
+        move.w  d0,0x22(a0)                     | +010
+        move.l  #0x5936a,0x3c(a0)               | +014
+        move.w  #0x1,0x30(a0)                   | +01c
+        move.b  #0x4,0x16(a0)                   | +022
+        lea     .L059428(pc),a1                 | +028
+        move.l  a1,(a6)                         | +02c
+.L059428:
+        jsr     0x6f0.l                         | +02e
+        bcs.w   SetHandlerRts_059438            | +034
+
+| ----------------------------------------------------------------------------
+|  Ending_ShowAll_05943a  @ $05943A  (56 B)
+| ----------------------------------------------------------------------------
+        .section .text.Ending_ShowAll_05943a, "ax", @progbits
+        .global Ending_ShowAll_05943a
+Ending_ShowAll_05943a:
         lea     0x4737e.l,a1                    | +000
         jsr     0x4ae.l                         | +006
         move.w  #0x726f,d0                      | +00c
@@ -249,11 +253,11 @@ TaskHandler_05943a:
         bcs.w   SetHandlerRts_059478            | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05947a  @ $05947A  (56 B)
+|  Ending_ShowOver_05947a  @ $05947A  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05947a, "ax", @progbits
-        .global TaskHandler_05947a
-TaskHandler_05947a:
+        .section .text.Ending_ShowOver_05947a, "ax", @progbits
+        .global Ending_ShowOver_05947a
+Ending_ShowOver_05947a:
         lea     0x4737e.l,a1                    | +000
         jsr     0x4ae.l                         | +006
         move.w  #0x734f,d0                      | +00c
@@ -268,20 +272,20 @@ TaskHandler_05947a:
         bcs.w   SetHandlerRts_0594b8            | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0594ba  @ $0594BA  (12 B)
+|  Ending_Exit_0594ba  @ $0594BA  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0594ba, "ax", @progbits
-        .global TaskHandler_0594ba
-TaskHandler_0594ba:
+        .section .text.Ending_Exit_0594ba, "ax", @progbits
+        .global Ending_Exit_0594ba
+Ending_Exit_0594ba:
         jsr     0x5b6.l                         | +000
         jmp     0x518.l                         | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0594c6  @ $0594C6  (218 B)
+|  Ending_WipeAllOver_0594c6  @ $0594C6  (218 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0594c6, "ax", @progbits
-        .global TaskHandler_0594c6
-TaskHandler_0594c6:
+        .section .text.Ending_WipeAllOver_0594c6, "ax", @progbits
+        .global Ending_WipeAllOver_0594c6
+Ending_WipeAllOver_0594c6:
         move.w  #0xf,0x30(a6)                   | +000
         lea     .L0594d2(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -339,11 +343,11 @@ TaskHandler_0594c6:
         bne.w   Jsr5B6Rts_0595ac                | +0d6
 
 | ----------------------------------------------------------------------------
-|  Sub_000595AE  @ $0595AE  (160 B)
+|  Result_DrawDigits_0595ae  @ $0595AE  (160 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000595AE, "ax", @progbits
-        .global Sub_000595AE
-Sub_000595AE:
+        .section .text.Result_DrawDigits_0595ae, "ax", @progbits
+        .global Result_DrawDigits_0595ae
+Result_DrawDigits_0595ae:
         clr.b   d6                              | +000
         bra.w   .L05960c                        | +002
 .L0595b4:
@@ -374,8 +378,8 @@ Sub_000595AE:
 .L05960c:
         dbra    d7,.L0595b4                     | +05e
         rts                                     | +062
-        .global Sub_000595AE__L059612
-Sub_000595AE__L059612:
+        .global Result_DrawDigits_0595ae__L059612
+Result_DrawDigits_0595ae__L059612:
 .L059612:
         andi.l  #0xff,d1                        | +064
         divu.w  #0xa,d1                         | +06a
@@ -397,27 +401,27 @@ Sub_000595AE__L059612:
         move.l  d2,-(a7)                        | +090
         lea     0x1(a7),a0                      | +092
         moveq   #3,d7                           | +096
-        bsr.w   Sub_000595AE                    | +098
+        bsr.w   Result_DrawDigits_0595ae        | +098
         move.l  (a7)+,d2                        | +09c
         rts                                     | +09e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05964e  @ $05964E  (16 B)
+|  Result_TickSound_05964e  @ $05964E  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05964e, "ax", @progbits
-        .global TaskHandler_05964e
-TaskHandler_05964e:
+        .section .text.Result_TickSound_05964e, "ax", @progbits
+        .global Result_TickSound_05964e
+Result_TickSound_05964e:
         move.b  0x30(a6),d0                     | +000
         andi.b  #0x3,d0                         | +004
         bne.w   JsrAbsRts_059664                | +008
         move.w  #0x10d8,d0                      | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059666  @ $059666  (180 B)
+|  Result_PlayerPanel_Init_059666  @ $059666  (180 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059666, "ax", @progbits
-        .global TaskHandler_059666
-TaskHandler_059666:
+        .section .text.Result_PlayerPanel_Init_059666, "ax", @progbits
+        .global Result_PlayerPanel_Init_059666
+Result_PlayerPanel_Init_059666:
         tst.b   0x98(a6)                        | +000
         bne.w   .L0596a6                        | +004
         cmpi.b  #0x1,0x10e3b8.l                 | +008
@@ -444,10 +448,10 @@ TaskHandler_059666:
         move.w  d0,0x70(a6)                     | +074
         tst.b   0x98(a6)                        | +078
         bne.w   .L0596ee                        | +07c
-        lea     Data_05934e__L059386(pc),a2     | +080
+        lea     ResultText_Strings_05934e__L059386(pc),a2 | +080
         bra.w   .L0596f2                        | +084
 .L0596ee:
-        lea     Data_05934e__L059393(pc),a2     | +088
+        lea     ResultText_Strings_05934e__L059393(pc),a2 | +088
 .L0596f2:
         movea.l #0xa,a1                         | +08c
         adda.w  0x70(a6),a1                     | +092
@@ -461,14 +465,14 @@ TaskHandler_059666:
         bne.w   SetHandlerRts_059720            | +0b0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059722  @ $059722  (44 B)
+|  Result_PrintContinueLabel_059722  @ $059722  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059722, "ax", @progbits
-        .global TaskHandler_059722
-TaskHandler_059722:
+        .section .text.Result_PrintContinueLabel_059722, "ax", @progbits
+        .global Result_PrintContinueLabel_059722
+Result_PrintContinueLabel_059722:
         movea.l #0xd,a1                         | +000
         adda.w  0x70(a6),a1                     | +006
-        lea     Data_05934e__L0593a6(pc),a2     | +00a
+        lea     ResultText_Strings_05934e__L0593a6(pc),a2 | +00a
         move.b  #0x3,d1                         | +00e
         jsr     0x477fc.l                       | +012
         move.w  #0x8,0x30(a6)                   | +018
@@ -479,16 +483,16 @@ TaskHandler_059722:
         bne.w   SetHandlerRts_059754            | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059756  @ $059756  (62 B)
+|  Result_RollContinues_059756  @ $059756  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059756, "ax", @progbits
-        .global TaskHandler_059756
-TaskHandler_059756:
+        .section .text.Result_RollContinues_059756, "ax", @progbits
+        .global Result_RollContinues_059756
+Result_RollContinues_059756:
         move.b  #0x1e,0x30(a6)                  | +000
         lea     .L059762(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
 .L059762:
-        bsr.w   TaskHandler_05964e              | +00c
+        bsr.w   Result_TickSound_05964e         | +00c
         subq.b  #0x1,0x30(a6)                   | +010
         beq.w   .L05977a                        | +014
         jsr     0x5e9b6.l                       | +018
@@ -496,20 +500,20 @@ TaskHandler_059756:
         bra.w   .L059784                        | +020
 .L05977a:
         move.b  0x77(a6),d1                     | +024
-        lea     TaskHandler_059794(pc),a1       | +028
+        lea     Result_Wait15_059794(pc),a1     | +028
         move.l  a1,(a6)                         | +02c
 .L059784:
         movea.l #0x1ad,a1                       | +02e
         move.l  a1,d0                           | +034
         add.w   0x70(a6),d0                     | +036
-        bra.w   Sub_000595AE__L059612           | +03a
+        bra.w   Result_DrawDigits_0595ae__L059612 | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059794  @ $059794  (20 B)
+|  Result_Wait15_059794  @ $059794  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059794, "ax", @progbits
-        .global TaskHandler_059794
-TaskHandler_059794:
+        .section .text.Result_Wait15_059794, "ax", @progbits
+        .global Result_Wait15_059794
+Result_Wait15_059794:
         move.w  #0xf,0x30(a6)                   | +000
         lea     .L0597a0(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -518,23 +522,23 @@ TaskHandler_059794:
         bne.w   SetHandlerRts_0597ae            | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0597b0  @ $0597B0  (82 B)
+|  Result_PrintPrisonerLabel_0597b0  @ $0597B0  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0597b0, "ax", @progbits
-        .global TaskHandler_0597b0
-TaskHandler_0597b0:
+        .section .text.Result_PrintPrisonerLabel_0597b0, "ax", @progbits
+        .global Result_PrintPrisonerLabel_0597b0
+Result_PrintPrisonerLabel_0597b0:
         tst.b   0x10fd83.l                      | +000
         bne.w   .L0597d6                        | +006
         movea.l #0x10,a1                        | +00a
         adda.w  0x70(a6),a1                     | +010
-        lea     Data_05934e__L0593cc(pc),a2     | +014
+        lea     ResultText_Strings_05934e__L0593cc(pc),a2 | +014
         move.b  #0x9,d1                         | +018
         jsr     0x47888.l                       | +01c
         bra.w   .L0597ee                        | +022
 .L0597d6:
         movea.l #0x10,a1                        | +026
         adda.w  0x70(a6),a1                     | +02c
-        lea     Data_05934e__L0593b5(pc),a2     | +030
+        lea     ResultText_Strings_05934e__L0593b5(pc),a2 | +030
         move.w  #0x2300,d0                      | +034
         jsr     0x5dad8.l                       | +038
 .L0597ee:
@@ -546,37 +550,37 @@ TaskHandler_0597b0:
         bne.w   SetHandlerRts_059808            | +04e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05980a  @ $05980A  (62 B)
+|  Result_RollPrisoners_05980a  @ $05980A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05980a, "ax", @progbits
-        .global TaskHandler_05980a
-TaskHandler_05980a:
+        .section .text.Result_RollPrisoners_05980a, "ax", @progbits
+        .global Result_RollPrisoners_05980a
+Result_RollPrisoners_05980a:
         move.b  #0x1e,0x30(a6)                  | +000
         lea     .L059816(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
 .L059816:
-        bsr.w   TaskHandler_05964e              | +00c
+        bsr.w   Result_TickSound_05964e         | +00c
         subq.b  #0x1,0x30(a6)                   | +010
         beq.w   .L05982e                        | +014
         jsr     0x5e9b6.l                       | +018
         move.b  d0,d1                           | +01e
         bra.w   .L059838                        | +020
 .L05982e:
-        lea     TaskHandler_059848(pc),a1       | +024
+        lea     Result_Wait15_B_059848(pc),a1   | +024
         move.l  a1,(a6)                         | +028
         move.b  0x76(a6),d1                     | +02a
 .L059838:
         movea.l #0x1b0,a1                       | +02e
         move.l  a1,d0                           | +034
         add.w   0x70(a6),d0                     | +036
-        bra.w   Sub_000595AE__L059612           | +03a
+        bra.w   Result_DrawDigits_0595ae__L059612 | +03a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059848  @ $059848  (20 B)
+|  Result_Wait15_B_059848  @ $059848  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059848, "ax", @progbits
-        .global TaskHandler_059848
-TaskHandler_059848:
+        .section .text.Result_Wait15_B_059848, "ax", @progbits
+        .global Result_Wait15_B_059848
+Result_Wait15_B_059848:
         move.w  #0xf,0x30(a6)                   | +000
         lea     .L059854(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -585,14 +589,14 @@ TaskHandler_059848:
         bne.w   SetHandlerRts_059862            | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059864  @ $059864  (66 B)
+|  Result_PrintScore_059864  @ $059864  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059864, "ax", @progbits
-        .global TaskHandler_059864
-TaskHandler_059864:
+        .section .text.Result_PrintScore_059864, "ax", @progbits
+        .global Result_PrintScore_059864
+Result_PrintScore_059864:
         movea.l #0x14,a1                        | +000
         adda.w  0x70(a6),a1                     | +006
-        lea     Data_05934e__L0593a0(pc),a2     | +00a
+        lea     ResultText_Strings_05934e__L0593a0(pc),a2 | +00a
         move.b  #0x3,d1                         | +00e
         jsr     0x477fc.l                       | +012
         movea.l #0x114,a1                       | +018
@@ -600,7 +604,7 @@ TaskHandler_059864:
         add.w   0x70(a6),d0                     | +020
         movea.l 0x72(a6),a0                     | +024
         moveq   #8,d7                           | +028
-        bsr.w   Sub_000595AE                    | +02a
+        bsr.w   Result_DrawDigits_0595ae        | +02a
         move.w  #0x1e,0x30(a6)                  | +02e
         lea     .L05989e(pc),a1                 | +034
         move.l  a1,(a6)                         | +038
@@ -609,11 +613,11 @@ TaskHandler_059864:
         bne.w   SetHandlerRts_0598ac            | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0598ae  @ $0598AE  (64 B)
+|  Result_HiScoreEntry_0598ae  @ $0598AE  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0598ae, "ax", @progbits
-        .global TaskHandler_0598ae
-TaskHandler_0598ae:
+        .section .text.Result_HiScoreEntry_0598ae, "ax", @progbits
+        .global Result_HiScoreEntry_0598ae
+Result_HiScoreEntry_0598ae:
         move.b  #0xff,0x21(a6)                  | +000
         movea.l 0x72(a6),a0                     | +006
         jsr     0x51aa4.l                       | +00a
@@ -633,18 +637,18 @@ TaskHandler_0598ae:
         bne.w   Jsr5B6Rts_0598fa                | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0598fc  @ $0598FC  (70 B)
+|  Ending_SpawnOrbitFx_0598fc  @ $0598FC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0598fc, "ax", @progbits
-        .global TaskHandler_0598fc
-TaskHandler_0598fc:
+        .section .text.Ending_SpawnOrbitFx_0598fc, "ax", @progbits
+        .global Ending_SpawnOrbitFx_0598fc
+Ending_SpawnOrbitFx_0598fc:
         move.l  a6,-(a7)                        | +000
         lea     0x100800.l,a6                   | +002
-        lea     TaskHandler_059a86(pc),a1       | +008
+        lea     EndingOrbit_Parent_059a86(pc),a1 | +008
         jsr     0x4ae.l                         | +00c
         movea.l (a7)+,a6                        | +012
         move.w  #0x1,d0                         | +014
-        lea     Data_05934e__L0593d8(pc),a0     | +018
+        lea     ResultText_Strings_05934e__L0593d8(pc),a0 | +018
         jsr     0x2b58.l                        | +01c
         jsr     0x523b2.l                       | +022
         move.w  #0x2b,d0                        | +028
@@ -657,12 +661,12 @@ TaskHandler_0598fc:
         bne.w   SetHandlerRts_059948            | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05994a  @ $05994A  (26 B)
+|  Ending_Seq_ShowMission_05994a  @ $05994A  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05994a, "ax", @progbits
-        .global TaskHandler_05994a
-TaskHandler_05994a:
-        lea     Data_05934e__L0593fa(pc),a1     | +000
+        .section .text.Ending_Seq_ShowMission_05994a, "ax", @progbits
+        .global Ending_Seq_ShowMission_05994a
+Ending_Seq_ShowMission_05994a:
+        lea     Ending_ShowMission_0593fa(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         lea     .L05995a(pc),a1                 | +00a
         move.l  a1,(a6)                         | +00e
@@ -671,11 +675,11 @@ TaskHandler_05994a:
         bcs.w   SetHandlerRts_05996a            | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05996c  @ $05996C  (20 B)
+|  Ending_Seq_Wait30_05996c  @ $05996C  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05996c, "ax", @progbits
-        .global TaskHandler_05996c
-TaskHandler_05996c:
+        .section .text.Ending_Seq_Wait30_05996c, "ax", @progbits
+        .global Ending_Seq_Wait30_05996c
+Ending_Seq_Wait30_05996c:
         move.w  #0x1e,0x30(a6)                  | +000
         lea     .L059978(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -684,12 +688,12 @@ TaskHandler_05996c:
         bne.w   SetHandlerRts_059986            | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059988  @ $059988  (26 B)
+|  Ending_Seq_Wipe_059988  @ $059988  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059988, "ax", @progbits
-        .global TaskHandler_059988
-TaskHandler_059988:
-        lea     TaskHandler_0594c6(pc),a1       | +000
+        .section .text.Ending_Seq_Wipe_059988, "ax", @progbits
+        .global Ending_Seq_Wipe_059988
+Ending_Seq_Wipe_059988:
+        lea     Ending_WipeAllOver_0594c6(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         lea     .L059998(pc),a1                 | +00a
         move.l  a1,(a6)                         | +00e
@@ -698,11 +702,11 @@ TaskHandler_059988:
         bcs.w   SetHandlerRts_0599a8            | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0599aa  @ $0599AA  (20 B)
+|  Ending_Seq_Wait15_0599aa  @ $0599AA  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0599aa, "ax", @progbits
-        .global TaskHandler_0599aa
-TaskHandler_0599aa:
+        .section .text.Ending_Seq_Wait15_0599aa, "ax", @progbits
+        .global Ending_Seq_Wait15_0599aa
+Ending_Seq_Wait15_0599aa:
         move.w  #0xf,0x30(a6)                   | +000
         lea     .L0599b6(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -711,12 +715,12 @@ TaskHandler_0599aa:
         bne.w   SetHandlerRts_0599c4            | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0599c6  @ $0599C6  (36 B)
+|  Ending_Seq_PanelP1_0599c6  @ $0599C6  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0599c6, "ax", @progbits
-        .global TaskHandler_0599c6
-TaskHandler_0599c6:
-        lea     TaskHandler_059666(pc),a1       | +000
+        .section .text.Ending_Seq_PanelP1_0599c6, "ax", @progbits
+        .global Ending_Seq_PanelP1_0599c6
+Ending_Seq_PanelP1_0599c6:
+        lea     Result_PlayerPanel_Init_059666(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         move.b  #0x0,0x98(a0)                   | +00a
         move.w  #0x4,0x30(a6)                   | +010
@@ -727,12 +731,12 @@ TaskHandler_0599c6:
         bne.w   SetHandlerRts_0599f0            | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0599f2  @ $0599F2  (32 B)
+|  Ending_Seq_PanelP2_0599f2  @ $0599F2  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0599f2, "ax", @progbits
-        .global TaskHandler_0599f2
-TaskHandler_0599f2:
-        lea     TaskHandler_059666(pc),a1       | +000
+        .section .text.Ending_Seq_PanelP2_0599f2, "ax", @progbits
+        .global Ending_Seq_PanelP2_0599f2
+Ending_Seq_PanelP2_0599f2:
+        lea     Result_PlayerPanel_Init_059666(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         move.b  #0x1,0x98(a0)                   | +00a
         lea     .L059a08(pc),a1                 | +010
@@ -742,11 +746,11 @@ TaskHandler_0599f2:
         bcs.w   SetHandlerRts_059a18            | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059a1a  @ $059A1A  (30 B)
+|  Ending_Seq_FadeA0_059a1a  @ $059A1A  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059a1a, "ax", @progbits
-        .global TaskHandler_059a1a
-TaskHandler_059a1a:
+        .section .text.Ending_Seq_FadeA0_059a1a, "ax", @progbits
+        .global Ending_Seq_FadeA0_059a1a
+Ending_Seq_FadeA0_059a1a:
         move.b  #0xa0,d1                        | +000
         jsr     0x2308.l                        | +004
         move.w  #0xc8,0x30(a6)                  | +00a
@@ -757,11 +761,11 @@ TaskHandler_059a1a:
         bne.w   SetHandlerRts_059a3e            | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059a40  @ $059A40  (40 B)
+|  Ending_Seq_Fade40_059a40  @ $059A40  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059a40, "ax", @progbits
-        .global TaskHandler_059a40
-TaskHandler_059a40:
+        .section .text.Ending_Seq_Fade40_059a40, "ax", @progbits
+        .global Ending_Seq_Fade40_059a40
+Ending_Seq_Fade40_059a40:
         move.w  #0x1,d0                         | +000
         jsr     0x5239e.l                       | +004
         move.b  #0x40,d0                        | +00a
@@ -774,37 +778,37 @@ TaskHandler_059a40:
         bne.w   SetHandlerRts_059a6e            | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059a70  @ $059A70  (22 B)
+|  Ending_Seq_Done_059a70  @ $059A70  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059a70, "ax", @progbits
-        .global TaskHandler_059a70
-TaskHandler_059a70:
+        .section .text.Ending_Seq_Done_059a70, "ax", @progbits
+        .global Ending_Seq_Done_059a70
+Ending_Seq_Done_059a70:
         movea.l 0xc(a6),a0                      | +000
         move.b  #0xff,0x20(a0)                  | +004
         jsr     0x5b6.l                         | +00a
         jmp     0x518.l                         | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059a86  @ $059A86  (128 B)
+|  EndingOrbit_Parent_059a86  @ $059A86  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059a86, "ax", @progbits
-        .global TaskHandler_059a86
-TaskHandler_059a86:
-        lea     TaskHandler_059b06(pc),a1       | +000
+        .section .text.EndingOrbit_Parent_059a86, "ax", @progbits
+        .global EndingOrbit_Parent_059a86
+EndingOrbit_Parent_059a86:
+        lea     EndingOrbit_Child_059b06(pc),a1 | +000
         jsr     0x4ae.l                         | +004
         move.l  #0x24e208,0x3c(a0)              | +00a
         move.w  #0x0,0x34(a0)                   | +012
-        lea     TaskHandler_059b06(pc),a1       | +018
+        lea     EndingOrbit_Child_059b06(pc),a1 | +018
         jsr     0x4ae.l                         | +01c
         bset    #0x0,0x3a(a0)                   | +022
         move.l  #0x24e030,0x3c(a0)              | +028
         move.w  #0x4000,0x34(a0)                | +030
-        lea     TaskHandler_059b06(pc),a1       | +036
+        lea     EndingOrbit_Child_059b06(pc),a1 | +036
         jsr     0x4ae.l                         | +03a
         bset    #0x0,0x3a(a0)                   | +040
         move.l  #0x24e208,0x3c(a0)              | +046
         move.w  #0x8000,0x34(a0)                | +04e
-        lea     TaskHandler_059b06(pc),a1       | +054
+        lea     EndingOrbit_Child_059b06(pc),a1 | +054
         jsr     0x4ae.l                         | +058
         move.l  #0x24e030,0x3c(a0)              | +05e
         move.w  #0xc000,0x34(a0)                | +066
@@ -816,11 +820,11 @@ TaskHandler_059a86:
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059b06  @ $059B06  (76 B)
+|  EndingOrbit_Child_059b06  @ $059B06  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059b06, "ax", @progbits
-        .global TaskHandler_059b06
-TaskHandler_059b06:
+        .section .text.EndingOrbit_Child_059b06, "ax", @progbits
+        .global EndingOrbit_Child_059b06
+EndingOrbit_Child_059b06:
         move.w  #0x15f,d1                       | +000
         jsr     0x236e.l                        | +004
         move.w  #0x180,0x24(a6)                 | +00a
@@ -843,11 +847,11 @@ TaskHandler_059b06:
         move.w  d1,0x22(a6)                     | +048
 
 | ----------------------------------------------------------------------------
-|  Data_059b5a  @ $059B5A  (16 B)
+|  Str_PeaceForever_059b5a  @ $059B5A  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_059b5a, "ax", @progbits
-        .global Data_059b5a
-Data_059b5a:
+        .section .text.Str_PeaceForever_059b5a, "ax", @progbits
+        .global Str_PeaceForever_059b5a
+Str_PeaceForever_059b5a:
         .dc.b   0x50                          | +000  'P'  (dato, rango --data)
         .dc.b   0x45                          | +001  'E'  (dato, rango --data)
         .dc.b   0x41                          | +002  'A'  (dato, rango --data)
@@ -866,11 +870,11 @@ Data_059b5a:
         .dc.b   0x00                          | +00f  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_00059B6A  @ $059B6A  (20 B)
+|  Ending_PeaceWait_059b6a  @ $059B6A  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_00059B6A, "ax", @progbits
-        .global TaskHandler_00059B6A
-TaskHandler_00059B6A:
+        .section .text.Ending_PeaceWait_059b6a, "ax", @progbits
+        .global Ending_PeaceWait_059b6a
+Ending_PeaceWait_059b6a:
         move.w  #0x2d,0x30(a6)                  | +000
         lea     .L059b76(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -879,11 +883,11 @@ TaskHandler_00059B6A:
         bne.w   SetHandlerRts_059b84            | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059b86  @ $059B86  (56 B)
+|  Ending_ShowPeaceForever_059b86  @ $059B86  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059b86, "ax", @progbits
-        .global TaskHandler_059b86
-TaskHandler_059b86:
+        .section .text.Ending_ShowPeaceForever_059b86, "ax", @progbits
+        .global Ending_ShowPeaceForever_059b86
+Ending_ShowPeaceForever_059b86:
         lea     0x4737e.l,a1                    | +000
         jsr     0x4ae.l                         | +006
         move.w  #0x711a,d0                      | +00c
@@ -898,31 +902,31 @@ TaskHandler_059b86:
         bcs.w   SetHandlerRts_059bc4            | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059bc6  @ $059BC6  (12 B)
+|  Ending_PeaceExit_059bc6  @ $059BC6  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059bc6, "ax", @progbits
-        .global TaskHandler_059bc6
-TaskHandler_059bc6:
+        .section .text.Ending_PeaceExit_059bc6, "ax", @progbits
+        .global Ending_PeaceExit_059bc6
+Ending_PeaceExit_059bc6:
         jsr     0x5b6.l                         | +000
         jmp     0x518.l                         | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059bd2  @ $059BD2  (16 B)
+|  Entity_CmpDepthToParent_059bd2  @ $059BD2  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059bd2, "ax", @progbits
-        .global TaskHandler_059bd2
-TaskHandler_059bd2:
+        .section .text.Entity_CmpDepthToParent_059bd2, "ax", @progbits
+        .global Entity_CmpDepthToParent_059bd2
+Entity_CmpDepthToParent_059bd2:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_059be8                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059bee  @ $059BEE  (28 B)
+|  Gunner_InitShadeRingId_059bee  @ $059BEE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059bee, "ax", @progbits
-        .global TaskHandler_059bee
-TaskHandler_059bee:
+        .section .text.Gunner_InitShadeRingId_059bee, "ax", @progbits
+        .global Gunner_InitShadeRingId_059bee
+Gunner_InitShadeRingId_059bee:
         move.w  #0x8000,d0                      | +000
         jsr     0x28134.l                       | +004
         andi.w  #0xffe3,0x38(a6)                | +00a
@@ -930,31 +934,31 @@ TaskHandler_059bee:
         jsr     0x8f3a6.l                       | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059c10  @ $059C10  (16 B)
+|  Gunner_ProbeOrDie_059c10  @ $059C10  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059c10, "ax", @progbits
-        .global TaskHandler_059c10
-TaskHandler_059c10:
+        .section .text.Gunner_ProbeOrDie_059c10, "ax", @progbits
+        .global Gunner_ProbeOrDie_059c10
+Gunner_ProbeOrDie_059c10:
         lea     0x2b73b4.l,a0                   | +000
         jsr     0x5dd5c.l                       | +006
         bcc.w   Jsr5B6Rts_059c2c                | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059c2e  @ $059C2E  (12 B)
+|  Gunner_Boot_059c2e  @ $059C2E  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059c2e, "ax", @progbits
-        .global TaskHandler_059c2e
-TaskHandler_059c2e:
-        bsr.b   TaskHandler_059bee              | +000
-        lea     TaskHandler_059d50(pc),a1       | +002
+        .section .text.Gunner_Boot_059c2e, "ax", @progbits
+        .global Gunner_Boot_059c2e
+Gunner_Boot_059c2e:
+        bsr.b   Gunner_InitShadeRingId_059bee   | +000
+        lea     Gunner_Child_Init_059d50(pc),a1 | +002
         jsr     0x4ae.l                         | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059c42  @ $059C42  (94 B)
+|  Gunner_Search_059c42  @ $059C42  (94 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059c42, "ax", @progbits
-        .global TaskHandler_059c42
-TaskHandler_059c42:
+        .section .text.Gunner_Search_059c42, "ax", @progbits
+        .global Gunner_Search_059c42
+Gunner_Search_059c42:
         lea     0x2b732c.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         lea     .L059c54(pc),a1                 | +00c
@@ -975,17 +979,17 @@ TaskHandler_059c42:
         move.w  (a7)+,d4                        | +046
         jsr     0x8f69c.l                       | +048
         jsr     0x236e.l                        | +04e
-        lea     TaskHandler_059ca0(pc),a1       | +054
+        lea     Gunner_Fire_059ca0(pc),a1       | +054
         move.l  a1,(a6)                         | +058
 .L059c9c:
-        bra.w   TaskHandler_059c10              | +05a
+        bra.w   Gunner_ProbeOrDie_059c10        | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059ca0  @ $059CA0  (74 B)
+|  Gunner_Fire_059ca0  @ $059CA0  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059ca0, "ax", @progbits
-        .global TaskHandler_059ca0
-TaskHandler_059ca0:
+        .section .text.Gunner_Fire_059ca0, "ax", @progbits
+        .global Gunner_Fire_059ca0
+Gunner_Fire_059ca0:
         lea     0x2b7340.l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         move.b  #0x3,0x76(a6)                   | +00c
@@ -1001,17 +1005,17 @@ TaskHandler_059ca0:
         jsr     0x28cd4.l                       | +036
         bra.w   .L059ce6                        | +03c
 .L059ce0:
-        lea     TaskHandler_059cea(pc),a1       | +040
+        lea     Gunner_Reload_059cea(pc),a1     | +040
         move.l  a1,(a6)                         | +044
 .L059ce6:
-        bra.w   TaskHandler_059cea__L059d1c     | +046
+        bra.w   Gunner_Reload_059cea__L059d1c   | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059cea  @ $059CEA  (102 B)
+|  Gunner_Reload_059cea  @ $059CEA  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059cea, "ax", @progbits
-        .global TaskHandler_059cea
-TaskHandler_059cea:
+        .section .text.Gunner_Reload_059cea, "ax", @progbits
+        .global Gunner_Reload_059cea
+Gunner_Reload_059cea:
         move.b  #0x78,0x76(a6)                  | +000
         lea     0x2b737c.l,a0                   | +006
         jsr     0x28cd4.l                       | +00c
@@ -1022,10 +1026,10 @@ TaskHandler_059cea:
         jsr     0x28d70.l                       | +01e
         subq.b  #0x1,0x76(a6)                   | +024
         bne.w   .L059d1c                        | +028
-        lea     TaskHandler_059ca0(pc),a1       | +02c
+        lea     Gunner_Fire_059ca0(pc),a1       | +02c
         move.l  a1,(a6)                         | +030
-        .global TaskHandler_059cea__L059d1c
-TaskHandler_059cea__L059d1c:
+        .global Gunner_Reload_059cea__L059d1c
+Gunner_Reload_059cea__L059d1c:
 .L059d1c:
         move.w  0x22(a6),d0                     | +032
         cmpi.w  #0x20,d0                        | +036
@@ -1035,31 +1039,31 @@ TaskHandler_059cea__L059d1c:
         jsr     0x8f3be.l                       | +046
         tst.b   d4                              | +04c
         bpl.w   .L059d42                        | +04e
-        lea     TaskHandler_059c42(pc),a1       | +052
+        lea     Gunner_Search_059c42(pc),a1     | +052
         move.l  a1,(a6)                         | +056
 .L059d42:
         bra.w   .L059d4c                        | +058
 .L059d46:
-        lea     TaskHandler_059c42(pc),a1       | +05c
+        lea     Gunner_Search_059c42(pc),a1     | +05c
         move.l  a1,(a6)                         | +060
 .L059d4c:
-        bra.w   TaskHandler_059c10              | +062
+        bra.w   Gunner_ProbeOrDie_059c10        | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059d50  @ $059D50  (10 B)
+|  Gunner_Child_Init_059d50  @ $059D50  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059d50, "ax", @progbits
-        .global TaskHandler_059d50
-TaskHandler_059d50:
+        .section .text.Gunner_Child_Init_059d50, "ax", @progbits
+        .global Gunner_Child_Init_059d50
+Gunner_Child_Init_059d50:
         move.w  #0x56,d1                        | +000
         jsr     0x236e.l                        | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059d62  @ $059D62  (34 B)
+|  Gunner_Child_Sync_059d62  @ $059D62  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059d62, "ax", @progbits
-        .global TaskHandler_059d62
-TaskHandler_059d62:
+        .section .text.Gunner_Child_Sync_059d62, "ax", @progbits
+        .global Gunner_Child_Sync_059d62
+Gunner_Child_Sync_059d62:
         movea.l 0xc(a6),a0                      | +000
         move.w  0x22(a0),0x22(a6)               | +004
         move.w  0x24(a0),0x24(a6)               | +00a
@@ -1068,14 +1072,14 @@ TaskHandler_059d62:
         jmp     0x5ca2a.l                       | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059d84  @ $059D84  (34 B)
+|  Gunner_SpawnShell_059d84  @ $059D84  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059d84, "ax", @progbits
-        .global TaskHandler_059d84
-TaskHandler_059d84:
+        .section .text.Gunner_SpawnShell_059d84, "ax", @progbits
+        .global Gunner_SpawnShell_059d84
+Gunner_SpawnShell_059d84:
         move.l  a6,-(a7)                        | +000
         lea     0x100800.l,a6                   | +002
-        lea     TaskHandler_059da6(pc),a1       | +008
+        lea     Gunner_Shell_059da6(pc),a1      | +008
         jsr     0x4ae.l                         | +00c
         movea.l (a7)+,a6                        | +012
         move.w  0x22(a6),0x22(a0)               | +014
@@ -1083,11 +1087,11 @@ TaskHandler_059d84:
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059da6  @ $059DA6  (142 B)
+|  Gunner_Shell_059da6  @ $059DA6  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059da6, "ax", @progbits
-        .global TaskHandler_059da6
-TaskHandler_059da6:
+        .section .text.Gunner_Shell_059da6, "ax", @progbits
+        .global Gunner_Shell_059da6
+Gunner_Shell_059da6:
         move.w  #0x108c,d0                      | +000
         jsr     0x2352.l                        | +004
         move.w  #0x57,d1                        | +00a
@@ -1121,22 +1125,22 @@ TaskHandler_059da6:
         rts                                     | +08c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_059e34  @ $059E34  (16 B)
+|  Entity_CmpDepthToParent_059e34  @ $059E34  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_059e34, "ax", @progbits
-        .global TaskHandler_059e34
-TaskHandler_059e34:
+        .section .text.Entity_CmpDepthToParent_059e34, "ax", @progbits
+        .global Entity_CmpDepthToParent_059e34
+Entity_CmpDepthToParent_059e34:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_059e4a                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_059e50  @ $059E50  (830 B)
+|  GunnerAnim_Table_059e50  @ $059E50  (830 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_059e50, "ax", @progbits
-        .global Data_059e50
-Data_059e50:
+        .section .text.GunnerAnim_Table_059e50, "ax", @progbits
+        .global GunnerAnim_Table_059e50
+GunnerAnim_Table_059e50:
         .dc.b   0x07                          | +000  '.'  (dato, rango --data)
         .dc.b   0x00                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -1887,8 +1891,8 @@ Data_059e50:
         .dc.b   0x05                          | +2eb  '.'  (dato, rango --data)
         .dc.b   0xa1                          | +2ec  '.'  (dato, rango --data)
         .dc.b   0x1a                          | +2ed  '.'  (dato, rango --data)
-        .global Data_059e50__L05a13e
-Data_059e50__L05a13e:
+        .global GunnerAnim_Table_059e50__L05a13e
+GunnerAnim_Table_059e50__L05a13e:
 .L05a13e:
         .dc.b   0x00                          | +2ee  '.'  (dato, rango --data)
         .dc.b   0x05                          | +2ef  '.'  (dato, rango --data)
@@ -1910,8 +1914,8 @@ Data_059e50__L05a13e:
         .dc.b   0x05                          | +2ff  '.'  (dato, rango --data)
         .dc.b   0x9e                          | +300  '.'  (dato, rango --data)
         .dc.b   0xa0                          | +301  '.'  (dato, rango --data)
-        .global Data_059e50__L05a152
-Data_059e50__L05a152:
+        .global GunnerAnim_Table_059e50__L05a152
+GunnerAnim_Table_059e50__L05a152:
 .L05a152:
         .dc.b   0x00                          | +302  '.'  (dato, rango --data)
         .dc.b   0x05                          | +303  '.'  (dato, rango --data)
@@ -1933,8 +1937,8 @@ Data_059e50__L05a152:
         .dc.b   0x05                          | +313  '.'  (dato, rango --data)
         .dc.b   0x9f                          | +314  '.'  (dato, rango --data)
         .dc.b   0x04                          | +315  '.'  (dato, rango --data)
-        .global Data_059e50__L05a166
-Data_059e50__L05a166:
+        .global GunnerAnim_Table_059e50__L05a166
+GunnerAnim_Table_059e50__L05a166:
 .L05a166:
         .dc.b   0x00                          | +316  '.'  (dato, rango --data)
         .dc.b   0x05                          | +317  '.'  (dato, rango --data)
@@ -1956,8 +1960,8 @@ Data_059e50__L05a166:
         .dc.b   0x05                          | +327  '.'  (dato, rango --data)
         .dc.b   0xa0                          | +328  '.'  (dato, rango --data)
         .dc.b   0x40                          | +329  '@'  (dato, rango --data)
-        .global Data_059e50__L05a17a
-Data_059e50__L05a17a:
+        .global GunnerAnim_Table_059e50__L05a17a
+GunnerAnim_Table_059e50__L05a17a:
 .L05a17a:
         .dc.b   0x00                          | +32a  '.'  (dato, rango --data)
         .dc.b   0x05                          | +32b  '.'  (dato, rango --data)
@@ -1981,11 +1985,11 @@ Data_059e50__L05a17a:
         .dc.b   0x1a                          | +33d  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a18e  @ $05A18E  (20 B)
+|  GunnerAim_DxTable_05a18e  @ $05A18E  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a18e, "ax", @progbits
-        .global TaskHandler_05a18e
-TaskHandler_05a18e:
+        .section .text.GunnerAim_DxTable_05a18e, "ax", @progbits
+        .global GunnerAim_DxTable_05a18e
+GunnerAim_DxTable_05a18e:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x00                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -2008,11 +2012,11 @@ TaskHandler_05a18e:
         .dc.b   0x00                          | +013  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a1a2  @ $05A1A2  (148 B)
+|  GunnerAim_DyTable_05a1a2  @ $05A1A2  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a1a2, "ax", @progbits
-        .global TaskHandler_05a1a2
-TaskHandler_05a1a2:
+        .section .text.GunnerAim_DyTable_05a1a2, "ax", @progbits
+        .global GunnerAim_DyTable_05a1a2
+GunnerAim_DyTable_05a1a2:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x18                          | +001  '.'  (dato, rango --data)
         .dc.b   0xff                          | +002  '.'  (dato, rango --data)
@@ -2033,56 +2037,60 @@ TaskHandler_05a1a2:
         .dc.b   0x00                          | +011  '.'  (dato, rango --data)
         .dc.b   0x00                          | +012  '.'  (dato, rango --data)
         .dc.b   0x00                          | +013  '.'  (dato, rango --data)
-        .global TaskHandler_05a1a2__L05a1b6
-TaskHandler_05a1a2__L05a1b6:
-.L05a1b6:
-        moveq   #0,d0                           | +014
-        move.b  0x70(a6),d0                     | +016
-        lsr.b   #0x4,d0                         | +01a
-        move.w  d0,d1                           | +01c
-        andi.b  #0x7,d0                         | +01e
-        cmpi.b  #0x5,d0                         | +022
-        bcs.w   .L05a1d0                        | +026
-        neg.b   d0                              | +02a
-        addq.b  #0x8,d0                         | +02c
-.L05a1d0:
-        addq.w  #0x3,d1                         | +02e
-        andi.b  #0xf,d1                         | +030
-        cmpi.w  #0x7,d1                         | +034
-        bcc.w   .L05a1e8                        | +038
-        bset    #0x0,0x3a(a6)                   | +03c
-        bra.w   .L05a1ee                        | +042
-.L05a1e8:
-        bclr    #0x0,0x3a(a6)                   | +046
-.L05a1ee:
-        add.w   d0,d0                           | +04c
-        add.w   d0,d0                           | +04e
-        move.w  d0,0x7c(a6)                     | +050
-        movea.l (a0,d0.w),a0                    | +054
-        jsr     0x28cd4.l                       | +058
-        lea     TaskHandler_05a18e(pc),a1       | +05e
-        lea     TaskHandler_05a1a2(pc),a2       | +062
-        move.l  (a1,d0.w),d1                    | +066
-        move.l  (a2,d0.w),d2                    | +06a
-        btst    #0x0,0x3a(a6)                   | +06e
-        beq.w   .L05a21e                        | +074
-        neg.w   d1                              | +078
-        neg.w   d2                              | +07a
-.L05a21e:
-        add.w   0x22(a6),d1                     | +07c
-        move.w  d1,0x76(a6)                     | +080
-        add.w   0x22(a6),d2                     | +084
-        swap    d2                              | +088
-        add.w   0x24(a6),d2                     | +08a
-        move.l  d2,0x78(a6)                     | +08e
-        rts                                     | +092
 
 | ----------------------------------------------------------------------------
-|  Data_05a236  @ $05A236  (22 B)
+|  Gunner2_AimFromAngle_05a1b6  @ $05A1B6  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05a236, "ax", @progbits
-        .global Data_05a236
-Data_05a236:
+        .section .text.Gunner2_AimFromAngle_05a1b6, "ax", @progbits
+        .global Gunner2_AimFromAngle_05a1b6
+Gunner2_AimFromAngle_05a1b6:
+        moveq   #0,d0                           | +000
+        move.b  0x70(a6),d0                     | +002
+        lsr.b   #0x4,d0                         | +006
+        move.w  d0,d1                           | +008
+        andi.b  #0x7,d0                         | +00a
+        cmpi.b  #0x5,d0                         | +00e
+        bcs.w   .L05a1d0                        | +012
+        neg.b   d0                              | +016
+        addq.b  #0x8,d0                         | +018
+.L05a1d0:
+        addq.w  #0x3,d1                         | +01a
+        andi.b  #0xf,d1                         | +01c
+        cmpi.w  #0x7,d1                         | +020
+        bcc.w   .L05a1e8                        | +024
+        bset    #0x0,0x3a(a6)                   | +028
+        bra.w   .L05a1ee                        | +02e
+.L05a1e8:
+        bclr    #0x0,0x3a(a6)                   | +032
+.L05a1ee:
+        add.w   d0,d0                           | +038
+        add.w   d0,d0                           | +03a
+        move.w  d0,0x7c(a6)                     | +03c
+        movea.l (a0,d0.w),a0                    | +040
+        jsr     0x28cd4.l                       | +044
+        lea     GunnerAim_DxTable_05a18e(pc),a1 | +04a
+        lea     GunnerAim_DyTable_05a1a2(pc),a2 | +04e
+        move.l  (a1,d0.w),d1                    | +052
+        move.l  (a2,d0.w),d2                    | +056
+        btst    #0x0,0x3a(a6)                   | +05a
+        beq.w   .L05a21e                        | +060
+        neg.w   d1                              | +064
+        neg.w   d2                              | +066
+.L05a21e:
+        add.w   0x22(a6),d1                     | +068
+        move.w  d1,0x76(a6)                     | +06c
+        add.w   0x22(a6),d2                     | +070
+        swap    d2                              | +074
+        add.w   0x24(a6),d2                     | +076
+        move.l  d2,0x78(a6)                     | +07a
+        rts                                     | +07e
+
+| ----------------------------------------------------------------------------
+|  Gunner2_ProbeBox_05a236  @ $05A236  (8 B)
+| ----------------------------------------------------------------------------
+        .section .text.Gunner2_ProbeBox_05a236, "ax", @progbits
+        .global Gunner2_ProbeBox_05a236
+Gunner2_ProbeBox_05a236:
         .dc.b   0xff                          | +000  '.'  (dato, rango --data)
         .dc.b   0xd0                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -2091,37 +2099,41 @@ Data_05a236:
         .dc.b   0xd0                          | +005  '.'  (dato, rango --data)
         .dc.b   0x00                          | +006  '.'  (dato, rango --data)
         .dc.b   0x30                          | +007  '0'  (dato, rango --data)
-        .global Data_05a236__L05a23e
-Data_05a236__L05a23e:
-.L05a23e:
-        lea     Data_05a236(pc),a0              | +008
-        jsr     0x5dd5c.l                       | +00c
-        bcc.w   Jsr5B6Rts_05a258                | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a25a  @ $05A25A  (40 B)
+|  Gunner2_ProbeOrDie_05a23e  @ $05A23E  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a25a, "ax", @progbits
-        .global TaskHandler_05a25a
-TaskHandler_05a25a:
+        .section .text.Gunner2_ProbeOrDie_05a23e, "ax", @progbits
+        .global Gunner2_ProbeOrDie_05a23e
+Gunner2_ProbeOrDie_05a23e:
+        lea     Gunner2_ProbeBox_05a236(pc),a0  | +000
+        jsr     0x5dd5c.l                       | +004
+        bcc.w   Jsr5B6Rts_05a258                | +00a
+
+| ----------------------------------------------------------------------------
+|  Gunner2_Init_05a25a  @ $05A25A  (40 B)
+| ----------------------------------------------------------------------------
+        .section .text.Gunner2_Init_05a25a, "ax", @progbits
+        .global Gunner2_Init_05a25a
+Gunner2_Init_05a25a:
         move.w  0x4000.w,d0                     | +000
         ori.w   #0x4,d0                         | +004
         move.w  d0,0x38(a6)                     | +008
         jsr     0x8f3a6.l                       | +00c
         not.b   d0                              | +012
         move.b  d0,0x72(a6)                     | +014
-        lea     TaskHandler_05a65c(pc),a1       | +018
+        lea     Gunner2_Child_Init_05a65c(pc),a1 | +018
         jsr     0x4ae.l                         | +01c
         move.w  #0x8000,0x70(a6)                | +022
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a28a  @ $05A28A  (60 B)
+|  Gunner2_Search_05a28a  @ $05A28A  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a28a, "ax", @progbits
-        .global TaskHandler_05a28a
-TaskHandler_05a28a:
-        lea     Data_059e50__L05a13e(pc),a0     | +000
-        bsr.w   TaskHandler_05a1a2__L05a1b6     | +004
+        .section .text.Gunner2_Search_05a28a, "ax", @progbits
+        .global Gunner2_Search_05a28a
+Gunner2_Search_05a28a:
+        lea     GunnerAnim_Table_059e50__L05a13e(pc),a0 | +000
+        bsr.w   Gunner2_AimFromAngle_05a1b6     | +004
         jsr     0x2783a.l                       | +008
         jsr     0x28d70.l                       | +00e
         move.w  0x76(a6),d0                     | +014
@@ -2131,28 +2143,28 @@ TaskHandler_05a28a:
         tst.b   d4                              | +026
         bmi.w   .L05a2c2                        | +028
         move.b  #0x0,0x73(a6)                   | +02c
-        lea     TaskHandler_05a2c6(pc),a1       | +032
+        lea     Gunner2_Acquire_05a2c6(pc),a1   | +032
         move.l  a1,(a6)                         | +036
 .L05a2c2:
-        bra.w   Data_05a236__L05a23e            | +038
+        bra.w   Gunner2_ProbeOrDie_05a23e       | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a2c6  @ $05A2C6  (22 B)
+|  Gunner2_Acquire_05a2c6  @ $05A2C6  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a2c6, "ax", @progbits
-        .global TaskHandler_05a2c6
-TaskHandler_05a2c6:
+        .section .text.Gunner2_Acquire_05a2c6, "ax", @progbits
+        .global Gunner2_Acquire_05a2c6
+Gunner2_Acquire_05a2c6:
         jsr     0x13600.l                       | +000
         move.b  0x73(a6),d4                     | +006
         jsr     0x8f69c.l                       | +00a
         jsr     0x236e.l                        | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a2dc  @ $05A2DC  (172 B)
+|  Gunner2_Track_05a2dc  @ $05A2DC  (172 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a2dc, "ax", @progbits
-        .global TaskHandler_05a2dc
-TaskHandler_05a2dc:
+        .section .text.Gunner2_Track_05a2dc, "ax", @progbits
+        .global Gunner2_Track_05a2dc
+Gunner2_Track_05a2dc:
         move.w  #0x78,0x74(a6)                  | +000
         lea     .L05a2e8(pc),a1                 | +006
         move.l  a1,(a6)                         | +00a
@@ -2168,7 +2180,7 @@ TaskHandler_05a2dc:
         bcs.w   .L05a31c                        | +02e
         subq.w  #0x1,0x74(a6)                   | +032
         bne.w   .L05a31c                        | +036
-        lea     TaskHandler_05a388(pc),a1       | +03a
+        lea     Gunner2_Fire_05a388(pc),a1      | +03a
         move.l  a1,(a6)                         | +03e
 .L05a31c:
         bra.w   .L05a370                        | +040
@@ -2193,23 +2205,23 @@ TaskHandler_05a2dc:
 .L05a360:
         btst    #0x4,0x3(a2)                    | +084
         beq.w   .L05a370                        | +08a
-        lea     TaskHandler_05a388(pc),a1       | +08e
+        lea     Gunner2_Fire_05a388(pc),a1      | +08e
         move.l  a1,(a6)                         | +092
 .L05a370:
         jsr     0x2783a.l                       | +094
-        lea     Data_059e50__L05a152(pc),a0     | +09a
-        bsr.w   TaskHandler_05a1a2__L05a1b6     | +09e
+        lea     GunnerAnim_Table_059e50__L05a152(pc),a0 | +09a
+        bsr.w   Gunner2_AimFromAngle_05a1b6     | +09e
         jsr     0x28d70.l                       | +0a2
-        bra.w   TaskHandler_05a388__L05a3ec     | +0a8
+        bra.w   Gunner2_Fire_05a388__L05a3ec    | +0a8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a388  @ $05A388  (134 B)
+|  Gunner2_Fire_05a388  @ $05A388  (134 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a388, "ax", @progbits
-        .global TaskHandler_05a388
-TaskHandler_05a388:
-        lea     Data_059e50__L05a166(pc),a0     | +000
-        bsr.w   TaskHandler_05a1a2__L05a1b6     | +004
+        .section .text.Gunner2_Fire_05a388, "ax", @progbits
+        .global Gunner2_Fire_05a388
+Gunner2_Fire_05a388:
+        lea     GunnerAnim_Table_059e50__L05a166(pc),a0 | +000
+        bsr.w   Gunner2_AimFromAngle_05a1b6     | +004
         lea     .L05a396(pc),a1                 | +008
         move.l  a1,(a6)                         | +00c
 .L05a396:
@@ -2218,7 +2230,7 @@ TaskHandler_05a388:
         bcc.w   .L05a3ec                        | +01a
         move.l  a6,-(a7)                        | +01e
         lea     0x100800.l,a6                   | +020
-        lea     TaskHandler_05a55a(pc),a1       | +026
+        lea     Gunner2_Shell_05a55a(pc),a1     | +026
         jsr     0x4ae.l                         | +02a
         movea.l (a7)+,a6                        | +030
         move.b  0x73(a6),0x98(a0)               | +032
@@ -2231,10 +2243,10 @@ TaskHandler_05a388:
         neg.w   d0                              | +058
 .L05a3e2:
         move.w  d0,0x34(a0)                     | +05a
-        lea     TaskHandler_05a2dc(pc),a1       | +05e
+        lea     Gunner2_Track_05a2dc(pc),a1     | +05e
         move.l  a1,(a6)                         | +062
-        .global TaskHandler_05a388__L05a3ec
-TaskHandler_05a388__L05a3ec:
+        .global Gunner2_Fire_05a388__L05a3ec
+Gunner2_Fire_05a388__L05a3ec:
 .L05a3ec:
         move.w  0x76(a6),d0                     | +064
         move.w  0x24(a6),d1                     | +068
@@ -2242,17 +2254,17 @@ TaskHandler_05a388__L05a3ec:
         jsr     0x8f3be.l                       | +070
         tst.b   d4                              | +076
         bpl.w   .L05a40a                        | +078
-        lea     TaskHandler_05a28a(pc),a1       | +07c
+        lea     Gunner2_Search_05a28a(pc),a1    | +07c
         move.l  a1,(a6)                         | +080
 .L05a40a:
-        bra.w   Data_05a236__L05a23e            | +082
+        bra.w   Gunner2_ProbeOrDie_05a23e       | +082
 
 | ----------------------------------------------------------------------------
-|  Data_05a40e  @ $05A40E  (84 B)
+|  Shell_HitboxList_A_05a40e  @ $05A40E  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05a40e, "ax", @progbits
-        .global Data_05a40e
-Data_05a40e:
+        .section .text.Shell_HitboxList_A_05a40e, "ax", @progbits
+        .global Shell_HitboxList_A_05a40e
+Shell_HitboxList_A_05a40e:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x0e                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -2339,11 +2351,11 @@ Data_05a40e:
         .dc.b   0xff                          | +053  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a462  @ $05A462  (164 B)
+|  Shell_HitboxList_B_05a462  @ $05A462  (164 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a462, "ax", @progbits
-        .global TaskHandler_05a462
-TaskHandler_05a462:
+        .section .text.Shell_HitboxList_B_05a462, "ax", @progbits
+        .global Shell_HitboxList_B_05a462
+Shell_HitboxList_B_05a462:
         .dc.b   0x03                          | +000  '.'  (dato, rango --data)
         .dc.b   0x06                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -2510,11 +2522,11 @@ TaskHandler_05a462:
         .dc.b   0xff                          | +0a3  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a506  @ $05A506  (84 B)
+|  Shell_HitboxList_C_05a506  @ $05A506  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a506, "ax", @progbits
-        .global TaskHandler_05a506
-TaskHandler_05a506:
+        .section .text.Shell_HitboxList_C_05a506, "ax", @progbits
+        .global Shell_HitboxList_C_05a506
+Shell_HitboxList_C_05a506:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x01                          | +001  '.'  (dato, rango --data)
         .dc.b   0xff                          | +002  '.'  (dato, rango --data)
@@ -2601,16 +2613,16 @@ TaskHandler_05a506:
         .dc.b   0xff                          | +053  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a55a  @ $05A55A  (226 B)
+|  Gunner2_Shell_05a55a  @ $05A55A  (226 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a55a, "ax", @progbits
-        .global TaskHandler_05a55a
-TaskHandler_05a55a:
+        .section .text.Gunner2_Shell_05a55a, "ax", @progbits
+        .global Gunner2_Shell_05a55a
+Gunner2_Shell_05a55a:
         cmpi.b  #0x2,0x98(a6)                   | +000
         bne.w   .L05a584                        | +006
-        lea     TaskHandler_05a506(pc),a0       | +00a
+        lea     Shell_HitboxList_C_05a506(pc),a0 | +00a
         move.l  a0,0x48(a6)                     | +00e
-        lea     Data_05a40e(pc),a0              | +012
+        lea     Shell_HitboxList_A_05a40e(pc),a0 | +012
         move.l  a0,0x4c(a6)                     | +016
         jsr     0x283ca.l                       | +01a
         move.w  #0x200,0x36(a6)                 | +020
@@ -2618,7 +2630,7 @@ TaskHandler_05a55a:
 .L05a584:
         lea     0xffff.w,a0                     | +02a
         move.l  a0,0x48(a6)                     | +02e
-        lea     TaskHandler_05a462(pc),a0       | +032
+        lea     Shell_HitboxList_B_05a462(pc),a0 | +032
         move.l  a0,0x4c(a6)                     | +036
         jsr     0x283ca.l                       | +03a
         move.w  #0x400,0x36(a6)                 | +040
@@ -2636,7 +2648,7 @@ TaskHandler_05a55a:
         jsr     0x13c0e.l                       | +074
         move.w  d1,0x28(a6)                     | +07a
         move.w  d2,0x2a(a6)                     | +07e
-        lea     Data_059e50__L05a17a(pc),a0     | +082
+        lea     GunnerAnim_Table_059e50__L05a17a(pc),a0 | +082
         move.w  0x5c(a6),d0                     | +086
         movea.l (a0,d0.w),a0                    | +08a
         jsr     0x28cd4.l                       | +08e
@@ -2647,9 +2659,9 @@ TaskHandler_05a55a:
         jsr     0x28d70.l                       | +0a0
         jsr     0x283d8.l                       | +0a6
         btst    #0x1,0x13(a6)                   | +0ac
-        bne.w   TaskHandler_05a642              | +0b2
+        bne.w   Gunner2_Shell_Explode_05a642    | +0b2
         jsr     0x2870a.l                       | +0b6
-        bcs.w   TaskHandler_05a642              | +0bc
+        bcs.w   Gunner2_Shell_Explode_05a642    | +0bc
         move.w  0x22(a6),d0                     | +0c0
         addi.w  #0x10,d0                        | +0c4
         cmpi.w  #0x160,d0                       | +0c8
@@ -2661,11 +2673,11 @@ TaskHandler_05a55a:
         rts                                     | +0e0
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a642  @ $05A642  (26 B)
+|  Gunner2_Shell_Explode_05a642  @ $05A642  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a642, "ax", @progbits
-        .global TaskHandler_05a642
-TaskHandler_05a642:
+        .section .text.Gunner2_Shell_Explode_05a642, "ax", @progbits
+        .global Gunner2_Shell_Explode_05a642
+Gunner2_Shell_Explode_05a642:
         move.w  #0x1027,d0                      | +000
         jsr     0x2352.l                        | +004
         jsr     0x13600.l                       | +00a
@@ -2674,20 +2686,20 @@ TaskHandler_05a642:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a65c  @ $05A65C  (10 B)
+|  Gunner2_Child_Init_05a65c  @ $05A65C  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a65c, "ax", @progbits
-        .global TaskHandler_05a65c
-TaskHandler_05a65c:
+        .section .text.Gunner2_Child_Init_05a65c, "ax", @progbits
+        .global Gunner2_Child_Init_05a65c
+Gunner2_Child_Init_05a65c:
         move.w  #0x56,d1                        | +000
         jsr     0x236e.l                        | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a66e  @ $05A66E  (40 B)
+|  Gunner2_Child_Sync_05a66e  @ $05A66E  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a66e, "ax", @progbits
-        .global TaskHandler_05a66e
-TaskHandler_05a66e:
+        .section .text.Gunner2_Child_Sync_05a66e, "ax", @progbits
+        .global Gunner2_Child_Sync_05a66e
+Gunner2_Child_Sync_05a66e:
         movea.l 0xc(a6),a0                      | +000
         move.b  0x3a(a0),0x3a(a6)               | +004
         move.w  0x22(a0),0x22(a6)               | +00a
@@ -2697,11 +2709,11 @@ TaskHandler_05a66e:
         jmp     0x5ca2a.l                       | +022
 
 | ----------------------------------------------------------------------------
-|  Data_05a696  @ $05A696  (198 B)
+|  SpriteMap_Walker_05a696  @ $05A696  (152 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05a696, "ax", @progbits
-        .global Data_05a696
-Data_05a696:
+        .section .text.SpriteMap_Walker_05a696, "ax", @progbits
+        .global SpriteMap_Walker_05a696
+SpriteMap_Walker_05a696:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x02                          | +001  '.'  (dato, rango --data)
         .dc.b   0x1e                          | +002  '.'  (dato, rango --data)
@@ -2854,22 +2866,29 @@ Data_05a696:
         .dc.b   0x29                          | +095  ')'  (dato, rango --data)
         .dc.b   0xb7                          | +096  '.'  (dato, rango --data)
         .dc.b   0x44                          | +097  'D'  (dato, rango --data)
-        move.w  #0xe,d1                         | +098
-        jsr     0x236e.l                        | +09c
-        move.w  #0x8000,d0                      | +0a2
-        jsr     0x28134.l                       | +0a6
-        andi.w  #0xffe3,0x38(a6)                | +0ac
-        ori.w   #0x14,0x38(a6)                  | +0b2
-        lea     Data_05a696(pc),a0              | +0b8
-        jsr     0x28cd4.l                       | +0bc
-        clr.w   0x28(a6)                        | +0c2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a764  @ $05A764  (102 B)
+|  Walker_Init_05a72e  @ $05A72E  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a764, "ax", @progbits
-        .global TaskHandler_05a764
-TaskHandler_05a764:
+        .section .text.Walker_Init_05a72e, "ax", @progbits
+        .global Walker_Init_05a72e
+Walker_Init_05a72e:
+        move.w  #0xe,d1                         | +000
+        jsr     0x236e.l                        | +004
+        move.w  #0x8000,d0                      | +00a
+        jsr     0x28134.l                       | +00e
+        andi.w  #0xffe3,0x38(a6)                | +014
+        ori.w   #0x14,0x38(a6)                  | +01a
+        lea     SpriteMap_Walker_05a696(pc),a0  | +020
+        jsr     0x28cd4.l                       | +024
+        clr.w   0x28(a6)                        | +02a
+
+| ----------------------------------------------------------------------------
+|  Walker_Patrol_05a764  @ $05A764  (102 B)
+| ----------------------------------------------------------------------------
+        .section .text.Walker_Patrol_05a764, "ax", @progbits
+        .global Walker_Patrol_05a764
+Walker_Patrol_05a764:
         jsr     0x2783a.l                       | +000
         jsr     0x27eba.l                       | +006
         bcc.w   .L05a77e                        | +00c
@@ -2883,7 +2902,7 @@ TaskHandler_05a764:
         tst.w   d2                              | +02a
         bmi.w   .L05a7a4                        | +02c
         move.b  d2,0x72(a6)                     | +030
-        lea     TaskHandler_05a7ca(pc),a1       | +034
+        lea     Walker_Claimed_05a7ca(pc),a1    | +034
         move.l  a1,(a6)                         | +038
         jsr     0x8f520.l                       | +03a
 .L05a7a4:
@@ -2897,11 +2916,11 @@ TaskHandler_05a764:
         jmp     0x56e1e.l                       | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a7ca  @ $05A7CA  (30 B)
+|  Walker_Claimed_05a7ca  @ $05A7CA  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a7ca, "ax", @progbits
-        .global TaskHandler_05a7ca
-TaskHandler_05a7ca:
+        .section .text.Walker_Claimed_05a7ca, "ax", @progbits
+        .global Walker_Claimed_05a7ca
+Walker_Claimed_05a7ca:
         lea     0x29b4a4.l,a0                   | +000
         move.l  a0,0x48(a6)                     | +006
         lea     .L05a7da(pc),a1                 | +00a
@@ -2909,17 +2928,17 @@ TaskHandler_05a7ca:
 .L05a7da:
         move.b  0x72(a6),d0                     | +010
         jsr     0x8f5dc.l                       | +014
-        bcs.w   TaskHandler_05a7f0__L05a7f4     | +01a
+        bcs.w   Walker_Tail_05a7f0__L05a7f4     | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a7f0  @ $05A7F0  (24 B)
+|  Walker_Tail_05a7f0  @ $05A7F0  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a7f0, "ax", @progbits
-        .global TaskHandler_05a7f0
-TaskHandler_05a7f0:
+        .section .text.Walker_Tail_05a7f0, "ax", @progbits
+        .global Walker_Tail_05a7f0
+Walker_Tail_05a7f0:
         bra.w   .L05a7fc                        | +000
-        .global TaskHandler_05a7f0__L05a7f4
-TaskHandler_05a7f0__L05a7f4:
+        .global Walker_Tail_05a7f0__L05a7f4
+Walker_Tail_05a7f0__L05a7f4:
 .L05a7f4:
         move.w  d0,0x22(a6)                     | +004
         move.w  d1,0x24(a6)                     | +008
@@ -2928,22 +2947,22 @@ TaskHandler_05a7f0__L05a7f4:
         jmp     0x56e1e.l                       | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05a808  @ $05A808  (16 B)
+|  Entity_CmpDepthToParent_05a808  @ $05A808  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05a808, "ax", @progbits
-        .global TaskHandler_05a808
-TaskHandler_05a808:
+        .section .text.Entity_CmpDepthToParent_05a808, "ax", @progbits
+        .global Entity_CmpDepthToParent_05a808
+Entity_CmpDepthToParent_05a808:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_05a81e                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_0005A8BA  @ $05A8BA  (284 B)
+|  FadeLut_16x16_05a8ba  @ $05A8BA  (256 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005A8BA, "ax", @progbits
-        .global Sub_0005A8BA
-Sub_0005A8BA:
+        .section .text.FadeLut_16x16_05a8ba, "ax", @progbits
+        .global FadeLut_16x16_05a8ba
+FadeLut_16x16_05a8ba:
         .dc.b   0x0f                          | +000  '.'  (dato, rango --data)
         .dc.b   0x0f                          | +001  '.'  (dato, rango --data)
         .dc.b   0x0f                          | +002  '.'  (dato, rango --data)
@@ -3200,9 +3219,16 @@ Sub_0005A8BA:
         .dc.b   0x0d                          | +0fd  '.'  (dato, rango --data)
         .dc.b   0x0e                          | +0fe  '.'  (dato, rango --data)
         .dc.b   0x0f                          | +0ff  '.'  (dato, rango --data)
-        lea     0x108080.l,a5                   | +100
-        clr.b   0x10e1ec.l                      | +106
-        clr.w   0x4254(a5)                      | +10c
-        clr.w   0x6148(a5)                      | +110
-        move.w  #0x348,0x614a(a5)               | +114
-        rts                                     | +11a
+
+| ----------------------------------------------------------------------------
+|  VRAM_FixAutoclear_Reset_05a9ba  @ $05A9BA  (28 B)
+| ----------------------------------------------------------------------------
+        .section .text.VRAM_FixAutoclear_Reset_05a9ba, "ax", @progbits
+        .global VRAM_FixAutoclear_Reset_05a9ba
+VRAM_FixAutoclear_Reset_05a9ba:
+        lea     0x108080.l,a5                   | +000
+        clr.b   0x10e1ec.l                      | +006
+        clr.w   0x4254(a5)                      | +00c
+        clr.w   0x6148(a5)                      | +010
+        move.w  #0x348,0x614a(a5)               | +014
+        rts                                     | +01a

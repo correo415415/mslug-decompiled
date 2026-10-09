@@ -505,31 +505,31 @@ SYMBOLS = {
     # 0x00058B1E promovido a Soldier_ThrowGrenadeA_058b1e en registry (Wave EEEE).
     # 0x00058C8E promovido a Soldier_ThrowGrenadeB_058c8e en registry (Wave EEEE).
     # 0x00058CCE promovido a Soldier_ThrowGrenadeB_Loop_058cce en registry (Wave EEEE).
-    # 0x0005943A promovido a TaskHandler_05943a en registry (Wave EEEEE).
-    # 0x0005947A promovido a TaskHandler_05947a en registry (Wave EEEEE).
-    # 0x000594BA promovido a TaskHandler_0594ba en registry (Wave EEEEE).
-    # 0x00059722 promovido a TaskHandler_059722 en registry (Wave EEEEE).
-    # 0x00059756 promovido a TaskHandler_059756 en registry (Wave EEEEE).
-    # 0x000597B0 promovido a TaskHandler_0597b0 en registry (Wave EEEEE).
-    # 0x0005980A promovido a TaskHandler_05980a en registry (Wave EEEEE).
-    # 0x00059864 promovido a TaskHandler_059864 en registry (Wave EEEEE).
-    # 0x000598AE promovido a TaskHandler_0598ae en registry (Wave EEEEE).
-    # 0x0005994A promovido a TaskHandler_05994a en registry (Wave EEEEE).
-    # 0x0005996C promovido a TaskHandler_05996c en registry (Wave EEEEE).
-    # 0x00059988 promovido a TaskHandler_059988 en registry (Wave EEEEE).
-    # 0x000599AA promovido a TaskHandler_0599aa en registry (Wave EEEEE).
-    # 0x000599C6 promovido a TaskHandler_0599c6 en registry (Wave EEEEE).
-    # 0x000599F2 promovido a TaskHandler_0599f2 en registry (Wave EEEEE).
-    # 0x00059A1A promovido a TaskHandler_059a1a en registry (Wave EEEEE).
-    # 0x00059A40 promovido a TaskHandler_059a40 en registry (Wave EEEEE).
-    # 0x00059A70 promovido a TaskHandler_059a70 en registry (Wave EEEEE).
-    # 0x00059B86 promovido a TaskHandler_059b86 en registry (Wave EEEEE).
-    # 0x00059BC6 promovido a TaskHandler_059bc6 en registry (Wave EEEEE).
-    # 0x00059C42 promovido a TaskHandler_059c42 en registry (Wave EEEEE).
-    # 0x00059D62 promovido a TaskHandler_059d62 en registry (Wave EEEEE).
-    # 0x0005A28A promovido a TaskHandler_05a28a en registry (Wave EEEEE).
-    # 0x0005A66E promovido a TaskHandler_05a66e en registry (Wave EEEEE).
-    # 0x0005A764 promovido a TaskHandler_05a764 en registry (Wave EEEEE).
+    # 0x0005943A promovido a Ending_ShowAll_05943a en registry (Wave EEEEE).
+    # 0x0005947A promovido a Ending_ShowOver_05947a en registry (Wave EEEEE).
+    # 0x000594BA promovido a Ending_Exit_0594ba en registry (Wave EEEEE).
+    # 0x00059722 promovido a Result_PrintContinueLabel_059722 en registry (Wave EEEEE).
+    # 0x00059756 promovido a Result_RollContinues_059756 en registry (Wave EEEEE).
+    # 0x000597B0 promovido a Result_PrintPrisonerLabel_0597b0 en registry (Wave EEEEE).
+    # 0x0005980A promovido a Result_RollPrisoners_05980a en registry (Wave EEEEE).
+    # 0x00059864 promovido a Result_PrintScore_059864 en registry (Wave EEEEE).
+    # 0x000598AE promovido a Result_HiScoreEntry_0598ae en registry (Wave EEEEE).
+    # 0x0005994A promovido a Ending_Seq_ShowMission_05994a en registry (Wave EEEEE).
+    # 0x0005996C promovido a Ending_Seq_Wait30_05996c en registry (Wave EEEEE).
+    # 0x00059988 promovido a Ending_Seq_Wipe_059988 en registry (Wave EEEEE).
+    # 0x000599AA promovido a Ending_Seq_Wait15_0599aa en registry (Wave EEEEE).
+    # 0x000599C6 promovido a Ending_Seq_PanelP1_0599c6 en registry (Wave EEEEE).
+    # 0x000599F2 promovido a Ending_Seq_PanelP2_0599f2 en registry (Wave EEEEE).
+    # 0x00059A1A promovido a Ending_Seq_FadeA0_059a1a en registry (Wave EEEEE).
+    # 0x00059A40 promovido a Ending_Seq_Fade40_059a40 en registry (Wave EEEEE).
+    # 0x00059A70 promovido a Ending_Seq_Done_059a70 en registry (Wave EEEEE).
+    # 0x00059B86 promovido a Ending_ShowPeaceForever_059b86 en registry (Wave EEEEE).
+    # 0x00059BC6 promovido a Ending_PeaceExit_059bc6 en registry (Wave EEEEE).
+    # 0x00059C42 promovido a Gunner_Search_059c42 en registry (Wave EEEEE).
+    # 0x00059D62 promovido a Gunner_Child_Sync_059d62 en registry (Wave EEEEE).
+    # 0x0005A28A promovido a Gunner2_Search_05a28a en registry (Wave EEEEE).
+    # 0x0005A66E promovido a Gunner2_Child_Sync_05a66e en registry (Wave EEEEE).
+    # 0x0005A764 promovido a Walker_Patrol_05a764 en registry (Wave EEEEE).
     0x0005CBEA: "TaskHandler_05cbea",
     # 0x0005F00A promovido a DebugColl_Idle_05f00a en registry (Wave SSSS).
     # 0x0005F0B0 promovido a DebugColl_ShowHighNibble_05f0b0 en registry (Wave SSSS).
@@ -1109,7 +1109,7 @@ SYMBOLS = {
     # attract_cluster_batch_ff.s siga resolviendose sin edicion.
     # 0x00052712: "ThunkTarget_052712",
     # 0x00046682 promovido a SceneC_Load_Task_046682 en registry (Wave DDDDD).
-    # 0x00059B6A promovido a TaskHandler_00059B6A en registry (Wave EEEEE).
+    # 0x00059B6A promovido a Ending_PeaceWait_059b6a en registry (Wave EEEEE).
     0x00002B58: "Sub_00002B58",             # applicator de ScriptSlotPairTable_0009B4 (ver SS#4)
     # 0x000009B4 promovido a ScriptSlotPairTable_0009B4 en registry (Wave SS#4).
     0x0000050E: "Task_InstallHandler_0000050E",  # instala handler a1 en TCB a0 (bsr $4C6 +
@@ -1676,7 +1676,7 @@ SYMBOLS = {
     0x0002B262: "SetHandlerRts_02b262",  # rts de SetTaskHandler_02b25c (+6)
     0x0002D734: "SetHandlerRts_02d734",  # rts de SetTaskHandler_02d72e (+6)
     # --- Wave DDDD: refs forward a huecos futuros
-    # 0x0005A8BA promovido a Sub_0005A8BA en registry (Wave EEEEE).
+    # 0x0005A8BA promovido a FadeLut_16x16_05a8ba en registry (Wave EEEEE).
     # --- Wave EEEE: refs forward a huecos futuros
     # 0x00056ACC promovido a Soldier_PhysicsStep_056acc en registry (Wave FFFF).
     # 0x00056B92 promovido a Soldier_Think_056b92 en registry (Wave FFFF).

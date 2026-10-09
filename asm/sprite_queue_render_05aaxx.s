@@ -414,7 +414,7 @@ SpriteDispatchJT_05AA96:
         lsl.b   #0x4,d6                         | +2b6
         swap    d2                              | +2b8
         or.b    d2,d6                           | +2ba
-        lea     Sub_0005A8BA(pc),a4             | +2bc
+        lea     FadeLut_16x16_05a8ba(pc),a4             | +2bc
         move.b  (a4,d6.w),d6                    | +2c0
         swap    d2                              | +2c4
         bra.w   .L05ad66                        | +2c6
@@ -543,7 +543,7 @@ SpriteDispatchJT_05AA96:
         lsl.b   #0x4,d6                         | +3e6
         swap    d2                              | +3e8
         or.b    d2,d6                           | +3ea
-        lea     Sub_0005A8BA(pc),a4             | +3ec
+        lea     FadeLut_16x16_05a8ba(pc),a4             | +3ec
         move.b  (a4,d6.w),d6                    | +3f0
         swap    d2                              | +3f4
         bra.w   .L05ae96                        | +3f6
@@ -674,7 +674,7 @@ SpriteDispatchJT_05AA96:
         lsl.b   #0x4,d6                         | +520
         swap    d2                              | +522
         or.b    d2,d6                           | +524
-        lea     Sub_0005A8BA(pc),a4             | +526
+        lea     FadeLut_16x16_05a8ba(pc),a4             | +526
         move.b  (a4,d6.w),d6                    | +52a
         swap    d2                              | +52e
         bra.w   .L05afd0                        | +530
@@ -811,7 +811,7 @@ SpriteDispatchJT_05AA96:
         lsl.b   #0x4,d6                         | +664
         swap    d2                              | +666
         or.b    d2,d6                           | +668
-        lea     Sub_0005A8BA(pc),a4             | +66a
+        lea     FadeLut_16x16_05a8ba(pc),a4             | +66a
         move.b  (a4,d6.w),d6                    | +66e
         swap    d2                              | +672
         bra.w   .L05b114                        | +674
