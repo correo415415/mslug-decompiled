@@ -411,7 +411,7 @@ Attract_PostStart_Cleanup_001AB6:
         jsr     0x981fc.l                      | +00  Copy2Bytes_10FDB6to10E3A0
         btst.b  #0x0, 0x100001.l               | +06  test bit-0 de $100001
         beq.w   .Lff12_check_ed6               | +0e    if (bit-0 == 0) skip probe
-        jsr     0x5d288.l                      | +12  Sub_0005D288 (probe)
+        jsr     0x5d288.l                      | +12  InputEvt_ToggleChain_05d288 (probe)
         bcc.w   .Lff12_bra_short               | +18    if (C == 0) skip repatch
         lea.l   .Lff12_pc_f76(pc), a1          | +1c  a1 = handler $F76 (PC-rel)
         move.l  a1, (a6)                       | +20  self->handler = a1

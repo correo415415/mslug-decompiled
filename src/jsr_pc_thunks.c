@@ -423,8 +423,8 @@ void JsrPcThunk_05e54c(void) {
 
 __attribute__((section(".text.JsrPcThunk_05e8ce")))
 void JsrPcThunk_05e8ce(void) {
-    extern void PcThunkTarget_05dd5c(void);
-    __asm__ volatile("jsr PcThunkTarget_05dd5c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_CheckOnScreenBox_05dd5c(void);
+    __asm__ volatile("jsr Entity_CheckOnScreenBox_05dd5c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_062b7e")))

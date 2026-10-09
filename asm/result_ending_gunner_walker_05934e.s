@@ -65,7 +65,7 @@
 |       ≥ 0) → Entity_FlushSlotHistory + Turret8_SndByState + Entity_Alloc-
 |       SpriteSlot → Gunner_Fire_059ca0 (sprite `$2B7340` ×3) → Gunner_Reload
 |       (sprite `$2B737C`, 120 frames) → vuelve a Search; Gunner_ProbeOrDie:
-|       probe `$2B73B4` con PcThunkTarget_05dd5c, si C=0 Task_WalkList+sched.
+|       probe `$2B73B4` con Entity_CheckOnScreenBox_05dd5c, si C=0 Task_WalkList+sched.
 |     - Gunner_SpawnShell_059d84 / Gunner_Shell_059da6: proyectil en pool
 |       `$100800`: sonido $108C, template $57, `$38` = $D000, +$20/+$14 px,
 |       vel.x $400, sprite `$2B7390`, hitbox `$2B73BC`, muere al salir de
@@ -154,7 +154,7 @@
 |    Entity_FlushSlotHistory_013600, Sprite_Dispatch_05CA2A, Entity_ClearFlags-
 |    13Bits12 ($283CA), Entity_ProbeSlot4c_0283D8, Entity_ProbeTransformFreeCcr
 |    ($27CEE/$27C8C), Entity_ProbeRevertCcr_027A92, SpritePubEffect_027EBA,
-|    Hitbox_SideOfImpact_02870a, PcThunkTarget_05dd5c, TargetRing_*, Turret8_
+|    Hitbox_SideOfImpact_02870a, Entity_CheckOnScreenBox_05dd5c, TargetRing_*, Turret8_
 |    SndByState_08f69c, Target_AngleToPlayer_05e136, Players_AliveMask_05e1aa,
 |    AimAngleTable_05D326, Explosion_Fire_077f6a, Entity_ProbeAndInstall-
 |    Handler_049FD0, Soldier_DespawnIfOffscreen_056e1e, `$51AA4`, `$2B58`,

@@ -828,7 +828,7 @@ SYMBOLS = {
     0x0005A9D6: "ThunkTarget_05a9d6",
     0x0005A9E2: "ThunkTarget_05a9e2",
     0x0005CA2A: "ThunkTarget_05ca2a",
-    # 0x0005CCC8 promovido a ThunkTarget_05ccc8 en registry (Wave GGGGG).
+    # 0x0005CCC8 promovido a Entity_CopyField6D_05ccc8 en registry (Wave GGGGG).
     0x0005CDFC: "ThunkTarget_05cdfc",
     0x0005D00E: "ThunkTarget_05d00e",
     0x0005D6C2: "ThunkTarget_05d6c2",
@@ -921,12 +921,12 @@ SYMBOLS = {
     # 0x00055214 promovido a NeonSign_TilesOnB_055214 en registry (Wave MMMM).
     # 0x00056E1E promovido a Soldier_DespawnIfOffscreen_056e1e en registry (Wave FFFF).
     # 0x00057226 promovido a Soldier_SpawnVariants_057226 en registry (Wave FFFF).
-    # 0x0005CDA8 promovido a JmpTarget_05cda8 en registry (Wave GGGGG).
+    # 0x0005CDA8 promovido a InputEvtThunk_05cda8 en registry (Wave GGGGG).
     0x0005CEF8: "JmpTarget_05cef8",
     0x0005CF04: "JmpTarget_05cf04",
     0x0005CF6C: "PcThunkTarget_05cf6c",
     0x0005DBC2: "PcThunkTarget_05dbc2",
-    # 0x0005DD5C promovido a PcThunkTarget_05dd5c en registry (Wave GGGGG).
+    # 0x0005DD5C promovido a Entity_CheckOnScreenBox_05dd5c en registry (Wave GGGGG).
     # 0x0005E018 promovido a Atan2_Angle256_05e018 en registry (Wave SSSS).
     # 0x0005E530 promovido a Rng_PickWordFromTable_05e530 en registry (Wave SSSS).
     # 0x00063336 promovido a Camper_ScrollGate_063336 en registry (Wave TTTT).
@@ -1120,7 +1120,7 @@ SYMBOLS = {
     # 0x0003DBC8 promovido a Results_Entry_03dbc8 en registry (Wave RRRR).
     # 0x00046608 promovido a Fade_WhiteFlash_Task_046608 en registry (Wave DDDDD).
     0x00000F76: "PcThunkTarget_000F76",
-    # 0x0005D288 promovido a Sub_0005D288 en registry (Wave GGGGG).
+    # 0x0005D288 promovido a InputEvt_ToggleChain_05d288 en registry (Wave GGGGG).
 
     # ---- Wave FF batch 2: helper geometrico
     0x000437DA: "Sub_000437DA",
@@ -1258,8 +1258,8 @@ SYMBOLS = {
     # 0x00030C14 promovido a EnemyShot_Straight_030c14 en registry (Wave AAAA).
     # 0x00030C70 promovido a EnemyShot_Bounce_030c70 en registry (Wave AAAA).
     # 0x000308C2 promovido a PlayerGrenade_Spawn_0308c2 en registry (Wave AAAA).
-    # 0x0005DCA4 promovido a Fn_0005DCA4 en registry (Wave GGGGG).
-    # 0x0005DD56 promovido a Fn_0005DD56 en registry (Wave GGGGG).
+    # 0x0005DCA4 promovido a Entity_NegIfFacing_05dca4 en registry (Wave GGGGG).
+    # 0x0005DD56 promovido a Entity_SetOffscreenFlag_05dd56 en registry (Wave GGGGG).
     # 0x0005E452 promovido a Parent_IsLiveHandler_05e452 en registry (Wave SSSS).
     # 0x0005E912 promovido a Hud_WriteTimerCounters_05e912 en registry (Wave SSSS).
     # 0x00077F6A promovido a Explosion_Fire_077f6a en registry (Wave YYYY).
@@ -1857,8 +1857,8 @@ SYMBOLS = {
     0x00062006: "SetHandlerRts_062006",  # rts de SetTaskHandler_062000 (+6)
     # --- Wave SSSS: refs forward a huecos futuros
     0x0000FFD0: "Sub_0000FFD0",  # hueco futuro (ref pc-rel desde esta region)
-    # 0x0005DE18 promovido a Sub_0005DE18 en registry (Wave GGGGG).
-    # 0x0005DF18 promovido a Sub_0005DF18 en registry (Wave GGGGG).
+    # 0x0005DE18 promovido a AtanLog_Table_05de18 en registry (Wave GGGGG).
+    # 0x0005DF18 promovido a AtanExp_Table_05df18 en registry (Wave GGGGG).
     # 0x00062008 promovido a LateProp_HitThenDie_062008 en registry (Wave TTTT).
     # 0x00062014 promovido a LateProp_TakeHit_062014 en registry (Wave TTTT).
     # 0x00062046 promovido a LateProp_HPCheck_062046 en registry (Wave TTTT).

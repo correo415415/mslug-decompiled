@@ -65,7 +65,7 @@
 |       [+$8A] (ptr, cursor) y ejecuta Anim_ScriptStepFix_A (idioma 0) o
 |       _B (otros); muere si x <= $150 tras probe $27CEE.
 |     Icon_Anchor_Drop_08c730: objeto que cae desde ($140,$180), snd $179,
-|       vel y=-$800, mapa $2EF80E, hitbox $2EF84C; al tocar suelo (Fn_0005DD56
+|       vel y=-$800, mapa $2EF80E, hitbox $2EF84C; al tocar suelo (Entity_SetOffscreenFlag_05dd56
 |       con $2EF8A0) o bit1 +$13 spawnea Explosion_Fire_077f6a y muere.
 |
 |  D) $08C7C6..$08C9A6 — CUTSCENE: MODO, VIGILANTE Y FUNDIDO

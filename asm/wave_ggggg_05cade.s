@@ -1,7 +1,7 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave ??? — (borrador)
-|  Región: $05CADE..$05E000  (2,310 B, 52 entradas, 22 huecos)
+|  Región: $05CADE..$05E000  (2,310 B, 55 entradas, 22 huecos)
 | ============================================================================
 |
 |  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
@@ -15,30 +15,30 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cade  @ $05CADE  (2 B)
+|  Nop_Rts_05cade  @ $05CADE  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cade, "ax", @progbits
-        .global TaskHandler_05cade
-TaskHandler_05cade:
+        .section .text.Nop_Rts_05cade, "ax", @progbits
+        .global Nop_Rts_05cade
+Nop_Rts_05cade:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cae0  @ $05CAE0  (16 B)
+|  Scheduler_CompareField10_05cae0  @ $05CAE0  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cae0, "ax", @progbits
-        .global TaskHandler_05cae0
-TaskHandler_05cae0:
+        .section .text.Scheduler_CompareField10_05cae0, "ax", @progbits
+        .global Scheduler_CompareField10_05cae0
+Scheduler_CompareField10_05cae0:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_05caf6                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cafc  @ $05CAFC  (108 B)
+|  SpriteBlock20x14_Setup_05cafc  @ $05CAFC  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cafc, "ax", @progbits
-        .global TaskHandler_05cafc
-TaskHandler_05cafc:
+        .section .text.SpriteBlock20x14_Setup_05cafc, "ax", @progbits
+        .global SpriteBlock20x14_Setup_05cafc
+SpriteBlock20x14_Setup_05cafc:
         move.w  #0x14,d0                        | +000
         jsr     0x13952.l                       | +004
         moveq   #0,d2                           | +00a
@@ -62,14 +62,14 @@ TaskHandler_05cafc:
         move.w  d0,0x106ee4.l                   | +054
         move.w  d0,0x3c0000.l                   | +05a
         move.w  #0x0,0x3c0002.l                 | +060
-        jmp     TaskHandler_05cb68__L05cbd8(pc) | +068
+        jmp     SpriteBlock20x14_SetupDup_05cb68__L05cbd8(pc) | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cb68  @ $05CB68  (124 B)
+|  SpriteBlock20x14_SetupDup_05cb68  @ $05CB68  (124 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cb68, "ax", @progbits
-        .global TaskHandler_05cb68
-TaskHandler_05cb68:
+        .section .text.SpriteBlock20x14_SetupDup_05cb68, "ax", @progbits
+        .global SpriteBlock20x14_SetupDup_05cb68
+SpriteBlock20x14_SetupDup_05cb68:
         move.w  #0x14,d0                        | +000
         jsr     0x13952.l                       | +004
         moveq   #0,d2                           | +00a
@@ -94,29 +94,29 @@ TaskHandler_05cb68:
         move.w  d0,0x106ee4.l                   | +05c
         move.w  d0,0x3c0000.l                   | +062
         move.w  #0x0,0x3c0002.l                 | +068
-        .global TaskHandler_05cb68__L05cbd8
-TaskHandler_05cb68__L05cbd8:
+        .global SpriteBlock20x14_SetupDup_05cb68__L05cbd8
+SpriteBlock20x14_SetupDup_05cb68__L05cbd8:
 .L05cbd8:
         lea     0x2b7460.l,a0                   | +070
         jsr     0x2a7c.l                        | +076
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cbec  @ $05CBEC  (16 B)
+|  Scheduler_CompareField10_05cbec  @ $05CBEC  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cbec, "ax", @progbits
-        .global TaskHandler_05cbec
-TaskHandler_05cbec:
+        .section .text.Scheduler_CompareField10_05cbec, "ax", @progbits
+        .global Scheduler_CompareField10_05cbec
+Scheduler_CompareField10_05cbec:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_05cc02                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_00005CC08  @ $05CC08  (6 B)
+|  Pad_Zero_05cc08  @ $05CC08  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00005CC08, "ax", @progbits
-        .global Sub_00005CC08
-Sub_00005CC08:
+        .section .text.Pad_Zero_05cc08, "ax", @progbits
+        .global Pad_Zero_05cc08
+Pad_Zero_05cc08:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x00                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -125,238 +125,238 @@ Sub_00005CC08:
         .dc.b   0x00                          | +005  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  ThunkTarget_05ccc8  @ $05CCC8  (8 B)
+|  Entity_CopyField6D_05ccc8  @ $05CCC8  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.ThunkTarget_05ccc8, "ax", @progbits
-        .global ThunkTarget_05ccc8
-ThunkTarget_05ccc8:
+        .section .text.Entity_CopyField6D_05ccc8, "ax", @progbits
+        .global Entity_CopyField6D_05ccc8
+Entity_CopyField6D_05ccc8:
         move.b  0x6d(a6),0x6d(a0)               | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05ccd0  @ $05CCD0  (18 B)
+|  InputEvtThunk_05ccd0  @ $05CCD0  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05ccd0, "ax", @progbits
-        .global TaskHandler_05ccd0
-TaskHandler_05ccd0:
+        .section .text.InputEvtThunk_05ccd0, "ax", @progbits
+        .global InputEvtThunk_05ccd0
+InputEvtThunk_05ccd0:
         move.b  #0x10,d1                        | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e200.l,a2                   | +008
         bra.w   InputMask_TestChannelBit_05cff8 | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cce2  @ $05CCE2  (18 B)
+|  InputEvtThunk_05cce2  @ $05CCE2  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cce2, "ax", @progbits
-        .global TaskHandler_05cce2
-TaskHandler_05cce2:
+        .section .text.InputEvtThunk_05cce2, "ax", @progbits
+        .global InputEvtThunk_05cce2
+InputEvtThunk_05cce2:
         move.b  #0x20,d1                        | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e200.l,a2                   | +008
         bra.w   InputMask_TestChannelBit_05cff8 | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05ccf4  @ $05CCF4  (18 B)
+|  InputEvtThunk_05ccf4  @ $05CCF4  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05ccf4, "ax", @progbits
-        .global TaskHandler_05ccf4
-TaskHandler_05ccf4:
+        .section .text.InputEvtThunk_05ccf4, "ax", @progbits
+        .global InputEvtThunk_05ccf4
+InputEvtThunk_05ccf4:
         move.b  #0x40,d1                        | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e200.l,a2                   | +008
         bra.w   InputMask_TestChannelBit_05cff8 | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd06  @ $05CD06  (18 B)
+|  InputEvtThunk_05cd06  @ $05CD06  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd06, "ax", @progbits
-        .global TaskHandler_05cd06
-TaskHandler_05cd06:
+        .section .text.InputEvtThunk_05cd06, "ax", @progbits
+        .global InputEvtThunk_05cd06
+InputEvtThunk_05cd06:
         move.b  #0x80,d1                        | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e200.l,a2                   | +008
         bra.w   InputMask_TestChannelBit_05cff8 | +00e
 
 | ----------------------------------------------------------------------------
-|  Fn_00005CD18  @ $05CD18  (18 B)
+|  InputEvtThunk_05cd18  @ $05CD18  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_00005CD18, "ax", @progbits
-        .global Fn_00005CD18
-Fn_00005CD18:
+        .section .text.InputEvtThunk_05cd18, "ax", @progbits
+        .global InputEvtThunk_05cd18
+InputEvtThunk_05cd18:
         move.b  #0x10,d1                        | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e206.l,a2                   | +008
         bra.w   InputMask_TestChannelBit_05cff8 | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd2a  @ $05CD2A  (18 B)
+|  InputEvtThunk_05cd2a  @ $05CD2A  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd2a, "ax", @progbits
-        .global TaskHandler_05cd2a
-TaskHandler_05cd2a:
+        .section .text.InputEvtThunk_05cd2a, "ax", @progbits
+        .global InputEvtThunk_05cd2a
+InputEvtThunk_05cd2a:
         move.b  #0x20,d1                        | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e206.l,a2                   | +008
         bra.w   InputMask_TestChannelBit_05cff8 | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd3c  @ $05CD3C  (18 B)
+|  InputEvtThunk_05cd3c  @ $05CD3C  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd3c, "ax", @progbits
-        .global TaskHandler_05cd3c
-TaskHandler_05cd3c:
+        .section .text.InputEvtThunk_05cd3c, "ax", @progbits
+        .global InputEvtThunk_05cd3c
+InputEvtThunk_05cd3c:
         move.b  #0x40,d1                        | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e206.l,a2                   | +008
         bra.w   InputMask_TestChannelBit_05cff8 | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd4e  @ $05CD4E  (18 B)
+|  InputEvtThunk_05cd4e  @ $05CD4E  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd4e, "ax", @progbits
-        .global TaskHandler_05cd4e
-TaskHandler_05cd4e:
+        .section .text.InputEvtThunk_05cd4e, "ax", @progbits
+        .global InputEvtThunk_05cd4e
+InputEvtThunk_05cd4e:
         move.b  #0x80,d1                        | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e206.l,a2                   | +008
         bra.w   InputMask_TestChannelBit_05cff8 | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd60  @ $05CD60  (12 B)
+|  InputEvtThunk_05cd60  @ $05CD60  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd60, "ax", @progbits
-        .global TaskHandler_05cd60
-TaskHandler_05cd60:
+        .section .text.InputEvtThunk_05cd60, "ax", @progbits
+        .global InputEvtThunk_05cd60
+InputEvtThunk_05cd60:
         move.b  #0x10,d1                        | +000
         move.w  #0x2,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd6c  @ $05CD6C  (12 B)
+|  InputEvtThunk_05cd6c  @ $05CD6C  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd6c, "ax", @progbits
-        .global TaskHandler_05cd6c
-TaskHandler_05cd6c:
+        .section .text.InputEvtThunk_05cd6c, "ax", @progbits
+        .global InputEvtThunk_05cd6c
+InputEvtThunk_05cd6c:
         move.b  #0x20,d1                        | +000
         move.w  #0x2,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd78  @ $05CD78  (12 B)
+|  InputEvtThunk_05cd78  @ $05CD78  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd78, "ax", @progbits
-        .global TaskHandler_05cd78
-TaskHandler_05cd78:
+        .section .text.InputEvtThunk_05cd78, "ax", @progbits
+        .global InputEvtThunk_05cd78
+InputEvtThunk_05cd78:
         move.b  #0x40,d1                        | +000
         move.w  #0x2,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd84  @ $05CD84  (12 B)
+|  InputEvtThunk_05cd84  @ $05CD84  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd84, "ax", @progbits
-        .global TaskHandler_05cd84
-TaskHandler_05cd84:
+        .section .text.InputEvtThunk_05cd84, "ax", @progbits
+        .global InputEvtThunk_05cd84
+InputEvtThunk_05cd84:
         move.b  #0x80,d1                        | +000
         move.w  #0x2,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd90  @ $05CD90  (12 B)
+|  InputEvtThunk_05cd90  @ $05CD90  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd90, "ax", @progbits
-        .global TaskHandler_05cd90
-TaskHandler_05cd90:
+        .section .text.InputEvtThunk_05cd90, "ax", @progbits
+        .global InputEvtThunk_05cd90
+InputEvtThunk_05cd90:
         move.b  #0xf0,d1                        | +000
         move.w  #0x2,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cd9c  @ $05CD9C  (12 B)
+|  InputEvtThunk_05cd9c  @ $05CD9C  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cd9c, "ax", @progbits
-        .global TaskHandler_05cd9c
-TaskHandler_05cd9c:
+        .section .text.InputEvtThunk_05cd9c, "ax", @progbits
+        .global InputEvtThunk_05cd9c
+InputEvtThunk_05cd9c:
         move.b  #0xe0,d1                        | +000
         move.w  #0x2,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  JmpTarget_05cda8  @ $05CDA8  (12 B)
+|  InputEvtThunk_05cda8  @ $05CDA8  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.JmpTarget_05cda8, "ax", @progbits
-        .global JmpTarget_05cda8
-JmpTarget_05cda8:
+        .section .text.InputEvtThunk_05cda8, "ax", @progbits
+        .global InputEvtThunk_05cda8
+InputEvtThunk_05cda8:
         move.b  #0x10,d1                        | +000
         move.w  #0x3,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cdb4  @ $05CDB4  (12 B)
+|  InputEvtThunk_05cdb4  @ $05CDB4  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cdb4, "ax", @progbits
-        .global TaskHandler_05cdb4
-TaskHandler_05cdb4:
+        .section .text.InputEvtThunk_05cdb4, "ax", @progbits
+        .global InputEvtThunk_05cdb4
+InputEvtThunk_05cdb4:
         move.b  #0x20,d1                        | +000
         move.w  #0x3,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cdc0  @ $05CDC0  (12 B)
+|  InputEvtThunk_05cdc0  @ $05CDC0  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cdc0, "ax", @progbits
-        .global TaskHandler_05cdc0
-TaskHandler_05cdc0:
+        .section .text.InputEvtThunk_05cdc0, "ax", @progbits
+        .global InputEvtThunk_05cdc0
+InputEvtThunk_05cdc0:
         move.b  #0x40,d1                        | +000
         move.w  #0x3,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cdcc  @ $05CDCC  (12 B)
+|  InputEvtThunk_05cdcc  @ $05CDCC  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cdcc, "ax", @progbits
-        .global TaskHandler_05cdcc
-TaskHandler_05cdcc:
+        .section .text.InputEvtThunk_05cdcc, "ax", @progbits
+        .global InputEvtThunk_05cdcc
+InputEvtThunk_05cdcc:
         move.b  #0x80,d1                        | +000
         move.w  #0x3,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cdd8  @ $05CDD8  (12 B)
+|  InputEvtThunk_05cdd8  @ $05CDD8  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cdd8, "ax", @progbits
-        .global TaskHandler_05cdd8
-TaskHandler_05cdd8:
+        .section .text.InputEvtThunk_05cdd8, "ax", @progbits
+        .global InputEvtThunk_05cdd8
+InputEvtThunk_05cdd8:
         move.b  #0x30,d1                        | +000
         move.w  #0x3,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cde4  @ $05CDE4  (12 B)
+|  InputEvtThunk_05cde4  @ $05CDE4  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cde4, "ax", @progbits
-        .global TaskHandler_05cde4
-TaskHandler_05cde4:
+        .section .text.InputEvtThunk_05cde4, "ax", @progbits
+        .global InputEvtThunk_05cde4
+InputEvtThunk_05cde4:
         move.b  #0x50,d1                        | +000
         move.w  #0x3,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05cdf0  @ $05CDF0  (12 B)
+|  InputEvtThunk_05cdf0  @ $05CDF0  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05cdf0, "ax", @progbits
-        .global TaskHandler_05cdf0
-TaskHandler_05cdf0:
+        .section .text.InputEvtThunk_05cdf0, "ax", @progbits
+        .global InputEvtThunk_05cdf0
+InputEvtThunk_05cdf0:
         move.b  #0x70,d1                        | +000
         move.w  #0x3,d0                         | +004
         bra.w   InputMask_CheckChannelAvail_05cfa8 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05d1da  @ $05D1DA  (42 B)
+|  InputEvt_Thunk4aThenMask60_05d1da  @ $05D1DA  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05d1da, "ax", @progbits
-        .global TaskHandler_05d1da
-TaskHandler_05d1da:
+        .section .text.InputEvt_Thunk4aThenMask60_05d1da, "ax", @progbits
+        .global InputEvt_Thunk4aThenMask60_05d1da
+InputEvt_Thunk4aThenMask60_05d1da:
         jsr     InputEvtThunk_05ce4a(pc)        | +000
         bcc.w   ClearXN_05d204                  | +004
         move.b  #0x20,d1                        | +008
@@ -371,11 +371,11 @@ TaskHandler_05d1da:
         beq.w   SetXN_05d20a                    | +026
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05d210  @ $05D210  (36 B)
+|  InputEvt_Thunk4aThenMask40_05d210  @ $05D210  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05d210, "ax", @progbits
-        .global TaskHandler_05d210
-TaskHandler_05d210:
+        .section .text.InputEvt_Thunk4aThenMask40_05d210, "ax", @progbits
+        .global InputEvt_Thunk4aThenMask40_05d210
+InputEvt_Thunk4aThenMask40_05d210:
         jsr     InputEvtThunk_05ce4a(pc)        | +000
         bcc.b   ClearXN_05d204                  | +004
         move.b  #0x40,d1                        | +006
@@ -389,39 +389,39 @@ TaskHandler_05d210:
         beq.w   SetXN_05d23a                    | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05d240  @ $05D240  (72 B)
+|  InputEvt_Thunk4aThenToggle_05d240  @ $05D240  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05d240, "ax", @progbits
-        .global TaskHandler_05d240
-TaskHandler_05d240:
+        .section .text.InputEvt_Thunk4aThenToggle_05d240, "ax", @progbits
+        .global InputEvt_Thunk4aThenToggle_05d240
+InputEvt_Thunk4aThenToggle_05d240:
         jsr     InputEvtThunk_05ce4a(pc)        | +000
         bcs.w   .L05d24c                        | +004
-        bra.w   Sub_0005D288__L05d2ee           | +008
+        bra.w   InputEvt_ToggleChain_05d288__L05d2ee | +008
 .L05d24c:
         move.b  #0x8,d1                         | +00c
         move.w  #0x0,d0                         | +010
-        bra.w   Sub_0005D288__L05d2de           | +014
-        jsr     TaskHandler_05cd06(pc)          | +018
+        bra.w   InputEvt_ToggleChain_05d288__L05d2de | +014
+        jsr     InputEvtThunk_05cd06(pc)        | +018
         bcs.w   .L05d264                        | +01c
-        bra.w   Sub_0005D288__L05d2ee           | +020
+        bra.w   InputEvt_ToggleChain_05d288__L05d2ee | +020
 .L05d264:
         move.b  #0x1,d1                         | +024
         move.w  #0x0,d0                         | +028
-        bra.w   Sub_0005D288__L05d2de           | +02c
-        jsr     TaskHandler_05cd06(pc)          | +030
+        bra.w   InputEvt_ToggleChain_05d288__L05d2de | +02c
+        jsr     InputEvtThunk_05cd06(pc)        | +030
         bcs.w   .L05d27c                        | +034
-        bra.w   Sub_0005D288__L05d2ee           | +038
+        bra.w   InputEvt_ToggleChain_05d288__L05d2ee | +038
 .L05d27c:
         move.b  #0x4,d1                         | +03c
         move.w  #0x0,d0                         | +040
-        bra.w   Sub_0005D288__L05d2de           | +044
+        bra.w   InputEvt_ToggleChain_05d288__L05d2de | +044
 
 | ----------------------------------------------------------------------------
-|  Sub_0005D288  @ $05D288  (122 B)
+|  InputEvt_ToggleChain_05d288  @ $05D288  (122 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005D288, "ax", @progbits
-        .global Sub_0005D288
-Sub_0005D288:
+        .section .text.InputEvt_ToggleChain_05d288, "ax", @progbits
+        .global InputEvt_ToggleChain_05d288
+InputEvt_ToggleChain_05d288:
         move.b  #0x1,d1                         | +000
         move.w  #0x2,d0                         | +004
         lea     0x10e200.l,a2                   | +008
@@ -433,7 +433,7 @@ Sub_0005D288:
         move.w  #0x3,d0                         | +01e
         lea     0x10e200.l,a2                   | +022
         bra.w   InputMask_TestChannelBit_05cff8 | +028
-        jsr     TaskHandler_05cd06(pc)          | +02c
+        jsr     InputEvtThunk_05cd06(pc)        | +02c
         bcs.w   .L05d2c0                        | +030
         bra.w   .L05d2ee                        | +034
 .L05d2c0:
@@ -444,15 +444,15 @@ Sub_0005D288:
         move.b  #0x4,d1                         | +04a
         move.w  #0x1,d0                         | +04e
         bra.w   .L05d2de                        | +052
-        .global Sub_0005D288__L05d2de
-Sub_0005D288__L05d2de:
+        .global InputEvt_ToggleChain_05d288__L05d2de
+InputEvt_ToggleChain_05d288__L05d2de:
 .L05d2de:
         lea     0x10e20c.l,a2                   | +056
         move.b  (a2,d0.w),d0                    | +05c
         eor.b   d1,d0                           | +060
         beq.w   .L05d2f8                        | +062
-        .global Sub_0005D288__L05d2ee
-Sub_0005D288__L05d2ee:
+        .global InputEvt_ToggleChain_05d288__L05d2ee
+InputEvt_ToggleChain_05d288__L05d2ee:
 .L05d2ee:
         move.b  #0x1,d0                         | +066
         subi.b  #0x1,d0                         | +06a
@@ -463,20 +463,20 @@ Sub_0005D288__L05d2ee:
         rts                                     | +078
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05d302  @ $05D302  (8 B)
+|  InputEvt_ThunkMaskF0_05d302  @ $05D302  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05d302, "ax", @progbits
-        .global TaskHandler_05d302
-TaskHandler_05d302:
-        jsr     TaskHandler_05cd90(pc)          | +000
+        .section .text.InputEvt_ThunkMaskF0_05d302, "ax", @progbits
+        .global InputEvt_ThunkMaskF0_05d302
+InputEvt_ThunkMaskF0_05d302:
+        jsr     InputEvtThunk_05cd90(pc)        | +000
         bcc.w   ClearXN_05d310                  | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05d6b0  @ $05D6B0  (18 B)
+|  Sprite_HexFormat8_Prologue_05d6b0  @ $05D6B0  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05d6b0, "ax", @progbits
-        .global TaskHandler_05d6b0
-TaskHandler_05d6b0:
+        .section .text.Sprite_HexFormat8_Prologue_05d6b0, "ax", @progbits
+        .global Sprite_HexFormat8_Prologue_05d6b0
+Sprite_HexFormat8_Prologue_05d6b0:
         lea     0x10e21e.l,a2                   | +000
         moveq   #28,d2                          | +006
         move.w  #0x8,d3                         | +008
@@ -507,11 +507,11 @@ HEX_TABLE_5D71C:
         .dc.b   0x46                          | +00f  'F'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05d7be  @ $05D7BE  (166 B)
+|  Debug_HexDrawToFix8_05d7be  @ $05D7BE  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05d7be, "ax", @progbits
-        .global TaskHandler_05d7be
-TaskHandler_05d7be:
+        .section .text.Debug_HexDrawToFix8_05d7be, "ax", @progbits
+        .global Debug_HexDrawToFix8_05d7be
+Debug_HexDrawToFix8_05d7be:
         swap    d1                              | +000
         lsr.l   #0x4,d1                         | +002
         andi.w  #0xf000,d1                      | +004
@@ -519,130 +519,175 @@ TaskHandler_05d7be:
         moveq   #28,d2                          | +00e
         move.w  #0x8,d3                         | +010
         move.w  d3,-(a7)                        | +014
-        bra.w   .L05d7ee                        | +016
-        swap    d1                              | +01a
-        lsr.l   #0x4,d1                         | +01c
-        andi.w  #0xf000,d1                      | +01e
-        lea     0x10e21e.l,a2                   | +022
-        moveq   #12,d2                          | +028
-        move.w  #0x4,d3                         | +02a
-        move.w  d3,-(a7)                        | +02e
+        bra.w   Debug_HexDrawToFix4_05d7d8__L05d7ee | +016
+
+| ----------------------------------------------------------------------------
+|  Debug_HexDrawToFix4_05d7d8  @ $05D7D8  (140 B)
+| ----------------------------------------------------------------------------
+        .section .text.Debug_HexDrawToFix4_05d7d8, "ax", @progbits
+        .global Debug_HexDrawToFix4_05d7d8
+Debug_HexDrawToFix4_05d7d8:
+        swap    d1                              | +000
+        lsr.l   #0x4,d1                         | +002
+        andi.w  #0xf000,d1                      | +004
+        lea     0x10e21e.l,a2                   | +008
+        moveq   #12,d2                          | +00e
+        move.w  #0x4,d3                         | +010
+        move.w  d3,-(a7)                        | +014
+        .global Debug_HexDrawToFix4_05d7d8__L05d7ee
+Debug_HexDrawToFix4_05d7d8__L05d7ee:
 .L05d7ee:
-        move.l  d2,-(a7)                        | +030
-        move.l  d0,d3                           | +032
-        lsr.l   d2,d3                           | +034
-        andi.l  #0xf,d3                         | +036
-        move.w  d3,(a2)                         | +03c
-        addq.l  #0x2,a2                         | +03e
-        move.l  (a7)+,d2                        | +040
-        subq.l  #0x4,d2                         | +042
-        bne.b   .L05d7ee                        | +044
-        andi.l  #0xf,d0                         | +046
-        move.w  d0,(a2)                         | +04c
-        move.w  (a7)+,d3                        | +04e
-        subq.w  #0x1,d3                         | +050
-        clr.w   d2                              | +052
-        lea     0x10e21e.l,a2                   | +054
-        lea     TaskHandler_05d864(pc),a3       | +05a
+        move.l  d2,-(a7)                        | +016
+        move.l  d0,d3                           | +018
+        lsr.l   d2,d3                           | +01a
+        andi.l  #0xf,d3                         | +01c
+        move.w  d3,(a2)                         | +022
+        addq.l  #0x2,a2                         | +024
+        move.l  (a7)+,d2                        | +026
+        subq.l  #0x4,d2                         | +028
+        bne.b   .L05d7ee                        | +02a
+        andi.l  #0xf,d0                         | +02c
+        move.w  d0,(a2)                         | +032
+        move.w  (a7)+,d3                        | +034
+        subq.w  #0x1,d3                         | +036
+        clr.w   d2                              | +038
+        lea     0x10e21e.l,a2                   | +03a
+        lea     HexDigit_FixTileTable_05d864(pc),a3 | +040
 .L05d81c:
-        move.w  (a2)+,d4                        | +05e
-        tst.w   d4                              | +060
-        bne.w   .L05d838                        | +062
-        tst.w   d2                              | +066
-        bne.w   .L05d838                        | +068
-        tst.w   d3                              | +06c
-        beq.w   .L05d838                        | +06e
-        move.w  #0x10,d4                        | +072
-        bra.w   .L05d83c                        | +076
+        move.w  (a2)+,d4                        | +044
+        tst.w   d4                              | +046
+        bne.w   .L05d838                        | +048
+        tst.w   d2                              | +04c
+        bne.w   .L05d838                        | +04e
+        tst.w   d3                              | +052
+        beq.w   .L05d838                        | +054
+        move.w  #0x10,d4                        | +058
+        bra.w   .L05d83c                        | +05c
 .L05d838:
-        move.w  #0xffff,d2                      | +07a
+        move.w  #0xffff,d2                      | +060
 .L05d83c:
-        add.w   d4,d4                           | +07e
-        move.w  (a3,d4.w),d0                    | +080
-        add.w   d1,d0                           | +084
-        movem.l d1-d4/a1-a3,-(a7)               | +086
-        move.w  #0x2,d1                         | +08a
-        move.w  #0x2,d2                         | +08e
-        jsr     0x5da56.l                       | +092
-        movem.l (a7)+,d1-d4/a1-a3               | +098
-        adda.w  #0x40,a1                        | +09c
-        dbra    d3,.L05d81c                     | +0a0
-        rts                                     | +0a4
+        add.w   d4,d4                           | +064
+        move.w  (a3,d4.w),d0                    | +066
+        add.w   d1,d0                           | +06a
+        movem.l d1-d4/a1-a3,-(a7)               | +06c
+        move.w  #0x2,d1                         | +070
+        move.w  #0x2,d2                         | +074
+        jsr     0x5da56.l                       | +078
+        movem.l (a7)+,d1-d4/a1-a3               | +07e
+        adda.w  #0x40,a1                        | +082
+        dbra    d3,.L05d81c                     | +086
+        rts                                     | +08a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05d864  @ $05D864  (142 B)
+|  HexDigit_FixTileTable_05d864  @ $05D864  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05d864, "ax", @progbits
-        .global TaskHandler_05d864
-TaskHandler_05d864:
-        bchg    d5,-(a0)                        | +000
-        bchg    d5,-(a2)                        | +002
-        bchg    d5,-(a4)                        | +004
-        bchg    d5,-(a6)                        | +006
-        bchg    d5,0xb6a(a0)                    | +008
-        bchg    d5,0xb6e(a4)                    | +00c
-        cmpi.w  #0xc62,-(a0)                    | +010
-        bclr    d5,d2                           | +014
-        bclr    d5,d4                           | +016
-        bclr    d5,d6                           | +018
-        movep.w d5,0xb8a(a0)                    | +01a
-        movep.w d5,0xb80(a4)                    | +01e
-        movem.l d1-d3,-(a7)                     | +022
-        moveq   #0,d3                           | +026
-        move.w  #0xa,d2                         | +028
-        andi.l  #0xffff,d0                      | +02c
-        beq.w   .L05d8ea                        | +032
-        divu.w  d2,d0                           | +036
-        swap    d0                              | +038
-        andi.w  #0xf,d0                         | +03a
-        move.w  d0,d3                           | +03e
-        swap    d0                              | +040
-        andi.l  #0xffff,d0                      | +042
-        beq.w   .L05d8ea                        | +048
-        divu.w  d2,d0                           | +04c
+        .section .text.HexDigit_FixTileTable_05d864, "ax", @progbits
+        .global HexDigit_FixTileTable_05d864
+HexDigit_FixTileTable_05d864:
+        .dc.b   0x0b                          | +000  '.'  (dato, rango --data)
+        .dc.b   0x60                          | +001  '`'  (dato, rango --data)
+        .dc.b   0x0b                          | +002  '.'  (dato, rango --data)
+        .dc.b   0x62                          | +003  'b'  (dato, rango --data)
+        .dc.b   0x0b                          | +004  '.'  (dato, rango --data)
+        .dc.b   0x64                          | +005  'd'  (dato, rango --data)
+        .dc.b   0x0b                          | +006  '.'  (dato, rango --data)
+        .dc.b   0x66                          | +007  'f'  (dato, rango --data)
+        .dc.b   0x0b                          | +008  '.'  (dato, rango --data)
+        .dc.b   0x68                          | +009  'h'  (dato, rango --data)
+        .dc.b   0x0b                          | +00a  '.'  (dato, rango --data)
+        .dc.b   0x6a                          | +00b  'j'  (dato, rango --data)
+        .dc.b   0x0b                          | +00c  '.'  (dato, rango --data)
+        .dc.b   0x6c                          | +00d  'l'  (dato, rango --data)
+        .dc.b   0x0b                          | +00e  '.'  (dato, rango --data)
+        .dc.b   0x6e                          | +00f  'n'  (dato, rango --data)
+        .dc.b   0x0c                          | +010  '.'  (dato, rango --data)
+        .dc.b   0x60                          | +011  '`'  (dato, rango --data)
+        .dc.b   0x0c                          | +012  '.'  (dato, rango --data)
+        .dc.b   0x62                          | +013  'b'  (dato, rango --data)
+        .dc.b   0x0b                          | +014  '.'  (dato, rango --data)
+        .dc.b   0x82                          | +015  '.'  (dato, rango --data)
+        .dc.b   0x0b                          | +016  '.'  (dato, rango --data)
+        .dc.b   0x84                          | +017  '.'  (dato, rango --data)
+        .dc.b   0x0b                          | +018  '.'  (dato, rango --data)
+        .dc.b   0x86                          | +019  '.'  (dato, rango --data)
+        .dc.b   0x0b                          | +01a  '.'  (dato, rango --data)
+        .dc.b   0x88                          | +01b  '.'  (dato, rango --data)
+        .dc.b   0x0b                          | +01c  '.'  (dato, rango --data)
+        .dc.b   0x8a                          | +01d  '.'  (dato, rango --data)
+        .dc.b   0x0b                          | +01e  '.'  (dato, rango --data)
+        .dc.b   0x8c                          | +01f  '.'  (dato, rango --data)
+        .dc.b   0x0b                          | +020  '.'  (dato, rango --data)
+        .dc.b   0x80                          | +021  '.'  (dato, rango --data)
+
+| ----------------------------------------------------------------------------
+|  Bin16_ToBcd4_05d886  @ $05D886  (108 B)
+| ----------------------------------------------------------------------------
+        .section .text.Bin16_ToBcd4_05d886, "ax", @progbits
+        .global Bin16_ToBcd4_05d886
+Bin16_ToBcd4_05d886:
+        movem.l d1-d3,-(a7)                     | +000
+        moveq   #0,d3                           | +004
+        move.w  #0xa,d2                         | +006
+        andi.l  #0xffff,d0                      | +00a
+        beq.w   .L05d8ea                        | +010
+        divu.w  d2,d0                           | +014
+        swap    d0                              | +016
+        andi.w  #0xf,d0                         | +018
+        move.w  d0,d3                           | +01c
+        swap    d0                              | +01e
+        andi.l  #0xffff,d0                      | +020
+        beq.w   .L05d8ea                        | +026
+        divu.w  d2,d0                           | +02a
+        swap    d0                              | +02c
+        andi.w  #0xf,d0                         | +02e
+        lsl.w   #0x4,d0                         | +032
+        or.w    d0,d3                           | +034
+        swap    d0                              | +036
+        andi.l  #0xffff,d0                      | +038
+        beq.w   .L05d8ea                        | +03e
+        divu.w  d2,d0                           | +042
+        swap    d0                              | +044
+        andi.w  #0xf,d0                         | +046
+        lsl.w   #0x8,d0                         | +04a
+        or.w    d0,d3                           | +04c
         swap    d0                              | +04e
-        andi.w  #0xf,d0                         | +050
-        lsl.w   #0x4,d0                         | +054
-        or.w    d0,d3                           | +056
+        andi.l  #0xffff,d0                      | +050
+        divu.w  d2,d0                           | +056
         swap    d0                              | +058
-        andi.l  #0xffff,d0                      | +05a
-        beq.w   .L05d8ea                        | +060
-        divu.w  d2,d0                           | +064
-        swap    d0                              | +066
-        andi.w  #0xf,d0                         | +068
-        lsl.w   #0x8,d0                         | +06c
-        or.w    d0,d3                           | +06e
-        swap    d0                              | +070
-        andi.l  #0xffff,d0                      | +072
-        divu.w  d2,d0                           | +078
-        swap    d0                              | +07a
-        andi.w  #0xf,d0                         | +07c
-        lsl.w   #0x8,d0                         | +080
-        lsl.w   #0x4,d0                         | +082
-        or.w    d0,d3                           | +084
+        andi.w  #0xf,d0                         | +05a
+        lsl.w   #0x8,d0                         | +05e
+        lsl.w   #0x4,d0                         | +060
+        or.w    d0,d3                           | +062
 .L05d8ea:
-        move.w  d3,d0                           | +086
-        movem.l (a7)+,d1-d3                     | +088
-        rts                                     | +08c
+        move.w  d3,d0                           | +064
+        movem.l (a7)+,d1-d3                     | +066
+        rts                                     | +06a
 
 | ----------------------------------------------------------------------------
-|  Trap15_DivByZero_05D944  @ $05D944  (18 B)
+|  Trap15_DivByZero_05D944  @ $05D944  (2 B)
 | ----------------------------------------------------------------------------
         .section .text.Trap15_DivByZero_05D944, "ax", @progbits
         .global Trap15_DivByZero_05D944
 Trap15_DivByZero_05D944:
         trap    #0xf                            | +000
-        move.w  0x10e22e.l,d0                   | +002
-        andi.w  #0xff,d0                        | +008
-        move.b  Data_05d956(pc,d0.w),d0         | +00c
-        rts                                     | +010
 
 | ----------------------------------------------------------------------------
-|  Data_05d956  @ $05D956  (256 B)
+|  Noise_LookupByIndex_05d946  @ $05D946  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05d956, "ax", @progbits
-        .global Data_05d956
-Data_05d956:
+        .section .text.Noise_LookupByIndex_05d946, "ax", @progbits
+        .global Noise_LookupByIndex_05d946
+Noise_LookupByIndex_05d946:
+        move.w  0x10e22e.l,d0                   | +000
+        andi.w  #0xff,d0                        | +006
+        move.b  NoiseLut256_05d956(pc,d0.w),d0  | +00a
+        rts                                     | +00e
+
+| ----------------------------------------------------------------------------
+|  NoiseLut256_05d956  @ $05D956  (256 B)
+| ----------------------------------------------------------------------------
+        .section .text.NoiseLut256_05d956, "ax", @progbits
+        .global NoiseLut256_05d956
+NoiseLut256_05d956:
         .dc.b   0x34                          | +000  '4'  (dato, rango --data)
         .dc.b   0x72                          | +001  'r'  (dato, rango --data)
         .dc.b   0xce                          | +002  '.'  (dato, rango --data)
@@ -901,11 +946,11 @@ Data_05d956:
         .dc.b   0x0d                          | +0ff  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05db6a  @ $05DB6A  (54 B)
+|  ListCursor_Step_05db6a  @ $05DB6A  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05db6a, "ax", @progbits
-        .global TaskHandler_05db6a
-TaskHandler_05db6a:
+        .section .text.ListCursor_Step_05db6a, "ax", @progbits
+        .global ListCursor_Step_05db6a
+ListCursor_Step_05db6a:
         movea.l 0x3c(a6),a1                     | +000
         cmpi.w  #0xffff,(a1)                    | +004
         beq.w   SetC_05dbbc                     | +008
@@ -916,16 +961,16 @@ TaskHandler_05db6a:
         addq.l  #0x8,0x3c(a6)                   | +01e
         movea.l 0x3c(a6),a1                     | +022
         cmpi.w  #0x0,(a1)                       | +026
-        bne.w   TaskHandler_05dba6              | +02a
+        bne.w   ListCursor_LoadEntry_05dba6     | +02a
         movea.l 0x2(a1),a0                      | +02e
         jsr     InstallListPubHead_05DB58(pc)   | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05dba6  @ $05DBA6  (22 B)
+|  ListCursor_LoadEntry_05dba6  @ $05DBA6  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05dba6, "ax", @progbits
-        .global TaskHandler_05dba6
-TaskHandler_05dba6:
+        .section .text.ListCursor_LoadEntry_05dba6, "ax", @progbits
+        .global ListCursor_LoadEntry_05dba6
+ListCursor_LoadEntry_05dba6:
         cmpi.w  #0xffff,(a1)                    | +000
         beq.w   SetC_05dbbc                     | +004
         move.w  0x6(a1),d0                      | +008
@@ -934,32 +979,32 @@ TaskHandler_05dba6:
         bra.b   ClearXNV_05dba0                 | +014
 
 | ----------------------------------------------------------------------------
-|  Fn_0005DCA4  @ $05DCA4  (12 B)
+|  Entity_NegIfFacing_05dca4  @ $05DCA4  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_0005DCA4, "ax", @progbits
-        .global Fn_0005DCA4
-Fn_0005DCA4:
+        .section .text.Entity_NegIfFacing_05dca4, "ax", @progbits
+        .global Entity_NegIfFacing_05dca4
+Entity_NegIfFacing_05dca4:
         btst    #0x0,0x3a(a6)                   | +000
         beq.w   SetTaskW_05dcb0                 | +006
         neg.w   d0                              | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05dcb6  @ $05DCB6  (18 B)
+|  Entity_SetVx_NegIfFacing_05dcb6  @ $05DCB6  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05dcb6, "ax", @progbits
-        .global TaskHandler_05dcb6
-TaskHandler_05dcb6:
+        .section .text.Entity_SetVx_NegIfFacing_05dcb6, "ax", @progbits
+        .global Entity_SetVx_NegIfFacing_05dcb6
+Entity_SetVx_NegIfFacing_05dcb6:
         move.w  d0,0x36(a6)                     | +000
         btst    #0x0,0x3a(a6)                   | +004
         beq.w   SetTaskW_05dcc8                 | +00a
         neg.w   0x28(a6)                        | +00e
 
 | ----------------------------------------------------------------------------
-|  Fn_0005DCCE  @ $05DCCE  (52 B)
+|  Spawn_ChildFromDesc_05dcce  @ $05DCCE  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_0005DCCE, "ax", @progbits
-        .global Fn_0005DCCE
-Fn_0005DCCE:
+        .section .text.Spawn_ChildFromDesc_05dcce, "ax", @progbits
+        .global Spawn_ChildFromDesc_05dcce
+Spawn_ChildFromDesc_05dcce:
         movem.l a1/a6,-(a7)                     | +000
         cmpi.b  #0x2,(a1)                       | +004
         beq.w   .L05dcee                        | +008
@@ -976,20 +1021,20 @@ Fn_0005DCCE:
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05dd22  @ $05DD22  (8 B)
+|  Handler_ApplyCameraSelf_CopyTransform_05dd22  @ $05DD22  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05dd22, "ax", @progbits
-        .global TaskHandler_05dd22
-TaskHandler_05dd22:
+        .section .text.Handler_ApplyCameraSelf_CopyTransform_05dd22, "ax", @progbits
+        .global Handler_ApplyCameraSelf_CopyTransform_05dd22
+Handler_ApplyCameraSelf_CopyTransform_05dd22:
         jsr     0x440e4.l                       | +000
         bra.b   Entity_CopyTransform            | +006
 
 | ----------------------------------------------------------------------------
-|  Data_05dd4c  @ $05DD4C  (10 B)
+|  ScreenBox_Default_05dd4c  @ $05DD4C  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05dd4c, "ax", @progbits
-        .global Data_05dd4c
-Data_05dd4c:
+        .section .text.ScreenBox_Default_05dd4c, "ax", @progbits
+        .global ScreenBox_Default_05dd4c
+ScreenBox_Default_05dd4c:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x00                          | +001  '.'  (dato, rango --data)
         .dc.b   0x00                          | +002  '.'  (dato, rango --data)
@@ -1002,25 +1047,25 @@ Data_05dd4c:
         .dc.b   0xff                          | +009  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  Fn_0005DD56  @ $05DD56  (6 B)
+|  Entity_SetOffscreenFlag_05dd56  @ $05DD56  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_0005DD56, "ax", @progbits
-        .global Fn_0005DD56
-Fn_0005DD56:
+        .section .text.Entity_SetOffscreenFlag_05dd56, "ax", @progbits
+        .global Entity_SetOffscreenFlag_05dd56
+Entity_SetOffscreenFlag_05dd56:
         bset    #0x7,0x13(a6)                   | +000
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_05dd5c  @ $05DD5C  (86 B)
+|  Entity_CheckOnScreenBox_05dd5c  @ $05DD5C  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_05dd5c, "ax", @progbits
-        .global PcThunkTarget_05dd5c
-PcThunkTarget_05dd5c:
+        .section .text.Entity_CheckOnScreenBox_05dd5c, "ax", @progbits
+        .global Entity_CheckOnScreenBox_05dd5c
+Entity_CheckOnScreenBox_05dd5c:
         cmpa.l  #0xffffffff,a0                  | +000
         bne.w   .L05dd6a                        | +006
-        lea     Data_05dd4c(pc),a0              | +00a
+        lea     ScreenBox_Default_05dd4c(pc),a0 | +00a
 .L05dd6a:
         btst    #0x7,0x13(a6)                   | +00e
-        beq.w   TaskHandler_05ddbe              | +014
+        beq.w   Entity_CheckEnterScreen_05ddbe  | +014
         move.w  #0x0,d0                         | +018
         move.w  #0x140,d1                       | +01c
         move.w  #0x100,d2                       | +020
@@ -1039,45 +1084,45 @@ PcThunkTarget_05dd5c:
         blt.w   SetC_05ddb8                     | +052
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05ddbe  @ $05DDBE  (46 B)
+|  Entity_CheckEnterScreen_05ddbe  @ $05DDBE  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05ddbe, "ax", @progbits
-        .global TaskHandler_05ddbe
-TaskHandler_05ddbe:
+        .section .text.Entity_CheckEnterScreen_05ddbe, "ax", @progbits
+        .global Entity_CheckEnterScreen_05ddbe
+Entity_CheckEnterScreen_05ddbe:
         cmpi.w  #0x140,0x22(a6)                 | +000
-        bge.w   TaskHandler_05ddf2              | +006
+        bge.w   Entity_CheckLeaveScreenWide_05ddf2 | +006
         cmpi.w  #0x0,0x22(a6)                   | +00a
-        ble.w   TaskHandler_05ddf2              | +010
+        ble.w   Entity_CheckLeaveScreenWide_05ddf2 | +010
         cmpi.w  #0x1f0,0x24(a6)                 | +014
-        bge.w   TaskHandler_05ddf2              | +01a
+        bge.w   Entity_CheckLeaveScreenWide_05ddf2 | +01a
         cmpi.w  #0x100,0x24(a6)                 | +01e
-        ble.w   TaskHandler_05ddf2              | +024
-        .global TaskHandler_05ddbe__L05dde6
-TaskHandler_05ddbe__L05dde6:
+        ble.w   Entity_CheckLeaveScreenWide_05ddf2 | +024
+        .global Entity_CheckEnterScreen_05ddbe__L05dde6
+Entity_CheckEnterScreen_05ddbe__L05dde6:
 .L05dde6:
         bset    #0x7,0x13(a6)                   | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05ddf2  @ $05DDF2  (32 B)
+|  Entity_CheckLeaveScreenWide_05ddf2  @ $05DDF2  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05ddf2, "ax", @progbits
-        .global TaskHandler_05ddf2
-TaskHandler_05ddf2:
+        .section .text.Entity_CheckLeaveScreenWide_05ddf2, "ax", @progbits
+        .global Entity_CheckLeaveScreenWide_05ddf2
+Entity_CheckLeaveScreenWide_05ddf2:
         cmpi.w  #0xff80,0x22(a6)                | +000
-        ble.b   TaskHandler_05ddbe__L05dde6     | +006
+        ble.b   Entity_CheckEnterScreen_05ddbe__L05dde6 | +006
         cmpi.w  #0x200,0x22(a6)                 | +008
-        bge.b   TaskHandler_05ddbe__L05dde6     | +00e
+        bge.b   Entity_CheckEnterScreen_05ddbe__L05dde6 | +00e
         cmpi.w  #0x0,0x24(a6)                   | +010
-        ble.b   TaskHandler_05ddbe__L05dde6     | +016
+        ble.b   Entity_CheckEnterScreen_05ddbe__L05dde6 | +016
         cmpi.w  #0x280,0x24(a6)                 | +018
-        bge.b   TaskHandler_05ddbe__L05dde6     | +01e
+        bge.b   Entity_CheckEnterScreen_05ddbe__L05dde6 | +01e
 
 | ----------------------------------------------------------------------------
-|  Sub_0005DE18  @ $05DE18  (256 B)
+|  AtanLog_Table_05de18  @ $05DE18  (256 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005DE18, "ax", @progbits
-        .global Sub_0005DE18
-Sub_0005DE18:
+        .section .text.AtanLog_Table_05de18, "ax", @progbits
+        .global AtanLog_Table_05de18
+AtanLog_Table_05de18:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0x00                          | +001  '.'  (dato, rango --data)
         .dc.b   0x20                          | +002  ' '  (dato, rango --data)
@@ -1336,11 +1381,11 @@ Sub_0005DE18:
         .dc.b   0xff                          | +0ff  '.'  (dato, rango --data)
 
 | ----------------------------------------------------------------------------
-|  Sub_0005DF18  @ $05DF18  (232 B)
+|  AtanExp_Table_05df18  @ $05DF18  (232 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0005DF18, "ax", @progbits
-        .global Sub_0005DF18
-Sub_0005DF18:
+        .section .text.AtanExp_Table_05df18, "ax", @progbits
+        .global AtanExp_Table_05df18
+AtanExp_Table_05df18:
         .dc.b   0x00                          | +000  '.'  (dato, rango --data)
         .dc.b   0xe0                          | +001  '.'  (dato, rango --data)
         .dc.b   0xe0                          | +002  '.'  (dato, rango --data)

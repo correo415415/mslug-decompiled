@@ -199,10 +199,10 @@ Atan2_Angle256_05e018:
         andi.b  #0x40,d0                        | +026
         bra.w   .L05e062                        | +02a
 .L05e046:
-        lea     Sub_0005DE18(pc),a0             | +02e  -> $05DE18 (hueco futuro, defsym forward)
+        lea     AtanLog_Table_05de18(pc),a0             | +02e  -> $05DE18 (hueco futuro, defsym forward)
         move.b  (a0,d0.w),d0                    | +032
         sub.b   (a0,d1.w),d0                    | +036
-        lea     Sub_0005DF18(pc),a0             | +03a  -> $05DF18 (hueco futuro, defsym forward)
+        lea     AtanExp_Table_05df18(pc),a0             | +03a  -> $05DF18 (hueco futuro, defsym forward)
         move.b  (a0,d0.w),d0                    | +03e
         eor.b   d4,d0                           | +042
         sub.b   d4,d0                           | +044

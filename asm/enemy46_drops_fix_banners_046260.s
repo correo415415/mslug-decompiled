@@ -27,7 +27,7 @@
 |       de tablas `$28DBC6[$9A(a6)&3]` (16 words = template por tipo de drop) y
 |       la de sprites `$28DB86`, llama Entity_AllocSpriteSlot (`$236E`) y
 |       continúa en __L04637e: copia la dirección a `$3A(a6)`, instala el
-|       handler y hace el probe de suelo `$28DB7E` (PcThunkTarget_05dd5c).
+|       handler y hace el probe de suelo `$28DB7E` (Entity_CheckOnScreenBox_05dd5c).
 |     - Drop_Spawn_Tmpl4F/F2/1B/6D/2C/2B/3A_12F: entradas de 22 B que fijan
 |       el template (`d1`) y el sprite (`$3C(a6)` = `$233C16`, `$24D800`,
 |       `$23603A`, `$23AC84`, `$23C778`, `$239A4E`/`$23D4A0`/`$24C3E2`,
@@ -133,7 +133,7 @@
 |  E. HELPERS EXTERNOS
 |    EntitySetSpriteMap ($28CD4), Entity_HasLinkedSlots ($28D70),
 |    ActorCtxWrapper_02783a, RNG_LFSRStep_SelfSeed_05E9B6, Entity_AllocSpriteSlot
-|    ($236E), PcThunkTarget_05dd5c, Entity_ProbeMoveX_09A7AA, Task_AllocFromFreeList
+|    ($236E), Entity_CheckOnScreenBox_05dd5c, Entity_ProbeMoveX_09A7AA, Task_AllocFromFreeList
 |    ($4AE), FinalBoss_LimbPart_Init_0723d2, Entity_CopyTransform ($5DD02),
 |    EntitySetField38AndUpdate ($28134), Entity_ProbeTransformFreeCcr ($27CEE),
 |    SceneLoader_Main_043568, SceneScriptVM_Frame_0437DA,

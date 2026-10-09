@@ -50,8 +50,8 @@
 |       Entity_GravityToIndex; Mortar_SpawnFromParent_056438 (entrada
 |       forzada: el padre salta aquí por jsr): decodifica destino con
 |       Tbl_Decode2D `$2B7632`, vy $195 / ay -$51, plantilla $E.
-|     - Mortar_Shell_Task_05646c: vuelo balístico con Fn_0005DCA4(-$200) y
-|       Fn_0005DD56 (probe); Mortar_Shell_Explode_05659c → Explosion_Fire.
+|     - Mortar_Shell_Task_05646c: vuelo balístico con Entity_NegIfFacing_05dca4(-$200) y
+|       Entity_SetOffscreenFlag_05dd56 (probe); Mortar_Shell_Explode_05659c → Explosion_Fire.
 |
 |  4) $0565C8..$056ACC  Rodillo (Roller_*):
 |     - Roller_HitboxList_0565c8 / _B_05661c, SpriteMap_Roller_056670.
@@ -74,8 +74,8 @@
 |  C. DEPENDENCIAS EXTERNAS
 |  Entity_ProbeTransformFreeCcr_027bc8/027d50/027c8c, Entity_SwapProbeCommit_028292,
 |  Entity_ProbeSwapGravity_C_028364, Hitbox_CheckBit0_028758,
-|  Hitbox_SideOfImpact_02870a, Atan2_Angle256_05e018, Fn_0005DD56,
-|  Fn_0005DCA4, Explosion_Water_077eda, Explosion_Fire_077f6a,
+|  Hitbox_SideOfImpact_02870a, Atan2_Angle256_05e018, Entity_SetOffscreenFlag_05dd56,
+|  Entity_NegIfFacing_05dca4, Explosion_Water_077eda, Explosion_Fire_077f6a,
 |  Entity_FlushSlotHistory_013600, tabla seno `$5E172`, `$13C0E`.
 |  Globales: `$106F2B` (modo de escena), `$106F28` (paridad de frame),
 |  `$10E39E`. Scratch de colisión a5 = `$108080`.
