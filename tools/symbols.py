@@ -1856,7 +1856,7 @@ SYMBOLS = {
     0x00061F9C: "SetHandlerRts_061f9c",  # rts de SetTaskHandler_061f96 (+6)
     0x00062006: "SetHandlerRts_062006",  # rts de SetTaskHandler_062000 (+6)
     # --- Wave SSSS: refs forward a huecos futuros
-    0x0000FFD0: "Sub_0000FFD0",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0000FFD0 promovido a Data_00ffd0 en registry (Wave KKKKK).
     # 0x0005DE18 promovido a AtanLog_Table_05de18 en registry (Wave GGGGG).
     # 0x0005DF18 promovido a AtanExp_Table_05df18 en registry (Wave GGGGG).
     # 0x00062008 promovido a LateProp_HitThenDie_062008 en registry (Wave TTTT).
@@ -2364,5 +2364,5 @@ SYMBOLS = {
     0x00001C42: "SetHandlerRts_001c42",  # rts de SetTaskHandler_001c3c (+6)
     0x00001E08: "JsrAbsRts_001e08",  # rts de JsrAbsThunk_001e02 (+6)
     # --- Wave JJJJJ: refs forward a huecos futuros
-    0x00002F30: "Sub_00002F30",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x00002F30 promovido a Data_002f30 en registry (Wave KKKKK).
 }

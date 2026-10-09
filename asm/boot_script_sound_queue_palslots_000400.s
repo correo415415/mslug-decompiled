@@ -1486,7 +1486,7 @@ PalSlot_UpdateAll_002c86:
         move.b  (a2)+,d4                        | +186
         addq.l  #0x1,a2                         | +188
         jsr     0x13624.l                       | +18a
-        lea     Sub_00002F30(pc),a0             | +190  -> $002F30 (hueco futuro, defsym forward)
+        lea     Data_002f30(pc),a0             | +190  -> $002F30 (hueco futuro, defsym forward)
         add.w   d4,d4                           | +194
         adda.l  d4,a0                           | +196
         move.w  (a0),d4                         | +198
