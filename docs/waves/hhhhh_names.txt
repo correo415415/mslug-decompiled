@@ -1,9 +1,6 @@
 0x051AA4=CellMap_ReadPacked32_051aa4
 0x051ABE=Entity_AllocAndInit_051ABE
 0x051B1C=CellMap_SetCursorAndClear_051b1c
-0x051C80=Nop_Rts_051c80
-0x051CF0=ClearC_Rts_051cf0
-0x051D7E=ClearC_Rts_051d7e
 0x051D84=CellMap_ClipRectToWindow_051d84
 0x051E74=CellMap_BlitRectToLSPC_051e74
 0x051ECE=CellMap_SetDirty_051ece

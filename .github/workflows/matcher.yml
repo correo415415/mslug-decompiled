@@ -114,6 +114,7 @@ jobs:
         run: |
           mkdir -p ci_out
           python3 tools/registry_lint.py | tee ci_out/registry_lint.txt
+          python3 tools/check_section_sizes.py | tee ci_out/check_section_sizes.txt
 
       - name: match_batch (sin cache, desde cero)
         id: match

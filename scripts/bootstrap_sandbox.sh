@@ -51,4 +51,5 @@ elif [[ ! -f "$ROOT/rom/201-p1.bin" ]]; then
 fi
 "$ROOT/scripts/setup.sh"
 python3 "$ROOT/tools/registry_lint.py" | tail -1
+python3 "$ROOT/tools/check_section_sizes.py" | tail -1
 echo "[bootstrap] listo: m68k-linux-gnu-gcc $(m68k-linux-gnu-gcc -dumpversion), build/mslug_prom.bin OK"

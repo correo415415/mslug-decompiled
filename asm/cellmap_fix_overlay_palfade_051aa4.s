@@ -2,7 +2,7 @@
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
 |  Wave HHHHH — blits de mapa de celdas, overlay CREDITS/PAUSE en capa FIX,
 |  fundidos de paleta  (asm/cellmap_fix_overlay_palfade_051aa4.s)
-|  Región: $051AA4..$0527AE  (2,202 B, 38 entradas, 19 huecos)
+|  Región: $051AA4..$0527AE  (2,188 B, 35 entradas, 16 huecos)
 | ============================================================================
 |
 |  A. QUÉ HAY AQUÍ
@@ -35,7 +35,8 @@
 |       `$8201+base` con latch `$106EE4`.
 |     - CellMap_ClearVramBlock_051f02: 2048 longs a 0 desde `(base<<6)+$40`
 |       (bloque de tiles de la ventana) con auto-incremento 1.
-|     - Nop_Rts / ClearC_Rts: relleno de 2-6 B entre islas C.
+|     - ($051C80/$051CF0/$051D7E: colas rts/andi ccr que pertenecen a
+|       Collision_ProbeRange/X/Y de collision_probes_051cxx.s.)
 |
 |  2) $052032..$052392  Overlay de la capa FIX (créditos / FREE PLAY / PAUSE)
 |     con flags en `$1081BE` (bit0 dirty créditos, bit1 borrar créditos,
@@ -104,7 +105,7 @@
 |  `$10A2C8..CF` (fade), `$1082C8` (tabla de sprites), `$106EE4` (latch).
 |
 |  D. ESTADO
-|  38/38 entradas byte-exactas. Pendiente: separar Backup_ProbeFlags y la
+|  35/35 entradas byte-exactas. Pendiente: separar Backup_ProbeFlags y la
 |  rutina PAUSE de las cadenas que las preceden (comparten sección por
 |  flujo lineal).
 |
@@ -203,32 +204,6 @@ CellMap_SetCursorAndClear_051b1c:
         moveq   #32,d0                          | +05e
         moveq   #0,d1                           | +060
         bra.b   CellMap_SetCursorAndClear_051b1c | +062
-
-| ----------------------------------------------------------------------------
-|  Nop_Rts_051c80  @ $051C80  (2 B)
-| ----------------------------------------------------------------------------
-        .section .text.Nop_Rts_051c80, "ax", @progbits
-        .global Nop_Rts_051c80
-Nop_Rts_051c80:
-        rts                                     | +000
-
-| ----------------------------------------------------------------------------
-|  ClearC_Rts_051cf0  @ $051CF0  (6 B)
-| ----------------------------------------------------------------------------
-        .section .text.ClearC_Rts_051cf0, "ax", @progbits
-        .global ClearC_Rts_051cf0
-ClearC_Rts_051cf0:
-        andi.b  #0xfe,ccr                       | +000
-        rts                                     | +004
-
-| ----------------------------------------------------------------------------
-|  ClearC_Rts_051d7e  @ $051D7E  (6 B)
-| ----------------------------------------------------------------------------
-        .section .text.ClearC_Rts_051d7e, "ax", @progbits
-        .global ClearC_Rts_051d7e
-ClearC_Rts_051d7e:
-        andi.b  #0xfe,ccr                       | +000
-        rts                                     | +004
 
 | ----------------------------------------------------------------------------
 |  CellMap_ClipRectToWindow_051d84  @ $051D84  (82 B)

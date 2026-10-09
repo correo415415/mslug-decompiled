@@ -3276,7 +3276,7 @@ REGISTRY = [
     ("Clipping_Test_0999DE",                    0x0999DE,  24, "clipping_test_0999de.s"),
     ("Input_RisingEdgeSnapshot_05CC0E",         0x05CC0E, 186, "input_rising_edge_snapshot_05cc0e.s"),
     ("VRAM_FixLayerAutoclear_05A824",           0x05A824, 150, "vram_fix_layer_autoclear_05a824.s"),
-    ("VBlankTick_Master_001E5E",                0x001E5E, 152, "vblank_tick_master_001e5e.s"),
+    ("VBlankTick_Master_001E5E",                0x001E5E, 160, "vblank_tick_master_001e5e.s"),
     ("Task_FreeListInit_000410",                0x000410, 158, "task_freelist_init_000410.s"),
 # ---- Wave EE batch 1: cluster de dispatchers de estado en zona
     #      $001260..$001AB4. Tres funciones grandes hand-coded: dispatcher
@@ -3285,7 +3285,7 @@ REGISTRY = [
     #      handler table de $000BA2).
     ("Init_ModeToggle_001260",                  0x001260, 148, "init_mode_toggle_001260.s"),
     ("Init_EntitySpawn_0018DA",                 0x0018DA,  72, "init_entity_spawn_0018da.s"),
-    ("Dispatcher_ModeTable_001922",             0x001922, 402, "dispatcher_mode_table_001922.s"),
+    ("Dispatcher_ModeTable_001922",             0x001922, 404, "dispatcher_mode_table_001922.s"),
 
     # ---- Wave FF batch 1: cluster attract handlers restantes ($001744..$001AF7)
     #      8 handlers que cierran el cluster attract/title iniciado en Wave EE.
@@ -3443,9 +3443,9 @@ REGISTRY = [
     #      FPs #42-#48 del proyecto. ProbeY es 6o par de clones no
     #      factorizados del proyecto: gemelo de ProbeX con ejes X/Y
     #      intercambiados y bucle dbra en lugar de una sola iteracion.
-    ("Collision_ProbeRange_051C08",              0x051C08, 120, "collision_probes_051cxx.s"),
-    ("Collision_ProbeX_051C82",                  0x051C82, 110, "collision_probes_051cxx.s"),
-    ("Collision_ProbeY_051CF6",                  0x051CF6, 136, "collision_probes_051cxx.s"),
+    ("Collision_ProbeRange_051C08",              0x051C08, 122, "collision_probes_051cxx.s"),
+    ("Collision_ProbeX_051C82",                  0x051C82, 116, "collision_probes_051cxx.s"),
+    ("Collision_ProbeY_051CF6",                  0x051CF6, 142, "collision_probes_051cxx.s"),
     ("TileMap_HandlerInline_051F94",             0x051F94, 158, "collision_probes_051cxx.s"),
 
     # ---- Wave LL batch 1: cierre de callees por-celda del cluster de
@@ -8852,9 +8852,6 @@ REGISTRY = [
     ("CellMap_ReadPacked32_051aa4",                0x051AA4,  26, "cellmap_fix_overlay_palfade_051aa4.s"),
     ("Entity_AllocAndInit_051ABE",                 0x051ABE,  94, "cellmap_fix_overlay_palfade_051aa4.s"),
     ("CellMap_SetCursorAndClear_051b1c",           0x051B1C, 100, "cellmap_fix_overlay_palfade_051aa4.s"),
-    ("Nop_Rts_051c80",                             0x051C80,   2, "cellmap_fix_overlay_palfade_051aa4.s"),
-    ("ClearC_Rts_051cf0",                          0x051CF0,   6, "cellmap_fix_overlay_palfade_051aa4.s"),
-    ("ClearC_Rts_051d7e",                          0x051D7E,   6, "cellmap_fix_overlay_palfade_051aa4.s"),
     ("CellMap_ClipRectToWindow_051d84",            0x051D84,  82, "cellmap_fix_overlay_palfade_051aa4.s"),
     ("CellMap_BlitRectToLSPC_051e74",              0x051E74,  90, "cellmap_fix_overlay_palfade_051aa4.s"),
     ("CellMap_SetDirty_051ece",                    0x051ECE,   8, "cellmap_fix_overlay_palfade_051aa4.s"),
