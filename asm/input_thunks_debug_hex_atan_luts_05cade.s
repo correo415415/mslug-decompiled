@@ -1,14 +1,128 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
-|  Región: $05CADE..$05E000  (2,310 B, 55 entradas, 22 huecos)
+|  Wave GGGGG — thunks de input, HUD hexadecimal de debug, LUTs de atan,
+|  comprobaciones de pantalla  (asm/input_thunks_debug_hex_atan_luts_05cade.s)
+|  Región: $05CADE..$05E000  (2,320 B, 55 entradas, 22 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Último tramo del "runtime medio" antes de late_props_turrets_05exxx.s.
+|  Cierra los 22 huecos que quedaban entre las islas C (SetXN/ClearXN,
+|  SetC, SetTaskW, SetTaskHandler, Jsr/JmpThunk) y los módulos ya cerrados
+|  input_evt_thunks.s, input_aim_tables_05d316.s, sprite_hex_format4/8,
+|  long_divide_05d920.s, fix_blit_rect.s, fix_layer_backends_05dbxx.s y
+|  camera_list_ctx_helpers_wave_ii.s:
 |
-|  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
-|  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
+|  1) $05CADE..$05CC0E  Restos del scheduler/bootstrap:
+|     - Nop_Rts_05cade: rts suelto (relleno tras Camera_ResetCenter_05CACE).
+|     - Scheduler_CompareField10_05cae0 / _05cbec: comparan `$10(a6)` con
+|       `$10(a1)` de la tarea enlazada `$8(a6)` y caen en SetXN_* (C).
+|     - SpriteBlock20x14_Setup_05cafc / _SetupDup_05cb68: reservan un bloque
+|       de sprites con Spawn_TypeB_013952 (d0=$14), programan `$139FE`
+|       (20 sprites, 14 filas, d6=d0+$13), escriben la cabecera en LSPC
+|       (`$3C0000`/`$3C0002`, latch `$106EE4`): shrink $F78E en +$8201 y
+|       posición 0 en +$8401; _SetupDup repite el shrink (bug/duplicado en
+|       el original) y acaba en `lea $2B7460; jsr $2A7C` (carga de mapa de
+|       tiles). _Setup salta al epílogo de _SetupDup.
+|     - Pad_Zero_05cc08: 6 B de ceros.
+|
+|  2) $05CCC8..$05D310  Thunks de eventos de input (misma familia que
+|     input_evt_thunks.s; backends InputMask_CheckChannelAvail_05cfa8 e
+|     InputMask_TestChannelBit_05cff8):
+|     - Entity_CopyField6D_05ccc8: copia `$6D(a6)` → `$6D(a0)`.
+|     - InputEvtThunk_05ccd0..05cd4e (8): máscara $10/$20/$40/$80, canal 2,
+|       contexto `$10E200` (jugador 1) o `$10E206` (jugador 2) →
+|       TestChannelBit.
+|     - InputEvtThunk_05cd60..05cdf0 (13): máscara $10..$F0/$E0/$30/$50/$70,
+|       canal 2 ó 3 → CheckChannelAvail.
+|     - InputEvt_Thunk4aThenMask60_05d1da / Mask40_05d210: llaman a
+|       InputEvtThunk_05ce4a y si C=1 testean la máscara $60/$40 en
+|       `$10E206+2` → SetXN/ClearXN.
+|     - InputEvt_Thunk4aThenToggle_05d240 y InputEvt_ToggleChain_05d288:
+|       cadena de tests (máscaras $08/$01/$04 canal 0/1, bit $80 canal 3)
+|       que comparan con el byte de `$10E20C+canal` (estado previo) con
+|       eor.b; devuelven d0=0/-1 (flanco). Con 3 puntos de entrada
+|       intermedios alcanzados por jsr desde los thunks.
+|     - InputEvt_ThunkMaskF0_05d302: InputEvtThunk_05cd90 → ClearXN si C=0.
+|
+|  3) $05D6B0..$05D8F2  HUD hexadecimal de debug (Debug_DrawHUDVars_096A80):
+|     - Sprite_HexFormat8_Prologue_05d6b0: prepara a2=`$10E21E`, d2=28,
+|       d3=8 y entra en el bucle de Sprite_HexFormat4_05D6C2 (label
+|       promovido __L05d6d0).
+|     - HEX_TABLE_5D71C: "0123456789ABCDEF".
+|     - Debug_HexDrawToFix8_05d7be / _ToFix4_05d7d8 (entrada forzada):
+|       extraen 8/4 nibbles de d0 al buffer `$10E21E`, luego por cada
+|       nibble eligen tile de HexDigit_FixTileTable_05d864 (17 words: 0-9,
+|       A-F y tile vacío $0B80 para ceros a la izquierda) y lo pintan con
+|       Fix_BlitRectToFixLayer (2x2) avanzando a1 += $40 (una columna FIX).
+|     - Bin16_ToBcd4_05d886 (entrada forzada): convierte d0 (0..9999) en
+|       4 dígitos BCD empaquetados por divu.w #10 encadenados.
+|
+|  4) $05D944..$05DA56  Trap y ruido:
+|     - Trap15_DivByZero_05D944: trap #15 (brazo d1==0 de Sub_LongDivide).
+|     - Noise_LookupByIndex_05d946 (entrada forzada): d0 = byte de
+|       NoiseLut256_05d956[`$10E22E` & $FF]; NoiseLut256 son 256 B
+|       pseudoaleatorios (tabla de ruido/jitter).
+|
+|  5) $05DB6A..$05DE12  Helpers de entidad y cursor de lista:
+|     - ListCursor_Step_05db6a / _LoadEntry_05dba6: avanzan el cursor
+|       `$3C(a6)` sobre una lista de entradas de 8 B {tipo, ptr, dur};
+|       $FFFF = fin (SetC), tipo 0 = cabecera (InstallListPubHead_05DB58),
+|       si no carga la duración en `$46(a6)` y reinicia el contexto.
+|     - Entity_NegIfFacing_05dca4 / Entity_SetVx_NegIfFacing_05dcb6: niegan
+|       d0 / `$28(a6)` según el bit 0 de `$3A(a6)` (orientación) y caen en
+|       SetTaskW_* (C).
+|     - Spawn_ChildFromDesc_05dcce: según `(a1)`==2 usa Spawn_MarkPending
+|       (pool de jefes) o Task_AllocFromFreeList sobre `$1008A0`; guarda el
+|       hijo en `$3C(a0)`.
+|     - Handler_ApplyCameraSelf_CopyTransform_05dd22: jsr $440E4 + bra
+|       Entity_CopyTransform.
+|     - ScreenBox_Default_05dd4c = {0,1,0,1,$FFFF} (márgenes por defecto).
+|     - Entity_SetOffscreenFlag_05dd56: bset #7,`$13(a6)`.
+|     - Entity_CheckOnScreenBox_05dd5c: con a0 = caja (o la default si
+|       a0=-1), si el bit 7 de `$13(a6)` está puesto comprueba que
+|       X `$22(a6)` ∈ [0+box0, $140+box1] e Y `$24(a6)` ∈ [$100-box3,
+|       $1F0-box2]; fuera → SetC. Sin bit 7 → Entity_CheckEnterScreen_05ddbe
+|       (pone el bit cuando entra en (0,$140)x($100,$1F0)) →
+|       Entity_CheckLeaveScreenWide_05ddf2 (lo quita fuera de
+|       (-$80,$200)x(0,$280)).
+|
+|  6) $05DE18..$05E000  LUTs de Atan2_Angle256_05e018:
+|     - AtanLog_Table_05de18 (256 B): log-ratio por cociente menor/mayor.
+|     - AtanExp_Table_05df18 (232 B + cola AtanTable_Tail_05e000): mapea la
+|       diferencia de logs a ángulo 0..$20 (octante).
+|
+|  B. CÓMO SE DESCUBRIÓ
+|  Huecos de measure_coverage en $05CADE..$05E000. Islas de datos por
+|  `lea X(pc)` (HEX_TABLE, FixTileTable, ScreenBox, LUTs) y por opcodes
+|  inválidos (NoiseLut256). Las entradas forzadas son destinos de jsr
+|  externos que no caen en el flujo lineal (Debug_HexDrawToFix4 tiene un
+|  prólogo alternativo; Bin16_ToBcd4 sigue a la tabla; Noise_Lookup sigue
+|  al trap). Nombres por backends/contextos ya identificados en
+|  input_evt_thunks.s y por el caller Debug_DrawHUDVars_096A80.
+|
+|  C. DEPENDENCIAS EXTERNAS
+|  Spawn_TypeB_013952, `$139FE`, `$2A7C`, Fix_BlitRectToFixLayer,
+|  Sprite_HexFormat4_05D6C2__L05d6d0, InputEvtThunk_05ce4a,
+|  InputMask_CheckChannelAvail_05cfa8, InputMask_TestChannelBit_05cff8,
+|  ListCursor_Reinit_05DBC2, ListCursor_ReinitClipped_05DBDC,
+|  InstallListPubHead_05DB58, Task_AllocFromFreeList, Spawn_MarkPending_04498E,
+|  Handler_ApplyCameraSelf_0440E4, Entity_CopyTransform, islas C SetXN/
+|  ClearXN/ClearXNV/SetC/SetTaskW. RAM: `$10E200/$10E206` (contextos de
+|  input P1/P2), `$10E20C` (estado previo), `$10E21E` (buffer hex),
+|  `$10E22E` (índice de ruido), `$106EE4` (latch LSPC).
+|
+|  D. ESTADO
+|  55/55 entradas byte-exactas. Zona $05E000 ahora contigua con
+|  late_props_turrets_05exxx.s. Pendiente: nombres para `$139FE`/`$2A7C`.
+|
+|  E. NOTAS
+|  SpriteBlock20x14_SetupDup repite `move.w #$F78E,$3C0002` dos veces; es
+|  byte-exacto con la ROM (duplicado en el original).
+|
+|  F. VERIFICACIÓN
+|  Cada sección .text.<Sym> se coloca en su dirección CPU absoluta y
+|  reensambla byte-exacta contra build/mslug_prom.bin
 |  (MD5 816b3f74c76b3373993407615f1850fe).
 | ============================================================================
 
