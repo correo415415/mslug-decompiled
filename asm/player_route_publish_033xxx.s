@@ -226,6 +226,8 @@ SpritePubEffect_027EBA:
 Sub_00027EBA:
         move.w  0x22(a6), d1                    | +00  d1 = x_coord
         move.w  0x24(a6), d2                    | +04  d2 = y_coord
+        .global SpritePubEffect_027EBA__L027ec2
+SpritePubEffect_027EBA__L027ec2:
         subq.w  #0x1, d2                        | +08  d2 -= 1
         jsr     Sub_00027DB2(pc)                | +0a  helper $27DB2 (pc-rel)
         jsr     Trail_FindNearest_09993c                    | +0e  helper $9993C (abs.l)
