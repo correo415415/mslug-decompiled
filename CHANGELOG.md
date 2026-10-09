@@ -18,6 +18,21 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave JJJJJ — 73 entries (3,940 B, 26 gaps of `$000400..$002F30`,
+  `boot_script_sound_queue_palslots_000400.s`): boot-script handlers
+  (`BootScr_*`, service-message rows `BootMsg_*` with byte table `$1514`),
+  `Players_CountActive`, `Rank_Delay*`, `Task_ResetAllSlots/InstallBootSlots/
+  InstallMissionSlots`, deferred call ring (`Deferred_RunQueue/Push`, `$106EE6`),
+  `VBlank_FrameLoop/RenderFrame`, Z80 sound command queue (`Sound_*`, port
+  `$320000`, ring `$108184`), palette slot manager (`PalSlot_*`, table `$1082C8`).
+  **All CODE zones now 100 % (505,608 B).**
+- `tools/check_section_sizes.py` also compiles `.c` modules with the matcher's
+  CFLAGS and reports C-island tails that overlap another registry entry.
+- `tools/gen_asm_region.py`: `d8(pc,Xn)` to a forward symbol is emitted as an
+  entry-relative expression (GAS `R_68K_PC8` limitation).
+- Fixes: `Handler_TimerAndReplace` realigned to `$001BCA` (106 B; old base
+  split a `movem.l`); `UserMode0_080C` 38 B with `jmp SoftReset_085E(pc)` tail;
+  `BiosEntry_DEMO` 12 B; `BiosEntry_COIN_SOUND` 10 B.
 - Wave IIIII — 26 entries (2,082 B, 8 gaps of `$0133B0..$013D18`,
   `palette_engine_sprite_grid_pause_0133b0.s`): palette engine (`Pal_LoadRaw16`,
   `Pal_ClearSlot16`, `PalAnim_StepSlot/Blend16/StepRGB` via ramp table `$12F30`

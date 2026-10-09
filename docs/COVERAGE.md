@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-09  (Wave IIIII cerrada)
+**Ultimo update:** 2026-10-09  (Wave JJJJJ cerrada — CODE 100 %)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-IIIII) | Que mide realmente |
+| Metrica | Cifra (post-JJJJJ) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **26.01 %**  (545,476 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **99.2 %**  (501,668 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **26.20 %**  (549,416 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **100.0 %**  (505,608 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -39,7 +39,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Zona | Rango | Tipo | Total | Cubierto | % zona |
 |---|---|---|---:|---:|---:|
 | Vectores 68000 + cabecera Neo-Geo | `$000000..$000400` | SYSTEM | 1,024 B | 58 B | 5.7 % |
-| BIOS entries, IRQ, scheduler, bootstrap, task runtime | `$000400..$002F30` | CODE | 11,056 B | 7,116 B | 64.4 % |
+| BIOS entries, IRQ, scheduler, bootstrap, task runtime | `$000400..$002F30` | CODE | 11,056 B | 11,056 B | 100.0 % |
 | Tablas de sprites/slots (pares {id,tile}, LUTs 16x16) | `$002F30..$0133B0` | DATA | 66,688 B | 0 B | 0.0 % |
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 2,490 B | 100.0 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 501,668 B | 99.2 % |
+| CODE | 505,608 B | 505,608 B | 100.0 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 26 huecos, 3,940 B
+Huecos pendientes en zonas CODE: 0 huecos, 0 B — **todas las zonas CODE cubiertas.** Siguiente fase: zonas DATA/ZERO (1,512,700 B + 32,768 B) como volcados estructurados (`tools/gen_data_region.py`).
 
 ### Notas por zona
 

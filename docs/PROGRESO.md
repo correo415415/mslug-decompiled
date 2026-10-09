@@ -11,10 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 8121/8121 funciones
-BYTES   : 545,476/545,476 (registrados)
-ROM     : 545,476/2,097,152  (26.0103%)
+MATCHED : 8194/8194 funciones
+BYTES   : 549,416/549,416 (registrados)
+ROM     : 549,416/2,097,152  (26.1982%)   — CODE 100 %
 ```
+
+> **Wave JJJJJ** (73 entradas, 3 940 B; 26 huecos) — `$000400..$002F30` en
+> `boot_script_sound_queue_palslots_000400.s`. Quincuagésimo tercera wave y
+> **cierre de todas las zonas CODE (505 608 / 505 608 B)**. Nombres en
+> `docs/waves/jjjjj_names.txt`. Handlers del boot script (`BootScr_*`: game
+> over, misión, mensajes de servicio con tabla `BootMsg_RowIds_001514`,
+> memory card, sound test, ending, opciones), `Players_CountActive`,
+> `Rank_Delay*`, `Task_*Slots` (slots fijos `$100260..$1008A0`), anillo de
+> llamadas diferidas `Deferred_RunQueue/Push` (`$106EE6`), bucle de frame
+> `VBlank_FrameLoop_001f84` / `VBlank_RenderFrame_002098`, cola de comandos
+> al Z80 `Sound_*` (`$320000`, anillo `$108184`), gestor de slots de paleta
+> `PalSlot_*` (`$1082C8`, fuentes `$14E00`/`$1CE00`, LUT `$2F30`).
+> Correcciones: `Handler_TimerAndReplace` → `$001BCA` (106 B), colas C de
+> `UserMode0_080C`/`BiosEntry_DEMO`/`BiosEntry_COIN_SOUND`;
+> `check_section_sizes.py` ahora cubre también `.c`.
+> **Siguiente fase: DATA.** `tools/gen_data_region.py` (volcado estructurado
+> `.fill`/`.dc.l Sym`/`.dc.w`, fronteras = direcciones referenciadas desde el
+> código) para `$002F30..$0133B0`, `$013D6A..$024E10`, `$09C608..$0E8000`,
+> `$0F2FFC..$18D152`, `$18DB78..$1F8000`, `$1F8000..$200000`, `$000000..$000400`.
 
 > **Wave IIIII** (26 entradas, 2 082 B; 8 huecos) — `$0133B0..$013D18` en
 > `palette_engine_sprite_grid_pause_0133b0.s`. Quincuagésimo segunda wave.
