@@ -1,14 +1,121 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
-|  Región: $051AA4..$0527AE  (2,208 B, 38 entradas, 18 huecos)
+|  Wave HHHHH — blits de mapa de celdas, overlay CREDITS/PAUSE en capa FIX,
+|  fundidos de paleta  (asm/cellmap_fix_overlay_palfade_051aa4.s)
+|  Región: $051AA4..$0527AE  (2,202 B, 38 entradas, 19 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Tres bloques de runtime gráfico que cierran los huecos entre
+|  allen_oneil_04fa50.s / collision_cell_apply_051bxx.s /
+|  collision_probes_051cxx.s y pubcleaner_10a2cx_052712.s /
+|  props_destructible_0527xx.s:
 |
-|  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
-|  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
+|  1) $051AA4..$051F30  Mapa de celdas (contexto a0: ventana de 32x32 celdas
+|     cuyo origen rota con `$22/$24(a0)`, base de sprites `$28(a0)`, tabla de
+|     offsets de fila `$52(a0)`):
+|     - CellMap_ReadPacked32_051aa4: empaqueta 8 nibbles de `$1081B6` con
+|       Nibbles_Pack8_051862 y devuelve el long resultante en d0.
+|     - Entity_AllocAndInit_051ABE: inicializa el contexto (copia la caja de
+|       4 words de (a1) a `$16..$1C`, limpia campos, llama a
+|       CellMap_ClearSprites32 y CellMap_ClearVramBlock, y pone a cero los
+|       32 B de `$32(a0)`).
+|     - CellMap_SetCursorAndClear_051b1c: fija `$27(a0)`=d0&$3F, `$26(a0)`
+|       =(-(d1+Y))&$1F y anula `$12(a0)`; incluye dos entradas de cola que
+|       guardan a1 en `$12/$0E(a0)` y recalculan el origen rotado a partir
+|       del desplazamiento (d0,d1)>>4 (scroll de la ventana).
+|     - CellMap_ClipRectToWindow_051d84: recorta el rectángulo (d0,d1,d4,d5)
+|       contra la caja (a1) = {w,h}; vacío → ClearC_051ddc. Usada como
+|       "probe básico" por collision_probes_051cxx.s.
+|     - CellMap_BlitRectToLSPC_051e74: por cada fila (d4) y columna (d5)
+|       calcula la dirección de sprite `((x&$1F)+base)<<6 + $40 + 2*y` con
+|       el offset de fila `$52(a0,x)` y escribe {addr, d7} en LSPC.
+|     - CellMap_SetDirty_051ece / CellMap_ClearSprites32_051ed6: bit 0 de
+|       `$0C(a0)`; la segunda además escribe shrink 0 en las 32 entradas
+|       `$8201+base` con latch `$106EE4`.
+|     - CellMap_ClearVramBlock_051f02: 2048 longs a 0 desde `(base<<6)+$40`
+|       (bloque de tiles de la ventana) con auto-incremento 1.
+|     - Nop_Rts / ClearC_Rts: relleno de 2-6 B entre islas C.
+|
+|  2) $052032..$052392  Overlay de la capa FIX (créditos / FREE PLAY / PAUSE)
+|     con flags en `$1081BE` (bit0 dirty créditos, bit1 borrar créditos,
+|     bit2 dirty pausa, bit3 borrar pausa, bit4 paleta alternativa):
+|     - FixOverlay_DrawCreditsOrFree_052050: si `$10FD82` (modo de pago) y
+|       `$10FD91` bit1 → nada; bit1 de flags → borrar (ClearCreditsArea
+|       larga); bit0 → ClearCreditsArea corta y pinta "CREDITS n" (fila
+|       $707D/$737D según `$10FD83`) con el contador de `$10FE00`/`$D00034`
+|       (backup RAM) o `$1081BF`; FixOverlay_PutCreditsLine_0520e2 emite los
+|       8 chars de Str_CREDITS_052230 y FixOverlay_PutDigit_052132 cada
+|       dígito (+$30) a `$3C0000` en columnas +$20.
+|     - FixOverlay_ClearCreditsArea_0521b2: borra 3+4+4+4 tiles en las filas
+|       $701D/$719D/$72FD/$749D con tile $20 de paleta $2300.
+|     - Str_CREDITS_052230 también alberga la rutina de PAUSE que sigue a la
+|       cadena: con `$10FD82`/`$10FD91` bit0 y flags bit2 pinta "PAUSE" +
+|       número de jugador (`$10FD8B`+'1') en $721D; bit3 → borra 8 tiles y
+|       limpia bits 2-3.
+|     - FixOverlay_PutPauseTail_0522ea / Str_PauseTiles_0522ec ($8C..$8F) /
+|       FixOverlay_ClearPause_052306 / Str_PAUSE_05231c ("PAUSE" + $FE +
+|       relleno $FF/$FE): variantes de 1 word que preparan a1=$7226 y la
+|       cadena para JsrAbsThunk_052314.
+|     - Cola de Str_PAUSE: Backup_ProbeFlags — si `$10FD82` escribe
+|       `$10FDB0..B3` = 1,1,0,0, llama a BIOS `$C00450` y devuelve en d0 los
+|       bits 0/1 según `$10FDB0/B1`; sin modo de pago devuelve bit 2.
+|
+|  3) $0523C6..$0526B8  Fundidos de paleta (bloque de flags `$10A2C8..CF`:
+|     C8 estado, CA/CB/CC niveles RGB 0..31, CF done):
+|     - PalFade_SpawnIn_0523c6 / _SpawnOut_0523da: Task_AllocFromFreeList con
+|       handler PalFade_In_Task / PalFade_Out_Task y velocidad d0 en `$70`.
+|     - Template_0523EE / Template_0524AA: variantes que ponen `$10A2C8`=1
+|       en vez de $FF.
+|     - PalFade_In_Task_0523fa: niveles a 0, elige {paso, periodo} de
+|       PalFade_SpeedTable_052570 ({31,1},{4,1},{2,1},{1,1}) por `$70(a6)`
+|       ≤3, y cada `$72` frames suma el paso a los 3 canales hasta 31 →
+|       `$10A2CF`=$FF y jmp Task_Free `$518`.
+|     - PalFade_Out_Task_0524b6 / PalFade_Out_Step_052514: simétrico hacia 0.
+|     - PalFade_ToColor_Task_0525a4: interpola en 8.8 fijo los 3 canales
+|       desde los niveles actuales hasta el objetivo (`$7C/$7E/$80`) en
+|       `$70` frames (divs.w), guardando deltas en `$76..$7A` y acumuladores
+|       en `$82..$86`; al terminar fija el objetivo exacto. La cabecera de
+|       PalFade_SpeedTable aloja además el spawner (Task_Alloc + copia de
+|       d0-d3 a `$7C/$7E/$80/$70`).
+|     - SpriteTable_Init256_0526b8: inicializa 256 entradas de 32 B en
+|       `$1082C8` ({$8800,0,0...}), la lista de 48 índices libres `$1081C2`
+|       (0..47, contador `$1082C2`=$30) y limpia `$1082C4/C6`, `$10A2C9`,
+|       `$10A2D1`.
+|
+|  4) $05273A..$0527AE  Thunks: Scheduler_CompareField10_* (4 copias),
+|     Sprite_SetupSlotFromTableA_Thunk_052756 (carga d1-d4 de (a0) y jsr
+|     $2C26), Entity_SpawnAndPublishD0At70_Thunk_05276c/052776,
+|     Task_AllocProp86586_052788 (Task_Alloc con handler `$86586`).
+|
+|  B. CÓMO SE DESCUBRIÓ
+|  Huecos de measure_coverage en $051AA4..$0527AE. La isla NopCCR_0522a8
+|  (C) era en realidad la cola `movem.w d0-d1,$3C0000` (48B9 0003) del blit
+|  de PAUSE → eliminada de ccr_helpers.c. Strings por `lea Str(pc),a2` +
+|  bucles `move.b (a2)+,d1`. Nombres por los flags ya documentados en
+|  pubcleaner_10a2cx_052712.s y por las filas FIX ($70xx..$74xx).
+|
+|  C. DEPENDENCIAS EXTERNAS
+|  Nibbles_Pack8_051862, Task_AllocFromFreeList ($4AE), Task_Free ($518),
+|  Sprite_SetupSlotFromTableA ($2C26), Entity_SpawnAndPublishD0At70_05239E/
+|  _0523B2, JsrAbsThunk_052314, BIOS `$C00450`, islas C SetXN/ClearC.
+|  RAM: `$1081B6` (nibbles), `$1081BE` (flags overlay), `$1081BF`/`$10FE00`/
+|  `$D00034` (créditos), `$10FD82/83/8B/91` (modo de pago/jugador),
+|  `$10A2C8..CF` (fade), `$1082C8` (tabla de sprites), `$106EE4` (latch).
+|
+|  D. ESTADO
+|  38/38 entradas byte-exactas. Pendiente: separar Backup_ProbeFlags y la
+|  rutina PAUSE de las cadenas que las preceden (comparten sección por
+|  flujo lineal).
+|
+|  E. NOTAS
+|  Las dos cargas `move.w #$2300,d1` consecutivas en los blits (ramas del
+|  bit 4 de `$1081BE` idénticas) son así en la ROM: paleta alternativa
+|  nunca implementada.
+|
+|  F. VERIFICACIÓN
+|  Cada sección .text.<Sym> se coloca en su dirección CPU absoluta y
+|  reensambla byte-exacta contra build/mslug_prom.bin
 |  (MD5 816b3f74c76b3373993407615f1850fe).
 | ============================================================================
 
