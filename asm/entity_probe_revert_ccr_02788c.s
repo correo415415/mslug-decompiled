@@ -57,7 +57,7 @@ Entity_ProbeRevertCcr_02788C:
         move.w  0x82(a6), -0x1146(a5)          | +0c  scratch[-$1146] = self->field82
         move.b  0x26(a6), -0x1144(a5)          | +12  scratch[-$1144] = self->field26
         move.b  0x27(a6), -0x1143(a5)          | +18  scratch[-$1143] = self->field27
-        jsr     .Lcollision(pc)                | +1e  Sub_00027036  (colision)
+        jsr     .Lcollision(pc)                | +1e  Entity_MoveAndCollide_B_027036  (colision)
         bcc.w   .Lcolision_no                  | +22  if (!C)  path NO-colision
                                               |
                                               | ---- rama "colision SI": restaura en orden
@@ -84,7 +84,7 @@ Entity_ProbeRevertCcr_02788C:
         andi.b  #0xee, ccr                     | +70  CCR &= 0xEE (limpiar X+C)
         rts                                    | +74
 
-        .equ    .Lcollision, Sub_00027036
+        .equ    .Lcollision, Entity_MoveAndCollide_B_027036
         .equ    .Lposthook,  Entity_ApplyFadeShade_028108
 
         .size   Entity_ProbeRevertCcr_02788C, .-Entity_ProbeRevertCcr_02788C

@@ -8,7 +8,7 @@
 |                                                   por indireccion registrada)
 |
 |  Tercer wrapper probe/revert del cluster $027Cxx. Estructura byte-a-byte
-|  identica a T#7 y T#9 con el probe interno parametrizado a Sub_000273FC
+|  identica a T#7 y T#9 con el probe interno parametrizado a Entity_SaveRegs_0273fc
 |  (= $027444, mismo probe que compartira con T#13).
 |
 |  Absorbe la cola ClearXN_027c06 (falso positivo Wave F, 0 callers).

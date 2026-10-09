@@ -15,61 +15,61 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_024e1c  @ $024E1C  (16 B)
+|  ChildRank_CmpByte10_024e1c  @ $024E1C  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_024e1c, "ax", @progbits
-        .global TaskHandler_024e1c
-TaskHandler_024e1c:
+        .section .text.ChildRank_CmpByte10_024e1c, "ax", @progbits
+        .global ChildRank_CmpByte10_024e1c
+ChildRank_CmpByte10_024e1c:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_024e32                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_024fb8  @ $024FB8  (16 B)
+|  PlayerCtx_ResetAndSetRepeat1002_024fb8  @ $024FB8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_024fb8, "ax", @progbits
-        .global TaskHandler_024fb8
-TaskHandler_024fb8:
+        .section .text.PlayerCtx_ResetAndSetRepeat1002_024fb8, "ax", @progbits
+        .global PlayerCtx_ResetAndSetRepeat1002_024fb8
+PlayerCtx_ResetAndSetRepeat1002_024fb8:
         moveq   #-1,d0                          | +000
         bsr.w   PlayerCtx_ResetTwoBlocks_024FEC | +002
         move.w  #0x1002,0x106ec8.l              | +006
         rts                                     | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_024fc8  @ $024FC8  (8 B)
+|  PlayerCtx_SetRepeatRate_024fc8  @ $024FC8  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_024fc8, "ax", @progbits
-        .global TaskHandler_024fc8
-TaskHandler_024fc8:
+        .section .text.PlayerCtx_SetRepeatRate_024fc8, "ax", @progbits
+        .global PlayerCtx_SetRepeatRate_024fc8
+PlayerCtx_SetRepeatRate_024fc8:
         move.w  d0,0x106ec8.l                   | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_024fd0  @ $024FD0  (12 B)
+|  PlayerCtx_IsModeSingle_024fd0  @ $024FD0  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_024fd0, "ax", @progbits
-        .global TaskHandler_024fd0
-TaskHandler_024fd0:
+        .section .text.PlayerCtx_IsModeSingle_024fd0, "ax", @progbits
+        .global PlayerCtx_IsModeSingle_024fd0
+PlayerCtx_IsModeSingle_024fd0:
         cmpi.b  #0x2,0x106eca.l                 | +000
         bne.w   ClearC_024fe6                   | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_024fe2  @ $024FE2  (4 B)
+|  PlayerCtx_ResetTwoBlocks_Thunk_024fe2  @ $024FE2  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_024fe2, "ax", @progbits
-        .global TaskHandler_024fe2
-TaskHandler_024fe2:
+        .section .text.PlayerCtx_ResetTwoBlocks_Thunk_024fe2, "ax", @progbits
+        .global PlayerCtx_ResetTwoBlocks_Thunk_024fe2
+PlayerCtx_ResetTwoBlocks_Thunk_024fe2:
         bra.w   PlayerCtx_ResetTwoBlocks_024FEC | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025066  @ $025066  (178 B)
+|  Input_Poll_LiveMode_025066  @ $025066  (178 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025066, "ax", @progbits
-        .global TaskHandler_025066
-TaskHandler_025066:
+        .section .text.Input_Poll_LiveMode_025066, "ax", @progbits
+        .global Input_Poll_LiveMode_025066
+Input_Poll_LiveMode_025066:
         cmpi.b  #0x0,0x106eca.l                 | +000
-        bne.w   Data_025118__L02511a            | +008
+        bne.w   Input_ReplayFlag_025118__L02511a | +008
         move.b  0x10fd96.l,d0                   | +00c
         lea     0x106eb0.l,a0                   | +012
         move.b  0x2(a0),d1                      | +018
@@ -117,23 +117,23 @@ TaskHandler_025066:
         rts                                     | +0b0
 
 | ----------------------------------------------------------------------------
-|  Data_025118  @ $025118  (362 B)
+|  Input_ReplayFlag_025118  @ $025118  (362 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_025118, "ax", @progbits
-        .global Data_025118
-Data_025118:
+        .section .text.Input_ReplayFlag_025118, "ax", @progbits
+        .global Input_ReplayFlag_025118
+Input_ReplayFlag_025118:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
-        .global Data_025118__L02511a
-Data_025118__L02511a:
+        .global Input_ReplayFlag_025118__L02511a
+Input_ReplayFlag_025118__L02511a:
 .L02511a:
         cmpi.b  #0x1,0x106eca.l                 | +002
         bne.w   .L0251e4                        | +00a
         tst.b   0x25118.l                       | +00e
         beq.w   .L025138                        | +014
-        bsr.w   Sub_00025282                    | +018
+        bsr.w   InputRec_RecordFrame_025282     | +018
         bra.w   .L02513c                        | +01c
 .L025138:
-        bsr.w   Sub_0002531E                    | +020
+        bsr.w   InputRec_PlaybackFrame_02531e   | +020
 .L02513c:
         move.b  0x106ebc.l,d0                   | +024
         lea     0x106eb0.l,a0                   | +02a
@@ -228,11 +228,11 @@ Data_025118__L02511a:
         rts                                     | +168
 
 | ----------------------------------------------------------------------------
-|  Sub_00025282  @ $025282  (156 B)
+|  InputRec_RecordFrame_025282  @ $025282  (156 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00025282, "ax", @progbits
-        .global Sub_00025282
-Sub_00025282:
+        .section .text.InputRec_RecordFrame_025282, "ax", @progbits
+        .global InputRec_RecordFrame_025282
+InputRec_RecordFrame_025282:
         movea.l 0x106ebe.l,a0                   | +000
         move.b  #0xf,d1                         | +006
         move.w  0x106ec2.l,d0                   | +00a
@@ -242,7 +242,7 @@ Sub_00025282:
 .L0252a0:
         cmp.b   0x106ec6.l,d1                   | +01e
         bhi.w   .L0252ae                        | +024
-        jsr     Sub_00025366(pc)                | +028
+        jsr     InputRec_FlushRun_025366(pc)    | +028
 .L0252ae:
         clr.w   d0                              | +02c
         clr.w   d1                              | +02e
@@ -263,7 +263,7 @@ Sub_00025282:
         bcc.w   .L0252f4                        | +064
         move.w  d6,d1                           | +068
         move.l  d0,-(a7)                        | +06a
-        jsr     Sub_00025390(pc)                | +06c
+        jsr     InputRec_StoreBitToggle_025390(pc) | +06c
         move.l  (a7)+,d0                        | +070
 .L0252f4:
         move.l  (a7)+,d6                        | +072
@@ -278,13 +278,13 @@ Sub_00025282:
         rts                                     | +09a
 
 | ----------------------------------------------------------------------------
-|  Sub_0002531E  @ $02531E  (72 B)
+|  InputRec_PlaybackFrame_02531e  @ $02531E  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002531E, "ax", @progbits
-        .global Sub_0002531E
-Sub_0002531E:
+        .section .text.InputRec_PlaybackFrame_02531e, "ax", @progbits
+        .global InputRec_PlaybackFrame_02531e
+InputRec_PlaybackFrame_02531e:
         movea.l 0x106ebe.l,a0                   | +000
-        jsr     Sub_000253BE(pc)                | +006
+        jsr     InputRec_ReadNextRun_0253be(pc) | +006
         bcc.w   .L02535e                        | +00a
         moveq   #0,d1                           | +00e
         andi.w  #0xf,d0                         | +010
@@ -293,23 +293,23 @@ Sub_0002531E:
         move.b  0x106ebc.l,d1                   | +01c
         bchg    d0,d1                           | +022
         move.b  d1,0x106ebc.l                   | +024
-        bra.b   Sub_0002531E                    | +02a
+        bra.b   InputRec_PlaybackFrame_02531e   | +02a
 .L02534a:
         andi.w  #0x7,d0                         | +02c
         move.b  0x106ebd.l,d1                   | +030
         bchg    d0,d1                           | +036
         move.b  d1,0x106ebd.l                   | +038
-        bra.b   Sub_0002531E                    | +03e
+        bra.b   InputRec_PlaybackFrame_02531e   | +03e
 .L02535e:
         addq.b  #0x1,0x106ec6.l                 | +040
         rts                                     | +046
 
 | ----------------------------------------------------------------------------
-|  Sub_00025366  @ $025366  (42 B)
+|  InputRec_FlushRun_025366  @ $025366  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00025366, "ax", @progbits
-        .global Sub_00025366
-Sub_00025366:
+        .section .text.InputRec_FlushRun_025366, "ax", @progbits
+        .global InputRec_FlushRun_025366
+InputRec_FlushRun_025366:
         move.w  0x106ec4.l,d0                   | +000
         cmpi.w  #0x200,d0                       | +006
         bcc.w   .L02538e                        | +00a
@@ -322,12 +322,12 @@ Sub_00025366:
         rts                                     | +028
 
 | ----------------------------------------------------------------------------
-|  Sub_00025390  @ $025390  (46 B)
+|  InputRec_StoreBitToggle_025390  @ $025390  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00025390, "ax", @progbits
-        .global Sub_00025390
-Sub_00025390:
-        jsr     Sub_00025366(pc)                | +000
+        .section .text.InputRec_StoreBitToggle_025390, "ax", @progbits
+        .global InputRec_StoreBitToggle_025390
+InputRec_StoreBitToggle_025390:
+        jsr     InputRec_FlushRun_025366(pc)    | +000
         move.w  0x106ec2.l,d0                   | +004
         cmpi.w  #0x200,d0                       | +00a
         bcc.w   .L0253bc                        | +00e
@@ -341,14 +341,14 @@ Sub_00025390:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  Sub_000253BE  @ $0253BE  (98 B)
+|  InputRec_ReadNextRun_0253be  @ $0253BE  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000253BE, "ax", @progbits
-        .global Sub_000253BE
-Sub_000253BE:
+        .section .text.InputRec_ReadNextRun_0253be, "ax", @progbits
+        .global InputRec_ReadNextRun_0253be
+InputRec_ReadNextRun_0253be:
         move.w  0x106ec4.l,d0                   | +000
         cmpi.w  #0x200,d0                       | +006
-        bcc.w   TaskHandler_025432              | +00a
+        bcc.w   InputRec_SetModeDisabled_025432 | +00a
         move.b  (a0,d0.w),d1                    | +00e
         move.b  #0xff,d2                        | +012
         cmp.w   0x106ec2.l,d0                   | +016
@@ -357,13 +357,13 @@ Sub_000253BE:
         and.b   d2,d1                           | +024
 .L0253e4:
         cmp.b   0x106ec6.l,d1                   | +026
-        bne.w   TaskHandler_025426              | +02c
+        bne.w   InputRec_SetReadPos_025426      | +02c
         move.b  #0x0,0x106ec6.l                 | +030
         addq.w  #0x1,d0                         | +038
         cmp.b   d2,d1                           | +03a
         bne.w   .L025408                        | +03c
         tst.b   (a0,d0.w)                       | +040
-        bne.w   TaskHandler_025426              | +044
+        bne.w   InputRec_SetReadPos_025426      | +044
         addq.w  #0x1,d0                         | +048
 .L025408:
         move.w  d0,0x106ec4.l                   | +04a
@@ -373,38 +373,38 @@ Sub_000253BE:
         lsr.b   #0x4,d0                         | +060
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025426  @ $025426  (6 B)
+|  InputRec_SetReadPos_025426  @ $025426  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025426, "ax", @progbits
-        .global TaskHandler_025426
-TaskHandler_025426:
+        .section .text.InputRec_SetReadPos_025426, "ax", @progbits
+        .global InputRec_SetReadPos_025426
+InputRec_SetReadPos_025426:
         move.w  d0,0x106ec4.l                   | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025432  @ $025432  (8 B)
+|  InputRec_SetModeDisabled_025432  @ $025432  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025432, "ax", @progbits
-        .global TaskHandler_025432
-TaskHandler_025432:
+        .section .text.InputRec_SetModeDisabled_025432, "ax", @progbits
+        .global InputRec_SetModeDisabled_025432
+InputRec_SetModeDisabled_025432:
         move.b  #0x2,0x106eca.l                 | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025440  @ $025440  (16 B)
+|  ChildRank_CmpByte10_025440  @ $025440  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025440, "ax", @progbits
-        .global TaskHandler_025440
-TaskHandler_025440:
+        .section .text.ChildRank_CmpByte10_025440, "ax", @progbits
+        .global ChildRank_CmpByte10_025440
+ChildRank_CmpByte10_025440:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_025456                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_02545c  @ $02545C  (44 B)
+|  PlayerSlotIndex_02545c  @ $02545C  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02545c, "ax", @progbits
-        .global Data_02545c
-Data_02545c:
+        .section .text.PlayerSlotIndex_02545c, "ax", @progbits
+        .global PlayerSlotIndex_02545c
+PlayerSlotIndex_02545c:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
@@ -429,11 +429,11 @@ Data_02545c:
         .dc.w   0xffff                        | +02a  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025488  @ $025488  (16 B)
+|  PlayerSlotDesc_Idle_025488  @ $025488  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025488, "ax", @progbits
-        .global TaskHandler_025488
-TaskHandler_025488:
+        .section .text.PlayerSlotDesc_Idle_025488, "ax", @progbits
+        .global PlayerSlotDesc_Idle_025488
+PlayerSlotDesc_Idle_025488:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0400                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0010                        | +004  (dato / opcode no decodificado)
@@ -444,11 +444,11 @@ TaskHandler_025488:
         .dc.w   0xffff                        | +00e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025498  @ $025498  (16 B)
+|  PlayerSlotDesc_Idle2_025498  @ $025498  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025498, "ax", @progbits
-        .global TaskHandler_025498
-TaskHandler_025498:
+        .section .text.PlayerSlotDesc_Idle2_025498, "ax", @progbits
+        .global PlayerSlotDesc_Idle2_025498
+PlayerSlotDesc_Idle2_025498:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0400                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0010                        | +004  (dato / opcode no decodificado)
@@ -459,11 +459,11 @@ TaskHandler_025498:
         .dc.w   0xffff                        | +00e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0254a8  @ $0254A8  (224 B)
+|  PlayerSlotDesc_P1Rows_0254a8  @ $0254A8  (224 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0254a8, "ax", @progbits
-        .global TaskHandler_0254a8
-TaskHandler_0254a8:
+        .section .text.PlayerSlotDesc_P1Rows_0254a8, "ax", @progbits
+        .global PlayerSlotDesc_P1Rows_0254a8
+PlayerSlotDesc_P1Rows_0254a8:
         .dc.w   0x0003                        | +000  (dato / opcode no decodificado)
         .dc.w   0x364a                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0010                        | +004  (dato / opcode no decodificado)
@@ -578,11 +578,11 @@ TaskHandler_0254a8:
         .dc.w   0xffff                        | +0de  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025588  @ $025588  (382 B)
+|  PlayerSlotDesc_P2Rows_025588  @ $025588  (382 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025588, "ax", @progbits
-        .global TaskHandler_025588
-TaskHandler_025588:
+        .section .text.PlayerSlotDesc_P2Rows_025588, "ax", @progbits
+        .global PlayerSlotDesc_P2Rows_025588
+PlayerSlotDesc_P2Rows_025588:
         .dc.w   0x0003                        | +000  (dato / opcode no decodificado)
         .dc.w   0x36dc                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0010                        | +004  (dato / opcode no decodificado)
@@ -695,29 +695,29 @@ TaskHandler_025588:
         .dc.w   0xffff                        | +0da  (dato / opcode no decodificado)
         .dc.w   0x00ff                        | +0dc  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +0de  (dato / opcode no decodificado)
-        .global TaskHandler_025588__L025668
-TaskHandler_025588__L025668:
+        .global PlayerSlotDesc_P2Rows_025588__L025668
+PlayerSlotDesc_P2Rows_025588__L025668:
 .L025668:
         .dc.w   0x0002                        | +0e0  (dato / opcode no decodificado)
         .dc.w   0x60c4                        | +0e2  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +0e4  (dato / opcode no decodificado)
         .dc.w   0x60cc                        | +0e6  (dato / opcode no decodificado)
-        .global TaskHandler_025588__L025670
-TaskHandler_025588__L025670:
+        .global PlayerSlotDesc_P2Rows_025588__L025670
+PlayerSlotDesc_P2Rows_025588__L025670:
 .L025670:
         .dc.w   0x0002                        | +0e8  (dato / opcode no decodificado)
         .dc.w   0x5ffc                        | +0ea  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +0ec  (dato / opcode no decodificado)
         .dc.w   0x6010                        | +0ee  (dato / opcode no decodificado)
-        .global TaskHandler_025588__L025678
-TaskHandler_025588__L025678:
+        .global PlayerSlotDesc_P2Rows_025588__L025678
+PlayerSlotDesc_P2Rows_025588__L025678:
 .L025678:
         .dc.w   0x0002                        | +0f0  (dato / opcode no decodificado)
         .dc.w   0x6024                        | +0f2  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +0f4  (dato / opcode no decodificado)
         .dc.w   0x6038                        | +0f6  (dato / opcode no decodificado)
-        .global TaskHandler_025588__L025680
-TaskHandler_025588__L025680:
+        .global PlayerSlotDesc_P2Rows_025588__L025680
+PlayerSlotDesc_P2Rows_025588__L025680:
 .L025680:
         .dc.w   0x0002                        | +0f8  (dato / opcode no decodificado)
         .dc.w   0x609c                        | +0fa  (dato / opcode no decodificado)
@@ -727,29 +727,29 @@ TaskHandler_025588__L025680:
         .dc.w   0x604c                        | +102  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +104  (dato / opcode no decodificado)
         .dc.w   0x6060                        | +106  (dato / opcode no decodificado)
-        .global TaskHandler_025588__L025690
-TaskHandler_025588__L025690:
+        .global PlayerSlotDesc_P2Rows_025588__L025690
+PlayerSlotDesc_P2Rows_025588__L025690:
 .L025690:
         .dc.w   0x0002                        | +108  (dato / opcode no decodificado)
         .dc.w   0x6074                        | +10a  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +10c  (dato / opcode no decodificado)
         .dc.w   0x6088                        | +10e  (dato / opcode no decodificado)
-        .global TaskHandler_025588__L025698
-TaskHandler_025588__L025698:
+        .global PlayerSlotDesc_P2Rows_025588__L025698
+PlayerSlotDesc_P2Rows_025588__L025698:
 .L025698:
         .dc.w   0x0002                        | +110  (dato / opcode no decodificado)
         .dc.w   0x614e                        | +112  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +114  (dato / opcode no decodificado)
         .dc.w   0x6156                        | +116  (dato / opcode no decodificado)
-        .global TaskHandler_025588__L0256a0
-TaskHandler_025588__L0256a0:
+        .global PlayerSlotDesc_P2Rows_025588__L0256a0
+PlayerSlotDesc_P2Rows_025588__L0256a0:
 .L0256a0:
         .dc.w   0x0002                        | +118  (dato / opcode no decodificado)
         .dc.w   0x630e                        | +11a  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +11c  (dato / opcode no decodificado)
         .dc.w   0x6372                        | +11e  (dato / opcode no decodificado)
-        .global TaskHandler_025588__L0256a8
-TaskHandler_025588__L0256a8:
+        .global PlayerSlotDesc_P2Rows_025588__L0256a8
+PlayerSlotDesc_P2Rows_025588__L0256a8:
 .L0256a8:
         .dc.w   0x0002                        | +120  (dato / opcode no decodificado)
         .dc.w   0x63f2                        | +122  (dato / opcode no decodificado)
@@ -766,23 +766,23 @@ TaskHandler_025588__L0256a8:
         jsr     0x2614e.l                       | +154
 .L0256e2:
         jsr     0x2630e.l                       | +15a
-        lea     TaskHandler_0254a8(pc),a0       | +160
+        lea     PlayerSlotDesc_P1Rows_0254a8(pc),a0 | +160
         moveq   #0,d0                           | +164
         move.b  0x106ece.l,d0                   | +166
         cmpi.b  #0xff,d0                        | +16c
         bne.w   .L025702                        | +170
-        lea     TaskHandler_025488(pc),a0       | +174
+        lea     PlayerSlotDesc_Idle_025488(pc),a0 | +174
         moveq   #0,d0                           | +178
 .L025702:
         lsl.w   #0x4,d0                         | +17a
         rts                                     | +17c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025706  @ $025706  (86 B)
+|  HUD_Task_Init_025706  @ $025706  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025706, "ax", @progbits
-        .global TaskHandler_025706
-TaskHandler_025706:
+        .section .text.HUD_Task_Init_025706, "ax", @progbits
+        .global HUD_Task_Init_025706
+HUD_Task_Init_025706:
         lea     0x10fd84.l,a3                   | +000
         move.b  0x4(a3),d1                      | +006
         move.b  d1,0x77(a6)                     | +00a
@@ -794,41 +794,41 @@ TaskHandler_025706:
         jsr     0x26156.l                       | +02c
 .L025738:
         jsr     0x26372.l                       | +032
-        lea     TaskHandler_025588(pc),a0       | +038
+        lea     PlayerSlotDesc_P2Rows_025588(pc),a0 | +038
         moveq   #0,d0                           | +03c
         move.b  0x106ece.l,d0                   | +03e
         cmpi.b  #0xff,d0                        | +044
         bne.w   .L025758                        | +048
-        lea     TaskHandler_025498(pc),a0       | +04c
+        lea     PlayerSlotDesc_Idle2_025498(pc),a0 | +04c
         clr.w   d0                              | +050
 .L025758:
         lsl.w   #0x4,d0                         | +052
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02575c  @ $02575C  (10 B)
+|  HUD_Task_StartP1_02575c  @ $02575C  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02575c, "ax", @progbits
-        .global TaskHandler_02575c
-TaskHandler_02575c:
+        .section .text.HUD_Task_StartP1_02575c, "ax", @progbits
+        .global HUD_Task_StartP1_02575c
+HUD_Task_StartP1_02575c:
         move.w  #0x0,0x70(a6)                   | +000
-        jmp     Data_025770__L025780(pc)        | +006
+        jmp     HUD_StartHandlerTable_025770__L025780(pc) | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025766  @ $025766  (10 B)
+|  HUD_Task_StartP2_025766  @ $025766  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025766, "ax", @progbits
-        .global TaskHandler_025766
-TaskHandler_025766:
+        .section .text.HUD_Task_StartP2_025766, "ax", @progbits
+        .global HUD_Task_StartP2_025766
+HUD_Task_StartP2_025766:
         move.w  #0x1,0x70(a6)                   | +000
-        jmp     Data_025770__L025780(pc)        | +006
+        jmp     HUD_StartHandlerTable_025770__L025780(pc) | +006
 
 | ----------------------------------------------------------------------------
-|  Data_025770  @ $025770  (116 B)
+|  HUD_StartHandlerTable_025770  @ $025770  (116 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_025770, "ax", @progbits
-        .global Data_025770
-Data_025770:
+        .section .text.HUD_StartHandlerTable_025770, "ax", @progbits
+        .global HUD_StartHandlerTable_025770
+HUD_StartHandlerTable_025770:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x59b8                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
@@ -837,24 +837,24 @@ Data_025770:
         .dc.w   0x59b8                        | +00a  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +00c  (dato / opcode no decodificado)
         .dc.w   0x57ec                        | +00e  (dato / opcode no decodificado)
-        .global Data_025770__L025780
-Data_025770__L025780:
+        .global HUD_StartHandlerTable_025770__L025780
+HUD_StartHandlerTable_025770__L025780:
 .L025780:
-        lea     TaskHandler_0257ec(pc),a1       | +010
+        lea     HUD_State_InsertCoin_0257ec(pc),a1 | +010
         move.l  a1,(a6)                         | +014
-        bsr.w   PcThunkTarget_025e74__L025e84   | +016
+        bsr.w   HUD_SetStartMask_025e74__L025e84 | +016
         cmpi.b  #0x1,d0                         | +01a
         bne.w   .L025798                        | +01e
-        lea     TaskHandler_0259a0__L0259b8(pc),a1 | +022
+        lea     HUD_State_BindPlayer_0259a0__L0259b8(pc),a1 | +022
         move.l  a1,(a6)                         | +026
 .L025798:
         cmpi.b  #0x1,0x10fdaf.l                 | +028
         bne.w   .L0257dc                        | +030
         cmpi.b  #0x0,d0                         | +034
         bne.w   .L0257dc                        | +038
-        lea     TaskHandler_0259a0__L0259b8(pc),a1 | +03c
+        lea     HUD_State_BindPlayer_0259a0__L0259b8(pc),a1 | +03c
         move.l  a1,(a6)                         | +040
-        lea     Data_025770(pc),a0              | +042
+        lea     HUD_StartHandlerTable_025770(pc),a0 | +042
         move.b  0x10007b.l,d0                   | +046
         andi.l  #0x1,d0                         | +04c
         lsl.w   #0x3,d0                         | +052
@@ -866,23 +866,23 @@ Data_025770__L025780:
         beq.w   .L0257dc                        | +066
         move.l  a1,(a6)                         | +06a
 .L0257dc:
-        lea     Data_025922__L02594a(pc),a0     | +06c
-        bsr.w   TaskHandler_025eac              | +070
+        lea     HUD_PerPlayerPtrTable_025922__L02594a(pc),a0 | +06c
+        bsr.w   HUD_LoadPerPlayerPtr_025eac     | +070
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0257ec  @ $0257EC  (140 B)
+|  HUD_State_InsertCoin_0257ec  @ $0257EC  (140 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0257ec, "ax", @progbits
-        .global TaskHandler_0257ec
-TaskHandler_0257ec:
-        lea     TaskHandler_025588__L025670(pc),a0 | +000
-        bsr.w   Sub_00025E92                    | +004
+        .section .text.HUD_State_InsertCoin_0257ec, "ax", @progbits
+        .global HUD_State_InsertCoin_0257ec
+HUD_State_InsertCoin_0257ec:
+        lea     PlayerSlotDesc_P2Rows_025588__L025670(pc),a0 | +000
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +004
         lea     .L0257fa(pc),a1                 | +008
         move.l  a1,(a6)                         | +00c
 .L0257fa:
         jsr     0x1e28.l                        | +00e
         bcs.w   .L025824                        | +014
-        lea     TaskHandler_025e48(pc),a1       | +018
+        lea     HUD_State_PushStartBlink_025e48(pc),a1 | +018
         move.l  a1,(a6)                         | +01c
         move.l  #0x257ec,0x7c(a6)               | +01e
         lea     0x106ecc.l,a0                   | +026
@@ -893,19 +893,19 @@ TaskHandler_0257ec:
         move.b  0x106f28.l,d0                   | +038
         andi.b  #0x1f,d0                        | +03e
         bne.w   .L02583e                        | +042
-        lea     TaskHandler_025588__L025670(pc),a0 | +046
-        bsr.w   Sub_00025E92                    | +04a
+        lea     PlayerSlotDesc_P2Rows_025588__L025670(pc),a0 | +046
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +04a
         bra.w   .L02584e                        | +04e
 .L02583e:
         cmpi.b  #0x18,d0                        | +052
         bne.w   .L02584e                        | +056
-        lea     TaskHandler_025588__L025668(pc),a0 | +05a
-        bsr.w   Sub_00025E92                    | +05e
+        lea     PlayerSlotDesc_P2Rows_025588__L025668(pc),a0 | +05a
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +05e
 .L02584e:
-        bsr.w   PcThunkTarget_025e74__L025e84   | +062
+        bsr.w   HUD_SetStartMask_025e74__L025e84 | +062
         cmpi.b  #0x1,d0                         | +066
         bne.w   .L025866                        | +06a
-        lea     TaskHandler_0259a0__L0259b8(pc),a1 | +06e
+        lea     HUD_State_BindPlayer_0259a0__L0259b8(pc),a1 | +06e
         move.l  a1,(a6)                         | +072
         clr.b   0x20(a6)                        | +074
         rts                                     | +078
@@ -916,19 +916,19 @@ TaskHandler_0257ec:
         bcc.w   Stub_00025880                   | +088
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025882  @ $025882  (152 B)
+|  HUD_State_Continue_025882  @ $025882  (152 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025882, "ax", @progbits
-        .global TaskHandler_025882
-TaskHandler_025882:
-        lea     TaskHandler_025588__L025678(pc),a0 | +000
-        bsr.w   Sub_00025E92                    | +004
+        .section .text.HUD_State_Continue_025882, "ax", @progbits
+        .global HUD_State_Continue_025882
+HUD_State_Continue_025882:
+        lea     PlayerSlotDesc_P2Rows_025588__L025678(pc),a0 | +000
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +004
         lea     .L025890(pc),a1                 | +008
         move.l  a1,(a6)                         | +00c
 .L025890:
         jsr     0x1e28.l                        | +00e
         bcs.w   .L0258ba                        | +014
-        lea     TaskHandler_025e48(pc),a1       | +018
+        lea     HUD_State_PushStartBlink_025e48(pc),a1 | +018
         move.l  a1,(a6)                         | +01c
         move.l  #0x25882,0x7c(a6)               | +01e
         lea     0x106ecc.l,a0                   | +026
@@ -939,22 +939,22 @@ TaskHandler_025882:
         move.b  0x106f28.l,d0                   | +038
         andi.b  #0x1f,d0                        | +03e
         bne.w   .L0258d4                        | +042
-        lea     TaskHandler_025588__L025678(pc),a0 | +046
-        bsr.w   Sub_00025E92                    | +04a
+        lea     PlayerSlotDesc_P2Rows_025588__L025678(pc),a0 | +046
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +04a
         bra.w   .L0258e4                        | +04e
 .L0258d4:
         cmpi.b  #0x18,d0                        | +052
         bne.w   .L0258e4                        | +056
-        lea     TaskHandler_025588__L025668(pc),a0 | +05a
-        bsr.w   Sub_00025E92                    | +05e
+        lea     PlayerSlotDesc_P2Rows_025588__L025668(pc),a0 | +05a
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +05e
 .L0258e4:
-        bsr.w   PcThunkTarget_025e74__L025e84   | +062
+        bsr.w   HUD_SetStartMask_025e74__L025e84 | +062
         cmpi.b  #0x1,d0                         | +066
         bne.w   .L025908                        | +06a
-        lea     Data_025922__L02594a(pc),a0     | +06e
-        bsr.w   TaskHandler_025eac              | +072
+        lea     HUD_PerPlayerPtrTable_025922__L02594a(pc),a0 | +06e
+        bsr.w   HUD_LoadPerPlayerPtr_025eac     | +072
         jsr     0x5180c.l                       | +076
-        lea     TaskHandler_0259a0__L0259b8(pc),a1 | +07c
+        lea     HUD_State_BindPlayer_0259a0__L0259b8(pc),a1 | +07c
         move.l  a1,(a6)                         | +080
         bra.w   SetHandlerRts_025920            | +082
 .L025908:
@@ -964,45 +964,45 @@ TaskHandler_025882:
         bcs.w   SetHandlerRts_025920            | +094
 
 | ----------------------------------------------------------------------------
-|  Data_025922  @ $025922  (48 B)
+|  HUD_PerPlayerPtrTable_025922  @ $025922  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_025922, "ax", @progbits
-        .global Data_025922
-Data_025922:
+        .section .text.HUD_PerPlayerPtrTable_025922, "ax", @progbits
+        .global HUD_PerPlayerPtrTable_025922
+HUD_PerPlayerPtrTable_025922:
         .dc.w   0x0009                        | +000  (dato / opcode no decodificado)
         .dc.w   0x7a48                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0009                        | +004  (dato / opcode no decodificado)
         .dc.w   0x7a54                        | +006  (dato / opcode no decodificado)
-        .global Data_025922__L02592a
-Data_025922__L02592a:
+        .global HUD_PerPlayerPtrTable_025922__L02592a
+HUD_PerPlayerPtrTable_025922__L02592a:
 .L02592a:
         .dc.w   0x0002                        | +008  (dato / opcode no decodificado)
         .dc.w   0x56b0                        | +00a  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +00c  (dato / opcode no decodificado)
         .dc.w   0x5706                        | +00e  (dato / opcode no decodificado)
-        .global Data_025922__L025932
-Data_025922__L025932:
+        .global HUD_PerPlayerPtrTable_025922__L025932
+HUD_PerPlayerPtrTable_025922__L025932:
 .L025932:
         .dc.w   0x0002                        | +010  (dato / opcode no decodificado)
         .dc.w   0x56be                        | +012  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +014  (dato / opcode no decodificado)
         .dc.w   0x5714                        | +016  (dato / opcode no decodificado)
-        .global Data_025922__L02593a
-Data_025922__L02593a:
+        .global HUD_PerPlayerPtrTable_025922__L02593a
+HUD_PerPlayerPtrTable_025922__L02593a:
 .L02593a:
         .dc.w   0x0002                        | +018  (dato / opcode no decodificado)
         .dc.w   0x56be                        | +01a  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +01c  (dato / opcode no decodificado)
         .dc.w   0x5714                        | +01e  (dato / opcode no decodificado)
-        .global Data_025922__L025942
-Data_025922__L025942:
+        .global HUD_PerPlayerPtrTable_025922__L025942
+HUD_PerPlayerPtrTable_025922__L025942:
 .L025942:
         .dc.w   0x0010                        | +020  (dato / opcode no decodificado)
         .dc.w   0x6f4c                        | +022  (dato / opcode no decodificado)
         .dc.w   0x0010                        | +024  (dato / opcode no decodificado)
         .dc.w   0x6f4e                        | +026  (dato / opcode no decodificado)
-        .global Data_025922__L02594a
-Data_025922__L02594a:
+        .global HUD_PerPlayerPtrTable_025922__L02594a
+HUD_PerPlayerPtrTable_025922__L02594a:
 .L02594a:
         .dc.w   0x0010                        | +028  (dato / opcode no decodificado)
         .dc.w   0x6e94                        | +02a  (dato / opcode no decodificado)
@@ -1010,11 +1010,11 @@ Data_025922__L02594a:
         .dc.w   0x6e9c                        | +02e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025952  @ $025952  (70 B)
+|  HUD_State_WaitPlayerSpawn_025952  @ $025952  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025952, "ax", @progbits
-        .global TaskHandler_025952
-TaskHandler_025952:
+        .section .text.HUD_State_WaitPlayerSpawn_025952, "ax", @progbits
+        .global HUD_State_WaitPlayerSpawn_025952
+HUD_State_WaitPlayerSpawn_025952:
         jsr     0x1e4c.l                        | +000
         tst.w   0x106e92.l                      | +006
         bne.w   .L025964                        | +00c
@@ -1028,31 +1028,31 @@ TaskHandler_025952:
         cmpi.l  #0x400,(a0)                     | +022
         bne.w   SetHandlerRts_02599e            | +028
         cmpi.b  #0x1,0x10fdaf.l                 | +02c
-        beq.w   TaskHandler_0259a0              | +034
+        beq.w   HUD_State_BindPlayer_0259a0     | +034
         subi.b  #0x1,0x77(a6)                   | +038
         tst.b   0x77(a6)                        | +03e
-        bne.w   TaskHandler_0259a0              | +042
+        bne.w   HUD_State_BindPlayer_0259a0     | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0259a0  @ $0259A0  (102 B)
+|  HUD_State_BindPlayer_0259a0  @ $0259A0  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0259a0, "ax", @progbits
-        .global TaskHandler_0259a0
-TaskHandler_0259a0:
-        lea     Data_025922__L025932(pc),a0     | +000
-        bsr.w   Sub_00025E92__L025e9e           | +004
+        .section .text.HUD_State_BindPlayer_0259a0, "ax", @progbits
+        .global HUD_State_BindPlayer_0259a0
+HUD_State_BindPlayer_0259a0:
+        lea     HUD_PerPlayerPtrTable_025922__L025932(pc),a0 | +000
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92__L025e9e | +004
         bra.w   .L0259c0                        | +008
-        .global TaskHandler_0259a0__L0259ac
-TaskHandler_0259a0__L0259ac:
+        .global HUD_State_BindPlayer_0259a0__L0259ac
+HUD_State_BindPlayer_0259a0__L0259ac:
 .L0259ac:
-        lea     Data_025922__L02593a(pc),a0     | +00c
-        bsr.w   Sub_00025E92__L025e9e           | +010
+        lea     HUD_PerPlayerPtrTable_025922__L02593a(pc),a0 | +00c
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92__L025e9e | +010
         bra.w   .L0259c0                        | +014
-        .global TaskHandler_0259a0__L0259b8
-TaskHandler_0259a0__L0259b8:
+        .global HUD_State_BindPlayer_0259a0__L0259b8
+HUD_State_BindPlayer_0259a0__L0259b8:
 .L0259b8:
-        lea     Data_025922__L02592a(pc),a0     | +018
-        jsr     Sub_00025E92__L025e9e(pc)       | +01c
+        lea     HUD_PerPlayerPtrTable_025922__L02592a(pc),a0 | +018
+        jsr     HUD_CallPerPlayer_IfMode2_025e92__L025e9e(pc) | +01c
 .L0259c0:
         movea.l 0x8(a0,d0.w),a1                 | +020
         move.l  a1,0x72(a6)                     | +024
@@ -1071,14 +1071,14 @@ TaskHandler_0259a0__L0259b8:
         move.l  a1,(a6)                         | +05a
 .L0259fc:
         tst.b   0x106ed2.l                      | +05c
-        bne.w   TaskHandler_025a0e              | +062
+        bne.w   HUD_State_PlayerDeath_025a0e    | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025a0e  @ $025A0E  (186 B)
+|  HUD_State_PlayerDeath_025a0e  @ $025A0E  (186 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025a0e, "ax", @progbits
-        .global TaskHandler_025a0e
-TaskHandler_025a0e:
+        .section .text.HUD_State_PlayerDeath_025a0e, "ax", @progbits
+        .global HUD_State_PlayerDeath_025a0e
+HUD_State_PlayerDeath_025a0e:
         tst.b   0x106ed3.l                      | +000
         bne.w   .L025a2e                        | +006
         movea.l 0x78(a6),a0                     | +00a
@@ -1089,8 +1089,8 @@ TaskHandler_025a0e:
         movea.l 0x78(a6),a0                     | +020
         btst    #0x0,0x13(a0)                   | +024
         beq.w   .L025aae                        | +02a
-        lea     Data_025922__L025942(pc),a0     | +02e
-        bsr.w   TaskHandler_025eac              | +032
+        lea     HUD_PerPlayerPtrTable_025922__L025942(pc),a0 | +02e
+        bsr.w   HUD_LoadPerPlayerPtr_025eac     | +032
         clr.w   (a1)                            | +036
         cmpi.b  #0x2,0x106f2a.l                 | +038
         bne.w   .L025aa2                        | +040
@@ -1117,23 +1117,23 @@ TaskHandler_025a0e:
         jsr     0x1e56.l                        | +08e
 .L025aa2:
         jsr     0x1e4c.l                        | +094
-        lea     TaskHandler_025952(pc),a1       | +09a
+        lea     HUD_State_WaitPlayerSpawn_025952(pc),a1 | +09a
         move.l  a1,(a6)                         | +09e
 .L025aae:
-        lea     TaskHandler_025588__L025698(pc),a0 | +0a0
-        bsr.w   Sub_00025E92                    | +0a4
-        lea     TaskHandler_025588__L0256a0(pc),a0 | +0a8
-        bsr.w   Sub_00025E92                    | +0ac
-        lea     TaskHandler_025588__L0256a8(pc),a0 | +0b0
-        bsr.w   Sub_00025E92                    | +0b4
+        lea     PlayerSlotDesc_P2Rows_025588__L025698(pc),a0 | +0a0
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +0a4
+        lea     PlayerSlotDesc_P2Rows_025588__L0256a0(pc),a0 | +0a8
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +0ac
+        lea     PlayerSlotDesc_P2Rows_025588__L0256a8(pc),a0 | +0b0
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +0b4
         rts                                     | +0b8
 
 | ----------------------------------------------------------------------------
-|  Data_025ac8  @ $025AC8  (16 B)
+|  HUD_PlayerEntityTable_025ac8  @ $025AC8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_025ac8, "ax", @progbits
-        .global Data_025ac8
-Data_025ac8:
+        .section .text.HUD_PlayerEntityTable_025ac8, "ax", @progbits
+        .global HUD_PlayerEntityTable_025ac8
+HUD_PlayerEntityTable_025ac8:
         .dc.w   0x0010                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0440                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0003                        | +004  (dato / opcode no decodificado)
@@ -1144,15 +1144,15 @@ Data_025ac8:
         .dc.w   0x36dc                        | +00e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025ad8  @ $025AD8  (84 B)
+|  HUD_State_Respawn_025ad8  @ $025AD8  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025ad8, "ax", @progbits
-        .global TaskHandler_025ad8
-TaskHandler_025ad8:
-        lea     TaskHandler_025588__L0256a0(pc),a0 | +000
-        bsr.w   Sub_00025E92                    | +004
-        lea     TaskHandler_025588__L0256a8(pc),a0 | +008
-        bsr.w   Sub_00025E92                    | +00c
+        .section .text.HUD_State_Respawn_025ad8, "ax", @progbits
+        .global HUD_State_Respawn_025ad8
+HUD_State_Respawn_025ad8:
+        lea     PlayerSlotDesc_P2Rows_025588__L0256a0(pc),a0 | +000
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +004
+        lea     PlayerSlotDesc_P2Rows_025588__L0256a8(pc),a0 | +008
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +00c
         movea.l 0x78(a6),a0                     | +010
         cmpi.l  #0x400,(a0)                     | +014
         bne.w   .L025b00                        | +01a
@@ -1165,62 +1165,62 @@ TaskHandler_025ad8:
         bcs.w   .L025b0e                        | +030
         rts                                     | +034
 .L025b0e:
-        lea     Data_025ac8(pc),a4              | +036
+        lea     HUD_PlayerEntityTable_025ac8(pc),a4 | +036
         move.w  0x70(a6),d1                     | +03a
         lsl.w   #0x3,d1                         | +03e
         movea.l (a4,d1.w),a0                    | +040
         movea.l 0x4(a4,d1.w),a1                 | +044
         move.l  a1,(a0)                         | +048
         jsr     0x5fe.l                         | +04a
-        jmp     TaskHandler_0259a0__L0259ac(pc) | +050
+        jmp     HUD_State_BindPlayer_0259a0__L0259ac(pc) | +050
 
 | ----------------------------------------------------------------------------
-|  Data_025b2c  @ $025B2C  (8 B)
+|  HUD_ContinueTmplTable_025b2c  @ $025B2C  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_025b2c, "ax", @progbits
-        .global Data_025b2c
-Data_025b2c:
+        .section .text.HUD_ContinueTmplTable_025b2c, "ax", @progbits
+        .global HUD_ContinueTmplTable_025b2c
+HUD_ContinueTmplTable_025b2c:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x66f6                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         .dc.w   0x6714                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025b34  @ $025B34  (272 B)
+|  HUD_State_GameOverEntry_025b34  @ $025B34  (272 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025b34, "ax", @progbits
-        .global TaskHandler_025b34
-TaskHandler_025b34:
-        lea     TaskHandler_025588__L025668(pc),a0 | +000
-        bsr.w   Sub_00025E92                    | +004
+        .section .text.HUD_State_GameOverEntry_025b34, "ax", @progbits
+        .global HUD_State_GameOverEntry_025b34
+HUD_State_GameOverEntry_025b34:
+        lea     PlayerSlotDesc_P2Rows_025588__L025668(pc),a0 | +000
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +004
         tst.b   0x10fd82.l                      | +008
         beq.w   .L025b54                        | +00e
         tst.b   0x10fd8a.l                      | +012
-        beq.w   TaskHandler_025d64              | +018
+        beq.w   HUD_State_GameOverFinal_025d64  | +018
         bra.w   .L025b66                        | +01c
 .L025b54:
         move.b  #0x1,d2                         | +020
         move.w  0x70(a6),d1                     | +024
         jsr     0x26752.l                       | +028
-        bcc.w   TaskHandler_025d64              | +02e
+        bcc.w   HUD_State_GameOverFinal_025d64  | +02e
 .L025b66:
         lea     0x9b872.l,a1                    | +032
         jsr     0x4498e.l                       | +038
         move.w  0x70(a6),0x98(a0)               | +03e
         move.b  #0x2,d0                         | +044
-        jsr     PcThunkTarget_025e74(pc)        | +048
+        jsr     HUD_SetStartMask_025e74(pc)     | +048
         move.b  #0x1,d2                         | +04c
         move.w  0x70(a6),d1                     | +050
         jsr     0x26752.l                       | +054
-        bcs.w   TaskHandler_025c44              | +05a
-        lea     Data_025b2c(pc),a4              | +05e
+        bcs.w   HUD_State_ContinueCountdown_025c44 | +05a
+        lea     HUD_ContinueTmplTable_025b2c(pc),a4 | +05e
         move.w  0x70(a6),d1                     | +062
         lsl.w   #0x2,d1                         | +066
         movea.l (a4,d1.w),a1                    | +068
         jsr     0x4ae.l                         | +06c
         move.b  #0xff,0x21(a6)                  | +072
         move.b  #0xff,0x20(a6)                  | +078
-        lea     Data_025cc6__L025cce(pc),a1     | +07e
+        lea     HUD_ContinueTmplTable2_025cc6__L025cce(pc),a1 | +07e
         jsr     0x4ae.l                         | +082
         move.b  0x21(a6),0x21(a0)               | +088
         move.b  0x20(a6),0x20(a0)               | +08e
@@ -1228,14 +1228,14 @@ TaskHandler_025b34:
         move.l  a1,(a6)                         | +098
 .L025bce:
         jsr     0x1e4c.l                        | +09a
-        bsr.w   PcThunkTarget_025e74__L025e84   | +0a0
+        bsr.w   HUD_SetStartMask_025e74__L025e84 | +0a0
         cmpi.b  #0x1,d0                         | +0a4
         bne.w   .L025bfc                        | +0a8
-        lea     TaskHandler_0259a0__L0259b8(pc),a1 | +0ac
+        lea     HUD_State_BindPlayer_0259a0__L0259b8(pc),a1 | +0ac
         move.l  a1,(a6)                         | +0b0
         clr.b   0x20(a6)                        | +0b2
-        lea     Data_025922__L02594a(pc),a0     | +0b6
-        bsr.w   TaskHandler_025eac              | +0ba
+        lea     HUD_PerPlayerPtrTable_025922__L02594a(pc),a0 | +0b6
+        bsr.w   HUD_LoadPerPlayerPtr_025eac     | +0ba
         jsr     0x51a86.l                       | +0be
         bra.w   .L025c42                        | +0c4
 .L025bfc:
@@ -1243,38 +1243,38 @@ TaskHandler_025b34:
         move.w  0x70(a6),d1                     | +0cc
         jsr     0x26752.l                       | +0d0
         bcc.w   .L025c1c                        | +0d6
-        lea     TaskHandler_025c44(pc),a1       | +0da
+        lea     HUD_State_ContinueCountdown_025c44(pc),a1 | +0da
         move.l  a1,(a6)                         | +0de
         clr.b   0x20(a6)                        | +0e0
         bra.w   .L025c42                        | +0e4
 .L025c1c:
-        bsr.w   PcThunkTarget_025e74__L025e84   | +0e8
+        bsr.w   HUD_SetStartMask_025e74__L025e84 | +0e8
         cmpi.b  #0x1,d0                         | +0ec
         beq.w   .L025c42                        | +0f0
         tst.b   0x21(a6)                        | +0f4
         bne.w   .L025c42                        | +0f8
-        lea     TaskHandler_025d64(pc),a1       | +0fc
+        lea     HUD_State_GameOverFinal_025d64(pc),a1 | +0fc
         move.l  a1,(a6)                         | +100
         move.b  #0x1,d0                         | +102
-        jsr     PcThunkTarget_025e74(pc)        | +106
+        jsr     HUD_SetStartMask_025e74(pc)     | +106
         bra.w   .L025c42                        | +10a
 .L025c42:
         rts                                     | +10e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025c44  @ $025C44  (122 B)
+|  HUD_State_ContinueCountdown_025c44  @ $025C44  (122 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025c44, "ax", @progbits
-        .global TaskHandler_025c44
-TaskHandler_025c44:
+        .section .text.HUD_State_ContinueCountdown_025c44, "ax", @progbits
+        .global HUD_State_ContinueCountdown_025c44
+HUD_State_ContinueCountdown_025c44:
         move.w  0x70(a6),d1                     | +000
-        lea     Data_025b2c(pc),a4              | +004
+        lea     HUD_ContinueTmplTable_025b2c(pc),a4 | +004
         lsl.w   #0x2,d1                         | +008
         movea.l (a4,d1.w),a1                    | +00a
         jsr     0x4ae.l                         | +00e
         move.b  #0xff,0x21(a6)                  | +014
         move.b  #0xff,0x20(a6)                  | +01a
-        lea     Data_025cc6__L025cce(pc),a1     | +020
+        lea     HUD_ContinueTmplTable2_025cc6__L025cce(pc),a1 | +020
         jsr     0x4ae.l                         | +024
         move.b  0x21(a6),0x21(a0)               | +02a
         move.b  0x20(a6),0x20(a0)               | +030
@@ -1282,34 +1282,34 @@ TaskHandler_025c44:
         move.l  a1,(a6)                         | +03a
 .L025c80:
         jsr     0x1e4c.l                        | +03c
-        bsr.w   PcThunkTarget_025e74__L025e84   | +042
+        bsr.w   HUD_SetStartMask_025e74__L025e84 | +042
         cmpi.b  #0x1,d0                         | +046
         bne.w   .L025cae                        | +04a
         clr.b   0x20(a6)                        | +04e
-        lea     Data_025922__L02594a(pc),a0     | +052
-        bsr.w   TaskHandler_025eac              | +056
+        lea     HUD_PerPlayerPtrTable_025922__L02594a(pc),a0 | +052
+        bsr.w   HUD_LoadPerPlayerPtr_025eac     | +056
         jsr     0x51a86.l                       | +05a
-        lea     TaskHandler_0259a0__L0259b8(pc),a1 | +060
+        lea     HUD_State_BindPlayer_0259a0__L0259b8(pc),a1 | +060
         move.l  a1,(a6)                         | +064
         bra.w   SetHandlerRts_025cc4            | +066
 .L025cae:
         tst.b   0x21(a6)                        | +06a
         bne.w   SetHandlerRts_025cc4            | +06e
         move.b  #0x1,d0                         | +072
-        bsr.w   PcThunkTarget_025e74            | +076
+        bsr.w   HUD_SetStartMask_025e74         | +076
 
 | ----------------------------------------------------------------------------
-|  Data_025cc6  @ $025CC6  (142 B)
+|  HUD_ContinueTmplTable2_025cc6  @ $025CC6  (142 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_025cc6, "ax", @progbits
-        .global Data_025cc6
-Data_025cc6:
+        .section .text.HUD_ContinueTmplTable2_025cc6, "ax", @progbits
+        .global HUD_ContinueTmplTable2_025cc6
+HUD_ContinueTmplTable2_025cc6:
         .dc.w   0x0004                        | +000  (dato / opcode no decodificado)
         .dc.w   0x67f6                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0004                        | +004  (dato / opcode no decodificado)
         .dc.w   0x6800                        | +006  (dato / opcode no decodificado)
-        .global Data_025cc6__L025cce
-Data_025cc6__L025cce:
+        .global HUD_ContinueTmplTable2_025cc6__L025cce
+HUD_ContinueTmplTable2_025cc6__L025cce:
 .L025cce:
         lea     0x10fdb6.l,a4                   | +008
         movea.l 0xc(a6),a0                      | +00e
@@ -1321,7 +1321,7 @@ Data_025cc6__L025cce:
         cmpi.b  #0x2,d0                         | +026
         beq.w   JmpToScheduler_025d5c           | +02a
         move.w  0x70(a0),d1                     | +02e
-        lea     Data_025cc6(pc),a0              | +032
+        lea     HUD_ContinueTmplTable2_025cc6(pc),a0 | +032
         lsl.w   #0x2,d1                         | +036
         movea.l (a0,d1.w),a1                    | +038
         jsr     0x6fe.l                         | +03c
@@ -1349,29 +1349,29 @@ Data_025cc6__L025cce:
         bne.w   SetHandlerRts_025d5a            | +08a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025d64  @ $025D64  (104 B)
+|  HUD_State_GameOverFinal_025d64  @ $025D64  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025d64, "ax", @progbits
-        .global TaskHandler_025d64
-TaskHandler_025d64:
+        .section .text.HUD_State_GameOverFinal_025d64, "ax", @progbits
+        .global HUD_State_GameOverFinal_025d64
+HUD_State_GameOverFinal_025d64:
         move.b  #0x1,d0                         | +000
-        jsr     PcThunkTarget_025e74(pc)        | +004
+        jsr     HUD_SetStartMask_025e74(pc)     | +004
         move.b  #0xff,0x21(a6)                  | +008
         move.b  #0xff,0x20(a6)                  | +00e
         move.w  0x70(a6),d1                     | +014
-        lea     Data_025922(pc),a0              | +018
-        bsr.w   Sub_00025E92__L025e9e           | +01c
+        lea     HUD_PerPlayerPtrTable_025922(pc),a0 | +018
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92__L025e9e | +01c
         lea     .L025d8a(pc),a1                 | +020
         move.l  a1,(a6)                         | +024
 .L025d8a:
         jsr     0x1e4c.l                        | +026
         tst.b   0x21(a6)                        | +02c
         bne.w   JsrPcRts_025dd0                 | +030
-        lea     TaskHandler_025588__L025668(pc),a0 | +034
-        bsr.w   Sub_00025E92                    | +038
+        lea     PlayerSlotDesc_P2Rows_025588__L025668(pc),a0 | +034
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +038
         cmpi.b  #0x6,0x106ed0.l                 | +03c
         bcc.w   .L025db6                        | +044
-        lea     TaskHandler_025dd2(pc),a1       | +048
+        lea     HUD_State_GameOverDone_025dd2(pc),a1 | +048
         move.l  a1,(a6)                         | +04c
         bra.w   .L025dc4                        | +04e
 .L025db6:
@@ -1383,21 +1383,21 @@ TaskHandler_025d64:
         move.b  #0x3,d0                         | +064
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025dd2  @ $025DD2  (110 B)
+|  HUD_State_GameOverDone_025dd2  @ $025DD2  (110 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025dd2, "ax", @progbits
-        .global TaskHandler_025dd2
-TaskHandler_025dd2:
+        .section .text.HUD_State_GameOverDone_025dd2, "ax", @progbits
+        .global HUD_State_GameOverDone_025dd2
+HUD_State_GameOverDone_025dd2:
         move.w  0x70(a6),d1                     | +000
-        lea     TaskHandler_025588__L025690(pc),a4 | +004
+        lea     PlayerSlotDesc_P2Rows_025588__L025690(pc),a4 | +004
         lsl.w   #0x2,d1                         | +008
         movea.l (a4,d1.w),a0                    | +00a
         jsr     (a0)                            | +00e
-        lea     Data_025922__L025942(pc),a0     | +010
-        bsr.w   TaskHandler_025eac              | +014
+        lea     HUD_PerPlayerPtrTable_025922__L025942(pc),a0 | +010
+        bsr.w   HUD_LoadPerPlayerPtr_025eac     | +014
         clr.w   (a1)                            | +018
-        lea     TaskHandler_025588__L0256a0(pc),a0 | +01a
-        bsr.w   Sub_00025E92                    | +01e
+        lea     PlayerSlotDesc_P2Rows_025588__L0256a0(pc),a0 | +01a
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +01e
         move.b  #0x1e,0x44(a6)                  | +022
         lea     .L025e00(pc),a1                 | +028
         move.l  a1,(a6)                         | +02c
@@ -1407,12 +1407,12 @@ TaskHandler_025dd2:
         jsr     0x1e28.l                        | +036
         bcc.w   SetHandlerRts_025e46            | +03c
         move.b  #0x0,d0                         | +040
-        jsr     PcThunkTarget_025e74(pc)        | +044
+        jsr     HUD_SetStartMask_025e74(pc)     | +044
         move.b  #0x1,d2                         | +048
         move.w  0x70(a6),d1                     | +04c
         jsr     0x26752.l                       | +050
         bcc.w   .L025e36                        | +056
-        lea     TaskHandler_025882(pc),a1       | +05a
+        lea     HUD_State_Continue_025882(pc),a1 | +05a
         move.l  a1,(a6)                         | +05e
         bra.w   SetHandlerRts_025e46            | +060
 .L025e36:
@@ -1420,13 +1420,13 @@ TaskHandler_025dd2:
         beq.w   SetHandlerRts_025e46            | +06a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025e48  @ $025E48  (44 B)
+|  HUD_State_PushStartBlink_025e48  @ $025E48  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025e48, "ax", @progbits
-        .global TaskHandler_025e48
-TaskHandler_025e48:
-        lea     TaskHandler_025588__L025680(pc),a0 | +000
-        bsr.w   Sub_00025E92                    | +004
+        .section .text.HUD_State_PushStartBlink_025e48, "ax", @progbits
+        .global HUD_State_PushStartBlink_025e48
+HUD_State_PushStartBlink_025e48:
+        lea     PlayerSlotDesc_P2Rows_025588__L025680(pc),a0 | +000
+        bsr.w   HUD_CallPerPlayer_IfMode2_025e92 | +004
         lea     .L025e56(pc),a1                 | +008
         move.l  a1,(a6)                         | +00c
 .L025e56:
@@ -1440,17 +1440,17 @@ TaskHandler_025e48:
         rts                                     | +02a
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_025e74  @ $025E74  (30 B)
+|  HUD_SetStartMask_025e74  @ $025E74  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_025e74, "ax", @progbits
-        .global PcThunkTarget_025e74
-PcThunkTarget_025e74:
+        .section .text.HUD_SetStartMask_025e74, "ax", @progbits
+        .global HUD_SetStartMask_025e74
+HUD_SetStartMask_025e74:
         lea     0x10fdb6.l,a0                   | +000
         move.w  0x70(a6),d1                     | +006
         move.b  d0,(a0,d1.w)                    | +00a
         rts                                     | +00e
-        .global PcThunkTarget_025e74__L025e84
-PcThunkTarget_025e74__L025e84:
+        .global HUD_SetStartMask_025e74__L025e84
+HUD_SetStartMask_025e74__L025e84:
 .L025e84:
         lea     0x10fdb6.l,a0                   | +010
         adda.w  0x70(a6),a0                     | +016
@@ -1458,15 +1458,15 @@ PcThunkTarget_025e74__L025e84:
         rts                                     | +01c
 
 | ----------------------------------------------------------------------------
-|  Sub_00025E92  @ $025E92  (26 B)
+|  HUD_CallPerPlayer_IfMode2_025e92  @ $025E92  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00025E92, "ax", @progbits
-        .global Sub_00025E92
-Sub_00025E92:
+        .section .text.HUD_CallPerPlayer_IfMode2_025e92, "ax", @progbits
+        .global HUD_CallPerPlayer_IfMode2_025e92
+HUD_CallPerPlayer_IfMode2_025e92:
         cmpi.b  #0x2,0x10fdaf.l                 | +000
         bne.w   .L025eaa                        | +008
-        .global Sub_00025E92__L025e9e
-Sub_00025E92__L025e9e:
+        .global HUD_CallPerPlayer_IfMode2_025e92__L025e9e
+HUD_CallPerPlayer_IfMode2_025e92__L025e9e:
 .L025e9e:
         move.w  0x70(a6),d1                     | +00c
         lsl.w   #0x2,d1                         | +010
@@ -1476,11 +1476,11 @@ Sub_00025E92__L025e9e:
         rts                                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025eac  @ $025EAC  (14 B)
+|  HUD_LoadPerPlayerPtr_025eac  @ $025EAC  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025eac, "ax", @progbits
-        .global TaskHandler_025eac
-TaskHandler_025eac:
+        .section .text.HUD_LoadPerPlayerPtr_025eac, "ax", @progbits
+        .global HUD_LoadPerPlayerPtr_025eac
+HUD_LoadPerPlayerPtr_025eac:
         move.w  0x70(a6),d1                     | +000
         add.w   d1,d1                           | +004
         add.w   d1,d1                           | +006
@@ -1488,22 +1488,22 @@ TaskHandler_025eac:
         rts                                     | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025eba  @ $025EBA  (16 B)
+|  ChildRank_CmpByte10_025eba  @ $025EBA  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025eba, "ax", @progbits
-        .global TaskHandler_025eba
-TaskHandler_025eba:
+        .section .text.ChildRank_CmpByte10_025eba, "ax", @progbits
+        .global ChildRank_CmpByte10_025eba
+ChildRank_CmpByte10_025eba:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_025ed0                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025ed6  @ $025ED6  (44 B)
+|  HUD_ResetFields_025ed6  @ $025ED6  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025ed6, "ax", @progbits
-        .global TaskHandler_025ed6
-TaskHandler_025ed6:
+        .section .text.HUD_ResetFields_025ed6, "ax", @progbits
+        .global HUD_ResetFields_025ed6
+HUD_ResetFields_025ed6:
         clr.b   0x76(a6)                        | +000
         move.b  #0x1,0x84(a6)                   | +004
         move.b  #0x1,0x85(a6)                   | +00a
@@ -1516,17 +1516,17 @@ TaskHandler_025ed6:
         rts                                     | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025f02  @ $025F02  (144 B)
+|  HUD_DrawPlayerLabels_025f02  @ $025F02  (144 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025f02, "ax", @progbits
-        .global TaskHandler_025f02
-TaskHandler_025f02:
+        .section .text.HUD_DrawPlayerLabels_025f02, "ax", @progbits
+        .global HUD_DrawPlayerLabels_025f02
+HUD_DrawPlayerLabels_025f02:
         movea.w #0x7065,a1                      | +000
         move.w  #0x5300,d0                      | +004
         lea     0x2785b8.l,a2                   | +008
         jsr     0x5dad8.l                       | +00e
         move.w  #0x7044,d0                      | +014
-        bsr.w   Sub_00025F92                    | +018
+        bsr.w   HUD_DrawLifeBarFrame_025f92     | +018
         movea.w #0x7143,a1                      | +01c
         move.w  #0x7ab0,d0                      | +020
         move.w  #0x8,d1                         | +024
@@ -1542,7 +1542,7 @@ TaskHandler_025f02:
         lea     0x2785be.l,a2                   | +050
         jsr     0x5dad8.l                       | +056
         move.w  #0x73c4,d0                      | +05c
-        bsr.w   Sub_00025F92                    | +060
+        bsr.w   HUD_DrawLifeBarFrame_025f92     | +060
         movea.w #0x72c3,a1                      | +064
         move.w  #0x7ab0,d0                      | +068
         move.w  #0x8,d1                         | +06c
@@ -1555,11 +1555,11 @@ TaskHandler_025f02:
         jmp     0x5da56.l                       | +08a
 
 | ----------------------------------------------------------------------------
-|  Sub_00025F92  @ $025F92  (100 B)
+|  HUD_DrawLifeBarFrame_025f92  @ $025F92  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00025F92, "ax", @progbits
-        .global Sub_00025F92
-Sub_00025F92:
+        .section .text.HUD_DrawLifeBarFrame_025f92, "ax", @progbits
+        .global HUD_DrawLifeBarFrame_025f92
+HUD_DrawLifeBarFrame_025f92:
         move.w  #0x7aa5,d7                      | +000
         movem.w d0/d7,0x3c0000.l                | +004
         addi.w  #0x20,d0                        | +00c
@@ -1581,121 +1581,121 @@ Sub_00025F92:
         .dc.w   0x0081                        | +062  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_025ffc  @ $025FFC  (20 B)
+|  HUD_Msg_InsertCoin_P1_025ffc  @ $025FFC  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_025ffc, "ax", @progbits
-        .global TaskHandler_025ffc
-TaskHandler_025ffc:
+        .section .text.HUD_Msg_InsertCoin_P1_025ffc, "ax", @progbits
+        .global HUD_Msg_InsertCoin_P1_025ffc
+HUD_Msg_InsertCoin_P1_025ffc:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785c4.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026010  @ $026010  (20 B)
+|  HUD_Msg_InsertCoin_P2_026010  @ $026010  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026010, "ax", @progbits
-        .global TaskHandler_026010
-TaskHandler_026010:
+        .section .text.HUD_Msg_InsertCoin_P2_026010, "ax", @progbits
+        .global HUD_Msg_InsertCoin_P2_026010
+HUD_Msg_InsertCoin_P2_026010:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785c4.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026024  @ $026024  (20 B)
+|  HUD_Msg_PushStart_P1_026024  @ $026024  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026024, "ax", @progbits
-        .global TaskHandler_026024
-TaskHandler_026024:
+        .section .text.HUD_Msg_PushStart_P1_026024, "ax", @progbits
+        .global HUD_Msg_PushStart_P1_026024
+HUD_Msg_PushStart_P1_026024:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785d0.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026038  @ $026038  (20 B)
+|  HUD_Msg_PushStart_P2_026038  @ $026038  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026038, "ax", @progbits
-        .global TaskHandler_026038
-TaskHandler_026038:
+        .section .text.HUD_Msg_PushStart_P2_026038, "ax", @progbits
+        .global HUD_Msg_PushStart_P2_026038
+HUD_Msg_PushStart_P2_026038:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785d0.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02604c  @ $02604C  (20 B)
+|  HUD_Msg_Continue_P1_02604c  @ $02604C  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02604c, "ax", @progbits
-        .global TaskHandler_02604c
-TaskHandler_02604c:
+        .section .text.HUD_Msg_Continue_P1_02604c, "ax", @progbits
+        .global HUD_Msg_Continue_P1_02604c
+HUD_Msg_Continue_P1_02604c:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785dc.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026060  @ $026060  (20 B)
+|  HUD_Msg_Continue_P2_026060  @ $026060  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026060, "ax", @progbits
-        .global TaskHandler_026060
-TaskHandler_026060:
+        .section .text.HUD_Msg_Continue_P2_026060, "ax", @progbits
+        .global HUD_Msg_Continue_P2_026060
+HUD_Msg_Continue_P2_026060:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785dc.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026074  @ $026074  (20 B)
+|  HUD_Msg_GameOver_P1_026074  @ $026074  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026074, "ax", @progbits
-        .global TaskHandler_026074
-TaskHandler_026074:
+        .section .text.HUD_Msg_GameOver_P1_026074, "ax", @progbits
+        .global HUD_Msg_GameOver_P1_026074
+HUD_Msg_GameOver_P1_026074:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785e8.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026088  @ $026088  (20 B)
+|  HUD_Msg_GameOver_P2_026088  @ $026088  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026088, "ax", @progbits
-        .global TaskHandler_026088
-TaskHandler_026088:
+        .section .text.HUD_Msg_GameOver_P2_026088, "ax", @progbits
+        .global HUD_Msg_GameOver_P2_026088
+HUD_Msg_GameOver_P2_026088:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785e8.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02609c  @ $02609C  (20 B)
+|  HUD_Msg_PleaseWait_P1_02609c  @ $02609C  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02609c, "ax", @progbits
-        .global TaskHandler_02609c
-TaskHandler_02609c:
+        .section .text.HUD_Msg_PleaseWait_P1_02609c, "ax", @progbits
+        .global HUD_Msg_PleaseWait_P1_02609c
+HUD_Msg_PleaseWait_P1_02609c:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785f4.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0260b0  @ $0260B0  (20 B)
+|  HUD_Msg_PleaseWait_P2_0260b0  @ $0260B0  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0260b0, "ax", @progbits
-        .global TaskHandler_0260b0
-TaskHandler_0260b0:
+        .section .text.HUD_Msg_PleaseWait_P2_0260b0, "ax", @progbits
+        .global HUD_Msg_PleaseWait_P2_0260b0
+HUD_Msg_PleaseWait_P2_0260b0:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
         lea     0x2785f4.l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0260c4  @ $0260C4  (30 B)
+|  HUD_ClearMsgRow_0260c4  @ $0260C4  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0260c4, "ax", @progbits
-        .global TaskHandler_0260c4
-TaskHandler_0260c4:
+        .section .text.HUD_ClearMsgRow_0260c4, "ax", @progbits
+        .global HUD_ClearMsgRow_0260c4
+HUD_ClearMsgRow_0260c4:
         movea.w #0x7043,a1                      | +000
         bra.w   .L0260d0                        | +004
         movea.w #0x72c3,a1                      | +008
@@ -1706,11 +1706,11 @@ TaskHandler_0260c4:
         jmp     0x5da9c.l                       | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0260e2  @ $0260E2  (70 B)
+|  HUD_DrawContinueDigits_0260e2  @ $0260E2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0260e2, "ax", @progbits
-        .global TaskHandler_0260e2
-TaskHandler_0260e2:
+        .section .text.HUD_DrawContinueDigits_0260e2, "ax", @progbits
+        .global HUD_DrawContinueDigits_0260e2
+HUD_DrawContinueDigits_0260e2:
         move.w  #0x70e5,d2                      | +000
         bra.w   .L0260ee                        | +004
         move.w  #0x7465,d2                      | +008
@@ -1724,7 +1724,7 @@ TaskHandler_0260e2:
         jsr     0x47656.l                       | +01c
         move.w  (a7)+,d2                        | +022
         tst.w   d1                              | +024
-        beq.w   TaskHandler_02612e              | +026
+        beq.w   HUD_DrawContinueDigit_Low_02612e | +026
         move.w  #0x5330,d3                      | +02a
         add.b   d1,d3                           | +02e
         movem.w d2-d3,0x3c0000.l                | +030
@@ -1735,11 +1735,11 @@ TaskHandler_0260e2:
         .dc.w   0x000c                        | +044  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02612e  @ $02612E  (26 B)
+|  HUD_DrawContinueDigit_Low_02612e  @ $02612E  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02612e, "ax", @progbits
-        .global TaskHandler_02612e
-TaskHandler_02612e:
+        .section .text.HUD_DrawContinueDigit_Low_02612e, "ax", @progbits
+        .global HUD_DrawContinueDigit_Low_02612e
+HUD_DrawContinueDigit_Low_02612e:
         move.w  #0x5330,d3                      | +000
         add.b   d0,d3                           | +004
         movem.w d2-d3,0x3c0000.l                | +006
@@ -1749,11 +1749,11 @@ TaskHandler_02612e:
         .dc.w   0x000c                        | +018  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02614e  @ $02614E  (442 B)
+|  HUD_DrawLifeBar_02614e  @ $02614E  (442 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02614e, "ax", @progbits
-        .global TaskHandler_02614e
-TaskHandler_02614e:
+        .section .text.HUD_DrawLifeBar_02614e, "ax", @progbits
+        .global HUD_DrawLifeBar_02614e
+HUD_DrawLifeBar_02614e:
         move.w  #0x7044,d0                      | +000
         bra.w   .L02615a                        | +004
         move.w  #0x73c4,d0                      | +008
@@ -1905,11 +1905,11 @@ TaskHandler_02614e:
         .dc.w   0x0081                        | +1b8  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02630e  @ $02630E  (100 B)
+|  HUD_DrawBombGauge_P1_02630e  @ $02630E  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02630e, "ax", @progbits
-        .global TaskHandler_02630e
-TaskHandler_02630e:
+        .section .text.HUD_DrawBombGauge_P1_02630e, "ax", @progbits
+        .global HUD_DrawBombGauge_P1_02630e
+HUD_DrawBombGauge_P1_02630e:
         move.w  0x106f4c.l,d0                   | +000
         cmp.b   0x76(a6),d0                     | +006
         bne.w   .L02631e                        | +00a
@@ -1944,11 +1944,11 @@ TaskHandler_02630e:
         rts                                     | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026372  @ $026372  (100 B)
+|  HUD_DrawBombGauge_P2_026372  @ $026372  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026372, "ax", @progbits
-        .global TaskHandler_026372
-TaskHandler_026372:
+        .section .text.HUD_DrawBombGauge_P2_026372, "ax", @progbits
+        .global HUD_DrawBombGauge_P2_026372
+HUD_DrawBombGauge_P2_026372:
         move.w  0x106f4e.l,d0                   | +000
         cmp.b   0x76(a6),d0                     | +006
         bne.w   .L026382                        | +00a
@@ -1983,24 +1983,24 @@ TaskHandler_026372:
         rts                                     | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0263d6  @ $0263D6  (264 B)
+|  HUD_DrawScore_0263d6  @ $0263D6  (264 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0263d6, "ax", @progbits
-        .global TaskHandler_0263d6
-TaskHandler_0263d6:
-        jsr     TaskHandler_0266cc(pc)          | +000
+        .section .text.HUD_DrawScore_0263d6, "ax", @progbits
+        .global HUD_DrawScore_0263d6
+HUD_DrawScore_0263d6:
+        jsr     HUD_IsSceneBCD_0266cc(pc)       | +000
         bcc.w   .L0263e0                        | +004
         rts                                     | +008
 .L0263e0:
-        jsr     TaskHandler_0264e4(pc)          | +00a
+        jsr     HUD_DrawAmmoAndBombs_0264e4(pc) | +00a
         move.w  #0x73c3,d0                      | +00e
         lea     0x106e9c.l,a1                   | +012
         bra.w   .L02640a                        | +018
-        jsr     TaskHandler_0266cc(pc)          | +01c
+        jsr     HUD_IsSceneBCD_0266cc(pc)       | +01c
         bcc.w   .L0263fc                        | +020
         rts                                     | +024
 .L0263fc:
-        jsr     TaskHandler_0264e4(pc)          | +026
+        jsr     HUD_DrawAmmoAndBombs_0264e4(pc) | +026
         move.w  #0x7063,d0                      | +02a
         lea     0x106e94.l,a1                   | +02e
 .L02640a:
@@ -2073,11 +2073,11 @@ TaskHandler_0263d6:
         .dc.w   0x0003                        | +106  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0264e4  @ $0264E4  (482 B)
+|  HUD_DrawAmmoAndBombs_0264e4  @ $0264E4  (482 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0264e4, "ax", @progbits
-        .global TaskHandler_0264e4
-TaskHandler_0264e4:
+        .section .text.HUD_DrawAmmoAndBombs_0264e4, "ax", @progbits
+        .global HUD_DrawAmmoAndBombs_0264e4
+HUD_DrawAmmoAndBombs_0264e4:
         movea.l 0x78(a6),a0                     | +000
         jsr     0x32fba.l                       | +004
         tst.w   d0                              | +00a
@@ -2226,11 +2226,11 @@ TaskHandler_0264e4:
         .dc.w   0x00c0                        | +1e0  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0266cc  @ $0266CC  (30 B)
+|  HUD_IsSceneBCD_0266cc  @ $0266CC  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0266cc, "ax", @progbits
-        .global TaskHandler_0266cc
-TaskHandler_0266cc:
+        .section .text.HUD_IsSceneBCD_0266cc, "ax", @progbits
+        .global HUD_IsSceneBCD_0266cc
+HUD_IsSceneBCD_0266cc:
         move.b  0x106ece.l,d0                   | +000
         cmpi.b  #0xb,d0                         | +006
         beq.w   SetXN_0266f0                    | +00a
@@ -2240,51 +2240,51 @@ TaskHandler_0266cc:
         beq.w   SetXN_0266f0                    | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0266f6  @ $0266F6  (16 B)
+|  ChildRank_CmpByte10_0266f6  @ $0266F6  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0266f6, "ax", @progbits
-        .global TaskHandler_0266f6
-TaskHandler_0266f6:
+        .section .text.ChildRank_CmpByte10_0266f6, "ax", @progbits
+        .global ChildRank_CmpByte10_0266f6
+ChildRank_CmpByte10_0266f6:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_02670c                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026712  @ $026712  (16 B)
+|  ChildRank_CmpByte10_026712  @ $026712  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026712, "ax", @progbits
-        .global TaskHandler_026712
-TaskHandler_026712:
+        .section .text.ChildRank_CmpByte10_026712, "ax", @progbits
+        .global ChildRank_CmpByte10_026712
+ChildRank_CmpByte10_026712:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_026728                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02672e  @ $02672E  (16 B)
+|  ChildRank_CmpByte10_02672e  @ $02672E  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02672e, "ax", @progbits
-        .global TaskHandler_02672e
-TaskHandler_02672e:
+        .section .text.ChildRank_CmpByte10_02672e, "ax", @progbits
+        .global ChildRank_CmpByte10_02672e
+ChildRank_CmpByte10_02672e:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_026744                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_02674a  @ $02674A  (112 B)
+|  Credits_BCDPtrTable_02674a  @ $02674A  (112 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02674a, "ax", @progbits
-        .global Data_02674a
-Data_02674a:
+        .section .text.Credits_BCDPtrTable_02674a, "ax", @progbits
+        .global Credits_BCDPtrTable_02674a
+Credits_BCDPtrTable_02674a:
         .dc.w   0x0010                        | +000  (dato / opcode no decodificado)
         .dc.w   0x81bf                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0010                        | +004  (dato / opcode no decodificado)
         .dc.w   0x81c0                        | +006  (dato / opcode no decodificado)
         tst.b   0x10fd82.l                      | +008
         bne.w   .L02676c                        | +00e
-        lea     Data_02674a(pc),a4              | +012
+        lea     Credits_BCDPtrTable_02674a(pc),a4 | +012
         lsl.w   #0x2,d1                         | +016
         movea.l (a4,d1.w),a4                    | +018
         move.b  (a4),d2                         | +01c
@@ -2314,33 +2314,33 @@ Data_02674a:
         beq.w   ClearXN_0267c0                  | +06c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0267c6  @ $0267C6  (16 B)
+|  ChildRank_CmpByte10_0267c6  @ $0267C6  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0267c6, "ax", @progbits
-        .global TaskHandler_0267c6
-TaskHandler_0267c6:
+        .section .text.ChildRank_CmpByte10_0267c6, "ax", @progbits
+        .global ChildRank_CmpByte10_0267c6
+ChildRank_CmpByte10_0267c6:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_0267dc                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0267f4  @ $0267F4  (4 B)
+|  ClampVelocity_Default_0267f4  @ $0267F4  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0267f4, "ax", @progbits
-        .global TaskHandler_0267f4
-TaskHandler_0267f4:
-        bra.w   Sub_000267F8__L0267fc           | +000
+        .section .text.ClampVelocity_Default_0267f4, "ax", @progbits
+        .global ClampVelocity_Default_0267f4
+ClampVelocity_Default_0267f4:
+        bra.w   ClampVelocity_0267f8__L0267fc   | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_000267F8  @ $0267F8  (28 B)
+|  ClampVelocity_0267f8  @ $0267F8  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000267F8, "ax", @progbits
-        .global Sub_000267F8
-Sub_000267F8:
+        .section .text.ClampVelocity_0267f8, "ax", @progbits
+        .global ClampVelocity_0267f8
+ClampVelocity_0267f8:
         move.w  #0x800,d1                       | +000
-        .global Sub_000267F8__L0267fc
-Sub_000267F8__L0267fc:
+        .global ClampVelocity_0267f8__L0267fc
+ClampVelocity_0267f8__L0267fc:
 .L0267fc:
         cmp.w   d0,d1                           | +004
         bge.w   .L026808                        | +006
@@ -2355,25 +2355,25 @@ Sub_000267F8__L0267fc:
         rts                                     | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026814  @ $026814  (28 B)
+|  Entity_IntegrateVelocity_026814  @ $026814  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026814, "ax", @progbits
-        .global TaskHandler_026814
-TaskHandler_026814:
+        .section .text.Entity_IntegrateVelocity_026814, "ax", @progbits
+        .global Entity_IntegrateVelocity_026814
+Entity_IntegrateVelocity_026814:
         move.w  0x2c(a6),d0                     | +000
         add.w   0x28(a6),d0                     | +004
-        jsr     Sub_000267F8(pc)                | +008
+        jsr     ClampVelocity_0267f8(pc)        | +008
         move.w  d0,0x28(a6)                     | +00c
         move.w  0x2e(a6),d0                     | +010
         add.w   0x2a(a6),d0                     | +014
-        jsr     Sub_000267F8(pc)                | +018
+        jsr     ClampVelocity_0267f8(pc)        | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026836  @ $026836  (342 B)
+|  Entity_MoveX_WallStop_026836  @ $026836  (342 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026836, "ax", @progbits
-        .global TaskHandler_026836
-TaskHandler_026836:
+        .section .text.Entity_MoveX_WallStop_026836, "ax", @progbits
+        .global Entity_MoveX_WallStop_026836
+Entity_MoveX_WallStop_026836:
         move.b  -0x1144(a5),-0x1150(a5)         | +000
         move.b  -0x1143(a5),-0x114f(a5)         | +006
         clr.w   -0x1154(a5)                     | +00c
@@ -2467,11 +2467,11 @@ TaskHandler_026836:
         move.w  d1,-0x1152(a5)                  | +152
 
 | ----------------------------------------------------------------------------
-|  Sub_00026992  @ $026992  (452 B)
+|  Entity_MoveXY_Probe_026992  @ $026992  (452 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00026992, "ax", @progbits
-        .global Sub_00026992
-Sub_00026992:
+        .section .text.Entity_MoveXY_Probe_026992, "ax", @progbits
+        .global Entity_MoveXY_Probe_026992
+Entity_MoveXY_Probe_026992:
         move.b  -0x1144(a5),-0x1150(a5)         | +000
         move.b  -0x1143(a5),-0x114f(a5)         | +006
         clr.w   -0x1154(a5)                     | +00c
@@ -2605,13 +2605,13 @@ Sub_00026992:
         rts                                     | +1c2
 
 | ----------------------------------------------------------------------------
-|  Sub_00026B56  @ $026B56  (576 B)
+|  Entity_MoveAndCollide_A_026b56  @ $026B56  (576 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00026B56, "ax", @progbits
-        .global Sub_00026B56
-Sub_00026B56:
-        jsr     TaskHandler_026814(pc)          | +000
-        jsr     Sub_00026992(pc)                | +004
+        .section .text.Entity_MoveAndCollide_A_026b56, "ax", @progbits
+        .global Entity_MoveAndCollide_A_026b56
+Entity_MoveAndCollide_A_026b56:
+        jsr     Entity_IntegrateVelocity_026814(pc) | +000
+        jsr     Entity_MoveXY_Probe_026992(pc)  | +004
         jsr     0x44182.l                       | +008
         move.w  -0x1148(a5),d1                  | +00e
         move.w  -0x1146(a5),d2                  | +012
@@ -2760,11 +2760,11 @@ Sub_00026B56:
         bne.w   .L026d76                        | +212
         move.w  (a3),d6                         | +216
         cmp.w   0x34(a6),d6                     | +218
-        beq.w   TaskHandler_026d9c              | +21c
+        beq.w   Entity_CommitMove_026d9c        | +21c
 .L026d76:
         movea.l a4,a1                           | +220
-        jsr     Sub_00026E0A(pc)                | +222
-        jsr     Sub_00027020(pc)                | +226
+        jsr     Entity_FloorProbe_026e0a(pc)    | +222
+        jsr     Entity_WallProbeBoth_027020(pc) | +226
         clr.b   -0x1144(a5)                     | +22a
         move.b  0x12(a2,d3.w),d5                | +22e
         move.b  d5,-0x1143(a5)                  | +232
@@ -2773,11 +2773,11 @@ Sub_00026B56:
         move.w  d2,-0x1146(a5)                  | +23c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026d9c  @ $026D9C  (32 B)
+|  Entity_CommitMove_026d9c  @ $026D9C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026d9c, "ax", @progbits
-        .global TaskHandler_026d9c
-TaskHandler_026d9c:
+        .section .text.Entity_CommitMove_026d9c, "ax", @progbits
+        .global Entity_CommitMove_026d9c
+Entity_CommitMove_026d9c:
         bclr    #0x3,0x5a(a6)                   | +000
         addq.w  #0x1,d2                         | +006
         move.w  d1,-0x1148(a5)                  | +008
@@ -2788,11 +2788,11 @@ TaskHandler_026d9c:
         move.b  d2,-0x1143(a5)                  | +01c
 
 | ----------------------------------------------------------------------------
-|  Data_026dc2  @ $026DC2  (24 B)
+|  Entity_ProbeOffsets_Right_026dc2  @ $026DC2  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_026dc2, "ax", @progbits
-        .global Data_026dc2
-Data_026dc2:
+        .section .text.Entity_ProbeOffsets_Right_026dc2, "ax", @progbits
+        .global Entity_ProbeOffsets_Right_026dc2
+Entity_ProbeOffsets_Right_026dc2:
         .dc.w   0x0008                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0008                        | +004  (dato / opcode no decodificado)
@@ -2807,11 +2807,11 @@ Data_026dc2:
         .dc.w   0xfff8                        | +016  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026dda  @ $026DDA  (24 B)
+|  Entity_ProbeOffsets_Left_026dda  @ $026DDA  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026dda, "ax", @progbits
-        .global TaskHandler_026dda
-TaskHandler_026dda:
+        .section .text.Entity_ProbeOffsets_Left_026dda, "ax", @progbits
+        .global Entity_ProbeOffsets_Left_026dda
+Entity_ProbeOffsets_Left_026dda:
         .dc.w   0xffff                        | +000  (dato / opcode no decodificado)
         .dc.w   0xfff8                        | +002  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +004  (dato / opcode no decodificado)
@@ -2826,11 +2826,11 @@ TaskHandler_026dda:
         .dc.w   0x0000                        | +016  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026df2  @ $026DF2  (24 B)
+|  Entity_ProbeOffsets_None_026df2  @ $026DF2  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026df2, "ax", @progbits
-        .global TaskHandler_026df2
-TaskHandler_026df2:
+        .section .text.Entity_ProbeOffsets_None_026df2, "ax", @progbits
+        .global Entity_ProbeOffsets_None_026df2
+Entity_ProbeOffsets_None_026df2:
         .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
@@ -2845,12 +2845,12 @@ TaskHandler_026df2:
         .dc.w   0x0000                        | +016  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00026E0A  @ $026E0A  (478 B)
+|  Entity_FloorProbe_026e0a  @ $026E0A  (478 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00026E0A, "ax", @progbits
-        .global Sub_00026E0A
-Sub_00026E0A:
-        lea     Data_026dc2(pc),a2              | +000
+        .section .text.Entity_FloorProbe_026e0a, "ax", @progbits
+        .global Entity_FloorProbe_026e0a
+Entity_FloorProbe_026e0a:
+        lea     Entity_ProbeOffsets_Right_026dc2(pc),a2 | +000
         tst.w   0x106f2c.l                      | +004
         beq.w   .L026e22                        | +00a
         tst.w   0x106f2c.l                      | +00e
@@ -2860,10 +2860,10 @@ Sub_00026E0A:
 .L026e26:
         beq.w   .L026e36                        | +01c
         bge.w   .L026e3a                        | +020
-        lea     TaskHandler_026dda(pc),a2       | +024
+        lea     Entity_ProbeOffsets_Left_026dda(pc),a2 | +024
         bra.w   .L026e3a                        | +028
 .L026e36:
-        lea     TaskHandler_026df2(pc),a2       | +02c
+        lea     Entity_ProbeOffsets_None_026df2(pc),a2 | +02c
 .L026e3a:
         clr.w   d5                              | +030
         cmpi.w  #0xffff,0x34(a6)                | +032
@@ -2875,8 +2875,8 @@ Sub_00026E0A:
         bra.w   .L026e5e                        | +04c
 .L026e5a:
         move.w  #0x8,d5                         | +050
-        .global Sub_00026E0A__L026e5e
-Sub_00026E0A__L026e5e:
+        .global Entity_FloorProbe_026e0a__L026e5e
+Entity_FloorProbe_026e0a__L026e5e:
 .L026e5e:
         move.w  (a3),d6                         | +054
         cmpi.w  #0xffff,d6                      | +056
@@ -2996,15 +2996,15 @@ Sub_00026E0A__L026e5e:
         rts                                     | +1dc
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_026fe8  @ $026FE8  (56 B)
+|  Entity_FloorProbe_Reenter_026fe8  @ $026FE8  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_026fe8, "ax", @progbits
-        .global TaskHandler_026fe8
-TaskHandler_026fe8:
-        lea     Data_026dc2(pc),a2              | +000
+        .section .text.Entity_FloorProbe_Reenter_026fe8, "ax", @progbits
+        .global Entity_FloorProbe_Reenter_026fe8
+Entity_FloorProbe_Reenter_026fe8:
+        lea     Entity_ProbeOffsets_Right_026dc2(pc),a2 | +000
         tst.w   0x28(a6)                        | +004
         bge.w   .L026ff8                        | +008
-        lea     TaskHandler_026dda(pc),a2       | +00c
+        lea     Entity_ProbeOffsets_Left_026dda(pc),a2 | +00c
 .L026ff8:
         clr.w   d5                              | +010
         cmpi.w  #0xffff,-0x114e(a5)             | +012
@@ -3017,14 +3017,14 @@ TaskHandler_026fe8:
 .L027018:
         move.w  #0x8,d5                         | +030
 .L02701c:
-        jmp     Sub_00026E0A__L026e5e(pc)       | +034
+        jmp     Entity_FloorProbe_026e0a__L026e5e(pc) | +034
 
 | ----------------------------------------------------------------------------
-|  Sub_00027020  @ $027020  (22 B)
+|  Entity_WallProbeBoth_027020  @ $027020  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00027020, "ax", @progbits
-        .global Sub_00027020
-Sub_00027020:
+        .section .text.Entity_WallProbeBoth_027020, "ax", @progbits
+        .global Entity_WallProbeBoth_027020
+Entity_WallProbeBoth_027020:
         jsr     Sub_00027E9C(pc)                | +000  -> $027E9C (hueco futuro, defsym forward)
         bcs.w   .L027034                        | +004
         jsr     Sub_00027E7E(pc)                | +008  -> $027E7E (hueco futuro, defsym forward)
@@ -3034,13 +3034,13 @@ Sub_00027020:
         rts                                     | +014
 
 | ----------------------------------------------------------------------------
-|  Sub_00027036  @ $027036  (580 B)
+|  Entity_MoveAndCollide_B_027036  @ $027036  (580 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00027036, "ax", @progbits
-        .global Sub_00027036
-Sub_00027036:
-        jsr     TaskHandler_026814(pc)          | +000
-        jsr     Sub_00026992(pc)                | +004
+        .section .text.Entity_MoveAndCollide_B_027036, "ax", @progbits
+        .global Entity_MoveAndCollide_B_027036
+Entity_MoveAndCollide_B_027036:
+        jsr     Entity_IntegrateVelocity_026814(pc) | +000
+        jsr     Entity_MoveXY_Probe_026992(pc)  | +004
         jsr     0x44182.l                       | +008
         move.w  -0x1148(a5),d1                  | +00e
         move.w  -0x1146(a5),d2                  | +012
@@ -3190,11 +3190,11 @@ Sub_00027036:
         bne.w   .L02725a                        | +216
         move.w  (a3),d6                         | +21a
         cmp.w   0x34(a6),d6                     | +21c
-        beq.w   TaskHandler_027280__L027282     | +220
+        beq.w   Entity_CommitMove_ClearBit3_027280__L027282 | +220
 .L02725a:
         movea.l a4,a1                           | +224
-        jsr     Sub_00026E0A(pc)                | +226
-        jsr     Sub_00027020(pc)                | +22a
+        jsr     Entity_FloorProbe_026e0a(pc)    | +226
+        jsr     Entity_WallProbeBoth_027020(pc) | +22a
         clr.b   -0x1144(a5)                     | +22e
         move.b  0x12(a2,d3.w),d5                | +232
         move.b  d5,-0x1143(a5)                  | +236
@@ -3203,14 +3203,14 @@ Sub_00027036:
         move.w  d2,-0x1146(a5)                  | +240
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027280  @ $027280  (34 B)
+|  Entity_CommitMove_ClearBit3_027280  @ $027280  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027280, "ax", @progbits
-        .global TaskHandler_027280
-TaskHandler_027280:
+        .section .text.Entity_CommitMove_ClearBit3_027280, "ax", @progbits
+        .global Entity_CommitMove_ClearBit3_027280
+Entity_CommitMove_ClearBit3_027280:
         nop                                     | +000
-        .global TaskHandler_027280__L027282
-TaskHandler_027280__L027282:
+        .global Entity_CommitMove_ClearBit3_027280__L027282
+Entity_CommitMove_ClearBit3_027280__L027282:
 .L027282:
         bclr    #0x3,0x5a(a6)                   | +002
         addq.w  #0x1,d2                         | +008
@@ -3222,13 +3222,13 @@ TaskHandler_027280__L027282:
         move.b  d2,-0x1143(a5)                  | +01e
 
 | ----------------------------------------------------------------------------
-|  Sub_000272A8  @ $0272A8  (302 B)
+|  Entity_MoveAndCollide_C_0272a8  @ $0272A8  (302 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000272A8, "ax", @progbits
-        .global Sub_000272A8
-Sub_000272A8:
-        jsr     TaskHandler_026814(pc)          | +000
-        jsr     Sub_00026992(pc)                | +004
+        .section .text.Entity_MoveAndCollide_C_0272a8, "ax", @progbits
+        .global Entity_MoveAndCollide_C_0272a8
+Entity_MoveAndCollide_C_0272a8:
+        jsr     Entity_IntegrateVelocity_026814(pc) | +000
+        jsr     Entity_MoveXY_Probe_026992(pc)  | +004
         jsr     0x44182.l                       | +008
         move.w  -0x1148(a5),d1                  | +00e
         move.w  -0x1146(a5),d2                  | +012
@@ -3310,14 +3310,14 @@ Sub_000272A8:
         bne.w   SetXN_0273d6                    | +120
         move.w  0x34(a6),d6                     | +124
         cmp.w   (a3),d6                         | +128
-        beq.w   TaskHandler_0273dc              | +12a
+        beq.w   Entity_CommitMove_C_0273dc      | +12a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0273dc  @ $0273DC  (26 B)
+|  Entity_CommitMove_C_0273dc  @ $0273DC  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0273dc, "ax", @progbits
-        .global TaskHandler_0273dc
-TaskHandler_0273dc:
+        .section .text.Entity_CommitMove_C_0273dc, "ax", @progbits
+        .global Entity_CommitMove_C_0273dc
+Entity_CommitMove_C_0273dc:
         addq.w  #0x1,d2                         | +000
         move.w  d1,-0x1148(a5)                  | +002
         move.w  d2,-0x1146(a5)                  | +006
@@ -3327,9 +3327,9 @@ TaskHandler_0273dc:
         move.b  d2,-0x1143(a5)                  | +016
 
 | ----------------------------------------------------------------------------
-|  Sub_000273FC  @ $0273FC  (4 B)
+|  Entity_SaveRegs_0273fc  @ $0273FC  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000273FC, "ax", @progbits
-        .global Sub_000273FC
-Sub_000273FC:
+        .section .text.Entity_SaveRegs_0273fc, "ax", @progbits
+        .global Entity_SaveRegs_0273fc
+Entity_SaveRegs_0273fc:
         movem.l d3-d6/a1,-(a7)                  | +000

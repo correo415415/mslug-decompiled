@@ -45,8 +45,8 @@ void JsrPcThunk_013ad8(void) {
 
 __attribute__((section(".text.JsrPcThunk_025dcc")))
 void JsrPcThunk_025dcc(void) {
-    extern void PcThunkTarget_025e74(void);
-    __asm__ volatile("jsr PcThunkTarget_025e74(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void HUD_SetStartMask_025e74(void);
+    __asm__ volatile("jsr HUD_SetStartMask_025e74(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02698c")))

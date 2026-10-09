@@ -39,12 +39,12 @@ extern void TaskHandler_000f1a(void);
 extern void TaskHandler_001b4c(void);
 extern void TaskHandler_001b70(void);
 extern void TaskHandler_001b80(void);
-extern void TaskHandler_0257ec(void);
-extern void TaskHandler_025882(void);
-extern void TaskHandler_025ad8(void);
-extern void TaskHandler_025b34(void);
+extern void HUD_State_InsertCoin_0257ec(void);
+extern void HUD_State_Continue_025882(void);
+extern void HUD_State_Respawn_025ad8(void);
+extern void HUD_State_GameOverEntry_025b34(void);
 extern void TaskHandler_025d5c(void);
-extern void TaskHandler_025d64(void);
+extern void HUD_State_GameOverFinal_025d64(void);
 extern void Slug_DropDescend_02b05e(void);
 extern void Slug_DropBossDescend_02b264(void);
 extern void Slug_Fall_02d02e(void);
@@ -475,31 +475,31 @@ void SetTaskHandler_001c3c(void) {
 
 __attribute__((section(".text.SetTaskHandler_025878")))
 void SetTaskHandler_025878(void) {
-    _a1_ptr = &TaskHandler_025882;
+    _a1_ptr = &HUD_State_Continue_025882;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_02591a")))
 void SetTaskHandler_02591a(void) {
-    _a1_ptr = &TaskHandler_0257ec;
+    _a1_ptr = &HUD_State_InsertCoin_0257ec;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_025998")))
 void SetTaskHandler_025998(void) {
-    _a1_ptr = &TaskHandler_025b34;
+    _a1_ptr = &HUD_State_GameOverEntry_025b34;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_025a06")))
 void SetTaskHandler_025a06(void) {
-    _a1_ptr = &TaskHandler_025ad8;
+    _a1_ptr = &HUD_State_Respawn_025ad8;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_025cbe")))
 void SetTaskHandler_025cbe(void) {
-    _a1_ptr = &TaskHandler_025d64;
+    _a1_ptr = &HUD_State_GameOverFinal_025d64;
     STORE_A1_AT_FP();
 }
 
@@ -511,7 +511,7 @@ void SetTaskHandler_025d54(void) {
 
 __attribute__((section(".text.SetTaskHandler_025e40")))
 void SetTaskHandler_025e40(void) {
-    _a1_ptr = &TaskHandler_0257ec;
+    _a1_ptr = &HUD_State_InsertCoin_0257ec;
     STORE_A1_AT_FP();
 }
 
