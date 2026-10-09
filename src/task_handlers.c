@@ -139,7 +139,7 @@ extern void TaskHandler_0526aa(void);
 extern void TaskHandler_053c5c(void);
 extern void Prop_BurnFollowVictim_053c64(void);
 extern void TaskHandler_056058(void);
-extern void TaskHandler_056204(void);
+extern void Bounce_Explode_056204(void);
 extern void TaskHandler_056596(void);
 extern void Soldier_GrabThrownA_057f4e(void);
 extern void Soldier_Hurt_058412(void);
@@ -1351,7 +1351,7 @@ void SetTaskHandler_055fc2(void) {
 
 __attribute__((section(".text.SetTaskHandler_0561fc")))
 void SetTaskHandler_0561fc(void) {
-    _a1_ptr = &TaskHandler_056204;
+    _a1_ptr = &Bounce_Explode_056204;
     STORE_A1_AT_FP();
 }
 
