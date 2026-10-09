@@ -498,7 +498,7 @@ SYMBOLS = {
     0x00053C5C: "TaskHandler_053c5c",
     # 0x00053C64 promovido a Prop_BurnFollowVictim_053c64 en registry (Wave HHHH).
     0x00056058: "TaskHandler_056058",
-    0x00056204: "TaskHandler_056204",
+    # 0x00056204 promovido a TaskHandler_056204 en registry (Wave FFFFF).
     0x00056596: "TaskHandler_056596",
     # 0x00057F4E promovido a Soldier_GrabThrownA_057f4e en registry (Wave EEEE).
     # 0x00058412 promovido a Soldier_Hurt_058412 en registry (Wave EEEE).
@@ -2351,4 +2351,9 @@ SYMBOLS = {
     0x00059BC4: "SetHandlerRts_059bc4",  # rts de SetTaskHandler_059bbe (+6)
     0x00059C2C: "Jsr5B6Rts_059c2c",  # rts de Jsr5B6ThenJmpScheduler_059c20 (+12)
     0x0005A258: "Jsr5B6Rts_05a258",  # rts de Jsr5B6ThenJmpScheduler_05a24c (+12)
+    # --- Wave FFFFF: RTS internos de islas C
+    0x00055FC8: "SetHandlerRts_055fc8",  # rts de SetTaskHandler_055fc2 (+6)
+    0x00056202: "SetHandlerRts_056202",  # rts de SetTaskHandler_0561fc (+6)
+    0x00056278: "Jsr5B6Rts_056278",  # rts de Jsr5B6ThenJmpScheduler_05626c (+12)
+    0x00056594: "SetHandlerRts_056594",  # rts de SetTaskHandler_05658e (+6)
 }
