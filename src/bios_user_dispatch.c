@@ -118,7 +118,7 @@ void UserMode0_080C(void)
         "clr.w   0x100000               \n"   /* 4279 00100000 */
         "bra.w   2f                     \n"   /* 6000 000A */
         "1: move.w #0, 0x100000         \n"   /* 33FC 0000 00100000 */
-        "2: bra.w SoftReset_085E        \n"   /* 4EFA 002E (jmp PC-rel corto) */
+        "2: jmp SoftReset_085E(%%pc)    \n"   /* 4EFA 002E (jmp PC-rel corto) */
         ::: "memory", "cc", "d0");
     __builtin_unreachable();
 }
