@@ -18,7 +18,19 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
-- Wave GGGGG — 55 entries (2,320 B, 22 gaps of `$05CADE..$05E000`, 7 data
+- Wave HHHHH — 38 entries (2,202 B, 19 gaps of `$051AA4..$0527AE`, 3 data
+  islands, `cellmap_fix_overlay_palfade_051aa4.s`): cell-map window
+  (`CellMap_ReadPacked32/SetCursorAndClear/ClipRectToWindow/BlitRectToLSPC/
+  ClearSprites32/ClearVramBlock`), FIX-layer overlay (`FixOverlay_DrawCreditsOrFree`,
+  `FixOverlay_PutCreditsLine/PutDigit/ClearCreditsArea/ClearPause`,
+  `Str_CREDITS_052230`, `Str_PAUSE_05231c`), palette fades
+  (`PalFade_SpawnIn/Out`, `PalFade_In/Out_Task`, `PalFade_ToColor_Task`,
+  `PalFade_SpeedTable_052570`), `SpriteTable_Init256_0526b8`, spawn thunks.
+  Removed false C island `NopCCR_0522a8` (tail of a `movem.w` blit). Core
+  zone `$024E10..$05E000` now **100 %**.
+- Fix: `Camera_ResetCenter_05CACE` is 18 B (includes its `rts`); dropped
+  redundant `Nop_Rts_05cade` that overlapped at link time (GGGGG → 54 entries).
+- Wave GGGGG — 54 entries (2,320 B, 22 gaps of `$05CADE..$05E000`, 7 data
   islands, 3 forced entries, `input_thunks_debug_hex_atan_luts_05cade.s`):
   21 `InputEvtThunk_*` input-mask thunks + `InputEvt_ToggleChain` edge
   detector, debug hex HUD (`Debug_HexDrawToFix4/8`, `HexDigit_FixTileTable`,

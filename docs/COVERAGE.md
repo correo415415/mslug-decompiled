@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-09  (Wave GGGGG cerrada)
+**Ultimo update:** 2026-10-09  (Wave HHHHH cerrada)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,10 +15,10 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-GGGGG) | Que mide realmente |
+| Metrica | Cifra (post-HHHHH) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **25.81 %**  (541,182 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
-| **`Codigo real`** (mapa curado) | **98.4 %**  (497,374 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
+| **`ROM total`** (`match_batch.py`) | **25.91 %**  (543,384 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`Codigo real`** (mapa curado) | **98.8 %**  (499,576 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
 | **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
@@ -43,7 +43,7 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Tablas de sprites/slots (pares {id,tile}, LUTs 16x16) | `$002F30..$0133B0` | DATA | 66,688 B | 0 B | 0.0 % |
 | Runtime: entidades, spawn, scratch, texto PAUSE | `$0133B0..$013D6A` | CODE | 2,490 B | 408 B | 16.4 % |
 | Relleno $00 + tablas escasas | `$013D6A..$024E10` | DATA | 69,798 B | 0 B | 0.0 % |
-| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 231,766 B | 99.1 % |
+| Core: player, armas, fisica, probes, camara, scene VM | `$024E10..$05E000` | CODE | 233,968 B | 233,968 B | 100.0 % |
 | Runtime tardio: input, debug, blits fix, VRAM, RNG | `$05E000..$083000` | CODE | 151,552 B | 151,552 B | 100.0 % |
 | Enemigos, jefes, escenas, items, hiscore, mobs | `$083000..$09C608` | CODE | 103,944 B | 103,944 B | 100.0 % |
 | Datos: animaciones, paletas, listas de spawn | `$09C608..$0E8000` | DATA | 309,752 B | 0 B | 0.0 % |
@@ -55,13 +55,13 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
-| CODE | 505,608 B | 497,374 B | 98.4 % |
+| CODE | 505,608 B | 499,576 B | 98.8 % |
 | DATA-REG | 45,052 B | 43,736 B | 97.1 % |
 | DATA | 1,512,700 B | 14 B | 0.0 % |
 | SYSTEM | 1,024 B | 58 B | 5.7 % |
 | ZERO | 32,768 B | 0 B | 0.0 % |
 
-Huecos pendientes en zonas CODE: 54 huecos, 8,234 B
+Huecos pendientes en zonas CODE: 35 huecos, 6,032 B
 
 ### Notas por zona
 
@@ -112,7 +112,9 @@ Huecos pendientes en zonas CODE: 54 huecos, 8,234 B
   `Slug_Jump*`, `Slug_Fall*`, `Slug_Hit*`, `Slug_Death*`), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
-  `$024E10..$05E000` (99.1 %; Wave GGGGG cerró `$05CADE..$05E000` en
+  `$024E10..$05E000` (**100 %**; Wave HHHHH cerró `$051AA4..$0527AE` en
+  `cellmap_fix_overlay_palfade_051aa4.s`: blits de mapa de celdas, overlay
+  CREDITS/PAUSE, fundidos de paleta; Wave GGGGG cerró `$05CADE..$05E000` en
   `input_thunks_debug_hex_atan_luts_05cade.s`: thunks de input, HUD hex de
   debug, LUTs de atan, checks de pantalla; Wave FFFFF cerró `$055B96..$056ACC` en
   `enemy_projectiles_grenade_mortar_roller_055b96.s`: granada enemiga, bola

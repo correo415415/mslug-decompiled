@@ -11,12 +11,29 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 8062/8062 funciones
-BYTES   : 541,182/541,182 (registrados)
-ROM     : 541,182/2,097,152  (25.8056%)
+MATCHED : 8098/8098 funciones
+BYTES   : 543,384/543,384 (registrados)
+ROM     : 543,384/2,097,152  (25.9106%)
 ```
 
-> **Wave GGGGG** (55 entradas, 2 320 B; 22 huecos, 7 `--data`, 3 `--entry`) —
+> **Wave HHHHH** (38 entradas, 2 202 B; 19 huecos, 3 `--data`) —
+> `$051AA4..$0527AE` en `cellmap_fix_overlay_palfade_051aa4.s`. Quincuagésimo
+> primera wave. Nombres en `docs/waves/hhhhh_names.txt`, args en
+> `docs/waves/hhhhh_args.txt`. Ventana de mapa de celdas (`CellMap_*`: lectura
+> empaquetada de `$1081B6`, cursor/scroll rotado, clip de rectángulo —el
+> "probe básico" de collision_probes—, blit a LSPC, limpieza de 32 sprites y
+> del bloque VRAM), overlay de la capa FIX (`FixOverlay_DrawCreditsOrFree` →
+> "CREDITS n" / borrado, PAUSE + nº de jugador; flags `$1081BE`; strings
+> `Str_CREDITS_052230`/`Str_PAUSE_05231c`; sonda de backup RAM vía BIOS
+> `$C00450`), fundidos de paleta sobre `$10A2C8..CF` (`PalFade_In/Out_Task` con
+> `PalFade_SpeedTable_052570`, `PalFade_ToColor_Task` en 8.8 fijo),
+> `SpriteTable_Init256_0526b8` (256×32 B en `$1082C8` + 48 índices libres).
+> Eliminada la falsa isla C `NopCCR_0522a8`. Corregido `Camera_ResetCenter_05CACE`
+> a 18 B (GGGGG queda en 54 entradas). **Zona core `$024E10..$05E000` al
+> 100 %.** Cobertura: 543,384 B (25.91 %), CODE 98.8 %, 35 huecos / 6,032 B.
+> Siguientes: `$0133B0..$013D6A` (2,082 B), `$000400..$002F30` (≈3.9 KB).
+
+> **Wave GGGGG** (54 entradas, 2 320 B; 22 huecos, 7 `--data`, 3 `--entry`) —
 > `$05CADE..$05E000` en `input_thunks_debug_hex_atan_luts_05cade.s`.
 > Quincuagésima wave. Nombres en `docs/waves/ggggg_names.txt`, args en
 > `docs/waves/ggggg_args.txt`. 21 thunks `InputEvtThunk_*` (máscara/canal/
