@@ -2356,4 +2356,6 @@ SYMBOLS = {
     0x00056202: "SetHandlerRts_056202",  # rts de SetTaskHandler_0561fc (+6)
     0x00056278: "Jsr5B6Rts_056278",  # rts de Jsr5B6ThenJmpScheduler_05626c (+12)
     0x00056594: "SetHandlerRts_056594",  # rts de SetTaskHandler_05658e (+6)
+    # --- Wave IIIII: refs forward a huecos futuros
+    0x00012F30: "Sub_00012F30",  # hueco futuro (ref pc-rel desde esta region)
 }
