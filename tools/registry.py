@@ -2920,12 +2920,12 @@ REGISTRY = [
     # =====================================================================
     #  Wave P: BIOS entry points (tabla de saltos $122..$139)
     # =====================================================================
-    ("BiosEntry_COIN_SOUND", 0x0022BE,  8, "bios_entry_points.c"),
+    ("BiosEntry_COIN_SOUND", 0x0022BE, 10, "bios_entry_points.c"),
     ("BiosEntry_PLAYER",    0x00084A,  8, "bios_entry_points.c"),
-    ("BiosEntry_DEMO",      0x000852, 10, "bios_entry_points.c"),
+    ("BiosEntry_DEMO",      0x000852, 12, "bios_entry_points.c"),
     ("Sys_HW_Reset",        0x000868, 60, "sys_hw_reset.c"),
     ("BiosEntry_USER",      0x0007CC, 64, "bios_user_dispatch.c"),
-    ("UserMode0_080C",      0x00080C, 34, "bios_user_dispatch.c"),
+    ("UserMode0_080C",      0x00080C, 38, "bios_user_dispatch.c"),
     ("UserMode1_0832",      0x000832,  4, "bios_user_dispatch.c"),
     ("UserMode2_0836",      0x000836, 10, "bios_user_dispatch.c"),
     ("UserMode3_0840",      0x000840, 10, "bios_user_dispatch.c"),
@@ -8918,8 +8918,6 @@ REGISTRY = [
     ("Task_InstallHandler_0000050E",               0x00050E,  10, "wave_jjjjj_000400.s"),
     ("EmptyEntity_Init_00076A",                    0x00076A,   8, "wave_jjjjj_000400.s"),
     ("TaskHandler_0007b2",                         0x0007B2,  14, "wave_jjjjj_000400.s"),
-    ("TaskHandler_00082e",                         0x00082E,   4, "wave_jjjjj_000400.s"),
-    ("TaskHandler_00085c",                         0x00085C,   2, "wave_jjjjj_000400.s"),
     ("TaskHandler_0008a4",                         0x0008A4,  50, "wave_jjjjj_000400.s"),
     ("TaskHandler_0012f4",                         0x0012F4,  44, "wave_jjjjj_000400.s"),
     ("TaskHandler_001332",                         0x001332,  28, "wave_jjjjj_000400.s"),
@@ -8975,7 +8973,6 @@ REGISTRY = [
     ("TaskHandler_002230",                         0x002230,  10, "wave_jjjjj_000400.s"),
     ("TaskHandler_002242",                         0x002242,  40, "wave_jjjjj_000400.s"),
     ("TaskHandler_00226a",                         0x00226A,  84, "wave_jjjjj_000400.s"),
-    ("TaskHandler_0022c6",                         0x0022C6,   2, "wave_jjjjj_000400.s"),
     ("Sub_000022C8",                               0x0022C8,   6, "wave_jjjjj_000400.s"),
     ("TaskHandler_0022ce",                         0x0022CE,   6, "wave_jjjjj_000400.s"),
     ("TaskHandler_0022d4",                         0x0022D4,  52, "wave_jjjjj_000400.s"),
