@@ -18,6 +18,15 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave GGGGG — 55 entries (2,320 B, 22 gaps of `$05CADE..$05E000`, 7 data
+  islands, 3 forced entries, `input_thunks_debug_hex_atan_luts_05cade.s`):
+  21 `InputEvtThunk_*` input-mask thunks + `InputEvt_ToggleChain` edge
+  detector, debug hex HUD (`Debug_HexDrawToFix4/8`, `HexDigit_FixTileTable`,
+  `Bin16_ToBcd4`, `HEX_TABLE_5D71C`), `Noise_LookupByIndex` + `NoiseLut256`,
+  `AtanLog_Table`/`AtanExp_Table` (LUTs of `Atan2_Angle256_05e018`),
+  `Entity_CheckOnScreenBox/EnterScreen/LeaveScreenWide` + `ScreenBox_Default`,
+  `ListCursor_Step/LoadEntry`, `Spawn_ChildFromDesc`, `SpriteBlock20x14_Setup`.
+  8 renames propagated. Zone `$024E10..$05E000` now 99.1 %.
 - Wave FFFFF — 33 entries (3,738 B, 15 gaps of `$055B96..$056ACC`, 5 data
   islands, 2 forced entries, `enemy_projectiles_grenade_mortar_roller_055b96.s`):
   enemy projectiles — thrown grenade (`Grenade_SpawnFromThrower`, trajectory

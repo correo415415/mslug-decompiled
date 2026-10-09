@@ -11,10 +11,25 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 8007/8007 funciones
-BYTES   : 538,872/538,872 (registrados)
-ROM     : 538,872/2,097,152  (25.6954%)
+MATCHED : 8062/8062 funciones
+BYTES   : 541,182/541,182 (registrados)
+ROM     : 541,182/2,097,152  (25.8056%)
 ```
+
+> **Wave GGGGG** (55 entradas, 2 320 B; 22 huecos, 7 `--data`, 3 `--entry`) —
+> `$05CADE..$05E000` en `input_thunks_debug_hex_atan_luts_05cade.s`.
+> Quincuagésima wave. Nombres en `docs/waves/ggggg_names.txt`, args en
+> `docs/waves/ggggg_args.txt`. 21 thunks `InputEvtThunk_*` (máscara/canal/
+> contexto `$10E200`/`$10E206` → backends `InputMask_*`), `InputEvt_ToggleChain`
+> (detección de flanco vs `$10E20C`), HUD hex de debug (`Debug_HexDrawToFix4/8`,
+> `HexDigit_FixTileTable_05d864`, `Bin16_ToBcd4`), `Noise_LookupByIndex` +
+> `NoiseLut256_05d956`, LUTs `AtanLog_Table_05de18`/`AtanExp_Table_05df18` de
+> `Atan2_Angle256`, `Entity_CheckOnScreenBox/EnterScreen/LeaveScreenWide` +
+> `ScreenBox_Default`, `ListCursor_Step/LoadEntry`, `Spawn_ChildFromDesc`,
+> `SpriteBlock20x14_Setup/SetupDup`. Promovido `Sprite_HexFormat4_05D6C2__L05d6d0`.
+> Cobertura: 541,182 B (25.81 %), CODE 98.4 %, zona core 99.1 %, 54 huecos /
+> 8,234 B. Siguientes: `$051000/$052000` (≈2.2 KB), `$0133B0..$013D6A`
+> (2,082 B), `$000400..$002F30` (≈3.9 KB).
 
 > **Wave FFFFF** (33 entradas, 3 738 B; 15 huecos, 5 `--data`, 2 `--entry`) —
 > `$055B96..$056ACC` en `enemy_projectiles_grenade_mortar_roller_055b96.s`.
