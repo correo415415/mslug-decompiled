@@ -100,18 +100,18 @@ extern void TaskHandler_044f9a(void);
 extern void TaskHandler_045f2c(void);
 extern void TaskHandler_0463ba(void);
 extern void TaskHandler_0465de(void);
-extern void TaskHandler_046664(void);
-extern void TaskHandler_0466b4(void);
-extern void TaskHandler_0466da(void);
-extern void TaskHandler_04703a(void);
-extern void TaskHandler_047050(void);
-extern void TaskHandler_047146(void);
-extern void TaskHandler_04718a(void);
-extern void TaskHandler_047278(void);
-extern void TaskHandler_04728e(void);
-extern void TaskHandler_0472d2(void);
-extern void TaskHandler_04731c(void);
-extern void TaskHandler_047362(void);
+extern void Fade_WhiteFlash_Done_046664(void);
+extern void SceneC_Load_Spawn2_0466b4(void);
+extern void SceneC_Load_Finish_0466da(void);
+extern void MissionNumBanner_WaitDismiss_04703a(void);
+extern void MissionNumBanner_ScrollOut_047050(void);
+extern void MissionStart_Clear_047146(void);
+extern void MissionStart_Redraw_04718a(void);
+extern void MissionComplete_Pause_047278(void);
+extern void MissionComplete_Clear_04728e(void);
+extern void MissionComplete_Redraw_0472d2(void);
+extern void MissionComplete_ScrollOut_04731c(void);
+extern void MissionComplete_Finish_047362(void);
 extern void TaskHandler_048b1e(void);
 extern void TaskHandler_048b26(void);
 extern void PowRope_BrokenA_048ddc(void);
@@ -955,79 +955,79 @@ void SetTaskHandler_0465d6(void) {
 
 __attribute__((section(".text.SetTaskHandler_04665c")))
 void SetTaskHandler_04665c(void) {
-    _a1_ptr = &TaskHandler_046664;
+    _a1_ptr = &Fade_WhiteFlash_Done_046664;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0466ac")))
 void SetTaskHandler_0466ac(void) {
-    _a1_ptr = &TaskHandler_0466b4;
+    _a1_ptr = &SceneC_Load_Spawn2_0466b4;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0466d2")))
 void SetTaskHandler_0466d2(void) {
-    _a1_ptr = &TaskHandler_0466da;
+    _a1_ptr = &SceneC_Load_Finish_0466da;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_047032")))
 void SetTaskHandler_047032(void) {
-    _a1_ptr = &TaskHandler_04703a;
+    _a1_ptr = &MissionNumBanner_WaitDismiss_04703a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_047048")))
 void SetTaskHandler_047048(void) {
-    _a1_ptr = &TaskHandler_047050;
+    _a1_ptr = &MissionNumBanner_ScrollOut_047050;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04713e")))
 void SetTaskHandler_04713e(void) {
-    _a1_ptr = &TaskHandler_047146;
+    _a1_ptr = &MissionStart_Clear_047146;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_047182")))
 void SetTaskHandler_047182(void) {
-    _a1_ptr = &TaskHandler_04718a;
+    _a1_ptr = &MissionStart_Redraw_04718a;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0471d2")))
 void SetTaskHandler_0471d2(void) {
-    _a1_ptr = &TaskHandler_047146;
+    _a1_ptr = &MissionStart_Clear_047146;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_047270")))
 void SetTaskHandler_047270(void) {
-    _a1_ptr = &TaskHandler_047278;
+    _a1_ptr = &MissionComplete_Pause_047278;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_047286")))
 void SetTaskHandler_047286(void) {
-    _a1_ptr = &TaskHandler_04731c;
+    _a1_ptr = &MissionComplete_ScrollOut_04731c;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_0472ca")))
 void SetTaskHandler_0472ca(void) {
-    _a1_ptr = &TaskHandler_0472d2;
+    _a1_ptr = &MissionComplete_Redraw_0472d2;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_047314")))
 void SetTaskHandler_047314(void) {
-    _a1_ptr = &TaskHandler_04728e;
+    _a1_ptr = &MissionComplete_Clear_04728e;
     STORE_A1_AT_FP();
 }
 
 __attribute__((section(".text.SetTaskHandler_04735a")))
 void SetTaskHandler_04735a(void) {
-    _a1_ptr = &TaskHandler_047362;
+    _a1_ptr = &MissionComplete_Finish_047362;
     STORE_A1_AT_FP();
 }
 

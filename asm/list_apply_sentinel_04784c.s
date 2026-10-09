@@ -13,7 +13,7 @@
 |  Firma C conceptual:
 |
 |      /* Igual que List_ApplyWithSentinelFF_047888 pero con callback
-|       * distinto (Sub_00047822). Mismo stride $40 (task-node aligned). */
+|       * distinto (Font_BigGlyphToTile_047822). Mismo stride $40 (task-node aligned). */
 |      void List_ApplyWithSentinelFF_04784C(uint16_t *list /*a5*/,
 |                                           void *table /*a4=a1_orig*/,
 |                                           uint16 d1_saved /*d1*/);
@@ -36,7 +36,7 @@ List_ApplyWithSentinelFF_04784C:
         beq.w   .Lend                          | +0c     goto end
         move.w  d4, d1                         | +10  restore d1 for callback
         movea.l a4, a1                         | +12  restore a1 for callback
-        jsr     .Lcallback(pc)                 | +14  Sub_00047822
+        jsr     .Lcallback(pc)                 | +14  Font_BigGlyphToTile_047822
         move.l  a4, d0                         | +18  d0 = a4 as long
         addi.l  #0x40, d0                      | +1a  d0 += 0x40 (task-node stride)
         movea.l d0, a4                         | +20  a4 = d0 (advance)
@@ -44,6 +44,6 @@ List_ApplyWithSentinelFF_04784C:
 .Lend:
         rts                                    | +24
 
-        .equ    .Lcallback, Sub_00047822
+        .equ    .Lcallback, Font_BigGlyphToTile_047822
 
         .size   List_ApplyWithSentinelFF_04784C, .-List_ApplyWithSentinelFF_04784C

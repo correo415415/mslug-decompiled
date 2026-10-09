@@ -69,7 +69,7 @@
 Attract_InitBIOS_001744:
         jsr     0xc004c2.l                     | +00  BIOS_FIX_CLEAR
         jsr     0x52712.l                      | +06  ThunkTarget_052712 (palette fade)
-        lea.l   0x46682.l, a1                  | +0c  a1 = TaskHandler_00046682
+        lea.l   0x46682.l, a1                  | +0c  a1 = SceneC_Load_Task_046682
         jsr     0x4ae.l                        | +12  scheduler_add(a1)
         cmpi.b  #0x6, 0x106ed0.l               | +18  if (state_gate < 6)
         bcs.w   .Lff2_skip_aux                 | +20    skip second task-add
@@ -150,7 +150,7 @@ Attract_InitShow27_TaskAdd_0017E6:
         move.b  #0xff, 0x106ed2.l              | +04  seal pending flag
         move.w  #0x27, d0                      | +0c  d0 = opcode 0x27
         jsr     0x2352.l                       | +10  InputGuardCall219c(d0)
-        lea.l   0x46608.l, a1                  | +16  a1 = TaskHandler_00046608
+        lea.l   0x46608.l, a1                  | +16  a1 = Fade_WhiteFlash_Task_046608
         jsr     0x4ae.l                        | +1c  scheduler_add(a1)
         move.b  #0xff, 0x21(a6)                | +22  self->flag_21 = $FF
         bra.w   Sub_00000FE0                   | +28  tail al scheduler

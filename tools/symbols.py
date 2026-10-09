@@ -67,7 +67,7 @@ SYMBOLS = {
     0x00044182: "Sub_00044182",              # colisión llamada por Entity_Probe_02785C
     # 0x00027036 promovido a Entity_MoveAndCollide_B_027036 en registry (Wave BBBBB).
     # 0x00026B56 promovido a Entity_MoveAndCollide_A_026b56 en registry (Wave BBBBB).
-    # 0x00047872 promovido a Sub_00047872 en registry (Wave DDDDD).
+    # 0x00047872 promovido a Font_TileWithPal_047872 en registry (Wave DDDDD).
     0x00044022: "Sub_00044022",              # blit setup llamado por Helper_05026C
     0x000523EE: "Template_0523EE",           # template del spawner Helper_05239E
     0x000524AA: "Template_0524AA",           # template del spawner Helper_0523B2
@@ -84,11 +84,11 @@ SYMBOLS = {
     # 0x0006DF32 promovido a FireBurst_Tmpl_06df32 en registry (Wave VVVV).
     # 0x0006E2BC: se usa PcThunkTarget_06e2bc (ya expuesto abajo, linea ~931).
     #             El nombre canonico historico se conserva; Sub_0006E2BC eliminado.
-    # 0x00047822 promovido a Sub_00047822 en registry (Wave DDDDD).
-    # 0x000477D4 promovido a Sub_000477D4 en registry (Wave DDDDD).
+    # 0x00047822 promovido a Font_BigGlyphToTile_047822 en registry (Wave DDDDD).
+    # 0x000477D4 promovido a Font_SmallGlyphToTile_0477d4 en registry (Wave DDDDD).
     0x00046AC6: "Sub_00046AC6",              # jsr abs.l inicial de Init_JsrThenTailCall (Z2 #12)
     0x00000FE0: "Sub_00000FE0",              # bra.w tail-call de Init_JsrThenTailCall
-    # 0x00046A48 promovido a Template_046A48 en registry (Wave DDDDD).
+    # 0x00046A48 promovido a TimeUp_Banner_Task_046a48 en registry (Wave DDDDD).
     0x00106F28: "GlobalFlag_106F28",         # flag global chequeada por Handler_ConditionalHitCounter
     0x00001C34: "Sub_00001C34",              # handler continuacion instalado por Handler_TimerAndReplace
 
@@ -459,18 +459,18 @@ SYMBOLS = {
     0x00045F2C: "TaskHandler_045f2c",
     0x000463BA: "TaskHandler_0463ba",
     0x000465DE: "TaskHandler_0465de",
-    # 0x00046664 promovido a TaskHandler_046664 en registry (Wave DDDDD).
-    # 0x000466B4 promovido a TaskHandler_0466b4 en registry (Wave DDDDD).
-    # 0x000466DA promovido a TaskHandler_0466da en registry (Wave DDDDD).
-    # 0x0004703A promovido a TaskHandler_04703a en registry (Wave DDDDD).
-    # 0x00047050 promovido a TaskHandler_047050 en registry (Wave DDDDD).
-    # 0x00047146 promovido a TaskHandler_047146 en registry (Wave DDDDD).
-    # 0x0004718A promovido a TaskHandler_04718a en registry (Wave DDDDD).
-    # 0x00047278 promovido a TaskHandler_047278 en registry (Wave DDDDD).
-    # 0x0004728E promovido a TaskHandler_04728e en registry (Wave DDDDD).
-    # 0x000472D2 promovido a TaskHandler_0472d2 en registry (Wave DDDDD).
-    # 0x0004731C promovido a TaskHandler_04731c en registry (Wave DDDDD).
-    # 0x00047362 promovido a TaskHandler_047362 en registry (Wave DDDDD).
+    # 0x00046664 promovido a Fade_WhiteFlash_Done_046664 en registry (Wave DDDDD).
+    # 0x000466B4 promovido a SceneC_Load_Spawn2_0466b4 en registry (Wave DDDDD).
+    # 0x000466DA promovido a SceneC_Load_Finish_0466da en registry (Wave DDDDD).
+    # 0x0004703A promovido a MissionNumBanner_WaitDismiss_04703a en registry (Wave DDDDD).
+    # 0x00047050 promovido a MissionNumBanner_ScrollOut_047050 en registry (Wave DDDDD).
+    # 0x00047146 promovido a MissionStart_Clear_047146 en registry (Wave DDDDD).
+    # 0x0004718A promovido a MissionStart_Redraw_04718a en registry (Wave DDDDD).
+    # 0x00047278 promovido a MissionComplete_Pause_047278 en registry (Wave DDDDD).
+    # 0x0004728E promovido a MissionComplete_Clear_04728e en registry (Wave DDDDD).
+    # 0x000472D2 promovido a MissionComplete_Redraw_0472d2 en registry (Wave DDDDD).
+    # 0x0004731C promovido a MissionComplete_ScrollOut_04731c en registry (Wave DDDDD).
+    # 0x00047362 promovido a MissionComplete_Finish_047362 en registry (Wave DDDDD).
     0x00048B1E: "TaskHandler_048b1e",
     0x00048B26: "TaskHandler_048b26",
     # 0x00048DDC promovido a PowRope_BrokenA_048ddc en registry (Wave JJJJ).
@@ -913,8 +913,8 @@ SYMBOLS = {
     0x0004247A: "SetTaskWRts_04247a",    # rts de SetTaskW_042476 (EngageAndTimers)
     0x000424A8: "SetHandlerRts_0424a8",  # rts de SetTaskHandler_0424a2 (MeleeGate)
     0x0004290A: "JsrAbsRts_04290a",      # rts de JsrAbsThunk_042904 (Charger_TrackTarget)
-    # 0x0004698C promovido a PcThunkTarget_04698c en registry (Wave DDDDD).
-    # 0x0004707E promovido a PcThunkTarget_04707e en registry (Wave DDDDD).
+    # 0x0004698C promovido a Continue_IsStartP2_04698c en registry (Wave DDDDD).
+    # 0x0004707E promovido a MissionNum_TileByMission_04707e en registry (Wave DDDDD).
     # 0x0004FAF8 promovido a Prop_BunkerBlitState10_04faf8 en registry (Wave QQQQ).
     # 0x00053DCA promovido a Prop_SyncSpriteWithParent_053dca en registry (Wave HHHH).
     # 0x00055148 promovido a NeonSign_TilesOffA_055148 en registry (Wave MMMM).
@@ -1108,7 +1108,7 @@ SYMBOLS = {
     # asm/pubcleaner_10a2cx_052712.s para que jsr $52712.l en
     # attract_cluster_batch_ff.s siga resolviendose sin edicion.
     # 0x00052712: "ThunkTarget_052712",
-    # 0x00046682 promovido a TaskHandler_00046682 en registry (Wave DDDDD).
+    # 0x00046682 promovido a SceneC_Load_Task_046682 en registry (Wave DDDDD).
     0x00059B6A: "TaskHandler_00059B6A",
     0x00002B58: "Sub_00002B58",             # applicator de ScriptSlotPairTable_0009B4 (ver SS#4)
     # 0x000009B4 promovido a ScriptSlotPairTable_0009B4 en registry (Wave SS#4).
@@ -1118,7 +1118,7 @@ SYMBOLS = {
     0x00002352: "InputGuardCall219c",
     0x00001C44: "TaskHandler_001C44",
     # 0x0003DBC8 promovido a Results_Entry_03dbc8 en registry (Wave RRRR).
-    # 0x00046608 promovido a TaskHandler_00046608 en registry (Wave DDDDD).
+    # 0x00046608 promovido a Fade_WhiteFlash_Task_046608 en registry (Wave DDDDD).
     0x00000F76: "PcThunkTarget_000F76",
     0x0005D288: "Sub_0005D288",
 
@@ -1274,8 +1274,8 @@ SYMBOLS = {
     0x0004611E: "SetXN_04611e",           # ori.b #$11,ccr; rts en isla $46118 (retorno con flags)
     0x0004613A: "SetXN_04613a",           # ori.b #$11,ccr; rts en isla $46134
     0x0004625E: "SetHandlerRts_04625e",   # rts tras set-handler en isla $46258
-    # 0x00046260 promovido a Fn_00046260 en registry (Wave DDDDD).
-    # 0x000463C2 promovido a Fn_000463C2 en registry (Wave DDDDD).
+    # 0x00046260 promovido a Enemy46_PhaseC_046260 en registry (Wave DDDDD).
+    # 0x000463C2 promovido a Drop_ProbeAndNudgeY_0463c2 en registry (Wave DDDDD).
     # --- Wave ZZ: defsyms mid-isla del banner de mision ($07A970..$07BA28) ---
     0x0007A9EE: "SetHandlerRts_07a9ee",  # rts de SetTaskHandler_07a9e8
     0x0007AA76: "SetHandlerRts_07aa76",  # rts de SetTaskHandler_07aa70

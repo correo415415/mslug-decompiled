@@ -55,7 +55,7 @@ List_ApplyWithSentinelFF_047888:
         beq.w   .Lend                          | +0c     goto end
         move.w  d4, d1                         | +10  restore d1 for callback
         movea.l a4, a1                         | +12  restore a1 for callback
-        jsr     .Lcallback(pc)                 | +14  Sub_00047872(d1, a1, d0)
+        jsr     .Lcallback(pc)                 | +14  Font_TileWithPal_047872(d1, a1, d0)
         move.l  a4, d0                         | +18  d0 = a4 as long
         addi.l  #0x40, d0                      | +1a  d0 += 0x40 (task-node stride)
         movea.l d0, a4                         | +20  a4 = d0 (advance to next)
@@ -63,6 +63,6 @@ List_ApplyWithSentinelFF_047888:
 .Lend:
         rts                                    | +24
 
-        .equ    .Lcallback, Sub_00047872
+        .equ    .Lcallback, Font_TileWithPal_047872
 
         .size   List_ApplyWithSentinelFF_047888, .-List_ApplyWithSentinelFF_047888
