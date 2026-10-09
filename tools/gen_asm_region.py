@@ -117,6 +117,13 @@ def disasm_region(rom, start, end):
             continue
         ins = next(md.disasm(rom[off:off + 10], off), None)
         if ins is None or ins.size == 0 or off + ins.size > end:
+            # capstone no decodifica movem.w/.l regs,abs.l (48B9/48F9) ni la
+            # inversa abs.l,regs (4CB9/4CF9): se emiten los 8 bytes crudos.
+            w = int.from_bytes(rom[off:off + 2], "big")
+            if w in (0x48B9, 0x48F9, 0x4CB9, 0x4CF9) and off + 8 <= end:
+                out.append(("rawinsn", off, rom[off:off + 8]))
+                off += 8
+                continue
             # palabra de datos
             out.append(("data", off, rom[off:off + 2]))
             off += 2
@@ -534,6 +541,17 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
             if kind == "data":
                 lines.append(f"        .dc.w   0x{int.from_bytes(it, 'big'):04x}"
                              f"{'':<24}| +{off - ea:03x}  (dato / opcode no decodificado)")
+                continue
+            if kind == "rawinsn":
+                ws = [int.from_bytes(it[i:i + 2], 'big') for i in range(0, 8, 2)]
+                sz = "l" if ws[0] in (0x48F9, 0x4CF9) else "w"
+                tgt = (ws[2] << 16) | ws[3]
+                raw = ",".join(f"0x{w:04x}" for w in ws)
+                if ws[0] in (0x48B9, 0x48F9):
+                    desc = f"movem.{sz} regs(mask ${ws[1]:04X}), 0x{tgt:x}.l"
+                else:
+                    desc = f"movem.{sz} 0x{tgt:x}.l, regs(mask ${ws[1]:04X})"
+                lines.append(f"        .dc.w   {raw:<28} | +{off - ea:03x}  {desc} (capstone no lo decodifica)")
                 continue
             try:
                 mn, gops = conv_insn(it, labelfn)

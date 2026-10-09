@@ -25,7 +25,7 @@ SYMBOLS = {
     0x00000506: "Task_AllocFail_0506",  # rama 'free-list vacia' de Task_AllocFromFreeList
     # 0x00077C98 promovido a Spawner_Handler_077c98 en registry (Wave YYYY).
     0x000277C4: "Sub_000277C4",  # probe/collision llamado por Entity_ProbeTransformFreeCcr (T#7)
-    0x000273FC: "Sub_000273FC",  # probe/collision llamado por Entity_ProbeTransformFreeCcr_027c8c (T#9)
+    # 0x000273FC promovido a Sub_000273FC en registry (Wave BBBBB).
     0x000027444: "Sub_000027444",  # probe/collision compartido por T#11 y T#13
     0x0002773C: "Sub_00002773C",  # probe/collision llamado por T#15
     0x00027D32: "Entity_RestoreTransformSetC_027d32",  # brazo hermano (bcs.w) de T#7
@@ -65,8 +65,8 @@ SYMBOLS = {
     # 0x0005B1B2 promovido a Sprite_DispatchSplashHook_05b1b2 en registry (Wave DDDD).
     # 0x0005AA96 promovido a SpriteDispatchJT_05AA96 en registry (Wave DDDD).
     0x00044182: "Sub_00044182",              # colisión llamada por Entity_Probe_02785C
-    0x00027036: "Sub_00027036",              # colisión pc-rel de Entity_Probe_02788C
-    0x00026B56: "Sub_00026B56",              # colisión pc-rel de Entity_Probe_027A92
+    # 0x00027036 promovido a Sub_00027036 en registry (Wave BBBBB).
+    # 0x00026B56 promovido a Sub_00026B56 en registry (Wave BBBBB).
     0x00047872: "Sub_00047872",              # callback pc-rel del bucle en Helper_047888
     0x00044022: "Sub_00044022",              # blit setup llamado por Helper_05026C
     0x000523EE: "Template_0523EE",           # template del spawner Helper_05239E
@@ -79,7 +79,7 @@ SYMBOLS = {
     # 0x00051862 promovido a Nibbles_Pack8_051862 en registry (Wave QQQQ).
     # 0x00051828 promovido a Nibbles_Unpack4_051828 en registry (Wave QQQQ).
     # 0x0005188C promovido a PlayerState_FlagTable_05188c en registry (Wave QQQQ).
-    0x000272A8: "Sub_000272A8",              # colision PC-rel de Entity_ProbeRevertCcr_027AFC (Z2 #5)
+    # 0x000272A8 promovido a Sub_000272A8 en registry (Wave BBBBB).
     # 0x0006DD5C promovido a Frag_Scatter_06dd5c en registry (Wave VVVV).
     # 0x0006DF32 promovido a FireBurst_Tmpl_06df32 en registry (Wave VVVV).
     # 0x0006E2BC: se usa PcThunkTarget_06e2bc (ya expuesto abajo, linea ~931).
@@ -398,12 +398,12 @@ SYMBOLS = {
     0x00001B4C: "TaskHandler_001b4c",
     0x00001B70: "TaskHandler_001b70",
     0x00001B80: "TaskHandler_001b80",
-    0x000257EC: "TaskHandler_0257ec",
-    0x00025882: "TaskHandler_025882",
-    0x00025AD8: "TaskHandler_025ad8",
-    0x00025B34: "TaskHandler_025b34",
+    # 0x000257EC promovido a TaskHandler_0257ec en registry (Wave BBBBB).
+    # 0x00025882 promovido a TaskHandler_025882 en registry (Wave BBBBB).
+    # 0x00025AD8 promovido a TaskHandler_025ad8 en registry (Wave BBBBB).
+    # 0x00025B34 promovido a TaskHandler_025b34 en registry (Wave BBBBB).
     0x00025D5C: "TaskHandler_025d5c",
-    0x00025D64: "TaskHandler_025d64",
+    # 0x00025D64 promovido a TaskHandler_025d64 en registry (Wave BBBBB).
     # 0x0002B05E promovido a Slug_DropDescend_02b05e en registry (Wave CCCC).
     # 0x0002B264 promovido a Slug_DropBossDescend_02b264 en registry (Wave CCCC).
     # 0x0002D02E promovido a Slug_Fall_02d02e en registry (Wave CCCC).
@@ -859,7 +859,7 @@ SYMBOLS = {
     # ---- Targets de Waves J/K (AUTO-GEN) -----------------------------
     0x00001AF8: "PcThunkTarget_001af8",
     0x0001399C: "PcThunkTarget_01399c",
-    0x00025E74: "PcThunkTarget_025e74",
+    # 0x00025E74 promovido a PcThunkTarget_025e74 en registry (Wave BBBBB).
     0x000281C8: "PcThunkTarget_0281c8",
     0x0002870A: "JmpTarget_02870a",
     0x00028758: "JmpTarget_028758",
@@ -2289,4 +2289,17 @@ SYMBOLS = {
     0x00097500: "AttractSprites_List6_097500",
     0x000975A2: "AttractSprites_List7_0975A2",
     0x00097720: "ChildRank_CmpByte10_097720",
+    # --- Wave BBBBB: RTS internos de islas C
+    0x00025920: "SetHandlerRts_025920",  # rts de SetTaskHandler_02591a (+6)
+    0x0002599E: "SetHandlerRts_02599e",  # rts de SetTaskHandler_025998 (+6)
+    0x00025CC4: "SetHandlerRts_025cc4",  # rts de SetTaskHandler_025cbe (+6)
+    0x00025D5A: "SetHandlerRts_025d5a",  # rts de SetTaskHandler_025d54 (+6)
+    0x00025DD0: "JsrPcRts_025dd0",  # rts de JsrPcThunk_025dcc (+4)
+    0x00025E46: "SetHandlerRts_025e46",  # rts de SetTaskHandler_025e40 (+6)
+    0x000266CA: "NopCCRMid_0266ca",  # rts de NopCCR_0266c6 (+4)
+    # --- Wave BBBBB: refs forward a huecos futuros
+    0x00027E7E: "Sub_00027E7E",  # hueco futuro (ref pc-rel desde esta region)
+    0x00027E9C: "Sub_00027E9C",  # hueco futuro (ref pc-rel desde esta region)
+    0x0002800E: "Sub_0002800E",  # hueco futuro (ref pc-rel desde esta region)
+    0x00028074: "Sub_00028074",  # hueco futuro (ref pc-rel desde esta region)
 }
