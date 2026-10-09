@@ -1,3 +1,48 @@
+| ============================================================================
+|  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
+|  Wave AAAAA — listas de sprites de las 8 escenas attract (JumpTable_096B9C)
+|  Región: $096BBC..$097730  (2,932 B, 9 entradas)
+| ============================================================================
+|
+|  A. QUÉ ES
+|  ----------------------------------------------------------------------------
+|  Los 8 destinos de `JumpTable_096B9C` (ClampAndLookup8_096B7E, Wave HH#2),
+|  que camera_list_ctx_helpers_wave_ii.s ya identificó como DATOS (no handlers):
+|  por índice de escena attract (0..7, `$21(a6)`) la lista de sprites estáticos
+|  del decorado que `AttractCuller_Cam0_0969C2` / `_Cam1_096A0E` recorren con
+|  stride $14 y `cmpi.w #$FFFF,(a0,d4.w)`, instanciando con Fn_0005DCCE los que
+|  entran en pantalla (x_world - (cam0 + $140) < 0).
+|
+|  B. FORMATO (20 B, verificado contra el culler y contra Fn_0005DCCE)
+|  ----------------------------------------------------------------------------
+|      struct AttractSprite {
+|          u16 flags;      /* +0  $0040 / $0100 / $0140 (b6: con extension) */
+|          s16 x_world;    /* +2  culling: cam0.x + 320                    */
+|          s16 y_world;    /* +4                                           */
+|          u32 template;   /* +6  Fn_0005DCCE: si (a1)==2 -> $4498E, si no  */
+|                          /*     Task alloc $4AE con a1=tmpl; ptr -> $3C(a0) */
+|          u8  params[10]; /* +A  $FFFF x3 = sin extension                   */
+|      };  terminador $FFFF.
+|  Las plantillas ($4D70C.., $52A26.., $7774EC..) viven en los módulos de props/
+|  decorado ya decompilados (props_destructible_0527xx, late_props_*).
+|
+|  C. HIPÓTESIS
+|  ----------------------------------------------------------------------------
+|  Lista n = decorado de la misión n+1 para la demo attract (coincide con el
+|  mapa SceneDescTable[0..5] + 2 variantes). Los `params` con byte alto $F0 son
+|  prioridad/flip de sprite; $0029 498E / $0029 4214 en la lista 0 son punteros
+|  a sub-tablas de animación de los dos primeros sprites (tmpl $4D70C).
+|
+|  D. COLA DE CÓDIGO
+|  ----------------------------------------------------------------------------
+|  ChildRank_CmpByte10_097720 (16 B): comparador CCR huérfano, copia idéntica
+|  de ChildRank_CmpByte10_0967A4 (scene_scripts_0916c8.s) y $05279E. Cae en
+|  ClearXN_097730 / SetXN_097736 (ccr_helpers.c).
+|
+|  E. ESTADO: 9 entradas, 2,932 B, byte-exacto. Generado por
+|  tools/attract_sprites_dump.py.
+| ============================================================================
+
         .text
 
         .globl  AttractSprites_List0_096BBC

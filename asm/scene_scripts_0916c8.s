@@ -1,12 +1,125 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave AAAAA — (borrador)
+|  Wave AAAAA — tabla de escenas, scripts de la VM de scroll (con callbacks 68000 embebidos), entidades-cámara y tablas de trigger
 |  Región: $0916C8..$0967B4  (20,716 B, 56 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/scene_script_dump.py — pendiente de análisis
-|  semántico.
+|  A. QUÉ ES ESTA REGIÓN
+|  ----------------------------------------------------------------------------
+|  Datos del subsistema de ESCENA/SCROLL (los "mapas" del juego): la tabla de
+|  descriptores $0916C8 que `SceneLoader_Main_043568` indexa con el número de
+|  escena (d0, 0..15) y todo lo que cuelga de ella. Cinco familias:
 |
+|    SceneDescTable_0916C8[16]   pares {script_vm.l, entities.l} (8 B). Las
+|                                "entradas 16..255" que el loader admitiría NO
+|                                existen: en $91748 ya empieza el primer script
+|                                de entidades (tabla y datos solapados en ROM).
+|    SceneEntities_XXXXXX  (14)  registros de 14 B {type, subop, tmpl.l,
+|                                payload[8]} + terminador type=2. Los "templates"
+|                                son SIEMPRE los 4 contextos de cámara
+|                                ($1080E0/$108064/$107FE8/$106F6C, stride $7C,
+|                                Wave CC#1): type 0 = cámara con scratch A
+|                                (contador $20 en d1), type 1 = scratch B.
+|    SceneScript_XXXXXX    (14)  bytecode de `SceneScriptVM_Frame_0437DA`
+|                                transcrito op a op con los strides EXACTOS de
+|                                la VM (scene_script_vm_0437da.s). Incluye 191
+|                                CALLBACKS 68000 EMBEBIDOS (op $06 / $14).
+|    SceneTrig_XXXXXX      (26)  tablas de words `{valor, umbral}` terminadas
+|                                en $FFFF, instaladas por op $11 en $12(ent)
+|                                (`move.l a1,$12(a0)`, $51B38): rampas de
+|                                parallax/altura que la cámara consume según
+|                                el progreso del scroll.
+|    ChildRank_CmpByte10_0967A4  cola de CÓDIGO huérfana (16 B, sin callers):
+|                                comparador CCR `cmp.b $10(a1),d0` que cae en
+|                                la pareja ClearXN_0967b4/SetXN_0967ba. Hay
+|                                copias byte-idénticas en $05279E y $097720
+|                                (attract_sprite_lists_096bbc.s): epílogo que
+|                                el ensamblador original pegaba tras cada
+|                                bloque de datos.
+|
+|  Mapa de escenas (índice -> caller que hace `move.b #n,d0 ; jsr $43568`):
+|    0..5  Attract_State0..5_Handler_0967FE..  (demo attract = 6 misiones)
+|    6     = alias de la escena 1   7 = alias de la escena 2 (Attract state 7)
+|    8     ($96580) escena corta, 3 cámaras (sin caller directo conocido)
+|    9     anim_state_machine_08cxxx (+42)       10  GameOver_Boot_08f91a
+|    11    HiScore_Tpl_Common_097816             12  ($9412C) sin caller directo
+|    13    ($96782) escena vacía: 1 cámara, límites 0 (pantalla fija)
+|    14/15 cutscene_anim_08baxx (+014 / +028,+06c): escenas de la cutscene
+|          final (las dos más largas: 4,420 y 3,780 B, con 60+ callbacks).
+|  La escena 0 también la carga `MemCard_LoadScene_05164a` vía la entry corta
+|  $43562 (índice implícito 0).
+|
+|  B. EVIDENCIA
+|  ----------------------------------------------------------------------------
+|  * `lea.l 0x916c8.l,a0` en SceneLoader_Main_043568 (+06); `move.l (a0,d0.w),
+|    $10815C` fija el PC de la VM = campo +0 del descriptor; `movea.l 4(a0,d0.w),
+|    a0` = script de entidades (+4).
+|  * tools/scene_script_dump.py recorre los 14 scripts con los 23 strides de la
+|    VM sin UN SOLO opcode inválido; cada script termina exactamente donde
+|    empieza la siguiente tabla/entidad. El op $06 cede el frame si el callback
+|    devuelve d0!=0 y recarga el PC desde a1. Los 184 callbacks op $06 son:
+|        cmpi.w #X,$106F50.l ; scs d0 ; lea next(pc),a1 ; rts      (x136)
+|        cmpi.b #k,$10E39A.l ; sne d0 ; lea next(pc),a1 ; rts      (x25)
+|        cmpi.w #Y,$106F54.l ; s?? d0 ; ...  / cmpi.b $10A2CF / cmpi.w $106E88
+|    = "espera a que el scroll X llegue a X" (scs: C=1 mientras pos < X),
+|    "espera al flag de borde $10E39A" (SceneScript_EdgeArrivalTest) o
+|    "espera a que la cámara Y alcance Y". Los 7 callbacks op $14 son
+|    `move.b #v,$10E39B/C.l` o `move.l #-$10000,$106F64.l` + `lea next(pc),a0`.
+|  * op $0D (60 usos) apunta a los pre-thunks $52756/$5276C/$52776/$52780/
+|    $52796 (cargan d1..d4 / d0 desde los 8 B de args inline y llaman a
+|    ThunkTarget_002c26 / _05239e / _0523b2 / _05dd2a / _05026c) y a
+|    Sub_000022C8 (x8).
+|  * op $0E (spawn de tarea) no aparece en ninguna escena: las tareas se crean
+|    con op $04 (`$51B1C`, 53 usos) sobre los 4 contextos de cámara.
+|  * op $0A: 22 bloques `{slot,bank}` para Sub_00002B58 (slots de tiles ->
+|    bancos $1CE00 + bank*64); la escena 0 remapea 116 slots de golpe.
+|  * Las 26 SceneTrig están referenciadas por 37 op $11 (varias compartidas
+|    entre las escenas 0/14 y 5/15: los mismos mapas reutilizados en la
+|    cutscene final).
+|  * Listas attract: ver attract_sprite_lists_096bbc.s (JumpTable_096B9C).
+|
+|  C. HIPÓTESIS (no verificadas en emulador)
+|  ----------------------------------------------------------------------------
+|  * Las escenas 0..5 son los 6 mapas de la demo attract = las 6 misiones
+|    (misma numeración que MissionStream_Slot00..05). Los scripts 1 y 2 se
+|    reutilizan como 6 y 7 para el segundo ciclo de la demo.
+|  * `$10E39A` es el flag "scroll llegó al borde" que arma la VM (op $02 ->
+|    SceneScript_EdgeArrivalTest) y que los callbacks `cmpi.b #1,$10E39A ; sne`
+|    esperan; `$10E39B/C` son sub-flags que las escenas 14/15 fijan con op $14
+|    para sincronizar la cutscene con cutscene_anim_08baxx.
+|  * `$10A2CF` (cmpi.b x8) es el contador de fase del jefe/escena que los
+|    scripts esperan antes de abrir el siguiente tramo de scroll.
+|  * SceneTrig {valor,umbral}: `valor` = byte alto altura/parallax + byte bajo
+|    sub-índice; `umbral` = progreso de scroll a partir del cual se aplica.
+|    Consumidor exacto de $12(ent) pendiente (camera_list_ctx_helpers /
+|    CameraApplyAll4).
+|
+|  D. FORMATOS
+|  ----------------------------------------------------------------------------
+|      struct SceneDescriptor { u8 *vm_script; SceneEntity *entities; };   /* 8 B  */
+|      struct SceneEntity { u8 type; u8 subop; u32 camera_ctx; u8 payload[8]; }; /* 14 B */
+|      op $00 bind_path  22 B: ent.l, ruta[8], cont.l, ancla_x.w, ancla_y.w
+|      op $01 set_fields 12 B: ent.l, b72, pad, w74, w76
+|      op $03 warp 6 B / $15 set_campos 6 B: x.w, y.w
+|      op $04 spawn 8 B: tmpl.l, a.b, b.b          op $0D call_args 14 B: fn.l, args[8]
+|      op $0F set_limits 12 B: minX, minY, maxX, maxY, slope
+|      op $11 set_trig 10 B: ent.l, tabla.l        op $0A: pares {slot.w,bank.w} + $FFFF
+|      op $06/$14: 2 B + código 68000 inline; el callback devuelve el nuevo PC
+|      (a1 / a0) con `lea next(pc)` -> aquí etiquetas .Lxxxxxx.
+|
+|  E. HELPERS / RAM
+|  ----------------------------------------------------------------------------
+|  $10815C PC de la VM; $106F50 scroll X (16.16); $106F54 Y suave; $106F5C
+|  high-water; $108168..70 límites; $108178 modo de eje; $10E39A flag borde;
+|  $106EAC byte de escena (op $0C); $51B1C spawn, $51B38 set_trig, $51B3E
+|  bind_path, $51ECE/$51ED6/$51F02 hooks de cámara, $2B58 slot_pairs.
+|
+|  F. ESTADO
+|  ----------------------------------------------------------------------------
+|  65 entradas (56 aquí + 9 en attract_sprite_lists_096bbc.s), 23,648 B,
+|  todo byte-exacto. Generado por tools/scene_script_dump.py (regenerable);
+|  nombres por familia + dirección. Cierra al 100 % la zona CODE
+|  `$083000..$09C608`.
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
 |  (MD5 816b3f74c76b3373993407615f1850fe).

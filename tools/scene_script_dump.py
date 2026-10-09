@@ -37,7 +37,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 PROM = os.path.join(ROOT, "build", "mslug_prom.bin")
 SRC_NAME = "scene_scripts_0916c8.s"
-WAVE = "Wave AAAAA"
+WAVE = "Wave AAAAA"  # NOTA: la cabecera A-F de asm/scene_scripts_0916c8.s se mantiene a mano al regenerar
 
 rom = open(PROM, "rb").read()
 
