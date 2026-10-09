@@ -11,11 +11,26 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 7826/7826 funciones
-BYTES   : 525,470/525,470 (registrados)
-ROM     : 525,470/2,097,152  (25.0564%)
+MATCHED : 7903/7903 funciones
+BYTES   : 529,844/529,844 (registrados)
+ROM     : 529,844/2,097,152  (25.2649%)
 ```
 
+> **Wave DDDDD** (79 entradas, 4 374 B; 47 huecos) — `$046000..$048000`
+> en `enemy46_drops_fix_banners_046260.s`. Cuadragésimo séptima wave. Nombres en
+> `docs/waves/ddddd_names.txt`. Módulos: Enemy46 fases C/D + `Enemy46_RandomPause`
+> (cierra la máquina de vehicle_deploy_045f2c.s), drops de enemigos por template
+> (`Drop_SpawnRandom_046322`, `Drop_Spawn_Tmpl4F/F2/1B/6D/2C/2B/3A_12F`,
+> `Drop_SpawnFromTable`, `Drop_SpawnThrown`, matriz `$28DC4E`), `Fade_WhiteFlash_*`,
+> `SceneC_Load_*`, pantalla CONTINUE grande (`ContinueDigits_P1P2_Task`,
+> `ContinueBig_Init/Countdown/ClearAndExit`, `Continue_IsStartP1/P2/Any`), banners
+> del fix layer (`FixBanner_MissionStart/Complete_Blit`, `MissionNumBanner_*`,
+> `MissionStart_*`, `MissionComplete_*`, `TimeUp_Banner_Task`), `BigText/SmallText_
+> Typewriter`, `Font_*GlyphToTile`, `Fix_DrawBigNumber2Digit`, `Fix_PutString_
+> PalByHighBit`. 22 renombres propagados; 2 labels promovidas; eliminadas las
+> falsas islas `NopCCR_046e6c/046fd0` (eran el `movem.w` final de los blits).
+> Zona `$024E10..$05E000` al 94.2 %; CODE total 96.1 % (129 huecos, 19 572 B).
+>
 > **Wave CCCCC** (117 entradas, 6 380 B; 6 `--data`, 39 `--entry`) — `$027400..$02A000`
 > en `collmap_hitbox_script_ops_027400.s`. Cuadragésimo sexta wave. Nombres en
 > `docs/waves/ccccc_names.txt`, args en `docs/waves/ccccc_args.txt`. Módulos:

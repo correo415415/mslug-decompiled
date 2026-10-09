@@ -18,6 +18,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave DDDDD — 79 entries (4,374 B, 47 gaps of `$046000..$048000`,
+  `enemy46_drops_fix_banners_046260.s`): Enemy46 phases C/D + random pause,
+  enemy drop spawners by template (`Drop_SpawnRandom/FromTable/Thrown`,
+  `Drop_Spawn_Tmpl*`), white-flash fade, scene $C loader, big CONTINUE
+  countdown (`ContinueBig_*`, `Continue_IsStartP1/P2`), fix-layer banners
+  (`FixBanner_MissionStart/Complete_Blit`, `MissionNumBanner_*`,
+  `MissionStart_*`, `MissionComplete_*`, `TimeUp_Banner_Task`), big/small
+  text typewriters, glyph→tile font helpers and 2-digit big number drawing.
+  22 renames propagated; 2 local labels promoted; 2 false `NopCCR_046e6c/
+  046fd0` C islands removed (they were the trailing `movem.w` of the banner
+  blits). CODE zones now 96.1 % (129 gaps, 19,572 B left).
 - Wave CCCCC — 117 entries (6,380 B, 6 data ranges, 39 forced entries):
   `$027400..$02A000` (`collmap_hitbox_script_ops_027400.s`): remainder of
   the entity movement + map collision engine (`Entity_MoveAndCollide_D/E/F`,
