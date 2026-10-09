@@ -493,7 +493,7 @@ SYMBOLS = {
     # 0x00050976 promovido a Allen_Spawn_050976 en registry (Wave QQQQ).
     # 0x00051452 promovido a Allen_GrenadeExplodeTick_051452 en registry (Wave QQQQ).
     0x0005147E: "TaskHandler_05147e",
-    # 0x00052514 promovido a TaskHandler_052514 en registry (Wave HHHHH).
+    # 0x00052514 promovido a PalFade_Out_Step_052514 en registry (Wave HHHHH).
     0x000526AA: "TaskHandler_0526aa",
     0x00053C5C: "TaskHandler_053c5c",
     # 0x00053C64 promovido a Prop_BurnFollowVictim_053c64 en registry (Wave HHHH).
@@ -1200,7 +1200,7 @@ SYMBOLS = {
     # asm/collision_cell_apply_051bxx.s para que bsr.w Fn_00051BA8 en
     # collision_probes_051cxx.s (KK#2) siga resolviendose sin edicion.
     # 0x00051BA8: "Fn_00051BA8",
-    # 0x00051D84 promovido a Fn_00051D84 en registry (Wave HHHHH).
+    # 0x00051D84 promovido a CellMap_ClipRectToWindow_051d84 en registry (Wave HHHHH).
     0x00051C08: "Fn_00051C08",
     0x00051C82: "Fn_00051C82",
     0x00051CF6: "Fn_00051CF6",

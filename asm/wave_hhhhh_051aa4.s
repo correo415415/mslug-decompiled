@@ -15,11 +15,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051aa4  @ $051AA4  (26 B)
+|  CellMap_ReadPacked32_051aa4  @ $051AA4  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051aa4, "ax", @progbits
-        .global TaskHandler_051aa4
-TaskHandler_051aa4:
+        .section .text.CellMap_ReadPacked32_051aa4, "ax", @progbits
+        .global CellMap_ReadPacked32_051aa4
+CellMap_ReadPacked32_051aa4:
         movem.l a0-a1,-(a7)                     | +000
         lea     0x1081b6.l,a1                   | +004
         bsr.w   Nibbles_Pack8_051862            | +00a
@@ -51,8 +51,8 @@ Entity_AllocAndInit_051ABE:
         clr.w   0x2(a0)                         | +03c
         clr.w   0x1e(a0)                        | +040
         clr.w   0x20(a0)                        | +044
-        bsr.w   TaskHandler_051ed6              | +048
-        bsr.w   TaskHandler_051f02              | +04c
+        bsr.w   CellMap_ClearSprites32_051ed6   | +048
+        bsr.w   CellMap_ClearVramBlock_051f02   | +04c
         lea     0x32(a0),a1                     | +050
         moveq   #31,d7                          | +054
 .L051b14:
@@ -61,11 +61,11 @@ Entity_AllocAndInit_051ABE:
         rts                                     | +05c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051b1c  @ $051B1C  (100 B)
+|  CellMap_SetCursorAndClear_051b1c  @ $051B1C  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051b1c, "ax", @progbits
-        .global TaskHandler_051b1c
-TaskHandler_051b1c:
+        .section .text.CellMap_SetCursorAndClear_051b1c, "ax", @progbits
+        .global CellMap_SetCursorAndClear_051b1c
+CellMap_SetCursorAndClear_051b1c:
         andi.b  #0x3f,d0                        | +000
         move.b  d0,0x27(a0)                     | +004
         add.w   0x24(a0),d1                     | +008
@@ -95,40 +95,40 @@ TaskHandler_051b1c:
         clr.w   0x20(a0)                        | +05a
         moveq   #32,d0                          | +05e
         moveq   #0,d1                           | +060
-        bra.b   TaskHandler_051b1c              | +062
+        bra.b   CellMap_SetCursorAndClear_051b1c | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051c80  @ $051C80  (2 B)
+|  Nop_Rts_051c80  @ $051C80  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051c80, "ax", @progbits
-        .global TaskHandler_051c80
-TaskHandler_051c80:
+        .section .text.Nop_Rts_051c80, "ax", @progbits
+        .global Nop_Rts_051c80
+Nop_Rts_051c80:
         rts                                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051cf0  @ $051CF0  (6 B)
+|  ClearC_Rts_051cf0  @ $051CF0  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051cf0, "ax", @progbits
-        .global TaskHandler_051cf0
-TaskHandler_051cf0:
+        .section .text.ClearC_Rts_051cf0, "ax", @progbits
+        .global ClearC_Rts_051cf0
+ClearC_Rts_051cf0:
         andi.b  #0xfe,ccr                       | +000
         rts                                     | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051d7e  @ $051D7E  (6 B)
+|  ClearC_Rts_051d7e  @ $051D7E  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051d7e, "ax", @progbits
-        .global TaskHandler_051d7e
-TaskHandler_051d7e:
+        .section .text.ClearC_Rts_051d7e, "ax", @progbits
+        .global ClearC_Rts_051d7e
+ClearC_Rts_051d7e:
         andi.b  #0xfe,ccr                       | +000
         rts                                     | +004
 
 | ----------------------------------------------------------------------------
-|  Fn_00051D84  @ $051D84  (82 B)
+|  CellMap_ClipRectToWindow_051d84  @ $051D84  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_00051D84, "ax", @progbits
-        .global Fn_00051D84
-Fn_00051D84:
+        .section .text.CellMap_ClipRectToWindow_051d84, "ax", @progbits
+        .global CellMap_ClipRectToWindow_051d84
+CellMap_ClipRectToWindow_051d84:
         add.w   d2,d4                           | +000
         move.w  (a1),d6                         | +002
         cmp.w   d2,d6                           | +004
@@ -163,11 +163,11 @@ Fn_00051D84:
         andi.l  #0xffff,d5                      | +04c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051e74  @ $051E74  (90 B)
+|  CellMap_BlitRectToLSPC_051e74  @ $051E74  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051e74, "ax", @progbits
-        .global TaskHandler_051e74
-TaskHandler_051e74:
+        .section .text.CellMap_BlitRectToLSPC_051e74, "ax", @progbits
+        .global CellMap_BlitRectToLSPC_051e74
+CellMap_BlitRectToLSPC_051e74:
         andi.l  #0xffff,d4                      | +000
         andi.l  #0xffff,d5                      | +006
         subq.w  #0x1,d4                         | +00c
@@ -198,20 +198,20 @@ TaskHandler_051e74:
         rts                                     | +058
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051ece  @ $051ECE  (8 B)
+|  CellMap_SetDirty_051ece  @ $051ECE  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051ece, "ax", @progbits
-        .global TaskHandler_051ece
-TaskHandler_051ece:
+        .section .text.CellMap_SetDirty_051ece, "ax", @progbits
+        .global CellMap_SetDirty_051ece
+CellMap_SetDirty_051ece:
         bset    #0x0,0xc(a0)                    | +000
         rts                                     | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051ed6  @ $051ED6  (44 B)
+|  CellMap_ClearSprites32_051ed6  @ $051ED6  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051ed6, "ax", @progbits
-        .global TaskHandler_051ed6
-TaskHandler_051ed6:
+        .section .text.CellMap_ClearSprites32_051ed6, "ax", @progbits
+        .global CellMap_ClearSprites32_051ed6
+CellMap_ClearSprites32_051ed6:
         bclr    #0x0,0xc(a0)                    | +000
         moveq   #31,d1                          | +006
         move.w  0x28(a0),d0                     | +008
@@ -225,11 +225,11 @@ TaskHandler_051ed6:
         rts                                     | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_051f02  @ $051F02  (46 B)
+|  CellMap_ClearVramBlock_051f02  @ $051F02  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_051f02, "ax", @progbits
-        .global TaskHandler_051f02
-TaskHandler_051f02:
+        .section .text.CellMap_ClearVramBlock_051f02, "ax", @progbits
+        .global CellMap_ClearVramBlock_051f02
+CellMap_ClearVramBlock_051f02:
         move.l  #0x3ff,d7                       | +000
         move.w  0x28(a0),d0                     | +006
         lsl.w   #0x6,d0                         | +00a
@@ -247,33 +247,33 @@ TaskHandler_051f02:
         rts                                     | +02c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052032  @ $052032  (16 B)
+|  Scheduler_CompareField10_052032  @ $052032  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052032, "ax", @progbits
-        .global TaskHandler_052032
-TaskHandler_052032:
+        .section .text.Scheduler_CompareField10_052032, "ax", @progbits
+        .global Scheduler_CompareField10_052032
+Scheduler_CompareField10_052032:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_052048                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052050  @ $052050  (146 B)
+|  FixOverlay_DrawCreditsOrFree_052050  @ $052050  (146 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052050, "ax", @progbits
-        .global TaskHandler_052050
-TaskHandler_052050:
+        .section .text.FixOverlay_DrawCreditsOrFree_052050, "ax", @progbits
+        .global FixOverlay_DrawCreditsOrFree_052050
+FixOverlay_DrawCreditsOrFree_052050:
         tst.b   0x10fd82.l                      | +000
         beq.w   .L052068                        | +006
         move.b  0x10fd91.l,d0                   | +00a
         andi.b  #0x2,d0                         | +010
-        bne.w   Sub_00052132__L052142           | +014
+        bne.w   FixOverlay_PutDigit_052132__L052142 | +014
 .L052068:
         btst    #0x1,0x1081be.l                 | +018
-        bne.w   Sub_00052132__L052144           | +020
+        bne.w   FixOverlay_PutDigit_052132__L052144 | +020
         btst    #0x0,0x1081be.l                 | +024
-        beq.w   Sub_00052132__L052142           | +02c
-        bsr.w   Sub_000521B2                    | +030
+        beq.w   FixOverlay_PutDigit_052132__L052142 | +02c
+        bsr.w   FixOverlay_ClearCreditsArea_0521b2 | +030
         tst.b   0x10fd82.l                      | +034
         beq.w   .L0520a6                        | +03a
         lea     0x10fe00.l,a1                   | +03e
@@ -295,18 +295,18 @@ TaskHandler_052050:
         bne.b   .L0520de                        | +082
 .L0520d4:
         move.w  #0x707d,d0                      | +084
-        bsr.w   Sub_000520E2                    | +088
+        bsr.w   FixOverlay_PutCreditsLine_0520e2 | +088
         addq.l  #0x1,a1                         | +08c
 .L0520de:
         move.w  #0x737d,d0                      | +08e
 
 | ----------------------------------------------------------------------------
-|  Sub_000520E2  @ $0520E2  (80 B)
+|  FixOverlay_PutCreditsLine_0520e2  @ $0520E2  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000520E2, "ax", @progbits
-        .global Sub_000520E2
-Sub_000520E2:
-        lea     Data_052230(pc),a2              | +000
+        .section .text.FixOverlay_PutCreditsLine_0520e2, "ax", @progbits
+        .global FixOverlay_PutCreditsLine_0520e2
+FixOverlay_PutCreditsLine_0520e2:
+        lea     Str_CREDITS_052230(pc),a2       | +000
         moveq   #5,d7                           | +004
 .L0520e8:
         move.b  (a2)+,d1                        | +006
@@ -326,25 +326,25 @@ Sub_000520E2:
         addi.w  #0x20,d0                        | +03e
         move.b  d2,d1                           | +042
         lsr.b   #0x4,d1                         | +044
-        bsr.w   Sub_00052132                    | +046
+        bsr.w   FixOverlay_PutDigit_052132      | +046
         andi.b  #0xf,d2                         | +04a
         move.b  d2,d1                           | +04e
 
 | ----------------------------------------------------------------------------
-|  Sub_00052132  @ $052132  (128 B)
+|  FixOverlay_PutDigit_052132  @ $052132  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00052132, "ax", @progbits
-        .global Sub_00052132
-Sub_00052132:
+        .section .text.FixOverlay_PutDigit_052132, "ax", @progbits
+        .global FixOverlay_PutDigit_052132
+FixOverlay_PutDigit_052132:
         addi.b  #0x30,d1                        | +000
         movem.w d0-d1,0x3c0000.l                | +004
         addi.w  #0x20,d0                        | +00c
-        .global Sub_00052132__L052142
-Sub_00052132__L052142:
+        .global FixOverlay_PutDigit_052132__L052142
+FixOverlay_PutDigit_052132__L052142:
 .L052142:
         rts                                     | +010
-        .global Sub_00052132__L052144
-Sub_00052132__L052144:
+        .global FixOverlay_PutDigit_052132__L052144
+FixOverlay_PutDigit_052132__L052144:
 .L052144:
         move.w  #0x701d,d0                      | +012
         moveq   #15,d7                          | +016
@@ -374,11 +374,11 @@ Sub_00052132__L052144:
         rts                                     | +07e
 
 | ----------------------------------------------------------------------------
-|  Sub_000521B2  @ $0521B2  (126 B)
+|  FixOverlay_ClearCreditsArea_0521b2  @ $0521B2  (126 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000521B2, "ax", @progbits
-        .global Sub_000521B2
-Sub_000521B2:
+        .section .text.FixOverlay_ClearCreditsArea_0521b2, "ax", @progbits
+        .global FixOverlay_ClearCreditsArea_0521b2
+FixOverlay_ClearCreditsArea_0521b2:
         move.w  #0x701d,d0                      | +000
         move.w  #0x2,d7                         | +004
         move.w  #0x20,d1                        | +008
@@ -412,11 +412,11 @@ Sub_000521B2:
         rts                                     | +07c
 
 | ----------------------------------------------------------------------------
-|  Data_052230  @ $052230  (186 B)
+|  Str_CREDITS_052230  @ $052230  (186 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_052230, "ax", @progbits
-        .global Data_052230
-Data_052230:
+        .section .text.Str_CREDITS_052230, "ax", @progbits
+        .global Str_CREDITS_052230
+Str_CREDITS_052230:
         .dc.b   0x43                          | +000  'C'  (dato, rango --data)
         .dc.b   0x52                          | +001  'R'  (dato, rango --data)
         .dc.b   0x45                          | +002  'E'  (dato, rango --data)
@@ -436,7 +436,7 @@ Data_052230:
         btst    #0x2,0x1081be.l                 | +02e
         beq.w   .L0522ac                        | +036
         move.w  #0x721d,d0                      | +03a
-        lea     TaskHandler_0522ea(pc),a2       | +03e
+        lea     FixOverlay_PutPauseTail_0522ea(pc),a2 | +03e
         moveq   #5,d7                           | +042
         move.w  #0x2300,d1                      | +044
         btst    #0x4,0x1081be.l                 | +048
@@ -469,51 +469,51 @@ Data_052230:
         rts                                     | +0b8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0522ea  @ $0522EA  (2 B)
+|  FixOverlay_PutPauseTail_0522ea  @ $0522EA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0522ea, "ax", @progbits
-        .global TaskHandler_0522ea
-TaskHandler_0522ea:
+        .section .text.FixOverlay_PutPauseTail_0522ea, "ax", @progbits
+        .global FixOverlay_PutPauseTail_0522ea
+FixOverlay_PutPauseTail_0522ea:
         move.l  a3,(a0)                         | +000
 
 | ----------------------------------------------------------------------------
-|  Data_0522ec  @ $0522EC  (18 B)
+|  Str_PauseTiles_0522ec  @ $0522EC  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0522ec, "ax", @progbits
-        .global Data_0522ec
-Data_0522ec:
+        .section .text.Str_PauseTiles_0522ec, "ax", @progbits
+        .global Str_PauseTiles_0522ec
+Str_PauseTiles_0522ec:
         .dc.b   0x8c                          | +000  '.'  (dato, rango --data)
         .dc.b   0x8d                          | +001  '.'  (dato, rango --data)
         .dc.b   0x8e                          | +002  '.'  (dato, rango --data)
         .dc.b   0x8f                          | +003  '.'  (dato, rango --data)
         movea.l #0x7226,a1                      | +004
-        lea     Data_05231c(pc),a2              | +00a
+        lea     Str_PAUSE_05231c(pc),a2         | +00a
         move.w  #0x300,d0                       | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052306  @ $052306  (14 B)
+|  FixOverlay_ClearPause_052306  @ $052306  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052306, "ax", @progbits
-        .global TaskHandler_052306
-TaskHandler_052306:
+        .section .text.FixOverlay_ClearPause_052306, "ax", @progbits
+        .global FixOverlay_ClearPause_052306
+FixOverlay_ClearPause_052306:
         movea.l #0x7226,a1                      | +000
-        lea     Data_05231c__L052322(pc),a2     | +006
+        lea     Str_PAUSE_05231c__L052322(pc),a2 | +006
         move.w  #0x0,d0                         | +00a
 
 | ----------------------------------------------------------------------------
-|  Data_05231c  @ $05231C  (102 B)
+|  Str_PAUSE_05231c  @ $05231C  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_05231c, "ax", @progbits
-        .global Data_05231c
-Data_05231c:
+        .section .text.Str_PAUSE_05231c, "ax", @progbits
+        .global Str_PAUSE_05231c
+Str_PAUSE_05231c:
         .dc.b   0x50                          | +000  'P'  (dato, rango --data)
         .dc.b   0x41                          | +001  'A'  (dato, rango --data)
         .dc.b   0x55                          | +002  'U'  (dato, rango --data)
         .dc.b   0x53                          | +003  'S'  (dato, rango --data)
         .dc.b   0x45                          | +004  'E'  (dato, rango --data)
         .dc.b   0xfe                          | +005  '.'  (dato, rango --data)
-        .global Data_05231c__L052322
-Data_05231c__L052322:
+        .global Str_PAUSE_05231c__L052322
+Str_PAUSE_05231c__L052322:
 .L052322:
         .dc.b   0xff                          | +006  '.'  (dato, rango --data)
         .dc.b   0xff                          | +007  '.'  (dato, rango --data)
@@ -545,37 +545,37 @@ Data_05231c__L052322:
         rts                                     | +064
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052382  @ $052382  (16 B)
+|  Scheduler_CompareField10_052382  @ $052382  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052382, "ax", @progbits
-        .global TaskHandler_052382
-TaskHandler_052382:
+        .section .text.Scheduler_CompareField10_052382, "ax", @progbits
+        .global Scheduler_CompareField10_052382
+Scheduler_CompareField10_052382:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_052398                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0523c6  @ $0523C6  (20 B)
+|  PalFade_SpawnIn_0523c6  @ $0523C6  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0523c6, "ax", @progbits
-        .global TaskHandler_0523c6
-TaskHandler_0523c6:
+        .section .text.PalFade_SpawnIn_0523c6, "ax", @progbits
+        .global PalFade_SpawnIn_0523c6
+PalFade_SpawnIn_0523c6:
         move.l  d0,-(a7)                        | +000
-        lea     TaskHandler_0523fa(pc),a1       | +002
+        lea     PalFade_In_Task_0523fa(pc),a1   | +002
         jsr     0x4ae.l                         | +006
         move.l  (a7)+,d0                        | +00c
         move.w  d0,0x70(a0)                     | +00e
         rts                                     | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0523da  @ $0523DA  (20 B)
+|  PalFade_SpawnOut_0523da  @ $0523DA  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0523da, "ax", @progbits
-        .global TaskHandler_0523da
-TaskHandler_0523da:
+        .section .text.PalFade_SpawnOut_0523da, "ax", @progbits
+        .global PalFade_SpawnOut_0523da
+PalFade_SpawnOut_0523da:
         move.l  d0,-(a7)                        | +000
-        lea     TaskHandler_0524b6(pc),a1       | +002
+        lea     PalFade_Out_Task_0524b6(pc),a1  | +002
         jsr     0x4ae.l                         | +006
         move.l  (a7)+,d0                        | +00c
         move.w  d0,0x70(a0)                     | +00e
@@ -588,17 +588,17 @@ TaskHandler_0523da:
         .global Template_0523EE
 Template_0523EE:
         move.b  #0x1,0x10a2c8.l                 | +000
-        bra.w   TaskHandler_0523fa__L052402     | +008
+        bra.w   PalFade_In_Task_0523fa__L052402 | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0523fa  @ $0523FA  (176 B)
+|  PalFade_In_Task_0523fa  @ $0523FA  (176 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0523fa, "ax", @progbits
-        .global TaskHandler_0523fa
-TaskHandler_0523fa:
+        .section .text.PalFade_In_Task_0523fa, "ax", @progbits
+        .global PalFade_In_Task_0523fa
+PalFade_In_Task_0523fa:
         move.b  #0xff,0x10a2c8.l                | +000
-        .global TaskHandler_0523fa__L052402
-TaskHandler_0523fa__L052402:
+        .global PalFade_In_Task_0523fa__L052402
+PalFade_In_Task_0523fa__L052402:
 .L052402:
         moveq   #0,d0                           | +008
         move.b  d0,0x10a2ca.l                   | +00a
@@ -611,7 +611,7 @@ TaskHandler_0523fa__L052402:
         move.w  0x70(a6),d0                     | +02e
         add.w   d0,d0                           | +032
         add.w   d0,d0                           | +034
-        lea     TaskHandler_052570(pc),a0       | +036
+        lea     PalFade_SpeedTable_052570(pc),a0 | +036
         move.w  (a0,d0.w),d1                    | +03a
         move.w  0x2(a0,d0.w),0x70(a6)           | +03e
 .L05243e:
@@ -647,17 +647,17 @@ TaskHandler_0523fa__L052402:
         .global Template_0524AA
 Template_0524AA:
         move.b  #0x1,0x10a2c8.l                 | +000
-        bra.w   TaskHandler_0524b6__L0524be     | +008
+        bra.w   PalFade_Out_Task_0524b6__L0524be | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0524b6  @ $0524B6  (86 B)
+|  PalFade_Out_Task_0524b6  @ $0524B6  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0524b6, "ax", @progbits
-        .global TaskHandler_0524b6
-TaskHandler_0524b6:
+        .section .text.PalFade_Out_Task_0524b6, "ax", @progbits
+        .global PalFade_Out_Task_0524b6
+PalFade_Out_Task_0524b6:
         move.b  #0xff,0x10a2c8.l                | +000
-        .global TaskHandler_0524b6__L0524be
-TaskHandler_0524b6__L0524be:
+        .global PalFade_Out_Task_0524b6__L0524be
+PalFade_Out_Task_0524b6__L0524be:
 .L0524be:
         moveq   #31,d0                          | +008
         move.b  d0,0x10a2ca.l                   | +00a
@@ -670,7 +670,7 @@ TaskHandler_0524b6__L0524be:
         move.w  0x70(a6),d0                     | +030
         add.w   d0,d0                           | +034
         add.w   d0,d0                           | +036
-        lea     TaskHandler_052570(pc),a0       | +038
+        lea     PalFade_SpeedTable_052570(pc),a0 | +038
         move.w  (a0,d0.w),d1                    | +03c
         move.w  0x2(a0,d0.w),0x70(a6)           | +040
 .L0524fc:
@@ -679,11 +679,11 @@ TaskHandler_0524b6__L0524be:
         move.w  d1,0x8c(a6)                     | +052
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052514  @ $052514  (92 B)
+|  PalFade_Out_Step_052514  @ $052514  (92 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052514, "ax", @progbits
-        .global TaskHandler_052514
-TaskHandler_052514:
+        .section .text.PalFade_Out_Step_052514, "ax", @progbits
+        .global PalFade_Out_Step_052514
+PalFade_Out_Step_052514:
         subq.w  #0x1,0x72(a6)                   | +000
         bne.w   .L05256e                        | +004
         move.w  0x70(a6),0x72(a6)               | +008
@@ -705,17 +705,17 @@ TaskHandler_052514:
         rts                                     | +05a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052570  @ $052570  (52 B)
+|  PalFade_SpeedTable_052570  @ $052570  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052570, "ax", @progbits
-        .global TaskHandler_052570
-TaskHandler_052570:
+        .section .text.PalFade_SpeedTable_052570, "ax", @progbits
+        .global PalFade_SpeedTable_052570
+PalFade_SpeedTable_052570:
         ori.b   #0x1,(a7)+                      | +000
         ori.b   #0x1,d4                         | +004
         ori.b   #0x1,d2                         | +008
         ori.b   #0x1,d1                         | +00c
         movem.l d0-d3,-(a7)                     | +010
-        lea     TaskHandler_0525a4(pc),a1       | +014
+        lea     PalFade_ToColor_Task_0525a4(pc),a1 | +014
         jsr     0x4ae.l                         | +018
         movem.l (a7)+,d0-d3                     | +01e
         move.w  d0,0x7c(a0)                     | +022
@@ -725,11 +725,11 @@ TaskHandler_052570:
         rts                                     | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0525a4  @ $0525A4  (254 B)
+|  PalFade_ToColor_Task_0525a4  @ $0525A4  (254 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0525a4, "ax", @progbits
-        .global TaskHandler_0525a4
-TaskHandler_0525a4:
+        .section .text.PalFade_ToColor_Task_0525a4, "ax", @progbits
+        .global PalFade_ToColor_Task_0525a4
+PalFade_ToColor_Task_0525a4:
         move.b  #0x80,0x10a2c8.l                | +000
         move.b  0x10a2ca.l,0x88(a6)             | +008
         move.b  0x10a2cb.l,0x89(a6)             | +010
@@ -801,11 +801,11 @@ TaskHandler_0525a4:
         move.b  d0,0x10a2cc.l                   | +0f8
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0526b8  @ $0526B8  (90 B)
+|  SpriteTable_Init256_0526b8  @ $0526B8  (90 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0526b8, "ax", @progbits
-        .global TaskHandler_0526b8
-TaskHandler_0526b8:
+        .section .text.SpriteTable_Init256_0526b8, "ax", @progbits
+        .global SpriteTable_Init256_0526b8
+SpriteTable_Init256_0526b8:
         lea     0x1082c8.l,a1                   | +000
         move.w  #0xff,d2                        | +006
         move.w  #0x8800,d0                      | +00a
@@ -836,57 +836,57 @@ TaskHandler_0526b8:
         move.b  d0,0x10a2d1.l                   | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05273a  @ $05273A  (16 B)
+|  Scheduler_CompareField10_05273a  @ $05273A  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05273a, "ax", @progbits
-        .global TaskHandler_05273a
-TaskHandler_05273a:
+        .section .text.Scheduler_CompareField10_05273a, "ax", @progbits
+        .global Scheduler_CompareField10_05273a
+Scheduler_CompareField10_05273a:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_052750                    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052756  @ $052756  (14 B)
+|  Sprite_SetupSlotFromTableA_Thunk_052756  @ $052756  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052756, "ax", @progbits
-        .global TaskHandler_052756
-TaskHandler_052756:
+        .section .text.Sprite_SetupSlotFromTableA_Thunk_052756, "ax", @progbits
+        .global Sprite_SetupSlotFromTableA_Thunk_052756
+Sprite_SetupSlotFromTableA_Thunk_052756:
         move.w  (a0),d1                         | +000
         move.w  0x2(a0),d2                      | +002
         move.w  0x4(a0),d3                      | +006
         move.w  #0x1,d4                         | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05276c  @ $05276C  (2 B)
+|  Entity_SpawnAndPublishD0At70_Thunk_05276c  @ $05276C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05276c, "ax", @progbits
-        .global TaskHandler_05276c
-TaskHandler_05276c:
+        .section .text.Entity_SpawnAndPublishD0At70_Thunk_05276c, "ax", @progbits
+        .global Entity_SpawnAndPublishD0At70_Thunk_05276c
+Entity_SpawnAndPublishD0At70_Thunk_05276c:
         move.w  (a0),d0                         | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052776  @ $052776  (2 B)
+|  Entity_SpawnAndPublishD0At70_Thunk_052776  @ $052776  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052776, "ax", @progbits
-        .global TaskHandler_052776
-TaskHandler_052776:
+        .section .text.Entity_SpawnAndPublishD0At70_Thunk_052776, "ax", @progbits
+        .global Entity_SpawnAndPublishD0At70_Thunk_052776
+Entity_SpawnAndPublishD0At70_Thunk_052776:
         move.w  (a0),d0                         | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_052788  @ $052788  (6 B)
+|  Task_AllocProp86586_052788  @ $052788  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_052788, "ax", @progbits
-        .global TaskHandler_052788
-TaskHandler_052788:
+        .section .text.Task_AllocProp86586_052788, "ax", @progbits
+        .global Task_AllocProp86586_052788
+Task_AllocProp86586_052788:
         lea     0x86586.l,a1                    | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_05279e  @ $05279E  (16 B)
+|  Scheduler_CompareField10_05279e  @ $05279E  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_05279e, "ax", @progbits
-        .global TaskHandler_05279e
-TaskHandler_05279e:
+        .section .text.Scheduler_CompareField10_05279e, "ax", @progbits
+        .global Scheduler_CompareField10_05279e
+Scheduler_CompareField10_05279e:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008

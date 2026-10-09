@@ -134,7 +134,7 @@ extern void Prop_SlotPrioCheckRts_04f2a4(void);
 extern void Allen_Spawn_050976(void);
 extern void Allen_GrenadeExplodeTick_051452(void);
 extern void TaskHandler_05147e(void);
-extern void TaskHandler_052514(void);
+extern void PalFade_Out_Step_052514(void);
 extern void TaskHandler_0526aa(void);
 extern void TaskHandler_053c5c(void);
 extern void Prop_BurnFollowVictim_053c64(void);
@@ -1321,7 +1321,7 @@ void SetTaskHandler_05144a(void) {
 
 __attribute__((section(".text.SetTaskHandler_05250c")))
 void SetTaskHandler_05250c(void) {
-    _a1_ptr = &TaskHandler_052514;
+    _a1_ptr = &PalFade_Out_Step_052514;
     STORE_A1_AT_FP();
 }
 
