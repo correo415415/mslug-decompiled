@@ -89,7 +89,7 @@ SYMBOLS = {
     0x00046AC6: "Sub_00046AC6",              # jsr abs.l inicial de Init_JsrThenTailCall (Z2 #12)
     0x00000FE0: "Sub_00000FE0",              # bra.w tail-call de Init_JsrThenTailCall
     # 0x00046A48 promovido a TimeUp_Banner_Task_046a48 en registry (Wave DDDDD).
-    # 0x00106F28 promovido a Data_106f28 en registry (Wave NNNNN).
+    0x00106F28: "GlobalFlag_106F28",         # flag global (RAM) chequeada por Handler_ConditionalHitCounter
     # 0x00001C34 promovido a Timer_WaitFlag21_001c34 en registry (Wave JJJJJ).
 
     # ---- Entry points BIOS y objetivos internos (Wave P) --------------

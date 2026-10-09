@@ -12117,7 +12117,7 @@ REGISTRY = [
     ("Data_106f20",                                0x106F20,   6, "level_data_a_0f2ffc.s"),
     ("Data_106f26",                                0x106F26,   1, "level_data_a_0f2ffc.s"),
     ("Data_106f27",                                0x106F27,   1, "level_data_a_0f2ffc.s"),
-    ("Data_106f28",                                0x106F28,   1, "level_data_a_0f2ffc.s"),
+    ("RomData_106f28",                             0x106F28,   1, "level_data_a_0f2ffc.s"),
     ("Data_106f29",                                0x106F29,   1, "level_data_a_0f2ffc.s"),
     ("Data_106f2a",                                0x106F2A,   1, "level_data_a_0f2ffc.s"),
     ("Data_106f2b",                                0x106F2B,   1, "level_data_a_0f2ffc.s"),

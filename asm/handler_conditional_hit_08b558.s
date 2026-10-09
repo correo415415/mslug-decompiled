@@ -10,7 +10,7 @@
 |    2. Invoca subrutina $28758 (probable check de estado).
 |    3. Si $28758 retorna con C=1 (bcs): limpia bit 0 del flag $13(a6)
 |       (probable "hit ya procesado").
-|    4. Lee Data_106f28; si bit 0 esta encendido, tail-calls a
+|    4. Lee GlobalFlag_106F28; si bit 0 esta encendido, tail-calls a
 |       $06E224 (Entity_SpawnAndTag, Z-batch2 #7).
 |
 |  Absorbe JsrAbsThunk_08b586 (Wave I): los ultimos 8 B de la funcion
@@ -40,7 +40,7 @@ Handler_ConditionalHitCounter_08B558:
         bcc.w   .Lcheck_global                 | +16  if (!C) skip flag clear
         bclr.b  #0x0, 0x13(a6)                 | +1a  self->flags13 &= ~1 (hit done)
 .Lcheck_global:
-        move.b  0x106f28.l, d0                 | +20  d0 = Data_106f28
+        move.b  0x106f28.l, d0                 | +20  d0 = GlobalFlag_106F28
         andi.b  #0x1, d0                       | +26  d0 &= 0x01
         beq.w   .Lexit                         | +2a  if (bit 0 clear) exit
         jsr     0x6e224.l                      | +2e  Entity_SpawnAndTag (Z-batch2 #7)

@@ -147,7 +147,12 @@ def main():
 
     ent_names = {}
     for a, b in ent_list:
-        ent_names[a] = names.get(a, f"{kind(a, b)}_{a:06x}")
+        # ROM >= $100000 comparte valor numérico con RAM de trabajo ($100000..
+        # $10FFFF): prefijo Rom para no confundir con los símbolos RAM.
+        pre = kind(a, b)
+        if 0x100000 <= a < 0x110000 and pre == "Data":
+            pre = "RomData"
+        ent_names[a] = names.get(a, f"{pre}_{a:06x}")
 
     def sym_for(v):
         if v in ent_names:
