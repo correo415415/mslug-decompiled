@@ -69,8 +69,8 @@ SYMBOLS = {
     # 0x00026B56 promovido a Entity_MoveAndCollide_A_026b56 en registry (Wave BBBBB).
     # 0x00047872 promovido a Font_TileWithPal_047872 en registry (Wave DDDDD).
     0x00044022: "Sub_00044022",              # blit setup llamado por Helper_05026C
-    0x000523EE: "Template_0523EE",           # template del spawner Helper_05239E
-    0x000524AA: "Template_0524AA",           # template del spawner Helper_0523B2
+    # 0x000523EE promovido a Template_0523EE en registry (Wave HHHHH).
+    # 0x000524AA promovido a Template_0524AA en registry (Wave HHHHH).
 
     # ---- Wave Z batch 2: externos referenciados por asm 68000 puro ----
     # 0x0005E3A2 promovido a Player_GetEntity_05e3a2 en registry (Wave SSSS).
@@ -493,7 +493,7 @@ SYMBOLS = {
     # 0x00050976 promovido a Allen_Spawn_050976 en registry (Wave QQQQ).
     # 0x00051452 promovido a Allen_GrenadeExplodeTick_051452 en registry (Wave QQQQ).
     0x0005147E: "TaskHandler_05147e",
-    0x00052514: "TaskHandler_052514",
+    # 0x00052514 promovido a TaskHandler_052514 en registry (Wave HHHHH).
     0x000526AA: "TaskHandler_0526aa",
     0x00053C5C: "TaskHandler_053c5c",
     # 0x00053C64 promovido a Prop_BurnFollowVictim_053c64 en registry (Wave HHHH).
@@ -1154,7 +1154,7 @@ SYMBOLS = {
     # porque Scratch_Alloc_01390E (JJ#2) hace jsr abs.l al punto de entrada
     # interno $05A88A, no al inicio de la funcion contenedora.
     0x0005A88A: "Fn_0005A88A",
-    0x00051ABE: "Entity_AllocAndInit_051ABE",
+    # 0x00051ABE promovido a Entity_AllocAndInit_051ABE en registry (Wave HHHHH).
     # 0x0007707C promovido a Platform_ListsInit_07707c en registry (Wave YYYY).
     # 0x0008F158 promovido a Rings_InitAll_08f158 en registry (Wave OOO).
     # 0x0003EE3A promovido a Subsystem_ScoresInit_03EE3A en registry (Wave RRRR).
@@ -1200,7 +1200,7 @@ SYMBOLS = {
     # asm/collision_cell_apply_051bxx.s para que bsr.w Fn_00051BA8 en
     # collision_probes_051cxx.s (KK#2) siga resolviendose sin edicion.
     # 0x00051BA8: "Fn_00051BA8",
-    0x00051D84: "Fn_00051D84",
+    # 0x00051D84 promovido a Fn_00051D84 en registry (Wave HHHHH).
     0x00051C08: "Fn_00051C08",
     0x00051C82: "Fn_00051C82",
     0x00051CF6: "Fn_00051CF6",
