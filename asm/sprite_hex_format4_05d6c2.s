@@ -80,6 +80,8 @@ Sprite_HexFormat4_05D6C2:
         moveq   #0xc, d2                | +06  d2 = 12 (shift inicial)
         move.w  #0x4, d3                | +08  d3 = 4 (iters restantes)
         move.w  d3, -(a7)               | +0c  push d3 (preservar durante fase 1)
+        .global Sprite_HexFormat4_05D6C2__L05d6d0
+Sprite_HexFormat4_05D6C2__L05d6d0:
 .Lextract_loop:
         move.w  #0x0, d1                | +0e  d1 = 0 (limpia hi)
         move.l  d2, -(a7)               | +12  push d2 (lsr.l lo consume)
