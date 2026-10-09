@@ -1,11 +1,120 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave CCCCC — motor de colisión con el mapa (pasos de movimiento, probes de
+|  suelo/pendiente/pared), hitboxes entidad-entidad e intérprete de scripts
+|  de sprite (32 opcodes)
 |  Región: $027400..$02A000  (6,380 B, 117 entradas, 59 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Tres subsistemas que rellenan los 59 huecos entre las islas ya cerradas
+|  (entity_probe_*_027xxx.s, entity_apply_fade_shade_028108.s,
+|  script_dispatch.s, player_route_publish_033xxx.s, slug_*):
+|
+|  1) $027400..$028364  Continuación del motor de movimiento+colisión
+|     (a5 = `$108080`, scratch -$1154..-$1140(a5), a6 = entidad):
+|     - Entity_MoveC_Tail/Land, Entity_FallStep, Entity_MoveFall: cierre de
+|       Entity_MoveAndCollide_C (Wave BBBBB) y la variante "en caída".
+|     - Entity_MoveAndCollide_D/E/F: tres bucles más de colisión con el mapa
+|       (Handler_ApplyCameraGlobals → Trail_FindNearest → probes), que
+|       difieren en el campo de gravedad (`$34`/`$64(a6)`) y en si se
+|       resuelve pendiente (Entity_SlopeResolve/SlopeCommit/SlopeTail).
+|     - Entity_StepB/C/D/Fall_UpdatePos(+_Tail): pasos de integración de
+|       posición (`$22/$24(a6)` += dx/dy con acumulador subpíxel), la variante
+|       "Y82" usa `$82(a6)` como Y alternativa (entidades montadas).
+|     - CollMap_LookupTile: tile del mapa de colisión bajo (x,y) (tabla
+|       `$278BA8`, salida `$106F31`); CollMap_TestSolidOrPlatform /
+|       TestSolidBit / TestSolidBitC / TestPlatformBitC: tests de los bits
+|       sólido (0) y plataforma (1) del tile, variantes con/sin contexto.
+|     - Entity_FloorBelowProbe, Entity_TestGroundUnder, Entity_TestSolidAtFeet
+|       (+Ctx): probes de suelo bajo los pies; Entity_TestD1Any/Pos/Neg/Zero:
+|       predicados sobre el dx (tabla de 4 saltos cortos).
+|     - Entity_ScaleDyForGravity (dy según perfil `$34`), Entity_ClampXToScreen-
+|       Edge / ClampX_ZeroDx (frena a los jugadores en el borde del scroll),
+|       Entity_TileUnderToShade / SetField38FromTile (sombra según tile),
+|       Entity_GravityToIndex (0/$80/$400/$1000 → 0..3, `trap #15` si otro).
+|     - Entity_ClearVelLatch / SetVelLatchX / SetVelLatchY / ApplyVelLatch:
+|       "latch" de velocidad en `-$1154/-$1150(a5)` aplicado al final del paso.
+|     - Entity_SlopeDirTest(+Tail), Entity_ProbeSwapGravity_A/B/C: probes con
+|       gravedad invertida temporalmente (restaurada con los Entity_Probe-
+|       Revert/Transform de Wave T/Z); ClearD3Rts, ChildRank_CmpByte10 ×3.
+|
+|  2) $0283EC..$028CB8  Hitboxes entidad-entidad:
+|     - Hitbox_RunList (a0 = lista de ops {op.b, ...}; $FF = fin, retrocede
+|       $50): despacha por Hitbox_ListOpTable (5 punteros) a Hitbox_Op0..4:
+|       0 = contra ambos jugadores, 1 = P1 + su Slug, 2 = P2 + su Slug,
+|       3 = pool de enemigos `$100800`, 4 = pool `$1008A0` (op ≥5 → trap #15).
+|     - Hitbox_TestEntityPair (a1 vs a6: salta si es la misma entidad, si
+|       `$48(a1)` = -1 (sin hitbox) o si bit1 de `$13(a6)` = ya golpeada) →
+|       Hitbox_TestBoxes: recorre las cajas de `$48(a1)` con Hitbox_ShapeTest-
+|       Table (rect / punto / punto-A4) y Hitbox_Overlap{Rect,Point,PointA4}
+|       (+_Y, +_Store: guardan el solape en la scratch).
+|     - Hitbox_ApplyDamage: Hitbox_SubtractHP (`$02(a0)` de HP, con guardia
+|       de `$01(a2)`), compara prioridad `$04(a0)` vs `$01(a2)` y marca bits
+|       1/2 de `$13(a6)` y `$5A(a6)`; Hitbox_MarkHitOnly / MarkBlocked /
+|       MarkHitNoDamage: variantes que sólo ponen flags.
+|     - Hitbox_SideOfImpact(+Calc) y Hitbox_CheckBit0: lado del impacto (para
+|       el knockback); Hitbox_ScreenMargin (datos {0,1,0,1,-1}) y
+|       Hitbox_DefaultShapes ($289F6, 160 B: cajas por defecto por tipo).
+|
+|  3) $028CF0..$029576  Intérprete de scripts de sprite (lo llama
+|     Script_DispatchOpcode de script_dispatch.s con `movea.l #$28CF0,a2`):
+|     - Script_OpcodeTable: 32 punteros long. Opcodes: 00 Wait (n frames),
+|       01 Jump, 02 Sprite (carga definición, el grueso: 558 B), 03 Loop
+|       (contador en `$70(a6)`), 04 Sound (→ `$2352`) / 1F Sound2222
+|       (→ `$2222`), 05/06/07 SetByte/Word/Long (dest a6-relativo), 08 Call
+|       (sub-script, pila en la tarea), 09 SetHitbox48, 0A SetField4C,
+|       0B SetField60, 0C CopyWordTo14, 0D/0E/0F And b/w/l, 10/11/12 Or
+|       b/w/l, 13/14/15 Eor b/w/l, 16 RepeatSprite, 17 SpriteFlag5 /
+|       18 SpriteFlag5Cont, 19 SetField70, 1A WaitFromTable, 1B/1C Index con
+|       stride $18/$1C, 1D SpriteBack (offsets en ScriptOp1D_BackOffsets),
+|       1E SpawnChild (+_Sprite: Entity_AllocSpriteSlot y Sprite_Dispatch
+|       `$5A9D6/$5A9E2`).  ScriptOp_DecTimers decrementa los timers de
+|       `$44/$46(a6)` por paso. Los tamaños impares (`trap #15` tras cada
+|       operando no alineado) son asserts del compilador original.
+|
+|  B. EVIDENCIAS
+|  - `movea.l #$28CF0,a2` + `movea.l (a2,d0.w*4)` en script_dispatch.s
+|    fija el tamaño (32) y el orden de Script_OpcodeTable.
+|  - Las 3 tablas de punteros ($28428, $2856E, $28CF0) apuntan sólo a este
+|    rango: los 39 destinos se forzaron como entradas (docs/waves/ccccc_args).
+|  - Misma scratch a5-relativa `-$1154..-$1140` que Wave BBBBB (Entity_Move*).
+|  - Slots fijos `$100440/$1004E0` (P1/P2) y pools `$100800/$1008A0` ya
+|    identificados en Waves T/Z/BBBBB; `$48(a6)` = puntero a hitbox
+|    (ScriptOp09 lo escribe, Hitbox_TestEntityPair lo lee).
+|  - `jsr $2352` = InputGuardCall219c (cola de sonido) ya nombrado.
+|
+|  C. HIPÓTESIS (nombres provisionales)
+|  - Las letras D/E/F de Entity_MoveAndCollide_* indican sólo orden de
+|    aparición; falta diferenciar semánticamente cada bucle.
+|  - `$2222` (ScriptOp1F) se asume segunda entrada del driver de sonido
+|    (hueco de `$000400..$002F30` aún no registrado).
+|  - Hitbox_ShapeTestTable: 2 entradas observadas (rect/punto); el índice
+|    procede de `$00(a2)` de la caja — tipos >1 no verificados.
+|  - ScriptOp1A_WaitFromTable: tabla indexada por `$10FD82`? (modo BIOS) —
+|    sin confirmar.
+|
+|  D. CAMPOS (a6) usados en este archivo
+|    (a6)      handler;  $08 parent;  $10 rank;  $13 flags (bit1 = golpeada,
+|    bit2 = daño aplicado, bit4/5 = sin colisión)
+|    $14 word copiado por ScriptOp0C;  $22/$24 x/y px;  $28/$2A vel;
+|    $2C/$2E accel;  $34 gravedad;  $38 sombra/tile;  $44/$46 timers script
+|    $48 hitbox ptr;  $4C/$60/$70 campos de script;  $5A/$5B estado suelo
+|    $64 gravedad alt;  $69 wall flags;  $82 Y alternativa (montado)
+|
+|  E. HELPERS EXTERNOS
+|    Handler_ApplyCameraGlobals_044182, CollMap_TestPoint_043F02,
+|    Trail_FindNearest_09993c, Trail_MergeIdNibble_0999ca,
+|    Coord_ScreenToLocalSecondary_0440D0, Sprite_Dispatch (ThunkTarget_05a9d6/
+|    05a9e2), Entity_AllocSpriteSlot (ThunkTarget_00236e), InputGuardCall219c
+|    (`$2352`), `$2222` (sonido), Slug_TypeIfAir_02f84a,
+|    Entity_ProbeTransformFreeCcr_027bc8/027c8c, Entity_ProbeRevertCcr_027AFC,
+|    ActorCtxWrapper_02783a, SpritePubEffect_027EBA__L027ec2,
+|    Entity_ApplyFadeShade_028108__L028110, Script_DispatchOpcode__L028da8.
+|
+|  F. ESTADO
+|    117/117 entradas byte-exactas en verify (gen_asm_region) y en el matcher.
+|    Zona $027400..$02A000 al 100 % (código + 6 islas de datos).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
