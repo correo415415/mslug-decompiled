@@ -2195,7 +2195,7 @@ REGISTRY = [
     # ("JsrAbsThunk_000762", 0x000762,  8, "jsr_abs_thunks.c"),
     # ELIMINADO (falso positivo Wave I): absorbido como epilogo `jsr $5DC34.l; rts`
     # por Entity_AllocFromFreeList_0006FE (W#16). Septimo FP del proyecto.
-    # JsrAbsThunk_001c2c ABSORBIDO por Handler_TimerAndReplace_001BCC (Wave Z batch 2 #13):
+    # JsrAbsThunk_001c2c ABSORBIDO por Handler_TimerAndReplace_001BCA (Wave Z batch 2 #13):
     # cola `jsr $47482.l; rts` tail-call. 21 falso positivo del proyecto.
     ("JsrAbsThunk_001d34", 0x001D34,  8, "jsr_abs_thunks.c"),
     ("JsrAbsThunk_001d9c", 0x001D9C,  8, "jsr_abs_thunks.c"),
@@ -3203,7 +3203,7 @@ REGISTRY = [
     ("Player_IncCounterAt84_032B36",          0x032B36,   34, "player_inc_counter_at84_032b36.s"),
     ("Player_IncCounterAt81_032AFA",          0x032AFA,   34, "player_inc_counter_at81_032afa.s"),
     ("Init_JsrThenTailCall_001320",           0x001320,   18, "init_jsr_then_tail_call_001320.s"),
-    ("Handler_TimerAndReplace_001BCC",        0x001BCC,  104, "handler_timer_and_replace_001bcc.s"),
+    ("Handler_TimerAndReplace_001BCA",        0x001BCA,  106, "handler_timer_and_replace_001bca.s"),
     ("Handler_ConditionalHitCounter_08B558",  0x08B558,   54, "handler_conditional_hit_08b558.s"),
 
     # ---- Wave AA batch 1: cluster de dispatchers por-jugador del pipeline

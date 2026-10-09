@@ -56,7 +56,7 @@ void JsrAbsThunk_0004fe(void) {
  * $001AAE..$001AB5 (8 B: jsr $981FC.l; rts) es la rama .Ltwo_path de
  * Dispatcher_ModeTable_001922, no un thunk independiente. */
 
-/* JsrAbsThunk_001c2c ABSORBIDO por Handler_TimerAndReplace_001BCC (Wave Z batch 2 #13).
+/* JsrAbsThunk_001c2c ABSORBIDO por Handler_TimerAndReplace_001BCA (Wave Z batch 2 #13).
  * Los 8 B en $001C2C..$001C33 (`jsr $47482.l; rts`) son la cola tail-call
  * del handler de timer. 21 falso positivo del proyecto.
  */

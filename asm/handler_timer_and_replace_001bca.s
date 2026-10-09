@@ -1,12 +1,13 @@
 | ============================================================================
-|  Metal Slug 1 - asm/handler_timer_and_replace_001bcc.s
+|  Metal Slug 1 - asm/handler_timer_and_replace_001bca.s
 |  ----------------------------------------------------------------------------
 |  Wave Z batch 2 - #13
 |
-|  Handler_TimerAndReplace_001BCC  @ $001BCC  (104 bytes)
+|  Handler_TimerAndReplace_001BCA  @ $001BCA  (106 bytes)
 |
 |  Handler complejo de zona baja. Estructura general:
-|    1. Guarda d0 con `and.b d0,d0` + move a d0=$10D7 y `jsr $2352` (guard);
+|    1. `movem.l d0-d1,-(a7)` (fall-through desde TaskHandler_001b80, no es
+|       entry point propio: la antigua base $1BCC partia el movem) + d0=$10D7 y `jsr $2352` (guard);
 |       recupera d0/d1 con `movem (a7)+, d0-d1`; clr.b d1.
 |    2. Si contador global $106E92 >= $64 (=100): salta a $1C02 (skip decrement).
 |    3. Si (d0 & $0F) != 0: tail-call a $47482 directo (bne.w $1C32).
@@ -30,19 +31,19 @@
 |  ============================================================================
 
         .text
-        .globl  Handler_TimerAndReplace_001BCC
-        .type   Handler_TimerAndReplace_001BCC, @function
-        .section .text.Handler_TimerAndReplace_001BCC, "ax", @progbits
+        .globl  Handler_TimerAndReplace_001BCA
+        .type   Handler_TimerAndReplace_001BCA, @function
+        .section .text.Handler_TimerAndReplace_001BCA, "ax", @progbits
 
-Handler_TimerAndReplace_001BCC:
-        and.b   d0, d0                         | +00  fija CCR = flags(d0)
-        move.w  #0x10d7, d0                    | +02  d0 = $10D7 (guard token)
-        jsr     0x2352.l                       | +06  InputGuardCall219c (Wave A)
-        movem.l (a7)+, d0-d1                   | +0c  restaura d0/d1
-        clr.b   d1                             | +10  d1 low = 0
-        cmpi.w  #0x64, 0x106e92.l              | +12  if (counter >= 100)
-        bcc.w   .Lat_1c02                      | +1a     skip decrement
-        move.b  d0, d2                         | +1e  d2 = d0
+Handler_TimerAndReplace_001BCA:
+        movem.l d0-d1, -(a7)                   | +00  salva d0/d1 (TaskHandler_001b80 cae aqui)
+        move.w  #0x10d7, d0                    | +04  d0 = $10D7 (guard token)
+        jsr     0x2352.l                       | +08  InputGuardCall219c (Wave A)
+        movem.l (a7)+, d0-d1                   | +0e  restaura d0/d1
+        clr.b   d1                             | +12  d1 low = 0
+        cmpi.w  #0x64, 0x106e92.l              | +14  if (counter >= 100)
+        bcc.w   .Lat_1c02                      | +1c     skip decrement
+        move.b  d0, d2                         | +20  d2 = d0
         andi.b  #0xf, d2                       | +20  d2 &= 0x0F (low nibble)
         bne.w   .Lexit_rts                     | +24  if (low nibble != 0) exit directo
         andi.b  #0x7f, d0                      | +28  d0 &= 0x7F
@@ -68,4 +69,4 @@ Handler_TimerAndReplace_001BCC:
 
         .equ    .Lnext_handler, Sub_00001C34
 
-        .size   Handler_TimerAndReplace_001BCC, .-Handler_TimerAndReplace_001BCC
+        .size   Handler_TimerAndReplace_001BCA, .-Handler_TimerAndReplace_001BCA
