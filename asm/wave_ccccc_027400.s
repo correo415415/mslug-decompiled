@@ -15,26 +15,26 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027400  @ $027400  (36 B)
+|  Entity_MoveC_Tail_027400  @ $027400  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027400, "ax", @progbits
-        .global TaskHandler_027400
-TaskHandler_027400:
+        .section .text.Entity_MoveC_Tail_027400, "ax", @progbits
+        .global Entity_MoveC_Tail_027400
+Entity_MoveC_Tail_027400:
         cmpi.w  #0xffff,0x34(a6)                | +000
-        beq.w   TaskHandler_02742a              | +006
+        beq.w   Entity_MoveC_Land_02742a        | +006
         jsr     0x44182.l                       | +00a
         move.w  -0x1148(a5),d1                  | +010
         move.w  -0x1146(a5),d2                  | +014
         jsr     SpritePubEffect_027EBA__L027ec2(pc) | +018
-        bcs.w   TaskHandler_02742a              | +01c
+        bcs.w   Entity_MoveC_Land_02742a        | +01c
         movem.l (a7)+,d3-d6/a1                  | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02742a  @ $02742A  (26 B)
+|  Entity_MoveC_Land_02742a  @ $02742A  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02742a, "ax", @progbits
-        .global TaskHandler_02742a
-TaskHandler_02742a:
+        .section .text.Entity_MoveC_Land_02742a, "ax", @progbits
+        .global Entity_MoveC_Land_02742a
+Entity_MoveC_Land_02742a:
         movem.l (a7)+,d3-d6/a1                  | +000
         move.w  0x2a(a6),d0                     | +004
         move.w  #0x400,d1                       | +008
@@ -43,22 +43,22 @@ TaskHandler_02742a:
         move.w  #0xffc0,0x2e(a6)                | +014
 
 | ----------------------------------------------------------------------------
-|  Sub_000027444  @ $027444  (20 B)
+|  Entity_FallStep_027444  @ $027444  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000027444, "ax", @progbits
-        .global Sub_000027444
-Sub_000027444:
-        jsr     TaskHandler_0274b8(pc)          | +000
+        .section .text.Entity_FallStep_027444, "ax", @progbits
+        .global Entity_FallStep_027444
+Entity_FallStep_027444:
+        jsr     Entity_MoveAndCollide_D_0274b8(pc) | +000
         bcc.w   ClearXN_02745e                  | +004
         move.w  #0x0,0x2e(a6)                   | +008
         move.w  #0x0,0x2a(a6)                   | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027464  @ $027464  (72 B)
+|  Entity_MoveFall_027464  @ $027464  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027464, "ax", @progbits
-        .global TaskHandler_027464
-TaskHandler_027464:
+        .section .text.Entity_MoveFall_027464, "ax", @progbits
+        .global Entity_MoveFall_027464
+Entity_MoveFall_027464:
         move.w  #0xffff,0x34(a6)                | +000
         move.w  #0xffff,0x64(a6)                | +006
         move.w  0x2c(a6),d0                     | +00c
@@ -72,29 +72,29 @@ TaskHandler_027464:
 .L027490:
         move.w  d0,0x2a(a6)                     | +02c
         jsr     Entity_MoveX_WallStop_026836(pc) | +030
-        jsr     TaskHandler_0274b8__L0274cc(pc) | +034
+        jsr     Entity_MoveAndCollide_D_0274b8__L0274cc(pc) | +034
         bcc.w   ClearXN_0274b2                  | +038
         move.w  #0x0,0x2e(a6)                   | +03c
         move.w  #0x0,0x2a(a6)                   | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0274b8  @ $0274B8  (250 B)
+|  Entity_MoveAndCollide_D_0274b8  @ $0274B8  (250 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0274b8, "ax", @progbits
-        .global TaskHandler_0274b8
-TaskHandler_0274b8:
+        .section .text.Entity_MoveAndCollide_D_0274b8, "ax", @progbits
+        .global Entity_MoveAndCollide_D_0274b8
+Entity_MoveAndCollide_D_0274b8:
         move.w  #0xffff,0x34(a6)                | +000
         move.w  #0xffff,0x64(a6)                | +006
         jsr     Entity_IntegrateVelocity_026814(pc) | +00c
         jsr     Entity_MoveX_WallStop_026836(pc) | +010
-        .global TaskHandler_0274b8__L0274cc
-TaskHandler_0274b8__L0274cc:
+        .global Entity_MoveAndCollide_D_0274b8__L0274cc
+Entity_MoveAndCollide_D_0274b8__L0274cc:
 .L0274cc:
         jsr     0x44182.l                       | +014
         move.w  -0x1148(a5),d1                  | +01a
         move.w  -0x1146(a5),d2                  | +01e
         add.w   -0x1154(a5),d1                  | +022
-        jsr     Sub_00027DB2(pc)                | +026
+        jsr     CollMap_LookupTile_027db2(pc)   | +026
         cmpi.b  #0x1,d0                         | +02a
         beq.w   .L027526                        | +02e
         cmpi.b  #0x10,d0                        | +032
@@ -122,7 +122,7 @@ TaskHandler_0274b8__L0274cc:
         add.w   -0x1154(a5),d1                  | +084
         add.w   -0x1152(a5),d2                  | +088
         subi.w  #0x1,d2                         | +08c
-        jsr     Sub_00027DB2(pc)                | +090
+        jsr     CollMap_LookupTile_027db2(pc)   | +090
         jsr     0x9993c.l                       | +094
         move.b  d6,0x106f44.l                   | +09a
         cmpi.b  #0xf,d6                         | +0a0
@@ -140,13 +140,13 @@ TaskHandler_0274b8__L0274cc:
         ble.w   .L027586                        | +0c6
         clr.w   0x2a(a6)                        | +0ca
 .L027586:
-        jsr     Sub_00027E28(pc)                | +0ce
+        jsr     CollMap_TestSolidOrPlatform_027e28(pc) | +0ce
         bcc.w   .L02759a                        | +0d2
         movea.l 0x4(a1),a3                      | +0d6
-        bsr.w   TaskHandler_02822c              | +0da
-        bcc.w   TaskHandler_0275b8              | +0de
-        .global TaskHandler_0274b8__L02759a
-TaskHandler_0274b8__L02759a:
+        bsr.w   Entity_SlopeDirTest_02822c      | +0da
+        bcc.w   Entity_SlopeCommit_0275b8       | +0de
+        .global Entity_MoveAndCollide_D_0274b8__L02759a
+Entity_MoveAndCollide_D_0274b8__L02759a:
 .L02759a:
         move.w  d1,-0x1148(a5)                  | +0e2
         addi.w  #0x1,d2                         | +0e6
@@ -155,14 +155,14 @@ TaskHandler_0274b8__L02759a:
         move.b  -0x114f(a5),-0x1143(a5)         | +0f4
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0275b8  @ $0275B8  (56 B)
+|  Entity_SlopeCommit_0275b8  @ $0275B8  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0275b8, "ax", @progbits
-        .global TaskHandler_0275b8
-TaskHandler_0275b8:
+        .section .text.Entity_SlopeCommit_0275b8, "ax", @progbits
+        .global Entity_SlopeCommit_0275b8
+Entity_SlopeCommit_0275b8:
         movea.l 0x4(a1),a3                      | +000
-        jsr     TaskHandler_0275f6(pc)          | +004
-        bcs.b   TaskHandler_0274b8__L02759a     | +008
+        jsr     Entity_SlopeResolve_0275f6(pc)  | +004
+        bcs.b   Entity_MoveAndCollide_D_0274b8__L02759a | +008
         addi.w  #0x1,d2                         | +00a
         move.w  d1,-0x1148(a5)                  | +00e
         move.w  d2,-0x1146(a5)                  | +012
@@ -175,11 +175,11 @@ TaskHandler_0275b8:
         jsr     0x999ca.l                       | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0275f6  @ $0275F6  (304 B)
+|  Entity_SlopeResolve_0275f6  @ $0275F6  (304 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0275f6, "ax", @progbits
-        .global TaskHandler_0275f6
-TaskHandler_0275f6:
+        .section .text.Entity_SlopeResolve_0275f6, "ax", @progbits
+        .global Entity_SlopeResolve_0275f6
+Entity_SlopeResolve_0275f6:
         cmpi.b  #0xc,d0                         | +000
         beq.w   .L0276a8                        | +004
         cmpi.b  #0xd,d0                         | +008
@@ -229,7 +229,7 @@ TaskHandler_0275f6:
         addq.w  #0x8,d2                         | +0b0
 .L0276a8:
         addq.w  #0x8,d2                         | +0b2
-        jsr     Sub_00027DB2(pc)                | +0b4
+        jsr     CollMap_LookupTile_027db2(pc)   | +0b4
         jsr     0x9993c.l                       | +0b8
         move.b  d6,0x106f44.l                   | +0be
         cmpi.b  #0xf,d6                         | +0c4
@@ -261,27 +261,27 @@ TaskHandler_0275f6:
         trap    #0xf                            | +11a
 .L027712:
         btst    #0x7,0x13(a6)                   | +11c
-        beq.w   TaskHandler_02772c              | +122
+        beq.w   Entity_SlopeTail_02772c         | +122
         cmpi.w  #0xffff,0x34(a6)                | +126
-        bne.w   TaskHandler_02772c              | +12c
+        bne.w   Entity_SlopeTail_02772c         | +12c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02772c  @ $02772C  (10 B)
+|  Entity_SlopeTail_02772c  @ $02772C  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02772c, "ax", @progbits
-        .global TaskHandler_02772c
-TaskHandler_02772c:
+        .section .text.Entity_SlopeTail_02772c, "ax", @progbits
+        .global Entity_SlopeTail_02772c
+Entity_SlopeTail_02772c:
         add.w   d4,d2                           | +000
         asl.w   #0x1,d3                         | +002
         move.w  0x2(a2,d3.w),d4                 | +004
         sub.w   d4,d2                           | +008
 
 | ----------------------------------------------------------------------------
-|  Sub_00002773C  @ $02773C  (136 B)
+|  Entity_MoveAndCollide_E_02773c  @ $02773C  (136 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00002773C, "ax", @progbits
-        .global Sub_00002773C
-Sub_00002773C:
+        .section .text.Entity_MoveAndCollide_E_02773c, "ax", @progbits
+        .global Entity_MoveAndCollide_E_02773c
+Entity_MoveAndCollide_E_02773c:
         jsr     0x44182.l                       | +000
         jsr     Entity_IntegrateVelocity_026814(pc) | +006
         jsr     Entity_MoveX_WallStop_026836(pc) | +00a
@@ -290,7 +290,7 @@ Sub_00002773C:
         add.w   -0x1154(a5),d1                  | +016
         add.w   -0x1152(a5),d2                  | +01a
         subq.w  #0x1,d2                         | +01e
-        jsr     Sub_00027DB2(pc)                | +020
+        jsr     CollMap_LookupTile_027db2(pc)   | +020
         jsr     0x9993c.l                       | +024
         move.b  d6,0x106f44.l                   | +02a
         cmpi.b  #0xf,d6                         | +030
@@ -304,7 +304,7 @@ Sub_00002773C:
 .L027786:
         cmpi.b  #0x0,d0                         | +04a
         beq.w   .L0277c0                        | +04e
-        jsr     TaskHandler_027e62(pc)          | +052
+        jsr     CollMap_TestSolidBit_027e62(pc) | +052
         bcc.w   .L0277c0                        | +056
         tst.w   0x106f2e.l                      | +05a
         beq.w   .L0277aa                        | +060
@@ -316,16 +316,16 @@ Sub_00002773C:
         bge.w   .L0277c0                        | +072
         cmpi.b  #0x0,0x9(a1)                    | +076
         bne.w   .L0277c0                        | +07c
-        jmp     TaskHandler_0275b8(pc)          | +080
+        jmp     Entity_SlopeCommit_0275b8(pc)   | +080
 .L0277c0:
-        jmp     TaskHandler_0274b8__L02759a(pc) | +084
+        jmp     Entity_MoveAndCollide_D_0274b8__L02759a(pc) | +084
 
 | ----------------------------------------------------------------------------
-|  Sub_000277C4  @ $0277C4  (108 B)
+|  Entity_MoveAndCollide_F_0277c4  @ $0277C4  (108 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_000277C4, "ax", @progbits
-        .global Sub_000277C4
-Sub_000277C4:
+        .section .text.Entity_MoveAndCollide_F_0277c4, "ax", @progbits
+        .global Entity_MoveAndCollide_F_0277c4
+Entity_MoveAndCollide_F_0277c4:
         jsr     0x44182.l                       | +000
         jsr     Entity_IntegrateVelocity_026814(pc) | +006
         jsr     Entity_MoveX_WallStop_026836(pc) | +00a
@@ -334,7 +334,7 @@ Sub_000277C4:
         add.w   -0x1154(a5),d1                  | +016
         add.w   -0x1152(a5),d2                  | +01a
         subq.w  #0x1,d2                         | +01e
-        jsr     Sub_00027DB2(pc)                | +020
+        jsr     CollMap_LookupTile_027db2(pc)   | +020
         jsr     0x9993c.l                       | +024
         move.b  d6,0x106f44.l                   | +02a
         cmpi.b  #0xf,d6                         | +030
@@ -347,35 +347,35 @@ Sub_000277C4:
         bra.w   .L02780e                        | +046
 .L02780e:
         cmpi.b  #0x0,d0                         | +04a
-        beq.w   TaskHandler_027836              | +04e
-        jsr     TaskHandler_027e62(pc)          | +052
-        bcc.w   TaskHandler_027836              | +056
+        beq.w   Entity_CommitMove_Jmp_027836    | +04e
+        jsr     CollMap_TestSolidBit_027e62(pc) | +052
+        bcc.w   Entity_CommitMove_Jmp_027836    | +056
         cmpi.b  #0x0,0x9(a1)                    | +05a
-        bne.w   TaskHandler_027836              | +060
-        jsr     TaskHandler_0274b8__L02759a(pc) | +064
+        bne.w   Entity_CommitMove_Jmp_027836    | +060
+        jsr     Entity_MoveAndCollide_D_0274b8__L02759a(pc) | +064
         movea.l 0x4(a1),a3                      | +068
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027836  @ $027836  (4 B)
+|  Entity_CommitMove_Jmp_027836  @ $027836  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027836, "ax", @progbits
-        .global TaskHandler_027836
-TaskHandler_027836:
-        jmp     TaskHandler_0274b8__L02759a(pc) | +000
+        .section .text.Entity_CommitMove_Jmp_027836, "ax", @progbits
+        .global Entity_CommitMove_Jmp_027836
+Entity_CommitMove_Jmp_027836:
+        jmp     Entity_MoveAndCollide_D_0274b8__L02759a(pc) | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027902  @ $027902  (66 B)
+|  Entity_StepB_UpdatePos_027902  @ $027902  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027902, "ax", @progbits
-        .global TaskHandler_027902
-TaskHandler_027902:
+        .section .text.Entity_StepB_UpdatePos_027902, "ax", @progbits
+        .global Entity_StepB_UpdatePos_027902
+Entity_StepB_UpdatePos_027902:
         movea.l #0x108080,a5                    | +000
         move.w  0x22(a6),-0x1148(a5)            | +006
         move.w  0x24(a6),-0x1146(a5)            | +00c
         move.b  0x26(a6),-0x1144(a5)            | +012
         move.b  0x27(a6),-0x1143(a5)            | +018
         jsr     Entity_MoveAndCollide_B_027036(pc) | +01e
-        bcs.w   TaskHandler_02794a              | +022
+        bcs.w   Entity_StepB_UpdatePos_Tail_02794a | +022
         move.w  -0x1148(a5),0x22(a6)            | +026
         move.w  -0x1146(a5),0x24(a6)            | +02c
         move.b  -0x1144(a5),0x26(a6)            | +032
@@ -383,11 +383,11 @@ TaskHandler_027902:
         jsr     Entity_ApplyFadeShade_028108(pc) | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02794a  @ $02794A  (28 B)
+|  Entity_StepB_UpdatePos_Tail_02794a  @ $02794A  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02794a, "ax", @progbits
-        .global TaskHandler_02794a
-TaskHandler_02794a:
+        .section .text.Entity_StepB_UpdatePos_Tail_02794a, "ax", @progbits
+        .global Entity_StepB_UpdatePos_Tail_02794a
+Entity_StepB_UpdatePos_Tail_02794a:
         move.w  -0x1148(a5),0x22(a6)            | +000
         move.w  -0x1146(a5),0x24(a6)            | +006
         move.b  -0x1144(a5),0x26(a6)            | +00c
@@ -395,18 +395,18 @@ TaskHandler_02794a:
         jsr     Entity_ApplyFadeShade_028108(pc) | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02796c  @ $02796C  (72 B)
+|  Entity_StepC_UpdatePosY82_02796c  @ $02796C  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02796c, "ax", @progbits
-        .global TaskHandler_02796c
-TaskHandler_02796c:
+        .section .text.Entity_StepC_UpdatePosY82_02796c, "ax", @progbits
+        .global Entity_StepC_UpdatePosY82_02796c
+Entity_StepC_UpdatePosY82_02796c:
         movea.l #0x108080,a5                    | +000
         move.w  0x22(a6),-0x1148(a5)            | +006
         move.w  0x82(a6),-0x1146(a5)            | +00c
         move.b  0x26(a6),-0x1144(a5)            | +012
         move.b  0x27(a6),-0x1143(a5)            | +018
         jsr     Entity_MoveAndCollide_C_0272a8(pc) | +01e
-        bcc.w   TaskHandler_0279ba              | +022
+        bcc.w   Entity_StepC_UpdatePosY82_Tail_0279ba | +022
         move.w  -0x1148(a5),0x22(a6)            | +026
         move.w  -0x1146(a5),0x82(a6)            | +02c
         move.b  -0x1144(a5),0x26(a6)            | +032
@@ -415,11 +415,11 @@ TaskHandler_02796c:
         jsr     Entity_ApplyFadeShade_028108(pc) | +044
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0279ba  @ $0279BA  (34 B)
+|  Entity_StepC_UpdatePosY82_Tail_0279ba  @ $0279BA  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0279ba, "ax", @progbits
-        .global TaskHandler_0279ba
-TaskHandler_0279ba:
+        .section .text.Entity_StepC_UpdatePosY82_Tail_0279ba, "ax", @progbits
+        .global Entity_StepC_UpdatePosY82_Tail_0279ba
+Entity_StepC_UpdatePosY82_Tail_0279ba:
         move.w  -0x1148(a5),0x22(a6)            | +000
         move.b  -0x1144(a5),0x26(a6)            | +006
         move.w  -0x1146(a5),0x82(a6)            | +00c
@@ -428,11 +428,11 @@ TaskHandler_0279ba:
         jsr     Entity_ApplyFadeShade_028108(pc) | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0279e2  @ $0279E2  (134 B)
+|  Entity_StepD_UpdatePosY82_0279e2  @ $0279E2  (134 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0279e2, "ax", @progbits
-        .global TaskHandler_0279e2
-TaskHandler_0279e2:
+        .section .text.Entity_StepD_UpdatePosY82_0279e2, "ax", @progbits
+        .global Entity_StepD_UpdatePosY82_0279e2
+Entity_StepD_UpdatePosY82_0279e2:
         movea.l #0x108080,a5                    | +000
         move.w  #0xffff,0x34(a6)                | +006
         move.w  #0xffff,0x64(a6)                | +00c
@@ -440,16 +440,16 @@ TaskHandler_0279e2:
         move.w  0x82(a6),-0x1146(a5)            | +018
         move.b  0x26(a6),-0x1144(a5)            | +01e
         move.b  0x27(a6),-0x1143(a5)            | +024
-        jsr     TaskHandler_0274b8__L0274cc(pc) | +02a
-        bcc.w   TaskHandler_027a6e              | +02e
+        jsr     Entity_MoveAndCollide_D_0274b8__L0274cc(pc) | +02a
+        bcc.w   Entity_StepD_UpdatePosY82_Tail_027a6e | +02e
         bra.w   .L027a3e                        | +032
         movea.l #0x108080,a5                    | +036
         move.w  0x22(a6),-0x1148(a5)            | +03c
         move.w  0x82(a6),-0x1146(a5)            | +042
         move.b  0x26(a6),-0x1144(a5)            | +048
         move.b  0x27(a6),-0x1143(a5)            | +04e
-        jsr     Sub_000027444(pc)               | +054
-        bcc.w   TaskHandler_027a6e              | +058
+        jsr     Entity_FallStep_027444(pc)      | +054
+        bcc.w   Entity_StepD_UpdatePosY82_Tail_027a6e | +058
 .L027a3e:
         move.w  #0x0,0x2e(a6)                   | +05c
         move.w  #0x0,0x2a(a6)                   | +062
@@ -460,11 +460,11 @@ TaskHandler_0279e2:
         andi.w  #0x3ff,0x82(a6)                 | +080
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027a6e  @ $027A6E  (30 B)
+|  Entity_StepD_UpdatePosY82_Tail_027a6e  @ $027A6E  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027a6e, "ax", @progbits
-        .global TaskHandler_027a6e
-TaskHandler_027a6e:
+        .section .text.Entity_StepD_UpdatePosY82_Tail_027a6e, "ax", @progbits
+        .global Entity_StepD_UpdatePosY82_Tail_027a6e
+Entity_StepD_UpdatePosY82_Tail_027a6e:
         move.w  -0x1148(a5),0x22(a6)            | +000
         move.w  -0x1146(a5),0x82(a6)            | +006
         move.b  -0x1144(a5),0x26(a6)            | +00c
@@ -472,40 +472,40 @@ TaskHandler_027a6e:
         andi.w  #0x3ff,0x82(a6)                 | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027b66  @ $027B66  (62 B)
+|  Entity_StepFall_UpdatePos_027b66  @ $027B66  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027b66, "ax", @progbits
-        .global TaskHandler_027b66
-TaskHandler_027b66:
+        .section .text.Entity_StepFall_UpdatePos_027b66, "ax", @progbits
+        .global Entity_StepFall_UpdatePos_027b66
+Entity_StepFall_UpdatePos_027b66:
         movea.l #0x108080,a5                    | +000
         move.w  0x22(a6),-0x1148(a5)            | +006
         move.w  0x24(a6),-0x1146(a5)            | +00c
         move.b  0x26(a6),-0x1144(a5)            | +012
         move.b  0x27(a6),-0x1143(a5)            | +018
-        jsr     TaskHandler_027464(pc)          | +01e
-        bcs.w   TaskHandler_027baa              | +022
+        jsr     Entity_MoveFall_027464(pc)      | +01e
+        bcs.w   Entity_StepFall_UpdatePos_Tail_027baa | +022
         move.w  -0x1148(a5),0x22(a6)            | +026
         move.w  -0x1146(a5),0x24(a6)            | +02c
         move.b  -0x1144(a5),0x26(a6)            | +032
         move.b  -0x1143(a5),0x27(a6)            | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027baa  @ $027BAA  (24 B)
+|  Entity_StepFall_UpdatePos_Tail_027baa  @ $027BAA  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027baa, "ax", @progbits
-        .global TaskHandler_027baa
-TaskHandler_027baa:
+        .section .text.Entity_StepFall_UpdatePos_Tail_027baa, "ax", @progbits
+        .global Entity_StepFall_UpdatePos_Tail_027baa
+Entity_StepFall_UpdatePos_Tail_027baa:
         move.w  -0x1148(a5),0x22(a6)            | +000
         move.w  -0x1146(a5),0x24(a6)            | +006
         move.b  -0x1144(a5),0x26(a6)            | +00c
         move.b  -0x1143(a5),0x27(a6)            | +012
 
 | ----------------------------------------------------------------------------
-|  Sub_00027DB2  @ $027DB2  (118 B)
+|  CollMap_LookupTile_027db2  @ $027DB2  (118 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00027DB2, "ax", @progbits
-        .global Sub_00027DB2
-Sub_00027DB2:
+        .section .text.CollMap_LookupTile_027db2, "ax", @progbits
+        .global CollMap_LookupTile_027db2
+CollMap_LookupTile_027db2:
         move.w  d1,d5                           | +000
         move.w  d2,d6                           | +002
         move.w  d1,d0                           | +004
@@ -549,11 +549,11 @@ Sub_00027DB2:
         rts                                     | +074
 
 | ----------------------------------------------------------------------------
-|  Sub_00027E28  @ $027E28  (46 B)
+|  CollMap_TestSolidOrPlatform_027e28  @ $027E28  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00027E28, "ax", @progbits
-        .global Sub_00027E28
-Sub_00027E28:
+        .section .text.CollMap_TestSolidOrPlatform_027e28, "ax", @progbits
+        .global CollMap_TestSolidOrPlatform_027e28
+CollMap_TestSolidOrPlatform_027e28:
         movea.l (a1),a0                         | +000
         move.b  (a0,d4.w),d5                    | +002
         moveq   #7,d6                           | +006
@@ -571,11 +571,11 @@ Sub_00027E28:
         adda.l  #0x10,a1                        | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027e62  @ $027E62  (16 B)
+|  CollMap_TestSolidBit_027e62  @ $027E62  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027e62, "ax", @progbits
-        .global TaskHandler_027e62
-TaskHandler_027e62:
+        .section .text.CollMap_TestSolidBit_027e62, "ax", @progbits
+        .global CollMap_TestSolidBit_027e62
+CollMap_TestSolidBit_027e62:
         movea.l (a1),a0                         | +000
         move.b  (a0,d4.w),d5                    | +002
         moveq   #7,d6                           | +006
@@ -584,11 +584,11 @@ TaskHandler_027e62:
         beq.w   ClearXN_027e78                  | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_00027E7E  @ $027E7E  (18 B)
+|  CollMap_TestSolidBitC_027e7e  @ $027E7E  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00027E7E, "ax", @progbits
-        .global Sub_00027E7E
-Sub_00027E7E:
+        .section .text.CollMap_TestSolidBitC_027e7e, "ax", @progbits
+        .global CollMap_TestSolidBitC_027e7e
+CollMap_TestSolidBitC_027e7e:
         movea.l (a1),a0                         | +000
         move.b  (a0,d4.w),d0                    | +002
         move.w  #0x7,d6                         | +006
@@ -597,11 +597,11 @@ Sub_00027E7E:
         beq.w   ClearXN_027e96                  | +00e
 
 | ----------------------------------------------------------------------------
-|  Sub_00027E9C  @ $027E9C  (18 B)
+|  CollMap_TestPlatformBitC_027e9c  @ $027E9C  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00027E9C, "ax", @progbits
-        .global Sub_00027E9C
-Sub_00027E9C:
+        .section .text.CollMap_TestPlatformBitC_027e9c, "ax", @progbits
+        .global CollMap_TestPlatformBitC_027e9c
+CollMap_TestPlatformBitC_027e9c:
         movea.l (a1),a0                         | +000
         move.b  0x8(a0,d4.w),d0                 | +002
         move.w  #0x7,d6                         | +006
@@ -610,16 +610,16 @@ Sub_00027E9C:
         beq.w   ClearXN_027eb4                  | +00e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027f08  @ $027F08  (74 B)
+|  Entity_FloorBelowProbe_027f08  @ $027F08  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027f08, "ax", @progbits
-        .global TaskHandler_027f08
-TaskHandler_027f08:
+        .section .text.Entity_FloorBelowProbe_027f08, "ax", @progbits
+        .global Entity_FloorBelowProbe_027f08
+Entity_FloorBelowProbe_027f08:
         jsr     ActorCtxWrapper_02783a(pc)      | +000
         move.w  0x22(a6),d1                     | +004
         move.w  0x24(a6),d2                     | +008
         subq.w  #0x1,d2                         | +00c
-        jsr     Sub_00027DB2(pc)                | +00e
+        jsr     CollMap_LookupTile_027db2(pc)   | +00e
         jsr     0x9993c.l                       | +012
         move.b  d6,0x106f44.l                   | +018
         cmpi.b  #0xf,d6                         | +01e
@@ -631,25 +631,25 @@ TaskHandler_027f08:
         lea     0x278ba8.l,a1                   | +02e
         bra.w   .L027f40                        | +034
 .L027f40:
-        jsr     Sub_00027E28(pc)                | +038
-        bcc.w   TaskHandler_027f58              | +03c
+        jsr     CollMap_TestSolidOrPlatform_027e28(pc) | +038
+        bcc.w   Entity_FloorBelowProbe_Tail_027f58 | +03c
         bset    #0x6,0x5a(a6)                   | +040
         move.b  #0xff,d3                        | +046
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027f58  @ $027F58  (2 B)
+|  Entity_FloorBelowProbe_Tail_027f58  @ $027F58  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027f58, "ax", @progbits
-        .global TaskHandler_027f58
-TaskHandler_027f58:
+        .section .text.Entity_FloorBelowProbe_Tail_027f58, "ax", @progbits
+        .global Entity_FloorBelowProbe_Tail_027f58
+Entity_FloorBelowProbe_Tail_027f58:
         clr.b   d3                              | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027f60  @ $027F60  (76 B)
+|  Entity_TestGroundUnder_027f60  @ $027F60  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027f60, "ax", @progbits
-        .global TaskHandler_027f60
-TaskHandler_027f60:
+        .section .text.Entity_TestGroundUnder_027f60, "ax", @progbits
+        .global Entity_TestGroundUnder_027f60
+Entity_TestGroundUnder_027f60:
         move.w  0x28(a6),-(a7)                  | +000
         move.w  0x2a(a6),-(a7)                  | +004
         move.w  0x22(a6),-(a7)                  | +008
@@ -673,51 +673,51 @@ TaskHandler_027f60:
         rts                                     | +04a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027fac  @ $027FAC  (32 B)
+|  Entity_TestSolidAtFeet_027fac  @ $027FAC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027fac, "ax", @progbits
-        .global TaskHandler_027fac
-TaskHandler_027fac:
+        .section .text.Entity_TestSolidAtFeet_027fac, "ax", @progbits
+        .global Entity_TestSolidAtFeet_027fac
+Entity_TestSolidAtFeet_027fac:
         move.w  0x22(a6),d1                     | +000
         move.w  0x24(a6),d2                     | +004
         subq.w  #0x1,d2                         | +008
-        jsr     Sub_00027DB2(pc)                | +00a
-        jsr     TaskHandler_027e62(pc)          | +00e
+        jsr     CollMap_LookupTile_027db2(pc)   | +00a
+        jsr     CollMap_TestSolidBit_027e62(pc) | +00e
         bcc.w   SetXN_027fd2                    | +012
         cmpi.b  #0x0,0x9(a1)                    | +016
         bne.w   SetXN_027fd2                    | +01c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_027fd8  @ $027FD8  (40 B)
+|  Entity_TestSolidAtFeetCtx_027fd8  @ $027FD8  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_027fd8, "ax", @progbits
-        .global TaskHandler_027fd8
-TaskHandler_027fd8:
+        .section .text.Entity_TestSolidAtFeetCtx_027fd8, "ax", @progbits
+        .global Entity_TestSolidAtFeetCtx_027fd8
+Entity_TestSolidAtFeetCtx_027fd8:
         jsr     ActorCtxWrapper_02783a(pc)      | +000
         move.w  0x22(a6),d1                     | +004
         move.w  0x24(a6),d2                     | +008
         subq.w  #0x1,d2                         | +00c
-        jsr     Sub_00027DB2(pc)                | +00e
-        jsr     TaskHandler_027e62(pc)          | +012
-        bcc.w   TaskHandler_028006              | +016
+        jsr     CollMap_LookupTile_027db2(pc)   | +00e
+        jsr     CollMap_TestSolidBit_027e62(pc) | +012
+        bcc.w   Entity_TestSolidAtFeet_Tail_028006 | +016
         cmpi.b  #0x0,0x9(a1)                    | +01a
-        bne.w   TaskHandler_028006              | +020
+        bne.w   Entity_TestSolidAtFeet_Tail_028006 | +020
         move.b  #0xff,d3                        | +024
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028006  @ $028006  (2 B)
+|  Entity_TestSolidAtFeet_Tail_028006  @ $028006  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028006, "ax", @progbits
-        .global TaskHandler_028006
-TaskHandler_028006:
+        .section .text.Entity_TestSolidAtFeet_Tail_028006, "ax", @progbits
+        .global Entity_TestSolidAtFeet_Tail_028006
+Entity_TestSolidAtFeet_Tail_028006:
         clr.b   d3                              | +000
 
 | ----------------------------------------------------------------------------
-|  Sub_0002800E  @ $02800E  (54 B)
+|  Entity_ScaleDyForGravity_02800e  @ $02800E  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002800E, "ax", @progbits
-        .global Sub_0002800E
-Sub_0002800E:
+        .section .text.Entity_ScaleDyForGravity_02800e, "ax", @progbits
+        .global Entity_ScaleDyForGravity_02800e
+Entity_ScaleDyForGravity_02800e:
         cmpi.w  #0x400,0x34(a6)                 | +000
         beq.w   .L028024                        | +006
         cmpi.w  #0xfc00,0x34(a6)                | +00a
@@ -737,87 +737,87 @@ Sub_0002800E:
         rts                                     | +034
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028044  @ $028044  (6 B)
+|  Entity_TestD1Any_028044  @ $028044  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028044, "ax", @progbits
-        .global TaskHandler_028044
-TaskHandler_028044:
+        .section .text.Entity_TestD1Any_028044, "ax", @progbits
+        .global Entity_TestD1Any_028044
+Entity_TestD1Any_028044:
         tst.w   d1                              | +000
         bra.w   ClearXN_02806e                  | +002
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02804a  @ $02804A  (10 B)
+|  Entity_TestD1Pos_02804a  @ $02804A  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02804a, "ax", @progbits
-        .global TaskHandler_02804a
-TaskHandler_02804a:
+        .section .text.Entity_TestD1Pos_02804a, "ax", @progbits
+        .global Entity_TestD1Pos_02804a
+Entity_TestD1Pos_02804a:
         tst.w   d1                              | +000
         ble.w   ClearXN_02806e                  | +002
         bra.w   SetXN_028068                    | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028054  @ $028054  (10 B)
+|  Entity_TestD1Neg_028054  @ $028054  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028054, "ax", @progbits
-        .global TaskHandler_028054
-TaskHandler_028054:
+        .section .text.Entity_TestD1Neg_028054, "ax", @progbits
+        .global Entity_TestD1Neg_028054
+Entity_TestD1Neg_028054:
         tst.w   d1                              | +000
         bge.w   ClearXN_02806e                  | +002
         bra.w   SetXN_028068                    | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02805e  @ $02805E  (10 B)
+|  Entity_TestD1Zero_02805e  @ $02805E  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02805e, "ax", @progbits
-        .global TaskHandler_02805e
-TaskHandler_02805e:
+        .section .text.Entity_TestD1Zero_02805e, "ax", @progbits
+        .global Entity_TestD1Zero_02805e
+Entity_TestD1Zero_02805e:
         tst.w   d1                              | +000
         beq.w   ClearXN_02806e                  | +002
         bra.w   SetXN_028068                    | +006
 
 | ----------------------------------------------------------------------------
-|  Sub_00028074  @ $028074  (62 B)
+|  Entity_ClampXToScreenEdge_028074  @ $028074  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00028074, "ax", @progbits
-        .global Sub_00028074
-Sub_00028074:
+        .section .text.Entity_ClampXToScreenEdge_028074, "ax", @progbits
+        .global Entity_ClampXToScreenEdge_028074
+Entity_ClampXToScreenEdge_028074:
         cmpi.b  #0x9,0x106ece.l                 | +000
         beq.w   .L0280ac                        | +008
         move.w  #0x1e,d1                        | +00c
         sub.w   0x22(a6),d1                     | +010
         ble.w   .L028096                        | +014
         tst.w   d2                              | +018
-        blt.w   TaskHandler_0280b8              | +01a
-        bra.w   TaskHandler_0280b8__L0280ba     | +01e
+        blt.w   Entity_ClampX_ZeroDx_0280b8     | +01a
+        bra.w   Entity_ClampX_ZeroDx_0280b8__L0280ba | +01e
 .L028096:
         move.w  #0x117,d1                       | +022
         sub.w   0x22(a6),d1                     | +026
         bge.w   .L0280ac                        | +02a
         tst.w   d2                              | +02e
-        bgt.w   TaskHandler_0280b8              | +030
-        bra.w   TaskHandler_0280b8__L0280ba     | +034
+        bgt.w   Entity_ClampX_ZeroDx_0280b8     | +030
+        bra.w   Entity_ClampX_ZeroDx_0280b8__L0280ba | +034
 .L0280ac:
         bset    #0x7,0x13(a6)                   | +038
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0280b8  @ $0280B8  (8 B)
+|  Entity_ClampX_ZeroDx_0280b8  @ $0280B8  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0280b8, "ax", @progbits
-        .global TaskHandler_0280b8
-TaskHandler_0280b8:
+        .section .text.Entity_ClampX_ZeroDx_0280b8, "ax", @progbits
+        .global Entity_ClampX_ZeroDx_0280b8
+Entity_ClampX_ZeroDx_0280b8:
         moveq   #0,d2                           | +000
-        .global TaskHandler_0280b8__L0280ba
-TaskHandler_0280b8__L0280ba:
+        .global Entity_ClampX_ZeroDx_0280b8__L0280ba
+Entity_ClampX_ZeroDx_0280b8__L0280ba:
 .L0280ba:
         bclr    #0x7,0x13(a6)                   | +002
 
 | ----------------------------------------------------------------------------
-|  Fn_000280C6  @ $0280C6  (54 B)
+|  Entity_TileUnderToShade_0280c6  @ $0280C6  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_000280C6, "ax", @progbits
-        .global Fn_000280C6
-Fn_000280C6:
-        jsr     Sub_00027DB2(pc)                | +000
+        .section .text.Entity_TileUnderToShade_0280c6, "ax", @progbits
+        .global Entity_TileUnderToShade_0280c6
+Entity_TileUnderToShade_0280c6:
+        jsr     CollMap_LookupTile_027db2(pc)   | +000
         jsr     0x9993c.l                       | +004
         move.b  d6,0x106f44.l                   | +00a
         cmpi.b  #0xf,d6                         | +010
@@ -834,11 +834,11 @@ Fn_000280C6:
         beq.w   ClearXN_028102                  | +032
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02813c  @ $02813C  (28 B)
+|  Entity_SetField38FromTile_02813c  @ $02813C  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02813c, "ax", @progbits
-        .global TaskHandler_02813c
-TaskHandler_02813c:
+        .section .text.Entity_SetField38FromTile_02813c, "ax", @progbits
+        .global Entity_SetField38FromTile_02813c
+Entity_SetField38FromTile_02813c:
         andi.w  #0xffe3,d0                      | +000
         ori.w   #0x0,d0                         | +004
         move.w  d0,d5                           | +008
@@ -849,11 +849,11 @@ TaskHandler_02813c:
         jmp     Entity_ApplyFadeShade_028108__L028110(pc) | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028158  @ $028158  (68 B)
+|  Entity_GravityToIndex_028158  @ $028158  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028158, "ax", @progbits
-        .global TaskHandler_028158
-TaskHandler_028158:
+        .section .text.Entity_GravityToIndex_028158, "ax", @progbits
+        .global Entity_GravityToIndex_028158
+Entity_GravityToIndex_028158:
         clr.w   d0                              | +000
         move.w  0x34(a6),d7                     | +002
         cmpi.w  #0x400,d7                       | +006
@@ -881,42 +881,42 @@ TaskHandler_028158:
         bra.b   .L028182                        | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02819c  @ $02819C  (20 B)
+|  Entity_ClearVelLatch_02819c  @ $02819C  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02819c, "ax", @progbits
-        .global TaskHandler_02819c
-TaskHandler_02819c:
+        .section .text.Entity_ClearVelLatch_02819c, "ax", @progbits
+        .global Entity_ClearVelLatch_02819c
+Entity_ClearVelLatch_02819c:
         movea.l #0x108080,a5                    | +000
         move.w  #0xffff,-0x1142(a5)             | +006
         move.w  #0xffff,-0x1140(a5)             | +00c
         rts                                     | +012
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0281b0  @ $0281B0  (12 B)
+|  Entity_SetVelLatchX_0281b0  @ $0281B0  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0281b0, "ax", @progbits
-        .global TaskHandler_0281b0
-TaskHandler_0281b0:
+        .section .text.Entity_SetVelLatchX_0281b0, "ax", @progbits
+        .global Entity_SetVelLatchX_0281b0
+Entity_SetVelLatchX_0281b0:
         movea.l #0x108080,a5                    | +000
         move.w  d0,-0x1142(a5)                  | +006
         rts                                     | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0281bc  @ $0281BC  (12 B)
+|  Entity_SetVelLatchY_0281bc  @ $0281BC  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0281bc, "ax", @progbits
-        .global TaskHandler_0281bc
-TaskHandler_0281bc:
+        .section .text.Entity_SetVelLatchY_0281bc, "ax", @progbits
+        .global Entity_SetVelLatchY_0281bc
+Entity_SetVelLatchY_0281bc:
         movea.l #0x108080,a5                    | +000
         move.w  d0,-0x1140(a5)                  | +006
         rts                                     | +00a
 
 | ----------------------------------------------------------------------------
-|  PcThunkTarget_0281c8  @ $0281C8  (100 B)
+|  Entity_ApplyVelLatch_0281c8  @ $0281C8  (100 B)
 | ----------------------------------------------------------------------------
-        .section .text.PcThunkTarget_0281c8, "ax", @progbits
-        .global PcThunkTarget_0281c8
-PcThunkTarget_0281c8:
+        .section .text.Entity_ApplyVelLatch_0281c8, "ax", @progbits
+        .global Entity_ApplyVelLatch_0281c8
+Entity_ApplyVelLatch_0281c8:
         movea.l #0x108080,a5                    | +000
         tst.w   -0x1142(a5)                     | +006
         beq.w   .L0281fc                        | +00a
@@ -953,22 +953,22 @@ PcThunkTarget_0281c8:
         rts                                     | +062
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02822c  @ $02822C  (86 B)
+|  Entity_SlopeDirTest_02822c  @ $02822C  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02822c, "ax", @progbits
-        .global TaskHandler_02822c
-TaskHandler_02822c:
+        .section .text.Entity_SlopeDirTest_02822c, "ax", @progbits
+        .global Entity_SlopeDirTest_02822c
+Entity_SlopeDirTest_02822c:
         movem.w d5-d7,-(a7)                     | +000
         move.w  0x28(a6),d5                     | +004
         move.w  0x2a(a6),d6                     | +008
         move.w  (a3),d7                         | +00c
         bne.w   .L028248                        | +00e
         tst.w   d6                              | +012
-        bgt.w   TaskHandler_028288              | +014
+        bgt.w   Entity_SlopeDirTest_Tail_028288 | +014
         bra.w   .L02827e                        | +018
 .L028248:
         cmpi.w  #0xffff,d7                      | +01c
-        beq.w   TaskHandler_028288              | +020
+        beq.w   Entity_SlopeDirTest_Tail_028288 | +020
         tst.w   d7                              | +024
         bmi.w   .L02826c                        | +026
         cmpi.w  #0x1000,d7                      | +02a
@@ -977,7 +977,7 @@ TaskHandler_02822c:
         add.w   d6,d6                           | +034
 .L028262:
         sub.w   d5,d6                           | +036
-        bgt.w   TaskHandler_028288              | +038
+        bgt.w   Entity_SlopeDirTest_Tail_028288 | +038
         bra.w   .L02827e                        | +03c
 .L02826c:
         cmpi.w  #0xf000,d7                      | +040
@@ -986,24 +986,24 @@ TaskHandler_02822c:
         add.w   d6,d6                           | +04a
 .L028278:
         add.w   d5,d6                           | +04c
-        bgt.w   TaskHandler_028288              | +04e
+        bgt.w   Entity_SlopeDirTest_Tail_028288 | +04e
 .L02827e:
         movem.w (a7)+,d5-d7                     | +052
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028288  @ $028288  (4 B)
+|  Entity_SlopeDirTest_Tail_028288  @ $028288  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028288, "ax", @progbits
-        .global TaskHandler_028288
-TaskHandler_028288:
+        .section .text.Entity_SlopeDirTest_Tail_028288, "ax", @progbits
+        .global Entity_SlopeDirTest_Tail_028288
+Entity_SlopeDirTest_Tail_028288:
         movem.w (a7)+,d5-d7                     | +000
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0282d8  @ $0282D8  (64 B)
+|  Entity_ProbeSwapGravity_A_0282d8  @ $0282D8  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0282d8, "ax", @progbits
-        .global TaskHandler_0282d8
-TaskHandler_0282d8:
+        .section .text.Entity_ProbeSwapGravity_A_0282d8, "ax", @progbits
+        .global Entity_ProbeSwapGravity_A_0282d8
+Entity_ProbeSwapGravity_A_0282d8:
         cmpi.w  #0xffff,0x60(a6)                | +000
         beq.w   .L0282ea                        | +006
         move.l  #0xffffffff,0x60(a6)            | +00a
@@ -1021,11 +1021,11 @@ TaskHandler_0282d8:
         move.w  (a7)+,0x34(a6)                  | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02831e  @ $02831E  (64 B)
+|  Entity_ProbeSwapGravity_B_02831e  @ $02831E  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02831e, "ax", @progbits
-        .global TaskHandler_02831e
-TaskHandler_02831e:
+        .section .text.Entity_ProbeSwapGravity_B_02831e, "ax", @progbits
+        .global Entity_ProbeSwapGravity_B_02831e
+Entity_ProbeSwapGravity_B_02831e:
         cmpi.w  #0xffff,0x60(a6)                | +000
         beq.w   .L028330                        | +006
         move.l  #0xffffffff,0x60(a6)            | +00a
@@ -1043,11 +1043,11 @@ TaskHandler_02831e:
         move.w  (a7)+,0x34(a6)                  | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028364  @ $028364  (64 B)
+|  Entity_ProbeSwapGravity_C_028364  @ $028364  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028364, "ax", @progbits
-        .global TaskHandler_028364
-TaskHandler_028364:
+        .section .text.Entity_ProbeSwapGravity_C_028364, "ax", @progbits
+        .global Entity_ProbeSwapGravity_C_028364
+Entity_ProbeSwapGravity_C_028364:
         cmpi.w  #0xffff,0x60(a6)                | +000
         beq.w   .L028376                        | +006
         move.l  #0xffffffff,0x60(a6)            | +00a
@@ -1065,31 +1065,31 @@ TaskHandler_028364:
         move.w  (a7)+,0x34(a6)                  | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0283aa  @ $0283AA  (4 B)
+|  ClearD3Rts_0283aa  @ $0283AA  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0283aa, "ax", @progbits
-        .global TaskHandler_0283aa
-TaskHandler_0283aa:
+        .section .text.ClearD3Rts_0283aa, "ax", @progbits
+        .global ClearD3Rts_0283aa
+ClearD3Rts_0283aa:
         clr.b   d3                              | +000
         rts                                     | +002
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0283ae  @ $0283AE  (16 B)
+|  ChildRank_CmpByte10_0283ae  @ $0283AE  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0283ae, "ax", @progbits
-        .global TaskHandler_0283ae
-TaskHandler_0283ae:
+        .section .text.ChildRank_CmpByte10_0283ae, "ax", @progbits
+        .global ChildRank_CmpByte10_0283ae
+ChildRank_CmpByte10_0283ae:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_0283c4                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Sub_0002_83EC  @ $0283EC  (60 B)
+|  Hitbox_RunList_0283ec  @ $0283EC  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_0002_83EC, "ax", @progbits
-        .global Sub_0002_83EC
-Sub_0002_83EC:
+        .section .text.Hitbox_RunList_0283ec, "ax", @progbits
+        .global Hitbox_RunList_0283ec
+Hitbox_RunList_0283ec:
         move.b  (a0),d0                         | +000
         cmpi.b  #0xff,d0                        | +002
         bne.w   .L0283fe                        | +006
@@ -1106,18 +1106,18 @@ Sub_0002_83EC:
 .L028412:
         ext.w   d0                              | +026
         lsl.w   #0x2,d0                         | +028
-        lea     Data_028428(pc),a4              | +02a
+        lea     Hitbox_ListOpTable_028428(pc),a4 | +02a
         movea.l (a4,d0.w),a5                    | +02e
         jsr     (a5)                            | +032
         adda.l  #0x50,a0                        | +034
-        bra.b   Sub_0002_83EC                   | +03a
+        bra.b   Hitbox_RunList_0283ec           | +03a
 
 | ----------------------------------------------------------------------------
-|  Data_028428  @ $028428  (20 B)
+|  Hitbox_ListOpTable_028428  @ $028428  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_028428, "ax", @progbits
-        .global Data_028428
-Data_028428:
+        .section .text.Hitbox_ListOpTable_028428, "ax", @progbits
+        .global Hitbox_ListOpTable_028428
+Hitbox_ListOpTable_028428:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x843c                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
@@ -1130,70 +1130,70 @@ Data_028428:
         .dc.w   0x8518                        | +012  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02843c  @ $02843C  (34 B)
+|  Hitbox_Op0_AllPlayers_02843c  @ $02843C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02843c, "ax", @progbits
-        .global TaskHandler_02843c
-TaskHandler_02843c:
+        .section .text.Hitbox_Op0_AllPlayers_02843c, "ax", @progbits
+        .global Hitbox_Op0_AllPlayers_02843c
+Hitbox_Op0_AllPlayers_02843c:
         lea     0x100440.l,a1                   | +000
-        jsr     Sub_00028576(pc)                | +006
+        jsr     Hitbox_TestEntityPair_028576(pc) | +006
         lea     0x1004e0.l,a1                   | +00a
-        jsr     Sub_00028576(pc)                | +010
+        jsr     Hitbox_TestEntityPair_028576(pc) | +010
         lea     0x100580.l,a1                   | +014
-        jsr     Sub_00028576(pc)                | +01a
+        jsr     Hitbox_TestEntityPair_028576(pc) | +01a
         moveq   #-1,d7                          | +01e
         rts                                     | +020
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02845e  @ $02845E  (50 B)
+|  Hitbox_Op1_P1AndSlug_02845e  @ $02845E  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02845e, "ax", @progbits
-        .global TaskHandler_02845e
-TaskHandler_02845e:
+        .section .text.Hitbox_Op1_P1AndSlug_02845e, "ax", @progbits
+        .global Hitbox_Op1_P1AndSlug_02845e
+Hitbox_Op1_P1AndSlug_02845e:
         lea     0x100440.l,a1                   | +000
-        jsr     Sub_00028576(pc)                | +006
+        jsr     Hitbox_TestEntityPair_028576(pc) | +006
         btst    #0x1,0x5a(a6)                   | +00a
         bne.w   .L028482                        | +010
         lea     0x100580.l,a1                   | +014
-        jsr     Sub_00028576(pc)                | +01a
+        jsr     Hitbox_TestEntityPair_028576(pc) | +01a
         moveq   #-1,d7                          | +01e
         bra.w   .L02848e                        | +020
 .L028482:
         lea     0x100580.l,a1                   | +024
-        jsr     Sub_00028576(pc)                | +02a
+        jsr     Hitbox_TestEntityPair_028576(pc) | +02a
         moveq   #0,d7                           | +02e
 .L02848e:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028490  @ $028490  (50 B)
+|  Hitbox_Op2_P2AndSlug_028490  @ $028490  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028490, "ax", @progbits
-        .global TaskHandler_028490
-TaskHandler_028490:
+        .section .text.Hitbox_Op2_P2AndSlug_028490, "ax", @progbits
+        .global Hitbox_Op2_P2AndSlug_028490
+Hitbox_Op2_P2AndSlug_028490:
         lea     0x1004e0.l,a1                   | +000
-        jsr     Sub_00028576(pc)                | +006
+        jsr     Hitbox_TestEntityPair_028576(pc) | +006
         btst    #0x1,0x5a(a6)                   | +00a
         bne.w   .L0284b4                        | +010
         lea     0x100580.l,a1                   | +014
-        jsr     Sub_00028576(pc)                | +01a
+        jsr     Hitbox_TestEntityPair_028576(pc) | +01a
         moveq   #-1,d7                          | +01e
         bra.w   .L0284c0                        | +020
 .L0284b4:
         lea     0x100580.l,a1                   | +024
-        jsr     Sub_00028576(pc)                | +02a
+        jsr     Hitbox_TestEntityPair_028576(pc) | +02a
         moveq   #1,d7                           | +02e
 .L0284c0:
         rts                                     | +030
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0284c2  @ $0284C2  (86 B)
+|  Hitbox_Op3_EnemyPool800_0284c2  @ $0284C2  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0284c2, "ax", @progbits
-        .global TaskHandler_0284c2
-TaskHandler_0284c2:
+        .section .text.Hitbox_Op3_EnemyPool800_0284c2, "ax", @progbits
+        .global Hitbox_Op3_EnemyPool800_0284c2
+Hitbox_Op3_EnemyPool800_0284c2:
         movea.l #0xffffffff,a4                  | +000
-        jsr     TaskHandler_028926__L028930(pc) | +006
+        jsr     Hitbox_ScreenMargin_028926__L028930(pc) | +006
         bcs.w   .L028514                        | +00a
         btst    #0x1,0x13(a6)                   | +00e
         bne.w   .L028514                        | +014
@@ -1209,7 +1209,7 @@ TaskHandler_0284c2:
         beq.b   .L0284e0                        | +03c
         cmpa.l  a6,a1                           | +03e
         beq.b   .L0284e0                        | +040
-        jsr     Sub_00028594(pc)                | +042
+        jsr     Hitbox_TestBoxes_028594(pc)     | +042
         btst    #0x1,0x13(a6)                   | +046
         bne.w   .L028514                        | +04c
         bra.b   .L0284e0                        | +050
@@ -1218,13 +1218,13 @@ TaskHandler_0284c2:
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028518  @ $028518  (86 B)
+|  Hitbox_Op4_EnemyPool8A0_028518  @ $028518  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028518, "ax", @progbits
-        .global TaskHandler_028518
-TaskHandler_028518:
+        .section .text.Hitbox_Op4_EnemyPool8A0_028518, "ax", @progbits
+        .global Hitbox_Op4_EnemyPool8A0_028518
+Hitbox_Op4_EnemyPool8A0_028518:
         movea.l #0xffffffff,a4                  | +000
-        jsr     TaskHandler_028926__L028930(pc) | +006
+        jsr     Hitbox_ScreenMargin_028926__L028930(pc) | +006
         bcs.w   .L02856a                        | +00a
         btst    #0x1,0x13(a6)                   | +00e
         bne.w   .L02856a                        | +014
@@ -1240,7 +1240,7 @@ TaskHandler_028518:
         beq.b   .L028536                        | +03c
         cmpa.l  a6,a1                           | +03e
         beq.b   .L028536                        | +040
-        jsr     Sub_00028594(pc)                | +042
+        jsr     Hitbox_TestBoxes_028594(pc)     | +042
         btst    #0x1,0x13(a6)                   | +046
         bne.w   .L02856a                        | +04c
         bra.b   .L028536                        | +050
@@ -1249,41 +1249,41 @@ TaskHandler_028518:
         rts                                     | +054
 
 | ----------------------------------------------------------------------------
-|  Data_02856e  @ $02856E  (8 B)
+|  Hitbox_ShapeTestTable_02856e  @ $02856E  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_02856e, "ax", @progbits
-        .global Data_02856e
-Data_02856e:
+        .section .text.Hitbox_ShapeTestTable_02856e, "ax", @progbits
+        .global Hitbox_ShapeTestTable_02856e
+Hitbox_ShapeTestTable_02856e:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x8886                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
         .dc.w   0x876e                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Sub_00028576  @ $028576  (30 B)
+|  Hitbox_TestEntityPair_028576  @ $028576  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00028576, "ax", @progbits
-        .global Sub_00028576
-Sub_00028576:
+        .section .text.Hitbox_TestEntityPair_028576, "ax", @progbits
+        .global Hitbox_TestEntityPair_028576
+Hitbox_TestEntityPair_028576:
         cmpa.l  a6,a1                           | +000
-        beq.w   Sub_00028594__L028686           | +002
+        beq.w   Hitbox_TestBoxes_028594__L028686 | +002
         movea.l 0x48(a1),a2                     | +006
         cmpa.l  #0xffffffff,a2                  | +00a
-        beq.w   Sub_00028594__L028686           | +010
+        beq.w   Hitbox_TestBoxes_028594__L028686 | +010
         btst    #0x1,0x13(a6)                   | +014
-        bne.w   Sub_00028594__L028686           | +01a
+        bne.w   Hitbox_TestBoxes_028594__L028686 | +01a
 
 | ----------------------------------------------------------------------------
-|  Sub_00028594  @ $028594  (246 B)
+|  Hitbox_TestBoxes_028594  @ $028594  (246 B)
 | ----------------------------------------------------------------------------
-        .section .text.Sub_00028594, "ax", @progbits
-        .global Sub_00028594
-Sub_00028594:
+        .section .text.Hitbox_TestBoxes_028594, "ax", @progbits
+        .global Hitbox_TestBoxes_028594
+Hitbox_TestBoxes_028594:
         cmpi.l  #0xffffffff,(a2)                | +000
         beq.w   .L028686                        | +006
         btst    #0x3,0x13(a1)                   | +00a
         bne.w   .L028686                        | +010
-        lea     Data_02856e(pc),a4              | +014
+        lea     Hitbox_ShapeTestTable_02856e(pc),a4 | +014
         lea     0x27928c.l,a5                   | +018
         cmpi.l  #0xffffffff,0x2(a2)             | +01e
         beq.w   .L0285c2                        | +026
@@ -1312,18 +1312,18 @@ Sub_00028594:
         suba.l  #0xa,a0                         | +074
 .L02860e:
         adda.l  #0x46,a2                        | +07a
-        bra.w   Sub_00028594                    | +080
+        bra.w   Hitbox_TestBoxes_028594         | +080
 .L028618:
         suba.l  #0xa,a0                         | +084
         suba.l  #0xa,a2                         | +08a
         tst.b   0x45(a1)                        | +090
-        bne.w   TaskHandler_0286d4              | +094
+        bne.w   Hitbox_MarkBlocked_0286d4       | +094
         move.b  0x1(a0),d0                      | +098
         move.b  d0,0x58(a1)                     | +09c
         move.l  a6,0x50(a1)                     | +0a0
         move.b  0x4(a0),d0                      | +0a4
         cmpi.b  #0x0,d0                         | +0a8
-        beq.w   TaskHandler_0286d4              | +0ac
+        beq.w   Hitbox_MarkBlocked_0286d4       | +0ac
         move.b  0x1(a0),d0                      | +0b0
         cmpi.b  #0x22,d0                        | +0b4
         bls.w   .L02865c                        | +0b8
@@ -1334,34 +1334,34 @@ Sub_00028594:
         trap    #0xf                            | +0c6
 .L02865c:
         cmpi.b  #0x0,d0                         | +0c8
-        beq.w   TaskHandler_0286e4              | +0cc
+        beq.w   Hitbox_MarkHitNoDamage_0286e4   | +0cc
         btst    #0x0,0x6b(a1)                   | +0d0
         beq.w   .L028676                        | +0d6
         cmpi.b  #0xb,d0                         | +0da
-        beq.w   TaskHandler_0286e4              | +0de
+        beq.w   Hitbox_MarkHitNoDamage_0286e4   | +0de
 .L028676:
         bset    #0x3,0x13(a1)                   | +0e2
         bset    #0x0,0x5a(a1)                   | +0e8
-        bra.w   TaskHandler_028690              | +0ee
-        .global Sub_00028594__L028686
-Sub_00028594__L028686:
+        bra.w   Hitbox_ApplyDamage_028690       | +0ee
+        .global Hitbox_TestBoxes_028594__L028686
+Hitbox_TestBoxes_028594__L028686:
 .L028686:
         move.b  #0xff,d1                        | +0f2
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028690  @ $028690  (46 B)
+|  Hitbox_ApplyDamage_028690  @ $028690  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028690, "ax", @progbits
-        .global TaskHandler_028690
-TaskHandler_028690:
+        .section .text.Hitbox_ApplyDamage_028690, "ax", @progbits
+        .global Hitbox_ApplyDamage_028690
+Hitbox_ApplyDamage_028690:
         move.w  0x2(a0),d0                      | +000
-        jsr     TaskHandler_0286ec(pc)          | +004
+        jsr     Hitbox_SubtractHP_0286ec(pc)    | +004
         move.b  0x4(a0),d0                      | +008
         move.b  0x1(a2),d1                      | +00c
         cmp.b   d1,d0                           | +010
-        bgt.w   TaskHandler_0286c4              | +012
-        .global TaskHandler_028690__L0286a6
-TaskHandler_028690__L0286a6:
+        bgt.w   Hitbox_MarkHitOnly_0286c4       | +012
+        .global Hitbox_ApplyDamage_028690__L0286a6
+Hitbox_ApplyDamage_028690__L0286a6:
 .L0286a6:
         bset    #0x2,0x13(a6)                   | +016
         bset    #0x1,0x13(a6)                   | +01c
@@ -1369,40 +1369,40 @@ TaskHandler_028690__L0286a6:
         bset    #0x1,0x5a(a6)                   | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0286c4  @ $0286C4  (16 B)
+|  Hitbox_MarkHitOnly_0286c4  @ $0286C4  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0286c4, "ax", @progbits
-        .global TaskHandler_0286c4
-TaskHandler_0286c4:
+        .section .text.Hitbox_MarkHitOnly_0286c4, "ax", @progbits
+        .global Hitbox_MarkHitOnly_0286c4
+Hitbox_MarkHitOnly_0286c4:
         bset    #0x2,0x13(a6)                   | +000
         bset    #0x2,0x5a(a6)                   | +006
         jmp     ClearXN_02868a(pc)              | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0286d4  @ $0286D4  (16 B)
+|  Hitbox_MarkBlocked_0286d4  @ $0286D4  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0286d4, "ax", @progbits
-        .global TaskHandler_0286d4
-TaskHandler_0286d4:
+        .section .text.Hitbox_MarkBlocked_0286d4, "ax", @progbits
+        .global Hitbox_MarkBlocked_0286d4
+Hitbox_MarkBlocked_0286d4:
         bset    #0x1,0x13(a6)                   | +000
         bset    #0x1,0x5a(a6)                   | +006
-        jmp     Sub_00028594__L028686(pc)       | +00c
+        jmp     Hitbox_TestBoxes_028594__L028686(pc) | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0286e4  @ $0286E4  (8 B)
+|  Hitbox_MarkHitNoDamage_0286e4  @ $0286E4  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0286e4, "ax", @progbits
-        .global TaskHandler_0286e4
-TaskHandler_0286e4:
+        .section .text.Hitbox_MarkHitNoDamage_0286e4, "ax", @progbits
+        .global Hitbox_MarkHitNoDamage_0286e4
+Hitbox_MarkHitNoDamage_0286e4:
         move.b  #0xff,d1                        | +000
-        jmp     TaskHandler_028690__L0286a6(pc) | +004
+        jmp     Hitbox_ApplyDamage_028690__L0286a6(pc) | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0286ec  @ $0286EC  (22 B)
+|  Hitbox_SubtractHP_0286ec  @ $0286EC  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0286ec, "ax", @progbits
-        .global TaskHandler_0286ec
-TaskHandler_0286ec:
+        .section .text.Hitbox_SubtractHP_0286ec, "ax", @progbits
+        .global Hitbox_SubtractHP_0286ec
+Hitbox_SubtractHP_0286ec:
         move.w  0x66(a1),d1                     | +000
         sub.w   d0,d1                           | +004
         bgt.w   .L0286fe                        | +006
@@ -1412,21 +1412,21 @@ TaskHandler_0286ec:
         move.w  d1,0x66(a1)                     | +012
 
 | ----------------------------------------------------------------------------
-|  JmpTarget_02870a  @ $02870A  (12 B)
+|  Hitbox_SideOfImpact_02870a  @ $02870A  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.JmpTarget_02870a, "ax", @progbits
-        .global JmpTarget_02870a
-JmpTarget_02870a:
+        .section .text.Hitbox_SideOfImpact_02870a, "ax", @progbits
+        .global Hitbox_SideOfImpact_02870a
+Hitbox_SideOfImpact_02870a:
         btst    #0x3,0x13(a6)                   | +000
-        bne.w   TaskHandler_02871c              | +006
+        bne.w   Hitbox_SideOfImpact_Calc_02871c | +006
         clr.w   d0                              | +00a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02871c  @ $02871C  (54 B)
+|  Hitbox_SideOfImpact_Calc_02871c  @ $02871C  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02871c, "ax", @progbits
-        .global TaskHandler_02871c
-TaskHandler_02871c:
+        .section .text.Hitbox_SideOfImpact_Calc_02871c, "ax", @progbits
+        .global Hitbox_SideOfImpact_Calc_02871c
+Hitbox_SideOfImpact_Calc_02871c:
         movea.l 0x48(a6),a2                     | +000
         move.w  #0x1,d0                         | +004
         cmpa.l  #0xffffffff,a2                  | +008
@@ -1444,20 +1444,20 @@ TaskHandler_02871c:
         addi.w  #0x2,d0                         | +032
 
 | ----------------------------------------------------------------------------
-|  JmpTarget_028758  @ $028758  (10 B)
+|  Hitbox_CheckBit0_028758  @ $028758  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.JmpTarget_028758, "ax", @progbits
-        .global JmpTarget_028758
-JmpTarget_028758:
+        .section .text.Hitbox_CheckBit0_028758, "ax", @progbits
+        .global Hitbox_CheckBit0_028758
+Hitbox_CheckBit0_028758:
         btst    #0x0,0x13(a6)                   | +000
         bne.w   SetXN_028768                    | +006
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02876e  @ $02876E  (104 B)
+|  Hitbox_OverlapRect_02876e  @ $02876E  (104 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02876e, "ax", @progbits
-        .global TaskHandler_02876e
-TaskHandler_02876e:
+        .section .text.Hitbox_OverlapRect_02876e, "ax", @progbits
+        .global Hitbox_OverlapRect_02876e
+Hitbox_OverlapRect_02876e:
         move.w  (a0),d0                         | +000
         move.w  0x2(a0),d1                      | +002
         btst    #0x0,0x3a(a6)                   | +006
@@ -1497,14 +1497,14 @@ TaskHandler_02876e:
         cmp.w   d1,d2                           | +05c
         bgt.w   ClearXN_0287d6                  | +05e
         cmp.w   d3,d0                           | +062
-        ble.w   TaskHandler_0287dc              | +064
+        ble.w   Hitbox_OverlapRect_Y_0287dc     | +064
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0287dc  @ $0287DC  (130 B)
+|  Hitbox_OverlapRect_Y_0287dc  @ $0287DC  (130 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0287dc, "ax", @progbits
-        .global TaskHandler_0287dc
-TaskHandler_0287dc:
+        .section .text.Hitbox_OverlapRect_Y_0287dc, "ax", @progbits
+        .global Hitbox_OverlapRect_Y_0287dc
+Hitbox_OverlapRect_Y_0287dc:
         cmp.w   d2,d0                           | +000
         bcc.w   .L0287e4                        | +002
         move.w  d2,d0                           | +006
@@ -1555,14 +1555,14 @@ TaskHandler_0287dc:
         cmp.w   d1,d2                           | +076
         bgt.w   ClearXN_02885e                  | +078
         cmp.w   d3,d0                           | +07c
-        ble.w   TaskHandler_028864              | +07e
+        ble.w   Hitbox_OverlapRect_Store_028864 | +07e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028864  @ $028864  (28 B)
+|  Hitbox_OverlapRect_Store_028864  @ $028864  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028864, "ax", @progbits
-        .global TaskHandler_028864
-TaskHandler_028864:
+        .section .text.Hitbox_OverlapRect_Store_028864, "ax", @progbits
+        .global Hitbox_OverlapRect_Store_028864
+Hitbox_OverlapRect_Store_028864:
         cmp.w   d2,d0                           | +000
         bcc.w   .L02886c                        | +002
         move.w  d2,d0                           | +006
@@ -1577,11 +1577,11 @@ TaskHandler_028864:
         move.w  d7,0x54(a1)                     | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028886  @ $028886  (64 B)
+|  Hitbox_OverlapPoint_028886  @ $028886  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028886, "ax", @progbits
-        .global TaskHandler_028886
-TaskHandler_028886:
+        .section .text.Hitbox_OverlapPoint_028886, "ax", @progbits
+        .global Hitbox_OverlapPoint_028886
+Hitbox_OverlapPoint_028886:
         move.w  (a0),d0                         | +000
         move.w  (a2),d2                         | +002
         move.w  0x2(a2),d3                      | +004
@@ -1605,14 +1605,14 @@ TaskHandler_028886:
         cmp.w   d0,d2                           | +034
         bgt.w   ClearXN_0288c6                  | +036
         cmp.w   d3,d0                           | +03a
-        ble.w   TaskHandler_0288cc              | +03c
+        ble.w   Hitbox_OverlapPoint_Y_0288cc    | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0288cc  @ $0288CC  (70 B)
+|  Hitbox_OverlapPoint_Y_0288cc  @ $0288CC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0288cc, "ax", @progbits
-        .global TaskHandler_0288cc
-TaskHandler_0288cc:
+        .section .text.Hitbox_OverlapPoint_Y_0288cc, "ax", @progbits
+        .global Hitbox_OverlapPoint_Y_0288cc
+Hitbox_OverlapPoint_Y_0288cc:
         move.w  d0,d7                           | +000
         move.w  0x4(a0),d0                      | +002
         move.w  0x4(a2),d2                      | +006
@@ -1637,34 +1637,36 @@ TaskHandler_0288cc:
         cmp.w   d0,d2                           | +03a
         bgt.w   ClearXN_028912                  | +03c
         cmp.w   d3,d0                           | +040
-        ble.w   TaskHandler_028918              | +042
+        ble.w   Hitbox_OverlapPoint_Store_028918 | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028918  @ $028918  (8 B)
+|  Hitbox_OverlapPoint_Store_028918  @ $028918  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028918, "ax", @progbits
-        .global TaskHandler_028918
-TaskHandler_028918:
+        .section .text.Hitbox_OverlapPoint_Store_028918, "ax", @progbits
+        .global Hitbox_OverlapPoint_Store_028918
+Hitbox_OverlapPoint_Store_028918:
         move.w  d7,0x54(a1)                     | +000
         move.w  d0,0x56(a1)                     | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028926  @ $028926  (96 B)
+|  Hitbox_ScreenMargin_028926  @ $028926  (96 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028926, "ax", @progbits
-        .global TaskHandler_028926
-TaskHandler_028926:
-        ori.b   #0x1,d0                         | +000
-        ori.b   #0x1,d0                         | +004
-        dc.w    Sub_0000FFFF                    | +008
-        .global TaskHandler_028926__L028930
-TaskHandler_028926__L028930:
+        .section .text.Hitbox_ScreenMargin_028926, "ax", @progbits
+        .global Hitbox_ScreenMargin_028926
+Hitbox_ScreenMargin_028926:
+        .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
+        .dc.w   0x0001                        | +002  (dato / opcode no decodificado)
+        .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
+        .dc.w   0x0001                        | +006  (dato / opcode no decodificado)
+        .dc.w   0xffff                        | +008  (dato / opcode no decodificado)
+        .global Hitbox_ScreenMargin_028926__L028930
+Hitbox_ScreenMargin_028926__L028930:
 .L028930:
         cmpi.b  #0x0,0x6(a0)                    | +00a
         bne.w   ClearC_028986                   | +010
         cmpa.l  #0xffffffff,a4                  | +014
         bne.w   .L028948                        | +01a
-        lea     TaskHandler_028926(pc),a4       | +01e
+        lea     Hitbox_ScreenMargin_028926(pc),a4 | +01e
 .L028948:
         move.w  #0x0,d0                         | +022
         move.w  #0x140,d1                       | +026
@@ -1684,11 +1686,11 @@ TaskHandler_028926__L028930:
         blt.w   SetC_02898c                     | +05c
 
 | ----------------------------------------------------------------------------
-|  Data_0289f6  @ $0289F6  (160 B)
+|  Hitbox_DefaultShapes_0289f6  @ $0289F6  (160 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0289f6, "ax", @progbits
-        .global Data_0289f6
-Data_0289f6:
+        .section .text.Hitbox_DefaultShapes_0289f6, "ax", @progbits
+        .global Hitbox_DefaultShapes_0289f6
+Hitbox_DefaultShapes_0289f6:
         .dc.w   0x8001                        | +000  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
@@ -1771,11 +1773,11 @@ Data_0289f6:
         .dc.w   0xffff                        | +09e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Fn_00028C20  @ $028C20  (64 B)
+|  Hitbox_OverlapPointA4_028c20  @ $028C20  (64 B)
 | ----------------------------------------------------------------------------
-        .section .text.Fn_00028C20, "ax", @progbits
-        .global Fn_00028C20
-Fn_00028C20:
+        .section .text.Hitbox_OverlapPointA4_028c20, "ax", @progbits
+        .global Hitbox_OverlapPointA4_028c20
+Hitbox_OverlapPointA4_028c20:
         move.w  (a4),d0                         | +000
         move.w  (a3),d2                         | +002
         move.w  0x2(a3),d3                      | +004
@@ -1799,14 +1801,14 @@ Fn_00028C20:
         cmp.w   d0,d2                           | +034
         bgt.w   ClearXN_028c60                  | +036
         cmp.w   d3,d0                           | +03a
-        ble.w   TaskHandler_028c66              | +03c
+        ble.w   Hitbox_OverlapPointA4_Y_028c66  | +03c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028c66  @ $028C66  (70 B)
+|  Hitbox_OverlapPointA4_Y_028c66  @ $028C66  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028c66, "ax", @progbits
-        .global TaskHandler_028c66
-TaskHandler_028c66:
+        .section .text.Hitbox_OverlapPointA4_Y_028c66, "ax", @progbits
+        .global Hitbox_OverlapPointA4_Y_028c66
+Hitbox_OverlapPointA4_Y_028c66:
         move.w  d0,d7                           | +000
         move.w  0x4(a4),d0                      | +002
         move.w  0x4(a3),d2                      | +006
@@ -1834,22 +1836,22 @@ TaskHandler_028c66:
         ble.w   SetXN_028cb2                    | +042
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028cb8  @ $028CB8  (16 B)
+|  ChildRank_CmpByte10_028cb8  @ $028CB8  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028cb8, "ax", @progbits
-        .global TaskHandler_028cb8
-TaskHandler_028cb8:
+        .section .text.ChildRank_CmpByte10_028cb8, "ax", @progbits
+        .global ChildRank_CmpByte10_028cb8
+ChildRank_CmpByte10_028cb8:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008
         bcs.w   SetXN_028cce                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Data_028cf0  @ $028CF0  (128 B)
+|  Script_OpcodeTable_028cf0  @ $028CF0  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_028cf0, "ax", @progbits
-        .global Data_028cf0
-Data_028cf0:
+        .section .text.Script_OpcodeTable_028cf0, "ax", @progbits
+        .global Script_OpcodeTable_028cf0
+Script_OpcodeTable_028cf0:
         .dc.w   0x0002                        | +000  (dato / opcode no decodificado)
         .dc.w   0x8dd4                        | +002  (dato / opcode no decodificado)
         .dc.w   0x0002                        | +004  (dato / opcode no decodificado)
@@ -1916,11 +1918,11 @@ Data_028cf0:
         .dc.w   0x9086                        | +07e  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028dd4  @ $028DD4  (30 B)
+|  ScriptOp00_Wait_028dd4  @ $028DD4  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028dd4, "ax", @progbits
-        .global TaskHandler_028dd4
-TaskHandler_028dd4:
+        .section .text.ScriptOp00_Wait_028dd4, "ax", @progbits
+        .global ScriptOp00_Wait_028dd4
+ScriptOp00_Wait_028dd4:
         move.b  0x46(a6),d2                     | +000
         bne.w   .L028de4                        | +004
         move.b  0x1(a1),d2                      | +008
@@ -1931,24 +1933,24 @@ TaskHandler_028dd4:
         jmp     Script_DispatchOpcode__L028da8(pc) | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028df2  @ $028DF2  (12 B)
+|  ScriptOp01_Jump_028df2  @ $028DF2  (12 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028df2, "ax", @progbits
-        .global TaskHandler_028df2
-TaskHandler_028df2:
+        .section .text.ScriptOp01_Jump_028df2, "ax", @progbits
+        .global ScriptOp01_Jump_028df2
+ScriptOp01_Jump_028df2:
         movea.l 0x2(a1),a1                      | +000
         move.l  a1,0x3c(a6)                     | +004
         jmp     Script_DispatchOpcode__L028da8(pc) | +008
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_028dfe  @ $028DFE  (546 B)
+|  ScriptOp02_Sprite_028dfe  @ $028DFE  (546 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_028dfe, "ax", @progbits
-        .global TaskHandler_028dfe
-TaskHandler_028dfe:
+        .section .text.ScriptOp02_Sprite_028dfe, "ax", @progbits
+        .global ScriptOp02_Sprite_028dfe
+ScriptOp02_Sprite_028dfe:
         move.l  a1,0x40(a6)                     | +000
-        .global TaskHandler_028dfe__L028e02
-TaskHandler_028dfe__L028e02:
+        .global ScriptOp02_Sprite_028dfe__L028e02
+ScriptOp02_Sprite_028dfe__L028e02:
 .L028e02:
         move.b  0x1(a1),d1                      | +004
         move.b  0x3a(a6),d2                     | +008
@@ -2087,7 +2089,7 @@ TaskHandler_028dfe__L028e02:
 .L028fe2:
         cmpi.b  #0x18,(a1)                      | +1e4
         bne.w   .L028fee                        | +1e8
-        jmp     TaskHandler_02934c(pc)          | +1ec
+        jmp     ScriptOp18_SpriteFlag5Cont_02934c(pc) | +1ec
 .L028fee:
         cmpi.b  #0x2,(a1)                       | +1f0
         bne.w   .L028ffa                        | +1f4
@@ -2104,11 +2106,11 @@ TaskHandler_028dfe__L028e02:
         move.l  a1,0x3c(a6)                     | +21e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02902c  @ $02902C  (66 B)
+|  ScriptOp03_Loop_02902c  @ $02902C  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02902c, "ax", @progbits
-        .global TaskHandler_02902c
-TaskHandler_02902c:
+        .section .text.ScriptOp03_Loop_02902c, "ax", @progbits
+        .global ScriptOp03_Loop_02902c
+ScriptOp03_Loop_02902c:
         tst.b   0x47(a6)                        | +000
         bne.w   .L02903e                        | +004
         move.b  0x1(a1),d1                      | +008
@@ -2131,11 +2133,11 @@ TaskHandler_02902c:
         jmp     Script_DispatchOpcode__L028da8(pc) | +03e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02906e  @ $02906E  (24 B)
+|  ScriptOp04_Sound_02906e  @ $02906E  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02906e, "ax", @progbits
-        .global TaskHandler_02906e
-TaskHandler_02906e:
+        .section .text.ScriptOp04_Sound_02906e, "ax", @progbits
+        .global ScriptOp04_Sound_02906e
+ScriptOp04_Sound_02906e:
         move.w  0x2(a1),d0                      | +000
         jsr     0x2352.l                        | +004
         adda.l  #0x4,a1                         | +00a
@@ -2143,11 +2145,11 @@ TaskHandler_02906e:
         jmp     Script_DispatchOpcode__L028da8(pc) | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029086  @ $029086  (24 B)
+|  ScriptOp1F_Sound2222_029086  @ $029086  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029086, "ax", @progbits
-        .global TaskHandler_029086
-TaskHandler_029086:
+        .section .text.ScriptOp1F_Sound2222_029086, "ax", @progbits
+        .global ScriptOp1F_Sound2222_029086
+ScriptOp1F_Sound2222_029086:
         move.w  0x2(a1),d0                      | +000
         jsr     0x2222.l                        | +004
         adda.l  #0x4,a1                         | +00a
@@ -2155,11 +2157,11 @@ TaskHandler_029086:
         jmp     Script_DispatchOpcode__L028da8(pc) | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02909e  @ $02909E  (44 B)
+|  ScriptOp05_SetByte_02909e  @ $02909E  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02909e, "ax", @progbits
-        .global TaskHandler_02909e
-TaskHandler_02909e:
+        .section .text.ScriptOp05_SetByte_02909e, "ax", @progbits
+        .global ScriptOp05_SetByte_02909e
+ScriptOp05_SetByte_02909e:
         move.w  0x2(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L0290b6                        | +008
@@ -2175,11 +2177,11 @@ TaskHandler_02909e:
         jmp     Script_DispatchOpcode__L028da8(pc) | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0290ca  @ $0290CA  (44 B)
+|  ScriptOp06_SetWord_0290ca  @ $0290CA  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0290ca, "ax", @progbits
-        .global TaskHandler_0290ca
-TaskHandler_0290ca:
+        .section .text.ScriptOp06_SetWord_0290ca, "ax", @progbits
+        .global ScriptOp06_SetWord_0290ca
+ScriptOp06_SetWord_0290ca:
         move.w  0x4(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L0290e2                        | +008
@@ -2195,11 +2197,11 @@ TaskHandler_0290ca:
         jmp     Script_DispatchOpcode__L028da8(pc) | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0290f6  @ $0290F6  (44 B)
+|  ScriptOp07_SetLong_0290f6  @ $0290F6  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0290f6, "ax", @progbits
-        .global TaskHandler_0290f6
-TaskHandler_0290f6:
+        .section .text.ScriptOp07_SetLong_0290f6, "ax", @progbits
+        .global ScriptOp07_SetLong_0290f6
+ScriptOp07_SetLong_0290f6:
         move.w  0x6(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L02910e                        | +008
@@ -2215,11 +2217,11 @@ TaskHandler_0290f6:
         jmp     Script_DispatchOpcode__L028da8(pc) | +028
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029122  @ $029122  (28 B)
+|  ScriptOp08_Call_029122  @ $029122  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029122, "ax", @progbits
-        .global TaskHandler_029122
-TaskHandler_029122:
+        .section .text.ScriptOp08_Call_029122, "ax", @progbits
+        .global ScriptOp08_Call_029122
+ScriptOp08_Call_029122:
         movem.l a1,-(a7)                        | +000
         movea.l 0x2(a1),a1                      | +004
         jsr     (a1)                            | +008
@@ -2229,44 +2231,44 @@ TaskHandler_029122:
         jmp     Script_DispatchOpcode__L028da8(pc) | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02913e  @ $02913E  (20 B)
+|  ScriptOp09_SetHitbox48_02913e  @ $02913E  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02913e, "ax", @progbits
-        .global TaskHandler_02913e
-TaskHandler_02913e:
+        .section .text.ScriptOp09_SetHitbox48_02913e, "ax", @progbits
+        .global ScriptOp09_SetHitbox48_02913e
+ScriptOp09_SetHitbox48_02913e:
         move.l  0x2(a1),0x48(a6)                | +000
         adda.l  #0x6,a1                         | +006
         move.l  a1,0x3c(a6)                     | +00c
         jmp     Script_DispatchOpcode__L028da8(pc) | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029152  @ $029152  (20 B)
+|  ScriptOp0A_SetField4C_029152  @ $029152  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029152, "ax", @progbits
-        .global TaskHandler_029152
-TaskHandler_029152:
+        .section .text.ScriptOp0A_SetField4C_029152, "ax", @progbits
+        .global ScriptOp0A_SetField4C_029152
+ScriptOp0A_SetField4C_029152:
         move.l  0x2(a1),0x4c(a6)                | +000
         adda.l  #0x6,a1                         | +006
         move.l  a1,0x3c(a6)                     | +00c
         jmp     Script_DispatchOpcode__L028da8(pc) | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029166  @ $029166  (20 B)
+|  ScriptOp0B_SetField60_029166  @ $029166  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029166, "ax", @progbits
-        .global TaskHandler_029166
-TaskHandler_029166:
+        .section .text.ScriptOp0B_SetField60_029166, "ax", @progbits
+        .global ScriptOp0B_SetField60_029166
+ScriptOp0B_SetField60_029166:
         move.l  0x2(a1),0x60(a6)                | +000
         adda.l  #0x6,a1                         | +006
         move.l  a1,0x3c(a6)                     | +00c
         jmp     Script_DispatchOpcode__L028da8(pc) | +010
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02917a  @ $02917A  (28 B)
+|  ScriptOp0C_CopyWordTo14_02917a  @ $02917A  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02917a, "ax", @progbits
-        .global TaskHandler_02917a
-TaskHandler_02917a:
+        .section .text.ScriptOp0C_CopyWordTo14_02917a, "ax", @progbits
+        .global ScriptOp0C_CopyWordTo14_02917a
+ScriptOp0C_CopyWordTo14_02917a:
         move.b  0x1(a1),d0                      | +000
         andi.w  #0xff,d0                        | +004
         move.w  (a6,d0.w),0x14(a6)              | +008
@@ -2275,11 +2277,11 @@ TaskHandler_02917a:
         jmp     Script_DispatchOpcode__L028da8(pc) | +018
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029196  @ $029196  (46 B)
+|  ScriptOp0D_AndByte_029196  @ $029196  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029196, "ax", @progbits
-        .global TaskHandler_029196
-TaskHandler_029196:
+        .section .text.ScriptOp0D_AndByte_029196, "ax", @progbits
+        .global ScriptOp0D_AndByte_029196
+ScriptOp0D_AndByte_029196:
         move.w  0x2(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L0291ae                        | +008
@@ -2296,11 +2298,11 @@ TaskHandler_029196:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0291c4  @ $0291C4  (46 B)
+|  ScriptOp0E_AndWord_0291c4  @ $0291C4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0291c4, "ax", @progbits
-        .global TaskHandler_0291c4
-TaskHandler_0291c4:
+        .section .text.ScriptOp0E_AndWord_0291c4, "ax", @progbits
+        .global ScriptOp0E_AndWord_0291c4
+ScriptOp0E_AndWord_0291c4:
         move.w  0x4(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L0291dc                        | +008
@@ -2317,11 +2319,11 @@ TaskHandler_0291c4:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0291f2  @ $0291F2  (46 B)
+|  ScriptOp0F_AndLong_0291f2  @ $0291F2  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0291f2, "ax", @progbits
-        .global TaskHandler_0291f2
-TaskHandler_0291f2:
+        .section .text.ScriptOp0F_AndLong_0291f2, "ax", @progbits
+        .global ScriptOp0F_AndLong_0291f2
+ScriptOp0F_AndLong_0291f2:
         move.w  0x6(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L02920a                        | +008
@@ -2338,11 +2340,11 @@ TaskHandler_0291f2:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029220  @ $029220  (46 B)
+|  ScriptOp10_OrByte_029220  @ $029220  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029220, "ax", @progbits
-        .global TaskHandler_029220
-TaskHandler_029220:
+        .section .text.ScriptOp10_OrByte_029220, "ax", @progbits
+        .global ScriptOp10_OrByte_029220
+ScriptOp10_OrByte_029220:
         move.w  0x2(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L029238                        | +008
@@ -2359,11 +2361,11 @@ TaskHandler_029220:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02924e  @ $02924E  (46 B)
+|  ScriptOp11_OrWord_02924e  @ $02924E  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02924e, "ax", @progbits
-        .global TaskHandler_02924e
-TaskHandler_02924e:
+        .section .text.ScriptOp11_OrWord_02924e, "ax", @progbits
+        .global ScriptOp11_OrWord_02924e
+ScriptOp11_OrWord_02924e:
         move.w  0x4(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L029266                        | +008
@@ -2380,11 +2382,11 @@ TaskHandler_02924e:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02927c  @ $02927C  (46 B)
+|  ScriptOp12_OrLong_02927c  @ $02927C  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02927c, "ax", @progbits
-        .global TaskHandler_02927c
-TaskHandler_02927c:
+        .section .text.ScriptOp12_OrLong_02927c, "ax", @progbits
+        .global ScriptOp12_OrLong_02927c
+ScriptOp12_OrLong_02927c:
         move.w  0x6(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L029294                        | +008
@@ -2401,11 +2403,11 @@ TaskHandler_02927c:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0292aa  @ $0292AA  (46 B)
+|  ScriptOp13_EorByte_0292aa  @ $0292AA  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0292aa, "ax", @progbits
-        .global TaskHandler_0292aa
-TaskHandler_0292aa:
+        .section .text.ScriptOp13_EorByte_0292aa, "ax", @progbits
+        .global ScriptOp13_EorByte_0292aa
+ScriptOp13_EorByte_0292aa:
         move.w  0x2(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L0292c2                        | +008
@@ -2422,11 +2424,11 @@ TaskHandler_0292aa:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0292d8  @ $0292D8  (46 B)
+|  ScriptOp14_EorWord_0292d8  @ $0292D8  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0292d8, "ax", @progbits
-        .global TaskHandler_0292d8
-TaskHandler_0292d8:
+        .section .text.ScriptOp14_EorWord_0292d8, "ax", @progbits
+        .global ScriptOp14_EorWord_0292d8
+ScriptOp14_EorWord_0292d8:
         move.w  0x4(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L0292f0                        | +008
@@ -2443,11 +2445,11 @@ TaskHandler_0292d8:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029306  @ $029306  (46 B)
+|  ScriptOp15_EorLong_029306  @ $029306  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029306, "ax", @progbits
-        .global TaskHandler_029306
-TaskHandler_029306:
+        .section .text.ScriptOp15_EorLong_029306, "ax", @progbits
+        .global ScriptOp15_EorLong_029306
+ScriptOp15_EorLong_029306:
         move.w  0x6(a1),d1                      | +000
         cmpi.w  #0xa0,d1                        | +004
         blt.w   .L02931e                        | +008
@@ -2464,40 +2466,40 @@ TaskHandler_029306:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029334  @ $029334  (8 B)
+|  ScriptOp16_RepeatSprite_029334  @ $029334  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029334, "ax", @progbits
-        .global TaskHandler_029334
-TaskHandler_029334:
+        .section .text.ScriptOp16_RepeatSprite_029334, "ax", @progbits
+        .global ScriptOp16_RepeatSprite_029334
+ScriptOp16_RepeatSprite_029334:
         movea.l 0x40(a6),a1                     | +000
-        jmp     TaskHandler_028dfe(pc)          | +004
+        jmp     ScriptOp02_Sprite_028dfe(pc)    | +004
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02933c  @ $02933C  (16 B)
+|  ScriptOp17_SpriteFlag5_02933c  @ $02933C  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02933c, "ax", @progbits
-        .global TaskHandler_02933c
-TaskHandler_02933c:
+        .section .text.ScriptOp17_SpriteFlag5_02933c, "ax", @progbits
+        .global ScriptOp17_SpriteFlag5_02933c
+ScriptOp17_SpriteFlag5_02933c:
         bset    #0x5,0x12(a6)                   | +000
         adda.l  #0x2,a1                         | +006
-        jmp     TaskHandler_028dfe(pc)          | +00c
+        jmp     ScriptOp02_Sprite_028dfe(pc)    | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02934c  @ $02934C  (16 B)
+|  ScriptOp18_SpriteFlag5Cont_02934c  @ $02934C  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02934c, "ax", @progbits
-        .global TaskHandler_02934c
-TaskHandler_02934c:
+        .section .text.ScriptOp18_SpriteFlag5Cont_02934c, "ax", @progbits
+        .global ScriptOp18_SpriteFlag5Cont_02934c
+ScriptOp18_SpriteFlag5Cont_02934c:
         bset    #0x5,0x12(a6)                   | +000
         adda.l  #0x2,a1                         | +006
-        jmp     TaskHandler_028dfe__L028e02(pc) | +00c
+        jmp     ScriptOp02_Sprite_028dfe__L028e02(pc) | +00c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02935c  @ $02935C  (26 B)
+|  ScriptOp19_SetField70_02935c  @ $02935C  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02935c, "ax", @progbits
-        .global TaskHandler_02935c
-TaskHandler_02935c:
+        .section .text.ScriptOp19_SetField70_02935c, "ax", @progbits
+        .global ScriptOp19_SetField70_02935c
+ScriptOp19_SetField70_02935c:
         move.l  a1,0x70(a6)                     | +000
         addi.l  #0x2,0x70(a6)                   | +004
         adda.l  #0xa,a1                         | +00c
@@ -2505,11 +2507,11 @@ TaskHandler_02935c:
         jmp     Script_DispatchOpcode__L028da8(pc) | +016
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029376  @ $029376  (50 B)
+|  ScriptOp1A_WaitFromTable_029376  @ $029376  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029376, "ax", @progbits
-        .global TaskHandler_029376
-TaskHandler_029376:
+        .section .text.ScriptOp1A_WaitFromTable_029376, "ax", @progbits
+        .global ScriptOp1A_WaitFromTable_029376
+ScriptOp1A_WaitFromTable_029376:
         move.b  0x46(a6),d2                     | +000
         bne.w   .L02939a                        | +004
         move.b  0x1(a1),d0                      | +008
@@ -2525,11 +2527,11 @@ TaskHandler_029376:
         jmp     Script_DispatchOpcode__L028da8(pc) | +02e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0293a8  @ $0293A8  (30 B)
+|  ScriptOp1B_IndexStride18_0293a8  @ $0293A8  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0293a8, "ax", @progbits
-        .global TaskHandler_0293a8
-TaskHandler_0293a8:
+        .section .text.ScriptOp1B_IndexStride18_0293a8, "ax", @progbits
+        .global ScriptOp1B_IndexStride18_0293a8
+ScriptOp1B_IndexStride18_0293a8:
         clr.w   d0                              | +000
         move.b  0x1(a1),d0                      | +002
         move.w  (a6,d0.w),d1                    | +006
@@ -2540,11 +2542,11 @@ TaskHandler_0293a8:
         jmp     Script_DispatchOpcode__L028da8(pc) | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0293c6  @ $0293C6  (30 B)
+|  ScriptOp1C_IndexStride1C_0293c6  @ $0293C6  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0293c6, "ax", @progbits
-        .global TaskHandler_0293c6
-TaskHandler_0293c6:
+        .section .text.ScriptOp1C_IndexStride1C_0293c6, "ax", @progbits
+        .global ScriptOp1C_IndexStride1C_0293c6
+ScriptOp1C_IndexStride1C_0293c6:
         clr.w   d0                              | +000
         move.b  0x1(a1),d0                      | +002
         move.w  (a6,d0.w),d1                    | +006
@@ -2555,34 +2557,36 @@ TaskHandler_0293c6:
         jmp     Script_DispatchOpcode__L028da8(pc) | +01a
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0293e4  @ $0293E4  (8 B)
+|  ScriptOp1D_BackOffsets_0293e4  @ $0293E4  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0293e4, "ax", @progbits
-        .global TaskHandler_0293e4
-TaskHandler_0293e4:
-        ori.b   #0x4e,d0                        | +000
-        ori.b   #0x4e,d0                        | +004
+        .section .text.ScriptOp1D_BackOffsets_0293e4, "ax", @progbits
+        .global ScriptOp1D_BackOffsets_0293e4
+ScriptOp1D_BackOffsets_0293e4:
+        .dc.w   0x0000                        | +000  (dato / opcode no decodificado)
+        .dc.w   0x004e                        | +002  (dato / opcode no decodificado)
+        .dc.w   0x0000                        | +004  (dato / opcode no decodificado)
+        .dc.w   0x004e                        | +006  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0293ec  @ $0293EC  (24 B)
+|  ScriptOp1D_SpriteBack_0293ec  @ $0293EC  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0293ec, "ax", @progbits
-        .global TaskHandler_0293ec
-TaskHandler_0293ec:
+        .section .text.ScriptOp1D_SpriteBack_0293ec, "ax", @progbits
+        .global ScriptOp1D_SpriteBack_0293ec
+ScriptOp1D_SpriteBack_0293ec:
         move.b  0x1(a1),d0                      | +000
         andi.w  #0xf,d0                         | +004
         asl.w   #0x2,d0                         | +008
-        move.l  TaskHandler_0293e4(pc,d0.w),d1  | +00a
+        move.l  ScriptOp1D_BackOffsets_0293e4(pc,d0.w),d1 | +00a
         suba.l  d1,a1                           | +00e
         move.l  a1,0x3c(a6)                     | +010
-        jmp     TaskHandler_028dfe__L028e02(pc) | +014
+        jmp     ScriptOp02_Sprite_028dfe__L028e02(pc) | +014
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029404  @ $029404  (32 B)
+|  ScriptOp_DecTimers_029404  @ $029404  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029404, "ax", @progbits
-        .global TaskHandler_029404
-TaskHandler_029404:
+        .section .text.ScriptOp_DecTimers_029404, "ax", @progbits
+        .global ScriptOp_DecTimers_029404
+ScriptOp_DecTimers_029404:
         move.b  0x45(a6),d0                     | +000
         move.b  #0x0,d1                         | +004
         subi.b  #0x1,d0                         | +008
@@ -2594,11 +2598,11 @@ TaskHandler_029404:
         addx.b  d1,d0                           | +01e
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_02942a  @ $02942A  (128 B)
+|  ScriptOp1E_SpawnChild_02942a  @ $02942A  (128 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_02942a, "ax", @progbits
-        .global TaskHandler_02942a
-TaskHandler_02942a:
+        .section .text.ScriptOp1E_SpawnChild_02942a, "ax", @progbits
+        .global ScriptOp1E_SpawnChild_02942a
+ScriptOp1E_SpawnChild_02942a:
         move.w  0x2(a1),d0                      | +000
         cmpi.b  #0xb,0x106ece.l                 | +004
         beq.w   .L029446                        | +00c
@@ -2634,11 +2638,11 @@ TaskHandler_02942a:
         beq.w   JsrPcRts_0294ae                 | +07c
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_0294b0  @ $0294B0  (170 B)
+|  ScriptOp1E_SpawnChild_Sprite_0294b0  @ $0294B0  (170 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_0294b0, "ax", @progbits
-        .global TaskHandler_0294b0
-TaskHandler_0294b0:
+        .section .text.ScriptOp1E_SpawnChild_Sprite_0294b0, "ax", @progbits
+        .global ScriptOp1E_SpawnChild_Sprite_0294b0
+ScriptOp1E_SpawnChild_Sprite_0294b0:
         move.l  a1,0x40(a6)                     | +000
 .L0294b4:
         move.w  0x22(a6),d0                     | +004
@@ -2674,7 +2678,7 @@ TaskHandler_0294b0:
 .L029524:
         cmpi.b  #0x18,(a1)                      | +074
         bne.w   .L029530                        | +078
-        jmp     TaskHandler_02934c(pc)          | +07c
+        jmp     ScriptOp18_SpriteFlag5Cont_02934c(pc) | +07c
 .L029530:
         cmpi.b  #0x2,(a1)                       | +080
         bne.w   .L02953c                        | +084
@@ -2689,11 +2693,11 @@ TaskHandler_0294b0:
         move.l  a1,0x3c(a6)                     | +0a6
 
 | ----------------------------------------------------------------------------
-|  TaskHandler_029566  @ $029566  (16 B)
+|  ChildRank_CmpByte10_029566  @ $029566  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.TaskHandler_029566, "ax", @progbits
-        .global TaskHandler_029566
-TaskHandler_029566:
+        .section .text.ChildRank_CmpByte10_029566, "ax", @progbits
+        .global ChildRank_CmpByte10_029566
+ChildRank_CmpByte10_029566:
         movea.l 0x8(a6),a1                      | +000
         move.b  0x10(a6),d0                     | +004
         cmp.b   0x10(a1),d0                     | +008

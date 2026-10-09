@@ -48,6 +48,6 @@ Entity_ProbeSlot4c_0283D8:
         moveq   #-1, d7                 | +00  d7 = 0xFFFFFFFF (sentinel)
         movea.l 0x4c(a6), a0            | +02  a0 = entity->slot4c
         cmpi.l  #-1, 0x4c(a6)           | +06  slot4c == ENTITY_NIL ?
-        bne.w   Sub_0002_83EC           | +0e  no, cae en el helper contiguo
+        bne.w   Hitbox_RunList_0283ec           | +0e  no, cae en el helper contiguo
         rts                             | +12
         .size   Entity_ProbeSlot4c_0283D8, .-Entity_ProbeSlot4c_0283D8

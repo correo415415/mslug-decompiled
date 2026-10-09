@@ -24,10 +24,10 @@ SYMBOLS = {
     0x00043F5E: "Sub_00043F5E",  # blitter de fila (PC-rel desde $43fac)
     0x00000506: "Task_AllocFail_0506",  # rama 'free-list vacia' de Task_AllocFromFreeList
     # 0x00077C98 promovido a Spawner_Handler_077c98 en registry (Wave YYYY).
-    # 0x000277C4 promovido a Sub_000277C4 en registry (Wave CCCCC).
+    # 0x000277C4 promovido a Entity_MoveAndCollide_F_0277c4 en registry (Wave CCCCC).
     # 0x000273FC promovido a Entity_SaveRegs_0273fc en registry (Wave BBBBB).
     0x000027444: "Sub_000027444",  # probe/collision compartido por T#11 y T#13
-    # 0x0002773C promovido a Sub_00002773C en registry (Wave CCCCC).
+    # 0x0002773C promovido a Entity_MoveAndCollide_E_02773c en registry (Wave CCCCC).
     0x00027D32: "Entity_RestoreTransformSetC_027d32",  # brazo hermano (bcs.w) de T#7
     0x00027CD0: "Entity_RestoreTransformSetC_027cd0",  # brazo hermano (bcs.w) de T#9
     0x00027C0C: "Entity_RestoreTransformSetC_027c0c",  # brazo hermano (bcs.w) de T#11
@@ -860,9 +860,9 @@ SYMBOLS = {
     0x00001AF8: "PcThunkTarget_001af8",
     0x0001399C: "PcThunkTarget_01399c",
     # 0x00025E74 promovido a HUD_SetStartMask_025e74 en registry (Wave BBBBB).
-    # 0x000281C8 promovido a PcThunkTarget_0281c8 en registry (Wave CCCCC).
-    # 0x0002870A promovido a JmpTarget_02870a en registry (Wave CCCCC).
-    # 0x00028758 promovido a JmpTarget_028758 en registry (Wave CCCCC).
+    # 0x000281C8 promovido a Entity_ApplyVelLatch_0281c8 en registry (Wave CCCCC).
+    # 0x0002870A promovido a Hitbox_SideOfImpact_02870a en registry (Wave CCCCC).
+    # 0x00028758 promovido a Hitbox_CheckBit0_028758 en registry (Wave CCCCC).
     # 0x0002A46C promovido a Slug_ClearFlags8D_02a46c en registry (Wave BBBB).
     # 0x0002AB86 promovido a Slug_InputFireByLayout_02ab86 en registry (Wave BBBB).
     # 0x0002AC4C promovido a Slug_TestField100609_02ac4c en registry (Wave BBBB).
@@ -963,7 +963,7 @@ SYMBOLS = {
     0x0009A0BA: "JsrAbsRts_09a0ba",          # rts INTERNO de JsrAbsThunk_09a0b4 (Wave I);
                                              # destino del bne.w de salida temprana de
                                              # FixGlyphRun_DrawPad2P_09A086 (Wave SS#12).
-    # 0x000283EC promovido a Sub_0002_83EC en registry (Wave CCCCC).
+    # 0x000283EC promovido a Hitbox_RunList_0283ec en registry (Wave CCCCC).
     # ---- Wave W: destinos externos de Entity_AllocSpriteSlot_00236E ----
     0x000029A6: "Rts_shared_29A6",     # rts compartido (usado por 3 branches del validador)
     0x000029A8: "Entity_ProbeSpriteSlot_29A8", # sub-prologo compartido llamado con jsr $29a8(pc)
@@ -1061,8 +1061,8 @@ SYMBOLS = {
     # 0x00033572: "PlayerHandlerA_033572",   # ahora label interno
     # 0x00033578: "PlayerHandlerB_033578",   # ahora label interno
     #      Callees de SpritePubEffect_027EBA (helpers de probe y effect):
-    # 0x00027DB2 promovido a Sub_00027DB2 en registry (Wave CCCCC).
-    # 0x00027E28 promovido a Sub_00027E28 en registry (Wave CCCCC).
+    # 0x00027DB2 promovido a CollMap_LookupTile_027db2 en registry (Wave CCCCC).
+    # 0x00027E28 promovido a CollMap_TestSolidOrPlatform_027e28 en registry (Wave CCCCC).
     # 0x0009993C promovido a Trail_FindNearest_09993c en registry (Wave QQQ).
     0x00278BA8: "Data_00278BA8",            # array de configs de effect (data)
     #      Etiqueta fin-de-funcion para Probe_Bit3At100001_0334A2: el beq.w
@@ -1250,9 +1250,9 @@ SYMBOLS = {
 
     # ---- Wave XX: externals de la VM de mision / spawner / punteria.
     0x00028134: "Fn_00028134",            # setup fisica proyectil (BossShot/Miniboss)
-    # 0x00028C20 promovido a Fn_00028C20 en registry (Wave CCCCC).
+    # 0x00028C20 promovido a Hitbox_OverlapPointA4_028c20 en registry (Wave CCCCC).
     0x00027D50: "Fn_00027D50",            # tick de vuelo del proyectil del boss
-    # 0x000280C6 promovido a Fn_000280C6 en registry (Wave CCCCC).
+    # 0x000280C6 promovido a Entity_TileUnderToShade_0280c6 en registry (Wave CCCCC).
     # 0x0002A1AA promovido a Slug_InitBoss_02a1aa en registry (Wave BBBB).
     # 0x0002AC6A promovido a Slug_TestField100609B_02ac6a en registry (Wave BBBB).
     # 0x00030C14 promovido a EnemyShot_Straight_030c14 en registry (Wave AAAA).
@@ -2298,15 +2298,13 @@ SYMBOLS = {
     0x00025E46: "SetHandlerRts_025e46",  # rts de SetTaskHandler_025e40 (+6)
     0x000266CA: "NopCCRMid_0266ca",  # rts de NopCCR_0266c6 (+4)
     # --- Wave BBBBB: refs forward a huecos futuros
-    # 0x00027E7E promovido a Sub_00027E7E en registry (Wave CCCCC).
-    # 0x00027E9C promovido a Sub_00027E9C en registry (Wave CCCCC).
-    # 0x0002800E promovido a Sub_0002800E en registry (Wave CCCCC).
-    # 0x00028074 promovido a Sub_00028074 en registry (Wave CCCCC).
+    # 0x00027E7E promovido a CollMap_TestSolidBitC_027e7e en registry (Wave CCCCC).
+    # 0x00027E9C promovido a CollMap_TestPlatformBitC_027e9c en registry (Wave CCCCC).
+    # 0x0002800E promovido a Entity_ScaleDyForGravity_02800e en registry (Wave CCCCC).
+    # 0x00028074 promovido a Entity_ClampXToScreenEdge_028074 en registry (Wave CCCCC).
     # --- Wave CCCCC: RTS internos de islas C
     0x0002831C: "ClearXNMid_02831c",  # rts de ClearXN_028318 (+4)
     0x00028362: "ClearXNMid_028362",  # rts de ClearXN_02835e (+4)
     0x000283A8: "ClearXNMid_0283a8",  # rts de ClearXN_0283a4 (+4)
     0x000294AE: "JsrPcRts_0294ae",  # rts de JsrPcThunk_0294aa (+4)
-    # --- Wave CCCCC: refs forward a huecos futuros
-    0x0000FFFF: "Sub_0000FFFF",  # hueco futuro (ref pc-rel desde esta region)
 }

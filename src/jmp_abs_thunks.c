@@ -6,8 +6,8 @@
 
 __attribute__((section(".text.JmpAbsThunk_02a68a"), noreturn))
 void JmpAbsThunk_02a68a(void) {
-    extern void JmpTarget_028758(void);
-    __asm__ volatile("jmp JmpTarget_028758" ::: "memory");
+    extern void Hitbox_CheckBit0_028758(void);
+    __asm__ volatile("jmp Hitbox_CheckBit0_028758" ::: "memory");
     __builtin_unreachable();
 }
 
@@ -55,8 +55,8 @@ void JmpAbsThunk_044df2(void) {
 
 __attribute__((section(".text.JmpAbsThunk_049fca"), noreturn))
 void JmpAbsThunk_049fca(void) {
-    extern void JmpTarget_02870a(void);
-    __asm__ volatile("jmp JmpTarget_02870a" ::: "memory");
+    extern void Hitbox_SideOfImpact_02870a(void);
+    __asm__ volatile("jmp Hitbox_SideOfImpact_02870a" ::: "memory");
     __builtin_unreachable();
 }
 

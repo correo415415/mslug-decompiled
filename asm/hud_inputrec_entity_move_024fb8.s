@@ -93,7 +93,7 @@
 |       el mapa: Handler_ApplyCameraGlobals, Entity_RestoreTransformSetC_027d94,
 |       Trail_FindByKeyRange/FindNearest (`$998CA/$9993C`) para localizar el
 |       tile bajo la entidad (tabla `$278BA8`, tile `$12(a3)` → `$106F31`),
-|       probes de pared Sub_00027E9C/Sub_00027E7E (huecos futuros), suelo con
+|       probes de pared CollMap_TestPlatformBitC_027e9c/CollMap_TestSolidBitC_027e7e (huecos futuros), suelo con
 |       Entity_FloorProbe (offsets Right/Left/None según dx) y commit en
 |       Entity_CommitMove* (posición `-$1148/-$1146(a5)`, bit 3/5 de `$5A(a6)`
 |       = "en suelo"/"en rampa").
@@ -140,8 +140,8 @@
 |    Trail_FindByKeyRange_0998ca, Trail_FindNearest_09993c,
 |    Slug_IsRiddenByPlayer_02ac0e, Slug_TestBit4Field8D_02abd2,
 |    Slug_TestBit5Field8D_02a276, Entity_RestoreTransformSetC_027d94,
-|    Sub_00027E7E/Sub_00027E9C/Sub_0002800E/Sub_00028074 (huecos futuros),
-|    PcThunkTarget_0281c8, BIOS `$C00450`.
+|    CollMap_TestSolidBitC_027e7e/CollMap_TestPlatformBitC_027e9c/Entity_ScaleDyForGravity_02800e/Entity_ClampXToScreenEdge_028074 (huecos futuros),
+|    Entity_ApplyVelLatch_0281c8, BIOS `$C00450`.
 |
 |  F. ESTADO
 |  88/88 entradas byte-exactas (verify + matcher CI). Zona `$024E10..$027400`
@@ -2574,7 +2574,7 @@ Entity_MoveX_WallStop_026836:
 .L02691e:
         bra.w   .L026926                        | +0e8
 .L026922:
-        jsr     Sub_00028074(pc)                | +0ec  -> $028074 (hueco futuro, defsym forward)
+        jsr     Entity_ClampXToScreenEdge_028074(pc)                | +0ec  -> $028074 (hueco futuro, defsym forward)
 .L026926:
         add.w   d3,d2                           | +0f0
         moveq   #0,d0                           | +0f2
@@ -2660,10 +2660,10 @@ Entity_MoveXY_Probe_026992:
 .L026a4a:
         bra.w   .L026a52                        | +0b8
 .L026a4e:
-        jsr     Sub_00028074(pc)                | +0bc  -> $028074 (hueco futuro, defsym forward)
+        jsr     Entity_ClampXToScreenEdge_028074(pc)                | +0bc  -> $028074 (hueco futuro, defsym forward)
 .L026a52:
         add.w   d3,d2                           | +0c0
-        jsr     Sub_0002800E(pc)                | +0c2  -> $02800E (hueco futuro, defsym forward)
+        jsr     Entity_ScaleDyForGravity_02800e(pc)                | +0c2  -> $02800E (hueco futuro, defsym forward)
         moveq   #0,d0                           | +0c6
         move.b  -0x1150(a5),d0                  | +0c8
         add.w   d2,d0                           | +0cc
@@ -2671,7 +2671,7 @@ Entity_MoveXY_Probe_026992:
         move.b  d2,-0x1150(a5)                  | +0d0
         asr.w   #0x8,d0                         | +0d4
         move.w  d0,-0x1154(a5)                  | +0d6
-        jsr     PcThunkTarget_0281c8(pc)        | +0da
+        jsr     Entity_ApplyVelLatch_0281c8(pc)        | +0da
         move.w  -0x1154(a5),d1                  | +0de
         moveq   #0,d0                           | +0e2
         move.w  0x34(a6),d2                     | +0e4
@@ -2757,7 +2757,7 @@ Entity_MoveAndCollide_A_026b56:
         move.w  -0x1148(a5),d1                  | +00e
         move.w  -0x1146(a5),d2                  | +012
         subq.w  #0x1,d2                         | +016
-        jsr     Sub_00027DB2(pc)                | +018
+        jsr     CollMap_LookupTile_027db2(pc)                | +018
         add.w   -0x1154(a5),d1                  | +01c
         add.w   -0x1152(a5),d2                  | +020
         jsr     0x998ca.l                       | +024
@@ -2781,16 +2781,16 @@ Entity_MoveAndCollide_A_026b56:
         bne.w   .L026bc4                        | +066
         adda.w  #0x10,a1                        | +06a
 .L026bc4:
-        jsr     Sub_00027E9C(pc)                | +06e  -> $027E9C (hueco futuro, defsym forward)
+        jsr     CollMap_TestPlatformBitC_027e9c(pc)                | +06e  -> $027E9C (hueco futuro, defsym forward)
         bcs.w   .L026bd4                        | +072
-        jsr     Sub_00027E7E(pc)                | +076  -> $027E7E (hueco futuro, defsym forward)
+        jsr     CollMap_TestSolidBitC_027e7e(pc)                | +076  -> $027E7E (hueco futuro, defsym forward)
         bcs.w   .L026bd4                        | +07a
 .L026bd4:
         add.w   -0x1154(a5),d1                  | +07e
         add.w   -0x1152(a5),d2                  | +082
         movem.w d3-d4,-(a7)                     | +086
         movea.l a1,a4                           | +08a
-        jsr     Sub_00027DB2(pc)                | +08c
+        jsr     CollMap_LookupTile_027db2(pc)                | +08c
         cmpi.b  #0x1,0xa(a1)                    | +090
         bne.w   .L026c74                        | +096
         tst.w   0x34(a6)                        | +09a
@@ -3036,7 +3036,7 @@ Entity_FloorProbe_026e0a__L026e5e:
         add.w   d4,d2                           | +07c
         add.w   d5,d1                           | +07e
         add.w   d6,d2                           | +080
-        jsr     Sub_00027DB2(pc)                | +082
+        jsr     CollMap_LookupTile_027db2(pc)                | +082
         jsr     0x9993c.l                       | +086
         move.b  d6,0x106f44.l                   | +08c
         cmpi.b  #0xf,d6                         | +092
@@ -3099,7 +3099,7 @@ Entity_FloorProbe_026e0a__L026e5e:
         addq.w  #0x8,d2                         | +166
 .L026f72:
         addq.w  #0x8,d2                         | +168
-        jsr     Sub_00027DB2(pc)                | +16a
+        jsr     CollMap_LookupTile_027db2(pc)                | +16a
         jsr     0x9993c.l                       | +16e
         move.b  d6,0x106f44.l                   | +174
         cmpi.b  #0xf,d6                         | +17a
@@ -3166,9 +3166,9 @@ Entity_FloorProbe_Reenter_026fe8:
         .section .text.Entity_WallProbeBoth_027020, "ax", @progbits
         .global Entity_WallProbeBoth_027020
 Entity_WallProbeBoth_027020:
-        jsr     Sub_00027E9C(pc)                | +000  -> $027E9C (hueco futuro, defsym forward)
+        jsr     CollMap_TestPlatformBitC_027e9c(pc)                | +000  -> $027E9C (hueco futuro, defsym forward)
         bcs.w   .L027034                        | +004
-        jsr     Sub_00027E7E(pc)                | +008  -> $027E7E (hueco futuro, defsym forward)
+        jsr     CollMap_TestSolidBitC_027e7e(pc)                | +008  -> $027E7E (hueco futuro, defsym forward)
         bcs.w   .L027034                        | +00c
         bra.w   .L027034                        | +010
 .L027034:
@@ -3186,7 +3186,7 @@ Entity_MoveAndCollide_B_027036:
         move.w  -0x1148(a5),d1                  | +00e
         move.w  -0x1146(a5),d2                  | +012
         subq.w  #0x1,d2                         | +016
-        jsr     Sub_00027DB2(pc)                | +018
+        jsr     CollMap_LookupTile_027db2(pc)                | +018
         add.w   -0x1154(a5),d1                  | +01c
         add.w   -0x1152(a5),d2                  | +020
         jsr     0x998ca.l                       | +024
@@ -3210,9 +3210,9 @@ Entity_MoveAndCollide_B_027036:
         bne.w   .L0270a4                        | +066
         adda.w  #0x10,a1                        | +06a
 .L0270a4:
-        jsr     Sub_00027E9C(pc)                | +06e  -> $027E9C (hueco futuro, defsym forward)
+        jsr     CollMap_TestPlatformBitC_027e9c(pc)                | +06e  -> $027E9C (hueco futuro, defsym forward)
         bcs.w   .L0270b8                        | +072
-        jsr     Sub_00027E7E(pc)                | +076  -> $027E7E (hueco futuro, defsym forward)
+        jsr     CollMap_TestSolidBitC_027e7e(pc)                | +076  -> $027E7E (hueco futuro, defsym forward)
         bcs.w   .L0270b8                        | +07a
         bra.w   .L0270b8                        | +07e
 .L0270b8:
@@ -3220,7 +3220,7 @@ Entity_MoveAndCollide_B_027036:
         add.w   -0x1152(a5),d2                  | +086
         movem.w d3-d4,-(a7)                     | +08a
         movea.l a1,a4                           | +08e
-        jsr     Sub_00027DB2(pc)                | +090
+        jsr     CollMap_LookupTile_027db2(pc)                | +090
         cmpi.b  #0x1,0xa(a1)                    | +094
         bne.w   .L027158                        | +09a
         tst.w   0x34(a6)                        | +09e
@@ -3374,7 +3374,7 @@ Entity_MoveAndCollide_C_0272a8:
         move.w  -0x1148(a5),d1                  | +00e
         move.w  -0x1146(a5),d2                  | +012
         subq.w  #0x1,d2                         | +016
-        jsr     Sub_00027DB2(pc)                | +018
+        jsr     CollMap_LookupTile_027db2(pc)                | +018
         add.w   -0x1154(a5),d1                  | +01c
         add.w   -0x1152(a5),d2                  | +020
         jsr     0x998ca.l                       | +024
@@ -3398,9 +3398,9 @@ Entity_MoveAndCollide_C_0272a8:
         bne.w   .L027316                        | +066
         adda.w  #0x10,a1                        | +06a
 .L027316:
-        jsr     Sub_00027E9C(pc)                | +06e  -> $027E9C (hueco futuro, defsym forward)
+        jsr     CollMap_TestPlatformBitC_027e9c(pc)                | +06e  -> $027E9C (hueco futuro, defsym forward)
         bcs.w   .L027342                        | +072
-        jsr     Sub_00027E7E(pc)                | +076  -> $027E7E (hueco futuro, defsym forward)
+        jsr     CollMap_TestSolidBitC_027e7e(pc)                | +076  -> $027E7E (hueco futuro, defsym forward)
         bcs.w   .L027336                        | +07a
         btst    #0x0,0x100000.l                 | +07e
         beq.w   .L027332                        | +086
@@ -3414,7 +3414,7 @@ Entity_MoveAndCollide_C_0272a8:
         add.w   -0x1152(a5),d2                  | +09e
         movem.w d3-d4,-(a7)                     | +0a2
         movea.l a1,a4                           | +0a6
-        jsr     Sub_00027DB2(pc)                | +0a8
+        jsr     CollMap_LookupTile_027db2(pc)                | +0a8
         cmpi.b  #0x1,0xa(a1)                    | +0ac
         bne.w   .L02736a                        | +0b2
         tst.w   0x34(a6)                        | +0b6

@@ -8,7 +8,7 @@
 |
 |  Variante hermana de T#7 (Entity_ProbeTransformFreeCcr @ $027cee):
 |  misma estructura byte-a-byte excepto por el target del probe interno.
-|  Aqui llama a $0273fc (Entity_SaveRegs_0273fc) en lugar de $0277c4 (Sub_000277C4).
+|  Aqui llama a $0273fc (Entity_SaveRegs_0273fc) en lugar de $0277c4 (Entity_MoveAndCollide_F_0277c4).
 |  Es la evidencia dura de que el juego tiene un CLUSTER de wrappers
 |  probar-transform parametrizados por el probe interno.
 |

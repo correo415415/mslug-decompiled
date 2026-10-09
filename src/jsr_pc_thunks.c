@@ -51,8 +51,8 @@ void JsrPcThunk_025dcc(void) {
 
 __attribute__((section(".text.JsrPcThunk_02698c")))
 void JsrPcThunk_02698c(void) {
-    extern void PcThunkTarget_0281c8(void);
-    __asm__ volatile("jsr PcThunkTarget_0281c8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_ApplyVelLatch_0281c8(void);
+    __asm__ volatile("jsr Entity_ApplyVelLatch_0281c8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 /* JsrPcThunk_027886 ABSORBIDO por Entity_Probe_Scratch_02785C (Wave Z#4).

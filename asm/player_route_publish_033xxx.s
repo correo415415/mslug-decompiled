@@ -229,7 +229,7 @@ Sub_00027EBA:
         .global SpritePubEffect_027EBA__L027ec2
 SpritePubEffect_027EBA__L027ec2:
         subq.w  #0x1, d2                        | +08  d2 -= 1
-        jsr     Sub_00027DB2(pc)                | +0a  helper $27DB2 (pc-rel)
+        jsr     CollMap_LookupTile_027db2(pc)                | +0a  helper $27DB2 (pc-rel)
         jsr     Trail_FindNearest_09993c                    | +0e  helper $9993C (abs.l)
         move.b  d6, 0x106f44.l                  | +14  publish effect_id
         cmpi.b  #0xf, d6                        | +1a  if d6 == $F
@@ -241,7 +241,7 @@ SpritePubEffect_027EBA__L027ec2:
         lea.l   Data_00278BA8, a1               | +2a  a1 = &data $278BA8
         bra.w   .Lspe_probe                     | +30  (nop entry)
 .Lspe_probe:                                    | $027EEE
-        jsr     Sub_00027E28(pc)                | +34  probe $27E28 (pc-rel)
+        jsr     CollMap_TestSolidOrPlatform_027e28(pc)                | +34  probe $27E28 (pc-rel)
         bcc.w   .Lspe_no_collision              | +38  if !C, no collision
 | ---- Rama COLISION detectada
         bset.b  #0x6, 0x5a(a6)                  | +3c  flags bit 6 = 1
