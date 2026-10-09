@@ -18,7 +18,20 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
-- Wave HHHHH — 38 entries (2,202 B, 19 gaps of `$051AA4..$0527AE`, 3 data
+- Wave IIIII — 26 entries (2,082 B, 8 gaps of `$0133B0..$013D18`,
+  `palette_engine_sprite_grid_pause_0133b0.s`): palette engine (`Pal_LoadRaw16`,
+  `Pal_ClearSlot16`, `PalAnim_StepSlot/Blend16/StepRGB` via ramp table `$12F30`
+  and RGB LUT `$2F30`, `Pal_ApplyFadeDarken/Lighten`, `Pal_PackRGB/UnpackRGB`,
+  `Pal_ShadowClearAll`, `Pal_FlushDirtyToHW` → `$400000`, `Pal_WhiteOutNextBank`),
+  sprite grids (`Sprite_FillTileGrid`, `Sprite_SpawnGridA/B/B_Scaled`,
+  `SpriteAlloc_*`), `Vec_PolarToXY`, `Div_FixedRatio`, `Pause_Poll/Active/Clear`.
+  Zone `$0133B0..$013D6A` now 100 %.
+- Fix (CI link): real section sizes for `Collision_ProbeRange/X/Y_051Cxx`
+  (+2/+6/+6 B tails), `Dispatcher_ModeTable_001922` (404) and
+  `VBlankTick_Master_001E5E` (160); dropped 3 redundant HHHHH entries (→ 35).
+  New `tools/check_section_sizes.py` (registry vs assembled `.text.*` sizes)
+  wired into CI and bootstrap.
+- Wave HHHHH — 35 entries (2,188 B, 16 gaps of `$051AA4..$0527AE`, 3 data
   islands, `cellmap_fix_overlay_palfade_051aa4.s`): cell-map window
   (`CellMap_ReadPacked32/SetCursorAndClear/ClipRectToWindow/BlitRectToLSPC/
   ClearSprites32/ClearVramBlock`), FIX-layer overlay (`FixOverlay_DrawCreditsOrFree`,

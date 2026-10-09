@@ -11,12 +11,28 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 8098/8098 funciones
-BYTES   : 543,384/543,384 (registrados)
-ROM     : 543,384/2,097,152  (25.9106%)
+MATCHED : 8121/8121 funciones
+BYTES   : 545,476/545,476 (registrados)
+ROM     : 545,476/2,097,152  (26.0103%)
 ```
 
-> **Wave HHHHH** (38 entradas, 2 202 B; 19 huecos, 3 `--data`) —
+> **Wave IIIII** (26 entradas, 2 082 B; 8 huecos) — `$0133B0..$013D18` en
+> `palette_engine_sprite_grid_pause_0133b0.s`. Quincuagésimo segunda wave.
+> Nombres en `docs/waves/iiiii_names.txt`. Motor de paletas (paleta sombra
+> `$10A2D4`, LUT RGB555→NeoGeo `$2F30`, rampas `$12F30`; `Pal_LoadRaw16`,
+> `PalAnim_StepSlot/Blend16/StepRGB`, `Pal_ApplyFadeDarken/Lighten`,
+> `Pal_PackRGB/UnpackRGB`, `Pal_FlushDirtyToHW` → `$400000` con bancos
+> `$3A000F/1F`, `Pal_WhiteOutNextBank`), rejillas de sprites a SCB1-3
+> (`Sprite_FillTileGrid`, `Sprite_SpawnGridA/B/B_Scaled`, `SpriteAlloc_*`),
+> `Vec_PolarToXY`, `Div_FixedRatio`, sondeo de PAUSE (`Pause_Poll/Active/Clear`
+> con `$10E272/273`). **Zona `$0133B0..$013D6A` al 100 %.**
+> Fix de enlace CI: tamaños reales de `Collision_ProbeRange/X/Y_051Cxx`,
+> `Dispatcher_ModeTable_001922`, `VBlankTick_Master_001E5E`; HHHHH queda en 35
+> entradas; nuevo `tools/check_section_sizes.py` en CI/bootstrap. Cobertura:
+> 545,476 B (26.01 %), CODE 99.2 %, 26 huecos / 3,940 B (todos en
+> `$000400..$002F30`, 64.4 %). Siguiente: Wave JJJJJ = `$000400..$002F30`.
+
+> **Wave HHHHH** (35 entradas, 2 188 B; 16 huecos, 3 `--data`) —
 > `$051AA4..$0527AE` en `cellmap_fix_overlay_palfade_051aa4.s`. Quincuagésimo
 > primera wave. Nombres en `docs/waves/hhhhh_names.txt`, args en
 > `docs/waves/hhhhh_args.txt`. Ventana de mapa de celdas (`CellMap_*`: lectura
