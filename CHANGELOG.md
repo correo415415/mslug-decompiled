@@ -18,6 +18,19 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave BBBBB — 88 entries (8,874 B, 9 data ranges, 1 forced entry):
+  `$024E10..$027400` (`hud_inputrec_entity_move_024fb8.s`): per-player HUD
+  task state machine (`HUD_State_InsertCoin/Continue/WaitPlayerSpawn/
+  BindPlayer/PlayerDeath/Respawn/GameOver*`), fix-layer drawing (1UP/2UP
+  labels, life bar with damped interpolation, bomb gauge, 7-digit BCD score,
+  ammo/bombs with blink, INSERT COIN / PUSH START / CONTINUE / GAME OVER /
+  PLEASE WAIT messages), credits check via BIOS `$C00450`, attract input
+  RLE recorder/player (`InputRec_*`, 512 B buffer at `$106EBE`), player
+  slot descriptor tables (32 x 16 B), and the entity movement + map
+  collision engine (`Entity_MoveAndCollide_A/B/C`, floor/wall probes,
+  `ClampVelocity`). `gen_asm_region.py`: raw fallback for `movem` abs.l
+  forms capstone cannot decode. Zone `$024E10..$027400` now 100 %; real
+  code 94.0 %.
 - Wave AAAAA — 65 entries (23,648 B, all data, byte-exact): `$0916C8..$0967B4`
   (`scene_scripts_0916c8.s`: `SceneDescTable_0916C8[16]`, 14 scene VM scripts
   with embedded 68000 callbacks (`lea d(pc),a1/a0 ; rts`), `SceneEntity`

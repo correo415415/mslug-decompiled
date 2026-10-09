@@ -1,11 +1,152 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave BBBBB — HUD del jugador (fix layer), grabación/replay de input del
+|  attract, descriptores de slot de jugador y motor de movimiento+colisión
+|  de entidades
 |  Región: $024E10..$027400  (8,874 B, 88 entradas, 38 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Cuatro bloques que rellenan los 38 huecos entre las islas C
+|  (ClearXN/SetXN/SetC/ClearC, SetTaskHandler_*, JsrAbsThunk_*, JmpToScheduler,
+|  NopCCR_*, EntityResetState, SetTaskW_026830) y los módulos ya cerrados
+|  start_dispatcher_cluster_024e38.s, misc_batches_046ac6_024fec.s y
+|  camera_list_ctx_helpers_wave_ii.s:
+|
+|  1) $024FB8..$025456  Input del jugador + grabación/replay (attract):
+|     - PlayerCtx_ResetAndSetRepeat1002/SetRepeatRate/IsModeSingle: setters
+|       de `$106EC8` (autorepeat: byte alto = retardo inicial, bajo = cadencia)
+|       y test de `$106ECA` (modo de input: 0 = vivo, 1 = grabación/replay,
+|       2 = deshabilitado).
+|     - Input_Poll_LiveMode_025066: lee los puertos BIOS `$10FD96` (P1) y
+|       `$10FD9C` (P2) y actualiza los dos bloques de 6 B `$106EB0`/`$106EB6`
+|       {prev, cur, pressed(rising), repeat_out, repeat_timer}: rising edge con
+|       `eor;and`, carga del timer con `$106EC8` (inicial) o `$106EC9`
+|       (cadencia) — el mismo bloque que consume Input_RisingEdgeSnapshot_05CC0E.
+|       Tras su `rts` hay un word de datos (`Input_ReplayFlag_025118`, leído
+|       con `tst.b $25118.l`: 0 = reproducir, !=0 = grabar) y continúa el modo
+|       1 (fuente = bytes `$106EBC/BD` en vez de los puertos) y el modo 2
+|       (fuente = 0: input muerto).
+|     - InputRec_*: codificador RLE de input para el demo del attract. Buffer
+|       `$106EBE` (ptr, 512 B máx: `cmpi.w #$200`), write pos `$106EC4`,
+|       pos del último "cambio" `$106EC2`, contador de run `$106EC6`.
+|       RecordFrame: si el run llega a $0F (o $FF si ya hubo un bit guardado
+|       en este byte) hace FlushRun; luego, por cada bit que cambia en los 16
+|       bits P1|P2<<8, StoreBitToggle guarda {bit_idx<<4 | run_lo} y al
+|       llenarse el buffer pasa a modo 2. PlaybackFrame: ReadNextRun decodifica
+|       el run (nibble alto = bit a conmutar con `bchg` en `$106EBC/BD`).
+|
+|  2) $02545C..$0256B0  Descriptores de slot de jugador (datos):
+|     - PlayerSlotIndex_02545c: 6 words 0..5.
+|     - PlayerSlotDesc_*: 32 registros de 16 B {tmpl.l, entity.l, task.l,
+|       flags.w, $FFFF}: P1 → entidad `$100440`, task `$10E200`, tmpl `$3364A`
+|       (`$0400` = vacío); P2 → `$1004E0`, `$10E206`, tmpl `$336DC`. Los
+|       registros se seleccionan en HUD_Task_Init con `$106ECE<<4` (escena) y
+|       la fila 2/3 "Idle" cuando `$106ECE==$FF`.
+|     - 18 punteros a HUD_Msg_*/HUD_Draw* (`$25668..$256B0`), indexados por
+|       jugador (`$70(a6)<<2`) desde HUD_CallPerPlayer_IfMode2.
+|
+|  3) $025706..$026752  Tarea HUD por jugador (a6 = task; `$70(a6)` = índice
+|     de jugador 0/1, `$72/$78(a6)` = ptrs a slot/entidad, `$77(a6)` = vidas
+|     iniciales desde `$10FD88`, `$84/$85(a6)` = timers de parpadeo,
+|     `$86/$8A(a6)` = barra de vida interpolada (16.16), `$8E/$90(a6)` =
+|     munición/bombas cacheadas, `$92/$93(a6)` = estado de barra / "en Slug").
+|     Máquina de estados instalada en `(a6)`:
+|       HUD_Task_StartP1/P2 → HUD_State_InsertCoin (mensaje INSERT COIN; si
+|       `$1E28` (créditos) hay → PushStartBlink y acepta START vía
+|       `$10FDB6[p]`) → HUD_State_WaitPlayerSpawn (espera `(a0)==$400` del
+|       slot) → HUD_State_BindPlayer (enlaza slot/entidad, `$66(a2)=1`,
+|       Rank_DelayByDifficulty → `$106E92`) → HUD_State_PlayerDeath (al
+|       morir: borra, elige "GAME OVER"/respawn por `$106F2A`/Player_GetEntity)
+|       → HUD_State_Respawn | HUD_State_GameOverEntry (Spawn_MarkPending de
+|       `$9B872` + Credits/CONTINUE) → HUD_State_ContinueCountdown (dígitos vía
+|       Sub_Divide10_047656) → HUD_State_GameOverFinal/Done (vuelve a INSERT
+|       COIN o, si `$106ED0>=6`, reinicia por `$5B6`/`$400`).
+|     Dibujado al fix layer con `movem.w dX-dY,$3C0000` (VRAM addr + tile):
+|       HUD_DrawPlayerLabels ("1UP=", "2UP=" de `$2785B8/BE`, paleta $53xx),
+|       HUD_DrawLifeBarFrame/HUD_DrawLifeBar (tiles $A5/$A6/$AE/$AF, 6 celdas,
+|       interpolación con amortiguación `d4 = d4/4 + 2*delta`), HUD_DrawBomb-
+|       Gauge_P1/P2 (14 celdas, tiles $238A lleno / $2320 vacío, desde
+|       `$106F4C/4E`), HUD_DrawScore (7 dígitos BCD desde `$106E94`/`$106E9C`,
+|       ceros a la izquierda como espacio), HUD_DrawAmmoAndBombs (3 dígitos de
+|       munición con Player_GetAmmoOrFFFF, "∞" = tiles $E3F2.. cuando $FFFF;
+|       2 dígitos de bombas con Player_GetBombs o Slug_GetGauge si va en Slug;
+|       parpadeo alternando paletas $E3xx/$F3xx), HUD_Msg_* (11 chars de
+|       `$2785C4..` vía ThunkTarget_0477fc: INSERT COIN / PUSH START /
+|       CONTINUE / GAME OVER / PLEASE WAIT) y HUD_ClearMsgRow.
+|     Credits_BCDPtrTable_02674a + código: lee créditos BCD `$1081BF/C0` o,
+|       en modo BIOS (`$10FD82`), inicializa `$10FDB0..B3` y llama al BIOS
+|       `$C00450` (CREDIT_CHECK) para decidir si hay crédito (CCR C).
+|
+|  4) $0267F4..$027400  Motor de movimiento + colisión de entidades
+|     (a5 = `$108080`; scratch -$1154..-$1143(a5) = {dx_hi, dy_hi, x_sub,
+|     y_sub, probe_x, probe_y, saved_sub_x/y}):
+|     - ClampVelocity (±$800), Entity_IntegrateVelocity (`$28/$2A += $2C/$2E`).
+|     - Entity_MoveX_WallStop / Entity_MoveXY_Probe: aplican la velocidad con
+|       acumulador subpíxel de 8 bits, anulan dx contra paredes (`$69(a6)`
+|       bits 0/1), suman el scroll de cámara `$106F6C` en misión 1 (código
+|       muerto tras `bra.w`), y en la escena 3 frenan a los jugadores
+|       (`a6==$100440/$1004E0`) en `x>=$1F0`. Gravedad por `$34(a6)`:
+|       0 = sin, $80/$400/$1000 = perfiles (con `trap #15` en la rama
+|       imposible = assert del compilador original).
+|     - Entity_MoveAndCollide_A/B/C: tres variantes del bucle de colisión con
+|       el mapa: Handler_ApplyCameraGlobals, Entity_RestoreTransformSetC_027d94,
+|       Trail_FindByKeyRange/FindNearest (`$998CA/$9993C`) para localizar el
+|       tile bajo la entidad (tabla `$278BA8`, tile `$12(a3)` → `$106F31`),
+|       probes de pared Sub_00027E9C/Sub_00027E7E (huecos futuros), suelo con
+|       Entity_FloorProbe (offsets Right/Left/None según dx) y commit en
+|       Entity_CommitMove* (posición `-$1148/-$1146(a5)`, bit 3/5 de `$5A(a6)`
+|       = "en suelo"/"en rampa").
+|     - Entity_SaveRegs_0273fc: `movem.l d3-d6/a1,-(a7)` de entrada a la
+|       función que sigue en `$027400` (hueco futuro).
+|
+|  B. EVIDENCIAS
+|  - Strings ASCII en `$2785B8..$278600` (banco alto): "1UP=", "2UP=",
+|    "INSERT COIN", "PUSH START ", "CONTINUE   ", "GAME OVER  ", "PLEASE WAIT".
+|  - `$3C0000` = VRAM addr/data del LSPC; `movem.w dX-dY` escribe addr+tile.
+|  - `$10FD96/$10FD9C` = BIOS P1/P2 input; `$10FDB6/B7` = máscaras START
+|    (Wave BB); `$10FD82` = BIOS_PLAYER_MOD1; `$1081BF/C0` = créditos BCD.
+|  - Player_GetAmmoOrFFFF_032fba / Player_GetBombs_032fce / Slug_GetGauge_02a2ac
+|    ya nombrados en waves anteriores confirman el HUD.
+|  - Cluster `$027xxx` (Entity_Probe*/RestoreTransform*) con la misma scratch
+|    a5-relativa `-$1148..-$1143` (Wave T/Z).
+|
+|  C. HIPÓTESIS (nombres provisionales)
+|  - `Input_ReplayFlag_025118`: la polaridad (0 = replay) se deduce del
+|    `beq → PlaybackFrame`; no se ha localizado quién lo escribe (ROM = 0).
+|  - `HUD_IsSceneBCD_0266cc`: devuelve C=1 si `$106ECE ∈ {$B,$C,$D}`
+|    (escenas de bonus/final) — nombre provisional.
+|  - `Entity_MoveAndCollide_A/B/C`: difieren en el campo de gravedad usado
+|    (`$34` vs `$64(a6)`) y en el test de `$100000` bit 0 (debug); falta
+|    el análisis fino de cada rama.
+|
+|  D. CAMPOS (a6) usados en este archivo
+|    (a6)      handler;  $08 parent; $0C sibling/other-task; $10 rank
+|    $13 flags (bit4/5 = sin colisión pared/suelo, bit6/7)
+|    $20/$21 flags locales HUD;  $22/$24 x/y px;  $28/$2A vel;  $2C/$2E accel
+|    $34 gravedad;  $44 timer;  $5A/$5B estado suelo;  $64 gravedad alt
+|    $69/$6B wall flags;  $70 player idx;  $72 slot;  $76 cache gauge
+|    $77 vidas;  $78 entity;  $7C handler guardado;  $82 ack guardado
+|    $84/$85 blink;  $86 bar.l;  $8A bar_vel.l;  $8E ammo;  $90 bombs
+|    $92 bar state;  $93 in-slug;  $98 player idx (entidad spawn)
+|
+|  E. HELPERS EXTERNOS
+|    ThunkTarget_0005fe / 0004ae / 0006fe (scheduler add / spawn template)
+|    FUN_000005B6 (soft reset), `$1E28` (CREDIT? → C), `$1E4C/$1E56` (sonido)
+|    Sub_Divide10_047656, ThunkTarget_0477fc (print 11 chars),
+|    ThunkTarget_05dad8/05da56/05da9c (blits fix), Player_GetEntity_05e3a2,
+|    Player_IncCounterAt7_051A86, Clear8Bytes_05180c, Spawn_MarkPending_04498E,
+|    Rank_DelayByDifficulty_079970, Handler_ApplyCameraGlobals_044182,
+|    Trail_FindByKeyRange_0998ca, Trail_FindNearest_09993c,
+|    Slug_IsRiddenByPlayer_02ac0e, Slug_TestBit4Field8D_02abd2,
+|    Slug_TestBit5Field8D_02a276, Entity_RestoreTransformSetC_027d94,
+|    Sub_00027E7E/Sub_00027E9C/Sub_0002800E/Sub_00028074 (huecos futuros),
+|    PcThunkTarget_0281c8, BIOS `$C00450`.
+|
+|  F. ESTADO
+|  88/88 entradas byte-exactas (verify + matcher CI). Zona `$024E10..$027400`
+|  al 100 %. Pendiente: análisis fino de Entity_MoveAndCollide_A/B/C y de
+|  los huecos `$027400..$028200`.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin

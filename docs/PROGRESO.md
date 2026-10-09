@@ -11,11 +11,26 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 7621/7621 funciones
-BYTES   : 510,216/510,216 (registrados)
-ROM     : 510,216/2,097,152  (24.3290%)
+MATCHED : 7709/7709 funciones
+BYTES   : 519,090/519,090 (registrados)
+ROM     : 519,090/2,097,152  (24.7521%)
 ```
 
+> **Wave BBBBB** (88 entradas, 8 874 B; 9 `--data`, 1 `--entry`) — `$024E10..$027400`
+> en `hud_inputrec_entity_move_024fb8.s`. Cuadragésimo quinta wave. Nombres en
+> `docs/waves/bbbbb_names.txt`, args en `docs/waves/bbbbb_args.txt`. Módulos:
+> `Input_Poll_LiveMode` + `InputRec_*` (grabación/replay RLE del input para el
+> demo del attract; modos `$106ECA` 0/1/2), `PlayerSlotDesc_*` (32 registros de
+> 16 B {tmpl, entidad, task, flags}), tarea HUD por jugador `HUD_Task_*` /
+> `HUD_State_*` (INSERT COIN → PUSH START → spawn → muerte → CONTINUE/GAME
+> OVER) con dibujado al fix layer `HUD_Draw*`/`HUD_Msg_*` (strings ASCII en
+> `$2785B8..`), créditos BCD `$1081BF/C0` + BIOS `$C00450`, y motor de
+> movimiento/colisión `Entity_MoveAndCollide_A/B/C`, `Entity_FloorProbe`,
+> `ClampVelocity`. 10 renombres propagados (task_handlers.c, jsr_pc_thunks.c,
+> entity_probe_*.s). `gen_asm_region.py`: fallback `rawinsn` para `movem`
+> abs.l. Código real 94.0 %; zona `$024E10..$027400` al 100 %. Siguiente:
+> huecos de `$027400..$02A000` y páginas `$046000/$052000/$056000/$059000`.
+>
 > **Wave AAAAA** (65 entradas, 23 648 B; todo datos, byte-exacto) — `$0916C8..$0967B4`
 > en `scene_scripts_0916c8.s` y `$096BBC..$097730` en `attract_sprite_lists_096bbc.s`.
 > Cuadragésimo cuarta wave. Generadores `tools/scene_script_dump.py` y
