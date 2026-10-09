@@ -1,11 +1,168 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
+|  Wave EEEEE — pantalla de resultados de misión (1P/2P RESULT), secuencia
+|  final (MISSION ALL OVER! / PEACE FOREVER!), soldado artillero (Gunner /
+|  Gunner2) con proyectil, Walker, LUT de fade
 |  Región: $05934E..$05A9D6  (5,290 B, 71 entradas, 38 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Cuatro bloques que rellenan los 38 huecos entre las islas C (SetTaskHandler_*,
+|  Jsr5B6ThenJmpScheduler_*, JsrAbsThunk_*, ClearXN/SetXN, SetTaskB) y los
+|  módulos ya cerrados soldier_states_057dxx.s, vram_fix_layer_autoclear_05a824.s
+|  y sprite_dispatch_dual_05a9d6.s:
+|
+|  1) $05934E..$0594C6  Textos y títulos de la pantalla de resultados:
+|     - ResultText_Strings_05934e: strings ASCII terminados en $FF:
+|       "METAL SLUG          ALL" / "   " / "MISSION" / "       " / "OVER!" /
+|       "     " / "   1P RESULT" / "   2P RESULT" / "SCORE" / "CONTINUE" /
+|       "TOTAL" / "RECAPTURED" ($FD) / "PRISONER  " ($FE 00) + lista de
+|       {tile,count} y una tabla de 7 pares byte {idx, tile_hi} ($FF fin).
+|     - Ending_ShowMission / ShowAll / ShowOver: spawnean un BigText_Typewriter
+|       (`$4737E`, Wave DDDDD) en VRAM `$708F`/`$726F`/`$734F` con el string
+|       correspondiente, retardo 1 y paleta 4, y esperan a que la tarea hija
+|       termine (Scheduler_CompareField10 → C).
+|     - Ending_WipeAllOver_0594c6: barrido de 15 columnas que reescribe
+|       "ALL"/"MISSION"/"OVER!" (y sus borradores) en las filas 4/$13/$1A con
+|       List_ApplyWithSentinelFF_04784C; al llegar a la columna 5 sale.
+|
+|  2) $0595AE..$059B6A  Panel de resultados por jugador (a6 = tarea; `$98(a6)`
+|     = jugador, `$70(a6)` = base VRAM `$7040`/`$72A0`, `$72(a6)` = ptr al
+|     score `$106E94`/`$106E9C`, `$76/$77(a6)` = prisioneros/continues de
+|     `$10E3BA..BD`):
+|     - Result_DrawDigits_0595ae: d7+1 dígitos BCD de (a0) a `$3460+n`
+|       (tiles 2 filas), ceros a la izquierda como tile `$0B40` (vacío) hasta
+|       el primer dígito ≠ 0; __L059612 convierte d1 (0..255) a 3 dígitos en
+|       la pila y los pinta.
+|     - Result_PlayerPanel_Init_059666: comprueba `$10E3B8/B9` (jugador activo),
+|       pinta "1P RESULT"/"2P RESULT" (3 chars de paleta vía
+|       List_ApplyWithSentinelFF_0477FC) y encadena: PrintContinueLabel →
+|       RollContinues (30 frames de dígitos aleatorios RNG + Result_TickSound
+|       cada 4 frames, luego el valor real) → Wait15 → PrintPrisonerLabel
+|       ("RECAPTURED PRISONER" vía Fix_BlitStream_05DAD8 o la variante corta
+|       si `$10FD83` = 0) → RollPrisoners → Wait15 → PrintScore (9 dígitos del
+|       score) → Result_HiScoreEntry_0598ae (`$51AA4` + HiScore_TryEnter_P1/P2
+|       de hiscore_memcard_mobs; espera `$21(a6)` y termina).
+|     - Ending_SpawnOrbitFx_0598fc: spawnea EndingOrbit_Parent en el pool
+|       `$100800`, `$2B58`(1, tabla), Entity_SpawnAndPublishD0At70, sonido $2B.
+|       EndingOrbit_Parent_059a86: 4 hijos EndingOrbit_Child (sprites
+|       `$24E208`/`$24E030`, fase `$34` = 0/$4000/$8000/$C000, flip bit0 de
+|       `$3A`) y gira -$100/frame; Child: template $15F, y = $180, x =
+|       cos(fase) ($13C0E = sin/cos por ángulo) ×$88 + $A0, paleta ∝ ×$FF.
+|     - Ending_Seq_*: secuencia final: ShowMission → Wait30 → Wipe (Ending_
+|       WipeAllOver) → Wait15 → PanelP1 → PanelP2 → FadeA0 (`$2308`, 200
+|       frames) → Fade40 (Entity_SpawnAndPublishD0At70(1), 60 frames) → Done
+|       (`$20(parent)` = $FF, Task_WalkList, scheduler).
+|     - Str_PeaceForever_059b5a "PEACE FOREVER!" + Ending_PeaceWait (45
+|       frames) → Ending_ShowPeaceForever (typewriter en `$711A`) → PeaceExit.
+|
+|  3) $059BD2..$05A696  Soldado artillero (dos variantes) y su proyectil:
+|     - Gunner_Boot_059c2e → Gunner_InitShadeRingId (EntitySetField38AndUpdate
+|       $8000, `$38` bits → 4, TargetRing_NewId_08f3a6) + hijo Gunner_Child
+|       (template $56, sincroniza pos/`$38`/sprite `$72(parent)` y
+|       Sprite_Dispatch_05CA2A).  Gunner_Search_059c42: sprite `$2B732C`,
+|       si x > $20 TargetRing_Register_08f3be(x, y, id) devuelve objetivo (d4
+|       ≥ 0) → Entity_FlushSlotHistory + Turret8_SndByState + Entity_Alloc-
+|       SpriteSlot → Gunner_Fire_059ca0 (sprite `$2B7340` ×3) → Gunner_Reload
+|       (sprite `$2B737C`, 120 frames) → vuelve a Search; Gunner_ProbeOrDie:
+|       probe `$2B73B4` con PcThunkTarget_05dd5c, si C=0 Task_WalkList+sched.
+|     - Gunner_SpawnShell_059d84 / Gunner_Shell_059da6: proyectil en pool
+|       `$100800`: sonido $108C, template $57, `$38` = $D000, +$20/+$14 px,
+|       vel.x $400, sprite `$2B7390`, hitbox `$2B73BC`, muere al salir de
+|       pantalla (x+$10 ≥ $160) o al ser golpeado (bit1 de `$13`).
+|     - GunnerAnim_Table_059e50 (830 B: 20 registros de 20 B {w, sprite.l,
+|       w, w, hitbox.l/-1, …} + 4 tablas de 5 punteros `$5A13E/152/166/17A`),
+|       GunnerAim_DxTable / DyTable (5 words cada una) y Gunner2_AimFromAngle
+|       _05a1b6: ángulo `$70(a6)` (0..255) → índice 0..4 (espejado ≥5),
+|       flip bit0 `$3A`, índice×4 en `$7C(a6)`, sprite de la tabla (a0),
+|       `$76(a6)` = x+dx, `$78/$7A(a6)` = (x+dx, y+dy) del cañón.
+|     - Gunner2_Init_05a25a: `$38` = (`$4000`) | 4, id de TargetRing en
+|       `$72(a6)` (negado), hijo Gunner2_Child (template $56), ángulo inicial
+|       $8000.  Gunner2_Search → Acquire (FlushSlotHistory, Turret8_Snd,
+|       AllocSpriteSlot) → Gunner2_Track_05a2dc: si `$73(a6)` == 2 persigue
+|       Target_AngleToPlayer_05e136 (suavizado /16) hasta que no quedan
+|       jugadores vivos o 120 frames; si no, sigue el stick del jugador
+|       `$73` (`$10E200/206` + AimAngleTable_05D326) y dispara (bit4 de
+|       `$03(a2)`) → Gunner2_Fire_05a388: spawnea Gunner2_Shell en `$100800`
+|       con pos del cañón, ángulo → `$34(a0)` (negado si ≤ 0), tabla `$5C`.
+|     - Shell_HitboxList_A/B/C ($05A40E/$05A462/$05A506, 84/164/84 B):
+|       listas {w,w,w,$FF00, (dx,dy,$0200,sprite.l,$FFFF)×n, $1D0x, $FFFF…}.
+|     - Gunner2_Shell_05a55a: tipo `$98` == 2 → hitbox C + lista A, vel $200;
+|       si no → sin hitbox + lista B, vel $400; sonido $1064, template $57,
+|       bit4 `$6B`, `$38` = $D000, (vx,vy) = polar(`$34` & $F0, vel) con
+|       `$13C0E`, sprite por `$5A17A[$5C]`; explota (Gunner2_Shell_Explode:
+|       sonido $1027, FlushSlotHistory, handler Explosion_Fire_077f6a) al ser
+|       golpeado o por Hitbox_SideOfImpact; muere fuera de (x+$10 < $160,
+|       y-$F0 < $120).
+|
+|  4) $05A696..$05A9D6  Walker y LUT de fade:
+|     - SpriteMap_Walker_05a696 (152 B: 10 registros {$0002,$1E08,sprite.l,
+|       $FFFF,0,0} + cabecera `$0600 $FC00 $0028 $0100 $0029B744`).
+|     - Walker_Init_05a72e: template $E, EntitySetField38AndUpdate($8000),
+|       `$38` bits → $14, sprite map, vel 0.  Walker_Patrol_05a764: ActorCtx
+|       + SpritePubEffect (probe de transform / revert), TargetRing_Find-
+|       Pending_08f470 → si hay objetivo (d2 ≥ 0) guarda id en `$72` y pasa a
+|       Walker_Claimed (hitbox `$29B4A4`, TargetRing_ClaimByKey_08f5dc → pos),
+|       da la vuelta en bordes (bit5 de `$5A`: bchg `$3A`, neg vel), y cierra
+|       con Entity_ProbeAndInstallHandler + Soldier_DespawnIfOffscreen.
+|     - FadeLut_16x16_05a8ba (256 B): 16 filas de 16 nibbles-byte 0..$F
+|       (curvas de atenuación por nivel de fade); usada por
+|       sprite_queue_render_05aaxx.s (`lea FadeLut(pc),a4`).
+|     - VRAM_FixAutoclear_Reset_05a9ba: a5 = `$108080`, `clr.b $10E1EC`,
+|       `clr.w $4254(a5)`, `clr.w $6148(a5)`, `$614A(a5)` = $348 (continúa
+|       la rutina VRAM_FixLayerAutoclear_05A824).
+|
+|  B. EVIDENCIAS
+|  - Strings ASCII en `$05934E..$0593C8` y `$059B5A` (banco bajo, legibles
+|    directamente en la ROM).
+|  - `$3C0000` = LSPC; tiles `$3460+n` = dígitos grandes (mismos que
+|    ContinueDigits_P1P2 de Wave DDDDD); `$0B40` = tile vacío.
+|  - `$10E3B8..BD` = flags/contadores de fin de misión por jugador;
+|    `$106E94/9C` = score BCD (HUD_DrawScore, Wave BBBBB).
+|  - TargetRing_*_08f3a6/08f3be/08f470/08f520/08f5dc, Turret8_SndByState,
+|    Target_AngleToPlayer, AimAngleTable_05D326 ya nombrados (Waves PP/VV).
+|  - `$5A8BA` referenciada por sprite_queue_render_05aaxx.s como tabla.
+|
+|  C. HIPÓTESIS (nombres provisionales)
+|  - "Gunner"/"Gunner2": soldado con arma pesada (cañón / lanzagranadas
+|    orientable); la variante 2 puede ser el artillero montado controlable
+|    por el jugador (`$73` = jugador que lo pilota, `$10E200/206` = stick).
+|  - "Walker": enemigo que patrulla y reclama objetivos del TargetRing — podría
+|    ser el soldado con escudo o el minero; falta cotejar templates ($E).
+|  - FadeLut_16x16: interpretación como atenuación de paleta por filas; no se
+|    ha seguido el uso exacto en el renderer.
+|  - `$51AA4`, `$2B58`, `$2308`, `$13C0E`: helpers sin nombre (huecos
+|    `$000400..$002F30` / `$0133B0..$013D6A` / `$051000`).
+|
+|  D. CAMPOS (a6) usados en este archivo
+|    (a6) handler;  $08 parent;  $0C other-task;  $10 rank;  $13 flags (bit1)
+|    $16 paleta;  $20/$21 flags;  $22/$24 x/y;  $28/$2A vel;  $30 timer
+|    $32 paleta/efecto;  $34 fase/ángulo;  $36 velocidad;  $38 campo 38
+|    $3A dirección;  $3C sprite/string;  $48 hitbox;  $4C lista;  $5A estado
+|    $5C índice tabla;  $6B flags;  $70 base VRAM / ángulo;  $72 ptr score / id
+|    $73 jugador;  $74 timer;  $76/$77 contadores / x cañón;  $78/$7A pos cañón
+|    $7C índice×4;  $98 jugador / tipo
+|
+|  E. HELPERS EXTERNOS
+|    Task_AllocFromFreeList ($4AE), Scheduler_CompareField10_0006F0, Task_Walk-
+|    List_05B6, Scheduler_Main_0518, BigText_Typewriter_04737e, List_ApplyWith-
+|    SentinelFF_0477FC/04784C/047888, Fix_BlitStream_05DAD8, RNG_LFSRStep_Self-
+|    Seed_05E9B6, HiScore_TryEnter_P1_097a60/P2_097a72, Entity_SpawnAndPublish-
+|    D0At70_0523B2/05239E, InputGuardCall219c ($2352), EntitySetSpriteMap
+|    ($28CD4), Entity_HasLinkedSlots ($28D70), ActorCtxWrapper_02783a,
+|    EntitySetField38AndUpdate ($28134), Entity_AllocSpriteSlot ($236E),
+|    Entity_FlushSlotHistory_013600, Sprite_Dispatch_05CA2A, Entity_ClearFlags-
+|    13Bits12 ($283CA), Entity_ProbeSlot4c_0283D8, Entity_ProbeTransformFreeCcr
+|    ($27CEE/$27C8C), Entity_ProbeRevertCcr_027A92, SpritePubEffect_027EBA,
+|    Hitbox_SideOfImpact_02870a, PcThunkTarget_05dd5c, TargetRing_*, Turret8_
+|    SndByState_08f69c, Target_AngleToPlayer_05e136, Players_AliveMask_05e1aa,
+|    AimAngleTable_05D326, Explosion_Fire_077f6a, Entity_ProbeAndInstall-
+|    Handler_049FD0, Soldier_DespawnIfOffscreen_056e1e, `$51AA4`, `$2B58`,
+|    `$2308`, `$13C0E`.
+|
+|  F. ESTADO
+|    71/71 entradas byte-exactas en verify (gen_asm_region) y en el matcher.
+|    Zona $05934E..$05A9D6 al 100 % (código + 7 islas de datos).
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
