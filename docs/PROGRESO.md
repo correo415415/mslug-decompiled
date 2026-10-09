@@ -11,11 +11,27 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 7903/7903 funciones
-BYTES   : 529,844/529,844 (registrados)
-ROM     : 529,844/2,097,152  (25.2649%)
+MATCHED : 7969/7969 funciones
+BYTES   : 535,134/535,134 (registrados)
+ROM     : 535,134/2,097,152  (25.5172%)
 ```
 
+> **Wave EEEEE** (71 entradas, 5 290 B; 38 huecos, 7 `--data`, 5 `--entry`) —
+> `$05934E..$05A9D6` en `result_ending_gunner_walker_05934e.s`. Cuadragésimo
+> octava wave. Nombres en `docs/waves/eeeee_names.txt`, args en
+> `docs/waves/eeeee_args.txt`. Módulos: pantalla de resultados de misión
+> (`ResultText_Strings_05934e`, `Result_DrawDigits`, `Result_PlayerPanel_Init` →
+> `Result_Roll{Continues,Prisoners}` → `Result_PrintScore` → `Result_HiScoreEntry`),
+> secuencia final (`Ending_Show{Mission,All,Over}`, `Ending_WipeAllOver`,
+> `Ending_Seq_*`, `EndingOrbit_Parent/Child`, `Str_PeaceForever`), soldado
+> artillero `Gunner_*` (Search/Fire/Reload + `Gunner_Shell`) y `Gunner2_*`
+> (`Gunner2_AimFromAngle`, Track por stick del jugador o Target_AngleToPlayer,
+> `Gunner2_Shell` con `Shell_HitboxList_A/B/C`), `Walker_*`, `GunnerAnim_Table`,
+> `FadeLut_16x16_05a8ba`, `VRAM_FixAutoclear_Reset_05a9ba`. `gen_asm_region.py`:
+> rangos `--data` byte a byte (`.dc.b`) para labels en offsets impares. 27
+> renombres propagados. Zona `$024E10..$05E000` al 96.5 %; CODE total 97.2 %
+> (91 huecos, 14 282 B).
+>
 > **Wave DDDDD** (79 entradas, 4 374 B; 47 huecos) — `$046000..$048000`
 > en `enemy46_drops_fix_banners_046260.s`. Cuadragésimo séptima wave. Nombres en
 > `docs/waves/ddddd_names.txt`. Módulos: Enemy46 fases C/D + `Enemy46_RandomPause`

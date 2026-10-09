@@ -18,6 +18,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave EEEEE — 71 entries (5,290 B, 38 gaps of `$05934E..$05A9D6`, 7 data
+  islands, 5 forced entries, `result_ending_gunner_walker_05934e.s`): mission
+  result screen (`ResultText_Strings`, `Result_PlayerPanel_Init` → SCORE /
+  CONTINUE / RECAPTURED PRISONER digit rolls → `Result_HiScoreEntry`), ending
+  sequence (`Ending_Seq_*`, MISSION ALL OVER! wipe, PEACE FOREVER!, orbiting
+  sprite FX, fades), heavy-weapon soldier `Gunner_*`/`Gunner2_*` with
+  TargetRing aiming and shells (`Gunner_Shell`, `Gunner2_Shell`, hitbox
+  lists, anim/aim tables), `Walker_*`, `FadeLut_16x16_05a8ba`,
+  `VRAM_FixAutoclear_Reset`. `gen_asm_region.py`: `--data` ranges are now
+  emitted byte-wise (`.dc.b`) so string tables can carry odd-offset labels.
+  27 renames propagated. CODE zones now 97.2 % (91 gaps, 14,282 B left).
 - Wave DDDDD — 79 entries (4,374 B, 47 gaps of `$046000..$048000`,
   `enemy46_drops_fix_banners_046260.s`): Enemy46 phases C/D + random pause,
   enemy drop spawners by template (`Drop_SpawnRandom/FromTable/Thrown`,
