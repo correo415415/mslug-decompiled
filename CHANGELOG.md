@@ -18,6 +18,17 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave CCCCC — 117 entries (6,380 B, 6 data ranges, 39 forced entries):
+  `$027400..$02A000` (`collmap_hitbox_script_ops_027400.s`): remainder of
+  the entity movement + map collision engine (`Entity_MoveAndCollide_D/E/F`,
+  `Entity_Step*_UpdatePos`, slope resolve, `CollMap_LookupTile` + solid/
+  platform bit tests, floor probes, velocity latch, gravity swap probes),
+  entity-vs-entity hitboxes (`Hitbox_RunList` + 5-op table over players /
+  slugs / enemy pools, `Hitbox_TestBoxes`, rect/point overlaps, damage and
+  hit flags, default shapes table) and the sprite script interpreter
+  (`Script_OpcodeTable_028cf0`, 32 opcodes `ScriptOp00_Wait` ..
+  `ScriptOp1F_Sound2222`). 14 renames propagated; 3 local labels promoted
+  to globals. CODE zones now 95.3 % (176 gaps, 23,946 B left).
 - Wave BBBBB — 88 entries (8,874 B, 9 data ranges, 1 forced entry):
   `$024E10..$027400` (`hud_inputrec_entity_move_024fb8.s`): per-player HUD
   task state machine (`HUD_State_InsertCoin/Continue/WaitPlayerSpawn/

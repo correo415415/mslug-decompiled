@@ -11,11 +11,26 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 7709/7709 funciones
-BYTES   : 519,090/519,090 (registrados)
-ROM     : 519,090/2,097,152  (24.7521%)
+MATCHED : 7826/7826 funciones
+BYTES   : 525,470/525,470 (registrados)
+ROM     : 525,470/2,097,152  (25.0564%)
 ```
 
+> **Wave CCCCC** (117 entradas, 6 380 B; 6 `--data`, 39 `--entry`) — `$027400..$02A000`
+> en `collmap_hitbox_script_ops_027400.s`. Cuadragésimo sexta wave. Nombres en
+> `docs/waves/ccccc_names.txt`, args en `docs/waves/ccccc_args.txt`. Módulos:
+> resto del motor de movimiento/colisión (`Entity_MoveAndCollide_D/E/F`,
+> `Entity_StepB/C/D/Fall_UpdatePos`, `Entity_SlopeResolve/Commit`,
+> `CollMap_LookupTile` + `CollMap_TestSolid*/TestPlatform*`, probes de suelo,
+> `Entity_*VelLatch`, `Entity_ProbeSwapGravity_A/B/C`), hitboxes entidad-entidad
+> (`Hitbox_RunList` + `Hitbox_ListOpTable` de 5 ops sobre jugadores/slugs/pools
+> `$100800`/`$1008A0`, `Hitbox_TestBoxes`, `Hitbox_Overlap{Rect,Point,PointA4}`,
+> `Hitbox_ApplyDamage`, `Hitbox_DefaultShapes`) e intérprete de scripts de
+> sprite (`Script_OpcodeTable_028cf0`: 32 opcodes `ScriptOp00_Wait` ..
+> `ScriptOp1F_Sound2222`, llamado desde `script_dispatch.s`). 14 renombres
+> propagados; 3 labels locales promovidas a globales. Zona
+> `$024E10..$05E000` al 92.3 %; CODE total 95.3 % (176 huecos, 23 946 B).
+>
 > **Wave BBBBB** (88 entradas, 8 874 B; 9 `--data`, 1 `--entry`) — `$024E10..$027400`
 > en `hud_inputrec_entity_move_024fb8.s`. Cuadragésimo quinta wave. Nombres en
 > `docs/waves/bbbbb_names.txt`, args en `docs/waves/bbbbb_args.txt`. Módulos:
