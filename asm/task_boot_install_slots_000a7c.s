@@ -121,6 +121,8 @@ ScriptSlotPairTable_0009B4:
         .short  0x00ff, 0x0000                  | entrada especial id=$FF
         .short  0xffff                          | fin sub-tabla 1
         | -------- sub-tabla 2: ids $00..$1F ---------------------------------
+        .global ScriptSlotPairTable_0009B4__L0009fa
+ScriptSlotPairTable_0009B4__L0009fa:
         .short  0x0800, 0x0103                  | slot $00 <- script $103
         .short  0x0801, 0x0104                  | slot $01 <- script $104
         .short  0x0802, 0x0105                  | slot $02 <- script $105

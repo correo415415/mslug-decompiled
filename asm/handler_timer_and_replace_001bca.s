@@ -41,6 +41,8 @@ Handler_TimerAndReplace_001BCA:
         jsr     0x2352.l                       | +08  InputGuardCall219c (Wave A)
         movem.l (a7)+, d0-d1                   | +0e  restaura d0/d1
         clr.b   d1                             | +12  d1 low = 0
+        .global Handler_TimerAndReplace_001BCA__L001bde
+Handler_TimerAndReplace_001BCA__L001bde:
         cmpi.w  #0x64, 0x106e92.l              | +14  if (counter >= 100)
         bcc.w   .Lat_1c02                      | +1c     skip decrement
         move.b  d0, d2                         | +20  d2 = d0
@@ -65,6 +67,8 @@ Handler_TimerAndReplace_001BCA:
 .Ltail_47482:
         jsr     0x47482.l                      | +60  Sub_00047482 (post-hook)
 .Lexit_rts:
+        .global Handler_TimerAndReplace_001BCA__L001c32
+Handler_TimerAndReplace_001BCA__L001c32:
         rts                                    | +66  (target del bne.w low-nibble)
 
         .equ    .Lnext_handler, Sub_00001C34

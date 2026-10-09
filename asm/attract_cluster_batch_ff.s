@@ -418,6 +418,8 @@ Attract_PostStart_Cleanup_001AB6:
 .Lff12_bra_short:                              | $001AD8
         bra.w   .Lff12_check_ed6               | +22  (bra.w a +2 B, patron)
 .Lff12_check_ed6:                              | $001ADC
+        .global Attract_PostStart_Cleanup_001AB6__L001adc
+Attract_PostStart_Cleanup_001AB6__L001adc:
         tst.b   0x106ed6.l                     | +26  if ($106ED6 != 0)
         bne.w   .Lff12_clr_and_rts             | +2c    goto clear+rts
         tst.b   0x106ed2.l                     | +30  if ($106ED2 == 0)

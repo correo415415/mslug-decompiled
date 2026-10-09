@@ -22,7 +22,7 @@ SYMBOLS = {
 
     # ---- Wave T: targets llamados desde ASM (por nombre estable) ------
     0x00043F5E: "Sub_00043F5E",  # blitter de fila (PC-rel desde $43fac)
-    0x00000506: "Task_AllocFail_0506",  # rama 'free-list vacia' de Task_AllocFromFreeList
+    # 0x00000506 promovido a Task_AllocFail_0506 en registry (Wave JJJJJ).
     # 0x00077C98 promovido a Spawner_Handler_077c98 en registry (Wave YYYY).
     # 0x000277C4 promovido a Entity_MoveAndCollide_F_0277c4 en registry (Wave CCCCC).
     # 0x000273FC promovido a Entity_SaveRegs_0273fc en registry (Wave BBBBB).
@@ -90,7 +90,7 @@ SYMBOLS = {
     0x00000FE0: "Sub_00000FE0",              # bra.w tail-call de Init_JsrThenTailCall
     # 0x00046A48 promovido a TimeUp_Banner_Task_046a48 en registry (Wave DDDDD).
     0x00106F28: "GlobalFlag_106F28",         # flag global chequeada por Handler_ConditionalHitCounter
-    0x00001C34: "Sub_00001C34",              # handler continuacion instalado por Handler_TimerAndReplace
+    # 0x00001C34 promovido a Sub_00001C34 en registry (Wave JJJJJ).
 
     # ---- Entry points BIOS y objetivos internos (Wave P) --------------
     0x00000868: "Sys_HW_Reset",
@@ -116,7 +116,7 @@ SYMBOLS = {
     0x00000626: "Task_ChangeAndRun_0626",
     0x000006E2: "FUN_000006E2",
     0x000006CA: "FUN_000006CA",
-    0x00000400: "RtsStub_0400",
+    # 0x00000400 promovido a RtsStub_0400 en registry (Wave JJJJJ).
 
 
     # ---- Tablas de StateDispatchStub (AUTO-GEN) ----------------------
@@ -395,9 +395,9 @@ SYMBOLS = {
     0x00000B90: "TaskHandler_000b90",
     0x00000EF0: "TaskHandler_000ef0",
     0x00000F1A: "TaskHandler_000f1a",
-    0x00001B4C: "TaskHandler_001b4c",
-    0x00001B70: "TaskHandler_001b70",
-    0x00001B80: "TaskHandler_001b80",
+    # 0x00001B4C promovido a TaskHandler_001b4c en registry (Wave JJJJJ).
+    # 0x00001B70 promovido a TaskHandler_001b70 en registry (Wave JJJJJ).
+    # 0x00001B80 promovido a TaskHandler_001b80 en registry (Wave JJJJJ).
     # 0x000257EC promovido a HUD_State_InsertCoin_0257ec en registry (Wave BBBBB).
     # 0x00025882 promovido a HUD_State_Continue_025882 en registry (Wave BBBBB).
     # 0x00025AD8 promovido a HUD_State_Respawn_025ad8 en registry (Wave BBBBB).
@@ -857,7 +857,7 @@ SYMBOLS = {
 
 
     # ---- Targets de Waves J/K (AUTO-GEN) -----------------------------
-    0x00001AF8: "PcThunkTarget_001af8",
+    # 0x00001AF8 promovido a PcThunkTarget_001af8 en registry (Wave JJJJJ).
     0x0001399C: "PcThunkTarget_01399c",
     # 0x00025E74 promovido a HUD_SetStartMask_025e74 en registry (Wave BBBBB).
     # 0x000281C8 promovido a Entity_ApplyVelLatch_0281c8 en registry (Wave CCCCC).
@@ -970,11 +970,11 @@ SYMBOLS = {
     # 0x0005D71C promovido a HEX_TABLE_5D71C en registry (Wave GGGGG).
     0x00009A7CC: "Sub_00009A7CC",     # movement probe llamado por Entity_ProbeMoveX_09A7AA (retorna Carry)
     0x0005A9E6: "Sprite_Blit_5A9E6",  # backend estandar del cluster Sprite_Dispatch_05CA2A (W#13)
-    0x0000076A: "EmptyEntity_Init_00076A",  # dummy entity trampoline al que salta el brazo empty de Entity_AllocFromFreeList_0006FE (W#16)
+    # 0x0000076A promovido a EmptyEntity_Init_00076A en registry (Wave JJJJJ).
     0x0005D8F2: "Sub_00005D8F2",     # helper "prep VRAM/params" llamado por Debug_DrawHUDVars_096A80 (X#1) entre andi.l y jsr a W#3
     0x0005D904: "Sub_BinToDecimalDecoder_05D904",  # tail-call desde Decimal_Clamp99999999_05D8F2 (X#2): bin-to-BCD 8-nibble decoder
     # 0x0005D944 promovido a Trap15_DivByZero_05D944 en registry (Wave GGGGG).
-    0x00002BC4: "Sub_00002BC4",        # release slot idx, llamado por Entity_FlushSlotHistory_013600 (W#9)
+    # 0x00002BC4 promovido a Sub_00002BC4 en registry (Wave JJJJJ).
     0x00005E4CA: "Parent_GetPrioPos_05e4ca",      # helper local (RNG?), llamado por Entity_ReserveAndSetPos_05E4B2 (W#10)
     # ---- Wave V (continuacion): destinos externos de los helpers 049FD0 / 0799DE ---
     # 0x00049FBA promovido a HumanDeath_HitCheckUnlessCutscene_049fba en registry (Wave LLLL).
@@ -993,11 +993,11 @@ SYMBOLS = {
     0x00001922: "Dispatcher_ModeTable_001922",
     0x00001940: "Label_001940",             # submodo A continuation
     0x0000199A: "Label_00199A",             # submodo B continuation
-    0x00001C88: "PcThunkTarget_001C88",     # ver: destino de lea pc+d,a1 desde $001286
+    # 0x00001C88 promovido a PcThunkTarget_001C88 en registry (Wave JJJJJ).
     # 0x00001CD4 promovido a TaskList_ChangeAndRunEight_001CD4 en registry (Wave SS#6).
-    0x00001DCC: "PcThunkTarget_001DCC",     # destino jsr pc+d desde $18b4
-    0x00001DB8: "Sub_00001DB8",             # callee bsr.w desde $12CA y $18DE
-    0x00001E0A: "Sub_00001E0A",             # callee bsr.w desde $17E6 y $1A9E
+    # 0x00001DCC promovido a PcThunkTarget_001DCC en registry (Wave JJJJJ).
+    # 0x00001DB8 promovido a Sub_00001DB8 en registry (Wave JJJJJ).
+    # 0x00001E0A promovido a Sub_00001E0A en registry (Wave JJJJJ).
     0x00024FEC: "Sub_00024FEC",             # callee jsr abs.l x3 en $1260
     0x0002A24A: "Sub_0002A24A",             # callee jsr abs.l en $18DA
     0x00000FC6: "Sub_00000FC6",             # tail target (bra.w) desde $1AA6
@@ -1007,9 +1007,9 @@ SYMBOLS = {
     #      y AttractHandler_10002C. $52712 NO se anade aqui: fue promovido
     #      a simbolo canonico Pubcleaner_10A2Cx_052712 en Wave LL#1.
     #      $24FEC y $46AC6 ya existen (arriba/abajo).
-    0x00001D3C: "PcThunkTarget_001D3C",     # SchedTail_JsrD3C_001026 -> bsr.w $1D3C
-    0x00001DA4: "Sub_00001DA4",             # SchedulerBootstrap_Boot -> bsr.w $1DA4
-    0x00001E1C: "PcThunkTarget_001E1C",     # SchedulerBootstrap_Boot -> jsr pc+d $1E1C
+    # 0x00001D3C promovido a PcThunkTarget_001D3C en registry (Wave JJJJJ).
+    # 0x00001DA4 promovido a Sub_00001DA4 en registry (Wave JJJJJ).
+    # 0x00001E1C promovido a PcThunkTarget_001E1C en registry (Wave JJJJJ).
     0x0005CACE: "Sub_0005CACE",             # SchedulerBootstrap_Boot -> jsr abs.l $5CACE
     # 0x0005E998 promovido a Rng_Seed_05e998 en registry (Wave SSSS).
     # 0x00098720 promovido a LogoScene_Tpl_098720 en registry (Wave QQQ).
@@ -1110,13 +1110,13 @@ SYMBOLS = {
     # 0x00052712: "ThunkTarget_052712",
     # 0x00046682 promovido a SceneC_Load_Task_046682 en registry (Wave DDDDD).
     # 0x00059B6A promovido a Ending_PeaceWait_059b6a en registry (Wave EEEEE).
-    0x00002B58: "Sub_00002B58",             # applicator de ScriptSlotPairTable_0009B4 (ver SS#4)
+    # 0x00002B58 promovido a Sub_00002B58 en registry (Wave JJJJJ).
     # 0x000009B4 promovido a ScriptSlotPairTable_0009B4 en registry (Wave SS#4).
-    0x0000050E: "Task_InstallHandler_0000050E",  # instala handler a1 en TCB a0 (bsr $4C6 +
+    # 0x0000050E promovido a Task_InstallHandler_0000050E en registry (Wave JJJJJ).
                                              # bset #0,+0x12); callee x12 de
                                              # TaskSlots_BootInstall_000A7C (Wave SS#5).
     0x00002352: "InputGuardCall219c",
-    0x00001C44: "TaskHandler_001C44",
+    # 0x00001C44 promovido a TaskHandler_001C44 en registry (Wave JJJJJ).
     # 0x0003DBC8 promovido a Results_Entry_03dbc8 en registry (Wave RRRR).
     # 0x00046608 promovido a Fade_WhiteFlash_Task_046608 en registry (Wave DDDDD).
     0x00000F76: "PcThunkTarget_000F76",
@@ -1188,7 +1188,7 @@ SYMBOLS = {
     #      TransformCommit_MMIO_051F30 le pasa via a0. $51F94 es el propio
     #      handler inline, adyacente a TransformCommit; se cerrara en
     #      Wave KK batch 2 junto con los 3 probes grandes de camara.
-    0x00001F4A: "Fn_00001F4A",
+    # 0x00001F4A promovido a Fn_00001F4A en registry (Wave JJJJJ).
     # 0x00051F94 promovido a TileMap_HandlerInline_051F94 en registry (Wave KK#2).
 
     # ---- Wave KK batch 2: externals de los 3 probes CCR de camara.
@@ -1226,9 +1226,9 @@ SYMBOLS = {
     0x0008C1EA: "Anim_State_F4_08C1EA",
     0x0008C23A: "Anim_State_F5_08C23A",
     0x0008C296: "Anim_State_F6_08C296",
-    0x000022C8: "Sub_000022C8",
+    # 0x000022C8 promovido a Sub_000022C8 en registry (Wave JJJJJ).
     0x00028CD4: "Sub_00028CD4",
-    0x00002308: "Sub_00002308",
+    # 0x00002308 promovido a Sub_00002308 en registry (Wave JJJJJ).
     # 0x0008BC74 promovido a Anim_ScriptStep_08bc74 en registry (Wave MMM).
     # 0x0008C2B8 promovido a Icon_Base_08c2b8 en registry (Wave MMM).
     # 0x0008C322 promovido a Icon_Slot1_08c322 en registry (Wave MMM).
@@ -2358,4 +2358,11 @@ SYMBOLS = {
     0x00056594: "SetHandlerRts_056594",  # rts de SetTaskHandler_05658e (+6)
     # --- Wave IIIII: refs forward a huecos futuros
     0x00012F30: "Sub_00012F30",  # hueco futuro (ref pc-rel desde esta region)
+    # --- Wave JJJJJ: RTS internos de islas C
+    0x00001B1A: "SetHandlerRts_001b1a",  # rts de SetTaskHandler_001b14 (+6)
+    0x00001B7E: "SetHandlerRts_001b7e",  # rts de SetTaskHandler_001b78 (+6)
+    0x00001C42: "SetHandlerRts_001c42",  # rts de SetTaskHandler_001c3c (+6)
+    0x00001E08: "JsrAbsRts_001e08",  # rts de JsrAbsThunk_001e02 (+6)
+    # --- Wave JJJJJ: refs forward a huecos futuros
+    0x00002F30: "Sub_00002F30",  # hueco futuro (ref pc-rel desde esta region)
 }

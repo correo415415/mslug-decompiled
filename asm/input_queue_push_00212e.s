@@ -57,6 +57,8 @@ InputQueue_InitAndPushOp4_00212E:
                                               |
                                               | ---- Push especializado del opcode 4 ----
         move.b  #0x4, d0                      | +20  d0 = opcode a encolar (LITERAL)
+        .global InputQueue_InitAndPushOp4_00212E__L002152
+InputQueue_InitAndPushOp4_00212E__L002152:
         cmpi.b  #0x20, d0                     | +24  if (opcode >= 0x20)
         bcc.w   .Lstore_only                  | +28     saltar la deduplicacion
         cmp.b   0x1081ac.l, d0                | +2c  if (opcode == last_pushed)

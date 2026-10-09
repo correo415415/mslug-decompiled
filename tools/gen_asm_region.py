@@ -278,7 +278,16 @@ def conv_operand(op, ins, labelfn):
         if base == "pc":
             # capstone ya da el target absoluto en el displacement para pc
             t = int(disp.lstrip("-$"), 16) if disp else ins.addr + 2
-            return f"{labelfn(t, pcrel=True)}(pc,{m.group(3)}.{m.group(4)})"
+            lab = labelfn(t, pcrel=True)
+            if lab.startswith("Sub_") and PC8_ANCHOR[0] is not None:
+                # d8(pc,Xn) hacia un símbolo externo todavía indefinido: GAS
+                # (R_68K_PC8) falla si el mismo símbolo ya apareció antes en la
+                # sección ("value too large for field of 1 byte"). Expresión
+                # relativa a la entrada actual (misma sección) → fixup local.
+                ename, eaddr = PC8_ANCHOR
+                d = t - eaddr
+                lab = f"{ename}{'+' if d >= 0 else '-'}0x{abs(d):x}"
+            return f"{lab}(pc,{m.group(3)}.{m.group(4)})"
         return f"{d}({base},{m.group(3)}.{m.group(4)})"
     # $addr.l / $addr.w / $addr
     m = re.match(r"^\$([0-9a-f]+)\.([lw])$", op)
@@ -388,6 +397,7 @@ def midisland_name(island, addr, plus):
 MIDISLAND_DEFS = {}   # addr -> (name, island, plus)
 PROMOTE_LABELS = {}   # addr -> (name, func, file, plus): labels .L de otros .s a promover
 GLOBAL_LABELS = {}    # addr -> nombre global para labels a mitad de entrada (cross-gap)
+PC8_ANCHOR = [None]   # (nombre_entrada, addr) de la entrada en emisión (ver conv_operand pc,Xn)
 FORWARD_REFS = {}     # addr -> nombre provisional Sub_XXXXXXXX para targets pc-rel/branch
                       # fuera de la región y sin símbolo (huecos futuros): se emiten como
                       # defsym forward en symbols.py en vez de hex crudo (los pc-rel no
@@ -522,6 +532,7 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
         eend = entries[ei + 1] if ei + 1 < len(entries) else end
         name = entry_names[ea]
         _cur_entry[0] = ea
+        PC8_ANCHOR[:] = [entry_names[ea], ea]
         sizes[name] = (ea, eend - ea)
         lines.append("")
         lines.append("| " + "-" * 76)
