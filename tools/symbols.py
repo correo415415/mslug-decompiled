@@ -505,31 +505,31 @@ SYMBOLS = {
     # 0x00058B1E promovido a Soldier_ThrowGrenadeA_058b1e en registry (Wave EEEE).
     # 0x00058C8E promovido a Soldier_ThrowGrenadeB_058c8e en registry (Wave EEEE).
     # 0x00058CCE promovido a Soldier_ThrowGrenadeB_Loop_058cce en registry (Wave EEEE).
-    0x0005943A: "TaskHandler_05943a",
-    0x0005947A: "TaskHandler_05947a",
-    0x000594BA: "TaskHandler_0594ba",
-    0x00059722: "TaskHandler_059722",
-    0x00059756: "TaskHandler_059756",
-    0x000597B0: "TaskHandler_0597b0",
-    0x0005980A: "TaskHandler_05980a",
-    0x00059864: "TaskHandler_059864",
-    0x000598AE: "TaskHandler_0598ae",
-    0x0005994A: "TaskHandler_05994a",
-    0x0005996C: "TaskHandler_05996c",
-    0x00059988: "TaskHandler_059988",
-    0x000599AA: "TaskHandler_0599aa",
-    0x000599C6: "TaskHandler_0599c6",
-    0x000599F2: "TaskHandler_0599f2",
-    0x00059A1A: "TaskHandler_059a1a",
-    0x00059A40: "TaskHandler_059a40",
-    0x00059A70: "TaskHandler_059a70",
-    0x00059B86: "TaskHandler_059b86",
-    0x00059BC6: "TaskHandler_059bc6",
-    0x00059C42: "TaskHandler_059c42",
-    0x00059D62: "TaskHandler_059d62",
-    0x0005A28A: "TaskHandler_05a28a",
-    0x0005A66E: "TaskHandler_05a66e",
-    0x0005A764: "TaskHandler_05a764",
+    # 0x0005943A promovido a TaskHandler_05943a en registry (Wave EEEEE).
+    # 0x0005947A promovido a TaskHandler_05947a en registry (Wave EEEEE).
+    # 0x000594BA promovido a TaskHandler_0594ba en registry (Wave EEEEE).
+    # 0x00059722 promovido a TaskHandler_059722 en registry (Wave EEEEE).
+    # 0x00059756 promovido a TaskHandler_059756 en registry (Wave EEEEE).
+    # 0x000597B0 promovido a TaskHandler_0597b0 en registry (Wave EEEEE).
+    # 0x0005980A promovido a TaskHandler_05980a en registry (Wave EEEEE).
+    # 0x00059864 promovido a TaskHandler_059864 en registry (Wave EEEEE).
+    # 0x000598AE promovido a TaskHandler_0598ae en registry (Wave EEEEE).
+    # 0x0005994A promovido a TaskHandler_05994a en registry (Wave EEEEE).
+    # 0x0005996C promovido a TaskHandler_05996c en registry (Wave EEEEE).
+    # 0x00059988 promovido a TaskHandler_059988 en registry (Wave EEEEE).
+    # 0x000599AA promovido a TaskHandler_0599aa en registry (Wave EEEEE).
+    # 0x000599C6 promovido a TaskHandler_0599c6 en registry (Wave EEEEE).
+    # 0x000599F2 promovido a TaskHandler_0599f2 en registry (Wave EEEEE).
+    # 0x00059A1A promovido a TaskHandler_059a1a en registry (Wave EEEEE).
+    # 0x00059A40 promovido a TaskHandler_059a40 en registry (Wave EEEEE).
+    # 0x00059A70 promovido a TaskHandler_059a70 en registry (Wave EEEEE).
+    # 0x00059B86 promovido a TaskHandler_059b86 en registry (Wave EEEEE).
+    # 0x00059BC6 promovido a TaskHandler_059bc6 en registry (Wave EEEEE).
+    # 0x00059C42 promovido a TaskHandler_059c42 en registry (Wave EEEEE).
+    # 0x00059D62 promovido a TaskHandler_059d62 en registry (Wave EEEEE).
+    # 0x0005A28A promovido a TaskHandler_05a28a en registry (Wave EEEEE).
+    # 0x0005A66E promovido a TaskHandler_05a66e en registry (Wave EEEEE).
+    # 0x0005A764 promovido a TaskHandler_05a764 en registry (Wave EEEEE).
     0x0005CBEA: "TaskHandler_05cbea",
     # 0x0005F00A promovido a DebugColl_Idle_05f00a en registry (Wave SSSS).
     # 0x0005F0B0 promovido a DebugColl_ShowHighNibble_05f0b0 en registry (Wave SSSS).
@@ -1109,7 +1109,7 @@ SYMBOLS = {
     # attract_cluster_batch_ff.s siga resolviendose sin edicion.
     # 0x00052712: "ThunkTarget_052712",
     # 0x00046682 promovido a SceneC_Load_Task_046682 en registry (Wave DDDDD).
-    0x00059B6A: "TaskHandler_00059B6A",
+    # 0x00059B6A promovido a TaskHandler_00059B6A en registry (Wave EEEEE).
     0x00002B58: "Sub_00002B58",             # applicator de ScriptSlotPairTable_0009B4 (ver SS#4)
     # 0x000009B4 promovido a ScriptSlotPairTable_0009B4 en registry (Wave SS#4).
     0x0000050E: "Task_InstallHandler_0000050E",  # instala handler a1 en TCB a0 (bsr $4C6 +
@@ -1676,7 +1676,7 @@ SYMBOLS = {
     0x0002B262: "SetHandlerRts_02b262",  # rts de SetTaskHandler_02b25c (+6)
     0x0002D734: "SetHandlerRts_02d734",  # rts de SetTaskHandler_02d72e (+6)
     # --- Wave DDDD: refs forward a huecos futuros
-    0x0005A8BA: "Sub_0005A8BA",  # hueco futuro (ref pc-rel desde esta region)
+    # 0x0005A8BA promovido a Sub_0005A8BA en registry (Wave EEEEE).
     # --- Wave EEEE: refs forward a huecos futuros
     # 0x00056ACC promovido a Soldier_PhysicsStep_056acc en registry (Wave FFFF).
     # 0x00056B92 promovido a Soldier_Think_056b92 en registry (Wave FFFF).
@@ -2324,4 +2324,31 @@ SYMBOLS = {
     0x000472D0: "SetHandlerRts_0472d0",  # rts de SetTaskHandler_0472ca (+6)
     0x0004731A: "SetHandlerRts_04731a",  # rts de SetTaskHandler_047314 (+6)
     0x00047360: "SetHandlerRts_047360",  # rts de SetTaskHandler_04735a (+6)
+    # --- Wave EEEEE: RTS internos de islas C
+    0x00059438: "SetHandlerRts_059438",  # rts de SetTaskHandler_059432 (+6)
+    0x00059478: "SetHandlerRts_059478",  # rts de SetTaskHandler_059472 (+6)
+    0x000594B8: "SetHandlerRts_0594b8",  # rts de SetTaskHandler_0594b2 (+6)
+    0x000595AC: "Jsr5B6Rts_0595ac",  # rts de Jsr5B6ThenJmpScheduler_0595a0 (+12)
+    0x00059664: "JsrAbsRts_059664",  # rts de JsrAbsThunk_05965e (+6)
+    0x00059720: "SetHandlerRts_059720",  # rts de SetTaskHandler_05971a (+6)
+    0x00059754: "SetHandlerRts_059754",  # rts de SetTaskHandler_05974e (+6)
+    0x000597AE: "SetHandlerRts_0597ae",  # rts de SetTaskHandler_0597a8 (+6)
+    0x00059808: "SetHandlerRts_059808",  # rts de SetTaskHandler_059802 (+6)
+    0x00059862: "SetHandlerRts_059862",  # rts de SetTaskHandler_05985c (+6)
+    0x000598AC: "SetHandlerRts_0598ac",  # rts de SetTaskHandler_0598a6 (+6)
+    0x000598FA: "Jsr5B6Rts_0598fa",  # rts de Jsr5B6ThenJmpScheduler_0598ee (+12)
+    0x00059948: "SetHandlerRts_059948",  # rts de SetTaskHandler_059942 (+6)
+    0x0005996A: "SetHandlerRts_05996a",  # rts de SetTaskHandler_059964 (+6)
+    0x00059986: "SetHandlerRts_059986",  # rts de SetTaskHandler_059980 (+6)
+    0x000599A8: "SetHandlerRts_0599a8",  # rts de SetTaskHandler_0599a2 (+6)
+    0x000599C4: "SetHandlerRts_0599c4",  # rts de SetTaskHandler_0599be (+6)
+    0x000599F0: "SetHandlerRts_0599f0",  # rts de SetTaskHandler_0599ea (+6)
+    0x00059A18: "SetHandlerRts_059a18",  # rts de SetTaskHandler_059a12 (+6)
+    0x00059A3E: "SetHandlerRts_059a3e",  # rts de SetTaskHandler_059a38 (+6)
+    0x00059A6E: "SetHandlerRts_059a6e",  # rts de SetTaskHandler_059a68 (+6)
+    0x00059B58: "JsrAbsRts_059b58",  # rts de JsrAbsThunk_059b52 (+6)
+    0x00059B84: "SetHandlerRts_059b84",  # rts de SetTaskHandler_059b7e (+6)
+    0x00059BC4: "SetHandlerRts_059bc4",  # rts de SetTaskHandler_059bbe (+6)
+    0x00059C2C: "Jsr5B6Rts_059c2c",  # rts de Jsr5B6ThenJmpScheduler_059c20 (+12)
+    0x0005A258: "Jsr5B6Rts_05a258",  # rts de Jsr5B6ThenJmpScheduler_05a24c (+12)
 }

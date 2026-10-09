@@ -112,8 +112,10 @@ def disasm_region(rom, start, end):
     off = start
     while off < end:
         if in_data(off):
-            out.append(("data", off, rom[off:off + 2]))
-            off += 2
+            # dentro de un rango --data emitimos byte a byte: las tablas de
+            # strings tienen labels en offsets impares (lea Str(pc),a2).
+            out.append(("datab", off, rom[off:off + 1]))
+            off += 1
             continue
         ins = next(md.disasm(rom[off:off + 10], off), None)
         if ins is None or ins.size == 0 or off + ins.size > end:
@@ -541,6 +543,12 @@ def build(rom, start, end, wave_tag, names_override, known_names=None):
             if kind == "data":
                 lines.append(f"        .dc.w   0x{int.from_bytes(it, 'big'):04x}"
                              f"{'':<24}| +{off - ea:03x}  (dato / opcode no decodificado)")
+                continue
+            if kind == "datab":
+                b = it[0]
+                ch = chr(b) if 0x20 <= b < 0x7f and b not in (0x27, 0x5c) else "."
+                lines.append(f"        .dc.b   0x{b:02x}"
+                             f"{'':<26}| +{off - ea:03x}  '{ch}'  (dato, rango --data)")
                 continue
             if kind == "rawinsn":
                 ws = [int.from_bytes(it[i:i + 2], 'big') for i in range(0, 8, 2)]
