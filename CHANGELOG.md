@@ -18,6 +18,16 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave FFFFF — 33 entries (3,738 B, 15 gaps of `$055B96..$056ACC`, 5 data
+  islands, 2 forced entries, `enemy_projectiles_grenade_mortar_roller_055b96.s`):
+  enemy projectiles — thrown grenade (`Grenade_SpawnFromThrower`, trajectory
+  table `$55C08` indexed by throw type, polar velocity in scene modes
+  `$106F2B` 1/2/3, water/fire explosion), bouncing ball (`Bounce_Task`,
+  `Bounce_Rest*`, `Bounce_Fizzle`, `Bounce_Explode`), mortar shell
+  (`Mortar_ApplyDrag`, `Mortar_Shell_Task/Explode`, hitbox lists + sprite map)
+  and roller (`Roller_Task` wall probes, `Roller_Explode`), 7
+  `Entity_CmpDepthToParent_*` depth thunks, `Soldier_PhysicsBox_056ac4`.
+  1 rename propagated (`TaskHandler_056204` → `Bounce_Explode_056204`).
 - Wave EEEEE — 71 entries (5,290 B, 38 gaps of `$05934E..$05A9D6`, 7 data
   islands, 5 forced entries, `result_ending_gunner_walker_05934e.s`): mission
   result screen (`ResultText_Strings`, `Result_PlayerPanel_Init` → SCORE /

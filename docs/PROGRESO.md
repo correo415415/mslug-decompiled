@@ -11,10 +11,26 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 7969/7969 funciones
-BYTES   : 535,134/535,134 (registrados)
-ROM     : 535,134/2,097,152  (25.5172%)
+MATCHED : 8007/8007 funciones
+BYTES   : 538,872/538,872 (registrados)
+ROM     : 538,872/2,097,152  (25.6954%)
 ```
+
+> **Wave FFFFF** (33 entradas, 3 738 B; 15 huecos, 5 `--data`, 2 `--entry`) —
+> `$055B96..$056ACC` en `enemy_projectiles_grenade_mortar_roller_055b96.s`.
+> Cuadragésimo novena wave. Nombres en `docs/waves/fffff_names.txt`, args en
+> `docs/waves/fffff_args.txt`. Proyectiles enemigos: granada lanzada
+> (`Grenade_SpawnFromThrower` → `Grenade_Task` con `Grenade_TrajTable_055c08`
+> {vx,ay,vy,timer} por tipo `$5C(a6)`, velocidad polar en modos de escena
+> `$106F2B` 1/2/3, `Grenade_Explode` agua/fuego), bola rebotante (`Bounce_Task`,
+> `Bounce_Rest/Rest2/Fizzle/Explode`), obús de mortero (`Mortar_ApplyDrag`,
+> `Mortar_SpawnFromParent`, `Mortar_Shell_Task/Explode`, `Mortar_HitboxList*`,
+> `SpriteMap_Mortar`), rodillo (`Roller_SpawnFromParent`, `Roller_Task`,
+> `Roller_Explode`, `Roller_HitboxList*`, `SpriteMap_Roller`), 7 thunks
+> `Entity_CmpDepthToParent_*` y `Soldier_PhysicsBox_056ac4`. Cobertura: 538,872 B
+> (25.70 %), CODE 97.9 %, zona core 98.1 %, 76 huecos / 10,544 B. Siguientes:
+> `$05C000..$05E000` (22 huecos ≈2.3 KB), `$051000/$052000` (≈2.2 KB),
+> `$0133B0..$013D6A` (2,082 B), `$000400..$002F30` (≈3.9 KB).
 
 > **Wave EEEEE** (71 entradas, 5 290 B; 38 huecos, 7 `--data`, 5 `--entry`) —
 > `$05934E..$05A9D6` en `result_ending_gunner_walker_05934e.s`. Cuadragésimo
