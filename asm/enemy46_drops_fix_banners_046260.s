@@ -1,11 +1,151 @@
 | ============================================================================
 |  Metal Slug 1 (Neo Geo, M68000) — decompilación matching
-|  Wave ??? — (borrador)
-|  Región: $046000..$048000  (4,386 B, 79 entradas, 45 huecos)
+|  Wave DDDDD — Enemy46 (fases C/D), drops aleatorios por template, banners del
+|  fix layer (CONTINUE grande, MISSION n / START / COMPLETE, TIME UP, fundido
+|  blanco), typewriter de texto grande/pequeño y fuentes
+|  Región: $046000..$048000  (4,374 B, 79 entradas, 47 huecos)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_asm_region.py — pendiente de análisis
-|  semántico (nombres, comentarios de campo, evidencias).
+|  A. QUÉ HAY AQUÍ
+|  Cinco bloques que rellenan los 47 huecos entre las islas C (SetTaskHandler_*,
+|  JsrAbsThunk_*, JsrPcThunk_*, Jsr5B6ThenJmpScheduler_*, ClearXN/SetXN, Stub_*)
+|  y los módulos ya cerrados vehicle_deploy_045f2c.s, misc_batches_046ac6_024fec.s,
+|  fix_blit_batch_046b20.s, debug_hex_counter_cluster_047482.s y
+|  list_apply_sentinel_0477fc/04784c/047888.s:
+|
+|  1) $046260..$046322  Enemy46 (continuación de vehicle_deploy_045f2c.s):
+|     - Enemy46_PhaseC_046260 / Enemy46_PhaseD_Flip_04628a: sprite `$29B7C8` /
+|       `$29BFB8` (EntitySetSpriteMap), espera a Entity_HasLinkedSlots (C=1),
+|       PhaseD invierte el sentido (`eori.b #1,$3A(a6)`) y PhaseD → RandomPause.
+|     - Enemy46_RandomPause_0462c0: pausa `$70(a6)` = 20 + rnd&31 frames con uno
+|       de 4 sprites de la tabla `$28DC36` (-1 = sin cambio) y vuelve a
+|       Enemy46_Move_0461BC. Todas las fases cierran por Enemy46_Tail_046220.
+|
+|  2) $046322..$0465D6  Drops (items/armas que sueltan los enemigos):
+|     - Drop_SpawnRandom_046322: si `$98(a6)` == 0 elige al azar paridad
+|       (`$99(a6)` = dirección) y 1..8 (RNG_LFSRStep_SelfSeed); indexa la tabla
+|       de tablas `$28DBC6[$9A(a6)&3]` (16 words = template por tipo de drop) y
+|       la de sprites `$28DB86`, llama Entity_AllocSpriteSlot (`$236E`) y
+|       continúa en __L04637e: copia la dirección a `$3A(a6)`, instala el
+|       handler y hace el probe de suelo `$28DB7E` (PcThunkTarget_05dd5c).
+|     - Drop_Spawn_Tmpl4F/F2/1B/6D/2C/2B/3A_12F: entradas de 22 B que fijan
+|       el template (`d1`) y el sprite (`$3C(a6)` = `$233C16`, `$24D800`,
+|       `$23603A`, `$23AC84`, `$23C778`, `$239A4E`/`$23D4A0`/`$24C3E2`,
+|       `$23A068`) y saltan a __L04637e; Tmpl3A_12F elige $3A o $12F según
+|       `$98(a6)`.
+|     - Drop_SpawnFromTable_0464a6: sprite `$249BD4`/`$249C0C`, si `$9C(a6)`
+|       spawnea FinalBoss_LimbPart_Init_0723d2 y copia transform; template de
+|       la matriz 4×4 `$28DC4E[($98&3)<<2 | ($9A&3)]`; `$32/$33(a6)` = `$9B(a6)`
+|       o $FF.
+|     - Drop_SpawnThrown_046534: variante "lanzada": `$28(a6)` = `$99(a6)`<<4
+|       (vel. x), misma matriz `$28DC4E`, EntitySetField38AndUpdate($8000),
+|       `$38(a6)` bits → $10, sprite `$28DC6E`, probe `$28DC46` con
+|       Entity_ProbeTransformFreeCcr.
+|     - Drop_ProbeAndNudgeY_0463c2: Entity_ProbeMoveX_09A7AA(dir=`$9A(a6)`,
+|       $9B) y si no hay choque baja 4 px la entidad encontrada (`$24(a0)`).
+|     - Entity_CmpDepthToParent_046518/0465ec/046a2c/0478e0: idiom
+|       `cmp.b $10(a1),d0 ; bcs SetXN` (profundidad vs padre), como $046108.
+|
+|  3) $046608..$0466F6  Transiciones de escena:
+|     - Fade_WhiteFlash_Task_046608/_Done: fundido a blanco vía `$52580`
+|       (color d0..d3 = 0/$1F/$1F/$10 → $1F,$1F,$1F,$10), `$1081B1` = $FF,
+|       32 + 16 frames, y Done limpia `$21(parent)` y vuelve al scheduler.
+|     - SceneC_Load_Task_046682 → _Spawn2 → _Finish: `$22C8`, SceneLoader_Main
+|       (escena $C), SceneScriptVM_Frame(0,0), Entity_SpawnAndPublishD0At70 (3)
+|       y a los 120 frames (2), 60 frames más, `clr.b $106ED2`.
+|
+|  4) $0466F6..$046A96  Pantalla CONTINUE grande y banners:
+|     - ContinueDigits_P1P2_Task_0466f6: dos entradas (P1 en `$7183`, P2 en
+|       `$7463`) que llaman HUD_ClearMsgRow + HUD_Msg_Continue_P1/P2, dibujan
+|       el dígito 9 (`$3460 + n`, 2 tiles apilados) y cada 59 frames lo
+|       decrementan; START (Continue_IsStartP1/P2: `$10FDB6/B7` == 2 y la
+|       tarea `$10E203/209` activa con `$5C(a6)` > 8) corta la cuenta.
+|     - ContinueBig_Init_0467f6 / _Countdown / _ClearAndExit: la cuenta atrás
+|       grande de pantalla completa: template $5F, sprite `$28DE2A`, pos
+|       ($A0,$178), string "CONTINUE?" `$28DE36` en `$716A` vía
+|       List_ApplyWithSentinelFF_04784C, sonido $10D4 cada segundo, sprite del
+|       dígito por `$28DD96[$5C]`, tabla de parpadeo `$28DE54` (byte por frame
+|       → `$32(a6)`), al final borra con "         " `$28DE40` y Jmp scheduler.
+|     - Continue_IsStartAny_0469ce: P1 || P2.  Continue_StoreCount_Exit:
+|       `$1081B0` = `$98(a6)` (o 0 si $FF).
+|     - Fix_ClearMissionBanner_0469fe: dos filas de 9 celdas `$0B40` en
+|       `$7014/$7017` (List_ApplyWithSentinelFF_047888 con `$28DE92`).
+|     - TimeUp_Banner_Task_046a48: "TIME UP" `$28DEBC` en `$71AF` 90 frames y
+|       borrado con `$28DEC4`.  FixLayer_ClearTopRows_046a96: dos Fix_BlitRect
+|       (40×2 en `$7000`, 40×6 en `$701A`) y continúa en FixLayer_QuadBatch.
+|
+|  5) $046C48..$0478F0  Banners MISSION n START / MISSION COMPLETE:
+|     - FixBlit_Row4x1_Step_046c48 / FixBlit_BatchRow4x1_FromTable_046c96:
+|       pasos del blit de columnas 4×1 (tiles consecutivos, +$10 de paleta
+|       por fila, columna fuera de `$7000..$74FF` se salta) con offsets de
+|       `$28DEF4`.
+|     - FixBanner_MissionStart_Blit_046d0e (16 cols de `$3E40` + 2 de `$3F40`
+|       + 8 celdas `$2320`) y FixBanner_MissionComplete_Blit_046e72 (16 de
+|       `$3E80` + 12 de `$3F80`): d2 = columna, d3 = fila, d4 = banco de
+|       paleta (0/$1000). Sus últimos `movem.w` eran las falsas islas
+|       NopCCR_046e6c/046fd0 (eliminadas de ccr_helpers.c).
+|     - MissionNumBanner_Task_046fd6 / _WaitDismiss / _ScrollOut: número de
+|       misión (`$106ECF`, máx 5) que entra desde x=-23 a +2/frame con
+|       FixBlit_BatchRow4x2_046B20, espera 120 frames y sale por la derecha.
+|       MissionNum_TileByMission/PalByMission: tablas `$28DF00`/`$28DF10`.
+|     - MissionStart_Task_0470be → Pause → Clear → Redraw (×2 parpadeos) →
+|       ScrollOut: "MISSION n START" entrando de x=39 a 11 (-2/frame), sale
+|       hasta x=-18.  MissionComplete_Task_04720c → … → Finish: igual con
+|       sonido $20, entra hasta x=6, sale hasta x=-28, Entity_SpawnAndPublish
+|       D0At70(3), 50 frames, `clr.b $106ED2`.
+|     - BigText_Typewriter_04737e / SmallText_Typewriter_047400: escriben
+|       un string (`$3C(a6)`, fin $FF) glifo a glifo cada `$30(a6)` frames
+|       en VRAM `$22(a6)` (stride $40 / $20), paleta `$16(a6)`.
+|     - Fix_DrawBigNumber2Digit_04768a / _NoLeadZero: número 0..99 en tiles
+|       2×2 (`$28DEE0` = tile base por dígito, Sub_Divide10).
+|     - Font_SmallGlyphToTile_0477d4 (`$400 + lo | (hi<<1)`), Font_BigGlyph-
+|       ToTile_047822 (`$B00 + …`), Font_TileWithPal_047872 (`d0 | d1<<12`):
+|       callbacks de List_ApplyWithSentinelFF_* (d1/d2 = stride 1-2 / 2-2).
+|     - Fix_PutString_PalByHighBit_0478ae: string ASCII con paleta $23xx
+|       (<$80) o $2Axx (≥$80) a `$3C0000`, +$20 por carácter.
+|     - Fix_Clear5Tiles_723C_047676: 5×1 tiles `$238B` en `$723C`.
+|
+|  B. EVIDENCIAS
+|  - Strings ASCII en banco alto: "CONTINUE?" `$28DE36`, "MISSION 1" `$28DE4A`,
+|    "TIME UP" `$28DEBC` (file `$18DExx`).
+|  - `$3C0000` = LSPC addr/data; `$7000..$74FF` = fix map; paletas $23xx/$2Axx/
+|    $3Exx/$3Fxx; `$10FDB6/B7` = START (BIOS); `$10E203/209` = tareas HUD P1/P2.
+|  - Enemy46_Tail_046220 (vehicle_deploy) ya referenciaba `$046260`/`$0463C2`.
+|  - `$106ECF` = número de misión (HUD_Task_Init usa `$106ECE` para la escena).
+|
+|  C. HIPÓTESIS (nombres provisionales)
+|  - "Drop_*": los templates $4F/$F2/$1B/$6D/$2C/$2B/$3A/$12F se asumen items
+|    (armas/comida/POW) por el contexto Enemy46 → hay que cotejar con el
+|    índice `$E8000`.
+|  - SceneC_Load: escena $C = secuencia de bonus/final (HUD_IsSceneBCD).
+|  - `$52580` se asume "set palette fade color" (hueco de `$052000`).
+|  - FixBanner_MissionStart vs MissionComplete: inferido por las tareas que
+|    los usan (MissionStart_* / MissionComplete_*), no por el texto.
+|
+|  D. CAMPOS (a6) usados en este archivo
+|    (a6) handler;  $08 parent;  $0C other-task;  $10 rank;  $12 flags
+|    $14 banco de paleta / param;  $16 paleta typewriter;  $20/$21 flags
+|    $22 x / VRAM addr;  $24 y;  $26;  $28 vel x / paso;  $30 retardo
+|    $32/$33 paleta/parpadeo;  $38 campo 38;  $3A dirección;  $3C sprite/string
+|    $5C contador/dígito;  $70 timer;  $72 flag parpadeo;  $74 jugador
+|    $98..$9C parámetros de drop (tipo, dir, tabla, paleta, flag)
+|
+|  E. HELPERS EXTERNOS
+|    EntitySetSpriteMap ($28CD4), Entity_HasLinkedSlots ($28D70),
+|    ActorCtxWrapper_02783a, RNG_LFSRStep_SelfSeed_05E9B6, Entity_AllocSpriteSlot
+|    ($236E), PcThunkTarget_05dd5c, Entity_ProbeMoveX_09A7AA, Task_AllocFromFreeList
+|    ($4AE), FinalBoss_LimbPart_Init_0723d2, Entity_CopyTransform ($5DD02),
+|    EntitySetField38AndUpdate ($28134), Entity_ProbeTransformFreeCcr ($27CEE),
+|    SceneLoader_Main_043568, SceneScriptVM_Frame_0437DA,
+|    Entity_SpawnAndPublishD0At70_0523B2/05239E, HUD_ClearMsgRow_0260c4,
+|    HUD_Msg_Continue_P1_02604c/P2_026060, Scheduler_Main_0518, Fix_BlitRect_05DA9C,
+|    FixBlit_BatchRow4x2_046B20, FixLayer_QuadBatch_046AC6__L046af2,
+|    FixBlit_BatchRow4x1_ColorInc_046BDA__L046c34, List_ApplyWithSentinelFF_*,
+|    Sub_Divide10_047656, InputGuardCall219c ($2352), `$52580`, `$22C8`, `$2C66`.
+|
+|  F. ESTADO
+|    79/79 entradas byte-exactas en verify (gen_asm_region) y en el matcher.
+|    Zona $046000..$048000 al 100 %.
 |
 |  Verificación: cada sección .text.<Sym> se coloca en su dirección CPU
 |  absoluta y reensambla byte-exacta contra build/mslug_prom.bin
