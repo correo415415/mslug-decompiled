@@ -193,6 +193,32 @@ python3 tools/registry_lint.py
 
 ---
 
+## Continuous integration (self-hosted runner + releases)
+
+`.github/workflows/matcher.yml` runs the full matcher on the owner's
+**self-hosted runner** (labels `self-hosted, Linux, X64`) on every push to
+`main` / `genspark_ai_developer`, on PRs to `main`, and on demand
+(`workflow_dispatch`). No Actions cache is used: everything is rebuilt from
+scratch and the results are published as **Release assets** (prerelease per
+branch, plain release on `main`), tagged `matcher-<branch>-<run>-<sha7>`:
+
+* `match_batch.txt`, `match_report_c.json`  — matcher log + per-function report
+* `coverage_zones.txt`, `coverage_blocks.txt`, `registry_lint.txt`
+* `registry.py`, `symbols.py`, `commit.txt`, `SHA256SUMS.txt`
+* `mslug-decomp-src-<sha7>.tar.gz` — snapshot of `asm/ src/ include/ tools/ docs/ scripts/`
+
+**The ROM never leaves the runner and is never uploaded.** The runner must
+provide it in one of these ways (checked in order):
+
+1. repository variable `MSLUG_ROM_URL` (+ optional secret `MSLUG_ROM_TOKEN`)
+   pointing to `mslug.zip` or `201-p1.bin`;
+2. `$MSLUG_ROM_DIR/mslug.zip` or `$MSLUG_ROM_DIR/201-p1.bin` (repository
+   variable `MSLUG_ROM_DIR`, default `~/mslug_rom` on the runner).
+
+Releases are created with the secret `RELEASE_PAT` (fine-grained PAT with
+*Contents: read/write*); if absent, the workflow falls back to `GITHUB_TOKEN`.
+Only the 15 most recent prereleases are kept.
+
 ## Contributing a match
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full step-by-step

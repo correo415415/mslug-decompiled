@@ -17,6 +17,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
 - Wave ZZZZ — 192 entries (18,154 B, 1 data range, 6 forced entries):
   `$07A002..$083000` (`boss2_crab_carrier_soundtest_07axxx.s`): Crew_Hostage/
   Crew_Captor (extra children of Crew_Tmpl127/128), SOUND TEST service menu
