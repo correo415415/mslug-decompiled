@@ -1,0 +1,340 @@
+        .text
+
+        .globl  AttractSprites_List0_096BBC
+        .section .text.AttractSprites_List0_096BBC, "ax", @progbits
+AttractSprites_List0_096BBC:                | lista attract 0: 12 sprites x 20 B + $FFFF (242 B)
+        .dc.w   0x0040,0x04b0,0x0170,0x0004,0xd70c,0x0030,0xf000,0x003e,0x0029,0x498e
+                | $096BBC flags=$0040 pos=(1200,368) tmpl=$04D70C params=0030f000003e0029498e
+        .dc.w   0x0040,0x0550,0x0170,0x0004,0xd70c,0x0090,0xf000,0x0043,0x0029,0x4214
+                | $096BD0 flags=$0040 pos=(1360,368) tmpl=$04D70C params=0090f000004300294214
+        .dc.w   0x0100,0x0560,0x0140,0x0004,0xf46a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096BE4 flags=$0100 pos=(1376,320) tmpl=$04F46A params=00000000ffffffffffff
+        .dc.w   0x0100,0x07b0,0x00f1,0x0004,0xd8f2,0x0040,0x0000,0xffff,0xffff,0xffff
+                | $096BF8 flags=$0100 pos=(1968,241) tmpl=$04D8F2 params=00400000ffffffffffff
+        .dc.w   0x0140,0x07f0,0x0170,0x0004,0xd74a,0x0020,0xf000,0xffff,0xffff,0xffff
+                | $096C0C flags=$0140 pos=(2032,368) tmpl=$04D74A params=0020f000ffffffffffff
+        .dc.w   0x0100,0x0800,0x0141,0x0004,0xdad2,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096C20 flags=$0100 pos=(2048,321) tmpl=$04DAD2 params=00000000ffffffffffff
+        .dc.w   0x0100,0x08c0,0x0141,0x0004,0xde40,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096C34 flags=$0100 pos=(2240,321) tmpl=$04DE40 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0930,0x00f1,0x0004,0xdf98,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096C48 flags=$0100 pos=(2352,241) tmpl=$04DF98 params=00000000ffffffffffff
+        .dc.w   0x0140,0x0a00,0x0167,0x0004,0xe248,0x0000,0xf000,0xffff,0xffff,0xffff
+                | $096C5C flags=$0140 pos=(2560,359) tmpl=$04E248 params=0000f000ffffffffffff
+        .dc.w   0x0100,0x0a70,0x0139,0x0004,0xe38a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096C70 flags=$0100 pos=(2672,313) tmpl=$04E38A params=00000000ffffffffffff
+        .dc.w   0x0100,0x0ae0,0x0160,0x0004,0xe512,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096C84 flags=$0100 pos=(2784,352) tmpl=$04E512 params=00000000ffffffffffff
+        .dc.w   0x0040,0x0b90,0x0168,0x0004,0xd70c,0x0030,0xf000,0x003f,0x0029,0x499e
+                | $096C98 flags=$0040 pos=(2960,360) tmpl=$04D70C params=0030f000003f0029499e
+        .dc.w   0xffff                              | $096CAC fin de lista
+
+        .globl  AttractSprites_List1_096CAE
+        .section .text.AttractSprites_List1_096CAE, "ax", @progbits
+AttractSprites_List1_096CAE:                | lista attract 1: 38 sprites x 20 B + $FFFF (762 B)
+        .dc.w   0x0100,0x0030,0x0168,0x0005,0x2a26,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096CAE flags=$0100 pos=(48,360) tmpl=$052A26 params=00000000ffffffffffff
+        .dc.w   0x0100,0x00a8,0x0168,0x0005,0x2902,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096CC2 flags=$0100 pos=(168,360) tmpl=$052902 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0120,0x0168,0x0005,0x2a26,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096CD6 flags=$0100 pos=(288,360) tmpl=$052A26 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0148,0x01e8,0x0005,0x2b8a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096CEA flags=$0100 pos=(328,488) tmpl=$052B8A params=00000000ffffffffffff
+        .dc.w   0x0100,0x034a,0x023e,0x0005,0x3964,0x0040,0x0000,0xffff,0xffff,0xffff
+                | $096CFE flags=$0100 pos=(842,574) tmpl=$053964 params=00400000ffffffffffff
+        .dc.w   0x0100,0x0430,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096D12 flags=$0100 pos=(1072,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x0460,0x01e0,0x0005,0x2e20,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096D26 flags=$0100 pos=(1120,480) tmpl=$052E20 params=00000000ffffffffffff
+        .dc.w   0x0100,0x04a0,0x0200,0x0005,0x30cc,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096D3A flags=$0100 pos=(1184,512) tmpl=$0530CC params=00000000ffffffffffff
+        .dc.w   0x0100,0x04d0,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096D4E flags=$0100 pos=(1232,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x0500,0x01e0,0x0005,0x2e68,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096D62 flags=$0100 pos=(1280,480) tmpl=$052E68 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0540,0x0200,0x0005,0x3120,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096D76 flags=$0100 pos=(1344,512) tmpl=$053120 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0570,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096D8A flags=$0100 pos=(1392,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x05a0,0x01e0,0x0005,0x2f16,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096D9E flags=$0100 pos=(1440,480) tmpl=$052F16 params=00000000ffffffffffff
+        .dc.w   0x0100,0x05e0,0x0200,0x0005,0x3174,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096DB2 flags=$0100 pos=(1504,512) tmpl=$053174 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0610,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096DC6 flags=$0100 pos=(1552,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x0640,0x0200,0x0005,0x31c8,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096DDA flags=$0100 pos=(1600,512) tmpl=$0531C8 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0680,0x0200,0x0005,0x321c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096DEE flags=$0100 pos=(1664,512) tmpl=$05321C params=00000000ffffffffffff
+        .dc.w   0x0100,0x06b0,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096E02 flags=$0100 pos=(1712,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x06e0,0x01e0,0x0005,0x2e44,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096E16 flags=$0100 pos=(1760,480) tmpl=$052E44 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0720,0x0200,0x0005,0x30f6,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096E2A flags=$0100 pos=(1824,512) tmpl=$0530F6 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0760,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096E3E flags=$0100 pos=(1888,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x0780,0x01e0,0x0005,0x2e8c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096E52 flags=$0100 pos=(1920,480) tmpl=$052E8C params=00000000ffffffffffff
+        .dc.w   0x0100,0x07c0,0x0200,0x0005,0x314a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096E66 flags=$0100 pos=(1984,512) tmpl=$05314A params=00000000ffffffffffff
+        .dc.w   0x0100,0x07f0,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096E7A flags=$0100 pos=(2032,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x0820,0x01e0,0x0005,0x2f3a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096E8E flags=$0100 pos=(2080,480) tmpl=$052F3A params=00000000ffffffffffff
+        .dc.w   0x0100,0x0860,0x0200,0x0005,0x319e,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096EA2 flags=$0100 pos=(2144,512) tmpl=$05319E params=00000000ffffffffffff
+        .dc.w   0x0100,0x0890,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096EB6 flags=$0100 pos=(2192,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x08c0,0x0200,0x0005,0x31f2,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096ECA flags=$0100 pos=(2240,512) tmpl=$0531F2 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0900,0x0200,0x0005,0x3246,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096EDE flags=$0100 pos=(2304,512) tmpl=$053246 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0930,0x01bf,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096EF2 flags=$0100 pos=(2352,447) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0140,0x09a0,0x01c7,0x0005,0x3306,0x0000,0xf000,0xffff,0xffff,0xffff
+                | $096F06 flags=$0140 pos=(2464,455) tmpl=$053306 params=0000f000ffffffffffff
+        .dc.w   0x0100,0x0cc0,0x00f0,0x0007,0x74ec,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096F1A flags=$0100 pos=(3264,240) tmpl=$0774EC params=00000000ffffffffffff
+        .dc.w   0x0100,0x0d00,0x00e0,0x0007,0x7500,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096F2E flags=$0100 pos=(3328,224) tmpl=$077500 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0d40,0x00d0,0x0007,0x7514,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096F42 flags=$0100 pos=(3392,208) tmpl=$077514 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0d80,0x00c0,0x0007,0x7528,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096F56 flags=$0100 pos=(3456,192) tmpl=$077528 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0dc0,0x00b0,0x0007,0x753e,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096F6A flags=$0100 pos=(3520,176) tmpl=$07753E params=00000000ffffffffffff
+        .dc.w   0x0100,0x0e00,0x00a0,0x0007,0x7554,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096F7E flags=$0100 pos=(3584,160) tmpl=$077554 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0e40,0x0091,0x0007,0x756a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096F92 flags=$0100 pos=(3648,145) tmpl=$07756A params=00000000ffffffffffff
+        .dc.w   0xffff                              | $096FA6 fin de lista
+
+        .globl  AttractSprites_List2_096FA8
+        .section .text.AttractSprites_List2_096FA8, "ax", @progbits
+AttractSprites_List2_096FA8:                | lista attract 2: 24 sprites x 20 B + $FFFF (482 B)
+        .dc.w   0x0100,0x00e0,0x00f0,0x0005,0x3f96,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096FA8 flags=$0100 pos=(224,240) tmpl=$053F96 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0180,0x00a0,0x0005,0x4160,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $096FBC flags=$0100 pos=(384,160) tmpl=$054160 params=00000000ffffffffffff
+        .dc.w   0x0200,0x0180,0x0100,0x0005,0x447e,0x0000,0x2000,0xffff,0xffff,0xffff
+                | $096FD0 flags=$0200 pos=(384,256) tmpl=$05447E params=00002000ffffffffffff
+        .dc.w   0x0100,0x0250,0x0100,0x0005,0x4282,0x0000,0x2000,0xffff,0xffff,0xffff
+                | $096FE4 flags=$0100 pos=(592,256) tmpl=$054282 params=00002000ffffffffffff
+        .dc.w   0x0000,0x02f0,0x00e0,0x0004,0xd6ec,0x0020,0xf000,0x0090,0x0029,0x8a68
+                | $096FF8 flags=$0000 pos=(752,224) tmpl=$04D6EC params=0020f000009000298a68
+        .dc.w   0x0000,0x0318,0x00e0,0x0004,0xd6ec,0x0020,0xf000,0x0090,0x0029,0x8a78
+                | $09700C flags=$0000 pos=(792,224) tmpl=$04D6EC params=0020f000009000298a78
+        .dc.w   0x0200,0x0370,0x00d8,0x0005,0x481c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097020 flags=$0200 pos=(880,216) tmpl=$05481C params=00000000ffffffffffff
+        .dc.w   0x0100,0x0380,0x00a0,0x0005,0x46f4,0x0000,0xf000,0xffff,0xffff,0xffff
+                | $097034 flags=$0100 pos=(896,160) tmpl=$0546F4 params=0000f000ffffffffffff
+        .dc.w   0x0100,0x0390,0x002e,0x0005,0x4a1a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097048 flags=$0100 pos=(912,46) tmpl=$054A1A params=00000000ffffffffffff
+        .dc.w   0x0100,0x0400,0x002e,0x0005,0x4a1a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09705C flags=$0100 pos=(1024,46) tmpl=$054A1A params=00000000ffffffffffff
+        .dc.w   0x0000,0x0408,0x00e0,0x0004,0xd6ec,0x0020,0xf000,0x0090,0x0029,0x8a98
+                | $097070 flags=$0000 pos=(1032,224) tmpl=$04D6EC params=0020f000009000298a98
+        .dc.w   0x0200,0x0418,0x00a8,0x0005,0x495a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097084 flags=$0200 pos=(1048,168) tmpl=$05495A params=00000000ffffffffffff
+        .dc.w   0x0000,0x0430,0x00e0,0x0004,0xd6ec,0x0020,0xf000,0x0090,0x0029,0x8a88
+                | $097098 flags=$0000 pos=(1072,224) tmpl=$04D6EC params=0020f000009000298a88
+        .dc.w   0x0100,0x0470,0x002e,0x0005,0x4a1a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0970AC flags=$0100 pos=(1136,46) tmpl=$054A1A params=00000000ffffffffffff
+        .dc.w   0x0100,0x04c0,0x0100,0x0005,0x4c0e,0x0000,0x2000,0xffff,0xffff,0xffff
+                | $0970C0 flags=$0100 pos=(1216,256) tmpl=$054C0E params=00002000ffffffffffff
+        .dc.w   0x0100,0x0500,0x0100,0x0005,0x4b1c,0x0000,0xf000,0xffff,0xffff,0xffff
+                | $0970D4 flags=$0100 pos=(1280,256) tmpl=$054B1C params=0000f000ffffffffffff
+        .dc.w   0x0100,0x0540,0x00af,0x0005,0x4cf2,0x0000,0x0200,0xffff,0xffff,0xffff
+                | $0970E8 flags=$0100 pos=(1344,175) tmpl=$054CF2 params=00000200ffffffffffff
+        .dc.w   0x0100,0x0610,0x00e8,0x0005,0x504a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0970FC flags=$0100 pos=(1552,232) tmpl=$05504A params=00000000ffffffffffff
+        .dc.w   0x0100,0x0640,0x00af,0x0005,0x4d12,0x0000,0x0200,0xffff,0xffff,0xffff
+                | $097110 flags=$0100 pos=(1600,175) tmpl=$054D12 params=00000200ffffffffffff
+        .dc.w   0x0100,0x06c0,0x00af,0x0005,0x4d32,0x0000,0x0200,0xffff,0xffff,0xffff
+                | $097124 flags=$0100 pos=(1728,175) tmpl=$054D32 params=00000200ffffffffffff
+        .dc.w   0x0100,0x0740,0x00af,0x0005,0x4d52,0x0000,0x0200,0xffff,0xffff,0xffff
+                | $097138 flags=$0100 pos=(1856,175) tmpl=$054D52 params=00000200ffffffffffff
+        .dc.w   0x0100,0x07c0,0x00af,0x0005,0x4d72,0x0000,0x0200,0xffff,0xffff,0xffff
+                | $09714C flags=$0100 pos=(1984,175) tmpl=$054D72 params=00000200ffffffffffff
+        .dc.w   0x0100,0x0890,0x00e8,0x0005,0x504a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097160 flags=$0100 pos=(2192,232) tmpl=$05504A params=00000000ffffffffffff
+        .dc.w   0x0000,0x0a80,0x00bf,0x0004,0xd70c,0x0040,0xf000,0x0096,0x0029,0x907c
+                | $097174 flags=$0000 pos=(2688,191) tmpl=$04D70C params=0040f00000960029907c
+        .dc.w   0xffff                              | $097188 fin de lista
+
+        .globl  AttractSprites_List3_09718A
+        .section .text.AttractSprites_List3_09718A, "ax", @progbits
+AttractSprites_List3_09718A:                | lista attract 3: 16 sprites x 20 B + $FFFF (322 B)
+        .dc.w   0x0100,0x0280,0x00e0,0x0008,0x34a4,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09718A flags=$0100 pos=(640,224) tmpl=$0834A4 params=00000000ffffffffffff
+        .dc.w   0x0100,0x02c0,0x0098,0x0008,0x42d0,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09719E flags=$0100 pos=(704,152) tmpl=$0842D0 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0300,0x0090,0x0008,0x3fa8,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0971B2 flags=$0100 pos=(768,144) tmpl=$083FA8 params=00000000ffffffffffff
+        .dc.w   0x0140,0x0400,0x0108,0x0008,0x3596,0x0000,0xf000,0xffff,0xffff,0xffff
+                | $0971C6 flags=$0140 pos=(1024,264) tmpl=$083596 params=0000f000ffffffffffff
+        .dc.w   0x0100,0x0500,0x00e0,0x0008,0x4396,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0971DA flags=$0100 pos=(1280,224) tmpl=$084396 params=00000000ffffffffffff
+        .dc.w   0x0100,0x07e0,0x00a0,0x0008,0x4ca4,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0971EE flags=$0100 pos=(2016,160) tmpl=$084CA4 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0800,0x00a0,0x0008,0x4ca4,0x0000,0x0001,0xffff,0xffff,0xffff
+                | $097202 flags=$0100 pos=(2048,160) tmpl=$084CA4 params=00000001ffffffffffff
+        .dc.w   0x0100,0x0800,0x00e0,0x0008,0x35f2,0x0100,0xf000,0xffff,0xffff,0xffff
+                | $097216 flags=$0100 pos=(2048,224) tmpl=$0835F2 params=0100f000ffffffffffff
+        .dc.w   0x0100,0x0820,0x00a0,0x0008,0x4ca4,0x0000,0x0002,0xffff,0xffff,0xffff
+                | $09722A flags=$0100 pos=(2080,160) tmpl=$084CA4 params=00000002ffffffffffff
+        .dc.w   0x0100,0x0840,0x00a0,0x0008,0x4ca4,0x0000,0x0003,0xffff,0xffff,0xffff
+                | $09723E flags=$0100 pos=(2112,160) tmpl=$084CA4 params=00000003ffffffffffff
+        .dc.w   0x0100,0x0860,0x00a0,0x0008,0x4ca4,0x0000,0x0004,0xffff,0xffff,0xffff
+                | $097252 flags=$0100 pos=(2144,160) tmpl=$084CA4 params=00000004ffffffffffff
+        .dc.w   0x0100,0x0880,0x00a0,0x0008,0x4ca4,0x0000,0x0005,0xffff,0xffff,0xffff
+                | $097266 flags=$0100 pos=(2176,160) tmpl=$084CA4 params=00000005ffffffffffff
+        .dc.w   0x0100,0x08a0,0x00a0,0x0008,0x4ca4,0x0000,0x0006,0xffff,0xffff,0xffff
+                | $09727A flags=$0100 pos=(2208,160) tmpl=$084CA4 params=00000006ffffffffffff
+        .dc.w   0x0100,0x08a0,0x0082,0x0008,0x396a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09728E flags=$0100 pos=(2208,130) tmpl=$08396A params=00000000ffffffffffff
+        .dc.w   0x0100,0x09f0,0x00e8,0x0008,0x35f2,0x0000,0x8000,0xffff,0xffff,0xffff
+                | $0972A2 flags=$0100 pos=(2544,232) tmpl=$0835F2 params=00008000ffffffffffff
+        .dc.w   0x0100,0x0a00,0x0090,0x0008,0x4ca4,0x0000,0x0007,0xffff,0xffff,0xffff
+                | $0972B6 flags=$0100 pos=(2560,144) tmpl=$084CA4 params=00000007ffffffffffff
+        .dc.w   0xffff                              | $0972CA fin de lista
+
+        .globl  AttractSprites_List4_0972CC
+        .section .text.AttractSprites_List4_0972CC, "ax", @progbits
+AttractSprites_List4_0972CC:                | lista attract 4: 17 sprites x 20 B + $FFFF (342 B)
+        .dc.w   0x0100,0x0040,0x00c0,0x0008,0x65dc,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0972CC flags=$0100 pos=(64,192) tmpl=$0865DC params=00000000ffffffffffff
+        .dc.w   0x0100,0x0120,0x00c0,0x0008,0x6624,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0972E0 flags=$0100 pos=(288,192) tmpl=$086624 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0200,0x00c0,0x0008,0x6666,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0972F4 flags=$0100 pos=(512,192) tmpl=$086666 params=00000000ffffffffffff
+        .dc.w   0x0100,0x02e0,0x00c0,0x0008,0x66ae,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097308 flags=$0100 pos=(736,192) tmpl=$0866AE params=00000000ffffffffffff
+        .dc.w   0x0100,0x02e0,0x0050,0x0008,0x716a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09731C flags=$0100 pos=(736,80) tmpl=$08716A params=00000000ffffffffffff
+        .dc.w   0x0100,0x03d0,0x00c0,0x0008,0x66f0,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097330 flags=$0100 pos=(976,192) tmpl=$0866F0 params=00000000ffffffffffff
+        .dc.w   0x0100,0x04b0,0x0050,0x0008,0x71fa,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097344 flags=$0100 pos=(1200,80) tmpl=$0871FA params=00000000ffffffffffff
+        .dc.w   0x0100,0x04f0,0x0060,0x0008,0x72fa,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097358 flags=$0100 pos=(1264,96) tmpl=$0872FA params=00000000ffffffffffff
+        .dc.w   0x0100,0x0510,0x00d0,0x0008,0x7366,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09736C flags=$0100 pos=(1296,208) tmpl=$087366 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0530,0x0080,0x0008,0x6f1c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097380 flags=$0100 pos=(1328,128) tmpl=$086F1C params=00000000ffffffffffff
+        .dc.w   0x0100,0x0560,0x0080,0x0008,0x7fbc,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097394 flags=$0100 pos=(1376,128) tmpl=$087FBC params=00000000ffffffffffff
+        .dc.w   0x0100,0x0580,0x0080,0x0008,0x6f40,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0973A8 flags=$0100 pos=(1408,128) tmpl=$086F40 params=00000000ffffffffffff
+        .dc.w   0x0100,0x05c0,0x00d0,0x0008,0x7b1c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0973BC flags=$0100 pos=(1472,208) tmpl=$087B1C params=00000000ffffffffffff
+        .dc.w   0x0100,0x05d0,0x0050,0x0008,0x7280,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0973D0 flags=$0100 pos=(1488,80) tmpl=$087280 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0ba0,0x0067,0x0008,0x8114,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0973E4 flags=$0100 pos=(2976,103) tmpl=$088114 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0c10,0x0080,0x0008,0x77d4,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0973F8 flags=$0100 pos=(3088,128) tmpl=$0877D4 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0d90,0x0080,0x0008,0x77d4,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09740C flags=$0100 pos=(3472,128) tmpl=$0877D4 params=00000000ffffffffffff
+        .dc.w   0xffff                              | $097420 fin de lista
+
+        .globl  AttractSprites_List5_097422
+        .section .text.AttractSprites_List5_097422, "ax", @progbits
+AttractSprites_List5_097422:                | lista attract 5: 11 sprites x 20 B + $FFFF (222 B)
+        .dc.w   0x0100,0x0068,0x00b8,0x0008,0x8f74,0x0000,0xc000,0xffff,0xffff,0xffff
+                | $097422 flags=$0100 pos=(104,184) tmpl=$088F74 params=0000c000ffffffffffff
+        .dc.w   0x0100,0x00d8,0x00b8,0x0008,0x8f8e,0x0000,0xc000,0xffff,0xffff,0xffff
+                | $097436 flags=$0100 pos=(216,184) tmpl=$088F8E params=0000c000ffffffffffff
+        .dc.w   0x0100,0x0190,0x0070,0x0008,0x90cc,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09744A flags=$0100 pos=(400,112) tmpl=$0890CC params=00000000ffffffffffff
+        .dc.w   0x0100,0x0670,0x0108,0x0008,0x9e8e,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09745E flags=$0100 pos=(1648,264) tmpl=$089E8E params=00000000ffffffffffff
+        .dc.w   0x0100,0x0670,0x0000,0x0008,0xa006,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097472 flags=$0100 pos=(1648,0) tmpl=$08A006 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0670,0x0000,0x0008,0x93ac,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097486 flags=$0100 pos=(1648,0) tmpl=$0893AC params=00000000ffffffffffff
+        .dc.w   0x0100,0x0810,0x02d0,0x0008,0xa10c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09749A flags=$0100 pos=(2064,720) tmpl=$08A10C params=00000000ffffffffffff
+        .dc.w   0x0100,0x0990,0x02d0,0x0008,0xa74e,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0974AE flags=$0100 pos=(2448,720) tmpl=$08A74E params=00000000ffffffffffff
+        .dc.w   0x0100,0x0d90,0x0280,0x0008,0x9c44,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0974C2 flags=$0100 pos=(3472,640) tmpl=$089C44 params=00000000ffffffffffff
+        .dc.w   0x0100,0x0d98,0x0280,0x0008,0x9e2c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0974D6 flags=$0100 pos=(3480,640) tmpl=$089E2C params=00000000ffffffffffff
+        .dc.w   0x0100,0x0dd8,0x0280,0x0008,0x9c58,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0974EA flags=$0100 pos=(3544,640) tmpl=$089C58 params=00000000ffffffffffff
+        .dc.w   0xffff                              | $0974FE fin de lista
+
+        .globl  AttractSprites_List6_097500
+        .section .text.AttractSprites_List6_097500, "ax", @progbits
+AttractSprites_List6_097500:                | lista attract 6: 8 sprites x 20 B + $FFFF (162 B)
+        .dc.w   0x0100,0x14c0,0x00c0,0x0008,0x414c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097500 flags=$0100 pos=(5312,192) tmpl=$08414C params=00000000ffffffffffff
+        .dc.w   0x0100,0x3030,0x0118,0x0005,0x2a26,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097514 flags=$0100 pos=(12336,280) tmpl=$052A26 params=00000000ffffffffffff
+        .dc.w   0x0100,0x30a8,0x0118,0x0005,0x2902,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097528 flags=$0100 pos=(12456,280) tmpl=$052902 params=00000000ffffffffffff
+        .dc.w   0x0100,0x3120,0x0118,0x0005,0x2a26,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09753C flags=$0100 pos=(12576,280) tmpl=$052A26 params=00000000ffffffffffff
+        .dc.w   0x0100,0x3148,0x01a8,0x0005,0x2b8a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097550 flags=$0100 pos=(12616,424) tmpl=$052B8A params=00000000ffffffffffff
+        .dc.w   0x0100,0x3430,0x017f,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097564 flags=$0100 pos=(13360,383) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x34d0,0x017f,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097578 flags=$0100 pos=(13520,383) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0x0100,0x3570,0x017f,0x0005,0x2cea,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09758C flags=$0100 pos=(13680,383) tmpl=$052CEA params=00000000ffffffffffff
+        .dc.w   0xffff                              | $0975A0 fin de lista
+
+        .globl  AttractSprites_List7_0975A2
+        .section .text.AttractSprites_List7_0975A2, "ax", @progbits
+AttractSprites_List7_0975A2:                | lista attract 7: 19 sprites x 20 B + $FFFF (382 B)
+        .dc.w   0x0100,0x1670,0x0000,0x0008,0x93ac,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0975A2 flags=$0100 pos=(5744,0) tmpl=$0893AC params=00000000ffffffffffff
+        .dc.w   0x0100,0x1810,0x02d0,0x0008,0xa10c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0975B6 flags=$0100 pos=(6160,720) tmpl=$08A10C params=00000000ffffffffffff
+        .dc.w   0x0100,0x1990,0x02d0,0x0008,0xa74e,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0975CA flags=$0100 pos=(6544,720) tmpl=$08A74E params=00000000ffffffffffff
+        .dc.w   0x0040,0x2550,0x0170,0x0004,0xd70c,0x0090,0xf000,0x0043,0x0029,0x4214
+                | $0975DE flags=$0040 pos=(9552,368) tmpl=$04D70C params=0090f000004300294214
+        .dc.w   0x0100,0x27b0,0x00f1,0x0004,0xd8f2,0x0040,0x0000,0xffff,0xffff,0xffff
+                | $0975F2 flags=$0100 pos=(10160,241) tmpl=$04D8F2 params=00400000ffffffffffff
+        .dc.w   0x0140,0x27f0,0x0170,0x0004,0xd74a,0x0020,0xf000,0xffff,0xffff,0xffff
+                | $097606 flags=$0140 pos=(10224,368) tmpl=$04D74A params=0020f000ffffffffffff
+        .dc.w   0x0100,0x2800,0x0141,0x0004,0xdad2,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09761A flags=$0100 pos=(10240,321) tmpl=$04DAD2 params=00000000ffffffffffff
+        .dc.w   0x0100,0x28c0,0x0141,0x0004,0xde40,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09762E flags=$0100 pos=(10432,321) tmpl=$04DE40 params=00000000ffffffffffff
+        .dc.w   0x0100,0x2930,0x00f1,0x0004,0xdf98,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097642 flags=$0100 pos=(10544,241) tmpl=$04DF98 params=00000000ffffffffffff
+        .dc.w   0x0140,0x2a00,0x0168,0x0004,0xe248,0x0000,0xf000,0xffff,0xffff,0xffff
+                | $097656 flags=$0140 pos=(10752,360) tmpl=$04E248 params=0000f000ffffffffffff
+        .dc.w   0x0100,0x2a70,0x0139,0x0004,0xe38a,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09766A flags=$0100 pos=(10864,313) tmpl=$04E38A params=00000000ffffffffffff
+        .dc.w   0x0100,0x3040,0x00c0,0x0008,0x65dc,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09767E flags=$0100 pos=(12352,192) tmpl=$0865DC params=00000000ffffffffffff
+        .dc.w   0x0100,0x3120,0x00c0,0x0008,0x6624,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $097692 flags=$0100 pos=(12576,192) tmpl=$086624 params=00000000ffffffffffff
+        .dc.w   0x0100,0x3200,0x00c0,0x0008,0x6666,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0976A6 flags=$0100 pos=(12800,192) tmpl=$086666 params=00000000ffffffffffff
+        .dc.w   0x0100,0x32e0,0x00c0,0x0008,0x66ae,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0976BA flags=$0100 pos=(13024,192) tmpl=$0866AE params=00000000ffffffffffff
+        .dc.w   0x0100,0x33d0,0x00c0,0x0008,0x66f0,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0976CE flags=$0100 pos=(13264,192) tmpl=$0866F0 params=00000000ffffffffffff
+        .dc.w   0x0100,0x3510,0x00d0,0x0008,0x7366,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0976E2 flags=$0100 pos=(13584,208) tmpl=$087366 params=00000000ffffffffffff
+        .dc.w   0x0100,0x3560,0x0080,0x0008,0x7fbc,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $0976F6 flags=$0100 pos=(13664,128) tmpl=$087FBC params=00000000ffffffffffff
+        .dc.w   0x0100,0x35c0,0x00d0,0x0008,0x7b1c,0x0000,0x0000,0xffff,0xffff,0xffff
+                | $09770A flags=$0100 pos=(13760,208) tmpl=$087B1C params=00000000ffffffffffff
+        .dc.w   0xffff                              | $09771E fin de lista
+
+        .globl  ChildRank_CmpByte10_097720
+        .section .text.ChildRank_CmpByte10_097720, "ax", @progbits
+ChildRank_CmpByte10_097720:                 | CCR: C=1 si child.rank(+$10) > ent.rank(+$10). Sin callers (huerfana)
+        movea.l 0x8(a6), a1                    | +00  a1 = entidad hija (+$08)
+        move.b  0x10(a6), d0                   | +04  d0 = rango propio
+        cmp.b   0x10(a1), d0                   | +08  vs rango de la hija
+        bcs.w   SetXN_097736                   | +0c  menor -> C=1 (isla SetXN)
+                                               | +10  cae en ClearXN_097730

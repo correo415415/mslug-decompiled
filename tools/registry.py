@@ -8337,7 +8337,7 @@ REGISTRY = [
     ("Carrier_Gunner_Ride_07facc",                 0x07FACC,  84, "boss2_crab_carrier_soundtest_07axxx.s"),
     ("Carrier_Gunner_Idle_07fb28",                 0x07FB28,  62, "boss2_crab_carrier_soundtest_07axxx.s"),
     ("Carrier_Gunner_Decide_07fb6e",               0x07FB6E,  92, "boss2_crab_carrier_soundtest_07axxx.s"),
-    # --- Wave AAAAA: tabla de escenas $916C8 + scripts VM de escena/scroll + entidades + tablas de trigger (56 entradas, datos)
+    # --- Wave AAAAA: tabla de escenas $916C8 + scripts VM de escena/scroll + entidades + tablas de trigger + listas de sprites attract (65 entradas, datos)
     ("SceneDescTable_0916C8",                        0x0916C8,   128, "scene_scripts_0916c8.s"),
     ("SceneEntities_091748",                         0x091748,    58, "scene_scripts_0916c8.s"),
     ("SceneScript_091782",                           0x091782,  1898, "scene_scripts_0916c8.s"),
@@ -8393,5 +8393,14 @@ REGISTRY = [
     ("SceneScript_096580",                           0x096580,   498, "scene_scripts_0916c8.s"),
     ("SceneEntities_096772",                         0x096772,    16, "scene_scripts_0916c8.s"),
     ("SceneScript_096782",                           0x096782,    34, "scene_scripts_0916c8.s"),
-    ("SceneTrig_0967A4",                             0x0967A4,    16, "scene_scripts_0916c8.s"),
+    ("ChildRank_CmpByte10_0967A4",                   0x0967A4,    16, "scene_scripts_0916c8.s"),
+    ("AttractSprites_List0_096BBC",                  0x096BBC,   242, "attract_sprite_lists_096bbc.s"),
+    ("AttractSprites_List1_096CAE",                  0x096CAE,   762, "attract_sprite_lists_096bbc.s"),
+    ("AttractSprites_List2_096FA8",                  0x096FA8,   482, "attract_sprite_lists_096bbc.s"),
+    ("AttractSprites_List3_09718A",                  0x09718A,   322, "attract_sprite_lists_096bbc.s"),
+    ("AttractSprites_List4_0972CC",                  0x0972CC,   342, "attract_sprite_lists_096bbc.s"),
+    ("AttractSprites_List5_097422",                  0x097422,   222, "attract_sprite_lists_096bbc.s"),
+    ("AttractSprites_List6_097500",                  0x097500,   162, "attract_sprite_lists_096bbc.s"),
+    ("AttractSprites_List7_0975A2",                  0x0975A2,   382, "attract_sprite_lists_096bbc.s"),
+    ("ChildRank_CmpByte10_097720",                   0x097720,    16, "attract_sprite_lists_096bbc.s"),
 ]

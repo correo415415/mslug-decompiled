@@ -2223,7 +2223,7 @@ SYMBOLS = {
     0x0007FB26: "SetHandlerRts_07fb26",  # rts de SetTaskHandler_07fb20 (+6)
     0x0007FB6C: "SetHandlerRts_07fb6c",  # rts de SetTaskHandler_07fb66 (+6)
     0x0007FBD0: "SetHandlerRts_07fbd0",  # rts de SetTaskHandler_07fbca (+6)
-    # --- Wave AAAAA: datos de escena $916C8..$967B4
+    # --- Wave AAAAA: datos de escena $916C8..$967B4 y listas attract $96BBC..$97730
     0x000916C8: "SceneDescTable_0916C8",
     0x00091748: "SceneEntities_091748",
     0x00091782: "SceneScript_091782",
@@ -2279,5 +2279,14 @@ SYMBOLS = {
     0x00096580: "SceneScript_096580",
     0x00096772: "SceneEntities_096772",
     0x00096782: "SceneScript_096782",
-    0x000967A4: "SceneTrig_0967A4",
+    0x000967A4: "ChildRank_CmpByte10_0967A4",
+    0x00096BBC: "AttractSprites_List0_096BBC",
+    0x00096CAE: "AttractSprites_List1_096CAE",
+    0x00096FA8: "AttractSprites_List2_096FA8",
+    0x0009718A: "AttractSprites_List3_09718A",
+    0x000972CC: "AttractSprites_List4_0972CC",
+    0x00097422: "AttractSprites_List5_097422",
+    0x00097500: "AttractSprites_List6_097500",
+    0x000975A2: "AttractSprites_List7_0975A2",
+    0x00097720: "ChildRank_CmpByte10_097720",
 }

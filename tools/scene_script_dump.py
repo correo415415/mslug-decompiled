@@ -253,6 +253,16 @@ def emit():
                         lines.append(f".L{nxt:06x}:")
                 elif k == "tail":
                     lines.append("        .dc.w   " + dcw(a, n) + f"   | ${a:06X} datos entre callback y PC")
+            # cola huerfana de la region: comparador CCR (codigo, sin callers)
+            if stop < e and e == REGION_END and e - stop == 16 and W(stop) == 0x226E:
+                nm = f"ChildRank_CmpByte10_{stop:06X}"
+                section(nm, stop, 16, "CCR: C=1 si child.rank(+$10) > ent.rank(+$10). Sin callers (huerfana)")
+                lines += ["        movea.l 0x8(a6), a1                    | +00  a1 = entidad hija (+$08)",
+                          "        move.b  0x10(a6), d0                   | +04  d0 = rango propio",
+                          "        cmp.b   0x10(a1), d0                   | +08  vs rango de la hija",
+                          f"        bcs.w   SetXN_{stop+0x16:06x}{'':<19}| +0c  menor -> C=1 (isla SetXN)",
+                          f"                                               | +10  cae en ClearXN_{stop+0x10:06x}"]
+                stop = e
             # resto del bloque: tablas de trigger
             if stop < e:
                 p = stop
@@ -298,7 +308,15 @@ def verify(src_text, reg):
         Ls += ["  /DISCARD/ : { *(.text) *(.data*) *(.bss*) *(.comment) *(.note.*) }", "}"]
         open(ld, "w").write("\n".join(Ls))
         elf = os.path.join(td, "d.elf")
-        r = subprocess.run(["m68k-linux-gnu-ld", "-T", ld, o, "-o", elf], capture_output=True, text=True)
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("symbols", os.path.join(HERE, "symbols.py"))
+        m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+        spec2 = importlib.util.spec_from_file_location("registry", os.path.join(HERE, "registry.py"))
+        m2 = importlib.util.module_from_spec(spec2); spec2.loader.exec_module(m2)
+        ours = {n for n, _, _ in reg}
+        defs = [f"--defsym={n}=0x{a:X}" for a, n in m.SYMBOLS.items() if n not in ours]
+        defs += [f"--defsym={n}=0x{a:X}" for n, a, _, _ in m2.REGISTRY if n not in ours and a not in m.SYMBOLS]
+        r = subprocess.run(["m68k-linux-gnu-ld", "-T", ld, *defs, o, "-o", elf], capture_output=True, text=True)
         if r.returncode:
             print(r.stderr); return False
         ok = True

@@ -5428,7 +5428,11 @@ SceneScript_096782:                         | bytecode VM de escena (34 B, 5 ops
         .dc.w   0x0002
                 | $0967A2 op $02 END_FRAME: cede el frame (integra scroll+camara)
 
-        .globl  SceneTrig_0967A4
-        .section .text.SceneTrig_0967A4, "ax", @progbits
-SceneTrig_0967A4:                           | tabla de trigger (op $11), 16 B  (sin referencia directa op $11 en este script)
-        .dc.w   0x226e,0x0008,0x102e,0x0010,0xb029,0x0010,0x6500,0x0008 | $0967A4
+        .globl  ChildRank_CmpByte10_0967A4
+        .section .text.ChildRank_CmpByte10_0967A4, "ax", @progbits
+ChildRank_CmpByte10_0967A4:                 | CCR: C=1 si child.rank(+$10) > ent.rank(+$10). Sin callers (huerfana)
+        movea.l 0x8(a6), a1                    | +00  a1 = entidad hija (+$08)
+        move.b  0x10(a6), d0                   | +04  d0 = rango propio
+        cmp.b   0x10(a1), d0                   | +08  vs rango de la hija
+        bcs.w   SetXN_0967ba                   | +0c  menor -> C=1 (isla SetXN)
+                                               | +10  cae en ClearXN_0967b4
