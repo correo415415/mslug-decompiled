@@ -110,6 +110,8 @@ FixBlit_BatchRow4x1_ColorInc_046BDA:
         add.w   d4, d1
         move.w  #0x0, d6
         bra.b   .L4_check_d6
+        .global FixBlit_BatchRow4x1_ColorInc_046BDA__L046c34
+FixBlit_BatchRow4x1_ColorInc_046BDA__L046c34:
 .L4_iter_next:
         addq.w  #0x1, d6
 .L4_check_d6:
