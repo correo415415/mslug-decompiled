@@ -74,6 +74,8 @@ Entity_Build3ChainCircular_03060A:
         clr.b   0x98(a0)                       | +56  new3->field98 = 0
                                               |
                                               | ---- Recupera los tres punteros en a2/a3/a0 ----
+        .global Entity_Build3ChainCircular_03060A__L030664
+Entity_Build3ChainCircular_03060A__L030664:   | entrada desde Chain3_InitAlt_030696 (Wave AAAA)
         movea.l 0x74(a6), a2                   | +5a  a2 = parent->slot74 (= new2)
         movea.l 0x78(a6), a3                   | +5e  a3 = parent->slot78 (= new3)
         movea.l 0x7c(a6), a0                   | +62  a0 = parent->slot7C (= new1)
@@ -94,8 +96,8 @@ Entity_Build3ChainCircular_03060A:
                                               |
         rts                                    | +8a
 
-        .equ    .LTpl1, Template_03010C
-        .equ    .LTpl2, Template_030068
-        .equ    .LTpl3, Template_0300BA
+        .equ    .LTpl1, Chain3_TplC_03010c
+        .equ    .LTpl2, Chain3_TplA_030068
+        .equ    .LTpl3, Chain3_TplB_0300ba
 
         .size   Entity_Build3ChainCircular_03060A, .-Entity_Build3ChainCircular_03060A

@@ -41,6 +41,6 @@
 
 Entity_CopyField68AndCall_0517FE:
         move.b  0x68(a6), 0x68(a0)     | +00  dst.field68 = src.field68
-        jsr     ThunkTarget_05ccc8      | +06  delega en el backend $5CCC8
+        jsr     Entity_CopyField6D_05ccc8      | +06  delega en el backend $5CCC8
         rts                             | +0c
         .size   Entity_CopyField68AndCall_0517FE, .-Entity_CopyField68AndCall_0517FE

@@ -106,6 +106,6 @@ Entity_ProbeTransformFreeCcr:
         .size   Entity_ProbeTransformFreeCcr, .-Entity_ProbeTransformFreeCcr
 
 | Aliases externos (resueltos via --defsym en tools/symbols.py):
-|   .Lprobe                                = Sub_000277C4
+|   .Lprobe                                = Entity_MoveAndCollide_F_0277c4
 |   Entity_RestoreTransformSetC_027d32     = 0x00027D32 (brazo hermano)
-        .equ    .Lprobe, Sub_000277C4
+        .equ    .Lprobe, Entity_MoveAndCollide_F_0277c4

@@ -6,8 +6,8 @@
 
 __attribute__((section(".text.JmpAbsThunk_02a68a"), noreturn))
 void JmpAbsThunk_02a68a(void) {
-    extern void JmpTarget_028758(void);
-    __asm__ volatile("jmp JmpTarget_028758" ::: "memory");
+    extern void Hitbox_CheckBit0_028758(void);
+    __asm__ volatile("jmp Hitbox_CheckBit0_028758" ::: "memory");
     __builtin_unreachable();
 }
 
@@ -46,20 +46,6 @@ void JmpAbsThunk_033346(void) {
     __builtin_unreachable();
 }
 
-__attribute__((section(".text.JmpAbsThunk_0393ce"), noreturn))
-void JmpAbsThunk_0393ce(void) {
-    extern void JmpTarget_05cf04(void);
-    __asm__ volatile("jmp JmpTarget_05cf04" ::: "memory");
-    __builtin_unreachable();
-}
-
-__attribute__((section(".text.JmpAbsThunk_039410"), noreturn))
-void JmpAbsThunk_039410(void) {
-    extern void JmpTarget_05cef8(void);
-    __asm__ volatile("jmp JmpTarget_05cef8" ::: "memory");
-    __builtin_unreachable();
-}
-
 __attribute__((section(".text.JmpAbsThunk_044df2"), noreturn))
 void JmpAbsThunk_044df2(void) {
     extern void FUN_00000518(void);
@@ -69,8 +55,8 @@ void JmpAbsThunk_044df2(void) {
 
 __attribute__((section(".text.JmpAbsThunk_049fca"), noreturn))
 void JmpAbsThunk_049fca(void) {
-    extern void JmpTarget_02870a(void);
-    __asm__ volatile("jmp JmpTarget_02870a" ::: "memory");
+    extern void Hitbox_SideOfImpact_02870a(void);
+    __asm__ volatile("jmp Hitbox_SideOfImpact_02870a" ::: "memory");
     __builtin_unreachable();
 }
 
@@ -97,15 +83,15 @@ void JmpAbsThunk_05a63c(void) {
 
 __attribute__((section(".text.JmpAbsThunk_06313c"), noreturn))
 void JmpAbsThunk_06313c(void) {
-    extern void JmpTarget_057226(void);
-    __asm__ volatile("jmp JmpTarget_057226" ::: "memory");
+    extern void Soldier_SpawnVariants_057226(void);
+    __asm__ volatile("jmp Soldier_SpawnVariants_057226" ::: "memory");
     __builtin_unreachable();
 }
 
 __attribute__((section(".text.JmpAbsThunk_09a848"), noreturn))
 void JmpAbsThunk_09a848(void) {
-    extern void JmpTarget_03ee48(void);
-    __asm__ volatile("jmp JmpTarget_03ee48" ::: "memory");
+    extern void Pow_CountIfPending_03ee48(void);
+    __asm__ volatile("jmp Pow_CountIfPending_03ee48" ::: "memory");
     __builtin_unreachable();
 }
 

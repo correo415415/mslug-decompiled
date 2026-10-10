@@ -8,7 +8,7 @@
 |
 |  Variante hermana de T#7 (Entity_ProbeTransformFreeCcr @ $027cee):
 |  misma estructura byte-a-byte excepto por el target del probe interno.
-|  Aqui llama a $0273fc (Sub_000273FC) en lugar de $0277c4 (Sub_000277C4).
+|  Aqui llama a $0273fc (Entity_SaveRegs_0273fc) en lugar de $0277c4 (Entity_MoveAndCollide_F_0277c4).
 |  Es la evidencia dura de que el juego tiene un CLUSTER de wrappers
 |  probar-transform parametrizados por el probe interno.
 |
@@ -56,7 +56,7 @@ Entity_ProbeTransformFreeCcr_027c8c:
         move.w  0x24(a6), -0x1146(a5)   | +0c  3b 6e 00 24 ee ba    scratch.pos_y  = a6.pos_y
         move.b  0x26(a6), -0x1144(a5)   | +12  1b 6e 00 26 ee bc    scratch.byte26 = a6.byte26
         move.b  0x27(a6), -0x1143(a5)   | +18  1b 6e 00 27 ee bd    scratch.byte27 = a6.byte27
-        jsr     .Lprobe(pc)             | +1e  4e ba f7 50          -> Sub_000273FC
+        jsr     .Lprobe(pc)             | +1e  4e ba f7 50          -> Entity_SaveRegs_0273fc
         bcs.w   Entity_RestoreTransformSetC_027cd0    | +22  65 00 00 20
                                         |               si C=1 -> brazo hermano
         move.w  -0x1148(a5), 0x22(a6)   | +26  3d 6d ee b8 00 22    a6.pos_x  = scratch.pos_x
@@ -67,4 +67,4 @@ Entity_ProbeTransformFreeCcr_027c8c:
         rts                             | +42  4e 75
         .size   Entity_ProbeTransformFreeCcr_027c8c, .-Entity_ProbeTransformFreeCcr_027c8c
 
-        .equ    .Lprobe, Sub_000273FC
+        .equ    .Lprobe, Entity_SaveRegs_0273fc

@@ -6,14 +6,14 @@
 
 __attribute__((section(".text.JsrPcThunk_001096")))
 void JsrPcThunk_001096(void) {
-    extern void PcThunkTarget_001af8(void);
-    __asm__ volatile("jsr PcThunkTarget_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Attract_StartIfP2Flag_001af8(void);
+    __asm__ volatile("jsr Attract_StartIfP2Flag_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0010ec")))
 void JsrPcThunk_0010ec(void) {
-    extern void PcThunkTarget_001af8(void);
-    __asm__ volatile("jsr PcThunkTarget_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Attract_StartIfP2Flag_001af8(void);
+    __asm__ volatile("jsr Attract_StartIfP2Flag_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 /* JsrPcThunk_0012ee ABSORBIDO por Init_ModeToggle_001260 (Wave EE batch 1 - FP #28)
@@ -22,8 +22,8 @@ void JsrPcThunk_0010ec(void) {
 
 __attribute__((section(".text.JsrPcThunk_00134e")))
 void JsrPcThunk_00134e(void) {
-    extern void PcThunkTarget_001af8(void);
-    __asm__ volatile("jsr PcThunkTarget_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Attract_StartIfP2Flag_001af8(void);
+    __asm__ volatile("jsr Attract_StartIfP2Flag_001af8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 /* JsrPcThunk_01394c absorbido por Scratch_Alloc_01390E (Wave JJ#2).
@@ -45,14 +45,14 @@ void JsrPcThunk_013ad8(void) {
 
 __attribute__((section(".text.JsrPcThunk_025dcc")))
 void JsrPcThunk_025dcc(void) {
-    extern void PcThunkTarget_025e74(void);
-    __asm__ volatile("jsr PcThunkTarget_025e74(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void HUD_SetStartMask_025e74(void);
+    __asm__ volatile("jsr HUD_SetStartMask_025e74(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02698c")))
 void JsrPcThunk_02698c(void) {
-    extern void PcThunkTarget_0281c8(void);
-    __asm__ volatile("jsr PcThunkTarget_0281c8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_ApplyVelLatch_0281c8(void);
+    __asm__ volatile("jsr Entity_ApplyVelLatch_0281c8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 /* JsrPcThunk_027886 ABSORBIDO por Entity_Probe_Scratch_02785C (Wave Z#4).
@@ -77,74 +77,74 @@ void JsrPcThunk_0294aa(void) {
 
 __attribute__((section(".text.JsrPcThunk_029582")))
 void JsrPcThunk_029582(void) {
-    extern void PcThunkTarget_02a46c(void);
-    __asm__ volatile("jsr PcThunkTarget_02a46c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ClearFlags8D_02a46c(void);
+    __asm__ volatile("jsr Slug_ClearFlags8D_02a46c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02aae4")))
 void JsrPcThunk_02aae4(void) {
-    extern void PcThunkTarget_02ab86(void);
-    __asm__ volatile("jsr PcThunkTarget_02ab86(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_InputFireByLayout_02ab86(void);
+    __asm__ volatile("jsr Slug_InputFireByLayout_02ab86(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02ac40")))
 void JsrPcThunk_02ac40(void) {
-    extern void PcThunkTarget_02ac4c(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac4c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_TestField100609_02ac4c(void);
+    __asm__ volatile("jsr Slug_TestField100609_02ac4c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02bcfa")))
 void JsrPcThunk_02bcfa(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02db4c")))
 void JsrPcThunk_02db4c(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02dc56")))
 void JsrPcThunk_02dc56(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02dca4")))
 void JsrPcThunk_02dca4(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02dd1a")))
 void JsrPcThunk_02dd1a(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02f1fc")))
 void JsrPcThunk_02f1fc(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02fe64")))
 void JsrPcThunk_02fe64(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02fed4")))
 void JsrPcThunk_02fed4(void) {
-    extern void PcThunkTarget_02ac80(void);
-    __asm__ volatile("jsr PcThunkTarget_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ConsumeField89_02ac80(void);
+    __asm__ volatile("jsr Slug_ConsumeField89_02ac80(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_02ff1c")))
 void JsrPcThunk_02ff1c(void) {
-    extern void PcThunkTarget_02fada(void);
-    __asm__ volatile("jsr PcThunkTarget_02fada(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Slug_ResetDamageIdx_02fada(void);
+    __asm__ volatile("jsr Slug_ResetDamageIdx_02fada(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_032406")))
@@ -195,96 +195,6 @@ void JsrPcThunk_033a58(void) {
     __asm__ volatile("jsr PcThunkTarget_0334a2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
-__attribute__((section(".text.JsrPcThunk_034d2c")))
-void JsrPcThunk_034d2c(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_0354ec")))
-void JsrPcThunk_0354ec(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_036632")))
-void JsrPcThunk_036632(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_0366f8")))
-void JsrPcThunk_0366f8(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_0368da")))
-void JsrPcThunk_0368da(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_036c86")))
-void JsrPcThunk_036c86(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_036fbc")))
-void JsrPcThunk_036fbc(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_037012")))
-void JsrPcThunk_037012(void) {
-    extern void PcThunkTarget_036dca(void);
-    __asm__ volatile("jsr PcThunkTarget_036dca(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_037054")))
-void JsrPcThunk_037054(void) {
-    extern void PcThunkTarget_036dca(void);
-    __asm__ volatile("jsr PcThunkTarget_036dca(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_037db4")))
-void JsrPcThunk_037db4(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_037ebc")))
-void JsrPcThunk_037ebc(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_03803e")))
-void JsrPcThunk_03803e(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_03819c")))
-void JsrPcThunk_03819c(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_038554")))
-void JsrPcThunk_038554(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_038682")))
-void JsrPcThunk_038682(void) {
-    extern void PcThunkTarget_033522(void);
-    __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
 __attribute__((section(".text.JsrPcThunk_038a22")))
 void JsrPcThunk_038a22(void) {
     extern void PcThunkTarget_033522(void);
@@ -303,52 +213,16 @@ void JsrPcThunk_038bde(void) {
     __asm__ volatile("jsr PcThunkTarget_033522(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
-__attribute__((section(".text.JsrPcThunk_039616")))
-void JsrPcThunk_039616(void) {
-    extern void PcThunkTarget_039416(void);
-    __asm__ volatile("jsr PcThunkTarget_039416(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_0396aa")))
-void JsrPcThunk_0396aa(void) {
-    extern void PcThunkTarget_039416(void);
-    __asm__ volatile("jsr PcThunkTarget_039416(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_03973e")))
-void JsrPcThunk_03973e(void) {
-    extern void PcThunkTarget_039416(void);
-    __asm__ volatile("jsr PcThunkTarget_039416(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_0397d6")))
-void JsrPcThunk_0397d6(void) {
-    extern void PcThunkTarget_039416(void);
-    __asm__ volatile("jsr PcThunkTarget_039416(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_03983c")))
-void JsrPcThunk_03983c(void) {
-    extern void PcThunkTarget_039416(void);
-    __asm__ volatile("jsr PcThunkTarget_039416(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
-__attribute__((section(".text.JsrPcThunk_0398a2")))
-void JsrPcThunk_0398a2(void) {
-    extern void PcThunkTarget_039416(void);
-    __asm__ volatile("jsr PcThunkTarget_039416(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
-}
-
 __attribute__((section(".text.JsrPcThunk_03e6d4")))
 void JsrPcThunk_03e6d4(void) {
-    extern void PcThunkTarget_03e7a6(void);
-    __asm__ volatile("jsr PcThunkTarget_03e7a6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Results_RosterDrawDispatch_03e7a6(void);
+    __asm__ volatile("jsr Results_RosterDrawDispatch_03e7a6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_03e7ba")))
 void JsrPcThunk_03e7ba(void) {
-    extern void PcThunkTarget_03e84c(void);
-    __asm__ volatile("jsr PcThunkTarget_03e84c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Results_RosterDrawB_03e84c(void);
+    __asm__ volatile("jsr Results_RosterDrawB_03e84c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0404e8")))
@@ -395,26 +269,26 @@ void JsrPcThunk_042182(void) {
 
 __attribute__((section(".text.JsrPcThunk_0469dc")))
 void JsrPcThunk_0469dc(void) {
-    extern void PcThunkTarget_04698c(void);
-    __asm__ volatile("jsr PcThunkTarget_04698c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Continue_IsStartP2_04698c(void);
+    __asm__ volatile("jsr Continue_IsStartP2_04698c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_04711e")))
 void JsrPcThunk_04711e(void) {
-    extern void PcThunkTarget_04707e(void);
-    __asm__ volatile("jsr PcThunkTarget_04707e(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void MissionNum_TileByMission_04707e(void);
+    __asm__ volatile("jsr MissionNum_TileByMission_04707e(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_04df2a")))
 void JsrPcThunk_04df2a(void) {
-    extern void PcThunkTarget_04faf8(void);
-    __asm__ volatile("jsr PcThunkTarget_04faf8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Prop_BunkerBlitState10_04faf8(void);
+    __asm__ volatile("jsr Prop_BunkerBlitState10_04faf8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_04df92")))
 void JsrPcThunk_04df92(void) {
-    extern void PcThunkTarget_04faf8(void);
-    __asm__ volatile("jsr PcThunkTarget_04faf8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Prop_BunkerBlitState10_04faf8(void);
+    __asm__ volatile("jsr Prop_BunkerBlitState10_04faf8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_04fa9a")))
@@ -485,38 +359,38 @@ void JsrPcThunk_050224(void) {
 
 __attribute__((section(".text.JsrPcThunk_053a3c")))
 void JsrPcThunk_053a3c(void) {
-    extern void PcThunkTarget_053dca(void);
-    __asm__ volatile("jsr PcThunkTarget_053dca(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Prop_SyncSpriteWithParent_053dca(void);
+    __asm__ volatile("jsr Prop_SyncSpriteWithParent_053dca(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_055108")))
 void JsrPcThunk_055108(void) {
-    extern void PcThunkTarget_055214(void);
-    __asm__ volatile("jsr PcThunkTarget_055214(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void NeonSign_TilesOnB_055214(void);
+    __asm__ volatile("jsr NeonSign_TilesOnB_055214(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_05511c")))
 void JsrPcThunk_05511c(void) {
-    extern void PcThunkTarget_055148(void);
-    __asm__ volatile("jsr PcThunkTarget_055148(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void NeonSign_TilesOffA_055148(void);
+    __asm__ volatile("jsr NeonSign_TilesOffA_055148(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_055142")))
 void JsrPcThunk_055142(void) {
-    extern void PcThunkTarget_055148(void);
-    __asm__ volatile("jsr PcThunkTarget_055148(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void NeonSign_TilesOffA_055148(void);
+    __asm__ volatile("jsr NeonSign_TilesOffA_055148(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0577b6")))
 void JsrPcThunk_0577b6(void) {
-    extern void PcThunkTarget_056e1e(void);
-    __asm__ volatile("jsr PcThunkTarget_056e1e(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Soldier_DespawnIfOffscreen_056e1e(void);
+    __asm__ volatile("jsr Soldier_DespawnIfOffscreen_056e1e(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_057838")))
 void JsrPcThunk_057838(void) {
-    extern void PcThunkTarget_056e1e(void);
-    __asm__ volatile("jsr PcThunkTarget_056e1e(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Soldier_DespawnIfOffscreen_056e1e(void);
+    __asm__ volatile("jsr Soldier_DespawnIfOffscreen_056e1e(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_05d30a")))
@@ -537,32 +411,32 @@ void JsrPcThunk_05d6aa(void) {
 
 __attribute__((section(".text.JsrPcThunk_05e080")))
 void JsrPcThunk_05e080(void) {
-    extern void PcThunkTarget_05e018(void);
-    __asm__ volatile("jsr PcThunkTarget_05e018(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Atan2_Angle256_05e018(void);
+    __asm__ volatile("jsr Atan2_Angle256_05e018(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_05e54c")))
 void JsrPcThunk_05e54c(void) {
-    extern void PcThunkTarget_05e530(void);
-    __asm__ volatile("jsr PcThunkTarget_05e530(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Rng_PickWordFromTable_05e530(void);
+    __asm__ volatile("jsr Rng_PickWordFromTable_05e530(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_05e8ce")))
 void JsrPcThunk_05e8ce(void) {
-    extern void PcThunkTarget_05dd5c(void);
-    __asm__ volatile("jsr PcThunkTarget_05dd5c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_CheckOnScreenBox_05dd5c(void);
+    __asm__ volatile("jsr Entity_CheckOnScreenBox_05dd5c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_062b7e")))
 void JsrPcThunk_062b7e(void) {
-    extern void PcThunkTarget_063336(void);
-    __asm__ volatile("jsr PcThunkTarget_063336(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Camper_ScrollGate_063336(void);
+    __asm__ volatile("jsr Camper_ScrollGate_063336(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0634f0")))
 void JsrPcThunk_0634f0(void) {
-    extern void PcThunkTarget_0634f6(void);
-    __asm__ volatile("jsr PcThunkTarget_0634f6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Camper_SpawnPairB_0634f6(void);
+    __asm__ volatile("jsr Camper_SpawnPairB_0634f6(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_065eee")))
@@ -615,26 +489,26 @@ void JsrPcThunk_0683ea(void) {
 
 __attribute__((section(".text.JsrPcThunk_068724")))
 void JsrPcThunk_068724(void) {
-    extern void PcThunkTarget_068ab8(void);
-    __asm__ volatile("jsr PcThunkTarget_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void S5Airship_PastRightEdge_068ab8(void);
+    __asm__ volatile("jsr S5Airship_PastRightEdge_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_068758")))
 void JsrPcThunk_068758(void) {
-    extern void PcThunkTarget_068ab8(void);
-    __asm__ volatile("jsr PcThunkTarget_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void S5Airship_PastRightEdge_068ab8(void);
+    __asm__ volatile("jsr S5Airship_PastRightEdge_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0687ae")))
 void JsrPcThunk_0687ae(void) {
-    extern void PcThunkTarget_068ab8(void);
-    __asm__ volatile("jsr PcThunkTarget_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void S5Airship_PastRightEdge_068ab8(void);
+    __asm__ volatile("jsr S5Airship_PastRightEdge_068ab8(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_06d130")))
 void JsrPcThunk_06d130(void) {
-    extern void PcThunkTarget_06d13c(void);
-    __asm__ volatile("jsr PcThunkTarget_06d13c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void RocketVehicle_LinkBlocked_06d13c(void);
+    __asm__ volatile("jsr RocketVehicle_LinkBlocked_06d13c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 /* JsrPcThunk_06e244 ABSORBIDO por Entity_SpawnAndTag_06E224 (Wave Z batch 2 #7).
@@ -669,14 +543,14 @@ void JsrPcThunk_06e2b6(void) {
 
 __attribute__((section(".text.JsrPcThunk_06fab4")))
 void JsrPcThunk_06fab4(void) {
-    extern void PcThunkTarget_070ab0(void);
-    __asm__ volatile("jsr PcThunkTarget_070ab0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void M5Boss_AnimStep_070ab0(void);
+    __asm__ volatile("jsr M5Boss_AnimStep_070ab0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_072826")))
 void JsrPcThunk_072826(void) {
-    extern void PcThunkTarget_072a94(void);
-    __asm__ volatile("jsr PcThunkTarget_072a94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void FinalBoss_PickBeamPatternB_072a94(void);
+    __asm__ volatile("jsr FinalBoss_PickBeamPatternB_072a94(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_072c92")))
@@ -687,14 +561,14 @@ void JsrPcThunk_072c92(void) {
 
 __attribute__((section(".text.JsrPcThunk_074116")))
 void JsrPcThunk_074116(void) {
-    extern void PcThunkTarget_074166(void);
-    __asm__ volatile("jsr PcThunkTarget_074166(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void M5Tank_TargetNear_074166(void);
+    __asm__ volatile("jsr M5Tank_TargetNear_074166(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_07526a")))
 void JsrPcThunk_07526a(void) {
-    extern void PcThunkTarget_0745e2(void);
-    __asm__ volatile("jsr PcThunkTarget_0745e2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void MiniScript_Step_0745e2(void);
+    __asm__ volatile("jsr MiniScript_Step_0745e2(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0798a6")))
@@ -705,236 +579,236 @@ void JsrPcThunk_0798a6(void) {
 
 __attribute__((section(".text.JsrPcThunk_086dae")))
 void JsrPcThunk_086dae(void) {
-    extern void PcThunkTarget_088438(void);
-    __asm__ volatile("jsr PcThunkTarget_088438(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_HitboxPulseTable_088438(void);
+    __asm__ volatile("jsr Entity_HitboxPulseTable_088438(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0877ce")))
 void JsrPcThunk_0877ce(void) {
-    extern void PcThunkTarget_08846a(void);
-    __asm__ volatile("jsr PcThunkTarget_08846a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Entity_HitboxPulseSaved_08846a(void);
+    __asm__ volatile("jsr Entity_HitboxPulseSaved_08846a(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08b712")))
 void JsrPcThunk_08b712(void) {
-    extern void PcThunkTarget_08b82c(void);
-    __asm__ volatile("jsr PcThunkTarget_08b82c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Airship_DropSoldier_08b82c(void);
+    __asm__ volatile("jsr Airship_DropSoldier_08b82c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08d5a2")))
 void JsrPcThunk_08d5a2(void) {
-    extern void PcThunkTarget_08d804(void);
-    __asm__ volatile("jsr PcThunkTarget_08d804(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Capsule_CheckMissionEnd_08d804(void);
+    __asm__ volatile("jsr Capsule_CheckMissionEnd_08d804(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08d5c6")))
 void JsrPcThunk_08d5c6(void) {
-    extern void PcThunkTarget_08d804(void);
-    __asm__ volatile("jsr PcThunkTarget_08d804(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Capsule_CheckMissionEnd_08d804(void);
+    __asm__ volatile("jsr Capsule_CheckMissionEnd_08d804(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08dbdc")))
 void JsrPcThunk_08dbdc(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08dc44")))
 void JsrPcThunk_08dc44(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08dc8e")))
 void JsrPcThunk_08dc8e(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08dcf4")))
 void JsrPcThunk_08dcf4(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08dd20")))
 void JsrPcThunk_08dd20(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08dd78")))
 void JsrPcThunk_08dd78(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08ddaa")))
 void JsrPcThunk_08ddaa(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08ddd4")))
 void JsrPcThunk_08ddd4(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08de24")))
 void JsrPcThunk_08de24(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08de5e")))
 void JsrPcThunk_08de5e(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08debc")))
 void JsrPcThunk_08debc(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e2a6")))
 void JsrPcThunk_08e2a6(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e560")))
 void JsrPcThunk_08e560(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e5c8")))
 void JsrPcThunk_08e5c8(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e7d8")))
 void JsrPcThunk_08e7d8(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e81c")))
 void JsrPcThunk_08e81c(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e866")))
 void JsrPcThunk_08e866(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e8aa")))
 void JsrPcThunk_08e8aa(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e8f4")))
 void JsrPcThunk_08e8f4(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e938")))
 void JsrPcThunk_08e938(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e982")))
 void JsrPcThunk_08e982(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e9ce")))
 void JsrPcThunk_08e9ce(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08e9f6")))
 void JsrPcThunk_08e9f6(void) {
-    extern void PcThunkTarget_08ea50(void);
-    __asm__ volatile("jsr PcThunkTarget_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Nest_DieIfParentGone_08ea50(void);
+    __asm__ volatile("jsr Nest_DieIfParentGone_08ea50(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08ec4a")))
 void JsrPcThunk_08ec4a(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08ecd4")))
 void JsrPcThunk_08ecd4(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_08ed7c")))
 void JsrPcThunk_08ed7c(void) {
-    extern void PcThunkTarget_08efb0(void);
-    __asm__ volatile("jsr PcThunkTarget_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void Phys_GroundKill_08efb0(void);
+    __asm__ volatile("jsr Phys_GroundKill_08efb0(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_097a4e")))
 void JsrPcThunk_097a4e(void) {
-    extern void PcThunkTarget_097a60(void);
-    __asm__ volatile("jsr PcThunkTarget_097a60(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void HiScore_TryEnter_P1_097a60(void);
+    __asm__ volatile("jsr HiScore_TryEnter_P1_097a60(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_097a5a")))
 void JsrPcThunk_097a5a(void) {
-    extern void PcThunkTarget_097a72(void);
-    __asm__ volatile("jsr PcThunkTarget_097a72(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void HiScore_TryEnter_P2_097a72(void);
+    __asm__ volatile("jsr HiScore_TryEnter_P2_097a72(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_0980e6")))
 void JsrPcThunk_0980e6(void) {
-    extern void PcThunkTarget_097c5c(void);
-    __asm__ volatile("jsr PcThunkTarget_097c5c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void HiScore_DrawNameChars_097c5c(void);
+    __asm__ volatile("jsr HiScore_DrawNameChars_097c5c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099b7e")))
 void JsrPcThunk_099b7e(void) {
-    extern void PcThunkTarget_099ee4(void);
-    __asm__ volatile("jsr PcThunkTarget_099ee4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionSelect_DrawCursor_099ee4(void);
+    __asm__ volatile("jsr OptionSelect_DrawCursor_099ee4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099b9e")))
 void JsrPcThunk_099b9e(void) {
-    extern void PcThunkTarget_099ee4(void);
-    __asm__ volatile("jsr PcThunkTarget_099ee4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionSelect_DrawCursor_099ee4(void);
+    __asm__ volatile("jsr OptionSelect_DrawCursor_099ee4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099d62")))
 void JsrPcThunk_099d62(void) {
-    extern void PcThunkTarget_099de4(void);
-    __asm__ volatile("jsr PcThunkTarget_099de4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionsMenu_AdjDifficulty_099de4(void);
+    __asm__ volatile("jsr OptionsMenu_AdjDifficulty_099de4(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099d72")))
 void JsrPcThunk_099d72(void) {
-    extern void PcThunkTarget_099e14(void);
-    __asm__ volatile("jsr PcThunkTarget_099e14(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionsMenu_AdjLives_099e14(void);
+    __asm__ volatile("jsr OptionsMenu_AdjLives_099e14(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099d8e")))
 void JsrPcThunk_099d8e(void) {
-    extern void PcThunkTarget_099e9c(void);
-    __asm__ volatile("jsr PcThunkTarget_099e9c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
+    extern void OptionsMenu_Adj2PMode_099e9c(void);
+    __asm__ volatile("jsr OptionsMenu_Adj2PMode_099e9c(%%pc)" ::: "memory","cc","d0","d1","a0","a1");
 }
 
 __attribute__((section(".text.JsrPcThunk_099db8")))

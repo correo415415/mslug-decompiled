@@ -36,12 +36,6 @@ void JmpToScheduler_0318ac(void) {
     __builtin_unreachable();
 }
 
-__attribute__((section(".text.JmpToScheduler_038cee"), noreturn))
-void JmpToScheduler_038cee(void) {
-    __asm__ volatile("jmp FUN_00000518 \n rts" ::: "memory");
-    __builtin_unreachable();
-}
-
 __attribute__((section(".text.JmpToScheduler_03daa0"), noreturn))
 void JmpToScheduler_03daa0(void) {
     __asm__ volatile("jmp FUN_00000518 \n rts" ::: "memory");

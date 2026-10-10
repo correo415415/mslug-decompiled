@@ -47,15 +47,15 @@
         .section .text.Entity_ProbeAndInstallHandler_049FD0, "ax", @progbits
 
 Entity_ProbeAndInstallHandler_049FD0:
-        bsr.b   Sub_00049FBA            | +00  probe local (retorna CCR)
+        bsr.b   HumanDeath_HitCheckUnlessCutscene_049fba            | +00  probe local (retorna CCR)
         bcc.w   .Ldone                  | +02  C=0 -> exito, ir a rts
         jsr     Sub_00027EBA            | +06  probe global
         bcc.w   .Linstall_channel_b     | +0c  C=0 -> instalar handler B ($4A014)
-        lea     Handler_0004A034(pc), a1 | +10 C=1 -> instalar handler A ($4A034)
+        lea     HumanDeath_EntryKind2_04a034(pc), a1 | +10 C=1 -> instalar handler A ($4A034)
         move.l  a1, (a6)                | +14  entity->script_ptr = handler
         bra.w   .Ldone                  | +16
 .Linstall_channel_b:
-        lea     Handler_0004A014(pc), a1 | +1a
+        lea     HumanDeath_EntryKind0_04a014(pc), a1 | +1a
         move.l  a1, (a6)                | +1e  entity->script_ptr = handler
 .Ldone:
         rts                             | +20

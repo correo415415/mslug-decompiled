@@ -1,0 +1,182 @@
+# =============================================================================
+#  Metal Slug 1 decomp — matcher en runner local (self-hosted) + release
+# -----------------------------------------------------------------------------
+#  * Corre en el runner self-hosted del propietario (etiqueta "mslug").
+#  * NO usa cache de Actions (no disponible): todo se recompila desde cero y
+#    los resultados se publican como assets de una Release (prerelease por
+#    rama, release normal en main).
+#  * La P-ROM NUNCA sale del runner ni entra en git. El runner debe tener:
+#        $MSLUG_ROM_DIR/mslug.zip   (o 201-p1.bin)      [por defecto ~/mslug_rom]
+#    o bien definir la variable de repositorio MSLUG_ROM_URL (+ secreto
+#    MSLUG_ROM_TOKEN opcional) para descargarla en cada ejecución.
+#  * Token para la release: secreto RELEASE_PAT (fine-grained PAT con
+#    contents:write). Si no existe se usa GITHUB_TOKEN.
+# =============================================================================
+name: matcher
+
+on:
+  push:
+    branches: [main, genspark_ai_developer]
+    paths-ignore: ['docs/**', '**.md']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: 'Publicar release con los reportes'
+        type: boolean
+        default: true
+
+concurrency:
+  group: matcher-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  match:
+    name: match_batch (self-hosted)
+    runs-on: [self-hosted, Linux, X64]
+    timeout-minutes: 90
+    env:
+      MSLUG_ROM_DIR: ${{ vars.MSLUG_ROM_DIR || '' }}
+      MSLUG_ROM_URL: ${{ vars.MSLUG_ROM_URL || '' }}
+      MSLUG_ROM_TOKEN: ${{ secrets.MSLUG_ROM_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Toolchain m68k + Python deps
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v m68k-linux-gnu-gcc >/dev/null 2>&1; then
+            echo "::group::apt install gcc-m68k-linux-gnu"
+            SUDO=""; [ "$(id -u)" -ne 0 ] && SUDO="sudo -n"
+            $SUDO apt-get update -qq
+            $SUDO apt-get install -y -qq gcc-m68k-linux-gnu binutils-m68k-linux-gnu python3 python3-pip unzip
+            echo "::endgroup::"
+          fi
+          python3 -c "import capstone" 2>/dev/null || \
+            python3 -m pip install -q --user -r requirements.txt || \
+            python3 -m pip install -q --user --break-system-packages -r requirements.txt
+          m68k-linux-gnu-gcc --version | head -1
+          python3 --version
+
+      - name: Localizar P-ROM (fuera de git)
+        id: rom
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p rom
+          DIR="${MSLUG_ROM_DIR:-$HOME/mslug_rom}"
+          if [ -n "${MSLUG_ROM_URL}" ]; then
+            echo "descargando ROM desde MSLUG_ROM_URL"
+            HDR=(); [ -n "${MSLUG_ROM_TOKEN:-}" ] && HDR=(-H "Authorization: Bearer ${MSLUG_ROM_TOKEN}")
+            curl -fsSL "${HDR[@]}" -o /tmp/mslug_rom.bin "${MSLUG_ROM_URL}"
+            if unzip -l /tmp/mslug_rom.bin >/dev/null 2>&1; then
+              echo "zip=/tmp/mslug_rom.bin" >> "$GITHUB_OUTPUT"
+            else
+              cp /tmp/mslug_rom.bin rom/201-p1.bin; echo "zip=" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            FOUND=""
+            for d in "$DIR" "$HOME/mslug_rom" "$HOME" "/opt/mslug_rom" "${RUNNER_WORKSPACE:-.}/.." "${RUNNER_WORKSPACE:-.}/../.." ; do
+              for f in mslug.zip 201-p1.bin; do
+                if [ -z "$FOUND" ] && [ -f "$d/$f" ]; then FOUND="$d/$f"; fi
+              done
+            done
+            if [ -z "$FOUND" ]; then
+              echo "::error::No se encontró la P-ROM. Coloca mslug.zip (o 201-p1.bin) en $DIR del runner (p. ej. mkdir -p ~/mslug_rom && cp mslug.zip ~/mslug_rom/), o define la variable de repositorio MSLUG_ROM_URL."
+              exit 1
+            fi
+            echo "ROM: $FOUND"
+            case "$FOUND" in
+              *.zip) echo "zip=$FOUND" >> "$GITHUB_OUTPUT" ;;
+              *)     cp "$FOUND" rom/201-p1.bin; echo "zip=" >> "$GITHUB_OUTPUT" ;;
+            esac
+          fi
+
+      - name: Preparar build/mslug_prom.bin
+        shell: bash
+        run: |
+          set -euo pipefail
+          ZIP="${{ steps.rom.outputs.zip }}"
+          if [ -n "$ZIP" ]; then unzip -o -q "$ZIP" 201-p1.bin -d rom; fi
+          ./scripts/setup.sh
+          md5sum build/mslug_prom.bin
+
+      - name: registry_lint
+        shell: bash
+        run: |
+          mkdir -p ci_out
+          python3 tools/registry_lint.py | tee ci_out/registry_lint.txt
+          python3 tools/check_section_sizes.py | tee ci_out/check_section_sizes.txt
+
+      - name: match_batch (sin cache, desde cero)
+        id: match
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 tools/match_batch.py 2>&1 | tee ci_out/match_batch.txt
+          rc=${PIPESTATUS[0]}
+          cp build/match_report_c.json ci_out/ 2>/dev/null || true
+          grep -E "MATCHED|BYTES|ROM " ci_out/match_batch.txt | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit $rc
+
+      - name: measure_coverage
+        if: always() && steps.match.outcome != 'skipped'
+        shell: bash
+        run: |
+          python3 tools/measure_coverage.py --zones | tee ci_out/coverage_zones.txt
+          python3 tools/measure_coverage.py --blocks > ci_out/coverage_blocks.txt || true
+          { echo; echo '```'; tail -n 12 ci_out/coverage_zones.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Empaquetar resultados (sin ROM, sin binarios)
+        if: always() && steps.match.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          SHA7=$(git rev-parse --short=7 HEAD)
+          cp tools/registry.py tools/symbols.py ci_out/
+          git log -1 --format='%H%n%s%n%ci' > ci_out/commit.txt
+          git archive --format=tar.gz -o "ci_out/mslug-decomp-src-${SHA7}.tar.gz" HEAD asm src include tools docs scripts
+          cd ci_out && sha256sum * > SHA256SUMS.txt && ls -la
+
+      - name: Release con los reportes
+        if: >-
+          always() && steps.match.outcome != 'skipped' &&
+          github.event_name != 'pull_request' &&
+          (github.event_name != 'workflow_dispatch' || inputs.publish_release)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT != '' && secrets.RELEASE_PAT || github.token }}
+        run: |
+          set -euo pipefail
+          SHA7=$(git rev-parse --short=7 HEAD)
+          BR="${GITHUB_REF_NAME//\//-}"
+          TAG="matcher-${BR}-${{ github.run_number }}-${SHA7}"
+          STAT=$(grep -E "MATCHED" ci_out/match_batch.txt | head -1 | sed 's/^ *//')
+          ROMP=$(grep -E "ROM " ci_out/match_batch.txt | head -1 | sed 's/^ *//')
+          RC="${{ steps.match.outputs.rc }}"
+          [ "$RC" = "0" ] && STATE="OK" || STATE="FAIL"
+          PRE="--prerelease"; [ "$GITHUB_REF_NAME" = "main" ] && [ "$STATE" = "OK" ] && PRE=""
+          {
+            echo "## matcher ${STATE} — \`${GITHUB_REF_NAME}\` @ ${SHA7}"
+            echo
+            echo "- ${STAT}"
+            echo "- ${ROMP}"
+            echo "- run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            echo '```'; tail -n 14 ci_out/coverage_zones.txt; echo '```'
+            echo
+            echo "Assets: match_batch.txt, match_report_c.json, coverage_*.txt, registry_lint.txt, registry.py, symbols.py, snapshot de fuentes. **Sin ROM ni binarios derivados.**"
+          } > /tmp/notes.md
+          python3 tools/ci_release.py --repo "${{ github.repository }}" --tag "$TAG" \
+            --target "$GITHUB_SHA" --title "matcher ${STATE} ${GITHUB_REF_NAME} #${{ github.run_number }} (${SHA7})" \
+            --notes-file /tmp/notes.md $PRE --delete-old 15 --prefix matcher- ci_out/*
+          echo "release: $TAG" >> "$GITHUB_STEP_SUMMARY"

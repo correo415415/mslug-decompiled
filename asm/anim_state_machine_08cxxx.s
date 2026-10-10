@@ -80,7 +80,7 @@
         .section .text.Anim_State_F1_08C008, "ax", @progbits
 
 Anim_State_F1_08C008:
-        jsr     0x22c8.l                       | +00  Sub_000022C8 (init)
+        jsr     0x22c8.l                       | +00  Sound_Push06_0022c8 (init)
         move.w  #0x2b, d0                      | +06  d0 = $2B (opcode)
         jsr     0x2352.l                       | +0a  InputGuardCall219c(#$2b)
         move.w  #0x12e, d1                     | +10  d1 = $12E
@@ -157,12 +157,12 @@ Anim_State_F1_08C008:
         jsr     0x28d70.l                      | +14e ThunkTarget_028d70
         rts                                    | +154
 
-        .equ    .Lf1_tpl1, Sub_0008C2B8
-        .equ    .Lf1_tpl2, Sub_0008C322
-        .equ    .Lf1_tpl3, Sub_0008C37E
-        .equ    .Lf1_tpl4, Sub_0008C3DA
-        .equ    .Lf1_tpl5, Sub_0008C436
-        .equ    .Lf1_tpl6, Sub_0008C5B2
+        .equ    .Lf1_tpl1, Icon_Base_08c2b8
+        .equ    .Lf1_tpl2, Icon_Slot1_08c322
+        .equ    .Lf1_tpl3, Icon_Slot2_08c37e
+        .equ    .Lf1_tpl4, Icon_Slot3_08c3da
+        .equ    .Lf1_tpl5, Icon_Slot4_08c436
+        .equ    .Lf1_tpl6, Icon_Anchor_Init_08c5b2
         .equ    .Lf1_next, Anim_State_F2_08C15E
 
         .size   Anim_State_F1_08C008, .-Anim_State_F1_08C008
@@ -208,7 +208,7 @@ Anim_State_F2_08C15E:
         .section .text.Anim_State_F3_08C1AC, "ax", @progbits
 
 Anim_State_F3_08C1AC:
-        jsr     Sub_0008BC74(pc)               | +00  probe (returns CCR-C)
+        jsr     Anim_ScriptStep_08bc74(pc)               | +00  probe (returns CCR-C)
         bcc.w   .Lf3_tail                      | +04  if (!C) skip blitter
         movea.w #0x7084, a1                    | +08  a1 = &VRAM $7084 (sign-ext)
         move.w  #0x2320, d0                    | +0c  d0 = tile-id $2320
@@ -280,7 +280,7 @@ Anim_State_F5_08C23A:
         ble.w   .Lf5_tail                      | +1e
                                               | ---- phase >= $40: fire "sound + fade" ----
         move.b  #0x80, d0                      | +22  d0 = $80 (opcode SFX)
-        jsr     0x2308.l                       | +26  Sub_00002308(d0) (audio trigger)
+        jsr     0x2308.l                       | +26  Sound_Push0A_0B_002308(d0) (audio trigger)
         move.w  #0x2, d0                       | +2c  d0 = 2
         jsr     0x5239e.l                      | +30  ThunkTarget_05239e(#2) (fade)
         move.w  #0x3c, 0x70(a6)                | +36  timer_70 = $3C (60 frames)

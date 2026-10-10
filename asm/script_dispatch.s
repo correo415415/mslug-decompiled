@@ -64,6 +64,8 @@ Script_DispatchOpcode:
         addq.b  #1, d1                  | +10  52 01         d1++ (byte)
         beq.w   .Lread_opcode           | +12  67 00 00 06   si overflow $FF->$00, opcode
         move.b  d1, 0x3b(a6)            | +16  1d 41 00 3b   guarda tick
+        .global Script_DispatchOpcode__L028da8
+Script_DispatchOpcode__L028da8:
 .Lread_opcode:
         moveq   #0, d2                  | +1a  74 00         d2 = 0
         move.b  (a1), d2                | +1c  14 11         d2 = *slot_parent

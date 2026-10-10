@@ -69,7 +69,7 @@ Init_EntitySpawn_0018DA:
                                               |      Emitimos los 4 bytes literales.
         .byte   0x00, 0x04, 0x6a, 0xc6         | +00  literal: 0004 6AC6
 
-        bsr.w   Sub_00001DB8                   | +04  Sub_00001DB8() (probe/setup)
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                   | +04  Hud_DrawCreditsAndOverlay_001db8() (probe/setup)
         move.b  #0x3c, 0x44(a6)                | +08  timer_a = $3C
         lea.l   0x28db6a.l, a1                 | +0e  a1 = TaskHandler_00028DB6A
         jsr     0x4ae.l                        | +14  scheduler_add(a1)

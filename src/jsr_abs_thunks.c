@@ -56,7 +56,7 @@ void JsrAbsThunk_0004fe(void) {
  * $001AAE..$001AB5 (8 B: jsr $981FC.l; rts) es la rama .Ltwo_path de
  * Dispatcher_ModeTable_001922, no un thunk independiente. */
 
-/* JsrAbsThunk_001c2c ABSORBIDO por Handler_TimerAndReplace_001BCC (Wave Z batch 2 #13).
+/* JsrAbsThunk_001c2c ABSORBIDO por Handler_TimerAndReplace_001BCA (Wave Z batch 2 #13).
  * Los 8 B en $001C2C..$001C33 (`jsr $47482.l; rts`) son la cola tail-call
  * del handler de timer. 21 falso positivo del proyecto.
  */
@@ -116,8 +116,8 @@ void JsrAbsThunk_024e6e(void) {
 
 __attribute__((section(".text.JsrAbsThunk_0257e4")))
 void JsrAbsThunk_0257e4(void) {
-    extern void ThunkTarget_05180c(void);
-    ThunkTarget_05180c();
+    extern void Clear8Bytes_05180c(void);
+    Clear8Bytes_05180c();
     __asm__ volatile("" ::: "memory");
 }
 
@@ -510,55 +510,6 @@ __attribute__((section(".text.JsrAbsThunk_03356a")))
 void JsrAbsThunk_03356a(void) {
     extern void InputGuardCall219c(void);
     InputGuardCall219c();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_037c12")))
-void JsrAbsThunk_037c12(void) {
-    extern void ThunkTarget_0005fe(void);
-    ThunkTarget_0005fe();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_037c6c")))
-void JsrAbsThunk_037c6c(void) {
-    extern void ThunkTarget_0005fe(void);
-    ThunkTarget_0005fe();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_0393c6")))
-void JsrAbsThunk_0393c6(void) {
-    extern void ThunkTarget_032d00(void);
-    ThunkTarget_032d00();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_039448")))
-void JsrAbsThunk_039448(void) {
-    extern void InputGuardCall219c(void);
-    InputGuardCall219c();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_03a602")))
-void JsrAbsThunk_03a602(void) {
-    extern void ThunkTarget_0283ca(void);
-    ThunkTarget_0283ca();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_03c62a")))
-void JsrAbsThunk_03c62a(void) {
-    extern void ThunkTarget_0283ca(void);
-    ThunkTarget_0283ca();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_03c8d0")))
-void JsrAbsThunk_03c8d0(void) {
-    extern void ThunkTarget_0517fe(void);
-    ThunkTarget_0517fe();
     __asm__ volatile("" ::: "memory");
 }
 
@@ -2937,41 +2888,6 @@ __attribute__((section(".text.JsrAbsThunk_09c600")))
 void JsrAbsThunk_09c600(void) {
     extern void ThunkTarget_032b36(void);
     ThunkTarget_032b36();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d56c")))
-void JsrAbsThunk_18d56c(void) {
-    extern void ThunkTarget_0517fe(void);
-    ThunkTarget_0517fe();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d57e")))
-void JsrAbsThunk_18d57e(void) {
-    extern void ThunkTarget_0517fe(void);
-    ThunkTarget_0517fe();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d746")))
-void JsrAbsThunk_18d746(void) {
-    extern void ThunkTarget_0283ca(void);
-    ThunkTarget_0283ca();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d766")))
-void JsrAbsThunk_18d766(void) {
-    extern void ThunkTarget_028d70(void);
-    ThunkTarget_028d70();
-    __asm__ volatile("" ::: "memory");
-}
-
-__attribute__((section(".text.JsrAbsThunk_18d9d4")))
-void JsrAbsThunk_18d9d4(void) {
-    extern void ThunkTarget_032afa(void);
-    ThunkTarget_032afa();
     __asm__ volatile("" ::: "memory");
 }
 

@@ -11,7 +11,7 @@
 |      *a0 != 2   ->  tabla "larga" con indice compuesto por 2 dimensiones:
 |                       d0 = (entity->flags11 & 3) * 4       (fila, 0/4/8/12)
 |                       d0 += ($106ED1 & 2)                  (columna, 0/2)
-|                       d1 = Sub_0007_99A4()                 (fila secundaria)
+|                       d1 = Rank_SubIndex_0799a4()                 (fila secundaria)
 |                       d0 += (d1 & 7) * 16                  (interleave 3-bit)
 |                       d0 = *(a0 + d0.w)                    (lookup word)
 |                     -> retorna con d0 = valor decodificado
@@ -35,7 +35,7 @@
 |      pero tiene mejor latencia en 68000: 4+4 = 8 ciclos vs shift
 |      variable 6+2*n = 10 ciclos. Es una micro-optimizacion manual.
 |    - lsl.w #4,d1 seguido de add.w d1,d0 despues de haber usado d1 antes
-|      del bsr y RECARGARLO despues es una pista fuerte: Sub_0007_99A4
+|      del bsr y RECARGARLO despues es una pista fuerte: Rank_SubIndex_0799a4
 |      *preserva d0* pero recalcula d1. La captura d0+=d0+d0 antes del
 |      bsr es el "primer termino" del indice.
 |
@@ -57,7 +57,7 @@ Tbl_Decode2D_0799DE:
         move.b  0x106ed1.l, d1          | +14  d1 = global flag byte
         andi.w  #2, d1                  | +1a  d1 &= 2  (0 o 2)
         add.w   d1, d0                  | +1e  d0 += columna
-        bsr.b   Sub_0007_99A4           | +20  d1 = subindice (Sub_0007_99A4 preserva d0)
+        bsr.b   Rank_SubIndex_0799a4           | +20  d1 = subindice (Rank_SubIndex_0799a4 preserva d0)
         andi.w  #7, d1                  | +22  d1 &= 7  (0..7)
         lsl.w   #4, d1                  | +26  d1 *= 16
         add.w   d1, d0                  | +28  d0 += fila_secundaria

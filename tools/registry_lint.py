@@ -13,8 +13,8 @@ Checks (cada uno con codigo de fallo propio):
   E2  DUP-ADDR    misma direccion registrada dos veces.
   E3  DUP-NAME    mismo nombre registrado dos veces (el linker colapsaria
                   ambas secciones .text.<Sym> en una).
-  E4  ODD-ADDR    direccion impar (el 68000 no puede ejecutar ahi).
-  E5  BAD-SIZE    tamano <= 0 o impar (todo opcode 68k son multiplos de 2).
+  E4  ODD-ADDR    direccion impar (el 68000 no puede ejecutar ahi; exento en datos).
+  E5  BAD-SIZE    tamano <= 0 o impar (opcodes 68k multiplos de 2; impar exento en datos).
   E6  SYM-CLASH   un nombre de SYMBOLS apunta a direccion distinta de la
                   que ese mismo nombre tiene en REGISTRY (el --defsym
                   ganaria y el byte-compare fallaria en silencio en otro
@@ -45,6 +45,10 @@ sys.path.insert(0, HERE)
 from registry import REGISTRY  # noqa: E402
 from symbols import SYMBOLS    # noqa: E402
 
+# Entradas de DATOS (gen_data_region.py): pueden empezar en direccion impar y
+# tener tamano impar (tablas de bytes referenciadas desde el codigo).
+DATA_PREFIXES = {"Data", "RomData", "Zero", "Str", "PtrTab", "Tbl", "Pal", "Anim", "Map", "Lut", "Vec", "Hdr"}
+
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
@@ -56,9 +60,10 @@ def main():
 
     # --- E4/E5: sanidad por entrada ---------------------------------------
     for name, off, size, src in REGISTRY:
-        if off % 2:
+        is_data = name.split("_")[0] in DATA_PREFIXES
+        if off % 2 and not is_data:
             errors.append(f"E4 ODD-ADDR  {name} @ ${off:06x}")
-        if size <= 0 or size % 2:
+        if size <= 0 or (size % 2 and not is_data):
             errors.append(f"E5 BAD-SIZE  {name} @ ${off:06x} size={size}")
 
     # --- E1/E2: overlaps y duplicados de direccion -------------------------

@@ -43,7 +43,7 @@ AttractHandler_00109C:
         jsr     ThunkTarget_0004ae              | +20  Task_Alloc
         move.b  #0xff, 0x106ece.l               | +26  key latch A = -1
         move.b  #0xff, 0x106ecf.l               | +2e  key latch B = -1
-        jsr     PcThunkTarget_001af8(pc)        | +36  hook @ $1AF8 (pc-rel)
+        jsr     Attract_StartIfP2Flag_001af8(pc)        | +36  hook @ $1AF8 (pc-rel)
         jsr     Sub_00046AC6                    | +3a  FixLayer_QuadBatch (HH#3)
         move.b  #0xff, 0x106ed2.l               | +40  hud_dirty = -1
         bra.w   SchedulerDispatch_LoopB_000FE0  | +48  goto loop B
@@ -59,7 +59,7 @@ AttractHandler_00109C:
         .type   SchedTail_JsrDB8_0010E8, @function
         .section .text.SchedTail_JsrDB8_0010E8, "ax", @progbits
 SchedTail_JsrDB8_0010E8:
-        bsr.w   Sub_00001DB8                    | +00  hook $1DB8 (fallthru $0010EC)
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                    | +00  hook $1DB8 (fallthru $0010EC)
 
         .size   SchedTail_JsrDB8_0010E8, .-SchedTail_JsrDB8_0010E8
 
@@ -75,9 +75,9 @@ AttractHandler_2Task_0010F2:
         jsr     FUN_0000212e                    | +00  hook $212E
         jsr     BIOS_FIX_CLEAR                  | +06  BIOS VBlank
         jsr     Pubcleaner_10A2Cx_052712        | +0c  Pubcleaner_10A2Cx (LL#1)
-        lea.l   TaskTpl_0913AC, a1              | +12  a1 = &task_tpl_$913AC
+        lea.l   Continue_Tpl_0913ac, a1              | +12  a1 = &task_tpl_$913AC
         jsr     ThunkTarget_0004ae              | +18  Task_Alloc (task 1)
-        lea.l   TaskTpl_099B06, a1              | +1e  a1 = &task_tpl_$99B06
+        lea.l   OptionSelect2_Tpl_099b06, a1              | +1e  a1 = &task_tpl_$99B06
         jsr     ThunkTarget_0004ae              | +24  Task_Alloc (task 2)
         move.w  #0x10e0, d0                     | +2a  d0 = $10E0
         jsr     InputGuardCall219c              | +2e  input guard w/ d0
@@ -98,7 +98,7 @@ AttractHandler_2Task_0010F2:
         .type   AttractPhase2_Gate106ED5_001148, @function
         .section .text.AttractPhase2_Gate106ED5_001148, "ax", @progbits
 AttractPhase2_Gate106ED5_001148:
-        bsr.w   Sub_00001DB8                    | +00  hook $1DB8
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                    | +00  hook $1DB8
         tst.b   0x106ed2.l                      | +04  if (hud_dirty)
         bne.w   .Lgate_ed5_fallthru             | +0a   goto fallthru ($1170)
         jsr     FUN_000005B6                    | +0e  refresh handler
@@ -124,15 +124,15 @@ AttractHandler_Frame_001172:
         move.w  0x10007c.l, d0                  | +00  d0 = frame_counter
         addq.w  #0x1, d0                        | +06  ++d0
         move.w  d0, 0x10007c.l                  | +08  frame_counter = d0
-        jsr     Sub_0005E998                    | +0e  video update hook
+        jsr     Rng_Seed_05e998                    | +0e  video update hook
         jsr     BIOS_FIX_CLEAR                  | +14  BIOS VBlank
         jsr     Sub_00046AC6                    | +1a  FixLayer_QuadBatch (HH#3)
         jsr     Pubcleaner_10A2Cx_052712        | +20  Pubcleaner_10A2Cx (LL#1)
-        lea.l   TaskTpl_0977D6, a1              | +26  a1 = &task_tpl_$977D6
+        lea.l   HiScore_Tpl_Frame_0977d6, a1              | +26  a1 = &task_tpl_$977D6
         jsr     ThunkTarget_0004ae              | +2c  Task_Alloc
         move.b  #0xff, 0x106ece.l               | +32  key latch A = -1
         move.b  #0xff, 0x106ecf.l               | +3a  key latch B = -1
-        jsr     PcThunkTarget_001af8(pc)        | +42  hook @ $1AF8 (pc-rel)
+        jsr     Attract_StartIfP2Flag_001af8(pc)        | +42  hook @ $1AF8 (pc-rel)
         jsr     Sub_00046AC6                    | +46  FixLayer_QuadBatch (HH#3)
         move.b  #0xff, 0x106ed2.l               | +4c  hud_dirty = -1
         bra.w   SchedulerDispatch_LoopB_000FE0  | +54  goto loop B
@@ -148,7 +148,7 @@ AttractHandler_Frame_001172:
         .type   AttractPhase2_Multiway_0011CA, @function
         .section .text.AttractPhase2_Multiway_0011CA, "ax", @progbits
 AttractPhase2_Multiway_0011CA:
-        bsr.w   Sub_00001DB8                    | +00  hook $1DB8
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                    | +00  hook $1DB8
         tst.b   0x106ed2.l                      | +04  if (hud_dirty)
         beq.w   .Lmulti_refresh                 | +0a   goto refresh
         bra.w   .Lmulti_tail                    | +0e  else goto tail
@@ -156,7 +156,7 @@ AttractPhase2_Multiway_0011CA:
         jsr     FUN_000005B6                    | +12  refresh handler
         bra.w   SchedulerDispatch_LoopB_000FE0  | +18  goto loop B
 .Lmulti_tail:                                   | $0011E6
-        bra.w   PcThunkTarget_001af8            | +1c  tail-call to $1AF8
+        bra.w   Attract_StartIfP2Flag_001af8            | +1c  tail-call to $1AF8
 
         .size   AttractPhase2_Multiway_0011CA, .-AttractPhase2_Multiway_0011CA
 
@@ -172,8 +172,8 @@ AttractHandler_Loader_0011EA:
         jsr     BIOS_FIX_CLEAR                  | +00  BIOS VBlank
         jsr     Pubcleaner_10A2Cx_052712        | +06  Pubcleaner_10A2Cx (LL#1)
         lea.l   ScriptSlotPairTable_0009B4(pc), a0            | +0c  a0 = &ctx_$09B4 (pc-rel)
-        jsr     Sub_00002B58                    | +10  loader $2B58 w/ a0
-        lea.l   TaskTpl_0977EA, a1              | +16  a1 = &task_tpl_$977EA
+        jsr     PalSlot_LoadListHi_002b58                    | +10  loader $2B58 w/ a0
+        lea.l   HiScore_Tpl_Loader_0977ea, a1              | +16  a1 = &task_tpl_$977EA
         jsr     ThunkTarget_0004ae              | +1c  Task_Alloc
         move.b  #0xff, 0x106ece.l               | +22  key latch A = -1
         move.b  #0xff, 0x106ecf.l               | +2a  key latch B = -1
@@ -192,7 +192,7 @@ AttractHandler_Loader_0011EA:
         .type   AttractPhase2_Probes5D0_00122E, @function
         .section .text.AttractPhase2_Probes5D0_00122E, "ax", @progbits
 AttractPhase2_Probes5D0_00122E:
-        bsr.w   Sub_00001DB8                    | +00  hook $1DB8
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                    | +00  hook $1DB8
         tst.b   0x106ed2.l                      | +04  if (hud_dirty)
         beq.w   .Lprobes_refresh                | +0a   goto refresh
         jsr     Sub_0005D09A                    | +0e  probe #1 CCR-C

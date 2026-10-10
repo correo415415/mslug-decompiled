@@ -22,9 +22,9 @@ runtime and never bundles it.
 
 | Metric | Value |
 |---|---:|
-| Matched functions | **3 585 / 3 585** registered |
-| Matched bytes | **129 952 / 129 952** registered |
-| P ROM coverage | **129 952 / 2 097 152 B** (6.20 %) |
+| Matched functions | **5 662 / 5 662** registered |
+| Matched bytes | **334 672 / 334 672** registered |
+| P ROM coverage | **549 416 / 2 097 152 B** (26.20 %) — código 100 % |
 | Processed P ROM MD5 (target) | `816b3f74c76b3373993407615f1850fe` |
 
 Matched functions are guaranteed to reassemble to bytes that are bitwise
@@ -54,10 +54,12 @@ mslug/
 │   ├── registry_lint.py    Static structural audit of registry.py/symbols.py
 │   ├── scan_unmatched_callees.py   Priority queue ordered by caller count
 │   ├── rank_candidates.py  Priority queue ordered by function size
+│   ├── gen_asm_region.py   Verified draft-.s generator for an unmatched region
 │   ├── measure_coverage.py Real-code-% heuristic feeding docs/COVERAGE.md
 │   └── asm-differ/         Vendored simonlindholm/asm-differ (m68k backend)
 ├── scripts/                One-shot helper scripts
 │   ├── setup.sh            Process baserom into build/mslug_prom.bin + verify
+│   ├── bootstrap_sandbox.sh  Install toolchain + deps + process ROM in one go
 │   └── legacy/             Historical batch generators (Waves A–R)
 ├── docs/                   Design notes and reversing logs
 │   ├── CONVENTIONS.md      Naming/registry/promotion conventions — read before editing
@@ -190,6 +192,32 @@ python3 tools/registry_lint.py
 ```
 
 ---
+
+## Continuous integration (self-hosted runner + releases)
+
+`.github/workflows/matcher.yml` runs the full matcher on the owner's
+**self-hosted runner** (labels `self-hosted, Linux, X64`) on every push to
+`main` / `genspark_ai_developer`, on PRs to `main`, and on demand
+(`workflow_dispatch`). No Actions cache is used: everything is rebuilt from
+scratch and the results are published as **Release assets** (prerelease per
+branch, plain release on `main`), tagged `matcher-<branch>-<run>-<sha7>`:
+
+* `match_batch.txt`, `match_report_c.json`  — matcher log + per-function report
+* `coverage_zones.txt`, `coverage_blocks.txt`, `registry_lint.txt`
+* `registry.py`, `symbols.py`, `commit.txt`, `SHA256SUMS.txt`
+* `mslug-decomp-src-<sha7>.tar.gz` — snapshot of `asm/ src/ include/ tools/ docs/ scripts/`
+
+**The ROM never leaves the runner and is never uploaded.** The runner must
+provide it in one of these ways (checked in order):
+
+1. repository variable `MSLUG_ROM_URL` (+ optional secret `MSLUG_ROM_TOKEN`)
+   pointing to `mslug.zip` or `201-p1.bin`;
+2. `$MSLUG_ROM_DIR/mslug.zip` or `$MSLUG_ROM_DIR/201-p1.bin` (repository
+   variable `MSLUG_ROM_DIR`, default `~/mslug_rom` on the runner).
+
+Releases are created with the secret `RELEASE_PAT` (fine-grained PAT with
+*Contents: read/write*); if absent, the workflow falls back to `GITHUB_TOKEN`.
+Only the 15 most recent prereleases are kept.
 
 ## Contributing a match
 

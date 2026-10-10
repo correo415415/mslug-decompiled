@@ -146,7 +146,7 @@ PlayerEntitySpawn_0335A6:
         jsr     PlayerEntity_InitAuxState_032A02(pc) | +36  Wave QQ#1
         bclr.b  #0x4, 0x12(a6)                  | +3a  clear pause flag
         ori.w   #0x2, 0x38(a6)                  | +40  set spawn-active flag
-        lea.l   TaskTpl_0394A8, a1              | +46  a1 = &task_tpl_$394A8
+        lea.l   PlayerArm_Spawn_0394a8, a1              | +46  a1 = &task_tpl_$394A8
         jsr     ThunkTarget_0004ae              | +4c  Task_Alloc
         jsr     ThunkTarget_05dd02              | +52  Entity_CopyTransform (S)
         jsr     ThunkTarget_0517fe              | +58  init sprites hardware

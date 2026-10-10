@@ -13,7 +13,7 @@
 |
 |  Tabla de datos referenciada por `lea $9b4(pc), a0` desde TRES handlers
 |  de la super-tabla dispatch ($0011F6, $0017B2, $001DAE), siempre seguida
-|  de `jsr $2b58.l` (Sub_00002B58, aun no matcheado).  El applicator $2B58
+|  de `jsr $2b58.l` (PalSlot_LoadListHi_002b58, aun no matcheado).  El applicator $2B58
 |  interpreta la tabla como pares de words:
 |
 |      word 0:  id     - solo cuenta el byte bajo (id &= 0xFF); el byte
@@ -55,19 +55,19 @@
 |       ellos inmediatamente y enlaza los TCBs "partner" de los jugadores. */
 |    void TaskSlots_BootInstall(void)
 |    {
-|        /* Task_InstallHandler_0000050E: TCB->handler = a1 (via $4C6) y
+|        /* Task_AllocAndMarkBusy_00050e: TCB->handler = a1 (via $4C6) y
 |           bset #0, TCB->+0x12 (flag "activo").  */
-|        Task_InstallHandler($1008A0, RtsStub_0400);     // idle
-|        Task_InstallHandler($100800, RtsStub_0400);     // idle
+|        Task_InstallHandler($1008A0, Task_IdleRts_000400);     // idle
+|        Task_InstallHandler($100800, Task_IdleRts_000400);     // idle
 |        Task_InstallHandler($1006C0, JsrPcThunk_03240c);
-|        Task_InstallHandler($100440, RtsStub_0400);
-|        Task_InstallHandler($1004E0, RtsStub_0400);
+|        Task_InstallHandler($100440, Task_IdleRts_000400);
+|        Task_InstallHandler($1004E0, Task_IdleRts_000400);
 |        Task_InstallHandler($100620, JsrPcThunk_032406);
-|        Task_InstallHandler($100580, RtsStub_0400);
+|        Task_InstallHandler($100580, Task_IdleRts_000400);
 |        Task_InstallHandler($100760, JsrPcThunk_029582);
-|        Task_InstallHandler($100300, RtsStub_0400);
-|        Task_InstallHandler($1003A0, RtsStub_0400);
-|        Task_InstallHandler($100260, RtsStub_0400);
+|        Task_InstallHandler($100300, Task_IdleRts_000400);
+|        Task_InstallHandler($1003A0, Task_IdleRts_000400);
+|        Task_InstallHandler($100260, Task_IdleRts_000400);
 |        Task_InstallHandler($1001C0, SchedulerBootstrap_Boot_000E8E);
 |        Task_RunHandler($100440);                       // arranque inmediato
 |        Task_RunHandler($1004E0);
@@ -121,6 +121,8 @@ ScriptSlotPairTable_0009B4:
         .short  0x00ff, 0x0000                  | entrada especial id=$FF
         .short  0xffff                          | fin sub-tabla 1
         | -------- sub-tabla 2: ids $00..$1F ---------------------------------
+        .global ScriptSlotPairTable_0009B4__L0009fa
+ScriptSlotPairTable_0009B4__L0009fa:
         .short  0x0800, 0x0103                  | slot $00 <- script $103
         .short  0x0801, 0x0104                  | slot $01 <- script $104
         .short  0x0802, 0x0105                  | slot $02 <- script $105
@@ -165,41 +167,41 @@ ScriptSlotPairTable_0009B4:
 
 TaskSlots_BootInstall_000A7C:
         lea     0x1008a0.l, a0                  | +000  TCB $1008A0
-        lea     RtsStub_0400, a1                | +006  handler idle (rts)
-        jsr     Task_InstallHandler_0000050E    | +00c
+        lea     Task_IdleRts_000400, a1                | +006  handler idle (rts)
+        jsr     Task_AllocAndMarkBusy_00050e    | +00c
         lea     0x100800.l, a0                  | +012  TCB $100800
-        lea     RtsStub_0400, a1                | +018
-        jsr     Task_InstallHandler_0000050E    | +01e
+        lea     Task_IdleRts_000400, a1                | +018
+        jsr     Task_AllocAndMarkBusy_00050e    | +01e
         lea     0x1006c0.l, a0                  | +024  TCB $1006C0
         lea     JsrPcThunk_03240c, a1           | +02a  handler real
-        jsr     Task_InstallHandler_0000050E    | +030
+        jsr     Task_AllocAndMarkBusy_00050e    | +030
         lea     0x100440.l, a0                  | +036  TCB $100440 (player 1)
-        lea     RtsStub_0400, a1                | +03c
-        jsr     Task_InstallHandler_0000050E    | +042
+        lea     Task_IdleRts_000400, a1                | +03c
+        jsr     Task_AllocAndMarkBusy_00050e    | +042
         lea     0x1004e0.l, a0                  | +048  TCB $1004E0 (player 2)
-        lea     RtsStub_0400, a1                | +04e
-        jsr     Task_InstallHandler_0000050E    | +054
+        lea     Task_IdleRts_000400, a1                | +04e
+        jsr     Task_AllocAndMarkBusy_00050e    | +054
         lea     0x100620.l, a0                  | +05a  TCB $100620
         lea     JsrPcThunk_032406, a1           | +060  handler real
-        jsr     Task_InstallHandler_0000050E    | +066
+        jsr     Task_AllocAndMarkBusy_00050e    | +066
         lea     0x100580.l, a0                  | +06c  TCB $100580
-        lea     RtsStub_0400, a1                | +072
-        jsr     Task_InstallHandler_0000050E    | +078
+        lea     Task_IdleRts_000400, a1                | +072
+        jsr     Task_AllocAndMarkBusy_00050e    | +078
         lea     0x100760.l, a0                  | +07e  TCB $100760
         lea     JsrPcThunk_029582, a1           | +084  handler real
-        jsr     Task_InstallHandler_0000050E    | +08a
+        jsr     Task_AllocAndMarkBusy_00050e    | +08a
         lea     0x100300.l, a0                  | +090  TCB $100300 (partner P1)
-        lea     RtsStub_0400, a1                | +096
-        jsr     Task_InstallHandler_0000050E    | +09c
+        lea     Task_IdleRts_000400, a1                | +096
+        jsr     Task_AllocAndMarkBusy_00050e    | +09c
         lea     0x1003a0.l, a0                  | +0a2  TCB $1003A0 (partner P2)
-        lea     RtsStub_0400, a1                | +0a8
-        jsr     Task_InstallHandler_0000050E    | +0ae
+        lea     Task_IdleRts_000400, a1                | +0a8
+        jsr     Task_AllocAndMarkBusy_00050e    | +0ae
         lea     0x100260.l, a0                  | +0b4  TCB $100260
-        lea     RtsStub_0400, a1                | +0ba
-        jsr     Task_InstallHandler_0000050E    | +0c0
+        lea     Task_IdleRts_000400, a1                | +0ba
+        jsr     Task_AllocAndMarkBusy_00050e    | +0c0
         lea     0x1001c0.l, a0                  | +0c6  TCB $1001C0 (scheduler!)
         lea     SchedulerBootstrap_Boot_000E8E(pc), a1  | +0cc  PC-rel (43fa 0344)
-        jsr     Task_InstallHandler_0000050E    | +0d0
+        jsr     Task_AllocAndMarkBusy_00050e    | +0d0
         lea     0x100440.l, a0                  | +0d6  arranque inmediato de
         jsr     Task_RunHandler_05FE            | +0dc  los tasks de jugador
         lea     0x1004e0.l, a0                  | +0e2

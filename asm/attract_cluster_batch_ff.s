@@ -41,7 +41,7 @@
 |       * corre init pesado $46AC6, sella tres flags con $FF y llama
 |       * probe $1E0A + tail-scheduler.
 |       *
-|       * Entrada secundaria ($00179A): probe path. bsr Sub_00001DB8;
+|       * Entrada secundaria ($00179A): probe path. bsr Hud_DrawCreditsAndOverlay_001db8;
 |       * si $106ED2 != 0 => rts inmediato ($0017C6). Si == 0, hace
 |       * jsr $5B6 + lea $9B4(pc); jsr $2B58 + jsr $212E + bra $FE0.
 |       * El rts final ($0017C6) NO es funcion aparte: es la salida
@@ -69,30 +69,30 @@
 Attract_InitBIOS_001744:
         jsr     0xc004c2.l                     | +00  BIOS_FIX_CLEAR
         jsr     0x52712.l                      | +06  ThunkTarget_052712 (palette fade)
-        lea.l   0x46682.l, a1                  | +0c  a1 = TaskHandler_00046682
+        lea.l   0x46682.l, a1                  | +0c  a1 = SceneC_Load_Task_046682
         jsr     0x4ae.l                        | +12  scheduler_add(a1)
         cmpi.b  #0x6, 0x106ed0.l               | +18  if (state_gate < 6)
         bcs.w   .Lff2_skip_aux                 | +20    skip second task-add
-        lea.l   0x59b6a.l, a1                  | +24  a1 = TaskHandler_00059B6A
+        lea.l   0x59b6a.l, a1                  | +24  a1 = Ending_PeaceWait_059b6a
         jsr     0x4ae.l                        | +2a  scheduler_add(a1)
 .Lff2_skip_aux:                                | $001774
         jsr     0x46ac6.l                      | +30  Sub_00046AC6 (init pesado)
         move.b  #0xff, 0x106ece.l              | +36  seal opcode
         move.b  #0xff, 0x106ecf.l              | +3e  seal opcode2
         move.b  #0xff, 0x106ed2.l              | +46  seal pending flag
-        bsr.w   Sub_00001E0A                   | +4e  probe/setup
+        bsr.w   Set106ECC_CD_001e0a                   | +4e  probe/setup
         bra.w   Sub_00000FE0                   | +52  tail al scheduler
 
                                               | ---- entrada secundaria ($00179A) ----
 .Lff2_probe_entry:                             | $00179A
-        bsr.w   Sub_00001DB8                   | +56  probe/setup
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                   | +56  probe/setup
         tst.b   0x106ed2.l                     | +5a  if (pending == 0)
         beq.w   .Lff2_do_init                  | +60    goto init
         bra.w   .Lff2_rts                      | +64  else rts inmediato
 .Lff2_do_init:                                 | $0017AC
         jsr     0x5b6.l                        | +68  FUN_000005B6
         lea.l   .Lff2_tpl_9b4(pc), a0          | +6e  a0 = template ptr $000009B4
-        jsr     0x2b58.l                       | +72  Sub_00002B58(a0)
+        jsr     0x2b58.l                       | +72  PalSlot_LoadListHi_002b58(a0)
         jsr     0x212e.l                       | +78  InputQueue_InitAndPushOp4
         bra.w   Sub_00000FE0                   | +7e  tail al scheduler
 .Lff2_rts:                                     | $0017C6
@@ -119,7 +119,7 @@ Attract_InitBIOS_001744:
 
 Attract_InitTaskAdd_3DBC8_0017C8:
         move.b  #0xff, 0x106ed2.l              | +00  seal pending flag
-        lea.l   0x3dbc8.l, a1                  | +08  a1 = TaskHandler_0003DBC8
+        lea.l   0x3dbc8.l, a1                  | +08  a1 = Results_Entry_03dbc8
         jsr     0x4ae.l                        | +0e  scheduler_add(a1)
         jsr     0x46ac6.l                      | +14  Sub_00046AC6 (init pesado)
         bra.w   Sub_00000FE0                   | +1a  tail al scheduler
@@ -146,11 +146,11 @@ Attract_InitTaskAdd_3DBC8_0017C8:
         .section .text.Attract_InitShow27_TaskAdd_0017E6, "ax", @progbits
 
 Attract_InitShow27_TaskAdd_0017E6:
-        bsr.w   Sub_00001E0A                   | +00  probe/setup
+        bsr.w   Set106ECC_CD_001e0a                   | +00  probe/setup
         move.b  #0xff, 0x106ed2.l              | +04  seal pending flag
         move.w  #0x27, d0                      | +0c  d0 = opcode 0x27
         jsr     0x2352.l                       | +10  InputGuardCall219c(d0)
-        lea.l   0x46608.l, a1                  | +16  a1 = TaskHandler_00046608
+        lea.l   0x46608.l, a1                  | +16  a1 = Fade_WhiteFlash_Task_046608
         jsr     0x4ae.l                        | +1c  scheduler_add(a1)
         move.b  #0xff, 0x21(a6)                | +22  self->flag_21 = $FF
         bra.w   Sub_00000FE0                   | +28  tail al scheduler
@@ -177,7 +177,7 @@ Attract_InitShow27_TaskAdd_0017E6:
         .section .text.Attract_SetTimers2_And_Gate21_001812, "ax", @progbits
 
 Attract_SetTimers2_And_Gate21_001812:
-        bsr.w   Sub_00001DB8                   | +00  probe/setup
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                   | +00  probe/setup
         move.b  #0x2, 0x45(a6)                 | +04  timer_b = 2
         move.b  #0x2, 0x44(a6)                 | +0a  timer_a = 2
         tst.b   0x21(a6)                       | +10  if (self->flag_21 == 0)
@@ -208,7 +208,7 @@ Attract_SetTimers2_And_Gate21_001812:
 
 Attract_TailChain_1CD4_1DA4_00182C:
         bsr.w   TaskList_ChangeAndRunEight_001CD4           | +00  jsr $1CD4 (probe)
-        bsr.w   Sub_00001DA4                   | +04  bsr Sub_00001DA4
+        bsr.w   Task_InstallBootSlots_001da4                   | +04  bsr Task_InstallBootSlots_001da4
         bra.w   Sub_00000FE0                   | +08  tail al scheduler
 
         .size   Attract_TailChain_1CD4_1DA4_00182C, .-Attract_TailChain_1CD4_1DA4_00182C
@@ -298,7 +298,7 @@ Attract_DoubleCheck_400_Publish_001846:
 |      4. move.w #$1, d0
 |      5. jsr $523B2            ThunkTarget_0523b2(1)  publish
 |      6. lea $1B4C(pc); jsr $4AE   scheduler_add(TaskHandler_001B4C)
-|      7. jsr $1DCC(pc)         PcThunkTarget_001DCC
+|      7. jsr $1DCC(pc)         Task_InstallMissionSlots_001dcc
 |      8. seala $106ED2 y $106ED3 con $FF
 |      9. lea $1C44(pc); jsr $4AE   scheduler_add(handler_001C44)
 |     10. jsr $C004C2            BIOS_FIX_CLEAR
@@ -339,9 +339,9 @@ Attract_WaitStateBackbone_00188A:
         jsr     0x52712.l                      | +10  palette fade
         move.w  #0x1, d0                       | +16  d0 = 1
         jsr     0x523b2.l                      | +1a  ThunkTarget_0523b2(1)
-        lea.l   TaskHandler_001b4c(pc), a1     | +20  a1 = TaskHandler_001B4C
+        lea.l   Rank_DelayStart_001b4c(pc), a1     | +20  a1 = TaskHandler_001B4C
         jsr     0x4ae.l                        | +24  scheduler_add(a1)
-        jsr     PcThunkTarget_001DCC(pc)       | +2a  PcThunkTarget_001DCC
+        jsr     Task_InstallMissionSlots_001dcc(pc)       | +2a  Task_InstallMissionSlots_001dcc
         move.b  #0xff, 0x106ed2.l              | +2e  seal
         move.b  #0xff, 0x106ed3.l              | +36  seal
         lea.l   .Lff9_tpl_1c44(pc), a1         | +3e  a1 = handler $1C44
@@ -361,7 +361,7 @@ Attract_WaitStateBackbone_00188A:
                                               | Fall-through: $0018DE = bsr.w del EE#2 (+4).
         .byte   0x4e, 0xb9                     | +4e  opcode jsr abs.l (sin operando)
 
-        .equ    .Lff9_tpl_1c44, TaskHandler_001C44
+        .equ    .Lff9_tpl_1c44, Banner_DelayThenStart_001c44
 
         .size   Attract_WaitStateBackbone_00188A, .-Attract_WaitStateBackbone_00188A
 
@@ -411,13 +411,15 @@ Attract_PostStart_Cleanup_001AB6:
         jsr     0x981fc.l                      | +00  Copy2Bytes_10FDB6to10E3A0
         btst.b  #0x0, 0x100001.l               | +06  test bit-0 de $100001
         beq.w   .Lff12_check_ed6               | +0e    if (bit-0 == 0) skip probe
-        jsr     0x5d288.l                      | +12  Sub_0005D288 (probe)
+        jsr     0x5d288.l                      | +12  InputEvt_ToggleChain_05d288 (probe)
         bcc.w   .Lff12_bra_short               | +18    if (C == 0) skip repatch
         lea.l   .Lff12_pc_f76(pc), a1          | +1c  a1 = handler $F76 (PC-rel)
         move.l  a1, (a6)                       | +20  self->handler = a1
 .Lff12_bra_short:                              | $001AD8
         bra.w   .Lff12_check_ed6               | +22  (bra.w a +2 B, patron)
 .Lff12_check_ed6:                              | $001ADC
+        .global Attract_PostStart_Cleanup_001AB6__L001adc
+Attract_PostStart_Cleanup_001AB6__L001adc:
         tst.b   0x106ed6.l                     | +26  if ($106ED6 != 0)
         bne.w   .Lff12_clr_and_rts             | +2c    goto clear+rts
         tst.b   0x106ed2.l                     | +30  if ($106ED2 == 0)

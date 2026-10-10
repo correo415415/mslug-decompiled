@@ -287,7 +287,7 @@ SceneScriptVM_Frame_0437DA:
         bra.w   .Lfetch                        | +264
 .Lop0a_call_2b58:                              | $043A42  parser externo
         lea.l   0x2(a1), a0                    | +268  a0 = cursor en el script
-        jsr     Sub_00002B58                   | +26c  consume datos, mueve a0
+        jsr     PalSlot_LoadListHi_002b58                   | +26c  consume datos, mueve a0
         addq.w  #2, a0                         | +272  +2 de alineacion
         move.l  a0, 0x10815c.l                 | +274  PC = cursor final
         bra.w   .Lfetch                        | +27a

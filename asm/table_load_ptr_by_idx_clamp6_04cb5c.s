@@ -47,6 +47,6 @@ Table_LoadPtrByIdxClamp6_04CB5C:
 .Lout:
         rts                                    | +2a
 
-        .equ    .LTable, PtrTable6_04CB44
+        .equ    .LTable, SpriteSetPtrTbl6_04cb44
 
         .size   Table_LoadPtrByIdxClamp6_04CB5C, .-Table_LoadPtrByIdxClamp6_04CB5C

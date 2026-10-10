@@ -55,7 +55,7 @@
 Entity_AllocFromFreeList_0006FE:
         movea.l 0x106e80.l, a0                | +00  a0 = free-list head
         cmpa.l  #0xffffffff, a0                | +06  ¿ free-list vacio ?
-        beq.w   EmptyEntity_Init_00076A        | +0c  si: tail-call a $076A
+        beq.w   Entity_AllocFail_00076a        | +0c  si: tail-call a $076A
         move.l  0x8(a0), 0x106e80.l            | +10  head = a0->next
         movem.l d0-d7/a0-a6, -(a7)             | +18  push TODOS los registros
         jsr     Entity_ClearPtrSlots_05DC1C    | +1c  (W#15) limpia $10..$9C con NIL

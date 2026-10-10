@@ -62,6 +62,8 @@
 Entity_ApplyFadeShade_028108:
         move.w  0x24(a6), d6                   | +000  d6 = entity->+24
         move.w  0x38(a6), d5                   | +004  d5 = entity->+38
+        .global Entity_ApplyFadeShade_028108__L028110
+Entity_ApplyFadeShade_028108__L028110:
         subi.w  #0x4000, d5                    | +008  d5 -= 0x4000
         cmpi.w  #0x7fff, d5                     | +00c  d5 (uns) vs 0x7FFF
         bcc.w   .Lout_of_range                  | +010  fuera de rango: salir

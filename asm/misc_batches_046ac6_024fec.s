@@ -103,6 +103,8 @@ FixLayer_QuadBatch_046AC6:
         move.w  #0x2, d2                       | +22  d2 = 2
         jsr     ThunkTarget_05da9c                   | +26  fill_tilemap()
         | ---- Batch #3: columna izq. ($7000, 1 col, 32 rows)
+        .global FixLayer_QuadBatch_046AC6__L046af2
+FixLayer_QuadBatch_046AC6__L046af2:
         movea.w #0x7000, a1                    | +2c  a1 = VRAM $7000
         move.w  #0x20, d0                      | +30  d0 = tile $20
         move.w  #0x1, d1                       | +34  d1 = 1 (col)

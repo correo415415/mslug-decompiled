@@ -24,8 +24,8 @@
 | * Enemy46_*: maquina de estados del enemigo tipo $46 — Boot inicializa
 |   y registra la tarea, PhaseA espera la condicion de activacion, Move
 |   desplaza con velocidad fija, PhaseB alterna el patron y Tail cierra
-|   instalando el handler del hueco siguiente (Fn_00046260) y llamando a
-|   la rutina futura Fn_000463C2 (ambas pendientes de la proxima wave).
+|   instalando el handler del hueco siguiente (Enemy46_PhaseC_046260) y llamando a
+|   la rutina futura Drop_ProbeAndNudgeY_0463c2 (ambas pendientes de la proxima wave).
 | =====================================================================
 
         .globl  Task_KillFlag10060C_045F2C
@@ -259,7 +259,7 @@ Enemy46_PhaseB_0461EA:
         jsr     0x27a92.l                              | +01a
         btst    #0x5, 0x5a(a6)                         | +020
         beq.w   .L4621a                                | +026
-        lea     Fn_00046260(pc), a1                    | +02a
+        lea     Enemy46_PhaseC_046260(pc), a1                    | +02a
         move.l  a1, (a6)                               | +02e
 .L4621a:
         jsr     0x28d70.l                              | +030
@@ -271,7 +271,7 @@ Enemy46_PhaseB_0461EA:
 Enemy46_Tail_046220:
         jsr     0x2870a.l                              | +000
         bcc.w   .L46248                                | +006
-        jsr     Fn_000463C2(pc)                    | +00a
+        jsr     Drop_ProbeAndNudgeY_0463c2(pc)                    | +00a
         tst.b   0x9a(a6)                               | +00e
         bne.w   .L46240                                | +012
         jsr     0x49fd0.l                              | +016

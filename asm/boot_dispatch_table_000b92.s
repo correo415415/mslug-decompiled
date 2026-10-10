@@ -124,6 +124,8 @@ BootTblEntry_BE6:
         .long   0x00001438                          | $000BFE  T2[13]  -> UNMATCHED (handler @ $0001438)
         .long   0x0000135E                          | $000C02  T2[14]  -> UNMATCHED (handler @ $000135E)
         .long   0x00001452                          | $000C06  T2[15]  -> UNMATCHED (handler @ $0001452)
+        .global BootDispatchTable_000B92__L000c0a
+BootDispatchTable_000B92__L000c0a:
         .long   0x00000C8A                          | $000C0A  T2[16]  -> UNMATCHED (handler @ $0000C8A)
         .long   0x00001514                          | $000C0E  T2[17]  -> UNMATCHED (handler @ $0001514)
         .long   0x00000CAA                          | $000C12  T2[18]  -> UNMATCHED (handler @ $0000CAA)
@@ -210,16 +212,22 @@ BootTblEntry_BE6:
         .long   0x000015F4                          | $000D56  T2[99]  -> UNMATCHED (handler @ $00015F4)
         .long   0x00001026                          | $000D5A  T2[100]  -> SchedTail_JsrD3C_001026
         .long   0x00001604                          | $000D5E  T2[101]  -> UNMATCHED (handler @ $0001604)
+        .global BootDispatchTable_000B92__L000d62
+BootDispatchTable_000B92__L000d62:
         .long   0x00001026                          | $000D62  T2[102]  -> SchedTail_JsrD3C_001026
         .long   0x0000163C                          | $000D66  T2[103]  -> UNMATCHED (handler @ $000163C)
         .long   0x000016C2                          | $000D6A  T2[104]  -> UNMATCHED (handler @ $00016C2)
         .long   0xFFFFFFFF                          | $000D6E  ---- SENTINEL end of T2 ----
         .long   0x00000E4E                          | $000D72  T3[ 0]  -> UNMATCHED (handler @ $0000E4E)
+        .global BootDispatchTable_000B92__L000d76
+BootDispatchTable_000B92__L000d76:
         .long   0x00001026                          | $000D76  T3[ 1]  -> SchedTail_JsrD3C_001026
         .long   0x00001678                          | $000D7A  T3[ 2]  -> UNMATCHED (handler @ $0001678)
         .long   0x000016C2                          | $000D7E  T3[ 3]  -> UNMATCHED (handler @ $00016C2)
         .long   0xFFFFFFFF                          | $000D82  ---- SENTINEL end of T3 ----
         .long   0x00000E4E                          | $000D86  T4[ 0]  -> UNMATCHED (handler @ $0000E4E)
+        .global BootDispatchTable_000B92__L000d8a
+BootDispatchTable_000B92__L000d8a:
         .long   0x00001026                          | $000D8A  T4[ 1]  -> SchedTail_JsrD3C_001026
         .long   0x0000165A                          | $000D8E  T4[ 2]  -> UNMATCHED (handler @ $000165A)
         .long   0x000016C2                          | $000D92  T4[ 3]  -> UNMATCHED (handler @ $00016C2)

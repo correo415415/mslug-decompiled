@@ -33,18 +33,18 @@
 
 ProbeTwoAttemptsCcr_05E5A8:
         clr.w   d0                             | +00  d0 = 0 (primer intento)
-        jsr     .Lprobe(pc)                    | +02  Sub_0005E3A2 (probe)
+        jsr     .Lprobe(pc)                    | +02  Player_GetEntity_05e3a2 (probe)
         bcc.w   .Lattempt2                     | +06  if (!C) fallo primer probe -> intento 2
-        jsr     .Lconfirm(pc)                  | +0a  Sub_0005E618 (confirm)
+        jsr     .Lconfirm(pc)                  | +0a  Target_IsAhead_05e618 (confirm)
         bcs.w   .Lattempt2                     | +0e  if (C) fallo confirm -> intento 2
         andi.b  #0xee, ccr                     | +12  CCR &= 0xEE (exito publico)
         rts                                    | +16
                                               |
 .Lattempt2:
         move.w  #0x1, d0                       | +18  d0 = 1 (segundo intento)
-        jsr     .Lprobe(pc)                    | +1c  Sub_0005E3A2 (probe)
+        jsr     .Lprobe(pc)                    | +1c  Player_GetEntity_05e3a2 (probe)
         bcc.w   .Lfail                         | +20  if (!C) fallo -> exit fallido
-        jsr     .Lconfirm(pc)                  | +24  Sub_0005E618 (confirm)
+        jsr     .Lconfirm(pc)                  | +24  Target_IsAhead_05e618 (confirm)
         bcs.w   .Lfail                         | +28  if (C) fallo -> exit fallido
         andi.b  #0xee, ccr                     | +2c  CCR &= 0xEE (exito publico)
         rts                                    | +30
@@ -53,7 +53,7 @@ ProbeTwoAttemptsCcr_05E5A8:
         ori.b   #0x11, ccr                     | +32  CCR |= 0x11 (fallo publico)
         rts                                    | +36
 
-        .equ    .Lprobe,   Sub_0005E3A2
-        .equ    .Lconfirm, Sub_0005E618
+        .equ    .Lprobe,   Player_GetEntity_05e3a2
+        .equ    .Lconfirm, Target_IsAhead_05e618
 
         .size   ProbeTwoAttemptsCcr_05E5A8, .-ProbeTwoAttemptsCcr_05E5A8

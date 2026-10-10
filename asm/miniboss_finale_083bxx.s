@@ -19,22 +19,22 @@
 |     ($51A28), pares $2E9890/$2E9A82, sprite $2E6FBA, velocidad
 |     $280/-$40 (TaskHandler_083e8c, global interno, se reinstala
 |     cruzando entradas desde $83F0E).
-|   * $83F26..$8414C — fase temporizada $F0 con helper Sub_00086328 y
+|   * $83F26..$8414C — fase temporizada $F0 con helper Boss_SpawnRow8_086328 y
 |     salida via scheduler; gate x<=$140 con sprite $2E6FCA, blitter
 |     $2EACB8 + snd $1030, score $500, bset del índice en el padre y
 |     máquina bit-scan sobre la tabla $2EAA60[+$21<<4] (2x StateMachineRun,
-|     helpers Sub_000864B6/Sub_000864D0) que termina cuando +$21==$11.
+|     helpers Boss_BlitTable_A_0864b6/Boss_BlitTable_B_0864d0) que termina cuando +$21==$11.
 |   * $8414C..$842D0 — cadena de sprites del desenlace ($2E6FE0/$2E6FF6/
-|     $2E7006/$2E701C) con helpers Sub_00086400/Sub_00086364/Sub_000864EA.
+|     $2E7006/$2E701C) con helpers Sub_00086400/Boss_SpawnRow9_086364/Boss_BlitTable_C_0864ea.
 |   * $842D0..$84408 — explosión final: sprite $2E7032, score $1000, snd
 |     $1030, helpers Sub_0008640E/Sub_0008641C, pares $2E9B00/$2E9ACA,
 |     blitters $2EACB8/$2EAE76; epílogo con snd $A9, helpers
-|     Sub_000860E4/Sub_00086300, spawn del hijo $8495E (hueco futuro,
+|     Boss_Spawn45Children_0860e4/Boss_Spawn4Finale_086300, spawn del hijo $8495E (hueco futuro,
 |     via $4AE + $5DD22), sprite $2E7048 y limpieza de $10E39A.
 |   * $84410..$84504 — transición de oleada: $10E39C=3, instala
 |     TaskHandler_0845b8 (referencia cruzada entre huecos), snd $1033,
 |     $2C26 (d1=$27,d2=$129), spawn absoluto $86586 (hueco futuro),
-|     helpers Sub_00086196/Sub_0008610C, pares $2E98D8/$2E98EA y
+|     helpers Boss_SpawnTenEscorts_086196/Boss_SpawnStepList_08610c, pares $2E98D8/$2E98EA y
 |     contador +$21>=9 -> $10E39A=2; variante con blitter $2EACD4 y
 |     sprite $2E7486 (probe $6F0).
 |   * $8450C..$845E4 — cierre de fase: clr $10E39C + $320D4 + scheduler;
@@ -42,8 +42,8 @@
 |     $106F28 bit0 y +$58==1/2, lista $53886 via $4AE; parpadeo de
 |     $10A2D1 con contador +$72 (cae en la isla JmpToScheduler_0845e4).
 |   * $845EC..$84828 — sincronización padre/hijo: tres etapas que esperan
-|     bit3 de +$13 del padre y comparan +$20/+$21 (helpers Sub_0008651E/
-|     Sub_00086538, score $1000, snd $108D); relanzamiento aleatorio con
+|     bit3 de +$13 del padre y comparan +$20/+$21 (helpers Boss_BlitTable_E_08651e/
+|     Boss_BlitTable_F_086538, score $1000, snd $108D); relanzamiento aleatorio con
 |     snd $A9, offsets +$80/+$29 (+$40 por índice), tabla $2E7556[+$21<<2]
 |     y selector aleatorio $2EB02C[rnd&$F<<2] via $4AE + $5DD22; fase
 |     final con gate x>$150, snd $102E, despawn ($FFFF + par $2E9ADC)
@@ -73,6 +73,10 @@ TaskHandler_083be2:
         move.b  0x98(a6),0x21(a6)               | +010
         move.b  0x99(a6),0x3a(a6)               | +016
         bra.w   .L83c0c                         | +01c
+        | Segunda entrada (snd $AA): instalada como handler via lea pc desde
+        | $0860F6/$086196 (Wave III) — no es codigo muerto.
+        .global TaskHandler_083c02
+TaskHandler_083c02:
         move.w  #0xaa,d1                        | +020
         jsr     0x236e.l                        | +024
 .L83c0c:
@@ -343,7 +347,7 @@ TaskHandler_083fa8:
         jsr     0x2942a.l                       | +004
         move.w  #0xf0,0x70(a6)                  | +00a
         move.b  #0x0,0x21(a6)                   | +010
-        jsr     Sub_00086328(pc)                | +016
+        jsr     Boss_SpawnRow8_086328(pc)                | +016
         lea     .L83fc8(pc),a1                  | +01a
         move.l  a1,(a6)                         | +01e
 .L83fc8:
@@ -440,7 +444,7 @@ TaskHandler_084060:
         movea.l 0xc(a6),a0                      | +08c
         btst    d0,0x21(a0)                     | +090
         beq.w   .L84102                         | +094
-        jsr     Sub_000864B6(pc)                | +098
+        jsr     Boss_BlitTable_A_0864b6(pc)                | +098
         bset    #0x4,0x20(a6)                   | +09c
 .L84102:
         btst    #0x0,0x20(a6)                   | +0a2
@@ -455,7 +459,7 @@ TaskHandler_084060:
         movea.l 0xc(a6),a0                      | +0c4
         btst    d0,0x21(a0)                     | +0c8
         beq.w   .L8413a                         | +0cc
-        jsr     Sub_000864D0(pc)                | +0d0
+        jsr     Boss_BlitTable_B_0864d0(pc)                | +0d0
         bset    #0x0,0x20(a6)                   | +0d4
 .L8413a:
         cmpi.b  #0x11,0x21(a6)                  | +0da
@@ -569,7 +573,7 @@ TaskHandler_08424c:
 TaskHandler_084266:
         movea.l 0x3c(a6),a1                     | +000
         jsr     0x2942a.l                       | +004
-        jsr     Sub_00086364(pc)                | +00a
+        jsr     Boss_SpawnRow9_086364(pc)                | +00a
         lea     .L8427a(pc),a1                  | +00e
         move.l  a1,(a6)                         | +012
 .L8427a:
@@ -593,7 +597,7 @@ TaskHandler_084282:
         jsr     0x28d70.l                       | +024
         jsr     0x2870a.l                       | +02a
         bcc.w   .L842be                         | +030
-        jsr     Sub_000864EA(pc)                | +034
+        jsr     Boss_BlitTable_C_0864ea(pc)                | +034
         bra.w   .L842c8                         | +038
 .L842be:
         jsr     0x4fa70.l                       | +03c
@@ -664,8 +668,8 @@ TaskHandler_084396:
         move.w  #0xa9,d1                        | +00a
         jsr     0x236e.l                        | +00e
         move.w  #0x1,0x38(a6)                   | +014
-        jsr     Sub_000860E4(pc)                | +01a
-        jsr     Sub_00086300(pc)                | +01e
+        jsr     Boss_Spawn45Children_0860e4(pc)                | +01a
+        jsr     Boss_Spawn4Finale_086300(pc)                | +01e
         lea     Sub_0008495E(pc),a1             | +022
         jsr     0x4ae.l                         | +026
         jsr     0x5dd22.l                       | +02c
@@ -706,13 +710,13 @@ TaskHandler_084410:
         jsr     0x4ae.l                         | +046
         lea     0x2ea790.l,a2                   | +04c
         jsr     0x5022a.l                       | +052
-        jsr     Sub_00086196(pc)                | +058
+        jsr     Boss_SpawnTenEscorts_086196(pc)                | +058
         lea     0x2e98d8.l,a1                   | +05c
         jsr     0x77c7e.l                       | +062
         lea     0x2e98ea.l,a1                   | +068
         jsr     0x77c7e.l                       | +06e
         move.w  #0xc000,0x38(a0)                | +074
-        jsr     Sub_0008610C(pc)                | +07a
+        jsr     Boss_SpawnStepList_08610c(pc)                | +07a
         move.b  #0x0,0x21(a6)                   | +07e
         lea     .L8449a(pc),a1                  | +084
         move.l  a1,(a6)                         | +088
@@ -833,7 +837,7 @@ TaskHandler_0845ec:
         bne.w   .L84622                         | +01c
         bclr    #0x3,0x13(a0)                   | +020
         move.b  0x58(a0),0x58(a6)               | +026
-        jsr     Sub_0008651E(pc)                | +02c
+        jsr     Boss_BlitTable_E_08651e(pc)                | +02c
         lea     TaskHandler_084638(pc),a1       | +030
         move.l  a1,(a6)                         | +034
 .L84622:
@@ -865,7 +869,7 @@ TaskHandler_084638:
         bne.w   .L84684                         | +032
         bclr    #0x3,0x13(a0)                   | +036
         move.b  0x58(a0),0x58(a6)               | +03c
-        jsr     Sub_00086538(pc)                | +042
+        jsr     Boss_BlitTable_F_086538(pc)                | +042
         lea     TaskHandler_08469a(pc),a1       | +046
         move.l  a1,(a6)                         | +04a
 .L84684:

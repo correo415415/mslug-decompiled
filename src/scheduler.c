@@ -313,7 +313,7 @@ __asm__(
     "    movem.l %fp, -(%sp)                 /* 48E7 0002      */              \n"
     "    movea.l %a0, %fp                    /* 2C48           */              \n"
     "    jsr     Task_WalkList_05B6(%pc)     /* 4EBA FF74      */              \n"
-    "    lea     RtsStub_0400(%pc), %a1      /* 43FA FDBA      */              \n"
+    "    lea     Task_IdleRts_000400(%pc), %a1      /* 43FA FDBA      */              \n"
     "    move.l  %a1, (%fp)                  /* 2C89           */              \n"
     "    movea.l %fp, %a0                    /* 204E           */              \n"
     "    jsr     Task_RunHandler_05FE(%pc)   /* 4EBA FFB0      */              \n"

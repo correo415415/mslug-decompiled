@@ -699,35 +699,14 @@ void ClearXN_02ad6a(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 __attribute__((section(".text.ClearXN_02f87a")))
 void ClearXN_02f87a(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 
-__attribute__((section(".text.SetXN_02f880")))
-void SetXN_02f880(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.ClearXN_02faf6")))
-void ClearXN_02faf6(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.ClearXN_02fb68")))
-void ClearXN_02fb68(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
-
 __attribute__((section(".text.SetXN_02fb8c")))
 void SetXN_02fb8c(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.SetXN_02ffda")))
 void SetXN_02ffda(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
 
-__attribute__((section(".text.ClearXN_02ffe0")))
-void ClearXN_02ffe0(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
-
 __attribute__((section(".text.ClearXN_02fff6")))
 void ClearXN_02fff6(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.SetXN_02fffc")))
-void SetXN_02fffc(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.ClearC_0303e2")))
-void ClearC_0303e2(void) { __asm__ volatile("andi.b #0xFE, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.SetC_0303e8")))
-void SetC_0303e8(void) { __asm__ volatile("ori.b  #0x01, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.SetXN_03075e")))
 void SetXN_03075e(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
@@ -815,24 +794,6 @@ void SetXN_033250(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.ClearXN_0334c0")))
 void ClearXN_0334c0(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.ClearXN_039244")))
-void ClearXN_039244(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.SetXN_03924a")))
-void SetXN_03924a(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.SetXN_039366")))
-void SetXN_039366(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.ClearXN_039376")))
-void ClearXN_039376(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.SetXN_039404")))
-void SetXN_039404(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.ClearXN_03940a")))
-void ClearXN_03940a(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.ClearXN_03dbbc")))
 void ClearXN_03dbbc(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
@@ -1034,12 +995,6 @@ void ClearXN_046a3c(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.SetXN_046a42")))
 void SetXN_046a42(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.NopCCR_046e6c")))
-void NopCCR_046e6c(void) { __asm__ volatile("ori.b  #0x00, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.NopCCR_046fd0")))
-void NopCCR_046fd0(void) { __asm__ volatile("ori.b  #0x00, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.ClearXN_0478f0")))
 void ClearXN_0478f0(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
@@ -1371,9 +1326,6 @@ void ClearXN_052042(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.SetXN_052048")))
 void SetXN_052048(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.NopCCR_0522a8")))
-void NopCCR_0522a8(void) { __asm__ volatile("ori.b  #0x00, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.ClearXN_052392")))
 void ClearXN_052392(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
@@ -3154,12 +3106,6 @@ void ClearXN_099ad6(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.SetXN_099adc")))
 void SetXN_099adc(void) { __asm__ volatile("ori.b  #0x11, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.NopCCR_099f0a")))
-void NopCCR_099f0a(void) { __asm__ volatile("ori.b  #0x00, %%ccr" ::: "cc"); }
-
-__attribute__((section(".text.NopCCR_099f34")))
-void NopCCR_099f34(void) { __asm__ volatile("ori.b  #0x00, %%ccr" ::: "cc"); }
 
 __attribute__((section(".text.ClearXN_09a0cc")))
 void ClearXN_09a0cc(void) { __asm__ volatile("andi.b #0xEE, %%ccr" ::: "cc"); }

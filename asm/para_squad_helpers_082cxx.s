@@ -11,7 +11,7 @@
 |   * $8283C..$82924 — continuación del escape: TaskHandler_08283c (post-
 |     escape, retorna a la cola de frame ParaSquad_FrameTail_0827fe del módulo
 |     EEE via bra.w), TaskHandler_082884 (rama alternativa, spawnea pieza
-|     $77E10), transición $828D2 (marca +$48=-1 y jmp TaskHandler_056204),
+|     $77E10), transición $828D2 (marca +$48=-1 y jmp Bounce_Explode_056204),
 |     TaskHandler_0828e0 (snd $109F + bra.w TaskHandler_08246c) y
 |     TaskHandler_0828ee (hijo: snd $193, sprite $2E6728, hereda +$5E).
 |   * $8292C..$82C74 — handlers de los hijos: disparo de venganza con jitter

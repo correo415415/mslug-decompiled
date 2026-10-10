@@ -30,9 +30,6 @@ void SetTaskB_032f82(void) { TASK_B(0x79) = (u8)_d0_w; }
 __attribute__((section(".text.SetTaskB_032fb4")))
 void SetTaskB_032fb4(void) { TASK_B(0x79) = (u8)_d0_w; }
 
-__attribute__((section(".text.SetTaskB_03945a")))
-void SetTaskB_03945a(void) { TASK_B(0x47) = (u8)_d0_w; }
-
 __attribute__((section(".text.SetTaskB_041c96")))
 void SetTaskB_041c96(void) { TASK_B(0x76) = (u8)_d0_w; }
 

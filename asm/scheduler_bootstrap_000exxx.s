@@ -171,9 +171,9 @@ SchedulerBootstrap_Boot_000E8E:
         addq.w  #0x1, d0                        | +110 ++d0
         move.w  d0, 0x10007c.l                  | +112 frame_counter = d0
         jsr     0x5e998.l                       | +118 video update hook
-        jsr     PcThunkTarget_001E1C(pc)        | +11e audio update hook (pc-rel to $1E1C)
+        jsr     Scratch_AllocZero_001e1c(pc)        | +11e audio update hook (pc-rel to $1E1C)
         jsr     0x52712.l                       | +122 Pubcleaner_10A2Cx (LL#1)
-        bsr.w   Sub_00001DA4                    | +128 tail hook (symbols.py)
+        bsr.w   Task_InstallBootSlots_001da4                    | +128 tail hook (symbols.py)
         jsr     0xc004c2.l                      | +12c BIOS VBlank
         lea.l   SchedulerLoopA_000FC6(pc), a1   | +132 a1 = &loop_a
         move.l  a1, (a6)                        | +136 tcb.entry = &loop_a
@@ -261,7 +261,7 @@ SchedTail_JsrCD4_001020:
         .type   SchedTail_JsrD3C_001026, @function
         .section .text.SchedTail_JsrD3C_001026, "ax", @progbits
 SchedTail_JsrD3C_001026:
-        bsr.w   PcThunkTarget_001D3C            | +00 hook $1D3C (symbols.py, Wave MM#1)
+        bsr.w   Task_ResetAllSlots_001d3c            | +00 hook $1D3C (symbols.py, Wave MM#1)
         bra.b   SchedulerDispatch_LoopB_000FE0  | +04 goto loop B
 
         .size   SchedTail_JsrD3C_001026, .-SchedTail_JsrD3C_001026
@@ -292,20 +292,20 @@ AttractHandler_10002C:
         move.w  0x10007c.l, d0                  | +00 d0 = frame_counter
         addq.w  #0x1, d0                        | +06 ++d0
         move.w  d0, 0x10007c.l                  | +08 frame_counter = d0
-        jsr     Sub_0005E998                    | +0e video update hook
+        jsr     Rng_Seed_05e998                    | +0e video update hook
         jsr     BIOS_FIX_CLEAR                  | +14 BIOS VBlank (BIOS $C004C2)
         jsr     Pubcleaner_10A2Cx_052712        | +1a Pubcleaner_10A2Cx (LL#1)
-        lea.l   TaskTpl_098720, a1              | +20 a1 = &task_tpl_$98720
+        lea.l   LogoScene_Tpl_098720, a1              | +20 a1 = &task_tpl_$98720
         jsr     ThunkTarget_0004ae              | +26 Task_Alloc
         move.b  #0xff, 0x106ece.l               | +2c key latch A = -1
         move.b  #0xff, 0x106ecf.l               | +34 key latch B = -1
-        jsr     PcThunkTarget_001af8(pc)        | +3c hook @ $1af8 (pc-rel)
+        jsr     Attract_StartIfP2Flag_001af8(pc)        | +3c hook @ $1af8 (pc-rel)
         jsr     Sub_00046AC6                    | +40 FixLayer_QuadBatch (HH#3)
         move.b  #0xff, 0x106ed2.l               | +46 hud_dirty = -1
         bra.w   SchedulerDispatch_LoopB_000FE0  | +4e goto loop B
 | ---- Fase 2 del handler: gate $106ED2 ------------------------------
 .Lattr_handler_phase2:                          | $00107E
-        bsr.w   Sub_00001DB8                    | +52 hook @ $1DB8 (symbols.py)
+        bsr.w   Hud_DrawCreditsAndOverlay_001db8                    | +52 hook @ $1DB8 (symbols.py)
         tst.b   0x106ed2.l                      | +56 if (hud_dirty)
         bne.w   .Lattr_handler_falls_to_thunk   | +5c   goto fall-through
         jsr     FUN_000005B6                    | +60 refresh handler

@@ -8,7 +8,7 @@
 |
 |  Quinto y ultimo wrapper probe/revert del cluster $027Cxx..$027Dxx.
 |  Estructura byte-a-byte identica a T#7, T#9, T#11 y T#13 con el probe
-|  interno parametrizado a Sub_00002773C (= $2773c). Es el quinto probe
+|  interno parametrizado a Entity_MoveAndCollide_E_02773c (= $2773c). Es el quinto probe
 |  DISTINTO del cluster (T#7 usaba $277c4, T#9 usaba $273fc, T#11+T#13
 |  compartian $27444, T#15 usa $2773c).
 |
@@ -26,7 +26,7 @@ Entity_ProbeTransformFreeCcr_027d50:
         move.w  0x24(a6), -0x1146(a5)   | +0c  3b 6e 00 24 ee ba
         move.b  0x26(a6), -0x1144(a5)   | +12  1b 6e 00 26 ee bc
         move.b  0x27(a6), -0x1143(a5)   | +18  1b 6e 00 27 ee bd
-        jsr     .Lprobe(pc)             | +1e  4e ba f9 cc    -> Sub_00002773C
+        jsr     .Lprobe(pc)             | +1e  4e ba f9 cc    -> Entity_MoveAndCollide_E_02773c
         bcs.w   Entity_RestoreTransformSetC_027d94    | +22  65 00 00 20
         move.w  -0x1148(a5), 0x22(a6)   | +26  3d 6d ee b8 00 22
         move.w  -0x1146(a5), 0x24(a6)   | +2c  3d 6d ee ba 00 24
@@ -36,4 +36,4 @@ Entity_ProbeTransformFreeCcr_027d50:
         rts                             | +42  4e 75
         .size   Entity_ProbeTransformFreeCcr_027d50, .-Entity_ProbeTransformFreeCcr_027d50
 
-        .equ    .Lprobe, Sub_00002773C
+        .equ    .Lprobe, Entity_MoveAndCollide_E_02773c

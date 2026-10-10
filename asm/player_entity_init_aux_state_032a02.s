@@ -68,8 +68,8 @@
 |  caller original es la funcion instalada via a1.
 |
 |  Los tres jsr a helpers no matcheados ($5E98A, $8F6D2, $517AA) quedan
-|  con placeholder en tools/symbols.py (Sub_0005E98A, Sub_0008F6D2,
-|  Sub_000517AA) para no bloquear este match; son candidatos naturales
+|  con placeholder en tools/symbols.py (Entity_MarkFlag2TimerMax_05e98a, PlayerSlot_MaskF0F0_08f6d2,
+|  Player_SetIndexFromParent_0517aa) para no bloquear este match; son candidatos naturales
 |  para la siguiente ola (usar tools/rank_candidates.py).
 |
 |  Toolchain:  m68k-linux-gnu-as -m68000 --register-prefix-optional
@@ -89,13 +89,13 @@ PlayerEntity_InitAuxState_032A02:
         move.b  #0xff, 0x33(a6)         | +020  +33 = 0xFF (cooldown off)
         move.w  #0x8000, 0x38(a6)       | +026  +38 = 0x8000 (overwrite)
         ori.w   #0x10, 0x38(a6)         | +02c  +38 |= 0x0010
-        jsr     Sub_0005E98A            | +032  helper (aun no matcheado)
+        jsr     Entity_MarkFlag2TimerMax_05e98a            | +032  helper (aun no matcheado)
         move.b  #0xa, 0x80(a6)          | +038  +80 = 10
         move.w  #0x0, 0x82(a6)          | +03e  +82 = 0
         move.b  #0x1, 0x85(a6)          | +044  +85 = 1
         clr.b   0x8c(a6)                | +04a  +8c = 0
         clr.b   0x87(a6)                | +04e  +87 = 0
-        jsr     Sub_0008F6D2            | +052  helper (aun no matcheado)
+        jsr     PlayerSlot_MaskF0F0_08f6d2            | +052  helper (aun no matcheado)
         clr.w   0x72(a6)                | +058  +72 = 0
         clr.w   0x36(a6)                | +05c  +36 = 0
         clr.b   0x91(a6)                | +060  +91 = 0
@@ -106,7 +106,7 @@ PlayerEntity_InitAuxState_032A02:
         move.w  #0x0, 0x7c(a6)          | +07a  +7c = 0
         move.w  #0x0, 0x7e(a6)          | +080  +7e = 0
         bclr.b  #3, 0x13(a6)            | +086  clear flag +13 bit 3
-        jsr     Sub_000517AA            | +08c  helper (aun no matcheado)
+        jsr     Player_SetIndexFromParent_0517aa            | +08c  helper (aun no matcheado)
         lea.l   0x776e2.l, a1           | +092  a1 = &TaskTpl_0776E2
         jsr     ThunkTarget_0004ae      | +098  Task_AllocFromFreeList(a1)
 

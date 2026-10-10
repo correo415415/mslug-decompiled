@@ -17,6 +17,637 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   byte-exact matcher needs the copyrighted ROM and cannot run in CI).
 
 ### Added
+- CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- Wave JJJJJ — 73 entries (3,940 B, 26 gaps of `$000400..$002F30`,
+  `boot_script_sound_queue_palslots_000400.s`): boot-script handlers
+  (`BootScr_*`, service-message rows `BootMsg_*` with byte table `$1514`),
+  `Players_CountActive`, `Rank_Delay*`, `Task_ResetAllSlots/InstallBootSlots/
+  InstallMissionSlots`, deferred call ring (`Deferred_RunQueue/Push`, `$106EE6`),
+  `VBlank_FrameLoop/RenderFrame`, Z80 sound command queue (`Sound_*`, port
+  `$320000`, ring `$108184`), palette slot manager (`PalSlot_*`, table `$1082C8`).
+  **All CODE zones now 100 % (505,608 B).**
+- `tools/check_section_sizes.py` also compiles `.c` modules with the matcher's
+  CFLAGS and reports C-island tails that overlap another registry entry.
+- `tools/gen_asm_region.py`: `d8(pc,Xn)` to a forward symbol is emitted as an
+  entry-relative expression (GAS `R_68K_PC8` limitation).
+- Fixes: `Handler_TimerAndReplace` realigned to `$001BCA` (106 B; old base
+  split a `movem.l`); `UserMode0_080C` 38 B with `jmp SoftReset_085E(pc)` tail;
+  `BiosEntry_DEMO` 12 B; `BiosEntry_COIN_SOUND` 10 B.
+- Wave IIIII — 26 entries (2,082 B, 8 gaps of `$0133B0..$013D18`,
+  `palette_engine_sprite_grid_pause_0133b0.s`): palette engine (`Pal_LoadRaw16`,
+  `Pal_ClearSlot16`, `PalAnim_StepSlot/Blend16/StepRGB` via ramp table `$12F30`
+  and RGB LUT `$2F30`, `Pal_ApplyFadeDarken/Lighten`, `Pal_PackRGB/UnpackRGB`,
+  `Pal_ShadowClearAll`, `Pal_FlushDirtyToHW` → `$400000`, `Pal_WhiteOutNextBank`),
+  sprite grids (`Sprite_FillTileGrid`, `Sprite_SpawnGridA/B/B_Scaled`,
+  `SpriteAlloc_*`), `Vec_PolarToXY`, `Div_FixedRatio`, `Pause_Poll/Active/Clear`.
+  Zone `$0133B0..$013D6A` now 100 %.
+- Fix (CI link): real section sizes for `Collision_ProbeRange/X/Y_051Cxx`
+  (+2/+6/+6 B tails), `Dispatcher_ModeTable_001922` (404) and
+  `VBlankTick_Master_001E5E` (160); dropped 3 redundant HHHHH entries (→ 35).
+  New `tools/check_section_sizes.py` (registry vs assembled `.text.*` sizes)
+  wired into CI and bootstrap.
+- Wave HHHHH — 35 entries (2,188 B, 16 gaps of `$051AA4..$0527AE`, 3 data
+  islands, `cellmap_fix_overlay_palfade_051aa4.s`): cell-map window
+  (`CellMap_ReadPacked32/SetCursorAndClear/ClipRectToWindow/BlitRectToLSPC/
+  ClearSprites32/ClearVramBlock`), FIX-layer overlay (`FixOverlay_DrawCreditsOrFree`,
+  `FixOverlay_PutCreditsLine/PutDigit/ClearCreditsArea/ClearPause`,
+  `Str_CREDITS_052230`, `Str_PAUSE_05231c`), palette fades
+  (`PalFade_SpawnIn/Out`, `PalFade_In/Out_Task`, `PalFade_ToColor_Task`,
+  `PalFade_SpeedTable_052570`), `SpriteTable_Init256_0526b8`, spawn thunks.
+  Removed false C island `NopCCR_0522a8` (tail of a `movem.w` blit). Core
+  zone `$024E10..$05E000` now **100 %**.
+- Fix: `Camera_ResetCenter_05CACE` is 18 B (includes its `rts`); dropped
+  redundant `Nop_Rts_05cade` that overlapped at link time (GGGGG → 54 entries).
+- Wave GGGGG — 54 entries (2,320 B, 22 gaps of `$05CADE..$05E000`, 7 data
+  islands, 3 forced entries, `input_thunks_debug_hex_atan_luts_05cade.s`):
+  21 `InputEvtThunk_*` input-mask thunks + `InputEvt_ToggleChain` edge
+  detector, debug hex HUD (`Debug_HexDrawToFix4/8`, `HexDigit_FixTileTable`,
+  `Bin16_ToBcd4`, `HEX_TABLE_5D71C`), `Noise_LookupByIndex` + `NoiseLut256`,
+  `AtanLog_Table`/`AtanExp_Table` (LUTs of `Atan2_Angle256_05e018`),
+  `Entity_CheckOnScreenBox/EnterScreen/LeaveScreenWide` + `ScreenBox_Default`,
+  `ListCursor_Step/LoadEntry`, `Spawn_ChildFromDesc`, `SpriteBlock20x14_Setup`.
+  8 renames propagated. Zone `$024E10..$05E000` now 99.1 %.
+- Wave FFFFF — 33 entries (3,738 B, 15 gaps of `$055B96..$056ACC`, 5 data
+  islands, 2 forced entries, `enemy_projectiles_grenade_mortar_roller_055b96.s`):
+  enemy projectiles — thrown grenade (`Grenade_SpawnFromThrower`, trajectory
+  table `$55C08` indexed by throw type, polar velocity in scene modes
+  `$106F2B` 1/2/3, water/fire explosion), bouncing ball (`Bounce_Task`,
+  `Bounce_Rest*`, `Bounce_Fizzle`, `Bounce_Explode`), mortar shell
+  (`Mortar_ApplyDrag`, `Mortar_Shell_Task/Explode`, hitbox lists + sprite map)
+  and roller (`Roller_Task` wall probes, `Roller_Explode`), 7
+  `Entity_CmpDepthToParent_*` depth thunks, `Soldier_PhysicsBox_056ac4`.
+  1 rename propagated (`TaskHandler_056204` → `Bounce_Explode_056204`).
+- Wave EEEEE — 71 entries (5,290 B, 38 gaps of `$05934E..$05A9D6`, 7 data
+  islands, 5 forced entries, `result_ending_gunner_walker_05934e.s`): mission
+  result screen (`ResultText_Strings`, `Result_PlayerPanel_Init` → SCORE /
+  CONTINUE / RECAPTURED PRISONER digit rolls → `Result_HiScoreEntry`), ending
+  sequence (`Ending_Seq_*`, MISSION ALL OVER! wipe, PEACE FOREVER!, orbiting
+  sprite FX, fades), heavy-weapon soldier `Gunner_*`/`Gunner2_*` with
+  TargetRing aiming and shells (`Gunner_Shell`, `Gunner2_Shell`, hitbox
+  lists, anim/aim tables), `Walker_*`, `FadeLut_16x16_05a8ba`,
+  `VRAM_FixAutoclear_Reset`. `gen_asm_region.py`: `--data` ranges are now
+  emitted byte-wise (`.dc.b`) so string tables can carry odd-offset labels.
+  27 renames propagated. CODE zones now 97.2 % (91 gaps, 14,282 B left).
+- Wave DDDDD — 79 entries (4,374 B, 47 gaps of `$046000..$048000`,
+  `enemy46_drops_fix_banners_046260.s`): Enemy46 phases C/D + random pause,
+  enemy drop spawners by template (`Drop_SpawnRandom/FromTable/Thrown`,
+  `Drop_Spawn_Tmpl*`), white-flash fade, scene $C loader, big CONTINUE
+  countdown (`ContinueBig_*`, `Continue_IsStartP1/P2`), fix-layer banners
+  (`FixBanner_MissionStart/Complete_Blit`, `MissionNumBanner_*`,
+  `MissionStart_*`, `MissionComplete_*`, `TimeUp_Banner_Task`), big/small
+  text typewriters, glyph→tile font helpers and 2-digit big number drawing.
+  22 renames propagated; 2 local labels promoted; 2 false `NopCCR_046e6c/
+  046fd0` C islands removed (they were the trailing `movem.w` of the banner
+  blits). CODE zones now 96.1 % (129 gaps, 19,572 B left).
+- Wave CCCCC — 117 entries (6,380 B, 6 data ranges, 39 forced entries):
+  `$027400..$02A000` (`collmap_hitbox_script_ops_027400.s`): remainder of
+  the entity movement + map collision engine (`Entity_MoveAndCollide_D/E/F`,
+  `Entity_Step*_UpdatePos`, slope resolve, `CollMap_LookupTile` + solid/
+  platform bit tests, floor probes, velocity latch, gravity swap probes),
+  entity-vs-entity hitboxes (`Hitbox_RunList` + 5-op table over players /
+  slugs / enemy pools, `Hitbox_TestBoxes`, rect/point overlaps, damage and
+  hit flags, default shapes table) and the sprite script interpreter
+  (`Script_OpcodeTable_028cf0`, 32 opcodes `ScriptOp00_Wait` ..
+  `ScriptOp1F_Sound2222`). 14 renames propagated; 3 local labels promoted
+  to globals. CODE zones now 95.3 % (176 gaps, 23,946 B left).
+- Wave BBBBB — 88 entries (8,874 B, 9 data ranges, 1 forced entry):
+  `$024E10..$027400` (`hud_inputrec_entity_move_024fb8.s`): per-player HUD
+  task state machine (`HUD_State_InsertCoin/Continue/WaitPlayerSpawn/
+  BindPlayer/PlayerDeath/Respawn/GameOver*`), fix-layer drawing (1UP/2UP
+  labels, life bar with damped interpolation, bomb gauge, 7-digit BCD score,
+  ammo/bombs with blink, INSERT COIN / PUSH START / CONTINUE / GAME OVER /
+  PLEASE WAIT messages), credits check via BIOS `$C00450`, attract input
+  RLE recorder/player (`InputRec_*`, 512 B buffer at `$106EBE`), player
+  slot descriptor tables (32 x 16 B), and the entity movement + map
+  collision engine (`Entity_MoveAndCollide_A/B/C`, floor/wall probes,
+  `ClampVelocity`). `gen_asm_region.py`: raw fallback for `movem` abs.l
+  forms capstone cannot decode. Zone `$024E10..$027400` now 100 %; real
+  code 94.0 %.
+- Wave AAAAA — 65 entries (23,648 B, all data, byte-exact): `$0916C8..$0967B4`
+  (`scene_scripts_0916c8.s`: `SceneDescTable_0916C8[16]`, 14 scene VM scripts
+  with embedded 68000 callbacks (`lea d(pc),a1/a0 ; rts`), `SceneEntity`
+  camera lists, trigger tables) and `$096BBC..$097730`
+  (`attract_sprite_lists_096bbc.s`: 8 attract sprite lists, 20 B records).
+  New generators `tools/scene_script_dump.py` / `tools/attract_sprites_dump.py`
+  (capstone, self-verifying link). Zone `$083000..$09C608` now 100 %; real
+  code 92.2 %. First green runs of the self-hosted matcher CI (releases
+  `matcher-*`).
+- Wave ZZZZ — 192 entries (18,154 B, 1 data range, 6 forced entries):
+  `$07A002..$083000` (`boss2_crab_carrier_soundtest_07axxx.s`): Crew_Hostage/
+  Crew_Captor (extra children of Crew_Tmpl127/128), SOUND TEST service menu
+  (ASCII strings as data, 4 two-digit columns, pads $10E203/$10E209/$10E20A,
+  driver $2152/$219C), M2Boss tmpl 132 (body, pendular arm, turret with
+  Atan2 aiming, shell + trail/flash/spark, side smoke, debris, 9+9 wreck/burst
+  spawn patterns, 7 LeaSprite thunks), Crab tmpl 138..140 (two claws, three
+  legs with detach, shards, charge/pause/retreat, patrol variant), Carrier
+  tmpl 129..131 (3 hull parts with damage rank, cockpit eject, hatch, cannon,
+  3-slot trooper spawner, troopers, roof gunner, side rider). 27 renames,
+  10 promoted mid-labels in squad_deploy_module. Zone `$05E000..$083000` now
+  100 %; real code 87.6 %.
+- Wave YYYY — 251 entries (15,600 B, 11 data ranges, 76 forced entries):
+  `$076000..$07A000` (`props_fx_explosions_platforms_crew_076xxx.s`):
+  ScriptedProp children (walls/towers/doors/window/roof/gate/base), generic
+  Frag projectile, per-player platform lists ($10E27C/$10E2AE) with
+  ProbeUnderFeet/SnapToId, MovingPlatform tmpl 143 + bridge planks, MuzzleFx
+  vehicle muzzle flash/shots, Spawner_Handler literal, 17+32 Explosion
+  variants + Smoke/Debris, Breakable tmpl 23..26 with fall path, PathScript
+  VM (11 opcodes, polar integrator), attract AutoDemo input injector, vehicle
+  Crew tmpl 125..128. gen_asm_region: `--entry` used for 76 external abs refs.
+- Wave XXXX — 177 entries (15,662 B, 46 data ranges): `$071FFC..$076000`
+  (`m5tank_finalboss_helpers_scriptedprop_072xxx.s`): FinalBoss helpers
+  closing WWWW forward refs (wreck pieces, sparks, smoke, limb parts, attack
+  pattern pickers, projectile spawners), mission-5 heavy tank (tmpl 118:
+  hull/cabin/launcher/gun/turret children, rockets, casings, muzzles),
+  M5 missile (tmpl 119), 8-opcode MiniScript interpreter and scripted
+  destructible prop (tmpl 151) with a 34-step inline script.
+  `tools/gen_asm_region.py`: fixed capstone `movem.l d(pc),regs` target
+  (base PC+4). Matcher 7113/7113, 452,812 B (21.59 %); real code 80.9 %.
+- Wave WWWW — 221 entries (15,122 B, 1 data range): `$06DFE8..$071FFC`
+  (`gunship_m5boss_finalboss_06exxx.s`): fire-burst variants and Walker
+  helpers (closing VVVV forward refs), Gunship (tmpl 75: crew, gunner with
+  embedded hitbox table, wreck pieces), mission-5 boss (tmpl 111..113: rotor,
+  parts, bombs, homing missiles, soldier/grenadier/rocket children, pose
+  dispatcher by +$8C), final boss (tmpl 114..116: Left/Right halves, five
+  limbs, respawning head, cannon/flame/beam).
+- Wave VVVV — 179 entries (15,616 B, 29 data ranges): `$06A000..$06DFE8`
+  (`bazooka_rocketvehicle_walker_06axxx.s`): tank tail, bazooka soldier
+  (tmpl 86/87, 90/91, crew 92/93 entered from the mortar, allied bazooka
+  64/65 spawned by the rescue squad) with a child weapon entity (state
+  mirror, muzzle flash, rocket), rocket vehicle (tmpl 88/89) riding three
+  Chain3 links with 29 inline 4-pointer pose tables per wheel phase and a
+  rider child, Walker enemy (tmpl 66..74, burst attack, 16 Frag_Scatter on
+  death), Frag_*/FireBurst_* particles (sin/cos scatter, `$108E` jingle).
+- Wave UUUU — 180 entries (15,488 B, 1 data range): `$066000..$06A000`
+  (`barrel_paratrooper_shield_tank_066xxx.s`): floating barrel / sea mine
+  (tail of `Barrel_Tmpl8D`), paratrooper spawner + paratrooper (anim script
+  table `$66CD8`), shield soldier (tmpl 108/109, child `Shield_*` absorbs
+  frontal hits, converts to soldier when lost), scene-5 gate and airship
+  (parts, lights, hatch, camera hook on `$106F6C`), enemy tank (driver bails
+  to soldier, turret, homing missile, `trap #15` sprite-index asserts).
+  Templates `$E8000[53..55,94,95,108,109]`. 180/180 byte-exact.
+- Wave TTTT — 210 entries (15,242 B, no data ranges): `$062000..$066000`
+  (`sniper_camper_mortar_062xxx.s`): LateProp tail (TakeHit/HPCheck/Spawn
+  helpers), turret-car gunner, sniper (aim via Atan2, flees as soldier),
+  entrenched camper (converts to soldier via `$4A0D4`), scene-5 tent debris,
+  mortar (crew, shells, `jmp $6A7D6`), fixed cannon, hostage/POW (rescue
+  counter `$10E276..$10E27B`, music `$105D`, 7 template entries), patrol
+  soldier (sprite table `$2C6510`), scene-3 prop, barrel (tmpl 141). Templates
+  `$E8000[59..63,76..85,141]`. 210/210 byte-exact.
+- Wave SSSS — 221 entries (15,144 B, 10 data ranges): `$05E000..$062000`
+  (`late_props_turrets_05exxx.s`): late-runtime shared helpers (`Atan2_Angle256`,
+  `Target_AcquireNearestPlayer`, `Players_AliveMask`, `Player_GetEntity`,
+  `Parent_Copy*`, `Rng_Seed`/`Rng_Mask`, `Hit_ClassifyAttack`, hit-sound
+  tables, `Fix_DrawMessageRow` + 30 message tile rows), residual collision
+  debug task (`DebugColl_*`, DIP bit1), tower soldier / hut occupant / hut
+  door (children of `Prop_TowerBase`/`Prop_Hut`), generic breakables + shards,
+  signs, homing marker targets, item props, obstacles, crates, aiming turret
+  (`AimTurret_*`) and late props — 42 `$E8000` Mission-VM templates.
+  `gen_asm_region.py`: normalize `exg.l` → `exg` (GAS rejects the suffix).
+- Wave RRRR — 126 entries (12,874 B, 5 data ranges): `$03DA98..$040EF2`
+  (`results_pow_squadleader_03daxx.s`): mission-results screen (`Results_*`:
+  per-player columns Score→Bonus→Total→Winner, rescued-POW roster with
+  random name/portrait pick, prize sprite, blinking banners, fix-layer
+  drawing), POW prisoner (`Pow_*`: tied/freed/idle/walk/jump/crouch/fall/
+  rescued chain, rescue credit per player, anim tables) and the flying
+  squad leader (`SquadLeader_*`: formation orders +$84, swoop/dive/circle,
+  death with 6 explosions, respawn). Matcher 5925/5925, 17.18 %.
+- Wave QQQQ — 97 entries (7,396 B, 7 data ranges): `$04FA50..$051914`
+  (`allen_oneil_04fa50.s`): boss Allen O'Neil (`Allen_*`: target acquisition,
+  physics with step-probe mover, decision checks, jumps, knife, machine gun
+  with `Allen_Bullet`, `Allen_Grenade` + explosion, 5-segment HP bar, death
+  chain, touch sensors), 19 piece spawners for the barrier/gatehouse/fortress
+  props of Wave PPPP, tower/bunker/nest blit helpers, memory-card glue
+  (`MemCard_*`), player helpers and nibble pack/unpack. Matcher 5799/5799, 16.56 %.
+- Wave PPPP — 40 entries (5,296 B): `$04E580..$04FA50`
+  (`props_fortress_04e5xx.s`): fortress-mission props — barrier, gatehouse/
+  gate and fortress chains (`Active → Damaged → Wreck`, blockers, roof, door,
+  turret mount, side) spawning each other via `Coord_ScreenToLocal $44022`
+  and `MissionWatch_Spawn $4429E` on scroll thresholds; generic roof, 3-phase
+  fix blink, trigger sensor, crate, bouncing debris (`Hop/Roll`), signs A/B,
+  boat (+ blast/debris) and `FixTile_Set11C2`. Matcher 5702/5702, 16.21 %.
+- Wave OOOO — 64 entries (6,384 B): `$04CBD4..$04E580`
+  (`turret_car_props_04cbxx.s`): enemy turret vehicle (`TurretCar_*`: 32-step
+  turret angle with `Idle/Track/Recoil`, `Body`, `Driver*`, guided `Cannon`
+  with a 16-entry angle history firing `Shell`s, angle/offset helpers) and
+  the third batch of destructible mission props (`Prop_Static/Lamp/Hut/
+  Tower/TowerFlag/Bunker/Bridge/Nest/Shed/Barrier` with their damaged/wreck
+  phases, MissionWatch `$4429E`, blits `$5022A`). Matcher 5662/5662, 15.96 %.
+- Wave NNNN — 53 entries (3,814 B, incl. a 24 B pointer table):
+  `$04BB9A..$04CBD4` (`gun_platform_04bbxx.s`): enemy gun emplacement
+  (templates `$E8214..$E8220`): 4-variant base `GunPlatform_Spawn`, burst
+  cycle `Rearm/Aim/FireA/FireB`, children `Hatch*`, `Shield*`, human
+  `RiderA/B_*` (die through HumanDeath), `GunPlatform_Gun`, destruction
+  states and flying parts; plus the scroll-driven spawn-stream reader
+  `SpawnStream_ReadNext/Dispatch` (`$1081B2`). Matcher 5598/5598, 15.65 %.
+- Wave MMMM — 41 entries (4,746 B): `$053F96..$055258`
+  (`props_mission_053fxx.s`): second batch of destructible mission props
+  sharing the Wave GGGG template (`Prop_Building`, `Prop_Column`,
+  `Prop_CompoundWall` + compound parent `Prop_Compound_*`, `Prop_NeonSign`
+  with fix-layer updates `NeonSign_Fix*`/`NeonSign_Tiles*`, `Prop_Stall`,
+  `Prop_Fragile`, `Prop_Breakable`, `Prop_HitStages`, `Prop_Small`,
+  `Prop_ScaledHP`, 5-variant `Prop_MultiStage`, `FixBlink2_PhaseA/B`,
+  `Prop_Blocker`). Referenced from the mission spawn records at
+  `$096FAE..$097166`. Closes `$0527BA..$055258`. Matcher 5545/5545, 15.47 %.
+- Wave LLLL — 25 entries (2,880 B, of which 560 B are the human-death
+  state pointer tables): `$049430..$049FC4` (`pow_hang_0494xx.s`): the POW
+  hanging from a rope (`PowHang_SpawnVariants`, `Swing`/`Struggle` with
+  sin/cos swing physics and angle-driven animation, rope child
+  `RopeIdle/RopeStruggle/RopeCut/RopeBroken` driven by the parent/child
+  +$78/+$79 protocol, `Freed`), the falling POW template `$E81B8`
+  (`PowFall_Spawn` + `PowFall_Shadow`), animation-script callbacks, slot/hit
+  checks, `HumanDeath_StateTbls_049d8a`/`StateTblPtrs_049faa`. Closes the
+  whole `$0478FC..$04BB8E` block. Matcher 5504/5504, 15.25 %.
+- Wave KKKK — 42 entries (6,990 B, of which 3,876 B are sprite/pointer
+  tables): `$049FF2..$04BB8E` (`human_death_049fxx.s`): the shared death
+  module of human entities (soldiers, POWs) — `HumanDeath_Dispatch_049ff2`
+  (selects the death state from the 4 tables at `$49FAA[kind]` indexed by
+  damage type +$58), `HumanDeath_TumbleBack/TumbleFwd`, `Collapse`,
+  `Knockdown`, `InitBurst`/`BurstLand`, `Launched` (8.8 zoom towards the
+  camera), `Burning`/`BurnedDown` + `FlameChild`, corpses, blood splashes,
+  smoke pair, physics helpers (`PhysicsAir/Ground/Fall`, `DampVelocity`)
+  and the sprite tables `HumanDeath_SpriteTbls_04ac56`.
+  `gen_asm_region.py`: promoted global labels now also get a local `.L`
+  alias used from inside their own entry (GAS rejected backward `bra.b`
+  to a global symbol > 128 B away).
+  Matcher: 5,479/5,479, 316,848 B (15.11 %); real code coverage 54.0 %.
+- Wave JJJJ — 45 entries (2,242 B): `$048A44..$049430`
+  (`pow_helpers_048axx.s`): the pc-relative helpers of the POW prisoner —
+  common state tails (`Pow_FreeStateTail_048a44`, `Pow_TiedStateTail_048a90`),
+  the thrown reward item (`PowItem_Toss_048ba0` → `PowItem_Settle_048b34`),
+  hit/direction fx (`PowFx_HitBurst_048ca4`, `PowFx_DirSprite_048b56`), the
+  rope child of the tied prisoner (`PowRope_Spawn/Idle/Struggle/BrokenA/B/
+  HitCheck`), free-variant init/physics (`Pow_FreeInit_048ea6`,
+  `Pow_TiedSwingStep_048f54`, `Pow_ScrollAndProbe_048fb0`) and the
+  distance-based decision helpers (`Pow_TargetInReach/InBox/AngleInMask`,
+  `Pow_ShouldRunAway/ShouldWait/ShouldTurn`, `Pow_CanBeRescued`,
+  `Pow_AtScreenEdge`, `Pow_HitReceivedCheck`). The POW module
+  `$0478FC..$049430` is now complete.
+  Matcher: 5,437/5,437, 309,858 B (14.78 %); real code coverage 52.6 %.
+- Wave IIII — 42 entries (4,416 B): `$0478FC..$048A3C`
+  (`pow_prisoner_0478xx.s`): the POW prisoner entity — spawn variant table
+  (`Pow_SpawnVariantTbl_0478fc`, `Pow_SpawnInit_04797c`), free-roaming
+  states (`Pow_Idle/WalkToward/RunRight/RunLeft/RunAway/Wait/WalkFree/
+  Stop/Turn/Hurt/GetUp`), the rescue sequence (`Pow_RescueStart`,
+  `Pow_RescueSalute`, `Pow_RescueGiveItem`, `Pow_RescueThanks`,
+  `Pow_RescueLeave`), the already-free variants (`Pow_Free*`, two spawn
+  variants `$0483D2/$0483E2`) and the tied-up prisoner
+  (`Pow_SpawnTiedVariant_048898`, `Pow_TiedIdle/Struggle/Freed`).
+  Matcher: 5,392/5,392, 307,616 B (14.67 %); real code coverage 52.2 %.
+- Wave HHHH — 20 entries (1,316 B): `$0539F0..$053F96`
+  (`props_helpers_0539xx.s`): the pc-relative helpers of the destructible
+  props — the flame trap (`Prop_TrapFlame_053a42` + base/hit fx, victim
+  pointer in +$50 = P1/P2), player burning (`Prop_BurnFollowVictim_053c64`,
+  `Prop_BurnSmokePuff_053cf2`), `Prop_PlayBreakMusicByPhase_053e0c`,
+  debris script runners (`Prop_RunDebrisScriptByPhase/ByPrio`,
+  `Prop_GateDebrisA..D`), `Prop_PickRandomItemPtr_053e9c`,
+  sprite sync helpers and `Prop_IndestructibleChild_0539f0`. The props
+  module `$0527BA..$053F96` is now complete.
+  Matcher: 5,350/5,350, 303,200 B (14.46 %); real code coverage 51.3 %.
+- Wave GGGG — 27 entries (4,648 B): `$0527BA..$0539E2`
+  (`props_destructible_0527xx.s`): the destructible scenery props spawned
+  from the mission spawn lists (`$096Cxx`) — `Prop_Sign/Wall/Large/
+  Explosive/Tower/Gate` with their `*Stage2`/`*Wreck` states,
+  `Prop_HouseVariants_052e20` (7 entries, duck pair spawn) and
+  `Prop_HutVariants_0530cc` (10 entries), `Prop_Breakable2Stage_0527ba`,
+  `Prop_Indestructible_053964`, debris (`PropDebris_Chunk/Flying*`), item
+  drops (`PropDrop_Item_053768`) and the fix-layer blinker
+  `FixBlink_PhaseA/B`. All share the init/scroll/anim/hit/HP/offscreen
+  skeleton documented in the header.
+  `tools/gen_asm_region.py`: `move.l #imm8,dN` ($203C, not optimised by
+  SNK) is now emitted as raw `.dc.w` — GAS turned it into `moveq` even
+  with the `:l` suffix.
+  Matcher: 5,330/5,330, 301,884 B (14.40 %); real code coverage 51.0 %.
+- Wave FFFF — 38 entries (4,214 B): `$056ACC..$057D04`
+  (`soldier_helpers_056axx.s`, 3 data blocks: popcount table `$56ED2`, two
+  84-byte melee attack tables `$57440/$57494`): the rebel soldier helper
+  cluster — per-frame physics `Soldier_PhysicsStep_056acc`, the decision
+  routine `Soldier_Think_056b92` (target pick via
+  `Soldier_FindNearestPlayer_056b38`, platform-edge probes, RNG thresholds
+  +$80..+$8A), grab anchors (`Soldier_PickGrabAnchor_056e4a`,
+  `Soldier_GrabLatch_057b06`, `Soldier_GrabSlideToAnchor_057bb4`,
+  `Soldier_GrabFollowPlayer_057cc0`, `Soldier_GrabStruggleProgress_056f10`),
+  spawn (`Soldier_InitCommon_0570a8`, the 24-stub variant table
+  `Soldier_SpawnVariants_057226` targeted by `JmpAbsThunk_06313c`,
+  `Soldier_SpawnDispatch_05752c`, `Soldier_Leap_057880`), the main
+  `Soldier_Walk_Loop_057582`, `Soldier_TestMeleeRange_0574e8`,
+  `Soldier_TestSurrender_056fa0`. 5 interior labels promoted in
+  `soldier_states_057dxx.s`. The whole rebel soldier module
+  `$056ACC..$059342` is now complete.
+  Matcher: 5,303/5,303, 297,236 B (14.17 %); real code coverage 50.1 %.
+- Wave EEEE — 54 entries (5,694 B): `$057D04..$059342`
+  (`soldier_states_057dxx.s`, 1 data block: 4-pointer taunt animation table
+  `$58DF8`): the rebel infantry soldier state machine — player grab
+  (`Soldier_GrabPlayer/GrabStruggle*/GrabBreak*/GrabThrown*`, anchored via
+  `PlayerSlot_ClaimAnchor $8F85C` on +$7A), locomotion (`Soldier_RunToward/
+  RunByTable/Run_Loop/Step*/Brake`), `Soldier_Idle/IdleFidget` with RNG
+  thresholds in +$80..+$8A, hurt/land, `Soldier_Flee*/Retreat*/Stand/Jump`,
+  `Soldier_Surrender*`, two grenade throws (`Soldier_ThrowGrenadeA/B*`,
+  `ThrowGrenadeAim`), `Soldier_Taunt*`, and the spawn variants
+  (`Soldier_SpawnVariantTbl_058f1e`, `Soldier_Spawn*`) referenced from
+  `MeleeGuard_DeathToExtern_0427CA`. Leaf `Entity_CmpField10WithLink8_059332`.
+  Matcher: 5,265/5,265, 293,022 B (13.97 %); real code coverage 49.3 %.
+- Wave DDDD — 9 entries (8,084 B): `$05AA96..$05CA2A`
+  (`sprite_queue_render_05aaxx.s`): the sprite-queue backend — the 8-way
+  enqueue jump table `SpriteDispatchJT_05AA96` (flip H/V, ADD/SUB queue),
+  the water-reflection hook `Sprite_DispatchSplashHook_05b1b2`, the
+  end-of-frame heapsort + SCB1 writer `SpriteQueue_SortAndRenderSCB1_05b232`
+  / `SpriteQueue_RenderRange_05b370`, the Duff-unrolled VRAM column writers
+  `SCB1_WriteTileColumn_05b52e` / `SCB1_WriteTileColumnTerm_05bf76`
+  (4x32 `jmp (pc,dN)` tables), the SCB2/3/4 pass
+  `SpriteQueue_RenderSCB234_05b400` and `Vblank_FlushSpriteQueue_05c9d6`.
+  `tools/gen_asm_region.py`: `pcrel_target` now resolves the base of
+  `jmp X(pc,dN.w)` so indexed jump tables get their local label.
+  Matcher: 5,211/5,211, 287,328 B (13.70 %); real code coverage 48.2 %.
+- Wave CCCC — 70 entries (11,812 B): `$02AE3E..$02DD20`
+  (`slug_states_02aexx.s`, 7 data blocks: two 5-pointer drop-variant
+  tables `$2AE90/$2AEE4`, music tables `$2B8CE/$2BA34/$2BB9A`, air-steer
+  table `$2C900`, input-dir table `$2C9B0`): first half of the SV-001
+  state machine — parachute spawn (`Slug_SpawnDrop`, `Slug_DropVariant0..4`
+  creating `Turret_InitDir0..4`, `Slug_DropDescend`), idle on flat/slope,
+  `Slug_AccelRightB/LeftB`, `Slug_BrakeRight/Left`, `Slug_CruiseRightB/LeftB`,
+  cannon fire (`Slug_Fire*`), jump (`Slug_Jump*`), fall (`Slug_Fall*`),
+  hit reaction (`Slug_Hit*`) and death (`Slug_Death*`, `Slug_DestroyedSlide*`).
+  The whole Slug module `$0295A6..$030602` is now covered. 10 interior labels
+  of `slug_helpers`/`slug_vehicle` promoted to globals.
+  Matcher: 5,202/5,202, 279,244 B (13.32 %); real code coverage 46.6 %.
+- Wave BBBB — 113 entries (5,846 B): `$0295A6..$02AE3E`
+  (`slug_helpers_0295xx.s`, 29 hitbox/anim tables `$295B4..$2A0F8`, pointer
+  tables `$2A024/$2A060`): the SV-001 helpers — `Slug_Init_02a0f8` /
+  `Slug_InitBoss_02a1aa`, `Slug_AngleToSpriteIdx`, 17 attack tables +
+  `Slug_AttackPtrTbl`, `Slug_StateByAnglePtrTbl`, terrain probes, physics,
+  layout-dependent input, HP/gauge, `Slug_MarkRidden`, `Slug_NoRider`,
+  `Slug_SpawnAtBossArena`.
+  Matcher: 5,132/5,132, 267,432 B (12.75 %); real code coverage 44.2 %.
+- Wave AAAA — 96 entries (8,788 B): `$030602..$032A02`
+  (`player_tables_fx_0306xx.s`, 14 C-island RTS absorbed, 44 data blocks):
+  the player grenade (`PlayerGrenade_Spawn/SpawnB/SpawnFromVehicle`,
+  layout-dependent throw angle, `ExplodeGround/ExplodeAir`), generic enemy
+  shots (`EnemyShot_Straight/Bounce`), the vehicle launch/drop sequence
+  (`VehicleLaunch_Init/Fall/Glide/Crash*`), Slug/explosion effects (`Fx_*`,
+  `SlugFx_Exhaust*`, `Fx_SpawnDustPair`), player icons (`PlayerIcon_Pow/
+  Bubble/FreeFallP1/P2`), the remaining `Chain3_*` helpers and the static
+  player tables (`Player_Hitbox*`, `Player_Vel*Tbl`, `Player_GroundTbl*`,
+  `Player_WeaponAmmoTbl` 999/999/999/999/150).
+  Matcher: 5,019/5,019, 261,586 B (12.47 %); real code coverage 43.1 %.
+- Wave ZZZ — 63 entries (10,258 B): `$02DD20..$030602`
+  (`slug_vehicle_02ddxx.s`, 7 CCR C islands absorbed, 4 data blocks): the
+  SV-001 Metal Slug vehicle state machine `Slug_*` (IdleEnter/Idle/
+  IdleAngled/Jump/Hunker/PlayerMount/Drive/TurnToDrive/Brake/Stall/Accel/
+  Knocked/Decel/Cruise/SetSpeed), the 80-pointer state table
+  `Slug_StatePtrTbl_02e582`, damage sprites (`Slug_Damage*`,
+  `Slug_WheelAnim`), destruction (`Slug_Destroyed`, `Slug_KillInit`,
+  `Slug_SelfDestructAttack`, `Slug_BlastAttack`, `Slug_ExplodeFx`,
+  `SlugFx_*`, 28-template `SlugFx_ExplosionAnim_02f6c0`) and the three-link
+  `Chain3_*` entities with their templates and debug HUD.
+  Matcher: 4,923/4,923, 252,798 B (12.05 %); real code coverage 41.3 %.
+- Wave YYY — 82 entries (5,230 B): `$03C62A..$03DA98`
+  (`player_fire_shells_03c6xx.s`, 2 border C islands absorbed, 10 data
+  blocks): the player's per-weapon projectile spawners
+  `PlayerFire_Pistol/HMG/Shotgun/Rocket/Flame_*` (one entry per firing
+  direction; flame also has `_SpreadN_M` fan pairs), shell casings
+  (`ShellCasing_Pistol/Rocket`), scene-3 debris (`Scene3Debris_*`),
+  `Player_DebugMarker`, `Player_SpawnFx3D8FA`, the Slug cannon arm overlay
+  (`SlugCannon_ArmOverlay_03d944`) and 3 residual `PlayerArm_*` handlers.
+  Matcher: 4,867/4,867, 242,582 B (11.57 %); real code coverage 39.3 %.
+- Wave XXX — 152 entries (8,224 B): `$03A60A..$03C62A`
+  (`player_arm_air_death_crouch_03a6xx.s`, clean region, no islands): the
+  remaining 47 weapon-arm overlay handlers `PlayerArm_*` (air: Jump/Fall/
+  AirShoot*/JumpShoot*/FallShoot*/…ShootDown*; death: DeathA..H which also
+  flag the arm entity dead; SpawnFall; crouch: CrouchEnter/Idle/Shoot/
+  Crawl/Grenade/Melee/Reload; melee: MeleeC, AirMeleeA/B) and their 105
+  `PlayerArm_SpriteTbl_*` 10-pointer tables. Every handler address was
+  cross-checked against the player animation tables at `$2796xx..$279Fxx`
+  (5 handlers are unreferenced). Matcher: 4,787/4,787, 237,368 B
+  (11.32 %); real code coverage 38.3 %.
+- Wave WWW — 125 entries (7,270 B code + data): `$0388F0..$03A60A`
+  (`player_arm_weapon_fx_0388xx.s`, 24 spurious C islands absorbed, 47
+  data blocks): the crouch actions `Player_CrouchThrowGrenade/Melee/Reload`,
+  the dropped-weapon entity (`DroppedWeapon_*`), the spawn parachute
+  (`Parachute_Open/Swing/Release/FallAway`), the paired duck sensors
+  (`DuckTrigger_*`, set player +$88 bit0), the fall-death splash fx
+  (`PlayerDeathFx_*`) and the player's weapon-arm overlay task
+  (`PlayerArm_Spawn_0394a8` created by `PlayerEntitySpawn`; dispatches on
+  the parent's anim id and calls the arm handler stored at +$74; 31
+  `PlayerArm_<pose>` handlers each indexing a 10-pointer
+  `PlayerArm_SpriteTbl_*` = 5 weapons x 2 players). Matcher: 4,635/4,635,
+  229,144 B (10.93 %); real code coverage 36.7 %.
+- Wave VVV — 39 entries (8,466 B): `$036632..$0388F0`
+  (`player_air_death_crouch_0366xx.s`, 23 spurious C islands absorbed):
+  the player's air / death / crouch sub-machines — `Player_JumpStart` /
+  `Player_JumpAir` (air control, wall bounce, ring grab via
+  `TargetRing_*` -> `Player_HangRing`), knockback (`Player_Knockback*`,
+  `Player_Fall_Physics`), `Player_SlugJumpOff`, `Player_SpawnFreeFall`,
+  the 7 death handlers targeted by `Player_StateTable68` (`Player_Death_*`,
+  `Player_DeathPit`, `Player_Death_Despawn`) and the crouch set
+  (`Player_CrouchEnter/Idle/Exit`, `Player_CrawlRight/Left`,
+  `Player_CrouchShoot`, `Player_CrouchWeaponEmpty`). Matcher: 4,534/4,534,
+  221,874 B (10.58 %).
+- Wave UUU — 36 entries (9,050 B): `$0342C4..$036632`
+  (`player_states_0342xx.s`, 4 gaps closed, 3 spurious C islands
+  absorbed): the player's ground state machine — `Player_Stand`,
+  `Player_WalkRight/Left` and the `WalkLoop` second phase with their
+  `_Shoot` / `_ShootUp` pose variants, `Player_TurnRight/Left`,
+  `Player_Melee` (knife), `Player_ThrowGrenade_Stand/Walk/WalkLoop`,
+  `Player_RideSlug` (mount the SV-001 from slot `$100580`) and the shared
+  tails (`Player_Stand_Tail`, `Player_Walk_Tail`) that chain hit / fire /
+  ground tests. Four unreferenced duplicate bodies documented as dead code.
+  Matcher: 4,518/4,518, 213,408 B (10.18 %); real code coverage 33.5 %.
+- Wave TTT — 66 entries (5,354 B): `$032A02..$0342C4`
+  (`player_core_032axx.s`, 38 gaps closed): the player core — weapon /
+  ammo setters with the per-weapon default table (`Player_SetWeaponAndAmmo`,
+  `Item_GiveAmmo_ToPlayer`, `Item_GiveBombs_ToPlayer`, clamp 999/99),
+  invulnerability blink (`Player_InvulnBlinkStep`), per-weapon music
+  table, pad input helpers mirrored by facing (`Input_*ByFacing`,
+  `Input_FireByMode/JumpByMode` honouring the `$106F2A` button layout),
+  the per-frame action selector (`Player_ActionSelect`), grenade throw
+  entry points (`Player_ThrowGrenade*` -> `$28Dxxx`), the spawn sequence
+  (`Player_SpawnStart` -> fall / parachute -> land -> `Player_Idle`), the
+  drowning/death gate and the idle / crouch / reload states. Three
+  embedded tables (`Player_StateTable68_03338a`, `PlayerStateLUT`,
+  weapon music). Plus the PAUSE fix-layer text island (`$013D20`) and a
+  curated ROM zone map in `tools/measure_coverage.py --zones` /
+  `docs/COVERAGE.md` (real code coverage 31.8 %). Matcher: 4,485/4,485,
+  204,358 B (9.74 %).
+- Wave SSS — 23 entries (2,546 B): `$18D152..$18DB78`
+  (`player_grenade_18d1xx.s`, 2 gaps closed): the only code block in the
+  upper 1 MiB bank (CPU `$28Dxxx`) — the player's grenade subsystem
+  (`Grenade_*`: three throw variants dispatched from `$033346..$033358`,
+  ballistic flight with air drag, bounce/heavy variants gated by the
+  global flag `$1081AE`, explosion with music `$1027`, smoke child) plus
+  five embedded animation tables via `--data`. Six spurious thunk islands
+  (`JsrAbsThunk_18d56c/57e/746/766/9d4`, `SetTaskHandler_18d6f0`) were
+  tails of real functions and got absorbed. Matcher: 4,414/4,414,
+  198,938 B (9.49 %).
+- Wave RRR — 96 entries (9,196 B): `$09A0BC..$09C608`
+  (`items_score_crates_09a0xx.s`, 28 gaps closed): a generic aimable
+  gun with sprite child (`Gun_*`, spawned by `Airship_Wait`), the pickup
+  items of templates 284..294/316/317 (`Item_*`: ammo, weapon, weapon
+  swap, bombs, 21-variant food, POW, combo timer, static blit) driven by
+  the 30-entry spawn table at `$9A5F4` (`Item_SpawnFromParent`), floating
+  score digits (`Score_Popup_*`, `Score_Digit_*`, combo level in
+  `$10E488/$10E489`), parachutes (`Chute_*`), the thrown crate with
+  debris and chute followers (`Crate_*`, `Entity_IntegrateVelFrac`),
+  thrown objects with shadows (`Thrown_*`) and `Flag_Init`. Six embedded
+  data blocks via `--data`. Matcher: 4,397/4,397, 196,440 B (9.37 %).
+- Wave QQQ — 125 entries (9,252 B): `$09773C..$099F3A`
+  (`hiscore_memcard_mobs_0977xx.s`, 96 gaps closed): the high-score
+  table (`HiScore_*`: 10 x 12-byte records at `$100002`, defaults from
+  `$2F53B2`, insert/rank helpers, three attract task templates), the
+  3-letter name editor (`NameEntry_*`, alphabet `$2F54B2`, timeouts,
+  profanity filter), memory-card load/save dialogs (`MemCard_*`, BIOS
+  `$C00468` ops 2/3/4, file name "METAL SLUG"), the logo scene
+  (`LogoScene_*`, template `$98720`), 16 background-mob templates
+  (`Mob_Tmpl174..222_*` with shared Walk/Hit/Flee/Patrol/Drop states),
+  the 16-slot trail ring at `$10E3BE` (`Trail_*` reset/advance/lookups)
+  and the option menus (`OptionsMenu_*`, `OptionSelect2_*`,
+  `DebugCursor_*`). Two embedded data tables emitted via `--data`; two
+  false `NopCCR` C islands removed (tails of `movem.w ...,0x3c0000`);
+  `gen_asm_region.py` now emits signed `moveq` immediates. 36 defsyms
+  promoted; +28 island RTS; 73 call sites renamed. Matcher: 4,301/4,301,
+  187,244 B (8.93 %).
+- Wave PPP — 92 entries (7,678 B): `$08F6D2..$0916B8`
+  (`gameover_continue_08f6xx.s`, 50 gaps closed): player-slot anchor
+  masks (`PlayerSlot_*`, `Anchor_GetWorldPos*`), the Game Over sequence
+  (`GameOver_Boot/Spawn/Wait/Final/WaitCredit/Continue*`, task added at
+  `$1300`), its ~40 child effects (`GO_Letter_V0..V13`, `GO_Sprite_*`,
+  `GO_Prop_*`, `GO_Zoom`, `GO_Shake`, `GO_Flash`, `GO_Banner*`,
+  `GO_Glow*`, `GO_Figure*`, `GO_Scroller*`, `GO_Particle`) and the
+  Continue screen (`Continue_Tpl`, `Continue_Tmpl227` = `$E8000[227]`,
+  fix-layer text with BCD countdown from `$10FDDA`). 18 defsyms
+  promoted; +17 island RTS; 32 call sites renamed. Matcher: 4,178/4,178,
+  178,004 B (8.49 %).
+- Wave OOO — 84 entries (3,980 B): `$08E4E4..$08F6D2`
+  (`critters_rings_08e4xx.s`, 54 gaps closed): small critters
+  (`Bobber_*`/`Leaper_*`/`Runner_*`, Mission-VM templates 182/183/184),
+  the 4-stage nest (`Nest_*`/`Nest2_*`, templates 185/187) with its
+  `Swarmer_*` children (atan2 + sine steering), props (`Static_Tmpl188`,
+  `CamProp_Tmpl189/190`, `Lob_Tmpl191`, `Shard_V0..V2`), the grunt-physics
+  helpers (`Phys_*`, `Snd_ByParam9A_*`, `Prio_Set8018`) and the three ring
+  buffers `$10E2F2`/`$10E33A`/`$10E362` (`Ring_*`, `ZoneRing_*`,
+  `PosRing_FindNear`, `TargetRing_*`, `Turret8_SndByState`).
+  `gen_asm_region.py` now emits `moveq` immediates signed. 19 defsyms
+  promoted; +4 island RTS; 144 call sites renamed (the 10 NNN forward
+  defsyms resolved). Matcher: 4,086/4,086, 170,326 B (8.12 %).
+- Wave NNN — 80 entries (4,442 B): `$08D17A..$08E4E4`
+  (`grunts_capsule_08d1xx.s`, 67 gaps closed): latched on-screen tests
+  (`Screen_InBounds*`), 8.8 fixed-point position integrators
+  (`Pos_Integrate*`), the mission-end capsule/beacon (`Capsule_*` ->
+  `MissionEnd_*`, spawned by `SceneB_Init`/`SceneC_Init`), the grunt
+  soldier family (`Grunt_*`/`Grunt2_*`: Mission-VM templates
+  153/154/157/158/160/162/180/181, random-behaviour tables `$2F3712`/
+  `$2F3722`, carrier, hopper, hit-and-launch, runner, direction map
+  loader), `Sentry_*` and the `Swinger_*` oscillator. 22 defsyms promoted;
+  +15 island RTS; +10 forward defsyms (grunt physics helpers in `$8EFxx`/
+  `$8F0xx`). Matcher: 4,002/4,002, 166,346 B (7.93 %).
+- `tools/wave_apply.py`: applies a `gen_asm_region.py` report to
+  `registry.py`/`symbols.py` (REGISTRY block, defsym promotion, island RTS
+  and forward defsyms) and emits the old->new rename list for call sites.
+- Wave MMM — 67 entries (4,990 B): heterogeneous region `$08BA04..$08D17A`
+  (`cutscene_anim_08baxx.s`, 39 gaps closed): bouncing/burst projectiles
+  (`Proj_Bounce_V1/V2`, `Proj_Burst_*`, `Proj_Shell` with embedded
+  `Hitbox_08bb8c`/`SpriteMap_08bbde`), the 8-byte animation-script
+  interpreter (`Anim_ScriptStep*`, fix-layer text variants), the 4 slot
+  icons (`Icon_Base`, `Icon_Slot1..4[_Lit]`, `Icon_Anchor_*` — the task-adds
+  of `Anim_State_F1_08C008`), the cutscene machinery (`Cut_Watcher_*`
+  parallel task started by `MissionDriver_Init`, `Cut_Fade`, fix-layer text
+  panel `Fix_TextRow_*`, `Cut_Dropper_*`, `Cut_Item`, Mission-VM templates
+  244/245/246/248/320) and the mission $0B/$0C scene bootstraps
+  (`SceneB_Init -> Stage2..6 -> Tail`, `SceneC_Init`). `Proj_Bounce_08b9ba`
+  grows to 74 B (absorbs a split `movea.l`). 20 defsyms promoted; +13
+  island RTS; +3 forward defsyms. Matcher: 3,922/3,922, 161,904 B (7.72 %).
+- `tools/gen_asm_region.py`: labels promoted to globals because another
+  gap references them are now also emitted by name from their own entry
+  (previously GAS failed to resolve the local `.L`).
+- Wave LLL — 98 entries (10,690 B): **scene-5 cluster** closing all 43
+  gaps in `$088A56..$08BA00` (`scene5_airship_088axx.s`). Spawnable entries
+  come from spawn list 5 (`$097422`) and Mission-VM templates
+  `$E8000[168..170]`, `[254..257]`, `[258]`, `[270]`. The landing airship
+  (`Airship_Wait -> Landed -> Hover -> Depart`, spiral descent, ground
+  probing, trooper drop, camera lock publish), its 8-way turret
+  (`Turret8_*` with rotating barrel, bullets and ejected casings), the two
+  towers (`S5_TowerA_*` / `S5_TowerB_*`: random HP, 3 damage stages,
+  `TowerPort_*` children, wreck flag/smoke/sparks, lamp sprite callbacks
+  `SprCb_Lamp*`), the camp (`S5_Tent*`, `S5_Depot*`, `S5_Bunker`,
+  `S5_Camp_Spawn`), breakable props, barrel row and falling rocks, and the
+  projectile family (`Proj_Thrown`, `Proj_Drop_V0..V3 -> _Common`,
+  `Proj_Bounce` driven by the embedded pointer table `Proj_Bounce_HitTable_08b944` (+ `Hitbox_08b950`)).
+  20 defsyms promoted; +16 island RTS; +4 forward defsyms. Matcher:
+  3,854/3,854, 156,910 B (7.48 %).
+- `tools/gen_asm_region.py`: new `--data START-END` option emits embedded
+  data tables inside `.text` as `.dc.w` (first used for
+  `Proj_Bounce_HitTable_08b944`); `scripts/bootstrap_sandbox.sh` now looks for
+  the ROM zip in `/home/user/uploaded_files/` and `/mnt/aidrive/mslug_rom/`.
+- Wave KKK — 84 entries (9,334 B): **scene-4 fortress cluster** closing
+  all 6 gaps in `$0865BE..$088A56` (`fort_scene4_0865xx.s`). Every
+  spawnable entry is referenced from spawn list 4 (`$0972CC`, 20-byte
+  records `{$0100,x,y,handler,...}` behind `JumpTable_096B9C`) or list 7
+  (`$0975A2`); `Heli_InitTmpl_087b26` is template `$E8000[269]`. The
+  fortress container (`Fort_Init_V0..V4` -> `Fort_Init_Common`,
+  `Fort_Destroyed`, per-variant `Fort_SpawnChildren_V0..V4`), its pillboxes
+  (`Pillbox_*`: 6 init variants by `+0x21` nibble, 3 damage stages,
+  collapse/fragment, damage propagated to the parent via
+  `Entity_PropagateDamageToParent_08848c`), crates (`Crate_*`), the troop
+  hatch cycle (`Hatch_WaitClosed -> Opening -> SpawnTroops -> WaitOpen ->
+  Closing`, final open when the fortress dies), breakable props and an
+  indestructible signboard, the 13-piece crate wall
+  (`CrateWall_Spawn13` + `CrateWall_Piece00..12` -> `_Common`), the armored
+  car (`ArmoredCar_*` with random HP `$2C0628`, two damage stages, turret
+  child, blast box and wreck), the helicopter (`Heli_*` with random HP
+  `$2C05A6`, rotor animation `Heli_RotorAnim_0883ec`, trooper dropper), the
+  scattering debris, the quad prop and the 5-stage barricade. Hitbox
+  "pulse" helpers `Entity_HitboxPulseTable/Saved` (formerly
+  `PcThunkTarget_088438/08846a`). 4 forward defsyms promoted; +1 island RTS
+  (`SetTaskWRts_088436`), +1 forward defsym (`Sub_00088A64`). Matcher:
+  3,756/3,756, 146,220 B (6.97 %).
+- `tools/gen_asm_region.py`: pc-relative/branch targets that fall in a
+  future gap without a symbol are now emitted as `Sub_XXXXXXXX` forward
+  defsyms (reported as "refs forward") instead of raw hex, so drafts link
+  and verify without manual edits.
+- `scripts/bootstrap_sandbox.sh`: looks for `mslug.zip` in
+  `/home/user/uploaded_files` and `/mnt/aidrive/mslug_rom`, and persists a
+  copy to AI Drive (sudo fallback) so sandbox resets don't require a
+  re-upload.
+- Wave JJJ — 65 entries (4,742 B): **Mission 4 entities + boss spawn
+  helpers** closing all 33 gaps in `$08512C..$0865BE`
+  (`m4_carrier_boss_helpers_0851xx.s`). Mission-4 templates
+  `$E8000[35..40]`: the carrier (`M4_Carrier_*`: init/approach/fight/
+  wreck with `MissionWatch_Spawn_04429E` over aux list `$EC6C8`), its
+  turret (`M4_Turret_*`: edge check, shake, knockback, death), soldier
+  droppers, the double wheel (`$2E7BDE/$2E7BEE` frames), the 20-segment
+  rail, per-player water bodies spawning splashes, debris, and the
+  "camera floor" that walks the aux height table `$EC882` to publish the
+  scroll limit in `$10816A/$10816E`. `Flight_*` helpers used by Wave III's
+  flight cycle (random wobble, hitbox params, altitude check). Mission-3
+  boss helpers (`Boss_*`): random drop spawner, phase jingles, sine bob,
+  list-driven spawners over 8-byte records (`$2EAF1C/$2EAF7E/$2EAFE2`),
+  45/4/8/9-child loops, a hand-unrolled 10-escort spawner (362 B), six
+  blit-table loaders and the boss shadow init. 25 forward defsyms
+  promoted to real symbols; +7 island-RTS defsyms. Matcher: 3,672/3,672,
+  136,886 B (6.53 %).
+- `tools/gen_asm_region.py`: verified draft-`.s` generator for an
+  unmatched range (gap walking, entry splitting, project-style GAS,
+  cross-entry/mid-island symbols, byte-exact self-check, `--registry`
+  output). Wave JJJ was produced with it: 65/65 entries byte-exact on
+  the first pass, semantic pass done by hand on top.
+- `scripts/bootstrap_sandbox.sh`: one-shot toolchain + deps + ROM setup.
+- `TaskHandler_083c02` promoted from a local label of `TaskHandler_083be2`
+  to a global symbol (it is a `lea pc` handler target from `$0860F6`).
+- Wave III — 22 entries (2,192 B): **rescue squad and flight cycle**
+  closing all 12 gaps in `$084836..$08512C` (`rescue_squad_0848xx.s`).
+  Includes the squad-step handlers driven by sprite-list table `$2E77CA`
+  (indexed by `+0x21<<1`, `$FFFFFFFF` sentinel), the child handler
+  spawned from Wave HHH (`Sub_0008495E`, promoted from forward defsym to
+  real symbol: snd `$85`, random timer from `$2C0218`, double armor past
+  scroll `$4F0`), a 4-stage fall sequence (sprites `$2B5B92..$2B604A`,
+  landing snd `$1040`), a parachutist follower, a rescued-POW reward
+  handler (score `$2000`), a 3-way type selector over `+0x98`, and the
+  transport flight cycle (snd `$1074`/`$1075`, climb/dive/glide sprite
+  alternation, landing spawn of `$8512C`). New island-RTS defsyms
+  `SetHandlerRts_084898/_0848dc/_084b22/_084b98/_084bd0/_084c24` (+6)
+  and `Jsr5B6Rts_084c5c` (+12); removed 9 forward defsyms that became
+  real symbols and added 7 new forward defsyms
+  (`Sub_00085EE8..Sub_00086504`). Matcher: **3,607/3,607 functions,
+  132,144 B (6.3011% of P ROM)**.
 - Wave HHH — 28 entries (3,110 B): **miniboss finale and wave transitions**
   closing all 5 gaps in `$083BE2..$084828` (`miniboss_finale_083bxx.s`),
   the direct continuation of Wave GGG's miniboss module. Includes dual

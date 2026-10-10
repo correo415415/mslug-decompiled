@@ -11,10 +11,1213 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 3585/3585 funciones
-BYTES   : 129,952/129,952 (registrados)
-ROM     : 129,952/2,097,152  (6.1966%)
+MATCHED : 8194/8194 funciones
+BYTES   : 549,416/549,416 (registrados)
+ROM     : 549,416/2,097,152  (26.1982%)   — CODE 100 %
 ```
+
+> **Wave JJJJJ** (73 entradas, 3 940 B; 26 huecos) — `$000400..$002F30` en
+> `boot_script_sound_queue_palslots_000400.s`. Quincuagésimo tercera wave y
+> **cierre de todas las zonas CODE (505 608 / 505 608 B)**. Nombres en
+> `docs/waves/jjjjj_names.txt`. Handlers del boot script (`BootScr_*`: game
+> over, misión, mensajes de servicio con tabla `BootMsg_RowIds_001514`,
+> memory card, sound test, ending, opciones), `Players_CountActive`,
+> `Rank_Delay*`, `Task_*Slots` (slots fijos `$100260..$1008A0`), anillo de
+> llamadas diferidas `Deferred_RunQueue/Push` (`$106EE6`), bucle de frame
+> `VBlank_FrameLoop_001f84` / `VBlank_RenderFrame_002098`, cola de comandos
+> al Z80 `Sound_*` (`$320000`, anillo `$108184`), gestor de slots de paleta
+> `PalSlot_*` (`$1082C8`, fuentes `$14E00`/`$1CE00`, LUT `$2F30`).
+> Correcciones: `Handler_TimerAndReplace` → `$001BCA` (106 B), colas C de
+> `UserMode0_080C`/`BiosEntry_DEMO`/`BiosEntry_COIN_SOUND`;
+> `check_section_sizes.py` ahora cubre también `.c`.
+> **Siguiente fase: DATA.** `tools/gen_data_region.py` (volcado estructurado
+> `.fill`/`.dc.l Sym`/`.dc.w`, fronteras = direcciones referenciadas desde el
+> código) para `$002F30..$0133B0`, `$013D6A..$024E10`, `$09C608..$0E8000`,
+> `$0F2FFC..$18D152`, `$18DB78..$1F8000`, `$1F8000..$200000`, `$000000..$000400`.
+
+> **Wave IIIII** (26 entradas, 2 082 B; 8 huecos) — `$0133B0..$013D18` en
+> `palette_engine_sprite_grid_pause_0133b0.s`. Quincuagésimo segunda wave.
+> Nombres en `docs/waves/iiiii_names.txt`. Motor de paletas (paleta sombra
+> `$10A2D4`, LUT RGB555→NeoGeo `$2F30`, rampas `$12F30`; `Pal_LoadRaw16`,
+> `PalAnim_StepSlot/Blend16/StepRGB`, `Pal_ApplyFadeDarken/Lighten`,
+> `Pal_PackRGB/UnpackRGB`, `Pal_FlushDirtyToHW` → `$400000` con bancos
+> `$3A000F/1F`, `Pal_WhiteOutNextBank`), rejillas de sprites a SCB1-3
+> (`Sprite_FillTileGrid`, `Sprite_SpawnGridA/B/B_Scaled`, `SpriteAlloc_*`),
+> `Vec_PolarToXY`, `Div_FixedRatio`, sondeo de PAUSE (`Pause_Poll/Active/Clear`
+> con `$10E272/273`). **Zona `$0133B0..$013D6A` al 100 %.**
+> Fix de enlace CI: tamaños reales de `Collision_ProbeRange/X/Y_051Cxx`,
+> `Dispatcher_ModeTable_001922`, `VBlankTick_Master_001E5E`; HHHHH queda en 35
+> entradas; nuevo `tools/check_section_sizes.py` en CI/bootstrap. Cobertura:
+> 545,476 B (26.01 %), CODE 99.2 %, 26 huecos / 3,940 B (todos en
+> `$000400..$002F30`, 64.4 %). Siguiente: Wave JJJJJ = `$000400..$002F30`.
+
+> **Wave HHHHH** (35 entradas, 2 188 B; 16 huecos, 3 `--data`) —
+> `$051AA4..$0527AE` en `cellmap_fix_overlay_palfade_051aa4.s`. Quincuagésimo
+> primera wave. Nombres en `docs/waves/hhhhh_names.txt`, args en
+> `docs/waves/hhhhh_args.txt`. Ventana de mapa de celdas (`CellMap_*`: lectura
+> empaquetada de `$1081B6`, cursor/scroll rotado, clip de rectángulo —el
+> "probe básico" de collision_probes—, blit a LSPC, limpieza de 32 sprites y
+> del bloque VRAM), overlay de la capa FIX (`FixOverlay_DrawCreditsOrFree` →
+> "CREDITS n" / borrado, PAUSE + nº de jugador; flags `$1081BE`; strings
+> `Str_CREDITS_052230`/`Str_PAUSE_05231c`; sonda de backup RAM vía BIOS
+> `$C00450`), fundidos de paleta sobre `$10A2C8..CF` (`PalFade_In/Out_Task` con
+> `PalFade_SpeedTable_052570`, `PalFade_ToColor_Task` en 8.8 fijo),
+> `SpriteTable_Init256_0526b8` (256×32 B en `$1082C8` + 48 índices libres).
+> Eliminada la falsa isla C `NopCCR_0522a8`. Corregido `Camera_ResetCenter_05CACE`
+> a 18 B (GGGGG queda en 54 entradas). **Zona core `$024E10..$05E000` al
+> 100 %.** Cobertura: 543,384 B (25.91 %), CODE 98.8 %, 35 huecos / 6,032 B.
+> Siguientes: `$0133B0..$013D6A` (2,082 B), `$000400..$002F30` (≈3.9 KB).
+
+> **Wave GGGGG** (54 entradas, 2 320 B; 22 huecos, 7 `--data`, 3 `--entry`) —
+> `$05CADE..$05E000` en `input_thunks_debug_hex_atan_luts_05cade.s`.
+> Quincuagésima wave. Nombres en `docs/waves/ggggg_names.txt`, args en
+> `docs/waves/ggggg_args.txt`. 21 thunks `InputEvtThunk_*` (máscara/canal/
+> contexto `$10E200`/`$10E206` → backends `InputMask_*`), `InputEvt_ToggleChain`
+> (detección de flanco vs `$10E20C`), HUD hex de debug (`Debug_HexDrawToFix4/8`,
+> `HexDigit_FixTileTable_05d864`, `Bin16_ToBcd4`), `Noise_LookupByIndex` +
+> `NoiseLut256_05d956`, LUTs `AtanLog_Table_05de18`/`AtanExp_Table_05df18` de
+> `Atan2_Angle256`, `Entity_CheckOnScreenBox/EnterScreen/LeaveScreenWide` +
+> `ScreenBox_Default`, `ListCursor_Step/LoadEntry`, `Spawn_ChildFromDesc`,
+> `SpriteBlock20x14_Setup/SetupDup`. Promovido `Sprite_HexFormat4_05D6C2__L05d6d0`.
+> Cobertura: 541,182 B (25.81 %), CODE 98.4 %, zona core 99.1 %, 54 huecos /
+> 8,234 B. Siguientes: `$051000/$052000` (≈2.2 KB), `$0133B0..$013D6A`
+> (2,082 B), `$000400..$002F30` (≈3.9 KB).
+
+> **Wave FFFFF** (33 entradas, 3 738 B; 15 huecos, 5 `--data`, 2 `--entry`) —
+> `$055B96..$056ACC` en `enemy_projectiles_grenade_mortar_roller_055b96.s`.
+> Cuadragésimo novena wave. Nombres en `docs/waves/fffff_names.txt`, args en
+> `docs/waves/fffff_args.txt`. Proyectiles enemigos: granada lanzada
+> (`Grenade_SpawnFromThrower` → `Grenade_Task` con `Grenade_TrajTable_055c08`
+> {vx,ay,vy,timer} por tipo `$5C(a6)`, velocidad polar en modos de escena
+> `$106F2B` 1/2/3, `Grenade_Explode` agua/fuego), bola rebotante (`Bounce_Task`,
+> `Bounce_Rest/Rest2/Fizzle/Explode`), obús de mortero (`Mortar_ApplyDrag`,
+> `Mortar_SpawnFromParent`, `Mortar_Shell_Task/Explode`, `Mortar_HitboxList*`,
+> `SpriteMap_Mortar`), rodillo (`Roller_SpawnFromParent`, `Roller_Task`,
+> `Roller_Explode`, `Roller_HitboxList*`, `SpriteMap_Roller`), 7 thunks
+> `Entity_CmpDepthToParent_*` y `Soldier_PhysicsBox_056ac4`. Cobertura: 538,872 B
+> (25.70 %), CODE 97.9 %, zona core 98.1 %, 76 huecos / 10,544 B. Siguientes:
+> `$05C000..$05E000` (22 huecos ≈2.3 KB), `$051000/$052000` (≈2.2 KB),
+> `$0133B0..$013D6A` (2,082 B), `$000400..$002F30` (≈3.9 KB).
+
+> **Wave EEEEE** (71 entradas, 5 290 B; 38 huecos, 7 `--data`, 5 `--entry`) —
+> `$05934E..$05A9D6` en `result_ending_gunner_walker_05934e.s`. Cuadragésimo
+> octava wave. Nombres en `docs/waves/eeeee_names.txt`, args en
+> `docs/waves/eeeee_args.txt`. Módulos: pantalla de resultados de misión
+> (`ResultText_Strings_05934e`, `Result_DrawDigits`, `Result_PlayerPanel_Init` →
+> `Result_Roll{Continues,Prisoners}` → `Result_PrintScore` → `Result_HiScoreEntry`),
+> secuencia final (`Ending_Show{Mission,All,Over}`, `Ending_WipeAllOver`,
+> `Ending_Seq_*`, `EndingOrbit_Parent/Child`, `Str_PeaceForever`), soldado
+> artillero `Gunner_*` (Search/Fire/Reload + `Gunner_Shell`) y `Gunner2_*`
+> (`Gunner2_AimFromAngle`, Track por stick del jugador o Target_AngleToPlayer,
+> `Gunner2_Shell` con `Shell_HitboxList_A/B/C`), `Walker_*`, `GunnerAnim_Table`,
+> `FadeLut_16x16_05a8ba`, `VRAM_FixAutoclear_Reset_05a9ba`. `gen_asm_region.py`:
+> rangos `--data` byte a byte (`.dc.b`) para labels en offsets impares. 27
+> renombres propagados. Zona `$024E10..$05E000` al 96.5 %; CODE total 97.2 %
+> (91 huecos, 14 282 B).
+>
+> **Wave DDDDD** (79 entradas, 4 374 B; 47 huecos) — `$046000..$048000`
+> en `enemy46_drops_fix_banners_046260.s`. Cuadragésimo séptima wave. Nombres en
+> `docs/waves/ddddd_names.txt`. Módulos: Enemy46 fases C/D + `Enemy46_RandomPause`
+> (cierra la máquina de vehicle_deploy_045f2c.s), drops de enemigos por template
+> (`Drop_SpawnRandom_046322`, `Drop_Spawn_Tmpl4F/F2/1B/6D/2C/2B/3A_12F`,
+> `Drop_SpawnFromTable`, `Drop_SpawnThrown`, matriz `$28DC4E`), `Fade_WhiteFlash_*`,
+> `SceneC_Load_*`, pantalla CONTINUE grande (`ContinueDigits_P1P2_Task`,
+> `ContinueBig_Init/Countdown/ClearAndExit`, `Continue_IsStartP1/P2/Any`), banners
+> del fix layer (`FixBanner_MissionStart/Complete_Blit`, `MissionNumBanner_*`,
+> `MissionStart_*`, `MissionComplete_*`, `TimeUp_Banner_Task`), `BigText/SmallText_
+> Typewriter`, `Font_*GlyphToTile`, `Fix_DrawBigNumber2Digit`, `Fix_PutString_
+> PalByHighBit`. 22 renombres propagados; 2 labels promovidas; eliminadas las
+> falsas islas `NopCCR_046e6c/046fd0` (eran el `movem.w` final de los blits).
+> Zona `$024E10..$05E000` al 94.2 %; CODE total 96.1 % (129 huecos, 19 572 B).
+>
+> **Wave CCCCC** (117 entradas, 6 380 B; 6 `--data`, 39 `--entry`) — `$027400..$02A000`
+> en `collmap_hitbox_script_ops_027400.s`. Cuadragésimo sexta wave. Nombres en
+> `docs/waves/ccccc_names.txt`, args en `docs/waves/ccccc_args.txt`. Módulos:
+> resto del motor de movimiento/colisión (`Entity_MoveAndCollide_D/E/F`,
+> `Entity_StepB/C/D/Fall_UpdatePos`, `Entity_SlopeResolve/Commit`,
+> `CollMap_LookupTile` + `CollMap_TestSolid*/TestPlatform*`, probes de suelo,
+> `Entity_*VelLatch`, `Entity_ProbeSwapGravity_A/B/C`), hitboxes entidad-entidad
+> (`Hitbox_RunList` + `Hitbox_ListOpTable` de 5 ops sobre jugadores/slugs/pools
+> `$100800`/`$1008A0`, `Hitbox_TestBoxes`, `Hitbox_Overlap{Rect,Point,PointA4}`,
+> `Hitbox_ApplyDamage`, `Hitbox_DefaultShapes`) e intérprete de scripts de
+> sprite (`Script_OpcodeTable_028cf0`: 32 opcodes `ScriptOp00_Wait` ..
+> `ScriptOp1F_Sound2222`, llamado desde `script_dispatch.s`). 14 renombres
+> propagados; 3 labels locales promovidas a globales. Zona
+> `$024E10..$05E000` al 92.3 %; CODE total 95.3 % (176 huecos, 23 946 B).
+>
+> **Wave BBBBB** (88 entradas, 8 874 B; 9 `--data`, 1 `--entry`) — `$024E10..$027400`
+> en `hud_inputrec_entity_move_024fb8.s`. Cuadragésimo quinta wave. Nombres en
+> `docs/waves/bbbbb_names.txt`, args en `docs/waves/bbbbb_args.txt`. Módulos:
+> `Input_Poll_LiveMode` + `InputRec_*` (grabación/replay RLE del input para el
+> demo del attract; modos `$106ECA` 0/1/2), `PlayerSlotDesc_*` (32 registros de
+> 16 B {tmpl, entidad, task, flags}), tarea HUD por jugador `HUD_Task_*` /
+> `HUD_State_*` (INSERT COIN → PUSH START → spawn → muerte → CONTINUE/GAME
+> OVER) con dibujado al fix layer `HUD_Draw*`/`HUD_Msg_*` (strings ASCII en
+> `$2785B8..`), créditos BCD `$1081BF/C0` + BIOS `$C00450`, y motor de
+> movimiento/colisión `Entity_MoveAndCollide_A/B/C`, `Entity_FloorProbe`,
+> `ClampVelocity`. 10 renombres propagados (task_handlers.c, jsr_pc_thunks.c,
+> entity_probe_*.s). `gen_asm_region.py`: fallback `rawinsn` para `movem`
+> abs.l. Código real 94.0 %; zona `$024E10..$027400` al 100 %. Siguiente:
+> huecos de `$027400..$02A000` y páginas `$046000/$052000/$056000/$059000`.
+>
+> **Wave AAAAA** (65 entradas, 23 648 B; todo datos, byte-exacto) — `$0916C8..$0967B4`
+> en `scene_scripts_0916c8.s` y `$096BBC..$097730` en `attract_sprite_lists_096bbc.s`.
+> Cuadragésimo cuarta wave. Generadores `tools/scene_script_dump.py` y
+> `tools/attract_sprites_dump.py` (capstone; verifican enlazando con defsyms de
+> SYMBOLS+REGISTRY). Contenido: `SceneDescTable_0916C8[16]` `{script.l, entities.l}`,
+> 14 scripts de la VM de escena (`SceneScript_*`, opcodes $00..$16 con callbacks
+> 68000 embebidos tras `lea d(pc),a1/a0 ; rts`), listas `SceneEntities_*` (14 B,
+> ctx de cámara $1080E0/$108064/$107FE8/$106F6C), tablas `SceneTrig_*` (op $11),
+> colas CCR `ChildRank_CmpByte10_0967A4/_097720` como código, 8 listas
+> `AttractSprites_List0..7_*` (registros de 20 B `{flags,x,y,tmpl.l,params[10]}`).
+> Zona `$083000..$09C608` al 100 %; código real 92.2 %. CI matcher (runner
+> self-hosted) en verde con releases `matcher-*`. Siguiente: huecos de
+> `$024E10..$05E000` (Wave BBBBB: `$024E10..$027400`).
+>
+> **Wave ZZZZ** (192 entradas, 18 154 B; 1 `--data`, 6 `--entry`) — `$07A002..$083000`
+> en `boss2_crab_carrier_soundtest_07axxx.s`. Cuadragésimo tercera wave.
+> Nombres en `docs/waves/zzzz_names.txt`, args en `docs/waves/zzzz_args.txt`
+> (strings del sound test `$7A7E8..$7A954`; entradas forzadas por plantillas
+> $E8000 y refs absolutas externas). Módulos: Crew_Hostage_*/Crew_Captor_*,
+> SoundTest_Init/Run, M2Boss_* (tmpl 132: Body/Arm/Turret/Shell/Smoke/Debris/
+> Wreck/Burst), Crab_* (tmpl 138..140: Claw/Leg/Shard/Patrol), Carrier_* (tmpl
+> 129..131: Hull/Cockpit/Mark/Hatch/Cannon/Spawner/Trooper/Gunner/Rider). 27
+> renombres; 10 labels promovidos en squad_deploy_module. Código real 87.6 %;
+> zona `$05E000..$083000` al 100 %. Siguiente: huecos de `$083000..$09C608`.
+>
+> **Wave YYYY** (251 entradas, 15 600 B; 11 `--data`, 76 `--entry`) — `$076000..$07A000`
+> en `props_fx_explosions_platforms_crew_076xxx.s`. Cuadragésimo segunda wave.
+> Nombres en `docs/waves/yyyy_names.txt`, args en `docs/waves/yyyy_args.txt`
+> (tablas de sprites, tabla de tablones `$772A8`, FallPath `$78BE0`, jump table
+> PathScript `$78FC0`; entradas forzadas por refs absolutas de scripts de misión
+> a Explosion_Var01..32 y a los spawners de tablones). Módulos: ScriptedProp_
+> hijos, Frag_*, Platform_*, MovingPlatform/BridgePlank, MuzzleFx_*, Spawner_*,
+> Explosion_*/Smoke_*/Debris_*, Breakable_Tmpl23..26, PathScript_* (VM de 11
+> ops), AutoDemo_*, Crew_Tmpl125..128. Código real 84.0 %; zona `$05E000..$083000`
+> al 88.0 %. Siguiente: `$07A000..$083000`.
+>
+> **Wave XXXX** (177 entradas, 15 662 B; 46 `--data`) — `$071FFC..$076000`
+> en `m5tank_finalboss_helpers_scriptedprop_072xxx.s`. Cuadragésimo primera
+> wave de `gen_asm_region.py`. Nombres en `docs/waves/xxxx_names.txt`, args en
+> `docs/waves/xxxx_args.txt` (LUT `$74460`, sprites `$7466E`/`$75270`, 34 blobs
+> del script inline `$749E8..$74F58`, bloque cero, hitbox `$75F34`).
+>
+> * **FinalBoss_\*** helpers: cierre de los forward refs de WWWW (Wreck A/B,
+>   Spark, Smoke A/B, LimbPart Init/Damaged/Critical, Pick*Pattern, spawners).
+> * **M5Tank_\*** (tmpl 118, slot 4 `$EDC36`): Drive/Turn/Retreat/Pause/
+>   Phase2/Phase3/Die/Sink/Explode; hijos Hull/Cabin/Launcher/Gun/Turret;
+>   Rocket Launch/Fly/Home/Explode, Casing, Muzzle A..E, Frag.
+> * **M5Missile_Tmpl77** (tmpl 119): velocidad/altura desde +$98/+$99.
+> * **MiniScript_\*** (8 ops) + **ScriptedProp_\*** (tmpl 151, slots 0/2):
+>   prop destructible por fases con script inline de 34 pasos.
+> * Fix `gen_asm_region.py`: target de `movem.l d(pc),regs` (base PC+4).
+> * Matcher 7113/7113, 452,812 B (21.59 %); código real 80.9 %.
+
+> **Wave WWWW** (221 entradas, 15 122 B; 1 `--data`) — `$06DFE8..$071FFC`
+> en `gunship_m5boss_finalboss_06exxx.s`. Cuadragésima wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/wwww_names.txt`, args en
+> `docs/waves/wwww_args.txt` (hitbox `Gunship_Hitbox` `$6EB84..$6EBD0`).
+>
+> * **FireBurst_\*** / **Walker_\*** / **Frag_\*** / **Spawn_\***: cierre de
+>   los forward refs de VVVV (`Sub_0006Exxx` → nombres).
+> * **Gunship_\*** (tmpl 75): path `$2D4A2E[+$98]`, Crew + Gunner (Aim/Fire/
+>   Reload/Wait), Die → 4 WreckPiece (`jmp $6DCE0`), Shell, Explode.
+> * **M5Boss_\*** (tmpl 111/112/113): Intro con S5Gate/S5Airship, Idle →
+>   PickAttack → Hover/AttackA-C/Charge/Barrage; hijos Bomb/Missile/Shell/
+>   Spark/Soldier/Grenadier/Grenade/Rocket/TurretCar; DispatchBy8C.
+> * **FinalBoss_\*** (tmpl 114/115/116): Left/Right + 5 Limb + Head
+>   (respawn) + Cannon/Casing/Flame/Beam/Debris; fin con `$1071` + `$518`.
+> * Matcher 6936/6936, 437,150 B (20.84 %); código real 77.8 %.
+
+> **Wave VVVV** (179 entradas, 15 616 B; 29 `--data`) — `$06A000..$06DFE8`
+> en `bazooka_rocketvehicle_walker_06axxx.s`. Trigesimonovena wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/vvvv_names.txt`, args en
+> `docs/waves/vvvv_args.txt` (29 tablas inline de 4 punteros de sprite).
+>
+> * **Tank_\*** cola de UUUU (ataque por variante, snd `$E/$1A`).
+> * **Bazooka_\*** / **BazookaB_\*** / **BazookaCrew_\*** (tmpl 86/87,
+>   90/91, 92/93 ← `Mortar_ToJump6A7D6`): Idle/Walk/Turn/Alert/Attack/Die
+>   con arma hija **BazookaWeapon_\*** (espejo de estado `$2CA644`,
+>   MuzzleFlash, Rocket `$2CA4B0`, impacto `$1025`).
+> * **AllyBazooka_\*** (tmpl 64/65, lo crea `TaskHandler_0849ba` del
+>   escuadrón de rescate): avanza a `$110`, ráfagas, muere con el padre.
+> * **RocketVehicle_\*** (tmpl 88/89): eslabones Chain3 (`$30696/$30704/
+>   $3076A`), fase de rueda `+$8A→+$97` → 29 tablas de poses, Rider hijo,
+>   Rocket/MuzzleFlash, Die/Wreck/Corpse/DetachLinks.
+> * **Walker_\*** (tmpl 66..74): Init/Approach/Attack(ráfagas)/Die/Explode
+>   (16 × `Frag_Scatter` vía `Entity_SpawnLoop16_06E412`).
+> * **Frag_\*** / **FireBurst_\***: Shell/Debris(`$6DBD4`)/Smoke/Spark/
+>   Scatter (sin/cos `$2C072C/$2C07AC`), chorro `$6DF32` (→ WWWW).
+> * Matcher 6715/6715, 421,728 B (20.11 %); código real 74.7 %.
+
+> **Wave UUUU** (180 entradas, 15 488 B; 1 `--data`) — `$066000..$06A000`
+> en `barrel_paratrooper_shield_tank_066xxx.s`. Trigesimoctava wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/uuuu_names.txt`, args en
+> `docs/waves/uuuu_args.txt` (tabla de scripts de animación `$66CD8..$670B6`).
+>
+> * **FloatBarrel_\*** / **FloatMine_\***: cola de `Barrel_Tmpl8D_065f40`
+>   (Submerge/Surface/Drift/Bob/Splash/Pop/Shard; mina con HP `$64`).
+> * **Paratrooper_\*** (tmpl 94/95): spawner con cadencia `$2B889A` y
+>   umbral de scroll; paracaidista Init → Land → WalkA/B → Leave; Frag/Smoke.
+> * **ShieldSoldier_\*** / **ShieldSoldierB_\*** (tmpl 108/109; también
+>   desde `M4_PlatformSpawn_085134`) + **Shield_\*** hijo (absorbe golpes
+>   frontales; `ShieldLost` → `jmp $58F82`).
+> * **S5Gate_\*** / **S5Airship_\***: puerta y dirigible de escena 5 sobre
+>   `$106F5E/$106F60`, gancho de cámara `$106F6C`, DropPow (`Pow_EntryB`).
+> * **Tank_\*** (tmpl 53/54/55): Drive/Idle/Turn/Brake/AimPlayer/FireBurst
+>   → Die/Wreck; Driver (Bail/ToSoldier `$58F82/$5724E`), Turret, Missile
+>   guiado (`$5E070`), `SetSpriteByIndex` con asserts `trap #15`.
+> * Matcher 6536/6536, 406,112 B (19.36 %); código real 71.7 %.
+
+> **Wave TTTT** (210 entradas, 15 242 B; sin `--data`) — `$062000..$066000`
+> en `sniper_camper_mortar_062xxx.s`. Trigesimoséptima wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/tttt_names.txt`, args en
+> `docs/waves/tttt_args.txt`.
+>
+> * **Cola de LateProp** (`$62008..$620B6`, `$626F0..$62922`): TakeHit/
+>   HPCheck (daño `$2870A`, flash `$5E770`), StepX/ClampX/StepAnim, Register
+>   (`$43FAC`), SpawnDebris2 (`$77C7E`), SpawnPair/Child A..D.
+> * **TurretCar_Gunner_0620da**: artillero hijo del coche-torreta (`$4CA64`).
+> * **Sniper_\*** (`$6212A..`): Init → Aim (Atan2 `$5E018`) → Fire (Shell/
+>   Muzzle/Flash) → Flee como soldado (`$58F82/$58FE2`) / Die; Grenade,
+>   SmokeA/B, Spark. `Facing_SignDelta_0626b8` / `Matches77`.
+> * **MultiStage_Decal_06293e**: hijo de `Prop_MultiStage_054cf2`.
+> * **Camper_\*** (`$62A4E..$631D0`): soldado atrincherado (Idle/Watch/Alert/
+>   Fire/Fire2/Rearm/Die/Explode), ToSoldier(Flee) vía `$4A0D4`+`$5724E/
+>   $58FC2`, DropItem `$9A7CC`, Music `$2352`.
+> * **Tent_\*** (`$631D0..`): escombros de la tienda de escena 5 (`$89202`).
+> * **Mortar_Tmpl3C_06361e** (tmpl 60/61): Active/Die/Wreck, Shell/ShellB/
+>   ShellAim, Crew/CrewHit/CrewToSoldier (`$57226`), `ToJump6A7D6`.
+> * **Cannon_Tmpl3E_063ec6** (tmpl 62/63): Idle → Acquire `$5E086` → Fire
+>   A/B/C → Rearm; HitCheck A/B; Explode/Die.
+> * **Hostage_\*** (tmpl 76..85, `$64550..$64D98`): rehén/POW (Walk/Pose/
+>   Kneel/Stand/Shoot/Run/Fall/Thrown/Die/Free), contador `$10E276..$10E27B`
+>   (`CountRead_065d4a`/`CountInc_065d7a`), música `$105D`, `trap #15` assert.
+> * **Patrol_\*** (`$64D98..$65F40`): soldado de patrulla (sprites `$2C6510`
+>   por `+$20&$F`), PlayerNear/AimAtPlayer/FollowParent, Register0..4.
+>   **Scene3Prop_\*** (hijo de `Scene3Debris_SpawnPrio4_03d72a`).
+> * **Barrel_Tmpl8D_065f40** (tmpl 141): snd `$179`, HP 1, sprite `$2C756C`;
+>   continúa en `$066000+` (Wave UUUU).
+> * Matcher 6356/6356, 390,624 B (18.63 %); código real 68.6 %.
+
+> **Wave SSSS** (221 entradas, 15 144 B; 10 `--data`) — `$05E000..$062000`
+> en `late_props_turrets_05exxx.s`. Trigesimosexta wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/ssss_names.txt`, args en
+> `docs/waves/ssss_args.txt`. Fix de herramienta: `exg.l` → `exg`.
+>
+> * **Helpers de runtime tardío** (`$5E000..$5EB98`, >200 call-sites):
+>   `Atan2_Angle256_05e018`, `Target_AcquireNearestPlayer_05e086` (caja
+>   opcional, P1/P2 por máscara de vivos y |dx|), `Players_AliveMask`,
+>   `Player_GetEntity_05e3a2` (handler $FFFFFFFF/$52A/$400/$2AE3E = libre),
+>   `Parent_CopyPos*`, `Dist_Approx`, `Rng_Seed_05e998` (LCG 32 words en
+>   `$10E230`) / `Rng_Mask_05ea1c`, `Hit_ClassifyAttack_05e6a4` (34 clases,
+>   `trap #15` = assert), `HitSoundTable`, `Hud_WriteTimerCounters`,
+>   `Fix_DrawMessageRow_05eae4` (jmp desde `$150E`, 30 filas en `$5EB98`).
+> * **DebugColl_\*** (`$5EFCA..$5F384`): tarea de depuración de colisión
+>   (DIP `$100001` bit1), dibuja el nibble del byte `$43F02` en pantalla.
+> * **TowerSoldier_\*** / **HutOccupant_\*** / **HutDoor_\*** (`$5F384..
+>   $5FD78`): hijos de `Prop_TowerBase_04dce6` / `Prop_Hut_04d8f2`; el
+>   ocupante huye como soldado `$58F82` si el padre muere.
+> * **Breakable_\*** (tmpl 31..39), **Sign_\*** (40..49), **ItemProp**
+>   (276..280), **Obstacle_\*** (110/111/094/095), **Crate_\*** (122..124),
+>   **AimTurret_\*** (142: Atan2 → `$5E23A`, `$13C0E`, escombros `$77C7E`,
+>   ítem `$9A7CC`), **GroundNest** (50..52), **LateProp_\*** (`$61AA2..`,
+>   helpers en `$062000+` pendientes), `HomingMarker_Targets_060576`.
+> * Matcher 6146/6146, 375,382 B (17.90 %); código real 65.6 %.
+
+> **Wave RRRR** (126 entradas, 12 874 B; 5 `--data`) — `$03DA98..$040EF2`
+> en `results_pow_squadleader_03daxx.s`. Trigesimoquinta wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/rrrr_names.txt`, args en
+> `docs/waves/rrrr_args.txt`.
+>
+> * **Pantalla de resultados** (`Results_*`): tarea `$3DBC8` (instalada por
+>   `Attract_InitTaskAdd`), una `Results_PlayerColumn` por jugador con fases
+>   Score→Wait→Commit→Bonus→Total→Pause→WaitAll→Winner, premio
+>   (`PrizeSprite/Fall/Land`), roster de POWs (`RosterPickA/B`, `RosterDrawA/B`),
+>   banners A/B/C, `DrawFrame/DrawLabels` en VRAM fix, `PollStart*`.
+> * **POW** (`Pow_*`): crédito de rescate por jugador (`$106F4C/$106F4E`),
+>   `RectOverlap`, tablas `AnimTblA/B/C`, estados Tied/Freed/Idle/Walk/Jump/
+>   Crouch/Fall/Land/WaitRider/Rescued→Bow→Run→Exit, `Despawn`.
+> * **Líder de escuadrón** (`SquadLeader_*`): Spawn/Enter/Turn/Hover/
+>   Formation/Swoop/PickAttack/Dive/Regroup/Reform/Circle, órdenes +$84,
+>   `HitCheck`, `Death/DeathDone/Respawn`.
+> * `SlugCannon_ArmOffsetCurve` (tabla de 65 pares del brazo en el Slug).
+> * Matcher: 5925/5925, 360,238 B, 17.18 %; código real 62.6 %.
+
+> **Wave QQQQ** (97 entradas, 7 396 B; 7 `--data`) — `$04FA50..$051914`
+> en `allen_oneil_04fa50.s`. Trigesimocuarta wave de `gen_asm_region.py`.
+> Nombres en `docs/waves/qqqq_names.txt`, args en `docs/waves/qqqq_args.txt`.
+>
+> * Jefe **Allen O'Neil** (`Allen_*`): `AcquireTarget` (+$72 objetivo),
+>   `Physics`, `Entity_StepMoveWithProbe`, decisiones `Check*` evaluadas en
+>   `Allen_Main`, saltos (`JumpDecide/JumpToward/JumpHigh/Airborne/Land`),
+>   `KnifeAttack`, `FireMGHigh/Level` + `Allen_Bullet`, `ThrowGrenade` +
+>   `Allen_Grenade/GrenadeExplode`, barra de vida de 5 tramos (`$296E72`
+>   vía `$2C30`), `Death/DeathFall/DeathLand/DeathFade`, `TouchSensor` ×4.
+> * 19 spawners `Barrier/Gatehouse/Fortress_SpawnPiece*` (máscara de bit
+>   en +$21, tablas de blit +$70/+$74) usados por la Wave PPPP.
+> * Blits por estado de torre/búnker/nido (OOOO), `MemCard_*` glue,
+>   `Players_*`, `Nibbles_*`, `PlayerState_FlagTable`.
+> * Matcher: 5799/5799, 347,364 B, 16.56 %; código real 60.0 %.
+
+> **Wave PPPP** (40 entradas, 5 296 B) — `$04E580..$04FA50`
+> en `props_fortress_04e5xx.s`. Trigesimotercera wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/pppp_names.txt`, args en
+> `docs/waves/pppp_args.txt`.
+>
+> * Props de la misión del fuerte: `Prop_Barrier*` (activa/dañada/restos,
+>   poste, luz), `Prop_Gatehouse*` (intacta/dañada/restos, bloqueador,
+>   tejado, puerta) y `Prop_Fortress*` (espera de scroll → activa → restos,
+>   bloqueador, soporte de torreta, lateral). Se encadenan con `$44022`
+>   (posiciones absolutas) y `MissionWatch_Spawn $4429E` (listas
+>   `$E9348/$E93B0/$E9442`) según umbrales de scroll `$A10/$A20/$A70`.
+> * Misceláneos: `Prop_Roof*` (`$E840C`), `FixBlink3_PhaseA/B`,
+>   `Prop_Sensor*`, `Prop_Crate`, `Debris_Bouncer/Hop/Roll`, `Prop_SignA/B`
+>   (`$E8414/$E8418`), `Prop_Boat/BoatBlast/BoatDebris` (`$E8410`),
+>   `FixTile_Set11C2`.
+> * Las subs de setup `$4FB8A..$5017A` que invocan quedan para QQQQ.
+> * Matcher: 5702/5702, 339,968 B, 16.21 %; código real 58.6 %.
+
+> **Wave OOOO** (64 entradas, 6 384 B; 2 `--entry`) — `$04CBD4..$04E580`
+> en `turret_car_props_04cbxx.s`. Trigesimosegunda wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/oooo_names.txt`, args en
+> `docs/waves/oooo_args.txt`.
+>
+> * Vehículo-torreta (`TurretCar_*`, creado desde `$070EC0`): base con
+>   ángulo 0..31 (`Idle/Track/Recoil`, pasos `AngleStep16/8`), hijo cuerpo
+>   (`Body`, HP por dificultad, muerte → padre `+$21 = $FF`), conductor
+>   (`Driver/DriverPanic/DriverFlee`), cañón guiado (`Cannon`: histórico de
+>   16 ángulos +$88..+$97, `GroundProbeUp`, dispara `Shell` cada 8 frames),
+>   helpers de ángulo/offset/offworld.
+> * Props de misión 3ª tanda (`Prop_Static/Lamp/Hut/Tower/TowerFlag/Bunker/
+>   Bridge/Nest/Shed/Barrier` + fases/wrecks), misma plantilla que GGGG/MMMM,
+>   con MissionWatch `$4429E` y blits `$5022A`; registros de spawn en
+>   `$096BFE..$096C8A`/`$0975F8..$097670`.
+> * Matcher: 5662/5662, 334,672 B, 15.96 %; código real 57.5 %.
+
+> **Wave NNNN** (53 entradas, 3 814 B; 1 `--data` para la tabla de 6
+> punteros `$4CB44`) — `$04BB9A..$04CBD4` en `gun_platform_04bbxx.s`.
+> Trigesimoprimera wave de `gen_asm_region.py`. Nombres en
+> `docs/waves/nnnn_names.txt`, args en `docs/waves/nnnn_args.txt`.
+>
+> * Emplazamiento de cañón enemigo (plantillas `$E8214..$E8220`):
+>   `GunPlatform_Spawn_04bb9a` (4 variantes +$70, hijos según tablas
+>   `$2902E8..$2902F4`), ciclo `Rearm/Aim/FireA/FireB` con parámetros por
+>   dificultad, hijos `Hatch*` (escotilla por estado del padre), `Shield*`
+>   (HP propio, mata al padre), `RiderA/B_*` (tiradores humanos con sprites
+>   del soldado/POW que mueren vía HumanDeath `$4A146/$4A154`),
+>   `GunPlatform_Gun_04c776` (ataque `$290D70`, sigue al padre con `$5E506`),
+>   destrucción `HitCheck/Destroyed/DestroyedWithWreck/Wreck/FlyingPart`.
+> * `SpawnStream_ReadNext_04cac4` / `SpawnStream_Dispatch_04cb88`: lector del
+>   stream de spawn de 16 B en `$1081B2` por scroll; `SpriteSetPtrTbl6_04cb44`.
+> * Matcher: 5598/5598, 328,288 B, 15.65 %; código real 56.3 %.
+
+> **Wave MMMM** (41 entradas, 4 746 B; sin `--data` ni `--entry`) —
+> `$053F96..$055258` en `props_mission_053fxx.s`. Trigésima wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/mmmm_names.txt`.
+>
+> * Segunda tanda de props destructibles (misma plantilla que Wave GGGG:
+>   `$2942A` template, HP +$66, `$2870A` -> flash `$5E770`, `$28758` ->
+>   música + escombros `$77C7E` + puntos `$51A28` + registro `$43FAC`):
+>   `Prop_Building` (3 fases), `Prop_Column`, `Prop_CompoundWall` (2
+>   variantes, 3 fases) + entidad compuesta `Prop_Compound_Spawn/PhaseA/
+>   PhaseB/Done/TriggerSpawn`, `Prop_NeonSign` con actualización del fix
+>   layer (`NeonSign_Fix*`, `NeonSign_Tiles*` vía `$2C26`, flag `$1081B1`),
+>   `Prop_Stall`, `Prop_Fragile` (3 fases), `Prop_Breakable`,
+>   `Prop_HitStages` (sprite por impacto `$298C46`), `Prop_Small`,
+>   `Prop_ScaledHP` (HP por dificultad), `Prop_MultiStage` (5 variantes, 4
+>   fases, hijo `$6293E`), `FixBlink2_PhaseA/B`, `Prop_Blocker`.
+> * Referenciados por los registros de spawn de misión `$096FAE..$097166`.
+>   Cierra el bloque `$0527BA..$055258`.
+> * Matcher: 5545/5545, 324,474 B, 15.47 %; código real 55.5 %.
+
+> **Wave LLLL** (25 entradas, 2 880 B; 1 `--data` para las tablas de
+> estados de muerte, 2 `--entry`) — `$049430..$049FC4` en
+> `pow_hang_0494xx.s`. Vigesimonovena wave de `gen_asm_region.py`.
+> Nombres en `docs/waves/llll_names.txt`, args en `docs/waves/llll_args.txt`.
+>
+> * POW colgado de la cuerda: `PowHang_SpawnVariants_04954a` (amplitudes
+>   +$7A/+$7C por parámetro y dificultad, hijo `PowHang_RopeSpawn_0497ac`),
+>   `PowHang_Swing/Struggle` (física `SwingStep` con `$13C0E`, anim por
+>   ángulo `$5E136`, gotas `DropFxTimer` -> hijo `$48B56`), protocolo
+>   padre/hijo +$78/+$79 con la cuerda (`RopeIdle/RopeStruggle/RopeCut/
+>   RopeBroken`), `PowHang_Freed_049742` (cuerpo `$4ACFE` + ítem `$48CA4`).
+> * POW en caída (plantilla `$E81B8`): `PowFall_Spawn_049baa` + sombra/
+>   ataque `PowFall_Shadow_049ca4`.
+> * Callbacks de scripts de animación (`0800 <addr>` en `$18E612/$18E6CA/
+>   $18EC56`), checks de slot/golpe, `HumanDeath_StateTbls_049d8a` (4×34
+>   punteros) + `HumanDeath_StateTblPtrs_049faa`,
+>   `HumanDeath_HitCheckUnlessCutscene_049fba`.
+> * Promovida la etiqueta interior `PowItem_Toss_048ba0__L048bca` en
+>   `pow_helpers_048axx.s`. Cierra el bloque `$0478FC..$04BB8E`.
+> * Matcher: 5504/5504, 319,728 B, 15.25 %; código real 54.6 %.
+
+> **Wave KKKK** (42 entradas, 6 990 B; 3 `--data` para tablas de sprites
+> y punteros, 4 `--entry`; parche del generador) — `$049FF2..$04BB8E` en
+> `human_death_049fxx.s`. Vigesimoctava wave de `gen_asm_region.py`.
+> Nombres en `docs/waves/kkkk_names.txt`, args en `docs/waves/kkkk_args.txt`.
+>
+> * Módulo compartido de muerte de humanos (lo llaman las colas de estado
+>   del soldado y del POW tras `$2870A`): `HumanDeath_Dispatch_049ff2`
+>   elige el estado en las 4 tablas `$49FAA[kind]` (34 punteros cada una,
+>   hueco anterior) por el tipo de daño +$58; estados `TumbleBack/Fwd`
+>   (5 sprites por tabla), `Collapse`, `Knockdown`, `InitBurst`/`BurstLand`,
+>   `Launched` (escala 8.8 en +$5C -> +$32/+$33, "vuela hacia la cámara"),
+>   `Burning`/`BurnedDown` + `FlameChild`; hijos `SpawnCorpseA/B`,
+>   `SpawnBloodSplash` (A/B), `SpawnSmokePair`; helpers de física
+>   (`PhysicsAir/Ground/Fall`, `DampVelocity` = vel -= vel/32) y 3,8 KB de
+>   tablas de sprites (`HumanDeath_SpriteTbls_04ac56`).
+> * `gen_asm_region.py`: alias local `.L` para labels globales usados desde
+>   su propia entrada (GAS fallaba con `bra.b` hacia atrás a un símbolo
+>   global a >128 B).
+> * Cobertura de código real: 54.0 % (273,040 / 505,608 B); huecos CODE:
+>   1172 / 232,568 B.
+
+> **Wave JJJJ** (45 entradas, 2 242 B, verde a la primera; 3 `--entry`
+> para entradas fusionadas en el regen) — `$048A44..$049430` en
+> `pow_helpers_048axx.s`. Vigesimoséptima wave de `gen_asm_region.py`.
+> Nombres en `docs/waves/jjjj_names.txt`, args en `docs/waves/jjjj_args.txt`.
+>
+> * Helpers pc-relativos del POW: colas de estado comunes
+>   (`Pow_FreeStateTail_048a44` / `Pow_TiedStateTail_048a90`), el ítem que
+>   lanza al ser rescatado (`PowItem_Toss_048ba0` → `PowItem_Settle_048b34`
+>   → cola común `$77F6A`), efectos (`PowFx_HitBurst`, `PowFx_DirSprite`),
+>   la cuerda del prisionero atado (`PowRope_Spawn/Idle/Struggle/BrokenA/B/
+>   HitCheck`, fases por +$83 del padre, bit 3 de +$13 = cuerda cortada),
+>   física del balanceo (`Pow_TiedSwingStep_048f54`) y decisión por
+>   distancia al player (`Pow_TargetInReach/InBox/AngleInMask`,
+>   `Pow_ShouldRunAway/Wait/Turn`, `Pow_CanBeRescued`, `Pow_AtScreenEdge`,
+>   tablas `$2BFE3A`/`$2BFE6A` por variante).
+> * Módulo del POW `$0478FC..$049430` completo.
+> * Cobertura de código real: 52.6 % (266,050 / 505,608 B); huecos CODE:
+>   1182 / 239,558 B.
+
+> **Wave IIII** (42 entradas, 4 416 B, verde a la primera; 3 `--entry`
+> para funciones solo alcanzadas por el índice de templates) —
+> `$0478FC..$048A3C` en `pow_prisoner_0478xx.s`. Vigesimosexta wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/iiii_names.txt`, args en
+> `docs/waves/iiii_args.txt`.
+>
+> * Entidad del prisionero POW: tabla de variantes de spawn
+>   (`Pow_SpawnVariantTbl_0478fc` → `Pow_SpawnInit_04797c`), estados
+>   libres (`Pow_Idle/WalkToward/RunRight/RunLeft/RunAway/Wait/WalkFree/
+>   Stop/Turn/Hurt/GetUp`), secuencia de rescate (`Pow_RescueStart` →
+>   `Pow_RescueFaceCount` → `Pow_RescueSalute` → `Pow_RescueTurnBack` →
+>   `Pow_RescueGiveItem` → `Pow_RescueThanks` → `Pow_RescueLeave`),
+>   variantes ya libres (`Pow_Free*`, spawns `$0483D2/$0483E2`) y el
+>   prisionero atado (`Pow_SpawnTiedVariant_048898`,
+>   `Pow_TiedIdle/Struggle/Freed`).
+> * Siguiente: helpers del POW `$048A44..$049430` (Wave JJJJ).
+> * Cobertura de código real: 52.2 % (263,808 / 505,608 B); huecos CODE:
+>   1212 / 241,800 B.
+
+> **Wave HHHH** (20 entradas, 1 316 B, verde a la primera) —
+> `$0539F0..$053F96` en `props_helpers_0539xx.s`. Vigesimoquinta wave de
+> `gen_asm_region.py`. Nombres en `docs/waves/hhhh_names.txt`.
+>
+> * Helpers pc-relativos de la Wave GGGG: trampa de fuego
+>   (`Prop_TrapFlame_053a42` prueba 3 tablas de ataque y guarda la víctima
+>   P1/P2 en +$50; `Prop_BurnFollowVictim_053c64` la sigue soltando humo),
+>   `Prop_PlayBreakMusicByPhase_053e0c`, `Prop_RunDebrisScriptByPhase/
+>   ByPrio` (tablas `$297F50`/`$298062`/`$298074` → StateMachineRun),
+>   `Prop_GateDebrisA..D`, `Prop_PickRandomItemPtr_053e9c`,
+>   `Prop_SyncSpriteWithParent`, `Prop_IndestructibleChild_0539f0`.
+> * Módulo de props `$0527BA..$053F96` completo.
+> * Cobertura de código real: 51.3 % (259,392 / 505,608 B); huecos CODE:
+>   1213 / 246,216 B.
+
+> **Wave GGGG** (27 entradas, 4 648 B, verde tras parchear el generador)
+> — `$0527BA..$0539E2` en `props_destructible_0527xx.s`. Vigesimocuarta
+> wave de `gen_asm_region.py`. Nombres en `docs/waves/gggg_names.txt`.
+>
+> * **Generador**: `move.l #imm8,dN` ($203C) se emite como `.dc.w` crudo
+>   porque GAS lo convierte a `moveq` incluso con `:l` (2 casos en
+>   `Prop_Wall*`, puntos $10).
+> * **Props**: patrón común init ($2942A copia template, snd, HP +$66,
+>   puntos +$70, sprite) / loop ($2783A, $28D70, $2870A impacto → flash
+>   $5E770, $28758 HP agotada → música $10xx + escombros $77C7E + puntos
+>   $51A28 + siguiente estado, $4FA70 fuera de pantalla → $518).
+>   `Prop_Sign/Wall/Large/Explosive/Tower/Gate` + `*Stage2/*Wreck`,
+>   `Prop_HouseVariants_052e20` (7 variantes, spawnea la pareja de patos
+>   `DuckTrigger_SpawnPairLeft_038f48`), `Prop_HutVariants_0530cc` (10),
+>   `Prop_Breakable2Stage` (suelta 1..4 `PropDrop_Item`),
+>   `Prop_Indestructible`.
+> * **Efectos**: `PropDebris_Chunk/Flying` (hereda 2x la velocidad del
+>   atacante), `FixBlink_PhaseA/B` (tiles del fix layer vía $2C26 hasta
+>   que la cámara pasa de $140).
+> * Templates confirmados: sus direcciones aparecen en las listas de spawn
+>   `$096CB4..$096F0C` / `$09751A..$097556`.
+> * Cobertura de código real: 51.0 % (258,076 / 505,608 B); huecos CODE:
+>   1225 / 247,532 B.
+
+> **Wave FFFF** (38 entradas, 4 214 B, verde tras 2 bloques de datos +
+> 3 `--entry`) — `$056ACC..$057D04` en `soldier_helpers_056axx.s`.
+> Vigesimotercera wave de `gen_asm_region.py`. Nombres y args en
+> `docs/waves/ffff_*.txt`.
+>
+> * **IA**: `Soldier_Think_056b92` (646 B) elige objetivo
+>   (`Soldier_FindNearestPlayer_056b38`, distancia aproximada
+>   `Soldier_ApproxDist_056b12`), sondea bordes de plataforma, reparte
+>   preferencias con `PosRing_FindNear $8F344` y fija los umbrales RNG
+>   +$80..+$8A que consumen los estados de la Wave EEEE.
+> * **Agarre**: `Soldier_PickGrabAnchor_056e4a` (máscara +$74&7 menos
+>   anclas ocupadas, tabla popcount `$56ED2`), `Soldier_GrabLatch_057b06`,
+>   `Soldier_GrabSlideToAnchor_057bb4`, `Soldier_GrabFollowPlayer_057cc0`,
+>   `Soldier_GrabStruggleProgress_056f10` (forcejeo: +$80 sube $100 por
+>   pulsación, se rompe a $B00).
+> * **Spawn**: `Soldier_InitCommon_0570a8` + `Soldier_SpawnVariants_057226`
+>   (24 stubs, destino de `JmpAbsThunk_06313c`), `Soldier_SpawnDispatch`,
+>   `Soldier_Leap_057880` (4 parábolas por +$9D, tablas de ataque por
+>   player), `Soldier_Walk_Loop_057582` (bucle principal).
+> * **Datos**: dos tablas de ataque de 84 B (`Soldier_AttackTblMelee*`,
+>   formato `Slug_AttackTbl*`). Módulo del soldado `$056ACC..$059342`
+>   completo.
+> * Cobertura de código real: 50.1 % (253,428 / 505,608 B); huecos CODE:
+>   1226 / 252,180 B.
+
+> **Wave EEEE** (54 entradas, 5 694 B, verde a la primera) —
+> `$057D04..$059342` en `soldier_states_057dxx.s`. Vigesimosegunda wave de
+> `gen_asm_region.py`. Nombres y args en `docs/waves/eeee_*.txt`
+> (`--data 0x58DF8-0x58E08 --entry 0x57F4E`).
+>
+> * **Agarre al player**: `Soldier_GrabPlayer` reclama el ancla del player
+>   enlazado en +$7A (`PlayerSlot_ClaimAnchor $8F85C`); `GrabStruggle*`
+>   alterna animación mientras el player forcejea; `GrabBreak*` suelta (snd
+>   $20 si el enlazado es `$100440`, $14B si no) y `GrabThrownA/B` lanzan al
+>   soldado con parábola (+$28/+$2A, gravedad +$2E).
+> * **Comportamiento**: `Soldier_Idle` elige con el RNG `$5E9B6` contra los
+>   umbrales +$80..+$8A entre fidget, pasos laterales, cuchillo
+>   (`Soldier_MeleeAttack`, tabla +$4C), retirada, salto, huida, rendición y
+>   burla (`Soldier_TauntAnimPtrTbl_058df8`, 4 punteros).
+> * **Granadas**: dos posturas (`ThrowGrenadeA/B` + Loop/Recover) y
+>   `ThrowGrenadeAim` que ajusta el ángulo +$80 por distancia al player.
+> * **Spawn**: `Soldier_SpawnVariantTbl_058f1e` (referida desde
+>   `MeleeGuard_DeathToExtern_0427CA`) y `Soldier_Spawn*` (caída, salto
+>   lateral, espera al scroll). Helpers `$056ACC..$057D04` quedan para la
+>   Wave FFFF.
+> * Cobertura de código real: 49.3 % (249,214 / 505,608 B); huecos CODE:
+>   1245 / 256,394 B.
+
+> **Wave DDDD** (9 entradas, 8 084 B, verde tras parchear el generador) —
+> `$05AA96..$05CA2A` en `sprite_queue_render_05aaxx.s`. Vigesimoprimera
+> wave de `gen_asm_region.py`. Nombres y args en `docs/waves/dddd_*.txt`.
+>
+> * **Generador**: `pcrel_target` ahora devuelve la base de
+>   `jmp X(pc,dN.w)` (capstone da X absoluto); sin ello GAS fallaba con
+>   "value too large for field of 1 byte" en las 14 jump tables indexadas.
+> * **Encolado**: `SpriteDispatchJT_05AA96` (8 variantes por flip H/V y
+>   cola ADD/SUB, destino del `jsr $5AA96(pc,d7.w)` de `Sprite_Dispatch`);
+>   `Sprite_DispatchSplashHook_05b1b2` re-encola con flip V y pal $7F los
+>   sprites sobre tile $3A (reflejo en el agua, misión 1).
+> * **Render**: `SpriteQueue_SortAndRenderSCB1_05b232` (heapsort de la
+>   cola ADD + inserción de la SUB, jsr desde $20CE) ->
+>   `SpriteQueue_RenderRange_05b370` -> `SCB1_WriteTileColumn_05b52e` /
+>   `_Term_05bf76` (Duff 4x32 sobre VRAMRW $3C0000, mod $20000);
+>   `SpriteQueue_RenderSCB234_05b400` (zoom/Y/X, $8201+n) desde
+>   `Vblank_FlushSpriteQueue_05c9d6` (vblank_tick_master+$88, flag $10E1EC).
+> * Cabecera A-F documentada. Siguiente: `$057D04..$059342`.
+>
+> **Wave CCCC** (70 entradas, 11 812 B, verde a la tercera: dos tablas
+> de 5 punteros `$2AE90/$2AEE4` + 8 B `$2C900` delante de código) —
+> `$02AE3E..$02DD20` en `slug_states_02aexx.s` (7 bloques de datos).
+> Vigésima wave de `gen_asm_region.py`. Nombres y args en
+> `docs/waves/cccc_*.txt`. **Cierra el módulo del Slug `$0295A6..$030602`.**
+>
+> * **Spawn en paracaídas**: `Slug_SpawnDrop_02ae50` (template creado por
+>   los scripts de intro `$8BD8E..$8C088` con +$98 = variante) ->
+>   `Slug_DropVariant0..4` (Slug_Init + torreta `Turret_InitDir0..4` +
+>   `PlayerIcon_Pow`) -> `Slug_DropDescend_02b05e` -> `Slug_IdleEnterA`.
+>   `Slug_DeadHandler_02ae3e` = centinela que compara `Slug_IsAlive`.
+> * **Parado / movimiento**: `Slug_IdleFlat_02b38c`, `Slug_IdleSlope_02b4d2`,
+>   `Slug_SlopeIdleEnter/SlopeMount`, `Slug_AccelRightB/LeftB` (música
+>   `$10AF/$10B0` por tabla), `Slug_BrakeRight/Left`, `Slug_CruiseRightB/LeftB`.
+> * **Cañón**: `Slug_FireIdle/FireFlat/FireRecoil/FireMoveRight/Left/
+>   FireSlope`, `Slug_FireAir*` (PlayerSlot_TestMaskCur d1=4 ->
+>   `VehicleLaunch_Init` + humo `SlugFx_*`; cadencia +$8E = $1E).
+> * **Salto / caída**: `Slug_JumpCrouch -> JumpLaunch (-$4A4) -> JumpAir
+>   (tabla `Slug_AirSteerAccelTbl_02c900`) -> JumpLand/JumpLandSlope`;
+>   `Slug_FallStart/Fall/Fall_Loop/FallFire`.
+> * **Impacto / muerte**: `Slug_HitReact`, `Slug_HitLaunchA/B`,
+>   `Slug_HitLandA/B` (entradas 1/2/4/5 de `Slug_StateByAnglePtrTbl`);
+>   `Slug_DeathStart -> DeathExplode -> DeathFade` (handler final `$400`),
+>   `Slug_DeathLaunch`, `Slug_DestroyedSlide*` (música `$10E9/$10B2`).
+> * Cabecera A-F documentada. Siguiente: `$05AA96..$05CA2A`.
+>
+> **Wave BBBB** (113 entradas, 5 846 B, verde a la primera) —
+> `$0295A6..$02AE3E` en `slug_helpers_0295xx.s` (29 tablas de hitbox/anim
+> `$295B4..$2A0F8`, tablas de punteros `$2A024`/`$2A060`, 5 bloques
+> menores). Decimonovena wave de `gen_asm_region.py`. Nombres y args en
+> `docs/waves/bbbb_*.txt`.
+>
+> * **Init del SV-001**: `Slug_Init_02a0f8` (spawn normal) y
+>   `Slug_InitBoss_02a1aa` (arena de jefe, via `Slug_SpawnAtBossArena_02add6`);
+>   `Slug_MarkRidden`, `Slug_NoRider_02ad64`.
+> * **Tablas**: `Slug_AngleToSpriteIdx_0295a6`, `Slug_Hitbox*`,
+>   `Slug_AttackTbl00..10` + `Slug_AttackPtrTbl_02a024`,
+>   `Slug_StateByAnglePtrTbl_02a060` (puente a los estados de ZZZ).
+> * **Sondas de terreno / fisica / input por layout / HP y gauge**: el
+>   resto de helpers compartidos por `Slug_*` (ZZZ) y `PlayerFire_*` (YYY).
+> * Cabecera A-F documentada. Siguiente: `$02AE3E..$02DD20` (estados del
+>   Slug, 1a mitad).
+>
+> **Wave AAAA** (96 entradas, 8 788 B, verde a la segunda: dos pares de
+> punteros `$29DAxx` delante de `$31C72/$31D26`) — `$030602..$032A02` en
+> `player_tables_fx_0306xx.s` (absorbe los RTS de 14 islas C; 44 bloques
+> de datos). Decimoctava wave de `gen_asm_region.py`. Nombres y args en
+> `docs/waves/aaaa_*.txt`.
+>
+> * **Granada del player**: `PlayerGrenade_Spawn_0308c2` / `_SpawnB_03093a`
+>   (templates de `PlayerFire_Pistol/Flame` y `$44B68/$8B66A/$9A260`),
+>   `_SpawnFromVehicle_0308b0` (jmp desde `vehicle_deploy`); angulo segun
+>   layout `$106F2A` + `PlayerGrenade_AngleFromSpread_030bfe`, velocidad
+>   via `$13C0E`, rebote `$27CEE`, `ExplodeGround/ExplodeAir` ->
+>   `Fx_GroundBurst_031c72` / `Fx_AirBurst_031cca`.
+> * **Proyectiles enemigos** `EnemyShot_Straight_030c14` / `_Bounce_030c70`
+>   (`mission_spawn_boss`, `turret_boss2`).
+> * **Caida del vehiculo** `VehicleLaunch_Init_0311c0` / `_InitDrop_0318e6`
+>   (indice +$94 en `OffsetTblA/B`, musica $1084, fases +$72 por layout
+>   con `Popcount4_0323b4`), `_Fall`, `_Glide`, `_Crash(A/B/C)` (`$10A2D1`,
+>   musica $10F2), `_Despawn`, `_ReleaseParent`.
+> * **Fx**: `SlugFx_ExhaustOrDrop/Exhaust`, `Fx_Sparkle/SmokePuff/DustCloud/
+>   GroundBurst(B)/AirBurst/Spark/Dust/Smoke*`, `Fx_SpawnDustPair_031e5e`
+>   (10 variantes, desde `Slug_AccelRight`), `Entity_SpawnSpark*IfBit1`.
+> * **Iconos**: `PlayerIcon_Pow_031fca` (snd $1AD), `PlayerIcon_Bubble_03207c`
+>   (snd $1B0), `PlayerIcon_FreeFallP1/P2_032112/032142` (snd $A2/$A3, desde
+>   `Player_SpawnFreeFall_036c8c`).
+> * **Tablas del player** (antes `Sub_000324BC..Sub_000329E8`):
+>   `Player_GroundTblA/B`, `Player_VelYTbl(B)/VelXTbl`, `Player_AttackTblA/B`,
+>   `Player_Hitbox{Stand,Crouch,Melee,Grenade,Air,Knockback,Death,Slug}`,
+>   `Player_WeaponAmmoTbl_0329d4` (999x4 + 150), `Player_WeaponFlagTbl`,
+>   `Player_WeaponStateByteTbl_032412`, `Entity_ClearCollisionCb_0329f8`.
+> * Resto de Chain3: `Chain3_InitAlt_030696`, `Chain3_PickLink_030704`,
+>   `Chain3_LinkCmpField82`, `Chain3_LinksYDeltaIsStep`, `Entity_CmpDepthWithLink8(B)`.
+
+> **Wave ZZZ** (63 entradas, 10 258 B, verde a la segunda: `$02F886` era
+> datos) — `$02DD20..$030602` en `slug_vehicle_02ddxx.s` (absorbe 7 islas
+> CCR). Decimoseptima wave de `gen_asm_region.py`.
+>
+> * **Maquina de estados del SV-001** (slot `$100580`): `Slug_IdleEnterA/B/C`,
+>   `Slug_Idle`, `Slug_IdleAngled(B)`, `Slug_Jump(B)` (snd $196..$199),
+>   `Slug_Hunker`, `Slug_PlayerMount` (recorre `$100440/$1004E0`),
+>   `Slug_Drive(B)`, `Slug_TurnToDrive(Alt)`, `Slug_DriveAlt`, `Slug_Brake`,
+>   `Slug_Stall`, `Slug_AccelRight/Left`, `Slug_Knocked`, `Slug_DecelA/B`,
+>   `Slug_CruiseRight/Left`, `Slug_SetSpeed`. Patron comun: angulo del
+>   terreno `Sub_0002A958` -> +$80, sprite por angulo (`$2B0DC8/$2B0C30`),
+>   anim por arma/direccion `Sub_0002A9A0` (`$2793xx..$2796xx`).
+>   `Slug_StatePtrTbl_02e582` = 80 punteros (despachador `$2A078`).
+> * **Dano**: `Slug_DamageSpriteTblA/B/C`, `Slug_DamagePtrTbl/Data`,
+>   `Slug_ResetDamageIdx` (destino de `JsrPcThunk_02ff1c`),
+>   `Slug_UpdateDamageSprite` (por HP +$66), `Slug_WheelAnim`.
+> * **Destruccion**: `Slug_Destroyed_02fc70` (musica $10E9 -> $10AF, +$92 =
+>   $30, +$36 = $600, bset #2,+$8D), `Slug_KillInit`, `Slug_SelfDestructAttack`,
+>   `Slug_BlastAttack`, `Slug_ExplodeFx` (snd $19A..$19E), `SlugFx_Smoke/Fall`,
+>   tabla de 28 templates `SlugFx_ExplosionAnim_02f6c0`.
+> * `Chain3_Init_030002` (3 entidades circulares via
+>   `Entity_Build3ChainCircular_03060A`, templates `Chain3_TplA/B/C`),
+>   `Chain3_Follow/YDelta/Step/VelY/VelX/CheckSyncA/B`, `Chain3_DebugHud`
+>   (`$100001` bit4 -> `$5D6C2` ids $7412/$7413/$7415).
+> * Helpers: `Slug_TypeIfAir`, `Players_AnyFlag8D3(_SetC)`,
+>   `Slug_ClampField92(_ClearXN)`, `Entity_CmpField10WithLink8_02ffe6(_SetXN)`.
+
+> **Wave YYY** (82 entradas, 5 230 B, verde a la primera) —
+> `$03C62A..$03DA98` en `player_fire_shells_03c6xx.s` (absorbe
+> `JsrAbsThunk_03c62a/03c8d0`). Decimosexta wave de `gen_asm_region.py`.
+>
+> * **Spawners de proyectil por arma** `PlayerFire_<arma>_<dir>`: Pistol
+>   (template `$3093A`, musica $10F7), HMG (`$9C4D4`, $10F6, decrementa
+>   +$82/+$85), Shotgun (`$9C25E`, $10F3), Rocket (`$9BEC2`, $10F5, crea
+>   casquillo `ShellCasing_Rocket`), Flame (`$308C2`, $10F4; variantes
+>   Neg/0/Pos de desviacion y `_SpreadN_M` con dos llamas). Comun: a2 =
+>   player, abortan si +$82 == 0 (`movem.l (a7)+,a0; rts`), +$98/+$99 =
+>   angulo/signo, +$9A rafaga, +$9B desviacion.
+> * `ShellCasing_Pistol_03d396` (snd $184), `Scene3Debris_*` (solo
+>   `$106ECE == 3`), `Player_DebugMarker_03d842` (si `$10FD8F`),
+>   `Player_SpawnFx3D8FA`, `SlugCannon_ArmOverlay_03d944` (brazo sobre el
+>   Slug `$100580`, tabla `SlugCannon_ArmSpriteTbl_03da02`).
+> * 3 handlers de brazo residuales: `PlayerArm_SlugRideA/B`, `PlayerArm_Fall2`.
+
+> **Wave XXX** (152 entradas, 8 224 B, verde a la primera, region sin
+> islas) — `$03A60A..$03C62A` en `player_arm_air_death_crouch_03a6xx.s`.
+> Decimoquinta wave de `gen_asm_region.py`.
+>
+> * Los 47 handlers de brazo/arma `PlayerArm_*` restantes: aire
+>   (`PlayerArm_Jump_03a60a`, `PlayerArm_Fall_03a656`, `AirShootA..C`,
+>   `JumpShootA..D`/`FallShootA..D`, `JumpShootDownA..C`/`FallShootDownA..C`),
+>   muerte (`PlayerArm_DeathA..H` + `bset #0,+$13` para que
+>   `PlayerArm_Spawn` libere el brazo), `PlayerArm_SpawnFall_03bea0`,
+>   agachado (`CrouchEnterA/B`, `CrouchIdleA/B`, `CrouchShoot`, `CrawlA/B`,
+>   `CrouchGrenade`, `CrouchMelee`, `CrouchReload`), melee (`MeleeC`,
+>   `AirMeleeA/B`). Cada uno elige tabla por +$72 (modo de disparo) y
+>   carga el sprite con `$28CD4`; 105 tablas `PlayerArm_SpriteTbl_*`.
+> * Todas las direcciones verificadas contra las tablas de anim del player
+>   `$2796xx..$279Fxx` (campo -4); 5 handlers sin referencia.
+
+> **Wave WWW** (125 entradas, 7 270 B de codigo + 47 bloques de datos,
+> verde a la primera) — region `$0388F0..$03A60A` en
+> `player_arm_weapon_fx_0388xx.s` (absorbe 24 islas C espurias).
+> Decimocuarta wave de `gen_asm_region.py`.
+>
+> * **Agachado** (cierre de VVV): `Player_CrouchThrowGrenade_0388f0`,
+>   `Player_CrouchMelee_038a28`, `Player_CrouchReload_038ae6`.
+> * **Entidades hijas del player**: `DroppedWeapon_Spawn_038be4` (arma que
+>   cae al perder municion; rebote, spawnea `$77D88`), `Parachute_Spawn_038cf6`
+>   (paracaidas del spawn: Open -> Swing por vel X del padre -> Release/
+>   FallAway), `DuckTrigger_SpawnPair*_038f12/038f48` (par de sensores por
+>   slot que marcan +$88 bit0 del player), `PlayerDeathFx_Splash/Ripple/Alt`.
+> * **Overlay de brazo/arma** `PlayerArm_*`: `PlayerArm_Spawn_0394a8` es el
+>   template que `PlayerEntitySpawn` crea con `jsr $4AE`; sigue al padre
+>   (`PlayerArm_FollowParent_03937c`), despacha por anim id del padre (+$70)
+>   e invoca el handler guardado en +$74 (puntero -4 de cada tabla de anim
+>   `$2796xx`). 31 handlers `PlayerArm_<pose>` (Stand/Walk/WalkLoop/
+>   ShootStand*/WalkShoot*/Melee*/Turn*/Crouch*/SpawnLand*/JumpMelee), cada
+>   uno con su `PlayerArm_SpriteTbl_*` de 10 punteros (5 armas x 2
+>   jugadores; indice `PlayerArm_WeaponTableIndex_03933a`).
+> * Resto de handlers de brazo (`$3A60A..$3C6C4`) -> siguiente wave.
+
+> **Wave VVV** (39 entradas, 8 466 B, verde a la primera) — region
+> `$036632..$0388F0` en `player_air_death_crouch_0366xx.s` (22 huecos;
+> absorbe 23 islas C espurias). Decimotercera wave de `gen_asm_region.py`.
+>
+> * **Aire**: `Player_JumpStart_036914` (anim $25/$26, vel Y $9CD, +$90 =
+>   5 frames de hold) -> `Player_JumpAir_036a70` (control aereo por tabla
+>   `Sub_000324D0[layout]`, clamp `$267F4`, suelo `$27B66`, anilla
+>   `TargetRing_FindPending` -> `Player_HangRing_036638`), golpe
+>   `Player_Knockback_036d64` -> `Player_Fall_Physics_036e42`,
+>   `Player_SlugJumpOff_036796`, `Player_SpawnFreeFall_036c8c`,
+>   `Player_AirActionSelect_037168`.
+> * **Muerte**: targets de la tabla de 68 (`Player_Death_Generic` x30,
+>   `Player_Death_Fall` x29, `_FallSpawnFx`, `_Alt`, `_PrioE000`, `_Debug`,
+>   `_Timed`), snd $1053 + musica $1123/$1087, cadaver `$78840`,
+>   `Player_DeathPit_037b8e`, `Player_Death_Despawn_037c1a`.
+> * **Agachado**: `Player_CrouchEnter_037c74` -> `Player_CrouchIdle_03827a`
+>   (anim $30, hitbox $32598), `Player_CrawlRight/Left` (±$120),
+>   `Player_CrouchShoot_03873c`, `Player_CrouchWeaponEmpty_038086`,
+>   `Player_CrouchExit_037ec2`.
+> * Etiquetas nuevas en ficheros previos: `Player_SpawnLand_SetInvuln1E_033ec2`,
+>   `Player_SpawnLand_Reset_033ede`, `Player_RideSlug_Frame_03652e`.
+
+> **Wave UUU** (36 entradas, 9 050 B, verde a la primera) — region
+> `$0342C4..$036632` en `player_states_0342xx.s` (4 huecos; absorbe las
+> islas C `JsrPcThunk_034d2c/0354ec` y `SetTaskHandler_034b30`, que eran
+> colas internas). Duodecima wave de `tools/gen_asm_region.py`.
+>
+> * **Maquina de estados en suelo**: `Player_Stand_034704` (anim $10) con
+>   `Setup/InputMove/Tail`; `Player_WalkRight/Left` (anim $11, vel ±$300,
+>   facing +$3A) -> `Player_WalkLoopRight/Left` (anim $12, giro en sitio
+>   con `eori +$3A`); variantes `_Shoot`/`_ShootUp` via poses
+>   `Player_WalkShootPose/WalkShootUpPose/WalkLoopShoot*Pose` (anim $22/$23).
+> * `Player_TurnRight/Left` (anim $31), `Player_Melee` (cuchillo, anim $33,
+>   +$4C = `Sub_00032638`, `$283CA`), `Player_ThrowGrenade_Stand/Walk/
+>   WalkLoop`, `Player_RideSlug_0364a2` (slot Slug `$100580`, invuln $3C).
+> * Patron comun: +$7C/+$7E fase, +$8C bits1-3, tabla sprite por +$72/+$78
+>   via `$28CD4`, +$60 = $32500, bucle de frame `Player_FrameCommon` +
+>   `$27A92` + `Player_CheckDeathOrState21`, switch de `Player_ActionSelect`
+>   (d1: $FF Melee / 3 Grenade / 4 `Sub_0003873C` / 1 ShootUp / else Shoot).
+> * Nueva etiqueta global `Player_Idle_StateCheck_034046` (entrada
+>   secundaria de `Player_Idle`, usada por WalkLoop).
+> * 4 cuerpos sin xrefs ($034438, $0344F2, `_Alt_0358aa`, `_Alt_035a0a`).
+
+> **Wave TTT** (66 entradas, 5 354 B, verde a la primera) — region
+> `$032A02..$0342C4` en `player_core_032axx.s` (38 huecos, 3 tablas
+> `--data`, 1 `--entry`). Undecima wave de `tools/gen_asm_region.py`.
+>
+> * **Nucleo del jugador**: slots `$100440`/`$1004E0`; campos +$71 arma,
+>   +$82 municion (clamp 999), +$80 bombas (clamp 99), +$87 timer de
+>   invulnerabilidad, +$8C/+$8D bits de estado, +$78 nibble de direccion.
+> * `Player_SetWeaponAndAmmo` (tabla de municion por arma `$329D4`),
+>   `Item_GiveAmmo_ToPlayer` / `Item_GiveBombs_ToPlayer` (callers de RRR),
+>   `Player_InvulnBlinkStep` (paleta por `OpcodeOffsetTable_0329EE`),
+>   `Player_WeaponMusicTable_032d28` + `Player_PlayWeaponMusicIfFlag`,
+>   `Player_PlayLifeMusic` ($1123/$1087).
+> * **Input**: `Input_ForwardByFacing/BackwardByFacing` (espejo por +$3A),
+>   `Input_JumpOrFire`, `Input_FireByMode/JumpByMode` (layout `$106F2A`),
+>   `Player_ReadDirNibble/ReadFireNibble`, `Player_ActionSelect_0330d0`
+>   (d1 = $FF hit / 3 fire / 4 / 1 / 0) consumido por `Player_Idle_Tail`.
+> * **Granadas**: `Player_ThrowGrenade/_Back/_Down` (+$80--, `$5EAB6` con
+>   `JmpAbsThunk_033346`, `$5DD02`, `$517FE`), `Player_JmpGrenadeBounce/Down`.
+> * **Spawn**: `Player_SpawnStart_0336dc` -> `Player_SpawnByMode` (caida
+>   `$279F8A` / paracaidas `$279B2C`) -> `Player_SpawnLand/LandB` ->
+>   `Player_SpawnLand_Done` -> `Player_Idle_033d64`; `Player_DeathGate_0334c6`
+>   (muerte si `$106E92`==0, ahogado en escena 1 con `$27DB2`->$40).
+> * Estados: `Player_Idle` ($279828), `Player_Crouch/CrouchB`
+>   ($27973E/$27981E), `Player_Reload` ($2796F8/$279702); comun
+>   `Player_FrameCommon_032ff2`, suelo `$5DD56` con hitbox `$324C6/$324BC`.
+> * Tabla `Player_StateTable68_03338a` (68 ptrs -> 7 handlers `$37684..
+>   $37B00`), `PlayerStateLUT_03349A`. Correcciones: tamano real de
+>   `PlayerRoute_PublishState_033522` (80 B), defsym `Probe_Bit3At100001_End`
+>   -> `Player_DeathGate_0334c6`.
+> * Extra: isla **PAUSE** `$013D20..$013D6A` (`fix_pause_text_013d20.s`) y
+>   mapa curado de zonas en `tools/measure_coverage.py --zones` /
+>   `docs/COVERAGE.md` (codigo real cubierto 31.8 %).
+
+> **Wave SSS** (23 entradas, 2 546 B, verde a la primera) — region
+> `$18D152..$18DB78` en `player_grenade_18d1xx.s` (2 huecos, 5 tablas
+> `--data`, 8 `--entry`). Decima wave de `tools/gen_asm_region.py`.
+>
+> * Es el **unico bloque de codigo del banco alto** (archivo `$18Dxxx` =
+>   CPU `$28Dxxx`; el resto de `$09C608..$200000` son datos salvo las
+>   islas C ya registradas en `$19C95A/$19CB64`).
+> * **Grenade_***: granadas del jugador (item 291 Bombs). Tres lanzamientos
+>   despachados por la triada `jmp $28D876/$28D9DC/$28D7AA` en
+>   `$033346..$033358` (`Grenade_ThrowHeavy` con rebote unico y
+>   `Grenade_HeavyFall`, `Grenade_ThrowBounce` con timer +$5C=18 y
+>   `Grenade_BounceFall`, `Grenade_ThrowDown`), mas `Grenade_Throw/ThrowB`
+>   (via `Grenade_SpawnCopyA/B` + `$517FE`) -> `Grenade_Throw_Common`
+>   (snd `$7C`/`$14C` por jugador, prio `$D000`) -> `Grenade_Fly` (freno
+>   aereo vel X>>4, `$27D50`; `$1081AE` selecciona `$27BC8`).
+>   `Grenade_Explode{,_B,_C}` -> `Grenade_Explode_Common` (musica `$1027`,
+>   snd `$D`, humo `Grenade_Smoke_Init/Run`), `Grenade_ExplodeBig` (snd
+>   `$178`, mapa `$29E76C`).
+> * 5 tablas de animacion de 10 B/registro (`Grenade_AnimSpin/SpinAlt/
+>   ExplodeBig/Explode/Smoke`, terminadores `$1D00`/`$1600`/`$0100+ptr`).
+> * **6 islas espurias absorbidas**: `JsrAbsThunk_18d56c/18d57e/18d746/
+>   18d766/18d9d4` y `SetTaskHandler_18d6f0` eran colas de funciones
+>   reales (`jsr X.l; rts` finales); eliminadas de los .c y del registro.
+
+> **Wave RRR** (96 entradas, 9 196 B, verde a la primera) — region
+> `$09A0BC..$09C608` en `items_score_crates_09a0xx.s` (28 huecos, 6 tablas
+> `--data`, 5 `--entry`). Novena wave de `tools/gen_asm_region.py`.
+>
+> * **Gun_***: cañon orientable (angulo 8.8 en +$70, mapas por octante
+>   `$2F6540`, hijo `Gun_Child` con poses +$73) que registra su boca en el
+>   anillo de targets (`$8F3A6/$8F3BE`) y dispara rafagas de 3
+>   (`Gun_FireShell` -> `Gun_Shell`, `Gun_FireBullet` -> `$3093A`); caller
+>   `Airship_Wait_0893ac`.
+> * **Item_*** (E8000 284-291/293/294/316/317): `Item_SpawnTable_09a5f4`
+>   {hitbox, pickbox A/B, 30 handlers} + `Item_SpawnFromParent` (C=1 si
+>   crea); Ammo1..4, AmmoSeq (fade `$2F7A28`), Weapon/WeaponSwap/Bombs
+>   (`$32C12/$2A28E/$32C7E/$2A2BA`), Food (21 mapas, Wait/Blink/Rot/
+>   Thrown/Bounce, combo `$10E488/$10E489`), Pow, ComboTimer, Static.
+>   `Item_Taken_Snd{A..D}` + `Item_Taken_Rise`.
+> * **Score_Popup_*/Score_Digit_***: digitos flotantes por kind 0..4 o
+>   valor BCD (`$51A44`), snd por jugador (+$68), Lift/Hold/Blink.
+> * **Chute_A/B/C**, **Crate_*** (caida `$27D50`, `Crate_Debris` con seno,
+>   seguidores de paracaidas, `Entity_IntegrateVelFrac_09c072`),
+>   **Thrown_*** (sombras a 3/8 y 3/4) y **Flag_Init** (`$10A2D1`).
+
+> **Wave QQQ** (125 entradas, 9 252 B, verde a la primera) — region
+> `$09773C..$099F3A` en `hiscore_memcard_mobs_0977xx.s` (96 huecos
+> cerrados, 2 tablas `--data`). Octava wave de `tools/gen_asm_region.py`.
+>
+> * **HiScore / NameEntry**: tabla de ranking en `$100002` (10 x 12 B:
+>   tag, glifo de rango, score u32, 3 letras) con defaults en `$2F53B2`;
+>   plantillas `HiScore_Tpl_Frame/Loader/StaticLogo` (desde
+>   `AttractHandler_*`), `HiScore_InsertScore` (desplaza filas, C=1 si entra
+>   en el top-10), `HiScore_TryEnter_P1/P2` (desde `$598D2/$598DC`), editor
+>   `NameEntry_*` (alfabeto `$2F54B2`, timeouts 900/300 f, filtro
+>   `CensorName`).
+> * **MemCard**: dialogos load/save (`$51636/$5168A`) con BIOS `$C00468`
+>   (op 2/3/4) y `$C0046E`; fichero "METAL SLUG" (`$981E8`); strings fix
+>   `MemCard_Str_*` terminadas en `$FFFF`.
+> * **LogoScene** (`$98720`, `AttractHandler_10002C`): 8 piezas + centro
+>   con rampa de brillo `$2F5560`, 200 frames.
+> * **Mobs** plantillas E8000 174/175/176/178/195/196/201/202/207-211/
+>   220-222: cuerpo comun (`$267E2`, prio `$8000`, HP 1) y estados
+>   Walk/Hit/Flee/Patrol/TurnAround/Pause/Drop/Sit/RunLeft; tablas de
+>   mapas `$2F558E..$2F55B6`, dispatch `$2F55A6`.
+> * **Trail ring** `$10E3BE` (16 x 12 B; head/tail `$10E47E/$10E480`):
+>   `Trail_RingReset` (SceneLoader_Main), `Trail_RingAdvance`
+>   (SceneScriptVM), `FindByKeyRange/FindNearest/LookupById`
+>   (callers en `$26Bxx..$277xx`), variante `Entity_TrailRecord_Alt`.
+> * **Opciones**: `OptionSelect2_Tpl_099b06` (2 filas, resultado
+>   `$106ED5`), `OptionsMenu_Tpl_099ba6` (`$1700`: dificultad `$10FD8B`,
+>   vidas `$10FD88`, creditos `$10E486`, modo 2P `$10FD92`),
+>   `DebugCursor_*`.
+> * Correcciones: `NopCCR_099f0a/099f34` eliminadas (colas de `movem.w`
+>   a `$3C0000`); labels `Entity_TrailRecord_HasId/StoreSlot` exportadas;
+>   `gen_asm_region.py` emite `moveq` con signo. Regiones
+>   `$0916C8..$0967B4` (SceneDescriptor[256] + scripts) y
+>   `$096BBC..$097730` (listas de spawn) identificadas como datos.
+
+> **Wave PPP** (92 entradas, 7 678 B, verde a la primera) — region
+> `$08F6D2..$0916B8` en `gameover_continue_08f6xx.s` (50 huecos cerrados,
+> 19 `--entry`). Septima wave de `tools/gen_asm_region.py`.
+>
+> * **Mascaras de slot y anclas** (`PlayerSlot_*`, `Anchor_*`): +$96/+$97
+>   del slot de jugador son mascaras por paridad de frame (`$106F28&1`);
+>   `Anchor_GetWorldPos` lee un descriptor {tabla, dx, dy} en +$70 y
+>   devuelve la posicion mundial de un ancla; `PlayerSlot_Try/ClaimAnchor*`
+>   reservan anclas (bits 0..2) — usados por la IA del jugador ($57Bxx) y
+>   los bosses (`Boss_Descend`, `Boss2_TickParent`).
+> * **Game Over** (`GameOver_*`, tarea anadida en `$1300` tras poner
+>   `$106ECE/$106ECF=$FF`): `Boot` carga la escena $A y la paleta
+>   `$2F4A32`; `Spawn` crea ~40 hijos (letras `GO_Letter_V0..V13`, figuras,
+>   scrollers, partes) y sube con `GameOver_IntegrateY`; `Wait/Wait2/Final`
+>   encadenan jingles `$10DF/$10DE`, `WaitCredit` espera `$10A2CF` y
+>   `Continue*` recorre la tabla `$2F4BF8` y muestra el texto.
+> * **Efectos** (`GO_*`): `GO_Sprite_Right/Left/Mid/MidB` (entrada
+>   deslizante + tabla `$2F4C48`), `GO_Prop_A/B/C`, `GO_Zoom` (decaimiento
+>   a la mitad por frame + `$2F4B24`), `GO_Shake` (`$2F4B48`), `GO_Flash`,
+>   `GO_Banner*`, `GO_Glow/_Drift` (brillo +$32/+$33), `GO_Figure*`,
+>   `GO_Scroller*` (wrap en x=$110), `GO_Particle` (RNG `$5E9B6`),
+>   helpers `GO_ParentState2x_IsN`.
+> * **Continue** (`Continue_*`): `Continue_Tpl` (anadida por
+>   `AttractHandler_2Task_0010F2`), `Continue_Tmpl227` (`$E8000[227]`,
+>   primera tarea de `Init_ModeToggle_001260`), texto fix-layer con
+>   `Fix_BlitRect/Row/Str` (`$5DA9C/$5DA56/$5DAD8`), cuenta atras BCD de
+>   `$10FDDA`, filas `$2F4CB8`, titulo `$2F4C98`.
+> * 18 defsyms promovidos; +17 RTS mid-isla; 32 call-sites renombrados.
+
+> **Wave OOO** (84 entradas, 3 980 B, verde a la primera) — region
+> `$08E4E4..$08F6D2` en `critters_rings_08e4xx.s` (54 huecos cerrados).
+> Sexta wave de `tools/gen_asm_region.py` (5 `--entry`); fix del generador:
+> `moveq #$FF` se emite con signo (`#-1`), GAS rechazaba el inmediato.
+>
+> * **Bichos sencillos** (plantillas Mission VM 182/183/184): `Bobber_*`
+>   oscila en y con aceleracion ±4 entre y>=$1D0 e y<=$160; `Leaper_*`
+>   salta con vel y -($40+rand) y acel 4; `Runner_*` corre en x. Todos
+>   usan la **fisica de grunt** (`Phys_FacingFromParam`, `Phys_VelXFromParam`
+>   = +$99<<5, `Phys_GroundKill`, `Phys_PlayerNearX`, `Phys_ScrollTarget`/
+>   `_ScrollReached`, `Prio_Set8018`, `Snd_ByParam9A_*`) — los 10 defsyms
+>   forward de NNN quedan resueltos y renombrados (144 call-sites).
+> * **Nido de 4 etapas** (`Nest_*`, plantilla 185 + spawn desde `$4E274`):
+>   HP $64 por etapa, mapas de dano `$2F41F2 -> $2F4202 -> $2F4284 ->
+>   $2F4306 -> $2F4388`, crea 3 `Swarmer_*` (atan2 `$5E018` + seno
+>   `$13C0E` hacia el padre, huyen a magnitud $300 si el padre esta
+>   golpeado); `Nest2_*` (187) variante con flash; `Nest_DieIfParentGone`
+>   (jsr pc desde las etapas). `Swarmer_Tmpl186` version suelta.
+> * **Props**: `Static_Tmpl188`, `CamProp_Tmpl189/190` (siguen a la camara
+>   con `$4407A`; el 189 lo crea `MissionEnd_SpawnDropper`), `Lob_Tmpl191`
+>   (vel y = -(+$99<<5), aterriza en y<=$190), esquirlas `Shard_V0/V1/V2`
+>   (tabla `$1E9A42`, caen hasta la y del abuelo).
+> * **Rings** (`$10E2F2` zonas / `$10E33A` posiciones / `$10E362`
+>   targets; cabecera {tail, head, scan_end, count} + datos en +8):
+>   `Ring_Reset`/`Ring_Compact`, `Rings_InitAll` (desde
+>   `SceneLoader_Main_043568`) / `Rings_CompactAll`; `Zone_Tmpl152` +
+>   `ZoneRing_Push/PushOffset/HitTest` (rects 8 B en mundo);
+>   `PosRing_FindNear` (±$40/±$30, usado por `MeleeGuard_Think`);
+>   `TargetRing_NewId/Register/FindPending/InRange/ClaimById/ClaimByKey`
+>   (registros 6 B {x,y,key,state}, usados por `Turret8_*` y la IA del
+>   jugador en `$36xxx`); `Turret8_SndByState`.
+> * 19 defsyms promovidos; +4 RTS mid-isla. `Subsystem_AudioSceneInit_08F158`
+>   renombrado a `Rings_InitAll_08f158` (no era audio).
+
+> **Wave NNN** (80 entradas, 4 442 B, verde a la primera) — region
+> `$08D17A..$08E4E4` en `grunts_capsule_08d1xx.s` (67 huecos cerrados).
+> Quinta wave de `tools/gen_asm_region.py`; nuevo `tools/wave_apply.py`
+> aplica la salida del generador a `registry.py`/`symbols.py` y produce la
+> lista de renombres para los call-sites.
+>
+> * **Test de pantalla con latch** (`Screen_InBounds{X,XWide,Y}_Latch[ed]`):
+>   bit7 de +$13 se arma al entrar en pantalla; despues, salir => C=1
+>   (muere). **Integradores 8.8** (`Pos_IntegrateX88/Y88/XY88[_Accel]`):
+>   fraccion en +$26/+$27, velocidad en +$28/+$2A, aceleracion +$2C/+$2E.
+> * **Capsula de fin de mision** (`Capsule_*`): tarea creada por
+>   `SceneB_Init`/`SceneC_Init` (MMM): vuela, desciende, se abre con pulso
+>   de brillo (+$32/+$33), sube/baja, y `Capsule_CheckMissionEnd` lanza
+>   `MissionEnd_ScrollOut` (mision $B, `$106F5C>=$42C0`) o
+>   `MissionEnd_Marker` (mision $C, `>=$4280`) -> `ScrollUp` -> `Wait`
+>   (spawn de `Cut_Dropper`) -> `Idle`.
+> * **Soldados rasos** (`Grunt_*`, `Grunt2_*`): plantillas Mission VM
+>   153/154/157/158/160/162/180/181; comportamientos al azar via tablas
+>   `$2F3712`/`$2F3722` (`Grunt_PickRand_*`), porteador que suelta un
+>   `Grunt_Dropped`, saltador `HopDown/HopUp`, golpeado y lanzado con seno
+>   (`Grunt_Hit_*`), corredor, mapa por direccion
+>   (`Grunt_LoadMapByDir` = `$2F3CDC[(+$99>>4)&7]`); `Sentry_*` y
+>   oscilador `Swinger_*` (amplitud en +$74). La fisica comun esta en
+>   `$8EFCE/$8F002/$8F010/$8F02C/$8F040/$8F070/$8F084/$8F0D0/$8F108`
+>   (hueco siguiente, 10 defsyms forward).
+> * 22 defsyms promovidos; +15 RTS mid-isla.
+
+> **Wave MMM** (67 entradas, 4 990 B, verde a la primera) — region
+> heterogenea `$08BA04..$08D17A` en `cutscene_anim_08baxx.s` (39 huecos
+> cerrados). Cuarta wave de `tools/gen_asm_region.py` (3 tablas `--data`,
+> 2 `--entry`); fix del generador: los labels promovidos a globales por
+> referencias desde otro hueco se usan tambien desde su propia entrada.
+>
+> * **Proyectiles**: `Proj_Bounce_V1/V2` (despacho por
+>   `Proj_Bounce_HitTable_08b944` + `Table_LookupPointerBounded $772`),
+>   `Proj_Burst_*` (dos tablas de 4 punteros identicos elegidas con RNG —
+>   placeholders), `Proj_Shell_08bc0c` con `Hitbox_08bb8c`/`SpriteMap_08bbde`
+>   embebidos; `Proj_Tmpl_InitHitbox[Probe]` encadenados desde las plantillas
+>   168..170 de LLL. `Proj_Bounce_08b9ba` (LLL) pasa a 74 B al absorber el
+>   `movea.l #-1,a1` que estaba partido en `$8BA00`.
+> * **Interprete de script de animacion** (`Anim_ScriptStep*`): registros de
+>   8 B {dur, val, b4, b5}; variantes Fix_A/Fix_B escriben caracteres en la
+>   capa fix (via `$47872` o directo en `$3C0000`) y spawnean objetos.
+> * **Iconos de ranura** (`Icon_Base`, `Icon_Slot1..4` + `_Lit`,
+>   `Icon_Slot_Run_08c4a0`, `Icon_Anchor_*`): 4 slots en y=$12B con mascaras
+>   +$8A=$10/$20/$40/$80 contra los bytes +$92/+$93 del padre; el ancla
+>   elige script por idioma (`$10FD83/$10FD92`) y deja caer un objeto
+>   (`Icon_Anchor_Drop`). Son los 6 task-adds de `Anim_State_F1_08C008`.
+> * **Cutscene** (`Cut_*`): plantillas 244/245/246/248/320 del Mission VM,
+>   `Cut_Watcher_*` = tarea paralela arrancada por `MissionDriver_Init`
+>   (vigila `$106F5C`, arma `$10E2EF`), `Cut_Fade`, panel de texto fix
+>   (`Fix_TextRow_Draw/Clear/DrawOne`, `Cut_TextPanel[_Type]`, `Cut_Banner`),
+>   `Scroll_StepVelX/Y`, `Cut_Dropper_*`, `Cut_Item`.
+> * **Escenas B/C** (`SceneB_Init` -> `Stage2..6` -> `Tail`, `SceneC_Init`):
+>   arranque de misiones $0B/$0C desde el dispatcher de modo (`$164C`,
+>   `$1688`): `SceneLoader_Main`, velocidades de scroll `$106F60` por
+>   umbral de `$106F5C` y por numero de jugadores (`$106EAE`).
+> * 20 defsyms promovidos; +13 RTS mid-isla; +3 forward (`$8D24C`,
+>   `$8D2D4`, `$8D3B4`).
+
+> **Wave LLL** (98 entradas, 10 690 B, verde a la primera) — **cluster de la
+> escena 5**: cierra los 43 huecos de la region `$088A56..$08BA00` en
+> `scene5_airship_088axx.s`. Tercera wave de `tools/gen_asm_region.py`
+> (92 entradas automaticas + 6 fronteras `--entry` + primera tabla de datos
+> embebida con `--data 08B944-08B9A2`), analizada semanticamente a mano.
+>
+> * **Origen de los spawns**: lista 5 (`$097422`) de `JumpTable_096B9C`
+>   (`$088F74`, `$088F8E`, `$0890CC`, `$089E8E`, `$08A006`, `$0893AC`,
+>   `$08A10C`, `$08A74E`, `$089C44`, `$089E2C`, `$089C58`) y plantillas del
+>   Mission VM `$E8000[168..170]` (`Proj_Tmpl168/169/170`), `[254..257]`
+>   (`Proj_Drop_V0..V3`), `[258]` (`S5_Bunker_088ff4`) y `[270]`
+>   (`Proj_Thrown_08b258`). Los callbacks `SprCb_Lamp2On/Off` y
+>   `SprCb_Lamp3On/Off` cuelgan de la tabla de animacion de sprites `$1EE1xx`.
+> * **Dirigible de desembarco** (`Airship_*`): espera `$106F54 >= $280`,
+>   snd `$CF`, crea la torreta `Turret8_*` y un `Airship_PlayerTracker` por
+>   jugador; desciende en espiral (`Airship_SpiralDescent_08b718`) sondeando
+>   el suelo; al aterrizar (`$10E39C=0`, `$106F5E=-1`, `$106F60=$8000`)
+>   suelta soldados (`Airship_DropSoldier_08b82c`, antes `PcThunkTarget_*`)
+>   y publica el lock de camara; flota hasta cam x >= `$680` y despega con
+>   snd `$1026` dejando rastro (`Entity_TrailRecord_099812`).
+> * **Torreta de 8 direcciones** (`Turret8_*`): Init -> Aim -> Track
+>   (`Turret8_RotateStep_08b5c8`, tablas `$2EE318/$2EE3F0/$2EE4C8`) -> Fire
+>   (`Turret8_FireBullet_08b626`) -> Cooldown; canon hijo y casquillos con RNG
+>   (`Turret8_Casing_*`).
+> * **Torres A/B** (`S5_TowerA_*` / `S5_TowerB_*`): snd `$1DC`+`$D3`, 3-4
+>   portillas `TowerPort_*`, soldado `$77228`, HP aleatoria `$2C06AA` al
+>   llegar cam x a `$7D0`/`$950`, etapas de dano en HP `$29A`/`$14D`,
+>   destruccion con score `$5000`, 6 explosiones `$7808A`, bandera
+>   `Wreck_FlagSet_08ae0c` (`$10E39E=1`), humo `Wreck_SmokeRise` y chispas
+>   `Wreck_SparkBurst`/`Wreck_Spark`.
+> * **Campamento y props**: `S5_PropStatic_A/B/C`, `S5_Bunker`,
+>   `S5_Camp_Spawn` -> `S5_Tent` -> `S5_Tent_Ruin`, `S5_Depot` ->
+>   `S5_Depot_Wreck` -> `S5_Depot_Idle` (antes `TaskHandler_089398`),
+>   `S5_Crate`, `S5_PropSolid`, fila de barriles, lluvia de rocas.
+> * **Proyectiles**: `Proj_Thrown` (parametros +$9A..+$9D), `Proj_Drop_V0..V3`
+>   -> `Proj_Drop_Common_08b3b4` (snd por cam x vs `$670`), `Proj_Bounce_08b9ba`
+>   con tabla de punteros `Proj_Bounce_HitTable_08b944` + `Hitbox_08b950` (datos en `.text`,
+>   emitidos como `.dc.w`).
+> * 20 defsyms promovidos; +16 RTS mid-isla; +4 forward (`$8BA0C`, `$8BA52`,
+>   `$8BB34`, `$8BB5E`, proxima wave). Callees pendientes: `$9A300`, `$38F14`,
+>   `$997E2`, `$78908`, `$631D0`, `$8F3A6/$8F3BE/$8F69C`, `$8F002/$8F010`,
+>   `$280C6`, `$5E3A2`, `$3093A`, `$5DD5C`.
+
+> **Wave KKK** (84 entradas, 9 334 B, verde a la primera) — **cluster de la
+> fortaleza de la escena 4**: cierra los 6 huecos de la region
+> `$0865BE..$088A56` en `fort_scene4_0865xx.s`. Segunda wave producida con
+> `tools/gen_asm_region.py` (79 entradas automaticas + 5 fronteras forzadas
+> con `--entry` para separar las variantes `Fort_Init_V1..V4` y
+> `Heli_InitTmpl`), analizada semanticamente a mano.
+>
+> * **Origen de los spawns**: todas las entradas con `movea.l +$3C(a6),a1;
+>   jsr $2942A` estan en la **lista 4** (`$0972CC`) o la **lista 7**
+>   (`$0975A2`) de `JumpTable_096B9C` (registros de 20 B
+>   `{$0100, x, y, handler.l, 0, 0, FFFF x3}`), que hasta ahora figuraba
+>   como "sub-dispatcher attract pendiente" (Wave HH#2) — en realidad es la
+>   **tabla de listas de spawn por escena** (8 escenas: `$096BBC`,
+>   `$096CAE`, `$096FA8`, `$09718A`, `$0972CC`, `$097422`, `$097500`,
+>   `$0975A2`); las listas 0-3 apuntan a los clusters `$04D6EC..`,
+>   `$052902..`, `$053F96..` y `$0834A4..` (Waves GGG/HHH), la 5 al hueco
+>   `$088F74..$08A74E` (proxima wave). `Heli_InitTmpl_087b26` es ademas la
+>   plantilla `$E8000[269]`.
+> * **Fortaleza** (`Fort_*`): 5 variantes de init (+$20) que spawnean sus
+>   casamatas y cajas (`Fort_SpawnChildren_V0..V4`, 270-330 B cada una,
+>   desenrolladas) y una trampilla `Hatch_Init_V<n>`; HP `$140`, hitbox
+>   `$2EC41E`, muerte con tres pares de escombros, `Fort_BlitWreck` y
+>   `MissionWatch_Spawn_04429E` sobre la lista aux de +$7C.
+> * **Casamatas** (`Pillbox_*`): +$21 = `$00/$30/$60/$01/$31/$61` (nibble
+>   alto = fila de sprites `$2EB2C0`, bit0 = lado), HP `$28` con copia en
+>   +$80 para `Entity_PropagateDamageToParent_08848c` (el dano a la casamata
+>   se resta tambien a la fortaleza), 3 etapas de dano, colapso con
+>   fragmento (`ori.b #$F` en +$21 del padre) o explosion con score `$100`.
+> * **Trampilla** (`Hatch_*`): ciclo cerrada (90 f) -> abriendose -> spawn de
+>   tropas (`MissionWatch_Spawn` +$7C, avanza con
+>   `Entity_CmpPrioWithSibling_086552`) -> abierta (80 f) -> cerrandose;
+>   apertura final con +$8C cuando muere la fortaleza.
+> * **Muro de 13 cajas**, **blindado** (`ArmoredCar_*`, HP aleatorio
+>   `$2C0628`+`$2E4`, torreta hija que copia el sprite del padre por +$20,
+>   score `$5000`), **helicoptero** (`Heli_*`, HP aleatorio `$2C05A6`+`$17C`,
+>   rotor `Heli_RotorAnim_0883ec` alternando +$16/+$18 cada 4/16 frames,
+>   lanzador de soldados `$77228`/`$77F6A`), **escombro** con velocidad
+>   aleatoria `$5EA1C`, **atrezzo** (3 destruibles, 1 cartel indestructible
+>   con HP `$7FFF`, cuadruple) y **barricada** de 5 etapas.
+> * Helpers: `Entity_HitboxPulseTable_088438` / `_Saved_08846a` (hitbox
+>   activa 1 de cada 4 frames; antes `PcThunkTarget_*`),
+>   `Entity_PropagateDamageToParent_08848c`.
+> * Rarezas: `movea.l #-1,a0` pisado por `lea`, `addi.w #0,+$24(a0)` x4,
+>   `jmp $518; rts` x7, `bra.w` a la instruccion siguiente, `jsr $434DC`
+>   (rts puro), codigo muerto tras `bra.w` en `Barricade_Stage5`.
+> * symbols.py: -4 defsyms forward promovidos, +1 RTS mid-isla
+>   (`SetTaskWRts_088436`), +1 forward (`Sub_00088A64`).
+> * Herramientas: `gen_asm_region.py` emite ahora refs forward
+>   `Sub_XXXXXXXX` para targets pc-rel en huecos futuros;
+>   `scripts/bootstrap_sandbox.sh` localiza el zip en `uploaded_files`/AI
+>   Drive y lo persiste.
+
+> **Wave JJJ** (65 entradas, 4 742 B, verde a la primera) — **entidades de
+> la Mision 4 + helpers de spawn del boss de la Mision 3**: cierra los 33
+> huecos de la region `$08512C..$0865BE` en
+> `m4_carrier_boss_helpers_0851xx.s`. Primera wave producida con el nuevo
+> `tools/gen_asm_region.py` (borrador byte-exacto 65/65 a la primera) y
+> analizada semanticamente a mano encima.
+>
+> * **Templates de la M4** (`$E8000[35..40]` = `$859D4/$857F2/$858D0/
+>   $8577A/$84F26/$85190`, `tmpl=$107..$10C` en `MissionStream_Slot03`):
+>   el transporte `M4_Carrier_*` (snd `$1C5`, HP de `$2C029A`, fases
+>   approach/fight con daño `$2870A`, muerte `$28758`, wreck con
+>   `MissionWatch_Spawn_04429E` sobre la lista aux `$EC6C8`), su torreta
+>   `M4_Turret_*` (bordes `$2D0/$310`, shake `+0x75`, knockback con flag de
+>   direccion en bit0 de `+0x78`, muerte hasta `y<=$20`), los spawners de
+>   soldados `$483E2`, la rueda doble (frames `$2E7BDE/$2E7BEE` por
+>   `+0x88` mod 4), el rail de 20 segmentos (`$2EAA10[+0x21<<2]`), el agua
+>   por jugador (caja `$2EB10E`, chapoteo `M4_SplashFx`), el escombro
+>   (`$2E7B2E/$2E7B3E`) y el **suelo de camara** `M4_CamFloor_*` que
+>   recorre la tabla aux de alturas `$EC882` y publica `$10816A/$10816E`
+>   cuando ambos jugadores estan por debajo (`M4_PlayersBelowY`).
+> * **`Flight_*`** (`$85EE8..$85FB0`): los 4 helpers pendientes de la
+>   Wave III (bamboleo aleatorio 1/32, pasos `+-$100`, hitbox `$60/$C0`,
+>   altitud entre `+0x98<<4` y `+0x99<<4`).
+> * **`Boss_*`** (`$85FB0..$8656E`): los 20 helpers `jsr pc` pendientes
+>   de las Waves GGG/HHH — spawner aleatorio 1/8 de 1..3 hijos `$3FEC6`,
+>   jingles de fase (`$1026`/`$1032`), bob senoidal (`$13C0E`), spawners
+>   por lista de registros de 8 B `{dx,dy,+0x38,+0x21,|=+0x3A}` en
+>   `$2EAF1C`/`$2EAF7E`/`$2EAFE2` (los 7 primeros via `$6FE`, el resto via
+>   `$4AE`), bucles de 45/4/8/9 hijos, `Boss_SpawnTenEscorts` (362 B,
+>   desenrollado a mano), 6 cargadores de tabla de blit y
+>   `Boss_Shadow_Init` (3 entradas, `$10E39E=1`).
+> * Rarezas: `jmp $518; rts` con rts muerto (x4), `bra.w` doble en
+>   `Boss_Shadow_Init`, `move.w d0,d0` muerto, `movea.l #-1,a0` pisado
+>   por `lea` (x3). El label `.L83c0c-0xA` de `TaskHandler_083be2` se
+>   promovio a `TaskHandler_083c02` (target `lea pc` de `$0860F6`).
+> * symbols.py: -25 defsyms forward promovidos, +7 RTS mid-isla
+>   (`SetHandlerRts_085482/_085acc`, `SetTaskWRts_085606/_0856a8`,
+>   `JsrAbsRts_085d02/_08604e/_0863d4`).
+
+> **Wave III** (22 entradas, 2 192 B, verde a la primera) — **escuadron de
+> rescate y ciclo de vuelo**: cierra los 12 huecos de la region
+> `$084836..$08512C` en `rescue_squad_0848xx.s`.
+>
+> * **Pasos del escuadron** (`$84836..$8492A`): snd `$A9`, sprites de la
+>   tabla `$2E77CA[(+0x21<<1)<<2]` con centinela `$FFFFFFFF`, sincronia
+>   con el padre y avance con retroceso `-$10` + `bset` bit6 del par
+>   `$2E993C`.
+> * **Handler del hijo del Wave HHH** (`$8495E..$84AAA`, `Sub_0008495E`
+>   convertido de defsym a simbolo real): snd `$85`, timer aleatorio de
+>   `$2C0218` (`$799DE`), montaje de pareja `$84AAA`/`$6AA14`, armadura
+>   doble a partir de scroll `$4F0` (`$106F50` -> `$2E915A`) y muerte
+>   con snd `$1028` y blitter `$2EACC4`.
+> * **Secuencia de caida** (`$84B24..$84C50`): 4 etapas con sprites
+>   `$2B5B92..$2B604A`, snd `$1040` al tocar suelo y liberacion del
+>   abuelo (`+0x21=$FF` via doble `$C(a0)`).
+> * **Paracaidista y rescatado** (`$84C5E..$84DB0`): snd `$4`, sprite
+>   `$2E75C0` siguiendo al padre; premio `$2000` con helper futuro
+>   `Sub_00086504`.
+> * **Selector por tipo** (`$84DB0..$84F4E`): listas/pares/colas por
+>   `+0x98` (0/1/2), bucle de spawn multiple segun `+0x99`, y arranque
+>   del vuelo (snd `$1B1`, `+0x38=$2000`).
+> * **Ciclo de vuelo** (`$84F5E..$8512C`): snd `$1074`/`$1075`, sprites
+>   `$2E7828`/`$2E7866`/`$2E78A4`, helpers futuros `Sub_00085EE8`/
+>   `Sub_00085F08`/`Sub_00085F44`/`Sub_00085F60`, aterrizaje cuando
+>   scroll `$106F5C<=$108` spawneando `$8512C` via `$4AE` + `$5DD02`.
+>
+> Nuevos defsyms de RTS de islas: `SetHandlerRts_084898`/`_0848dc`/
+> `_084b22`/`_084b98`/`_084bd0`/`_084c24` (+6) y `Jsr5B6Rts_084c5c`
+> (+12). Se eliminaron 9 defsyms forward convertidos en simbolos reales
+> (8 `TaskHandler_*` + `Sub_0008495E`) y se añadieron 7 forwards nuevos
+> (`Sub_00085EE8..Sub_00086504`).
 
 > **Wave HHH** (28 entradas, 3 110 B, verde a la primera) — **fases finales
 > del miniboss y transiciones de oleada**: cierra los 5 huecos de la region
@@ -820,8 +2023,8 @@ canonica.
 | 1 | `Entity_CopyAnimFromLeader_06E2BC` | `$06E2BC` | 66 | Copia 9 campos (pos, anim, flags) de la entity "lider" (`a6->+0x50`) al destino `a0`. La copia de `+0x30` aparece DOS veces (store muerto que un compilador habría eliminado — evidencia de asm a mano). 4 callers, 2 de ellos `JsrPcThunk_*` matcheados. |
 | 2 | `Entity_HitboxCollide_028A96` | `$028A96` | 114 | Caller del barrido de colisión: filtra self-hit, descriptor NIL, tipo != $80 e inmunidad (bit 3 de `flags69`); invoca #3 con los extents (+6 de cabecera) y propaga el resultado como bits dinámicos (`bset d7/d6`) en los `flags69` de ambas entities. Sale por las islas `ClearXN_028b08`/`SetXN_028b0e` (que siguen matcheadas aparte). |
 | 3 | `Hitbox_OverlapTestXY_028B14` | `$028B14` | 268 | Test AABB entity-vs-entity con espejado por facing (bit 0 de `flags3a`, eje X) y flip vertical (bit 1, eje Y). Calcula además la intersección `[max(min), min(max)]` y el lado relativo (`slt d7`/`sge d6`) que #2 consume. **Contiene 4 bloques de ASSERT `trap #15` nop-patched** (ver hallazgo mayor abajo). Absorbe FPs #49–#51. |
-| 4 | `ScriptSlotPairTable_0009B4` | `$0009B4` | 200 | Tabla de datos-en-.text: DOS sub-tablas de pares word (id, script) terminadas en `$FFFF`, consumidas por `Sub_00002B58` desde 3 handlers del scheduler (`lea $9b4(pc), a0`). Cada par asigna `$1CE00 + script*64` al slot `$1082C8 + id*32`. |
-| 5 | `TaskSlots_BootInstall_000A7C` | `$000A7C` | 270 | Instalador boot de los 12 TCBs estáticos `$100xxx` vía `Task_InstallHandler_0000050E` (símbolo nuevo): 8 con handler idle `RtsStub_0400`, 3 con thunks reales y `$1001C0` con `SchedulerBootstrap_Boot_000E8E` (MM#1) por PC-rel — cierra el círculo del arranque. Arranca 3 tasks al vuelo y enlaza los pares player/partner (`$10044C`/`$1004EC` = campo `+0xC`). SIN caller directo: se alcanza vía la tabla (TCB, handler) de `$178000`. Fall-through en `SetTaskHandler_000b8a`. |
+| 4 | `ScriptSlotPairTable_0009B4` | `$0009B4` | 200 | Tabla de datos-en-.text: DOS sub-tablas de pares word (id, script) terminadas en `$FFFF`, consumidas por `PalSlot_LoadListHi_002b58` desde 3 handlers del scheduler (`lea $9b4(pc), a0`). Cada par asigna `$1CE00 + script*64` al slot `$1082C8 + id*32`. |
+| 5 | `TaskSlots_BootInstall_000A7C` | `$000A7C` | 270 | Instalador boot de los 12 TCBs estáticos `$100xxx` vía `Task_AllocAndMarkBusy_00050e` (símbolo nuevo): 8 con handler idle `Task_IdleRts_000400`, 3 con thunks reales y `$1001C0` con `SchedulerBootstrap_Boot_000E8E` (MM#1) por PC-rel — cierra el círculo del arranque. Arranca 3 tasks al vuelo y enlaza los pares player/partner (`$10044C`/`$1004EC` = campo `+0xC`). SIN caller directo: se alcanza vía la tabla (TCB, handler) de `$178000`. Fall-through en `SetTaskHandler_000b8a`. |
 | 6 | `TaskList_ChangeAndRunEight_001CD4` | `$001CD4` | 96 | Batch de `Task_ChangeAndRun_0626` sobre los 8 TCBs de gameplay. Es el "callee $1CD4" documentado en MM#3 (7 callers). Fall-through en `JsrAbsThunk_001d34` (la 9ª operación implícita es `FUN_000005B6`). |
 | 7 | `FixGlyph16_DrawCursorA_099F3A` | `$099F3A` | 76 | Dibuja un glifo 16x16 (bloque 2x2 de fix tiles, base `$4B22`) vía puerto LSPC `$3C0000`, en la celda leída de la tabla `a6->+0x80[a6->+0x78]` — cursor de menú en posición variable. |
 | 8 | `FixGlyph16_DrawCursorB_099F86` | `$099F86` | 76 | Clon byte-a-byte de #7 con tile base `$4B40` (estado alternativo del cursor). 9º par de clones no factorizados. |
@@ -1057,7 +2260,7 @@ cluster).
 |---|---|---|---:|---|
 | 1 | `BlitterTile_2D_043E8C` | `$043E8C` | 78 | Blit 2D de un tile en el buffer local de un sistema de cámara. **Target de tail-jump** (`bra.w $43E8C`) de los tres hooks de cámara JJ#1 cuando el probe pasa y el enlace no es NULL. Doble bucle con `dbra` sobre filas y columnas, cascada de 4 `add.w dX,dX` intercalados como `<<2` hand-coded, máscaras `$F80`/`$7C` como aritmética modular del tile-map. |
 | 2 | `Integrator_XY_051B80` | `$051B80` | 40 | Integrador de coordenadas 2D. Suma incrementos `d0`/`d1` a los acumuladores long (`+$4`, `+$8` del struct sprite), publica el word alto como delta visible (`(a0)`, `$2(a0)`). Idioma `swap/sub.w/move.w` repetido sin factorizar entre X e Y. Es el `Transform_Publish` invocado por `CameraApplyOne_043DAA` (JJ#1). |
-| 3 | `TransformCommit_MMIO_051F30` | `$051F30` | 100 | Commit de la transformación. Gate por bit 0 de `$C(a0)` (rama corta con `rts` propio), calcula 4 valores intermedios (`$2A/$2C/$2E/$30`), y llama al dispatcher `Fn_00001F4A` pasándole por `a0` el **handler inline** en `$051F94` (patrón "call by continuation"). Es el `Transform_Commit` de `CameraApplyOne_043DAA` (JJ#1). |
+| 3 | `TransformCommit_MMIO_051F30` | `$051F30` | 100 | Commit de la transformación. Gate por bit 0 de `$C(a0)` (rama corta con `rts` propio), calcula 4 valores intermedios (`$2A/$2C/$2E/$30`), y llama al dispatcher `Deferred_Push_001f4a` pasándole por `a0` el **handler inline** en `$051F94` (patrón "call by continuation"). Es el `Transform_Commit` de `CameraApplyOne_043DAA` (JJ#1). |
 
 **Sin FPs absorbidos** — los 4 rangos del batch estaban limpios (auditoría
 previa con `scan_unmatched_callees.py`).
@@ -1072,12 +2275,12 @@ previa con `scan_unmatched_callees.py`).
    movem.l a0/a6, -(a7)              ; save frame ptrs
    movea.l a0, a6                     ; a6 = struct sprite
    lea.l   TileMap_HandlerInline_051F94(pc), a0  ; a0 = ptr handler
-   jsr     Fn_00001F4A                ; dispatcher generico
+   jsr     Deferred_Push_001f4a                ; dispatcher generico
    movea.l a6, a0                     ; restore a0
    movem.l (a7)+, a0/a6
    ```
 
-   `Fn_00001F4A` es un dispatcher que ejecuta el handler apuntado por `a0`
+   `Deferred_Push_001f4a` es un dispatcher que ejecuta el handler apuntado por `a0`
    con `a6` como contexto activo. Es la variante 68000 del "trampoline"
    clásico. GCC no genera este patrón: usaría punteros a función
    convencionales. **Añadir a `include/mslug.h` como documentación del ABI
@@ -1092,7 +2295,7 @@ previa con `scan_unmatched_callees.py`).
 ### Wave KK en detalle (batch 2) — probes de colisión + handler MMIO
 
 Cierra los tres probes CCR referenciados por los hooks de cámara JJ#1
-(`Probe08/82/F6`) y el handler inline pasado por `a0` a `Fn_00001F4A`
+(`Probe08/82/F6`) y el handler inline pasado por `a0` a `Deferred_Push_001f4a`
 desde `TransformCommit_MMIO` (KK#1). **7 FPs absorbidos** en un solo batch
 (récord del proyecto por batch, previamente 6 en HH#2).
 
@@ -1101,7 +2304,7 @@ desde `TransformCommit_MMIO` (KK#1). **7 FPs absorbidos** en un solo batch
 | 1 | `Collision_ProbeRange_051C08` | `$051C08` | 120 | Probe de rango completo. Recorre `d4` iteraciones con `dbra`, invoca `$51D84` (colisión) y aplica `$51BA8`/`$51DE2` por celda actualizando dos tile-maps locales (`+$32`, `+$52`). Retorno CCR bilateral: `ori.b #$1, ccr; rts` (colisión) vs `rts` puro (no colisión). Absorbió `Stub_00051C80` (FP #48) y `SetC_051c7a` (FP #42). |
 | 2 | `Collision_ProbeX_051C82` | `$051C82` | 110 | Probe de una sola columna X con **cache en `$1E(a0)`** que salta el probe si la posición no cambió. Aplicación directa sin bucle. Absorbió `SetC_051cea` (FP #43) y `ClearC_051cf0` (FP #44). |
 | 3 | `Collision_ProbeY_051CF6` | `$051CF6` | 136 | **Clon estructural** de ProbeX con ejes X/Y intercambiados y bucle `dbra` interno (por eso 26 B más que ProbeX). Cache en `$20(a0)`. **6º par de clones no factorizados del proyecto** (tras BB#2, Z#5/#6, HH#2, II#1, II#2 y JJ#2). Absorbió `SetC_051d78` (FP #45) y `ClearC_051d7e` (FP #46). |
-| 4 | `TileMap_HandlerInline_051F94` | `$051F94` | 158 | Handler MMIO pasado por `a0` a `Fn_00001F4A` desde `TransformCommit_MMIO_051F30` (KK#1). Recorre `[tile_row_start, tile_row_end]` publicando cada celda en el puerto VRAM `$3C0000/$3C0002` con `<<11` compuesto vía `moveq #$B, d4; lsl.w d4, dX`. Absorbió `SetV_05202c` (FP #47). |
+| 4 | `TileMap_HandlerInline_051F94` | `$051F94` | 158 | Handler MMIO pasado por `a0` a `Deferred_Push_001f4a` desde `TransformCommit_MMIO_051F30` (KK#1). Recorre `[tile_row_start, tile_row_end]` publicando cada celda en el puerto VRAM `$3C0000/$3C0002` con `<<11` compuesto vía `moveq #$B, d4; lsl.w d4, dX`. Absorbió `SetV_05202c` (FP #47). |
 
 **Falsos positivos absorbidos Wave KK batch 2 (7 nuevos, 48 totales del proyecto):**
 
@@ -1544,7 +2747,7 @@ lookup, timer decrement y colas comunes.
 | 2 | `Anim_State_F2_08C15E` | `$08C15E` | 78 | LUT sobre `$2C072C[$34(a6)*2]`, actualiza `$32(a6)`, incrementa `$34` por 4. Cuando `$34 > $3F`, publica `$32 = $FF` y transita a F3. |
 | 3 | `Anim_State_F3_08C1AC` | `$08C1AC` | 62 | Probe `Sub_0008BC74` (CCR-C); si `C=1` llama MMIO blitter `$5DA9C(#$7084, #$2320, #$20, #$19)` (VRAM $7084, tile-id, W×H), reset `$34=0`, transita a F4. |
 | 4 | `Anim_State_F4_08C1EA` | `$08C1EA` | 80 | LUT sobre `$2C07AC[]` con bias `-1` (bcc/clr), fase decrement. Transita a F5. |
-| 5 | `Anim_State_F5_08C23A` | `$08C23A` | 92 | LUT sobre `$2C07AC[]` para `$33(a6)`. Al terminar (`$34 > $3F`): dispara SFX `Sub_00002308(#$80)` + fade `ThunkTarget_05239e(#2)` + timer `$70=$3C`, transita a F6. |
+| 5 | `Anim_State_F5_08C23A` | `$08C23A` | 92 | LUT sobre `$2C07AC[]` para `$33(a6)`. Al terminar (`$34 > $3F`): dispara SFX `Sound_Push0A_0B_002308(#$80)` + fade `ThunkTarget_05239e(#2)` + timer `$70=$3C`, transita a F6. |
 | 6 | `Anim_State_F6_08C296` | `$08C296` | 34 | Final: decrementa `$70(a6)`, cuando ≤0 clear `$106ED2`. Tail acortado (2 jsr en lugar de 3). |
 
 **Falsos positivos absorbidos Wave GG batch 2 (6 nuevos, 37 totales del proyecto):**
@@ -1679,7 +2882,7 @@ descriptores `$000BA2..$000E8A`).
 | 2 | `Attract_InitTaskAdd_3DBC8_0017C8` | `$0017C8` | 30 | 12 | Handler minimo mas usado del cluster: seal `$106ED2=$FF`, task-add `$3DBC8`, init pesado `$46AC6`, tail. |
 | 3 | `Attract_InitShow27_TaskAdd_0017E6` | `$0017E6` | 44 | 1 | Dispara opcode `$27` sobre `InputGuardCall219c` (Wave A#4) — primer caller no-thunk registrado, task-add `$46608`, marca `$21(a6)=$FF`. |
 | 4 | `Attract_SetTimers2_And_Gate21_001812` | `$001812` | 26 | 1 | Probe + timers `$45=$2, $44=$2` + gate `$21(a6) != 0 → rts`. Fall-through a #5. |
-| 5 | `Attract_TailChain_1CD4_1DA4_00182C` | `$00182C` | 12 | fall-through | Encadena `PcThunkTarget_001CD4 + Sub_00001DA4 + tail`. Continuacion natural de #4. |
+| 5 | `Attract_TailChain_1CD4_1DA4_00182C` | `$00182C` | 12 | fall-through | Encadena `PcThunkTarget_001CD4 + Task_InstallBootSlots_001da4 + tail`. Continuacion natural de #4. |
 | 6 | `Attract_SoftReset_10FDAF_001838` | `$001838` | 14 | 3 | Thunk tail-call: `move.b #1, $10FDAF; jmp $85E.l` (SoftReset del BIOS). |
 | 7 | `Attract_DoubleCheck_400_Publish_001846` | `$001846` | 68 | 12 | Handler mas referenciado. Doble-check `$100300==$400` y `$1003A0==$400`, publica `$2575C/$25766` cuando aplica. Patron `cmpi.l #$400, addr.l` de 10 B/lado incompatible con GCC. |
 | 8 | `Attract_WaitStateBackbone_00188A` | `$00188A` | 80 | ≥11 `bra.w` | **Backbone comun** del cluster. Target de todos los `bra.w $188A` de `Dispatcher_ModeTable_001922` (EE#3) y del path init de F2. Emite el bucle "wait state loop" completo (`InputQueue + palette fade + task-adds + seal + BIOS_FIX_CLEAR`) y termina con `.byte 0x4e, 0xb9` (opcode `jsr abs.l` sin operando — los 4 bytes del operando son los bytes literales al inicio de `Init_EntitySpawn_0018DA` de Wave EE#2, formando la instruccion completa `jsr $46AC6.l` a nivel fisico). Fall-through a EE#2 offset +4. |
@@ -2273,6 +3476,8 @@ Es el tercer y cuarto caso confirmado tras `JsrAbsThunk_050248`
 | `tools/symbols.py` | Tabla de símbolos absolutos para `--defsym` del linker. |
 | `tools/scan_unmatched_callees.py` | Cola priorizada de próximos targets ordenada por popularidad de llamadas entrantes desde código ya matcheado. |
 | `tools/asm-differ/diff.py` | Diff visual side-by-side (backend m68k). |
+| `tools/gen_asm_region.py` | Generador de borradores `.s` verificados byte-a-byte para una region sin matchear (recorre huecos, parte en entradas, emite GAS con el estilo del proyecto, imprime lineas de registry/symbols). |
+| `scripts/bootstrap_sandbox.sh` | Instala toolchain m68k + deps Python y procesa la ROM desde un zip en un solo paso. |
 | `scripts/setup.sh` | Procesa `rom/201-p1.bin` en `build/mslug_prom.bin` y verifica MD5. |
 | `scripts/legacy/gen_*.py` | Generadores históricos de las Waves A–R (mantenidos por reproducibilidad). |
 
@@ -2495,7 +3700,7 @@ contiene grandes bloques de ensamblador 68000 escrito a mano. Evidencias:
   detectar por overlap del linker que cae dentro de `VRAM_FixLayerAutoclear
   _05A824` (Wave DD). Sin FPs absorbidos. **Primer idioma `call by
   continuation`** documentado: `TransformCommit_MMIO` pasa un handler
-  inline via `a0` a un dispatcher generico (`Fn_00001F4A`).
+  inline via `a0` a un dispatcher generico (`Deferred_Push_001f4a`).
 
   **Batch 2** (probes de colision + handler MMIO, 4 funciones, 524 B):
   `Collision_ProbeRange_051C08` (120 B), `Collision_ProbeX_051C82` (110 B),
@@ -2509,7 +3714,7 @@ contiene grandes bloques de ensamblador 68000 escrito a mano. Evidencias:
 
   **Descubrimientos clave**:
     - **Idioma `call by continuation`** documentado por primera vez
-      (`TransformCommit_MMIO` -> `Fn_00001F4A` -> handler inline).
+      (`TransformCommit_MMIO` -> `Deferred_Push_001f4a` -> handler inline).
     - **Sexto par de clones no factorizados** del proyecto: ProbeX/ProbeY.
       Refuerza definitivamente la hipotesis de macros ASM pesadas.
     - **Cache de posicion en probes X/Y** (`$1E(a0)`/`$20(a0)`): optimizacion
@@ -2898,7 +4103,7 @@ Cluster natural detectado para la **próxima Wave EE batch 2**: cerrar
 las 9 funciones vecinas del cluster attract (`$001744..$001AF7`, unas
 ~470 B netos), que completan el subsistema junto con las 3 grandes de
 EE batch 1. Todas ya tienen mapa de flujo cerrado, símbolos externos
-resueltos (`Sub_00001DB8`, `Sub_00001E0A`, `PcThunkTarget_001CD4`,
+resueltos (`Hud_DrawCreditsAndOverlay_001db8`, `Set106ECC_CD_001e0a`, `PcThunkTarget_001CD4`,
 etc.) y forman una unidad arquitectónica: dispatcher-tabla (EE#3) +
 handlers de estado (EE-B) + backbone `$188A`. Después, **Wave FF**
 sobre `$0436de` y **Wave GG** sobre la triada `$000Cxxx`.

@@ -121,7 +121,7 @@
 Probe_Bit3At100001_0334A2:
 PcThunkTarget_0334a2:
         btst.b  #0x3, 0x100001.l                | +00  test DIP bit 3
-        beq.w   Probe_Bit3At100001_End          | +08  if clear -> exit (fall-out to $0334C6)
+        beq.w   Player_DeathGate_0334c6          | +08  if clear -> exit (fall-out to $0334C6)
         bclr.b  #0x3, 0x13(a6)                  | +0c  clear flag bit 3
         bclr.b  #0x0, 0x13(a6)                  | +12  clear flag bit 0
         move.w  #0x1, 0x66(a6)                  | +18  event_ctr = 1
@@ -226,9 +226,11 @@ SpritePubEffect_027EBA:
 Sub_00027EBA:
         move.w  0x22(a6), d1                    | +00  d1 = x_coord
         move.w  0x24(a6), d2                    | +04  d2 = y_coord
+        .global SpritePubEffect_027EBA__L027ec2
+SpritePubEffect_027EBA__L027ec2:
         subq.w  #0x1, d2                        | +08  d2 -= 1
-        jsr     Sub_00027DB2(pc)                | +0a  helper $27DB2 (pc-rel)
-        jsr     Sub_0009993C                    | +0e  helper $9993C (abs.l)
+        jsr     CollMap_LookupTile_027db2(pc)                | +0a  helper $27DB2 (pc-rel)
+        jsr     Trail_FindNearest_09993c                    | +0e  helper $9993C (abs.l)
         move.b  d6, 0x106f44.l                  | +14  publish effect_id
         cmpi.b  #0xf, d6                        | +1a  if d6 == $F
         beq.w   .Lspe_probe                     | +1e    skip setup
@@ -239,7 +241,7 @@ Sub_00027EBA:
         lea.l   Data_00278BA8, a1               | +2a  a1 = &data $278BA8
         bra.w   .Lspe_probe                     | +30  (nop entry)
 .Lspe_probe:                                    | $027EEE
-        jsr     Sub_00027E28(pc)                | +34  probe $27E28 (pc-rel)
+        jsr     CollMap_TestSolidOrPlatform_027e28(pc)                | +34  probe $27E28 (pc-rel)
         bcc.w   .Lspe_no_collision              | +38  if !C, no collision
 | ---- Rama COLISION detectada
         bset.b  #0x6, 0x5a(a6)                  | +3c  flags bit 6 = 1

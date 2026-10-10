@@ -13,8 +13,8 @@
 |  Flujo:
 |      1. Guarda a1 (parametro logico del caller: probable puntero a
 |         datos animados, ver punto 4).
-|      2. Carga a1 = &Handler_077c98 mediante lea PC-relativo corto (4 B).
-|         El literal Handler_077c98 es codigo 68k valido (empieza con
+|      2. Carga a1 = &Spawner_Handler_077c98 mediante lea PC-relativo corto (4 B).
+|         El literal Spawner_Handler_077c98 es codigo 68k valido (empieza con
 |         movea.l $70(a6),a0 ; move.b $1(a0),$74(a0) ; ...) - es un
 |         subprograma completo, no una tabla de datos.
 |      3. jsr $6fe.l -> Task_ChangeHandler_XXX (aun sin nombre estable;
@@ -43,7 +43,7 @@
 |       target no cabe en 16-bit), el patron combinado con el ABI de
 |       registros absolutos (a0 vivo a la entrada, dst->field_70) no
 |       es rederivable en C.
-|    2. Handler_077c98 es codigo, no datos: los 16 primeros bytes son
+|    2. Spawner_Handler_077c98 es codigo, no datos: los 16 primeros bytes son
 |       instrucciones validas del 68000. Se registrara como funcion
 |       independiente en su propio momento (probable candidato de
 |       proxima ola tras completar Wave T).
@@ -56,7 +56,7 @@
 
 Entity_InstallHandlerAndCopyXf:
         move.l  a1, -(a7)               | +00  2f 09          push a1 original
-        lea     .LHandler(pc), a1       | +02  43 fa 00 16    a1 = &Handler_077c98
+        lea     .LHandler(pc), a1       | +02  43 fa 00 16    a1 = &Spawner_Handler_077c98
         jsr     0x6fe.l                 | +06  4e b9 00 00 06 fe   Task_ChangeHandler
                                         |               (forma abs.l explicita, 6 B;
                                         |                GAS elegiria abs.w corto sin
@@ -70,4 +70,4 @@ Entity_InstallHandlerAndCopyXf:
 
 | Etiqueta PC-relativa hacia $77c98. Distancia:
 |   $77c98 - ($77c80 + 2) = $16. Cabe en desplazamiento con signo 16-bit.
-        .equ    .LHandler, Handler_077c98
+        .equ    .LHandler, Spawner_Handler_077c98
