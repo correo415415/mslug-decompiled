@@ -31,3 +31,6 @@ venv/
 # OS
 Thumbs.db
 ci_out/
+
+# Repacked ROMs (never commit)
+build/repack/

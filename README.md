@@ -178,9 +178,9 @@ A successful run prints:
 
 ```
 ====================================================================
-  MATCHED : 3134/3134 funciones
-  BYTES   : 42,190/42,190 (registrados)
-  ROM     : 42,190/2,097,152  (2.0118%)
+  MATCHED : 17608/17608 funciones
+  BYTES   : 2,097,152/2,097,152 (registrados)
+  ROM     : 2,097,152/2,097,152  (100.0000%)
 ====================================================================
 ```
 
@@ -190,6 +190,38 @@ on every push):
 ```bash
 python3 tools/registry_lint.py
 ```
+
+### Rebuild the whole ROM (and prove it is really the game)
+
+The registry covers **100 % of the 2 MiB P-ROM** (code and data), so the
+sources can be linked back into a bit-exact image:
+
+```bash
+# fuentes → build/mslug_prom_rebuilt.bin (formato CPU) → build/repack/201-p1.bin (MAME)
+bash scripts/rebuild_rom.sh                              # verifica MD5 contra el original
+bash scripts/rebuild_rom.sh /ruta/a/mslug.zip            # además deja build/repack/mslug.zip listo
+```
+
+Expected: `build_rom ✔ IDÉNTICA` (CPU MD5 `816b3f74…`) and
+`build/repack/201-p1.bin` MD5 `b6804bc6be580c80d43d187f6f9d2e7c` — the exact
+file that ships in the `mslug` romset.
+
+To check the pipeline end-to-end, patch a game value and rebuild. Example —
+start every credit with **9 lives** instead of the soft-DIP value
+(`HUD_Task_Init_025706` reads `$10FD88` into the HUD task's life counter
+`$77(a6)`; a 4-byte `move.b #imm,d1` keeps the function size identical):
+
+```bash
+sed -i 's/move\.b  0x4(a3),d1 /move.b  #0x9,d1    /' asm/hud_inputrec_entity_move_024fb8.s
+bash scripts/rebuild_rom.sh --mod /ruta/a/mslug.zip      # --mod = no comparar con el original
+# → build/repack/mslug.zip  (cárgalo en MAME: mame mslug -rompath build/repack)
+git checkout asm/hud_inputrec_entity_move_024fb8.s      # deshacer el parche
+```
+
+Other handy knobs: default soft-DIP values `AttractInit_Single_099AE2`
+(`$10FD88` = lives 3, `$10FD8B` = difficulty 2), soft-DIP strings at
+`$1781F4` (`Str_17873c`/`Data_178001` in `level_data_d_16b035.s`), start
+credits BCD at `$1081BF/$1081C0`.
 
 ---
 

@@ -128,6 +128,18 @@ jobs:
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
           exit $rc
 
+      - name: build_rom (reconstrucción completa 2 MiB + repack MAME)
+        if: always() && steps.match.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 tools/build_rom.py 2>&1 | tee ci_out/build_rom.txt
+          bash scripts/pack_prom.sh build/mslug_prom_rebuilt.bin >/dev/null
+          { echo "repack 201-p1.bin MD5 = $(md5sum build/repack/201-p1.bin | cut -d' ' -f1)";
+            echo "original 201-p1.bin MD5 = $(md5sum rom/201-p1.bin | cut -d' ' -f1)"; } | tee -a ci_out/build_rom.txt
+          cmp build/repack/201-p1.bin rom/201-p1.bin && echo "repack: IDÉNTICO al 201-p1.bin original" | tee -a ci_out/build_rom.txt
+          grep -E "IDÉNTIC|DIFIERE|MD5" ci_out/build_rom.txt >> "$GITHUB_STEP_SUMMARY"
+
       - name: measure_coverage
         if: always() && steps.match.outcome != 'skipped'
         shell: bash
