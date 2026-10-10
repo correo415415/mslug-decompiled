@@ -278,6 +278,10 @@ player entity (`$1004C2`): original 200→197 after firing, patched stays 200.
 
 ![hmg infinite demo](docs/images/hmg_infinite_demo.png)
 
+More examples: `bombs=99`, `bombs-infinite` (grenades never run out), `all-infinite`, `pistol-ammo=N` — see `scripts/apply_patch.sh --list`.
+
+![bombs 99 infinite](docs/images/bombs_infinite_demo.png)
+
 Other handy knobs: default soft-DIP values `AttractInit_Single_099AE2`
 (`$10FD88` = lives 3, `$10FD8B` = difficulty 2), soft-DIP strings at
 `$1781F4` (`Str_17873c`/`Data_178001` in `data/level_d_16b035.s`), start

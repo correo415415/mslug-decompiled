@@ -42,3 +42,6 @@ internal/pydmg/target/release/pydmg-neogeo --headless --cart build/repack/mslug.
 Original: `$1004C0` 0A → 09 → 08 → 07 (y el antiguo `bombs=99` solo cambiaba
 `$1004C2`=0063, la munición de la pistola). Con `bombs-infinite` se queda en 0A;
 con `bombs=99` arranca en 63 (HUD BOMB 99).
+
+Captura (`bombs=99 bombs-infinite`, granada en el aire y BOMB sigue en 99):
+`results/bombs_99_infinite_demo.png`.
