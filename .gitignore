@@ -42,3 +42,4 @@ internal/pydmg/target/
 internal/**/*.png
 !internal/experiments/results/*.png
 !internal/mslug.zip
+build/patch_backup/
