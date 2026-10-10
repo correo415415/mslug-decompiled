@@ -25,5 +25,20 @@ internal/pydmg/target/release/pydmg-neogeo --headless --cart build/repack/mslug.
   --input-script "4420-4428:16,4440-4448:16,4460-4468:16,4480-4488:16,4500-4700:16" \
   --watch-ram "1004B1:1,1004C2:2" --dump-frames-dir /tmp/f --dump-every-frames 100 2>/dev/null | grep WATCH
 ```
-Original: `$1004C2` 00C8 → 00C6 → 00C5. Parche: se queda en 00C8. HUD: ARMS 197 vs 200.
+Original: `$1004C2` 00C8 → 00C7 → 00C6 → 00C5 (un decremento por ráfaga
+mientras `+$85` pasa de 1 a 0). Parche: se queda en 00C8. HUD: ARMS 197 vs 200.
 Captura: `docs/images/hmg_infinite_demo.png`.
+
+## Si "no funciona"
+
+* El parche sólo afecta al **HMG** (`+$71 = 1`). Con la pistola el HUD ya
+  muestra ∞ y la shotgun/rocket/flame siguen gastando: usa `all-infinite`
+  (receta 03) si quieres todas.
+* Hay que cargar **`build/repack/mslug.zip`** (o copiar su `201-p1.bin`), no
+  el romset original. Los emuladores cachean por nombre: borra el estado
+  guardado / nvram de `mslug` o renombra el zip. En MAME verifica con
+  `mame -verifyroms mslug` que aparece el CRC del parche (debe fallar la
+  verificación del original, es lo esperado).
+* Comprueba los bytes en la ROM parcheada (formato CPU = `build/mslug_prom_rebuilt.bin`):
+  `xxd -s 0x3c896 -l 8 build/mslug_prom_rebuilt.bin` → `00 6a 00 00 00 82`.
+* Las recetas se acumulan en una sola ROM: `apply_patch.sh hmg-infinite bombs-infinite lives=9 --zip …`.
