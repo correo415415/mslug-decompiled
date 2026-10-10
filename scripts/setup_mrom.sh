@@ -5,7 +5,7 @@
 #  Extracts 201-m1.bin from a MAME romset zip (or copies a loose file) into
 #  rom/201-m1.bin and verifies its MD5.  The M-ROM is 128 KiB:
 #     0x00000-0x07FFF  fixed region   (Z80 0x0000-0x7FFF)
-#     0x08000-0x1FFFF  7 x 16 KiB banks, switched via ports 0x08-0x0B
+#     0x08000-0x1FFFF  file banks 2..7 (16 KiB each) for the Z80 0x8000 window (port 0x0B)
 #  Expected MD5: 6449db0459bcf7584348792009e8f12c
 #  Usage: scripts/setup_mrom.sh [mslug.zip | 201-m1.bin]
 # =============================================================================
