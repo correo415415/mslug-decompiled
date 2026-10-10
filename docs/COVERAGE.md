@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-09  (Wave JJJJJ cerrada — CODE 100 %)
+**Ultimo update:** 2026-10-10  (Waves KKKKK..VVVVV cerradas — **ROM 100 %**: codigo + datos + relleno)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -15,11 +15,11 @@ cada vez que una wave descubra una frontera codigo/datos nueva).
 
 ## Los tres porcentajes que hay que distinguir
 
-| Metrica | Cifra (post-JJJJJ) | Que mide realmente |
+| Metrica | Cifra (post-VVVVV) | Que mide realmente |
 |---|---:|---|
-| **`ROM total`** (`match_batch.py`) | **26.20 %**  (549,416 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Es la metrica del matcher pero es enganosa: incluye 1.5 MiB de datos/graficos/padding. |
+| **`ROM total`** (`match_batch.py`) | **100.0 %**  (2,097,152 / 2,097,152 B) | Bytes registrados vs P-ROM completa. Desde las waves de datos (KKKKK..VVVVV) la ROM entera se reconstruye byte a byte: `python3 tools/build_rom.py` → MD5 `816b3f74…`; `scripts/pack_prom.sh` → `201-p1.bin` MD5 `b6804bc6…`. |
 | **`Codigo real`** (mapa curado) | **100.0 %**  (505,608 / 505,608 B) | Bytes registrados dentro de las zonas CODE del mapa curado vs total de esas zonas. **Es la metrica util de progreso.** |
-| **`Datos registrados`** | 43,750 B | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
+| **`Datos registrados`** | 1,591,544 B (DATA-REG 45,052 + DATA 1,512,700 + SYSTEM 1,024 + ZERO 32,768) | Tablas transcritas byte a byte porque el codigo las referencia (`--data`, streams de mision, indice `$E8000`...). No cuentan como "codigo". |
 
 > La heuristica antigua por bloques de 4 KiB (entropia + densidad de
 > opcodes) clasifica como `CODE?` el 83 % de la ROM porque los datos densos
@@ -56,12 +56,36 @@ waves. La segunda mitad del archivo (`$100000..$1FFFFF`) se mapea en CPU en
 | Tipo | Total | Cubierto | % |
 |---|---:|---:|---:|
 | CODE | 505,608 B | 505,608 B | 100.0 % |
-| DATA-REG | 45,052 B | 43,736 B | 97.1 % |
-| DATA | 1,512,700 B | 14 B | 0.0 % |
-| SYSTEM | 1,024 B | 58 B | 5.7 % |
-| ZERO | 32,768 B | 0 B | 0.0 % |
+| DATA-REG | 45,052 B | 45,052 B | 100.0 % |
+| DATA | 1,512,700 B | 1,512,700 B | 100.0 % |
+| SYSTEM | 1,024 B | 1,024 B | 100.0 % |
+| ZERO | 32,768 B | 32,768 B | 100.0 % |
 
-Huecos pendientes en zonas CODE: 0 huecos, 0 B — **todas las zonas CODE cubiertas.** Siguiente fase: zonas DATA/ZERO (1,512,700 B + 32,768 B) como volcados estructurados (`tools/gen_data_region.py`).
+Huecos pendientes en zonas CODE: 0 huecos, 0 B — **todas las zonas CODE cubiertas.**
+Zonas DATA/SYSTEM/ZERO: **100 %** registradas como volcados estructurados
+(`tools/gen_data_region.py` + `scripts/data_wave.sh`), waves KKKKK..VVVVV:
+
+| Wave | Rango | Modulo | Entradas |
+|---|---|---|---:|
+| KKKKK | `$002F30..$0133B0` | `sprite_tables_002f30.s` | 428 |
+| LLLLL | `$013D6A..` (huecos dispersos) | `sparse_tables_013d6a.s` | 322 |
+| MMMMM | `$09C608..$0E8000` | `anim_pal_spawn_data_09c608.s` | 959 |
+| NNNNN | `$0F2FFC..$118028` | `level_data_a_0f2ffc.s` | 4,499 |
+| OOOOO | `$118028..$140000` | `level_data_b_118028.s` | 1,190 |
+| PPPPP | `$140000..$16B035` | `level_data_c_140000.s` | 490 |
+| QQQQQ | `$16B035..$18D152` | `level_data_d_16b035.s` | 327 |
+| RRRRR | `$18DB78..$1B0000` | `anim_data_a_18db78.s` | 344 |
+| SSSSS | `$1B0000..$1D0000` | `anim_data_b_1b0000.s` | 328 |
+| TTTTT | `$1D0000..$1F8000` | `anim_data_c_1d0000.s` | 513 |
+| UUUUU | `$000000..$000400` + `$0001CA` | `neogeo_header_vectors_000000.s`, `entity_find_by_key4_0001ca.s` | 9 |
+| VVVVV | `$0E8000` (1,316 B) + `$1F8000..$200000` | `template_index_0e8000.s`, `rom_tail_fill_1f8000.s` | 5 |
+
+Convenciones de los volcados: `Zero_` (runs de `$00` ≥ 32 B, `.fill`),
+`PtrTab_`/`.dc.l Simbolo` (longs que apuntan a entradas/simbolos conocidos),
+`Str_` (ASCII), `Data_` (resto, `.dc.w`), `RomData_` cuando la direccion ROM
+`$10xxxx` colisiona numericamente con un simbolo de RAM. Pendiente: cabeceras
+A–F semanticas y renombres (`RgbLut_002f30`, `PalRamps_012f30`, bancos de
+paleta `$14E00`/`$1CE00`, soft-DIP `$1781F4`...).
 
 ### Notas por zona
 

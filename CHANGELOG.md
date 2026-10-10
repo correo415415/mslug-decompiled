@@ -18,6 +18,19 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - CI: `.github/workflows/matcher.yml` (runner self-hosted, sin caché, publica Release con reportes del matcher) + `tools/ci_release.py` (REST, sin `gh`).
+- **ROM 100 %** — data waves KKKKK..VVVVV register every remaining byte of the
+  2 MiB P-ROM as structured dumps (9,414 entries: `Zero_`/`PtrTab_`/`Str_`/
+  `Data_`/`RomData_`), plus `Vectors68k_000000`, `NeoGeoHeader_000100`,
+  `TemplateIndex_0e8000` (184 symbolic `.dc.l`) and `Entity_FindByKey4_0001ca`.
+  Registry: 17,608 entries / 2,097,152 B.
+- Tools: `tools/gen_data_region.py` + `scripts/data_wave.sh` (data-zone
+  generator/verifier), `tools/build_rom.py` (full 2 MiB rebuild + MD5 compare),
+  `scripts/rebuild_rom.sh` (sources → `201-p1.bin` → `mslug.zip`),
+  `check_section_sizes.py` now compiles `.c` islands too, `registry_lint.py`
+  exempts data prefixes from even-alignment checks, `gen_asm_region.py` emits
+  entry-relative `d8(pc,Xn)` operands.
+- CI: `build_rom` step (rebuilds the ROM and checks the repacked `201-p1.bin`
+  MD5 against the original). README: "Rebuild the whole ROM" + 9-lives patch demo.
 - Wave JJJJJ — 73 entries (3,940 B, 26 gaps of `$000400..$002F30`,
   `boot_script_sound_queue_palslots_000400.s`): boot-script handlers
   (`BootScr_*`, service-message rows `BootMsg_*` with byte table `$1514`),

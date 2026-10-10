@@ -11,10 +11,28 @@ modo bare-metal 68000 (`-mcpu=68000 -nostdlib -nostartfiles -ffreestanding
 ## Estado del matcher
 
 ```
-MATCHED : 8194/8194 funciones
-BYTES   : 549,416/549,416 (registrados)
-ROM     : 549,416/2,097,152  (26.1982%)   — CODE 100 %
+MATCHED : 17608/17608 funciones
+BYTES   : 2,097,152/2,097,152 (registrados)
+ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 ```
+
+> **Waves KKKKK..VVVVV — datos (ROM 100 %)**. Tras cerrar CODE, las zonas
+> DATA/SYSTEM/ZERO se registraron como volcados estructurados con
+> `tools/gen_data_region.py` (fronteras = refs de 32 bits desde codigo ∪
+> runs de ceros ≥ 32 B ∪ nombres manuales) via `scripts/data_wave.sh`:
+> KKKKK `sprite_tables_002f30.s` (428), LLLLL `sparse_tables_013d6a.s` (322),
+> MMMMM `anim_pal_spawn_data_09c608.s` (959), NNNNN/OOOOO/PPPPP/QQQQQ
+> `level_data_{a,b,c,d}_*.s` (4 499 / 1 190 / 490 / 327), RRRRR/SSSSS/TTTTT
+> `anim_data_{a,b,c}_*.s` (344 / 328 / 513), UUUUU
+> `neogeo_header_vectors_000000.s` (vectores 68k, cabecera NEO-GEO, soft-DIP
+> ptrs) + `entity_find_by_key4_0001ca.s` (ultima funcion suelta, 54 B), VVVVV
+> `template_index_0e8000.s` (184 `.dc.l` simbolicos) + `rom_tail_fill_1f8000.s`.
+> Registro: **17 608 entradas = 2 097 152 B**. `tools/build_rom.py` enlaza
+> todo en una imagen de 2 MiB identica (MD5 `816b3f74…`) y
+> `scripts/rebuild_rom.sh` produce `201-p1.bin` (MD5 `b6804bc6…`, el del
+> romset) y un `mslug.zip` listo para MAME. Demo de parche en README (9 vidas:
+> `HUD_Task_Init_025706`, `move.b 0x4(a3),d1` → `move.b #9,d1`). Pendiente:
+> cabeceras A–F semanticas y renombres en los 13 modulos de datos.
 
 > **Wave JJJJJ** (73 entradas, 3 940 B; 26 huecos) — `$000400..$002F30` en
 > `boot_script_sound_queue_palslots_000400.s`. Quincuagésimo tercera wave y
