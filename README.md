@@ -41,31 +41,57 @@ and as large, self-contained functions are tackled directly (see
 
 ```
 mslug/
-├── .github/workflows/      CI: registry_lint.py + syntax check (no ROM needed)
+├── .github/workflows/      CI: registry_lint + sizes + full matcher + build_rom (byte-identical ROM)
 ├── src/                    Decompiled C sources (matched by GCC bare-metal 68000)
-├── asm/                    Hand-written 68000 assembly sources (matched by GAS)
-│   └── non_matchings/      Raw ROM dumps by address for functions not yet analysed
+│   ├── bios/               Reset / IRQ entry points and BIOS callbacks
+│   ├── kernel/             Task scheduler handlers and kernel helpers
+│   ├── entity/             Entity-list helpers written in C
+│   ├── video/              Palette / VRAM helpers written in C
+│   └── thunks/             jsr-pc thunk tables (-mpcrel)
+├── asm/                    Hand-written 68000 assembly, one folder per subsystem
+│   ├── boot/               Vectors, boot script, dispatch tables, start-up
+│   ├── kernel/             Scheduler, timers, memory, sound queue, soft-DIPs
+│   ├── input/              Joystick decoding, input recording, HUD input
+│   ├── video/              Sprites, cells, palettes, scroll, camera, fades
+│   ├── entity/             Generic entity/actor framework (spawn, move, anim, collide)
+│   ├── player/             Marco/Tarma: core, fire/shells, air/death/crouch, tables
+│   ├── slug/               SV-001 Metal Slug vehicle
+│   ├── enemies/            Rebel army
+│   │   ├── soldiers/       Infantry, snipers, grenadiers, shield troopers
+│   │   ├── squad/          Group/formation AI
+│   │   ├── vehicles/       Tanks, planes, bazooka vehicles, walkers
+│   │   └── bosses/         Tetsuyuki, Hairbuster Riberts, Allen O'Neil, …
+│   ├── pow/                Prisoners of war and item drops
+│   ├── props/              Destructible scenery, barrels, crates
+│   ├── mission/            Mission scripts, banners, stage sequencing
+│   ├── frontend/           Attract mode, title, ranking, sound test
+│   └── data/               Pure data blobs (anim tables, palettes, maps)
 ├── include/                Public headers (mslug.h, mslug_regs.h)
 ├── linker/                 Linker scripts (neogeo.ld, neogeo_matched.ld)
 ├── tools/                  Active tooling used by the build — see tools/README.md
 │   ├── match_batch.py      Compile + link + byte-compare every registered function
+│   ├── build_rom.py        Link every section into a 2 MiB image and compare MD5
 │   ├── registry.py         Master registry: (symbol, cpu_addr, size, source)
 │   ├── symbols.py          External symbol table (linker --defsym)
 │   ├── registry_lint.py    Static structural audit of registry.py/symbols.py
-│   ├── scan_unmatched_callees.py   Priority queue ordered by caller count
-│   ├── rank_candidates.py  Priority queue ordered by function size
-│   ├── gen_asm_region.py   Verified draft-.s generator for an unmatched region
+│   ├── check_section_sizes.py  Per-section size check (fast pre-matcher)
 │   ├── measure_coverage.py Real-code-% heuristic feeding docs/COVERAGE.md
+│   ├── reorg/              Folder/rename map + script used for the layout reorganisation
 │   └── asm-differ/         Vendored simonlindholm/asm-differ (m68k backend)
-├── scripts/                One-shot helper scripts
+├── scripts/                Helper scripts
 │   ├── setup.sh            Process baserom into build/mslug_prom.bin + verify
 │   ├── bootstrap_sandbox.sh  Install toolchain + deps + process ROM in one go
+│   ├── rebuild_rom.sh      Sources → 201-p1.bin → mslug.zip
+│   ├── apply_patch.sh      Example gameplay patches (lives, infinite ammo, bombs)
+│   ├── dev/                Emulator dev tooling (setup_internal.sh, run_emu.sh)
 │   └── legacy/             Historical batch generators (Waves A–R)
 ├── docs/                   Design notes and reversing logs
 │   ├── CONVENTIONS.md      Naming/registry/promotion conventions — read before editing
 │   ├── COVERAGE.md         Real coverage analysis
-│   └── PROGRESO.md         Detailed function-by-function progress log (Spanish)
-├── build/                  Build artefacts (git-ignored except for reports)
+│   ├── PROGRESO.md         Detailed function-by-function progress log (Spanish)
+│   └── images/             Screenshots used in this README
+├── internal/               DEV ONLY: romset + emulator + experiments/ recipes (removed before release)
+├── build/                  Build artefacts (git-ignored)
 ├── diff_settings.py        Configuration for asm-differ
 ├── requirements.txt        Python dependencies (capstone, colorama, ...)
 ├── Makefile
@@ -73,6 +99,11 @@ mslug/
 ├── CHANGELOG.md            Headline summary of notable changes
 └── README.md
 ```
+
+File naming: `asm/<subsystem>/<what_it_does>_<lowest_cpu_address>.s` (e.g.
+`asm/player/fire_shells_03c62a.s`). The address suffix is the lowest CPU
+address of the first section in the file, so a file can be located in the ROM
+at a glance; see `docs/CONVENTIONS.md`.
 
 ---
 

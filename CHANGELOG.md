@@ -10,6 +10,28 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Changed
+- **Repository layout reorganised** (267 files): `asm/` split into
+  subsystem folders (`boot, kernel, input, video, entity, player, slug,
+  enemies/{soldiers,squad,vehicles,bosses}, pow, props, mission, frontend,
+  data`) and `src/` into `bios, kernel, entity, video, thunks`; every file
+  renamed to `<what_it_does>_<lowest_cpu_address>.s`. Mapping and script in
+  `tools/reorg/`. Tools accept sub-folder paths in the registry; the rebuilt
+  ROM remains byte-identical (MD5 `816b3f74c76b3373993407615f1850fe`).
+- `scripts/apply_patch.sh` no longer depends on git (backups in
+  `build/patch_backup/`) and regenerates `build/mslug_prom.bin` from the
+  given zip when missing.
+
+### Added
+- `tools/build_rom.py` + `scripts/rebuild_rom.sh`: link all 17,608 sections
+  into the full 2 MiB P-ROM, repack `201-p1.bin` / `mslug.zip`; CI step
+  `build_rom` verifies byte-identity.
+- `scripts/apply_patch.sh`: example patches (`lives=N`, `hmg-infinite`,
+  `all-infinite`, `bombs=N`) verified in-emulator (`docs/images/`).
+- `internal/` (dev only): romset, pydmg emulator source with dev-tools
+  patch (`--input-script`, `--watch-ram`, `--poke-ram`), `experiments/`
+  recipes. `scripts/dev/setup_internal.sh` recreates it.
+
+### Changed
 - Reorganized repository for clarity: moved `PROGRESO.md` to `docs/`,
   added `CONTRIBUTING.md`, `docs/CONVENTIONS.md`, `tools/README.md`,
   `requirements.txt`, and a CI workflow (`.github/workflows/ci.yml`) that
