@@ -27,6 +27,11 @@ if ! command -v m68k-linux-gnu-gcc >/dev/null 2>&1; then
           sudo apt-get install -y -qq gcc-m68k-linux-gnu binutils-m68k-linux-gnu >/dev/null 2>&1)
 fi
 python3 -c "import capstone" 2>/dev/null || python3 -m pip install -q -r "$ROOT/requirements.txt"
+if ! command -v z80asm >/dev/null 2>&1 || ! command -v z80dasm >/dev/null 2>&1; then
+    echo "[bootstrap] instalando z80asm / z80dasm (M-ROM)..."
+    (sudo apt-get install -y -qq z80asm z80dasm >/dev/null 2>&1) \
+      || (sudo apt-get update -qq >/dev/null 2>&1 && sudo apt-get install -y -qq z80asm z80dasm >/dev/null 2>&1) || true
+fi
 
 mkdir -p "$ROOT/rom"
 if [[ -z "$ZIP" && ! -f "$ROOT/rom/201-p1.bin" ]]; then
@@ -50,6 +55,12 @@ elif [[ ! -f "$ROOT/rom/201-p1.bin" ]]; then
     exit 1
 fi
 "$ROOT/scripts/setup.sh"
+# M-ROM (Z80): extrae 201-m1.bin del zip si lo tenemos y aun no esta
+if [[ ! -f "$ROOT/rom/201-m1.bin" ]]; then
+    for z in "$ZIP" "$ROOT/internal/mslug.zip" "$AIDRIVE_DIR/mslug.zip"; do
+        [[ -n "$z" && -f "$z" ]] && "$ROOT/scripts/setup_mrom.sh" "$z" 2>/dev/null && break
+    done
+fi
 python3 "$ROOT/tools/registry_lint.py" | tail -1
 python3 "$ROOT/tools/check_section_sizes.py" | tail -1
 echo "[bootstrap] listo: m68k-linux-gnu-gcc $(m68k-linux-gnu-gcc -dumpversion), build/mslug_prom.bin OK"
