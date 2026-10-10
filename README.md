@@ -230,6 +230,23 @@ CPU addresses). Verified on a real emulator — the HUD shows reserve lives, so
 > "accept CRC mismatch"/legacy romset; (4) the soft-DIP "Continue"/"Hero"
 > settings don't matter — the patch bypasses them.
 
+#### More patches: `scripts/apply_patch.sh`
+
+```bash
+bash scripts/apply_patch.sh --list
+bash scripts/apply_patch.sh hmg-infinite lives=9 --zip /ruta/a/mslug.zip   # combinables
+bash scripts/apply_patch.sh all-infinite bombs=99 --zip /ruta/a/mslug.zip
+bash scripts/apply_patch.sh --undo
+```
+
+`hmg-infinite` replaces the 6-byte `subi.w #1,0x82(a2)` in
+`PlayerFire_HMG_Spawn_03c872` with a same-size no-op (`ori.w #0,0x82(a2)`),
+so the Heavy Machine Gun never consumes ammo (2 bytes change: `$03C898`,
+`$03C89B`). Verified in an emulator by watching the ammo word of P1's
+player entity (`$1004C2`): original 200→197 after firing, patched stays 200.
+
+![hmg infinite demo](docs/images/hmg_infinite_demo.png)
+
 Other handy knobs: default soft-DIP values `AttractInit_Single_099AE2`
 (`$10FD88` = lives 3, `$10FD8B` = difficulty 2), soft-DIP strings at
 `$1781F4` (`Str_17873c`/`Data_178001` in `level_data_d_16b035.s`), start

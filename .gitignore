@@ -34,3 +34,6 @@ ci_out/
 
 # Repacked ROMs (never commit)
 build/repack/
+
+# Development-only (emulator + ROM), never shared
+internal/
