@@ -18406,4 +18406,11 @@ REGISTRY = [
     ("Zero_00013a",                                0x00013A,  74, "neogeo_header_vectors_000000.s"),
     ("Data_000184",                                0x000184,  12, "neogeo_header_vectors_000000.s"),
     ("Zero_000200",                                0x000200, 512, "neogeo_header_vectors_000000.s"),
+    # --- Wave VVVVV: índice de plantillas $E8000 (329 punteros a entidades) (1 entradas)
+    ("TemplateIndex_0e8000",                       0x0E8000, 1316, "template_index_0e8000.s"),
+    # --- Wave VVVVV: relleno final $1F8000..$200000 (4 entradas)
+    ("Data_1f8000",                                0x1F8000, 2244, "rom_tail_fill_1f8000.s"),
+    ("Zero_1f88c4",                                0x1F88C4, 28476, "rom_tail_fill_1f8000.s"),
+    ("Data_1ff800",                                0x1FF800,   4, "rom_tail_fill_1f8000.s"),
+    ("Zero_1ff804",                                0x1FF804, 2044, "rom_tail_fill_1f8000.s"),
 ]
