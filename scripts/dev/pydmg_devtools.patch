@@ -1,5 +1,5 @@
---- /tmp/main_orig.rs	2026-10-10 20:08:05.902628486 +0000
-+++ cli/main.rs	2026-10-10 20:05:11.819782821 +0000
+--- a/cli/main.rs
++++ b/cli/main.rs
 @@ -163,6 +163,19 @@
      /// to actually display the lines).
      #[arg(long, default_value_t = false)]
