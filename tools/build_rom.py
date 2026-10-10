@@ -31,7 +31,7 @@ ROM_SIZE = 0x200000
 
 def compile_one(td, src):
     ext = os.path.splitext(src)[1].lower()
-    obj = os.path.join(td, os.path.basename(src) + ".o")
+    obj = os.path.join(td, src.replace("/", "__") + ".o")
     if ext == ".s":
         cmd = ["m68k-linux-gnu-gcc", "-m68000", "-nostdlib", "-nostartfiles",
                "-ffreestanding", "-Wa,--register-prefix-optional",

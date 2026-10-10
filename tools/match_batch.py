@@ -59,7 +59,7 @@ CFLAGS = [
     f"-I{INC}",
 ]
 
-# Flags adicionales por unidad de compilación. Clave = basename del .c.
+# Flags adicionales por unidad de compilación. Clave = ruta del .c relativa a src/.
 PER_FILE_CFLAGS = {
     "reset_irq_callback.c": ["-mpcrel"],   # lea pc+d,a0 corto (4 B)
     "task_handlers.c":      ["-mpcrel"],   # lea pc+d,a1 corto (4 B) x 731
@@ -102,14 +102,14 @@ def main():
                 src_path = os.path.join(ASM, src)
                 # Ensamblador puro: sin flags de optimización C, solo -m68000.
                 # --register-prefix-optional permite usar 'a0' en lugar de '%a0'.
-                obj = os.path.join(td, os.path.basename(src) + ".o")
+                obj = os.path.join(td, src.replace("/", "__") + ".o")
                 r = sh(["m68k-linux-gnu-gcc", "-m68000", "-nostdlib",
                         "-nostartfiles", "-ffreestanding",
                         "-Wa,--register-prefix-optional",
                         f"-I{INC}", "-c", src_path, "-o", obj])
             else:
                 src_path = os.path.join(SRC, src)
-                obj = os.path.join(td, os.path.basename(src) + ".o")
+                obj = os.path.join(td, src.replace("/", "__") + ".o")
                 extra = PER_FILE_CFLAGS.get(src, [])
                 r = sh(["m68k-linux-gnu-gcc", *CFLAGS, *extra,
                         "-c", src_path, "-o", obj])

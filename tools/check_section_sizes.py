@@ -19,7 +19,7 @@ with tempfile.TemporaryDirectory() as td:
         is_c = f.endswith(".c")
         src = os.path.join("src" if is_c else "asm", f)
         if not os.path.exists(src): continue
-        o = os.path.join(td, f + ".o")
+        o = os.path.join(td, f.replace("/", "__") + ".o")
         cmd = (["m68k-linux-gnu-gcc", *mb.CFLAGS, *mb.PER_FILE_CFLAGS.get(f, []), "-c"] if is_c else AS) + [src, "-o", o]
         if subprocess.run(cmd, capture_output=True).returncode: continue
         out = subprocess.run(["m68k-linux-gnu-objdump", "-h", o], capture_output=True, text=True).stdout
