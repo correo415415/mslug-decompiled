@@ -345,6 +345,43 @@ paleta `$14E00`/`$1CE00`, soft-DIP `$1781F4`...).
 
 ---
 
+## M-ROM (`201-m1.bin`, programa de sonido Z80, 128 KiB)
+
+Segundo frente, abierto tras cerrar la P-ROM al 100 %. Toolchain y build
+propios en `mrom/` (`z80dasm` → `mrom/asm/raw/*.s` → `z80asm` →
+`build/mrom/201-m1_rebuilt.bin`), ver `mrom/README.md`.
+
+| Métrica | Valor |
+|---|---|
+| Tamaño | 131,072 B (MD5 `6449db0459bcf7584348792009e8f12c`) |
+| Regiones | fija `0000-7FFF` (32 KiB) + bancos 2..7 de 16 KiB en la ventana `8000-BFFF` |
+| **Reensamblado byte-idéntico** | **100 %** (7/7 regiones, `mrom/tools/build_mrom.py`) |
+| Código alcanzable desde los vectores (`trace_code.py`) | ~13.5 KB (`0x34B8`) en la región fija, 25 rangos |
+| Funciones con nombre semántico | 0 (todo son etiquetas `lXXXXh`/`sub_XXXXh` de z80dasm) |
+| Código/datos separados | no (pendiente: tablas de punteros de 4 B en `0080-00C8` y `57A1-67A1`, tablas de 2 B en `2076`, `4AA0..4AE0`, dispatcher de opcodes de secuencia en `53A3`) |
+
+### Mapa preliminar de la región fija
+
+| Z80 | Contenido |
+|---|---|
+| `0000` | reset: `di ; out (18h),a ; jp 1E00` |
+| `0008` | RST 8 = escritura YM2610 (espera busy, `out (c),d` / `out (c),e`) |
+| `0038` | IRQ (timer YM) → `1E7A` |
+| `0066` | NMI (comando del 68000, puerto 0) → `1ED6`; cmd 1 = reset suave, 3 = reinicio |
+| `0080-00C8` | tabla de 18 punteros (4 B) → `57A1`, `815F`, `8472`, `87F2`… |
+| `0100-1DFF` | datos (tablas de frecuencia/volumen/envolventes) |
+| `1E00` | init + bucle principal (`F800` tick, `F801..F803` cola de comandos) |
+| `1F7D`/`1FA6` | cambio de banco (puerto `0B`, dirección lineal 24 bits → banco/offset) |
+| `2050-2076` | dispatcher de comandos (16 entradas) |
+| `2515-57A1` | motor de secuencias/canales (4 bloques via tablas `4AA0/4ABC/4AD8`) |
+| `53A3` | tabla `jp` para opcodes de secuencia `C0..D9` |
+| `57A1-67A1` | 1024 punteros de 4 B (índices de sonido → dirección lineal) |
+| `67A1-7FFF` | datos |
+
+Los bancos 2..7 (`0x08000-0x1FFFF` del fichero) son casi todo datos de
+secuencias/instrumentos; las referencias desde la región fija a `8xxx`
+pasan por punteros lineales, no por `call` directos.
+
 ## Como regenerar este documento
 
 ```bash
