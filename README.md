@@ -209,14 +209,26 @@ file that ships in the `mslug` romset.
 To check the pipeline end-to-end, patch a game value and rebuild. Example —
 start every credit with **9 lives** instead of the soft-DIP value
 (`HUD_Task_Init_025706` reads `$10FD88` into the HUD task's life counter
-`$77(a6)`; a 4-byte `move.b #imm,d1` keeps the function size identical):
+`$77(a6)`; a 4-byte `move.b #imm,d1` keeps the function size identical).
+The one-liner does the sed + size check + rebuild + zip for you:
 
 ```bash
-sed -i 's/move\.b  0x4(a3),d1 /move.b  #0x9,d1    /' asm/hud_inputrec_entity_move_024fb8.s
-bash scripts/rebuild_rom.sh --mod /ruta/a/mslug.zip      # --mod = no comparar con el original
-# → build/repack/mslug.zip  (cárgalo en MAME: mame mslug -rompath build/repack)
-git checkout asm/hud_inputrec_entity_move_024fb8.s      # deshacer el parche
+bash scripts/patch_lives_demo.sh 9 /ruta/a/mslug.zip   # → build/repack/mslug.zip con 9 vidas
+bash scripts/patch_lives_demo.sh --undo                 # deshacer el parche en el .s
 ```
+
+Only 4 bytes differ from the original (`$0256B7/$0256B9` and `$02570D/$02570F`,
+CPU addresses). Verified on a real emulator — the HUD shows reserve lives, so
+3 lives = `1UP=2`, 9 lives = `1UP=8`:
+
+![lives patch demo](docs/images/lives_patch_demo.png)
+
+> If you still see 3 lives: (1) make sure the emulator really loads the new
+> zip (same path/name as before → delete its cache / `nvram` / save state, or
+> rename the zip); (2) MAME checks CRCs and may silently fall back to a copy of
+> `mslug.zip` found earlier in its `rompath`; (3) in FBNeo enable
+> "accept CRC mismatch"/legacy romset; (4) the soft-DIP "Continue"/"Hero"
+> settings don't matter — the patch bypasses them.
 
 Other handy knobs: default soft-DIP values `AttractInit_Single_099AE2`
 (`$10FD88` = lives 3, `$10FD8B` = difficulty 2), soft-DIP strings at
