@@ -10,7 +10,7 @@
 # El HUD muestra vidas-1 (reservas): 9 vidas → "1UP=8".
 set -euo pipefail
 cd "$(dirname "$0")/.."
-F=asm/hud_inputrec_entity_move_024fb8.s
+F=asm/entity/hud_inputrec_entity_move_024e1c.s
 if [ "${1:-}" = "--undo" ]; then git checkout -- "$F"; echo "[demo] parche deshecho"; exit 0; fi
 N=${1:?vidas}; ZIP=${2:-}
 HEX=$(printf '0x%x' "$N")

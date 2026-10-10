@@ -14,17 +14,17 @@ La región $0916C8..$0967B4 son DATOS del subsistema de escena/scroll:
                                  payload[8]} terminados en type==2
                                  (SceneLoader_Main_043568, pasada 1 y 2).
   * SceneScript_XXXXXX         : bytecode de la VM de scroll (23 opcodes,
-                                 strides exactos de scene_script_vm_0437da.s)
+                                 strides exactos de mission/scene_script_vm_0437da.s)
                                  con CALLBACKS 68000 EMBEBIDOS (op $06: el cb
                                  devuelve en a1 el nuevo PC; op $14: en a0).
   * SceneTrig_XXXXXX           : tablas de words referenciadas por op $11
                                  (`move.l a1,$12(a0)`), terminadas en $FFFF.
 
 Emite el .s con `.dc.w` por registro y un comentario por línea, en el mismo
-estilo que asm/mission_streams_0e8524.s, y las líneas de REGISTRY.
+estilo que asm/data/mission_streams_0e8524.s, y las líneas de REGISTRY.
 
 Uso:
-    python3 tools/scene_script_dump.py -o asm/scene_scripts_0916c8.s --registry
+    python3 tools/scene_script_dump.py -o asm/data/scene_scripts_0916c8.s --registry
 """
 import argparse
 import os
@@ -36,8 +36,8 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 PROM = os.path.join(ROOT, "build", "mslug_prom.bin")
-SRC_NAME = "scene_scripts_0916c8.s"
-WAVE = "Wave AAAAA"  # NOTA: la cabecera A-F de asm/scene_scripts_0916c8.s se mantiene a mano al regenerar
+SRC_NAME = "data/scene_scripts_0916c8.s"
+WAVE = "Wave AAAAA"  # NOTA: la cabecera A-F de asm/data/scene_scripts_0916c8.s se mantiene a mano al regenerar
 
 rom = open(PROM, "rb").read()
 

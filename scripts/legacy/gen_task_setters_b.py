@@ -16,7 +16,7 @@ import os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "task_setters_b.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "kernel/task_setters_b.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 
 

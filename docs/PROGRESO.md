@@ -20,13 +20,13 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > DATA/SYSTEM/ZERO se registraron como volcados estructurados con
 > `tools/gen_data_region.py` (fronteras = refs de 32 bits desde codigo ∪
 > runs de ceros ≥ 32 B ∪ nombres manuales) via `scripts/data_wave.sh`:
-> KKKKK `sprite_tables_002f30.s` (428), LLLLL `sparse_tables_013d6a.s` (322),
-> MMMMM `anim_pal_spawn_data_09c608.s` (959), NNNNN/OOOOO/PPPPP/QQQQQ
+> KKKKK `data/sprite_tables_002f30.s` (428), LLLLL `data/sparse_tables_013d6a.s` (322),
+> MMMMM `data/anim_pal_spawn_09c608.s` (959), NNNNN/OOOOO/PPPPP/QQQQQ
 > `level_data_{a,b,c,d}_*.s` (4 499 / 1 190 / 490 / 327), RRRRR/SSSSS/TTTTT
 > `anim_data_{a,b,c}_*.s` (344 / 328 / 513), UUUUU
-> `neogeo_header_vectors_000000.s` (vectores 68k, cabecera NEO-GEO, soft-DIP
-> ptrs) + `entity_find_by_key4_0001ca.s` (ultima funcion suelta, 54 B), VVVVV
-> `template_index_0e8000.s` (184 `.dc.l` simbolicos) + `rom_tail_fill_1f8000.s`.
+> `boot/vectors_and_neogeo_header_000000.s` (vectores 68k, cabecera NEO-GEO, soft-DIP
+> ptrs) + `entity/find_by_key4_0001ca.s` (ultima funcion suelta, 54 B), VVVVV
+> `data/template_index_0e8000.s` (184 `.dc.l` simbolicos) + `data/rom_tail_fill_1f8000.s`.
 > Registro: **17 608 entradas = 2 097 152 B**. `tools/build_rom.py` enlaza
 > todo en una imagen de 2 MiB identica (MD5 `816b3f74…`) y
 > `scripts/rebuild_rom.sh` produce `201-p1.bin` (MD5 `b6804bc6…`, el del
@@ -35,7 +35,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > cabeceras A–F semanticas y renombres en los 13 modulos de datos.
 
 > **Wave JJJJJ** (73 entradas, 3 940 B; 26 huecos) — `$000400..$002F30` en
-> `boot_script_sound_queue_palslots_000400.s`. Quincuagésimo tercera wave y
+> `boot/boot_script_sound_palslots_000400.s`. Quincuagésimo tercera wave y
 > **cierre de todas las zonas CODE (505 608 / 505 608 B)**. Nombres en
 > `docs/waves/jjjjj_names.txt`. Handlers del boot script (`BootScr_*`: game
 > over, misión, mensajes de servicio con tabla `BootMsg_RowIds_001514`,
@@ -54,7 +54,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `$0F2FFC..$18D152`, `$18DB78..$1F8000`, `$1F8000..$200000`, `$000000..$000400`.
 
 > **Wave IIIII** (26 entradas, 2 082 B; 8 huecos) — `$0133B0..$013D18` en
-> `palette_engine_sprite_grid_pause_0133b0.s`. Quincuagésimo segunda wave.
+> `video/palette_engine_sprite_grid_0133b0.s`. Quincuagésimo segunda wave.
 > Nombres en `docs/waves/iiiii_names.txt`. Motor de paletas (paleta sombra
 > `$10A2D4`, LUT RGB555→NeoGeo `$2F30`, rampas `$12F30`; `Pal_LoadRaw16`,
 > `PalAnim_StepSlot/Blend16/StepRGB`, `Pal_ApplyFadeDarken/Lighten`,
@@ -70,7 +70,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `$000400..$002F30`, 64.4 %). Siguiente: Wave JJJJJ = `$000400..$002F30`.
 
 > **Wave HHHHH** (35 entradas, 2 188 B; 16 huecos, 3 `--data`) —
-> `$051AA4..$0527AE` en `cellmap_fix_overlay_palfade_051aa4.s`. Quincuagésimo
+> `$051AA4..$0527AE` en `video/cellmap_fix_overlay_palfade_051aa4.s`. Quincuagésimo
 > primera wave. Nombres en `docs/waves/hhhhh_names.txt`, args en
 > `docs/waves/hhhhh_args.txt`. Ventana de mapa de celdas (`CellMap_*`: lectura
 > empaquetada de `$1081B6`, cursor/scroll rotado, clip de rectángulo —el
@@ -87,7 +87,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > Siguientes: `$0133B0..$013D6A` (2,082 B), `$000400..$002F30` (≈3.9 KB).
 
 > **Wave GGGGG** (54 entradas, 2 320 B; 22 huecos, 7 `--data`, 3 `--entry`) —
-> `$05CADE..$05E000` en `input_thunks_debug_hex_atan_luts_05cade.s`.
+> `$05CADE..$05E000` en `input/thunks_debug_atan_luts_05cae0.s`.
 > Quincuagésima wave. Nombres en `docs/waves/ggggg_names.txt`, args en
 > `docs/waves/ggggg_args.txt`. 21 thunks `InputEvtThunk_*` (máscara/canal/
 > contexto `$10E200`/`$10E206` → backends `InputMask_*`), `InputEvt_ToggleChain`
@@ -102,7 +102,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > (2,082 B), `$000400..$002F30` (≈3.9 KB).
 
 > **Wave FFFFF** (33 entradas, 3 738 B; 15 huecos, 5 `--data`, 2 `--entry`) —
-> `$055B96..$056ACC` en `enemy_projectiles_grenade_mortar_roller_055b96.s`.
+> `$055B96..$056ACC` en `enemies/projectiles_grenade_mortar_055b96.s`.
 > Cuadragésimo novena wave. Nombres en `docs/waves/fffff_names.txt`, args en
 > `docs/waves/fffff_args.txt`. Proyectiles enemigos: granada lanzada
 > (`Grenade_SpawnFromThrower` → `Grenade_Task` con `Grenade_TrajTable_055c08`
@@ -118,7 +118,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `$0133B0..$013D6A` (2,082 B), `$000400..$002F30` (≈3.9 KB).
 
 > **Wave EEEEE** (71 entradas, 5 290 B; 38 huecos, 7 `--data`, 5 `--entry`) —
-> `$05934E..$05A9D6` en `result_ending_gunner_walker_05934e.s`. Cuadragésimo
+> `$05934E..$05A9D6` en `mission/result_ending_gunner_walker_05934e.s`. Cuadragésimo
 > octava wave. Nombres en `docs/waves/eeeee_names.txt`, args en
 > `docs/waves/eeeee_args.txt`. Módulos: pantalla de resultados de misión
 > (`ResultText_Strings_05934e`, `Result_DrawDigits`, `Result_PlayerPanel_Init` →
@@ -134,9 +134,9 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > (91 huecos, 14 282 B).
 >
 > **Wave DDDDD** (79 entradas, 4 374 B; 47 huecos) — `$046000..$048000`
-> en `enemy46_drops_fix_banners_046260.s`. Cuadragésimo séptima wave. Nombres en
+> en `enemies/vehicles/enemy46_drops_banners_046260.s`. Cuadragésimo séptima wave. Nombres en
 > `docs/waves/ddddd_names.txt`. Módulos: Enemy46 fases C/D + `Enemy46_RandomPause`
-> (cierra la máquina de vehicle_deploy_045f2c.s), drops de enemigos por template
+> (cierra la máquina de enemies/vehicles/deploy_045f2c.s), drops de enemigos por template
 > (`Drop_SpawnRandom_046322`, `Drop_Spawn_Tmpl4F/F2/1B/6D/2C/2B/3A_12F`,
 > `Drop_SpawnFromTable`, `Drop_SpawnThrown`, matriz `$28DC4E`), `Fade_WhiteFlash_*`,
 > `SceneC_Load_*`, pantalla CONTINUE grande (`ContinueDigits_P1P2_Task`,
@@ -149,7 +149,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > Zona `$024E10..$05E000` al 94.2 %; CODE total 96.1 % (129 huecos, 19 572 B).
 >
 > **Wave CCCCC** (117 entradas, 6 380 B; 6 `--data`, 39 `--entry`) — `$027400..$02A000`
-> en `collmap_hitbox_script_ops_027400.s`. Cuadragésimo sexta wave. Nombres en
+> en `entity/collmap_hitbox_script_ops_027400.s`. Cuadragésimo sexta wave. Nombres en
 > `docs/waves/ccccc_names.txt`, args en `docs/waves/ccccc_args.txt`. Módulos:
 > resto del motor de movimiento/colisión (`Entity_MoveAndCollide_D/E/F`,
 > `Entity_StepB/C/D/Fall_UpdatePos`, `Entity_SlopeResolve/Commit`,
@@ -159,12 +159,12 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `$100800`/`$1008A0`, `Hitbox_TestBoxes`, `Hitbox_Overlap{Rect,Point,PointA4}`,
 > `Hitbox_ApplyDamage`, `Hitbox_DefaultShapes`) e intérprete de scripts de
 > sprite (`Script_OpcodeTable_028cf0`: 32 opcodes `ScriptOp00_Wait` ..
-> `ScriptOp1F_Sound2222`, llamado desde `script_dispatch.s`). 14 renombres
+> `ScriptOp1F_Sound2222`, llamado desde `entity/script_dispatch_028d8e.s`). 14 renombres
 > propagados; 3 labels locales promovidas a globales. Zona
 > `$024E10..$05E000` al 92.3 %; CODE total 95.3 % (176 huecos, 23 946 B).
 >
 > **Wave BBBBB** (88 entradas, 8 874 B; 9 `--data`, 1 `--entry`) — `$024E10..$027400`
-> en `hud_inputrec_entity_move_024fb8.s`. Cuadragésimo quinta wave. Nombres en
+> en `entity/hud_inputrec_entity_move_024e1c.s`. Cuadragésimo quinta wave. Nombres en
 > `docs/waves/bbbbb_names.txt`, args en `docs/waves/bbbbb_args.txt`. Módulos:
 > `Input_Poll_LiveMode` + `InputRec_*` (grabación/replay RLE del input para el
 > demo del attract; modos `$106ECA` 0/1/2), `PlayerSlotDesc_*` (32 registros de
@@ -173,13 +173,13 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > OVER) con dibujado al fix layer `HUD_Draw*`/`HUD_Msg_*` (strings ASCII en
 > `$2785B8..`), créditos BCD `$1081BF/C0` + BIOS `$C00450`, y motor de
 > movimiento/colisión `Entity_MoveAndCollide_A/B/C`, `Entity_FloorProbe`,
-> `ClampVelocity`. 10 renombres propagados (task_handlers.c, jsr_pc_thunks.c,
+> `ClampVelocity`. 10 renombres propagados (kernel/task_handlers.c, thunks/jsr_pc_thunks.c,
 > entity_probe_*.s). `gen_asm_region.py`: fallback `rawinsn` para `movem`
 > abs.l. Código real 94.0 %; zona `$024E10..$027400` al 100 %. Siguiente:
 > huecos de `$027400..$02A000` y páginas `$046000/$052000/$056000/$059000`.
 >
 > **Wave AAAAA** (65 entradas, 23 648 B; todo datos, byte-exacto) — `$0916C8..$0967B4`
-> en `scene_scripts_0916c8.s` y `$096BBC..$097730` en `attract_sprite_lists_096bbc.s`.
+> en `data/scene_scripts_0916c8.s` y `$096BBC..$097730` en `frontend/attract_sprite_lists_096bbc.s`.
 > Cuadragésimo cuarta wave. Generadores `tools/scene_script_dump.py` y
 > `tools/attract_sprites_dump.py` (capstone; verifican enlazando con defsyms de
 > SYMBOLS+REGISTRY). Contenido: `SceneDescTable_0916C8[16]` `{script.l, entities.l}`,
@@ -193,7 +193,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `$024E10..$05E000` (Wave BBBBB: `$024E10..$027400`).
 >
 > **Wave ZZZZ** (192 entradas, 18 154 B; 1 `--data`, 6 `--entry`) — `$07A002..$083000`
-> en `boss2_crab_carrier_soundtest_07axxx.s`. Cuadragésimo tercera wave.
+> en `enemies/bosses/boss2_crab_carrier_07a00a.s`. Cuadragésimo tercera wave.
 > Nombres en `docs/waves/zzzz_names.txt`, args en `docs/waves/zzzz_args.txt`
 > (strings del sound test `$7A7E8..$7A954`; entradas forzadas por plantillas
 > $E8000 y refs absolutas externas). Módulos: Crew_Hostage_*/Crew_Captor_*,
@@ -204,7 +204,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > zona `$05E000..$083000` al 100 %. Siguiente: huecos de `$083000..$09C608`.
 >
 > **Wave YYYY** (251 entradas, 15 600 B; 11 `--data`, 76 `--entry`) — `$076000..$07A000`
-> en `props_fx_explosions_platforms_crew_076xxx.s`. Cuadragésimo segunda wave.
+> en `props/fx_explosions_platforms_crew_076000.s`. Cuadragésimo segunda wave.
 > Nombres en `docs/waves/yyyy_names.txt`, args en `docs/waves/yyyy_args.txt`
 > (tablas de sprites, tabla de tablones `$772A8`, FallPath `$78BE0`, jump table
 > PathScript `$78FC0`; entradas forzadas por refs absolutas de scripts de misión
@@ -215,7 +215,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > al 88.0 %. Siguiente: `$07A000..$083000`.
 >
 > **Wave XXXX** (177 entradas, 15 662 B; 46 `--data`) — `$071FFC..$076000`
-> en `m5tank_finalboss_helpers_scriptedprop_072xxx.s`. Cuadragésimo primera
+> en `enemies/bosses/m5tank_finalboss_scriptedprop_071ffc.s`. Cuadragésimo primera
 > wave de `gen_asm_region.py`. Nombres en `docs/waves/xxxx_names.txt`, args en
 > `docs/waves/xxxx_args.txt` (LUT `$74460`, sprites `$7466E`/`$75270`, 34 blobs
 > del script inline `$749E8..$74F58`, bloque cero, hitbox `$75F34`).
@@ -232,7 +232,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher 7113/7113, 452,812 B (21.59 %); código real 80.9 %.
 
 > **Wave WWWW** (221 entradas, 15 122 B; 1 `--data`) — `$06DFE8..$071FFC`
-> en `gunship_m5boss_finalboss_06exxx.s`. Cuadragésima wave de
+> en `enemies/bosses/gunship_m5boss_finalboss_06dfe8.s`. Cuadragésima wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/wwww_names.txt`, args en
 > `docs/waves/wwww_args.txt` (hitbox `Gunship_Hitbox` `$6EB84..$6EBD0`).
 >
@@ -248,7 +248,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher 6936/6936, 437,150 B (20.84 %); código real 77.8 %.
 
 > **Wave VVVV** (179 entradas, 15 616 B; 29 `--data`) — `$06A000..$06DFE8`
-> en `bazooka_rocketvehicle_walker_06axxx.s`. Trigesimonovena wave de
+> en `enemies/soldiers/bazooka_rocketvehicle_walker_06a000.s`. Trigesimonovena wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/vvvv_names.txt`, args en
 > `docs/waves/vvvv_args.txt` (29 tablas inline de 4 punteros de sprite).
 >
@@ -269,7 +269,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher 6715/6715, 421,728 B (20.11 %); código real 74.7 %.
 
 > **Wave UUUU** (180 entradas, 15 488 B; 1 `--data`) — `$066000..$06A000`
-> en `barrel_paratrooper_shield_tank_066xxx.s`. Trigesimoctava wave de
+> en `enemies/soldiers/barrel_paratrooper_shield_tank_066000.s`. Trigesimoctava wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/uuuu_names.txt`, args en
 > `docs/waves/uuuu_args.txt` (tabla de scripts de animación `$66CD8..$670B6`).
 >
@@ -288,7 +288,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher 6536/6536, 406,112 B (19.36 %); código real 71.7 %.
 
 > **Wave TTTT** (210 entradas, 15 242 B; sin `--data`) — `$062000..$066000`
-> en `sniper_camper_mortar_062xxx.s`. Trigesimoséptima wave de
+> en `enemies/soldiers/sniper_camper_mortar_062008.s`. Trigesimoséptima wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/tttt_names.txt`, args en
 > `docs/waves/tttt_args.txt`.
 >
@@ -319,7 +319,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher 6356/6356, 390,624 B (18.63 %); código real 68.6 %.
 
 > **Wave SSSS** (221 entradas, 15 144 B; 10 `--data`) — `$05E000..$062000`
-> en `late_props_turrets_05exxx.s`. Trigesimosexta wave de
+> en `props/late_props_turrets_05e000.s`. Trigesimosexta wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/ssss_names.txt`, args en
 > `docs/waves/ssss_args.txt`. Fix de herramienta: `exg.l` → `exg`.
 >
@@ -344,7 +344,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher 6146/6146, 375,382 B (17.90 %); código real 65.6 %.
 
 > **Wave RRRR** (126 entradas, 12 874 B; 5 `--data`) — `$03DA98..$040EF2`
-> en `results_pow_squadleader_03daxx.s`. Trigesimoquinta wave de
+> en `pow/results_squadleader_03daa8.s`. Trigesimoquinta wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/rrrr_names.txt`, args en
 > `docs/waves/rrrr_args.txt`.
 >
@@ -363,7 +363,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher: 5925/5925, 360,238 B, 17.18 %; código real 62.6 %.
 
 > **Wave QQQQ** (97 entradas, 7 396 B; 7 `--data`) — `$04FA50..$051914`
-> en `allen_oneil_04fa50.s`. Trigesimocuarta wave de `gen_asm_region.py`.
+> en `enemies/bosses/allen_oneil_04fa58.s`. Trigesimocuarta wave de `gen_asm_region.py`.
 > Nombres en `docs/waves/qqqq_names.txt`, args en `docs/waves/qqqq_args.txt`.
 >
 > * Jefe **Allen O'Neil** (`Allen_*`): `AcquireTarget` (+$72 objetivo),
@@ -379,7 +379,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher: 5799/5799, 347,364 B, 16.56 %; código real 60.0 %.
 
 > **Wave PPPP** (40 entradas, 5 296 B) — `$04E580..$04FA50`
-> en `props_fortress_04e5xx.s`. Trigesimotercera wave de
+> en `props/fortress_04e580.s`. Trigesimotercera wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/pppp_names.txt`, args en
 > `docs/waves/pppp_args.txt`.
 >
@@ -397,7 +397,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher: 5702/5702, 339,968 B, 16.21 %; código real 58.6 %.
 
 > **Wave OOOO** (64 entradas, 6 384 B; 2 `--entry`) — `$04CBD4..$04E580`
-> en `turret_car_props_04cbxx.s`. Trigesimosegunda wave de
+> en `enemies/vehicles/turret_car_props_04cbd4.s`. Trigesimosegunda wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/oooo_names.txt`, args en
 > `docs/waves/oooo_args.txt`.
 >
@@ -414,7 +414,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher: 5662/5662, 334,672 B, 15.96 %; código real 57.5 %.
 
 > **Wave NNNN** (53 entradas, 3 814 B; 1 `--data` para la tabla de 6
-> punteros `$4CB44`) — `$04BB9A..$04CBD4` en `gun_platform_04bbxx.s`.
+> punteros `$4CB44`) — `$04BB9A..$04CBD4` en `enemies/vehicles/gun_platform_04bb9a.s`.
 > Trigesimoprimera wave de `gen_asm_region.py`. Nombres en
 > `docs/waves/nnnn_names.txt`, args en `docs/waves/nnnn_args.txt`.
 >
@@ -431,7 +431,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Matcher: 5598/5598, 328,288 B, 15.65 %; código real 56.3 %.
 
 > **Wave MMMM** (41 entradas, 4 746 B; sin `--data` ni `--entry`) —
-> `$053F96..$055258` en `props_mission_053fxx.s`. Trigésima wave de
+> `$053F96..$055258` en `props/mission_053f96.s`. Trigésima wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/mmmm_names.txt`.
 >
 > * Segunda tanda de props destructibles (misma plantilla que Wave GGGG:
@@ -451,7 +451,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave LLLL** (25 entradas, 2 880 B; 1 `--data` para las tablas de
 > estados de muerte, 2 `--entry`) — `$049430..$049FC4` en
-> `pow_hang_0494xx.s`. Vigesimonovena wave de `gen_asm_region.py`.
+> `pow/hang_049430.s`. Vigesimonovena wave de `gen_asm_region.py`.
 > Nombres en `docs/waves/llll_names.txt`, args en `docs/waves/llll_args.txt`.
 >
 > * POW colgado de la cuerda: `PowHang_SpawnVariants_04954a` (amplitudes
@@ -467,12 +467,12 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   punteros) + `HumanDeath_StateTblPtrs_049faa`,
 >   `HumanDeath_HitCheckUnlessCutscene_049fba`.
 > * Promovida la etiqueta interior `PowItem_Toss_048ba0__L048bca` en
->   `pow_helpers_048axx.s`. Cierra el bloque `$0478FC..$04BB8E`.
+>   `pow/helpers_048a44.s`. Cierra el bloque `$0478FC..$04BB8E`.
 > * Matcher: 5504/5504, 319,728 B, 15.25 %; código real 54.6 %.
 
 > **Wave KKKK** (42 entradas, 6 990 B; 3 `--data` para tablas de sprites
 > y punteros, 4 `--entry`; parche del generador) — `$049FF2..$04BB8E` en
-> `human_death_049fxx.s`. Vigesimoctava wave de `gen_asm_region.py`.
+> `pow/human_death_049ff2.s`. Vigesimoctava wave de `gen_asm_region.py`.
 > Nombres en `docs/waves/kkkk_names.txt`, args en `docs/waves/kkkk_args.txt`.
 >
 > * Módulo compartido de muerte de humanos (lo llaman las colas de estado
@@ -493,7 +493,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave JJJJ** (45 entradas, 2 242 B, verde a la primera; 3 `--entry`
 > para entradas fusionadas en el regen) — `$048A44..$049430` en
-> `pow_helpers_048axx.s`. Vigesimoséptima wave de `gen_asm_region.py`.
+> `pow/helpers_048a44.s`. Vigesimoséptima wave de `gen_asm_region.py`.
 > Nombres en `docs/waves/jjjj_names.txt`, args en `docs/waves/jjjj_args.txt`.
 >
 > * Helpers pc-relativos del POW: colas de estado comunes
@@ -512,7 +512,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave IIII** (42 entradas, 4 416 B, verde a la primera; 3 `--entry`
 > para funciones solo alcanzadas por el índice de templates) —
-> `$0478FC..$048A3C` en `pow_prisoner_0478xx.s`. Vigesimosexta wave de
+> `$0478FC..$048A3C` en `pow/prisoner_0478fc.s`. Vigesimosexta wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/iiii_names.txt`, args en
 > `docs/waves/iiii_args.txt`.
 >
@@ -530,7 +530,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   1212 / 241,800 B.
 
 > **Wave HHHH** (20 entradas, 1 316 B, verde a la primera) —
-> `$0539F0..$053F96` en `props_helpers_0539xx.s`. Vigesimoquinta wave de
+> `$0539F0..$053F96` en `props/helpers_0539f0.s`. Vigesimoquinta wave de
 > `gen_asm_region.py`. Nombres en `docs/waves/hhhh_names.txt`.
 >
 > * Helpers pc-relativos de la Wave GGGG: trampa de fuego
@@ -545,7 +545,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   1213 / 246,216 B.
 
 > **Wave GGGG** (27 entradas, 4 648 B, verde tras parchear el generador)
-> — `$0527BA..$0539E2` en `props_destructible_0527xx.s`. Vigesimocuarta
+> — `$0527BA..$0539E2` en `props/destructible_0527ba.s`. Vigesimocuarta
 > wave de `gen_asm_region.py`. Nombres en `docs/waves/gggg_names.txt`.
 >
 > * **Generador**: `move.l #imm8,dN` ($203C) se emite como `.dc.w` crudo
@@ -569,7 +569,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   1225 / 247,532 B.
 
 > **Wave FFFF** (38 entradas, 4 214 B, verde tras 2 bloques de datos +
-> 3 `--entry`) — `$056ACC..$057D04` en `soldier_helpers_056axx.s`.
+> 3 `--entry`) — `$056ACC..$057D04` en `enemies/soldiers/helpers_056acc.s`.
 > Vigesimotercera wave de `gen_asm_region.py`. Nombres y args en
 > `docs/waves/ffff_*.txt`.
 >
@@ -594,7 +594,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   1226 / 252,180 B.
 
 > **Wave EEEE** (54 entradas, 5 694 B, verde a la primera) —
-> `$057D04..$059342` en `soldier_states_057dxx.s`. Vigesimosegunda wave de
+> `$057D04..$059342` en `enemies/soldiers/states_057d04.s`. Vigesimosegunda wave de
 > `gen_asm_region.py`. Nombres y args en `docs/waves/eeee_*.txt`
 > (`--data 0x58DF8-0x58E08 --entry 0x57F4E`).
 >
@@ -617,7 +617,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   1245 / 256,394 B.
 
 > **Wave DDDD** (9 entradas, 8 084 B, verde tras parchear el generador) —
-> `$05AA96..$05CA2A` en `sprite_queue_render_05aaxx.s`. Vigesimoprimera
+> `$05AA96..$05CA2A` en `video/sprite_queue_render_05aa96.s`. Vigesimoprimera
 > wave de `gen_asm_region.py`. Nombres y args en `docs/waves/dddd_*.txt`.
 >
 > * **Generador**: `pcrel_target` ahora devuelve la base de
@@ -637,7 +637,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >
 > **Wave CCCC** (70 entradas, 11 812 B, verde a la tercera: dos tablas
 > de 5 punteros `$2AE90/$2AEE4` + 8 B `$2C900` delante de código) —
-> `$02AE3E..$02DD20` en `slug_states_02aexx.s` (7 bloques de datos).
+> `$02AE3E..$02DD20` en `slug/states_02ae3e.s` (7 bloques de datos).
 > Vigésima wave de `gen_asm_region.py`. Nombres y args en
 > `docs/waves/cccc_*.txt`. **Cierra el módulo del Slug `$0295A6..$030602`.**
 >
@@ -662,7 +662,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Cabecera A-F documentada. Siguiente: `$05AA96..$05CA2A`.
 >
 > **Wave BBBB** (113 entradas, 5 846 B, verde a la primera) —
-> `$0295A6..$02AE3E` en `slug_helpers_0295xx.s` (29 tablas de hitbox/anim
+> `$0295A6..$02AE3E` en `slug/helpers_0295a6.s` (29 tablas de hitbox/anim
 > `$295B4..$2A0F8`, tablas de punteros `$2A024`/`$2A060`, 5 bloques
 > menores). Decimonovena wave de `gen_asm_region.py`. Nombres y args en
 > `docs/waves/bbbb_*.txt`.
@@ -680,7 +680,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >
 > **Wave AAAA** (96 entradas, 8 788 B, verde a la segunda: dos pares de
 > punteros `$29DAxx` delante de `$31C72/$31D26`) — `$030602..$032A02` en
-> `player_tables_fx_0306xx.s` (absorbe los RTS de 14 islas C; 44 bloques
+> `player/tables_fx_030696.s` (absorbe los RTS de 14 islas C; 44 bloques
 > de datos). Decimoctava wave de `gen_asm_region.py`. Nombres y args en
 > `docs/waves/aaaa_*.txt`.
 >
@@ -711,7 +711,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `Chain3_LinkCmpField82`, `Chain3_LinksYDeltaIsStep`, `Entity_CmpDepthWithLink8(B)`.
 
 > **Wave ZZZ** (63 entradas, 10 258 B, verde a la segunda: `$02F886` era
-> datos) — `$02DD20..$030602` en `slug_vehicle_02ddxx.s` (absorbe 7 islas
+> datos) — `$02DD20..$030602` en `slug/vehicle_02dd20.s` (absorbe 7 islas
 > CCR). Decimoseptima wave de `gen_asm_region.py`.
 >
 > * **Maquina de estados del SV-001** (slot `$100580`): `Slug_IdleEnterA/B/C`,
@@ -738,7 +738,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `Slug_ClampField92(_ClearXN)`, `Entity_CmpField10WithLink8_02ffe6(_SetXN)`.
 
 > **Wave YYY** (82 entradas, 5 230 B, verde a la primera) —
-> `$03C62A..$03DA98` en `player_fire_shells_03c6xx.s` (absorbe
+> `$03C62A..$03DA98` en `player/fire_shells_03c62a.s` (absorbe
 > `JsrAbsThunk_03c62a/03c8d0`). Decimosexta wave de `gen_asm_region.py`.
 >
 > * **Spawners de proyectil por arma** `PlayerFire_<arma>_<dir>`: Pistol
@@ -755,7 +755,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * 3 handlers de brazo residuales: `PlayerArm_SlugRideA/B`, `PlayerArm_Fall2`.
 
 > **Wave XXX** (152 entradas, 8 224 B, verde a la primera, region sin
-> islas) — `$03A60A..$03C62A` en `player_arm_air_death_crouch_03a6xx.s`.
+> islas) — `$03A60A..$03C62A` en `player/arm_air_death_crouch_03a60a.s`.
 > Decimoquinta wave de `gen_asm_region.py`.
 >
 > * Los 47 handlers de brazo/arma `PlayerArm_*` restantes: aire
@@ -772,7 +772,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave WWW** (125 entradas, 7 270 B de codigo + 47 bloques de datos,
 > verde a la primera) — region `$0388F0..$03A60A` en
-> `player_arm_weapon_fx_0388xx.s` (absorbe 24 islas C espurias).
+> `player/arm_weapon_fx_0388f0.s` (absorbe 24 islas C espurias).
 > Decimocuarta wave de `gen_asm_region.py`.
 >
 > * **Agachado** (cierre de VVV): `Player_CrouchThrowGrenade_0388f0`,
@@ -793,7 +793,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * Resto de handlers de brazo (`$3A60A..$3C6C4`) -> siguiente wave.
 
 > **Wave VVV** (39 entradas, 8 466 B, verde a la primera) — region
-> `$036632..$0388F0` en `player_air_death_crouch_0366xx.s` (22 huecos;
+> `$036632..$0388F0` en `player/air_death_crouch_036632.s` (22 huecos;
 > absorbe 23 islas C espurias). Decimotercera wave de `gen_asm_region.py`.
 >
 > * **Aire**: `Player_JumpStart_036914` (anim $25/$26, vel Y $9CD, +$90 =
@@ -815,7 +815,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `Player_SpawnLand_Reset_033ede`, `Player_RideSlug_Frame_03652e`.
 
 > **Wave UUU** (36 entradas, 9 050 B, verde a la primera) — region
-> `$0342C4..$036632` en `player_states_0342xx.s` (4 huecos; absorbe las
+> `$0342C4..$036632` en `player/states_0342c4.s` (4 huecos; absorbe las
 > islas C `JsrPcThunk_034d2c/0354ec` y `SetTaskHandler_034b30`, que eran
 > colas internas). Duodecima wave de `tools/gen_asm_region.py`.
 >
@@ -836,7 +836,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * 4 cuerpos sin xrefs ($034438, $0344F2, `_Alt_0358aa`, `_Alt_035a0a`).
 
 > **Wave TTT** (66 entradas, 5 354 B, verde a la primera) — region
-> `$032A02..$0342C4` en `player_core_032axx.s` (38 huecos, 3 tablas
+> `$032A02..$0342C4` en `player/core_032aa8.s` (38 huecos, 3 tablas
 > `--data`, 1 `--entry`). Undecima wave de `tools/gen_asm_region.py`.
 >
 > * **Nucleo del jugador**: slots `$100440`/`$1004E0`; campos +$71 arma,
@@ -864,12 +864,12 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   $37B00`), `PlayerStateLUT_03349A`. Correcciones: tamano real de
 >   `PlayerRoute_PublishState_033522` (80 B), defsym `Probe_Bit3At100001_End`
 >   -> `Player_DeathGate_0334c6`.
-> * Extra: isla **PAUSE** `$013D20..$013D6A` (`fix_pause_text_013d20.s`) y
+> * Extra: isla **PAUSE** `$013D20..$013D6A` (`video/fix_pause_text_013d20.s`) y
 >   mapa curado de zonas en `tools/measure_coverage.py --zones` /
 >   `docs/COVERAGE.md` (codigo real cubierto 31.8 %).
 
 > **Wave SSS** (23 entradas, 2 546 B, verde a la primera) — region
-> `$18D152..$18DB78` en `player_grenade_18d1xx.s` (2 huecos, 5 tablas
+> `$18D152..$18DB78` en `player/grenade_18d152.s` (2 huecos, 5 tablas
 > `--data`, 8 `--entry`). Decima wave de `tools/gen_asm_region.py`.
 >
 > * Es el **unico bloque de codigo del banco alto** (archivo `$18Dxxx` =
@@ -893,7 +893,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   reales (`jsr X.l; rts` finales); eliminadas de los .c y del registro.
 
 > **Wave RRR** (96 entradas, 9 196 B, verde a la primera) — region
-> `$09A0BC..$09C608` en `items_score_crates_09a0xx.s` (28 huecos, 6 tablas
+> `$09A0BC..$09C608` en `props/items_score_crates_09a0bc.s` (28 huecos, 6 tablas
 > `--data`, 5 `--entry`). Novena wave de `tools/gen_asm_region.py`.
 >
 > * **Gun_***: cañon orientable (angulo 8.8 en +$70, mapas por octante
@@ -914,7 +914,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   **Thrown_*** (sombras a 3/8 y 3/4) y **Flag_Init** (`$10A2D1`).
 
 > **Wave QQQ** (125 entradas, 9 252 B, verde a la primera) — region
-> `$09773C..$099F3A` en `hiscore_memcard_mobs_0977xx.s` (96 huecos
+> `$09773C..$099F3A` en `frontend/hiscore_memcard_options_09773c.s` (96 huecos
 > cerrados, 2 tablas `--data`). Octava wave de `tools/gen_asm_region.py`.
 >
 > * **HiScore / NameEntry**: tabla de ranking en `$100002` (10 x 12 B:
@@ -948,7 +948,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$096BBC..$097730` (listas de spawn) identificadas como datos.
 
 > **Wave PPP** (92 entradas, 7 678 B, verde a la primera) — region
-> `$08F6D2..$0916B8` en `gameover_continue_08f6xx.s` (50 huecos cerrados,
+> `$08F6D2..$0916B8` en `mission/gameover_continue_08f6d2.s` (50 huecos cerrados,
 > 19 `--entry`). Septima wave de `tools/gen_asm_region.py`.
 >
 > * **Mascaras de slot y anclas** (`PlayerSlot_*`, `Anchor_*`): +$96/+$97
@@ -977,7 +977,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * 18 defsyms promovidos; +17 RTS mid-isla; 32 call-sites renombrados.
 
 > **Wave OOO** (84 entradas, 3 980 B, verde a la primera) — region
-> `$08E4E4..$08F6D2` en `critters_rings_08e4xx.s` (54 huecos cerrados).
+> `$08E4E4..$08F6D2` en `enemies/critters_rings_08e4e6.s` (54 huecos cerrados).
 > Sexta wave de `tools/gen_asm_region.py` (5 `--entry`); fix del generador:
 > `moveq #$FF` se emite con signo (`#-1`), GAS rechazaba el inmediato.
 >
@@ -1011,7 +1011,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   renombrado a `Rings_InitAll_08f158` (no era audio).
 
 > **Wave NNN** (80 entradas, 4 442 B, verde a la primera) — region
-> `$08D17A..$08E4E4` en `grunts_capsule_08d1xx.s` (67 huecos cerrados).
+> `$08D17A..$08E4E4` en `enemies/soldiers/grunts_capsule_08d184.s` (67 huecos cerrados).
 > Quinta wave de `tools/gen_asm_region.py`; nuevo `tools/wave_apply.py`
 > aplica la salida del generador a `registry.py`/`symbols.py` y produce la
 > lista de renombres para los call-sites.
@@ -1038,7 +1038,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * 22 defsyms promovidos; +15 RTS mid-isla.
 
 > **Wave MMM** (67 entradas, 4 990 B, verde a la primera) — region
-> heterogenea `$08BA04..$08D17A` en `cutscene_anim_08baxx.s` (39 huecos
+> heterogenea `$08BA04..$08D17A` en `mission/cutscene_anim_08ba0c.s` (39 huecos
 > cerrados). Cuarta wave de `tools/gen_asm_region.py` (3 tablas `--data`,
 > 2 `--entry`); fix del generador: los labels promovidos a globales por
 > referencias desde otro hueco se usan tambien desde su propia entrada.
@@ -1072,7 +1072,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave LLL** (98 entradas, 10 690 B, verde a la primera) — **cluster de la
 > escena 5**: cierra los 43 huecos de la region `$088A56..$08BA00` en
-> `scene5_airship_088axx.s`. Tercera wave de `tools/gen_asm_region.py`
+> `enemies/bosses/scene5_airship_088a64.s`. Tercera wave de `tools/gen_asm_region.py`
 > (92 entradas automaticas + 6 fronteras `--entry` + primera tabla de datos
 > embebida con `--data 08B944-08B9A2`), analizada semanticamente a mano.
 >
@@ -1115,7 +1115,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave KKK** (84 entradas, 9 334 B, verde a la primera) — **cluster de la
 > fortaleza de la escena 4**: cierra los 6 huecos de la region
-> `$0865BE..$088A56` en `fort_scene4_0865xx.s`. Segunda wave producida con
+> `$0865BE..$088A56` en `enemies/bosses/fort_scene4_0865be.s`. Segunda wave producida con
 > `tools/gen_asm_region.py` (79 entradas automaticas + 5 fronteras forzadas
 > con `--entry` para separar las variantes `Fort_Init_V1..V4` y
 > `Heli_InitTmpl`), analizada semanticamente a mano.
@@ -1168,7 +1168,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > **Wave JJJ** (65 entradas, 4 742 B, verde a la primera) — **entidades de
 > la Mision 4 + helpers de spawn del boss de la Mision 3**: cierra los 33
 > huecos de la region `$08512C..$0865BE` en
-> `m4_carrier_boss_helpers_0851xx.s`. Primera wave producida con el nuevo
+> `enemies/bosses/m4_carrier_boss_helpers_085134.s`. Primera wave producida con el nuevo
 > `tools/gen_asm_region.py` (borrador byte-exacto 65/65 a la primera) y
 > analizada semanticamente a mano encima.
 >
@@ -1206,7 +1206,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave III** (22 entradas, 2 192 B, verde a la primera) — **escuadron de
 > rescate y ciclo de vuelo**: cierra los 12 huecos de la region
-> `$084836..$08512C` en `rescue_squad_0848xx.s`.
+> `$084836..$08512C` en `enemies/squad/rescue_squad_084836.s`.
 >
 > * **Pasos del escuadron** (`$84836..$8492A`): snd `$A9`, sprites de la
 >   tabla `$2E77CA[(+0x21<<1)<<2]` con centinela `$FFFFFFFF`, sincronia
@@ -1239,7 +1239,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave HHH** (28 entradas, 3 110 B, verde a la primera) — **fases finales
 > del miniboss y transiciones de oleada**: cierra los 5 huecos de la region
-> `$083BE2..$084828` en `miniboss_finale_083bxx.s`, continuacion directa
+> `$083BE2..$084828` en `enemies/bosses/miniboss_finale_083be2.s`, continuacion directa
 > del modulo del Wave GGG.
 >
 > * **Entradas dobles con jingle** (`$83BE2..$83D6E`): snd `$166`/`$AA`
@@ -1276,7 +1276,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave GGG** (24 entradas, 2 374 B, verde a la primera) — **modulo de
 > miniboss con secuencia de estados**: cierra los 6 huecos de la region
-> `$083262..$083BDA` en `miniboss_module_0832xx.s`. Con esta wave el
+> `$083262..$083BDA` en `enemies/bosses/miniboss_module_083262.s`. Con esta wave el
 > proyecto **cruza el 6% de la P ROM**.
 >
 > * **Helpers cortos** (`$83262..$832E0`): montaje de par
@@ -1308,12 +1308,12 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave FFF** (36 entradas, 2 456 B, verde a la primera) — **helpers y
 > handlers de escape del escuadron paracaidista**: cierra los 17 huecos
-> de la region `$08283C..$08325A` en `para_squad_helpers_082cxx.s`,
+> de la region `$08283C..$08325A` en `enemies/squad/para_squad_helpers_08283c.s`,
 > completando todo el modulo del escuadron iniciado en Waves EEE.
 >
 > * **Continuacion del escape** (`$8283C..$82924`): `TaskHandler_08283c`
 >   retorna a la cola de frame del modulo EEE via `bra.w` cross-file —
->   se promovio el label local `.L827fe` de `para_squad_module_0818xx.s`
+>   se promovio el label local `.L827fe` de `enemies/squad/para_squad_module_081816.s`
 >   a global `ParaSquad_FrameTail_0827fe`. `TaskHandler_082884` spawnea
 >   la pieza `$77E10`; `$828D2` marca `+0x48=-1` y encadena con
 >   `jmp TaskHandler_056204`; `TaskHandler_0828ee` es el hijo (snd `$193`,
@@ -1344,7 +1344,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 
 > **Wave EEE** (23 entradas, 3 862 B, verde a la primera) — **modulo de
 > escuadron con lider movil** (transporte + tropas): cierra los 23 huecos
-> de la region `$081816..$082834` en `para_squad_module_0818xx.s`.
+> de la region `$081816..$082834` en `enemies/squad/para_squad_module_081816.s`.
 >
 > * **`TaskHandler_081908`** (924 B, la entrada mas grande de la wave):
 >   el lider — spawnea escolta + 2 piezas + 6 hijos en cadena (heredando
@@ -1370,7 +1370,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >
 > **Wave DDD** (29 entradas, 4 102 B, verde a la primera) — **los handlers
 > de muerte y escape del modulo "Squad Deploy"**: cierra los 23 huecos de
-> la region `$080736..$08180E` en `squad_death_handlers_0807xx.s`; junto
+> la region `$080736..$08180E` en `enemies/squad/death_handlers_080736.s`; junto
 > con Wave CCC, toda la region `$07FBD2..$08180E` queda 100% decompilada.
 >
 > * **Tabla de despacho de muerte a 2 niveles** en `$2E3DC0` (8 punteros
@@ -1399,7 +1399,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > **Wave CCC** (23 entradas, 2 714 B, verde a la primera) — **el modulo
 > "Squad Deploy"**: comandante que despliega un escuadron de hasta 8
 > soldados con gestion de slots por bitmask. Cierra los 23 huecos de la
-> region `$07FBD2..$08072E` en `squad_deploy_module_07fbxx.s`; la cadena
+> region `$07FBD2..$08072E` en `enemies/squad/deploy_module_07fbd2.s`; la cadena
 > de handlers tejida a traves de las 26 islas `SetTaskHandler_*`/`SetC_*`/
 > `ClearC_*`/`SetTaskW_*` ya matcheadas en C queda completa.
 >
@@ -1431,7 +1431,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > **Wave BBB** (27 entradas, 916 B, verde a la primera) — **las tablas
 > de angulo de punteria + el backend de lectura de input**: cierra
 > ENTERO el hueco `$05D316..$05D6AA` entre `ClearXN_05d310` y
-> `JsrPcThunk_05d6aa` en `input_aim_tables_05d316.s`.
+> `JsrPcThunk_05d6aa` en `input/aim_tables_05d316.s`.
 >
 > * **19 `AimAngleTable_*`** (32 B c/u): las "arrays tables" reales que
 >   consume `Ent_AimUpdate_045022`/`Ent_AimInit_045412` (Wave XX) —
@@ -1463,7 +1463,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > STREAMS DE BYTECODE DE LA MISSION VM**: el mayor salto de cobertura
 > del proyecto (+65 % de los bytes matcheados en una sola wave, de
 > 3.18 % a 5.27 % de la ROM). Es la region contigua `$0E8524..$0F2FFC`
-> en un solo archivo `mission_streams_0e8524.s`: **todos los datos de
+> en un solo archivo `data/mission_streams_0e8524.s`: **todos los datos de
 > eventos de mision del juego** — que enemigo aparece, donde y cuando,
 > en las 6 misiones.
 >
@@ -1501,7 +1501,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `BannerLayout_StartFinal_07AF50` 830 B, `BannerLayout_Complete_07B28E`
 > 778 B, `BannerLayout_Start_07ACD0` 640 B). Rellena LOS 9 huecos del
 > cluster `$07A970..$07BA28` en un solo archivo
-> `banner_mission_07a970.s`:
+> `mission/banner_07a970.s`:
 >
 > * Las letras del rotulo **caen una a una desde arriba**: cada layout
 >   es una secuencia lineal de spawns via el scheduler `$4AE` — una
@@ -1530,7 +1530,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > Enemy46**. Rellena los 6 primeros huecos tras el megabloque
 > (`$04580C..$046258`). Dos archivos:
 >
-> 1. `turret_boss2_04580c.s` (26 entradas, 1 788 B) — la **torreta**
+> 1. `enemies/vehicles/turret_boss2_04580c.s` (26 entradas, 1 788 B) — la **torreta**
 >    que dispara al ras del suelo con **5 inicializadores de direccion**
 >    (`Turret_InitDir0..4`, cada uno apuntando a su tabla de angulos
 >    `$2895x`) despachados por la jump-table de datos
@@ -1546,7 +1546,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >    `Miniboss2_HopKill_045EEA`). Hitbox del proyectil en
 >    `Boss2_HitboxTable_045DD4` (dato, 16 B, variante B en `$45DDC`).
 >
-> 2. `vehicle_deploy_045f2c.s` (15 entradas, 788 B) — **despliegue de
+> 2. `enemies/vehicles/deploy_045f2c.s` (15 entradas, 788 B) — **despliegue de
 >    vehiculo**: tabla de datos `VehicleAnim_Table_045F3A` (dos guiones
 >    de animacion de 80 B con cabeceras `0x03`/`0x04` y terminador
 >    `FFFF FFFF`), lanzamiento con calculo de angulo via `$13C0E`
@@ -1569,7 +1569,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `$04422A..$045806`, soldando el megabloque contiguo
 > **`$040EF2..$045806` (~18.7 KB sin cortes)**. Tres archivos:
 >
-> 1. `mission_event_vm_04422a.s` (33 entradas, 1 536 B) — la VM de
+> 1. `mission/event_vm_04422a.s` (33 entradas, 1 536 B) — la VM de
 >    eventos de mision: cada escena tiene un stream de bytecode (tabla
 >    de 14 punteros `$044266`, indexada por `$106ECE`, con override de
 >    debug a `$F260E` via `$10FD83`). `MissionDriver_Loop_044368`
@@ -1585,7 +1585,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >    `nop;nop;cmpi;nop;trap #15` tras cada fetch son **asserts de
 >    desarrollo de SNK** (op > `$0C` = stream corrupto) que quedaron
 >    compilados en la ROM final.
-> 2. `mission_spawn_boss_0448a6.s` (20 entradas, 1 684 B) —
+> 2. `mission/spawn_boss_0448a6.s` (20 entradas, 1 684 B) —
 >    `Spawn_FromStream_0448A6` materializa enemigos desde registros de
 >    18 B (flags de gate por dificultad via `$2AC6A`/`$106ED1`, XY
 >    relativo al scroll o absoluto, plantilla en la tabla `$E8000`,
@@ -1595,7 +1595,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >    `BossShot` de vel `$D000` + rand `$5DCA4` y timeout de 60 frames) y
 >    la montura del **miniboss** (attach por bits de `$6B/$8C`, ride con
 >    colision rect `$28C20` contra `Boss_HitboxTable_044D30`).
-> 3. `ent_aim_input_044f8a.s` (13 entradas, 2 136 B) — **el nucleo de la
+> 3. `input/entity_aim_input_044f8a.s` (13 entradas, 2 136 B) — **el nucleo de la
 >    punteria**: `Ent_AimUpdate_045022` (**1 008 B, la funcion mas
 >    grande de la wave**) resuelve el angulo objetivo segun el arma
 >    `$106F2A` via las tablas de angulos `$5D326..$5D546` — HMG por
@@ -1717,7 +1717,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > 84 B + helper `Entity_MirrorDeltaByFacing_065D32` 12 B). Promueve 4
 > `PcThunkTarget_*` de `tools/symbols.py` (`072c98`, `0798ac`, `06896a`,
 > `065c94`) a definicion canonica; actualiza los 8 thunks correspondientes
-> en `src/jsr_pc_thunks.c`. Ver `CHANGELOG.md` para el resumen en ingles y
+> en `src/thunks/jsr_pc_thunks.c`. Ver `CHANGELOG.md` para el resumen en ingles y
 > los `.s` individuales para el analisis campo-a-campo completo.
 
 > Toolchain reproducido con **m68k-linux-gnu-gcc 14.2.0** (Debian trixie) sin
@@ -1815,7 +1815,7 @@ proyecto: con `$0422EA..$0434C2` matcheado, **todo `$040EF2..$0434C2`
 ASM TT/UU/VV. Eran 11 fragmentos entre 13 islas C (SetTaskW/
 SetTaskHandler/JsrAbsThunk/CCR helpers).
 
-**Parte 1 (`melee_guard_cluster_0422xx.s`, 24 fn, 1 516 B):** cuatro
+**Parte 1 (`enemies/soldiers/melee_guard_0422ea.s`, 24 fn, 1 516 B):** cuatro
 spawners que crean hijos con los handlers de Wave UU (DropPair con
 offset `indice*32-64`, FxChild con handler externo `$78042`,
 GlideAttacker con sfx `$109B`, FinalPoseChild que hereda velocidad);
@@ -1831,7 +1831,7 @@ sentinela `$FFFF`) y 5 estados con cola comun `TailDespawn`. Los
 estados Approach/Retreat usan `bsr.w TailDespawn + rts` donde el resto
 usa `bra.w`: dos plantillas de cola conviviendo.
 
-**Parte 2 (`charger_states_0429xx.s`, 12 fn, 1 374 B):** el **Charger**.
+**Parte 2 (`enemies/soldiers/charger_states_04290c.s`, 12 fn, 1 374 B):** el **Charger**.
 Su Init (240 B) estrena el patron mas llamativo de la wave: el
 dispatcher de marcha esta TEJIDO a traves de cuatro islas
 `SetTaskHandler` consecutivas (`$429FC/$42A0C/$42A1A/$42A22`) — cada
@@ -1847,7 +1847,7 @@ distancia). Restos muertos: `bra.w .Lat_anim` en `$042BCC` y
 `moveq #0,d0` en `$042C86`. El **Skirmisher** replica el tracker
 tri-estado INLINE (sin helper) sobre `+0x70`.
 
-**Parte 3 (`heading16_cluster_042exx.s`, 5 entradas, 1 592 B):** set de
+**Parte 3 (`enemies/soldiers/heading16_042e8a.s`, 5 entradas, 1 592 B):** set de
 animaciones de **16 rumbos** (22.5 grados): 1 332 B de datos SIN header
 `$0900` (frames puros `{dur,attr,tile,$FFFF}`, diagonales con attr
 `$0209` = flip), cada tabla loopeando a la IDLE comun `$43354`, que
@@ -1882,7 +1882,7 @@ entre `Jsr5B6ThenJmpScheduler_040ef2` (el handler de muerte, C) y el
 arranque de Wave TT en `$041C1A`. Con esto, **todo `$040EF2..$0422E4`
 (5,1 KiB contiguos) esta decompilado**. Verde a la primera pasada.
 
-**Parte 1 — `asm/squad_member_states_040fxx.s`** (13 fn, 1 268 B): la
+**Parte 1 — `asm/enemies/squad/member_states_040f00.s`** (13 fn, 1 268 B): la
 maquina de estados de los 8 miembros creados por `Squad_SpawnEight`:
 
 | Funcion | Dir | B | Rol |
@@ -1901,7 +1901,7 @@ maquina de estados de los 8 miembros creados por `Squad_SpawnEight`:
 | `SquadMember_AlignHeadingB_041328` | $041328 | 98 | clon B (pose 8); 2a entrada `KeepPose_04132E` |
 | `SquadMember_PoseFromHeadingB_041390` | $041390 | 114 | clon B (tabla `$2861A4`) — **PAR DE CLONES #12** |
 
-**Parte 2 — `asm/squad_children_handlers_0414xx.s`** (18 fn, 1 970 B):
+**Parte 2 — `asm/enemies/squad/children_handlers_041408.s`** (18 fn, 1 970 B):
 
 | Funcion | Dir | B | Rol |
 |---|---|---|---|
@@ -1961,7 +1961,7 @@ completo de los enjambres voladores en formacion. **Verde a la primera
 pasada del matcher** (record del proyecto para una oleada >1,6 KiB),
 gracias a la verificacion previa de encodings introducida en Wave SS.
 
-**Parte 1 — `asm/squad_wave_motion_041cxx.s` (20 funciones, 824 B):**
+**Parte 1 — `asm/enemies/squad/wave_motion_041c1a.s` (20 funciones, 824 B):**
 
 | # | Símbolo | Dirección | Bytes | Descripción |
 |---|---------|-----------|-------|-------------|
@@ -1981,7 +1981,7 @@ gracias a la verificacion previa de encodings introducida en Wave SS.
 | 19 | `Squad_PhaseStepToTarget_041F48` | `$041F48` | 48 | Heading → objetivo con paso ±4 o ±1 (**2 entradas**: `$041F48/$041F50`), modulo 256, CCR via islas |
 | 20 | `Squad_ApplyLeaderDelta_041F84` | `$041F84` | 48 | Integra deltas s8 del registro de miembro (+bob del lider `+0x8E`) y hereda `+0x7C` |
 
-**Parte 2 — `asm/squad_spawn_states_041fxx.s` (12 funciones, 810 B):**
+**Parte 2 — `asm/enemies/squad/spawn_states_041fb4.s` (12 funciones, 810 B):**
 
 | # | Símbolo | Dirección | Bytes | Descripción |
 |---|---------|-----------|-------|-------------|
@@ -2709,7 +2709,7 @@ de "helper corto con muchos callers" ideal para cierre de oleada.
 2. **Contador de callers de `$5DA9C` sube a 6+**: los thunks Wave I ya
    contabilizaban `JsrAbsThunk_05dbf8` y `JsrAbsThunk_09813c` (2 usos),
    más los 4 usos internos de FixLayer_QuadBatch, más los 12 usos ya
-   identificados en Wave CC batch 2 (fix_blit_batch_046b20.s). Total
+   identificados en Wave CC batch 2 (video/fix_blit_batch_046b20.s). Total
    ~18 callers → `$5DA9C` es el backend fill-tilemap CANÓNICO del Fix
    Layer del proyecto. Excelente candidato para Wave II próxima oleada.
 
@@ -2890,7 +2890,7 @@ segunda copia (ambos con MD5 `b6804bc6...`) — ambos re-generados por
 ### Wave FF en detalle (batch 1)
 
 Cierra el cluster attract/title `$001260..$001AF7` iniciado en Wave EE.
-9 handlers en un solo fichero `asm/attract_cluster_batch_ff.s` porque
+9 handlers en un solo fichero `asm/boot/attract_bios_init_001744.s` porque
 todos comparten firma arquitectonica (registrados en la tabla de
 descriptores `$000BA2..$000E8A`).
 
@@ -2920,7 +2920,7 @@ descriptores `$000BA2..$000E8A`).
 
 3. **Handler `$001846` es el "gate del gameplay start"**: sus 12 refs de tabla y su logica (activar handler `$2575C/$25766` cuando el slot P1/P2 alcanza `$400`) sugieren que es donde se decide el "P1 press start" -> spawn player. Combinado con los flags `$10FDB6/B7` (Wave BB1) y el analisis dual en EE#3 rama post-Start, tenemos la ruta completa Start-button → attract-exit → gameplay-enter.
 
-4. **Renombrado `Label_00188A → Attract_WaitStateBackbone_00188A`** propagado a `symbols.py` (1 entrada) y a `asm/dispatcher_mode_table_001922.s` (13 usos). Consolidacion natural que refleja el hallazgo arquitectonico.
+4. **Renombrado `Label_00188A → Attract_WaitStateBackbone_00188A`** propagado a `symbols.py` (1 entrada) y a `asm/boot/dispatcher_mode_table_001922.s` (13 usos). Consolidacion natural que refleja el hallazgo arquitectonico.
 
 5. **`Attract_InitShow27_TaskAdd` (FF#3) es el primer caller no-thunk registrado de `InputGuardCall219c` (Wave A#4).** Confirma que la funcion Wave A que hasta ahora solo tenia callers desde thunks (Waves H/I) es realmente parte del pipeline de arranque del subsistema attract. El opcode `$27` sera un dato a rastrear en waves futuras.
 
@@ -3544,7 +3544,7 @@ contiene grandes bloques de ensamblador 68000 escrito a mano. Evidencias:
   (`EntityGroup_SpawnLinkedFromTemplateList_065C94` 84 B + helper
   `Entity_MirrorDeltaByFacing_065D32` 12 B). Promueve 4 `PcThunkTarget_*`
   de `tools/symbols.py` a definición canónica; actualiza los 8 thunks
-  correspondientes en `src/jsr_pc_thunks.c`.
+  correspondientes en `src/thunks/jsr_pc_thunks.c`.
 
   Dos fixes iterativos hasta verde: (1) case-sensitivity de GAS —
   `ClearXN_065D44`/`ClearXN_0689E0` (mayúsculas, como sugiere la dirección)
@@ -3561,7 +3561,7 @@ contiene grandes bloques de ensamblador 68000 escrito a mano. Evidencias:
   vía `scripts/setup.sh` (MD5 `816b3f74c76b3373993407615f1850fe`),
   reinstalando el toolchain m68k y las dependencias Python, y
   reconstruyendo los 5 `.s` + los cambios de `registry.py`/`symbols.py`/
-  `src/jsr_pc_thunks.c` a partir del análisis ya completado antes de la
+  `src/thunks/jsr_pc_thunks.c` a partir del análisis ya completado antes de la
   interrupción.
 
   Estado tras RR: **3 134 / 3 134, 42 190 B, 2.0118 % ROM total**.
@@ -4014,7 +4014,7 @@ contiene grandes bloques de ensamblador 68000 escrito a mano. Evidencias:
   `--register-prefix-optional` rechaza (como `abcd -(a2),-(a1)`) se
   emiten con `.byte` literal (misma técnica que `jsr (pc,d7.w,$34)`
   de Z1#1). **Récord absoluto de absorciones en una oleada**: 10 FPs
-  cerrados en batch 2 (16°-25° del proyecto, mayoría `ccr_helpers.c`
+  cerrados en batch 2 (16°-25° del proyecto, mayoría `thunks/ccr_helpers.c`
   del cluster probe/revert). Cadena semántica "hit → score+10 → spawn
   tagged entity" reconstruida en Z2#14 → Z2#7. Fix del flujo en
   `Handler_TimerAndReplace_001BCC` (Z2#13): `bne.w` de low-nibble salta

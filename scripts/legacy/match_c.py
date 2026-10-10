@@ -36,7 +36,7 @@ CFLAGS = [
 
 # Flags extra por unidad de compilación (basename del .c)
 PER_FILE_CFLAGS = {
-    "reset_irq_callback.c": ["-mpcrel"],
+    "bios/reset_irq_callback.c": ["-mpcrel"],
 }
 
 def sh(cmd, **kw):

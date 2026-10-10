@@ -1,6 +1,6 @@
 # 01 — Vidas iniciales fijas
 
-**Dónde**: `asm/hud_inputrec_entity_move_024fb8.s`, funciones `HUD_Task_Init_025706`
+**Dónde**: `asm/entity/hud_inputrec_entity_move_024e1c.s`, funciones `HUD_Task_Init_025706`
 (y la copia dentro de `PlayerSlotDesc_P2Rows_025588`, offset +$128). Leen el
 soft-DIP de vidas `$10FD88` (`lea $10FD84,a3 ; move.b 4(a3),d1 ; move.b d1,$77(a6)`).
 
@@ -16,6 +16,6 @@ Captura: `docs/images/lives_patch_demo.png`.
 
 Variante manual con sed:
 ```bash
-sed -i 's/move\.b  0x4(a3),d1 /move.b  #0x9,d1    /' asm/hud_inputrec_entity_move_024fb8.s
+sed -i 's/move\.b  0x4(a3),d1 /move.b  #0x9,d1    /' asm/entity/hud_inputrec_entity_move_024e1c.s
 bash scripts/rebuild_rom.sh --mod internal/mslug.zip
 ```

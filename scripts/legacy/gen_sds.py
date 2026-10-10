@@ -25,7 +25,7 @@ import os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "state_dispatch_stubs.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "kernel/state_dispatch_stubs.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 
 

@@ -25,7 +25,7 @@ from collections import Counter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "ccr_helpers.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "thunks/ccr_helpers.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 
 # Mapa: (op2_hex, imm) -> (nombre_semántico, asm_instr)

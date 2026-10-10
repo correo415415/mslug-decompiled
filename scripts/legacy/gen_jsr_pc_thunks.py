@@ -4,7 +4,7 @@ import os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "jsr_pc_thunks.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "thunks/jsr_pc_thunks.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 SYM  = os.path.join(ROOT, "decomp", "tools", "symbols.py")
 
@@ -53,7 +53,7 @@ def main():
     # Fragmento registry
     print("\n# Registry:")
     for a,t in hits:
-        print(f'    ("JsrPcThunk_{a:06x}", 0x{a:06X},  6, "jsr_pc_thunks.c"),')
+        print(f'    ("JsrPcThunk_{a:06x}", 0x{a:06X},  6, "thunks/jsr_pc_thunks.c"),')
     if new_targets:
         print("\n# Symbols nuevos:")
         for t in new_targets:

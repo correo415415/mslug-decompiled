@@ -67,18 +67,18 @@ Zonas DATA/SYSTEM/ZERO: **100 %** registradas como volcados estructurados
 
 | Wave | Rango | Modulo | Entradas |
 |---|---|---|---:|
-| KKKKK | `$002F30..$0133B0` | `sprite_tables_002f30.s` | 428 |
-| LLLLL | `$013D6A..` (huecos dispersos) | `sparse_tables_013d6a.s` | 322 |
-| MMMMM | `$09C608..$0E8000` | `anim_pal_spawn_data_09c608.s` | 959 |
-| NNNNN | `$0F2FFC..$118028` | `level_data_a_0f2ffc.s` | 4,499 |
-| OOOOO | `$118028..$140000` | `level_data_b_118028.s` | 1,190 |
-| PPPPP | `$140000..$16B035` | `level_data_c_140000.s` | 490 |
-| QQQQQ | `$16B035..$18D152` | `level_data_d_16b035.s` | 327 |
-| RRRRR | `$18DB78..$1B0000` | `anim_data_a_18db78.s` | 344 |
-| SSSSS | `$1B0000..$1D0000` | `anim_data_b_1b0000.s` | 328 |
-| TTTTT | `$1D0000..$1F8000` | `anim_data_c_1d0000.s` | 513 |
-| UUUUU | `$000000..$000400` + `$0001CA` | `neogeo_header_vectors_000000.s`, `entity_find_by_key4_0001ca.s` | 9 |
-| VVVVV | `$0E8000` (1,316 B) + `$1F8000..$200000` | `template_index_0e8000.s`, `rom_tail_fill_1f8000.s` | 5 |
+| KKKKK | `$002F30..$0133B0` | `data/sprite_tables_002f30.s` | 428 |
+| LLLLL | `$013D6A..` (huecos dispersos) | `data/sparse_tables_013d6a.s` | 322 |
+| MMMMM | `$09C608..$0E8000` | `data/anim_pal_spawn_09c608.s` | 959 |
+| NNNNN | `$0F2FFC..$118028` | `data/level_a_0f2ffc.s` | 4,499 |
+| OOOOO | `$118028..$140000` | `data/level_b_118028.s` | 1,190 |
+| PPPPP | `$140000..$16B035` | `data/level_c_140000.s` | 490 |
+| QQQQQ | `$16B035..$18D152` | `data/level_d_16b035.s` | 327 |
+| RRRRR | `$18DB78..$1B0000` | `data/anim_a_18db78.s` | 344 |
+| SSSSS | `$1B0000..$1D0000` | `data/anim_b_1b0000.s` | 328 |
+| TTTTT | `$1D0000..$1F8000` | `data/anim_c_1d0000.s` | 513 |
+| UUUUU | `$000000..$000400` + `$0001CA` | `boot/vectors_and_neogeo_header_000000.s`, `entity/find_by_key4_0001ca.s` | 9 |
+| VVVVV | `$0E8000` (1,316 B) + `$1F8000..$200000` | `data/template_index_0e8000.s`, `data/rom_tail_fill_1f8000.s` | 5 |
 
 Convenciones de los volcados: `Zero_` (runs de `$00` ≥ 32 B, `.fill`),
 `PtrTab_`/`.dc.l Simbolo` (longs que apuntan a entradas/simbolos conocidos),
@@ -110,120 +110,120 @@ paleta `$14E00`/`$1CE00`, soft-DIP `$1781F4`...).
 - **`$024E10..$05E000` (CODE, 234 KB)**: el nucleo del juego. Ya cubiertos:
   dispatcher Start `$24E38`, cluster probes `$27A92/$27C8C/$27CEE/$27D50`,
   fisica `$2783A`, sprite map `$28CD4`, dano `$2870A`, prioridades `$28134`,
-  camara `$06896A`.., `PlayerRoute_PublishState_033522`, Wave TTT (`player_core_032axx.s`,
+  camara `$06896A`.., `PlayerRoute_PublishState_033522`, Wave TTT (`player/core_032aa8.s`,
   `$032A02..$0342C4`: nucleo del jugador, tabla de 68 punteros `$3338A` ->
-  `$376xx..$37B00`), Wave UUU (`player_states_0342xx.s`, `$0342C4..$036632`:
+  `$376xx..$37B00`), Wave UUU (`player/states_0342c4.s`, `$0342C4..$036632`:
   Stand/Walk/Turn/Melee/Grenade/RideSlug), Wave VVV
-  (`player_air_death_crouch_0366xx.s`, `$036632..$0388F0`: salto, knockback,
+  (`player/air_death_crouch_036632.s`, `$036632..$0388F0`: salto, knockback,
   7 handlers de muerte de la tabla de 68, agachado/gateo), Wave WWW
-  (`player_arm_weapon_fx_0388xx.s`, `$0388F0..$03A60A`: acciones agachado,
+  (`player/arm_weapon_fx_0388f0.s`, `$0388F0..$03A60A`: acciones agachado,
   arma soltada, paracaidas, sensores de agachado, fx de muerte y el overlay
   de brazo/arma `PlayerArm_*` con 44 tablas de sprites), Wave XXX
-  (`player_arm_air_death_crouch_03a6xx.s`, `$03A60A..$03C62A`: los 47
+  (`player/arm_air_death_crouch_03a60a.s`, `$03A60A..$03C62A`: los 47
   handlers de brazo restantes + 105 tablas), Wave YYY
-  (`player_fire_shells_03c6xx.s`, `$03C62A..$03DA98`: spawners de proyectil
+  (`player/fire_shells_03c62a.s`, `$03C62A..$03DA98`: spawners de proyectil
   por arma `PlayerFire_*`, casquillos, brazo sobre el Slug), Wave ZZZ
-  (`slug_vehicle_02ddxx.s`, `$02DD20..$030602`: maquina de estados del
+  (`slug/vehicle_02dd20.s`, `$02DD20..$030602`: maquina de estados del
   SV-001 `Slug_*`, tabla de 80 punteros `$2E582`, dano/destruccion,
-  `Chain3_*`), Wave AAAA (`player_tables_fx_0306xx.s`, `$030602..$032A02`:
+  `Chain3_*`), Wave AAAA (`player/tables_fx_030696.s`, `$030602..$032A02`:
   granada del player, `EnemyShot_*`, `VehicleLaunch_*`, `Fx_*`,
   `PlayerIcon_*`, tablas estaticas `Player_Hitbox*`/`Player_*Tbl`), Wave BBBB
-  (`slug_helpers_0295xx.s`, `$0295A6..$02AE3E`: `Slug_Init/InitBoss`,
+  (`slug/helpers_0295a6.s`, `$0295A6..$02AE3E`: `Slug_Init/InitBoss`,
   hitboxes, 17 tablas de ataque, `Slug_StateByAnglePtrTbl`, sondas de
   terreno, fisica, input por layout, HP/gauge), Wave CCCC
-  (`slug_states_02aexx.s`, `$02AE3E..$02DD20`: spawn en paracaidas
+  (`slug/states_02ae3e.s`, `$02AE3E..$02DD20`: spawn en paracaidas
   `Slug_SpawnDrop/DropVariant0..4`, `Slug_IdleFlat/IdleSlope`, `Slug_Fire*`,
   `Slug_Jump*`, `Slug_Fall*`, `Slug_Hit*`, `Slug_Death*`), squads/charger `$040EF2..$0434C2`,
   `SceneLoader_Main $43568`, `SceneScriptVM $437DA`, `MissionDriver $4422A`,
   jefes `$044AFE`.., dispatcher multi-slot `$051914`. Pendientes grandes:
   `$024E10..$05E000` (**100 %**; Wave HHHHH cerró `$051AA4..$0527AE` en
-  `cellmap_fix_overlay_palfade_051aa4.s`: blits de mapa de celdas, overlay
+  `video/cellmap_fix_overlay_palfade_051aa4.s`: blits de mapa de celdas, overlay
   CREDITS/PAUSE, fundidos de paleta; Wave GGGGG cerró `$05CADE..$05E000` en
-  `input_thunks_debug_hex_atan_luts_05cade.s`: thunks de input, HUD hex de
+  `input/thunks_debug_atan_luts_05cae0.s`: thunks de input, HUD hex de
   debug, LUTs de atan, checks de pantalla; Wave FFFFF cerró `$055B96..$056ACC` en
-  `enemy_projectiles_grenade_mortar_roller_055b96.s`: granada enemiga, bola
+  `enemies/projectiles_grenade_mortar_055b96.s`: granada enemiga, bola
   rebotante, obús de mortero y rodillo; Wave EEEEE cerró `$05934E..$05A9D6` en
-  `result_ending_gunner_walker_05934e.s`: pantalla de resultados, secuencia
+  `mission/result_ending_gunner_walker_05934e.s`: pantalla de resultados, secuencia
   final, Gunner/Gunner2, Walker, LUT de fade; Wave DDDDD cerró `$046000..$048000` en
-  `enemy46_drops_fix_banners_046260.s`: Enemy46, drops, banners CONTINUE/MISSION/
+  `enemies/vehicles/enemy46_drops_banners_046260.s`: Enemy46, drops, banners CONTINUE/MISSION/
   TIME UP, typewriter y fuentes; Wave CCCCC cerró `$027400..$02A000` en
-  `collmap_hitbox_script_ops_027400.s`: colisión con mapa, hitboxes, 32 opcodes
-  de script), `$000400..$002F30` (64 %), `$0133B0..$013D6A` (**100 %**, Wave IIIII: `palette_engine_sprite_grid_pause_0133b0.s`). Wave ZZZZ
-  (`boss2_crab_carrier_soundtest_07axxx.s`, `$07A002..$083000`): rehén/captor de
+  `entity/collmap_hitbox_script_ops_027400.s`: colisión con mapa, hitboxes, 32 opcodes
+  de script), `$000400..$002F30` (64 %), `$0133B0..$013D6A` (**100 %**, Wave IIIII: `video/palette_engine_sprite_grid_0133b0.s`). Wave ZZZZ
+  (`enemies/bosses/boss2_crab_carrier_07a00a.s`, `$07A002..$083000`): rehén/captor de
   la tripulación, menú SOUND TEST (strings ASCII + driver $2152/$219C), jefe de
   misión 2 (tmpl 132: cuerpo, brazo pendular, torreta, proyectil, humo, 9+9
   patrones de piezas/hitbox), cangrejo mecánico (tmpl 138..140: pinzas, 3 patas,
   esquirlas, patrulla) y transporte blindado (tmpl 129..131: 3 cascos, cabina,
   trampilla, cañón, spawner de 3 ranuras, tropas, artillero, jinete). La zona
-  `$05E000..$083000` queda al 100 %. Wave YYYY (`props_fx_explosions_platforms_crew_076xxx.s`,
+  `$05E000..$083000` queda al 100 %. Wave YYYY (`props/fx_explosions_platforms_crew_076000.s`,
   `$076000..$07A000`): hijos del prop guionizado, fragmentos, listas de
   plataformas, tablones de puente, FX de cañón, spawner genérico, 49 variantes
   de explosión + humo + debris, destructibles tmpl 23..26, PathScript VM (11 ops),
   autodemo del attract y tripulación de vehículos (tmpl 125..128).
-  Wave XXXX (`m5tank_finalboss_helpers_scriptedprop_072xxx.s`,
+  Wave XXXX (`enemies/bosses/m5tank_finalboss_scriptedprop_071ffc.s`,
   `$071FFC..$076000`): helpers del jefe final (chatarra, chispas, humo, partes,
   patrones de ataque), tanque pesado de la misión 5 con torreta/cohetes/casquillos,
   misil M5, intérprete MiniScript de 8 ops y prop destructible guionizado
-  (3 plantillas `$E8000`). Wave WWWW (`gunship_m5boss_finalboss_06exxx.s`,
+  (3 plantillas `$E8000`). Wave WWWW (`enemies/bosses/gunship_m5boss_finalboss_06dfe8.s`,
   `$06DFE8..$071FFC`): chorros de fuego y helpers del Walker, aeronave con
   artillero (Gunship), jefe de la misión 5 (M5Boss: rotor, partes, bombas,
   misiles, soldados/granaderos hijos) y jefe final en dos mitades con cabeza y
-  cañón (FinalBoss) (7 plantillas `$E8000`). Wave VVVV (`bazooka_rocketvehicle_walker_06axxx.s`,
+  cañón (FinalBoss) (7 plantillas `$E8000`). Wave VVVV (`enemies/soldiers/bazooka_rocketvehicle_walker_06a000.s`,
   `$06A000..$06DFE8`): soldado bazooka (3 variantes + aliado del escuadrón de
   rescate, arma hija con cohete), vehículo lanzacohetes sobre eslabones Chain3
   (29 tablas de poses por fase de rueda, jinete), enemigo Walker (9 plantillas),
-  fragmentos y chorro de fuego (19 plantillas `$E8000`). Wave UUUU (`barrel_paratrooper_shield_tank_066xxx.s`,
+  fragmentos y chorro de fuego (19 plantillas `$E8000`). Wave UUUU (`enemies/soldiers/barrel_paratrooper_shield_tank_066000.s`,
   `$066000..$06A000`): barril flotante / mina acuática, spawner de
   paracaidistas, soldado con escudo (2 variantes) + escudo, puerta y
   dirigible de escena 5, tanque enemigo (conductor, torreta, misil guiado)
-  (7 plantillas `$E8000`). Wave TTTT (`sniper_camper_mortar_062xxx.s`,
+  (7 plantillas `$E8000`). Wave TTTT (`enemies/soldiers/sniper_camper_mortar_062008.s`,
   `$062000..$066000`): cola de LateProp, artillero del coche-torreta,
   francotirador, soldado atrincherado (Camper), escombros de tienda, mortero,
   cañón, rehén/POW (contador `$10E276`), patrulla, prop de escena 3 y barril
-  (16 plantillas `$E8000`). Wave SSSS (`late_props_turrets_05exxx.s`,
+  (16 plantillas `$E8000`). Wave SSSS (`props/late_props_turrets_05e000.s`,
   `$05E000..$062000`): helpers de runtime tardío (Atan2 `$5E018`, target de
   jugadores `$5E086`, RNG `$5E998/$5EA1C`, clasificación de golpes), debug de
   colisión, soldado de torre / ocupante de choza, rompibles, cartel,
   obstáculos, cajas, torreta apuntadora y props tardíos (42 plantillas `$E8000`).
-  Wave RRRR (`results_pow_squadleader_03daxx.s`,
+  Wave RRRR (`pow/results_squadleader_03daa8.s`,
   `$03DA98..$040EF2`): pantalla de resultados de misión (columnas por
   jugador, roster de POWs, premio, banners), POW (atado/liberado/rescatado,
-  crédito de rescate) y líder del escuadrón volador. Wave QQQQ (`allen_oneil_04fa50.s`,
+  crédito de rescate) y líder del escuadrón volador. Wave QQQQ (`enemies/bosses/allen_oneil_04fa58.s`,
   `$04FA50..$051914`): jefe Allen O'Neil (IA, saltos, cuchillo, MG, granada,
   bala), 19 spawners de piezas de barrera/caseta/fortaleza, blits de
-  torre/búnker/nido, pegamento de memory card, nibbles. Wave PPPP (`props_fortress_04e5xx.s`, `$04E580..$04FA50`):
+  torre/búnker/nido, pegamento de memory card, nibbles. Wave PPPP (`props/fortress_04e580.s`, `$04E580..$04FA50`):
   props de la misión del fuerte (barrera, caseta/portón, fortaleza con cadena
   de spawns por scroll), tejado, sensor, caja, escombros rebotantes, carteles,
-  barca, parpadeo del fix y FixTile. Wave OOOO (`turret_car_props_04cbxx.s`,
+  barca, parpadeo del fix y FixTile. Wave OOOO (`enemies/vehicles/turret_car_props_04cbd4.s`,
   `$04CBD4..$04E580`): vehículo-torreta (base, cañón con histórico de
   ángulos, conductor, proyectil) + 3ª tanda de props de misión (farola,
-  choza, torre, búnker, puente, nido, cobertizo, barrera). Wave NNNN (`gun_platform_04bbxx.s`,
+  choza, torre, búnker, puente, nido, cobertizo, barrera). Wave NNNN (`enemies/vehicles/gun_platform_04bb9a.s`,
   `$04BB9A..$04CBD4`): emplazamiento de cañón enemigo (base con 4 variantes,
   escotilla, escudo, tiradores, cañón hijo, destrucción) + lector del stream
-  de spawn. Wave MMMM (`props_mission_053fxx.s`,
+  de spawn. Wave MMMM (`props/mission_053f96.s`,
   `$053F96..$055258`): props destructibles de misión (2ª tanda: edificio,
   columna, muro del recinto, letrero de neón con fix-layer, puesto, frágiles,
-  multietapa, bloqueador). Wave LLLL (`pow_hang_0494xx.s`, `$049430..$049FC4`):
+  multietapa, bloqueador). Wave LLLL (`pow/hang_049430.s`, `$049430..$049FC4`):
   POW colgado de la cuerda (balanceo, forcejeo, cuerda hija, liberación),
   POW en caída con sombra, tablas de estados de muerte. Wave KKKK
-  (`human_death_049fxx.s`, `$049FF2..$04BB8E`): muerte de humanos
+  (`pow/human_death_049ff2.s`, `$049FF2..$04BB8E`): muerte de humanos
   (despacho por tipo de daño, caídas, lanzamiento, quemado, sangre, humo,
   3.8 KB de tablas de sprites). Wave JJJJ
-  (`pow_helpers_048axx.s`, `$048A44..$049430`): helpers del POW (colas de
-  estado, ítem lanzado, cuerda del atado, decisión por distancia). Wave IIII (`pow_prisoner_0478xx.s`,
+  (`pow/helpers_048a44.s`, `$048A44..$049430`): helpers del POW (colas de
+  estado, ítem lanzado, cuerda del atado, decisión por distancia). Wave IIII (`pow/prisoner_0478fc.s`,
   `$0478FC..$048A3C`): prisionero POW (atado, rescate, saludo, regalo de
-  item, huida; variantes libre/atado). Wave HHHH (`props_helpers_0539xx.s`,
+  item, huida; variantes libre/atado). Wave HHHH (`props/helpers_0539f0.s`,
   `$0539F0..$053F96`): trampa de fuego, quemado, música/escombros por fase.
   Wave GGGG
-  (`props_destructible_0527xx.s`, `$0527BA..$0539E2`): props destructibles
+  (`props/destructible_0527ba.s`, `$0527BA..$0539E2`): props destructibles
   del escenario (`Prop_Sign/Wall/Large/Explosive/HouseVariants/HutVariants/
   Tower/Gate` + `*Stage2/*Wreck`, `PropDebris_*`, `PropDrop_Item`,
   `FixBlink_Phase*`, `Prop_Indestructible`). Wave FFFF
-  (`soldier_helpers_056axx.s`, `$056ACC..$057D04`): helpers del soldado
+  (`enemies/soldiers/helpers_056acc.s`, `$056ACC..$057D04`): helpers del soldado
   (`Soldier_Think`, `Soldier_PhysicsStep`, `Soldier_FindNearestPlayer`,
   `Soldier_PickGrabAnchor`, `Soldier_SpawnVariants`, `Soldier_Walk_Loop`,
   `Soldier_Leap`, `Soldier_Grab*`, tablas `Soldier_AttackTblMelee*`). Wave EEEE
-  (`soldier_states_057dxx.s`, `$057D04..$059342`): estados del soldado
+  (`enemies/soldiers/states_057d04.s`, `$057D04..$059342`): estados del soldado
   rebelde (`Soldier_Grab*`, `Soldier_Run*`, `Soldier_Idle`, `Soldier_Flee*`,
   `Soldier_Surrender*`, `Soldier_ThrowGrenade*`, `Soldier_Taunt*`,
   `Soldier_Spawn*`).
@@ -238,20 +238,20 @@ paleta `$14E00`/`$1CE00`, soft-DIP `$1781F4`...).
   finale, rescates, carrier M4, fuerte escena 4, dirigible escena 5,
   cutscenes, grunts, bichos, Game Over/Continue, hiscore/memcard/mobs,
   items/score/cajas. Wave AAAAA cerro la zona: `$0916C8..$0967B4`
-  (`scene_scripts_0916c8.s`: SceneDescTable[16], 14 scripts de la VM de
+  (`data/scene_scripts_0916c8.s`: SceneDescTable[16], 14 scripts de la VM de
   escena con callbacks 68000 embebidos, entidades-camara, tablas de trigger)
-  y `$096BBC..$097730` (`attract_sprite_lists_096bbc.s`: 8 listas de sprites
+  y `$096BBC..$097730` (`frontend/attract_sprite_lists_096bbc.s`: 8 listas de sprites
   del attract, registros de 20 B) transcritos byte-exacto como datos (~24 KB).
 - **`$09C608..$0E8000` (DATA)**: animaciones (registros de 10 B
   `{dx,dy,flags,ptr}`), paletas, listas. Un unico falso `rts` en 310 KB.
 - **`$0E8000..$0F2FFC` (DATA-REG)**: indice de templates `$E8000[idx]`
   (u32 x 329) + los 13 streams de bytecode de la Mission VM
-  (`mission_streams_0e8524.s`, Wave AAA, 43,736 B transcritos).
+  (`data/mission_streams_0e8524.s`, Wave AAA, 43,736 B transcritos).
 - **`$0F2FFC..$18D152` (DATA)**: mapas de tiles, scripts de nivel, listas de
   sprites por escena (`$1880xx`: registros `{flags, ptr $2436xx, $FFFF}`).
   2,162 punteros distintos desde la ROM apuntan aqui; cero `rts` reales.
 - **`$18D152..$18DB78` (CODE, 100 %)**: Wave SSS — granadas del jugador
-  (`Grenade_*`, `player_grenade_18d1xx.s`), unico codigo del banco alto.
+  (`Grenade_*`, `player/grenade_18d152.s`), unico codigo del banco alto.
   Despachado desde `$033346..$033358` via `jmp $28Dxxx.l`.
 - **`$18DB78..$1F8000` (DATA)**: mas animaciones (`$19C8xx`: registros con
   punteros `$2330xx/$23DBxx`, terminador `$1600`) y 2 islas C registradas

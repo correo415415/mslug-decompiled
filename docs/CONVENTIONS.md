@@ -128,7 +128,7 @@ cluster, or a common structural pattern. See the `## Waves` table in
 ## Source file naming
 
 `.s`/`.c` file names are `snake_case`, derived from the primary function's
-semantic name and/or its address, e.g. `entity_apply_fade_shade_028108.s`
+semantic name and/or its address, e.g. `entity/apply_fade_shade_028108.s`
 for `Entity_ApplyFadeShade_028108`. A single file may hold several
 related functions (e.g. an absorbed cluster) — name it after the cluster,
 not just the first function.

@@ -18,10 +18,10 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-F_HUD=asm/hud_inputrec_entity_move_024fb8.s
-F_FIRE=asm/player_fire_shells_03c6xx.s
-F_BOMB_A=asm/player_air_death_crouch_0366xx.s
-F_BOMB_B=asm/player_core_032axx.s
+F_HUD=asm/entity/hud_inputrec_entity_move_024e1c.s
+F_FIRE=asm/player/fire_shells_03c62a.s
+F_BOMB_A=asm/player/air_death_crouch_036632.s
+F_BOMB_B=asm/player/core_032aa8.s
 PATCHABLE=("$F_HUD" "$F_FIRE" "$F_BOMB_A" "$F_BOMB_B")
 BK=build/patch_backup
 

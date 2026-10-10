@@ -17,7 +17,7 @@ TaskHandler_*, StateTable_*; se regeneran desde los escáneres.
 SYMBOLS = {
     # ---- Símbolos semánticos identificados manualmente ---------------
     0x000008F2: "VBlankCallbackDefault",
-    # 0x00028D8E: promovido a símbolo interno de asm/script_dispatch.s
+    # 0x00028D8E: promovido a símbolo interno de asm/entity/script_dispatch_028d8e.s
     # como Script_DispatchOpcode (Wave T#1). Ya no necesita --defsym.
 
     # ---- Wave T: targets llamados desde ASM (por nombre estable) ------
@@ -817,12 +817,12 @@ SYMBOLS = {
     0x000519BE: "ThunkTarget_0519be",
     # 0x00051DE2 promovido a CellCommit_MMIO_051DE2 en registry (Wave LL#1).
     # El alias ThunkTarget_051de2 se define ahora como .globl dentro de
-    # asm/collision_cell_apply_051bxx.s para que bsr.w ThunkTarget_051de2 en
-    # collision_probes_051cxx.s (KK#2) siga resolviendose sin edicion.
+    # asm/entity/collision_cell_apply_051ba8.s para que bsr.w ThunkTarget_051de2 en
+    # entity/collision_probes_051c08.s (KK#2) siga resolviendose sin edicion.
     # 0x00051DE2: "ThunkTarget_051de2",
     # 0x00051F30 promovido a TransformCommit_MMIO_051F30 en registry (Wave KK#1).
     # NOTA: el alias ThunkTarget_051f30 se mantiene abajo como referencia externa
-    # para que los thunks Wave I existentes (jsr_abs_thunks.c) sigan resolviendo.
+    # para que los thunks Wave I existentes (thunks/jsr_abs_thunks.c) sigan resolviendo.
     0x0005239E: "ThunkTarget_05239e",
     0x000523B2: "ThunkTarget_0523b2",
     0x0005A9D6: "ThunkTarget_05a9d6",
@@ -1024,9 +1024,9 @@ SYMBOLS = {
     #      Wave MM batch 2.
     # ---- Wave MM batch 2: los 6 externals BootTblEntry_XXX de MM#1 quedaron
     #      promovidos a labels internos globales de BootDispatchTable_000B92
-    #      (definida en asm/boot_dispatch_table_000b92.s con 6 .globl
+    #      (definida en asm/boot/boot_dispatch_table_000b92.s con 6 .globl
     #      BootTblEntry_XXX apuntando a los offsets exactos). Los
-    #      `lea.l BootTblEntry_XXX(pc), a0` de scheduler_bootstrap_000exxx.s
+    #      `lea.l BootTblEntry_XXX(pc), a0` de kernel/scheduler_bootstrap_000e8e.s
     #      siguen resolviendose sin cambio via reubicacion R_68K_PC16 que
     #      el linker aplica contra la seccion .text.BootDispatchTable_000B92.
     # 0x00000B92: "BootTblEntry_B92",   # T1 head - ahora label interno
@@ -1056,8 +1056,8 @@ SYMBOLS = {
     #      despues; se registraran como dispatcher en Wave NN batch 2.
     # PlayerHandlerA_033572 y PlayerHandlerB_033578 promovidos a labels
     # internos globales de PlayerStateDispatch_033572 (Wave NN#2, definidos
-    # en asm/player_dispatch_0335xx.s con .globl). Los `lea.l XXX(pc), a1`
-    # de player_route_publish_033xxx.s (NN#1) siguen resolviendose sin cambio.
+    # en asm/player/dispatch_033572.s con .globl). Los `lea.l XXX(pc), a1`
+    # de player/route_publish_027eba.s (NN#1) siguen resolviendose sin cambio.
     # 0x00033572: "PlayerHandlerA_033572",   # ahora label interno
     # 0x00033578: "PlayerHandlerB_033578",   # ahora label interno
     #      Callees de SpritePubEffect_027EBA (helpers de probe y effect):
@@ -1105,8 +1105,8 @@ SYMBOLS = {
     0x00001AB6: "Attract_PostStart_Cleanup_001AB6",
     # 0x00052712 promovido a Pubcleaner_10A2Cx_052712 en registry (Wave LL#1).
     # El alias ThunkTarget_052712 se define ahora como .globl dentro de
-    # asm/pubcleaner_10a2cx_052712.s para que jsr $52712.l en
-    # attract_cluster_batch_ff.s siga resolviendose sin edicion.
+    # asm/kernel/publish_cleaner_052712.s para que jsr $52712.l en
+    # boot/attract_bios_init_001744.s siga resolviendose sin edicion.
     # 0x00052712: "ThunkTarget_052712",
     # 0x00046682 promovido a SceneC_Load_Task_046682 en registry (Wave DDDDD).
     # 0x00059B6A promovido a Ending_PeaceWait_059b6a en registry (Wave EEEEE).
@@ -1145,7 +1145,7 @@ SYMBOLS = {
     #      via registry). Idem Buffer_ClearBlock1024L_043EDA (W#CC1).
     # 0x0001390E / 0x00013952 / 0x00013982 promovidos al registry como
     # Scratch_Alloc_01390E / Spawn_TypeB_013952 / Spawn_TypeA_013982
-    # en Wave JJ#2 (asm/sprite_allocator_0139xx.s).
+    # en Wave JJ#2 (asm/video/sprite_allocator_01390e.s).
     #
     # $5A88A es el reset del subsistema de sprites invocado en la cabecera
     # de Scratch_Alloc antes de reparticionar los dos pools.
@@ -1197,8 +1197,8 @@ SYMBOLS = {
     #      del bucle de aplicacion de los tres probes.
     # 0x00051BA8 promovido a CellApply_BidirScan_051BA8 en registry (Wave LL#1).
     # El alias Fn_00051BA8 se define ahora como .globl dentro de
-    # asm/collision_cell_apply_051bxx.s para que bsr.w Fn_00051BA8 en
-    # collision_probes_051cxx.s (KK#2) siga resolviendose sin edicion.
+    # asm/entity/collision_cell_apply_051ba8.s para que bsr.w Fn_00051BA8 en
+    # entity/collision_probes_051c08.s (KK#2) siga resolviendose sin edicion.
     # 0x00051BA8: "Fn_00051BA8",
     # 0x00051D84 promovido a CellMap_ClipRectToWindow_051d84 en registry (Wave HHHHH).
     0x00051C08: "Fn_00051C08",
@@ -1328,7 +1328,7 @@ SYMBOLS = {
     0x0008267A: "SetHandlerRts_08267a",  # rts de SetTaskHandler_082674
     0x0008283A: "SetHandlerRts_08283a",  # rts de SetTaskHandler_082834
     # (Los 23 refs forward $8283C..$831DA se promovieron a simbolos reales
-    #  en asm/para_squad_helpers_082cxx.s durante Wave FFF.)
+    #  en asm/enemies/squad/para_squad_helpers_08283c.s durante Wave FFF.)
 
     # --- Wave FFF: helpers y handlers de escape ($08283C..$08325A) ----------
     # RTS internos (+6) de islas C ya matcheadas (targets de bcc.w):

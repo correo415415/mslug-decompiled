@@ -2,8 +2,8 @@
 """
 attract_sprites_dump.py — transcripción estructurada de las 8 listas de
 sprites de las escenas attract ($096BBC..$097730), destino de la tabla
-JumpTable_096B9C de ClampAndLookup8_096B7E (ver attract_sub_helpers_096xxx.s
-y la corrección arquitectónica de camera_list_ctx_helpers_wave_ii.s).
+JumpTable_096B9C de ClampAndLookup8_096B7E (ver frontend/attract_sub_helpers_0967c0.s
+y la corrección arquitectónica de video/camera_list_ctx_helpers_025012.s).
 
 Formato de registro (20 B, stride $14, iterado por AttractCuller_Cam0_0969C2
 y AttractCuller_Cam1_096A0E; `Fn_0005DCCE` instancia el sprite):
@@ -18,14 +18,14 @@ y AttractCuller_Cam1_096A0E; `Fn_0005DCCE` instancia el sprite):
     terminador: u16 $FFFF
 
 Uso:
-    python3 tools/attract_sprites_dump.py -o asm/attract_sprite_lists_096bbc.s --registry
+    python3 tools/attract_sprites_dump.py -o asm/frontend/attract_sprite_lists_096bbc.s --registry
 """
 import argparse, os, struct, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 rom = open(os.path.join(ROOT, "build", "mslug_prom.bin"), "rb").read()
-SRC_NAME = "attract_sprite_lists_096bbc.s"
+SRC_NAME = "frontend/attract_sprite_lists_096bbc.s"
 
 
 def W(a): return struct.unpack(">H", rom[a:a + 2])[0]

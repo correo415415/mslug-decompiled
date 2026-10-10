@@ -23,6 +23,6 @@
 * **Dificultad fija**: `AttractInit_Single_099AE2` (`move.b #2,$10FD8B` → `#0`).
 * **Empezar en otra misión**: `BootScr_Mission_Start_001368` escribe `$106ECE=9`; el
   índice de escena viene de `$10FD84+…`/`SceneDescriptor[256]` en `$0916C8`.
-* **Textos**: soft-DIP strings en `$1781F4` (`Str_17873c` en `level_data_d_16b035.s`) —
+* **Textos**: soft-DIP strings en `$1781F4` (`Str_17873c` en `data/level_d_16b035.s`) —
   mismo largo (12 B por entrada, rellenar con espacios).
-* **Velocidad del jugador**: tablas de deltas en `player_tables_fx_0306xx.s`.
+* **Velocidad del jugador**: tablas de deltas en `player/tables_fx_030696.s`.

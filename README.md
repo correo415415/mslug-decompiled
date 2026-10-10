@@ -249,7 +249,7 @@ player entity (`$1004C2`): original 200→197 after firing, patched stays 200.
 
 Other handy knobs: default soft-DIP values `AttractInit_Single_099AE2`
 (`$10FD88` = lives 3, `$10FD8B` = difficulty 2), soft-DIP strings at
-`$1781F4` (`Str_17873c`/`Data_178001` in `level_data_d_16b035.s`), start
+`$1781F4` (`Str_17873c`/`Data_178001` in `data/level_d_16b035.s`), start
 credits BCD at `$1081BF/$1081C0`.
 
 ---

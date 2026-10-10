@@ -61,9 +61,9 @@ CFLAGS = [
 
 # Flags adicionales por unidad de compilación. Clave = ruta del .c relativa a src/.
 PER_FILE_CFLAGS = {
-    "reset_irq_callback.c": ["-mpcrel"],   # lea pc+d,a0 corto (4 B)
-    "task_handlers.c":      ["-mpcrel"],   # lea pc+d,a1 corto (4 B) x 731
-    "jsr_pc_thunks.c":      ["-mpcrel"],   # jsr pc+d,pc corto (4 B) x 164
+    "bios/reset_irq_callback.c": ["-mpcrel"],   # lea pc+d,a0 corto (4 B)
+    "kernel/task_handlers.c":      ["-mpcrel"],   # lea pc+d,a1 corto (4 B) x 731
+    "thunks/jsr_pc_thunks.c":      ["-mpcrel"],   # jsr pc+d,pc corto (4 B) x 164
 }
 
 def sh(cmd, **kw):
