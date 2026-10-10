@@ -76,6 +76,8 @@ def main():
     ap.add_argument("--no-verify", action="store_true")
     ap.add_argument("--min-zero", type=int, default=32)
     ap.add_argument("--no-ptr", action="store_true", help="no emitir .dc.l Simbolo")
+    ap.add_argument("--no-code-refs", action="store_true",
+                    help="no usar refs desde código como fronteras (zonas de dirección baja)")
     args = ap.parse_args()
     src = args.src or os.path.basename(args.output)
     rom = open(PROM, "rb").read()
@@ -102,7 +104,7 @@ def main():
     sym_by_addr = dict(SYMBOLS)
 
     bounds = set()
-    code_refs = collect_code_refs(rom, lo, hi)
+    code_refs = set() if args.no_code_refs else collect_code_refs(rom, lo, hi)
     bounds |= code_refs
     for e in args.entry:
         bounds.add(int(e, 16))

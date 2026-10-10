@@ -18395,4 +18395,15 @@ REGISTRY = [
     ("Data_1f6600",                                0x1F6600, 256, "anim_data_c_1d0000.s"),
     ("Data_1f6700",                                0x1F6700, 4363, "anim_data_c_1d0000.s"),
     ("Data_1f780b",                                0x1F780B, 2037, "anim_data_c_1d0000.s"),
+    # --- Wave UUUUU: Entity_FindByKey4 (stride 4 B) en $1CA (1 entradas)
+    ("Entity_FindByKey4_0001ca",                   0x0001CA,  54, "entity_find_by_key4_0001ca.s"),
+    # --- Wave UUUUU: cabecera Neo-Geo + vectores 68000 + relleno (8 entradas)
+    ("Vectors68k_000000",                          0x000000, 128, "neogeo_header_vectors_000000.s"),
+    ("Zero_000080",                                0x000080,  63, "neogeo_header_vectors_000000.s"),
+    ("Data_0000bf",                                0x0000BF,  11, "neogeo_header_vectors_000000.s"),
+    ("Zero_0000ca",                                0x0000CA,  54, "neogeo_header_vectors_000000.s"),
+    ("NeoGeoHeader_000100",                        0x000100,  58, "neogeo_header_vectors_000000.s"),
+    ("Zero_00013a",                                0x00013A,  74, "neogeo_header_vectors_000000.s"),
+    ("Data_000184",                                0x000184,  12, "neogeo_header_vectors_000000.s"),
+    ("Zero_000200",                                0x000200, 512, "neogeo_header_vectors_000000.s"),
 ]
