@@ -4,7 +4,7 @@ import os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "jsr5b6_jmp518.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "kernel/jsr5b6_jmp518.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 
 def load_covered():
@@ -55,6 +55,6 @@ def main():
     print(f"Escrito {OUT} ({len(hits)} funciones)")
     print("\n# Registry:")
     for a in hits:
-        print(f'    ("Jsr5B6ThenJmpScheduler_{a:06x}", 0x{a:06X}, 14, "jsr5b6_jmp518.c"),')
+        print(f'    ("Jsr5B6ThenJmpScheduler_{a:06x}", 0x{a:06X}, 14, "kernel/jsr5b6_jmp518.c"),')
 
 if __name__=="__main__": main()

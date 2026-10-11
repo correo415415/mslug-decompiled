@@ -22,7 +22,7 @@ import os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "task_setters_w.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "kernel/task_setters_w.c")
 
 
 def scan(prom):
@@ -73,7 +73,7 @@ def main():
     # Fragmento de registry
     print("\n# Fragmento para registry.py:")
     for addr, off in hits:
-        print(f'    ("SetTaskW_{addr:06x}", 0x{addr:06X},  6, "task_setters_w.c"),')
+        print(f'    ("SetTaskW_{addr:06x}", 0x{addr:06X},  6, "kernel/task_setters_w.c"),')
 
 if __name__ == "__main__":
     main()

@@ -22,9 +22,9 @@ runtime and never bundles it.
 
 | Metric | Value |
 |---|---:|
-| Matched functions | **3 585 / 3 585** registered |
-| Matched bytes | **129 952 / 129 952** registered |
-| P ROM coverage | **129 952 / 2 097 152 B** (6.20 %) |
+| Matched functions | **5 662 / 5 662** registered |
+| Matched bytes | **334 672 / 334 672** registered |
+| P ROM coverage | **549 416 / 2 097 152 B** (26.20 %) — código 100 % |
 | Processed P ROM MD5 (target) | `816b3f74c76b3373993407615f1850fe` |
 
 Matched functions are guaranteed to reassemble to bytes that are bitwise
@@ -41,29 +41,57 @@ and as large, self-contained functions are tackled directly (see
 
 ```
 mslug/
-├── .github/workflows/      CI: registry_lint.py + syntax check (no ROM needed)
+├── .github/workflows/      CI: registry_lint + sizes + full matcher + build_rom (byte-identical ROM)
 ├── src/                    Decompiled C sources (matched by GCC bare-metal 68000)
-├── asm/                    Hand-written 68000 assembly sources (matched by GAS)
-│   └── non_matchings/      Raw ROM dumps by address for functions not yet analysed
+│   ├── bios/               Reset / IRQ entry points and BIOS callbacks
+│   ├── kernel/             Task scheduler handlers and kernel helpers
+│   ├── entity/             Entity-list helpers written in C
+│   ├── video/              Palette / VRAM helpers written in C
+│   └── thunks/             jsr-pc thunk tables (-mpcrel)
+├── asm/                    Hand-written 68000 assembly, one folder per subsystem
+│   ├── boot/               Vectors, boot script, dispatch tables, start-up
+│   ├── kernel/             Scheduler, timers, memory, sound queue, soft-DIPs
+│   ├── input/              Joystick decoding, input recording, HUD input
+│   ├── video/              Sprites, cells, palettes, scroll, camera, fades
+│   ├── entity/             Generic entity/actor framework (spawn, move, anim, collide)
+│   ├── player/             Marco/Tarma: core, fire/shells, air/death/crouch, tables
+│   ├── slug/               SV-001 Metal Slug vehicle
+│   ├── enemies/            Rebel army
+│   │   ├── soldiers/       Infantry, snipers, grenadiers, shield troopers
+│   │   ├── squad/          Group/formation AI
+│   │   ├── vehicles/       Tanks, planes, bazooka vehicles, walkers
+│   │   └── bosses/         Tetsuyuki, Hairbuster Riberts, Allen O'Neil, …
+│   ├── pow/                Prisoners of war and item drops
+│   ├── props/              Destructible scenery, barrels, crates
+│   ├── mission/            Mission scripts, banners, stage sequencing
+│   ├── frontend/           Attract mode, title, ranking, sound test
+│   └── data/               Pure data blobs (anim tables, palettes, maps)
 ├── include/                Public headers (mslug.h, mslug_regs.h)
 ├── linker/                 Linker scripts (neogeo.ld, neogeo_matched.ld)
 ├── tools/                  Active tooling used by the build — see tools/README.md
 │   ├── match_batch.py      Compile + link + byte-compare every registered function
+│   ├── build_rom.py        Link every section into a 2 MiB image and compare MD5
 │   ├── registry.py         Master registry: (symbol, cpu_addr, size, source)
 │   ├── symbols.py          External symbol table (linker --defsym)
 │   ├── registry_lint.py    Static structural audit of registry.py/symbols.py
-│   ├── scan_unmatched_callees.py   Priority queue ordered by caller count
-│   ├── rank_candidates.py  Priority queue ordered by function size
+│   ├── check_section_sizes.py  Per-section size check (fast pre-matcher)
 │   ├── measure_coverage.py Real-code-% heuristic feeding docs/COVERAGE.md
+│   ├── reorg/              Folder/rename map + script used for the layout reorganisation
 │   └── asm-differ/         Vendored simonlindholm/asm-differ (m68k backend)
-├── scripts/                One-shot helper scripts
+├── scripts/                Helper scripts
 │   ├── setup.sh            Process baserom into build/mslug_prom.bin + verify
+│   ├── bootstrap_sandbox.sh  Install toolchain + deps + process ROM in one go
+│   ├── rebuild_rom.sh      Sources → 201-p1.bin → mslug.zip
+│   ├── apply_patch.sh      Example gameplay patches (lives, infinite ammo, bombs)
+│   ├── dev/                Emulator dev tooling (setup_internal.sh, run_emu.sh)
 │   └── legacy/             Historical batch generators (Waves A–R)
 ├── docs/                   Design notes and reversing logs
 │   ├── CONVENTIONS.md      Naming/registry/promotion conventions — read before editing
 │   ├── COVERAGE.md         Real coverage analysis
-│   └── PROGRESO.md         Detailed function-by-function progress log (Spanish)
-├── build/                  Build artefacts (git-ignored except for reports)
+│   ├── PROGRESO.md         Detailed function-by-function progress log (Spanish)
+│   └── images/             Screenshots used in this README
+├── internal/               DEV ONLY: romset + emulator + experiments/ recipes (removed before release)
+├── build/                  Build artefacts (git-ignored)
 ├── diff_settings.py        Configuration for asm-differ
 ├── requirements.txt        Python dependencies (capstone, colorama, ...)
 ├── Makefile
@@ -71,6 +99,11 @@ mslug/
 ├── CHANGELOG.md            Headline summary of notable changes
 └── README.md
 ```
+
+File naming: `asm/<subsystem>/<what_it_does>_<lowest_cpu_address>.s` (e.g.
+`asm/player/fire_shells_03c62a.s`). The address suffix is the lowest CPU
+address of the first section in the file, so a file can be located in the ROM
+at a glance; see `docs/CONVENTIONS.md`.
 
 ---
 
@@ -176,9 +209,9 @@ A successful run prints:
 
 ```
 ====================================================================
-  MATCHED : 3134/3134 funciones
-  BYTES   : 42,190/42,190 (registrados)
-  ROM     : 42,190/2,097,152  (2.0118%)
+  MATCHED : 17608/17608 funciones
+  BYTES   : 2,097,152/2,097,152 (registrados)
+  ROM     : 2,097,152/2,097,152  (100.0000%)
 ====================================================================
 ```
 
@@ -189,7 +222,98 @@ on every push):
 python3 tools/registry_lint.py
 ```
 
+### Rebuild the whole ROM (and prove it is really the game)
+
+The registry covers **100 % of the 2 MiB P-ROM** (code and data), so the
+sources can be linked back into a bit-exact image:
+
+```bash
+# fuentes → build/mslug_prom_rebuilt.bin (formato CPU) → build/repack/201-p1.bin (MAME)
+bash scripts/rebuild_rom.sh                              # verifica MD5 contra el original
+bash scripts/rebuild_rom.sh /ruta/a/mslug.zip            # además deja build/repack/mslug.zip listo
+```
+
+Expected: `build_rom ✔ IDÉNTICA` (CPU MD5 `816b3f74…`) and
+`build/repack/201-p1.bin` MD5 `b6804bc6be580c80d43d187f6f9d2e7c` — the exact
+file that ships in the `mslug` romset.
+
+To check the pipeline end-to-end, patch a game value and rebuild. Example —
+start every credit with **9 lives** instead of the soft-DIP value
+(`HUD_Task_Init_025706` reads `$10FD88` into the HUD task's life counter
+`$77(a6)`; a 4-byte `move.b #imm,d1` keeps the function size identical).
+The one-liner does the sed + size check + rebuild + zip for you:
+
+```bash
+bash scripts/patch_lives_demo.sh 9 /ruta/a/mslug.zip   # → build/repack/mslug.zip con 9 vidas
+bash scripts/patch_lives_demo.sh --undo                 # deshacer el parche en el .s
+```
+
+Only 4 bytes differ from the original (`$0256B7/$0256B9` and `$02570D/$02570F`,
+CPU addresses). Verified on a real emulator — the HUD shows reserve lives, so
+3 lives = `1UP=2`, 9 lives = `1UP=8`:
+
+![lives patch demo](docs/images/lives_patch_demo.png)
+
+> If you still see 3 lives: (1) make sure the emulator really loads the new
+> zip (same path/name as before → delete its cache / `nvram` / save state, or
+> rename the zip); (2) MAME checks CRCs and may silently fall back to a copy of
+> `mslug.zip` found earlier in its `rompath`; (3) in FBNeo enable
+> "accept CRC mismatch"/legacy romset; (4) the soft-DIP "Continue"/"Hero"
+> settings don't matter — the patch bypasses them.
+
+#### More patches: `scripts/apply_patch.sh`
+
+```bash
+bash scripts/apply_patch.sh --list
+bash scripts/apply_patch.sh hmg-infinite lives=9 --zip /ruta/a/mslug.zip   # combinables
+bash scripts/apply_patch.sh all-infinite bombs=99 --zip /ruta/a/mslug.zip
+bash scripts/apply_patch.sh --undo
+```
+
+`hmg-infinite` replaces the 6-byte `subi.w #1,0x82(a2)` in
+`PlayerFire_HMG_Spawn_03c872` with a same-size no-op (`ori.w #0,0x82(a2)`),
+so the Heavy Machine Gun never consumes ammo (2 bytes change: `$03C898`,
+`$03C89B`). Verified in an emulator by watching the ammo word of P1's
+player entity (`$1004C2`): original 200→197 after firing, patched stays 200.
+
+![hmg infinite demo](docs/images/hmg_infinite_demo.png)
+
+More examples: `bombs=99`, `bombs-infinite` (grenades never run out), `all-infinite`, `pistol-ammo=N` — see `scripts/apply_patch.sh --list`.
+
+![bombs 99 infinite](docs/images/bombs_infinite_demo.png)
+
+Other handy knobs: default soft-DIP values `AttractInit_Single_099AE2`
+(`$10FD88` = lives 3, `$10FD8B` = difficulty 2), soft-DIP strings at
+`$1781F4` (`Str_17873c`/`Data_178001` in `data/level_d_16b035.s`), start
+credits BCD at `$1081BF/$1081C0`.
+
 ---
+
+## Continuous integration (self-hosted runner + releases)
+
+`.github/workflows/matcher.yml` runs the full matcher on the owner's
+**self-hosted runner** (labels `self-hosted, Linux, X64`) on every push to
+`main` / `genspark_ai_developer`, on PRs to `main`, and on demand
+(`workflow_dispatch`). No Actions cache is used: everything is rebuilt from
+scratch and the results are published as **Release assets** (prerelease per
+branch, plain release on `main`), tagged `matcher-<branch>-<run>-<sha7>`:
+
+* `match_batch.txt`, `match_report_c.json`  — matcher log + per-function report
+* `coverage_zones.txt`, `coverage_blocks.txt`, `registry_lint.txt`
+* `registry.py`, `symbols.py`, `commit.txt`, `SHA256SUMS.txt`
+* `mslug-decomp-src-<sha7>.tar.gz` — snapshot of `asm/ src/ include/ tools/ docs/ scripts/`
+
+**The ROM never leaves the runner and is never uploaded.** The runner must
+provide it in one of these ways (checked in order):
+
+1. repository variable `MSLUG_ROM_URL` (+ optional secret `MSLUG_ROM_TOKEN`)
+   pointing to `mslug.zip` or `201-p1.bin`;
+2. `$MSLUG_ROM_DIR/mslug.zip` or `$MSLUG_ROM_DIR/201-p1.bin` (repository
+   variable `MSLUG_ROM_DIR`, default `~/mslug_rom` on the runner).
+
+Releases are created with the secret `RELEASE_PAT` (fine-grained PAT with
+*Contents: read/write*); if absent, the workflow falls back to `GITHUB_TOKEN`.
+Only the 15 most recent prereleases are kept.
 
 ## Contributing a match
 

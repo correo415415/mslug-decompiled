@@ -4,7 +4,7 @@ import os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "jmp_abs_thunks.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "thunks/jmp_abs_thunks.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 SYM  = os.path.join(ROOT, "decomp", "tools", "symbols.py")
 
@@ -59,7 +59,7 @@ def main():
     print(f"Escrito {OUT} ({len(hits)} funciones, {len(new_targets)} targets nuevos)")
     print("\n# Registry:")
     for a,t in hits:
-        print(f'    ("JmpAbsThunk_{a:06x}", 0x{a:06X},  6, "jmp_abs_thunks.c"),')
+        print(f'    ("JmpAbsThunk_{a:06x}", 0x{a:06X},  6, "thunks/jmp_abs_thunks.c"),')
     if new_targets:
         print("\n# Symbols nuevos:")
         for t in new_targets:

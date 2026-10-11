@@ -30,7 +30,7 @@ import os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "jsr_abs_thunks.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "thunks/jsr_abs_thunks.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 
 

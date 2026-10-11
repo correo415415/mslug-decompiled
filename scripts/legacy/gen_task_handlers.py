@@ -32,7 +32,7 @@ import os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "task_handlers.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "kernel/task_handlers.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 
 

@@ -1,0 +1,81 @@
+--- a/cli/main.rs
++++ b/cli/main.rs
+@@ -163,6 +163,19 @@
+     /// to actually display the lines).
+     #[arg(long, default_value_t = false)]
+     trace_audio_io: bool,
++    /// Dev: input script "F1-F2:MASK,F3-F4:MASK,..." — P1 controller bits held
++    /// (active-high here) during [F1,F2). Bits: 1=Up 2=Down 4=Left 8=Right
++    /// 16=A 32=B 64=C 128=D.
++    #[arg(long)]
++    input_script: Option<String>,
++    /// Dev: dump work-RAM bytes "ADDR:LEN,ADDR:LEN" (hex, CPU addresses
++    /// $100000..$10FFFF) every --dump-every-frames frames.
++    #[arg(long)]
++    watch_ram: Option<String>,
++    /// Dev: "FRAME@ADDR=HEXBYTES,..." write bytes into work RAM right before
++    /// running FRAME (e.g. "4500@100471=01,4500@1004C2=00C8").
++    #[arg(long)]
++    poke_ram: Option<String>,
+ }
+ 
+ fn main() -> Result<()> {
+@@ -284,6 +297,7 @@
+     for f in 0..total_frames {
+         apply_auto_inputs(sys, args, f);
+         sys.run_frame();
++        if f % args.dump_every_frames.max(1) == 0 { dump_watch_ram(sys, args, f); }
+         log::info!(
+             "Frame {f} done — total inst={} cycles={} PC=${:08X}",
+             sys.instructions,
+@@ -344,7 +358,50 @@
+     Ok(())
+ }
+ 
++fn apply_input_script(sys: &mut System, args: &Args, frame: u32) {
++    let Some(script) = &args.input_script else { return };
++    let mut mask: u8 = 0;
++    for part in script.split(',') {
++        let part = part.trim();
++        if part.is_empty() { continue; }
++        let (range, m) = part.split_once(':').expect("input_script: FROM-TO:MASK");
++        let (a, b) = range.split_once('-').expect("input_script: FROM-TO");
++        let a: u32 = a.parse().unwrap(); let b: u32 = b.parse().unwrap();
++        if frame >= a && frame < b { mask |= m.parse::<u8>().unwrap(); }
++    }
++    sys.bus.p1_input = !mask;
++}
++
++fn dump_watch_ram(sys: &System, args: &Args, frame: u32) {
++    let Some(w) = &args.watch_ram else { return };
++    let mut line = format!("WATCH f={frame}");
++    for part in w.split(',') {
++        let (a, l) = part.trim().split_once(':').expect("watch_ram: ADDR:LEN");
++        let a = usize::from_str_radix(a.trim_start_matches("0x").trim_start_matches('$'), 16).unwrap();
++        let l: usize = l.parse().unwrap();
++        line.push_str(&format!("  ${a:06X}="));
++        for i in 0..l { line.push_str(&format!("{:02X}", sys.bus.work_ram[(a + i) & 0xFFFF])); }
++    }
++    println!("{line}");
++}
++
++fn apply_pokes(sys: &mut System, args: &Args, frame: u32) {
++    let Some(p) = &args.poke_ram else { return };
++    for part in p.split(',') {
++        let (fr, rest) = part.trim().split_once('@').expect("poke_ram: FRAME@ADDR=HEX");
++        if fr.parse::<u32>().unwrap() != frame { continue; }
++        let (a, hex) = rest.split_once('=').unwrap();
++        let a = usize::from_str_radix(a.trim_start_matches('$'), 16).unwrap();
++        for (i, k) in (0..hex.len()).step_by(2).enumerate() {
++            sys.bus.work_ram[(a + i) & 0xFFFF] = u8::from_str_radix(&hex[k..k + 2], 16).unwrap();
++        }
++        println!("POKE f={frame} ${a:06X}={hex}");
++    }
++}
++
+ fn apply_auto_inputs(sys: &mut System, args: &Args, frame: u32) {
++    apply_pokes(sys, args, frame);
++    apply_input_script(sys, args, frame);
+     if args.auto_coin_frame > 0 {
+         let coin_start = args.auto_coin_frame;
+         let coin_end = coin_start.saturating_add(args.coin_hold_frames);

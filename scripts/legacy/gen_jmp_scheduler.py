@@ -4,7 +4,7 @@ import os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROM = os.path.join(ROOT, "decomp", "build", "mslug_prom.bin")
-OUT  = os.path.join(ROOT, "decomp", "src", "jmp_to_scheduler.c")
+OUT  = os.path.join(ROOT, "decomp", "src", "kernel/jmp_to_scheduler.c")
 REG  = os.path.join(ROOT, "decomp", "tools", "registry.py")
 
 def load_covered():
@@ -51,6 +51,6 @@ def main():
     print(f"Escrito {OUT} ({len(hits)} funciones)")
     print("\n# Registry:")
     for a in hits:
-        print(f'    ("JmpToScheduler_{a:06x}", 0x{a:06X},  8, "jmp_to_scheduler.c"),')
+        print(f'    ("JmpToScheduler_{a:06x}", 0x{a:06X},  8, "kernel/jmp_to_scheduler.c"),')
 
 if __name__=="__main__": main()

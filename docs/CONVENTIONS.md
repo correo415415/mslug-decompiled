@@ -128,7 +128,28 @@ cluster, or a common structural pattern. See the `## Waves` table in
 ## Source file naming
 
 `.s`/`.c` file names are `snake_case`, derived from the primary function's
-semantic name and/or its address, e.g. `entity_apply_fade_shade_028108.s`
+semantic name and/or its address, e.g. `entity/apply_fade_shade_028108.s`
 for `Entity_ApplyFadeShade_028108`. A single file may hold several
 related functions (e.g. an absorbed cluster) — name it after the cluster,
 not just the first function.
+
+## Folder layout
+
+Sources live in one folder per subsystem:
+
+| Folder | Contents |
+|---|---|
+| `asm/boot/` | vectors, boot script, dispatch tables |
+| `asm/kernel/` | scheduler, timers, memory, sound queue, soft-DIPs |
+| `asm/input/` | joystick decoding, input recording |
+| `asm/video/` | sprites, cells, palettes, scroll, camera, fades |
+| `asm/entity/` | generic actor framework |
+| `asm/player/`, `asm/slug/` | Marco/Tarma and the SV-001 |
+| `asm/enemies/{soldiers,squad,vehicles,bosses}/` | rebel army |
+| `asm/pow/`, `asm/props/`, `asm/mission/`, `asm/frontend/`, `asm/data/` | POWs/items, scenery, mission scripts, attract/title, data blobs |
+| `src/{bios,kernel,entity,video,thunks}/` | C sources, same split |
+
+Registry `file` fields are paths relative to `asm/` or `src/` and may contain
+sub-folders; the tools derive object names with `path.replace("/", "__")`.
+When adding a file, put it in the folder of the subsystem it belongs to and
+suffix the name with the lowest CPU address of its first section.

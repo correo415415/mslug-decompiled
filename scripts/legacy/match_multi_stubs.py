@@ -6,7 +6,7 @@ Matchea en lote todas las funciones stub (solo RTS) de un archivo C
 que contiene multiples funciones cada una en su direccion original.
 
 Estrategia:
-  1. Compila trivial_rts.c a un solo .o
+  1. Compila thunks/trivial_rts.c a un solo .o
   2. Genera un linker script con secciones absolutas por funcion
      (cada funcion en su propia seccion .text.FUN_XXXXXX en su direccion)
   3. Extrae los bytes por cada funcion y compara con la ROM
@@ -122,7 +122,7 @@ def addr_to_secname(addr):
 
 
 def main():
-    c_file = os.path.join(DECOMP_ROOT, "src", "trivial_rts.c")
+    c_file = os.path.join(DECOMP_ROOT, "src", "thunks/trivial_rts.c")
 
     # Todas las stubs con su direccion y tamano
     STUBS = [

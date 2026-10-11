@@ -30,3 +30,16 @@ venv/
 
 # OS
 Thumbs.db
+ci_out/
+
+# Repacked ROMs (never commit)
+build/repack/
+
+# Development-only (emulator + ROM). Tracked on purpose while the project is
+# private (owner's decision); only build artefacts are ignored. Delete before
+# any public release.
+internal/pydmg/target/
+internal/**/*.png
+!internal/experiments/results/*.png
+!internal/mslug.zip
+build/patch_backup/

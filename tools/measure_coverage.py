@@ -63,6 +63,72 @@ COMMON_MNEM = {
 }
 
 
+# ---------------------------------------------------------------------------
+# Mapa CURADO de la P-ROM (actualizado wave a wave; ver docs/COVERAGE.md).
+# Fuente: sondeos de densidad de opcodes (rts/jsr/lea pc) + hexdumps +
+# tablas identificadas en las waves. Es la referencia real de "codigo vs
+# datos"; la heuristica por bloques de 4 KiB de arriba clasifica como
+# CODE? la mayoria de los datos densos y solo sirve de orientacion.
+#   (nombre, tipo, inicio, fin)   tipo: SYSTEM | CODE | DATA | DATA-REG | ZERO
+# ---------------------------------------------------------------------------
+ZONES = [
+    ("Vectores 68000 + cabecera Neo-Geo",                      "SYSTEM",   0x000000, 0x000400),
+    ("BIOS entries, IRQ, scheduler, bootstrap, task runtime",  "CODE",     0x000400, 0x002F30),
+    ("Tablas de sprites/slots (pares {id,tile}, LUTs 16x16)",  "DATA",     0x002F30, 0x0133B0),
+    ("Runtime: entidades, spawn, scratch, texto PAUSE",        "CODE",     0x0133B0, 0x013D6A),
+    ("Relleno $00 + tablas escasas",                           "DATA",     0x013D6A, 0x024E10),
+    ("Core: player, armas, fisica, probes, camara, scene VM",  "CODE",     0x024E10, 0x05E000),
+    ("Runtime tardio: input, debug, blits fix, VRAM, RNG",     "CODE",     0x05E000, 0x083000),
+    ("Enemigos, jefes, escenas, items, hiscore, mobs",         "CODE",     0x083000, 0x09C608),
+    ("Datos: animaciones, paletas, listas de spawn",           "DATA",     0x09C608, 0x0E8000),
+    ("Indice de templates $E8000 + streams de mision",         "DATA-REG", 0x0E8000, 0x0F2FFC),
+    ("Datos graficos / mapas / scripts de nivel",              "DATA",     0x0F2FFC, 0x18D152),
+    ("Granadas del jugador (banco alto, CPU $28Dxxx)",         "CODE",     0x18D152, 0x18DB78),
+    ("Datos de animacion + 2 islas C ($19C95A/$19CB64)",       "DATA",     0x18DB78, 0x1F8000),
+    ("Relleno $00 final",                                      "ZERO",     0x1F8000, 0x200000),
+]
+
+
+def zone_report(covered: bytearray) -> None:
+    """Imprime la tabla de cobertura por zona (markdown) y los totales."""
+    tot: dict[str, list[int]] = {}
+    print("| Zona | Rango | Tipo | Total | Cubierto | % zona |")
+    print("|---|---|---|---:|---:|---:|")
+    for name, cat, a, b in ZONES:
+        n = b - a
+        c = sum(covered[a:b])
+        t = tot.setdefault(cat, [0, 0])
+        t[0] += n
+        t[1] += c
+        print(f"| {name} | `${a:06X}..${b:06X}` | {cat} | {n:,} B | {c:,} B | "
+              f"{100.0*c/n:.1f} % |")
+    print()
+    print("| Tipo | Total | Cubierto | % |")
+    print("|---|---:|---:|---:|")
+    for cat in ("CODE", "DATA-REG", "DATA", "SYSTEM", "ZERO"):
+        if cat in tot:
+            n, c = tot[cat]
+            print(f"| {cat} | {n:,} B | {c:,} B | {100.0*c/n:.1f} % |")
+    # huecos restantes dentro de zonas CODE
+    gaps = 0
+    cnt = 0
+    for _name, cat, a, b in ZONES:
+        if cat != "CODE":
+            continue
+        i = a
+        while i < b:
+            if covered[i]:
+                i += 1
+                continue
+            j = i
+            while j < b and not covered[j]:
+                j += 1
+            gaps += j - i
+            cnt += 1
+            i = j
+    print(f"\nHuecos pendientes en zonas CODE: {cnt} huecos, {gaps:,} B")
+
+
 def entropy(chunk: bytes) -> float:
     if not chunk:
         return 0.0
@@ -110,6 +176,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
     ap.add_argument("--blocks", action="store_true",
                     help="imprimir el mapa bloque a bloque")
+    ap.add_argument("--zones", action="store_true",
+                    help="tabla markdown de cobertura por zona (mapa curado ZONES)")
     args = ap.parse_args()
 
     if not os.path.exists(ROM_PATH):
@@ -159,6 +227,10 @@ def main():
         print(f"    {cat:<9} {b:>9,} B  {100.0*b/rom_size:5.1f} %   "
               f"cubierto: {cat_cov[cat]:,} B")
     print("=" * 68)
+
+    if args.zones:
+        print()
+        zone_report(covered)
 
     if args.blocks:
         print("\n  Mapa por bloque ($addr  categoria  cubierto):")
