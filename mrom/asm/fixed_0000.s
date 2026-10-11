@@ -4,6 +4,8 @@
 
 org	00000h
 
+include "neogeo_z80.inc"		; hardware ports / YM2610 registers (mrom/include)
+
 ; ---- RAM / constant equates (from mrom/map/fixed_0000_syms.txt) ----
 wTick_F800:	equ 0xf800
 wTickPending_F801:	equ 0xf801
