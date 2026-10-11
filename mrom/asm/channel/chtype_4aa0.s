@@ -1,0 +1,153 @@
+; chtype_4aa0.s - M-ROM fixed_0000 [0x4aa0..0x4b84)
+; Carved from mrom/asm/raw/fixed_0000.s by mrom/tools/split_region.py.
+; Assembled through mrom/asm/fixed_0000.s; must stay byte-identical.
+
+ChTypeJumpTable0_4AA0:
+	defw l2aa8h		;4aa0
+	defw l3568h		;4aa2
+	defw l3f41h		;4aa4
+	defw l427fh		;4aa6
+l4aa8h:
+	ld hl,l4ac4h		;4aa8
+	push hl			;4aab
+	ld a,(ix+002h)		;4aac
+	add a,a			;4aaf
+	ld l,a			;4ab0
+	ld h,000h		;4ab1
+	ld de,ChTypeJumpTable1_4ABC		;4ab3
+	add hl,de			;4ab6
+	ld e,(hl)			;4ab7
+	inc hl			;4ab8
+	ld d,(hl)			;4ab9
+	ex de,hl			;4aba
+	jp (hl)			;4abb
+ChTypeJumpTable1_4ABC:
+	defw l2b12h		;4abc
+	defw l3615h		;4abe
+	defw l3fbah		;4ac0
+	defw l42efh		;4ac2
+l4ac4h:
+	ld hl,l4ae0h		;4ac4
+	push hl			;4ac7
+	ld a,(ix+002h)		;4ac8
+	add a,a			;4acb
+	ld l,a			;4acc
+	ld h,000h		;4acd
+	ld de,ChTypeJumpTable2_4AD8		;4acf
+	add hl,de			;4ad2
+	ld e,(hl)			;4ad3
+	inc hl			;4ad4
+	ld d,(hl)			;4ad5
+	ex de,hl			;4ad6
+	jp (hl)			;4ad7
+ChTypeJumpTable2_4AD8:
+	defw l2b02h		;4ad8
+	defw l3605h		;4ada
+	defw l3f60h		;4adc
+	defw l42cah		;4ade
+l4ae0h:
+	scf			;4ae0
+	ret			;4ae1
+Ch_KeyOn_4AE2:
+	ld e,(iy+000h)		;4ae2
+	ld d,(iy+001h)		;4ae5
+	ld a,e			;4ae8
+	or d			;4ae9
+	ret z			;4aea
+	defb 0ddh,06bh	;ld ixl,e		;4aeb
+	defb 0ddh,062h	;ld ixh,d		;4aed
+	ld l,(ix+000h)		;4aef
+	ld h,(ix+001h)		;4af2
+	defb 0fdh,05dh	;ld e,iyl		;4af5
+	defb 0fdh,054h	;ld d,iyh		;4af7
+	and a			;4af9
+	sbc hl,de		;4afa
+	jp z,l4b01h		;4afc
+	and a			;4aff
+	ret			;4b00
+l4b01h:
+	scf			;4b01
+	ret			;4b02
+sub_4b03h:
+	ld a,(ix+002h)		;4b03
+	xor 001h		;4b06
+	ret nz			;4b08
+	scf			;4b09
+	ret			;4b0a
+Ch_SetNote_4B0B:
+	call Ch_KeyOn_4AE2		;4b0b
+	ret nc			;4b0e
+	call sub_4b03h		;4b0f
+	jr nc,l4b19h		;4b12
+	call sub_3672h		;4b14
+	scf			;4b17
+	ret			;4b18
+l4b19h:
+	ld a,(iy+012h)		;4b19
+	add a,0feh		;4b1c
+	ld b,a			;4b1e
+	sbc a,a			;4b1f
+	and b			;4b20
+	ld (iy+012h),a		;4b21
+	scf			;4b24
+	ret			;4b25
+Ch_SetNote2_4B26:
+	call Ch_KeyOn_4AE2		;4b26
+	ret nc			;4b29
+	call sub_4b03h		;4b2a
+	jr nc,l4b34h		;4b2d
+	call sub_36aah		;4b2f
+	scf			;4b32
+	ret			;4b33
+l4b34h:
+	ld a,(iy+012h)		;4b34
+	add a,002h		;4b37
+	ld b,a			;4b39
+	sbc a,a			;4b3a
+	or b			;4b3b
+	ld (iy+012h),a		;4b3c
+	scf			;4b3f
+	ret			;4b40
+Ch_SetNote3_4B41:
+	call Ch_KeyOn_4AE2		;4b41
+	ret nc			;4b44
+	call sub_4b03h		;4b45
+	ccf			;4b48
+	ret c			;4b49
+	call sub_36e1h		;4b4a
+	scf			;4b4d
+	ret			;4b4e
+Ch_SetNote4_4B4F:
+	call Ch_KeyOn_4AE2		;4b4f
+	ret nc			;4b52
+	call sub_4b03h		;4b53
+	ccf			;4b56
+	ret c			;4b57
+	call sub_3711h		;4b58
+	scf			;4b5b
+	ret			;4b5c
+sub_4b5dh:
+	ld l,(iy+00ah)		;4b5d
+	ld h,000h		;4b60
+	add hl,hl			;4b62
+	add hl,hl			;4b63
+	ex de,hl			;4b64
+	ld h,(iy+00bh)		;4b65
+	ld a,h			;4b68
+	inc a			;4b69
+	jr nz,l4b72h		;4b6a
+	ld hl,l2509h		;4b6c
+	jp l4b7fh		;4b6f
+l4b72h:
+	ld l,000h		;4b72
+	add hl,hl			;4b74
+	add hl,de			;4b75
+	ex de,hl			;4b76
+	push de			;4b77
+	ld hl,BankPtrTable_0080		;4b78
+	call Bank_ResolvePtr24_1FA6		;4b7b
+	pop de			;4b7e
+l4b7fh:
+	add hl,de			;4b7f
+	call Bank_ResolvePtr24_1FA6		;4b80
+	ret			;4b83
