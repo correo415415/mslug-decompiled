@@ -5,6 +5,59 @@
 ; functions out into mrom/asm/<subsystem>/ instead.
 
 org	00000h
+wTick_F800:	equ 0xf800
+wTickPending_F801:	equ 0xf801
+wTickCount_F802:	equ 0xf802
+wTickDiv_F803:	equ 0xf803
+wSfxFlag_F804:	equ 0xf804
+wMasterVolume_F805:	equ 0xf805
+wVolumeLevel_F806:	equ 0xf806
+wFadeFlag_F808:	equ 0xf808
+wTempoStep_F809:	equ 0xf809
+wYmStatus_F80A:	equ 0xf80a
+wYmPortLatch_F80B:	equ 0xf80b
+wNmiRingRd_F80F:	equ 0xf80f
+wNmiRingWr_F810:	equ 0xf810
+wCurBank_F811:	equ 0xf811
+wTmpWord_F812:	equ 0xf812
+wTmpByte_F814:	equ 0xf814
+wSoundId_F815:	equ 0xf815
+wSfxPending_F816:	equ 0xf816
+wSoundParam_F817:	equ 0xf817
+wMusicId_F818:	equ 0xf818
+wCmdCounter_F819:	equ 0xf819
+wSfxId_F81B:	equ 0xf81b
+wCmdType_F81C:	equ 0xf81c
+wRngState_F81D:	equ 0xf81d
+wSSG_ChA_F81F:	equ 0xf81f
+wSSG_ChB_F86B:	equ 0xf86b
+wSSG_ChC_F8B7:	equ 0xf8b7
+wSSG_Mixer_F903:	equ 0xf903
+wSSG_EnvShape_F905:	equ 0xf905
+wFM_Ch1_F907:	equ 0xf907
+wFM_Ch2_F96E:	equ 0xf96e
+wFM_Ch3_F9D5:	equ 0xf9d5
+wFM_Ch4_FA3C:	equ 0xfa3c
+wFM_Shared_FAA3:	equ 0xfaa3
+wPCMA_Ch1_FAA5:	equ 0xfaa5
+wPCMA_Ch2_FACE:	equ 0xface
+wPCMA_Ch3_FAF7:	equ 0xfaf7
+wPCMA_Ch4_FB20:	equ 0xfb20
+wPCMA_Ch5_FB49:	equ 0xfb49
+wPCMA_Ch6_FB72:	equ 0xfb72
+wPCMB_Ch_FB9B:	equ 0xfb9b
+wPCMB_Shared_FBBA:	equ 0xfbba
+wNoteTmp_FBF5:	equ 0xfbf5
+wNoteLen_FBF6:	equ 0xfbf6
+wNoteVol_FBF7:	equ 0xfbf7
+wNoteGate_FBF8:	equ 0xfbf8
+wMusicTracks_FBFC:	equ 0xfbfc
+wMusicHdr_FDE6:	equ 0xfde6
+wSfxTracks_FDF2:	equ 0xfdf2
+wCurTrack_FF0A:	equ 0xff0a
+wReplyToggle_FF0C:	equ 0xff0c
+wSeqPtr_FF0D:	equ 0xff0d
+wStackTop_FFF0:	equ 0xfff0
 
 Reset_0000:
 	di			;0000
@@ -23,7 +76,7 @@ l000ah:
 l000eh:
 	ld a,e			;000e
 	ld e,c			;000f
-	ld (0f80bh),de		;0010
+	ld (wYmPortLatch_F80B),de		;0010
 l0014h:
 	out (c),d		;0014
 	nop			;0016
@@ -7684,9 +7737,9 @@ l1cffh:
 Main_Init_1E00:
 	xor a			;1e00
 	out (00ch),a		;1e01
-	ld sp,0fff0h		;1e03
+	ld sp,wStackTop_FFF0		;1e03
 	ld bc,00004h		;1e06
-	ld (0f80bh),bc		;1e09
+	ld (wYmPortLatch_F80B),bc		;1e09
 	call Bank_SelectInit_1F7D		;1e0d
 	call NMI_RingReset_1EB3		;1e10
 	call Cmd_InitState_203F		;1e13
@@ -7697,17 +7750,17 @@ Main_Init_1E00:
 	call Seq_Init_4C84		;1e22
 	call Seq_InitTracks_5025		;1e25
 	xor a			;1e28
-	ld (0f801h),a		;1e29
-	ld (0f80ah),a		;1e2c
-	ld (0f802h),a		;1e2f
+	ld (wTickPending_F801),a		;1e29
+	ld (wYmStatus_F80A),a		;1e2c
+	ld (wTickCount_F802),a		;1e2f
 	ld a,001h		;1e32
-	ld (0f803h),a		;1e34
+	ld (wTickDiv_F803),a		;1e34
 	call YM_InitTimers_1E6B		;1e37
 	im 1		;1e3a
 	out (008h),a		;1e3c
 	ei			;1e3e
 Main_Loop_1E3F:
-	ld hl,0f800h		;1e3f
+	ld hl,wTick_F800		;1e3f
 	inc (hl)			;1e42
 	call Cmd_Dispatch_2050		;1e43
 	call SSG_Update_2593		;1e46
@@ -7716,7 +7769,7 @@ Main_Loop_1E3F:
 	call ADPCMB_Update_4024		;1e4f
 	call Seq_UpdateTracks_514F		;1e52
 	call Seq_Update_4CA6		;1e55
-	ld hl,0f801h		;1e58
+	ld hl,wTickPending_F801		;1e58
 Main_WaitTick_1E5B:
 	ld a,(hl)			;1e5b
 	and a			;1e5c
@@ -7745,12 +7798,12 @@ IRQ_Timer_1E7A:
 	push hl			;1e7d
 	push ix		;1e7e
 	push iy		;1e80
-	ld bc,(0f80bh)		;1e82
+	ld bc,(wYmPortLatch_F80B)		;1e82
 	push bc			;1e86
 	ld c,004h		;1e87
 	ld de,l2735h		;1e89
 	rst 8			;1e8c
-	ld hl,0f801h		;1e8d
+	ld hl,wTickPending_F801		;1e8d
 	ld a,(hl)			;1e90
 	cp 002h		;1e91
 	jr nc,l1e97h		;1e93
@@ -7760,7 +7813,7 @@ l1e97h:
 	inc hl			;1e97
 	inc (hl)			;1e98
 	in a,(006h)		;1e99
-	ld (0f80ah),a		;1e9b
+	ld (wYmStatus_F80A),a		;1e9b
 	ld c,004h		;1e9e
 l1ea0h:
 	in a,(c)		;1ea0
@@ -7777,11 +7830,11 @@ l1ea0h:
 	reti		;1eb1
 NMI_RingReset_1EB3:
 	xor a			;1eb3
-	ld (0f80fh),a		;1eb4
-	ld (0f810h),a		;1eb7
+	ld (wNmiRingRd_F80F),a		;1eb4
+	ld (wNmiRingWr_F810),a		;1eb7
 	ret			;1eba
 NMI_RingPop_1EBB:
-	ld hl,0f810h		;1ebb
+	ld hl,wNmiRingWr_F810		;1ebb
 	ld c,(hl)			;1ebe
 	dec hl			;1ebf
 	ld a,(hl)			;1ec0
@@ -7793,7 +7846,7 @@ NMI_RingPop_1EBB:
 	inc a			;1ec9
 	and 00fh		;1eca
 	ld (hl),a			;1ecc
-	ld hl,0fff0h		;1ecd
+	ld hl,wStackTop_FFF0		;1ecd
 	add hl,de			;1ed0
 	ld a,(hl)			;1ed1
 	scf			;1ed2
@@ -7815,16 +7868,16 @@ NMI_Command_1ED6:
 	cp 003h		;1ee7
 	jp z,NMI_HardReset_1F4B		;1ee9
 	ld c,a			;1eec
-	ld a,(0f810h)		;1eed
+	ld a,(wNmiRingWr_F810)		;1eed
 	and 00fh		;1ef0
-	ld hl,0fff0h		;1ef2
+	ld hl,wStackTop_FFF0		;1ef2
 	ld e,a			;1ef5
 	ld d,000h		;1ef6
 	add hl,de			;1ef8
 	ld (hl),c			;1ef9
 	inc a			;1efa
 	and 00fh		;1efb
-	ld (0f810h),a		;1efd
+	ld (wNmiRingWr_F810),a		;1efd
 	pop iy		;1f00
 	pop ix		;1f02
 	pop hl			;1f04
@@ -7864,18 +7917,18 @@ NMI_SoftReset_1F0A:
 	rst 8			;1f33
 	inc d			;1f34
 	rst 8			;1f35
-	ld hl,0f800h		;1f36
+	ld hl,wTick_F800		;1f36
 	ld (hl),018h		;1f39
 	inc hl			;1f3b
 	ld (hl),0feh		;1f3c
-	ld sp,0fff0h		;1f3e
-	ld hl,0f800h		;1f41
+	ld sp,wStackTop_FFF0		;1f3e
+	ld hl,wTick_F800		;1f41
 	push hl			;1f44
 	ld a,001h		;1f45
 	out (00ch),a		;1f47
 	retn		;1f49
 NMI_HardReset_1F4B:
-	ld sp,0fff0h		;1f4b
+	ld sp,wStackTop_FFF0		;1f4b
 	ld hl,Reset_0000		;1f4e
 	push hl			;1f51
 	retn		;1f52
@@ -7917,13 +7970,13 @@ l1f77h:
 	ret			;1f7c
 Bank_SelectInit_1F7D:
 	ld a,0ffh		;1f7d
-	ld (0f811h),a		;1f7f
+	ld (wCurBank_F811),a		;1f7f
 	ld b,002h		;1f82
-	ld a,(0f811h)		;1f84
+	ld a,(wCurBank_F811)		;1f84
 	cp b			;1f87
 	jp z,l1fa5h		;1f88
 	ld a,b			;1f8b
-	ld (0f811h),a		;1f8c
+	ld (wCurBank_F811),a		;1f8c
 	ld c,00bh		;1f8f
 	in a,(c)		;1f91
 	inc b			;1f93
@@ -7954,11 +8007,11 @@ Bank_ResolvePtr24_1FA6:
 	adc a,a			;1fb0
 	ld b,a			;1fb1
 	push bc			;1fb2
-	ld a,(0f811h)		;1fb3
+	ld a,(wCurBank_F811)		;1fb3
 	cp b			;1fb6
 	jp z,l1fd4h		;1fb7
 	ld a,b			;1fba
-	ld (0f811h),a		;1fbb
+	ld (wCurBank_F811),a		;1fbb
 	ld c,00bh		;1fbe
 	in a,(c)		;1fc0
 	inc b			;1fc2
@@ -8026,23 +8079,23 @@ Ch_ResetStruct_201B:
 	ret			;203e
 Cmd_InitState_203F:
 	xor a			;203f
-	ld (0f816h),a		;2040
-	ld (0f81bh),a		;2043
-	ld (0f81ch),a		;2046
-	ld (0f817h),a		;2049
-	ld (0f818h),a		;204c
+	ld (wSfxPending_F816),a		;2040
+	ld (wSfxId_F81B),a		;2043
+	ld (wCmdType_F81C),a		;2046
+	ld (wSoundParam_F817),a		;2049
+	ld (wMusicId_F818),a		;204c
 	ret			;204f
 Cmd_Dispatch_2050:
 	call NMI_RingPop_1EBB		;2050
 	ret nc			;2053
-	ld hl,(0f819h)		;2054
+	ld hl,(wCmdCounter_F819)		;2054
 	inc hl			;2057
-	ld (0f819h),hl		;2058
+	ld (wCmdCounter_F819),hl		;2058
 	cp 020h		;205b
 	jr nc,Cmd_DispatchHi_2096		;205d
 	cp 00fh		;205f
 	jr z,l2066h		;2061
-	ld (0f81ch),a		;2063
+	ld (wCmdType_F81C),a		;2063
 l2066h:
 	cp 010h		;2066
 	ret nc			;2068
@@ -8074,10 +8127,10 @@ CmdJumpTable_2076:
 	defw Cmd_Nop_20D3		;2092
 	defw Cmd_StopSfx_2156		;2094
 Cmd_DispatchHi_2096:
-	ld (0f81bh),a		;2096
+	ld (wSfxId_F81B),a		;2096
 	sub 020h		;2099
-	ld (0f815h),a		;209b
-	ld a,(0f81ch)		;209e
+	ld (wSoundId_F815),a		;209b
+	ld a,(wCmdType_F81C)		;209e
 	cp 010h		;20a1
 	jp nc,Cmd_PlaySfx_2115		;20a3
 	add a,a			;20a6
@@ -8110,14 +8163,14 @@ CmdHiJumpTable_20B3:
 Cmd_Nop_20D3:
 	ret			;20d3
 Cmd_PlayMusic_20D4:
-	ld a,(0f818h)		;20d4
+	ld a,(wMusicId_F818)		;20d4
 	call Seq_SetVolumeLevel_4F88		;20d7
 	xor a			;20da
-	ld (0f818h),a		;20db
+	ld (wMusicId_F818),a		;20db
 	ld hl,l0084h		;20de
 	call Bank_ResolvePtr24_1FA6		;20e1
 	ex de,hl			;20e4
-	ld a,(0f815h)		;20e5
+	ld a,(wSoundId_F815)		;20e5
 	ld l,a			;20e8
 	ld h,000h		;20e9
 	add hl,hl			;20eb
@@ -8138,24 +8191,24 @@ Cmd_PlayMusic_20D4:
 	jp Seq_StartMusic_4FA3		;20fe
 Cmd_StopMusic_2101:
 	xor a			;2101
-	ld (0f818h),a		;2102
+	ld (wMusicId_F818),a		;2102
 	call Seq_SetVolumeLevel_4F88		;2105
 	ld ix,CmdStruct_24DE		;2108
 	jp Seq_StartMusic_4FA3		;210c
 Cmd_SetFlag_210F:
 	ld a,0ffh		;210f
-	ld (0f816h),a		;2111
+	ld (wSfxPending_F816),a		;2111
 	ret			;2114
 Cmd_PlaySfx_2115:
-	ld a,(0f816h)		;2115
+	ld a,(wSfxPending_F816)		;2115
 	and a			;2118
 	jr z,l2126h		;2119
 	xor a			;211b
-	ld (0f816h),a		;211c
-	ld bc,(0f81bh)		;211f
+	ld (wSfxPending_F816),a		;211c
+	ld bc,(wSfxId_F81B)		;211f
 	jp Seq_StopTrackById_5210		;2123
 l2126h:
-	ld a,(0f81ch)		;2126
+	ld a,(wCmdType_F81C)		;2126
 	sub 010h		;2129
 	and 00fh		;212b
 	add a,a			;212d
@@ -8166,7 +8219,7 @@ l2126h:
 	add hl,de			;2135
 	call Bank_ResolvePtr24_1FA6		;2136
 	ex de,hl			;2139
-	ld a,(0f815h)		;213a
+	ld a,(wSoundId_F815)		;213a
 	ld l,a			;213d
 	ld h,000h		;213e
 	add hl,hl			;2140
@@ -8196,29 +8249,29 @@ Cmd_StopAll2_2163:
 Cmd_StopSeq_2166:
 	jp Seq_StopAllTracks_504E		;2166
 Cmd_SetParam_2169:
-	ld a,(0f815h)		;2169
-	ld (0f817h),a		;216c
+	ld a,(wSoundId_F815)		;2169
+	ld (wSoundParam_F817),a		;216c
 	ret			;216f
 Cmd_SetTempo_2170:
-	ld a,(0f815h)		;2170
+	ld a,(wSoundId_F815)		;2170
 	add a,020h		;2173
 	srl a		;2175
 	ld b,a			;2177
-	ld a,(0f817h)		;2178
+	ld a,(wSoundParam_F817)		;2178
 	jp l4f5bh		;217b
 Cmd_SetFade_217E:
-	ld a,(0f815h)		;217e
-	ld (0f818h),a		;2181
+	ld a,(wSoundId_F815)		;217e
+	ld (wMusicId_F818),a		;2181
 	ret			;2184
 Cmd_FadeOutOn_2185:
 	ld a,001h		;2185
-	ld (0f808h),a		;2187
-	ld a,(0f815h)		;218a
+	ld (wFadeFlag_F808),a		;2187
+	ld a,(wSoundId_F815)		;218a
 	jp Seq_SetVolumeLevel_4F88		;218d
 Cmd_FadeOutOff_2190:
 	ld a,000h		;2190
-	ld (0f808h),a		;2192
-	ld a,(0f815h)		;2195
+	ld (wFadeFlag_F808),a		;2192
+	ld a,(wSoundId_F815)		;2195
 	jp Seq_SetVolumeLevel_4F88		;2198
 Seq_LoadOpPtrs_219B:
 	xor a			;219b
@@ -8481,13 +8534,13 @@ Rng_Next_2300:
 	ld (hl),a			;2304
 	inc hl			;2305
 	inc hl			;2306
-	ld de,(0f81dh)		;2307
+	ld de,(wRngState_F81D)		;2307
 	ld a,r		;230b
 	add a,e			;230d
 	ld e,d			;230e
 	xor d			;230f
 	ld d,a			;2310
-	ld (0f81dh),de		;2311
+	ld (wRngState_F81D),de		;2311
 	ld (hl),a			;2315
 	inc hl			;2316
 	inc hl			;2317
@@ -8599,13 +8652,13 @@ l2393h:
 l2399h:
 	inc b			;2399
 	jr nz,l23abh		;239a
-	ld de,(0f81dh)		;239c
+	ld de,(wRngState_F81D)		;239c
 	ld a,r		;23a0
 	add a,e			;23a2
 	ld e,d			;23a3
 	xor d			;23a4
 	ld d,a			;23a5
-	ld (0f81dh),de		;23a6
+	ld (wRngState_F81D),de		;23a6
 	ld (hl),a			;23aa
 l23abh:
 	ld a,(hl)			;23ab
@@ -8899,23 +8952,23 @@ SSG_Init_2515:
 	ld c,004h		;2524
 	rst 8			;2526
 	ld a,038h		;2527
-	ld (0f905h),a		;2529
+	ld (wSSG_EnvShape_F905),a		;2529
 	ld (0f906h),a		;252c
 	ld e,a			;252f
 	ld d,007h		;2530
 	ld c,004h		;2532
 	rst 8			;2534
-	ld ix,0f81fh		;2535
+	ld ix,wSSG_ChA_F81F		;2535
 	ld (ix+014h),009h		;2539
 	call SSG_InitChannel_255D		;253d
-	ld ix,0f86bh		;2540
+	ld ix,wSSG_ChB_F86B		;2540
 	ld (ix+014h),012h		;2544
 	call SSG_InitChannel_255D		;2548
-	ld ix,0f8b7h		;254b
+	ld ix,wSSG_ChC_F8B7		;254b
 	ld (ix+014h),024h		;254f
 	call SSG_InitChannel_255D		;2553
 	ld hl,Reset_0000		;2556
-	ld (0f903h),hl		;2559
+	ld (wSSG_Mixer_F903),hl		;2559
 	ret			;255c
 SSG_InitChannel_255D:
 	call Ch_InitStruct_1FE5		;255d
@@ -8942,13 +8995,13 @@ SSG_InitChannel_255D:
 	pop ix		;2590
 	ret			;2592
 SSG_Update_2593:
-	ld ix,0f81fh		;2593
-	ld iy,(0f81fh)		;2597
+	ld ix,wSSG_ChA_F81F		;2593
+	ld iy,(wSSG_ChA_F81F)		;2597
 	bit 3,(iy+009h)		;259b
 	call nz,Ch_ResetStruct_201B		;259f
 	ld hl,0f834h		;25a2
 	call Env_Step_222D		;25a5
-	ld (0f814h),a		;25a8
+	ld (wTmpByte_F814),a		;25a8
 	and a			;25ab
 	jp z,l2686h		;25ac
 	ld hl,0f842h		;25af
@@ -8957,7 +9010,7 @@ SSG_Update_2593:
 	sub c			;25b8
 	dec a			;25b9
 	ld l,a			;25ba
-	ld a,(0f814h)		;25bb
+	ld a,(wTmpByte_F814)		;25bb
 	and a			;25be
 	jr z,l25d6h		;25bf
 	inc l			;25c1
@@ -8978,7 +9031,7 @@ SSG_Update_2593:
 	inc h			;25d4
 	ld a,(hl)			;25d5
 l25d6h:
-	ld (0f814h),a		;25d6
+	ld (wTmpByte_F814),a		;25d6
 	and a			;25d9
 	jp z,l2686h		;25da
 	ld a,(0f82ah)		;25dd
@@ -9015,7 +9068,7 @@ l2612h:
 	jr c,l2618h		;2614
 	ld a,01fh		;2616
 l2618h:
-	ld (0f903h),a		;2618
+	ld (wSSG_Mixer_F903),a		;2618
 	jp l2686h		;261b
 l261eh:
 	ld hl,(0f828h)		;261e
@@ -9024,7 +9077,7 @@ l261eh:
 	ld e,(iy+010h)		;2626
 	ld d,(iy+011h)		;2629
 	add hl,de			;262c
-	ld (0f812h),hl		;262d
+	ld (wTmpWord_F812),hl		;262d
 	ld hl,0f850h		;2630
 	ld d,(iy+00ch)		;2633
 	call Env_Update_231E		;2636
@@ -9034,12 +9087,12 @@ l261eh:
 	add hl,hl			;263d
 	and a			;263e
 	sbc hl,bc		;263f
-	ld de,(0f812h)		;2641
+	ld de,(wTmpWord_F812)		;2641
 	add hl,de			;2645
-	ld (0f812h),hl		;2646
+	ld (wTmpWord_F812),hl		;2646
 	ld hl,0f85eh		;2649
 	call Vib_Update_248E		;264c
-	ld de,(0f812h)		;264f
+	ld de,(wTmpWord_F812)		;264f
 	add hl,de			;2653
 	ex de,hl			;2654
 	ld hl,(0f82dh)		;2655
@@ -9075,7 +9128,7 @@ l267dh:
 	inc d			;2684
 	rst 8			;2685
 l2686h:
-	ld a,(0f814h)		;2686
+	ld a,(wTmpByte_F814)		;2686
 	ld l,a			;2689
 	ld a,(0f82ah)		;268a
 	and a			;268d
@@ -9123,7 +9176,7 @@ l26c0h:
 	ld a,0ffh		;26c1
 	bit 1,(iy+009h)		;26c3
 	jp z,l26cdh		;26c7
-	ld a,(0f805h)		;26ca
+	ld a,(wMasterVolume_F805)		;26ca
 l26cdh:
 	and a			;26cd
 	jr z,l26e5h		;26ce
@@ -9159,7 +9212,7 @@ l26f6h:
 	ld c,001h		;26f6
 	bit 1,(iy+009h)		;26f8
 	jr z,l2702h		;26fc
-	ld a,(0f809h)		;26fe
+	ld a,(wTempoStep_F809)		;26fe
 	ld c,a			;2701
 l2702h:
 	ld hl,0f825h		;2702
@@ -9190,13 +9243,13 @@ l2732h:
 l2735h:
 	call Env_Release_2219		;2735
 SSG_UpdateChB_2738:
-	ld ix,0f86bh		;2738
-	ld iy,(0f86bh)		;273c
+	ld ix,wSSG_ChB_F86B		;2738
+	ld iy,(wSSG_ChB_F86B)		;273c
 	bit 3,(iy+009h)		;2740
 	call nz,Ch_ResetStruct_201B		;2744
 	ld hl,0f880h		;2747
 	call Env_Step_222D		;274a
-	ld (0f814h),a		;274d
+	ld (wTmpByte_F814),a		;274d
 	and a			;2750
 	jp z,l282bh		;2751
 	ld hl,0f88eh		;2754
@@ -9205,7 +9258,7 @@ SSG_UpdateChB_2738:
 	sub c			;275d
 	dec a			;275e
 	ld l,a			;275f
-	ld a,(0f814h)		;2760
+	ld a,(wTmpByte_F814)		;2760
 	and a			;2763
 	jr z,l277bh		;2764
 	inc l			;2766
@@ -9226,7 +9279,7 @@ SSG_UpdateChB_2738:
 	inc h			;2779
 	ld a,(hl)			;277a
 l277bh:
-	ld (0f814h),a		;277b
+	ld (wTmpByte_F814),a		;277b
 	and a			;277e
 	jp z,l282bh		;277f
 	ld a,(0f876h)		;2782
@@ -9263,7 +9316,7 @@ l27b7h:
 	jr c,l27bdh		;27b9
 	ld a,01fh		;27bb
 l27bdh:
-	ld (0f903h),a		;27bd
+	ld (wSSG_Mixer_F903),a		;27bd
 	jp l282bh		;27c0
 l27c3h:
 	ld hl,(0f874h)		;27c3
@@ -9272,7 +9325,7 @@ l27c3h:
 	ld e,(iy+010h)		;27cb
 	ld d,(iy+011h)		;27ce
 	add hl,de			;27d1
-	ld (0f812h),hl		;27d2
+	ld (wTmpWord_F812),hl		;27d2
 	ld hl,0f89ch		;27d5
 	ld d,(iy+00ch)		;27d8
 	call Env_Update_231E		;27db
@@ -9282,12 +9335,12 @@ l27c3h:
 	add hl,hl			;27e2
 	and a			;27e3
 	sbc hl,bc		;27e4
-	ld de,(0f812h)		;27e6
+	ld de,(wTmpWord_F812)		;27e6
 	add hl,de			;27ea
-	ld (0f812h),hl		;27eb
+	ld (wTmpWord_F812),hl		;27eb
 	ld hl,0f8aah		;27ee
 	call Vib_Update_248E		;27f1
-	ld de,(0f812h)		;27f4
+	ld de,(wTmpWord_F812)		;27f4
 	add hl,de			;27f8
 	ex de,hl			;27f9
 	ld hl,(0f879h)		;27fa
@@ -9323,7 +9376,7 @@ l2822h:
 	inc d			;2829
 	rst 8			;282a
 l282bh:
-	ld a,(0f814h)		;282b
+	ld a,(wTmpByte_F814)		;282b
 	ld l,a			;282e
 	ld a,(0f876h)		;282f
 	and a			;2832
@@ -9371,7 +9424,7 @@ l2865h:
 	ld a,0ffh		;2866
 	bit 1,(iy+009h)		;2868
 	jp z,l2872h		;286c
-	ld a,(0f805h)		;286f
+	ld a,(wMasterVolume_F805)		;286f
 l2872h:
 	and a			;2872
 	jr z,l288ah		;2873
@@ -9407,7 +9460,7 @@ l289bh:
 	ld c,001h		;289b
 	bit 1,(iy+009h)		;289d
 	jr z,l28a7h		;28a1
-	ld a,(0f809h)		;28a3
+	ld a,(wTempoStep_F809)		;28a3
 	ld c,a			;28a6
 l28a7h:
 	ld hl,0f871h		;28a7
@@ -9437,13 +9490,13 @@ l28d7h:
 	ld hl,0f880h		;28d7
 	call Env_Release_2219		;28da
 SSG_UpdateChC_28DD:
-	ld ix,0f8b7h		;28dd
-	ld iy,(0f8b7h)		;28e1
+	ld ix,wSSG_ChC_F8B7		;28dd
+	ld iy,(wSSG_ChC_F8B7)		;28e1
 	bit 3,(iy+009h)		;28e5
 	call nz,Ch_ResetStruct_201B		;28e9
 	ld hl,0f8cch		;28ec
 	call Env_Step_222D		;28ef
-	ld (0f814h),a		;28f2
+	ld (wTmpByte_F814),a		;28f2
 	and a			;28f5
 	jp z,l29d0h		;28f6
 	ld hl,0f8dah		;28f9
@@ -9452,7 +9505,7 @@ SSG_UpdateChC_28DD:
 	sub c			;2902
 	dec a			;2903
 	ld l,a			;2904
-	ld a,(0f814h)		;2905
+	ld a,(wTmpByte_F814)		;2905
 	and a			;2908
 	jr z,l2920h		;2909
 	inc l			;290b
@@ -9473,7 +9526,7 @@ SSG_UpdateChC_28DD:
 	inc h			;291e
 	ld a,(hl)			;291f
 l2920h:
-	ld (0f814h),a		;2920
+	ld (wTmpByte_F814),a		;2920
 	and a			;2923
 	jp z,l29d0h		;2924
 	ld a,(0f8c2h)		;2927
@@ -9510,7 +9563,7 @@ l295ch:
 	jr c,l2962h		;295e
 	ld a,01fh		;2960
 l2962h:
-	ld (0f903h),a		;2962
+	ld (wSSG_Mixer_F903),a		;2962
 	jp l29d0h		;2965
 l2968h:
 	ld hl,(0f8c0h)		;2968
@@ -9519,7 +9572,7 @@ l2968h:
 	ld e,(iy+010h)		;2970
 	ld d,(iy+011h)		;2973
 	add hl,de			;2976
-	ld (0f812h),hl		;2977
+	ld (wTmpWord_F812),hl		;2977
 	ld hl,0f8e8h		;297a
 	ld d,(iy+00ch)		;297d
 	call Env_Update_231E		;2980
@@ -9529,12 +9582,12 @@ l2968h:
 	add hl,hl			;2987
 	and a			;2988
 	sbc hl,bc		;2989
-	ld de,(0f812h)		;298b
+	ld de,(wTmpWord_F812)		;298b
 	add hl,de			;298f
-	ld (0f812h),hl		;2990
+	ld (wTmpWord_F812),hl		;2990
 	ld hl,0f8f6h		;2993
 	call Vib_Update_248E		;2996
-	ld de,(0f812h)		;2999
+	ld de,(wTmpWord_F812)		;2999
 	add hl,de			;299d
 	ex de,hl			;299e
 	ld hl,(0f8c5h)		;299f
@@ -9570,7 +9623,7 @@ l29c7h:
 	inc d			;29ce
 	rst 8			;29cf
 l29d0h:
-	ld a,(0f814h)		;29d0
+	ld a,(wTmpByte_F814)		;29d0
 	ld l,a			;29d3
 	ld a,(0f8c2h)		;29d4
 	and a			;29d7
@@ -9618,7 +9671,7 @@ l2a0ah:
 	ld a,0ffh		;2a0b
 	bit 1,(iy+009h)		;2a0d
 	jp z,l2a17h		;2a11
-	ld a,(0f805h)		;2a14
+	ld a,(wMasterVolume_F805)		;2a14
 l2a17h:
 	and a			;2a17
 	jr z,l2a2fh		;2a18
@@ -9654,7 +9707,7 @@ l2a40h:
 	ld c,001h		;2a40
 	bit 1,(iy+009h)		;2a42
 	jr z,l2a4ch		;2a46
-	ld a,(0f809h)		;2a48
+	ld a,(wTempoStep_F809)		;2a48
 	ld c,a			;2a4b
 l2a4ch:
 	ld hl,0f8bdh		;2a4c
@@ -9684,7 +9737,7 @@ l2a7ch:
 	ld hl,0f8cch		;2a7c
 	call Env_Release_2219		;2a7f
 l2a82h:
-	ld hl,0f903h		;2a82
+	ld hl,wSSG_Mixer_F903		;2a82
 	ld e,(hl)			;2a85
 	inc hl			;2a86
 	ld a,(hl)			;2a87
@@ -9730,7 +9783,7 @@ l2aa8h:
 	xor 038h		;2abb
 	exx			;2abd
 	ld b,a			;2abe
-	ld hl,0f905h		;2abf
+	ld hl,wSSG_EnvShape_F905		;2abf
 	xor (hl)			;2ac2
 	or (ix+014h)		;2ac3
 	xor b			;2ac6
@@ -9828,20 +9881,20 @@ l2b59h:
 	ld c,006h		;2b7e
 	jp l2b59h		;2b80
 l2b83h:
-	ld ix,0f907h		;2b83
+	ld ix,wFM_Ch1_F907		;2b83
 	ld (ix+012h),001h		;2b87
 	call sub_2bb7h		;2b8b
-	ld ix,0f96eh		;2b8e
+	ld ix,wFM_Ch2_F96E		;2b8e
 	ld (ix+012h),002h		;2b92
 	call sub_2bb7h		;2b96
-	ld ix,0f9d5h		;2b99
+	ld ix,wFM_Ch3_F9D5		;2b99
 	ld (ix+012h),005h		;2b9d
 	call sub_2bb7h		;2ba1
-	ld ix,0fa3ch		;2ba4
+	ld ix,wFM_Ch4_FA3C		;2ba4
 	ld (ix+012h),006h		;2ba8
 	call sub_2bb7h		;2bac
 	xor a			;2baf
-	ld (0faa3h),a		;2bb0
+	ld (wFM_Shared_FAA3),a		;2bb0
 	ld (0faa4h),a		;2bb3
 	ret			;2bb6
 sub_2bb7h:
@@ -9942,7 +9995,7 @@ sub_2c03h:
 	jp c,YM_Write_RST8_0008		;2c5b
 	ret			;2c5e
 FM_Update_2C5F:
-	ld hl,0faa3h		;2c5f
+	ld hl,wFM_Shared_FAA3		;2c5f
 	ld e,(hl)			;2c62
 	inc hl			;2c63
 	ld a,(hl)			;2c64
@@ -9953,8 +10006,8 @@ FM_Update_2C5F:
 	ld c,004h		;2c6c
 	rst 8			;2c6e
 l2c6fh:
-	ld ix,0f907h		;2c6f
-	ld iy,(0f907h)		;2c73
+	ld ix,wFM_Ch1_F907		;2c6f
+	ld iy,(wFM_Ch1_F907)		;2c73
 	bit 3,(iy+009h)		;2c77
 	call nz,Ch_ResetStruct_201B		;2c7b
 	ld a,(0f93fh)		;2c7e
@@ -9977,7 +10030,7 @@ l2c95h:
 	ld e,(iy+010h)		;2c9d
 	ld d,(iy+011h)		;2ca0
 	add hl,de			;2ca3
-	ld (0f812h),hl		;2ca4
+	ld (wTmpWord_F812),hl		;2ca4
 	ld hl,0f953h		;2ca7
 	ld d,(iy+00ch)		;2caa
 	call Env_Update_231E		;2cad
@@ -9987,12 +10040,12 @@ l2c95h:
 	add hl,hl			;2cb4
 	and a			;2cb5
 	sbc hl,bc		;2cb6
-	ld de,(0f812h)		;2cb8
+	ld de,(wTmpWord_F812)		;2cb8
 	add hl,de			;2cbc
-	ld (0f812h),hl		;2cbd
+	ld (wTmpWord_F812),hl		;2cbd
 	ld hl,0f961h		;2cc0
 	call Vib_Update_248E		;2cc3
-	ld de,(0f812h)		;2cc6
+	ld de,(wTmpWord_F812)		;2cc6
 	add hl,de			;2cca
 	ld de,(0f915h)		;2ccb
 	and a			;2ccf
@@ -10092,7 +10145,7 @@ l2d52h:
 	ld a,0ffh		;2d53
 	bit 1,(iy+009h)		;2d55
 	jp z,l2d5fh		;2d59
-	ld a,(0f805h)		;2d5c
+	ld a,(wMasterVolume_F805)		;2d5c
 l2d5fh:
 	and a			;2d5f
 	jr z,l2d77h		;2d60
@@ -10267,7 +10320,7 @@ l2e6bh:
 	ld c,001h		;2e6b
 	bit 1,(iy+009h)		;2e6d
 	jr z,l2e77h		;2e71
-	ld a,(0f809h)		;2e73
+	ld a,(wTempoStep_F809)		;2e73
 	ld c,a			;2e76
 l2e77h:
 	ld hl,0f90dh		;2e77
@@ -10297,8 +10350,8 @@ l2ea7h:
 	ld a,(0f919h)		;2ea7
 	ld (0f943h),a		;2eaa
 l2eadh:
-	ld ix,0f96eh		;2ead
-	ld iy,(0f96eh)		;2eb1
+	ld ix,wFM_Ch2_F96E		;2ead
+	ld iy,(wFM_Ch2_F96E)		;2eb1
 	bit 3,(iy+009h)		;2eb5
 	call nz,Ch_ResetStruct_201B		;2eb9
 	ld a,(0f9a6h)		;2ebc
@@ -10321,7 +10374,7 @@ l2ed3h:
 	ld e,(iy+010h)		;2edb
 	ld d,(iy+011h)		;2ede
 	add hl,de			;2ee1
-	ld (0f812h),hl		;2ee2
+	ld (wTmpWord_F812),hl		;2ee2
 	ld hl,0f9bah		;2ee5
 	ld d,(iy+00ch)		;2ee8
 	call Env_Update_231E		;2eeb
@@ -10331,12 +10384,12 @@ l2ed3h:
 	add hl,hl			;2ef2
 	and a			;2ef3
 	sbc hl,bc		;2ef4
-	ld de,(0f812h)		;2ef6
+	ld de,(wTmpWord_F812)		;2ef6
 	add hl,de			;2efa
-	ld (0f812h),hl		;2efb
+	ld (wTmpWord_F812),hl		;2efb
 	ld hl,0f9c8h		;2efe
 	call Vib_Update_248E		;2f01
-	ld de,(0f812h)		;2f04
+	ld de,(wTmpWord_F812)		;2f04
 	add hl,de			;2f08
 	ld de,(0f97ch)		;2f09
 	and a			;2f0d
@@ -10436,7 +10489,7 @@ l2f90h:
 	ld a,0ffh		;2f91
 	bit 1,(iy+009h)		;2f93
 	jp z,l2f9dh		;2f97
-	ld a,(0f805h)		;2f9a
+	ld a,(wMasterVolume_F805)		;2f9a
 l2f9dh:
 	and a			;2f9d
 	jr z,l2fb5h		;2f9e
@@ -10611,7 +10664,7 @@ l30a9h:
 	ld c,001h		;30a9
 	bit 1,(iy+009h)		;30ab
 	jr z,l30b5h		;30af
-	ld a,(0f809h)		;30b1
+	ld a,(wTempoStep_F809)		;30b1
 	ld c,a			;30b4
 l30b5h:
 	ld hl,0f974h		;30b5
@@ -10641,8 +10694,8 @@ l30e5h:
 	ld a,(0f980h)		;30e5
 	ld (0f9aah),a		;30e8
 l30ebh:
-	ld ix,0f9d5h		;30eb
-	ld iy,(0f9d5h)		;30ef
+	ld ix,wFM_Ch3_F9D5		;30eb
+	ld iy,(wFM_Ch3_F9D5)		;30ef
 	bit 3,(iy+009h)		;30f3
 	call nz,Ch_ResetStruct_201B		;30f7
 	ld a,(0fa0dh)		;30fa
@@ -10665,7 +10718,7 @@ l3111h:
 	ld e,(iy+010h)		;3119
 	ld d,(iy+011h)		;311c
 	add hl,de			;311f
-	ld (0f812h),hl		;3120
+	ld (wTmpWord_F812),hl		;3120
 	ld hl,0fa21h		;3123
 	ld d,(iy+00ch)		;3126
 	call Env_Update_231E		;3129
@@ -10675,12 +10728,12 @@ l3111h:
 	add hl,hl			;3130
 	and a			;3131
 	sbc hl,bc		;3132
-	ld de,(0f812h)		;3134
+	ld de,(wTmpWord_F812)		;3134
 	add hl,de			;3138
-	ld (0f812h),hl		;3139
+	ld (wTmpWord_F812),hl		;3139
 	ld hl,0fa2fh		;313c
 	call Vib_Update_248E		;313f
-	ld de,(0f812h)		;3142
+	ld de,(wTmpWord_F812)		;3142
 	add hl,de			;3146
 	ld de,(0f9e3h)		;3147
 	and a			;314b
@@ -10780,7 +10833,7 @@ l31ceh:
 	ld a,0ffh		;31cf
 	bit 1,(iy+009h)		;31d1
 	jp z,l31dbh		;31d5
-	ld a,(0f805h)		;31d8
+	ld a,(wMasterVolume_F805)		;31d8
 l31dbh:
 	and a			;31db
 	jr z,l31f3h		;31dc
@@ -10955,7 +11008,7 @@ l32e7h:
 	ld c,001h		;32e7
 	bit 1,(iy+009h)		;32e9
 	jr z,l32f3h		;32ed
-	ld a,(0f809h)		;32ef
+	ld a,(wTempoStep_F809)		;32ef
 	ld c,a			;32f2
 l32f3h:
 	ld hl,0f9dbh		;32f3
@@ -10985,8 +11038,8 @@ l3323h:
 	ld a,(0f9e7h)		;3323
 	ld (0fa11h),a		;3326
 l3329h:
-	ld ix,0fa3ch		;3329
-	ld iy,(0fa3ch)		;332d
+	ld ix,wFM_Ch4_FA3C		;3329
+	ld iy,(wFM_Ch4_FA3C)		;332d
 	bit 3,(iy+009h)		;3331
 	call nz,Ch_ResetStruct_201B		;3335
 	ld a,(0fa74h)		;3338
@@ -11009,7 +11062,7 @@ l334fh:
 	ld e,(iy+010h)		;3357
 	ld d,(iy+011h)		;335a
 	add hl,de			;335d
-	ld (0f812h),hl		;335e
+	ld (wTmpWord_F812),hl		;335e
 	ld hl,0fa88h		;3361
 	ld d,(iy+00ch)		;3364
 	call Env_Update_231E		;3367
@@ -11019,12 +11072,12 @@ l334fh:
 	add hl,hl			;336e
 	and a			;336f
 	sbc hl,bc		;3370
-	ld de,(0f812h)		;3372
+	ld de,(wTmpWord_F812)		;3372
 	add hl,de			;3376
-	ld (0f812h),hl		;3377
+	ld (wTmpWord_F812),hl		;3377
 	ld hl,0fa96h		;337a
 	call Vib_Update_248E		;337d
-	ld de,(0f812h)		;3380
+	ld de,(wTmpWord_F812)		;3380
 	add hl,de			;3384
 	ld de,(0fa4ah)		;3385
 	and a			;3389
@@ -11124,7 +11177,7 @@ l340ch:
 	ld a,0ffh		;340d
 	bit 1,(iy+009h)		;340f
 	jp z,l3419h		;3413
-	ld a,(0f805h)		;3416
+	ld a,(wMasterVolume_F805)		;3416
 l3419h:
 	and a			;3419
 	jr z,l3431h		;341a
@@ -11299,7 +11352,7 @@ l3525h:
 	ld c,001h		;3525
 	bit 1,(iy+009h)		;3527
 	jr z,l3531h		;352b
-	ld a,(0f809h)		;352d
+	ld a,(wTempoStep_F809)		;352d
 	ld c,a			;3530
 l3531h:
 	ld hl,0fa42h		;3531
@@ -11370,7 +11423,7 @@ l357bh:
 	ld a,(iy+003h)		;35b2
 	bit 3,a		;35b5
 	jr z,l35c5h		;35b7
-	ld (0faa3h),a		;35b9
+	ld (wFM_Shared_FAA3),a		;35b9
 	ld a,(iy+004h)		;35bc
 	ld (ix+03ah),a		;35bf
 	jp l35cdh		;35c2
@@ -11427,10 +11480,10 @@ l3626h:
 	ld (ix+03ch),a		;362c
 	bit 6,(ix+038h)		;362f
 	jr z,l364ch		;3633
-	ld a,(0faa3h)		;3635
+	ld a,(wFM_Shared_FAA3)		;3635
 	or 008h		;3638
 	and 00fh		;363a
-	ld (0faa3h),a		;363c
+	ld (wFM_Shared_FAA3),a		;363c
 	and 007h		;363f
 	ld e,a			;3641
 	ld d,022h		;3642
@@ -11575,17 +11628,17 @@ ADPCMA_Init_3740:
 	ld de,l013eh		;3752
 	ld c,006h		;3755
 	rst 8			;3757
-	ld ix,0faa5h		;3758
+	ld ix,wPCMA_Ch1_FAA5		;3758
 	call sub_3783h		;375c
-	ld ix,0faceh		;375f
+	ld ix,wPCMA_Ch2_FACE		;375f
 	call sub_3783h		;3763
-	ld ix,0faf7h		;3766
+	ld ix,wPCMA_Ch3_FAF7		;3766
 	call sub_3783h		;376a
-	ld ix,0fb20h		;376d
+	ld ix,wPCMA_Ch4_FB20		;376d
 	call sub_3783h		;3771
-	ld ix,0fb49h		;3774
+	ld ix,wPCMA_Ch5_FB49		;3774
 	call sub_3783h		;3778
-	ld ix,0fb72h		;377b
+	ld ix,wPCMA_Ch6_FB72		;377b
 	call sub_3783h		;377f
 	ret			;3782
 sub_3783h:
@@ -11601,8 +11654,8 @@ sub_3783h:
 	pop ix		;3799
 	ret			;379b
 ADPCMA_Update_379C:
-	ld ix,0faa5h		;379c
-	ld iy,(0faa5h)		;37a0
+	ld ix,wPCMA_Ch1_FAA5		;379c
+	ld iy,(wPCMA_Ch1_FAA5)		;37a0
 	bit 3,(iy+009h)		;37a4
 	call nz,Ch_ResetStruct_201B		;37a8
 	ld hl,0fabfh		;37ab
@@ -11611,7 +11664,7 @@ ADPCMA_Update_379C:
 	jp z,l38a0h		;37b0
 	cp 002h		;37b3
 	jr z,l37c9h		;37b5
-	ld a,(0f80ah)		;37b7
+	ld a,(wYmStatus_F80A)		;37b7
 	and 001h		;37ba
 	jp z,l3805h		;37bc
 	xor a			;37bf
@@ -11703,7 +11756,7 @@ l3842h:
 	ld a,0ffh		;3843
 	bit 1,(iy+009h)		;3845
 	jp z,l384fh		;3849
-	ld a,(0f805h)		;384c
+	ld a,(wMasterVolume_F805)		;384c
 l384fh:
 	and a			;384f
 	jr z,l3867h		;3850
@@ -11765,7 +11818,7 @@ l38a0h:
 	ld c,001h		;38a0
 	bit 1,(iy+009h)		;38a2
 	jr z,l38ach		;38a6
-	ld a,(0f809h)		;38a8
+	ld a,(wTempoStep_F809)		;38a8
 	ld c,a			;38ab
 l38ach:
 	ld hl,0faabh		;38ac
@@ -11795,8 +11848,8 @@ l38dch:
 	ld hl,0fac0h		;38dc
 	call Env_Release_2219		;38df
 l38e2h:
-	ld ix,0faceh		;38e2
-	ld iy,(0faceh)		;38e6
+	ld ix,wPCMA_Ch2_FACE		;38e2
+	ld iy,(wPCMA_Ch2_FACE)		;38e6
 	bit 3,(iy+009h)		;38ea
 	call nz,Ch_ResetStruct_201B		;38ee
 	ld hl,0fae8h		;38f1
@@ -11805,7 +11858,7 @@ l38e2h:
 	jp z,l39e6h		;38f6
 	cp 002h		;38f9
 	jr z,l390fh		;38fb
-	ld a,(0f80ah)		;38fd
+	ld a,(wYmStatus_F80A)		;38fd
 	and 002h		;3900
 	jp z,l394bh		;3902
 	xor a			;3905
@@ -11897,7 +11950,7 @@ l3988h:
 	ld a,0ffh		;3989
 	bit 1,(iy+009h)		;398b
 	jp z,l3995h		;398f
-	ld a,(0f805h)		;3992
+	ld a,(wMasterVolume_F805)		;3992
 l3995h:
 	and a			;3995
 	jr z,l39adh		;3996
@@ -11959,7 +12012,7 @@ l39e6h:
 	ld c,001h		;39e6
 	bit 1,(iy+009h)		;39e8
 	jr z,l39f2h		;39ec
-	ld a,(0f809h)		;39ee
+	ld a,(wTempoStep_F809)		;39ee
 	ld c,a			;39f1
 l39f2h:
 	ld hl,0fad4h		;39f2
@@ -11989,8 +12042,8 @@ l3a22h:
 	ld hl,0fae9h		;3a22
 	call Env_Release_2219		;3a25
 l3a28h:
-	ld ix,0faf7h		;3a28
-	ld iy,(0faf7h)		;3a2c
+	ld ix,wPCMA_Ch3_FAF7		;3a28
+	ld iy,(wPCMA_Ch3_FAF7)		;3a2c
 	bit 3,(iy+009h)		;3a30
 	call nz,Ch_ResetStruct_201B		;3a34
 	ld hl,0fb11h		;3a37
@@ -11999,7 +12052,7 @@ l3a28h:
 	jp z,l3b2ch		;3a3c
 	cp 002h		;3a3f
 	jr z,l3a55h		;3a41
-	ld a,(0f80ah)		;3a43
+	ld a,(wYmStatus_F80A)		;3a43
 	and 004h		;3a46
 	jp z,l3a91h		;3a48
 	xor a			;3a4b
@@ -12091,7 +12144,7 @@ l3aceh:
 	ld a,0ffh		;3acf
 	bit 1,(iy+009h)		;3ad1
 	jp z,l3adbh		;3ad5
-	ld a,(0f805h)		;3ad8
+	ld a,(wMasterVolume_F805)		;3ad8
 l3adbh:
 	and a			;3adb
 	jr z,l3af3h		;3adc
@@ -12153,7 +12206,7 @@ l3b2ch:
 	ld c,001h		;3b2c
 	bit 1,(iy+009h)		;3b2e
 	jr z,l3b38h		;3b32
-	ld a,(0f809h)		;3b34
+	ld a,(wTempoStep_F809)		;3b34
 	ld c,a			;3b37
 l3b38h:
 	ld hl,0fafdh		;3b38
@@ -12183,8 +12236,8 @@ l3b68h:
 	ld hl,0fb12h		;3b68
 	call Env_Release_2219		;3b6b
 l3b6eh:
-	ld ix,0fb20h		;3b6e
-	ld iy,(0fb20h)		;3b72
+	ld ix,wPCMA_Ch4_FB20		;3b6e
+	ld iy,(wPCMA_Ch4_FB20)		;3b72
 	bit 3,(iy+009h)		;3b76
 	call nz,Ch_ResetStruct_201B		;3b7a
 	ld hl,0fb3ah		;3b7d
@@ -12193,7 +12246,7 @@ l3b6eh:
 	jp z,l3c72h		;3b82
 	cp 002h		;3b85
 	jr z,l3b9bh		;3b87
-	ld a,(0f80ah)		;3b89
+	ld a,(wYmStatus_F80A)		;3b89
 	and 008h		;3b8c
 	jp z,l3bd7h		;3b8e
 	xor a			;3b91
@@ -12285,7 +12338,7 @@ l3c14h:
 	ld a,0ffh		;3c15
 	bit 1,(iy+009h)		;3c17
 	jp z,l3c21h		;3c1b
-	ld a,(0f805h)		;3c1e
+	ld a,(wMasterVolume_F805)		;3c1e
 l3c21h:
 	and a			;3c21
 	jr z,l3c39h		;3c22
@@ -12347,7 +12400,7 @@ l3c72h:
 	ld c,001h		;3c72
 	bit 1,(iy+009h)		;3c74
 	jr z,l3c7eh		;3c78
-	ld a,(0f809h)		;3c7a
+	ld a,(wTempoStep_F809)		;3c7a
 	ld c,a			;3c7d
 l3c7eh:
 	ld hl,0fb26h		;3c7e
@@ -12377,8 +12430,8 @@ l3caeh:
 	ld hl,0fb3bh		;3cae
 	call Env_Release_2219		;3cb1
 l3cb4h:
-	ld ix,0fb49h		;3cb4
-	ld iy,(0fb49h)		;3cb8
+	ld ix,wPCMA_Ch5_FB49		;3cb4
+	ld iy,(wPCMA_Ch5_FB49)		;3cb8
 	bit 3,(iy+009h)		;3cbc
 	call nz,Ch_ResetStruct_201B		;3cc0
 	ld hl,0fb63h		;3cc3
@@ -12387,7 +12440,7 @@ l3cb4h:
 	jp z,l3db8h		;3cc8
 	cp 002h		;3ccb
 	jr z,l3ce1h		;3ccd
-	ld a,(0f80ah)		;3ccf
+	ld a,(wYmStatus_F80A)		;3ccf
 	and 010h		;3cd2
 	jp z,l3d1dh		;3cd4
 	xor a			;3cd7
@@ -12479,7 +12532,7 @@ l3d5ah:
 	ld a,0ffh		;3d5b
 	bit 1,(iy+009h)		;3d5d
 	jp z,l3d67h		;3d61
-	ld a,(0f805h)		;3d64
+	ld a,(wMasterVolume_F805)		;3d64
 l3d67h:
 	and a			;3d67
 	jr z,l3d7fh		;3d68
@@ -12541,7 +12594,7 @@ l3db8h:
 	ld c,001h		;3db8
 	bit 1,(iy+009h)		;3dba
 	jr z,l3dc4h		;3dbe
-	ld a,(0f809h)		;3dc0
+	ld a,(wTempoStep_F809)		;3dc0
 	ld c,a			;3dc3
 l3dc4h:
 	ld hl,0fb4fh		;3dc4
@@ -12571,8 +12624,8 @@ l3df4h:
 	ld hl,0fb64h		;3df4
 	call Env_Release_2219		;3df7
 l3dfah:
-	ld ix,0fb72h		;3dfa
-	ld iy,(0fb72h)		;3dfe
+	ld ix,wPCMA_Ch6_FB72		;3dfa
+	ld iy,(wPCMA_Ch6_FB72)		;3dfe
 	bit 3,(iy+009h)		;3e02
 	call nz,Ch_ResetStruct_201B		;3e06
 	ld hl,0fb8ch		;3e09
@@ -12581,7 +12634,7 @@ l3dfah:
 	jp z,l3efeh		;3e0e
 	cp 002h		;3e11
 	jr z,l3e27h		;3e13
-	ld a,(0f80ah)		;3e15
+	ld a,(wYmStatus_F80A)		;3e15
 	and 020h		;3e18
 	jp z,l3e63h		;3e1a
 	xor a			;3e1d
@@ -12673,7 +12726,7 @@ l3ea0h:
 	ld a,0ffh		;3ea1
 	bit 1,(iy+009h)		;3ea3
 	jp z,l3eadh		;3ea7
-	ld a,(0f805h)		;3eaa
+	ld a,(wMasterVolume_F805)		;3eaa
 l3eadh:
 	and a			;3ead
 	jr z,l3ec5h		;3eae
@@ -12735,7 +12788,7 @@ l3efeh:
 	ld c,001h		;3efe
 	bit 1,(iy+009h)		;3f00
 	jr z,l3f0ah		;3f04
-	ld a,(0f809h)		;3f06
+	ld a,(wTempoStep_F809)		;3f06
 	ld c,a			;3f09
 l3f0ah:
 	ld hl,0fb78h		;3f0a
@@ -12783,11 +12836,11 @@ l3f41h:
 	ret			;3f5f
 l3f60h:
 	ld b,(ix+011h)		;3f60
-	ld a,(0f811h)		;3f63
+	ld a,(wCurBank_F811)		;3f63
 	cp b			;3f66
 	jp z,l3f84h		;3f67
 	ld a,b			;3f6a
-	ld (0f811h),a		;3f6b
+	ld (wCurBank_F811),a		;3f6b
 	ld c,00bh		;3f6e
 	in a,(c)		;3f70
 	inc b			;3f72
@@ -12846,7 +12899,7 @@ l3fbah:
 	call Env_Start_2208		;3fc6
 	ret			;3fc9
 ADPCMB_Init_3FCA:
-	ld ix,0fb9bh		;3fca
+	ld ix,wPCMB_Ch_FB9B		;3fca
 	call sub_3fe0h		;3fce
 	ld c,004h		;3fd1
 	ld de,l1b00h		;3fd3
@@ -12857,13 +12910,13 @@ ADPCMB_Init_3FCA:
 	rst 8			;3fde
 	ret			;3fdf
 sub_3fe0h:
-	ld ix,0fb9bh		;3fe0
+	ld ix,wPCMB_Ch_FB9B		;3fe0
 	call Ch_InitStruct_1FE5		;3fe4
 	ld (ix+002h),003h		;3fe7
 	xor a			;3feb
 	ld (0fbbch),a		;3fec
 	ld (0fbbdh),a		;3fef
-	ld (0fbbah),a		;3ff2
+	ld (wPCMB_Shared_FBBA),a		;3ff2
 	push ix		;3ff5
 	ld de,l0023h		;3ff7
 	add ix,de		;3ffa
@@ -12886,17 +12939,17 @@ sub_3fe0h:
 	pop ix		;4021
 	ret			;4023
 ADPCMB_Update_4024:
-	ld ix,0fb9bh		;4024
-	ld iy,(0fb9bh)		;4028
+	ld ix,wPCMB_Ch_FB9B		;4024
+	ld iy,(wPCMB_Ch_FB9B)		;4028
 	bit 3,(iy+009h)		;402c
 	call nz,Ch_ResetStruct_201B		;4030
-	ld a,(0fbbah)		;4033
+	ld a,(wPCMB_Shared_FBBA)		;4033
 	and a			;4036
 	jp z,l423ch		;4037
 	cp 004h		;403a
 	jp z,l4054h		;403c
 	ex af,af'			;403f
-	ld a,(0f80ah)		;4040
+	ld a,(wYmStatus_F80A)		;4040
 	and 080h		;4043
 	jp z,l410ah		;4045
 	ex af,af'			;4048
@@ -12913,7 +12966,7 @@ l4054h:
 	jp z,l4071h		;405d
 	dec bc			;4060
 	ld a,003h		;4061
-	ld (0fbbah),a		;4063
+	ld (wPCMB_Shared_FBBA),a		;4063
 	jp l40b9h		;4066
 l4069h:
 	ld hl,(0fbb2h)		;4069
@@ -12926,7 +12979,7 @@ l4071h:
 	jp z,l40abh		;4077
 	dec bc			;407a
 	ld a,002h		;407b
-	ld (0fbbah),a		;407d
+	ld (wPCMB_Shared_FBBA),a		;407d
 	jp l40b9h		;4080
 l4083h:
 	ld a,(0fbbbh)		;4083
@@ -12954,7 +13007,7 @@ l40abh:
 	or c			;40b0
 	jp z,l40fah		;40b1
 	ld a,001h		;40b4
-	ld (0fbbah),a		;40b6
+	ld (wPCMB_Shared_FBBA),a		;40b6
 l40b9h:
 	push bc			;40b9
 	ld de,l1b00h		;40ba
@@ -12988,7 +13041,7 @@ l40b9h:
 	ld de,l1001h		;40e5
 	rst 8			;40e8
 	ld e,080h		;40e9
-	ld a,(0fbbah)		;40eb
+	ld a,(wPCMB_Shared_FBBA)		;40eb
 	cp 002h		;40ee
 	jr nz,l40f4h		;40f0
 	ld e,090h		;40f2
@@ -13001,7 +13054,7 @@ l40fah:
 	ld c,004h		;40fd
 	rst 8			;40ff
 	xor a			;4100
-	ld (0fbbah),a		;4101
+	ld (wPCMB_Shared_FBBA),a		;4101
 	ld (0fbcbh),a		;4104
 	jp l423ch		;4107
 l410ah:
@@ -13025,7 +13078,7 @@ l4122h:
 	ld h,(iy+011h)		;4125
 	ld de,(0fba4h)		;4128
 	add hl,de			;412c
-	ld (0f812h),hl		;412d
+	ld (wTmpWord_F812),hl		;412d
 	ld hl,0fbdah		;4130
 	ld d,(iy+00ch)		;4133
 	call Env_Update_231E		;4136
@@ -13035,12 +13088,12 @@ l4122h:
 	add hl,hl			;413d
 	and a			;413e
 	sbc hl,bc		;413f
-	ld de,(0f812h)		;4141
+	ld de,(wTmpWord_F812)		;4141
 	add hl,de			;4145
-	ld (0f812h),hl		;4146
+	ld (wTmpWord_F812),hl		;4146
 	ld hl,0fbe8h		;4149
 	call Vib_Update_248E		;414c
-	ld de,(0f812h)		;414f
+	ld de,(wTmpWord_F812)		;414f
 	add hl,de			;4153
 	ld c,l			;4154
 	ld b,h			;4155
@@ -13090,14 +13143,14 @@ l4193h:
 l419ch:
 	ld hl,0fbbeh		;419c
 	call Env_Step_222D		;419f
-	ld (0f814h),a		;41a2
+	ld (wTmpByte_F814),a		;41a2
 	ld d,(iy+00dh)		;41a5
 	ld hl,0fbcch		;41a8
 	call Env_Update_231E		;41ab
 	sub c			;41ae
 	dec a			;41af
 	ld l,a			;41b0
-	ld a,(0f814h)		;41b1
+	ld a,(wTmpByte_F814)		;41b1
 	and a			;41b4
 	jr z,l41cch		;41b5
 	inc l			;41b7
@@ -13165,7 +13218,7 @@ l4203h:
 	ld a,0ffh		;4204
 	bit 1,(iy+009h)		;4206
 	jp z,l4210h		;420a
-	ld a,(0f805h)		;420d
+	ld a,(wMasterVolume_F805)		;420d
 l4210h:
 	and a			;4210
 	jr z,l4228h		;4211
@@ -13204,7 +13257,7 @@ l423ch:
 	ld c,001h		;423c
 	bit 1,(iy+009h)		;423e
 	jr z,l4248h		;4242
-	ld a,(0f809h)		;4244
+	ld a,(wTempoStep_F809)		;4244
 	ld c,a			;4247
 l4248h:
 	ld hl,0fba1h		;4248
@@ -13292,14 +13345,14 @@ l42cah:
 	ret			;42ee
 l42efh:
 	ld a,004h		;42ef
-	ld (0fbbah),a		;42f1
+	ld (wPCMB_Shared_FBBA),a		;42f1
 	ld a,(0fbach)		;42f4
 	ld b,a			;42f7
-	ld a,(0f811h)		;42f8
+	ld a,(wCurBank_F811)		;42f8
 	cp b			;42fb
 	jp z,l4319h		;42fc
 	ld a,b			;42ff
-	ld (0f811h),a		;4300
+	ld (wCurBank_F811),a		;4300
 	ld c,00bh		;4303
 	in a,(c)		;4305
 	inc b			;4307
@@ -13400,20 +13453,20 @@ l43a9h:
 	ld l,a			;43b1
 	ld h,a			;43b2
 	ld b,000h		;43b3
-	ld ix,0fb9bh		;43b5
+	ld ix,wPCMB_Ch_FB9B		;43b5
 	exx			;43b9
-	ld hl,(0fb9bh)		;43ba
+	ld hl,(wPCMB_Ch_FB9B)		;43ba
 	and a			;43bd
 	sbc hl,de		;43be
 	exx			;43c0
 	jr nz,l43dbh		;43c1
-	ld a,(0fbf5h)		;43c3
+	ld a,(wNoteTmp_FBF5)		;43c3
 	sub (ix+008h)		;43c6
 	jp nz,l43dbh		;43c9
 	ld a,(0fba0h)		;43cc
 	and a			;43cf
 	jp z,l43dbh		;43d0
-	ld hl,0fb9bh		;43d3
+	ld hl,wPCMB_Ch_FB9B		;43d3
 	ld d,003h		;43d6
 	jp l49cah		;43d8
 l43dbh:
@@ -13451,7 +13504,7 @@ l4415h:
 	ld e,a			;4419
 	ld a,(0fba1h)		;441a
 	ld b,a			;441d
-	ld hl,0fb9bh		;441e
+	ld hl,wPCMB_Ch_FB9B		;441e
 l4421h:
 	jp l49cah		;4421
 l4424h:
@@ -13464,20 +13517,20 @@ l4424h:
 	ld l,a			;442c
 	ld h,a			;442d
 	ld b,000h		;442e
-	ld ix,0faa5h		;4430
+	ld ix,wPCMA_Ch1_FAA5		;4430
 	exx			;4434
-	ld hl,(0faa5h)		;4435
+	ld hl,(wPCMA_Ch1_FAA5)		;4435
 	and a			;4438
 	sbc hl,de		;4439
 	exx			;443b
 	jr nz,l4456h		;443c
-	ld a,(0fbf5h)		;443e
+	ld a,(wNoteTmp_FBF5)		;443e
 	sub (ix+008h)		;4441
 	jp nz,l4456h		;4444
 	ld a,(0faaah)		;4447
 	and a			;444a
 	jp z,l4456h		;444b
-	ld hl,0faa5h		;444e
+	ld hl,wPCMA_Ch1_FAA5		;444e
 	ld d,003h		;4451
 	jp l49cah		;4453
 l4456h:
@@ -13515,22 +13568,22 @@ l4490h:
 	ld e,a			;4494
 	ld a,(0faabh)		;4495
 	ld b,a			;4498
-	ld hl,0faa5h		;4499
+	ld hl,wPCMA_Ch1_FAA5		;4499
 l449ch:
-	ld ix,0faceh		;449c
+	ld ix,wPCMA_Ch2_FACE		;449c
 	exx			;44a0
-	ld hl,(0faceh)		;44a1
+	ld hl,(wPCMA_Ch2_FACE)		;44a1
 	and a			;44a4
 	sbc hl,de		;44a5
 	exx			;44a7
 	jr nz,l44c2h		;44a8
-	ld a,(0fbf5h)		;44aa
+	ld a,(wNoteTmp_FBF5)		;44aa
 	sub (ix+008h)		;44ad
 	jp nz,l44c2h		;44b0
 	ld a,(0fad3h)		;44b3
 	and a			;44b6
 	jp z,l44c2h		;44b7
-	ld hl,0faceh		;44ba
+	ld hl,wPCMA_Ch2_FACE		;44ba
 	ld d,003h		;44bd
 	jp l49cah		;44bf
 l44c2h:
@@ -13568,22 +13621,22 @@ l44fch:
 	ld e,a			;4500
 	ld a,(0fad4h)		;4501
 	ld b,a			;4504
-	ld hl,0faceh		;4505
+	ld hl,wPCMA_Ch2_FACE		;4505
 l4508h:
-	ld ix,0faf7h		;4508
+	ld ix,wPCMA_Ch3_FAF7		;4508
 	exx			;450c
-	ld hl,(0faf7h)		;450d
+	ld hl,(wPCMA_Ch3_FAF7)		;450d
 	and a			;4510
 	sbc hl,de		;4511
 	exx			;4513
 	jr nz,l452eh		;4514
-	ld a,(0fbf5h)		;4516
+	ld a,(wNoteTmp_FBF5)		;4516
 	sub (ix+008h)		;4519
 	jp nz,l452eh		;451c
 	ld a,(0fafch)		;451f
 	and a			;4522
 	jp z,l452eh		;4523
-	ld hl,0faf7h		;4526
+	ld hl,wPCMA_Ch3_FAF7		;4526
 	ld d,003h		;4529
 	jp l49cah		;452b
 l452eh:
@@ -13621,23 +13674,23 @@ l4568h:
 	ld e,a			;456c
 	ld a,(0fafdh)		;456d
 	ld b,a			;4570
-	ld hl,0faf7h		;4571
+	ld hl,wPCMA_Ch3_FAF7		;4571
 l4574h:
-	ld ix,0fb20h		;4574
+	ld ix,wPCMA_Ch4_FB20		;4574
 	exx			;4578
-	ld hl,(0fb20h)		;4579
+	ld hl,(wPCMA_Ch4_FB20)		;4579
 	and a			;457c
 	sbc hl,de		;457d
 l457fh:
 	exx			;457f
 	jr nz,l459ah		;4580
-	ld a,(0fbf5h)		;4582
+	ld a,(wNoteTmp_FBF5)		;4582
 	sub (ix+008h)		;4585
 	jp nz,l459ah		;4588
 	ld a,(0fb25h)		;458b
 	and a			;458e
 	jp z,l459ah		;458f
-	ld hl,0fb20h		;4592
+	ld hl,wPCMA_Ch4_FB20		;4592
 	ld d,003h		;4595
 	jp l49cah		;4597
 l459ah:
@@ -13675,22 +13728,22 @@ l45d4h:
 	ld e,a			;45d8
 	ld a,(0fb26h)		;45d9
 	ld b,a			;45dc
-	ld hl,0fb20h		;45dd
+	ld hl,wPCMA_Ch4_FB20		;45dd
 l45e0h:
-	ld ix,0fb49h		;45e0
+	ld ix,wPCMA_Ch5_FB49		;45e0
 	exx			;45e4
-	ld hl,(0fb49h)		;45e5
+	ld hl,(wPCMA_Ch5_FB49)		;45e5
 	and a			;45e8
 	sbc hl,de		;45e9
 	exx			;45eb
 	jr nz,l4606h		;45ec
-	ld a,(0fbf5h)		;45ee
+	ld a,(wNoteTmp_FBF5)		;45ee
 	sub (ix+008h)		;45f1
 	jp nz,l4606h		;45f4
 	ld a,(0fb4eh)		;45f7
 	and a			;45fa
 	jp z,l4606h		;45fb
-	ld hl,0fb49h		;45fe
+	ld hl,wPCMA_Ch5_FB49		;45fe
 	ld d,003h		;4601
 	jp l49cah		;4603
 l4606h:
@@ -13728,22 +13781,22 @@ l4640h:
 	ld e,a			;4644
 	ld a,(0fb4fh)		;4645
 	ld b,a			;4648
-	ld hl,0fb49h		;4649
+	ld hl,wPCMA_Ch5_FB49		;4649
 l464ch:
-	ld ix,0fb72h		;464c
+	ld ix,wPCMA_Ch6_FB72		;464c
 	exx			;4650
-	ld hl,(0fb72h)		;4651
+	ld hl,(wPCMA_Ch6_FB72)		;4651
 	and a			;4654
 	sbc hl,de		;4655
 	exx			;4657
 	jr nz,l4672h		;4658
-	ld a,(0fbf5h)		;465a
+	ld a,(wNoteTmp_FBF5)		;465a
 	sub (ix+008h)		;465d
 	jp nz,l4672h		;4660
 	ld a,(0fb77h)		;4663
 	and a			;4666
 	jp z,l4672h		;4667
-	ld hl,0fb72h		;466a
+	ld hl,wPCMA_Ch6_FB72		;466a
 	ld d,003h		;466d
 	jp l49cah		;466f
 l4672h:
@@ -13781,7 +13834,7 @@ l46ach:
 	ld e,a			;46b0
 	ld a,(0fb78h)		;46b1
 	ld b,a			;46b4
-	ld hl,0fb72h		;46b5
+	ld hl,wPCMA_Ch6_FB72		;46b5
 l46b8h:
 	jp l49cah		;46b8
 l46bbh:
@@ -13794,20 +13847,20 @@ l46bbh:
 	ld l,a			;46c3
 	ld h,a			;46c4
 	ld b,000h		;46c5
-	ld ix,0f81fh		;46c7
+	ld ix,wSSG_ChA_F81F		;46c7
 	exx			;46cb
-	ld hl,(0f81fh)		;46cc
+	ld hl,(wSSG_ChA_F81F)		;46cc
 	and a			;46cf
 	sbc hl,de		;46d0
 	exx			;46d2
 	jr nz,l46edh		;46d3
-	ld a,(0fbf5h)		;46d5
+	ld a,(wNoteTmp_FBF5)		;46d5
 	sub (ix+008h)		;46d8
 	jp nz,l46edh		;46db
 	ld a,(0f824h)		;46de
 	and a			;46e1
 	jp z,l46edh		;46e2
-	ld hl,0f81fh		;46e5
+	ld hl,wSSG_ChA_F81F		;46e5
 	ld d,003h		;46e8
 	jp l49cah		;46ea
 l46edh:
@@ -13845,22 +13898,22 @@ l4727h:
 	ld e,a			;472b
 	ld a,(0f825h)		;472c
 	ld b,a			;472f
-	ld hl,0f81fh		;4730
+	ld hl,wSSG_ChA_F81F		;4730
 l4733h:
-	ld ix,0f86bh		;4733
+	ld ix,wSSG_ChB_F86B		;4733
 	exx			;4737
-	ld hl,(0f86bh)		;4738
+	ld hl,(wSSG_ChB_F86B)		;4738
 	and a			;473b
 	sbc hl,de		;473c
 	exx			;473e
 	jr nz,l4759h		;473f
-	ld a,(0fbf5h)		;4741
+	ld a,(wNoteTmp_FBF5)		;4741
 	sub (ix+008h)		;4744
 	jp nz,l4759h		;4747
 	ld a,(0f870h)		;474a
 	and a			;474d
 	jp z,l4759h		;474e
-	ld hl,0f86bh		;4751
+	ld hl,wSSG_ChB_F86B		;4751
 	ld d,003h		;4754
 	jp l49cah		;4756
 l4759h:
@@ -13898,22 +13951,22 @@ l4793h:
 	ld e,a			;4797
 	ld a,(0f871h)		;4798
 	ld b,a			;479b
-	ld hl,0f86bh		;479c
+	ld hl,wSSG_ChB_F86B		;479c
 l479fh:
-	ld ix,0f8b7h		;479f
+	ld ix,wSSG_ChC_F8B7		;479f
 	exx			;47a3
-	ld hl,(0f8b7h)		;47a4
+	ld hl,(wSSG_ChC_F8B7)		;47a4
 	and a			;47a7
 	sbc hl,de		;47a8
 	exx			;47aa
 	jr nz,l47c5h		;47ab
-	ld a,(0fbf5h)		;47ad
+	ld a,(wNoteTmp_FBF5)		;47ad
 	sub (ix+008h)		;47b0
 	jp nz,l47c5h		;47b3
 	ld a,(0f8bch)		;47b6
 	and a			;47b9
 	jp z,l47c5h		;47ba
-	ld hl,0f8b7h		;47bd
+	ld hl,wSSG_ChC_F8B7		;47bd
 	ld d,003h		;47c0
 	jp l49cah		;47c2
 l47c5h:
@@ -13951,7 +14004,7 @@ l47ffh:
 	ld e,a			;4803
 	ld a,(0f8bdh)		;4804
 	ld b,a			;4807
-	ld hl,0f8b7h		;4808
+	ld hl,wSSG_ChC_F8B7		;4808
 l480bh:
 	jp l49cah		;480b
 l480eh:
@@ -13964,20 +14017,20 @@ l480eh:
 	ld l,a			;4816
 	ld h,a			;4817
 	ld b,000h		;4818
-	ld ix,0f907h		;481a
+	ld ix,wFM_Ch1_F907		;481a
 	exx			;481e
-	ld hl,(0f907h)		;481f
+	ld hl,(wFM_Ch1_F907)		;481f
 	and a			;4822
 	sbc hl,de		;4823
 	exx			;4825
 	jr nz,l4840h		;4826
-	ld a,(0fbf5h)		;4828
+	ld a,(wNoteTmp_FBF5)		;4828
 	sub (ix+008h)		;482b
 	jp nz,l4840h		;482e
 	ld a,(0f90ch)		;4831
 	and a			;4834
 	jp z,l4840h		;4835
-	ld hl,0f907h		;4838
+	ld hl,wFM_Ch1_F907		;4838
 	ld d,003h		;483b
 	jp l49cah		;483d
 l4840h:
@@ -14015,22 +14068,22 @@ l487ah:
 	ld e,a			;487e
 	ld a,(0f90dh)		;487f
 	ld b,a			;4882
-	ld hl,0f907h		;4883
+	ld hl,wFM_Ch1_F907		;4883
 l4886h:
-	ld ix,0f96eh		;4886
+	ld ix,wFM_Ch2_F96E		;4886
 	exx			;488a
-	ld hl,(0f96eh)		;488b
+	ld hl,(wFM_Ch2_F96E)		;488b
 	and a			;488e
 	sbc hl,de		;488f
 	exx			;4891
 	jr nz,l48ach		;4892
-	ld a,(0fbf5h)		;4894
+	ld a,(wNoteTmp_FBF5)		;4894
 	sub (ix+008h)		;4897
 	jp nz,l48ach		;489a
 	ld a,(0f973h)		;489d
 	and a			;48a0
 	jp z,l48ach		;48a1
-	ld hl,0f96eh		;48a4
+	ld hl,wFM_Ch2_F96E		;48a4
 	ld d,003h		;48a7
 	jp l49cah		;48a9
 l48ach:
@@ -14068,22 +14121,22 @@ l48e6h:
 	ld e,a			;48ea
 	ld a,(0f974h)		;48eb
 	ld b,a			;48ee
-	ld hl,0f96eh		;48ef
+	ld hl,wFM_Ch2_F96E		;48ef
 l48f2h:
-	ld ix,0f9d5h		;48f2
+	ld ix,wFM_Ch3_F9D5		;48f2
 	exx			;48f6
-	ld hl,(0f9d5h)		;48f7
+	ld hl,(wFM_Ch3_F9D5)		;48f7
 	and a			;48fa
 	sbc hl,de		;48fb
 	exx			;48fd
 	jr nz,l4918h		;48fe
-	ld a,(0fbf5h)		;4900
+	ld a,(wNoteTmp_FBF5)		;4900
 	sub (ix+008h)		;4903
 	jp nz,l4918h		;4906
 	ld a,(0f9dah)		;4909
 	and a			;490c
 	jp z,l4918h		;490d
-	ld hl,0f9d5h		;4910
+	ld hl,wFM_Ch3_F9D5		;4910
 	ld d,003h		;4913
 	jp l49cah		;4915
 l4918h:
@@ -14121,22 +14174,22 @@ l4952h:
 	ld e,a			;4956
 	ld a,(0f9dbh)		;4957
 	ld b,a			;495a
-	ld hl,0f9d5h		;495b
+	ld hl,wFM_Ch3_F9D5		;495b
 l495eh:
-	ld ix,0fa3ch		;495e
+	ld ix,wFM_Ch4_FA3C		;495e
 	exx			;4962
-	ld hl,(0fa3ch)		;4963
+	ld hl,(wFM_Ch4_FA3C)		;4963
 	and a			;4966
 	sbc hl,de		;4967
 	exx			;4969
 	jr nz,l4984h		;496a
-	ld a,(0fbf5h)		;496c
+	ld a,(wNoteTmp_FBF5)		;496c
 	sub (ix+008h)		;496f
 	jp nz,l4984h		;4972
 	ld a,(0fa41h)		;4975
 	and a			;4978
 	jp z,l4984h		;4979
-	ld hl,0fa3ch		;497c
+	ld hl,wFM_Ch4_FA3C		;497c
 l497fh:
 	ld d,003h		;497f
 	jp l49cah		;4981
@@ -14175,7 +14228,7 @@ l49beh:
 	ld e,a			;49c2
 	ld a,(0fa42h)		;49c3
 	ld b,a			;49c6
-	ld hl,0fa3ch		;49c7
+	ld hl,wFM_Ch4_FA3C		;49c7
 l49cah:
 	ex de,hl			;49ca
 	defb 0ddh,06bh	;ld ixl,e		;49cb
@@ -14235,15 +14288,15 @@ l4a34h:
 	set 5,(iy+009h)		;4a34
 	ld a,(iy+002h)		;4a38
 	ld (ix+004h),a		;4a3b
-	ld a,(0fbf5h)		;4a3e
+	ld a,(wNoteTmp_FBF5)		;4a3e
 	ld (ix+008h),a		;4a41
-	ld a,(0fbf8h)		;4a44
+	ld a,(wNoteGate_FBF8)		;4a44
 	ld (ix+00bh),a		;4a47
-	ld a,(0fbf6h)		;4a4a
+	ld a,(wNoteLen_FBF6)		;4a4a
 	ld (ix+007h),a		;4a4d
 	ld (ix+006h),000h		;4a50
 	ld b,(ix+005h)		;4a54
-	ld a,(0fbf7h)		;4a57
+	ld a,(wNoteVol_FBF7)		;4a57
 	sub 001h		;4a5a
 	adc a,001h		;4a5c
 	ld (ix+005h),a		;4a5e
@@ -14687,7 +14740,7 @@ NoteMapTable_4B84:
 Seq_Init_4C84:
 	ld hl,Reset_0000		;4c84
 	ld (0fdf0h),hl		;4c87
-	ld iy,0fbfch		;4c8a
+	ld iy,wMusicTracks_FBFC		;4c8a
 	ld b,00eh		;4c8e
 	ld de,l0023h		;4c90
 	xor a			;4c93
@@ -14700,7 +14753,7 @@ l4c94h:
 	djnz l4c94h		;4ca3
 	ret			;4ca5
 Seq_Update_4CA6:
-	ld iy,0fbfch		;4ca6
+	ld iy,wMusicTracks_FBFC		;4ca6
 	bit 6,(iy+009h)		;4caa
 	call nz,Seq_TrackPortamento_52EA		;4cae
 	ld iy,0fc1fh		;4cb1
@@ -14742,9 +14795,9 @@ Seq_Update_4CA6:
 	ld iy,0fdc3h		;4d35
 	bit 6,(iy+009h)		;4d39
 	call nz,Seq_TrackPortamento_52EA		;4d3d
-	ld hl,(0f804h)		;4d40
-	ld bc,(0f806h)		;4d43
-	ld a,(0f808h)		;4d47
+	ld hl,(wSfxFlag_F804)		;4d40
+	ld bc,(wVolumeLevel_F806)		;4d43
+	ld a,(wFadeFlag_F808)		;4d47
 	or a			;4d4a
 	jr nz,l4d65h		;4d4b
 	ld a,h			;4d4d
@@ -14768,9 +14821,9 @@ l4d65h:
 	jr nc,l4d70h		;4d6b
 	ld hl,Reset_0000		;4d6d
 l4d70h:
-	ld (0f804h),hl		;4d70
+	ld (wSfxFlag_F804),hl		;4d70
 	xor a			;4d73
-	ld (0f809h),a		;4d74
+	ld (wTempoStep_F809),a		;4d74
 	ld a,(0fde7h)		;4d77
 	push af			;4d7a
 	ld hl,0fde7h		;4d7b
@@ -14831,9 +14884,9 @@ l4db7h:
 	add hl,hl			;4dbf
 	add hl,hl			;4dc0
 	ex de,hl			;4dc1
-	ld hl,(0fde6h)		;4dc2
+	ld hl,(wMusicHdr_FDE6)		;4dc2
 	add hl,de			;4dc5
-	ld (0fde6h),hl		;4dc6
+	ld (wMusicHdr_FDE6),hl		;4dc6
 l4dc9h:
 	pop bc			;4dc9
 	ld a,(0fde7h)		;4dca
@@ -14912,7 +14965,7 @@ l4e2dh:
 	ld l,a			;4e2f
 	ld h,000h		;4e30
 	inc hl			;4e32
-	ld a,(0f803h)		;4e33
+	ld a,(wTickDiv_F803)		;4e33
 	and a			;4e36
 	ret z			;4e37
 	ex de,hl			;4e38
@@ -14934,8 +14987,8 @@ l4e46h:
 	and 003h		;4e4e
 	ld (0fdf1h),a		;4e50
 	ld a,001h		;4e53
-	ld (0f809h),a		;4e55
-	ld iy,0fbfch		;4e58
+	ld (wTempoStep_F809),a		;4e55
+	ld iy,wMusicTracks_FBFC		;4e58
 	ld hl,0fc05h		;4e5c
 	ld a,(hl)			;4e5f
 	and 0f7h		;4e60
@@ -15088,7 +15141,7 @@ Seq_SetVolumeLevel_4F88:
 	and a			;4f88
 	jr nz,l4f92h		;4f89
 	ld hl,0ffffh		;4f8b
-	ld (0f806h),hl		;4f8e
+	ld (wVolumeLevel_F806),hl		;4f8e
 	ret			;4f91
 l4f92h:
 	ld l,a			;4f92
@@ -15102,7 +15155,7 @@ l4f92h:
 	add hl,hl			;4f9c
 	add hl,hl			;4f9d
 	add hl,hl			;4f9e
-	ld (0f806h),hl		;4f9f
+	ld (wVolumeLevel_F806),hl		;4f9f
 	ret			;4fa2
 Seq_StartMusic_4FA3:
 	xor a			;4fa3
@@ -15117,7 +15170,7 @@ Seq_StartMusic_4FA3:
 	ld (0fde8h),a		;4fb6
 	xor a			;4fb9
 	ld (0fde9h),a		;4fba
-	ld (0fde6h),a		;4fbd
+	ld (wMusicHdr_FDE6),a		;4fbd
 	ld a,040h		;4fc0
 	ld (0fdeeh),a		;4fc2
 	xor a			;4fc5
@@ -15129,9 +15182,9 @@ Seq_StartMusic_4FA3:
 	ld (0fdeah),a		;4fd3
 	inc ix		;4fd6
 	xor a			;4fd8
-	ld (0f805h),a		;4fd9
-	ld (0f808h),a		;4fdc
-	ld iy,0fbfch		;4fdf
+	ld (wMasterVolume_F805),a		;4fd9
+	ld (wFadeFlag_F808),a		;4fdc
+	ld iy,wMusicTracks_FBFC		;4fdf
 	ld b,00eh		;4fe3
 l4fe5h:
 	ld l,(ix+000h)		;4fe5
@@ -15166,7 +15219,7 @@ l5013h:
 l5024h:
 	ret			;5024
 Seq_InitTracks_5025:
-	ld iy,0fdf2h		;5025
+	ld iy,wSfxTracks_FDF2		;5025
 	ld b,008h		;5029
 	ld de,l0023h		;502b
 	xor a			;502e
@@ -15183,7 +15236,7 @@ l502fh:
 	djnz l502fh		;504b
 	ret			;504d
 Seq_StopAllTracks_504E:
-	ld iy,0fdf2h		;504e
+	ld iy,wSfxTracks_FDF2		;504e
 	ld b,008h		;5052
 	ld de,l0023h		;5054
 	ld c,008h		;5057
@@ -15249,7 +15302,7 @@ l50d1h:
 l50dah:
 	ret			;50da
 Seq_FindFreeTrack_50DB:
-	ld iy,0fdf2h		;50db
+	ld iy,wSfxTracks_FDF2		;50db
 	ld b,008h		;50df
 	ld c,e			;50e1
 	ld h,000h		;50e2
@@ -15264,7 +15317,7 @@ l50e4h:
 	exx			;50f5
 	ld e,(iy+007h)		;50f6
 	ld d,(iy+008h)		;50f9
-	ld hl,(0f819h)		;50fc
+	ld hl,(wCmdCounter_F819)		;50fc
 	and a			;50ff
 	sbc hl,de		;5100
 	exx			;5102
@@ -15292,11 +15345,11 @@ l511bh:
 	jr c,l5141h		;5125
 	ld c,(iy+002h)		;5127
 	ld h,001h		;512a
-	ld (0ff0ah),iy		;512c
+	ld (wCurTrack_FF0A),iy		;512c
 	jp l5141h		;5130
 l5133h:
 	ld h,002h		;5133
-	ld (0ff0ah),iy		;5135
+	ld (wCurTrack_FF0A),iy		;5135
 	ld a,d			;5139
 	and a			;513a
 	jp z,l514ah		;513b
@@ -15308,7 +15361,7 @@ l5141h:
 	exx			;5147
 	djnz l50e4h		;5148
 l514ah:
-	ld iy,(0ff0ah)		;514a
+	ld iy,(wCurTrack_FF0A)		;514a
 	ret			;514e
 Seq_UpdateTracks_514F:
 	ld hl,0fdfbh		;514f
@@ -15317,7 +15370,7 @@ Seq_UpdateTracks_514F:
 	ld (hl),a			;5155
 	bit 2,a		;5156
 	jp z,l5167h		;5158
-	ld iy,0fdf2h		;515b
+	ld iy,wSfxTracks_FDF2		;515b
 	bit 6,a		;515f
 	call nz,Seq_TrackPortamento_52EA		;5161
 	call Seq_TrackStep_532B		;5164
@@ -15405,7 +15458,7 @@ Seq_StopTrackById_5210:
 	or b			;5211
 	ret z			;5212
 	push ix		;5213
-	ld ix,0fdf2h		;5215
+	ld ix,wSfxTracks_FDF2		;5215
 	ld a,008h		;5219
 l521bh:
 	ld l,(ix+005h)		;521b
@@ -15413,7 +15466,7 @@ l521bh:
 	and a			;5221
 	sbc hl,bc		;5222
 	jp nz,l5246h		;5224
-	ld hl,(0f819h)		;5227
+	ld hl,(wCmdCounter_F819)		;5227
 	ld e,(ix+007h)		;522a
 	ld d,(ix+008h)		;522d
 	and a			;5230
@@ -15434,7 +15487,7 @@ Seq_TrackInit_5251:
 	defb 0ddh,05dh	;ld e,ixl		;5251
 	defb 0ddh,054h	;ld d,ixh		;5253
 	ex de,hl			;5255
-	ld a,(0f811h)		;5256
+	ld a,(wCurBank_F811)		;5256
 	ld b,a			;5259
 	push bc			;525a
 	call Bank_ResolvePtr24_1FA6		;525b
@@ -15442,11 +15495,11 @@ Seq_TrackInit_5251:
 	ld (iy+015h),h		;5261
 	ld (iy+004h),b		;5264
 	pop bc			;5267
-	ld a,(0f811h)		;5268
+	ld a,(wCurBank_F811)		;5268
 	cp b			;526b
 	jp z,l5289h		;526c
 	ld a,b			;526f
-	ld (0f811h),a		;5270
+	ld (wCurBank_F811),a		;5270
 	ld c,00bh		;5273
 	in a,(c)		;5275
 	inc b			;5277
@@ -15481,10 +15534,10 @@ l5289h:
 	ld (iy+00fh),003h		;52bc
 	ld (iy+013h),a		;52c0
 	ld (iy+022h),006h		;52c3
-	ld hl,(0f819h)		;52c7
+	ld hl,(wCmdCounter_F819)		;52c7
 	ld (iy+007h),l		;52ca
 	ld (iy+008h),h		;52cd
-	ld hl,(0f81bh)		;52d0
+	ld hl,(wSfxId_F81B)		;52d0
 	ld (iy+005h),l		;52d3
 	ld (iy+006h),h		;52d6
 	ld (iy+017h),040h		;52d9
@@ -15533,13 +15586,13 @@ Seq_TrackStep_532B:
 	jp nz,l534dh		;532f
 	ld l,(iy+014h)		;5332
 	ld h,(iy+015h)		;5335
-	ld (0ff0dh),hl		;5338
+	ld (wSeqPtr_FF0D),hl		;5338
 	jp Seq_TrackFetch_5362		;533b
 Seq_TrackNextOp_533E:
 	ld a,(iy+016h)		;533e
 	and a			;5341
 	jr z,Seq_TrackFetch_5362		;5342
-	ld hl,(0ff0dh)		;5344
+	ld hl,(wSeqPtr_FF0D)		;5344
 	ld (iy+014h),l		;5347
 	ld (iy+015h),h		;534a
 l534dh:
@@ -15554,11 +15607,11 @@ l534dh:
 	jp Seq_TrackEndCheck_5786		;535f
 Seq_TrackFetch_5362:
 	ld b,(iy+004h)		;5362
-	ld a,(0f811h)		;5365
+	ld a,(wCurBank_F811)		;5365
 	cp b			;5368
 	jp z,l5386h		;5369
 	ld a,b			;536c
-	ld (0f811h),a		;536d
+	ld (wCurBank_F811),a		;536d
 	ld c,00bh		;5370
 	in a,(c)		;5372
 	inc b			;5374
@@ -15574,7 +15627,7 @@ Seq_TrackFetch_5362:
 	dec c			;5383
 	in a,(c)		;5384
 l5386h:
-	ld de,(0ff0dh)		;5386
+	ld de,(wSeqPtr_FF0D)		;5386
 	ld a,(de)			;538a
 	inc de			;538b
 	cp 0dah		;538c
@@ -15621,25 +15674,25 @@ SeqOpJumpTable_53A3:
 SeqOp_D9_Reply68k_53F4:
 	ld a,(de)			;53f4
 	inc de			;53f5
-	ld (0ff0dh),de		;53f6
+	ld (wSeqPtr_FF0D),de		;53f6
 	and 03fh		;53fa
 	add a,a			;53fc
 	add a,080h		;53fd
 	ld b,a			;53ff
-	ld a,(0ff0ch)		;5400
+	ld a,(wReplyToggle_FF0C)		;5400
 	inc a			;5403
-	ld (0ff0ch),a		;5404
+	ld (wReplyToggle_FF0C),a		;5404
 	and 001h		;5407
 	or b			;5409
 	out (00ch),a		;540a
 	jp Seq_TrackNextOp_533E		;540c
 SeqOp_DA_SetVolLevel_540F:
 	ld a,001h		;540f
-	ld (0f808h),a		;5411
+	ld (wFadeFlag_F808),a		;5411
 	ex de,hl			;5414
 	ld a,(hl)			;5415
 	inc hl			;5416
-	ld (0ff0dh),hl		;5417
+	ld (wSeqPtr_FF0D),hl		;5417
 	call Seq_SetVolumeLevel_4F88		;541a
 	jp Seq_TrackNextOp_533E		;541d
 SeqOp_D3_Note_5420:
@@ -15649,7 +15702,7 @@ SeqOp_D3_Note_5420:
 	ld a,(hl)			;5423
 	ld (iy+016h),a		;5424
 	inc hl			;5427
-	ld (0ff0dh),hl		;5428
+	ld (wSeqPtr_FF0D),hl		;5428
 	call Ch_SetNote_4B0B		;542b
 	jp nc,Seq_TrackEndCheck_5786		;542e
 	jp Seq_TrackNextOp_533E		;5431
@@ -15660,7 +15713,7 @@ SeqOp_D4_Note2_5434:
 	ld a,(hl)			;5437
 	ld (iy+016h),a		;5438
 	inc hl			;543b
-	ld (0ff0dh),hl		;543c
+	ld (wSeqPtr_FF0D),hl		;543c
 	call Ch_SetNote2_4B26		;543f
 	jp nc,Seq_TrackEndCheck_5786		;5442
 	jp Seq_TrackNextOp_533E		;5445
@@ -15671,7 +15724,7 @@ SeqOp_D5_Note3_5448:
 	ld a,(hl)			;544b
 	ld (iy+016h),a		;544c
 	inc hl			;544f
-	ld (0ff0dh),hl		;5450
+	ld (wSeqPtr_FF0D),hl		;5450
 	call Ch_SetNote3_4B41		;5453
 	jp nc,Seq_TrackEndCheck_5786		;5456
 	jp Seq_TrackNextOp_533E		;5459
@@ -15682,7 +15735,7 @@ SeqOp_D6_Note4_545C:
 	ld a,(hl)			;545f
 	ld (iy+016h),a		;5460
 	inc hl			;5463
-	ld (0ff0dh),hl		;5464
+	ld (wSeqPtr_FF0D),hl		;5464
 	call Ch_SetNote4_4B4F		;5467
 	jp nc,Seq_TrackEndCheck_5786		;546a
 	jp Seq_TrackNextOp_533E		;546d
@@ -15693,7 +15746,7 @@ SeqOp_D7_PitchDown_5470:
 	ld a,(hl)			;5473
 	ld (iy+016h),a		;5474
 	inc hl			;5477
-	ld (0ff0dh),hl		;5478
+	ld (wSeqPtr_FF0D),hl		;5478
 	ld b,000h		;547b
 	ld l,(iy+010h)		;547d
 	ld h,(iy+011h)		;5480
@@ -15715,7 +15768,7 @@ SeqOp_D8_PitchUp_5499:
 	ld a,(hl)			;549c
 	ld (iy+016h),a		;549d
 	inc hl			;54a0
-	ld (0ff0dh),hl		;54a1
+	ld (wSeqPtr_FF0D),hl		;54a1
 	ld b,000h		;54a4
 	ld l,(iy+010h)		;54a6
 	ld h,(iy+011h)		;54a9
@@ -15735,7 +15788,7 @@ SeqOp_D1_Portamento_54C5:
 	ex de,hl			;54c5
 	ld a,(hl)			;54c6
 	inc hl			;54c7
-	ld (0ff0dh),hl		;54c8
+	ld (wSeqPtr_FF0D),hl		;54c8
 	cp 040h		;54cb
 	jr c,l54e2h		;54cd
 	ld c,(iy+009h)		;54cf
@@ -15754,7 +15807,7 @@ SeqOp_D2_SetLfo_54F0:
 	ex de,hl			;54f0
 	ld a,(hl)			;54f1
 	inc hl			;54f2
-	ld (0ff0dh),hl		;54f3
+	ld (wSeqPtr_FF0D),hl		;54f3
 	ld (iy+013h),a		;54f6
 	jp Seq_TrackNextOp_533E		;54f9
 SeqOp_CE_SetTranspose_54FC:
@@ -15766,7 +15819,7 @@ SeqOp_CE_SetTranspose_54FC:
 	adc a,080h		;5503
 	ld (iy+012h),a		;5505
 	inc hl			;5508
-	ld (0ff0dh),hl		;5509
+	ld (wSeqPtr_FF0D),hl		;5509
 	jp Seq_TrackNextOp_533E		;550c
 SeqOp_CD_SetTempo_550F:
 	ex de,hl			;550f
@@ -15774,14 +15827,14 @@ SeqOp_CD_SetTempo_550F:
 	inc hl			;5511
 	ld a,(hl)			;5512
 	inc hl			;5513
-	ld (0ff0dh),hl		;5514
+	ld (wSeqPtr_FF0D),hl		;5514
 	call Seq_SetTempo_4F39		;5517
 	jp Seq_TrackNextOp_533E		;551a
 SeqOp_CC_SetLength_551D:
 	ex de,hl			;551d
 	ld a,(hl)			;551e
 	inc hl			;551f
-	ld (0ff0dh),hl		;5520
+	ld (wSeqPtr_FF0D),hl		;5520
 	ld b,003h		;5523
 	cp 040h		;5525
 	jp z,l552fh		;5527
@@ -15795,7 +15848,7 @@ SeqOp_CB_SetWait_5535:
 	ex de,hl			;5535
 	ld a,(hl)			;5536
 	inc hl			;5537
-	ld (0ff0dh),hl		;5538
+	ld (wSeqPtr_FF0D),hl		;5538
 	ld (iy+016h),a		;553b
 	jp Seq_TrackNextOp_533E		;553e
 SeqOp_CA_SetDetune_5541:
@@ -15807,7 +15860,7 @@ SeqOp_CA_SetDetune_5541:
 	ld a,(hl)			;5546
 	ld (iy+016h),a		;5547
 	inc hl			;554a
-	ld (0ff0dh),hl		;554b
+	ld (wSeqPtr_FF0D),hl		;554b
 	ex de,hl			;554e
 	add hl,hl			;554f
 	add hl,hl			;5550
@@ -15820,7 +15873,7 @@ SeqOp_C9_SetSustain_555C:
 	ex de,hl			;555c
 	ld a,(hl)			;555d
 	inc hl			;555e
-	ld (0ff0dh),hl		;555f
+	ld (wSeqPtr_FF0D),hl		;555f
 	and a			;5562
 	jp z,l556dh		;5563
 	set 4,(iy+009h)		;5566
@@ -15832,7 +15885,7 @@ SeqOp_C6_SetVol_5574:
 	ex de,hl			;5574
 	ld a,(hl)			;5575
 	inc hl			;5576
-	ld (0ff0dh),hl		;5577
+	ld (wSeqPtr_FF0D),hl		;5577
 	and 07fh		;557a
 	ld (iy+00ch),a		;557c
 	jp Seq_TrackNextOp_533E		;557f
@@ -15840,7 +15893,7 @@ SeqOp_C7_SetPan_5582:
 	ex de,hl			;5582
 	ld a,(hl)			;5583
 	inc hl			;5584
-	ld (0ff0dh),hl		;5585
+	ld (wSeqPtr_FF0D),hl		;5585
 	and 07fh		;5588
 	ld (iy+00dh),a		;558a
 	jp Seq_TrackNextOp_533E		;558d
@@ -15848,7 +15901,7 @@ SeqOp_C8_SetParam_5590:
 	ex de,hl			;5590
 	ld a,(hl)			;5591
 	inc hl			;5592
-	ld (0ff0dh),hl		;5593
+	ld (wSeqPtr_FF0D),hl		;5593
 	and 07fh		;5596
 	ld (iy+00eh),a		;5598
 	jp Seq_TrackNextOp_533E		;559b
@@ -15870,14 +15923,14 @@ l55a9h:
 	ld e,(hl)			;55ba
 	inc hl			;55bb
 	ld d,(hl)			;55bc
-	ld (0ff0dh),de		;55bd
+	ld (wSeqPtr_FF0D),de		;55bd
 	ld (iy+017h),040h		;55c1
 	ld (iy+018h),0c0h		;55c5
 	ld (iy+019h),0c0h		;55c9
 	ld (iy+01ah),07fh		;55cd
 	jp Seq_TrackNextOp_533E		;55d1
 SeqOp_CF_LoopStart_55D4:
-	ld (0ff0dh),de		;55d4
+	ld (wSeqPtr_FF0D),de		;55d4
 	ld a,(iy+022h)		;55d8
 	dec a			;55db
 	cp 006h		;55dc
@@ -15929,7 +15982,7 @@ l562ch:
 	ld d,(hl)			;562f
 	inc hl			;5630
 	add hl,de			;5631
-	ld (0ff0dh),hl		;5632
+	ld (wSeqPtr_FF0D),hl		;5632
 	ld (iy+017h),040h		;5635
 	ld (iy+018h),0c0h		;5639
 	ld (iy+019h),0c0h		;563d
@@ -15944,7 +15997,7 @@ l5648h:
 	inc hl			;5654
 	inc hl			;5655
 	inc hl			;5656
-	ld (0ff0dh),hl		;5657
+	ld (wSeqPtr_FF0D),hl		;5657
 	jp Seq_TrackNextOp_533E		;565a
 SeqOp_C4_CallSub_565D:
 	ex de,hl			;565d
@@ -15954,7 +16007,7 @@ SeqOp_C4_CallSub_565D:
 	inc hl			;5661
 	ex de,hl			;5662
 	add hl,de			;5663
-	ld (0ff0dh),hl		;5664
+	ld (wSeqPtr_FF0D),hl		;5664
 	ld a,(iy+022h)		;5667
 	and a			;566a
 	jp z,Seq_TrackNextOp_533E		;566b
@@ -15988,14 +16041,14 @@ l56a6h:
 	res 0,(iy+009h)		;56a6
 l56aah:
 	inc hl			;56aa
-	ld (0ff0dh),hl		;56ab
+	ld (wSeqPtr_FF0D),hl		;56ab
 	jp Seq_TrackNextOp_533E		;56ae
 SeqOp_C0_SetInstr_56B1:
 	ex de,hl			;56b1
 	ld a,(hl)			;56b2
 	ld (iy+00ah),a		;56b3
 	inc hl			;56b6
-	ld (0ff0dh),hl		;56b7
+	ld (wSeqPtr_FF0D),hl		;56b7
 	jp Seq_TrackNextOp_533E		;56ba
 SeqOp_C1_SetInstr2_56BD:
 	ex de,hl			;56bd
@@ -16005,7 +16058,7 @@ SeqOp_C1_SetInstr2_56BD:
 	ld a,(hl)			;56c3
 	ld (iy+00bh),a		;56c4
 	inc hl			;56c7
-	ld (0ff0dh),hl		;56c8
+	ld (wSeqPtr_FF0D),hl		;56c8
 	jp Seq_TrackNextOp_533E		;56cb
 SeqOp_C2_Jump_56CE:
 	ex de,hl			;56ce
@@ -16014,7 +16067,7 @@ SeqOp_C2_Jump_56CE:
 	ld d,(hl)			;56d1
 	inc hl			;56d2
 	add hl,de			;56d3
-	ld (0ff0dh),hl		;56d4
+	ld (wSeqPtr_FF0D),hl		;56d4
 	ld (iy+017h),040h		;56d7
 	ld (iy+018h),0c0h		;56db
 	ld (iy+019h),0c0h		;56df
@@ -16036,7 +16089,7 @@ l56fch:
 	inc de			;56fd
 l56feh:
 	ld (iy+017h),a		;56fe
-	ld (0fbf5h),a		;5701
+	ld (wNoteTmp_FBF5),a		;5701
 	ld a,(iy+018h)		;5704
 	srl b		;5707
 	jr c,l5710h		;5709
@@ -16045,7 +16098,7 @@ l56feh:
 	ld (iy+018h),a		;570d
 l5710h:
 	ld (iy+016h),a		;5710
-	ld (0fbf6h),a		;5713
+	ld (wNoteLen_FBF6),a		;5713
 	ld a,(iy+019h)		;5716
 	srl b		;5719
 	jr c,l5722h		;571b
@@ -16053,7 +16106,7 @@ l5710h:
 	inc de			;571e
 	ld (iy+019h),a		;571f
 l5722h:
-	ld (0fbf7h),a		;5722
+	ld (wNoteVol_FBF7),a		;5722
 	ld a,(iy+01ah)		;5725
 	srl b		;5728
 	jr c,l5731h		;572a
@@ -16061,8 +16114,8 @@ l5722h:
 	inc de			;572d
 	ld (iy+01ah),a		;572e
 l5731h:
-	ld (0fbf8h),a		;5731
-	ld (0ff0dh),de		;5734
+	ld (wNoteGate_FBF8),a		;5731
+	ld (wSeqPtr_FF0D),de		;5734
 	bit 6,(iy+009h)		;5738
 	jp z,l576ah		;573c
 	ld a,(iy+01bh)		;573f
@@ -16091,10 +16144,10 @@ l5731h:
 l576ah:
 	ld a,(iy+017h)		;576a
 	ld (iy+01bh),a		;576d
-	ld a,(0fbf7h)		;5770
+	ld a,(wNoteVol_FBF7)		;5770
 	and a			;5773
 	jp z,Seq_TrackNextOp_533E		;5774
-	ld a,(0fbf8h)		;5777
+	ld a,(wNoteGate_FBF8)		;5777
 	jp z,Seq_TrackNextOp_533E		;577a
 	call sub_4a03h		;577d
 	jp nc,Seq_TrackEndCheck_5786		;5780
