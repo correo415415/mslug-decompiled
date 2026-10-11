@@ -140,6 +140,19 @@ jobs:
           cmp build/repack/201-p1.bin rom/201-p1.bin && echo "repack: IDÉNTICO al 201-p1.bin original" | tee -a ci_out/build_rom.txt
           grep -E "IDÉNTIC|DIFIERE|MD5" ci_out/build_rom.txt >> "$GITHUB_STEP_SUMMARY"
 
+      - name: build_mrom (M-ROM Z80, reensamblado byte-idéntico)
+        if: always() && steps.match.outcome != 'skipped' && steps.rom.outputs.zip != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v z80asm >/dev/null 2>&1; then
+            SUDO=""; [ "$(id -u)" -ne 0 ] && SUDO="sudo -n"
+            $SUDO apt-get install -y -qq z80asm z80dasm
+          fi
+          bash scripts/setup_mrom.sh "${{ steps.rom.outputs.zip }}" | tee ci_out/build_mrom.txt
+          python3 mrom/tools/build_mrom.py 2>&1 | tee -a ci_out/build_mrom.txt
+          grep -E "IDÉNTIC|DIFIERE|MD5" ci_out/build_mrom.txt | tail -3 >> "$GITHUB_STEP_SUMMARY"
+
       - name: measure_coverage
         if: always() && steps.match.outcome != 'skipped'
         shell: bash

@@ -54,4 +54,4 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 
 - [ ] Más recetas en `internal/experiments/` (selección de misión, debug
       DIP, invulnerabilidad) siguiendo la regla de "mismo tamaño".
-- [ ] CI: comprobar también `build_mrom.py` ✔ IDÉNTICA en GitHub Actions.
+- [x] CI: comprobar también `build_mrom.py` ✔ IDÉNTICA en GitHub Actions.
