@@ -41,8 +41,8 @@ l5386h:
 	add hl,bc			;53a1
 	jp (hl)			;53a2
 SeqOpJumpTable_53A3:
-	jp SeqOp_C0_SetInstr_56B1		;53a3
-	jp SeqOp_C1_SetInstr2_56BD		;53a6
+	jp SeqOp_C0_SetInstrLo_56B1		;53a3
+	jp SeqOp_C1_SetInstrLoHi_56BD		;53a6
 	jp SeqOp_C2_Jump_56CE		;53a9
 	jp SeqOp_C3_SetBit0_569A		;53ac
 	jp SeqOp_C4_CallSub_565D		;53af
@@ -440,14 +440,14 @@ l56aah:
 	inc hl			;56aa
 	ld (wSeqPtr_FF0D),hl		;56ab
 	jp Seq_TrackNextOp_533E		;56ae
-SeqOp_C0_SetInstr_56B1:
+SeqOp_C0_SetInstrLo_56B1:
 	ex de,hl			;56b1
 	ld a,(hl)			;56b2
 	ld (iy+00ah),a		;56b3
 	inc hl			;56b6
 	ld (wSeqPtr_FF0D),hl		;56b7
 	jp Seq_TrackNextOp_533E		;56ba
-SeqOp_C1_SetInstr2_56BD:
+SeqOp_C1_SetInstrLoHi_56BD:
 	ex de,hl			;56bd
 	ld a,(hl)			;56be
 	ld (iy+00ah),a		;56bf

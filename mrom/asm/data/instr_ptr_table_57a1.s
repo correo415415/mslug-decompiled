@@ -1,8 +1,8 @@
-; seq_ptr_table_57a1.s - M-ROM fixed_0000 [0x57a1..0x67a1)
+; instr_ptr_table_57a1.s - M-ROM fixed_0000 [0x57a1..0x67a1)
 ; Carved from mrom/asm/raw/fixed_0000.s by mrom/tools/split_region.py.
 ; Assembled through mrom/asm/fixed_0000.s; must stay byte-identical.
 
-SeqPtrTable_57A1:
+InstrPtrTable_57A1:
 	defw 067b9h		;57a1
 	defw 00000h		;57a3
 	defw 067a1h		;57a5

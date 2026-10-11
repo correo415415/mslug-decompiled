@@ -129,13 +129,13 @@ SeqOp_CF_LoopStart_55D4:    equ 0x55d4
 SeqOp_D0_LoopEnd_5605:      equ 0x5605
 SeqOp_C4_CallSub_565D:      equ 0x565d
 SeqOp_C3_SetBit0_569A:      equ 0x569a
-SeqOp_C0_SetInstr_56B1:     equ 0x56b1
-SeqOp_C1_SetInstr2_56BD:    equ 0x56bd
+SeqOp_C0_SetInstrLo_56B1:   equ 0x56b1
+SeqOp_C1_SetInstrLoHi_56BD: equ 0x56bd
 SeqOp_C2_Jump_56CE:         equ 0x56ce
 Seq_NoteEvent_56EA:         equ 0x56ea   ; opcodes 00..BF: note + optional len/vol/gate bytes
 Seq_TrackEndCheck_5786:     equ 0x5786
 Seq_TrackStop_578D:         equ 0x578d
-SeqPtrTable_57A1:           equ 0x57a1   ; 1024 x 24-bit linear pointers to sequences
+InstrPtrTable_57A1:         equ 0x57a1   ; 1024 x 24-bit pointers to instrument patches (8 groups x 128; idx = (iy+0B)*128+(iy+0A))
 
 ; ---- work RAM F800-FFFF (z80dasm also substitutes these in operands) --------
 ; globals
@@ -198,3 +198,5 @@ wReplyToggle_FF0C:          equ 0xff0c
 wSeqPtr_FF0D:               equ 0xff0d   ; sequence read pointer of the current track
 wStackTop_FFF0:             equ 0xfff0
 wNmiRing_FFF0:              equ 0xfff0   ; 16-byte NMI command ring (also stack top)
+Instr_ResolvePtr_4B5D:      equ 0x4b5d   ; (iy+0A/0B) -> hl = instrument patch in bank (FF = default CmdStruct_2509)
+InstrDefault_2509:          equ 0x2509

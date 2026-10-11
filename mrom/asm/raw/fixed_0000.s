@@ -8928,7 +8928,7 @@ l2503h:
 	defb 000h		;2506
 	defb 000h		;2507
 	defb 000h		;2508
-l2509h:
+InstrDefault_2509:
 	defb 080h		;2509
 	defb 019h		;250a
 	defb 000h		;250b
@@ -14262,7 +14262,7 @@ l4a01h:
 	scf			;4a01
 	ret			;4a02
 sub_4a03h:
-	call sub_4b5dh		;4a03
+	call Instr_ResolvePtr_4B5D		;4a03
 	ld (0fbf9h),hl		;4a06
 	ld a,b			;4a09
 	ld (0fbfbh),a		;4a0a
@@ -14455,7 +14455,7 @@ Ch_SetNote4_4B4F:
 	call sub_3711h		;4b58
 	scf			;4b5b
 	ret			;4b5c
-sub_4b5dh:
+Instr_ResolvePtr_4B5D:
 	ld l,(iy+00ah)		;4b5d
 	ld h,000h		;4b60
 	add hl,hl			;4b62
@@ -14465,7 +14465,7 @@ sub_4b5dh:
 	ld a,h			;4b68
 	inc a			;4b69
 	jr nz,l4b72h		;4b6a
-	ld hl,l2509h		;4b6c
+	ld hl,InstrDefault_2509		;4b6c
 	jp l4b7fh		;4b6f
 l4b72h:
 	ld l,000h		;4b72
@@ -15644,8 +15644,8 @@ l5386h:
 	add hl,bc			;53a1
 	jp (hl)			;53a2
 SeqOpJumpTable_53A3:
-	jp SeqOp_C0_SetInstr_56B1		;53a3
-	jp SeqOp_C1_SetInstr2_56BD		;53a6
+	jp SeqOp_C0_SetInstrLo_56B1		;53a3
+	jp SeqOp_C1_SetInstrLoHi_56BD		;53a6
 	jp SeqOp_C2_Jump_56CE		;53a9
 	jp SeqOp_C3_SetBit0_569A		;53ac
 	jp SeqOp_C4_CallSub_565D		;53af
@@ -16043,14 +16043,14 @@ l56aah:
 	inc hl			;56aa
 	ld (wSeqPtr_FF0D),hl		;56ab
 	jp Seq_TrackNextOp_533E		;56ae
-SeqOp_C0_SetInstr_56B1:
+SeqOp_C0_SetInstrLo_56B1:
 	ex de,hl			;56b1
 	ld a,(hl)			;56b2
 	ld (iy+00ah),a		;56b3
 	inc hl			;56b6
 	ld (wSeqPtr_FF0D),hl		;56b7
 	jp Seq_TrackNextOp_533E		;56ba
-SeqOp_C1_SetInstr2_56BD:
+SeqOp_C1_SetInstrLoHi_56BD:
 	ex de,hl			;56bd
 	ld a,(hl)			;56be
 	ld (iy+00ah),a		;56bf
@@ -16166,7 +16166,7 @@ l5791h:
 	dec a			;579c
 	ld (iy+002h),a		;579d
 	ret			;57a0
-SeqPtrTable_57A1:
+InstrPtrTable_57A1:
 	defw 067b9h		;57a1
 	defw 00000h		;57a3
 	defw 067a1h		;57a5

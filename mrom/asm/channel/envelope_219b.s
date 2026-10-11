@@ -657,7 +657,7 @@ l2503h:
 	defb 000h		;2506
 	defb 000h		;2507
 	defb 000h		;2508
-l2509h:
+InstrDefault_2509:
 	defb 080h		;2509
 	defb 019h		;250a
 	defb 000h		;250b

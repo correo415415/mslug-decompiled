@@ -126,7 +126,7 @@ Ch_SetNote4_4B4F:
 	call sub_3711h		;4b58
 	scf			;4b5b
 	ret			;4b5c
-sub_4b5dh:
+Instr_ResolvePtr_4B5D:
 	ld l,(iy+00ah)		;4b5d
 	ld h,000h		;4b60
 	add hl,hl			;4b62
@@ -136,7 +136,7 @@ sub_4b5dh:
 	ld a,h			;4b68
 	inc a			;4b69
 	jr nz,l4b72h		;4b6a
-	ld hl,l2509h		;4b6c
+	ld hl,InstrDefault_2509		;4b6c
 	jp l4b7fh		;4b6f
 l4b72h:
 	ld l,000h		;4b72

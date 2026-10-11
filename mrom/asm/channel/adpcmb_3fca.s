@@ -1366,7 +1366,7 @@ l4a01h:
 	scf			;4a01
 	ret			;4a02
 sub_4a03h:
-	call sub_4b5dh		;4a03
+	call Instr_ResolvePtr_4B5D		;4a03
 	ld (0fbf9h),hl		;4a06
 	ld a,b			;4a09
 	ld (0fbfbh),a		;4a0a
