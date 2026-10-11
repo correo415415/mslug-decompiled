@@ -1,0 +1,138 @@
+; fixed_0000_syms.txt - semantic names for the M-ROM fixed region (z80dasm -S format)
+; name: equ 0xADDR
+; Naming follows the P-ROM conventions: <Subsystem>_<What>_<ADDR> for routines,
+; <What>Table_<ADDR> / <What>_<ADDR> for data.  Names marked (?) are provisional.
+
+; ---- vectors / RST -----------------------------------------------------------
+Reset_0000:                 equ 0x0000
+YM_Write_RST8_0008:         equ 0x0008   ; c=port (4/6), d=reg, e=val -> waits busy, writes
+Ch_ClearActive_RST30_0030:  equ 0x0030   ; (ix+0)=(ix+0d)=0
+IRQ_Vector_0038:            equ 0x0038
+NMI_Vector_0066:            equ 0x0066
+BankPtrTable_0080:          equ 0x0080   ; 18 x 24-bit linear pointers (lo,hi,bank,0)
+
+; ---- main / interrupts / bank switching -------------------------------------
+Main_Init_1E00:             equ 0x1e00
+Main_Loop_1E3F:             equ 0x1e3f
+Main_WaitTick_1E5B:         equ 0x1e5b
+YM_InitTimers_1E6B:         equ 0x1e6b
+IRQ_Timer_1E7A:             equ 0x1e7a   ; YM2610 timer A -> tick counter F801
+NMI_RingReset_1EB3:         equ 0x1eb3
+NMI_RingPop_1EBB:           equ 0x1ebb   ; cf=1, a=cmd if a command is queued
+NMI_Command_1ED6:           equ 0x1ed6   ; 68k -> Z80 command latch (port 0)
+NMI_SoftReset_1F0A:         equ 0x1f0a   ; cmd 01
+NMI_HardReset_1F4B:         equ 0x1f4b   ; cmd 03
+Util_TableLookup_1F54:      equ 0x1f54
+Bank_SelectInit_1F7D:       equ 0x1f7d   ; select file bank 2 in the 8000 window
+Bank_ResolvePtr24_1FA6:     equ 0x1fa6   ; (hl)=24-bit ptr -> switch bank, hl=8000|off
+Bank_ReadWordBank2_1FDE:    equ 0x1fde
+Ch_InitStruct_1FE5:         equ 0x1fe5
+Ch_ResetStruct_201B:        equ 0x201b
+Cmd_InitState_203F:         equ 0x203f
+Cmd_Dispatch_2050:          equ 0x2050   ; pops NMI ring, cmds 00-0F via CmdJumpTable
+CmdJumpTable_2076:          equ 0x2076
+Cmd_DispatchHi_2096:        equ 0x2096   ; cmds >= 20: sound id = cmd-20, type via F81C
+CmdHiJumpTable_20B3:        equ 0x20b3
+Cmd_Nop_20D3:               equ 0x20d3
+Cmd_PlayMusic_20D4:         equ 0x20d4
+Cmd_StopMusic_2101:         equ 0x2101
+Cmd_SetFlag_210F:           equ 0x210f
+Cmd_PlaySfx_2115:           equ 0x2115
+Cmd_StopSfx_2156:           equ 0x2156
+Cmd_StopAll_215D:           equ 0x215d
+Cmd_StopAll2_2163:          equ 0x2163
+Cmd_StopSeq_2166:           equ 0x2166
+Cmd_SetParam_2169:          equ 0x2169
+Cmd_SetTempo_2170:          equ 0x2170
+Cmd_SetFade_217E:           equ 0x217e
+Cmd_FadeOutOn_2185:         equ 0x2185
+Cmd_FadeOutOff_2190:        equ 0x2190
+
+; ---- channel engine ---------------------------------------------------------
+Seq_LoadOpPtrs_219B:        equ 0x219b
+Env_Start_2208:             equ 0x2208
+Env_Release_2219:           equ 0x2219
+Env_Step_222D:              equ 0x222d
+Lfo_Clear_229D:             equ 0x229d
+Lfo_Load_22A8:              equ 0x22a8
+Env_Init_22F4:              equ 0x22f4
+Rng_Next_2300:              equ 0x2300   ; uses R register, state at F81D
+Env_Update_231E:            equ 0x231e
+Pitch_Clear_23EE:           equ 0x23ee
+Pitch_SetNote_23F6:         equ 0x23f6
+Pitch_SetFine_2420:         equ 0x2420
+Pitch_Load_242E:            equ 0x242e
+Pitch_Update_2461:          equ 0x2461
+Vib_Update_248E:            equ 0x248e
+CmdStruct_24DE:             equ 0x24de
+CmdStruct_24F7:             equ 0x24f7
+SSG_Init_2515:              equ 0x2515   ; channels at F81F / F86B / F8B7
+SSG_InitChannel_255D:       equ 0x255d
+SSG_Update_2593:            equ 0x2593
+SSG_UpdateChB_2738:         equ 0x2738
+SSG_UpdateChC_28DD:         equ 0x28dd
+FM_Init_2B43:               equ 0x2b43
+FM_Update_2C5F:             equ 0x2c5f
+ADPCMA_Init_3740:           equ 0x3740
+ADPCMA_Update_379C:         equ 0x379c
+ADPCMB_Init_3FCA:           equ 0x3fca
+ADPCMB_Update_4024:         equ 0x4024
+ChTypeJumpTable0_4AA0:      equ 0x4aa0
+ChTypeJumpTable1_4ABC:      equ 0x4abc
+ChTypeJumpTable2_4AD8:      equ 0x4ad8
+Ch_KeyOn_4AE2:              equ 0x4ae2
+Ch_SetNote_4B0B:            equ 0x4b0b
+Ch_SetNote2_4B26:           equ 0x4b26
+Ch_SetNote3_4B41:           equ 0x4b41
+Ch_SetNote4_4B4F:           equ 0x4b4f
+NoteMapTable_4B84:          equ 0x4b84   ; 256-entry note/volume map used by Seq_StartMusic
+
+; ---- sequence player (8 tracks of 0x23 bytes at FDF2) -----------------------
+Seq_Init_4C84:              equ 0x4c84
+Seq_Update_4CA6:            equ 0x4ca6
+Seq_SetTempo_4F39:          equ 0x4f39
+Seq_SetVolumeLevel_4F88:    equ 0x4f88
+Seq_StartMusic_4FA3:        equ 0x4fa3   ; ix -> music header (5-byte track entries)
+Seq_InitTracks_5025:        equ 0x5025
+Seq_StopAllTracks_504E:     equ 0x504e
+Seq_StartSfx_507B:          equ 0x507b
+Seq_FindFreeTrack_50DB:     equ 0x50db
+Seq_UpdateTracks_514F:      equ 0x514f
+Seq_StopTrackById_5210:     equ 0x5210
+Seq_TrackInit_5251:         equ 0x5251
+Seq_TrackPortamento_52EA:   equ 0x52ea
+Seq_TrackStep_532B:         equ 0x532b
+Seq_TrackNextOp_533E:       equ 0x533e
+Seq_TrackFetch_5362:        equ 0x5362   ; opcode >= DA -> stop, >= C0 -> SeqOpJumpTable, else note
+SeqOpJumpTable_53A3:        equ 0x53a3   ; 26 x 'jp' for opcodes C0..D9
+SeqOp_D9_Reply68k_53F4:     equ 0x53f4
+SeqOp_DA_SetVolLevel_540F:  equ 0x540f
+SeqOp_D3_Note_5420:         equ 0x5420
+SeqOp_D4_Note2_5434:        equ 0x5434
+SeqOp_D5_Note3_5448:        equ 0x5448
+SeqOp_D6_Note4_545C:        equ 0x545c
+SeqOp_D7_PitchDown_5470:    equ 0x5470
+SeqOp_D8_PitchUp_5499:      equ 0x5499
+SeqOp_D1_Portamento_54C5:   equ 0x54c5
+SeqOp_D2_SetLfo_54F0:       equ 0x54f0
+SeqOp_CE_SetTranspose_54FC: equ 0x54fc
+SeqOp_CD_SetTempo_550F:     equ 0x550f
+SeqOp_CC_SetLength_551D:    equ 0x551d
+SeqOp_CB_SetWait_5535:      equ 0x5535
+SeqOp_CA_SetDetune_5541:    equ 0x5541
+SeqOp_C9_SetSustain_555C:   equ 0x555c
+SeqOp_C6_SetVol_5574:       equ 0x5574
+SeqOp_C7_SetPan_5582:       equ 0x5582
+SeqOp_C8_SetParam_5590:     equ 0x5590
+SeqOp_C5_Return_559E:       equ 0x559e
+SeqOp_CF_LoopStart_55D4:    equ 0x55d4
+SeqOp_D0_LoopEnd_5605:      equ 0x5605
+SeqOp_C4_CallSub_565D:      equ 0x565d
+SeqOp_C3_SetBit0_569A:      equ 0x569a
+SeqOp_C0_SetInstr_56B1:     equ 0x56b1
+SeqOp_C1_SetInstr2_56BD:    equ 0x56bd
+SeqOp_C2_Jump_56CE:         equ 0x56ce
+Seq_NoteEvent_56EA:         equ 0x56ea   ; opcodes 00..BF: note + optional len/vol/gate bytes
+Seq_TrackEndCheck_5786:     equ 0x5786
+Seq_TrackStop_578D:         equ 0x578d
+SeqPtrTable_57A1:           equ 0x57a1   ; 1024 x 24-bit linear pointers to sequences

@@ -1,0 +1,77 @@
+; fixed_0000_blocks.txt - code/data block map for the M-ROM fixed region (Z80 0000-7FFF)
+; z80dasm -b format:  name: unlabeled start 0xAAAA unlabeled end 0xBBBB type TYPE
+;   (end is exclusive; TYPE = code | bytedata | worddata | pointers)
+; Built from mrom/tools/z80trace.py (byte-level recursive descent from the
+; vectors + known jump tables) and from the data references found in code.
+
+
+; --- vectors / RST handlers
+vec_reset:           unlabeled start 0x0000 unlabeled end 0x0006 type code
+vec_pad0:            unlabeled start 0x0006 unlabeled end 0x0008 type bytedata
+rst08_ym_write:      unlabeled start 0x0008 unlabeled end 0x001e type code
+vec_pad1:            unlabeled start 0x001e unlabeled end 0x0030 type bytedata
+rst30_clear_ch:      unlabeled start 0x0030 unlabeled end 0x0038 type code
+vec_irq:             unlabeled start 0x0038 unlabeled end 0x003b type code
+vec_pad2:            unlabeled start 0x003b unlabeled end 0x0066 type bytedata
+vec_nmi:             unlabeled start 0x0066 unlabeled end 0x0069 type code
+vec_pad3:            unlabeled start 0x0069 unlabeled end 0x0080 type bytedata
+
+; --- 24-bit linear file pointers to the bank tables (18 x 4 bytes, lo/hi/bank/0)
+tbl_bank_ptrs:       unlabeled start 0x0080 unlabeled end 0x00c8 type worddata
+vec_pad4:            unlabeled start 0x00c8 unlabeled end 0x0100 type bytedata
+
+; --- page-aligned lookup tables (indexed with ld h,PAGE ; ld l,idx)
+tbl_page01:          unlabeled start 0x0100 unlabeled end 0x0200 type bytedata
+tbl_page02:          unlabeled start 0x0200 unlabeled end 0x0300 type bytedata
+tbl_page03:          unlabeled start 0x0300 unlabeled end 0x0400 type bytedata
+tbl_page04:          unlabeled start 0x0400 unlabeled end 0x0500 type bytedata
+tbl_page05:          unlabeled start 0x0500 unlabeled end 0x0600 type bytedata
+tbl_page06:          unlabeled start 0x0600 unlabeled end 0x0700 type bytedata
+tbl_page07:          unlabeled start 0x0700 unlabeled end 0x0800 type bytedata
+tbl_page08:          unlabeled start 0x0800 unlabeled end 0x0900 type bytedata
+tbl_page09:          unlabeled start 0x0900 unlabeled end 0x0a00 type bytedata
+tbl_page0a:          unlabeled start 0x0a00 unlabeled end 0x0b00 type bytedata
+tbl_page0b:          unlabeled start 0x0b00 unlabeled end 0x0c00 type bytedata
+tbl_page0c:          unlabeled start 0x0c00 unlabeled end 0x0d00 type bytedata
+tbl_page0d:          unlabeled start 0x0d00 unlabeled end 0x0e00 type bytedata
+tbl_page0e:          unlabeled start 0x0e00 unlabeled end 0x0f00 type bytedata
+tbl_page0f:          unlabeled start 0x0f00 unlabeled end 0x1000 type bytedata
+tbl_page10:          unlabeled start 0x1000 unlabeled end 0x1100 type bytedata
+tbl_page11:          unlabeled start 0x1100 unlabeled end 0x1200 type bytedata
+tbl_page12:          unlabeled start 0x1200 unlabeled end 0x1300 type bytedata
+tbl_page13:          unlabeled start 0x1300 unlabeled end 0x1400 type bytedata
+tbl_page14:          unlabeled start 0x1400 unlabeled end 0x1500 type bytedata
+tbl_page15:          unlabeled start 0x1500 unlabeled end 0x1600 type bytedata
+tbl_page16:          unlabeled start 0x1600 unlabeled end 0x1700 type bytedata
+tbl_page17:          unlabeled start 0x1700 unlabeled end 0x1800 type bytedata
+tbl_page18:          unlabeled start 0x1800 unlabeled end 0x1900 type bytedata
+tbl_page19:          unlabeled start 0x1900 unlabeled end 0x1a00 type bytedata
+tbl_page1a:          unlabeled start 0x1a00 unlabeled end 0x1b00 type bytedata
+tbl_page1b:          unlabeled start 0x1b00 unlabeled end 0x1c00 type bytedata
+tbl_page1c:          unlabeled start 0x1c00 unlabeled end 0x1d00 type bytedata
+tbl_page1d:          unlabeled start 0x1d00 unlabeled end 0x1e00 type bytedata
+
+; --- driver core
+code_main:           unlabeled start 0x1e00 unlabeled end 0x2076 type code
+tbl_cmd_jump:        unlabeled start 0x2076 unlabeled end 0x2096 type pointers
+code_cmd_hi:         unlabeled start 0x2096 unlabeled end 0x20b3 type code
+tbl_cmd_hi_jump:     unlabeled start 0x20b3 unlabeled end 0x20d3 type pointers
+code_cmd_handlers:   unlabeled start 0x20d3 unlabeled end 0x24de type code
+dat_cmd_structs:     unlabeled start 0x24de unlabeled end 0x2515 type bytedata
+
+; --- channel engine (SSG / FM / ADPCM-A / ADPCM-B)
+code_channels:       unlabeled start 0x2515 unlabeled end 0x4aa0 type code
+tbl_chtype_jump0:    unlabeled start 0x4aa0 unlabeled end 0x4aa8 type pointers
+code_chtype0:        unlabeled start 0x4aa8 unlabeled end 0x4abc type code
+tbl_chtype_jump1:    unlabeled start 0x4abc unlabeled end 0x4ac4 type pointers
+code_chtype1:        unlabeled start 0x4ac4 unlabeled end 0x4ad8 type code
+tbl_chtype_jump2:    unlabeled start 0x4ad8 unlabeled end 0x4ae0 type pointers
+code_chtype2:        unlabeled start 0x4ae0 unlabeled end 0x4b84 type code
+tbl_note_map:        unlabeled start 0x4b84 unlabeled end 0x4c84 type bytedata
+
+; --- sequence player
+code_sequencer:      unlabeled start 0x4c84 unlabeled end 0x57a1 type code
+
+; --- data tail (1024 x 4-byte linear pointers, then sequence/instrument data)
+tbl_seq_ptrs:        unlabeled start 0x57a1 unlabeled end 0x67a1 type worddata
+dat_tail:            unlabeled start 0x67a1 unlabeled end 0x8000 type bytedata
