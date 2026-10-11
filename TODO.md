@@ -12,17 +12,16 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 
 ## M-ROM (Z80, `201-m1.bin`) — en curso
 
-- [ ] Separar código y datos en la región fija con bloques de `z80dasm -b`
-      (tablas de punteros `0080-00C8`, `57A1-67A1`, tablas de salto
-      `2076`, `4AA0/4ABC/4AD8`, `53A3`; datos `0100-1DFF`, `5800-7FFF`).
-- [ ] Fichero de símbolos (`-S`) con nombres semánticos para el núcleo del
-      driver: `Reset_0000`, `YM_Write_RST8`, `IRQ_Timer_1E7A`,
-      `NMI_Command_1ED6`, `Main_1E00`, `BankSelect_1F7D`, `BankPtr_1FA6`,
-      `CmdDispatch_2050`, motor de secuencias `2515-57A1`.
-- [ ] Equates de hardware/RAM en `mrom/include/` (puertos YM2610, latch
-      68k, ventanas de banco, mapa de RAM `F800-FFFF`).
-- [ ] Trocear el núcleo en `mrom/asm/<subsistema>/` con `include`,
-      manteniendo `build_mrom.py` ✔ IDÉNTICA en cada paso.
+- [x] Separar código y datos en la región fija (`mrom/map/fixed_0000_blocks.txt`).
+- [x] Símbolos semánticos para el núcleo del driver y mapa de RAM
+      (`mrom/map/fixed_0000_syms.txt`, 126 rutinas + 61 variables).
+- [x] Equates de hardware en `mrom/include/neogeo_z80.inc`.
+- [x] Región fija troceada en `mrom/asm/{core,channel,seq,data}/` (18 ficheros).
+- [ ] Nombrar las ~460 etiquetas internas restantes (cuerpos de actualización
+      de cada canal SSG/FM/ADPCM) y documentar la estructura de canal
+      (offsets `+00..+4C/+67/+29`) y de pista (`+00..+22`).
+- [ ] Documentar el formato de secuencia (opcodes `C0..DA`, bytes de nota) y
+      el formato de las cabeceras de música/SFX (entradas de 5 bytes).
 - [ ] Analizar los bancos 2..7 (secuencias musicales, instrumentos FM,
       tablas ADPCM-A/B) y documentar el formato de secuencia.
 - [ ] Actualizar `mrom/README.md`, `docs/COVERAGE.md` (sección M-ROM),

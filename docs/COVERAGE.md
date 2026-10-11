@@ -348,7 +348,8 @@ paleta `$14E00`/`$1CE00`, soft-DIP `$1781F4`...).
 ## M-ROM (`201-m1.bin`, programa de sonido Z80, 128 KiB)
 
 Segundo frente, abierto tras cerrar la P-ROM al 100 %. Toolchain y build
-propios en `mrom/` (`z80dasm` → `mrom/asm/raw/*.s` → `z80asm` →
+propios en `mrom/` (`z80dasm -b/-S` con `mrom/map/` → `mrom/asm/raw/*.s` →
+`split_region.py` → `mrom/asm/{core,channel,seq,data}/` → `z80asm` →
 `build/mrom/201-m1_rebuilt.bin`), ver `mrom/README.md`.
 
 | Métrica | Valor |
@@ -356,31 +357,42 @@ propios en `mrom/` (`z80dasm` → `mrom/asm/raw/*.s` → `z80asm` →
 | Tamaño | 131,072 B (MD5 `6449db0459bcf7584348792009e8f12c`) |
 | Regiones | fija `0000-7FFF` (32 KiB) + bancos 2..7 de 16 KiB en la ventana `8000-BFFF` |
 | **Reensamblado byte-idéntico** | **100 %** (7/7 regiones, `mrom/tools/build_mrom.py`) |
-| Código alcanzable desde los vectores (`trace_code.py`) | ~13.5 KB (`0x34B8`) en la región fija, 25 rangos |
-| Funciones con nombre semántico | 0 (todo son etiquetas `lXXXXh`/`sub_XXXXh` de z80dasm) |
-| Código/datos separados | no (pendiente: tablas de punteros de 4 B en `0080-00C8` y `57A1-67A1`, tablas de 2 B en `2076`, `4AA0..4AE0`, dispatcher de opcodes de secuencia en `53A3`) |
+| Código alcanzable (`z80trace.py`, nivel de bytes) | **14,288 B (`0x37D0`)** en la región fija, 16 rangos; 0 B de código detectado en los bancos |
+| Código/datos separados (región fija) | **sí**: 14,288 B código / 18,480 B datos (`mrom/map/fixed_0000_blocks.txt`, 74 bloques) |
+| Rutinas con nombre semántico | 126 etiquetas de código + 61 símbolos de RAM (`mrom/map/fixed_0000_syms.txt`); quedan ~460 etiquetas `lXXXXh` internas |
+| Ficheros por subsistema | 18 (`core/` 4, `channel/` 6, `seq/` 2, `data/` 6) vía `mrom/map/fixed_0000_split.txt` |
+| Equates de hardware | `mrom/include/neogeo_z80.inc` (puertos, ventanas de banco, registros YM2610) |
+| Bancos 2..7 | sin analizar (datos de secuencias / instrumentos / tablas ADPCM) |
 
-### Mapa preliminar de la región fija
+### Mapa de la región fija
 
-| Z80 | Contenido |
-|---|---|
-| `0000` | reset: `di ; out (18h),a ; jp 1E00` |
-| `0008` | RST 8 = escritura YM2610 (espera busy, `out (c),d` / `out (c),e`) |
-| `0038` | IRQ (timer YM) → `1E7A` |
-| `0066` | NMI (comando del 68000, puerto 0) → `1ED6`; cmd 1 = reset suave, 3 = reinicio |
-| `0080-00C8` | tabla de 18 punteros (4 B) → `57A1`, `815F`, `8472`, `87F2`… |
-| `0100-1DFF` | datos (tablas de frecuencia/volumen/envolventes) |
-| `1E00` | init + bucle principal (`F800` tick, `F801..F803` cola de comandos) |
-| `1F7D`/`1FA6` | cambio de banco (puerto `0B`, dirección lineal 24 bits → banco/offset) |
-| `2050-2076` | dispatcher de comandos (16 entradas) |
-| `2515-57A1` | motor de secuencias/canales (4 bloques via tablas `4AA0/4ABC/4AD8`) |
-| `53A3` | tabla `jp` para opcodes de secuencia `C0..D9` |
-| `57A1-67A1` | 1024 punteros de 4 B (índices de sonido → dirección lineal) |
-| `67A1-7FFF` | datos |
+| Z80 | Fichero | Contenido |
+|---|---|---|
+| `0000-007F` | `core/vectors_0000.s` | reset (`di ; out (18h),a ; jp Main_Init_1E00`), RST 8 = `YM_Write_RST8` (c=puerto, d=reg, e=valor), RST 30 limpia canal, `0038` → `IRQ_Timer_1E7A`, `0066` → `NMI_Command_1ED6` |
+| `0080-00C7` | `data/bank_ptr_table_0080.s` | `BankPtrTable_0080`: 18 punteros lineales de 24 bits (lo, hi, banco, 0) a tablas en los bancos |
+| `0100-1DFF` | `data/lookup_pages_0100.s` | 29 tablas alineadas a página (`ld h,PAGE ; ld l,idx`): frecuencias FM/SSG (`11xx`), volumen (`14xx`/`15xx`), envolventes (`18xx`-`1Bxx`), deltas ADPCM-B (`1Axx`) |
+| `1E00-1FE4` | `core/main_1e00.s` | `Main_Init_1E00` (inicializa SSG/FM/ADPCM-A/B/secuenciador, IM 1, NMI on), `Main_Loop_1E3F` (por tick: comandos → SSG → FM → ADPCM-A → ADPCM-B → pistas), `IRQ_Timer_1E7A`, `NMI_Command_1ED6` (cmd 1 = `NMI_SoftReset_1F0A`, 3 = `NMI_HardReset_1F4B`, resto → anillo `FFF0`), `Bank_SelectInit_1F7D`, `Bank_ResolvePtr24_1FA6` |
+| `1FE5-2075` | `core/command_2050.s` | `Ch_InitStruct_1FE5`, `Ch_ResetStruct_201B`, `Cmd_Dispatch_2050` (saca del anillo; `<10` → `CmdJumpTable_2076`, `≥20` → `Cmd_DispatchHi_2096`) |
+| `2076-20D2` | `core/command_tables_2076.s` | `CmdJumpTable_2076` (16), `Cmd_DispatchHi_2096`, `CmdHiJumpTable_20B3` (16 por tipo `wCmdType_F81C`) |
+| `20D3-219A` | `core/command_handlers_20d3.s` | `Cmd_PlayMusic_20D4` (tabla `0084` + id×4 → `Seq_StartMusic_4FA3`), `Cmd_PlaySfx_2115` (tablas `0088`+tipo×8 → `Seq_StartSfx_507B`), stop/fade/tempo |
+| `219B-2514` | `channel/envelope_219b.s` | envolventes (`Env_*`), LFO, `Rng_Next_2300` (registro R), `Pitch_*`, `Vib_Update_248E`, estructuras de comando `24DE/24F7` |
+| `2515-2B42` | `channel/ssg_2515.s` | SSG A/B/C (`wSSG_ChA_F81F`…) |
+| `2B43-373F` | `channel/fm_2b43.s` | FM 1-4 (`wFM_Ch1_F907`…) |
+| `3740-3FC9` | `channel/adpcma_3740.s` | ADPCM-A 1-6 (`wPCMA_Ch1_FAA5`…) |
+| `3FCA-4A9F` | `channel/adpcmb_3fca.s` | ADPCM-B (`wPCMB_Ch_FB9B`) + código común |
+| `4AA0-4B83` | `channel/chtype_4aa0.s` | 3 tablas de 4 punteros por tipo de canal, `Ch_KeyOn_4AE2`, `Ch_SetNote*_4B0B..4B4F` |
+| `4B84-4C83` | `data/note_map_4b84.s` | `NoteMapTable_4B84` (256 B) |
+| `4C84-5361` | `seq/sequencer_4c84.s` | pistas: 14 de música en `FBFC` + 8 de SFX en `FDF2` (0x23 B cada una); `Seq_StartMusic_4FA3`, `Seq_StartSfx_507B`, `Seq_FindFreeTrack_50DB`, `Seq_UpdateTracks_514F`, `Seq_TrackInit_5251` |
+| `5362-57A0` | `seq/opcodes_5362.s` | `Seq_TrackFetch_5362`: byte `≥DA` para, `C0..D9` → `SeqOpJumpTable_53A3` (26 `jp`), `<C0` → `Seq_NoteEvent_56EA` (nota + len/vol/gate opcionales según bits) |
+| `57A1-67A0` | `data/seq_ptr_table_57a1.s` | `SeqPtrTable_57A1`: 1024 punteros lineales de 24 bits (índice de sonido → secuencia en banco) |
+| `67A1-7FFF` | `data/tail_67a1.s` | datos de secuencias/instrumentos de la región fija |
 
-Los bancos 2..7 (`0x08000-0x1FFFF` del fichero) son casi todo datos de
-secuencias/instrumentos; las referencias desde la región fija a `8xxx`
-pasan por punteros lineales, no por `call` directos.
+Opcodes de secuencia identificados (provisional): `C0/C1` instrumento,
+`C2` salto, `C4` llamada a subsecuencia (pila de 3 niveles en `+1C`), `C5`
+retorno, `C6` volumen, `C7` pan, `C8` parámetro, `CA` detune, `CB` espera,
+`CC` longitud de gate, `CD` tempo, `CE` transposición, `CF/D0` bucle, `D1`
+portamento, `D2` LFO, `D3-D6` nota directa por tipo, `D7/D8` pitch bend,
+`D9` responde al 68000 por el puerto `0C`, `DA..FF` fin de pista.
 
 ## Como regenerar este documento
 

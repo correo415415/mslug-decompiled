@@ -22,6 +22,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   given zip when missing.
 
 ### Added
+- M-ROM (Z80): `mrom/` con desensamblado reensamblable byte-idéntico, mapa código/datos
+  (`mrom/map/*_blocks.txt`), 126 rutinas + 61 variables de RAM con nombre (`*_syms.txt`),
+  región fija troceada por subsistema (`core/`, `channel/`, `seq/`, `data/`),
+  `include/neogeo_z80.inc`, herramientas `z80trace.py`, `gen_mrom_asm.py`,
+  `split_region.py`, `build_mrom.py`. `TODO.md` con el plan de extracción de assets.
 - `tools/build_rom.py` + `scripts/rebuild_rom.sh`: link all 17,608 sections
   into the full 2 MiB P-ROM, repack `201-p1.bin` / `mslug.zip`; CI step
   `build_rom` verifies byte-identity.
