@@ -1,5 +1,7 @@
 # Metal Slug 1 — Matching Decompilation
 
+> **¿Nuevo en el proyecto?** Lee [`HANDOFF.md`](HANDOFF.md): estado completo, cómo reproducir el entorno, qué está hecho y qué queda por hacer.
+
 [![CI](https://github.com/correo415415/mslug-decompiled/actions/workflows/ci.yml/badge.svg)](https://github.com/correo415415/mslug-decompiled/actions/workflows/ci.yml)
 
 A work-in-progress matching decompilation of **Metal Slug: Super Vehicle-001**
