@@ -76,15 +76,23 @@ cada destino de salto cae en un límite de instrucción (comprobado por
 ```
 op = (delta + 11) << 3 | máscara      ; 00..B7, delta = −11..+11 respecto a la nota actual (+17)
 op = B8 | máscara, nota               ; B8..BF, nota absoluta
-máscara bit0/1/2 = 1 → se omite len / vol / gate (se mantiene el valor de +18 / +19 / +1A)
+máscara bit0/1/2 = 1 → se omite wait / dur / vel (se mantiene el valor de +18 / +19 / +1A)
 ```
 
-Le siguen, en orden, los bytes no omitidos: duración (`+18`, también espera
-`+16`), volumen (`+19`; `0` = silencio sin key-on) y gate (`+1A`). La nota
-actual vale `0x40` (len `C0`, vol `C0`, gate `7F`) al iniciar la pista y tras
-`C2`, `C4`, `C5`, `CF` y un `D0` que salta. Las macros `N nota[, len[, vol[,
-gate]]]` y `NX …` escriben la nota **absoluta** y calculan el delta (un
-argumento vacío = byte omitido).
+Le siguen, en orden, los bytes no omitidos:
+
+* `wait` (`+18`, copiado a `+16`): ticks hasta el siguiente evento de la pista;
+* `dur` (`+19` → `wNoteVol_FBF7` → canal `+05`): ticks de key-on; el canal lo
+  decrementa cada tick y hace release al llegar a 0 (`SSG_Update_L26F6`);
+  `0` = silencio (no hay key-on);
+* `vel` (`+1A` → `wNoteGate_FBF8` → canal `+0B`): nivel/velocidad usado en el
+  cálculo de volumen del canal (`0` = mudo).
+
+(Los nombres de RAM `wNoteVol`/`wNoteGate` son históricos; la semántica
+correcta es la de arriba.) La nota actual vale `0x40` (wait `C0`, dur `C0`, vel
+`7F`) al iniciar la pista y tras `C2`, `C4`, `C5`, `CF` y un `D0` que salta. Las
+macros `N nota[, wait[, dur[, vel]]]` y `NX …` escriben la nota **absoluta** y
+calculan el delta (un argumento vacío = byte omitido).
 
 ### Opcodes de control (`C0..D9`) — `SeqOpJumpTable_53A3`
 

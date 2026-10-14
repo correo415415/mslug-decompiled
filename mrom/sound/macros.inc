@@ -67,50 +67,53 @@
         .word ((\target) - . - 2) & 0xffff
         .endm
 
-        .macro _S_MASK len, vol, gate   /* bit set = byte omitted (keep current) */
+        .macro _S_MASK wait, dur, vel   /* bit set = byte omitted (keep current) */
         _sd_m = 0
-        .ifb \len
+        .ifb \wait
         _sd_m = _sd_m | 1
         .endif
-        .ifb \vol
+        .ifb \dur
         _sd_m = _sd_m | 2
         .endif
-        .ifb \gate
+        .ifb \vel
         _sd_m = _sd_m | 4
         .endif
         .endm
 
-        .macro _S_OPT len, vol, gate
-        .ifnb \len
-        .byte \len
+        .macro _S_OPT wait, dur, vel
+        .ifnb \wait
+        .byte \wait
         .endif
-        .ifnb \vol
-        .byte \vol
+        .ifnb \dur
+        .byte \dur
         .endif
-        .ifnb \gate
-        .byte \gate
+        .ifnb \vel
+        .byte \vel
         .endif
         .endm
 
 /* Note event, relative form (op 00..B7): op = ((delta+11) << 3) | mask,
  * delta = note - current note in -11..+11.
- * N note [, len [, vol [, gate]]]  (empty argument = keep current value) */
-        .macro N note, len, vol, gate
+ * N note [, wait [, dur [, vel]]]  (empty argument = keep current value)
+ *   wait = ticks until the next event (+18 -> +16)
+ *   dur  = key-on ticks (+19 -> channel +05, decremented per tick; 0 = rest)
+ *   vel  = velocity / level (+1A -> channel +0B, used in the volume calculation) */
+        .macro N note, wait, dur, vel
         _sd_d = ((((\note) - _sd_note) + 128) & 255) - 128
         .if (_sd_d < -11) | (_sd_d > 11)
         .error "N: note out of relative range, use NX"
         .endif
-        _S_MASK \len, \vol, \gate
+        _S_MASK \wait, \dur, \vel
         .byte ((_sd_d + 11) << 3) | _sd_m
-        _S_OPT \len, \vol, \gate
+        _S_OPT \wait, \dur, \vel
         _sd_note = (\note) & 255
         .endm
 
 /* Note event, explicit form (op B8..BF + absolute note byte). */
-        .macro NX note, len, vol, gate
-        _S_MASK \len, \vol, \gate
+        .macro NX note, wait, dur, vel
+        _S_MASK \wait, \dur, \vel
         .byte 0xb8 | _sd_m, \note
-        _S_OPT \len, \vol, \gate
+        _S_OPT \wait, \dur, \vel
         _sd_note = (\note) & 255
         .endm
 

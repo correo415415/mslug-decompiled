@@ -132,7 +132,7 @@ SeqOp_C3_SetBit0_569A:      equ 0x569a
 SeqOp_C0_SetInstrLo_56B1:   equ 0x56b1
 SeqOp_C1_SetInstrLoHi_56BD: equ 0x56bd
 SeqOp_C2_Jump_56CE:         equ 0x56ce
-Seq_NoteEvent_56EA:         equ 0x56ea   ; opcodes 00..BF: note + optional len/vol/gate bytes
+Seq_NoteEvent_56EA:         equ 0x56ea   ; opcodes 00..BF: note + optional wait/dur/vel bytes
 Seq_TrackEndCheck_5786:     equ 0x5786
 Seq_TrackStop_578D:         equ 0x578d
 InstrPtrTable_57A1:         equ 0x57a1   ; 1024 x 24-bit pointers to instrument patches (8 groups x 128; idx = (iy+0B)*128+(iy+0A))
