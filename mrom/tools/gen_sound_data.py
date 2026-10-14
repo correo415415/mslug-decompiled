@@ -105,11 +105,7 @@ class Sound:
 
     def load(self):
         rom = self.rom
-        ptrs = sorted({p24(rom, INSTR_TABLE + 4 * i) for i in range(INSTR_N)})
-        self.patches = [p for p in ptrs if p >= BASE]
-        self.patch_before = max(p for p in ptrs if p < BASE)
-        for p in self.patches:
-            self.name(p, f"InstrPatch_{p:05X}")
+        self.load_instruments()
         self.name(MUSIC_TABLE, "MusicTable", "BankPtrTable_0080[1]; 68k cmd 20h+id with type 00h")
         self.name(SFXA_TABLE, "SfxTableA", "BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)")
         self.name(SFXB_TABLE, "SfxTableB", "BankPtrTable_0080[3]; type 11h")
@@ -163,15 +159,102 @@ class Sound:
         return ["\t.byte " + ", ".join(h8(x) for x in self.rom[i:min(b, i + per)])
                 for i in range(a, b, per)]
 
-    def emit_patches(self):
-        L = ["/* instr_patches.s - instrument patches stored in the banked area",
-             " * (targets of InstrPtrTable_57A1; layout: mrom/docs/FORMATS.md) */", "",
-             f"\t/* file 0x{BASE:05x}: tail of InstrPatch_{self.patch_before:05X} (starts in the fixed region) */"]
-        L += self.rows(BASE, self.patches[0])
-        for k, p in enumerate(self.patches):
-            nxt = self.patches[k + 1] if k + 1 < len(self.patches) else MUSIC_TABLE
-            L.append(self.lbl(p))
-            L += self.rows(p, nxt, 25 if (nxt - p) % 25 == 0 else 24 if (nxt - p) % 24 == 0 else 16)
+    def load_instruments(self):
+        """Typed instrument records in file 0x057A1-0x0815E (FORMATS.md §6)."""
+        rom = self.rom
+        self.irec = {}       # addr -> (kind, size)
+        self.inames = {}     # patch addr -> [(grp, num)]
+        for i in range(INSTR_N):
+            p = p24(rom, INSTR_TABLE + 4 * i)
+            assert rom[INSTR_TABLE + 4 * i + 3] == 0
+            self.inames.setdefault(p, []).append((i >> 7, i & 0x7F))
+        for a in self.inames:
+            t = rom[a]
+            if t == 0:
+                self.irec[a] = ("ssg", 24)
+            elif t == 1:
+                self.irec[a] = ("fm", 50)
+            elif t == 2:
+                assert rom[a + 15] == 0
+                self.irec[a] = ("pcma", None)
+                self.irec.setdefault(p24(rom, a + 12), ("pcmatab", None))
+            elif t == 3:
+                e = a + 22
+                while rom[e] != 0xFF:
+                    assert rom[e + 5] == 0
+                    self.irec.setdefault(p24(rom, e + 2), ("pcmbsmp", 12))
+                    e += 6
+                self.irec[a] = ("pcmb", e + 1 - a)
+            else:
+                raise ValueError(f"unknown instrument type {t} at {a:#x}")
+        ks = sorted(self.irec) + [MUSIC_TABLE]
+        assert ks[0] == INSTR_TABLE + 4 * INSTR_N
+        for a, b in zip(ks, ks[1:]):
+            k, sz = self.irec[a]
+            if sz is None:
+                self.irec[a] = (k, b - a)
+            else:
+                assert sz == b - a, (k, hex(a), sz, b - a)
+        pre = {"ssg": "InstrSSG", "fm": "InstrFM", "pcma": "InstrPCMA", "pcmb": "InstrPCMB",
+               "pcmatab": "PcmaSampleTab", "pcmbsmp": "PcmbSample"}
+        for a in sorted(self.irec):
+            self.name(a, f"{pre[self.irec[a][0]]}_{a:05X}")
+
+    def emit_instruments(self):
+        rom = self.rom
+        b = lambda a, n: ", ".join(h8(x) for x in rom[a:a + n])
+        L = ["/* instruments.s - InstrPtrTable_57A1 and the instrument records it points to",
+             " * (file 0x057A1-0x0815E; layout: mrom/docs/FORMATS.md §6).",
+             " * Byte 0 of a patch selects the loader through ChTypeJumpTable0_4AA0:",
+             " * 0 SSG (24 B), 1 FM (50 B), 2 ADPCM-A, 3 ADPCM-B.  Fixed-region part",
+             " * (< 0x08000) is incbin'ed by mrom/asm/fixed_0000.s. */", "",
+             "InstrPtrTable_57A1:\t\t/* file 0x057a1; idx = group*128 + number (C1 grp,num / C0 num) */"]
+        for i in range(INSTR_N):
+            p = p24(rom, INSTR_TABLE + 4 * i)
+            L.append(f"\tPTR24 {self.labels[p]}\t\t/* {i >> 7}:{i & 0x7F:3d} */")
+        for a in sorted(self.irec):
+            k, sz = self.irec[a]
+            L.append("")
+            if a in self.inames:
+                use = self.inames[a]
+                txt = ", ".join(f"{g}:{n}" for g, n in use[:12]) + (f" ... ({len(use)} slots)" if len(use) > 12 else "")
+                L.append(f"/* used by {txt} */")
+            L.append(self.lbl(a))
+            if k == "ssg":
+                L.append(f"\tINSTR_SSG {h8(rom[a+1])}, {h8(rom[a+2])}")
+                L.append(f"\tI_ENV {b(a+3, 5)}")
+                L.append(f"\tI_LFO {b(a+8, 6)}")
+                L.append(f"\tI_LFO {b(a+14, 6)}")
+                L.append(f"\tI_PITCH {b(a+20, 4)}")
+            elif k == "fm":
+                L.append(f"\tINSTR_FM {b(a+1, 5)}")
+                for o in range(4):
+                    L.append(f"\tFM_OP {b(a+6+7*o, 7)}\t\t/* operator {o+1} */")
+                L.append(f"\tI_LFO {b(a+34, 6)}")
+                L.append(f"\tI_LFO {b(a+40, 6)}")
+                L.append(f"\tI_PITCH {b(a+46, 4)}")
+            elif k == "pcma":
+                L.append("\tINSTR_PCMA")
+                L.append(f"\tI_ENV {b(a+1, 5)}")
+                L.append(f"\tPCMA_MAP {b(a+6, 6)}, {self.labels[p24(rom, a+12)]}, {h8(rom[a+16])}")
+                L += ["\t.byte " + b(i, min(16, a + sz - i)) for i in range(a + 17, a + sz, 16)]
+            elif k == "pcmb":
+                L.append("\tINSTR_PCMB")
+                L.append(f"\tI_ENV {b(a+1, 5)}")
+                L.append(f"\tI_LFO {b(a+6, 6)}")
+                L.append(f"\tI_LFO {b(a+12, 6)}")
+                L.append(f"\tI_PITCH {b(a+18, 4)}")
+                for e in range(a + 22, a + sz - 1, 6):
+                    L.append(f"\tPCMB_KEY {h8(rom[e])}, {h8(rom[e+1])}, {self.labels[p24(rom, e+2)]}")
+                L.append("\tPCMB_END")
+            elif k == "pcmatab":
+                assert sz % 5 == 0
+                for i in range(a, a + sz, 5):
+                    L.append(f"\tPCMA_SAMPLE {h8(rom[i])}, 0x{rom[i+1] | rom[i+2] << 8:04x}, "
+                             f"0x{rom[i+3] | rom[i+4] << 8:04x}\t/* {(i - a) // 5} */")
+            elif k == "pcmbsmp":
+                w = lambda o: f"0x{rom[a+o] | rom[a+o+1] << 8:04x}"
+                L.append(f"\tPCMB_SAMPLE {w(0)}, {h8(rom[a+2])}, {h8(rom[a+3])}, {w(4)}, {w(6)}, {w(8)}, {w(10)}")
         return L
 
     def emit_tables_headers(self):
@@ -263,7 +346,7 @@ class Sound:
                 f.write("\n".join(lines).rstrip() + "\n")
             files.append(name)
 
-        put("instr_patches.s", self.emit_patches())
+        put("instruments.s", self.emit_instruments())
         put("headers.s", self.emit_tables_headers())
         parts = [(self.music[i][2][0][0], f"music_{i:02d}.s", f"music_{i:02d}.s - sequences of MusicHdr_{i:02d}")
                  for i in range(MUSIC_N)]
@@ -280,11 +363,13 @@ class Sound:
                 " * (authoring-tool leftovers, kept verbatim) */", "",
                 f"Leftover_{self.seq_end:05X}:\t\t\t/* file 0x{self.seq_end:05x} */"]
         put("leftover.s", tail + self.rows(self.seq_end, END))
-        top = ["/* sound.s - M-ROM sound data = file 0x08000-0x1FFFF of 201-m1.bin",
+        top = ["/* sound.s - M-ROM sound data = file 0x057A1-0x1FFFF of 201-m1.bin",
                " * Generated by mrom/tools/gen_sound_data.py, assembled by mrom/tools/build_mrom.py",
                " * (binutils-z80).  Labels are linear file addresses; the driver maps them",
-               " * through Bank_ResolvePtr24_1FA6 (bank = addr >> 14). */", "",
-               '\t.include "macros.inc"', "", "\t.text", "SD_Base:\t\t\t/* file 0x08000 */"]
+               " * through Bank_ResolvePtr24_1FA6 (bank = addr >> 14).  The part below",
+               " * file 0x08000 is incbin'ed by the fixed region (mrom/asm/fixed_0000.s). */", "",
+               '\t.include "macros.inc"', "", "\t.text",
+               "\t.set SD_Base, . - 0x57a1\t/* SD_Base = file address 0 */"]
         top += [f'\t.include "{n}"' for n in files]
         with open(os.path.join(OUT, "sound.s"), "w") as f:
             f.write("\n".join(top) + "\n")

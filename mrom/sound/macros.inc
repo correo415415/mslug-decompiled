@@ -1,8 +1,8 @@
 /* macros.inc - sound-data macros for the Metal Slug 1 M-ROM (GNU as, binutils-z80)
  *
- * mrom/sound/ describes file 0x08000-0x1FFFF of 201-m1.bin: the data the Z80
+ * mrom/sound/ describes file 0x057A1-0x1FFFF of 201-m1.bin: the data the Z80
  * driver reads through its bank window.  Labels are *linear file addresses*
- * relative to SD_Base (= file 0x08000), so 24-bit pointers and the relative
+ * relative to SD_Base (= file address 0), so 24-bit pointers and the relative
  * offsets of the sequence opcodes are written symbolically.
  * Field meanings: mrom/docs/FORMATS.md.
  */
@@ -16,9 +16,9 @@
         .ifc \target,0
         .long 0
         .else
-        .byte ((\target) - SD_Base + 0x8000) & 0xff
-        .byte (((\target) - SD_Base + 0x8000) >> 8) & 0xff
-        .byte (((\target) - SD_Base + 0x8000) >> 16) & 0xff
+        .byte ((\target) - SD_Base) & 0xff
+        .byte (((\target) - SD_Base) >> 8) & 0xff
+        .byte (((\target) - SD_Base) >> 16) & 0xff
         .byte 0
         .endif
         .endm
@@ -200,4 +200,83 @@
         .endm
         .macro S_REPLY code             /* D9: reply (code&3F)*2+80 | toggle to the 68k */
         .byte 0xd9, \code
+        .endm
+
+/* ---- instruments (InstrPtrTable_57A1 targets; mrom/docs/FORMATS.md §6) ----
+ * Byte 0 = channel type, dispatched through ChTypeJumpTable0_4AA0 when a note
+ * is keyed with a new instrument.  Sub-blocks shared by several types:
+ *   I_ENV   5 B  -> Seq_LoadOpPtrs_219B: attack, decay, sustain (stored cpl),
+ *                  release, extra rate; each rate !=0 indexes the 1Bxx/1Cxx
+ *                  rate tables (0 = instant)
+ *   I_LFO   6 B  -> Lfo_Load_22A8: +0 bit7 on, bits0-6 delay; +1 speed;
+ *                  +2 depth; +3/+5 signed shapes; +4 index into 14xx/15xx/16xx
+ *   I_PITCH 4 B  -> Pitch_Load_242E: +0 bit0 enable, bits4-7 mode; +1 rate;
+ *                  +2 fine; +3 note offset
+ * The first I_LFO drives volume, the second pitch (vibrato). */
+        .macro I_ENV a, d, s, r, x
+        .byte \a, \d, \s, \r, \x
+        .endm
+        .macro I_LFO a, b, c, d, e, f
+        .byte \a, \b, \c, \d, \e, \f
+        .endm
+        .macro I_PITCH a, b, c, d
+        .byte \a, \b, \c, \d
+        .endm
+
+/* Type 0, SSG (24 B, loader l2aa8h): +1 noise period / tone flags (+11/+12 of
+ * the channel), +2 mixer: 0 = tone only, else tone+noise (FB05 bits);
+ * then I_ENV, I_LFO volume, I_LFO pitch, I_PITCH. */
+        .macro INSTR_SSG noise, mix
+        .byte 0, \noise, \mix
+        .endm
+
+/* Type 1, FM (50 B, loader l3568h): +1 bits4-7 slot mask (key-on reg 28h),
+ * +2 FB/ALG (reg B0h, bit 7 forced), +3 LFO enable/freq (reg 22h if bit 3),
+ * +4 AMS/PMS (reg B4h), +5 transpose; then 4 FM_OP, I_LFO x2, I_PITCH. */
+        .macro INSTR_FM slots, fbalg, lfo, amspms, transp
+        .byte 1, \slots, \fbalg, \lfo, \amspms, \transp
+        .endm
+/* FM operator: DT/MUL (30h), TL (40h), KS/AR (50h), AM/DR (60h), SR (70h),
+ * SL/RR (80h), SSG-EG (90h)  - copied 7 bytes to the channel, TL patched later */
+        .macro FM_OP dtmul, tl, ksar, amdr, sr, slrr, ssgeg
+        .byte \dtmul, \tl, \ksar, \amdr, \sr, \slrr, \ssgeg
+        .endm
+
+/* Type 2, ADPCM-A (loader l3f41h / key-on l3f60h): I_ENV, then PCMA_MAP:
+ * 6 unused bytes, PTR24 to a PcmaSampleTab, base note; then one byte per
+ * note (note - base) = index into the sample table. */
+        .macro INSTR_PCMA
+        .byte 2
+        .endm
+        .macro PCMA_MAP u0, u1, u2, u3, u4, u5, tab, base
+        .byte \u0, \u1, \u2, \u3, \u4, \u5
+        PTR24 \tab
+        .byte \base
+        .endm
+/* ADPCM-A sample (5 B, copied to channel +15): volume/pan byte, start and
+ * end address in V-ROM 256-byte units (regs 10h-2Dh). */
+        .macro PCMA_SAMPLE vol, start, end
+        .byte \vol
+        .word \start, \end
+        .endm
+
+/* Type 3, ADPCM-B (loader l427fh / key-on l42efh): I_ENV, I_LFO x2, I_PITCH,
+ * then PCMB_KEY ranges (highest note, root note, sample) ended by PCMB_END. */
+        .macro INSTR_PCMB
+        .byte 3
+        .endm
+        .macro PCMB_KEY top, root, smp
+        .byte \top, \root
+        PTR24 \smp                      /* 3 bytes + 0 pad */
+        .endm
+        .macro PCMB_END
+        .byte 0xff
+        .endm
+/* ADPCM-B sample (12 B, read at l432bh): delta-N base, pan/mode, loop count
+ * (FF = none), then 4 V-ROM ranges (start, attack length, loop length, tail
+ * length, in 256-byte units). */
+        .macro PCMB_SAMPLE deltan, pan, loops, start, len1, len2, len3
+        .word \deltan
+        .byte \pan, \loops
+        .word \start, \len1, \len2, \len3
         .endm

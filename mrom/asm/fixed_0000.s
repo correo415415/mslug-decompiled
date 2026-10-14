@@ -77,5 +77,4 @@ include "channel/chtype_4aa0.s"		; 4aa0-4b84
 include "data/note_map_4b84.s"		; 4b84-4c84
 include "seq/sequencer_4c84.s"		; 4c84-5362
 include "seq/opcodes_5362.s"		; 5362-57a1
-include "data/instr_ptr_table_57a1.s"		; 57a1-67a1
-include "data/tail_67a1.s"		; 67a1-8000
+include "data/instruments_57a1.s"		; 57a1-8000
