@@ -8,7 +8,9 @@ to build/mrom/midi/ (derived from the ROM, never committed).
 
 Timing model (driver code):
   * tick = YM2610 Timer A, value (ACh << 2) | 3 = 691
-    -> 72 * (1024 - 691) / 8 MHz = 2.997 ms (TIMER_HZ ~ 333.7 Hz);
+    -> Timer A counts once per FM sample (144 YM clocks):
+       144 * (1024 - 691) / 8 MHz = 5.994 ms (TIMER_HZ ~ 166.8 Hz), measured by
+       running the driver on ymfm (mrom/tools/sndrender);
   * music tracks step when the accumulator FDF0 += (tempo + 129) carries,
     i.e. (tempo + 129) / 256 steps per tick, tempo = signed
     NoteMapTable_4B84[header byte];  S_TEMPO (CD) changes are marked with a
@@ -33,7 +35,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gen_sound_data import (OPS, p24, s16, MUSIC_TABLE, MUSIC_N, SFXA_TABLE, SFXA_N,  # noqa: E402
                             SFXB_TABLE, SFXB_N, INSTR_TABLE, load_sound_ids)
 
-TIMER_HZ = 8_000_000 / (72 * (1024 - 691))
+TIMER_HZ = 8_000_000 / (144 * (1024 - 691))
 MAX_STEPS = 50000
 PPQ = 48
 RESET = (0x40, 0xC0, 0xC0, 0x7F)          # note, wait, dur, vel after C2/C4/C5/CF/D0

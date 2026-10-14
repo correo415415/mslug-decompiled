@@ -135,6 +135,9 @@ at all times.
       13 music + 177 SFX headers (190 in total) and 31,650 sequence ops (328 tracks, 1,123
       jump targets) as symbolic sources in `sound/` (labels, absolute notes,
       macros per opcode) → byte-identical. Formats in `docs/FORMATS.md`.
-- [ ] Instrument patch format (24 / 50-byte records) → `INSTR_*` macros.
-- [ ] Identify each music / SFX id from the 68k side and give real names.
-- [ ] Export sequences to MIDI / VGM.
+- [x] Instrument patch format (24 / 50-byte records) → `INSTR_*` macros.
+- [x] Identify each music / SFX id from the 68k side and give real names.
+- [x] Export sequences to MIDI (`tools/export_midi.py`).
+- [x] Render every song / SFX to WAV exactly as the board does
+      (`tools/export_wav.py`: real driver on Z80 + ymfm YM2610 + V-ROM).
+- [ ] VGM log export.

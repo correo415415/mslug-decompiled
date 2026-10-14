@@ -235,19 +235,53 @@ lista de usuarios. No se detectan los ids que solo llegan por los streams de
 script (`ScriptOp04_Sound`, `PathScript_OpMusic`, `MiniScript_Step`,
 `SceneScriptVM_Frame`) ni los calculados.
 
-## 8. Temporización y exportación a MIDI (`mrom/tools/export_midi.py`)
+## 8. Temporización, exportación a MIDI y a WAV
 
 * Tick del driver = Timer A del YM2610 con valor `(ACh << 2) | 3 = 691`
-  (`YM_InitTimers_1E6B`): `72 · (1024 − 691) / 8 MHz = 2,997 ms` (≈ 333,7 Hz).
+  (`YM_InitTimers_1E6B`). El contador del Timer A avanza una vez por muestra
+  FM (144 ciclos de 8 MHz): `144 · (1024 − 691) / 8 MHz = 5,994 ms`
+  (≈ **166,8 Hz**). Medido ejecutando el driver real (`sndrender`: 166,8 IRQ/s).
+  *(La primera versión de este documento usaba 72 ciclos → 333,7 Hz: era el
+  doble de rápido.)*
 * Pistas de música: cada tick `FDF0 += tempo + 129`; avanzan un paso por cada
   acarreo al byte alto → `(tempo + 129) / 256` pasos por tick, con `tempo` =
   `NoteMapTable_4B84[byte de cabecera]` con signo (p. ej. Mission1: `1Ch` →
-  ≈ 102 pasos/s). `CD` cambia el tempo de forma gradual mediante
-  `Seq_ScaleByCurve_4F69` (no modelado en la exportación; se marca con un texto).
+  ≈ 51 pasos/s). `CD` cambia el tempo de forma gradual mediante
+  `Seq_ScaleByCurve_4F69` (no modelado en el MIDI; en el WAV sí, porque se
+  ejecuta el driver).
 * Pistas de SFX: un paso por tick.
 
-`export_midi.py` interpreta las secuencias (saltos, llamadas, bucles; una
-pasada) y escribe un MIDI tipo 1 por canción en `build/mrom/midi/` (no se
-versiona: deriva de la ROM); `--sfx` añade los 177 SFX. Las pistas cuyo primer
-instrumento es ADPCM-A van al canal 10. Duraciones de una pasada: misiones
-45-75 s, jefe 34 s, jingles 4-12 s.
+### MIDI (`mrom/tools/export_midi.py`)
+
+Interpreta las secuencias (saltos, llamadas, bucles; una pasada) y escribe un
+MIDI tipo 1 por canción en `build/mrom/midi/` (no se versiona: deriva de la
+ROM); `--sfx` añade los 177 SFX. Las pistas cuyo primer instrumento es ADPCM-A
+van al canal 10. Es una partitura: los timbres reales (FM, muestras) no viajan
+en el MIDI.
+
+### WAV idéntico al juego (`mrom/tools/export_wav.py` + `mrom/tools/sndrender/`)
+
+Para que suene **exactamente** como en la placa no se re-sintetiza nada:
+`sndrender` (C++) ejecuta el propio `201-m1.bin` en un Z80 a 4 MHz conectado a
+un YM2610 emulado con **ymfm** (el núcleo de MAME, BSD-3) a 8 MHz, con
+`201-v1/v2` como memoria ADPCM. Del lado del 68000 solo se reproduce lo que hace
+el hardware: escribir el byte de tipo y el de sonido en el latch (uno por
+frame, 59,19 Hz), cada uno con su NMI. El Timer A genera la IRQ del driver,
+los bancos se conmutan por los puertos `08..0B`, y la salida es la del chip a
+su frecuencia nativa (8 MHz / 144 = **55 556 Hz**, estéreo 16 bit) mezclada
+como en la placa (FM+ADPCM 0,98; SSG 0,28, igual que MAME).
+
+```sh
+python3 mrom/tools/export_wav.py            # 13 músicas → build/mrom/wav/
+python3 mrom/tools/export_wav.py --sfx      # + 177 SFX y voces
+python3 mrom/tools/export_wav.py --loops 2  # el bucle de cada canción dos veces
+python3 mrom/tools/export_wav.py --only 21 2C --flac
+```
+
+Duración de una canción = una pasada de la pista más larga + 2 s (× `--loops`);
+los SFX terminan solos tras 1 s de silencio. Cualquier comando del driver se
+puede renderizar directamente:
+`build/mrom/sndrender rom/201-m1.bin rom/201-v1.bin rom/201-v2.bin out.wav 60 00 21`.
+Comprobado de oído: Mission1 = «Assault Theme», `2C` = voz «Nasca» del logo.
+Dependencias vendorizadas en `mrom/tools/sndrender/third_party/` (ymfm BSD-3,
+superzazu/z80 MIT; sin cambios).

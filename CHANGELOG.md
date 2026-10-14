@@ -29,8 +29,16 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   503 local labels `<Routine>_L<addr>`, 137 immediates that z80dasm had
   mistaken for labels emitted as constants).
 - `mrom/tools/export_midi.py`: music / SFX sequences to Standard MIDI files
-  (driver timing: Timer A 2.997 ms, tempo accumulator), output in
+  (driver timing: Timer A 5.994 ms, tempo accumulator), output in
   `build/mrom/midi/` (not committed).
+- **Game-exact WAV export** (`mrom/tools/export_wav.py`, `mrom/tools/sndrender/`):
+  runs the original 201-m1.bin on a Z80 emulator wired to ymfm's YM2610 (MAME's
+  core) with the V-ROM, sending the same latch bytes as the 68000; renders all
+  13 songs and 177 SFX/voices at the chip's native 55,556 Hz stereo.
+
+### Fixed
+- Driver tick is 166.8 Hz (Timer A counts once per 144-clock FM sample), not
+  333.7 Hz: MIDI tempo was twice too fast.
 - **Asset tools** (`assets/`): `gfx.py` (S-ROM fix tiles and C-ROM sprite
   tiles ↔ indexed PNG sheets) and `audio.py` (V-ROM → 321 ADPCM-A + 54
   ADPCM-B named samples, raw + WAV preview, `index.csv`); both rebuild

@@ -38,3 +38,11 @@ nombres de cada muestra salen de los instrumentos del M-ROM
 `index.csv` lista offset, tamaño, tipo, nombre, frecuencia, instrumentos que
 la usan y fichero. `build` concatena los ficheros crudos en orden y comprueba
 el MD5. Los WAV son vista previa (re-codificar ADPCM es con pérdida).
+
+### Músicas y SFX completos tal como suenan en el juego
+
+`audio.py` da las muestras sueltas. Para las canciones y efectos **mezclados
+exactamente como en la placa** (FM + SSG + ADPCM, con los parches,
+envolventes, tempo y bucles del driver) usa
+`python3 mrom/tools/export_wav.py [--sfx]`, que ejecuta el driver original
+sobre un YM2610 emulado (ver `mrom/docs/FORMATS.md` §8).

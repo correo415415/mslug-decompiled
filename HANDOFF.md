@@ -20,7 +20,7 @@ romset MAME `mslug.zip`.
 | ROM | Fichero | CPU | Estado |
 |---|---|---|---|
 | P-ROM (programa principal) | `201-p1.bin`, 2 MiB | Motorola 68000 | **100 % matched**: 17 608 secciones, ROM reconstruida byte-idéntica |
-| M-ROM (driver de sonido) | `201-m1.bin`, 128 KiB | Zilog Z80 | **reensamblado byte-idéntico 100 %**; región fija con 157 rutinas/tablas con nombre y 0 etiquetas anónimas; todos los datos de sonido (instrumentos, tablas, cabeceras, 31 650 ops de secuencia) como fuentes simbólicas en `mrom/sound/`; músicas/voces con nombre real; export MIDI |
+| M-ROM (driver de sonido) | `201-m1.bin`, 128 KiB | Zilog Z80 | **reensamblado byte-idéntico 100 %**; región fija con 157 rutinas/tablas con nombre y 0 etiquetas anónimas; todos los datos de sonido (instrumentos, tablas, cabeceras, 31 650 ops de secuencia) como fuentes simbólicas en `mrom/sound/`; músicas/voces con nombre real; export MIDI y WAV idéntico al juego (driver real + ymfm) |
 | S-ROM / C-ROM / V-ROM (gráficos / samples) | `201-s1`, `201-c1..c4`, `201-v1..v2` | — | **extracción + reconstrucción byte-idéntica** (`assets/tools/gfx.py`, `audio.py`; ver `assets/README.md`): tiles PNG indexados y 375 muestras con nombre |
 
 Objetivo a largo plazo: fuentes legibles (C + asm con nombres semánticos) que
@@ -308,6 +308,7 @@ byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
 - [x] M-ROM: bancos 2..7 decodificados a `mrom/sound/` (tablas, cabeceras, secuencias simbólicas) + `mrom/docs/FORMATS.md`
 - [x] M-ROM: formato de instrumentos (`mrom/sound/instruments.s`); región fija sin etiquetas anónimas
 - [x] Identificación de músicas y voces por id (`mrom/map/sound_ids.txt`); SFX de la tabla A con usuarios
-- [ ] M-ROM: estructura de canal documentada; tablas de páginas `0100-1DFF`; export MIDI/VGM
+- [x] Export MIDI (`export_midi.py`) y WAV idéntico al juego (`export_wav.py` + `sndrender`)
+- [ ] M-ROM: estructura de canal documentada; tablas de páginas `0100-1DFF`; export VGM
 - [ ] Extracción de assets S/C/V-ROM (tras M-ROM al 100 %)
 - [ ] P-ROM: cabeceras A–F en los 13 módulos de datos
