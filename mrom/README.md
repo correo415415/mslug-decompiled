@@ -58,7 +58,8 @@ mrom/
 ├── map/
 │   ├── fixed_0000_blocks.txt code/data blocks for z80dasm -b
 │   ├── fixed_0000_syms.txt   semantic names (code labels + RAM) for z80dasm -S
-│   └── fixed_0000_split.txt  address ranges -> asm/<subsystem>/<file>.s
+│   ├── fixed_0000_split.txt  address ranges -> asm/<subsystem>/<file>.s
+│   └── sound_ids.txt         sound ids sent by the 68k + names (find_sound_ids.py)
 ├── tools/
 │   ├── mrom_regions.py       region table (name, file offset, size, Z80 org)
 │   ├── z80trace.py           byte-level code tracer (builds the code/data map)

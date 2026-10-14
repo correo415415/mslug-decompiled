@@ -27,7 +27,11 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Formato de instrumentos (SSG 24 B / FM 50 B / ADPCM-A / ADPCM-B + tablas
       de samples) → `mrom/sound/instruments.s` con macros `INSTR_*` (incluida
       la parte de la región fija `0x57A1-0x7FFF`, vía `incbin`).
-- [ ] Nombres reales de músicas/SFX (ids enviados desde el P-ROM).
+- [x] Nombres reales de músicas/SFX (ids enviados desde el P-ROM):
+      `mrom/tools/find_sound_ids.py` → `mrom/map/sound_ids.txt` (149 ids, 13
+      músicas con nombre, 19 voces con nombre).
+- [ ] Nombrar los SFX restantes de la tabla A (hoy `SfxA_NNN` + usuarios) y
+      recorrer los streams de script para los ids que no son constantes.
 - [ ] Actualizar `mrom/README.md`, `docs/COVERAGE.md` (sección M-ROM),
       `docs/PROGRESO.md` y `CHANGELOG.md` a medida que avance.
 

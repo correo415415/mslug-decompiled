@@ -1,6 +1,6 @@
-/* music_12.s - sequences of MusicHdr_12 */
+/* music_12.s - sequences of Music_Title_Hdr (MusicTable[12]) */
 
-Music12_Trk0:			/* file 0x1be99; music 12, track 0 */
+Music_Title_Trk0:			/* file 0x1be99; music 12, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -16,7 +16,7 @@ Music12_Trk0:			/* file 0x1be99; music 12, track 0 */
 	N 0x3c, , 0xbe, 0x25
 	S_RET
 
-Music12_Trk1:			/* file 0x1beb4; music 12, track 1 */
+Music_Title_Trk1:			/* file 0x1beb4; music 12, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -33,7 +33,7 @@ Music12_Trk1:			/* file 0x1beb4; music 12, track 1 */
 	N 0x3c, , 0xbe, 0x16
 	S_RET
 
-Music12_Trk2:			/* file 0x1bed1; music 12, track 2 */
+Music_Title_Trk2:			/* file 0x1bed1; music 12, track 2 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -50,7 +50,7 @@ Music12_Trk2:			/* file 0x1bed1; music 12, track 2 */
 	N 0x3c, , 0xbe, 0x0c
 	S_RET
 
-Music12_Trk3:			/* file 0x1beee; music 12, track 3 */
+Music_Title_Trk3:			/* file 0x1beee; music 12, track 3 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -66,7 +66,7 @@ Music12_Trk3:			/* file 0x1beee; music 12, track 3 */
 	N 0x3e, 0xc0, 0x30, 0x4a
 	S_RET
 
-Music12_Trk4:			/* file 0x1bf0c; music 12, track 4 */
+Music_Title_Trk4:			/* file 0x1bf0c; music 12, track 4 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -81,7 +81,7 @@ Music12_Trk4:			/* file 0x1bf0c; music 12, track 4 */
 	N 0x41, , 0x8c, 0x59
 	S_RET
 
-Music12_Trk5:			/* file 0x1bf25; music 12, track 5 */
+Music_Title_Trk5:			/* file 0x1bf25; music 12, track 5 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -95,7 +95,7 @@ Music12_Trk5:			/* file 0x1bf25; music 12, track 5 */
 	NX 0x2b, , 0x9c, 0x66
 	S_RET
 
-Music12_Trk6:			/* file 0x1bf3d; music 12, track 6 */
+Music_Title_Trk6:			/* file 0x1bf3d; music 12, track 6 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -110,7 +110,7 @@ Music12_Trk6:			/* file 0x1bf3d; music 12, track 6 */
 	NX 0x2b, , 0x9c, 0x66
 	S_RET
 
-Music12_Trk7:			/* file 0x1bf59; music 12, track 7 */
+Music_Title_Trk7:			/* file 0x1bf59; music 12, track 7 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -126,7 +126,7 @@ Music12_Trk7:			/* file 0x1bf59; music 12, track 7 */
 	NX 0x67, 0xc0, 0x1e, 0x28
 	S_RET
 
-Music12_Trk8:			/* file 0x1bf7a; music 12, track 8 */
+Music_Title_Trk8:			/* file 0x1bf7a; music 12, track 8 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02
@@ -144,7 +144,7 @@ Music12_Trk8:			/* file 0x1bf7a; music 12, track 8 */
 	NX 0x67, 0xc0, 0x1e, 0x28
 	S_RET
 
-Music12_Trk9:			/* file 0x1bfa1; music 12, track 9 */
+Music_Title_Trk9:			/* file 0x1bfa1; music 12, track 9 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x02

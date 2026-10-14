@@ -191,3 +191,38 @@ cola) en unidades de 256 B.
 | `0A/0B` | instrumento / grupo | `1C..21` | pila de llamadas / bucles |
 | `0C/0D/0E` | C6 / C7 / C8 | `22` | puntero de pila (6 = vacía) |
 | `0F` | pan (CC) | `10/11` | desafinación / pitch bend |
+
+## 7. Ids de sonido usados por el 68000 (`mrom/map/sound_ids.txt`)
+
+`mrom/tools/find_sound_ids.py` recorre el P-ROM (`build/mslug_prom.bin`)
+buscando llamadas a `Sound_PushCommandFiltered_0021a6`, `ClampD0ToRange`
+(`$219C`), `InputGuardCall219c` (`$2352`) y `Sound_Push0C_ThenClamp` (`$2222`)
+precedidas de `moveq/move.w #id,d0`, más 9 tablas de ids indexadas en tiempo
+de ejecución. Resultado: 419 llamadas con constante y **149 ids distintos**
+(13 músicas, 117 SFX de la tabla A y 19 de la tabla B), cada uno con las
+funciones que lo usan. `gen_sound_data.py` lee ese fichero, de modo que las
+fuentes de sonido no dependen del P-ROM al construir.
+
+Músicas (`MusicTable[id − 20h]`) — nombres por evidencia (hipótesis donde hay
+más de un uso):
+
+| id | Nombre | Evidencia |
+|---|---|---|
+| `20` | `Music_MissionComplete` | `MissionComplete_Task`, `BannerComplete_Boot` |
+| `21..26` | `Music_Mission1..6` | `MissionMusicTable_28DF00[$106ECF]` (misiones 7/8 reutilizan la 1) |
+| `27` | `Music_AttractDemo` | `Attract_InitShow27_TaskAdd` |
+| `28` | `Music_Boss` | intro del jefe M2, `M5Tank`, `FinalBoss`, `ScriptedProp_Run` |
+| `29` | `Music_SceneB` | `SceneB_Init` (secuencia de la misión `$0B`) |
+| `2A` | `Music_SceneC` | `SceneC_Init` (misión `$0C`) |
+| `2B` | `Music_Ending` | `Ending_SpawnOrbitFx`, `Anim_State_F1` |
+| `2C` | `Music_Title` | `LogoScene_Tpl` (escena `$0D`) |
+
+SFX con nombre (tabla B = voces): `Voice_Mission1Start..6Start`
+(`MissionStartVoiceTable_28DF10`), `Voice_MissionComplete`,
+`Voice_Weapon1..4` (`Player_WeaponMusicTable_032d28`; qué arma es cada una:
+pendiente), `Voice_ItemPickup`, `Voice_FoodPickup`, `Voice_PlayerDeath`,
+`Voice_PowThankYou`, `Voice_AllenTaunt1..3`, `Voice_AllenDeath`. El resto
+conserva `SfxA_NNN` / `SfxB_NNN` y en la etiqueta de su cabecera figura la
+lista de usuarios. No se detectan los ids que solo llegan por los streams de
+script (`ScriptOp04_Sound`, `PathScript_OpMusic`, `MiniScript_Step`,
+`SceneScriptVM_Frame`) ni los calculados.

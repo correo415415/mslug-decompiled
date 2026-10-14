@@ -1,6 +1,6 @@
-/* music_04.s - sequences of MusicHdr_04 */
+/* music_04.s - sequences of Music_Mission4_Hdr (MusicTable[4]) */
 
-Music04_Trk0:			/* file 0x1073e; music 4, track 0 */
+Music_Mission4_Trk0:			/* file 0x1073e; music 4, track 0 */
 	S_TRACK
 	S_WAIT 0x01
 	S_INSTRG 0x1c, 0x01
@@ -359,7 +359,7 @@ L_10B96:			/* file 0x10b96 */
 	S_DETUNE 0x02bc, 0x38
 	S_RET
 
-Music04_Trk1:			/* file 0x10bb9; music 4, track 1 */
+Music_Mission4_Trk1:			/* file 0x10bb9; music 4, track 1 */
 	S_TRACK
 	S_WAIT 0x04
 	S_KEYMODE 0x7f
@@ -529,7 +529,7 @@ L_10D90:			/* file 0x10d90 */
 	N 0x35, , , 0x35
 	S_RET
 
-Music04_Trk2:			/* file 0x10da6; music 4, track 2 */
+Music_Mission4_Trk2:			/* file 0x10da6; music 4, track 2 */
 	S_TRACK
 	S_WAIT 0x1c
 	S_WAIT 0xc0
@@ -654,7 +654,7 @@ L_10ED2:			/* file 0x10ed2 */
 	N 0x46, 0x48, 0x3e, 0x51
 	S_RET
 
-Music04_Trk3:			/* file 0x10edb; music 4, track 3 */
+Music_Mission4_Trk3:			/* file 0x10edb; music 4, track 3 */
 	S_TRACK
 	S_WAIT 0x1c
 	S_LOOPBEGIN
@@ -888,7 +888,7 @@ L_110E4:			/* file 0x110e4 */
 	N 0x2c, , 0x0b, 0x43
 	S_RET
 
-Music04_Trk4:			/* file 0x1110d; music 4, track 4 */
+Music_Mission4_Trk4:			/* file 0x1110d; music 4, track 4 */
 	S_TRACK
 	S_WAIT 0x02
 	S_INSTRG 0x10, 0x04
@@ -1086,7 +1086,7 @@ L_11308:			/* file 0x11308 */
 	N 0x46, 0x48, 0x3e, 0x35
 	S_RET
 
-Music04_Trk5:			/* file 0x11311; music 4, track 5 */
+Music_Mission4_Trk5:			/* file 0x11311; music 4, track 5 */
 	S_TRACK
 	S_WAIT 0x1c
 	S_LOOPBEGIN
@@ -1260,7 +1260,7 @@ L_114A7:			/* file 0x114a7 */
 	NX 0x3a, 0xc0
 	S_RET
 
-Music04_Trk6:			/* file 0x114b0; music 4, track 6 */
+Music_Mission4_Trk6:			/* file 0x114b0; music 4, track 6 */
 	S_TRACK
 	S_WAIT 0x01
 	S_INSTRG 0x21, 0x00
@@ -1566,7 +1566,7 @@ L_1179E:			/* file 0x1179e */
 	N 0x20, , 0x0b, 0x70
 	S_RET
 
-Music04_Trk7:			/* file 0x117c7; music 4, track 7 */
+Music_Mission4_Trk7:			/* file 0x117c7; music 4, track 7 */
 	S_TRACK
 	S_WAIT 0x01
 	S_INSTRG 0x76, 0x01
@@ -1745,7 +1745,7 @@ L_11969:			/* file 0x11969 */
 	N 0x2b, 0x01, 0x01, 0x00
 	S_RET
 
-Music04_Trk8:			/* file 0x11982; music 4, track 8 */
+Music_Mission4_Trk8:			/* file 0x11982; music 4, track 8 */
 	S_TRACK
 	S_WAIT 0x01
 	S_INSTRG 0x76, 0x01
@@ -1869,7 +1869,7 @@ L_11AA5:			/* file 0x11aa5 */
 	N 0x23, 0x0c
 	S_RET
 
-Music04_Trk9:			/* file 0x11ab7; music 4, track 9 */
+Music_Mission4_Trk9:			/* file 0x11ab7; music 4, track 9 */
 	S_TRACK
 	S_WAIT 0x01
 	S_INSTRG 0x76, 0x01

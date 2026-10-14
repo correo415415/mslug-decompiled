@@ -1,6 +1,6 @@
-/* music_09.s - sequences of MusicHdr_09 */
+/* music_09.s - sequences of Music_SceneB_Hdr (MusicTable[9]) */
 
-Music09_Trk0:			/* file 0x17020; music 9, track 0 */
+Music_SceneB_Trk0:			/* file 0x17020; music 9, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -435,7 +435,7 @@ L_17469:			/* file 0x17469 */
 	N 0x4b, , , 0x36
 	S_RET
 
-Music09_Trk1:			/* file 0x1748f; music 9, track 1 */
+Music_SceneB_Trk1:			/* file 0x1748f; music 9, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -768,7 +768,7 @@ L_17799:			/* file 0x17799 */
 	N 0x3a, , , 0x49
 	S_RET
 
-Music09_Trk2:			/* file 0x177b7; music 9, track 2 */
+Music_SceneB_Trk2:			/* file 0x177b7; music 9, track 2 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -1097,7 +1097,7 @@ L_17AB0:			/* file 0x17ab0 */
 	N 0x46, , , 0x45
 	S_RET
 
-Music09_Trk3:			/* file 0x17acd; music 9, track 3 */
+Music_SceneB_Trk3:			/* file 0x17acd; music 9, track 3 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -1493,7 +1493,7 @@ L_17E85:			/* file 0x17e85 */
 	N 0x34, 0x0e, 0x0e
 	S_RET
 
-Music09_Trk4:			/* file 0x17e98; music 9, track 4 */
+Music_SceneB_Trk4:			/* file 0x17e98; music 9, track 4 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -2011,7 +2011,7 @@ L_1827C:			/* file 0x1827c */
 	N 0x39, 0x0c
 	S_RET
 
-Music09_Trk5:			/* file 0x1829c; music 9, track 5 */
+Music_SceneB_Trk5:			/* file 0x1829c; music 9, track 5 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -2289,7 +2289,7 @@ L_1850B:			/* file 0x1850b */
 	N 0x57, , , 0x2d
 	S_RET
 
-Music09_Trk6:			/* file 0x18532; music 9, track 6 */
+Music_SceneB_Trk6:			/* file 0x18532; music 9, track 6 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -2330,7 +2330,7 @@ L_1854C:			/* file 0x1854c */
 	N 0x49, 0xa8, , 0x2d
 	S_RET
 
-Music09_Trk7:			/* file 0x1857b; music 9, track 7 */
+Music_SceneB_Trk7:			/* file 0x1857b; music 9, track 7 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -2580,7 +2580,7 @@ L_18777:			/* file 0x18777 */
 	N 0x2b
 	S_RET
 
-Music09_Trk8:			/* file 0x1878a; music 9, track 8 */
+Music_SceneB_Trk8:			/* file 0x1878a; music 9, track 8 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -3135,7 +3135,7 @@ L_18D53:			/* file 0x18d53 */
 L_18D8B:			/* file 0x18d8b */
 	S_JUMP L_18D53
 
-Music09_Trk9:			/* file 0x18d8e; music 9, track 9 */
+Music_SceneB_Trk9:			/* file 0x18d8e; music 9, track 9 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -3337,7 +3337,7 @@ L_18F5D:			/* file 0x18f5d */
 	N 0x24, , 0x18, 0x49
 	S_RET
 
-Music09_Trk10:			/* file 0x18f6a; music 9, track 10 */
+Music_SceneB_Trk10:			/* file 0x18f6a; music 9, track 10 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04

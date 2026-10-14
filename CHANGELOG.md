@@ -21,6 +21,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   tables, ADPCM-B key ranges + sample descriptors) as `INSTR_*` / `FM_OP` /
   `I_ENV` / `I_LFO` / `I_PITCH` / `PCMA_*` / `PCMB_*` macros in
   `mrom/sound/instruments.s`; the fixed-region part is pulled in by `incbin`.
+- **Sound ids from the P-ROM** (`mrom/tools/find_sound_ids.py` →
+  `mrom/map/sound_ids.txt`): 149 ids with their 68k users; music headers and
+  tracks now carry real names (`Music_Mission1_Hdr`, `Music_Boss_Trk3`, …),
+  voice SFX too (`Voice_Mission1Start_Hdr`, …).
 - Snapshot branch/tag `f_5.1` (state before this work).
 
 ### Removed

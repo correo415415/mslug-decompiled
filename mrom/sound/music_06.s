@@ -1,6 +1,6 @@
-/* music_06.s - sequences of MusicHdr_06 */
+/* music_06.s - sequences of Music_Mission6_Hdr (MusicTable[6]) */
 
-Music06_Trk0:			/* file 0x13ed6; music 6, track 0 */
+Music_Mission6_Trk0:			/* file 0x13ed6; music 6, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -517,7 +517,7 @@ L_144B4:			/* file 0x144b4 */
 	NX 0x2f, 0x30, 0x30, 0x51
 	S_RET
 
-Music06_Trk1:			/* file 0x144e2; music 6, track 1 */
+Music_Mission6_Trk1:			/* file 0x144e2; music 6, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -776,7 +776,7 @@ L_1474E:			/* file 0x1474e */
 	N 0x3b, , 0x0d
 	S_RET
 
-Music06_Trk2:			/* file 0x14765; music 6, track 2 */
+Music_Mission6_Trk2:			/* file 0x14765; music 6, track 2 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -1041,7 +1041,7 @@ L_149D5:			/* file 0x149d5 */
 	N 0x3e, , 0x0d
 	S_RET
 
-Music06_Trk3:			/* file 0x149ee; music 6, track 3 */
+Music_Mission6_Trk3:			/* file 0x149ee; music 6, track 3 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -1416,7 +1416,7 @@ L_14D24:			/* file 0x14d24 */
 	N 0x39
 	S_RET
 
-Music06_Trk4:			/* file 0x14d45; music 6, track 4 */
+Music_Mission6_Trk4:			/* file 0x14d45; music 6, track 4 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -1753,7 +1753,7 @@ L_15083:			/* file 0x15083 */
 	N 0x4a, , 0x0c
 	S_RET
 
-Music06_Trk5:			/* file 0x15092; music 6, track 5 */
+Music_Mission6_Trk5:			/* file 0x15092; music 6, track 5 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -2351,7 +2351,7 @@ L_1552F:			/* file 0x1552f */
 	N 0x40, 0x0b, 0x0b
 	S_RET
 
-Music06_Trk6:			/* file 0x1558a; music 6, track 6 */
+Music_Mission6_Trk6:			/* file 0x1558a; music 6, track 6 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -2447,7 +2447,7 @@ L_15643:			/* file 0x15643 */
 	S_WAIT 0xc0
 	S_RET
 
-Music06_Trk7:			/* file 0x15646; music 6, track 7 */
+Music_Mission6_Trk7:			/* file 0x15646; music 6, track 7 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -2744,7 +2744,7 @@ L_1586E:			/* file 0x1586e */
 	N 0x29, 0x0c, 0x0a, 0x63
 	S_RET
 
-Music06_Trk8:			/* file 0x15890; music 6, track 8 */
+Music_Mission6_Trk8:			/* file 0x15890; music 6, track 8 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -3089,7 +3089,7 @@ L_15C51:			/* file 0x15c51 */
 	N 0x28, 0x18, 0x14, 0x35
 	S_RET
 
-Music06_Trk9:			/* file 0x15c84; music 6, track 9 */
+Music_Mission6_Trk9:			/* file 0x15c84; music 6, track 9 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -3227,7 +3227,7 @@ L_15DCE:			/* file 0x15dce */
 	N 0x24, , , 0x28
 	S_RET
 
-Music06_Trk10:			/* file 0x15dda; music 6, track 10 */
+Music_Mission6_Trk10:			/* file 0x15dda; music 6, track 10 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04

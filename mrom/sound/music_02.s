@@ -1,6 +1,6 @@
-/* music_02.s - sequences of MusicHdr_02 */
+/* music_02.s - sequences of Music_Mission2_Hdr (MusicTable[2]) */
 
-Music02_Trk0:			/* file 0x0c1d1; music 2, track 0 */
+Music_Mission2_Trk0:			/* file 0x0c1d1; music 2, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -949,7 +949,7 @@ L_0CD2E:			/* file 0x0cd2e */
 	N 0x3e, 0x18, 0x16
 	S_RET
 
-Music02_Trk1:			/* file 0x0cd53; music 2, track 1 */
+Music_Mission2_Trk1:			/* file 0x0cd53; music 2, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -1310,7 +1310,7 @@ L_0D096:			/* file 0x0d096 */
 	N 0x45
 	S_RET
 
-Music02_Trk2:			/* file 0x0d09f; music 2, track 2 */
+Music_Mission2_Trk2:			/* file 0x0d09f; music 2, track 2 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -1671,7 +1671,7 @@ L_0D3DF:			/* file 0x0d3df */
 	N 0x49
 	S_RET
 
-Music02_Trk3:			/* file 0x0d3e8; music 2, track 3 */
+Music_Mission2_Trk3:			/* file 0x0d3e8; music 2, track 3 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -1957,7 +1957,7 @@ L_0D672:			/* file 0x0d672 */
 L_0D686:			/* file 0x0d686 */
 	S_JUMP L_0D60F
 
-Music02_Trk4:			/* file 0x0d689; music 2, track 4 */
+Music_Mission2_Trk4:			/* file 0x0d689; music 2, track 4 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -2285,7 +2285,7 @@ L_0D95F:			/* file 0x0d95f */
 L_0D973:			/* file 0x0d973 */
 	S_JUMP L_0D8FC
 
-Music02_Trk5:			/* file 0x0d976; music 2, track 5 */
+Music_Mission2_Trk5:			/* file 0x0d976; music 2, track 5 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -2612,7 +2612,7 @@ L_0DC47:			/* file 0x0dc47 */
 L_0DC5C:			/* file 0x0dc5c */
 	S_JUMP L_0DBE4
 
-Music02_Trk6:			/* file 0x0dc5f; music 2, track 6 */
+Music_Mission2_Trk6:			/* file 0x0dc5f; music 2, track 6 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -2927,7 +2927,7 @@ L_0DF3D:			/* file 0x0df3d */
 	N 0x20, 0x18, 0x16
 	S_RET
 
-Music02_Trk7:			/* file 0x0df6a; music 2, track 7 */
+Music_Mission2_Trk7:			/* file 0x0df6a; music 2, track 7 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -3233,7 +3233,7 @@ L_0E305:			/* file 0x0e305 */
 L_0E308:			/* file 0x0e308 */
 	S_JUMP L_0E2CE
 
-Music02_Trk8:			/* file 0x0e30b; music 2, track 8 */
+Music_Mission2_Trk8:			/* file 0x0e30b; music 2, track 8 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -3502,7 +3502,7 @@ L_0E59F:			/* file 0x0e59f */
 	N 0x2e, 0x18, 0x16, 0x23
 	S_RET
 
-Music02_Trk9:			/* file 0x0e5b4; music 2, track 9 */
+Music_Mission2_Trk9:			/* file 0x0e5b4; music 2, track 9 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -3720,7 +3720,7 @@ L_0E79B:			/* file 0x0e79b */
 	S_WAIT 0xc0
 	S_RET
 
-Music02_Trk10:			/* file 0x0e79e; music 2, track 10 */
+Music_Mission2_Trk10:			/* file 0x0e79e; music 2, track 10 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -3976,7 +3976,7 @@ L_0E95C:			/* file 0x0e95c */
 	N 0x46, , 0x0d
 	S_RET
 
-Music02_Trk11:			/* file 0x0e972; music 2, track 11 */
+Music_Mission2_Trk11:			/* file 0x0e972; music 2, track 11 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -4234,7 +4234,7 @@ L_0EB37:			/* file 0x0eb37 */
 	N 0x46, , 0x0d
 	S_RET
 
-Music02_Trk12:			/* file 0x0eb4d; music 2, track 12 */
+Music_Mission2_Trk12:			/* file 0x0eb4d; music 2, track 12 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04

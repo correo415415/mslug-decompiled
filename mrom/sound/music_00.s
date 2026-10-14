@@ -1,6 +1,6 @@
-/* music_00.s - sequences of MusicHdr_00 */
+/* music_00.s - sequences of Music_MissionComplete_Hdr (MusicTable[0]) */
 
-Music00_Trk0:			/* file 0x0953d; music 0, track 0 */
+Music_MissionComplete_Trk0:			/* file 0x0953d; music 0, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -49,7 +49,7 @@ Music00_Trk0:			/* file 0x0953d; music 0, track 0 */
 	N 0x39, 0xa8, 0x60
 	S_RET
 
-Music00_Trk1:			/* file 0x09589; music 0, track 1 */
+Music_MissionComplete_Trk1:			/* file 0x09589; music 0, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -89,7 +89,7 @@ Music00_Trk1:			/* file 0x09589; music 0, track 1 */
 	N 0x40, 0xa8
 	S_RET
 
-Music00_Trk2:			/* file 0x095d2; music 0, track 2 */
+Music_MissionComplete_Trk2:			/* file 0x095d2; music 0, track 2 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -130,7 +130,7 @@ Music00_Trk2:			/* file 0x095d2; music 0, track 2 */
 	N 0x3d, 0xa8
 	S_RET
 
-Music00_Trk3:			/* file 0x09618; music 0, track 3 */
+Music_MissionComplete_Trk3:			/* file 0x09618; music 0, track 3 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -157,7 +157,7 @@ Music00_Trk3:			/* file 0x09618; music 0, track 3 */
 	N 0x2d, 0xa8, 0xa8
 	S_RET
 
-Music00_Trk4:			/* file 0x0964f; music 0, track 4 */
+Music_MissionComplete_Trk4:			/* file 0x0964f; music 0, track 4 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -192,7 +192,7 @@ Music00_Trk4:			/* file 0x0964f; music 0, track 4 */
 	N 0x55, 0xa8
 	S_RET
 
-Music00_Trk5:			/* file 0x0968e; music 0, track 5 */
+Music_MissionComplete_Trk5:			/* file 0x0968e; music 0, track 5 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -227,7 +227,7 @@ Music00_Trk5:			/* file 0x0968e; music 0, track 5 */
 	N 0x51, 0xa8
 	S_RET
 
-Music00_Trk6:			/* file 0x096cb; music 0, track 6 */
+Music_MissionComplete_Trk6:			/* file 0x096cb; music 0, track 6 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -262,7 +262,7 @@ Music00_Trk6:			/* file 0x096cb; music 0, track 6 */
 	N 0x49, 0xa8
 	S_RET
 
-Music00_Trk7:			/* file 0x09707; music 0, track 7 */
+Music_MissionComplete_Trk7:			/* file 0x09707; music 0, track 7 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -295,7 +295,7 @@ Music00_Trk7:			/* file 0x09707; music 0, track 7 */
 	N 0x21, 0xa8
 	S_RET
 
-Music00_Trk8:			/* file 0x0973d; music 0, track 8 */
+Music_MissionComplete_Trk8:			/* file 0x0973d; music 0, track 8 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -374,7 +374,7 @@ L_09775:			/* file 0x09775 */
 	N 0x26, 0x0c, 0x0a, 0x42
 	S_RET
 
-Music00_Trk9:			/* file 0x09802; music 0, track 9 */
+Music_MissionComplete_Trk9:			/* file 0x09802; music 0, track 9 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -404,7 +404,7 @@ Music00_Trk9:			/* file 0x09802; music 0, track 9 */
 	N 0x31, 0x60, 0x60
 	S_RET
 
-Music00_Trk10:			/* file 0x09844; music 0, track 10 */
+Music_MissionComplete_Trk10:			/* file 0x09844; music 0, track 10 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04

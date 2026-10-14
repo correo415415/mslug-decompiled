@@ -23,7 +23,7 @@ checks that the result is byte-identical.
     python3 mrom/tools/gen_sound_data.py          # (re)write mrom/sound/*.s
     python3 mrom/tools/gen_sound_data.py --check  # decode only, print stats
 """
-import os, sys
+import os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ROM = os.path.join(ROOT, "rom", "201-m1.bin")
@@ -35,6 +35,20 @@ MUSIC_TABLE, MUSIC_N = 0x815F, 13
 SFXA_TABLE, SFXA_N = 0x8472, 224
 SFXB_TABLE, SFXB_N = 0x87F2, 33
 SEQ_START = 0x953D
+SOUND_IDS = os.path.join(ROOT, "mrom", "map", "sound_ids.txt")   # find_sound_ids.py
+
+
+def load_sound_ids():
+    """id -> (name, users) from mrom/map/sound_ids.txt (optional)."""
+    out = {}
+    if os.path.exists(SOUND_IDS):
+        for ln in open(SOUND_IDS):
+            if ln.startswith(";") or not ln.strip():
+                continue
+            head, _, users = ln.partition(";")
+            v, name = head.split()[:2]
+            out[int(v, 16)] = (name, users.strip())
+    return out
 
 # opcode -> (macro, argument kinds)   b = byte, w = word, r = rel16 target
 OPS = {
@@ -110,13 +124,23 @@ class Sound:
         self.name(SFXA_TABLE, "SfxTableA", "BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)")
         self.name(SFXB_TABLE, "SfxTableB", "BankPtrTable_0080[3]; type 11h")
         self.music, self.sfx = [], []
+        ids = load_sound_ids()
+        self.ids = ids
+
+        def sname(v, default):
+            n = ids.get(v, (None,))[0]
+            return n if n and not re.match(r"(Music|SfxA|SfxB)_\d+$", n) else default
+
         for i in range(MUSIC_N):
             h = p24(rom, MUSIC_TABLE + 4 * i)
             trk, end = self.tracks(h + 1)
             self.music.append((i, h, trk, end))
-            self.name(h, f"MusicHdr_{i:02d}")
+            n = sname(0x20 + i, f"Music{i:02d}")
+            used = ids.get(0x20 + i, ("", ""))[1]
+            self.name(h, f"{n}_Hdr" if n != f"Music{i:02d}" else f"MusicHdr_{i:02d}",
+                      f"music {i}, 68k id {0x20 + i:04x}" + (f"; used by {used}" if used else ""))
             for k, (s, _) in enumerate(trk):
-                self.name(s, f"Music{i:02d}_Trk{k}", f"music {i}, track {k}")
+                self.name(s, f"{n}_Trk{k}", f"music {i}, track {k}")
         for tag, base, n in (("A", SFXA_TABLE, SFXA_N), ("B", SFXB_TABLE, SFXB_N)):
             for i in range(n):
                 h = p24(rom, base + 4 * i)
@@ -124,9 +148,13 @@ class Sound:
                     continue
                 trk, end = self.tracks(h + 9)
                 self.sfx.append((tag, i, h, trk, end))
-                self.name(h, f"Sfx{tag}Hdr_{i:03d}")
+                v = (0x1000 if tag == "A" else 0x1100) | (0x20 + i)
+                n = sname(v, None)
+                used = ids.get(v, ("", ""))[1]
+                self.name(h, f"{n}_Hdr" if n else f"Sfx{tag}Hdr_{i:03d}",
+                          f"SFX {tag} {i}, 68k id {v:04x}" + (f"; used by {used}" if used else ""))
                 for k, (s, _) in enumerate(trk):
-                    self.name(s, f"Sfx{tag}{i:03d}_Trk{k}", f"SFX {tag} {i}, track {k}")
+                    self.name(s, f"{n or f'Sfx{tag}{i:03d}'}_Trk{k}", f"SFX {tag} {i}, track {k}")
         self.entries = sorted(a for a, n in self.labels.items() if "_Trk" in n)
         # linear decode of the byte-code area: it is one contiguous stream of
         # ops (verified: every entry point and every jump target is an op boundary)
@@ -348,7 +376,8 @@ class Sound:
 
         put("instruments.s", self.emit_instruments())
         put("headers.s", self.emit_tables_headers())
-        parts = [(self.music[i][2][0][0], f"music_{i:02d}.s", f"music_{i:02d}.s - sequences of MusicHdr_{i:02d}")
+        parts = [(self.music[i][2][0][0], f"music_{i:02d}.s",
+                  f"music_{i:02d}.s - sequences of {self.labels[self.music[i][1]]} (MusicTable[{i}])")
                  for i in range(MUSIC_N)]
         parts.append((min(t[0] for *_, trk, _ in self.sfx for t in trk), "sfx.s",
                       "sfx.s - SFX sequences (tables A and B)"))

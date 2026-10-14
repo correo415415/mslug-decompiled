@@ -1,6 +1,6 @@
-/* music_11.s - sequences of MusicHdr_11 */
+/* music_11.s - sequences of Music_Ending_Hdr (MusicTable[11]) */
 
-Music11_Trk0:			/* file 0x1bb14; music 11, track 0 */
+Music_Ending_Trk0:			/* file 0x1bb14; music 11, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -41,7 +41,7 @@ L_1BB41:			/* file 0x1bb41 */
 	S_LOOPEND 0x00, L_1BB41
 	S_RET
 
-Music11_Trk1:			/* file 0x1bb6e; music 11, track 1 */
+Music_Ending_Trk1:			/* file 0x1bb6e; music 11, track 1 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -153,7 +153,7 @@ L_1BC6D:			/* file 0x1bc6d */
 	N 0x28, , , 0x26
 	S_RET
 
-Music11_Trk2:			/* file 0x1bca2; music 11, track 2 */
+Music_Ending_Trk2:			/* file 0x1bca2; music 11, track 2 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -266,7 +266,7 @@ L_1BDA3:			/* file 0x1bda3 */
 	N 0x26, , , 0x26
 	S_RET
 
-Music11_Trk3:			/* file 0x1bdd8; music 11, track 3 */
+Music_Ending_Trk3:			/* file 0x1bdd8; music 11, track 3 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -315,7 +315,7 @@ L_1BE2D:			/* file 0x1be2d */
 	N 0x24, 0x18, 0x14
 	S_RET
 
-Music11_Trk4:			/* file 0x1be3d; music 11, track 4 */
+Music_Ending_Trk4:			/* file 0x1be3d; music 11, track 4 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04

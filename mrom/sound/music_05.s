@@ -1,6 +1,6 @@
-/* music_05.s - sequences of MusicHdr_05 */
+/* music_05.s - sequences of Music_Mission5_Hdr (MusicTable[5]) */
 
-Music05_Trk0:			/* file 0x11bc9; music 5, track 0 */
+Music_Mission5_Trk0:			/* file 0x11bc9; music 5, track 0 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x02
@@ -656,7 +656,7 @@ L_11E58:			/* file 0x11e58 */
 	S_LOOPEND 0x00, L_11E58
 	S_RET
 
-Music05_Trk1:			/* file 0x12400; music 5, track 1 */
+Music_Mission5_Trk1:			/* file 0x12400; music 5, track 1 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x02
@@ -907,7 +907,7 @@ L_126D4:			/* file 0x126d4 */
 	N 0x42, , 0x0a
 	S_RET
 
-Music05_Trk2:			/* file 0x126df; music 5, track 2 */
+Music_Mission5_Trk2:			/* file 0x126df; music 5, track 2 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x03
@@ -1389,7 +1389,7 @@ L_12BDD:			/* file 0x12bdd */
 	N 0x33, 0x18, 0x19, 0x52
 	S_RET
 
-Music05_Trk3:			/* file 0x12c06; music 5, track 3 */
+Music_Mission5_Trk3:			/* file 0x12c06; music 5, track 3 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x02
@@ -1704,7 +1704,7 @@ L_12F59:			/* file 0x12f59 */
 	N 0x4d, 0x18, 0x19
 	S_RET
 
-Music05_Trk4:			/* file 0x12f64; music 5, track 4 */
+Music_Mission5_Trk4:			/* file 0x12f64; music 5, track 4 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x02
@@ -1743,7 +1743,7 @@ Music05_Trk4:			/* file 0x12f64; music 5, track 4 */
 	S_WAIT 0x90
 	S_RET
 
-Music05_Trk5:			/* file 0x12fb2; music 5, track 5 */
+Music_Mission5_Trk5:			/* file 0x12fb2; music 5, track 5 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x02
@@ -2189,7 +2189,7 @@ L_13402:			/* file 0x13402 */
 	N 0x29, , 0x0d
 	S_RET
 
-Music05_Trk6:			/* file 0x13425; music 5, track 6 */
+Music_Mission5_Trk6:			/* file 0x13425; music 5, track 6 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x04
@@ -2588,7 +2588,7 @@ L_137EE:			/* file 0x137ee */
 	N 0x43, 0x18, 0x14
 	S_RET
 
-Music05_Trk7:			/* file 0x1380e; music 5, track 7 */
+Music_Mission5_Trk7:			/* file 0x1380e; music 5, track 7 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x02
@@ -2924,7 +2924,7 @@ L_13B1E:			/* file 0x13b1e */
 	N 0x2e
 	S_RET
 
-Music05_Trk8:			/* file 0x13b2c; music 5, track 8 */
+Music_Mission5_Trk8:			/* file 0x13b2c; music 5, track 8 */
 	S_TRACK
 	S_TRKVOL 0x7f
 	S_WAIT 0x03

@@ -1,6 +1,6 @@
-/* music_08.s - sequences of MusicHdr_08 */
+/* music_08.s - sequences of Music_Boss_Hdr (MusicTable[8]) */
 
-Music08_Trk0:			/* file 0x1614f; music 8, track 0 */
+Music_Boss_Trk0:			/* file 0x1614f; music 8, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -209,7 +209,7 @@ L_16348:			/* file 0x16348 */
 	N 0x32, 0x0c, 0x0c, 0x45
 	S_RET
 
-Music08_Trk1:			/* file 0x1635f; music 8, track 1 */
+Music_Boss_Trk1:			/* file 0x1635f; music 8, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -260,7 +260,7 @@ L_163AC:			/* file 0x163ac */
 	S_LOOPEND 0x00, L_163AC
 	S_RET
 
-Music08_Trk2:			/* file 0x163c6; music 8, track 2 */
+Music_Boss_Trk2:			/* file 0x163c6; music 8, track 2 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -468,7 +468,7 @@ L_16542:			/* file 0x16542 */
 	N 0x3e, 0x0c, 0x0a
 	S_RET
 
-Music08_Trk3:			/* file 0x16559; music 8, track 3 */
+Music_Boss_Trk3:			/* file 0x16559; music 8, track 3 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -678,7 +678,7 @@ L_166DF:			/* file 0x166df */
 	N 0x3e, 0x0c, 0x0a
 	S_RET
 
-Music08_Trk4:			/* file 0x166f6; music 8, track 4 */
+Music_Boss_Trk4:			/* file 0x166f6; music 8, track 4 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x01
@@ -762,7 +762,7 @@ L_16737:			/* file 0x16737 */
 	S_LOOPEND 0x00, L_16737
 	S_RET
 
-Music08_Trk5:			/* file 0x1676a; music 8, track 5 */
+Music_Boss_Trk5:			/* file 0x1676a; music 8, track 5 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -945,7 +945,7 @@ L_16900:			/* file 0x16900 */
 	N 0x52, 0x0c, 0x0c, 0x55
 	S_RET
 
-Music08_Trk6:			/* file 0x16918; music 8, track 6 */
+Music_Boss_Trk6:			/* file 0x16918; music 8, track 6 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -1129,7 +1129,7 @@ L_16AB0:			/* file 0x16ab0 */
 	N 0x52, 0x0c, 0x0c, 0x48
 	S_RET
 
-Music08_Trk7:			/* file 0x16ac8; music 8, track 7 */
+Music_Boss_Trk7:			/* file 0x16ac8; music 8, track 7 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -1258,7 +1258,7 @@ L_16BDD:			/* file 0x16bdd */
 	N 0x24, , , 0x63
 	S_RET
 
-Music08_Trk8:			/* file 0x16bf5; music 8, track 8 */
+Music_Boss_Trk8:			/* file 0x16bf5; music 8, track 8 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -1423,7 +1423,7 @@ L_16D8F:			/* file 0x16d8f */
 	S_LOOPEND 0x04, L_16D8F
 	S_RET
 
-Music08_Trk9:			/* file 0x16d99; music 8, track 9 */
+Music_Boss_Trk9:			/* file 0x16d99; music 8, track 9 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x01
@@ -1543,7 +1543,7 @@ L_16EC5:			/* file 0x16ec5 */
 	NX 0x25, 0x0c, 0x0a, 0x25
 	S_RET
 
-Music08_Trk10:			/* file 0x16ecd; music 8, track 10 */
+Music_Boss_Trk10:			/* file 0x16ecd; music 8, track 10 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x01

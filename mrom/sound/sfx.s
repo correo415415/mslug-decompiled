@@ -2208,7 +2208,7 @@ SfxA223_Trk0:			/* file 0x1cfa1; SFX A 223, track 0 */
 	NX 0x30, 0x60, 0x5c, 0x50
 	S_RET
 
-SfxB001_Trk0:			/* file 0x1cfb0; SFX B 1, track 0 */
+Voice_FoodPickup_Trk0:			/* file 0x1cfb0; SFX B 1, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2220,7 +2220,7 @@ SfxB001_Trk0:			/* file 0x1cfb0; SFX B 1, track 0 */
 	N 0x66, 0x3c
 	S_RET
 
-SfxB001_Trk1:			/* file 0x1cfc3; SFX B 1, track 1 */
+Voice_FoodPickup_Trk1:			/* file 0x1cfc3; SFX B 1, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2232,7 +2232,7 @@ SfxB001_Trk1:			/* file 0x1cfc3; SFX B 1, track 1 */
 	N 0x66, 0x3c
 	S_RET
 
-SfxB003_Trk0:			/* file 0x1cfd7; SFX B 3, track 0 */
+Voice_PlayerDeath_Trk0:			/* file 0x1cfd7; SFX B 3, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2241,7 +2241,7 @@ SfxB003_Trk0:			/* file 0x1cfd7; SFX B 3, track 0 */
 	N 0x48, 0xfa, 0xfa, 0x73
 	S_RET
 
-SfxB004_Trk0:			/* file 0x1cfe5; SFX B 4, track 0 */
+Voice_ItemPickup_Trk0:			/* file 0x1cfe5; SFX B 4, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2306,7 +2306,7 @@ SfxB011_Trk0:			/* file 0x1d03f; SFX B 11, track 0 */
 	N 0x5c, 0x0f, 0x0f
 	S_RET
 
-SfxB012_Trk0:			/* file 0x1d051; SFX B 12, track 0 */
+Voice_Weapon2_Trk0:			/* file 0x1d051; SFX B 12, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2317,7 +2317,7 @@ SfxB012_Trk0:			/* file 0x1d051; SFX B 12, track 0 */
 	N 0x3f, 0x44, 0x44
 	S_RET
 
-SfxB013_Trk0:			/* file 0x1d067; SFX B 13, track 0 */
+Voice_Weapon4_Trk0:			/* file 0x1d067; SFX B 13, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2327,7 +2327,7 @@ SfxB013_Trk0:			/* file 0x1d067; SFX B 13, track 0 */
 	NX 0x3c, 0xf6, 0xf6
 	S_RET
 
-SfxB014_Trk0:			/* file 0x1d07a; SFX B 14, track 0 */
+Voice_Weapon3_Trk0:			/* file 0x1d07a; SFX B 14, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2338,7 +2338,7 @@ SfxB014_Trk0:			/* file 0x1d07a; SFX B 14, track 0 */
 	N 0x3d, 0x3b, 0x3b
 	S_RET
 
-SfxB015_Trk0:			/* file 0x1d090; SFX B 15, track 0 */
+Voice_Weapon1_Trk0:			/* file 0x1d090; SFX B 15, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2348,7 +2348,7 @@ SfxB015_Trk0:			/* file 0x1d090; SFX B 15, track 0 */
 	NX 0x3e, 0xc5, 0xc5
 	S_RET
 
-SfxB017_Trk0:			/* file 0x1d0a3; SFX B 17, track 0 */
+Voice_Mission1Start_Trk0:			/* file 0x1d0a3; SFX B 17, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2359,7 +2359,7 @@ SfxB017_Trk0:			/* file 0x1d0a3; SFX B 17, track 0 */
 	N 0x4b, 0xaa, 0xaa
 	S_RET
 
-SfxB018_Trk0:			/* file 0x1d0b7; SFX B 18, track 0 */
+Voice_Mission2Start_Trk0:			/* file 0x1d0b7; SFX B 18, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2370,7 +2370,7 @@ SfxB018_Trk0:			/* file 0x1d0b7; SFX B 18, track 0 */
 	N 0x4b, 0xaa, 0xaa
 	S_RET
 
-SfxB019_Trk0:			/* file 0x1d0cb; SFX B 19, track 0 */
+Voice_Mission3Start_Trk0:			/* file 0x1d0cb; SFX B 19, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2381,7 +2381,7 @@ SfxB019_Trk0:			/* file 0x1d0cb; SFX B 19, track 0 */
 	N 0x4b, 0xaa, 0xaa
 	S_RET
 
-SfxB020_Trk0:			/* file 0x1d0df; SFX B 20, track 0 */
+Voice_Mission4Start_Trk0:			/* file 0x1d0df; SFX B 20, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2392,7 +2392,7 @@ SfxB020_Trk0:			/* file 0x1d0df; SFX B 20, track 0 */
 	N 0x4b, 0xaa, 0xaa
 	S_RET
 
-SfxB021_Trk0:			/* file 0x1d0f3; SFX B 21, track 0 */
+Voice_Mission5Start_Trk0:			/* file 0x1d0f3; SFX B 21, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2403,7 +2403,7 @@ SfxB021_Trk0:			/* file 0x1d0f3; SFX B 21, track 0 */
 	N 0x4b, 0xaa, 0xaa
 	S_RET
 
-SfxB022_Trk0:			/* file 0x1d107; SFX B 22, track 0 */
+Voice_Mission6Start_Trk0:			/* file 0x1d107; SFX B 22, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2414,7 +2414,7 @@ SfxB022_Trk0:			/* file 0x1d107; SFX B 22, track 0 */
 	N 0x4b, 0xaa, 0xaa
 	S_RET
 
-SfxB023_Trk0:			/* file 0x1d11b; SFX B 23, track 0 */
+Voice_MissionComplete_Trk0:			/* file 0x1d11b; SFX B 23, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2434,7 +2434,7 @@ SfxB024_Trk0:			/* file 0x1d12d; SFX B 24, track 0 */
 	N 0x5d, 0xab, 0xab
 	S_RET
 
-SfxB026_Trk0:			/* file 0x1d13f; SFX B 26, track 0 */
+Voice_PowThankYou_Trk0:			/* file 0x1d13f; SFX B 26, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2443,7 +2443,7 @@ SfxB026_Trk0:			/* file 0x1d13f; SFX B 26, track 0 */
 	NX 0x5e, 0x9c, 0x9c, 0x5f
 	S_RET
 
-SfxB028_Trk0:			/* file 0x1d14e; SFX B 28, track 0 */
+Voice_AllenTaunt1_Trk0:			/* file 0x1d14e; SFX B 28, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2453,7 +2453,7 @@ SfxB028_Trk0:			/* file 0x1d14e; SFX B 28, track 0 */
 	N 0x55, 0x52, 0x52
 	S_RET
 
-SfxB029_Trk0:			/* file 0x1d160; SFX B 29, track 0 */
+Voice_AllenTaunt2_Trk0:			/* file 0x1d160; SFX B 29, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2463,7 +2463,7 @@ SfxB029_Trk0:			/* file 0x1d160; SFX B 29, track 0 */
 	N 0x58, 0x6d, 0x6d
 	S_RET
 
-SfxB030_Trk0:			/* file 0x1d172; SFX B 30, track 0 */
+Voice_AllenTaunt3_Trk0:			/* file 0x1d172; SFX B 30, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2483,7 +2483,7 @@ SfxB031_Trk0:			/* file 0x1d184; SFX B 31, track 0 */
 	N 0x57, 0x5f, 0x5f
 	S_RET
 
-SfxB032_Trk0:			/* file 0x1d196; SFX B 32, track 0 */
+Voice_AllenDeath_Trk0:			/* file 0x1d196; SFX B 32, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40

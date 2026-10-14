@@ -1,6 +1,6 @@
-/* music_07.s - sequences of MusicHdr_07 */
+/* music_07.s - sequences of Music_AttractDemo_Hdr (MusicTable[7]) */
 
-Music07_Trk0:			/* file 0x15f25; music 7, track 0 */
+Music_AttractDemo_Trk0:			/* file 0x15f25; music 7, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -23,7 +23,7 @@ Music07_Trk0:			/* file 0x15f25; music 7, track 0 */
 	N 0x44, 0xd2, 0xd2, 0x32
 	S_RET
 
-Music07_Trk1:			/* file 0x15f53; music 7, track 1 */
+Music_AttractDemo_Trk1:			/* file 0x15f53; music 7, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -45,7 +45,7 @@ Music07_Trk1:			/* file 0x15f53; music 7, track 1 */
 	N 0x33, 0xd2, 0xd2, 0x2f
 	S_RET
 
-Music07_Trk2:			/* file 0x15f7c; music 7, track 2 */
+Music_AttractDemo_Trk2:			/* file 0x15f7c; music 7, track 2 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -67,7 +67,7 @@ Music07_Trk2:			/* file 0x15f7c; music 7, track 2 */
 	N 0x33, 0xd2, 0xd2
 	S_RET
 
-Music07_Trk3:			/* file 0x15fa3; music 7, track 3 */
+Music_AttractDemo_Trk3:			/* file 0x15fa3; music 7, track 3 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -89,7 +89,7 @@ Music07_Trk3:			/* file 0x15fa3; music 7, track 3 */
 	N 0x38, 0xd2, 0xd2
 	S_RET
 
-Music07_Trk4:			/* file 0x15fca; music 7, track 4 */
+Music_AttractDemo_Trk4:			/* file 0x15fca; music 7, track 4 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -135,7 +135,7 @@ Music07_Trk4:			/* file 0x15fca; music 7, track 4 */
 	N 0x38, , , 0x60
 	S_RET
 
-Music07_Trk5:			/* file 0x16022; music 7, track 5 */
+Music_AttractDemo_Trk5:			/* file 0x16022; music 7, track 5 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -157,7 +157,7 @@ Music07_Trk5:			/* file 0x16022; music 7, track 5 */
 	N 0x14, 0xc0, 0xbe
 	S_RET
 
-Music07_Trk6:			/* file 0x16049; music 7, track 6 */
+Music_AttractDemo_Trk6:			/* file 0x16049; music 7, track 6 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
@@ -188,7 +188,7 @@ Music07_Trk6:			/* file 0x16049; music 7, track 6 */
 	N 0x2c, 0xc0, 0xbe
 	S_RET
 
-Music07_Trk7:			/* file 0x1608d; music 7, track 7 */
+Music_AttractDemo_Trk7:			/* file 0x1608d; music 7, track 7 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_WAIT 0x04
@@ -249,7 +249,7 @@ Music07_Trk7:			/* file 0x1608d; music 7, track 7 */
 	N 0x2c, 0x60, 0x5c, 0x4e
 	S_RET
 
-Music07_Trk8:			/* file 0x16106; music 7, track 8 */
+Music_AttractDemo_Trk8:			/* file 0x16106; music 7, track 8 */
 	S_TRACK
 	S_KEYMODE 0x00
 	S_WAIT 0x04
