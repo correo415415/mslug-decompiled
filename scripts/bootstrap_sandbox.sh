@@ -63,6 +63,12 @@ if [[ ! -f "$ROOT/rom/201-m1.bin" ]]; then
         [[ -n "$z" && -f "$z" ]] && "$ROOT/scripts/setup_mrom.sh" "$z" 2>/dev/null && break
     done
 fi
+# S/C/V-ROM (assets/tools): extrae del zip si faltan
+if [[ ! -f "$ROOT/rom/201-v2.bin" ]]; then
+    for z in "$ZIP" "$ROOT/internal/mslug.zip" "$AIDRIVE_DIR/mslug.zip"; do
+        [[ -n "$z" && -f "$z" ]] && "$ROOT/scripts/setup_assets.sh" "$z" 2>/dev/null && break
+    done
+fi
 python3 "$ROOT/tools/registry_lint.py" | tail -1
 python3 "$ROOT/tools/check_section_sizes.py" | tail -1
 echo "[bootstrap] listo: m68k-linux-gnu-gcc $(m68k-linux-gnu-gcc -dumpversion), build/mslug_prom.bin OK"

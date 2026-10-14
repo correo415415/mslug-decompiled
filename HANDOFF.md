@@ -20,8 +20,8 @@ romset MAME `mslug.zip`.
 | ROM | Fichero | CPU | Estado |
 |---|---|---|---|
 | P-ROM (programa principal) | `201-p1.bin`, 2 MiB | Motorola 68000 | **100 % matched**: 17 608 secciones, ROM reconstruida byte-idéntica |
-| M-ROM (driver de sonido) | `201-m1.bin`, 128 KiB | Zilog Z80 | **reensamblado byte-idéntico 100 %**; región fija (32 KiB) separada en código/datos, 128 rutinas y 61 variables con nombre, troceada por subsistema; bancos de datos sin analizar |
-| S-ROM / C-ROM / V-ROM (gráficos / samples) | `201-s1`, `201-c1..c4`, `201-v1..v2` | — | sin tocar (plan de extracción de assets en `TODO.md`) |
+| M-ROM (driver de sonido) | `201-m1.bin`, 128 KiB | Zilog Z80 | **reensamblado byte-idéntico 100 %**; región fija con 157 rutinas/tablas con nombre y 0 etiquetas anónimas; todos los datos de sonido (instrumentos, tablas, cabeceras, 31 650 ops de secuencia) como fuentes simbólicas en `mrom/sound/`; músicas/voces con nombre real; export MIDI |
+| S-ROM / C-ROM / V-ROM (gráficos / samples) | `201-s1`, `201-c1..c4`, `201-v1..v2` | — | **extracción + reconstrucción byte-idéntica** (`assets/tools/gfx.py`, `audio.py`; ver `assets/README.md`): tiles PNG indexados y 375 muestras con nombre |
 
 Objetivo a largo plazo: fuentes legibles (C + asm con nombres semánticos) que
 compilen a los ROMs originales, más herramientas para parchear y para extraer

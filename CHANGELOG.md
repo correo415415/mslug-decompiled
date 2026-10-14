@@ -31,6 +31,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - `mrom/tools/export_midi.py`: music / SFX sequences to Standard MIDI files
   (driver timing: Timer A 2.997 ms, tempo accumulator), output in
   `build/mrom/midi/` (not committed).
+- **Asset tools** (`assets/`): `gfx.py` (S-ROM fix tiles and C-ROM sprite
+  tiles ↔ indexed PNG sheets) and `audio.py` (V-ROM → 321 ADPCM-A + 54
+  ADPCM-B named samples, raw + WAV preview, `index.csv`); both rebuild
+  201-s1/c1..c4/v1/v2 byte-identical. `scripts/setup_assets.sh`.
 - Snapshot branch/tag `f_5.1` (state before this work).
 
 ### Removed

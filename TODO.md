@@ -39,24 +39,14 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 
 ## Al tener el M-ROM al 100 %
 
-- [ ] **Scripts de extracción de assets para S-ROM, C-ROM y V-ROM**:
-      - `201-s1.bin` (S-ROM, fix layer 8x8): descodificar los tiles y
-        exportarlos a PNG (hoja de tiles + tiles sueltos).
-      - `201-c1..c4.bin` (C-ROM, sprites 16x16): desentrelazar los pares
-        c1/c2 y c3/c4, descodificar los tiles de 4 bpp, aplicar las
-        paletas del P-ROM y exportarlos a PNG (hojas de tiles y, cuando
-        sea posible, sprites completos reconstruidos desde las tablas de
-        sprites del P-ROM).
-      - `201-v1.bin`, `201-v2.bin` (V-ROM, ADPCM-A/ADPCM-B): usar las
-        tablas de muestras del M-ROM (inicio/fin/frecuencia) para cortar
-        cada muestra, descodificar ADPCM → PCM y exportarlas a WAV.
-      - Dar a cada asset el **nombre correspondiente** (personaje, arma,
-        enemigo, efecto de sonido, pista musical…) usando los nombres
-        semánticos ya establecidos en el P-ROM y el M-ROM; generar un
-        índice (CSV/Markdown) con offset, tamaño, nombre y vista previa.
-      - Herramienta inversa (PNG/WAV → ROM) para poder reconstruir los
-        ROMs de gráficos y sonido byte-idénticos, igual que
-        `tools/build_rom.py` y `mrom/tools/build_mrom.py`.
+- [x] **Extracción de assets S/C/V-ROM con herramienta inversa** (`assets/`):
+      `gfx.py` (fix 8×8 y sprites 16×16 ↔ PNG indexados) y `audio.py` (V-ROM →
+      375 muestras con nombre e índice CSV, ADPCM crudo + WAV); los 7 ROMs se
+      reconstruyen byte-idénticos.
+- [ ] Assets, siguiente nivel: aplicar paletas del P-ROM a los sprites,
+      reconstruir sprites completos (animaciones) desde las tablas de sprites
+      del P-ROM, nombres por personaje/arma/enemigo; codificador ADPCM para
+      sustituir muestras desde WAV.
 - [x] Exportar las pistas musicales a MIDI con sus nombres
       (`mrom/tools/export_midi.py`). Pendiente: modelar la curva de `S_TEMPO`
       y exportar VGM (requiere emular el YM2610 con los parches).
