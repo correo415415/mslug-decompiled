@@ -6,8 +6,7 @@ Reset_0000:
 	di			;0000
 	out (018h),a		;0001
 	jp Main_Init_1E00		;0003
-	defb 000h		;0006
-	defb 000h		;0007
+	defb 000h,000h		;0006
 YM_Write_RST8_0008:
 	in a,(004h)		;0008
 	and a			;000a
@@ -23,24 +22,8 @@ YM_Write_RST8_0008:
 	out (c),e		;001a
 	dec c			;001c
 	ret			;001d
-	defb 000h		;001e
-	defb 000h		;001f
-	defb 000h		;0020
-	defb 000h		;0021
-	defb 000h		;0022
-	defb 000h		;0023
-	defb 000h		;0024
-	defb 000h		;0025
-	defb 000h		;0026
-	defb 000h		;0027
-	defb 000h		;0028
-	defb 000h		;0029
-	defb 000h		;002a
-	defb 000h		;002b
-	defb 000h		;002c
-	defb 000h		;002d
-	defb 000h		;002e
-	defb 000h		;002f
+	defb 000h,000h		;001e
+	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0020
 Ch_ClearActive_RST30_0030:
 	xor a			;0030
 	ld (ix+000h),a		;0031
@@ -48,71 +31,11 @@ Ch_ClearActive_RST30_0030:
 	ret			;0037
 IRQ_Vector_0038:
 	jp IRQ_Timer_1E7A		;0038
-	defb 000h		;003b
-	defb 000h		;003c
-	defb 000h		;003d
-	defb 000h		;003e
-	defb 000h		;003f
-	defb 000h		;0040
-	defb 000h		;0041
-	defb 000h		;0042
-	defb 000h		;0043
-	defb 000h		;0044
-	defb 000h		;0045
-	defb 000h		;0046
-	defb 000h		;0047
-	defb 000h		;0048
-	defb 000h		;0049
-	defb 000h		;004a
-	defb 000h		;004b
-	defb 000h		;004c
-	defb 000h		;004d
-	defb 000h		;004e
-	defb 000h		;004f
-	defb 000h		;0050
-	defb 000h		;0051
-	defb 000h		;0052
-	defb 000h		;0053
-	defb 000h		;0054
-	defb 000h		;0055
-	defb 000h		;0056
-	defb 000h		;0057
-	defb 000h		;0058
-	defb 000h		;0059
-	defb 000h		;005a
-	defb 000h		;005b
-	defb 000h		;005c
-	defb 000h		;005d
-	defb 000h		;005e
-	defb 000h		;005f
-	defb 000h		;0060
-	defb 000h		;0061
-	defb 000h		;0062
-	defb 000h		;0063
-	defb 000h		;0064
-	defb 000h		;0065
+	defb 000h,000h,000h,000h,000h		;003b
+	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0040
+	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0050
+	defb 000h,000h,000h,000h,000h,000h		;0060
 NMI_Vector_0066:
 	jp NMI_Command_1ED6		;0066
-	defb 000h		;0069
-	defb 000h		;006a
-	defb 000h		;006b
-	defb 000h		;006c
-	defb 000h		;006d
-	defb 000h		;006e
-	defb 000h		;006f
-	defb 000h		;0070
-	defb 000h		;0071
-	defb 000h		;0072
-	defb 000h		;0073
-	defb 000h		;0074
-	defb 000h		;0075
-	defb 000h		;0076
-	defb 000h		;0077
-	defb 000h		;0078
-	defb 000h		;0079
-	defb 000h		;007a
-	defb 000h		;007b
-	defb 000h		;007c
-	defb 000h		;007d
-	defb 000h		;007e
-	defb 000h		;007f
+	defb 000h,000h,000h,000h,000h,000h,000h		;0069
+	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0070

@@ -611,60 +611,12 @@ Vib_Update_L24DC:
 	ex de,hl			;24dc
 	ret			;24dd
 CmdStruct_24DE:
-	defb 08ch		;24de
-	defb 0a8h		;24df
-	defb 0d1h		;24e0
-	defb 001h		;24e1
-	defb 000h		;24e2
-	defb 0ffh		;24e3
-	defb 043h		;24e4
-	defb 0d2h		;24e5
-	defb 001h		;24e6
-	defb 000h		;24e7
-	defb 0ffh		;24e8
-	defb 03fh		;24e9
-	defb 0d2h		;24ea
-	defb 001h		;24eb
-	defb 000h		;24ec
-	defb 0ffh		;24ed
-	defb 038h		;24ee
-	defb 0d2h		;24ef
-	defb 001h		;24f0
-	defb 000h		;24f1
-	defb 0ffh		;24f2
-	defb 000h		;24f3
-	defb 000h		;24f4
-	defb 000h		;24f5
-	defb 000h		;24f6
+	defb 08ch,0a8h		;24de
+	defb 0d1h,001h,000h,0ffh,043h,0d2h,001h,000h,0ffh,03fh,0d2h,001h,000h,0ffh,038h,0d2h		;24e0
+	defb 001h,000h,0ffh,000h,000h,000h,000h		;24f0
 CmdStruct_24F7:
-	defb 020h		;24f7
-	defb 010h		;24f8
-	defb 000h		;24f9
-	defb 000h		;24fa
-	defb 000h		;24fb
-	defb 000h		;24fc
-	defb 000h		;24fd
-	defb 000h		;24fe
-	defb 0f7h		;24ff
-	defb 062h		;2500
-	defb 0d2h		;2501
-	defb 001h		;2502
-	defb 000h		;2503
-	defb 000h		;2504
-	defb 000h		;2505
-	defb 000h		;2506
-	defb 000h		;2507
-	defb 000h		;2508
+	defb 020h,010h,000h,000h,000h,000h,000h,000h,0f7h		;24f7
+	defb 062h,0d2h,001h,000h,000h,000h,000h,000h,000h		;2500
 InstrDefault_2509:
-	defb 080h		;2509
-	defb 019h		;250a
-	defb 000h		;250b
-	defb 000h		;250c
-	defb 0b2h		;250d
-	defb 019h		;250e
-	defb 000h		;250f
-	defb 000h		;2510
-	defb 0e4h		;2511
-	defb 019h		;2512
-	defb 000h		;2513
-	defb 000h		;2514
+	defb 080h,019h,000h,000h,0b2h,019h,000h		;2509
+	defb 000h,0e4h,019h,000h,000h		;2510
