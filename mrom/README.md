@@ -8,7 +8,7 @@ Z80 and drives the YM2610. Separate from the 68000 P-ROM work in `asm/` and
 |---|---|
 | ROM | `201-m1.bin`, 131,072 B, MD5 `6449db0459bcf7584348792009e8f12c` |
 | CPU | Zilog Z80 @ 4 MHz |
-| Toolchain | `z80asm` (assembler) + `z80dasm` (disassembler), both Debian packages |
+| Toolchain | `z80asm` + `z80dasm` (driver code), `binutils-z80` (GNU as, sound data) — Debian packages |
 | Build | `python3 mrom/tools/build_mrom.py` → `build/mrom/201-m1_rebuilt.bin` |
 
 ## Memory map (Z80 side)
@@ -42,8 +42,16 @@ mrom/
 │   ├── channel/              envelope helpers, SSG, FM, ADPCM-A, ADPCM-B, channel-type tables
 │   ├── seq/                  track allocation and the sequence opcode interpreter
 │   ├── data/                 bank pointer table, lookup pages, note map, sequence pointers, tail
-│   ├── bank2_8000.s … bank7_8000.s   (still just `include "raw/…"`)
-│   └── raw/                  z80dasm output per region (generated; input of split_region.py)
+│   └── raw/                  z80dasm output of the fixed region (generated; input of split_region.py)
+├── sound/                    banks 2..7 = sound data (file 0x08000-0x1FFFF), GNU-as sources
+│   ├── sound.s               top level: SD_Base + includes, assembled with binutils-z80
+│   ├── macros.inc            PTR24, MUSIC_HDR/SFX_HDR/TRACK, notes N/NX, opcodes S_*
+│   ├── instr_patches.s       last instrument patches (0x08000-0x0815E)
+│   ├── headers.s             MusicTable, SfxTableA/B and every music / SFX header
+│   ├── music_00.s … music_12.s   sequences of each music (one file per song)
+│   ├── sfx.s, seq_unused.s   SFX sequences; 3 sequences no header points to
+│   └── leftover.s            0x1D287-0x1FFFF, bytes never read by the driver
+├── docs/FORMATS.md           headers, sequence byte-code, track struct, patches
 ├── include/
 │   └── neogeo_z80.inc        I/O ports, bank windows, YM2610 register numbers
 ├── map/
@@ -56,7 +64,9 @@ mrom/
 │   ├── trace_code.py         older tracer over z80dasm text (kept for reference)
 │   ├── gen_mrom_asm.py       rom -> asm/raw/*.s applying map/<region>_{blocks,syms}.txt
 │   ├── split_region.py       asm/raw/<region>.s -> asm/<subsystem>/*.s per map/<region>_split.txt
-│   └── build_mrom.py         assembles every region and compares with the ROM
+│   ├── gen_sound_data.py     rom -> sound/*.s (decodes tables, headers and sequences)
+│   ├── dump_sound_tables.py  text listing of music / SFX / instrument tables
+│   └── build_mrom.py         z80asm (fixed) + binutils-z80 (sound) → compare with the ROM
 └── README.md
 ```
 
@@ -68,6 +78,7 @@ python3 mrom/tools/z80trace.py                 # code map (add roots as new jump
 #   edit mrom/map/fixed_0000_blocks.txt / _syms.txt / _split.txt
 python3 mrom/tools/gen_mrom_asm.py             # regenerate asm/raw/*.s with blocks + names
 python3 mrom/tools/split_region.py fixed_0000  # re-carve asm/<subsystem>/*.s
+python3 mrom/tools/gen_sound_data.py           # regenerate sound/*.s (only to reset hand edits)
 python3 mrom/tools/build_mrom.py               # ✔ IDÉNTICA expected
 ```
 
@@ -116,6 +127,10 @@ at all times.
 - [x] 126 routines/tables with semantic names (command dispatcher, channel
       update entry points, bank switch, sequencer, 26 sequence opcodes).
 - [ ] Name the remaining ~460 internal labels (per-channel update bodies).
-- [ ] Document the sequence format and instrument tables; analyse banks 2–7
-      (sequence data, FM instrument patches, ADPCM sample tables).
-- [ ] Replace raw `defb` tables with structured data where the format is understood.
+- [x] Banks 2–7 decoded: they contain only data (no Z80 code). Tables,
+      13 music + 177 SFX headers (190 in total) and 31,650 sequence ops (328 tracks, 1,123
+      jump targets) as symbolic sources in `sound/` (labels, absolute notes,
+      macros per opcode) → byte-identical. Formats in `docs/FORMATS.md`.
+- [ ] Instrument patch format (24 / 50-byte records) → `INSTR_*` macros.
+- [ ] Identify each music / SFX id from the 68k side and give real names.
+- [ ] Export sequences to MIDI / VGM.

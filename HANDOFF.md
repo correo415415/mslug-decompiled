@@ -225,8 +225,19 @@ rom/201-m1.bin
   nota/len/vol/gate actuales, `+1B` última nota, `+1C-21` pila de llamadas,
   `+22` puntero de pila).
 
+### M-ROM: datos de sonido (hecho, sesión f_5.1 →)
+Los bancos 2..7 (fichero `0x08000-0x1FFFF`) **no contienen código Z80**, solo
+datos. `mrom/tools/gen_sound_data.py` los decodifica a `mrom/sound/*.s`
+(GNU as de `binutils-z80`, por sus macros): `headers.s` (tablas + cabeceras),
+`music_NN.s` (una por canción), `sfx.s`, `seq_unused.s`, `instr_patches.s`,
+`leftover.s`. Las notas se escriben absolutas (`N 0x39, 0x0c, 0x0a, 0x42`); las
+macros recalculan el delta relativo. `build_mrom.py` ensambla la región fija
+con z80asm y `mrom/sound/sound.s` con `z80-unknown-coff-as` → ✔ IDÉNTICA.
+Los antiguos volcados z80dasm de los bancos se han eliminado. Formatos:
+`mrom/docs/FORMATS.md`. Snapshot previo inmutable: rama/tag `f_5.1`.
+
 ### M-ROM: pendiente (orden sugerido)
-1. **Bancos 2..7**: crear `mrom/map/bank{2..7}_8000_blocks.txt` marcando como
+1. ~~**Bancos 2..7**~~ (hecho, ver arriba). Texto original: crear `mrom/map/bank{2..7}_8000_blocks.txt` marcando como
    `bytedata`/`worddata` las tablas conocidas (tablas de música/SFX en banco 2,
    cabeceras `0x8193-0x953C`, secuencias, parches de instrumento) y nombrar
    (`_syms.txt`) cada música (`Music_00_Hdr_8193`…), SFX y secuencia. Regenerar
@@ -286,7 +297,8 @@ byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
 - [x] Parches lives / hmg-infinite / all-infinite / bombs / bombs-infinite / pistol-ammo verificados
 - [x] M-ROM: reensamblado idéntico, región fija código/datos + nombres + troceo, include HW, CI `build_mrom`
 - [x] M-ROM: tablas de música/SFX/instrumentos y formatos de cabecera identificados (`dump_sound_tables.py`)
-- [ ] M-ROM: bancos 2..7 mapeados y nombrados; etiquetas internas; `FORMATS.md`; desensamblador de secuencias
+- [x] M-ROM: bancos 2..7 decodificados a `mrom/sound/` (tablas, cabeceras, secuencias simbólicas) + `mrom/docs/FORMATS.md`
+- [ ] M-ROM: formato de parches de instrumento; ~460 etiquetas internas de la región fija
 - [ ] Identificación de cada música/SFX por id
 - [ ] Extracción de assets S/C/V-ROM (tras M-ROM al 100 %)
 - [ ] P-ROM: cabeceras A–F en los 13 módulos de datos

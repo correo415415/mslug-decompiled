@@ -20,10 +20,13 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [ ] Nombrar las ~460 etiquetas internas restantes (cuerpos de actualización
       de cada canal SSG/FM/ADPCM) y documentar la estructura de canal
       (offsets `+00..+4C/+67/+29`) y de pista (`+00..+22`).
-- [ ] Documentar el formato de secuencia (opcodes `C0..DA`, bytes de nota) y
-      el formato de las cabeceras de música/SFX (entradas de 5 bytes).
-- [ ] Analizar los bancos 2..7 (secuencias musicales, instrumentos FM,
-      tablas ADPCM-A/B) y documentar el formato de secuencia.
+- [x] Documentar el formato de secuencia (opcodes `C0..D9`, bytes de nota) y
+      el de las cabeceras de música/SFX → `mrom/docs/FORMATS.md`.
+- [x] Bancos 2..7 (solo datos): tablas, cabeceras y secuencias decodificadas a
+      fuentes simbólicas `mrom/sound/` (`gen_sound_data.py`), ✔ IDÉNTICA.
+- [ ] Formato de los parches de instrumento (24/50 B) → macros `INSTR_*`
+      (región fija `0x67A1-0x7FFF` + `mrom/sound/instr_patches.s`).
+- [ ] Nombres reales de músicas/SFX (ids enviados desde el P-ROM).
 - [ ] Actualizar `mrom/README.md`, `docs/COVERAGE.md` (sección M-ROM),
       `docs/PROGRESO.md` y `CHANGELOG.md` a medida que avance.
 

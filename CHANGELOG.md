@@ -9,6 +9,19 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- **M-ROM sound data decoded** (`mrom/sound/`, `mrom/tools/gen_sound_data.py`):
+  file `0x08000-0x1FFFF` (banks 2–7, data only) as symbolic GNU-as sources —
+  music/SFX pointer tables, 13 music + 177 SFX headers (190 in total), 31,650 sequence ops
+  across 328 tracks with labelled jump/call/loop targets and absolute notes.
+  Assembled with binutils-z80 by `build_mrom.py`; M-ROM still byte-identical
+  (MD5 `6449db04…`). Formats documented in `mrom/docs/FORMATS.md`.
+- Snapshot branch/tag `f_5.1` (state before this work).
+
+### Removed
+- z80dasm dumps of banks 2–7 (`mrom/asm/bank*_8000.s`, `mrom/asm/raw/bank*`):
+  they decoded data as if it were Z80 code.
+
 ### Changed
 - **Repository layout reorganised** (267 files): `asm/` split into
   subsystem folders (`boot, kernel, input, video, entity, player, slug,
