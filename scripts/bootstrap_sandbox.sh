@@ -27,10 +27,12 @@ if ! command -v m68k-linux-gnu-gcc >/dev/null 2>&1; then
           sudo apt-get install -y -qq gcc-m68k-linux-gnu binutils-m68k-linux-gnu >/dev/null 2>&1)
 fi
 python3 -c "import capstone" 2>/dev/null || python3 -m pip install -q -r "$ROOT/requirements.txt"
-if ! command -v z80asm >/dev/null 2>&1 || ! command -v z80dasm >/dev/null 2>&1; then
-    echo "[bootstrap] instalando z80asm / z80dasm (M-ROM)..."
-    (sudo apt-get install -y -qq z80asm z80dasm >/dev/null 2>&1) \
-      || (sudo apt-get update -qq >/dev/null 2>&1 && sudo apt-get install -y -qq z80asm z80dasm >/dev/null 2>&1) || true
+if ! command -v z80asm >/dev/null 2>&1 || ! command -v z80dasm >/dev/null 2>&1 \
+   || ! command -v z80-unknown-coff-as >/dev/null 2>&1; then
+    # z80asm/z80dasm: driver code; binutils-z80 (GNU as): sound data (mrom/sound/)
+    echo "[bootstrap] instalando z80asm / z80dasm / binutils-z80 (M-ROM)..."
+    (sudo apt-get install -y -qq z80asm z80dasm binutils-z80 >/dev/null 2>&1) \
+      || (sudo apt-get update -qq >/dev/null 2>&1 && sudo apt-get install -y -qq z80asm z80dasm binutils-z80 >/dev/null 2>&1) || true
 fi
 
 mkdir -p "$ROOT/rom"

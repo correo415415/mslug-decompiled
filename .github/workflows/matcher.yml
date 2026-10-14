@@ -145,9 +145,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if ! command -v z80asm >/dev/null 2>&1; then
+          if ! command -v z80asm >/dev/null 2>&1 || ! command -v z80-unknown-coff-as >/dev/null 2>&1; then
             SUDO=""; [ "$(id -u)" -ne 0 ] && SUDO="sudo -n"
-            $SUDO apt-get install -y -qq z80asm z80dasm
+            $SUDO apt-get install -y -qq z80asm z80dasm binutils-z80
           fi
           bash scripts/setup_mrom.sh "${{ steps.rom.outputs.zip }}" | tee ci_out/build_mrom.txt
           python3 mrom/tools/build_mrom.py 2>&1 | tee -a ci_out/build_mrom.txt

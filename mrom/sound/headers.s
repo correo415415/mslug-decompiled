@@ -1,0 +1,1366 @@
+/* headers.s - music / SFX pointer tables (indexed by 68k command - 20h) and the
+ * headers they point to (Seq_StartMusic_4FA3 / Seq_StartSfx_507B) */
+
+MusicTable:			/* file 0x0815f; BankPtrTable_0080[1]; 68k cmd 20h+id with type 00h */
+	PTR24 MusicHdr_00		/*   0 */
+	PTR24 MusicHdr_01		/*   1 */
+	PTR24 MusicHdr_02		/*   2 */
+	PTR24 MusicHdr_03		/*   3 */
+	PTR24 MusicHdr_04		/*   4 */
+	PTR24 MusicHdr_05		/*   5 */
+	PTR24 MusicHdr_06		/*   6 */
+	PTR24 MusicHdr_07		/*   7 */
+	PTR24 MusicHdr_08		/*   8 */
+	PTR24 MusicHdr_09		/*   9 */
+	PTR24 MusicHdr_10		/*  10 */
+	PTR24 MusicHdr_11		/*  11 */
+	PTR24 MusicHdr_12		/*  12 */
+
+MusicHdr_00:			/* file 0x08193 */
+	MUSIC_HDR 0x76
+	TRACK Music00_Trk0, 0
+	TRACK Music00_Trk1, 0
+	TRACK Music00_Trk2, 0
+	TRACK Music00_Trk3, 0
+	TRACK Music00_Trk4, 0
+	TRACK Music00_Trk5, 0
+	TRACK Music00_Trk6, 0
+	TRACK Music00_Trk7, 0
+	TRACK Music00_Trk8, 0
+	TRACK Music00_Trk9, 255
+	TRACK Music00_Trk10, 0
+	TRACKS_END
+
+MusicHdr_01:			/* file 0x081cf */
+	MUSIC_HDR 0x7e
+	TRACK Music01_Trk0, 0
+	TRACK Music01_Trk1, 0
+	TRACK Music01_Trk2, 0
+	TRACK Music01_Trk3, 0
+	TRACK Music01_Trk4, 255
+	TRACK Music01_Trk5, 0
+	TRACK Music01_Trk6, 0
+	TRACK Music01_Trk7, 0
+	TRACK Music01_Trk8, 255
+	TRACK Music01_Trk9, 255
+	TRACKS_END
+
+MusicHdr_02:			/* file 0x08206 */
+	MUSIC_HDR 0x82
+	TRACK Music02_Trk0, 0
+	TRACK Music02_Trk1, 0
+	TRACK Music02_Trk2, 0
+	TRACK Music02_Trk3, 0
+	TRACK Music02_Trk4, 255
+	TRACK Music02_Trk5, 0
+	TRACK Music02_Trk6, 0
+	TRACK Music02_Trk7, 0
+	TRACK Music02_Trk8, 255
+	TRACK Music02_Trk9, 255
+	TRACK Music02_Trk10, 0
+	TRACK Music02_Trk11, 255
+	TRACK Music02_Trk12, 255
+	TRACKS_END
+
+MusicHdr_03:			/* file 0x0824c */
+	MUSIC_HDR 0x49
+	TRACK Music03_Trk0, 0
+	TRACK Music03_Trk1, 0
+	TRACK Music03_Trk2, 0
+	TRACK Music03_Trk3, 0
+	TRACK Music03_Trk4, 0
+	TRACK Music03_Trk5, 255
+	TRACK Music03_Trk6, 0
+	TRACK Music03_Trk7, 0
+	TRACK Music03_Trk8, 255
+	TRACK Music03_Trk9, 255
+	TRACKS_END
+
+MusicHdr_04:			/* file 0x08283 */
+	MUSIC_HDR 0x81
+	TRACK Music04_Trk0, 0
+	TRACK Music04_Trk1, 0
+	TRACK Music04_Trk2, 0
+	TRACK Music04_Trk3, 0
+	TRACK Music04_Trk4, 0
+	TRACK Music04_Trk5, 0
+	TRACK Music04_Trk6, 0
+	TRACK Music04_Trk7, 0
+	TRACK Music04_Trk8, 0
+	TRACK Music04_Trk9, 0
+	TRACKS_END
+
+MusicHdr_05:			/* file 0x082ba */
+	MUSIC_HDR 0x80
+	TRACK Music05_Trk0, 0
+	TRACK Music05_Trk1, 0
+	TRACK Music05_Trk2, 0
+	TRACK Music05_Trk3, 0
+	TRACK Music05_Trk4, 0
+	TRACK Music05_Trk5, 0
+	TRACK Music05_Trk6, 0
+	TRACK Music05_Trk7, 0
+	TRACK Music05_Trk8, 0
+	TRACKS_END
+
+MusicHdr_06:			/* file 0x082ec */
+	MUSIC_HDR 0x82
+	TRACK Music06_Trk0, 0
+	TRACK Music06_Trk1, 0
+	TRACK Music06_Trk2, 0
+	TRACK Music06_Trk3, 0
+	TRACK Music06_Trk4, 0
+	TRACK Music06_Trk5, 0
+	TRACK Music06_Trk6, 0
+	TRACK Music06_Trk7, 0
+	TRACK Music06_Trk8, 0
+	TRACK Music06_Trk9, 0
+	TRACK Music06_Trk10, 0
+	TRACKS_END
+
+MusicHdr_07:			/* file 0x08328 */
+	MUSIC_HDR 0x6c
+	TRACK Music07_Trk0, 0
+	TRACK Music07_Trk1, 0
+	TRACK Music07_Trk2, 0
+	TRACK Music07_Trk3, 0
+	TRACK Music07_Trk4, 0
+	TRACK Music07_Trk5, 0
+	TRACK Music07_Trk6, 0
+	TRACK Music07_Trk7, 0
+	TRACK Music07_Trk8, 0
+	TRACKS_END
+
+MusicHdr_08:			/* file 0x0835a */
+	MUSIC_HDR 0x86
+	TRACK Music08_Trk0, 0
+	TRACK Music08_Trk1, 0
+	TRACK Music08_Trk2, 0
+	TRACK Music08_Trk3, 0
+	TRACK Music08_Trk4, 0
+	TRACK Music08_Trk5, 0
+	TRACK Music08_Trk6, 0
+	TRACK Music08_Trk7, 0
+	TRACK Music08_Trk8, 0
+	TRACK Music08_Trk9, 0
+	TRACK Music08_Trk10, 0
+	TRACKS_END
+
+MusicHdr_09:			/* file 0x08396 */
+	MUSIC_HDR 0x7a
+	TRACK Music09_Trk0, 0
+	TRACK Music09_Trk1, 0
+	TRACK Music09_Trk2, 0
+	TRACK Music09_Trk3, 0
+	TRACK Music09_Trk4, 0
+	TRACK Music09_Trk5, 0
+	TRACK Music09_Trk6, 0
+	TRACK Music09_Trk7, 0
+	TRACK Music09_Trk8, 0
+	TRACK Music09_Trk9, 0
+	TRACK Music09_Trk10, 0
+	TRACKS_END
+
+MusicHdr_10:			/* file 0x083d2 */
+	MUSIC_HDR 0x7a
+	TRACK Music10_Trk0, 0
+	TRACK Music10_Trk1, 0
+	TRACK Music10_Trk2, 0
+	TRACK Music10_Trk3, 0
+	TRACK Music10_Trk4, 0
+	TRACK Music10_Trk5, 0
+	TRACK Music10_Trk6, 0
+	TRACK Music10_Trk7, 0
+	TRACK Music10_Trk8, 0
+	TRACK Music10_Trk9, 0
+	TRACK Music10_Trk10, 0
+	TRACK Music10_Trk11, 0
+	TRACK Music10_Trk12, 0
+	TRACK Music10_Trk13, 0
+	TRACKS_END
+
+MusicHdr_11:			/* file 0x0841d */
+	MUSIC_HDR 0x76
+	TRACK Music11_Trk0, 0
+	TRACK Music11_Trk1, 0
+	TRACK Music11_Trk2, 0
+	TRACK Music11_Trk3, 0
+	TRACK Music11_Trk4, 0
+	TRACKS_END
+
+MusicHdr_12:			/* file 0x0843b */
+	MUSIC_HDR 0x32
+	TRACK Music12_Trk0, 0
+	TRACK Music12_Trk1, 0
+	TRACK Music12_Trk2, 0
+	TRACK Music12_Trk3, 0
+	TRACK Music12_Trk4, 0
+	TRACK Music12_Trk5, 0
+	TRACK Music12_Trk6, 0
+	TRACK Music12_Trk7, 0
+	TRACK Music12_Trk8, 0
+	TRACK Music12_Trk9, 0
+	TRACKS_END
+
+SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it) */
+	PTR24 SfxAHdr_000		/*   0 */
+	PTR24 SfxAHdr_001		/*   1 */
+	PTR24 SfxAHdr_002		/*   2 */
+	PTR24 SfxAHdr_003		/*   3 */
+	PTR24 SfxAHdr_004		/*   4 */
+	PTR24 SfxAHdr_005		/*   5 */
+	PTR24 SfxAHdr_006		/*   6 */
+	PTR24 SfxAHdr_007		/*   7 */
+	PTR24 SfxAHdr_008		/*   8 */
+	PTR24 SfxAHdr_009		/*   9 */
+	PTR24 SfxAHdr_010		/*  10 */
+	PTR24 SfxAHdr_011		/*  11 */
+	PTR24 SfxAHdr_012		/*  12 */
+	PTR24 SfxAHdr_013		/*  13 */
+	PTR24 SfxAHdr_014		/*  14 */
+	PTR24 SfxAHdr_015		/*  15 */
+	PTR24 SfxAHdr_016		/*  16 */
+	PTR24 0		/*  17 */
+	PTR24 SfxAHdr_018		/*  18 */
+	PTR24 SfxAHdr_019		/*  19 */
+	PTR24 SfxAHdr_020		/*  20 */
+	PTR24 SfxAHdr_021		/*  21 */
+	PTR24 SfxAHdr_022		/*  22 */
+	PTR24 SfxAHdr_023		/*  23 */
+	PTR24 SfxAHdr_024		/*  24 */
+	PTR24 SfxAHdr_025		/*  25 */
+	PTR24 0		/*  26 */
+	PTR24 0		/*  27 */
+	PTR24 0		/*  28 */
+	PTR24 0		/*  29 */
+	PTR24 SfxAHdr_030		/*  30 */
+	PTR24 SfxAHdr_031		/*  31 */
+	PTR24 SfxAHdr_032		/*  32 */
+	PTR24 SfxAHdr_033		/*  33 */
+	PTR24 SfxAHdr_034		/*  34 */
+	PTR24 SfxAHdr_035		/*  35 */
+	PTR24 SfxAHdr_036		/*  36 */
+	PTR24 0		/*  37 */
+	PTR24 0		/*  38 */
+	PTR24 0		/*  39 */
+	PTR24 SfxAHdr_040		/*  40 */
+	PTR24 0		/*  41 */
+	PTR24 SfxAHdr_042		/*  42 */
+	PTR24 SfxAHdr_043		/*  43 */
+	PTR24 SfxAHdr_044		/*  44 */
+	PTR24 SfxAHdr_045		/*  45 */
+	PTR24 SfxAHdr_046		/*  46 */
+	PTR24 SfxAHdr_047		/*  47 */
+	PTR24 0		/*  48 */
+	PTR24 SfxAHdr_049		/*  49 */
+	PTR24 SfxAHdr_050		/*  50 */
+	PTR24 SfxAHdr_051		/*  51 */
+	PTR24 SfxAHdr_052		/*  52 */
+	PTR24 SfxAHdr_053		/*  53 */
+	PTR24 SfxAHdr_054		/*  54 */
+	PTR24 0		/*  55 */
+	PTR24 0		/*  56 */
+	PTR24 0		/*  57 */
+	PTR24 0		/*  58 */
+	PTR24 0		/*  59 */
+	PTR24 SfxAHdr_060		/*  60 */
+	PTR24 SfxAHdr_061		/*  61 */
+	PTR24 SfxAHdr_062		/*  62 */
+	PTR24 0		/*  63 */
+	PTR24 SfxAHdr_064		/*  64 */
+	PTR24 SfxAHdr_065		/*  65 */
+	PTR24 SfxAHdr_066		/*  66 */
+	PTR24 0		/*  67 */
+	PTR24 SfxAHdr_068		/*  68 */
+	PTR24 SfxAHdr_069		/*  69 */
+	PTR24 SfxAHdr_070		/*  70 */
+	PTR24 SfxAHdr_071		/*  71 */
+	PTR24 0		/*  72 */
+	PTR24 SfxAHdr_073		/*  73 */
+	PTR24 SfxAHdr_074		/*  74 */
+	PTR24 0		/*  75 */
+	PTR24 0		/*  76 */
+	PTR24 0		/*  77 */
+	PTR24 0		/*  78 */
+	PTR24 0		/*  79 */
+	PTR24 0		/*  80 */
+	PTR24 SfxAHdr_081		/*  81 */
+	PTR24 0		/*  82 */
+	PTR24 SfxAHdr_083		/*  83 */
+	PTR24 SfxAHdr_084		/*  84 */
+	PTR24 SfxAHdr_085		/*  85 */
+	PTR24 SfxAHdr_086		/*  86 */
+	PTR24 SfxAHdr_087		/*  87 */
+	PTR24 0		/*  88 */
+	PTR24 0		/*  89 */
+	PTR24 0		/*  90 */
+	PTR24 0		/*  91 */
+	PTR24 0		/*  92 */
+	PTR24 0		/*  93 */
+	PTR24 0		/*  94 */
+	PTR24 SfxAHdr_095		/*  95 */
+	PTR24 SfxAHdr_096		/*  96 */
+	PTR24 SfxAHdr_097		/*  97 */
+	PTR24 0		/*  98 */
+	PTR24 SfxAHdr_099		/*  99 */
+	PTR24 SfxAHdr_100		/* 100 */
+	PTR24 SfxAHdr_101		/* 101 */
+	PTR24 SfxAHdr_102		/* 102 */
+	PTR24 SfxAHdr_103		/* 103 */
+	PTR24 0		/* 104 */
+	PTR24 SfxAHdr_105		/* 105 */
+	PTR24 SfxAHdr_106		/* 106 */
+	PTR24 SfxAHdr_107		/* 107 */
+	PTR24 SfxAHdr_108		/* 108 */
+	PTR24 SfxAHdr_109		/* 109 */
+	PTR24 SfxAHdr_110		/* 110 */
+	PTR24 SfxAHdr_111		/* 111 */
+	PTR24 SfxAHdr_112		/* 112 */
+	PTR24 SfxAHdr_113		/* 113 */
+	PTR24 SfxAHdr_114		/* 114 */
+	PTR24 0		/* 115 */
+	PTR24 0		/* 116 */
+	PTR24 0		/* 117 */
+	PTR24 0		/* 118 */
+	PTR24 0		/* 119 */
+	PTR24 SfxAHdr_120		/* 120 */
+	PTR24 SfxAHdr_121		/* 121 */
+	PTR24 0		/* 122 */
+	PTR24 SfxAHdr_123		/* 123 */
+	PTR24 SfxAHdr_124		/* 124 */
+	PTR24 SfxAHdr_125		/* 125 */
+	PTR24 SfxAHdr_126		/* 126 */
+	PTR24 SfxAHdr_127		/* 127 */
+	PTR24 SfxAHdr_128		/* 128 */
+	PTR24 SfxAHdr_129		/* 129 */
+	PTR24 SfxAHdr_130		/* 130 */
+	PTR24 SfxAHdr_131		/* 131 */
+	PTR24 SfxAHdr_132		/* 132 */
+	PTR24 SfxAHdr_133		/* 133 */
+	PTR24 SfxAHdr_134		/* 134 */
+	PTR24 SfxAHdr_135		/* 135 */
+	PTR24 SfxAHdr_136		/* 136 */
+	PTR24 SfxAHdr_137		/* 137 */
+	PTR24 SfxAHdr_138		/* 138 */
+	PTR24 SfxAHdr_139		/* 139 */
+	PTR24 SfxAHdr_140		/* 140 */
+	PTR24 SfxAHdr_141		/* 141 */
+	PTR24 SfxAHdr_142		/* 142 */
+	PTR24 SfxAHdr_143		/* 143 */
+	PTR24 SfxAHdr_144		/* 144 */
+	PTR24 SfxAHdr_145		/* 145 */
+	PTR24 SfxAHdr_146		/* 146 */
+	PTR24 SfxAHdr_147		/* 147 */
+	PTR24 SfxAHdr_148		/* 148 */
+	PTR24 SfxAHdr_149		/* 149 */
+	PTR24 SfxAHdr_150		/* 150 */
+	PTR24 SfxAHdr_151		/* 151 */
+	PTR24 SfxAHdr_152		/* 152 */
+	PTR24 SfxAHdr_153		/* 153 */
+	PTR24 SfxAHdr_154		/* 154 */
+	PTR24 SfxAHdr_155		/* 155 */
+	PTR24 0		/* 156 */
+	PTR24 0		/* 157 */
+	PTR24 0		/* 158 */
+	PTR24 SfxAHdr_159		/* 159 */
+	PTR24 SfxAHdr_160		/* 160 */
+	PTR24 SfxAHdr_161		/* 161 */
+	PTR24 SfxAHdr_162		/* 162 */
+	PTR24 SfxAHdr_163		/* 163 */
+	PTR24 SfxAHdr_164		/* 164 */
+	PTR24 SfxAHdr_165		/* 165 */
+	PTR24 SfxAHdr_166		/* 166 */
+	PTR24 0		/* 167 */
+	PTR24 0		/* 168 */
+	PTR24 0		/* 169 */
+	PTR24 0		/* 170 */
+	PTR24 0		/* 171 */
+	PTR24 0		/* 172 */
+	PTR24 0		/* 173 */
+	PTR24 0		/* 174 */
+	PTR24 0		/* 175 */
+	PTR24 0		/* 176 */
+	PTR24 0		/* 177 */
+	PTR24 0		/* 178 */
+	PTR24 0		/* 179 */
+	PTR24 SfxAHdr_180		/* 180 */
+	PTR24 SfxAHdr_181		/* 181 */
+	PTR24 SfxAHdr_182		/* 182 */
+	PTR24 SfxAHdr_183		/* 183 */
+	PTR24 SfxAHdr_184		/* 184 */
+	PTR24 0		/* 185 */
+	PTR24 0		/* 186 */
+	PTR24 0		/* 187 */
+	PTR24 0		/* 188 */
+	PTR24 0		/* 189 */
+	PTR24 SfxAHdr_190		/* 190 */
+	PTR24 SfxAHdr_191		/* 191 */
+	PTR24 SfxAHdr_192		/* 192 */
+	PTR24 SfxAHdr_193		/* 193 */
+	PTR24 SfxAHdr_194		/* 194 */
+	PTR24 SfxAHdr_195		/* 195 */
+	PTR24 SfxAHdr_196		/* 196 */
+	PTR24 0		/* 197 */
+	PTR24 0		/* 198 */
+	PTR24 0		/* 199 */
+	PTR24 SfxAHdr_200		/* 200 */
+	PTR24 SfxAHdr_201		/* 201 */
+	PTR24 SfxAHdr_202		/* 202 */
+	PTR24 0		/* 203 */
+	PTR24 0		/* 204 */
+	PTR24 0		/* 205 */
+	PTR24 0		/* 206 */
+	PTR24 0		/* 207 */
+	PTR24 0		/* 208 */
+	PTR24 0		/* 209 */
+	PTR24 SfxAHdr_210		/* 210 */
+	PTR24 SfxAHdr_211		/* 211 */
+	PTR24 SfxAHdr_212		/* 212 */
+	PTR24 SfxAHdr_213		/* 213 */
+	PTR24 SfxAHdr_214		/* 214 */
+	PTR24 SfxAHdr_215		/* 215 */
+	PTR24 0		/* 216 */
+	PTR24 0		/* 217 */
+	PTR24 SfxAHdr_218		/* 218 */
+	PTR24 SfxAHdr_219		/* 219 */
+	PTR24 SfxAHdr_220		/* 220 */
+	PTR24 SfxAHdr_221		/* 221 */
+	PTR24 0		/* 222 */
+	PTR24 SfxAHdr_223		/* 223 */
+
+SfxTableB:			/* file 0x087f2; BankPtrTable_0080[3]; type 11h */
+	PTR24 0		/*   0 */
+	PTR24 SfxBHdr_001		/*   1 */
+	PTR24 0		/*   2 */
+	PTR24 SfxBHdr_003		/*   3 */
+	PTR24 SfxBHdr_004		/*   4 */
+	PTR24 0		/*   5 */
+	PTR24 SfxBHdr_006		/*   6 */
+	PTR24 SfxBHdr_007		/*   7 */
+	PTR24 SfxBHdr_008		/*   8 */
+	PTR24 SfxBHdr_009		/*   9 */
+	PTR24 SfxBHdr_010		/*  10 */
+	PTR24 SfxBHdr_011		/*  11 */
+	PTR24 SfxBHdr_012		/*  12 */
+	PTR24 SfxBHdr_013		/*  13 */
+	PTR24 SfxBHdr_014		/*  14 */
+	PTR24 SfxBHdr_015		/*  15 */
+	PTR24 0		/*  16 */
+	PTR24 SfxBHdr_017		/*  17 */
+	PTR24 SfxBHdr_018		/*  18 */
+	PTR24 SfxBHdr_019		/*  19 */
+	PTR24 SfxBHdr_020		/*  20 */
+	PTR24 SfxBHdr_021		/*  21 */
+	PTR24 SfxBHdr_022		/*  22 */
+	PTR24 SfxBHdr_023		/*  23 */
+	PTR24 SfxBHdr_024		/*  24 */
+	PTR24 0		/*  25 */
+	PTR24 SfxBHdr_026		/*  26 */
+	PTR24 0		/*  27 */
+	PTR24 SfxBHdr_028		/*  28 */
+	PTR24 SfxBHdr_029		/*  29 */
+	PTR24 SfxBHdr_030		/*  30 */
+	PTR24 SfxBHdr_031		/*  31 */
+	PTR24 SfxBHdr_032		/*  32 */
+
+SfxAHdr_000:			/* file 0x08876 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA000_Trk0, 12
+	TRACKS_END
+
+SfxAHdr_001:			/* file 0x08888 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA001_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_002:			/* file 0x0889a */
+	SFX_HDR 0x109b, 0x10a3, 0x0000, 0x0000, 0x01
+	TRACK SfxA002_Trk0, 15
+	TRACKS_END
+
+SfxAHdr_003:			/* file 0x088ac */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA003_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_004:			/* file 0x088be */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA004_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_005:			/* file 0x088d0 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA005_Trk0, 15
+	TRACKS_END
+
+SfxAHdr_006:			/* file 0x088e2 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA006_Trk0, 12
+	TRACKS_END
+
+SfxAHdr_007:			/* file 0x088f4 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA007_Trk0, 17
+	TRACKS_END
+
+SfxAHdr_008:			/* file 0x08906 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA008_Trk0, 12
+	TRACKS_END
+
+SfxAHdr_009:			/* file 0x08918 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA009_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_010:			/* file 0x0892a */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA010_Trk0, 17
+	TRACKS_END
+
+SfxAHdr_011:			/* file 0x0893c */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA011_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_012:			/* file 0x0894e */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA012_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_013:			/* file 0x08960 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA013_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_014:			/* file 0x08972 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA014_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_015:			/* file 0x08984 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA015_Trk0, 12
+	TRACKS_END
+
+SfxAHdr_016:			/* file 0x08996 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA016_Trk0, 12
+	TRACKS_END
+
+SfxAHdr_018:			/* file 0x089a8 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA018_Trk0, 12
+	TRACKS_END
+
+SfxAHdr_019:			/* file 0x089ba */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA019_Trk0, 12
+	TRACKS_END
+
+SfxAHdr_020:			/* file 0x089cc */
+	SFX_HDR 0x10e9, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA020_Trk0, 10
+	TRACKS_END
+
+SfxAHdr_021:			/* file 0x089de */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA021_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_022:			/* file 0x089f0 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA022_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_023:			/* file 0x08a02 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA023_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_024:			/* file 0x08a14 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA024_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_025:			/* file 0x08a26 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA025_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_030:			/* file 0x08a38 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA030_Trk0, 32
+	TRACKS_END
+
+SfxAHdr_031:			/* file 0x08a4a */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA031_Trk0, 33
+	TRACKS_END
+
+SfxAHdr_032:			/* file 0x08a5c */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA032_Trk0, 32
+	TRACKS_END
+
+SfxAHdr_033:			/* file 0x08a6e */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA033_Trk0, 32
+	TRACKS_END
+
+SfxAHdr_034:			/* file 0x08a80 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA034_Trk0, 32
+	TRACKS_END
+
+SfxAHdr_035:			/* file 0x08a92 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA035_Trk0, 33
+	TRACKS_END
+
+SfxAHdr_036:			/* file 0x08aa4 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA036_Trk0, 30
+	TRACKS_END
+
+SfxAHdr_040:			/* file 0x08ab6 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA040_Trk0, 31
+	TRACKS_END
+
+SfxAHdr_042:			/* file 0x08ac8 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA042_Trk0, 31
+	TRACKS_END
+
+SfxAHdr_043:			/* file 0x08ada */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA043_Trk0, 31
+	TRACKS_END
+
+SfxAHdr_044:			/* file 0x08aec */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA044_Trk0, 31
+	TRACKS_END
+
+SfxAHdr_045:			/* file 0x08afe */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA045_Trk0, 31
+	TRACKS_END
+
+SfxAHdr_046:			/* file 0x08b10 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA046_Trk0, 31
+	TRACKS_END
+
+SfxAHdr_047:			/* file 0x08b22 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA047_Trk0, 30
+	TRACKS_END
+
+SfxAHdr_049:			/* file 0x08b34 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxA049_Trk0, 51
+	TRACKS_END
+
+SfxAHdr_050:			/* file 0x08b46 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxA050_Trk0, 51
+	TRACKS_END
+
+SfxAHdr_051:			/* file 0x08b58 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxA051_Trk0, 50
+	TRACKS_END
+
+SfxAHdr_052:			/* file 0x08b6a */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxA052_Trk0, 30
+	TRACKS_END
+
+SfxAHdr_053:			/* file 0x08b7c */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA053_Trk0, 31
+	TRACKS_END
+
+SfxAHdr_054:			/* file 0x08b8e */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA054_Trk0, 31
+	TRACKS_END
+
+SfxAHdr_060:			/* file 0x08ba0 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA060_Trk0, 15
+	TRACKS_END
+
+SfxAHdr_061:			/* file 0x08bb2 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA061_Trk0, 16
+	TRACKS_END
+
+SfxAHdr_062:			/* file 0x08bc4 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA062_Trk0, 15
+	TRACKS_END
+
+SfxAHdr_064:			/* file 0x08bd6 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA064_Trk0, 16
+	TRACKS_END
+
+SfxAHdr_065:			/* file 0x08be8 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x04
+	TRACK SfxA065_Trk0, 29
+	TRACKS_END
+
+SfxAHdr_066:			/* file 0x08bfa */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x04
+	TRACK SfxA066_Trk0, 29
+	TRACKS_END
+
+SfxAHdr_068:			/* file 0x08c0c */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA068_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_069:			/* file 0x08c1e */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA069_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_070:			/* file 0x08c30 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA070_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_071:			/* file 0x08c42 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA071_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_073:			/* file 0x08c54 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x04
+	TRACK SfxA073_Trk0, 28
+	TRACKS_END
+
+SfxAHdr_074:			/* file 0x08c66 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x04
+	TRACK SfxA074_Trk0, 28
+	TRACKS_END
+
+SfxAHdr_081:			/* file 0x08c78 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA081_Trk0, 11
+	TRACKS_END
+
+SfxAHdr_083:			/* file 0x08c8a */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x05
+	TRACK SfxA083_Trk0, 81
+	TRACKS_END
+
+SfxAHdr_084:			/* file 0x08c9c */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x05
+	TRACK SfxA084_Trk0, 80
+	TRACKS_END
+
+SfxAHdr_085:			/* file 0x08cae */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x05
+	TRACK SfxA085_Trk0, 80
+	TRACKS_END
+
+SfxAHdr_086:			/* file 0x08cc0 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x05
+	TRACK SfxA086_Trk0, 81
+	TRACKS_END
+
+SfxAHdr_087:			/* file 0x08cd2 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA087_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_095:			/* file 0x08ce4 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA095_Trk0, 1
+	TRACK SfxA095_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_096:			/* file 0x08cfb */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA096_Trk0, 1
+	TRACK SfxA096_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_097:			/* file 0x08d12 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA097_Trk0, 1
+	TRACK SfxA097_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_099:			/* file 0x08d29 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA099_Trk0, 1
+	TRACK SfxA099_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_100:			/* file 0x08d40 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA100_Trk0, 100
+	TRACKS_END
+
+SfxAHdr_101:			/* file 0x08d52 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA101_Trk0, 16
+	TRACKS_END
+
+SfxAHdr_102:			/* file 0x08d64 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA102_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_103:			/* file 0x08d76 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA103_Trk0, 29
+	TRACKS_END
+
+SfxAHdr_105:			/* file 0x08d88 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA105_Trk0, 13
+	TRACKS_END
+
+SfxAHdr_106:			/* file 0x08d9a */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA106_Trk0, 101
+	TRACKS_END
+
+SfxAHdr_107:			/* file 0x08dac */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA107_Trk0, 101
+	TRACKS_END
+
+SfxAHdr_108:			/* file 0x08dbe */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA108_Trk0, 101
+	TRACKS_END
+
+SfxAHdr_109:			/* file 0x08dd0 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA109_Trk0, 100
+	TRACKS_END
+
+SfxAHdr_110:			/* file 0x08de2 */
+	SFX_HDR 0x10ae, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA110_Trk0, 100
+	TRACKS_END
+
+SfxAHdr_111:			/* file 0x08df4 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA111_Trk0, 110
+	TRACKS_END
+
+SfxAHdr_112:			/* file 0x08e06 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA112_Trk0, 110
+	TRACKS_END
+
+SfxAHdr_113:			/* file 0x08e18 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA113_Trk0, 110
+	TRACKS_END
+
+SfxAHdr_114:			/* file 0x08e2a */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
+	TRACK SfxA114_Trk0, 110
+	TRACKS_END
+
+SfxAHdr_120:			/* file 0x08e3c */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA120_Trk0, 120
+	TRACKS_END
+
+SfxAHdr_121:			/* file 0x08e4e */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA121_Trk0, 120
+	TRACK SfxA121_Trk1, 0
+	TRACKS_END
+
+SfxAHdr_123:			/* file 0x08e65 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA123_Trk0, 130
+	TRACKS_END
+
+SfxAHdr_124:			/* file 0x08e77 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA124_Trk0, 120
+	TRACK SfxA124_Trk1, 0
+	TRACKS_END
+
+SfxAHdr_125:			/* file 0x08e8e */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA125_Trk0, 0
+	TRACKS_END
+
+SfxAHdr_126:			/* file 0x08ea0 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA126_Trk0, 0
+	TRACKS_END
+
+SfxAHdr_127:			/* file 0x08eb2 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x08
+	TRACK SfxA127_Trk0, 150
+	TRACKS_END
+
+SfxAHdr_128:			/* file 0x08ec4 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA128_Trk0, 140
+	TRACKS_END
+
+SfxAHdr_129:			/* file 0x08ed6 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA129_Trk0, 130
+	TRACKS_END
+
+SfxAHdr_130:			/* file 0x08ee8 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA130_Trk0, 120
+	TRACK SfxA130_Trk1, 0
+	TRACKS_END
+
+SfxAHdr_131:			/* file 0x08eff */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0f
+	TRACK SfxA131_Trk0, 130
+	TRACK SfxA131_Trk1, 130
+	TRACKS_END
+
+SfxAHdr_132:			/* file 0x08f16 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x10
+	TRACK SfxA132_Trk0, 140
+	TRACK SfxA132_Trk1, 140
+	TRACKS_END
+
+SfxAHdr_133:			/* file 0x08f2d */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA133_Trk0, 120
+	TRACKS_END
+
+SfxAHdr_134:			/* file 0x08f3f */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA134_Trk0, 170
+	TRACKS_END
+
+SfxAHdr_135:			/* file 0x08f51 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x11
+	TRACK SfxA135_Trk0, 125
+	TRACKS_END
+
+SfxAHdr_136:			/* file 0x08f63 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x11
+	TRACK SfxA136_Trk0, 150
+	TRACKS_END
+
+SfxAHdr_137:			/* file 0x08f75 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x12
+	TRACK SfxA137_Trk0, 170
+	TRACKS_END
+
+SfxAHdr_138:			/* file 0x08f87 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA138_Trk0, 130
+	TRACKS_END
+
+SfxAHdr_139:			/* file 0x08f99 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA139_Trk0, 130
+	TRACKS_END
+
+SfxAHdr_140:			/* file 0x08fab */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA140_Trk0, 130
+	TRACKS_END
+
+SfxAHdr_141:			/* file 0x08fbd */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA141_Trk0, 130
+	TRACKS_END
+
+SfxAHdr_142:			/* file 0x08fcf */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x13
+	TRACK SfxA142_Trk0, 120
+	TRACKS_END
+
+SfxAHdr_143:			/* file 0x08fe1 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0b
+	TRACK SfxA143_Trk0, 170
+	TRACKS_END
+
+SfxAHdr_144:			/* file 0x08ff3 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0b
+	TRACK SfxA144_Trk0, 170
+	TRACKS_END
+
+SfxAHdr_145:			/* file 0x09005 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0b
+	TRACK SfxA145_Trk0, 170
+	TRACKS_END
+
+SfxAHdr_146:			/* file 0x09017 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0b
+	TRACK SfxA146_Trk0, 170
+	TRACKS_END
+
+SfxAHdr_147:			/* file 0x09029 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0c
+	TRACK SfxA147_Trk0, 120
+	TRACKS_END
+
+SfxAHdr_148:			/* file 0x0903b */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA148_Trk0, 0
+	TRACKS_END
+
+SfxAHdr_149:			/* file 0x0904d */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0d
+	TRACK SfxA149_Trk0, 121
+	TRACKS_END
+
+SfxAHdr_150:			/* file 0x0905f */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0d
+	TRACK SfxA150_Trk0, 121
+	TRACKS_END
+
+SfxAHdr_151:			/* file 0x09071 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0d
+	TRACK SfxA151_Trk0, 121
+	TRACKS_END
+
+SfxAHdr_152:			/* file 0x09083 */
+	SFX_HDR 0x10c3, 0x10c4, 0x10c5, 0x0000, 0x0d
+	TRACK SfxA152_Trk0, 121
+	TRACKS_END
+
+SfxAHdr_153:			/* file 0x09095 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0d
+	TRACK SfxA153_Trk0, 121
+	TRACKS_END
+
+SfxAHdr_154:			/* file 0x090a7 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA154_Trk0, 0
+	TRACKS_END
+
+SfxAHdr_155:			/* file 0x090b9 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA155_Trk0, 0
+	TRACKS_END
+
+SfxAHdr_159:			/* file 0x090cb */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA159_Trk0, 120
+	TRACKS_END
+
+SfxAHdr_160:			/* file 0x090dd */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA160_Trk0, 170
+	TRACKS_END
+
+SfxAHdr_161:			/* file 0x090ef */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA161_Trk0, 120
+	TRACKS_END
+
+SfxAHdr_162:			/* file 0x09101 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
+	TRACK SfxA162_Trk0, 120
+	TRACKS_END
+
+SfxAHdr_163:			/* file 0x09113 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x15
+	TRACK SfxA163_Trk0, 121
+	TRACKS_END
+
+SfxAHdr_164:			/* file 0x09125 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x15
+	TRACK SfxA164_Trk0, 121
+	TRACKS_END
+
+SfxAHdr_165:			/* file 0x09137 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x15
+	TRACK SfxA165_Trk0, 121
+	TRACKS_END
+
+SfxAHdr_166:			/* file 0x09149 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0f
+	TRACK SfxA166_Trk0, 130
+	TRACKS_END
+
+SfxAHdr_180:			/* file 0x0915b */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
+	TRACK SfxA180_Trk0, 1
+	TRACKS_END
+
+SfxAHdr_181:			/* file 0x0916d */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
+	TRACK SfxA181_Trk0, 1
+	TRACK SfxA181_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_182:			/* file 0x09184 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
+	TRACK SfxA182_Trk0, 1
+	TRACKS_END
+
+SfxAHdr_183:			/* file 0x09196 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
+	TRACK SfxA183_Trk0, 1
+	TRACK SfxA183_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_184:			/* file 0x091ad */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
+	TRACK SfxA184_Trk0, 1
+	TRACKS_END
+
+SfxAHdr_190:			/* file 0x091bf */
+	SFX_HDR 0x10df, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA190_Trk0, 1
+	TRACK SfxA190_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_191:			/* file 0x091d6 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA191_Trk0, 1
+	TRACK SfxA191_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_192:			/* file 0x091ed */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA192_Trk0, 0
+	TRACK SfxA192_Trk1, 0
+	TRACK SfxA192_Trk2, 0
+	TRACKS_END
+
+SfxAHdr_193:			/* file 0x09209 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA193_Trk0, 1
+	TRACKS_END
+
+SfxAHdr_194:			/* file 0x0921b */
+	SFX_HDR 0x10df, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA194_Trk0, 1
+	TRACKS_END
+
+SfxAHdr_195:			/* file 0x0922d */
+	SFX_HDR 0x10df, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA195_Trk0, 1
+	TRACK SfxA195_Trk1, 1
+	TRACKS_END
+
+SfxAHdr_196:			/* file 0x09244 */
+	SFX_HDR 0x10df, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA196_Trk0, 1
+	TRACKS_END
+
+SfxAHdr_200:			/* file 0x09256 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA200_Trk0, 120
+	TRACKS_END
+
+SfxAHdr_201:			/* file 0x09268 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
+	TRACK SfxA201_Trk0, 1
+	TRACKS_END
+
+SfxAHdr_202:			/* file 0x0927a */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
+	TRACK SfxA202_Trk0, 130
+	TRACKS_END
+
+SfxAHdr_210:			/* file 0x0928c */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA210_Trk0, 99
+	TRACKS_END
+
+SfxAHdr_211:			/* file 0x0929e */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA211_Trk0, 101
+	TRACKS_END
+
+SfxAHdr_212:			/* file 0x092b0 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA212_Trk0, 101
+	TRACKS_END
+
+SfxAHdr_213:			/* file 0x092c2 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA213_Trk0, 101
+	TRACKS_END
+
+SfxAHdr_214:			/* file 0x092d4 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA214_Trk0, 101
+	TRACKS_END
+
+SfxAHdr_215:			/* file 0x092e6 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA215_Trk0, 101
+	TRACKS_END
+
+SfxAHdr_218:			/* file 0x092f8 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA218_Trk0, 14
+	TRACKS_END
+
+SfxAHdr_219:			/* file 0x0930a */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA219_Trk0, 100
+	TRACKS_END
+
+SfxAHdr_220:			/* file 0x0931c */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
+	TRACK SfxA220_Trk0, 102
+	TRACKS_END
+
+SfxAHdr_221:			/* file 0x0932e */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxA221_Trk0, 10
+	TRACKS_END
+
+SfxAHdr_223:			/* file 0x09340 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
+	TRACK SfxA223_Trk0, 14
+	TRACKS_END
+
+SfxBHdr_001:			/* file 0x09352 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x15
+	TRACK SfxB001_Trk0, 1
+	TRACK SfxB001_Trk1, 0
+	TRACKS_END
+
+SfxBHdr_003:			/* file 0x09369 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
+	TRACK SfxB003_Trk0, 10
+	TRACKS_END
+
+SfxBHdr_004:			/* file 0x0937b */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB004_Trk0, 8
+	TRACKS_END
+
+SfxBHdr_006:			/* file 0x0938d */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB006_Trk0, 8
+	TRACKS_END
+
+SfxBHdr_007:			/* file 0x0939f */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB007_Trk0, 8
+	TRACKS_END
+
+SfxBHdr_008:			/* file 0x093b1 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB008_Trk0, 8
+	TRACKS_END
+
+SfxBHdr_009:			/* file 0x093c3 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB009_Trk0, 8
+	TRACKS_END
+
+SfxBHdr_010:			/* file 0x093d5 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB010_Trk0, 8
+	TRACKS_END
+
+SfxBHdr_011:			/* file 0x093e7 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB011_Trk0, 8
+	TRACKS_END
+
+SfxBHdr_012:			/* file 0x093f9 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB012_Trk0, 5
+	TRACKS_END
+
+SfxBHdr_013:			/* file 0x0940b */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB013_Trk0, 5
+	TRACKS_END
+
+SfxBHdr_014:			/* file 0x0941d */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB014_Trk0, 5
+	TRACKS_END
+
+SfxBHdr_015:			/* file 0x0942f */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
+	TRACK SfxB015_Trk0, 5
+	TRACKS_END
+
+SfxBHdr_017:			/* file 0x09441 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB017_Trk0, 1
+	TRACKS_END
+
+SfxBHdr_018:			/* file 0x09453 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB018_Trk0, 1
+	TRACKS_END
+
+SfxBHdr_019:			/* file 0x09465 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB019_Trk0, 1
+	TRACKS_END
+
+SfxBHdr_020:			/* file 0x09477 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB020_Trk0, 1
+	TRACKS_END
+
+SfxBHdr_021:			/* file 0x09489 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB021_Trk0, 1
+	TRACKS_END
+
+SfxBHdr_022:			/* file 0x0949b */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB022_Trk0, 1
+	TRACKS_END
+
+SfxBHdr_023:			/* file 0x094ad */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB023_Trk0, 1
+	TRACKS_END
+
+SfxBHdr_024:			/* file 0x094bf */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB024_Trk0, 10
+	TRACKS_END
+
+SfxBHdr_026:			/* file 0x094d1 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB026_Trk0, 9
+	TRACKS_END
+
+SfxBHdr_028:			/* file 0x094e3 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB028_Trk0, 10
+	TRACKS_END
+
+SfxBHdr_029:			/* file 0x094f5 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB029_Trk0, 10
+	TRACKS_END
+
+SfxBHdr_030:			/* file 0x09507 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB030_Trk0, 10
+	TRACKS_END
+
+SfxBHdr_031:			/* file 0x09519 */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB031_Trk0, 10
+	TRACKS_END
+
+SfxBHdr_032:			/* file 0x0952b */
+	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
+	TRACK SfxB032_Trk0, 10
+	TRACKS_END
