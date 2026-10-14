@@ -44,3 +44,4 @@ internal/**/*.png
 !internal/mslug.zip
 build/patch_backup/
 build/mrom/
+build/assets/
