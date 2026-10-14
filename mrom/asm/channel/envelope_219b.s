@@ -12,13 +12,13 @@ Seq_LoadOpPtrs_219B:
 	ld c,000h		;21a7
 	ld b,c			;21a9
 	and a			;21aa
-	jp z,l21b4h		;21ab
+	jp z,Seq_LoadOpPtrs_L21B4		;21ab
 	ld l,a			;21ae
 	ld h,01bh		;21af
 	ld c,(hl)			;21b1
 	inc h			;21b2
 	ld b,(hl)			;21b3
-l21b4h:
+Seq_LoadOpPtrs_L21B4:
 	ld (ix+002h),c		;21b4
 	ld (ix+003h),b		;21b7
 	exx			;21ba
@@ -28,13 +28,13 @@ l21b4h:
 	ld c,000h		;21be
 	ld b,c			;21c0
 	and a			;21c1
-	jp z,l21cbh		;21c2
+	jp z,Seq_LoadOpPtrs_L21CB		;21c2
 	ld l,a			;21c5
 	ld h,01bh		;21c6
 	ld c,(hl)			;21c8
 	inc h			;21c9
 	ld b,(hl)			;21ca
-l21cbh:
+Seq_LoadOpPtrs_L21CB:
 	ld (ix+004h),c		;21cb
 	ld (ix+005h),b		;21ce
 	exx			;21d1
@@ -48,13 +48,13 @@ l21cbh:
 	ld c,000h		;21db
 	ld b,c			;21dd
 	and a			;21de
-	jp z,l21e8h		;21df
+	jp z,Seq_LoadOpPtrs_L21E8		;21df
 	ld l,a			;21e2
 	ld h,01bh		;21e3
 	ld c,(hl)			;21e5
 	inc h			;21e6
 	ld b,(hl)			;21e7
-l21e8h:
+Seq_LoadOpPtrs_L21E8:
 	ld (ix+006h),c		;21e8
 	ld (ix+007h),b		;21eb
 	exx			;21ee
@@ -64,13 +64,13 @@ l21e8h:
 	ld c,000h		;21f2
 	ld b,c			;21f4
 	and a			;21f5
-	jp z,l21ffh		;21f6
+	jp z,Seq_LoadOpPtrs_L21FF		;21f6
 	ld l,a			;21f9
 	ld h,01bh		;21fa
 	ld c,(hl)			;21fc
 	inc h			;21fd
 	ld b,(hl)			;21fe
-l21ffh:
+Seq_LoadOpPtrs_L21FF:
 	ld (ix+008h),c		;21ff
 	ld (ix+009h),b		;2202
 	exx			;2205
@@ -115,16 +115,16 @@ Env_Step_222D:
 	ld b,(hl)			;2237
 	inc hl			;2238
 	dec a			;2239
-	jr z,l2253h		;223a
+	jr z,Env_Step_L2253		;223a
 	dec a			;223c
-	jr z,l226ch		;223d
+	jr z,Env_Step_L226C		;223d
 	ld a,c			;223f
 	or b			;2240
-	jp nz,l2247h		;2241
+	jp nz,Env_Step_L2247		;2241
 	inc hl			;2244
 	ld a,(hl)			;2245
 	ret			;2246
-l2247h:
+Env_Step_L2247:
 	ld a,(hl)			;2247
 	sub c			;2248
 	ld (hl),a			;2249
@@ -137,7 +137,7 @@ l2247h:
 	ld (hl),a			;2250
 	ld (de),a			;2251
 	ret			;2252
-l2253h:
+Env_Step_L2253:
 	ld a,(hl)			;2253
 	add a,c			;2254
 	ld (hl),a			;2255
@@ -159,14 +159,14 @@ l2253h:
 	ld (de),a			;2268
 	ld a,0ffh		;2269
 	ret			;226b
-l226ch:
+Env_Step_L226C:
 	ld a,c			;226c
 	or b			;226d
-	jp nz,l2274h		;226e
+	jp nz,Env_Step_L2274		;226e
 	inc hl			;2271
 	ld a,(hl)			;2272
 	ret			;2273
-l2274h:
+Env_Step_L2274:
 	ld a,(hl)			;2274
 	sub c			;2275
 	ld (hl),a			;2276
@@ -176,21 +176,21 @@ l2274h:
 	ex de,hl			;227a
 	inc hl			;227b
 	ld c,(hl)			;227c
-	jr c,l2284h		;227d
+	jr c,Env_Step_L2284		;227d
 	cp c			;227f
-	jr c,l2284h		;2280
+	jr c,Env_Step_L2284		;2280
 	ld (de),a			;2282
 	ret			;2283
-l2284h:
+Env_Step_L2284:
 	ex de,hl			;2284
 	dec de			;2285
 	ld (hl),c			;2286
 	ld a,c			;2287
 	and a			;2288
-	jp nz,l228eh		;2289
+	jp nz,Env_Step_L228E		;2289
 	ld (de),a			;228c
 	ret			;228d
-l228eh:
+Env_Step_L228E:
 	ex af,af'			;228e
 	ex de,hl			;228f
 	inc (hl)			;2290
@@ -289,21 +289,21 @@ Env_Update_231E:
 	ld e,(hl)			;2324
 	inc hl			;2325
 	and a			;2326
-	jr z,l2357h		;2327
+	jr z,Env_Update_L2357		;2327
 	ld a,b			;2329
 	and a			;232a
-	jp z,l2369h		;232b
+	jp z,Env_Update_L2369		;232b
 	ld a,d			;232e
 	add a,a			;232f
 	ex de,hl			;2330
 	and a			;2331
-	jr z,l2349h		;2332
+	jr z,Env_Update_L2349		;2332
 	inc l			;2334
-	jr z,l2349h		;2335
+	jr z,Env_Update_L2349		;2335
 	ex af,af'			;2337
 	dec l			;2338
 	ld a,l			;2339
-	jr z,l2349h		;233a
+	jr z,Env_Update_L2349		;233a
 	ld h,014h		;233c
 	ld a,(hl)			;233e
 	ex af,af'			;233f
@@ -312,36 +312,36 @@ Env_Update_231E:
 	add a,(hl)			;2342
 	ld l,a			;2343
 	sbc a,a			;2344
-	jr nc,l2349h		;2345
+	jr nc,Env_Update_L2349		;2345
 	inc h			;2347
 	ld a,(hl)			;2348
-l2349h:
+Env_Update_L2349:
 	ex de,hl			;2349
 	add a,c			;234a
 	ld c,a			;234b
-	jp z,l2369h		;234c
-	jp nc,l2362h		;234f
+	jp z,Env_Update_L2369		;234c
+	jp nc,Env_Update_L2362		;234f
 	ld c,0ffh		;2352
-	jp l2362h		;2354
-l2357h:
+	jp Env_Update_L2362		;2354
+Env_Update_L2357:
 	ld a,c			;2357
 	and a			;2358
-	jp z,l2369h		;2359
+	jp z,Env_Update_L2369		;2359
 	ld a,d			;235c
 	add a,b			;235d
 	ld b,a			;235e
-	jp z,l2369h		;235f
-l2362h:
+	jp z,Env_Update_L2369		;235f
+Env_Update_L2362:
 	ld a,(hl)			;2362
 	and a			;2363
-	jp z,l236ch		;2364
+	jp z,Env_Update_L236C		;2364
 	dec a			;2367
 	ld (hl),a			;2368
-l2369h:
+Env_Update_L2369:
 	xor a			;2369
 	ld c,a			;236a
 	ret			;236b
-l236ch:
+Env_Update_L236C:
 	inc hl			;236c
 	ld a,(hl)			;236d
 	scf			;236e
@@ -358,29 +358,29 @@ l236ch:
 	ld d,(hl)			;237a
 	inc hl			;237b
 	dec d			;237c
-	jr z,l23adh		;237d
+	jr z,Env_Update_L23AD		;237d
 	dec d			;237f
-	jr z,l238eh		;2380
+	jr z,Env_Update_L238E		;2380
 	dec d			;2382
-	jr z,l2393h		;2383
+	jr z,Env_Update_L2393		;2383
 	dec d			;2385
-	jr z,l2399h		;2386
+	jr z,Env_Update_L2399		;2386
 	rra			;2388
 	sbc a,a			;2389
 	xor e			;238a
-	jp l23ach		;238b
-l238eh:
+	jp Env_Update_L23AC		;238b
+Env_Update_L238E:
 	ld a,e			;238e
 	cpl			;238f
-	jp l23ach		;2390
-l2393h:
+	jp Env_Update_L23AC		;2390
+Env_Update_L2393:
 	rra			;2393
 	ccf			;2394
 	sbc a,a			;2395
-	jp l23ach		;2396
-l2399h:
+	jp Env_Update_L23AC		;2396
+Env_Update_L2399:
 	inc b			;2399
-	jr nz,l23abh		;239a
+	jr nz,Env_Update_L23AB		;239a
 	ld de,(wRngState_F81D)		;239c
 	ld a,r		;23a0
 	add a,e			;23a2
@@ -389,11 +389,11 @@ l2399h:
 	ld d,a			;23a5
 	ld (wRngState_F81D),de		;23a6
 	ld (hl),a			;23aa
-l23abh:
+Env_Update_L23AB:
 	ld a,(hl)			;23ab
-l23ach:
+Env_Update_L23AC:
 	ld e,a			;23ac
-l23adh:
+Env_Update_L23AD:
 	inc hl			;23ad
 	ld a,(hl)			;23ae
 	inc hl			;23af
@@ -409,13 +409,13 @@ l23adh:
 	ld (hl),a			;23b9
 	ld l,c			;23ba
 	and a			;23bb
-	jr z,l23d3h		;23bc
+	jr z,Env_Update_L23D3		;23bc
 	inc l			;23be
-	jr z,l23d3h		;23bf
+	jr z,Env_Update_L23D3		;23bf
 	ex af,af'			;23c1
 	dec l			;23c2
 	ld a,l			;23c3
-	jr z,l23d3h		;23c4
+	jr z,Env_Update_L23D3		;23c4
 	ld h,014h		;23c6
 	ld a,(hl)			;23c8
 	ex af,af'			;23c9
@@ -424,20 +424,20 @@ l23adh:
 	add a,(hl)			;23cc
 	ld l,a			;23cd
 	sbc a,a			;23ce
-	jr nc,l23d3h		;23cf
+	jr nc,Env_Update_L23D3		;23cf
 	inc h			;23d1
 	ld a,(hl)			;23d2
-l23d3h:
+Env_Update_L23D3:
 	ld c,a			;23d3
 	ld l,e			;23d4
 	and a			;23d5
-	jr z,l23edh		;23d6
+	jr z,Env_Update_L23ED		;23d6
 	inc l			;23d8
-	jr z,l23edh		;23d9
+	jr z,Env_Update_L23ED		;23d9
 	ex af,af'			;23db
 	dec l			;23dc
 	ld a,l			;23dd
-	jr z,l23edh		;23de
+	jr z,Env_Update_L23ED		;23de
 	ld h,014h		;23e0
 	ld a,(hl)			;23e2
 	ex af,af'			;23e3
@@ -446,10 +446,10 @@ l23d3h:
 	add a,(hl)			;23e6
 	ld l,a			;23e7
 	sbc a,a			;23e8
-	jr nc,l23edh		;23e9
+	jr nc,Env_Update_L23ED		;23e9
 	inc h			;23eb
 	ld a,(hl)			;23ec
-l23edh:
+Env_Update_L23ED:
 	ret			;23ed
 Pitch_Clear_23EE:
 	xor a			;23ee
@@ -469,9 +469,9 @@ Pitch_SetNote_23F6:
 	xor h			;2404
 	sub h			;2405
 	cp 080h		;2406
-	jr nz,l240bh		;2408
+	jr nz,Pitch_SetNote_L240B		;2408
 	dec a			;240a
-l240bh:
+Pitch_SetNote_L240B:
 	ld l,a			;240b
 	ld h,011h		;240c
 	ld c,(hl)			;240e
@@ -520,17 +520,17 @@ Pitch_Load_242E:
 Pitch_Update_2461:
 	ld a,(ix+00ch)		;2461
 	and a			;2464
-	jr nz,l2474h		;2465
+	jr nz,Pitch_Update_L2474		;2465
 	ld a,(ix+00ah)		;2467
 	add a,c			;246a
 	call Pitch_SetFine_2420		;246b
 	ld a,(ix+00bh)		;246e
-	jp l247ah		;2471
-l2474h:
+	jp Pitch_Update_L247A		;2471
+Pitch_Update_L2474:
 	ld a,c			;2474
 	sub 040h		;2475
 	add a,(ix+00bh)		;2477
-l247ah:
+Pitch_Update_L247A:
 	call Pitch_SetNote_23F6		;247a
 	ld (ix+004h),a		;247d
 	ld (ix+005h),b		;2480
@@ -544,15 +544,15 @@ Vib_Update_248E:
 	ld c,(hl)			;2490
 	ld a,b			;2491
 	or c			;2492
-	jr nz,l2498h		;2493
+	jr nz,Vib_Update_L2498		;2493
 	ld h,b			;2495
 	ld l,c			;2496
 	ret			;2497
-l2498h:
+Vib_Update_L2498:
 	inc hl			;2498
 	ld a,(hl)			;2499
 	and a			;249a
-	jr z,l24a8h		;249b
+	jr z,Vib_Update_L24A8		;249b
 	dec a			;249d
 	ld (hl),a			;249e
 	inc hl			;249f
@@ -561,8 +561,8 @@ l2498h:
 	inc hl			;24a2
 	ld d,(hl)			;24a3
 	inc hl			;24a4
-	jp l24c1h		;24a5
-l24a8h:
+	jp Vib_Update_L24C1		;24a5
+Vib_Update_L24A8:
 	ex af,af'			;24a8
 	inc hl			;24a9
 	ld a,(hl)			;24aa
@@ -576,38 +576,38 @@ l24a8h:
 	ld b,000h		;24b2
 	sbc hl,bc		;24b4
 	ex de,hl			;24b6
-	jr nc,l24bch		;24b7
+	jr nc,Vib_Update_L24BC		;24b7
 	ld de,00000h		;24b9  constant
-l24bch:
+Vib_Update_L24BC:
 	ld (hl),d			;24bc
 	dec hl			;24bd
 	ld (hl),e			;24be
 	inc hl			;24bf
 	inc hl			;24c0
-l24c1h:
+Vib_Update_L24C1:
 	ld a,(hl)			;24c1
 	add a,a			;24c2
-	jr c,l24d2h		;24c3
+	jr c,Vib_Update_L24D2		;24c3
 	inc hl			;24c5
 	ld c,(hl)			;24c6
 	inc hl			;24c7
 	ld h,(hl)			;24c8
 	ld l,c			;24c9
 	add a,a			;24ca
-	jr nc,l24cfh		;24cb
+	jr nc,Vib_Update_L24CF		;24cb
 	ex de,hl			;24cd
 	and a			;24ce
-l24cfh:
+Vib_Update_L24CF:
 	sbc hl,de		;24cf
 	ret			;24d1
-l24d2h:
+Vib_Update_L24D2:
 	add a,a			;24d2
-	jr nc,l24dch		;24d3
+	jr nc,Vib_Update_L24DC		;24d3
 	ld hl,00000h		;24d5  constant
 	and a			;24d8
 	sbc hl,de		;24d9
 	ret			;24db
-l24dch:
+Vib_Update_L24DC:
 	ex de,hl			;24dc
 	ret			;24dd
 CmdStruct_24DE:

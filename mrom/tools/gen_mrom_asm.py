@@ -121,8 +121,25 @@ def fix_constants(body, name):
             dropped += 1
             continue
         out.append(l)
-    print(f"[gen_mrom_asm] {name}: {n} immediates rewritten as constants, {dropped} spurious labels dropped")
-    return "\n".join(out) + "\n"
+    # name the remaining local branch targets after the routine containing them:
+    # lXXXXh -> <Routine>_L<XXXX> (the routine = last named label above it)
+    ren, owner = {}, None
+    for l in out:
+        m = re.match(r"^([A-Za-z_][A-Za-z_0-9]*):$", l)
+        if not m:
+            continue
+        lab = m.group(1)
+        lm = re.match(r"^l([0-9a-f]{4})h$", lab)
+        if lm and owner:
+            ren[lab] = f"{owner}_L{lm.group(1).upper()}"
+        elif not lm:
+            owner = re.sub(r"_[0-9A-F]{4}$", "", re.sub(r"_L[0-9A-F]{4}$", "", lab))
+    text = "\n".join(out) + "\n"
+    if ren:
+        text = re.sub(r"\bl[0-9a-f]{4}h\b", lambda m: ren.get(m.group(0), m.group(0)), text)
+    print(f"[gen_mrom_asm] {name}: {n} immediates rewritten as constants, {dropped} spurious labels "
+          f"dropped, {len(ren)} local labels named <Routine>_L<addr>")
+    return text
 
 
 def main():

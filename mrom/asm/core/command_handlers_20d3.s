@@ -44,12 +44,12 @@ Cmd_SetFlag_210F:
 Cmd_PlaySfx_2115:
 	ld a,(wSfxPending_F816)		;2115
 	and a			;2118
-	jr z,l2126h		;2119
+	jr z,Cmd_PlaySfx_L2126		;2119
 	xor a			;211b
 	ld (wSfxPending_F816),a		;211c
 	ld bc,(wSfxId_F81B)		;211f
 	jp Seq_StopTrackById_5210		;2123
-l2126h:
+Cmd_PlaySfx_L2126:
 	ld a,(wCmdType_F81C)		;2126
 	sub 010h		;2129
 	and 00fh		;212b

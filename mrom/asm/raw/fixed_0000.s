@@ -7762,18 +7762,18 @@ IRQ_Timer_1E7A:
 	ld hl,wTickPending_F801		;1e8d
 	ld a,(hl)			;1e90
 	cp 002h		;1e91
-	jr nc,l1e97h		;1e93
+	jr nc,IRQ_Timer_L1E97		;1e93
 	inc a			;1e95
 	ld (hl),a			;1e96
-l1e97h:
+IRQ_Timer_L1E97:
 	inc hl			;1e97
 	inc (hl)			;1e98
 	in a,(006h)		;1e99
 	ld (wYmStatus_F80A),a		;1e9b
 	ld c,004h		;1e9e
-l1ea0h:
+IRQ_Timer_L1EA0:
 	in a,(c)		;1ea0
-	jp m,l1ea0h		;1ea2
+	jp m,IRQ_Timer_L1EA0		;1ea2
 	pop bc			;1ea5
 	out (c),b		;1ea6
 	pop iy		;1ea8
@@ -7795,7 +7795,7 @@ NMI_RingPop_1EBB:
 	dec hl			;1ebf
 	ld a,(hl)			;1ec0
 	cp c			;1ec1
-	jr z,l1ed4h		;1ec2
+	jr z,NMI_RingPop_L1ED4		;1ec2
 	and 00fh		;1ec4
 	ld e,a			;1ec6
 	ld d,000h		;1ec7
@@ -7807,7 +7807,7 @@ NMI_RingPop_1EBB:
 	ld a,(hl)			;1ed1
 	scf			;1ed2
 	ret			;1ed3
-l1ed4h:
+NMI_RingPop_L1ED4:
 	and a			;1ed4
 	ret			;1ed5
 NMI_Command_1ED6:
@@ -7899,12 +7899,12 @@ Util_TableLookup_1F54:
 	ld l,e			;1f5e
 	ld e,000h		;1f5f
 	add a,(hl)			;1f61
-	jr nc,l1f68h		;1f62
+	jr nc,Util_TableLookup_L1F68		;1f62
 	ld l,a			;1f64
 	inc h			;1f65
 	ld e,(hl)			;1f66
 	dec h			;1f67
-l1f68h:
+Util_TableLookup_L1F68:
 	ld l,c			;1f68
 	ld a,(hl)			;1f69
 	ld l,d			;1f6a
@@ -7912,12 +7912,12 @@ l1f68h:
 	add a,(hl)			;1f6d
 	ld l,a			;1f6e
 	inc h			;1f6f
-	jr c,l1f77h		;1f70
+	jr c,Util_TableLookup_L1F77		;1f70
 	ld l,(hl)			;1f72
 	ld h,000h		;1f73
 	add hl,de			;1f75
 	ret			;1f76
-l1f77h:
+Util_TableLookup_L1F77:
 	ld a,(hl)			;1f77
 	inc h			;1f78
 	ld l,(hl)			;1f79
@@ -7930,7 +7930,7 @@ Bank_SelectInit_1F7D:
 	ld b,002h		;1f82
 	ld a,(wCurBank_F811)		;1f84
 	cp b			;1f87
-	jp z,l1fa5h		;1f88
+	jp z,Bank_SelectInit_L1FA5		;1f88
 	ld a,b			;1f8b
 	ld (wCurBank_F811),a		;1f8c
 	ld c,00bh		;1f8f
@@ -7947,7 +7947,7 @@ Bank_SelectInit_1F7D:
 	sla b		;1fa0
 	dec c			;1fa2
 	in a,(c)		;1fa3
-l1fa5h:
+Bank_SelectInit_L1FA5:
 	ret			;1fa5
 Bank_ResolvePtr24_1FA6:
 	ld e,(hl)			;1fa6
@@ -7965,7 +7965,7 @@ Bank_ResolvePtr24_1FA6:
 	push bc			;1fb2
 	ld a,(wCurBank_F811)		;1fb3
 	cp b			;1fb6
-	jp z,l1fd4h		;1fb7
+	jp z,Bank_ResolvePtr24_L1FD4		;1fb7
 	ld a,b			;1fba
 	ld (wCurBank_F811),a		;1fbb
 	ld c,00bh		;1fbe
@@ -7982,7 +7982,7 @@ Bank_ResolvePtr24_1FA6:
 	sla b		;1fcf
 	dec c			;1fd1
 	in a,(c)		;1fd2
-l1fd4h:
+Bank_ResolvePtr24_L1FD4:
 	pop bc			;1fd4
 	ld a,d			;1fd5
 	and 03fh		;1fd6
@@ -8050,9 +8050,9 @@ Cmd_Dispatch_2050:
 	cp 020h		;205b
 	jr nc,Cmd_DispatchHi_2096		;205d
 	cp 00fh		;205f
-	jr z,l2066h		;2061
+	jr z,Cmd_Dispatch_L2066		;2061
 	ld (wCmdType_F81C),a		;2063
-l2066h:
+Cmd_Dispatch_L2066:
 	cp 010h		;2066
 	ret nc			;2068
 	add a,a			;2069
@@ -8158,12 +8158,12 @@ Cmd_SetFlag_210F:
 Cmd_PlaySfx_2115:
 	ld a,(wSfxPending_F816)		;2115
 	and a			;2118
-	jr z,l2126h		;2119
+	jr z,Cmd_PlaySfx_L2126		;2119
 	xor a			;211b
 	ld (wSfxPending_F816),a		;211c
 	ld bc,(wSfxId_F81B)		;211f
 	jp Seq_StopTrackById_5210		;2123
-l2126h:
+Cmd_PlaySfx_L2126:
 	ld a,(wCmdType_F81C)		;2126
 	sub 010h		;2129
 	and 00fh		;212b
@@ -8239,13 +8239,13 @@ Seq_LoadOpPtrs_219B:
 	ld c,000h		;21a7
 	ld b,c			;21a9
 	and a			;21aa
-	jp z,l21b4h		;21ab
+	jp z,Seq_LoadOpPtrs_L21B4		;21ab
 	ld l,a			;21ae
 	ld h,01bh		;21af
 	ld c,(hl)			;21b1
 	inc h			;21b2
 	ld b,(hl)			;21b3
-l21b4h:
+Seq_LoadOpPtrs_L21B4:
 	ld (ix+002h),c		;21b4
 	ld (ix+003h),b		;21b7
 	exx			;21ba
@@ -8255,13 +8255,13 @@ l21b4h:
 	ld c,000h		;21be
 	ld b,c			;21c0
 	and a			;21c1
-	jp z,l21cbh		;21c2
+	jp z,Seq_LoadOpPtrs_L21CB		;21c2
 	ld l,a			;21c5
 	ld h,01bh		;21c6
 	ld c,(hl)			;21c8
 	inc h			;21c9
 	ld b,(hl)			;21ca
-l21cbh:
+Seq_LoadOpPtrs_L21CB:
 	ld (ix+004h),c		;21cb
 	ld (ix+005h),b		;21ce
 	exx			;21d1
@@ -8275,13 +8275,13 @@ l21cbh:
 	ld c,000h		;21db
 	ld b,c			;21dd
 	and a			;21de
-	jp z,l21e8h		;21df
+	jp z,Seq_LoadOpPtrs_L21E8		;21df
 	ld l,a			;21e2
 	ld h,01bh		;21e3
 	ld c,(hl)			;21e5
 	inc h			;21e6
 	ld b,(hl)			;21e7
-l21e8h:
+Seq_LoadOpPtrs_L21E8:
 	ld (ix+006h),c		;21e8
 	ld (ix+007h),b		;21eb
 	exx			;21ee
@@ -8291,13 +8291,13 @@ l21e8h:
 	ld c,000h		;21f2
 	ld b,c			;21f4
 	and a			;21f5
-	jp z,l21ffh		;21f6
+	jp z,Seq_LoadOpPtrs_L21FF		;21f6
 	ld l,a			;21f9
 	ld h,01bh		;21fa
 	ld c,(hl)			;21fc
 	inc h			;21fd
 	ld b,(hl)			;21fe
-l21ffh:
+Seq_LoadOpPtrs_L21FF:
 	ld (ix+008h),c		;21ff
 	ld (ix+009h),b		;2202
 	exx			;2205
@@ -8342,16 +8342,16 @@ Env_Step_222D:
 	ld b,(hl)			;2237
 	inc hl			;2238
 	dec a			;2239
-	jr z,l2253h		;223a
+	jr z,Env_Step_L2253		;223a
 	dec a			;223c
-	jr z,l226ch		;223d
+	jr z,Env_Step_L226C		;223d
 	ld a,c			;223f
 	or b			;2240
-	jp nz,l2247h		;2241
+	jp nz,Env_Step_L2247		;2241
 	inc hl			;2244
 	ld a,(hl)			;2245
 	ret			;2246
-l2247h:
+Env_Step_L2247:
 	ld a,(hl)			;2247
 	sub c			;2248
 	ld (hl),a			;2249
@@ -8364,7 +8364,7 @@ l2247h:
 	ld (hl),a			;2250
 	ld (de),a			;2251
 	ret			;2252
-l2253h:
+Env_Step_L2253:
 	ld a,(hl)			;2253
 	add a,c			;2254
 	ld (hl),a			;2255
@@ -8386,14 +8386,14 @@ l2253h:
 	ld (de),a			;2268
 	ld a,0ffh		;2269
 	ret			;226b
-l226ch:
+Env_Step_L226C:
 	ld a,c			;226c
 	or b			;226d
-	jp nz,l2274h		;226e
+	jp nz,Env_Step_L2274		;226e
 	inc hl			;2271
 	ld a,(hl)			;2272
 	ret			;2273
-l2274h:
+Env_Step_L2274:
 	ld a,(hl)			;2274
 	sub c			;2275
 	ld (hl),a			;2276
@@ -8403,21 +8403,21 @@ l2274h:
 	ex de,hl			;227a
 	inc hl			;227b
 	ld c,(hl)			;227c
-	jr c,l2284h		;227d
+	jr c,Env_Step_L2284		;227d
 	cp c			;227f
-	jr c,l2284h		;2280
+	jr c,Env_Step_L2284		;2280
 	ld (de),a			;2282
 	ret			;2283
-l2284h:
+Env_Step_L2284:
 	ex de,hl			;2284
 	dec de			;2285
 	ld (hl),c			;2286
 	ld a,c			;2287
 	and a			;2288
-	jp nz,l228eh		;2289
+	jp nz,Env_Step_L228E		;2289
 	ld (de),a			;228c
 	ret			;228d
-l228eh:
+Env_Step_L228E:
 	ex af,af'			;228e
 	ex de,hl			;228f
 	inc (hl)			;2290
@@ -8516,21 +8516,21 @@ Env_Update_231E:
 	ld e,(hl)			;2324
 	inc hl			;2325
 	and a			;2326
-	jr z,l2357h		;2327
+	jr z,Env_Update_L2357		;2327
 	ld a,b			;2329
 	and a			;232a
-	jp z,l2369h		;232b
+	jp z,Env_Update_L2369		;232b
 	ld a,d			;232e
 	add a,a			;232f
 	ex de,hl			;2330
 	and a			;2331
-	jr z,l2349h		;2332
+	jr z,Env_Update_L2349		;2332
 	inc l			;2334
-	jr z,l2349h		;2335
+	jr z,Env_Update_L2349		;2335
 	ex af,af'			;2337
 	dec l			;2338
 	ld a,l			;2339
-	jr z,l2349h		;233a
+	jr z,Env_Update_L2349		;233a
 	ld h,014h		;233c
 	ld a,(hl)			;233e
 	ex af,af'			;233f
@@ -8539,36 +8539,36 @@ Env_Update_231E:
 	add a,(hl)			;2342
 	ld l,a			;2343
 	sbc a,a			;2344
-	jr nc,l2349h		;2345
+	jr nc,Env_Update_L2349		;2345
 	inc h			;2347
 	ld a,(hl)			;2348
-l2349h:
+Env_Update_L2349:
 	ex de,hl			;2349
 	add a,c			;234a
 	ld c,a			;234b
-	jp z,l2369h		;234c
-	jp nc,l2362h		;234f
+	jp z,Env_Update_L2369		;234c
+	jp nc,Env_Update_L2362		;234f
 	ld c,0ffh		;2352
-	jp l2362h		;2354
-l2357h:
+	jp Env_Update_L2362		;2354
+Env_Update_L2357:
 	ld a,c			;2357
 	and a			;2358
-	jp z,l2369h		;2359
+	jp z,Env_Update_L2369		;2359
 	ld a,d			;235c
 	add a,b			;235d
 	ld b,a			;235e
-	jp z,l2369h		;235f
-l2362h:
+	jp z,Env_Update_L2369		;235f
+Env_Update_L2362:
 	ld a,(hl)			;2362
 	and a			;2363
-	jp z,l236ch		;2364
+	jp z,Env_Update_L236C		;2364
 	dec a			;2367
 	ld (hl),a			;2368
-l2369h:
+Env_Update_L2369:
 	xor a			;2369
 	ld c,a			;236a
 	ret			;236b
-l236ch:
+Env_Update_L236C:
 	inc hl			;236c
 	ld a,(hl)			;236d
 	scf			;236e
@@ -8585,29 +8585,29 @@ l236ch:
 	ld d,(hl)			;237a
 	inc hl			;237b
 	dec d			;237c
-	jr z,l23adh		;237d
+	jr z,Env_Update_L23AD		;237d
 	dec d			;237f
-	jr z,l238eh		;2380
+	jr z,Env_Update_L238E		;2380
 	dec d			;2382
-	jr z,l2393h		;2383
+	jr z,Env_Update_L2393		;2383
 	dec d			;2385
-	jr z,l2399h		;2386
+	jr z,Env_Update_L2399		;2386
 	rra			;2388
 	sbc a,a			;2389
 	xor e			;238a
-	jp l23ach		;238b
-l238eh:
+	jp Env_Update_L23AC		;238b
+Env_Update_L238E:
 	ld a,e			;238e
 	cpl			;238f
-	jp l23ach		;2390
-l2393h:
+	jp Env_Update_L23AC		;2390
+Env_Update_L2393:
 	rra			;2393
 	ccf			;2394
 	sbc a,a			;2395
-	jp l23ach		;2396
-l2399h:
+	jp Env_Update_L23AC		;2396
+Env_Update_L2399:
 	inc b			;2399
-	jr nz,l23abh		;239a
+	jr nz,Env_Update_L23AB		;239a
 	ld de,(wRngState_F81D)		;239c
 	ld a,r		;23a0
 	add a,e			;23a2
@@ -8616,11 +8616,11 @@ l2399h:
 	ld d,a			;23a5
 	ld (wRngState_F81D),de		;23a6
 	ld (hl),a			;23aa
-l23abh:
+Env_Update_L23AB:
 	ld a,(hl)			;23ab
-l23ach:
+Env_Update_L23AC:
 	ld e,a			;23ac
-l23adh:
+Env_Update_L23AD:
 	inc hl			;23ad
 	ld a,(hl)			;23ae
 	inc hl			;23af
@@ -8636,13 +8636,13 @@ l23adh:
 	ld (hl),a			;23b9
 	ld l,c			;23ba
 	and a			;23bb
-	jr z,l23d3h		;23bc
+	jr z,Env_Update_L23D3		;23bc
 	inc l			;23be
-	jr z,l23d3h		;23bf
+	jr z,Env_Update_L23D3		;23bf
 	ex af,af'			;23c1
 	dec l			;23c2
 	ld a,l			;23c3
-	jr z,l23d3h		;23c4
+	jr z,Env_Update_L23D3		;23c4
 	ld h,014h		;23c6
 	ld a,(hl)			;23c8
 	ex af,af'			;23c9
@@ -8651,20 +8651,20 @@ l23adh:
 	add a,(hl)			;23cc
 	ld l,a			;23cd
 	sbc a,a			;23ce
-	jr nc,l23d3h		;23cf
+	jr nc,Env_Update_L23D3		;23cf
 	inc h			;23d1
 	ld a,(hl)			;23d2
-l23d3h:
+Env_Update_L23D3:
 	ld c,a			;23d3
 	ld l,e			;23d4
 	and a			;23d5
-	jr z,l23edh		;23d6
+	jr z,Env_Update_L23ED		;23d6
 	inc l			;23d8
-	jr z,l23edh		;23d9
+	jr z,Env_Update_L23ED		;23d9
 	ex af,af'			;23db
 	dec l			;23dc
 	ld a,l			;23dd
-	jr z,l23edh		;23de
+	jr z,Env_Update_L23ED		;23de
 	ld h,014h		;23e0
 	ld a,(hl)			;23e2
 	ex af,af'			;23e3
@@ -8673,10 +8673,10 @@ l23d3h:
 	add a,(hl)			;23e6
 	ld l,a			;23e7
 	sbc a,a			;23e8
-	jr nc,l23edh		;23e9
+	jr nc,Env_Update_L23ED		;23e9
 	inc h			;23eb
 	ld a,(hl)			;23ec
-l23edh:
+Env_Update_L23ED:
 	ret			;23ed
 Pitch_Clear_23EE:
 	xor a			;23ee
@@ -8696,9 +8696,9 @@ Pitch_SetNote_23F6:
 	xor h			;2404
 	sub h			;2405
 	cp 080h		;2406
-	jr nz,l240bh		;2408
+	jr nz,Pitch_SetNote_L240B		;2408
 	dec a			;240a
-l240bh:
+Pitch_SetNote_L240B:
 	ld l,a			;240b
 	ld h,011h		;240c
 	ld c,(hl)			;240e
@@ -8747,17 +8747,17 @@ Pitch_Load_242E:
 Pitch_Update_2461:
 	ld a,(ix+00ch)		;2461
 	and a			;2464
-	jr nz,l2474h		;2465
+	jr nz,Pitch_Update_L2474		;2465
 	ld a,(ix+00ah)		;2467
 	add a,c			;246a
 	call Pitch_SetFine_2420		;246b
 	ld a,(ix+00bh)		;246e
-	jp l247ah		;2471
-l2474h:
+	jp Pitch_Update_L247A		;2471
+Pitch_Update_L2474:
 	ld a,c			;2474
 	sub 040h		;2475
 	add a,(ix+00bh)		;2477
-l247ah:
+Pitch_Update_L247A:
 	call Pitch_SetNote_23F6		;247a
 	ld (ix+004h),a		;247d
 	ld (ix+005h),b		;2480
@@ -8771,15 +8771,15 @@ Vib_Update_248E:
 	ld c,(hl)			;2490
 	ld a,b			;2491
 	or c			;2492
-	jr nz,l2498h		;2493
+	jr nz,Vib_Update_L2498		;2493
 	ld h,b			;2495
 	ld l,c			;2496
 	ret			;2497
-l2498h:
+Vib_Update_L2498:
 	inc hl			;2498
 	ld a,(hl)			;2499
 	and a			;249a
-	jr z,l24a8h		;249b
+	jr z,Vib_Update_L24A8		;249b
 	dec a			;249d
 	ld (hl),a			;249e
 	inc hl			;249f
@@ -8788,8 +8788,8 @@ l2498h:
 	inc hl			;24a2
 	ld d,(hl)			;24a3
 	inc hl			;24a4
-	jp l24c1h		;24a5
-l24a8h:
+	jp Vib_Update_L24C1		;24a5
+Vib_Update_L24A8:
 	ex af,af'			;24a8
 	inc hl			;24a9
 	ld a,(hl)			;24aa
@@ -8803,38 +8803,38 @@ l24a8h:
 	ld b,000h		;24b2
 	sbc hl,bc		;24b4
 	ex de,hl			;24b6
-	jr nc,l24bch		;24b7
+	jr nc,Vib_Update_L24BC		;24b7
 	ld de,00000h		;24b9  constant
-l24bch:
+Vib_Update_L24BC:
 	ld (hl),d			;24bc
 	dec hl			;24bd
 	ld (hl),e			;24be
 	inc hl			;24bf
 	inc hl			;24c0
-l24c1h:
+Vib_Update_L24C1:
 	ld a,(hl)			;24c1
 	add a,a			;24c2
-	jr c,l24d2h		;24c3
+	jr c,Vib_Update_L24D2		;24c3
 	inc hl			;24c5
 	ld c,(hl)			;24c6
 	inc hl			;24c7
 	ld h,(hl)			;24c8
 	ld l,c			;24c9
 	add a,a			;24ca
-	jr nc,l24cfh		;24cb
+	jr nc,Vib_Update_L24CF		;24cb
 	ex de,hl			;24cd
 	and a			;24ce
-l24cfh:
+Vib_Update_L24CF:
 	sbc hl,de		;24cf
 	ret			;24d1
-l24d2h:
+Vib_Update_L24D2:
 	add a,a			;24d2
-	jr nc,l24dch		;24d3
+	jr nc,Vib_Update_L24DC		;24d3
 	ld hl,00000h		;24d5  constant
 	and a			;24d8
 	sbc hl,de		;24d9
 	ret			;24db
-l24dch:
+Vib_Update_L24DC:
 	ex de,hl			;24dc
 	ret			;24dd
 CmdStruct_24DE:
@@ -8957,7 +8957,7 @@ SSG_Update_2593:
 	call Env_Step_222D		;25a5
 	ld (wTmpByte_F814),a		;25a8
 	and a			;25ab
-	jp z,l2686h		;25ac
+	jp z,SSG_Update_L2686		;25ac
 	ld hl,0f842h		;25af
 	ld d,(iy+00dh)		;25b2
 	call Env_Update_231E		;25b5
@@ -8966,13 +8966,13 @@ SSG_Update_2593:
 	ld l,a			;25ba
 	ld a,(wTmpByte_F814)		;25bb
 	and a			;25be
-	jr z,l25d6h		;25bf
+	jr z,SSG_Update_L25D6		;25bf
 	inc l			;25c1
-	jr z,l25d6h		;25c2
+	jr z,SSG_Update_L25D6		;25c2
 	ex af,af'			;25c4
 	dec l			;25c5
 	ld a,l			;25c6
-	jr z,l25d6h		;25c7
+	jr z,SSG_Update_L25D6		;25c7
 	ld h,014h		;25c9
 	ld a,(hl)			;25cb
 	ex af,af'			;25cc
@@ -8981,19 +8981,19 @@ SSG_Update_2593:
 	add a,(hl)			;25cf
 	ld l,a			;25d0
 	sbc a,a			;25d1
-	jr nc,l25d6h		;25d2
+	jr nc,SSG_Update_L25D6		;25d2
 	inc h			;25d4
 	ld a,(hl)			;25d5
-l25d6h:
+SSG_Update_L25D6:
 	ld (wTmpByte_F814),a		;25d6
 	and a			;25d9
-	jp z,l2686h		;25da
+	jp z,SSG_Update_L2686		;25da
 	ld a,(0f82ah)		;25dd
 	and a			;25e0
-	jp z,l2686h		;25e1
+	jp z,SSG_Update_L2686		;25e1
 	ld a,(0f832h)		;25e4
 	and a			;25e7
-	jp z,l261eh		;25e8
+	jp z,SSG_Update_L261E		;25e8
 	ld hl,0f850h		;25eb
 	ld d,(iy+00ch)		;25ee
 	call Env_Update_231E		;25f1
@@ -9015,16 +9015,16 @@ l25d6h:
 	ld a,(hl)			;260a
 	and 01fh		;260b
 	add a,b			;260d
-	jp p,l2612h		;260e
+	jp p,SSG_Update_L2612		;260e
 	xor a			;2611
-l2612h:
+SSG_Update_L2612:
 	cp 020h		;2612
-	jr c,l2618h		;2614
+	jr c,SSG_Update_L2618		;2614
 	ld a,01fh		;2616
-l2618h:
+SSG_Update_L2618:
 	ld (wSSG_Mixer_F903),a		;2618
-	jp l2686h		;261b
-l261eh:
+	jp SSG_Update_L2686		;261b
+SSG_Update_L261E:
 	ld hl,(0f828h)		;261e
 	ld de,(0f830h)		;2621
 	add hl,de			;2625
@@ -9052,13 +9052,13 @@ l261eh:
 	ld hl,(0f82dh)		;2655
 	and a			;2658
 	sbc hl,de		;2659
-	jp z,l2686h		;265b
+	jp z,SSG_Update_L2686		;265b
 	ld (0f82dh),de		;265e
 	ld a,d			;2662
 	cp 010h		;2663
-	jp c,l266ah		;2665
+	jp c,SSG_Update_L266A		;2665
 	ld a,00fh		;2668
-l266ah:
+SSG_Update_L266A:
 	ld b,a			;266a
 	and 007h		;266b
 	add a,a			;266d
@@ -9070,10 +9070,10 @@ l266ah:
 	ld d,(hl)			;2674
 	ld a,b			;2675
 	and 008h		;2676
-	jr z,l267dh		;2678
+	jr z,SSG_Update_L267D		;2678
 	ld e,d			;267a
 	ld d,000h		;267b
-l267dh:
+SSG_Update_L267D:
 	ld b,d			;267d
 	ld d,000h		;267e
 	ld c,004h		;2680
@@ -9081,18 +9081,18 @@ l267dh:
 	ld e,b			;2683
 	inc d			;2684
 	rst 8			;2685
-l2686h:
+SSG_Update_L2686:
 	ld a,(wTmpByte_F814)		;2686
 	ld l,a			;2689
 	ld a,(0f82ah)		;268a
 	and a			;268d
-	jr z,l26a5h		;268e
+	jr z,SSG_Update_L26A5		;268e
 	inc l			;2690
-	jr z,l26a5h		;2691
+	jr z,SSG_Update_L26A5		;2691
 	ex af,af'			;2693
 	dec l			;2694
 	ld a,l			;2695
-	jr z,l26a5h		;2696
+	jr z,SSG_Update_L26A5		;2696
 	ld h,014h		;2698
 	ld a,(hl)			;269a
 	ex af,af'			;269b
@@ -9101,19 +9101,19 @@ l2686h:
 	add a,(hl)			;269e
 	ld l,a			;269f
 	sbc a,a			;26a0
-	jr nc,l26a5h		;26a1
+	jr nc,SSG_Update_L26A5		;26a1
 	inc h			;26a3
 	ld a,(hl)			;26a4
-l26a5h:
+SSG_Update_L26A5:
 	ld l,(iy+012h)		;26a5
 	and a			;26a8
-	jr z,l26c0h		;26a9
+	jr z,SSG_Update_L26C0		;26a9
 	inc l			;26ab
-	jr z,l26c0h		;26ac
+	jr z,SSG_Update_L26C0		;26ac
 	ex af,af'			;26ae
 	dec l			;26af
 	ld a,l			;26b0
-	jr z,l26c0h		;26b1
+	jr z,SSG_Update_L26C0		;26b1
 	ld h,014h		;26b3
 	ld a,(hl)			;26b5
 	ex af,af'			;26b6
@@ -9122,24 +9122,24 @@ l26a5h:
 	add a,(hl)			;26b9
 	ld l,a			;26ba
 	sbc a,a			;26bb
-	jr nc,l26c0h		;26bc
+	jr nc,SSG_Update_L26C0		;26bc
 	inc h			;26be
 	ld a,(hl)			;26bf
-l26c0h:
+SSG_Update_L26C0:
 	ld l,a			;26c0
 	ld a,0ffh		;26c1
 	bit 1,(iy+009h)		;26c3
-	jp z,l26cdh		;26c7
+	jp z,SSG_Update_L26CD		;26c7
 	ld a,(wMasterVolume_F805)		;26ca
-l26cdh:
+SSG_Update_L26CD:
 	and a			;26cd
-	jr z,l26e5h		;26ce
+	jr z,SSG_Update_L26E5		;26ce
 	inc l			;26d0
-	jr z,l26e5h		;26d1
+	jr z,SSG_Update_L26E5		;26d1
 	ex af,af'			;26d3
 	dec l			;26d4
 	ld a,l			;26d5
-	jr z,l26e5h		;26d6
+	jr z,SSG_Update_L26E5		;26d6
 	ld h,014h		;26d8
 	ld a,(hl)			;26da
 	ex af,af'			;26db
@@ -9148,27 +9148,27 @@ l26cdh:
 	add a,(hl)			;26de
 	ld l,a			;26df
 	sbc a,a			;26e0
-	jr nc,l26e5h		;26e1
+	jr nc,SSG_Update_L26E5		;26e1
 	inc h			;26e3
 	ld a,(hl)			;26e4
-l26e5h:
+SSG_Update_L26E5:
 	ld hl,0f82fh		;26e5
 	cp (hl)			;26e8
 	ld (hl),a			;26e9
-	jp z,l26f6h		;26ea
+	jp z,SSG_Update_L26F6		;26ea
 	ld l,a			;26ed
 	ld h,018h		;26ee
 	ld e,(hl)			;26f0
 	ld d,008h		;26f1
 	ld c,004h		;26f3
 	rst 8			;26f5
-l26f6h:
+SSG_Update_L26F6:
 	ld c,001h		;26f6
 	bit 1,(iy+009h)		;26f8
-	jr z,l2702h		;26fc
+	jr z,SSG_Update_L2702		;26fc
 	ld a,(wTempoStep_F809)		;26fe
 	ld c,a			;2701
-l2702h:
+SSG_Update_L2702:
 	ld hl,0f825h		;2702
 	ld a,(hl)			;2705
 	add a,c			;2706
@@ -9177,22 +9177,22 @@ l2702h:
 	ld hl,0f824h		;270a
 	ld a,(hl)			;270d
 	and a			;270e
-	jp z,l2723h		;270f
+	jp z,SSG_Update_L2723		;270f
 	sub c			;2712
 	ld (hl),a			;2713
 	jr nz,SSG_UpdateChB_2738		;2714
 	bit 4,(iy+009h)		;2716
-	jr z,l2732h		;271a
+	jr z,SSG_Update_L2732		;271a
 	set 4,(ix+003h)		;271c
 	jp SSG_UpdateChB_2738		;2720
-l2723h:
+SSG_Update_L2723:
 	bit 4,(iy+009h)		;2723
 	jr nz,SSG_UpdateChB_2738		;2727
 	ld hl,0f822h		;2729
 	bit 4,(hl)		;272c
 	jr z,SSG_UpdateChB_2738		;272e
 	res 4,(hl)		;2730
-l2732h:
+SSG_Update_L2732:
 	ld hl,0f834h		;2732
 	call Env_Release_2219		;2735
 SSG_UpdateChB_2738:
@@ -9204,7 +9204,7 @@ SSG_UpdateChB_2738:
 	call Env_Step_222D		;274a
 	ld (wTmpByte_F814),a		;274d
 	and a			;2750
-	jp z,l282bh		;2751
+	jp z,SSG_UpdateChB_L282B		;2751
 	ld hl,0f88eh		;2754
 	ld d,(iy+00dh)		;2757
 	call Env_Update_231E		;275a
@@ -9213,13 +9213,13 @@ SSG_UpdateChB_2738:
 	ld l,a			;275f
 	ld a,(wTmpByte_F814)		;2760
 	and a			;2763
-	jr z,l277bh		;2764
+	jr z,SSG_UpdateChB_L277B		;2764
 	inc l			;2766
-	jr z,l277bh		;2767
+	jr z,SSG_UpdateChB_L277B		;2767
 	ex af,af'			;2769
 	dec l			;276a
 	ld a,l			;276b
-	jr z,l277bh		;276c
+	jr z,SSG_UpdateChB_L277B		;276c
 	ld h,014h		;276e
 	ld a,(hl)			;2770
 	ex af,af'			;2771
@@ -9228,19 +9228,19 @@ SSG_UpdateChB_2738:
 	add a,(hl)			;2774
 	ld l,a			;2775
 	sbc a,a			;2776
-	jr nc,l277bh		;2777
+	jr nc,SSG_UpdateChB_L277B		;2777
 	inc h			;2779
 	ld a,(hl)			;277a
-l277bh:
+SSG_UpdateChB_L277B:
 	ld (wTmpByte_F814),a		;277b
 	and a			;277e
-	jp z,l282bh		;277f
+	jp z,SSG_UpdateChB_L282B		;277f
 	ld a,(0f876h)		;2782
 	and a			;2785
-	jp z,l282bh		;2786
+	jp z,SSG_UpdateChB_L282B		;2786
 	ld a,(0f87eh)		;2789
 	and a			;278c
-	jp z,l27c3h		;278d
+	jp z,SSG_UpdateChB_L27C3		;278d
 	ld hl,0f89ch		;2790
 	ld d,(iy+00ch)		;2793
 	call Env_Update_231E		;2796
@@ -9262,16 +9262,16 @@ l277bh:
 	ld a,(hl)			;27af
 	and 01fh		;27b0
 	add a,b			;27b2
-	jp p,l27b7h		;27b3
+	jp p,SSG_UpdateChB_L27B7		;27b3
 	xor a			;27b6
-l27b7h:
+SSG_UpdateChB_L27B7:
 	cp 020h		;27b7
-	jr c,l27bdh		;27b9
+	jr c,SSG_UpdateChB_L27BD		;27b9
 	ld a,01fh		;27bb
-l27bdh:
+SSG_UpdateChB_L27BD:
 	ld (wSSG_Mixer_F903),a		;27bd
-	jp l282bh		;27c0
-l27c3h:
+	jp SSG_UpdateChB_L282B		;27c0
+SSG_UpdateChB_L27C3:
 	ld hl,(0f874h)		;27c3
 	ld de,(0f87ch)		;27c6
 	add hl,de			;27ca
@@ -9299,13 +9299,13 @@ l27c3h:
 	ld hl,(0f879h)		;27fa
 	and a			;27fd
 	sbc hl,de		;27fe
-	jp z,l282bh		;2800
+	jp z,SSG_UpdateChB_L282B		;2800
 	ld (0f879h),de		;2803
 	ld a,d			;2807
 	cp 010h		;2808
-	jp c,l280fh		;280a
+	jp c,SSG_UpdateChB_L280F		;280a
 	ld a,00fh		;280d
-l280fh:
+SSG_UpdateChB_L280F:
 	ld b,a			;280f
 	and 007h		;2810
 	add a,a			;2812
@@ -9317,10 +9317,10 @@ l280fh:
 	ld d,(hl)			;2819
 	ld a,b			;281a
 	and 008h		;281b
-	jr z,l2822h		;281d
+	jr z,SSG_UpdateChB_L2822		;281d
 	ld e,d			;281f
 	ld d,000h		;2820
-l2822h:
+SSG_UpdateChB_L2822:
 	ld b,d			;2822
 	ld d,002h		;2823
 	ld c,004h		;2825
@@ -9328,18 +9328,18 @@ l2822h:
 	ld e,b			;2828
 	inc d			;2829
 	rst 8			;282a
-l282bh:
+SSG_UpdateChB_L282B:
 	ld a,(wTmpByte_F814)		;282b
 	ld l,a			;282e
 	ld a,(0f876h)		;282f
 	and a			;2832
-	jr z,l284ah		;2833
+	jr z,SSG_UpdateChB_L284A		;2833
 	inc l			;2835
-	jr z,l284ah		;2836
+	jr z,SSG_UpdateChB_L284A		;2836
 	ex af,af'			;2838
 	dec l			;2839
 	ld a,l			;283a
-	jr z,l284ah		;283b
+	jr z,SSG_UpdateChB_L284A		;283b
 	ld h,014h		;283d
 	ld a,(hl)			;283f
 	ex af,af'			;2840
@@ -9348,19 +9348,19 @@ l282bh:
 	add a,(hl)			;2843
 	ld l,a			;2844
 	sbc a,a			;2845
-	jr nc,l284ah		;2846
+	jr nc,SSG_UpdateChB_L284A		;2846
 	inc h			;2848
 	ld a,(hl)			;2849
-l284ah:
+SSG_UpdateChB_L284A:
 	ld l,(iy+012h)		;284a
 	and a			;284d
-	jr z,l2865h		;284e
+	jr z,SSG_UpdateChB_L2865		;284e
 	inc l			;2850
-	jr z,l2865h		;2851
+	jr z,SSG_UpdateChB_L2865		;2851
 	ex af,af'			;2853
 	dec l			;2854
 	ld a,l			;2855
-	jr z,l2865h		;2856
+	jr z,SSG_UpdateChB_L2865		;2856
 	ld h,014h		;2858
 	ld a,(hl)			;285a
 	ex af,af'			;285b
@@ -9369,24 +9369,24 @@ l284ah:
 	add a,(hl)			;285e
 	ld l,a			;285f
 	sbc a,a			;2860
-	jr nc,l2865h		;2861
+	jr nc,SSG_UpdateChB_L2865		;2861
 	inc h			;2863
 	ld a,(hl)			;2864
-l2865h:
+SSG_UpdateChB_L2865:
 	ld l,a			;2865
 	ld a,0ffh		;2866
 	bit 1,(iy+009h)		;2868
-	jp z,l2872h		;286c
+	jp z,SSG_UpdateChB_L2872		;286c
 	ld a,(wMasterVolume_F805)		;286f
-l2872h:
+SSG_UpdateChB_L2872:
 	and a			;2872
-	jr z,l288ah		;2873
+	jr z,SSG_UpdateChB_L288A		;2873
 	inc l			;2875
-	jr z,l288ah		;2876
+	jr z,SSG_UpdateChB_L288A		;2876
 	ex af,af'			;2878
 	dec l			;2879
 	ld a,l			;287a
-	jr z,l288ah		;287b
+	jr z,SSG_UpdateChB_L288A		;287b
 	ld h,014h		;287d
 	ld a,(hl)			;287f
 	ex af,af'			;2880
@@ -9395,27 +9395,27 @@ l2872h:
 	add a,(hl)			;2883
 	ld l,a			;2884
 	sbc a,a			;2885
-	jr nc,l288ah		;2886
+	jr nc,SSG_UpdateChB_L288A		;2886
 	inc h			;2888
 	ld a,(hl)			;2889
-l288ah:
+SSG_UpdateChB_L288A:
 	ld hl,0f87bh		;288a
 	cp (hl)			;288d
 	ld (hl),a			;288e
-	jp z,l289bh		;288f
+	jp z,SSG_UpdateChB_L289B		;288f
 	ld l,a			;2892
 	ld h,018h		;2893
 	ld e,(hl)			;2895
 	ld d,009h		;2896
 	ld c,004h		;2898
 	rst 8			;289a
-l289bh:
+SSG_UpdateChB_L289B:
 	ld c,001h		;289b
 	bit 1,(iy+009h)		;289d
-	jr z,l28a7h		;28a1
+	jr z,SSG_UpdateChB_L28A7		;28a1
 	ld a,(wTempoStep_F809)		;28a3
 	ld c,a			;28a6
-l28a7h:
+SSG_UpdateChB_L28A7:
 	ld hl,0f871h		;28a7
 	ld a,(hl)			;28aa
 	add a,c			;28ab
@@ -9424,22 +9424,22 @@ l28a7h:
 	ld hl,0f870h		;28af
 	ld a,(hl)			;28b2
 	and a			;28b3
-	jp z,l28c8h		;28b4
+	jp z,SSG_UpdateChB_L28C8		;28b4
 	sub c			;28b7
 	ld (hl),a			;28b8
 	jr nz,SSG_UpdateChC_28DD		;28b9
 	bit 4,(iy+009h)		;28bb
-	jr z,l28d7h		;28bf
+	jr z,SSG_UpdateChB_L28D7		;28bf
 	set 4,(ix+003h)		;28c1
 	jp SSG_UpdateChC_28DD		;28c5
-l28c8h:
+SSG_UpdateChB_L28C8:
 	bit 4,(iy+009h)		;28c8
 	jr nz,SSG_UpdateChC_28DD		;28cc
 	ld hl,0f86eh		;28ce
 	bit 4,(hl)		;28d1
 	jr z,SSG_UpdateChC_28DD		;28d3
 	res 4,(hl)		;28d5
-l28d7h:
+SSG_UpdateChB_L28D7:
 	ld hl,0f880h		;28d7
 	call Env_Release_2219		;28da
 SSG_UpdateChC_28DD:
@@ -9451,7 +9451,7 @@ SSG_UpdateChC_28DD:
 	call Env_Step_222D		;28ef
 	ld (wTmpByte_F814),a		;28f2
 	and a			;28f5
-	jp z,l29d0h		;28f6
+	jp z,SSG_UpdateChC_L29D0		;28f6
 	ld hl,0f8dah		;28f9
 	ld d,(iy+00dh)		;28fc
 	call Env_Update_231E		;28ff
@@ -9460,13 +9460,13 @@ SSG_UpdateChC_28DD:
 	ld l,a			;2904
 	ld a,(wTmpByte_F814)		;2905
 	and a			;2908
-	jr z,l2920h		;2909
+	jr z,SSG_UpdateChC_L2920		;2909
 	inc l			;290b
-	jr z,l2920h		;290c
+	jr z,SSG_UpdateChC_L2920		;290c
 	ex af,af'			;290e
 	dec l			;290f
 	ld a,l			;2910
-	jr z,l2920h		;2911
+	jr z,SSG_UpdateChC_L2920		;2911
 	ld h,014h		;2913
 	ld a,(hl)			;2915
 	ex af,af'			;2916
@@ -9475,19 +9475,19 @@ SSG_UpdateChC_28DD:
 	add a,(hl)			;2919
 	ld l,a			;291a
 	sbc a,a			;291b
-	jr nc,l2920h		;291c
+	jr nc,SSG_UpdateChC_L2920		;291c
 	inc h			;291e
 	ld a,(hl)			;291f
-l2920h:
+SSG_UpdateChC_L2920:
 	ld (wTmpByte_F814),a		;2920
 	and a			;2923
-	jp z,l29d0h		;2924
+	jp z,SSG_UpdateChC_L29D0		;2924
 	ld a,(0f8c2h)		;2927
 	and a			;292a
-	jp z,l29d0h		;292b
+	jp z,SSG_UpdateChC_L29D0		;292b
 	ld a,(0f8cah)		;292e
 	and a			;2931
-	jp z,l2968h		;2932
+	jp z,SSG_UpdateChC_L2968		;2932
 	ld hl,0f8e8h		;2935
 	ld d,(iy+00ch)		;2938
 	call Env_Update_231E		;293b
@@ -9509,16 +9509,16 @@ l2920h:
 	ld a,(hl)			;2954
 	and 01fh		;2955
 	add a,b			;2957
-	jp p,l295ch		;2958
+	jp p,SSG_UpdateChC_L295C		;2958
 	xor a			;295b
-l295ch:
+SSG_UpdateChC_L295C:
 	cp 020h		;295c
-	jr c,l2962h		;295e
+	jr c,SSG_UpdateChC_L2962		;295e
 	ld a,01fh		;2960
-l2962h:
+SSG_UpdateChC_L2962:
 	ld (wSSG_Mixer_F903),a		;2962
-	jp l29d0h		;2965
-l2968h:
+	jp SSG_UpdateChC_L29D0		;2965
+SSG_UpdateChC_L2968:
 	ld hl,(0f8c0h)		;2968
 	ld de,(0f8c8h)		;296b
 	add hl,de			;296f
@@ -9546,13 +9546,13 @@ l2968h:
 	ld hl,(0f8c5h)		;299f
 	and a			;29a2
 	sbc hl,de		;29a3
-	jp z,l29d0h		;29a5
+	jp z,SSG_UpdateChC_L29D0		;29a5
 	ld (0f8c5h),de		;29a8
 	ld a,d			;29ac
 	cp 010h		;29ad
-	jp c,l29b4h		;29af
+	jp c,SSG_UpdateChC_L29B4		;29af
 	ld a,00fh		;29b2
-l29b4h:
+SSG_UpdateChC_L29B4:
 	ld b,a			;29b4
 	and 007h		;29b5
 	add a,a			;29b7
@@ -9564,10 +9564,10 @@ l29b4h:
 	ld d,(hl)			;29be
 	ld a,b			;29bf
 	and 008h		;29c0
-	jr z,l29c7h		;29c2
+	jr z,SSG_UpdateChC_L29C7		;29c2
 	ld e,d			;29c4
 	ld d,000h		;29c5
-l29c7h:
+SSG_UpdateChC_L29C7:
 	ld b,d			;29c7
 	ld d,004h		;29c8
 	ld c,004h		;29ca
@@ -9575,18 +9575,18 @@ l29c7h:
 	ld e,b			;29cd
 	inc d			;29ce
 	rst 8			;29cf
-l29d0h:
+SSG_UpdateChC_L29D0:
 	ld a,(wTmpByte_F814)		;29d0
 	ld l,a			;29d3
 	ld a,(0f8c2h)		;29d4
 	and a			;29d7
-	jr z,l29efh		;29d8
+	jr z,SSG_UpdateChC_L29EF		;29d8
 	inc l			;29da
-	jr z,l29efh		;29db
+	jr z,SSG_UpdateChC_L29EF		;29db
 	ex af,af'			;29dd
 	dec l			;29de
 	ld a,l			;29df
-	jr z,l29efh		;29e0
+	jr z,SSG_UpdateChC_L29EF		;29e0
 	ld h,014h		;29e2
 	ld a,(hl)			;29e4
 	ex af,af'			;29e5
@@ -9595,19 +9595,19 @@ l29d0h:
 	add a,(hl)			;29e8
 	ld l,a			;29e9
 	sbc a,a			;29ea
-	jr nc,l29efh		;29eb
+	jr nc,SSG_UpdateChC_L29EF		;29eb
 	inc h			;29ed
 	ld a,(hl)			;29ee
-l29efh:
+SSG_UpdateChC_L29EF:
 	ld l,(iy+012h)		;29ef
 	and a			;29f2
-	jr z,l2a0ah		;29f3
+	jr z,SSG_UpdateChC_L2A0A		;29f3
 	inc l			;29f5
-	jr z,l2a0ah		;29f6
+	jr z,SSG_UpdateChC_L2A0A		;29f6
 	ex af,af'			;29f8
 	dec l			;29f9
 	ld a,l			;29fa
-	jr z,l2a0ah		;29fb
+	jr z,SSG_UpdateChC_L2A0A		;29fb
 	ld h,014h		;29fd
 	ld a,(hl)			;29ff
 	ex af,af'			;2a00
@@ -9616,24 +9616,24 @@ l29efh:
 	add a,(hl)			;2a03
 	ld l,a			;2a04
 	sbc a,a			;2a05
-	jr nc,l2a0ah		;2a06
+	jr nc,SSG_UpdateChC_L2A0A		;2a06
 	inc h			;2a08
 	ld a,(hl)			;2a09
-l2a0ah:
+SSG_UpdateChC_L2A0A:
 	ld l,a			;2a0a
 	ld a,0ffh		;2a0b
 	bit 1,(iy+009h)		;2a0d
-	jp z,l2a17h		;2a11
+	jp z,SSG_UpdateChC_L2A17		;2a11
 	ld a,(wMasterVolume_F805)		;2a14
-l2a17h:
+SSG_UpdateChC_L2A17:
 	and a			;2a17
-	jr z,l2a2fh		;2a18
+	jr z,SSG_UpdateChC_L2A2F		;2a18
 	inc l			;2a1a
-	jr z,l2a2fh		;2a1b
+	jr z,SSG_UpdateChC_L2A2F		;2a1b
 	ex af,af'			;2a1d
 	dec l			;2a1e
 	ld a,l			;2a1f
-	jr z,l2a2fh		;2a20
+	jr z,SSG_UpdateChC_L2A2F		;2a20
 	ld h,014h		;2a22
 	ld a,(hl)			;2a24
 	ex af,af'			;2a25
@@ -9642,27 +9642,27 @@ l2a17h:
 	add a,(hl)			;2a28
 	ld l,a			;2a29
 	sbc a,a			;2a2a
-	jr nc,l2a2fh		;2a2b
+	jr nc,SSG_UpdateChC_L2A2F		;2a2b
 	inc h			;2a2d
 	ld a,(hl)			;2a2e
-l2a2fh:
+SSG_UpdateChC_L2A2F:
 	ld hl,0f8c7h		;2a2f
 	cp (hl)			;2a32
 	ld (hl),a			;2a33
-	jp z,l2a40h		;2a34
+	jp z,SSG_UpdateChC_L2A40		;2a34
 	ld l,a			;2a37
 	ld h,018h		;2a38
 	ld e,(hl)			;2a3a
 	ld d,00ah		;2a3b
 	ld c,004h		;2a3d
 	rst 8			;2a3f
-l2a40h:
+SSG_UpdateChC_L2A40:
 	ld c,001h		;2a40
 	bit 1,(iy+009h)		;2a42
-	jr z,l2a4ch		;2a46
+	jr z,SSG_UpdateChC_L2A4C		;2a46
 	ld a,(wTempoStep_F809)		;2a48
 	ld c,a			;2a4b
-l2a4ch:
+SSG_UpdateChC_L2A4C:
 	ld hl,0f8bdh		;2a4c
 	ld a,(hl)			;2a4f
 	add a,c			;2a50
@@ -9671,25 +9671,25 @@ l2a4ch:
 	ld hl,0f8bch		;2a54
 	ld a,(hl)			;2a57
 	and a			;2a58
-	jp z,l2a6dh		;2a59
+	jp z,SSG_UpdateChC_L2A6D		;2a59
 	sub c			;2a5c
 	ld (hl),a			;2a5d
-	jr nz,l2a82h		;2a5e
+	jr nz,SSG_UpdateChC_L2A82		;2a5e
 	bit 4,(iy+009h)		;2a60
-	jr z,l2a7ch		;2a64
+	jr z,SSG_UpdateChC_L2A7C		;2a64
 	set 4,(ix+003h)		;2a66
-	jp l2a82h		;2a6a
-l2a6dh:
+	jp SSG_UpdateChC_L2A82		;2a6a
+SSG_UpdateChC_L2A6D:
 	bit 4,(iy+009h)		;2a6d
-	jr nz,l2a82h		;2a71
+	jr nz,SSG_UpdateChC_L2A82		;2a71
 	ld hl,0f8bah		;2a73
 	bit 4,(hl)		;2a76
-	jr z,l2a82h		;2a78
+	jr z,SSG_UpdateChC_L2A82		;2a78
 	res 4,(hl)		;2a7a
-l2a7ch:
+SSG_UpdateChC_L2A7C:
 	ld hl,0f8cch		;2a7c
 	call Env_Release_2219		;2a7f
-l2a82h:
+SSG_UpdateChC_L2A82:
 	ld hl,wSSG_Mixer_F903		;2a82
 	ld e,(hl)			;2a85
 	inc hl			;2a86
@@ -9697,11 +9697,11 @@ l2a82h:
 	ld (hl),e			;2a88
 	inc hl			;2a89
 	cp e			;2a8a
-	jp z,l2a93h		;2a8b
+	jp z,SSG_UpdateChC_L2A93		;2a8b
 	ld d,006h		;2a8e
 	ld c,004h		;2a90
 	rst 8			;2a92
-l2a93h:
+SSG_UpdateChC_L2A93:
 	ld e,(hl)			;2a93
 	inc hl			;2a94
 	ld a,(hl)			;2a95
@@ -9811,7 +9811,7 @@ FM_Init_2B43:
 	rst 8			;2b54
 	ld de,02806h		;2b55
 	rst 8			;2b58
-l2b59h:
+FM_Init_L2B59:
 	ld de,0417fh		;2b59  YM reg 41h <- 7Fh
 	rst 8			;2b5c
 	ld de,0427fh		;2b5d  YM reg 42h <- 7Fh
@@ -9830,10 +9830,10 @@ l2b59h:
 	rst 8			;2b78
 	ld a,c			;2b79
 	cp 004h		;2b7a
-	jr nz,l2b83h		;2b7c
+	jr nz,FM_Init_L2B83		;2b7c
 	ld c,006h		;2b7e
-	jp l2b59h		;2b80
-l2b83h:
+	jp FM_Init_L2B59		;2b80
+FM_Init_L2B83:
 	ld ix,wFM_Ch1_F907		;2b83
 	ld (ix+012h),001h		;2b87
 	call FM_InitChannel_2BB7		;2b8b
@@ -9954,18 +9954,18 @@ FM_Update_2C5F:
 	ld a,(hl)			;2c64
 	ld (hl),e			;2c65
 	cp e			;2c66
-	jp z,l2c6fh		;2c67
+	jp z,FM_Update_L2C6F		;2c67
 	ld d,022h		;2c6a
 	ld c,004h		;2c6c
 	rst 8			;2c6e
-l2c6fh:
+FM_Update_L2C6F:
 	ld ix,wFM_Ch1_F907		;2c6f
 	ld iy,(wFM_Ch1_F907)		;2c73
 	bit 3,(iy+009h)		;2c77
 	call nz,Ch_ResetStruct_201B		;2c7b
 	ld a,(0f93fh)		;2c7e
 	and a			;2c81
-	jp p,l2c95h		;2c82
+	jp p,FM_Update_L2C95		;2c82
 	ld hl,0f942h		;2c85
 	xor a			;2c88
 	ld (hl),a			;2c89
@@ -9975,7 +9975,7 @@ l2c6fh:
 	rst 8			;2c8f
 	ld a,0ffh		;2c90
 	ld (0f917h),a		;2c92
-l2c95h:
+FM_Update_L2C95:
 	ld a,(0f918h)		;2c95
 	ld hl,(0f910h)		;2c98
 	add a,h			;2c9b
@@ -10004,29 +10004,29 @@ l2c95h:
 	and a			;2ccf
 	ex de,hl			;2cd0
 	sbc hl,de		;2cd1
-	jp z,l2d05h		;2cd3
+	jp z,FM_Update_L2D05		;2cd3
 	ld (0f915h),de		;2cd6
 	ex de,hl			;2cda
 	ld a,h			;2cdb
 	and a			;2cdc
-	jp p,l2ce2h		;2cdd
+	jp p,FM_Update_L2CE2		;2cdd
 	xor a			;2ce0
 	ld l,a			;2ce1
-l2ce2h:
+FM_Update_L2CE2:
 	ld h,012h		;2ce2
 	ld d,(hl)			;2ce4
 	inc h			;2ce5
 	ld e,(hl)			;2ce6
 	ex de,hl			;2ce7
 	cp 008h		;2ce8
-	jr c,l2cf7h		;2cea
-	jr z,l2cf4h		;2cec
+	jr c,FM_Update_L2CF7		;2cea
+	jr z,FM_Update_L2CF4		;2cec
 	ld hl,0ffffh		;2cee
-	jp l2cf7h		;2cf1
-l2cf4h:
+	jp FM_Update_L2CF7		;2cf1
+FM_Update_L2CF4:
 	ld a,007h		;2cf4
 	add hl,hl			;2cf6
-l2cf7h:
+FM_Update_L2CF7:
 	add a,a			;2cf7
 	add a,a			;2cf8
 	add a,a			;2cf9
@@ -10038,7 +10038,7 @@ l2cf7h:
 	ld e,l			;2d01
 	ld d,0a1h		;2d02
 	rst 8			;2d04
-l2d05h:
+FM_Update_L2D05:
 	ld hl,0f945h		;2d05
 	ld d,(iy+00dh)		;2d08
 	call Env_Update_231E		;2d0b
@@ -10047,20 +10047,20 @@ l2d05h:
 	ld b,a			;2d10
 	ld a,(0f93fh)		;2d11
 	and a			;2d14
-	jp p,l2d1ah		;2d15
+	jp p,FM_Update_L2D1A		;2d15
 	ld b,000h		;2d18
-l2d1ah:
+FM_Update_L2D1A:
 	ld a,b			;2d1a
 	ld l,a			;2d1b
 	ld a,(0f912h)		;2d1c
 	and a			;2d1f
-	jr z,l2d37h		;2d20
+	jr z,FM_Update_L2D37		;2d20
 	inc l			;2d22
-	jr z,l2d37h		;2d23
+	jr z,FM_Update_L2D37		;2d23
 	ex af,af'			;2d25
 	dec l			;2d26
 	ld a,l			;2d27
-	jr z,l2d37h		;2d28
+	jr z,FM_Update_L2D37		;2d28
 	ld h,014h		;2d2a
 	ld a,(hl)			;2d2c
 	ex af,af'			;2d2d
@@ -10069,19 +10069,19 @@ l2d1ah:
 	add a,(hl)			;2d30
 	ld l,a			;2d31
 	sbc a,a			;2d32
-	jr nc,l2d37h		;2d33
+	jr nc,FM_Update_L2D37		;2d33
 	inc h			;2d35
 	ld a,(hl)			;2d36
-l2d37h:
+FM_Update_L2D37:
 	ld l,(iy+012h)		;2d37
 	and a			;2d3a
-	jr z,l2d52h		;2d3b
+	jr z,FM_Update_L2D52		;2d3b
 	inc l			;2d3d
-	jr z,l2d52h		;2d3e
+	jr z,FM_Update_L2D52		;2d3e
 	ex af,af'			;2d40
 	dec l			;2d41
 	ld a,l			;2d42
-	jr z,l2d52h		;2d43
+	jr z,FM_Update_L2D52		;2d43
 	ld h,014h		;2d45
 	ld a,(hl)			;2d47
 	ex af,af'			;2d48
@@ -10090,24 +10090,24 @@ l2d37h:
 	add a,(hl)			;2d4b
 	ld l,a			;2d4c
 	sbc a,a			;2d4d
-	jr nc,l2d52h		;2d4e
+	jr nc,FM_Update_L2D52		;2d4e
 	inc h			;2d50
 	ld a,(hl)			;2d51
-l2d52h:
+FM_Update_L2D52:
 	ld l,a			;2d52
 	ld a,0ffh		;2d53
 	bit 1,(iy+009h)		;2d55
-	jp z,l2d5fh		;2d59
+	jp z,FM_Update_L2D5F		;2d59
 	ld a,(wMasterVolume_F805)		;2d5c
-l2d5fh:
+FM_Update_L2D5F:
 	and a			;2d5f
-	jr z,l2d77h		;2d60
+	jr z,FM_Update_L2D77		;2d60
 	inc l			;2d62
-	jr z,l2d77h		;2d63
+	jr z,FM_Update_L2D77		;2d63
 	ex af,af'			;2d65
 	dec l			;2d66
 	ld a,l			;2d67
-	jr z,l2d77h		;2d68
+	jr z,FM_Update_L2D77		;2d68
 	ld h,014h		;2d6a
 	ld a,(hl)			;2d6c
 	ex af,af'			;2d6d
@@ -10116,14 +10116,14 @@ l2d5fh:
 	add a,(hl)			;2d70
 	ld l,a			;2d71
 	sbc a,a			;2d72
-	jr nc,l2d77h		;2d73
+	jr nc,FM_Update_L2D77		;2d73
 	inc h			;2d75
 	ld a,(hl)			;2d76
-l2d77h:
+FM_Update_L2D77:
 	ld hl,0f917h		;2d77
 	cp (hl)			;2d7a
 	ld (hl),a			;2d7b
-	jp z,l2de6h		;2d7c
+	jp z,FM_Update_L2DE6		;2d7c
 	ld l,a			;2d7f
 	set 7,l		;2d80
 	ld h,018h		;2d82
@@ -10131,11 +10131,11 @@ l2d77h:
 	ld a,(ix+038h)		;2d85
 	and 007h		;2d88
 	cp 004h		;2d8a
-	jr c,l2dd2h		;2d8c
+	jr c,FM_Update_L2DD2		;2d8c
 	cp 005h		;2d8e
-	jr c,l2dbeh		;2d90
+	jr c,FM_Update_L2DBE		;2d90
 	cp 007h		;2d92
-	jr c,l2daah		;2d94
+	jr c,FM_Update_L2DAA		;2d94
 	ld a,(0f923h)		;2d96
 	add a,b			;2d99
 	ld c,a			;2d9a
@@ -10144,11 +10144,11 @@ l2d77h:
 	or c			;2d9d
 	ld hl,0f91ch		;2d9e
 	cp (hl)			;2da1
-	jr z,l2daah		;2da2
+	jr z,FM_Update_L2DAA		;2da2
 	ld (hl),a			;2da4
 	ld hl,0f922h		;2da5
 	set 1,(hl)		;2da8
-l2daah:
+FM_Update_L2DAA:
 	ld a,(0f935h)		;2daa
 	add a,b			;2dad
 	ld c,a			;2dae
@@ -10157,11 +10157,11 @@ l2daah:
 	or c			;2db1
 	ld hl,0f92eh		;2db2
 	cp (hl)			;2db5
-	jr z,l2dbeh		;2db6
+	jr z,FM_Update_L2DBE		;2db6
 	ld (hl),a			;2db8
 	ld hl,0f934h		;2db9
 	set 1,(hl)		;2dbc
-l2dbeh:
+FM_Update_L2DBE:
 	ld a,(0f92ch)		;2dbe
 	add a,b			;2dc1
 	ld c,a			;2dc2
@@ -10170,11 +10170,11 @@ l2dbeh:
 	or c			;2dc5
 	ld hl,0f925h		;2dc6
 	cp (hl)			;2dc9
-	jr z,l2dd2h		;2dca
+	jr z,FM_Update_L2DD2		;2dca
 	ld (hl),a			;2dcc
 	ld hl,0f92bh		;2dcd
 	set 1,(hl)		;2dd0
-l2dd2h:
+FM_Update_L2DD2:
 	ld a,(0f93eh)		;2dd2
 	add a,b			;2dd5
 	ld c,a			;2dd6
@@ -10183,99 +10183,99 @@ l2dd2h:
 	or c			;2dd9
 	ld hl,0f937h		;2dda
 	cp (hl)			;2ddd
-	jr z,l2de6h		;2dde
+	jr z,FM_Update_L2DE6		;2dde
 	ld (hl),a			;2de0
 	ld hl,0f93dh		;2de1
 	set 1,(hl)		;2de4
-l2de6h:
+FM_Update_L2DE6:
 	ld c,004h		;2de6
 	ld a,(0f922h)		;2de8
 	and a			;2deb
-	jr z,l2dfah		;2dec
+	jr z,FM_Update_L2DFA		;2dec
 	ld hl,0f91bh		;2dee
 	ld d,031h		;2df1
 	call FM_WriteOpRegs_2C03		;2df3
 	xor a			;2df6
 	ld (0f922h),a		;2df7
-l2dfah:
+FM_Update_L2DFA:
 	ld a,(0f92bh)		;2dfa
 	and a			;2dfd
-	jr z,l2e0ch		;2dfe
+	jr z,FM_Update_L2E0C		;2dfe
 	ld hl,0f924h		;2e00
 	ld d,039h		;2e03
 	call FM_WriteOpRegs_2C03		;2e05
 	xor a			;2e08
 	ld (0f92bh),a		;2e09
-l2e0ch:
+FM_Update_L2E0C:
 	ld a,(0f934h)		;2e0c
 	and a			;2e0f
-	jr z,l2e1eh		;2e10
+	jr z,FM_Update_L2E1E		;2e10
 	ld hl,0f92dh		;2e12
 	ld d,035h		;2e15
 	call FM_WriteOpRegs_2C03		;2e17
 	xor a			;2e1a
 	ld (0f934h),a		;2e1b
-l2e1eh:
+FM_Update_L2E1E:
 	ld a,(0f93dh)		;2e1e
 	and a			;2e21
-	jr z,l2e30h		;2e22
+	jr z,FM_Update_L2E30		;2e22
 	ld hl,0f936h		;2e24
 	ld d,03dh		;2e27
 	call FM_WriteOpRegs_2C03		;2e29
 	xor a			;2e2c
 	ld (0f93dh),a		;2e2d
-l2e30h:
+FM_Update_L2E30:
 	ld hl,0f93fh		;2e30
 	ld a,(hl)			;2e33
 	and 07fh		;2e34
 	ld (hl),a			;2e36
 	inc hl			;2e37
 	cp (hl)			;2e38
-	jp z,l2e41h		;2e39
+	jp z,FM_Update_L2E41		;2e39
 	ld (hl),a			;2e3c
 	ld e,a			;2e3d
 	ld d,0b1h		;2e3e
 	rst 8			;2e40
-l2e41h:
+FM_Update_L2E41:
 	inc hl			;2e41
 	ld a,(hl)			;2e42
 	ld b,a			;2e43
 	and 0c0h		;2e44
 	ld a,b			;2e46
-	jr nz,l2e52h		;2e47
+	jr nz,FM_Update_L2E52		;2e47
 	ld b,a			;2e49
 	ld a,(iy+00fh)		;2e4a
 	and 003h		;2e4d
 	rrca			;2e4f
 	rrca			;2e50
 	or b			;2e51
-l2e52h:
+FM_Update_L2E52:
 	inc hl			;2e52
 	cp (hl)			;2e53
-	jr z,l2e5dh		;2e54
+	jr z,FM_Update_L2E5D		;2e54
 	ld (hl),a			;2e56
 	ld e,a			;2e57
 	ld d,0b5h		;2e58
 	ld c,004h		;2e5a
 	rst 8			;2e5c
-l2e5dh:
+FM_Update_L2E5D:
 	inc hl			;2e5d
 	ld a,(hl)			;2e5e
 	inc hl			;2e5f
 	cp (hl)			;2e60
-	jp z,l2e6bh		;2e61
+	jp z,FM_Update_L2E6B		;2e61
 	ld (hl),a			;2e64
 	ld c,004h		;2e65
 	ld d,028h		;2e67
 	ld e,a			;2e69
 	rst 8			;2e6a
-l2e6bh:
+FM_Update_L2E6B:
 	ld c,001h		;2e6b
 	bit 1,(iy+009h)		;2e6d
-	jr z,l2e77h		;2e71
+	jr z,FM_Update_L2E77		;2e71
 	ld a,(wTempoStep_F809)		;2e73
 	ld c,a			;2e76
-l2e77h:
+FM_Update_L2E77:
 	ld hl,0f90dh		;2e77
 	ld a,(hl)			;2e7a
 	add a,c			;2e7b
@@ -10284,32 +10284,32 @@ l2e77h:
 	ld hl,0f90ch		;2e7f
 	ld a,(hl)			;2e82
 	and a			;2e83
-	jp z,l2e98h		;2e84
+	jp z,FM_Update_L2E98		;2e84
 	sub c			;2e87
 	ld (hl),a			;2e88
-	jr nz,l2eadh		;2e89
+	jr nz,FM_Update_L2EAD		;2e89
 	bit 4,(iy+009h)		;2e8b
-	jr z,l2ea7h		;2e8f
+	jr z,FM_Update_L2EA7		;2e8f
 	set 4,(ix+003h)		;2e91
-	jp l2eadh		;2e95
-l2e98h:
+	jp FM_Update_L2EAD		;2e95
+FM_Update_L2E98:
 	bit 4,(iy+009h)		;2e98
-	jr nz,l2eadh		;2e9c
+	jr nz,FM_Update_L2EAD		;2e9c
 	ld hl,0f90ah		;2e9e
 	bit 4,(hl)		;2ea1
-	jr z,l2eadh		;2ea3
+	jr z,FM_Update_L2EAD		;2ea3
 	res 4,(hl)		;2ea5
-l2ea7h:
+FM_Update_L2EA7:
 	ld a,(0f919h)		;2ea7
 	ld (0f943h),a		;2eaa
-l2eadh:
+FM_Update_L2EAD:
 	ld ix,wFM_Ch2_F96E		;2ead
 	ld iy,(wFM_Ch2_F96E)		;2eb1
 	bit 3,(iy+009h)		;2eb5
 	call nz,Ch_ResetStruct_201B		;2eb9
 	ld a,(0f9a6h)		;2ebc
 	and a			;2ebf
-	jp p,l2ed3h		;2ec0
+	jp p,FM_Update_L2ED3		;2ec0
 	ld hl,0f9a9h		;2ec3
 	xor a			;2ec6
 	ld (hl),a			;2ec7
@@ -10319,7 +10319,7 @@ l2eadh:
 	rst 8			;2ecd
 	ld a,0ffh		;2ece
 	ld (0f97eh),a		;2ed0
-l2ed3h:
+FM_Update_L2ED3:
 	ld a,(0f97fh)		;2ed3
 	ld hl,(0f977h)		;2ed6
 	add a,h			;2ed9
@@ -10348,29 +10348,29 @@ l2ed3h:
 	and a			;2f0d
 	ex de,hl			;2f0e
 	sbc hl,de		;2f0f
-	jp z,l2f43h		;2f11
+	jp z,FM_Update_L2F43		;2f11
 	ld (0f97ch),de		;2f14
 	ex de,hl			;2f18
 	ld a,h			;2f19
 	and a			;2f1a
-	jp p,l2f20h		;2f1b
+	jp p,FM_Update_L2F20		;2f1b
 	xor a			;2f1e
 	ld l,a			;2f1f
-l2f20h:
+FM_Update_L2F20:
 	ld h,012h		;2f20
 	ld d,(hl)			;2f22
 	inc h			;2f23
 	ld e,(hl)			;2f24
 	ex de,hl			;2f25
 	cp 008h		;2f26
-	jr c,l2f35h		;2f28
-	jr z,l2f32h		;2f2a
+	jr c,FM_Update_L2F35		;2f28
+	jr z,FM_Update_L2F32		;2f2a
 	ld hl,0ffffh		;2f2c
-	jp l2f35h		;2f2f
-l2f32h:
+	jp FM_Update_L2F35		;2f2f
+FM_Update_L2F32:
 	ld a,007h		;2f32
 	add hl,hl			;2f34
-l2f35h:
+FM_Update_L2F35:
 	add a,a			;2f35
 	add a,a			;2f36
 	add a,a			;2f37
@@ -10382,7 +10382,7 @@ l2f35h:
 	ld e,l			;2f3f
 	ld d,0a2h		;2f40
 	rst 8			;2f42
-l2f43h:
+FM_Update_L2F43:
 	ld hl,0f9ach		;2f43
 	ld d,(iy+00dh)		;2f46
 	call Env_Update_231E		;2f49
@@ -10391,20 +10391,20 @@ l2f43h:
 	ld b,a			;2f4e
 	ld a,(0f9a6h)		;2f4f
 	and a			;2f52
-	jp p,l2f58h		;2f53
+	jp p,FM_Update_L2F58		;2f53
 	ld b,000h		;2f56
-l2f58h:
+FM_Update_L2F58:
 	ld a,b			;2f58
 	ld l,a			;2f59
 	ld a,(0f979h)		;2f5a
 	and a			;2f5d
-	jr z,l2f75h		;2f5e
+	jr z,FM_Update_L2F75		;2f5e
 	inc l			;2f60
-	jr z,l2f75h		;2f61
+	jr z,FM_Update_L2F75		;2f61
 	ex af,af'			;2f63
 	dec l			;2f64
 	ld a,l			;2f65
-	jr z,l2f75h		;2f66
+	jr z,FM_Update_L2F75		;2f66
 	ld h,014h		;2f68
 	ld a,(hl)			;2f6a
 	ex af,af'			;2f6b
@@ -10413,19 +10413,19 @@ l2f58h:
 	add a,(hl)			;2f6e
 	ld l,a			;2f6f
 	sbc a,a			;2f70
-	jr nc,l2f75h		;2f71
+	jr nc,FM_Update_L2F75		;2f71
 	inc h			;2f73
 	ld a,(hl)			;2f74
-l2f75h:
+FM_Update_L2F75:
 	ld l,(iy+012h)		;2f75
 	and a			;2f78
-	jr z,l2f90h		;2f79
+	jr z,FM_Update_L2F90		;2f79
 	inc l			;2f7b
-	jr z,l2f90h		;2f7c
+	jr z,FM_Update_L2F90		;2f7c
 	ex af,af'			;2f7e
 	dec l			;2f7f
 	ld a,l			;2f80
-	jr z,l2f90h		;2f81
+	jr z,FM_Update_L2F90		;2f81
 	ld h,014h		;2f83
 	ld a,(hl)			;2f85
 	ex af,af'			;2f86
@@ -10434,24 +10434,24 @@ l2f75h:
 	add a,(hl)			;2f89
 	ld l,a			;2f8a
 	sbc a,a			;2f8b
-	jr nc,l2f90h		;2f8c
+	jr nc,FM_Update_L2F90		;2f8c
 	inc h			;2f8e
 	ld a,(hl)			;2f8f
-l2f90h:
+FM_Update_L2F90:
 	ld l,a			;2f90
 	ld a,0ffh		;2f91
 	bit 1,(iy+009h)		;2f93
-	jp z,l2f9dh		;2f97
+	jp z,FM_Update_L2F9D		;2f97
 	ld a,(wMasterVolume_F805)		;2f9a
-l2f9dh:
+FM_Update_L2F9D:
 	and a			;2f9d
-	jr z,l2fb5h		;2f9e
+	jr z,FM_Update_L2FB5		;2f9e
 	inc l			;2fa0
-	jr z,l2fb5h		;2fa1
+	jr z,FM_Update_L2FB5		;2fa1
 	ex af,af'			;2fa3
 	dec l			;2fa4
 	ld a,l			;2fa5
-	jr z,l2fb5h		;2fa6
+	jr z,FM_Update_L2FB5		;2fa6
 	ld h,014h		;2fa8
 	ld a,(hl)			;2faa
 	ex af,af'			;2fab
@@ -10460,14 +10460,14 @@ l2f9dh:
 	add a,(hl)			;2fae
 	ld l,a			;2faf
 	sbc a,a			;2fb0
-	jr nc,l2fb5h		;2fb1
+	jr nc,FM_Update_L2FB5		;2fb1
 	inc h			;2fb3
 	ld a,(hl)			;2fb4
-l2fb5h:
+FM_Update_L2FB5:
 	ld hl,0f97eh		;2fb5
 	cp (hl)			;2fb8
 	ld (hl),a			;2fb9
-	jp z,l3024h		;2fba
+	jp z,FM_Update_L3024		;2fba
 	ld l,a			;2fbd
 	set 7,l		;2fbe
 	ld h,018h		;2fc0
@@ -10475,11 +10475,11 @@ l2fb5h:
 	ld a,(ix+038h)		;2fc3
 	and 007h		;2fc6
 	cp 004h		;2fc8
-	jr c,l3010h		;2fca
+	jr c,FM_Update_L3010		;2fca
 	cp 005h		;2fcc
-	jr c,l2ffch		;2fce
+	jr c,FM_Update_L2FFC		;2fce
 	cp 007h		;2fd0
-	jr c,l2fe8h		;2fd2
+	jr c,FM_Update_L2FE8		;2fd2
 	ld a,(0f98ah)		;2fd4
 	add a,b			;2fd7
 	ld c,a			;2fd8
@@ -10488,11 +10488,11 @@ l2fb5h:
 	or c			;2fdb
 	ld hl,0f983h		;2fdc
 	cp (hl)			;2fdf
-	jr z,l2fe8h		;2fe0
+	jr z,FM_Update_L2FE8		;2fe0
 	ld (hl),a			;2fe2
 	ld hl,0f989h		;2fe3
 	set 1,(hl)		;2fe6
-l2fe8h:
+FM_Update_L2FE8:
 	ld a,(0f99ch)		;2fe8
 	add a,b			;2feb
 	ld c,a			;2fec
@@ -10501,11 +10501,11 @@ l2fe8h:
 	or c			;2fef
 	ld hl,0f995h		;2ff0
 	cp (hl)			;2ff3
-	jr z,l2ffch		;2ff4
+	jr z,FM_Update_L2FFC		;2ff4
 	ld (hl),a			;2ff6
 	ld hl,0f99bh		;2ff7
 	set 1,(hl)		;2ffa
-l2ffch:
+FM_Update_L2FFC:
 	ld a,(0f993h)		;2ffc
 	add a,b			;2fff
 	ld c,a			;3000
@@ -10514,11 +10514,11 @@ l2ffch:
 	or c			;3003
 	ld hl,0f98ch		;3004
 	cp (hl)			;3007
-	jr z,l3010h		;3008
+	jr z,FM_Update_L3010		;3008
 	ld (hl),a			;300a
 	ld hl,0f992h		;300b
 	set 1,(hl)		;300e
-l3010h:
+FM_Update_L3010:
 	ld a,(0f9a5h)		;3010
 	add a,b			;3013
 	ld c,a			;3014
@@ -10527,99 +10527,99 @@ l3010h:
 	or c			;3017
 	ld hl,0f99eh		;3018
 	cp (hl)			;301b
-	jr z,l3024h		;301c
+	jr z,FM_Update_L3024		;301c
 	ld (hl),a			;301e
 	ld hl,0f9a4h		;301f
 	set 1,(hl)		;3022
-l3024h:
+FM_Update_L3024:
 	ld c,004h		;3024
 	ld a,(0f989h)		;3026
 	and a			;3029
-	jr z,l3038h		;302a
+	jr z,FM_Update_L3038		;302a
 	ld hl,0f982h		;302c
 	ld d,032h		;302f
 	call FM_WriteOpRegs_2C03		;3031
 	xor a			;3034
 	ld (0f989h),a		;3035
-l3038h:
+FM_Update_L3038:
 	ld a,(0f992h)		;3038
 	and a			;303b
-	jr z,l304ah		;303c
+	jr z,FM_Update_L304A		;303c
 	ld hl,0f98bh		;303e
 	ld d,03ah		;3041
 	call FM_WriteOpRegs_2C03		;3043
 	xor a			;3046
 	ld (0f992h),a		;3047
-l304ah:
+FM_Update_L304A:
 	ld a,(0f99bh)		;304a
 	and a			;304d
-	jr z,l305ch		;304e
+	jr z,FM_Update_L305C		;304e
 	ld hl,0f994h		;3050
 	ld d,036h		;3053
 	call FM_WriteOpRegs_2C03		;3055
 	xor a			;3058
 	ld (0f99bh),a		;3059
-l305ch:
+FM_Update_L305C:
 	ld a,(0f9a4h)		;305c
 	and a			;305f
-	jr z,l306eh		;3060
+	jr z,FM_Update_L306E		;3060
 	ld hl,0f99dh		;3062
 	ld d,03eh		;3065
 	call FM_WriteOpRegs_2C03		;3067
 	xor a			;306a
 	ld (0f9a4h),a		;306b
-l306eh:
+FM_Update_L306E:
 	ld hl,0f9a6h		;306e
 	ld a,(hl)			;3071
 	and 07fh		;3072
 	ld (hl),a			;3074
 	inc hl			;3075
 	cp (hl)			;3076
-	jp z,l307fh		;3077
+	jp z,FM_Update_L307F		;3077
 	ld (hl),a			;307a
 	ld e,a			;307b
 	ld d,0b2h		;307c
 	rst 8			;307e
-l307fh:
+FM_Update_L307F:
 	inc hl			;307f
 	ld a,(hl)			;3080
 	ld b,a			;3081
 	and 0c0h		;3082
 	ld a,b			;3084
-	jr nz,l3090h		;3085
+	jr nz,FM_Update_L3090		;3085
 	ld b,a			;3087
 	ld a,(iy+00fh)		;3088
 	and 003h		;308b
 	rrca			;308d
 	rrca			;308e
 	or b			;308f
-l3090h:
+FM_Update_L3090:
 	inc hl			;3090
 	cp (hl)			;3091
-	jr z,l309bh		;3092
+	jr z,FM_Update_L309B		;3092
 	ld (hl),a			;3094
 	ld e,a			;3095
 	ld d,0b6h		;3096
 	ld c,004h		;3098
 	rst 8			;309a
-l309bh:
+FM_Update_L309B:
 	inc hl			;309b
 	ld a,(hl)			;309c
 	inc hl			;309d
 	cp (hl)			;309e
-	jp z,l30a9h		;309f
+	jp z,FM_Update_L30A9		;309f
 	ld (hl),a			;30a2
 	ld c,004h		;30a3
 	ld d,028h		;30a5
 	ld e,a			;30a7
 	rst 8			;30a8
-l30a9h:
+FM_Update_L30A9:
 	ld c,001h		;30a9
 	bit 1,(iy+009h)		;30ab
-	jr z,l30b5h		;30af
+	jr z,FM_Update_L30B5		;30af
 	ld a,(wTempoStep_F809)		;30b1
 	ld c,a			;30b4
-l30b5h:
+FM_Update_L30B5:
 	ld hl,0f974h		;30b5
 	ld a,(hl)			;30b8
 	add a,c			;30b9
@@ -10628,32 +10628,32 @@ l30b5h:
 	ld hl,0f973h		;30bd
 	ld a,(hl)			;30c0
 	and a			;30c1
-	jp z,l30d6h		;30c2
+	jp z,FM_Update_L30D6		;30c2
 	sub c			;30c5
 	ld (hl),a			;30c6
-	jr nz,l30ebh		;30c7
+	jr nz,FM_Update_L30EB		;30c7
 	bit 4,(iy+009h)		;30c9
-	jr z,l30e5h		;30cd
+	jr z,FM_Update_L30E5		;30cd
 	set 4,(ix+003h)		;30cf
-	jp l30ebh		;30d3
-l30d6h:
+	jp FM_Update_L30EB		;30d3
+FM_Update_L30D6:
 	bit 4,(iy+009h)		;30d6
-	jr nz,l30ebh		;30da
+	jr nz,FM_Update_L30EB		;30da
 	ld hl,0f971h		;30dc
 	bit 4,(hl)		;30df
-	jr z,l30ebh		;30e1
+	jr z,FM_Update_L30EB		;30e1
 	res 4,(hl)		;30e3
-l30e5h:
+FM_Update_L30E5:
 	ld a,(0f980h)		;30e5
 	ld (0f9aah),a		;30e8
-l30ebh:
+FM_Update_L30EB:
 	ld ix,wFM_Ch3_F9D5		;30eb
 	ld iy,(wFM_Ch3_F9D5)		;30ef
 	bit 3,(iy+009h)		;30f3
 	call nz,Ch_ResetStruct_201B		;30f7
 	ld a,(0fa0dh)		;30fa
 	and a			;30fd
-	jp p,l3111h		;30fe
+	jp p,FM_Update_L3111		;30fe
 	ld hl,0fa10h		;3101
 	xor a			;3104
 	ld (hl),a			;3105
@@ -10663,7 +10663,7 @@ l30ebh:
 	rst 8			;310b
 	ld a,0ffh		;310c
 	ld (0f9e5h),a		;310e
-l3111h:
+FM_Update_L3111:
 	ld a,(0f9e6h)		;3111
 	ld hl,(0f9deh)		;3114
 	add a,h			;3117
@@ -10692,29 +10692,29 @@ l3111h:
 	and a			;314b
 	ex de,hl			;314c
 	sbc hl,de		;314d
-	jp z,l3181h		;314f
+	jp z,FM_Update_L3181		;314f
 	ld (0f9e3h),de		;3152
 	ex de,hl			;3156
 	ld a,h			;3157
 	and a			;3158
-	jp p,l315eh		;3159
+	jp p,FM_Update_L315E		;3159
 	xor a			;315c
 	ld l,a			;315d
-l315eh:
+FM_Update_L315E:
 	ld h,012h		;315e
 	ld d,(hl)			;3160
 	inc h			;3161
 	ld e,(hl)			;3162
 	ex de,hl			;3163
 	cp 008h		;3164
-	jr c,l3173h		;3166
-	jr z,l3170h		;3168
+	jr c,FM_Update_L3173		;3166
+	jr z,FM_Update_L3170		;3168
 	ld hl,0ffffh		;316a
-	jp l3173h		;316d
-l3170h:
+	jp FM_Update_L3173		;316d
+FM_Update_L3170:
 	ld a,007h		;3170
 	add hl,hl			;3172
-l3173h:
+FM_Update_L3173:
 	add a,a			;3173
 	add a,a			;3174
 	add a,a			;3175
@@ -10726,7 +10726,7 @@ l3173h:
 	ld e,l			;317d
 	ld d,0a1h		;317e
 	rst 8			;3180
-l3181h:
+FM_Update_L3181:
 	ld hl,0fa13h		;3181
 	ld d,(iy+00dh)		;3184
 	call Env_Update_231E		;3187
@@ -10735,20 +10735,20 @@ l3181h:
 	ld b,a			;318c
 	ld a,(0fa0dh)		;318d
 	and a			;3190
-	jp p,l3196h		;3191
+	jp p,FM_Update_L3196		;3191
 	ld b,000h		;3194
-l3196h:
+FM_Update_L3196:
 	ld a,b			;3196
 	ld l,a			;3197
 	ld a,(0f9e0h)		;3198
 	and a			;319b
-	jr z,l31b3h		;319c
+	jr z,FM_Update_L31B3		;319c
 	inc l			;319e
-	jr z,l31b3h		;319f
+	jr z,FM_Update_L31B3		;319f
 	ex af,af'			;31a1
 	dec l			;31a2
 	ld a,l			;31a3
-	jr z,l31b3h		;31a4
+	jr z,FM_Update_L31B3		;31a4
 	ld h,014h		;31a6
 	ld a,(hl)			;31a8
 	ex af,af'			;31a9
@@ -10757,19 +10757,19 @@ l3196h:
 	add a,(hl)			;31ac
 	ld l,a			;31ad
 	sbc a,a			;31ae
-	jr nc,l31b3h		;31af
+	jr nc,FM_Update_L31B3		;31af
 	inc h			;31b1
 	ld a,(hl)			;31b2
-l31b3h:
+FM_Update_L31B3:
 	ld l,(iy+012h)		;31b3
 	and a			;31b6
-	jr z,l31ceh		;31b7
+	jr z,FM_Update_L31CE		;31b7
 	inc l			;31b9
-	jr z,l31ceh		;31ba
+	jr z,FM_Update_L31CE		;31ba
 	ex af,af'			;31bc
 	dec l			;31bd
 	ld a,l			;31be
-	jr z,l31ceh		;31bf
+	jr z,FM_Update_L31CE		;31bf
 	ld h,014h		;31c1
 	ld a,(hl)			;31c3
 	ex af,af'			;31c4
@@ -10778,24 +10778,24 @@ l31b3h:
 	add a,(hl)			;31c7
 	ld l,a			;31c8
 	sbc a,a			;31c9
-	jr nc,l31ceh		;31ca
+	jr nc,FM_Update_L31CE		;31ca
 	inc h			;31cc
 	ld a,(hl)			;31cd
-l31ceh:
+FM_Update_L31CE:
 	ld l,a			;31ce
 	ld a,0ffh		;31cf
 	bit 1,(iy+009h)		;31d1
-	jp z,l31dbh		;31d5
+	jp z,FM_Update_L31DB		;31d5
 	ld a,(wMasterVolume_F805)		;31d8
-l31dbh:
+FM_Update_L31DB:
 	and a			;31db
-	jr z,l31f3h		;31dc
+	jr z,FM_Update_L31F3		;31dc
 	inc l			;31de
-	jr z,l31f3h		;31df
+	jr z,FM_Update_L31F3		;31df
 	ex af,af'			;31e1
 	dec l			;31e2
 	ld a,l			;31e3
-	jr z,l31f3h		;31e4
+	jr z,FM_Update_L31F3		;31e4
 	ld h,014h		;31e6
 	ld a,(hl)			;31e8
 	ex af,af'			;31e9
@@ -10804,14 +10804,14 @@ l31dbh:
 	add a,(hl)			;31ec
 	ld l,a			;31ed
 	sbc a,a			;31ee
-	jr nc,l31f3h		;31ef
+	jr nc,FM_Update_L31F3		;31ef
 	inc h			;31f1
 	ld a,(hl)			;31f2
-l31f3h:
+FM_Update_L31F3:
 	ld hl,0f9e5h		;31f3
 	cp (hl)			;31f6
 	ld (hl),a			;31f7
-	jp z,l3262h		;31f8
+	jp z,FM_Update_L3262		;31f8
 	ld l,a			;31fb
 	set 7,l		;31fc
 	ld h,018h		;31fe
@@ -10819,11 +10819,11 @@ l31f3h:
 	ld a,(ix+038h)		;3201
 	and 007h		;3204
 	cp 004h		;3206
-	jr c,l324eh		;3208
+	jr c,FM_Update_L324E		;3208
 	cp 005h		;320a
-	jr c,l323ah		;320c
+	jr c,FM_Update_L323A		;320c
 	cp 007h		;320e
-	jr c,l3226h		;3210
+	jr c,FM_Update_L3226		;3210
 	ld a,(0f9f1h)		;3212
 	add a,b			;3215
 	ld c,a			;3216
@@ -10832,11 +10832,11 @@ l31f3h:
 	or c			;3219
 	ld hl,0f9eah		;321a
 	cp (hl)			;321d
-	jr z,l3226h		;321e
+	jr z,FM_Update_L3226		;321e
 	ld (hl),a			;3220
 	ld hl,0f9f0h		;3221
 	set 1,(hl)		;3224
-l3226h:
+FM_Update_L3226:
 	ld a,(0fa03h)		;3226
 	add a,b			;3229
 	ld c,a			;322a
@@ -10845,11 +10845,11 @@ l3226h:
 	or c			;322d
 	ld hl,0f9fch		;322e
 	cp (hl)			;3231
-	jr z,l323ah		;3232
+	jr z,FM_Update_L323A		;3232
 	ld (hl),a			;3234
 	ld hl,0fa02h		;3235
 	set 1,(hl)		;3238
-l323ah:
+FM_Update_L323A:
 	ld a,(0f9fah)		;323a
 	add a,b			;323d
 	ld c,a			;323e
@@ -10858,11 +10858,11 @@ l323ah:
 	or c			;3241
 	ld hl,0f9f3h		;3242
 	cp (hl)			;3245
-	jr z,l324eh		;3246
+	jr z,FM_Update_L324E		;3246
 	ld (hl),a			;3248
 	ld hl,0f9f9h		;3249
 	set 1,(hl)		;324c
-l324eh:
+FM_Update_L324E:
 	ld a,(0fa0ch)		;324e
 	add a,b			;3251
 	ld c,a			;3252
@@ -10871,99 +10871,99 @@ l324eh:
 	or c			;3255
 	ld hl,0fa05h		;3256
 	cp (hl)			;3259
-	jr z,l3262h		;325a
+	jr z,FM_Update_L3262		;325a
 	ld (hl),a			;325c
 	ld hl,0fa0bh		;325d
 	set 1,(hl)		;3260
-l3262h:
+FM_Update_L3262:
 	ld c,006h		;3262
 	ld a,(0f9f0h)		;3264
 	and a			;3267
-	jr z,l3276h		;3268
+	jr z,FM_Update_L3276		;3268
 	ld hl,0f9e9h		;326a
 	ld d,031h		;326d
 	call FM_WriteOpRegs_2C03		;326f
 	xor a			;3272
 	ld (0f9f0h),a		;3273
-l3276h:
+FM_Update_L3276:
 	ld a,(0f9f9h)		;3276
 	and a			;3279
-	jr z,l3288h		;327a
+	jr z,FM_Update_L3288		;327a
 	ld hl,0f9f2h		;327c
 	ld d,039h		;327f
 	call FM_WriteOpRegs_2C03		;3281
 	xor a			;3284
 	ld (0f9f9h),a		;3285
-l3288h:
+FM_Update_L3288:
 	ld a,(0fa02h)		;3288
 	and a			;328b
-	jr z,l329ah		;328c
+	jr z,FM_Update_L329A		;328c
 	ld hl,0f9fbh		;328e
 	ld d,035h		;3291
 	call FM_WriteOpRegs_2C03		;3293
 	xor a			;3296
 	ld (0fa02h),a		;3297
-l329ah:
+FM_Update_L329A:
 	ld a,(0fa0bh)		;329a
 	and a			;329d
-	jr z,l32ach		;329e
+	jr z,FM_Update_L32AC		;329e
 	ld hl,0fa04h		;32a0
 	ld d,03dh		;32a3
 	call FM_WriteOpRegs_2C03		;32a5
 	xor a			;32a8
 	ld (0fa0bh),a		;32a9
-l32ach:
+FM_Update_L32AC:
 	ld hl,0fa0dh		;32ac
 	ld a,(hl)			;32af
 	and 07fh		;32b0
 	ld (hl),a			;32b2
 	inc hl			;32b3
 	cp (hl)			;32b4
-	jp z,l32bdh		;32b5
+	jp z,FM_Update_L32BD		;32b5
 	ld (hl),a			;32b8
 	ld e,a			;32b9
 	ld d,0b1h		;32ba
 	rst 8			;32bc
-l32bdh:
+FM_Update_L32BD:
 	inc hl			;32bd
 	ld a,(hl)			;32be
 	ld b,a			;32bf
 	and 0c0h		;32c0
 	ld a,b			;32c2
-	jr nz,l32ceh		;32c3
+	jr nz,FM_Update_L32CE		;32c3
 	ld b,a			;32c5
 	ld a,(iy+00fh)		;32c6
 	and 003h		;32c9
 	rrca			;32cb
 	rrca			;32cc
 	or b			;32cd
-l32ceh:
+FM_Update_L32CE:
 	inc hl			;32ce
 	cp (hl)			;32cf
-	jr z,l32d9h		;32d0
+	jr z,FM_Update_L32D9		;32d0
 	ld (hl),a			;32d2
 	ld e,a			;32d3
 	ld d,0b5h		;32d4
 	ld c,006h		;32d6
 	rst 8			;32d8
-l32d9h:
+FM_Update_L32D9:
 	inc hl			;32d9
 	ld a,(hl)			;32da
 	inc hl			;32db
 	cp (hl)			;32dc
-	jp z,l32e7h		;32dd
+	jp z,FM_Update_L32E7		;32dd
 	ld (hl),a			;32e0
 	ld c,004h		;32e1
 	ld d,028h		;32e3
 	ld e,a			;32e5
 	rst 8			;32e6
-l32e7h:
+FM_Update_L32E7:
 	ld c,001h		;32e7
 	bit 1,(iy+009h)		;32e9
-	jr z,l32f3h		;32ed
+	jr z,FM_Update_L32F3		;32ed
 	ld a,(wTempoStep_F809)		;32ef
 	ld c,a			;32f2
-l32f3h:
+FM_Update_L32F3:
 	ld hl,0f9dbh		;32f3
 	ld a,(hl)			;32f6
 	add a,c			;32f7
@@ -10972,32 +10972,32 @@ l32f3h:
 	ld hl,0f9dah		;32fb
 	ld a,(hl)			;32fe
 	and a			;32ff
-	jp z,l3314h		;3300
+	jp z,FM_Update_L3314		;3300
 	sub c			;3303
 	ld (hl),a			;3304
-	jr nz,l3329h		;3305
+	jr nz,FM_Update_L3329		;3305
 	bit 4,(iy+009h)		;3307
-	jr z,l3323h		;330b
+	jr z,FM_Update_L3323		;330b
 	set 4,(ix+003h)		;330d
-	jp l3329h		;3311
-l3314h:
+	jp FM_Update_L3329		;3311
+FM_Update_L3314:
 	bit 4,(iy+009h)		;3314
-	jr nz,l3329h		;3318
+	jr nz,FM_Update_L3329		;3318
 	ld hl,0f9d8h		;331a
 	bit 4,(hl)		;331d
-	jr z,l3329h		;331f
+	jr z,FM_Update_L3329		;331f
 	res 4,(hl)		;3321
-l3323h:
+FM_Update_L3323:
 	ld a,(0f9e7h)		;3323
 	ld (0fa11h),a		;3326
-l3329h:
+FM_Update_L3329:
 	ld ix,wFM_Ch4_FA3C		;3329
 	ld iy,(wFM_Ch4_FA3C)		;332d
 	bit 3,(iy+009h)		;3331
 	call nz,Ch_ResetStruct_201B		;3335
 	ld a,(0fa74h)		;3338
 	and a			;333b
-	jp p,l334fh		;333c
+	jp p,FM_Update_L334F		;333c
 	ld hl,0fa77h		;333f
 	xor a			;3342
 	ld (hl),a			;3343
@@ -11007,7 +11007,7 @@ l3329h:
 	rst 8			;3349
 	ld a,0ffh		;334a
 	ld (0fa4ch),a		;334c
-l334fh:
+FM_Update_L334F:
 	ld a,(0fa4dh)		;334f
 	ld hl,(0fa45h)		;3352
 	add a,h			;3355
@@ -11036,29 +11036,29 @@ l334fh:
 	and a			;3389
 	ex de,hl			;338a
 	sbc hl,de		;338b
-	jp z,l33bfh		;338d
+	jp z,FM_Update_L33BF		;338d
 	ld (0fa4ah),de		;3390
 	ex de,hl			;3394
 	ld a,h			;3395
 	and a			;3396
-	jp p,l339ch		;3397
+	jp p,FM_Update_L339C		;3397
 	xor a			;339a
 	ld l,a			;339b
-l339ch:
+FM_Update_L339C:
 	ld h,012h		;339c
 	ld d,(hl)			;339e
 	inc h			;339f
 	ld e,(hl)			;33a0
 	ex de,hl			;33a1
 	cp 008h		;33a2
-	jr c,l33b1h		;33a4
-	jr z,l33aeh		;33a6
+	jr c,FM_Update_L33B1		;33a4
+	jr z,FM_Update_L33AE		;33a6
 	ld hl,0ffffh		;33a8
-	jp l33b1h		;33ab
-l33aeh:
+	jp FM_Update_L33B1		;33ab
+FM_Update_L33AE:
 	ld a,007h		;33ae
 	add hl,hl			;33b0
-l33b1h:
+FM_Update_L33B1:
 	add a,a			;33b1
 	add a,a			;33b2
 	add a,a			;33b3
@@ -11070,7 +11070,7 @@ l33b1h:
 	ld e,l			;33bb
 	ld d,0a2h		;33bc
 	rst 8			;33be
-l33bfh:
+FM_Update_L33BF:
 	ld hl,0fa7ah		;33bf
 	ld d,(iy+00dh)		;33c2
 	call Env_Update_231E		;33c5
@@ -11079,20 +11079,20 @@ l33bfh:
 	ld b,a			;33ca
 	ld a,(0fa74h)		;33cb
 	and a			;33ce
-	jp p,l33d4h		;33cf
+	jp p,FM_Update_L33D4		;33cf
 	ld b,000h		;33d2
-l33d4h:
+FM_Update_L33D4:
 	ld a,b			;33d4
 	ld l,a			;33d5
 	ld a,(0fa47h)		;33d6
 	and a			;33d9
-	jr z,l33f1h		;33da
+	jr z,FM_Update_L33F1		;33da
 	inc l			;33dc
-	jr z,l33f1h		;33dd
+	jr z,FM_Update_L33F1		;33dd
 	ex af,af'			;33df
 	dec l			;33e0
 	ld a,l			;33e1
-	jr z,l33f1h		;33e2
+	jr z,FM_Update_L33F1		;33e2
 	ld h,014h		;33e4
 	ld a,(hl)			;33e6
 	ex af,af'			;33e7
@@ -11101,19 +11101,19 @@ l33d4h:
 	add a,(hl)			;33ea
 	ld l,a			;33eb
 	sbc a,a			;33ec
-	jr nc,l33f1h		;33ed
+	jr nc,FM_Update_L33F1		;33ed
 	inc h			;33ef
 	ld a,(hl)			;33f0
-l33f1h:
+FM_Update_L33F1:
 	ld l,(iy+012h)		;33f1
 	and a			;33f4
-	jr z,l340ch		;33f5
+	jr z,FM_Update_L340C		;33f5
 	inc l			;33f7
-	jr z,l340ch		;33f8
+	jr z,FM_Update_L340C		;33f8
 	ex af,af'			;33fa
 	dec l			;33fb
 	ld a,l			;33fc
-	jr z,l340ch		;33fd
+	jr z,FM_Update_L340C		;33fd
 	ld h,014h		;33ff
 	ld a,(hl)			;3401
 	ex af,af'			;3402
@@ -11122,24 +11122,24 @@ l33f1h:
 	add a,(hl)			;3405
 	ld l,a			;3406
 	sbc a,a			;3407
-	jr nc,l340ch		;3408
+	jr nc,FM_Update_L340C		;3408
 	inc h			;340a
 	ld a,(hl)			;340b
-l340ch:
+FM_Update_L340C:
 	ld l,a			;340c
 	ld a,0ffh		;340d
 	bit 1,(iy+009h)		;340f
-	jp z,l3419h		;3413
+	jp z,FM_Update_L3419		;3413
 	ld a,(wMasterVolume_F805)		;3416
-l3419h:
+FM_Update_L3419:
 	and a			;3419
-	jr z,l3431h		;341a
+	jr z,FM_Update_L3431		;341a
 	inc l			;341c
-	jr z,l3431h		;341d
+	jr z,FM_Update_L3431		;341d
 	ex af,af'			;341f
 	dec l			;3420
 	ld a,l			;3421
-	jr z,l3431h		;3422
+	jr z,FM_Update_L3431		;3422
 	ld h,014h		;3424
 	ld a,(hl)			;3426
 	ex af,af'			;3427
@@ -11148,14 +11148,14 @@ l3419h:
 	add a,(hl)			;342a
 	ld l,a			;342b
 	sbc a,a			;342c
-	jr nc,l3431h		;342d
+	jr nc,FM_Update_L3431		;342d
 	inc h			;342f
 	ld a,(hl)			;3430
-l3431h:
+FM_Update_L3431:
 	ld hl,0fa4ch		;3431
 	cp (hl)			;3434
 	ld (hl),a			;3435
-	jp z,l34a0h		;3436
+	jp z,FM_Update_L34A0		;3436
 	ld l,a			;3439
 	set 7,l		;343a
 	ld h,018h		;343c
@@ -11163,11 +11163,11 @@ l3431h:
 	ld a,(ix+038h)		;343f
 	and 007h		;3442
 	cp 004h		;3444
-	jr c,l348ch		;3446
+	jr c,FM_Update_L348C		;3446
 	cp 005h		;3448
-	jr c,l3478h		;344a
+	jr c,FM_Update_L3478		;344a
 	cp 007h		;344c
-	jr c,l3464h		;344e
+	jr c,FM_Update_L3464		;344e
 	ld a,(0fa58h)		;3450
 	add a,b			;3453
 	ld c,a			;3454
@@ -11176,11 +11176,11 @@ l3431h:
 	or c			;3457
 	ld hl,0fa51h		;3458
 	cp (hl)			;345b
-	jr z,l3464h		;345c
+	jr z,FM_Update_L3464		;345c
 	ld (hl),a			;345e
 	ld hl,0fa57h		;345f
 	set 1,(hl)		;3462
-l3464h:
+FM_Update_L3464:
 	ld a,(0fa6ah)		;3464
 	add a,b			;3467
 	ld c,a			;3468
@@ -11189,11 +11189,11 @@ l3464h:
 	or c			;346b
 	ld hl,0fa63h		;346c
 	cp (hl)			;346f
-	jr z,l3478h		;3470
+	jr z,FM_Update_L3478		;3470
 	ld (hl),a			;3472
 	ld hl,0fa69h		;3473
 	set 1,(hl)		;3476
-l3478h:
+FM_Update_L3478:
 	ld a,(0fa61h)		;3478
 	add a,b			;347b
 	ld c,a			;347c
@@ -11202,11 +11202,11 @@ l3478h:
 	or c			;347f
 	ld hl,0fa5ah		;3480
 	cp (hl)			;3483
-	jr z,l348ch		;3484
+	jr z,FM_Update_L348C		;3484
 	ld (hl),a			;3486
 	ld hl,0fa60h		;3487
 	set 1,(hl)		;348a
-l348ch:
+FM_Update_L348C:
 	ld a,(0fa73h)		;348c
 	add a,b			;348f
 	ld c,a			;3490
@@ -11215,99 +11215,99 @@ l348ch:
 	or c			;3493
 	ld hl,0fa6ch		;3494
 	cp (hl)			;3497
-	jr z,l34a0h		;3498
+	jr z,FM_Update_L34A0		;3498
 	ld (hl),a			;349a
 	ld hl,0fa72h		;349b
 	set 1,(hl)		;349e
-l34a0h:
+FM_Update_L34A0:
 	ld c,006h		;34a0
 	ld a,(0fa57h)		;34a2
 	and a			;34a5
-	jr z,l34b4h		;34a6
+	jr z,FM_Update_L34B4		;34a6
 	ld hl,0fa50h		;34a8
 	ld d,032h		;34ab
 	call FM_WriteOpRegs_2C03		;34ad
 	xor a			;34b0
 	ld (0fa57h),a		;34b1
-l34b4h:
+FM_Update_L34B4:
 	ld a,(0fa60h)		;34b4
 	and a			;34b7
-	jr z,l34c6h		;34b8
+	jr z,FM_Update_L34C6		;34b8
 	ld hl,0fa59h		;34ba
 	ld d,03ah		;34bd
 	call FM_WriteOpRegs_2C03		;34bf
 	xor a			;34c2
 	ld (0fa60h),a		;34c3
-l34c6h:
+FM_Update_L34C6:
 	ld a,(0fa69h)		;34c6
 	and a			;34c9
-	jr z,l34d8h		;34ca
+	jr z,FM_Update_L34D8		;34ca
 	ld hl,0fa62h		;34cc
 	ld d,036h		;34cf
 	call FM_WriteOpRegs_2C03		;34d1
 	xor a			;34d4
 	ld (0fa69h),a		;34d5
-l34d8h:
+FM_Update_L34D8:
 	ld a,(0fa72h)		;34d8
 	and a			;34db
-	jr z,l34eah		;34dc
+	jr z,FM_Update_L34EA		;34dc
 	ld hl,0fa6bh		;34de
 	ld d,03eh		;34e1
 	call FM_WriteOpRegs_2C03		;34e3
 	xor a			;34e6
 	ld (0fa72h),a		;34e7
-l34eah:
+FM_Update_L34EA:
 	ld hl,0fa74h		;34ea
 	ld a,(hl)			;34ed
 	and 07fh		;34ee
 	ld (hl),a			;34f0
 	inc hl			;34f1
 	cp (hl)			;34f2
-	jp z,l34fbh		;34f3
+	jp z,FM_Update_L34FB		;34f3
 	ld (hl),a			;34f6
 	ld e,a			;34f7
 	ld d,0b2h		;34f8
 	rst 8			;34fa
-l34fbh:
+FM_Update_L34FB:
 	inc hl			;34fb
 	ld a,(hl)			;34fc
 	ld b,a			;34fd
 	and 0c0h		;34fe
 	ld a,b			;3500
-	jr nz,l350ch		;3501
+	jr nz,FM_Update_L350C		;3501
 	ld b,a			;3503
 	ld a,(iy+00fh)		;3504
 	and 003h		;3507
 	rrca			;3509
 	rrca			;350a
 	or b			;350b
-l350ch:
+FM_Update_L350C:
 	inc hl			;350c
 	cp (hl)			;350d
-	jr z,l3517h		;350e
+	jr z,FM_Update_L3517		;350e
 	ld (hl),a			;3510
 	ld e,a			;3511
 	ld d,0b6h		;3512
 	ld c,006h		;3514
 	rst 8			;3516
-l3517h:
+FM_Update_L3517:
 	inc hl			;3517
 	ld a,(hl)			;3518
 	inc hl			;3519
 	cp (hl)			;351a
-	jp z,l3525h		;351b
+	jp z,FM_Update_L3525		;351b
 	ld (hl),a			;351e
 	ld c,004h		;351f
 	ld d,028h		;3521
 	ld e,a			;3523
 	rst 8			;3524
-l3525h:
+FM_Update_L3525:
 	ld c,001h		;3525
 	bit 1,(iy+009h)		;3527
-	jr z,l3531h		;352b
+	jr z,FM_Update_L3531		;352b
 	ld a,(wTempoStep_F809)		;352d
 	ld c,a			;3530
-l3531h:
+FM_Update_L3531:
 	ld hl,0fa42h		;3531
 	ld a,(hl)			;3534
 	add a,c			;3535
@@ -11316,25 +11316,25 @@ l3531h:
 	ld hl,0fa41h		;3539
 	ld a,(hl)			;353c
 	and a			;353d
-	jp z,l3552h		;353e
+	jp z,FM_Update_L3552		;353e
 	sub c			;3541
 	ld (hl),a			;3542
-	jr nz,l3567h		;3543
+	jr nz,FM_Update_L3567		;3543
 	bit 4,(iy+009h)		;3545
-	jr z,l3561h		;3549
+	jr z,FM_Update_L3561		;3549
 	set 4,(ix+003h)		;354b
-	jp l3567h		;354f
-l3552h:
+	jp FM_Update_L3567		;354f
+FM_Update_L3552:
 	bit 4,(iy+009h)		;3552
-	jr nz,l3567h		;3556
+	jr nz,FM_Update_L3567		;3556
 	ld hl,0fa3fh		;3558
 	bit 4,(hl)		;355b
-	jr z,l3567h		;355d
+	jr z,FM_Update_L3567		;355d
 	res 4,(hl)		;355f
-l3561h:
+FM_Update_L3561:
 	ld a,(0fa4eh)		;3561
 	ld (0fa78h),a		;3564
-l3567h:
+FM_Update_L3567:
 	ret			;3567
 FM_LoadPatch_3568:
 	exx			;3568
@@ -11348,7 +11348,7 @@ FM_LoadPatch_3568:
 	ld bc,00014h		;3575  constant
 	add hl,bc			;3578
 	ld b,004h		;3579
-l357bh:
+FM_LoadPatch_L357B:
 	push bc			;357b
 	ex de,hl			;357c
 	ld bc,00007h		;357d  constant
@@ -11358,7 +11358,7 @@ l357bh:
 	inc hl			;3585
 	inc hl			;3586
 	pop bc			;3587
-	djnz l357bh		;3588
+	djnz FM_LoadPatch_L357B		;3588
 	ld a,(ix+015h)		;358a
 	ld (ix+01ch),a		;358d
 	ld a,(ix+01eh)		;3590
@@ -11375,16 +11375,16 @@ l357bh:
 	ld (ix+038h),a		;35af
 	ld a,(iy+003h)		;35b2
 	bit 3,a		;35b5
-	jr z,l35c5h		;35b7
+	jr z,FM_LoadPatch_L35C5		;35b7
 	ld (wFM_Shared_FAA3),a		;35b9
 	ld a,(iy+004h)		;35bc
 	ld (ix+03ah),a		;35bf
-	jp l35cdh		;35c2
-l35c5h:
+	jp FM_LoadPatch_L35CD		;35c2
+FM_LoadPatch_L35C5:
 	ld a,(iy+004h)		;35c5
 	and 0c0h		;35c8
 	ld (ix+03ah),a		;35ca
-l35cdh:
+FM_LoadPatch_L35CD:
 	xor a			;35cd
 	ld (ix+03bh),a		;35ce
 	ld a,(iy+005h)		;35d1
@@ -11421,18 +11421,18 @@ FM_KeyOn_3615:
 	ld e,(ix+012h)		;3615
 	ld a,e			;3618
 	cp (ix+03dh)		;3619
-	jr z,l3626h		;361c
+	jr z,FM_KeyOn_L3626		;361c
 	ld (ix+03dh),e		;361e
 	ld d,028h		;3621
 	ld c,004h		;3623
 	rst 8			;3625
-l3626h:
+FM_KeyOn_L3626:
 	ld a,(ix+013h)		;3626
 	and 0f0h		;3629
 	or e			;362b
 	ld (ix+03ch),a		;362c
 	bit 6,(ix+038h)		;362f
-	jr z,l364ch		;3633
+	jr z,FM_KeyOn_L364C		;3633
 	ld a,(wFM_Shared_FAA3)		;3635
 	or 008h		;3638
 	and 00fh		;363a
@@ -11444,7 +11444,7 @@ l3626h:
 	rst 8			;3646
 	ld a,0ffh		;3647
 	ld (0faa4h),a		;3649
-l364ch:
+FM_KeyOn_L364C:
 	defb 0ddh,05dh	;ld e,ixl		;364c
 	defb 0ddh,054h	;ld d,ixh		;364e
 	ld hl,0003eh		;3650  constant
@@ -11470,22 +11470,22 @@ FM_OpVolumeUp_3672:
 	add ix,de		;367f
 	ld de,00009h		;3681  constant
 	ld b,004h		;3684
-l3686h:
+FM_OpVolumeUp_L3686:
 	srl c		;3686
-	jr nc,l369eh		;3688
+	jr nc,FM_OpVolumeUp_L369E		;3688
 	push bc			;368a
 	ld a,(ix+008h)		;368b
 	cp 07fh		;368e
-	jr nc,l369dh		;3690
+	jr nc,FM_OpVolumeUp_L369D		;3690
 	inc a			;3692
 	ld (ix+008h),a		;3693
 	ld (ix+001h),a		;3696
 	set 1,(ix+007h)		;3699
-l369dh:
+FM_OpVolumeUp_L369D:
 	pop bc			;369d
-l369eh:
+FM_OpVolumeUp_L369E:
 	add ix,de		;369e
-	djnz l3686h		;36a0
+	djnz FM_OpVolumeUp_L3686		;36a0
 	pop ix		;36a2
 	ld a,0ffh		;36a4
 	ld (0fa4ch),a		;36a6
@@ -11498,22 +11498,22 @@ FM_OpVolumeDown_36AA:
 	add ix,de		;36b7
 	ld de,00009h		;36b9  constant
 	ld b,004h		;36bc
-l36beh:
+FM_OpVolumeDown_L36BE:
 	srl c		;36be
-	jr nc,l36d5h		;36c0
+	jr nc,FM_OpVolumeDown_L36D5		;36c0
 	push bc			;36c2
 	ld a,(ix+008h)		;36c3
 	and a			;36c6
-	jr z,l36d4h		;36c7
+	jr z,FM_OpVolumeDown_L36D4		;36c7
 	dec a			;36c9
 	ld (ix+008h),a		;36ca
 	ld (ix+001h),a		;36cd
 	set 1,(ix+007h)		;36d0
-l36d4h:
+FM_OpVolumeDown_L36D4:
 	pop bc			;36d4
-l36d5h:
+FM_OpVolumeDown_L36D5:
 	add ix,de		;36d5
-	djnz l36beh		;36d7
+	djnz FM_OpVolumeDown_L36BE		;36d7
 	pop ix		;36d9
 	ld a,0ffh		;36db
 	ld (0fa4ch),a		;36dd
@@ -11526,21 +11526,21 @@ FM_OpParam3_36E1:
 	add ix,de		;36ee
 	ld de,00009h		;36f0  constant
 	ld b,004h		;36f3
-l36f5h:
+FM_OpParam3_L36F5:
 	srl c		;36f5
-	jr nc,l370ah		;36f7
+	jr nc,FM_OpParam3_L370A		;36f7
 	push bc			;36f9
 	ld a,(ix+000h)		;36fa
 	cp 00fh		;36fd
-	jr nc,l3709h		;36ff
+	jr nc,FM_OpParam3_L3709		;36ff
 	inc a			;3701
 	ld (ix+000h),a		;3702
 	set 0,(ix+007h)		;3705
-l3709h:
+FM_OpParam3_L3709:
 	pop bc			;3709
-l370ah:
+FM_OpParam3_L370A:
 	add ix,de		;370a
-	djnz l36f5h		;370c
+	djnz FM_OpParam3_L36F5		;370c
 	pop ix		;370e
 	ret			;3710
 FM_OpParam4_3711:
@@ -11551,21 +11551,21 @@ FM_OpParam4_3711:
 	add ix,de		;371e
 	ld de,00009h		;3720  constant
 	ld b,004h		;3723
-l3725h:
+FM_OpParam4_L3725:
 	srl c		;3725
-	jr nc,l3739h		;3727
+	jr nc,FM_OpParam4_L3739		;3727
 	push bc			;3729
 	ld a,(ix+000h)		;372a
 	and a			;372d
-	jr z,l3738h		;372e
+	jr z,FM_OpParam4_L3738		;372e
 	dec a			;3730
 	ld (ix+000h),a		;3731
 	set 0,(ix+007h)		;3734
-l3738h:
+FM_OpParam4_L3738:
 	pop bc			;3738
-l3739h:
+FM_OpParam4_L3739:
 	add ix,de		;3739
-	djnz l3725h		;373b
+	djnz FM_OpParam4_L3725		;373b
 	pop ix		;373d
 	ret			;373f
 ADPCMA_Init_3740:
@@ -11614,17 +11614,17 @@ ADPCMA_Update_379C:
 	ld hl,0fabfh		;37ab
 	ld a,(hl)			;37ae
 	and a			;37af
-	jp z,l38a0h		;37b0
+	jp z,ADPCMA_Update_L38A0		;37b0
 	cp 002h		;37b3
-	jr z,l37c9h		;37b5
+	jr z,ADPCMA_Update_L37C9		;37b5
 	ld a,(wYmStatus_F80A)		;37b7
 	and 001h		;37ba
-	jp z,l3805h		;37bc
+	jp z,ADPCMA_Update_L3805		;37bc
 	xor a			;37bf
 	ld (0fabfh),a		;37c0
 	ld (0fab0h),a		;37c3
-	jp l38a0h		;37c6
-l37c9h:
+	jp ADPCMA_Update_L38A0		;37c6
+ADPCMA_Update_L37C9:
 	ld hl,(0fabbh)		;37c9
 	ld bc,(0fabdh)		;37cc
 	ld a,001h		;37d0
@@ -11659,19 +11659,19 @@ l37c9h:
 	ld e,001h		;3800
 	ld d,000h		;3802
 	rst 8			;3804
-l3805h:
+ADPCMA_Update_L3805:
 	ld hl,0fac0h		;3805
 	call Env_Step_222D		;3808
 	ld l,a			;380b
 	ld a,(0fab0h)		;380c
 	and a			;380f
-	jr z,l3827h		;3810
+	jr z,ADPCMA_Update_L3827		;3810
 	inc l			;3812
-	jr z,l3827h		;3813
+	jr z,ADPCMA_Update_L3827		;3813
 	ex af,af'			;3815
 	dec l			;3816
 	ld a,l			;3817
-	jr z,l3827h		;3818
+	jr z,ADPCMA_Update_L3827		;3818
 	ld h,014h		;381a
 	ld a,(hl)			;381c
 	ex af,af'			;381d
@@ -11680,19 +11680,19 @@ l3805h:
 	add a,(hl)			;3820
 	ld l,a			;3821
 	sbc a,a			;3822
-	jr nc,l3827h		;3823
+	jr nc,ADPCMA_Update_L3827		;3823
 	inc h			;3825
 	ld a,(hl)			;3826
-l3827h:
+ADPCMA_Update_L3827:
 	ld l,(iy+012h)		;3827
 	and a			;382a
-	jr z,l3842h		;382b
+	jr z,ADPCMA_Update_L3842		;382b
 	inc l			;382d
-	jr z,l3842h		;382e
+	jr z,ADPCMA_Update_L3842		;382e
 	ex af,af'			;3830
 	dec l			;3831
 	ld a,l			;3832
-	jr z,l3842h		;3833
+	jr z,ADPCMA_Update_L3842		;3833
 	ld h,014h		;3835
 	ld a,(hl)			;3837
 	ex af,af'			;3838
@@ -11701,24 +11701,24 @@ l3827h:
 	add a,(hl)			;383b
 	ld l,a			;383c
 	sbc a,a			;383d
-	jr nc,l3842h		;383e
+	jr nc,ADPCMA_Update_L3842		;383e
 	inc h			;3840
 	ld a,(hl)			;3841
-l3842h:
+ADPCMA_Update_L3842:
 	ld l,a			;3842
 	ld a,0ffh		;3843
 	bit 1,(iy+009h)		;3845
-	jp z,l384fh		;3849
+	jp z,ADPCMA_Update_L384F		;3849
 	ld a,(wMasterVolume_F805)		;384c
-l384fh:
+ADPCMA_Update_L384F:
 	and a			;384f
-	jr z,l3867h		;3850
+	jr z,ADPCMA_Update_L3867		;3850
 	inc l			;3852
-	jr z,l3867h		;3853
+	jr z,ADPCMA_Update_L3867		;3853
 	ex af,af'			;3855
 	dec l			;3856
 	ld a,l			;3857
-	jr z,l3867h		;3858
+	jr z,ADPCMA_Update_L3867		;3858
 	ld h,014h		;385a
 	ld a,(hl)			;385c
 	ex af,af'			;385d
@@ -11727,53 +11727,53 @@ l384fh:
 	add a,(hl)			;3860
 	ld l,a			;3861
 	sbc a,a			;3862
-	jr nc,l3867h		;3863
+	jr nc,ADPCMA_Update_L3867		;3863
 	inc h			;3865
 	ld a,(hl)			;3866
-l3867h:
+ADPCMA_Update_L3867:
 	ld hl,0fab5h		;3867
 	cp (hl)			;386a
 	ld (hl),a			;386b
 	ex af,af'			;386c
 	ld a,(0fabah)		;386d
 	and a			;3870
-	jr nz,l3895h		;3871
+	jr nz,ADPCMA_Update_L3895		;3871
 	ld a,(iy+00fh)		;3873
 	and 003h		;3876
 	ld hl,0fab9h		;3878
 	cp (hl)			;387b
 	ld (hl),a			;387c
 	ld e,a			;387d
-	jp z,l3885h		;387e
+	jp z,ADPCMA_Update_L3885		;387e
 	ex af,af'			;3881
-	jp l3889h		;3882
-l3885h:
+	jp ADPCMA_Update_L3889		;3882
+ADPCMA_Update_L3885:
 	ex af,af'			;3885
-	jp z,l38a0h		;3886
-l3889h:
+	jp z,ADPCMA_Update_L38A0		;3886
+ADPCMA_Update_L3889:
 	ld h,019h		;3889
 	ld l,a			;388b
 	ld a,(hl)			;388c
 	sub 001h		;388d
-	jr nc,l3895h		;388f
+	jr nc,ADPCMA_Update_L3895		;388f
 	xor a			;3891
-	jp l389ah		;3892
-l3895h:
+	jp ADPCMA_Update_L389A		;3892
+ADPCMA_Update_L3895:
 	rrc e		;3895
 	rrc e		;3897
 	or e			;3899
-l389ah:
+ADPCMA_Update_L389A:
 	ld e,a			;389a
 	ld d,008h		;389b
 	ld c,006h		;389d
 	rst 8			;389f
-l38a0h:
+ADPCMA_Update_L38A0:
 	ld c,001h		;38a0
 	bit 1,(iy+009h)		;38a2
-	jr z,l38ach		;38a6
+	jr z,ADPCMA_Update_L38AC		;38a6
 	ld a,(wTempoStep_F809)		;38a8
 	ld c,a			;38ab
-l38ach:
+ADPCMA_Update_L38AC:
 	ld hl,0faabh		;38ac
 	ld a,(hl)			;38af
 	add a,c			;38b0
@@ -11782,25 +11782,25 @@ l38ach:
 	ld hl,0faaah		;38b4
 	ld a,(hl)			;38b7
 	and a			;38b8
-	jp z,l38cdh		;38b9
+	jp z,ADPCMA_Update_L38CD		;38b9
 	sub c			;38bc
 	ld (hl),a			;38bd
-	jr nz,l38e2h		;38be
+	jr nz,ADPCMA_Update_L38E2		;38be
 	bit 4,(iy+009h)		;38c0
-	jr z,l38dch		;38c4
+	jr z,ADPCMA_Update_L38DC		;38c4
 	set 4,(ix+003h)		;38c6
-	jp l38e2h		;38ca
-l38cdh:
+	jp ADPCMA_Update_L38E2		;38ca
+ADPCMA_Update_L38CD:
 	bit 4,(iy+009h)		;38cd
-	jr nz,l38e2h		;38d1
+	jr nz,ADPCMA_Update_L38E2		;38d1
 	ld hl,0faa8h		;38d3
 	bit 4,(hl)		;38d6
-	jr z,l38e2h		;38d8
+	jr z,ADPCMA_Update_L38E2		;38d8
 	res 4,(hl)		;38da
-l38dch:
+ADPCMA_Update_L38DC:
 	ld hl,0fac0h		;38dc
 	call Env_Release_2219		;38df
-l38e2h:
+ADPCMA_Update_L38E2:
 	ld ix,wPCMA_Ch2_FACE		;38e2
 	ld iy,(wPCMA_Ch2_FACE)		;38e6
 	bit 3,(iy+009h)		;38ea
@@ -11808,17 +11808,17 @@ l38e2h:
 	ld hl,0fae8h		;38f1
 	ld a,(hl)			;38f4
 	and a			;38f5
-	jp z,l39e6h		;38f6
+	jp z,ADPCMA_Update_L39E6		;38f6
 	cp 002h		;38f9
-	jr z,l390fh		;38fb
+	jr z,ADPCMA_Update_L390F		;38fb
 	ld a,(wYmStatus_F80A)		;38fd
 	and 002h		;3900
-	jp z,l394bh		;3902
+	jp z,ADPCMA_Update_L394B		;3902
 	xor a			;3905
 	ld (0fae8h),a		;3906
 	ld (0fad9h),a		;3909
-	jp l39e6h		;390c
-l390fh:
+	jp ADPCMA_Update_L39E6		;390c
+ADPCMA_Update_L390F:
 	ld hl,(0fae4h)		;390f
 	ld bc,(0fae6h)		;3912
 	ld a,001h		;3916
@@ -11853,19 +11853,19 @@ l390fh:
 	ld e,002h		;3946
 	ld d,000h		;3948
 	rst 8			;394a
-l394bh:
+ADPCMA_Update_L394B:
 	ld hl,0fae9h		;394b
 	call Env_Step_222D		;394e
 	ld l,a			;3951
 	ld a,(0fad9h)		;3952
 	and a			;3955
-	jr z,l396dh		;3956
+	jr z,ADPCMA_Update_L396D		;3956
 	inc l			;3958
-	jr z,l396dh		;3959
+	jr z,ADPCMA_Update_L396D		;3959
 	ex af,af'			;395b
 	dec l			;395c
 	ld a,l			;395d
-	jr z,l396dh		;395e
+	jr z,ADPCMA_Update_L396D		;395e
 	ld h,014h		;3960
 	ld a,(hl)			;3962
 	ex af,af'			;3963
@@ -11874,19 +11874,19 @@ l394bh:
 	add a,(hl)			;3966
 	ld l,a			;3967
 	sbc a,a			;3968
-	jr nc,l396dh		;3969
+	jr nc,ADPCMA_Update_L396D		;3969
 	inc h			;396b
 	ld a,(hl)			;396c
-l396dh:
+ADPCMA_Update_L396D:
 	ld l,(iy+012h)		;396d
 	and a			;3970
-	jr z,l3988h		;3971
+	jr z,ADPCMA_Update_L3988		;3971
 	inc l			;3973
-	jr z,l3988h		;3974
+	jr z,ADPCMA_Update_L3988		;3974
 	ex af,af'			;3976
 	dec l			;3977
 	ld a,l			;3978
-	jr z,l3988h		;3979
+	jr z,ADPCMA_Update_L3988		;3979
 	ld h,014h		;397b
 	ld a,(hl)			;397d
 	ex af,af'			;397e
@@ -11895,24 +11895,24 @@ l396dh:
 	add a,(hl)			;3981
 	ld l,a			;3982
 	sbc a,a			;3983
-	jr nc,l3988h		;3984
+	jr nc,ADPCMA_Update_L3988		;3984
 	inc h			;3986
 	ld a,(hl)			;3987
-l3988h:
+ADPCMA_Update_L3988:
 	ld l,a			;3988
 	ld a,0ffh		;3989
 	bit 1,(iy+009h)		;398b
-	jp z,l3995h		;398f
+	jp z,ADPCMA_Update_L3995		;398f
 	ld a,(wMasterVolume_F805)		;3992
-l3995h:
+ADPCMA_Update_L3995:
 	and a			;3995
-	jr z,l39adh		;3996
+	jr z,ADPCMA_Update_L39AD		;3996
 	inc l			;3998
-	jr z,l39adh		;3999
+	jr z,ADPCMA_Update_L39AD		;3999
 	ex af,af'			;399b
 	dec l			;399c
 	ld a,l			;399d
-	jr z,l39adh		;399e
+	jr z,ADPCMA_Update_L39AD		;399e
 	ld h,014h		;39a0
 	ld a,(hl)			;39a2
 	ex af,af'			;39a3
@@ -11921,53 +11921,53 @@ l3995h:
 	add a,(hl)			;39a6
 	ld l,a			;39a7
 	sbc a,a			;39a8
-	jr nc,l39adh		;39a9
+	jr nc,ADPCMA_Update_L39AD		;39a9
 	inc h			;39ab
 	ld a,(hl)			;39ac
-l39adh:
+ADPCMA_Update_L39AD:
 	ld hl,0fadeh		;39ad
 	cp (hl)			;39b0
 	ld (hl),a			;39b1
 	ex af,af'			;39b2
 	ld a,(0fae3h)		;39b3
 	and a			;39b6
-	jr nz,l39dbh		;39b7
+	jr nz,ADPCMA_Update_L39DB		;39b7
 	ld a,(iy+00fh)		;39b9
 	and 003h		;39bc
 	ld hl,0fae2h		;39be
 	cp (hl)			;39c1
 	ld (hl),a			;39c2
 	ld e,a			;39c3
-	jp z,l39cbh		;39c4
+	jp z,ADPCMA_Update_L39CB		;39c4
 	ex af,af'			;39c7
-	jp l39cfh		;39c8
-l39cbh:
+	jp ADPCMA_Update_L39CF		;39c8
+ADPCMA_Update_L39CB:
 	ex af,af'			;39cb
-	jp z,l39e6h		;39cc
-l39cfh:
+	jp z,ADPCMA_Update_L39E6		;39cc
+ADPCMA_Update_L39CF:
 	ld h,019h		;39cf
 	ld l,a			;39d1
 	ld a,(hl)			;39d2
 	sub 001h		;39d3
-	jr nc,l39dbh		;39d5
+	jr nc,ADPCMA_Update_L39DB		;39d5
 	xor a			;39d7
-	jp l39e0h		;39d8
-l39dbh:
+	jp ADPCMA_Update_L39E0		;39d8
+ADPCMA_Update_L39DB:
 	rrc e		;39db
 	rrc e		;39dd
 	or e			;39df
-l39e0h:
+ADPCMA_Update_L39E0:
 	ld e,a			;39e0
 	ld d,009h		;39e1
 	ld c,006h		;39e3
 	rst 8			;39e5
-l39e6h:
+ADPCMA_Update_L39E6:
 	ld c,001h		;39e6
 	bit 1,(iy+009h)		;39e8
-	jr z,l39f2h		;39ec
+	jr z,ADPCMA_Update_L39F2		;39ec
 	ld a,(wTempoStep_F809)		;39ee
 	ld c,a			;39f1
-l39f2h:
+ADPCMA_Update_L39F2:
 	ld hl,0fad4h		;39f2
 	ld a,(hl)			;39f5
 	add a,c			;39f6
@@ -11976,25 +11976,25 @@ l39f2h:
 	ld hl,0fad3h		;39fa
 	ld a,(hl)			;39fd
 	and a			;39fe
-	jp z,l3a13h		;39ff
+	jp z,ADPCMA_Update_L3A13		;39ff
 	sub c			;3a02
 	ld (hl),a			;3a03
-	jr nz,l3a28h		;3a04
+	jr nz,ADPCMA_Update_L3A28		;3a04
 	bit 4,(iy+009h)		;3a06
-	jr z,l3a22h		;3a0a
+	jr z,ADPCMA_Update_L3A22		;3a0a
 	set 4,(ix+003h)		;3a0c
-	jp l3a28h		;3a10
-l3a13h:
+	jp ADPCMA_Update_L3A28		;3a10
+ADPCMA_Update_L3A13:
 	bit 4,(iy+009h)		;3a13
-	jr nz,l3a28h		;3a17
+	jr nz,ADPCMA_Update_L3A28		;3a17
 	ld hl,0fad1h		;3a19
 	bit 4,(hl)		;3a1c
-	jr z,l3a28h		;3a1e
+	jr z,ADPCMA_Update_L3A28		;3a1e
 	res 4,(hl)		;3a20
-l3a22h:
+ADPCMA_Update_L3A22:
 	ld hl,0fae9h		;3a22
 	call Env_Release_2219		;3a25
-l3a28h:
+ADPCMA_Update_L3A28:
 	ld ix,wPCMA_Ch3_FAF7		;3a28
 	ld iy,(wPCMA_Ch3_FAF7)		;3a2c
 	bit 3,(iy+009h)		;3a30
@@ -12002,17 +12002,17 @@ l3a28h:
 	ld hl,0fb11h		;3a37
 	ld a,(hl)			;3a3a
 	and a			;3a3b
-	jp z,l3b2ch		;3a3c
+	jp z,ADPCMA_Update_L3B2C		;3a3c
 	cp 002h		;3a3f
-	jr z,l3a55h		;3a41
+	jr z,ADPCMA_Update_L3A55		;3a41
 	ld a,(wYmStatus_F80A)		;3a43
 	and 004h		;3a46
-	jp z,l3a91h		;3a48
+	jp z,ADPCMA_Update_L3A91		;3a48
 	xor a			;3a4b
 	ld (0fb11h),a		;3a4c
 	ld (0fb02h),a		;3a4f
-	jp l3b2ch		;3a52
-l3a55h:
+	jp ADPCMA_Update_L3B2C		;3a52
+ADPCMA_Update_L3A55:
 	ld hl,(0fb0dh)		;3a55
 	ld bc,(0fb0fh)		;3a58
 	ld a,001h		;3a5c
@@ -12047,19 +12047,19 @@ l3a55h:
 	ld e,004h		;3a8c
 	ld d,000h		;3a8e
 	rst 8			;3a90
-l3a91h:
+ADPCMA_Update_L3A91:
 	ld hl,0fb12h		;3a91
 	call Env_Step_222D		;3a94
 	ld l,a			;3a97
 	ld a,(0fb02h)		;3a98
 	and a			;3a9b
-	jr z,l3ab3h		;3a9c
+	jr z,ADPCMA_Update_L3AB3		;3a9c
 	inc l			;3a9e
-	jr z,l3ab3h		;3a9f
+	jr z,ADPCMA_Update_L3AB3		;3a9f
 	ex af,af'			;3aa1
 	dec l			;3aa2
 	ld a,l			;3aa3
-	jr z,l3ab3h		;3aa4
+	jr z,ADPCMA_Update_L3AB3		;3aa4
 	ld h,014h		;3aa6
 	ld a,(hl)			;3aa8
 	ex af,af'			;3aa9
@@ -12068,19 +12068,19 @@ l3a91h:
 	add a,(hl)			;3aac
 	ld l,a			;3aad
 	sbc a,a			;3aae
-	jr nc,l3ab3h		;3aaf
+	jr nc,ADPCMA_Update_L3AB3		;3aaf
 	inc h			;3ab1
 	ld a,(hl)			;3ab2
-l3ab3h:
+ADPCMA_Update_L3AB3:
 	ld l,(iy+012h)		;3ab3
 	and a			;3ab6
-	jr z,l3aceh		;3ab7
+	jr z,ADPCMA_Update_L3ACE		;3ab7
 	inc l			;3ab9
-	jr z,l3aceh		;3aba
+	jr z,ADPCMA_Update_L3ACE		;3aba
 	ex af,af'			;3abc
 	dec l			;3abd
 	ld a,l			;3abe
-	jr z,l3aceh		;3abf
+	jr z,ADPCMA_Update_L3ACE		;3abf
 	ld h,014h		;3ac1
 	ld a,(hl)			;3ac3
 	ex af,af'			;3ac4
@@ -12089,24 +12089,24 @@ l3ab3h:
 	add a,(hl)			;3ac7
 	ld l,a			;3ac8
 	sbc a,a			;3ac9
-	jr nc,l3aceh		;3aca
+	jr nc,ADPCMA_Update_L3ACE		;3aca
 	inc h			;3acc
 	ld a,(hl)			;3acd
-l3aceh:
+ADPCMA_Update_L3ACE:
 	ld l,a			;3ace
 	ld a,0ffh		;3acf
 	bit 1,(iy+009h)		;3ad1
-	jp z,l3adbh		;3ad5
+	jp z,ADPCMA_Update_L3ADB		;3ad5
 	ld a,(wMasterVolume_F805)		;3ad8
-l3adbh:
+ADPCMA_Update_L3ADB:
 	and a			;3adb
-	jr z,l3af3h		;3adc
+	jr z,ADPCMA_Update_L3AF3		;3adc
 	inc l			;3ade
-	jr z,l3af3h		;3adf
+	jr z,ADPCMA_Update_L3AF3		;3adf
 	ex af,af'			;3ae1
 	dec l			;3ae2
 	ld a,l			;3ae3
-	jr z,l3af3h		;3ae4
+	jr z,ADPCMA_Update_L3AF3		;3ae4
 	ld h,014h		;3ae6
 	ld a,(hl)			;3ae8
 	ex af,af'			;3ae9
@@ -12115,53 +12115,53 @@ l3adbh:
 	add a,(hl)			;3aec
 	ld l,a			;3aed
 	sbc a,a			;3aee
-	jr nc,l3af3h		;3aef
+	jr nc,ADPCMA_Update_L3AF3		;3aef
 	inc h			;3af1
 	ld a,(hl)			;3af2
-l3af3h:
+ADPCMA_Update_L3AF3:
 	ld hl,0fb07h		;3af3
 	cp (hl)			;3af6
 	ld (hl),a			;3af7
 	ex af,af'			;3af8
 	ld a,(0fb0ch)		;3af9
 	and a			;3afc
-	jr nz,l3b21h		;3afd
+	jr nz,ADPCMA_Update_L3B21		;3afd
 	ld a,(iy+00fh)		;3aff
 	and 003h		;3b02
 	ld hl,0fb0bh		;3b04
 	cp (hl)			;3b07
 	ld (hl),a			;3b08
 	ld e,a			;3b09
-	jp z,l3b11h		;3b0a
+	jp z,ADPCMA_Update_L3B11		;3b0a
 	ex af,af'			;3b0d
-	jp l3b15h		;3b0e
-l3b11h:
+	jp ADPCMA_Update_L3B15		;3b0e
+ADPCMA_Update_L3B11:
 	ex af,af'			;3b11
-	jp z,l3b2ch		;3b12
-l3b15h:
+	jp z,ADPCMA_Update_L3B2C		;3b12
+ADPCMA_Update_L3B15:
 	ld h,019h		;3b15
 	ld l,a			;3b17
 	ld a,(hl)			;3b18
 	sub 001h		;3b19
-	jr nc,l3b21h		;3b1b
+	jr nc,ADPCMA_Update_L3B21		;3b1b
 	xor a			;3b1d
-	jp l3b26h		;3b1e
-l3b21h:
+	jp ADPCMA_Update_L3B26		;3b1e
+ADPCMA_Update_L3B21:
 	rrc e		;3b21
 	rrc e		;3b23
 	or e			;3b25
-l3b26h:
+ADPCMA_Update_L3B26:
 	ld e,a			;3b26
 	ld d,00ah		;3b27
 	ld c,006h		;3b29
 	rst 8			;3b2b
-l3b2ch:
+ADPCMA_Update_L3B2C:
 	ld c,001h		;3b2c
 	bit 1,(iy+009h)		;3b2e
-	jr z,l3b38h		;3b32
+	jr z,ADPCMA_Update_L3B38		;3b32
 	ld a,(wTempoStep_F809)		;3b34
 	ld c,a			;3b37
-l3b38h:
+ADPCMA_Update_L3B38:
 	ld hl,0fafdh		;3b38
 	ld a,(hl)			;3b3b
 	add a,c			;3b3c
@@ -12170,25 +12170,25 @@ l3b38h:
 	ld hl,0fafch		;3b40
 	ld a,(hl)			;3b43
 	and a			;3b44
-	jp z,l3b59h		;3b45
+	jp z,ADPCMA_Update_L3B59		;3b45
 	sub c			;3b48
 	ld (hl),a			;3b49
-	jr nz,l3b6eh		;3b4a
+	jr nz,ADPCMA_Update_L3B6E		;3b4a
 	bit 4,(iy+009h)		;3b4c
-	jr z,l3b68h		;3b50
+	jr z,ADPCMA_Update_L3B68		;3b50
 	set 4,(ix+003h)		;3b52
-	jp l3b6eh		;3b56
-l3b59h:
+	jp ADPCMA_Update_L3B6E		;3b56
+ADPCMA_Update_L3B59:
 	bit 4,(iy+009h)		;3b59
-	jr nz,l3b6eh		;3b5d
+	jr nz,ADPCMA_Update_L3B6E		;3b5d
 	ld hl,0fafah		;3b5f
 	bit 4,(hl)		;3b62
-	jr z,l3b6eh		;3b64
+	jr z,ADPCMA_Update_L3B6E		;3b64
 	res 4,(hl)		;3b66
-l3b68h:
+ADPCMA_Update_L3B68:
 	ld hl,0fb12h		;3b68
 	call Env_Release_2219		;3b6b
-l3b6eh:
+ADPCMA_Update_L3B6E:
 	ld ix,wPCMA_Ch4_FB20		;3b6e
 	ld iy,(wPCMA_Ch4_FB20)		;3b72
 	bit 3,(iy+009h)		;3b76
@@ -12196,17 +12196,17 @@ l3b6eh:
 	ld hl,0fb3ah		;3b7d
 	ld a,(hl)			;3b80
 	and a			;3b81
-	jp z,l3c72h		;3b82
+	jp z,ADPCMA_Update_L3C72		;3b82
 	cp 002h		;3b85
-	jr z,l3b9bh		;3b87
+	jr z,ADPCMA_Update_L3B9B		;3b87
 	ld a,(wYmStatus_F80A)		;3b89
 	and 008h		;3b8c
-	jp z,l3bd7h		;3b8e
+	jp z,ADPCMA_Update_L3BD7		;3b8e
 	xor a			;3b91
 	ld (0fb3ah),a		;3b92
 	ld (0fb2bh),a		;3b95
-	jp l3c72h		;3b98
-l3b9bh:
+	jp ADPCMA_Update_L3C72		;3b98
+ADPCMA_Update_L3B9B:
 	ld hl,(0fb36h)		;3b9b
 	ld bc,(0fb38h)		;3b9e
 	ld a,001h		;3ba2
@@ -12241,19 +12241,19 @@ l3b9bh:
 	ld e,008h		;3bd2
 	ld d,000h		;3bd4
 	rst 8			;3bd6
-l3bd7h:
+ADPCMA_Update_L3BD7:
 	ld hl,0fb3bh		;3bd7
 	call Env_Step_222D		;3bda
 	ld l,a			;3bdd
 	ld a,(0fb2bh)		;3bde
 	and a			;3be1
-	jr z,l3bf9h		;3be2
+	jr z,ADPCMA_Update_L3BF9		;3be2
 	inc l			;3be4
-	jr z,l3bf9h		;3be5
+	jr z,ADPCMA_Update_L3BF9		;3be5
 	ex af,af'			;3be7
 	dec l			;3be8
 	ld a,l			;3be9
-	jr z,l3bf9h		;3bea
+	jr z,ADPCMA_Update_L3BF9		;3bea
 	ld h,014h		;3bec
 	ld a,(hl)			;3bee
 	ex af,af'			;3bef
@@ -12262,19 +12262,19 @@ l3bd7h:
 	add a,(hl)			;3bf2
 	ld l,a			;3bf3
 	sbc a,a			;3bf4
-	jr nc,l3bf9h		;3bf5
+	jr nc,ADPCMA_Update_L3BF9		;3bf5
 	inc h			;3bf7
 	ld a,(hl)			;3bf8
-l3bf9h:
+ADPCMA_Update_L3BF9:
 	ld l,(iy+012h)		;3bf9
 	and a			;3bfc
-	jr z,l3c14h		;3bfd
+	jr z,ADPCMA_Update_L3C14		;3bfd
 	inc l			;3bff
-	jr z,l3c14h		;3c00
+	jr z,ADPCMA_Update_L3C14		;3c00
 	ex af,af'			;3c02
 	dec l			;3c03
 	ld a,l			;3c04
-	jr z,l3c14h		;3c05
+	jr z,ADPCMA_Update_L3C14		;3c05
 	ld h,014h		;3c07
 	ld a,(hl)			;3c09
 	ex af,af'			;3c0a
@@ -12283,24 +12283,24 @@ l3bf9h:
 	add a,(hl)			;3c0d
 	ld l,a			;3c0e
 	sbc a,a			;3c0f
-	jr nc,l3c14h		;3c10
+	jr nc,ADPCMA_Update_L3C14		;3c10
 	inc h			;3c12
 	ld a,(hl)			;3c13
-l3c14h:
+ADPCMA_Update_L3C14:
 	ld l,a			;3c14
 	ld a,0ffh		;3c15
 	bit 1,(iy+009h)		;3c17
-	jp z,l3c21h		;3c1b
+	jp z,ADPCMA_Update_L3C21		;3c1b
 	ld a,(wMasterVolume_F805)		;3c1e
-l3c21h:
+ADPCMA_Update_L3C21:
 	and a			;3c21
-	jr z,l3c39h		;3c22
+	jr z,ADPCMA_Update_L3C39		;3c22
 	inc l			;3c24
-	jr z,l3c39h		;3c25
+	jr z,ADPCMA_Update_L3C39		;3c25
 	ex af,af'			;3c27
 	dec l			;3c28
 	ld a,l			;3c29
-	jr z,l3c39h		;3c2a
+	jr z,ADPCMA_Update_L3C39		;3c2a
 	ld h,014h		;3c2c
 	ld a,(hl)			;3c2e
 	ex af,af'			;3c2f
@@ -12309,53 +12309,53 @@ l3c21h:
 	add a,(hl)			;3c32
 	ld l,a			;3c33
 	sbc a,a			;3c34
-	jr nc,l3c39h		;3c35
+	jr nc,ADPCMA_Update_L3C39		;3c35
 	inc h			;3c37
 	ld a,(hl)			;3c38
-l3c39h:
+ADPCMA_Update_L3C39:
 	ld hl,0fb30h		;3c39
 	cp (hl)			;3c3c
 	ld (hl),a			;3c3d
 	ex af,af'			;3c3e
 	ld a,(0fb35h)		;3c3f
 	and a			;3c42
-	jr nz,l3c67h		;3c43
+	jr nz,ADPCMA_Update_L3C67		;3c43
 	ld a,(iy+00fh)		;3c45
 	and 003h		;3c48
 	ld hl,0fb34h		;3c4a
 	cp (hl)			;3c4d
 	ld (hl),a			;3c4e
 	ld e,a			;3c4f
-	jp z,l3c57h		;3c50
+	jp z,ADPCMA_Update_L3C57		;3c50
 	ex af,af'			;3c53
-	jp l3c5bh		;3c54
-l3c57h:
+	jp ADPCMA_Update_L3C5B		;3c54
+ADPCMA_Update_L3C57:
 	ex af,af'			;3c57
-	jp z,l3c72h		;3c58
-l3c5bh:
+	jp z,ADPCMA_Update_L3C72		;3c58
+ADPCMA_Update_L3C5B:
 	ld h,019h		;3c5b
 	ld l,a			;3c5d
 	ld a,(hl)			;3c5e
 	sub 001h		;3c5f
-	jr nc,l3c67h		;3c61
+	jr nc,ADPCMA_Update_L3C67		;3c61
 	xor a			;3c63
-	jp l3c6ch		;3c64
-l3c67h:
+	jp ADPCMA_Update_L3C6C		;3c64
+ADPCMA_Update_L3C67:
 	rrc e		;3c67
 	rrc e		;3c69
 	or e			;3c6b
-l3c6ch:
+ADPCMA_Update_L3C6C:
 	ld e,a			;3c6c
 	ld d,00bh		;3c6d
 	ld c,006h		;3c6f
 	rst 8			;3c71
-l3c72h:
+ADPCMA_Update_L3C72:
 	ld c,001h		;3c72
 	bit 1,(iy+009h)		;3c74
-	jr z,l3c7eh		;3c78
+	jr z,ADPCMA_Update_L3C7E		;3c78
 	ld a,(wTempoStep_F809)		;3c7a
 	ld c,a			;3c7d
-l3c7eh:
+ADPCMA_Update_L3C7E:
 	ld hl,0fb26h		;3c7e
 	ld a,(hl)			;3c81
 	add a,c			;3c82
@@ -12364,25 +12364,25 @@ l3c7eh:
 	ld hl,0fb25h		;3c86
 	ld a,(hl)			;3c89
 	and a			;3c8a
-	jp z,l3c9fh		;3c8b
+	jp z,ADPCMA_Update_L3C9F		;3c8b
 	sub c			;3c8e
 	ld (hl),a			;3c8f
-	jr nz,l3cb4h		;3c90
+	jr nz,ADPCMA_Update_L3CB4		;3c90
 	bit 4,(iy+009h)		;3c92
-	jr z,l3caeh		;3c96
+	jr z,ADPCMA_Update_L3CAE		;3c96
 	set 4,(ix+003h)		;3c98
-	jp l3cb4h		;3c9c
-l3c9fh:
+	jp ADPCMA_Update_L3CB4		;3c9c
+ADPCMA_Update_L3C9F:
 	bit 4,(iy+009h)		;3c9f
-	jr nz,l3cb4h		;3ca3
+	jr nz,ADPCMA_Update_L3CB4		;3ca3
 	ld hl,0fb23h		;3ca5
 	bit 4,(hl)		;3ca8
-	jr z,l3cb4h		;3caa
+	jr z,ADPCMA_Update_L3CB4		;3caa
 	res 4,(hl)		;3cac
-l3caeh:
+ADPCMA_Update_L3CAE:
 	ld hl,0fb3bh		;3cae
 	call Env_Release_2219		;3cb1
-l3cb4h:
+ADPCMA_Update_L3CB4:
 	ld ix,wPCMA_Ch5_FB49		;3cb4
 	ld iy,(wPCMA_Ch5_FB49)		;3cb8
 	bit 3,(iy+009h)		;3cbc
@@ -12390,17 +12390,17 @@ l3cb4h:
 	ld hl,0fb63h		;3cc3
 	ld a,(hl)			;3cc6
 	and a			;3cc7
-	jp z,l3db8h		;3cc8
+	jp z,ADPCMA_Update_L3DB8		;3cc8
 	cp 002h		;3ccb
-	jr z,l3ce1h		;3ccd
+	jr z,ADPCMA_Update_L3CE1		;3ccd
 	ld a,(wYmStatus_F80A)		;3ccf
 	and 010h		;3cd2
-	jp z,l3d1dh		;3cd4
+	jp z,ADPCMA_Update_L3D1D		;3cd4
 	xor a			;3cd7
 	ld (0fb63h),a		;3cd8
 	ld (0fb54h),a		;3cdb
-	jp l3db8h		;3cde
-l3ce1h:
+	jp ADPCMA_Update_L3DB8		;3cde
+ADPCMA_Update_L3CE1:
 	ld hl,(0fb5fh)		;3ce1
 	ld bc,(0fb61h)		;3ce4
 	ld a,001h		;3ce8
@@ -12435,19 +12435,19 @@ l3ce1h:
 	ld e,010h		;3d18
 	ld d,000h		;3d1a
 	rst 8			;3d1c
-l3d1dh:
+ADPCMA_Update_L3D1D:
 	ld hl,0fb64h		;3d1d
 	call Env_Step_222D		;3d20
 	ld l,a			;3d23
 	ld a,(0fb54h)		;3d24
 	and a			;3d27
-	jr z,l3d3fh		;3d28
+	jr z,ADPCMA_Update_L3D3F		;3d28
 	inc l			;3d2a
-	jr z,l3d3fh		;3d2b
+	jr z,ADPCMA_Update_L3D3F		;3d2b
 	ex af,af'			;3d2d
 	dec l			;3d2e
 	ld a,l			;3d2f
-	jr z,l3d3fh		;3d30
+	jr z,ADPCMA_Update_L3D3F		;3d30
 	ld h,014h		;3d32
 	ld a,(hl)			;3d34
 	ex af,af'			;3d35
@@ -12456,19 +12456,19 @@ l3d1dh:
 	add a,(hl)			;3d38
 	ld l,a			;3d39
 	sbc a,a			;3d3a
-	jr nc,l3d3fh		;3d3b
+	jr nc,ADPCMA_Update_L3D3F		;3d3b
 	inc h			;3d3d
 	ld a,(hl)			;3d3e
-l3d3fh:
+ADPCMA_Update_L3D3F:
 	ld l,(iy+012h)		;3d3f
 	and a			;3d42
-	jr z,l3d5ah		;3d43
+	jr z,ADPCMA_Update_L3D5A		;3d43
 	inc l			;3d45
-	jr z,l3d5ah		;3d46
+	jr z,ADPCMA_Update_L3D5A		;3d46
 	ex af,af'			;3d48
 	dec l			;3d49
 	ld a,l			;3d4a
-	jr z,l3d5ah		;3d4b
+	jr z,ADPCMA_Update_L3D5A		;3d4b
 	ld h,014h		;3d4d
 	ld a,(hl)			;3d4f
 	ex af,af'			;3d50
@@ -12477,24 +12477,24 @@ l3d3fh:
 	add a,(hl)			;3d53
 	ld l,a			;3d54
 	sbc a,a			;3d55
-	jr nc,l3d5ah		;3d56
+	jr nc,ADPCMA_Update_L3D5A		;3d56
 	inc h			;3d58
 	ld a,(hl)			;3d59
-l3d5ah:
+ADPCMA_Update_L3D5A:
 	ld l,a			;3d5a
 	ld a,0ffh		;3d5b
 	bit 1,(iy+009h)		;3d5d
-	jp z,l3d67h		;3d61
+	jp z,ADPCMA_Update_L3D67		;3d61
 	ld a,(wMasterVolume_F805)		;3d64
-l3d67h:
+ADPCMA_Update_L3D67:
 	and a			;3d67
-	jr z,l3d7fh		;3d68
+	jr z,ADPCMA_Update_L3D7F		;3d68
 	inc l			;3d6a
-	jr z,l3d7fh		;3d6b
+	jr z,ADPCMA_Update_L3D7F		;3d6b
 	ex af,af'			;3d6d
 	dec l			;3d6e
 	ld a,l			;3d6f
-	jr z,l3d7fh		;3d70
+	jr z,ADPCMA_Update_L3D7F		;3d70
 	ld h,014h		;3d72
 	ld a,(hl)			;3d74
 	ex af,af'			;3d75
@@ -12503,53 +12503,53 @@ l3d67h:
 	add a,(hl)			;3d78
 	ld l,a			;3d79
 	sbc a,a			;3d7a
-	jr nc,l3d7fh		;3d7b
+	jr nc,ADPCMA_Update_L3D7F		;3d7b
 	inc h			;3d7d
 	ld a,(hl)			;3d7e
-l3d7fh:
+ADPCMA_Update_L3D7F:
 	ld hl,0fb59h		;3d7f
 	cp (hl)			;3d82
 	ld (hl),a			;3d83
 	ex af,af'			;3d84
 	ld a,(0fb5eh)		;3d85
 	and a			;3d88
-	jr nz,l3dadh		;3d89
+	jr nz,ADPCMA_Update_L3DAD		;3d89
 	ld a,(iy+00fh)		;3d8b
 	and 003h		;3d8e
 	ld hl,0fb5dh		;3d90
 	cp (hl)			;3d93
 	ld (hl),a			;3d94
 	ld e,a			;3d95
-	jp z,l3d9dh		;3d96
+	jp z,ADPCMA_Update_L3D9D		;3d96
 	ex af,af'			;3d99
-	jp l3da1h		;3d9a
-l3d9dh:
+	jp ADPCMA_Update_L3DA1		;3d9a
+ADPCMA_Update_L3D9D:
 	ex af,af'			;3d9d
-	jp z,l3db8h		;3d9e
-l3da1h:
+	jp z,ADPCMA_Update_L3DB8		;3d9e
+ADPCMA_Update_L3DA1:
 	ld h,019h		;3da1
 	ld l,a			;3da3
 	ld a,(hl)			;3da4
 	sub 001h		;3da5
-	jr nc,l3dadh		;3da7
+	jr nc,ADPCMA_Update_L3DAD		;3da7
 	xor a			;3da9
-	jp l3db2h		;3daa
-l3dadh:
+	jp ADPCMA_Update_L3DB2		;3daa
+ADPCMA_Update_L3DAD:
 	rrc e		;3dad
 	rrc e		;3daf
 	or e			;3db1
-l3db2h:
+ADPCMA_Update_L3DB2:
 	ld e,a			;3db2
 	ld d,00ch		;3db3
 	ld c,006h		;3db5
 	rst 8			;3db7
-l3db8h:
+ADPCMA_Update_L3DB8:
 	ld c,001h		;3db8
 	bit 1,(iy+009h)		;3dba
-	jr z,l3dc4h		;3dbe
+	jr z,ADPCMA_Update_L3DC4		;3dbe
 	ld a,(wTempoStep_F809)		;3dc0
 	ld c,a			;3dc3
-l3dc4h:
+ADPCMA_Update_L3DC4:
 	ld hl,0fb4fh		;3dc4
 	ld a,(hl)			;3dc7
 	add a,c			;3dc8
@@ -12558,25 +12558,25 @@ l3dc4h:
 	ld hl,0fb4eh		;3dcc
 	ld a,(hl)			;3dcf
 	and a			;3dd0
-	jp z,l3de5h		;3dd1
+	jp z,ADPCMA_Update_L3DE5		;3dd1
 	sub c			;3dd4
 	ld (hl),a			;3dd5
-	jr nz,l3dfah		;3dd6
+	jr nz,ADPCMA_Update_L3DFA		;3dd6
 	bit 4,(iy+009h)		;3dd8
-	jr z,l3df4h		;3ddc
+	jr z,ADPCMA_Update_L3DF4		;3ddc
 	set 4,(ix+003h)		;3dde
-	jp l3dfah		;3de2
-l3de5h:
+	jp ADPCMA_Update_L3DFA		;3de2
+ADPCMA_Update_L3DE5:
 	bit 4,(iy+009h)		;3de5
-	jr nz,l3dfah		;3de9
+	jr nz,ADPCMA_Update_L3DFA		;3de9
 	ld hl,0fb4ch		;3deb
 	bit 4,(hl)		;3dee
-	jr z,l3dfah		;3df0
+	jr z,ADPCMA_Update_L3DFA		;3df0
 	res 4,(hl)		;3df2
-l3df4h:
+ADPCMA_Update_L3DF4:
 	ld hl,0fb64h		;3df4
 	call Env_Release_2219		;3df7
-l3dfah:
+ADPCMA_Update_L3DFA:
 	ld ix,wPCMA_Ch6_FB72		;3dfa
 	ld iy,(wPCMA_Ch6_FB72)		;3dfe
 	bit 3,(iy+009h)		;3e02
@@ -12584,17 +12584,17 @@ l3dfah:
 	ld hl,0fb8ch		;3e09
 	ld a,(hl)			;3e0c
 	and a			;3e0d
-	jp z,l3efeh		;3e0e
+	jp z,ADPCMA_Update_L3EFE		;3e0e
 	cp 002h		;3e11
-	jr z,l3e27h		;3e13
+	jr z,ADPCMA_Update_L3E27		;3e13
 	ld a,(wYmStatus_F80A)		;3e15
 	and 020h		;3e18
-	jp z,l3e63h		;3e1a
+	jp z,ADPCMA_Update_L3E63		;3e1a
 	xor a			;3e1d
 	ld (0fb8ch),a		;3e1e
 	ld (0fb7dh),a		;3e21
-	jp l3efeh		;3e24
-l3e27h:
+	jp ADPCMA_Update_L3EFE		;3e24
+ADPCMA_Update_L3E27:
 	ld hl,(0fb88h)		;3e27
 	ld bc,(0fb8ah)		;3e2a
 	ld a,001h		;3e2e
@@ -12629,19 +12629,19 @@ l3e27h:
 	ld e,020h		;3e5e
 	ld d,000h		;3e60
 	rst 8			;3e62
-l3e63h:
+ADPCMA_Update_L3E63:
 	ld hl,0fb8dh		;3e63
 	call Env_Step_222D		;3e66
 	ld l,a			;3e69
 	ld a,(0fb7dh)		;3e6a
 	and a			;3e6d
-	jr z,l3e85h		;3e6e
+	jr z,ADPCMA_Update_L3E85		;3e6e
 	inc l			;3e70
-	jr z,l3e85h		;3e71
+	jr z,ADPCMA_Update_L3E85		;3e71
 	ex af,af'			;3e73
 	dec l			;3e74
 	ld a,l			;3e75
-	jr z,l3e85h		;3e76
+	jr z,ADPCMA_Update_L3E85		;3e76
 	ld h,014h		;3e78
 	ld a,(hl)			;3e7a
 	ex af,af'			;3e7b
@@ -12650,19 +12650,19 @@ l3e63h:
 	add a,(hl)			;3e7e
 	ld l,a			;3e7f
 	sbc a,a			;3e80
-	jr nc,l3e85h		;3e81
+	jr nc,ADPCMA_Update_L3E85		;3e81
 	inc h			;3e83
 	ld a,(hl)			;3e84
-l3e85h:
+ADPCMA_Update_L3E85:
 	ld l,(iy+012h)		;3e85
 	and a			;3e88
-	jr z,l3ea0h		;3e89
+	jr z,ADPCMA_Update_L3EA0		;3e89
 	inc l			;3e8b
-	jr z,l3ea0h		;3e8c
+	jr z,ADPCMA_Update_L3EA0		;3e8c
 	ex af,af'			;3e8e
 	dec l			;3e8f
 	ld a,l			;3e90
-	jr z,l3ea0h		;3e91
+	jr z,ADPCMA_Update_L3EA0		;3e91
 	ld h,014h		;3e93
 	ld a,(hl)			;3e95
 	ex af,af'			;3e96
@@ -12671,24 +12671,24 @@ l3e85h:
 	add a,(hl)			;3e99
 	ld l,a			;3e9a
 	sbc a,a			;3e9b
-	jr nc,l3ea0h		;3e9c
+	jr nc,ADPCMA_Update_L3EA0		;3e9c
 	inc h			;3e9e
 	ld a,(hl)			;3e9f
-l3ea0h:
+ADPCMA_Update_L3EA0:
 	ld l,a			;3ea0
 	ld a,0ffh		;3ea1
 	bit 1,(iy+009h)		;3ea3
-	jp z,l3eadh		;3ea7
+	jp z,ADPCMA_Update_L3EAD		;3ea7
 	ld a,(wMasterVolume_F805)		;3eaa
-l3eadh:
+ADPCMA_Update_L3EAD:
 	and a			;3ead
-	jr z,l3ec5h		;3eae
+	jr z,ADPCMA_Update_L3EC5		;3eae
 	inc l			;3eb0
-	jr z,l3ec5h		;3eb1
+	jr z,ADPCMA_Update_L3EC5		;3eb1
 	ex af,af'			;3eb3
 	dec l			;3eb4
 	ld a,l			;3eb5
-	jr z,l3ec5h		;3eb6
+	jr z,ADPCMA_Update_L3EC5		;3eb6
 	ld h,014h		;3eb8
 	ld a,(hl)			;3eba
 	ex af,af'			;3ebb
@@ -12697,53 +12697,53 @@ l3eadh:
 	add a,(hl)			;3ebe
 	ld l,a			;3ebf
 	sbc a,a			;3ec0
-	jr nc,l3ec5h		;3ec1
+	jr nc,ADPCMA_Update_L3EC5		;3ec1
 	inc h			;3ec3
 	ld a,(hl)			;3ec4
-l3ec5h:
+ADPCMA_Update_L3EC5:
 	ld hl,0fb82h		;3ec5
 	cp (hl)			;3ec8
 	ld (hl),a			;3ec9
 	ex af,af'			;3eca
 	ld a,(0fb87h)		;3ecb
 	and a			;3ece
-	jr nz,l3ef3h		;3ecf
+	jr nz,ADPCMA_Update_L3EF3		;3ecf
 	ld a,(iy+00fh)		;3ed1
 	and 003h		;3ed4
 	ld hl,0fb86h		;3ed6
 	cp (hl)			;3ed9
 	ld (hl),a			;3eda
 	ld e,a			;3edb
-	jp z,l3ee3h		;3edc
+	jp z,ADPCMA_Update_L3EE3		;3edc
 	ex af,af'			;3edf
-	jp l3ee7h		;3ee0
-l3ee3h:
+	jp ADPCMA_Update_L3EE7		;3ee0
+ADPCMA_Update_L3EE3:
 	ex af,af'			;3ee3
-	jp z,l3efeh		;3ee4
-l3ee7h:
+	jp z,ADPCMA_Update_L3EFE		;3ee4
+ADPCMA_Update_L3EE7:
 	ld h,019h		;3ee7
 	ld l,a			;3ee9
 	ld a,(hl)			;3eea
 	sub 001h		;3eeb
-	jr nc,l3ef3h		;3eed
+	jr nc,ADPCMA_Update_L3EF3		;3eed
 	xor a			;3eef
-	jp l3ef8h		;3ef0
-l3ef3h:
+	jp ADPCMA_Update_L3EF8		;3ef0
+ADPCMA_Update_L3EF3:
 	rrc e		;3ef3
 	rrc e		;3ef5
 	or e			;3ef7
-l3ef8h:
+ADPCMA_Update_L3EF8:
 	ld e,a			;3ef8
 	ld d,00dh		;3ef9
 	ld c,006h		;3efb
 	rst 8			;3efd
-l3efeh:
+ADPCMA_Update_L3EFE:
 	ld c,001h		;3efe
 	bit 1,(iy+009h)		;3f00
-	jr z,l3f0ah		;3f04
+	jr z,ADPCMA_Update_L3F0A		;3f04
 	ld a,(wTempoStep_F809)		;3f06
 	ld c,a			;3f09
-l3f0ah:
+ADPCMA_Update_L3F0A:
 	ld hl,0fb78h		;3f0a
 	ld a,(hl)			;3f0d
 	add a,c			;3f0e
@@ -12752,25 +12752,25 @@ l3f0ah:
 	ld hl,0fb77h		;3f12
 	ld a,(hl)			;3f15
 	and a			;3f16
-	jp z,l3f2bh		;3f17
+	jp z,ADPCMA_Update_L3F2B		;3f17
 	sub c			;3f1a
 	ld (hl),a			;3f1b
-	jr nz,l3f40h		;3f1c
+	jr nz,ADPCMA_Update_L3F40		;3f1c
 	bit 4,(iy+009h)		;3f1e
-	jr z,l3f3ah		;3f22
+	jr z,ADPCMA_Update_L3F3A		;3f22
 	set 4,(ix+003h)		;3f24
-	jp l3f40h		;3f28
-l3f2bh:
+	jp ADPCMA_Update_L3F40		;3f28
+ADPCMA_Update_L3F2B:
 	bit 4,(iy+009h)		;3f2b
-	jr nz,l3f40h		;3f2f
+	jr nz,ADPCMA_Update_L3F40		;3f2f
 	ld hl,0fb75h		;3f31
 	bit 4,(hl)		;3f34
-	jr z,l3f40h		;3f36
+	jr z,ADPCMA_Update_L3F40		;3f36
 	res 4,(hl)		;3f38
-l3f3ah:
+ADPCMA_Update_L3F3A:
 	ld hl,0fb8dh		;3f3a
 	call Env_Release_2219		;3f3d
-l3f40h:
+ADPCMA_Update_L3F40:
 	ret			;3f40
 ADPCMA_LoadPatch_3F41:
 	exx			;3f41
@@ -12791,7 +12791,7 @@ ADPCMA_SelectSample_3F60:
 	ld b,(ix+011h)		;3f60
 	ld a,(wCurBank_F811)		;3f63
 	cp b			;3f66
-	jp z,l3f84h		;3f67
+	jp z,ADPCMA_SelectSample_L3F84		;3f67
 	ld a,b			;3f6a
 	ld (wCurBank_F811),a		;3f6b
 	ld c,00bh		;3f6e
@@ -12808,7 +12808,7 @@ ADPCMA_SelectSample_3F60:
 	sla b		;3f7f
 	dec c			;3f81
 	in a,(c)		;3f82
-l3f84h:
+ADPCMA_SelectSample_L3F84:
 	ld a,(ix+008h)		;3f84
 	ld l,(ix+012h)		;3f87
 	ld h,(ix+013h)		;3f8a
@@ -12898,48 +12898,48 @@ ADPCMB_Update_4024:
 	call nz,Ch_ResetStruct_201B		;4030
 	ld a,(wPCMB_Shared_FBBA)		;4033
 	and a			;4036
-	jp z,l423ch		;4037
+	jp z,ADPCMB_Update_L423C		;4037
 	cp 004h		;403a
-	jp z,l4054h		;403c
+	jp z,ADPCMB_Update_L4054		;403c
 	ex af,af'			;403f
 	ld a,(wYmStatus_F80A)		;4040
 	and 080h		;4043
-	jp z,l410ah		;4045
+	jp z,ADPCMB_Update_L410A		;4045
 	ex af,af'			;4048
 	dec a			;4049
-	jp z,l40fah		;404a
+	jp z,ADPCMB_Update_L40FA		;404a
 	dec a			;404d
-	jp z,l4083h		;404e
-	jp l4069h		;4051
-l4054h:
+	jp z,ADPCMB_Update_L4083		;404e
+	jp ADPCMB_Update_L4069		;4051
+ADPCMB_Update_L4054:
 	ld hl,(0fbb2h)		;4054
 	ld bc,(0fbb4h)		;4057
 	ld a,b			;405b
 	or c			;405c
-	jp z,l4071h		;405d
+	jp z,ADPCMB_Update_L4071		;405d
 	dec bc			;4060
 	ld a,003h		;4061
 	ld (wPCMB_Shared_FBBA),a		;4063
-	jp l40b9h		;4066
-l4069h:
+	jp ADPCMB_Update_L40B9		;4066
+ADPCMB_Update_L4069:
 	ld hl,(0fbb2h)		;4069
 	ld bc,(0fbb4h)		;406c
 	add hl,bc			;4070
-l4071h:
+ADPCMB_Update_L4071:
 	ld bc,(0fbb6h)		;4071
 	ld a,b			;4075
 	or c			;4076
-	jp z,l40abh		;4077
+	jp z,ADPCMB_Update_L40AB		;4077
 	dec bc			;407a
 	ld a,002h		;407b
 	ld (wPCMB_Shared_FBBA),a		;407d
-	jp l40b9h		;4080
-l4083h:
+	jp ADPCMB_Update_L40B9		;4080
+ADPCMB_Update_L4083:
 	ld a,(0fbbbh)		;4083
 	cp 0ffh		;4086
-	jp z,l410ah		;4088
+	jp z,ADPCMB_Update_L410A		;4088
 	and a			;408b
-	jr z,l409eh		;408c
+	jr z,ADPCMB_Update_L409E		;408c
 	dec a			;408e
 	ld (0fbbbh),a		;408f
 	ld c,004h		;4092
@@ -12947,21 +12947,21 @@ l4083h:
 	rst 8			;4097
 	ld e,000h		;4098
 	rst 8			;409a
-	jp l410ah		;409b
-l409eh:
+	jp ADPCMB_Update_L410A		;409b
+ADPCMB_Update_L409E:
 	ld hl,(0fbb2h)		;409e
 	ld bc,(0fbb4h)		;40a1
 	add hl,bc			;40a5
 	ld bc,(0fbb6h)		;40a6
 	add hl,bc			;40aa
-l40abh:
+ADPCMB_Update_L40AB:
 	ld bc,(0fbb8h)		;40ab
 	ld a,b			;40af
 	or c			;40b0
-	jp z,l40fah		;40b1
+	jp z,ADPCMB_Update_L40FA		;40b1
 	ld a,001h		;40b4
 	ld (wPCMB_Shared_FBBA),a		;40b6
-l40b9h:
+ADPCMB_Update_L40B9:
 	push bc			;40b9
 	ld de,01b00h		;40ba  YM reg 1Bh <- 00h
 	ld c,004h		;40bd
@@ -12996,37 +12996,37 @@ l40b9h:
 	ld e,080h		;40e9
 	ld a,(wPCMB_Shared_FBBA)		;40eb
 	cp 002h		;40ee
-	jr nz,l40f4h		;40f0
+	jr nz,ADPCMB_Update_L40F4		;40f0
 	ld e,090h		;40f2
-l40f4h:
+ADPCMB_Update_L40F4:
 	ld d,010h		;40f4
 	rst 8			;40f6
-	jp l410ah		;40f7
-l40fah:
+	jp ADPCMB_Update_L410A		;40f7
+ADPCMB_Update_L40FA:
 	ld de,01b00h		;40fa  YM reg 1Bh <- 00h
 	ld c,004h		;40fd
 	rst 8			;40ff
 	xor a			;4100
 	ld (wPCMB_Shared_FBBA),a		;4101
 	ld (0fbcbh),a		;4104
-	jp l423ch		;4107
-l410ah:
+	jp ADPCMB_Update_L423C		;4107
+ADPCMB_Update_L410A:
 	ld a,(0fbbch)		;410a
 	and a			;410d
-	jr nz,l4113h		;410e
+	jr nz,ADPCMB_Update_L4113		;410e
 	ld a,(iy+00fh)		;4110
-l4113h:
+ADPCMB_Update_L4113:
 	rrca			;4113
 	rrca			;4114
 	ld hl,0fbbdh		;4115
 	cp (hl)			;4118
-	jr z,l4122h		;4119
+	jr z,ADPCMB_Update_L4122		;4119
 	ld (hl),a			;411b
 	ld e,a			;411c
 	ld d,011h		;411d
 	ld c,004h		;411f
 	rst 8			;4121
-l4122h:
+ADPCMB_Update_L4122:
 	ld l,(iy+010h)		;4122
 	ld h,(iy+011h)		;4125
 	ld de,(0fba4h)		;4128
@@ -13053,7 +13053,7 @@ l4122h:
 	ld hl,(0fba9h)		;4156
 	and a			;4159
 	sbc hl,bc		;415a
-	jr z,l419ch		;415c
+	jr z,ADPCMB_Update_L419C		;415c
 	ld (0fba9h),bc		;415e
 	ld de,(0fbafh)		;4162
 	ld h,017h		;4166
@@ -13063,29 +13063,29 @@ l4122h:
 	call Util_TableLookup_1F54		;416b
 	pop de			;416e
 	add hl,de			;416f
-	jr nc,l4177h		;4170
+	jr nc,ADPCMB_Update_L4177		;4170
 	rr h		;4172
 	rr l		;4174
 	inc b			;4176
-l4177h:
+ADPCMB_Update_L4177:
 	ld a,b			;4177
 	and a			;4178
-	jp z,l4193h		;4179
-	jp p,l418ah		;417c
-l417fh:
+	jp z,ADPCMB_Update_L4193		;4179
+	jp p,ADPCMB_Update_L418A		;417c
+ADPCMB_Update_L417F:
 	srl h		;417f
 	rr l		;4181
 	inc a			;4183
-	jp nz,l417fh		;4184
-	jp l4193h		;4187
-l418ah:
+	jp nz,ADPCMB_Update_L417F		;4184
+	jp ADPCMB_Update_L4193		;4187
+ADPCMB_Update_L418A:
 	add hl,hl			;418a
-	jr nc,l418fh		;418b
+	jr nc,ADPCMB_Update_L418F		;418b
 	sbc hl,hl		;418d
-l418fh:
+ADPCMB_Update_L418F:
 	dec a			;418f
-	jp nz,l418ah		;4190
-l4193h:
+	jp nz,ADPCMB_Update_L418A		;4190
+ADPCMB_Update_L4193:
 	ld e,l			;4193
 	ld d,019h		;4194
 	ld c,004h		;4196
@@ -13093,7 +13093,7 @@ l4193h:
 	inc d			;4199
 	ld e,h			;419a
 	rst 8			;419b
-l419ch:
+ADPCMB_Update_L419C:
 	ld hl,0fbbeh		;419c
 	call Env_Step_222D		;419f
 	ld (wTmpByte_F814),a		;41a2
@@ -13105,13 +13105,13 @@ l419ch:
 	ld l,a			;41b0
 	ld a,(wTmpByte_F814)		;41b1
 	and a			;41b4
-	jr z,l41cch		;41b5
+	jr z,ADPCMB_Update_L41CC		;41b5
 	inc l			;41b7
-	jr z,l41cch		;41b8
+	jr z,ADPCMB_Update_L41CC		;41b8
 	ex af,af'			;41ba
 	dec l			;41bb
 	ld a,l			;41bc
-	jr z,l41cch		;41bd
+	jr z,ADPCMB_Update_L41CC		;41bd
 	ld h,014h		;41bf
 	ld a,(hl)			;41c1
 	ex af,af'			;41c2
@@ -13120,20 +13120,20 @@ l419ch:
 	add a,(hl)			;41c5
 	ld l,a			;41c6
 	sbc a,a			;41c7
-	jr nc,l41cch		;41c8
+	jr nc,ADPCMB_Update_L41CC		;41c8
 	inc h			;41ca
 	ld a,(hl)			;41cb
-l41cch:
+ADPCMB_Update_L41CC:
 	ld l,a			;41cc
 	ld a,(0fba6h)		;41cd
 	and a			;41d0
-	jr z,l41e8h		;41d1
+	jr z,ADPCMB_Update_L41E8		;41d1
 	inc l			;41d3
-	jr z,l41e8h		;41d4
+	jr z,ADPCMB_Update_L41E8		;41d4
 	ex af,af'			;41d6
 	dec l			;41d7
 	ld a,l			;41d8
-	jr z,l41e8h		;41d9
+	jr z,ADPCMB_Update_L41E8		;41d9
 	ld h,014h		;41db
 	ld a,(hl)			;41dd
 	ex af,af'			;41de
@@ -13142,19 +13142,19 @@ l41cch:
 	add a,(hl)			;41e1
 	ld l,a			;41e2
 	sbc a,a			;41e3
-	jr nc,l41e8h		;41e4
+	jr nc,ADPCMB_Update_L41E8		;41e4
 	inc h			;41e6
 	ld a,(hl)			;41e7
-l41e8h:
+ADPCMB_Update_L41E8:
 	ld l,(iy+012h)		;41e8
 	and a			;41eb
-	jr z,l4203h		;41ec
+	jr z,ADPCMB_Update_L4203		;41ec
 	inc l			;41ee
-	jr z,l4203h		;41ef
+	jr z,ADPCMB_Update_L4203		;41ef
 	ex af,af'			;41f1
 	dec l			;41f2
 	ld a,l			;41f3
-	jr z,l4203h		;41f4
+	jr z,ADPCMB_Update_L4203		;41f4
 	ld h,014h		;41f6
 	ld a,(hl)			;41f8
 	ex af,af'			;41f9
@@ -13163,24 +13163,24 @@ l41e8h:
 	add a,(hl)			;41fc
 	ld l,a			;41fd
 	sbc a,a			;41fe
-	jr nc,l4203h		;41ff
+	jr nc,ADPCMB_Update_L4203		;41ff
 	inc h			;4201
 	ld a,(hl)			;4202
-l4203h:
+ADPCMB_Update_L4203:
 	ld l,a			;4203
 	ld a,0ffh		;4204
 	bit 1,(iy+009h)		;4206
-	jp z,l4210h		;420a
+	jp z,ADPCMB_Update_L4210		;420a
 	ld a,(wMasterVolume_F805)		;420d
-l4210h:
+ADPCMB_Update_L4210:
 	and a			;4210
-	jr z,l4228h		;4211
+	jr z,ADPCMB_Update_L4228		;4211
 	inc l			;4213
-	jr z,l4228h		;4214
+	jr z,ADPCMB_Update_L4228		;4214
 	ex af,af'			;4216
 	dec l			;4217
 	ld a,l			;4218
-	jr z,l4228h		;4219
+	jr z,ADPCMB_Update_L4228		;4219
 	ld h,014h		;421b
 	ld a,(hl)			;421d
 	ex af,af'			;421e
@@ -13189,14 +13189,14 @@ l4210h:
 	add a,(hl)			;4221
 	ld l,a			;4222
 	sbc a,a			;4223
-	jr nc,l4228h		;4224
+	jr nc,ADPCMB_Update_L4228		;4224
 	inc h			;4226
 	ld a,(hl)			;4227
-l4228h:
+ADPCMB_Update_L4228:
 	ld hl,0fbabh		;4228
 	cp (hl)			;422b
 	ld (hl),a			;422c
-	jr z,l423ch		;422d
+	jr z,ADPCMB_Update_L423C		;422d
 	add a,a			;422f
 	ld e,080h		;4230
 	add a,e			;4232
@@ -13206,13 +13206,13 @@ l4228h:
 	ld c,004h		;4237
 	ld c,004h		;4239
 	rst 8			;423b
-l423ch:
+ADPCMB_Update_L423C:
 	ld c,001h		;423c
 	bit 1,(iy+009h)		;423e
-	jr z,l4248h		;4242
+	jr z,ADPCMB_Update_L4248		;4242
 	ld a,(wTempoStep_F809)		;4244
 	ld c,a			;4247
-l4248h:
+ADPCMB_Update_L4248:
 	ld hl,0fba1h		;4248
 	ld a,(hl)			;424b
 	add a,c			;424c
@@ -13221,25 +13221,25 @@ l4248h:
 	ld hl,0fba0h		;4250
 	ld a,(hl)			;4253
 	and a			;4254
-	jp z,l4269h		;4255
+	jp z,ADPCMB_Update_L4269		;4255
 	sub c			;4258
 	ld (hl),a			;4259
-	jr nz,l427eh		;425a
+	jr nz,ADPCMB_Update_L427E		;425a
 	bit 4,(iy+009h)		;425c
-	jr z,l4278h		;4260
+	jr z,ADPCMB_Update_L4278		;4260
 	set 4,(ix+003h)		;4262
-	jp l427eh		;4266
-l4269h:
+	jp ADPCMB_Update_L427E		;4266
+ADPCMB_Update_L4269:
 	bit 4,(iy+009h)		;4269
-	jr nz,l427eh		;426d
+	jr nz,ADPCMB_Update_L427E		;426d
 	ld hl,0fb9eh		;426f
 	bit 4,(hl)		;4272
-	jr z,l427eh		;4274
+	jr z,ADPCMB_Update_L427E		;4274
 	res 4,(hl)		;4276
-l4278h:
+ADPCMB_Update_L4278:
 	ld hl,0fbbeh		;4278
 	call Env_Release_2219		;427b
-l427eh:
+ADPCMB_Update_L427E:
 	ret			;427e
 ADPCMB_LoadPatch_427F:
 	exx			;427f
@@ -13303,7 +13303,7 @@ ADPCMB_KeyOn_42EF:
 	ld b,a			;42f7
 	ld a,(wCurBank_F811)		;42f8
 	cp b			;42fb
-	jp z,l4319h		;42fc
+	jp z,ADPCMB_KeyOn_L4319		;42fc
 	ld a,b			;42ff
 	ld (wCurBank_F811),a		;4300
 	ld c,00bh		;4303
@@ -13320,17 +13320,17 @@ ADPCMB_KeyOn_42EF:
 	sla b		;4314
 	dec c			;4316
 	in a,(c)		;4317
-l4319h:
+ADPCMB_KeyOn_L4319:
 	ld a,(0fba3h)		;4319
 	ld hl,(0fbadh)		;431c
 	ld de,00006h		;431f  constant
-l4322h:
+ADPCMB_KeyOn_L4322:
 	cp (hl)			;4322
-	jr z,l432bh		;4323
-	jr c,l432bh		;4325
+	jr z,ADPCMB_KeyOn_L432B		;4323
+	jr c,ADPCMB_KeyOn_L432B		;4325
 	add hl,de			;4327
-	jp l4322h		;4328
-l432bh:
+	jp ADPCMB_KeyOn_L4322		;4328
+ADPCMB_KeyOn_L432B:
 	inc hl			;432b
 	ld a,(hl)			;432c
 	ld (0fbb1h),a		;432d
@@ -13384,19 +13384,19 @@ Ch_AllocByType_4389:
 	ld hl,(0fbf9h)		;4389
 	ld a,(hl)			;438c
 	cp 000h		;438d
-	jp z,l46bbh		;438f
+	jp z,Ch_AllocByType_L46BB		;438f
 	cp 001h		;4392
-	jp z,l480eh		;4394
+	jp z,Ch_AllocByType_L480E		;4394
 	cp 002h		;4397
-	jp z,l4424h		;4399
+	jp z,Ch_AllocByType_L4424		;4399
 	cp 003h		;439c
-	jp z,l43a9h		;439e
+	jp z,Ch_AllocByType_L43A9		;439e
 	ld hl,00000h		;43a1  constant
 	push hl			;43a4
 	pop ix		;43a5
 	and a			;43a7
 	ret			;43a8
-l43a9h:
+Ch_AllocByType_L43A9:
 	defb 0fdh,05dh	;ld e,iyl		;43a9
 	defb 0fdh,054h	;ld d,iyh		;43ab
 	exx			;43ad
@@ -13412,55 +13412,55 @@ l43a9h:
 	and a			;43bd
 	sbc hl,de		;43be
 	exx			;43c0
-	jr nz,l43dbh		;43c1
+	jr nz,Ch_AllocByType_L43DB		;43c1
 	ld a,(wNoteTmp_FBF5)		;43c3
 	sub (ix+008h)		;43c6
-	jp nz,l43dbh		;43c9
+	jp nz,Ch_AllocByType_L43DB		;43c9
 	ld a,(0fba0h)		;43cc
 	and a			;43cf
-	jp z,l43dbh		;43d0
+	jp z,Ch_AllocByType_L43DB		;43d0
 	ld hl,wPCMB_Ch_FB9B		;43d3
 	ld d,003h		;43d6
-	jp l49cah		;43d8
-l43dbh:
+	jp Ch_AllocByType_L49CA		;43d8
+Ch_AllocByType_L43DB:
 	bit 1,(iy+009h)		;43db
-	jr z,l43e8h		;43df
+	jr z,Ch_AllocByType_L43E8		;43df
 	bit 1,(ix+003h)		;43e1
-	jp z,l4421h		;43e5
-l43e8h:
+	jp z,Ch_AllocByType_L4421		;43e5
+Ch_AllocByType_L43E8:
 	ld c,001h		;43e8
 	ld a,(0fba0h)		;43ea
 	and a			;43ed
-	jr nz,l43fah		;43ee
+	jr nz,Ch_AllocByType_L43FA		;43ee
 	inc c			;43f0
 	ld a,(0fba2h)		;43f1
 	sub (ix+006h)		;43f4
-	jr nc,l43fah		;43f7
+	jr nc,Ch_AllocByType_L43FA		;43f7
 	inc c			;43f9
-l43fah:
+Ch_AllocByType_L43FA:
 	ld a,d			;43fa
 	cp c			;43fb
-	jp c,l4415h		;43fc
-	jp nz,l4421h		;43ff
+	jp c,Ch_AllocByType_L4415		;43fc
+	jp nz,Ch_AllocByType_L4421		;43ff
 	ld a,(0fb9fh)		;4402
 	cp e			;4405
-	jr z,l440eh		;4406
-	jp nc,l4415h		;4408
-	jp l4421h		;440b
-l440eh:
+	jr z,Ch_AllocByType_L440E		;4406
+	jp nc,Ch_AllocByType_L4415		;4408
+	jp Ch_AllocByType_L4421		;440b
+Ch_AllocByType_L440E:
 	ld a,(0fba1h)		;440e
 	cp b			;4411
-	jp c,l4421h		;4412
-l4415h:
+	jp c,Ch_AllocByType_L4421		;4412
+Ch_AllocByType_L4415:
 	ld d,c			;4415
 	ld a,(0fb9fh)		;4416
 	ld e,a			;4419
 	ld a,(0fba1h)		;441a
 	ld b,a			;441d
 	ld hl,wPCMB_Ch_FB9B		;441e
-l4421h:
-	jp l49cah		;4421
-l4424h:
+Ch_AllocByType_L4421:
+	jp Ch_AllocByType_L49CA		;4421
+Ch_AllocByType_L4424:
 	defb 0fdh,05dh	;ld e,iyl		;4424
 	defb 0fdh,054h	;ld d,iyh		;4426
 	exx			;4428
@@ -13476,320 +13476,320 @@ l4424h:
 	and a			;4438
 	sbc hl,de		;4439
 	exx			;443b
-	jr nz,l4456h		;443c
+	jr nz,Ch_AllocByType_L4456		;443c
 	ld a,(wNoteTmp_FBF5)		;443e
 	sub (ix+008h)		;4441
-	jp nz,l4456h		;4444
+	jp nz,Ch_AllocByType_L4456		;4444
 	ld a,(0faaah)		;4447
 	and a			;444a
-	jp z,l4456h		;444b
+	jp z,Ch_AllocByType_L4456		;444b
 	ld hl,wPCMA_Ch1_FAA5		;444e
 	ld d,003h		;4451
-	jp l49cah		;4453
-l4456h:
+	jp Ch_AllocByType_L49CA		;4453
+Ch_AllocByType_L4456:
 	bit 1,(iy+009h)		;4456
-	jr z,l4463h		;445a
+	jr z,Ch_AllocByType_L4463		;445a
 	bit 1,(ix+003h)		;445c
-	jp z,l449ch		;4460
-l4463h:
+	jp z,Ch_AllocByType_L449C		;4460
+Ch_AllocByType_L4463:
 	ld c,001h		;4463
 	ld a,(0faaah)		;4465
 	and a			;4468
-	jr nz,l4475h		;4469
+	jr nz,Ch_AllocByType_L4475		;4469
 	inc c			;446b
 	ld a,(0faach)		;446c
 	sub (ix+006h)		;446f
-	jr nc,l4475h		;4472
+	jr nc,Ch_AllocByType_L4475		;4472
 	inc c			;4474
-l4475h:
+Ch_AllocByType_L4475:
 	ld a,d			;4475
 	cp c			;4476
-	jp c,l4490h		;4477
-	jp nz,l449ch		;447a
+	jp c,Ch_AllocByType_L4490		;4477
+	jp nz,Ch_AllocByType_L449C		;447a
 	ld a,(0faa9h)		;447d
 	cp e			;4480
-	jr z,l4489h		;4481
-	jp nc,l4490h		;4483
-	jp l449ch		;4486
-l4489h:
+	jr z,Ch_AllocByType_L4489		;4481
+	jp nc,Ch_AllocByType_L4490		;4483
+	jp Ch_AllocByType_L449C		;4486
+Ch_AllocByType_L4489:
 	ld a,(0faabh)		;4489
 	cp b			;448c
-	jp c,l449ch		;448d
-l4490h:
+	jp c,Ch_AllocByType_L449C		;448d
+Ch_AllocByType_L4490:
 	ld d,c			;4490
 	ld a,(0faa9h)		;4491
 	ld e,a			;4494
 	ld a,(0faabh)		;4495
 	ld b,a			;4498
 	ld hl,wPCMA_Ch1_FAA5		;4499
-l449ch:
+Ch_AllocByType_L449C:
 	ld ix,wPCMA_Ch2_FACE		;449c
 	exx			;44a0
 	ld hl,(wPCMA_Ch2_FACE)		;44a1
 	and a			;44a4
 	sbc hl,de		;44a5
 	exx			;44a7
-	jr nz,l44c2h		;44a8
+	jr nz,Ch_AllocByType_L44C2		;44a8
 	ld a,(wNoteTmp_FBF5)		;44aa
 	sub (ix+008h)		;44ad
-	jp nz,l44c2h		;44b0
+	jp nz,Ch_AllocByType_L44C2		;44b0
 	ld a,(0fad3h)		;44b3
 	and a			;44b6
-	jp z,l44c2h		;44b7
+	jp z,Ch_AllocByType_L44C2		;44b7
 	ld hl,wPCMA_Ch2_FACE		;44ba
 	ld d,003h		;44bd
-	jp l49cah		;44bf
-l44c2h:
+	jp Ch_AllocByType_L49CA		;44bf
+Ch_AllocByType_L44C2:
 	bit 1,(iy+009h)		;44c2
-	jr z,l44cfh		;44c6
+	jr z,Ch_AllocByType_L44CF		;44c6
 	bit 1,(ix+003h)		;44c8
-	jp z,l4508h		;44cc
-l44cfh:
+	jp z,Ch_AllocByType_L4508		;44cc
+Ch_AllocByType_L44CF:
 	ld c,001h		;44cf
 	ld a,(0fad3h)		;44d1
 	and a			;44d4
-	jr nz,l44e1h		;44d5
+	jr nz,Ch_AllocByType_L44E1		;44d5
 	inc c			;44d7
 	ld a,(0fad5h)		;44d8
 	sub (ix+006h)		;44db
-	jr nc,l44e1h		;44de
+	jr nc,Ch_AllocByType_L44E1		;44de
 	inc c			;44e0
-l44e1h:
+Ch_AllocByType_L44E1:
 	ld a,d			;44e1
 	cp c			;44e2
-	jp c,l44fch		;44e3
-	jp nz,l4508h		;44e6
+	jp c,Ch_AllocByType_L44FC		;44e3
+	jp nz,Ch_AllocByType_L4508		;44e6
 	ld a,(0fad2h)		;44e9
 	cp e			;44ec
-	jr z,l44f5h		;44ed
-	jp nc,l44fch		;44ef
-	jp l4508h		;44f2
-l44f5h:
+	jr z,Ch_AllocByType_L44F5		;44ed
+	jp nc,Ch_AllocByType_L44FC		;44ef
+	jp Ch_AllocByType_L4508		;44f2
+Ch_AllocByType_L44F5:
 	ld a,(0fad4h)		;44f5
 	cp b			;44f8
-	jp c,l4508h		;44f9
-l44fch:
+	jp c,Ch_AllocByType_L4508		;44f9
+Ch_AllocByType_L44FC:
 	ld d,c			;44fc
 	ld a,(0fad2h)		;44fd
 	ld e,a			;4500
 	ld a,(0fad4h)		;4501
 	ld b,a			;4504
 	ld hl,wPCMA_Ch2_FACE		;4505
-l4508h:
+Ch_AllocByType_L4508:
 	ld ix,wPCMA_Ch3_FAF7		;4508
 	exx			;450c
 	ld hl,(wPCMA_Ch3_FAF7)		;450d
 	and a			;4510
 	sbc hl,de		;4511
 	exx			;4513
-	jr nz,l452eh		;4514
+	jr nz,Ch_AllocByType_L452E		;4514
 	ld a,(wNoteTmp_FBF5)		;4516
 	sub (ix+008h)		;4519
-	jp nz,l452eh		;451c
+	jp nz,Ch_AllocByType_L452E		;451c
 	ld a,(0fafch)		;451f
 	and a			;4522
-	jp z,l452eh		;4523
+	jp z,Ch_AllocByType_L452E		;4523
 	ld hl,wPCMA_Ch3_FAF7		;4526
 	ld d,003h		;4529
-	jp l49cah		;452b
-l452eh:
+	jp Ch_AllocByType_L49CA		;452b
+Ch_AllocByType_L452E:
 	bit 1,(iy+009h)		;452e
-	jr z,l453bh		;4532
+	jr z,Ch_AllocByType_L453B		;4532
 	bit 1,(ix+003h)		;4534
-	jp z,l4574h		;4538
-l453bh:
+	jp z,Ch_AllocByType_L4574		;4538
+Ch_AllocByType_L453B:
 	ld c,001h		;453b
 	ld a,(0fafch)		;453d
 	and a			;4540
-	jr nz,l454dh		;4541
+	jr nz,Ch_AllocByType_L454D		;4541
 	inc c			;4543
 	ld a,(0fafeh)		;4544
 	sub (ix+006h)		;4547
-	jr nc,l454dh		;454a
+	jr nc,Ch_AllocByType_L454D		;454a
 	inc c			;454c
-l454dh:
+Ch_AllocByType_L454D:
 	ld a,d			;454d
 	cp c			;454e
-	jp c,l4568h		;454f
-	jp nz,l4574h		;4552
+	jp c,Ch_AllocByType_L4568		;454f
+	jp nz,Ch_AllocByType_L4574		;4552
 	ld a,(0fafbh)		;4555
 	cp e			;4558
-	jr z,l4561h		;4559
-	jp nc,l4568h		;455b
-	jp l4574h		;455e
-l4561h:
+	jr z,Ch_AllocByType_L4561		;4559
+	jp nc,Ch_AllocByType_L4568		;455b
+	jp Ch_AllocByType_L4574		;455e
+Ch_AllocByType_L4561:
 	ld a,(0fafdh)		;4561
 	cp b			;4564
-	jp c,l4574h		;4565
-l4568h:
+	jp c,Ch_AllocByType_L4574		;4565
+Ch_AllocByType_L4568:
 	ld d,c			;4568
 	ld a,(0fafbh)		;4569
 	ld e,a			;456c
 	ld a,(0fafdh)		;456d
 	ld b,a			;4570
 	ld hl,wPCMA_Ch3_FAF7		;4571
-l4574h:
+Ch_AllocByType_L4574:
 	ld ix,wPCMA_Ch4_FB20		;4574
 	exx			;4578
 	ld hl,(wPCMA_Ch4_FB20)		;4579
 	and a			;457c
 	sbc hl,de		;457d
 	exx			;457f
-	jr nz,l459ah		;4580
+	jr nz,Ch_AllocByType_L459A		;4580
 	ld a,(wNoteTmp_FBF5)		;4582
 	sub (ix+008h)		;4585
-	jp nz,l459ah		;4588
+	jp nz,Ch_AllocByType_L459A		;4588
 	ld a,(0fb25h)		;458b
 	and a			;458e
-	jp z,l459ah		;458f
+	jp z,Ch_AllocByType_L459A		;458f
 	ld hl,wPCMA_Ch4_FB20		;4592
 	ld d,003h		;4595
-	jp l49cah		;4597
-l459ah:
+	jp Ch_AllocByType_L49CA		;4597
+Ch_AllocByType_L459A:
 	bit 1,(iy+009h)		;459a
-	jr z,l45a7h		;459e
+	jr z,Ch_AllocByType_L45A7		;459e
 	bit 1,(ix+003h)		;45a0
-	jp z,l45e0h		;45a4
-l45a7h:
+	jp z,Ch_AllocByType_L45E0		;45a4
+Ch_AllocByType_L45A7:
 	ld c,001h		;45a7
 	ld a,(0fb25h)		;45a9
 	and a			;45ac
-	jr nz,l45b9h		;45ad
+	jr nz,Ch_AllocByType_L45B9		;45ad
 	inc c			;45af
 	ld a,(0fb27h)		;45b0
 	sub (ix+006h)		;45b3
-	jr nc,l45b9h		;45b6
+	jr nc,Ch_AllocByType_L45B9		;45b6
 	inc c			;45b8
-l45b9h:
+Ch_AllocByType_L45B9:
 	ld a,d			;45b9
 	cp c			;45ba
-	jp c,l45d4h		;45bb
-	jp nz,l45e0h		;45be
+	jp c,Ch_AllocByType_L45D4		;45bb
+	jp nz,Ch_AllocByType_L45E0		;45be
 	ld a,(0fb24h)		;45c1
 	cp e			;45c4
-	jr z,l45cdh		;45c5
-	jp nc,l45d4h		;45c7
-	jp l45e0h		;45ca
-l45cdh:
+	jr z,Ch_AllocByType_L45CD		;45c5
+	jp nc,Ch_AllocByType_L45D4		;45c7
+	jp Ch_AllocByType_L45E0		;45ca
+Ch_AllocByType_L45CD:
 	ld a,(0fb26h)		;45cd
 	cp b			;45d0
-	jp c,l45e0h		;45d1
-l45d4h:
+	jp c,Ch_AllocByType_L45E0		;45d1
+Ch_AllocByType_L45D4:
 	ld d,c			;45d4
 	ld a,(0fb24h)		;45d5
 	ld e,a			;45d8
 	ld a,(0fb26h)		;45d9
 	ld b,a			;45dc
 	ld hl,wPCMA_Ch4_FB20		;45dd
-l45e0h:
+Ch_AllocByType_L45E0:
 	ld ix,wPCMA_Ch5_FB49		;45e0
 	exx			;45e4
 	ld hl,(wPCMA_Ch5_FB49)		;45e5
 	and a			;45e8
 	sbc hl,de		;45e9
 	exx			;45eb
-	jr nz,l4606h		;45ec
+	jr nz,Ch_AllocByType_L4606		;45ec
 	ld a,(wNoteTmp_FBF5)		;45ee
 	sub (ix+008h)		;45f1
-	jp nz,l4606h		;45f4
+	jp nz,Ch_AllocByType_L4606		;45f4
 	ld a,(0fb4eh)		;45f7
 	and a			;45fa
-	jp z,l4606h		;45fb
+	jp z,Ch_AllocByType_L4606		;45fb
 	ld hl,wPCMA_Ch5_FB49		;45fe
 	ld d,003h		;4601
-	jp l49cah		;4603
-l4606h:
+	jp Ch_AllocByType_L49CA		;4603
+Ch_AllocByType_L4606:
 	bit 1,(iy+009h)		;4606
-	jr z,l4613h		;460a
+	jr z,Ch_AllocByType_L4613		;460a
 	bit 1,(ix+003h)		;460c
-	jp z,l464ch		;4610
-l4613h:
+	jp z,Ch_AllocByType_L464C		;4610
+Ch_AllocByType_L4613:
 	ld c,001h		;4613
 	ld a,(0fb4eh)		;4615
 	and a			;4618
-	jr nz,l4625h		;4619
+	jr nz,Ch_AllocByType_L4625		;4619
 	inc c			;461b
 	ld a,(0fb50h)		;461c
 	sub (ix+006h)		;461f
-	jr nc,l4625h		;4622
+	jr nc,Ch_AllocByType_L4625		;4622
 	inc c			;4624
-l4625h:
+Ch_AllocByType_L4625:
 	ld a,d			;4625
 	cp c			;4626
-	jp c,l4640h		;4627
-	jp nz,l464ch		;462a
+	jp c,Ch_AllocByType_L4640		;4627
+	jp nz,Ch_AllocByType_L464C		;462a
 	ld a,(0fb4dh)		;462d
 	cp e			;4630
-	jr z,l4639h		;4631
-	jp nc,l4640h		;4633
-	jp l464ch		;4636
-l4639h:
+	jr z,Ch_AllocByType_L4639		;4631
+	jp nc,Ch_AllocByType_L4640		;4633
+	jp Ch_AllocByType_L464C		;4636
+Ch_AllocByType_L4639:
 	ld a,(0fb4fh)		;4639
 	cp b			;463c
-	jp c,l464ch		;463d
-l4640h:
+	jp c,Ch_AllocByType_L464C		;463d
+Ch_AllocByType_L4640:
 	ld d,c			;4640
 	ld a,(0fb4dh)		;4641
 	ld e,a			;4644
 	ld a,(0fb4fh)		;4645
 	ld b,a			;4648
 	ld hl,wPCMA_Ch5_FB49		;4649
-l464ch:
+Ch_AllocByType_L464C:
 	ld ix,wPCMA_Ch6_FB72		;464c
 	exx			;4650
 	ld hl,(wPCMA_Ch6_FB72)		;4651
 	and a			;4654
 	sbc hl,de		;4655
 	exx			;4657
-	jr nz,l4672h		;4658
+	jr nz,Ch_AllocByType_L4672		;4658
 	ld a,(wNoteTmp_FBF5)		;465a
 	sub (ix+008h)		;465d
-	jp nz,l4672h		;4660
+	jp nz,Ch_AllocByType_L4672		;4660
 	ld a,(0fb77h)		;4663
 	and a			;4666
-	jp z,l4672h		;4667
+	jp z,Ch_AllocByType_L4672		;4667
 	ld hl,wPCMA_Ch6_FB72		;466a
 	ld d,003h		;466d
-	jp l49cah		;466f
-l4672h:
+	jp Ch_AllocByType_L49CA		;466f
+Ch_AllocByType_L4672:
 	bit 1,(iy+009h)		;4672
-	jr z,l467fh		;4676
+	jr z,Ch_AllocByType_L467F		;4676
 	bit 1,(ix+003h)		;4678
-	jp z,l46b8h		;467c
-l467fh:
+	jp z,Ch_AllocByType_L46B8		;467c
+Ch_AllocByType_L467F:
 	ld c,001h		;467f
 	ld a,(0fb77h)		;4681
 	and a			;4684
-	jr nz,l4691h		;4685
+	jr nz,Ch_AllocByType_L4691		;4685
 	inc c			;4687
 	ld a,(0fb79h)		;4688
 	sub (ix+006h)		;468b
-	jr nc,l4691h		;468e
+	jr nc,Ch_AllocByType_L4691		;468e
 	inc c			;4690
-l4691h:
+Ch_AllocByType_L4691:
 	ld a,d			;4691
 	cp c			;4692
-	jp c,l46ach		;4693
-	jp nz,l46b8h		;4696
+	jp c,Ch_AllocByType_L46AC		;4693
+	jp nz,Ch_AllocByType_L46B8		;4696
 	ld a,(0fb76h)		;4699
 	cp e			;469c
-	jr z,l46a5h		;469d
-	jp nc,l46ach		;469f
-	jp l46b8h		;46a2
-l46a5h:
+	jr z,Ch_AllocByType_L46A5		;469d
+	jp nc,Ch_AllocByType_L46AC		;469f
+	jp Ch_AllocByType_L46B8		;46a2
+Ch_AllocByType_L46A5:
 	ld a,(0fb78h)		;46a5
 	cp b			;46a8
-	jp c,l46b8h		;46a9
-l46ach:
+	jp c,Ch_AllocByType_L46B8		;46a9
+Ch_AllocByType_L46AC:
 	ld d,c			;46ac
 	ld a,(0fb76h)		;46ad
 	ld e,a			;46b0
 	ld a,(0fb78h)		;46b1
 	ld b,a			;46b4
 	ld hl,wPCMA_Ch6_FB72		;46b5
-l46b8h:
-	jp l49cah		;46b8
-l46bbh:
+Ch_AllocByType_L46B8:
+	jp Ch_AllocByType_L49CA		;46b8
+Ch_AllocByType_L46BB:
 	defb 0fdh,05dh	;ld e,iyl		;46bb
 	defb 0fdh,054h	;ld d,iyh		;46bd
 	exx			;46bf
@@ -13805,161 +13805,161 @@ l46bbh:
 	and a			;46cf
 	sbc hl,de		;46d0
 	exx			;46d2
-	jr nz,l46edh		;46d3
+	jr nz,Ch_AllocByType_L46ED		;46d3
 	ld a,(wNoteTmp_FBF5)		;46d5
 	sub (ix+008h)		;46d8
-	jp nz,l46edh		;46db
+	jp nz,Ch_AllocByType_L46ED		;46db
 	ld a,(0f824h)		;46de
 	and a			;46e1
-	jp z,l46edh		;46e2
+	jp z,Ch_AllocByType_L46ED		;46e2
 	ld hl,wSSG_ChA_F81F		;46e5
 	ld d,003h		;46e8
-	jp l49cah		;46ea
-l46edh:
+	jp Ch_AllocByType_L49CA		;46ea
+Ch_AllocByType_L46ED:
 	bit 1,(iy+009h)		;46ed
-	jr z,l46fah		;46f1
+	jr z,Ch_AllocByType_L46FA		;46f1
 	bit 1,(ix+003h)		;46f3
-	jp z,l4733h		;46f7
-l46fah:
+	jp z,Ch_AllocByType_L4733		;46f7
+Ch_AllocByType_L46FA:
 	ld c,001h		;46fa
 	ld a,(0f824h)		;46fc
 	and a			;46ff
-	jr nz,l470ch		;4700
+	jr nz,Ch_AllocByType_L470C		;4700
 	inc c			;4702
 	ld a,(0f826h)		;4703
 	sub (ix+006h)		;4706
-	jr nc,l470ch		;4709
+	jr nc,Ch_AllocByType_L470C		;4709
 	inc c			;470b
-l470ch:
+Ch_AllocByType_L470C:
 	ld a,d			;470c
 	cp c			;470d
-	jp c,l4727h		;470e
-	jp nz,l4733h		;4711
+	jp c,Ch_AllocByType_L4727		;470e
+	jp nz,Ch_AllocByType_L4733		;4711
 	ld a,(0f823h)		;4714
 	cp e			;4717
-	jr z,l4720h		;4718
-	jp nc,l4727h		;471a
-	jp l4733h		;471d
-l4720h:
+	jr z,Ch_AllocByType_L4720		;4718
+	jp nc,Ch_AllocByType_L4727		;471a
+	jp Ch_AllocByType_L4733		;471d
+Ch_AllocByType_L4720:
 	ld a,(0f825h)		;4720
 	cp b			;4723
-	jp c,l4733h		;4724
-l4727h:
+	jp c,Ch_AllocByType_L4733		;4724
+Ch_AllocByType_L4727:
 	ld d,c			;4727
 	ld a,(0f823h)		;4728
 	ld e,a			;472b
 	ld a,(0f825h)		;472c
 	ld b,a			;472f
 	ld hl,wSSG_ChA_F81F		;4730
-l4733h:
+Ch_AllocByType_L4733:
 	ld ix,wSSG_ChB_F86B		;4733
 	exx			;4737
 	ld hl,(wSSG_ChB_F86B)		;4738
 	and a			;473b
 	sbc hl,de		;473c
 	exx			;473e
-	jr nz,l4759h		;473f
+	jr nz,Ch_AllocByType_L4759		;473f
 	ld a,(wNoteTmp_FBF5)		;4741
 	sub (ix+008h)		;4744
-	jp nz,l4759h		;4747
+	jp nz,Ch_AllocByType_L4759		;4747
 	ld a,(0f870h)		;474a
 	and a			;474d
-	jp z,l4759h		;474e
+	jp z,Ch_AllocByType_L4759		;474e
 	ld hl,wSSG_ChB_F86B		;4751
 	ld d,003h		;4754
-	jp l49cah		;4756
-l4759h:
+	jp Ch_AllocByType_L49CA		;4756
+Ch_AllocByType_L4759:
 	bit 1,(iy+009h)		;4759
-	jr z,l4766h		;475d
+	jr z,Ch_AllocByType_L4766		;475d
 	bit 1,(ix+003h)		;475f
-	jp z,l479fh		;4763
-l4766h:
+	jp z,Ch_AllocByType_L479F		;4763
+Ch_AllocByType_L4766:
 	ld c,001h		;4766
 	ld a,(0f870h)		;4768
 	and a			;476b
-	jr nz,l4778h		;476c
+	jr nz,Ch_AllocByType_L4778		;476c
 	inc c			;476e
 	ld a,(0f872h)		;476f
 	sub (ix+006h)		;4772
-	jr nc,l4778h		;4775
+	jr nc,Ch_AllocByType_L4778		;4775
 	inc c			;4777
-l4778h:
+Ch_AllocByType_L4778:
 	ld a,d			;4778
 	cp c			;4779
-	jp c,l4793h		;477a
-	jp nz,l479fh		;477d
+	jp c,Ch_AllocByType_L4793		;477a
+	jp nz,Ch_AllocByType_L479F		;477d
 	ld a,(0f86fh)		;4780
 	cp e			;4783
-	jr z,l478ch		;4784
-	jp nc,l4793h		;4786
-	jp l479fh		;4789
-l478ch:
+	jr z,Ch_AllocByType_L478C		;4784
+	jp nc,Ch_AllocByType_L4793		;4786
+	jp Ch_AllocByType_L479F		;4789
+Ch_AllocByType_L478C:
 	ld a,(0f871h)		;478c
 	cp b			;478f
-	jp c,l479fh		;4790
-l4793h:
+	jp c,Ch_AllocByType_L479F		;4790
+Ch_AllocByType_L4793:
 	ld d,c			;4793
 	ld a,(0f86fh)		;4794
 	ld e,a			;4797
 	ld a,(0f871h)		;4798
 	ld b,a			;479b
 	ld hl,wSSG_ChB_F86B		;479c
-l479fh:
+Ch_AllocByType_L479F:
 	ld ix,wSSG_ChC_F8B7		;479f
 	exx			;47a3
 	ld hl,(wSSG_ChC_F8B7)		;47a4
 	and a			;47a7
 	sbc hl,de		;47a8
 	exx			;47aa
-	jr nz,l47c5h		;47ab
+	jr nz,Ch_AllocByType_L47C5		;47ab
 	ld a,(wNoteTmp_FBF5)		;47ad
 	sub (ix+008h)		;47b0
-	jp nz,l47c5h		;47b3
+	jp nz,Ch_AllocByType_L47C5		;47b3
 	ld a,(0f8bch)		;47b6
 	and a			;47b9
-	jp z,l47c5h		;47ba
+	jp z,Ch_AllocByType_L47C5		;47ba
 	ld hl,wSSG_ChC_F8B7		;47bd
 	ld d,003h		;47c0
-	jp l49cah		;47c2
-l47c5h:
+	jp Ch_AllocByType_L49CA		;47c2
+Ch_AllocByType_L47C5:
 	bit 1,(iy+009h)		;47c5
-	jr z,l47d2h		;47c9
+	jr z,Ch_AllocByType_L47D2		;47c9
 	bit 1,(ix+003h)		;47cb
-	jp z,l480bh		;47cf
-l47d2h:
+	jp z,Ch_AllocByType_L480B		;47cf
+Ch_AllocByType_L47D2:
 	ld c,001h		;47d2
 	ld a,(0f8bch)		;47d4
 	and a			;47d7
-	jr nz,l47e4h		;47d8
+	jr nz,Ch_AllocByType_L47E4		;47d8
 	inc c			;47da
 	ld a,(0f8beh)		;47db
 	sub (ix+006h)		;47de
-	jr nc,l47e4h		;47e1
+	jr nc,Ch_AllocByType_L47E4		;47e1
 	inc c			;47e3
-l47e4h:
+Ch_AllocByType_L47E4:
 	ld a,d			;47e4
 	cp c			;47e5
-	jp c,l47ffh		;47e6
-	jp nz,l480bh		;47e9
+	jp c,Ch_AllocByType_L47FF		;47e6
+	jp nz,Ch_AllocByType_L480B		;47e9
 	ld a,(0f8bbh)		;47ec
 	cp e			;47ef
-	jr z,l47f8h		;47f0
-	jp nc,l47ffh		;47f2
-	jp l480bh		;47f5
-l47f8h:
+	jr z,Ch_AllocByType_L47F8		;47f0
+	jp nc,Ch_AllocByType_L47FF		;47f2
+	jp Ch_AllocByType_L480B		;47f5
+Ch_AllocByType_L47F8:
 	ld a,(0f8bdh)		;47f8
 	cp b			;47fb
-	jp c,l480bh		;47fc
-l47ffh:
+	jp c,Ch_AllocByType_L480B		;47fc
+Ch_AllocByType_L47FF:
 	ld d,c			;47ff
 	ld a,(0f8bbh)		;4800
 	ld e,a			;4803
 	ld a,(0f8bdh)		;4804
 	ld b,a			;4807
 	ld hl,wSSG_ChC_F8B7		;4808
-l480bh:
-	jp l49cah		;480b
-l480eh:
+Ch_AllocByType_L480B:
+	jp Ch_AllocByType_L49CA		;480b
+Ch_AllocByType_L480E:
 	defb 0fdh,05dh	;ld e,iyl		;480e
 	defb 0fdh,054h	;ld d,iyh		;4810
 	exx			;4812
@@ -13975,212 +13975,212 @@ l480eh:
 	and a			;4822
 	sbc hl,de		;4823
 	exx			;4825
-	jr nz,l4840h		;4826
+	jr nz,Ch_AllocByType_L4840		;4826
 	ld a,(wNoteTmp_FBF5)		;4828
 	sub (ix+008h)		;482b
-	jp nz,l4840h		;482e
+	jp nz,Ch_AllocByType_L4840		;482e
 	ld a,(0f90ch)		;4831
 	and a			;4834
-	jp z,l4840h		;4835
+	jp z,Ch_AllocByType_L4840		;4835
 	ld hl,wFM_Ch1_F907		;4838
 	ld d,003h		;483b
-	jp l49cah		;483d
-l4840h:
+	jp Ch_AllocByType_L49CA		;483d
+Ch_AllocByType_L4840:
 	bit 1,(iy+009h)		;4840
-	jr z,l484dh		;4844
+	jr z,Ch_AllocByType_L484D		;4844
 	bit 1,(ix+003h)		;4846
-	jp z,l4886h		;484a
-l484dh:
+	jp z,Ch_AllocByType_L4886		;484a
+Ch_AllocByType_L484D:
 	ld c,001h		;484d
 	ld a,(0f90ch)		;484f
 	and a			;4852
-	jr nz,l485fh		;4853
+	jr nz,Ch_AllocByType_L485F		;4853
 	inc c			;4855
 	ld a,(0f90eh)		;4856
 	sub (ix+006h)		;4859
-	jr nc,l485fh		;485c
+	jr nc,Ch_AllocByType_L485F		;485c
 	inc c			;485e
-l485fh:
+Ch_AllocByType_L485F:
 	ld a,d			;485f
 	cp c			;4860
-	jp c,l487ah		;4861
-	jp nz,l4886h		;4864
+	jp c,Ch_AllocByType_L487A		;4861
+	jp nz,Ch_AllocByType_L4886		;4864
 	ld a,(0f90bh)		;4867
 	cp e			;486a
-	jr z,l4873h		;486b
-	jp nc,l487ah		;486d
-	jp l4886h		;4870
-l4873h:
+	jr z,Ch_AllocByType_L4873		;486b
+	jp nc,Ch_AllocByType_L487A		;486d
+	jp Ch_AllocByType_L4886		;4870
+Ch_AllocByType_L4873:
 	ld a,(0f90dh)		;4873
 	cp b			;4876
-	jp c,l4886h		;4877
-l487ah:
+	jp c,Ch_AllocByType_L4886		;4877
+Ch_AllocByType_L487A:
 	ld d,c			;487a
 	ld a,(0f90bh)		;487b
 	ld e,a			;487e
 	ld a,(0f90dh)		;487f
 	ld b,a			;4882
 	ld hl,wFM_Ch1_F907		;4883
-l4886h:
+Ch_AllocByType_L4886:
 	ld ix,wFM_Ch2_F96E		;4886
 	exx			;488a
 	ld hl,(wFM_Ch2_F96E)		;488b
 	and a			;488e
 	sbc hl,de		;488f
 	exx			;4891
-	jr nz,l48ach		;4892
+	jr nz,Ch_AllocByType_L48AC		;4892
 	ld a,(wNoteTmp_FBF5)		;4894
 	sub (ix+008h)		;4897
-	jp nz,l48ach		;489a
+	jp nz,Ch_AllocByType_L48AC		;489a
 	ld a,(0f973h)		;489d
 	and a			;48a0
-	jp z,l48ach		;48a1
+	jp z,Ch_AllocByType_L48AC		;48a1
 	ld hl,wFM_Ch2_F96E		;48a4
 	ld d,003h		;48a7
-	jp l49cah		;48a9
-l48ach:
+	jp Ch_AllocByType_L49CA		;48a9
+Ch_AllocByType_L48AC:
 	bit 1,(iy+009h)		;48ac
-	jr z,l48b9h		;48b0
+	jr z,Ch_AllocByType_L48B9		;48b0
 	bit 1,(ix+003h)		;48b2
-	jp z,l48f2h		;48b6
-l48b9h:
+	jp z,Ch_AllocByType_L48F2		;48b6
+Ch_AllocByType_L48B9:
 	ld c,001h		;48b9
 	ld a,(0f973h)		;48bb
 	and a			;48be
-	jr nz,l48cbh		;48bf
+	jr nz,Ch_AllocByType_L48CB		;48bf
 	inc c			;48c1
 	ld a,(0f975h)		;48c2
 	sub (ix+006h)		;48c5
-	jr nc,l48cbh		;48c8
+	jr nc,Ch_AllocByType_L48CB		;48c8
 	inc c			;48ca
-l48cbh:
+Ch_AllocByType_L48CB:
 	ld a,d			;48cb
 	cp c			;48cc
-	jp c,l48e6h		;48cd
-	jp nz,l48f2h		;48d0
+	jp c,Ch_AllocByType_L48E6		;48cd
+	jp nz,Ch_AllocByType_L48F2		;48d0
 	ld a,(0f972h)		;48d3
 	cp e			;48d6
-	jr z,l48dfh		;48d7
-	jp nc,l48e6h		;48d9
-	jp l48f2h		;48dc
-l48dfh:
+	jr z,Ch_AllocByType_L48DF		;48d7
+	jp nc,Ch_AllocByType_L48E6		;48d9
+	jp Ch_AllocByType_L48F2		;48dc
+Ch_AllocByType_L48DF:
 	ld a,(0f974h)		;48df
 	cp b			;48e2
-	jp c,l48f2h		;48e3
-l48e6h:
+	jp c,Ch_AllocByType_L48F2		;48e3
+Ch_AllocByType_L48E6:
 	ld d,c			;48e6
 	ld a,(0f972h)		;48e7
 	ld e,a			;48ea
 	ld a,(0f974h)		;48eb
 	ld b,a			;48ee
 	ld hl,wFM_Ch2_F96E		;48ef
-l48f2h:
+Ch_AllocByType_L48F2:
 	ld ix,wFM_Ch3_F9D5		;48f2
 	exx			;48f6
 	ld hl,(wFM_Ch3_F9D5)		;48f7
 	and a			;48fa
 	sbc hl,de		;48fb
 	exx			;48fd
-	jr nz,l4918h		;48fe
+	jr nz,Ch_AllocByType_L4918		;48fe
 	ld a,(wNoteTmp_FBF5)		;4900
 	sub (ix+008h)		;4903
-	jp nz,l4918h		;4906
+	jp nz,Ch_AllocByType_L4918		;4906
 	ld a,(0f9dah)		;4909
 	and a			;490c
-	jp z,l4918h		;490d
+	jp z,Ch_AllocByType_L4918		;490d
 	ld hl,wFM_Ch3_F9D5		;4910
 	ld d,003h		;4913
-	jp l49cah		;4915
-l4918h:
+	jp Ch_AllocByType_L49CA		;4915
+Ch_AllocByType_L4918:
 	bit 1,(iy+009h)		;4918
-	jr z,l4925h		;491c
+	jr z,Ch_AllocByType_L4925		;491c
 	bit 1,(ix+003h)		;491e
-	jp z,l495eh		;4922
-l4925h:
+	jp z,Ch_AllocByType_L495E		;4922
+Ch_AllocByType_L4925:
 	ld c,001h		;4925
 	ld a,(0f9dah)		;4927
 	and a			;492a
-	jr nz,l4937h		;492b
+	jr nz,Ch_AllocByType_L4937		;492b
 	inc c			;492d
 	ld a,(0f9dch)		;492e
 	sub (ix+006h)		;4931
-	jr nc,l4937h		;4934
+	jr nc,Ch_AllocByType_L4937		;4934
 	inc c			;4936
-l4937h:
+Ch_AllocByType_L4937:
 	ld a,d			;4937
 	cp c			;4938
-	jp c,l4952h		;4939
-	jp nz,l495eh		;493c
+	jp c,Ch_AllocByType_L4952		;4939
+	jp nz,Ch_AllocByType_L495E		;493c
 	ld a,(0f9d9h)		;493f
 	cp e			;4942
-	jr z,l494bh		;4943
-	jp nc,l4952h		;4945
-	jp l495eh		;4948
-l494bh:
+	jr z,Ch_AllocByType_L494B		;4943
+	jp nc,Ch_AllocByType_L4952		;4945
+	jp Ch_AllocByType_L495E		;4948
+Ch_AllocByType_L494B:
 	ld a,(0f9dbh)		;494b
 	cp b			;494e
-	jp c,l495eh		;494f
-l4952h:
+	jp c,Ch_AllocByType_L495E		;494f
+Ch_AllocByType_L4952:
 	ld d,c			;4952
 	ld a,(0f9d9h)		;4953
 	ld e,a			;4956
 	ld a,(0f9dbh)		;4957
 	ld b,a			;495a
 	ld hl,wFM_Ch3_F9D5		;495b
-l495eh:
+Ch_AllocByType_L495E:
 	ld ix,wFM_Ch4_FA3C		;495e
 	exx			;4962
 	ld hl,(wFM_Ch4_FA3C)		;4963
 	and a			;4966
 	sbc hl,de		;4967
 	exx			;4969
-	jr nz,l4984h		;496a
+	jr nz,Ch_AllocByType_L4984		;496a
 	ld a,(wNoteTmp_FBF5)		;496c
 	sub (ix+008h)		;496f
-	jp nz,l4984h		;4972
+	jp nz,Ch_AllocByType_L4984		;4972
 	ld a,(0fa41h)		;4975
 	and a			;4978
-	jp z,l4984h		;4979
+	jp z,Ch_AllocByType_L4984		;4979
 	ld hl,wFM_Ch4_FA3C		;497c
 	ld d,003h		;497f
-	jp l49cah		;4981
-l4984h:
+	jp Ch_AllocByType_L49CA		;4981
+Ch_AllocByType_L4984:
 	bit 1,(iy+009h)		;4984
-	jr z,l4991h		;4988
+	jr z,Ch_AllocByType_L4991		;4988
 	bit 1,(ix+003h)		;498a
-	jp z,l49cah		;498e
-l4991h:
+	jp z,Ch_AllocByType_L49CA		;498e
+Ch_AllocByType_L4991:
 	ld c,001h		;4991
 	ld a,(0fa41h)		;4993
 	and a			;4996
-	jr nz,l49a3h		;4997
+	jr nz,Ch_AllocByType_L49A3		;4997
 	inc c			;4999
 	ld a,(0fa43h)		;499a
 	sub (ix+006h)		;499d
-	jr nc,l49a3h		;49a0
+	jr nc,Ch_AllocByType_L49A3		;49a0
 	inc c			;49a2
-l49a3h:
+Ch_AllocByType_L49A3:
 	ld a,d			;49a3
 	cp c			;49a4
-	jp c,l49beh		;49a5
-	jp nz,l49cah		;49a8
+	jp c,Ch_AllocByType_L49BE		;49a5
+	jp nz,Ch_AllocByType_L49CA		;49a8
 	ld a,(0fa40h)		;49ab
 	cp e			;49ae
-	jr z,l49b7h		;49af
-	jp nc,l49beh		;49b1
-	jp l49cah		;49b4
-l49b7h:
+	jr z,Ch_AllocByType_L49B7		;49af
+	jp nc,Ch_AllocByType_L49BE		;49b1
+	jp Ch_AllocByType_L49CA		;49b4
+Ch_AllocByType_L49B7:
 	ld a,(0fa42h)		;49b7
 	cp b			;49ba
-	jp c,l49cah		;49bb
-l49beh:
+	jp c,Ch_AllocByType_L49CA		;49bb
+Ch_AllocByType_L49BE:
 	ld d,c			;49be
 	ld a,(0fa40h)		;49bf
 	ld e,a			;49c2
 	ld a,(0fa42h)		;49c3
 	ld b,a			;49c6
 	ld hl,wFM_Ch4_FA3C		;49c7
-l49cah:
+Ch_AllocByType_L49CA:
 	ex de,hl			;49ca
 	defb 0ddh,06bh	;ld ixl,e		;49cb
 	defb 0ddh,062h	;ld ixh,d		;49cd
@@ -14188,13 +14188,13 @@ l49cah:
 	and a			;49d0
 	ret z			;49d1
 	cp 002h		;49d2
-	jr nc,l49e0h		;49d4
+	jr nc,Ch_AllocByType_L49E0		;49d4
 	ld a,l			;49d6
 	cp (iy+002h)		;49d7
 	ccf			;49da
 	ret nc			;49db
 	ld (ix+005h),000h		;49dc
-l49e0h:
+Ch_AllocByType_L49E0:
 	ld l,(iy+000h)		;49e0
 	ld h,(iy+001h)		;49e3
 	ld (iy+000h),e		;49e6
@@ -14205,11 +14205,11 @@ l49e0h:
 	ld (ix+001h),d		;49f3
 	ld a,l			;49f6
 	or h			;49f7
-	jp z,l4a01h		;49f8
+	jp z,Ch_AllocByType_L4A01		;49f8
 	ld de,00004h		;49fb
 	add hl,de			;49fe
 	ld (hl),0ffh		;49ff
-l4a01h:
+Ch_AllocByType_L4A01:
 	scf			;4a01
 	ret			;4a02
 Ch_NoteOn_4A03:
@@ -14218,24 +14218,24 @@ Ch_NoteOn_4A03:
 	ld a,b			;4a09
 	ld (0fbfbh),a		;4a0a
 	bit 0,(iy+009h)		;4a0d
-	jr z,l4a30h		;4a11
+	jr z,Ch_NoteOn_L4A30		;4a11
 	call Ch_KeyOn_4AE2		;4a13
-	jr c,l4a26h		;4a16
+	jr c,Ch_NoteOn_L4A26		;4a16
 	bit 1,(iy+009h)		;4a18
-	jr nz,l4a30h		;4a1c
+	jr nz,Ch_NoteOn_L4A30		;4a1c
 	bit 5,(iy+009h)		;4a1e
-	jr z,l4a30h		;4a22
+	jr z,Ch_NoteOn_L4A30		;4a22
 	and a			;4a24
 	ret			;4a25
-l4a26h:
+Ch_NoteOn_L4A26:
 	ld hl,(0fbf9h)		;4a26
 	ld a,(hl)			;4a29
 	cp (ix+002h)		;4a2a
-	jp z,l4a34h		;4a2d
-l4a30h:
+	jp z,Ch_NoteOn_L4A34		;4a2d
+Ch_NoteOn_L4A30:
 	call Ch_AllocByType_4389		;4a30
 	ret nc			;4a33
-l4a34h:
+Ch_NoteOn_L4A34:
 	set 5,(iy+009h)		;4a34
 	ld a,(iy+002h)		;4a38
 	ld (ix+004h),a		;4a3b
@@ -14342,10 +14342,10 @@ Ch_KeyOn_4AE2:
 	defb 0fdh,054h	;ld d,iyh		;4af7
 	and a			;4af9
 	sbc hl,de		;4afa
-	jp z,l4b01h		;4afc
+	jp z,Ch_KeyOn_L4B01		;4afc
 	and a			;4aff
 	ret			;4b00
-l4b01h:
+Ch_KeyOn_L4B01:
 	scf			;4b01
 	ret			;4b02
 Ch_IsFM_4B03:
@@ -14358,11 +14358,11 @@ Ch_SetNote_4B0B:
 	call Ch_KeyOn_4AE2		;4b0b
 	ret nc			;4b0e
 	call Ch_IsFM_4B03		;4b0f
-	jr nc,l4b19h		;4b12
+	jr nc,Ch_SetNote_L4B19		;4b12
 	call FM_OpVolumeUp_3672		;4b14
 	scf			;4b17
 	ret			;4b18
-l4b19h:
+Ch_SetNote_L4B19:
 	ld a,(iy+012h)		;4b19
 	add a,0feh		;4b1c
 	ld b,a			;4b1e
@@ -14375,11 +14375,11 @@ Ch_SetNote2_4B26:
 	call Ch_KeyOn_4AE2		;4b26
 	ret nc			;4b29
 	call Ch_IsFM_4B03		;4b2a
-	jr nc,l4b34h		;4b2d
+	jr nc,Ch_SetNote2_L4B34		;4b2d
 	call FM_OpVolumeDown_36AA		;4b2f
 	scf			;4b32
 	ret			;4b33
-l4b34h:
+Ch_SetNote2_L4B34:
 	ld a,(iy+012h)		;4b34
 	add a,002h		;4b37
 	ld b,a			;4b39
@@ -14415,10 +14415,10 @@ Instr_ResolvePtr_4B5D:
 	ld h,(iy+00bh)		;4b65
 	ld a,h			;4b68
 	inc a			;4b69
-	jr nz,l4b72h		;4b6a
+	jr nz,Instr_ResolvePtr_L4B72		;4b6a
 	ld hl,InstrDefault_2509		;4b6c
-	jp l4b7fh		;4b6f
-l4b72h:
+	jp Instr_ResolvePtr_L4B7F		;4b6f
+Instr_ResolvePtr_L4B72:
 	ld l,000h		;4b72
 	add hl,hl			;4b74
 	add hl,de			;4b75
@@ -14427,7 +14427,7 @@ l4b72h:
 	ld hl,BankPtrTable_0080		;4b78
 	call Bank_ResolvePtr24_1FA6		;4b7b
 	pop de			;4b7e
-l4b7fh:
+Instr_ResolvePtr_L4B7F:
 	add hl,de			;4b7f
 	call Bank_ResolvePtr24_1FA6		;4b80
 	ret			;4b83
@@ -14695,13 +14695,13 @@ Seq_Init_4C84:
 	ld b,00eh		;4c8e
 	ld de,00023h		;4c90  constant
 	xor a			;4c93
-l4c94h:
+Seq_Init_L4C94:
 	ld (iy+009h),a		;4c94
 	ld (iy+000h),a		;4c97
 	ld (iy+001h),a		;4c9a
 	set 3,(iy+009h)		;4c9d
 	add iy,de		;4ca1
-	djnz l4c94h		;4ca3
+	djnz Seq_Init_L4C94		;4ca3
 	ret			;4ca5
 Seq_Update_4CA6:
 	ld iy,wMusicTracks_FBFC		;4ca6
@@ -14750,28 +14750,28 @@ Seq_Update_4CA6:
 	ld bc,(wVolumeLevel_F806)		;4d43
 	ld a,(wFadeFlag_F808)		;4d47
 	or a			;4d4a
-	jr nz,l4d65h		;4d4b
+	jr nz,Seq_Update_L4D65		;4d4b
 	ld a,h			;4d4d
 	cp 0ffh		;4d4e
-	jp z,l4d70h		;4d50
+	jp z,Seq_Update_L4D70		;4d50
 	add hl,bc			;4d53
-	jr c,l4d5eh		;4d54
+	jr c,Seq_Update_L4D5E		;4d54
 	ld a,h			;4d56
 	cp 0ffh		;4d57
-	jr c,l4d5eh		;4d59
-	jp l4d70h		;4d5b
-l4d5eh:
+	jr c,Seq_Update_L4D5E		;4d59
+	jp Seq_Update_L4D70		;4d5b
+Seq_Update_L4D5E:
 	ld h,0ffh		;4d5e
 	ld l,0ffh		;4d60
-	jp l4d70h		;4d62
-l4d65h:
+	jp Seq_Update_L4D70		;4d62
+Seq_Update_L4D65:
 	ld a,l			;4d65
 	or h			;4d66
-	jr z,l4d70h		;4d67
+	jr z,Seq_Update_L4D70		;4d67
 	sbc hl,bc		;4d69
-	jr nc,l4d70h		;4d6b
+	jr nc,Seq_Update_L4D70		;4d6b
 	ld hl,00000h		;4d6d  constant
-l4d70h:
+Seq_Update_L4D70:
 	ld (wSfxFlag_F804),hl		;4d70
 	xor a			;4d73
 	ld (wTempoStep_F809),a		;4d74
@@ -14781,19 +14781,19 @@ l4d70h:
 	ld a,(hl)			;4d7e
 	inc hl			;4d7f
 	sub (hl)			;4d80
-	jp nz,l4d87h		;4d81
-	jp l4dc9h		;4d84
-l4d87h:
+	jp nz,Seq_Update_L4D87		;4d81
+	jp Seq_Update_L4DC9		;4d84
+Seq_Update_L4D87:
 	inc hl			;4d87
 	ld a,(hl)			;4d88
 	and a			;4d89
-	jp nz,l4d94h		;4d8a
+	jp nz,Seq_Update_L4D94		;4d8a
 	dec hl			;4d8d
 	ld a,(hl)			;4d8e
 	dec hl			;4d8f
 	ld (hl),a			;4d90
-	jp l4dc9h		;4d91
-l4d94h:
+	jp Seq_Update_L4DC9		;4d91
+Seq_Update_L4D94:
 	dec hl			;4d94
 	ld a,(hl)			;4d95
 	sra a		;4d96
@@ -14801,12 +14801,12 @@ l4d94h:
 	ld b,(hl)			;4d99
 	sra b		;4d9a
 	sub b			;4d9c
-	jr nz,l4da5h		;4d9d
+	jr nz,Seq_Update_L4DA5		;4d9d
 	inc hl			;4d9f
 	inc hl			;4da0
 	ld (hl),a			;4da1
-	jp l4dc9h		;4da2
-l4da5h:
+	jp Seq_Update_L4DC9		;4da2
+Seq_Update_L4DA5:
 	inc hl			;4da5
 	inc hl			;4da6
 	ld c,a			;4da7
@@ -14820,9 +14820,9 @@ l4da5h:
 	ld e,(hl)			;4db0
 	ex de,hl			;4db1
 	add a,(hl)			;4db2
-	jp c,l4db7h		;4db3
+	jp c,Seq_Update_L4DB7		;4db3
 	xor a			;4db6
-l4db7h:
+Seq_Update_L4DB7:
 	inc h			;4db7
 	ld l,a			;4db8
 	ld a,(hl)			;4db9
@@ -14837,7 +14837,7 @@ l4db7h:
 	ld hl,(wMusicHdr_FDE6)		;4dc2
 	add hl,de			;4dc5
 	ld (wMusicHdr_FDE6),hl		;4dc6
-l4dc9h:
+Seq_Update_L4DC9:
 	pop bc			;4dc9
 	ld a,(0fde7h)		;4dca
 	cp b			;4dcd
@@ -14846,19 +14846,19 @@ l4dc9h:
 	ld a,(hl)			;4dd4
 	inc hl			;4dd5
 	sub (hl)			;4dd6
-	jp nz,l4dddh		;4dd7
-	jp l4e1fh		;4dda
-l4dddh:
+	jp nz,Seq_Update_L4DDD		;4dd7
+	jp Seq_Update_L4E1F		;4dda
+Seq_Update_L4DDD:
 	inc hl			;4ddd
 	ld a,(hl)			;4dde
 	and a			;4ddf
-	jp nz,l4deah		;4de0
+	jp nz,Seq_Update_L4DEA		;4de0
 	dec hl			;4de3
 	ld a,(hl)			;4de4
 	dec hl			;4de5
 	ld (hl),a			;4de6
-	jp l4e1fh		;4de7
-l4deah:
+	jp Seq_Update_L4E1F		;4de7
+Seq_Update_L4DEA:
 	dec hl			;4dea
 	ld a,(hl)			;4deb
 	sra a		;4dec
@@ -14866,12 +14866,12 @@ l4deah:
 	ld b,(hl)			;4def
 	sra b		;4df0
 	sub b			;4df2
-	jr nz,l4dfbh		;4df3
+	jr nz,Seq_Update_L4DFB		;4df3
 	inc hl			;4df5
 	inc hl			;4df6
 	ld (hl),a			;4df7
-	jp l4e1fh		;4df8
-l4dfbh:
+	jp Seq_Update_L4E1F		;4df8
+Seq_Update_L4DFB:
 	inc hl			;4dfb
 	inc hl			;4dfc
 	ld c,a			;4dfd
@@ -14885,9 +14885,9 @@ l4dfbh:
 	ld e,(hl)			;4e06
 	ex de,hl			;4e07
 	add a,(hl)			;4e08
-	jp c,l4e0dh		;4e09
+	jp c,Seq_Update_L4E0D		;4e09
 	xor a			;4e0c
-l4e0dh:
+Seq_Update_L4E0D:
 	inc h			;4e0d
 	ld l,a			;4e0e
 	ld a,(hl)			;4e0f
@@ -14902,15 +14902,15 @@ l4e0dh:
 	ld hl,(0fdeah)		;4e18
 	add hl,de			;4e1b
 	ld (0fdeah),hl		;4e1c
-l4e1fh:
+Seq_Update_L4E1F:
 	ld a,(0fdebh)		;4e1f
 	ld b,a			;4e22
 	ld a,(0fde7h)		;4e23
 	add a,b			;4e26
-	jp po,l4e2dh		;4e27
+	jp po,Seq_Update_L4E2D		;4e27
 	sbc a,a			;4e2a
 	xor 07fh		;4e2b
-l4e2dh:
+Seq_Update_L4E2D:
 	add a,080h		;4e2d
 	ld l,a			;4e2f
 	ld h,000h		;4e30
@@ -14921,13 +14921,13 @@ l4e2dh:
 	ex de,hl			;4e38
 	ld hl,(0fdf0h)		;4e39
 	dec a			;4e3c
-	jp z,l4e46h		;4e3d
+	jp z,Seq_Update_L4E46		;4e3d
 	dec a			;4e40
-	jp z,l4e45h		;4e41
+	jp z,Seq_Update_L4E45		;4e41
 	add hl,de			;4e44
-l4e45h:
+Seq_Update_L4E45:
 	add hl,de			;4e45
-l4e46h:
+Seq_Update_L4E46:
 	add hl,de			;4e46
 	ld (0fdf0h),hl		;4e47
 	ld a,h			;4e4a
@@ -15044,11 +15044,11 @@ Seq_SetTempo_4F39:
 Seq_ApplyTempo_4F40:
 	ld a,(0fdeeh)		;4f40
 	cp 040h		;4f43
-	jr nz,l4f4ch		;4f45
+	jr nz,Seq_ApplyTempo_L4F4C		;4f45
 	xor a			;4f47
 	ld (0fdech),a		;4f48
 	ret			;4f4b
-l4f4ch:
+Seq_ApplyTempo_L4F4C:
 	ld l,a			;4f4c
 	ld a,(0fde7h)		;4f4d
 	call Seq_ScaleByCurve_4F69		;4f50
@@ -15071,16 +15071,16 @@ Seq_ScaleByCurve_4F69:
 	ld a,(hl)			;4f6f
 	add a,e			;4f70
 	ld b,0c0h		;4f71
-	jp c,l4f7dh		;4f73
+	jp c,Seq_ScaleByCurve_L4F7D		;4f73
 	sub b			;4f76
-	jr nc,l4f82h		;4f77
+	jr nc,Seq_ScaleByCurve_L4F82		;4f77
 	xor a			;4f79
-	jp l4f82h		;4f7a
-l4f7dh:
+	jp Seq_ScaleByCurve_L4F82		;4f7a
+Seq_ScaleByCurve_L4F7D:
 	sub b			;4f7d
-	jr c,l4f82h		;4f7e
+	jr c,Seq_ScaleByCurve_L4F82		;4f7e
 	ld a,0ffh		;4f80
-l4f82h:
+Seq_ScaleByCurve_L4F82:
 	ld l,a			;4f82
 	inc h			;4f83
 	ld a,(hl)			;4f84
@@ -15088,11 +15088,11 @@ l4f82h:
 	ret			;4f87
 Seq_SetVolumeLevel_4F88:
 	and a			;4f88
-	jr nz,l4f92h		;4f89
+	jr nz,Seq_SetVolumeLevel_L4F92		;4f89
 	ld hl,0ffffh		;4f8b
 	ld (wVolumeLevel_F806),hl		;4f8e
 	ret			;4f91
-l4f92h:
+Seq_SetVolumeLevel_L4F92:
 	ld l,a			;4f92
 	ld h,014h		;4f93
 	ld a,(hl)			;4f95
@@ -15135,13 +15135,13 @@ Seq_StartMusic_4FA3:
 	ld (wFadeFlag_F808),a		;4fdc
 	ld iy,wMusicTracks_FBFC		;4fdf
 	ld b,00eh		;4fe3
-l4fe5h:
+Seq_StartMusic_L4FE5:
 	ld l,(ix+000h)		;4fe5
 	ld h,(ix+001h)		;4fe8
 	ld a,(ix+002h)		;4feb
 	or h			;4fee
 	or l			;4fef
-	jr z,l500dh		;4ff0
+	jr z,Seq_StartMusic_L500D		;4ff0
 	push bc			;4ff2
 	call Seq_TrackInit_5251		;4ff3
 	set 1,(iy+009h)		;4ff6
@@ -15152,27 +15152,27 @@ l4fe5h:
 	ld de,00005h		;5005
 	add ix,de		;5008
 	pop bc			;500a
-	djnz l4fe5h		;500b
-l500dh:
+	djnz Seq_StartMusic_L4FE5		;500b
+Seq_StartMusic_L500D:
 	ld a,b			;500d
 	and a			;500e
-	jp z,l5024h		;500f
+	jp z,Seq_StartMusic_L5024		;500f
 	xor a			;5012
-l5013h:
+Seq_StartMusic_L5013:
 	ld (iy+009h),008h		;5013
 	ld (iy+000h),a		;5017
 	ld (iy+001h),a		;501a
 	ld de,00023h		;501d  constant
 	add iy,de		;5020
-	djnz l5013h		;5022
-l5024h:
+	djnz Seq_StartMusic_L5013		;5022
+Seq_StartMusic_L5024:
 	ret			;5024
 Seq_InitTracks_5025:
 	ld iy,wSfxTracks_FDF2		;5025
 	ld b,008h		;5029
 	ld de,00023h		;502b  constant
 	xor a			;502e
-l502fh:
+Seq_InitTracks_L502F:
 	ld (iy+009h),a		;502f
 	set 3,(iy+009h)		;5032
 	ld (iy+002h),0ffh		;5036
@@ -15182,17 +15182,17 @@ l502fh:
 	ld (iy+00ah),a		;5043
 	ld (iy+00bh),a		;5046
 	add iy,de		;5049
-	djnz l502fh		;504b
+	djnz Seq_InitTracks_L502F		;504b
 	ret			;504d
 Seq_StopAllTracks_504E:
 	ld iy,wSfxTracks_FDF2		;504e
 	ld b,008h		;5052
 	ld de,00023h		;5054  constant
 	ld c,008h		;5057
-l5059h:
+Seq_StopAllTracks_L5059:
 	ld a,(iy+00bh)		;5059
 	inc a			;505c
-	jr z,l5076h		;505d
+	jr z,Seq_StopAllTracks_L5076		;505d
 	ld (iy+009h),c		;505f
 	xor a			;5062
 	ld (iy+002h),0ffh		;5063
@@ -15201,9 +15201,9 @@ l5059h:
 	ld (iy+001h),a		;506d
 	ld (iy+00ah),a		;5070
 	ld (iy+00bh),a		;5073
-l5076h:
+Seq_StopAllTracks_L5076:
 	add iy,de		;5076
-	djnz l5059h		;5078
+	djnz Seq_StopAllTracks_L5059		;5078
 	ret			;507a
 Seq_StartSfx_507B:
 	ld c,(ix+000h)		;507b
@@ -15221,13 +15221,13 @@ Seq_StartSfx_507B:
 	ld d,(ix+008h)		;509f
 	ld bc,00009h		;50a2  constant
 	add ix,bc		;50a5
-l50a7h:
+Seq_StartSfx_L50A7:
 	ld l,(ix+000h)		;50a7
 	ld h,(ix+001h)		;50aa
 	ld a,(ix+002h)		;50ad
 	or l			;50b0
 	or h			;50b1
-	jr z,l50dah		;50b2
+	jr z,Seq_StartSfx_L50DA		;50b2
 	ld e,(ix+004h)		;50b4
 	push de			;50b7
 	push hl			;50b8
@@ -15236,33 +15236,33 @@ l50a7h:
 	pop hl			;50bd
 	pop de			;50be
 	and a			;50bf
-	jr z,l50d1h		;50c0
+	jr z,Seq_StartSfx_L50D1		;50c0
 	push de			;50c2
 	call Seq_TrackInit_5251		;50c3
 	pop de			;50c6
 	ld (iy+002h),e		;50c7
 	ld (iy+003h),d		;50ca
 	set 0,(iy+009h)		;50cd
-l50d1h:
+Seq_StartSfx_L50D1:
 	ld bc,00005h		;50d1
 	add ix,bc		;50d4
-	jp l50a7h		;50d6
+	jp Seq_StartSfx_L50A7		;50d6
 	ret			;50d9
-l50dah:
+Seq_StartSfx_L50DA:
 	ret			;50da
 Seq_FindFreeTrack_50DB:
 	ld iy,wSfxTracks_FDF2		;50db
 	ld b,008h		;50df
 	ld c,e			;50e1
 	ld h,000h		;50e2
-l50e4h:
+Seq_FindFreeTrack_L50E4:
 	bit 2,(iy+009h)		;50e4
-	jp z,l5133h		;50e8
+	jp z,Seq_FindFreeTrack_L5133		;50e8
 	ld a,d			;50eb
 	and a			;50ec
-	jr z,l511bh		;50ed
+	jr z,Seq_FindFreeTrack_L511B		;50ed
 	cp (iy+003h)		;50ef
-	jp nz,l511bh		;50f2
+	jp nz,Seq_FindFreeTrack_L511B		;50f2
 	exx			;50f5
 	ld e,(iy+007h)		;50f6
 	ld d,(iy+008h)		;50f9
@@ -15270,13 +15270,13 @@ l50e4h:
 	and a			;50ff
 	sbc hl,de		;5100
 	exx			;5102
-	jr z,l511bh		;5103
+	jr z,Seq_FindFreeTrack_L511B		;5103
 	ld a,(iy+002h)		;5105
 	cp e			;5108
-	jr nc,l510fh		;5109
+	jr nc,Seq_FindFreeTrack_L510F		;5109
 	ld h,000h		;510b
-	jr l514ah		;510d
-l510fh:
+	jr Seq_FindFreeTrack_L514A		;510d
+Seq_FindFreeTrack_L510F:
 	push bc			;510f
 	push de			;5110
 	push hl			;5111
@@ -15284,32 +15284,32 @@ l510fh:
 	pop hl			;5115
 	pop de			;5116
 	pop bc			;5117
-	jp l5133h		;5118
-l511bh:
+	jp Seq_FindFreeTrack_L5133		;5118
+Seq_FindFreeTrack_L511B:
 	ld a,h			;511b
 	cp 002h		;511c
-	jp z,l5141h		;511e
+	jp z,Seq_FindFreeTrack_L5141		;511e
 	ld a,(iy+002h)		;5121
 	cp c			;5124
-	jr c,l5141h		;5125
+	jr c,Seq_FindFreeTrack_L5141		;5125
 	ld c,(iy+002h)		;5127
 	ld h,001h		;512a
 	ld (wCurTrack_FF0A),iy		;512c
-	jp l5141h		;5130
-l5133h:
+	jp Seq_FindFreeTrack_L5141		;5130
+Seq_FindFreeTrack_L5133:
 	ld h,002h		;5133
 	ld (wCurTrack_FF0A),iy		;5135
 	ld a,d			;5139
 	and a			;513a
-	jp z,l514ah		;513b
-	jp l5141h		;513e
-l5141h:
+	jp z,Seq_FindFreeTrack_L514A		;513b
+	jp Seq_FindFreeTrack_L5141		;513e
+Seq_FindFreeTrack_L5141:
 	exx			;5141
 	ld de,00023h		;5142  constant
 	add iy,de		;5145
 	exx			;5147
-	djnz l50e4h		;5148
-l514ah:
+	djnz Seq_FindFreeTrack_L50E4		;5148
+Seq_FindFreeTrack_L514A:
 	ld iy,(wCurTrack_FF0A)		;514a
 	ret			;514e
 Seq_UpdateTracks_514F:
@@ -15318,89 +15318,89 @@ Seq_UpdateTracks_514F:
 	and 0f7h		;5153
 	ld (hl),a			;5155
 	bit 2,a		;5156
-	jp z,l5167h		;5158
+	jp z,Seq_UpdateTracks_L5167		;5158
 	ld iy,wSfxTracks_FDF2		;515b
 	bit 6,a		;515f
 	call nz,Seq_TrackPortamento_52EA		;5161
 	call Seq_TrackStep_532B		;5164
-l5167h:
+Seq_UpdateTracks_L5167:
 	ld hl,0fe1eh		;5167
 	ld a,(hl)			;516a
 	and 0f7h		;516b
 	ld (hl),a			;516d
 	bit 2,a		;516e
-	jp z,l517fh		;5170
+	jp z,Seq_UpdateTracks_L517F		;5170
 	ld iy,0fe15h		;5173
 	bit 6,a		;5177
 	call nz,Seq_TrackPortamento_52EA		;5179
 	call Seq_TrackStep_532B		;517c
-l517fh:
+Seq_UpdateTracks_L517F:
 	ld hl,0fe41h		;517f
 	ld a,(hl)			;5182
 	and 0f7h		;5183
 	ld (hl),a			;5185
 	bit 2,a		;5186
-	jp z,l5197h		;5188
+	jp z,Seq_UpdateTracks_L5197		;5188
 	ld iy,0fe38h		;518b
 	bit 6,a		;518f
 	call nz,Seq_TrackPortamento_52EA		;5191
 	call Seq_TrackStep_532B		;5194
-l5197h:
+Seq_UpdateTracks_L5197:
 	ld hl,0fe64h		;5197
 	ld a,(hl)			;519a
 	and 0f7h		;519b
 	ld (hl),a			;519d
 	bit 2,a		;519e
-	jp z,l51afh		;51a0
+	jp z,Seq_UpdateTracks_L51AF		;51a0
 	ld iy,0fe5bh		;51a3
 	bit 6,a		;51a7
 	call nz,Seq_TrackPortamento_52EA		;51a9
 	call Seq_TrackStep_532B		;51ac
-l51afh:
+Seq_UpdateTracks_L51AF:
 	ld hl,0fe87h		;51af
 	ld a,(hl)			;51b2
 	and 0f7h		;51b3
 	ld (hl),a			;51b5
 	bit 2,a		;51b6
-	jp z,l51c7h		;51b8
+	jp z,Seq_UpdateTracks_L51C7		;51b8
 	ld iy,0fe7eh		;51bb
 	bit 6,a		;51bf
 	call nz,Seq_TrackPortamento_52EA		;51c1
 	call Seq_TrackStep_532B		;51c4
-l51c7h:
+Seq_UpdateTracks_L51C7:
 	ld hl,0feaah		;51c7
 	ld a,(hl)			;51ca
 	and 0f7h		;51cb
 	ld (hl),a			;51cd
 	bit 2,a		;51ce
-	jp z,l51dfh		;51d0
+	jp z,Seq_UpdateTracks_L51DF		;51d0
 	ld iy,0fea1h		;51d3
 	bit 6,a		;51d7
 	call nz,Seq_TrackPortamento_52EA		;51d9
 	call Seq_TrackStep_532B		;51dc
-l51dfh:
+Seq_UpdateTracks_L51DF:
 	ld hl,0fecdh		;51df
 	ld a,(hl)			;51e2
 	and 0f7h		;51e3
 	ld (hl),a			;51e5
 	bit 2,a		;51e6
-	jp z,l51f7h		;51e8
+	jp z,Seq_UpdateTracks_L51F7		;51e8
 	ld iy,0fec4h		;51eb
 	bit 6,a		;51ef
 	call nz,Seq_TrackPortamento_52EA		;51f1
 	call Seq_TrackStep_532B		;51f4
-l51f7h:
+Seq_UpdateTracks_L51F7:
 	ld hl,0fef0h		;51f7
 	ld a,(hl)			;51fa
 	and 0f7h		;51fb
 	ld (hl),a			;51fd
 	bit 2,a		;51fe
-	jp z,l520fh		;5200
+	jp z,Seq_UpdateTracks_L520F		;5200
 	ld iy,0fee7h		;5203
 	bit 6,a		;5207
 	call nz,Seq_TrackPortamento_52EA		;5209
 	call Seq_TrackStep_532B		;520c
-l520fh:
+Seq_UpdateTracks_L520F:
 	ret			;520f
 Seq_StopTrackById_5210:
 	ld a,c			;5210
@@ -15409,27 +15409,27 @@ Seq_StopTrackById_5210:
 	push ix		;5213
 	ld ix,wSfxTracks_FDF2		;5215
 	ld a,008h		;5219
-l521bh:
+Seq_StopTrackById_L521B:
 	ld l,(ix+005h)		;521b
 	ld h,(ix+006h)		;521e
 	and a			;5221
 	sbc hl,bc		;5222
-	jp nz,l5246h		;5224
+	jp nz,Seq_StopTrackById_L5246		;5224
 	ld hl,(wCmdCounter_F819)		;5227
 	ld e,(ix+007h)		;522a
 	ld d,(ix+008h)		;522d
 	and a			;5230
 	sbc hl,de		;5231
-	jp z,l5246h		;5233
+	jp z,Seq_StopTrackById_L5246		;5233
 	ld (ix+009h),008h		;5236
 	ld (ix+000h),000h		;523a
 	ld (ix+001h),000h		;523e
 	ld (ix+002h),0ffh		;5242
-l5246h:
+Seq_StopTrackById_L5246:
 	ld de,00023h		;5246  constant
 	add ix,de		;5249
 	dec a			;524b
-	jr nz,l521bh		;524c
+	jr nz,Seq_StopTrackById_L521B		;524c
 	pop ix		;524e
 	ret			;5250
 Seq_TrackInit_5251:
@@ -15446,7 +15446,7 @@ Seq_TrackInit_5251:
 	pop bc			;5267
 	ld a,(wCurBank_F811)		;5268
 	cp b			;526b
-	jp z,l5289h		;526c
+	jp z,Seq_TrackInit_L5289		;526c
 	ld a,b			;526f
 	ld (wCurBank_F811),a		;5270
 	ld c,00bh		;5273
@@ -15463,7 +15463,7 @@ Seq_TrackInit_5251:
 	sla b		;5284
 	dec c			;5286
 	in a,(c)		;5287
-l5289h:
+Seq_TrackInit_L5289:
 	xor a			;5289
 	ld (iy+003h),a		;528a
 	ld (iy+009h),a		;528d
@@ -15512,19 +15512,19 @@ Seq_TrackPortamento_52EA:
 	ld h,(iy+011h)		;5305
 	ld a,h			;5308
 	and a			;5309
-	jp p,l5318h		;530a
+	jp p,Seq_TrackPortamento_L5318		;530a
 	adc hl,de		;530d
-	jr c,l5323h		;530f
+	jr c,Seq_TrackPortamento_L5323		;530f
 	ld (iy+010h),l		;5311
 	ld (iy+011h),h		;5314
 	ret			;5317
-l5318h:
+Seq_TrackPortamento_L5318:
 	sbc hl,de		;5318
-	jr c,l5323h		;531a
+	jr c,Seq_TrackPortamento_L5323		;531a
 	ld (iy+010h),l		;531c
 	ld (iy+011h),h		;531f
 	ret			;5322
-l5323h:
+Seq_TrackPortamento_L5323:
 	xor a			;5323
 	ld (iy+010h),a		;5324
 	ld (iy+011h),a		;5327
@@ -15532,7 +15532,7 @@ l5323h:
 Seq_TrackStep_532B:
 	ld a,(iy+016h)		;532b
 	and a			;532e
-	jp nz,l534dh		;532f
+	jp nz,Seq_TrackNextOp_L534D		;532f
 	ld l,(iy+014h)		;5332
 	ld h,(iy+015h)		;5335
 	ld (wSeqPtr_FF0D),hl		;5338
@@ -15544,7 +15544,7 @@ Seq_TrackNextOp_533E:
 	ld hl,(wSeqPtr_FF0D)		;5344
 	ld (iy+014h),l		;5347
 	ld (iy+015h),h		;534a
-l534dh:
+Seq_TrackNextOp_L534D:
 	dec a			;534d
 	ld (iy+016h),a		;534e
 	bit 1,(iy+009h)		;5351
@@ -15558,7 +15558,7 @@ Seq_TrackFetch_5362:
 	ld b,(iy+004h)		;5362
 	ld a,(wCurBank_F811)		;5365
 	cp b			;5368
-	jp z,l5386h		;5369
+	jp z,Seq_TrackFetch_L5386		;5369
 	ld a,b			;536c
 	ld (wCurBank_F811),a		;536d
 	ld c,00bh		;5370
@@ -15575,7 +15575,7 @@ Seq_TrackFetch_5362:
 	sla b		;5381
 	dec c			;5383
 	in a,(c)		;5384
-l5386h:
+Seq_TrackFetch_L5386:
 	ld de,(wSeqPtr_FF0D)		;5386
 	ld a,(de)			;538a
 	inc de			;538b
@@ -15703,9 +15703,9 @@ SeqOp_D7_PitchDown_5470:
 	and a			;5486
 	sbc hl,de		;5487
 	add hl,bc			;5489
-	jr nc,l548fh		;548a
+	jr nc,SeqOp_D7_PitchDown_L548F		;548a
 	ld hl,0ffffh		;548c
-l548fh:
+SeqOp_D7_PitchDown_L548F:
 	add hl,de			;548f
 	ld (iy+010h),l		;5490
 	ld (iy+011h),h		;5493
@@ -15725,9 +15725,9 @@ SeqOp_D8_PitchUp_5499:
 	add hl,de			;54af
 	and a			;54b0
 	sbc hl,bc		;54b1
-	jp nc,l54b9h		;54b3
+	jp nc,SeqOp_D8_PitchUp_L54B9		;54b3
 	ld hl,00000h		;54b6  constant
-l54b9h:
+SeqOp_D8_PitchUp_L54B9:
 	and a			;54b9
 	sbc hl,de		;54ba
 	ld (iy+010h),l		;54bc
@@ -15739,14 +15739,14 @@ SeqOp_D1_Portamento_54C5:
 	inc hl			;54c7
 	ld (wSeqPtr_FF0D),hl		;54c8
 	cp 040h		;54cb
-	jr c,l54e2h		;54cd
+	jr c,SeqOp_D1_Portamento_L54E2		;54cd
 	ld c,(iy+009h)		;54cf
 	set 6,(iy+009h)		;54d2
 	bit 6,c		;54d6
 	jp nz,Seq_TrackNextOp_533E		;54d8
 	ld (iy+01bh),0ffh		;54db
 	jp Seq_TrackNextOp_533E		;54df
-l54e2h:
+SeqOp_D1_Portamento_L54E2:
 	res 6,(iy+009h)		;54e2
 	xor a			;54e6
 	ld (iy+010h),a		;54e7
@@ -15786,11 +15786,11 @@ SeqOp_CC_SetLength_551D:
 	ld (wSeqPtr_FF0D),hl		;5520
 	ld b,003h		;5523
 	cp 040h		;5525
-	jp z,l552fh		;5527
+	jp z,SeqOp_CC_SetLength_L552F		;5527
 	dec b			;552a
-	jp c,l552fh		;552b
+	jp c,SeqOp_CC_SetLength_L552F		;552b
 	dec b			;552e
-l552fh:
+SeqOp_CC_SetLength_L552F:
 	ld (iy+00fh),b		;552f
 	jp Seq_TrackNextOp_533E		;5532
 SeqOp_CB_SetWait_5535:
@@ -15824,10 +15824,10 @@ SeqOp_C9_SetSustain_555C:
 	inc hl			;555e
 	ld (wSeqPtr_FF0D),hl		;555f
 	and a			;5562
-	jp z,l556dh		;5563
+	jp z,SeqOp_C9_SetSustain_L556D		;5563
 	set 4,(iy+009h)		;5566
 	jp Seq_TrackNextOp_533E		;556a
-l556dh:
+SeqOp_C9_SetSustain_L556D:
 	res 4,(iy+009h)		;556d
 	jp Seq_TrackNextOp_533E		;5571
 SeqOp_C6_SetVol_5574:
@@ -15857,9 +15857,9 @@ SeqOp_C8_SetParam_5590:
 SeqOp_C5_Return_559E:
 	ld a,(iy+022h)		;559e
 	cp 006h		;55a1
-	jp c,l55a9h		;55a3
-	jp l5791h		;55a6
-l55a9h:
+	jp c,SeqOp_C5_Return_L55A9		;55a3
+	jp Seq_TrackStop_L5791		;55a6
+SeqOp_C5_Return_L55A9:
 	ld e,a			;55a9
 	add a,002h		;55aa
 	ld (iy+022h),a		;55ac
@@ -15912,19 +15912,19 @@ SeqOp_D0_LoopEnd_5605:
 	ex de,hl			;5619
 	ld a,(de)			;561a
 	and a			;561b
-	jr z,l5624h		;561c
+	jr z,SeqOp_D0_LoopEnd_L5624		;561c
 	dec a			;561e
-	jr z,l5648h		;561f
+	jr z,SeqOp_D0_LoopEnd_L5648		;561f
 	ld (de),a			;5621
-	jr l562ch		;5622
-l5624h:
+	jr SeqOp_D0_LoopEnd_L562C		;5622
+SeqOp_D0_LoopEnd_L5624:
 	ld a,(hl)			;5624
 	and a			;5625
-	jr z,l562ch		;5626
+	jr z,SeqOp_D0_LoopEnd_L562C		;5626
 	dec a			;5628
-	jr z,l5648h		;5629
+	jr z,SeqOp_D0_LoopEnd_L5648		;5629
 	ld (de),a			;562b
-l562ch:
+SeqOp_D0_LoopEnd_L562C:
 	inc hl			;562c
 	ld e,(hl)			;562d
 	inc hl			;562e
@@ -15937,7 +15937,7 @@ l562ch:
 	ld (iy+019h),0c0h		;563d
 	ld (iy+01ah),07fh		;5641
 	jp Seq_TrackNextOp_533E		;5645
-l5648h:
+SeqOp_D0_LoopEnd_L5648:
 	ld a,(iy+022h)		;5648
 	cp 006h		;564b
 	jp nc,Seq_TrackStop_578D		;564d
@@ -15983,12 +15983,12 @@ SeqOp_C3_SetBit0_569A:
 	ex de,hl			;569a
 	ld a,(hl)			;569b
 	or a			;569c
-	jr z,l56a6h		;569d
+	jr z,SeqOp_C3_SetBit0_L56A6		;569d
 	set 0,(iy+009h)		;569f
-	jp l56aah		;56a3
-l56a6h:
+	jp SeqOp_C3_SetBit0_L56AA		;56a3
+SeqOp_C3_SetBit0_L56A6:
 	res 0,(iy+009h)		;56a6
-l56aah:
+SeqOp_C3_SetBit0_L56AA:
 	inc hl			;56aa
 	ld (wSeqPtr_FF0D),hl		;56ab
 	jp Seq_TrackNextOp_533E		;56ae
@@ -16026,50 +16026,50 @@ Seq_NoteEvent_56EA:
 	ld b,a			;56ea
 	and 0f8h		;56eb
 	cp 0b8h		;56ed
-	jr z,l56fch		;56ef
+	jr z,Seq_NoteEvent_L56FC		;56ef
 	rrca			;56f1
 	rrca			;56f2
 	rrca			;56f3
 	sub 00bh		;56f4
 	add a,(iy+017h)		;56f6
-	jp l56feh		;56f9
-l56fch:
+	jp Seq_NoteEvent_L56FE		;56f9
+Seq_NoteEvent_L56FC:
 	ld a,(de)			;56fc
 	inc de			;56fd
-l56feh:
+Seq_NoteEvent_L56FE:
 	ld (iy+017h),a		;56fe
 	ld (wNoteTmp_FBF5),a		;5701
 	ld a,(iy+018h)		;5704
 	srl b		;5707
-	jr c,l5710h		;5709
+	jr c,Seq_NoteEvent_L5710		;5709
 	ld a,(de)			;570b
 	inc de			;570c
 	ld (iy+018h),a		;570d
-l5710h:
+Seq_NoteEvent_L5710:
 	ld (iy+016h),a		;5710
 	ld (wNoteLen_FBF6),a		;5713
 	ld a,(iy+019h)		;5716
 	srl b		;5719
-	jr c,l5722h		;571b
+	jr c,Seq_NoteEvent_L5722		;571b
 	ld a,(de)			;571d
 	inc de			;571e
 	ld (iy+019h),a		;571f
-l5722h:
+Seq_NoteEvent_L5722:
 	ld (wNoteVol_FBF7),a		;5722
 	ld a,(iy+01ah)		;5725
 	srl b		;5728
-	jr c,l5731h		;572a
+	jr c,Seq_NoteEvent_L5731		;572a
 	ld a,(de)			;572c
 	inc de			;572d
 	ld (iy+01ah),a		;572e
-l5731h:
+Seq_NoteEvent_L5731:
 	ld (wNoteGate_FBF8),a		;5731
 	ld (wSeqPtr_FF0D),de		;5734
 	bit 6,(iy+009h)		;5738
-	jp z,l576ah		;573c
+	jp z,Seq_NoteEvent_L576A		;573c
 	ld a,(iy+01bh)		;573f
 	cp 0ffh		;5742
-	jp z,l576ah		;5744
+	jp z,Seq_NoteEvent_L576A		;5744
 	ld l,a			;5747
 	ld h,011h		;5748
 	ld c,(hl)			;574a
@@ -16090,7 +16090,7 @@ l5731h:
 	add hl,de			;5763
 	ld (iy+010h),l		;5764
 	ld (iy+011h),h		;5767
-l576ah:
+Seq_NoteEvent_L576A:
 	ld a,(iy+017h)		;576a
 	ld (iy+01bh),a		;576d
 	ld a,(wNoteVol_FBF7)		;5770
@@ -16107,7 +16107,7 @@ Seq_TrackEndCheck_5786:
 Seq_TrackStop_578D:
 	xor a			;578d
 	ld (iy+012h),a		;578e
-l5791h:
+Seq_TrackStop_L5791:
 	ld (iy+009h),008h		;5791
 	xor a			;5795
 	ld (iy+000h),a		;5796

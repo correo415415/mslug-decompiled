@@ -62,10 +62,10 @@ Ch_KeyOn_4AE2:
 	defb 0fdh,054h	;ld d,iyh		;4af7
 	and a			;4af9
 	sbc hl,de		;4afa
-	jp z,l4b01h		;4afc
+	jp z,Ch_KeyOn_L4B01		;4afc
 	and a			;4aff
 	ret			;4b00
-l4b01h:
+Ch_KeyOn_L4B01:
 	scf			;4b01
 	ret			;4b02
 Ch_IsFM_4B03:
@@ -78,11 +78,11 @@ Ch_SetNote_4B0B:
 	call Ch_KeyOn_4AE2		;4b0b
 	ret nc			;4b0e
 	call Ch_IsFM_4B03		;4b0f
-	jr nc,l4b19h		;4b12
+	jr nc,Ch_SetNote_L4B19		;4b12
 	call FM_OpVolumeUp_3672		;4b14
 	scf			;4b17
 	ret			;4b18
-l4b19h:
+Ch_SetNote_L4B19:
 	ld a,(iy+012h)		;4b19
 	add a,0feh		;4b1c
 	ld b,a			;4b1e
@@ -95,11 +95,11 @@ Ch_SetNote2_4B26:
 	call Ch_KeyOn_4AE2		;4b26
 	ret nc			;4b29
 	call Ch_IsFM_4B03		;4b2a
-	jr nc,l4b34h		;4b2d
+	jr nc,Ch_SetNote2_L4B34		;4b2d
 	call FM_OpVolumeDown_36AA		;4b2f
 	scf			;4b32
 	ret			;4b33
-l4b34h:
+Ch_SetNote2_L4B34:
 	ld a,(iy+012h)		;4b34
 	add a,002h		;4b37
 	ld b,a			;4b39
@@ -135,10 +135,10 @@ Instr_ResolvePtr_4B5D:
 	ld h,(iy+00bh)		;4b65
 	ld a,h			;4b68
 	inc a			;4b69
-	jr nz,l4b72h		;4b6a
+	jr nz,Instr_ResolvePtr_L4B72		;4b6a
 	ld hl,InstrDefault_2509		;4b6c
-	jp l4b7fh		;4b6f
-l4b72h:
+	jp Instr_ResolvePtr_L4B7F		;4b6f
+Instr_ResolvePtr_L4B72:
 	ld l,000h		;4b72
 	add hl,hl			;4b74
 	add hl,de			;4b75
@@ -147,7 +147,7 @@ l4b72h:
 	ld hl,BankPtrTable_0080		;4b78
 	call Bank_ResolvePtr24_1FA6		;4b7b
 	pop de			;4b7e
-l4b7fh:
+Instr_ResolvePtr_L4B7F:
 	add hl,de			;4b7f
 	call Bank_ResolvePtr24_1FA6		;4b80
 	ret			;4b83

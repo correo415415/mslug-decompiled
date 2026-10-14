@@ -48,17 +48,17 @@ ADPCMA_Update_379C:
 	ld hl,0fabfh		;37ab
 	ld a,(hl)			;37ae
 	and a			;37af
-	jp z,l38a0h		;37b0
+	jp z,ADPCMA_Update_L38A0		;37b0
 	cp 002h		;37b3
-	jr z,l37c9h		;37b5
+	jr z,ADPCMA_Update_L37C9		;37b5
 	ld a,(wYmStatus_F80A)		;37b7
 	and 001h		;37ba
-	jp z,l3805h		;37bc
+	jp z,ADPCMA_Update_L3805		;37bc
 	xor a			;37bf
 	ld (0fabfh),a		;37c0
 	ld (0fab0h),a		;37c3
-	jp l38a0h		;37c6
-l37c9h:
+	jp ADPCMA_Update_L38A0		;37c6
+ADPCMA_Update_L37C9:
 	ld hl,(0fabbh)		;37c9
 	ld bc,(0fabdh)		;37cc
 	ld a,001h		;37d0
@@ -93,19 +93,19 @@ l37c9h:
 	ld e,001h		;3800
 	ld d,000h		;3802
 	rst 8			;3804
-l3805h:
+ADPCMA_Update_L3805:
 	ld hl,0fac0h		;3805
 	call Env_Step_222D		;3808
 	ld l,a			;380b
 	ld a,(0fab0h)		;380c
 	and a			;380f
-	jr z,l3827h		;3810
+	jr z,ADPCMA_Update_L3827		;3810
 	inc l			;3812
-	jr z,l3827h		;3813
+	jr z,ADPCMA_Update_L3827		;3813
 	ex af,af'			;3815
 	dec l			;3816
 	ld a,l			;3817
-	jr z,l3827h		;3818
+	jr z,ADPCMA_Update_L3827		;3818
 	ld h,014h		;381a
 	ld a,(hl)			;381c
 	ex af,af'			;381d
@@ -114,19 +114,19 @@ l3805h:
 	add a,(hl)			;3820
 	ld l,a			;3821
 	sbc a,a			;3822
-	jr nc,l3827h		;3823
+	jr nc,ADPCMA_Update_L3827		;3823
 	inc h			;3825
 	ld a,(hl)			;3826
-l3827h:
+ADPCMA_Update_L3827:
 	ld l,(iy+012h)		;3827
 	and a			;382a
-	jr z,l3842h		;382b
+	jr z,ADPCMA_Update_L3842		;382b
 	inc l			;382d
-	jr z,l3842h		;382e
+	jr z,ADPCMA_Update_L3842		;382e
 	ex af,af'			;3830
 	dec l			;3831
 	ld a,l			;3832
-	jr z,l3842h		;3833
+	jr z,ADPCMA_Update_L3842		;3833
 	ld h,014h		;3835
 	ld a,(hl)			;3837
 	ex af,af'			;3838
@@ -135,24 +135,24 @@ l3827h:
 	add a,(hl)			;383b
 	ld l,a			;383c
 	sbc a,a			;383d
-	jr nc,l3842h		;383e
+	jr nc,ADPCMA_Update_L3842		;383e
 	inc h			;3840
 	ld a,(hl)			;3841
-l3842h:
+ADPCMA_Update_L3842:
 	ld l,a			;3842
 	ld a,0ffh		;3843
 	bit 1,(iy+009h)		;3845
-	jp z,l384fh		;3849
+	jp z,ADPCMA_Update_L384F		;3849
 	ld a,(wMasterVolume_F805)		;384c
-l384fh:
+ADPCMA_Update_L384F:
 	and a			;384f
-	jr z,l3867h		;3850
+	jr z,ADPCMA_Update_L3867		;3850
 	inc l			;3852
-	jr z,l3867h		;3853
+	jr z,ADPCMA_Update_L3867		;3853
 	ex af,af'			;3855
 	dec l			;3856
 	ld a,l			;3857
-	jr z,l3867h		;3858
+	jr z,ADPCMA_Update_L3867		;3858
 	ld h,014h		;385a
 	ld a,(hl)			;385c
 	ex af,af'			;385d
@@ -161,53 +161,53 @@ l384fh:
 	add a,(hl)			;3860
 	ld l,a			;3861
 	sbc a,a			;3862
-	jr nc,l3867h		;3863
+	jr nc,ADPCMA_Update_L3867		;3863
 	inc h			;3865
 	ld a,(hl)			;3866
-l3867h:
+ADPCMA_Update_L3867:
 	ld hl,0fab5h		;3867
 	cp (hl)			;386a
 	ld (hl),a			;386b
 	ex af,af'			;386c
 	ld a,(0fabah)		;386d
 	and a			;3870
-	jr nz,l3895h		;3871
+	jr nz,ADPCMA_Update_L3895		;3871
 	ld a,(iy+00fh)		;3873
 	and 003h		;3876
 	ld hl,0fab9h		;3878
 	cp (hl)			;387b
 	ld (hl),a			;387c
 	ld e,a			;387d
-	jp z,l3885h		;387e
+	jp z,ADPCMA_Update_L3885		;387e
 	ex af,af'			;3881
-	jp l3889h		;3882
-l3885h:
+	jp ADPCMA_Update_L3889		;3882
+ADPCMA_Update_L3885:
 	ex af,af'			;3885
-	jp z,l38a0h		;3886
-l3889h:
+	jp z,ADPCMA_Update_L38A0		;3886
+ADPCMA_Update_L3889:
 	ld h,019h		;3889
 	ld l,a			;388b
 	ld a,(hl)			;388c
 	sub 001h		;388d
-	jr nc,l3895h		;388f
+	jr nc,ADPCMA_Update_L3895		;388f
 	xor a			;3891
-	jp l389ah		;3892
-l3895h:
+	jp ADPCMA_Update_L389A		;3892
+ADPCMA_Update_L3895:
 	rrc e		;3895
 	rrc e		;3897
 	or e			;3899
-l389ah:
+ADPCMA_Update_L389A:
 	ld e,a			;389a
 	ld d,008h		;389b
 	ld c,006h		;389d
 	rst 8			;389f
-l38a0h:
+ADPCMA_Update_L38A0:
 	ld c,001h		;38a0
 	bit 1,(iy+009h)		;38a2
-	jr z,l38ach		;38a6
+	jr z,ADPCMA_Update_L38AC		;38a6
 	ld a,(wTempoStep_F809)		;38a8
 	ld c,a			;38ab
-l38ach:
+ADPCMA_Update_L38AC:
 	ld hl,0faabh		;38ac
 	ld a,(hl)			;38af
 	add a,c			;38b0
@@ -216,25 +216,25 @@ l38ach:
 	ld hl,0faaah		;38b4
 	ld a,(hl)			;38b7
 	and a			;38b8
-	jp z,l38cdh		;38b9
+	jp z,ADPCMA_Update_L38CD		;38b9
 	sub c			;38bc
 	ld (hl),a			;38bd
-	jr nz,l38e2h		;38be
+	jr nz,ADPCMA_Update_L38E2		;38be
 	bit 4,(iy+009h)		;38c0
-	jr z,l38dch		;38c4
+	jr z,ADPCMA_Update_L38DC		;38c4
 	set 4,(ix+003h)		;38c6
-	jp l38e2h		;38ca
-l38cdh:
+	jp ADPCMA_Update_L38E2		;38ca
+ADPCMA_Update_L38CD:
 	bit 4,(iy+009h)		;38cd
-	jr nz,l38e2h		;38d1
+	jr nz,ADPCMA_Update_L38E2		;38d1
 	ld hl,0faa8h		;38d3
 	bit 4,(hl)		;38d6
-	jr z,l38e2h		;38d8
+	jr z,ADPCMA_Update_L38E2		;38d8
 	res 4,(hl)		;38da
-l38dch:
+ADPCMA_Update_L38DC:
 	ld hl,0fac0h		;38dc
 	call Env_Release_2219		;38df
-l38e2h:
+ADPCMA_Update_L38E2:
 	ld ix,wPCMA_Ch2_FACE		;38e2
 	ld iy,(wPCMA_Ch2_FACE)		;38e6
 	bit 3,(iy+009h)		;38ea
@@ -242,17 +242,17 @@ l38e2h:
 	ld hl,0fae8h		;38f1
 	ld a,(hl)			;38f4
 	and a			;38f5
-	jp z,l39e6h		;38f6
+	jp z,ADPCMA_Update_L39E6		;38f6
 	cp 002h		;38f9
-	jr z,l390fh		;38fb
+	jr z,ADPCMA_Update_L390F		;38fb
 	ld a,(wYmStatus_F80A)		;38fd
 	and 002h		;3900
-	jp z,l394bh		;3902
+	jp z,ADPCMA_Update_L394B		;3902
 	xor a			;3905
 	ld (0fae8h),a		;3906
 	ld (0fad9h),a		;3909
-	jp l39e6h		;390c
-l390fh:
+	jp ADPCMA_Update_L39E6		;390c
+ADPCMA_Update_L390F:
 	ld hl,(0fae4h)		;390f
 	ld bc,(0fae6h)		;3912
 	ld a,001h		;3916
@@ -287,19 +287,19 @@ l390fh:
 	ld e,002h		;3946
 	ld d,000h		;3948
 	rst 8			;394a
-l394bh:
+ADPCMA_Update_L394B:
 	ld hl,0fae9h		;394b
 	call Env_Step_222D		;394e
 	ld l,a			;3951
 	ld a,(0fad9h)		;3952
 	and a			;3955
-	jr z,l396dh		;3956
+	jr z,ADPCMA_Update_L396D		;3956
 	inc l			;3958
-	jr z,l396dh		;3959
+	jr z,ADPCMA_Update_L396D		;3959
 	ex af,af'			;395b
 	dec l			;395c
 	ld a,l			;395d
-	jr z,l396dh		;395e
+	jr z,ADPCMA_Update_L396D		;395e
 	ld h,014h		;3960
 	ld a,(hl)			;3962
 	ex af,af'			;3963
@@ -308,19 +308,19 @@ l394bh:
 	add a,(hl)			;3966
 	ld l,a			;3967
 	sbc a,a			;3968
-	jr nc,l396dh		;3969
+	jr nc,ADPCMA_Update_L396D		;3969
 	inc h			;396b
 	ld a,(hl)			;396c
-l396dh:
+ADPCMA_Update_L396D:
 	ld l,(iy+012h)		;396d
 	and a			;3970
-	jr z,l3988h		;3971
+	jr z,ADPCMA_Update_L3988		;3971
 	inc l			;3973
-	jr z,l3988h		;3974
+	jr z,ADPCMA_Update_L3988		;3974
 	ex af,af'			;3976
 	dec l			;3977
 	ld a,l			;3978
-	jr z,l3988h		;3979
+	jr z,ADPCMA_Update_L3988		;3979
 	ld h,014h		;397b
 	ld a,(hl)			;397d
 	ex af,af'			;397e
@@ -329,24 +329,24 @@ l396dh:
 	add a,(hl)			;3981
 	ld l,a			;3982
 	sbc a,a			;3983
-	jr nc,l3988h		;3984
+	jr nc,ADPCMA_Update_L3988		;3984
 	inc h			;3986
 	ld a,(hl)			;3987
-l3988h:
+ADPCMA_Update_L3988:
 	ld l,a			;3988
 	ld a,0ffh		;3989
 	bit 1,(iy+009h)		;398b
-	jp z,l3995h		;398f
+	jp z,ADPCMA_Update_L3995		;398f
 	ld a,(wMasterVolume_F805)		;3992
-l3995h:
+ADPCMA_Update_L3995:
 	and a			;3995
-	jr z,l39adh		;3996
+	jr z,ADPCMA_Update_L39AD		;3996
 	inc l			;3998
-	jr z,l39adh		;3999
+	jr z,ADPCMA_Update_L39AD		;3999
 	ex af,af'			;399b
 	dec l			;399c
 	ld a,l			;399d
-	jr z,l39adh		;399e
+	jr z,ADPCMA_Update_L39AD		;399e
 	ld h,014h		;39a0
 	ld a,(hl)			;39a2
 	ex af,af'			;39a3
@@ -355,53 +355,53 @@ l3995h:
 	add a,(hl)			;39a6
 	ld l,a			;39a7
 	sbc a,a			;39a8
-	jr nc,l39adh		;39a9
+	jr nc,ADPCMA_Update_L39AD		;39a9
 	inc h			;39ab
 	ld a,(hl)			;39ac
-l39adh:
+ADPCMA_Update_L39AD:
 	ld hl,0fadeh		;39ad
 	cp (hl)			;39b0
 	ld (hl),a			;39b1
 	ex af,af'			;39b2
 	ld a,(0fae3h)		;39b3
 	and a			;39b6
-	jr nz,l39dbh		;39b7
+	jr nz,ADPCMA_Update_L39DB		;39b7
 	ld a,(iy+00fh)		;39b9
 	and 003h		;39bc
 	ld hl,0fae2h		;39be
 	cp (hl)			;39c1
 	ld (hl),a			;39c2
 	ld e,a			;39c3
-	jp z,l39cbh		;39c4
+	jp z,ADPCMA_Update_L39CB		;39c4
 	ex af,af'			;39c7
-	jp l39cfh		;39c8
-l39cbh:
+	jp ADPCMA_Update_L39CF		;39c8
+ADPCMA_Update_L39CB:
 	ex af,af'			;39cb
-	jp z,l39e6h		;39cc
-l39cfh:
+	jp z,ADPCMA_Update_L39E6		;39cc
+ADPCMA_Update_L39CF:
 	ld h,019h		;39cf
 	ld l,a			;39d1
 	ld a,(hl)			;39d2
 	sub 001h		;39d3
-	jr nc,l39dbh		;39d5
+	jr nc,ADPCMA_Update_L39DB		;39d5
 	xor a			;39d7
-	jp l39e0h		;39d8
-l39dbh:
+	jp ADPCMA_Update_L39E0		;39d8
+ADPCMA_Update_L39DB:
 	rrc e		;39db
 	rrc e		;39dd
 	or e			;39df
-l39e0h:
+ADPCMA_Update_L39E0:
 	ld e,a			;39e0
 	ld d,009h		;39e1
 	ld c,006h		;39e3
 	rst 8			;39e5
-l39e6h:
+ADPCMA_Update_L39E6:
 	ld c,001h		;39e6
 	bit 1,(iy+009h)		;39e8
-	jr z,l39f2h		;39ec
+	jr z,ADPCMA_Update_L39F2		;39ec
 	ld a,(wTempoStep_F809)		;39ee
 	ld c,a			;39f1
-l39f2h:
+ADPCMA_Update_L39F2:
 	ld hl,0fad4h		;39f2
 	ld a,(hl)			;39f5
 	add a,c			;39f6
@@ -410,25 +410,25 @@ l39f2h:
 	ld hl,0fad3h		;39fa
 	ld a,(hl)			;39fd
 	and a			;39fe
-	jp z,l3a13h		;39ff
+	jp z,ADPCMA_Update_L3A13		;39ff
 	sub c			;3a02
 	ld (hl),a			;3a03
-	jr nz,l3a28h		;3a04
+	jr nz,ADPCMA_Update_L3A28		;3a04
 	bit 4,(iy+009h)		;3a06
-	jr z,l3a22h		;3a0a
+	jr z,ADPCMA_Update_L3A22		;3a0a
 	set 4,(ix+003h)		;3a0c
-	jp l3a28h		;3a10
-l3a13h:
+	jp ADPCMA_Update_L3A28		;3a10
+ADPCMA_Update_L3A13:
 	bit 4,(iy+009h)		;3a13
-	jr nz,l3a28h		;3a17
+	jr nz,ADPCMA_Update_L3A28		;3a17
 	ld hl,0fad1h		;3a19
 	bit 4,(hl)		;3a1c
-	jr z,l3a28h		;3a1e
+	jr z,ADPCMA_Update_L3A28		;3a1e
 	res 4,(hl)		;3a20
-l3a22h:
+ADPCMA_Update_L3A22:
 	ld hl,0fae9h		;3a22
 	call Env_Release_2219		;3a25
-l3a28h:
+ADPCMA_Update_L3A28:
 	ld ix,wPCMA_Ch3_FAF7		;3a28
 	ld iy,(wPCMA_Ch3_FAF7)		;3a2c
 	bit 3,(iy+009h)		;3a30
@@ -436,17 +436,17 @@ l3a28h:
 	ld hl,0fb11h		;3a37
 	ld a,(hl)			;3a3a
 	and a			;3a3b
-	jp z,l3b2ch		;3a3c
+	jp z,ADPCMA_Update_L3B2C		;3a3c
 	cp 002h		;3a3f
-	jr z,l3a55h		;3a41
+	jr z,ADPCMA_Update_L3A55		;3a41
 	ld a,(wYmStatus_F80A)		;3a43
 	and 004h		;3a46
-	jp z,l3a91h		;3a48
+	jp z,ADPCMA_Update_L3A91		;3a48
 	xor a			;3a4b
 	ld (0fb11h),a		;3a4c
 	ld (0fb02h),a		;3a4f
-	jp l3b2ch		;3a52
-l3a55h:
+	jp ADPCMA_Update_L3B2C		;3a52
+ADPCMA_Update_L3A55:
 	ld hl,(0fb0dh)		;3a55
 	ld bc,(0fb0fh)		;3a58
 	ld a,001h		;3a5c
@@ -481,19 +481,19 @@ l3a55h:
 	ld e,004h		;3a8c
 	ld d,000h		;3a8e
 	rst 8			;3a90
-l3a91h:
+ADPCMA_Update_L3A91:
 	ld hl,0fb12h		;3a91
 	call Env_Step_222D		;3a94
 	ld l,a			;3a97
 	ld a,(0fb02h)		;3a98
 	and a			;3a9b
-	jr z,l3ab3h		;3a9c
+	jr z,ADPCMA_Update_L3AB3		;3a9c
 	inc l			;3a9e
-	jr z,l3ab3h		;3a9f
+	jr z,ADPCMA_Update_L3AB3		;3a9f
 	ex af,af'			;3aa1
 	dec l			;3aa2
 	ld a,l			;3aa3
-	jr z,l3ab3h		;3aa4
+	jr z,ADPCMA_Update_L3AB3		;3aa4
 	ld h,014h		;3aa6
 	ld a,(hl)			;3aa8
 	ex af,af'			;3aa9
@@ -502,19 +502,19 @@ l3a91h:
 	add a,(hl)			;3aac
 	ld l,a			;3aad
 	sbc a,a			;3aae
-	jr nc,l3ab3h		;3aaf
+	jr nc,ADPCMA_Update_L3AB3		;3aaf
 	inc h			;3ab1
 	ld a,(hl)			;3ab2
-l3ab3h:
+ADPCMA_Update_L3AB3:
 	ld l,(iy+012h)		;3ab3
 	and a			;3ab6
-	jr z,l3aceh		;3ab7
+	jr z,ADPCMA_Update_L3ACE		;3ab7
 	inc l			;3ab9
-	jr z,l3aceh		;3aba
+	jr z,ADPCMA_Update_L3ACE		;3aba
 	ex af,af'			;3abc
 	dec l			;3abd
 	ld a,l			;3abe
-	jr z,l3aceh		;3abf
+	jr z,ADPCMA_Update_L3ACE		;3abf
 	ld h,014h		;3ac1
 	ld a,(hl)			;3ac3
 	ex af,af'			;3ac4
@@ -523,24 +523,24 @@ l3ab3h:
 	add a,(hl)			;3ac7
 	ld l,a			;3ac8
 	sbc a,a			;3ac9
-	jr nc,l3aceh		;3aca
+	jr nc,ADPCMA_Update_L3ACE		;3aca
 	inc h			;3acc
 	ld a,(hl)			;3acd
-l3aceh:
+ADPCMA_Update_L3ACE:
 	ld l,a			;3ace
 	ld a,0ffh		;3acf
 	bit 1,(iy+009h)		;3ad1
-	jp z,l3adbh		;3ad5
+	jp z,ADPCMA_Update_L3ADB		;3ad5
 	ld a,(wMasterVolume_F805)		;3ad8
-l3adbh:
+ADPCMA_Update_L3ADB:
 	and a			;3adb
-	jr z,l3af3h		;3adc
+	jr z,ADPCMA_Update_L3AF3		;3adc
 	inc l			;3ade
-	jr z,l3af3h		;3adf
+	jr z,ADPCMA_Update_L3AF3		;3adf
 	ex af,af'			;3ae1
 	dec l			;3ae2
 	ld a,l			;3ae3
-	jr z,l3af3h		;3ae4
+	jr z,ADPCMA_Update_L3AF3		;3ae4
 	ld h,014h		;3ae6
 	ld a,(hl)			;3ae8
 	ex af,af'			;3ae9
@@ -549,53 +549,53 @@ l3adbh:
 	add a,(hl)			;3aec
 	ld l,a			;3aed
 	sbc a,a			;3aee
-	jr nc,l3af3h		;3aef
+	jr nc,ADPCMA_Update_L3AF3		;3aef
 	inc h			;3af1
 	ld a,(hl)			;3af2
-l3af3h:
+ADPCMA_Update_L3AF3:
 	ld hl,0fb07h		;3af3
 	cp (hl)			;3af6
 	ld (hl),a			;3af7
 	ex af,af'			;3af8
 	ld a,(0fb0ch)		;3af9
 	and a			;3afc
-	jr nz,l3b21h		;3afd
+	jr nz,ADPCMA_Update_L3B21		;3afd
 	ld a,(iy+00fh)		;3aff
 	and 003h		;3b02
 	ld hl,0fb0bh		;3b04
 	cp (hl)			;3b07
 	ld (hl),a			;3b08
 	ld e,a			;3b09
-	jp z,l3b11h		;3b0a
+	jp z,ADPCMA_Update_L3B11		;3b0a
 	ex af,af'			;3b0d
-	jp l3b15h		;3b0e
-l3b11h:
+	jp ADPCMA_Update_L3B15		;3b0e
+ADPCMA_Update_L3B11:
 	ex af,af'			;3b11
-	jp z,l3b2ch		;3b12
-l3b15h:
+	jp z,ADPCMA_Update_L3B2C		;3b12
+ADPCMA_Update_L3B15:
 	ld h,019h		;3b15
 	ld l,a			;3b17
 	ld a,(hl)			;3b18
 	sub 001h		;3b19
-	jr nc,l3b21h		;3b1b
+	jr nc,ADPCMA_Update_L3B21		;3b1b
 	xor a			;3b1d
-	jp l3b26h		;3b1e
-l3b21h:
+	jp ADPCMA_Update_L3B26		;3b1e
+ADPCMA_Update_L3B21:
 	rrc e		;3b21
 	rrc e		;3b23
 	or e			;3b25
-l3b26h:
+ADPCMA_Update_L3B26:
 	ld e,a			;3b26
 	ld d,00ah		;3b27
 	ld c,006h		;3b29
 	rst 8			;3b2b
-l3b2ch:
+ADPCMA_Update_L3B2C:
 	ld c,001h		;3b2c
 	bit 1,(iy+009h)		;3b2e
-	jr z,l3b38h		;3b32
+	jr z,ADPCMA_Update_L3B38		;3b32
 	ld a,(wTempoStep_F809)		;3b34
 	ld c,a			;3b37
-l3b38h:
+ADPCMA_Update_L3B38:
 	ld hl,0fafdh		;3b38
 	ld a,(hl)			;3b3b
 	add a,c			;3b3c
@@ -604,25 +604,25 @@ l3b38h:
 	ld hl,0fafch		;3b40
 	ld a,(hl)			;3b43
 	and a			;3b44
-	jp z,l3b59h		;3b45
+	jp z,ADPCMA_Update_L3B59		;3b45
 	sub c			;3b48
 	ld (hl),a			;3b49
-	jr nz,l3b6eh		;3b4a
+	jr nz,ADPCMA_Update_L3B6E		;3b4a
 	bit 4,(iy+009h)		;3b4c
-	jr z,l3b68h		;3b50
+	jr z,ADPCMA_Update_L3B68		;3b50
 	set 4,(ix+003h)		;3b52
-	jp l3b6eh		;3b56
-l3b59h:
+	jp ADPCMA_Update_L3B6E		;3b56
+ADPCMA_Update_L3B59:
 	bit 4,(iy+009h)		;3b59
-	jr nz,l3b6eh		;3b5d
+	jr nz,ADPCMA_Update_L3B6E		;3b5d
 	ld hl,0fafah		;3b5f
 	bit 4,(hl)		;3b62
-	jr z,l3b6eh		;3b64
+	jr z,ADPCMA_Update_L3B6E		;3b64
 	res 4,(hl)		;3b66
-l3b68h:
+ADPCMA_Update_L3B68:
 	ld hl,0fb12h		;3b68
 	call Env_Release_2219		;3b6b
-l3b6eh:
+ADPCMA_Update_L3B6E:
 	ld ix,wPCMA_Ch4_FB20		;3b6e
 	ld iy,(wPCMA_Ch4_FB20)		;3b72
 	bit 3,(iy+009h)		;3b76
@@ -630,17 +630,17 @@ l3b6eh:
 	ld hl,0fb3ah		;3b7d
 	ld a,(hl)			;3b80
 	and a			;3b81
-	jp z,l3c72h		;3b82
+	jp z,ADPCMA_Update_L3C72		;3b82
 	cp 002h		;3b85
-	jr z,l3b9bh		;3b87
+	jr z,ADPCMA_Update_L3B9B		;3b87
 	ld a,(wYmStatus_F80A)		;3b89
 	and 008h		;3b8c
-	jp z,l3bd7h		;3b8e
+	jp z,ADPCMA_Update_L3BD7		;3b8e
 	xor a			;3b91
 	ld (0fb3ah),a		;3b92
 	ld (0fb2bh),a		;3b95
-	jp l3c72h		;3b98
-l3b9bh:
+	jp ADPCMA_Update_L3C72		;3b98
+ADPCMA_Update_L3B9B:
 	ld hl,(0fb36h)		;3b9b
 	ld bc,(0fb38h)		;3b9e
 	ld a,001h		;3ba2
@@ -675,19 +675,19 @@ l3b9bh:
 	ld e,008h		;3bd2
 	ld d,000h		;3bd4
 	rst 8			;3bd6
-l3bd7h:
+ADPCMA_Update_L3BD7:
 	ld hl,0fb3bh		;3bd7
 	call Env_Step_222D		;3bda
 	ld l,a			;3bdd
 	ld a,(0fb2bh)		;3bde
 	and a			;3be1
-	jr z,l3bf9h		;3be2
+	jr z,ADPCMA_Update_L3BF9		;3be2
 	inc l			;3be4
-	jr z,l3bf9h		;3be5
+	jr z,ADPCMA_Update_L3BF9		;3be5
 	ex af,af'			;3be7
 	dec l			;3be8
 	ld a,l			;3be9
-	jr z,l3bf9h		;3bea
+	jr z,ADPCMA_Update_L3BF9		;3bea
 	ld h,014h		;3bec
 	ld a,(hl)			;3bee
 	ex af,af'			;3bef
@@ -696,19 +696,19 @@ l3bd7h:
 	add a,(hl)			;3bf2
 	ld l,a			;3bf3
 	sbc a,a			;3bf4
-	jr nc,l3bf9h		;3bf5
+	jr nc,ADPCMA_Update_L3BF9		;3bf5
 	inc h			;3bf7
 	ld a,(hl)			;3bf8
-l3bf9h:
+ADPCMA_Update_L3BF9:
 	ld l,(iy+012h)		;3bf9
 	and a			;3bfc
-	jr z,l3c14h		;3bfd
+	jr z,ADPCMA_Update_L3C14		;3bfd
 	inc l			;3bff
-	jr z,l3c14h		;3c00
+	jr z,ADPCMA_Update_L3C14		;3c00
 	ex af,af'			;3c02
 	dec l			;3c03
 	ld a,l			;3c04
-	jr z,l3c14h		;3c05
+	jr z,ADPCMA_Update_L3C14		;3c05
 	ld h,014h		;3c07
 	ld a,(hl)			;3c09
 	ex af,af'			;3c0a
@@ -717,24 +717,24 @@ l3bf9h:
 	add a,(hl)			;3c0d
 	ld l,a			;3c0e
 	sbc a,a			;3c0f
-	jr nc,l3c14h		;3c10
+	jr nc,ADPCMA_Update_L3C14		;3c10
 	inc h			;3c12
 	ld a,(hl)			;3c13
-l3c14h:
+ADPCMA_Update_L3C14:
 	ld l,a			;3c14
 	ld a,0ffh		;3c15
 	bit 1,(iy+009h)		;3c17
-	jp z,l3c21h		;3c1b
+	jp z,ADPCMA_Update_L3C21		;3c1b
 	ld a,(wMasterVolume_F805)		;3c1e
-l3c21h:
+ADPCMA_Update_L3C21:
 	and a			;3c21
-	jr z,l3c39h		;3c22
+	jr z,ADPCMA_Update_L3C39		;3c22
 	inc l			;3c24
-	jr z,l3c39h		;3c25
+	jr z,ADPCMA_Update_L3C39		;3c25
 	ex af,af'			;3c27
 	dec l			;3c28
 	ld a,l			;3c29
-	jr z,l3c39h		;3c2a
+	jr z,ADPCMA_Update_L3C39		;3c2a
 	ld h,014h		;3c2c
 	ld a,(hl)			;3c2e
 	ex af,af'			;3c2f
@@ -743,53 +743,53 @@ l3c21h:
 	add a,(hl)			;3c32
 	ld l,a			;3c33
 	sbc a,a			;3c34
-	jr nc,l3c39h		;3c35
+	jr nc,ADPCMA_Update_L3C39		;3c35
 	inc h			;3c37
 	ld a,(hl)			;3c38
-l3c39h:
+ADPCMA_Update_L3C39:
 	ld hl,0fb30h		;3c39
 	cp (hl)			;3c3c
 	ld (hl),a			;3c3d
 	ex af,af'			;3c3e
 	ld a,(0fb35h)		;3c3f
 	and a			;3c42
-	jr nz,l3c67h		;3c43
+	jr nz,ADPCMA_Update_L3C67		;3c43
 	ld a,(iy+00fh)		;3c45
 	and 003h		;3c48
 	ld hl,0fb34h		;3c4a
 	cp (hl)			;3c4d
 	ld (hl),a			;3c4e
 	ld e,a			;3c4f
-	jp z,l3c57h		;3c50
+	jp z,ADPCMA_Update_L3C57		;3c50
 	ex af,af'			;3c53
-	jp l3c5bh		;3c54
-l3c57h:
+	jp ADPCMA_Update_L3C5B		;3c54
+ADPCMA_Update_L3C57:
 	ex af,af'			;3c57
-	jp z,l3c72h		;3c58
-l3c5bh:
+	jp z,ADPCMA_Update_L3C72		;3c58
+ADPCMA_Update_L3C5B:
 	ld h,019h		;3c5b
 	ld l,a			;3c5d
 	ld a,(hl)			;3c5e
 	sub 001h		;3c5f
-	jr nc,l3c67h		;3c61
+	jr nc,ADPCMA_Update_L3C67		;3c61
 	xor a			;3c63
-	jp l3c6ch		;3c64
-l3c67h:
+	jp ADPCMA_Update_L3C6C		;3c64
+ADPCMA_Update_L3C67:
 	rrc e		;3c67
 	rrc e		;3c69
 	or e			;3c6b
-l3c6ch:
+ADPCMA_Update_L3C6C:
 	ld e,a			;3c6c
 	ld d,00bh		;3c6d
 	ld c,006h		;3c6f
 	rst 8			;3c71
-l3c72h:
+ADPCMA_Update_L3C72:
 	ld c,001h		;3c72
 	bit 1,(iy+009h)		;3c74
-	jr z,l3c7eh		;3c78
+	jr z,ADPCMA_Update_L3C7E		;3c78
 	ld a,(wTempoStep_F809)		;3c7a
 	ld c,a			;3c7d
-l3c7eh:
+ADPCMA_Update_L3C7E:
 	ld hl,0fb26h		;3c7e
 	ld a,(hl)			;3c81
 	add a,c			;3c82
@@ -798,25 +798,25 @@ l3c7eh:
 	ld hl,0fb25h		;3c86
 	ld a,(hl)			;3c89
 	and a			;3c8a
-	jp z,l3c9fh		;3c8b
+	jp z,ADPCMA_Update_L3C9F		;3c8b
 	sub c			;3c8e
 	ld (hl),a			;3c8f
-	jr nz,l3cb4h		;3c90
+	jr nz,ADPCMA_Update_L3CB4		;3c90
 	bit 4,(iy+009h)		;3c92
-	jr z,l3caeh		;3c96
+	jr z,ADPCMA_Update_L3CAE		;3c96
 	set 4,(ix+003h)		;3c98
-	jp l3cb4h		;3c9c
-l3c9fh:
+	jp ADPCMA_Update_L3CB4		;3c9c
+ADPCMA_Update_L3C9F:
 	bit 4,(iy+009h)		;3c9f
-	jr nz,l3cb4h		;3ca3
+	jr nz,ADPCMA_Update_L3CB4		;3ca3
 	ld hl,0fb23h		;3ca5
 	bit 4,(hl)		;3ca8
-	jr z,l3cb4h		;3caa
+	jr z,ADPCMA_Update_L3CB4		;3caa
 	res 4,(hl)		;3cac
-l3caeh:
+ADPCMA_Update_L3CAE:
 	ld hl,0fb3bh		;3cae
 	call Env_Release_2219		;3cb1
-l3cb4h:
+ADPCMA_Update_L3CB4:
 	ld ix,wPCMA_Ch5_FB49		;3cb4
 	ld iy,(wPCMA_Ch5_FB49)		;3cb8
 	bit 3,(iy+009h)		;3cbc
@@ -824,17 +824,17 @@ l3cb4h:
 	ld hl,0fb63h		;3cc3
 	ld a,(hl)			;3cc6
 	and a			;3cc7
-	jp z,l3db8h		;3cc8
+	jp z,ADPCMA_Update_L3DB8		;3cc8
 	cp 002h		;3ccb
-	jr z,l3ce1h		;3ccd
+	jr z,ADPCMA_Update_L3CE1		;3ccd
 	ld a,(wYmStatus_F80A)		;3ccf
 	and 010h		;3cd2
-	jp z,l3d1dh		;3cd4
+	jp z,ADPCMA_Update_L3D1D		;3cd4
 	xor a			;3cd7
 	ld (0fb63h),a		;3cd8
 	ld (0fb54h),a		;3cdb
-	jp l3db8h		;3cde
-l3ce1h:
+	jp ADPCMA_Update_L3DB8		;3cde
+ADPCMA_Update_L3CE1:
 	ld hl,(0fb5fh)		;3ce1
 	ld bc,(0fb61h)		;3ce4
 	ld a,001h		;3ce8
@@ -869,19 +869,19 @@ l3ce1h:
 	ld e,010h		;3d18
 	ld d,000h		;3d1a
 	rst 8			;3d1c
-l3d1dh:
+ADPCMA_Update_L3D1D:
 	ld hl,0fb64h		;3d1d
 	call Env_Step_222D		;3d20
 	ld l,a			;3d23
 	ld a,(0fb54h)		;3d24
 	and a			;3d27
-	jr z,l3d3fh		;3d28
+	jr z,ADPCMA_Update_L3D3F		;3d28
 	inc l			;3d2a
-	jr z,l3d3fh		;3d2b
+	jr z,ADPCMA_Update_L3D3F		;3d2b
 	ex af,af'			;3d2d
 	dec l			;3d2e
 	ld a,l			;3d2f
-	jr z,l3d3fh		;3d30
+	jr z,ADPCMA_Update_L3D3F		;3d30
 	ld h,014h		;3d32
 	ld a,(hl)			;3d34
 	ex af,af'			;3d35
@@ -890,19 +890,19 @@ l3d1dh:
 	add a,(hl)			;3d38
 	ld l,a			;3d39
 	sbc a,a			;3d3a
-	jr nc,l3d3fh		;3d3b
+	jr nc,ADPCMA_Update_L3D3F		;3d3b
 	inc h			;3d3d
 	ld a,(hl)			;3d3e
-l3d3fh:
+ADPCMA_Update_L3D3F:
 	ld l,(iy+012h)		;3d3f
 	and a			;3d42
-	jr z,l3d5ah		;3d43
+	jr z,ADPCMA_Update_L3D5A		;3d43
 	inc l			;3d45
-	jr z,l3d5ah		;3d46
+	jr z,ADPCMA_Update_L3D5A		;3d46
 	ex af,af'			;3d48
 	dec l			;3d49
 	ld a,l			;3d4a
-	jr z,l3d5ah		;3d4b
+	jr z,ADPCMA_Update_L3D5A		;3d4b
 	ld h,014h		;3d4d
 	ld a,(hl)			;3d4f
 	ex af,af'			;3d50
@@ -911,24 +911,24 @@ l3d3fh:
 	add a,(hl)			;3d53
 	ld l,a			;3d54
 	sbc a,a			;3d55
-	jr nc,l3d5ah		;3d56
+	jr nc,ADPCMA_Update_L3D5A		;3d56
 	inc h			;3d58
 	ld a,(hl)			;3d59
-l3d5ah:
+ADPCMA_Update_L3D5A:
 	ld l,a			;3d5a
 	ld a,0ffh		;3d5b
 	bit 1,(iy+009h)		;3d5d
-	jp z,l3d67h		;3d61
+	jp z,ADPCMA_Update_L3D67		;3d61
 	ld a,(wMasterVolume_F805)		;3d64
-l3d67h:
+ADPCMA_Update_L3D67:
 	and a			;3d67
-	jr z,l3d7fh		;3d68
+	jr z,ADPCMA_Update_L3D7F		;3d68
 	inc l			;3d6a
-	jr z,l3d7fh		;3d6b
+	jr z,ADPCMA_Update_L3D7F		;3d6b
 	ex af,af'			;3d6d
 	dec l			;3d6e
 	ld a,l			;3d6f
-	jr z,l3d7fh		;3d70
+	jr z,ADPCMA_Update_L3D7F		;3d70
 	ld h,014h		;3d72
 	ld a,(hl)			;3d74
 	ex af,af'			;3d75
@@ -937,53 +937,53 @@ l3d67h:
 	add a,(hl)			;3d78
 	ld l,a			;3d79
 	sbc a,a			;3d7a
-	jr nc,l3d7fh		;3d7b
+	jr nc,ADPCMA_Update_L3D7F		;3d7b
 	inc h			;3d7d
 	ld a,(hl)			;3d7e
-l3d7fh:
+ADPCMA_Update_L3D7F:
 	ld hl,0fb59h		;3d7f
 	cp (hl)			;3d82
 	ld (hl),a			;3d83
 	ex af,af'			;3d84
 	ld a,(0fb5eh)		;3d85
 	and a			;3d88
-	jr nz,l3dadh		;3d89
+	jr nz,ADPCMA_Update_L3DAD		;3d89
 	ld a,(iy+00fh)		;3d8b
 	and 003h		;3d8e
 	ld hl,0fb5dh		;3d90
 	cp (hl)			;3d93
 	ld (hl),a			;3d94
 	ld e,a			;3d95
-	jp z,l3d9dh		;3d96
+	jp z,ADPCMA_Update_L3D9D		;3d96
 	ex af,af'			;3d99
-	jp l3da1h		;3d9a
-l3d9dh:
+	jp ADPCMA_Update_L3DA1		;3d9a
+ADPCMA_Update_L3D9D:
 	ex af,af'			;3d9d
-	jp z,l3db8h		;3d9e
-l3da1h:
+	jp z,ADPCMA_Update_L3DB8		;3d9e
+ADPCMA_Update_L3DA1:
 	ld h,019h		;3da1
 	ld l,a			;3da3
 	ld a,(hl)			;3da4
 	sub 001h		;3da5
-	jr nc,l3dadh		;3da7
+	jr nc,ADPCMA_Update_L3DAD		;3da7
 	xor a			;3da9
-	jp l3db2h		;3daa
-l3dadh:
+	jp ADPCMA_Update_L3DB2		;3daa
+ADPCMA_Update_L3DAD:
 	rrc e		;3dad
 	rrc e		;3daf
 	or e			;3db1
-l3db2h:
+ADPCMA_Update_L3DB2:
 	ld e,a			;3db2
 	ld d,00ch		;3db3
 	ld c,006h		;3db5
 	rst 8			;3db7
-l3db8h:
+ADPCMA_Update_L3DB8:
 	ld c,001h		;3db8
 	bit 1,(iy+009h)		;3dba
-	jr z,l3dc4h		;3dbe
+	jr z,ADPCMA_Update_L3DC4		;3dbe
 	ld a,(wTempoStep_F809)		;3dc0
 	ld c,a			;3dc3
-l3dc4h:
+ADPCMA_Update_L3DC4:
 	ld hl,0fb4fh		;3dc4
 	ld a,(hl)			;3dc7
 	add a,c			;3dc8
@@ -992,25 +992,25 @@ l3dc4h:
 	ld hl,0fb4eh		;3dcc
 	ld a,(hl)			;3dcf
 	and a			;3dd0
-	jp z,l3de5h		;3dd1
+	jp z,ADPCMA_Update_L3DE5		;3dd1
 	sub c			;3dd4
 	ld (hl),a			;3dd5
-	jr nz,l3dfah		;3dd6
+	jr nz,ADPCMA_Update_L3DFA		;3dd6
 	bit 4,(iy+009h)		;3dd8
-	jr z,l3df4h		;3ddc
+	jr z,ADPCMA_Update_L3DF4		;3ddc
 	set 4,(ix+003h)		;3dde
-	jp l3dfah		;3de2
-l3de5h:
+	jp ADPCMA_Update_L3DFA		;3de2
+ADPCMA_Update_L3DE5:
 	bit 4,(iy+009h)		;3de5
-	jr nz,l3dfah		;3de9
+	jr nz,ADPCMA_Update_L3DFA		;3de9
 	ld hl,0fb4ch		;3deb
 	bit 4,(hl)		;3dee
-	jr z,l3dfah		;3df0
+	jr z,ADPCMA_Update_L3DFA		;3df0
 	res 4,(hl)		;3df2
-l3df4h:
+ADPCMA_Update_L3DF4:
 	ld hl,0fb64h		;3df4
 	call Env_Release_2219		;3df7
-l3dfah:
+ADPCMA_Update_L3DFA:
 	ld ix,wPCMA_Ch6_FB72		;3dfa
 	ld iy,(wPCMA_Ch6_FB72)		;3dfe
 	bit 3,(iy+009h)		;3e02
@@ -1018,17 +1018,17 @@ l3dfah:
 	ld hl,0fb8ch		;3e09
 	ld a,(hl)			;3e0c
 	and a			;3e0d
-	jp z,l3efeh		;3e0e
+	jp z,ADPCMA_Update_L3EFE		;3e0e
 	cp 002h		;3e11
-	jr z,l3e27h		;3e13
+	jr z,ADPCMA_Update_L3E27		;3e13
 	ld a,(wYmStatus_F80A)		;3e15
 	and 020h		;3e18
-	jp z,l3e63h		;3e1a
+	jp z,ADPCMA_Update_L3E63		;3e1a
 	xor a			;3e1d
 	ld (0fb8ch),a		;3e1e
 	ld (0fb7dh),a		;3e21
-	jp l3efeh		;3e24
-l3e27h:
+	jp ADPCMA_Update_L3EFE		;3e24
+ADPCMA_Update_L3E27:
 	ld hl,(0fb88h)		;3e27
 	ld bc,(0fb8ah)		;3e2a
 	ld a,001h		;3e2e
@@ -1063,19 +1063,19 @@ l3e27h:
 	ld e,020h		;3e5e
 	ld d,000h		;3e60
 	rst 8			;3e62
-l3e63h:
+ADPCMA_Update_L3E63:
 	ld hl,0fb8dh		;3e63
 	call Env_Step_222D		;3e66
 	ld l,a			;3e69
 	ld a,(0fb7dh)		;3e6a
 	and a			;3e6d
-	jr z,l3e85h		;3e6e
+	jr z,ADPCMA_Update_L3E85		;3e6e
 	inc l			;3e70
-	jr z,l3e85h		;3e71
+	jr z,ADPCMA_Update_L3E85		;3e71
 	ex af,af'			;3e73
 	dec l			;3e74
 	ld a,l			;3e75
-	jr z,l3e85h		;3e76
+	jr z,ADPCMA_Update_L3E85		;3e76
 	ld h,014h		;3e78
 	ld a,(hl)			;3e7a
 	ex af,af'			;3e7b
@@ -1084,19 +1084,19 @@ l3e63h:
 	add a,(hl)			;3e7e
 	ld l,a			;3e7f
 	sbc a,a			;3e80
-	jr nc,l3e85h		;3e81
+	jr nc,ADPCMA_Update_L3E85		;3e81
 	inc h			;3e83
 	ld a,(hl)			;3e84
-l3e85h:
+ADPCMA_Update_L3E85:
 	ld l,(iy+012h)		;3e85
 	and a			;3e88
-	jr z,l3ea0h		;3e89
+	jr z,ADPCMA_Update_L3EA0		;3e89
 	inc l			;3e8b
-	jr z,l3ea0h		;3e8c
+	jr z,ADPCMA_Update_L3EA0		;3e8c
 	ex af,af'			;3e8e
 	dec l			;3e8f
 	ld a,l			;3e90
-	jr z,l3ea0h		;3e91
+	jr z,ADPCMA_Update_L3EA0		;3e91
 	ld h,014h		;3e93
 	ld a,(hl)			;3e95
 	ex af,af'			;3e96
@@ -1105,24 +1105,24 @@ l3e85h:
 	add a,(hl)			;3e99
 	ld l,a			;3e9a
 	sbc a,a			;3e9b
-	jr nc,l3ea0h		;3e9c
+	jr nc,ADPCMA_Update_L3EA0		;3e9c
 	inc h			;3e9e
 	ld a,(hl)			;3e9f
-l3ea0h:
+ADPCMA_Update_L3EA0:
 	ld l,a			;3ea0
 	ld a,0ffh		;3ea1
 	bit 1,(iy+009h)		;3ea3
-	jp z,l3eadh		;3ea7
+	jp z,ADPCMA_Update_L3EAD		;3ea7
 	ld a,(wMasterVolume_F805)		;3eaa
-l3eadh:
+ADPCMA_Update_L3EAD:
 	and a			;3ead
-	jr z,l3ec5h		;3eae
+	jr z,ADPCMA_Update_L3EC5		;3eae
 	inc l			;3eb0
-	jr z,l3ec5h		;3eb1
+	jr z,ADPCMA_Update_L3EC5		;3eb1
 	ex af,af'			;3eb3
 	dec l			;3eb4
 	ld a,l			;3eb5
-	jr z,l3ec5h		;3eb6
+	jr z,ADPCMA_Update_L3EC5		;3eb6
 	ld h,014h		;3eb8
 	ld a,(hl)			;3eba
 	ex af,af'			;3ebb
@@ -1131,53 +1131,53 @@ l3eadh:
 	add a,(hl)			;3ebe
 	ld l,a			;3ebf
 	sbc a,a			;3ec0
-	jr nc,l3ec5h		;3ec1
+	jr nc,ADPCMA_Update_L3EC5		;3ec1
 	inc h			;3ec3
 	ld a,(hl)			;3ec4
-l3ec5h:
+ADPCMA_Update_L3EC5:
 	ld hl,0fb82h		;3ec5
 	cp (hl)			;3ec8
 	ld (hl),a			;3ec9
 	ex af,af'			;3eca
 	ld a,(0fb87h)		;3ecb
 	and a			;3ece
-	jr nz,l3ef3h		;3ecf
+	jr nz,ADPCMA_Update_L3EF3		;3ecf
 	ld a,(iy+00fh)		;3ed1
 	and 003h		;3ed4
 	ld hl,0fb86h		;3ed6
 	cp (hl)			;3ed9
 	ld (hl),a			;3eda
 	ld e,a			;3edb
-	jp z,l3ee3h		;3edc
+	jp z,ADPCMA_Update_L3EE3		;3edc
 	ex af,af'			;3edf
-	jp l3ee7h		;3ee0
-l3ee3h:
+	jp ADPCMA_Update_L3EE7		;3ee0
+ADPCMA_Update_L3EE3:
 	ex af,af'			;3ee3
-	jp z,l3efeh		;3ee4
-l3ee7h:
+	jp z,ADPCMA_Update_L3EFE		;3ee4
+ADPCMA_Update_L3EE7:
 	ld h,019h		;3ee7
 	ld l,a			;3ee9
 	ld a,(hl)			;3eea
 	sub 001h		;3eeb
-	jr nc,l3ef3h		;3eed
+	jr nc,ADPCMA_Update_L3EF3		;3eed
 	xor a			;3eef
-	jp l3ef8h		;3ef0
-l3ef3h:
+	jp ADPCMA_Update_L3EF8		;3ef0
+ADPCMA_Update_L3EF3:
 	rrc e		;3ef3
 	rrc e		;3ef5
 	or e			;3ef7
-l3ef8h:
+ADPCMA_Update_L3EF8:
 	ld e,a			;3ef8
 	ld d,00dh		;3ef9
 	ld c,006h		;3efb
 	rst 8			;3efd
-l3efeh:
+ADPCMA_Update_L3EFE:
 	ld c,001h		;3efe
 	bit 1,(iy+009h)		;3f00
-	jr z,l3f0ah		;3f04
+	jr z,ADPCMA_Update_L3F0A		;3f04
 	ld a,(wTempoStep_F809)		;3f06
 	ld c,a			;3f09
-l3f0ah:
+ADPCMA_Update_L3F0A:
 	ld hl,0fb78h		;3f0a
 	ld a,(hl)			;3f0d
 	add a,c			;3f0e
@@ -1186,25 +1186,25 @@ l3f0ah:
 	ld hl,0fb77h		;3f12
 	ld a,(hl)			;3f15
 	and a			;3f16
-	jp z,l3f2bh		;3f17
+	jp z,ADPCMA_Update_L3F2B		;3f17
 	sub c			;3f1a
 	ld (hl),a			;3f1b
-	jr nz,l3f40h		;3f1c
+	jr nz,ADPCMA_Update_L3F40		;3f1c
 	bit 4,(iy+009h)		;3f1e
-	jr z,l3f3ah		;3f22
+	jr z,ADPCMA_Update_L3F3A		;3f22
 	set 4,(ix+003h)		;3f24
-	jp l3f40h		;3f28
-l3f2bh:
+	jp ADPCMA_Update_L3F40		;3f28
+ADPCMA_Update_L3F2B:
 	bit 4,(iy+009h)		;3f2b
-	jr nz,l3f40h		;3f2f
+	jr nz,ADPCMA_Update_L3F40		;3f2f
 	ld hl,0fb75h		;3f31
 	bit 4,(hl)		;3f34
-	jr z,l3f40h		;3f36
+	jr z,ADPCMA_Update_L3F40		;3f36
 	res 4,(hl)		;3f38
-l3f3ah:
+ADPCMA_Update_L3F3A:
 	ld hl,0fb8dh		;3f3a
 	call Env_Release_2219		;3f3d
-l3f40h:
+ADPCMA_Update_L3F40:
 	ret			;3f40
 ADPCMA_LoadPatch_3F41:
 	exx			;3f41
@@ -1225,7 +1225,7 @@ ADPCMA_SelectSample_3F60:
 	ld b,(ix+011h)		;3f60
 	ld a,(wCurBank_F811)		;3f63
 	cp b			;3f66
-	jp z,l3f84h		;3f67
+	jp z,ADPCMA_SelectSample_L3F84		;3f67
 	ld a,b			;3f6a
 	ld (wCurBank_F811),a		;3f6b
 	ld c,00bh		;3f6e
@@ -1242,7 +1242,7 @@ ADPCMA_SelectSample_3F60:
 	sla b		;3f7f
 	dec c			;3f81
 	in a,(c)		;3f82
-l3f84h:
+ADPCMA_SelectSample_L3F84:
 	ld a,(ix+008h)		;3f84
 	ld l,(ix+012h)		;3f87
 	ld h,(ix+013h)		;3f8a

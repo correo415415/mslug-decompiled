@@ -55,9 +55,9 @@ Cmd_Dispatch_2050:
 	cp 020h		;205b
 	jr nc,Cmd_DispatchHi_2096		;205d
 	cp 00fh		;205f
-	jr z,l2066h		;2061
+	jr z,Cmd_Dispatch_L2066		;2061
 	ld (wCmdType_F81C),a		;2063
-l2066h:
+Cmd_Dispatch_L2066:
 	cp 010h		;2066
 	ret nc			;2068
 	add a,a			;2069
