@@ -51,8 +51,10 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       (`mrom/tools/export_midi.py`). Pendiente: modelar la curva de `S_TEMPO`.
 - [x] Exportar todo el audio a WAV idéntico al juego (`mrom/tools/export_wav.py`:
       driver real en Z80 + YM2610 ymfm + V-ROM; 13 músicas + 177 SFX).
-- [ ] VGM: registrar las escrituras al YM2610 de `sndrender` en formato VGM
-      (cabecera + bloques de datos ADPCM-A/B).
+- [x] VGM 1.51 (`export_wav.py --vgm`): escrituras YM2610 + bloques ADPCM-A/B.
+- [x] Voces (tabla B) exportadas por separado y con nombre por su frase;
+      las canciones terminan en su punto de bucle + fundido (no cortadas).
+- [ ] Nombrar los 150 SFX de la tabla A (por escucha + usuarios del 68k).
 
 ## Herramientas / experimentos
 

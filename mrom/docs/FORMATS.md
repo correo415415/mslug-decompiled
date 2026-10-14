@@ -225,13 +225,26 @@ más de un uso):
 | `2B` | `Music_Ending` | `Ending_SpawnOrbitFx`, `Anim_State_F1` |
 | `2C` | `Music_Title` | `LogoScene_Tpl` (escena `$0D`) |
 
-SFX con nombre (tabla B = voces): `Voice_Mission1Start..6Start`
-(`MissionStartVoiceTable_28DF10`), `Voice_MissionComplete`,
-`Voice_Weapon1..4` (`Player_WeaponMusicTable_032d28`; qué arma es cada una:
-pendiente), `Voice_ItemPickup`, `Voice_FoodPickup`, `Voice_PlayerDeath`,
-`Voice_PowThankYou`, `Voice_AllenTaunt1..3`, `Voice_AllenDeath`. El resto
-conserva `SfxA_NNN` / `SfxB_NNN` y en la etiqueta de su cabecera figura la
-lista de usuarios. No se detectan los ids que solo llegan por los streams de
+Tabla B = **voces digitalizadas** (27). Nombre por usuario del 68k y, donde no
+hay usuario con constante, por escucha del render exacto (`export_wav.py`):
+
+| id | Nombre | Frase / evidencia |
+|---|---|---|
+| `1121` | `Voice_FoodPickup` | `Item_Food_Pickup` (0,7 s; escucha no concluyente) |
+| `1123` | `Voice_PlayerDeath` | grito; `Player_Death_PlayMusic`, `Player_DeathPit` |
+| `1124` | `Voice_Okay` | «Okay!»; ítems de arma / bombas |
+| `1126..112B` | `Voice_Bingo`, `Voice_LetsGo`, `Voice_HereWeGo`, `Voice_Yeah`, `Voice_YeeHaw`, `Voice_PowerUp` | por escucha |
+| `112F/112C/112E/112D` | `Voice_Shotgun`, `Voice_FlameShot`, `Voice_RocketLauncher`, `Voice_HeavyMachineGun` | `Player_WeaponMusicTable_032d28[1..4]` = S, F, R, H |
+| `1131..1136` | `Voice_Mission1Start..6Start` | `MissionStartVoiceTable_28DF10` |
+| `1137` | `Voice_MissionComplete` | `BannerComplete_Boot` |
+| `1138` | `Voice_GameOver` | «Game over» |
+| `113A` | `Voice_PowThankYou` | «Thank you!»; `Pow_Rescued` |
+| `113C/113D/113E` | `Voice_AllenComeOnBoy`, `Voice_AllenGoHomeToMommy`, `Voice_AllenMincemeat` | `Allen_TauntVoiceTbl_0509d6` |
+| `113F` | `Voice_AllenLaugh` | «Ha ha ha» |
+| `1140` | `Voice_AllenSeeYouInHell` | «See you in hell!»; `Allen_Death` |
+
+Los SFX de la tabla A conservan `SfxA_NNN` y en la etiqueta de su cabecera
+figura la lista de usuarios. No se detectan los ids que solo llegan por los streams de
 script (`ScriptOp04_Sound`, `PathScript_OpMusic`, `MiniScript_Step`,
 `SceneScriptVM_Frame`) ni los calculados.
 
@@ -272,16 +285,32 @@ su frecuencia nativa (8 MHz / 144 = **55 556 Hz**, estéreo 16 bit) mezclada
 como en la placa (FM+ADPCM 0,98; SSG 0,28, igual que MAME).
 
 ```sh
-python3 mrom/tools/export_wav.py            # 13 músicas → build/mrom/wav/
-python3 mrom/tools/export_wav.py --sfx      # + 177 SFX y voces
-python3 mrom/tools/export_wav.py --loops 2  # el bucle de cada canción dos veces
+python3 mrom/tools/export_wav.py             # todo: 13 músicas, 150 SFX, 27 voces
+python3 mrom/tools/export_wav.py --music     # solo músicas
+python3 mrom/tools/export_wav.py --loops 1   # una pasada del bucle (por defecto 2) + fundido
+python3 mrom/tools/export_wav.py --vgm       # además VGM 1.51 → build/mrom/vgm/
 python3 mrom/tools/export_wav.py --only 21 2C --flac
 ```
 
-Duración de una canción = una pasada de la pista más larga + 2 s (× `--loops`);
-los SFX terminan solos tras 1 s de silencio. Cualquier comando del driver se
-puede renderizar directamente:
+Salida en `build/mrom/wav/{music,sfx,voices}/` (SFX y voces con su id:
+`1131_Voice_Mission1Start.wav`). **Fin de las canciones**: `sndrender`
+intercepta los saltos de bucle infinito del propio driver (`C2` hacia atrás
+en `56D3`, `D0` con contador 0 en `5626`) de cada pista de música; una pasada
+termina cuando la última pista en hacer bucle vuelve a su punto de bucle, y
+tras `--loops` pasadas se aplica un fundido de `--fade` s (8). Así cada
+canción acaba en un punto musical, no a mitad de frase (la versión anterior
+cortaba p. ej. Mission2 a los 140 s, en medio del bucle). Las canciones sin
+bucle (jingles, `Music_Title`) y los SFX terminan solos tras 1 s de silencio.
+
+**VGM**: con `--vgm` (o `sndrender --vgm f.vgm`) se registran todas las
+escrituras del Z80 al YM2610 (comandos `58`/`59`, esperas a 44,1 kHz) con
+bloques de datos `0x82` (ADPCM-A) y `0x83` (ADPCM-B) que contienen solo las
+páginas de la V-ROM que el chip ha leído, y etiqueta GD3. Comprobado
+reproduciendo el VGM con `vgmrender` de ymfm: envolvente de energía
+correlación 0,91 con el WAV directo.
+
+Cualquier comando del driver se puede renderizar directamente:
 `build/mrom/sndrender rom/201-m1.bin rom/201-v1.bin rom/201-v2.bin out.wav 60 00 21`.
-Comprobado de oído: Mission1 = «Assault Theme», `2C` = voz «Nasca» del logo.
+Comprobado de oído: Mission1 = «Assault Theme», `2C` = voz «Nasca» del logo, voces de la tabla B transcritas arriba (§7).
 Dependencias vendorizadas en `mrom/tools/sndrender/third_party/` (ymfm BSD-3,
 superzazu/z80 MIT; sin cambios).

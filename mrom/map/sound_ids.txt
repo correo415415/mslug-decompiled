@@ -137,11 +137,11 @@
 10ff  SfxA_223                  ; Shield_Break_068206, Sub_00083064
 1121  Voice_FoodPickup          ; Item_Food_Pickup_09b920
 1123  Voice_PlayerDeath         ; Player_PlayLifeMusic_032ed0, PlayerRoute_PublishState_033522, Player_Death_PlayMusic_03765a, Player_DeathPit_037b8e
-1124  Voice_ItemPickup          ; Item_Tmpl289_Weapon_09abc2, Item_Tmpl290_WeaponSwap_09ac52, Item_Tmpl291_Bombs_09ad54
-112c  Voice_Weapon2             ; Player_WeaponMusicTable_032d28[2]
-112d  Voice_Weapon4             ; Player_WeaponMusicTable_032d28[4]
-112e  Voice_Weapon3             ; Player_WeaponMusicTable_032d28[3]
-112f  Voice_Weapon1             ; Player_WeaponMusicTable_032d28[1]
+1124  Voice_Okay                ; Item_Tmpl289_Weapon_09abc2, Item_Tmpl290_WeaponSwap_09ac52, Item_Tmpl291_Bombs_09ad54
+112c  Voice_FlameShot           ; Player_WeaponMusicTable_032d28[2]
+112d  Voice_HeavyMachineGun     ; Player_WeaponMusicTable_032d28[4]
+112e  Voice_RocketLauncher      ; Player_WeaponMusicTable_032d28[3]
+112f  Voice_Shotgun             ; Player_WeaponMusicTable_032d28[1]
 1131  Voice_Mission1Start       ; MissionStartVoiceTable_28DF10[0]
 1132  Voice_Mission2Start       ; MissionStartVoiceTable_28DF10[1]
 1133  Voice_Mission3Start       ; MissionStartVoiceTable_28DF10[2]
@@ -150,7 +150,15 @@
 1136  Voice_Mission6Start       ; MissionStartVoiceTable_28DF10[5], MissionStartVoiceTable_28DF10[6], MissionStartVoiceTable_28DF10[7]
 1137  Voice_MissionComplete     ; BannerComplete_Boot_07A9F0
 113a  Voice_PowThankYou         ; Pow_Rescued_040268
-113c  Voice_AllenTaunt1         ; Allen_TauntVoiceTbl_0509d6[0], Allen_TauntVoiceTbl_0509d6[3]
-113d  Voice_AllenTaunt2         ; Allen_TauntVoiceTbl_0509d6[1]
-113e  Voice_AllenTaunt3         ; Allen_TauntVoiceTbl_0509d6[2]
-1140  Voice_AllenDeath          ; Allen_Death_050e40
+113c  Voice_AllenComeOnBoy      ; Allen_TauntVoiceTbl_0509d6[0], Allen_TauntVoiceTbl_0509d6[3]
+113d  Voice_AllenGoHomeToMommy  ; Allen_TauntVoiceTbl_0509d6[1]
+113e  Voice_AllenMincemeat      ; Allen_TauntVoiceTbl_0509d6[2]
+1140  Voice_AllenSeeYouInHell   ; Allen_Death_050e40
+1126  Voice_Bingo               ; (no constant user found)
+1127  Voice_LetsGo              ; (no constant user found)
+1128  Voice_HereWeGo            ; (no constant user found)
+1129  Voice_Yeah                ; (no constant user found)
+112a  Voice_YeeHaw              ; (no constant user found)
+112b  Voice_PowerUp             ; (no constant user found)
+1138  Voice_GameOver            ; (no constant user found)
+113f  Voice_AllenLaugh          ; (no constant user found)

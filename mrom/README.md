@@ -140,4 +140,4 @@ at all times.
 - [x] Export sequences to MIDI (`tools/export_midi.py`).
 - [x] Render every song / SFX to WAV exactly as the board does
       (`tools/export_wav.py`: real driver on Z80 + ymfm YM2610 + V-ROM).
-- [ ] VGM log export.
+- [x] VGM log export (`export_wav.py --vgm`); voices exported and named.

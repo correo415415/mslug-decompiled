@@ -36,7 +36,14 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   core) with the V-ROM, sending the same latch bytes as the 68000; renders all
   13 songs and 177 SFX/voices at the chip's native 55,556 Hz stereo.
 
+- VGM 1.51 export (`export_wav.py --vgm`, `sndrender --vgm`): logged YM2610
+  writes plus ADPCM-A/B data blocks with the V-ROM pages actually used.
+- Voices (SFX table B) exported to `build/mrom/wav/voices/` and named after
+  their line (`Voice_Shotgun`, `Voice_AllenSeeYouInHell`, `Voice_GameOver`, …).
+
 ### Fixed
+- WAV songs no longer stop mid-phrase: the renderer hooks the driver's
+  infinite-loop jumps, ends after N full passes and fades out.
 - Driver tick is 166.8 Hz (Timer A counts once per 144-clock FM sample), not
   333.7 Hz: MIDI tempo was twice too fast.
 - **Asset tools** (`assets/`): `gfx.py` (S-ROM fix tiles and C-ROM sprite

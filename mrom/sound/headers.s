@@ -433,18 +433,18 @@ SfxTableB:			/* file 0x087f2; BankPtrTable_0080[3]; type 11h */
 	PTR24 Voice_FoodPickup_Hdr		/*   1 */
 	PTR24 0		/*   2 */
 	PTR24 Voice_PlayerDeath_Hdr		/*   3 */
-	PTR24 Voice_ItemPickup_Hdr		/*   4 */
+	PTR24 Voice_Okay_Hdr		/*   4 */
 	PTR24 0		/*   5 */
-	PTR24 SfxBHdr_006		/*   6 */
-	PTR24 SfxBHdr_007		/*   7 */
-	PTR24 SfxBHdr_008		/*   8 */
-	PTR24 SfxBHdr_009		/*   9 */
-	PTR24 SfxBHdr_010		/*  10 */
-	PTR24 SfxBHdr_011		/*  11 */
-	PTR24 Voice_Weapon2_Hdr		/*  12 */
-	PTR24 Voice_Weapon4_Hdr		/*  13 */
-	PTR24 Voice_Weapon3_Hdr		/*  14 */
-	PTR24 Voice_Weapon1_Hdr		/*  15 */
+	PTR24 Voice_Bingo_Hdr		/*   6 */
+	PTR24 Voice_LetsGo_Hdr		/*   7 */
+	PTR24 Voice_HereWeGo_Hdr		/*   8 */
+	PTR24 Voice_Yeah_Hdr		/*   9 */
+	PTR24 Voice_YeeHaw_Hdr		/*  10 */
+	PTR24 Voice_PowerUp_Hdr		/*  11 */
+	PTR24 Voice_FlameShot_Hdr		/*  12 */
+	PTR24 Voice_HeavyMachineGun_Hdr		/*  13 */
+	PTR24 Voice_RocketLauncher_Hdr		/*  14 */
+	PTR24 Voice_Shotgun_Hdr		/*  15 */
 	PTR24 0		/*  16 */
 	PTR24 Voice_Mission1Start_Hdr		/*  17 */
 	PTR24 Voice_Mission2Start_Hdr		/*  18 */
@@ -453,15 +453,15 @@ SfxTableB:			/* file 0x087f2; BankPtrTable_0080[3]; type 11h */
 	PTR24 Voice_Mission5Start_Hdr		/*  21 */
 	PTR24 Voice_Mission6Start_Hdr		/*  22 */
 	PTR24 Voice_MissionComplete_Hdr		/*  23 */
-	PTR24 SfxBHdr_024		/*  24 */
+	PTR24 Voice_GameOver_Hdr		/*  24 */
 	PTR24 0		/*  25 */
 	PTR24 Voice_PowThankYou_Hdr		/*  26 */
 	PTR24 0		/*  27 */
-	PTR24 Voice_AllenTaunt1_Hdr		/*  28 */
-	PTR24 Voice_AllenTaunt2_Hdr		/*  29 */
-	PTR24 Voice_AllenTaunt3_Hdr		/*  30 */
-	PTR24 SfxBHdr_031		/*  31 */
-	PTR24 Voice_AllenDeath_Hdr		/*  32 */
+	PTR24 Voice_AllenComeOnBoy_Hdr		/*  28 */
+	PTR24 Voice_AllenGoHomeToMommy_Hdr		/*  29 */
+	PTR24 Voice_AllenMincemeat_Hdr		/*  30 */
+	PTR24 Voice_AllenLaugh_Hdr		/*  31 */
+	PTR24 Voice_AllenSeeYouInHell_Hdr		/*  32 */
 
 SfxAHdr_000:			/* file 0x08876; SFX A 0, 68k id 1020; used by Camper_Die_062d72 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
@@ -1240,59 +1240,59 @@ Voice_PlayerDeath_Hdr:			/* file 0x09369; SFX B 3, 68k id 1123; used by Player_P
 	TRACK Voice_PlayerDeath_Trk0, 10
 	TRACKS_END
 
-Voice_ItemPickup_Hdr:			/* file 0x0937b; SFX B 4, 68k id 1124; used by Item_Tmpl289_Weapon_09abc2, Item_Tmpl290_WeaponSwap_09ac52, Item_Tmpl291_Bombs_09ad54 */
+Voice_Okay_Hdr:			/* file 0x0937b; SFX B 4, 68k id 1124; used by Item_Tmpl289_Weapon_09abc2, Item_Tmpl290_WeaponSwap_09ac52, Item_Tmpl291_Bombs_09ad54 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK Voice_ItemPickup_Trk0, 8
+	TRACK Voice_Okay_Trk0, 8
 	TRACKS_END
 
-SfxBHdr_006:			/* file 0x0938d; SFX B 6, 68k id 1126 */
+Voice_Bingo_Hdr:			/* file 0x0938d; SFX B 6, 68k id 1126; used by (no constant user found) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK SfxB006_Trk0, 8
+	TRACK Voice_Bingo_Trk0, 8
 	TRACKS_END
 
-SfxBHdr_007:			/* file 0x0939f; SFX B 7, 68k id 1127 */
+Voice_LetsGo_Hdr:			/* file 0x0939f; SFX B 7, 68k id 1127; used by (no constant user found) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK SfxB007_Trk0, 8
+	TRACK Voice_LetsGo_Trk0, 8
 	TRACKS_END
 
-SfxBHdr_008:			/* file 0x093b1; SFX B 8, 68k id 1128 */
+Voice_HereWeGo_Hdr:			/* file 0x093b1; SFX B 8, 68k id 1128; used by (no constant user found) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK SfxB008_Trk0, 8
+	TRACK Voice_HereWeGo_Trk0, 8
 	TRACKS_END
 
-SfxBHdr_009:			/* file 0x093c3; SFX B 9, 68k id 1129 */
+Voice_Yeah_Hdr:			/* file 0x093c3; SFX B 9, 68k id 1129; used by (no constant user found) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK SfxB009_Trk0, 8
+	TRACK Voice_Yeah_Trk0, 8
 	TRACKS_END
 
-SfxBHdr_010:			/* file 0x093d5; SFX B 10, 68k id 112a */
+Voice_YeeHaw_Hdr:			/* file 0x093d5; SFX B 10, 68k id 112a; used by (no constant user found) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK SfxB010_Trk0, 8
+	TRACK Voice_YeeHaw_Trk0, 8
 	TRACKS_END
 
-SfxBHdr_011:			/* file 0x093e7; SFX B 11, 68k id 112b */
+Voice_PowerUp_Hdr:			/* file 0x093e7; SFX B 11, 68k id 112b; used by (no constant user found) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK SfxB011_Trk0, 8
+	TRACK Voice_PowerUp_Trk0, 8
 	TRACKS_END
 
-Voice_Weapon2_Hdr:			/* file 0x093f9; SFX B 12, 68k id 112c; used by Player_WeaponMusicTable_032d28[2] */
+Voice_FlameShot_Hdr:			/* file 0x093f9; SFX B 12, 68k id 112c; used by Player_WeaponMusicTable_032d28[2] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK Voice_Weapon2_Trk0, 5
+	TRACK Voice_FlameShot_Trk0, 5
 	TRACKS_END
 
-Voice_Weapon4_Hdr:			/* file 0x0940b; SFX B 13, 68k id 112d; used by Player_WeaponMusicTable_032d28[4] */
+Voice_HeavyMachineGun_Hdr:			/* file 0x0940b; SFX B 13, 68k id 112d; used by Player_WeaponMusicTable_032d28[4] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK Voice_Weapon4_Trk0, 5
+	TRACK Voice_HeavyMachineGun_Trk0, 5
 	TRACKS_END
 
-Voice_Weapon3_Hdr:			/* file 0x0941d; SFX B 14, 68k id 112e; used by Player_WeaponMusicTable_032d28[3] */
+Voice_RocketLauncher_Hdr:			/* file 0x0941d; SFX B 14, 68k id 112e; used by Player_WeaponMusicTable_032d28[3] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK Voice_Weapon3_Trk0, 5
+	TRACK Voice_RocketLauncher_Trk0, 5
 	TRACKS_END
 
-Voice_Weapon1_Hdr:			/* file 0x0942f; SFX B 15, 68k id 112f; used by Player_WeaponMusicTable_032d28[1] */
+Voice_Shotgun_Hdr:			/* file 0x0942f; SFX B 15, 68k id 112f; used by Player_WeaponMusicTable_032d28[1] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x06
-	TRACK Voice_Weapon1_Trk0, 5
+	TRACK Voice_Shotgun_Trk0, 5
 	TRACKS_END
 
 Voice_Mission1Start_Hdr:			/* file 0x09441; SFX B 17, 68k id 1131; used by MissionStartVoiceTable_28DF10[0] */
@@ -1330,9 +1330,9 @@ Voice_MissionComplete_Hdr:			/* file 0x094ad; SFX B 23, 68k id 1137; used by Ban
 	TRACK Voice_MissionComplete_Trk0, 1
 	TRACKS_END
 
-SfxBHdr_024:			/* file 0x094bf; SFX B 24, 68k id 1138 */
+Voice_GameOver_Hdr:			/* file 0x094bf; SFX B 24, 68k id 1138; used by (no constant user found) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
-	TRACK SfxB024_Trk0, 10
+	TRACK Voice_GameOver_Trk0, 10
 	TRACKS_END
 
 Voice_PowThankYou_Hdr:			/* file 0x094d1; SFX B 26, 68k id 113a; used by Pow_Rescued_040268 */
@@ -1340,27 +1340,27 @@ Voice_PowThankYou_Hdr:			/* file 0x094d1; SFX B 26, 68k id 113a; used by Pow_Res
 	TRACK Voice_PowThankYou_Trk0, 9
 	TRACKS_END
 
-Voice_AllenTaunt1_Hdr:			/* file 0x094e3; SFX B 28, 68k id 113c; used by Allen_TauntVoiceTbl_0509d6[0], Allen_TauntVoiceTbl_0509d6[3] */
+Voice_AllenComeOnBoy_Hdr:			/* file 0x094e3; SFX B 28, 68k id 113c; used by Allen_TauntVoiceTbl_0509d6[0], Allen_TauntVoiceTbl_0509d6[3] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
-	TRACK Voice_AllenTaunt1_Trk0, 10
+	TRACK Voice_AllenComeOnBoy_Trk0, 10
 	TRACKS_END
 
-Voice_AllenTaunt2_Hdr:			/* file 0x094f5; SFX B 29, 68k id 113d; used by Allen_TauntVoiceTbl_0509d6[1] */
+Voice_AllenGoHomeToMommy_Hdr:			/* file 0x094f5; SFX B 29, 68k id 113d; used by Allen_TauntVoiceTbl_0509d6[1] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
-	TRACK Voice_AllenTaunt2_Trk0, 10
+	TRACK Voice_AllenGoHomeToMommy_Trk0, 10
 	TRACKS_END
 
-Voice_AllenTaunt3_Hdr:			/* file 0x09507; SFX B 30, 68k id 113e; used by Allen_TauntVoiceTbl_0509d6[2] */
+Voice_AllenMincemeat_Hdr:			/* file 0x09507; SFX B 30, 68k id 113e; used by Allen_TauntVoiceTbl_0509d6[2] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
-	TRACK Voice_AllenTaunt3_Trk0, 10
+	TRACK Voice_AllenMincemeat_Trk0, 10
 	TRACKS_END
 
-SfxBHdr_031:			/* file 0x09519; SFX B 31, 68k id 113f */
+Voice_AllenLaugh_Hdr:			/* file 0x09519; SFX B 31, 68k id 113f; used by (no constant user found) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
-	TRACK SfxB031_Trk0, 10
+	TRACK Voice_AllenLaugh_Trk0, 10
 	TRACKS_END
 
-Voice_AllenDeath_Hdr:			/* file 0x0952b; SFX B 32, 68k id 1140; used by Allen_Death_050e40 */
+Voice_AllenSeeYouInHell_Hdr:			/* file 0x0952b; SFX B 32, 68k id 1140; used by Allen_Death_050e40 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
-	TRACK Voice_AllenDeath_Trk0, 10
+	TRACK Voice_AllenSeeYouInHell_Trk0, 10
 	TRACKS_END

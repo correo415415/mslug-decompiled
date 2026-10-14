@@ -64,13 +64,21 @@ MUSIC_NAMES = {
 
 # SFX with a clear meaning from their users (others keep SfxA_NNN / SfxB_NNN)
 SFX_NAMES = {
+    # Table B = digitised voices.  Names from their 68k users and, for the ids
+    # without one, from listening to the export (mrom/tools/export_wav.py).
     0x1121: "Voice_FoodPickup",        # Item_Food_Pickup
-    0x1123: "Voice_PlayerDeath",       # Player_Death_PlayMusic / Player_DeathPit
-    0x1124: "Voice_ItemPickup",        # weapon / weapon swap / bombs items
-    0x112F: "Voice_Weapon1",           # Player_WeaponMusicTable_032d28[weapon 1..4]
-    0x112C: "Voice_Weapon2",           #   (weapon announcer; which gun is which: TODO)
-    0x112E: "Voice_Weapon3",
-    0x112D: "Voice_Weapon4",
+    0x1123: "Voice_PlayerDeath",       # Player_Death_PlayMusic / Player_DeathPit (scream)
+    0x1124: "Voice_Okay",              # weapon / weapon swap / bombs items: "Okay!"
+    0x1126: "Voice_Bingo",             # "Bingo!" (no constant user)
+    0x1127: "Voice_LetsGo",            # "Let's go!"
+    0x1128: "Voice_HereWeGo",          # "Here we go!"
+    0x1129: "Voice_Yeah",              # "Yeah!"
+    0x112A: "Voice_YeeHaw",            # "Yee-haw!"
+    0x112B: "Voice_PowerUp",           # "Power up!"
+    0x112F: "Voice_Shotgun",           # Player_WeaponMusicTable_032d28[1]  "Shotgun!"
+    0x112C: "Voice_FlameShot",         #   [2]  "Flame shot!"
+    0x112E: "Voice_RocketLauncher",    #   [3]  "Rocket launcher!"
+    0x112D: "Voice_HeavyMachineGun",   #   [4]  "Heavy machine gun!"
     0x1131: "Voice_Mission1Start",     # MissionStartVoiceTable_28DF10[mission]
     0x1132: "Voice_Mission2Start",
     0x1133: "Voice_Mission3Start",
@@ -78,11 +86,13 @@ SFX_NAMES = {
     0x1135: "Voice_Mission5Start",
     0x1136: "Voice_Mission6Start",
     0x1137: "Voice_MissionComplete",   # BannerComplete_Boot
-    0x113A: "Voice_PowThankYou",       # Pow_Rescued
-    0x113C: "Voice_AllenTaunt1",       # Allen_TauntVoiceTbl_0509d6
-    0x113D: "Voice_AllenTaunt2",
-    0x113E: "Voice_AllenTaunt3",
-    0x1140: "Voice_AllenDeath",        # Allen_Death
+    0x1138: "Voice_GameOver",          # "Game over"
+    0x113A: "Voice_PowThankYou",       # Pow_Rescued: "Thank you!"
+    0x113C: "Voice_AllenComeOnBoy",    # Allen_TauntVoiceTbl_0509d6: "Come on, boy!"
+    0x113D: "Voice_AllenGoHomeToMommy",  # "Go home to mommy!"
+    0x113E: "Voice_AllenMincemeat",    # "You're mincemeat!"
+    0x113F: "Voice_AllenLaugh",        # "Ha ha ha"
+    0x1140: "Voice_AllenSeeYouInHell", # Allen_Death: "See you in hell!"
 }
 
 
@@ -163,8 +173,8 @@ def main():
         u = users[v]
         txt = ", ".join(u[:4]) + (f" (+{len(u) - 4})" if len(u) > 4 else "")
         lines.append(f"{v:04x}  {name:24s}  ; {txt}")
-    for v, name in MUSIC_NAMES.items():   # keep every music name even if unused
-        if v not in users:
+    for v, name in sorted(list(MUSIC_NAMES.items()) + list(SFX_NAMES.items())):
+        if v not in users:                # keep every known name even if unused
             lines.append(f"{v:04x}  {name:24s}  ; (no constant user found)")
     open(OUT, "w").write("\n".join(lines) + "\n")
     print(f"[find_sound_ids] {n_calls} constant call sites + {len(TABLES)} tables -> "

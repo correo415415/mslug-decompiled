@@ -10,15 +10,20 @@ bytes the 68000 would send (type byte, then the sound byte, one per frame).
 What comes out is the chip's own output at its native rate (8 MHz / 144 =
 55,556 Hz, 16-bit stereo), mixed like the Neo Geo board.
 
-    python3 mrom/tools/export_wav.py                 # 13 songs
-    python3 mrom/tools/export_wav.py --sfx           # + 177 SFX / voices
-    python3 mrom/tools/export_wav.py --loops 2       # play songs' loop twice
+    python3 mrom/tools/export_wav.py                 # everything: 13 songs, 150 SFX, 27 voices
+    python3 mrom/tools/export_wav.py --music         # songs only
+    python3 mrom/tools/export_wav.py --loops 1       # songs: one pass (default 2) + fade
     python3 mrom/tools/export_wav.py --only 21 2C    # selected music ids
+    python3 mrom/tools/export_wav.py --vgm           # also VGM 1.51 logs (build/mrom/vgm/)
     python3 mrom/tools/export_wav.py --flac          # also .flac (ffmpeg)
 
-Output: build/mrom/wav/ (derived from the ROMs, never committed).  Song
-length = one pass of the longest track (from export_midi.interpret) times
---loops, plus a 2 s tail; SFX stop by themselves after 1 s of silence.
+Output: build/mrom/wav/{music,sfx,voices}/ (derived from the ROMs, never
+committed).  Looping songs: the renderer hooks the driver's infinite-loop
+jumps and ends after --loops full passes (the pass ends when the last track
+to loop wraps), then fades out over --fade seconds (default 8) as game rips
+do; songs that do not loop (jingles) and SFX stop by themselves after 1 s of
+silence.  Table B of the SFX are the voice samples ("Mission 1 start!",
+"Thank you!", Allen's lines...).
 """
 import os, sys, subprocess, shutil
 
@@ -32,6 +37,7 @@ ROM = os.path.join(ROOT, "rom")
 SRC = os.path.join(HERE, "sndrender")
 BIN = os.path.join(ROOT, "build", "mrom", "sndrender")
 OUT = os.path.join(ROOT, "build", "mrom", "wav")
+VGM_OUT = os.path.join(ROOT, "build", "mrom", "vgm")
 
 
 def build_renderer():
@@ -51,11 +57,9 @@ def build_renderer():
                            *srcs, obj, "-o", BIN])
 
 
-def render(path, seconds, cmd_bytes, auto_stop=False):
+def render(path, cmd_bytes, opts):
     args = [BIN, os.path.join(ROM, "201-m1.bin"), os.path.join(ROM, "201-v1.bin"),
-            os.path.join(ROM, "201-v2.bin"), path, f"{seconds:.3f}"]
-    if auto_stop:
-        args.append("--auto-stop")
+            os.path.join(ROM, "201-v2.bin"), path, "0", *opts]
     args += [f"{b:02x}" for b in cmd_bytes]
     r = subprocess.run(args, capture_output=True, text=True)
     if r.returncode:
@@ -63,20 +67,26 @@ def render(path, seconds, cmd_bytes, auto_stop=False):
     return r.stderr.strip()
 
 
+def opt(argv, name, default, conv=float):
+    return conv(argv[argv.index(name) + 1]) if name in argv else default
+
+
 def main():
     for f in ("201-m1.bin", "201-v1.bin", "201-v2.bin"):
         if not os.path.exists(os.path.join(ROM, f)):
             sys.exit(f"falta rom/{f}: scripts/setup_mrom.sh y scripts/setup_assets.sh")
     argv = sys.argv[1:]
-    loops = int(argv[argv.index("--loops") + 1]) if "--loops" in argv else 1
+    loops = opt(argv, "--loops", 2, int)
+    fade = opt(argv, "--fade", 8.0)
     only = None
     if "--only" in argv:
         only = {int(x, 16) for x in argv[argv.index("--only") + 1:] if not x.startswith("--")}
+    music_only = "--music" in argv or only is not None
+    vgm = "--vgm" in argv
     flac = "--flac" in argv and shutil.which("ffmpeg")
     build_renderer()
     rom = open(os.path.join(ROM, "201-m1.bin"), "rb").read()
     ids = load_sound_ids()
-    os.makedirs(OUT, exist_ok=True)
     jobs = []
     for i in range(MUSIC_N):
         sid = 0x20 + i
@@ -84,24 +94,42 @@ def main():
             continue
         h = p24(rom, MUSIC_TABLE + 4 * i)
         sps = TIMER_HZ * (s8(rom[0x4B84 + rom[h]]) + 129) / 256
-        trks = header_tracks(rom, h + 1)
-        length = max(interpret(rom, s)[1] for s, _c in trks) / sps
+        res = [interpret(rom, s) for s, _c in header_tracks(rom, h + 1)]
+        k = sum(1 for ev, _L in res if any(e[1] == "loop" for e in ev))
+        one = max(L for _ev, L in res) / sps
         name = ids.get(sid, (f"Music_{i:02d}",))[0]
-        jobs.append((f"music_{i:02d}_{name}.wav", length * loops + 2.0, [0x00, sid], False))
-    if "--sfx" in argv:
-        for tag, base, cnt, typ in (("A", SFXA_TABLE, SFXA_N, 0x10), ("B", SFXB_TABLE, SFXB_N, 0x11)):
+        if k:
+            o = ["--loop-tracks", str(k), "--loops", str(loops), "--fade-len", str(fade),
+                 "--max", f"{one * (loops + 1) + 60:.0f}"]
+        else:
+            o = ["--auto-stop", "--max", f"{one + 30:.0f}"]
+        jobs.append(("music", f"music_{i:02d}_{name}", [0x00, sid], o, name))
+    if not music_only:
+        for tag, base, cnt, typ, sub in (("A", SFXA_TABLE, SFXA_N, 0x10, "sfx"),
+                                         ("B", SFXB_TABLE, SFXB_N, 0x11, "voices")):
             for i in range(cnt):
                 if not p24(rom, base + 4 * i):
                     continue
-                name = ids.get(typ << 8 | (0x20 + i), (f"Sfx{tag}_{i:03d}",))[0]
-                jobs.append((f"sfx{tag}_{i:03d}_{name}.wav", 30.0, [typ, 0x20 + i], True))
-    for fn, secs, cmd, auto in jobs:
-        path = os.path.join(OUT, fn)
-        msg = render(path, secs, cmd, auto)
+                sid = typ << 8 | (0x20 + i)
+                name = ids.get(sid, (f"Sfx{tag}_{i:03d}",))[0]
+                jobs.append((sub, f"{sid:04x}_{name}", [typ, 0x20 + i],
+                             ["--auto-stop", "--max", "30", "--fade-len", "3"], name))
+    for sub, base, cmd, o, title in jobs:
+        d = os.path.join(OUT, sub)
+        os.makedirs(d, exist_ok=True)
+        path = os.path.join(d, base + ".wav")
+        o = list(o) + ["--title", title]
+        if vgm:
+            vd = os.path.join(VGM_OUT, sub)
+            os.makedirs(vd, exist_ok=True)
+            o += ["--vgm", os.path.join(vd, base + ".vgm")]
+        msg = render(path, cmd, o)
         if flac:
             subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", path, path[:-4] + ".flac"], check=True)
-        print(f"[export_wav] {os.path.relpath(path, ROOT)}  {msg.split('  ', 1)[1] if '  ' in msg else msg}")
-    print(f"[export_wav] {len(jobs)} ficheros en {os.path.relpath(OUT, ROOT)}/")
+        last = msg.splitlines()[-1]
+        print(f"[export_wav] {os.path.relpath(path, ROOT)}  {last.split('  ', 1)[1] if '  ' in last else last}")
+    print(f"[export_wav] {len(jobs)} ficheros en {os.path.relpath(OUT, ROOT)}/"
+          + (f" (+ VGM en {os.path.relpath(VGM_OUT, ROOT)}/)" if vgm else ""))
 
 
 if __name__ == "__main__":
