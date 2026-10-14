@@ -248,17 +248,20 @@ Los antiguos volcados z80dasm de los bancos se han eliminado. Formatos:
    (`_syms.txt`) cada música (`Music_00_Hdr_8193`…), SFX y secuencia. Regenerar
    con `gen_mrom_asm.py`, trocear con un `bankN_8000_split.txt` y mantener
    ✔ IDÉNTICA. (`gen_mrom_asm.py` ya aplica los mapas si existen.)
-2. Nombrar las ~460 etiquetas internas `lXXXXh` restantes de la región fija
-   (cuerpos de actualización de SSG/FM/ADPCM) y documentar la estructura de
-   canal (`+00..+4C` SSG, `+67` FM, `+29` ADPCM-A).
+2. ~~Etiquetas internas~~ (hecho: `gen_mrom_asm.py` convierte inmediatos
+   falsos en constantes y nombra los saltos locales `<Rutina>_L<dir>`).
+   Pendiente: documentar la estructura de canal (`+00..+4C` SSG, `+67` FM,
+   `+29` ADPCM-A).
 3. Documentar formalmente el formato de secuencia e instrumentos en
    `mrom/docs/FORMATS.md` (los datos de arriba son el borrador) y escribir
    un desensamblador de secuencias (`mrom/tools/dump_sequence.py`) que
    convierta cada pista a texto legible (y, después, a MIDI/VGM).
-4. Identificar qué música/SFX es cada id (jugar con el emulador y observar
+4. ~~Identificar qué música/SFX es cada id~~ (hecho para músicas y voces:
+   `find_sound_ids.py` → `mrom/map/sound_ids.txt`). Texto original: identificar qué música/SFX es cada id (jugar con el emulador y observar
    los comandos enviados al puerto de sonido desde el 68k; en el P-ROM buscar
    las escrituras a `$320000` / `REG_SOUND`), y poner nombres (`Music_Mission1`…).
-5. Sustituir los `defb` en bruto por datos estructurados cuando el formato
+5. ~~Sustituir los `defb` en bruto~~ (hecho para sonido/instrumentos;
+   quedan las páginas de tablas `0100-1DFF`). Texto original: sustituir los `defb` en bruto por datos estructurados cuando el formato
    esté claro, manteniendo la identidad byte a byte.
 
 ---
@@ -303,7 +306,8 @@ byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
 - [x] M-ROM: reensamblado idéntico, región fija código/datos + nombres + troceo, include HW, CI `build_mrom`
 - [x] M-ROM: tablas de música/SFX/instrumentos y formatos de cabecera identificados (`dump_sound_tables.py`)
 - [x] M-ROM: bancos 2..7 decodificados a `mrom/sound/` (tablas, cabeceras, secuencias simbólicas) + `mrom/docs/FORMATS.md`
-- [ ] M-ROM: formato de parches de instrumento; ~460 etiquetas internas de la región fija
-- [ ] Identificación de cada música/SFX por id
+- [x] M-ROM: formato de instrumentos (`mrom/sound/instruments.s`); región fija sin etiquetas anónimas
+- [x] Identificación de músicas y voces por id (`mrom/map/sound_ids.txt`); SFX de la tabla A con usuarios
+- [ ] M-ROM: estructura de canal documentada; tablas de páginas `0100-1DFF`; export MIDI/VGM
 - [ ] Extracción de assets S/C/V-ROM (tras M-ROM al 100 %)
 - [ ] P-ROM: cabeceras A–F en los 13 módulos de datos

@@ -359,7 +359,7 @@ propios en `mrom/` (`z80dasm -b/-S` con `mrom/map/` → `mrom/asm/raw/*.s` →
 | **Reensamblado byte-idéntico** | **100 %** (7/7 regiones, `mrom/tools/build_mrom.py`) |
 | Código alcanzable (`z80trace.py`, nivel de bytes) | **14,288 B (`0x37D0`)** en la región fija, 16 rangos; 0 B de código detectado en los bancos |
 | Código/datos separados (región fija) | **sí**: 14,288 B código / 18,480 B datos (`mrom/map/fixed_0000_blocks.txt`, 74 bloques) |
-| Rutinas con nombre semántico | 126 etiquetas de código + 61 símbolos de RAM (`mrom/map/fixed_0000_syms.txt`); quedan ~460 etiquetas `lXXXXh` internas |
+| Rutinas con nombre semántico | 157 etiquetas de código/datos + 61 símbolos de RAM (`mrom/map/fixed_0000_syms.txt`); 503 saltos locales `<Rutina>_L<dir>`; 0 etiquetas anónimas |
 | Ficheros por subsistema | 18 (`core/` 4, `channel/` 6, `seq/` 2, `data/` 6) vía `mrom/map/fixed_0000_split.txt` |
 | Equates de hardware | `mrom/include/neogeo_z80.inc` (puertos, ventanas de banco, registros YM2610) |
 | Bancos 2..7 | sin analizar (datos de secuencias / instrumentos / tablas ADPCM) |

@@ -17,9 +17,11 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       (`mrom/map/fixed_0000_syms.txt`, 126 rutinas + 61 variables).
 - [x] Equates de hardware en `mrom/include/neogeo_z80.inc`.
 - [x] Región fija troceada en `mrom/asm/{core,channel,seq,data}/` (18 ficheros).
-- [ ] Nombrar las ~460 etiquetas internas restantes (cuerpos de actualización
-      de cada canal SSG/FM/ADPCM) y documentar la estructura de canal
-      (offsets `+00..+4C/+67/+29`) y de pista (`+00..+22`).
+- [x] Etiquetas de la región fija: 0 anónimas. 157 rutinas/tablas con nombre
+      (`fixed_0000_syms.txt`), 503 destinos locales `<Rutina>_L<dir>`, 137
+      inmediatos falsos (pares YM de RST 8, offsets) como constantes.
+- [ ] Documentar la estructura de canal (offsets `+00..+4C` SSG, `+67` FM,
+      `+29` ADPCM-A, `+1F` ADPCM-B) en `mrom/docs/FORMATS.md`.
 - [x] Documentar el formato de secuencia (opcodes `C0..D9`, bytes de nota) y
       el de las cabeceras de música/SFX → `mrom/docs/FORMATS.md`.
 - [x] Bancos 2..7 (solo datos): tablas, cabeceras y secuencias decodificadas a

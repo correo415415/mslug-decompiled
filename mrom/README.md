@@ -128,7 +128,9 @@ at all times.
 - [x] Fixed region carved into 18 files by subsystem (`core/`, `channel/`, `seq/`, `data/`).
 - [x] 126 routines/tables with semantic names (command dispatcher, channel
       update entry points, bank switch, sequencer, 26 sequence opcodes).
-- [ ] Name the remaining ~460 internal labels (per-channel update bodies).
+- [x] No anonymous labels left: 157 named routines/tables, 503 local branch
+      targets `<Routine>_L<addr>`, 137 fake label immediates turned into
+      constants (YM register/value pairs, struct offsets).
 - [x] Banks 2–7 decoded: they contain only data (no Z80 code). Tables,
       13 music + 177 SFX headers (190 in total) and 31,650 sequence ops (328 tracks, 1,123
       jump targets) as symbolic sources in `sound/` (labels, absolute notes,

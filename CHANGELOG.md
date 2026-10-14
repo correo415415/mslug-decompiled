@@ -25,6 +25,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   `mrom/map/sound_ids.txt`): 149 ids with their 68k users; music headers and
   tracks now carry real names (`Music_Mission1_Hdr`, `Music_Boss_Trk3`, …),
   voice SFX too (`Voice_Mission1Start_Hdr`, …).
+- M-ROM fixed region: no anonymous labels left (28 new entry-point names,
+  503 local labels `<Routine>_L<addr>`, 137 immediates that z80dasm had
+  mistaken for labels emitted as constants).
 - Snapshot branch/tag `f_5.1` (state before this work).
 
 ### Removed
