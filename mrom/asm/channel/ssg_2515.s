@@ -827,7 +827,7 @@ l2a93h:
 	ld c,004h		;2aa4
 	rst 8			;2aa6
 	ret			;2aa7
-l2aa8h:
+SSG_LoadPatch_2AA8:
 	exx			;2aa8
 	inc hl			;2aa9
 	ld a,(hl)			;2aaa
@@ -874,7 +874,7 @@ l2aa8h:
 	pop iy		;2afd
 	pop ix		;2aff
 	ret			;2b01
-l2b02h:
+SSG_SetPitch_2B02:
 	ld l,(ix+008h)		;2b02
 	ld h,011h		;2b05
 	ld c,(hl)			;2b07
@@ -883,7 +883,7 @@ l2b02h:
 	ld (ix+009h),c		;2b0b
 	ld (ix+00ah),b		;2b0e
 	ret			;2b11
-l2b12h:
+SSG_KeyOn_2B12:
 	defb 0ddh,05dh	;ld e,ixl		;2b12
 	defb 0ddh,054h	;ld d,ixh		;2b14
 	ld hl,00015h		;2b16  constant

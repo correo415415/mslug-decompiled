@@ -16,19 +16,19 @@ ADPCMA_Init_3740:
 	ld c,006h		;3755
 	rst 8			;3757
 	ld ix,wPCMA_Ch1_FAA5		;3758
-	call sub_3783h		;375c
+	call ADPCMA_InitChannel_3783		;375c
 	ld ix,wPCMA_Ch2_FACE		;375f
-	call sub_3783h		;3763
+	call ADPCMA_InitChannel_3783		;3763
 	ld ix,wPCMA_Ch3_FAF7		;3766
-	call sub_3783h		;376a
+	call ADPCMA_InitChannel_3783		;376a
 	ld ix,wPCMA_Ch4_FB20		;376d
-	call sub_3783h		;3771
+	call ADPCMA_InitChannel_3783		;3771
 	ld ix,wPCMA_Ch5_FB49		;3774
-	call sub_3783h		;3778
+	call ADPCMA_InitChannel_3783		;3778
 	ld ix,wPCMA_Ch6_FB72		;377b
-	call sub_3783h		;377f
+	call ADPCMA_InitChannel_3783		;377f
 	ret			;3782
-sub_3783h:
+ADPCMA_InitChannel_3783:
 	call Ch_InitStruct_1FE5		;3783
 	ld (ix+002h),002h		;3786
 	xor a			;378a
@@ -1206,7 +1206,7 @@ l3f3ah:
 	call Env_Release_2219		;3f3d
 l3f40h:
 	ret			;3f40
-l3f41h:
+ADPCMA_LoadPatch_3F41:
 	exx			;3f41
 	ld (ix+011h),b		;3f42
 	push ix		;3f45
@@ -1221,7 +1221,7 @@ l3f41h:
 	ld (ix+012h),l		;3f59
 	ld (ix+013h),h		;3f5c
 	ret			;3f5f
-l3f60h:
+ADPCMA_SelectSample_3F60:
 	ld b,(ix+011h)		;3f60
 	ld a,(wCurBank_F811)		;3f63
 	cp b			;3f66
@@ -1277,7 +1277,7 @@ l3f84h:
 	ldi		;3fb5
 	ldi		;3fb7
 	ret			;3fb9
-l3fbah:
+ADPCMA_KeyOn_3FBA:
 	ld (ix+01ah),002h		;3fba
 	defb 0ddh,05dh	;ld e,ixl		;3fbe
 	defb 0ddh,054h	;ld d,ixh		;3fc0

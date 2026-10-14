@@ -3,12 +3,12 @@
 ; Assembled through mrom/asm/fixed_0000.s; must stay byte-identical.
 
 ChTypeJumpTable0_4AA0:
-	defw l2aa8h		;4aa0
-	defw l3568h		;4aa2
-	defw l3f41h		;4aa4
-	defw l427fh		;4aa6
-l4aa8h:
-	ld hl,l4ac4h		;4aa8
+	defw SSG_LoadPatch_2AA8		;4aa0
+	defw FM_LoadPatch_3568		;4aa2
+	defw ADPCMA_LoadPatch_3F41		;4aa4
+	defw ADPCMB_LoadPatch_427F		;4aa6
+Ch_DispatchKeyOn_4AA8:
+	ld hl,Ch_DispatchPitch_4AC4		;4aa8
 	push hl			;4aab
 	ld a,(ix+002h)		;4aac
 	add a,a			;4aaf
@@ -22,12 +22,12 @@ l4aa8h:
 	ex de,hl			;4aba
 	jp (hl)			;4abb
 ChTypeJumpTable1_4ABC:
-	defw l2b12h		;4abc
-	defw l3615h		;4abe
-	defw l3fbah		;4ac0
-	defw l42efh		;4ac2
-l4ac4h:
-	ld hl,l4ae0h		;4ac4
+	defw SSG_KeyOn_2B12		;4abc
+	defw FM_KeyOn_3615		;4abe
+	defw ADPCMA_KeyOn_3FBA		;4ac0
+	defw ADPCMB_KeyOn_42EF		;4ac2
+Ch_DispatchPitch_4AC4:
+	ld hl,Ch_DispatchDone_4AE0		;4ac4
 	push hl			;4ac7
 	ld a,(ix+002h)		;4ac8
 	add a,a			;4acb
@@ -41,11 +41,11 @@ l4ac4h:
 	ex de,hl			;4ad6
 	jp (hl)			;4ad7
 ChTypeJumpTable2_4AD8:
-	defw l2b02h		;4ad8
-	defw l3605h		;4ada
-	defw l3f60h		;4adc
-	defw l42cah		;4ade
-l4ae0h:
+	defw SSG_SetPitch_2B02		;4ad8
+	defw FM_SetPitch_3605		;4ada
+	defw ADPCMA_SelectSample_3F60		;4adc
+	defw ADPCMB_SetPitch_42CA		;4ade
+Ch_DispatchDone_4AE0:
 	scf			;4ae0
 	ret			;4ae1
 Ch_KeyOn_4AE2:
@@ -68,7 +68,7 @@ Ch_KeyOn_4AE2:
 l4b01h:
 	scf			;4b01
 	ret			;4b02
-sub_4b03h:
+Ch_IsFM_4B03:
 	ld a,(ix+002h)		;4b03
 	xor 001h		;4b06
 	ret nz			;4b08
@@ -77,9 +77,9 @@ sub_4b03h:
 Ch_SetNote_4B0B:
 	call Ch_KeyOn_4AE2		;4b0b
 	ret nc			;4b0e
-	call sub_4b03h		;4b0f
+	call Ch_IsFM_4B03		;4b0f
 	jr nc,l4b19h		;4b12
-	call sub_3672h		;4b14
+	call FM_OpVolumeUp_3672		;4b14
 	scf			;4b17
 	ret			;4b18
 l4b19h:
@@ -94,9 +94,9 @@ l4b19h:
 Ch_SetNote2_4B26:
 	call Ch_KeyOn_4AE2		;4b26
 	ret nc			;4b29
-	call sub_4b03h		;4b2a
+	call Ch_IsFM_4B03		;4b2a
 	jr nc,l4b34h		;4b2d
-	call sub_36aah		;4b2f
+	call FM_OpVolumeDown_36AA		;4b2f
 	scf			;4b32
 	ret			;4b33
 l4b34h:
@@ -111,19 +111,19 @@ l4b34h:
 Ch_SetNote3_4B41:
 	call Ch_KeyOn_4AE2		;4b41
 	ret nc			;4b44
-	call sub_4b03h		;4b45
+	call Ch_IsFM_4B03		;4b45
 	ccf			;4b48
 	ret c			;4b49
-	call sub_36e1h		;4b4a
+	call FM_OpParam3_36E1		;4b4a
 	scf			;4b4d
 	ret			;4b4e
 Ch_SetNote4_4B4F:
 	call Ch_KeyOn_4AE2		;4b4f
 	ret nc			;4b52
-	call sub_4b03h		;4b53
+	call Ch_IsFM_4B03		;4b53
 	ccf			;4b56
 	ret c			;4b57
-	call sub_3711h		;4b58
+	call FM_OpParam4_3711		;4b58
 	scf			;4b5b
 	ret			;4b5c
 Instr_ResolvePtr_4B5D:

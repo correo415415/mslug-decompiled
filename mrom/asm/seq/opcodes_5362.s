@@ -546,7 +546,7 @@ l576ah:
 	jp z,Seq_TrackNextOp_533E		;5774
 	ld a,(wNoteGate_FBF8)		;5777
 	jp z,Seq_TrackNextOp_533E		;577a
-	call sub_4a03h		;577d
+	call Ch_NoteOn_4A03		;577d
 	jp nc,Seq_TrackEndCheck_5786		;5780
 	jp Seq_TrackNextOp_533E		;5783
 Seq_TrackEndCheck_5786:

@@ -8214,7 +8214,7 @@ Cmd_SetTempo_2170:
 	srl a		;2175
 	ld b,a			;2177
 	ld a,(wSoundParam_F817)		;2178
-	jp l4f5bh		;217b
+	jp Seq_TempoCurve_4F5B		;217b
 Cmd_SetFade_217E:
 	ld a,(wSoundId_F815)		;217e
 	ld (wMusicId_F818),a		;2181
@@ -9720,7 +9720,7 @@ l2a93h:
 	ld c,004h		;2aa4
 	rst 8			;2aa6
 	ret			;2aa7
-l2aa8h:
+SSG_LoadPatch_2AA8:
 	exx			;2aa8
 	inc hl			;2aa9
 	ld a,(hl)			;2aaa
@@ -9767,7 +9767,7 @@ l2aa8h:
 	pop iy		;2afd
 	pop ix		;2aff
 	ret			;2b01
-l2b02h:
+SSG_SetPitch_2B02:
 	ld l,(ix+008h)		;2b02
 	ld h,011h		;2b05
 	ld c,(hl)			;2b07
@@ -9776,7 +9776,7 @@ l2b02h:
 	ld (ix+009h),c		;2b0b
 	ld (ix+00ah),b		;2b0e
 	ret			;2b11
-l2b12h:
+SSG_KeyOn_2B12:
 	defb 0ddh,05dh	;ld e,ixl		;2b12
 	defb 0ddh,054h	;ld d,ixh		;2b14
 	ld hl,00015h		;2b16  constant
@@ -9836,21 +9836,21 @@ l2b59h:
 l2b83h:
 	ld ix,wFM_Ch1_F907		;2b83
 	ld (ix+012h),001h		;2b87
-	call sub_2bb7h		;2b8b
+	call FM_InitChannel_2BB7		;2b8b
 	ld ix,wFM_Ch2_F96E		;2b8e
 	ld (ix+012h),002h		;2b92
-	call sub_2bb7h		;2b96
+	call FM_InitChannel_2BB7		;2b96
 	ld ix,wFM_Ch3_F9D5		;2b99
 	ld (ix+012h),005h		;2b9d
-	call sub_2bb7h		;2ba1
+	call FM_InitChannel_2BB7		;2ba1
 	ld ix,wFM_Ch4_FA3C		;2ba4
 	ld (ix+012h),006h		;2ba8
-	call sub_2bb7h		;2bac
+	call FM_InitChannel_2BB7		;2bac
 	xor a			;2baf
 	ld (wFM_Shared_FAA3),a		;2bb0
 	ld (0faa4h),a		;2bb3
 	ret			;2bb6
-sub_2bb7h:
+FM_InitChannel_2BB7:
 	call Ch_InitStruct_1FE5		;2bb7
 	ld (ix+002h),001h		;2bba
 	xor a			;2bbe
@@ -9881,7 +9881,7 @@ sub_2bb7h:
 	call Pitch_Clear_23EE		;2bfd
 	pop ix		;2c00
 	ret			;2c02
-sub_2c03h:
+FM_WriteOpRegs_2C03:
 	ld b,a			;2c03
 	ld e,(hl)			;2c04
 	srl b		;2c05
@@ -10194,7 +10194,7 @@ l2de6h:
 	jr z,l2dfah		;2dec
 	ld hl,0f91bh		;2dee
 	ld d,031h		;2df1
-	call sub_2c03h		;2df3
+	call FM_WriteOpRegs_2C03		;2df3
 	xor a			;2df6
 	ld (0f922h),a		;2df7
 l2dfah:
@@ -10203,7 +10203,7 @@ l2dfah:
 	jr z,l2e0ch		;2dfe
 	ld hl,0f924h		;2e00
 	ld d,039h		;2e03
-	call sub_2c03h		;2e05
+	call FM_WriteOpRegs_2C03		;2e05
 	xor a			;2e08
 	ld (0f92bh),a		;2e09
 l2e0ch:
@@ -10212,7 +10212,7 @@ l2e0ch:
 	jr z,l2e1eh		;2e10
 	ld hl,0f92dh		;2e12
 	ld d,035h		;2e15
-	call sub_2c03h		;2e17
+	call FM_WriteOpRegs_2C03		;2e17
 	xor a			;2e1a
 	ld (0f934h),a		;2e1b
 l2e1eh:
@@ -10221,7 +10221,7 @@ l2e1eh:
 	jr z,l2e30h		;2e22
 	ld hl,0f936h		;2e24
 	ld d,03dh		;2e27
-	call sub_2c03h		;2e29
+	call FM_WriteOpRegs_2C03		;2e29
 	xor a			;2e2c
 	ld (0f93dh),a		;2e2d
 l2e30h:
@@ -10538,7 +10538,7 @@ l3024h:
 	jr z,l3038h		;302a
 	ld hl,0f982h		;302c
 	ld d,032h		;302f
-	call sub_2c03h		;3031
+	call FM_WriteOpRegs_2C03		;3031
 	xor a			;3034
 	ld (0f989h),a		;3035
 l3038h:
@@ -10547,7 +10547,7 @@ l3038h:
 	jr z,l304ah		;303c
 	ld hl,0f98bh		;303e
 	ld d,03ah		;3041
-	call sub_2c03h		;3043
+	call FM_WriteOpRegs_2C03		;3043
 	xor a			;3046
 	ld (0f992h),a		;3047
 l304ah:
@@ -10556,7 +10556,7 @@ l304ah:
 	jr z,l305ch		;304e
 	ld hl,0f994h		;3050
 	ld d,036h		;3053
-	call sub_2c03h		;3055
+	call FM_WriteOpRegs_2C03		;3055
 	xor a			;3058
 	ld (0f99bh),a		;3059
 l305ch:
@@ -10565,7 +10565,7 @@ l305ch:
 	jr z,l306eh		;3060
 	ld hl,0f99dh		;3062
 	ld d,03eh		;3065
-	call sub_2c03h		;3067
+	call FM_WriteOpRegs_2C03		;3067
 	xor a			;306a
 	ld (0f9a4h),a		;306b
 l306eh:
@@ -10882,7 +10882,7 @@ l3262h:
 	jr z,l3276h		;3268
 	ld hl,0f9e9h		;326a
 	ld d,031h		;326d
-	call sub_2c03h		;326f
+	call FM_WriteOpRegs_2C03		;326f
 	xor a			;3272
 	ld (0f9f0h),a		;3273
 l3276h:
@@ -10891,7 +10891,7 @@ l3276h:
 	jr z,l3288h		;327a
 	ld hl,0f9f2h		;327c
 	ld d,039h		;327f
-	call sub_2c03h		;3281
+	call FM_WriteOpRegs_2C03		;3281
 	xor a			;3284
 	ld (0f9f9h),a		;3285
 l3288h:
@@ -10900,7 +10900,7 @@ l3288h:
 	jr z,l329ah		;328c
 	ld hl,0f9fbh		;328e
 	ld d,035h		;3291
-	call sub_2c03h		;3293
+	call FM_WriteOpRegs_2C03		;3293
 	xor a			;3296
 	ld (0fa02h),a		;3297
 l329ah:
@@ -10909,7 +10909,7 @@ l329ah:
 	jr z,l32ach		;329e
 	ld hl,0fa04h		;32a0
 	ld d,03dh		;32a3
-	call sub_2c03h		;32a5
+	call FM_WriteOpRegs_2C03		;32a5
 	xor a			;32a8
 	ld (0fa0bh),a		;32a9
 l32ach:
@@ -11226,7 +11226,7 @@ l34a0h:
 	jr z,l34b4h		;34a6
 	ld hl,0fa50h		;34a8
 	ld d,032h		;34ab
-	call sub_2c03h		;34ad
+	call FM_WriteOpRegs_2C03		;34ad
 	xor a			;34b0
 	ld (0fa57h),a		;34b1
 l34b4h:
@@ -11235,7 +11235,7 @@ l34b4h:
 	jr z,l34c6h		;34b8
 	ld hl,0fa59h		;34ba
 	ld d,03ah		;34bd
-	call sub_2c03h		;34bf
+	call FM_WriteOpRegs_2C03		;34bf
 	xor a			;34c2
 	ld (0fa60h),a		;34c3
 l34c6h:
@@ -11244,7 +11244,7 @@ l34c6h:
 	jr z,l34d8h		;34ca
 	ld hl,0fa62h		;34cc
 	ld d,036h		;34cf
-	call sub_2c03h		;34d1
+	call FM_WriteOpRegs_2C03		;34d1
 	xor a			;34d4
 	ld (0fa69h),a		;34d5
 l34d8h:
@@ -11253,7 +11253,7 @@ l34d8h:
 	jr z,l34eah		;34dc
 	ld hl,0fa6bh		;34de
 	ld d,03eh		;34e1
-	call sub_2c03h		;34e3
+	call FM_WriteOpRegs_2C03		;34e3
 	xor a			;34e6
 	ld (0fa72h),a		;34e7
 l34eah:
@@ -11336,7 +11336,7 @@ l3561h:
 	ld (0fa78h),a		;3564
 l3567h:
 	ret			;3567
-l3568h:
+FM_LoadPatch_3568:
 	exx			;3568
 	push hl			;3569
 	ex (sp),iy		;356a
@@ -11408,7 +11408,7 @@ l35cdh:
 	pop ix		;3600
 	pop iy		;3602
 	ret			;3604
-l3605h:
+FM_SetPitch_3605:
 	ld l,(ix+008h)		;3605
 	ld h,011h		;3608
 	ld c,(hl)			;360a
@@ -11417,7 +11417,7 @@ l3605h:
 	ld (ix+009h),c		;360e
 	ld (ix+00ah),b		;3611
 	ret			;3614
-l3615h:
+FM_KeyOn_3615:
 	ld e,(ix+012h)		;3615
 	ld a,e			;3618
 	cp (ix+03dh)		;3619
@@ -11462,7 +11462,7 @@ l364ch:
 	call Pitch_Update_2461		;366c
 	pop ix		;366f
 	ret			;3671
-sub_3672h:
+FM_OpVolumeUp_3672:
 	ld (ix+00ch),0ffh		;3672
 	ld (ix+00dh),0ffh		;3676
 	push ix		;367a
@@ -11490,7 +11490,7 @@ l369eh:
 	ld a,0ffh		;36a4
 	ld (0fa4ch),a		;36a6
 	ret			;36a9
-sub_36aah:
+FM_OpVolumeDown_36AA:
 	ld (ix+00ch),0ffh		;36aa
 	ld (ix+00dh),0ffh		;36ae
 	push ix		;36b2
@@ -11518,7 +11518,7 @@ l36d5h:
 	ld a,0ffh		;36db
 	ld (0fa4ch),a		;36dd
 	ret			;36e0
-sub_36e1h:
+FM_OpParam3_36E1:
 	ld (ix+00ch),0ffh		;36e1
 	ld (ix+00dh),0ffh		;36e5
 	push ix		;36e9
@@ -11543,7 +11543,7 @@ l370ah:
 	djnz l36f5h		;370c
 	pop ix		;370e
 	ret			;3710
-sub_3711h:
+FM_OpParam4_3711:
 	ld (ix+00ch),0ffh		;3711
 	ld (ix+00dh),0ffh		;3715
 	push ix		;3719
@@ -11582,19 +11582,19 @@ ADPCMA_Init_3740:
 	ld c,006h		;3755
 	rst 8			;3757
 	ld ix,wPCMA_Ch1_FAA5		;3758
-	call sub_3783h		;375c
+	call ADPCMA_InitChannel_3783		;375c
 	ld ix,wPCMA_Ch2_FACE		;375f
-	call sub_3783h		;3763
+	call ADPCMA_InitChannel_3783		;3763
 	ld ix,wPCMA_Ch3_FAF7		;3766
-	call sub_3783h		;376a
+	call ADPCMA_InitChannel_3783		;376a
 	ld ix,wPCMA_Ch4_FB20		;376d
-	call sub_3783h		;3771
+	call ADPCMA_InitChannel_3783		;3771
 	ld ix,wPCMA_Ch5_FB49		;3774
-	call sub_3783h		;3778
+	call ADPCMA_InitChannel_3783		;3778
 	ld ix,wPCMA_Ch6_FB72		;377b
-	call sub_3783h		;377f
+	call ADPCMA_InitChannel_3783		;377f
 	ret			;3782
-sub_3783h:
+ADPCMA_InitChannel_3783:
 	call Ch_InitStruct_1FE5		;3783
 	ld (ix+002h),002h		;3786
 	xor a			;378a
@@ -12772,7 +12772,7 @@ l3f3ah:
 	call Env_Release_2219		;3f3d
 l3f40h:
 	ret			;3f40
-l3f41h:
+ADPCMA_LoadPatch_3F41:
 	exx			;3f41
 	ld (ix+011h),b		;3f42
 	push ix		;3f45
@@ -12787,7 +12787,7 @@ l3f41h:
 	ld (ix+012h),l		;3f59
 	ld (ix+013h),h		;3f5c
 	ret			;3f5f
-l3f60h:
+ADPCMA_SelectSample_3F60:
 	ld b,(ix+011h)		;3f60
 	ld a,(wCurBank_F811)		;3f63
 	cp b			;3f66
@@ -12843,7 +12843,7 @@ l3f84h:
 	ldi		;3fb5
 	ldi		;3fb7
 	ret			;3fb9
-l3fbah:
+ADPCMA_KeyOn_3FBA:
 	ld (ix+01ah),002h		;3fba
 	defb 0ddh,05dh	;ld e,ixl		;3fbe
 	defb 0ddh,054h	;ld d,ixh		;3fc0
@@ -12853,7 +12853,7 @@ l3fbah:
 	ret			;3fc9
 ADPCMB_Init_3FCA:
 	ld ix,wPCMB_Ch_FB9B		;3fca
-	call sub_3fe0h		;3fce
+	call ADPCMB_InitChannel_3FE0		;3fce
 	ld c,004h		;3fd1
 	ld de,01b00h		;3fd3  YM reg 1Bh <- 00h
 	rst 8			;3fd6
@@ -12862,7 +12862,7 @@ ADPCMB_Init_3FCA:
 	ld de,01100h		;3fdb  YM reg 11h <- 00h
 	rst 8			;3fde
 	ret			;3fdf
-sub_3fe0h:
+ADPCMB_InitChannel_3FE0:
 	ld ix,wPCMB_Ch_FB9B		;3fe0
 	call Ch_InitStruct_1FE5		;3fe4
 	ld (ix+002h),003h		;3fe7
@@ -13241,7 +13241,7 @@ l4278h:
 	call Env_Release_2219		;427b
 l427eh:
 	ret			;427e
-l427fh:
+ADPCMB_LoadPatch_427F:
 	exx			;427f
 	ld (ix+011h),b		;4280
 	push ix		;4283
@@ -13275,7 +13275,7 @@ l427fh:
 	ld (ix+012h),l		;42c3
 	ld (ix+013h),h		;42c6
 	ret			;42c9
-l42cah:
+ADPCMB_SetPitch_42CA:
 	ld l,(ix+008h)		;42ca
 	ld h,011h		;42cd
 	ld c,(hl)			;42cf
@@ -13296,7 +13296,7 @@ l42cah:
 	ld hl,0ffffh		;42e8
 	ld (0fba9h),hl		;42eb
 	ret			;42ee
-l42efh:
+ADPCMB_KeyOn_42EF:
 	ld a,004h		;42ef
 	ld (wPCMB_Shared_FBBA),a		;42f1
 	ld a,(0fbach)		;42f4
@@ -13380,7 +13380,7 @@ l432bh:
 	call Pitch_Update_2461		;4383
 	pop ix		;4386
 	ret			;4388
-sub_4389h:
+Ch_AllocByType_4389:
 	ld hl,(0fbf9h)		;4389
 	ld a,(hl)			;438c
 	cp 000h		;438d
@@ -14212,7 +14212,7 @@ l49e0h:
 l4a01h:
 	scf			;4a01
 	ret			;4a02
-sub_4a03h:
+Ch_NoteOn_4A03:
 	call Instr_ResolvePtr_4B5D		;4a03
 	ld (0fbf9h),hl		;4a06
 	ld a,b			;4a09
@@ -14233,7 +14233,7 @@ l4a26h:
 	cp (ix+002h)		;4a2a
 	jp z,l4a34h		;4a2d
 l4a30h:
-	call sub_4389h		;4a30
+	call Ch_AllocByType_4389		;4a30
 	ret nc			;4a33
 l4a34h:
 	set 5,(iy+009h)		;4a34
@@ -14255,21 +14255,21 @@ l4a34h:
 	ld (ix+003h),a		;4a64
 	inc b			;4a67
 	dec b			;4a68
-	jp nz,l4ac4h		;4a69
+	jp nz,Ch_DispatchPitch_4AC4		;4a69
 	ld e,(iy+00ah)		;4a6c
 	ld d,(iy+00bh)		;4a6f
 	ld l,(ix+00ch)		;4a72
 	ld h,(ix+00dh)		;4a75
 	and a			;4a78
 	sbc hl,de		;4a79
-	jp z,l4aa8h		;4a7b
+	jp z,Ch_DispatchKeyOn_4AA8		;4a7b
 	ld (ix+00ch),e		;4a7e
 	ld (ix+00dh),d		;4a81
 	ld hl,(0fbf9h)		;4a84
 	ld a,(0fbfbh)		;4a87
 	ld b,a			;4a8a
 	exx			;4a8b
-	ld hl,l4aa8h		;4a8c
+	ld hl,Ch_DispatchKeyOn_4AA8		;4a8c
 	push hl			;4a8f
 	ld a,(ix+002h)		;4a90
 	add a,a			;4a93
@@ -14283,12 +14283,12 @@ l4a34h:
 	ex de,hl			;4a9e
 	jp (hl)			;4a9f
 ChTypeJumpTable0_4AA0:
-	defw l2aa8h		;4aa0
-	defw l3568h		;4aa2
-	defw l3f41h		;4aa4
-	defw l427fh		;4aa6
-l4aa8h:
-	ld hl,l4ac4h		;4aa8
+	defw SSG_LoadPatch_2AA8		;4aa0
+	defw FM_LoadPatch_3568		;4aa2
+	defw ADPCMA_LoadPatch_3F41		;4aa4
+	defw ADPCMB_LoadPatch_427F		;4aa6
+Ch_DispatchKeyOn_4AA8:
+	ld hl,Ch_DispatchPitch_4AC4		;4aa8
 	push hl			;4aab
 	ld a,(ix+002h)		;4aac
 	add a,a			;4aaf
@@ -14302,12 +14302,12 @@ l4aa8h:
 	ex de,hl			;4aba
 	jp (hl)			;4abb
 ChTypeJumpTable1_4ABC:
-	defw l2b12h		;4abc
-	defw l3615h		;4abe
-	defw l3fbah		;4ac0
-	defw l42efh		;4ac2
-l4ac4h:
-	ld hl,l4ae0h		;4ac4
+	defw SSG_KeyOn_2B12		;4abc
+	defw FM_KeyOn_3615		;4abe
+	defw ADPCMA_KeyOn_3FBA		;4ac0
+	defw ADPCMB_KeyOn_42EF		;4ac2
+Ch_DispatchPitch_4AC4:
+	ld hl,Ch_DispatchDone_4AE0		;4ac4
 	push hl			;4ac7
 	ld a,(ix+002h)		;4ac8
 	add a,a			;4acb
@@ -14321,11 +14321,11 @@ l4ac4h:
 	ex de,hl			;4ad6
 	jp (hl)			;4ad7
 ChTypeJumpTable2_4AD8:
-	defw l2b02h		;4ad8
-	defw l3605h		;4ada
-	defw l3f60h		;4adc
-	defw l42cah		;4ade
-l4ae0h:
+	defw SSG_SetPitch_2B02		;4ad8
+	defw FM_SetPitch_3605		;4ada
+	defw ADPCMA_SelectSample_3F60		;4adc
+	defw ADPCMB_SetPitch_42CA		;4ade
+Ch_DispatchDone_4AE0:
 	scf			;4ae0
 	ret			;4ae1
 Ch_KeyOn_4AE2:
@@ -14348,7 +14348,7 @@ Ch_KeyOn_4AE2:
 l4b01h:
 	scf			;4b01
 	ret			;4b02
-sub_4b03h:
+Ch_IsFM_4B03:
 	ld a,(ix+002h)		;4b03
 	xor 001h		;4b06
 	ret nz			;4b08
@@ -14357,9 +14357,9 @@ sub_4b03h:
 Ch_SetNote_4B0B:
 	call Ch_KeyOn_4AE2		;4b0b
 	ret nc			;4b0e
-	call sub_4b03h		;4b0f
+	call Ch_IsFM_4B03		;4b0f
 	jr nc,l4b19h		;4b12
-	call sub_3672h		;4b14
+	call FM_OpVolumeUp_3672		;4b14
 	scf			;4b17
 	ret			;4b18
 l4b19h:
@@ -14374,9 +14374,9 @@ l4b19h:
 Ch_SetNote2_4B26:
 	call Ch_KeyOn_4AE2		;4b26
 	ret nc			;4b29
-	call sub_4b03h		;4b2a
+	call Ch_IsFM_4B03		;4b2a
 	jr nc,l4b34h		;4b2d
-	call sub_36aah		;4b2f
+	call FM_OpVolumeDown_36AA		;4b2f
 	scf			;4b32
 	ret			;4b33
 l4b34h:
@@ -14391,19 +14391,19 @@ l4b34h:
 Ch_SetNote3_4B41:
 	call Ch_KeyOn_4AE2		;4b41
 	ret nc			;4b44
-	call sub_4b03h		;4b45
+	call Ch_IsFM_4B03		;4b45
 	ccf			;4b48
 	ret c			;4b49
-	call sub_36e1h		;4b4a
+	call FM_OpParam3_36E1		;4b4a
 	scf			;4b4d
 	ret			;4b4e
 Ch_SetNote4_4B4F:
 	call Ch_KeyOn_4AE2		;4b4f
 	ret nc			;4b52
-	call sub_4b03h		;4b53
+	call Ch_IsFM_4B03		;4b53
 	ccf			;4b56
 	ret c			;4b57
-	call sub_3711h		;4b58
+	call FM_OpParam4_3711		;4b58
 	scf			;4b5b
 	ret			;4b5c
 Instr_ResolvePtr_4B5D:
@@ -14841,7 +14841,7 @@ l4dc9h:
 	pop bc			;4dc9
 	ld a,(0fde7h)		;4dca
 	cp b			;4dcd
-	call nz,sub_4f40h		;4dce
+	call nz,Seq_ApplyTempo_4F40		;4dce
 	ld hl,0fdebh		;4dd1
 	ld a,(hl)			;4dd4
 	inc hl			;4dd5
@@ -15041,7 +15041,7 @@ Seq_SetTempo_4F39:
 	ld (0fdedh),a		;4f39
 	ld a,b			;4f3c
 	ld (0fdeeh),a		;4f3d
-sub_4f40h:
+Seq_ApplyTempo_4F40:
 	ld a,(0fdeeh)		;4f40
 	cp 040h		;4f43
 	jr nz,l4f4ch		;4f45
@@ -15051,19 +15051,19 @@ sub_4f40h:
 l4f4ch:
 	ld l,a			;4f4c
 	ld a,(0fde7h)		;4f4d
-	call sub_4f69h		;4f50
+	call Seq_ScaleByCurve_4F69		;4f50
 	ld hl,0fde7h		;4f53
 	sub (hl)			;4f56
 	ld (0fdech),a		;4f57
 	ret			;4f5a
-l4f5bh:
+Seq_TempoCurve_4F5B:
 	ld (0fde9h),a		;4f5b
 	ld l,b			;4f5e
 	ld a,(0fdefh)		;4f5f
-	call sub_4f69h		;4f62
+	call Seq_ScaleByCurve_4F69		;4f62
 	ld (0fde8h),a		;4f65
 	ret			;4f68
-sub_4f69h:
+Seq_ScaleByCurve_4F69:
 	add a,080h		;4f69
 	ld h,014h		;4f6b
 	ld e,(hl)			;4f6d
@@ -16098,7 +16098,7 @@ l576ah:
 	jp z,Seq_TrackNextOp_533E		;5774
 	ld a,(wNoteGate_FBF8)		;5777
 	jp z,Seq_TrackNextOp_533E		;577a
-	call sub_4a03h		;577d
+	call Ch_NoteOn_4A03		;577d
 	jp nc,Seq_TrackEndCheck_5786		;5780
 	jp Seq_TrackNextOp_533E		;5783
 Seq_TrackEndCheck_5786:

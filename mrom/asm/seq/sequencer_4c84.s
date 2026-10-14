@@ -155,7 +155,7 @@ l4dc9h:
 	pop bc			;4dc9
 	ld a,(0fde7h)		;4dca
 	cp b			;4dcd
-	call nz,sub_4f40h		;4dce
+	call nz,Seq_ApplyTempo_4F40		;4dce
 	ld hl,0fdebh		;4dd1
 	ld a,(hl)			;4dd4
 	inc hl			;4dd5
@@ -355,7 +355,7 @@ Seq_SetTempo_4F39:
 	ld (0fdedh),a		;4f39
 	ld a,b			;4f3c
 	ld (0fdeeh),a		;4f3d
-sub_4f40h:
+Seq_ApplyTempo_4F40:
 	ld a,(0fdeeh)		;4f40
 	cp 040h		;4f43
 	jr nz,l4f4ch		;4f45
@@ -365,19 +365,19 @@ sub_4f40h:
 l4f4ch:
 	ld l,a			;4f4c
 	ld a,(0fde7h)		;4f4d
-	call sub_4f69h		;4f50
+	call Seq_ScaleByCurve_4F69		;4f50
 	ld hl,0fde7h		;4f53
 	sub (hl)			;4f56
 	ld (0fdech),a		;4f57
 	ret			;4f5a
-l4f5bh:
+Seq_TempoCurve_4F5B:
 	ld (0fde9h),a		;4f5b
 	ld l,b			;4f5e
 	ld a,(0fdefh)		;4f5f
-	call sub_4f69h		;4f62
+	call Seq_ScaleByCurve_4F69		;4f62
 	ld (0fde8h),a		;4f65
 	ret			;4f68
-sub_4f69h:
+Seq_ScaleByCurve_4F69:
 	add a,080h		;4f69
 	ld h,014h		;4f6b
 	ld e,(hl)			;4f6d

@@ -4,7 +4,7 @@
 
 ADPCMB_Init_3FCA:
 	ld ix,wPCMB_Ch_FB9B		;3fca
-	call sub_3fe0h		;3fce
+	call ADPCMB_InitChannel_3FE0		;3fce
 	ld c,004h		;3fd1
 	ld de,01b00h		;3fd3  YM reg 1Bh <- 00h
 	rst 8			;3fd6
@@ -13,7 +13,7 @@ ADPCMB_Init_3FCA:
 	ld de,01100h		;3fdb  YM reg 11h <- 00h
 	rst 8			;3fde
 	ret			;3fdf
-sub_3fe0h:
+ADPCMB_InitChannel_3FE0:
 	ld ix,wPCMB_Ch_FB9B		;3fe0
 	call Ch_InitStruct_1FE5		;3fe4
 	ld (ix+002h),003h		;3fe7
@@ -392,7 +392,7 @@ l4278h:
 	call Env_Release_2219		;427b
 l427eh:
 	ret			;427e
-l427fh:
+ADPCMB_LoadPatch_427F:
 	exx			;427f
 	ld (ix+011h),b		;4280
 	push ix		;4283
@@ -426,7 +426,7 @@ l427fh:
 	ld (ix+012h),l		;42c3
 	ld (ix+013h),h		;42c6
 	ret			;42c9
-l42cah:
+ADPCMB_SetPitch_42CA:
 	ld l,(ix+008h)		;42ca
 	ld h,011h		;42cd
 	ld c,(hl)			;42cf
@@ -447,7 +447,7 @@ l42cah:
 	ld hl,0ffffh		;42e8
 	ld (0fba9h),hl		;42eb
 	ret			;42ee
-l42efh:
+ADPCMB_KeyOn_42EF:
 	ld a,004h		;42ef
 	ld (wPCMB_Shared_FBBA),a		;42f1
 	ld a,(0fbach)		;42f4
@@ -531,7 +531,7 @@ l432bh:
 	call Pitch_Update_2461		;4383
 	pop ix		;4386
 	ret			;4388
-sub_4389h:
+Ch_AllocByType_4389:
 	ld hl,(0fbf9h)		;4389
 	ld a,(hl)			;438c
 	cp 000h		;438d
@@ -1363,7 +1363,7 @@ l49e0h:
 l4a01h:
 	scf			;4a01
 	ret			;4a02
-sub_4a03h:
+Ch_NoteOn_4A03:
 	call Instr_ResolvePtr_4B5D		;4a03
 	ld (0fbf9h),hl		;4a06
 	ld a,b			;4a09
@@ -1384,7 +1384,7 @@ l4a26h:
 	cp (ix+002h)		;4a2a
 	jp z,l4a34h		;4a2d
 l4a30h:
-	call sub_4389h		;4a30
+	call Ch_AllocByType_4389		;4a30
 	ret nc			;4a33
 l4a34h:
 	set 5,(iy+009h)		;4a34
@@ -1406,21 +1406,21 @@ l4a34h:
 	ld (ix+003h),a		;4a64
 	inc b			;4a67
 	dec b			;4a68
-	jp nz,l4ac4h		;4a69
+	jp nz,Ch_DispatchPitch_4AC4		;4a69
 	ld e,(iy+00ah)		;4a6c
 	ld d,(iy+00bh)		;4a6f
 	ld l,(ix+00ch)		;4a72
 	ld h,(ix+00dh)		;4a75
 	and a			;4a78
 	sbc hl,de		;4a79
-	jp z,l4aa8h		;4a7b
+	jp z,Ch_DispatchKeyOn_4AA8		;4a7b
 	ld (ix+00ch),e		;4a7e
 	ld (ix+00dh),d		;4a81
 	ld hl,(0fbf9h)		;4a84
 	ld a,(0fbfbh)		;4a87
 	ld b,a			;4a8a
 	exx			;4a8b
-	ld hl,l4aa8h		;4a8c
+	ld hl,Ch_DispatchKeyOn_4AA8		;4a8c
 	push hl			;4a8f
 	ld a,(ix+002h)		;4a90
 	add a,a			;4a93

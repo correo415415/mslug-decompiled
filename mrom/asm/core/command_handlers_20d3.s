@@ -100,7 +100,7 @@ Cmd_SetTempo_2170:
 	srl a		;2175
 	ld b,a			;2177
 	ld a,(wSoundParam_F817)		;2178
-	jp l4f5bh		;217b
+	jp Seq_TempoCurve_4F5B		;217b
 Cmd_SetFade_217E:
 	ld a,(wSoundId_F815)		;217e
 	ld (wMusicId_F818),a		;2181
