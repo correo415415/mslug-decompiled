@@ -234,3 +234,20 @@ conserva `SfxA_NNN` / `SfxB_NNN` y en la etiqueta de su cabecera figura la
 lista de usuarios. No se detectan los ids que solo llegan por los streams de
 script (`ScriptOp04_Sound`, `PathScript_OpMusic`, `MiniScript_Step`,
 `SceneScriptVM_Frame`) ni los calculados.
+
+## 8. Temporización y exportación a MIDI (`mrom/tools/export_midi.py`)
+
+* Tick del driver = Timer A del YM2610 con valor `(ACh << 2) | 3 = 691`
+  (`YM_InitTimers_1E6B`): `72 · (1024 − 691) / 8 MHz = 2,997 ms` (≈ 333,7 Hz).
+* Pistas de música: cada tick `FDF0 += tempo + 129`; avanzan un paso por cada
+  acarreo al byte alto → `(tempo + 129) / 256` pasos por tick, con `tempo` =
+  `NoteMapTable_4B84[byte de cabecera]` con signo (p. ej. Mission1: `1Ch` →
+  ≈ 102 pasos/s). `CD` cambia el tempo de forma gradual mediante
+  `Seq_ScaleByCurve_4F69` (no modelado en la exportación; se marca con un texto).
+* Pistas de SFX: un paso por tick.
+
+`export_midi.py` interpreta las secuencias (saltos, llamadas, bucles; una
+pasada) y escribe un MIDI tipo 1 por canción en `build/mrom/midi/` (no se
+versiona: deriva de la ROM); `--sfx` añade los 177 SFX. Las pistas cuyo primer
+instrumento es ADPCM-A van al canal 10. Duraciones de una pasada: misiones
+45-75 s, jefe 34 s, jingles 4-12 s.

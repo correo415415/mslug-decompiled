@@ -57,8 +57,9 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       - Herramienta inversa (PNG/WAV → ROM) para poder reconstruir los
         ROMs de gráficos y sonido byte-idénticos, igual que
         `tools/build_rom.py` y `mrom/tools/build_mrom.py`.
-- [ ] Exportar las pistas musicales (secuencias del M-ROM) a un formato
-      reproducible (VGM/MIDI) con sus nombres.
+- [x] Exportar las pistas musicales a MIDI con sus nombres
+      (`mrom/tools/export_midi.py`). Pendiente: modelar la curva de `S_TEMPO`
+      y exportar VGM (requiere emular el YM2610 con los parches).
 
 ## Herramientas / experimentos
 

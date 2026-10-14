@@ -28,6 +28,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 - M-ROM fixed region: no anonymous labels left (28 new entry-point names,
   503 local labels `<Routine>_L<addr>`, 137 immediates that z80dasm had
   mistaken for labels emitted as constants).
+- `mrom/tools/export_midi.py`: music / SFX sequences to Standard MIDI files
+  (driver timing: Timer A 2.997 ms, tempo accumulator), output in
+  `build/mrom/midi/` (not committed).
 - Snapshot branch/tag `f_5.1` (state before this work).
 
 ### Removed
