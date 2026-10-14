@@ -21,7 +21,7 @@ ventana = `(addr & 0x3FFF) | 0x8000`, y cambia de banco leyendo los puertos
 
 | Índice | Destino | Uso |
 |---|---|---|
-| 0 | `InstrPtrTable_57A1` | parches de instrumento (§5) |
+| 0 | `InstrPtrTable_57A1` | instrumentos (§5) |
 | 1 | `MusicTable` `0x0815F` | 13 músicas (✔ `Cmd_PlayMusic_20D4`) |
 | 2 | `SfxTableA` `0x08472` | SFX tipo `10h` (✔ `Cmd_PlaySfx_2115`) |
 | 3 | `SfxTableB` `0x087F2` | SFX tipo `11h` |
@@ -125,14 +125,57 @@ apunta (restos de autoría). `leftover.s`: `0x1D287-0x1FFFF`, bytes que el
 driver no lee (parece basura gráfica / datos de otra herramienta); se
 conservan tal cual.
 
-## 5. Parches de instrumento
+## 5. Instrumentos (`mrom/sound/instruments.s`)
 
 `InstrPtrTable_57A1`: 1 024 `PTR24` (8 grupos × 128); índice =
-`grupo·128 + nº` desde `+0B/+0A` (`Instr_ResolvePtr_4B5D`; grupo `FF` →
-`InstrDefault_2509`). 105 parches distintos en `0x067A1-0x0815E` (los últimos
-en `mrom/sound/instr_patches.s`). El primer byte selecciona el tipo de canal
-(0 SSG, 1 FM, 2 ADPCM-A, …) y la longitud: 24 B (SSG / simples) o 50 B (FM:
-4 operadores) (?). Estructura de campos pendiente de documentar.
+`grupo·128 + nº` desde `+0B/+0A` de la pista (`C0 nº` / `C1 nº,grupo`;
+`Instr_ResolvePtr_4B5D`; grupo `FF` → `InstrDefault_2509`, 3 punteros a
+parches de la página `19xx`). Apuntan a **105 parches distintos** en
+`0x067A1-0x0815E`; junto con las tablas de samples que estos referencian son
+**174 registros contiguos sin huecos** (verificado por `gen_sound_data.py`).
+La parte `< 0x08000` vive en la región fija: `mrom/asm/data/instruments_57a1.s`
+la incluye con `incbin` del binario que `build_mrom.py` ensambla antes desde
+`mrom/sound/`.
+
+El **byte 0 es el tipo de canal**; al dar nota con un instrumento nuevo
+(`sub_4a03h` → `l4a8c`) se llama al cargador `ChTypeJumpTable0_4AA0[tipo]`
+con `hl` = parche (en el banco ya mapeado):
+
+| Tipo | Macro | Tamaño | Cargador | Contenido |
+|---|---|---|---|---|
+| 0 | `INSTR_SSG` | 24 B | `l2aa8h` | ruido, mezclador, `I_ENV`, `I_LFO`×2, `I_PITCH` |
+| 1 | `INSTR_FM` | 50 B | `l3568h` | 5 B de canal, 4 × `FM_OP` (7 B), `I_LFO`×2, `I_PITCH` |
+| 2 | `INSTR_PCMA` | 17 B + mapa | `l3f41h` / nota `l3f60h` | `I_ENV`, `PCMA_MAP` (→ `PcmaSampleTab`, nota base), 1 B por nota |
+| 3 | `INSTR_PCMB` | 22 B + 6·n + 1 | `l427fh` / nota `l42efh` | `I_ENV`, `I_LFO`×2, `I_PITCH`, rangos `PCMB_KEY`, `PCMB_END` (`FF`) |
+
+Sub-bloques comunes:
+
+* `I_ENV a,d,s,r,x` (5 B, `Seq_LoadOpPtrs_219B`): tasas de la envolvente de
+  volumen; cada byte ≠0 indexa las tablas de tasas `1Bxx/1Cxx` (0 = instantáneo);
+  el 3.º (sustain) se guarda complementado. (Orden A/D/S/R: hipótesis por el uso
+  en `Env_Step_222D`.)
+* `I_LFO` (6 B, `Lfo_Load_22A8`): `+0` bit 7 activo, bits 0-6 retardo; `+1`
+  velocidad; `+2` profundidad; `+3`/`+5` forma (con signo); `+4` índice en las
+  tablas `14xx/15xx/16xx`. El primero modula volumen, el segundo tono.
+* `I_PITCH` (4 B, `Pitch_Load_242E`): `+0` bit 0 activo, bits 4-7 modo; `+1`
+  velocidad; `+2` ajuste fino; `+3` desplazamiento de nota.
+
+FM (`INSTR_FM slots,fbalg,lfo,amspms,transp`): `slots` bits 4-7 = máscara de
+operadores del key-on (reg `28h`); `fbalg` → reg `B0h` (bit 7 forzado);
+`lfo` → reg `22h` si bit 3 (LFO global, `wFM_Shared_FAA3`); `amspms` → reg
+`B4h` (bits 6-7 si no hay LFO); `transp` → canal `+11`. `FM_OP` sigue el orden
+de registros del YM2610: DT/MUL `30h`, TL `40h`, KS/AR `50h`, AM/DR `60h`, SR
+`70h`, SL/RR `80h`, SSG-EG `90h` (el TL se reescribe luego con el volumen).
+
+ADPCM-A: la nota menos `base` indexa el mapa; ese byte ·5 indexa la
+`PcmaSampleTab` (`PCMA_SAMPLE vol, inicio, fin`, en unidades de 256 B de la
+V-ROM; se copian 5 B al canal `+15`). Los 6 bytes iniciales de `PCMA_MAP` no se
+leen (son 0 salvo en `InstrPCMA_06FCF`).
+
+ADPCM-B: `PCMB_KEY techo, raíz, sample` — se elige el primer rango cuyo
+`techo ≥ nota`; `PcmbSample` (12 B, `l432bh`): `delta-N` base, pan/modo,
+nº de bucles (`FF` = sin bucle), inicio y tres longitudes (ataque, bucle,
+cola) en unidades de 256 B.
 
 ## 6. Estructura de pista (0x23 B; `wMusicTracks_FBFC` ×14, `wSfxTracks_FDF2` ×8)
 

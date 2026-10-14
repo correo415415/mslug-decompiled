@@ -41,12 +41,13 @@ mrom/
 │   ├── core/                 vectors, main loop, IRQ/NMI, bank switch, command dispatch
 │   ├── channel/              envelope helpers, SSG, FM, ADPCM-A, ADPCM-B, channel-type tables
 │   ├── seq/                  track allocation and the sequence opcode interpreter
-│   ├── data/                 bank pointer table, lookup pages, note map, sequence pointers, tail
+│   ├── data/                 bank pointer table, lookup pages, note map, instruments (incbin)
 │   └── raw/                  z80dasm output of the fixed region (generated; input of split_region.py)
-├── sound/                    banks 2..7 = sound data (file 0x08000-0x1FFFF), GNU-as sources
+├── sound/                    all sound data (file 0x057A1-0x1FFFF), GNU-as sources
 │   ├── sound.s               top level: SD_Base + includes, assembled with binutils-z80
 │   ├── macros.inc            PTR24, MUSIC_HDR/SFX_HDR/TRACK, notes N/NX, opcodes S_*
-│   ├── instr_patches.s       last instrument patches (0x08000-0x0815E)
+│   ├── instruments.s         InstrPtrTable_57A1 + 174 typed instrument / sample records
+│   │                         (0x057A1-0x0815E; fixed-region part incbin'ed by asm/data/instruments_57a1.s)
 │   ├── headers.s             MusicTable, SfxTableA/B and every music / SFX header
 │   ├── music_00.s … music_12.s   sequences of each music (one file per song)
 │   ├── sfx.s, seq_unused.s   SFX sequences; 3 sequences no header points to

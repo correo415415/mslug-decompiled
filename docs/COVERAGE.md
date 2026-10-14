@@ -384,8 +384,8 @@ propios en `mrom/` (`z80dasm -b/-S` con `mrom/map/` → `mrom/asm/raw/*.s` →
 | `4B84-4C83` | `data/note_map_4b84.s` | `NoteMapTable_4B84` (256 B) |
 | `4C84-5361` | `seq/sequencer_4c84.s` | pistas: 14 de música en `FBFC` + 8 de SFX en `FDF2` (0x23 B cada una); `Seq_StartMusic_4FA3`, `Seq_StartSfx_507B`, `Seq_FindFreeTrack_50DB`, `Seq_UpdateTracks_514F`, `Seq_TrackInit_5251` |
 | `5362-57A0` | `seq/opcodes_5362.s` | `Seq_TrackFetch_5362`: byte `≥DA` para, `C0..D9` → `SeqOpJumpTable_53A3` (26 `jp`), `<C0` → `Seq_NoteEvent_56EA` (nota + len/vol/gate opcionales según bits) |
-| `57A1-67A0` | `data/instr_ptr_table_57a1.s` | `InstrPtrTable_57A1`: 1024 punteros lineales de 24 bits a parches de instrumento (8 grupos × 128; `Instr_ResolvePtr_4B5D`), registros de 24 o 50 B en `67B9..` y banco 2 |
-| `67A1-7FFF` | `data/tail_67a1.s` | datos de secuencias/instrumentos de la región fija |
+| `57A1-7FFF` | `data/instruments_57a1.s` (`incbin`) → fuente `mrom/sound/instruments.s` | `InstrPtrTable_57A1` (1024 `PTR24`, 8 grupos × 128) + 174 registros tipados: parches SSG (24 B) / FM (50 B) / ADPCM-A / ADPCM-B y tablas de samples (`mrom/docs/FORMATS.md` §5) |
+| `08000-1FFFF` | `mrom/sound/*.s` | últimos parches, tablas/cabeceras de música y SFX, 31 650 ops de secuencia, restos no usados |
 
 Opcodes de secuencia identificados (provisional): `C0/C1` instrumento,
 `C2` salto, `C4` llamada a subsecuencia (pila de 3 niveles en `+1C`), `C5`

@@ -229,10 +229,15 @@ rom/201-m1.bin
 Los bancos 2..7 (fichero `0x08000-0x1FFFF`) **no contienen código Z80**, solo
 datos. `mrom/tools/gen_sound_data.py` los decodifica a `mrom/sound/*.s`
 (GNU as de `binutils-z80`, por sus macros): `headers.s` (tablas + cabeceras),
-`music_NN.s` (una por canción), `sfx.s`, `seq_unused.s`, `instr_patches.s`,
+`music_NN.s` (una por canción), `sfx.s`, `seq_unused.s`, `instruments.s`,
 `leftover.s`. Las notas se escriben absolutas (`N 0x39, 0x0c, 0x0a, 0x42`); las
 macros recalculan el delta relativo. `build_mrom.py` ensambla la región fija
 con z80asm y `mrom/sound/sound.s` con `z80-unknown-coff-as` → ✔ IDÉNTICA.
+`instruments.s` cubre además `0x057A1-0x07FFF` de la región fija
+(`InstrPtrTable_57A1` + parches SSG/FM/ADPCM-A/B y tablas de samples, macros
+`INSTR_*`): `build_mrom.py` ensambla primero `mrom/sound/` y escribe
+`build/mrom/instruments_fixed.bin`, que `mrom/asm/data/instruments_57a1.s`
+incluye con `incbin` (línea `incbin=` de `fixed_0000_split.txt`).
 Los antiguos volcados z80dasm de los bancos se han eliminado. Formatos:
 `mrom/docs/FORMATS.md`. Snapshot previo inmutable: rama/tag `f_5.1`.
 

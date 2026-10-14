@@ -16,6 +16,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   across 328 tracks with labelled jump/call/loop targets and absolute notes.
   Assembled with binutils-z80 by `build_mrom.py`; M-ROM still byte-identical
   (MD5 `6449db04…`). Formats documented in `mrom/docs/FORMATS.md`.
+- **M-ROM instrument format decoded**: `InstrPtrTable_57A1` and its 174
+  records (SSG 24 B, FM 50 B with 4 operators, ADPCM-A note maps + sample
+  tables, ADPCM-B key ranges + sample descriptors) as `INSTR_*` / `FM_OP` /
+  `I_ENV` / `I_LFO` / `I_PITCH` / `PCMA_*` / `PCMB_*` macros in
+  `mrom/sound/instruments.s`; the fixed-region part is pulled in by `incbin`.
 - Snapshot branch/tag `f_5.1` (state before this work).
 
 ### Removed

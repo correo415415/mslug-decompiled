@@ -24,8 +24,9 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       el de las cabeceras de música/SFX → `mrom/docs/FORMATS.md`.
 - [x] Bancos 2..7 (solo datos): tablas, cabeceras y secuencias decodificadas a
       fuentes simbólicas `mrom/sound/` (`gen_sound_data.py`), ✔ IDÉNTICA.
-- [ ] Formato de los parches de instrumento (24/50 B) → macros `INSTR_*`
-      (región fija `0x67A1-0x7FFF` + `mrom/sound/instr_patches.s`).
+- [x] Formato de instrumentos (SSG 24 B / FM 50 B / ADPCM-A / ADPCM-B + tablas
+      de samples) → `mrom/sound/instruments.s` con macros `INSTR_*` (incluida
+      la parte de la región fija `0x57A1-0x7FFF`, vía `incbin`).
 - [ ] Nombres reales de músicas/SFX (ids enviados desde el P-ROM).
 - [ ] Actualizar `mrom/README.md`, `docs/COVERAGE.md` (sección M-ROM),
       `docs/PROGRESO.md` y `CHANGELOG.md` a medida que avance.
