@@ -64,7 +64,6 @@
 	defb 0e7h		;013b
 	defb 0c4h		;013c
 	defb 0a1h		;013d
-l013eh:
 	defb 07eh		;013e
 	defb 05bh		;013f
 	defb 038h		;0140
@@ -259,7 +258,6 @@ l013eh:
 	defb 01ah		;01fd
 	defb 006h		;01fe
 	defb 0f1h		;01ff
-l0200h:
 	defb 03bh		;0200
 	defb 03bh		;0201
 	defb 03bh		;0202
@@ -1795,9 +1793,7 @@ l0200h:
 	defb 0c5h		;07fc
 	defb 0c3h		;07fd
 	defb 0c0h		;07fe
-l07ffh:
 	defb 0beh		;07ff
-l0800h:
 	defb 007h		;0800
 	defb 007h		;0801
 	defb 007h		;0802
@@ -2054,7 +2050,6 @@ l0800h:
 	defb 003h		;08fd
 	defb 003h		;08fe
 	defb 003h		;08ff
-l0900h:
 	defb 0bbh		;0900
 	defb 0b8h		;0901
 	defb 0b6h		;0902
@@ -2311,7 +2306,6 @@ l0900h:
 	defb 0e1h		;09fd
 	defb 0e0h		;09fe
 	defb 0dfh		;09ff
-l0a00h:
 	defb 003h		;0a00
 	defb 003h		;0a01
 	defb 003h		;0a02
@@ -2568,7 +2562,6 @@ l0a00h:
 	defb 001h		;0afd
 	defb 001h		;0afe
 	defb 001h		;0aff
-l0b00h:
 	defb 0ddh		;0b00
 	defb 0dch		;0b01
 	defb 0dbh		;0b02
@@ -2825,7 +2818,6 @@ l0b00h:
 	defb 0f0h		;0bfd
 	defb 0f0h		;0bfe
 	defb 0efh		;0bff
-l0c00h:
 	defb 001h		;0c00
 	defb 001h		;0c01
 	defb 001h		;0c02
@@ -3082,7 +3074,6 @@ l0c00h:
 	defb 000h		;0cfd
 	defb 000h		;0cfe
 	defb 000h		;0cff
-l0d00h:
 	defb 0eeh		;0d00
 	defb 0eeh		;0d01
 	defb 0edh		;0d02
@@ -3851,9 +3842,7 @@ l0d00h:
 	defb 03ch		;0ffd
 	defb 03ch		;0ffe
 	defb 03bh		;0fff
-l1000h:
 	defb 000h		;1000
-l1001h:
 	defb 000h		;1001
 	defb 000h		;1002
 	defb 000h		;1003
@@ -4109,7 +4098,6 @@ l1001h:
 	defb 000h		;10fd
 	defb 000h		;10fe
 	defb 000h		;10ff
-l1100h:
 	defb 000h		;1100
 	defb 015h		;1101
 	defb 02ah		;1102
@@ -6670,7 +6658,6 @@ l1100h:
 	defb 000h		;1afd
 	defb 001h		;1afe
 	defb 000h		;1aff
-l1b00h:
 	defb 000h		;1b00
 	defb 001h		;1b01
 	defb 004h		;1b02
@@ -6927,19 +6914,14 @@ l1b00h:
 	defb 009h		;1bfd
 	defb 004h		;1bfe
 	defb 001h		;1bff
-l1c00h:
 	defb 000h		;1c00
-l1c01h:
 	defb 000h		;1c01
-l1c02h:
 	defb 000h		;1c02
 	defb 000h		;1c03
-l1c04h:
 	defb 000h		;1c04
 	defb 000h		;1c05
 	defb 000h		;1c06
 	defb 000h		;1c07
-l1c08h:
 	defb 000h		;1c08
 	defb 000h		;1c09
 	defb 000h		;1c0a
@@ -6948,7 +6930,6 @@ l1c08h:
 	defb 000h		;1c0d
 	defb 000h		;1c0e
 	defb 000h		;1c0f
-l1c10h:
 	defb 001h		;1c10
 	defb 001h		;1c11
 	defb 001h		;1c12
@@ -6965,7 +6946,6 @@ l1c10h:
 	defb 003h		;1c1d
 	defb 003h		;1c1e
 	defb 003h		;1c1f
-l1c20h:
 	defb 004h		;1c20
 	defb 004h		;1c21
 	defb 004h		;1c22
@@ -7062,7 +7042,6 @@ l1c20h:
 	defb 03dh		;1c7d
 	defb 03eh		;1c7e
 	defb 03fh		;1c7f
-l1c80h:
 	defb 040h		;1c80
 	defb 041h		;1c81
 	defb 042h		;1c82
@@ -7190,7 +7169,6 @@ l1c80h:
 	defb 0f8h		;1cfc
 	defb 0fah		;1cfd
 	defb 0fch		;1cfe
-l1cffh:
 	defb 0feh		;1cff
 	defb 000h		;1d00
 	defb 000h		;1d01

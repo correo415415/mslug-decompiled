@@ -6,11 +6,11 @@ ADPCMB_Init_3FCA:
 	ld ix,wPCMB_Ch_FB9B		;3fca
 	call sub_3fe0h		;3fce
 	ld c,004h		;3fd1
-	ld de,l1b00h		;3fd3
+	ld de,01b00h		;3fd3  YM reg 1Bh <- 00h
 	rst 8			;3fd6
-	ld de,l1001h		;3fd7
+	ld de,01001h		;3fd7  YM reg 10h <- 01h
 	rst 8			;3fda
-	ld de,l1100h		;3fdb
+	ld de,01100h		;3fdb  YM reg 11h <- 00h
 	rst 8			;3fde
 	ret			;3fdf
 sub_3fe0h:
@@ -22,22 +22,22 @@ sub_3fe0h:
 	ld (0fbbdh),a		;3fef
 	ld (wPCMB_Shared_FBBA),a		;3ff2
 	push ix		;3ff5
-	ld de,l0023h		;3ff7
+	ld de,00023h		;3ff7  constant
 	add ix,de		;3ffa
 	rst 30h			;3ffc
 	pop ix		;3ffd
 	push ix		;3fff
-	ld de,l003fh		;4001
+	ld de,0003fh		;4001  constant
 	add ix,de		;4004
 	call Lfo_Clear_229D		;4006
 	pop ix		;4009
 	push ix		;400b
-	ld de,l0031h		;400d
+	ld de,00031h		;400d  constant
 	add ix,de		;4010
 	call Lfo_Clear_229D		;4012
 	pop ix		;4015
 	push ix		;4017
-	ld de,l004dh		;4019
+	ld de,0004dh		;4019  constant
 	add ix,de		;401c
 	call Pitch_Clear_23EE		;401e
 	pop ix		;4021
@@ -94,7 +94,7 @@ l4083h:
 	dec a			;408e
 	ld (0fbbbh),a		;408f
 	ld c,004h		;4092
-	ld de,l1c80h		;4094
+	ld de,01c80h		;4094  YM reg 1Ch <- 80h
 	rst 8			;4097
 	ld e,000h		;4098
 	rst 8			;409a
@@ -114,12 +114,12 @@ l40abh:
 	ld (wPCMB_Shared_FBBA),a		;40b6
 l40b9h:
 	push bc			;40b9
-	ld de,l1b00h		;40ba
+	ld de,01b00h		;40ba  YM reg 1Bh <- 00h
 	ld c,004h		;40bd
 	rst 8			;40bf
 	xor a			;40c0
 	ld (0fbabh),a		;40c1
-	ld de,l1100h		;40c4
+	ld de,01100h		;40c4  YM reg 11h <- 00h
 	rst 8			;40c7
 	xor a			;40c8
 	ld (0fbbdh),a		;40c9
@@ -138,11 +138,11 @@ l40b9h:
 	ld e,h			;40da
 	inc d			;40db
 	rst 8			;40dc
-	ld de,l1c80h		;40dd
+	ld de,01c80h		;40dd  YM reg 1Ch <- 80h
 	rst 8			;40e0
-	ld de,l1c00h		;40e1
+	ld de,01c00h		;40e1  YM reg 1Ch <- 00h
 	rst 8			;40e4
-	ld de,l1001h		;40e5
+	ld de,01001h		;40e5  YM reg 10h <- 01h
 	rst 8			;40e8
 	ld e,080h		;40e9
 	ld a,(wPCMB_Shared_FBBA)		;40eb
@@ -154,7 +154,7 @@ l40f4h:
 	rst 8			;40f6
 	jp l410ah		;40f7
 l40fah:
-	ld de,l1b00h		;40fa
+	ld de,01b00h		;40fa  YM reg 1Bh <- 00h
 	ld c,004h		;40fd
 	rst 8			;40ff
 	xor a			;4100
@@ -397,24 +397,24 @@ l427fh:
 	ld (ix+011h),b		;4280
 	push ix		;4283
 	inc hl			;4285
-	ld de,l0023h		;4286
+	ld de,00023h		;4286  constant
 	add ix,de		;4289
 	call Seq_LoadOpPtrs_219B		;428b
 	push iy		;428e
 	ex de,hl			;4290
 	defb 0fdh,06bh	;ld iyl,e		;4291
 	defb 0fdh,062h	;ld iyh,d		;4293
-	ld de,l000eh		;4295
+	ld de,0000eh		;4295  constant
 	add ix,de		;4298
 	call Lfo_Load_22A8		;429a
-	ld de,l0006h		;429d
+	ld de,00006h		;429d  constant
 	add iy,de		;42a0
-	ld de,l000eh		;42a2
+	ld de,0000eh		;42a2  constant
 	add ix,de		;42a5
 	call Lfo_Load_22A8		;42a7
-	ld de,l0006h		;42aa
+	ld de,00006h		;42aa  constant
 	add iy,de		;42ad
-	ld de,l000eh		;42af
+	ld de,0000eh		;42af  constant
 	add ix,de		;42b2
 	call Pitch_Load_242E		;42b4
 	defb 0fdh,05dh	;ld e,iyl		;42b7
@@ -474,7 +474,7 @@ l42efh:
 l4319h:
 	ld a,(0fba3h)		;4319
 	ld hl,(0fbadh)		;431c
-	ld de,l0006h		;431f
+	ld de,00006h		;431f  constant
 l4322h:
 	cp (hl)			;4322
 	jr z,l432bh		;4323
@@ -525,7 +525,7 @@ l432bh:
 	ld hl,0fbdah		;4373
 	call Env_Init_22F4		;4376
 	push ix		;4379
-	ld de,l004dh		;437b
+	ld de,0004dh		;437b  constant
 	add ix,de		;437e
 	ld c,(iy+00eh)		;4380
 	call Pitch_Update_2461		;4383
@@ -542,7 +542,7 @@ sub_4389h:
 	jp z,l4424h		;4399
 	cp 003h		;439c
 	jp z,l43a9h		;439e
-	ld hl,Reset_0000		;43a1
+	ld hl,00000h		;43a1  constant
 	push hl			;43a4
 	pop ix		;43a5
 	and a			;43a7
@@ -785,7 +785,6 @@ l4574h:
 	ld hl,(wPCMA_Ch4_FB20)		;4579
 	and a			;457c
 	sbc hl,de		;457d
-l457fh:
 	exx			;457f
 	jr nz,l459ah		;4580
 	ld a,(wNoteTmp_FBF5)		;4582
@@ -1294,7 +1293,6 @@ l495eh:
 	and a			;4978
 	jp z,l4984h		;4979
 	ld hl,wFM_Ch4_FA3C		;497c
-l497fh:
 	ld d,003h		;497f
 	jp l49cah		;4981
 l4984h:

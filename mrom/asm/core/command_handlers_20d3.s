@@ -9,7 +9,7 @@ Cmd_PlayMusic_20D4:
 	call Seq_SetVolumeLevel_4F88		;20d7
 	xor a			;20da
 	ld (wMusicId_F818),a		;20db
-	ld hl,l0084h		;20de
+	ld hl,BankPtrTable_0080+4		;20de
 	call Bank_ResolvePtr24_1FA6		;20e1
 	ex de,hl			;20e4
 	ld a,(wSoundId_F815)		;20e5
@@ -56,7 +56,7 @@ l2126h:
 	add a,a			;212d
 	ld e,a			;212e
 	ld d,000h		;212f
-	ld hl,l0088h		;2131
+	ld hl,BankPtrTable_0080+8		;2131
 	add hl,de			;2134
 	add hl,de			;2135
 	call Bank_ResolvePtr24_1FA6		;2136

@@ -4,17 +4,13 @@
 
 BankPtrTable_0080:
 	defw 057a1h		;0080
-l0082h:
 	defw 00000h		;0082
-l0084h:
 	defw 0815fh		;0084
 	defw 00000h		;0086
-l0088h:
 	defw 08472h		;0088
 	defw 00000h		;008a
 	defw 087f2h		;008c
 	defw 00000h		;008e
-l0090h:
 	defw 08472h		;0090
 	defw 00000h		;0092
 	defw 08472h		;0094
@@ -23,7 +19,6 @@ l0090h:
 	defw 00000h		;009a
 	defw 08472h		;009c
 	defw 00000h		;009e
-l00a0h:
 	defw 08472h		;00a0
 	defw 00000h		;00a2
 	defw 08472h		;00a4
@@ -99,5 +94,4 @@ l00a0h:
 	defb 000h		;00fc
 	defb 000h		;00fd
 	defb 000h		;00fe
-l00ffh:
 	defb 000h		;00ff

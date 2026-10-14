@@ -15,21 +15,21 @@ FM_Init_2B43:
 	ld de,02806h		;2b55
 	rst 8			;2b58
 l2b59h:
-	ld de,l417fh		;2b59
+	ld de,0417fh		;2b59  YM reg 41h <- 7Fh
 	rst 8			;2b5c
-	ld de,l427fh		;2b5d
+	ld de,0427fh		;2b5d  YM reg 42h <- 7Fh
 	rst 8			;2b60
-	ld de,l457fh		;2b61
+	ld de,0457fh		;2b61  YM reg 45h <- 7Fh
 	rst 8			;2b64
-	ld de,l467fh		;2b65
+	ld de,0467fh		;2b65  YM reg 46h <- 7Fh
 	rst 8			;2b68
-	ld de,l497fh		;2b69
+	ld de,0497fh		;2b69  YM reg 49h <- 7Fh
 	rst 8			;2b6c
 	ld de,04a7fh		;2b6d
 	rst 8			;2b70
-	ld de,l4d7fh		;2b71
+	ld de,04d7fh		;2b71  YM reg 4Dh <- 7Fh
 	rst 8			;2b74
-	ld de,l4e7fh		;2b75
+	ld de,04e7fh		;2b75  YM reg 4Eh <- 7Fh
 	rst 8			;2b78
 	ld a,c			;2b79
 	cp 004h		;2b7a
@@ -69,17 +69,17 @@ sub_2bb7h:
 	ld (ix+038h),a		;2bd8
 	ld (ix+039h),a		;2bdb
 	push ix		;2bde
-	ld de,l004ch		;2be0
+	ld de,0004ch		;2be0  constant
 	add ix,de		;2be3
 	call Lfo_Clear_229D		;2be5
 	pop ix		;2be8
 	push ix		;2bea
-	ld de,l003eh		;2bec
+	ld de,0003eh		;2bec  constant
 	add ix,de		;2bef
 	call Lfo_Clear_229D		;2bf1
 	pop ix		;2bf4
 	push ix		;2bf6
-	ld de,l005ah		;2bf8
+	ld de,0005ah		;2bf8  constant
 	add ix,de		;2bfb
 	call Pitch_Clear_23EE		;2bfd
 	pop ix		;2c00
@@ -1543,18 +1543,18 @@ l3568h:
 	exx			;3568
 	push hl			;3569
 	ex (sp),iy		;356a
-	ld de,l0006h		;356c
+	ld de,00006h		;356c  constant
 	add hl,de			;356f
 	defb 0ddh,05dh	;ld e,ixl		;3570
 	defb 0ddh,054h	;ld d,ixh		;3572
 	ex de,hl			;3574
-	ld bc,l0014h		;3575
+	ld bc,00014h		;3575  constant
 	add hl,bc			;3578
 	ld b,004h		;3579
 l357bh:
 	push bc			;357b
 	ex de,hl			;357c
-	ld bc,l0007h		;357d
+	ld bc,00007h		;357d  constant
 	ldir		;3580
 	ex de,hl			;3582
 	ld (hl),07fh		;3583
@@ -1593,19 +1593,19 @@ l35cdh:
 	ld a,(iy+005h)		;35d1
 	ld (ix+011h),a		;35d4
 	push ix		;35d7
-	ld de,l0022h		;35d9
+	ld de,00022h		;35d9  constant
 	add iy,de		;35dc
-	ld de,l003eh		;35de
+	ld de,0003eh		;35de  constant
 	add ix,de		;35e1
 	call Lfo_Load_22A8		;35e3
-	ld de,l0006h		;35e6
+	ld de,00006h		;35e6  constant
 	add iy,de		;35e9
-	ld de,l000eh		;35eb
+	ld de,0000eh		;35eb  constant
 	add ix,de		;35ee
 	call Lfo_Load_22A8		;35f0
-	ld de,l0006h		;35f3
+	ld de,00006h		;35f3  constant
 	add iy,de		;35f6
-	ld de,l000eh		;35f8
+	ld de,0000eh		;35f8  constant
 	add ix,de		;35fb
 	call Pitch_Load_242E		;35fd
 	pop ix		;3600
@@ -1650,16 +1650,16 @@ l3626h:
 l364ch:
 	defb 0ddh,05dh	;ld e,ixl		;364c
 	defb 0ddh,054h	;ld d,ixh		;364e
-	ld hl,l003eh		;3650
+	ld hl,0003eh		;3650  constant
 	add hl,de			;3653
 	call Env_Init_22F4		;3654
 	defb 0ddh,05dh	;ld e,ixl		;3657
 	defb 0ddh,054h	;ld d,ixh		;3659
-	ld hl,l004ch		;365b
+	ld hl,0004ch		;365b  constant
 	add hl,de			;365e
 	call Env_Init_22F4		;365f
 	push ix		;3662
-	ld de,l005ah		;3664
+	ld de,0005ah		;3664  constant
 	add ix,de		;3667
 	ld c,(iy+00eh)		;3669
 	call Pitch_Update_2461		;366c
@@ -1669,9 +1669,9 @@ sub_3672h:
 	ld (ix+00ch),0ffh		;3672
 	ld (ix+00dh),0ffh		;3676
 	push ix		;367a
-	ld de,l0014h		;367c
+	ld de,00014h		;367c  constant
 	add ix,de		;367f
-	ld de,YM_Write_RST8_0008+1		;3681
+	ld de,00009h		;3681  constant
 	ld b,004h		;3684
 l3686h:
 	srl c		;3686
@@ -1697,9 +1697,9 @@ sub_36aah:
 	ld (ix+00ch),0ffh		;36aa
 	ld (ix+00dh),0ffh		;36ae
 	push ix		;36b2
-	ld de,l0014h		;36b4
+	ld de,00014h		;36b4  constant
 	add ix,de		;36b7
-	ld de,YM_Write_RST8_0008+1		;36b9
+	ld de,00009h		;36b9  constant
 	ld b,004h		;36bc
 l36beh:
 	srl c		;36be
@@ -1725,9 +1725,9 @@ sub_36e1h:
 	ld (ix+00ch),0ffh		;36e1
 	ld (ix+00dh),0ffh		;36e5
 	push ix		;36e9
-	ld de,l0014h		;36eb
+	ld de,00014h		;36eb  constant
 	add ix,de		;36ee
-	ld de,YM_Write_RST8_0008+1		;36f0
+	ld de,00009h		;36f0  constant
 	ld b,004h		;36f3
 l36f5h:
 	srl c		;36f5
@@ -1750,9 +1750,9 @@ sub_3711h:
 	ld (ix+00ch),0ffh		;3711
 	ld (ix+00dh),0ffh		;3715
 	push ix		;3719
-	ld de,l0014h		;371b
+	ld de,00014h		;371b  constant
 	add ix,de		;371e
-	ld de,YM_Write_RST8_0008+1		;3720
+	ld de,00009h		;3720  constant
 	ld b,004h		;3723
 l3725h:
 	srl c		;3725

@@ -3,16 +3,16 @@
 ; Assembled through mrom/asm/fixed_0000.s; must stay byte-identical.
 
 ADPCMA_Init_3740:
-	ld de,l0200h		;3740
+	ld de,00200h		;3740  YM reg 02h <- 00h
 	ld c,006h		;3743
 	rst 8			;3745
-	ld de,l00ffh		;3746
+	ld de,000ffh		;3746  YM reg 00h <- FFh
 	ld c,006h		;3749
 	rst 8			;374b
-	ld de,l1cffh		;374c
+	ld de,01cffh		;374c  YM reg 1Ch <- FFh
 	ld c,004h		;374f
 	rst 8			;3751
-	ld de,l013eh		;3752
+	ld de,0013eh		;3752  YM reg 01h <- 3Eh
 	ld c,006h		;3755
 	rst 8			;3757
 	ld ix,wPCMA_Ch1_FAA5		;3758
@@ -64,14 +64,14 @@ l37c9h:
 	ld a,001h		;37d0
 	ld (0fabfh),a		;37d2
 	push bc			;37d5
-	ld de,l0800h		;37d6
+	ld de,00800h		;37d6  YM reg 08h <- 00h
 	ld c,006h		;37d9
 	rst 8			;37db
 	xor a			;37dc
 	ld (0fab5h),a		;37dd
-	ld de,BankPtrTable_0080+1		;37e0
+	ld de,00081h		;37e0  YM reg 00h <- 81h
 	rst 8			;37e3
-	ld de,l1c01h		;37e4
+	ld de,01c01h		;37e4  YM reg 1Ch <- 01h
 	ld c,004h		;37e7
 	rst 8			;37e9
 	ld e,000h		;37ea
@@ -258,14 +258,14 @@ l390fh:
 	ld a,001h		;3916
 	ld (0fae8h),a		;3918
 	push bc			;391b
-	ld de,l0900h		;391c
+	ld de,00900h		;391c  YM reg 09h <- 00h
 	ld c,006h		;391f
 	rst 8			;3921
 	xor a			;3922
 	ld (0fadeh),a		;3923
-	ld de,l0082h		;3926
+	ld de,00082h		;3926  YM reg 00h <- 82h
 	rst 8			;3929
-	ld de,l1c02h		;392a
+	ld de,01c02h		;392a  YM reg 1Ch <- 02h
 	ld c,004h		;392d
 	rst 8			;392f
 	ld e,000h		;3930
@@ -452,14 +452,14 @@ l3a55h:
 	ld a,001h		;3a5c
 	ld (0fb11h),a		;3a5e
 	push bc			;3a61
-	ld de,l0a00h		;3a62
+	ld de,00a00h		;3a62  YM reg 0Ah <- 00h
 	ld c,006h		;3a65
 	rst 8			;3a67
 	xor a			;3a68
 	ld (0fb07h),a		;3a69
-	ld de,l0084h		;3a6c
+	ld de,00084h		;3a6c  YM reg 00h <- 84h
 	rst 8			;3a6f
-	ld de,l1c04h		;3a70
+	ld de,01c04h		;3a70  YM reg 1Ch <- 04h
 	ld c,004h		;3a73
 	rst 8			;3a75
 	ld e,000h		;3a76
@@ -646,14 +646,14 @@ l3b9bh:
 	ld a,001h		;3ba2
 	ld (0fb3ah),a		;3ba4
 	push bc			;3ba7
-	ld de,l0b00h		;3ba8
+	ld de,00b00h		;3ba8  YM reg 0Bh <- 00h
 	ld c,006h		;3bab
 	rst 8			;3bad
 	xor a			;3bae
 	ld (0fb30h),a		;3baf
-	ld de,l0088h		;3bb2
+	ld de,00088h		;3bb2  YM reg 00h <- 88h
 	rst 8			;3bb5
-	ld de,l1c08h		;3bb6
+	ld de,01c08h		;3bb6  YM reg 1Ch <- 08h
 	ld c,004h		;3bb9
 	rst 8			;3bbb
 	ld e,000h		;3bbc
@@ -840,14 +840,14 @@ l3ce1h:
 	ld a,001h		;3ce8
 	ld (0fb63h),a		;3cea
 	push bc			;3ced
-	ld de,l0c00h		;3cee
+	ld de,00c00h		;3cee  YM reg 0Ch <- 00h
 	ld c,006h		;3cf1
 	rst 8			;3cf3
 	xor a			;3cf4
 	ld (0fb59h),a		;3cf5
-	ld de,l0090h		;3cf8
+	ld de,00090h		;3cf8  YM reg 00h <- 90h
 	rst 8			;3cfb
-	ld de,l1c10h		;3cfc
+	ld de,01c10h		;3cfc  YM reg 1Ch <- 10h
 	ld c,004h		;3cff
 	rst 8			;3d01
 	ld e,000h		;3d02
@@ -1034,14 +1034,14 @@ l3e27h:
 	ld a,001h		;3e2e
 	ld (0fb8ch),a		;3e30
 	push bc			;3e33
-	ld de,l0d00h		;3e34
+	ld de,00d00h		;3e34  YM reg 0Dh <- 00h
 	ld c,006h		;3e37
 	rst 8			;3e39
 	xor a			;3e3a
 	ld (0fb82h),a		;3e3b
-	ld de,l00a0h		;3e3e
+	ld de,000a0h		;3e3e  YM reg 00h <- A0h
 	rst 8			;3e41
-	ld de,l1c20h		;3e42
+	ld de,01c20h		;3e42  YM reg 1Ch <- 20h
 	ld c,004h		;3e45
 	rst 8			;3e47
 	ld e,000h		;3e48
@@ -1210,13 +1210,13 @@ l3f41h:
 	exx			;3f41
 	ld (ix+011h),b		;3f42
 	push ix		;3f45
-	ld de,l0001h		;3f47
+	ld de,00001h		;3f47  constant
 	add hl,de			;3f4a
 	ld de,0001bh		;3f4b
 	add ix,de		;3f4e
 	call Seq_LoadOpPtrs_219B		;3f50
 	pop ix		;3f53
-	ld de,l0006h		;3f55
+	ld de,00006h		;3f55  constant
 	add hl,de			;3f58
 	ld (ix+012h),l		;3f59
 	ld (ix+013h),h		;3f5c
@@ -1267,7 +1267,7 @@ l3f84h:
 	push hl			;3fa4
 	defb 0ddh,05dh	;ld e,ixl		;3fa5
 	defb 0ddh,054h	;ld d,ixh		;3fa7
-	ld hl,l0014h+1		;3fa9
+	ld hl,00015h		;3fa9  constant
 	add hl,de			;3fac
 	ex de,hl			;3fad
 	pop hl			;3fae

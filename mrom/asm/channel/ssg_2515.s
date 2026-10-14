@@ -3,13 +3,13 @@
 ; Assembled through mrom/asm/fixed_0000.s; must stay byte-identical.
 
 SSG_Init_2515:
-	ld de,l0800h		;2515
+	ld de,00800h		;2515  YM reg 08h <- 00h
 	ld c,004h		;2518
 	rst 8			;251a
-	ld de,l0900h		;251b
+	ld de,00900h		;251b  YM reg 09h <- 00h
 	ld c,004h		;251e
 	rst 8			;2520
-	ld de,l0a00h		;2521
+	ld de,00a00h		;2521  YM reg 0Ah <- 00h
 	ld c,004h		;2524
 	rst 8			;2526
 	ld a,038h		;2527
@@ -28,29 +28,29 @@ SSG_Init_2515:
 	ld ix,wSSG_ChC_F8B7		;254b
 	ld (ix+014h),024h		;254f
 	call SSG_InitChannel_255D		;2553
-	ld hl,Reset_0000		;2556
+	ld hl,00000h		;2556  constant
 	ld (wSSG_Mixer_F903),hl		;2559
 	ret			;255c
 SSG_InitChannel_255D:
 	call Ch_InitStruct_1FE5		;255d
 	ld (ix+002h),000h		;2560
 	push ix		;2564
-	ld de,l0014h+1		;2566
+	ld de,00015h		;2566  constant
 	add ix,de		;2569
 	rst 30h			;256b
 	pop ix		;256c
 	push ix		;256e
-	ld de,l0031h		;2570
+	ld de,00031h		;2570  constant
 	add ix,de		;2573
 	call Lfo_Clear_229D		;2575
 	pop ix		;2578
 	push ix		;257a
-	ld de,l0023h		;257c
+	ld de,00023h		;257c  constant
 	add ix,de		;257f
 	call Lfo_Clear_229D		;2581
 	pop ix		;2584
 	push ix		;2586
-	ld de,l003fh		;2588
+	ld de,0003fh		;2588  constant
 	add ix,de		;258b
 	call Pitch_Clear_23EE		;258d
 	pop ix		;2590
@@ -301,7 +301,6 @@ l2723h:
 	res 4,(hl)		;2730
 l2732h:
 	ld hl,0f834h		;2732
-l2735h:
 	call Env_Release_2219		;2735
 SSG_UpdateChB_2738:
 	ld ix,wSSG_ChB_F86B		;2738
@@ -852,24 +851,24 @@ l2aa8h:
 	exx			;2ac8
 	push ix		;2ac9
 	inc hl			;2acb
-	ld de,l0014h+1		;2acc
+	ld de,00015h		;2acc  constant
 	add ix,de		;2acf
 	call Seq_LoadOpPtrs_219B		;2ad1
 	push iy		;2ad4
 	ex de,hl			;2ad6
 	defb 0fdh,06bh	;ld iyl,e		;2ad7
 	defb 0fdh,062h	;ld iyh,d		;2ad9
-	ld de,l000eh		;2adb
+	ld de,0000eh		;2adb  constant
 	add ix,de		;2ade
 	call Lfo_Load_22A8		;2ae0
-	ld de,l0006h		;2ae3
+	ld de,00006h		;2ae3  constant
 	add iy,de		;2ae6
-	ld de,l000eh		;2ae8
+	ld de,0000eh		;2ae8  constant
 	add ix,de		;2aeb
 	call Lfo_Load_22A8		;2aed
-	ld de,l0006h		;2af0
+	ld de,00006h		;2af0  constant
 	add iy,de		;2af3
-	ld de,l000eh		;2af5
+	ld de,0000eh		;2af5  constant
 	add ix,de		;2af8
 	call Pitch_Load_242E		;2afa
 	pop iy		;2afd
@@ -887,21 +886,21 @@ l2b02h:
 l2b12h:
 	defb 0ddh,05dh	;ld e,ixl		;2b12
 	defb 0ddh,054h	;ld d,ixh		;2b14
-	ld hl,l0014h+1		;2b16
+	ld hl,00015h		;2b16  constant
 	add hl,de			;2b19
 	call Env_Start_2208		;2b1a
 	defb 0ddh,05dh	;ld e,ixl		;2b1d
 	defb 0ddh,054h	;ld d,ixh		;2b1f
-	ld hl,l0023h		;2b21
+	ld hl,00023h		;2b21  constant
 	add hl,de			;2b24
 	call Env_Init_22F4		;2b25
 	defb 0ddh,05dh	;ld e,ixl		;2b28
 	defb 0ddh,054h	;ld d,ixh		;2b2a
-	ld hl,l0031h		;2b2c
+	ld hl,00031h		;2b2c  constant
 	add hl,de			;2b2f
 	call Env_Init_22F4		;2b30
 	push ix		;2b33
-	ld de,l003fh		;2b35
+	ld de,0003fh		;2b35  constant
 	add ix,de		;2b38
 	ld c,(iy+00eh)		;2b3a
 	call Pitch_Update_2461		;2b3d

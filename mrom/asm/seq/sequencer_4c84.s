@@ -3,11 +3,11 @@
 ; Assembled through mrom/asm/fixed_0000.s; must stay byte-identical.
 
 Seq_Init_4C84:
-	ld hl,Reset_0000		;4c84
+	ld hl,00000h		;4c84  constant
 	ld (0fdf0h),hl		;4c87
 	ld iy,wMusicTracks_FBFC		;4c8a
 	ld b,00eh		;4c8e
-	ld de,l0023h		;4c90
+	ld de,00023h		;4c90  constant
 	xor a			;4c93
 l4c94h:
 	ld (iy+009h),a		;4c94
@@ -84,7 +84,7 @@ l4d65h:
 	jr z,l4d70h		;4d67
 	sbc hl,bc		;4d69
 	jr nc,l4d70h		;4d6b
-	ld hl,Reset_0000		;4d6d
+	ld hl,00000h		;4d6d  constant
 l4d70h:
 	ld (wSfxFlag_F804),hl		;4d70
 	xor a			;4d73
@@ -93,7 +93,6 @@ l4d70h:
 	push af			;4d7a
 	ld hl,0fde7h		;4d7b
 	ld a,(hl)			;4d7e
-l4d7fh:
 	inc hl			;4d7f
 	sub (hl)			;4d80
 	jp nz,l4d87h		;4d81
@@ -269,7 +268,6 @@ l4e46h:
 	call nz,Seq_TrackStep_532B		;4e75
 	ld iy,0fc42h		;4e78
 	ld hl,0fc4bh		;4e7c
-l4e7fh:
 	ld a,(hl)			;4e7f
 	and 0f7h		;4e80
 	ld (hl),a			;4e82
@@ -463,7 +461,7 @@ l4fe5h:
 	set 1,(iy+009h)		;4ff6
 	ld a,(ix+004h)		;4ffa
 	ld (iy+002h),a		;4ffd
-	ld de,l0023h		;5000
+	ld de,00023h		;5000  constant
 	add iy,de		;5003
 	ld de,00005h		;5005
 	add ix,de		;5008
@@ -478,7 +476,7 @@ l5013h:
 	ld (iy+009h),008h		;5013
 	ld (iy+000h),a		;5017
 	ld (iy+001h),a		;501a
-	ld de,l0023h		;501d
+	ld de,00023h		;501d  constant
 	add iy,de		;5020
 	djnz l5013h		;5022
 l5024h:
@@ -486,7 +484,7 @@ l5024h:
 Seq_InitTracks_5025:
 	ld iy,wSfxTracks_FDF2		;5025
 	ld b,008h		;5029
-	ld de,l0023h		;502b
+	ld de,00023h		;502b  constant
 	xor a			;502e
 l502fh:
 	ld (iy+009h),a		;502f
@@ -503,7 +501,7 @@ l502fh:
 Seq_StopAllTracks_504E:
 	ld iy,wSfxTracks_FDF2		;504e
 	ld b,008h		;5052
-	ld de,l0023h		;5054
+	ld de,00023h		;5054  constant
 	ld c,008h		;5057
 l5059h:
 	ld a,(iy+00bh)		;5059
@@ -535,7 +533,7 @@ Seq_StartSfx_507B:
 	ld b,(ix+007h)		;5099
 	call Seq_StopTrackById_5210		;509c
 	ld d,(ix+008h)		;509f
-	ld bc,YM_Write_RST8_0008+1		;50a2
+	ld bc,00009h		;50a2  constant
 	add ix,bc		;50a5
 l50a7h:
 	ld l,(ix+000h)		;50a7
@@ -621,7 +619,7 @@ l5133h:
 	jp l5141h		;513e
 l5141h:
 	exx			;5141
-	ld de,l0023h		;5142
+	ld de,00023h		;5142  constant
 	add iy,de		;5145
 	exx			;5147
 	djnz l50e4h		;5148
@@ -742,7 +740,7 @@ l521bh:
 	ld (ix+001h),000h		;523e
 	ld (ix+002h),0ffh		;5242
 l5246h:
-	ld de,l0023h		;5246
+	ld de,00023h		;5246  constant
 	add ix,de		;5249
 	dec a			;524b
 	jr nz,l521bh		;524c

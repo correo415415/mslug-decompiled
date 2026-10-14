@@ -51,12 +51,12 @@ Main_WaitTick_1E5B:
 	ld (hl),a			;1e67
 	jp Main_Loop_1E3F		;1e68
 YM_InitTimers_1E6B:
-	ld de,l24ach		;1e6b
+	ld de,024ach		;1e6b  YM reg 24h <- ACh
 	ld c,004h		;1e6e
 	rst 8			;1e70
-	ld de,l2503h		;1e71
+	ld de,02503h		;1e71  YM reg 25h <- 03h
 	rst 8			;1e74
-	ld de,l2735h		;1e75
+	ld de,02735h		;1e75  YM reg 27h <- 35h
 	rst 8			;1e78
 	ret			;1e79
 IRQ_Timer_1E7A:
@@ -69,7 +69,7 @@ IRQ_Timer_1E7A:
 	ld bc,(wYmPortLatch_F80B)		;1e82
 	push bc			;1e86
 	ld c,004h		;1e87
-	ld de,l2735h		;1e89
+	ld de,02735h		;1e89  YM reg 27h <- 35h
 	rst 8			;1e8c
 	ld hl,wTickPending_F801		;1e8d
 	ld a,(hl)			;1e90
@@ -156,11 +156,11 @@ NMI_Command_1ED6:
 NMI_SoftReset_1F0A:
 	di			;1f0a
 	ld c,004h		;1f0b
-	ld de,l07ffh		;1f0d
+	ld de,007ffh		;1f0d  YM reg 07h <- FFh
 	rst 8			;1f10
-	ld de,l1100h		;1f11
+	ld de,01100h		;1f11  YM reg 11h <- 00h
 	rst 8			;1f14
-	ld de,l1001h		;1f15
+	ld de,01001h		;1f15  YM reg 10h <- 01h
 	rst 8			;1f18
 	ld de,0b500h		;1f19
 	rst 8			;1f1c
@@ -171,9 +171,9 @@ NMI_SoftReset_1F0A:
 	rst 8			;1f21
 	dec d			;1f22
 	rst 8			;1f23
-	ld de,l00ffh		;1f24
+	ld de,000ffh		;1f24  YM reg 00h <- FFh
 	rst 8			;1f27
-	ld de,l0800h		;1f28
+	ld de,00800h		;1f28  YM reg 08h <- 00h
 	rst 8			;1f2b
 	inc d			;1f2c
 	rst 8			;1f2d
@@ -201,7 +201,7 @@ NMI_HardReset_1F4B:
 	push hl			;1f51
 	retn		;1f52
 Util_TableLookup_1F54:
-	ld hl,Reset_0000		;1f54
+	ld hl,00000h		;1f54  constant
 	ld a,c			;1f57
 	and a			;1f58
 	ret z			;1f59

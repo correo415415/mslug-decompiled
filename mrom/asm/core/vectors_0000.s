@@ -4,39 +4,30 @@
 
 Reset_0000:
 	di			;0000
-l0001h:
 	out (018h),a		;0001
 	jp Main_Init_1E00		;0003
-l0006h:
 	defb 000h		;0006
-l0007h:
 	defb 000h		;0007
 YM_Write_RST8_0008:
 	in a,(004h)		;0008
-l000ah:
 	and a			;000a
 	jp m,YM_Write_RST8_0008		;000b
-l000eh:
 	ld a,e			;000e
 	ld e,c			;000f
 	ld (wYmPortLatch_F80B),de		;0010
-l0014h:
 	out (c),d		;0014
 	nop			;0016
 	nop			;0017
 	ld e,a			;0018
 	inc c			;0019
 	out (c),e		;001a
-l001ch:
 	dec c			;001c
 	ret			;001d
 	defb 000h		;001e
 	defb 000h		;001f
 	defb 000h		;0020
 	defb 000h		;0021
-l0022h:
 	defb 000h		;0022
-l0023h:
 	defb 000h		;0023
 	defb 000h		;0024
 	defb 000h		;0025
@@ -52,7 +43,6 @@ l0023h:
 	defb 000h		;002f
 Ch_ClearActive_RST30_0030:
 	xor a			;0030
-l0031h:
 	ld (ix+000h),a		;0031
 	ld (ix+00dh),a		;0034
 	ret			;0037
@@ -61,11 +51,8 @@ IRQ_Vector_0038:
 	defb 000h		;003b
 	defb 000h		;003c
 	defb 000h		;003d
-l003eh:
 	defb 000h		;003e
-l003fh:
 	defb 000h		;003f
-l0040h:
 	defb 000h		;0040
 	defb 000h		;0041
 	defb 000h		;0042
@@ -78,9 +65,7 @@ l0040h:
 	defb 000h		;0049
 	defb 000h		;004a
 	defb 000h		;004b
-l004ch:
 	defb 000h		;004c
-l004dh:
 	defb 000h		;004d
 	defb 000h		;004e
 	defb 000h		;004f
@@ -94,7 +79,6 @@ l004dh:
 	defb 000h		;0057
 	defb 000h		;0058
 	defb 000h		;0059
-l005ah:
 	defb 000h		;005a
 	defb 000h		;005b
 	defb 000h		;005c

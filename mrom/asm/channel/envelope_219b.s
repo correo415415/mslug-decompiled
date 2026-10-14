@@ -78,10 +78,10 @@ l21ffh:
 	ret			;2207
 Env_Start_2208:
 	ld (hl),001h		;2208
-	ld de,l0001h+1		;220a
+	ld de,00002h		;220a  constant
 	add hl,de			;220d
 	ex de,hl			;220e
-	ld hl,YM_Write_RST8_0008		;220f
+	ld hl,00008h		;220f  constant
 	add hl,de			;2212
 	ex de,hl			;2213
 	ldi		;2214
@@ -93,10 +93,10 @@ Env_Release_2219:
 	and a			;221a
 	ret z			;221b
 	ld (hl),004h		;221c
-	ld de,YM_Write_RST8_0008		;221e
+	ld de,00008h		;221e  constant
 	add hl,de			;2221
 	ex de,hl			;2222
-	ld hl,l0001h+1		;2223
+	ld hl,00002h		;2223  constant
 	add hl,de			;2226
 	ex de,hl			;2227
 	ldi		;2228
@@ -108,7 +108,7 @@ Env_Step_222D:
 	and a			;222e
 	ret z			;222f
 	ex de,hl			;2230
-	ld hl,l000ah		;2231
+	ld hl,0000ah		;2231  constant
 	add hl,de			;2234
 	ld c,(hl)			;2235
 	inc hl			;2236
@@ -194,7 +194,7 @@ l228eh:
 	ex af,af'			;228e
 	ex de,hl			;228f
 	inc (hl)			;2290
-	ld bc,l0007h		;2291
+	ld bc,00007h		;2291  constant
 	add hl,bc			;2294
 	dec de			;2295
 	dec de			;2296
@@ -252,7 +252,7 @@ Env_Init_22F4:
 	add hl,de			;22f7
 	ld e,l			;22f8
 	ld d,h			;22f9
-	ld bc,YM_Write_RST8_0008+1		;22fa
+	ld bc,00009h		;22fa  constant
 	add hl,bc			;22fd
 	ldi		;22fe
 Rng_Next_2300:
@@ -567,7 +567,6 @@ l24a8h:
 	inc hl			;24a9
 	ld a,(hl)			;24aa
 	sub b			;24ab
-l24ach:
 	ld (hl),a			;24ac
 	inc hl			;24ad
 	ld e,(hl)			;24ae
@@ -578,7 +577,7 @@ l24ach:
 	sbc hl,bc		;24b4
 	ex de,hl			;24b6
 	jr nc,l24bch		;24b7
-	ld de,Reset_0000		;24b9
+	ld de,00000h		;24b9  constant
 l24bch:
 	ld (hl),d			;24bc
 	dec hl			;24bd
@@ -604,7 +603,7 @@ l24cfh:
 l24d2h:
 	add a,a			;24d2
 	jr nc,l24dch		;24d3
-	ld hl,Reset_0000		;24d5
+	ld hl,00000h		;24d5  constant
 	and a			;24d8
 	sbc hl,de		;24d9
 	ret			;24db
@@ -650,7 +649,6 @@ CmdStruct_24F7:
 	defb 062h		;2500
 	defb 0d2h		;2501
 	defb 001h		;2502
-l2503h:
 	defb 000h		;2503
 	defb 000h		;2504
 	defb 000h		;2505

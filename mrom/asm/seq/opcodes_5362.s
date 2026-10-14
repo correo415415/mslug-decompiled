@@ -147,7 +147,7 @@ SeqOp_D7_PitchDown_5470:
 	ld b,000h		;547b
 	ld l,(iy+010h)		;547d
 	ld h,(iy+011h)		;5480
-	ld de,l1000h		;5483
+	ld de,01000h		;5483  constant
 	and a			;5486
 	sbc hl,de		;5487
 	add hl,bc			;5489
@@ -169,12 +169,12 @@ SeqOp_D8_PitchUp_5499:
 	ld b,000h		;54a4
 	ld l,(iy+010h)		;54a6
 	ld h,(iy+011h)		;54a9
-	ld de,l1000h		;54ac
+	ld de,01000h		;54ac  constant
 	add hl,de			;54af
 	and a			;54b0
 	sbc hl,bc		;54b1
 	jp nc,l54b9h		;54b3
-	ld hl,Reset_0000		;54b6
+	ld hl,00000h		;54b6  constant
 l54b9h:
 	and a			;54b9
 	sbc hl,de		;54ba
@@ -312,7 +312,7 @@ l55a9h:
 	add a,002h		;55aa
 	ld (iy+022h),a		;55ac
 	ld d,000h		;55af
-	ld hl,l001ch		;55b1
+	ld hl,0001ch		;55b1  constant
 	add hl,de			;55b4
 	defb 0fdh,05dh	;ld e,iyl		;55b5
 	defb 0fdh,054h	;ld d,iyh		;55b7
@@ -335,7 +335,7 @@ SeqOp_CF_LoopStart_55D4:
 	ld (iy+022h),a		;55e1
 	ld l,a			;55e4
 	ld h,000h		;55e5
-	ld bc,l001ch		;55e7
+	ld bc,0001ch		;55e7  constant
 	add hl,bc			;55ea
 	defb 0fdh,04dh	;ld c,iyl		;55eb
 	defb 0fdh,044h	;ld b,iyh		;55ed
@@ -352,7 +352,7 @@ SeqOp_D0_LoopEnd_5605:
 	jp nc,Seq_TrackStop_578D		;560a
 	ld l,a			;560d
 	ld h,000h		;560e
-	ld bc,l001ch		;5610
+	ld bc,0001ch		;5610  constant
 	add hl,bc			;5613
 	defb 0fdh,04dh	;ld c,iyl		;5614
 	defb 0fdh,044h	;ld b,iyh		;5616
@@ -414,7 +414,7 @@ SeqOp_C4_CallSub_565D:
 	ld (iy+022h),a		;5675
 	ld l,a			;5678
 	ld h,000h		;5679
-	ld bc,l001ch		;567b
+	ld bc,0001ch		;567b  constant
 	add hl,bc			;567e
 	defb 0fdh,04dh	;ld c,iyl		;567f
 	defb 0fdh,044h	;ld b,iyh		;5681
