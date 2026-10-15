@@ -131,3 +131,40 @@ exactamente como en la placa** (FM + SSG + ADPCM, con los parches,
 envolventes, tempo y bucles del driver) usa
 `python3 mrom/tools/export_wav.py [--sfx]`, que ejecuta el driver original
 sobre un YM2610 emulado (ver `mrom/docs/FORMATS.md` §8).
+
+## Censo de los módulos de datos (`data_census.py`)
+
+`python3 assets/tools/data_census.py [--json F]` clasifica cada byte de los 14
+módulos `asm/data/*.s` según el decodificador que lo reconoce: paletas,
+frames de sprite, bytecode de animación, mapas de celdas de fondo, mapas de
+colisión ($200000+, 4 B por celda), rachas de ceros y "otro". Sirve de
+evidencia para redactar las cabeceras A–F de esos módulos. Resultado actual:
+
+```
+módulo                             región               bytes   palette     frame      anim   tilemap collision      zero     other
+-----------------------------------------------------------------------------------------------------------------------------------
+data/sprite_tables_002f30.s        $002F30-$0133B0    66688      0.0%      0.0%      0.0%      0.0%      0.0%      0.1%     99.9%
+data/sparse_tables_013d6a.s        $013D6A-$024E10    69798     93.9%      0.0%      0.0%      0.0%      0.0%      6.1%      0.0%
+data/scene_scripts_0916c8.s        $0916C8-$0967B4    20716      0.0%      0.0%      0.0%      0.0%      0.0%      0.0%    100.0%
+data/anim_pal_spawn_09c608.s       $09C608-$0E8000   309752      0.0%      0.0%      0.0%     58.1%      0.0%     10.2%     31.6%
+data/template_index_0e8000.s       $0E8000-$0E8524     1316      0.0%      0.0%      0.0%      0.0%      0.0%      0.0%    100.0%
+data/mission_streams_0e8524.s      $0E8524-$0F2FFC    43736      0.0%      0.0%      0.0%      0.0%      0.0%      0.0%    100.0%
+data/level_a_0f2ffc.s              $0F2FFC-$118028   151596      0.0%      0.0%      0.0%      0.0%     61.5%     38.0%      0.5%
+data/level_b_118028.s              $118028-$140000   163800      0.0%     62.8%      0.0%      0.0%     19.4%      1.8%     15.9%
+data/level_c_140000.s              $140000-$16B035   176181      0.0%     83.2%      0.0%      0.0%      0.0%      0.0%     16.8%
+data/level_d_16b035.s              $16B035-$18D152   139549      0.0%     13.4%     26.8%      0.0%      0.0%      7.6%     52.3%
+data/anim_a_18db78.s               $18DB78-$1B0000   140424      0.0%      0.0%     74.7%      0.0%      0.0%      0.2%     25.1%
+data/anim_b_1b0000.s               $1B0000-$1D0000   131072      0.0%      0.0%     47.8%      0.0%      0.0%      1.1%     51.1%
+data/anim_c_1d0000.s               $1D0000-$1F8000   163840      0.0%      0.0%     53.5%      0.0%      0.0%      0.3%     46.2%
+data/rom_tail_fill_1f8000.s        $1F8000-$200000    32768      0.0%      0.0%      3.4%      0.0%      0.0%     93.1%      3.5%
+TOTAL                                                 1611236      4.1%     16.6%     18.2%     11.2%      7.8%      8.7%     33.4%
+```
+
+Observaciones:
+* `sprite_tables_002f30` ($2F30–$133B0) son casi enteras listas de celdas del
+  fix/sprite en formato `pal<<12 | tile` (p. ej. `Data_002f30` = pares
+  `$0n00/$1n00`, cargada por el boot script en $000400). Todavía no hay
+  decodificador para ellas.
+* `level_a_0f2ffc` es en un 61 % colisión y en un 38 % ceros. Los cuatro
+  `anim_*`/`level_d` son sobre todo bytecode de animación. `level_b`/`level_c`
+  son sobre todo frames.

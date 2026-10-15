@@ -6,7 +6,9 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 ## P-ROM (68000) — 100 % matching
 
 - [ ] Cabeceras A–F / nombres semánticos para los 13 módulos de datos
-      (`asm/data/*`), igual que el resto de módulos.
+      (`asm/data/*`), igual que el resto de módulos. Hecho: el censo por tipo
+      (`assets/tools/data_census.py`, ver assets/README.md). Falta: redactar
+      las cabeceras y renombrar `Data_*`/`Str_*` según el censo.
 - [ ] Revisar que el matcher completo (`tools/match_batch.py`) siga en
       17608/17608 tras cada reorganización.
 

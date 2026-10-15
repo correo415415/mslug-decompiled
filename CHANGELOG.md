@@ -10,6 +10,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Data-module census** (`assets/tools/data_census.py`): per-byte
+  classification of the 14 `asm/data/*` modules (palettes, frames, anim
+  bytecode, tilemaps, collision maps, zero fill, other).
 - **Composed background planes**: `levels.py` stitches every layer of a camera
   at its world anchor (`build/assets/levels/composed/`, 38 full-mission planes).
 - **Background palettes complete**: `levels.py` falls back to the boot slot
