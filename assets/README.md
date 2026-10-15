@@ -84,8 +84,10 @@ parallax). El script de cada escena (`SceneDescTable_0916C8`, VM
 * `colisión` apunta al mapa de colisión de la capa (o 0) y el ancla es su
   posición en el mundo.
 
-Las celdas con un slot que la escena no define salen en grises (se listan en
-`missing_palette_slots`; sólo quedan 4 capas con el slot 0, que fija otro código).
+Los slots que la escena no define se toman de otras escenas y, en último
+término, de `ScriptSlotPairTable_0009B4` (slots globales $00–$0F que fija el
+arranque/attract; p. ej. slot 0 → banco $193). Si aun así falta alguno, la
+celda sale en grises y se lista en `missing_palette_slots` (hoy: ninguna capa).
 
 ## Sonido (`audio.py`)
 

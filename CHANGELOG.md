@@ -10,6 +10,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Background palettes complete**: `levels.py` falls back to the boot slot
+  table `ScriptSlotPairTable_0009B4` (global slots $00–$0F), so all 52
+  background layers now render in colour.
 - **M-ROM channel structs documented** (FORMATS.md §10): common header,
   shared ADSR / LFO / pitch / vibrato sub-structs and the SSG / FM /
   ADPCM-A / ADPCM-B layouts with their RAM bases.

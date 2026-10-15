@@ -16,6 +16,9 @@ op $00 bind_path (22 B):
   * La paleta es un slot de la tabla dinámica: el op $0A de la misma escena
     da pares {slot, banco} cargados con PalSlot_LoadListHi_002b58 desde el
     banco $1CE00 (64 B por paleta).
+  * Los slots que la escena no define (p. ej. el 0) los fija el arranque/attract
+    con ScriptSlotPairTable_0009B4 (también vía PalSlot_LoadListHi_002b58):
+    se usan como último recurso (BOOT_SLOTS).
   * `cont` es el mapa de colisión (o 0); ancla = posición en el mundo.
 
     python3 assets/tools/levels.py          # -> build/assets/levels/
@@ -45,6 +48,20 @@ def load_ssd():
     return m
 
 
+BOOT_SLOT_TABLE = 0x0009B4   # ScriptSlotPairTable_0009B4
+
+
+def boot_slots(m):
+    """Pares {id, banco} de ScriptSlotPairTable_0009B4 (hasta banco $FFFF / id $FFFF)."""
+    out, q = {}, BOOT_SLOT_TABLE
+    while m.W(q) != 0xFFFF and m.W(q + 2) != 0xFFFF:
+        sid = m.W(q) & 0xFF
+        if sid != 0xFF:
+            out[sid] = m.W(q + 2)
+        q += 4
+    return out
+
+
 def scene_layers(m, idx):
     """-> [layer dict] en el orden del script, con los slots de paleta vigentes."""
     start = m.L(m.TABLE + 8 * idx)
@@ -56,7 +73,7 @@ def scene_layers(m, idx):
         if op == 0x0A:
             q = a + 2
             while m.W(q) != 0xFFFF:
-                slots[m.W(q)] = m.W(q + 2)
+                slots[m.W(q) & 0xFF] = m.W(q + 2)
                 q += 4
         elif op == 0x00:
             ent = m.L(a + 2)
@@ -109,6 +126,8 @@ def main():
         for L in ls:
             for k, v in L["slots"].items():
                 all_slots.setdefault(k, v)
+    for k, v in boot_slots(m).items():
+        all_slots.setdefault(k, v)
     done, index, n = {}, {}, 0
     for i, layers in scenes.items():
         sname = "%02d_%s" % (i, SCENE_NAMES.get(i, "Scene%d" % i))

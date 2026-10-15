@@ -270,7 +270,7 @@ Los antiguos volcados z80dasm de los bancos se han eliminado. Formatos:
 
 Scripts para S-ROM (tiles 8×8 fix → PNG), C-ROM (desentrelazar c1/c2, c3/c4,
 tiles 4 bpp 16×16, paletas del P-ROM → PNG y sprites reconstruidos desde las
-tablas del P-ROM — **hecho**: `gfx.py` + `sprites.py`, ver `assets/README.md`), V-ROM (cortar muestras ADPCM-A/B usando los parches del
+tablas del P-ROM — **hecho**: `gfx.py` + `sprites.py`; fondos con `levels.py`, 52 capas a color; ver `assets/README.md`), V-ROM (cortar muestras ADPCM-A/B usando los parches del
 M-ROM → WAV), con **nombres significativos** tomados de los símbolos ya
 establecidos, índice CSV/Markdown y herramienta inversa (PNG/WAV → ROM
 byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
@@ -281,7 +281,7 @@ byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
 
 1. Trabajar en `genspark_ai_developer`. **Commit + push tras cada paso pequeño**
    (el entorno de desarrollo se reinicia a menudo y se pierde lo no subido).
-   Mantener el PR #21 actualizado (`gh pr edit 21 --body-file …`; hace falta un
+   Mantener el PR abierto (hoy #22) actualizado (`gh pr edit 22 --body-file …`; hace falta un
    token de GitHub con permiso de workflows si se toca `.github/`).
 2. Antes de cada commit que toque fuentes: `registry_lint`, `check_section_sizes`,
    `build_rom.py` y/o `build_mrom.py` deben dar OK/IDÉNTICA.

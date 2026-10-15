@@ -50,7 +50,8 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       a mano → `assets/map/anim_palettes.txt`); nombres por personaje/arma.
 - [x] Fondos de las misiones → PNG (`assets/tools/levels.py`, 52 capas de 13
       escenas desde los `bind_path` de los scripts de escena).
-- [ ] Fondos: slot de paleta 0 de 4 capas; composición con parallax/anclas.
+- [x] Fondos: slot de paleta 0 (ScriptSlotPairTable_0009B4) — 52/52 capas con color.
+- [ ] Fondos: composición con parallax/anclas.
 - [x] Codificador ADPCM-A/B para sustituir muestras desde WAV (`audio.py encode`).
 - [x] Exportar las pistas musicales a MIDI con sus nombres
       (`mrom/tools/export_midi.py`). La curva de `S_TEMPO` ya está modelada (set-tempo exactos).
