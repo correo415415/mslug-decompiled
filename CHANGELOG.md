@@ -15,6 +15,12 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Colour tables rebuilt from their formulas**: `asm/data/sprite_tables_002f30.s`
+  (66 688 B, 428 placeholder entries) is now 3 entries assembled with `.rept`:
+  `ColorRGB555ToNeoGeo_002f30`, `ColorRamp_RowPtr_012f30` (was the forward
+  defsym `Sub_00012F30`) and `ColorRamp_012fb0`. The 8 805 `.dc.l` that pointed
+  at the old false-positive labels are now plain numbers. New census kind
+  `lut`; "other" data drops from 33.4 % to 29.3 %.
 - **Table-A SFX names**: 68 of the 117 effects with a constant 68k user now
   carry `SfxA_NNN_<Name>` (weapon fire, explosions, hostages, Slug, pause /
   continue / game over...), propagated to `mrom/sound/` labels; M-ROM still

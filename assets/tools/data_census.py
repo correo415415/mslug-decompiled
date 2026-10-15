@@ -11,6 +11,7 @@ extractores (sprites.py, levels.py, scene_script_dump.py):
   anim        bytecode de animación (op 02 y demás ops recorridos)
   tilemap     mapas de celdas de fondo {tile.w, attr.w} de los bind_path
   collision   mapas de colisión de los bind_path (4 B por celda, w*h celdas)
+  lut         tablas generadas por fórmula (ColorRGB555ToNeoGeo, ColorRamp)
   zero        rachas de $00 >= 16 B
   other       resto (tablas de código, parámetros, strings, etc.)
 
@@ -28,7 +29,10 @@ import sprites as S          # noqa: E402
 import levels as LV          # noqa: E402
 import registry              # noqa: E402
 
-KINDS = ("palette", "frame", "anim", "tilemap", "collision", "zero", "other")
+KINDS = ("palette", "frame", "anim", "tilemap", "collision", "lut", "zero", "other")
+
+# tablas de color del motor de paletas (asm/data/sprite_tables_002f30.s)
+LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0))
 
 
 def modules():
@@ -48,6 +52,9 @@ def classify(p):
         for x in range(a, a + n):
             mark.setdefault(x, k)
 
+    # tablas por fórmula
+    for lo, hi in LUTS:
+        put(lo, hi - lo, "lut")
     # paletas
     put(S.PAL_LO, 1024 * 64, "palette")
     put(S.PAL_HI, 512 * 64, "palette")

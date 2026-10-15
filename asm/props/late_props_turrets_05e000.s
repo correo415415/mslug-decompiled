@@ -3761,7 +3761,7 @@ ItemProp_Idle_0606ee:
         .section .text.ItemProp_Wait_0606fe, "ax", @progbits
         .global ItemProp_Wait_0606fe
 ItemProp_Wait_0606fe:
-        dc.w    Data_00ffd0                    | +000
+        dc.w    0xffd0                    | +000
         ori.b   #0x0,0x60(a0,d0.w)              | +002
         .global ItemProp_Wait_0606fe__L060706
 ItemProp_Wait_0606fe__L060706:
