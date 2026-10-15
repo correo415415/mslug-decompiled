@@ -180,6 +180,34 @@ def compose_parallax(scene_entries, images):
     return canvas, (xs0, y0)
 
 
+def render_patches(p, tiles, pals, all_slots):
+    """Mapas fuente de los parches de tilemap (registros de Sprite_InvokeBlit8Params,
+    ver data_census.blit_patches): cada registro copia un rectángulo de un
+    descriptor {w, h, tiles} a la capa de la cámara `ent` (puertas, restos de
+    edificios destruidos, etc.). Se renderizan las columnas que algún registro
+    copia; las paletas salen de los slots conocidos de todas las escenas."""
+    import data_census as D
+    os.makedirs(os.path.join(OUT, "patches"), exist_ok=True)
+    by = {}
+    for rec, desc, w, h, t, ncol in D.blit_patches(p):
+        by.setdefault((desc, w, h, t, ncol), []).append(rec)
+    out = []
+    for (desc, w, h, t, ncol), recs in sorted(by.items()):
+        L = dict(w=ncol, h=h, tiles=t, slots={})
+        img, missing = render(p, tiles, pals, L, all_slots)
+        fname = "patches/patch_%06X.png" % desc
+        Image.fromarray(img, "RGBA").save(os.path.join(OUT, fname))
+        recs = sorted(recs)
+        out.append(dict(file=fname, desc="%06X" % desc, width=w, height=h, columns=ncol,
+                        tiles="%06X" % t,
+                        camera=CAMERAS.get(p.L(recs[0]), "%06X" % p.L(recs[0])),
+                        records=[dict(rec="%06X" % r, dst=(p.W(r + 8), p.W(r + 10)),
+                                      src=(p.W(r + 12), p.W(r + 14)),
+                                      size=(p.W(r + 16), p.W(r + 18))) for r in recs],
+                        missing_palette_slots=missing))
+    return out
+
+
 def main():
     m = load_ssd()
     p = S.PRom()
@@ -230,7 +258,8 @@ def main():
                 im.save(os.path.join(OUT, "composed", cname))
                 composed.setdefault(sname, []).append(dict(file="composed/" + cname, camera=cam,
                                                            origin=org, size=im.size))
-    json.dump(dict(layers=index, composed=composed),
+    patches = render_patches(p, tiles, pals, all_slots)
+    json.dump(dict(layers=index, composed=composed, patches=patches),
               open(os.path.join(OUT, "levels.json"), "w"), indent=1)
     with open(os.path.join(OUT, "index.html"), "w") as f:
         f.write("<!doctype html><meta charset=utf-8><title>Metal Slug - fondos</title>"
@@ -246,8 +275,14 @@ def main():
                 for e in es:
                     f.write("<p>%s · %s · %dx%d celdas · ancla %s</p><img src='%s' loading=lazy>\n"
                             % (e["file"], e["camera"], e["width"], e["height"], tuple(e["anchor"]), e["file"]))
-    print("[levels] %d escenas, %d capas únicas, %d planos compuestos -> %s"
-          % (sum(1 for v in index.values() if v), n, sum(len(v) for v in composed.values()), OUT))
+        if patches:
+            f.write("<h2>Parches (Sprite_InvokeBlit8Params)</h2>\n")
+            for e in patches:
+                f.write("<p>desc $%s · %dx%d celdas (%d copiadas) · %d registros</p><img src='%s' loading=lazy>\n"
+                        % (e["desc"], e["width"], e["height"], e["columns"], len(e["records"]), e["file"]))
+    print("[levels] %d escenas, %d capas únicas, %d planos compuestos, %d parches -> %s"
+          % (sum(1 for v in index.values() if v), n, sum(len(v) for v in composed.values()),
+             len(patches), OUT))
 
 
 if __name__ == "__main__":

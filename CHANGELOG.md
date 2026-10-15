@@ -15,6 +15,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Background patches rendered**: `levels.py` writes the 11 patch source maps
+  (`patches/patch_<desc>.png`: intact/destroyed façades, doors, rubble) and
+  lists every record (dst, src, size) under `patches` in `levels.json`.
 - **Tilemap patches in the census**: `data_census.py` now follows the 321
   `lea rec,a2; jsr Sprite_InvokeBlit8Params` records (`{ent, desc, 6 w}` →
   `CellCommit_MMIO_051DE2`) to their 11 layer descriptors `{w, h, tiles}`

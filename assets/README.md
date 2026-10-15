@@ -92,8 +92,17 @@ celda sale en grises y se lista en `missing_palette_slots` (hoy: ninguna capa).
 Además, `composed/<escena>_<cam>_full.png` pega todas las capas de una misma
 cámara en su ancla (coordenadas de mundo), lo que da la tira completa de cada
 plano de la misión (38 planos). Las cámaras no se mezclan: cada una tiene su
-propio scroll (parallax). `levels.json` = `{layers, composed}` (con el origen
-de mundo de cada plano compuesto).
+propio scroll (parallax). `levels.json` = `{layers, composed, patches}` (con el
+origen de mundo de cada plano compuesto).
+
+`patches/patch_<desc>.png` son los 11 mapas fuente de los **parches de
+tilemap**: 321 registros de 20 B `{ent.l, desc.l, col_dst, fila_dst,
+col_src, fila_src, ancho, alto}` que el código pasa con `lea rec,a2; jsr
+Sprite_InvokeBlit8Params` a `CellCommit_MMIO_051DE2`, que copia ese
+rectángulo del descriptor `{w, h, tiles}` a la VRAM de la cámara. Son los
+estados alternativos del fondo (fachadas y puertas intactas/destruidas,
+escombros). En `levels.json` (`patches`) va cada registro con su destino,
+origen y tamaño.
 
 `composed/<escena>_parallax.png` es el panorama de toda la escena con todas
 las cámaras. El juego coloca cada cámara en `scroll × escala / 256`; la
