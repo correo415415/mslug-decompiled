@@ -15,6 +15,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Code-installed sprite scripts**: `data_census.walk_struct` follows the 1 274
+  scripts that code installs via `lea X,a0 → EntitySetSpriteMap` or
+  `move.l #X,$3C(a6)`, accepting hidden-sprite `02` ops (frame `$FFFFFFFF`)
+  and the `1B/1C` indexed tables; patch descriptors extended to their valid
+  columns. "Other" data: 19.8 % → 18.2 %.
 - **Census kind `struct`**: bytes already decoded by a dedicated parser
   (mission streams, template index, scene tables/scripts/entities/triggers,
   blit-patch records and descriptors). "Other" data: 24.3 % → 19.8 %.

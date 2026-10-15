@@ -8,7 +8,9 @@ extractores (sprites.py, levels.py, scene_script_dump.py):
 
   palette     paletas de 64 B ($14E00 x1024, $1CE00 x512)
   frame       frames de sprite {npiezas, attr, piezas{dx,dy,w,h,tiles}}
-  anim        bytecode de animación (op 02 y demás ops recorridos)
+  anim        bytecode de animación (op 02 y demás ops recorridos; más los
+              scripts que el código instala con EntitySetSpriteMap, recorridos
+              con walk_struct: sprite oculto $FFFFFFFF y tablas de 1B/1C)
   tilemap     mapas de celdas de fondo {tile.w, attr.w} de los bind_path
   collision   mapas de colisión de los bind_path (4 B por celda, w*h celdas)
               (+ parches por Sprite_InvokeBlit8Params: `lea rec,a2; jsr $5022A`,
@@ -55,11 +57,19 @@ def modules():
     return sorted(m.items(), key=lambda t: t[1][0])
 
 
+def _cells_ok(p, a, h):
+    """Una columna de h celdas {tile.w, attr.w} plausible: byte bajo del attr
+    sólo con bits de tile_msb (b4) / flip (b0..b1) en >= 95 % de las celdas."""
+    return sum(1 for r in range(h) if p.B(a + 4 * r + 3) & 0xEC == 0) >= 0.95 * h
+
+
 def blit_patches(p, code_end=0x90000):
     """-> [(rec, desc, w, h, tiles, ncol)] de los registros de 20 B que
     Sprite_InvokeBlit8Params pasa a CellCommit_MMIO_051DE2 (a0 = ent, a1 =
     desc, d0..d5 = col_dest, fila_dest, col_origen, fila_origen, ancho, alto).
-    ncol = máxima columna de origen copiada (col_origen + ancho)."""
+    ncol = máxima columna de origen copiada (col_origen + ancho), ampliada
+    mientras las columnas siguientes del descriptor sigan siendo celdas
+    válidas (el w de algunos descriptores excede los datos reales)."""
     recs = set()
     for o in range(0, code_end, 2):
         if p.W(o) == 0x45F9 and p.W(o + 6) == 0x4EB9 and p.L(o + 8) == 0x5022A:
@@ -70,10 +80,101 @@ def blit_patches(p, code_end=0x90000):
     out = []
     for desc, rs in sorted(by_desc.items()):
         w, h, tiles = p.W(desc), p.W(desc + 2), p.L(desc + 4)
-        ncol = max(p.W(r + 12) + p.W(r + 16) for r in rs)
+        ncol = min(w, max(p.W(r + 12) + p.W(r + 16) for r in rs))
+        while ncol < w and _cells_ok(p, tiles + 4 * h * ncol, h):
+            ncol += 1                       # columnas no copiadas pero válidas
         for r in rs:
-            out.append((r, desc, w, h, tiles, min(ncol, w)))
+            out.append((r, desc, w, h, tiles, ncol))
     return out
+
+
+SET_SPRITE_MAP = 0x028CD4          # EntitySetSpriteMap: a0 -> +$3C/+$40 (script)
+_OPSZ = {**S.OP_SIZE, 0x00: 2, 0x01: 6, 0x03: 6, 0x16: 2, 0x17: 2, 0x18: 2}
+
+
+def code_script_seeds(p, code_end=0x90000):
+    """Scripts de sprite que el código instala directamente:
+    `lea X,a0` (abs.l o d16(pc)) seguido (<= 12 B) de jsr/bsr EntitySetSpriteMap,
+    o `move.l #X,$3C(a6)` (puntero de script de la tarea)."""
+    seeds = set()
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w == 0x41F9:
+            v, n = p.L(o + 2), 6
+        elif w == 0x41FA:
+            v, n = o + 2 + p.SW(o + 2), 4
+        elif w == 0x2D7C and p.W(o + 6) == 0x003C:
+            seeds.add(p.L(o + 2))
+            continue
+        else:
+            continue
+        for q in range(o + n, o + n + 12, 2):
+            x = p.W(q)
+            t = (p.L(q + 2) if x == 0x4EB9 else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x6100) else None)
+            if t is not None:
+                if t == SET_SPRITE_MAP:
+                    seeds.add(v)
+                break
+    return {v for v in seeds if v & 1 == 0 and p.valid(v, 2)}
+
+
+def walk_struct(p, a, seen, depth=0):
+    """Recorrido estructural del bytecode de sprite (Script_OpcodeTable, entity/
+    collmap_hitbox_script_ops_027400.s) -> [(addr, len)] o None si es inválido.
+    A diferencia de sprites.walk: acepta `02` con frame $FFFFFFFF (sprite
+    oculto: ScriptOp02 hace `movea.l #-1,a0`) y recorre las tablas de 1B/1C
+    (entradas de $12/$1C B tras el opcode, indexadas por una palabra de la
+    tarea) hasta la primera entrada inválida."""
+    out = []
+    for _ in range(4000):
+        if a in seen or a & 1 or not p.valid(a, 2):
+            break
+        op = p.B(a)
+        if op == 0x02:
+            fl, fr = p.B(a + 1), p.L(a + 2)
+            if fl & 0xE0 or not (fr == 0xFFFFFFFF or
+                                 (fr & 1 == 0 and p.valid(fr, 2) and S.parse_frame(p, fr))):
+                return None
+            n = 8 if fl & 8 else 12
+            seen.add(a)
+            out.append((a, n))
+            a += n
+            continue
+        if op in (0x1B, 0x1C):
+            st = 0x12 if op == 0x1B else 0x1C
+            seen.add(a)
+            out.append((a, 2))
+            for k in range(256):
+                e = a + 2 + st * k
+                if e in seen:
+                    continue
+                r = walk_struct(p, e, seen, depth + 1) if depth < 4 else None
+                if not r:
+                    break
+                out += r
+            break
+        if op in (0x1D, 0x1E):
+            seen.add(a)
+            out.append((a, 2))
+            break
+        if op not in _OPSZ or not p.valid(a, _OPSZ[op]):
+            return out or None
+        n = _OPSZ[op]
+        seen.add(a)
+        out.append((a, n))
+        if op == 0x01:
+            t = p.L(a + 2)
+            if t & 1 or not p.valid(t, 2):
+                return None
+            a = t
+            continue
+        if op == 0x03:
+            t = p.L(a + 2)
+            if t & 1 == 0 and p.valid(t, 2) and t not in seen:
+                out += walk_struct(p, t, seen, depth + 1) or []
+        a += n
+    return out or None
 
 
 def classify(p):
@@ -119,6 +220,11 @@ def classify(p):
             n = ops[a][4] if a in ops else S.OP_SIZE.get(op, 2)
             if op == 0x01:
                 n = 6
+            put(a, n, "anim")
+    # scripts instalados desde el código (EntitySetSpriteMap / move.l #,$3C(a6))
+    seen = set()
+    for v in sorted(code_script_seeds(p)):
+        for a, n in walk_struct(p, v, seen) or []:
             put(a, n, "anim")
     return mark
 
