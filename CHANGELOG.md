@@ -15,6 +15,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Pointer-less frame runs and text streams**: `data_census.frame_runs`
+  marks unclassified spans that parse end-to-end as consecutive sprite frames
+  (2 662 frames, 74 KB; tables computed at run time, only 1.8 % blank tiles),
+  and `code_arg_tables` now follows the text streams passed in a2 to
+  `Fix_BlitStream_05DAD8` (`$FE`) and `List_ApplyWithSentinelFF_*` (`$FF`).
+  New `assets/tools/data_refs.py` lists the remaining blocks and their users.
+  "Other" data: 16.5 % → 11.9 %.
 - **Results-screen name dictionaries** (`$182C3C..$185CF4`, 12 KB): length
   tables, `{ptr, count}` tables and name pools used by
   `Results_RosterPickA/B` (katakana / ASCII), now named entries

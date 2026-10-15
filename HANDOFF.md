@@ -315,5 +315,5 @@ byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
 - [x] SFX de la tabla A: 68 con nombre por usuarios
 - [ ] Paletas a mano para las ~132 animaciones en gris y nombres por personaje
 - [ ] SFX: confirmar nombres escuchando, los 49 restantes e ids de los streams de script
-- [ ] Decodificar las `Data_*` restantes (16,5 % de los datos según `data_census.py`: tablas por rutina)
+- [ ] Decodificar las `Data_*` restantes (11,9 % de los datos según `data_census.py`: tablas por rutina)
 - [ ] Fondos: scroll vertical en el panorama

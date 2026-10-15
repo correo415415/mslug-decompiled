@@ -61,6 +61,11 @@ en grises; se pueden forzar en `assets/map/anim_palettes.txt`.
 `python3 assets/tools/sprites.py render 2BCBC4 36 --scale 3` dibuja una sola
 animación (`build/assets/render_<script>_p<pal>.gif`).
 
+`python3 assets/tools/data_refs.py [-n N] [--callee]` lista los bloques que el
+censo aún deja en "otro" junto con las rutinas que los referencian (`lea`,
+`move.l #abs`) y la rutina a la que pasan el registro: es el punto de partida
+para decodificar lo que queda.
+
 ## Fondos de las misiones (`levels.py`)
 
 `python3 assets/tools/levels.py` (≈ 5 s) → `build/assets/levels/`: 52 capas

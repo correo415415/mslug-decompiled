@@ -8,6 +8,7 @@ extractores (sprites.py, levels.py, scene_script_dump.py):
 
   palette     paletas de 64 B ($14E00 x1024, $1CE00 x512)
   frame       frames de sprite {npiezas, attr, piezas{dx,dy,w,h,tiles}}
+              (+ rachas sin puntero que se recorren enteras como frames)
   anim        bytecode de animación (op 02 y demás ops recorridos; más los
               scripts que el código instala con EntitySetSpriteMap, recorridos
               con walk_struct: sprite oculto $FFFFFFFF y tablas de 1B/1C)
@@ -182,18 +183,22 @@ def walk_struct(p, a, seen, depth=0):
 
 ONSCREEN_BOX = (0x05DD56, 0x05DD5C)  # a0 = caja {dx0, dx1, dy0, dy1} (8 B)
 PROBE_GRID = 0x043FAC                # a1 = {dx, dy, w, h} + w*h bytes
+FIX_STREAM = 0x05DAD8                # a2 = bytes de tile del fix ($FD = línea, $FE = fin)
+LIST_FF = (0x0477FC, 0x04784C, 0x047888)   # a2 = lista de bytes hasta $FF (glifos)
 
 
 def code_arg_tables(p, code_end=0x90000):
     """-> [(addr, len)] de tablas pasadas en a0/a1 a rutinas de formato fijo:
     `lea X,aN` seguido (<= 12 B) de jsr/bsr a ONSCREEN_BOX (caja de 8 B,
-    a0) o a PROBE_GRID (rejilla de bytes, a1)."""
+    a0) o a PROBE_GRID (rejilla de bytes, a1), y textos en a2 para
+    Fix_BlitStream_05DAD8 (hasta $FE) o List_ApplyWithSentinelFF_* (hasta $FF).
+    Los `lea` en a2 admiten también direcciones impares (texto)."""
     out = []
     for o in range(0, code_end - 8, 2):
         w = p.W(o)
-        if w in (0x41F9, 0x43F9):
+        if w in (0x41F9, 0x43F9, 0x45F9):
             v, n, reg = p.L(o + 2), 6, (w >> 9) & 7
-        elif w in (0x41FA, 0x43FA):
+        elif w in (0x41FA, 0x43FA, 0x45FA):
             v, n, reg = o + 2 + p.SW(o + 2), 4, (w >> 9) & 7
         else:
             continue
@@ -210,6 +215,13 @@ def code_arg_tables(p, code_end=0x90000):
                     gw, gh = p.W(v + 4), p.W(v + 6)
                     if 0 < gw * gh <= 4096:
                         out.append((v, 8 + gw * gh))
+            if reg == 2 and (t == FIX_STREAM or t in LIST_FF) and p.valid(v, 1):
+                end = 0xFE if t == FIX_STREAM else 0xFF
+                k = 0
+                while k < 4096 and p.valid(v + k, 1) and p.B(v + k) != end:
+                    k += 1
+                if k < 4096:
+                    out.append((v, k + 1))
             break
     return out
 
@@ -234,6 +246,41 @@ def roster_names(p):
             ptr, cnt = p.L(pt + 8 * (k - base)), p.L(pt + 8 * (k - base) + 4)
             if p.valid(ptr, k * cnt):
                 out.append((ptr, k * cnt))
+    return out
+
+
+def _gaps(p, mark):
+    """Rachas de offsets [lo, hi) de los módulos sin clasificar todavía."""
+    out, cur = [], None
+    for f, (lo, hi) in modules():
+        for o in range(lo, hi):
+            if p.cpu(o) not in mark:
+                if cur and cur[1] == o:
+                    cur[1] = o + 1
+                else:
+                    cur = [o, o + 1]
+                    out.append(cur)
+    return out
+
+
+def frame_runs(p, mark, min_cover=0.95):
+    """Frames de sprite sin puntero directo: una racha sin clasificar que se
+    recorre de punta a punta como frames consecutivos (parse_frame) en >= 95 %
+    (se tolera relleno final). Típico de animaciones cuyos frames se indexan
+    por tabla calculada. -> [(cpu_addr, len)]"""
+    out = []
+    for lo, hi in _gaps(p, mark):
+        if lo & 1 or hi - lo < 16:
+            continue
+        o, fr = lo, []
+        while o < hi - 2:
+            r = S.parse_frame(p, p.cpu(o))
+            if not r or o + r["size"] > hi:
+                break
+            fr.append((p.cpu(o), r["size"]))
+            o += r["size"]
+        if fr and (o - lo) >= min_cover * (hi - lo):
+            out += fr
     return out
 
 
@@ -302,6 +349,9 @@ def classify(p):
             t = p.L(a + 2)
             if t & 1 == 0 and p.valid(t, 12):
                 put(t, 12, "struct")
+    # rachas completas de frames sin puntero directo
+    for a, n in frame_runs(p, mark):
+        put(a, n, "frame")
     return mark
 
 
