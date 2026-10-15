@@ -51,12 +51,12 @@ Main_WaitTick_1E5B:
 	ld (hl),a			;1e67
 	jp Main_Loop_1E3F		;1e68
 YM_InitTimers_1E6B:
-	ld de,l24ach		;1e6b
+	ld de,024ach		;1e6b  YM reg 24h <- ACh
 	ld c,004h		;1e6e
 	rst 8			;1e70
-	ld de,l2503h		;1e71
+	ld de,02503h		;1e71  YM reg 25h <- 03h
 	rst 8			;1e74
-	ld de,l2735h		;1e75
+	ld de,02735h		;1e75  YM reg 27h <- 35h
 	rst 8			;1e78
 	ret			;1e79
 IRQ_Timer_1E7A:
@@ -69,23 +69,23 @@ IRQ_Timer_1E7A:
 	ld bc,(wYmPortLatch_F80B)		;1e82
 	push bc			;1e86
 	ld c,004h		;1e87
-	ld de,l2735h		;1e89
+	ld de,02735h		;1e89  YM reg 27h <- 35h
 	rst 8			;1e8c
 	ld hl,wTickPending_F801		;1e8d
 	ld a,(hl)			;1e90
 	cp 002h		;1e91
-	jr nc,l1e97h		;1e93
+	jr nc,IRQ_Timer_L1E97		;1e93
 	inc a			;1e95
 	ld (hl),a			;1e96
-l1e97h:
+IRQ_Timer_L1E97:
 	inc hl			;1e97
 	inc (hl)			;1e98
 	in a,(006h)		;1e99
 	ld (wYmStatus_F80A),a		;1e9b
 	ld c,004h		;1e9e
-l1ea0h:
+IRQ_Timer_L1EA0:
 	in a,(c)		;1ea0
-	jp m,l1ea0h		;1ea2
+	jp m,IRQ_Timer_L1EA0		;1ea2
 	pop bc			;1ea5
 	out (c),b		;1ea6
 	pop iy		;1ea8
@@ -107,7 +107,7 @@ NMI_RingPop_1EBB:
 	dec hl			;1ebf
 	ld a,(hl)			;1ec0
 	cp c			;1ec1
-	jr z,l1ed4h		;1ec2
+	jr z,NMI_RingPop_L1ED4		;1ec2
 	and 00fh		;1ec4
 	ld e,a			;1ec6
 	ld d,000h		;1ec7
@@ -119,7 +119,7 @@ NMI_RingPop_1EBB:
 	ld a,(hl)			;1ed1
 	scf			;1ed2
 	ret			;1ed3
-l1ed4h:
+NMI_RingPop_L1ED4:
 	and a			;1ed4
 	ret			;1ed5
 NMI_Command_1ED6:
@@ -156,11 +156,11 @@ NMI_Command_1ED6:
 NMI_SoftReset_1F0A:
 	di			;1f0a
 	ld c,004h		;1f0b
-	ld de,l07ffh		;1f0d
+	ld de,007ffh		;1f0d  YM reg 07h <- FFh
 	rst 8			;1f10
-	ld de,l1100h		;1f11
+	ld de,01100h		;1f11  YM reg 11h <- 00h
 	rst 8			;1f14
-	ld de,l1001h		;1f15
+	ld de,01001h		;1f15  YM reg 10h <- 01h
 	rst 8			;1f18
 	ld de,0b500h		;1f19
 	rst 8			;1f1c
@@ -171,9 +171,9 @@ NMI_SoftReset_1F0A:
 	rst 8			;1f21
 	dec d			;1f22
 	rst 8			;1f23
-	ld de,l00ffh		;1f24
+	ld de,000ffh		;1f24  YM reg 00h <- FFh
 	rst 8			;1f27
-	ld de,l0800h		;1f28
+	ld de,00800h		;1f28  YM reg 08h <- 00h
 	rst 8			;1f2b
 	inc d			;1f2c
 	rst 8			;1f2d
@@ -201,7 +201,7 @@ NMI_HardReset_1F4B:
 	push hl			;1f51
 	retn		;1f52
 Util_TableLookup_1F54:
-	ld hl,Reset_0000		;1f54
+	ld hl,00000h		;1f54  constant
 	ld a,c			;1f57
 	and a			;1f58
 	ret z			;1f59
@@ -211,12 +211,12 @@ Util_TableLookup_1F54:
 	ld l,e			;1f5e
 	ld e,000h		;1f5f
 	add a,(hl)			;1f61
-	jr nc,l1f68h		;1f62
+	jr nc,Util_TableLookup_L1F68		;1f62
 	ld l,a			;1f64
 	inc h			;1f65
 	ld e,(hl)			;1f66
 	dec h			;1f67
-l1f68h:
+Util_TableLookup_L1F68:
 	ld l,c			;1f68
 	ld a,(hl)			;1f69
 	ld l,d			;1f6a
@@ -224,12 +224,12 @@ l1f68h:
 	add a,(hl)			;1f6d
 	ld l,a			;1f6e
 	inc h			;1f6f
-	jr c,l1f77h		;1f70
+	jr c,Util_TableLookup_L1F77		;1f70
 	ld l,(hl)			;1f72
 	ld h,000h		;1f73
 	add hl,de			;1f75
 	ret			;1f76
-l1f77h:
+Util_TableLookup_L1F77:
 	ld a,(hl)			;1f77
 	inc h			;1f78
 	ld l,(hl)			;1f79
@@ -242,7 +242,7 @@ Bank_SelectInit_1F7D:
 	ld b,002h		;1f82
 	ld a,(wCurBank_F811)		;1f84
 	cp b			;1f87
-	jp z,l1fa5h		;1f88
+	jp z,Bank_SelectInit_L1FA5		;1f88
 	ld a,b			;1f8b
 	ld (wCurBank_F811),a		;1f8c
 	ld c,00bh		;1f8f
@@ -259,7 +259,7 @@ Bank_SelectInit_1F7D:
 	sla b		;1fa0
 	dec c			;1fa2
 	in a,(c)		;1fa3
-l1fa5h:
+Bank_SelectInit_L1FA5:
 	ret			;1fa5
 Bank_ResolvePtr24_1FA6:
 	ld e,(hl)			;1fa6
@@ -277,7 +277,7 @@ Bank_ResolvePtr24_1FA6:
 	push bc			;1fb2
 	ld a,(wCurBank_F811)		;1fb3
 	cp b			;1fb6
-	jp z,l1fd4h		;1fb7
+	jp z,Bank_ResolvePtr24_L1FD4		;1fb7
 	ld a,b			;1fba
 	ld (wCurBank_F811),a		;1fbb
 	ld c,00bh		;1fbe
@@ -294,7 +294,7 @@ Bank_ResolvePtr24_1FA6:
 	sla b		;1fcf
 	dec c			;1fd1
 	in a,(c)		;1fd2
-l1fd4h:
+Bank_ResolvePtr24_L1FD4:
 	pop bc			;1fd4
 	ld a,d			;1fd5
 	and 03fh		;1fd6

@@ -3,7 +3,7 @@
 ; Assembled through mrom/asm/fixed_0000.s; must stay byte-identical.
 
 Ch_InitStruct_1FE5:
-	ld bc,l0040h		;1fe5
+	ld bc,00040h		;1fe5  constant
 	ld (ix+000h),c		;1fe8
 	ld (ix+001h),b		;1feb
 	xor a			;1fee
@@ -34,7 +34,7 @@ Ch_ResetStruct_201B:
 	ld (ix+006h),a		;202c
 	ld (ix+00eh),a		;202f
 	ld (ix+00fh),a		;2032
-	ld hl,l0040h		;2035
+	ld hl,00040h		;2035  constant
 	ld (ix+000h),l		;2038
 	ld (ix+001h),h		;203b
 	ret			;203e
@@ -55,9 +55,9 @@ Cmd_Dispatch_2050:
 	cp 020h		;205b
 	jr nc,Cmd_DispatchHi_2096		;205d
 	cp 00fh		;205f
-	jr z,l2066h		;2061
+	jr z,Cmd_Dispatch_L2066		;2061
 	ld (wCmdType_F81C),a		;2063
-l2066h:
+Cmd_Dispatch_L2066:
 	cp 010h		;2066
 	ret nc			;2068
 	add a,a			;2069

@@ -6,7 +6,7 @@ Seq_TrackFetch_5362:
 	ld b,(iy+004h)		;5362
 	ld a,(wCurBank_F811)		;5365
 	cp b			;5368
-	jp z,l5386h		;5369
+	jp z,Seq_TrackFetch_L5386		;5369
 	ld a,b			;536c
 	ld (wCurBank_F811),a		;536d
 	ld c,00bh		;5370
@@ -23,7 +23,7 @@ Seq_TrackFetch_5362:
 	sla b		;5381
 	dec c			;5383
 	in a,(c)		;5384
-l5386h:
+Seq_TrackFetch_L5386:
 	ld de,(wSeqPtr_FF0D)		;5386
 	ld a,(de)			;538a
 	inc de			;538b
@@ -147,13 +147,13 @@ SeqOp_D7_PitchDown_5470:
 	ld b,000h		;547b
 	ld l,(iy+010h)		;547d
 	ld h,(iy+011h)		;5480
-	ld de,l1000h		;5483
+	ld de,01000h		;5483  constant
 	and a			;5486
 	sbc hl,de		;5487
 	add hl,bc			;5489
-	jr nc,l548fh		;548a
+	jr nc,SeqOp_D7_PitchDown_L548F		;548a
 	ld hl,0ffffh		;548c
-l548fh:
+SeqOp_D7_PitchDown_L548F:
 	add hl,de			;548f
 	ld (iy+010h),l		;5490
 	ld (iy+011h),h		;5493
@@ -169,13 +169,13 @@ SeqOp_D8_PitchUp_5499:
 	ld b,000h		;54a4
 	ld l,(iy+010h)		;54a6
 	ld h,(iy+011h)		;54a9
-	ld de,l1000h		;54ac
+	ld de,01000h		;54ac  constant
 	add hl,de			;54af
 	and a			;54b0
 	sbc hl,bc		;54b1
-	jp nc,l54b9h		;54b3
-	ld hl,Reset_0000		;54b6
-l54b9h:
+	jp nc,SeqOp_D8_PitchUp_L54B9		;54b3
+	ld hl,00000h		;54b6  constant
+SeqOp_D8_PitchUp_L54B9:
 	and a			;54b9
 	sbc hl,de		;54ba
 	ld (iy+010h),l		;54bc
@@ -187,14 +187,14 @@ SeqOp_D1_Portamento_54C5:
 	inc hl			;54c7
 	ld (wSeqPtr_FF0D),hl		;54c8
 	cp 040h		;54cb
-	jr c,l54e2h		;54cd
+	jr c,SeqOp_D1_Portamento_L54E2		;54cd
 	ld c,(iy+009h)		;54cf
 	set 6,(iy+009h)		;54d2
 	bit 6,c		;54d6
 	jp nz,Seq_TrackNextOp_533E		;54d8
 	ld (iy+01bh),0ffh		;54db
 	jp Seq_TrackNextOp_533E		;54df
-l54e2h:
+SeqOp_D1_Portamento_L54E2:
 	res 6,(iy+009h)		;54e2
 	xor a			;54e6
 	ld (iy+010h),a		;54e7
@@ -234,11 +234,11 @@ SeqOp_CC_SetLength_551D:
 	ld (wSeqPtr_FF0D),hl		;5520
 	ld b,003h		;5523
 	cp 040h		;5525
-	jp z,l552fh		;5527
+	jp z,SeqOp_CC_SetLength_L552F		;5527
 	dec b			;552a
-	jp c,l552fh		;552b
+	jp c,SeqOp_CC_SetLength_L552F		;552b
 	dec b			;552e
-l552fh:
+SeqOp_CC_SetLength_L552F:
 	ld (iy+00fh),b		;552f
 	jp Seq_TrackNextOp_533E		;5532
 SeqOp_CB_SetWait_5535:
@@ -272,10 +272,10 @@ SeqOp_C9_SetSustain_555C:
 	inc hl			;555e
 	ld (wSeqPtr_FF0D),hl		;555f
 	and a			;5562
-	jp z,l556dh		;5563
+	jp z,SeqOp_C9_SetSustain_L556D		;5563
 	set 4,(iy+009h)		;5566
 	jp Seq_TrackNextOp_533E		;556a
-l556dh:
+SeqOp_C9_SetSustain_L556D:
 	res 4,(iy+009h)		;556d
 	jp Seq_TrackNextOp_533E		;5571
 SeqOp_C6_SetVol_5574:
@@ -305,14 +305,14 @@ SeqOp_C8_SetParam_5590:
 SeqOp_C5_Return_559E:
 	ld a,(iy+022h)		;559e
 	cp 006h		;55a1
-	jp c,l55a9h		;55a3
-	jp l5791h		;55a6
-l55a9h:
+	jp c,SeqOp_C5_Return_L55A9		;55a3
+	jp Seq_TrackStop_L5791		;55a6
+SeqOp_C5_Return_L55A9:
 	ld e,a			;55a9
 	add a,002h		;55aa
 	ld (iy+022h),a		;55ac
 	ld d,000h		;55af
-	ld hl,l001ch		;55b1
+	ld hl,0001ch		;55b1  constant
 	add hl,de			;55b4
 	defb 0fdh,05dh	;ld e,iyl		;55b5
 	defb 0fdh,054h	;ld d,iyh		;55b7
@@ -335,7 +335,7 @@ SeqOp_CF_LoopStart_55D4:
 	ld (iy+022h),a		;55e1
 	ld l,a			;55e4
 	ld h,000h		;55e5
-	ld bc,l001ch		;55e7
+	ld bc,0001ch		;55e7  constant
 	add hl,bc			;55ea
 	defb 0fdh,04dh	;ld c,iyl		;55eb
 	defb 0fdh,044h	;ld b,iyh		;55ed
@@ -352,7 +352,7 @@ SeqOp_D0_LoopEnd_5605:
 	jp nc,Seq_TrackStop_578D		;560a
 	ld l,a			;560d
 	ld h,000h		;560e
-	ld bc,l001ch		;5610
+	ld bc,0001ch		;5610  constant
 	add hl,bc			;5613
 	defb 0fdh,04dh	;ld c,iyl		;5614
 	defb 0fdh,044h	;ld b,iyh		;5616
@@ -360,19 +360,19 @@ SeqOp_D0_LoopEnd_5605:
 	ex de,hl			;5619
 	ld a,(de)			;561a
 	and a			;561b
-	jr z,l5624h		;561c
+	jr z,SeqOp_D0_LoopEnd_L5624		;561c
 	dec a			;561e
-	jr z,l5648h		;561f
+	jr z,SeqOp_D0_LoopEnd_L5648		;561f
 	ld (de),a			;5621
-	jr l562ch		;5622
-l5624h:
+	jr SeqOp_D0_LoopEnd_L562C		;5622
+SeqOp_D0_LoopEnd_L5624:
 	ld a,(hl)			;5624
 	and a			;5625
-	jr z,l562ch		;5626
+	jr z,SeqOp_D0_LoopEnd_L562C		;5626
 	dec a			;5628
-	jr z,l5648h		;5629
+	jr z,SeqOp_D0_LoopEnd_L5648		;5629
 	ld (de),a			;562b
-l562ch:
+SeqOp_D0_LoopEnd_L562C:
 	inc hl			;562c
 	ld e,(hl)			;562d
 	inc hl			;562e
@@ -385,7 +385,7 @@ l562ch:
 	ld (iy+019h),0c0h		;563d
 	ld (iy+01ah),07fh		;5641
 	jp Seq_TrackNextOp_533E		;5645
-l5648h:
+SeqOp_D0_LoopEnd_L5648:
 	ld a,(iy+022h)		;5648
 	cp 006h		;564b
 	jp nc,Seq_TrackStop_578D		;564d
@@ -414,7 +414,7 @@ SeqOp_C4_CallSub_565D:
 	ld (iy+022h),a		;5675
 	ld l,a			;5678
 	ld h,000h		;5679
-	ld bc,l001ch		;567b
+	ld bc,0001ch		;567b  constant
 	add hl,bc			;567e
 	defb 0fdh,04dh	;ld c,iyl		;567f
 	defb 0fdh,044h	;ld b,iyh		;5681
@@ -431,12 +431,12 @@ SeqOp_C3_SetBit0_569A:
 	ex de,hl			;569a
 	ld a,(hl)			;569b
 	or a			;569c
-	jr z,l56a6h		;569d
+	jr z,SeqOp_C3_SetBit0_L56A6		;569d
 	set 0,(iy+009h)		;569f
-	jp l56aah		;56a3
-l56a6h:
+	jp SeqOp_C3_SetBit0_L56AA		;56a3
+SeqOp_C3_SetBit0_L56A6:
 	res 0,(iy+009h)		;56a6
-l56aah:
+SeqOp_C3_SetBit0_L56AA:
 	inc hl			;56aa
 	ld (wSeqPtr_FF0D),hl		;56ab
 	jp Seq_TrackNextOp_533E		;56ae
@@ -474,50 +474,50 @@ Seq_NoteEvent_56EA:
 	ld b,a			;56ea
 	and 0f8h		;56eb
 	cp 0b8h		;56ed
-	jr z,l56fch		;56ef
+	jr z,Seq_NoteEvent_L56FC		;56ef
 	rrca			;56f1
 	rrca			;56f2
 	rrca			;56f3
 	sub 00bh		;56f4
 	add a,(iy+017h)		;56f6
-	jp l56feh		;56f9
-l56fch:
+	jp Seq_NoteEvent_L56FE		;56f9
+Seq_NoteEvent_L56FC:
 	ld a,(de)			;56fc
 	inc de			;56fd
-l56feh:
+Seq_NoteEvent_L56FE:
 	ld (iy+017h),a		;56fe
 	ld (wNoteTmp_FBF5),a		;5701
 	ld a,(iy+018h)		;5704
 	srl b		;5707
-	jr c,l5710h		;5709
+	jr c,Seq_NoteEvent_L5710		;5709
 	ld a,(de)			;570b
 	inc de			;570c
 	ld (iy+018h),a		;570d
-l5710h:
+Seq_NoteEvent_L5710:
 	ld (iy+016h),a		;5710
 	ld (wNoteLen_FBF6),a		;5713
 	ld a,(iy+019h)		;5716
 	srl b		;5719
-	jr c,l5722h		;571b
+	jr c,Seq_NoteEvent_L5722		;571b
 	ld a,(de)			;571d
 	inc de			;571e
 	ld (iy+019h),a		;571f
-l5722h:
+Seq_NoteEvent_L5722:
 	ld (wNoteVol_FBF7),a		;5722
 	ld a,(iy+01ah)		;5725
 	srl b		;5728
-	jr c,l5731h		;572a
+	jr c,Seq_NoteEvent_L5731		;572a
 	ld a,(de)			;572c
 	inc de			;572d
 	ld (iy+01ah),a		;572e
-l5731h:
+Seq_NoteEvent_L5731:
 	ld (wNoteGate_FBF8),a		;5731
 	ld (wSeqPtr_FF0D),de		;5734
 	bit 6,(iy+009h)		;5738
-	jp z,l576ah		;573c
+	jp z,Seq_NoteEvent_L576A		;573c
 	ld a,(iy+01bh)		;573f
 	cp 0ffh		;5742
-	jp z,l576ah		;5744
+	jp z,Seq_NoteEvent_L576A		;5744
 	ld l,a			;5747
 	ld h,011h		;5748
 	ld c,(hl)			;574a
@@ -538,7 +538,7 @@ l5731h:
 	add hl,de			;5763
 	ld (iy+010h),l		;5764
 	ld (iy+011h),h		;5767
-l576ah:
+Seq_NoteEvent_L576A:
 	ld a,(iy+017h)		;576a
 	ld (iy+01bh),a		;576d
 	ld a,(wNoteVol_FBF7)		;5770
@@ -546,7 +546,7 @@ l576ah:
 	jp z,Seq_TrackNextOp_533E		;5774
 	ld a,(wNoteGate_FBF8)		;5777
 	jp z,Seq_TrackNextOp_533E		;577a
-	call sub_4a03h		;577d
+	call Ch_NoteOn_4A03		;577d
 	jp nc,Seq_TrackEndCheck_5786		;5780
 	jp Seq_TrackNextOp_533E		;5783
 Seq_TrackEndCheck_5786:
@@ -555,7 +555,7 @@ Seq_TrackEndCheck_5786:
 Seq_TrackStop_578D:
 	xor a			;578d
 	ld (iy+012h),a		;578e
-l5791h:
+Seq_TrackStop_L5791:
 	ld (iy+009h),008h		;5791
 	xor a			;5795
 	ld (iy+000h),a		;5796

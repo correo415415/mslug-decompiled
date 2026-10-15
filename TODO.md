@@ -5,8 +5,12 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 
 ## P-ROM (68000) — 100 % matching
 
-- [ ] Cabeceras A–F / nombres semánticos para los 13 módulos de datos
-      (`asm/data/*`), igual que el resto de módulos.
+- [x] Cabeceras A–F en los 14 módulos de datos (`tools/gen_data_headers.py`,
+      12 generadas + scene_scripts/mission_streams ya manuales) y 7661
+      entradas renombradas por tipo (`ColMap_`, `SprFrame_`, `BgMap_`,
+      `AnimScr_`, `Pal_`, `Zero_`). Tabla de color `ColorRGB555ToNeoGeo_002f30`
+      y rampa `ColorRamp_012fb0` identificadas y verificadas.
+- [ ] Decodificar las ~1 400 `Data_*` restantes (tablas indexadas por rutina).
 - [ ] Revisar que el matcher completo (`tools/match_batch.py`) siga en
       17608/17608 tras cada reorganización.
 
@@ -17,38 +21,54 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       (`mrom/map/fixed_0000_syms.txt`, 126 rutinas + 61 variables).
 - [x] Equates de hardware en `mrom/include/neogeo_z80.inc`.
 - [x] Región fija troceada en `mrom/asm/{core,channel,seq,data}/` (18 ficheros).
-- [ ] Nombrar las ~460 etiquetas internas restantes (cuerpos de actualización
-      de cada canal SSG/FM/ADPCM) y documentar la estructura de canal
-      (offsets `+00..+4C/+67/+29`) y de pista (`+00..+22`).
-- [ ] Documentar el formato de secuencia (opcodes `C0..DA`, bytes de nota) y
-      el formato de las cabeceras de música/SFX (entradas de 5 bytes).
-- [ ] Analizar los bancos 2..7 (secuencias musicales, instrumentos FM,
-      tablas ADPCM-A/B) y documentar el formato de secuencia.
-- [ ] Actualizar `mrom/README.md`, `docs/COVERAGE.md` (sección M-ROM),
-      `docs/PROGRESO.md` y `CHANGELOG.md` a medida que avance.
+- [x] Etiquetas de la región fija: 0 anónimas. 157 rutinas/tablas con nombre
+      (`fixed_0000_syms.txt`), 503 destinos locales `<Rutina>_L<dir>`, 137
+      inmediatos falsos (pares YM de RST 8, offsets) como constantes.
+- [x] Documentar la estructura de canal (offsets `+00..+4C` SSG, `+67` FM,
+      `+29` ADPCM-A, `+1F` ADPCM-B) en `mrom/docs/FORMATS.md` §10.
+- [x] Tablas de página `0100-1DFF` con nombre (FORMATS.md §9).
+- [x] Documentar el formato de secuencia (opcodes `C0..D9`, bytes de nota) y
+      el de las cabeceras de música/SFX → `mrom/docs/FORMATS.md`.
+- [x] Bancos 2..7 (solo datos): tablas, cabeceras y secuencias decodificadas a
+      fuentes simbólicas `mrom/sound/` (`gen_sound_data.py`), ✔ IDÉNTICA.
+- [x] Formato de instrumentos (SSG 24 B / FM 50 B / ADPCM-A / ADPCM-B + tablas
+      de samples) → `mrom/sound/instruments.s` con macros `INSTR_*` (incluida
+      la parte de la región fija `0x57A1-0x7FFF`, vía `incbin`).
+- [x] Nombres reales de músicas/SFX (ids enviados desde el P-ROM):
+      `mrom/tools/find_sound_ids.py` → `mrom/map/sound_ids.txt` (149 ids, 13
+      músicas con nombre, 19 voces con nombre).
+- [x] Nombres por usuarios para 68 de los 117 SFX de la tabla A con usuario
+      constante (`SfxA_NNN_<Nombre>`, SFX_NAMES de find_sound_ids.py).
+- [ ] Confirmar esos nombres escuchando, nombrar los 49 restantes y recorrer
+      los streams de script para los ids que no son constantes.
+- [x] `docs/COVERAGE.md` (M-ROM, módulos de datos, assets), `docs/PROGRESO.md`,
+      `HANDOFF.md` y `README.md` actualizados (2026-10-15).
 
 ## Al tener el M-ROM al 100 %
 
-- [ ] **Scripts de extracción de assets para S-ROM, C-ROM y V-ROM**:
-      - `201-s1.bin` (S-ROM, fix layer 8x8): descodificar los tiles y
-        exportarlos a PNG (hoja de tiles + tiles sueltos).
-      - `201-c1..c4.bin` (C-ROM, sprites 16x16): desentrelazar los pares
-        c1/c2 y c3/c4, descodificar los tiles de 4 bpp, aplicar las
-        paletas del P-ROM y exportarlos a PNG (hojas de tiles y, cuando
-        sea posible, sprites completos reconstruidos desde las tablas de
-        sprites del P-ROM).
-      - `201-v1.bin`, `201-v2.bin` (V-ROM, ADPCM-A/ADPCM-B): usar las
-        tablas de muestras del M-ROM (inicio/fin/frecuencia) para cortar
-        cada muestra, descodificar ADPCM → PCM y exportarlas a WAV.
-      - Dar a cada asset el **nombre correspondiente** (personaje, arma,
-        enemigo, efecto de sonido, pista musical…) usando los nombres
-        semánticos ya establecidos en el P-ROM y el M-ROM; generar un
-        índice (CSV/Markdown) con offset, tamaño, nombre y vista previa.
-      - Herramienta inversa (PNG/WAV → ROM) para poder reconstruir los
-        ROMs de gráficos y sonido byte-idénticos, igual que
-        `tools/build_rom.py` y `mrom/tools/build_mrom.py`.
-- [ ] Exportar las pistas musicales (secuencias del M-ROM) a un formato
-      reproducible (VGM/MIDI) con sus nombres.
+- [x] **Extracción de assets S/C/V-ROM con herramienta inversa** (`assets/`):
+      `gfx.py` (fix 8×8 y sprites 16×16 ↔ PNG indexados) y `audio.py` (V-ROM →
+      375 muestras con nombre e índice CSV, ADPCM crudo + WAV); los 7 ROMs se
+      reconstruyen byte-idénticos.
+- [x] Sprites con paletas del P-ROM, frames multi-pieza y animaciones con sus
+      tiempos (`assets/tools/sprites.py`), nombradas por la rutina que las usa.
+- [ ] Sprites: paleta para las ~130 animaciones que salen en grises (revisar
+      a mano → `assets/map/anim_palettes.txt`); nombres por personaje/arma.
+- [x] Fondos de las misiones → PNG (`assets/tools/levels.py`, 52 capas de 13
+      escenas desde los `bind_path` de los scripts de escena).
+- [x] Fondos: slot de paleta 0 (ScriptSlotPairTable_0009B4) — 52/52 capas con color.
+- [x] Fondos: composición por cámara en las anclas (`composed/`, 38 planos).
+- [x] Fondos: parallax (escala 8.8 del op $01) → panorama único por escena (`*_parallax.png`, 13).
+- [ ] Fondos: scroll vertical en el panorama.
+- [x] Codificador ADPCM-A/B para sustituir muestras desde WAV (`audio.py encode`).
+- [x] Exportar las pistas musicales a MIDI con sus nombres
+      (`mrom/tools/export_midi.py`). La curva de `S_TEMPO` ya está modelada (set-tempo exactos).
+- [x] Exportar todo el audio a WAV idéntico al juego (`mrom/tools/export_wav.py`:
+      driver real en Z80 + YM2610 ymfm + V-ROM; 13 músicas + 177 SFX).
+- [x] VGM 1.51 (`export_wav.py --vgm`): escrituras YM2610 + bloques ADPCM-A/B.
+- [x] Voces (tabla B) exportadas por separado y con nombre por su frase;
+      las canciones terminan en su punto de bucle + fundido (no cortadas).
+- [ ] Nombrar los 150 SFX de la tabla A: 68 hechos por usuarios (ver M-ROM); faltan escucha y los ids que sólo salen en los scripts.
 
 ## Herramientas / experimentos
 

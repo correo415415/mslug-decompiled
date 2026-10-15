@@ -8,7 +8,7 @@ Z80 and drives the YM2610. Separate from the 68000 P-ROM work in `asm/` and
 |---|---|
 | ROM | `201-m1.bin`, 131,072 B, MD5 `6449db0459bcf7584348792009e8f12c` |
 | CPU | Zilog Z80 @ 4 MHz |
-| Toolchain | `z80asm` (assembler) + `z80dasm` (disassembler), both Debian packages |
+| Toolchain | `z80asm` + `z80dasm` (driver code), `binutils-z80` (GNU as, sound data) — Debian packages |
 | Build | `python3 mrom/tools/build_mrom.py` → `build/mrom/201-m1_rebuilt.bin` |
 
 ## Memory map (Z80 side)
@@ -41,22 +41,34 @@ mrom/
 │   ├── core/                 vectors, main loop, IRQ/NMI, bank switch, command dispatch
 │   ├── channel/              envelope helpers, SSG, FM, ADPCM-A, ADPCM-B, channel-type tables
 │   ├── seq/                  track allocation and the sequence opcode interpreter
-│   ├── data/                 bank pointer table, lookup pages, note map, sequence pointers, tail
-│   ├── bank2_8000.s … bank7_8000.s   (still just `include "raw/…"`)
-│   └── raw/                  z80dasm output per region (generated; input of split_region.py)
+│   ├── data/                 bank pointer table, lookup pages, note map, instruments (incbin)
+│   └── raw/                  z80dasm output of the fixed region (generated; input of split_region.py)
+├── sound/                    all sound data (file 0x057A1-0x1FFFF), GNU-as sources
+│   ├── sound.s               top level: SD_Base + includes, assembled with binutils-z80
+│   ├── macros.inc            PTR24, MUSIC_HDR/SFX_HDR/TRACK, notes N/NX, opcodes S_*
+│   ├── instruments.s         InstrPtrTable_57A1 + 174 typed instrument / sample records
+│   │                         (0x057A1-0x0815E; fixed-region part incbin'ed by asm/data/instruments_57a1.s)
+│   ├── headers.s             MusicTable, SfxTableA/B and every music / SFX header
+│   ├── music_00.s … music_12.s   sequences of each music (one file per song)
+│   ├── sfx.s, seq_unused.s   SFX sequences; 3 sequences no header points to
+│   └── leftover.s            0x1D287-0x1FFFF, bytes never read by the driver
+├── docs/FORMATS.md           headers, sequence byte-code, track struct, patches
 ├── include/
 │   └── neogeo_z80.inc        I/O ports, bank windows, YM2610 register numbers
 ├── map/
 │   ├── fixed_0000_blocks.txt code/data blocks for z80dasm -b
 │   ├── fixed_0000_syms.txt   semantic names (code labels + RAM) for z80dasm -S
-│   └── fixed_0000_split.txt  address ranges -> asm/<subsystem>/<file>.s
+│   ├── fixed_0000_split.txt  address ranges -> asm/<subsystem>/<file>.s
+│   └── sound_ids.txt         sound ids sent by the 68k + names (find_sound_ids.py)
 ├── tools/
 │   ├── mrom_regions.py       region table (name, file offset, size, Z80 org)
 │   ├── z80trace.py           byte-level code tracer (builds the code/data map)
 │   ├── trace_code.py         older tracer over z80dasm text (kept for reference)
 │   ├── gen_mrom_asm.py       rom -> asm/raw/*.s applying map/<region>_{blocks,syms}.txt
 │   ├── split_region.py       asm/raw/<region>.s -> asm/<subsystem>/*.s per map/<region>_split.txt
-│   └── build_mrom.py         assembles every region and compares with the ROM
+│   ├── gen_sound_data.py     rom -> sound/*.s (decodes tables, headers and sequences)
+│   ├── dump_sound_tables.py  text listing of music / SFX / instrument tables
+│   └── build_mrom.py         z80asm (fixed) + binutils-z80 (sound) → compare with the ROM
 └── README.md
 ```
 
@@ -68,6 +80,7 @@ python3 mrom/tools/z80trace.py                 # code map (add roots as new jump
 #   edit mrom/map/fixed_0000_blocks.txt / _syms.txt / _split.txt
 python3 mrom/tools/gen_mrom_asm.py             # regenerate asm/raw/*.s with blocks + names
 python3 mrom/tools/split_region.py fixed_0000  # re-carve asm/<subsystem>/*.s
+python3 mrom/tools/gen_sound_data.py           # regenerate sound/*.s (only to reset hand edits)
 python3 mrom/tools/build_mrom.py               # ✔ IDÉNTICA expected
 ```
 
@@ -115,7 +128,23 @@ at all times.
 - [x] Fixed region carved into 18 files by subsystem (`core/`, `channel/`, `seq/`, `data/`).
 - [x] 126 routines/tables with semantic names (command dispatcher, channel
       update entry points, bank switch, sequencer, 26 sequence opcodes).
-- [ ] Name the remaining ~460 internal labels (per-channel update bodies).
-- [ ] Document the sequence format and instrument tables; analyse banks 2–7
-      (sequence data, FM instrument patches, ADPCM sample tables).
-- [ ] Replace raw `defb` tables with structured data where the format is understood.
+- [x] No anonymous labels left: 157 named routines/tables, 503 local branch
+      targets `<Routine>_L<addr>`, 137 fake label immediates turned into
+      constants (YM register/value pairs, struct offsets).
+- [x] Banks 2–7 decoded: they contain only data (no Z80 code). Tables,
+      13 music + 177 SFX headers (190 in total) and 31,650 sequence ops (328 tracks, 1,123
+      jump targets) as symbolic sources in `sound/` (labels, absolute notes,
+      macros per opcode) → byte-identical. Formats in `docs/FORMATS.md`.
+- [x] Instrument patch format (24 / 50-byte records) → `INSTR_*` macros.
+- [x] Identify each music / SFX id from the 68k side and give real names.
+- [x] Export sequences to MIDI (`tools/export_midi.py`).
+- [x] Render every song / SFX to WAV exactly as the board does
+      (`tools/export_wav.py`: real driver on Z80 + ymfm YM2610 + V-ROM).
+- [x] VGM log export (`export_wav.py --vgm`); voices exported and named.
+- [x] Exact `S_TEMPO` curve in MIDI (log/exp tables, `docs/FORMATS.md` §8).
+- [x] The 29 lookup pages `0100-1DFF` named (§9) and the channel structs
+      documented (§10).
+- [x] 68 of the 117 table-A effects with a constant 68k user named
+      `SfxA_NNN_<Name>` (hypothesis by user; not yet confirmed by ear).
+- [ ] Confirm effect names by listening; name the other 49 and the ids that
+      only appear in script streams.

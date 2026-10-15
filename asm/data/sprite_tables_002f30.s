@@ -4,19 +4,59 @@
 |  Región: $002F30..$0133B0  (66,688 B en 1 hueco(s), 428 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   Tablas de conversión de color del motor de paletas (video/palette_engine_
+|     sprite_grid_0133b0.s) más los registros de interfaz que las siguen.
+|       $002F30..$012F30  ColorRGB555ToNeoGeo[32768]: palabra de color Neo Geo
+|                         (bit de brillo bajo de cada canal en b14..b12, 4 bits
+|                         altos en b11..b0) para cada RGB555 de 15 bits.
+|                         Verificado: las 32768 entradas == fórmula.
+|       $012F30..$012FB0  ColorRamp_RowPtr[32]: punteros a las filas de la rampa.
+|       $012FB0..$0133B0  ColorRamp[32][32]: fila k, columna v = v*k/31
+|                         (división entera; verificado 1024/1024). La usa el
+|                         fundido de paletas para escalar cada canal 0..31.
+|     Las etiquetas Data_/Str_ del interior sólo marcan direcciones a las que
+|     apuntan bytes que parecen punteros; la mayoría son falsos positivos.
+|
+|  B. EVIDENCIA
+|   `lea $2F30.l` en video/palette_engine_sprite_grid_0133b0.s ($133C8,
+|     $13404) y `lea Data_002f30(pc)` en BootScr ($002E10), siempre tras
+|     Pal_ApplyFadeDarken_013624: d4 = r<<10|g<<5|b, se lee la palabra y se
+|     escribe en la paleta en RAM. La fórmula se comprobó sobre las 32768
+|     entradas.
+|
+|  C. HIPÓTESIS / NOTAS
+|   Las etiquetas que hay dentro de la tabla de color (Str_00316e, Data_00a000,
+|     ...) salen de valores de otras tablas que coinciden con una dirección. No
+|     son estructuras propias.
+|
+|  D. FORMATOS
+|   ColorRGB555ToNeoGeo: .dc.w por índice r<<10|g<<5|b.
+|     ColorRamp: 32 filas de 32 B (1 B por valor 0..31).
+|
+|  E. HELPERS / USUARIOS
+|   Pal_LoadRaw16_0133b0, PalAnim_Blend16_013480, PalAnim_StepRGB_013504,
+|     Pal_ApplyFadeDarken/Lighten_013624/013694 (video/palette_engine_sprite_
+|     grid_0133b0.s) y PalSlot_UpdateAll_002c86 (boot).
+|   Rutinas con lea/move.l #abs a este módulo (6):
+|     PalAnim_StepRGB_013504×3, PalSlot_UpdateAll_002c86×1,
+|     Pal_LoadRaw16_0133b0×1, PalAnim_Blend16_013480×1,
+|     Pal_ApplyFadeDarken_013624×1, Pal_ApplyFadeLighten_013694×1
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 66688 B):
+|     ceros 0.1%, otro 99.9%.
+|   Entradas por prefijo: Data 370, Str 54, Zero 2, ColorRGB555ToNeoGeo 1, ColorRamp 1.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 
 | ----------------------------------------------------------------------------
-|  Data_002f30  @ $002F30  (208 B)  [ref. desde código]
+|  ColorRGB555ToNeoGeo_002f30  @ $002F30  (208 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_002f30, "ax", @progbits
-        .global Data_002f30
-Data_002f30:
+        .section .text.ColorRGB555ToNeoGeo_002f30, "ax", @progbits
+        .global ColorRGB555ToNeoGeo_002f30
+ColorRGB555ToNeoGeo_002f30:
         .dc.w   0x0000,0x1000,0x0001,0x1001,0x0002,0x1002,0x0003,0x1003     | +00000
         .dc.w   0x0004,0x1004,0x0005,0x1005,0x0006,0x1006,0x0007,0x1007     | +00010
         .dc.w   0x0008,0x1008,0x0009,0x1009,0x000a,0x100a,0x000b,0x100b     | +00020
@@ -217,11 +257,11 @@ Data_003401:
         .dc.w   0x309c,0x209d,0x309d,0x209e,0x309e,0x209f,0x309f            | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_003430  @ $003430  (1 B)  [ref. desde código]
+|  Zero_003430  @ $003430  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_003430, "ax", @progbits
-        .global Data_003430
-Data_003430:
+        .section .text.Zero_003430, "ax", @progbits
+        .global Zero_003430
+Zero_003430:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -7411,7 +7451,7 @@ Data_012d46:
         .dc.w   0x7ff5,0x6ff6,0x7ff6,0x6ff7,0x7ff7,0x6ff8,0x7ff8,0x6ff9     | +001c0
         .dc.w   0x7ff9,0x6ffa,0x7ffa,0x6ffb,0x7ffb,0x6ffc,0x7ffc,0x6ffd     | +001d0
         .dc.w   0x7ffd,0x6ffe,0x7ffe,0x6fff,0x7fff                          | +001e0
-        .dc.l   Zero_012fb0                   | +001ea  -> $012FB0
+        .dc.l   ColorRamp_012fb0                   | +001ea  -> $012FB0
         .dc.w   0x0001,0x2fd0,0x0001,0x2ff0,0x0001,0x3010,0x0001,0x3030     | +001ee
         .dc.w   0x0001,0x3050,0x0001,0x3070,0x0001,0x3090,0x0001,0x30b0     | +001fe
         .dc.w   0x0001,0x30d0,0x0001,0x30f0,0x0001,0x3110,0x0001,0x3130     | +0020e
@@ -7423,19 +7463,19 @@ Data_012d46:
         .dc.w   0x0001,0x3330,0x0001,0x3350,0x0001,0x3370,0x0001,0x3390     | +0025a
 
 | ----------------------------------------------------------------------------
-|  Zero_012fb0  @ $012FB0  (63 B)
+|  ColorRamp_012fb0  @ $012FB0  (63 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_012fb0, "ax", @progbits
-        .global Zero_012fb0
-Zero_012fb0:
+        .section .text.ColorRamp_012fb0, "ax", @progbits
+        .global ColorRamp_012fb0
+ColorRamp_012fb0:
         .fill   63,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_012fef  @ $012FEF  (18 B)
+|  Zero_012fef  @ $012FEF  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_012fef, "ax", @progbits
-        .global Data_012fef
-Data_012fef:
+        .section .text.Zero_012fef, "ax", @progbits
+        .global Zero_012fef
+Zero_012fef:
         .dc.b   0x01                            | +00000
         .fill   16,1,0x00                      | +00001
         .dc.b   0x01                            | +00011

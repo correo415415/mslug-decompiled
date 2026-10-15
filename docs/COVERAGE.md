@@ -1,6 +1,6 @@
 # Metal Slug 1 — Cobertura real de la ROM
 
-**Ultimo update:** 2026-10-10  (Waves KKKKK..VVVVV cerradas — **ROM 100 %**: codigo + datos + relleno)
+**Ultimo update:** 2026-10-15  (P-ROM 100 % + módulos de datos con cabecera A–F y tipos; M-ROM 100 %; extracción de assets)
 
 Este documento complementa `docs/PROGRESO.md` con el analisis **real** de
 cobertura de codigo, no la metrica bruta del matcher que compara contra los
@@ -359,10 +359,12 @@ propios en `mrom/` (`z80dasm -b/-S` con `mrom/map/` → `mrom/asm/raw/*.s` →
 | **Reensamblado byte-idéntico** | **100 %** (7/7 regiones, `mrom/tools/build_mrom.py`) |
 | Código alcanzable (`z80trace.py`, nivel de bytes) | **14,288 B (`0x37D0`)** en la región fija, 16 rangos; 0 B de código detectado en los bancos |
 | Código/datos separados (región fija) | **sí**: 14,288 B código / 18,480 B datos (`mrom/map/fixed_0000_blocks.txt`, 74 bloques) |
-| Rutinas con nombre semántico | 126 etiquetas de código + 61 símbolos de RAM (`mrom/map/fixed_0000_syms.txt`); quedan ~460 etiquetas `lXXXXh` internas |
+| Rutinas con nombre semántico | 157 etiquetas de código/datos + 61 símbolos de RAM (`mrom/map/fixed_0000_syms.txt`); 503 saltos locales `<Rutina>_L<dir>`; 0 etiquetas anónimas |
 | Ficheros por subsistema | 18 (`core/` 4, `channel/` 6, `seq/` 2, `data/` 6) vía `mrom/map/fixed_0000_split.txt` |
 | Equates de hardware | `mrom/include/neogeo_z80.inc` (puertos, ventanas de banco, registros YM2610) |
-| Bancos 2..7 | sin analizar (datos de secuencias / instrumentos / tablas ADPCM) |
+| Bancos 2..7 | **decodificados** a fuentes simbólicas `mrom/sound/` (instrumentos, tablas, cabeceras, 31 650 ops de secuencia) |
+| Nombres de sonido | 13 músicas y 27 voces con nombre real; 68 de los 117 SFX de la tabla A con usuario constante nombrados (`mrom/map/sound_ids.txt`) |
+| Documentación | `mrom/docs/FORMATS.md` §1–§10: secuencias, cabeceras, instrumentos, S_TEMPO, tablas de página, estructuras de canal |
 
 ### Mapa de la región fija
 
@@ -384,8 +386,8 @@ propios en `mrom/` (`z80dasm -b/-S` con `mrom/map/` → `mrom/asm/raw/*.s` →
 | `4B84-4C83` | `data/note_map_4b84.s` | `NoteMapTable_4B84` (256 B) |
 | `4C84-5361` | `seq/sequencer_4c84.s` | pistas: 14 de música en `FBFC` + 8 de SFX en `FDF2` (0x23 B cada una); `Seq_StartMusic_4FA3`, `Seq_StartSfx_507B`, `Seq_FindFreeTrack_50DB`, `Seq_UpdateTracks_514F`, `Seq_TrackInit_5251` |
 | `5362-57A0` | `seq/opcodes_5362.s` | `Seq_TrackFetch_5362`: byte `≥DA` para, `C0..D9` → `SeqOpJumpTable_53A3` (26 `jp`), `<C0` → `Seq_NoteEvent_56EA` (nota + len/vol/gate opcionales según bits) |
-| `57A1-67A0` | `data/instr_ptr_table_57a1.s` | `InstrPtrTable_57A1`: 1024 punteros lineales de 24 bits a parches de instrumento (8 grupos × 128; `Instr_ResolvePtr_4B5D`), registros de 24 o 50 B en `67B9..` y banco 2 |
-| `67A1-7FFF` | `data/tail_67a1.s` | datos de secuencias/instrumentos de la región fija |
+| `57A1-7FFF` | `data/instruments_57a1.s` (`incbin`) → fuente `mrom/sound/instruments.s` | `InstrPtrTable_57A1` (1024 `PTR24`, 8 grupos × 128) + 174 registros tipados: parches SSG (24 B) / FM (50 B) / ADPCM-A / ADPCM-B y tablas de samples (`mrom/docs/FORMATS.md` §5) |
+| `08000-1FFFF` | `mrom/sound/*.s` | últimos parches, tablas/cabeceras de música y SFX, 31 650 ops de secuencia, restos no usados |
 
 Opcodes de secuencia identificados (provisional): `C0/C1` instrumento,
 `C2` salto, `C4` llamada a subsecuencia (pila de 3 niveles en `+1C`), `C5`
@@ -393,6 +395,51 @@ retorno, `C6` volumen, `C7` pan, `C8` parámetro, `CA` detune, `CB` espera,
 `CC` longitud de gate, `CD` tempo, `CE` transposición, `CF/D0` bucle, `D1`
 portamento, `D2` LFO, `D3-D6` nota directa por tipo, `D7/D8` pitch bend,
 `D9` responde al 68000 por el puerto `0C`, `DA..FF` fin de pista.
+
+## Módulos de datos de la P-ROM (`asm/data/*.s`)
+
+Los 1,6 MiB de datos se clasifican byte a byte con
+`assets/tools/data_census.py` según el decodificador que los reconoce. Las
+entradas se renombraron por tipo (`ColMap_` 4970, `SprFrame_` 663, `BgMap_`
+614, `AnimScr_` 590, `Pal_` 306, `Zero_` 518) y los 14 módulos tienen
+cabecera A–F (`tools/gen_data_headers.py`).
+
+```
+módulo                             región               bytes   palette     frame      anim   tilemap collision      zero     other
+-----------------------------------------------------------------------------------------------------------------------------------
+data/sprite_tables_002f30.s        $002F30-$0133B0    66688      0.0%      0.0%      0.0%      0.0%      0.0%      0.1%     99.9%
+data/sparse_tables_013d6a.s        $013D6A-$024E10    69798     93.9%      0.0%      0.0%      0.0%      0.0%      6.1%      0.0%
+data/scene_scripts_0916c8.s        $0916C8-$0967B4    20716      0.0%      0.0%      0.0%      0.0%      0.0%      0.0%    100.0%
+data/anim_pal_spawn_09c608.s       $09C608-$0E8000   309752      0.0%      0.0%      0.0%     58.1%      0.0%     10.2%     31.6%
+data/template_index_0e8000.s       $0E8000-$0E8524     1316      0.0%      0.0%      0.0%      0.0%      0.0%      0.0%    100.0%
+data/mission_streams_0e8524.s      $0E8524-$0F2FFC    43736      0.0%      0.0%      0.0%      0.0%      0.0%      0.0%    100.0%
+data/level_a_0f2ffc.s              $0F2FFC-$118028   151596      0.0%      0.0%      0.0%      0.0%     61.5%     38.0%      0.5%
+data/level_b_118028.s              $118028-$140000   163800      0.0%     62.8%      0.0%      0.0%     19.4%      1.8%     15.9%
+data/level_c_140000.s              $140000-$16B035   176181      0.0%     83.2%      0.0%      0.0%      0.0%      0.0%     16.8%
+data/level_d_16b035.s              $16B035-$18D152   139549      0.0%     13.4%     26.8%      0.0%      0.0%      7.6%     52.3%
+data/anim_a_18db78.s               $18DB78-$1B0000   140424      0.0%      0.0%     74.7%      0.0%      0.0%      0.2%     25.1%
+data/anim_b_1b0000.s               $1B0000-$1D0000   131072      0.0%      0.0%     47.8%      0.0%      0.0%      1.1%     51.1%
+data/anim_c_1d0000.s               $1D0000-$1F8000   163840      0.0%      0.0%     53.5%      0.0%      0.0%      0.3%     46.2%
+data/rom_tail_fill_1f8000.s        $1F8000-$200000    32768      0.0%      0.0%      3.4%      0.0%      0.0%     93.1%      3.5%
+TOTAL                                                 1611236      4.1%     16.6%     18.2%     11.2%      7.8%      8.7%     33.4%
+```
+
+| Tipo | Qué es | Herramienta / documento |
+|---|---|---|
+| paletas | `$14E00` × 1024 (y la ventana `$1CE00`), 16 colores × 4 B | `assets/tools/sprites.py` |
+| frames + animación | frames multi-pieza y bytecode de animación (981 animaciones exportadas) | `assets/tools/sprites.py` |
+| mapas de fondo | 52 capas de 13 escenas (`bind_path` de los scripts de escena) + panoramas con parallax | `assets/tools/levels.py` |
+| colisión | 18 mapas, 4 B por celda (`$200000+`) | `data/level_a_0f2ffc.s` |
+| tablas de color | `ColorRGB555ToNeoGeo_002f30` (32768 palabras), `ColorRamp_012fb0` (32×32) | `data/sprite_tables_002f30.s` |
+| otro (33 %) | tablas indexadas por rutina, sin decodificar | pendiente |
+
+## Assets (S/C/V-ROM)
+
+`assets/` extrae y reconstruye los demás ROMs del juego, byte a byte:
+`gfx.py` (fix 8×8 y sprites 16×16 ↔ PNG indexados), `audio.py` (375
+muestras ADPCM-A/B ↔ WAV, con codificador), `sprites.py`, `levels.py` y
+`data_census.py`. La música y los efectos se exportan a MIDI, WAV y VGM con
+`mrom/tools/export_midi.py` y `export_wav.py`. Ver `assets/README.md`.
 
 ## Como regenerar este documento
 

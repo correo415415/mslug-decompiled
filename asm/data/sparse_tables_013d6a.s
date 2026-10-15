@@ -4,10 +4,43 @@
 |  Región: $013D6A..$024E10  (69,798 B en 1 hueco(s), 322 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   Banco de paletas principal.
+|       $013D6A..$014E00  ceros (4 246 B, relleno de alineado).
+|       $014E00..$024E00  PaletteBankLo[1024] × 64 B (16 colores × 4 B: R,G,B,0
+|                         en 5 bits). Los índices 0..1023 de Entity_AllocSprite-
+|                         Slot_00236E (`move.w #pal,d1; jsr $236E`).
+|       $024E00..$024E10  16 B de código/datos residual antes de la siguiente
+|                         región de código.
+|     El "banco alto" ($1CE00, 512 paletas) está dentro de este mismo módulo
+|     (índices 1024.. de assets/tools/sprites.py) — en realidad es una ventana
+|     sobre esta misma tabla: $1CE00 = PaletteBankLo[512].
+|
+|  B. EVIDENCIA
+|   PalSlot_LoadList_002a7c (slots $10..$74 desde $14E00), PalSlot_LoadList-
+|     Hi_002b58 (desde $1CE00), Entity_AllocSpriteSlot_00236E; extraídas a PNG
+|     por assets/tools/sprites.py (palettes.png, 1536 paletas).
+|
+|  C. HIPÓTESIS / NOTAS
+|   El formato de 4 B por color (en lugar de la palabra Neo Geo) se convierte
+|     en tiempo de ejecución con ColorRGB555ToNeoGeo ($2F30).
+|
+|  D. FORMATOS
+|   Pal_XXXXXX: 64 B = 16 × {R, G, B, 0}, 0..31 por canal.
+|
+|  E. HELPERS / USUARIOS
+|   boot/boot_script_sound_palslots_000400.s (PalSlot_*), video/palette_engine_*.
+|   Rutinas con lea/move.l #abs a este módulo (9):
+|     PalSlot_LoadList_002a7c×2, Sprite_SetupSlotFromTableA×2,
+|     Entity_AllocSpriteSlot_00236E×1, Entity_ProbeSpriteSlot_29A8×1,
+|     PalSlot_AllocDynamic_0029f2×1, PalSlot_LoadListHi_002b58×1,
+|     SceneB_Stage5_08d000×1, SceneB_Stage6_08d04a×1
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 69798 B):
+|     paletas 93.9%, ceros 6.1%, otro 0.0%.
+|   Entradas por prefijo: Pal 306, Zero 15, Data 1.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 
@@ -20,123 +53,123 @@ Zero_013d6a:
         .fill   18,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_013d7c  @ $013D7C  (644 B)  [ref. desde código]
+|  Zero_013d7c  @ $013D7C  (644 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_013d7c, "ax", @progbits
-        .global Str_013d7c
-Str_013d7c:
+        .section .text.Zero_013d7c, "ax", @progbits
+        .global Zero_013d7c
+Zero_013d7c:
         .fill   644,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_014000  @ $014000  (505 B)  [ref. desde código]
+|  Zero_014000  @ $014000  (505 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_014000, "ax", @progbits
-        .global Str_014000
-Str_014000:
+        .section .text.Zero_014000, "ax", @progbits
+        .global Zero_014000
+Zero_014000:
         .fill   505,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0141f9  @ $0141F9  (1 B)  [ref. desde código]
+|  Zero_0141f9  @ $0141F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0141f9, "ax", @progbits
-        .global Data_0141f9
-Data_0141f9:
+        .section .text.Zero_0141f9, "ax", @progbits
+        .global Zero_0141f9
+Zero_0141f9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0141fa  @ $0141FA  (24 B)  [ref. desde código]
+|  Zero_0141fa  @ $0141FA  (24 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0141fa, "ax", @progbits
-        .global Str_0141fa
-Str_0141fa:
+        .section .text.Zero_0141fa, "ax", @progbits
+        .global Zero_0141fa
+Zero_0141fa:
         .fill   24,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_014212  @ $014212  (26 B)  [ref. desde código]
+|  Zero_014212  @ $014212  (26 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_014212, "ax", @progbits
-        .global Str_014212
-Str_014212:
+        .section .text.Zero_014212, "ax", @progbits
+        .global Zero_014212
+Zero_014212:
         .fill   26,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_01422c  @ $01422C  (461 B)  [ref. desde código]
+|  Zero_01422c  @ $01422C  (461 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_01422c, "ax", @progbits
-        .global Str_01422c
-Str_01422c:
+        .section .text.Zero_01422c, "ax", @progbits
+        .global Zero_01422c
+Zero_01422c:
         .fill   461,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0143f9  @ $0143F9  (520 B)  [ref. desde código]
+|  Zero_0143f9  @ $0143F9  (520 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0143f9, "ax", @progbits
-        .global Str_0143f9
-Str_0143f9:
+        .section .text.Zero_0143f9, "ax", @progbits
+        .global Zero_0143f9
+Zero_0143f9:
         .fill   520,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_014601  @ $014601  (696 B)  [ref. desde código]
+|  Zero_014601  @ $014601  (696 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_014601, "ax", @progbits
-        .global Str_014601
-Str_014601:
+        .section .text.Zero_014601, "ax", @progbits
+        .global Zero_014601
+Zero_014601:
         .fill   696,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0148b9  @ $0148B9  (8 B)  [ref. desde código]
+|  Zero_0148b9  @ $0148B9  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0148b9, "ax", @progbits
-        .global Str_0148b9
-Str_0148b9:
+        .section .text.Zero_0148b9, "ax", @progbits
+        .global Zero_0148b9
+Zero_0148b9:
         .fill   8,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0148c1  @ $0148C1  (38 B)  [ref. desde código]
+|  Zero_0148c1  @ $0148C1  (38 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0148c1, "ax", @progbits
-        .global Str_0148c1
-Str_0148c1:
+        .section .text.Zero_0148c1, "ax", @progbits
+        .global Zero_0148c1
+Zero_0148c1:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0148e7  @ $0148E7  (281 B)  [ref. desde código]
+|  Zero_0148e7  @ $0148E7  (281 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0148e7, "ax", @progbits
-        .global Str_0148e7
-Str_0148e7:
+        .section .text.Zero_0148e7, "ax", @progbits
+        .global Zero_0148e7
+Zero_0148e7:
         .fill   281,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_014a00  @ $014A00  (46 B)  [ref. desde código]
+|  Zero_014a00  @ $014A00  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_014a00, "ax", @progbits
-        .global Str_014a00
-Str_014a00:
+        .section .text.Zero_014a00, "ax", @progbits
+        .global Zero_014a00
+Zero_014a00:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_014a2e  @ $014A2E  (689 B)  [ref. desde código]
+|  Zero_014a2e  @ $014A2E  (689 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_014a2e, "ax", @progbits
-        .global Str_014a2e
-Str_014a2e:
+        .section .text.Zero_014a2e, "ax", @progbits
+        .global Zero_014a2e
+Zero_014a2e:
         .fill   689,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_014cdf  @ $014CDF  (289 B)  [ref. desde código]
+|  Zero_014cdf  @ $014CDF  (289 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_014cdf, "ax", @progbits
-        .global Str_014cdf
-Str_014cdf:
+        .section .text.Zero_014cdf, "ax", @progbits
+        .global Zero_014cdf
+Zero_014cdf:
         .fill   289,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_014e00  @ $014E00  (63 B)  [ref. desde código]
+|  Pal_014e00  @ $014E00  (63 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_014e00, "ax", @progbits
-        .global Data_014e00
-Data_014e00:
+        .section .text.Pal_014e00, "ax", @progbits
+        .global Pal_014e00
+Pal_014e00:
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00010
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00020
@@ -144,27 +177,27 @@ Data_014e00:
         .dc.b   0x1f                            | +0003e
 
 | ----------------------------------------------------------------------------
-|  Zero_014e3f  @ $014E3F  (54 B)
+|  Pal_014e3f  @ $014E3F  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_014e3f, "ax", @progbits
-        .global Zero_014e3f
-Zero_014e3f:
+        .section .text.Pal_014e3f, "ax", @progbits
+        .global Pal_014e3f
+Pal_014e3f:
         .fill   54,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_014e75  @ $014E75  (15 B)  [ref. desde código]
+|  Pal_014e75  @ $014E75  (15 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_014e75, "ax", @progbits
-        .global Str_014e75
-Str_014e75:
+        .section .text.Pal_014e75, "ax", @progbits
+        .global Pal_014e75
+Pal_014e75:
         .fill   15,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_014e84  @ $014E84  (53 B)
+|  Pal_014e84  @ $014E84  (53 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_014e84, "ax", @progbits
-        .global Data_014e84
-Data_014e84:
+        .section .text.Pal_014e84, "ax", @progbits
+        .global Pal_014e84
+Pal_014e84:
         .dc.w   0x1f1f,0x1f00,0x1818,0x1400,0x1212,0x0e00,0x0d0d,0x0900     | +00000
         .dc.w   0x0808,0x0400,0x0303,0x0000,0x1d17,0x0e00,0x1811,0x0900     | +00010
         .dc.w   0x120c,0x0400,0x1f1e,0x1c00,0x1f1e,0x1700,0x1f1c,0x1300     | +00020
@@ -172,19 +205,19 @@ Data_014e84:
         .dc.b   0x1e                            | +00034
 
 | ----------------------------------------------------------------------------
-|  Data_014eb9  @ $014EB9  (1 B)  [ref. desde código]
+|  Pal_014eb9  @ $014EB9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_014eb9, "ax", @progbits
-        .global Data_014eb9
-Data_014eb9:
+        .section .text.Pal_014eb9, "ax", @progbits
+        .global Pal_014eb9
+Pal_014eb9:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_014eba  @ $014EBA  (63 B)  [ref. desde código]
+|  Pal_014eba  @ $014EBA  (63 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_014eba, "ax", @progbits
-        .global Data_014eba
-Data_014eba:
+        .section .text.Pal_014eba, "ax", @progbits
+        .global Pal_014eba
+Pal_014eba:
         .dc.w   0x0900,0x1c10,0x0600,0x1212,0x1200,0x1f1f,0x1f00,0x1818     | +00000
         .dc.w   0x1400,0x1212,0x0e00,0x0d0d,0x0900,0x0808,0x0400,0x0303     | +00010
         .dc.w   0x0000,0x1817,0x1100,0x0f0e,0x0a00,0x0908,0x0400,0x1f1e     | +00020
@@ -192,11 +225,11 @@ Data_014eba:
         .dc.b   0x1e                            | +0003e
 
 | ----------------------------------------------------------------------------
-|  Data_014ef9  @ $014EF9  (157 B)  [ref. desde código]
+|  Pal_014ef9  @ $014EF9  (157 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_014ef9, "ax", @progbits
-        .global Data_014ef9
-Data_014ef9:
+        .section .text.Pal_014ef9, "ax", @progbits
+        .global Pal_014ef9
+Pal_014ef9:
         .dc.b   0x15                            | +00000
         .dc.w   0x0900,0x1c10,0x0600,0x1212,0x1200,0x1615,0x1300,0x1211     | +00001
         .dc.w   0x0f00,0x0f0e,0x0c00,0x0b0a,0x0800,0x0706,0x0400,0x0403     | +00011
@@ -210,19 +243,19 @@ Data_014ef9:
         .dc.w   0x1500,0x1c17,0x0e00,0x130e,0x0500,0x0c08                   | +00091
 
 | ----------------------------------------------------------------------------
-|  Zero_014f96  @ $014F96  (42 B)
+|  Pal_014f96  @ $014F96  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_014f96, "ax", @progbits
-        .global Zero_014f96
-Zero_014f96:
+        .section .text.Pal_014f96, "ax", @progbits
+        .global Pal_014f96
+Pal_014f96:
         .fill   42,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_014fc0  @ $014FC0  (522 B)
+|  Pal_014fc0  @ $014FC0  (522 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_014fc0, "ax", @progbits
-        .global Data_014fc0
-Data_014fc0:
+        .section .text.Pal_014fc0, "ax", @progbits
+        .global Pal_014fc0
+Pal_014fc0:
         .dc.w   0x1010,0x1000,0x1f00,0x0000,0x1900,0x0000,0x1500,0x0000     | +00000
         .dc.w   0x001f,0x0000,0x001b,0x0000,0x0017,0x0000,0x0000,0x1f00     | +00010
         .dc.w   0x0000,0x1900,0x0000,0x1600,0x1f1f,0x0000,0x1b1b,0x0000     | +00020
@@ -258,35 +291,35 @@ Data_014fc0:
         .dc.w   0x1f00,0x0000,0x001f                                        | +00204
 
 | ----------------------------------------------------------------------------
-|  Data_0151ca  @ $0151CA  (8 B)  [ref. desde código]
+|  Pal_0151ca  @ $0151CA  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0151ca, "ax", @progbits
-        .global Data_0151ca
-Data_0151ca:
+        .section .text.Pal_0151ca, "ax", @progbits
+        .global Pal_0151ca
+Pal_0151ca:
         .dc.w   0x0000,0x0000,0x1f00,0x1f1f                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_0151d2  @ $0151D2  (46 B)
+|  Pal_0151d2  @ $0151D2  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_0151d2, "ax", @progbits
-        .global Zero_0151d2
-Zero_0151d2:
+        .section .text.Pal_0151d2, "ax", @progbits
+        .global Pal_0151d2
+Pal_0151d2:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_015200  @ $015200  (1 B)
+|  Pal_015200  @ $015200  (1 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_015200, "ax", @progbits
-        .global Data_015200
-Data_015200:
+        .section .text.Pal_015200, "ax", @progbits
+        .global Pal_015200
+Pal_015200:
         .dc.b   0x12                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_015201  @ $015201  (56 B)  [ref. desde código]
+|  Pal_015201  @ $015201  (56 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_015201, "ax", @progbits
-        .global Data_015201
-Data_015201:
+        .section .text.Pal_015201, "ax", @progbits
+        .global Pal_015201
+Pal_015201:
         .dc.b   0x12                            | +00000
         .dc.w   0x1200,0x0000,0x0000,0x0406,0x0000,0x0609,0x0100,0x0a0c     | +00001
         .dc.w   0x0500,0x0d0f,0x0900,0x1113,0x0e00,0x1315,0x1100,0x1719     | +00011
@@ -295,28 +328,28 @@ Data_015201:
         .dc.b   0x19                            | +00037
 
 | ----------------------------------------------------------------------------
-|  Data_015239  @ $015239  (7 B)  [ref. desde código]
+|  Pal_015239  @ $015239  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_015239, "ax", @progbits
-        .global Data_015239
-Data_015239:
+        .section .text.Pal_015239, "ax", @progbits
+        .global Pal_015239
+Pal_015239:
         .dc.b   0x19                            | +00000
         .dc.w   0x1700,0x1f1f,0x1f00                                        | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_015240  @ $015240  (1 B)  [ref. desde código]
+|  Pal_015240  @ $015240  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_015240, "ax", @progbits
-        .global Data_015240
-Data_015240:
+        .section .text.Pal_015240, "ax", @progbits
+        .global Pal_015240
+Pal_015240:
         .dc.b   0x12                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_015241  @ $015241  (255 B)  [ref. desde código]
+|  Pal_015241  @ $015241  (255 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_015241, "ax", @progbits
-        .global Data_015241
-Data_015241:
+        .section .text.Pal_015241, "ax", @progbits
+        .global Pal_015241
+Pal_015241:
         .dc.b   0x12                            | +00000
         .dc.w   0x1200,0x1d1c,0x1400,0x1916,0x0e00,0x1512,0x0a00,0x100d     | +00001
         .dc.w   0x0500,0x0b08,0x0100,0x0503,0x0000,0x1b1e,0x1e00,0x1414     | +00011
@@ -336,11 +369,11 @@ Data_015241:
         .dc.w   0x1600,0x0b0f,0x1100,0x0609,0x0b00,0x0303,0x0400            | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_015340  @ $015340  (192 B)  [ref. desde código]
+|  Pal_015340  @ $015340  (192 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_015340, "ax", @progbits
-        .global Data_015340
-Data_015340:
+        .section .text.Pal_015340, "ax", @progbits
+        .global Pal_015340
+Pal_015340:
         .dc.w   0x000a,0x0000,0x1f1f,0x1f00,0x1a1a,0x1200,0x1414,0x0c00     | +00000
         .dc.w   0x0e0e,0x0700,0x0909,0x0300,0x0304,0x0000,0x1b19,0x1600     | +00010
         .dc.w   0x1513,0x1000,0x0e0c,0x0900,0x0907,0x0400,0x1414,0x1300     | +00020
@@ -355,11 +388,11 @@ Data_015340:
         .dc.w   0x1516,0x1900,0x0e0f,0x1200,0x0708,0x0b00,0x0304,0x0700     | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_015400  @ $015400  (966 B)  [ref. desde código]
+|  Pal_015400  @ $015400  (966 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_015400, "ax", @progbits
-        .global Data_015400
-Data_015400:
+        .section .text.Pal_015400, "ax", @progbits
+        .global Pal_015400
+Pal_015400:
         .dc.w   0x0908,0x0000,0x1e1e,0x1f00,0x1a1a,0x1b00,0x1515,0x1600     | +00000
         .dc.w   0x1010,0x1100,0x0c0c,0x0d00,0x0808,0x0900                   | +00010
         .fill   12,1,0x00                      | +0001c
@@ -426,19 +459,19 @@ Data_015400:
         .dc.w   0x1212,0x1200,0x1a19                                        | +003c0
 
 | ----------------------------------------------------------------------------
-|  Data_0157c6  @ $0157C6  (1 B)  [ref. desde código]
+|  Pal_0157c6  @ $0157C6  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0157c6, "ax", @progbits
-        .global Data_0157c6
-Data_0157c6:
+        .section .text.Pal_0157c6, "ax", @progbits
+        .global Pal_0157c6
+Pal_0157c6:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0157c7  @ $0157C7  (377 B)  [ref. desde código]
+|  Pal_0157c7  @ $0157C7  (377 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0157c7, "ax", @progbits
-        .global Data_0157c7
-Data_0157c7:
+        .section .text.Pal_0157c7, "ax", @progbits
+        .global Pal_0157c7
+Pal_0157c7:
         .dc.b   0x00                            | +00000
         .dc.w   0x1f19,0x1100,0x1d14,0x0c00,0x170d,0x0500,0x1409,0x0100     | +00001
         .dc.w   0x0f07,0x0100,0x1514,0x1000,0x0f0e,0x0a00,0x0a09,0x0500     | +00011
@@ -466,11 +499,11 @@ Data_0157c7:
         .dc.w   0x0909,0x0800,0x0303,0x0200                                 | +00171
 
 | ----------------------------------------------------------------------------
-|  Data_015940  @ $015940  (1,728 B)  [ref. desde código]
+|  Pal_015940  @ $015940  (1,728 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_015940, "ax", @progbits
-        .global Data_015940
-Data_015940:
+        .section .text.Pal_015940, "ax", @progbits
+        .global Pal_015940
+Pal_015940:
         .dc.w   0x1010,0x1000,0x1f1f,0x1f00,0x1f1e,0x0f00,0x1c18,0x0800     | +00000
         .dc.w   0x1a13,0x0100,0x180e,0x0000,0x1309,0x0000,0x0e04,0x0000     | +00010
         .dc.w   0x0706,0x0500,0x1d19,0x0e00,0x1613,0x0800,0x0e0b,0x0200     | +00020
@@ -487,7 +520,7 @@ Data_015940:
         .dc.w   0x1d19,0x1000,0x1e1c,0x1400,0x1f1f,0x1900,0x1c18,0x0f00     | +000d0
         .dc.w   0x1915,0x0e00,0x1513,0x0c00,0x1210,0x0b00,0x0e0d,0x0900     | +000e0
         .dc.w   0x0b0a,0x0800,0x0708,0x0600,0x0405,0x0500                   | +000f0
-        .dc.l   Data_020300                   | +000fc  -> $020300
+        .dc.l   Pal_020300                   | +000fc  -> $020300
         .dc.w   0x1b00,0x1c00,0x1312,0x0e00,0x0f0e,0x0b00,0x0a0a,0x0700     | +00100
         .dc.w   0x0707,0x0500,0x0505,0x0300,0x0303,0x0200,0x1717,0x1200     | +00110
         .dc.w   0x1111,0x0c00,0x0c0c,0x0800,0x0707,0x0300,0x1717,0x1400     | +00120
@@ -588,19 +621,19 @@ Data_015940:
         .dc.w   0x0000,0x1f00,0x0000,0x1f00,0x0000,0x1f00                   | +006b4
 
 | ----------------------------------------------------------------------------
-|  Data_016000  @ $016000  (2 B)  [ref. desde código]
+|  Pal_016000  @ $016000  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016000, "ax", @progbits
-        .global Data_016000
-Data_016000:
+        .section .text.Pal_016000, "ax", @progbits
+        .global Pal_016000
+Pal_016000:
         .dc.w   0x1212                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_016002  @ $016002  (176 B)  [ref. desde código]
+|  Pal_016002  @ $016002  (176 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016002, "ax", @progbits
-        .global Data_016002
-Data_016002:
+        .section .text.Pal_016002, "ax", @progbits
+        .global Pal_016002
+Pal_016002:
         .dc.w   0x1200,0x1b1a,0x1500,0x1615,0x0f00,0x100f,0x0800,0x090a     | +00000
         .dc.w   0x0400,0x0606,0x0000,0x0404,0x0000,0x1f18,0x0c00,0x1911     | +00010
         .dc.w   0x0800,0x120d,0x0400,0x0906,0x0000,0x1f1f,0x1f00,0x1817     | +00020
@@ -614,31 +647,31 @@ Data_016002:
         .dc.w   0x1200,0x1f14,0x0b00,0x1f0d,0x0400,0x1b08,0x0200,0x1504     | +000a0
 
 | ----------------------------------------------------------------------------
-|  Data_0160b2  @ $0160B2  (58 B)  [ref. desde código]
+|  Pal_0160b2  @ $0160B2  (58 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0160b2, "ax", @progbits
-        .global Data_0160b2
-Data_0160b2:
+        .section .text.Pal_0160b2, "ax", @progbits
+        .global Pal_0160b2
+Pal_0160b2:
         .dc.w   0x0000,0x0d00,0x0000,0x0800,0x0000,0x0000,0x0000,0x1111     | +00000
         .dc.w   0x1100,0x1f1f,0x1f00,0x1a19,0x1000,0x1211,0x0800,0x0c0a     | +00010
         .dc.w   0x0100,0x0605,0x0000,0x0302,0x0000,0x1a17,0x1100,0x110e     | +00020
         .dc.w   0x0a00,0x0805,0x0100,0x1717,0x1500                          | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0160ec  @ $0160EC  (20 B)  [ref. desde código]
+|  Pal_0160ec  @ $0160EC  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0160ec, "ax", @progbits
-        .global Data_0160ec
-Data_0160ec:
+        .section .text.Pal_0160ec, "ax", @progbits
+        .global Pal_0160ec
+Pal_0160ec:
         .dc.w   0x0e0e,0x0e00,0x0707,0x0700,0x1e19,0x1000,0x1b10,0x0600     | +00000
         .dc.w   0x1608,0x0000                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_016100  @ $016100  (256 B)  [ref. desde código]
+|  Pal_016100  @ $016100  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016100, "ax", @progbits
-        .global Data_016100
-Data_016100:
+        .section .text.Pal_016100, "ax", @progbits
+        .global Pal_016100
+Pal_016100:
         .dc.w   0x1212,0x1200,0x1f1f,0x1f00,0x1f1a,0x1400,0x1b15,0x0f00     | +00000
         .dc.w   0x150f,0x0900,0x0e08,0x0500,0x0803,0x0000,0x0501            | +00010
         .fill   10,1,0x00                      | +0001e
@@ -658,11 +691,11 @@ Data_016100:
         .dc.w   0x0f05,0x0000,0x1516,0x1300,0x0e0f,0x0c00,0x0809,0x0600     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_016200  @ $016200  (512 B)  [ref. desde código]
+|  Pal_016200  @ $016200  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016200, "ax", @progbits
-        .global Data_016200
-Data_016200:
+        .section .text.Pal_016200, "ax", @progbits
+        .global Pal_016200
+Pal_016200:
         .dc.w   0x1a18,0x1400,0x1516,0x1600,0x1011,0x1100,0x0b0c,0x0c00     | +00000
         .dc.w   0x0809,0x0900,0x0506,0x0600,0x0203,0x0300,0x1c1a,0x1400     | +00010
         .dc.w   0x1613,0x0c00,0x0e0b,0x0600,0x0806,0x0000,0x1f1f,0x1f00     | +00020
@@ -697,11 +730,11 @@ Data_016200:
         .dc.w   0x1e17,0x1100,0x1a10,0x0b00,0x170c,0x0a00,0x1404,0x0400     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_016400  @ $016400  (512 B)  [ref. desde código]
+|  Pal_016400  @ $016400  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016400, "ax", @progbits
-        .global Data_016400
-Data_016400:
+        .section .text.Pal_016400, "ax", @progbits
+        .global Pal_016400
+Pal_016400:
         .dc.w   0x1212,0x1200,0x1b1a,0x1800,0x1514,0x1200,0x0f0e,0x0c00     | +00000
         .dc.w   0x0a09,0x0700,0x0605,0x0300,0x0201,0x0000,0x1609,0x0500     | +00010
         .dc.w   0x1104,0x0100,0x0c01,0x0100,0x1f1f,0x1f00,0x1f1f,0x1700     | +00020
@@ -736,11 +769,11 @@ Data_016400:
         .dc.w   0x1013,0x1600,0x1416,0x1a00,0x191b,0x1f00,0x1f1f,0x1f00     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_016600  @ $016600  (224 B)  [ref. desde código]
+|  Pal_016600  @ $016600  (224 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016600, "ax", @progbits
-        .global Data_016600
-Data_016600:
+        .section .text.Pal_016600, "ax", @progbits
+        .global Pal_016600
+Pal_016600:
         .dc.w   0x0000,0x0000,0x1f1f,0x1e00,0x1a18,0x1300,0x1311,0x0c00     | +00000
         .dc.w   0x0e0c,0x0700,0x0806,0x0100,0x0301,0x0000,0x1718,0x1800     | +00010
         .dc.w   0x0f10,0x1000,0x0a0b,0x0b00,0x0607,0x0700,0x0102,0x0200     | +00020
@@ -757,20 +790,20 @@ Data_016600:
         .dc.w   0x1315,0x1600,0x1112,0x1400,0x0e0f,0x1100,0x0c0d,0x0f00     | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_0166e0  @ $0166E0  (32 B)  [ref. desde código]
+|  Pal_0166e0  @ $0166E0  (32 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0166e0, "ax", @progbits
-        .global Data_0166e0
-Data_0166e0:
+        .section .text.Pal_0166e0, "ax", @progbits
+        .global Pal_0166e0
+Pal_0166e0:
         .dc.w   0x0a0b,0x0d00,0x0809,0x0a00,0x1112,0x1400,0x0d0e,0x1000     | +00000
         .dc.w   0x0a0b,0x0d00,0x0809,0x0b00,0x0607,0x0900,0x0405,0x0700     | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_016700  @ $016700  (1,280 B)  [ref. desde código]
+|  Pal_016700  @ $016700  (1,280 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016700, "ax", @progbits
-        .global Data_016700
-Data_016700:
+        .section .text.Pal_016700, "ax", @progbits
+        .global Pal_016700
+Pal_016700:
         .dc.w   0x1010,0x1000,0x1f1f,0x1f00,0x1b1b,0x1800,0x1a19,0x1400     | +00000
         .dc.w   0x1715,0x1000,0x1411,0x0c00,0x120e,0x0900,0x0f0c,0x0800     | +00010
         .dc.w   0x0d0a,0x0600,0x0c09,0x0500,0x1715,0x1000,0x1310,0x0b00     | +00020
@@ -818,7 +851,7 @@ Data_016700:
         .dc.w   0x0100,0x0301,0x0000,0x1c16,0x1000,0x140e,0x0800,0x0d07     | +002aa
         .dc.w   0x0400,0x0702,0x0000,0x1212,0x1200,0x1f1f,0x1d00,0x191d     | +002ba
         .dc.w   0x1e00,0x1316,0x1800,0x0b0e,0x1000,0x0508,0x0900            | +002ca
-        .dc.l   Data_020300                   | +002d8  -> $020300
+        .dc.l   Pal_020300                   | +002d8  -> $020300
         .dc.w   0x1f1c,0x1500,0x1913,0x0c00,0x110c,0x0700,0x0703,0x0100     | +002dc
         .dc.w   0x1c19,0x1300,0x1512,0x0c00,0x0e0b,0x0500,0x0906,0x0000     | +002ec
         .dc.w   0x1003,0x0000,0x1212,0x1200,0x1f1e,0x1e00,0x1413,0x1300     | +002fc
@@ -856,11 +889,11 @@ Data_016700:
         .dc.w   0x0804,0x0000                                               | +004fc
 
 | ----------------------------------------------------------------------------
-|  Data_016c00  @ $016C00  (512 B)  [ref. desde código]
+|  Pal_016c00  @ $016C00  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016c00, "ax", @progbits
-        .global Data_016c00
-Data_016c00:
+        .section .text.Pal_016c00, "ax", @progbits
+        .global Pal_016c00
+Pal_016c00:
         .dc.w   0x1212,0x1200,0x1f1f,0x1f00,0x1b1e,0x1600,0x1013,0x0c00     | +00000
         .dc.w   0x090c,0x0500,0x0507,0x0000,0x1c1c,0x1b00,0x1915,0x0e00     | +00010
         .dc.w   0x120e,0x0700,0x0d09,0x0200,0x0703,0x0000,0x001f,0x0000     | +00020
@@ -895,11 +928,11 @@ Data_016c00:
         .dc.w   0x0a0f,0x1200,0x060b,0x0e00,0x0207,0x0a00,0x0003,0x0600     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_016e00  @ $016E00  (4,099 B)  [ref. desde código]
+|  Pal_016e00  @ $016E00  (4,099 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_016e00, "ax", @progbits
-        .global Data_016e00
-Data_016e00:
+        .section .text.Pal_016e00, "ax", @progbits
+        .global Pal_016e00
+Pal_016e00:
         .dc.w   0x0000,0x0000,0x1f1f,0x1f00,0x1c1c,0x1a00,0x1818,0x1500     | +00000
         .dc.w   0x1111,0x0f00,0x0909,0x0700,0x0302,0x0100,0x1e1a,0x1300     | +00010
         .dc.w   0x1713,0x0d00,0x100c,0x0700,0x0805,0x0000,0x1c1b,0x1900     | +00020
@@ -1152,7 +1185,7 @@ Data_016e00:
         .dc.w   0x1f00,0x0000,0x1f00,0x0000,0x1f00,0x0000,0x1f00,0x0000     | +00f08
         .dc.w   0x1f00,0x0000,0x1f00,0x0000,0x1f00,0x0000,0x0204,0x0400     | +00f18
         .dc.w   0x0103,0x0300                                               | +00f28
-        .dc.l   Data_020200                   | +00f2c  -> $020200
+        .dc.l   Pal_020200                   | +00f2c  -> $020200
         .dc.l   Data_010200                   | +00f30  -> $010200
         .dc.l   Data_010100                   | +00f34  -> $010100
         .dc.w   0x0000,0x0100,0x0000,0x0000,0x000b,0x0000,0x0000,0x0000     | +00f38
@@ -1175,11 +1208,11 @@ Data_016e00:
         .dc.b   0x09                            | +01002
 
 | ----------------------------------------------------------------------------
-|  Data_017e03  @ $017E03  (509 B)  [ref. desde código]
+|  Pal_017e03  @ $017E03  (509 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_017e03, "ax", @progbits
-        .global Data_017e03
-Data_017e03:
+        .section .text.Pal_017e03, "ax", @progbits
+        .global Pal_017e03
+Pal_017e03:
         .dc.b   0x00                            | +00000
         .dc.w   0x1f1f,0x1f00,0x1111,0x0f00,0x0505,0x0300,0x0101            | +00001
         .fill   10,1,0x00                      | +0000f
@@ -1230,11 +1263,11 @@ Data_017e03:
         .dc.w   0x0103,0x0400                                               | +001f9
 
 | ----------------------------------------------------------------------------
-|  Data_018000  @ $018000  (296 B)  [ref. desde código]
+|  Pal_018000  @ $018000  (296 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_018000, "ax", @progbits
-        .global Data_018000
-Data_018000:
+        .section .text.Pal_018000, "ax", @progbits
+        .global Pal_018000
+Pal_018000:
         .dc.w   0x0d09,0x0d00,0x0506,0x0600,0x1f00,0x0000,0x1f00,0x0000     | +00000
         .dc.w   0x1f00,0x0000,0x1f00,0x0000,0x0000,0x0000,0x0304,0x0400     | +00010
         .dc.w   0x0203,0x0300,0x0102,0x0200                                 | +00020
@@ -1261,27 +1294,27 @@ Data_018000:
         .dc.w   0x0400,0x0c08,0x0300,0x1c1a,0x1100                          | +0011e
 
 | ----------------------------------------------------------------------------
-|  Data_018128  @ $018128  (6 B)  [ref. desde código]
+|  Pal_018128  @ $018128  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_018128, "ax", @progbits
-        .global Data_018128
-Data_018128:
+        .section .text.Pal_018128, "ax", @progbits
+        .global Pal_018128
+Pal_018128:
         .dc.w   0x1614,0x0c00,0x100e                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01812e  @ $01812E  (8 B)  [ref. desde código]
+|  Pal_01812e  @ $01812E  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01812e, "ax", @progbits
-        .global Data_01812e
-Data_01812e:
+        .section .text.Pal_01812e, "ax", @progbits
+        .global Pal_01812e
+Pal_01812e:
         .dc.w   0x0800,0x0b09,0x0400,0x0806                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_018136  @ $018136  (1,097 B)  [ref. desde código]
+|  Pal_018136  @ $018136  (1,097 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_018136, "ax", @progbits
-        .global Data_018136
-Data_018136:
+        .section .text.Pal_018136, "ax", @progbits
+        .global Pal_018136
+Pal_018136:
         .dc.w   0x0200,0x0604,0x0100,0x0503,0x0000,0x0e09,0x1100,0x1f1f     | +00000
         .dc.w   0x1f00,0x1f18,0x0c00,0x1b0e,0x0400,0x1204,0x0000,0x0800     | +00010
         .dc.w   0x0000,0x0300                                               | +00020
@@ -1357,19 +1390,19 @@ Data_018136:
         .dc.b   0x14                            | +00448
 
 | ----------------------------------------------------------------------------
-|  Zero_01857f  @ $01857F  (37 B)
+|  Pal_01857f  @ $01857F  (37 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_01857f, "ax", @progbits
-        .global Zero_01857f
-Zero_01857f:
+        .section .text.Pal_01857f, "ax", @progbits
+        .global Pal_01857f
+Pal_01857f:
         .fill   37,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0185a4  @ $0185A4  (1,206 B)
+|  Pal_0185a4  @ $0185A4  (1,206 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_0185a4, "ax", @progbits
-        .global Data_0185a4
-Data_0185a4:
+        .section .text.Pal_0185a4, "ax", @progbits
+        .global Pal_0185a4
+Pal_0185a4:
         .dc.w   0x0201,0x0000,0x0504,0x0200,0x0807,0x0500,0x0b0a,0x0800     | +00000
         .dc.w   0x0f0e,0x0c00,0x1514,0x1100,0x1b19,0x1600,0x000e,0x0600     | +00010
         .dc.w   0x0000,0x0000,0x0203,0x0400,0x0506,0x0700,0x0809,0x0a00     | +00020
@@ -1452,19 +1485,19 @@ Data_0185a4:
         .dc.w   0x0600,0x0f0a,0x0200,0x0b06                                 | +004ae
 
 | ----------------------------------------------------------------------------
-|  Zero_018a5a  @ $018A5A  (38 B)
+|  Pal_018a5a  @ $018A5A  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_018a5a, "ax", @progbits
-        .global Zero_018a5a
-Zero_018a5a:
+        .section .text.Pal_018a5a, "ax", @progbits
+        .global Pal_018a5a
+Pal_018a5a:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_018a80  @ $018A80  (1,518 B)
+|  Pal_018a80  @ $018A80  (1,518 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_018a80, "ax", @progbits
-        .global Data_018a80
-Data_018a80:
+        .section .text.Pal_018a80, "ax", @progbits
+        .global Pal_018a80
+Pal_018a80:
         .dc.w   0x1212,0x1200,0x1f1f,0x1e00,0x1f1e,0x1600,0x1a15,0x0b00     | +00000
         .dc.w   0x130f,0x0800,0x0e0a,0x0400,0x0805,0x0200,0x0301,0x0000     | +00010
         .dc.w   0x1f19,0x0a00,0x1a12,0x0500,0x120a,0x0000,0x1412,0x0f00     | +00020
@@ -1568,11 +1601,11 @@ Data_018a80:
         .dc.w   0x1f11,0x0500,0x1a0c,0x0000,0x1f1f                          | +005e4
 
 | ----------------------------------------------------------------------------
-|  Data_01906e  @ $01906E  (256 B)  [ref. desde código]
+|  Pal_01906e  @ $01906E  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01906e, "ax", @progbits
-        .global Data_01906e
-Data_01906e:
+        .section .text.Pal_01906e, "ax", @progbits
+        .global Pal_01906e
+Pal_01906e:
         .dc.w   0x1f00,0x1f1a,0x1100,0x1f17,0x0b00,0x1f11,0x0500,0x190b     | +00000
         .dc.w   0x0000,0x0000,0x0000,0x1f1f,0x1f00,0x1f1d,0x1600,0x1f1a     | +00010
         .dc.w   0x1100,0x1f17,0x0b00,0x1f11,0x0500,0x1a0c,0x0000,0x1f1a     | +00020
@@ -1591,11 +1624,11 @@ Data_01906e:
         .dc.w   0x1100,0x1f17,0x0b00,0x1f11,0x0500,0x1f1d,0x1600,0x1f1a     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_01916e  @ $01916E  (1,037 B)  [ref. desde código]
+|  Pal_01916e  @ $01916E  (1,037 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01916e, "ax", @progbits
-        .global Data_01916e
-Data_01916e:
+        .section .text.Pal_01916e, "ax", @progbits
+        .global Pal_01916e
+Pal_01916e:
         .dc.w   0x1100,0x1f17,0x0b00,0x1f1a,0x1100,0x1f17,0x0b00,0x1f11     | +00000
         .dc.w   0x0500,0x0000,0x0000,0x1f1f,0x1f00,0x1f1d,0x1600,0x1f1a     | +00010
         .dc.w   0x1100,0x1f17,0x0b00,0x1f11,0x0500,0x1a0c,0x0000,0x1608     | +00020
@@ -1663,19 +1696,19 @@ Data_01916e:
         .dc.b   0x08                            | +0040c
 
 | ----------------------------------------------------------------------------
-|  Zero_01957b  @ $01957B  (33 B)
+|  Pal_01957b  @ $01957B  (33 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_01957b, "ax", @progbits
-        .global Zero_01957b
-Zero_01957b:
+        .section .text.Pal_01957b, "ax", @progbits
+        .global Pal_01957b
+Pal_01957b:
         .fill   33,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01959c  @ $01959C  (63 B)
+|  Pal_01959c  @ $01959C  (63 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_01959c, "ax", @progbits
-        .global Data_01959c
-Data_01959c:
+        .section .text.Pal_01959c, "ax", @progbits
+        .global Pal_01959c
+Pal_01959c:
         .dc.w   0x0e00,0x1f00,0x0c00,0x1c00,0x0b00,0x1800,0x0900,0x1500     | +00000
         .dc.w   0x0800,0x1100,0x0600,0x0e00,0x0500,0x0a00,0x0300,0x0700     | +00010
         .dc.w   0x0200,0x0300                                               | +00020
@@ -1685,19 +1718,19 @@ Data_01959c:
         .dc.b   0x09                            | +0003e
 
 | ----------------------------------------------------------------------------
-|  Zero_0195db  @ $0195DB  (37 B)
+|  Pal_0195db  @ $0195DB  (37 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_0195db, "ax", @progbits
-        .global Zero_0195db
-Zero_0195db:
+        .section .text.Pal_0195db, "ax", @progbits
+        .global Pal_0195db
+Pal_0195db:
         .fill   37,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_019600  @ $019600  (2,558 B)
+|  Pal_019600  @ $019600  (2,558 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_019600, "ax", @progbits
-        .global Data_019600
-Data_019600:
+        .section .text.Pal_019600, "ax", @progbits
+        .global Pal_019600
+Pal_019600:
         .dc.w   0x1f1f,0x1f00                                               | +00000
         .fill   16,1,0x00                      | +00004
         .dc.w   0x0d0d,0x0d00,0x1818,0x1800,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00014
@@ -1868,27 +1901,27 @@ Data_019600:
         .dc.w   0x0d00,0x1a0f,0x0500,0x1709                                 | +009f6
 
 | ----------------------------------------------------------------------------
-|  Zero_019ffe  @ $019FFE  (2 B)
+|  Pal_019ffe  @ $019FFE  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_019ffe, "ax", @progbits
-        .global Zero_019ffe
-Zero_019ffe:
+        .section .text.Pal_019ffe, "ax", @progbits
+        .global Pal_019ffe
+Pal_019ffe:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_01a000  @ $01A000  (32 B)  [ref. desde código]
+|  Pal_01a000  @ $01A000  (32 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_01a000, "ax", @progbits
-        .global Str_01a000
-Str_01a000:
+        .section .text.Pal_01a000, "ax", @progbits
+        .global Pal_01a000
+Pal_01a000:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01a020  @ $01A020  (4,065 B)
+|  Pal_01a020  @ $01A020  (4,065 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_01a020, "ax", @progbits
-        .global Data_01a020
-Data_01a020:
+        .section .text.Pal_01a020, "ax", @progbits
+        .global Pal_01a020
+Pal_01a020:
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1000,0x1f19,0x0000,0x1f10,0x0000     | +00000
         .dc.w   0x1b07,0x0000,0x1100,0x0000,0x0a00,0x0000,0x0600,0x0000     | +00010
         .dc.w   0x0606,0x0900,0x1c18,0x1100,0x1610,0x0a00,0x0b08,0x0200     | +00020
@@ -2159,11 +2192,11 @@ Data_01a020:
         .dc.b   0x10                            | +00fe0
 
 | ----------------------------------------------------------------------------
-|  Data_01b001  @ $01B001  (64 B)  [ref. desde código]
+|  Pal_01b001  @ $01B001  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b001, "ax", @progbits
-        .global Data_01b001
-Data_01b001:
+        .section .text.Pal_01b001, "ax", @progbits
+        .global Pal_01b001
+Pal_01b001:
         .dc.b   0x10                            | +00000
         .dc.w   0x1000,0x1e1e,0x1e00,0x1314,0x1400,0x0d0e,0x0e00,0x0809     | +00001
         .dc.w   0x0900,0x0405,0x0500,0x1e1a,0x0f00,0x1610,0x0800,0x0f09     | +00011
@@ -2174,22 +2207,22 @@ Data_01b001:
         .dc.b   0x0a                            | +0003f
 
 | ----------------------------------------------------------------------------
-|  Data_01b041  @ $01B041  (45 B)  [ref. desde código]
+|  Pal_01b041  @ $01B041  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b041, "ax", @progbits
-        .global Data_01b041
-Data_01b041:
+        .section .text.Pal_01b041, "ax", @progbits
+        .global Pal_01b041
+Pal_01b041:
         .dc.b   0x0a                            | +00000
         .dc.w   0x0f00,0x1c1c,0x1c00,0x1514,0x1200,0x1312,0x1000,0x1110     | +00001
         .dc.w   0x0e00,0x0f0e,0x0c00,0x0d0c,0x0a00,0x111f,0x0000,0x111f     | +00011
         .dc.w   0x0000,0x111f,0x0000,0x111f,0x0000,0x1312                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_01b06e  @ $01B06E  (192 B)  [ref. desde código]
+|  Pal_01b06e  @ $01B06E  (192 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b06e, "ax", @progbits
-        .global Data_01b06e
-Data_01b06e:
+        .section .text.Pal_01b06e, "ax", @progbits
+        .global Pal_01b06e
+Pal_01b06e:
         .dc.w   0x1000,0x0d0c,0x0a00,0x0807,0x0500,0x0403,0x0100,0x0101     | +00000
         .dc.w   0x0100,0x1010,0x1000,0x1f1f,0x1f00,0x1f1d,0x1200,0x1f16     | +00010
         .dc.w   0x0c00,0x1c10,0x0600,0x1a0d,0x0000,0x1f1d,0x1200,0x1f16     | +00020
@@ -2204,19 +2237,19 @@ Data_01b06e:
         .dc.w   0x1100,0x1a14,0x0b00,0x120d,0x0500,0x0804,0x0000,0x1f1f     | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_01b12e  @ $01B12E  (8 B)  [ref. desde código]
+|  Pal_01b12e  @ $01B12E  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b12e, "ax", @progbits
-        .global Data_01b12e
-Data_01b12e:
+        .section .text.Pal_01b12e, "ax", @progbits
+        .global Pal_01b12e
+Pal_01b12e:
         .dc.w   0x0f00,0x1f17,0x0000,0x1f0f                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01b136  @ $01B136  (202 B)  [ref. desde código]
+|  Pal_01b136  @ $01B136  (202 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b136, "ax", @progbits
-        .global Data_01b136
-Data_01b136:
+        .section .text.Pal_01b136, "ax", @progbits
+        .global Pal_01b136
+Pal_01b136:
         .dc.w   0x0000,0x1f07,0x0000,0x1200,0x0000,0x0e0e,0x0e00,0x1f1f     | +00000
         .dc.w   0x1d00,0x1212,0x0d00,0x1010,0x0b00,0x0e0e,0x0900,0x0c0c     | +00010
         .dc.w   0x0700,0x1212,0x0d00,0x1010,0x0b00,0x0e0e,0x0900,0x0c0c     | +00020
@@ -2232,11 +2265,11 @@ Data_01b136:
         .dc.w   0x0800,0x1c11,0x0600,0x190c,0x0400                          | +000c0
 
 | ----------------------------------------------------------------------------
-|  Data_01b200  @ $01B200  (106 B)  [ref. desde código]
+|  Pal_01b200  @ $01B200  (106 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b200, "ax", @progbits
-        .global Data_01b200
-Data_01b200:
+        .section .text.Pal_01b200, "ax", @progbits
+        .global Pal_01b200
+Pal_01b200:
         .dc.w   0x1010,0x1000,0x1f1f,0x1d00,0x1b1f,0x1f00,0x171c,0x1e00     | +00000
         .dc.w   0x1117,0x1900,0x0d11,0x1500,0x080c,0x1000,0x0408,0x0c00     | +00010
         .dc.w   0x1b1f,0x1f00,0x171c,0x1e00,0x1117,0x1900,0x0d11,0x1500     | +00020
@@ -2246,11 +2279,11 @@ Data_01b200:
         .dc.w   0x1f1d,0x1200,0x1a14,0x0b00,0x110b                          | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_01b26a  @ $01B26A  (407 B)  [ref. desde código]
+|  Pal_01b26a  @ $01B26A  (407 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b26a, "ax", @progbits
-        .global Data_01b26a
-Data_01b26a:
+        .section .text.Pal_01b26a, "ax", @progbits
+        .global Pal_01b26a
+Pal_01b26a:
         .dc.w   0x0400,0x0804,0x0000,0x1608,0x0000,0x0f00,0x0000,0x1f1c     | +00000
         .dc.w   0x0900,0x1c13,0x0500,0x1010,0x1000,0x1f1f,0x1d00,0x1b1f     | +00010
         .dc.w   0x1f00,0x171c,0x1e00,0x1a16,0x0e00,0x110d,0x0700,0x0a06     | +00020
@@ -2281,11 +2314,11 @@ Data_01b26a:
         .dc.b   0x12                            | +00196
 
 | ----------------------------------------------------------------------------
-|  Data_01b401  @ $01B401  (507 B)  [ref. desde código]
+|  Pal_01b401  @ $01B401  (507 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b401, "ax", @progbits
-        .global Data_01b401
-Data_01b401:
+        .section .text.Pal_01b401, "ax", @progbits
+        .global Pal_01b401
+Pal_01b401:
         .dc.b   0x12                            | +00000
         .dc.w   0x1200,0x1f1f,0x1f00,0x1818,0x1400,0x1212,0x0e00,0x1417     | +00001
         .dc.w   0x1500,0x0808,0x0400,0x0303,0x0000,0x1817,0x1100,0x0f0e     | +00011
@@ -2321,11 +2354,11 @@ Data_01b401:
         .dc.w   0x0c00,0x1c11,0x0a00,0x190c,0x0800                          | +001f1
 
 | ----------------------------------------------------------------------------
-|  Data_01b5fc  @ $01B5FC  (2,048 B)  [ref. desde código]
+|  Pal_01b5fc  @ $01B5FC  (2,048 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01b5fc, "ax", @progbits
-        .global Data_01b5fc
-Data_01b5fc:
+        .section .text.Pal_01b5fc, "ax", @progbits
+        .global Pal_01b5fc
+Pal_01b5fc:
         .dc.w   0x1003,0x0000,0x1212,0x1200,0x1f1f,0x1d00,0x1f1d,0x0d00     | +00000
         .dc.w   0x1c16,0x0800,0x150e,0x0000,0x0c07,0x0000,0x0403,0x0000     | +00010
         .dc.w   0x1f1c,0x1600,0x1a13,0x0d00,0x110b,0x0500,0x0806,0x0000     | +00020
@@ -2459,11 +2492,11 @@ Data_01b5fc:
         .dc.w   0x0000,0x1001,0x0000,0x1f1d,0x0f00                          | +007f6
 
 | ----------------------------------------------------------------------------
-|  Data_01bdfc  @ $01BDFC  (516 B)  [ref. desde código]
+|  Pal_01bdfc  @ $01BDFC  (516 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01bdfc, "ax", @progbits
-        .global Data_01bdfc
-Data_01bdfc:
+        .section .text.Pal_01bdfc, "ax", @progbits
+        .global Pal_01bdfc
+Pal_01bdfc:
         .dc.w   0x1d17,0x0800,0x1010,0x1000,0x1f1f,0x1d00,0x0c0a,0x0600     | +00000
         .dc.w   0x0504,0x0000,0x1814,0x0e00,0x120e,0x0800,0x0b07,0x0100     | +00010
         .dc.w   0x0501,0x0000,0x1f15,0x0700,0x1d0f,0x0400,0x1305,0x0000     | +00020
@@ -2500,11 +2533,11 @@ Data_01bdfc:
         .dc.w   0x0000                                                      | +00202
 
 | ----------------------------------------------------------------------------
-|  Data_01c000  @ $01C000  (310 B)  [ref. desde código]
+|  Pal_01c000  @ $01C000  (310 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01c000, "ax", @progbits
-        .global Data_01c000
-Data_01c000:
+        .section .text.Pal_01c000, "ax", @progbits
+        .global Pal_01c000
+Pal_01c000:
         .dc.w   0x1010,0x1000,0x1f1f,0x1d00,0x1210,0x0d00,0x0d0b,0x0800     | +00000
         .dc.w   0x0806,0x0300,0x0402,0x0000,0x1f1b,0x0e00,0x1a12,0x0800     | +00010
         .dc.w   0x150d,0x0600,0x0f08,0x0300,0x1715,0x1200,0x171a,0x1a00     | +00020
@@ -2527,22 +2560,22 @@ Data_01c000:
         .dc.w   0x0b0b,0x0900,0x0707                                        | +00130
 
 | ----------------------------------------------------------------------------
-|  Data_01c136  @ $01C136  (56 B)  [ref. desde código]
+|  Pal_01c136  @ $01C136  (56 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01c136, "ax", @progbits
-        .global Data_01c136
-Data_01c136:
+        .section .text.Pal_01c136, "ax", @progbits
+        .global Pal_01c136
+Pal_01c136:
         .dc.w   0x0500,0x1810,0x0000,0x130a,0x0000,0x0c0c,0x0c00,0x000e     | +00000
         .dc.w   0x1f00,0x000e,0x1f00,0x000e,0x1f00,0x000e,0x1f00,0x000e     | +00010
         .dc.w   0x1f00,0x000e,0x1f00,0x000e,0x1f00,0x000e,0x1f00            | +00020
         .fill   10,1,0x00                      | +0002e
 
 | ----------------------------------------------------------------------------
-|  Data_01c16e  @ $01C16E  (1,682 B)  [ref. desde código]
+|  Pal_01c16e  @ $01C16E  (1,682 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01c16e, "ax", @progbits
-        .global Data_01c16e
-Data_01c16e:
+        .section .text.Pal_01c16e, "ax", @progbits
+        .global Pal_01c16e
+Pal_01c16e:
         .fill   18,1,0x00                      | +00000
         .dc.w   0x0c0c,0x0c00,0x001f,0x1f00,0x001f,0x1f00,0x001f,0x1f00     | +00012
         .dc.w   0x001f,0x1f00,0x001f,0x1f00,0x001f,0x1f00,0x001f,0x1f00     | +00022
@@ -2654,11 +2687,11 @@ Data_01c16e:
         .fill   8,1,0x00                      | +0068a
 
 | ----------------------------------------------------------------------------
-|  Data_01c800  @ $01C800  (1,527 B)  [ref. desde código]
+|  Pal_01c800  @ $01C800  (1,527 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01c800, "ax", @progbits
-        .global Data_01c800
-Data_01c800:
+        .section .text.Pal_01c800, "ax", @progbits
+        .global Pal_01c800
+Pal_01c800:
         .fill   8,1,0x00                      | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00008
         .fill   16,1,0x00                      | +00018
@@ -2758,27 +2791,27 @@ Data_01c800:
         .dc.b   0x1f                            | +005f6
 
 | ----------------------------------------------------------------------------
-|  Zero_01cdf7  @ $01CDF7  (9 B)
+|  Pal_01cdf7  @ $01CDF7  (9 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_01cdf7, "ax", @progbits
-        .global Zero_01cdf7
-Zero_01cdf7:
+        .section .text.Pal_01cdf7, "ax", @progbits
+        .global Pal_01cdf7
+Pal_01cdf7:
         .fill   9,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_01ce00  @ $01CE00  (64 B)  [ref. desde código]
+|  Pal_01ce00  @ $01CE00  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_01ce00, "ax", @progbits
-        .global Str_01ce00
-Str_01ce00:
+        .section .text.Pal_01ce00, "ax", @progbits
+        .global Pal_01ce00
+Pal_01ce00:
         .fill   64,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01ce40  @ $01CE40  (512 B)
+|  Pal_01ce40  @ $01CE40  (512 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_01ce40, "ax", @progbits
-        .global Data_01ce40
-Data_01ce40:
+        .section .text.Pal_01ce40, "ax", @progbits
+        .global Pal_01ce40
+Pal_01ce40:
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00010
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00020
@@ -2813,19 +2846,19 @@ Data_01ce40:
         .dc.w   0x0e0d,0x0a00,0x0b0a,0x0700,0x0807,0x0500,0x0605,0x0400     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_01d040  @ $01D040  (1 B)  [ref. desde código]
+|  Pal_01d040  @ $01D040  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d040, "ax", @progbits
-        .global Data_01d040
-Data_01d040:
+        .section .text.Pal_01d040, "ax", @progbits
+        .global Pal_01d040
+Pal_01d040:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01d041  @ $01D041  (192 B)  [ref. desde código]
+|  Pal_01d041  @ $01D041  (192 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d041, "ax", @progbits
-        .global Data_01d041
-Data_01d041:
+        .section .text.Pal_01d041, "ax", @progbits
+        .global Pal_01d041
+Pal_01d041:
         .dc.b   0x1f                            | +00000
         .dc.w   0x0000,0x0c0e,0x1000,0x0a0c,0x0d00,0x090a,0x0b00,0x0708     | +00001
         .dc.w   0x0800,0x0a07,0x0500,0x0607,0x0600,0x0906,0x0400,0x0405     | +00011
@@ -2843,30 +2876,30 @@ Data_01d041:
         .dc.b   0x06                            | +000bf
 
 | ----------------------------------------------------------------------------
-|  Data_01d101  @ $01D101  (39 B)  [ref. desde código]
+|  Pal_01d101  @ $01D101  (39 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d101, "ax", @progbits
-        .global Data_01d101
-Data_01d101:
+        .section .text.Pal_01d101, "ax", @progbits
+        .global Pal_01d101
+Pal_01d101:
         .dc.b   0x10                            | +00000
         .dc.w   0x1500,0x150c,0x0400,0x110a,0x0400,0x0d08,0x0300,0x0a06     | +00001
         .dc.w   0x0300,0x0604,0x0200,0x0202,0x0100,0x110c,0x0500,0x0e0a     | +00011
         .dc.w   0x0400,0x0a08,0x0300                                        | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_01d128  @ $01D128  (6 B)  [ref. desde código]
+|  Pal_01d128  @ $01D128  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d128, "ax", @progbits
-        .global Data_01d128
-Data_01d128:
+        .section .text.Pal_01d128, "ax", @progbits
+        .global Pal_01d128
+Pal_01d128:
         .dc.w   0x0806,0x0200,0x0d0d                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01d12e  @ $01D12E  (466 B)  [ref. desde código]
+|  Pal_01d12e  @ $01D12E  (466 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d12e, "ax", @progbits
-        .global Data_01d12e
-Data_01d12e:
+        .section .text.Pal_01d12e, "ax", @progbits
+        .global Pal_01d12e
+Pal_01d12e:
         .dc.w   0x0b00,0x0a0b,0x0900,0x0808,0x0600,0x0606,0x0300,0x0404     | +00000
         .dc.w   0x0200,0x1b00,0x1c00,0x0707,0x0600,0x0a09,0x0600,0x0f0b     | +00010
         .dc.w   0x0600,0x130e,0x0700,0x1812,0x0800,0x1e19,0x0b00,0x0508     | +00020
@@ -2899,11 +2932,11 @@ Data_01d12e:
         .dc.w   0x0d00                                                      | +001d0
 
 | ----------------------------------------------------------------------------
-|  Data_01d300  @ $01D300  (252 B)  [ref. desde código]
+|  Pal_01d300  @ $01D300  (252 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d300, "ax", @progbits
-        .global Data_01d300
-Data_01d300:
+        .section .text.Pal_01d300, "ax", @progbits
+        .global Pal_01d300
+Pal_01d300:
         .dc.w   0x070b,0x0d00,0x1110,0x0c00,0x1210,0x0c00,0x1311,0x0c00     | +00000
         .dc.w   0x1411,0x0c00,0x1512,0x0c00,0x1612,0x0c00,0x1713,0x0c00     | +00010
         .dc.w   0x070b,0x0d00,0x080b,0x0d00,0x090c,0x0d00,0x0a0c,0x0d00     | +00020
@@ -2922,11 +2955,11 @@ Data_01d300:
         .dc.w   0x0505,0x0400,0x0404,0x0300,0x0403,0x0200                   | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_01d3fc  @ $01D3FC  (309 B)  [ref. desde código]
+|  Pal_01d3fc  @ $01D3FC  (309 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d3fc, "ax", @progbits
-        .global Data_01d3fc
-Data_01d3fc:
+        .section .text.Pal_01d3fc, "ax", @progbits
+        .global Pal_01d3fc
+Pal_01d3fc:
         .dc.w   0x1012,0x1100,0x070b,0x0d00,0x080c,0x0e00,0x090d,0x0e00     | +00000
         .dc.w   0x0a0f,0x0f00,0x0c10,0x0f00,0x0d11,0x1000,0x0e12,0x1000     | +00010
         .dc.w   0x0f13,0x1100,0x070b,0x0d00,0x070b,0x0c00,0x060a,0x0c00     | +00020
@@ -2950,11 +2983,11 @@ Data_01d3fc:
         .dc.b   0x03                            | +00134
 
 | ----------------------------------------------------------------------------
-|  Data_01d531  @ $01D531  (270 B)  [ref. desde código]
+|  Pal_01d531  @ $01D531  (270 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d531, "ax", @progbits
-        .global Data_01d531
-Data_01d531:
+        .section .text.Pal_01d531, "ax", @progbits
+        .global Pal_01d531
+Pal_01d531:
         .dc.b   0x05                            | +00000
         .dc.w   0x0500,0x0203,0x0400,0x0102,0x0300                          | +00001
         .dc.l   Data_010200                   | +0000b  -> $010200
@@ -2977,19 +3010,19 @@ Data_01d531:
         .dc.b   0x0b                            | +0010d
 
 | ----------------------------------------------------------------------------
-|  Zero_01d63f  @ $01D63F  (66 B)
+|  Pal_01d63f  @ $01D63F  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_01d63f, "ax", @progbits
-        .global Zero_01d63f
-Zero_01d63f:
+        .section .text.Pal_01d63f, "ax", @progbits
+        .global Pal_01d63f
+Pal_01d63f:
         .fill   66,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01d681  @ $01D681  (2,285 B)
+|  Pal_01d681  @ $01D681  (2,285 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_01d681, "ax", @progbits
-        .global Data_01d681
-Data_01d681:
+        .section .text.Pal_01d681, "ax", @progbits
+        .global Pal_01d681
+Pal_01d681:
         .dc.b   0x1e                            | +00000
         .dc.w   0x0000,0x1817,0x1300,0x1211,0x0e00,0x0c0c,0x0900,0x0808     | +00001
         .dc.w   0x0600,0x0506,0x0500,0x0304,0x0300,0x0808,0x0700,0x0606     | +00011
@@ -3137,11 +3170,11 @@ Data_01d681:
         .dc.w   0x0805,0x0000,0x1915,0x0c00,0x1511,0x0a00,0x110d            | +008df
 
 | ----------------------------------------------------------------------------
-|  Data_01df6e  @ $01DF6E  (474 B)  [ref. desde código]
+|  Pal_01df6e  @ $01DF6E  (474 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01df6e, "ax", @progbits
-        .global Data_01df6e
-Data_01df6e:
+        .section .text.Pal_01df6e, "ax", @progbits
+        .global Pal_01df6e
+Pal_01df6e:
         .dc.w   0x0700,0x0d0a,0x0500,0x0907,0x0200,0x0504,0x0000,0x0302     | +00000
         .dc.w   0x0000,0x1717,0x0000,0x1c1a,0x1200,0x1916,0x0f00,0x1613     | +00010
         .dc.w   0x0b00,0x130f,0x0800,0x0f0b,0x0500,0x0c09,0x0400,0x0906     | +00020
@@ -3174,11 +3207,11 @@ Data_01df6e:
         .dc.w   0x0000,0x1717,0x0000,0x0401,0x0000                          | +001d0
 
 | ----------------------------------------------------------------------------
-|  Data_01e148  @ $01E148  (512 B)  [ref. desde código]
+|  Pal_01e148  @ $01E148  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01e148, "ax", @progbits
-        .global Data_01e148
-Data_01e148:
+        .section .text.Pal_01e148, "ax", @progbits
+        .global Pal_01e148
+Pal_01e148:
         .dc.w   0x0602,0x0000,0x0702,0x0000,0x0903,0x0000,0x0b04,0x0000     | +00000
         .dc.w   0x0d04,0x0000,0x0e05,0x0000,0x1005,0x0000,0x0301,0x0000     | +00010
         .dc.w   0x1511,0x0a00,0x110d,0x0700,0x0d0a,0x0500,0x0907,0x0200     | +00020
@@ -3213,19 +3246,19 @@ Data_01e148:
         .dc.w   0x0603,0x0000,0x0302,0x0000,0x1717,0x0000,0x1212,0x0c00     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_01e348  @ $01E348  (1 B)  [ref. desde código]
+|  Pal_01e348  @ $01E348  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01e348, "ax", @progbits
-        .global Data_01e348
-Data_01e348:
+        .section .text.Pal_01e348, "ax", @progbits
+        .global Pal_01e348
+Pal_01e348:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01e349  @ $01E349  (511 B)  [ref. desde código]
+|  Pal_01e349  @ $01E349  (511 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01e349, "ax", @progbits
-        .global Data_01e349
-Data_01e349:
+        .section .text.Pal_01e349, "ax", @progbits
+        .global Pal_01e349
+Pal_01e349:
         .dc.b   0x10                            | +00000
         .dc.w   0x0a00,0x0e0d,0x0900,0x0c0b,0x0700,0x0909,0x0500,0x0707     | +00001
         .dc.w   0x0300,0x0505,0x0200,0x0403,0x0100,0x1915,0x0c00,0x1511     | +00011
@@ -3262,11 +3295,11 @@ Data_01e349:
         .dc.w   0x0100,0x1f1e,0x0e00,0x0000,0x1f00,0x150f,0x0700            | +001f1
 
 | ----------------------------------------------------------------------------
-|  Data_01e548  @ $01E548  (448 B)  [ref. desde código]
+|  Pal_01e548  @ $01E548  (448 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01e548, "ax", @progbits
-        .global Data_01e548
-Data_01e548:
+        .section .text.Pal_01e548, "ax", @progbits
+        .global Pal_01e548
+Pal_01e548:
         .dc.w   0x0f0b,0x0500,0x0806,0x0200,0x1f1a,0x0c00,0x1c16,0x0a00     | +00000
         .dc.w   0x1812,0x0800,0x120d,0x0600,0x0b08,0x0300,0x1714,0x0700     | +00010
         .dc.w   0x1514,0x0b00,0x100f,0x0700,0x0b0a,0x0400,0x0706,0x0100     | +00020
@@ -3300,11 +3333,11 @@ Data_01e548:
         .dc.w   0x0000                                                      | +001be
 
 | ----------------------------------------------------------------------------
-|  Data_01e708  @ $01E708  (64 B)  [ref. desde código]
+|  Pal_01e708  @ $01E708  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01e708, "ax", @progbits
-        .global Data_01e708
-Data_01e708:
+        .section .text.Pal_01e708, "ax", @progbits
+        .global Pal_01e708
+Pal_01e708:
         .dc.w   0x0d07,0x0000,0x0b06,0x0000,0x1d18,0x0c00,0x1914,0x0800     | +00000
         .dc.w   0x130f,0x0600,0x0e0b,0x0400,0x0a06,0x0300,0x0905,0x0000     | +00010
         .dc.w   0x0704,0x0000,0x0603,0x0000,0x0503                          | +00020
@@ -3313,11 +3346,11 @@ Data_01e708:
         .dc.w   0x0700                                                      | +0003e
 
 | ----------------------------------------------------------------------------
-|  Data_01e748  @ $01E748  (448 B)  [ref. desde código]
+|  Pal_01e748  @ $01E748  (448 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01e748, "ax", @progbits
-        .global Data_01e748
-Data_01e748:
+        .section .text.Pal_01e748, "ax", @progbits
+        .global Pal_01e748
+Pal_01e748:
         .dc.w   0x0f0b,0x0500,0x0806,0x0200,0x1f1a,0x0c00,0x1c16,0x0a00     | +00000
         .dc.w   0x1812,0x0800,0x120d,0x0600,0x0b08,0x0300,0x1b1a,0x1000     | +00010
         .dc.w   0x1514,0x0b00,0x100f,0x0700,0x0b0a,0x0400,0x0706,0x0100     | +00020
@@ -3348,11 +3381,11 @@ Data_01e748:
         .dc.w   0x0504,0x0100,0x0402,0x0000,0x0000,0x1f00,0x1612,0x0b00     | +001b0
 
 | ----------------------------------------------------------------------------
-|  Data_01e908  @ $01E908  (576 B)  [ref. desde código]
+|  Pal_01e908  @ $01E908  (576 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01e908, "ax", @progbits
-        .global Data_01e908
-Data_01e908:
+        .section .text.Pal_01e908, "ax", @progbits
+        .global Pal_01e908
+Pal_01e908:
         .dc.w   0x120e,0x0800,0x0e0b,0x0600,0x1e1b,0x1300,0x1814,0x0c00     | +00000
         .dc.w   0x110e,0x0800,0x0c0a,0x0600,0x0806,0x0200,0x0907,0x0200     | +00010
         .dc.w   0x1514,0x0b00,0x100f,0x0700,0x0b0a,0x0400,0x0706,0x0100     | +00020
@@ -3393,11 +3426,11 @@ Data_01e908:
         .dc.w   0x1212,0x1500,0x1211,0x1500                                 | +00238
 
 | ----------------------------------------------------------------------------
-|  Data_01eb48  @ $01EB48  (5,048 B)  [ref. desde código]
+|  Pal_01eb48  @ $01EB48  (5,048 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01eb48, "ax", @progbits
-        .global Data_01eb48
-Data_01eb48:
+        .section .text.Pal_01eb48, "ax", @progbits
+        .global Pal_01eb48
+Pal_01eb48:
         .dc.w   0x1312,0x1600,0x1312,0x1800,0x1413,0x1900,0x1615,0x1a00     | +00000
         .dc.w   0x1816,0x1a00,0x1918,0x1b00,0x1b19,0x1b00,0x1c1a,0x1c00     | +00010
         .dc.w   0x1d1b,0x1d00,0x1413,0x1500,0x1614,0x1500,0x1714,0x1600     | +00020
@@ -3716,11 +3749,11 @@ Data_01eb48:
         .dc.w   0x171a,0x1b00,0x1619,0x1b00                                 | +013b0
 
 | ----------------------------------------------------------------------------
-|  Data_01ff00  @ $01FF00  (192 B)  [ref. desde código]
+|  Pal_01ff00  @ $01FF00  (192 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01ff00, "ax", @progbits
-        .global Data_01ff00
-Data_01ff00:
+        .section .text.Pal_01ff00, "ax", @progbits
+        .global Pal_01ff00
+Pal_01ff00:
         .dc.w   0x1518,0x1a00,0x0b0c,0x0900,0x0d0e,0x0a00,0x0f10,0x0b00     | +00000
         .dc.w   0x1112,0x0c00,0x0a0a,0x0800,0x0907,0x0300,0x0604,0x0000     | +00010
         .dc.w   0x1a1a,0x1400,0x1616,0x1000,0x1211,0x0d00,0x0e0c,0x0900     | +00020
@@ -3735,681 +3768,681 @@ Data_01ff00:
         .dc.w   0x1514,0x1000,0x1211,0x0c00,0x100f,0x0b00,0x0e0d,0x0a00     | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_01ffc0  @ $01FFC0  (16 B)  [ref. desde código]
+|  Pal_01ffc0  @ $01FFC0  (16 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01ffc0, "ax", @progbits
-        .global Data_01ffc0
-Data_01ffc0:
+        .section .text.Pal_01ffc0, "ax", @progbits
+        .global Pal_01ffc0
+Pal_01ffc0:
         .dc.w   0x1518,0x1a00,0x0b0c,0x0900,0x0d0e,0x0a00,0x0f10,0x0b00     | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01ffd0  @ $01FFD0  (16 B)  [ref. desde código]
+|  Pal_01ffd0  @ $01FFD0  (16 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01ffd0, "ax", @progbits
-        .global Data_01ffd0
-Data_01ffd0:
+        .section .text.Pal_01ffd0, "ax", @progbits
+        .global Pal_01ffd0
+Pal_01ffd0:
         .dc.w   0x1112,0x0c00,0x1314,0x0d00,0x0c0b,0x0800,0x0a0a,0x0800     | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01ffe0  @ $01FFE0  (16 B)  [ref. desde código]
+|  Pal_01ffe0  @ $01FFE0  (16 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01ffe0, "ax", @progbits
-        .global Data_01ffe0
-Data_01ffe0:
+        .section .text.Pal_01ffe0, "ax", @progbits
+        .global Pal_01ffe0
+Pal_01ffe0:
         .dc.w   0x181b,0x1c00,0x171a,0x1b00,0x1619,0x1b00,0x1817,0x1400     | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01fff0  @ $01FFF0  (8 B)  [ref. desde código]
+|  Pal_01fff0  @ $01FFF0  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01fff0, "ax", @progbits
-        .global Data_01fff0
-Data_01fff0:
+        .section .text.Pal_01fff0, "ax", @progbits
+        .global Pal_01fff0
+Pal_01fff0:
         .dc.w   0x1514,0x1000,0x1211,0x0c00                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_01fff8  @ $01FFF8  (7 B)  [ref. desde código]
+|  Pal_01fff8  @ $01FFF8  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01fff8, "ax", @progbits
-        .global Data_01fff8
-Data_01fff8:
+        .section .text.Pal_01fff8, "ax", @progbits
+        .global Pal_01fff8
+Pal_01fff8:
         .dc.w   0x100f,0x0b00,0x0e0d                                        | +00000
         .dc.b   0x0a                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_01ffff  @ $01FFFF  (1 B)  [ref. desde código]
+|  Pal_01ffff  @ $01FFFF  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_01ffff, "ax", @progbits
-        .global Data_01ffff
-Data_01ffff:
+        .section .text.Pal_01ffff, "ax", @progbits
+        .global Pal_01ffff
+Pal_01ffff:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020000  @ $020000  (1 B)  [ref. desde código]
+|  Pal_020000  @ $020000  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020000, "ax", @progbits
-        .global Data_020000
-Data_020000:
+        .section .text.Pal_020000, "ax", @progbits
+        .global Pal_020000
+Pal_020000:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020001  @ $020001  (1 B)  [ref. desde código]
+|  Pal_020001  @ $020001  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020001, "ax", @progbits
-        .global Data_020001
-Data_020001:
+        .section .text.Pal_020001, "ax", @progbits
+        .global Pal_020001
+Pal_020001:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020002  @ $020002  (1 B)  [ref. desde código]
+|  Pal_020002  @ $020002  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020002, "ax", @progbits
-        .global Data_020002
-Data_020002:
+        .section .text.Pal_020002, "ax", @progbits
+        .global Pal_020002
+Pal_020002:
         .dc.b   0x1a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020003  @ $020003  (1 B)  [ref. desde código]
+|  Pal_020003  @ $020003  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020003, "ax", @progbits
-        .global Data_020003
-Data_020003:
+        .section .text.Pal_020003, "ax", @progbits
+        .global Pal_020003
+Pal_020003:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020004  @ $020004  (1 B)  [ref. desde código]
+|  Pal_020004  @ $020004  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020004, "ax", @progbits
-        .global Data_020004
-Data_020004:
+        .section .text.Pal_020004, "ax", @progbits
+        .global Pal_020004
+Pal_020004:
         .dc.b   0x0b                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020005  @ $020005  (1 B)  [ref. desde código]
+|  Pal_020005  @ $020005  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020005, "ax", @progbits
-        .global Data_020005
-Data_020005:
+        .section .text.Pal_020005, "ax", @progbits
+        .global Pal_020005
+Pal_020005:
         .dc.b   0x0c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020006  @ $020006  (3 B)  [ref. desde código]
+|  Pal_020006  @ $020006  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020006, "ax", @progbits
-        .global Data_020006
-Data_020006:
+        .section .text.Pal_020006, "ax", @progbits
+        .global Pal_020006
+Pal_020006:
         .dc.w   0x0900                                                      | +00000
         .dc.b   0x0d                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_020009  @ $020009  (4 B)  [ref. desde código]
+|  Pal_020009  @ $020009  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020009, "ax", @progbits
-        .global Data_020009
-Data_020009:
+        .section .text.Pal_020009, "ax", @progbits
+        .global Pal_020009
+Pal_020009:
         .dc.b   0x0e                            | +00000
         .dc.w   0x0a00                                                      | +00001
         .dc.b   0x0f                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_02000d  @ $02000D  (3 B)  [ref. desde código]
+|  Pal_02000d  @ $02000D  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02000d, "ax", @progbits
-        .global Data_02000d
-Data_02000d:
+        .section .text.Pal_02000d, "ax", @progbits
+        .global Pal_02000d
+Pal_02000d:
         .dc.b   0x10                            | +00000
         .dc.w   0x0b00                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_020010  @ $020010  (2 B)  [ref. desde código]
+|  Pal_020010  @ $020010  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020010, "ax", @progbits
-        .global Data_020010
-Data_020010:
+        .section .text.Pal_020010, "ax", @progbits
+        .global Pal_020010
+Pal_020010:
         .dc.w   0x1112                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020012  @ $020012  (1 B)  [ref. desde código]
+|  Pal_020012  @ $020012  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020012, "ax", @progbits
-        .global Data_020012
-Data_020012:
+        .section .text.Pal_020012, "ax", @progbits
+        .global Pal_020012
+Pal_020012:
         .dc.b   0x0c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020013  @ $020013  (5 B)  [ref. desde código]
+|  Pal_020013  @ $020013  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020013, "ax", @progbits
-        .global Data_020013
-Data_020013:
+        .section .text.Pal_020013, "ax", @progbits
+        .global Pal_020013
+Pal_020013:
         .dc.b   0x00                            | +00000
         .dc.w   0x1314,0x0d00                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_020018  @ $020018  (4 B)  [ref. desde código]
+|  Pal_020018  @ $020018  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020018, "ax", @progbits
-        .global Data_020018
-Data_020018:
+        .section .text.Pal_020018, "ax", @progbits
+        .global Pal_020018
+Pal_020018:
         .dc.w   0x0c0b,0x0800                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02001c  @ $02001C  (1 B)  [ref. desde código]
+|  Pal_02001c  @ $02001C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02001c, "ax", @progbits
-        .global Data_02001c
-Data_02001c:
+        .section .text.Pal_02001c, "ax", @progbits
+        .global Pal_02001c
+Pal_02001c:
         .dc.b   0x0a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02001d  @ $02001D  (3 B)  [ref. desde código]
+|  Pal_02001d  @ $02001D  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02001d, "ax", @progbits
-        .global Data_02001d
-Data_02001d:
+        .section .text.Pal_02001d, "ax", @progbits
+        .global Pal_02001d
+Pal_02001d:
         .dc.b   0x0a                            | +00000
         .dc.w   0x0800                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_020020  @ $020020  (1 B)  [ref. desde código]
+|  Pal_020020  @ $020020  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020020, "ax", @progbits
-        .global Data_020020
-Data_020020:
+        .section .text.Pal_020020, "ax", @progbits
+        .global Pal_020020
+Pal_020020:
         .dc.b   0x14                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020021  @ $020021  (3 B)  [ref. desde código]
+|  Pal_020021  @ $020021  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020021, "ax", @progbits
-        .global Data_020021
-Data_020021:
+        .section .text.Pal_020021, "ax", @progbits
+        .global Pal_020021
+Pal_020021:
         .dc.b   0x17                            | +00000
         .dc.w   0x1700                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_020024  @ $020024  (3 B)  [ref. desde código]
+|  Pal_020024  @ $020024  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020024, "ax", @progbits
-        .global Data_020024
-Data_020024:
+        .section .text.Pal_020024, "ax", @progbits
+        .global Pal_020024
+Pal_020024:
         .dc.w   0x1316                                                      | +00000
         .dc.b   0x16                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_020027  @ $020027  (1 B)  [ref. desde código]
+|  Pal_020027  @ $020027  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020027, "ax", @progbits
-        .global Data_020027
-Data_020027:
+        .section .text.Pal_020027, "ax", @progbits
+        .global Pal_020027
+Pal_020027:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020028  @ $020028  (6 B)  [ref. desde código]
+|  Pal_020028  @ $020028  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020028, "ax", @progbits
-        .global Data_020028
-Data_020028:
+        .section .text.Pal_020028, "ax", @progbits
+        .global Pal_020028
+Pal_020028:
         .dc.w   0x1010,0x0d00,0x0f0f                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02002e  @ $02002E  (4 B)  [ref. desde código]
+|  Pal_02002e  @ $02002E  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02002e, "ax", @progbits
-        .global Data_02002e
-Data_02002e:
+        .section .text.Pal_02002e, "ax", @progbits
+        .global Pal_02002e
+Pal_02002e:
         .dc.w   0x0d00,0x0d0e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020032  @ $020032  (2 B)  [ref. desde código]
+|  Pal_020032  @ $020032  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020032, "ax", @progbits
-        .global Data_020032
-Data_020032:
+        .section .text.Pal_020032, "ax", @progbits
+        .global Pal_020032
+Pal_020032:
         .dc.w   0x0c00                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020034  @ $020034  (4 B)  [ref. desde código]
+|  Pal_020034  @ $020034  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020034, "ax", @progbits
-        .global Data_020034
-Data_020034:
+        .section .text.Pal_020034, "ax", @progbits
+        .global Pal_020034
+Pal_020034:
         .dc.w   0x0c0d,0x0b00                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020038  @ $020038  (4 B)  [ref. desde código]
+|  Pal_020038  @ $020038  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020038, "ax", @progbits
-        .global Data_020038
-Data_020038:
+        .section .text.Pal_020038, "ax", @progbits
+        .global Pal_020038
+Pal_020038:
         .dc.w   0x0b0c,0x0a00                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02003c  @ $02003C  (4 B)  [ref. desde código]
+|  Pal_02003c  @ $02003C  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02003c, "ax", @progbits
-        .global Data_02003c
-Data_02003c:
+        .section .text.Pal_02003c, "ax", @progbits
+        .global Pal_02003c
+Pal_02003c:
         .dc.w   0x0a0b,0x0900                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020040  @ $020040  (4 B)  [ref. desde código]
+|  Pal_020040  @ $020040  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020040, "ax", @progbits
-        .global Data_020040
-Data_020040:
+        .section .text.Pal_020040, "ax", @progbits
+        .global Pal_020040
+Pal_020040:
         .dc.w   0x1518,0x1a00                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020044  @ $020044  (1 B)  [ref. desde código]
+|  Pal_020044  @ $020044  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020044, "ax", @progbits
-        .global Data_020044
-Data_020044:
+        .section .text.Pal_020044, "ax", @progbits
+        .global Pal_020044
+Pal_020044:
         .dc.b   0x0b                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020045  @ $020045  (1 B)  [ref. desde código]
+|  Pal_020045  @ $020045  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020045, "ax", @progbits
-        .global Data_020045
-Data_020045:
+        .section .text.Pal_020045, "ax", @progbits
+        .global Pal_020045
+Pal_020045:
         .dc.b   0x0c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020046  @ $020046  (2 B)  [ref. desde código]
+|  Pal_020046  @ $020046  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020046, "ax", @progbits
-        .global Data_020046
-Data_020046:
+        .section .text.Pal_020046, "ax", @progbits
+        .global Pal_020046
+Pal_020046:
         .dc.w   0x0900                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020048  @ $020048  (4 B)  [ref. desde código]
+|  Pal_020048  @ $020048  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020048, "ax", @progbits
-        .global Data_020048
-Data_020048:
+        .section .text.Pal_020048, "ax", @progbits
+        .global Pal_020048
+Pal_020048:
         .dc.w   0x0d0e,0x0a00                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02004c  @ $02004C  (12 B)  [ref. desde código]
+|  Pal_02004c  @ $02004C  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02004c, "ax", @progbits
-        .global Data_02004c
-Data_02004c:
+        .section .text.Pal_02004c, "ax", @progbits
+        .global Pal_02004c
+Pal_02004c:
         .dc.w   0x0f10,0x0b00,0x1112,0x0c00,0x1314,0x0d00                   | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020058  @ $020058  (2 B)  [ref. desde código]
+|  Pal_020058  @ $020058  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020058, "ax", @progbits
-        .global Data_020058
-Data_020058:
+        .section .text.Pal_020058, "ax", @progbits
+        .global Pal_020058
+Pal_020058:
         .dc.w   0x0c0b                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02005a  @ $02005A  (1 B)  [ref. desde código]
+|  Pal_02005a  @ $02005A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02005a, "ax", @progbits
-        .global Data_02005a
-Data_02005a:
+        .section .text.Pal_02005a, "ax", @progbits
+        .global Pal_02005a
+Pal_02005a:
         .dc.b   0x08                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02005b  @ $02005B  (1 B)  [ref. desde código]
+|  Pal_02005b  @ $02005B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02005b, "ax", @progbits
-        .global Data_02005b
-Data_02005b:
+        .section .text.Pal_02005b, "ax", @progbits
+        .global Pal_02005b
+Pal_02005b:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02005c  @ $02005C  (2 B)  [ref. desde código]
+|  Pal_02005c  @ $02005C  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02005c, "ax", @progbits
-        .global Data_02005c
-Data_02005c:
+        .section .text.Pal_02005c, "ax", @progbits
+        .global Pal_02005c
+Pal_02005c:
         .dc.w   0x0a0a                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02005e  @ $02005E  (2 B)  [ref. desde código]
+|  Pal_02005e  @ $02005E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02005e, "ax", @progbits
-        .global Data_02005e
-Data_02005e:
+        .section .text.Pal_02005e, "ax", @progbits
+        .global Pal_02005e
+Pal_02005e:
         .dc.w   0x0800                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020060  @ $020060  (9 B)  [ref. desde código]
+|  Pal_020060  @ $020060  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020060, "ax", @progbits
-        .global Data_020060
-Data_020060:
+        .section .text.Pal_020060, "ax", @progbits
+        .global Pal_020060
+Pal_020060:
         .dc.w   0x1a1a,0x1400,0x1616,0x1000                                 | +00000
         .dc.b   0x12                            | +00008
 
 | ----------------------------------------------------------------------------
-|  Data_020069  @ $020069  (1 B)  [ref. desde código]
+|  Pal_020069  @ $020069  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020069, "ax", @progbits
-        .global Data_020069
-Data_020069:
+        .section .text.Pal_020069, "ax", @progbits
+        .global Pal_020069
+Pal_020069:
         .dc.b   0x11                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02006a  @ $02006A  (1 B)  [ref. desde código]
+|  Pal_02006a  @ $02006A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02006a, "ax", @progbits
-        .global Data_02006a
-Data_02006a:
+        .section .text.Pal_02006a, "ax", @progbits
+        .global Pal_02006a
+Pal_02006a:
         .dc.b   0x0d                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02006b  @ $02006B  (1 B)  [ref. desde código]
+|  Pal_02006b  @ $02006B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02006b, "ax", @progbits
-        .global Data_02006b
-Data_02006b:
+        .section .text.Pal_02006b, "ax", @progbits
+        .global Pal_02006b
+Pal_02006b:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02006c  @ $02006C  (1 B)  [ref. desde código]
+|  Pal_02006c  @ $02006C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02006c, "ax", @progbits
-        .global Data_02006c
-Data_02006c:
+        .section .text.Pal_02006c, "ax", @progbits
+        .global Pal_02006c
+Pal_02006c:
         .dc.b   0x0e                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02006d  @ $02006D  (3 B)  [ref. desde código]
+|  Pal_02006d  @ $02006D  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02006d, "ax", @progbits
-        .global Data_02006d
-Data_02006d:
+        .section .text.Pal_02006d, "ax", @progbits
+        .global Pal_02006d
+Pal_02006d:
         .dc.b   0x0c                            | +00000
         .dc.w   0x0900                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_020070  @ $020070  (1 B)  [ref. desde código]
+|  Pal_020070  @ $020070  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020070, "ax", @progbits
-        .global Data_020070
-Data_020070:
+        .section .text.Pal_020070, "ax", @progbits
+        .global Pal_020070
+Pal_020070:
         .dc.b   0x0b                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020071  @ $020071  (1 B)  [ref. desde código]
+|  Pal_020071  @ $020071  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020071, "ax", @progbits
-        .global Data_020071
-Data_020071:
+        .section .text.Pal_020071, "ax", @progbits
+        .global Pal_020071
+Pal_020071:
         .dc.b   0x09                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020072  @ $020072  (1 B)  [ref. desde código]
+|  Pal_020072  @ $020072  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020072, "ax", @progbits
-        .global Data_020072
-Data_020072:
+        .section .text.Pal_020072, "ax", @progbits
+        .global Pal_020072
+Pal_020072:
         .dc.b   0x06                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020073  @ $020073  (1 B)  [ref. desde código]
+|  Pal_020073  @ $020073  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020073, "ax", @progbits
-        .global Data_020073
-Data_020073:
+        .section .text.Pal_020073, "ax", @progbits
+        .global Pal_020073
+Pal_020073:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020074  @ $020074  (1 B)  [ref. desde código]
+|  Pal_020074  @ $020074  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020074, "ax", @progbits
-        .global Data_020074
-Data_020074:
+        .section .text.Pal_020074, "ax", @progbits
+        .global Pal_020074
+Pal_020074:
         .dc.b   0x0c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020075  @ $020075  (1 B)  [ref. desde código]
+|  Pal_020075  @ $020075  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020075, "ax", @progbits
-        .global Data_020075
-Data_020075:
+        .section .text.Pal_020075, "ax", @progbits
+        .global Pal_020075
+Pal_020075:
         .dc.b   0x0d                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020076  @ $020076  (2 B)  [ref. desde código]
+|  Pal_020076  @ $020076  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020076, "ax", @progbits
-        .global Data_020076
-Data_020076:
+        .section .text.Pal_020076, "ax", @progbits
+        .global Pal_020076
+Pal_020076:
         .dc.w   0x0b00                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020078  @ $020078  (2 B)  [ref. desde código]
+|  Pal_020078  @ $020078  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020078, "ax", @progbits
-        .global Data_020078
-Data_020078:
+        .section .text.Pal_020078, "ax", @progbits
+        .global Pal_020078
+Pal_020078:
         .dc.w   0x0b0c                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02007a  @ $02007A  (2 B)  [ref. desde código]
+|  Pal_02007a  @ $02007A  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02007a, "ax", @progbits
-        .global Data_02007a
-Data_02007a:
+        .section .text.Pal_02007a, "ax", @progbits
+        .global Pal_02007a
+Pal_02007a:
         .dc.w   0x0a00                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02007c  @ $02007C  (2 B)  [ref. desde código]
+|  Pal_02007c  @ $02007C  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02007c, "ax", @progbits
-        .global Data_02007c
-Data_02007c:
+        .section .text.Pal_02007c, "ax", @progbits
+        .global Pal_02007c
+Pal_02007c:
         .dc.w   0x0a0b                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02007e  @ $02007E  (2 B)  [ref. desde código]
+|  Pal_02007e  @ $02007E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02007e, "ax", @progbits
-        .global Data_02007e
-Data_02007e:
+        .section .text.Pal_02007e, "ax", @progbits
+        .global Pal_02007e
+Pal_02007e:
         .dc.w   0x0900                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020080  @ $020080  (1 B)  [ref. desde código]
+|  Pal_020080  @ $020080  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020080, "ax", @progbits
-        .global Data_020080
-Data_020080:
+        .section .text.Pal_020080, "ax", @progbits
+        .global Pal_020080
+Pal_020080:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020081  @ $020081  (1 B)  [ref. desde código]
+|  Pal_020081  @ $020081  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020081, "ax", @progbits
-        .global Data_020081
-Data_020081:
+        .section .text.Pal_020081, "ax", @progbits
+        .global Pal_020081
+Pal_020081:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020082  @ $020082  (1 B)  [ref. desde código]
+|  Pal_020082  @ $020082  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020082, "ax", @progbits
-        .global Data_020082
-Data_020082:
+        .section .text.Pal_020082, "ax", @progbits
+        .global Pal_020082
+Pal_020082:
         .dc.b   0x1a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020083  @ $020083  (1 B)  [ref. desde código]
+|  Pal_020083  @ $020083  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020083, "ax", @progbits
-        .global Data_020083
-Data_020083:
+        .section .text.Pal_020083, "ax", @progbits
+        .global Pal_020083
+Pal_020083:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020084  @ $020084  (1 B)  [ref. desde código]
+|  Pal_020084  @ $020084  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020084, "ax", @progbits
-        .global Data_020084
-Data_020084:
+        .section .text.Pal_020084, "ax", @progbits
+        .global Pal_020084
+Pal_020084:
         .dc.b   0x1d                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020085  @ $020085  (1 B)  [ref. desde código]
+|  Pal_020085  @ $020085  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020085, "ax", @progbits
-        .global Data_020085
-Data_020085:
+        .section .text.Pal_020085, "ax", @progbits
+        .global Pal_020085
+Pal_020085:
         .dc.b   0x1b                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020086  @ $020086  (1 B)  [ref. desde código]
+|  Pal_020086  @ $020086  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020086, "ax", @progbits
-        .global Data_020086
-Data_020086:
+        .section .text.Pal_020086, "ax", @progbits
+        .global Pal_020086
+Pal_020086:
         .dc.b   0x13                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020087  @ $020087  (1 B)  [ref. desde código]
+|  Pal_020087  @ $020087  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020087, "ax", @progbits
-        .global Data_020087
-Data_020087:
+        .section .text.Pal_020087, "ax", @progbits
+        .global Pal_020087
+Pal_020087:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020088  @ $020088  (1 B)  [ref. desde código]
+|  Pal_020088  @ $020088  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020088, "ax", @progbits
-        .global Data_020088
-Data_020088:
+        .section .text.Pal_020088, "ax", @progbits
+        .global Pal_020088
+Pal_020088:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020089  @ $020089  (1 B)  [ref. desde código]
+|  Pal_020089  @ $020089  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020089, "ax", @progbits
-        .global Data_020089
-Data_020089:
+        .section .text.Pal_020089, "ax", @progbits
+        .global Pal_020089
+Pal_020089:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02008a  @ $02008A  (1 B)  [ref. desde código]
+|  Pal_02008a  @ $02008A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02008a, "ax", @progbits
-        .global Data_02008a
-Data_02008a:
+        .section .text.Pal_02008a, "ax", @progbits
+        .global Pal_02008a
+Pal_02008a:
         .dc.b   0x0d                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02008b  @ $02008B  (1 B)  [ref. desde código]
+|  Pal_02008b  @ $02008B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02008b, "ax", @progbits
-        .global Data_02008b
-Data_02008b:
+        .section .text.Pal_02008b, "ax", @progbits
+        .global Pal_02008b
+Pal_02008b:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02008c  @ $02008C  (1 B)  [ref. desde código]
+|  Pal_02008c  @ $02008C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02008c, "ax", @progbits
-        .global Data_02008c
-Data_02008c:
+        .section .text.Pal_02008c, "ax", @progbits
+        .global Pal_02008c
+Pal_02008c:
         .dc.b   0x14                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02008d  @ $02008D  (5 B)  [ref. desde código]
+|  Pal_02008d  @ $02008D  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02008d, "ax", @progbits
-        .global Data_02008d
-Data_02008d:
+        .section .text.Pal_02008d, "ax", @progbits
+        .global Pal_02008d
+Pal_02008d:
         .dc.b   0x11                            | +00000
         .dc.w   0x0a00,0x0f0c                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_020092  @ $020092  (6 B)  [ref. desde código]
+|  Pal_020092  @ $020092  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020092, "ax", @progbits
-        .global Data_020092
-Data_020092:
+        .section .text.Pal_020092, "ax", @progbits
+        .global Pal_020092
+Pal_020092:
         .dc.w   0x0800,0x0c09,0x0500                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020098  @ $020098  (2 B)  [ref. desde código]
+|  Pal_020098  @ $020098  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020098, "ax", @progbits
-        .global Data_020098
-Data_020098:
+        .section .text.Pal_020098, "ax", @progbits
+        .global Pal_020098
+Pal_020098:
         .dc.w   0x0907                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02009a  @ $02009A  (1 B)  [ref. desde código]
+|  Pal_02009a  @ $02009A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02009a, "ax", @progbits
-        .global Data_02009a
-Data_02009a:
+        .section .text.Pal_02009a, "ax", @progbits
+        .global Pal_02009a
+Pal_02009a:
         .dc.b   0x03                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02009b  @ $02009B  (1 B)  [ref. desde código]
+|  Pal_02009b  @ $02009B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02009b, "ax", @progbits
-        .global Data_02009b
-Data_02009b:
+        .section .text.Pal_02009b, "ax", @progbits
+        .global Pal_02009b
+Pal_02009b:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02009c  @ $02009C  (1 B)  [ref. desde código]
+|  Pal_02009c  @ $02009C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02009c, "ax", @progbits
-        .global Data_02009c
-Data_02009c:
+        .section .text.Pal_02009c, "ax", @progbits
+        .global Pal_02009c
+Pal_02009c:
         .dc.b   0x0a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02009d  @ $02009D  (2 B)  [ref. desde código]
+|  Pal_02009d  @ $02009D  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02009d, "ax", @progbits
-        .global Data_02009d
-Data_02009d:
+        .section .text.Pal_02009d, "ax", @progbits
+        .global Pal_02009d
+Pal_02009d:
         .dc.b   0x0a                            | +00000
         .dc.b   0x08                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_02009f  @ $02009F  (1 B)  [ref. desde código]
+|  Pal_02009f  @ $02009F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02009f, "ax", @progbits
-        .global Data_02009f
-Data_02009f:
+        .section .text.Pal_02009f, "ax", @progbits
+        .global Pal_02009f
+Pal_02009f:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0200a0  @ $0200A0  (8 B)  [ref. desde código]
+|  Pal_0200a0  @ $0200A0  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0200a0, "ax", @progbits
-        .global Data_0200a0
-Data_0200a0:
+        .section .text.Pal_0200a0, "ax", @progbits
+        .global Pal_0200a0
+Pal_0200a0:
         .dc.w   0x1a1a,0x1400,0x1616,0x1000                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0200a8  @ $0200A8  (15 B)  [ref. desde código]
+|  Pal_0200a8  @ $0200A8  (15 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0200a8, "ax", @progbits
-        .global Data_0200a8
-Data_0200a8:
+        .section .text.Pal_0200a8, "ax", @progbits
+        .global Pal_0200a8
+Pal_0200a8:
         .dc.w   0x1211,0x0d00,0x0e0c,0x0900,0x0b09,0x0600,0x0c0d            | +00000
         .dc.b   0x0b                            | +0000e
 
 | ----------------------------------------------------------------------------
-|  Data_0200b7  @ $0200B7  (217 B)  [ref. desde código]
+|  Pal_0200b7  @ $0200B7  (217 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0200b7, "ax", @progbits
-        .global Data_0200b7
-Data_0200b7:
+        .section .text.Pal_0200b7, "ax", @progbits
+        .global Pal_0200b7
+Pal_0200b7:
         .dc.b   0x00                            | +00000
         .dc.w   0x0b0c,0x0a00,0x0a0b,0x0900,0x1518,0x1a00,0x1d1b,0x1300     | +00001
         .dc.w   0x1815,0x0d00,0x1411,0x0a00,0x0f0c,0x0800,0x1518,0x1800     | +00011
@@ -4427,11 +4460,11 @@ Data_0200b7:
         .dc.w   0x0d0e,0x0a00,0x0f10,0x0b00                                 | +000d1
 
 | ----------------------------------------------------------------------------
-|  Data_020190  @ $020190  (112 B)  [ref. desde código]
+|  Pal_020190  @ $020190  (112 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020190, "ax", @progbits
-        .global Data_020190
-Data_020190:
+        .section .text.Pal_020190, "ax", @progbits
+        .global Pal_020190
+Pal_020190:
         .dc.w   0x1112,0x0c00,0x1518,0x1800,0x0b0a,0x0700,0x0a0a,0x0800     | +00000
         .dc.w   0x1417,0x1700,0x1316,0x1600,0x1215,0x1500,0x1114,0x1400     | +00010
         .dc.w   0x1013,0x1300,0x181b,0x1c00,0x171a,0x1b00,0x1619,0x1b00     | +00020
@@ -4441,60 +4474,60 @@ Data_020190:
         .dc.w   0x1013,0x1300,0x1211,0x0c00,0x100f,0x0b00,0x0e0d,0x0a00     | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_020200  @ $020200  (1 B)  [ref. desde código]
+|  Pal_020200  @ $020200  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020200, "ax", @progbits
-        .global Data_020200
-Data_020200:
+        .section .text.Pal_020200, "ax", @progbits
+        .global Pal_020200
+Pal_020200:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020201  @ $020201  (1 B)  [ref. desde código]
+|  Pal_020201  @ $020201  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020201, "ax", @progbits
-        .global Data_020201
-Data_020201:
+        .section .text.Pal_020201, "ax", @progbits
+        .global Pal_020201
+Pal_020201:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020202  @ $020202  (2 B)  [ref. desde código]
+|  Pal_020202  @ $020202  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020202, "ax", @progbits
-        .global Data_020202
-Data_020202:
+        .section .text.Pal_020202, "ax", @progbits
+        .global Pal_020202
+Pal_020202:
         .dc.w   0x1a00                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020204  @ $020204  (4 B)  [ref. desde código]
+|  Pal_020204  @ $020204  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020204, "ax", @progbits
-        .global Data_020204
-Data_020204:
+        .section .text.Pal_020204, "ax", @progbits
+        .global Pal_020204
+Pal_020204:
         .dc.w   0x1114,0x1500                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020208  @ $020208  (1 B)  [ref. desde código]
+|  Pal_020208  @ $020208  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020208, "ax", @progbits
-        .global Data_020208
-Data_020208:
+        .section .text.Pal_020208, "ax", @progbits
+        .global Pal_020208
+Pal_020208:
         .dc.b   0x0e                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020209  @ $020209  (2 B)  [ref. desde código]
+|  Pal_020209  @ $020209  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020209, "ax", @progbits
-        .global Data_020209
-Data_020209:
+        .section .text.Pal_020209, "ax", @progbits
+        .global Pal_020209
+Pal_020209:
         .dc.b   0x11                            | +00000
         .dc.b   0x12                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_02020b  @ $02020B  (53 B)  [ref. desde código]
+|  Pal_02020b  @ $02020B  (53 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02020b, "ax", @progbits
-        .global Data_02020b
-Data_02020b:
+        .section .text.Pal_02020b, "ax", @progbits
+        .global Pal_02020b
+Pal_02020b:
         .dc.b   0x00                            | +00000
         .dc.w   0x0b0e,0x0f00,0x090c,0x0d00,0x080a,0x0a00,0x0708,0x0700     | +00001
         .dc.w   0x0706,0x0500,0x1315,0x1100,0x0f11,0x0d00,0x0c0e,0x0a00     | +00011
@@ -4502,48 +4535,48 @@ Data_02020b:
         .dc.w   0x1619,0x1b00                                               | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_020240  @ $020240  (7 B)  [ref. desde código]
+|  Pal_020240  @ $020240  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020240, "ax", @progbits
-        .global Data_020240
-Data_020240:
+        .section .text.Pal_020240, "ax", @progbits
+        .global Pal_020240
+Pal_020240:
         .dc.w   0x070d,0x1000,0x0906                                        | +00000
         .dc.b   0x04                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_020247  @ $020247  (25 B)  [ref. desde código]
+|  Pal_020247  @ $020247  (25 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020247, "ax", @progbits
-        .global Data_020247
-Data_020247:
+        .section .text.Pal_020247, "ax", @progbits
+        .global Pal_020247
+Pal_020247:
         .dc.b   0x00                            | +00000
         .dc.w   0x0e11,0x1200,0x0b0e,0x0f00,0x090c,0x0d00,0x080a,0x0a00     | +00001
         .dc.w   0x0708,0x0700,0x0706,0x0500                                 | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_020260  @ $020260  (14 B)  [ref. desde código]
+|  Pal_020260  @ $020260  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020260, "ax", @progbits
-        .global Data_020260
-Data_020260:
+        .section .text.Pal_020260, "ax", @progbits
+        .global Pal_020260
+Pal_020260:
         .dc.w   0x1a18,0x1400,0x1513,0x0e00,0x110f,0x0b00,0x1610            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02026e  @ $02026E  (42 B)  [ref. desde código]
+|  Pal_02026e  @ $02026E  (42 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02026e, "ax", @progbits
-        .global Data_02026e
-Data_02026e:
+        .section .text.Pal_02026e, "ax", @progbits
+        .global Pal_02026e
+Pal_02026e:
         .dc.w   0x0a00,0x130d,0x0800,0x100a,0x0600,0x0e09,0x0500,0x0c07     | +00000
         .dc.w   0x0400,0x070d,0x1000,0x1114,0x1500,0x0e11,0x1200,0x0b0e     | +00010
         .dc.w   0x0f00,0x090c,0x0d00,0x080a,0x0a00                          | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_020298  @ $020298  (104 B)  [ref. desde código]
+|  Pal_020298  @ $020298  (104 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020298, "ax", @progbits
-        .global Data_020298
-Data_020298:
+        .section .text.Pal_020298, "ax", @progbits
+        .global Pal_020298
+Pal_020298:
         .dc.w   0x0708,0x0700,0x0706,0x0500,0x1d1e,0x1400,0x1819,0x0f00     | +00000
         .dc.w   0x1314,0x0b00,0x0f0f,0x0800,0x0b0a,0x0600,0x100a,0x0600     | +00010
         .dc.w   0x0e09,0x0500,0x0c07,0x0400,0x070d,0x1000,0x1114,0x1500     | +00020
@@ -4553,20 +4586,20 @@ Data_020298:
         .dc.w   0x0e09,0x0500,0x0c07,0x0400                                 | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_020300  @ $020300  (3 B)  [ref. desde código]
+|  Pal_020300  @ $020300  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020300, "ax", @progbits
-        .global Data_020300
-Data_020300:
+        .section .text.Pal_020300, "ax", @progbits
+        .global Pal_020300
+Pal_020300:
         .dc.w   0x070d                                                      | +00000
         .dc.b   0x10                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_020303  @ $020303  (307 B)  [ref. desde código]
+|  Pal_020303  @ $020303  (307 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020303, "ax", @progbits
-        .global Data_020303
-Data_020303:
+        .section .text.Pal_020303, "ax", @progbits
+        .global Pal_020303
+Pal_020303:
         .dc.b   0x00                            | +00000
         .dc.w   0x0906,0x0400,0x0e11,0x1200,0x0b0e,0x0f00,0x090c,0x0d00     | +00001
         .dc.w   0x080a,0x0a00,0x0708,0x0700,0x0706,0x0500,0x1d1e,0x1400     | +00011
@@ -4590,22 +4623,22 @@ Data_020303:
         .dc.w   0x100a                                                      | +00131
 
 | ----------------------------------------------------------------------------
-|  Data_020436  @ $020436  (50 B)  [ref. desde código]
+|  Pal_020436  @ $020436  (50 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020436, "ax", @progbits
-        .global Data_020436
-Data_020436:
+        .section .text.Pal_020436, "ax", @progbits
+        .global Pal_020436
+Pal_020436:
         .dc.w   0x0600,0x0e09,0x0500,0x0c07,0x0400,0x1518,0x1a00,0x1114     | +00000
         .dc.w   0x1500,0x0e11,0x1200,0x0b0e,0x0f00,0x090c,0x0d00,0x080a     | +00010
         .dc.w   0x0a00,0x0708,0x0700,0x0706,0x0500,0x1d1e,0x1400,0x1819     | +00020
         .dc.w   0x0f00                                                      | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_020468  @ $020468  (426 B)  [ref. desde código]
+|  Pal_020468  @ $020468  (426 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020468, "ax", @progbits
-        .global Data_020468
-Data_020468:
+        .section .text.Pal_020468, "ax", @progbits
+        .global Pal_020468
+Pal_020468:
         .dc.w   0x1314,0x0b00,0x0f0f,0x0800,0x0b0a,0x0600,0x181b,0x1c00     | +00000
         .dc.w   0x171a,0x1b00,0x1619,0x1b00,0x070d,0x1000,0x1515,0x1300     | +00010
         .dc.w   0x1b17,0x0e00,0x1612,0x0a00,0x110d,0x0700,0x0c09,0x0400     | +00020
@@ -4635,39 +4668,39 @@ Data_020468:
         .dc.w   0x1a1b,0x1b00,0x1819,0x1900,0x1617                          | +001a0
 
 | ----------------------------------------------------------------------------
-|  Data_020612  @ $020612  (46 B)  [ref. desde código]
+|  Pal_020612  @ $020612  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020612, "ax", @progbits
-        .global Data_020612
-Data_020612:
+        .section .text.Pal_020612, "ax", @progbits
+        .global Pal_020612
+Pal_020612:
         .dc.w   0x1800,0x1213,0x1400,0x1918,0x1500,0x1615,0x1200,0x1312     | +00000
         .dc.w   0x0f00,0x1917,0x1300,0x1815,0x1000,0x1512,0x0d00,0x120f     | +00010
         .dc.w   0x0b00,0x0e0b,0x0800,0x0907,0x0400,0x0605,0x0300            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_020640  @ $020640  (3 B)  [ref. desde código]
+|  Pal_020640  @ $020640  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020640, "ax", @progbits
-        .global Data_020640
-Data_020640:
+        .section .text.Pal_020640, "ax", @progbits
+        .global Pal_020640
+Pal_020640:
         .dc.w   0x1010                                                      | +00000
         .dc.b   0x10                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_020643  @ $020643  (2 B)  [ref. desde código]
+|  Pal_020643  @ $020643  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020643, "ax", @progbits
-        .global Data_020643
-Data_020643:
+        .section .text.Pal_020643, "ax", @progbits
+        .global Pal_020643
+Pal_020643:
         .dc.b   0x00                            | +00000
         .dc.b   0x1c                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_020645  @ $020645  (189 B)  [ref. desde código]
+|  Pal_020645  @ $020645  (189 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020645, "ax", @progbits
-        .global Data_020645
-Data_020645:
+        .section .text.Pal_020645, "ax", @progbits
+        .global Pal_020645
+Pal_020645:
         .dc.b   0x1d                            | +00000
         .dc.w   0x1c00,0x1a1b,0x1b00,0x1819,0x1900,0x1516,0x1700,0x1011     | +00001
         .dc.w   0x1300,0x140f,0x0a00,0x0f06,0x0000,0x0d0e,0x0800,0x1917     | +00011
@@ -4683,11 +4716,11 @@ Data_020645:
         .dc.w   0x0900,0x0b09,0x0500,0x0807,0x0500,0x1010                   | +000b1
 
 | ----------------------------------------------------------------------------
-|  Data_020702  @ $020702  (295 B)  [ref. desde código]
+|  Pal_020702  @ $020702  (295 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020702, "ax", @progbits
-        .global Data_020702
-Data_020702:
+        .section .text.Pal_020702, "ax", @progbits
+        .global Pal_020702
+Pal_020702:
         .dc.w   0x1000,0x1c1d,0x1b00,0x1a1b,0x1a00,0x1819,0x1800,0x1617     | +00000
         .dc.w   0x1700,0x1415,0x1500,0x1011,0x1200,0x0f0f,0x0a00,0x0c0c     | +00010
         .dc.w   0x0700,0x1917,0x1300,0x1815,0x1000,0x1512,0x0d00,0x120f     | +00020
@@ -4710,29 +4743,29 @@ Data_020702:
         .dc.b   0x0b                            | +00126
 
 | ----------------------------------------------------------------------------
-|  Data_020829  @ $020829  (5 B)  [ref. desde código]
+|  Pal_020829  @ $020829  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020829, "ax", @progbits
-        .global Data_020829
-Data_020829:
+        .section .text.Pal_020829, "ax", @progbits
+        .global Pal_020829
+Pal_020829:
         .dc.b   0x0b                            | +00000
         .dc.w   0x0700,0x0b0a                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_02082e  @ $02082E  (11 B)  [ref. desde código]
+|  Pal_02082e  @ $02082E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02082e, "ax", @progbits
-        .global Data_02082e
-Data_02082e:
+        .section .text.Pal_02082e, "ax", @progbits
+        .global Pal_02082e
+Pal_02082e:
         .dc.w   0x0600,0x0908,0x0500,0x1112,0x0b00                          | +00000
         .dc.b   0x0e                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_020839  @ $020839  (117 B)  [ref. desde código]
+|  Pal_020839  @ $020839  (117 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020839, "ax", @progbits
-        .global Data_020839
-Data_020839:
+        .section .text.Pal_020839, "ax", @progbits
+        .global Pal_020839
+Pal_020839:
         .dc.b   0x0f                            | +00000
         .dc.w   0x0800,0x0c0d,0x0700,0x1010,0x1000,0x1c1d,0x1a00,0x1a1b     | +00001
         .dc.w   0x1900,0x1819,0x1700,0x1617,0x1600,0x1415,0x1400,0x1213     | +00011
@@ -4744,11 +4777,11 @@ Data_020839:
         .dc.w   0x1600,0x1817                                               | +00071
 
 | ----------------------------------------------------------------------------
-|  Data_0208ae  @ $0208AE  (95 B)  [ref. desde código]
+|  Pal_0208ae  @ $0208AE  (95 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0208ae, "ax", @progbits
-        .global Data_0208ae
-Data_0208ae:
+        .section .text.Pal_0208ae, "ax", @progbits
+        .global Pal_0208ae
+Pal_0208ae:
         .dc.w   0x1300,0x1514,0x1000,0x100f,0x0b00,0x0b0a,0x0600,0x0807     | +00000
         .dc.w   0x0300,0x1211,0x0f00,0x1c1d,0x1c00,0x1a1b,0x1b00,0x1919     | +00010
         .dc.w   0x1800,0x1616,0x1600,0x1314,0x1400,0x1b18,0x1300,0x1815     | +00020
@@ -4758,11 +4791,11 @@ Data_0208ae:
         .dc.b   0x17                            | +0005e
 
 | ----------------------------------------------------------------------------
-|  Data_02090d  @ $02090D  (179 B)  [ref. desde código]
+|  Pal_02090d  @ $02090D  (179 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02090d, "ax", @progbits
-        .global Data_02090d
-Data_02090d:
+        .section .text.Pal_02090d, "ax", @progbits
+        .global Pal_02090d
+Pal_02090d:
         .dc.b   0x16                            | +00000
         .dc.w   0x1500,0x1212,0x1100,0x1b19,0x1500,0x1b18,0x1300,0x1815     | +00001
         .dc.w   0x1000,0x1714,0x0f00,0x1512,0x0d00,0x120f,0x0b00,0x100d     | +00011
@@ -4778,22 +4811,22 @@ Data_02090d:
         .dc.w   0x0700                                                      | +000b1
 
 | ----------------------------------------------------------------------------
-|  Data_0209c0  @ $0209C0  (64 B)  [ref. desde código]
+|  Pal_0209c0  @ $0209C0  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0209c0, "ax", @progbits
-        .global Data_0209c0
-Data_0209c0:
+        .section .text.Pal_0209c0, "ax", @progbits
+        .global Pal_0209c0
+Pal_0209c0:
         .dc.w   0x1c1c,0x1600,0x1918,0x1600,0x1817,0x1600,0x1716,0x1600     | +00000
         .dc.w   0x1716,0x1400,0x1615,0x1300,0x1514,0x1200,0x1413,0x1100     | +00010
         .dc.w   0x100f,0x0b00,0x130e,0x0900,0x110a,0x0500,0x1a18,0x1300     | +00020
         .dc.w   0x1816,0x1100,0x1513,0x0f00,0x110f,0x0c00,0x0e0d,0x0c00     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_020a00  @ $020A00  (512 B)  [ref. desde código]
+|  Pal_020a00  @ $020A00  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020a00, "ax", @progbits
-        .global Data_020a00
-Data_020a00:
+        .section .text.Pal_020a00, "ax", @progbits
+        .global Pal_020a00
+Pal_020a00:
         .dc.w   0x1f0f,0x0000,0x0909,0x0300,0x1618,0x0a00,0x1213,0x0700     | +00000
         .dc.w   0x0e0f,0x0400,0x0c0c,0x0100,0x1617,0x1400,0x1112,0x1000     | +00010
         .dc.w   0x0f10,0x0e00,0x0e0e,0x0c00,0x0d0d,0x0a00,0x0c0c,0x0900     | +00020
@@ -4828,82 +4861,82 @@ Data_020a00:
         .dc.w   0x1613,0x0c00,0x110e,0x0800,0x0b08,0x0300,0x0604,0x0000     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_020c00  @ $020C00  (1 B)  [ref. desde código]
+|  Pal_020c00  @ $020C00  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c00, "ax", @progbits
-        .global Data_020c00
-Data_020c00:
+        .section .text.Pal_020c00, "ax", @progbits
+        .global Pal_020c00
+Pal_020c00:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020c01  @ $020C01  (45 B)  [ref. desde código]
+|  Pal_020c01  @ $020C01  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c01, "ax", @progbits
-        .global Data_020c01
-Data_020c01:
+        .section .text.Pal_020c01, "ax", @progbits
+        .global Pal_020c01
+Pal_020c01:
         .dc.b   0x18                            | +00000
         .dc.w   0x1a00,0x0b0b,0x0800,0x0c0c,0x0900,0x0d0e,0x0a00,0x0f10     | +00001
         .dc.w   0x0b00,0x1112,0x0d00,0x0907,0x0300,0x0604,0x0000,0x1c1c     | +00011
         .dc.w   0x1600,0x1818,0x1200,0x1211,0x0d00,0x0f0d                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_020c2e  @ $020C2E  (11 B)  [ref. desde código]
+|  Pal_020c2e  @ $020C2E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c2e, "ax", @progbits
-        .global Data_020c2e
-Data_020c2e:
+        .section .text.Pal_020c2e, "ax", @progbits
+        .global Pal_020c2e
+Pal_020c2e:
         .dc.w   0x0a00,0x0c0a,0x0700,0x1214,0x1100                          | +00000
         .dc.b   0x17                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_020c39  @ $020C39  (7 B)  [ref. desde código]
+|  Pal_020c39  @ $020C39  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c39, "ax", @progbits
-        .global Data_020c39
-Data_020c39:
+        .section .text.Pal_020c39, "ax", @progbits
+        .global Pal_020c39
+Pal_020c39:
         .dc.b   0x1a                            | +00000
         .dc.w   0x1b00,0x1517,0x1400                                        | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_020c40  @ $020C40  (1 B)  [ref. desde código]
+|  Pal_020c40  @ $020C40  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c40, "ax", @progbits
-        .global Data_020c40
-Data_020c40:
+        .section .text.Pal_020c40, "ax", @progbits
+        .global Pal_020c40
+Pal_020c40:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020c41  @ $020C41  (1 B)  [ref. desde código]
+|  Pal_020c41  @ $020C41  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c41, "ax", @progbits
-        .global Data_020c41
-Data_020c41:
+        .section .text.Pal_020c41, "ax", @progbits
+        .global Pal_020c41
+Pal_020c41:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020c42  @ $020C42  (38 B)  [ref. desde código]
+|  Pal_020c42  @ $020C42  (38 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c42, "ax", @progbits
-        .global Data_020c42
-Data_020c42:
+        .section .text.Pal_020c42, "ax", @progbits
+        .global Pal_020c42
+Pal_020c42:
         .dc.w   0x1a00,0x1213,0x1200,0x0f10,0x0f00,0x0f0f,0x0e00,0x0e0f     | +00000
         .dc.w   0x0d00,0x0e0e,0x0b00,0x0907,0x0300,0x0604,0x0000,0x1c1c     | +00010
         .dc.w   0x1600,0x1818,0x1200                                        | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_020c68  @ $020C68  (6 B)  [ref. desde código]
+|  Pal_020c68  @ $020C68  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c68, "ax", @progbits
-        .global Data_020c68
-Data_020c68:
+        .section .text.Pal_020c68, "ax", @progbits
+        .global Pal_020c68
+Pal_020c68:
         .dc.w   0x1211,0x0d00,0x0f0d                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_020c6e  @ $020C6E  (130 B)  [ref. desde código]
+|  Pal_020c6e  @ $020C6E  (130 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020c6e, "ax", @progbits
-        .global Data_020c6e
-Data_020c6e:
+        .section .text.Pal_020c6e, "ax", @progbits
+        .global Pal_020c6e
+Pal_020c6e:
         .dc.w   0x0a00,0x0c0a,0x0700,0x0d0d,0x0a00,0x0c0c,0x0900,0x0b0b     | +00000
         .dc.w   0x0800,0x1518,0x1a00,0x0b0b,0x0800,0x0c0c,0x0900,0x0d0e     | +00010
         .dc.w   0x0a00,0x0f10,0x0b00,0x1112,0x0d00,0x181b,0x1c00,0x1619     | +00020
@@ -4915,11 +4948,11 @@ Data_020c6e:
         .dc.w   0x0a00                                                      | +00080
 
 | ----------------------------------------------------------------------------
-|  Data_020cf0  @ $020CF0  (192 B)  [ref. desde código]
+|  Pal_020cf0  @ $020CF0  (192 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020cf0, "ax", @progbits
-        .global Data_020cf0
-Data_020cf0:
+        .section .text.Pal_020cf0, "ax", @progbits
+        .global Pal_020cf0
+Pal_020cf0:
         .dc.w   0x0c0a,0x0700,0x1214,0x1100,0x171a,0x1b00,0x1517,0x1400     | +00000
         .dc.w   0x1518,0x1a00,0x1f1d,0x1300,0x1b17,0x0e00,0x1612,0x0a00     | +00010
         .dc.w   0x110d,0x0700,0x0c09,0x0400,0x0907,0x0300,0x0604,0x0000     | +00020
@@ -4934,11 +4967,11 @@ Data_020cf0:
         .dc.w   0x1315,0x1100,0x0f11,0x0d00,0x0c0e,0x0a00,0x0a0c,0x0900     | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_020db0  @ $020DB0  (80 B)  [ref. desde código]
+|  Pal_020db0  @ $020DB0  (80 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020db0, "ax", @progbits
-        .global Data_020db0
-Data_020db0:
+        .section .text.Pal_020db0, "ax", @progbits
+        .global Pal_020db0
+Pal_020db0:
         .dc.w   0x090a,0x0700,0x0906,0x0400,0x0e09,0x0500,0x0c07,0x0400     | +00000
         .dc.w   0x1518,0x1a00,0x1f1d,0x1300,0x1b17,0x0e00,0x1612,0x0a00     | +00010
         .dc.w   0x110d,0x0700,0x0c09,0x0400,0x0808,0x0700,0x0706,0x0500     | +00020
@@ -4946,11 +4979,11 @@ Data_020db0:
         .dc.w   0x090a,0x0700,0x1214,0x1100,0x171a,0x1b00,0x1517,0x1400     | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_020e00  @ $020E00  (512 B)  [ref. desde código]
+|  Pal_020e00  @ $020E00  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_020e00, "ax", @progbits
-        .global Data_020e00
-Data_020e00:
+        .section .text.Pal_020e00, "ax", @progbits
+        .global Pal_020e00
+Pal_020e00:
         .dc.w   0x1518,0x1a00,0x191b,0x1900,0x1719,0x1700,0x1517,0x1500     | +00000
         .dc.w   0x1415,0x1400,0x1213,0x1100,0x0c0d,0x0800,0x0809,0x0300     | +00010
         .dc.w   0x0506,0x0000,0x0303,0x0000,0x1f1d,0x1300,0x1b17,0x0e00     | +00020
@@ -4985,65 +5018,65 @@ Data_020e00:
         .dc.w   0x0f0d,0x0a00,0x0c0a,0x0700,0x0907,0x0300,0x0604,0x0000     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_021000  @ $021000  (2 B)  [ref. desde código]
+|  Pal_021000  @ $021000  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021000, "ax", @progbits
-        .global Data_021000
-Data_021000:
+        .section .text.Pal_021000, "ax", @progbits
+        .global Pal_021000
+Pal_021000:
         .dc.w   0x0e0e                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_021002  @ $021002  (5 B)  [ref. desde código]
+|  Pal_021002  @ $021002  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021002, "ax", @progbits
-        .global Data_021002
-Data_021002:
+        .section .text.Pal_021002, "ax", @progbits
+        .global Pal_021002
+Pal_021002:
         .dc.w   0x0e00,0x140f                                               | +00000
         .dc.b   0x0a                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_021007  @ $021007  (39 B)  [ref. desde código]
+|  Pal_021007  @ $021007  (39 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021007, "ax", @progbits
-        .global Data_021007
-Data_021007:
+        .section .text.Pal_021007, "ax", @progbits
+        .global Pal_021007
+Pal_021007:
         .dc.b   0x00                            | +00000
         .dc.w   0x0f06,0x0000,0x1213,0x1100,0x0c0b,0x0700,0x0d0e,0x0b00     | +00001
         .dc.w   0x090a,0x0400,0x0607,0x0100,0x0505,0x0000,0x1612,0x0c00     | +00011
         .dc.w   0x1410,0x0b00,0x120e                                        | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_02102e  @ $02102E  (4 B)  [ref. desde código]
+|  Pal_02102e  @ $02102E  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02102e, "ax", @progbits
-        .global Data_02102e
-Data_02102e:
+        .section .text.Pal_02102e, "ax", @progbits
+        .global Pal_02102e
+Pal_02102e:
         .dc.w   0x0a00,0x0e0b                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_021032  @ $021032  (7 B)  [ref. desde código]
+|  Pal_021032  @ $021032  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021032, "ax", @progbits
-        .global Data_021032
-Data_021032:
+        .section .text.Pal_021032, "ax", @progbits
+        .global Pal_021032
+Pal_021032:
         .dc.w   0x0800,0x0c09,0x0600                                        | +00000
         .dc.b   0x09                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_021039  @ $021039  (3 B)  [ref. desde código]
+|  Pal_021039  @ $021039  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021039, "ax", @progbits
-        .global Data_021039
-Data_021039:
+        .section .text.Pal_021039, "ax", @progbits
+        .global Pal_021039
+Pal_021039:
         .dc.b   0x07                            | +00000
         .dc.w   0x0300                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_02103c  @ $02103C  (261 B)  [ref. desde código]
+|  Pal_02103c  @ $02103C  (261 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02103c, "ax", @progbits
-        .global Data_02103c
-Data_02103c:
+        .section .text.Pal_02103c, "ax", @progbits
+        .global Pal_02103c
+Pal_02103c:
         .dc.w   0x0604,0x0000,0x1518,0x1a00,0x1518,0x1a00,0x1518,0x1a00     | +00000
         .dc.w   0x1518,0x1a00,0x1518,0x1a00,0x1518,0x1a00,0x1518,0x1a00     | +00010
         .dc.w   0x1518,0x1a00,0x1518,0x1a00,0x1518,0x1a00,0x1518,0x1a00     | +00020
@@ -5064,11 +5097,11 @@ Data_02103c:
         .dc.b   0x1a                            | +00104
 
 | ----------------------------------------------------------------------------
-|  Data_021141  @ $021141  (40 B)  [ref. desde código]
+|  Pal_021141  @ $021141  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021141, "ax", @progbits
-        .global Data_021141
-Data_021141:
+        .section .text.Pal_021141, "ax", @progbits
+        .global Pal_021141
+Pal_021141:
         .dc.b   0x18                            | +00000
         .dc.w   0x1400,0x1516,0x1600,0x1011,0x1100,0x0b0c,0x0c00,0x0809     | +00001
         .dc.w   0x0900,0x0506,0x0600,0x0203,0x0300,0x1c1a,0x1400,0x1613     | +00011
@@ -5076,11 +5109,11 @@ Data_021141:
         .dc.b   0x08                            | +00027
 
 | ----------------------------------------------------------------------------
-|  Data_021169  @ $021169  (191 B)  [ref. desde código]
+|  Pal_021169  @ $021169  (191 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021169, "ax", @progbits
-        .global Data_021169
-Data_021169:
+        .section .text.Pal_021169, "ax", @progbits
+        .global Pal_021169
+Pal_021169:
         .dc.b   0x06                            | +00000
         .dc.w   0x0000,0x1f1f,0x1f00,0x1616,0x1400,0x1010,0x0e00,0x0a0a     | +00001
         .dc.w   0x0800,0x0606,0x0400,0x1a18,0x1400,0x1516,0x1600,0x1011     | +00011
@@ -5097,11 +5130,11 @@ Data_021169:
         .dc.w   0x1600,0x1817,0x1300,0x100f,0x0b00                          | +000b5
 
 | ----------------------------------------------------------------------------
-|  Data_021228  @ $021228  (176 B)  [ref. desde código]
+|  Pal_021228  @ $021228  (176 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021228, "ax", @progbits
-        .global Data_021228
-Data_021228:
+        .section .text.Pal_021228, "ax", @progbits
+        .global Pal_021228
+Pal_021228:
         .dc.w   0x0b0a,0x0600,0x1f1f,0x1f00,0x1e0e,0x0900,0x1706,0x0500     | +00000
         .dc.w   0x0e02,0x0100,0x0900,0x0000,0x1010,0x1000,0x0808,0x0200     | +00010
         .dc.w   0x1517,0x0900,0x1112,0x0600,0x0d0e,0x0300,0x0b0b,0x0000     | +00020
@@ -5115,11 +5148,11 @@ Data_021228:
         .dc.w   0x1a1b,0x1a00,0x1719,0x1800,0x120f,0x0a00,0x0e0b,0x0600     | +000a0
 
 | ----------------------------------------------------------------------------
-|  Data_0212d8  @ $0212D8  (105 B)  [ref. desde código]
+|  Pal_0212d8  @ $0212D8  (105 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0212d8, "ax", @progbits
-        .global Data_0212d8
-Data_0212d8:
+        .section .text.Pal_0212d8, "ax", @progbits
+        .global Pal_0212d8
+Pal_0212d8:
         .dc.w   0x0907,0x0300,0x1211,0x0e00,0x0f0e,0x0b00,0x0c0b,0x0800     | +00000
         .dc.w   0x0908,0x0500,0x1413,0x1000,0x100d,0x0800,0x0c09,0x0400     | +00010
         .dc.w   0x0705,0x0100,0x0503,0x0000,0x1410,0x1000,0x1d1d,0x1c00     | +00020
@@ -5130,19 +5163,19 @@ Data_0212d8:
         .dc.b   0x14                            | +00068
 
 | ----------------------------------------------------------------------------
-|  Data_021341  @ $021341  (1 B)  [ref. desde código]
+|  Pal_021341  @ $021341  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021341, "ax", @progbits
-        .global Data_021341
-Data_021341:
+        .section .text.Pal_021341, "ax", @progbits
+        .global Pal_021341
+Pal_021341:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_021342  @ $021342  (126 B)  [ref. desde código]
+|  Pal_021342  @ $021342  (126 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021342, "ax", @progbits
-        .global Data_021342
-Data_021342:
+        .section .text.Pal_021342, "ax", @progbits
+        .global Pal_021342
+Pal_021342:
         .dc.w   0x1000,0x1d1d,0x1c00,0x1a1b,0x1a00,0x1719,0x1800,0x1817     | +00000
         .dc.w   0x1500,0x1514,0x1200,0x1211,0x0f00,0x0e0d,0x0b00,0x0b0a     | +00010
         .dc.w   0x0800,0x0807,0x0500,0x0504,0x0300,0x1913,0x0900,0x0d0e     | +00020
@@ -5153,22 +5186,22 @@ Data_021342:
         .dc.w   0x0100,0x0a0d,0x0100,0x080a,0x0300,0x0805,0x0100            | +00070
 
 | ----------------------------------------------------------------------------
-|  Data_0213c0  @ $0213C0  (64 B)  [ref. desde código]
+|  Pal_0213c0  @ $0213C0  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0213c0, "ax", @progbits
-        .global Data_0213c0
-Data_0213c0:
+        .section .text.Pal_0213c0, "ax", @progbits
+        .global Pal_0213c0
+Pal_0213c0:
         .dc.w   0x1410,0x1000,0x1c1d,0x1e00,0x1b1c,0x1c00,0x1719,0x1900     | +00000
         .dc.w   0x1517,0x1700,0x1315,0x1500,0x1113,0x1300,0x1818,0x1700     | +00010
         .dc.w   0x1616,0x1500,0x1414,0x1300,0x1212,0x1100,0x1010,0x0f00     | +00020
         .dc.w   0x0e0e,0x0d00,0x0c0c,0x0b00,0x1010,0x0d00,0x0d0d,0x0a00     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_021400  @ $021400  (572 B)  [ref. desde código]
+|  Pal_021400  @ $021400  (572 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021400, "ax", @progbits
-        .global Data_021400
-Data_021400:
+        .section .text.Pal_021400, "ax", @progbits
+        .global Pal_021400
+Pal_021400:
         .dc.w   0x091e,0x0400,0x0e0e,0x0a00,0x0b0b,0x0700,0x0808,0x0600     | +00000
         .dc.w   0x110e,0x0600,0x0e0b,0x0300,0x0b09,0x0000,0x0907,0x0000     | +00010
         .dc.w   0x0705,0x0000,0x1212,0x0d00,0x1c1f,0x0f00,0x181a,0x0c00     | +00020
@@ -5207,11 +5240,11 @@ Data_021400:
         .dc.w   0x1614,0x0f00,0x1311,0x0c00,0x100e,0x0900                   | +00230
 
 | ----------------------------------------------------------------------------
-|  Data_02163c  @ $02163C  (1,796 B)  [ref. desde código]
+|  Pal_02163c  @ $02163C  (1,796 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02163c, "ax", @progbits
-        .global Data_02163c
-Data_02163c:
+        .section .text.Pal_02163c, "ax", @progbits
+        .global Pal_02163c
+Pal_02163c:
         .dc.w   0x0d0b,0x0600,0x1410,0x1000,0x1c1c,0x1b00,0x191a,0x1900     | +00000
         .dc.w   0x1618,0x1700,0x1a19,0x1800,0x1716,0x1500,0x1413,0x1200     | +00010
         .dc.w   0x1211,0x1000,0x0c0b,0x0a00,0x0908,0x0700,0x0605,0x0400     | +00020
@@ -5327,30 +5360,30 @@ Data_02163c:
         .dc.w   0x0c08,0x0400                                               | +00700
 
 | ----------------------------------------------------------------------------
-|  Data_021d40  @ $021D40  (46 B)  [ref. desde código]
+|  Pal_021d40  @ $021D40  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021d40, "ax", @progbits
-        .global Data_021d40
-Data_021d40:
+        .section .text.Pal_021d40, "ax", @progbits
+        .global Pal_021d40
+Pal_021d40:
         .fill   8,1,0x00                      | +00000
         .dc.w   0x1f1f,0x1f00,0x1b07,0x0a00,0x0009,0x0500,0x1717,0x1700     | +00008
         .dc.w   0x1117,0x1c00,0x0c1c,0x0a00,0x1e1f,0x1500,0x0814,0x1100     | +00018
         .dc.w   0x000e,0x0a00,0x0f0a                                        | +00028
 
 | ----------------------------------------------------------------------------
-|  Data_021d6e  @ $021D6E  (14 B)  [ref. desde código]
+|  Pal_021d6e  @ $021D6E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021d6e, "ax", @progbits
-        .global Data_021d6e
-Data_021d6e:
+        .section .text.Pal_021d6e, "ax", @progbits
+        .global Pal_021d6e
+Pal_021d6e:
         .dc.w   0x0700,0x0a07,0x0700,0x1106,0x0900,0x1a10,0x1200            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_021d7c  @ $021D7C  (132 B)  [ref. desde código]
+|  Pal_021d7c  @ $021D7C  (132 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021d7c, "ax", @progbits
-        .global Data_021d7c
-Data_021d7c:
+        .section .text.Pal_021d7c, "ax", @progbits
+        .global Pal_021d7c
+Pal_021d7c:
         .fill   12,1,0x00                      | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +0000c
         .fill   16,1,0x00                      | +0001c
@@ -5362,19 +5395,19 @@ Data_021d7c:
         .dc.w   0x0302,0x0000,0x0302,0x0000,0x0302,0x0000,0x0302,0x0000     | +00074
 
 | ----------------------------------------------------------------------------
-|  Data_021e00  @ $021E00  (8 B)  [ref. desde código]
+|  Pal_021e00  @ $021E00  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021e00, "ax", @progbits
-        .global Data_021e00
-Data_021e00:
+        .section .text.Pal_021e00, "ax", @progbits
+        .global Pal_021e00
+Pal_021e00:
         .dc.w   0x0606,0x0600,0x1211,0x0d00                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_021e08  @ $021E08  (614 B)  [ref. desde código]
+|  Pal_021e08  @ $021E08  (614 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_021e08, "ax", @progbits
-        .global Data_021e08
-Data_021e08:
+        .section .text.Pal_021e08, "ax", @progbits
+        .global Pal_021e08
+Pal_021e08:
         .dc.w   0x0d0c,0x0900,0x0a09,0x0600,0x0706,0x0300,0x0504,0x0200     | +00000
         .dc.w   0x0403,0x0100,0x0302,0x0000,0x001f,0x0000,0x001f,0x0000     | +00010
         .dc.w   0x001f,0x0000,0x0604,0x0100,0x0402,0x0000,0x0d0c,0x0700     | +00020
@@ -5416,11 +5449,11 @@ Data_021e08:
         .dc.w   0x0a08,0x0000,0x0706                                        | +00260
 
 | ----------------------------------------------------------------------------
-|  Data_02206e  @ $02206E  (251 B)  [ref. desde código]
+|  Pal_02206e  @ $02206E  (251 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02206e, "ax", @progbits
-        .global Data_02206e
-Data_02206e:
+        .section .text.Pal_02206e, "ax", @progbits
+        .global Pal_02206e
+Pal_02206e:
         .dc.w   0x0000,0x1311,0x0a00,0x1814,0x0a00,0x110d,0x0300,0x0c08     | +00000
         .dc.w   0x0000,0x0606,0x0600,0x1413,0x1000,0x0f0e,0x0a00,0x0c0b     | +00010
         .dc.w   0x0700,0x0908,0x0500,0x0606,0x0300,0x0404,0x0100,0x0303     | +00020
@@ -5440,11 +5473,11 @@ Data_02206e:
         .dc.b   0x09                            | +000fa
 
 | ----------------------------------------------------------------------------
-|  Data_022169  @ $022169  (182 B)  [ref. desde código]
+|  Pal_022169  @ $022169  (182 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022169, "ax", @progbits
-        .global Data_022169
-Data_022169:
+        .section .text.Pal_022169, "ax", @progbits
+        .global Pal_022169
+Pal_022169:
         .dc.b   0x07                            | +00000
         .dc.w   0x0300,0x0604,0x0100,0x0402,0x0000,0x0e0d,0x0700,0x0b0a     | +00001
         .dc.w   0x0400,0x0807,0x0100,0x0606,0x0600,0x1514,0x0f00,0x1110     | +00011
@@ -5461,11 +5494,11 @@ Data_022169:
         .dc.b   0x02                            | +000b5
 
 | ----------------------------------------------------------------------------
-|  Data_02221f  @ $02221F  (74 B)  [ref. desde código]
+|  Pal_02221f  @ $02221F  (74 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02221f, "ax", @progbits
-        .global Data_02221f
-Data_02221f:
+        .section .text.Pal_02221f, "ax", @progbits
+        .global Pal_02221f
+Pal_02221f:
         .dc.b   0x00                            | +00000
         .dc.w   0x1610,0x0900,0x110b,0x0500,0x0e08,0x0200,0x0b05,0x0000     | +00001
         .dc.w   0x110f,0x0900,0x0d0b,0x0500,0x0907,0x0200,0x0705,0x0200     | +00011
@@ -5475,20 +5508,20 @@ Data_02221f:
         .dc.b   0x00                            | +00049
 
 | ----------------------------------------------------------------------------
-|  Data_022269  @ $022269  (5 B)  [ref. desde código]
+|  Pal_022269  @ $022269  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022269, "ax", @progbits
-        .global Data_022269
-Data_022269:
+        .section .text.Pal_022269, "ax", @progbits
+        .global Pal_022269
+Pal_022269:
         .dc.b   0x1f                            | +00000
         .dc.w   0x0000,0x0706                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_02226e  @ $02226E  (346 B)  [ref. desde código]
+|  Pal_02226e  @ $02226E  (346 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02226e, "ax", @progbits
-        .global Data_02226e
-Data_02226e:
+        .section .text.Pal_02226e, "ax", @progbits
+        .global Pal_02226e
+Pal_02226e:
         .dc.w   0x0200,0x0605,0x0100,0x1111,0x0b00,0x0c0b,0x0600,0x0809     | +00000
         .dc.w   0x0300,0x0606,0x0600,0x1614,0x0e00,0x1311,0x0b00,0x0f0d     | +00010
         .dc.w   0x0800,0x0d0b,0x0700,0x0b09,0x0600,0x0806,0x0400,0x0605     | +00020
@@ -5513,11 +5546,11 @@ Data_02226e:
         .dc.w   0x0000,0x0606,0x0600,0x1211,0x0e00                          | +00150
 
 | ----------------------------------------------------------------------------
-|  Data_0223c8  @ $0223C8  (161 B)  [ref. desde código]
+|  Pal_0223c8  @ $0223C8  (161 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0223c8, "ax", @progbits
-        .global Data_0223c8
-Data_0223c8:
+        .section .text.Pal_0223c8, "ax", @progbits
+        .global Pal_0223c8
+Pal_0223c8:
         .dc.w   0x0d0c,0x0900,0x0a09,0x0700,0x0606,0x0400,0x0404,0x0300     | +00000
         .dc.w   0x0303,0x0200,0x0202,0x0100,0x001f,0x0000,0x001f,0x0000     | +00010
         .dc.w   0x001f,0x0000,0x0504,0x0100,0x0302,0x0000,0x0c0c,0x0700     | +00020
@@ -5531,11 +5564,11 @@ Data_0223c8:
         .dc.b   0x00                            | +000a0
 
 | ----------------------------------------------------------------------------
-|  Data_022469  @ $022469  (979 B)  [ref. desde código]
+|  Pal_022469  @ $022469  (979 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022469, "ax", @progbits
-        .global Data_022469
-Data_022469:
+        .section .text.Pal_022469, "ax", @progbits
+        .global Pal_022469
+Pal_022469:
         .dc.b   0x1f                            | +00000
         .dc.w   0x0000,0x1312,0x0e00,0x0f0e,0x0a00,0x0b0a,0x0600,0x0807     | +00001
         .dc.w   0x0200,0x0504,0x0100,0x0e0d,0x0b00,0x0a0b,0x0900,0x0809     | +00011
@@ -5602,11 +5635,11 @@ Data_022469:
         .dc.w   0x090a,0x0700,0x0708,0x0500,0x0506,0x0400                   | +003c7
 
 | ----------------------------------------------------------------------------
-|  Data_02283c  @ $02283C  (1,036 B)  [ref. desde código]
+|  Pal_02283c  @ $02283C  (1,036 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02283c, "ax", @progbits
-        .global Data_02283c
-Data_02283c:
+        .section .text.Pal_02283c, "ax", @progbits
+        .global Pal_02283c
+Pal_02283c:
         .dc.w   0x0404,0x0300,0x1212,0x0000,0x0708,0x0700,0x0607,0x0600     | +00000
         .dc.w   0x0506,0x0500,0x0405,0x0400,0x0304,0x0300,0x0203,0x0200     | +00010
         .dc.w   0x0102,0x0100,0x1a16,0x0f00,0x1812,0x0a00,0x0808,0x0600     | +00020
@@ -5674,21 +5707,21 @@ Data_02283c:
         .dc.w   0x0c0d,0x0900,0x0606,0x0600,0x1514,0x0f00                   | +00400
 
 | ----------------------------------------------------------------------------
-|  Data_022c48  @ $022C48  (38 B)  [ref. desde código]
+|  Pal_022c48  @ $022C48  (38 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022c48, "ax", @progbits
-        .global Data_022c48
-Data_022c48:
+        .section .text.Pal_022c48, "ax", @progbits
+        .global Pal_022c48
+Pal_022c48:
         .dc.w   0x1110,0x0c00,0x0e0d,0x0900,0x0b0a,0x0600,0x0908,0x0500     | +00000
         .dc.w   0x0706,0x0300,0x0504,0x0200,0x1513,0x0e00,0x110f,0x0a00     | +00010
         .dc.w   0x0e0c,0x0800,0x0b09                                        | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_022c6e  @ $022C6E  (210 B)  [ref. desde código]
+|  Pal_022c6e  @ $022C6E  (210 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022c6e, "ax", @progbits
-        .global Data_022c6e
-Data_022c6e:
+        .section .text.Pal_022c6e, "ax", @progbits
+        .global Pal_022c6e
+Pal_022c6e:
         .dc.w   0x0500,0x0806,0x0300,0x0e0d,0x0700,0x0b0a,0x0400,0x0807     | +00000
         .dc.w   0x0100,0x0f0c,0x0900,0x100f,0x0c00,0x0f0e,0x0b00,0x0e0d     | +00010
         .dc.w   0x0a00,0x100f,0x0a00,0x0c0b,0x0800,0x0b0a,0x0700,0x0a0a     | +00020
@@ -5705,27 +5738,27 @@ Data_022c6e:
         .dc.w   0x0100                                                      | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_022d40  @ $022D40  (8 B)  [ref. desde código]
+|  Pal_022d40  @ $022D40  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022d40, "ax", @progbits
-        .global Data_022d40
-Data_022d40:
+        .section .text.Pal_022d40, "ax", @progbits
+        .global Pal_022d40
+Pal_022d40:
         .dc.w   0x1a18,0x1400,0x1d1b,0x1500                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_022d48  @ $022D48  (1 B)  [ref. desde código]
+|  Pal_022d48  @ $022D48  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022d48, "ax", @progbits
-        .global Data_022d48
-Data_022d48:
+        .section .text.Pal_022d48, "ax", @progbits
+        .global Pal_022d48
+Pal_022d48:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_022d49  @ $022D49  (448 B)  [ref. desde código]
+|  Pal_022d49  @ $022D49  (448 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022d49, "ax", @progbits
-        .global Data_022d49
-Data_022d49:
+        .section .text.Pal_022d49, "ax", @progbits
+        .global Pal_022d49
+Pal_022d49:
         .dc.b   0x16                            | +00000
         .dc.w   0x1000,0x1210,0x0a00,0x0a08,0x0200,0x0705,0x0100,0x0505     | +00001
         .dc.w   0x0200,0x1b1a,0x1600,0x1716,0x1200,0x1110,0x0c00,0x0b0a     | +00011
@@ -5759,11 +5792,11 @@ Data_022d49:
         .dc.b   0x18                            | +001bf
 
 | ----------------------------------------------------------------------------
-|  Data_022f09  @ $022F09  (254 B)  [ref. desde código]
+|  Pal_022f09  @ $022F09  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_022f09, "ax", @progbits
-        .global Data_022f09
-Data_022f09:
+        .section .text.Pal_022f09, "ax", @progbits
+        .global Pal_022f09
+Pal_022f09:
         .dc.b   0x16                            | +00000
         .dc.w   0x1000,0x1210,0x0a00,0x0a08,0x0200,0x0705,0x0100,0x1205     | +00001
         .dc.w   0x0000,0x1f1a,0x1100,0x1f11,0x0500,0x1a0c,0x0000,0x1507     | +00011
@@ -5784,65 +5817,65 @@ Data_022f09:
         .fill   9,1,0x00                      | +000f5
 
 | ----------------------------------------------------------------------------
-|  Data_023007  @ $023007  (9 B)  [ref. desde código]
+|  Pal_023007  @ $023007  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023007, "ax", @progbits
-        .global Data_023007
-Data_023007:
+        .section .text.Pal_023007, "ax", @progbits
+        .global Pal_023007
+Pal_023007:
         .dc.b   0x00                            | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00                                 | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_023010  @ $023010  (7 B)  [ref. desde código]
+|  Pal_023010  @ $023010  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023010, "ax", @progbits
-        .global Data_023010
-Data_023010:
+        .section .text.Pal_023010, "ax", @progbits
+        .global Pal_023010
+Pal_023010:
         .dc.w   0x1f1f,0x1f00,0x1f1f                                        | +00000
         .dc.b   0x1f                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_023017  @ $023017  (2 B)  [ref. desde código]
+|  Pal_023017  @ $023017  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023017, "ax", @progbits
-        .global Data_023017
-Data_023017:
+        .section .text.Pal_023017, "ax", @progbits
+        .global Pal_023017
+Pal_023017:
         .dc.b   0x00                            | +00000
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Str_023019  @ $023019  (6 B)  [ref. desde código]
+|  Pal_023019  @ $023019  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_023019, "ax", @progbits
-        .global Str_023019
-Str_023019:
+        .section .text.Pal_023019, "ax", @progbits
+        .global Pal_023019
+Pal_023019:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0000                                               | +00001
         .dc.b   0x00                            | +00005
 
 | ----------------------------------------------------------------------------
-|  Data_02301f  @ $02301F  (15 B)  [ref. desde código]
+|  Pal_02301f  @ $02301F  (15 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02301f, "ax", @progbits
-        .global Data_02301f
-Data_02301f:
+        .section .text.Pal_02301f, "ax", @progbits
+        .global Pal_02301f
+Pal_02301f:
         .fill   9,1,0x00                      | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f                                        | +00009
 
 | ----------------------------------------------------------------------------
-|  Data_02302e  @ $02302E  (14 B)  [ref. desde código]
+|  Pal_02302e  @ $02302E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02302e, "ax", @progbits
-        .global Data_02302e
-Data_02302e:
+        .section .text.Pal_02302e, "ax", @progbits
+        .global Pal_02302e
+Pal_02302e:
         .dc.w   0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x0000,0x0000            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02303c  @ $02303C  (452 B)  [ref. desde código]
+|  Pal_02303c  @ $02303C  (452 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02303c, "ax", @progbits
-        .global Data_02303c
-Data_02303c:
+        .section .text.Pal_02303c, "ax", @progbits
+        .global Pal_02303c
+Pal_02303c:
         .fill   12,1,0x00                      | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +0000c
         .fill   16,1,0x00                      | +0001c
@@ -5874,46 +5907,46 @@ Data_02303c:
         .fill   8,1,0x00                      | +001bc
 
 | ----------------------------------------------------------------------------
-|  Data_023200  @ $023200  (40 B)  [ref. desde código]
+|  Pal_023200  @ $023200  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023200, "ax", @progbits
-        .global Data_023200
-Data_023200:
+        .section .text.Pal_023200, "ax", @progbits
+        .global Pal_023200
+Pal_023200:
         .dc.w   0x0e0e,0x0e00,0x0000,0x0000,0x1011,0x1600,0x1314,0x1900     | +00000
         .dc.w   0x1617,0x1c00,0x1b1d,0x1f00,0x0b0c,0x1100,0x0404,0x0400     | +00010
         .dc.w   0x0d09,0x1800,0x1915,0x1f00                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_023228  @ $023228  (1 B)  [ref. desde código]
+|  Pal_023228  @ $023228  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023228, "ax", @progbits
-        .global Data_023228
-Data_023228:
+        .section .text.Pal_023228, "ax", @progbits
+        .global Pal_023228
+Pal_023228:
         .dc.b   0x1f                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_023229  @ $023229  (5 B)  [ref. desde código]
+|  Pal_023229  @ $023229  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023229, "ax", @progbits
-        .global Data_023229
-Data_023229:
+        .section .text.Pal_023229, "ax", @progbits
+        .global Pal_023229
+Pal_023229:
         .dc.b   0x14                            | +00000
         .dc.w   0x0200,0x1f1b                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_02322e  @ $02322E  (14 B)  [ref. desde código]
+|  Pal_02322e  @ $02322E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02322e, "ax", @progbits
-        .global Data_02322e
-Data_02322e:
+        .section .text.Pal_02322e, "ax", @progbits
+        .global Pal_02322e
+Pal_02322e:
         .dc.w   0x0a00,0x090b,0x0a00,0x1012,0x1100,0x1819,0x1700            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02323c  @ $02323C  (68 B)  [ref. desde código]
+|  Pal_02323c  @ $02323C  (68 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02323c, "ax", @progbits
-        .global Data_02323c
-Data_02323c:
+        .section .text.Pal_02323c, "ax", @progbits
+        .global Pal_02323c
+Pal_02323c:
         .dc.w   0x1f1f,0x1f00,0x000a,0x0a00,0x0000,0x0000,0x0b09,0x1f00     | +00000
         .dc.w   0x0e0c,0x1f00,0x1110,0x1f00,0x1413,0x1f00,0x1716,0x1f00     | +00010
         .dc.w   0x1a1a,0x1f00,0x1d1d,0x1f00,0x0f00,0x0000,0x1600,0x0000     | +00020
@@ -5921,21 +5954,21 @@ Data_02323c:
         .dc.w   0x1f1f,0x1f00                                               | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_023280  @ $023280  (46 B)  [ref. desde código]
+|  Pal_023280  @ $023280  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023280, "ax", @progbits
-        .global Data_023280
-Data_023280:
+        .section .text.Pal_023280, "ax", @progbits
+        .global Pal_023280
+Pal_023280:
         .dc.w   0x000a,0x0a00,0x0000,0x0000,0x0b09,0x1f00,0x0e0c,0x1f00     | +00000
         .dc.w   0x1110,0x1f00,0x1413,0x1f00,0x1716,0x1f00,0x1a1a,0x1f00     | +00010
         .dc.w   0x1d1d,0x1f00,0x0000,0x0f00,0x0000,0x1600,0x0006            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0232ae  @ $0232AE  (148 B)  [ref. desde código]
+|  Pal_0232ae  @ $0232AE  (148 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0232ae, "ax", @progbits
-        .global Data_0232ae
-Data_0232ae:
+        .section .text.Pal_0232ae, "ax", @progbits
+        .global Pal_0232ae
+Pal_0232ae:
         .dc.w   0x1e00,0x000d,0x1f00,0x0312,0x1f00,0x061a,0x1f00,0x1f1f     | +00000
         .dc.w   0x1f00,0x0000,0x0000,0x1f1f,0x1f00,0x0000,0x0000,0x1f00     | +00010
         .dc.w   0x0000,0x001f,0x0000,0x0000,0x1f00,0x1f1f,0x0000,0x1f00     | +00020
@@ -5948,21 +5981,21 @@ Data_0232ae:
         .dc.w   0x1f00,0x0e0e                                               | +00090
 
 | ----------------------------------------------------------------------------
-|  Data_023342  @ $023342  (44 B)  [ref. desde código]
+|  Pal_023342  @ $023342  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023342, "ax", @progbits
-        .global Data_023342
-Data_023342:
+        .section .text.Pal_023342, "ax", @progbits
+        .global Pal_023342
+Pal_023342:
         .dc.w   0x0e00,0x0000,0x0000,0x1f0b,0x0000,0x1f0f,0x0000,0x1f13     | +00000
         .dc.w   0x0000,0x1f17,0x0000,0x1f1b,0x0000,0x1f1f,0x0000,0x1f1f     | +00010
         .dc.w   0x0f00,0x0b09,0x1f00,0x0f0d,0x1f00,0x1311                   | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_02336e  @ $02336E  (142 B)  [ref. desde código]
+|  Pal_02336e  @ $02336E  (142 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02336e, "ax", @progbits
-        .global Data_02336e
-Data_02336e:
+        .section .text.Pal_02336e, "ax", @progbits
+        .global Pal_02336e
+Pal_02336e:
         .dc.w   0x1f00,0x1614,0x1f00,0x1a18,0x1f00,0x0000,0x0000,0x1f1f     | +00000
         .dc.w   0x1f00,0x0e0e,0x0e00,0x0000,0x0000,0x1819,0x1700,0x0b00     | +00010
         .dc.w   0x0000,0x0f00,0x0000,0x1300                                 | +00020
@@ -5976,54 +6009,54 @@ Data_02336e:
         .dc.w   0x1a00                                                      | +0008c
 
 | ----------------------------------------------------------------------------
-|  Data_0233fc  @ $0233FC  (4 B)  [ref. desde código]
+|  Pal_0233fc  @ $0233FC  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0233fc, "ax", @progbits
-        .global Data_0233fc
-Data_0233fc:
+        .section .text.Pal_0233fc, "ax", @progbits
+        .global Pal_0233fc
+Pal_0233fc:
         .dc.w   0x1f1f,0x1f00                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_023400  @ $023400  (40 B)  [ref. desde código]
+|  Pal_023400  @ $023400  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023400, "ax", @progbits
-        .global Data_023400
-Data_023400:
+        .section .text.Pal_023400, "ax", @progbits
+        .global Pal_023400
+Pal_023400:
         .dc.w   0x0000,0x0000,0x0c0b,0x0a00,0x1c1b,0x1a00,0x1514,0x1300     | +00000
         .dc.w   0x100f,0x0e00,0x0908,0x0700,0x0504,0x0300,0x0201,0x0000     | +00010
         .dc.w   0x1614,0x1100,0x0e0c,0x0900                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_023428  @ $023428  (1 B)  [ref. desde código]
+|  Pal_023428  @ $023428  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023428, "ax", @progbits
-        .global Data_023428
-Data_023428:
+        .section .text.Pal_023428, "ax", @progbits
+        .global Pal_023428
+Pal_023428:
         .dc.b   0x08                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_023429  @ $023429  (5 B)  [ref. desde código]
+|  Pal_023429  @ $023429  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023429, "ax", @progbits
-        .global Data_023429
-Data_023429:
+        .section .text.Pal_023429, "ax", @progbits
+        .global Pal_023429
+Pal_023429:
         .dc.b   0x06                            | +00000
         .dc.w   0x0300,0x0402                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_02342e  @ $02342E  (14 B)  [ref. desde código]
+|  Pal_02342e  @ $02342E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02342e, "ax", @progbits
-        .global Data_02342e
-Data_02342e:
+        .section .text.Pal_02342e, "ax", @progbits
+        .global Pal_02342e
+Pal_02342e:
         .dc.w   0x0000,0x0100,0x0000,0x0706,0x0500,0x0302,0x0100            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02343c  @ $02343C  (492 B)  [ref. desde código]
+|  Pal_02343c  @ $02343C  (492 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02343c, "ax", @progbits
-        .global Data_02343c
-Data_02343c:
+        .section .text.Pal_02343c, "ax", @progbits
+        .global Pal_02343c
+Pal_02343c:
         .dc.w   0x0100,0x0000,0x0000,0x0000,0x0c0b,0x0a00,0x1a1a,0x1600     | +00000
         .dc.w   0x1615,0x1400,0x1211,0x1000,0x0908,0x0700,0x0504,0x0300     | +00010
         .dc.w   0x0201,0x0000,0x1313,0x0f00,0x0f0f,0x0b00,0x0a0a,0x0600     | +00020
@@ -6068,29 +6101,29 @@ Data_02343c:
         .dc.w   0x120b,0x0400                                               | +001e8
 
 | ----------------------------------------------------------------------------
-|  Data_023628  @ $023628  (8 B)  [ref. desde código]
+|  Pal_023628  @ $023628  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023628, "ax", @progbits
-        .global Data_023628
-Data_023628:
+        .section .text.Pal_023628, "ax", @progbits
+        .global Pal_023628
+Pal_023628:
         .dc.w   0x0a05                                                      | +00000
         .dc.l   Task_IdleRts_000400           | +00002  -> $000400
         .dc.w   0x0000                                                      | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_023630  @ $023630  (12 B)  [ref. desde código]
+|  Pal_023630  @ $023630  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023630, "ax", @progbits
-        .global Data_023630
-Data_023630:
+        .section .text.Pal_023630, "ax", @progbits
+        .global Pal_023630
+Pal_023630:
         .dc.w   0x0000,0x0000,0x0804,0x0000,0x0100,0x0000                   | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02363c  @ $02363C  (512 B)  [ref. desde código]
+|  Pal_02363c  @ $02363C  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02363c, "ax", @progbits
-        .global Data_02363c
-Data_02363c:
+        .section .text.Pal_02363c, "ax", @progbits
+        .global Pal_02363c
+Pal_02363c:
         .dc.w   0x0000,0x0000,0x1213,0x1300,0x1711,0x0800,0x120d,0x0600     | +00000
         .dc.w   0x0e0a,0x0400,0x1e1b,0x1300,0x1814,0x0c00,0x110e,0x0800     | +00010
         .dc.w   0x0c0a,0x0600,0x0806,0x0200,0x1b1a,0x1000,0x1514,0x0b00     | +00020
@@ -6125,11 +6158,11 @@ Data_02363c:
         .dc.w   0x1000,0x0000,0x1600,0x0000,0x1f00,0x0000,0x1600,0x0000     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_02383c  @ $02383C  (1,024 B)  [ref. desde código]
+|  Pal_02383c  @ $02383C  (1,024 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02383c, "ax", @progbits
-        .global Data_02383c
-Data_02383c:
+        .section .text.Pal_02383c, "ax", @progbits
+        .global Pal_02383c
+Pal_02383c:
         .dc.w   0x1f00,0x0000,0x0000,0x0f00,0x0000,0x0000,0x1c0e,0x0000     | +00000
         .dc.w   0x1f12,0x0200,0x1f15,0x0300,0x1e1a,0x0b00,0x1409,0x0000     | +00010
         .dc.w   0x0000,0x0000,0x0d09,0x1800,0x1915,0x1f00,0x1f13,0x0900     | +00020
@@ -6198,11 +6231,11 @@ Data_02383c:
         .dc.w   0x0000,0x0000                                               | +003fc
 
 | ----------------------------------------------------------------------------
-|  Data_023c3c  @ $023C3C  (260 B)  [ref. desde código]
+|  Pal_023c3c  @ $023C3C  (260 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023c3c, "ax", @progbits
-        .global Data_023c3c
-Data_023c3c:
+        .section .text.Pal_023c3c, "ax", @progbits
+        .global Pal_023c3c
+Pal_023c3c:
         .fill   12,1,0x00                      | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +0000c
         .fill   16,1,0x00                      | +0001c
@@ -6222,28 +6255,28 @@ Data_023c3c:
         .fill   8,1,0x00                      | +000fc
 
 | ----------------------------------------------------------------------------
-|  Data_023d40  @ $023D40  (1 B)  [ref. desde código]
+|  Pal_023d40  @ $023D40  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023d40, "ax", @progbits
-        .global Data_023d40
-Data_023d40:
+        .section .text.Pal_023d40, "ax", @progbits
+        .global Pal_023d40
+Pal_023d40:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_023d41  @ $023D41  (2 B)  [ref. desde código]
+|  Pal_023d41  @ $023D41  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023d41, "ax", @progbits
-        .global Data_023d41
-Data_023d41:
+        .section .text.Pal_023d41, "ax", @progbits
+        .global Pal_023d41
+Pal_023d41:
         .dc.b   0x00                            | +00000
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_023d43  @ $023D43  (51 B)  [ref. desde código]
+|  Pal_023d43  @ $023D43  (51 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023d43, "ax", @progbits
-        .global Data_023d43
-Data_023d43:
+        .section .text.Pal_023d43, "ax", @progbits
+        .global Pal_023d43
+Pal_023d43:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0000,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00001
         .dc.w   0x1f1f,0x1f00                                               | +00011
@@ -6251,19 +6284,19 @@ Data_023d43:
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f            | +00025
 
 | ----------------------------------------------------------------------------
-|  Data_023d76  @ $023D76  (6 B)  [ref. desde código]
+|  Pal_023d76  @ $023D76  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023d76, "ax", @progbits
-        .global Data_023d76
-Data_023d76:
+        .section .text.Pal_023d76, "ax", @progbits
+        .global Pal_023d76
+Pal_023d76:
         .dc.w   0x1f00,0x0000,0x0000                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_023d7c  @ $023D7C  (172 B)  [ref. desde código]
+|  Pal_023d7c  @ $023D7C  (172 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023d7c, "ax", @progbits
-        .global Data_023d7c
-Data_023d7c:
+        .section .text.Pal_023d7c, "ax", @progbits
+        .global Pal_023d7c
+Pal_023d7c:
         .fill   12,1,0x00                      | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +0000c
         .fill   16,1,0x00                      | +0001c
@@ -6277,11 +6310,11 @@ Data_023d7c:
         .fill   16,1,0x00                      | +0009c
 
 | ----------------------------------------------------------------------------
-|  Data_023e28  @ $023E28  (88 B)  [ref. desde código]
+|  Pal_023e28  @ $023E28  (88 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023e28, "ax", @progbits
-        .global Data_023e28
-Data_023e28:
+        .section .text.Pal_023e28, "ax", @progbits
+        .global Pal_023e28
+Pal_023e28:
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00000
         .fill   16,1,0x00                      | +00010
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00020
@@ -6290,11 +6323,11 @@ Data_023e28:
         .fill   8,1,0x00                      | +00050
 
 | ----------------------------------------------------------------------------
-|  Data_023e80  @ $023E80  (889 B)  [ref. desde código]
+|  Pal_023e80  @ $023E80  (889 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_023e80, "ax", @progbits
-        .global Data_023e80
-Data_023e80:
+        .section .text.Pal_023e80, "ax", @progbits
+        .global Pal_023e80
+Pal_023e80:
         .fill   8,1,0x00                      | +00000
         .dc.w   0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00,0x1f1f,0x1f00     | +00008
         .fill   16,1,0x00                      | +00018
@@ -6354,87 +6387,87 @@ Data_023e80:
         .dc.b   0x00                            | +00378
 
 | ----------------------------------------------------------------------------
-|  Data_0241f9  @ $0241F9  (8 B)  [ref. desde código]
+|  Pal_0241f9  @ $0241F9  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0241f9, "ax", @progbits
-        .global Data_0241f9
-Data_0241f9:
+        .section .text.Pal_0241f9, "ax", @progbits
+        .global Pal_0241f9
+Pal_0241f9:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0000,0x0000                                        | +00001
         .dc.b   0x1c                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_024201  @ $024201  (43 B)  [ref. desde código]
+|  Pal_024201  @ $024201  (43 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024201, "ax", @progbits
-        .global Data_024201
-Data_024201:
+        .section .text.Pal_024201, "ax", @progbits
+        .global Pal_024201
+Pal_024201:
         .dc.b   0x1c                            | +00000
         .dc.w   0x1700,0x1e1f,0x1d00,0x1c1d,0x1b00,0x1b1c,0x1900,0x191a     | +00001
         .dc.w   0x1700,0x1718,0x1500,0x1516,0x1300,0x1414,0x1000,0x1212     | +00011
         .dc.w   0x0e00,0x1010,0x0c00,0x100f,0x0d00                          | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_02422c  @ $02422C  (2 B)  [ref. desde código]
+|  Pal_02422c  @ $02422C  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02422c, "ax", @progbits
-        .global Data_02422c
-Data_02422c:
+        .section .text.Pal_02422c, "ax", @progbits
+        .global Pal_02422c
+Pal_02422c:
         .dc.w   0x1c1c                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02422e  @ $02422E  (18 B)  [ref. desde código]
+|  Pal_02422e  @ $02422E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02422e, "ax", @progbits
-        .global Data_02422e
-Data_02422e:
+        .section .text.Pal_02422e, "ax", @progbits
+        .global Pal_02422e
+Pal_02422e:
         .dc.w   0x1500,0x1a1a,0x1400,0x1919,0x1300,0x1717,0x1200,0x1515     | +00000
         .dc.w   0x1100                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_024240  @ $024240  (40 B)  [ref. desde código]
+|  Pal_024240  @ $024240  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024240, "ax", @progbits
-        .global Data_024240
-Data_024240:
+        .section .text.Pal_024240, "ax", @progbits
+        .global Pal_024240
+Pal_024240:
         .dc.w   0x1818,0x1500,0x1a1b,0x1900,0x191a,0x1800,0x1819,0x1600     | +00000
         .dc.w   0x1617,0x1400,0x1415,0x1200,0x1213,0x1000,0x1414,0x1000     | +00010
         .dc.w   0x1212,0x0e00,0x1010,0x0c00                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_024268  @ $024268  (5 B)  [ref. desde código]
+|  Pal_024268  @ $024268  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024268, "ax", @progbits
-        .global Data_024268
-Data_024268:
+        .section .text.Pal_024268, "ax", @progbits
+        .global Pal_024268
+Pal_024268:
         .dc.w   0x0e0e,0x0a00                                               | +00000
         .dc.b   0x16                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_02426d  @ $02426D  (1 B)  [ref. desde código]
+|  Pal_02426d  @ $02426D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02426d, "ax", @progbits
-        .global Data_02426d
-Data_02426d:
+        .section .text.Pal_02426d, "ax", @progbits
+        .global Pal_02426d
+Pal_02426d:
         .dc.b   0x14                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_02426e  @ $02426E  (58 B)  [ref. desde código]
+|  Pal_02426e  @ $02426E  (58 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_02426e, "ax", @progbits
-        .global Data_02426e
-Data_02426e:
+        .section .text.Pal_02426e, "ax", @progbits
+        .global Pal_02426e
+Pal_02426e:
         .dc.w   0x0f00,0x1513,0x0d00,0x1210,0x0b00,0x0e0c,0x0800,0x0908     | +00000
         .dc.w   0x0600,0x1818,0x1500,0x1818,0x1500,0x1718,0x1500,0x1717     | +00010
         .dc.w   0x1500,0x1617,0x1500,0x1516,0x1500,0x1416,0x1500,0x1415     | +00020
         .dc.w   0x1500,0x1315,0x1500,0x1214,0x1500                          | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0242a8  @ $0242A8  (322 B)  [ref. desde código]
+|  Pal_0242a8  @ $0242A8  (322 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0242a8, "ax", @progbits
-        .global Data_0242a8
-Data_0242a8:
+        .section .text.Pal_0242a8, "ax", @progbits
+        .global Pal_0242a8
+Pal_0242a8:
         .dc.w   0x1514,0x1000,0x1111,0x0d00,0x1716,0x1400,0x1615,0x1300     | +00000
         .dc.w   0x1514,0x1200,0x1413,0x1100,0x1818,0x1500,0x191a,0x1800     | +00010
         .dc.w   0x1416,0x1500,0x1415,0x1500,0x1315,0x1500,0x1214,0x1500     | +00020
@@ -6458,38 +6491,38 @@ Data_0242a8:
         .dc.w   0x0a09                                                      | +00140
 
 | ----------------------------------------------------------------------------
-|  Data_0243ea  @ $0243EA  (3 B)  [ref. desde código]
+|  Pal_0243ea  @ $0243EA  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0243ea, "ax", @progbits
-        .global Data_0243ea
-Data_0243ea:
+        .section .text.Pal_0243ea, "ax", @progbits
+        .global Pal_0243ea
+Pal_0243ea:
         .dc.w   0x0600                                                      | +00000
         .dc.b   0x17                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_0243ed  @ $0243ED  (12 B)  [ref. desde código]
+|  Pal_0243ed  @ $0243ED  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0243ed, "ax", @progbits
-        .global Data_0243ed
-Data_0243ed:
+        .section .text.Pal_0243ed, "ax", @progbits
+        .global Pal_0243ed
+Pal_0243ed:
         .dc.b   0x17                            | +00000
         .dc.w   0x1500,0x1617,0x1500,0x1516,0x1500                          | +00001
         .dc.b   0x14                            | +0000b
 
 | ----------------------------------------------------------------------------
-|  Data_0243f9  @ $0243F9  (1 B)  [ref. desde código]
+|  Pal_0243f9  @ $0243F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0243f9, "ax", @progbits
-        .global Data_0243f9
-Data_0243f9:
+        .section .text.Pal_0243f9, "ax", @progbits
+        .global Pal_0243f9
+Pal_0243f9:
         .dc.b   0x16                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0243fa  @ $0243FA  (511 B)  [ref. desde código]
+|  Pal_0243fa  @ $0243FA  (511 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0243fa, "ax", @progbits
-        .global Data_0243fa
-Data_0243fa:
+        .section .text.Pal_0243fa, "ax", @progbits
+        .global Pal_0243fa
+Pal_0243fa:
         .dc.w   0x1500,0x1514,0x1000,0x1818,0x1500,0x1a1b,0x1900,0x191a     | +00000
         .dc.w   0x1800,0x1819,0x1600,0x1617,0x1400,0x1415,0x1200,0x1213     | +00010
         .dc.w   0x1000,0x1111,0x0d00,0x0f0f,0x0b00,0x0d0c,0x0800,0x0a09     | +00020
@@ -6525,19 +6558,19 @@ Data_0243fa:
         .dc.b   0x18                            | +001fe
 
 | ----------------------------------------------------------------------------
-|  Data_0245f9  @ $0245F9  (1 B)  [ref. desde código]
+|  Pal_0245f9  @ $0245F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0245f9, "ax", @progbits
-        .global Data_0245f9
-Data_0245f9:
+        .section .text.Pal_0245f9, "ax", @progbits
+        .global Pal_0245f9
+Pal_0245f9:
         .dc.b   0x19                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0245fa  @ $0245FA  (582 B)  [ref. desde código]
+|  Pal_0245fa  @ $0245FA  (582 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0245fa, "ax", @progbits
-        .global Data_0245fa
-Data_0245fa:
+        .section .text.Pal_0245fa, "ax", @progbits
+        .global Pal_0245fa
+Pal_0245fa:
         .dc.w   0x1900,0x1011,0x1300,0x0610,0x1500,0x1311,0x0c00,0x110e     | +00000
         .dc.w   0x0800,0x0e0b,0x0600,0x0a08,0x0300,0x0605,0x0200,0x0303     | +00010
         .dc.w   0x0200,0x0506,0x0600,0x1717,0x1200,0x1313,0x0e00,0x1010     | +00020
@@ -6579,11 +6612,11 @@ Data_0245fa:
         .dc.w   0x1800,0x0808,0x0700                                        | +00240
 
 | ----------------------------------------------------------------------------
-|  Data_024840  @ $024840  (103 B)  [ref. desde código]
+|  Pal_024840  @ $024840  (103 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024840, "ax", @progbits
-        .global Data_024840
-Data_024840:
+        .section .text.Pal_024840, "ax", @progbits
+        .global Pal_024840
+Pal_024840:
         .dc.w   0x0c0d,0x1300,0x0607,0x0800,0x090a,0x0b00,0x0c0e,0x0f00     | +00000
         .dc.w   0x0f12,0x1300,0x1316,0x1600,0x171a,0x1a00,0x1c1f,0x1f00     | +00010
         .dc.w   0x0505,0x0400,0x0808,0x0700,0x0b0b,0x0a00,0x0f0f,0x0e00     | +00020
@@ -6594,11 +6627,11 @@ Data_024840:
         .dc.b   0x1b                            | +00066
 
 | ----------------------------------------------------------------------------
-|  Data_0248a7  @ $0248A7  (64 B)  [ref. desde código]
+|  Pal_0248a7  @ $0248A7  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0248a7, "ax", @progbits
-        .global Data_0248a7
-Data_0248a7:
+        .section .text.Pal_0248a7, "ax", @progbits
+        .global Pal_0248a7
+Pal_0248a7:
         .dc.b   0x00                            | +00000
         .dc.w   0x1619,0x1900,0x1417,0x1700,0x1215,0x1500,0x021c,0x0600     | +00001
         .dc.w   0x1f1f,0x0000,0x1e09,0x0600,0x0c0d,0x1300,0x1d1d,0x1c00     | +00011
@@ -6607,11 +6640,11 @@ Data_0248a7:
         .dc.b   0x07                            | +0003f
 
 | ----------------------------------------------------------------------------
-|  Data_0248e7  @ $0248E7  (281 B)  [ref. desde código]
+|  Pal_0248e7  @ $0248E7  (281 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0248e7, "ax", @progbits
-        .global Data_0248e7
-Data_0248e7:
+        .section .text.Pal_0248e7, "ax", @progbits
+        .global Pal_0248e7
+Pal_0248e7:
         .dc.b   0x00                            | +00000
         .dc.w   0x0b0b,0x0a00,0x0f0f,0x0e00,0x1313,0x1200,0x1717,0x1600     | +00001
         .dc.w   0x1a1b,0x1a00,0x1a1b,0x1a00,0x0c0d,0x1300,0x0b0d,0x0d00     | +00011
@@ -6633,30 +6666,30 @@ Data_0248e7:
         .dc.w   0x1010,0x1800,0x1010,0x1800                                 | +00111
 
 | ----------------------------------------------------------------------------
-|  Data_024a00  @ $024A00  (46 B)  [ref. desde código]
+|  Pal_024a00  @ $024A00  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024a00, "ax", @progbits
-        .global Data_024a00
-Data_024a00:
+        .section .text.Pal_024a00, "ax", @progbits
+        .global Pal_024a00
+Pal_024a00:
         .dc.w   0x0c0d,0x1300,0x0b0d,0x0d00,0x0c0e,0x0e00,0x0d0f,0x0f00     | +00000
         .dc.w   0x0e10,0x1000,0x0f12,0x1200,0x1013,0x1300,0x1114,0x1400     | +00010
         .dc.w   0x0a0c,0x0c00,0x0b0d,0x0d00,0x0c0e,0x0d00,0x0d0f            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_024a2e  @ $024A2E  (11 B)  [ref. desde código]
+|  Pal_024a2e  @ $024A2E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024a2e, "ax", @progbits
-        .global Data_024a2e
-Data_024a2e:
+        .section .text.Pal_024a2e, "ax", @progbits
+        .global Pal_024a2e
+Pal_024a2e:
         .dc.w   0x0e00,0x0709,0x0900,0x080a,0x0a00                          | +00000
         .dc.b   0x09                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_024a39  @ $024A39  (614 B)  [ref. desde código]
+|  Pal_024a39  @ $024A39  (614 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024a39, "ax", @progbits
-        .global Data_024a39
-Data_024a39:
+        .section .text.Pal_024a39, "ax", @progbits
+        .global Pal_024a39
+Pal_024a39:
         .dc.b   0x0b                            | +00000
         .dc.w   0x0b00,0x0a0c,0x0c00,0x1410,0x1000,0x1d1d,0x1c00,0x1a1b     | +00001
         .dc.w   0x1a00,0x1719,0x1800,0x1315,0x1400,0x1615,0x1300,0x1312     | +00011
@@ -6700,11 +6733,11 @@ Data_024a39:
         .dc.b   0x13                            | +00265
 
 | ----------------------------------------------------------------------------
-|  Data_024c9f  @ $024C9F  (64 B)  [ref. desde código]
+|  Pal_024c9f  @ $024C9F  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024c9f, "ax", @progbits
-        .global Data_024c9f
-Data_024c9f:
+        .section .text.Pal_024c9f, "ax", @progbits
+        .global Pal_024c9f
+Pal_024c9f:
         .dc.b   0x00                            | +00000
         .dc.w   0x0504,0x0300,0x0f0e,0x0900,0x1312,0x0c00,0x1716,0x0f00     | +00001
         .dc.w   0x0b08,0x0500,0x0f0b,0x0600,0x120d,0x0800,0x1610,0x0900     | +00011
@@ -6713,11 +6746,11 @@ Data_024c9f:
         .dc.b   0x13                            | +0003f
 
 | ----------------------------------------------------------------------------
-|  Data_024cdf  @ $024CDF  (224 B)  [ref. desde código]
+|  Pal_024cdf  @ $024CDF  (224 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_024cdf, "ax", @progbits
-        .global Data_024cdf
-Data_024cdf:
+        .section .text.Pal_024cdf, "ax", @progbits
+        .global Pal_024cdf
+Pal_024cdf:
         .dc.b   0x00                            | +00000
         .dc.w   0x0504,0x0300,0x0706,0x0400,0x0a09,0x0700,0x0b0c,0x0c00     | +00001
         .dc.w   0x0e10,0x1000,0x1315,0x1500,0x0f08,0x0500,0x140c,0x0700     | +00011
@@ -6736,19 +6769,19 @@ Data_024cdf:
         .dc.b   0x10                            | +000df
 
 | ----------------------------------------------------------------------------
-|  Zero_024dbf  @ $024DBF  (58 B)
+|  Pal_024dbf  @ $024DBF  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_024dbf, "ax", @progbits
-        .global Zero_024dbf
-Zero_024dbf:
+        .section .text.Pal_024dbf, "ax", @progbits
+        .global Pal_024dbf
+Pal_024dbf:
         .fill   58,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_024df9  @ $024DF9  (7 B)  [ref. desde código]
+|  Pal_024df9  @ $024DF9  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_024df9, "ax", @progbits
-        .global Str_024df9
-Str_024df9:
+        .section .text.Pal_024df9, "ax", @progbits
+        .global Pal_024df9
+Pal_024df9:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0000,0x0000                                        | +00001
 

@@ -16,5 +16,4 @@
 4b84 4c84 data/note_map_4b84.s           ; 256-byte note/volume map
 4c84 5362 seq/sequencer_4c84.s           ; track allocation, music/sfx start, track update
 5362 57a1 seq/opcodes_5362.s             ; sequence opcode fetch + C0..DA handlers + note event
-57a1 67a1 data/instr_ptr_table_57a1.s    ; 1024 x 24-bit instrument patch pointers
-67a1 8000 data/tail_67a1.s               ; remaining data of the fixed region
+57a1 8000 data/instruments_57a1.s incbin=instruments_fixed.bin ; InstrPtrTable_57A1 + patches: source in mrom/sound/instruments.s

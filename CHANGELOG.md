@@ -10,6 +10,101 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Changed
+- **Docs refreshed**: README (status of all ROMs, `mrom/` and `assets/` in the
+  layout, new "Beyond the program ROM" section), `docs/COVERAGE.md` (data
+  modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
+
+### Added
+- **Table-A SFX names**: 68 of the 117 effects with a constant 68k user now
+  carry `SfxA_NNN_<Name>` (weapon fire, explosions, hostages, Slug, pause /
+  continue / game over...), propagated to `mrom/sound/` labels; M-ROM still
+  byte-identical.
+- **Parallax panoramas**: `levels.py` reads each camera's 8.8 scroll factor
+  (scene-script op $01 → `+$74/+$76`, used by `CameraApplyOne_043DAA`) and
+  renders a single per-scene panorama window by window (`*_parallax.png`).
+- **A–F headers for all data modules** (`tools/gen_data_headers.py`) and
+  7661 `Data_`/`Str_`/`Zero_` entries renamed by census type (`ColMap_`,
+  `SprFrame_`, `BgMap_`, `AnimScr_`, `Pal_`, `Zero_`). `$2F30` identified as
+  `ColorRGB555ToNeoGeo` (32768 words, formula-verified) and `$12FB0` as the
+  32×32 fade ramp `ColorRamp`. ROM still byte-identical.
+- **Data-module census** (`assets/tools/data_census.py`): per-byte
+  classification of the 14 `asm/data/*` modules (palettes, frames, anim
+  bytecode, tilemaps, collision maps, zero fill, other).
+- **Composed background planes**: `levels.py` stitches every layer of a camera
+  at its world anchor (`build/assets/levels/composed/`, 38 full-mission planes).
+- **Background palettes complete**: `levels.py` falls back to the boot slot
+  table `ScriptSlotPairTable_0009B4` (global slots $00–$0F), so all 52
+  background layers now render in colour.
+- **M-ROM channel structs documented** (FORMATS.md §10): common header,
+  shared ADSR / LFO / pitch / vibrato sub-structs and the SSG / FM /
+  ADPCM-A / ADPCM-B layouts with their RAM bases.
+- **M-ROM lookup pages named**: the 29 page tables at 0100–1DFF (SSG periods
+  per octave, note→pitch, FM F-numbers, log/exp multiply tables, volume
+  curves, portamento divisors, squares) labelled in `fixed_0000_syms.txt`
+  and documented in FORMATS.md §9; still byte-identical.
+- **S_TEMPO in MIDI**: `Seq_ScaleByCurve_4F69` (log/exp tables at
+  0x1400/0x1500) modelled; every `CD` becomes an exact set-tempo event,
+  verified against the running driver (`sndrender --trace-tempo`).
+- **ADPCM encoder** (`audio.py encode a|b`): WAV → ADPCM-A/B choosing per
+  sample the nibble whose decoded value (exact YM2610 arithmetic) is closest;
+  re-encoding the extracted WAVs gives back all 321 ADPCM-A samples byte for
+  byte.
+- **Level backgrounds** (`assets/tools/levels.py`): the 52 unique background
+  layers of 13 scenes (all six missions, attract, game over, cutscenes) as
+  RGBA PNG with their palettes, decoded from the scene scripts' `bind_path`
+  ops (column-major SCB1 cell maps + `$0A` palette slot pairs); JSON + HTML.
+- **Sprites as the game draws them** (`assets/tools/sprites.py`): the 1,536
+  P-ROM palettes, 8,364 multi-piece frames and ~980 animations (interpreting
+  `Script_OpcodeTable` byte-code) exported to PNG/GIF with real timings,
+  named after the routine that uses them, palette from the code / pointer
+  table / shared frames; JSON + HTML gallery; single-animation render.
+- **M-ROM sound data decoded** (`mrom/sound/`, `mrom/tools/gen_sound_data.py`):
+  file `0x08000-0x1FFFF` (banks 2–7, data only) as symbolic GNU-as sources —
+  music/SFX pointer tables, 13 music + 177 SFX headers (190 in total), 31,650 sequence ops
+  across 328 tracks with labelled jump/call/loop targets and absolute notes.
+  Assembled with binutils-z80 by `build_mrom.py`; M-ROM still byte-identical
+  (MD5 `6449db04…`). Formats documented in `mrom/docs/FORMATS.md`.
+- **M-ROM instrument format decoded**: `InstrPtrTable_57A1` and its 174
+  records (SSG 24 B, FM 50 B with 4 operators, ADPCM-A note maps + sample
+  tables, ADPCM-B key ranges + sample descriptors) as `INSTR_*` / `FM_OP` /
+  `I_ENV` / `I_LFO` / `I_PITCH` / `PCMA_*` / `PCMB_*` macros in
+  `mrom/sound/instruments.s`; the fixed-region part is pulled in by `incbin`.
+- **Sound ids from the P-ROM** (`mrom/tools/find_sound_ids.py` →
+  `mrom/map/sound_ids.txt`): 149 ids with their 68k users; music headers and
+  tracks now carry real names (`Music_Mission1_Hdr`, `Music_Boss_Trk3`, …),
+  voice SFX too (`Voice_Mission1Start_Hdr`, …).
+- M-ROM fixed region: no anonymous labels left (28 new entry-point names,
+  503 local labels `<Routine>_L<addr>`, 137 immediates that z80dasm had
+  mistaken for labels emitted as constants).
+- `mrom/tools/export_midi.py`: music / SFX sequences to Standard MIDI files
+  (driver timing: Timer A 5.994 ms, tempo accumulator), output in
+  `build/mrom/midi/` (not committed).
+- **Game-exact WAV export** (`mrom/tools/export_wav.py`, `mrom/tools/sndrender/`):
+  runs the original 201-m1.bin on a Z80 emulator wired to ymfm's YM2610 (MAME's
+  core) with the V-ROM, sending the same latch bytes as the 68000; renders all
+  13 songs and 177 SFX/voices at the chip's native 55,556 Hz stereo.
+
+- VGM 1.51 export (`export_wav.py --vgm`, `sndrender --vgm`): logged YM2610
+  writes plus ADPCM-A/B data blocks with the V-ROM pages actually used.
+- Voices (SFX table B) exported to `build/mrom/wav/voices/` and named after
+  their line (`Voice_Shotgun`, `Voice_AllenSeeYouInHell`, `Voice_GameOver`, …).
+
+### Fixed
+- WAV songs no longer stop mid-phrase: the renderer hooks the driver's
+  infinite-loop jumps, ends after N full passes and fades out.
+- Driver tick is 166.8 Hz (Timer A counts once per 144-clock FM sample), not
+  333.7 Hz: MIDI tempo was twice too fast.
+- **Asset tools** (`assets/`): `gfx.py` (S-ROM fix tiles and C-ROM sprite
+  tiles ↔ indexed PNG sheets) and `audio.py` (V-ROM → 321 ADPCM-A + 54
+  ADPCM-B named samples, raw + WAV preview, `index.csv`); both rebuild
+  201-s1/c1..c4/v1/v2 byte-identical. `scripts/setup_assets.sh`.
+- Snapshot branch/tag `f_5.1` (state before this work).
+
+### Removed
+- z80dasm dumps of banks 2–7 (`mrom/asm/bank*_8000.s`, `mrom/asm/raw/bank*`):
+  they decoded data as if it were Z80 code.
+
+### Changed
 - **Repository layout reorganised** (267 files): `asm/` split into
   subsystem folders (`boot, kernel, input, video, entity, player, slug,
   enemies/{soldiers,squad,vehicles,bosses}, pow, props, mission, frontend,

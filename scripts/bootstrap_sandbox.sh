@@ -27,10 +27,12 @@ if ! command -v m68k-linux-gnu-gcc >/dev/null 2>&1; then
           sudo apt-get install -y -qq gcc-m68k-linux-gnu binutils-m68k-linux-gnu >/dev/null 2>&1)
 fi
 python3 -c "import capstone" 2>/dev/null || python3 -m pip install -q -r "$ROOT/requirements.txt"
-if ! command -v z80asm >/dev/null 2>&1 || ! command -v z80dasm >/dev/null 2>&1; then
-    echo "[bootstrap] instalando z80asm / z80dasm (M-ROM)..."
-    (sudo apt-get install -y -qq z80asm z80dasm >/dev/null 2>&1) \
-      || (sudo apt-get update -qq >/dev/null 2>&1 && sudo apt-get install -y -qq z80asm z80dasm >/dev/null 2>&1) || true
+if ! command -v z80asm >/dev/null 2>&1 || ! command -v z80dasm >/dev/null 2>&1 \
+   || ! command -v z80-unknown-coff-as >/dev/null 2>&1; then
+    # z80asm/z80dasm: driver code; binutils-z80 (GNU as): sound data (mrom/sound/)
+    echo "[bootstrap] instalando z80asm / z80dasm / binutils-z80 (M-ROM)..."
+    (sudo apt-get install -y -qq z80asm z80dasm binutils-z80 >/dev/null 2>&1) \
+      || (sudo apt-get update -qq >/dev/null 2>&1 && sudo apt-get install -y -qq z80asm z80dasm binutils-z80 >/dev/null 2>&1) || true
 fi
 
 mkdir -p "$ROOT/rom"
@@ -59,6 +61,12 @@ fi
 if [[ ! -f "$ROOT/rom/201-m1.bin" ]]; then
     for z in "$ZIP" "$ROOT/internal/mslug.zip" "$AIDRIVE_DIR/mslug.zip"; do
         [[ -n "$z" && -f "$z" ]] && "$ROOT/scripts/setup_mrom.sh" "$z" 2>/dev/null && break
+    done
+fi
+# S/C/V-ROM (assets/tools): extrae del zip si faltan
+if [[ ! -f "$ROOT/rom/201-v2.bin" ]]; then
+    for z in "$ZIP" "$ROOT/internal/mslug.zip" "$AIDRIVE_DIR/mslug.zip"; do
+        [[ -n "$z" && -f "$z" ]] && "$ROOT/scripts/setup_assets.sh" "$z" 2>/dev/null && break
     done
 fi
 python3 "$ROOT/tools/registry_lint.py" | tail -1

@@ -4,325 +4,355 @@
 |  Región: $118028..$140000  (163,800 B en 1 hueco(s), 1190 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   Banco de datos gráficos referenciado por el código: frames de sprite
+|     (SprFrame_), bytecode de animación (AnimScr_), mapas de colisión
+|     (ColMap_) y tablas sin decodificar (Data_), clasificados con
+|     assets/tools/data_census.py.
+|
+|  B. EVIDENCIA
+|   Punteros desde el código (lea/move.l #abs) y desde otros scripts de
+|     animación (op 01/03 y op 02 `02 fl .l prio.w`); los frames se validan con
+|     sprites.parse_frame y los scripts con sprites.walk.
+|
+|  C. HIPÓTESIS / NOTAS
+|   Las entradas Data_ que quedan son en su mayoría tablas indexadas
+|     (offsets, velocidades, listas de piezas) cuyo formato depende de la
+|     rutina que las usa; ver la lista de usuarios abajo.
+|
+|  D. FORMATOS
+|   SprFrame_: {npiezas.b, attr.b(banco<<4), piezas{dx.w, dy.w, w.b, h.b,
+|     tiles[w*h].w por columnas}}. AnimScr_: ops de 1..12 B (02 = dibuja,
+|     00 n = espera, 01 = salto, 03 = bucle, 1B..1E = fin); ver assets/README.md.
+|
+|  E. HELPERS / USUARIOS
+|   ScriptOp02_Sprite_028dfe y el intérprete de animación de entity/*.
+|   Rutinas con lea/move.l #abs a este módulo (7):
+|     Drop_Spawn_Tmpl2B_04645c×2, Drop_Spawn_Tmpl4F_0463da×1,
+|     Drop_Spawn_Tmpl1B_046404×1, Drop_Spawn_Tmpl1B_B_04641a×1,
+|     Drop_Spawn_Tmpl6D_046430×1, Drop_Spawn_Tmpl2C_046446×1,
+|     Drop_Spawn_Tmpl3A_12F_046484×1
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 163800 B):
+|     frames 62.8%, colisión 19.4%, ceros 1.8%, otro 15.9%.
+|   Entradas por prefijo: ColMap 867, SprFrame 221, Zero 55, Data 46, Str 1.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 
 | ----------------------------------------------------------------------------
-|  Data_118028  @ $118028  (2 B)
+|  ColMap_118028  @ $118028  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118028, "ax", @progbits
-        .global Data_118028
-Data_118028:
+        .section .text.ColMap_118028, "ax", @progbits
+        .global ColMap_118028
+ColMap_118028:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11802a  @ $11802A  (62 B)
+|  ColMap_11802a  @ $11802A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11802a, "ax", @progbits
-        .global Zero_11802a
-Zero_11802a:
+        .section .text.ColMap_11802a, "ax", @progbits
+        .global ColMap_11802a
+ColMap_11802a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118068  @ $118068  (2 B)
+|  ColMap_118068  @ $118068  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118068, "ax", @progbits
-        .global Data_118068
-Data_118068:
+        .section .text.ColMap_118068, "ax", @progbits
+        .global ColMap_118068
+ColMap_118068:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11806a  @ $11806A  (62 B)
+|  ColMap_11806a  @ $11806A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11806a, "ax", @progbits
-        .global Zero_11806a
-Zero_11806a:
+        .section .text.ColMap_11806a, "ax", @progbits
+        .global ColMap_11806a
+ColMap_11806a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1180a8  @ $1180A8  (2 B)
+|  ColMap_1180a8  @ $1180A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1180a8, "ax", @progbits
-        .global Data_1180a8
-Data_1180a8:
+        .section .text.ColMap_1180a8, "ax", @progbits
+        .global ColMap_1180a8
+ColMap_1180a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1180aa  @ $1180AA  (62 B)
+|  ColMap_1180aa  @ $1180AA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1180aa, "ax", @progbits
-        .global Zero_1180aa
-Zero_1180aa:
+        .section .text.ColMap_1180aa, "ax", @progbits
+        .global ColMap_1180aa
+ColMap_1180aa:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1180e8  @ $1180E8  (2 B)
+|  ColMap_1180e8  @ $1180E8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1180e8, "ax", @progbits
-        .global Data_1180e8
-Data_1180e8:
+        .section .text.ColMap_1180e8, "ax", @progbits
+        .global ColMap_1180e8
+ColMap_1180e8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1180ea  @ $1180EA  (62 B)
+|  ColMap_1180ea  @ $1180EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1180ea, "ax", @progbits
-        .global Zero_1180ea
-Zero_1180ea:
+        .section .text.ColMap_1180ea, "ax", @progbits
+        .global ColMap_1180ea
+ColMap_1180ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118128  @ $118128  (2 B)
+|  ColMap_118128  @ $118128  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118128, "ax", @progbits
-        .global Data_118128
-Data_118128:
+        .section .text.ColMap_118128, "ax", @progbits
+        .global ColMap_118128
+ColMap_118128:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11812a  @ $11812A  (62 B)
+|  ColMap_11812a  @ $11812A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11812a, "ax", @progbits
-        .global Zero_11812a
-Zero_11812a:
+        .section .text.ColMap_11812a, "ax", @progbits
+        .global ColMap_11812a
+ColMap_11812a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118168  @ $118168  (2 B)
+|  ColMap_118168  @ $118168  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118168, "ax", @progbits
-        .global Data_118168
-Data_118168:
+        .section .text.ColMap_118168, "ax", @progbits
+        .global ColMap_118168
+ColMap_118168:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11816a  @ $11816A  (62 B)
+|  ColMap_11816a  @ $11816A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11816a, "ax", @progbits
-        .global Zero_11816a
-Zero_11816a:
+        .section .text.ColMap_11816a, "ax", @progbits
+        .global ColMap_11816a
+ColMap_11816a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1181a8  @ $1181A8  (2 B)
+|  ColMap_1181a8  @ $1181A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1181a8, "ax", @progbits
-        .global Data_1181a8
-Data_1181a8:
+        .section .text.ColMap_1181a8, "ax", @progbits
+        .global ColMap_1181a8
+ColMap_1181a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1181aa  @ $1181AA  (62 B)
+|  ColMap_1181aa  @ $1181AA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1181aa, "ax", @progbits
-        .global Zero_1181aa
-Zero_1181aa:
+        .section .text.ColMap_1181aa, "ax", @progbits
+        .global ColMap_1181aa
+ColMap_1181aa:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1181e8  @ $1181E8  (2 B)
+|  ColMap_1181e8  @ $1181E8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1181e8, "ax", @progbits
-        .global Data_1181e8
-Data_1181e8:
+        .section .text.ColMap_1181e8, "ax", @progbits
+        .global ColMap_1181e8
+ColMap_1181e8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1181ea  @ $1181EA  (62 B)
+|  ColMap_1181ea  @ $1181EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1181ea, "ax", @progbits
-        .global Zero_1181ea
-Zero_1181ea:
+        .section .text.ColMap_1181ea, "ax", @progbits
+        .global ColMap_1181ea
+ColMap_1181ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118228  @ $118228  (2 B)
+|  ColMap_118228  @ $118228  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118228, "ax", @progbits
-        .global Data_118228
-Data_118228:
+        .section .text.ColMap_118228, "ax", @progbits
+        .global ColMap_118228
+ColMap_118228:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11822a  @ $11822A  (36 B)
+|  ColMap_11822a  @ $11822A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11822a, "ax", @progbits
-        .global Zero_11822a
-Zero_11822a:
+        .section .text.ColMap_11822a, "ax", @progbits
+        .global ColMap_11822a
+ColMap_11822a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11824e  @ $11824E  (28 B)
+|  ColMap_11824e  @ $11824E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11824e, "ax", @progbits
-        .global Data_11824e
-Data_11824e:
+        .section .text.ColMap_11824e, "ax", @progbits
+        .global ColMap_11824e
+ColMap_11824e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11826a  @ $11826A  (36 B)
+|  ColMap_11826a  @ $11826A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11826a, "ax", @progbits
-        .global Zero_11826a
-Zero_11826a:
+        .section .text.ColMap_11826a, "ax", @progbits
+        .global ColMap_11826a
+ColMap_11826a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11828e  @ $11828E  (28 B)
+|  ColMap_11828e  @ $11828E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11828e, "ax", @progbits
-        .global Data_11828e
-Data_11828e:
+        .section .text.ColMap_11828e, "ax", @progbits
+        .global ColMap_11828e
+ColMap_11828e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1182aa  @ $1182AA  (36 B)
+|  ColMap_1182aa  @ $1182AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1182aa, "ax", @progbits
-        .global Zero_1182aa
-Zero_1182aa:
+        .section .text.ColMap_1182aa, "ax", @progbits
+        .global ColMap_1182aa
+ColMap_1182aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1182ce  @ $1182CE  (28 B)
+|  ColMap_1182ce  @ $1182CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1182ce, "ax", @progbits
-        .global Data_1182ce
-Data_1182ce:
+        .section .text.ColMap_1182ce, "ax", @progbits
+        .global ColMap_1182ce
+ColMap_1182ce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1182ea  @ $1182EA  (36 B)
+|  ColMap_1182ea  @ $1182EA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1182ea, "ax", @progbits
-        .global Zero_1182ea
-Zero_1182ea:
+        .section .text.ColMap_1182ea, "ax", @progbits
+        .global ColMap_1182ea
+ColMap_1182ea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11830e  @ $11830E  (28 B)
+|  ColMap_11830e  @ $11830E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11830e, "ax", @progbits
-        .global Data_11830e
-Data_11830e:
+        .section .text.ColMap_11830e, "ax", @progbits
+        .global ColMap_11830e
+ColMap_11830e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11832a  @ $11832A  (36 B)
+|  ColMap_11832a  @ $11832A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11832a, "ax", @progbits
-        .global Zero_11832a
-Zero_11832a:
+        .section .text.ColMap_11832a, "ax", @progbits
+        .global ColMap_11832a
+ColMap_11832a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11834e  @ $11834E  (28 B)
+|  ColMap_11834e  @ $11834E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11834e, "ax", @progbits
-        .global Data_11834e
-Data_11834e:
+        .section .text.ColMap_11834e, "ax", @progbits
+        .global ColMap_11834e
+ColMap_11834e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11836a  @ $11836A  (36 B)
+|  ColMap_11836a  @ $11836A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11836a, "ax", @progbits
-        .global Zero_11836a
-Zero_11836a:
+        .section .text.ColMap_11836a, "ax", @progbits
+        .global ColMap_11836a
+ColMap_11836a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11838e  @ $11838E  (28 B)
+|  ColMap_11838e  @ $11838E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11838e, "ax", @progbits
-        .global Data_11838e
-Data_11838e:
+        .section .text.ColMap_11838e, "ax", @progbits
+        .global ColMap_11838e
+ColMap_11838e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1183aa  @ $1183AA  (36 B)
+|  ColMap_1183aa  @ $1183AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1183aa, "ax", @progbits
-        .global Zero_1183aa
-Zero_1183aa:
+        .section .text.ColMap_1183aa, "ax", @progbits
+        .global ColMap_1183aa
+ColMap_1183aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1183ce  @ $1183CE  (28 B)
+|  ColMap_1183ce  @ $1183CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1183ce, "ax", @progbits
-        .global Data_1183ce
-Data_1183ce:
+        .section .text.ColMap_1183ce, "ax", @progbits
+        .global ColMap_1183ce
+ColMap_1183ce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1183ea  @ $1183EA  (36 B)
+|  ColMap_1183ea  @ $1183EA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1183ea, "ax", @progbits
-        .global Zero_1183ea
-Zero_1183ea:
+        .section .text.ColMap_1183ea, "ax", @progbits
+        .global ColMap_1183ea
+ColMap_1183ea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11840e  @ $11840E  (28 B)
+|  ColMap_11840e  @ $11840E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11840e, "ax", @progbits
-        .global Data_11840e
-Data_11840e:
+        .section .text.ColMap_11840e, "ax", @progbits
+        .global ColMap_11840e
+ColMap_11840e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11842a  @ $11842A  (36 B)
+|  ColMap_11842a  @ $11842A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11842a, "ax", @progbits
-        .global Zero_11842a
-Zero_11842a:
+        .section .text.ColMap_11842a, "ax", @progbits
+        .global ColMap_11842a
+ColMap_11842a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11844e  @ $11844E  (28 B)
+|  ColMap_11844e  @ $11844E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11844e, "ax", @progbits
-        .global Data_11844e
-Data_11844e:
+        .section .text.ColMap_11844e, "ax", @progbits
+        .global ColMap_11844e
+ColMap_11844e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11846a  @ $11846A  (36 B)
+|  ColMap_11846a  @ $11846A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11846a, "ax", @progbits
-        .global Zero_11846a
-Zero_11846a:
+        .section .text.ColMap_11846a, "ax", @progbits
+        .global ColMap_11846a
+ColMap_11846a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11848e  @ $11848E  (28 B)
+|  ColMap_11848e  @ $11848E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11848e, "ax", @progbits
-        .global Data_11848e
-Data_11848e:
+        .section .text.ColMap_11848e, "ax", @progbits
+        .global ColMap_11848e
+ColMap_11848e:
         .dc.w   0xd1d1,0x0000,0x0000,0x00d1                                 | +00000
         .dc.l   Data_010001                   | +00008  -> $010001
         .dc.l   Data_010001                   | +0000c  -> $010001
@@ -331,433 +361,433 @@ Data_11848e:
         .dc.w   0x0001,0x0110                                               | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_1184aa  @ $1184AA  (36 B)
+|  ColMap_1184aa  @ $1184AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1184aa, "ax", @progbits
-        .global Zero_1184aa
-Zero_1184aa:
+        .section .text.ColMap_1184aa, "ax", @progbits
+        .global ColMap_1184aa
+ColMap_1184aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1184ce  @ $1184CE  (28 B)
+|  ColMap_1184ce  @ $1184CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1184ce, "ax", @progbits
-        .global Data_1184ce
-Data_1184ce:
+        .section .text.ColMap_1184ce, "ax", @progbits
+        .global ColMap_1184ce
+ColMap_1184ce:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1184ea  @ $1184EA  (36 B)
+|  ColMap_1184ea  @ $1184EA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1184ea, "ax", @progbits
-        .global Zero_1184ea
-Zero_1184ea:
+        .section .text.ColMap_1184ea, "ax", @progbits
+        .global ColMap_1184ea
+ColMap_1184ea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11850e  @ $11850E  (28 B)
+|  ColMap_11850e  @ $11850E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11850e, "ax", @progbits
-        .global Data_11850e
-Data_11850e:
+        .section .text.ColMap_11850e, "ax", @progbits
+        .global ColMap_11850e
+ColMap_11850e:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11852a  @ $11852A  (36 B)
+|  ColMap_11852a  @ $11852A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11852a, "ax", @progbits
-        .global Zero_11852a
-Zero_11852a:
+        .section .text.ColMap_11852a, "ax", @progbits
+        .global ColMap_11852a
+ColMap_11852a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11854e  @ $11854E  (28 B)
+|  ColMap_11854e  @ $11854E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11854e, "ax", @progbits
-        .global Data_11854e
-Data_11854e:
+        .section .text.ColMap_11854e, "ax", @progbits
+        .global ColMap_11854e
+ColMap_11854e:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11856a  @ $11856A  (36 B)
+|  ColMap_11856a  @ $11856A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11856a, "ax", @progbits
-        .global Zero_11856a
-Zero_11856a:
+        .section .text.ColMap_11856a, "ax", @progbits
+        .global ColMap_11856a
+ColMap_11856a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11858e  @ $11858E  (28 B)
+|  ColMap_11858e  @ $11858E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11858e, "ax", @progbits
-        .global Data_11858e
-Data_11858e:
+        .section .text.ColMap_11858e, "ax", @progbits
+        .global ColMap_11858e
+ColMap_11858e:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1185aa  @ $1185AA  (36 B)
+|  ColMap_1185aa  @ $1185AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1185aa, "ax", @progbits
-        .global Zero_1185aa
-Zero_1185aa:
+        .section .text.ColMap_1185aa, "ax", @progbits
+        .global ColMap_1185aa
+ColMap_1185aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1185ce  @ $1185CE  (28 B)
+|  ColMap_1185ce  @ $1185CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1185ce, "ax", @progbits
-        .global Data_1185ce
-Data_1185ce:
+        .section .text.ColMap_1185ce, "ax", @progbits
+        .global ColMap_1185ce
+ColMap_1185ce:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1185ea  @ $1185EA  (36 B)
+|  ColMap_1185ea  @ $1185EA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1185ea, "ax", @progbits
-        .global Zero_1185ea
-Zero_1185ea:
+        .section .text.ColMap_1185ea, "ax", @progbits
+        .global ColMap_1185ea
+ColMap_1185ea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11860e  @ $11860E  (28 B)
+|  ColMap_11860e  @ $11860E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11860e, "ax", @progbits
-        .global Data_11860e
-Data_11860e:
+        .section .text.ColMap_11860e, "ax", @progbits
+        .global ColMap_11860e
+ColMap_11860e:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11862a  @ $11862A  (36 B)
+|  ColMap_11862a  @ $11862A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11862a, "ax", @progbits
-        .global Zero_11862a
-Zero_11862a:
+        .section .text.ColMap_11862a, "ax", @progbits
+        .global ColMap_11862a
+ColMap_11862a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11864e  @ $11864E  (28 B)
+|  ColMap_11864e  @ $11864E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11864e, "ax", @progbits
-        .global Data_11864e
-Data_11864e:
+        .section .text.ColMap_11864e, "ax", @progbits
+        .global ColMap_11864e
+ColMap_11864e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11866a  @ $11866A  (36 B)
+|  ColMap_11866a  @ $11866A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11866a, "ax", @progbits
-        .global Zero_11866a
-Zero_11866a:
+        .section .text.ColMap_11866a, "ax", @progbits
+        .global ColMap_11866a
+ColMap_11866a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11868e  @ $11868E  (28 B)
+|  ColMap_11868e  @ $11868E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11868e, "ax", @progbits
-        .global Data_11868e
-Data_11868e:
+        .section .text.ColMap_11868e, "ax", @progbits
+        .global ColMap_11868e
+ColMap_11868e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1186aa  @ $1186AA  (36 B)
+|  ColMap_1186aa  @ $1186AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1186aa, "ax", @progbits
-        .global Zero_1186aa
-Zero_1186aa:
+        .section .text.ColMap_1186aa, "ax", @progbits
+        .global ColMap_1186aa
+ColMap_1186aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1186ce  @ $1186CE  (28 B)
+|  ColMap_1186ce  @ $1186CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1186ce, "ax", @progbits
-        .global Data_1186ce
-Data_1186ce:
+        .section .text.ColMap_1186ce, "ax", @progbits
+        .global ColMap_1186ce
+ColMap_1186ce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1186ea  @ $1186EA  (36 B)
+|  ColMap_1186ea  @ $1186EA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1186ea, "ax", @progbits
-        .global Zero_1186ea
-Zero_1186ea:
+        .section .text.ColMap_1186ea, "ax", @progbits
+        .global ColMap_1186ea
+ColMap_1186ea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11870e  @ $11870E  (28 B)
+|  ColMap_11870e  @ $11870E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11870e, "ax", @progbits
-        .global Data_11870e
-Data_11870e:
+        .section .text.ColMap_11870e, "ax", @progbits
+        .global ColMap_11870e
+ColMap_11870e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11872a  @ $11872A  (36 B)
+|  ColMap_11872a  @ $11872A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11872a, "ax", @progbits
-        .global Zero_11872a
-Zero_11872a:
+        .section .text.ColMap_11872a, "ax", @progbits
+        .global ColMap_11872a
+ColMap_11872a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11874e  @ $11874E  (28 B)
+|  ColMap_11874e  @ $11874E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11874e, "ax", @progbits
-        .global Data_11874e
-Data_11874e:
+        .section .text.ColMap_11874e, "ax", @progbits
+        .global ColMap_11874e
+ColMap_11874e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11876a  @ $11876A  (36 B)
+|  ColMap_11876a  @ $11876A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11876a, "ax", @progbits
-        .global Zero_11876a
-Zero_11876a:
+        .section .text.ColMap_11876a, "ax", @progbits
+        .global ColMap_11876a
+ColMap_11876a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11878e  @ $11878E  (28 B)
+|  ColMap_11878e  @ $11878E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11878e, "ax", @progbits
-        .global Data_11878e
-Data_11878e:
+        .section .text.ColMap_11878e, "ax", @progbits
+        .global ColMap_11878e
+ColMap_11878e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1187aa  @ $1187AA  (36 B)
+|  ColMap_1187aa  @ $1187AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1187aa, "ax", @progbits
-        .global Zero_1187aa
-Zero_1187aa:
+        .section .text.ColMap_1187aa, "ax", @progbits
+        .global ColMap_1187aa
+ColMap_1187aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1187ce  @ $1187CE  (28 B)
+|  ColMap_1187ce  @ $1187CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1187ce, "ax", @progbits
-        .global Data_1187ce
-Data_1187ce:
+        .section .text.ColMap_1187ce, "ax", @progbits
+        .global ColMap_1187ce
+ColMap_1187ce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1187ea  @ $1187EA  (36 B)
+|  ColMap_1187ea  @ $1187EA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1187ea, "ax", @progbits
-        .global Zero_1187ea
-Zero_1187ea:
+        .section .text.ColMap_1187ea, "ax", @progbits
+        .global ColMap_1187ea
+ColMap_1187ea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11880e  @ $11880E  (28 B)
+|  ColMap_11880e  @ $11880E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11880e, "ax", @progbits
-        .global Data_11880e
-Data_11880e:
+        .section .text.ColMap_11880e, "ax", @progbits
+        .global ColMap_11880e
+ColMap_11880e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11882a  @ $11882A  (36 B)
+|  ColMap_11882a  @ $11882A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11882a, "ax", @progbits
-        .global Zero_11882a
-Zero_11882a:
+        .section .text.ColMap_11882a, "ax", @progbits
+        .global ColMap_11882a
+ColMap_11882a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11884e  @ $11884E  (28 B)
+|  ColMap_11884e  @ $11884E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11884e, "ax", @progbits
-        .global Data_11884e
-Data_11884e:
+        .section .text.ColMap_11884e, "ax", @progbits
+        .global ColMap_11884e
+ColMap_11884e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11886a  @ $11886A  (36 B)
+|  ColMap_11886a  @ $11886A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11886a, "ax", @progbits
-        .global Zero_11886a
-Zero_11886a:
+        .section .text.ColMap_11886a, "ax", @progbits
+        .global ColMap_11886a
+ColMap_11886a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11888e  @ $11888E  (28 B)
+|  ColMap_11888e  @ $11888E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11888e, "ax", @progbits
-        .global Data_11888e
-Data_11888e:
+        .section .text.ColMap_11888e, "ax", @progbits
+        .global ColMap_11888e
+ColMap_11888e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1188aa  @ $1188AA  (36 B)
+|  ColMap_1188aa  @ $1188AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1188aa, "ax", @progbits
-        .global Zero_1188aa
-Zero_1188aa:
+        .section .text.ColMap_1188aa, "ax", @progbits
+        .global ColMap_1188aa
+ColMap_1188aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1188ce  @ $1188CE  (28 B)
+|  ColMap_1188ce  @ $1188CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1188ce, "ax", @progbits
-        .global Data_1188ce
-Data_1188ce:
+        .section .text.ColMap_1188ce, "ax", @progbits
+        .global ColMap_1188ce
+ColMap_1188ce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1188ea  @ $1188EA  (36 B)
+|  ColMap_1188ea  @ $1188EA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1188ea, "ax", @progbits
-        .global Zero_1188ea
-Zero_1188ea:
+        .section .text.ColMap_1188ea, "ax", @progbits
+        .global ColMap_1188ea
+ColMap_1188ea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11890e  @ $11890E  (28 B)
+|  ColMap_11890e  @ $11890E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11890e, "ax", @progbits
-        .global Data_11890e
-Data_11890e:
+        .section .text.ColMap_11890e, "ax", @progbits
+        .global ColMap_11890e
+ColMap_11890e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11892a  @ $11892A  (36 B)
+|  ColMap_11892a  @ $11892A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11892a, "ax", @progbits
-        .global Zero_11892a
-Zero_11892a:
+        .section .text.ColMap_11892a, "ax", @progbits
+        .global ColMap_11892a
+ColMap_11892a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11894e  @ $11894E  (28 B)
+|  ColMap_11894e  @ $11894E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11894e, "ax", @progbits
-        .global Data_11894e
-Data_11894e:
+        .section .text.ColMap_11894e, "ax", @progbits
+        .global ColMap_11894e
+ColMap_11894e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11896a  @ $11896A  (36 B)
+|  ColMap_11896a  @ $11896A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11896a, "ax", @progbits
-        .global Zero_11896a
-Zero_11896a:
+        .section .text.ColMap_11896a, "ax", @progbits
+        .global ColMap_11896a
+ColMap_11896a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11898e  @ $11898E  (28 B)
+|  ColMap_11898e  @ $11898E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11898e, "ax", @progbits
-        .global Data_11898e
-Data_11898e:
+        .section .text.ColMap_11898e, "ax", @progbits
+        .global ColMap_11898e
+ColMap_11898e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1189aa  @ $1189AA  (36 B)
+|  ColMap_1189aa  @ $1189AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1189aa, "ax", @progbits
-        .global Zero_1189aa
-Zero_1189aa:
+        .section .text.ColMap_1189aa, "ax", @progbits
+        .global ColMap_1189aa
+ColMap_1189aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1189ce  @ $1189CE  (28 B)
+|  ColMap_1189ce  @ $1189CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1189ce, "ax", @progbits
-        .global Data_1189ce
-Data_1189ce:
+        .section .text.ColMap_1189ce, "ax", @progbits
+        .global ColMap_1189ce
+ColMap_1189ce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1189ea  @ $1189EA  (36 B)
+|  ColMap_1189ea  @ $1189EA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1189ea, "ax", @progbits
-        .global Zero_1189ea
-Zero_1189ea:
+        .section .text.ColMap_1189ea, "ax", @progbits
+        .global ColMap_1189ea
+ColMap_1189ea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118a0e  @ $118A0E  (28 B)
+|  ColMap_118a0e  @ $118A0E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118a0e, "ax", @progbits
-        .global Data_118a0e
-Data_118a0e:
+        .section .text.ColMap_118a0e, "ax", @progbits
+        .global ColMap_118a0e
+ColMap_118a0e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118a2a  @ $118A2A  (36 B)
+|  ColMap_118a2a  @ $118A2A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118a2a, "ax", @progbits
-        .global Zero_118a2a
-Zero_118a2a:
+        .section .text.ColMap_118a2a, "ax", @progbits
+        .global ColMap_118a2a
+ColMap_118a2a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118a4e  @ $118A4E  (28 B)
+|  ColMap_118a4e  @ $118A4E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118a4e, "ax", @progbits
-        .global Data_118a4e
-Data_118a4e:
+        .section .text.ColMap_118a4e, "ax", @progbits
+        .global ColMap_118a4e
+ColMap_118a4e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118a6a  @ $118A6A  (36 B)
+|  ColMap_118a6a  @ $118A6A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118a6a, "ax", @progbits
-        .global Zero_118a6a
-Zero_118a6a:
+        .section .text.ColMap_118a6a, "ax", @progbits
+        .global ColMap_118a6a
+ColMap_118a6a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118a8e  @ $118A8E  (28 B)
+|  ColMap_118a8e  @ $118A8E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118a8e, "ax", @progbits
-        .global Data_118a8e
-Data_118a8e:
+        .section .text.ColMap_118a8e, "ax", @progbits
+        .global ColMap_118a8e
+ColMap_118a8e:
         .dc.w   0xd1d1,0x0000,0x0000,0x00d1                                 | +00000
         .dc.l   Data_010001                   | +00008  -> $010001
         .dc.l   Data_010001                   | +0000c  -> $010001
@@ -766,2078 +796,2078 @@ Data_118a8e:
         .dc.w   0x0001,0x0110                                               | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_118aaa  @ $118AAA  (36 B)
+|  ColMap_118aaa  @ $118AAA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118aaa, "ax", @progbits
-        .global Zero_118aaa
-Zero_118aaa:
+        .section .text.ColMap_118aaa, "ax", @progbits
+        .global ColMap_118aaa
+ColMap_118aaa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118ace  @ $118ACE  (28 B)
+|  ColMap_118ace  @ $118ACE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118ace, "ax", @progbits
-        .global Data_118ace
-Data_118ace:
+        .section .text.ColMap_118ace, "ax", @progbits
+        .global ColMap_118ace
+ColMap_118ace:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118aea  @ $118AEA  (36 B)
+|  ColMap_118aea  @ $118AEA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118aea, "ax", @progbits
-        .global Zero_118aea
-Zero_118aea:
+        .section .text.ColMap_118aea, "ax", @progbits
+        .global ColMap_118aea
+ColMap_118aea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118b0e  @ $118B0E  (28 B)
+|  ColMap_118b0e  @ $118B0E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118b0e, "ax", @progbits
-        .global Data_118b0e
-Data_118b0e:
+        .section .text.ColMap_118b0e, "ax", @progbits
+        .global ColMap_118b0e
+ColMap_118b0e:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118b2a  @ $118B2A  (36 B)
+|  ColMap_118b2a  @ $118B2A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118b2a, "ax", @progbits
-        .global Zero_118b2a
-Zero_118b2a:
+        .section .text.ColMap_118b2a, "ax", @progbits
+        .global ColMap_118b2a
+ColMap_118b2a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118b4e  @ $118B4E  (28 B)
+|  ColMap_118b4e  @ $118B4E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118b4e, "ax", @progbits
-        .global Data_118b4e
-Data_118b4e:
+        .section .text.ColMap_118b4e, "ax", @progbits
+        .global ColMap_118b4e
+ColMap_118b4e:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118b6a  @ $118B6A  (36 B)
+|  ColMap_118b6a  @ $118B6A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118b6a, "ax", @progbits
-        .global Zero_118b6a
-Zero_118b6a:
+        .section .text.ColMap_118b6a, "ax", @progbits
+        .global ColMap_118b6a
+ColMap_118b6a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118b8e  @ $118B8E  (28 B)
+|  ColMap_118b8e  @ $118B8E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118b8e, "ax", @progbits
-        .global Data_118b8e
-Data_118b8e:
+        .section .text.ColMap_118b8e, "ax", @progbits
+        .global ColMap_118b8e
+ColMap_118b8e:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118baa  @ $118BAA  (36 B)
+|  ColMap_118baa  @ $118BAA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118baa, "ax", @progbits
-        .global Zero_118baa
-Zero_118baa:
+        .section .text.ColMap_118baa, "ax", @progbits
+        .global ColMap_118baa
+ColMap_118baa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118bce  @ $118BCE  (28 B)
+|  ColMap_118bce  @ $118BCE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118bce, "ax", @progbits
-        .global Data_118bce
-Data_118bce:
+        .section .text.ColMap_118bce, "ax", @progbits
+        .global ColMap_118bce
+ColMap_118bce:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118bea  @ $118BEA  (36 B)
+|  ColMap_118bea  @ $118BEA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118bea, "ax", @progbits
-        .global Zero_118bea
-Zero_118bea:
+        .section .text.ColMap_118bea, "ax", @progbits
+        .global ColMap_118bea
+ColMap_118bea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118c0e  @ $118C0E  (28 B)
+|  ColMap_118c0e  @ $118C0E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118c0e, "ax", @progbits
-        .global Data_118c0e
-Data_118c0e:
+        .section .text.ColMap_118c0e, "ax", @progbits
+        .global ColMap_118c0e
+ColMap_118c0e:
         .dc.w   0xd1d1,0x0000,0x0000,0xd1d1                                 | +00000
         .fill   18,1,0x00                      | +00008
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118c2a  @ $118C2A  (36 B)
+|  ColMap_118c2a  @ $118C2A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118c2a, "ax", @progbits
-        .global Zero_118c2a
-Zero_118c2a:
+        .section .text.ColMap_118c2a, "ax", @progbits
+        .global ColMap_118c2a
+ColMap_118c2a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118c4e  @ $118C4E  (28 B)
+|  ColMap_118c4e  @ $118C4E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118c4e, "ax", @progbits
-        .global Data_118c4e
-Data_118c4e:
+        .section .text.ColMap_118c4e, "ax", @progbits
+        .global ColMap_118c4e
+ColMap_118c4e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118c6a  @ $118C6A  (36 B)
+|  ColMap_118c6a  @ $118C6A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118c6a, "ax", @progbits
-        .global Zero_118c6a
-Zero_118c6a:
+        .section .text.ColMap_118c6a, "ax", @progbits
+        .global ColMap_118c6a
+ColMap_118c6a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118c8e  @ $118C8E  (28 B)
+|  ColMap_118c8e  @ $118C8E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118c8e, "ax", @progbits
-        .global Data_118c8e
-Data_118c8e:
+        .section .text.ColMap_118c8e, "ax", @progbits
+        .global ColMap_118c8e
+ColMap_118c8e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118caa  @ $118CAA  (36 B)
+|  ColMap_118caa  @ $118CAA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118caa, "ax", @progbits
-        .global Zero_118caa
-Zero_118caa:
+        .section .text.ColMap_118caa, "ax", @progbits
+        .global ColMap_118caa
+ColMap_118caa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118cce  @ $118CCE  (28 B)
+|  ColMap_118cce  @ $118CCE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118cce, "ax", @progbits
-        .global Data_118cce
-Data_118cce:
+        .section .text.ColMap_118cce, "ax", @progbits
+        .global ColMap_118cce
+ColMap_118cce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118cea  @ $118CEA  (36 B)
+|  ColMap_118cea  @ $118CEA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118cea, "ax", @progbits
-        .global Zero_118cea
-Zero_118cea:
+        .section .text.ColMap_118cea, "ax", @progbits
+        .global ColMap_118cea
+ColMap_118cea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118d0e  @ $118D0E  (28 B)
+|  ColMap_118d0e  @ $118D0E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118d0e, "ax", @progbits
-        .global Data_118d0e
-Data_118d0e:
+        .section .text.ColMap_118d0e, "ax", @progbits
+        .global ColMap_118d0e
+ColMap_118d0e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118d2a  @ $118D2A  (36 B)
+|  ColMap_118d2a  @ $118D2A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118d2a, "ax", @progbits
-        .global Zero_118d2a
-Zero_118d2a:
+        .section .text.ColMap_118d2a, "ax", @progbits
+        .global ColMap_118d2a
+ColMap_118d2a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118d4e  @ $118D4E  (28 B)
+|  ColMap_118d4e  @ $118D4E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118d4e, "ax", @progbits
-        .global Data_118d4e
-Data_118d4e:
+        .section .text.ColMap_118d4e, "ax", @progbits
+        .global ColMap_118d4e
+ColMap_118d4e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118d6a  @ $118D6A  (36 B)
+|  ColMap_118d6a  @ $118D6A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118d6a, "ax", @progbits
-        .global Zero_118d6a
-Zero_118d6a:
+        .section .text.ColMap_118d6a, "ax", @progbits
+        .global ColMap_118d6a
+ColMap_118d6a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118d8e  @ $118D8E  (28 B)
+|  ColMap_118d8e  @ $118D8E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118d8e, "ax", @progbits
-        .global Data_118d8e
-Data_118d8e:
+        .section .text.ColMap_118d8e, "ax", @progbits
+        .global ColMap_118d8e
+ColMap_118d8e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118daa  @ $118DAA  (36 B)
+|  ColMap_118daa  @ $118DAA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118daa, "ax", @progbits
-        .global Zero_118daa
-Zero_118daa:
+        .section .text.ColMap_118daa, "ax", @progbits
+        .global ColMap_118daa
+ColMap_118daa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118dce  @ $118DCE  (28 B)
+|  ColMap_118dce  @ $118DCE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118dce, "ax", @progbits
-        .global Data_118dce
-Data_118dce:
+        .section .text.ColMap_118dce, "ax", @progbits
+        .global ColMap_118dce
+ColMap_118dce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118dea  @ $118DEA  (36 B)
+|  ColMap_118dea  @ $118DEA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118dea, "ax", @progbits
-        .global Zero_118dea
-Zero_118dea:
+        .section .text.ColMap_118dea, "ax", @progbits
+        .global ColMap_118dea
+ColMap_118dea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118e0e  @ $118E0E  (28 B)
+|  ColMap_118e0e  @ $118E0E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118e0e, "ax", @progbits
-        .global Data_118e0e
-Data_118e0e:
+        .section .text.ColMap_118e0e, "ax", @progbits
+        .global ColMap_118e0e
+ColMap_118e0e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118e2a  @ $118E2A  (36 B)
+|  ColMap_118e2a  @ $118E2A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118e2a, "ax", @progbits
-        .global Zero_118e2a
-Zero_118e2a:
+        .section .text.ColMap_118e2a, "ax", @progbits
+        .global ColMap_118e2a
+ColMap_118e2a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118e4e  @ $118E4E  (28 B)
+|  ColMap_118e4e  @ $118E4E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118e4e, "ax", @progbits
-        .global Data_118e4e
-Data_118e4e:
+        .section .text.ColMap_118e4e, "ax", @progbits
+        .global ColMap_118e4e
+ColMap_118e4e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118e6a  @ $118E6A  (36 B)
+|  ColMap_118e6a  @ $118E6A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118e6a, "ax", @progbits
-        .global Zero_118e6a
-Zero_118e6a:
+        .section .text.ColMap_118e6a, "ax", @progbits
+        .global ColMap_118e6a
+ColMap_118e6a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118e8e  @ $118E8E  (28 B)
+|  ColMap_118e8e  @ $118E8E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118e8e, "ax", @progbits
-        .global Data_118e8e
-Data_118e8e:
+        .section .text.ColMap_118e8e, "ax", @progbits
+        .global ColMap_118e8e
+ColMap_118e8e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118eaa  @ $118EAA  (36 B)
+|  ColMap_118eaa  @ $118EAA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118eaa, "ax", @progbits
-        .global Zero_118eaa
-Zero_118eaa:
+        .section .text.ColMap_118eaa, "ax", @progbits
+        .global ColMap_118eaa
+ColMap_118eaa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118ece  @ $118ECE  (28 B)
+|  ColMap_118ece  @ $118ECE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118ece, "ax", @progbits
-        .global Data_118ece
-Data_118ece:
+        .section .text.ColMap_118ece, "ax", @progbits
+        .global ColMap_118ece
+ColMap_118ece:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118eea  @ $118EEA  (36 B)
+|  ColMap_118eea  @ $118EEA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118eea, "ax", @progbits
-        .global Zero_118eea
-Zero_118eea:
+        .section .text.ColMap_118eea, "ax", @progbits
+        .global ColMap_118eea
+ColMap_118eea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118f0e  @ $118F0E  (28 B)
+|  ColMap_118f0e  @ $118F0E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118f0e, "ax", @progbits
-        .global Data_118f0e
-Data_118f0e:
+        .section .text.ColMap_118f0e, "ax", @progbits
+        .global ColMap_118f0e
+ColMap_118f0e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118f2a  @ $118F2A  (36 B)
+|  ColMap_118f2a  @ $118F2A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118f2a, "ax", @progbits
-        .global Zero_118f2a
-Zero_118f2a:
+        .section .text.ColMap_118f2a, "ax", @progbits
+        .global ColMap_118f2a
+ColMap_118f2a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118f4e  @ $118F4E  (28 B)
+|  ColMap_118f4e  @ $118F4E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118f4e, "ax", @progbits
-        .global Data_118f4e
-Data_118f4e:
+        .section .text.ColMap_118f4e, "ax", @progbits
+        .global ColMap_118f4e
+ColMap_118f4e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118f6a  @ $118F6A  (36 B)
+|  ColMap_118f6a  @ $118F6A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118f6a, "ax", @progbits
-        .global Zero_118f6a
-Zero_118f6a:
+        .section .text.ColMap_118f6a, "ax", @progbits
+        .global ColMap_118f6a
+ColMap_118f6a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118f8e  @ $118F8E  (28 B)
+|  ColMap_118f8e  @ $118F8E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118f8e, "ax", @progbits
-        .global Data_118f8e
-Data_118f8e:
+        .section .text.ColMap_118f8e, "ax", @progbits
+        .global ColMap_118f8e
+ColMap_118f8e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118faa  @ $118FAA  (36 B)
+|  ColMap_118faa  @ $118FAA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118faa, "ax", @progbits
-        .global Zero_118faa
-Zero_118faa:
+        .section .text.ColMap_118faa, "ax", @progbits
+        .global ColMap_118faa
+ColMap_118faa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_118fce  @ $118FCE  (28 B)
+|  ColMap_118fce  @ $118FCE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_118fce, "ax", @progbits
-        .global Data_118fce
-Data_118fce:
+        .section .text.ColMap_118fce, "ax", @progbits
+        .global ColMap_118fce
+ColMap_118fce:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_118fea  @ $118FEA  (36 B)
+|  ColMap_118fea  @ $118FEA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_118fea, "ax", @progbits
-        .global Zero_118fea
-Zero_118fea:
+        .section .text.ColMap_118fea, "ax", @progbits
+        .global ColMap_118fea
+ColMap_118fea:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11900e  @ $11900E  (28 B)
+|  ColMap_11900e  @ $11900E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11900e, "ax", @progbits
-        .global Data_11900e
-Data_11900e:
+        .section .text.ColMap_11900e, "ax", @progbits
+        .global ColMap_11900e
+ColMap_11900e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11902a  @ $11902A  (36 B)
+|  ColMap_11902a  @ $11902A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11902a, "ax", @progbits
-        .global Zero_11902a
-Zero_11902a:
+        .section .text.ColMap_11902a, "ax", @progbits
+        .global ColMap_11902a
+ColMap_11902a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11904e  @ $11904E  (28 B)
+|  ColMap_11904e  @ $11904E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11904e, "ax", @progbits
-        .global Data_11904e
-Data_11904e:
+        .section .text.ColMap_11904e, "ax", @progbits
+        .global ColMap_11904e
+ColMap_11904e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11906a  @ $11906A  (36 B)
+|  ColMap_11906a  @ $11906A  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11906a, "ax", @progbits
-        .global Zero_11906a
-Zero_11906a:
+        .section .text.ColMap_11906a, "ax", @progbits
+        .global ColMap_11906a
+ColMap_11906a:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11908e  @ $11908E  (28 B)
+|  ColMap_11908e  @ $11908E  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11908e, "ax", @progbits
-        .global Data_11908e
-Data_11908e:
+        .section .text.ColMap_11908e, "ax", @progbits
+        .global ColMap_11908e
+ColMap_11908e:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1190aa  @ $1190AA  (36 B)
+|  ColMap_1190aa  @ $1190AA  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1190aa, "ax", @progbits
-        .global Zero_1190aa
-Zero_1190aa:
+        .section .text.ColMap_1190aa, "ax", @progbits
+        .global ColMap_1190aa
+ColMap_1190aa:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1190ce  @ $1190CE  (28 B)
+|  ColMap_1190ce  @ $1190CE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1190ce, "ax", @progbits
-        .global Data_1190ce
-Data_1190ce:
+        .section .text.ColMap_1190ce, "ax", @progbits
+        .global ColMap_1190ce
+ColMap_1190ce:
         .dc.w   0xd100                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_1190ea  @ $1190EA  (62 B)
+|  ColMap_1190ea  @ $1190EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1190ea, "ax", @progbits
-        .global Zero_1190ea
-Zero_1190ea:
+        .section .text.ColMap_1190ea, "ax", @progbits
+        .global ColMap_1190ea
+ColMap_1190ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119128  @ $119128  (2 B)
+|  ColMap_119128  @ $119128  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119128, "ax", @progbits
-        .global Data_119128
-Data_119128:
+        .section .text.ColMap_119128, "ax", @progbits
+        .global ColMap_119128
+ColMap_119128:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11912a  @ $11912A  (62 B)
+|  ColMap_11912a  @ $11912A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11912a, "ax", @progbits
-        .global Zero_11912a
-Zero_11912a:
+        .section .text.ColMap_11912a, "ax", @progbits
+        .global ColMap_11912a
+ColMap_11912a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119168  @ $119168  (2 B)
+|  ColMap_119168  @ $119168  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119168, "ax", @progbits
-        .global Data_119168
-Data_119168:
+        .section .text.ColMap_119168, "ax", @progbits
+        .global ColMap_119168
+ColMap_119168:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11916a  @ $11916A  (62 B)
+|  ColMap_11916a  @ $11916A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11916a, "ax", @progbits
-        .global Zero_11916a
-Zero_11916a:
+        .section .text.ColMap_11916a, "ax", @progbits
+        .global ColMap_11916a
+ColMap_11916a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1191a8  @ $1191A8  (2 B)
+|  ColMap_1191a8  @ $1191A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1191a8, "ax", @progbits
-        .global Data_1191a8
-Data_1191a8:
+        .section .text.ColMap_1191a8, "ax", @progbits
+        .global ColMap_1191a8
+ColMap_1191a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1191aa  @ $1191AA  (62 B)
+|  ColMap_1191aa  @ $1191AA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1191aa, "ax", @progbits
-        .global Zero_1191aa
-Zero_1191aa:
+        .section .text.ColMap_1191aa, "ax", @progbits
+        .global ColMap_1191aa
+ColMap_1191aa:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1191e8  @ $1191E8  (2 B)
+|  ColMap_1191e8  @ $1191E8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1191e8, "ax", @progbits
-        .global Data_1191e8
-Data_1191e8:
+        .section .text.ColMap_1191e8, "ax", @progbits
+        .global ColMap_1191e8
+ColMap_1191e8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1191ea  @ $1191EA  (62 B)
+|  ColMap_1191ea  @ $1191EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1191ea, "ax", @progbits
-        .global Zero_1191ea
-Zero_1191ea:
+        .section .text.ColMap_1191ea, "ax", @progbits
+        .global ColMap_1191ea
+ColMap_1191ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119228  @ $119228  (2 B)
+|  ColMap_119228  @ $119228  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119228, "ax", @progbits
-        .global Data_119228
-Data_119228:
+        .section .text.ColMap_119228, "ax", @progbits
+        .global ColMap_119228
+ColMap_119228:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11922a  @ $11922A  (62 B)
+|  ColMap_11922a  @ $11922A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11922a, "ax", @progbits
-        .global Zero_11922a
-Zero_11922a:
+        .section .text.ColMap_11922a, "ax", @progbits
+        .global ColMap_11922a
+ColMap_11922a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119268  @ $119268  (2 B)
+|  ColMap_119268  @ $119268  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119268, "ax", @progbits
-        .global Data_119268
-Data_119268:
+        .section .text.ColMap_119268, "ax", @progbits
+        .global ColMap_119268
+ColMap_119268:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11926a  @ $11926A  (62 B)
+|  ColMap_11926a  @ $11926A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11926a, "ax", @progbits
-        .global Zero_11926a
-Zero_11926a:
+        .section .text.ColMap_11926a, "ax", @progbits
+        .global ColMap_11926a
+ColMap_11926a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1192a8  @ $1192A8  (2 B)
+|  ColMap_1192a8  @ $1192A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1192a8, "ax", @progbits
-        .global Data_1192a8
-Data_1192a8:
+        .section .text.ColMap_1192a8, "ax", @progbits
+        .global ColMap_1192a8
+ColMap_1192a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1192aa  @ $1192AA  (62 B)
+|  ColMap_1192aa  @ $1192AA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1192aa, "ax", @progbits
-        .global Zero_1192aa
-Zero_1192aa:
+        .section .text.ColMap_1192aa, "ax", @progbits
+        .global ColMap_1192aa
+ColMap_1192aa:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1192e8  @ $1192E8  (2 B)
+|  ColMap_1192e8  @ $1192E8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1192e8, "ax", @progbits
-        .global Data_1192e8
-Data_1192e8:
+        .section .text.ColMap_1192e8, "ax", @progbits
+        .global ColMap_1192e8
+ColMap_1192e8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1192ea  @ $1192EA  (62 B)
+|  ColMap_1192ea  @ $1192EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1192ea, "ax", @progbits
-        .global Zero_1192ea
-Zero_1192ea:
+        .section .text.ColMap_1192ea, "ax", @progbits
+        .global ColMap_1192ea
+ColMap_1192ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119328  @ $119328  (2 B)
+|  ColMap_119328  @ $119328  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119328, "ax", @progbits
-        .global Data_119328
-Data_119328:
+        .section .text.ColMap_119328, "ax", @progbits
+        .global ColMap_119328
+ColMap_119328:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11932a  @ $11932A  (62 B)
+|  ColMap_11932a  @ $11932A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11932a, "ax", @progbits
-        .global Zero_11932a
-Zero_11932a:
+        .section .text.ColMap_11932a, "ax", @progbits
+        .global ColMap_11932a
+ColMap_11932a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119368  @ $119368  (2 B)
+|  ColMap_119368  @ $119368  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119368, "ax", @progbits
-        .global Data_119368
-Data_119368:
+        .section .text.ColMap_119368, "ax", @progbits
+        .global ColMap_119368
+ColMap_119368:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11936a  @ $11936A  (62 B)
+|  ColMap_11936a  @ $11936A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11936a, "ax", @progbits
-        .global Zero_11936a
-Zero_11936a:
+        .section .text.ColMap_11936a, "ax", @progbits
+        .global ColMap_11936a
+ColMap_11936a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1193a8  @ $1193A8  (2 B)
+|  ColMap_1193a8  @ $1193A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1193a8, "ax", @progbits
-        .global Data_1193a8
-Data_1193a8:
+        .section .text.ColMap_1193a8, "ax", @progbits
+        .global ColMap_1193a8
+ColMap_1193a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1193aa  @ $1193AA  (62 B)
+|  ColMap_1193aa  @ $1193AA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1193aa, "ax", @progbits
-        .global Zero_1193aa
-Zero_1193aa:
+        .section .text.ColMap_1193aa, "ax", @progbits
+        .global ColMap_1193aa
+ColMap_1193aa:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1193e8  @ $1193E8  (2 B)
+|  ColMap_1193e8  @ $1193E8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1193e8, "ax", @progbits
-        .global Data_1193e8
-Data_1193e8:
+        .section .text.ColMap_1193e8, "ax", @progbits
+        .global ColMap_1193e8
+ColMap_1193e8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1193ea  @ $1193EA  (62 B)
+|  ColMap_1193ea  @ $1193EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1193ea, "ax", @progbits
-        .global Zero_1193ea
-Zero_1193ea:
+        .section .text.ColMap_1193ea, "ax", @progbits
+        .global ColMap_1193ea
+ColMap_1193ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119428  @ $119428  (2 B)
+|  ColMap_119428  @ $119428  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119428, "ax", @progbits
-        .global Data_119428
-Data_119428:
+        .section .text.ColMap_119428, "ax", @progbits
+        .global ColMap_119428
+ColMap_119428:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11942a  @ $11942A  (62 B)
+|  ColMap_11942a  @ $11942A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11942a, "ax", @progbits
-        .global Zero_11942a
-Zero_11942a:
+        .section .text.ColMap_11942a, "ax", @progbits
+        .global ColMap_11942a
+ColMap_11942a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119468  @ $119468  (2 B)
+|  ColMap_119468  @ $119468  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119468, "ax", @progbits
-        .global Data_119468
-Data_119468:
+        .section .text.ColMap_119468, "ax", @progbits
+        .global ColMap_119468
+ColMap_119468:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11946a  @ $11946A  (62 B)
+|  ColMap_11946a  @ $11946A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11946a, "ax", @progbits
-        .global Zero_11946a
-Zero_11946a:
+        .section .text.ColMap_11946a, "ax", @progbits
+        .global ColMap_11946a
+ColMap_11946a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1194a8  @ $1194A8  (2 B)
+|  ColMap_1194a8  @ $1194A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1194a8, "ax", @progbits
-        .global Data_1194a8
-Data_1194a8:
+        .section .text.ColMap_1194a8, "ax", @progbits
+        .global ColMap_1194a8
+ColMap_1194a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1194aa  @ $1194AA  (62 B)
+|  ColMap_1194aa  @ $1194AA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1194aa, "ax", @progbits
-        .global Zero_1194aa
-Zero_1194aa:
+        .section .text.ColMap_1194aa, "ax", @progbits
+        .global ColMap_1194aa
+ColMap_1194aa:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1194e8  @ $1194E8  (2 B)
+|  ColMap_1194e8  @ $1194E8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1194e8, "ax", @progbits
-        .global Data_1194e8
-Data_1194e8:
+        .section .text.ColMap_1194e8, "ax", @progbits
+        .global ColMap_1194e8
+ColMap_1194e8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1194ea  @ $1194EA  (62 B)
+|  ColMap_1194ea  @ $1194EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1194ea, "ax", @progbits
-        .global Zero_1194ea
-Zero_1194ea:
+        .section .text.ColMap_1194ea, "ax", @progbits
+        .global ColMap_1194ea
+ColMap_1194ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119528  @ $119528  (2 B)
+|  ColMap_119528  @ $119528  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119528, "ax", @progbits
-        .global Data_119528
-Data_119528:
+        .section .text.ColMap_119528, "ax", @progbits
+        .global ColMap_119528
+ColMap_119528:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11952a  @ $11952A  (62 B)
+|  ColMap_11952a  @ $11952A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11952a, "ax", @progbits
-        .global Zero_11952a
-Zero_11952a:
+        .section .text.ColMap_11952a, "ax", @progbits
+        .global ColMap_11952a
+ColMap_11952a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119568  @ $119568  (2 B)
+|  ColMap_119568  @ $119568  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119568, "ax", @progbits
-        .global Data_119568
-Data_119568:
+        .section .text.ColMap_119568, "ax", @progbits
+        .global ColMap_119568
+ColMap_119568:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11956a  @ $11956A  (62 B)
+|  ColMap_11956a  @ $11956A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11956a, "ax", @progbits
-        .global Zero_11956a
-Zero_11956a:
+        .section .text.ColMap_11956a, "ax", @progbits
+        .global ColMap_11956a
+ColMap_11956a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1195a8  @ $1195A8  (2 B)
+|  ColMap_1195a8  @ $1195A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1195a8, "ax", @progbits
-        .global Data_1195a8
-Data_1195a8:
+        .section .text.ColMap_1195a8, "ax", @progbits
+        .global ColMap_1195a8
+ColMap_1195a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1195aa  @ $1195AA  (62 B)
+|  ColMap_1195aa  @ $1195AA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1195aa, "ax", @progbits
-        .global Zero_1195aa
-Zero_1195aa:
+        .section .text.ColMap_1195aa, "ax", @progbits
+        .global ColMap_1195aa
+ColMap_1195aa:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1195e8  @ $1195E8  (2 B)
+|  ColMap_1195e8  @ $1195E8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1195e8, "ax", @progbits
-        .global Data_1195e8
-Data_1195e8:
+        .section .text.ColMap_1195e8, "ax", @progbits
+        .global ColMap_1195e8
+ColMap_1195e8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1195ea  @ $1195EA  (62 B)
+|  ColMap_1195ea  @ $1195EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1195ea, "ax", @progbits
-        .global Zero_1195ea
-Zero_1195ea:
+        .section .text.ColMap_1195ea, "ax", @progbits
+        .global ColMap_1195ea
+ColMap_1195ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119628  @ $119628  (2 B)
+|  ColMap_119628  @ $119628  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119628, "ax", @progbits
-        .global Data_119628
-Data_119628:
+        .section .text.ColMap_119628, "ax", @progbits
+        .global ColMap_119628
+ColMap_119628:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11962a  @ $11962A  (62 B)
+|  ColMap_11962a  @ $11962A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11962a, "ax", @progbits
-        .global Zero_11962a
-Zero_11962a:
+        .section .text.ColMap_11962a, "ax", @progbits
+        .global ColMap_11962a
+ColMap_11962a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119668  @ $119668  (2 B)
+|  ColMap_119668  @ $119668  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119668, "ax", @progbits
-        .global Data_119668
-Data_119668:
+        .section .text.ColMap_119668, "ax", @progbits
+        .global ColMap_119668
+ColMap_119668:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11966a  @ $11966A  (62 B)
+|  ColMap_11966a  @ $11966A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11966a, "ax", @progbits
-        .global Zero_11966a
-Zero_11966a:
+        .section .text.ColMap_11966a, "ax", @progbits
+        .global ColMap_11966a
+ColMap_11966a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1196a8  @ $1196A8  (2 B)
+|  ColMap_1196a8  @ $1196A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1196a8, "ax", @progbits
-        .global Data_1196a8
-Data_1196a8:
+        .section .text.ColMap_1196a8, "ax", @progbits
+        .global ColMap_1196a8
+ColMap_1196a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1196aa  @ $1196AA  (62 B)
+|  ColMap_1196aa  @ $1196AA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1196aa, "ax", @progbits
-        .global Zero_1196aa
-Zero_1196aa:
+        .section .text.ColMap_1196aa, "ax", @progbits
+        .global ColMap_1196aa
+ColMap_1196aa:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1196e8  @ $1196E8  (2 B)
+|  ColMap_1196e8  @ $1196E8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1196e8, "ax", @progbits
-        .global Data_1196e8
-Data_1196e8:
+        .section .text.ColMap_1196e8, "ax", @progbits
+        .global ColMap_1196e8
+ColMap_1196e8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1196ea  @ $1196EA  (62 B)
+|  ColMap_1196ea  @ $1196EA  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1196ea, "ax", @progbits
-        .global Zero_1196ea
-Zero_1196ea:
+        .section .text.ColMap_1196ea, "ax", @progbits
+        .global ColMap_1196ea
+ColMap_1196ea:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119728  @ $119728  (2 B)
+|  ColMap_119728  @ $119728  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119728, "ax", @progbits
-        .global Data_119728
-Data_119728:
+        .section .text.ColMap_119728, "ax", @progbits
+        .global ColMap_119728
+ColMap_119728:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11972a  @ $11972A  (62 B)
+|  ColMap_11972a  @ $11972A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11972a, "ax", @progbits
-        .global Zero_11972a
-Zero_11972a:
+        .section .text.ColMap_11972a, "ax", @progbits
+        .global ColMap_11972a
+ColMap_11972a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119768  @ $119768  (2 B)
+|  ColMap_119768  @ $119768  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119768, "ax", @progbits
-        .global Data_119768
-Data_119768:
+        .section .text.ColMap_119768, "ax", @progbits
+        .global ColMap_119768
+ColMap_119768:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11976a  @ $11976A  (62 B)
+|  ColMap_11976a  @ $11976A  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11976a, "ax", @progbits
-        .global Zero_11976a
-Zero_11976a:
+        .section .text.ColMap_11976a, "ax", @progbits
+        .global ColMap_11976a
+ColMap_11976a:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1197a8  @ $1197A8  (2 B)
+|  ColMap_1197a8  @ $1197A8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1197a8, "ax", @progbits
-        .global Data_1197a8
-Data_1197a8:
+        .section .text.ColMap_1197a8, "ax", @progbits
+        .global ColMap_1197a8
+ColMap_1197a8:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1197aa  @ $1197AA  (50 B)
+|  ColMap_1197aa  @ $1197AA  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1197aa, "ax", @progbits
-        .global Zero_1197aa
-Zero_1197aa:
+        .section .text.ColMap_1197aa, "ax", @progbits
+        .global ColMap_1197aa
+ColMap_1197aa:
         .fill   50,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1197dc  @ $1197DC  (2 B)
+|  ColMap_1197dc  @ $1197DC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1197dc, "ax", @progbits
-        .global Data_1197dc
-Data_1197dc:
+        .section .text.ColMap_1197dc, "ax", @progbits
+        .global ColMap_1197dc
+ColMap_1197dc:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1197de  @ $1197DE  (62 B)
+|  ColMap_1197de  @ $1197DE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1197de, "ax", @progbits
-        .global Zero_1197de
-Zero_1197de:
+        .section .text.ColMap_1197de, "ax", @progbits
+        .global ColMap_1197de
+ColMap_1197de:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11981c  @ $11981C  (2 B)
+|  ColMap_11981c  @ $11981C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11981c, "ax", @progbits
-        .global Data_11981c
-Data_11981c:
+        .section .text.ColMap_11981c, "ax", @progbits
+        .global ColMap_11981c
+ColMap_11981c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11981e  @ $11981E  (62 B)
+|  ColMap_11981e  @ $11981E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11981e, "ax", @progbits
-        .global Zero_11981e
-Zero_11981e:
+        .section .text.ColMap_11981e, "ax", @progbits
+        .global ColMap_11981e
+ColMap_11981e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11985c  @ $11985C  (2 B)
+|  ColMap_11985c  @ $11985C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11985c, "ax", @progbits
-        .global Data_11985c
-Data_11985c:
+        .section .text.ColMap_11985c, "ax", @progbits
+        .global ColMap_11985c
+ColMap_11985c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11985e  @ $11985E  (62 B)
+|  ColMap_11985e  @ $11985E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11985e, "ax", @progbits
-        .global Zero_11985e
-Zero_11985e:
+        .section .text.ColMap_11985e, "ax", @progbits
+        .global ColMap_11985e
+ColMap_11985e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11989c  @ $11989C  (2 B)
+|  ColMap_11989c  @ $11989C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11989c, "ax", @progbits
-        .global Data_11989c
-Data_11989c:
+        .section .text.ColMap_11989c, "ax", @progbits
+        .global ColMap_11989c
+ColMap_11989c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11989e  @ $11989E  (62 B)
+|  ColMap_11989e  @ $11989E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11989e, "ax", @progbits
-        .global Zero_11989e
-Zero_11989e:
+        .section .text.ColMap_11989e, "ax", @progbits
+        .global ColMap_11989e
+ColMap_11989e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1198dc  @ $1198DC  (2 B)
+|  ColMap_1198dc  @ $1198DC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1198dc, "ax", @progbits
-        .global Data_1198dc
-Data_1198dc:
+        .section .text.ColMap_1198dc, "ax", @progbits
+        .global ColMap_1198dc
+ColMap_1198dc:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1198de  @ $1198DE  (62 B)
+|  ColMap_1198de  @ $1198DE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1198de, "ax", @progbits
-        .global Zero_1198de
-Zero_1198de:
+        .section .text.ColMap_1198de, "ax", @progbits
+        .global ColMap_1198de
+ColMap_1198de:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11991c  @ $11991C  (2 B)
+|  ColMap_11991c  @ $11991C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11991c, "ax", @progbits
-        .global Data_11991c
-Data_11991c:
+        .section .text.ColMap_11991c, "ax", @progbits
+        .global ColMap_11991c
+ColMap_11991c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11991e  @ $11991E  (62 B)
+|  ColMap_11991e  @ $11991E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11991e, "ax", @progbits
-        .global Zero_11991e
-Zero_11991e:
+        .section .text.ColMap_11991e, "ax", @progbits
+        .global ColMap_11991e
+ColMap_11991e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11995c  @ $11995C  (2 B)
+|  ColMap_11995c  @ $11995C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11995c, "ax", @progbits
-        .global Data_11995c
-Data_11995c:
+        .section .text.ColMap_11995c, "ax", @progbits
+        .global ColMap_11995c
+ColMap_11995c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11995e  @ $11995E  (62 B)
+|  ColMap_11995e  @ $11995E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11995e, "ax", @progbits
-        .global Zero_11995e
-Zero_11995e:
+        .section .text.ColMap_11995e, "ax", @progbits
+        .global ColMap_11995e
+ColMap_11995e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11999c  @ $11999C  (2 B)
+|  ColMap_11999c  @ $11999C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11999c, "ax", @progbits
-        .global Data_11999c
-Data_11999c:
+        .section .text.ColMap_11999c, "ax", @progbits
+        .global ColMap_11999c
+ColMap_11999c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11999e  @ $11999E  (62 B)
+|  ColMap_11999e  @ $11999E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11999e, "ax", @progbits
-        .global Zero_11999e
-Zero_11999e:
+        .section .text.ColMap_11999e, "ax", @progbits
+        .global ColMap_11999e
+ColMap_11999e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1199dc  @ $1199DC  (2 B)
+|  ColMap_1199dc  @ $1199DC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1199dc, "ax", @progbits
-        .global Data_1199dc
-Data_1199dc:
+        .section .text.ColMap_1199dc, "ax", @progbits
+        .global ColMap_1199dc
+ColMap_1199dc:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_1199de  @ $1199DE  (62 B)
+|  ColMap_1199de  @ $1199DE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_1199de, "ax", @progbits
-        .global Zero_1199de
-Zero_1199de:
+        .section .text.ColMap_1199de, "ax", @progbits
+        .global ColMap_1199de
+ColMap_1199de:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119a1c  @ $119A1C  (2 B)
+|  ColMap_119a1c  @ $119A1C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119a1c, "ax", @progbits
-        .global Data_119a1c
-Data_119a1c:
+        .section .text.ColMap_119a1c, "ax", @progbits
+        .global ColMap_119a1c
+ColMap_119a1c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119a1e  @ $119A1E  (62 B)
+|  ColMap_119a1e  @ $119A1E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119a1e, "ax", @progbits
-        .global Zero_119a1e
-Zero_119a1e:
+        .section .text.ColMap_119a1e, "ax", @progbits
+        .global ColMap_119a1e
+ColMap_119a1e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119a5c  @ $119A5C  (2 B)
+|  ColMap_119a5c  @ $119A5C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119a5c, "ax", @progbits
-        .global Data_119a5c
-Data_119a5c:
+        .section .text.ColMap_119a5c, "ax", @progbits
+        .global ColMap_119a5c
+ColMap_119a5c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119a5e  @ $119A5E  (62 B)
+|  ColMap_119a5e  @ $119A5E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119a5e, "ax", @progbits
-        .global Zero_119a5e
-Zero_119a5e:
+        .section .text.ColMap_119a5e, "ax", @progbits
+        .global ColMap_119a5e
+ColMap_119a5e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119a9c  @ $119A9C  (2 B)
+|  ColMap_119a9c  @ $119A9C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119a9c, "ax", @progbits
-        .global Data_119a9c
-Data_119a9c:
+        .section .text.ColMap_119a9c, "ax", @progbits
+        .global ColMap_119a9c
+ColMap_119a9c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119a9e  @ $119A9E  (62 B)
+|  ColMap_119a9e  @ $119A9E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119a9e, "ax", @progbits
-        .global Zero_119a9e
-Zero_119a9e:
+        .section .text.ColMap_119a9e, "ax", @progbits
+        .global ColMap_119a9e
+ColMap_119a9e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119adc  @ $119ADC  (2 B)
+|  ColMap_119adc  @ $119ADC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119adc, "ax", @progbits
-        .global Data_119adc
-Data_119adc:
+        .section .text.ColMap_119adc, "ax", @progbits
+        .global ColMap_119adc
+ColMap_119adc:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119ade  @ $119ADE  (62 B)
+|  ColMap_119ade  @ $119ADE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119ade, "ax", @progbits
-        .global Zero_119ade
-Zero_119ade:
+        .section .text.ColMap_119ade, "ax", @progbits
+        .global ColMap_119ade
+ColMap_119ade:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119b1c  @ $119B1C  (2 B)
+|  ColMap_119b1c  @ $119B1C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119b1c, "ax", @progbits
-        .global Data_119b1c
-Data_119b1c:
+        .section .text.ColMap_119b1c, "ax", @progbits
+        .global ColMap_119b1c
+ColMap_119b1c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119b1e  @ $119B1E  (62 B)
+|  ColMap_119b1e  @ $119B1E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119b1e, "ax", @progbits
-        .global Zero_119b1e
-Zero_119b1e:
+        .section .text.ColMap_119b1e, "ax", @progbits
+        .global ColMap_119b1e
+ColMap_119b1e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119b5c  @ $119B5C  (2 B)
+|  ColMap_119b5c  @ $119B5C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119b5c, "ax", @progbits
-        .global Data_119b5c
-Data_119b5c:
+        .section .text.ColMap_119b5c, "ax", @progbits
+        .global ColMap_119b5c
+ColMap_119b5c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119b5e  @ $119B5E  (62 B)
+|  ColMap_119b5e  @ $119B5E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119b5e, "ax", @progbits
-        .global Zero_119b5e
-Zero_119b5e:
+        .section .text.ColMap_119b5e, "ax", @progbits
+        .global ColMap_119b5e
+ColMap_119b5e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119b9c  @ $119B9C  (16 B)
+|  ColMap_119b9c  @ $119B9C  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119b9c, "ax", @progbits
-        .global Data_119b9c
-Data_119b9c:
+        .section .text.ColMap_119b9c, "ax", @progbits
+        .global ColMap_119b9c
+ColMap_119b9c:
         .dc.w   0x1111                                                      | +00000
         .fill   13,1,0x00                      | +00002
         .dc.b   0xc1                            | +0000f
 
 | ----------------------------------------------------------------------------
-|  Zero_119bac  @ $119BAC  (48 B)
+|  ColMap_119bac  @ $119BAC  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119bac, "ax", @progbits
-        .global Zero_119bac
-Zero_119bac:
+        .section .text.ColMap_119bac, "ax", @progbits
+        .global ColMap_119bac
+ColMap_119bac:
         .fill   48,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119bdc  @ $119BDC  (20 B)
+|  ColMap_119bdc  @ $119BDC  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119bdc, "ax", @progbits
-        .global Data_119bdc
-Data_119bdc:
+        .section .text.ColMap_119bdc, "ax", @progbits
+        .global ColMap_119bdc
+ColMap_119bdc:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0xc300,0xcdc8,0x00cf                                        | +0000e
 
 | ----------------------------------------------------------------------------
-|  Zero_119bf0  @ $119BF0  (44 B)
+|  ColMap_119bf0  @ $119BF0  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119bf0, "ax", @progbits
-        .global Zero_119bf0
-Zero_119bf0:
+        .section .text.ColMap_119bf0, "ax", @progbits
+        .global ColMap_119bf0
+ColMap_119bf0:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119c1c  @ $119C1C  (20 B)
+|  ColMap_119c1c  @ $119C1C  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119c1c, "ax", @progbits
-        .global Data_119c1c
-Data_119c1c:
+        .section .text.ColMap_119c1c, "ax", @progbits
+        .global ColMap_119c1c
+ColMap_119c1c:
         .dc.w   0x1111                                                      | +00000
         .fill   14,1,0x00                      | +00002
         .dc.w   0xc9ca,0xcfcf                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Zero_119c30  @ $119C30  (44 B)
+|  ColMap_119c30  @ $119C30  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119c30, "ax", @progbits
-        .global Zero_119c30
-Zero_119c30:
+        .section .text.ColMap_119c30, "ax", @progbits
+        .global ColMap_119c30
+ColMap_119c30:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119c5c  @ $119C5C  (20 B)
+|  ColMap_119c5c  @ $119C5C  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119c5c, "ax", @progbits
-        .global Data_119c5c
-Data_119c5c:
+        .section .text.ColMap_119c5c, "ax", @progbits
+        .global ColMap_119c5c
+ColMap_119c5c:
         .dc.w   0x1111                                                      | +00000
         .fill   14,1,0x00                      | +00002
         .dc.w   0xcb00,0xcfc1                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Zero_119c70  @ $119C70  (44 B)
+|  ColMap_119c70  @ $119C70  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119c70, "ax", @progbits
-        .global Zero_119c70
-Zero_119c70:
+        .section .text.ColMap_119c70, "ax", @progbits
+        .global ColMap_119c70
+ColMap_119c70:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119c9c  @ $119C9C  (20 B)
+|  ColMap_119c9c  @ $119C9C  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119c9c, "ax", @progbits
-        .global Data_119c9c
-Data_119c9c:
+        .section .text.ColMap_119c9c, "ax", @progbits
+        .global ColMap_119c9c
+ColMap_119c9c:
         .dc.w   0x1111                                                      | +00000
         .fill   16,1,0x00                      | +00002
         .dc.w   0xc1c1                                                      | +00012
 
 | ----------------------------------------------------------------------------
-|  Zero_119cb0  @ $119CB0  (44 B)
+|  ColMap_119cb0  @ $119CB0  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119cb0, "ax", @progbits
-        .global Zero_119cb0
-Zero_119cb0:
+        .section .text.ColMap_119cb0, "ax", @progbits
+        .global ColMap_119cb0
+ColMap_119cb0:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119cdc  @ $119CDC  (19 B)
+|  ColMap_119cdc  @ $119CDC  (19 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119cdc, "ax", @progbits
-        .global Data_119cdc
-Data_119cdc:
+        .section .text.ColMap_119cdc, "ax", @progbits
+        .global ColMap_119cdc
+ColMap_119cdc:
         .dc.w   0x1111                                                      | +00000
         .fill   16,1,0x00                      | +00002
         .dc.b   0xc1                            | +00012
 
 | ----------------------------------------------------------------------------
-|  Zero_119cef  @ $119CEF  (45 B)
+|  ColMap_119cef  @ $119CEF  (45 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119cef, "ax", @progbits
-        .global Zero_119cef
-Zero_119cef:
+        .section .text.ColMap_119cef, "ax", @progbits
+        .global ColMap_119cef
+ColMap_119cef:
         .fill   45,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119d1c  @ $119D1C  (2 B)
+|  ColMap_119d1c  @ $119D1C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119d1c, "ax", @progbits
-        .global Data_119d1c
-Data_119d1c:
+        .section .text.ColMap_119d1c, "ax", @progbits
+        .global ColMap_119d1c
+ColMap_119d1c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119d1e  @ $119D1E  (62 B)
+|  ColMap_119d1e  @ $119D1E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119d1e, "ax", @progbits
-        .global Zero_119d1e
-Zero_119d1e:
+        .section .text.ColMap_119d1e, "ax", @progbits
+        .global ColMap_119d1e
+ColMap_119d1e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119d5c  @ $119D5C  (2 B)
+|  ColMap_119d5c  @ $119D5C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119d5c, "ax", @progbits
-        .global Data_119d5c
-Data_119d5c:
+        .section .text.ColMap_119d5c, "ax", @progbits
+        .global ColMap_119d5c
+ColMap_119d5c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119d5e  @ $119D5E  (62 B)
+|  ColMap_119d5e  @ $119D5E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119d5e, "ax", @progbits
-        .global Zero_119d5e
-Zero_119d5e:
+        .section .text.ColMap_119d5e, "ax", @progbits
+        .global ColMap_119d5e
+ColMap_119d5e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119d9c  @ $119D9C  (2 B)
+|  ColMap_119d9c  @ $119D9C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119d9c, "ax", @progbits
-        .global Data_119d9c
-Data_119d9c:
+        .section .text.ColMap_119d9c, "ax", @progbits
+        .global ColMap_119d9c
+ColMap_119d9c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119d9e  @ $119D9E  (62 B)
+|  ColMap_119d9e  @ $119D9E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119d9e, "ax", @progbits
-        .global Zero_119d9e
-Zero_119d9e:
+        .section .text.ColMap_119d9e, "ax", @progbits
+        .global ColMap_119d9e
+ColMap_119d9e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119ddc  @ $119DDC  (2 B)
+|  ColMap_119ddc  @ $119DDC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119ddc, "ax", @progbits
-        .global Data_119ddc
-Data_119ddc:
+        .section .text.ColMap_119ddc, "ax", @progbits
+        .global ColMap_119ddc
+ColMap_119ddc:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119dde  @ $119DDE  (62 B)
+|  ColMap_119dde  @ $119DDE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119dde, "ax", @progbits
-        .global Zero_119dde
-Zero_119dde:
+        .section .text.ColMap_119dde, "ax", @progbits
+        .global ColMap_119dde
+ColMap_119dde:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119e1c  @ $119E1C  (2 B)
+|  ColMap_119e1c  @ $119E1C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119e1c, "ax", @progbits
-        .global Data_119e1c
-Data_119e1c:
+        .section .text.ColMap_119e1c, "ax", @progbits
+        .global ColMap_119e1c
+ColMap_119e1c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_119e1e  @ $119E1E  (38 B)
+|  ColMap_119e1e  @ $119E1E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119e1e, "ax", @progbits
-        .global Zero_119e1e
-Zero_119e1e:
+        .section .text.ColMap_119e1e, "ax", @progbits
+        .global ColMap_119e1e
+ColMap_119e1e:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119e44  @ $119E44  (26 B)
+|  ColMap_119e44  @ $119E44  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119e44, "ax", @progbits
-        .global Data_119e44
-Data_119e44:
+        .section .text.ColMap_119e44, "ax", @progbits
+        .global ColMap_119e44
+ColMap_119e44:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_119e5e  @ $119E5E  (38 B)
+|  ColMap_119e5e  @ $119E5E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119e5e, "ax", @progbits
-        .global Zero_119e5e
-Zero_119e5e:
+        .section .text.ColMap_119e5e, "ax", @progbits
+        .global ColMap_119e5e
+ColMap_119e5e:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119e84  @ $119E84  (26 B)
+|  ColMap_119e84  @ $119E84  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119e84, "ax", @progbits
-        .global Data_119e84
-Data_119e84:
+        .section .text.ColMap_119e84, "ax", @progbits
+        .global ColMap_119e84
+ColMap_119e84:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_119e9e  @ $119E9E  (38 B)
+|  ColMap_119e9e  @ $119E9E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119e9e, "ax", @progbits
-        .global Zero_119e9e
-Zero_119e9e:
+        .section .text.ColMap_119e9e, "ax", @progbits
+        .global ColMap_119e9e
+ColMap_119e9e:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119ec4  @ $119EC4  (26 B)
+|  ColMap_119ec4  @ $119EC4  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119ec4, "ax", @progbits
-        .global Data_119ec4
-Data_119ec4:
+        .section .text.ColMap_119ec4, "ax", @progbits
+        .global ColMap_119ec4
+ColMap_119ec4:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_119ede  @ $119EDE  (38 B)
+|  ColMap_119ede  @ $119EDE  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119ede, "ax", @progbits
-        .global Zero_119ede
-Zero_119ede:
+        .section .text.ColMap_119ede, "ax", @progbits
+        .global ColMap_119ede
+ColMap_119ede:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119f04  @ $119F04  (26 B)
+|  ColMap_119f04  @ $119F04  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119f04, "ax", @progbits
-        .global Data_119f04
-Data_119f04:
+        .section .text.ColMap_119f04, "ax", @progbits
+        .global ColMap_119f04
+ColMap_119f04:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_119f1e  @ $119F1E  (38 B)
+|  ColMap_119f1e  @ $119F1E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119f1e, "ax", @progbits
-        .global Zero_119f1e
-Zero_119f1e:
+        .section .text.ColMap_119f1e, "ax", @progbits
+        .global ColMap_119f1e
+ColMap_119f1e:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119f44  @ $119F44  (26 B)
+|  ColMap_119f44  @ $119F44  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119f44, "ax", @progbits
-        .global Data_119f44
-Data_119f44:
+        .section .text.ColMap_119f44, "ax", @progbits
+        .global ColMap_119f44
+ColMap_119f44:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_119f5e  @ $119F5E  (38 B)
+|  ColMap_119f5e  @ $119F5E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119f5e, "ax", @progbits
-        .global Zero_119f5e
-Zero_119f5e:
+        .section .text.ColMap_119f5e, "ax", @progbits
+        .global ColMap_119f5e
+ColMap_119f5e:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119f84  @ $119F84  (26 B)
+|  ColMap_119f84  @ $119F84  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119f84, "ax", @progbits
-        .global Data_119f84
-Data_119f84:
+        .section .text.ColMap_119f84, "ax", @progbits
+        .global ColMap_119f84
+ColMap_119f84:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_119f9e  @ $119F9E  (38 B)
+|  ColMap_119f9e  @ $119F9E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119f9e, "ax", @progbits
-        .global Zero_119f9e
-Zero_119f9e:
+        .section .text.ColMap_119f9e, "ax", @progbits
+        .global ColMap_119f9e
+ColMap_119f9e:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_119fc4  @ $119FC4  (26 B)
+|  ColMap_119fc4  @ $119FC4  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_119fc4, "ax", @progbits
-        .global Data_119fc4
-Data_119fc4:
+        .section .text.ColMap_119fc4, "ax", @progbits
+        .global ColMap_119fc4
+ColMap_119fc4:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_119fde  @ $119FDE  (38 B)
+|  ColMap_119fde  @ $119FDE  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_119fde, "ax", @progbits
-        .global Zero_119fde
-Zero_119fde:
+        .section .text.ColMap_119fde, "ax", @progbits
+        .global ColMap_119fde
+ColMap_119fde:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a004  @ $11A004  (26 B)
+|  ColMap_11a004  @ $11A004  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a004, "ax", @progbits
-        .global Data_11a004
-Data_11a004:
+        .section .text.ColMap_11a004, "ax", @progbits
+        .global ColMap_11a004
+ColMap_11a004:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_11a01e  @ $11A01E  (38 B)
+|  ColMap_11a01e  @ $11A01E  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a01e, "ax", @progbits
-        .global Zero_11a01e
-Zero_11a01e:
+        .section .text.ColMap_11a01e, "ax", @progbits
+        .global ColMap_11a01e
+ColMap_11a01e:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a044  @ $11A044  (26 B)
+|  ColMap_11a044  @ $11A044  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a044, "ax", @progbits
-        .global Data_11a044
-Data_11a044:
+        .section .text.ColMap_11a044, "ax", @progbits
+        .global ColMap_11a044
+ColMap_11a044:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_11a05e  @ $11A05E  (62 B)
+|  ColMap_11a05e  @ $11A05E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a05e, "ax", @progbits
-        .global Zero_11a05e
-Zero_11a05e:
+        .section .text.ColMap_11a05e, "ax", @progbits
+        .global ColMap_11a05e
+ColMap_11a05e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a09c  @ $11A09C  (2 B)
+|  ColMap_11a09c  @ $11A09C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a09c, "ax", @progbits
-        .global Data_11a09c
-Data_11a09c:
+        .section .text.ColMap_11a09c, "ax", @progbits
+        .global ColMap_11a09c
+ColMap_11a09c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a09e  @ $11A09E  (62 B)
+|  ColMap_11a09e  @ $11A09E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a09e, "ax", @progbits
-        .global Zero_11a09e
-Zero_11a09e:
+        .section .text.ColMap_11a09e, "ax", @progbits
+        .global ColMap_11a09e
+ColMap_11a09e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a0dc  @ $11A0DC  (2 B)
+|  ColMap_11a0dc  @ $11A0DC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a0dc, "ax", @progbits
-        .global Data_11a0dc
-Data_11a0dc:
+        .section .text.ColMap_11a0dc, "ax", @progbits
+        .global ColMap_11a0dc
+ColMap_11a0dc:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a0de  @ $11A0DE  (62 B)
+|  ColMap_11a0de  @ $11A0DE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a0de, "ax", @progbits
-        .global Zero_11a0de
-Zero_11a0de:
+        .section .text.ColMap_11a0de, "ax", @progbits
+        .global ColMap_11a0de
+ColMap_11a0de:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a11c  @ $11A11C  (2 B)
+|  ColMap_11a11c  @ $11A11C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a11c, "ax", @progbits
-        .global Data_11a11c
-Data_11a11c:
+        .section .text.ColMap_11a11c, "ax", @progbits
+        .global ColMap_11a11c
+ColMap_11a11c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a11e  @ $11A11E  (62 B)
+|  ColMap_11a11e  @ $11A11E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a11e, "ax", @progbits
-        .global Zero_11a11e
-Zero_11a11e:
+        .section .text.ColMap_11a11e, "ax", @progbits
+        .global ColMap_11a11e
+ColMap_11a11e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a15c  @ $11A15C  (2 B)
+|  ColMap_11a15c  @ $11A15C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a15c, "ax", @progbits
-        .global Data_11a15c
-Data_11a15c:
+        .section .text.ColMap_11a15c, "ax", @progbits
+        .global ColMap_11a15c
+ColMap_11a15c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a15e  @ $11A15E  (62 B)
+|  ColMap_11a15e  @ $11A15E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a15e, "ax", @progbits
-        .global Zero_11a15e
-Zero_11a15e:
+        .section .text.ColMap_11a15e, "ax", @progbits
+        .global ColMap_11a15e
+ColMap_11a15e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a19c  @ $11A19C  (2 B)
+|  ColMap_11a19c  @ $11A19C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a19c, "ax", @progbits
-        .global Data_11a19c
-Data_11a19c:
+        .section .text.ColMap_11a19c, "ax", @progbits
+        .global ColMap_11a19c
+ColMap_11a19c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a19e  @ $11A19E  (62 B)
+|  ColMap_11a19e  @ $11A19E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a19e, "ax", @progbits
-        .global Zero_11a19e
-Zero_11a19e:
+        .section .text.ColMap_11a19e, "ax", @progbits
+        .global ColMap_11a19e
+ColMap_11a19e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a1dc  @ $11A1DC  (2 B)
+|  ColMap_11a1dc  @ $11A1DC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a1dc, "ax", @progbits
-        .global Data_11a1dc
-Data_11a1dc:
+        .section .text.ColMap_11a1dc, "ax", @progbits
+        .global ColMap_11a1dc
+ColMap_11a1dc:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a1de  @ $11A1DE  (62 B)
+|  ColMap_11a1de  @ $11A1DE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a1de, "ax", @progbits
-        .global Zero_11a1de
-Zero_11a1de:
+        .section .text.ColMap_11a1de, "ax", @progbits
+        .global ColMap_11a1de
+ColMap_11a1de:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a21c  @ $11A21C  (2 B)
+|  ColMap_11a21c  @ $11A21C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a21c, "ax", @progbits
-        .global Data_11a21c
-Data_11a21c:
+        .section .text.ColMap_11a21c, "ax", @progbits
+        .global ColMap_11a21c
+ColMap_11a21c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a21e  @ $11A21E  (62 B)
+|  ColMap_11a21e  @ $11A21E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a21e, "ax", @progbits
-        .global Zero_11a21e
-Zero_11a21e:
+        .section .text.ColMap_11a21e, "ax", @progbits
+        .global ColMap_11a21e
+ColMap_11a21e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a25c  @ $11A25C  (2 B)
+|  ColMap_11a25c  @ $11A25C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a25c, "ax", @progbits
-        .global Data_11a25c
-Data_11a25c:
+        .section .text.ColMap_11a25c, "ax", @progbits
+        .global ColMap_11a25c
+ColMap_11a25c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a25e  @ $11A25E  (62 B)
+|  ColMap_11a25e  @ $11A25E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a25e, "ax", @progbits
-        .global Zero_11a25e
-Zero_11a25e:
+        .section .text.ColMap_11a25e, "ax", @progbits
+        .global ColMap_11a25e
+ColMap_11a25e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a29c  @ $11A29C  (2 B)
+|  ColMap_11a29c  @ $11A29C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a29c, "ax", @progbits
-        .global Data_11a29c
-Data_11a29c:
+        .section .text.ColMap_11a29c, "ax", @progbits
+        .global ColMap_11a29c
+ColMap_11a29c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a29e  @ $11A29E  (62 B)
+|  ColMap_11a29e  @ $11A29E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a29e, "ax", @progbits
-        .global Zero_11a29e
-Zero_11a29e:
+        .section .text.ColMap_11a29e, "ax", @progbits
+        .global ColMap_11a29e
+ColMap_11a29e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a2dc  @ $11A2DC  (2 B)
+|  ColMap_11a2dc  @ $11A2DC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a2dc, "ax", @progbits
-        .global Data_11a2dc
-Data_11a2dc:
+        .section .text.ColMap_11a2dc, "ax", @progbits
+        .global ColMap_11a2dc
+ColMap_11a2dc:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a2de  @ $11A2DE  (62 B)
+|  ColMap_11a2de  @ $11A2DE  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a2de, "ax", @progbits
-        .global Zero_11a2de
-Zero_11a2de:
+        .section .text.ColMap_11a2de, "ax", @progbits
+        .global ColMap_11a2de
+ColMap_11a2de:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a31c  @ $11A31C  (2 B)
+|  ColMap_11a31c  @ $11A31C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a31c, "ax", @progbits
-        .global Data_11a31c
-Data_11a31c:
+        .section .text.ColMap_11a31c, "ax", @progbits
+        .global ColMap_11a31c
+ColMap_11a31c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a31e  @ $11A31E  (62 B)
+|  ColMap_11a31e  @ $11A31E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a31e, "ax", @progbits
-        .global Zero_11a31e
-Zero_11a31e:
+        .section .text.ColMap_11a31e, "ax", @progbits
+        .global ColMap_11a31e
+ColMap_11a31e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a35c  @ $11A35C  (2 B)
+|  ColMap_11a35c  @ $11A35C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a35c, "ax", @progbits
-        .global Data_11a35c
-Data_11a35c:
+        .section .text.ColMap_11a35c, "ax", @progbits
+        .global ColMap_11a35c
+ColMap_11a35c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a35e  @ $11A35E  (62 B)
+|  ColMap_11a35e  @ $11A35E  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a35e, "ax", @progbits
-        .global Zero_11a35e
-Zero_11a35e:
+        .section .text.ColMap_11a35e, "ax", @progbits
+        .global ColMap_11a35e
+ColMap_11a35e:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a39c  @ $11A39C  (2 B)
+|  ColMap_11a39c  @ $11A39C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a39c, "ax", @progbits
-        .global Data_11a39c
-Data_11a39c:
+        .section .text.ColMap_11a39c, "ax", @progbits
+        .global ColMap_11a39c
+ColMap_11a39c:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a39e  @ $11A39E  (60 B)
+|  ColMap_11a39e  @ $11A39E  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a39e, "ax", @progbits
-        .global Zero_11a39e
-Zero_11a39e:
+        .section .text.ColMap_11a39e, "ax", @progbits
+        .global ColMap_11a39e
+ColMap_11a39e:
         .fill   60,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a3da  @ $11A3DA  (4 B)
+|  ColMap_11a3da  @ $11A3DA  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a3da, "ax", @progbits
-        .global Data_11a3da
-Data_11a3da:
+        .section .text.ColMap_11a3da, "ax", @progbits
+        .global ColMap_11a3da
+ColMap_11a3da:
         .dc.w   0x1415,0x2011                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a3de  @ $11A3DE  (60 B)
+|  ColMap_11a3de  @ $11A3DE  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a3de, "ax", @progbits
-        .global Zero_11a3de
-Zero_11a3de:
+        .section .text.ColMap_11a3de, "ax", @progbits
+        .global ColMap_11a3de
+ColMap_11a3de:
         .fill   60,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a41a  @ $11A41A  (4 B)
+|  ColMap_11a41a  @ $11A41A  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a41a, "ax", @progbits
-        .global Data_11a41a
-Data_11a41a:
+        .section .text.ColMap_11a41a, "ax", @progbits
+        .global ColMap_11a41a
+ColMap_11a41a:
         .dc.w   0x1617,0x1111                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a41e  @ $11A41E  (58 B)
+|  ColMap_11a41e  @ $11A41E  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a41e, "ax", @progbits
-        .global Zero_11a41e
-Zero_11a41e:
+        .section .text.ColMap_11a41e, "ax", @progbits
+        .global ColMap_11a41e
+ColMap_11a41e:
         .fill   58,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a458  @ $11A458  (6 B)
+|  ColMap_11a458  @ $11A458  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a458, "ax", @progbits
-        .global Data_11a458
-Data_11a458:
+        .section .text.ColMap_11a458, "ax", @progbits
+        .global ColMap_11a458
+ColMap_11a458:
         .dc.w   0x1415,0x1e1e,0x1111                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a45e  @ $11A45E  (58 B)
+|  ColMap_11a45e  @ $11A45E  (58 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a45e, "ax", @progbits
-        .global Zero_11a45e
-Zero_11a45e:
+        .section .text.ColMap_11a45e, "ax", @progbits
+        .global ColMap_11a45e
+ColMap_11a45e:
         .fill   58,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a498  @ $11A498  (6 B)
+|  ColMap_11a498  @ $11A498  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a498, "ax", @progbits
-        .global Data_11a498
-Data_11a498:
+        .section .text.ColMap_11a498, "ax", @progbits
+        .global ColMap_11a498
+ColMap_11a498:
         .dc.w   0x1617,0x1e1e,0x1111                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a49e  @ $11A49E  (56 B)
+|  ColMap_11a49e  @ $11A49E  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a49e, "ax", @progbits
-        .global Zero_11a49e
-Zero_11a49e:
+        .section .text.ColMap_11a49e, "ax", @progbits
+        .global ColMap_11a49e
+ColMap_11a49e:
         .fill   56,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a4d6  @ $11A4D6  (10 B)
+|  ColMap_11a4d6  @ $11A4D6  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a4d6, "ax", @progbits
-        .global Data_11a4d6
-Data_11a4d6:
+        .section .text.ColMap_11a4d6, "ax", @progbits
+        .global ColMap_11a4d6
+ColMap_11a4d6:
         .dc.w   0x1415,0x1e1e,0x3e00,0x1108,0x340f                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a4e0  @ $11A4E0  (54 B)
+|  ColMap_11a4e0  @ $11A4E0  (54 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a4e0, "ax", @progbits
-        .global Zero_11a4e0
-Zero_11a4e0:
+        .section .text.ColMap_11a4e0, "ax", @progbits
+        .global ColMap_11a4e0
+ColMap_11a4e0:
         .fill   54,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a516  @ $11A516  (10 B)
+|  ColMap_11a516  @ $11A516  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a516, "ax", @progbits
-        .global Data_11a516
-Data_11a516:
+        .section .text.ColMap_11a516, "ax", @progbits
+        .global ColMap_11a516
+ColMap_11a516:
         .dc.w   0x1617,0x1e1e,0x0000,0x090a,0x0f0f                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a520  @ $11A520  (52 B)
+|  ColMap_11a520  @ $11A520  (52 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a520, "ax", @progbits
-        .global Zero_11a520
-Zero_11a520:
+        .section .text.ColMap_11a520, "ax", @progbits
+        .global ColMap_11a520
+ColMap_11a520:
         .fill   52,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a554  @ $11A554  (14 B)
+|  ColMap_11a554  @ $11A554  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a554, "ax", @progbits
-        .global Data_11a554
-Data_11a554:
+        .section .text.ColMap_11a554, "ax", @progbits
+        .global ColMap_11a554
+ColMap_11a554:
         .dc.w   0x1415,0x1e1e,0x3e00,0x0000,0x0b00,0x0f08,0x2f0f            | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a562  @ $11A562  (50 B)
+|  ColMap_11a562  @ $11A562  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a562, "ax", @progbits
-        .global Zero_11a562
-Zero_11a562:
+        .section .text.ColMap_11a562, "ax", @progbits
+        .global ColMap_11a562
+ColMap_11a562:
         .fill   50,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a594  @ $11A594  (14 B)
+|  ColMap_11a594  @ $11A594  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a594, "ax", @progbits
-        .global Data_11a594
-Data_11a594:
+        .section .text.ColMap_11a594, "ax", @progbits
+        .global ColMap_11a594
+ColMap_11a594:
         .dc.w   0x1617,0x1e1e,0x0000,0x0000,0x0000,0x090a,0x0f0f            | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a5a2  @ $11A5A2  (50 B)
+|  ColMap_11a5a2  @ $11A5A2  (50 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a5a2, "ax", @progbits
-        .global Zero_11a5a2
-Zero_11a5a2:
+        .section .text.ColMap_11a5a2, "ax", @progbits
+        .global ColMap_11a5a2
+ColMap_11a5a2:
         .fill   50,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a5d4  @ $11A5D4  (16 B)
+|  ColMap_11a5d4  @ $11A5D4  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a5d4, "ax", @progbits
-        .global Data_11a5d4
-Data_11a5d4:
+        .section .text.ColMap_11a5d4, "ax", @progbits
+        .global ColMap_11a5d4
+ColMap_11a5d4:
         .dc.w   0x1111,0x3400,0x0000,0x0000,0x0000,0x0b00,0x0f08,0x2f0f     | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11a5e4  @ $11A5E4  (48 B)
+|  ColMap_11a5e4  @ $11A5E4  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a5e4, "ax", @progbits
-        .global Zero_11a5e4
-Zero_11a5e4:
+        .section .text.ColMap_11a5e4, "ax", @progbits
+        .global ColMap_11a5e4
+ColMap_11a5e4:
         .fill   48,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a614  @ $11A614  (16 B)
+|  ColMap_11a614  @ $11A614  (16 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a614, "ax", @progbits
-        .global Data_11a614
-Data_11a614:
+        .section .text.ColMap_11a614, "ax", @progbits
+        .global ColMap_11a614
+ColMap_11a614:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x090a,0x0f0f                                               | +0000c
 
 | ----------------------------------------------------------------------------
-|  Zero_11a624  @ $11A624  (48 B)
+|  ColMap_11a624  @ $11A624  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a624, "ax", @progbits
-        .global Zero_11a624
-Zero_11a624:
+        .section .text.ColMap_11a624, "ax", @progbits
+        .global ColMap_11a624
+ColMap_11a624:
         .fill   48,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a654  @ $11A654  (18 B)
+|  ColMap_11a654  @ $11A654  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a654, "ax", @progbits
-        .global Data_11a654
-Data_11a654:
+        .section .text.ColMap_11a654, "ax", @progbits
+        .global ColMap_11a654
+ColMap_11a654:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x0b00,0x0f08,0x2f0f                                        | +0000c
 
 | ----------------------------------------------------------------------------
-|  Zero_11a666  @ $11A666  (46 B)
+|  ColMap_11a666  @ $11A666  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a666, "ax", @progbits
-        .global Zero_11a666
-Zero_11a666:
+        .section .text.ColMap_11a666, "ax", @progbits
+        .global ColMap_11a666
+ColMap_11a666:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a694  @ $11A694  (18 B)
+|  ColMap_11a694  @ $11A694  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a694, "ax", @progbits
-        .global Data_11a694
-Data_11a694:
+        .section .text.ColMap_11a694, "ax", @progbits
+        .global ColMap_11a694
+ColMap_11a694:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x090a,0x0f0f                                               | +0000e
 
 | ----------------------------------------------------------------------------
-|  Zero_11a6a6  @ $11A6A6  (46 B)
+|  ColMap_11a6a6  @ $11A6A6  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a6a6, "ax", @progbits
-        .global Zero_11a6a6
-Zero_11a6a6:
+        .section .text.ColMap_11a6a6, "ax", @progbits
+        .global ColMap_11a6a6
+ColMap_11a6a6:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a6d4  @ $11A6D4  (20 B)
+|  ColMap_11a6d4  @ $11A6D4  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a6d4, "ax", @progbits
-        .global Data_11a6d4
-Data_11a6d4:
+        .section .text.ColMap_11a6d4, "ax", @progbits
+        .global ColMap_11a6d4
+ColMap_11a6d4:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x0b00,0x0f08,0x2f0f                                        | +0000e
 
 | ----------------------------------------------------------------------------
-|  Zero_11a6e8  @ $11A6E8  (44 B)
+|  ColMap_11a6e8  @ $11A6E8  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a6e8, "ax", @progbits
-        .global Zero_11a6e8
-Zero_11a6e8:
+        .section .text.ColMap_11a6e8, "ax", @progbits
+        .global ColMap_11a6e8
+ColMap_11a6e8:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a714  @ $11A714  (20 B)
+|  ColMap_11a714  @ $11A714  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a714, "ax", @progbits
-        .global Data_11a714
-Data_11a714:
+        .section .text.ColMap_11a714, "ax", @progbits
+        .global ColMap_11a714
+ColMap_11a714:
         .dc.w   0x1111                                                      | +00000
         .fill   14,1,0x00                      | +00002
         .dc.w   0x090a,0x0f0f                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Zero_11a728  @ $11A728  (44 B)
+|  ColMap_11a728  @ $11A728  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a728, "ax", @progbits
-        .global Zero_11a728
-Zero_11a728:
+        .section .text.ColMap_11a728, "ax", @progbits
+        .global ColMap_11a728
+ColMap_11a728:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a754  @ $11A754  (22 B)
+|  ColMap_11a754  @ $11A754  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a754, "ax", @progbits
-        .global Data_11a754
-Data_11a754:
+        .section .text.ColMap_11a754, "ax", @progbits
+        .global ColMap_11a754
+ColMap_11a754:
         .dc.w   0x1111                                                      | +00000
         .fill   14,1,0x00                      | +00002
         .dc.w   0x0b00,0x0f08,0x2f0f                                        | +00010
 
 | ----------------------------------------------------------------------------
-|  Zero_11a76a  @ $11A76A  (42 B)
+|  ColMap_11a76a  @ $11A76A  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a76a, "ax", @progbits
-        .global Zero_11a76a
-Zero_11a76a:
+        .section .text.ColMap_11a76a, "ax", @progbits
+        .global ColMap_11a76a
+ColMap_11a76a:
         .fill   42,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a794  @ $11A794  (22 B)
+|  ColMap_11a794  @ $11A794  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a794, "ax", @progbits
-        .global Data_11a794
-Data_11a794:
+        .section .text.ColMap_11a794, "ax", @progbits
+        .global ColMap_11a794
+ColMap_11a794:
         .dc.w   0x1111                                                      | +00000
         .fill   16,1,0x00                      | +00002
         .dc.w   0x090a,0x0f0f                                               | +00012
 
 | ----------------------------------------------------------------------------
-|  Zero_11a7aa  @ $11A7AA  (42 B)
+|  ColMap_11a7aa  @ $11A7AA  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a7aa, "ax", @progbits
-        .global Zero_11a7aa
-Zero_11a7aa:
+        .section .text.ColMap_11a7aa, "ax", @progbits
+        .global ColMap_11a7aa
+ColMap_11a7aa:
         .fill   42,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a7d4  @ $11A7D4  (24 B)
+|  ColMap_11a7d4  @ $11A7D4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a7d4, "ax", @progbits
-        .global Data_11a7d4
-Data_11a7d4:
+        .section .text.ColMap_11a7d4, "ax", @progbits
+        .global ColMap_11a7d4
+ColMap_11a7d4:
         .dc.w   0x1111                                                      | +00000
         .fill   16,1,0x00                      | +00002
         .dc.w   0x0b00,0x0f08,0x2f0f                                        | +00012
 
 | ----------------------------------------------------------------------------
-|  Zero_11a7ec  @ $11A7EC  (40 B)
+|  ColMap_11a7ec  @ $11A7EC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a7ec, "ax", @progbits
-        .global Zero_11a7ec
-Zero_11a7ec:
+        .section .text.ColMap_11a7ec, "ax", @progbits
+        .global ColMap_11a7ec
+ColMap_11a7ec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a814  @ $11A814  (24 B)
+|  ColMap_11a814  @ $11A814  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a814, "ax", @progbits
-        .global Data_11a814
-Data_11a814:
+        .section .text.ColMap_11a814, "ax", @progbits
+        .global ColMap_11a814
+ColMap_11a814:
         .dc.w   0x1111                                                      | +00000
         .fill   18,1,0x00                      | +00002
         .dc.w   0x090a,0x0f0f                                               | +00014
 
 | ----------------------------------------------------------------------------
-|  Zero_11a82c  @ $11A82C  (40 B)
+|  ColMap_11a82c  @ $11A82C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a82c, "ax", @progbits
-        .global Zero_11a82c
-Zero_11a82c:
+        .section .text.ColMap_11a82c, "ax", @progbits
+        .global ColMap_11a82c
+ColMap_11a82c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a854  @ $11A854  (25 B)
+|  ColMap_11a854  @ $11A854  (25 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a854, "ax", @progbits
-        .global Data_11a854
-Data_11a854:
+        .section .text.ColMap_11a854, "ax", @progbits
+        .global ColMap_11a854
+ColMap_11a854:
         .dc.w   0x1111                                                      | +00000
         .fill   18,1,0x00                      | +00002
         .dc.w   0x0b00,0x0f01                                               | +00014
         .dc.b   0x2f                            | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_11a86d  @ $11A86D  (39 B)
+|  ColMap_11a86d  @ $11A86D  (39 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a86d, "ax", @progbits
-        .global Zero_11a86d
-Zero_11a86d:
+        .section .text.ColMap_11a86d, "ax", @progbits
+        .global ColMap_11a86d
+ColMap_11a86d:
         .fill   39,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a894  @ $11A894  (24 B)
+|  ColMap_11a894  @ $11A894  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a894, "ax", @progbits
-        .global Data_11a894
-Data_11a894:
+        .section .text.ColMap_11a894, "ax", @progbits
+        .global ColMap_11a894
+ColMap_11a894:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11a8ac  @ $11A8AC  (40 B)
+|  ColMap_11a8ac  @ $11A8AC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a8ac, "ax", @progbits
-        .global Zero_11a8ac
-Zero_11a8ac:
+        .section .text.ColMap_11a8ac, "ax", @progbits
+        .global ColMap_11a8ac
+ColMap_11a8ac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a8d4  @ $11A8D4  (24 B)
+|  ColMap_11a8d4  @ $11A8D4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a8d4, "ax", @progbits
-        .global Data_11a8d4
-Data_11a8d4:
+        .section .text.ColMap_11a8d4, "ax", @progbits
+        .global ColMap_11a8d4
+ColMap_11a8d4:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11a8ec  @ $11A8EC  (40 B)
+|  ColMap_11a8ec  @ $11A8EC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a8ec, "ax", @progbits
-        .global Zero_11a8ec
-Zero_11a8ec:
+        .section .text.ColMap_11a8ec, "ax", @progbits
+        .global ColMap_11a8ec
+ColMap_11a8ec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a914  @ $11A914  (24 B)
+|  ColMap_11a914  @ $11A914  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a914, "ax", @progbits
-        .global Data_11a914
-Data_11a914:
+        .section .text.ColMap_11a914, "ax", @progbits
+        .global ColMap_11a914
+ColMap_11a914:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11a92c  @ $11A92C  (40 B)
+|  ColMap_11a92c  @ $11A92C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a92c, "ax", @progbits
-        .global Zero_11a92c
-Zero_11a92c:
+        .section .text.ColMap_11a92c, "ax", @progbits
+        .global ColMap_11a92c
+ColMap_11a92c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a954  @ $11A954  (24 B)
+|  ColMap_11a954  @ $11A954  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a954, "ax", @progbits
-        .global Data_11a954
-Data_11a954:
+        .section .text.ColMap_11a954, "ax", @progbits
+        .global ColMap_11a954
+ColMap_11a954:
         .dc.w   0x1111                                                      | +00000
         .fill   8,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000a
@@ -2845,19 +2875,19 @@ Data_11a954:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11a96c  @ $11A96C  (40 B)
+|  ColMap_11a96c  @ $11A96C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a96c, "ax", @progbits
-        .global Zero_11a96c
-Zero_11a96c:
+        .section .text.ColMap_11a96c, "ax", @progbits
+        .global ColMap_11a96c
+ColMap_11a96c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a994  @ $11A994  (24 B)
+|  ColMap_11a994  @ $11A994  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a994, "ax", @progbits
-        .global Data_11a994
-Data_11a994:
+        .section .text.ColMap_11a994, "ax", @progbits
+        .global ColMap_11a994
+ColMap_11a994:
         .dc.w   0x1111                                                      | +00000
         .fill   8,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000a
@@ -2865,19 +2895,19 @@ Data_11a994:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11a9ac  @ $11A9AC  (40 B)
+|  ColMap_11a9ac  @ $11A9AC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a9ac, "ax", @progbits
-        .global Zero_11a9ac
-Zero_11a9ac:
+        .section .text.ColMap_11a9ac, "ax", @progbits
+        .global ColMap_11a9ac
+ColMap_11a9ac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11a9d4  @ $11A9D4  (24 B)
+|  ColMap_11a9d4  @ $11A9D4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11a9d4, "ax", @progbits
-        .global Data_11a9d4
-Data_11a9d4:
+        .section .text.ColMap_11a9d4, "ax", @progbits
+        .global ColMap_11a9d4
+ColMap_11a9d4:
         .dc.w   0x1111                                                      | +00000
         .fill   8,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000a
@@ -2885,145 +2915,145 @@ Data_11a9d4:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11a9ec  @ $11A9EC  (40 B)
+|  ColMap_11a9ec  @ $11A9EC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11a9ec, "ax", @progbits
-        .global Zero_11a9ec
-Zero_11a9ec:
+        .section .text.ColMap_11a9ec, "ax", @progbits
+        .global ColMap_11a9ec
+ColMap_11a9ec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11aa14  @ $11AA14  (24 B)
+|  ColMap_11aa14  @ $11AA14  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11aa14, "ax", @progbits
-        .global Data_11aa14
-Data_11aa14:
+        .section .text.ColMap_11aa14, "ax", @progbits
+        .global ColMap_11aa14
+ColMap_11aa14:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11aa2c  @ $11AA2C  (40 B)
+|  ColMap_11aa2c  @ $11AA2C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11aa2c, "ax", @progbits
-        .global Zero_11aa2c
-Zero_11aa2c:
+        .section .text.ColMap_11aa2c, "ax", @progbits
+        .global ColMap_11aa2c
+ColMap_11aa2c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11aa54  @ $11AA54  (24 B)
+|  ColMap_11aa54  @ $11AA54  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11aa54, "ax", @progbits
-        .global Data_11aa54
-Data_11aa54:
+        .section .text.ColMap_11aa54, "ax", @progbits
+        .global ColMap_11aa54
+ColMap_11aa54:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11aa6c  @ $11AA6C  (40 B)
+|  ColMap_11aa6c  @ $11AA6C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11aa6c, "ax", @progbits
-        .global Zero_11aa6c
-Zero_11aa6c:
+        .section .text.ColMap_11aa6c, "ax", @progbits
+        .global ColMap_11aa6c
+ColMap_11aa6c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11aa94  @ $11AA94  (24 B)
+|  ColMap_11aa94  @ $11AA94  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11aa94, "ax", @progbits
-        .global Data_11aa94
-Data_11aa94:
+        .section .text.ColMap_11aa94, "ax", @progbits
+        .global ColMap_11aa94
+ColMap_11aa94:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11aaac  @ $11AAAC  (40 B)
+|  ColMap_11aaac  @ $11AAAC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11aaac, "ax", @progbits
-        .global Zero_11aaac
-Zero_11aaac:
+        .section .text.ColMap_11aaac, "ax", @progbits
+        .global ColMap_11aaac
+ColMap_11aaac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11aad4  @ $11AAD4  (24 B)
+|  ColMap_11aad4  @ $11AAD4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11aad4, "ax", @progbits
-        .global Data_11aad4
-Data_11aad4:
+        .section .text.ColMap_11aad4, "ax", @progbits
+        .global ColMap_11aad4
+ColMap_11aad4:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11aaec  @ $11AAEC  (40 B)
+|  ColMap_11aaec  @ $11AAEC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11aaec, "ax", @progbits
-        .global Zero_11aaec
-Zero_11aaec:
+        .section .text.ColMap_11aaec, "ax", @progbits
+        .global ColMap_11aaec
+ColMap_11aaec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ab14  @ $11AB14  (24 B)
+|  ColMap_11ab14  @ $11AB14  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ab14, "ax", @progbits
-        .global Data_11ab14
-Data_11ab14:
+        .section .text.ColMap_11ab14, "ax", @progbits
+        .global ColMap_11ab14
+ColMap_11ab14:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11ab2c  @ $11AB2C  (40 B)
+|  ColMap_11ab2c  @ $11AB2C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ab2c, "ax", @progbits
-        .global Zero_11ab2c
-Zero_11ab2c:
+        .section .text.ColMap_11ab2c, "ax", @progbits
+        .global ColMap_11ab2c
+ColMap_11ab2c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ab54  @ $11AB54  (24 B)
+|  ColMap_11ab54  @ $11AB54  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ab54, "ax", @progbits
-        .global Data_11ab54
-Data_11ab54:
+        .section .text.ColMap_11ab54, "ax", @progbits
+        .global ColMap_11ab54
+ColMap_11ab54:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11ab6c  @ $11AB6C  (40 B)
+|  ColMap_11ab6c  @ $11AB6C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ab6c, "ax", @progbits
-        .global Zero_11ab6c
-Zero_11ab6c:
+        .section .text.ColMap_11ab6c, "ax", @progbits
+        .global ColMap_11ab6c
+ColMap_11ab6c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ab94  @ $11AB94  (24 B)
+|  ColMap_11ab94  @ $11AB94  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ab94, "ax", @progbits
-        .global Data_11ab94
-Data_11ab94:
+        .section .text.ColMap_11ab94, "ax", @progbits
+        .global ColMap_11ab94
+ColMap_11ab94:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11abac  @ $11ABAC  (40 B)
+|  ColMap_11abac  @ $11ABAC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11abac, "ax", @progbits
-        .global Zero_11abac
-Zero_11abac:
+        .section .text.ColMap_11abac, "ax", @progbits
+        .global ColMap_11abac
+ColMap_11abac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11abd4  @ $11ABD4  (24 B)
+|  ColMap_11abd4  @ $11ABD4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11abd4, "ax", @progbits
-        .global Data_11abd4
-Data_11abd4:
+        .section .text.ColMap_11abd4, "ax", @progbits
+        .global ColMap_11abd4
+ColMap_11abd4:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000c
@@ -3031,19 +3061,19 @@ Data_11abd4:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11abec  @ $11ABEC  (40 B)
+|  ColMap_11abec  @ $11ABEC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11abec, "ax", @progbits
-        .global Zero_11abec
-Zero_11abec:
+        .section .text.ColMap_11abec, "ax", @progbits
+        .global ColMap_11abec
+ColMap_11abec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ac14  @ $11AC14  (24 B)
+|  ColMap_11ac14  @ $11AC14  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ac14, "ax", @progbits
-        .global Data_11ac14
-Data_11ac14:
+        .section .text.ColMap_11ac14, "ax", @progbits
+        .global ColMap_11ac14
+ColMap_11ac14:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000c
@@ -3051,109 +3081,109 @@ Data_11ac14:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11ac2c  @ $11AC2C  (40 B)
+|  ColMap_11ac2c  @ $11AC2C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ac2c, "ax", @progbits
-        .global Zero_11ac2c
-Zero_11ac2c:
+        .section .text.ColMap_11ac2c, "ax", @progbits
+        .global ColMap_11ac2c
+ColMap_11ac2c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ac54  @ $11AC54  (24 B)
+|  ColMap_11ac54  @ $11AC54  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ac54, "ax", @progbits
-        .global Data_11ac54
-Data_11ac54:
+        .section .text.ColMap_11ac54, "ax", @progbits
+        .global ColMap_11ac54
+ColMap_11ac54:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11ac6c  @ $11AC6C  (40 B)
+|  ColMap_11ac6c  @ $11AC6C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ac6c, "ax", @progbits
-        .global Zero_11ac6c
-Zero_11ac6c:
+        .section .text.ColMap_11ac6c, "ax", @progbits
+        .global ColMap_11ac6c
+ColMap_11ac6c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ac94  @ $11AC94  (24 B)
+|  ColMap_11ac94  @ $11AC94  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ac94, "ax", @progbits
-        .global Data_11ac94
-Data_11ac94:
+        .section .text.ColMap_11ac94, "ax", @progbits
+        .global ColMap_11ac94
+ColMap_11ac94:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11acac  @ $11ACAC  (40 B)
+|  ColMap_11acac  @ $11ACAC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11acac, "ax", @progbits
-        .global Zero_11acac
-Zero_11acac:
+        .section .text.ColMap_11acac, "ax", @progbits
+        .global ColMap_11acac
+ColMap_11acac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11acd4  @ $11ACD4  (24 B)
+|  ColMap_11acd4  @ $11ACD4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11acd4, "ax", @progbits
-        .global Data_11acd4
-Data_11acd4:
+        .section .text.ColMap_11acd4, "ax", @progbits
+        .global ColMap_11acd4
+ColMap_11acd4:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11acec  @ $11ACEC  (40 B)
+|  ColMap_11acec  @ $11ACEC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11acec, "ax", @progbits
-        .global Zero_11acec
-Zero_11acec:
+        .section .text.ColMap_11acec, "ax", @progbits
+        .global ColMap_11acec
+ColMap_11acec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ad14  @ $11AD14  (24 B)
+|  ColMap_11ad14  @ $11AD14  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ad14, "ax", @progbits
-        .global Data_11ad14
-Data_11ad14:
+        .section .text.ColMap_11ad14, "ax", @progbits
+        .global ColMap_11ad14
+ColMap_11ad14:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11ad2c  @ $11AD2C  (40 B)
+|  ColMap_11ad2c  @ $11AD2C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ad2c, "ax", @progbits
-        .global Zero_11ad2c
-Zero_11ad2c:
+        .section .text.ColMap_11ad2c, "ax", @progbits
+        .global ColMap_11ad2c
+ColMap_11ad2c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ad54  @ $11AD54  (24 B)
+|  ColMap_11ad54  @ $11AD54  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ad54, "ax", @progbits
-        .global Data_11ad54
-Data_11ad54:
+        .section .text.ColMap_11ad54, "ax", @progbits
+        .global ColMap_11ad54
+ColMap_11ad54:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11ad6c  @ $11AD6C  (40 B)
+|  ColMap_11ad6c  @ $11AD6C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ad6c, "ax", @progbits
-        .global Zero_11ad6c
-Zero_11ad6c:
+        .section .text.ColMap_11ad6c, "ax", @progbits
+        .global ColMap_11ad6c
+ColMap_11ad6c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ad94  @ $11AD94  (24 B)
+|  ColMap_11ad94  @ $11AD94  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ad94, "ax", @progbits
-        .global Data_11ad94
-Data_11ad94:
+        .section .text.ColMap_11ad94, "ax", @progbits
+        .global ColMap_11ad94
+ColMap_11ad94:
         .dc.w   0x1111                                                      | +00000
         .fill   8,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000a
@@ -3161,19 +3191,19 @@ Data_11ad94:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11adac  @ $11ADAC  (40 B)
+|  ColMap_11adac  @ $11ADAC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11adac, "ax", @progbits
-        .global Zero_11adac
-Zero_11adac:
+        .section .text.ColMap_11adac, "ax", @progbits
+        .global ColMap_11adac
+ColMap_11adac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11add4  @ $11ADD4  (24 B)
+|  ColMap_11add4  @ $11ADD4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11add4, "ax", @progbits
-        .global Data_11add4
-Data_11add4:
+        .section .text.ColMap_11add4, "ax", @progbits
+        .global ColMap_11add4
+ColMap_11add4:
         .dc.w   0x1111                                                      | +00000
         .fill   8,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000a
@@ -3181,19 +3211,19 @@ Data_11add4:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11adec  @ $11ADEC  (40 B)
+|  ColMap_11adec  @ $11ADEC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11adec, "ax", @progbits
-        .global Zero_11adec
-Zero_11adec:
+        .section .text.ColMap_11adec, "ax", @progbits
+        .global ColMap_11adec
+ColMap_11adec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ae14  @ $11AE14  (24 B)
+|  ColMap_11ae14  @ $11AE14  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ae14, "ax", @progbits
-        .global Data_11ae14
-Data_11ae14:
+        .section .text.ColMap_11ae14, "ax", @progbits
+        .global ColMap_11ae14
+ColMap_11ae14:
         .dc.w   0x1111                                                      | +00000
         .fill   8,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000a
@@ -3201,109 +3231,109 @@ Data_11ae14:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11ae2c  @ $11AE2C  (40 B)
+|  ColMap_11ae2c  @ $11AE2C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ae2c, "ax", @progbits
-        .global Zero_11ae2c
-Zero_11ae2c:
+        .section .text.ColMap_11ae2c, "ax", @progbits
+        .global ColMap_11ae2c
+ColMap_11ae2c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ae54  @ $11AE54  (24 B)
+|  ColMap_11ae54  @ $11AE54  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ae54, "ax", @progbits
-        .global Data_11ae54
-Data_11ae54:
+        .section .text.ColMap_11ae54, "ax", @progbits
+        .global ColMap_11ae54
+ColMap_11ae54:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11ae6c  @ $11AE6C  (40 B)
+|  ColMap_11ae6c  @ $11AE6C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ae6c, "ax", @progbits
-        .global Zero_11ae6c
-Zero_11ae6c:
+        .section .text.ColMap_11ae6c, "ax", @progbits
+        .global ColMap_11ae6c
+ColMap_11ae6c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ae94  @ $11AE94  (24 B)
+|  ColMap_11ae94  @ $11AE94  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ae94, "ax", @progbits
-        .global Data_11ae94
-Data_11ae94:
+        .section .text.ColMap_11ae94, "ax", @progbits
+        .global ColMap_11ae94
+ColMap_11ae94:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11aeac  @ $11AEAC  (40 B)
+|  ColMap_11aeac  @ $11AEAC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11aeac, "ax", @progbits
-        .global Zero_11aeac
-Zero_11aeac:
+        .section .text.ColMap_11aeac, "ax", @progbits
+        .global ColMap_11aeac
+ColMap_11aeac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11aed4  @ $11AED4  (24 B)
+|  ColMap_11aed4  @ $11AED4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11aed4, "ax", @progbits
-        .global Data_11aed4
-Data_11aed4:
+        .section .text.ColMap_11aed4, "ax", @progbits
+        .global ColMap_11aed4
+ColMap_11aed4:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11aeec  @ $11AEEC  (40 B)
+|  ColMap_11aeec  @ $11AEEC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11aeec, "ax", @progbits
-        .global Zero_11aeec
-Zero_11aeec:
+        .section .text.ColMap_11aeec, "ax", @progbits
+        .global ColMap_11aeec
+ColMap_11aeec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11af14  @ $11AF14  (24 B)
+|  ColMap_11af14  @ $11AF14  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11af14, "ax", @progbits
-        .global Data_11af14
-Data_11af14:
+        .section .text.ColMap_11af14, "ax", @progbits
+        .global ColMap_11af14
+ColMap_11af14:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11af2c  @ $11AF2C  (40 B)
+|  ColMap_11af2c  @ $11AF2C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11af2c, "ax", @progbits
-        .global Zero_11af2c
-Zero_11af2c:
+        .section .text.ColMap_11af2c, "ax", @progbits
+        .global ColMap_11af2c
+ColMap_11af2c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11af54  @ $11AF54  (24 B)
+|  ColMap_11af54  @ $11AF54  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11af54, "ax", @progbits
-        .global Data_11af54
-Data_11af54:
+        .section .text.ColMap_11af54, "ax", @progbits
+        .global ColMap_11af54
+ColMap_11af54:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11af6c  @ $11AF6C  (40 B)
+|  ColMap_11af6c  @ $11AF6C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11af6c, "ax", @progbits
-        .global Zero_11af6c
-Zero_11af6c:
+        .section .text.ColMap_11af6c, "ax", @progbits
+        .global ColMap_11af6c
+ColMap_11af6c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11af94  @ $11AF94  (24 B)
+|  ColMap_11af94  @ $11AF94  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11af94, "ax", @progbits
-        .global Data_11af94
-Data_11af94:
+        .section .text.ColMap_11af94, "ax", @progbits
+        .global ColMap_11af94
+ColMap_11af94:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000c
@@ -3311,19 +3341,19 @@ Data_11af94:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11afac  @ $11AFAC  (40 B)
+|  ColMap_11afac  @ $11AFAC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11afac, "ax", @progbits
-        .global Zero_11afac
-Zero_11afac:
+        .section .text.ColMap_11afac, "ax", @progbits
+        .global ColMap_11afac
+ColMap_11afac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11afd4  @ $11AFD4  (24 B)
+|  ColMap_11afd4  @ $11AFD4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11afd4, "ax", @progbits
-        .global Data_11afd4
-Data_11afd4:
+        .section .text.ColMap_11afd4, "ax", @progbits
+        .global ColMap_11afd4
+ColMap_11afd4:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000c
@@ -3331,117 +3361,117 @@ Data_11afd4:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11afec  @ $11AFEC  (40 B)
+|  ColMap_11afec  @ $11AFEC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11afec, "ax", @progbits
-        .global Zero_11afec
-Zero_11afec:
+        .section .text.ColMap_11afec, "ax", @progbits
+        .global ColMap_11afec
+ColMap_11afec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b014  @ $11B014  (24 B)
+|  ColMap_11b014  @ $11B014  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b014, "ax", @progbits
-        .global Data_11b014
-Data_11b014:
+        .section .text.ColMap_11b014, "ax", @progbits
+        .global ColMap_11b014
+ColMap_11b014:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11b02c  @ $11B02C  (2 B)
+|  ColMap_11b02c  @ $11B02C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b02c, "ax", @progbits
-        .global Zero_11b02c
-Zero_11b02c:
+        .section .text.ColMap_11b02c, "ax", @progbits
+        .global ColMap_11b02c
+ColMap_11b02c:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11b02e  @ $11B02E  (38 B)  [ref. desde código]
+|  ColMap_11b02e  @ $11B02E  (38 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_11b02e, "ax", @progbits
-        .global Str_11b02e
-Str_11b02e:
+        .section .text.ColMap_11b02e, "ax", @progbits
+        .global ColMap_11b02e
+ColMap_11b02e:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b054  @ $11B054  (24 B)
+|  ColMap_11b054  @ $11B054  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b054, "ax", @progbits
-        .global Data_11b054
-Data_11b054:
+        .section .text.ColMap_11b054, "ax", @progbits
+        .global ColMap_11b054
+ColMap_11b054:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11b06c  @ $11B06C  (40 B)
+|  ColMap_11b06c  @ $11B06C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b06c, "ax", @progbits
-        .global Zero_11b06c
-Zero_11b06c:
+        .section .text.ColMap_11b06c, "ax", @progbits
+        .global ColMap_11b06c
+ColMap_11b06c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b094  @ $11B094  (24 B)
+|  ColMap_11b094  @ $11B094  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b094, "ax", @progbits
-        .global Data_11b094
-Data_11b094:
+        .section .text.ColMap_11b094, "ax", @progbits
+        .global ColMap_11b094
+ColMap_11b094:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11b0ac  @ $11B0AC  (40 B)
+|  ColMap_11b0ac  @ $11B0AC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b0ac, "ax", @progbits
-        .global Zero_11b0ac
-Zero_11b0ac:
+        .section .text.ColMap_11b0ac, "ax", @progbits
+        .global ColMap_11b0ac
+ColMap_11b0ac:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b0d4  @ $11B0D4  (24 B)
+|  ColMap_11b0d4  @ $11B0D4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b0d4, "ax", @progbits
-        .global Data_11b0d4
-Data_11b0d4:
+        .section .text.ColMap_11b0d4, "ax", @progbits
+        .global ColMap_11b0d4
+ColMap_11b0d4:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11b0ec  @ $11B0EC  (40 B)
+|  ColMap_11b0ec  @ $11B0EC  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b0ec, "ax", @progbits
-        .global Zero_11b0ec
-Zero_11b0ec:
+        .section .text.ColMap_11b0ec, "ax", @progbits
+        .global ColMap_11b0ec
+ColMap_11b0ec:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b114  @ $11B114  (24 B)
+|  ColMap_11b114  @ $11B114  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b114, "ax", @progbits
-        .global Data_11b114
-Data_11b114:
+        .section .text.ColMap_11b114, "ax", @progbits
+        .global ColMap_11b114
+ColMap_11b114:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11b12c  @ $11B12C  (40 B)
+|  ColMap_11b12c  @ $11B12C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b12c, "ax", @progbits
-        .global Zero_11b12c
-Zero_11b12c:
+        .section .text.ColMap_11b12c, "ax", @progbits
+        .global ColMap_11b12c
+ColMap_11b12c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b154  @ $11B154  (24 B)
+|  ColMap_11b154  @ $11B154  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b154, "ax", @progbits
-        .global Data_11b154
-Data_11b154:
+        .section .text.ColMap_11b154, "ax", @progbits
+        .global ColMap_11b154
+ColMap_11b154:
         .dc.w   0x1111                                                      | +00000
         .fill   11,1,0x00                      | +00002
         .dc.b   0x11                            | +0000d
@@ -3449,19 +3479,19 @@ Data_11b154:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11b16c  @ $11B16C  (40 B)
+|  ColMap_11b16c  @ $11B16C  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b16c, "ax", @progbits
-        .global Zero_11b16c
-Zero_11b16c:
+        .section .text.ColMap_11b16c, "ax", @progbits
+        .global ColMap_11b16c
+ColMap_11b16c:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b194  @ $11B194  (24 B)
+|  ColMap_11b194  @ $11B194  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b194, "ax", @progbits
-        .global Data_11b194
-Data_11b194:
+        .section .text.ColMap_11b194, "ax", @progbits
+        .global ColMap_11b194
+ColMap_11b194:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000c
@@ -3469,19 +3499,19 @@ Data_11b194:
         .dc.w   0x0101                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11b1ac  @ $11B1AC  (33 B)
+|  ColMap_11b1ac  @ $11B1AC  (33 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b1ac, "ax", @progbits
-        .global Zero_11b1ac
-Zero_11b1ac:
+        .section .text.ColMap_11b1ac, "ax", @progbits
+        .global ColMap_11b1ac
+ColMap_11b1ac:
         .fill   33,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b1cd  @ $11B1CD  (31 B)
+|  ColMap_11b1cd  @ $11B1CD  (31 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b1cd, "ax", @progbits
-        .global Data_11b1cd
-Data_11b1cd:
+        .section .text.ColMap_11b1cd, "ax", @progbits
+        .global ColMap_11b1cd
+ColMap_11b1cd:
         .dc.b   0x11                            | +00000
         .dc.w   0x0000,0x0000,0x0000,0x1111                                 | +00001
         .fill   10,1,0x00                      | +00009
@@ -3490,91 +3520,91 @@ Data_11b1cd:
         .dc.w   0x0101                                                      | +0001d
 
 | ----------------------------------------------------------------------------
-|  Zero_11b1ec  @ $11B1EC  (32 B)
+|  ColMap_11b1ec  @ $11B1EC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b1ec, "ax", @progbits
-        .global Zero_11b1ec
-Zero_11b1ec:
+        .section .text.ColMap_11b1ec, "ax", @progbits
+        .global ColMap_11b1ec
+ColMap_11b1ec:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b20c  @ $11B20C  (32 B)
+|  ColMap_11b20c  @ $11B20C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b20c, "ax", @progbits
-        .global Data_11b20c
-Data_11b20c:
+        .section .text.ColMap_11b20c, "ax", @progbits
+        .global ColMap_11b20c
+ColMap_11b20c:
         .dc.w   0x1111,0x0000,0x0000,0x0000,0x1100                          | +00000
         .fill   20,1,0x00                      | +0000a
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b22c  @ $11B22C  (32 B)
+|  ColMap_11b22c  @ $11B22C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b22c, "ax", @progbits
-        .global Zero_11b22c
-Zero_11b22c:
+        .section .text.ColMap_11b22c, "ax", @progbits
+        .global ColMap_11b22c
+ColMap_11b22c:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b24c  @ $11B24C  (32 B)
+|  ColMap_11b24c  @ $11B24C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b24c, "ax", @progbits
-        .global Data_11b24c
-Data_11b24c:
+        .section .text.ColMap_11b24c, "ax", @progbits
+        .global ColMap_11b24c
+ColMap_11b24c:
         .dc.w   0x1111                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b26c  @ $11B26C  (32 B)
+|  ColMap_11b26c  @ $11B26C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b26c, "ax", @progbits
-        .global Zero_11b26c
-Zero_11b26c:
+        .section .text.ColMap_11b26c, "ax", @progbits
+        .global ColMap_11b26c
+ColMap_11b26c:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b28c  @ $11B28C  (32 B)
+|  ColMap_11b28c  @ $11B28C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b28c, "ax", @progbits
-        .global Data_11b28c
-Data_11b28c:
+        .section .text.ColMap_11b28c, "ax", @progbits
+        .global ColMap_11b28c
+ColMap_11b28c:
         .dc.w   0x1111                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b2ac  @ $11B2AC  (32 B)
+|  ColMap_11b2ac  @ $11B2AC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b2ac, "ax", @progbits
-        .global Zero_11b2ac
-Zero_11b2ac:
+        .section .text.ColMap_11b2ac, "ax", @progbits
+        .global ColMap_11b2ac
+ColMap_11b2ac:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b2cc  @ $11B2CC  (32 B)
+|  ColMap_11b2cc  @ $11B2CC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b2cc, "ax", @progbits
-        .global Data_11b2cc
-Data_11b2cc:
+        .section .text.ColMap_11b2cc, "ax", @progbits
+        .global ColMap_11b2cc
+ColMap_11b2cc:
         .dc.w   0x1111                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b2ec  @ $11B2EC  (32 B)
+|  ColMap_11b2ec  @ $11B2EC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b2ec, "ax", @progbits
-        .global Zero_11b2ec
-Zero_11b2ec:
+        .section .text.ColMap_11b2ec, "ax", @progbits
+        .global ColMap_11b2ec
+ColMap_11b2ec:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b30c  @ $11B30C  (32 B)
+|  ColMap_11b30c  @ $11B30C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b30c, "ax", @progbits
-        .global Data_11b30c
-Data_11b30c:
+        .section .text.ColMap_11b30c, "ax", @progbits
+        .global ColMap_11b30c
+ColMap_11b30c:
         .dc.w   0x1111                                                      | +00000
         .fill   13,1,0x00                      | +00002
         .dc.b   0x11                            | +0000f
@@ -3582,19 +3612,19 @@ Data_11b30c:
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b32c  @ $11B32C  (32 B)
+|  ColMap_11b32c  @ $11B32C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b32c, "ax", @progbits
-        .global Zero_11b32c
-Zero_11b32c:
+        .section .text.ColMap_11b32c, "ax", @progbits
+        .global ColMap_11b32c
+ColMap_11b32c:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b34c  @ $11B34C  (32 B)
+|  ColMap_11b34c  @ $11B34C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b34c, "ax", @progbits
-        .global Data_11b34c
-Data_11b34c:
+        .section .text.ColMap_11b34c, "ax", @progbits
+        .global ColMap_11b34c
+ColMap_11b34c:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000e
@@ -3602,19 +3632,19 @@ Data_11b34c:
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b36c  @ $11B36C  (32 B)
+|  ColMap_11b36c  @ $11B36C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b36c, "ax", @progbits
-        .global Zero_11b36c
-Zero_11b36c:
+        .section .text.ColMap_11b36c, "ax", @progbits
+        .global ColMap_11b36c
+ColMap_11b36c:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b38c  @ $11B38C  (32 B)
+|  ColMap_11b38c  @ $11B38C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b38c, "ax", @progbits
-        .global Data_11b38c
-Data_11b38c:
+        .section .text.ColMap_11b38c, "ax", @progbits
+        .global ColMap_11b38c
+ColMap_11b38c:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000e
@@ -3622,19 +3652,19 @@ Data_11b38c:
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b3ac  @ $11B3AC  (32 B)
+|  ColMap_11b3ac  @ $11B3AC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b3ac, "ax", @progbits
-        .global Zero_11b3ac
-Zero_11b3ac:
+        .section .text.ColMap_11b3ac, "ax", @progbits
+        .global ColMap_11b3ac
+ColMap_11b3ac:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b3cc  @ $11B3CC  (32 B)
+|  ColMap_11b3cc  @ $11B3CC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b3cc, "ax", @progbits
-        .global Data_11b3cc
-Data_11b3cc:
+        .section .text.ColMap_11b3cc, "ax", @progbits
+        .global ColMap_11b3cc
+ColMap_11b3cc:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000e
@@ -3642,19 +3672,19 @@ Data_11b3cc:
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b3ec  @ $11B3EC  (32 B)
+|  ColMap_11b3ec  @ $11B3EC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b3ec, "ax", @progbits
-        .global Zero_11b3ec
-Zero_11b3ec:
+        .section .text.ColMap_11b3ec, "ax", @progbits
+        .global ColMap_11b3ec
+ColMap_11b3ec:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b40c  @ $11B40C  (32 B)
+|  ColMap_11b40c  @ $11B40C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b40c, "ax", @progbits
-        .global Data_11b40c
-Data_11b40c:
+        .section .text.ColMap_11b40c, "ax", @progbits
+        .global ColMap_11b40c
+ColMap_11b40c:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1100                                                      | +0000e
@@ -3662,617 +3692,617 @@ Data_11b40c:
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b42c  @ $11B42C  (32 B)
+|  ColMap_11b42c  @ $11B42C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b42c, "ax", @progbits
-        .global Zero_11b42c
-Zero_11b42c:
+        .section .text.ColMap_11b42c, "ax", @progbits
+        .global ColMap_11b42c
+ColMap_11b42c:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b44c  @ $11B44C  (32 B)
+|  ColMap_11b44c  @ $11B44C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b44c, "ax", @progbits
-        .global Data_11b44c
-Data_11b44c:
+        .section .text.ColMap_11b44c, "ax", @progbits
+        .global ColMap_11b44c
+ColMap_11b44c:
         .dc.w   0x1111                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b46c  @ $11B46C  (32 B)
+|  ColMap_11b46c  @ $11B46C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b46c, "ax", @progbits
-        .global Zero_11b46c
-Zero_11b46c:
+        .section .text.ColMap_11b46c, "ax", @progbits
+        .global ColMap_11b46c
+ColMap_11b46c:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b48c  @ $11B48C  (32 B)
+|  ColMap_11b48c  @ $11B48C  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b48c, "ax", @progbits
-        .global Data_11b48c
-Data_11b48c:
+        .section .text.ColMap_11b48c, "ax", @progbits
+        .global ColMap_11b48c
+ColMap_11b48c:
         .dc.w   0x1111                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b4ac  @ $11B4AC  (32 B)
+|  ColMap_11b4ac  @ $11B4AC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b4ac, "ax", @progbits
-        .global Zero_11b4ac
-Zero_11b4ac:
+        .section .text.ColMap_11b4ac, "ax", @progbits
+        .global ColMap_11b4ac
+ColMap_11b4ac:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11b4cc  @ $11B4CC  (32 B)
+|  ColMap_11b4cc  @ $11B4CC  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11b4cc, "ax", @progbits
-        .global Str_11b4cc
-Str_11b4cc:
+        .section .text.ColMap_11b4cc, "ax", @progbits
+        .global ColMap_11b4cc
+ColMap_11b4cc:
         .dc.w   0x1100                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11b4ec  @ $11B4EC  (62 B)
+|  ColMap_11b4ec  @ $11B4EC  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b4ec, "ax", @progbits
-        .global Zero_11b4ec
-Zero_11b4ec:
+        .section .text.ColMap_11b4ec, "ax", @progbits
+        .global ColMap_11b4ec
+ColMap_11b4ec:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b52a  @ $11B52A  (2 B)
+|  ColMap_11b52a  @ $11B52A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b52a, "ax", @progbits
-        .global Data_11b52a
-Data_11b52a:
+        .section .text.ColMap_11b52a, "ax", @progbits
+        .global ColMap_11b52a
+ColMap_11b52a:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b52c  @ $11B52C  (62 B)
+|  ColMap_11b52c  @ $11B52C  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b52c, "ax", @progbits
-        .global Zero_11b52c
-Zero_11b52c:
+        .section .text.ColMap_11b52c, "ax", @progbits
+        .global ColMap_11b52c
+ColMap_11b52c:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b56a  @ $11B56A  (2 B)
+|  ColMap_11b56a  @ $11B56A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b56a, "ax", @progbits
-        .global Data_11b56a
-Data_11b56a:
+        .section .text.ColMap_11b56a, "ax", @progbits
+        .global ColMap_11b56a
+ColMap_11b56a:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b56c  @ $11B56C  (62 B)
+|  ColMap_11b56c  @ $11B56C  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b56c, "ax", @progbits
-        .global Zero_11b56c
-Zero_11b56c:
+        .section .text.ColMap_11b56c, "ax", @progbits
+        .global ColMap_11b56c
+ColMap_11b56c:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b5aa  @ $11B5AA  (2 B)
+|  ColMap_11b5aa  @ $11B5AA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b5aa, "ax", @progbits
-        .global Data_11b5aa
-Data_11b5aa:
+        .section .text.ColMap_11b5aa, "ax", @progbits
+        .global ColMap_11b5aa
+ColMap_11b5aa:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b5ac  @ $11B5AC  (62 B)
+|  ColMap_11b5ac  @ $11B5AC  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b5ac, "ax", @progbits
-        .global Zero_11b5ac
-Zero_11b5ac:
+        .section .text.ColMap_11b5ac, "ax", @progbits
+        .global ColMap_11b5ac
+ColMap_11b5ac:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b5ea  @ $11B5EA  (2 B)
+|  ColMap_11b5ea  @ $11B5EA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b5ea, "ax", @progbits
-        .global Data_11b5ea
-Data_11b5ea:
+        .section .text.ColMap_11b5ea, "ax", @progbits
+        .global ColMap_11b5ea
+ColMap_11b5ea:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b5ec  @ $11B5EC  (62 B)
+|  ColMap_11b5ec  @ $11B5EC  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b5ec, "ax", @progbits
-        .global Zero_11b5ec
-Zero_11b5ec:
+        .section .text.ColMap_11b5ec, "ax", @progbits
+        .global ColMap_11b5ec
+ColMap_11b5ec:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b62a  @ $11B62A  (2 B)
+|  ColMap_11b62a  @ $11B62A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b62a, "ax", @progbits
-        .global Data_11b62a
-Data_11b62a:
+        .section .text.ColMap_11b62a, "ax", @progbits
+        .global ColMap_11b62a
+ColMap_11b62a:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b62c  @ $11B62C  (62 B)
+|  ColMap_11b62c  @ $11B62C  (62 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b62c, "ax", @progbits
-        .global Zero_11b62c
-Zero_11b62c:
+        .section .text.ColMap_11b62c, "ax", @progbits
+        .global ColMap_11b62c
+ColMap_11b62c:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b66a  @ $11B66A  (2 B)
+|  ColMap_11b66a  @ $11B66A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b66a, "ax", @progbits
-        .global Data_11b66a
-Data_11b66a:
+        .section .text.ColMap_11b66a, "ax", @progbits
+        .global ColMap_11b66a
+ColMap_11b66a:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b66c  @ $11B66C  (78 B)
+|  ColMap_11b66c  @ $11B66C  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b66c, "ax", @progbits
-        .global Zero_11b66c
-Zero_11b66c:
+        .section .text.ColMap_11b66c, "ax", @progbits
+        .global ColMap_11b66c
+ColMap_11b66c:
         .fill   78,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b6ba  @ $11B6BA  (2 B)
+|  ColMap_11b6ba  @ $11B6BA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b6ba, "ax", @progbits
-        .global Data_11b6ba
-Data_11b6ba:
+        .section .text.ColMap_11b6ba, "ax", @progbits
+        .global ColMap_11b6ba
+ColMap_11b6ba:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b6bc  @ $11B6BC  (70 B)
+|  ColMap_11b6bc  @ $11B6BC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b6bc, "ax", @progbits
-        .global Zero_11b6bc
-Zero_11b6bc:
+        .section .text.ColMap_11b6bc, "ax", @progbits
+        .global ColMap_11b6bc
+ColMap_11b6bc:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b702  @ $11B702  (2 B)
+|  ColMap_11b702  @ $11B702  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b702, "ax", @progbits
-        .global Data_11b702
-Data_11b702:
+        .section .text.ColMap_11b702, "ax", @progbits
+        .global ColMap_11b702
+ColMap_11b702:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b704  @ $11B704  (70 B)
+|  ColMap_11b704  @ $11B704  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b704, "ax", @progbits
-        .global Zero_11b704
-Zero_11b704:
+        .section .text.ColMap_11b704, "ax", @progbits
+        .global ColMap_11b704
+ColMap_11b704:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b74a  @ $11B74A  (2 B)
+|  ColMap_11b74a  @ $11B74A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b74a, "ax", @progbits
-        .global Data_11b74a
-Data_11b74a:
+        .section .text.ColMap_11b74a, "ax", @progbits
+        .global ColMap_11b74a
+ColMap_11b74a:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b74c  @ $11B74C  (70 B)
+|  ColMap_11b74c  @ $11B74C  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b74c, "ax", @progbits
-        .global Zero_11b74c
-Zero_11b74c:
+        .section .text.ColMap_11b74c, "ax", @progbits
+        .global ColMap_11b74c
+ColMap_11b74c:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b792  @ $11B792  (2 B)
+|  ColMap_11b792  @ $11B792  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b792, "ax", @progbits
-        .global Data_11b792
-Data_11b792:
+        .section .text.ColMap_11b792, "ax", @progbits
+        .global ColMap_11b792
+ColMap_11b792:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b794  @ $11B794  (70 B)
+|  ColMap_11b794  @ $11B794  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b794, "ax", @progbits
-        .global Zero_11b794
-Zero_11b794:
+        .section .text.ColMap_11b794, "ax", @progbits
+        .global ColMap_11b794
+ColMap_11b794:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b7da  @ $11B7DA  (2 B)
+|  ColMap_11b7da  @ $11B7DA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b7da, "ax", @progbits
-        .global Data_11b7da
-Data_11b7da:
+        .section .text.ColMap_11b7da, "ax", @progbits
+        .global ColMap_11b7da
+ColMap_11b7da:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b7dc  @ $11B7DC  (70 B)
+|  ColMap_11b7dc  @ $11B7DC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b7dc, "ax", @progbits
-        .global Zero_11b7dc
-Zero_11b7dc:
+        .section .text.ColMap_11b7dc, "ax", @progbits
+        .global ColMap_11b7dc
+ColMap_11b7dc:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b822  @ $11B822  (2 B)
+|  ColMap_11b822  @ $11B822  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b822, "ax", @progbits
-        .global Data_11b822
-Data_11b822:
+        .section .text.ColMap_11b822, "ax", @progbits
+        .global ColMap_11b822
+ColMap_11b822:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b824  @ $11B824  (70 B)
+|  ColMap_11b824  @ $11B824  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b824, "ax", @progbits
-        .global Zero_11b824
-Zero_11b824:
+        .section .text.ColMap_11b824, "ax", @progbits
+        .global ColMap_11b824
+ColMap_11b824:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b86a  @ $11B86A  (2 B)
+|  ColMap_11b86a  @ $11B86A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b86a, "ax", @progbits
-        .global Data_11b86a
-Data_11b86a:
+        .section .text.ColMap_11b86a, "ax", @progbits
+        .global ColMap_11b86a
+ColMap_11b86a:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b86c  @ $11B86C  (70 B)
+|  ColMap_11b86c  @ $11B86C  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b86c, "ax", @progbits
-        .global Zero_11b86c
-Zero_11b86c:
+        .section .text.ColMap_11b86c, "ax", @progbits
+        .global ColMap_11b86c
+ColMap_11b86c:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b8b2  @ $11B8B2  (2 B)
+|  ColMap_11b8b2  @ $11B8B2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b8b2, "ax", @progbits
-        .global Data_11b8b2
-Data_11b8b2:
+        .section .text.ColMap_11b8b2, "ax", @progbits
+        .global ColMap_11b8b2
+ColMap_11b8b2:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b8b4  @ $11B8B4  (70 B)
+|  ColMap_11b8b4  @ $11B8B4  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b8b4, "ax", @progbits
-        .global Zero_11b8b4
-Zero_11b8b4:
+        .section .text.ColMap_11b8b4, "ax", @progbits
+        .global ColMap_11b8b4
+ColMap_11b8b4:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b8fa  @ $11B8FA  (2 B)
+|  ColMap_11b8fa  @ $11B8FA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b8fa, "ax", @progbits
-        .global Data_11b8fa
-Data_11b8fa:
+        .section .text.ColMap_11b8fa, "ax", @progbits
+        .global ColMap_11b8fa
+ColMap_11b8fa:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b8fc  @ $11B8FC  (70 B)
+|  ColMap_11b8fc  @ $11B8FC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b8fc, "ax", @progbits
-        .global Zero_11b8fc
-Zero_11b8fc:
+        .section .text.ColMap_11b8fc, "ax", @progbits
+        .global ColMap_11b8fc
+ColMap_11b8fc:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b942  @ $11B942  (2 B)
+|  ColMap_11b942  @ $11B942  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b942, "ax", @progbits
-        .global Data_11b942
-Data_11b942:
+        .section .text.ColMap_11b942, "ax", @progbits
+        .global ColMap_11b942
+ColMap_11b942:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b944  @ $11B944  (70 B)
+|  ColMap_11b944  @ $11B944  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b944, "ax", @progbits
-        .global Zero_11b944
-Zero_11b944:
+        .section .text.ColMap_11b944, "ax", @progbits
+        .global ColMap_11b944
+ColMap_11b944:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b98a  @ $11B98A  (2 B)
+|  ColMap_11b98a  @ $11B98A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b98a, "ax", @progbits
-        .global Data_11b98a
-Data_11b98a:
+        .section .text.ColMap_11b98a, "ax", @progbits
+        .global ColMap_11b98a
+ColMap_11b98a:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b98c  @ $11B98C  (70 B)
+|  ColMap_11b98c  @ $11B98C  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b98c, "ax", @progbits
-        .global Zero_11b98c
-Zero_11b98c:
+        .section .text.ColMap_11b98c, "ax", @progbits
+        .global ColMap_11b98c
+ColMap_11b98c:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11b9d2  @ $11B9D2  (2 B)
+|  ColMap_11b9d2  @ $11B9D2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11b9d2, "ax", @progbits
-        .global Data_11b9d2
-Data_11b9d2:
+        .section .text.ColMap_11b9d2, "ax", @progbits
+        .global ColMap_11b9d2
+ColMap_11b9d2:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11b9d4  @ $11B9D4  (70 B)
+|  ColMap_11b9d4  @ $11B9D4  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11b9d4, "ax", @progbits
-        .global Zero_11b9d4
-Zero_11b9d4:
+        .section .text.ColMap_11b9d4, "ax", @progbits
+        .global ColMap_11b9d4
+ColMap_11b9d4:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ba1a  @ $11BA1A  (2 B)
+|  ColMap_11ba1a  @ $11BA1A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ba1a, "ax", @progbits
-        .global Data_11ba1a
-Data_11ba1a:
+        .section .text.ColMap_11ba1a, "ax", @progbits
+        .global ColMap_11ba1a
+ColMap_11ba1a:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ba1c  @ $11BA1C  (70 B)
+|  ColMap_11ba1c  @ $11BA1C  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ba1c, "ax", @progbits
-        .global Zero_11ba1c
-Zero_11ba1c:
+        .section .text.ColMap_11ba1c, "ax", @progbits
+        .global ColMap_11ba1c
+ColMap_11ba1c:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ba62  @ $11BA62  (2 B)
+|  ColMap_11ba62  @ $11BA62  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ba62, "ax", @progbits
-        .global Data_11ba62
-Data_11ba62:
+        .section .text.ColMap_11ba62, "ax", @progbits
+        .global ColMap_11ba62
+ColMap_11ba62:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ba64  @ $11BA64  (70 B)
+|  ColMap_11ba64  @ $11BA64  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ba64, "ax", @progbits
-        .global Zero_11ba64
-Zero_11ba64:
+        .section .text.ColMap_11ba64, "ax", @progbits
+        .global ColMap_11ba64
+ColMap_11ba64:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11baaa  @ $11BAAA  (2 B)
+|  ColMap_11baaa  @ $11BAAA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11baaa, "ax", @progbits
-        .global Data_11baaa
-Data_11baaa:
+        .section .text.ColMap_11baaa, "ax", @progbits
+        .global ColMap_11baaa
+ColMap_11baaa:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11baac  @ $11BAAC  (70 B)
+|  ColMap_11baac  @ $11BAAC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11baac, "ax", @progbits
-        .global Zero_11baac
-Zero_11baac:
+        .section .text.ColMap_11baac, "ax", @progbits
+        .global ColMap_11baac
+ColMap_11baac:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11baf2  @ $11BAF2  (2 B)
+|  ColMap_11baf2  @ $11BAF2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11baf2, "ax", @progbits
-        .global Data_11baf2
-Data_11baf2:
+        .section .text.ColMap_11baf2, "ax", @progbits
+        .global ColMap_11baf2
+ColMap_11baf2:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11baf4  @ $11BAF4  (70 B)
+|  ColMap_11baf4  @ $11BAF4  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11baf4, "ax", @progbits
-        .global Zero_11baf4
-Zero_11baf4:
+        .section .text.ColMap_11baf4, "ax", @progbits
+        .global ColMap_11baf4
+ColMap_11baf4:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11bb3a  @ $11BB3A  (2 B)
+|  ColMap_11bb3a  @ $11BB3A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11bb3a, "ax", @progbits
-        .global Data_11bb3a
-Data_11bb3a:
+        .section .text.ColMap_11bb3a, "ax", @progbits
+        .global ColMap_11bb3a
+ColMap_11bb3a:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11bb3c  @ $11BB3C  (70 B)
+|  ColMap_11bb3c  @ $11BB3C  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11bb3c, "ax", @progbits
-        .global Zero_11bb3c
-Zero_11bb3c:
+        .section .text.ColMap_11bb3c, "ax", @progbits
+        .global ColMap_11bb3c
+ColMap_11bb3c:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11bb82  @ $11BB82  (2 B)
+|  ColMap_11bb82  @ $11BB82  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11bb82, "ax", @progbits
-        .global Data_11bb82
-Data_11bb82:
+        .section .text.ColMap_11bb82, "ax", @progbits
+        .global ColMap_11bb82
+ColMap_11bb82:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11bb84  @ $11BB84  (70 B)
+|  ColMap_11bb84  @ $11BB84  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11bb84, "ax", @progbits
-        .global Zero_11bb84
-Zero_11bb84:
+        .section .text.ColMap_11bb84, "ax", @progbits
+        .global ColMap_11bb84
+ColMap_11bb84:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11bbca  @ $11BBCA  (2 B)
+|  ColMap_11bbca  @ $11BBCA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11bbca, "ax", @progbits
-        .global Data_11bbca
-Data_11bbca:
+        .section .text.ColMap_11bbca, "ax", @progbits
+        .global ColMap_11bbca
+ColMap_11bbca:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11bbcc  @ $11BBCC  (70 B)
+|  ColMap_11bbcc  @ $11BBCC  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11bbcc, "ax", @progbits
-        .global Zero_11bbcc
-Zero_11bbcc:
+        .section .text.ColMap_11bbcc, "ax", @progbits
+        .global ColMap_11bbcc
+ColMap_11bbcc:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11bc12  @ $11BC12  (2 B)
+|  ColMap_11bc12  @ $11BC12  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11bc12, "ax", @progbits
-        .global Data_11bc12
-Data_11bc12:
+        .section .text.ColMap_11bc12, "ax", @progbits
+        .global ColMap_11bc12
+ColMap_11bc12:
         .dc.w   0x4040                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11bc14  @ $11BC14  (596 B)
+|  ColMap_11bc14  @ $11BC14  (596 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11bc14, "ax", @progbits
-        .global Zero_11bc14
-Zero_11bc14:
+        .section .text.ColMap_11bc14, "ax", @progbits
+        .global ColMap_11bc14
+ColMap_11bc14:
         .fill   596,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11be68  @ $11BE68  (2 B)
+|  ColMap_11be68  @ $11BE68  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11be68, "ax", @progbits
-        .global Data_11be68
-Data_11be68:
+        .section .text.ColMap_11be68, "ax", @progbits
+        .global ColMap_11be68
+ColMap_11be68:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11be6a  @ $11BE6A  (70 B)
+|  ColMap_11be6a  @ $11BE6A  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11be6a, "ax", @progbits
-        .global Zero_11be6a
-Zero_11be6a:
+        .section .text.ColMap_11be6a, "ax", @progbits
+        .global ColMap_11be6a
+ColMap_11be6a:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11beb0  @ $11BEB0  (2 B)
+|  ColMap_11beb0  @ $11BEB0  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11beb0, "ax", @progbits
-        .global Data_11beb0
-Data_11beb0:
+        .section .text.ColMap_11beb0, "ax", @progbits
+        .global ColMap_11beb0
+ColMap_11beb0:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11beb2  @ $11BEB2  (70 B)
+|  ColMap_11beb2  @ $11BEB2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11beb2, "ax", @progbits
-        .global Zero_11beb2
-Zero_11beb2:
+        .section .text.ColMap_11beb2, "ax", @progbits
+        .global ColMap_11beb2
+ColMap_11beb2:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11bef8  @ $11BEF8  (2 B)
+|  ColMap_11bef8  @ $11BEF8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11bef8, "ax", @progbits
-        .global Data_11bef8
-Data_11bef8:
+        .section .text.ColMap_11bef8, "ax", @progbits
+        .global ColMap_11bef8
+ColMap_11bef8:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11befa  @ $11BEFA  (70 B)
+|  ColMap_11befa  @ $11BEFA  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11befa, "ax", @progbits
-        .global Zero_11befa
-Zero_11befa:
+        .section .text.ColMap_11befa, "ax", @progbits
+        .global ColMap_11befa
+ColMap_11befa:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11bf40  @ $11BF40  (2 B)
+|  ColMap_11bf40  @ $11BF40  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11bf40, "ax", @progbits
-        .global Data_11bf40
-Data_11bf40:
+        .section .text.ColMap_11bf40, "ax", @progbits
+        .global ColMap_11bf40
+ColMap_11bf40:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11bf42  @ $11BF42  (70 B)
+|  ColMap_11bf42  @ $11BF42  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11bf42, "ax", @progbits
-        .global Zero_11bf42
-Zero_11bf42:
+        .section .text.ColMap_11bf42, "ax", @progbits
+        .global ColMap_11bf42
+ColMap_11bf42:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11bf88  @ $11BF88  (2 B)
+|  ColMap_11bf88  @ $11BF88  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11bf88, "ax", @progbits
-        .global Data_11bf88
-Data_11bf88:
+        .section .text.ColMap_11bf88, "ax", @progbits
+        .global ColMap_11bf88
+ColMap_11bf88:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11bf8a  @ $11BF8A  (70 B)
+|  ColMap_11bf8a  @ $11BF8A  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11bf8a, "ax", @progbits
-        .global Zero_11bf8a
-Zero_11bf8a:
+        .section .text.ColMap_11bf8a, "ax", @progbits
+        .global ColMap_11bf8a
+ColMap_11bf8a:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11bfd0  @ $11BFD0  (2 B)
+|  ColMap_11bfd0  @ $11BFD0  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11bfd0, "ax", @progbits
-        .global Data_11bfd0
-Data_11bfd0:
+        .section .text.ColMap_11bfd0, "ax", @progbits
+        .global ColMap_11bfd0
+ColMap_11bfd0:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11bfd2  @ $11BFD2  (70 B)
+|  ColMap_11bfd2  @ $11BFD2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11bfd2, "ax", @progbits
-        .global Zero_11bfd2
-Zero_11bfd2:
+        .section .text.ColMap_11bfd2, "ax", @progbits
+        .global ColMap_11bfd2
+ColMap_11bfd2:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c018  @ $11C018  (2 B)
+|  ColMap_11c018  @ $11C018  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c018, "ax", @progbits
-        .global Data_11c018
-Data_11c018:
+        .section .text.ColMap_11c018, "ax", @progbits
+        .global ColMap_11c018
+ColMap_11c018:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c01a  @ $11C01A  (70 B)
+|  ColMap_11c01a  @ $11C01A  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c01a, "ax", @progbits
-        .global Zero_11c01a
-Zero_11c01a:
+        .section .text.ColMap_11c01a, "ax", @progbits
+        .global ColMap_11c01a
+ColMap_11c01a:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c060  @ $11C060  (2 B)
+|  ColMap_11c060  @ $11C060  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c060, "ax", @progbits
-        .global Data_11c060
-Data_11c060:
+        .section .text.ColMap_11c060, "ax", @progbits
+        .global ColMap_11c060
+ColMap_11c060:
         .dc.w   0x1111                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c062  @ $11C062  (70 B)
+|  ColMap_11c062  @ $11C062  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c062, "ax", @progbits
-        .global Zero_11c062
-Zero_11c062:
+        .section .text.ColMap_11c062, "ax", @progbits
+        .global ColMap_11c062
+ColMap_11c062:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c0a8  @ $11C0A8  (74 B)
+|  ColMap_11c0a8  @ $11C0A8  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c0a8, "ax", @progbits
-        .global Str_11c0a8
-Str_11c0a8:
+        .section .text.ColMap_11c0a8, "ax", @progbits
+        .global ColMap_11c0a8
+ColMap_11c0a8:
         .dc.w   0x1111                                                      | +00000
         .fill   26,1,0x00                      | +00002
         .dc.w   0x2500,0x2500,0x2500,0x2500,0x2500,0x2500,0x2500,0x2500     | +0001c
@@ -4280,37 +4310,37 @@ Str_11c0a8:
         .dc.w   0x1111                                                      | +00048
 
 | ----------------------------------------------------------------------------
-|  Zero_11c0f2  @ $11C0F2  (70 B)
+|  ColMap_11c0f2  @ $11C0F2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c0f2, "ax", @progbits
-        .global Zero_11c0f2
-Zero_11c0f2:
+        .section .text.ColMap_11c0f2, "ax", @progbits
+        .global ColMap_11c0f2
+ColMap_11c0f2:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c138  @ $11C138  (34 B)
+|  ColMap_11c138  @ $11C138  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c138, "ax", @progbits
-        .global Str_11c138
-Str_11c138:
+        .section .text.ColMap_11c138, "ax", @progbits
+        .global ColMap_11c138
+ColMap_11c138:
         .dc.w   0x1111                                                      | +00000
         .fill   30,1,0x00                      | +00002
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c15a  @ $11C15A  (38 B)
+|  ColMap_11c15a  @ $11C15A  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c15a, "ax", @progbits
-        .global Zero_11c15a
-Zero_11c15a:
+        .section .text.ColMap_11c15a, "ax", @progbits
+        .global ColMap_11c15a
+ColMap_11c15a:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c180  @ $11C180  (34 B)
+|  ColMap_11c180  @ $11C180  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c180, "ax", @progbits
-        .global Str_11c180
-Str_11c180:
+        .section .text.ColMap_11c180, "ax", @progbits
+        .global ColMap_11c180
+ColMap_11c180:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x2525                                                      | +0000c
@@ -4320,19 +4350,19 @@ Str_11c180:
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c1a2  @ $11C1A2  (38 B)
+|  ColMap_11c1a2  @ $11C1A2  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c1a2, "ax", @progbits
-        .global Zero_11c1a2
-Zero_11c1a2:
+        .section .text.ColMap_11c1a2, "ax", @progbits
+        .global ColMap_11c1a2
+ColMap_11c1a2:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c1c8  @ $11C1C8  (34 B)
+|  ColMap_11c1c8  @ $11C1C8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c1c8, "ax", @progbits
-        .global Str_11c1c8
-Str_11c1c8:
+        .section .text.ColMap_11c1c8, "ax", @progbits
+        .global ColMap_11c1c8
+ColMap_11c1c8:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x2525                                                      | +0000c
@@ -4342,19 +4372,19 @@ Str_11c1c8:
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c1ea  @ $11C1EA  (38 B)
+|  ColMap_11c1ea  @ $11C1EA  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c1ea, "ax", @progbits
-        .global Zero_11c1ea
-Zero_11c1ea:
+        .section .text.ColMap_11c1ea, "ax", @progbits
+        .global ColMap_11c1ea
+ColMap_11c1ea:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c210  @ $11C210  (34 B)
+|  ColMap_11c210  @ $11C210  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c210, "ax", @progbits
-        .global Str_11c210
-Str_11c210:
+        .section .text.ColMap_11c210, "ax", @progbits
+        .global ColMap_11c210
+ColMap_11c210:
         .dc.w   0x1111                                                      | +00000
         .fill   10,1,0x00                      | +00002
         .dc.w   0x2525                                                      | +0000c
@@ -4364,323 +4394,323 @@ Str_11c210:
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c232  @ $11C232  (38 B)
+|  ColMap_11c232  @ $11C232  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c232, "ax", @progbits
-        .global Zero_11c232
-Zero_11c232:
+        .section .text.ColMap_11c232, "ax", @progbits
+        .global ColMap_11c232
+ColMap_11c232:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c258  @ $11C258  (34 B)
+|  ColMap_11c258  @ $11C258  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c258, "ax", @progbits
-        .global Str_11c258
-Str_11c258:
+        .section .text.ColMap_11c258, "ax", @progbits
+        .global ColMap_11c258
+ColMap_11c258:
         .dc.w   0x1111                                                      | +00000
         .fill   30,1,0x00                      | +00002
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c27a  @ $11C27A  (38 B)
+|  ColMap_11c27a  @ $11C27A  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c27a, "ax", @progbits
-        .global Zero_11c27a
-Zero_11c27a:
+        .section .text.ColMap_11c27a, "ax", @progbits
+        .global ColMap_11c27a
+ColMap_11c27a:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c2a0  @ $11C2A0  (34 B)
+|  ColMap_11c2a0  @ $11C2A0  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c2a0, "ax", @progbits
-        .global Str_11c2a0
-Str_11c2a0:
+        .section .text.ColMap_11c2a0, "ax", @progbits
+        .global ColMap_11c2a0
+ColMap_11c2a0:
         .dc.w   0x1111                                                      | +00000
         .fill   30,1,0x00                      | +00002
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c2c2  @ $11C2C2  (38 B)
+|  ColMap_11c2c2  @ $11C2C2  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c2c2, "ax", @progbits
-        .global Zero_11c2c2
-Zero_11c2c2:
+        .section .text.ColMap_11c2c2, "ax", @progbits
+        .global ColMap_11c2c2
+ColMap_11c2c2:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c2e8  @ $11C2E8  (34 B)
+|  ColMap_11c2e8  @ $11C2E8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c2e8, "ax", @progbits
-        .global Str_11c2e8
-Str_11c2e8:
+        .section .text.ColMap_11c2e8, "ax", @progbits
+        .global ColMap_11c2e8
+ColMap_11c2e8:
         .dc.w   0x1111                                                      | +00000
         .fill   30,1,0x00                      | +00002
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c30a  @ $11C30A  (38 B)
+|  ColMap_11c30a  @ $11C30A  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c30a, "ax", @progbits
-        .global Zero_11c30a
-Zero_11c30a:
+        .section .text.ColMap_11c30a, "ax", @progbits
+        .global ColMap_11c30a
+ColMap_11c30a:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c330  @ $11C330  (34 B)
+|  ColMap_11c330  @ $11C330  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c330, "ax", @progbits
-        .global Str_11c330
-Str_11c330:
+        .section .text.ColMap_11c330, "ax", @progbits
+        .global ColMap_11c330
+ColMap_11c330:
         .dc.w   0x1111                                                      | +00000
         .fill   30,1,0x00                      | +00002
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c352  @ $11C352  (38 B)
+|  ColMap_11c352  @ $11C352  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c352, "ax", @progbits
-        .global Zero_11c352
-Zero_11c352:
+        .section .text.ColMap_11c352, "ax", @progbits
+        .global ColMap_11c352
+ColMap_11c352:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c378  @ $11C378  (34 B)
+|  ColMap_11c378  @ $11C378  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c378, "ax", @progbits
-        .global Str_11c378
-Str_11c378:
+        .section .text.ColMap_11c378, "ax", @progbits
+        .global ColMap_11c378
+ColMap_11c378:
         .dc.w   0x1111                                                      | +00000
         .fill   30,1,0x00                      | +00002
         .dc.w   0x2424                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11c39a  @ $11C39A  (38 B)
+|  ColMap_11c39a  @ $11C39A  (38 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c39a, "ax", @progbits
-        .global Zero_11c39a
-Zero_11c39a:
+        .section .text.ColMap_11c39a, "ax", @progbits
+        .global ColMap_11c39a
+ColMap_11c39a:
         .fill   38,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c3c0  @ $11C3C0  (2 B)
+|  ColMap_11c3c0  @ $11C3C0  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c3c0, "ax", @progbits
-        .global Data_11c3c0
-Data_11c3c0:
+        .section .text.ColMap_11c3c0, "ax", @progbits
+        .global ColMap_11c3c0
+ColMap_11c3c0:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c3c2  @ $11C3C2  (70 B)
+|  ColMap_11c3c2  @ $11C3C2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c3c2, "ax", @progbits
-        .global Zero_11c3c2
-Zero_11c3c2:
+        .section .text.ColMap_11c3c2, "ax", @progbits
+        .global ColMap_11c3c2
+ColMap_11c3c2:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c408  @ $11C408  (2 B)
+|  ColMap_11c408  @ $11C408  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c408, "ax", @progbits
-        .global Data_11c408
-Data_11c408:
+        .section .text.ColMap_11c408, "ax", @progbits
+        .global ColMap_11c408
+ColMap_11c408:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c40a  @ $11C40A  (70 B)
+|  ColMap_11c40a  @ $11C40A  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c40a, "ax", @progbits
-        .global Zero_11c40a
-Zero_11c40a:
+        .section .text.ColMap_11c40a, "ax", @progbits
+        .global ColMap_11c40a
+ColMap_11c40a:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c450  @ $11C450  (2 B)
+|  ColMap_11c450  @ $11C450  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c450, "ax", @progbits
-        .global Data_11c450
-Data_11c450:
+        .section .text.ColMap_11c450, "ax", @progbits
+        .global ColMap_11c450
+ColMap_11c450:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c452  @ $11C452  (70 B)
+|  ColMap_11c452  @ $11C452  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c452, "ax", @progbits
-        .global Zero_11c452
-Zero_11c452:
+        .section .text.ColMap_11c452, "ax", @progbits
+        .global ColMap_11c452
+ColMap_11c452:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c498  @ $11C498  (2 B)
+|  ColMap_11c498  @ $11C498  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c498, "ax", @progbits
-        .global Data_11c498
-Data_11c498:
+        .section .text.ColMap_11c498, "ax", @progbits
+        .global ColMap_11c498
+ColMap_11c498:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c49a  @ $11C49A  (70 B)
+|  ColMap_11c49a  @ $11C49A  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c49a, "ax", @progbits
-        .global Zero_11c49a
-Zero_11c49a:
+        .section .text.ColMap_11c49a, "ax", @progbits
+        .global ColMap_11c49a
+ColMap_11c49a:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c4e0  @ $11C4E0  (2 B)
+|  ColMap_11c4e0  @ $11C4E0  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c4e0, "ax", @progbits
-        .global Data_11c4e0
-Data_11c4e0:
+        .section .text.ColMap_11c4e0, "ax", @progbits
+        .global ColMap_11c4e0
+ColMap_11c4e0:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c4e2  @ $11C4E2  (70 B)
+|  ColMap_11c4e2  @ $11C4E2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c4e2, "ax", @progbits
-        .global Zero_11c4e2
-Zero_11c4e2:
+        .section .text.ColMap_11c4e2, "ax", @progbits
+        .global ColMap_11c4e2
+ColMap_11c4e2:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c528  @ $11C528  (2 B)
+|  ColMap_11c528  @ $11C528  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c528, "ax", @progbits
-        .global Data_11c528
-Data_11c528:
+        .section .text.ColMap_11c528, "ax", @progbits
+        .global ColMap_11c528
+ColMap_11c528:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c52a  @ $11C52A  (70 B)
+|  ColMap_11c52a  @ $11C52A  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c52a, "ax", @progbits
-        .global Zero_11c52a
-Zero_11c52a:
+        .section .text.ColMap_11c52a, "ax", @progbits
+        .global ColMap_11c52a
+ColMap_11c52a:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c570  @ $11C570  (2 B)
+|  ColMap_11c570  @ $11C570  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c570, "ax", @progbits
-        .global Data_11c570
-Data_11c570:
+        .section .text.ColMap_11c570, "ax", @progbits
+        .global ColMap_11c570
+ColMap_11c570:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c572  @ $11C572  (70 B)
+|  ColMap_11c572  @ $11C572  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c572, "ax", @progbits
-        .global Zero_11c572
-Zero_11c572:
+        .section .text.ColMap_11c572, "ax", @progbits
+        .global ColMap_11c572
+ColMap_11c572:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c5b8  @ $11C5B8  (2 B)
+|  ColMap_11c5b8  @ $11C5B8  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c5b8, "ax", @progbits
-        .global Data_11c5b8
-Data_11c5b8:
+        .section .text.ColMap_11c5b8, "ax", @progbits
+        .global ColMap_11c5b8
+ColMap_11c5b8:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c5ba  @ $11C5BA  (70 B)
+|  ColMap_11c5ba  @ $11C5BA  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c5ba, "ax", @progbits
-        .global Zero_11c5ba
-Zero_11c5ba:
+        .section .text.ColMap_11c5ba, "ax", @progbits
+        .global ColMap_11c5ba
+ColMap_11c5ba:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c600  @ $11C600  (2 B)
+|  ColMap_11c600  @ $11C600  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c600, "ax", @progbits
-        .global Data_11c600
-Data_11c600:
+        .section .text.ColMap_11c600, "ax", @progbits
+        .global ColMap_11c600
+ColMap_11c600:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c602  @ $11C602  (70 B)
+|  ColMap_11c602  @ $11C602  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c602, "ax", @progbits
-        .global Zero_11c602
-Zero_11c602:
+        .section .text.ColMap_11c602, "ax", @progbits
+        .global ColMap_11c602
+ColMap_11c602:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11c648  @ $11C648  (2 B)
+|  ColMap_11c648  @ $11C648  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11c648, "ax", @progbits
-        .global Data_11c648
-Data_11c648:
+        .section .text.ColMap_11c648, "ax", @progbits
+        .global ColMap_11c648
+ColMap_11c648:
         .dc.w   0x2525                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11c64a  @ $11C64A  (48 B)
+|  ColMap_11c64a  @ $11C64A  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c64a, "ax", @progbits
-        .global Zero_11c64a
-Zero_11c64a:
+        .section .text.ColMap_11c64a, "ax", @progbits
+        .global ColMap_11c64a
+ColMap_11c64a:
         .fill   48,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c67a  @ $11C67A  (24 B)
+|  ColMap_11c67a  @ $11C67A  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c67a, "ax", @progbits
-        .global Str_11c67a
-Str_11c67a:
+        .section .text.ColMap_11c67a, "ax", @progbits
+        .global ColMap_11c67a
+ColMap_11c67a:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x2525                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11c692  @ $11C692  (48 B)
+|  ColMap_11c692  @ $11C692  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c692, "ax", @progbits
-        .global Zero_11c692
-Zero_11c692:
+        .section .text.ColMap_11c692, "ax", @progbits
+        .global ColMap_11c692
+ColMap_11c692:
         .fill   48,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c6c2  @ $11C6C2  (24 B)
+|  ColMap_11c6c2  @ $11C6C2  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c6c2, "ax", @progbits
-        .global Str_11c6c2
-Str_11c6c2:
+        .section .text.ColMap_11c6c2, "ax", @progbits
+        .global ColMap_11c6c2
+ColMap_11c6c2:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x2525                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11c6da  @ $11C6DA  (48 B)
+|  ColMap_11c6da  @ $11C6DA  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c6da, "ax", @progbits
-        .global Zero_11c6da
-Zero_11c6da:
+        .section .text.ColMap_11c6da, "ax", @progbits
+        .global ColMap_11c6da
+ColMap_11c6da:
         .fill   48,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c70a  @ $11C70A  (24 B)
+|  ColMap_11c70a  @ $11C70A  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c70a, "ax", @progbits
-        .global Str_11c70a
-Str_11c70a:
+        .section .text.ColMap_11c70a, "ax", @progbits
+        .global ColMap_11c70a
+ColMap_11c70a:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x2525                                                      | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11c722  @ $11C722  (48 B)
+|  ColMap_11c722  @ $11C722  (48 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11c722, "ax", @progbits
-        .global Zero_11c722
-Zero_11c722:
+        .section .text.ColMap_11c722, "ax", @progbits
+        .global ColMap_11c722
+ColMap_11c722:
         .fill   48,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11c752  @ $11C752  (787 B)
+|  ColMap_11c752  @ $11C752  (787 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11c752, "ax", @progbits
-        .global Str_11c752
-Str_11c752:
+        .section .text.ColMap_11c752, "ax", @progbits
+        .global ColMap_11c752
+ColMap_11c752:
         .dc.w   0x1111                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x2525                                                      | +00016
@@ -4751,759 +4781,759 @@ Str_11c752:
         .dc.b   0x2e                            | +00312
 
 | ----------------------------------------------------------------------------
-|  Zero_11ca65  @ $11CA65  (67 B)
+|  ColMap_11ca65  @ $11CA65  (67 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ca65, "ax", @progbits
-        .global Zero_11ca65
-Zero_11ca65:
+        .section .text.ColMap_11ca65, "ax", @progbits
+        .global ColMap_11ca65
+ColMap_11ca65:
         .fill   67,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11caa8  @ $11CAA8  (4 B)
+|  ColMap_11caa8  @ $11CAA8  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11caa8, "ax", @progbits
-        .global Data_11caa8
-Data_11caa8:
+        .section .text.ColMap_11caa8, "ax", @progbits
+        .global ColMap_11caa8
+ColMap_11caa8:
         .dc.w   0x1617,0x1e1e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11caac  @ $11CAAC  (98 B)
+|  ColMap_11caac  @ $11CAAC  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11caac, "ax", @progbits
-        .global Zero_11caac
-Zero_11caac:
+        .section .text.ColMap_11caac, "ax", @progbits
+        .global ColMap_11caac
+ColMap_11caac:
         .fill   98,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cb0e  @ $11CB0E  (5 B)
+|  ColMap_11cb0e  @ $11CB0E  (5 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cb0e, "ax", @progbits
-        .global Data_11cb0e
-Data_11cb0e:
+        .section .text.ColMap_11cb0e, "ax", @progbits
+        .global ColMap_11cb0e
+ColMap_11cb0e:
         .dc.w   0x1415,0x1e1e                                               | +00000
         .dc.b   0x3e                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Zero_11cb13  @ $11CB13  (99 B)
+|  ColMap_11cb13  @ $11CB13  (99 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cb13, "ax", @progbits
-        .global Zero_11cb13
-Zero_11cb13:
+        .section .text.ColMap_11cb13, "ax", @progbits
+        .global ColMap_11cb13
+ColMap_11cb13:
         .fill   99,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cb76  @ $11CB76  (4 B)
+|  ColMap_11cb76  @ $11CB76  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cb76, "ax", @progbits
-        .global Data_11cb76
-Data_11cb76:
+        .section .text.ColMap_11cb76, "ax", @progbits
+        .global ColMap_11cb76
+ColMap_11cb76:
         .dc.w   0x1617,0x1e1e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11cb7a  @ $11CB7A  (98 B)
+|  ColMap_11cb7a  @ $11CB7A  (98 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cb7a, "ax", @progbits
-        .global Zero_11cb7a
-Zero_11cb7a:
+        .section .text.ColMap_11cb7a, "ax", @progbits
+        .global ColMap_11cb7a
+ColMap_11cb7a:
         .fill   98,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cbdc  @ $11CBDC  (5 B)
+|  ColMap_11cbdc  @ $11CBDC  (5 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cbdc, "ax", @progbits
-        .global Data_11cbdc
-Data_11cbdc:
+        .section .text.ColMap_11cbdc, "ax", @progbits
+        .global ColMap_11cbdc
+ColMap_11cbdc:
         .dc.w   0x1415,0x1e1e                                               | +00000
         .dc.b   0x3e                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Zero_11cbe1  @ $11CBE1  (99 B)
+|  ColMap_11cbe1  @ $11CBE1  (99 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cbe1, "ax", @progbits
-        .global Zero_11cbe1
-Zero_11cbe1:
+        .section .text.ColMap_11cbe1, "ax", @progbits
+        .global ColMap_11cbe1
+ColMap_11cbe1:
         .fill   99,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cc44  @ $11CC44  (4 B)
+|  ColMap_11cc44  @ $11CC44  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cc44, "ax", @progbits
-        .global Data_11cc44
-Data_11cc44:
+        .section .text.ColMap_11cc44, "ax", @progbits
+        .global ColMap_11cc44
+ColMap_11cc44:
         .dc.w   0x1617,0x1e1e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11cc48  @ $11CC48  (56 B)
+|  ColMap_11cc48  @ $11CC48  (56 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cc48, "ax", @progbits
-        .global Zero_11cc48
-Zero_11cc48:
+        .section .text.ColMap_11cc48, "ax", @progbits
+        .global ColMap_11cc48
+ColMap_11cc48:
         .fill   56,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cc80  @ $11CC80  (10 B)
+|  ColMap_11cc80  @ $11CC80  (10 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cc80, "ax", @progbits
-        .global Data_11cc80
-Data_11cc80:
+        .section .text.ColMap_11cc80, "ax", @progbits
+        .global ColMap_11cc80
+ColMap_11cc80:
         .dc.w   0xe600,0xe600,0xe600,0xe600,0xe7d1                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11cc8a  @ $11CC8A  (32 B)
+|  ColMap_11cc8a  @ $11CC8A  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cc8a, "ax", @progbits
-        .global Zero_11cc8a
-Zero_11cc8a:
+        .section .text.ColMap_11cc8a, "ax", @progbits
+        .global ColMap_11cc8a
+ColMap_11cc8a:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ccaa  @ $11CCAA  (5 B)
+|  ColMap_11ccaa  @ $11CCAA  (5 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ccaa, "ax", @progbits
-        .global Data_11ccaa
-Data_11ccaa:
+        .section .text.ColMap_11ccaa, "ax", @progbits
+        .global ColMap_11ccaa
+ColMap_11ccaa:
         .dc.w   0x1415,0x1e1e                                               | +00000
         .dc.b   0x3e                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Zero_11ccaf  @ $11CCAF  (65 B)
+|  ColMap_11ccaf  @ $11CCAF  (65 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ccaf, "ax", @progbits
-        .global Zero_11ccaf
-Zero_11ccaf:
+        .section .text.ColMap_11ccaf, "ax", @progbits
+        .global ColMap_11ccaf
+ColMap_11ccaf:
         .fill   65,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ccf0  @ $11CCF0  (2 B)
+|  ColMap_11ccf0  @ $11CCF0  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ccf0, "ax", @progbits
-        .global Data_11ccf0
-Data_11ccf0:
+        .section .text.ColMap_11ccf0, "ax", @progbits
+        .global ColMap_11ccf0
+ColMap_11ccf0:
         .dc.w   0xd1d1                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ccf2  @ $11CCF2  (32 B)
+|  ColMap_11ccf2  @ $11CCF2  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ccf2, "ax", @progbits
-        .global Zero_11ccf2
-Zero_11ccf2:
+        .section .text.ColMap_11ccf2, "ax", @progbits
+        .global ColMap_11ccf2
+ColMap_11ccf2:
         .fill   32,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cd12  @ $11CD12  (4 B)
+|  ColMap_11cd12  @ $11CD12  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cd12, "ax", @progbits
-        .global Data_11cd12
-Data_11cd12:
+        .section .text.ColMap_11cd12, "ax", @progbits
+        .global ColMap_11cd12
+ColMap_11cd12:
         .dc.w   0x1617,0x1e1e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11cd16  @ $11CD16  (66 B)
+|  ColMap_11cd16  @ $11CD16  (66 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cd16, "ax", @progbits
-        .global Zero_11cd16
-Zero_11cd16:
+        .section .text.ColMap_11cd16, "ax", @progbits
+        .global ColMap_11cd16
+ColMap_11cd16:
         .fill   66,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11cd58  @ $11CD58  (37 B)
+|  ColMap_11cd58  @ $11CD58  (37 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11cd58, "ax", @progbits
-        .global Str_11cd58
-Str_11cd58:
+        .section .text.ColMap_11cd58, "ax", @progbits
+        .global ColMap_11cd58
+ColMap_11cd58:
         .dc.w   0xd1d1                                                      | +00000
         .fill   30,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00020
         .dc.b   0x3e                            | +00024
 
 | ----------------------------------------------------------------------------
-|  Zero_11cd7d  @ $11CD7D  (67 B)
+|  ColMap_11cd7d  @ $11CD7D  (67 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cd7d, "ax", @progbits
-        .global Zero_11cd7d
-Zero_11cd7d:
+        .section .text.ColMap_11cd7d, "ax", @progbits
+        .global ColMap_11cd7d
+ColMap_11cd7d:
         .fill   67,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11cdc0  @ $11CDC0  (36 B)
+|  ColMap_11cdc0  @ $11CDC0  (36 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11cdc0, "ax", @progbits
-        .global Str_11cdc0
-Str_11cdc0:
+        .section .text.ColMap_11cdc0, "ax", @progbits
+        .global ColMap_11cdc0
+ColMap_11cdc0:
         .dc.w   0xd1d1                                                      | +00000
         .fill   30,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11cde4  @ $11CDE4  (68 B)
+|  ColMap_11cde4  @ $11CDE4  (68 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cde4, "ax", @progbits
-        .global Zero_11cde4
-Zero_11cde4:
+        .section .text.ColMap_11cde4, "ax", @progbits
+        .global ColMap_11cde4
+ColMap_11cde4:
         .fill   68,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ce28  @ $11CE28  (35 B)
+|  ColMap_11ce28  @ $11CE28  (35 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ce28, "ax", @progbits
-        .global Data_11ce28
-Data_11ce28:
+        .section .text.ColMap_11ce28, "ax", @progbits
+        .global ColMap_11ce28
+ColMap_11ce28:
         .dc.w   0xd1d1                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +0001e
         .dc.b   0x3e                            | +00022
 
 | ----------------------------------------------------------------------------
-|  Zero_11ce4b  @ $11CE4B  (69 B)
+|  ColMap_11ce4b  @ $11CE4B  (69 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ce4b, "ax", @progbits
-        .global Zero_11ce4b
-Zero_11ce4b:
+        .section .text.ColMap_11ce4b, "ax", @progbits
+        .global ColMap_11ce4b
+ColMap_11ce4b:
         .fill   69,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ce90  @ $11CE90  (34 B)
+|  ColMap_11ce90  @ $11CE90  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ce90, "ax", @progbits
-        .global Data_11ce90
-Data_11ce90:
+        .section .text.ColMap_11ce90, "ax", @progbits
+        .global ColMap_11ce90
+ColMap_11ce90:
         .dc.w   0xd1d1                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11ceb2  @ $11CEB2  (70 B)
+|  ColMap_11ceb2  @ $11CEB2  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ceb2, "ax", @progbits
-        .global Zero_11ceb2
-Zero_11ceb2:
+        .section .text.ColMap_11ceb2, "ax", @progbits
+        .global ColMap_11ceb2
+ColMap_11ceb2:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cef8  @ $11CEF8  (33 B)
+|  ColMap_11cef8  @ $11CEF8  (33 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cef8, "ax", @progbits
-        .global Data_11cef8
-Data_11cef8:
+        .section .text.ColMap_11cef8, "ax", @progbits
+        .global ColMap_11cef8
+ColMap_11cef8:
         .dc.w   0xd1d1                                                      | +00000
         .fill   26,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +0001c
         .dc.b   0x3e                            | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11cf19  @ $11CF19  (71 B)
+|  ColMap_11cf19  @ $11CF19  (71 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cf19, "ax", @progbits
-        .global Zero_11cf19
-Zero_11cf19:
+        .section .text.ColMap_11cf19, "ax", @progbits
+        .global ColMap_11cf19
+ColMap_11cf19:
         .fill   71,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cf60  @ $11CF60  (32 B)
+|  ColMap_11cf60  @ $11CF60  (32 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cf60, "ax", @progbits
-        .global Data_11cf60
-Data_11cf60:
+        .section .text.ColMap_11cf60, "ax", @progbits
+        .global ColMap_11cf60
+ColMap_11cf60:
         .dc.w   0xd1d1                                                      | +00000
         .fill   26,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +0001c
 
 | ----------------------------------------------------------------------------
-|  Zero_11cf80  @ $11CF80  (72 B)
+|  ColMap_11cf80  @ $11CF80  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cf80, "ax", @progbits
-        .global Zero_11cf80
-Zero_11cf80:
+        .section .text.ColMap_11cf80, "ax", @progbits
+        .global ColMap_11cf80
+ColMap_11cf80:
         .fill   72,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11cfc8  @ $11CFC8  (31 B)
+|  ColMap_11cfc8  @ $11CFC8  (31 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11cfc8, "ax", @progbits
-        .global Data_11cfc8
-Data_11cfc8:
+        .section .text.ColMap_11cfc8, "ax", @progbits
+        .global ColMap_11cfc8
+ColMap_11cfc8:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +0001a
         .dc.b   0x3e                            | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11cfe7  @ $11CFE7  (73 B)
+|  ColMap_11cfe7  @ $11CFE7  (73 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11cfe7, "ax", @progbits
-        .global Zero_11cfe7
-Zero_11cfe7:
+        .section .text.ColMap_11cfe7, "ax", @progbits
+        .global ColMap_11cfe7
+ColMap_11cfe7:
         .fill   73,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d030  @ $11D030  (30 B)
+|  ColMap_11d030  @ $11D030  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d030, "ax", @progbits
-        .global Data_11d030
-Data_11d030:
+        .section .text.ColMap_11d030, "ax", @progbits
+        .global ColMap_11d030
+ColMap_11d030:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d04e  @ $11D04E  (74 B)
+|  ColMap_11d04e  @ $11D04E  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d04e, "ax", @progbits
-        .global Zero_11d04e
-Zero_11d04e:
+        .section .text.ColMap_11d04e, "ax", @progbits
+        .global ColMap_11d04e
+ColMap_11d04e:
         .fill   74,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d098  @ $11D098  (29 B)
+|  ColMap_11d098  @ $11D098  (29 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d098, "ax", @progbits
-        .global Data_11d098
-Data_11d098:
+        .section .text.ColMap_11d098, "ax", @progbits
+        .global ColMap_11d098
+ColMap_11d098:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00018
         .dc.b   0x3e                            | +0001c
 
 | ----------------------------------------------------------------------------
-|  Zero_11d0b5  @ $11D0B5  (75 B)
+|  ColMap_11d0b5  @ $11D0B5  (75 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d0b5, "ax", @progbits
-        .global Zero_11d0b5
-Zero_11d0b5:
+        .section .text.ColMap_11d0b5, "ax", @progbits
+        .global ColMap_11d0b5
+ColMap_11d0b5:
         .fill   75,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d100  @ $11D100  (28 B)
+|  ColMap_11d100  @ $11D100  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d100, "ax", @progbits
-        .global Data_11d100
-Data_11d100:
+        .section .text.ColMap_11d100, "ax", @progbits
+        .global ColMap_11d100
+ColMap_11d100:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_11d11c  @ $11D11C  (76 B)
+|  ColMap_11d11c  @ $11D11C  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d11c, "ax", @progbits
-        .global Zero_11d11c
-Zero_11d11c:
+        .section .text.ColMap_11d11c, "ax", @progbits
+        .global ColMap_11d11c
+ColMap_11d11c:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d168  @ $11D168  (27 B)
+|  ColMap_11d168  @ $11D168  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d168, "ax", @progbits
-        .global Data_11d168
-Data_11d168:
+        .section .text.ColMap_11d168, "ax", @progbits
+        .global ColMap_11d168
+ColMap_11d168:
         .dc.w   0xd1d1                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d183  @ $11D183  (77 B)
+|  ColMap_11d183  @ $11D183  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d183, "ax", @progbits
-        .global Zero_11d183
-Zero_11d183:
+        .section .text.ColMap_11d183, "ax", @progbits
+        .global ColMap_11d183
+ColMap_11d183:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d1d0  @ $11D1D0  (26 B)
+|  ColMap_11d1d0  @ $11D1D0  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d1d0, "ax", @progbits
-        .global Data_11d1d0
-Data_11d1d0:
+        .section .text.ColMap_11d1d0, "ax", @progbits
+        .global ColMap_11d1d0
+ColMap_11d1d0:
         .dc.w   0xd1d1                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d1ea  @ $11D1EA  (76 B)
+|  ColMap_11d1ea  @ $11D1EA  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d1ea, "ax", @progbits
-        .global Zero_11d1ea
-Zero_11d1ea:
+        .section .text.ColMap_11d1ea, "ax", @progbits
+        .global ColMap_11d1ea
+ColMap_11d1ea:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d236  @ $11D236  (27 B)
+|  ColMap_11d236  @ $11D236  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d236, "ax", @progbits
-        .global Data_11d236
-Data_11d236:
+        .section .text.ColMap_11d236, "ax", @progbits
+        .global ColMap_11d236
+ColMap_11d236:
         .dc.w   0xd4d5,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d251  @ $11D251  (77 B)
+|  ColMap_11d251  @ $11D251  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d251, "ax", @progbits
-        .global Zero_11d251
-Zero_11d251:
+        .section .text.ColMap_11d251, "ax", @progbits
+        .global ColMap_11d251
+ColMap_11d251:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d29e  @ $11D29E  (26 B)
+|  ColMap_11d29e  @ $11D29E  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d29e, "ax", @progbits
-        .global Data_11d29e
-Data_11d29e:
+        .section .text.ColMap_11d29e, "ax", @progbits
+        .global ColMap_11d29e
+ColMap_11d29e:
         .dc.w   0xd6d7,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d2b8  @ $11D2B8  (76 B)
+|  ColMap_11d2b8  @ $11D2B8  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d2b8, "ax", @progbits
-        .global Zero_11d2b8
-Zero_11d2b8:
+        .section .text.ColMap_11d2b8, "ax", @progbits
+        .global ColMap_11d2b8
+ColMap_11d2b8:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d304  @ $11D304  (27 B)
+|  ColMap_11d304  @ $11D304  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d304, "ax", @progbits
-        .global Data_11d304
-Data_11d304:
+        .section .text.ColMap_11d304, "ax", @progbits
+        .global ColMap_11d304
+ColMap_11d304:
         .dc.w   0xd4d5,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d31f  @ $11D31F  (77 B)
+|  ColMap_11d31f  @ $11D31F  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d31f, "ax", @progbits
-        .global Zero_11d31f
-Zero_11d31f:
+        .section .text.ColMap_11d31f, "ax", @progbits
+        .global ColMap_11d31f
+ColMap_11d31f:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d36c  @ $11D36C  (26 B)
+|  ColMap_11d36c  @ $11D36C  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d36c, "ax", @progbits
-        .global Data_11d36c
-Data_11d36c:
+        .section .text.ColMap_11d36c, "ax", @progbits
+        .global ColMap_11d36c
+ColMap_11d36c:
         .dc.w   0xd6d7,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d386  @ $11D386  (76 B)
+|  ColMap_11d386  @ $11D386  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d386, "ax", @progbits
-        .global Zero_11d386
-Zero_11d386:
+        .section .text.ColMap_11d386, "ax", @progbits
+        .global ColMap_11d386
+ColMap_11d386:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d3d2  @ $11D3D2  (27 B)
+|  ColMap_11d3d2  @ $11D3D2  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d3d2, "ax", @progbits
-        .global Data_11d3d2
-Data_11d3d2:
+        .section .text.ColMap_11d3d2, "ax", @progbits
+        .global ColMap_11d3d2
+ColMap_11d3d2:
         .dc.w   0xd4d5,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d3ed  @ $11D3ED  (77 B)
+|  ColMap_11d3ed  @ $11D3ED  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d3ed, "ax", @progbits
-        .global Zero_11d3ed
-Zero_11d3ed:
+        .section .text.ColMap_11d3ed, "ax", @progbits
+        .global ColMap_11d3ed
+ColMap_11d3ed:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d43a  @ $11D43A  (26 B)
+|  ColMap_11d43a  @ $11D43A  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d43a, "ax", @progbits
-        .global Data_11d43a
-Data_11d43a:
+        .section .text.ColMap_11d43a, "ax", @progbits
+        .global ColMap_11d43a
+ColMap_11d43a:
         .dc.w   0xd6d7,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d454  @ $11D454  (76 B)
+|  ColMap_11d454  @ $11D454  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d454, "ax", @progbits
-        .global Zero_11d454
-Zero_11d454:
+        .section .text.ColMap_11d454, "ax", @progbits
+        .global ColMap_11d454
+ColMap_11d454:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d4a0  @ $11D4A0  (27 B)
+|  ColMap_11d4a0  @ $11D4A0  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d4a0, "ax", @progbits
-        .global Data_11d4a0
-Data_11d4a0:
+        .section .text.ColMap_11d4a0, "ax", @progbits
+        .global ColMap_11d4a0
+ColMap_11d4a0:
         .dc.w   0xd4d5,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d4bb  @ $11D4BB  (77 B)
+|  ColMap_11d4bb  @ $11D4BB  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d4bb, "ax", @progbits
-        .global Zero_11d4bb
-Zero_11d4bb:
+        .section .text.ColMap_11d4bb, "ax", @progbits
+        .global ColMap_11d4bb
+ColMap_11d4bb:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d508  @ $11D508  (26 B)
+|  ColMap_11d508  @ $11D508  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d508, "ax", @progbits
-        .global Data_11d508
-Data_11d508:
+        .section .text.ColMap_11d508, "ax", @progbits
+        .global ColMap_11d508
+ColMap_11d508:
         .dc.w   0xd6d7,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d522  @ $11D522  (76 B)
+|  ColMap_11d522  @ $11D522  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d522, "ax", @progbits
-        .global Zero_11d522
-Zero_11d522:
+        .section .text.ColMap_11d522, "ax", @progbits
+        .global ColMap_11d522
+ColMap_11d522:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d56e  @ $11D56E  (27 B)
+|  ColMap_11d56e  @ $11D56E  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d56e, "ax", @progbits
-        .global Data_11d56e
-Data_11d56e:
+        .section .text.ColMap_11d56e, "ax", @progbits
+        .global ColMap_11d56e
+ColMap_11d56e:
         .dc.w   0xd4d5,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d589  @ $11D589  (77 B)
+|  ColMap_11d589  @ $11D589  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d589, "ax", @progbits
-        .global Zero_11d589
-Zero_11d589:
+        .section .text.ColMap_11d589, "ax", @progbits
+        .global ColMap_11d589
+ColMap_11d589:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d5d6  @ $11D5D6  (26 B)
+|  ColMap_11d5d6  @ $11D5D6  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d5d6, "ax", @progbits
-        .global Data_11d5d6
-Data_11d5d6:
+        .section .text.ColMap_11d5d6, "ax", @progbits
+        .global ColMap_11d5d6
+ColMap_11d5d6:
         .dc.w   0xd6d7,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d5f0  @ $11D5F0  (76 B)
+|  ColMap_11d5f0  @ $11D5F0  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d5f0, "ax", @progbits
-        .global Zero_11d5f0
-Zero_11d5f0:
+        .section .text.ColMap_11d5f0, "ax", @progbits
+        .global ColMap_11d5f0
+ColMap_11d5f0:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d63c  @ $11D63C  (27 B)
+|  ColMap_11d63c  @ $11D63C  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d63c, "ax", @progbits
-        .global Data_11d63c
-Data_11d63c:
+        .section .text.ColMap_11d63c, "ax", @progbits
+        .global ColMap_11d63c
+ColMap_11d63c:
         .dc.w   0xd4d5,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d657  @ $11D657  (77 B)
+|  ColMap_11d657  @ $11D657  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d657, "ax", @progbits
-        .global Zero_11d657
-Zero_11d657:
+        .section .text.ColMap_11d657, "ax", @progbits
+        .global ColMap_11d657
+ColMap_11d657:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d6a4  @ $11D6A4  (26 B)
+|  ColMap_11d6a4  @ $11D6A4  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d6a4, "ax", @progbits
-        .global Data_11d6a4
-Data_11d6a4:
+        .section .text.ColMap_11d6a4, "ax", @progbits
+        .global ColMap_11d6a4
+ColMap_11d6a4:
         .dc.w   0xd6d7,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d6be  @ $11D6BE  (76 B)
+|  ColMap_11d6be  @ $11D6BE  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d6be, "ax", @progbits
-        .global Zero_11d6be
-Zero_11d6be:
+        .section .text.ColMap_11d6be, "ax", @progbits
+        .global ColMap_11d6be
+ColMap_11d6be:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d70a  @ $11D70A  (27 B)
+|  ColMap_11d70a  @ $11D70A  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d70a, "ax", @progbits
-        .global Data_11d70a
-Data_11d70a:
+        .section .text.ColMap_11d70a, "ax", @progbits
+        .global ColMap_11d70a
+ColMap_11d70a:
         .dc.w   0xd4d5,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d725  @ $11D725  (77 B)
+|  ColMap_11d725  @ $11D725  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d725, "ax", @progbits
-        .global Zero_11d725
-Zero_11d725:
+        .section .text.ColMap_11d725, "ax", @progbits
+        .global ColMap_11d725
+ColMap_11d725:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d772  @ $11D772  (26 B)
+|  ColMap_11d772  @ $11D772  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d772, "ax", @progbits
-        .global Data_11d772
-Data_11d772:
+        .section .text.ColMap_11d772, "ax", @progbits
+        .global ColMap_11d772
+ColMap_11d772:
         .dc.w   0xd6d7,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d78c  @ $11D78C  (76 B)
+|  ColMap_11d78c  @ $11D78C  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d78c, "ax", @progbits
-        .global Zero_11d78c
-Zero_11d78c:
+        .section .text.ColMap_11d78c, "ax", @progbits
+        .global ColMap_11d78c
+ColMap_11d78c:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d7d8  @ $11D7D8  (27 B)
+|  ColMap_11d7d8  @ $11D7D8  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d7d8, "ax", @progbits
-        .global Data_11d7d8
-Data_11d7d8:
+        .section .text.ColMap_11d7d8, "ax", @progbits
+        .global ColMap_11d7d8
+ColMap_11d7d8:
         .dc.w   0xd4d5,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11d7f3  @ $11D7F3  (77 B)
+|  ColMap_11d7f3  @ $11D7F3  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d7f3, "ax", @progbits
-        .global Zero_11d7f3
-Zero_11d7f3:
+        .section .text.ColMap_11d7f3, "ax", @progbits
+        .global ColMap_11d7f3
+ColMap_11d7f3:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d840  @ $11D840  (26 B)
+|  ColMap_11d840  @ $11D840  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d840, "ax", @progbits
-        .global Data_11d840
-Data_11d840:
+        .section .text.ColMap_11d840, "ax", @progbits
+        .global ColMap_11d840
+ColMap_11d840:
         .dc.w   0xd6d7,0xdede                                               | +00000
         .fill   18,1,0x00                      | +00004
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d85a  @ $11D85A  (78 B)
+|  ColMap_11d85a  @ $11D85A  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d85a, "ax", @progbits
-        .global Zero_11d85a
-Zero_11d85a:
+        .section .text.ColMap_11d85a, "ax", @progbits
+        .global ColMap_11d85a
+ColMap_11d85a:
         .fill   78,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d8a8  @ $11D8A8  (25 B)
+|  ColMap_11d8a8  @ $11D8A8  (25 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d8a8, "ax", @progbits
-        .global Data_11d8a8
-Data_11d8a8:
+        .section .text.ColMap_11d8a8, "ax", @progbits
+        .global ColMap_11d8a8
+ColMap_11d8a8:
         .dc.w   0xd1d1                                                      | +00000
         .fill   18,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00014
         .dc.b   0x3e                            | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_11d8c1  @ $11D8C1  (79 B)
+|  ColMap_11d8c1  @ $11D8C1  (79 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d8c1, "ax", @progbits
-        .global Zero_11d8c1
-Zero_11d8c1:
+        .section .text.ColMap_11d8c1, "ax", @progbits
+        .global ColMap_11d8c1
+ColMap_11d8c1:
         .fill   79,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d910  @ $11D910  (24 B)
+|  ColMap_11d910  @ $11D910  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d910, "ax", @progbits
-        .global Data_11d910
-Data_11d910:
+        .section .text.ColMap_11d910, "ax", @progbits
+        .global ColMap_11d910
+ColMap_11d910:
         .dc.w   0xd1d1                                                      | +00000
         .fill   18,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00014
 
 | ----------------------------------------------------------------------------
-|  Zero_11d928  @ $11D928  (80 B)
+|  ColMap_11d928  @ $11D928  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d928, "ax", @progbits
-        .global Zero_11d928
-Zero_11d928:
+        .section .text.ColMap_11d928, "ax", @progbits
+        .global ColMap_11d928
+ColMap_11d928:
         .fill   80,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d978  @ $11D978  (23 B)
+|  ColMap_11d978  @ $11D978  (23 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d978, "ax", @progbits
-        .global Data_11d978
-Data_11d978:
+        .section .text.ColMap_11d978, "ax", @progbits
+        .global ColMap_11d978
+ColMap_11d978:
         .dc.w   0xd1d1                                                      | +00000
         .fill   16,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00012
         .dc.b   0x3e                            | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11d98f  @ $11D98F  (78 B)
+|  ColMap_11d98f  @ $11D98F  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d98f, "ax", @progbits
-        .global Zero_11d98f
-Zero_11d98f:
+        .section .text.ColMap_11d98f, "ax", @progbits
+        .global ColMap_11d98f
+ColMap_11d98f:
         .fill   78,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11d9dd  @ $11D9DD  (25 B)
+|  ColMap_11d9dd  @ $11D9DD  (25 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11d9dd, "ax", @progbits
-        .global Data_11d9dd
-Data_11d9dd:
+        .section .text.ColMap_11d9dd, "ax", @progbits
+        .global ColMap_11d9dd
+ColMap_11d9dd:
         .dc.b   0xd2                            | +00000
         .dc.w   0xd2dc,0xdc00                                               | +00001
         .fill   16,1,0x00                      | +00005
         .dc.w   0x1617,0x1e1e                                               | +00015
 
 | ----------------------------------------------------------------------------
-|  Zero_11d9f6  @ $11D9F6  (75 B)
+|  ColMap_11d9f6  @ $11D9F6  (75 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11d9f6, "ax", @progbits
-        .global Zero_11d9f6
-Zero_11d9f6:
+        .section .text.ColMap_11d9f6, "ax", @progbits
+        .global ColMap_11d9f6
+ColMap_11d9f6:
         .fill   75,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11da41  @ $11DA41  (28 B)
+|  ColMap_11da41  @ $11DA41  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11da41, "ax", @progbits
-        .global Data_11da41
-Data_11da41:
+        .section .text.ColMap_11da41, "ax", @progbits
+        .global ColMap_11da41
+ColMap_11da41:
         .dc.b   0xd2                            | +00000
         .dc.w   0xd2dc,0xdc00                                               | +00001
         .fill   18,1,0x00                      | +00005
@@ -5511,316 +5541,316 @@ Data_11da41:
         .dc.b   0x3e                            | +0001b
 
 | ----------------------------------------------------------------------------
-|  Zero_11da5d  @ $11DA5D  (72 B)
+|  ColMap_11da5d  @ $11DA5D  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11da5d, "ax", @progbits
-        .global Zero_11da5d
-Zero_11da5d:
+        .section .text.ColMap_11da5d, "ax", @progbits
+        .global ColMap_11da5d
+ColMap_11da5d:
         .fill   72,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11daa5  @ $11DAA5  (31 B)
+|  ColMap_11daa5  @ $11DAA5  (31 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11daa5, "ax", @progbits
-        .global Data_11daa5
-Data_11daa5:
+        .section .text.ColMap_11daa5, "ax", @progbits
+        .global ColMap_11daa5
+ColMap_11daa5:
         .dc.b   0xd2                            | +00000
         .dc.w   0xd2dc,0xdc00                                               | +00001
         .fill   22,1,0x00                      | +00005
         .dc.w   0x1617,0x1e1e                                               | +0001b
 
 | ----------------------------------------------------------------------------
-|  Zero_11dac4  @ $11DAC4  (72 B)
+|  ColMap_11dac4  @ $11DAC4  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11dac4, "ax", @progbits
-        .global Zero_11dac4
-Zero_11dac4:
+        .section .text.ColMap_11dac4, "ax", @progbits
+        .global ColMap_11dac4
+ColMap_11dac4:
         .fill   72,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11db0c  @ $11DB0C  (31 B)
+|  ColMap_11db0c  @ $11DB0C  (31 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11db0c, "ax", @progbits
-        .global Data_11db0c
-Data_11db0c:
+        .section .text.ColMap_11db0c, "ax", @progbits
+        .global ColMap_11db0c
+ColMap_11db0c:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +0001a
         .dc.b   0x3e                            | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11db2b  @ $11DB2B  (73 B)
+|  ColMap_11db2b  @ $11DB2B  (73 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11db2b, "ax", @progbits
-        .global Zero_11db2b
-Zero_11db2b:
+        .section .text.ColMap_11db2b, "ax", @progbits
+        .global ColMap_11db2b
+ColMap_11db2b:
         .fill   73,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11db74  @ $11DB74  (30 B)
+|  ColMap_11db74  @ $11DB74  (30 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11db74, "ax", @progbits
-        .global Data_11db74
-Data_11db74:
+        .section .text.ColMap_11db74, "ax", @progbits
+        .global ColMap_11db74
+ColMap_11db74:
         .dc.w   0xd1d1                                                      | +00000
         .fill   24,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11db92  @ $11DB92  (74 B)
+|  ColMap_11db92  @ $11DB92  (74 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11db92, "ax", @progbits
-        .global Zero_11db92
-Zero_11db92:
+        .section .text.ColMap_11db92, "ax", @progbits
+        .global ColMap_11db92
+ColMap_11db92:
         .fill   74,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11dbdc  @ $11DBDC  (29 B)
+|  ColMap_11dbdc  @ $11DBDC  (29 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11dbdc, "ax", @progbits
-        .global Data_11dbdc
-Data_11dbdc:
+        .section .text.ColMap_11dbdc, "ax", @progbits
+        .global ColMap_11dbdc
+ColMap_11dbdc:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00018
         .dc.b   0x3e                            | +0001c
 
 | ----------------------------------------------------------------------------
-|  Zero_11dbf9  @ $11DBF9  (75 B)
+|  ColMap_11dbf9  @ $11DBF9  (75 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11dbf9, "ax", @progbits
-        .global Zero_11dbf9
-Zero_11dbf9:
+        .section .text.ColMap_11dbf9, "ax", @progbits
+        .global ColMap_11dbf9
+ColMap_11dbf9:
         .fill   75,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11dc44  @ $11DC44  (28 B)
+|  ColMap_11dc44  @ $11DC44  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11dc44, "ax", @progbits
-        .global Data_11dc44
-Data_11dc44:
+        .section .text.ColMap_11dc44, "ax", @progbits
+        .global ColMap_11dc44
+ColMap_11dc44:
         .dc.w   0xd1d1                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_11dc60  @ $11DC60  (76 B)
+|  ColMap_11dc60  @ $11DC60  (76 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11dc60, "ax", @progbits
-        .global Zero_11dc60
-Zero_11dc60:
+        .section .text.ColMap_11dc60, "ax", @progbits
+        .global ColMap_11dc60
+ColMap_11dc60:
         .fill   76,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11dcac  @ $11DCAC  (27 B)
+|  ColMap_11dcac  @ $11DCAC  (27 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11dcac, "ax", @progbits
-        .global Data_11dcac
-Data_11dcac:
+        .section .text.ColMap_11dcac, "ax", @progbits
+        .global ColMap_11dcac
+ColMap_11dcac:
         .dc.w   0xd1d1                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00016
         .dc.b   0x3e                            | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11dcc7  @ $11DCC7  (77 B)
+|  ColMap_11dcc7  @ $11DCC7  (77 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11dcc7, "ax", @progbits
-        .global Zero_11dcc7
-Zero_11dcc7:
+        .section .text.ColMap_11dcc7, "ax", @progbits
+        .global ColMap_11dcc7
+ColMap_11dcc7:
         .fill   77,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11dd14  @ $11DD14  (26 B)
+|  ColMap_11dd14  @ $11DD14  (26 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11dd14, "ax", @progbits
-        .global Data_11dd14
-Data_11dd14:
+        .section .text.ColMap_11dd14, "ax", @progbits
+        .global ColMap_11dd14
+ColMap_11dd14:
         .dc.w   0xd1d1                                                      | +00000
         .fill   20,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11dd2e  @ $11DD2E  (78 B)
+|  ColMap_11dd2e  @ $11DD2E  (78 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11dd2e, "ax", @progbits
-        .global Zero_11dd2e
-Zero_11dd2e:
+        .section .text.ColMap_11dd2e, "ax", @progbits
+        .global ColMap_11dd2e
+ColMap_11dd2e:
         .fill   78,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11dd7c  @ $11DD7C  (25 B)
+|  ColMap_11dd7c  @ $11DD7C  (25 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11dd7c, "ax", @progbits
-        .global Data_11dd7c
-Data_11dd7c:
+        .section .text.ColMap_11dd7c, "ax", @progbits
+        .global ColMap_11dd7c
+ColMap_11dd7c:
         .dc.w   0xd1d1                                                      | +00000
         .fill   18,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00014
         .dc.b   0x3e                            | +00018
 
 | ----------------------------------------------------------------------------
-|  Zero_11dd95  @ $11DD95  (79 B)
+|  ColMap_11dd95  @ $11DD95  (79 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11dd95, "ax", @progbits
-        .global Zero_11dd95
-Zero_11dd95:
+        .section .text.ColMap_11dd95, "ax", @progbits
+        .global ColMap_11dd95
+ColMap_11dd95:
         .fill   79,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11dde4  @ $11DDE4  (24 B)
+|  ColMap_11dde4  @ $11DDE4  (24 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11dde4, "ax", @progbits
-        .global Data_11dde4
-Data_11dde4:
+        .section .text.ColMap_11dde4, "ax", @progbits
+        .global ColMap_11dde4
+ColMap_11dde4:
         .dc.w   0xd1d1                                                      | +00000
         .fill   18,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00014
 
 | ----------------------------------------------------------------------------
-|  Zero_11ddfc  @ $11DDFC  (80 B)
+|  ColMap_11ddfc  @ $11DDFC  (80 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ddfc, "ax", @progbits
-        .global Zero_11ddfc
-Zero_11ddfc:
+        .section .text.ColMap_11ddfc, "ax", @progbits
+        .global ColMap_11ddfc
+ColMap_11ddfc:
         .fill   80,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11de4c  @ $11DE4C  (23 B)
+|  ColMap_11de4c  @ $11DE4C  (23 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11de4c, "ax", @progbits
-        .global Data_11de4c
-Data_11de4c:
+        .section .text.ColMap_11de4c, "ax", @progbits
+        .global ColMap_11de4c
+ColMap_11de4c:
         .dc.w   0xd1d1                                                      | +00000
         .fill   16,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00012
         .dc.b   0x3e                            | +00016
 
 | ----------------------------------------------------------------------------
-|  Zero_11de63  @ $11DE63  (81 B)
+|  ColMap_11de63  @ $11DE63  (81 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11de63, "ax", @progbits
-        .global Zero_11de63
-Zero_11de63:
+        .section .text.ColMap_11de63, "ax", @progbits
+        .global ColMap_11de63
+ColMap_11de63:
         .fill   81,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11deb4  @ $11DEB4  (22 B)
+|  ColMap_11deb4  @ $11DEB4  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11deb4, "ax", @progbits
-        .global Data_11deb4
-Data_11deb4:
+        .section .text.ColMap_11deb4, "ax", @progbits
+        .global ColMap_11deb4
+ColMap_11deb4:
         .dc.w   0xd1d1                                                      | +00000
         .fill   16,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00012
 
 | ----------------------------------------------------------------------------
-|  Zero_11deca  @ $11DECA  (82 B)
+|  ColMap_11deca  @ $11DECA  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11deca, "ax", @progbits
-        .global Zero_11deca
-Zero_11deca:
+        .section .text.ColMap_11deca, "ax", @progbits
+        .global ColMap_11deca
+ColMap_11deca:
         .fill   82,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11df1c  @ $11DF1C  (21 B)
+|  ColMap_11df1c  @ $11DF1C  (21 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11df1c, "ax", @progbits
-        .global Data_11df1c
-Data_11df1c:
+        .section .text.ColMap_11df1c, "ax", @progbits
+        .global ColMap_11df1c
+ColMap_11df1c:
         .dc.w   0xd1d1                                                      | +00000
         .fill   14,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +00010
         .dc.b   0x3e                            | +00014
 
 | ----------------------------------------------------------------------------
-|  Zero_11df31  @ $11DF31  (83 B)
+|  ColMap_11df31  @ $11DF31  (83 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11df31, "ax", @progbits
-        .global Zero_11df31
-Zero_11df31:
+        .section .text.ColMap_11df31, "ax", @progbits
+        .global ColMap_11df31
+ColMap_11df31:
         .fill   83,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11df84  @ $11DF84  (20 B)
+|  ColMap_11df84  @ $11DF84  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11df84, "ax", @progbits
-        .global Data_11df84
-Data_11df84:
+        .section .text.ColMap_11df84, "ax", @progbits
+        .global ColMap_11df84
+ColMap_11df84:
         .dc.w   0xd1d1                                                      | +00000
         .fill   14,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Zero_11df98  @ $11DF98  (84 B)
+|  ColMap_11df98  @ $11DF98  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11df98, "ax", @progbits
-        .global Zero_11df98
-Zero_11df98:
+        .section .text.ColMap_11df98, "ax", @progbits
+        .global ColMap_11df98
+ColMap_11df98:
         .fill   84,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11dfec  @ $11DFEC  (19 B)
+|  ColMap_11dfec  @ $11DFEC  (19 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11dfec, "ax", @progbits
-        .global Data_11dfec
-Data_11dfec:
+        .section .text.ColMap_11dfec, "ax", @progbits
+        .global ColMap_11dfec
+ColMap_11dfec:
         .dc.w   0xd1d1                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1415,0x1e1e                                               | +0000e
         .dc.b   0x3e                            | +00012
 
 | ----------------------------------------------------------------------------
-|  Zero_11dfff  @ $11DFFF  (85 B)
+|  ColMap_11dfff  @ $11DFFF  (85 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11dfff, "ax", @progbits
-        .global Zero_11dfff
-Zero_11dfff:
+        .section .text.ColMap_11dfff, "ax", @progbits
+        .global ColMap_11dfff
+ColMap_11dfff:
         .fill   85,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e054  @ $11E054  (18 B)
+|  ColMap_11e054  @ $11E054  (18 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e054, "ax", @progbits
-        .global Data_11e054
-Data_11e054:
+        .section .text.ColMap_11e054, "ax", @progbits
+        .global ColMap_11e054
+ColMap_11e054:
         .dc.w   0xd1d1                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1617,0x1e1e                                               | +0000e
 
 | ----------------------------------------------------------------------------
-|  Zero_11e066  @ $11E066  (86 B)
+|  ColMap_11e066  @ $11E066  (86 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e066, "ax", @progbits
-        .global Zero_11e066
-Zero_11e066:
+        .section .text.ColMap_11e066, "ax", @progbits
+        .global ColMap_11e066
+ColMap_11e066:
         .fill   86,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e0bc  @ $11E0BC  (34 B)
+|  ColMap_11e0bc  @ $11E0BC  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e0bc, "ax", @progbits
-        .global Data_11e0bc
-Data_11e0bc:
+        .section .text.ColMap_11e0bc, "ax", @progbits
+        .global ColMap_11e0bc
+ColMap_11e0bc:
         .dc.w   0xd1d1                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1111,0x3400,0x0000,0x0000,0x0000,0x0100,0x0100,0x0100     | +0000e
         .dc.w   0x0100,0x1001                                               | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11e0de  @ $11E0DE  (70 B)
+|  ColMap_11e0de  @ $11E0DE  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e0de, "ax", @progbits
-        .global Zero_11e0de
-Zero_11e0de:
+        .section .text.ColMap_11e0de, "ax", @progbits
+        .global ColMap_11e0de
+ColMap_11e0de:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e124  @ $11E124  (34 B)
+|  ColMap_11e124  @ $11E124  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e124, "ax", @progbits
-        .global Data_11e124
-Data_11e124:
+        .section .text.ColMap_11e124, "ax", @progbits
+        .global ColMap_11e124
+ColMap_11e124:
         .dc.w   0xd1d1                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000e
@@ -5828,19 +5858,19 @@ Data_11e124:
         .dc.w   0x0101                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11e146  @ $11E146  (67 B)
+|  ColMap_11e146  @ $11E146  (67 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e146, "ax", @progbits
-        .global Zero_11e146
-Zero_11e146:
+        .section .text.ColMap_11e146, "ax", @progbits
+        .global ColMap_11e146
+ColMap_11e146:
         .fill   67,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e189  @ $11E189  (37 B)
+|  ColMap_11e189  @ $11E189  (37 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e189, "ax", @progbits
-        .global Data_11e189
-Data_11e189:
+        .section .text.ColMap_11e189, "ax", @progbits
+        .global ColMap_11e189
+ColMap_11e189:
         .dc.b   0xe6                            | +00000
         .dc.w   0x00e6,0xd1e7                                               | +00001
         .fill   12,1,0x00                      | +00005
@@ -5849,19 +5879,19 @@ Data_11e189:
         .dc.w   0x0101                                                      | +00023
 
 | ----------------------------------------------------------------------------
-|  Zero_11e1ae  @ $11E1AE  (61 B)
+|  ColMap_11e1ae  @ $11E1AE  (61 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e1ae, "ax", @progbits
-        .global Zero_11e1ae
-Zero_11e1ae:
+        .section .text.ColMap_11e1ae, "ax", @progbits
+        .global ColMap_11e1ae
+ColMap_11e1ae:
         .fill   61,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11e1eb  @ $11E1EB  (43 B)
+|  ColMap_11e1eb  @ $11E1EB  (43 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11e1eb, "ax", @progbits
-        .global Str_11e1eb
-Str_11e1eb:
+        .section .text.ColMap_11e1eb, "ax", @progbits
+        .global ColMap_11e1eb
+ColMap_11e1eb:
         .dc.b   0xd1                            | +00000
         .fill   22,1,0x00                      | +00001
         .dc.w   0x1111                                                      | +00017
@@ -5869,19 +5899,19 @@ Str_11e1eb:
         .dc.w   0x0101                                                      | +00029
 
 | ----------------------------------------------------------------------------
-|  Zero_11e216  @ $11E216  (60 B)
+|  ColMap_11e216  @ $11E216  (60 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e216, "ax", @progbits
-        .global Zero_11e216
-Zero_11e216:
+        .section .text.ColMap_11e216, "ax", @progbits
+        .global ColMap_11e216
+ColMap_11e216:
         .fill   60,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11e252  @ $11E252  (44 B)
+|  ColMap_11e252  @ $11E252  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11e252, "ax", @progbits
-        .global Str_11e252
-Str_11e252:
+        .section .text.ColMap_11e252, "ax", @progbits
+        .global ColMap_11e252
+ColMap_11e252:
         .dc.w   0xd100                                                      | +00000
         .fill   22,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00018
@@ -5889,37 +5919,37 @@ Str_11e252:
         .dc.w   0x0101                                                      | +0002a
 
 | ----------------------------------------------------------------------------
-|  Zero_11e27e  @ $11E27E  (84 B)
+|  ColMap_11e27e  @ $11E27E  (84 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e27e, "ax", @progbits
-        .global Zero_11e27e
-Zero_11e27e:
+        .section .text.ColMap_11e27e, "ax", @progbits
+        .global ColMap_11e27e
+ColMap_11e27e:
         .fill   84,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e2d2  @ $11E2D2  (20 B)
+|  ColMap_11e2d2  @ $11E2D2  (20 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e2d2, "ax", @progbits
-        .global Data_11e2d2
-Data_11e2d2:
+        .section .text.ColMap_11e2d2, "ax", @progbits
+        .global ColMap_11e2d2
+ColMap_11e2d2:
         .dc.w   0x1111                                                      | +00000
         .fill   16,1,0x00                      | +00002
         .dc.w   0x0101                                                      | +00012
 
 | ----------------------------------------------------------------------------
-|  Zero_11e2e6  @ $11E2E6  (71 B)
+|  ColMap_11e2e6  @ $11E2E6  (71 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e2e6, "ax", @progbits
-        .global Zero_11e2e6
-Zero_11e2e6:
+        .section .text.ColMap_11e2e6, "ax", @progbits
+        .global ColMap_11e2e6
+ColMap_11e2e6:
         .fill   71,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e32d  @ $11E32D  (33 B)
+|  ColMap_11e32d  @ $11E32D  (33 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e32d, "ax", @progbits
-        .global Data_11e32d
-Data_11e32d:
+        .section .text.ColMap_11e32d, "ax", @progbits
+        .global ColMap_11e32d
+ColMap_11e32d:
         .dc.b   0xd1                            | +00000
         .fill   12,1,0x00                      | +00001
         .dc.w   0x1111                                                      | +0000d
@@ -5927,19 +5957,19 @@ Data_11e32d:
         .dc.w   0x0101                                                      | +0001f
 
 | ----------------------------------------------------------------------------
-|  Zero_11e34e  @ $11E34E  (70 B)
+|  ColMap_11e34e  @ $11E34E  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e34e, "ax", @progbits
-        .global Zero_11e34e
-Zero_11e34e:
+        .section .text.ColMap_11e34e, "ax", @progbits
+        .global ColMap_11e34e
+ColMap_11e34e:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e394  @ $11E394  (34 B)
+|  ColMap_11e394  @ $11E394  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e394, "ax", @progbits
-        .global Data_11e394
-Data_11e394:
+        .section .text.ColMap_11e394, "ax", @progbits
+        .global ColMap_11e394
+ColMap_11e394:
         .dc.w   0xd1d1                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000e
@@ -5947,19 +5977,19 @@ Data_11e394:
         .dc.w   0x0101                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11e3b6  @ $11E3B6  (70 B)
+|  ColMap_11e3b6  @ $11E3B6  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e3b6, "ax", @progbits
-        .global Zero_11e3b6
-Zero_11e3b6:
+        .section .text.ColMap_11e3b6, "ax", @progbits
+        .global ColMap_11e3b6
+ColMap_11e3b6:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e3fc  @ $11E3FC  (34 B)
+|  ColMap_11e3fc  @ $11E3FC  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e3fc, "ax", @progbits
-        .global Data_11e3fc
-Data_11e3fc:
+        .section .text.ColMap_11e3fc, "ax", @progbits
+        .global ColMap_11e3fc
+ColMap_11e3fc:
         .dc.w   0xd1d1                                                      | +00000
         .fill   11,1,0x00                      | +00002
         .dc.b   0x12                            | +0000d
@@ -5968,58 +5998,58 @@ Data_11e3fc:
         .dc.w   0x0101                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11e41e  @ $11E41E  (70 B)
+|  ColMap_11e41e  @ $11E41E  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e41e, "ax", @progbits
-        .global Zero_11e41e
-Zero_11e41e:
+        .section .text.ColMap_11e41e, "ax", @progbits
+        .global ColMap_11e41e
+ColMap_11e41e:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e464  @ $11E464  (34 B)
+|  ColMap_11e464  @ $11E464  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e464, "ax", @progbits
-        .global Data_11e464
-Data_11e464:
+        .section .text.ColMap_11e464, "ax", @progbits
+        .global ColMap_11e464
+ColMap_11e464:
         .dc.w   0xd1d1,0x0000,0x0000,0x0000                                 | +00000
-        .dc.l   Data_12121c                   | +00008  -> $12121C
+        .dc.l   SprFrame_12121c                   | +00008  -> $12121C
         .dc.w   0x1c3c,0x1111                                               | +0000c
         .fill   16,1,0x00                      | +00010
         .dc.w   0x0101                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Zero_11e486  @ $11E486  (75 B)
+|  ColMap_11e486  @ $11E486  (75 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e486, "ax", @progbits
-        .global Zero_11e486
-Zero_11e486:
+        .section .text.ColMap_11e486, "ax", @progbits
+        .global ColMap_11e486
+ColMap_11e486:
         .fill   75,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e4d1  @ $11E4D1  (29 B)
+|  ColMap_11e4d1  @ $11E4D1  (29 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e4d1, "ax", @progbits
-        .global Data_11e4d1
-Data_11e4d1:
+        .section .text.ColMap_11e4d1, "ax", @progbits
+        .global ColMap_11e4d1
+ColMap_11e4d1:
         .dc.b   0x12                            | +00000
         .dc.w   0x121c,0x1c3c,0x3c00,0x0000,0x1111,0x0034                   | +00001
         .fill   14,1,0x00                      | +0000d
         .dc.w   0x0101                                                      | +0001b
 
 | ----------------------------------------------------------------------------
-|  Zero_11e4ee  @ $11E4EE  (71 B)
+|  ColMap_11e4ee  @ $11E4EE  (71 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e4ee, "ax", @progbits
-        .global Zero_11e4ee
-Zero_11e4ee:
+        .section .text.ColMap_11e4ee, "ax", @progbits
+        .global ColMap_11e4ee
+ColMap_11e4ee:
         .fill   71,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e535  @ $11E535  (33 B)
+|  ColMap_11e535  @ $11E535  (33 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e535, "ax", @progbits
-        .global Data_11e535
-Data_11e535:
+        .section .text.ColMap_11e535, "ax", @progbits
+        .global ColMap_11e535
+ColMap_11e535:
         .dc.b   0x12                            | +00000
         .dc.w   0x121c,0x1c3c,0x3c00,0x0000,0x0000,0x0000,0x3311,0x1d13     | +00001
         .dc.w   0x3d1d,0x003d                                               | +00011
@@ -6027,57 +6057,57 @@ Data_11e535:
         .dc.w   0x0101                                                      | +0001f
 
 | ----------------------------------------------------------------------------
-|  Zero_11e556  @ $11E556  (70 B)
+|  ColMap_11e556  @ $11E556  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e556, "ax", @progbits
-        .global Zero_11e556
-Zero_11e556:
+        .section .text.ColMap_11e556, "ax", @progbits
+        .global ColMap_11e556
+ColMap_11e556:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e59c  @ $11E59C  (34 B)
+|  ColMap_11e59c  @ $11E59C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e59c, "ax", @progbits
-        .global Data_11e59c
-Data_11e59c:
+        .section .text.ColMap_11e59c, "ax", @progbits
+        .global ColMap_11e59c
+ColMap_11e59c:
         .dc.w   0x1111,0x3400                                               | +00000
         .fill   10,1,0x00                      | +00004
         .dc.w   0x1111,0x0000,0x1300,0x1d13,0x3d1d,0x003d,0x0000,0x0000     | +0000e
         .dc.w   0x0000,0x0101                                               | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11e5be  @ $11E5BE  (70 B)
+|  ColMap_11e5be  @ $11E5BE  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e5be, "ax", @progbits
-        .global Zero_11e5be
-Zero_11e5be:
+        .section .text.ColMap_11e5be, "ax", @progbits
+        .global ColMap_11e5be
+ColMap_11e5be:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e604  @ $11E604  (34 B)
+|  ColMap_11e604  @ $11E604  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e604, "ax", @progbits
-        .global Data_11e604
-Data_11e604:
+        .section .text.ColMap_11e604, "ax", @progbits
+        .global ColMap_11e604
+ColMap_11e604:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1111,0x0000,0x0000,0x0000,0x1300,0x1d13,0x3d1d,0x003d     | +0000e
         .dc.w   0x0000,0x0101                                               | +0001e
 
 | ----------------------------------------------------------------------------
-|  Zero_11e626  @ $11E626  (70 B)
+|  ColMap_11e626  @ $11E626  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e626, "ax", @progbits
-        .global Zero_11e626
-Zero_11e626:
+        .section .text.ColMap_11e626, "ax", @progbits
+        .global ColMap_11e626
+ColMap_11e626:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e66c  @ $11E66C  (34 B)
+|  ColMap_11e66c  @ $11E66C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e66c, "ax", @progbits
-        .global Data_11e66c
-Data_11e66c:
+        .section .text.ColMap_11e66c, "ax", @progbits
+        .global ColMap_11e66c
+ColMap_11e66c:
         .dc.w   0x1111                                                      | +00000
         .fill   12,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +0000e
@@ -6085,526 +6115,526 @@ Data_11e66c:
         .dc.w   0x1300,0x1d13,0x3d1d,0x0101                                 | +0001a
 
 | ----------------------------------------------------------------------------
-|  Zero_11e68e  @ $11E68E  (70 B)
+|  ColMap_11e68e  @ $11E68E  (70 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e68e, "ax", @progbits
-        .global Zero_11e68e
-Zero_11e68e:
+        .section .text.ColMap_11e68e, "ax", @progbits
+        .global ColMap_11e68e
+ColMap_11e68e:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11e6d4  @ $11E6D4  (35 B)
+|  ColMap_11e6d4  @ $11E6D4  (35 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11e6d4, "ax", @progbits
-        .global Str_11e6d4
-Str_11e6d4:
+        .section .text.ColMap_11e6d4, "ax", @progbits
+        .global ColMap_11e6d4
+ColMap_11e6d4:
         .dc.w   0x1100                                                      | +00000
         .fill   28,1,0x00                      | +00002
         .dc.w   0x1300,0x2101                                               | +0001e
         .dc.b   0x01                            | +00022
 
 | ----------------------------------------------------------------------------
-|  Zero_11e6f7  @ $11E6F7  (17 B)
+|  ColMap_11e6f7  @ $11E6F7  (17 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e6f7, "ax", @progbits
-        .global Zero_11e6f7
-Zero_11e6f7:
+        .section .text.ColMap_11e6f7, "ax", @progbits
+        .global ColMap_11e6f7
+ColMap_11e6f7:
         .fill   17,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11e708  @ $11E708  (84 B)  [ref. desde código]
+|  ColMap_11e708  @ $11E708  (84 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_11e708, "ax", @progbits
-        .global Str_11e708
-Str_11e708:
+        .section .text.ColMap_11e708, "ax", @progbits
+        .global ColMap_11e708
+ColMap_11e708:
         .fill   84,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e75c  @ $11E75C  (2 B)
+|  ColMap_11e75c  @ $11E75C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e75c, "ax", @progbits
-        .global Data_11e75c
-Data_11e75c:
+        .section .text.ColMap_11e75c, "ax", @progbits
+        .global ColMap_11e75c
+ColMap_11e75c:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11e75e  @ $11E75E  (102 B)
+|  ColMap_11e75e  @ $11E75E  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e75e, "ax", @progbits
-        .global Zero_11e75e
-Zero_11e75e:
+        .section .text.ColMap_11e75e, "ax", @progbits
+        .global ColMap_11e75e
+ColMap_11e75e:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e7c4  @ $11E7C4  (2 B)
+|  ColMap_11e7c4  @ $11E7C4  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e7c4, "ax", @progbits
-        .global Data_11e7c4
-Data_11e7c4:
+        .section .text.ColMap_11e7c4, "ax", @progbits
+        .global ColMap_11e7c4
+ColMap_11e7c4:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11e7c6  @ $11E7C6  (102 B)
+|  ColMap_11e7c6  @ $11E7C6  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e7c6, "ax", @progbits
-        .global Zero_11e7c6
-Zero_11e7c6:
+        .section .text.ColMap_11e7c6, "ax", @progbits
+        .global ColMap_11e7c6
+ColMap_11e7c6:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e82c  @ $11E82C  (2 B)
+|  ColMap_11e82c  @ $11E82C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e82c, "ax", @progbits
-        .global Data_11e82c
-Data_11e82c:
+        .section .text.ColMap_11e82c, "ax", @progbits
+        .global ColMap_11e82c
+ColMap_11e82c:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11e82e  @ $11E82E  (102 B)
+|  ColMap_11e82e  @ $11E82E  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e82e, "ax", @progbits
-        .global Zero_11e82e
-Zero_11e82e:
+        .section .text.ColMap_11e82e, "ax", @progbits
+        .global ColMap_11e82e
+ColMap_11e82e:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e894  @ $11E894  (2 B)
+|  ColMap_11e894  @ $11E894  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e894, "ax", @progbits
-        .global Data_11e894
-Data_11e894:
+        .section .text.ColMap_11e894, "ax", @progbits
+        .global ColMap_11e894
+ColMap_11e894:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11e896  @ $11E896  (102 B)
+|  ColMap_11e896  @ $11E896  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e896, "ax", @progbits
-        .global Zero_11e896
-Zero_11e896:
+        .section .text.ColMap_11e896, "ax", @progbits
+        .global ColMap_11e896
+ColMap_11e896:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e8fc  @ $11E8FC  (2 B)
+|  ColMap_11e8fc  @ $11E8FC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e8fc, "ax", @progbits
-        .global Data_11e8fc
-Data_11e8fc:
+        .section .text.ColMap_11e8fc, "ax", @progbits
+        .global ColMap_11e8fc
+ColMap_11e8fc:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11e8fe  @ $11E8FE  (102 B)
+|  ColMap_11e8fe  @ $11E8FE  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e8fe, "ax", @progbits
-        .global Zero_11e8fe
-Zero_11e8fe:
+        .section .text.ColMap_11e8fe, "ax", @progbits
+        .global ColMap_11e8fe
+ColMap_11e8fe:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e964  @ $11E964  (2 B)
+|  ColMap_11e964  @ $11E964  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e964, "ax", @progbits
-        .global Data_11e964
-Data_11e964:
+        .section .text.ColMap_11e964, "ax", @progbits
+        .global ColMap_11e964
+ColMap_11e964:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11e966  @ $11E966  (102 B)
+|  ColMap_11e966  @ $11E966  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e966, "ax", @progbits
-        .global Zero_11e966
-Zero_11e966:
+        .section .text.ColMap_11e966, "ax", @progbits
+        .global ColMap_11e966
+ColMap_11e966:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11e9cc  @ $11E9CC  (2 B)
+|  ColMap_11e9cc  @ $11E9CC  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11e9cc, "ax", @progbits
-        .global Data_11e9cc
-Data_11e9cc:
+        .section .text.ColMap_11e9cc, "ax", @progbits
+        .global ColMap_11e9cc
+ColMap_11e9cc:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11e9ce  @ $11E9CE  (102 B)
+|  ColMap_11e9ce  @ $11E9CE  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11e9ce, "ax", @progbits
-        .global Zero_11e9ce
-Zero_11e9ce:
+        .section .text.ColMap_11e9ce, "ax", @progbits
+        .global ColMap_11e9ce
+ColMap_11e9ce:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ea34  @ $11EA34  (2 B)
+|  ColMap_11ea34  @ $11EA34  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ea34, "ax", @progbits
-        .global Data_11ea34
-Data_11ea34:
+        .section .text.ColMap_11ea34, "ax", @progbits
+        .global ColMap_11ea34
+ColMap_11ea34:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ea36  @ $11EA36  (102 B)
+|  ColMap_11ea36  @ $11EA36  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ea36, "ax", @progbits
-        .global Zero_11ea36
-Zero_11ea36:
+        .section .text.ColMap_11ea36, "ax", @progbits
+        .global ColMap_11ea36
+ColMap_11ea36:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ea9c  @ $11EA9C  (2 B)
+|  ColMap_11ea9c  @ $11EA9C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ea9c, "ax", @progbits
-        .global Data_11ea9c
-Data_11ea9c:
+        .section .text.ColMap_11ea9c, "ax", @progbits
+        .global ColMap_11ea9c
+ColMap_11ea9c:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ea9e  @ $11EA9E  (102 B)
+|  ColMap_11ea9e  @ $11EA9E  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ea9e, "ax", @progbits
-        .global Zero_11ea9e
-Zero_11ea9e:
+        .section .text.ColMap_11ea9e, "ax", @progbits
+        .global ColMap_11ea9e
+ColMap_11ea9e:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11eb04  @ $11EB04  (2 B)
+|  ColMap_11eb04  @ $11EB04  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11eb04, "ax", @progbits
-        .global Data_11eb04
-Data_11eb04:
+        .section .text.ColMap_11eb04, "ax", @progbits
+        .global ColMap_11eb04
+ColMap_11eb04:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11eb06  @ $11EB06  (102 B)
+|  ColMap_11eb06  @ $11EB06  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11eb06, "ax", @progbits
-        .global Zero_11eb06
-Zero_11eb06:
+        .section .text.ColMap_11eb06, "ax", @progbits
+        .global ColMap_11eb06
+ColMap_11eb06:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11eb6c  @ $11EB6C  (2 B)
+|  ColMap_11eb6c  @ $11EB6C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11eb6c, "ax", @progbits
-        .global Data_11eb6c
-Data_11eb6c:
+        .section .text.ColMap_11eb6c, "ax", @progbits
+        .global ColMap_11eb6c
+ColMap_11eb6c:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11eb6e  @ $11EB6E  (102 B)
+|  ColMap_11eb6e  @ $11EB6E  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11eb6e, "ax", @progbits
-        .global Zero_11eb6e
-Zero_11eb6e:
+        .section .text.ColMap_11eb6e, "ax", @progbits
+        .global ColMap_11eb6e
+ColMap_11eb6e:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ebd4  @ $11EBD4  (2 B)
+|  ColMap_11ebd4  @ $11EBD4  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ebd4, "ax", @progbits
-        .global Data_11ebd4
-Data_11ebd4:
+        .section .text.ColMap_11ebd4, "ax", @progbits
+        .global ColMap_11ebd4
+ColMap_11ebd4:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ebd6  @ $11EBD6  (102 B)
+|  ColMap_11ebd6  @ $11EBD6  (102 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ebd6, "ax", @progbits
-        .global Zero_11ebd6
-Zero_11ebd6:
+        .section .text.ColMap_11ebd6, "ax", @progbits
+        .global ColMap_11ebd6
+ColMap_11ebd6:
         .fill   102,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ec3c  @ $11EC3C  (2 B)
+|  ColMap_11ec3c  @ $11EC3C  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ec3c, "ax", @progbits
-        .global Data_11ec3c
-Data_11ec3c:
+        .section .text.ColMap_11ec3c, "ax", @progbits
+        .global ColMap_11ec3c
+ColMap_11ec3c:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ec3e  @ $11EC3E  (81 B)
+|  ColMap_11ec3e  @ $11EC3E  (81 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ec3e, "ax", @progbits
-        .global Zero_11ec3e
-Zero_11ec3e:
+        .section .text.ColMap_11ec3e, "ax", @progbits
+        .global ColMap_11ec3e
+ColMap_11ec3e:
         .fill   81,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ec8f  @ $11EC8F  (1 B)
+|  ColMap_11ec8f  @ $11EC8F  (1 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ec8f, "ax", @progbits
-        .global Data_11ec8f
-Data_11ec8f:
+        .section .text.ColMap_11ec8f, "ax", @progbits
+        .global ColMap_11ec8f
+ColMap_11ec8f:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ec90  @ $11EC90  (34 B)
+|  ColMap_11ec90  @ $11EC90  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ec90, "ax", @progbits
-        .global Zero_11ec90
-Zero_11ec90:
+        .section .text.ColMap_11ec90, "ax", @progbits
+        .global ColMap_11ec90
+ColMap_11ec90:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ecb2  @ $11ECB2  (2 B)
+|  ColMap_11ecb2  @ $11ECB2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ecb2, "ax", @progbits
-        .global Data_11ecb2
-Data_11ecb2:
+        .section .text.ColMap_11ecb2, "ax", @progbits
+        .global ColMap_11ecb2
+ColMap_11ecb2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ecb4  @ $11ECB4  (34 B)
+|  ColMap_11ecb4  @ $11ECB4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ecb4, "ax", @progbits
-        .global Zero_11ecb4
-Zero_11ecb4:
+        .section .text.ColMap_11ecb4, "ax", @progbits
+        .global ColMap_11ecb4
+ColMap_11ecb4:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ecd6  @ $11ECD6  (2 B)
+|  ColMap_11ecd6  @ $11ECD6  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ecd6, "ax", @progbits
-        .global Data_11ecd6
-Data_11ecd6:
+        .section .text.ColMap_11ecd6, "ax", @progbits
+        .global ColMap_11ecd6
+ColMap_11ecd6:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ecd8  @ $11ECD8  (34 B)
+|  ColMap_11ecd8  @ $11ECD8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ecd8, "ax", @progbits
-        .global Zero_11ecd8
-Zero_11ecd8:
+        .section .text.ColMap_11ecd8, "ax", @progbits
+        .global ColMap_11ecd8
+ColMap_11ecd8:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ecfa  @ $11ECFA  (2 B)
+|  ColMap_11ecfa  @ $11ECFA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ecfa, "ax", @progbits
-        .global Data_11ecfa
-Data_11ecfa:
+        .section .text.ColMap_11ecfa, "ax", @progbits
+        .global ColMap_11ecfa
+ColMap_11ecfa:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ecfc  @ $11ECFC  (34 B)
+|  ColMap_11ecfc  @ $11ECFC  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ecfc, "ax", @progbits
-        .global Zero_11ecfc
-Zero_11ecfc:
+        .section .text.ColMap_11ecfc, "ax", @progbits
+        .global ColMap_11ecfc
+ColMap_11ecfc:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ed1e  @ $11ED1E  (2 B)
+|  ColMap_11ed1e  @ $11ED1E  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ed1e, "ax", @progbits
-        .global Data_11ed1e
-Data_11ed1e:
+        .section .text.ColMap_11ed1e, "ax", @progbits
+        .global ColMap_11ed1e
+ColMap_11ed1e:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ed20  @ $11ED20  (34 B)
+|  ColMap_11ed20  @ $11ED20  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ed20, "ax", @progbits
-        .global Zero_11ed20
-Zero_11ed20:
+        .section .text.ColMap_11ed20, "ax", @progbits
+        .global ColMap_11ed20
+ColMap_11ed20:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ed42  @ $11ED42  (2 B)
+|  ColMap_11ed42  @ $11ED42  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ed42, "ax", @progbits
-        .global Data_11ed42
-Data_11ed42:
+        .section .text.ColMap_11ed42, "ax", @progbits
+        .global ColMap_11ed42
+ColMap_11ed42:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ed44  @ $11ED44  (34 B)
+|  ColMap_11ed44  @ $11ED44  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ed44, "ax", @progbits
-        .global Zero_11ed44
-Zero_11ed44:
+        .section .text.ColMap_11ed44, "ax", @progbits
+        .global ColMap_11ed44
+ColMap_11ed44:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ed66  @ $11ED66  (2 B)
+|  ColMap_11ed66  @ $11ED66  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ed66, "ax", @progbits
-        .global Data_11ed66
-Data_11ed66:
+        .section .text.ColMap_11ed66, "ax", @progbits
+        .global ColMap_11ed66
+ColMap_11ed66:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ed68  @ $11ED68  (34 B)
+|  ColMap_11ed68  @ $11ED68  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ed68, "ax", @progbits
-        .global Zero_11ed68
-Zero_11ed68:
+        .section .text.ColMap_11ed68, "ax", @progbits
+        .global ColMap_11ed68
+ColMap_11ed68:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ed8a  @ $11ED8A  (2 B)
+|  ColMap_11ed8a  @ $11ED8A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ed8a, "ax", @progbits
-        .global Data_11ed8a
-Data_11ed8a:
+        .section .text.ColMap_11ed8a, "ax", @progbits
+        .global ColMap_11ed8a
+ColMap_11ed8a:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ed8c  @ $11ED8C  (34 B)
+|  ColMap_11ed8c  @ $11ED8C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ed8c, "ax", @progbits
-        .global Zero_11ed8c
-Zero_11ed8c:
+        .section .text.ColMap_11ed8c, "ax", @progbits
+        .global ColMap_11ed8c
+ColMap_11ed8c:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11edae  @ $11EDAE  (2 B)
+|  ColMap_11edae  @ $11EDAE  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11edae, "ax", @progbits
-        .global Data_11edae
-Data_11edae:
+        .section .text.ColMap_11edae, "ax", @progbits
+        .global ColMap_11edae
+ColMap_11edae:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11edb0  @ $11EDB0  (34 B)
+|  ColMap_11edb0  @ $11EDB0  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11edb0, "ax", @progbits
-        .global Zero_11edb0
-Zero_11edb0:
+        .section .text.ColMap_11edb0, "ax", @progbits
+        .global ColMap_11edb0
+ColMap_11edb0:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11edd2  @ $11EDD2  (2 B)
+|  ColMap_11edd2  @ $11EDD2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11edd2, "ax", @progbits
-        .global Data_11edd2
-Data_11edd2:
+        .section .text.ColMap_11edd2, "ax", @progbits
+        .global ColMap_11edd2
+ColMap_11edd2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11edd4  @ $11EDD4  (34 B)
+|  ColMap_11edd4  @ $11EDD4  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11edd4, "ax", @progbits
-        .global Zero_11edd4
-Zero_11edd4:
+        .section .text.ColMap_11edd4, "ax", @progbits
+        .global ColMap_11edd4
+ColMap_11edd4:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11edf6  @ $11EDF6  (2 B)
+|  ColMap_11edf6  @ $11EDF6  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11edf6, "ax", @progbits
-        .global Data_11edf6
-Data_11edf6:
+        .section .text.ColMap_11edf6, "ax", @progbits
+        .global ColMap_11edf6
+ColMap_11edf6:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11edf8  @ $11EDF8  (34 B)
+|  ColMap_11edf8  @ $11EDF8  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11edf8, "ax", @progbits
-        .global Zero_11edf8
-Zero_11edf8:
+        .section .text.ColMap_11edf8, "ax", @progbits
+        .global ColMap_11edf8
+ColMap_11edf8:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ee1a  @ $11EE1A  (2 B)
+|  ColMap_11ee1a  @ $11EE1A  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ee1a, "ax", @progbits
-        .global Data_11ee1a
-Data_11ee1a:
+        .section .text.ColMap_11ee1a, "ax", @progbits
+        .global ColMap_11ee1a
+ColMap_11ee1a:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ee1c  @ $11EE1C  (34 B)
+|  ColMap_11ee1c  @ $11EE1C  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ee1c, "ax", @progbits
-        .global Zero_11ee1c
-Zero_11ee1c:
+        .section .text.ColMap_11ee1c, "ax", @progbits
+        .global ColMap_11ee1c
+ColMap_11ee1c:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ee3e  @ $11EE3E  (2 B)
+|  ColMap_11ee3e  @ $11EE3E  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ee3e, "ax", @progbits
-        .global Data_11ee3e
-Data_11ee3e:
+        .section .text.ColMap_11ee3e, "ax", @progbits
+        .global ColMap_11ee3e
+ColMap_11ee3e:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ee40  @ $11EE40  (34 B)
+|  ColMap_11ee40  @ $11EE40  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ee40, "ax", @progbits
-        .global Zero_11ee40
-Zero_11ee40:
+        .section .text.ColMap_11ee40, "ax", @progbits
+        .global ColMap_11ee40
+ColMap_11ee40:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ee62  @ $11EE62  (2 B)
+|  ColMap_11ee62  @ $11EE62  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ee62, "ax", @progbits
-        .global Data_11ee62
-Data_11ee62:
+        .section .text.ColMap_11ee62, "ax", @progbits
+        .global ColMap_11ee62
+ColMap_11ee62:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ee64  @ $11EE64  (34 B)
+|  ColMap_11ee64  @ $11EE64  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ee64, "ax", @progbits
-        .global Zero_11ee64
-Zero_11ee64:
+        .section .text.ColMap_11ee64, "ax", @progbits
+        .global ColMap_11ee64
+ColMap_11ee64:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ee86  @ $11EE86  (2 B)
+|  ColMap_11ee86  @ $11EE86  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ee86, "ax", @progbits
-        .global Data_11ee86
-Data_11ee86:
+        .section .text.ColMap_11ee86, "ax", @progbits
+        .global ColMap_11ee86
+ColMap_11ee86:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11ee88  @ $11EE88  (34 B)
+|  ColMap_11ee88  @ $11EE88  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11ee88, "ax", @progbits
-        .global Zero_11ee88
-Zero_11ee88:
+        .section .text.ColMap_11ee88, "ax", @progbits
+        .global ColMap_11ee88
+ColMap_11ee88:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11eeaa  @ $11EEAA  (2 B)
+|  ColMap_11eeaa  @ $11EEAA  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11eeaa, "ax", @progbits
-        .global Data_11eeaa
-Data_11eeaa:
+        .section .text.ColMap_11eeaa, "ax", @progbits
+        .global ColMap_11eeaa
+ColMap_11eeaa:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11eeac  @ $11EEAC  (34 B)
+|  ColMap_11eeac  @ $11EEAC  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11eeac, "ax", @progbits
-        .global Zero_11eeac
-Zero_11eeac:
+        .section .text.ColMap_11eeac, "ax", @progbits
+        .global ColMap_11eeac
+ColMap_11eeac:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11eece  @ $11EECE  (2 B)
+|  ColMap_11eece  @ $11EECE  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11eece, "ax", @progbits
-        .global Data_11eece
-Data_11eece:
+        .section .text.ColMap_11eece, "ax", @progbits
+        .global ColMap_11eece
+ColMap_11eece:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11eed0  @ $11EED0  (34 B)
+|  ColMap_11eed0  @ $11EED0  (34 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11eed0, "ax", @progbits
-        .global Zero_11eed0
-Zero_11eed0:
+        .section .text.ColMap_11eed0, "ax", @progbits
+        .global ColMap_11eed0
+ColMap_11eed0:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_11eef2  @ $11EEF2  (317 B)
+|  ColMap_11eef2  @ $11EEF2  (317 B)
 | ----------------------------------------------------------------------------
-        .section .text.Str_11eef2, "ax", @progbits
-        .global Str_11eef2
-Str_11eef2:
+        .section .text.ColMap_11eef2, "ax", @progbits
+        .global ColMap_11eef2
+ColMap_11eef2:
         .dc.w   0x0100                                                      | +00000
         .fill   14,1,0x00                      | +00002
         .dc.w   0x1111                                                      | +00010
@@ -6637,862 +6667,862 @@ Str_11eef2:
         .dc.b   0x0c                            | +0013c
 
 | ----------------------------------------------------------------------------
-|  Zero_11f02f  @ $11F02F  (35 B)
+|  ColMap_11f02f  @ $11F02F  (35 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f02f, "ax", @progbits
-        .global Zero_11f02f
-Zero_11f02f:
+        .section .text.ColMap_11f02f, "ax", @progbits
+        .global ColMap_11f02f
+ColMap_11f02f:
         .fill   35,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f052  @ $11F052  (9 B)
+|  ColMap_11f052  @ $11F052  (9 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f052, "ax", @progbits
-        .global Data_11f052
-Data_11f052:
+        .section .text.ColMap_11f052, "ax", @progbits
+        .global ColMap_11f052
+ColMap_11f052:
         .dc.w   0x1111,0x0000,0x0002,0x020c                                 | +00000
         .dc.b   0x0c                            | +00008
 
 | ----------------------------------------------------------------------------
-|  Zero_11f05b  @ $11F05B  (39 B)
+|  ColMap_11f05b  @ $11F05B  (39 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f05b, "ax", @progbits
-        .global Zero_11f05b
-Zero_11f05b:
+        .section .text.ColMap_11f05b, "ax", @progbits
+        .global ColMap_11f05b
+ColMap_11f05b:
         .fill   39,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f082  @ $11F082  (5 B)
+|  ColMap_11f082  @ $11F082  (5 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f082, "ax", @progbits
-        .global Data_11f082
-Data_11f082:
+        .section .text.ColMap_11f082, "ax", @progbits
+        .global ColMap_11f082
+ColMap_11f082:
         .dc.w   0x1120,0x020c                                               | +00000
         .dc.b   0x0c                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Zero_11f087  @ $11F087  (43 B)
+|  ColMap_11f087  @ $11F087  (43 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f087, "ax", @progbits
-        .global Zero_11f087
-Zero_11f087:
+        .section .text.ColMap_11f087, "ax", @progbits
+        .global ColMap_11f087
+ColMap_11f087:
         .fill   43,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f0b2  @ $11F0B2  (2 B)
+|  ColMap_11f0b2  @ $11F0B2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f0b2, "ax", @progbits
-        .global Data_11f0b2
-Data_11f0b2:
+        .section .text.ColMap_11f0b2, "ax", @progbits
+        .global ColMap_11f0b2
+ColMap_11f0b2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f0b4  @ $11F0B4  (46 B)
+|  ColMap_11f0b4  @ $11F0B4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f0b4, "ax", @progbits
-        .global Zero_11f0b4
-Zero_11f0b4:
+        .section .text.ColMap_11f0b4, "ax", @progbits
+        .global ColMap_11f0b4
+ColMap_11f0b4:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f0e2  @ $11F0E2  (2 B)
+|  ColMap_11f0e2  @ $11F0E2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f0e2, "ax", @progbits
-        .global Data_11f0e2
-Data_11f0e2:
+        .section .text.ColMap_11f0e2, "ax", @progbits
+        .global ColMap_11f0e2
+ColMap_11f0e2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f0e4  @ $11F0E4  (46 B)
+|  ColMap_11f0e4  @ $11F0E4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f0e4, "ax", @progbits
-        .global Zero_11f0e4
-Zero_11f0e4:
+        .section .text.ColMap_11f0e4, "ax", @progbits
+        .global ColMap_11f0e4
+ColMap_11f0e4:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f112  @ $11F112  (2 B)
+|  ColMap_11f112  @ $11F112  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f112, "ax", @progbits
-        .global Data_11f112
-Data_11f112:
+        .section .text.ColMap_11f112, "ax", @progbits
+        .global ColMap_11f112
+ColMap_11f112:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f114  @ $11F114  (46 B)
+|  ColMap_11f114  @ $11F114  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f114, "ax", @progbits
-        .global Zero_11f114
-Zero_11f114:
+        .section .text.ColMap_11f114, "ax", @progbits
+        .global ColMap_11f114
+ColMap_11f114:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f142  @ $11F142  (2 B)
+|  ColMap_11f142  @ $11F142  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f142, "ax", @progbits
-        .global Data_11f142
-Data_11f142:
+        .section .text.ColMap_11f142, "ax", @progbits
+        .global ColMap_11f142
+ColMap_11f142:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f144  @ $11F144  (45 B)
+|  ColMap_11f144  @ $11F144  (45 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f144, "ax", @progbits
-        .global Zero_11f144
-Zero_11f144:
+        .section .text.ColMap_11f144, "ax", @progbits
+        .global ColMap_11f144
+ColMap_11f144:
         .fill   45,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f171  @ $11F171  (3 B)
+|  ColMap_11f171  @ $11F171  (3 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f171, "ax", @progbits
-        .global Data_11f171
-Data_11f171:
+        .section .text.ColMap_11f171, "ax", @progbits
+        .global ColMap_11f171
+ColMap_11f171:
         .dc.b   0x04                            | +00000
         .dc.w   0x010e                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Zero_11f174  @ $11F174  (44 B)
+|  ColMap_11f174  @ $11F174  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f174, "ax", @progbits
-        .global Zero_11f174
-Zero_11f174:
+        .section .text.ColMap_11f174, "ax", @progbits
+        .global ColMap_11f174
+ColMap_11f174:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f1a0  @ $11F1A0  (4 B)
+|  ColMap_11f1a0  @ $11F1A0  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f1a0, "ax", @progbits
-        .global Data_11f1a0
-Data_11f1a0:
+        .section .text.ColMap_11f1a0, "ax", @progbits
+        .global ColMap_11f1a0
+ColMap_11f1a0:
         .dc.w   0x0506,0x0e0e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f1a4  @ $11F1A4  (43 B)
+|  ColMap_11f1a4  @ $11F1A4  (43 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f1a4, "ax", @progbits
-        .global Zero_11f1a4
-Zero_11f1a4:
+        .section .text.ColMap_11f1a4, "ax", @progbits
+        .global ColMap_11f1a4
+ColMap_11f1a4:
         .fill   43,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f1cf  @ $11F1CF  (4 B)
+|  ColMap_11f1cf  @ $11F1CF  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f1cf, "ax", @progbits
-        .global Data_11f1cf
-Data_11f1cf:
+        .section .text.ColMap_11f1cf, "ax", @progbits
+        .global ColMap_11f1cf
+ColMap_11f1cf:
         .dc.b   0x04                            | +00000
         .dc.w   0x070e                                                      | +00001
         .dc.b   0x0e                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Zero_11f1d3  @ $11F1D3  (43 B)
+|  ColMap_11f1d3  @ $11F1D3  (43 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f1d3, "ax", @progbits
-        .global Zero_11f1d3
-Zero_11f1d3:
+        .section .text.ColMap_11f1d3, "ax", @progbits
+        .global ColMap_11f1d3
+ColMap_11f1d3:
         .fill   43,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f1fe  @ $11F1FE  (4 B)
+|  ColMap_11f1fe  @ $11F1FE  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f1fe, "ax", @progbits
-        .global Data_11f1fe
-Data_11f1fe:
+        .section .text.ColMap_11f1fe, "ax", @progbits
+        .global ColMap_11f1fe
+ColMap_11f1fe:
         .dc.w   0x0506,0x0e0e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f202  @ $11F202  (44 B)
+|  ColMap_11f202  @ $11F202  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f202, "ax", @progbits
-        .global Zero_11f202
-Zero_11f202:
+        .section .text.ColMap_11f202, "ax", @progbits
+        .global ColMap_11f202
+ColMap_11f202:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f22e  @ $11F22E  (3 B)
+|  ColMap_11f22e  @ $11F22E  (3 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f22e, "ax", @progbits
-        .global Data_11f22e
-Data_11f22e:
+        .section .text.ColMap_11f22e, "ax", @progbits
+        .global ColMap_11f22e
+ColMap_11f22e:
         .dc.w   0x0701                                                      | +00000
         .dc.b   0x0e                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Zero_11f231  @ $11F231  (45 B)
+|  ColMap_11f231  @ $11F231  (45 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f231, "ax", @progbits
-        .global Zero_11f231
-Zero_11f231:
+        .section .text.ColMap_11f231, "ax", @progbits
+        .global ColMap_11f231
+ColMap_11f231:
         .fill   45,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f25e  @ $11F25E  (2 B)
+|  ColMap_11f25e  @ $11F25E  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f25e, "ax", @progbits
-        .global Data_11f25e
-Data_11f25e:
+        .section .text.ColMap_11f25e, "ax", @progbits
+        .global ColMap_11f25e
+ColMap_11f25e:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f260  @ $11F260  (46 B)
+|  ColMap_11f260  @ $11F260  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f260, "ax", @progbits
-        .global Zero_11f260
-Zero_11f260:
+        .section .text.ColMap_11f260, "ax", @progbits
+        .global ColMap_11f260
+ColMap_11f260:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f28e  @ $11F28E  (2 B)
+|  ColMap_11f28e  @ $11F28E  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f28e, "ax", @progbits
-        .global Data_11f28e
-Data_11f28e:
+        .section .text.ColMap_11f28e, "ax", @progbits
+        .global ColMap_11f28e
+ColMap_11f28e:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f290  @ $11F290  (46 B)
+|  ColMap_11f290  @ $11F290  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f290, "ax", @progbits
-        .global Zero_11f290
-Zero_11f290:
+        .section .text.ColMap_11f290, "ax", @progbits
+        .global ColMap_11f290
+ColMap_11f290:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f2be  @ $11F2BE  (4 B)
+|  ColMap_11f2be  @ $11F2BE  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f2be, "ax", @progbits
-        .global Data_11f2be
-Data_11f2be:
+        .section .text.ColMap_11f2be, "ax", @progbits
+        .global ColMap_11f2be
+ColMap_11f2be:
         .dc.w   0x0809,0x0f0f                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f2c2  @ $11F2C2  (44 B)
+|  ColMap_11f2c2  @ $11F2C2  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f2c2, "ax", @progbits
-        .global Zero_11f2c2
-Zero_11f2c2:
+        .section .text.ColMap_11f2c2, "ax", @progbits
+        .global ColMap_11f2c2
+ColMap_11f2c2:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f2ee  @ $11F2EE  (4 B)
+|  ColMap_11f2ee  @ $11F2EE  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f2ee, "ax", @progbits
-        .global Data_11f2ee
-Data_11f2ee:
+        .section .text.ColMap_11f2ee, "ax", @progbits
+        .global ColMap_11f2ee
+ColMap_11f2ee:
         .dc.w   0x0a0b,0x0f0f                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f2f2  @ $11F2F2  (46 B)
+|  ColMap_11f2f2  @ $11F2F2  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f2f2, "ax", @progbits
-        .global Zero_11f2f2
-Zero_11f2f2:
+        .section .text.ColMap_11f2f2, "ax", @progbits
+        .global ColMap_11f2f2
+ColMap_11f2f2:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f320  @ $11F320  (6 B)
+|  ColMap_11f320  @ $11F320  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f320, "ax", @progbits
-        .global Data_11f320
-Data_11f320:
+        .section .text.ColMap_11f320, "ax", @progbits
+        .global ColMap_11f320
+ColMap_11f320:
         .dc.w   0x0300,0x0d03,0x000d                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f326  @ $11F326  (46 B)
+|  ColMap_11f326  @ $11F326  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f326, "ax", @progbits
-        .global Zero_11f326
-Zero_11f326:
+        .section .text.ColMap_11f326, "ax", @progbits
+        .global ColMap_11f326
+ColMap_11f326:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f354  @ $11F354  (6 B)
+|  ColMap_11f354  @ $11F354  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f354, "ax", @progbits
-        .global Data_11f354
-Data_11f354:
+        .section .text.ColMap_11f354, "ax", @progbits
+        .global ColMap_11f354
+ColMap_11f354:
         .dc.w   0x0300,0x0d03,0x000d                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f35a  @ $11F35A  (46 B)
+|  ColMap_11f35a  @ $11F35A  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f35a, "ax", @progbits
-        .global Zero_11f35a
-Zero_11f35a:
+        .section .text.ColMap_11f35a, "ax", @progbits
+        .global ColMap_11f35a
+ColMap_11f35a:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f388  @ $11F388  (6 B)
+|  ColMap_11f388  @ $11F388  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f388, "ax", @progbits
-        .global Data_11f388
-Data_11f388:
+        .section .text.ColMap_11f388, "ax", @progbits
+        .global ColMap_11f388
+ColMap_11f388:
         .dc.w   0x0300,0x0d03,0x000d                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f38e  @ $11F38E  (46 B)
+|  ColMap_11f38e  @ $11F38E  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f38e, "ax", @progbits
-        .global Zero_11f38e
-Zero_11f38e:
+        .section .text.ColMap_11f38e, "ax", @progbits
+        .global ColMap_11f38e
+ColMap_11f38e:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f3bc  @ $11F3BC  (6 B)
+|  ColMap_11f3bc  @ $11F3BC  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f3bc, "ax", @progbits
-        .global Data_11f3bc
-Data_11f3bc:
+        .section .text.ColMap_11f3bc, "ax", @progbits
+        .global ColMap_11f3bc
+ColMap_11f3bc:
         .dc.w   0x0300,0x0d03,0x000d                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f3c2  @ $11F3C2  (46 B)
+|  ColMap_11f3c2  @ $11F3C2  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f3c2, "ax", @progbits
-        .global Zero_11f3c2
-Zero_11f3c2:
+        .section .text.ColMap_11f3c2, "ax", @progbits
+        .global ColMap_11f3c2
+ColMap_11f3c2:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f3f0  @ $11F3F0  (6 B)
+|  ColMap_11f3f0  @ $11F3F0  (6 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f3f0, "ax", @progbits
-        .global Data_11f3f0
-Data_11f3f0:
+        .section .text.ColMap_11f3f0, "ax", @progbits
+        .global ColMap_11f3f0
+ColMap_11f3f0:
         .dc.w   0x0300,0x0d03,0x000d                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f3f6  @ $11F3F6  (46 B)
+|  ColMap_11f3f6  @ $11F3F6  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f3f6, "ax", @progbits
-        .global Zero_11f3f6
-Zero_11f3f6:
+        .section .text.ColMap_11f3f6, "ax", @progbits
+        .global ColMap_11f3f6
+ColMap_11f3f6:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f424  @ $11F424  (4 B)
+|  ColMap_11f424  @ $11F424  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f424, "ax", @progbits
-        .global Data_11f424
-Data_11f424:
+        .section .text.ColMap_11f424, "ax", @progbits
+        .global ColMap_11f424
+ColMap_11f424:
         .dc.w   0x0300,0x0d01                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f428  @ $11F428  (46 B)
+|  ColMap_11f428  @ $11F428  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f428, "ax", @progbits
-        .global Zero_11f428
-Zero_11f428:
+        .section .text.ColMap_11f428, "ax", @progbits
+        .global ColMap_11f428
+ColMap_11f428:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f456  @ $11F456  (2 B)
+|  ColMap_11f456  @ $11F456  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f456, "ax", @progbits
-        .global Data_11f456
-Data_11f456:
+        .section .text.ColMap_11f456, "ax", @progbits
+        .global ColMap_11f456
+ColMap_11f456:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f458  @ $11F458  (46 B)
+|  ColMap_11f458  @ $11F458  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f458, "ax", @progbits
-        .global Zero_11f458
-Zero_11f458:
+        .section .text.ColMap_11f458, "ax", @progbits
+        .global ColMap_11f458
+ColMap_11f458:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f486  @ $11F486  (2 B)
+|  ColMap_11f486  @ $11F486  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f486, "ax", @progbits
-        .global Data_11f486
-Data_11f486:
+        .section .text.ColMap_11f486, "ax", @progbits
+        .global ColMap_11f486
+ColMap_11f486:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f488  @ $11F488  (46 B)
+|  ColMap_11f488  @ $11F488  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f488, "ax", @progbits
-        .global Zero_11f488
-Zero_11f488:
+        .section .text.ColMap_11f488, "ax", @progbits
+        .global ColMap_11f488
+ColMap_11f488:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f4b6  @ $11F4B6  (2 B)
+|  ColMap_11f4b6  @ $11F4B6  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f4b6, "ax", @progbits
-        .global Data_11f4b6
-Data_11f4b6:
+        .section .text.ColMap_11f4b6, "ax", @progbits
+        .global ColMap_11f4b6
+ColMap_11f4b6:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f4b8  @ $11F4B8  (46 B)
+|  ColMap_11f4b8  @ $11F4B8  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f4b8, "ax", @progbits
-        .global Zero_11f4b8
-Zero_11f4b8:
+        .section .text.ColMap_11f4b8, "ax", @progbits
+        .global ColMap_11f4b8
+ColMap_11f4b8:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f4e6  @ $11F4E6  (2 B)
+|  ColMap_11f4e6  @ $11F4E6  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f4e6, "ax", @progbits
-        .global Data_11f4e6
-Data_11f4e6:
+        .section .text.ColMap_11f4e6, "ax", @progbits
+        .global ColMap_11f4e6
+ColMap_11f4e6:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f4e8  @ $11F4E8  (46 B)
+|  ColMap_11f4e8  @ $11F4E8  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f4e8, "ax", @progbits
-        .global Zero_11f4e8
-Zero_11f4e8:
+        .section .text.ColMap_11f4e8, "ax", @progbits
+        .global ColMap_11f4e8
+ColMap_11f4e8:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f516  @ $11F516  (2 B)
+|  ColMap_11f516  @ $11F516  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f516, "ax", @progbits
-        .global Data_11f516
-Data_11f516:
+        .section .text.ColMap_11f516, "ax", @progbits
+        .global ColMap_11f516
+ColMap_11f516:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f518  @ $11F518  (46 B)
+|  ColMap_11f518  @ $11F518  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f518, "ax", @progbits
-        .global Zero_11f518
-Zero_11f518:
+        .section .text.ColMap_11f518, "ax", @progbits
+        .global ColMap_11f518
+ColMap_11f518:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f546  @ $11F546  (2 B)
+|  ColMap_11f546  @ $11F546  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f546, "ax", @progbits
-        .global Data_11f546
-Data_11f546:
+        .section .text.ColMap_11f546, "ax", @progbits
+        .global ColMap_11f546
+ColMap_11f546:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f548  @ $11F548  (46 B)
+|  ColMap_11f548  @ $11F548  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f548, "ax", @progbits
-        .global Zero_11f548
-Zero_11f548:
+        .section .text.ColMap_11f548, "ax", @progbits
+        .global ColMap_11f548
+ColMap_11f548:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f576  @ $11F576  (2 B)
+|  ColMap_11f576  @ $11F576  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f576, "ax", @progbits
-        .global Data_11f576
-Data_11f576:
+        .section .text.ColMap_11f576, "ax", @progbits
+        .global ColMap_11f576
+ColMap_11f576:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f578  @ $11F578  (43 B)
+|  ColMap_11f578  @ $11F578  (43 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f578, "ax", @progbits
-        .global Zero_11f578
-Zero_11f578:
+        .section .text.ColMap_11f578, "ax", @progbits
+        .global ColMap_11f578
+ColMap_11f578:
         .fill   43,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f5a3  @ $11F5A3  (4 B)
+|  ColMap_11f5a3  @ $11F5A3  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f5a3, "ax", @progbits
-        .global Data_11f5a3
-Data_11f5a3:
+        .section .text.ColMap_11f5a3, "ax", @progbits
+        .global ColMap_11f5a3
+ColMap_11f5a3:
         .dc.b   0x02                            | +00000
         .dc.w   0x020c                                                      | +00001
         .dc.b   0x0c                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Zero_11f5a7  @ $11F5A7  (43 B)
+|  ColMap_11f5a7  @ $11F5A7  (43 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f5a7, "ax", @progbits
-        .global Zero_11f5a7
-Zero_11f5a7:
+        .section .text.ColMap_11f5a7, "ax", @progbits
+        .global ColMap_11f5a7
+ColMap_11f5a7:
         .fill   43,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f5d2  @ $11F5D2  (2 B)
+|  ColMap_11f5d2  @ $11F5D2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f5d2, "ax", @progbits
-        .global Data_11f5d2
-Data_11f5d2:
+        .section .text.ColMap_11f5d2, "ax", @progbits
+        .global ColMap_11f5d2
+ColMap_11f5d2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f5d4  @ $11F5D4  (46 B)
+|  ColMap_11f5d4  @ $11F5D4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f5d4, "ax", @progbits
-        .global Zero_11f5d4
-Zero_11f5d4:
+        .section .text.ColMap_11f5d4, "ax", @progbits
+        .global ColMap_11f5d4
+ColMap_11f5d4:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f602  @ $11F602  (8 B)
+|  ColMap_11f602  @ $11F602  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f602, "ax", @progbits
-        .global Data_11f602
-Data_11f602:
+        .section .text.ColMap_11f602, "ax", @progbits
+        .global ColMap_11f602
+ColMap_11f602:
         .dc.w   0x0111                                                      | +00000
-        .dc.l   Data_110011                   | +00002  -> $110011
+        .dc.l   ColMap_110011                   | +00002  -> $110011
         .dc.w   0x0010                                                      | +00006
 
 | ----------------------------------------------------------------------------
-|  Zero_11f60a  @ $11F60A  (46 B)
+|  ColMap_11f60a  @ $11F60A  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f60a, "ax", @progbits
-        .global Zero_11f60a
-Zero_11f60a:
+        .section .text.ColMap_11f60a, "ax", @progbits
+        .global ColMap_11f60a
+ColMap_11f60a:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f638  @ $11F638  (2 B)
+|  ColMap_11f638  @ $11F638  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f638, "ax", @progbits
-        .global Data_11f638
-Data_11f638:
+        .section .text.ColMap_11f638, "ax", @progbits
+        .global ColMap_11f638
+ColMap_11f638:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f63a  @ $11F63A  (46 B)
+|  ColMap_11f63a  @ $11F63A  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f63a, "ax", @progbits
-        .global Zero_11f63a
-Zero_11f63a:
+        .section .text.ColMap_11f63a, "ax", @progbits
+        .global ColMap_11f63a
+ColMap_11f63a:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f668  @ $11F668  (2 B)
+|  ColMap_11f668  @ $11F668  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f668, "ax", @progbits
-        .global Data_11f668
-Data_11f668:
+        .section .text.ColMap_11f668, "ax", @progbits
+        .global ColMap_11f668
+ColMap_11f668:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f66a  @ $11F66A  (40 B)
+|  ColMap_11f66a  @ $11F66A  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f66a, "ax", @progbits
-        .global Zero_11f66a
-Zero_11f66a:
+        .section .text.ColMap_11f66a, "ax", @progbits
+        .global ColMap_11f66a
+ColMap_11f66a:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f692  @ $11F692  (7 B)
+|  ColMap_11f692  @ $11F692  (7 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f692, "ax", @progbits
-        .global Data_11f692
-Data_11f692:
+        .section .text.ColMap_11f692, "ax", @progbits
+        .global ColMap_11f692
+ColMap_11f692:
         .dc.w   0x0101,0x1100,0x1100                                        | +00000
         .dc.b   0x10                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Zero_11f699  @ $11F699  (41 B)
+|  ColMap_11f699  @ $11F699  (41 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f699, "ax", @progbits
-        .global Zero_11f699
-Zero_11f699:
+        .section .text.ColMap_11f699, "ax", @progbits
+        .global ColMap_11f699
+ColMap_11f699:
         .fill   41,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f6c2  @ $11F6C2  (2 B)
+|  ColMap_11f6c2  @ $11F6C2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f6c2, "ax", @progbits
-        .global Data_11f6c2
-Data_11f6c2:
+        .section .text.ColMap_11f6c2, "ax", @progbits
+        .global ColMap_11f6c2
+ColMap_11f6c2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f6c4  @ $11F6C4  (46 B)
+|  ColMap_11f6c4  @ $11F6C4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f6c4, "ax", @progbits
-        .global Zero_11f6c4
-Zero_11f6c4:
+        .section .text.ColMap_11f6c4, "ax", @progbits
+        .global ColMap_11f6c4
+ColMap_11f6c4:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f6f2  @ $11F6F2  (2 B)
+|  ColMap_11f6f2  @ $11F6F2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f6f2, "ax", @progbits
-        .global Data_11f6f2
-Data_11f6f2:
+        .section .text.ColMap_11f6f2, "ax", @progbits
+        .global ColMap_11f6f2
+ColMap_11f6f2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f6f4  @ $11F6F4  (46 B)
+|  ColMap_11f6f4  @ $11F6F4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f6f4, "ax", @progbits
-        .global Zero_11f6f4
-Zero_11f6f4:
+        .section .text.ColMap_11f6f4, "ax", @progbits
+        .global ColMap_11f6f4
+ColMap_11f6f4:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f722  @ $11F722  (2 B)
+|  ColMap_11f722  @ $11F722  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f722, "ax", @progbits
-        .global Data_11f722
-Data_11f722:
+        .section .text.ColMap_11f722, "ax", @progbits
+        .global ColMap_11f722
+ColMap_11f722:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f724  @ $11F724  (46 B)
+|  ColMap_11f724  @ $11F724  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f724, "ax", @progbits
-        .global Zero_11f724
-Zero_11f724:
+        .section .text.ColMap_11f724, "ax", @progbits
+        .global ColMap_11f724
+ColMap_11f724:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f752  @ $11F752  (2 B)
+|  ColMap_11f752  @ $11F752  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f752, "ax", @progbits
-        .global Data_11f752
-Data_11f752:
+        .section .text.ColMap_11f752, "ax", @progbits
+        .global ColMap_11f752
+ColMap_11f752:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f754  @ $11F754  (46 B)
+|  ColMap_11f754  @ $11F754  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f754, "ax", @progbits
-        .global Zero_11f754
-Zero_11f754:
+        .section .text.ColMap_11f754, "ax", @progbits
+        .global ColMap_11f754
+ColMap_11f754:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f782  @ $11F782  (2 B)
+|  ColMap_11f782  @ $11F782  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f782, "ax", @progbits
-        .global Data_11f782
-Data_11f782:
+        .section .text.ColMap_11f782, "ax", @progbits
+        .global ColMap_11f782
+ColMap_11f782:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f784  @ $11F784  (46 B)
+|  ColMap_11f784  @ $11F784  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f784, "ax", @progbits
-        .global Zero_11f784
-Zero_11f784:
+        .section .text.ColMap_11f784, "ax", @progbits
+        .global ColMap_11f784
+ColMap_11f784:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f7b2  @ $11F7B2  (2 B)
+|  ColMap_11f7b2  @ $11F7B2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f7b2, "ax", @progbits
-        .global Data_11f7b2
-Data_11f7b2:
+        .section .text.ColMap_11f7b2, "ax", @progbits
+        .global ColMap_11f7b2
+ColMap_11f7b2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f7b4  @ $11F7B4  (46 B)
+|  ColMap_11f7b4  @ $11F7B4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f7b4, "ax", @progbits
-        .global Zero_11f7b4
-Zero_11f7b4:
+        .section .text.ColMap_11f7b4, "ax", @progbits
+        .global ColMap_11f7b4
+ColMap_11f7b4:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f7e2  @ $11F7E2  (2 B)
+|  ColMap_11f7e2  @ $11F7E2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f7e2, "ax", @progbits
-        .global Data_11f7e2
-Data_11f7e2:
+        .section .text.ColMap_11f7e2, "ax", @progbits
+        .global ColMap_11f7e2
+ColMap_11f7e2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f7e4  @ $11F7E4  (46 B)
+|  ColMap_11f7e4  @ $11F7E4  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f7e4, "ax", @progbits
-        .global Zero_11f7e4
-Zero_11f7e4:
+        .section .text.ColMap_11f7e4, "ax", @progbits
+        .global ColMap_11f7e4
+ColMap_11f7e4:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f812  @ $11F812  (2 B)
+|  ColMap_11f812  @ $11F812  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f812, "ax", @progbits
-        .global Data_11f812
-Data_11f812:
+        .section .text.ColMap_11f812, "ax", @progbits
+        .global ColMap_11f812
+ColMap_11f812:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f814  @ $11F814  (46 B)
+|  ColMap_11f814  @ $11F814  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f814, "ax", @progbits
-        .global Zero_11f814
-Zero_11f814:
+        .section .text.ColMap_11f814, "ax", @progbits
+        .global ColMap_11f814
+ColMap_11f814:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f842  @ $11F842  (2 B)
+|  ColMap_11f842  @ $11F842  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f842, "ax", @progbits
-        .global Data_11f842
-Data_11f842:
+        .section .text.ColMap_11f842, "ax", @progbits
+        .global ColMap_11f842
+ColMap_11f842:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f844  @ $11F844  (46 B)
+|  ColMap_11f844  @ $11F844  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f844, "ax", @progbits
-        .global Zero_11f844
-Zero_11f844:
+        .section .text.ColMap_11f844, "ax", @progbits
+        .global ColMap_11f844
+ColMap_11f844:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f872  @ $11F872  (2 B)
+|  ColMap_11f872  @ $11F872  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f872, "ax", @progbits
-        .global Data_11f872
-Data_11f872:
+        .section .text.ColMap_11f872, "ax", @progbits
+        .global ColMap_11f872
+ColMap_11f872:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f874  @ $11F874  (46 B)
+|  ColMap_11f874  @ $11F874  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f874, "ax", @progbits
-        .global Zero_11f874
-Zero_11f874:
+        .section .text.ColMap_11f874, "ax", @progbits
+        .global ColMap_11f874
+ColMap_11f874:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f8a2  @ $11F8A2  (2 B)
+|  ColMap_11f8a2  @ $11F8A2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f8a2, "ax", @progbits
-        .global Data_11f8a2
-Data_11f8a2:
+        .section .text.ColMap_11f8a2, "ax", @progbits
+        .global ColMap_11f8a2
+ColMap_11f8a2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f8a4  @ $11F8A4  (44 B)
+|  ColMap_11f8a4  @ $11F8A4  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f8a4, "ax", @progbits
-        .global Zero_11f8a4
-Zero_11f8a4:
+        .section .text.ColMap_11f8a4, "ax", @progbits
+        .global ColMap_11f8a4
+ColMap_11f8a4:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f8d0  @ $11F8D0  (4 B)
+|  ColMap_11f8d0  @ $11F8D0  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f8d0, "ax", @progbits
-        .global Data_11f8d0
-Data_11f8d0:
+        .section .text.ColMap_11f8d0, "ax", @progbits
+        .global ColMap_11f8d0
+ColMap_11f8d0:
         .dc.w   0x0405,0x0e0e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f8d4  @ $11F8D4  (44 B)
+|  ColMap_11f8d4  @ $11F8D4  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f8d4, "ax", @progbits
-        .global Zero_11f8d4
-Zero_11f8d4:
+        .section .text.ColMap_11f8d4, "ax", @progbits
+        .global ColMap_11f8d4
+ColMap_11f8d4:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f900  @ $11F900  (4 B)
+|  ColMap_11f900  @ $11F900  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f900, "ax", @progbits
-        .global Data_11f900
-Data_11f900:
+        .section .text.ColMap_11f900, "ax", @progbits
+        .global ColMap_11f900
+ColMap_11f900:
         .dc.w   0x0607,0x0e0e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f904  @ $11F904  (42 B)
+|  ColMap_11f904  @ $11F904  (42 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f904, "ax", @progbits
-        .global Zero_11f904
-Zero_11f904:
+        .section .text.ColMap_11f904, "ax", @progbits
+        .global ColMap_11f904
+ColMap_11f904:
         .fill   42,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f92e  @ $11F92E  (4 B)
+|  ColMap_11f92e  @ $11F92E  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f92e, "ax", @progbits
-        .global Data_11f92e
-Data_11f92e:
+        .section .text.ColMap_11f92e, "ax", @progbits
+        .global ColMap_11f92e
+ColMap_11f92e:
         .dc.w   0x0405,0x0e0e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f932  @ $11F932  (44 B)
+|  ColMap_11f932  @ $11F932  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f932, "ax", @progbits
-        .global Zero_11f932
-Zero_11f932:
+        .section .text.ColMap_11f932, "ax", @progbits
+        .global ColMap_11f932
+ColMap_11f932:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f95e  @ $11F95E  (4 B)
+|  ColMap_11f95e  @ $11F95E  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f95e, "ax", @progbits
-        .global Data_11f95e
-Data_11f95e:
+        .section .text.ColMap_11f95e, "ax", @progbits
+        .global ColMap_11f95e
+ColMap_11f95e:
         .dc.w   0x0607,0x0e0e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f962  @ $11F962  (44 B)
+|  ColMap_11f962  @ $11F962  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f962, "ax", @progbits
-        .global Zero_11f962
-Zero_11f962:
+        .section .text.ColMap_11f962, "ax", @progbits
+        .global ColMap_11f962
+ColMap_11f962:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f98e  @ $11F98E  (2 B)
+|  ColMap_11f98e  @ $11F98E  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f98e, "ax", @progbits
-        .global Data_11f98e
-Data_11f98e:
+        .section .text.ColMap_11f98e, "ax", @progbits
+        .global ColMap_11f98e
+ColMap_11f98e:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f990  @ $11F990  (46 B)
+|  ColMap_11f990  @ $11F990  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f990, "ax", @progbits
-        .global Zero_11f990
-Zero_11f990:
+        .section .text.ColMap_11f990, "ax", @progbits
+        .global ColMap_11f990
+ColMap_11f990:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f9be  @ $11F9BE  (4 B)
+|  ColMap_11f9be  @ $11F9BE  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f9be, "ax", @progbits
-        .global Data_11f9be
-Data_11f9be:
+        .section .text.ColMap_11f9be, "ax", @progbits
+        .global ColMap_11f9be
+ColMap_11f9be:
         .dc.w   0x0809,0x0f0f                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f9c2  @ $11F9C2  (44 B)
+|  ColMap_11f9c2  @ $11F9C2  (44 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f9c2, "ax", @progbits
-        .global Zero_11f9c2
-Zero_11f9c2:
+        .section .text.ColMap_11f9c2, "ax", @progbits
+        .global ColMap_11f9c2
+ColMap_11f9c2:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11f9ee  @ $11F9EE  (4 B)
+|  ColMap_11f9ee  @ $11F9EE  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11f9ee, "ax", @progbits
-        .global Data_11f9ee
-Data_11f9ee:
+        .section .text.ColMap_11f9ee, "ax", @progbits
+        .global ColMap_11f9ee
+ColMap_11f9ee:
         .dc.w   0x0a0b,0x0f0f                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11f9f2  @ $11F9F2  (46 B)
+|  ColMap_11f9f2  @ $11F9F2  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11f9f2, "ax", @progbits
-        .global Zero_11f9f2
-Zero_11f9f2:
+        .section .text.ColMap_11f9f2, "ax", @progbits
+        .global ColMap_11f9f2
+ColMap_11f9f2:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11fa20  @ $11FA20  (292 B)
+|  ColMap_11fa20  @ $11FA20  (292 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11fa20, "ax", @progbits
-        .global Data_11fa20
-Data_11fa20:
+        .section .text.ColMap_11fa20, "ax", @progbits
+        .global ColMap_11fa20
+ColMap_11fa20:
         .dc.w   0x0809,0x0f0f                                               | +00000
         .fill   25,1,0x00                      | +00004
         .dc.b   0x11                            | +0001d
@@ -7520,105 +7550,105 @@ Data_11fa20:
         .dc.w   0x0101                                                      | +00122
 
 | ----------------------------------------------------------------------------
-|  Zero_11fb44  @ $11FB44  (46 B)
+|  ColMap_11fb44  @ $11FB44  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11fb44, "ax", @progbits
-        .global Zero_11fb44
-Zero_11fb44:
+        .section .text.ColMap_11fb44, "ax", @progbits
+        .global ColMap_11fb44
+ColMap_11fb44:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11fb72  @ $11FB72  (2 B)
+|  ColMap_11fb72  @ $11FB72  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11fb72, "ax", @progbits
-        .global Data_11fb72
-Data_11fb72:
+        .section .text.ColMap_11fb72, "ax", @progbits
+        .global ColMap_11fb72
+ColMap_11fb72:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11fb74  @ $11FB74  (46 B)
+|  ColMap_11fb74  @ $11FB74  (46 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11fb74, "ax", @progbits
-        .global Zero_11fb74
-Zero_11fb74:
+        .section .text.ColMap_11fb74, "ax", @progbits
+        .global ColMap_11fb74
+ColMap_11fb74:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11fba2  @ $11FBA2  (2 B)
+|  ColMap_11fba2  @ $11FBA2  (2 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11fba2, "ax", @progbits
-        .global Data_11fba2
-Data_11fba2:
+        .section .text.ColMap_11fba2, "ax", @progbits
+        .global ColMap_11fba2
+ColMap_11fba2:
         .dc.w   0x0101                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Zero_11fba4  @ $11FBA4  (43 B)
+|  ColMap_11fba4  @ $11FBA4  (43 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11fba4, "ax", @progbits
-        .global Zero_11fba4
-Zero_11fba4:
+        .section .text.ColMap_11fba4, "ax", @progbits
+        .global ColMap_11fba4
+ColMap_11fba4:
         .fill   43,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11fbcf  @ $11FBCF  (4 B)
+|  ColMap_11fbcf  @ $11FBCF  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11fbcf, "ax", @progbits
-        .global Data_11fbcf
-Data_11fbcf:
+        .section .text.ColMap_11fbcf, "ax", @progbits
+        .global ColMap_11fbcf
+ColMap_11fbcf:
         .dc.b   0x02                            | +00000
         .dc.w   0x020c                                                      | +00001
         .dc.b   0x0c                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Zero_11fbd3  @ $11FBD3  (40 B)
+|  ColMap_11fbd3  @ $11FBD3  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11fbd3, "ax", @progbits
-        .global Zero_11fbd3
-Zero_11fbd3:
+        .section .text.ColMap_11fbd3, "ax", @progbits
+        .global ColMap_11fbd3
+ColMap_11fbd3:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11fbfb  @ $11FBFB  (4 B)
+|  ColMap_11fbfb  @ $11FBFB  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11fbfb, "ax", @progbits
-        .global Data_11fbfb
-Data_11fbfb:
+        .section .text.ColMap_11fbfb, "ax", @progbits
+        .global ColMap_11fbfb
+ColMap_11fbfb:
         .dc.b   0x02                            | +00000
         .dc.w   0x020c                                                      | +00001
         .dc.b   0x0c                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Zero_11fbff  @ $11FBFF  (40 B)
+|  ColMap_11fbff  @ $11FBFF  (40 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11fbff, "ax", @progbits
-        .global Zero_11fbff
-Zero_11fbff:
+        .section .text.ColMap_11fbff, "ax", @progbits
+        .global ColMap_11fbff
+ColMap_11fbff:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11fc27  @ $11FC27  (4 B)
+|  ColMap_11fc27  @ $11FC27  (4 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11fc27, "ax", @progbits
-        .global Data_11fc27
-Data_11fc27:
+        .section .text.ColMap_11fc27, "ax", @progbits
+        .global ColMap_11fc27
+ColMap_11fc27:
         .dc.b   0x02                            | +00000
         .dc.w   0x020c                                                      | +00001
         .dc.b   0x0c                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Zero_11fc2b  @ $11FC2B  (41 B)
+|  ColMap_11fc2b  @ $11FC2B  (41 B)
 | ----------------------------------------------------------------------------
-        .section .text.Zero_11fc2b, "ax", @progbits
-        .global Zero_11fc2b
-Zero_11fc2b:
+        .section .text.ColMap_11fc2b, "ax", @progbits
+        .global ColMap_11fc2b
+ColMap_11fc2b:
         .fill   41,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11fc54  @ $11FC54  (3 B)
+|  ColMap_11fc54  @ $11FC54  (3 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_11fc54, "ax", @progbits
-        .global Data_11fc54
-Data_11fc54:
+        .section .text.ColMap_11fc54, "ax", @progbits
+        .global ColMap_11fc54
+ColMap_11fc54:
         .dc.w   0x0200                                                      | +00000
         .dc.b   0x0c                            | +00002
 
@@ -7631,464 +7661,464 @@ Zero_11fc57:
         .fill   936,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_11ffff  @ $11FFFF  (1 B)  [ref. desde código]
+|  Zero_11ffff  @ $11FFFF  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_11ffff, "ax", @progbits
-        .global Data_11ffff
-Data_11ffff:
+        .section .text.Zero_11ffff, "ax", @progbits
+        .global Zero_11ffff
+Zero_11ffff:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120000  @ $120000  (2 B)  [ref. desde código]
+|  Zero_120000  @ $120000  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120000, "ax", @progbits
-        .global Data_120000
-Data_120000:
+        .section .text.Zero_120000, "ax", @progbits
+        .global Zero_120000
+Zero_120000:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120002  @ $120002  (1 B)  [ref. desde código]
+|  Zero_120002  @ $120002  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120002, "ax", @progbits
-        .global Data_120002
-Data_120002:
+        .section .text.Zero_120002, "ax", @progbits
+        .global Zero_120002
+Zero_120002:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120003  @ $120003  (1 B)  [ref. desde código]
+|  Zero_120003  @ $120003  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120003, "ax", @progbits
-        .global Data_120003
-Data_120003:
+        .section .text.Zero_120003, "ax", @progbits
+        .global Zero_120003
+Zero_120003:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120004  @ $120004  (1 B)  [ref. desde código]
+|  Zero_120004  @ $120004  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120004, "ax", @progbits
-        .global Data_120004
-Data_120004:
+        .section .text.Zero_120004, "ax", @progbits
+        .global Zero_120004
+Zero_120004:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120005  @ $120005  (1 B)  [ref. desde código]
+|  Zero_120005  @ $120005  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120005, "ax", @progbits
-        .global Data_120005
-Data_120005:
+        .section .text.Zero_120005, "ax", @progbits
+        .global Zero_120005
+Zero_120005:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120006  @ $120006  (3 B)  [ref. desde código]
+|  Zero_120006  @ $120006  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120006, "ax", @progbits
-        .global Data_120006
-Data_120006:
+        .section .text.Zero_120006, "ax", @progbits
+        .global Zero_120006
+Zero_120006:
         .dc.w   0x0000                                                      | +00000
         .dc.b   0x00                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_120009  @ $120009  (1 B)  [ref. desde código]
+|  Zero_120009  @ $120009  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120009, "ax", @progbits
-        .global Data_120009
-Data_120009:
+        .section .text.Zero_120009, "ax", @progbits
+        .global Zero_120009
+Zero_120009:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12000a  @ $12000A  (1 B)  [ref. desde código]
+|  Zero_12000a  @ $12000A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12000a, "ax", @progbits
-        .global Data_12000a
-Data_12000a:
+        .section .text.Zero_12000a, "ax", @progbits
+        .global Zero_12000a
+Zero_12000a:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12000b  @ $12000B  (2 B)  [ref. desde código]
+|  Zero_12000b  @ $12000B  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12000b, "ax", @progbits
-        .global Data_12000b
-Data_12000b:
+        .section .text.Zero_12000b, "ax", @progbits
+        .global Zero_12000b
+Zero_12000b:
         .dc.b   0x00                            | +00000
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_12000d  @ $12000D  (3 B)  [ref. desde código]
+|  Zero_12000d  @ $12000D  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12000d, "ax", @progbits
-        .global Data_12000d
-Data_12000d:
+        .section .text.Zero_12000d, "ax", @progbits
+        .global Zero_12000d
+Zero_12000d:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_120010  @ $120010  (3 B)  [ref. desde código]
+|  Zero_120010  @ $120010  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120010, "ax", @progbits
-        .global Data_120010
-Data_120010:
+        .section .text.Zero_120010, "ax", @progbits
+        .global Zero_120010
+Zero_120010:
         .dc.w   0x0000                                                      | +00000
         .dc.b   0x00                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_120013  @ $120013  (5 B)  [ref. desde código]
+|  Zero_120013  @ $120013  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120013, "ax", @progbits
-        .global Data_120013
-Data_120013:
+        .section .text.Zero_120013, "ax", @progbits
+        .global Zero_120013
+Zero_120013:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0000                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_120018  @ $120018  (4 B)  [ref. desde código]
+|  Zero_120018  @ $120018  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120018, "ax", @progbits
-        .global Data_120018
-Data_120018:
+        .section .text.Zero_120018, "ax", @progbits
+        .global Zero_120018
+Zero_120018:
         .dc.w   0x0000,0x0000                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12001c  @ $12001C  (2 B)  [ref. desde código]
+|  Zero_12001c  @ $12001C  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12001c, "ax", @progbits
-        .global Data_12001c
-Data_12001c:
+        .section .text.Zero_12001c, "ax", @progbits
+        .global Zero_12001c
+Zero_12001c:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12001e  @ $12001E  (2 B)  [ref. desde código]
+|  Zero_12001e  @ $12001E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12001e, "ax", @progbits
-        .global Data_12001e
-Data_12001e:
+        .section .text.Zero_12001e, "ax", @progbits
+        .global Zero_12001e
+Zero_12001e:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120020  @ $120020  (1 B)  [ref. desde código]
+|  Zero_120020  @ $120020  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120020, "ax", @progbits
-        .global Data_120020
-Data_120020:
+        .section .text.Zero_120020, "ax", @progbits
+        .global Zero_120020
+Zero_120020:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120021  @ $120021  (3 B)  [ref. desde código]
+|  Zero_120021  @ $120021  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120021, "ax", @progbits
-        .global Data_120021
-Data_120021:
+        .section .text.Zero_120021, "ax", @progbits
+        .global Zero_120021
+Zero_120021:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_120024  @ $120024  (2 B)  [ref. desde código]
+|  Zero_120024  @ $120024  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120024, "ax", @progbits
-        .global Data_120024
-Data_120024:
+        .section .text.Zero_120024, "ax", @progbits
+        .global Zero_120024
+Zero_120024:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120026  @ $120026  (8 B)  [ref. desde código]
+|  Zero_120026  @ $120026  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120026, "ax", @progbits
-        .global Str_120026
-Str_120026:
+        .section .text.Zero_120026, "ax", @progbits
+        .global Zero_120026
+Zero_120026:
         .fill   8,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12002e  @ $12002E  (4 B)  [ref. desde código]
+|  Zero_12002e  @ $12002E  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12002e, "ax", @progbits
-        .global Data_12002e
-Data_12002e:
+        .section .text.Zero_12002e, "ax", @progbits
+        .global Zero_12002e
+Zero_12002e:
         .dc.w   0x0000,0x0000                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120032  @ $120032  (1 B)  [ref. desde código]
+|  Zero_120032  @ $120032  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120032, "ax", @progbits
-        .global Data_120032
-Data_120032:
+        .section .text.Zero_120032, "ax", @progbits
+        .global Zero_120032
+Zero_120032:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120033  @ $120033  (10 B)  [ref. desde código]
+|  Zero_120033  @ $120033  (10 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120033, "ax", @progbits
-        .global Str_120033
-Str_120033:
+        .section .text.Zero_120033, "ax", @progbits
+        .global Zero_120033
+Zero_120033:
         .fill   10,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12003d  @ $12003D  (5 B)  [ref. desde código]
+|  Zero_12003d  @ $12003D  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12003d, "ax", @progbits
-        .global Data_12003d
-Data_12003d:
+        .section .text.Zero_12003d, "ax", @progbits
+        .global Zero_12003d
+Zero_12003d:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0000                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Str_120042  @ $120042  (26 B)  [ref. desde código]
+|  Zero_120042  @ $120042  (26 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120042, "ax", @progbits
-        .global Str_120042
-Str_120042:
+        .section .text.Zero_120042, "ax", @progbits
+        .global Zero_120042
+Zero_120042:
         .fill   26,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_12005c  @ $12005C  (18 B)  [ref. desde código]
+|  Zero_12005c  @ $12005C  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_12005c, "ax", @progbits
-        .global Str_12005c
-Str_12005c:
+        .section .text.Zero_12005c, "ax", @progbits
+        .global Zero_12005c
+Zero_12005c:
         .fill   18,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12006e  @ $12006E  (2 B)  [ref. desde código]
+|  Zero_12006e  @ $12006E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12006e, "ax", @progbits
-        .global Data_12006e
-Data_12006e:
+        .section .text.Zero_12006e, "ax", @progbits
+        .global Zero_12006e
+Zero_12006e:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120070  @ $120070  (2 B)  [ref. desde código]
+|  Zero_120070  @ $120070  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120070, "ax", @progbits
-        .global Data_120070
-Data_120070:
+        .section .text.Zero_120070, "ax", @progbits
+        .global Zero_120070
+Zero_120070:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120072  @ $120072  (2 B)  [ref. desde código]
+|  Zero_120072  @ $120072  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120072, "ax", @progbits
-        .global Data_120072
-Data_120072:
+        .section .text.Zero_120072, "ax", @progbits
+        .global Zero_120072
+Zero_120072:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120074  @ $120074  (14 B)  [ref. desde código]
+|  Zero_120074  @ $120074  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120074, "ax", @progbits
-        .global Str_120074
-Str_120074:
+        .section .text.Zero_120074, "ax", @progbits
+        .global Zero_120074
+Zero_120074:
         .fill   14,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120082  @ $120082  (22 B)  [ref. desde código]
+|  Zero_120082  @ $120082  (22 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120082, "ax", @progbits
-        .global Str_120082
-Str_120082:
+        .section .text.Zero_120082, "ax", @progbits
+        .global Zero_120082
+Zero_120082:
         .fill   22,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120098  @ $120098  (42 B)  [ref. desde código]
+|  Zero_120098  @ $120098  (42 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120098, "ax", @progbits
-        .global Str_120098
-Str_120098:
+        .section .text.Zero_120098, "ax", @progbits
+        .global Zero_120098
+Zero_120098:
         .fill   42,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_1200c2  @ $1200C2  (62 B)  [ref. desde código]
+|  Zero_1200c2  @ $1200C2  (62 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_1200c2, "ax", @progbits
-        .global Str_1200c2
-Str_1200c2:
+        .section .text.Zero_1200c2, "ax", @progbits
+        .global Zero_1200c2
+Zero_1200c2:
         .fill   62,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120100  @ $120100  (20 B)  [ref. desde código]
+|  Zero_120100  @ $120100  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120100, "ax", @progbits
-        .global Str_120100
-Str_120100:
+        .section .text.Zero_120100, "ax", @progbits
+        .global Zero_120100
+Zero_120100:
         .fill   20,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120114  @ $120114  (46 B)  [ref. desde código]
+|  Zero_120114  @ $120114  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120114, "ax", @progbits
-        .global Str_120114
-Str_120114:
+        .section .text.Zero_120114, "ax", @progbits
+        .global Zero_120114
+Zero_120114:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120142  @ $120142  (97 B)  [ref. desde código]
+|  Zero_120142  @ $120142  (97 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120142, "ax", @progbits
-        .global Str_120142
-Str_120142:
+        .section .text.Zero_120142, "ax", @progbits
+        .global Zero_120142
+Zero_120142:
         .fill   97,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_1201a3  @ $1201A3  (93 B)  [ref. desde código]
+|  Zero_1201a3  @ $1201A3  (93 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_1201a3, "ax", @progbits
-        .global Str_1201a3
-Str_1201a3:
+        .section .text.Zero_1201a3, "ax", @progbits
+        .global Zero_1201a3
+Zero_1201a3:
         .fill   93,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120200  @ $120200  (1 B)  [ref. desde código]
+|  Zero_120200  @ $120200  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120200, "ax", @progbits
-        .global Data_120200
-Data_120200:
+        .section .text.Zero_120200, "ax", @progbits
+        .global Zero_120200
+Zero_120200:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120201  @ $120201  (3 B)  [ref. desde código]
+|  Zero_120201  @ $120201  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120201, "ax", @progbits
-        .global Data_120201
-Data_120201:
+        .section .text.Zero_120201, "ax", @progbits
+        .global Zero_120201
+Zero_120201:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Str_120204  @ $120204  (36 B)  [ref. desde código]
+|  Zero_120204  @ $120204  (36 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120204, "ax", @progbits
-        .global Str_120204
-Str_120204:
+        .section .text.Zero_120204, "ax", @progbits
+        .global Zero_120204
+Zero_120204:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120228  @ $120228  (6 B)  [ref. desde código]
+|  Zero_120228  @ $120228  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120228, "ax", @progbits
-        .global Str_120228
-Str_120228:
+        .section .text.Zero_120228, "ax", @progbits
+        .global Zero_120228
+Zero_120228:
         .dc.w   0x0000,0x0000,0x0000                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_12022e  @ $12022E  (18 B)  [ref. desde código]
+|  Zero_12022e  @ $12022E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_12022e, "ax", @progbits
-        .global Str_12022e
-Str_12022e:
+        .section .text.Zero_12022e, "ax", @progbits
+        .global Zero_12022e
+Zero_12022e:
         .fill   18,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120240  @ $120240  (136 B)  [ref. desde código]
+|  Zero_120240  @ $120240  (136 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120240, "ax", @progbits
-        .global Str_120240
-Str_120240:
+        .section .text.Zero_120240, "ax", @progbits
+        .global Zero_120240
+Zero_120240:
         .fill   136,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_1202c8  @ $1202C8  (312 B)  [ref. desde código]
+|  Zero_1202c8  @ $1202C8  (312 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_1202c8, "ax", @progbits
-        .global Str_1202c8
-Str_1202c8:
+        .section .text.Zero_1202c8, "ax", @progbits
+        .global Zero_1202c8
+Zero_1202c8:
         .fill   312,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120400  @ $120400  (104 B)  [ref. desde código]
+|  Zero_120400  @ $120400  (104 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120400, "ax", @progbits
-        .global Str_120400
-Str_120400:
+        .section .text.Zero_120400, "ax", @progbits
+        .global Zero_120400
+Zero_120400:
         .fill   104,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120468  @ $120468  (152 B)  [ref. desde código]
+|  Zero_120468  @ $120468  (152 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120468, "ax", @progbits
-        .global Str_120468
-Str_120468:
+        .section .text.Zero_120468, "ax", @progbits
+        .global Zero_120468
+Zero_120468:
         .fill   152,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120500  @ $120500  (266 B)  [ref. desde código]
+|  Zero_120500  @ $120500  (266 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120500, "ax", @progbits
-        .global Str_120500
-Str_120500:
+        .section .text.Zero_120500, "ax", @progbits
+        .global Zero_120500
+Zero_120500:
         .fill   266,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_12060a  @ $12060A  (57 B)  [ref. desde código]
+|  Zero_12060a  @ $12060A  (57 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_12060a, "ax", @progbits
-        .global Str_12060a
-Str_12060a:
+        .section .text.Zero_12060a, "ax", @progbits
+        .global Zero_12060a
+Zero_12060a:
         .fill   57,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120643  @ $120643  (4 B)  [ref. desde código]
+|  Zero_120643  @ $120643  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120643, "ax", @progbits
-        .global Data_120643
-Data_120643:
+        .section .text.Zero_120643, "ax", @progbits
+        .global Zero_120643
+Zero_120643:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000                                                      | +00001
         .dc.b   0x00                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Str_120647  @ $120647  (33 B)  [ref. desde código]
+|  Zero_120647  @ $120647  (33 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120647, "ax", @progbits
-        .global Str_120647
-Str_120647:
+        .section .text.Zero_120647, "ax", @progbits
+        .global Zero_120647
+Zero_120647:
         .fill   33,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120668  @ $120668  (152 B)  [ref. desde código]
+|  Zero_120668  @ $120668  (152 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120668, "ax", @progbits
-        .global Str_120668
-Str_120668:
+        .section .text.Zero_120668, "ax", @progbits
+        .global Zero_120668
+Zero_120668:
         .fill   152,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_120700  @ $120700  (256 B)  [ref. desde código]
+|  Zero_120700  @ $120700  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_120700, "ax", @progbits
-        .global Str_120700
-Str_120700:
+        .section .text.Zero_120700, "ax", @progbits
+        .global Zero_120700
+Zero_120700:
         .fill   256,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120800  @ $120800  (40 B)  [ref. desde código]
+|  SprFrame_120800  @ $120800  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120800, "ax", @progbits
-        .global Data_120800
-Data_120800:
+        .section .text.SprFrame_120800, "ax", @progbits
+        .global SprFrame_120800
+SprFrame_120800:
         .dc.w   0x0200,0xffe0,0x0040,0x0204,0x16ae,0x16af,0x16b0,0x16b1     | +00000
         .dc.w   0x16b2,0x16b3,0x16b4,0x16b5,0x0000,0x0030,0x0203,0x16ab     | +00010
         .dc.w   0x16ac,0x16ad,0x16a8,0x16a9                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_120828  @ $120828  (6 B)  [ref. desde código]
+|  SprFrame_120828  @ $120828  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120828, "ax", @progbits
-        .global Data_120828
-Data_120828:
+        .section .text.SprFrame_120828, "ax", @progbits
+        .global SprFrame_120828
+SprFrame_120828:
         .dc.w   0x16aa,0x0200,0xffe0                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12082e  @ $12082E  (11 B)  [ref. desde código]
+|  SprFrame_12082e  @ $12082E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12082e, "ax", @progbits
-        .global Data_12082e
-Data_12082e:
+        .section .text.SprFrame_12082e, "ax", @progbits
+        .global SprFrame_12082e
+SprFrame_12082e:
         .dc.w   0x0040,0x0204,0x16ae,0x16ba,0x16bb                          | +00000
         .dc.b   0x16                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_120839  @ $120839  (53 B)  [ref. desde código]
+|  SprFrame_120839  @ $120839  (53 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120839, "ax", @progbits
-        .global Data_120839
-Data_120839:
+        .section .text.SprFrame_120839, "ax", @progbits
+        .global SprFrame_120839
+SprFrame_120839:
         .dc.b   0xbc                            | +00000
         .dc.w   0x16b6,0x16b7,0x16b8,0x16b9,0x0000,0x0030,0x0203,0x16bd     | +00001
         .dc.w   0x16be,0x16bf,0x16c0,0x16c1,0x16c2,0x0300,0xffe0,0x0030     | +00011
@@ -8096,41 +8126,41 @@ Data_120839:
         .dc.w   0x16c4,0x16c5                                               | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_12086e  @ $12086E  (64 B)  [ref. desde código]
+|  SprFrame_12086e  @ $12086E  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12086e, "ax", @progbits
-        .global Data_12086e
-Data_12086e:
+        .section .text.SprFrame_12086e, "ax", @progbits
+        .global SprFrame_12086e
+SprFrame_12086e:
         .dc.w   0x16c6,0x0000,0x0030,0x0203,0x16ca,0x16cb,0x16cc,0x16cd     | +00000
         .dc.w   0x16ce,0x16cf,0x0200,0xffe0,0x0040,0x0204,0x16ae,0x16d3     | +00010
         .dc.w   0x16d4,0x16d5,0x16b6,0x16d0,0x16d1,0x16d2,0x0000,0x0030     | +00020
         .dc.w   0x0203,0x16d6,0x16d7,0x16d8,0x16c0,0x16d9,0x16da,0x0200     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1208ae  @ $1208AE  (58 B)  [ref. desde código]
+|  SprFrame_1208ae  @ $1208AE  (58 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1208ae, "ax", @progbits
-        .global Data_1208ae
-Data_1208ae:
+        .section .text.SprFrame_1208ae, "ax", @progbits
+        .global SprFrame_1208ae
+SprFrame_1208ae:
         .dc.w   0xffe0,0x0040,0x0204,0x16ae,0x16dd,0x16de,0x16df,0x16b2     | +00000
         .dc.w   0x16b3,0x16db,0x16dc,0x0000,0x0030,0x0203,0x16e0,0x16e1     | +00010
         .dc.w   0x16e2,0x16a8,0x16e3,0x16e4,0x0300,0xffe0,0x0030,0x0103     | +00020
         .dc.w   0x16e9,0x16ea,0x16eb,0xfff0,0x0040                          | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1208e8  @ $1208E8  (6 B)  [ref. desde código]
+|  SprFrame_1208e8  @ $1208E8  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1208e8, "ax", @progbits
-        .global Data_1208e8
-Data_1208e8:
+        .section .text.SprFrame_1208e8, "ax", @progbits
+        .global SprFrame_1208e8
+SprFrame_1208e8:
         .dc.w   0x0104,0x16e5,0x16e6                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1208ee  @ $1208EE  (277 B)  [ref. desde código]
+|  SprFrame_1208ee  @ $1208EE  (277 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1208ee, "ax", @progbits
-        .global Data_1208ee
-Data_1208ee:
+        .section .text.SprFrame_1208ee, "ax", @progbits
+        .global SprFrame_1208ee
+SprFrame_1208ee:
         .dc.w   0x16e7,0x16e8,0x0000,0x0030,0x0203,0x16ec,0x16ed,0x16ee     | +00000
         .dc.w   0x16ef,0x16f0,0x16f1,0x0300,0xffe0,0x0030,0x0103,0x16f6     | +00010
         .dc.w   0x16f7,0x16f8,0xfff0,0x0040,0x0104,0x16f2,0x16f3,0x16f4     | +00020
@@ -8152,31 +8182,31 @@ Data_1208ee:
         .dc.b   0x17                            | +00114
 
 | ----------------------------------------------------------------------------
-|  Data_120a03  @ $120A03  (2 B)  [ref. desde código]
+|  SprFrame_120a03  @ $120A03  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120a03, "ax", @progbits
-        .global Data_120a03
-Data_120a03:
+        .section .text.SprFrame_120a03, "ax", @progbits
+        .global SprFrame_120a03
+SprFrame_120a03:
         .dc.b   0x32                            | +00000
         .dc.b   0x16                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_120a05  @ $120A05  (41 B)  [ref. desde código]
+|  SprFrame_120a05  @ $120A05  (41 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120a05, "ax", @progbits
-        .global Data_120a05
-Data_120a05:
+        .section .text.SprFrame_120a05, "ax", @progbits
+        .global SprFrame_120a05
+SprFrame_120a05:
         .dc.b   0xb9                            | +00000
         .dc.w   0x0000,0x0030,0x0203,0x1736,0x1737,0x1738,0x1739,0x173a     | +00001
         .dc.w   0x173b,0x0300,0xffe0,0x0030,0x0103,0x1740,0x1741,0x1742     | +00011
         .dc.w   0xfff0,0x0040,0x0104,0x173c                                 | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_120a2e  @ $120A2E  (212 B)  [ref. desde código]
+|  SprFrame_120a2e  @ $120A2E  (212 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120a2e, "ax", @progbits
-        .global Data_120a2e
-Data_120a2e:
+        .section .text.SprFrame_120a2e, "ax", @progbits
+        .global SprFrame_120a2e
+SprFrame_120a2e:
         .dc.w   0x173d,0x173e,0x173f,0x0000,0x0030,0x0203,0x1743,0x1744     | +00000
         .dc.w   0x1745,0x1746,0x1747,0x1748,0x0300,0xffe0,0x0030,0x0103     | +00010
         .dc.w   0x174c,0x174d,0x174e,0xfff0,0x0040,0x0104,0x1730,0x1749     | +00020
@@ -8193,20 +8223,20 @@ Data_120a2e:
         .dc.w   0x0300,0xffe0                                               | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_120b02  @ $120B02  (5 B)  [ref. desde código]
+|  SprFrame_120b02  @ $120B02  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120b02, "ax", @progbits
-        .global Data_120b02
-Data_120b02:
+        .section .text.SprFrame_120b02, "ax", @progbits
+        .global SprFrame_120b02
+SprFrame_120b02:
         .dc.w   0x0030,0x0103                                               | +00000
         .dc.b   0x17                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_120b07  @ $120B07  (89 B)  [ref. desde código]
+|  SprFrame_120b07  @ $120B07  (89 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120b07, "ax", @progbits
-        .global Data_120b07
-Data_120b07:
+        .section .text.SprFrame_120b07, "ax", @progbits
+        .global SprFrame_120b07
+SprFrame_120b07:
         .dc.b   0x7a                            | +00000
         .dc.w   0x177b,0x177c,0xfff0,0x0040,0x0104,0x1776,0x1777,0x1778     | +00001
         .dc.w   0x1779,0x0000,0x0030,0x0203,0x177d,0x177e,0x177f,0x1780     | +00011
@@ -8216,17 +8246,17 @@ Data_120b07:
         .dc.w   0x178f,0x0300,0xffe0,0x0030                                 | +00051
 
 | ----------------------------------------------------------------------------
-|  Data_120b60  @ $120B60  (160 B)  [ref. desde código]
+|  SprFrame_120b60  @ $120B60  (160 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120b60, "ax", @progbits
-        .global Data_120b60
-Data_120b60:
+        .section .text.SprFrame_120b60, "ax", @progbits
+        .global SprFrame_120b60
+SprFrame_120b60:
         .dc.w   0x0103,0x177a,0x1793,0x1794,0xfff0,0x0040,0x0104,0x1776     | +00000
         .dc.w   0x1790,0x1791,0x1792,0x0000,0x0030,0x0203,0x177d,0x1795     | +00010
         .dc.w   0x1796,0x1797,0x1798,0x1799,0x0200,0xffe0,0x0040,0x0304     | +00020
         .dc.w   0x117f,0x17a1,0x17a2,0x16bc,0x179d,0x179e,0x179f,0x17a0     | +00030
         .dc.w   0x0000,0x179a,0x179b,0x179c                                 | +00040
-        .dc.l   Data_100030                   | +00048  -> $100030
+        .dc.l   ColMap_100030                   | +00048  -> $100030
         .dc.w   0x0103,0x17a3,0x17a4,0x16c2,0x0200,0xffe0,0x0040,0x0204     | +0004c
         .dc.w   0x17a9,0x17aa,0x17ab,0x16b1,0x17a5,0x17a6,0x17a7,0x17a8     | +0005c
         .dc.w   0x0000,0x0030,0x0203,0x17ac,0x17ad,0x17ae,0x17af,0x17b0     | +0006c
@@ -8235,64 +8265,64 @@ Data_120b60:
         .dc.w   0x17b6,0x0000                                               | +0009c
 
 | ----------------------------------------------------------------------------
-|  Data_120c00  @ $120C00  (40 B)  [ref. desde código]
+|  SprFrame_120c00  @ $120C00  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c00, "ax", @progbits
-        .global Data_120c00
-Data_120c00:
+        .section .text.SprFrame_120c00, "ax", @progbits
+        .global SprFrame_120c00
+SprFrame_120c00:
         .dc.w   0x17b1,0x17b2,0x17b3,0x0300,0xffe0,0x0030,0x0103,0x17c2     | +00000
         .dc.w   0x17c3,0x17c4,0xfff0,0x0040,0x0104,0x17be,0x17bf,0x17c0     | +00010
         .dc.w   0x17c1,0x0000,0x0030,0x0203                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_120c28  @ $120C28  (1 B)  [ref. desde código]
+|  SprFrame_120c28  @ $120C28  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c28, "ax", @progbits
-        .global Data_120c28
-Data_120c28:
+        .section .text.SprFrame_120c28, "ax", @progbits
+        .global SprFrame_120c28
+SprFrame_120c28:
         .dc.b   0x17                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120c29  @ $120C29  (5 B)  [ref. desde código]
+|  SprFrame_120c29  @ $120C29  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c29, "ax", @progbits
-        .global Data_120c29
-Data_120c29:
+        .section .text.SprFrame_120c29, "ax", @progbits
+        .global SprFrame_120c29
+SprFrame_120c29:
         .dc.b   0xc5                            | +00000
         .dc.w   0x17c6,0x17c7                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_120c2e  @ $120C2E  (18 B)  [ref. desde código]
+|  SprFrame_120c2e  @ $120C2E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c2e, "ax", @progbits
-        .global Data_120c2e
-Data_120c2e:
+        .section .text.SprFrame_120c2e, "ax", @progbits
+        .global SprFrame_120c2e
+SprFrame_120c2e:
         .dc.w   0x17c8,0x17c9,0x17ca,0x0100,0xffe0,0x0040,0x0404,0x0000     | +00000
         .dc.w   0x17d5                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_120c40  @ $120C40  (1 B)  [ref. desde código]
+|  SprFrame_120c40  @ $120C40  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c40, "ax", @progbits
-        .global Data_120c40
-Data_120c40:
+        .section .text.SprFrame_120c40, "ax", @progbits
+        .global SprFrame_120c40
+SprFrame_120c40:
         .dc.b   0x17                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120c41  @ $120C41  (2 B)  [ref. desde código]
+|  SprFrame_120c41  @ $120C41  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c41, "ax", @progbits
-        .global Data_120c41
-Data_120c41:
+        .section .text.SprFrame_120c41, "ax", @progbits
+        .global SprFrame_120c41
+SprFrame_120c41:
         .dc.b   0xd6                            | +00000
         .dc.b   0x17                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_120c43  @ $120C43  (38 B)  [ref. desde código]
+|  SprFrame_120c43  @ $120C43  (38 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c43, "ax", @progbits
-        .global Data_120c43
-Data_120c43:
+        .section .text.SprFrame_120c43, "ax", @progbits
+        .global SprFrame_120c43
+SprFrame_120c43:
         .dc.b   0xd7                            | +00000
         .dc.w   0x17d1,0x17d2,0x17d3,0x17d4,0x0000,0x17ce,0x17cf,0x17d0     | +00001
         .dc.w   0x0000,0x17cb,0x17cc,0x17cd,0x0300,0xffe0,0x0030,0x0103     | +00011
@@ -8300,84 +8330,84 @@ Data_120c43:
         .dc.b   0x17                            | +00025
 
 | ----------------------------------------------------------------------------
-|  Data_120c69  @ $120C69  (5 B)  [ref. desde código]
+|  SprFrame_120c69  @ $120C69  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c69, "ax", @progbits
-        .global Data_120c69
-Data_120c69:
+        .section .text.SprFrame_120c69, "ax", @progbits
+        .global SprFrame_120c69
+SprFrame_120c69:
         .dc.b   0xe1                            | +00000
         .dc.w   0xfff0,0x0040                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_120c6e  @ $120C6E  (20 B)  [ref. desde código]
+|  SprFrame_120c6e  @ $120C6E  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c6e, "ax", @progbits
-        .global Data_120c6e
-Data_120c6e:
+        .section .text.SprFrame_120c6e, "ax", @progbits
+        .global SprFrame_120c6e
+SprFrame_120c6e:
         .dc.w   0x0104,0x17d8,0x17d9,0x17da,0x17db,0x0000,0x0030,0x0203     | +00000
         .dc.w   0x17e2,0x17e3                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_120c82  @ $120C82  (14 B)  [ref. desde código]
+|  SprFrame_120c82  @ $120C82  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c82, "ax", @progbits
-        .global Data_120c82
-Data_120c82:
+        .section .text.SprFrame_120c82, "ax", @progbits
+        .global SprFrame_120c82
+SprFrame_120c82:
         .dc.w   0x17e4,0x17dc,0x17dd,0x17de,0x0100,0xffe0,0x0040            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120c90  @ $120C90  (113 B)  [ref. desde código]
+|  SprFrame_120c90  @ $120C90  (113 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120c90, "ax", @progbits
-        .global Data_120c90
-Data_120c90:
+        .section .text.SprFrame_120c90, "ax", @progbits
+        .global SprFrame_120c90
+SprFrame_120c90:
         .dc.w   0x0404,0x17ef,0x17f0,0x17f1,0x17f2,0x17eb,0x17ec,0x17ed     | +00000
         .dc.w   0x17ee,0x0000,0x17e8,0x17e9,0x17ea,0x0000,0x17e5,0x17e6     | +00010
         .dc.w   0x17e7,0x0200,0xffe0,0x0040,0x0304,0x17fb,0x17fc,0x17fd     | +00020
         .dc.w   0x17fe,0x17f7,0x17f8,0x17f9,0x17fa,0x17f3,0x17f4,0x17f5     | +00030
         .dc.w   0x17f6                                                      | +00040
-        .dc.l   Data_100030                   | +00042  -> $100030
+        .dc.l   ColMap_100030                   | +00042  -> $100030
         .dc.w   0x0103,0x17ff,0x1800,0x1801,0x0200,0xffe0,0x0040,0x0304     | +00046
         .dc.w   0x180a,0x180b,0x180c,0x180d,0x1806,0x1807,0x1808,0x1809     | +00056
         .dc.w   0x1802,0x1803,0x1804,0x1805,0x0010                          | +00066
         .dc.b   0x00                            | +00070
 
 | ----------------------------------------------------------------------------
-|  Data_120d01  @ $120D01  (4 B)  [ref. desde código]
+|  SprFrame_120d01  @ $120D01  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120d01, "ax", @progbits
-        .global Data_120d01
-Data_120d01:
+        .section .text.SprFrame_120d01, "ax", @progbits
+        .global SprFrame_120d01
+SprFrame_120d01:
         .dc.b   0x30                            | +00000
         .dc.w   0x0103                                                      | +00001
         .dc.b   0x18                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_120d05  @ $120D05  (1 B)  [ref. desde código]
+|  SprFrame_120d05  @ $120D05  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120d05, "ax", @progbits
-        .global Data_120d05
-Data_120d05:
+        .section .text.SprFrame_120d05, "ax", @progbits
+        .global SprFrame_120d05
+SprFrame_120d05:
         .dc.b   0x0e                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120d06  @ $120D06  (2 B)  [ref. desde código]
+|  SprFrame_120d06  @ $120D06  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120d06, "ax", @progbits
-        .global Data_120d06
-Data_120d06:
+        .section .text.SprFrame_120d06, "ax", @progbits
+        .global SprFrame_120d06
+SprFrame_120d06:
         .dc.w   0x180f                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120d08  @ $120D08  (251 B)  [ref. desde código]
+|  SprFrame_120d08  @ $120D08  (251 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120d08, "ax", @progbits
-        .global Data_120d08
-Data_120d08:
+        .section .text.SprFrame_120d08, "ax", @progbits
+        .global SprFrame_120d08
+SprFrame_120d08:
         .dc.w   0x1810,0x0300,0xffe0,0x0030,0x0103,0x1819,0x181a,0x181b     | +00000
         .dc.w   0xfff0,0x0040,0x0204,0x1815,0x1816,0x1817,0x1818,0x1811     | +00010
         .dc.w   0x1812,0x1813,0x1814                                        | +00020
-        .dc.l   Data_100030                   | +00026  -> $100030
+        .dc.l   ColMap_100030                   | +00026  -> $100030
         .dc.w   0x0103,0x181c,0x181d,0x181e,0x0300,0xffe0,0x0030,0x0103     | +0002a
         .dc.w   0x17bb,0x17bc,0x1820,0xfff0,0x0040,0x0104,0x17b7,0x17b8     | +0003a
         .dc.w   0x17b9,0x181f,0x0000,0x0030,0x0203,0x17b4,0x1821,0x1822     | +0004a
@@ -8394,34 +8424,34 @@ Data_120d08:
         .dc.b   0x17                            | +000fa
 
 | ----------------------------------------------------------------------------
-|  Data_120e03  @ $120E03  (4 B)  [ref. desde código]
+|  SprFrame_120e03  @ $120E03  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120e03, "ax", @progbits
-        .global Data_120e03
-Data_120e03:
+        .section .text.SprFrame_120e03, "ax", @progbits
+        .global SprFrame_120e03
+SprFrame_120e03:
         .dc.b   0xed                            | +00000
         .dc.w   0x183a                                                      | +00001
         .dc.b   0x00                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_120e07  @ $120E07  (252 B)  [ref. desde código]
+|  SprFrame_120e07  @ $120E07  (252 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120e07, "ax", @progbits
-        .global Data_120e07
-Data_120e07:
+        .section .text.SprFrame_120e07, "ax", @progbits
+        .global SprFrame_120e07
+SprFrame_120e07:
         .dc.b   0x00                            | +00000
         .dc.w   0x0030,0x0203,0x17e8,0x183d,0x183e,0x17e5,0x183f,0x1840     | +00001
         .dc.w   0x0200,0xffe0,0x0040,0x0304,0x17fb,0x17fc,0x1845,0x1846     | +00011
         .dc.w   0x17f7,0x17f8,0x17f9,0x1844,0x17f3,0x1841,0x1842,0x1843     | +00021
-        .dc.l   Data_100030                   | +00031  -> $100030
+        .dc.l   ColMap_100030                   | +00031  -> $100030
         .dc.w   0x0103,0x17ff,0x1847,0x1848,0x0200,0xffe0,0x0040,0x0304     | +00035
         .dc.w   0x180a,0x180b,0x184c,0x184d,0x1806,0x1807,0x1808,0x184b     | +00045
         .dc.w   0x1802,0x1803,0x1849,0x184a                                 | +00055
-        .dc.l   Data_100030                   | +0005d  -> $100030
+        .dc.l   ColMap_100030                   | +0005d  -> $100030
         .dc.w   0x0103,0x180e,0x184e,0x184f,0x0300,0xffe0,0x0030,0x0103     | +00061
         .dc.w   0x1819,0x1855,0x1856,0xfff0,0x0040,0x0204,0x1815,0x1816     | +00071
         .dc.w   0x1817,0x1852,0x1811,0x1812,0x1850,0x1851                   | +00081
-        .dc.l   Data_100030                   | +0008d  -> $100030
+        .dc.l   ColMap_100030                   | +0008d  -> $100030
         .dc.w   0x0103,0x181c,0x1853,0x1854,0x0200,0xffe0,0x0040,0x0204     | +00091
         .dc.w   0x17a9,0x185b,0x185c,0x185d,0x1857,0x1858,0x1859,0x185a     | +000a1
         .dc.w   0x0000,0x0030,0x0203,0x185e,0x185f,0x1860,0x1861,0x1862     | +000b1
@@ -8432,54 +8462,54 @@ Data_120e07:
         .dc.b   0xff                            | +000fb
 
 | ----------------------------------------------------------------------------
-|  Data_120f03  @ $120F03  (4 B)  [ref. desde código]
+|  SprFrame_120f03  @ $120F03  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120f03, "ax", @progbits
-        .global Data_120f03
-Data_120f03:
+        .section .text.SprFrame_120f03, "ax", @progbits
+        .global SprFrame_120f03
+SprFrame_120f03:
         .dc.b   0xf0                            | +00000
         .dc.w   0x0040                                                      | +00001
         .dc.b   0x01                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_120f07  @ $120F07  (2 B)  [ref. desde código]
+|  SprFrame_120f07  @ $120F07  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120f07, "ax", @progbits
-        .global Data_120f07
-Data_120f07:
+        .section .text.SprFrame_120f07, "ax", @progbits
+        .global SprFrame_120f07
+SprFrame_120f07:
         .dc.b   0x04                            | +00000
         .dc.b   0x18                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_120f09  @ $120F09  (1 B)  [ref. desde código]
+|  SprFrame_120f09  @ $120F09  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120f09, "ax", @progbits
-        .global Data_120f09
-Data_120f09:
+        .section .text.SprFrame_120f09, "ax", @progbits
+        .global SprFrame_120f09
+SprFrame_120f09:
         .dc.b   0x72                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120f0a  @ $120F0A  (1 B)  [ref. desde código]
+|  SprFrame_120f0a  @ $120F0A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120f0a, "ax", @progbits
-        .global Data_120f0a
-Data_120f0a:
+        .section .text.SprFrame_120f0a, "ax", @progbits
+        .global SprFrame_120f0a
+SprFrame_120f0a:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120f0b  @ $120F0B  (1 B)  [ref. desde código]
+|  SprFrame_120f0b  @ $120F0B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120f0b, "ax", @progbits
-        .global Data_120f0b
-Data_120f0b:
+        .section .text.SprFrame_120f0b, "ax", @progbits
+        .global SprFrame_120f0b
+SprFrame_120f0b:
         .dc.b   0x73                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_120f0c  @ $120F0C  (254 B)  [ref. desde código]
+|  SprFrame_120f0c  @ $120F0C  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_120f0c, "ax", @progbits
-        .global Data_120f0c
-Data_120f0c:
+        .section .text.SprFrame_120f0c, "ax", @progbits
+        .global SprFrame_120f0c
+SprFrame_120f0c:
         .dc.w   0x1874,0x1875,0x0000,0x0030,0x0203,0x1879,0x187a,0x187b     | +00000
         .dc.w   0x187c,0x187d,0x187e,0x0300,0xffe0,0x0030,0x0103,0x1883     | +00010
         .dc.w   0x1884,0x1885,0xfff0,0x0040,0x0104,0x187f,0x1880,0x1881     | +00020
@@ -8492,74 +8522,74 @@ Data_120f0c:
         .dc.w   0x18a4,0x18a5,0x18a6,0x18a7,0x0200,0xffe0,0x0040,0x0304     | +00090
         .dc.w   0x18b0,0x18b1,0x18b2,0x18b3,0x18ac,0x18ad,0x18ae,0x18af     | +000a0
         .dc.w   0x18a8,0x18a9,0x18aa,0x18ab                                 | +000b0
-        .dc.l   Data_100020                   | +000b8  -> $100020
+        .dc.l   ColMap_100020                   | +000b8  -> $100020
         .dc.w   0x0102,0x18b4,0x18b5,0x0200,0xffe0,0x0040,0x0304,0x18be     | +000bc
         .dc.w   0x18bf,0x18c0,0x18c1,0x18ba,0x18bb,0x18bc,0x18bd,0x18b6     | +000cc
         .dc.w   0x18b7,0x18b8,0x18b9                                        | +000dc
-        .dc.l   Data_100020                   | +000e2  -> $100020
+        .dc.l   ColMap_100020                   | +000e2  -> $100020
         .dc.w   0x0102,0x18c2,0x18c3,0x0200,0xffe0,0x0040,0x0304,0x18cc     | +000e6
         .dc.w   0x18cd,0x18ce,0x18cf,0x18c8                                 | +000f6
 
 | ----------------------------------------------------------------------------
-|  Data_12100a  @ $12100A  (2 B)  [ref. desde código]
+|  SprFrame_12100a  @ $12100A  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12100a, "ax", @progbits
-        .global Data_12100a
-Data_12100a:
+        .section .text.SprFrame_12100a, "ax", @progbits
+        .global SprFrame_12100a
+SprFrame_12100a:
         .dc.w   0x18c9                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12100c  @ $12100C  (1 B)  [ref. desde código]
+|  SprFrame_12100c  @ $12100C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12100c, "ax", @progbits
-        .global Data_12100c
-Data_12100c:
+        .section .text.SprFrame_12100c, "ax", @progbits
+        .global SprFrame_12100c
+SprFrame_12100c:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12100d  @ $12100D  (5 B)  [ref. desde código]
+|  SprFrame_12100d  @ $12100D  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12100d, "ax", @progbits
-        .global Data_12100d
-Data_12100d:
+        .section .text.SprFrame_12100d, "ax", @progbits
+        .global SprFrame_12100d
+SprFrame_12100d:
         .dc.b   0xca                            | +00000
         .dc.w   0x18cb,0x18c4                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_121012  @ $121012  (28 B)  [ref. desde código]
+|  SprFrame_121012  @ $121012  (28 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121012, "ax", @progbits
-        .global Data_121012
-Data_121012:
+        .section .text.SprFrame_121012, "ax", @progbits
+        .global SprFrame_121012
+SprFrame_121012:
         .dc.w   0x18c5,0x18c6,0x18c7                                        | +00000
-        .dc.l   Data_100020                   | +00006  -> $100020
+        .dc.l   ColMap_100020                   | +00006  -> $100020
         .dc.w   0x0102,0x18d0,0x18d1,0x0300,0xffdf,0x0030,0x0103,0x18d2     | +0000a
         .dc.w   0x18d3                                                      | +0001a
 
 | ----------------------------------------------------------------------------
-|  Data_12102e  @ $12102E  (11 B)  [ref. desde código]
+|  SprFrame_12102e  @ $12102E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12102e, "ax", @progbits
-        .global Data_12102e
-Data_12102e:
+        .section .text.SprFrame_12102e, "ax", @progbits
+        .global SprFrame_12102e
+SprFrame_12102e:
         .dc.w   0x18d4,0xffef,0x0040,0x0204,0x18d5                          | +00000
         .dc.b   0x18                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_121039  @ $121039  (3 B)  [ref. desde código]
+|  SprFrame_121039  @ $121039  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121039, "ax", @progbits
-        .global Data_121039
-Data_121039:
+        .section .text.SprFrame_121039, "ax", @progbits
+        .global SprFrame_121039
+SprFrame_121039:
         .dc.b   0xd6                            | +00000
         .dc.w   0x18d7                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_12103c  @ $12103C  (128 B)  [ref. desde código]
+|  SprFrame_12103c  @ $12103C  (128 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12103c, "ax", @progbits
-        .global Data_12103c
-Data_12103c:
+        .section .text.SprFrame_12103c, "ax", @progbits
+        .global SprFrame_12103c
+SprFrame_12103c:
         .dc.w   0x18d8,0x18d9,0x18da,0x18db,0x18dc,0x000f,0x0020,0x0102     | +00000
         .dc.w   0x18dd,0x18de,0x0200,0xffe0,0x0040,0x0204,0x17a9,0x185b     | +00010
         .dc.w   0x18e0,0x18e1,0x1857,0x1858,0x1859,0x18df,0x0000,0x0030     | +00020
@@ -8570,11 +8600,11 @@ Data_12103c:
         .dc.w   0x1876,0x18ee,0x18ef,0xfff0,0x0040,0x0104,0x1872,0x1873     | +00070
 
 | ----------------------------------------------------------------------------
-|  Data_1210bc  @ $1210BC  (80 B)  [ref. desde código]
+|  SprFrame_1210bc  @ $1210BC  (80 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1210bc, "ax", @progbits
-        .global Data_1210bc
-Data_1210bc:
+        .section .text.SprFrame_1210bc, "ax", @progbits
+        .global SprFrame_1210bc
+SprFrame_1210bc:
         .dc.w   0x1874,0x18ed,0x0000,0x0030,0x0203,0x1879,0x18f0,0x18f1     | +00000
         .dc.w   0x187c,0x18f2,0x18f3,0x0300,0xffe0,0x0030,0x0103,0x1883     | +00010
         .dc.w   0x18f5,0x18f6,0xfff0,0x0040,0x0104,0x187f,0x1880,0x1881     | +00020
@@ -8582,35 +8612,35 @@ Data_1210bc:
         .dc.w   0x18f9,0x18fa,0x0200,0xffe0,0x0040,0x0204,0x1890,0x1891     | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_12110c  @ $12110C  (1 B)  [ref. desde código]
+|  SprFrame_12110c  @ $12110C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12110c, "ax", @progbits
-        .global Data_12110c
-Data_12110c:
+        .section .text.SprFrame_12110c, "ax", @progbits
+        .global SprFrame_12110c
+SprFrame_12110c:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12110d  @ $12110D  (1 B)  [ref. desde código]
+|  SprFrame_12110d  @ $12110D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12110d, "ax", @progbits
-        .global Data_12110d
-Data_12110d:
+        .section .text.SprFrame_12110d, "ax", @progbits
+        .global SprFrame_12110d
+SprFrame_12110d:
         .dc.b   0x92                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12110e  @ $12110E  (1 B)  [ref. desde código]
+|  SprFrame_12110e  @ $12110E  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12110e, "ax", @progbits
-        .global Data_12110e
-Data_12110e:
+        .section .text.SprFrame_12110e, "ax", @progbits
+        .global SprFrame_12110e
+SprFrame_12110e:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12110f  @ $12110F  (50 B)  [ref. desde código]
+|  SprFrame_12110f  @ $12110F  (50 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12110f, "ax", @progbits
-        .global Data_12110f
-Data_12110f:
+        .section .text.SprFrame_12110f, "ax", @progbits
+        .global SprFrame_12110f
+SprFrame_12110f:
         .dc.b   0xfc                            | +00000
         .dc.w   0x188c,0x188d,0x188e,0x18fb,0x0000,0x0030,0x0203,0x1894     | +00001
         .dc.w   0x18fd,0x18fe,0x1897,0x18ff,0x1900,0x0200,0xffe0,0x0040     | +00011
@@ -8618,35 +8648,35 @@ Data_12110f:
         .dc.b   0x19                            | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_121141  @ $121141  (1 B)  [ref. desde código]
+|  SprFrame_121141  @ $121141  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121141, "ax", @progbits
-        .global Data_121141
-Data_121141:
+        .section .text.SprFrame_121141, "ax", @progbits
+        .global SprFrame_121141
+SprFrame_121141:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_121142  @ $121142  (44 B)  [ref. desde código]
+|  SprFrame_121142  @ $121142  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121142, "ax", @progbits
-        .global Data_121142
-Data_121142:
+        .section .text.SprFrame_121142, "ax", @progbits
+        .global SprFrame_121142
+SprFrame_121142:
         .dc.w   0x0000,0x0030,0x0203,0x18a2,0x1904,0x1905,0x18a5,0x1906     | +00000
         .dc.w   0x1907,0x0200,0xffe0,0x0040,0x0304,0x18b0,0x18b1,0x190b     | +00010
         .dc.w   0x190c,0x18ac,0x18ad,0x18ae,0x190a,0x18a8                   | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_12116e  @ $12116E  (146 B)  [ref. desde código]
+|  SprFrame_12116e  @ $12116E  (146 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12116e, "ax", @progbits
-        .global Data_12116e
-Data_12116e:
+        .section .text.SprFrame_12116e, "ax", @progbits
+        .global SprFrame_12116e
+SprFrame_12116e:
         .dc.w   0x18a9,0x1908,0x1909                                        | +00000
-        .dc.l   Data_100020                   | +00006  -> $100020
+        .dc.l   ColMap_100020                   | +00006  -> $100020
         .dc.w   0x0102,0x190d,0x190e,0x0200,0xffe0,0x0040,0x0304,0x18be     | +0000a
         .dc.w   0x18bf,0x1912,0x1913,0x18ba,0x18bb,0x18bc,0x1911,0x18b6     | +0001a
         .dc.w   0x18b7,0x190f,0x1910                                        | +0002a
-        .dc.l   Data_100020                   | +00030  -> $100020
+        .dc.l   ColMap_100020                   | +00030  -> $100020
         .dc.w   0x0102,0x1914,0x1915,0x0200,0xffdf,0x0040,0x0304,0x191e     | +00034
         .dc.w   0x191f,0x1920,0x1921,0x1916,0x1917,0x1918,0x1919,0x191a     | +00044
         .dc.w   0x191b,0x191c,0x191d,0x000f,0x0020,0x0102,0x1922,0x1923     | +00054
@@ -8655,97 +8685,97 @@ Data_12116e:
         .dc.w   0x1925,0x1926,0x000f,0x0020,0x0102,0x1929,0x192a            | +00084
 
 | ----------------------------------------------------------------------------
-|  Data_121200  @ $121200  (13 B)  [ref. desde código]
+|  SprFrame_121200  @ $121200  (13 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121200, "ax", @progbits
-        .global Data_121200
-Data_121200:
+        .section .text.SprFrame_121200, "ax", @progbits
+        .global SprFrame_121200
+SprFrame_121200:
         .dc.w   0x0200,0xffe0,0x0040,0x0204,0x16ae,0x16af                   | +00000
         .dc.b   0x19                            | +0000c
 
 | ----------------------------------------------------------------------------
-|  Data_12120d  @ $12120D  (1 B)  [ref. desde código]
+|  SprFrame_12120d  @ $12120D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12120d, "ax", @progbits
-        .global Data_12120d
-Data_12120d:
+        .section .text.SprFrame_12120d, "ax", @progbits
+        .global SprFrame_12120d
+SprFrame_12120d:
         .dc.b   0x2b                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12120e  @ $12120E  (1 B)  [ref. desde código]
+|  SprFrame_12120e  @ $12120E  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12120e, "ax", @progbits
-        .global Data_12120e
-Data_12120e:
+        .section .text.SprFrame_12120e, "ax", @progbits
+        .global SprFrame_12120e
+SprFrame_12120e:
         .dc.b   0x19                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12120f  @ $12120F  (1 B)  [ref. desde código]
+|  SprFrame_12120f  @ $12120F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12120f, "ax", @progbits
-        .global Data_12120f
-Data_12120f:
+        .section .text.SprFrame_12120f, "ax", @progbits
+        .global SprFrame_12120f
+SprFrame_12120f:
         .dc.b   0x2c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_121210  @ $121210  (1 B)  [ref. desde código]
+|  SprFrame_121210  @ $121210  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121210, "ax", @progbits
-        .global Data_121210
-Data_121210:
+        .section .text.SprFrame_121210, "ax", @progbits
+        .global SprFrame_121210
+SprFrame_121210:
         .dc.b   0x16                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_121211  @ $121211  (1 B)  [ref. desde código]
+|  SprFrame_121211  @ $121211  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121211, "ax", @progbits
-        .global Data_121211
-Data_121211:
+        .section .text.SprFrame_121211, "ax", @progbits
+        .global SprFrame_121211
+SprFrame_121211:
         .dc.b   0xb2                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_121212  @ $121212  (10 B)  [ref. desde código]
+|  SprFrame_121212  @ $121212  (10 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121212, "ax", @progbits
-        .global Data_121212
-Data_121212:
+        .section .text.SprFrame_121212, "ax", @progbits
+        .global SprFrame_121212
+SprFrame_121212:
         .dc.w   0x16b3,0x16b4,0x192d,0x0000,0x0030                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12121c  @ $12121C  (18 B)  [ref. desde código]
+|  SprFrame_12121c  @ $12121C  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12121c, "ax", @progbits
-        .global Data_12121c
-Data_12121c:
+        .section .text.SprFrame_12121c, "ax", @progbits
+        .global SprFrame_12121c
+SprFrame_12121c:
         .dc.w   0x0203,0x16ab,0x192e,0x192f,0x16a8,0x1930,0x1931,0x0200     | +00000
         .dc.w   0xffe0                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_12122e  @ $12122E  (11 B)  [ref. desde código]
+|  SprFrame_12122e  @ $12122E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12122e, "ax", @progbits
-        .global Data_12122e
-Data_12122e:
+        .section .text.SprFrame_12122e, "ax", @progbits
+        .global SprFrame_12122e
+SprFrame_12122e:
         .dc.w   0x0040,0x0304,0x1932,0x1933,0x1934                          | +00000
         .dc.b   0x17                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_121239  @ $121239  (3 B)  [ref. desde código]
+|  SprFrame_121239  @ $121239  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121239, "ax", @progbits
-        .global Data_121239
-Data_121239:
+        .section .text.SprFrame_121239, "ax", @progbits
+        .global SprFrame_121239
+SprFrame_121239:
         .dc.b   0xbd                            | +00000
         .dc.w   0x1935                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_12123c  @ $12123C  (212 B)  [ref. desde código]
+|  SprFrame_12123c  @ $12123C  (212 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12123c, "ax", @progbits
-        .global Data_12123c
-Data_12123c:
+        .section .text.SprFrame_12123c, "ax", @progbits
+        .global SprFrame_12123c
+SprFrame_12123c:
         .dc.w   0x1936,0x1937,0x1938,0x1939,0x193a,0x193b,0x17ea            | +00000
-        .dc.l   Data_100030                   | +0000e  -> $100030
+        .dc.l   ColMap_100030                   | +0000e  -> $100030
         .dc.w   0x0103,0x193c,0x193d,0x17e7,0x0200,0xffe0,0x0040,0x0204     | +00012
         .dc.w   0x1941,0x1942,0x1943,0x17bd,0x193e,0x193f,0x1940,0x1938     | +00022
         .dc.w   0x0000,0x0030,0x0203,0x1944,0x1945,0x17ea,0x1946,0x1947     | +00032
@@ -8757,48 +8787,48 @@ Data_12123c:
         .dc.w   0x1946,0x1958,0x1810,0x0300,0xffe0,0x0030,0x0103,0x1961     | +00092
         .dc.w   0x1962,0x1963,0xfff0,0x0040,0x0204,0x195d,0x195e,0x195f     | +000a2
         .dc.w   0x1960,0x1959,0x195a,0x195b,0x195c                          | +000b2
-        .dc.l   Data_100030                   | +000bc  -> $100030
+        .dc.l   ColMap_100030                   | +000bc  -> $100030
         .dc.w   0x0103,0x1964,0x1965,0x181e,0x0400,0xffe3,0x0020,0x0102     | +000c0
         .dc.w   0x1970,0x1971                                               | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_121310  @ $121310  (1 B)  [ref. desde código]
+|  SprFrame_121310  @ $121310  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121310, "ax", @progbits
-        .global Data_121310
-Data_121310:
+        .section .text.SprFrame_121310, "ax", @progbits
+        .global SprFrame_121310
+SprFrame_121310:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_121311  @ $121311  (1 B)  [ref. desde código]
+|  SprFrame_121311  @ $121311  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121311, "ax", @progbits
-        .global Data_121311
-Data_121311:
+        .section .text.SprFrame_121311, "ax", @progbits
+        .global SprFrame_121311
+SprFrame_121311:
         .dc.b   0xee                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_121312  @ $121312  (1 B)  [ref. desde código]
+|  SprFrame_121312  @ $121312  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121312, "ax", @progbits
-        .global Data_121312
-Data_121312:
+        .section .text.SprFrame_121312, "ax", @progbits
+        .global SprFrame_121312
+SprFrame_121312:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_121313  @ $121313  (1 B)  [ref. desde código]
+|  SprFrame_121313  @ $121313  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121313, "ax", @progbits
-        .global Data_121313
-Data_121313:
+        .section .text.SprFrame_121313, "ax", @progbits
+        .global SprFrame_121313
+SprFrame_121313:
         .dc.b   0x30                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_121314  @ $121314  (232 B)  [ref. desde código]
+|  SprFrame_121314  @ $121314  (232 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121314, "ax", @progbits
-        .global Data_121314
-Data_121314:
+        .section .text.SprFrame_121314, "ax", @progbits
+        .global SprFrame_121314
+SprFrame_121314:
         .dc.w   0x0103,0x196d,0x196e,0x196f,0xfffe,0x0040,0x0104,0x1969     | +00000
         .dc.w   0x196a,0x196b,0x196c,0x000e,0x0030,0x0103,0x1966,0x1967     | +00010
         .dc.w   0x1968,0x0300,0xffe0,0x0020,0x0102,0x1972,0x194f,0xfff0     | +00020
@@ -8809,105 +8839,105 @@ Data_121314:
         .dc.w   0x1983,0x0017,0x001d,0x0101,0x1984,0x0300,0xffe0,0x0030     | +00070
         .dc.w   0x0303,0x1985,0x1986,0x16b1,0x16ae,0x1987,0x16b5,0x16b2     | +00080
         .dc.w   0x1988,0x16ad                                               | +00090
-        .dc.l   Data_100020                   | +00094  -> $100020
+        .dc.l   ColMap_100020                   | +00094  -> $100020
         .dc.w   0x0102,0x1989,0x198a,0x0020,0x0018,0x0101,0x198b,0x0300     | +00098
         .dc.w   0xffe0,0x0030,0x0303,0x198c,0x198d,0x16bc,0x16ae,0x198e     | +000a8
         .dc.w   0x16b9,0x16b6,0x198f,0x16bf                                 | +000b8
-        .dc.l   Data_100020                   | +000c0  -> $100020
+        .dc.l   ColMap_100020                   | +000c0  -> $100020
         .dc.w   0x0102,0x1990,0x1991,0x0020,0x0018,0x0101,0x1992,0x0500     | +000c4
         .dc.w   0xffe0,0x0030,0x0103,0x1993,0x1994,0x1995,0xfff0,0x0020     | +000d4
         .dc.w   0x0102,0x1997                                               | +000e4
 
 | ----------------------------------------------------------------------------
-|  Data_1213fc  @ $1213FC  (20 B)  [ref. desde código]
+|  SprFrame_1213fc  @ $1213FC  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1213fc, "ax", @progbits
-        .global Data_1213fc
-Data_1213fc:
+        .section .text.SprFrame_1213fc, "ax", @progbits
+        .global SprFrame_1213fc
+SprFrame_1213fc:
         .dc.w   0x16c6,0x0000,0x0030,0x0103,0x16c3,0x1996,0x16cc            | +00000
-        .dc.l   Data_100020                   | +0000e  -> $100020
+        .dc.l   ColMap_100020                   | +0000e  -> $100020
         .dc.w   0x0102                                                      | +00012
 
 | ----------------------------------------------------------------------------
-|  Data_121410  @ $121410  (179 B)  [ref. desde código]
+|  SprFrame_121410  @ $121410  (179 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121410, "ax", @progbits
-        .global Data_121410
-Data_121410:
+        .section .text.SprFrame_121410, "ax", @progbits
+        .global SprFrame_121410
+SprFrame_121410:
         .dc.w   0x1998,0x1999,0x0018,0x001b,0x0101,0x199a,0x0400,0xffe0     | +00000
         .dc.w   0x0020,0x0102,0x199d,0x16d5,0xfff0,0x0030,0x0203,0x16ae     | +00010
         .dc.w   0x199b,0x16d2,0x16b6,0x199c,0x16d8                          | +00020
-        .dc.l   Data_100020                   | +0002a  -> $100020
+        .dc.l   ColMap_100020                   | +0002a  -> $100020
         .dc.w   0x0102,0x199e,0x199f,0x0020,0x0018,0x0101,0x1992,0x0400     | +0002e
         .dc.w   0xffe0,0x0020,0x0102,0x199d,0x16df,0xfff0,0x0030,0x0203     | +0003e
         .dc.w   0x16ae,0x19a0,0x16dc,0x16b2,0x19a1,0x16e2                   | +0004e
-        .dc.l   Data_100020                   | +0005a  -> $100020
+        .dc.l   ColMap_100020                   | +0005a  -> $100020
         .dc.w   0x0102,0x19a2,0x19a3,0x0020,0x0018,0x0101,0x198b,0x0400     | +0005e
         .dc.w   0xffe0,0x0020,0x0202,0x19a5,0x16eb,0x19a6,0x16e8,0x0000     | +0006e
         .dc.w   0x0030,0x0103,0x16e5,0x19a4,0x16ee                          | +0007e
-        .dc.l   Data_100020                   | +00088  -> $100020
+        .dc.l   ColMap_100020                   | +00088  -> $100020
         .dc.w   0x0102,0x19a7,0x19a8,0x0020,0x0018,0x0101,0x19a9,0x0400     | +0008c
         .dc.w   0xffe0,0x0020,0x0202,0x19ab,0x16f8,0x19ac,0x16f5,0x0000     | +0009c
         .dc.w   0x0030,0x0103,0x16f2                                        | +000ac
         .dc.b   0x19                            | +000b2
 
 | ----------------------------------------------------------------------------
-|  Data_1214c3  @ $1214C3  (82 B)  [ref. desde código]
+|  SprFrame_1214c3  @ $1214C3  (82 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1214c3, "ax", @progbits
-        .global Data_1214c3
-Data_1214c3:
+        .section .text.SprFrame_1214c3, "ax", @progbits
+        .global SprFrame_1214c3
+SprFrame_1214c3:
         .dc.b   0xaa                            | +00000
         .dc.w   0x16fb                                                      | +00001
-        .dc.l   Data_100020                   | +00003  -> $100020
+        .dc.l   ColMap_100020                   | +00003  -> $100020
         .dc.w   0x0102,0x19ad,0x19ae,0x0018,0x0018,0x0101,0x19af,0x0400     | +00007
         .dc.w   0xffe0,0x0020,0x0202,0x19b1,0x1705,0x19b2,0x1702,0x0000     | +00017
         .dc.w   0x0030,0x0103,0x16ff,0x19b0,0x1708                          | +00027
-        .dc.l   Data_100020                   | +00031  -> $100020
+        .dc.l   ColMap_100020                   | +00031  -> $100020
         .dc.w   0x0102,0x19b3,0x19b4,0x0020,0x0018,0x0101,0x19b5,0x0400     | +00035
         .dc.w   0xffe0,0x0020,0x0202,0x19b8,0x19b9,0x19ba                   | +00045
         .dc.b   0x17                            | +00051
 
 | ----------------------------------------------------------------------------
-|  Data_121515  @ $121515  (259 B)  [ref. desde código]
+|  SprFrame_121515  @ $121515  (259 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121515, "ax", @progbits
-        .global Data_121515
-Data_121515:
+        .section .text.SprFrame_121515, "ax", @progbits
+        .global SprFrame_121515
+SprFrame_121515:
         .dc.b   0x0f                            | +00000
         .dc.w   0x0000,0x0030,0x0103,0x170c,0x19b6,0x19b7                   | +00001
-        .dc.l   Data_100020                   | +0000d  -> $100020
+        .dc.l   ColMap_100020                   | +0000d  -> $100020
         .dc.w   0x0102,0x19bb,0x19bc,0x0018,0x0018,0x0101,0x19bd,0x0400     | +00011
         .dc.w   0xffe0,0x0020,0x0202,0x19bf,0x171e,0x19c0,0x171b,0x0000     | +00021
         .dc.w   0x0030,0x0103,0x1718,0x19be,0x1721                          | +00031
-        .dc.l   Data_100020                   | +0003b  -> $100020
+        .dc.l   ColMap_100020                   | +0003b  -> $100020
         .dc.w   0x0102,0x19c1,0x19c2,0x0020,0x0018,0x0101,0x19c3,0x0500     | +0003f
         .dc.w   0xffe0,0x0030,0x0103,0x1985,0x1986,0x16b1,0xfff0,0x0020     | +0004f
         .dc.w   0x0102,0x19c5,0x16b5,0x0000,0x0030,0x0103,0x1725,0x19c4     | +0005f
         .dc.w   0x172c                                                      | +0006f
-        .dc.l   Data_100020                   | +00071  -> $100020
+        .dc.l   ColMap_100020                   | +00071  -> $100020
         .dc.w   0x0102,0x19c6,0x19c7,0x0018,0x0019,0x0101,0x19c8,0x0500     | +00075
         .dc.w   0xffe0,0x0030,0x0103,0x198c,0x19c9,0x1735,0xfff0,0x0020     | +00085
         .dc.w   0x0102,0x19cb,0x16b9,0x0000,0x0030,0x0103,0x1730,0x19ca     | +00095
         .dc.w   0x1738                                                      | +000a5
-        .dc.l   Data_100020                   | +000a7  -> $100020
+        .dc.l   ColMap_100020                   | +000a7  -> $100020
         .dc.w   0x0102,0x19cc,0x19cd,0x0018,0x001b,0x0101,0x19ce,0x0500     | +000ab
         .dc.w   0xffe0,0x0030,0x0103,0x1993,0x1994,0x1742,0xfff0,0x0020     | +000bb
         .dc.w   0x0102,0x19d0,0x173f,0x0000,0x0030,0x0103,0x173c,0x19cf     | +000cb
         .dc.w   0x1745                                                      | +000db
-        .dc.l   Data_100020                   | +000dd  -> $100020
+        .dc.l   ColMap_100020                   | +000dd  -> $100020
         .dc.w   0x0102,0x19d1,0x19d2,0x0018,0x001b,0x0101,0x19d3,0x0400     | +000e1
         .dc.w   0xffe0,0x0020,0x0202,0x199d,0x174e,0x19d5,0x174b,0x0000     | +000f1
         .dc.w   0x0030                                                      | +00101
 
 | ----------------------------------------------------------------------------
-|  Data_121618  @ $121618  (36 B)  [ref. desde código]
+|  SprFrame_121618  @ $121618  (36 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121618, "ax", @progbits
-        .global Data_121618
-Data_121618:
+        .section .text.SprFrame_121618, "ax", @progbits
+        .global SprFrame_121618
+SprFrame_121618:
         .dc.w   0x0103,0x1730,0x19d4,0x1751                                 | +00000
-        .dc.l   Data_100020                   | +00008  -> $100020
+        .dc.l   ColMap_100020                   | +00008  -> $100020
         .dc.w   0x0102,0x19d6,0x19d7,0x0018,0x001a,0x0101,0x19d8,0x0400     | +0000c
         .dc.w   0xffe0,0x0020,0x0202,0x199d                                 | +0001c
 
@@ -8919,39 +8949,39 @@ Data_121618:
 Data_12163c:
         .dc.w   0x175a,0x19da,0x1757,0x0000,0x0030,0x0103,0x1725,0x19d9     | +00000
         .dc.w   0x175d                                                      | +00010
-        .dc.l   Data_100020                   | +00012  -> $100020
+        .dc.l   ColMap_100020                   | +00012  -> $100020
         .dc.w   0x0102,0x19db,0x19dc,0x0018,0x0019,0x0101,0x19dd,0x0400     | +00016
         .dc.w   0xffe0,0x0020,0x0202,0x19a5,0x1767,0x19df,0x1764,0x0000     | +00026
         .dc.w   0x0030,0x0103,0x1761,0x19de,0x176a                          | +00036
-        .dc.l   Data_100020                   | +00040  -> $100020
+        .dc.l   ColMap_100020                   | +00040  -> $100020
         .dc.w   0x0102,0x19e0,0x19e1,0x0018,0x0019,0x0101,0x19e2,0x0400     | +00044
         .dc.w   0xffe0,0x0020,0x0202,0x19ab,0x1771,0x19e4,0x176f,0x0000     | +00054
         .dc.w   0x0030,0x0103,0x170c,0x19e3,0x1773                          | +00064
-        .dc.l   Data_100020                   | +0006e  -> $100020
+        .dc.l   ColMap_100020                   | +0006e  -> $100020
         .dc.w   0x0102,0x19e5,0x19e6,0x0018,0x0018,0x0101,0x19e7,0x0400     | +00072
         .dc.w   0xffe0,0x0020,0x0202,0x19b1,0x177c,0x19e9,0x1779,0x0000     | +00082
         .dc.w   0x0030,0x0103,0x1776,0x19e8,0x177f                          | +00092
-        .dc.l   Data_100020                   | +0009c  -> $100020
+        .dc.l   ColMap_100020                   | +0009c  -> $100020
         .dc.w   0x0102,0x19ea,0x19eb,0x0018,0x0018,0x0101,0x19ec,0x0400     | +000a0
         .dc.w   0xffe0,0x0020,0x0202,0x19ef,0x1789,0x19f0,0x1786,0x0000     | +000b0
         .dc.w   0x0030,0x0103,0x1783,0x19ed,0x19ee                          | +000c0
-        .dc.l   Data_100020                   | +000ca  -> $100020
+        .dc.l   ColMap_100020                   | +000ca  -> $100020
         .dc.w   0x0102,0x19f1,0x19f2,0x0018,0x0018,0x0101,0x19f3,0x0400     | +000ce
         .dc.w   0xffe0,0x0020,0x0202,0x19bf,0x1794,0x19f5,0x1792,0x0000     | +000de
         .dc.w   0x0030,0x0103,0x1776,0x19f4,0x1796                          | +000ee
-        .dc.l   Data_100020                   | +000f8  -> $100020
+        .dc.l   ColMap_100020                   | +000f8  -> $100020
         .dc.w   0x0102,0x19f6,0x19f7,0x0020,0x0018,0x0101,0x19f8,0x0400     | +000fc
         .dc.w   0xffe0,0x0020,0x0202,0x19fb,0x1878,0x19fc,0x1875,0x0000     | +0010c
         .dc.w   0x0030,0x0103,0x19f9,0x19fa,0x187b                          | +0011c
-        .dc.l   Data_100020                   | +00126  -> $100020
+        .dc.l   ColMap_100020                   | +00126  -> $100020
         .dc.w   0x0102,0x19fd,0x19fe,0x0018,0x0019,0x0101,0x19ff,0x0400     | +0012a
         .dc.w   0xffe0,0x0020,0x0202,0x19fb,0x1885,0x1a02,0x1882,0x0000     | +0013a
         .dc.w   0x0030,0x0103,0x1a00,0x1a01,0x1888                          | +0014a
-        .dc.l   Data_100020                   | +00154  -> $100020
+        .dc.l   ColMap_100020                   | +00154  -> $100020
         .dc.w   0x0102,0x1a03,0x1a04,0x0018,0x0020,0x0101,0x1a05,0x0400     | +00158
         .dc.w   0xffe0,0x0020,0x0202,0x1a08,0x1893,0x1a09,0x188f,0x0000     | +00168
         .dc.w   0x0030,0x0103,0x1a06,0x1a07,0x1896                          | +00178
-        .dc.l   Data_100020                   | +00182  -> $100020
+        .dc.l   ColMap_100020                   | +00182  -> $100020
         .dc.w   0x0102,0x1a0a,0x1a0b,0x0018,0x0020,0x0101,0x1a0c,0x0500     | +00186
         .dc.w   0xffe3,0x0020,0x0102,0x1a13,0x1a14,0xffee,0x0020,0x0102     | +00196
         .dc.w   0x1a15,0x1a16,0xfffc,0x0030,0x0103,0x1a10,0x1a11,0x1a12     | +001a6
@@ -8959,15 +8989,15 @@ Data_12163c:
         .dc.w   0x0102,0x1a0e,0x1a0f,0x0015,0x001f,0x0101,0x1a0d,0x0400     | +001ba
         .dc.w   0xffe0,0x0020,0x0202,0x1a19,0x1a1a,0x1a1b,0x1a1c,0x0000     | +001ca
         .dc.w   0x0030,0x0103,0x19f9,0x1a17,0x1a18                          | +001da
-        .dc.l   Data_100020                   | +001e4  -> $100020
+        .dc.l   ColMap_100020                   | +001e4  -> $100020
         .dc.w   0x0102,0x1a1d,0x1a1e,0x0018,0x0019,0x0101,0x1a1f,0x0400     | +001e8
         .dc.w   0xffe0,0x0020,0x0202,0x1a19,0x18f6,0x1a22,0x18f4,0x0000     | +001f8
         .dc.w   0x0030,0x0103,0x1a00,0x1a20,0x1a21                          | +00208
-        .dc.l   Data_100020                   | +00212  -> $100020
+        .dc.l   ColMap_100020                   | +00212  -> $100020
         .dc.w   0x0102,0x1a23,0x1a24,0x0020,0x0020,0x0101,0x1a25,0x0400     | +00216
         .dc.w   0xffe0,0x0020,0x0202,0x1a28,0x18fc,0x1a29,0x1a2a,0x0000     | +00226
         .dc.w   0x0030,0x0103,0x1a06,0x1a26,0x1a27                          | +00236
-        .dc.l   Data_100020                   | +00240  -> $100020
+        .dc.l   ColMap_100020                   | +00240  -> $100020
         .dc.w   0x0102,0x1a2b,0x1a2c,0x0018,0x0020,0x0101,0x1a2d,0x0500     | +00244
         .dc.w   0xffe2,0x0020,0x0102,0x1a35,0x1a36,0xffec,0x0020,0x0102     | +00254
         .dc.w   0x1a33,0x1a34,0xfffc,0x0030,0x0103,0x1a10,0x1a31,0x1a32     | +00264
@@ -8975,81 +9005,81 @@ Data_12163c:
         .dc.w   0x0102,0x1a2f,0x1a30,0x0015,0x001f,0x0101,0x1a2e,0x0300     | +00278
         .dc.w   0xffe0,0x0030,0x0303,0x1993,0x1a37,0x16bc,0x117f,0x1a38     | +00288
         .dc.w   0x17a0,0x179d,0x1a39,0x179c                                 | +00298
-        .dc.l   Data_100020                   | +002a0  -> $100020
+        .dc.l   ColMap_100020                   | +002a0  -> $100020
         .dc.w   0x0102,0x1a3a,0x1a3b,0x0018,0x0018,0x0101,0x1a3c,0x0300     | +002a4
         .dc.w   0xffe0,0x0030,0x0303,0x1a3e,0x1a3f,0x16b1,0x17a9,0x1a40     | +002b4
         .dc.w   0x17a8,0x17a5,0x1a3d,0x17ae                                 | +002c4
-        .dc.l   Data_100020                   | +002cc  -> $100020
+        .dc.l   ColMap_100020                   | +002cc  -> $100020
         .dc.w   0x0102,0x1a41,0x1a42,0x0018,0x0018,0x0101,0x1a43,0x0400     | +002d0
         .dc.w   0xffe0,0x0020,0x0202,0x1a45,0x17bd,0x1a46,0x17ba,0x0000     | +002e0
         .dc.w   0x0030,0x0103,0x17b7,0x1a44,0x17b6                          | +002f0
-        .dc.l   Data_100020                   | +002fa  -> $100020
+        .dc.l   ColMap_100020                   | +002fa  -> $100020
         .dc.w   0x0102,0x1a47,0x1a48,0x0018,0x0018,0x0101,0x1a49,0x0400     | +002fe
         .dc.w   0xffe0,0x0020,0x0202,0x1972,0x17c4,0x1a4b,0x17c1,0x0000     | +0030e
         .dc.w   0x0030,0x0103,0x17be,0x1a4a,0x17c7                          | +0031e
-        .dc.l   Data_100020                   | +00328  -> $100020
+        .dc.l   ColMap_100020                   | +00328  -> $100020
         .dc.w   0x0102,0x1a4c,0x1a4d,0x0018,0x0018,0x0101,0x1a4e,0x0400     | +0032c
         .dc.w   0xffe0,0x0020,0x0202,0x1a50,0x1a51,0x1a52,0x17d4,0x0000     | +0033c
         .dc.w   0x0030,0x0103,0x17d1,0x1a4f,0x17d0                          | +0034c
-        .dc.l   Data_100020                   | +00356  -> $100020
+        .dc.l   ColMap_100020                   | +00356  -> $100020
         .dc.w   0x0102,0x1a53,0x1a54,0x0018,0x0018,0x0101,0x1a55,0x0100     | +0035a
         .dc.w   0x0000,0x0010,0x0101                                        | +0036a
         .dc.l   Task_IdleRts_000400           | +00370  -> $000400
         .dc.w   0xffe0,0x0020,0x0202,0x1a57,0x17e1,0x1a58,0x17db,0x0000     | +00374
         .dc.w   0x0030,0x0103,0x17d8,0x1a56,0x17e4                          | +00384
-        .dc.l   Data_100020                   | +0038e  -> $100020
+        .dc.l   ColMap_100020                   | +0038e  -> $100020
         .dc.w   0x0102,0x1a59,0x1a5a,0x0020,0x001b,0x0101,0x1a5b,0x0300     | +00392
         .dc.w   0xffe0,0x0030,0x0303,0x1993,0x1a5c,0x17f2,0x17ef,0x1a5d     | +003a2
         .dc.w   0x17ee,0x17eb,0x1a5e,0x17ea                                 | +003b2
-        .dc.l   Data_100020                   | +003ba  -> $100020
+        .dc.l   ColMap_100020                   | +003ba  -> $100020
         .dc.w   0x0102,0x1a60,0x1a61,0x0020,0x0019,0x0101,0x1a5f,0x0300     | +003be
         .dc.w   0xffe2,0x0030,0x0303,0x1985,0x1a62,0x1a63,0x117f,0x1a64     | +003ce
         .dc.w   0x1a65,0x1a66,0x1a67,0x1a68                                 | +003de
-        .dc.l   Data_120020                   | +003e6  -> $120020
+        .dc.l   Zero_120020                   | +003e6  -> $120020
         .dc.w   0x0102,0x1a69,0x1a6a,0x0022,0x0018                          | +003ea
         .dc.b   0x01                            | +003f4
 
 | ----------------------------------------------------------------------------
-|  Data_121a31  @ $121A31  (720 B)  [ref. desde código]
+|  SprFrame_121a31  @ $121A31  (720 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121a31, "ax", @progbits
-        .global Data_121a31
-Data_121a31:
+        .section .text.SprFrame_121a31, "ax", @progbits
+        .global SprFrame_121a31
+SprFrame_121a31:
         .dc.b   0x01                            | +00000
         .dc.w   0x1a6b,0x0300,0xffe2,0x0030,0x0303,0x1a73,0x1a74,0x1a75     | +00001
         .dc.w   0x16ae,0x1a71,0x1a72,0x1a6e,0x1a6f,0x1a70                   | +00011
-        .dc.l   Data_120020                   | +0001d  -> $120020
+        .dc.l   Zero_120020                   | +0001d  -> $120020
         .dc.w   0x0102,0x1a6c,0x1a6d,0x0022,0x0017,0x0101,0x1a6b,0x0400     | +00021
         .dc.w   0xffe0,0x0030,0x0103,0x1a76,0x181a,0x181b,0xfff0,0x0020     | +00031
         .dc.w   0x0102,0x1a7a,0x1818,0x0000,0x0030,0x0203,0x1815,0x1a77     | +00041
         .dc.w   0x1814,0x1811,0x1a78,0x1a79,0x0020,0x0018,0x0101,0x1a7b     | +00051
         .dc.w   0x0400,0xffe0,0x0020,0x0202,0x1a45,0x1820,0x1a46,0x181f     | +00061
         .dc.w   0x0000,0x0030,0x0103,0x17b7,0x1a7c,0x1822                   | +00071
-        .dc.l   Data_100020                   | +0007d  -> $100020
+        .dc.l   ColMap_100020                   | +0007d  -> $100020
         .dc.w   0x0102,0x1a7d,0x1a7e,0x0020,0x0018,0x0101,0x1a7f,0x0400     | +00081
         .dc.w   0xffe0,0x0020,0x0202,0x1a82,0x1827,0x1a81,0x1825,0x0000     | +00091
         .dc.w   0x0030,0x0103,0x17be,0x1a80,0x1829                          | +000a1
-        .dc.l   Data_100020                   | +000ab  -> $100020
+        .dc.l   ColMap_100020                   | +000ab  -> $100020
         .dc.w   0x0102,0x1a83,0x1a84,0x0020,0x0018,0x0101,0x1a85,0x0400     | +000af
         .dc.w   0xffe0,0x0020,0x0202,0x1a50,0x182d,0x1a52,0x182c,0x0000     | +000bf
         .dc.w   0x0030,0x0103,0x17d1,0x1a86,0x182f                          | +000cf
-        .dc.l   Data_100020                   | +000d9  -> $100020
+        .dc.l   ColMap_100020                   | +000d9  -> $100020
         .dc.w   0x0102,0x1a87,0x1a88,0x0020,0x0018,0x0101,0x1a89,0x0400     | +000dd
         .dc.w   0xffe0,0x0020,0x0202,0x1962,0x1833,0x1a58,0x1832,0x0000     | +000ed
         .dc.w   0x0030,0x0103,0x17d8,0x1a8a,0x1836                          | +000fd
-        .dc.l   Data_100020                   | +00107  -> $100020
+        .dc.l   ColMap_100020                   | +00107  -> $100020
         .dc.w   0x0102,0x1a8b,0x1a8c,0x0020,0x001b,0x0101,0x1a8d,0x0300     | +0010b
         .dc.w   0xffe0,0x0030,0x0303,0x1993,0x1a8e,0x183c,0x17ef,0x1a8f     | +0011b
         .dc.w   0x183a,0x17eb,0x1a90,0x183e                                 | +0012b
-        .dc.l   Data_100020                   | +00133  -> $100020
+        .dc.l   ColMap_100020                   | +00133  -> $100020
         .dc.w   0x0102,0x1a92,0x1a93,0x0020,0x0018,0x0101,0x1a91,0x0300     | +00137
         .dc.w   0xffe2,0x0030,0x0303,0x1985,0x1a94,0x1a95,0x117f,0x1a96     | +00147
         .dc.w   0x1a97,0x1a66,0x1a98,0x1a99                                 | +00157
-        .dc.l   Data_120020                   | +0015f  -> $120020
+        .dc.l   Zero_120020                   | +0015f  -> $120020
         .dc.w   0x0102,0x1a9a,0x1a9b,0x0022,0x0018,0x0101,0x1a6b,0x0300     | +00163
         .dc.w   0xffe2,0x0030,0x0303,0x1a73,0x1aa1,0x1aa2,0x16ae,0x1a71     | +00173
         .dc.w   0x1aa0,0x1a6e,0x1a9e,0x1a9f                                 | +00183
-        .dc.l   Data_120020                   | +0018b  -> $120020
+        .dc.l   Zero_120020                   | +0018b  -> $120020
         .dc.w   0x0102,0x1a9c,0x1a9d,0x0022,0x0017,0x0101,0x1a6b,0x0400     | +0018f
         .dc.w   0xffe0,0x0030,0x0103,0x1a76,0x1855,0x1856,0xfff0,0x0020     | +0019f
         .dc.w   0x0102,0x1a7a,0x1852,0x0000,0x0030,0x0203,0x1815,0x1aa3     | +001af
@@ -9064,26 +9094,26 @@ Data_121a31:
         .dc.w   0xffe2,0x0040,0x0204,0x0000,0x1ac0,0x1ac1,0x1ac2,0x1abc     | +0022d
         .dc.w   0x1abd,0x1abe,0x1abf,0x0002,0x0030,0x0103,0x1ab7,0x1ab8     | +0023d
         .dc.w   0x1ab9                                                      | +0024d
-        .dc.l   Data_120020                   | +0024f  -> $120020
+        .dc.l   Zero_120020                   | +0024f  -> $120020
         .dc.w   0x0102,0x1aba,0x1abb,0x0300,0xffe0,0x0030,0x0103,0x1acb     | +00253
         .dc.w   0x1acc,0x1acd,0xfff0,0x0040,0x0204,0x1ac3,0x1ac4,0x1ac5     | +00263
         .dc.w   0x1ac6,0x1ac7,0x1ac8,0x1ac9,0x1aca                          | +00273
-        .dc.l   Data_100020                   | +0027d  -> $100020
+        .dc.l   ColMap_100020                   | +0027d  -> $100020
         .dc.w   0x0102,0x1ace,0x181e,0x0200,0xffe0,0x0040,0x0304,0x1acf     | +00281
         .dc.w   0x1ad0,0x1ad1,0x1ad2,0x1ad3,0x1ad4,0x1ad5,0x1ad6,0x1ad7     | +00291
         .dc.w   0x1ad8,0x1ad9,0x1ada                                        | +002a1
-        .dc.l   Data_100030                   | +002a7  -> $100030
+        .dc.l   ColMap_100030                   | +002a7  -> $100030
         .dc.w   0x0103,0x1adb,0x1adc,0x1add,0x0100,0xffe0,0x0040,0x0404     | +002ab
         .dc.w   0x1aea,0x1aeb,0x1aec,0x1aed,0x1ae6,0x1ae7,0x1ae8,0x1ae9     | +002bb
         .dc.w   0x1ae2,0x1ae3                                               | +002cb
         .dc.b   0x1a                            | +002cf
 
 | ----------------------------------------------------------------------------
-|  Data_121d01  @ $121D01  (65 B)  [ref. desde código]
+|  SprFrame_121d01  @ $121D01  (65 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121d01, "ax", @progbits
-        .global Data_121d01
-Data_121d01:
+        .section .text.SprFrame_121d01, "ax", @progbits
+        .global SprFrame_121d01
+SprFrame_121d01:
         .dc.b   0xe4                            | +00000
         .dc.w   0x1ae5,0x1ade,0x1adf,0x1ae0,0x1ae1,0x0300,0xffe0,0x0040     | +00001
         .dc.w   0x0104,0x1afb,0x1afc,0x1afd,0x1afe,0xfff0,0x0050,0x0105     | +00011
@@ -9091,22 +9121,22 @@ Data_121d01:
         .dc.w   0x1af7,0x1af8,0x1af9,0x1afa,0x1af3,0x1af4,0x1af5,0x1af6     | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_121d42  @ $121D42  (58 B)  [ref. desde código]
+|  SprFrame_121d42  @ $121D42  (58 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121d42, "ax", @progbits
-        .global Data_121d42
-Data_121d42:
+        .section .text.SprFrame_121d42, "ax", @progbits
+        .global SprFrame_121d42
+SprFrame_121d42:
         .dc.w   0x0300,0xffe0,0x0040,0x0104,0x1b04,0x1b05,0x1b06,0x1b07     | +00000
         .dc.w   0xfff0,0x0050,0x0105,0x1aff,0x1b00,0x1b01,0x1b02,0x1b03     | +00010
         .dc.w   0x0000,0x0040,0x0204,0x1b08,0x1b09,0x1b0a,0x1b0b,0x1b0c     | +00020
         .dc.w   0x0000,0x1b0d,0x1b0e,0x0300,0xffe0                          | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_121d7c  @ $121D7C  (708 B)  [ref. desde código]
+|  SprFrame_121d7c  @ $121D7C  (708 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_121d7c, "ax", @progbits
-        .global Data_121d7c
-Data_121d7c:
+        .section .text.SprFrame_121d7c, "ax", @progbits
+        .global SprFrame_121d7c
+SprFrame_121d7c:
         .dc.w   0x0030,0x0103,0x17bb,0x17bc,0x1b14,0xfff0,0x0040,0x0104     | +00000
         .dc.w   0x17eb,0x1aa7,0x1aa8,0x1b0f,0x0000,0x0030,0x0203,0x17e8     | +00010
         .dc.w   0x1b12,0x1b13,0x17e5,0x1b10,0x1b11,0x0300,0xffe1,0x0030     | +00020
@@ -9117,15 +9147,15 @@ Data_121d7c:
         .dc.w   0xffe0,0x0030,0x0103,0x1b25,0x1b26,0x1b27,0xfff0,0x0040     | +0005a
         .dc.w   0x0204,0x1b1b,0x1b1c,0x1b1d,0x1b1e,0x1b1f,0x1b20,0x1b21     | +0006a
         .dc.w   0x1b22                                                      | +0007a
-        .dc.l   Data_100030                   | +0007c  -> $100030
+        .dc.l   ColMap_100030                   | +0007c  -> $100030
         .dc.w   0x0103,0x1439,0x1b23,0x1b24,0x0300,0xffe0,0x0030,0x0103     | +00080
         .dc.w   0x1acb,0x1acc,0x1b2b,0xfff0,0x0040,0x0204,0x1ac3,0x1ac4     | +00090
         .dc.w   0x1ac5,0x1b28,0x1ac7,0x1ac8,0x1b29,0x1b2a                   | +000a0
-        .dc.l   Data_100030                   | +000ac  -> $100030
+        .dc.l   ColMap_100030                   | +000ac  -> $100030
         .dc.w   0x0103,0x0000,0x1b2c,0x1b2d,0x0400,0xffe0,0x0030,0x0103     | +000b0
         .dc.w   0x1b34,0x1986,0x16b1,0xfff0,0x0040,0x0204,0x1b2e,0x1b2f     | +000c0
         .dc.w   0x1b30,0x16b5,0x1b31,0x1b32,0x1b33,0x16ad                   | +000d0
-        .dc.l   Data_100030                   | +000dc  -> $100030
+        .dc.l   ColMap_100030                   | +000dc  -> $100030
         .dc.w   0x0103,0x1b35,0x1b36,0x16aa,0x0020,0x0030,0x0102,0x1b37     | +000e0
         .dc.w   0x1b38,0x0200,0xffe0,0x0040,0x0404,0x1b39,0x1b3a,0x1b3b     | +000f0
         .dc.w   0x16b1,0x1b3c,0x1b3d,0x1b3e,0x16b5,0x1b3f,0x1b40,0x1b41     | +00100
@@ -9144,13 +9174,13 @@ Data_121d7c:
         .dc.w   0x0300,0xffe2,0x0040,0x0204,0x1b85,0x1b86,0x1b87,0x1b88     | +001d0
         .dc.w   0x1b81,0x1b82,0x1b83,0x1b84,0x0002,0x0030,0x0103,0x1b7c     | +001e0
         .dc.w   0x1b7d,0x1b7e                                               | +001f0
-        .dc.l   Data_120020                   | +001f4  -> $120020
+        .dc.l   Zero_120020                   | +001f4  -> $120020
         .dc.w   0x0102,0x1b7f,0x1b80,0x0200,0xffe3,0x0040,0x0304,0x1b89     | +001f8
         .dc.w   0x1b8a,0x1b8b,0x1b8c,0x1b8d,0x1b8e,0x1b8f,0x1b90,0x1b91     | +00208
         .dc.w   0x1b92,0x1b93,0x1b94,0x0013,0x0020,0x0102,0x1b95,0x1b96     | +00218
         .dc.w   0x0200,0xffe2,0x0040,0x0304,0x1b97,0x1b98,0x1b99,0x1b9a     | +00228
         .dc.w   0x1b9b,0x1b9c,0x1b9d,0x1b9e,0x1b9f,0x1ba0,0x1ba1,0x1ba2     | +00238
-        .dc.l   Data_120020                   | +00248  -> $120020
+        .dc.l   Zero_120020                   | +00248  -> $120020
         .dc.w   0x0102,0x1ba3,0x1ba4,0x0200,0xffe2,0x0040,0x0304,0x1ba5     | +0024c
         .dc.w   0x1ba6,0x1ba7,0x1b9a,0x1ba8,0x1ba9,0x1baa,0x1b9e,0x1bab     | +0025c
         .dc.w   0x1bac,0x1bad,0x1bae,0x0012,0x0030,0x0103,0x1baf,0x1ba3     | +0026c
@@ -9161,30 +9191,30 @@ Data_121d7c:
         .dc.w   0x0204,0x1bbe,0x1bbf,0x1bc0                                 | +002bc
 
 | ----------------------------------------------------------------------------
-|  Data_122040  @ $122040  (46 B)  [ref. desde código]
+|  SprFrame_122040  @ $122040  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122040, "ax", @progbits
-        .global Data_122040
-Data_122040:
+        .section .text.SprFrame_122040, "ax", @progbits
+        .global SprFrame_122040
+SprFrame_122040:
         .dc.w   0x1bc1,0x1bc2,0x1bc3,0x1bc4,0x1bc5                          | +00000
-        .dc.l   Data_100020                   | +0000a  -> $100020
+        .dc.l   ColMap_100020                   | +0000a  -> $100020
         .dc.w   0x0102,0x1bc6,0x1bc7,0x0400,0xffe0,0x0020,0x0102,0x1a45     | +0000e
         .dc.w   0x17bd,0xfff0,0x0030,0x0103,0x1bca,0x1bcb,0x1bcc,0x0000     | +0001e
 
 | ----------------------------------------------------------------------------
-|  Data_12206e  @ $12206E  (14 B)  [ref. desde código]
+|  SprFrame_12206e  @ $12206E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12206e, "ax", @progbits
-        .global Data_12206e
-Data_12206e:
+        .section .text.SprFrame_12206e, "ax", @progbits
+        .global SprFrame_12206e
+SprFrame_12206e:
         .dc.w   0x0040,0x0104,0x1bcd,0x1bce,0x1bcf,0x1bd0,0x0010            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12207c  @ $12207C  (498 B)  [ref. desde código]
+|  SprFrame_12207c  @ $12207C  (498 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12207c, "ax", @progbits
-        .global Data_12207c
-Data_12207c:
+        .section .text.SprFrame_12207c, "ax", @progbits
+        .global SprFrame_12207c
+SprFrame_12207c:
         .dc.w   0x0030,0x0103,0x13d0,0x1bd1,0x1bd2,0x0300,0xffe1,0x0030     | +00000
         .dc.w   0x0203,0x1bda,0x1bdb,0x1bdc,0x1bd7,0x1bd8,0x1bd9            | +00010
         .dc.l   Data_010040                   | +0001e  -> $010040
@@ -9192,11 +9222,11 @@ Data_12207c:
         .dc.w   0x1bdd,0x1bde,0x0300,0xffe0,0x0030,0x0103,0x1be8,0x1986     | +00032
         .dc.w   0x16b1,0xfff0,0x0040,0x0204,0x1bdf,0x1be0,0x1be1,0x16b5     | +00042
         .dc.w   0x1be2,0x1be3,0x1be4,0x1be5                                 | +00052
-        .dc.l   Data_100020                   | +0005a  -> $100020
+        .dc.l   ColMap_100020                   | +0005a  -> $100020
         .dc.w   0x0102,0x1be6,0x1be7,0x0200,0xffe0,0x0040,0x0304,0x1be9     | +0005e
         .dc.w   0x1bea,0x1beb,0x17f2,0x1bec,0x1bed,0x1bee,0x17ee,0x1bef     | +0006e
         .dc.w   0x1bf0,0x1bf1,0x17ea                                        | +0007e
-        .dc.l   Data_100030                   | +00084  -> $100030
+        .dc.l   ColMap_100030                   | +00084  -> $100030
         .dc.w   0x0103,0x1bf2,0x1bf3,0x17e7,0x0200,0xffd9,0x0040,0x0404     | +00088
         .dc.w   0x1c01,0x1c02,0x1c03,0x1c04,0x1bfd,0x1bfe,0x1bff,0x1c00     | +00098
         .dc.w   0x1bf9,0x1bfa,0x1bfb,0x1bfc,0x1bf5,0x1bf6,0x1bf7,0x1bf8     | +000a8
@@ -9207,13 +9237,13 @@ Data_12207c:
         .dc.w   0x003f,0x0103,0x1c21,0x1c22,0x1c23,0xffe0,0x0040,0x0204     | +000f8
         .dc.w   0x1c15,0x1c16,0x1c17,0x1c18,0x1c19,0x1c1a,0x1c1b,0x17fa     | +00108
         .dc.w   0x0000,0x0030,0x0103,0x1c1f,0x1c20,0x17f6                   | +00118
-        .dc.l   Str_100040                    | +00124  -> $100040
+        .dc.l   ColMap_100040                    | +00124  -> $100040
         .dc.w   0x0104,0x1c1c,0x1c1d,0x1c1e,0x1801,0x0300,0xffe0,0x0030     | +00128
         .dc.w   0x0103,0x1c25,0x1c26,0x180d,0xfff0,0x0020,0x0102,0x1c24     | +00138
         .dc.w   0x1809,0x0000,0x0030,0x0203,0x1c27,0x1c28,0x1805,0x1c29     | +00148
         .dc.w   0x1c2a,0x1c2b,0x0200,0xffe0,0x0030,0x0303,0x1c2c,0x1c2d     | +00158
         .dc.w   0x17fe,0x1c2e,0x1c1b,0x17fa,0x1c1f,0x1c20,0x17f6            | +00168
-        .dc.l   Str_100040                    | +00176  -> $100040
+        .dc.l   ColMap_100040                    | +00176  -> $100040
         .dc.w   0x0104,0x1c1c,0x1c1d,0x1c1e,0x1801,0x0300,0xffdf,0x0030     | +0017a
         .dc.w   0x0103,0x1c31,0x1c32,0x1c33,0xffef,0x0020,0x0102,0x1c2f     | +0018a
         .dc.w   0x1c30,0xffff,0x0040,0x0204,0x1c34,0x1c35,0x1c36,0x1c37     | +0019a
@@ -9224,21 +9254,21 @@ Data_12207c:
         .dc.w   0x17fe,0xfff0,0x0040,0x0204                                 | +001ea
 
 | ----------------------------------------------------------------------------
-|  Data_12226e  @ $12226E  (411 B)  [ref. desde código]
+|  SprFrame_12226e  @ $12226E  (411 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12226e, "ax", @progbits
-        .global Data_12226e
-Data_12226e:
+        .section .text.SprFrame_12226e, "ax", @progbits
+        .global SprFrame_12226e
+SprFrame_12226e:
         .dc.w   0x1c45,0x1c46,0x1c47,0x17fa,0x1c48,0x1c49,0x1c4a,0x17f6     | +00000
-        .dc.l   Data_100030                   | +00010  -> $100030
+        .dc.l   ColMap_100030                   | +00010  -> $100030
         .dc.w   0x0103,0x1c4b,0x1c4c,0x1801,0x0300,0xffe0,0x0030,0x0103     | +00014
         .dc.w   0x1c53,0x1c54,0x17f2,0xfff0,0x0040,0x0204,0x1c4d,0x1c4e     | +00024
         .dc.w   0x1c4f,0x17ee,0x1c50,0x1c51,0x1c52,0x17ea                   | +00034
-        .dc.l   Data_100030                   | +00040  -> $100030
+        .dc.l   ColMap_100030                   | +00040  -> $100030
         .dc.w   0x0103,0x1c55,0x1c56,0x17e7,0x0200,0xffe0,0x0040,0x0304     | +00044
         .dc.w   0x1acf,0x1ad0,0x1c57,0x1c58,0x1ad3,0x1ad4,0x1c59,0x1c5a     | +00054
         .dc.w   0x1ad7,0x1ad8,0x1c5b,0x1c5c                                 | +00064
-        .dc.l   Data_100030                   | +0006c  -> $100030
+        .dc.l   ColMap_100030                   | +0006c  -> $100030
         .dc.w   0x0103,0x1adb,0x1c5d,0x1c5e,0x0100,0xffe0,0x0040,0x0404     | +00070
         .dc.w   0x1aea,0x1aeb,0x1aec,0x1c5f,0x1ae6,0x1ae7,0x1ae8,0x1c60     | +00080
         .dc.w   0x1ae2,0x1ae3,0x1c61,0x1c62,0x1ade,0x1adf,0x1c63,0x1c64     | +00090
@@ -9261,26 +9291,26 @@ Data_12226e:
         .dc.b   0x16                            | +0019a
 
 | ----------------------------------------------------------------------------
-|  Data_122409  @ $122409  (55 B)  [ref. desde código]
+|  SprFrame_122409  @ $122409  (55 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122409, "ax", @progbits
-        .global Data_122409
-Data_122409:
+        .section .text.SprFrame_122409, "ax", @progbits
+        .global SprFrame_122409
+SprFrame_122409:
         .dc.b   0xae                            | +00000
         .dc.w   0x1987,0x1c8f,0x16b2,0x1c90,0x1c91                          | +00001
-        .dc.l   Data_100020                   | +0000b  -> $100020
+        .dc.l   ColMap_100020                   | +0000b  -> $100020
         .dc.w   0x0102,0x1c92,0x1c93,0x0020,0x0018,0x0101,0x198b,0x0300     | +0000f
         .dc.w   0xffe0,0x0030,0x0103,0x1961,0x1962,0x1c94,0xfff0,0x0040     | +0001f
         .dc.w   0x0204,0x195d,0x195e,0x195f                                 | +0002f
 
 | ----------------------------------------------------------------------------
-|  Data_122440  @ $122440  (450 B)  [ref. desde código]
+|  SprFrame_122440  @ $122440  (450 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122440, "ax", @progbits
-        .global Data_122440
-Data_122440:
+        .section .text.SprFrame_122440, "ax", @progbits
+        .global SprFrame_122440
+SprFrame_122440:
         .dc.w   0x1c95,0x1959,0x195a,0x1c96,0x1c97                          | +00000
-        .dc.l   Data_100030                   | +0000a  -> $100030
+        .dc.l   ColMap_100030                   | +0000a  -> $100030
         .dc.w   0x0103,0x1964,0x1c98,0x1c99,0x0300,0xffe0,0x0020,0x0102     | +0000e
         .dc.w   0x1972,0x1c9a,0xfff0,0x0030,0x0303,0x1973,0x1974,0x1c9b     | +0001e
         .dc.w   0x1975,0x1c9c,0x1c9d,0x1977,0x1c9e,0x1c9f,0x0020,0x001e     | +0002e
@@ -9288,7 +9318,7 @@ Data_122440:
         .dc.w   0x16b1,0x16b2,0x1ca3,0x16b5,0x0000,0x0020,0x0202,0x1ca2     | +0004e
         .dc.w   0x16ad,0x1ca1,0x16aa,0x0200,0xffe0,0x0030,0x0303,0x1ca6     | +0005e
         .dc.w   0x1ca7,0x16b1,0x1ca8,0x1ca9,0x16b5,0x1caa,0x1cab,0x16ad     | +0006e
-        .dc.l   Data_100020                   | +0007e  -> $100020
+        .dc.l   ColMap_100020                   | +0007e  -> $100020
         .dc.w   0x0102,0x1ca1,0x16aa,0x0200,0xffe0,0x0030,0x0203,0x1caf     | +00082
         .dc.w   0x1cb0,0x16b1,0x1cad,0x1cae,0x16b5,0x0000,0x0020,0x0202     | +00092
         .dc.w   0x1cac,0x16ad,0x1ca1,0x16aa,0x0200,0xffe0,0x0030,0x0203     | +000a2
@@ -9305,7 +9335,7 @@ Data_122440:
         .dc.w   0x0000,0x0020,0x0202,0x1ccc,0x1ccd,0x1cca,0x1ccb,0x0200     | +00152
         .dc.w   0xffe0,0x002c,0x0303,0x1cda,0x1cdb,0x1cdc,0x1cd7,0x1cd8     | +00162
         .dc.w   0x1cd9,0x1cd4,0x1cd5,0x1cd6                                 | +00172
-        .dc.l   Data_100020                   | +0017a  -> $100020
+        .dc.l   ColMap_100020                   | +0017a  -> $100020
         .dc.w   0x0102,0x1cca,0x1ccb,0x0200,0xffdf,0x002b,0x0203,0x1cdd     | +0017e
         .dc.w   0x1cde,0x1cdf,0x1ce0,0x1ce1,0x1ce2,0xffff,0x001f,0x0202     | +0018e
         .dc.w   0x1ce3,0x1ce4,0x1ce5,0x1ce6,0x0200,0xffdf,0x002b,0x0203     | +0019e
@@ -9313,11 +9343,11 @@ Data_122440:
         .dc.w   0x0202,0x1cea                                               | +001be
 
 | ----------------------------------------------------------------------------
-|  Data_122602  @ $122602  (522 B)  [ref. desde código]
+|  SprFrame_122602  @ $122602  (522 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122602, "ax", @progbits
-        .global Data_122602
-Data_122602:
+        .section .text.SprFrame_122602, "ax", @progbits
+        .global SprFrame_122602
+SprFrame_122602:
         .dc.w   0x1ceb,0x1cec,0x1ced,0x0200,0xffe0,0x002a,0x0203,0x1cf0     | +00000
         .dc.w   0x1cf1,0x1cf2,0x1cf3,0x1cf4,0x1cf5,0x0000,0x0020,0x0202     | +00010
         .dc.w   0x1cef,0x1ccd,0x1cee,0x1ccb,0x0200,0xffe1,0x002d,0x0103     | +00020
@@ -9339,7 +9369,7 @@ Data_122602:
         .dc.w   0x002b,0x0103,0x1d37,0x1d38,0x1d39,0xfff0,0x003b,0x0104     | +00120
         .dc.w   0x1d3a,0x1d3b,0x1d3c,0x1d3d,0x0000,0x002e,0x0103,0x1d3e     | +00130
         .dc.w   0x1d3f,0x1d40                                               | +00140
-        .dc.l   Data_10001e                   | +00144  -> $10001E
+        .dc.l   ColMap_10001e                   | +00144  -> $10001E
         .dc.w   0x0102,0x1d41,0x1d42,0x0400,0xffe0,0x001b,0x0102,0x1d38     | +00148
         .dc.w   0x1d39,0xfff0,0x002b,0x0203,0x1d43,0x1d44,0x1d3d,0x1d45     | +00158
         .dc.w   0x1d46,0x1d47,0x0010,0x0023,0x0102,0x1d48,0x1d49,0x0020     | +00168
@@ -9348,7 +9378,7 @@ Data_122602:
         .dc.w   0x1d51,0x1d52,0x1d53,0x1d54,0x0200,0xffdd,0x002b,0x0303     | +00198
         .dc.w   0x1d55,0x1d56,0x1d57,0x1d58,0x1d59,0x1d5a,0x1d5b,0x1d5c     | +001a8
         .dc.w   0x1d5d                                                      | +001b8
-        .dc.l   Data_0d001b                   | +001ba  -> $0D001B
+        .dc.l   BgMap_0d001b                   | +001ba  -> $0D001B
         .dc.w   0x0102,0x1d5e,0x1d5f,0x0200,0xffdc,0x002b,0x0203,0x1d60     | +001be
         .dc.w   0x1d61,0x1d62,0x1d63,0x1d64,0x1d65,0xfffc,0x0020,0x0202     | +001ce
         .dc.w   0x1d66,0x1d67,0x1d68,0x1d69,0x0200,0xffdb,0x002b,0x0203     | +001de
@@ -9356,11 +9386,11 @@ Data_122602:
         .dc.w   0x0202,0x1d70,0x1d71,0x1d72,0x1d73,0x0200                   | +001fe
 
 | ----------------------------------------------------------------------------
-|  Data_12280c  @ $12280C  (1,085 B)  [ref. desde código]
+|  SprFrame_12280c  @ $12280C  (1,085 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12280c, "ax", @progbits
-        .global Data_12280c
-Data_12280c:
+        .section .text.SprFrame_12280c, "ax", @progbits
+        .global SprFrame_12280c
+SprFrame_12280c:
         .dc.w   0xffde,0x002b,0x0203,0x1d60,0x1d74,0x1d75,0x1d63,0x1d76     | +00000
         .dc.w   0x1d77,0xfffe,0x0020,0x0202,0x1d78,0x1d79,0x1d7a,0x1d7b     | +00010
         .dc.w   0x0300,0xffe1,0x002b,0x0103,0x1d7c,0x1d7d,0x1d7e,0xfff1     | +00020
@@ -9432,22 +9462,22 @@ Data_12280c:
         .dc.b   0x03                            | +0043c
 
 | ----------------------------------------------------------------------------
-|  Data_122c49  @ $122C49  (22 B)  [ref. desde código]
+|  SprFrame_122c49  @ $122C49  (22 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122c49, "ax", @progbits
-        .global Data_122c49
-Data_122c49:
+        .section .text.SprFrame_122c49, "ax", @progbits
+        .global SprFrame_122c49
+SprFrame_122c49:
         .dc.b   0x00                            | +00000
         .dc.w   0xffd2,0x0022,0x0303,0x1e80,0x1e81,0x1e82,0x1e83,0x1e84     | +00001
         .dc.w   0x1e85,0x1e86                                               | +00011
         .dc.b   0x1e                            | +00015
 
 | ----------------------------------------------------------------------------
-|  Data_122c5f  @ $122C5F  (42 B)  [ref. desde código]
+|  SprFrame_122c5f  @ $122C5F  (42 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122c5f, "ax", @progbits
-        .global Data_122c5f
-Data_122c5f:
+        .section .text.SprFrame_122c5f, "ax", @progbits
+        .global SprFrame_122c5f
+SprFrame_122c5f:
         .dc.b   0x87                            | +00000
         .dc.w   0x1e88,0x0002,0x0022,0x0102,0x1e89,0x1e8a,0x0012,0x0019     | +00001
         .dc.w   0x0101,0x1e8b,0x0200,0xffd6,0x0022,0x0303,0x1e8c,0x1e8d     | +00011
@@ -9455,11 +9485,11 @@ Data_122c5f:
         .dc.b   0x1e                            | +00029
 
 | ----------------------------------------------------------------------------
-|  Data_122c89  @ $122C89  (197 B)  [ref. desde código]
+|  SprFrame_122c89  @ $122C89  (197 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122c89, "ax", @progbits
-        .global Data_122c89
-Data_122c89:
+        .section .text.SprFrame_122c89, "ax", @progbits
+        .global SprFrame_122c89
+SprFrame_122c89:
         .dc.b   0x92                            | +00000
         .dc.w   0x1e93,0x1e94,0x0006,0x0022,0x0102,0x1e95,0x1e96,0x0300     | +00001
         .dc.w   0xffda,0x0032,0x0204,0x1e97,0x1e98,0x1e99,0x1e62,0x1e9a     | +00011
@@ -9473,26 +9503,26 @@ Data_122c89:
         .dc.w   0x0020,0x0103,0x1eb7,0x1eb8,0x1eb9,0xffe2,0x0030,0x0104     | +00091
         .dc.w   0x1eba,0x1ebb,0x1ebc,0x1ebd,0xfff2,0x0020,0x0103,0x1ebe     | +000a1
         .dc.w   0x1ebf,0x1ec0                                               | +000b1
-        .dc.l   Data_020020                   | +000b5  -> $020020
+        .dc.l   Pal_020020                   | +000b5  -> $020020
         .dc.w   0x0102,0x1ec1,0x1ec2,0x0012,0x0019,0x0101                   | +000b9
 
 | ----------------------------------------------------------------------------
-|  Data_122d4e  @ $122D4E  (46 B)  [ref. desde código]
+|  SprFrame_122d4e  @ $122D4E  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122d4e, "ax", @progbits
-        .global Data_122d4e
-Data_122d4e:
+        .section .text.SprFrame_122d4e, "ax", @progbits
+        .global SprFrame_122d4e
+SprFrame_122d4e:
         .dc.w   0x1ec3,0x0400,0xffd2,0x0015,0x0102,0x1ec4,0x1ec5,0xffe2     | +00000
         .dc.w   0x0020,0x0203,0x1ec6,0x1ec7,0x1ebd,0x1ec8,0x1ebf,0x1ec0     | +00010
-        .dc.l   Data_020020                   | +00020  -> $020020
+        .dc.l   Pal_020020                   | +00020  -> $020020
         .dc.w   0x0102,0x1ec1,0x1ec2,0x0012,0x001a                          | +00024
 
 | ----------------------------------------------------------------------------
-|  Data_122d7c  @ $122D7C  (684 B)  [ref. desde código]
+|  SprFrame_122d7c  @ $122D7C  (684 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_122d7c, "ax", @progbits
-        .global Data_122d7c
-Data_122d7c:
+        .section .text.SprFrame_122d7c, "ax", @progbits
+        .global SprFrame_122d7c
+SprFrame_122d7c:
         .dc.w   0x0101,0x1ec9,0x0400,0xffd1,0x0013,0x0102,0x1eca,0x1ecb     | +00000
         .dc.w   0xffe1,0x0020,0x0203,0x1ecc,0x1ecd,0x1ece,0x1ecf,0x1ed0     | +00010
         .dc.w   0x1ed1                                                      | +00020
@@ -9519,7 +9549,7 @@ Data_122d7c:
         .dc.w   0x0101,0x1f1f,0x0400,0xffd2,0x0012,0x0102,0x1f22,0x1f23     | +00156
         .dc.w   0xffe2,0x001e,0x0103,0x1f24,0x1f25,0x1f26,0xfff2,0x0021     | +00166
         .dc.w   0x0103,0x1f27,0x1f28,0x1f29                                 | +00176
-        .dc.l   Data_020021                   | +0017e  -> $020021
+        .dc.l   Pal_020021                   | +0017e  -> $020021
         .dc.w   0x0102,0x1f2a,0x1f2b,0x0300,0xffd8,0x002e,0x0204,0x1f2c     | +00182
         .dc.w   0x1f2d,0x1f2e,0x1ef9,0x1f2f,0x1f30,0x1f31,0x1efc,0xfff8     | +00192
         .dc.w   0x0027,0x0103,0x1f32,0x1f33,0x1f34,0x0008,0x0027,0x0102     | +001a2
@@ -9528,11 +9558,11 @@ Data_122d7c:
         .dc.w   0x002b,0x0203,0x1f3b,0x1f3c,0x1f3d,0x1f3e,0x1f3f,0x1eab     | +001d2
         .dc.w   0x0200,0xffe0,0x0028,0x0303,0x1f40,0x1f41,0x1f42,0x1f43     | +001e2
         .dc.w   0x1f44,0x1f45,0x1f46,0x1f47,0x1f48                          | +001f2
-        .dc.l   Data_100018                   | +001fc  -> $100018
+        .dc.l   ColMap_100018                   | +001fc  -> $100018
         .dc.w   0x0102,0x1f49,0x1f4a,0x0300,0xffe0,0x0030,0x0203,0x1f4b     | +00200
         .dc.w   0x1f4c,0x1f4d,0x1f4e,0x1f4f,0x1f50,0x0000,0x002e,0x0103     | +00210
         .dc.w   0x1f51,0x1f52,0x1f53                                        | +00220
-        .dc.l   Data_10001e                   | +00226  -> $10001E
+        .dc.l   ColMap_10001e                   | +00226  -> $10001E
         .dc.w   0x0102,0x1f54,0x1f55,0x0200,0xffe0,0x0030,0x0203,0x1f56     | +0022a
         .dc.w   0x1f57,0x1f4d,0x1f58,0x1f59,0x1f50,0x0000,0x001d,0x0202     | +0023a
         .dc.w   0x1f5a,0x1f5b,0x1f5c,0x1f5d,0x0200,0xffe0,0x0030,0x0203     | +0024a
@@ -9544,46 +9574,46 @@ Data_122d7c:
         .dc.w   0x0000                                                      | +002aa
 
 | ----------------------------------------------------------------------------
-|  Data_123028  @ $123028  (1 B)  [ref. desde código]
+|  SprFrame_123028  @ $123028  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_123028, "ax", @progbits
-        .global Data_123028
-Data_123028:
+        .section .text.SprFrame_123028, "ax", @progbits
+        .global SprFrame_123028
+SprFrame_123028:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_123029  @ $123029  (5 B)  [ref. desde código]
+|  SprFrame_123029  @ $123029  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_123029, "ax", @progbits
-        .global Data_123029
-Data_123029:
+        .section .text.SprFrame_123029, "ax", @progbits
+        .global SprFrame_123029
+SprFrame_123029:
         .dc.b   0x2d                            | +00000
         .dc.w   0x0203,0x1f6b                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_12302e  @ $12302E  (11 B)  [ref. desde código]
+|  SprFrame_12302e  @ $12302E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12302e, "ax", @progbits
-        .global Data_12302e
-Data_12302e:
+        .section .text.SprFrame_12302e, "ax", @progbits
+        .global SprFrame_12302e
+SprFrame_12302e:
         .dc.w   0x1f6c,0x1f5b,0x1f6d,0x1f6e,0x1f6f                          | +00000
         .dc.b   0x00                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_123039  @ $123039  (3 B)  [ref. desde código]
+|  SprFrame_123039  @ $123039  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_123039, "ax", @progbits
-        .global Data_123039
-Data_123039:
+        .section .text.SprFrame_123039, "ax", @progbits
+        .global SprFrame_123039
+SprFrame_123039:
         .dc.b   0x20                            | +00000
         .dc.w   0x0016                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_12303c  @ $12303C  (498 B)  [ref. desde código]
+|  SprFrame_12303c  @ $12303C  (498 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12303c, "ax", @progbits
-        .global Data_12303c
-Data_12303c:
+        .section .text.SprFrame_12303c, "ax", @progbits
+        .global SprFrame_12303c
+SprFrame_12303c:
         .dc.w   0x0101,0x1f70,0x0200,0xffe0,0x0028,0x0403,0x1f40,0x1f41     | +00000
         .dc.w   0x1f42,0x1f71,0x1f44,0x1f45,0x1f72,0x1f73,0x1f48,0x1f74     | +00010
         .dc.w   0x1f75,0x1f76,0x0020,0x0016,0x0101,0x1f77,0x0100,0xffe0     | +00020
@@ -9591,7 +9621,7 @@ Data_12303c:
         .dc.w   0x1f7a,0x1f7b,0x1f7c,0x0000,0x1f78,0x1f79,0x0300,0xffe0     | +00040
         .dc.w   0x0030,0x0203,0x1f89,0x1f8a,0x1f8b,0x1f86,0x1f87,0x1f88     | +00050
         .dc.w   0x0000,0x002e,0x0103,0x1f83,0x1f84,0x1f85                   | +00060
-        .dc.l   Data_100018                   | +0006c  -> $100018
+        .dc.l   ColMap_100018                   | +0006c  -> $100018
         .dc.w   0x0102,0x1f78,0x1f79,0x0300,0xffe0,0x0030,0x0203,0x1f8c     | +00070
         .dc.w   0x1f8d,0x1f8b,0x1f8e,0x1f8f,0x1f88,0x0000,0x001d,0x0102     | +00080
         .dc.w   0x1f90,0x1f91,0x0010,0x001a,0x0102,0x1f92,0x1f93,0x0300     | +00090
@@ -9619,29 +9649,29 @@ Data_12303c:
         .dc.w   0x0103,0x1fd7,0x1fd8,0x1fd9,0x0015,0x0018,0x0102            | +001e4
 
 | ----------------------------------------------------------------------------
-|  Data_12322e  @ $12322E  (11 B)  [ref. desde código]
+|  SprFrame_12322e  @ $12322E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12322e, "ax", @progbits
-        .global Data_12322e
-Data_12322e:
+        .section .text.SprFrame_12322e, "ax", @progbits
+        .global SprFrame_12322e
+SprFrame_12322e:
         .dc.w   0x1fda,0x1fdb,0x0300,0xffe5,0x0030                          | +00000
         .dc.b   0x02                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_123239  @ $123239  (3 B)  [ref. desde código]
+|  SprFrame_123239  @ $123239  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_123239, "ax", @progbits
-        .global Data_123239
-Data_123239:
+        .section .text.SprFrame_123239, "ax", @progbits
+        .global SprFrame_123239
+SprFrame_123239:
         .dc.b   0x03                            | +00000
         .dc.w   0x1fdc                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_12323c  @ $12323C  (512 B)  [ref. desde código]
+|  SprFrame_12323c  @ $12323C  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12323c, "ax", @progbits
-        .global Data_12323c
-Data_12323c:
+        .section .text.SprFrame_12323c, "ax", @progbits
+        .global SprFrame_12323c
+SprFrame_12323c:
         .dc.w   0x1fdd,0x1fc7,0x1fde,0x1fdf,0x1fca                          | +00000
         .dc.l   Fortress_SpawnPiece01_05002a  | +0000a  -> $05002A
         .dc.w   0x0103,0x1fe0,0x1fe1,0x1fc2,0x0015,0x001a,0x0102,0x1fe2     | +0000e
@@ -9678,11 +9708,11 @@ Data_12323c:
         .dc.w   0x2040                                                      | +001fe
 
 | ----------------------------------------------------------------------------
-|  Data_12343c  @ $12343C  (2,354 B)  [ref. desde código]
+|  SprFrame_12343c  @ $12343C  (2,354 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12343c, "ax", @progbits
-        .global Data_12343c
-Data_12343c:
+        .section .text.SprFrame_12343c, "ax", @progbits
+        .global SprFrame_12343c
+SprFrame_12343c:
         .dc.w   0x2041,0x0400,0xffe7,0x0031,0x0103,0x204d,0x204e,0x204f     | +00000
         .dc.w   0xfff7,0x0037,0x0104,0x2050,0x2051,0x2047,0x2048,0x0007     | +00010
         .dc.w   0x0027,0x0103,0x2052,0x204b,0x204c,0x0017,0x0017,0x0102     | +00020
@@ -9749,11 +9779,11 @@ Data_12343c:
         .dc.w   0x0400,0xffe0,0x001c,0x0101,0x2113,0xfff0,0x0030,0x0103     | +003f0
         .dc.w   0x2110,0x2111,0x2112,0x0000,0x0030,0x0104,0x2109,0x210a     | +00400
         .dc.w   0x210b,0x210c                                               | +00410
-        .dc.l   Data_100020                   | +00414  -> $100020
+        .dc.l   ColMap_100020                   | +00414  -> $100020
         .dc.w   0x0103,0x210d,0x210e,0x210f,0x0400,0xffe0,0x001c,0x0101     | +00418
         .dc.w   0x2113,0xfff0,0x0030,0x0103,0x2118,0x2111,0x2112,0x0000     | +00428
         .dc.w   0x0031,0x0104,0x2114,0x2115,0x2116,0x2117                   | +00438
-        .dc.l   Data_100020                   | +00444  -> $100020
+        .dc.l   ColMap_100020                   | +00444  -> $100020
         .dc.w   0x0103,0x210d,0x210e,0x210f,0x0300,0xffe8,0x0028,0x0102     | +00448
         .dc.w   0x20fb,0x20fc,0xfff8,0x0030,0x0204,0x2119,0x211a,0x211b     | +00458
         .dc.w   0x211c,0x211d,0x211e,0x211f,0x2104,0x0018,0x0020,0x0103     | +00468
@@ -9763,7 +9793,7 @@ Data_12343c:
         .dc.w   0x212a,0x212b,0x0400,0xffe0,0x001d,0x0101,0x2135,0xfff0     | +004a8
         .dc.w   0x0030,0x0103,0x2134,0x2111,0x2112,0x0000,0x0030,0x0104     | +004b8
         .dc.w   0x2132,0x2133,0x210b,0x210c                                 | +004c8
-        .dc.l   Data_100020                   | +004d0  -> $100020
+        .dc.l   ColMap_100020                   | +004d0  -> $100020
         .dc.w   0x0203,0x212f,0x2130,0x2131,0x212c,0x212d,0x212e,0x0300     | +004d4
         .dc.w   0xffe0,0x0020,0x0101,0x2141,0xfff0,0x0030,0x0103,0x213e     | +004e4
         .dc.w   0x213f,0x2140,0x0000,0x0030,0x0204,0x2136,0x2137,0x2138     | +004f4
@@ -9776,7 +9806,7 @@ Data_12343c:
         .dc.w   0x213d,0x0400,0xffe0,0x0020,0x0101,0x2141,0xfff0,0x0030     | +00564
         .dc.w   0x0103,0x2151,0x213f,0x2140,0x0000,0x0031,0x0104,0x214d     | +00574
         .dc.w   0x214e,0x214f,0x2150                                        | +00584
-        .dc.l   Data_100030                   | +0058a  -> $100030
+        .dc.l   ColMap_100030                   | +0058a  -> $100030
         .dc.w   0x0104,0x0000,0x214a,0x213c,0x213d,0x0300,0xffe0,0x0020     | +0058e
         .dc.w   0x0101,0x2141,0xfff0,0x0028,0x0103,0x2146,0x2147,0x2148     | +0059e
         .dc.w   0x0000,0x0030,0x0204,0x2156,0x2157,0x2138,0x2139,0x2152     | +005ae
@@ -9785,7 +9815,7 @@ Data_12343c:
         .dc.w   0x0030,0x0204,0x215c,0x215d,0x215e,0x215f,0x2158,0x2159     | +005de
         .dc.w   0x215a,0x215b,0x0400,0xffed,0x0025,0x0102,0x2165,0x2166     | +005ee
         .dc.w   0xfffd,0x0030,0x0104,0x2167,0x2168,0x2169,0x216a            | +005fe
-        .dc.l   Data_0d0020                   | +0060c  -> $0D0020
+        .dc.l   BgMap_0d0020                   | +0060c  -> $0D0020
         .dc.w   0x0103,0x216b,0x216c,0x216d,0x001d,0x001f,0x0103,0x216e     | +00610
         .dc.w   0x216f,0x2170,0x0200,0xffea,0x0010,0x0101,0x2172,0xfffa     | +00620
         .dc.w   0x0009,0x0101,0x2171,0x0200,0xfff1,0x0018,0x0101,0x2174     | +00630
@@ -9839,19 +9869,19 @@ Data_12343c:
         .dc.w   0x0103                                                      | +00930
 
 | ----------------------------------------------------------------------------
-|  Data_123d6e  @ $123D6E  (14 B)  [ref. desde código]
+|  SprFrame_123d6e  @ $123D6E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_123d6e, "ax", @progbits
-        .global Data_123d6e
-Data_123d6e:
+        .section .text.SprFrame_123d6e, "ax", @progbits
+        .global SprFrame_123d6e
+SprFrame_123d6e:
         .dc.w   0x21df,0x21e0,0x21e1,0x0200,0xffea,0x0035,0x0102            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_123d7c  @ $123D7C  (1,148 B)  [ref. desde código]
+|  SprFrame_123d7c  @ $123D7C  (1,148 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_123d7c, "ax", @progbits
-        .global Data_123d7c
-Data_123d7c:
+        .section .text.SprFrame_123d7c, "ax", @progbits
+        .global SprFrame_123d7c
+SprFrame_123d7c:
         .dc.w   0x21e2,0x21e3,0xfff7,0x0015,0x0102,0x21e4,0x21e5,0x0200     | +00000
         .dc.w   0xffed,0x002a,0x0103,0x21e6,0x21e7,0x21e8,0xfffd,0x0029     | +00010
         .dc.w   0x0103,0x21e9,0x21ea,0x21eb,0x0200,0xffe7,0x0031,0x0102     | +00020
@@ -9873,7 +9903,7 @@ Data_123d7c:
         .dc.w   0x221f,0x2220,0x0200,0xfffa,0x0029,0x0103,0x2222,0x2223     | +00120
         .dc.w   0x217e,0x000a,0x002a,0x0102,0x2224,0x2225,0x0200,0xfffa     | +00130
         .dc.w   0x0039,0x0104,0x2226,0x2227,0x2228,0x217e                   | +00140
-        .dc.l   Data_0a0039                   | +0014c  -> $0A0039
+        .dc.l   BgMap_0a0039                   | +0014c  -> $0A0039
         .dc.w   0x0103,0x2229,0x222a,0x222b,0x0200,0xfff7,0x0029,0x0103     | +00150
         .dc.w   0x222c,0x222d,0x222e,0x0007,0x0038,0x0103,0x222f,0x2230     | +00160
         .dc.w   0x2231,0x0200,0xfffa,0x0018,0x0102,0x2234,0x2235,0x0005     | +00170
@@ -9893,10 +9923,10 @@ Data_123d7c:
         .dc.w   0x0009,0x0101,0x2248,0x0008,0x0017,0x0101,0x2255,0x0018     | +00250
         .dc.w   0x002e,0x0102,0x2256,0x2257,0x0200,0xfffa,0x0009,0x0101     | +00260
         .dc.w   0x2258                                                      | +00270
-        .dc.l   Data_0a0024                   | +00272  -> $0A0024
+        .dc.l   BgMap_0a0024                   | +00272  -> $0A0024
         .dc.w   0x0202,0x2259,0x225a,0x225b,0x225c,0x0300,0xfffa,0x0009     | +00276
         .dc.w   0x0101,0x2258                                               | +00286
-        .dc.l   Data_0a0024                   | +0028a  -> $0A0024
+        .dc.l   BgMap_0a0024                   | +0028a  -> $0A0024
         .dc.w   0x0202,0x225d,0x225e,0x225f,0x2260,0x002a,0x0023,0x0101     | +0028e
         .dc.w   0x2261,0x0400,0xfffa,0x0009,0x0101,0x2258,0x000a,0x0014     | +0029e
         .dc.w   0x0101,0x2262,0x0016,0x001c,0x0101,0x2263,0x0026,0x0022     | +002ae
@@ -9909,54 +9939,54 @@ Data_123d7c:
         .dc.w   0x2270,0x0400,0xfff8,0x0008,0x0101,0x226c,0x0008,0x000e     | +0031e
         .dc.w   0x0101,0x2271,0x0018,0x0012,0x0101,0x2272,0x0028,0x0016     | +0032e
         .dc.w   0x0101,0x2273,0x0300,0xfffa,0x0009,0x0101,0x2274            | +0033e
-        .dc.l   Data_0a000d                   | +0034c  -> $0A000D
+        .dc.l   BgMap_0a000d                   | +0034c  -> $0A000D
         .dc.w   0x0101,0x2275,0x001a,0x0018,0x0201,0x2276,0x2277,0x0300     | +00350
         .dc.w   0xfffa,0x0008,0x0101,0x2278,0x000a,0x0013,0x0202,0x2279     | +00360
         .dc.w   0x227a,0x227b,0x227c,0x002a,0x000b,0x0101,0x227d,0x0400     | +00370
         .dc.w   0xfff8,0x0008,0x0101,0x2188,0x0008,0x000c,0x0101,0x227e     | +00380
         .dc.w   0x0018,0x0010,0x0102,0x2280,0x2281,0x0028,0x000e,0x0101     | +00390
         .dc.w   0x227f,0x0400,0xfffa,0x0008,0x0101,0x2278                   | +003a0
-        .dc.l   Data_0a000b                   | +003ac  -> $0A000B
+        .dc.l   BgMap_0a000b                   | +003ac  -> $0A000B
         .dc.w   0x0101,0x2282,0x001a,0x000d,0x0101,0x2283,0x0029,0x000d     | +003b0
         .dc.w   0x0101,0x2284,0x0300,0xfffa,0x0008,0x0201,0x2278,0x2285     | +003c0
         .dc.w   0x001c,0x000c,0x0101,0x2287,0x002c,0x000f,0x0101,0x2286     | +003d0
         .dc.w   0x0300,0xfffa,0x0007,0x0101,0x2288                          | +003e0
-        .dc.l   Data_0a0010                   | +003ea  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +003ea  -> $0A0010
         .dc.w   0x0202,0x2289,0x228a,0x228b,0x228c,0x002a,0x0009,0x0101     | +003ee
         .dc.w   0x228d,0x0400,0xfffa,0x0007,0x0101,0x2288,0x000a,0x0008     | +003fe
         .dc.w   0x0101,0x228e,0x001a,0x0010,0x0102,0x228f,0x2290,0x002a     | +0040e
         .dc.w   0x0009,0x0101,0x2291,0x0100,0xfffa,0x0008,0x0401,0x2292     | +0041e
         .dc.w   0x2293,0x2294,0x2295,0x0100,0xfffa,0x0008,0x0401,0x2292     | +0042e
         .dc.w   0x2296,0x2297,0x2298,0x0200,0xfffa,0x0006,0x0101,0x2299     | +0043e
-        .dc.l   Data_0a0012                   | +0044e  -> $0A0012
+        .dc.l   BgMap_0a0012                   | +0044e  -> $0A0012
         .dc.w   0x0202,0x229a,0x229b,0x229c,0x229d,0x0400,0xfffa,0x0008     | +00452
         .dc.w   0x0101,0x229e                                               | +00462
-        .dc.l   Data_0a0004                   | +00466  -> $0A0004
+        .dc.l   BgMap_0a0004                   | +00466  -> $0A0004
         .dc.w   0x0101,0x229f,0x001a,0x0010,0x0102,0x22a0,0x22a1,0x002a     | +0046a
         .dc.w   0x0000                                                      | +0047a
 
 | ----------------------------------------------------------------------------
-|  Data_1241f8  @ $1241F8  (1 B)  [ref. desde código]
+|  SprFrame_1241f8  @ $1241F8  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1241f8, "ax", @progbits
-        .global Data_1241f8
-Data_1241f8:
+        .section .text.SprFrame_1241f8, "ax", @progbits
+        .global SprFrame_1241f8
+SprFrame_1241f8:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1241f9  @ $1241F9  (1 B)  [ref. desde código]
+|  SprFrame_1241f9  @ $1241F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1241f9, "ax", @progbits
-        .global Data_1241f9
-Data_1241f9:
+        .section .text.SprFrame_1241f9, "ax", @progbits
+        .global SprFrame_1241f9
+SprFrame_1241f9:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1241fa  @ $1241FA  (52 B)  [ref. desde código]
+|  SprFrame_1241fa  @ $1241FA  (52 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1241fa, "ax", @progbits
-        .global Data_1241fa
-Data_1241fa:
+        .section .text.SprFrame_1241fa, "ax", @progbits
+        .global SprFrame_1241fa
+SprFrame_1241fa:
         .dc.w   0x22a2,0x0400,0xfffa,0x0007,0x0101,0x22a3,0x000a,0x0005     | +00000
         .dc.w   0x0101,0x22a4,0x001a,0x0002,0x0101,0x22a5,0x002a            | +00010
         .dc.l   Data_010101                   | +0001e  -> $010101
@@ -9964,59 +9994,59 @@ Data_1241fa:
         .dc.w   0x0003                                                      | +00032
 
 | ----------------------------------------------------------------------------
-|  Data_12422e  @ $12422E  (11 B)  [ref. desde código]
+|  SprFrame_12422e  @ $12422E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12422e, "ax", @progbits
-        .global Data_12422e
-Data_12422e:
+        .section .text.SprFrame_12422e, "ax", @progbits
+        .global SprFrame_12422e
+SprFrame_12422e:
         .dc.w   0x0101,0x22a9,0x002b                                        | +00000
         .dc.l   Data_010101                   | +00006  -> $010101
         .dc.b   0x22                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_124239  @ $124239  (7 B)  [ref. desde código]
+|  SprFrame_124239  @ $124239  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124239, "ax", @progbits
-        .global Data_124239
-Data_124239:
+        .section .text.SprFrame_124239, "ax", @progbits
+        .global SprFrame_124239
+SprFrame_124239:
         .dc.b   0xa8                            | +00000
         .dc.w   0x0200,0xfff8,0x0008                                        | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_124240  @ $124240  (40 B)  [ref. desde código]
+|  SprFrame_124240  @ $124240  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124240, "ax", @progbits
-        .global Data_124240
-Data_124240:
+        .section .text.SprFrame_124240, "ax", @progbits
+        .global SprFrame_124240
+SprFrame_124240:
         .dc.w   0x0101,0x22ae,0x0008,0x0008,0x0202,0x22aa,0x22ab,0x22ac     | +00000
         .dc.w   0x22ad,0x0300,0xfff8,0x0008,0x0101,0x22ae,0x0007,0xffff     | +00010
         .dc.w   0x0101,0x22af,0x0017,0x0007                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_124268  @ $124268  (6 B)  [ref. desde código]
+|  SprFrame_124268  @ $124268  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124268, "ax", @progbits
-        .global Data_124268
-Data_124268:
+        .section .text.SprFrame_124268, "ax", @progbits
+        .global SprFrame_124268
+SprFrame_124268:
         .dc.w   0x0202,0x22b0,0x22b1                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_12426e  @ $12426E  (395 B)  [ref. desde código]
+|  SprFrame_12426e  @ $12426E  (395 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12426e, "ax", @progbits
-        .global Data_12426e
-Data_12426e:
+        .section .text.SprFrame_12426e, "ax", @progbits
+        .global SprFrame_12426e
+SprFrame_12426e:
         .dc.w   0x22b2,0x22b3,0x0400,0xfffa,0x0006,0x0101,0x22b4            | +00000
-        .dc.l   Data_0a0000                   | +0000e  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +0000e  -> $0A0000
         .dc.w   0x0101,0x22b5,0x001a,0xfffa,0x0101,0x22b6,0x002a,0xfff6     | +00012
         .dc.w   0x0101,0x22b7,0x0400,0xfffa,0x0006,0x0101,0x22b4            | +00022
-        .dc.l   Data_0a0001                   | +00030  -> $0A0001
+        .dc.l   BgMap_0a0001                   | +00030  -> $0A0001
         .dc.w   0x0101,0x22b8,0x001a,0xfff9,0x0101,0x22b9,0x002a,0xfff5     | +00034
         .dc.w   0x0101,0x22ba,0x0200,0xfffa,0x0007,0x0101,0x22bf            | +00044
-        .dc.l   Data_0a0007                   | +00052  -> $0A0007
+        .dc.l   BgMap_0a0007                   | +00052  -> $0A0007
         .dc.w   0x0202,0x22bb,0x22bc,0x22bd,0x22be,0x0200,0xfffa,0x0007     | +00056
         .dc.w   0x0101,0x22bf                                               | +00066
-        .dc.l   Data_0a0001                   | +0006a  -> $0A0001
+        .dc.l   BgMap_0a0001                   | +0006a  -> $0A0001
         .dc.w   0x0202,0x22c0,0x22c1,0x22c2,0x22c3,0x0400,0xfffa,0x0006     | +0006e
         .dc.w   0x0101,0x22c4,0x000a,0xfffe,0x0101,0x22c5,0x0014,0xfff3     | +0007e
         .dc.w   0x0101,0x22c6,0x001f,0xffee,0x0101,0x22c7,0x0400,0xfffa     | +0008e
@@ -10038,19 +10068,19 @@ Data_12426e:
         .dc.b   0xff                            | +0018a
 
 | ----------------------------------------------------------------------------
-|  Data_1243f9  @ $1243F9  (1 B)  [ref. desde código]
+|  SprFrame_1243f9  @ $1243F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1243f9, "ax", @progbits
-        .global Data_1243f9
-Data_1243f9:
+        .section .text.SprFrame_1243f9, "ax", @progbits
+        .global SprFrame_1243f9
+SprFrame_1243f9:
         .dc.b   0xfa                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1243fa  @ $1243FA  (71 B)  [ref. desde código]
+|  SprFrame_1243fa  @ $1243FA  (71 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1243fa, "ax", @progbits
-        .global Data_1243fa
-Data_1243fa:
+        .section .text.SprFrame_1243fa, "ax", @progbits
+        .global SprFrame_1243fa
+SprFrame_1243fa:
         .dc.w   0x0006,0x0101,0x22e0,0x0004,0xfff6,0x0101,0x22e8,0x0011     | +00000
         .dc.w   0xffe6,0x0101,0x22e9,0x0019,0xffd6,0x0101,0x22ea,0x0200     | +00010
         .dc.w   0xfff8,0x0008,0x0103,0x22eb,0x22ec,0x22ed,0x0006,0xfff6     | +00020
@@ -10060,22 +10090,22 @@ Data_1243fa:
         .dc.b   0x22                            | +00046
 
 | ----------------------------------------------------------------------------
-|  Data_124441  @ $124441  (45 B)  [ref. desde código]
+|  SprFrame_124441  @ $124441  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124441, "ax", @progbits
-        .global Data_124441
-Data_124441:
+        .section .text.SprFrame_124441, "ax", @progbits
+        .global SprFrame_124441
+SprFrame_124441:
         .dc.b   0xf1                            | +00000
         .dc.w   0x22f2,0x0007,0xfff0,0x0102,0x22f3,0x22f4,0x0400,0xfffa     | +00001
         .dc.w   0x0006,0x0101,0x22f0,0xfffe,0xfffa,0x0101,0x22f7,0x0003     | +00011
         .dc.w   0xfff0,0x0101,0x22f6,0x0005,0xffe0,0x0101                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_12446e  @ $12446E  (982 B)  [ref. desde código]
+|  SprFrame_12446e  @ $12446E  (982 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12446e, "ax", @progbits
-        .global Data_12446e
-Data_12446e:
+        .section .text.SprFrame_12446e, "ax", @progbits
+        .global SprFrame_12446e
+SprFrame_12446e:
         .dc.w   0x22f5,0x0400,0xfffa,0x0006,0x0101,0x22f0,0xfffb,0xfffd     | +00000
         .dc.w   0x0101,0x22f8,0x000a,0xffe6,0x0101,0x22f9,0x000d,0xffdb     | +00010
         .dc.w   0x0101,0x22fa,0x0200,0xfffa,0x0006,0x0103,0x22fb,0x22fc     | +00020
@@ -10144,11 +10174,11 @@ Data_12446e:
         .dc.w   0x0101,0x2380,0xfff7,0x0006                                 | +003ce
 
 | ----------------------------------------------------------------------------
-|  Data_124844  @ $124844  (117 B)  [ref. desde código]
+|  SprFrame_124844  @ $124844  (117 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124844, "ax", @progbits
-        .global Data_124844
-Data_124844:
+        .section .text.SprFrame_124844, "ax", @progbits
+        .global SprFrame_124844
+SprFrame_124844:
         .dc.w   0x0101,0x237f,0x0100,0xffc7,0x0006,0x0401,0x2386,0x2385     | +00000
         .dc.w   0x2384,0x237f,0x0400,0xffc9,0xffff,0x0101,0x2389,0xffd5     | +00010
         .dc.l   Data_010101                   | +00020  -> $010101
@@ -10160,11 +10190,11 @@ Data_124844:
         .dc.b   0xff                            | +00074
 
 | ----------------------------------------------------------------------------
-|  Data_1248b9  @ $1248B9  (321 B)  [ref. desde código]
+|  SprFrame_1248b9  @ $1248B9  (321 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1248b9, "ax", @progbits
-        .global Data_1248b9
-Data_1248b9:
+        .section .text.SprFrame_1248b9, "ax", @progbits
+        .global SprFrame_1248b9
+SprFrame_1248b9:
         .dc.b   0xf7                            | +00000
         .dc.w   0x0006,0x0101,0x238f,0x0100,0xffc8,0x0008,0x0401,0x2396     | +00001
         .dc.w   0x2395,0x2394,0x2393,0x0100,0xffc7,0x0007,0x0401,0x2399     | +00011
@@ -10188,40 +10218,40 @@ Data_1248b9:
         .dc.w   0x0101,0x23b7,0xfffb,0x0009,0x0101,0x23b8,0x0300,0xffdb     | +00131
 
 | ----------------------------------------------------------------------------
-|  Data_1249fa  @ $1249FA  (23 B)  [ref. desde código]
+|  SprFrame_1249fa  @ $1249FA  (23 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1249fa, "ax", @progbits
-        .global Data_1249fa
-Data_1249fa:
+        .section .text.SprFrame_1249fa, "ax", @progbits
+        .global SprFrame_1249fa
+SprFrame_1249fa:
         .dc.w   0x0021,0x0102,0x23bc,0x23bd,0xffe7,0x001b,0x0102,0x23ba     | +00000
         .dc.w   0x23bb,0xfff7,0x0009                                        | +00010
         .dc.b   0x01                            | +00016
 
 | ----------------------------------------------------------------------------
-|  Data_124a11  @ $124A11  (29 B)  [ref. desde código]
+|  SprFrame_124a11  @ $124A11  (29 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124a11, "ax", @progbits
-        .global Data_124a11
-Data_124a11:
+        .section .text.SprFrame_124a11, "ax", @progbits
+        .global SprFrame_124a11
+SprFrame_124a11:
         .dc.b   0x01                            | +00000
         .dc.w   0x23b9,0x0300,0xffd7,0x0020,0x0102,0x23c0,0x23c1,0xffe7     | +00001
         .dc.w   0x001e,0x0102,0x23be,0x23bf,0xfff7,0x0009                   | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_124a2e  @ $124A2E  (11 B)  [ref. desde código]
+|  SprFrame_124a2e  @ $124A2E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124a2e, "ax", @progbits
-        .global Data_124a2e
-Data_124a2e:
+        .section .text.SprFrame_124a2e, "ax", @progbits
+        .global SprFrame_124a2e
+SprFrame_124a2e:
         .dc.w   0x0101,0x23b9,0x0400,0xffd1,0x001d                          | +00000
         .dc.b   0x01                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_124a39  @ $124A39  (53 B)  [ref. desde código]
+|  SprFrame_124a39  @ $124A39  (53 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124a39, "ax", @progbits
-        .global Data_124a39
-Data_124a39:
+        .section .text.SprFrame_124a39, "ax", @progbits
+        .global SprFrame_124a39
+SprFrame_124a39:
         .dc.b   0x01                            | +00000
         .dc.w   0x23c2,0xffe1,0x0018,0x0101,0x23c3,0xffea,0x000e,0x0101     | +00001
         .dc.w   0x23c4,0xfff7,0x0009,0x0101,0x23b9,0x0400,0xffd1,0x001f     | +00011
@@ -10344,11 +10374,11 @@ Data_124e75:
         .dc.b   0x02                            | +00043
 
 | ----------------------------------------------------------------------------
-|  Data_124eb9  @ $124EB9  (1 B)  [ref. desde código]
+|  Zero_124eb9  @ $124EB9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_124eb9, "ax", @progbits
-        .global Data_124eb9
-Data_124eb9:
+        .section .text.Zero_124eb9, "ax", @progbits
+        .global Zero_124eb9
+Zero_124eb9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -10964,11 +10994,11 @@ Data_126d00:
         .dc.w   0x0100,0xfff8,0x001d,0x0102,0x2c23,0x2c24,0x0100,0xfff8     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_126e00  @ $126E00  (8,825 B)  [ref. desde código]
+|  SprFrame_126e00  @ $126E00  (8,825 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_126e00, "ax", @progbits
-        .global Data_126e00
-Data_126e00:
+        .section .text.SprFrame_126e00, "ax", @progbits
+        .global SprFrame_126e00
+SprFrame_126e00:
         .dc.w   0x001d,0x0102,0x2c25,0x2c26,0x0100,0xfff8,0x001d,0x0102     | +00000
         .dc.w   0x2c27,0x2c28,0x0100,0xfff8,0x001d,0x0102,0x2c29,0x2c2a     | +00010
         .dc.w   0x0100,0xfff8,0x001d,0x0102,0x2c2b,0x2c2c,0x0100,0xfff8     | +00020
@@ -11072,16 +11102,16 @@ Data_126e00:
         .dc.w   0xffd2,0x0025,0x0103,0x2d6f,0x2d70,0x2d71,0xffe2,0x002a     | +00610
         .dc.w   0x0204,0x2d6b,0x2d6c,0x2d6d,0x2d6e,0x2d67,0x2d68,0x2d69     | +00620
         .dc.w   0x2d6a                                                      | +00630
-        .dc.l   Data_020020                   | +00632  -> $020020
+        .dc.l   Pal_020020                   | +00632  -> $020020
         .dc.w   0x0102,0x2d65,0x2d66,0x0400,0xffd1,0x0014,0x0101,0x2d80     | +00636
         .dc.w   0xffd2,0x0024,0x0103,0x2d7d,0x2d7e,0x2d7f,0xffe2,0x0029     | +00646
         .dc.w   0x0204,0x2d79,0x2d7a,0x2d7b,0x2d7c,0x2d75,0x2d76,0x2d77     | +00656
         .dc.w   0x2d78                                                      | +00666
-        .dc.l   Data_020020                   | +00668  -> $020020
+        .dc.l   Pal_020020                   | +00668  -> $020020
         .dc.w   0x0102,0x2d73,0x2d74,0x0300,0xffd2,0x0022,0x0103,0x2d8b     | +0066c
         .dc.w   0x2d8c,0x2d8d,0xffe2,0x0028,0x0204,0x2d87,0x2d88,0x2d89     | +0067c
         .dc.w   0x2d8a,0x2d83,0x2d84,0x2d85,0x2d86                          | +0068c
-        .dc.l   Data_020020                   | +00696  -> $020020
+        .dc.l   Pal_020020                   | +00696  -> $020020
         .dc.w   0x0102,0x2d81,0x2d82,0x0400,0xffd2,0x0023,0x0102,0x2d8e     | +0069a
         .dc.w   0x2d8f,0xffde,0x002d,0x0204,0x2d90,0x2d91,0x2d92,0x2d93     | +006aa
         .dc.w   0x2d94,0x2d95,0x2d96,0x2d97,0xfffe,0x001e,0x0102,0x2d98     | +006ba
@@ -11111,12 +11141,12 @@ Data_126e00:
         .dc.w   0xffd2,0x0023,0x0103,0x2df2,0x2df3,0x2d47,0xffe2,0x002a     | +00812
         .dc.w   0x0204,0x2dee,0x2def,0x2df0,0x2df1,0x2dea,0x2deb,0x2dec     | +00822
         .dc.w   0x2ded                                                      | +00832
-        .dc.l   Data_020020                   | +00834  -> $020020
+        .dc.l   Pal_020020                   | +00834  -> $020020
         .dc.w   0x0102,0x2de8,0x2de9,0x0400,0xffd1,0x0014,0x0101,0x2e01     | +00838
         .dc.w   0xffd2,0x0024,0x0103,0x2dfe,0x2dff,0x2e00,0xffe2,0x002b     | +00848
         .dc.w   0x0204,0x2dfa,0x2dfb,0x2dfc,0x2dfd,0x2df6,0x2df7,0x2df8     | +00858
         .dc.w   0x2df9                                                      | +00868
-        .dc.l   Data_020020                   | +0086a  -> $020020
+        .dc.l   Pal_020020                   | +0086a  -> $020020
         .dc.w   0x0102,0x2df5,0x2d74,0x0400,0xffd1,0x0024,0x0103,0x2e02     | +0086e
         .dc.w   0x2e03,0x2e04,0xffe1,0x0029,0x0204,0x2e05,0x2e06,0x2e07     | +0087e
         .dc.w   0x2e08,0x2e09,0x2e0a,0x2e0b,0x2e0c                          | +0088e
@@ -11129,7 +11159,7 @@ Data_126e00:
         .dc.w   0x2e1f,0xffe2,0x002e,0x0204,0x2e20,0x2e21,0x2e22,0x2e23     | +008ec
         .dc.w   0x2e24,0x2e25,0x2e26,0x2e27,0x0002,0x001e,0x0102,0x2e28     | +008fc
         .dc.w   0x2e29                                                      | +0090c
-        .dc.l   Data_12001e                   | +0090e  -> $12001E
+        .dc.l   Zero_12001e                   | +0090e  -> $12001E
         .dc.w   0x0101,0x2e2a,0x0400,0xffd1,0x0024,0x0103,0x2e10,0x2e2b     | +00912
         .dc.w   0x2e2c,0xffe1,0x002d,0x0204,0x2e2d,0x2e2e,0x2e2f,0x2e30     | +00922
         .dc.w   0x2e31,0x2e32,0x2e33,0x2e34,0x0001,0x001e,0x0102,0x2e35     | +00932
@@ -11147,17 +11177,17 @@ Data_126e00:
         .dc.w   0x0022,0x0102,0x2e62,0x2e63,0xffdd,0x002d,0x0204,0x2e64     | +009f2
         .dc.w   0x2e65,0x2e66,0x2e67,0x2e68,0x2e69,0x2e6a,0x2e6b,0xfffd     | +00a02
         .dc.w   0x0021,0x0103,0x2e6c,0x2e6d,0x1ef6                          | +00a12
-        .dc.l   Data_0d001c                   | +00a1c  -> $0D001C
+        .dc.l   BgMap_0d001c                   | +00a1c  -> $0D001C
         .dc.w   0x0101,0x2e6e,0x0400,0xffce,0x0021,0x0102,0x2e6f,0x2e70     | +00a20
         .dc.w   0xffdd,0x002c,0x0204,0x2e71,0x2e72,0x2e73,0x2e74,0x2e75     | +00a30
         .dc.w   0x2e76,0x2e77,0x2e78,0xfffd,0x0022,0x0103,0x2e79,0x2e7a     | +00a40
         .dc.w   0x2e7b                                                      | +00a50
-        .dc.l   Data_0d001c                   | +00a52  -> $0D001C
+        .dc.l   BgMap_0d001c                   | +00a52  -> $0D001C
         .dc.w   0x0101,0x2e7c,0x0400,0xffcf,0x0020,0x0102,0x2e7d,0x2e7e     | +00a56
         .dc.w   0xffdd,0x002c,0x0204,0x2e7f,0x2e80,0x2e81,0x2e82,0x2e83     | +00a66
         .dc.w   0x2e84,0x2e85,0x2e86,0xfffd,0x0023,0x0103,0x2e87,0x2e88     | +00a76
         .dc.w   0x2e89                                                      | +00a86
-        .dc.l   Data_0d001b                   | +00a88  -> $0D001B
+        .dc.l   BgMap_0d001b                   | +00a88  -> $0D001B
         .dc.w   0x0101,0x2e8a,0x0400,0xffd0,0x0025,0x0103,0x2e8b,0x2e8c     | +00a8c
         .dc.w   0x2e8d,0xffe0,0x002e,0x0204,0x2e8e,0x2e8f,0x2e90,0x2e91     | +00a9c
         .dc.w   0x2e92,0x2e93,0x2e94,0x2e95,0x0000,0x001e,0x0102,0x2e96     | +00aac
@@ -11165,7 +11195,7 @@ Data_126e00:
         .dc.w   0x0103,0x2e99,0x2e9a,0x2e9b,0xffe0,0x002e,0x0204,0x2e9c     | +00acc
         .dc.w   0x2e9d,0x2e9e,0x2e9f,0x2ea0,0x2ea1,0x2ea2,0x2ea3,0x0000     | +00adc
         .dc.w   0x001e,0x0102,0x2ea4,0x2ea5                                 | +00aec
-        .dc.l   Data_10001e                   | +00af4  -> $10001E
+        .dc.l   ColMap_10001e                   | +00af4  -> $10001E
         .dc.w   0x0101,0x2ea6,0x0400,0xffd1,0x0027,0x0103,0x2ea7,0x2ea8     | +00af8
         .dc.w   0x2ea9,0xffe1,0x002f,0x0204,0x2eaa,0x2eab,0x2eac,0x2ead     | +00b08
         .dc.w   0x2eae,0x2eaf,0x2eb0,0x2eb1,0x0001,0x001e,0x0102,0x2eb2     | +00b18
@@ -11173,7 +11203,7 @@ Data_126e00:
         .dc.w   0x0103,0x2eb5,0x2eb6,0x2eb7,0xffe0,0x0030,0x0204,0x2eb8     | +00b38
         .dc.w   0x2eb9,0x2eba,0x2ebb,0x2ebc,0x2ebd,0x2ebe,0x2ebf,0x0000     | +00b48
         .dc.w   0x001e,0x0102,0x2ec0,0x2ec1                                 | +00b58
-        .dc.l   Data_10001e                   | +00b60  -> $10001E
+        .dc.l   ColMap_10001e                   | +00b60  -> $10001E
         .dc.w   0x0101,0x2ec2,0x0400,0xffcf,0x0023,0x0103,0x2e54,0x2e55     | +00b64
         .dc.w   0x2e56,0xffdf,0x002d,0x0204,0x2e57,0x2e58,0x2e59,0x2ec3     | +00b74
         .dc.w   0x2e5b,0x2ec4,0x2ec5,0x2ec6,0xffff,0x0020,0x0102,0x2ec7     | +00b84
@@ -11181,7 +11211,7 @@ Data_126e00:
         .dc.w   0x0101,0x2ed6,0xffd2,0x0022,0x0103,0x2ed4,0x2ed5,0x2d55     | +00ba4
         .dc.w   0xffe2,0x002a,0x0204,0x2ed0,0x2ed1,0x2ed2,0x2ed3,0x2ecc     | +00bb4
         .dc.w   0x2ecd,0x2ece,0x2ecf                                        | +00bc4
-        .dc.l   Data_020020                   | +00bca  -> $020020
+        .dc.l   Pal_020020                   | +00bca  -> $020020
         .dc.w   0x0102,0x2eca,0x2ecb,0x0400,0xffce,0x0010,0x0101,0x2ee4     | +00bce
         .dc.w   0xffd2,0x0021,0x0103,0x2ee1,0x2ee2,0x2ee3,0xffe2,0x002a     | +00bde
         .dc.w   0x0204,0x2edd,0x2ede,0x2edf,0x2ee0,0x2ed9,0x2eda,0x2edb     | +00bee
@@ -11201,7 +11231,7 @@ Data_126e00:
         .dc.w   0x0103,0x2ea7,0x2ea8,0x2f00,0xffe0,0x002f,0x0204,0x2f01     | +00cb4
         .dc.w   0x2f02,0x2f03,0x2f04,0x2f05,0x2f06,0x2f07,0x2f08,0x0000     | +00cc4
         .dc.w   0x001e,0x0102,0x2f09,0x2f0a                                 | +00cd4
-        .dc.l   Data_10001e                   | +00cdc  -> $10001E
+        .dc.l   ColMap_10001e                   | +00cdc  -> $10001E
         .dc.w   0x0101,0x2f0b,0x0400,0xffc7,0x001d,0x0101,0x2f17,0xffd7     | +00ce0
         .dc.w   0x002e,0x0204,0x2f0c,0x2f0d,0x2f0e,0x2f0f,0x2f10,0x2f11     | +00cf0
         .dc.w   0x2f12,0x2f13,0xfff7,0x0027,0x0103,0x2f14,0x2f15,0x2f16     | +00d00
@@ -11243,7 +11273,7 @@ Data_126e00:
         .dc.w   0x0101,0x2fa0,0x0400,0xffc2,0x001b,0x0101,0x2fae,0xffd2     | +00f40
         .dc.w   0x0024,0x0103,0x2fab,0x2fac,0x2fad,0xffe2,0x002a,0x0204     | +00f50
         .dc.w   0x2fa7,0x2fa8,0x2fa9,0x2faa,0x2fa3,0x2fa4,0x2fa5,0x2fa6     | +00f60
-        .dc.l   Data_020020                   | +00f70  -> $020020
+        .dc.l   Pal_020020                   | +00f70  -> $020020
         .dc.w   0x0102,0x2fa1,0x2fa2,0x0400,0xffce,0x0023,0x0103,0x2faf     | +00f74
         .dc.w   0x2fb0,0x2fb1,0xffde,0x002a,0x0204,0x2fb2,0x2fb3,0x2fb4     | +00f84
         .dc.w   0x2fb5,0x2fb6,0x2fb7,0x2fb8,0x2fb9,0xfffe,0x0020,0x0102     | +00f94
@@ -11266,7 +11296,7 @@ Data_126e00:
         .dc.w   0x0400,0xffcd,0x001e,0x0102,0x2ff2,0x2ff3,0xffda,0x002c     | +0108e
         .dc.w   0x0204,0x2ff4,0x2ff5,0x2ff6,0x2ff7,0x2ff8,0x2ff9,0x2ffa     | +0109e
         .dc.w   0x2ffb,0xfffa,0x0024,0x0103,0x2ffe,0x2fff,0x3000            | +010ae
-        .dc.l   Data_0a0024                   | +010bc  -> $0A0024
+        .dc.l   BgMap_0a0024                   | +010bc  -> $0A0024
         .dc.w   0x0102,0x2ffc,0x2ffd,0x0500,0xffc8,0x0020,0x0102,0x300d     | +010c0
         .dc.w   0x300e,0xffd1,0x0025,0x0103,0x300a,0x300b,0x300c,0xffe1     | +010d0
         .dc.w   0x002c,0x0104,0x3006,0x3007,0x3008,0x3009,0xfff1,0x001f     | +010e0
@@ -11281,7 +11311,7 @@ Data_126e00:
         .dc.w   0x3028,0x3029,0x0400,0xffc2,0x001d,0x0101,0x3037,0xffd2     | +01170
         .dc.w   0x0025,0x0103,0x3034,0x3035,0x3036,0xffe2,0x002a,0x0204     | +01180
         .dc.w   0x3030,0x3031,0x3032,0x3033,0x302c,0x302d,0x302e,0x302f     | +01190
-        .dc.l   Data_020020                   | +011a0  -> $020020
+        .dc.l   Pal_020020                   | +011a0  -> $020020
         .dc.w   0x0102,0x302a,0x302b,0x0300,0xffd1,0x0024,0x0103,0x3042     | +011a4
         .dc.w   0x3043,0x3044,0xffe1,0x0029,0x0204,0x303e,0x303f,0x3040     | +011b4
         .dc.w   0x3041,0x303a,0x303b,0x303c,0x303d,0x0001,0x001e,0x0102     | +011c4
@@ -11357,7 +11387,7 @@ Data_126e00:
         .dc.w   0x000b,0x0030,0x0204,0x3173,0x3174,0x3175,0x3176,0x316f     | +01624
         .dc.w   0x3170,0x3171,0x3172,0x0400,0xfff0,0x0024,0x0102,0x317c     | +01634
         .dc.w   0x317d,0x0000,0x0032,0x0104,0x317e,0x317f,0x3180,0x3181     | +01644
-        .dc.l   Data_100032                   | +01654  -> $100032
+        .dc.l   ColMap_100032                   | +01654  -> $100032
         .dc.w   0x0105,0x3182,0x3183,0x3184,0x3185,0x3186,0x0020,0x0032     | +01658
         .dc.w   0x0104,0x3187,0x3188,0x3189,0x318a,0x0400,0xffef,0x0024     | +01668
         .dc.w   0x0102,0x318b,0x318c,0xffff,0x002f,0x0104,0x318d,0x318e     | +01678
@@ -11387,7 +11417,7 @@ Data_126e00:
         .dc.w   0x31f1,0x31f2,0x31f3,0x31f4,0x31f5,0x31f6,0x31f7,0x31f8     | +017f8
         .dc.w   0x31f9,0x31fa,0x0400,0xfff0,0x0024,0x0102,0x31fb,0x31fc     | +01808
         .dc.w   0x0000,0x0030,0x0104,0x31fd,0x31fe,0x31ff,0x3200            | +01818
-        .dc.l   Str_100040                    | +01826  -> $100040
+        .dc.l   ColMap_100040                    | +01826  -> $100040
         .dc.w   0x0105,0x3201,0x3202,0x3203,0x3204,0x3205,0x001f,0x0030     | +0182a
         .dc.w   0x0104,0x31e5,0x3206,0x3207,0x3208,0x0400,0xfff0,0x0024     | +0183a
         .dc.w   0x0102,0x3209,0x320a,0x0000,0x002f,0x0104,0x3210,0x3211     | +0184a
@@ -11485,7 +11515,7 @@ Data_126e00:
         .dc.w   0x3389,0x338a,0x001e,0x0031,0x0104,0x338f,0x3390,0x3391     | +01e0a
         .dc.w   0x3392,0x0400,0xffea,0x0020,0x0102,0x339f,0x33a0,0xfffa     | +01e1a
         .dc.w   0x0029,0x0103,0x339c,0x339d,0x339e                          | +01e2a
-        .dc.l   Data_0a0040                   | +01e34  -> $0A0040
+        .dc.l   BgMap_0a0040                   | +01e34  -> $0A0040
         .dc.w   0x0105,0x3397,0x3398,0x3399,0x339a,0x339b,0x001a,0x0034     | +01e38
         .dc.w   0x0104,0x3393,0x3394,0x3395,0x3396,0x0400,0xffeb,0x0026     | +01e48
         .dc.w   0x0102,0x33ae,0x33af,0xfffb,0x002b,0x0104,0x33aa,0x33ab     | +01e58
@@ -11590,11 +11620,11 @@ Data_129079:
         .dc.w   0xffed                                                      | +00181
 
 | ----------------------------------------------------------------------------
-|  Data_1291fc  @ $1291FC  (109 B)  [ref. desde código]
+|  SprFrame_1291fc  @ $1291FC  (109 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1291fc, "ax", @progbits
-        .global Data_1291fc
-Data_1291fc:
+        .section .text.SprFrame_1291fc, "ax", @progbits
+        .global SprFrame_1291fc
+SprFrame_1291fc:
         .dc.w   0x0022,0x0102,0x3521,0x3522,0xfff6,0x0031,0x0103,0x351e     | +00000
         .dc.w   0x351f,0x3520,0x0006,0x003f,0x0205,0x3519,0x351a,0x351b     | +00010
         .dc.w   0x351c,0x351d,0x3514,0x3515,0x3516,0x3517,0x3518,0x0300     | +00020
@@ -11605,11 +11635,11 @@ Data_1291fc:
         .dc.b   0x35                            | +0006c
 
 | ----------------------------------------------------------------------------
-|  Data_129269  @ $129269  (7,632 B)  [ref. desde código]
+|  SprFrame_129269  @ $129269  (7,632 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_129269, "ax", @progbits
-        .global Data_129269
-Data_129269:
+        .section .text.SprFrame_129269, "ax", @progbits
+        .global SprFrame_129269
+SprFrame_129269:
         .dc.b   0x40                            | +00000
         .dc.w   0xfff9,0x0028,0x0103,0x353c,0x353d,0x353e,0x0009,0x0040     | +00001
         .dc.w   0x0105,0x3537,0x3538,0x3539,0x353a,0x353b,0x0019,0x0030     | +00011
@@ -11619,7 +11649,7 @@ Data_129269:
         .dc.w   0x3433,0x3541,0x3542,0x0400,0xffee,0x001e,0x0101,0x3552     | +00051
         .dc.w   0xfff3,0x002c,0x0103,0x354f,0x3550,0x3551,0x0003,0x0032     | +00061
         .dc.w   0x0104,0x354b,0x354c,0x354d,0x354e                          | +00071
-        .dc.l   Data_130022                   | +0007b  -> $130022
+        .dc.l   SprFrame_130022                   | +0007b  -> $130022
         .dc.w   0x0103,0x33bf,0x3549,0x354a,0x0400,0xffed,0x0028,0x0102     | +0007f
         .dc.w   0x355c,0x355d,0xfff5,0x002f,0x0103,0x34b8,0x355a,0x355b     | +0008f
         .dc.w   0x0005,0x0037,0x0104,0x3556,0x3557,0x3558,0x3559,0x0015     | +0009f
@@ -11672,7 +11702,7 @@ Data_129269:
         .dc.w   0x361b,0x0300,0xffe1,0x0050,0x0104,0x3626,0x3627,0x3628     | +00379
         .dc.w   0x3629,0xfff0,0x0078,0x0205,0x362a,0x362b,0x362c,0x362d     | +00389
         .dc.w   0x362e,0x361c,0x361d,0x361e,0x361f,0x3620                   | +00399
-        .dc.l   Str_100060                    | +003a5  -> $100060
+        .dc.l   ColMap_100060                    | +003a5  -> $100060
         .dc.w   0x0105,0x3621,0x3622,0x3623,0x3624,0x3625,0x0300,0xffec     | +003a9
         .dc.w   0x0072,0x0106,0x3638,0x3639,0x363a,0x363b,0x363c,0x363d     | +003b9
         .dc.w   0xfffb,0x0078,0x0104,0x3634,0x3635,0x3636,0x3637,0x000b     | +003c9
@@ -11698,7 +11728,7 @@ Data_129269:
         .dc.w   0xffe8,0x000f,0x0102,0x3683,0x3684,0xfff8,0x0018,0x0103     | +00509
         .dc.w   0x3680,0x3681,0x3682,0x0300,0xffea,0x000e,0x0102,0x3685     | +00519
         .dc.w   0x3686,0xfffa,0x0015,0x0102,0x3687,0x3688                   | +00529
-        .dc.l   Data_0a0012                   | +00535  -> $0A0012
+        .dc.l   BgMap_0a0012                   | +00535  -> $0A0012
         .dc.w   0x0101,0x3689,0x0100,0xffe6,0x0014,0x0302,0x368e,0x368f     | +00539
         .dc.w   0x368c,0x368d,0x368a,0x368b,0x0300,0xfff0,0x0007,0x0101     | +00549
         .dc.w   0x3695,0xfff8,0x0011,0x0102,0x3693,0x3694,0x0008,0x0018     | +00559
@@ -11821,7 +11851,7 @@ Data_129269:
         .dc.w   0x003e,0x0105,0x383b,0x383c,0x383d,0x383e,0x383f,0xffed     | +00c89
         .dc.w   0x0030,0x0104,0x3840,0x3841,0x3842,0x3843,0xfffd,0x0020     | +00c99
         .dc.w   0x0102,0x3844,0x3845                                        | +00ca9
-        .dc.l   Data_0d001c                   | +00caf  -> $0D001C
+        .dc.l   BgMap_0d001c                   | +00caf  -> $0D001C
         .dc.w   0x0101,0x3846,0x0300,0xffc1,0x0029,0x0203,0x3856,0x3857     | +00cb3
         .dc.w   0x3858,0x3853,0x3854,0x3855,0xffe1,0x003c,0x0205,0x384e     | +00cc3
         .dc.w   0x384f,0x3850,0x3851,0x3852,0x3849,0x384a,0x384b,0x384c     | +00cd3
@@ -11905,7 +11935,7 @@ Data_129269:
         .dc.w   0x0205,0x3991,0x3992,0x3993,0x3994,0x215f,0x398c,0x398d     | +01173
         .dc.w   0x398e,0x398f,0x3990,0x0400,0xffea,0x0028,0x0102,0x39a6     | +01183
         .dc.w   0x39a7,0xfffa,0x0028,0x0103,0x39a3,0x39a4,0x39a5            | +01193
-        .dc.l   Data_0a0040                   | +011a1  -> $0A0040
+        .dc.l   BgMap_0a0040                   | +011a1  -> $0A0040
         .dc.w   0x0105,0x399a,0x399b,0x399c,0x399d,0x399e,0x001a,0x0033     | +011a5
         .dc.w   0x0104,0x399f,0x39a0,0x39a1,0x39a2,0x0400,0xffef,0x0025     | +011b5
         .dc.w   0x0102,0x39a8,0x32be,0xffff,0x0033,0x0104,0x39a9,0x39aa     | +011c5
@@ -11932,7 +11962,7 @@ Data_129269:
         .dc.w   0x002f,0x0014,0x0101,0x3a01,0x0500,0xfff1,0x0028,0x0103     | +01315
         .dc.w   0x3a02,0x3a03,0x3a04,0x0001,0x002f,0x0104,0x3a05,0x3a06     | +01325
         .dc.w   0x32ee,0x32ef                                               | +01335
-        .dc.l   Data_11001f                   | +01339  -> $11001F
+        .dc.l   ColMap_11001f                   | +01339  -> $11001F
         .dc.w   0x0103,0x3a07,0x3a08,0x3a09,0x0021,0x002e,0x0103,0x3a0a     | +0133d
         .dc.w   0x3a0b,0x3a0c,0x0031,0x0024,0x0102,0x3a0d,0x3a0e,0x0400     | +0134d
         .dc.w   0xfff0,0x002a,0x0103,0x3a0f,0x3a10,0x32d8,0x0000,0x002f     | +0135d
@@ -11955,7 +11985,7 @@ Data_129269:
         .dc.w   0x3a53,0x3a54,0x0300,0xffdb,0x0037,0x0204,0x3a55,0x3a56     | +0146d
         .dc.w   0x3a57,0x3a58,0x3a59,0x3a5a,0x3a5b,0x1dfd,0xfffb,0x0030     | +0147d
         .dc.w   0x0103,0x3a5c,0x3a5d,0x1dff                                 | +0148d
-        .dc.l   Data_0b0024                   | +01495  -> $0B0024
+        .dc.l   BgMap_0b0024                   | +01495  -> $0B0024
         .dc.w   0x0102,0x3a5e,0x3a5f,0x0300,0xffd7,0x0035,0x0204,0x3a60     | +01499
         .dc.w   0x3a61,0x3a62,0x3a63,0x3a64,0x3a65,0x3a66,0x1e24,0xfff7     | +014a9
         .dc.w   0x002b,0x0103,0x3a67,0x3a68,0x3a69,0x0007,0x0024,0x0102     | +014b9
@@ -11994,14 +12024,14 @@ Data_129269:
         .dc.w   0x3afb,0x0300,0xffe1,0x003b,0x0204,0x3afc,0x3afd,0x3afe     | +016c9
         .dc.w   0x3aff,0x3b00,0x3b01,0x3b02,0x3b03,0x0001,0x0031,0x0103     | +016d9
         .dc.w   0x3b04,0x3b05,0x3b06                                        | +016e9
-        .dc.l   Data_0b0022                   | +016ef  -> $0B0022
+        .dc.l   BgMap_0b0022                   | +016ef  -> $0B0022
         .dc.w   0x0102,0x3b07,0x3b08,0x0300,0xffdf,0x0039,0x0204,0x3b09     | +016f3
         .dc.w   0x3b0a,0x3b0b,0x3b0c,0x3b0d,0x3b0e,0x3b0f,0x3b10,0xffff     | +01703
         .dc.w   0x0031,0x0103,0x3b11,0x3b12,0x3b13,0x000f,0x0023,0x0102     | +01713
         .dc.w   0x3b14,0x3b15,0x0300,0xffdb,0x0037,0x0204,0x3b16,0x3b17     | +01723
         .dc.w   0x3b18,0x3b19,0x3b1a,0x3b1b,0x3b1c,0x3b1d,0xfffb,0x0030     | +01733
         .dc.w   0x0103,0x3b1e,0x3b1f,0x3b20                                 | +01743
-        .dc.l   Data_0b0024                   | +0174b  -> $0B0024
+        .dc.l   BgMap_0b0024                   | +0174b  -> $0B0024
         .dc.w   0x0102,0x3b21,0x3b22,0x0300,0xffd7,0x0035,0x0204,0x3b23     | +0174f
         .dc.w   0x3b24,0x3b25,0x3b26,0x3b27,0x3b28,0x3b29,0x3b2a,0xfff7     | +0175f
         .dc.w   0x002a,0x0103,0x3b2b,0x3b2c,0x3b2d,0x0007,0x0024,0x0102     | +0176f
@@ -12040,7 +12070,7 @@ Data_129269:
         .dc.w   0x3bb8,0x3bb9,0x3bba,0x3bbb,0x0300,0xffe4,0x002e,0x0103     | +0197f
         .dc.w   0x3bd0,0x3bd1,0x3bd2,0xfff0,0x0039,0x0204,0x3bcc,0x3bcd     | +0198f
         .dc.w   0x3bce,0x3bcf,0x3bc8,0x3bc9,0x3bca,0x3bcb                   | +0199f
-        .dc.l   Data_10002e                   | +019ab  -> $10002E
+        .dc.l   ColMap_10002e                   | +019ab  -> $10002E
         .dc.w   0x0103,0x3bc6,0x3bc7,0x1f55,0x0300,0xffe5,0x0033,0x0103     | +019af
         .dc.w   0x3bde,0x3bdf,0x3be0,0xfff1,0x003b,0x0204,0x3bda,0x3bdb     | +019bf
         .dc.w   0x3bdc,0x3bdd,0x3bd6,0x3bd7,0x3bd8,0x3bd9,0x0011,0x002b     | +019cf
@@ -12086,7 +12116,7 @@ Data_129269:
         .dc.w   0x3c88,0x0300,0xffe4,0x0032,0x0103,0x3c94,0x3c95,0x3c96     | +01c4f
         .dc.w   0xfff0,0x003e,0x0204,0x3c90,0x3c91,0x3c92,0x3c93,0x3c8c     | +01c5f
         .dc.w   0x3c8d,0x3c8e,0x3c8f                                        | +01c6f
-        .dc.l   Data_10002e                   | +01c75  -> $10002E
+        .dc.l   ColMap_10002e                   | +01c75  -> $10002E
         .dc.w   0x0103,0x3c89,0x3c8a,0x3c8b,0x0300,0xffe5,0x0031,0x0103     | +01c79
         .dc.w   0x3ca2,0x3ca3,0x3ca4,0xfff0,0x003b,0x0204,0x3c9e,0x3c9f     | +01c89
         .dc.w   0x3ca0,0x3ca1,0x3c9a,0x3c9b,0x3c9c,0x3c9d,0x0010,0x002b     | +01c99
@@ -12112,11 +12142,11 @@ Data_129269:
         .dc.b   0x3d                            | +01dcf
 
 | ----------------------------------------------------------------------------
-|  Data_12b039  @ $12B039  (53 B)  [ref. desde código]
+|  SprFrame_12b039  @ $12B039  (53 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12b039, "ax", @progbits
-        .global Data_12b039
-Data_12b039:
+        .section .text.SprFrame_12b039, "ax", @progbits
+        .global SprFrame_12b039
+SprFrame_12b039:
         .dc.b   0x02                            | +00000
         .dc.w   0xfffb,0x002e,0x0304,0x3cfd,0x3cfe,0x3cff,0x3d00,0x3cf9     | +00001
         .dc.w   0x3cfa,0x3cfb,0x3cfc,0x3cf5,0x3cf6,0x3cf7,0x3cf8,0x0200     | +00011
@@ -12124,17 +12154,17 @@ Data_12b039:
         .dc.w   0x3d0b,0x3d0c                                               | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_12b06e  @ $12B06E  (8,661 B)  [ref. desde código]
+|  SprFrame_12b06e  @ $12B06E  (8,661 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12b06e, "ax", @progbits
-        .global Data_12b06e
-Data_12b06e:
+        .section .text.SprFrame_12b06e, "ax", @progbits
+        .global SprFrame_12b06e
+SprFrame_12b06e:
         .dc.w   0x3d0d,0x3d0e,0x3d07,0x3d08,0x3d09,0x3d0a,0x3d03,0x3d04     | +00000
         .dc.w   0x3d05,0x3d06,0x0300,0xfff6,0x0020,0x0102,0x3d19,0x3d1a     | +00010
         .dc.w   0x0000,0x002a,0x0204,0x3d15,0x3d16,0x3d17,0x3d18,0x3d11     | +00020
         .dc.w   0x3d12,0x3d13,0x3d14,0x0020,0x0027,0x0103,0x3c3a,0x3c3b     | +00030
         .dc.w   0x3c3c,0x0300,0xfff8,0x001f,0x0102,0x3d23,0x3d24            | +00040
-        .dc.l   Data_020028                   | +0004e  -> $020028
+        .dc.l   Pal_020028                   | +0004e  -> $020028
         .dc.w   0x0204,0x3d1f,0x3d20,0x3d21,0x3d22,0x3d1b,0x3d1c,0x3d1d     | +00052
         .dc.w   0x3d1e,0x0022,0x0024,0x0103,0x3c47,0x3c48,0x3c49,0x0300     | +00062
         .dc.w   0xfffa,0x0027,0x0204,0x3d25,0x3d26,0x3d27,0x3d28,0x3d29     | +00072
@@ -12163,19 +12193,19 @@ Data_12b06e:
         .dc.w   0x3d7c,0x0025,0x0015,0x0101,0x3d72,0x0300,0xffe1,0x002d     | +001d2
         .dc.w   0x0303,0x3d7d,0x1cf7,0x1cf8,0x3d7e,0x3d7f,0x3d80,0x3d81     | +001e2
         .dc.w   0x3d82,0x3d83                                               | +001f2
-        .dc.l   Str_110021                    | +001f6  -> $110021
+        .dc.l   ColMap_110021                    | +001f6  -> $110021
         .dc.w   0x0102,0x3d84,0x3d85,0x0021,0x001d,0x0101,0x3d86,0x0500     | +001fa
         .dc.w   0xffe1,0x002d,0x0103,0x3d7d,0x3d87,0x3af1,0xfff1,0x001f     | +0020a
         .dc.w   0x0102,0x3d88,0x3d89                                        | +0021a
         .dc.l   Data_010030                   | +00220  -> $010030
         .dc.w   0x0103,0x3d8a,0x3d8b,0x3d8c                                 | +00224
-        .dc.l   Str_110021                    | +0022c  -> $110021
+        .dc.l   ColMap_110021                    | +0022c  -> $110021
         .dc.w   0x0102,0x3d8d,0x3d8e,0x0020,0x001d,0x0101,0x3d8f,0x0200     | +00230
         .dc.w   0xffe0,0x002b,0x0403,0x0000,0x3d90,0x1d39,0x3d91,0x3d92     | +00240
         .dc.w   0x1d3d,0x1d0d,0x3d93,0x1d47,0x3d94,0x3d95,0x3d96,0x0020     | +00250
         .dc.w   0x001f,0x0101,0x3d97,0x0300,0xffe0,0x0028,0x0303,0x3d98     | +00260
         .dc.w   0x3d99,0x3d9a,0x3d9b,0x3d9c,0x3d9d,0x3d9e,0x3d9f,0x3da0     | +00270
-        .dc.l   Data_100021                   | +00280  -> $100021
+        .dc.l   ColMap_100021                   | +00280  -> $100021
         .dc.w   0x0102,0x3da1,0x3da2,0x0020,0x001e,0x0101,0x3d97,0x0100     | +00284
         .dc.w   0xfff8,0x0010,0x0101,0x3da3,0x0100,0xfff8,0x0010,0x0101     | +00294
         .dc.w   0x3da4,0x0200,0xfff7,0x001f,0x0102,0x3da5,0x3da6,0xfff9     | +002a4
@@ -12218,11 +12248,11 @@ Data_12b06e:
         .dc.w   0x3e2f,0x0100,0xfff0,0x0018,0x0202,0x3e30,0x3e31,0x3e32     | +004f4
         .dc.w   0x3e33,0x0300,0xffe1,0x002d,0x0303,0x3d7d,0x1cf7,0x1cf8     | +00504
         .dc.w   0x3e34,0x3e35,0x3d80,0x3e36,0x3e37,0x3d83                   | +00514
-        .dc.l   Str_110021                    | +00520  -> $110021
+        .dc.l   ColMap_110021                    | +00520  -> $110021
         .dc.w   0x0102,0x3e38,0x3e39,0x0021,0x001e,0x0101,0x3d8f,0x0400     | +00524
         .dc.w   0xffe0,0x001b,0x0102,0x3d90,0x1d39,0xfff0,0x002b,0x0203     | +00534
         .dc.w   0x3e3a,0x3e3b,0x1d3d,0x3e3c,0x3e3d,0x1d47                   | +00544
-        .dc.l   Data_100022                   | +00550  -> $100022
+        .dc.l   ColMap_100022                   | +00550  -> $100022
         .dc.w   0x0102,0x3e3e,0x3e3f,0x0020,0x0022,0x0101,0x3e40,0x0400     | +00554
         .dc.w   0xffdf,0x0019,0x0102,0x1dc1,0x3a4c,0xffef,0x0029,0x0203     | +00564
         .dc.w   0x3e41,0x3e42,0x1d96,0x3e43,0x3e44,0x1dce,0x000f,0x0022     | +00574
@@ -12266,7 +12296,7 @@ Data_12b06e:
         .dc.w   0x0102,0x3ed4,0x3d89                                        | +007c6
         .dc.l   Data_010030                   | +007cc  -> $010030
         .dc.w   0x0103,0x3ed5,0x3ed6,0x3d8c                                 | +007d0
-        .dc.l   Str_110021                    | +007d8  -> $110021
+        .dc.l   ColMap_110021                    | +007d8  -> $110021
         .dc.w   0x0102,0x3ed7,0x3ed8,0x0021,0x001f,0x0101,0x3ed9,0x0400     | +007dc
         .dc.w   0xffe1,0x001b,0x0102,0x3eda,0x3aff,0xfff1,0x002d,0x0203     | +007ec
         .dc.w   0x3edb,0x3edc,0x3edd,0x3ede,0x3edf,0x3ee0,0x0011,0x0022     | +007fc
@@ -12334,7 +12364,7 @@ Data_12b06e:
         .dc.l   Data_010101                   | +00bd6  -> $010101
         .dc.w   0x3fab,0x0300,0xfff1,0x0024,0x0102,0x3fac,0x3fad,0x0001     | +00bda
         .dc.w   0x002c,0x0104,0x3fae,0x3faf,0x3fb0,0x3fb1                   | +00bea
-        .dc.l   Data_11001c                   | +00bf6  -> $11001C
+        .dc.l   ColMap_11001c                   | +00bf6  -> $11001C
         .dc.w   0x0203,0x3fb2,0x3fb3,0x3fb4,0x3fb5,0x3fb6,0x3fb7,0x0300     | +00bfa
         .dc.w   0xfff3,0x0023,0x0102,0x3fb8,0x3fb9,0x0003,0x002b,0x0104     | +00c0a
         .dc.w   0x3fba,0x3fbb,0x3fbc,0x3fbd,0x0013,0x0019,0x0203,0x3fbe     | +00c1a
@@ -12412,7 +12442,7 @@ Data_12b06e:
         .dc.w   0x40d1,0x0500,0xffe3,0x0030,0x0103,0x40d2,0x40d3,0x40c7     | +0109a
         .dc.w   0xfff3,0x0021,0x0102,0x40d4,0x40d5,0x0003,0x002f,0x0103     | +010aa
         .dc.w   0x40d6,0x40d7,0x40ce                                        | +010ba
-        .dc.l   Data_13001f                   | +010c0  -> $13001F
+        .dc.l   SprFrame_13001f                   | +010c0  -> $13001F
         .dc.w   0x0102,0x40d8,0x40d9,0x0023,0x001c,0x0101,0x40da,0x0400     | +010c4
         .dc.w   0xffd4,0x003d,0x0105,0x40e5,0x40e6,0x40e7,0x40e8,0x40e9     | +010d4
         .dc.w   0xffe4,0x003c,0x0105,0x40e0,0x40e1,0x40e2,0x40e3,0x40e4     | +010e4
@@ -12443,27 +12473,27 @@ Data_12b06e:
         .dc.w   0x414f,0x4150,0x4151,0x4152,0x0300,0xffe0,0x0038,0x0204     | +01274
         .dc.w   0x4153,0x4154,0x4155,0x1d4d,0x4156,0x4157,0x4158,0x1d50     | +01284
         .dc.w   0x0000,0x0032,0x0103,0x4159,0x415a,0x415b                   | +01294
-        .dc.l   Data_100024                   | +012a0  -> $100024
+        .dc.l   ColMap_100024                   | +012a0  -> $100024
         .dc.w   0x0102,0x415c,0x415d,0x0300,0xffe0,0x0038,0x0204,0x415e     | +012a4
         .dc.w   0x415f,0x4160,0x4161,0x4162,0x4163,0x4164,0x4165,0x0000     | +012b4
         .dc.w   0x0032,0x0103,0x4166,0x4167,0x4168                          | +012c4
-        .dc.l   Data_100022                   | +012ce  -> $100022
+        .dc.l   ColMap_100022                   | +012ce  -> $100022
         .dc.w   0x0102,0x4169,0x416a,0x0300,0xffe0,0x0038,0x0204,0x416b     | +012d2
         .dc.w   0x416c,0x416d,0x416e,0x416f,0x4170,0x4171,0x4172,0x0000     | +012e2
         .dc.w   0x0032,0x0103,0x4173,0x4174,0x4175                          | +012f2
-        .dc.l   Data_100022                   | +012fc  -> $100022
+        .dc.l   ColMap_100022                   | +012fc  -> $100022
         .dc.w   0x0102,0x4176,0x4177,0x0300,0xffe0,0x0038,0x0204,0x415e     | +01300
         .dc.w   0x4178,0x4179,0x417a,0x4162,0x417b,0x417c,0x417d,0x0000     | +01310
         .dc.w   0x0031,0x0103,0x417e,0x417f,0x4180                          | +01320
-        .dc.l   Data_100021                   | +0132a  -> $100021
+        .dc.l   ColMap_100021                   | +0132a  -> $100021
         .dc.w   0x0102,0x4181,0x4182,0x0300,0xffe0,0x0038,0x0204,0x4153     | +0132e
         .dc.w   0x4183,0x4184,0x4185,0x4156,0x4157,0x4186,0x4187,0x0000     | +0133e
         .dc.w   0x0031,0x0103,0x4188,0x4189,0x418a                          | +0134e
-        .dc.l   Data_100021                   | +01358  -> $100021
+        .dc.l   ColMap_100021                   | +01358  -> $100021
         .dc.w   0x0102,0x418b,0x418c,0x0300,0xffe0,0x0038,0x0204,0x418d     | +0135c
         .dc.w   0x418e,0x418f,0x4190,0x4191,0x4192,0x4193,0x4194,0x0000     | +0136c
         .dc.w   0x0031,0x0103,0x4195,0x4196,0x4197                          | +0137c
-        .dc.l   Data_100021                   | +01386  -> $100021
+        .dc.l   ColMap_100021                   | +01386  -> $100021
         .dc.w   0x0102,0x4198,0x4199,0x0200,0xffdf,0x003b,0x0204,0x419a     | +0138a
         .dc.w   0x419b,0x419c,0x419d,0x419e,0x419f,0x41a0,0x41a1,0xffff     | +0139a
         .dc.w   0x0031,0x0203,0x41a2,0x41a3,0x41a4,0x41a5,0x41a6,0x41a7     | +013aa
@@ -12474,15 +12504,15 @@ Data_12b06e:
         .dc.w   0x41b4,0x0300,0xffe0,0x003a,0x0204,0x41b5,0x41b6,0x41b7     | +013e6
         .dc.w   0x41b8,0x41b9,0x41ba,0x41bb,0x41bc,0x0000,0x0030,0x0103     | +013f6
         .dc.w   0x4188,0x41bd,0x41be                                        | +01406
-        .dc.l   Data_100020                   | +0140c  -> $100020
+        .dc.l   ColMap_100020                   | +0140c  -> $100020
         .dc.w   0x0102,0x41bf,0x41c0,0x0300,0xffe0,0x0038,0x0204,0x41c1     | +01410
         .dc.w   0x41c2,0x41c3,0x41c4,0x41c5,0x41c6,0x41c7,0x41c8,0x0000     | +01420
         .dc.w   0x0030,0x0103,0x4166,0x41c9,0x41ca                          | +01430
-        .dc.l   Data_100020                   | +0143a  -> $100020
+        .dc.l   ColMap_100020                   | +0143a  -> $100020
         .dc.w   0x0102,0x41cb,0x41cc,0x0300,0xffe0,0x0038,0x0204,0x41cd     | +0143e
         .dc.w   0x41ce,0x41cf,0x41d0,0x41d1,0x41d2,0x41d3,0x1d50,0x0000     | +0144e
         .dc.w   0x0032,0x0103,0x41d4,0x41d5,0x41d6                          | +0145e
-        .dc.l   Data_100022                   | +01468  -> $100022
+        .dc.l   ColMap_100022                   | +01468  -> $100022
         .dc.w   0x0102,0x41d7,0x41d8,0x0300,0xffe1,0x003a,0x0204,0x41d9     | +0146c
         .dc.w   0x41da,0x41db,0x41dc,0x41dd,0x41de,0x41df,0x41e0,0x0001     | +0147c
         .dc.w   0x0032,0x0103,0x41e1,0x41e2,0x41e3,0x0011,0x0022,0x0102     | +0148c
@@ -12492,38 +12522,38 @@ Data_12b06e:
         .dc.w   0x41f2,0x0300,0xffe0,0x0038,0x0204,0x41f3,0x41f4,0x41f5     | +014cc
         .dc.w   0x41f6,0x41f7,0x41f8,0x41f9,0x417d,0x0000,0x0031,0x0103     | +014dc
         .dc.w   0x41fa,0x41fb,0x41fc                                        | +014ec
-        .dc.l   Data_100021                   | +014f2  -> $100021
+        .dc.l   ColMap_100021                   | +014f2  -> $100021
         .dc.w   0x0102,0x41fd,0x41fe,0x0300,0xffe0,0x0038,0x0204,0x41ff     | +014f6
         .dc.w   0x4200,0x4201,0x4202,0x4203,0x4204,0x4205,0x4187,0x0000     | +01506
         .dc.w   0x0031,0x0103,0x4206,0x4207,0x4208                          | +01516
-        .dc.l   Data_100021                   | +01520  -> $100021
+        .dc.l   ColMap_100021                   | +01520  -> $100021
         .dc.w   0x0102,0x418b,0x4209,0x0300,0xffe0,0x0038,0x0204,0x420a     | +01524
         .dc.w   0x420b,0x420c,0x420d,0x420e,0x420f,0x4210,0x4194,0x0000     | +01534
         .dc.w   0x0031,0x0103,0x4166,0x4211,0x4212                          | +01544
-        .dc.l   Data_100021                   | +0154e  -> $100021
+        .dc.l   ColMap_100021                   | +0154e  -> $100021
         .dc.w   0x0102,0x4213,0x4214,0x0300,0xffe0,0x0038,0x0204,0x4215     | +01552
         .dc.w   0x4216,0x4217,0x4218,0x4219,0x421a,0x421b,0x421c,0x0000     | +01562
         .dc.w   0x0031,0x0103,0x4159,0x421d,0x421e                          | +01572
-        .dc.l   Data_100021                   | +0157c  -> $100021
+        .dc.l   ColMap_100021                   | +0157c  -> $100021
         .dc.w   0x0102,0x421f,0x4220,0x0300,0xffe0,0x0038,0x0204,0x4221     | +01580
         .dc.w   0x4222,0x4223,0x4224,0x4225,0x4226,0x4227,0x4228,0x0000     | +01590
         .dc.w   0x0030,0x0103,0x4229,0x422a,0x422b                          | +015a0
-        .dc.l   Data_100020                   | +015aa  -> $100020
+        .dc.l   ColMap_100020                   | +015aa  -> $100020
         .dc.w   0x0102,0x422c,0x422d,0x0300,0xffe0,0x0038,0x0204,0x422e     | +015ae
         .dc.w   0x422f,0x4230,0x4231,0x4232,0x4233,0x4234,0x4235,0x0000     | +015be
         .dc.w   0x002f,0x0103,0x4236,0x4237,0x4238,0x0010,0x001f,0x0102     | +015ce
         .dc.w   0x4239,0x423a,0x0300,0xffe0,0x0038,0x0204,0x4221,0x423b     | +015de
         .dc.w   0x423c,0x423d,0x4225,0x4226,0x423e,0x41c8,0x0000,0x0030     | +015ee
         .dc.w   0x0103,0x4229,0x423f,0x4240                                 | +015fe
-        .dc.l   Data_100020                   | +01606  -> $100020
+        .dc.l   ColMap_100020                   | +01606  -> $100020
         .dc.w   0x0102,0x41cb,0x4241,0x0300,0xffe0,0x0038,0x0204,0x4242     | +0160a
         .dc.w   0x4243,0x4244,0x4161,0x4245,0x4246,0x4247,0x4248,0x0000     | +0161a
         .dc.w   0x0032,0x0103,0x4249,0x424a,0x424b                          | +0162a
-        .dc.l   Data_100022                   | +01634  -> $100022
+        .dc.l   ColMap_100022                   | +01634  -> $100022
         .dc.w   0x0102,0x4169,0x416a,0x0300,0xffe0,0x0038,0x0204,0x424c     | +01638
         .dc.w   0x424d,0x424e,0x1d4d,0x424f,0x4250,0x4251,0x4252,0x0000     | +01648
         .dc.w   0x0032,0x0103,0x4253,0x4254,0x4255                          | +01658
-        .dc.l   Data_100022                   | +01662  -> $100022
+        .dc.l   ColMap_100022                   | +01662  -> $100022
         .dc.w   0x0102,0x41d7,0x4256,0x0300,0xffdf,0x003b,0x0204,0x4257     | +01666
         .dc.w   0x4258,0x4259,0x425a,0x425b,0x425c,0x425d,0x425e,0xffff     | +01676
         .dc.w   0x0031,0x0103,0x425f,0x4260,0x4261,0x000f,0x0021,0x0102     | +01686
@@ -12538,15 +12568,15 @@ Data_12b06e:
         .dc.w   0x4287,0x4288,0x4289,0x428a,0x428b,0x0300,0xffe1,0x003b     | +01716
         .dc.w   0x0204,0x428c,0x428d,0x428e,0x428f,0x4290,0x4291,0x4292     | +01726
         .dc.w   0x4293,0x0001,0x0031,0x0103,0x4294,0x4295,0x4296            | +01736
-        .dc.l   Str_110021                    | +01744  -> $110021
+        .dc.l   ColMap_110021                    | +01744  -> $110021
         .dc.w   0x0102,0x4297,0x4298,0x0300,0xffe1,0x003b,0x0204,0x4299     | +01748
         .dc.w   0x429a,0x429b,0x429c,0x429d,0x429e,0x429f,0x42a0,0x0001     | +01758
         .dc.w   0x0031,0x0103,0x42a1,0x42a2,0x42a3                          | +01768
-        .dc.l   Str_110021                    | +01772  -> $110021
+        .dc.l   ColMap_110021                    | +01772  -> $110021
         .dc.w   0x0102,0x42a4,0x42a5,0x0300,0xffe0,0x003b,0x0204,0x42a6     | +01776
         .dc.w   0x42a7,0x42a8,0x42a9,0x42aa,0x42ab,0x42ac,0x42ad,0x0000     | +01786
         .dc.w   0x0030,0x0103,0x42ae,0x42af,0x42b0                          | +01796
-        .dc.l   Data_100020                   | +017a0  -> $100020
+        .dc.l   ColMap_100020                   | +017a0  -> $100020
         .dc.w   0x0102,0x42b1,0x42b2,0x0200,0xffe0,0x003b,0x0204,0x42b3     | +017a4
         .dc.w   0x42b4,0x42b5,0x42b6,0x42b7,0x42b8,0x42b9,0x42ba,0x0000     | +017b4
         .dc.w   0x002f,0x0203,0x42bb,0x42bc,0x42bd,0x3578,0x42be,0x42bf     | +017c4
@@ -12564,7 +12594,7 @@ Data_12b06e:
         .dc.w   0x0300,0xffe0,0x003b,0x0204,0x4299,0x42ec,0x42ed,0x42ee     | +01884
         .dc.w   0x42ef,0x42f0,0x42f1,0x42f2,0x0000,0x0031,0x0103,0x42f3     | +01894
         .dc.w   0x42f4,0x42f5                                               | +018a4
-        .dc.l   Data_100021                   | +018a8  -> $100021
+        .dc.l   ColMap_100021                   | +018a8  -> $100021
         .dc.w   0x0102,0x42f6,0x42f7,0x0300,0xffe1,0x003b,0x0204,0x4299     | +018ac
         .dc.w   0x429a,0x42f8,0x42f9,0x429d,0x429e,0x429f,0x42fa            | +018bc
         .dc.l   Data_010030                   | +018ca  -> $010030
@@ -12572,7 +12602,7 @@ Data_12b06e:
         .dc.w   0x42ff,0x0300,0xffe0,0x003b,0x0204,0x42a6,0x42a7,0x4300     | +018de
         .dc.w   0x4301,0x42aa,0x42ab,0x42ac,0x4302,0x0000,0x0030,0x0103     | +018ee
         .dc.w   0x42ae,0x4303,0x4304                                        | +018fe
-        .dc.l   Data_100020                   | +01904  -> $100020
+        .dc.l   ColMap_100020                   | +01904  -> $100020
         .dc.w   0x0102,0x4305,0x4306,0x0200,0xffdf,0x003b,0x0204,0x4311     | +01908
         .dc.w   0x4312,0x4313,0x4314,0x4307,0x4308,0x4309,0x430a,0xffff     | +01918
         .dc.w   0x002f,0x0203,0x430b,0x430c,0x430d,0x430e,0x430f,0x4310     | +01928
@@ -12588,7 +12618,7 @@ Data_12b06e:
         .dc.w   0xffdc,0x003b,0x0204,0x4337,0x4338,0x4339,0x433a,0x4333     | +019c8
         .dc.w   0x4334,0x4335,0x4336,0xfffc,0x002f,0x0103,0x4330,0x4331     | +019d8
         .dc.w   0x4332                                                      | +019e8
-        .dc.l   Data_0b0022                   | +019ea  -> $0B0022
+        .dc.l   BgMap_0b0022                   | +019ea  -> $0B0022
         .dc.w   0x0102,0x432e,0x432f,0x0300,0xffda,0x003b,0x0204,0x433c     | +019ee
         .dc.w   0x433d,0x433e,0x433f,0x4340,0x4341,0x4342,0x4343,0xfffa     | +019fe
         .dc.w   0x002f,0x0103,0x4344,0x4345,0x4346,0x000a,0x0021,0x0102     | +01a0e
@@ -12627,11 +12657,11 @@ Data_12b06e:
         .dc.w   0x43c8,0x0300,0xffce,0x0028,0x0101,0x43e4,0xffda,0x003b     | +01c1e
         .dc.w   0x0304,0x43e0,0x43e1,0x43e2,0x43e3,0x43dc,0x43dd,0x43de     | +01c2e
         .dc.w   0x43df,0x43d8,0x43d9,0x43da,0x43db                          | +01c3e
-        .dc.l   Data_0a0020                   | +01c48  -> $0A0020
+        .dc.l   BgMap_0a0020                   | +01c48  -> $0A0020
         .dc.w   0x0102,0x43d6,0x43d7,0x0300,0xffcf,0x0023,0x0101,0x43f3     | +01c4c
         .dc.w   0xffda,0x0035,0x0304,0x43ef,0x43f0,0x43f1,0x43f2,0x43eb     | +01c5c
         .dc.w   0x43ec,0x43ed,0x43ee,0x43e7,0x43e8,0x43e9,0x43ea            | +01c6c
-        .dc.l   Data_0a0022                   | +01c7a  -> $0A0022
+        .dc.l   BgMap_0a0022                   | +01c7a  -> $0A0022
         .dc.w   0x0102,0x43e5,0x43e6,0x0200,0xffd8,0x003a,0x0304,0x4311     | +01c7e
         .dc.w   0x43fe,0x43ff,0x4400,0x43fa,0x43fb,0x43fc,0x43fd,0x43f6     | +01c8e
         .dc.w   0x43f7,0x43f8,0x43f9,0x0008,0x0022,0x0102,0x43f4,0x43f5     | +01c9e
@@ -12640,7 +12670,7 @@ Data_12b06e:
         .dc.w   0x0008,0x0020,0x0102,0x4401,0x4402,0x0300,0xffe0,0x0038     | +01cce
         .dc.w   0x0204,0x4153,0x4154,0x440f,0x4410,0x4156,0x4157,0x4158     | +01cde
         .dc.w   0x4411,0x0000,0x0032,0x0103,0x4159,0x4412,0x4413            | +01cee
-        .dc.l   Data_100022                   | +01cfc  -> $100022
+        .dc.l   ColMap_100022                   | +01cfc  -> $100022
         .dc.w   0x0102,0x4414,0x4415,0x0300,0xffdf,0x003b,0x0204,0x42cc     | +01d00
         .dc.w   0x42cd,0x4416,0x4417,0x42d0,0x42d1,0x4418,0x4419,0xffff     | +01d10
         .dc.w   0x0031,0x0103,0x4321,0x441a,0x441b,0x000f,0x0021,0x0102     | +01d20
@@ -12666,7 +12696,7 @@ Data_12b06e:
         .dc.w   0x0102,0x4458,0x4459,0x0400,0xffe0,0x001b,0x0102,0x4463     | +01e46
         .dc.w   0x4464,0xfff0,0x002c,0x0203,0x4465,0x4466,0x4467,0x4468     | +01e56
         .dc.w   0x4469,0x446a                                               | +01e66
-        .dc.l   Data_100024                   | +01e6a  -> $100024
+        .dc.l   ColMap_100024                   | +01e6a  -> $100024
         .dc.w   0x0102,0x446b,0x446c,0x0020,0x0024,0x0101,0x446d,0x0400     | +01e6e
         .dc.w   0xffe1,0x001b,0x0102,0x1d87,0x1d7e,0xfff1,0x002b,0x0203     | +01e7e
         .dc.w   0x4465,0x446e,0x1d8a,0x4468,0x446f,0x1d8d,0x0011,0x0024     | +01e8e
@@ -12685,7 +12715,7 @@ Data_12b06e:
         .dc.w   0x449d,0x0021,0x0024,0x0101,0x4472,0x0400,0xffe0,0x001b     | +01f5e
         .dc.w   0x0102,0x449e,0x449f,0xfff0,0x002d,0x0203,0x44a0,0x44a1     | +01f6e
         .dc.w   0x44a2,0x44a3,0x44a4,0x44a5                                 | +01f7e
-        .dc.l   Data_100024                   | +01f86  -> $100024
+        .dc.l   ColMap_100024                   | +01f86  -> $100024
         .dc.w   0x0102,0x44a6,0x44a7,0x0020,0x0024,0x0101,0x44a8,0x0400     | +01f8a
         .dc.w   0xffe1,0x001b,0x0102,0x44a9,0x44aa,0xfff1,0x002b,0x0203     | +01f9a
         .dc.w   0x44ab,0x44ac,0x44ad,0x44ae,0x44af,0x44b0,0x0011,0x0024     | +01faa
@@ -12698,7 +12728,7 @@ Data_12b06e:
         .dc.w   0x0102,0x44c5,0x44c6,0x0021,0x0020,0x0101,0x44c7,0x0400     | +0201a
         .dc.w   0xffe0,0x001b,0x0102,0x44c8,0x44c9,0xfff0,0x002b,0x0203     | +0202a
         .dc.w   0x44ca,0x44cb,0x44cc,0x44cd,0x44ce,0x44cf                   | +0203a
-        .dc.l   Data_100024                   | +02046  -> $100024
+        .dc.l   ColMap_100024                   | +02046  -> $100024
         .dc.w   0x0102,0x44d0,0x44d1,0x0020,0x0024,0x0101,0x44d2,0x0400     | +0204a
         .dc.w   0xffe1,0x001b,0x0102,0x1d87,0x44d3,0xfff1,0x002b,0x0203     | +0205a
         .dc.w   0x44d4,0x44d5,0x1d8a,0x44d6,0x44d7,0x44d8,0x0011,0x0024     | +0206a
@@ -12717,7 +12747,7 @@ Data_12b06e:
         .dc.w   0x44fa,0x0021,0x0024,0x0101,0x44db,0x0400,0xffe0,0x001b     | +0213a
         .dc.w   0x0102,0x449e,0x44fb,0xfff0,0x002b,0x0203,0x44ca,0x44fc     | +0214a
         .dc.w   0x44fd,0x44cd,0x44fe,0x44ff                                 | +0215a
-        .dc.l   Data_100024                   | +02162  -> $100024
+        .dc.l   ColMap_100024                   | +02162  -> $100024
         .dc.w   0x0102,0x4500,0x4501,0x0020,0x0024,0x0101,0x44d2,0x0400     | +02166
         .dc.w   0xffe1,0x001b,0x0102,0x44a9,0x4502,0xfff1,0x002b,0x0203     | +02176
         .dc.w   0x4465,0x4503,0x44ad,0x4468,0x4504,0x4505,0x0011,0x0024     | +02186
@@ -12739,7 +12769,7 @@ Data_12d243:
         .dc.w   0x0102,0x4518,0x4519,0x0021,0x0024,0x0101,0x451a,0x0400     | +00021
         .dc.w   0xffe0,0x001b,0x0102,0x44c8,0x451b,0xfff0,0x002b,0x0203     | +00031
         .dc.w   0x451c,0x451d,0x44cc,0x451e,0x451f,0x4520                   | +00041
-        .dc.l   Data_100024                   | +0004d  -> $100024
+        .dc.l   ColMap_100024                   | +0004d  -> $100024
         .dc.w   0x0102,0x4521,0x4522,0x0020,0x0021,0x0101,0x4523,0x0400     | +00051
         .dc.w   0xffe1,0x001b,0x0102,0x4524,0x4525,0xfff1,0x002b,0x0203     | +00061
         .dc.w   0x4526,0x4527,0x4528,0x4529,0x452a,0x452b,0x0011,0x0024     | +00071
@@ -12765,26 +12795,26 @@ Data_12d243:
         .dc.w   0x457b,0x457c,0x457d,0x457e                                 | +001b1
 
 | ----------------------------------------------------------------------------
-|  Data_12d3fc  @ $12D3FC  (3,314 B)  [ref. desde código]
+|  SprFrame_12d3fc  @ $12D3FC  (3,314 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12d3fc, "ax", @progbits
-        .global Data_12d3fc
-Data_12d3fc:
+        .section .text.SprFrame_12d3fc, "ax", @progbits
+        .global SprFrame_12d3fc
+SprFrame_12d3fc:
         .dc.w   0x0011,0x0024,0x0102,0x457f,0x4580,0x0021,0x0024,0x0101     | +00000
         .dc.w   0x4581,0x0400,0xffe1,0x001b,0x0102,0x4582,0x1d7e,0xfff1     | +00010
         .dc.w   0x002b,0x0203,0x4583,0x4584,0x4585,0x4586,0x4587,0x4588     | +00020
         .dc.w   0x0011,0x0024,0x0102,0x4589,0x458a,0x0021,0x0024,0x0101     | +00030
         .dc.w   0x458b,0x0400,0xffe0,0x001b,0x0102,0x458c,0x458d,0xfff0     | +00040
         .dc.w   0x002b,0x0203,0x458e,0x458f,0x4590,0x4591,0x4592,0x4593     | +00050
-        .dc.l   Data_100024                   | +00060  -> $100024
+        .dc.l   ColMap_100024                   | +00060  -> $100024
         .dc.w   0x0102,0x4594,0x4595,0x0020,0x0022,0x0101,0x4596,0x0400     | +00064
         .dc.w   0xffe0,0x001b,0x0102,0x4597,0x4598,0xfff0,0x002b,0x0203     | +00074
         .dc.w   0x4599,0x459a,0x459b,0x459c,0x459d,0x459e                   | +00084
-        .dc.l   Data_100024                   | +00090  -> $100024
+        .dc.l   ColMap_100024                   | +00090  -> $100024
         .dc.w   0x0102,0x459f,0x45a0,0x0020,0x0024,0x0101,0x45a1,0x0400     | +00094
         .dc.w   0xffe0,0x001a,0x0102,0x45a2,0x45a3,0xfff0,0x002c,0x0203     | +000a4
         .dc.w   0x45a4,0x45a5,0x45a6,0x45a7,0x45a8,0x45a9                   | +000b4
-        .dc.l   Data_100024                   | +000c0  -> $100024
+        .dc.l   ColMap_100024                   | +000c0  -> $100024
         .dc.w   0x0102,0x45aa,0x45ab,0x0020,0x0024,0x0101,0x45ac,0x0400     | +000c4
         .dc.w   0xffe0,0x0019,0x0102,0x45ad,0x45ae,0xfff0,0x002c,0x0203     | +000d4
         .dc.w   0x45af,0x45b0,0x45b1,0x45b2,0x45b3,0x45b4,0x0010,0x0025     | +000e4
@@ -12797,14 +12827,14 @@ Data_12d3fc:
         .dc.w   0x0102,0x45c9,0x45ca,0x0021,0x0024,0x0101,0x45cb,0x0400     | +00154
         .dc.w   0xffe0,0x001b,0x0102,0x45cc,0x42a9,0xfff0,0x002b,0x0203     | +00164
         .dc.w   0x45cd,0x45ce,0x42ad,0x45cf,0x45d0,0x45d1                   | +00174
-        .dc.l   Data_100024                   | +00180  -> $100024
+        .dc.l   ColMap_100024                   | +00180  -> $100024
         .dc.w   0x0102,0x45d2,0x45d3,0x0020,0x0022,0x0101,0x45d4,0x0400     | +00184
         .dc.w   0xffe0,0x001b,0x0102,0x45d5,0x42b6,0xfff0,0x002b,0x0203     | +00194
         .dc.w   0x45d6,0x45d7,0x42ba,0x45d8,0x45d9,0x45da,0x0010,0x0023     | +001a4
         .dc.w   0x0102,0x45db,0x45dc,0x0020,0x0021,0x0101,0x45dd,0x0400     | +001b4
         .dc.w   0xffe0,0x001a,0x0102,0x45de,0x45df,0xfff0,0x002d,0x0203     | +001c4
         .dc.w   0x45e0,0x45e1,0x45e2,0x45e3,0x45e4,0x45e5                   | +001d4
-        .dc.l   Data_100024                   | +001e0  -> $100024
+        .dc.l   ColMap_100024                   | +001e0  -> $100024
         .dc.w   0x0102,0x45e6,0x45e7,0x0020,0x0024,0x0101,0x45e8,0x0400     | +001e4
         .dc.w   0xffe0,0x001a,0x0102,0x45e9,0x45ea,0xfff0,0x002c,0x0203     | +001f4
         .dc.w   0x45eb,0x45ec,0x45ed,0x45ee,0x45ef,0x45f0,0x0010,0x0025     | +00204
@@ -12817,14 +12847,14 @@ Data_12d3fc:
         .dc.w   0x0102,0x4603,0x4604,0x0020,0x0024,0x0101,0x4605,0x0400     | +00274
         .dc.w   0xffe0,0x001b,0x0102,0x4606,0x42ee,0xfff0,0x002d,0x0203     | +00284
         .dc.w   0x4607,0x4608,0x4609,0x460a,0x460b,0x460c                   | +00294
-        .dc.l   Data_100024                   | +002a0  -> $100024
+        .dc.l   ColMap_100024                   | +002a0  -> $100024
         .dc.w   0x0102,0x460d,0x460e,0x0020,0x0023,0x0101,0x460f,0x0400     | +002a4
         .dc.w   0xffe1,0x001b,0x0102,0x4610,0x42f9,0xfff1,0x002d,0x0203     | +002b4
         .dc.w   0x4611,0x4612,0x4613,0x4614,0x4615,0x4616,0x0011,0x0025     | +002c4
         .dc.w   0x0102,0x4617,0x4618,0x0021,0x0022,0x0101,0x4619,0x0400     | +002d4
         .dc.w   0xffe0,0x001b,0x0102,0x461a,0x4301,0xfff0,0x002d,0x0203     | +002e4
         .dc.w   0x461b,0x461c,0x461d,0x461e,0x461f,0x4620                   | +002f4
-        .dc.l   Data_100024                   | +00300  -> $100024
+        .dc.l   ColMap_100024                   | +00300  -> $100024
         .dc.w   0x0102,0x4621,0x4622,0x0020,0x0022,0x0101,0x45d4,0x0400     | +00304
         .dc.w   0xffdf,0x001b,0x0102,0x4623,0x4314,0xffef,0x002b,0x0203     | +00314
         .dc.w   0x4624,0x4625,0x430a,0x4626,0x4627,0x4628,0x000f,0x0023     | +00324
@@ -12832,7 +12862,7 @@ Data_12d3fc:
         .dc.w   0xffe0,0x003b,0x0204,0x462c,0x462d,0x462e,0x462f,0x42ef     | +00344
         .dc.w   0x4630,0x4631,0x4632,0x0000,0x0031,0x0103,0x42f3,0x4633     | +00354
         .dc.w   0x4634                                                      | +00364
-        .dc.l   Data_100021                   | +00366  -> $100021
+        .dc.l   ColMap_100021                   | +00366  -> $100021
         .dc.w   0x0102,0x4635,0x4636,0x0200,0xffdf,0x003b,0x0204,0x4637     | +0036a
         .dc.w   0x4638,0x4639,0x463a,0x463b,0x463c,0x463d,0x463e,0xffff     | +0037a
         .dc.w   0x0031,0x0203,0x463f,0x4640,0x4641,0x4642,0x4643,0x4644     | +0038a
@@ -12845,7 +12875,7 @@ Data_12d3fc:
         .dc.w   0x465b,0x465c,0x0300,0xffe0,0x003a,0x0204,0x465d,0x465e     | +003fa
         .dc.w   0x465f,0x4660,0x4661,0x4662,0x4663,0x4664,0x0000,0x0032     | +0040a
         .dc.w   0x0103,0x4665,0x4666,0x4667                                 | +0041a
-        .dc.l   Data_100022                   | +00422  -> $100022
+        .dc.l   ColMap_100022                   | +00422  -> $100022
         .dc.w   0x0102,0x4668,0x4669,0x0200,0xffdf,0x003a,0x0204,0x466a     | +00426
         .dc.w   0x466b,0x466c,0x466d,0x466e,0x466f,0x4670,0x4671,0xffff     | +00436
         .dc.w   0x0031,0x0203,0x463f,0x4672,0x4673,0x4642,0x4674,0x4675     | +00446
@@ -12858,7 +12888,7 @@ Data_12d3fc:
         .dc.w   0x4688,0x4689,0x0300,0xffdd,0x0039,0x0204,0x468a,0x468b     | +004b6
         .dc.w   0x468c,0x468d,0x468e,0x468f,0x4690,0x4691,0xfffd,0x0030     | +004c6
         .dc.w   0x0103,0x43a4,0x4692,0x4693                                 | +004d6
-        .dc.l   Data_0d0020                   | +004de  -> $0D0020
+        .dc.l   BgMap_0d0020                   | +004de  -> $0D0020
         .dc.w   0x0102,0x4694,0x4695,0x0400,0xffcc,0x0030,0x0101,0x46a3     | +004e2
         .dc.w   0xffdc,0x0039,0x0204,0x469f,0x46a0,0x46a1,0x46a2,0x469b     | +004f2
         .dc.w   0x469c,0x469d,0x469e,0xfffc,0x002f,0x0103,0x4698,0x4699     | +00502
@@ -12875,7 +12905,7 @@ Data_12d3fc:
         .dc.w   0x46c2,0x0400,0xffe0,0x0028,0x0103,0x46c3,0x46c4,0x46c5     | +005b2
         .dc.w   0xfff0,0x0038,0x0104,0x46c6,0x46c7,0x46c8,0x46c9,0x0000     | +005c2
         .dc.w   0x0030,0x0103,0x46ca,0x46cb,0x46cc                          | +005d2
-        .dc.l   Data_100024                   | +005dc  -> $100024
+        .dc.l   ColMap_100024                   | +005dc  -> $100024
         .dc.w   0x0102,0x46cd,0x46ce,0x0200,0xffe0,0x0022,0x0102,0x46db     | +005e0
         .dc.w   0x46dc,0xfff0,0x003a,0x0304,0x46d7,0x46d8,0x46d9,0x46da     | +005f0
         .dc.w   0x46d3,0x46d4,0x46d5,0x46d6,0x46cf,0x46d0,0x46d1,0x46d2     | +00600
@@ -12895,18 +12925,18 @@ Data_12d3fc:
         .dc.w   0x471d,0x471e,0x471f,0x0400,0xffe0,0x0020,0x0102,0x472c     | +006e0
         .dc.w   0x472d,0xfff0,0x0030,0x0103,0x4729,0x472a,0x472b,0x0000     | +006f0
         .dc.w   0x0038,0x0104,0x4722,0x4723,0x4724,0x4725                   | +00700
-        .dc.l   Data_10002a                   | +0070c  -> $10002A
+        .dc.l   ColMap_10002a                   | +0070c  -> $10002A
         .dc.w   0x0103,0x4726,0x4727,0x4728,0x0400,0xffe0,0x0021,0x0102     | +00710
         .dc.w   0x4738,0x4739,0xfff0,0x0031,0x0103,0x4735,0x4736,0x4737     | +00720
         .dc.w   0x0000,0x003a,0x0104,0x4731,0x4732,0x4733,0x4734            | +00730
-        .dc.l   Data_10002a                   | +0073e  -> $10002A
+        .dc.l   ColMap_10002a                   | +0073e  -> $10002A
         .dc.w   0x0103,0x472e,0x472f,0x4730,0x0200,0xffe1,0x0022,0x0102     | +00742
         .dc.w   0x4745,0x4746,0xfff1,0x0039,0x0304,0x4741,0x4742,0x4743     | +00752
         .dc.w   0x4744,0x473d,0x473e,0x473f,0x4740,0x1140,0x473a,0x473b     | +00762
         .dc.w   0x473c,0x0300,0xffe0,0x0021,0x0102,0x4752,0x4753,0xfff0     | +00772
         .dc.w   0x003a,0x0204,0x474e,0x474f,0x4750,0x4751,0x474a,0x474b     | +00782
         .dc.w   0x474c,0x474d                                               | +00792
-        .dc.l   Data_10002a                   | +00796  -> $10002A
+        .dc.l   ColMap_10002a                   | +00796  -> $10002A
         .dc.w   0x0103,0x4747,0x4748,0x4749,0x0200,0xffe0,0x0023,0x0102     | +0079a
         .dc.w   0x4760,0x4761,0xfff0,0x0038,0x0304,0x475c,0x475d,0x475e     | +007aa
         .dc.w   0x475f,0x4758,0x4759,0x475a,0x475b,0x4754,0x4755,0x4756     | +007ba
@@ -12943,11 +12973,11 @@ Data_12d3fc:
         .dc.w   0x47e6,0x0011,0x002a,0x0103,0x47e0,0x47e1,0x47e2,0x0300     | +009aa
         .dc.w   0xffe0,0x0024,0x0102,0x47f8,0x47f9,0xfff0,0x003a,0x0204     | +009ba
         .dc.w   0x47f4,0x47f5,0x47f6,0x47f7,0x47f0,0x47f1,0x47f2,0x47f3     | +009ca
-        .dc.l   Data_10002a                   | +009da  -> $10002A
+        .dc.l   ColMap_10002a                   | +009da  -> $10002A
         .dc.w   0x0103,0x47ed,0x47ee,0x47ef,0x0300,0xffe0,0x0024,0x0102     | +009de
         .dc.w   0x4805,0x4806,0xfff0,0x0038,0x0204,0x47fe,0x47ff,0x4800     | +009ee
         .dc.w   0x4801,0x47fa,0x47fb,0x47fc,0x47fd                          | +009fe
-        .dc.l   Data_10002a                   | +00a08  -> $10002A
+        .dc.l   ColMap_10002a                   | +00a08  -> $10002A
         .dc.w   0x0103,0x4802,0x4803,0x4804,0x0300,0xffe1,0x0024,0x0102     | +00a0c
         .dc.w   0x4812,0x4813,0xfff1,0x003b,0x0204,0x480e,0x480f,0x4810     | +00a1c
         .dc.w   0x4811,0x480a,0x480b,0x480c,0x480d,0x0011,0x002b,0x0103     | +00a2c
@@ -12967,7 +12997,7 @@ Data_12d3fc:
         .dc.w   0x4851,0x4852,0x484b,0x484c,0x484d,0x484e,0x0300,0xffe0     | +00b0c
         .dc.w   0x0024,0x0102,0x4863,0x4864,0xfff0,0x0038,0x0204,0x485d     | +00b1c
         .dc.w   0x485e,0x485f,0x4860,0x4859,0x485a,0x485b,0x485c            | +00b2c
-        .dc.l   Data_10002a                   | +00b3a  -> $10002A
+        .dc.l   ColMap_10002a                   | +00b3a  -> $10002A
         .dc.w   0x0103,0x47ed,0x4861,0x4862,0x0300,0xffe1,0x0023,0x0102     | +00b3e
         .dc.w   0x4870,0x4871,0xfff1,0x0038,0x0204,0x4869,0x486a,0x486b     | +00b4e
         .dc.w   0x486c,0x4865,0x4866,0x4867,0x4868,0x0011,0x002b,0x0103     | +00b5e
@@ -12993,19 +13023,19 @@ Data_12d3fc:
         .dc.w   0x0011,0x002a,0x0103,0x48b5,0x48b6,0x48b7,0x0300,0xffe0     | +00c9e
         .dc.w   0x0024,0x0102,0x48cd,0x48ce,0xfff0,0x003a,0x0204,0x48c9     | +00cae
         .dc.w   0x48ca,0x48cb,0x48cc,0x48c5,0x48c6,0x48c7,0x48c8            | +00cbe
-        .dc.l   Data_10002a                   | +00ccc  -> $10002A
+        .dc.l   ColMap_10002a                   | +00ccc  -> $10002A
         .dc.w   0x0103,0x48c2,0x48c3,0x48c4,0x0300,0xffe0,0x0024,0x0102     | +00cd0
         .dc.w   0x48da,0x48db,0xfff0,0x0038,0x0204,0x48d3,0x48d4,0x48d5     | +00ce0
         .dc.w   0x48d6                                                      | +00cf0
 
 | ----------------------------------------------------------------------------
-|  Data_12e0ee  @ $12E0EE  (7,953 B)  [ref. desde código]
+|  SprFrame_12e0ee  @ $12E0EE  (7,953 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12e0ee, "ax", @progbits
-        .global Data_12e0ee
-Data_12e0ee:
+        .section .text.SprFrame_12e0ee, "ax", @progbits
+        .global SprFrame_12e0ee
+SprFrame_12e0ee:
         .dc.w   0x48cf,0x48d0,0x48d1,0x48d2                                 | +00000
-        .dc.l   Data_10002a                   | +00008  -> $10002A
+        .dc.l   ColMap_10002a                   | +00008  -> $10002A
         .dc.w   0x0103,0x48d7,0x48d8,0x48d9,0x0300,0xffdf,0x0024,0x0102     | +0000c
         .dc.w   0x48e7,0x48e8,0xffef,0x003a,0x0204,0x48e3,0x48e4,0x48e5     | +0001c
         .dc.w   0x48e6,0x48df,0x48e0,0x48e1,0x48e2,0x000f,0x002a,0x0103     | +0002c
@@ -13031,7 +13061,7 @@ Data_12e0ee:
         .dc.w   0x1140,0x493f,0x4940,0x4941,0x0300,0xffe0,0x0024,0x0102     | +0016c
         .dc.w   0x4951,0x4952,0xfff0,0x003a,0x0204,0x48c9,0x48ca,0x494f     | +0017c
         .dc.w   0x4950,0x48c5,0x48c6,0x494d,0x494e                          | +0018c
-        .dc.l   Data_10002a                   | +00196  -> $10002A
+        .dc.l   ColMap_10002a                   | +00196  -> $10002A
         .dc.w   0x0103,0x48c2,0x494b,0x494c,0x0300,0xffdf,0x0023,0x0102     | +0019a
         .dc.w   0x495e,0x495f,0xffef,0x003a,0x0204,0x495a,0x495b,0x495c     | +001aa
         .dc.w   0x495d,0x4956,0x4957,0x4958,0x4959,0x000f,0x002a,0x0103     | +001ba
@@ -13068,7 +13098,7 @@ Data_12e0ee:
         .dc.w   0x000f,0x003a,0x0104,0x49d3,0x49d4,0x49d5,0x49d6,0x0300     | +003aa
         .dc.w   0xffe0,0x0023,0x0102,0x49e2,0x49e3,0xfff0,0x003a,0x0204     | +003ba
         .dc.w   0x49e8,0x49e9,0x49ea,0x49eb,0x49e4,0x49e5,0x49e6,0x49e7     | +003ca
-        .dc.l   Data_10002a                   | +003da  -> $10002A
+        .dc.l   ColMap_10002a                   | +003da  -> $10002A
         .dc.w   0x0103,0x49df,0x49e0,0x49e1,0x0300,0xffe2,0x0023,0x0102     | +003de
         .dc.w   0x49f7,0x49f8,0xfff2,0x003a,0x0204,0x49f3,0x49f4,0x49f5     | +003ee
         .dc.w   0x49f6,0x49ef,0x49f0,0x49f1,0x49f2,0x0012,0x002a,0x0103     | +003fe
@@ -13197,7 +13227,7 @@ Data_12e0ee:
         .dc.w   0x0102,0x4beb,0x4bec,0x001a,0x0015,0x0101,0x4bed,0x0400     | +00bae
         .dc.w   0xffe3,0x0022,0x0102,0x4bee,0x4bef,0xfff3,0x002c,0x0203     | +00bbe
         .dc.w   0x4bf0,0x4bf1,0x4bf2,0x4bf3,0x4bf4,0x4bf5                   | +00bce
-        .dc.l   Data_13001c                   | +00bda  -> $13001C
+        .dc.l   SprFrame_13001c                   | +00bda  -> $13001C
         .dc.w   0x0102,0x4bf6,0x4bf7,0x001a,0x0017,0x0101,0x4bf8,0x0300     | +00bde
         .dc.w   0xffe2,0x0024,0x0102,0x4895,0x4896,0xfff2,0x002a,0x0303     | +00bee
         .dc.w   0x4bf9,0x4bfa,0x4bfb,0x4bfc,0x4bfd,0x4bfe,0x4bff,0x4c00     | +00bfe
@@ -13390,7 +13420,7 @@ Data_12e0ee:
         .dc.w   0x4e7f,0x4e80,0x4e81,0xfffb,0x001f,0x0102,0x4e7d,0x4e7e     | +0176e
         .dc.w   0x0300,0xffed,0x0025,0x0103,0x4e82,0x4e83,0x4e84,0xfffd     | +0177e
         .dc.w   0x0025,0x0102,0x4e85,0x4e86                                 | +0178e
-        .dc.l   Data_0d001a                   | +01796  -> $0D001A
+        .dc.l   BgMap_0d001a                   | +01796  -> $0D001A
         .dc.w   0x0101,0x4e87,0x0300,0xffe8,0x0010,0x0102,0x4e88,0x4e89     | +0179a
         .dc.w   0xfff8,0x0020,0x0102,0x4e8a,0x4e8b,0x0006,0x0025,0x0102     | +017aa
         .dc.w   0x4e8c,0x4e8d,0x0300,0xffe4,0x000c,0x0102,0x4e8e,0x4e8f     | +017ba
@@ -13415,7 +13445,7 @@ Data_12e0ee:
         .dc.w   0x4ec8,0x0400,0xffd9,0x000a,0x0102,0x4ecd,0x4ece,0xffe9     | +018ea
         .dc.w   0x0011,0x0102,0x4ecf,0x4ed0,0xfff2,0x0021,0x0102,0x4ecb     | +018fa
         .dc.w   0x4ecc                                                      | +0190a
-        .dc.l   Data_020027                   | +0190c  -> $020027
+        .dc.l   Pal_020027                   | +0190c  -> $020027
         .dc.w   0x0102,0x4ec9,0x4eca,0x0400,0xffd7,0x0009,0x0102,0x4ed1     | +01910
         .dc.w   0x4ed2,0xffe7,0x001f,0x0103,0x4ed3,0x4ed4,0x4ed5,0xfff7     | +01920
         .dc.w   0x002f,0x0103,0x4ed6,0x4ed7,0x4ed8,0x0007,0x002f,0x0102     | +01930
@@ -13479,7 +13509,7 @@ Data_12e0ee:
         .dc.w   0x4f8c,0x4f8d,0x4f8e,0x0002,0x0022,0x0102,0x4f8f,0x4f90     | +01cb8
         .dc.w   0x0200,0xffe2,0x001e,0x0203,0x4f91,0x4f92,0x4f93,0x4f94     | +01cc8
         .dc.w   0x4f95,0x4f96                                               | +01cd8
-        .dc.l   Data_020018                   | +01cdc  -> $020018
+        .dc.l   Pal_020018                   | +01cdc  -> $020018
         .dc.w   0x0101,0x4f97,0x0200,0xffdf,0x0023,0x0203,0x0000,0x4f78     | +01ce0
         .dc.w   0x4f79,0x4f98,0x4f99,0x4f9a,0xffff,0x0015,0x0101,0x4f9b     | +01cf0
         .dc.w   0x0300,0xffeb,0x0013,0x0102,0x4f9c,0x4f9d,0xfffb,0x0023     | +01d00
@@ -13518,114 +13548,114 @@ Data_12e0ee:
         .dc.b   0x4c                            | +01f10
 
 | ----------------------------------------------------------------------------
-|  Data_12ffff  @ $12FFFF  (1 B)  [ref. desde código]
+|  SprFrame_12ffff  @ $12FFFF  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_12ffff, "ax", @progbits
-        .global Data_12ffff
-Data_12ffff:
+        .section .text.SprFrame_12ffff, "ax", @progbits
+        .global SprFrame_12ffff
+SprFrame_12ffff:
         .dc.b   0xd0                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130000  @ $130000  (2 B)  [ref. desde código]
+|  SprFrame_130000  @ $130000  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130000, "ax", @progbits
-        .global Data_130000
-Data_130000:
+        .section .text.SprFrame_130000, "ax", @progbits
+        .global SprFrame_130000
+SprFrame_130000:
         .dc.w   0x4cc4                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130002  @ $130002  (4 B)  [ref. desde código]
+|  SprFrame_130002  @ $130002  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130002, "ax", @progbits
-        .global Data_130002
-Data_130002:
+        .section .text.SprFrame_130002, "ax", @progbits
+        .global SprFrame_130002
+SprFrame_130002:
         .dc.w   0x0200,0xfffc                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130006  @ $130006  (4 B)  [ref. desde código]
+|  SprFrame_130006  @ $130006  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130006, "ax", @progbits
-        .global Data_130006
-Data_130006:
+        .section .text.SprFrame_130006, "ax", @progbits
+        .global SprFrame_130006
+SprFrame_130006:
         .dc.w   0x0021,0x0102                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13000a  @ $13000A  (2 B)  [ref. desde código]
+|  SprFrame_13000a  @ $13000A  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13000a, "ax", @progbits
-        .global Data_13000a
-Data_13000a:
+        .section .text.SprFrame_13000a, "ax", @progbits
+        .global SprFrame_13000a
+SprFrame_13000a:
         .dc.w   0x4ff7                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13000c  @ $13000C  (7 B)  [ref. desde código]
+|  SprFrame_13000c  @ $13000C  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13000c, "ax", @progbits
-        .global Data_13000c
-Data_13000c:
+        .section .text.SprFrame_13000c, "ax", @progbits
+        .global SprFrame_13000c
+SprFrame_13000c:
         .dc.w   0x4ff8                                                      | +00000
         .dc.l   Data_0c0014                   | +00002  -> $0C0014
         .dc.b   0x02                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_130013  @ $130013  (9 B)  [ref. desde código]
+|  SprFrame_130013  @ $130013  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130013, "ax", @progbits
-        .global Data_130013
-Data_130013:
+        .section .text.SprFrame_130013, "ax", @progbits
+        .global SprFrame_130013
+SprFrame_130013:
         .dc.b   0x01                            | +00000
         .dc.w   0x4ff9,0x4ffa,0x0300,0xfffe                                 | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_13001c  @ $13001C  (1 B)  [ref. desde código]
+|  SprFrame_13001c  @ $13001C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13001c, "ax", @progbits
-        .global Data_13001c
-Data_13001c:
+        .section .text.SprFrame_13001c, "ax", @progbits
+        .global SprFrame_13001c
+SprFrame_13001c:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13001d  @ $13001D  (2 B)  [ref. desde código]
+|  SprFrame_13001d  @ $13001D  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13001d, "ax", @progbits
-        .global Data_13001d
-Data_13001d:
+        .section .text.SprFrame_13001d, "ax", @progbits
+        .global SprFrame_13001d
+SprFrame_13001d:
         .dc.b   0x22                            | +00000
         .dc.b   0x01                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_13001f  @ $13001F  (3 B)  [ref. desde código]
+|  SprFrame_13001f  @ $13001F  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13001f, "ax", @progbits
-        .global Data_13001f
-Data_13001f:
+        .section .text.SprFrame_13001f, "ax", @progbits
+        .global SprFrame_13001f
+SprFrame_13001f:
         .dc.b   0x02                            | +00000
         .dc.w   0x4ffb                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_130022  @ $130022  (12 B)  [ref. desde código]
+|  SprFrame_130022  @ $130022  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130022, "ax", @progbits
-        .global Data_130022
-Data_130022:
+        .section .text.SprFrame_130022, "ax", @progbits
+        .global SprFrame_130022
+SprFrame_130022:
         .dc.w   0x4ffc,0x000e,0x0013,0x0101,0x4ffd,0x001e                   | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13002e  @ $13002E  (21 B)  [ref. desde código]
+|  SprFrame_13002e  @ $13002E  (21 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13002e, "ax", @progbits
-        .global Data_13002e
-Data_13002e:
+        .section .text.SprFrame_13002e, "ax", @progbits
+        .global SprFrame_13002e
+SprFrame_13002e:
         .dc.w   0x0014,0x0101,0x4ffe,0x0300,0xfffe,0x0022,0x0102,0x4fff     | +00000
         .dc.w   0x5000,0x000e                                               | +00010
         .dc.b   0x00                            | +00014
 
 | ----------------------------------------------------------------------------
-|  Data_130043  @ $130043  (44 B)  [ref. desde código]
+|  SprFrame_130043  @ $130043  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130043, "ax", @progbits
-        .global Data_130043
-Data_130043:
+        .section .text.SprFrame_130043, "ax", @progbits
+        .global SprFrame_130043
+SprFrame_130043:
         .dc.b   0x13                            | +00000
         .dc.w   0x0101,0x5001,0x001e,0x0016,0x0101,0x5002,0x0200,0xfff8     | +00001
         .dc.w   0x0012,0x0101,0x5003,0x0008,0x0013,0x0201,0x4cf4,0x4cf3     | +00011
@@ -13633,29 +13663,29 @@ Data_130043:
         .dc.b   0x50                            | +0002b
 
 | ----------------------------------------------------------------------------
-|  Data_13006f  @ $13006F  (1 B)  [ref. desde código]
+|  SprFrame_13006f  @ $13006F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13006f, "ax", @progbits
-        .global Data_13006f
-Data_13006f:
+        .section .text.SprFrame_13006f, "ax", @progbits
+        .global SprFrame_13006f
+SprFrame_13006f:
         .dc.b   0x05                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130070  @ $130070  (19 B)  [ref. desde código]
+|  SprFrame_130070  @ $130070  (19 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130070, "ax", @progbits
-        .global Data_130070
-Data_130070:
+        .section .text.SprFrame_130070, "ax", @progbits
+        .global SprFrame_130070
+SprFrame_130070:
         .dc.w   0x0008,0x0013,0x0201,0x4cfc,0x4cfb,0x0200,0xfffc,0x0021     | +00000
         .dc.w   0x0102                                                      | +00010
         .dc.b   0x50                            | +00012
 
 | ----------------------------------------------------------------------------
-|  Data_130083  @ $130083  (64 B)  [ref. desde código]
+|  SprFrame_130083  @ $130083  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130083, "ax", @progbits
-        .global Data_130083
-Data_130083:
+        .section .text.SprFrame_130083, "ax", @progbits
+        .global SprFrame_130083
+SprFrame_130083:
         .dc.b   0x06                            | +00000
         .dc.w   0x5007,0x000c,0x0013,0x0201,0x5008,0x5009,0x0200,0xfffd     | +00001
         .dc.w   0x0022,0x0102,0x500a,0x500b,0x000d,0x0013,0x0201,0x500c     | +00011
@@ -13664,11 +13694,11 @@ Data_130083:
         .dc.b   0x00                            | +0003f
 
 | ----------------------------------------------------------------------------
-|  Data_1300c3  @ $1300C3  (61 B)  [ref. desde código]
+|  SprFrame_1300c3  @ $1300C3  (61 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1300c3, "ax", @progbits
-        .global Data_1300c3
-Data_1300c3:
+        .section .text.SprFrame_1300c3, "ax", @progbits
+        .global SprFrame_1300c3
+SprFrame_1300c3:
         .dc.b   0x22                            | +00000
         .dc.w   0x0102,0x5013,0x5014                                        | +00001
         .dc.l   Data_0e0014                   | +00007  -> $0E0014
@@ -13678,21 +13708,21 @@ Data_1300c3:
         .dc.w   0x501c                                                      | +0003b
 
 | ----------------------------------------------------------------------------
-|  Data_130100  @ $130100  (21 B)  [ref. desde código]
+|  SprFrame_130100  @ $130100  (21 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130100, "ax", @progbits
-        .global Data_130100
-Data_130100:
+        .section .text.SprFrame_130100, "ax", @progbits
+        .global SprFrame_130100
+SprFrame_130100:
         .dc.w   0x0200,0xffe0,0x0039,0x0102,0x501f,0x5020,0xfff0,0x0040     | +00000
         .dc.w   0x0102,0x501d                                               | +00010
         .dc.b   0x50                            | +00014
 
 | ----------------------------------------------------------------------------
-|  Data_130115  @ $130115  (46 B)  [ref. desde código]
+|  SprFrame_130115  @ $130115  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130115, "ax", @progbits
-        .global Data_130115
-Data_130115:
+        .section .text.SprFrame_130115, "ax", @progbits
+        .global SprFrame_130115
+SprFrame_130115:
         .dc.b   0x1e                            | +00000
         .dc.w   0x0200,0xffe5,0x003d,0x0102,0x5021,0x5022,0xfff5,0x0047     | +00001
         .dc.w   0x0102,0x5023,0x5024,0x0200,0xffe0,0x002f,0x0101,0x5025     | +00011
@@ -13700,11 +13730,11 @@ Data_130115:
         .dc.b   0x02                            | +0002d
 
 | ----------------------------------------------------------------------------
-|  Data_130143  @ $130143  (97 B)  [ref. desde código]
+|  SprFrame_130143  @ $130143  (97 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130143, "ax", @progbits
-        .global Data_130143
-Data_130143:
+        .section .text.SprFrame_130143, "ax", @progbits
+        .global SprFrame_130143
+SprFrame_130143:
         .dc.b   0x00                            | +00000
         .dc.w   0xffe0,0x002d,0x0101,0x502c,0xfff0,0x0052,0x0103,0x5029     | +00001
         .dc.w   0x502a,0x502b,0x0200,0xffe0,0x0038,0x0102,0x5030,0x4ea9     | +00011
@@ -13714,11 +13744,11 @@ Data_130143:
         .dc.w   0x0048,0x0102,0x5037,0x5038,0x0000,0x0048,0x0101,0x5039     | +00051
 
 | ----------------------------------------------------------------------------
-|  Data_1301a4  @ $1301A4  (92 B)  [ref. desde código]
+|  SprFrame_1301a4  @ $1301A4  (92 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1301a4, "ax", @progbits
-        .global Data_1301a4
-Data_1301a4:
+        .section .text.SprFrame_1301a4, "ax", @progbits
+        .global SprFrame_1301a4
+SprFrame_1301a4:
         .dc.w   0x0100,0xffc8,0x0020,0x0402,0x503a,0x503b,0x503c,0x503d     | +00000
         .dc.w   0x503e,0x503f,0x5040,0x5041,0x0100,0xffc8,0x0020,0x0402     | +00010
         .dc.w   0x5042,0x5043,0x5044,0x5045,0x5046,0x5047,0x5048,0x5049     | +00020
@@ -13727,39 +13757,39 @@ Data_1301a4:
         .dc.w   0x0023,0x0202,0x5054,0x5055,0x5052,0x5053                   | +00050
 
 | ----------------------------------------------------------------------------
-|  Data_130200  @ $130200  (12 B)  [ref. desde código]
+|  SprFrame_130200  @ $130200  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130200, "ax", @progbits
-        .global Data_130200
-Data_130200:
+        .section .text.SprFrame_130200, "ax", @progbits
+        .global SprFrame_130200
+SprFrame_130200:
         .dc.w   0xfff2,0x0013,0x0101,0x5051,0x0200,0xffd3                   | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13020c  @ $13020C  (34 B)  [ref. desde código]
+|  SprFrame_13020c  @ $13020C  (34 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13020c, "ax", @progbits
-        .global Data_13020c
-Data_13020c:
+        .section .text.SprFrame_13020c, "ax", @progbits
+        .global SprFrame_13020c
+SprFrame_13020c:
         .dc.w   0x0022,0x0202,0x5059,0x505a,0x5057,0x5058,0xfff3,0x0012     | +00000
         .dc.w   0x0101,0x5056,0x0100,0xffd4,0x0021,0x0302,0x505f,0x5060     | +00010
         .dc.w   0x505d                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_13022e  @ $13022E  (34 B)  [ref. desde código]
+|  SprFrame_13022e  @ $13022E  (34 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13022e, "ax", @progbits
-        .global Data_13022e
-Data_13022e:
+        .section .text.SprFrame_13022e, "ax", @progbits
+        .global SprFrame_13022e
+SprFrame_13022e:
         .dc.w   0x505e,0x505b,0x505c,0x0100,0xffc4,0x0022,0x0402,0x5067     | +00000
         .dc.w   0x5068,0x5065,0x5066,0x5063,0x5064,0x5061,0x5062,0x0100     | +00010
         .dc.w   0xffc4                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_130250  @ $130250  (16 B)  [ref. desde código]
+|  SprFrame_130250  @ $130250  (16 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130250, "ax", @progbits
-        .global Data_130250
-Data_130250:
+        .section .text.SprFrame_130250, "ax", @progbits
+        .global SprFrame_130250
+SprFrame_130250:
         .dc.w   0x0022,0x0402,0x506f,0x5070,0x506d,0x506e,0x506b,0x506c     | +00000
 
 | ----------------------------------------------------------------------------
@@ -13772,7 +13802,7 @@ Data_130260:
         .dc.w   0x5073,0x5074,0x5075,0x5076,0x5077,0x5078,0x0100,0xffc8     | +00010
         .dc.w   0x0020,0x0402,0x5079,0x507a,0x507b,0x507c,0x507d,0x507e     | +00020
         .dc.w   0x507f,0x5080,0x0200,0xffd8,0x0005,0x0101,0x5087,0xffe8     | +00030
-        .dc.l   Data_100302                   | +00040  -> $100302
+        .dc.l   ColMap_100302                   | +00040  -> $100302
         .dc.w   0x5085,0x5086,0x5083,0x5084,0x5081,0x5082,0x0300,0xffdd     | +00044
         .dc.w   0x0023,0x0103,0x5091,0x5092,0x5093,0xffed,0x0043,0x0205     | +00054
         .dc.w   0x5094,0x5095                                               | +00064
@@ -13851,13 +13881,13 @@ Str_130500:
         .global Data_130602
 Data_130602:
         .dc.w   0x51ad,0x51ae,0x51af,0x51b0,0x51b1,0x51b2                   | +00000
-        .dc.l   Zero_100034                   | +0000c  -> $100034
+        .dc.l   ColMap_100034                   | +0000c  -> $100034
         .dc.w   0x0104,0x51a6,0x51a7,0x51a8,0x51a9,0x0400,0xffe0,0x0024     | +00010
         .dc.w   0x0103,0x51d5,0x51d6,0x51d7,0xfff0,0x0084,0x0109,0x51cc     | +00020
         .dc.w   0x51cd,0x51ce,0x51cf,0x51d0,0x51d1,0x51d2,0x51d3,0x51d4     | +00030
         .dc.w   0x0000,0x0074,0x0108,0x51c4,0x51c5,0x51c6,0x51c7,0x51c8     | +00040
         .dc.w   0x51c9,0x51ca,0x51cb                                        | +00050
-        .dc.l   Zero_100034                   | +00056  -> $100034
+        .dc.l   ColMap_100034                   | +00056  -> $100034
         .dc.w   0x0104,0x0000,0x51c1,0x51c2,0x51c3,0x0400,0xffe0,0x0024     | +0005a
         .dc.w   0x0103                                                      | +0006a
 
@@ -13871,19 +13901,19 @@ Data_13066e:
         .dc.w   0x51e6,0x51e7,0x51e8,0x51e9,0x51ea,0x51eb,0x51ec,0x0000     | +00010
         .dc.w   0x0074,0x0108,0x51dc,0x51dd,0x51de,0x51df,0x51e0,0x51e1     | +00020
         .dc.w   0x51e2,0x51e3                                               | +00030
-        .dc.l   Zero_100034                   | +00034  -> $100034
+        .dc.l   ColMap_100034                   | +00034  -> $100034
         .dc.w   0x0104,0x51d8,0x51d9,0x51da,0x51db,0x0400,0xffe0,0x0018     | +00038
         .dc.w   0x0102,0x5205,0x5206,0xfff0,0x0084,0x0109,0x51fc,0x51fd     | +00048
         .dc.w   0x51fe,0x51ff,0x5200,0x5201,0x5202,0x5203,0x5204,0x0000     | +00058
         .dc.w   0x0074,0x0108,0x51f4,0x51f5,0x51f6,0x51f7,0x51f8,0x51f9     | +00068
         .dc.w   0x51fa,0x51fb                                               | +00078
-        .dc.l   Zero_100034                   | +0007c  -> $100034
+        .dc.l   ColMap_100034                   | +0007c  -> $100034
         .dc.w   0x0104,0x51f0,0x51f1,0x51f2,0x51f3,0x0400,0xffe0,0x0016     | +00080
         .dc.w   0x0102,0x521c,0x521d,0xfff0,0x0084,0x0109,0x5213,0x5214     | +00090
         .dc.w   0x5215,0x5216,0x5217,0x5218,0x5219,0x521a,0x521b,0x0000     | +000a0
         .dc.w   0x0074,0x0108,0x520b,0x520c,0x520d,0x520e,0x520f,0x5210     | +000b0
         .dc.w   0x5211,0x5212                                               | +000c0
-        .dc.l   Zero_100034                   | +000c4  -> $100034
+        .dc.l   ColMap_100034                   | +000c4  -> $100034
         .dc.w   0x0104,0x5207,0x5208,0x5209,0x520a,0x0400,0xffe0,0x0015     | +000c8
         .dc.w   0x0102,0x5232,0x5233,0xfff0,0x0074,0x0108,0x522a,0x522b     | +000d8
         .dc.w   0x522c,0x522d,0x522e,0x522f,0x5230,0x5231,0x0000,0x0076     | +000e8
@@ -13947,11 +13977,11 @@ Data_1308e9:
         .dc.w   0xfff1,0x0054                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1308ee  @ $1308EE  (832 B)  [ref. desde código]
+|  SprFrame_1308ee  @ $1308EE  (832 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1308ee, "ax", @progbits
-        .global Data_1308ee
-Data_1308ee:
+        .section .text.SprFrame_1308ee, "ax", @progbits
+        .global SprFrame_1308ee
+SprFrame_1308ee:
         .dc.w   0x0102,0x5295,0x5296,0x0400,0xffd8,0x0008,0x0101,0x52a1     | +00000
         .dc.w   0xffe8,0x0028,0x0103,0x529e,0x529f,0x52a0,0xfff8,0x0038     | +00010
         .dc.w   0x0104,0x529a,0x529b,0x529c,0x529d,0x0008,0x0028,0x0103     | +00020
@@ -13962,7 +13992,7 @@ Data_1308ee:
         .dc.w   0x0008,0x001a,0x0102,0x52ab,0x52ac,0x0100,0xfff0,0x0018     | +00070
         .dc.w   0x0202,0x52b4,0x52b5,0x52b2,0x52b3,0x0200,0xfffb,0x0030     | +00080
         .dc.w   0x0103,0x52b6,0x52b7,0x52b8                                 | +00090
-        .dc.l   Data_0b0020                   | +00098  -> $0B0020
+        .dc.l   BgMap_0b0020                   | +00098  -> $0B0020
         .dc.w   0x0101,0x52b9,0x0200,0xfffa,0x0030,0x0103,0x52ba,0x52bb     | +0009c
         .dc.w   0x52bc,0x000a,0x0021,0x0102,0x52bd,0x52be,0x0100,0xfff8     | +000ac
         .dc.w   0x0030,0x0203,0x52bf,0x52c0,0x52c1,0x52c2,0x52c3,0x52c4     | +000bc
@@ -13978,7 +14008,7 @@ Data_1308ee:
         .dc.w   0x52c5,0x52e4,0x52e5,0x52e6,0x52e7,0x52e8,0x0100,0xfff0     | +0015c
         .dc.w   0x0030,0x0203,0x52e9,0x52ea,0x52eb,0x52ec,0x52ed,0x52ee     | +0016c
         .dc.w   0x0200,0xfffb,0x0030,0x0103,0x52ef,0x52f0,0x52f1            | +0017c
-        .dc.l   Data_0b0020                   | +0018a  -> $0B0020
+        .dc.l   BgMap_0b0020                   | +0018a  -> $0B0020
         .dc.w   0x0101,0x52f2,0x0100,0xfff0,0x0030,0x0203,0x52e9,0x52f3     | +0018e
         .dc.w   0x52f4,0x52f5,0x52f6,0x52f7,0x0200,0xfff6,0x0030,0x0103     | +0019e
         .dc.w   0x52cb,0x52f8,0x52f9,0x0006,0x0030,0x0102,0x52fa,0x52fb     | +001ae
@@ -14009,11 +14039,11 @@ Data_1308ee:
         .dc.w   0x0010                                                      | +0033e
 
 | ----------------------------------------------------------------------------
-|  Data_130c2e  @ $130C2E  (64 B)  [ref. desde código]
+|  SprFrame_130c2e  @ $130C2E  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130c2e, "ax", @progbits
-        .global Data_130c2e
-Data_130c2e:
+        .section .text.SprFrame_130c2e, "ax", @progbits
+        .global SprFrame_130c2e
+SprFrame_130c2e:
         .dc.w   0x0301,0x5351,0x5352,0x5353,0x0100,0xffe8,0x0010,0x0301     | +00000
         .dc.w   0x5354,0x5355,0x5356,0x0100,0xffe8,0x0020,0x0302,0x5357     | +00010
         .dc.w   0x5358,0x5359,0x535a,0x0000,0x535b,0x0100,0xffe8,0x0020     | +00020
@@ -14045,19 +14075,19 @@ Data_130d04:
         .dc.w   0x5389                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130d06  @ $130D06  (2 B)  [ref. desde código]
+|  Zero_130d06  @ $130D06  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130d06, "ax", @progbits
-        .global Data_130d06
-Data_130d06:
+        .section .text.Zero_130d06, "ax", @progbits
+        .global Zero_130d06
+Zero_130d06:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130d08  @ $130D08  (252 B)  [ref. desde código]
+|  SprFrame_130d08  @ $130D08  (252 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130d08, "ax", @progbits
-        .global Data_130d08
-Data_130d08:
+        .section .text.SprFrame_130d08, "ax", @progbits
+        .global SprFrame_130d08
+SprFrame_130d08:
         .dc.w   0x538a,0x538b,0x538c,0x538d,0x538e,0x0100,0xffe8,0x0030     | +00000
         .dc.w   0x0303,0x0000,0x538f,0x5390,0x5391,0x5392,0x5393,0x5394     | +00010
         .dc.w   0x5395,0x5396,0x0100,0xffe8,0x0030,0x0303,0x5397,0x5398     | +00020
@@ -14077,35 +14107,35 @@ Data_130d08:
         .dc.w   0xfffa,0x0009,0x0101,0x53b4,0x0200,0xffed,0x0019,0x0102     | +000ec
 
 | ----------------------------------------------------------------------------
-|  Data_130e04  @ $130E04  (1 B)  [ref. desde código]
+|  SprFrame_130e04  @ $130E04  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130e04, "ax", @progbits
-        .global Data_130e04
-Data_130e04:
+        .section .text.SprFrame_130e04, "ax", @progbits
+        .global SprFrame_130e04
+SprFrame_130e04:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130e05  @ $130E05  (1 B)  [ref. desde código]
+|  SprFrame_130e05  @ $130E05  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130e05, "ax", @progbits
-        .global Data_130e05
-Data_130e05:
+        .section .text.SprFrame_130e05, "ax", @progbits
+        .global SprFrame_130e05
+SprFrame_130e05:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130e06  @ $130E06  (1 B)  [ref. desde código]
+|  SprFrame_130e06  @ $130E06  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130e06, "ax", @progbits
-        .global Data_130e06
-Data_130e06:
+        .section .text.SprFrame_130e06, "ax", @progbits
+        .global SprFrame_130e06
+SprFrame_130e06:
         .dc.b   0x53                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_130e07  @ $130E07  (254 B)  [ref. desde código]
+|  SprFrame_130e07  @ $130E07  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130e07, "ax", @progbits
-        .global Data_130e07
-Data_130e07:
+        .section .text.SprFrame_130e07, "ax", @progbits
+        .global SprFrame_130e07
+SprFrame_130e07:
         .dc.b   0xb5                            | +00000
         .dc.w   0xfffd,0x0009,0x0101,0x53b6,0x0100,0xffee,0x0007,0x0201     | +00001
         .dc.w   0x53b7,0x53b8,0x0200,0xffed,0x0005,0x0101,0x53b9,0xfffd     | +00011
@@ -14128,11 +14158,11 @@ Data_130e07:
         .dc.b   0x53                            | +000fd
 
 | ----------------------------------------------------------------------------
-|  Data_130f05  @ $130F05  (3 B)  [ref. desde código]
+|  SprFrame_130f05  @ $130F05  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_130f05, "ax", @progbits
-        .global Data_130f05
-Data_130f05:
+        .section .text.SprFrame_130f05, "ax", @progbits
+        .global SprFrame_130f05
+SprFrame_130f05:
         .dc.b   0xea                            | +00000
         .dc.w   0x53eb                                                      | +00001
 
@@ -14160,76 +14190,76 @@ Data_130f08:
         .dc.w   0x542d,0x542e,0x542f,0x0100,0xfff0                          | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_131002  @ $131002  (7 B)  [ref. desde código]
+|  SprFrame_131002  @ $131002  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131002, "ax", @progbits
-        .global Data_131002
-Data_131002:
+        .section .text.SprFrame_131002, "ax", @progbits
+        .global SprFrame_131002
+SprFrame_131002:
         .dc.w   0x0030,0x0203,0x5382                                        | +00000
         .dc.b   0x54                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_131009  @ $131009  (2 B)  [ref. desde código]
+|  SprFrame_131009  @ $131009  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131009, "ax", @progbits
-        .global Data_131009
-Data_131009:
+        .section .text.SprFrame_131009, "ax", @progbits
+        .global SprFrame_131009
+SprFrame_131009:
         .dc.b   0x30                            | +00000
         .dc.b   0x54                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_13100b  @ $13100B  (1 B)  [ref. desde código]
+|  SprFrame_13100b  @ $13100B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13100b, "ax", @progbits
-        .global Data_13100b
-Data_13100b:
+        .section .text.SprFrame_13100b, "ax", @progbits
+        .global SprFrame_13100b
+SprFrame_13100b:
         .dc.b   0x31                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13100c  @ $13100C  (7 B)  [ref. desde código]
+|  SprFrame_13100c  @ $13100C  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13100c, "ax", @progbits
-        .global Data_13100c
-Data_13100c:
+        .section .text.SprFrame_13100c, "ax", @progbits
+        .global SprFrame_13100c
+SprFrame_13100c:
         .dc.w   0x5432,0x5433,0x5434                                        | +00000
         .dc.b   0x01                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_131013  @ $131013  (27 B)  [ref. desde código]
+|  SprFrame_131013  @ $131013  (27 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131013, "ax", @progbits
-        .global Data_131013
-Data_131013:
+        .section .text.SprFrame_131013, "ax", @progbits
+        .global SprFrame_131013
+SprFrame_131013:
         .dc.b   0x00                            | +00000
         .dc.w   0xfff0,0x0030,0x0203,0x5435,0x5436,0x5437,0x5438,0x5439     | +00001
         .dc.w   0x543a,0x0100,0xfff0,0x0030,0x0203                          | +00011
 
 | ----------------------------------------------------------------------------
-|  Str_13102e  @ $13102E  (11 B)  [ref. desde código]
+|  SprFrame_13102e  @ $13102E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_13102e, "ax", @progbits
-        .global Str_13102e
-Str_13102e:
+        .section .text.SprFrame_13102e, "ax", @progbits
+        .global SprFrame_13102e
+SprFrame_13102e:
         .dc.w   0x543b,0x543c,0x543d,0x543e,0x543f                          | +00000
         .dc.b   0x54                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_131039  @ $131039  (20 B)  [ref. desde código]
+|  SprFrame_131039  @ $131039  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131039, "ax", @progbits
-        .global Data_131039
-Data_131039:
+        .section .text.SprFrame_131039, "ax", @progbits
+        .global SprFrame_131039
+SprFrame_131039:
         .dc.b   0x40                            | +00000
         .dc.w   0x0100,0xfff0,0x0030,0x0203,0x5441,0x5442,0x5443,0x5444     | +00001
         .dc.w   0x5445                                                      | +00011
         .dc.b   0x54                            | +00013
 
 | ----------------------------------------------------------------------------
-|  Data_13104d  @ $13104D  (102 B)  [ref. desde código]
+|  SprFrame_13104d  @ $13104D  (102 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13104d, "ax", @progbits
-        .global Data_13104d
-Data_13104d:
+        .section .text.SprFrame_13104d, "ax", @progbits
+        .global SprFrame_13104d
+SprFrame_13104d:
         .dc.b   0x46                            | +00000
         .dc.w   0x0100,0xfff0,0x0030,0x0203,0x541e,0x5447,0x5448,0x5449     | +00001
         .dc.w   0x544a,0x544b,0x0100,0xfff0,0x0020,0x0202,0x544c,0x544d     | +00011
@@ -14241,28 +14271,28 @@ Data_13104d:
         .dc.b   0x00                            | +00065
 
 | ----------------------------------------------------------------------------
-|  Data_1310b3  @ $1310B3  (1 B)  [ref. desde código]
+|  SprFrame_1310b3  @ $1310B3  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1310b3, "ax", @progbits
-        .global Data_1310b3
-Data_1310b3:
+        .section .text.SprFrame_1310b3, "ax", @progbits
+        .global SprFrame_1310b3
+SprFrame_1310b3:
         .dc.b   0x30                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1310b4  @ $1310B4  (11 B)  [ref. desde código]
+|  SprFrame_1310b4  @ $1310B4  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1310b4, "ax", @progbits
-        .global Data_1310b4
-Data_1310b4:
+        .section .text.SprFrame_1310b4, "ax", @progbits
+        .global SprFrame_1310b4
+SprFrame_1310b4:
         .dc.w   0x0203,0x5460,0x5461,0x5462,0x5463                          | +00000
         .dc.b   0x54                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_1310bf  @ $1310BF  (74 B)  [ref. desde código]
+|  SprFrame_1310bf  @ $1310BF  (74 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1310bf, "ax", @progbits
-        .global Data_1310bf
-Data_1310bf:
+        .section .text.SprFrame_1310bf, "ax", @progbits
+        .global SprFrame_1310bf
+SprFrame_1310bf:
         .dc.b   0x64                            | +00000
         .dc.w   0x5465,0x0100,0xfff0,0x0030,0x0203,0x5466,0x5467,0x5468     | +00001
         .dc.w   0x5469,0x546a,0x546b,0x0100,0xfff0,0x0030,0x0203,0x546c     | +00011
@@ -14272,28 +14302,28 @@ Data_1310bf:
         .dc.b   0x54                            | +00049
 
 | ----------------------------------------------------------------------------
-|  Data_131109  @ $131109  (3 B)  [ref. desde código]
+|  SprFrame_131109  @ $131109  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131109, "ax", @progbits
-        .global Data_131109
-Data_131109:
+        .section .text.SprFrame_131109, "ax", @progbits
+        .global SprFrame_131109
+SprFrame_131109:
         .dc.b   0x79                            | +00000
         .dc.w   0x547a                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_13110c  @ $13110C  (2 B)  [ref. desde código]
+|  SprFrame_13110c  @ $13110C  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13110c, "ax", @progbits
-        .global Data_13110c
-Data_13110c:
+        .section .text.SprFrame_13110c, "ax", @progbits
+        .global SprFrame_13110c
+SprFrame_13110c:
         .dc.w   0x547b                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13110e  @ $13110E  (254 B)  [ref. desde código]
+|  SprFrame_13110e  @ $13110E  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13110e, "ax", @progbits
-        .global Data_13110e
-Data_13110e:
+        .section .text.SprFrame_13110e, "ax", @progbits
+        .global SprFrame_13110e
+SprFrame_13110e:
         .dc.w   0x547c,0x547d,0x0100,0xfff0,0x0030,0x0203,0x547e,0x547f     | +00000
         .dc.w   0x5480,0x5481,0x5482,0x5483,0x0100,0xfff0,0x0030,0x0203     | +00010
         .dc.w   0x5484,0x5485,0x5486,0x5487,0x5488,0x5489,0x0100,0xfff0     | +00020
@@ -14312,35 +14342,35 @@ Data_13110e:
         .dc.w   0x54bc,0x54bd,0x0100,0xfff8,0x0030,0x0203,0x54be            | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_13120c  @ $13120C  (1 B)  [ref. desde código]
+|  SprFrame_13120c  @ $13120C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13120c, "ax", @progbits
-        .global Data_13120c
-Data_13120c:
+        .section .text.SprFrame_13120c, "ax", @progbits
+        .global SprFrame_13120c
+SprFrame_13120c:
         .dc.b   0x54                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13120d  @ $13120D  (1 B)  [ref. desde código]
+|  SprFrame_13120d  @ $13120D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13120d, "ax", @progbits
-        .global Data_13120d
-Data_13120d:
+        .section .text.SprFrame_13120d, "ax", @progbits
+        .global SprFrame_13120d
+SprFrame_13120d:
         .dc.b   0xbf                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13120e  @ $13120E  (2 B)  [ref. desde código]
+|  SprFrame_13120e  @ $13120E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13120e, "ax", @progbits
-        .global Data_13120e
-Data_13120e:
+        .section .text.SprFrame_13120e, "ax", @progbits
+        .global SprFrame_13120e
+SprFrame_13120e:
         .dc.w   0x54c0                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_131210  @ $131210  (254 B)  [ref. desde código]
+|  SprFrame_131210  @ $131210  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131210, "ax", @progbits
-        .global Data_131210
-Data_131210:
+        .section .text.SprFrame_131210, "ax", @progbits
+        .global SprFrame_131210
+SprFrame_131210:
         .dc.w   0x1140,0x54c1,0x54c2,0x0100,0xfff4,0x0030,0x0203,0x54c3     | +00000
         .dc.w   0x54c4,0x54c5,0x54c6,0x54c7,0x54c8,0x0100,0xfff5,0x0030     | +00010
         .dc.w   0x0203,0x54c9,0x54ca,0x54cb,0x0000,0x54cc,0x54cd,0x0100     | +00020
@@ -14359,35 +14389,35 @@ Data_131210:
         .dc.w   0x5505,0x5506,0x5507,0x0100,0xfff0,0x0030,0x0203            | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_13130e  @ $13130E  (2 B)  [ref. desde código]
+|  SprFrame_13130e  @ $13130E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13130e, "ax", @progbits
-        .global Data_13130e
-Data_13130e:
+        .section .text.SprFrame_13130e, "ax", @progbits
+        .global SprFrame_13130e
+SprFrame_13130e:
         .dc.w   0x5508                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_131310  @ $131310  (1 B)  [ref. desde código]
+|  SprFrame_131310  @ $131310  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131310, "ax", @progbits
-        .global Data_131310
-Data_131310:
+        .section .text.SprFrame_131310, "ax", @progbits
+        .global SprFrame_131310
+SprFrame_131310:
         .dc.b   0x55                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_131311  @ $131311  (1 B)  [ref. desde código]
+|  SprFrame_131311  @ $131311  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131311, "ax", @progbits
-        .global Data_131311
-Data_131311:
+        .section .text.SprFrame_131311, "ax", @progbits
+        .global SprFrame_131311
+SprFrame_131311:
         .dc.b   0x09                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_131312  @ $131312  (249 B)  [ref. desde código]
+|  SprFrame_131312  @ $131312  (249 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131312, "ax", @progbits
-        .global Data_131312
-Data_131312:
+        .section .text.SprFrame_131312, "ax", @progbits
+        .global SprFrame_131312
+SprFrame_131312:
         .dc.w   0x550a,0x550b,0x550c,0x550d,0x0100,0xfff0,0x0030,0x0203     | +00000
         .dc.w   0x550e,0x550f,0x5510,0x54f9,0x5511,0x5512,0x0100,0xfff0     | +00010
         .dc.w   0x0030,0x0203,0x5513,0x5514,0x5515,0x5516,0x5517,0x5518     | +00020
@@ -14407,20 +14437,20 @@ Data_131312:
         .dc.b   0x01                            | +000f8
 
 | ----------------------------------------------------------------------------
-|  Data_13140b  @ $13140B  (2 B)  [ref. desde código]
+|  SprFrame_13140b  @ $13140B  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13140b, "ax", @progbits
-        .global Data_13140b
-Data_13140b:
+        .section .text.SprFrame_13140b, "ax", @progbits
+        .global SprFrame_13140b
+SprFrame_13140b:
         .dc.b   0x00                            | +00000
         .dc.b   0xff                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_13140d  @ $13140D  (7 B)  [ref. desde código]
+|  SprFrame_13140d  @ $13140D  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13140d, "ax", @progbits
-        .global Data_13140d
-Data_13140d:
+        .section .text.SprFrame_13140d, "ax", @progbits
+        .global SprFrame_13140d
+SprFrame_13140d:
         .dc.b   0xf0                            | +00000
         .dc.w   0x0030,0x0203,0x554b                                        | +00001
 
@@ -14466,11 +14496,11 @@ Data_131514:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_131515  @ $131515  (257 B)  [ref. desde código]
+|  SprFrame_131515  @ $131515  (257 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131515, "ax", @progbits
-        .global Data_131515
-Data_131515:
+        .section .text.SprFrame_131515, "ax", @progbits
+        .global SprFrame_131515
+SprFrame_131515:
         .dc.b   0xf0                            | +00000
         .dc.w   0x0030,0x0203,0x558d,0x558e,0x5579,0x558f,0x557b,0x5590     | +00001
         .dc.w   0x0100,0xffef,0x0030,0x0203,0x5591,0x5592,0x5593,0x5594     | +00011
@@ -14490,11 +14520,11 @@ Data_131515:
         .dc.w   0x0203,0x55c7,0x55c8,0x55c9,0x55c4,0x55c5,0x55c6,0x0100     | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_131616  @ $131616  (255 B)  [ref. desde código]
+|  SprFrame_131616  @ $131616  (255 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131616, "ax", @progbits
-        .global Data_131616
-Data_131616:
+        .section .text.SprFrame_131616, "ax", @progbits
+        .global SprFrame_131616
+SprFrame_131616:
         .dc.w   0xffee,0x0030,0x0203,0x55ca,0x55cb,0x55cc,0x55cd,0x55ce     | +00000
         .dc.w   0x55cf,0x0100,0xffee,0x0030,0x0203,0x55d0,0x55d1,0x55d2     | +00010
         .dc.w   0x55d3,0x55d4,0x55d5,0x0100,0xffed,0x0030,0x0203,0x55d6     | +00020
@@ -14514,11 +14544,11 @@ Data_131616:
         .dc.b   0x56                            | +000fe
 
 | ----------------------------------------------------------------------------
-|  Data_131715  @ $131715  (235 B)  [ref. desde código]
+|  SprFrame_131715  @ $131715  (235 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131715, "ax", @progbits
-        .global Data_131715
-Data_131715:
+        .section .text.SprFrame_131715, "ax", @progbits
+        .global SprFrame_131715
+SprFrame_131715:
         .dc.b   0x15                            | +00000
         .dc.w   0x55d5,0x0100,0xffe8,0x0030,0x0203,0x5616,0x5617,0x5618     | +00001
         .dc.w   0x5619,0x561a,0x561b,0x0100,0xfff0,0x0020,0x0202,0x561c     | +00011
@@ -14537,11 +14567,11 @@ Data_131715:
         .dc.w   0x5627,0x5628,0x5644,0x5645,0x562b                          | +000e1
 
 | ----------------------------------------------------------------------------
-|  Data_131800  @ $131800  (1,024 B)  [ref. desde código]
+|  SprFrame_131800  @ $131800  (1,024 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131800, "ax", @progbits
-        .global Data_131800
-Data_131800:
+        .section .text.SprFrame_131800, "ax", @progbits
+        .global SprFrame_131800
+SprFrame_131800:
         .dc.w   0x5646,0x562d,0x0000,0x0100,0xffe8,0x0030,0x0303,0x562e     | +00000
         .dc.w   0x562f,0x5630,0x5647,0x5648,0x5633,0x5649,0x5635,0x0000     | +00010
         .dc.w   0x0100,0xffe8,0x0030,0x0303,0x5626,0x5627,0x5628,0x564a     | +00020
@@ -14608,11 +14638,11 @@ Data_131800:
         .dc.w   0x5701,0x5702,0x0100,0xfff0,0x0020,0x0202,0x5703,0x5704     | +003f0
 
 | ----------------------------------------------------------------------------
-|  Data_131c00  @ $131C00  (360 B)  [ref. desde código]
+|  SprFrame_131c00  @ $131C00  (360 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131c00, "ax", @progbits
-        .global Data_131c00
-Data_131c00:
+        .section .text.SprFrame_131c00, "ax", @progbits
+        .global SprFrame_131c00
+SprFrame_131c00:
         .dc.w   0x5705,0x5706,0x0100,0xfff0,0x0020,0x0202,0x5707,0x5708     | +00000
         .dc.w   0x5709,0x570a,0x0100,0xfff5,0x0010,0x0201,0x570c,0x570b     | +00010
         .dc.w   0x0100,0xfff5,0x0010,0x0201,0x570e,0x570d,0x0100,0xfff0     | +00020
@@ -14638,20 +14668,20 @@ Data_131c00:
         .dc.w   0x5769,0x576a,0x576b,0x576c                                 | +00160
 
 | ----------------------------------------------------------------------------
-|  Data_131d68  @ $131D68  (20 B)  [ref. desde código]
+|  SprFrame_131d68  @ $131D68  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131d68, "ax", @progbits
-        .global Data_131d68
-Data_131d68:
+        .section .text.SprFrame_131d68, "ax", @progbits
+        .global SprFrame_131d68
+SprFrame_131d68:
         .dc.w   0x576d,0x0100,0xffe8,0x0028,0x0302,0x576e,0x576f,0x5770     | +00000
         .dc.w   0x5771,0x5772                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_131d7c  @ $131D7C  (701 B)  [ref. desde código]
+|  SprFrame_131d7c  @ $131D7C  (701 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_131d7c, "ax", @progbits
-        .global Data_131d7c
-Data_131d7c:
+        .section .text.SprFrame_131d7c, "ax", @progbits
+        .global SprFrame_131d7c
+SprFrame_131d7c:
         .dc.w   0x5773,0x0100,0xffe8,0x0010,0x0301,0x5774,0x5775,0x5776     | +00000
         .dc.w   0x0100,0xffe8,0x0010,0x0301,0x5777,0x5778,0x5779,0x0100     | +00010
         .dc.w   0xfff0,0x0030,0x0203,0x577a,0x577b,0x577c,0x577d,0x577e     | +00020
@@ -14699,39 +14729,39 @@ Data_131d7c:
         .dc.b   0x58                            | +002bc
 
 | ----------------------------------------------------------------------------
-|  Data_132039  @ $132039  (3 B)  [ref. desde código]
+|  SprFrame_132039  @ $132039  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_132039, "ax", @progbits
-        .global Data_132039
-Data_132039:
+        .section .text.SprFrame_132039, "ax", @progbits
+        .global SprFrame_132039
+SprFrame_132039:
         .dc.b   0x28                            | +00000
         .dc.w   0x5829                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_13203c  @ $13203C  (50 B)  [ref. desde código]
+|  SprFrame_13203c  @ $13203C  (50 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13203c, "ax", @progbits
-        .global Data_13203c
-Data_13203c:
+        .section .text.SprFrame_13203c, "ax", @progbits
+        .global SprFrame_13203c
+SprFrame_13203c:
         .dc.w   0x0100,0xffe8,0x0020,0x0302,0x5824,0x582a,0x582b,0x582c     | +00000
         .dc.w   0x582d,0x582e,0x0100,0xffe8,0x0020,0x0302,0x0000,0x582f     | +00010
         .dc.w   0x5830,0x5831,0x5832,0x5833,0x0100,0xffe8,0x0010,0x0301     | +00020
         .dc.w   0x5834                                                      | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_13206e  @ $13206E  (14 B)  [ref. desde código]
+|  SprFrame_13206e  @ $13206E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13206e, "ax", @progbits
-        .global Data_13206e
-Data_13206e:
+        .section .text.SprFrame_13206e, "ax", @progbits
+        .global SprFrame_13206e
+SprFrame_13206e:
         .dc.w   0x5835,0x5836,0x0100,0xffe8,0x0020,0x0302,0x5802            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13207c  @ $13207C  (1,010 B)  [ref. desde código]
+|  SprFrame_13207c  @ $13207C  (1,010 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13207c, "ax", @progbits
-        .global Data_13207c
-Data_13207c:
+        .section .text.SprFrame_13207c, "ax", @progbits
+        .global SprFrame_13207c
+SprFrame_13207c:
         .dc.w   0x5837,0x5804,0x5838,0x0000,0x5839,0x0100,0xffe8,0x0020     | +00000
         .dc.w   0x0302,0x583a,0x583b,0x580a,0x583c,0x583d,0x583e,0x0100     | +00010
         .dc.w   0xffe8,0x0020,0x0302,0x580c,0x583f,0x580e,0x5840,0x0000     | +00020
@@ -14798,11 +14828,11 @@ Data_13207c:
         .dc.w   0x0302                                                      | +003f0
 
 | ----------------------------------------------------------------------------
-|  Data_13246e  @ $13246E  (2,318 B)  [ref. desde código]
+|  SprFrame_13246e  @ $13246E  (2,318 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13246e, "ax", @progbits
-        .global Data_13246e
-Data_13246e:
+        .section .text.SprFrame_13246e, "ax", @progbits
+        .global SprFrame_13246e
+SprFrame_13246e:
         .dc.w   0x591e,0x5919,0x591f,0x591b,0x591c,0x5920,0x0100,0xffe8     | +00000
         .dc.w   0x0020,0x0302,0x5921,0x5919,0x5922,0x591b,0x591c,0x591d     | +00010
         .dc.w   0x0100,0xffeb,0x0030,0x0203,0x5926,0x5927,0x5928,0x5923     | +00020
@@ -14950,11 +14980,11 @@ Data_13246e:
         .dc.w   0x0010,0x0301,0x5b8c,0x5b86,0x5b91,0x0100,0xffed            | +00900
 
 | ----------------------------------------------------------------------------
-|  Data_132d7c  @ $132D7C  (690 B)  [ref. desde código]
+|  SprFrame_132d7c  @ $132D7C  (690 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_132d7c, "ax", @progbits
-        .global Data_132d7c
-Data_132d7c:
+        .section .text.SprFrame_132d7c, "ax", @progbits
+        .global SprFrame_132d7c
+SprFrame_132d7c:
         .dc.w   0x0030,0x0203,0x5b92,0x5b93,0x5b94,0x5b95,0x5b96,0x5b97     | +00000
         .dc.w   0x0100,0xffed,0x0030,0x0203,0x52c5,0x5b9b,0x5b94,0x5b98     | +00010
         .dc.w   0x5b99,0x5b9a,0x0100,0xffed,0x0030,0x0203,0x5b9e,0x5b9f     | +00020
@@ -15001,19 +15031,19 @@ Data_132d7c:
         .dc.w   0x530e                                                      | +002b0
 
 | ----------------------------------------------------------------------------
-|  Data_13302e  @ $13302E  (14 B)  [ref. desde código]
+|  SprFrame_13302e  @ $13302E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13302e, "ax", @progbits
-        .global Data_13302e
-Data_13302e:
+        .section .text.SprFrame_13302e, "ax", @progbits
+        .global SprFrame_13302e
+SprFrame_13302e:
         .dc.w   0x5bee,0x5bef,0x0100,0xffe8,0x0030,0x0303,0x5c31            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13303c  @ $13303C  (512 B)  [ref. desde código]
+|  SprFrame_13303c  @ $13303C  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13303c, "ax", @progbits
-        .global Data_13303c
-Data_13303c:
+        .section .text.SprFrame_13303c, "ax", @progbits
+        .global SprFrame_13303c
+SprFrame_13303c:
         .dc.w   0x5c32,0x5c33,0x5c34,0x5c35,0x5c36,0x0000,0x5c37,0x53dc     | +00000
         .dc.w   0x0100,0xffe8,0x0030,0x0303,0x5c38,0x5c39,0x5c3a,0x5c3b     | +00010
         .dc.w   0x5c3c,0x5c3d,0x0000,0x5c3e,0x53dc,0x0100,0xffe8,0x0030     | +00020
@@ -15048,11 +15078,11 @@ Data_13303c:
         .dc.w   0x0101,0x5cac,0x0100,0xfff8,0x0008,0x0101,0x5cad,0x0100     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_13323c  @ $13323C  (2,866 B)  [ref. desde código]
+|  SprFrame_13323c  @ $13323C  (2,866 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13323c, "ax", @progbits
-        .global Data_13323c
-Data_13323c:
+        .section .text.SprFrame_13323c, "ax", @progbits
+        .global SprFrame_13323c
+SprFrame_13323c:
         .dc.w   0xfff8,0x0008,0x0101,0x5cae,0x0100,0xfff8,0x0008,0x0101     | +00000
         .dc.w   0x5caf,0x0100,0xfff8,0x0008,0x0101,0x5cb0,0x0100,0xffed     | +00010
         .dc.w   0x0030,0x0203,0x137c,0x137d,0x137e,0x5cb1,0x5cb2,0x1381     | +00020
@@ -15235,11 +15265,11 @@ Data_13323c:
         .dc.w   0x5f6b                                                      | +00b30
 
 | ----------------------------------------------------------------------------
-|  Data_133d6e  @ $133D6E  (14 B)  [ref. desde código]
+|  SprFrame_133d6e  @ $133D6E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_133d6e, "ax", @progbits
-        .global Data_133d6e
-Data_133d6e:
+        .section .text.SprFrame_133d6e, "ax", @progbits
+        .global SprFrame_133d6e
+SprFrame_133d6e:
         .dc.w   0x5f6c,0xfff9,0x0020,0x0102,0x5f69,0x5f6a,0x0100            | +00000
 
 | ----------------------------------------------------------------------------
@@ -15264,19 +15294,19 @@ Data_133d7c:
         .dc.w   0x5f9e,0x0040,0x0048,0x0104,0x5f96,0x5f97,0x5f98,0x5f99     | +000d0
         .dc.w   0x0400,0xfff0,0x0030,0x0203,0x5fad,0x5fab,0x5fac,0x5fae     | +000e0
         .dc.w   0x5faf,0x5fb0                                               | +000f0
-        .dc.l   Str_100040                    | +000f4  -> $100040
+        .dc.l   ColMap_100040                    | +000f4  -> $100040
         .dc.w   0x0204,0x5fb1,0x5fb2,0x5fb3,0x5fb4,0x5fb5,0x5fb6,0x5fb7     | +000f8
         .dc.w   0x5fb8,0x0030,0x0050,0x0105,0x5fb9,0x5fba,0x5fbb,0x5fbc     | +00108
         .dc.w   0x5fbd,0x0040,0x0048,0x0104,0x5fbe,0x5fbf,0x5fc0,0x5f99     | +00118
         .dc.w   0x0500,0xfff0,0x0030,0x0103,0x5faa,0x5fab,0x5fac,0x0000     | +00128
         .dc.w   0x0032,0x0103,0x5fc1,0x5fc2,0x5fc3                          | +00138
-        .dc.l   Str_100040                    | +00142  -> $100040
+        .dc.l   ColMap_100040                    | +00142  -> $100040
         .dc.w   0x0204,0x5fc4,0x5fc5,0x5fc6,0x5fc7,0x5fc8,0x5fc9,0x5fca     | +00146
         .dc.w   0x5fcb,0x0030,0x0050,0x0105,0x5fcc,0x5fcd,0x5fce,0x5f9d     | +00156
         .dc.w   0x5f9e,0x0040,0x0048,0x0104,0x5fcf,0x5fd0,0x5fd1,0x5f99     | +00166
         .dc.w   0x0400,0xfff0,0x0030,0x0203,0x5fad,0x5fab,0x5fac,0x5fae     | +00176
         .dc.w   0x5faf,0x5fb0                                               | +00186
-        .dc.l   Str_100040                    | +0018a  -> $100040
+        .dc.l   ColMap_100040                    | +0018a  -> $100040
         .dc.w   0x0204,0x5fda,0x5fdb,0x5fb3,0x5fb4,0x5fd8,0x5fd9,0x5fb7     | +0018e
         .dc.w   0x5fb8,0x0030,0x0050,0x0105,0x5fd5,0x5fd6,0x5fd7,0x5fbc     | +0019e
         .dc.w   0x5fbd,0x0040,0x0048,0x0104,0x5fd2,0x5fd3,0x5fd4,0x5f99     | +001ae
@@ -15293,12 +15323,12 @@ Data_133d7c:
         .dc.w   0x6017,0x6018,0x6019,0x601a,0x601b,0x601c,0x601d,0x601e     | +0025e
         .dc.w   0x601f,0xfff0,0x0038,0x0206,0x6020,0x6021,0x6022,0x6023     | +0026e
         .dc.w   0x6024,0x6025,0x6026,0x6027,0x6028,0x6029,0x602a,0x602b     | +0027e
-        .dc.l   Data_100033                   | +0028e  -> $100033
+        .dc.l   ColMap_100033                   | +0028e  -> $100033
         .dc.w   0x0206,0x602c,0x602d,0x602e,0x602f,0x6030,0x6031,0x6032     | +00292
         .dc.w   0x6033,0x6034,0x6035,0x6036,0x6037,0x0030,0x0021,0x0105     | +002a2
         .dc.w   0x6038,0x6039,0x603a,0x603b,0x603c,0x0200,0xffea,0x0020     | +002b2
         .dc.w   0x0202,0x603d,0x603e,0x603f,0x6040                          | +002c2
-        .dc.l   Data_0a0010                   | +002cc  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +002cc  -> $0A0010
         .dc.w   0x0101,0x6041,0x0100,0xffe8,0x0020,0x0302,0x5376,0x5377     | +002d0
         .dc.w   0x6042,0x5379,0x537a,0x537b,0x0100,0xffe8,0x0020,0x0302     | +002e0
         .dc.w   0x537c,0x537d,0x6043,0x537f,0x6044,0x5381,0x0100,0xffe8     | +002f0
@@ -15329,45 +15359,45 @@ Data_133d7c:
         .dc.w   0x0300,0xfff7,0x0031,0x0103                                 | +00474
 
 | ----------------------------------------------------------------------------
-|  Data_1341f8  @ $1341F8  (1 B)  [ref. desde código]
+|  SprFrame_1341f8  @ $1341F8  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1341f8, "ax", @progbits
-        .global Data_1341f8
-Data_1341f8:
+        .section .text.SprFrame_1341f8, "ax", @progbits
+        .global SprFrame_1341f8
+SprFrame_1341f8:
         .dc.b   0x60                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1341f9  @ $1341F9  (1 B)  [ref. desde código]
+|  SprFrame_1341f9  @ $1341F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1341f9, "ax", @progbits
-        .global Data_1341f9
-Data_1341f9:
+        .section .text.SprFrame_1341f9, "ax", @progbits
+        .global SprFrame_1341f9
+SprFrame_1341f9:
         .dc.b   0x79                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1341fa  @ $1341FA  (46 B)  [ref. desde código]
+|  SprFrame_1341fa  @ $1341FA  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1341fa, "ax", @progbits
-        .global Data_1341fa
-Data_1341fa:
+        .section .text.SprFrame_1341fa, "ax", @progbits
+        .global SprFrame_1341fa
+SprFrame_1341fa:
         .dc.w   0x607a,0x607b,0x0007,0x0030,0x0102,0x607c,0x607d,0x0017     | +00000
         .dc.w   0x0027,0x0101,0x607e,0x0200,0xfff7,0x0031,0x0103,0x6073     | +00010
         .dc.w   0x607f,0x6080,0x0007,0x002f,0x0102,0x6081,0x6082            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_134228  @ $134228  (6 B)  [ref. desde código]
+|  SprFrame_134228  @ $134228  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_134228, "ax", @progbits
-        .global Data_134228
-Data_134228:
+        .section .text.SprFrame_134228, "ax", @progbits
+        .global SprFrame_134228
+SprFrame_134228:
         .dc.w   0x0300,0xfff7,0x0031                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_13422e  @ $13422E  (64 B)  [ref. desde código]
+|  SprFrame_13422e  @ $13422E  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13422e, "ax", @progbits
-        .global Data_13422e
-Data_13422e:
+        .section .text.SprFrame_13422e, "ax", @progbits
+        .global SprFrame_13422e
+SprFrame_13422e:
         .dc.w   0x0103,0x6083,0x6084,0x6075,0x0007,0x0031,0x0102,0x6085     | +00000
         .dc.w   0x6086,0x0017,0x0027,0x0101,0x6087,0x0300,0xfff7,0x0031     | +00010
         .dc.w   0x0103,0x6088,0x6089,0x607b,0x0007,0x0030,0x0102,0x608a     | +00020
@@ -15407,11 +15437,11 @@ Data_13426e:
         .dc.b   0x01                            | +0018a
 
 | ----------------------------------------------------------------------------
-|  Data_1343f9  @ $1343F9  (1 B)  [ref. desde código]
+|  SprFrame_1343f9  @ $1343F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1343f9, "ax", @progbits
-        .global Data_1343f9
-Data_1343f9:
+        .section .text.SprFrame_1343f9, "ax", @progbits
+        .global SprFrame_1343f9
+SprFrame_1343f9:
         .dc.b   0x02                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -15451,16 +15481,16 @@ Data_1343fa:
         .dc.w   0x0008,0x0010,0x0102,0x612e,0x6146,0x0200,0xffe8,0x0020     | +001c0
         .dc.w   0x0103,0x614b,0x614c,0x614d,0xfff8,0x0010,0x0202,0x614e     | +001d0
         .dc.w   0x614f,0x6150,0x6151,0x0100,0xffe8                          | +001e0
-        .dc.l   Data_100302                   | +001ea  -> $100302
+        .dc.l   ColMap_100302                   | +001ea  -> $100302
         .dc.w   0x6152,0x6153,0x6154,0x6155,0x6156,0x6157,0x0200,0xffe8     | +001ee
         .dc.b   0x00                            | +001fe
 
 | ----------------------------------------------------------------------------
-|  Data_1345f9  @ $1345F9  (1,077 B)  [ref. desde código]
+|  SprFrame_1345f9  @ $1345F9  (1,077 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1345f9, "ax", @progbits
-        .global Data_1345f9
-Data_1345f9:
+        .section .text.SprFrame_1345f9, "ax", @progbits
+        .global SprFrame_1345f9
+SprFrame_1345f9:
         .dc.b   0x10                            | +00000
         .dc.w   0x0202,0x6158,0x6159,0x615a,0x615b,0x0008,0x0000,0x0101     | +00001
         .dc.w   0x615c,0x0200,0xffe8,0x0010,0x0202,0x615e,0x615f,0x6160     | +00011
@@ -15532,20 +15562,20 @@ Data_1345f9:
         .dc.w   0x6299,0x629a                                               | +00431
 
 | ----------------------------------------------------------------------------
-|  Data_134a2e  @ $134A2E  (11 B)  [ref. desde código]
+|  SprFrame_134a2e  @ $134A2E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_134a2e, "ax", @progbits
-        .global Data_134a2e
-Data_134a2e:
+        .section .text.SprFrame_134a2e, "ax", @progbits
+        .global SprFrame_134a2e
+SprFrame_134a2e:
         .dc.w   0x629b,0x0100,0xffe1,0x0030,0x0403                          | +00000
         .dc.b   0x62                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_134a39  @ $134A39  (1,084 B)  [ref. desde código]
+|  SprFrame_134a39  @ $134A39  (1,084 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_134a39, "ax", @progbits
-        .global Data_134a39
-Data_134a39:
+        .section .text.SprFrame_134a39, "ax", @progbits
+        .global SprFrame_134a39
+SprFrame_134a39:
         .dc.b   0x9c                            | +00000
         .dc.w   0x629d,0x629e,0x629f,0x62a0,0x62a1,0x62a2,0x62a3,0x62a4     | +00001
         .dc.w   0x62a5,0x62a6,0x62a7,0x0100,0xffe0,0x0030,0x0503,0x62a8     | +00011
@@ -15618,11 +15648,11 @@ Data_134a39:
         .dc.b   0x63                            | +0043b
 
 | ----------------------------------------------------------------------------
-|  Data_134e75  @ $134E75  (68 B)  [ref. desde código]
+|  SprFrame_134e75  @ $134E75  (68 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_134e75, "ax", @progbits
-        .global Data_134e75
-Data_134e75:
+        .section .text.SprFrame_134e75, "ax", @progbits
+        .global SprFrame_134e75
+SprFrame_134e75:
         .dc.b   0xc4                            | +00000
         .dc.w   0x63c5,0x63c6,0x63c7,0x0100,0xfff0,0x0020,0x0202,0x63c8     | +00001
         .dc.w   0x63c1,0x63c9,0x63c3,0x0100,0xfff0,0x0020,0x0202,0x63ca     | +00011
@@ -15632,19 +15662,19 @@ Data_134e75:
         .dc.b   0x63                            | +00043
 
 | ----------------------------------------------------------------------------
-|  Data_134eb9  @ $134EB9  (1 B)  [ref. desde código]
+|  SprFrame_134eb9  @ $134EB9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_134eb9, "ax", @progbits
-        .global Data_134eb9
-Data_134eb9:
+        .section .text.SprFrame_134eb9, "ax", @progbits
+        .global SprFrame_134eb9
+SprFrame_134eb9:
         .dc.b   0xd4                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_134eba  @ $134EBA  (948 B)  [ref. desde código]
+|  SprFrame_134eba  @ $134EBA  (948 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_134eba, "ax", @progbits
-        .global Data_134eba
-Data_134eba:
+        .section .text.SprFrame_134eba, "ax", @progbits
+        .global SprFrame_134eba
+SprFrame_134eba:
         .dc.w   0x63d5,0x0100,0xfff0,0x0020,0x0202,0x63d6,0x63d7,0x63d8     | +00000
         .dc.w   0x63d9,0x0100,0xfff0,0x0020,0x0202,0x63dc,0x63dd,0x63da     | +00010
         .dc.w   0x63db,0x0100,0xfff0,0x0020,0x0202,0x63e0,0x63e1,0x63de     | +00020
@@ -15707,11 +15737,11 @@ Data_134eba:
         .dc.w   0x64aa,0xfff0                                               | +003b0
 
 | ----------------------------------------------------------------------------
-|  Data_13526e  @ $13526E  (256 B)  [ref. desde código]
+|  SprFrame_13526e  @ $13526E  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13526e, "ax", @progbits
-        .global Data_13526e
-Data_13526e:
+        .section .text.SprFrame_13526e, "ax", @progbits
+        .global SprFrame_13526e
+SprFrame_13526e:
         .dc.w   0x0040,0x0103,0x64ab,0x64ac,0x64ad,0x0300,0xffd8,0x0030     | +00000
         .dc.w   0x0103,0x64ae,0x64af,0x64b0,0xffe8,0x0048,0x0104,0x64b1     | +00010
         .dc.w   0x64b2,0x64b3,0x64b4,0xfff8,0x0040,0x0102,0x64b5,0x64b6     | +00020
@@ -15730,11 +15760,11 @@ Data_13526e:
         .dc.w   0x0102,0x64d4,0x64d5,0xffe0,0x0040,0x0104,0x64d6,0x64d7     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_13536e  @ $13536E  (852 B)  [ref. desde código]
+|  SprFrame_13536e  @ $13536E  (852 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13536e, "ax", @progbits
-        .global Data_13536e
-Data_13536e:
+        .section .text.SprFrame_13536e, "ax", @progbits
+        .global SprFrame_13536e
+SprFrame_13536e:
         .dc.w   0x64d8,0x64d9,0xfff0,0x0040,0x0103,0x64da,0x64db,0x64dc     | +00000
         .dc.w   0x0300,0xffd0,0x0020,0x0102,0x64dd,0x64de,0xffe0,0x0041     | +00010
         .dc.w   0x0104,0x64df,0x64e0,0x64e1,0x64e2,0xfff0,0x0041,0x0103     | +00020
@@ -15791,11 +15821,11 @@ Data_13536e:
         .dc.w   0x6590,0x6591                                               | +00350
 
 | ----------------------------------------------------------------------------
-|  Data_1356c2  @ $1356C2  (2,366 B)  [ref. desde código]
+|  SprFrame_1356c2  @ $1356C2  (2,366 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1356c2, "ax", @progbits
-        .global Data_1356c2
-Data_1356c2:
+        .section .text.SprFrame_1356c2, "ax", @progbits
+        .global SprFrame_1356c2
+SprFrame_1356c2:
         .dc.w   0x6592,0x658b,0x658c,0x658d,0x658e,0x0300,0xffd0,0x0040     | +00000
         .dc.w   0x0101,0x659c,0xffd0,0x001a,0x0101,0x659d,0xffe0,0x0040     | +00010
         .dc.w   0x0204,0x6598,0x6599,0x659a,0x659b,0x6594,0x6595,0x6596     | +00020
@@ -15946,11 +15976,11 @@ Data_1356c2:
         .dc.w   0x67c0,0x67c1,0x67c2,0x67c3,0x67c4,0x67c5,0x67c6            | +00930
 
 | ----------------------------------------------------------------------------
-|  Data_136000  @ $136000  (166 B)  [ref. desde código]
+|  SprFrame_136000  @ $136000  (166 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_136000, "ax", @progbits
-        .global Data_136000
-Data_136000:
+        .section .text.SprFrame_136000, "ax", @progbits
+        .global SprFrame_136000
+SprFrame_136000:
         .dc.w   0x0018,0x0030,0x0103,0x67c7,0x67c8,0x67c9,0x0300,0xffd8     | +00000
         .dc.w   0x0020,0x0102,0x67d5,0x67d6,0xffe8,0x0030,0x0303,0x67d2     | +00010
         .dc.w   0x67d3,0x67d4,0x67cf,0x67d0,0x67d1,0x67cc,0x67cd,0x67ce     | +00020
@@ -16108,11 +16138,11 @@ Data_136700:
         .dc.w   0x6a38,0x0100,0xffd0,0x0040,0x0604,0x0000,0x0000,0x6a5f     | +000c0
 
 | ----------------------------------------------------------------------------
-|  Str_1367d0  @ $1367D0  (6,494 B)  [ref. desde código]
+|  SprFrame_1367d0  @ $1367D0  (6,494 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_1367d0, "ax", @progbits
-        .global Str_1367d0
-Str_1367d0:
+        .section .text.SprFrame_1367d0, "ax", @progbits
+        .global SprFrame_1367d0
+SprFrame_1367d0:
         .dc.w   0x6a60,0x6a5b,0x6a5c,0x6a5d,0x6a5e,0x6a57,0x6a58,0x6a59     | +00000
         .dc.w   0x6a5a,0x6a53,0x6a54,0x6a55,0x6a56,0x6a4f,0x6a50,0x6a51     | +00010
         .dc.w   0x6a52,0x6a4b,0x6a4c,0x6a4d,0x6a4e,0x0100,0xffd0,0x0040     | +00020
@@ -16271,7 +16301,7 @@ Str_1367d0:
         .dc.w   0x6c68,0x6c69,0x6c6a,0x6c6b,0xffe0,0xfffa,0x0104,0x6c64     | +0098e
         .dc.w   0x6c65,0x6c66,0x6c67,0xfff0,0xffd4,0x0102,0x1439,0x6c63     | +0099e
         .dc.w   0x0000,0xffc4,0x0101,0x6c62                                 | +009ae
-        .dc.l   Str_10fff0                    | +009b6  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +009b6  -> $10FFF0
         .dc.w   0x0104,0x6c5e,0x6c5f,0x6c60,0x6c61,0x0020,0x0000,0x0103     | +009ba
         .dc.w   0x6c5b,0x6c5c,0x6c5d,0x0600,0xffcd,0x0002,0x0103,0x6c7d     | +009ca
         .dc.w   0x6c7e,0x6c7f,0xffdd,0x0002,0x0105,0x6c78,0x6c79,0x6c7a     | +009da
@@ -16296,7 +16326,7 @@ Str_1367d0:
         .dc.w   0x6caa                                                      | +00af0
         .dc.l   Data_00ffe0                   | +00af2  -> $00FFE0
         .dc.w   0x0102,0x6ca8,0x6ca9                                        | +00af6
-        .dc.l   Str_10fff8                    | +00afc  -> $10FFF8
+        .dc.l   ColMap_10fff8                    | +00afc  -> $10FFF8
         .dc.w   0x0103,0x6ca5,0x6ca6,0x6ca7,0x0020,0x0000,0x0102,0x6ca3     | +00b00
         .dc.w   0x6ca4,0x0700,0xffc2,0xfff6,0x0103,0x6cc3,0x6cc4,0x6cc5     | +00b10
         .dc.w   0xffd2,0x000a,0x0105,0x6cbe,0x6cbf,0x6cc0,0x6cc1,0x6cc2     | +00b20
@@ -16355,7 +16385,7 @@ Str_1367d0:
         .dc.w   0x0021,0x0101,0x6d72,0xfff1,0x002c,0x0203,0x6d6f,0x6d70     | +00e56
         .dc.w   0x6d71,0x6d6c,0x6d6d,0x6d6e,0x0300,0xffe2,0x0018,0x0101     | +00e66
         .dc.w   0x6d77,0xfff2,0x0022,0x0102,0x6d75,0x6d76                   | +00e76
-        .dc.l   Data_020021                   | +00e82  -> $020021
+        .dc.l   Pal_020021                   | +00e82  -> $020021
         .dc.w   0x0102,0x6d73,0x6d74,0x0200,0xffe1,0x000f,0x0101,0x6d7c     | +00e86
         .dc.w   0xfff1,0x001f,0x0202,0x6d7a,0x6d7b,0x6d78,0x6d79,0x0100     | +00e96
         .dc.w   0xffed,0x001c,0x0202,0x6d7f,0x6d80,0x6d7d,0x6d7e,0x0200     | +00ea6
@@ -16547,9 +16577,9 @@ Data_13812e:
         .dc.w   0x7069,0x706a,0x706b,0x5e8d,0x0100,0xfff5,0x0026,0x0102     | +00070
         .dc.w   0x706c,0x706d,0x0100,0xffef,0x0008,0x0301,0x706e,0x706f     | +00080
         .dc.w   0x7070,0x0100,0xfff0                                        | +00090
-        .dc.l   Data_100302                   | +00096  -> $100302
+        .dc.l   ColMap_100302                   | +00096  -> $100302
         .dc.w   0x7071,0x7072,0x7073,0x7074,0x7075,0x7076,0x0100,0xfff0     | +0009a
-        .dc.l   Data_100302                   | +000aa  -> $100302
+        .dc.l   ColMap_100302                   | +000aa  -> $100302
         .dc.w   0x7077,0x7078,0x7079,0x707a,0x0000,0x707b,0x0100,0xfff4     | +000ae
         .dc.w   0x000e,0x0202,0x707c,0x707d,0x707e,0x707f,0x0100,0xfff6     | +000be
         .dc.w   0x000e,0x0202,0x7080,0x7081,0x7082,0x7083,0x0100,0xfff6     | +000ce
@@ -16557,7 +16587,7 @@ Data_13812e:
         .dc.w   0x000d,0x0202,0x7088,0x7089,0x708a,0x708b,0x0100,0xfff9     | +000ee
         .dc.w   0x000c,0x0102,0x708c,0x708d,0x0100,0xfff8,0x000c,0x0102     | +000fe
         .dc.w   0x708e,0x708f,0x0100,0xffef                                 | +0010e
-        .dc.l   Data_100302                   | +00116  -> $100302
+        .dc.l   ColMap_100302                   | +00116  -> $100302
         .dc.w   0x7090,0x7091,0x7092,0x7093,0x3578,0x1ef6,0x0100,0xffef     | +0011a
         .dc.w   0x000f,0x0202,0x7094,0x7095,0x7096,0x7097,0x0100,0xfff0     | +0012a
         .dc.w   0x0010,0x0202,0x7098,0x7099,0x709a,0x709b,0x0100,0xfff0     | +0013a
@@ -16575,20 +16605,20 @@ Data_13812e:
         .dc.w   0x0020,0x0202,0x70c0                                        | +001fa
 
 | ----------------------------------------------------------------------------
-|  Data_13832e  @ $13832E  (12,307 B)  [ref. desde código]
+|  SprFrame_13832e  @ $13832E  (12,307 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13832e, "ax", @progbits
-        .global Data_13832e
-Data_13832e:
+        .section .text.SprFrame_13832e, "ax", @progbits
+        .global SprFrame_13832e
+SprFrame_13832e:
         .dc.w   0x70c1,0x70c2,0x70c3,0x0200,0xfff0,0x0020,0x0202,0x70c4     | +00000
         .dc.w   0x70c5,0x70c6,0x70c7                                        | +00010
-        .dc.l   Data_100011                   | +00016  -> $100011
+        .dc.l   ColMap_100011                   | +00016  -> $100011
         .dc.w   0x0101,0x70c8,0x0200,0xfff0,0x0020,0x0202,0x70c9,0x70ca     | +0001a
         .dc.w   0x70cb,0x70cc                                               | +0002a
-        .dc.l   Data_100010                   | +0002e  -> $100010
+        .dc.l   ColMap_100010                   | +0002e  -> $100010
         .dc.w   0x0101,0x70cd,0x0200,0xfff0,0x0020,0x0202,0x70ce,0x70cf     | +00032
         .dc.w   0x70d0,0x70d1                                               | +00042
-        .dc.l   Data_100010                   | +00046  -> $100010
+        .dc.l   ColMap_100010                   | +00046  -> $100010
         .dc.w   0x0101,0x70d2,0x0100,0xffe8,0x0020,0x0302,0x70d3,0x70d4     | +0004a
         .dc.w   0x70d5,0x70d6,0x70d7,0x70d8,0x0200,0xfff7,0x0030,0x0103     | +0005a
         .dc.w   0x70d9,0x70da,0x70db,0x0007,0x0025,0x0102,0x70dc,0x70dd     | +0006a
@@ -16629,7 +16659,7 @@ Data_13832e:
         .dc.w   0x714e,0x714f,0x0100,0xfff8,0x0030,0x0203,0x7150,0x7151     | +00286
         .dc.w   0x7152,0x7153,0x7154,0x7155,0x0200,0xfff0,0x0030,0x0203     | +00296
         .dc.w   0x7156,0x7157,0x7158,0x7159,0x715a,0x715b                   | +002a6
-        .dc.l   Data_10002e                   | +002b2  -> $10002E
+        .dc.l   ColMap_10002e                   | +002b2  -> $10002E
         .dc.w   0x0101,0x715c,0x0100,0xffe8,0x0030,0x0303,0x7163,0x7164     | +002b6
         .dc.w   0x7165,0x7160,0x7161,0x7162,0x715d,0x715e,0x715f,0x0100     | +002c6
         .dc.w   0xffe8,0x0030,0x0303,0x7166,0x7167,0x7168,0x7169,0x716a     | +002d6
@@ -16786,7 +16816,7 @@ Data_13832e:
         .dc.w   0x741c,0x741d,0x741e,0x741f,0x7420,0x7421,0x7422,0x7423     | +00c02
         .dc.w   0x7424,0x7425,0x7426,0x7427,0x7428,0x7429,0x742a,0x0000     | +00c12
         .dc.w   0x0050,0x0106,0x7432,0x7433,0x7434,0x7435,0x7436,0x7437     | +00c22
-        .dc.l   Data_100030                   | +00c32  -> $100030
+        .dc.l   ColMap_100030                   | +00c32  -> $100030
         .dc.w   0x0104,0x7438,0x7439,0x743a,0x743b,0x0020,0x0025,0x0103     | +00c36
         .dc.w   0x743c,0x743d,0x743e,0x0030,0x0015,0x0102,0x7364,0x743f     | +00c46
         .dc.w   0x0400,0xffb8,0x0010,0x0303,0x7440,0x7441,0x7442,0x73c0     | +00c56
@@ -16878,10 +16908,10 @@ Data_13832e:
         .dc.w   0x0020,0x0402,0x7589,0x758a,0x758b,0x758c,0x758d,0x758e     | +0113a
         .dc.w   0x758f,0x7590,0x0200,0xffe0,0x0020,0x0302,0x7591,0x7592     | +0114a
         .dc.w   0x7593,0x7594,0x7595,0x7596                                 | +0115a
-        .dc.l   Data_100030                   | +01162  -> $100030
+        .dc.l   ColMap_100030                   | +01162  -> $100030
         .dc.w   0x0103,0x755a,0x7597,0x7598,0x0200,0xffe0,0x0020,0x0302     | +01166
         .dc.w   0x7564,0x759b,0x759c,0x759d,0x759e,0x759f                   | +01176
-        .dc.l   Data_100030                   | +01182  -> $100030
+        .dc.l   ColMap_100030                   | +01182  -> $100030
         .dc.w   0x0103,0x755d,0x7599,0x759a,0x0100,0xffe0,0x0020,0x0402     | +01186
         .dc.w   0x75a0,0x7545,0x75a1,0x75a2,0x75a3,0x75a4,0x75a5,0x75a6     | +01196
         .dc.w   0x0100,0xffe0,0x0020,0x0402,0x75a7,0x75a8,0x75a9,0x75aa     | +011a6
@@ -16896,7 +16926,7 @@ Data_13832e:
         .dc.w   0x0100,0xffe0,0x0020,0x0402,0x75d5,0x75d6,0x75d7,0x75d8     | +01236
         .dc.w   0x75bb,0x75d9,0x75da,0x75db,0x0200,0xffe0,0x0020,0x0302     | +01246
         .dc.w   0x75e3,0x75e4,0x75e1,0x75e2,0x75df,0x75e0                   | +01256
-        .dc.l   Data_100030                   | +01262  -> $100030
+        .dc.l   ColMap_100030                   | +01262  -> $100030
         .dc.w   0x0103,0x75dc,0x75dd,0x75de,0x0100,0xffe0,0x0020,0x0402     | +01266
         .dc.w   0x75e5,0x75e6,0x75e7,0x75e8,0x75e9,0x75ea,0x75eb,0x75ec     | +01276
         .dc.w   0x0100,0xffe0,0x0020,0x0402,0x75ed,0x75ee,0x75ef,0x75f0     | +01286
@@ -16918,7 +16948,7 @@ Data_13832e:
         .dc.w   0x7629,0x762a,0x762b,0x0200,0xffe2,0x0038,0x0101,0x7630     | +01386
         .dc.w   0xfff2,0x0038,0x0202,0x762e,0x762f,0x762c,0x762d,0x0200     | +01396
         .dc.w   0xfff0,0x0038,0x0202,0x7631,0x7632,0x7633,0x7634            | +013a6
-        .dc.l   Data_100028                   | +013b4  -> $100028
+        .dc.l   ColMap_100028                   | +013b4  -> $100028
         .dc.w   0x0101,0x7635,0x0200,0xffe7,0x003c,0x0101,0x763a,0xfff3     | +013b8
         .dc.w   0x0039,0x0202,0x7638,0x7639,0x7636,0x7637,0x0200,0xffe8     | +013c8
         .dc.w   0x003e,0x0101,0x763f,0xfff3,0x003a,0x0202,0x763d,0x763e     | +013d8
@@ -16939,7 +16969,7 @@ Data_13832e:
         .dc.w   0x0038,0x0101,0x7679,0xffe4,0x0032,0x0101,0x7678,0xfff4     | +014c8
         .dc.w   0x0038,0x0202,0x7676,0x7677,0x7674,0x7675,0x0200,0xfff0     | +014d8
         .dc.w   0x0039,0x0202,0x767a,0x767b,0x767c,0x767d                   | +014e8
-        .dc.l   Data_100029                   | +014f4  -> $100029
+        .dc.l   ColMap_100029                   | +014f4  -> $100029
         .dc.w   0x0101,0x767e,0x0200,0xffed,0x0038,0x0202,0x767f,0x7680     | +014f8
         .dc.w   0x7681,0x7682,0x000d,0x002a,0x0101,0x7683,0x0100,0xfff0     | +01508
         .dc.w   0x0038,0x0202,0x7684,0x7685,0x7686,0x7687,0x0100,0xfff0     | +01518
@@ -17194,7 +17224,7 @@ Data_13832e:
         .dc.w   0x79ed,0x79ee,0x79ef,0x27f4,0x27f5,0x79f0,0x0200,0xffeb     | +024a8
         .dc.w   0x0040,0x0204,0x79f1,0x79f2,0x79f3,0x79f4,0x79f5,0x79f6     | +024b8
         .dc.w   0x79f7,0x79f8                                               | +024c8
-        .dc.l   Data_0b0010                   | +024cc  -> $0B0010
+        .dc.l   BgMap_0b0010                   | +024cc  -> $0B0010
         .dc.w   0x0101,0x79f9,0x0200,0xffea,0x0040,0x0204,0x79fa,0x79fb     | +024d0
         .dc.w   0x79fc,0x79fd,0x79fe,0x79ff,0x7a00,0x7a01,0x000a,0x0030     | +024e0
         .dc.w   0x0103,0x7a02,0x0000,0x7a03,0x0200,0xffe8,0x0032,0x0102     | +024f0
@@ -17333,7 +17363,7 @@ Data_13832e:
         .dc.w   0x0030,0x0103,0x7b84,0x7b85,0x7b86,0xfff3,0x0040,0x0104     | +02cb4
         .dc.w   0x7b80,0x7b81,0x7b82,0x7b83,0x0003,0x0030,0x0103,0x7b7d     | +02cc4
         .dc.w   0x7b7e,0x7b7f                                               | +02cd4
-        .dc.l   Data_130022                   | +02cd8  -> $130022
+        .dc.l   SprFrame_130022                   | +02cd8  -> $130022
         .dc.w   0x0102,0x7b7b,0x7b7c,0x0200,0xffd8,0x0030,0x0403,0x7a94     | +02cdc
         .dc.w   0x7a95,0x7a96,0x7b8a,0x7a98,0x7a99,0x7b89,0x7a9b,0x7a9c     | +02cec
         .dc.w   0x7a9d,0x7a9e,0x7a9f,0x0018,0x0025,0x0102,0x7b4a,0x7b4b     | +02cfc
@@ -17389,11 +17419,11 @@ Data_13832e:
         .dc.b   0x01                            | +03012
 
 | ----------------------------------------------------------------------------
-|  Data_13b341  @ $13B341  (13,255 B)  [ref. desde código]
+|  SprFrame_13b341  @ $13B341  (13,255 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13b341, "ax", @progbits
-        .global Data_13b341
-Data_13b341:
+        .section .text.SprFrame_13b341, "ax", @progbits
+        .global SprFrame_13b341
+SprFrame_13b341:
         .dc.b   0x02                            | +00000
         .dc.w   0x7b1c,0x7b1d,0xffe8,0x0030,0x0303,0x7be3,0x7be4,0x7b20     | +00001
         .dc.w   0x7be2,0x7b26,0x7b27,0x7be1,0x7b22,0x7b23,0x0018,0x0020     | +00011
@@ -17405,7 +17435,7 @@ Data_13b341:
         .dc.w   0x0000,0x7bf9,0x7bfa,0x0018,0x0020,0x0102,0x7bfb,0x7bfc     | +00071
         .dc.w   0x0400,0xffdd,0x0020,0x0102,0x7bfd,0x7bfe,0xffed,0x0030     | +00081
         .dc.w   0x0203,0x7bff,0x7c00,0x7c01,0x7c02,0x7c03,0x7c04            | +00091
-        .dc.l   Data_0d0020                   | +0009f  -> $0D0020
+        .dc.l   BgMap_0d0020                   | +0009f  -> $0D0020
         .dc.w   0x0102,0x7c05,0x7c06,0x001c,0x0013,0x0101,0x7c07,0x0400     | +000a3
         .dc.w   0xffdc,0x001f,0x0102,0x7c08,0x7c09,0xffec,0x002f,0x0203     | +000b3
         .dc.w   0x7c0a,0x7c0b,0x7c0c,0x7c0d,0x7c0e,0x7c0f,0x000c,0x001f     | +000c3
@@ -17517,7 +17547,7 @@ Data_13b341:
         .dc.w   0x0030,0x0101,0x7de9,0xfff8,0x0030,0x0103,0x7dea,0x7deb     | +00733
         .dc.w   0x7dec,0x0008,0x0030,0x0102,0x7ded,0x7dee,0x0200,0xfff7     | +00743
         .dc.w   0x0030,0x0203,0x7def,0x7df0,0x7df1,0x7df2,0x7df3,0x0000     | +00753
-        .dc.l   Data_100030                   | +00763  -> $100030
+        .dc.l   ColMap_100030                   | +00763  -> $100030
         .dc.w   0x0102,0x7df4,0x7df5,0x0200,0xfff7,0x0031,0x0103,0x6073     | +00767
         .dc.w   0x7df6,0x7df7,0x0007,0x002b,0x0102,0x7df8,0x7df9,0x0200     | +00777
         .dc.w   0xffe2,0x0021,0x0101,0x7dfe,0xffef,0x0030,0x0203,0x7dfc     | +00787
@@ -17728,7 +17758,7 @@ Data_13b341:
         .dc.w   0x0400,0xffc0,0x0020,0x0102,0x8139,0x813a,0xffd0,0x0030     | +01437
         .dc.w   0x0303,0x8134,0x8135,0x8136,0x8131,0x8132,0x8133,0x812e     | +01447
         .dc.w   0x812f,0x8130,0x0000,0x0020,0x0102,0x8137,0x8138            | +01457
-        .dc.l   Data_100030                   | +01465  -> $100030
+        .dc.l   ColMap_100030                   | +01465  -> $100030
         .dc.w   0x0203,0x812b,0x812c,0x812d,0x8128,0x8129,0x812a,0x0400     | +01469
         .dc.w   0xffe9,0x0027,0x0102,0x8143,0x8144,0xfff9,0x0027,0x0103     | +01479
         .dc.w   0x8140,0x8141,0x8142,0x0009,0x001f,0x0103,0x813d,0x813e     | +01489
@@ -17788,7 +17818,7 @@ Data_13b341:
         .dc.w   0x0103,0x81e9,0x81ea,0x81eb,0x001c,0x0010,0x0102,0x81e7     | +017d3
         .dc.w   0x81e8,0x0400,0xffed,0x0021,0x0102,0x81f9,0x81fa,0xfffd     | +017e3
         .dc.w   0x0021,0x0103,0x81f6,0x81f7,0x81f8                          | +017f3
-        .dc.l   Data_0d0020                   | +017fd  -> $0D0020
+        .dc.l   BgMap_0d0020                   | +017fd  -> $0D0020
         .dc.w   0x0103,0x81f3,0x81f4,0x81f5,0x001d,0x0010,0x0102,0x81f1     | +01801
         .dc.w   0x81f2,0x0400,0xffec,0x0025,0x0102,0x8201,0x8202,0xfffc     | +01811
         .dc.w   0x0025,0x0103,0x81fe,0x81ff,0x8200,0x0009,0x001e,0x0103     | +01821
@@ -17829,7 +17859,7 @@ Data_13b341:
         .dc.w   0x0103,0x8265,0x8266,0x8267,0x0018,0x000d,0x0102,0x8268     | +01a27
         .dc.w   0x8269,0x0400,0xffea,0x0023,0x0102,0x8277,0x8278,0xfffa     | +01a37
         .dc.w   0x0023,0x0103,0x8274,0x8275,0x8276                          | +01a47
-        .dc.l   Data_0a001e                   | +01a51  -> $0A001E
+        .dc.l   BgMap_0a001e                   | +01a51  -> $0A001E
         .dc.w   0x0103,0x8271,0x8272,0x8273,0x001a,0x000e,0x0102,0x826f     | +01a55
         .dc.w   0x8270,0x0400,0xffe9,0x0024,0x0102,0x8281,0x8282,0xfff9     | +01a65
         .dc.w   0x0024,0x0103,0x827e,0x827f,0x8280,0x0009,0x001d,0x0103     | +01a75
@@ -17884,7 +17914,7 @@ Data_13b341:
         .dc.w   0x8324,0x8325,0x0200,0xfffe,0x0033,0x0102,0x832a,0x832b     | +01d6d
         .dc.w   0x000e,0x0028,0x0202,0x8328,0x8329,0x8326,0x8327,0x0200     | +01d7d
         .dc.w   0x0000,0x0033,0x0102,0x8330,0x8331                          | +01d8d
-        .dc.l   Data_100028                   | +01d97  -> $100028
+        .dc.l   ColMap_100028                   | +01d97  -> $100028
         .dc.w   0x0202,0x832e,0x832f,0x832c,0x832d,0x0200,0x000b,0x0038     | +01d9b
         .dc.w   0x0103,0x8332,0x8333,0x8334,0x001b,0x0028,0x0102,0x8335     | +01dab
         .dc.w   0x8336,0x0200,0x000e,0x0036,0x0103,0x8337,0x8338,0x8339     | +01dbb
@@ -17899,7 +17929,7 @@ Data_13b341:
         .dc.w   0x0202,0x8354,0x8355,0x8356,0x8357,0x0400,0xffea,0x0023     | +01e4b
         .dc.w   0x0102,0x8360,0x8361,0xfffa,0x0023,0x0103,0x835d,0x835e     | +01e5b
         .dc.w   0x835f                                                      | +01e6b
-        .dc.l   Data_0a001e                   | +01e6d  -> $0A001E
+        .dc.l   BgMap_0a001e                   | +01e6d  -> $0A001E
         .dc.w   0x0103,0x835a,0x835b,0x835c,0x001a,0x000e,0x0102,0x8358     | +01e71
         .dc.w   0x8359,0x0400,0xffe9,0x0025,0x0102,0x836a,0x836b,0xfff9     | +01e81
         .dc.w   0x0025,0x0103,0x8367,0x8368,0x8369,0x0009,0x001d,0x0103     | +01e91
@@ -17966,7 +17996,7 @@ Data_13b341:
         .dc.w   0x0019,0x0012,0x0102,0x8431,0x8432,0x0400,0xffea,0x0023     | +02261
         .dc.w   0x0102,0x8443,0x8444,0xfffa,0x0023,0x0103,0x8440,0x8441     | +02271
         .dc.w   0x8442                                                      | +02281
-        .dc.l   Data_0a0020                   | +02283  -> $0A0020
+        .dc.l   BgMap_0a0020                   | +02283  -> $0A0020
         .dc.w   0x0103,0x843d,0x843e,0x843f,0x001a,0x0010,0x0102,0x843b     | +02287
         .dc.w   0x843c,0x0100,0xffe5,0x001d,0x0402,0x8445,0x8446,0x8447     | +02297
         .dc.w   0x8448,0x8409,0x8449,0x844a,0x844b,0x0200,0xffe3,0x001e     | +022a7
@@ -18091,10 +18121,10 @@ Data_13b341:
         .dc.w   0xfff0,0x0008,0x0301,0x85cc,0x85cb,0x85ca,0x0200,0xfff0     | +02a07
         .dc.w   0x0005,0x0201,0x85d0,0x85cf,0x0010,0x0015,0x0102,0x85cd     | +02a17
         .dc.w   0x85ce,0x0200,0xfff0,0x0005,0x0201,0x85d4,0x85d3            | +02a27
-        .dc.l   Data_100011                   | +02a35  -> $100011
+        .dc.l   ColMap_100011                   | +02a35  -> $100011
         .dc.w   0x0102,0x85d1,0x85d2,0x0300,0xfff0,0x0003,0x0101,0x85d8     | +02a39
         .dc.w   0x0000,0x0002,0x0101,0x85d7                                 | +02a49
-        .dc.l   Data_100010                   | +02a51  -> $100010
+        .dc.l   ColMap_100010                   | +02a51  -> $100010
         .dc.w   0x0102,0x85d5,0x85d6,0x0200,0xfff0,0x0005,0x0101,0x85dc     | +02a55
         .dc.w   0x0000,0x000a,0x0202,0x85da,0x85db,0x0000,0x85d9,0x0300     | +02a65
         .dc.w   0xffef,0x0005,0x0101,0x85df,0xfffc,0x0000,0x0101,0x85de     | +02a75
@@ -18110,7 +18140,7 @@ Data_13b341:
         .dc.l   Data_0c001c                   | +02afb  -> $0C001C
         .dc.w   0x0102,0x85ee,0x85ef,0x0200,0xfff0,0x0008,0x0201,0x85cc     | +02aff
         .dc.w   0x85f1                                                      | +02b0f
-        .dc.l   Data_100011                   | +02b11  -> $100011
+        .dc.l   ColMap_100011                   | +02b11  -> $100011
         .dc.w   0x0102,0x85f2,0x85f3,0x0100,0xfff0,0x0008,0x0301,0x85cc     | +02b15
         .dc.w   0x85cb,0x85f4,0x0100,0xfff0,0x0008,0x0201,0x85f5,0x85f6     | +02b25
         .dc.w   0x0100,0xfff0,0x0008,0x0201,0x85f7,0x85f8,0x0100,0xfff0     | +02b35
@@ -18280,7 +18310,7 @@ Data_13e708:
         .dc.w   0xfff0,0x0028,0x0201,0x8812,0x8811,0x0100,0xfff0,0x0028     | +00100
         .dc.w   0x0201,0x8813,0x8814,0x0100,0x0000,0x0028,0x0201,0x8815     | +00110
         .dc.w   0x8816,0x0100,0x0000,0x0028,0x0201,0x8817,0x8818,0x0100     | +00120
-        .dc.l   Data_100020                   | +00130  -> $100020
+        .dc.l   ColMap_100020                   | +00130  -> $100020
         .dc.w   0x0101,0x8819,0x0100,0x000f,0x0021,0x0101,0x881a,0x0100     | +00134
         .dc.w   0x0018,0x0020,0x0102,0x881b,0x881c,0x0100,0x0018,0x0020     | +00144
         .dc.w   0x0102,0x881d,0x881e,0x0300,0xffe3,0x0020,0x0102,0x881f     | +00154
@@ -18308,7 +18338,7 @@ Data_13e708:
         .dc.w   0x8874,0x8875,0x0013,0x0020,0x0102,0x8876,0x8877,0x0300     | +002b4
         .dc.w   0xffe2,0x0020,0x0102,0x8878,0x8879,0xfff2,0x0030,0x0203     | +002c4
         .dc.w   0x887a,0x887b,0x887c,0x887d,0x887e,0x887f                   | +002d4
-        .dc.l   Data_120020                   | +002e0  -> $120020
+        .dc.l   Zero_120020                   | +002e0  -> $120020
         .dc.w   0x0102,0x8880,0x8881,0x0300,0xffe1,0x0020,0x0102,0x8887     | +002e4
         .dc.w   0x8888,0xfff1,0x0030,0x0203,0x8882,0x8883,0x8884,0x887d     | +002f4
         .dc.w   0x8885,0x8886,0x0011,0x0020,0x0102,0x8889,0x888a,0x0100     | +00304
@@ -18328,18 +18358,18 @@ Data_13e708:
         .dc.w   0x88cd,0x88ca,0x88cb,0x000a,0x0030,0x0103,0x88c7,0x88c8     | +003e4
         .dc.w   0x88c9,0x0300,0xffdb,0x0020,0x0102,0x88d6,0x88d7,0xffeb     | +003f4
         .dc.w   0x0030,0x0203,0x88d3,0x88d4,0x88d5,0x88d0,0x88d1,0x88d2     | +00404
-        .dc.l   Data_0b0020                   | +00414  -> $0B0020
+        .dc.l   BgMap_0b0020                   | +00414  -> $0B0020
         .dc.w   0x0102,0x88ce,0x88cf,0x0300,0xffdb,0x0020,0x0102,0x88e0     | +00418
         .dc.w   0x88e1,0xffeb,0x0030,0x0203,0x88dd,0x88de,0x88df,0x88da     | +00428
         .dc.w   0x88db,0x88dc                                               | +00438
-        .dc.l   Data_0b0020                   | +0043c  -> $0B0020
+        .dc.l   BgMap_0b0020                   | +0043c  -> $0B0020
 
 | ----------------------------------------------------------------------------
-|  Data_13eb48  @ $13EB48  (5,303 B)  [ref. desde código]
+|  SprFrame_13eb48  @ $13EB48  (5,303 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13eb48, "ax", @progbits
-        .global Data_13eb48
-Data_13eb48:
+        .section .text.SprFrame_13eb48, "ax", @progbits
+        .global SprFrame_13eb48
+SprFrame_13eb48:
         .dc.w   0x0102,0x88d8,0x88d9,0x0300,0xffd9,0x0020,0x0102,0x88ea     | +00000
         .dc.w   0x88eb,0xffe9,0x0030,0x0203,0x88e7,0x88e8,0x88e9,0x88e4     | +00010
         .dc.w   0x88e5,0x88e6,0x0009,0x0020,0x0102,0x88e2,0x88e3,0x0300     | +00020
@@ -18439,7 +18469,7 @@ Data_13eb48:
         .dc.w   0x0200,0xffff,0x000f,0x0101,0x89e1,0x0001,0x0019,0x0101     | +0055c
         .dc.w   0x89e2,0x0200,0xfffe,0x0010,0x0101,0x89e3,0x0003,0x0016     | +0056c
         .dc.w   0x0101,0x89e4,0x0200,0xfffe,0x0010,0x0101,0x89e5            | +0057c
-        .dc.l   Data_020018                   | +0058a  -> $020018
+        .dc.l   Pal_020018                   | +0058a  -> $020018
         .dc.w   0x0101,0x89e6,0x0200,0xfffe,0x0012,0x0101,0x89e8,0x0004     | +0058e
         .dc.w   0x0019,0x0101,0x89e7,0x0200,0xfffe,0x0012,0x0101,0x89ea     | +0059e
         .dc.w   0x0002,0x0017,0x0101,0x89e9,0x0200,0xfffc,0x0014,0x0101     | +005ae
@@ -18519,7 +18549,7 @@ Data_13eb48:
         .dc.w   0x0003,0x0004,0x0201,0x8b07,0x8b08,0x0400,0xffe3,0x000b     | +00a34
         .dc.w   0x0101,0x8b09,0xfff3,0x0008,0x0101,0x8b0a,0x0003,0x0004     | +00a44
         .dc.w   0x0101,0x8b0b                                               | +00a54
-        .dc.l   Data_130002                   | +00a58  -> $130002
+        .dc.l   SprFrame_130002                   | +00a58  -> $130002
         .dc.w   0x0101,0x8b0c,0x0400,0xffe3,0x000d,0x0101,0x8b0d,0xfff3     | +00a5c
         .dc.w   0x0009,0x0101,0x8b0e,0x0003,0x0003,0x0101,0x8b0f,0x0013     | +00a6c
         .dc.w   0xfffe,0x0101,0x8b10,0x0400,0xffe4,0x0010,0x0101,0x8b11     | +00a7c
@@ -18542,14 +18572,14 @@ Data_13eb48:
         .dc.w   0x8b35,0x8b36,0x0400,0xffda,0xfff5,0x0101,0x8b42,0xffea     | +00b8c
         .dc.w   0x0005,0x0102,0x8b40,0x8b41,0xfffa,0x0012,0x0102,0x8b3e     | +00b9c
         .dc.w   0x8b3f                                                      | +00bac
-        .dc.l   Data_0a001c                   | +00bae  -> $0A001C
+        .dc.l   BgMap_0a001c                   | +00bae  -> $0A001C
         .dc.w   0x0102,0x8b3c,0x8b3d,0x0400,0xffe1,0x0002,0x0101,0x8b43     | +00bb2
         .dc.w   0xfff1,0x0005,0x0101,0x8b44,0xfffd,0x000c,0x0101,0x8b45     | +00bc2
-        .dc.l   Data_0d0010                   | +00bd2  -> $0D0010
+        .dc.l   BgMap_0d0010                   | +00bd2  -> $0D0010
         .dc.w   0x0201,0x8b46,0x6ee8,0x0100,0xffe0,0x0008,0x0401,0x8b47     | +00bd6
         .dc.w   0x8b48,0x8b49,0x8b4a,0x0500,0xffe1,0x0011,0x0101,0x8b4b     | +00be6
         .dc.w   0xfff0,0x000c,0x0101,0x8b4c,0xfffc,0x0006,0x0101,0x8b4d     | +00bf6
-        .dc.l   Data_0a0001                   | +00c06  -> $0A0001
+        .dc.l   BgMap_0a0001                   | +00c06  -> $0A0001
         .dc.w   0x0101,0x8b4e,0x0010,0xfffd,0x0101,0x8b4f,0x0300,0xffdc     | +00c0a
         .dc.w   0x0048,0x0405,0x8b50,0x8b51,0x8b52,0x8b53,0x8b54,0x8b55     | +00c1a
         .dc.w   0x8b56,0x8b57,0x8b58,0x8b59,0x8b5a,0x8b5b,0x8b5c,0x8b5d     | +00c2a
@@ -18611,7 +18641,7 @@ Data_13eb48:
         .dc.w   0x001d,0x0101,0x8c1d,0xffee,0x002b,0x0202,0x8c1e,0x8c1f     | +00faa
         .dc.w   0x8c20,0x8c21,0x000e,0x001e,0x0101,0x8c22,0x0200,0xffdd     | +00fba
         .dc.w   0x0028,0x0302,0x8c25,0x8c26,0x8c23,0x8c24,0x8c27,0x8c28     | +00fca
-        .dc.l   Data_0d0019                   | +00fda  -> $0D0019
+        .dc.l   BgMap_0d0019                   | +00fda  -> $0D0019
         .dc.w   0x0101,0x8c29,0x0200,0xffdc,0x0023,0x0302,0x8c2a,0x8c2b     | +00fde
         .dc.w   0x8c2c,0x8c2d,0x8c2e,0x8c2f,0x000c,0x0012,0x0101,0x8c30     | +00fee
         .dc.w   0x0300,0xffdc,0x0010,0x0101,0x8c31,0xffec,0x0020,0x0202     | +00ffe
@@ -18655,7 +18685,7 @@ Data_13eb48:
         .dc.w   0x8cb9,0x8cba,0x8cbb,0x0300,0xffed,0x0040,0x0104,0x8cbc     | +0125e
         .dc.w   0x8cbd,0x8cbe,0x8cbf,0xfffd,0x0030,0x0103,0x8cc0,0x8cc1     | +0126e
         .dc.w   0x8cc2                                                      | +0127e
-        .dc.l   Data_0d0020                   | +01280  -> $0D0020
+        .dc.l   BgMap_0d0020                   | +01280  -> $0D0020
         .dc.w   0x0102,0x8cc3,0x53dc,0x0200,0xffeb,0x0020,0x0102,0x8ccc     | +01284
         .dc.w   0x8ccd,0xfff2,0x0040,0x0204,0x8cc8,0x8cc9,0x8cca,0x8ccb     | +01294
         .dc.w   0x8cc4,0x8cc5,0x8cc6,0x8cc7,0x0300,0xffe6,0x0021,0x0101     | +012a4
@@ -18674,7 +18704,7 @@ Data_13eb48:
         .dc.w   0xffe1,0x0020,0x0102,0x8d00,0x8d01,0xfff1,0x0030,0x0203     | +01366
         .dc.w   0x8cfd,0x8cfe,0x8cff,0x8cfa,0x8cfb,0x8cfc,0x0200,0xffeb     | +01376
         .dc.w   0x0030,0x0203,0x8d02,0x8d03,0x8d04,0x8d05,0x8d06,0x8d07     | +01386
-        .dc.l   Data_0b0020                   | +01396  -> $0B0020
+        .dc.l   BgMap_0b0020                   | +01396  -> $0B0020
         .dc.w   0x0102,0x8d08,0x8d09,0x0200,0xfff1,0x0030,0x0203,0x8d0a     | +0139a
         .dc.w   0x8d0b,0x8d0c,0x8d0d,0x8d0e,0x8d0f,0x0011,0x0023,0x0101     | +013aa
         .dc.w   0x8d10,0x0200,0xffe4,0x0029,0x0101,0x8d17,0xfff0,0x0030     | +013ba
@@ -18682,7 +18712,7 @@ Data_13eb48:
         .dc.w   0xffe7,0x0022,0x0101,0x8d1e,0xfff0,0x0030,0x0203,0x8d1b     | +013da
         .dc.w   0x8d1c,0x8d1d,0x8d18,0x8d19,0x8d1a,0x0200,0xffeb,0x0030     | +013ea
         .dc.w   0x0203,0x8d1f,0x8d20,0x8d21,0x8d22,0x8d23,0x8d24            | +013fa
-        .dc.l   Data_0b0020                   | +01408  -> $0B0020
+        .dc.l   BgMap_0b0020                   | +01408  -> $0B0020
         .dc.w   0x0102,0x8d25,0x8d26,0x0200,0xffef,0x0040,0x0204,0x8d27     | +0140c
         .dc.w   0x8d28,0x8d29,0x8d2a,0x1140,0x8d2b,0x8d2c,0x8d2d,0x000f     | +0141c
         .dc.w   0x0020,0x0102,0x8d2e,0x5c9c,0x0200,0xffe7,0x001a,0x0101     | +0142c
@@ -18697,9 +18727,9 @@ Data_13eb48:
         .dc.b   0x8d                            | +014b6
 
 | ----------------------------------------------------------------------------
-|  Data_13ffff  @ $13FFFF  (1 B)  [ref. desde código]
+|  SprFrame_13ffff  @ $13FFFF  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_13ffff, "ax", @progbits
-        .global Data_13ffff
-Data_13ffff:
+        .section .text.SprFrame_13ffff, "ax", @progbits
+        .global SprFrame_13ffff
+SprFrame_13ffff:
         .dc.b   0x48                            | +00000

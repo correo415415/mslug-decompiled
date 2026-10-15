@@ -3,13 +3,13 @@
 ; Assembled through mrom/asm/fixed_0000.s; must stay byte-identical.
 
 SSG_Init_2515:
-	ld de,l0800h		;2515
+	ld de,00800h		;2515  YM reg 08h <- 00h
 	ld c,004h		;2518
 	rst 8			;251a
-	ld de,l0900h		;251b
+	ld de,00900h		;251b  YM reg 09h <- 00h
 	ld c,004h		;251e
 	rst 8			;2520
-	ld de,l0a00h		;2521
+	ld de,00a00h		;2521  YM reg 0Ah <- 00h
 	ld c,004h		;2524
 	rst 8			;2526
 	ld a,038h		;2527
@@ -28,29 +28,29 @@ SSG_Init_2515:
 	ld ix,wSSG_ChC_F8B7		;254b
 	ld (ix+014h),024h		;254f
 	call SSG_InitChannel_255D		;2553
-	ld hl,Reset_0000		;2556
+	ld hl,00000h		;2556  constant
 	ld (wSSG_Mixer_F903),hl		;2559
 	ret			;255c
 SSG_InitChannel_255D:
 	call Ch_InitStruct_1FE5		;255d
 	ld (ix+002h),000h		;2560
 	push ix		;2564
-	ld de,l0014h+1		;2566
+	ld de,00015h		;2566  constant
 	add ix,de		;2569
 	rst 30h			;256b
 	pop ix		;256c
 	push ix		;256e
-	ld de,l0031h		;2570
+	ld de,00031h		;2570  constant
 	add ix,de		;2573
 	call Lfo_Clear_229D		;2575
 	pop ix		;2578
 	push ix		;257a
-	ld de,l0023h		;257c
+	ld de,00023h		;257c  constant
 	add ix,de		;257f
 	call Lfo_Clear_229D		;2581
 	pop ix		;2584
 	push ix		;2586
-	ld de,l003fh		;2588
+	ld de,0003fh		;2588  constant
 	add ix,de		;258b
 	call Pitch_Clear_23EE		;258d
 	pop ix		;2590
@@ -64,7 +64,7 @@ SSG_Update_2593:
 	call Env_Step_222D		;25a5
 	ld (wTmpByte_F814),a		;25a8
 	and a			;25ab
-	jp z,l2686h		;25ac
+	jp z,SSG_Update_L2686		;25ac
 	ld hl,0f842h		;25af
 	ld d,(iy+00dh)		;25b2
 	call Env_Update_231E		;25b5
@@ -73,13 +73,13 @@ SSG_Update_2593:
 	ld l,a			;25ba
 	ld a,(wTmpByte_F814)		;25bb
 	and a			;25be
-	jr z,l25d6h		;25bf
+	jr z,SSG_Update_L25D6		;25bf
 	inc l			;25c1
-	jr z,l25d6h		;25c2
+	jr z,SSG_Update_L25D6		;25c2
 	ex af,af'			;25c4
 	dec l			;25c5
 	ld a,l			;25c6
-	jr z,l25d6h		;25c7
+	jr z,SSG_Update_L25D6		;25c7
 	ld h,014h		;25c9
 	ld a,(hl)			;25cb
 	ex af,af'			;25cc
@@ -88,19 +88,19 @@ SSG_Update_2593:
 	add a,(hl)			;25cf
 	ld l,a			;25d0
 	sbc a,a			;25d1
-	jr nc,l25d6h		;25d2
+	jr nc,SSG_Update_L25D6		;25d2
 	inc h			;25d4
 	ld a,(hl)			;25d5
-l25d6h:
+SSG_Update_L25D6:
 	ld (wTmpByte_F814),a		;25d6
 	and a			;25d9
-	jp z,l2686h		;25da
+	jp z,SSG_Update_L2686		;25da
 	ld a,(0f82ah)		;25dd
 	and a			;25e0
-	jp z,l2686h		;25e1
+	jp z,SSG_Update_L2686		;25e1
 	ld a,(0f832h)		;25e4
 	and a			;25e7
-	jp z,l261eh		;25e8
+	jp z,SSG_Update_L261E		;25e8
 	ld hl,0f850h		;25eb
 	ld d,(iy+00ch)		;25ee
 	call Env_Update_231E		;25f1
@@ -122,16 +122,16 @@ l25d6h:
 	ld a,(hl)			;260a
 	and 01fh		;260b
 	add a,b			;260d
-	jp p,l2612h		;260e
+	jp p,SSG_Update_L2612		;260e
 	xor a			;2611
-l2612h:
+SSG_Update_L2612:
 	cp 020h		;2612
-	jr c,l2618h		;2614
+	jr c,SSG_Update_L2618		;2614
 	ld a,01fh		;2616
-l2618h:
+SSG_Update_L2618:
 	ld (wSSG_Mixer_F903),a		;2618
-	jp l2686h		;261b
-l261eh:
+	jp SSG_Update_L2686		;261b
+SSG_Update_L261E:
 	ld hl,(0f828h)		;261e
 	ld de,(0f830h)		;2621
 	add hl,de			;2625
@@ -159,13 +159,13 @@ l261eh:
 	ld hl,(0f82dh)		;2655
 	and a			;2658
 	sbc hl,de		;2659
-	jp z,l2686h		;265b
+	jp z,SSG_Update_L2686		;265b
 	ld (0f82dh),de		;265e
 	ld a,d			;2662
 	cp 010h		;2663
-	jp c,l266ah		;2665
+	jp c,SSG_Update_L266A		;2665
 	ld a,00fh		;2668
-l266ah:
+SSG_Update_L266A:
 	ld b,a			;266a
 	and 007h		;266b
 	add a,a			;266d
@@ -177,10 +177,10 @@ l266ah:
 	ld d,(hl)			;2674
 	ld a,b			;2675
 	and 008h		;2676
-	jr z,l267dh		;2678
+	jr z,SSG_Update_L267D		;2678
 	ld e,d			;267a
 	ld d,000h		;267b
-l267dh:
+SSG_Update_L267D:
 	ld b,d			;267d
 	ld d,000h		;267e
 	ld c,004h		;2680
@@ -188,18 +188,18 @@ l267dh:
 	ld e,b			;2683
 	inc d			;2684
 	rst 8			;2685
-l2686h:
+SSG_Update_L2686:
 	ld a,(wTmpByte_F814)		;2686
 	ld l,a			;2689
 	ld a,(0f82ah)		;268a
 	and a			;268d
-	jr z,l26a5h		;268e
+	jr z,SSG_Update_L26A5		;268e
 	inc l			;2690
-	jr z,l26a5h		;2691
+	jr z,SSG_Update_L26A5		;2691
 	ex af,af'			;2693
 	dec l			;2694
 	ld a,l			;2695
-	jr z,l26a5h		;2696
+	jr z,SSG_Update_L26A5		;2696
 	ld h,014h		;2698
 	ld a,(hl)			;269a
 	ex af,af'			;269b
@@ -208,19 +208,19 @@ l2686h:
 	add a,(hl)			;269e
 	ld l,a			;269f
 	sbc a,a			;26a0
-	jr nc,l26a5h		;26a1
+	jr nc,SSG_Update_L26A5		;26a1
 	inc h			;26a3
 	ld a,(hl)			;26a4
-l26a5h:
+SSG_Update_L26A5:
 	ld l,(iy+012h)		;26a5
 	and a			;26a8
-	jr z,l26c0h		;26a9
+	jr z,SSG_Update_L26C0		;26a9
 	inc l			;26ab
-	jr z,l26c0h		;26ac
+	jr z,SSG_Update_L26C0		;26ac
 	ex af,af'			;26ae
 	dec l			;26af
 	ld a,l			;26b0
-	jr z,l26c0h		;26b1
+	jr z,SSG_Update_L26C0		;26b1
 	ld h,014h		;26b3
 	ld a,(hl)			;26b5
 	ex af,af'			;26b6
@@ -229,24 +229,24 @@ l26a5h:
 	add a,(hl)			;26b9
 	ld l,a			;26ba
 	sbc a,a			;26bb
-	jr nc,l26c0h		;26bc
+	jr nc,SSG_Update_L26C0		;26bc
 	inc h			;26be
 	ld a,(hl)			;26bf
-l26c0h:
+SSG_Update_L26C0:
 	ld l,a			;26c0
 	ld a,0ffh		;26c1
 	bit 1,(iy+009h)		;26c3
-	jp z,l26cdh		;26c7
+	jp z,SSG_Update_L26CD		;26c7
 	ld a,(wMasterVolume_F805)		;26ca
-l26cdh:
+SSG_Update_L26CD:
 	and a			;26cd
-	jr z,l26e5h		;26ce
+	jr z,SSG_Update_L26E5		;26ce
 	inc l			;26d0
-	jr z,l26e5h		;26d1
+	jr z,SSG_Update_L26E5		;26d1
 	ex af,af'			;26d3
 	dec l			;26d4
 	ld a,l			;26d5
-	jr z,l26e5h		;26d6
+	jr z,SSG_Update_L26E5		;26d6
 	ld h,014h		;26d8
 	ld a,(hl)			;26da
 	ex af,af'			;26db
@@ -255,27 +255,27 @@ l26cdh:
 	add a,(hl)			;26de
 	ld l,a			;26df
 	sbc a,a			;26e0
-	jr nc,l26e5h		;26e1
+	jr nc,SSG_Update_L26E5		;26e1
 	inc h			;26e3
 	ld a,(hl)			;26e4
-l26e5h:
+SSG_Update_L26E5:
 	ld hl,0f82fh		;26e5
 	cp (hl)			;26e8
 	ld (hl),a			;26e9
-	jp z,l26f6h		;26ea
+	jp z,SSG_Update_L26F6		;26ea
 	ld l,a			;26ed
 	ld h,018h		;26ee
 	ld e,(hl)			;26f0
 	ld d,008h		;26f1
 	ld c,004h		;26f3
 	rst 8			;26f5
-l26f6h:
+SSG_Update_L26F6:
 	ld c,001h		;26f6
 	bit 1,(iy+009h)		;26f8
-	jr z,l2702h		;26fc
+	jr z,SSG_Update_L2702		;26fc
 	ld a,(wTempoStep_F809)		;26fe
 	ld c,a			;2701
-l2702h:
+SSG_Update_L2702:
 	ld hl,0f825h		;2702
 	ld a,(hl)			;2705
 	add a,c			;2706
@@ -284,24 +284,23 @@ l2702h:
 	ld hl,0f824h		;270a
 	ld a,(hl)			;270d
 	and a			;270e
-	jp z,l2723h		;270f
+	jp z,SSG_Update_L2723		;270f
 	sub c			;2712
 	ld (hl),a			;2713
 	jr nz,SSG_UpdateChB_2738		;2714
 	bit 4,(iy+009h)		;2716
-	jr z,l2732h		;271a
+	jr z,SSG_Update_L2732		;271a
 	set 4,(ix+003h)		;271c
 	jp SSG_UpdateChB_2738		;2720
-l2723h:
+SSG_Update_L2723:
 	bit 4,(iy+009h)		;2723
 	jr nz,SSG_UpdateChB_2738		;2727
 	ld hl,0f822h		;2729
 	bit 4,(hl)		;272c
 	jr z,SSG_UpdateChB_2738		;272e
 	res 4,(hl)		;2730
-l2732h:
+SSG_Update_L2732:
 	ld hl,0f834h		;2732
-l2735h:
 	call Env_Release_2219		;2735
 SSG_UpdateChB_2738:
 	ld ix,wSSG_ChB_F86B		;2738
@@ -312,7 +311,7 @@ SSG_UpdateChB_2738:
 	call Env_Step_222D		;274a
 	ld (wTmpByte_F814),a		;274d
 	and a			;2750
-	jp z,l282bh		;2751
+	jp z,SSG_UpdateChB_L282B		;2751
 	ld hl,0f88eh		;2754
 	ld d,(iy+00dh)		;2757
 	call Env_Update_231E		;275a
@@ -321,13 +320,13 @@ SSG_UpdateChB_2738:
 	ld l,a			;275f
 	ld a,(wTmpByte_F814)		;2760
 	and a			;2763
-	jr z,l277bh		;2764
+	jr z,SSG_UpdateChB_L277B		;2764
 	inc l			;2766
-	jr z,l277bh		;2767
+	jr z,SSG_UpdateChB_L277B		;2767
 	ex af,af'			;2769
 	dec l			;276a
 	ld a,l			;276b
-	jr z,l277bh		;276c
+	jr z,SSG_UpdateChB_L277B		;276c
 	ld h,014h		;276e
 	ld a,(hl)			;2770
 	ex af,af'			;2771
@@ -336,19 +335,19 @@ SSG_UpdateChB_2738:
 	add a,(hl)			;2774
 	ld l,a			;2775
 	sbc a,a			;2776
-	jr nc,l277bh		;2777
+	jr nc,SSG_UpdateChB_L277B		;2777
 	inc h			;2779
 	ld a,(hl)			;277a
-l277bh:
+SSG_UpdateChB_L277B:
 	ld (wTmpByte_F814),a		;277b
 	and a			;277e
-	jp z,l282bh		;277f
+	jp z,SSG_UpdateChB_L282B		;277f
 	ld a,(0f876h)		;2782
 	and a			;2785
-	jp z,l282bh		;2786
+	jp z,SSG_UpdateChB_L282B		;2786
 	ld a,(0f87eh)		;2789
 	and a			;278c
-	jp z,l27c3h		;278d
+	jp z,SSG_UpdateChB_L27C3		;278d
 	ld hl,0f89ch		;2790
 	ld d,(iy+00ch)		;2793
 	call Env_Update_231E		;2796
@@ -370,16 +369,16 @@ l277bh:
 	ld a,(hl)			;27af
 	and 01fh		;27b0
 	add a,b			;27b2
-	jp p,l27b7h		;27b3
+	jp p,SSG_UpdateChB_L27B7		;27b3
 	xor a			;27b6
-l27b7h:
+SSG_UpdateChB_L27B7:
 	cp 020h		;27b7
-	jr c,l27bdh		;27b9
+	jr c,SSG_UpdateChB_L27BD		;27b9
 	ld a,01fh		;27bb
-l27bdh:
+SSG_UpdateChB_L27BD:
 	ld (wSSG_Mixer_F903),a		;27bd
-	jp l282bh		;27c0
-l27c3h:
+	jp SSG_UpdateChB_L282B		;27c0
+SSG_UpdateChB_L27C3:
 	ld hl,(0f874h)		;27c3
 	ld de,(0f87ch)		;27c6
 	add hl,de			;27ca
@@ -407,13 +406,13 @@ l27c3h:
 	ld hl,(0f879h)		;27fa
 	and a			;27fd
 	sbc hl,de		;27fe
-	jp z,l282bh		;2800
+	jp z,SSG_UpdateChB_L282B		;2800
 	ld (0f879h),de		;2803
 	ld a,d			;2807
 	cp 010h		;2808
-	jp c,l280fh		;280a
+	jp c,SSG_UpdateChB_L280F		;280a
 	ld a,00fh		;280d
-l280fh:
+SSG_UpdateChB_L280F:
 	ld b,a			;280f
 	and 007h		;2810
 	add a,a			;2812
@@ -425,10 +424,10 @@ l280fh:
 	ld d,(hl)			;2819
 	ld a,b			;281a
 	and 008h		;281b
-	jr z,l2822h		;281d
+	jr z,SSG_UpdateChB_L2822		;281d
 	ld e,d			;281f
 	ld d,000h		;2820
-l2822h:
+SSG_UpdateChB_L2822:
 	ld b,d			;2822
 	ld d,002h		;2823
 	ld c,004h		;2825
@@ -436,18 +435,18 @@ l2822h:
 	ld e,b			;2828
 	inc d			;2829
 	rst 8			;282a
-l282bh:
+SSG_UpdateChB_L282B:
 	ld a,(wTmpByte_F814)		;282b
 	ld l,a			;282e
 	ld a,(0f876h)		;282f
 	and a			;2832
-	jr z,l284ah		;2833
+	jr z,SSG_UpdateChB_L284A		;2833
 	inc l			;2835
-	jr z,l284ah		;2836
+	jr z,SSG_UpdateChB_L284A		;2836
 	ex af,af'			;2838
 	dec l			;2839
 	ld a,l			;283a
-	jr z,l284ah		;283b
+	jr z,SSG_UpdateChB_L284A		;283b
 	ld h,014h		;283d
 	ld a,(hl)			;283f
 	ex af,af'			;2840
@@ -456,19 +455,19 @@ l282bh:
 	add a,(hl)			;2843
 	ld l,a			;2844
 	sbc a,a			;2845
-	jr nc,l284ah		;2846
+	jr nc,SSG_UpdateChB_L284A		;2846
 	inc h			;2848
 	ld a,(hl)			;2849
-l284ah:
+SSG_UpdateChB_L284A:
 	ld l,(iy+012h)		;284a
 	and a			;284d
-	jr z,l2865h		;284e
+	jr z,SSG_UpdateChB_L2865		;284e
 	inc l			;2850
-	jr z,l2865h		;2851
+	jr z,SSG_UpdateChB_L2865		;2851
 	ex af,af'			;2853
 	dec l			;2854
 	ld a,l			;2855
-	jr z,l2865h		;2856
+	jr z,SSG_UpdateChB_L2865		;2856
 	ld h,014h		;2858
 	ld a,(hl)			;285a
 	ex af,af'			;285b
@@ -477,24 +476,24 @@ l284ah:
 	add a,(hl)			;285e
 	ld l,a			;285f
 	sbc a,a			;2860
-	jr nc,l2865h		;2861
+	jr nc,SSG_UpdateChB_L2865		;2861
 	inc h			;2863
 	ld a,(hl)			;2864
-l2865h:
+SSG_UpdateChB_L2865:
 	ld l,a			;2865
 	ld a,0ffh		;2866
 	bit 1,(iy+009h)		;2868
-	jp z,l2872h		;286c
+	jp z,SSG_UpdateChB_L2872		;286c
 	ld a,(wMasterVolume_F805)		;286f
-l2872h:
+SSG_UpdateChB_L2872:
 	and a			;2872
-	jr z,l288ah		;2873
+	jr z,SSG_UpdateChB_L288A		;2873
 	inc l			;2875
-	jr z,l288ah		;2876
+	jr z,SSG_UpdateChB_L288A		;2876
 	ex af,af'			;2878
 	dec l			;2879
 	ld a,l			;287a
-	jr z,l288ah		;287b
+	jr z,SSG_UpdateChB_L288A		;287b
 	ld h,014h		;287d
 	ld a,(hl)			;287f
 	ex af,af'			;2880
@@ -503,27 +502,27 @@ l2872h:
 	add a,(hl)			;2883
 	ld l,a			;2884
 	sbc a,a			;2885
-	jr nc,l288ah		;2886
+	jr nc,SSG_UpdateChB_L288A		;2886
 	inc h			;2888
 	ld a,(hl)			;2889
-l288ah:
+SSG_UpdateChB_L288A:
 	ld hl,0f87bh		;288a
 	cp (hl)			;288d
 	ld (hl),a			;288e
-	jp z,l289bh		;288f
+	jp z,SSG_UpdateChB_L289B		;288f
 	ld l,a			;2892
 	ld h,018h		;2893
 	ld e,(hl)			;2895
 	ld d,009h		;2896
 	ld c,004h		;2898
 	rst 8			;289a
-l289bh:
+SSG_UpdateChB_L289B:
 	ld c,001h		;289b
 	bit 1,(iy+009h)		;289d
-	jr z,l28a7h		;28a1
+	jr z,SSG_UpdateChB_L28A7		;28a1
 	ld a,(wTempoStep_F809)		;28a3
 	ld c,a			;28a6
-l28a7h:
+SSG_UpdateChB_L28A7:
 	ld hl,0f871h		;28a7
 	ld a,(hl)			;28aa
 	add a,c			;28ab
@@ -532,22 +531,22 @@ l28a7h:
 	ld hl,0f870h		;28af
 	ld a,(hl)			;28b2
 	and a			;28b3
-	jp z,l28c8h		;28b4
+	jp z,SSG_UpdateChB_L28C8		;28b4
 	sub c			;28b7
 	ld (hl),a			;28b8
 	jr nz,SSG_UpdateChC_28DD		;28b9
 	bit 4,(iy+009h)		;28bb
-	jr z,l28d7h		;28bf
+	jr z,SSG_UpdateChB_L28D7		;28bf
 	set 4,(ix+003h)		;28c1
 	jp SSG_UpdateChC_28DD		;28c5
-l28c8h:
+SSG_UpdateChB_L28C8:
 	bit 4,(iy+009h)		;28c8
 	jr nz,SSG_UpdateChC_28DD		;28cc
 	ld hl,0f86eh		;28ce
 	bit 4,(hl)		;28d1
 	jr z,SSG_UpdateChC_28DD		;28d3
 	res 4,(hl)		;28d5
-l28d7h:
+SSG_UpdateChB_L28D7:
 	ld hl,0f880h		;28d7
 	call Env_Release_2219		;28da
 SSG_UpdateChC_28DD:
@@ -559,7 +558,7 @@ SSG_UpdateChC_28DD:
 	call Env_Step_222D		;28ef
 	ld (wTmpByte_F814),a		;28f2
 	and a			;28f5
-	jp z,l29d0h		;28f6
+	jp z,SSG_UpdateChC_L29D0		;28f6
 	ld hl,0f8dah		;28f9
 	ld d,(iy+00dh)		;28fc
 	call Env_Update_231E		;28ff
@@ -568,13 +567,13 @@ SSG_UpdateChC_28DD:
 	ld l,a			;2904
 	ld a,(wTmpByte_F814)		;2905
 	and a			;2908
-	jr z,l2920h		;2909
+	jr z,SSG_UpdateChC_L2920		;2909
 	inc l			;290b
-	jr z,l2920h		;290c
+	jr z,SSG_UpdateChC_L2920		;290c
 	ex af,af'			;290e
 	dec l			;290f
 	ld a,l			;2910
-	jr z,l2920h		;2911
+	jr z,SSG_UpdateChC_L2920		;2911
 	ld h,014h		;2913
 	ld a,(hl)			;2915
 	ex af,af'			;2916
@@ -583,19 +582,19 @@ SSG_UpdateChC_28DD:
 	add a,(hl)			;2919
 	ld l,a			;291a
 	sbc a,a			;291b
-	jr nc,l2920h		;291c
+	jr nc,SSG_UpdateChC_L2920		;291c
 	inc h			;291e
 	ld a,(hl)			;291f
-l2920h:
+SSG_UpdateChC_L2920:
 	ld (wTmpByte_F814),a		;2920
 	and a			;2923
-	jp z,l29d0h		;2924
+	jp z,SSG_UpdateChC_L29D0		;2924
 	ld a,(0f8c2h)		;2927
 	and a			;292a
-	jp z,l29d0h		;292b
+	jp z,SSG_UpdateChC_L29D0		;292b
 	ld a,(0f8cah)		;292e
 	and a			;2931
-	jp z,l2968h		;2932
+	jp z,SSG_UpdateChC_L2968		;2932
 	ld hl,0f8e8h		;2935
 	ld d,(iy+00ch)		;2938
 	call Env_Update_231E		;293b
@@ -617,16 +616,16 @@ l2920h:
 	ld a,(hl)			;2954
 	and 01fh		;2955
 	add a,b			;2957
-	jp p,l295ch		;2958
+	jp p,SSG_UpdateChC_L295C		;2958
 	xor a			;295b
-l295ch:
+SSG_UpdateChC_L295C:
 	cp 020h		;295c
-	jr c,l2962h		;295e
+	jr c,SSG_UpdateChC_L2962		;295e
 	ld a,01fh		;2960
-l2962h:
+SSG_UpdateChC_L2962:
 	ld (wSSG_Mixer_F903),a		;2962
-	jp l29d0h		;2965
-l2968h:
+	jp SSG_UpdateChC_L29D0		;2965
+SSG_UpdateChC_L2968:
 	ld hl,(0f8c0h)		;2968
 	ld de,(0f8c8h)		;296b
 	add hl,de			;296f
@@ -654,13 +653,13 @@ l2968h:
 	ld hl,(0f8c5h)		;299f
 	and a			;29a2
 	sbc hl,de		;29a3
-	jp z,l29d0h		;29a5
+	jp z,SSG_UpdateChC_L29D0		;29a5
 	ld (0f8c5h),de		;29a8
 	ld a,d			;29ac
 	cp 010h		;29ad
-	jp c,l29b4h		;29af
+	jp c,SSG_UpdateChC_L29B4		;29af
 	ld a,00fh		;29b2
-l29b4h:
+SSG_UpdateChC_L29B4:
 	ld b,a			;29b4
 	and 007h		;29b5
 	add a,a			;29b7
@@ -672,10 +671,10 @@ l29b4h:
 	ld d,(hl)			;29be
 	ld a,b			;29bf
 	and 008h		;29c0
-	jr z,l29c7h		;29c2
+	jr z,SSG_UpdateChC_L29C7		;29c2
 	ld e,d			;29c4
 	ld d,000h		;29c5
-l29c7h:
+SSG_UpdateChC_L29C7:
 	ld b,d			;29c7
 	ld d,004h		;29c8
 	ld c,004h		;29ca
@@ -683,18 +682,18 @@ l29c7h:
 	ld e,b			;29cd
 	inc d			;29ce
 	rst 8			;29cf
-l29d0h:
+SSG_UpdateChC_L29D0:
 	ld a,(wTmpByte_F814)		;29d0
 	ld l,a			;29d3
 	ld a,(0f8c2h)		;29d4
 	and a			;29d7
-	jr z,l29efh		;29d8
+	jr z,SSG_UpdateChC_L29EF		;29d8
 	inc l			;29da
-	jr z,l29efh		;29db
+	jr z,SSG_UpdateChC_L29EF		;29db
 	ex af,af'			;29dd
 	dec l			;29de
 	ld a,l			;29df
-	jr z,l29efh		;29e0
+	jr z,SSG_UpdateChC_L29EF		;29e0
 	ld h,014h		;29e2
 	ld a,(hl)			;29e4
 	ex af,af'			;29e5
@@ -703,19 +702,19 @@ l29d0h:
 	add a,(hl)			;29e8
 	ld l,a			;29e9
 	sbc a,a			;29ea
-	jr nc,l29efh		;29eb
+	jr nc,SSG_UpdateChC_L29EF		;29eb
 	inc h			;29ed
 	ld a,(hl)			;29ee
-l29efh:
+SSG_UpdateChC_L29EF:
 	ld l,(iy+012h)		;29ef
 	and a			;29f2
-	jr z,l2a0ah		;29f3
+	jr z,SSG_UpdateChC_L2A0A		;29f3
 	inc l			;29f5
-	jr z,l2a0ah		;29f6
+	jr z,SSG_UpdateChC_L2A0A		;29f6
 	ex af,af'			;29f8
 	dec l			;29f9
 	ld a,l			;29fa
-	jr z,l2a0ah		;29fb
+	jr z,SSG_UpdateChC_L2A0A		;29fb
 	ld h,014h		;29fd
 	ld a,(hl)			;29ff
 	ex af,af'			;2a00
@@ -724,24 +723,24 @@ l29efh:
 	add a,(hl)			;2a03
 	ld l,a			;2a04
 	sbc a,a			;2a05
-	jr nc,l2a0ah		;2a06
+	jr nc,SSG_UpdateChC_L2A0A		;2a06
 	inc h			;2a08
 	ld a,(hl)			;2a09
-l2a0ah:
+SSG_UpdateChC_L2A0A:
 	ld l,a			;2a0a
 	ld a,0ffh		;2a0b
 	bit 1,(iy+009h)		;2a0d
-	jp z,l2a17h		;2a11
+	jp z,SSG_UpdateChC_L2A17		;2a11
 	ld a,(wMasterVolume_F805)		;2a14
-l2a17h:
+SSG_UpdateChC_L2A17:
 	and a			;2a17
-	jr z,l2a2fh		;2a18
+	jr z,SSG_UpdateChC_L2A2F		;2a18
 	inc l			;2a1a
-	jr z,l2a2fh		;2a1b
+	jr z,SSG_UpdateChC_L2A2F		;2a1b
 	ex af,af'			;2a1d
 	dec l			;2a1e
 	ld a,l			;2a1f
-	jr z,l2a2fh		;2a20
+	jr z,SSG_UpdateChC_L2A2F		;2a20
 	ld h,014h		;2a22
 	ld a,(hl)			;2a24
 	ex af,af'			;2a25
@@ -750,27 +749,27 @@ l2a17h:
 	add a,(hl)			;2a28
 	ld l,a			;2a29
 	sbc a,a			;2a2a
-	jr nc,l2a2fh		;2a2b
+	jr nc,SSG_UpdateChC_L2A2F		;2a2b
 	inc h			;2a2d
 	ld a,(hl)			;2a2e
-l2a2fh:
+SSG_UpdateChC_L2A2F:
 	ld hl,0f8c7h		;2a2f
 	cp (hl)			;2a32
 	ld (hl),a			;2a33
-	jp z,l2a40h		;2a34
+	jp z,SSG_UpdateChC_L2A40		;2a34
 	ld l,a			;2a37
 	ld h,018h		;2a38
 	ld e,(hl)			;2a3a
 	ld d,00ah		;2a3b
 	ld c,004h		;2a3d
 	rst 8			;2a3f
-l2a40h:
+SSG_UpdateChC_L2A40:
 	ld c,001h		;2a40
 	bit 1,(iy+009h)		;2a42
-	jr z,l2a4ch		;2a46
+	jr z,SSG_UpdateChC_L2A4C		;2a46
 	ld a,(wTempoStep_F809)		;2a48
 	ld c,a			;2a4b
-l2a4ch:
+SSG_UpdateChC_L2A4C:
 	ld hl,0f8bdh		;2a4c
 	ld a,(hl)			;2a4f
 	add a,c			;2a50
@@ -779,25 +778,25 @@ l2a4ch:
 	ld hl,0f8bch		;2a54
 	ld a,(hl)			;2a57
 	and a			;2a58
-	jp z,l2a6dh		;2a59
+	jp z,SSG_UpdateChC_L2A6D		;2a59
 	sub c			;2a5c
 	ld (hl),a			;2a5d
-	jr nz,l2a82h		;2a5e
+	jr nz,SSG_UpdateChC_L2A82		;2a5e
 	bit 4,(iy+009h)		;2a60
-	jr z,l2a7ch		;2a64
+	jr z,SSG_UpdateChC_L2A7C		;2a64
 	set 4,(ix+003h)		;2a66
-	jp l2a82h		;2a6a
-l2a6dh:
+	jp SSG_UpdateChC_L2A82		;2a6a
+SSG_UpdateChC_L2A6D:
 	bit 4,(iy+009h)		;2a6d
-	jr nz,l2a82h		;2a71
+	jr nz,SSG_UpdateChC_L2A82		;2a71
 	ld hl,0f8bah		;2a73
 	bit 4,(hl)		;2a76
-	jr z,l2a82h		;2a78
+	jr z,SSG_UpdateChC_L2A82		;2a78
 	res 4,(hl)		;2a7a
-l2a7ch:
+SSG_UpdateChC_L2A7C:
 	ld hl,0f8cch		;2a7c
 	call Env_Release_2219		;2a7f
-l2a82h:
+SSG_UpdateChC_L2A82:
 	ld hl,wSSG_Mixer_F903		;2a82
 	ld e,(hl)			;2a85
 	inc hl			;2a86
@@ -805,11 +804,11 @@ l2a82h:
 	ld (hl),e			;2a88
 	inc hl			;2a89
 	cp e			;2a8a
-	jp z,l2a93h		;2a8b
+	jp z,SSG_UpdateChC_L2A93		;2a8b
 	ld d,006h		;2a8e
 	ld c,004h		;2a90
 	rst 8			;2a92
-l2a93h:
+SSG_UpdateChC_L2A93:
 	ld e,(hl)			;2a93
 	inc hl			;2a94
 	ld a,(hl)			;2a95
@@ -828,7 +827,7 @@ l2a93h:
 	ld c,004h		;2aa4
 	rst 8			;2aa6
 	ret			;2aa7
-l2aa8h:
+SSG_LoadPatch_2AA8:
 	exx			;2aa8
 	inc hl			;2aa9
 	ld a,(hl)			;2aaa
@@ -852,30 +851,30 @@ l2aa8h:
 	exx			;2ac8
 	push ix		;2ac9
 	inc hl			;2acb
-	ld de,l0014h+1		;2acc
+	ld de,00015h		;2acc  constant
 	add ix,de		;2acf
 	call Seq_LoadOpPtrs_219B		;2ad1
 	push iy		;2ad4
 	ex de,hl			;2ad6
 	defb 0fdh,06bh	;ld iyl,e		;2ad7
 	defb 0fdh,062h	;ld iyh,d		;2ad9
-	ld de,l000eh		;2adb
+	ld de,0000eh		;2adb  constant
 	add ix,de		;2ade
 	call Lfo_Load_22A8		;2ae0
-	ld de,l0006h		;2ae3
+	ld de,00006h		;2ae3  constant
 	add iy,de		;2ae6
-	ld de,l000eh		;2ae8
+	ld de,0000eh		;2ae8  constant
 	add ix,de		;2aeb
 	call Lfo_Load_22A8		;2aed
-	ld de,l0006h		;2af0
+	ld de,00006h		;2af0  constant
 	add iy,de		;2af3
-	ld de,l000eh		;2af5
+	ld de,0000eh		;2af5  constant
 	add ix,de		;2af8
 	call Pitch_Load_242E		;2afa
 	pop iy		;2afd
 	pop ix		;2aff
 	ret			;2b01
-l2b02h:
+SSG_SetPitch_2B02:
 	ld l,(ix+008h)		;2b02
 	ld h,011h		;2b05
 	ld c,(hl)			;2b07
@@ -884,24 +883,24 @@ l2b02h:
 	ld (ix+009h),c		;2b0b
 	ld (ix+00ah),b		;2b0e
 	ret			;2b11
-l2b12h:
+SSG_KeyOn_2B12:
 	defb 0ddh,05dh	;ld e,ixl		;2b12
 	defb 0ddh,054h	;ld d,ixh		;2b14
-	ld hl,l0014h+1		;2b16
+	ld hl,00015h		;2b16  constant
 	add hl,de			;2b19
 	call Env_Start_2208		;2b1a
 	defb 0ddh,05dh	;ld e,ixl		;2b1d
 	defb 0ddh,054h	;ld d,ixh		;2b1f
-	ld hl,l0023h		;2b21
+	ld hl,00023h		;2b21  constant
 	add hl,de			;2b24
 	call Env_Init_22F4		;2b25
 	defb 0ddh,05dh	;ld e,ixl		;2b28
 	defb 0ddh,054h	;ld d,ixh		;2b2a
-	ld hl,l0031h		;2b2c
+	ld hl,00031h		;2b2c  constant
 	add hl,de			;2b2f
 	call Env_Init_22F4		;2b30
 	push ix		;2b33
-	ld de,l003fh		;2b35
+	ld de,0003fh		;2b35  constant
 	add ix,de		;2b38
 	ld c,(iy+00eh)		;2b3a
 	call Pitch_Update_2461		;2b3d

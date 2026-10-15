@@ -11,6 +11,42 @@ IRQ_Vector_0038:            equ 0x0038
 NMI_Vector_0066:            equ 0x0066
 BankPtrTable_0080:          equ 0x0080   ; 18 x 24-bit linear pointers (lo,hi,bank,0)
 
+; ---- page-aligned lookup tables 0100-1DFF (ld h,PAGE ; ld l,idx) -------------
+; 01..10: eight 16-bit tables split lo/hi (page n = low byte, n+1 = high byte), each
+; 256 steps of 1/256 semitone descending one octave (period = 15289 -> 7665 ...);
+; SSG period for octave k = (Pg(1+2k), Pg(2+2k)), read by SSG_Update_* with
+; h = 2*(oct&7)+1 ; oct >= 8 -> high byte only (tone below 1/16 of the range).
+SsgPeriodOct0Lo_0100:       equ 0x0100   ; octave 0 period low  (hi in 0200)
+SsgPeriodOct0Hi_0200:       equ 0x0200
+SsgPeriodOct1Lo_0300:       equ 0x0300
+SsgPeriodOct1Hi_0400:       equ 0x0400
+SsgPeriodOct2Lo_0500:       equ 0x0500
+SsgPeriodOct2Hi_0600:       equ 0x0600
+SsgPeriodOct3Lo_0700:       equ 0x0700
+SsgPeriodOct3Hi_0800:       equ 0x0800
+SsgPeriodOct4Lo_0900:       equ 0x0900
+SsgPeriodOct4Hi_0A00:       equ 0x0a00
+SsgPeriodOct5Lo_0B00:       equ 0x0b00
+SsgPeriodOct5Hi_0C00:       equ 0x0c00
+SsgPeriodOct6Lo_0D00:       equ 0x0d00
+SsgPeriodOct6Hi_0E00:       equ 0x0e00   ; all 0 (period < 256)
+SsgPeriodOct7Lo_0F00:       equ 0x0f00
+SsgPeriodOct7Hi_1000:       equ 0x1000   ; all 0
+NotePitch_1100:             equ 0x1100   ; note n -> pitch word: lo 1100+n, hi 1180+n (= n*256/12, 1/256 semitone units);
+                                         ; Pitch_SetNote_23F6, SSG/FM/ADPCMB_SetPitch, Seq_NoteEvent_56EA
+FmFnumHi_1200:              equ 0x1200   ; FM F-number for 1/256-octave step: hi byte 1200+x, lo 1300+x (308 -> 615 = one octave);
+FmFnumLo_1300:              equ 0x1300   ; read by FM_Update_* (ld h,12h ; ld d,(hl) ; inc h ; ld e,(hl))
+LogTable_1400:              equ 0x1400   ; log2 curve (0 -> 0, ff -> ff); a*b = Exp[Log a + Log b - C0h] (Util_TableLookup_1F54,
+ExpTable_1500:              equ 0x1500   ; Seq_ScaleByCurve_4F69, Env_*, Seq_SetVolumeLevel_4F88, ADPCMA/FM/SSG volume)
+UnusedTable_1600:           equ 0x1600   ; not referenced by the driver
+AdpcmbVolCurve_1700:        equ 0x1700   ; ADPCMB_Update_4024: volume -> level (ld h,17h ; ld l,c)
+SsgVolume_1800:             equ 0x1800   ; SSG_Update_*: attenuation 0..7F -> SSG level 0..F (ld h,18h)
+AdpcmaVolume_1900:          equ 0x1900   ; ADPCMA_Update_379C: volume -> ADPCM-A channel level
+PortamentoRate_1A00:        equ 0x1a00   ; Seq_TrackPortamento_52EA: 128 words 16384/n^2-like divisor table (idx*2)
+SquareLo_1B00:              equ 0x1b00   ; n^2: lo 1B00+n, hi 1C00+n (Seq_LoadOpPtrs_21A0..: ld h,1Bh ; inc h)
+SquareHi_1C00:              equ 0x1c00
+UnusedZero_1D00:            equ 0x1d00   ; 256 x 00, not referenced
+
 ; ---- main / interrupts / bank switching -------------------------------------
 Main_Init_1E00:             equ 0x1e00
 Main_Loop_1E3F:             equ 0x1e3f
@@ -132,7 +168,7 @@ SeqOp_C3_SetBit0_569A:      equ 0x569a
 SeqOp_C0_SetInstrLo_56B1:   equ 0x56b1
 SeqOp_C1_SetInstrLoHi_56BD: equ 0x56bd
 SeqOp_C2_Jump_56CE:         equ 0x56ce
-Seq_NoteEvent_56EA:         equ 0x56ea   ; opcodes 00..BF: note + optional len/vol/gate bytes
+Seq_NoteEvent_56EA:         equ 0x56ea   ; opcodes 00..BF: note + optional wait/dur/vel bytes
 Seq_TrackEndCheck_5786:     equ 0x5786
 Seq_TrackStop_578D:         equ 0x578d
 InstrPtrTable_57A1:         equ 0x57a1   ; 1024 x 24-bit pointers to instrument patches (8 groups x 128; idx = (iy+0B)*128+(iy+0A))
@@ -200,3 +236,33 @@ wStackTop_FFF0:             equ 0xfff0
 wNmiRing_FFF0:              equ 0xfff0   ; 16-byte NMI command ring (also stack top)
 Instr_ResolvePtr_4B5D:      equ 0x4b5d   ; (iy+0A/0B) -> hl = instrument patch in bank (FF = default CmdStruct_2509)
 InstrDefault_2509:          equ 0x2509
+; ---- channel-type entry points (ChTypeJumpTable0/1/2_4AA0: load patch / key-on / set pitch) ----
+SSG_LoadPatch_2AA8:         equ 0x2aa8   ; type 0 patch -> channel (I_ENV, 2 x I_LFO, I_PITCH)
+SSG_SetPitch_2B02:          equ 0x2b02   ; note (ix+08) -> period via pages 11xx/91xx
+SSG_KeyOn_2B12:             equ 0x2b12   ; restart envelope + LFOs + pitch slide
+FM_InitChannel_2BB7:        equ 0x2bb7   ; called for FM 1..4 at init
+FM_WriteOpRegs_2C03:        equ 0x2c03   ; b = op mask, d = first reg, hl = 4 values (reg += 10h each)
+FM_LoadPatch_3568:          equ 0x3568   ; type 1 patch: 4 x 7 operator bytes + FB/ALG, LFO, AMS/PMS
+FM_SetPitch_3605:           equ 0x3605
+FM_KeyOn_3615:              equ 0x3615   ; reg 28h key-on, global LFO, restart envelopes
+FM_OpVolumeUp_3672:         equ 0x3672   ; TL+1 on the operators in mask c (Ch_SetNote_4B0B)
+FM_OpVolumeDown_36AA:       equ 0x36aa   ; TL-1 (Ch_SetNote2_4B26)
+FM_OpParam3_36E1:           equ 0x36e1   ; (Ch_SetNote3_4B41) (?)
+FM_OpParam4_3711:           equ 0x3711   ; (Ch_SetNote4_4B4F) (?)
+ADPCMA_InitChannel_3783:    equ 0x3783
+ADPCMA_LoadPatch_3F41:      equ 0x3f41   ; type 2 patch: I_ENV, sample-map pointer
+ADPCMA_SelectSample_3F60:   equ 0x3f60   ; note -> PcmaSampleTab entry -> channel +15 (5 B)
+ADPCMA_KeyOn_3FBA:          equ 0x3fba
+ADPCMB_InitChannel_3FE0:    equ 0x3fe0
+ADPCMB_LoadPatch_427F:      equ 0x427f   ; type 3 patch: I_ENV, 2 x I_LFO, I_PITCH, key ranges
+ADPCMB_SetPitch_42CA:       equ 0x42ca   ; delta-N from note - root (pages 11xx/91xx)
+ADPCMB_KeyOn_42EF:          equ 0x42ef   ; pick PCMB_KEY range -> PcmbSample -> FBAF..FBB8
+Ch_AllocByType_4389:        equ 0x4389   ; patch type -> find / steal a hardware channel of that type
+Ch_NoteOn_4A03:             equ 0x4a03   ; resolve patch, allocate channel, copy note, run loader chain
+Ch_DispatchKeyOn_4AA8:      equ 0x4aa8   ; ChTypeJumpTable1 (key-on), then ...
+Ch_DispatchPitch_4AC4:      equ 0x4ac4   ; ChTypeJumpTable2 (pitch)
+Ch_DispatchDone_4AE0:       equ 0x4ae0
+Ch_IsFM_4B03:               equ 0x4b03   ; carry = channel type 1
+Seq_ApplyTempo_4F40:        equ 0x4f40   ; FDEE (tempo target) vs FDE7 -> FDEC step
+Seq_TempoCurve_4F5B:        equ 0x4f5b   ; Cmd_SetTempo_2170 tail
+Seq_ScaleByCurve_4F69:      equ 0x4f69   ; a, l -> curve lookup in pages 14xx/15xx, clamped
