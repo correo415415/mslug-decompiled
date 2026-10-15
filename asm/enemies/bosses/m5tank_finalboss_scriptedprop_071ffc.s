@@ -656,7 +656,7 @@ FinalBoss_SmokeA_072606__L07262a:
         move.b  0x8c(a6),d0                     | +078
         andi.w  #0xff,d0                        | +07c
         add.w   d0,d0                           | +080
-        lea     0x2c072c.l,a0                   | +082
+        lea     (SinTab256_1c072c+0x100000).l,a0| +082
         move.w  (a0,d0.w),d0                    | +088
         lsl.w   #0x1,d0                         | +08c
         move.w  d0,0x28(a6)                     | +08e
@@ -2807,8 +2807,8 @@ M5Tank_Rocket_RandFlip_0742ee:
 M5Tank_VelByAngle7E_074306:
         move.w  0x7e(a6),d0                     | +000
         lsl.w   #0x4,d0                         | +004
-        lea     0x2c072c.l,a1                   | +006
-        lea     0x2c07ac.l,a2                   | +00c
+        lea     (SinTab256_1c072c+0x100000).l,a1| +006
+        lea     (SinTab256_1c072c+0x100080).l,a2| +00c
         move.w  (a1,d0.w),d1                    | +012
         move.w  (a2,d0.w),d2                    | +016
         move.w  0x36(a6),d0                     | +01a

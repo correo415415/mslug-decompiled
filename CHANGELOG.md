@@ -15,6 +15,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **`SinTab256_1c072c`**: the 8.8 sine table (`round(256·sin(2πi/256))`,
+  320 words; cosine = +$80) is now assembled from its quarter wave, and the 45
+  `lea $2C072C/$2C07AC` in the code are symbolic. Wrong entry boundaries in
+  `$1C046E..$1C0B08` fixed (`AnimScr_1c09ac` is the real script).
 - **183 more `Data_` → `SprFrame_`** with the new
   `tools/rename_data_by_census.py` (renames by the dominant census kind).
 - **Pointer-less frame runs and text streams**: `data_census.frame_runs`

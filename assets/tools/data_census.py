@@ -24,7 +24,8 @@ extractores (sprites.py, levels.py, scene_script_dump.py):
               Entity_CheckOnScreenBox, rejillas de $43FAC y registros de 12 B
               del op 19 de animación, diccionarios
               de nombres de Results_RosterPick (ROSTER_NAMES)
-  lut         tablas generadas por fórmula (ColorRGB555ToNeoGeo, ColorRamp)
+  lut         tablas generadas por fórmula (ColorRGB555ToNeoGeo, ColorRamp,
+              SinTab256)
   zero        rachas de $00 >= 16 B
   other       resto (tablas de código, parámetros, strings, etc.)
 
@@ -49,7 +50,8 @@ STRUCT_PREFIXES = ("MissionStream_", "MissionAux_", "TemplateIndex_", "SceneDesc
                    "SceneScript_", "SceneEntities_", "SceneTrig_")
 
 # tablas de color del motor de paletas (asm/data/sprite_tables_002f30.s)
-LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0))
+LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0),
+        (0x2C072C, 0x2C09AC))     # SinTab256_1c072c (CPU $2C072C, 320 palabras)
 
 
 def modules():

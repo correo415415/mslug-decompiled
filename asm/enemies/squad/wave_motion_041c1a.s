@@ -275,7 +275,7 @@ Squad_BobYFast_041DB6:
         addi.b  #0x80, 0x7a(a6)                 | +00a  fase += 128 (rapido)
         andi.w  #0xFF, d0                       | +010
         add.w   d0, d0                          | +014  indice de word
-        lea     0x2c072c.l, a0                  | +016  tabla seno
+        lea   (SinTab256_1c072c+0x100000).l,a0                  | +016  tabla seno
         move.w  (a0,d0.w), d0                   | +01c
         asr.w   #8, d0                          | +020  amplitud /256
         bra.w   Squad_BobYApply_041E24          | +022
@@ -289,7 +289,7 @@ Squad_BobYWide_041DDC:
         addi.b  #0x10, 0x7a(a6)                 | +00a  fase += 16 (lento)
         andi.w  #0xFF, d0                       | +010
         add.w   d0, d0                          | +014
-        lea     0x2c072c.l, a0                  | +016
+        lea   (SinTab256_1c072c+0x100000).l,a0                  | +016
         move.w  (a0,d0.w), d0                   | +01c
         asr.w   #6, d0                          | +020  amplitud /64 (amplio)
         bra.w   Squad_BobYApply_041E24          | +022
@@ -303,7 +303,7 @@ Squad_BobYNarrow_041E02:
         addi.b  #0x10, 0x7a(a6)                 | +00a  fase += 16
         andi.w  #0xFF, d0                       | +010
         add.w   d0, d0                          | +014
-        lea     0x2c072c.l, a0                  | +016
+        lea   (SinTab256_1c072c+0x100000).l,a0                  | +016
         move.w  (a0,d0.w), d0                   | +01c
         asr.w   #7, d0                          | +020  amplitud /128 (estrecho)
         | --- cae en Squad_BobYApply_041E24 ----------------------------------

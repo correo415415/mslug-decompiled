@@ -903,10 +903,10 @@ Sprite_SpawnGridB_Scaled_013b4c:
 Vec_PolarToXY_013c0e:
         add.w   d0,d0                           | +000
         move.w  d1,d2                           | +002
-        lea     0x2c07ac.l,a2                   | +004
+        lea     (SinTab256_1c072c+0x100080).l,a2| +004
         muls.w  (a2,d0.w),d1                    | +00a
         asr.l   #0x8,d1                         | +00e
-        lea     0x2c072c.l,a2                   | +010
+        lea     (SinTab256_1c072c+0x100000).l,a2| +010
         muls.w  (a2,d0.w),d2                    | +016
         asr.l   #0x8,d2                         | +01a
         rts                                     | +01c
