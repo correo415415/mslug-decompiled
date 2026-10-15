@@ -15,6 +15,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **More census structs**: on-screen boxes passed to
+  `Entity_CheckOnScreenBox` (8 B), probe grids passed to `$43FAC`
+  (`{dx,dy,w,h}` + w·h B) and the 12-byte records installed by sprite-script
+  op `19 SetField70` (948, stride 12). "Other" data: 18.2 % → 17.3 %.
 - **303 more data entries typed**: `Data_*` whose bytes are ≥ 90 % tilemap /
   animation in the current census renamed `BgMap_*` (274) / `AnimScr_*` (29).
 - **Code-installed sprite scripts**: `data_census.walk_struct` follows the 1 274

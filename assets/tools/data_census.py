@@ -19,7 +19,9 @@ extractores (sprites.py, levels.py, scene_script_dump.py):
   struct      estructuras decodificadas con formato documentado: bytecode de
               misión (MissionStream_/MissionAux_), plantillas (TemplateIndex_),
               tabla/scripts/entidades/triggers de escena (Scene*_), registros
-              y descriptores de parche de Sprite_InvokeBlit8Params
+              y descriptores de parche de Sprite_InvokeBlit8Params, cajas de
+              Entity_CheckOnScreenBox, rejillas de $43FAC y registros de 12 B
+              del op 19 de animación
   lut         tablas generadas por fórmula (ColorRGB555ToNeoGeo, ColorRamp)
   zero        rachas de $00 >= 16 B
   other       resto (tablas de código, parámetros, strings, etc.)
@@ -177,6 +179,40 @@ def walk_struct(p, a, seen, depth=0):
     return out or None
 
 
+ONSCREEN_BOX = (0x05DD56, 0x05DD5C)  # a0 = caja {dx0, dx1, dy0, dy1} (8 B)
+PROBE_GRID = 0x043FAC                # a1 = {dx, dy, w, h} + w*h bytes
+
+
+def code_arg_tables(p, code_end=0x90000):
+    """-> [(addr, len)] de tablas pasadas en a0/a1 a rutinas de formato fijo:
+    `lea X,aN` seguido (<= 12 B) de jsr/bsr a ONSCREEN_BOX (caja de 8 B,
+    a0) o a PROBE_GRID (rejilla de bytes, a1)."""
+    out = []
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w in (0x41F9, 0x43F9):
+            v, n, reg = p.L(o + 2), 6, (w >> 9) & 7
+        elif w in (0x41FA, 0x43FA):
+            v, n, reg = o + 2 + p.SW(o + 2), 4, (w >> 9) & 7
+        else:
+            continue
+        for q in range(o + n, o + n + 12, 2):
+            x = p.W(q)
+            t = (p.L(q + 2) if x == 0x4EB9 else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x6100) else None)
+            if t is None:
+                continue
+            if v & 1 == 0 and p.valid(v, 8):
+                if t in ONSCREEN_BOX and reg == 0:
+                    out.append((v, 8))
+                elif t == PROBE_GRID and reg == 1:
+                    gw, gh = p.W(v + 4), p.W(v + 6)
+                    if 0 < gw * gh <= 4096:
+                        out.append((v, 8 + gw * gh))
+            break
+    return out
+
+
 def classify(p):
     """-> dict cpu_addr -> kind (sólo bytes marcados)."""
     mark = {}
@@ -214,6 +250,7 @@ def classify(p):
         if fr:
             put(fa, fr["size"], "frame")
     scripts, _ = S.find_scripts(p, ops)
+    op_starts = set()
     for s, (pics, info) in scripts.items():
         for a in info["visited"]:
             op = p.B(a)
@@ -221,11 +258,23 @@ def classify(p):
             if op == 0x01:
                 n = 6
             put(a, n, "anim")
+            op_starts.add(a)
+    # tablas de argumentos de formato fijo (cajas en pantalla, rejillas de sondeo)
+    for a, n in code_arg_tables(p):
+        put(a, n, "struct")
     # scripts instalados desde el código (EntitySetSpriteMap / move.l #,$3C(a6))
     seen = set()
     for v in sorted(code_script_seeds(p)):
         for a, n in walk_struct(p, v, seen) or []:
             put(a, n, "anim")
+            op_starts.add(a)
+    # op 19 SetField70: $70(a6) = operando+2 -> registro de 12 B (6 palabras con
+    # signo: caja de colisión / ataque por frame; destinos con stride 12)
+    for a in op_starts:
+        if p.B(a) == 0x19 and p.valid(a + 2, 4):
+            t = p.L(a + 2)
+            if t & 1 == 0 and p.valid(t, 12):
+                put(t, 12, "struct")
     return mark
 
 
