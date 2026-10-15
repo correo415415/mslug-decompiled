@@ -12301,7 +12301,7 @@ Data_1e536e:
         .dc.w   0xffd0                                                      | +001a2
         .dc.l   Zero_0fffe0                    | +001a4  -> $0FFFE0
         .dc.w   0x0012,0xfff0                                               | +001a8
-        .dc.l   Data_150000                   | +001ac  -> $150000
+        .dc.l   SprFrame_150000                   | +001ac  -> $150000
         .dc.l   AnimScr_180010                   | +001b0  -> $180010
         .dc.w   0xffd8,0xffd0,0xffdb,0xffe0,0xffde,0xfff0,0xffe1,0x0000     | +001b4
         .dc.w   0xffe4                                                      | +001c4
@@ -16498,7 +16498,7 @@ Data_1ed442:
         .dc.l   ColMap_106f6c                   | +00382  -> $106F6C
         .dc.w   0x002e,0xd1f4                                               | +00386
         .dc.l   AnimScr_1a0002                   | +0038a  -> $1A0002
-        .dc.l   Data_150020                   | +0038e  -> $150020
+        .dc.l   SprFrame_150020                   | +0038e  -> $150020
         .dc.w   0x0005,0x0006                                               | +00392
         .dc.l   ColMap_106f6c                   | +00396  -> $106F6C
         .dc.w   0x002e,0xd1f4,0x0012,0x0008,0x0013,0x0027,0x0005,0x0004     | +0039a
@@ -17381,7 +17381,7 @@ Data_1ed442:
         .dc.w   0x0006,0x0005                                               | +01f42
         .dc.l   ColMap_106f6c                   | +01f46  -> $106F6C
         .dc.w   0x002e,0xf33c,0x005f,0x0007                                 | +01f4a
-        .dc.l   Data_150000                   | +01f52  -> $150000
+        .dc.l   SprFrame_150000                   | +01f52  -> $150000
         .dc.w   0x0006,0x0005,0x002e,0xf34c,0x002e,0xf360,0x002e,0xf374     | +01f56
         .dc.w   0x002e,0xf388                                               | +01f66
         .dc.l   ColMap_106f6c                   | +01f6a  -> $106F6C
@@ -22879,7 +22879,7 @@ Data_1f5339:
         .dc.w   0xfff5,0xfff8,0xfffc,0xfffe,0x0000                          | +01257
         .dc.l   Pal_020004                   | +01261  -> $020004
         .dc.w   0x0008,0x000b,0x000f,0x0012                                 | +01265
-        .dc.l   Data_150018                   | +0126d  -> $150018
+        .dc.l   SprFrame_150018                   | +0126d  -> $150018
         .dc.w   0x0008,0x0020,0x0008,0x0021,0x0007,0x0023,0x0006,0x0024     | +01271
         .dc.w   0x0005,0x0025,0x0004,0x0026,0x0003,0x0027,0x0001,0x0028     | +01281
         .dc.w   0x0000,0x0028,0xffff,0x0028,0xfffd,0x0027,0xfffc,0x0026     | +01291

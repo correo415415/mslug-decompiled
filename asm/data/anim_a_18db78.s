@@ -3252,7 +3252,7 @@ Data_19343c:
         .dc.w   0xffff,0xfff1,0x0002,0xfff2,0x0005,0xfff1,0x0009,0xfff1     | +00c28
         .dc.l   BgMap_0cfff4                   | +00c38  -> $0CFFF4
         .dc.w   0x000f,0xfff4,0x0011,0xfff6,0x0013,0xfffb                   | +00c3c
-        .dc.l   Data_150000                   | +00c48  -> $150000
+        .dc.l   SprFrame_150000                   | +00c48  -> $150000
         .dc.w   0x000f,0x0003                                               | +00c4c
         .dc.l   BgMap_0d0005                   | +00c50  -> $0D0005
         .dc.l   BgMap_0a0007                   | +00c54  -> $0A0007
@@ -4810,7 +4810,7 @@ Data_196000:
         .dc.w   0x0800,0x0800,0x0100                                        | +0107e
         .dc.l   ColMap_106f6c                   | +01084  -> $106F6C
         .dc.w   0x0000,0x0000                                               | +01088
-        .dc.l   Data_150013                   | +0108c  -> $150013
+        .dc.l   SprFrame_150013                   | +0108c  -> $150013
         .dc.w   0x0200                                                      | +01090
         .dc.l   BgMap_0d0005                   | +01092  -> $0D0005
         .dc.w   0x2712                                                      | +01096
@@ -6451,7 +6451,7 @@ Data_196000:
         .dc.l   ColMap_106f6c                   | +045a2  -> $106F6C
         .dc.w   0x0029,0xa542                                               | +045a6
         .dc.l   AnimScr_18000a                   | +045aa  -> $18000A
-        .dc.l   Data_150013                   | +045ae  -> $150013
+        .dc.l   SprFrame_150013                   | +045ae  -> $150013
         .dc.w   0x0006,0x0006                                               | +045b2
         .dc.l   ColMap_106f6c                   | +045b6  -> $106F6C
         .dc.w   0x0029,0xa542,0x001e,0x000a,0x001d,0x0000,0x0006,0x0006     | +045ba
@@ -6819,19 +6819,19 @@ Data_196000:
         .dc.w   0x0029,0xa54a                                               | +04bbe
         .dc.l   ColMap_11000a                   | +04bc2  -> $11000A
         .dc.w   0x0000                                                      | +04bc6
-        .dc.l   Data_150008                   | +04bc8  -> $150008
+        .dc.l   SprFrame_150008                   | +04bc8  -> $150008
         .dc.w   0x0003                                                      | +04bcc
         .dc.l   ColMap_106f6c                   | +04bce  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04bd2
         .dc.l   ColMap_11000a                   | +04bd6  -> $11000A
         .dc.w   0x0008                                                      | +04bda
-        .dc.l   Data_150008                   | +04bdc  -> $150008
+        .dc.l   SprFrame_150008                   | +04bdc  -> $150008
         .dc.w   0x0003                                                      | +04be0
         .dc.l   ColMap_106f6c                   | +04be2  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04be6
         .dc.l   ColMap_11000a                   | +04bea  -> $11000A
         .dc.w   0x0010                                                      | +04bee
-        .dc.l   Data_150008                   | +04bf0  -> $150008
+        .dc.l   SprFrame_150008                   | +04bf0  -> $150008
         .dc.w   0x0003                                                      | +04bf4
         .dc.l   ColMap_106f6c                   | +04bf6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04bfa
@@ -6842,25 +6842,25 @@ Data_196000:
         .dc.w   0x0029,0xa54a                                               | +04c0e
         .dc.l   ColMap_11000a                   | +04c12  -> $11000A
         .dc.w   0x0020                                                      | +04c16
-        .dc.l   Data_150008                   | +04c18  -> $150008
+        .dc.l   SprFrame_150008                   | +04c18  -> $150008
         .dc.w   0x0003                                                      | +04c1c
         .dc.l   ColMap_106f6c                   | +04c1e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04c22
         .dc.l   ColMap_11000a                   | +04c26  -> $11000A
         .dc.w   0x0028                                                      | +04c2a
-        .dc.l   Data_150008                   | +04c2c  -> $150008
+        .dc.l   SprFrame_150008                   | +04c2c  -> $150008
         .dc.w   0x0003                                                      | +04c30
         .dc.l   ColMap_106f6c                   | +04c32  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04c36
         .dc.l   ColMap_11000a                   | +04c3a  -> $11000A
         .dc.w   0x0030                                                      | +04c3e
-        .dc.l   Data_150008                   | +04c40  -> $150008
+        .dc.l   SprFrame_150008                   | +04c40  -> $150008
         .dc.w   0x0003                                                      | +04c44
         .dc.l   ColMap_106f6c                   | +04c46  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04c4a
         .dc.l   ColMap_11000a                   | +04c4e  -> $11000A
         .dc.w   0x0038                                                      | +04c52
-        .dc.l   Data_150008                   | +04c54  -> $150008
+        .dc.l   SprFrame_150008                   | +04c54  -> $150008
         .dc.w   0x0003                                                      | +04c58
         .dc.l   ColMap_106f6c                   | +04c5a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04c5e

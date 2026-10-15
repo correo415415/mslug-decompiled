@@ -15,6 +15,8 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **183 more `Data_` → `SprFrame_`** with the new
+  `tools/rename_data_by_census.py` (renames by the dominant census kind).
 - **Pointer-less frame runs and text streams**: `data_census.frame_runs`
   marks unclassified spans that parse end-to-end as consecutive sprite frames
   (2 662 frames, 74 KB; tables computed at run time, only 1.8 % blank tiles),

@@ -753,13 +753,13 @@ AnimScr_1b0470:
         .dc.l   Slug_HitboxCbB_0299f2         | +000f0  -> $0299F2
         .dc.w   0x0000                                                      | +000f4
         .dc.l   0x0000fff8                    | +000f6  -> $00FFF8
-        .dc.l   Data_150000                   | +000fa  -> $150000
+        .dc.l   SprFrame_150000                   | +000fa  -> $150000
         .dc.w   0x0023,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +000fe
         .dc.w   0x0024,0x3676,0xffff,0xfff8,0x0023,0x0200,0x0024,0x3680     | +0010e
         .dc.w   0xffff,0xfff8,0x0000,0x0200,0x0024,0x368a,0xffff            | +0011e
-        .dc.l   Data_150023                   | +0012c  -> $150023
+        .dc.l   SprFrame_150023                   | +0012c  -> $150023
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00130
-        .dc.l   Data_150000                   | +00138  -> $150000
+        .dc.l   SprFrame_150000                   | +00138  -> $150000
         .dc.w   0x1d01,0xffff,0xffff,0x0004                                 | +0013c
         .dc.l   Slug_HitboxCbB_0299f2         | +00144  -> $0299F2
         .dc.w   0x0000                                                      | +00148
@@ -11394,7 +11394,7 @@ Data_1c536e:
         .dc.w   0x002c,0x56b8,0x002c,0x56c4,0x002c,0x56d8,0x002c,0x56f4     | +0033a
         .dc.l   Mortar_ToJump6A7D6_063960     | +0034a  -> $063960
         .dc.w   0xfff0                                                      | +0034e
-        .dc.l   Data_14ffff                   | +00350  -> $14FFFF
+        .dc.l   SprFrame_14ffff                   | +00350  -> $14FFFF
         .dc.w   0xffff                                                      | +00354
         .dc.l   Mortar_RngDelay_0639b4        | +00356  -> $0639B4
         .dc.w   0xfff8,0x0018                                               | +0035a

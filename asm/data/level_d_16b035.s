@@ -42,7 +42,7 @@
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 139549 B):
 |     frames 26.6%, animación 28.0%, estructuras 17.0%, ceros 7.6%, otro
 |     20.9%.
-|   Entradas por prefijo: AnimScr 146, SprFrame 69, Data 66, Zero 3, Str 1, RosterLenTabB 1, RosterPtrTabB 1, RosterLenTabA 1, RosterPtrTabA 1, RosterNamesB 1, RosterNamesA 1.
+|   Entradas por prefijo: AnimScr 146, SprFrame 93, Data 42, Zero 3, Str 1, RosterLenTabB 1, RosterPtrTabB 1, RosterLenTabA 1, RosterPtrTabA 1, RosterNamesB 1, RosterNamesA 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -121,11 +121,11 @@ SprFrame_16b1fc:
         .dc.b   0x01                            | +0006c
 
 | ----------------------------------------------------------------------------
-|  Data_16b269  @ $16B269  (13,207 B)  [ref. desde código]
+|  SprFrame_16b269  @ $16B269  (13,207 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_16b269, "ax", @progbits
-        .global Data_16b269
-Data_16b269:
+        .section .text.SprFrame_16b269, "ax", @progbits
+        .global SprFrame_16b269
+SprFrame_16b269:
         .dc.b   0x01                            | +00000
         .dc.w   0x312d,0x0210,0xfff0,0x0020,0x0202,0x3a3b,0x3133,0x3a3c     | +00001
         .dc.w   0x3a3d                                                      | +00011
@@ -221,12 +221,12 @@ Data_16b269:
         .dc.w   0x3ab3,0x3ab4,0x3ab5                                        | +00475
         .dc.l   SprFrame_160018                   | +0047b  -> $160018
         .dc.w   0x0102,0x3ab6,0x3ab7,0x0026                                 | +0047f
-        .dc.l   Data_150101                   | +00487  -> $150101
+        .dc.l   SprFrame_150101                   | +00487  -> $150101
         .dc.w   0x3ab8,0x0410,0xffed,0x0025,0x0102,0x3ab9,0x3219,0xfffd     | +0048b
         .dc.w   0x0025,0x0104,0x3aba,0x3abb,0x3abc,0x3abd,0x000d            | +0049b
-        .dc.l   Data_150103                   | +004a9  -> $150103
+        .dc.l   SprFrame_150103                   | +004a9  -> $150103
         .dc.w   0x3abe,0x3abf,0x3ac0,0x001d                                 | +004ad
-        .dc.l   Data_150102                   | +004b5  -> $150102
+        .dc.l   SprFrame_150102                   | +004b5  -> $150102
         .dc.w   0x3ac1,0x3ac2,0x0210,0xfff0,0x0023,0x0204,0x3ac3,0x3224     | +004b9
         .dc.w   0x3ac4,0x3ac5,0x3ac6,0x3228,0x3ac7,0x3ac8                   | +004c9
         .dc.l   ColMap_100003                   | +004d5  -> $100003
@@ -234,7 +234,7 @@ Data_16b269:
         .dc.w   0x322e,0x0004,0x0025,0x0104,0x3acc,0x3230,0x3acd,0x3ace     | +004e9
         .dc.w   0x0014,0x000e,0x0102,0x3acf,0x3ad0,0x001e,0x0009,0x0101     | +004f9
         .dc.w   0x3ad1,0x0310,0xffe1                                        | +00509
-        .dc.l   Data_160102                   | +0050f  -> $160102
+        .dc.l   SprFrame_160102                   | +0050f  -> $160102
         .dc.w   0x323b,0x323c,0xfff1,0x0024,0x0103,0x3ad3,0x3239,0x323a     | +00513
         .dc.l   0x00010024                    | +00523  -> $010024
         .dc.w   0x0102,0x3ad2,0x3237,0x0310,0xffd9,0x001f,0x0102,0x323d     | +00527
@@ -361,7 +361,7 @@ Data_16b269:
         .dc.l   SprFrame_14001b                   | +00b59  -> $14001B
         .dc.w   0x0101,0x339c,0x0210,0xfff5,0x002c,0x0202,0x3ba0,0x339e     | +00b5d
         .dc.w   0x3ba1,0x3ba2                                               | +00b6d
-        .dc.l   Data_15001c                   | +00b71  -> $15001C
+        .dc.l   SprFrame_15001c                   | +00b71  -> $15001C
         .dc.w   0x0101,0x33a1,0x0310,0xfff0,0x0028,0x0102,0x3ba3,0x33a3     | +00b75
         .dc.w   0x0000,0x0030,0x0103,0x3ba4,0x3ba5,0x33a6                   | +00b85
         .dc.l   ColMap_100010                   | +00b91  -> $100010
@@ -418,10 +418,10 @@ Data_16b269:
         .dc.w   0x0025,0x0202,0x3bdf,0x342e,0x3be0,0x3430,0x0015,0x001e     | +00e2b
         .dc.w   0x0101,0x342c,0x0210,0xfff5,0x0025,0x0202,0x3be1,0x3432     | +00e3b
         .dc.w   0x3be2,0x3434,0x0015                                        | +00e4b
-        .dc.l   Data_150101                   | +00e51  -> $150101
+        .dc.l   SprFrame_150101                   | +00e51  -> $150101
         .dc.w   0x3435,0x0210,0xfff5,0x0025,0x0202,0x3be3,0x3437,0x37f0     | +00e55
         .dc.w   0x2c3c,0x0015                                               | +00e65
-        .dc.l   Data_150101                   | +00e69  -> $150101
+        .dc.l   SprFrame_150101                   | +00e69  -> $150101
         .dc.w   0x2c3d,0x0110,0xfff5,0x0026,0x0202,0x3be4,0x3439,0x37f2     | +00e6d
         .dc.w   0x2c41,0x0110,0xffeb,0x00f0,0x020f,0x3449,0x344a,0x344b     | +00e7d
         .dc.w   0x3be8,0x3be9,0x344e,0x344f,0x3450,0x3451,0x3452,0x3453     | +00e8d
@@ -554,16 +554,16 @@ Data_16b269:
         .dc.w   0x0101,0x3598,0xfff3,0x0029,0x0202,0x3596,0x3597,0x3c47     | +0150b
         .dc.w   0x3595,0x0210,0xfff5,0x0026,0x0202,0x3c48,0x359a,0x3c49     | +0151b
         .dc.w   0x359b                                                      | +0152b
-        .dc.l   Data_15001a                   | +0152d  -> $15001A
+        .dc.l   SprFrame_15001a                   | +0152d  -> $15001A
         .dc.w   0x0101,0x32dc,0x0210,0xfff5,0x0026,0x0202,0x37ca,0x359c     | +01531
         .dc.w   0x37cb,0x359d                                               | +01541
-        .dc.l   Data_150016                   | +01545  -> $150016
+        .dc.l   SprFrame_150016                   | +01545  -> $150016
         .dc.w   0x0101,0x359e,0x0210,0xfff5,0x0026,0x0202,0x37cc,0x35a0     | +01549
         .dc.w   0x37cd,0x35a1                                               | +01559
-        .dc.l   Data_150016                   | +0155d  -> $150016
+        .dc.l   SprFrame_150016                   | +0155d  -> $150016
         .dc.w   0x0101,0x35a2,0x0210,0xfff5,0x0026,0x0202,0x37ce,0x35a3     | +01561
         .dc.w   0x37cf,0x35a4                                               | +01571
-        .dc.l   Data_150016                   | +01575  -> $150016
+        .dc.l   SprFrame_150016                   | +01575  -> $150016
         .dc.w   0x0101,0x35a5,0x0210,0xfff3,0x0028,0x0102,0x3c4c,0x35aa     | +01579
         .dc.w   0x0003,0x0036,0x0103,0x3c4a,0x3c4b,0x35a8,0x0210,0xfff2     | +01589
         .dc.w   0x0028,0x0102,0x3c4f,0x35af,0x0002,0x0036,0x0103,0x3c4d     | +01599
@@ -635,10 +635,10 @@ Data_16b269:
         .dc.w   0x0020,0x0102,0x3c78,0x35fd,0x0310,0xffec,0x0030,0x0103     | +01835
         .dc.w   0x35dc,0x35e2,0x35de,0xfffc,0x0020,0x0102,0x3c7b,0x35ff     | +01845
         .dc.w   0x000c                                                      | +01855
-        .dc.l   Data_150101                   | +01857  -> $150101
+        .dc.l   SprFrame_150101                   | +01857  -> $150101
         .dc.w   0x3600,0x0310,0xffec,0x0030,0x0103,0x35dc,0x35dd,0x35de     | +0185b
         .dc.w   0xfffc,0x0020,0x0102,0x3c7c,0x3602,0x000c                   | +0186b
-        .dc.l   Data_160101                   | +01877  -> $160101
+        .dc.l   SprFrame_160101                   | +01877  -> $160101
         .dc.w   0x3603,0x0310,0xffec,0x0030,0x0103,0x35dc,0x35e2,0x35de     | +0187b
         .dc.w   0xfffc,0x0020,0x0102,0x3c7d,0x3605,0x000c,0x001b,0x0101     | +0188b
         .dc.w   0x3606,0x0310,0xffec,0x0030,0x0103,0x35dc,0x35dd,0x35de     | +0189b
@@ -691,7 +691,7 @@ Data_16b269:
         .dc.l   SprFrame_14001a                   | +01a8d  -> $14001A
         .dc.w   0x0101,0x3661,0x0210,0xfff5,0x0029,0x0202,0x38cd,0x3662     | +01a91
         .dc.w   0x3ca2,0x3664                                               | +01aa1
-        .dc.l   Data_150019                   | +01aa5  -> $150019
+        .dc.l   SprFrame_150019                   | +01aa5  -> $150019
         .dc.w   0x0101,0x3665,0x0210,0xfff4,0x0029,0x0202,0x38cf,0x3666     | +01aa9
         .dc.w   0x38d0,0x3667                                               | +01ab9
         .dc.l   SprFrame_140019                   | +01abd  -> $140019
@@ -719,7 +719,7 @@ Data_16b269:
         .dc.l   ColMap_100018                   | +01b95  -> $100018
         .dc.w   0x0101,0x3685,0x0210,0xfff5,0x0027,0x0202,0x39b6,0x368a     | +01b99
         .dc.w   0x3caa,0x368c                                               | +01ba9
-        .dc.l   Data_150018                   | +01bad  -> $150018
+        .dc.l   SprFrame_150018                   | +01bad  -> $150018
         .dc.w   0x0101,0x2f9c,0x0210,0xfff0,0x0028,0x0202,0x3cab,0x368e     | +01bb1
         .dc.w   0x3cac,0x3690,0x0010,0x0019,0x0101,0x3691,0x0210,0xfff0     | +01bc1
         .dc.w   0x0028,0x0202,0x3cab,0x3692,0x3cad,0x3694                   | +01bd1
@@ -831,7 +831,7 @@ Data_16b269:
         .dc.l   SetTaskHandler_080108         | +021f9  -> $080108
         .dc.w   0xa302,0xa303,0xa304,0xa305,0xa306,0xa307,0xa308,0xa309     | +021fd
         .dc.w   0x0300,0xffee,0x0013,0x0101,0xa310,0xfffe                   | +0220d
-        .dc.l   Data_150202                   | +02219  -> $150202
+        .dc.l   SprFrame_150202                   | +02219  -> $150202
         .dc.w   0xa30e,0xa30f,0xa30c,0xa30d,0x001e,0x000c,0x0201,0xa30b     | +0221d
         .dc.w   0xa30a,0x0500,0xfff0                                        | +0222d
         .dc.l   Data_180106                   | +02233  -> $180106
@@ -1128,7 +1128,7 @@ Data_16b269:
         .dc.w   0x0101,0xa703,0xfff0,0x0058,0x0103,0xa71a,0xa71b,0xa71c     | +0330d
         .dc.w   0x0000,0x0058,0x0101,0xa71d,0x0400,0xfff0,0x0045,0x0101     | +0331d
         .dc.w   0xa722,0xfff0                                               | +0332d
-        .dc.l   Data_150101                   | +03331  -> $150101
+        .dc.l   SprFrame_150101                   | +03331  -> $150101
         .dc.w   0xa723,0x0000,0x0045,0x0104,0xa71e,0xa71f,0xa720,0xa721     | +03335
         .dc.w   0x0010,0x001a,0x0101,0xa6ff,0x0200,0xffe0,0x0038,0x0101     | +03345
         .dc.w   0xa703,0xfff0,0x0058,0x0103,0xa724,0xa725,0xa70b,0x0300     | +03355
@@ -1139,11 +1139,11 @@ Data_16b269:
         .dc.w   0x0103,0xa72e,0xa72f,0xa730,0x0300,0xffe0                   | +0338b
 
 | ----------------------------------------------------------------------------
-|  Data_16e600  @ $16E600  (576 B)  [ref. desde código]
+|  SprFrame_16e600  @ $16E600  (576 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_16e600, "ax", @progbits
-        .global Data_16e600
-Data_16e600:
+        .section .text.SprFrame_16e600, "ax", @progbits
+        .global SprFrame_16e600
+SprFrame_16e600:
         .dc.w   0x0058,0x0103,0xa73c,0xa73d,0xa73e,0xfff0,0x0060,0x0204     | +00000
         .dc.w   0xa734,0xa735,0xa736,0xa737,0xa738,0xa739,0xa73a,0xa73b     | +00010
         .dc.w   0x0010,0x0050,0x0102,0xa73f,0xa740,0x0300,0xffde,0x0059     | +00020
@@ -1186,11 +1186,11 @@ Data_16e600:
         .dc.w   0x0101,0xa7bd,0x0300,0xffe7,0x0021,0x0102,0xa7c2,0xa7c3     | +00230
 
 | ----------------------------------------------------------------------------
-|  Data_16e840  @ $16E840  (6,056 B)  [ref. desde código]
+|  SprFrame_16e840  @ $16E840  (6,056 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_16e840, "ax", @progbits
-        .global Data_16e840
-Data_16e840:
+        .section .text.SprFrame_16e840, "ax", @progbits
+        .global SprFrame_16e840
+SprFrame_16e840:
         .dc.w   0xfff7,0x0040,0x0104,0xa7be,0xa7bf,0xa7c0,0xa7c1,0x0007     | +00000
         .dc.w   0x0021,0x0102,0xa7c4,0xa7c5,0x0100,0xffd8,0x0030,0x0203     | +00010
         .dc.w   0xa7c9,0xa7ca,0xa7cb,0xa7c6,0xa7c7,0xa7c8,0x0100,0xffd8     | +00020
@@ -2137,11 +2137,11 @@ SprFrame_1702c8:
         .dc.w   0xaf18,0xaf19,0xaf1a,0xaf1b,0x0000                          | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_170302  @ $170302  (766 B)  [ref. desde código]
+|  SprFrame_170302  @ $170302  (766 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_170302, "ax", @progbits
-        .global Data_170302
-Data_170302:
+        .section .text.SprFrame_170302, "ax", @progbits
+        .global SprFrame_170302
+SprFrame_170302:
         .dc.w   0x0000,0x0000,0xaf1c,0xaf1d,0xaf1e,0xaf1f,0xaf20,0x0000     | +00000
         .dc.w   0x0100,0xffbc,0x0040,0x0708,0x0000,0xaf21,0xaf22,0xaf23     | +00010
         .dc.w   0xaf24,0xaf25,0xaf26,0xaf27,0xaf28,0xaf29,0xaf2a,0xaf2b     | +00020
@@ -2199,20 +2199,20 @@ Data_170302:
         .dc.w   0x0206,0xafdf                                               | +002fa
 
 | ----------------------------------------------------------------------------
-|  Data_170600  @ $170600  (5 B)  [ref. desde código]
+|  SprFrame_170600  @ $170600  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_170600, "ax", @progbits
-        .global Data_170600
-Data_170600:
+        .section .text.SprFrame_170600, "ax", @progbits
+        .global SprFrame_170600
+SprFrame_170600:
         .dc.w   0xafe0,0xafe1                                               | +00000
         .dc.b   0xaf                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_170605  @ $170605  (272 B)  [ref. desde código]
+|  SprFrame_170605  @ $170605  (272 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_170605, "ax", @progbits
-        .global Data_170605
-Data_170605:
+        .section .text.SprFrame_170605, "ax", @progbits
+        .global SprFrame_170605
+SprFrame_170605:
         .dc.b   0xe2                            | +00000
         .dc.w   0xafe3,0xafe4,0xafd9,0xafda,0xafdb,0xafdc,0xafdd,0xafde     | +00001
         .dc.w   0x0300,0x0000,0x0040,0x0104,0xb012,0xb013,0xb014,0xb015     | +00011
@@ -2234,11 +2234,11 @@ Data_170605:
         .dc.b   0xb0                            | +0010f
 
 | ----------------------------------------------------------------------------
-|  Data_170715  @ $170715  (491 B)  [ref. desde código]
+|  SprFrame_170715  @ $170715  (491 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_170715, "ax", @progbits
-        .global Data_170715
-Data_170715:
+        .section .text.SprFrame_170715, "ax", @progbits
+        .global SprFrame_170715
+SprFrame_170715:
         .dc.b   0x1b                            | +00000
         .dc.w   0xb01c,0xb031,0xb032,0xb033,0xa922,0xb020,0xb021,0xb022     | +00001
         .dc.w   0xb023,0x0070,0x0040,0x0104,0xb00e,0xb00f,0xb010,0xb011     | +00011
@@ -2273,11 +2273,11 @@ Data_170715:
         .dc.w   0xb068,0xb069,0xb06a,0xb06b,0xa922                          | +001e1
 
 | ----------------------------------------------------------------------------
-|  Data_170900  @ $170900  (1,029 B)  [ref. desde código]
+|  SprFrame_170900  @ $170900  (1,029 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_170900, "ax", @progbits
-        .global Data_170900
-Data_170900:
+        .section .text.SprFrame_170900, "ax", @progbits
+        .global SprFrame_170900
+SprFrame_170900:
         .dc.w   0xb020,0xb021,0xb022,0xb023,0x0070,0x0040,0x0104,0xb00e     | +00000
         .dc.w   0xb00f,0xb010,0xb011,0x0300,0x0000,0x0040,0x0104,0xb012     | +00010
         .dc.w   0xb013,0xb014,0xb015,0x0010,0x0050,0x0605,0xafff,0xb000     | +00020
@@ -2346,11 +2346,11 @@ Data_170900:
         .dc.b   0xb0                            | +00404
 
 | ----------------------------------------------------------------------------
-|  Data_170d05  @ $170D05  (254 B)  [ref. desde código]
+|  SprFrame_170d05  @ $170D05  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_170d05, "ax", @progbits
-        .global Data_170d05
-Data_170d05:
+        .section .text.SprFrame_170d05, "ax", @progbits
+        .global SprFrame_170d05
+SprFrame_170d05:
         .dc.b   0xe8                            | +00000
         .dc.w   0xb0e9,0xb0ea,0xb016,0xb0eb,0xb0ec,0xb0ed,0xb0ee,0xb01b     | +00001
         .dc.w   0xb0ef,0xb0f0,0xb0f1,0xb0f2,0xa922,0xb020,0xb021,0xb022     | +00011
@@ -2371,11 +2371,11 @@ Data_170d05:
         .dc.b   0xb0                            | +000fd
 
 | ----------------------------------------------------------------------------
-|  Data_170e03  @ $170E03  (261 B)  [ref. desde código]
+|  SprFrame_170e03  @ $170E03  (261 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_170e03, "ax", @progbits
-        .global Data_170e03
-Data_170e03:
+        .section .text.SprFrame_170e03, "ax", @progbits
+        .global SprFrame_170e03
+SprFrame_170e03:
         .dc.b   0x14                            | +00000
         .dc.w   0xb015,0x0010,0x0050,0x0605,0xafff,0xb000,0xb001,0xb002     | +00001
         .dc.w   0xb003,0xb004,0xb10f,0xb085,0xb110,0xb111,0xb009,0xb112     | +00011
@@ -2396,11 +2396,11 @@ Data_170e03:
         .dc.w   0xb022,0xb023                                               | +00101
 
 | ----------------------------------------------------------------------------
-|  Data_170f08  @ $170F08  (271 B)  [ref. desde código]
+|  SprFrame_170f08  @ $170F08  (271 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_170f08, "ax", @progbits
-        .global Data_170f08
-Data_170f08:
+        .section .text.SprFrame_170f08, "ax", @progbits
+        .global SprFrame_170f08
+SprFrame_170f08:
         .dc.w   0x0070,0x0040,0x0104,0xb00e,0xb00f,0xb010,0xb011,0x0300     | +00000
         .dc.w   0x0000,0x0040,0x0104,0xb012,0xb013,0xb014,0xb015,0x0010     | +00010
         .dc.w   0x0050,0x0605,0xafff,0xb000,0xb001,0xb002,0xb003,0xb126     | +00020
@@ -2421,11 +2421,11 @@ Data_170f08:
         .dc.b   0xb1                            | +0010e
 
 | ----------------------------------------------------------------------------
-|  Data_171017  @ $171017  (234 B)  [ref. desde código]
+|  SprFrame_171017  @ $171017  (234 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171017, "ax", @progbits
-        .global Data_171017
-Data_171017:
+        .section .text.SprFrame_171017, "ax", @progbits
+        .global SprFrame_171017
+SprFrame_171017:
         .dc.b   0x64                            | +00000
         .dc.w   0xb165,0xb166,0xb167,0xb168,0xb169,0xb16a,0xb16b,0xb16c     | +00001
         .dc.w   0x0060,0x0040,0x0204,0xb15a,0xb15b,0xb15c,0xb15d,0xb156     | +00011
@@ -2445,11 +2445,11 @@ Data_171017:
         .dc.b   0xb1                            | +000e9
 
 | ----------------------------------------------------------------------------
-|  Data_171101  @ $171101  (265 B)  [ref. desde código]
+|  SprFrame_171101  @ $171101  (265 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171101, "ax", @progbits
-        .global Data_171101
-Data_171101:
+        .section .text.SprFrame_171101, "ax", @progbits
+        .global SprFrame_171101
+SprFrame_171101:
         .dc.b   0x98                            | +00000
         .dc.w   0xb199,0xb19a,0xb19b,0x0300,0x0000,0x0040,0x0104,0xb012     | +00001
         .dc.w   0xb013,0xb014,0xb015,0x0010,0x0050,0x0105,0xafff,0xb000     | +00011
@@ -2470,11 +2470,11 @@ Data_171101:
         .dc.w   0xb198,0xb1e3,0xb1e4,0xb1e5                                 | +00101
 
 | ----------------------------------------------------------------------------
-|  Data_17120a  @ $17120A  (498 B)  [ref. desde código]
+|  SprFrame_17120a  @ $17120A  (498 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_17120a, "ax", @progbits
-        .global Data_17120a
-Data_17120a:
+        .section .text.SprFrame_17120a, "ax", @progbits
+        .global SprFrame_17120a
+SprFrame_17120a:
         .dc.w   0x0500,0x0000,0x0040,0x0104,0xb012,0xb013,0xb014,0xb015     | +00000
         .dc.w   0x0010,0x0050,0x0105,0xafff,0xb000,0xb001,0xb002,0xb003     | +00010
         .dc.w   0x0020,0x0040,0x0304,0xb1e6,0xb1e7,0xb1e8,0xb1e9,0xb1ea     | +00020
@@ -2509,36 +2509,36 @@ Data_17120a:
         .dc.w   0x0010                                                      | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_1713fc  @ $1713FC  (14 B)  [ref. desde código]
+|  SprFrame_1713fc  @ $1713FC  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1713fc, "ax", @progbits
-        .global Data_1713fc
-Data_1713fc:
+        .section .text.SprFrame_1713fc, "ax", @progbits
+        .global SprFrame_1713fc
+SprFrame_1713fc:
         .dc.w   0x0050,0x0105,0xafff,0xb000,0xb001,0xb002,0xb003            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_17140a  @ $17140A  (5 B)  [ref. desde código]
+|  SprFrame_17140a  @ $17140A  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_17140a, "ax", @progbits
-        .global Data_17140a
-Data_17140a:
+        .section .text.SprFrame_17140a, "ax", @progbits
+        .global SprFrame_17140a
+SprFrame_17140a:
         .dc.w   0x0020,0x0040                                               | +00000
         .dc.b   0x03                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_17140f  @ $17140F  (1 B)  [ref. desde código]
+|  SprFrame_17140f  @ $17140F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_17140f, "ax", @progbits
-        .global Data_17140f
-Data_17140f:
+        .section .text.SprFrame_17140f, "ax", @progbits
+        .global SprFrame_17140f
+SprFrame_17140f:
         .dc.b   0x04                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_171410  @ $171410  (256 B)  [ref. desde código]
+|  SprFrame_171410  @ $171410  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171410, "ax", @progbits
-        .global Data_171410
-Data_171410:
+        .section .text.SprFrame_171410, "ax", @progbits
+        .global SprFrame_171410
+SprFrame_171410:
         .dc.w   0xb20d,0xb223,0xb22b,0xb22c,0xb211,0xb226,0xb227,0xb22d     | +00000
         .dc.w   0xb1ee,0xb216,0xb217,0xb22e,0x0050,0x0030,0x0103,0xb207     | +00010
         .dc.w   0xb21a,0xb22a,0x0060,0x0040,0x0204,0xb1df,0xb204,0xb205     | +00020
@@ -2557,19 +2557,19 @@ Data_171410:
         .dc.w   0xb219,0xb198,0xb1e3,0xb202,0xb215,0x0100,0x0000,0x0040     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_171510  @ $171510  (2 B)  [ref. desde código]
+|  SprFrame_171510  @ $171510  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171510, "ax", @progbits
-        .global Data_171510
-Data_171510:
+        .section .text.SprFrame_171510, "ax", @progbits
+        .global SprFrame_171510
+SprFrame_171510:
         .dc.w   0x0804                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_171512  @ $171512  (253 B)  [ref. desde código]
+|  SprFrame_171512  @ $171512  (253 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171512, "ax", @progbits
-        .global Data_171512
-Data_171512:
+        .section .text.SprFrame_171512, "ax", @progbits
+        .global SprFrame_171512
+SprFrame_171512:
         .dc.w   0xb23a,0xb23b,0xb23c,0xb23d,0xb23e,0xb23f,0xb240,0xb241     | +00000
         .dc.w   0xb242,0xb243,0xb244,0xb245,0xb246,0xb247,0xb248,0xb249     | +00010
         .dc.w   0xb24a,0xb24b,0xb24c,0xb24d,0xb24e,0xb24f,0xb250,0xb251     | +00020
@@ -2671,11 +2671,11 @@ SprFrame_171715:
         .dc.b   0xdb                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_171716  @ $171716  (255 B)  [ref. desde código]
+|  SprFrame_171716  @ $171716  (255 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171716, "ax", @progbits
-        .global Data_171716
-Data_171716:
+        .section .text.SprFrame_171716, "ax", @progbits
+        .global SprFrame_171716
+SprFrame_171716:
         .dc.w   0xffe0,0x0050,0x0206,0xb2d8,0x0ae1,0x0ae1,0x0ae1,0x0ae1     | +00000
         .dc.w   0xb2d9,0xb2d6,0x0ae1,0x0ae1,0x0ae1,0x0ae1,0xb2d7,0x0000     | +00010
         .dc.w   0x0045,0x0105,0xb2d1,0xb2d2,0xb2d3,0xb2d4,0xb2d5,0x0700     | +00020
@@ -2686,7 +2686,7 @@ Data_171716:
         .dc.w   0xb2f8,0xb2f9,0xb2fa,0xb2fb,0xb2fc,0xb2fd,0x0028,0x001a     | +00070
         .dc.w   0x0102,0xb2fe,0xb2ff,0x0400,0xffd6,0x000f,0x0102,0xb300     | +00080
         .dc.w   0xb301,0xffe6                                               | +00090
-        .dc.l   Data_150103                   | +00094  -> $150103
+        .dc.l   SprFrame_150103                   | +00094  -> $150103
         .dc.w   0xb302,0xb303,0xb304,0xfff6,0x001d,0x0103,0xb305,0xb306     | +00098
         .dc.w   0xb307,0x0006,0x001a,0x0103,0xb308,0xb309,0xb30a,0x0300     | +000a8
         .dc.w   0xffb0,0x0010,0x0101,0xb31b,0xffc0                          | +000b8
@@ -2698,11 +2698,11 @@ Data_171716:
         .dc.b   0xb3                            | +000fe
 
 | ----------------------------------------------------------------------------
-|  Data_171815  @ $171815  (2 B)  [ref. desde código]
+|  SprFrame_171815  @ $171815  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171815, "ax", @progbits
-        .global Data_171815
-Data_171815:
+        .section .text.SprFrame_171815, "ax", @progbits
+        .global SprFrame_171815
+SprFrame_171815:
         .dc.b   0x25                            | +00000
         .dc.b   0xb3                            | +00001
 
@@ -2721,7 +2721,7 @@ Data_171817:
         .dc.w   0xb336,0xb337,0xb338,0xb339,0xb33a,0xb33b,0xb33c,0xb33d     | +00051
         .dc.w   0x0000,0xb33e,0xb33f,0xb340,0xb341,0xb342,0x0600,0xffe8     | +00061
         .dc.w   0x0003,0x0102,0xb355,0xb356,0xfff8                          | +00071
-        .dc.l   Data_150103                   | +0007b  -> $150103
+        .dc.l   SprFrame_150103                   | +0007b  -> $150103
         .dc.w   0xb352,0xb353,0xb354,0x0008,0x0012,0x0103,0xb34f,0xb350     | +0007f
         .dc.w   0xb351                                                      | +0008f
         .dc.l   AnimScr_180000                   | +00091  -> $180000
@@ -2806,7 +2806,7 @@ Data_171a1b:
         .dc.l   ColMap_100020                   | +000ff  -> $100020
         .dc.w   0x0303,0xb3c5,0xb3c6,0xb3c7,0xb3c8,0xb3c9,0xb3ca,0xb3cb     | +00103
         .dc.w   0xb3cc,0xb3cd,0x0040                                        | +00113
-        .dc.l   Data_150102                   | +00119  -> $150102
+        .dc.l   SprFrame_150102                   | +00119  -> $150102
         .dc.w   0xb3ce,0xb3cf,0x0050,0x000c,0x0101,0xb3d0,0x0300,0xfff8     | +0011d
         .dc.w   0x0020,0x0103,0xb3d2,0xb3d3,0xb3d4,0x0008,0x0020,0x0102     | +0012d
         .dc.w   0xb3d5,0xb3d6,0x03b0,0x00a0,0x0101,0x0000,0x0600,0xffb8     | +0013d
@@ -2874,11 +2874,11 @@ SprFrame_171e00:
         .dc.b   0xb4                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_171e01  @ $171E01  (255 B)  [ref. desde código]
+|  SprFrame_171e01  @ $171E01  (255 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171e01, "ax", @progbits
-        .global Data_171e01
-Data_171e01:
+        .section .text.SprFrame_171e01, "ax", @progbits
+        .global SprFrame_171e01
+SprFrame_171e01:
         .dc.b   0xb8                            | +00000
         .dc.w   0x0000,0x0060,0x0106,0xb4b9,0xb4ba,0xb4bb,0xb4bc,0xb4bd     | +00001
         .dc.w   0xb4be                                                      | +00011
@@ -2901,11 +2901,11 @@ Data_171e01:
         .dc.w   0xb506,0xb507,0xb508,0xb509                                 | +000f7
 
 | ----------------------------------------------------------------------------
-|  Data_171f00  @ $171F00  (9,000 B)  [ref. desde código]
+|  SprFrame_171f00  @ $171F00  (9,000 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171f00, "ax", @progbits
-        .global Data_171f00
-Data_171f00:
+        .section .text.SprFrame_171f00, "ax", @progbits
+        .global SprFrame_171f00
+SprFrame_171f00:
         .dc.w   0xb50a,0xb50b,0xb50c,0xb50d,0xb50e,0xb50f,0xb510,0xb511     | +00000
         .dc.w   0xb512,0xb513,0xb514,0xb515,0xb516,0xb517,0xb518,0xb519     | +00010
         .dc.w   0xb51a,0xb51b,0xb51c,0xb51d,0xb51e,0xb51f,0xb520,0x0088     | +00020
@@ -3582,7 +3582,7 @@ Data_174228:
         .dc.w   0xfff8,0x0030,0x0101,0xbe92,0x0008,0x0030,0x0103,0xbe8f     | +00140
         .dc.w   0xbe90,0xbe91,0x0100,0x000e,0x0030,0x0103,0xbe93,0xbe94     | +00150
         .dc.w   0xbe95,0x0200,0x0005,0x0032,0x0103,0xbe96,0xbe97,0xbe98     | +00160
-        .dc.l   Data_150032                   | +00170  -> $150032
+        .dc.l   SprFrame_150032                   | +00170  -> $150032
         .dc.w   0x0102,0xbe99,0xbe9a,0x0200,0xfff8,0x0030,0x0102,0xbe9d     | +00174
         .dc.w   0xbe9e,0x0008,0x0030,0x0103,0xbe9b,0xbe9c,0xbe8c,0x0200     | +00184
         .dc.w   0xfff3,0x002e,0x0101,0xbea2,0x0003,0x0033,0x0103,0xbe9f     | +00194
@@ -10663,7 +10663,7 @@ Data_18916e:
         .dc.l   SprFrame_17001e                   | +0069a  -> $17001E
         .dc.w   0xffeb,0x0016,0xfff9,0x0030,0x0016,0x0022,0xffeb,0x0016     | +0069e
         .dc.w   0xfff6,0x0030                                               | +006ae
-        .dc.l   Data_150024                   | +006b2  -> $150024
+        .dc.l   SprFrame_150024                   | +006b2  -> $150024
         .dc.w   0xffeb,0x0016,0xfff5,0x0030,0x0014,0x0025,0xffeb,0x0016     | +006b6
         .dc.w   0xfff4,0x002f,0x0013,0x0028,0xffeb,0x0016,0xfff3,0x002d     | +006c6
         .dc.w   0x0011,0x0029,0xffeb,0x0016,0xfff2,0x002e,0x0010,0x002c     | +006d6
@@ -10738,9 +10738,9 @@ Data_18916e:
         .dc.l   SprFrame_160009                   | +00958  -> $160009
         .dc.w   0x001f,0x0026,0x0014,0xffea,0x0015,0x0009,0x001f,0x0025     | +0095c
         .dc.w   0x0013,0xffea                                               | +0096c
-        .dc.l   Data_150008                   | +00970  -> $150008
+        .dc.l   SprFrame_150008                   | +00970  -> $150008
         .dc.w   0x001d,0x0026,0x0014,0xffea                                 | +00974
-        .dc.l   Data_150008                   | +0097c  -> $150008
+        .dc.l   SprFrame_150008                   | +0097c  -> $150008
         .dc.w   0x001e,0x0027                                               | +00980
         .dc.l   SprFrame_15ffea                   | +00984  -> $15FFEA
         .dc.w   0x0015,0x0007,0x001f,0x0026,0x0014,0xffeb,0x0016            | +00988
@@ -10752,7 +10752,7 @@ Data_18916e:
         .dc.l   SprFrame_16000f                   | +009b8  -> $16000F
         .dc.w   0x0020,0x0027,0x000d,0xffea,0x0015,0x0009,0x001f,0x0026     | +009bc
         .dc.w   0x0011,0xffea,0x0015,0x0009,0x001e,0x0026,0x0013,0xffea     | +009cc
-        .dc.l   Data_150008                   | +009dc  -> $150008
+        .dc.l   SprFrame_150008                   | +009dc  -> $150008
         .dc.w   0x001e,0x0026,0x0014,0xffea,0x0015,0x0007,0x001e,0x0025     | +009e0
         .dc.w   0x0014,0xffeb,0x0016                                        | +009f0
         .dc.l   BgMap_0c0020                   | +009f6  -> $0C0020
@@ -10787,25 +10787,25 @@ Data_18916e:
         .dc.w   0x0000,0x0000,0x0000,0xffeb                                 | +00ad0
         .dc.l   SprFrame_160000                   | +00ad8  -> $160000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00adc
-        .dc.l   Data_150000                   | +00ae4  -> $150000
+        .dc.l   SprFrame_150000                   | +00ae4  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00ae8
-        .dc.l   Data_150000                   | +00af0  -> $150000
+        .dc.l   SprFrame_150000                   | +00af0  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00af4
-        .dc.l   Data_150000                   | +00afc  -> $150000
+        .dc.l   SprFrame_150000                   | +00afc  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00b00
-        .dc.l   Data_150000                   | +00b08  -> $150000
+        .dc.l   SprFrame_150000                   | +00b08  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00b0c
-        .dc.l   Data_150000                   | +00b14  -> $150000
+        .dc.l   SprFrame_150000                   | +00b14  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00b18
-        .dc.l   Data_150000                   | +00b20  -> $150000
+        .dc.l   SprFrame_150000                   | +00b20  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00b24
-        .dc.l   Data_150000                   | +00b2c  -> $150000
+        .dc.l   SprFrame_150000                   | +00b2c  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00b30
-        .dc.l   Data_150000                   | +00b38  -> $150000
+        .dc.l   SprFrame_150000                   | +00b38  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffeb                                 | +00b3c
         .dc.l   SprFrame_160000                   | +00b44  -> $160000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00b48
-        .dc.l   Data_150000                   | +00b50  -> $150000
+        .dc.l   SprFrame_150000                   | +00b50  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffeb                                 | +00b54
         .dc.l   SprFrame_160000                   | +00b5c  -> $160000
         .dc.w   0x0000,0x0000,0x0000,0xffeb                                 | +00b60
@@ -11192,7 +11192,7 @@ Data_18916e:
         .dc.l   SprFrame_15ffe8                   | +019b0  -> $15FFE8
         .dc.l   SprFrame_130006                   | +019b4  -> $130006
         .dc.w   0x001f,0x0024                                               | +019b8
-        .dc.l   Data_14ffe7                   | +019bc  -> $14FFE7
+        .dc.l   SprFrame_14ffe7                   | +019bc  -> $14FFE7
         .dc.l   ColMap_110004                   | +019c0  -> $110004
         .dc.w   0x0021,0x0023,0x0018,0xffe7,0x0011,0x0003,0x001f,0x0022     | +019c4
         .dc.w   0x0018,0xffe8,0x0013,0x0008,0x0020,0x0024,0x0015,0xffe7     | +019d4
@@ -11495,7 +11495,7 @@ Data_18b46e:
         .dc.l   ColMap_100022                   | +000f8  -> $100022
         .dc.w   0x0035,0x002a,0x0018,0xffe7,0x0010,0x0013,0x0037,0x0020     | +000fc
         .dc.w   0x001b,0xffe7,0x0010,0xfffa,0x0031                          | +0010c
-        .dc.l   Data_150024                   | +00116  -> $150024
+        .dc.l   SprFrame_150024                   | +00116  -> $150024
         .dc.w   0xffe6,0x000f,0xffec,0x002d,0x000b,0x0028,0xffe6,0x000f     | +0011a
         .dc.w   0xffea,0x002d,0x000a,0x002a,0xffe6,0x000f,0x0003,0x0022     | +0012a
         .dc.w   0x0021,0x001c,0xffe7                                        | +0013a
@@ -11622,9 +11622,9 @@ Data_18b46e:
         .dc.w   0x001a                                                      | +00620
         .dc.l   SprFrame_14001b                   | +00622  -> $14001B
         .dc.w   0x002a,0x0008,0xfff0,0x001a                                 | +00626
-        .dc.l   Data_15001c                   | +0062e  -> $15001C
+        .dc.l   SprFrame_15001c                   | +0062e  -> $15001C
         .dc.w   0x0028,0x0007,0xfff0,0x001a                                 | +00632
-        .dc.l   Data_15001c                   | +0063a  -> $15001C
+        .dc.l   SprFrame_15001c                   | +0063a  -> $15001C
         .dc.w   0x0028,0x0005,0xfff0,0x001a,0x0016,0x001d,0x0028,0x0004     | +0063e
         .dc.w   0xffef,0x001a,0x0010,0x001d,0x0028,0x0009,0xffef,0x001a     | +0064e
         .dc.w   0x000f,0x001d,0x0028,0x0008,0xffef,0x001a,0x000f,0x001b     | +0065e
@@ -11889,7 +11889,7 @@ Data_18c141:
         .dc.w   0x001b                                                      | +003cb
         .dc.l   SprFrame_16001a                   | +003cd  -> $16001A
         .dc.w   0x002b,0x0003,0xfff2,0x001b                                 | +003d1
-        .dc.l   Data_15001a                   | +003d9  -> $15001A
+        .dc.l   SprFrame_15001a                   | +003d9  -> $15001A
         .dc.w   0x002a,0x0003,0xfff4,0x001c                                 | +003dd
         .dc.l   AnimScr_180018                   | +003e5  -> $180018
         .dc.w   0x002b                                                      | +003e9
@@ -12088,19 +12088,19 @@ Data_18c141:
         .dc.w   0xffeb                                                      | +007f5
         .dc.l   SprFrame_160000                   | +007f7  -> $160000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +007fb
-        .dc.l   Data_150000                   | +00803  -> $150000
+        .dc.l   SprFrame_150000                   | +00803  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00807
-        .dc.l   Data_150000                   | +0080f  -> $150000
+        .dc.l   SprFrame_150000                   | +0080f  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00813
-        .dc.l   Data_150000                   | +0081b  -> $150000
+        .dc.l   SprFrame_150000                   | +0081b  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +0081f
-        .dc.l   Data_150000                   | +00827  -> $150000
+        .dc.l   SprFrame_150000                   | +00827  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +0082b
-        .dc.l   Data_150000                   | +00833  -> $150000
+        .dc.l   SprFrame_150000                   | +00833  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00837
-        .dc.l   Data_150000                   | +0083f  -> $150000
+        .dc.l   SprFrame_150000                   | +0083f  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00843
-        .dc.l   Data_150000                   | +0084b  -> $150000
+        .dc.l   SprFrame_150000                   | +0084b  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea,0x001d                          | +0084f
         .fill   8,1,0x00                      | +00859
         .dc.w   0xffea,0x001d                                               | +00861
@@ -12112,19 +12112,19 @@ Data_18c141:
         .dc.w   0xffeb                                                      | +00885
         .dc.l   SprFrame_160000                   | +00887  -> $160000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +0088b
-        .dc.l   Data_150000                   | +00893  -> $150000
+        .dc.l   SprFrame_150000                   | +00893  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +00897
-        .dc.l   Data_150000                   | +0089f  -> $150000
+        .dc.l   SprFrame_150000                   | +0089f  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +008a3
-        .dc.l   Data_150000                   | +008ab  -> $150000
+        .dc.l   SprFrame_150000                   | +008ab  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +008af
-        .dc.l   Data_150000                   | +008b7  -> $150000
+        .dc.l   SprFrame_150000                   | +008b7  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +008bb
-        .dc.l   Data_150000                   | +008c3  -> $150000
+        .dc.l   SprFrame_150000                   | +008c3  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +008c7
-        .dc.l   Data_150000                   | +008cf  -> $150000
+        .dc.l   SprFrame_150000                   | +008cf  -> $150000
         .dc.w   0x0000,0x0000,0x0000,0xffea                                 | +008d3
-        .dc.l   Data_150000                   | +008db  -> $150000
+        .dc.l   SprFrame_150000                   | +008db  -> $150000
         .dc.w   0x0000,0x0000                                               | +008df
         .dc.l   0x0000ffe8                    | +008e3  -> $00FFE8
         .dc.w   0x0013,0xfff6,0x002f                                        | +008e7
@@ -12173,7 +12173,7 @@ Data_18c141:
         .dc.w   0x0030,0x0020,0x001b,0xfff2,0x001b,0x000a,0x0030,0x0020     | +00b07
         .dc.w   0x001b,0xfff2,0x001b,0x000a,0x0031,0x001f,0x001d,0xfff2     | +00b17
         .dc.w   0x001b,0x000d,0x0029,0x0023,0x0015,0xfff2,0x001b            | +00b27
-        .dc.l   Data_15001c                   | +00b35  -> $15001C
+        .dc.l   SprFrame_15001c                   | +00b35  -> $15001C
         .dc.w   0x002b,0x0007,0xfff4,0x001c,0x000e,0x002f,0x0021,0x0018     | +00b39
         .dc.w   0xfff4,0x001c,0x000e,0x002f,0x0021,0x0018,0xfff4,0x001c     | +00b49
         .dc.w   0x000d,0x0030,0x0021,0x0019,0xfff4,0x001c,0x0010,0x0027     | +00b59
@@ -12253,7 +12253,7 @@ Data_18c141:
         .dc.w   0x0019,0x0009,0x0029,0x0021,0x0017,0xfff0,0x0019,0x0004     | +00ecf
         .dc.w   0x0031,0x001b,0x001f,0xfff0,0x0019,0x0004,0x0030,0x001c     | +00edf
         .dc.w   0x001e,0xfff2,0x001b                                        | +00eef
-        .dc.l   Data_15001c                   | +00ef5  -> $15001C
+        .dc.l   SprFrame_15001c                   | +00ef5  -> $15001C
         .dc.w   0x002b,0x0007,0xfff2,0x001b,0x000d,0x0029,0x0023,0x0015     | +00ef9
         .dc.w   0xfff2,0x001b,0x000a,0x0031,0x001f,0x001d,0xfff2,0x001b     | +00f09
         .dc.w   0x000a,0x0030,0x0020,0x001b,0xfff4,0x001c,0x0017            | +00f19
