@@ -203,42 +203,42 @@ Music_Title_Hdr:			/* file 0x0843b; music 12, 68k id 002c; used by LogoScene_Tpl
 	TRACKS_END
 
 SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it) */
-	PTR24 SfxAHdr_000		/*   0 */
-	PTR24 SfxAHdr_001		/*   1 */
-	PTR24 SfxAHdr_002		/*   2 */
-	PTR24 SfxAHdr_003		/*   3 */
-	PTR24 SfxAHdr_004		/*   4 */
-	PTR24 SfxAHdr_005		/*   5 */
+	PTR24 SfxA_000_CamperDie_Hdr		/*   0 */
+	PTR24 SfxA_001_DeathExplosion_Hdr		/*   1 */
+	PTR24 SfxA_002_EnemyDeathCry_Hdr		/*   2 */
+	PTR24 SfxA_003_StructureDestroyed_Hdr		/*   3 */
+	PTR24 SfxA_004_LargePropBreak_Hdr		/*   4 */
+	PTR24 SfxA_005_RocketHit_Hdr		/*   5 */
 	PTR24 SfxAHdr_006		/*   6 */
-	PTR24 SfxAHdr_007		/*   7 */
-	PTR24 SfxAHdr_008		/*   8 */
-	PTR24 SfxAHdr_009		/*   9 */
+	PTR24 SfxA_007_GrenadeExplosion_Hdr		/*   7 */
+	PTR24 SfxA_008_StructureCollapse_Hdr		/*   8 */
+	PTR24 SfxA_009_SignBreak_Hdr		/*   9 */
 	PTR24 SfxAHdr_010		/*  10 */
-	PTR24 SfxAHdr_011		/*  11 */
+	PTR24 SfxA_011_ArmorDamaged_Hdr		/*  11 */
 	PTR24 SfxAHdr_012		/*  12 */
-	PTR24 SfxAHdr_013		/*  13 */
-	PTR24 SfxAHdr_014		/*  14 */
-	PTR24 SfxAHdr_015		/*  15 */
-	PTR24 SfxAHdr_016		/*  16 */
+	PTR24 SfxA_013_TurretDestroyed_Hdr		/*  13 */
+	PTR24 SfxA_014_SmallPropBreak_Hdr		/*  14 */
+	PTR24 SfxA_015_PropDamaged_Hdr		/*  15 */
+	PTR24 SfxA_016_PropWreck_Hdr		/*  16 */
 	PTR24 0		/*  17 */
-	PTR24 SfxAHdr_018		/*  18 */
+	PTR24 SfxA_018_BigExplosion_Hdr		/*  18 */
 	PTR24 SfxAHdr_019		/*  19 */
-	PTR24 SfxAHdr_020		/*  20 */
+	PTR24 SfxA_020_SlugExplode_Hdr		/*  20 */
 	PTR24 SfxAHdr_021		/*  21 */
 	PTR24 SfxAHdr_022		/*  22 */
 	PTR24 SfxAHdr_023		/*  23 */
 	PTR24 SfxAHdr_024		/*  24 */
-	PTR24 SfxAHdr_025		/*  25 */
+	PTR24 SfxA_025_CrateBurst_Hdr		/*  25 */
 	PTR24 0		/*  26 */
 	PTR24 0		/*  27 */
 	PTR24 0		/*  28 */
 	PTR24 0		/*  29 */
-	PTR24 SfxAHdr_030		/*  30 */
-	PTR24 SfxAHdr_031		/*  31 */
+	PTR24 SfxA_030_BarrelPop_Hdr		/*  30 */
+	PTR24 SfxA_031_Touchdown_Hdr		/*  31 */
 	PTR24 SfxAHdr_032		/*  32 */
-	PTR24 SfxAHdr_033		/*  33 */
-	PTR24 SfxAHdr_034		/*  34 */
-	PTR24 SfxAHdr_035		/*  35 */
+	PTR24 SfxA_033_FinalBossHeadDie_Hdr		/*  33 */
+	PTR24 SfxA_034_BurningScream_Hdr		/*  34 */
+	PTR24 SfxA_035_ParatrooperDie_Hdr		/*  35 */
 	PTR24 SfxAHdr_036		/*  36 */
 	PTR24 0		/*  37 */
 	PTR24 0		/*  38 */
@@ -253,8 +253,8 @@ SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)
 	PTR24 SfxAHdr_047		/*  47 */
 	PTR24 0		/*  48 */
 	PTR24 SfxAHdr_049		/*  49 */
-	PTR24 SfxAHdr_050		/*  50 */
-	PTR24 SfxAHdr_051		/*  51 */
+	PTR24 SfxA_050_WaterSplash_Hdr		/*  50 */
+	PTR24 SfxA_051_PlayerDeath_Hdr		/*  51 */
 	PTR24 SfxAHdr_052		/*  52 */
 	PTR24 SfxAHdr_053		/*  53 */
 	PTR24 SfxAHdr_054		/*  54 */
@@ -263,21 +263,21 @@ SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)
 	PTR24 0		/*  57 */
 	PTR24 0		/*  58 */
 	PTR24 0		/*  59 */
-	PTR24 SfxAHdr_060		/*  60 */
-	PTR24 SfxAHdr_061		/*  61 */
-	PTR24 SfxAHdr_062		/*  62 */
+	PTR24 SfxA_060_HostageThrown_Hdr		/*  60 */
+	PTR24 SfxA_061_HostageAppear_Hdr		/*  61 */
+	PTR24 SfxA_062_HostageRun_Hdr		/*  62 */
 	PTR24 0		/*  63 */
-	PTR24 SfxAHdr_064		/*  64 */
-	PTR24 SfxAHdr_065		/*  65 */
+	PTR24 SfxA_064_HostagePose_Hdr		/*  64 */
+	PTR24 SfxA_065_CrabLegDetach_Hdr		/*  65 */
 	PTR24 SfxAHdr_066		/*  66 */
 	PTR24 0		/*  67 */
-	PTR24 SfxAHdr_068		/*  68 */
+	PTR24 SfxA_068_ShellToss_Hdr		/*  68 */
 	PTR24 SfxAHdr_069		/*  69 */
 	PTR24 SfxAHdr_070		/*  70 */
 	PTR24 SfxAHdr_071		/*  71 */
 	PTR24 0		/*  72 */
 	PTR24 SfxAHdr_073		/*  73 */
-	PTR24 SfxAHdr_074		/*  74 */
+	PTR24 SfxA_074_BossExplode_Hdr		/*  74 */
 	PTR24 0		/*  75 */
 	PTR24 0		/*  76 */
 	PTR24 0		/*  77 */
@@ -288,8 +288,8 @@ SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)
 	PTR24 0		/*  82 */
 	PTR24 SfxAHdr_083		/*  83 */
 	PTR24 SfxAHdr_084		/*  84 */
-	PTR24 SfxAHdr_085		/*  85 */
-	PTR24 SfxAHdr_086		/*  86 */
+	PTR24 SfxA_085_M5BossAttack_Hdr		/*  85 */
+	PTR24 SfxA_086_ExplosiveProp_Hdr		/*  86 */
 	PTR24 SfxAHdr_087		/*  87 */
 	PTR24 0		/*  88 */
 	PTR24 0		/*  89 */
@@ -302,18 +302,18 @@ SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)
 	PTR24 SfxAHdr_096		/*  96 */
 	PTR24 SfxAHdr_097		/*  97 */
 	PTR24 0		/*  98 */
-	PTR24 SfxAHdr_099		/*  99 */
-	PTR24 SfxAHdr_100		/* 100 */
+	PTR24 SfxA_099_SlugHPUp_Hdr		/*  99 */
+	PTR24 SfxA_100_VehicleLaunch_Hdr		/* 100 */
 	PTR24 SfxAHdr_101		/* 101 */
-	PTR24 SfxAHdr_102		/* 102 */
+	PTR24 SfxA_102_FireBurst_Hdr		/* 102 */
 	PTR24 SfxAHdr_103		/* 103 */
 	PTR24 0		/* 104 */
-	PTR24 SfxAHdr_105		/* 105 */
+	PTR24 SfxA_105_SlugDamage_Hdr		/* 105 */
 	PTR24 SfxAHdr_106		/* 106 */
 	PTR24 SfxAHdr_107		/* 107 */
-	PTR24 SfxAHdr_108		/* 108 */
-	PTR24 SfxAHdr_109		/* 109 */
-	PTR24 SfxAHdr_110		/* 110 */
+	PTR24 SfxA_108_EnemyShot_Hdr		/* 108 */
+	PTR24 SfxA_109_TurretShell_Hdr		/* 109 */
+	PTR24 SfxA_110_DoorBreak_Hdr		/* 110 */
 	PTR24 SfxAHdr_111		/* 111 */
 	PTR24 SfxAHdr_112		/* 112 */
 	PTR24 SfxAHdr_113		/* 113 */
@@ -323,42 +323,42 @@ SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)
 	PTR24 0		/* 117 */
 	PTR24 0		/* 118 */
 	PTR24 0		/* 119 */
-	PTR24 SfxAHdr_120		/* 120 */
+	PTR24 SfxA_120_TrapFlame_Hdr		/* 120 */
 	PTR24 SfxAHdr_121		/* 121 */
 	PTR24 0		/* 122 */
 	PTR24 SfxAHdr_123		/* 123 */
 	PTR24 SfxAHdr_124		/* 124 */
 	PTR24 SfxAHdr_125		/* 125 */
-	PTR24 SfxAHdr_126		/* 126 */
+	PTR24 SfxA_126_TankEngine_Hdr		/* 126 */
 	PTR24 SfxAHdr_127		/* 127 */
 	PTR24 SfxAHdr_128		/* 128 */
 	PTR24 SfxAHdr_129		/* 129 */
 	PTR24 SfxAHdr_130		/* 130 */
 	PTR24 SfxAHdr_131		/* 131 */
 	PTR24 SfxAHdr_132		/* 132 */
-	PTR24 SfxAHdr_133		/* 133 */
+	PTR24 SfxA_133_Mortar_Hdr		/* 133 */
 	PTR24 SfxAHdr_134		/* 134 */
 	PTR24 SfxAHdr_135		/* 135 */
-	PTR24 SfxAHdr_136		/* 136 */
+	PTR24 SfxA_136_HatchOpen_Hdr		/* 136 */
 	PTR24 SfxAHdr_137		/* 137 */
 	PTR24 SfxAHdr_138		/* 138 */
 	PTR24 SfxAHdr_139		/* 139 */
 	PTR24 SfxAHdr_140		/* 140 */
 	PTR24 SfxAHdr_141		/* 141 */
-	PTR24 SfxAHdr_142		/* 142 */
-	PTR24 SfxAHdr_143		/* 143 */
-	PTR24 SfxAHdr_144		/* 144 */
+	PTR24 SfxA_142_HutDoor_Hdr		/* 142 */
+	PTR24 SfxA_143_SlugAccelRight_Hdr		/* 143 */
+	PTR24 SfxA_144_SlugAccelLeft_Hdr		/* 144 */
 	PTR24 SfxAHdr_145		/* 145 */
-	PTR24 SfxAHdr_146		/* 146 */
+	PTR24 SfxA_146_SlugDestroyedSlide_Hdr		/* 146 */
 	PTR24 SfxAHdr_147		/* 147 */
 	PTR24 SfxAHdr_148		/* 148 */
 	PTR24 SfxAHdr_149		/* 149 */
 	PTR24 SfxAHdr_150		/* 150 */
 	PTR24 SfxAHdr_151		/* 151 */
-	PTR24 SfxAHdr_152		/* 152 */
+	PTR24 SfxA_152_GunshipAttack_Hdr		/* 152 */
 	PTR24 SfxAHdr_153		/* 153 */
 	PTR24 SfxAHdr_154		/* 154 */
-	PTR24 SfxAHdr_155		/* 155 */
+	PTR24 SfxA_155_WallBreak_Hdr		/* 155 */
 	PTR24 0		/* 156 */
 	PTR24 0		/* 157 */
 	PTR24 0		/* 158 */
@@ -383,29 +383,29 @@ SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)
 	PTR24 0		/* 177 */
 	PTR24 0		/* 178 */
 	PTR24 0		/* 179 */
-	PTR24 SfxAHdr_180		/* 180 */
+	PTR24 SfxA_180_ContinueCountdown_Hdr		/* 180 */
 	PTR24 SfxAHdr_181		/* 181 */
-	PTR24 SfxAHdr_182		/* 182 */
+	PTR24 SfxA_182_ResultsPrize_Hdr		/* 182 */
 	PTR24 SfxAHdr_183		/* 183 */
-	PTR24 SfxAHdr_184		/* 184 */
+	PTR24 SfxA_184_ResultsTally_Hdr		/* 184 */
 	PTR24 0		/* 185 */
 	PTR24 0		/* 186 */
 	PTR24 0		/* 187 */
 	PTR24 0		/* 188 */
 	PTR24 0		/* 189 */
-	PTR24 SfxAHdr_190		/* 190 */
-	PTR24 SfxAHdr_191		/* 191 */
-	PTR24 SfxAHdr_192		/* 192 */
-	PTR24 SfxAHdr_193		/* 193 */
+	PTR24 SfxA_190_GameOverFinal_Hdr		/* 190 */
+	PTR24 SfxA_191_GameOverBanner_Hdr		/* 191 */
+	PTR24 SfxA_192_PauseSlide_Hdr		/* 192 */
+	PTR24 SfxA_193_Pause_Hdr		/* 193 */
 	PTR24 SfxAHdr_194		/* 194 */
 	PTR24 SfxAHdr_195		/* 195 */
 	PTR24 SfxAHdr_196		/* 196 */
 	PTR24 0		/* 197 */
 	PTR24 0		/* 198 */
 	PTR24 0		/* 199 */
-	PTR24 SfxAHdr_200		/* 200 */
-	PTR24 SfxAHdr_201		/* 201 */
-	PTR24 SfxAHdr_202		/* 202 */
+	PTR24 SfxA_200_AimTurret_Hdr		/* 200 */
+	PTR24 SfxA_201_SlugDestroyed_Hdr		/* 201 */
+	PTR24 SfxA_202_FragLaunch_Hdr		/* 202 */
 	PTR24 0		/* 203 */
 	PTR24 0		/* 204 */
 	PTR24 0		/* 205 */
@@ -413,20 +413,20 @@ SfxTableA:			/* file 0x08472; BankPtrTable_0080[2]; type 10h (12h..1Fh alias it)
 	PTR24 0		/* 207 */
 	PTR24 0		/* 208 */
 	PTR24 0		/* 209 */
-	PTR24 SfxAHdr_210		/* 210 */
-	PTR24 SfxAHdr_211		/* 211 */
-	PTR24 SfxAHdr_212		/* 212 */
-	PTR24 SfxAHdr_213		/* 213 */
-	PTR24 SfxAHdr_214		/* 214 */
-	PTR24 SfxAHdr_215		/* 215 */
+	PTR24 SfxA_210_VehicleCrash_Hdr		/* 210 */
+	PTR24 SfxA_211_ShotgunFire_Hdr		/* 211 */
+	PTR24 SfxA_212_FlameFire_Hdr		/* 212 */
+	PTR24 SfxA_213_RocketFire_Hdr		/* 213 */
+	PTR24 SfxA_214_HMGFire_Hdr		/* 214 */
+	PTR24 SfxA_215_PistolFire_Hdr		/* 215 */
 	PTR24 0		/* 216 */
 	PTR24 0		/* 217 */
 	PTR24 SfxAHdr_218		/* 218 */
 	PTR24 SfxAHdr_219		/* 219 */
 	PTR24 SfxAHdr_220		/* 220 */
-	PTR24 SfxAHdr_221		/* 221 */
+	PTR24 SfxA_221_AmmoPickup_Hdr		/* 221 */
 	PTR24 0		/* 222 */
-	PTR24 SfxAHdr_223		/* 223 */
+	PTR24 SfxA_223_ShieldBreak_Hdr		/* 223 */
 
 SfxTableB:			/* file 0x087f2; BankPtrTable_0080[3]; type 11h */
 	PTR24 0		/*   0 */
@@ -463,34 +463,34 @@ SfxTableB:			/* file 0x087f2; BankPtrTable_0080[3]; type 11h */
 	PTR24 Voice_AllenLaugh_Hdr		/*  31 */
 	PTR24 Voice_AllenSeeYouInHell_Hdr		/*  32 */
 
-SfxAHdr_000:			/* file 0x08876; SFX A 0, 68k id 1020; used by Camper_Die_062d72 */
+SfxA_000_CamperDie_Hdr:			/* file 0x08876; SFX A 0, 68k id 1020; used by Camper_Die_062d72 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA000_Trk0, 12
+	TRACK SfxA_000_CamperDie_Trk0, 12
 	TRACKS_END
 
-SfxAHdr_001:			/* file 0x08888; SFX A 1, 68k id 1021; used by Camper_SpawnPairD_06355c, Hostage_Die_064a24, Bazooka_DeathExplodeA_06b9a4, Bazooka_DeathExplodeB_06b9da (+7) */
+SfxA_001_DeathExplosion_Hdr:			/* file 0x08888; SFX A 1, 68k id 1021; used by Camper_SpawnPairD_06355c, Hostage_Die_064a24, Bazooka_DeathExplodeA_06b9a4, Bazooka_DeathExplodeB_06b9da (+7) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA001_Trk0, 13
+	TRACK SfxA_001_DeathExplosion_Trk0, 13
 	TRACKS_END
 
-SfxAHdr_002:			/* file 0x0889a; SFX A 2, 68k id 1022; used by PairChild_DeathCry_041762, SquadChild_GlideDeath_0419BE, TrioChild_OrbitDeath_041BB8, BossShot_Fly_044DA4 (+16) */
+SfxA_002_EnemyDeathCry_Hdr:			/* file 0x0889a; SFX A 2, 68k id 1022; used by PairChild_DeathCry_041762, SquadChild_GlideDeath_0419BE, TrioChild_OrbitDeath_041BB8, BossShot_Fly_044DA4 (+16) */
 	SFX_HDR 0x109b, 0x10a3, 0x0000, 0x0000, 0x01
-	TRACK SfxA002_Trk0, 15
+	TRACK SfxA_002_EnemyDeathCry_Trk0, 15
 	TRACKS_END
 
-SfxAHdr_003:			/* file 0x088ac; SFX A 3, 68k id 1023; used by GunPlatform_Destroyed_04c5a4, TurretCar_Body_04cf2e, Prop_FortressWreck_04ed00, Prop_Tower_053306 (+15) */
+SfxA_003_StructureDestroyed_Hdr:			/* file 0x088ac; SFX A 3, 68k id 1023; used by GunPlatform_Destroyed_04c5a4, TurretCar_Body_04cf2e, Prop_FortressWreck_04ed00, Prop_Tower_053306 (+15) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA003_Trk0, 13
+	TRACK SfxA_003_StructureDestroyed_Trk0, 13
 	TRACKS_END
 
-SfxAHdr_004:			/* file 0x088be; SFX A 4, 68k id 1024; used by Prop_Large_052b8a */
+SfxA_004_LargePropBreak_Hdr:			/* file 0x088be; SFX A 4, 68k id 1024; used by Prop_Large_052b8a */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA004_Trk0, 13
+	TRACK SfxA_004_LargePropBreak_Trk0, 13
 	TRACKS_END
 
-SfxAHdr_005:			/* file 0x088d0; SFX A 5, 68k id 1025; used by Bazooka_RocketHit_06b1d4, RocketVehicle_RocketHit_06d04e, Crate_Opened_09c00a */
+SfxA_005_RocketHit_Hdr:			/* file 0x088d0; SFX A 5, 68k id 1025; used by Bazooka_RocketHit_06b1d4, RocketVehicle_RocketHit_06d04e, Crate_Opened_09c00a */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA005_Trk0, 15
+	TRACK SfxA_005_RocketHit_Trk0, 15
 	TRACKS_END
 
 SfxAHdr_006:			/* file 0x088e2; SFX A 6, 68k id 1026; used by JsrAbsThunk_086034, Airship_Depart_0895fe, Wreck_SmokeRise_08b07c */
@@ -498,19 +498,19 @@ SfxAHdr_006:			/* file 0x088e2; SFX A 6, 68k id 1026; used by JsrAbsThunk_086034
 	TRACK SfxA006_Trk0, 12
 	TRACKS_END
 
-SfxAHdr_007:			/* file 0x088f4; SFX A 7, 68k id 1027; used by GunPlatform_HitCheck_04c6ea, Allen_GrenadeExplode_051392, Prop_Breakable2Stage_0527ba, Prop_MultiStage_054cf2 (+11) */
+SfxA_007_GrenadeExplosion_Hdr:			/* file 0x088f4; SFX A 7, 68k id 1027; used by GunPlatform_HitCheck_04c6ea, Allen_GrenadeExplode_051392, Prop_Breakable2Stage_0527ba, Prop_MultiStage_054cf2 (+11) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA007_Trk0, 17
+	TRACK SfxA_007_GrenadeExplosion_Trk0, 17
 	TRACKS_END
 
-SfxAHdr_008:			/* file 0x08906; SFX A 8, 68k id 1028; used by Prop_HutRoofFall_04da52, Prop_TowerBase_04dce6, Prop_TowerBaseWreck_04ddec, Prop_BridgeCollapse_04e05e (+6) */
+SfxA_008_StructureCollapse_Hdr:			/* file 0x08906; SFX A 8, 68k id 1028; used by Prop_HutRoofFall_04da52, Prop_TowerBase_04dce6, Prop_TowerBaseWreck_04ddec, Prop_BridgeCollapse_04e05e (+6) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA008_Trk0, 12
+	TRACK SfxA_008_StructureCollapse_Trk0, 12
 	TRACKS_END
 
-SfxAHdr_009:			/* file 0x08918; SFX A 9, 68k id 1029; used by Prop_SignBroken_052986, Prop_SignWreck_0529ca */
+SfxA_009_SignBreak_Hdr:			/* file 0x08918; SFX A 9, 68k id 1029; used by Prop_SignBroken_052986, Prop_SignWreck_0529ca */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA009_Trk0, 14
+	TRACK SfxA_009_SignBreak_Trk0, 14
 	TRACKS_END
 
 SfxAHdr_010:			/* file 0x0892a; SFX A 10, 68k id 102a; used by Prop_CompoundWall_054254, Prop_NeonSign_0545c0 */
@@ -518,9 +518,9 @@ SfxAHdr_010:			/* file 0x0892a; SFX A 10, 68k id 102a; used by Prop_CompoundWall
 	TRACK SfxA010_Trk0, 17
 	TRACKS_END
 
-SfxAHdr_011:			/* file 0x0893c; SFX A 11, 68k id 102b; used by Prop_CompoundWallDamaged_054338, Prop_ScaledHP_054c0e, ArmoredCar_Damaged1_0878d8, ArmoredCar_Damaged2_087956 */
+SfxA_011_ArmorDamaged_Hdr:			/* file 0x0893c; SFX A 11, 68k id 102b; used by Prop_CompoundWallDamaged_054338, Prop_ScaledHP_054c0e, ArmoredCar_Damaged1_0878d8, ArmoredCar_Damaged2_087956 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA011_Trk0, 13
+	TRACK SfxA_011_ArmorDamaged_Trk0, 13
 	TRACKS_END
 
 SfxAHdr_012:			/* file 0x0894e; SFX A 12, 68k id 102c; used by Prop_PlayBreakMusicByPhase_053e0c, Prop_Stall_0546f4, M5Tank_TurretWreck_0738da, Pillbox_Collapse_086ba4 */
@@ -528,29 +528,29 @@ SfxAHdr_012:			/* file 0x0894e; SFX A 12, 68k id 102c; used by Prop_PlayBreakMus
 	TRACK SfxA012_Trk0, 13
 	TRACKS_END
 
-SfxAHdr_013:			/* file 0x08960; SFX A 13, 68k id 102d; used by Tank_Turret_069a32, M2Boss_Turret_DeathSwing_07c374, M4_Carrier_Fight_085270 */
+SfxA_013_TurretDestroyed_Hdr:			/* file 0x08960; SFX A 13, 68k id 102d; used by Tank_Turret_069a32, M2Boss_Turret_DeathSwing_07c374, M4_Carrier_Fight_085270 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA013_Trk0, 13
+	TRACK SfxA_013_TurretDestroyed_Trk0, 13
 	TRACKS_END
 
-SfxAHdr_014:			/* file 0x08972; SFX A 14, 68k id 102e; used by Prop_Breakable_05495a, Prop_Small_054b1c, TaskHandler_083c92, TaskHandler_0846e0 (+3) */
+SfxA_014_SmallPropBreak_Hdr:			/* file 0x08972; SFX A 14, 68k id 102e; used by Prop_Breakable_05495a, Prop_Small_054b1c, TaskHandler_083c92, TaskHandler_0846e0 (+3) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA014_Trk0, 14
+	TRACK SfxA_014_SmallPropBreak_Trk0, 14
 	TRACKS_END
 
-SfxAHdr_015:			/* file 0x08984; SFX A 15, 68k id 102f; used by Prop_BridgePillar_04e12c, Prop_NestActive_04e2b0, Prop_BarrierDamaged_04e68a, Prop_GatehouseDamaged_04e998 (+10) */
+SfxA_015_PropDamaged_Hdr:			/* file 0x08984; SFX A 15, 68k id 102f; used by Prop_BridgePillar_04e12c, Prop_NestActive_04e2b0, Prop_BarrierDamaged_04e68a, Prop_GatehouseDamaged_04e998 (+10) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA015_Trk0, 12
+	TRACK SfxA_015_PropDamaged_Trk0, 12
 	TRACKS_END
 
-SfxAHdr_016:			/* file 0x08996; SFX A 16, 68k id 1030; used by Prop_TowerTopWreck_04dc4a, Prop_BunkerWreck_04df30, Prop_Bridge_04df98, Prop_NestWreck_04e32c (+11) */
+SfxA_016_PropWreck_Hdr:			/* file 0x08996; SFX A 16, 68k id 1030; used by Prop_TowerTopWreck_04dc4a, Prop_BunkerWreck_04df30, Prop_Bridge_04df98, Prop_NestWreck_04e32c (+11) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA016_Trk0, 12
+	TRACK SfxA_016_PropWreck_Trk0, 12
 	TRACKS_END
 
-SfxAHdr_018:			/* file 0x089a8; SFX A 18, 68k id 1032; used by SquadLeader_Death_040be6, S5Gate_Begin_068346, M5Tank_Phase3_0732e8, M2Boss_Turret_DeathSwing_07c374 (+2) */
+SfxA_018_BigExplosion_Hdr:			/* file 0x089a8; SFX A 18, 68k id 1032; used by SquadLeader_Death_040be6, S5Gate_Begin_068346, M5Tank_Phase3_0732e8, M2Boss_Turret_DeathSwing_07c374 (+2) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA018_Trk0, 12
+	TRACK SfxA_018_BigExplosion_Trk0, 12
 	TRACKS_END
 
 SfxAHdr_019:			/* file 0x089ba; SFX A 19, 68k id 1033; used by SquadLeader_DeathDone_040d18, LateProp_RegisterB_062816, LateProp_SpawnPair_06282e, Mortar_SpawnDebris_063db2 (+12) */
@@ -558,9 +558,9 @@ SfxAHdr_019:			/* file 0x089ba; SFX A 19, 68k id 1033; used by SquadLeader_Death
 	TRACK SfxA019_Trk0, 12
 	TRACKS_END
 
-SfxAHdr_020:			/* file 0x089cc; SFX A 20, 68k id 1034; used by Slug_ExplodeFx_02ff22 */
+SfxA_020_SlugExplode_Hdr:			/* file 0x089cc; SFX A 20, 68k id 1034; used by Slug_ExplodeFx_02ff22 */
 	SFX_HDR 0x10e9, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA020_Trk0, 10
+	TRACK SfxA_020_SlugExplode_Trk0, 10
 	TRACKS_END
 
 SfxAHdr_021:			/* file 0x089de; SFX A 21, 68k id 1035; used by Prop_HouseVariants_052e20, Prop_PlayBreakMusicByPhase_053e0c, Prop_MultiStageCritical_054eea, S5_Depot_089290 (+6) */
@@ -583,19 +583,19 @@ SfxAHdr_024:			/* file 0x08a14; SFX A 24, 68k id 1038; used by ArmoredCar_Damage
 	TRACK SfxA024_Trk0, 13
 	TRACKS_END
 
-SfxAHdr_025:			/* file 0x08a26; SFX A 25, 68k id 1039; used by Crate_Burst_086db4 */
+SfxA_025_CrateBurst_Hdr:			/* file 0x08a26; SFX A 25, 68k id 1039; used by Crate_Burst_086db4 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA025_Trk0, 13
+	TRACK SfxA_025_CrateBurst_Trk0, 13
 	TRACKS_END
 
-SfxAHdr_030:			/* file 0x08a38; SFX A 30, 68k id 103e; used by FloatBarrel_Pop_066228 */
+SfxA_030_BarrelPop_Hdr:			/* file 0x08a38; SFX A 30, 68k id 103e; used by FloatBarrel_Pop_066228 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
-	TRACK SfxA030_Trk0, 32
+	TRACK SfxA_030_BarrelPop_Trk0, 32
 	TRACKS_END
 
-SfxAHdr_031:			/* file 0x08a4a; SFX A 31, 68k id 103f; used by SquadChild_FlipTouchdown_04148A */
+SfxA_031_Touchdown_Hdr:			/* file 0x08a4a; SFX A 31, 68k id 103f; used by SquadChild_FlipTouchdown_04148A */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
-	TRACK SfxA031_Trk0, 33
+	TRACK SfxA_031_Touchdown_Trk0, 33
 	TRACKS_END
 
 SfxAHdr_032:			/* file 0x08a5c; SFX A 32, 68k id 1040; used by TaskHandler_084bd2 */
@@ -603,19 +603,19 @@ SfxAHdr_032:			/* file 0x08a5c; SFX A 32, 68k id 1040; used by TaskHandler_084bd
 	TRACK SfxA032_Trk0, 32
 	TRACKS_END
 
-SfxAHdr_033:			/* file 0x08a6e; SFX A 33, 68k id 1041; used by FinalBoss_HeadDie_071a90 */
+SfxA_033_FinalBossHeadDie_Hdr:			/* file 0x08a6e; SFX A 33, 68k id 1041; used by FinalBoss_HeadDie_071a90 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
-	TRACK SfxA033_Trk0, 32
+	TRACK SfxA_033_FinalBossHeadDie_Trk0, 32
 	TRACKS_END
 
-SfxAHdr_034:			/* file 0x08a80; SFX A 34, 68k id 1042; used by HumanDeath_Burning_04a9b0 */
+SfxA_034_BurningScream_Hdr:			/* file 0x08a80; SFX A 34, 68k id 1042; used by HumanDeath_Burning_04a9b0 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
-	TRACK SfxA034_Trk0, 32
+	TRACK SfxA_034_BurningScream_Trk0, 32
 	TRACKS_END
 
-SfxAHdr_035:			/* file 0x08a92; SFX A 35, 68k id 1043; used by Paratrooper_Die_0669ea */
+SfxA_035_ParatrooperDie_Hdr:			/* file 0x08a92; SFX A 35, 68k id 1043; used by Paratrooper_Die_0669ea */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
-	TRACK SfxA035_Trk0, 33
+	TRACK SfxA_035_ParatrooperDie_Trk0, 33
 	TRACKS_END
 
 SfxAHdr_036:			/* file 0x08aa4; SFX A 36, 68k id 1044 */
@@ -663,14 +663,14 @@ SfxAHdr_049:			/* file 0x08b34; SFX A 49, 68k id 1051; used by JsrAbsThunk_02a63
 	TRACK SfxA049_Trk0, 51
 	TRACKS_END
 
-SfxAHdr_050:			/* file 0x08b46; SFX A 50, 68k id 1052; used by JsrAbsThunk_02a5fe, FloatBarrel_Splash_0661d8, FloatBarrel_BobSettle_0662a4 */
+SfxA_050_WaterSplash_Hdr:			/* file 0x08b46; SFX A 50, 68k id 1052; used by JsrAbsThunk_02a5fe, FloatBarrel_Splash_0661d8, FloatBarrel_BobSettle_0662a4 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
-	TRACK SfxA050_Trk0, 51
+	TRACK SfxA_050_WaterSplash_Trk0, 51
 	TRACKS_END
 
-SfxAHdr_051:			/* file 0x08b58; SFX A 51, 68k id 1053; used by Player_Death_0375d2, Player_Death_Alt_037684, TowerSoldier_Flee_05f5fa, Airship_PlayerTracker_0896de */
+SfxA_051_PlayerDeath_Hdr:			/* file 0x08b58; SFX A 51, 68k id 1053; used by Player_Death_0375d2, Player_Death_Alt_037684, TowerSoldier_Flee_05f5fa, Airship_PlayerTracker_0896de */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x03
-	TRACK SfxA051_Trk0, 50
+	TRACK SfxA_051_PlayerDeath_Trk0, 50
 	TRACKS_END
 
 SfxAHdr_052:			/* file 0x08b6a; SFX A 52, 68k id 1054; used by Prop_FragileBreaking_0548c8, TaskHandler_083800 */
@@ -688,29 +688,29 @@ SfxAHdr_054:			/* file 0x08b8e; SFX A 54, 68k id 1056 */
 	TRACK SfxA054_Trk0, 31
 	TRACKS_END
 
-SfxAHdr_060:			/* file 0x08ba0; SFX A 60, 68k id 105c; used by Hostage_Thrown_064bfc */
+SfxA_060_HostageThrown_Hdr:			/* file 0x08ba0; SFX A 60, 68k id 105c; used by Hostage_Thrown_064bfc */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
-	TRACK SfxA060_Trk0, 15
+	TRACK SfxA_060_HostageThrown_Trk0, 15
 	TRACKS_END
 
-SfxAHdr_061:			/* file 0x08bb2; SFX A 61, 68k id 105d; used by Hostage_Init_064640 */
+SfxA_061_HostageAppear_Hdr:			/* file 0x08bb2; SFX A 61, 68k id 105d; used by Hostage_Init_064640 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
-	TRACK SfxA061_Trk0, 16
+	TRACK SfxA_061_HostageAppear_Trk0, 16
 	TRACKS_END
 
-SfxAHdr_062:			/* file 0x08bc4; SFX A 62, 68k id 105e; used by Hostage_Stand_064938, Hostage_Run_064b18 */
+SfxA_062_HostageRun_Hdr:			/* file 0x08bc4; SFX A 62, 68k id 105e; used by Hostage_Stand_064938, Hostage_Run_064b18 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
-	TRACK SfxA062_Trk0, 15
+	TRACK SfxA_062_HostageRun_Trk0, 15
 	TRACKS_END
 
-SfxAHdr_064:			/* file 0x08bd6; SFX A 64, 68k id 1060; used by Hostage_Pose_0647c0 */
+SfxA_064_HostagePose_Hdr:			/* file 0x08bd6; SFX A 64, 68k id 1060; used by Hostage_Pose_0647c0 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x07
-	TRACK SfxA064_Trk0, 16
+	TRACK SfxA_064_HostagePose_Trk0, 16
 	TRACKS_END
 
-SfxAHdr_065:			/* file 0x08be8; SFX A 65, 68k id 1061; used by Crab_Leg_Detach_07d898 */
+SfxA_065_CrabLegDetach_Hdr:			/* file 0x08be8; SFX A 65, 68k id 1061; used by Crab_Leg_Detach_07d898 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x04
-	TRACK SfxA065_Trk0, 29
+	TRACK SfxA_065_CrabLegDetach_Trk0, 29
 	TRACKS_END
 
 SfxAHdr_066:			/* file 0x08bfa; SFX A 66, 68k id 1062 */
@@ -718,9 +718,9 @@ SfxAHdr_066:			/* file 0x08bfa; SFX A 66, 68k id 1062 */
 	TRACK SfxA066_Trk0, 29
 	TRACKS_END
 
-SfxAHdr_068:			/* file 0x08c0c; SFX A 68, 68k id 1064; used by SquadPair_SpawnCore_0420FE, SquadPair_SpawnPlain_042188, PowItem_Toss_048ba0, Gunner2_Shell_05a55a (+5) */
+SfxA_068_ShellToss_Hdr:			/* file 0x08c0c; SFX A 68, 68k id 1064; used by SquadPair_SpawnCore_0420FE, SquadPair_SpawnPlain_042188, PowItem_Toss_048ba0, Gunner2_Shell_05a55a (+5) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA068_Trk0, 14
+	TRACK SfxA_068_ShellToss_Trk0, 14
 	TRACKS_END
 
 SfxAHdr_069:			/* file 0x08c1e; SFX A 69, 68k id 1065; used by Walker_SpawnSparkAndDebris_06e3a4, M2Boss_Shell_Spawn_07c918 */
@@ -743,9 +743,9 @@ SfxAHdr_073:			/* file 0x08c54; SFX A 73, 68k id 1069 */
 	TRACK SfxA073_Trk0, 28
 	TRACKS_END
 
-SfxAHdr_074:			/* file 0x08c66; SFX A 74, 68k id 106a; used by Boss_Descend_044C28, Boss2_Explode_045C20, Boss2_Death_045CEA */
+SfxA_074_BossExplode_Hdr:			/* file 0x08c66; SFX A 74, 68k id 106a; used by Boss_Descend_044C28, Boss2_Explode_045C20, Boss2_Death_045CEA */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x04
-	TRACK SfxA074_Trk0, 28
+	TRACK SfxA_074_BossExplode_Trk0, 28
 	TRACKS_END
 
 SfxAHdr_081:			/* file 0x08c78; SFX A 81, 68k id 1071; used by Camper_Init_062a4e, Camper_Idle_062b84, FinalBoss_End_07111c, FinalBoss_Idle_0713ac (+3) */
@@ -763,14 +763,14 @@ SfxAHdr_084:			/* file 0x08c9c; SFX A 84, 68k id 1074; used by M5Boss_PickAttack
 	TRACK SfxA084_Trk0, 80
 	TRACKS_END
 
-SfxAHdr_085:			/* file 0x08cae; SFX A 85, 68k id 1075; used by M5Boss_AttackA_06f59a, M5Boss_AttackAEnd_06f63c, M5Boss_AttackB_06f7f0, M5Boss_AttackBEnd_06f8c0 (+2) */
+SfxA_085_M5BossAttack_Hdr:			/* file 0x08cae; SFX A 85, 68k id 1075; used by M5Boss_AttackA_06f59a, M5Boss_AttackAEnd_06f63c, M5Boss_AttackB_06f7f0, M5Boss_AttackBEnd_06f8c0 (+2) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x05
-	TRACK SfxA085_Trk0, 80
+	TRACK SfxA_085_M5BossAttack_Trk0, 80
 	TRACKS_END
 
-SfxAHdr_086:			/* file 0x08cc0; SFX A 86, 68k id 1076; used by Prop_Explosive_052cea */
+SfxA_086_ExplosiveProp_Hdr:			/* file 0x08cc0; SFX A 86, 68k id 1076; used by Prop_Explosive_052cea */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x05
-	TRACK SfxA086_Trk0, 81
+	TRACK SfxA_086_ExplosiveProp_Trk0, 81
 	TRACKS_END
 
 SfxAHdr_087:			/* file 0x08cd2; SFX A 87, 68k id 1077 */
@@ -796,15 +796,15 @@ SfxAHdr_097:			/* file 0x08d12; SFX A 97, 68k id 1081; used by Airship_Steer_08b
 	TRACK SfxA097_Trk1, 1
 	TRACKS_END
 
-SfxAHdr_099:			/* file 0x08d29; SFX A 99, 68k id 1083; used by Slug_AddHP_02a2ba, Results_BannerAFinal_03eaa2 */
+SfxA_099_SlugHPUp_Hdr:			/* file 0x08d29; SFX A 99, 68k id 1083; used by Slug_AddHP_02a2ba, Results_BannerAFinal_03eaa2 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
-	TRACK SfxA099_Trk0, 1
-	TRACK SfxA099_Trk1, 1
+	TRACK SfxA_099_SlugHPUp_Trk0, 1
+	TRACK SfxA_099_SlugHPUp_Trk1, 1
 	TRACKS_END
 
-SfxAHdr_100:			/* file 0x08d40; SFX A 100, 68k id 1084; used by VehicleLaunch_Init_0311c0, VehicleLaunch_InitDrop_0318e6 */
+SfxA_100_VehicleLaunch_Hdr:			/* file 0x08d40; SFX A 100, 68k id 1084; used by VehicleLaunch_Init_0311c0, VehicleLaunch_InitDrop_0318e6 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA100_Trk0, 100
+	TRACK SfxA_100_VehicleLaunch_Trk0, 100
 	TRACKS_END
 
 SfxAHdr_101:			/* file 0x08d52; SFX A 101, 68k id 1085 */
@@ -812,9 +812,9 @@ SfxAHdr_101:			/* file 0x08d52; SFX A 101, 68k id 1085 */
 	TRACK SfxA101_Trk0, 16
 	TRACKS_END
 
-SfxAHdr_102:			/* file 0x08d64; SFX A 102, 68k id 1086; used by FireBurst_Low_06dfe8, FireBurst_Arc_06e09a, Flag_Init_09c4d4 */
+SfxA_102_FireBurst_Hdr:			/* file 0x08d64; SFX A 102, 68k id 1086; used by FireBurst_Low_06dfe8, FireBurst_Arc_06e09a, Flag_Init_09c4d4 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA102_Trk0, 14
+	TRACK SfxA_102_FireBurst_Trk0, 14
 	TRACKS_END
 
 SfxAHdr_103:			/* file 0x08d76; SFX A 103, 68k id 1087; used by Player_PlayLifeMusic_032ed0, PlayerRoute_PublishState_033522, Player_Death_PlayMusic_03765a, Player_DeathPit_037b8e */
@@ -822,9 +822,9 @@ SfxAHdr_103:			/* file 0x08d76; SFX A 103, 68k id 1087; used by Player_PlayLifeM
 	TRACK SfxA103_Trk0, 29
 	TRACKS_END
 
-SfxAHdr_105:			/* file 0x08d88; SFX A 105, 68k id 1089; used by Slug_DamageTick_02a6be */
+SfxA_105_SlugDamage_Hdr:			/* file 0x08d88; SFX A 105, 68k id 1089; used by Slug_DamageTick_02a6be */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA105_Trk0, 13
+	TRACK SfxA_105_SlugDamage_Trk0, 13
 	TRACKS_END
 
 SfxAHdr_106:			/* file 0x08d9a; SFX A 106, 68k id 108a */
@@ -837,19 +837,19 @@ SfxAHdr_107:			/* file 0x08dac; SFX A 107, 68k id 108b; used by JsrAbsThunk_03da
 	TRACK SfxA107_Trk0, 101
 	TRACKS_END
 
-SfxAHdr_108:			/* file 0x08dbe; SFX A 108, 68k id 108c; used by Boss_PhaseFire_044AFE, Turret_ReadPlayerInput_04593A, Gunner_Shell_059da6, Turret8_FireBullet_08b626 */
+SfxA_108_EnemyShot_Hdr:			/* file 0x08dbe; SFX A 108, 68k id 108c; used by Boss_PhaseFire_044AFE, Turret_ReadPlayerInput_04593A, Gunner_Shell_059da6, Turret8_FireBullet_08b626 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA108_Trk0, 101
+	TRACK SfxA_108_EnemyShot_Trk0, 101
 	TRACKS_END
 
-SfxAHdr_109:			/* file 0x08dd0; SFX A 109, 68k id 108d; used by Prop_Boat_04f7ca, Roller_Task_056870, AimTurret_Shell_061344, AimTurret_HitCheck_061580 (+10) */
+SfxA_109_TurretShell_Hdr:			/* file 0x08dd0; SFX A 109, 68k id 108d; used by Prop_Boat_04f7ca, Roller_Task_056870, AimTurret_Shell_061344, AimTurret_HitCheck_061580 (+10) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA109_Trk0, 100
+	TRACK SfxA_109_TurretShell_Trk0, 100
 	TRACKS_END
 
-SfxAHdr_110:			/* file 0x08de2; SFX A 110, 68k id 108e; used by HutDoor_Break_05fc78, FireBurst_Tmpl_06df32 */
+SfxA_110_DoorBreak_Hdr:			/* file 0x08de2; SFX A 110, 68k id 108e; used by HutDoor_Break_05fc78, FireBurst_Tmpl_06df32 */
 	SFX_HDR 0x10ae, 0x0000, 0x0000, 0x0000, 0x07
-	TRACK SfxA110_Trk0, 100
+	TRACK SfxA_110_DoorBreak_Trk0, 100
 	TRACKS_END
 
 SfxAHdr_111:			/* file 0x08df4; SFX A 111, 68k id 108f; used by Slug_StopMusic108F_02a2f8 */
@@ -872,9 +872,9 @@ SfxAHdr_114:			/* file 0x08e2a; SFX A 114, 68k id 1092; used by Slug_StopMusic10
 	TRACK SfxA114_Trk0, 110
 	TRACKS_END
 
-SfxAHdr_120:			/* file 0x08e3c; SFX A 120, 68k id 1098; used by Prop_TrapFlame_053a42 */
+SfxA_120_TrapFlame_Hdr:			/* file 0x08e3c; SFX A 120, 68k id 1098; used by Prop_TrapFlame_053a42 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
-	TRACK SfxA120_Trk0, 120
+	TRACK SfxA_120_TrapFlame_Trk0, 120
 	TRACKS_END
 
 SfxAHdr_121:			/* file 0x08e4e; SFX A 121, 68k id 1099; used by TaskHandler_081db0 */
@@ -899,9 +899,9 @@ SfxAHdr_125:			/* file 0x08e8e; SFX A 125, 68k id 109d; used by LateProp_Init_06
 	TRACK SfxA125_Trk0, 0
 	TRACKS_END
 
-SfxAHdr_126:			/* file 0x08ea0; SFX A 126, 68k id 109e; used by Tank_Drive_068ddc, Tank_Brake_06900a, Tank_Die_0694dc, Crab_Pause_07d178 (+3) */
+SfxA_126_TankEngine_Hdr:			/* file 0x08ea0; SFX A 126, 68k id 109e; used by Tank_Drive_068ddc, Tank_Brake_06900a, Tank_Die_0694dc, Crab_Pause_07d178 (+3) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
-	TRACK SfxA126_Trk0, 0
+	TRACK SfxA_126_TankEngine_Trk0, 0
 	TRACKS_END
 
 SfxAHdr_127:			/* file 0x08eb2; SFX A 127, 68k id 109f; used by Obstacle_FlushMusicJmp77FD6_060c40, Crew_Captor_Death_07a338, TaskHandler_0828e0 */
@@ -937,9 +937,9 @@ SfxAHdr_132:			/* file 0x08f16; SFX A 132, 68k id 10a4; used by Scene3Prop_Init_
 	TRACK SfxA132_Trk1, 140
 	TRACKS_END
 
-SfxAHdr_133:			/* file 0x08f2d; SFX A 133, 68k id 10a5; used by Mortar_Tmpl3C_06361e, Mortar_Die_06388a */
+SfxA_133_Mortar_Hdr:			/* file 0x08f2d; SFX A 133, 68k id 10a5; used by Mortar_Tmpl3C_06361e, Mortar_Die_06388a */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
-	TRACK SfxA133_Trk0, 120
+	TRACK SfxA_133_Mortar_Trk0, 120
 	TRACKS_END
 
 SfxAHdr_134:			/* file 0x08f3f; SFX A 134, 68k id 10a6; used by TaskHandler_083be2, Prop_Breakable_A_08716a */
@@ -952,9 +952,9 @@ SfxAHdr_135:			/* file 0x08f51; SFX A 135, 68k id 10a7; used by M5Tank_Phase2_07
 	TRACK SfxA135_Trk0, 125
 	TRACKS_END
 
-SfxAHdr_136:			/* file 0x08f63; SFX A 136, 68k id 10a8; used by S5Airship_HatchOpen_068804 */
+SfxA_136_HatchOpen_Hdr:			/* file 0x08f63; SFX A 136, 68k id 10a8; used by S5Airship_HatchOpen_068804 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x11
-	TRACK SfxA136_Trk0, 150
+	TRACK SfxA_136_HatchOpen_Trk0, 150
 	TRACKS_END
 
 SfxAHdr_137:			/* file 0x08f75; SFX A 137, 68k id 10a9; used by Prop_LampIdle_04d782, TaskHandler_0839e2, Prop_Signboard_0872fa */
@@ -982,19 +982,19 @@ SfxAHdr_141:			/* file 0x08fbd; SFX A 141, 68k id 10ad */
 	TRACK SfxA141_Trk0, 130
 	TRACKS_END
 
-SfxAHdr_142:			/* file 0x08fcf; SFX A 142, 68k id 10ae; used by HutOccupant_Out_05fb24, HutDoor_Break_05fc78, HutDoor_Free_05fce6 */
+SfxA_142_HutDoor_Hdr:			/* file 0x08fcf; SFX A 142, 68k id 10ae; used by HutOccupant_Out_05fb24, HutDoor_Break_05fc78, HutDoor_Free_05fce6 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x13
-	TRACK SfxA142_Trk0, 120
+	TRACK SfxA_142_HutDoor_Trk0, 120
 	TRACKS_END
 
-SfxAHdr_143:			/* file 0x08fe1; SFX A 143, 68k id 10af; used by Slug_Stall_02eca6, Slug_Destroyed_02fc70, Slug_AccelRightMusicTbl_02b8ce[0] */
+SfxA_143_SlugAccelRight_Hdr:			/* file 0x08fe1; SFX A 143, 68k id 10af; used by Slug_Stall_02eca6, Slug_Destroyed_02fc70, Slug_AccelRightMusicTbl_02b8ce[0] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0b
-	TRACK SfxA143_Trk0, 170
+	TRACK SfxA_143_SlugAccelRight_Trk0, 170
 	TRACKS_END
 
-SfxAHdr_144:			/* file 0x08ff3; SFX A 144, 68k id 10b0; used by Slug_Stall_02eca6, Slug_AccelLeftMusicTbl_02ba34[0] */
+SfxA_144_SlugAccelLeft_Hdr:			/* file 0x08ff3; SFX A 144, 68k id 10b0; used by Slug_Stall_02eca6, Slug_AccelLeftMusicTbl_02ba34[0] */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0b
-	TRACK SfxA144_Trk0, 170
+	TRACK SfxA_144_SlugAccelLeft_Trk0, 170
 	TRACKS_END
 
 SfxAHdr_145:			/* file 0x09005; SFX A 145, 68k id 10b1 */
@@ -1002,9 +1002,9 @@ SfxAHdr_145:			/* file 0x09005; SFX A 145, 68k id 10b1 */
 	TRACK SfxA145_Trk0, 170
 	TRACKS_END
 
-SfxAHdr_146:			/* file 0x09017; SFX A 146, 68k id 10b2; used by Slug_DestroyedSlide_02bba4, Slug_DestroyedSlideInit_02bbf2, Slug_DestroyedMusicTbl_02bb9a[0], Slug_DestroyedMusicTbl_02bb9a[1] (+3) */
+SfxA_146_SlugDestroyedSlide_Hdr:			/* file 0x09017; SFX A 146, 68k id 10b2; used by Slug_DestroyedSlide_02bba4, Slug_DestroyedSlideInit_02bbf2, Slug_DestroyedMusicTbl_02bb9a[0], Slug_DestroyedMusicTbl_02bb9a[1] (+3) */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0b
-	TRACK SfxA146_Trk0, 170
+	TRACK SfxA_146_SlugDestroyedSlide_Trk0, 170
 	TRACKS_END
 
 SfxAHdr_147:			/* file 0x09029; SFX A 147, 68k id 10b3 */
@@ -1032,9 +1032,9 @@ SfxAHdr_151:			/* file 0x09071; SFX A 151, 68k id 10b7; used by Table_2D4A22[2] 
 	TRACK SfxA151_Trk0, 121
 	TRACKS_END
 
-SfxAHdr_152:			/* file 0x09083; SFX A 152, 68k id 10b8; used by Gunship_Attack_06e66c, Gunship_FlashCount5_06e820 */
+SfxA_152_GunshipAttack_Hdr:			/* file 0x09083; SFX A 152, 68k id 10b8; used by Gunship_Attack_06e66c, Gunship_FlashCount5_06e820 */
 	SFX_HDR 0x10c3, 0x10c4, 0x10c5, 0x0000, 0x0d
-	TRACK SfxA152_Trk0, 121
+	TRACK SfxA_152_GunshipAttack_Trk0, 121
 	TRACKS_END
 
 SfxAHdr_153:			/* file 0x09095; SFX A 153, 68k id 10b9; used by M5Boss_Tmpl6F_06f1f6, Squad_ChildLeap_08022e */
@@ -1047,9 +1047,9 @@ SfxAHdr_154:			/* file 0x090a7; SFX A 154, 68k id 10ba; used by M5Boss_PlayMusic
 	TRACK SfxA154_Trk0, 0
 	TRACKS_END
 
-SfxAHdr_155:			/* file 0x090b9; SFX A 155, 68k id 10bb; used by Prop_Wall_052a26, Prop_WallStage2_052af4 */
+SfxA_155_WallBreak_Hdr:			/* file 0x090b9; SFX A 155, 68k id 10bb; used by Prop_Wall_052a26, Prop_WallStage2_052af4 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x00
-	TRACK SfxA155_Trk0, 0
+	TRACK SfxA_155_WallBreak_Trk0, 0
 	TRACKS_END
 
 SfxAHdr_159:			/* file 0x090cb; SFX A 159, 68k id 10bf */
@@ -1092,9 +1092,9 @@ SfxAHdr_166:			/* file 0x09149; SFX A 166, 68k id 10c6; used by JsrAbsThunk_072e
 	TRACK SfxA166_Trk0, 130
 	TRACKS_END
 
-SfxAHdr_180:			/* file 0x0915b; SFX A 180, 68k id 10d4; used by ContinueBig_Init_0467f6, ContinueBig_Countdown_046878 */
+SfxA_180_ContinueCountdown_Hdr:			/* file 0x0915b; SFX A 180, 68k id 10d4; used by ContinueBig_Init_0467f6, ContinueBig_Countdown_046878 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
-	TRACK SfxA180_Trk0, 1
+	TRACK SfxA_180_ContinueCountdown_Trk0, 1
 	TRACKS_END
 
 SfxAHdr_181:			/* file 0x0916d; SFX A 181, 68k id 10d5; used by Cut_Watcher_Play_08c8fa */
@@ -1103,9 +1103,9 @@ SfxAHdr_181:			/* file 0x0916d; SFX A 181, 68k id 10d5; used by Cut_Watcher_Play
 	TRACK SfxA181_Trk1, 1
 	TRACKS_END
 
-SfxAHdr_182:			/* file 0x09184; SFX A 182, 68k id 10d6; used by Results_PrizeLand_03e9fa */
+SfxA_182_ResultsPrize_Hdr:			/* file 0x09184; SFX A 182, 68k id 10d6; used by Results_PrizeLand_03e9fa */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
-	TRACK SfxA182_Trk0, 1
+	TRACK SfxA_182_ResultsPrize_Trk0, 1
 	TRACKS_END
 
 SfxAHdr_183:			/* file 0x09196; SFX A 183, 68k id 10d7; used by Handler_TimerAndReplace_001BCA */
@@ -1114,33 +1114,33 @@ SfxAHdr_183:			/* file 0x09196; SFX A 183, 68k id 10d7; used by Handler_TimerAnd
 	TRACK SfxA183_Trk1, 1
 	TRACKS_END
 
-SfxAHdr_184:			/* file 0x091ad; SFX A 184, 68k id 10d8; used by Results_ColPhaseTotal_03e208, Results_ColWinner_03e2fe, JsrAbsThunk_05965e */
+SfxA_184_ResultsTally_Hdr:			/* file 0x091ad; SFX A 184, 68k id 10d8; used by Results_ColPhaseTotal_03e208, Results_ColWinner_03e2fe, JsrAbsThunk_05965e */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
-	TRACK SfxA184_Trk0, 1
+	TRACK SfxA_184_ResultsTally_Trk0, 1
 	TRACKS_END
 
-SfxAHdr_190:			/* file 0x091bf; SFX A 190, 68k id 10de; used by GameOver_Final_08fd68 */
+SfxA_190_GameOverFinal_Hdr:			/* file 0x091bf; SFX A 190, 68k id 10de; used by GameOver_Final_08fd68 */
 	SFX_HDR 0x10df, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA190_Trk0, 1
-	TRACK SfxA190_Trk1, 1
+	TRACK SfxA_190_GameOverFinal_Trk0, 1
+	TRACK SfxA_190_GameOverFinal_Trk1, 1
 	TRACKS_END
 
-SfxAHdr_191:			/* file 0x091d6; SFX A 191, 68k id 10df; used by GameOver_Spawn_08f96a, GameOver_Wait_08fcca, GameOver_Wait2_08fd2e, GO_Banner_0905c2 */
+SfxA_191_GameOverBanner_Hdr:			/* file 0x091d6; SFX A 191, 68k id 10df; used by GameOver_Spawn_08f96a, GameOver_Wait_08fcca, GameOver_Wait2_08fd2e, GO_Banner_0905c2 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA191_Trk0, 1
-	TRACK SfxA191_Trk1, 1
+	TRACK SfxA_191_GameOverBanner_Trk0, 1
+	TRACK SfxA_191_GameOverBanner_Trk1, 1
 	TRACKS_END
 
-SfxAHdr_192:			/* file 0x091ed; SFX A 192, 68k id 10e0; used by AttractHandler_2Task_0010F2, Pause_Poll_013c3c, Pause_Active_013cae, GO_Sprite_Slide_08ff88 */
+SfxA_192_PauseSlide_Hdr:			/* file 0x091ed; SFX A 192, 68k id 10e0; used by AttractHandler_2Task_0010F2, Pause_Poll_013c3c, Pause_Active_013cae, GO_Sprite_Slide_08ff88 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
-	TRACK SfxA192_Trk0, 0
-	TRACK SfxA192_Trk1, 0
-	TRACK SfxA192_Trk2, 0
+	TRACK SfxA_192_PauseSlide_Trk0, 0
+	TRACK SfxA_192_PauseSlide_Trk1, 0
+	TRACK SfxA_192_PauseSlide_Trk2, 0
 	TRACKS_END
 
-SfxAHdr_193:			/* file 0x09209; SFX A 193, 68k id 10e1; used by Pause_Active_013cae, GO_Sprite_Mid_08fff6 */
+SfxA_193_Pause_Hdr:			/* file 0x09209; SFX A 193, 68k id 10e1; used by Pause_Active_013cae, GO_Sprite_Mid_08fff6 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA193_Trk0, 1
+	TRACK SfxA_193_Pause_Trk0, 1
 	TRACKS_END
 
 SfxAHdr_194:			/* file 0x0921b; SFX A 194, 68k id 10e2 */
@@ -1159,49 +1159,49 @@ SfxAHdr_196:			/* file 0x09244; SFX A 196, 68k id 10e4 */
 	TRACK SfxA196_Trk0, 1
 	TRACKS_END
 
-SfxAHdr_200:			/* file 0x09256; SFX A 200, 68k id 10e8; used by AimTurret_Tmpl08E_060e62, AimTurret_Die_06100c, AimTurret_DieB_0610f4, AimTurret_Dormant_061204 */
+SfxA_200_AimTurret_Hdr:			/* file 0x09256; SFX A 200, 68k id 10e8; used by AimTurret_Tmpl08E_060e62, AimTurret_Die_06100c, AimTurret_DieB_0610f4, AimTurret_Dormant_061204 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
-	TRACK SfxA200_Trk0, 120
+	TRACK SfxA_200_AimTurret_Trk0, 120
 	TRACKS_END
 
-SfxAHdr_201:			/* file 0x09268; SFX A 201, 68k id 10e9; used by Slug_DestroyedMusicAndBubble_02a638, Slug_DestroyedSlideInit_02bbf2, Slug_Knocked_02f0dc, Slug_Destroyed_02fc70 */
+SfxA_201_SlugDestroyed_Hdr:			/* file 0x09268; SFX A 201, 68k id 10e9; used by Slug_DestroyedMusicAndBubble_02a638, Slug_DestroyedSlideInit_02bbf2, Slug_Knocked_02f0dc, Slug_Destroyed_02fc70 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x14
-	TRACK SfxA201_Trk0, 1
+	TRACK SfxA_201_SlugDestroyed_Trk0, 1
 	TRACKS_END
 
-SfxAHdr_202:			/* file 0x0927a; SFX A 202, 68k id 10ea; used by M5Tank_SpawnSmokeAndFrag_074416, Frag_Launch_076e10 */
+SfxA_202_FragLaunch_Hdr:			/* file 0x0927a; SFX A 202, 68k id 10ea; used by M5Tank_SpawnSmokeAndFrag_074416, Frag_Launch_076e10 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x0a
-	TRACK SfxA202_Trk0, 130
+	TRACK SfxA_202_FragLaunch_Trk0, 130
 	TRACKS_END
 
-SfxAHdr_210:			/* file 0x0928c; SFX A 210, 68k id 10f2; used by VehicleLaunch_Crash_0317d2 */
+SfxA_210_VehicleCrash_Hdr:			/* file 0x0928c; SFX A 210, 68k id 10f2; used by VehicleLaunch_Crash_0317d2 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA210_Trk0, 99
+	TRACK SfxA_210_VehicleCrash_Trk0, 99
 	TRACKS_END
 
-SfxAHdr_211:			/* file 0x0929e; SFX A 211, 68k id 10f3; used by PlayerFire_Shotgun_Spawn_03c9c4 */
+SfxA_211_ShotgunFire_Hdr:			/* file 0x0929e; SFX A 211, 68k id 10f3; used by PlayerFire_Shotgun_Spawn_03c9c4 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA211_Trk0, 101
+	TRACK SfxA_211_ShotgunFire_Trk0, 101
 	TRACKS_END
 
-SfxAHdr_212:			/* file 0x092b0; SFX A 212, 68k id 10f4; used by PlayerFire_Flame_Spawn_03ccd2, Allen_SpawnBulletLevel_050822, Allen_SpawnBulletDiag_05087c, Gun_MuzzlePos_09a1b6 */
+SfxA_212_FlameFire_Hdr:			/* file 0x092b0; SFX A 212, 68k id 10f4; used by PlayerFire_Flame_Spawn_03ccd2, Allen_SpawnBulletLevel_050822, Allen_SpawnBulletDiag_05087c, Gun_MuzzlePos_09a1b6 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA212_Trk0, 101
+	TRACK SfxA_212_FlameFire_Trk0, 101
 	TRACKS_END
 
-SfxAHdr_213:			/* file 0x092c2; SFX A 213, 68k id 10f5; used by PlayerFire_Rocket_Spawn_03cb16 */
+SfxA_213_RocketFire_Hdr:			/* file 0x092c2; SFX A 213, 68k id 10f5; used by PlayerFire_Rocket_Spawn_03cb16 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA213_Trk0, 101
+	TRACK SfxA_213_RocketFire_Trk0, 101
 	TRACKS_END
 
-SfxAHdr_214:			/* file 0x092d4; SFX A 214, 68k id 10f6; used by PlayerFire_HMG_Spawn_03c872 */
+SfxA_214_HMGFire_Hdr:			/* file 0x092d4; SFX A 214, 68k id 10f6; used by PlayerFire_HMG_Spawn_03c872 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA214_Trk0, 101
+	TRACK SfxA_214_HMGFire_Trk0, 101
 	TRACKS_END
 
-SfxAHdr_215:			/* file 0x092e6; SFX A 215, 68k id 10f7; used by PlayerFire_Pistol_Spawn_03c710 */
+SfxA_215_PistolFire_Hdr:			/* file 0x092e6; SFX A 215, 68k id 10f7; used by PlayerFire_Pistol_Spawn_03c710 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x1e
-	TRACK SfxA215_Trk0, 101
+	TRACK SfxA_215_PistolFire_Trk0, 101
 	TRACKS_END
 
 SfxAHdr_218:			/* file 0x092f8; SFX A 218, 68k id 10fa; used by JsrAbsThunk_05e8ee */
@@ -1219,14 +1219,14 @@ SfxAHdr_220:			/* file 0x0931c; SFX A 220, 68k id 10fc */
 	TRACK SfxA220_Trk0, 102
 	TRACKS_END
 
-SfxAHdr_221:			/* file 0x0932e; SFX A 221, 68k id 10fd; used by Item_GiveAmmoKind_09a854 */
+SfxA_221_AmmoPickup_Hdr:			/* file 0x0932e; SFX A 221, 68k id 10fd; used by Item_GiveAmmoKind_09a854 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x02
-	TRACK SfxA221_Trk0, 10
+	TRACK SfxA_221_AmmoPickup_Trk0, 10
 	TRACKS_END
 
-SfxAHdr_223:			/* file 0x09340; SFX A 223, 68k id 10ff; used by Shield_Break_068206, Sub_00083064 */
+SfxA_223_ShieldBreak_Hdr:			/* file 0x09340; SFX A 223, 68k id 10ff; used by Shield_Break_068206, Sub_00083064 */
 	SFX_HDR 0x0000, 0x0000, 0x0000, 0x0000, 0x01
-	TRACK SfxA223_Trk0, 14
+	TRACK SfxA_223_ShieldBreak_Trk0, 14
 	TRACKS_END
 
 Voice_FoodPickup_Hdr:			/* file 0x09352; SFX B 1, 68k id 1121; used by Item_Food_Pickup_09b920 */

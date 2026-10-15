@@ -18,123 +18,123 @@
 002a  Music_SceneC              ; SceneC_Init_08d0a8
 002b  Music_Ending              ; Ending_SpawnOrbitFx_0598fc, Anim_State_F1_08C008
 002c  Music_Title               ; LogoScene_Tpl_098720
-1020  SfxA_000                  ; Camper_Die_062d72
-1021  SfxA_001                  ; Camper_SpawnPairD_06355c, Hostage_Die_064a24, Bazooka_DeathExplodeA_06b9a4, Bazooka_DeathExplodeB_06b9da (+7)
-1022  SfxA_002                  ; PairChild_DeathCry_041762, SquadChild_GlideDeath_0419BE, TrioChild_OrbitDeath_041BB8, BossShot_Fly_044DA4 (+16)
-1023  SfxA_003                  ; GunPlatform_Destroyed_04c5a4, TurretCar_Body_04cf2e, Prop_FortressWreck_04ed00, Prop_Tower_053306 (+15)
-1024  SfxA_004                  ; Prop_Large_052b8a
-1025  SfxA_005                  ; Bazooka_RocketHit_06b1d4, RocketVehicle_RocketHit_06d04e, Crate_Opened_09c00a
+1020  SfxA_000_CamperDie        ; Camper_Die_062d72
+1021  SfxA_001_DeathExplosion   ; Camper_SpawnPairD_06355c, Hostage_Die_064a24, Bazooka_DeathExplodeA_06b9a4, Bazooka_DeathExplodeB_06b9da (+7)
+1022  SfxA_002_EnemyDeathCry    ; PairChild_DeathCry_041762, SquadChild_GlideDeath_0419BE, TrioChild_OrbitDeath_041BB8, BossShot_Fly_044DA4 (+16)
+1023  SfxA_003_StructureDestroyed  ; GunPlatform_Destroyed_04c5a4, TurretCar_Body_04cf2e, Prop_FortressWreck_04ed00, Prop_Tower_053306 (+15)
+1024  SfxA_004_LargePropBreak   ; Prop_Large_052b8a
+1025  SfxA_005_RocketHit        ; Bazooka_RocketHit_06b1d4, RocketVehicle_RocketHit_06d04e, Crate_Opened_09c00a
 1026  SfxA_006                  ; JsrAbsThunk_086034, Airship_Depart_0895fe, Wreck_SmokeRise_08b07c
-1027  SfxA_007                  ; GunPlatform_HitCheck_04c6ea, Allen_GrenadeExplode_051392, Prop_Breakable2Stage_0527ba, Prop_MultiStage_054cf2 (+11)
-1028  SfxA_008                  ; Prop_HutRoofFall_04da52, Prop_TowerBase_04dce6, Prop_TowerBaseWreck_04ddec, Prop_BridgeCollapse_04e05e (+6)
-1029  SfxA_009                  ; Prop_SignBroken_052986, Prop_SignWreck_0529ca
+1027  SfxA_007_GrenadeExplosion  ; GunPlatform_HitCheck_04c6ea, Allen_GrenadeExplode_051392, Prop_Breakable2Stage_0527ba, Prop_MultiStage_054cf2 (+11)
+1028  SfxA_008_StructureCollapse  ; Prop_HutRoofFall_04da52, Prop_TowerBase_04dce6, Prop_TowerBaseWreck_04ddec, Prop_BridgeCollapse_04e05e (+6)
+1029  SfxA_009_SignBreak        ; Prop_SignBroken_052986, Prop_SignWreck_0529ca
 102a  SfxA_010                  ; Prop_CompoundWall_054254, Prop_NeonSign_0545c0
-102b  SfxA_011                  ; Prop_CompoundWallDamaged_054338, Prop_ScaledHP_054c0e, ArmoredCar_Damaged1_0878d8, ArmoredCar_Damaged2_087956
+102b  SfxA_011_ArmorDamaged     ; Prop_CompoundWallDamaged_054338, Prop_ScaledHP_054c0e, ArmoredCar_Damaged1_0878d8, ArmoredCar_Damaged2_087956
 102c  SfxA_012                  ; Prop_PlayBreakMusicByPhase_053e0c, Prop_Stall_0546f4, M5Tank_TurretWreck_0738da, Pillbox_Collapse_086ba4
-102d  SfxA_013                  ; Tank_Turret_069a32, M2Boss_Turret_DeathSwing_07c374, M4_Carrier_Fight_085270
-102e  SfxA_014                  ; Prop_Breakable_05495a, Prop_Small_054b1c, TaskHandler_083c92, TaskHandler_0846e0 (+3)
-102f  SfxA_015                  ; Prop_BridgePillar_04e12c, Prop_NestActive_04e2b0, Prop_BarrierDamaged_04e68a, Prop_GatehouseDamaged_04e998 (+10)
-1030  SfxA_016                  ; Prop_TowerTopWreck_04dc4a, Prop_BunkerWreck_04df30, Prop_Bridge_04df98, Prop_NestWreck_04e32c (+11)
-1032  SfxA_018                  ; SquadLeader_Death_040be6, S5Gate_Begin_068346, M5Tank_Phase3_0732e8, M2Boss_Turret_DeathSwing_07c374 (+2)
+102d  SfxA_013_TurretDestroyed  ; Tank_Turret_069a32, M2Boss_Turret_DeathSwing_07c374, M4_Carrier_Fight_085270
+102e  SfxA_014_SmallPropBreak   ; Prop_Breakable_05495a, Prop_Small_054b1c, TaskHandler_083c92, TaskHandler_0846e0 (+3)
+102f  SfxA_015_PropDamaged      ; Prop_BridgePillar_04e12c, Prop_NestActive_04e2b0, Prop_BarrierDamaged_04e68a, Prop_GatehouseDamaged_04e998 (+10)
+1030  SfxA_016_PropWreck        ; Prop_TowerTopWreck_04dc4a, Prop_BunkerWreck_04df30, Prop_Bridge_04df98, Prop_NestWreck_04e32c (+11)
+1032  SfxA_018_BigExplosion     ; SquadLeader_Death_040be6, S5Gate_Begin_068346, M5Tank_Phase3_0732e8, M2Boss_Turret_DeathSwing_07c374 (+2)
 1033  SfxA_019                  ; SquadLeader_DeathDone_040d18, LateProp_RegisterB_062816, LateProp_SpawnPair_06282e, Mortar_SpawnDebris_063db2 (+12)
-1034  SfxA_020                  ; Slug_ExplodeFx_02ff22
+1034  SfxA_020_SlugExplode      ; Slug_ExplodeFx_02ff22
 1035  SfxA_021                  ; Prop_HouseVariants_052e20, Prop_PlayBreakMusicByPhase_053e0c, Prop_MultiStageCritical_054eea, S5_Depot_089290 (+6)
 1037  SfxA_023                  ; TaskHandler_0834a4
 1038  SfxA_024                  ; ArmoredCar_Damaged2_087956
-1039  SfxA_025                  ; Crate_Burst_086db4
-103e  SfxA_030                  ; FloatBarrel_Pop_066228
-103f  SfxA_031                  ; SquadChild_FlipTouchdown_04148A
+1039  SfxA_025_CrateBurst       ; Crate_Burst_086db4
+103e  SfxA_030_BarrelPop        ; FloatBarrel_Pop_066228
+103f  SfxA_031_Touchdown        ; SquadChild_FlipTouchdown_04148A
 1040  SfxA_032                  ; TaskHandler_084bd2
-1041  SfxA_033                  ; FinalBoss_HeadDie_071a90
-1042  SfxA_034                  ; HumanDeath_Burning_04a9b0
-1043  SfxA_035                  ; Paratrooper_Die_0669ea
+1041  SfxA_033_FinalBossHeadDie  ; FinalBoss_HeadDie_071a90
+1042  SfxA_034_BurningScream    ; HumanDeath_Burning_04a9b0
+1043  SfxA_035_ParatrooperDie   ; Paratrooper_Die_0669ea
 1051  SfxA_049                  ; JsrAbsThunk_02a630, Wreck_SparkBurst_08b10a
-1052  SfxA_050                  ; JsrAbsThunk_02a5fe, FloatBarrel_Splash_0661d8, FloatBarrel_BobSettle_0662a4
-1053  SfxA_051                  ; Player_Death_0375d2, Player_Death_Alt_037684, TowerSoldier_Flee_05f5fa, Airship_PlayerTracker_0896de
+1052  SfxA_050_WaterSplash      ; JsrAbsThunk_02a5fe, FloatBarrel_Splash_0661d8, FloatBarrel_BobSettle_0662a4
+1053  SfxA_051_PlayerDeath      ; Player_Death_0375d2, Player_Death_Alt_037684, TowerSoldier_Flee_05f5fa, Airship_PlayerTracker_0896de
 1054  SfxA_052                  ; Prop_FragileBreaking_0548c8, TaskHandler_083800
-105c  SfxA_060                  ; Hostage_Thrown_064bfc
-105d  SfxA_061                  ; Hostage_Init_064640
-105e  SfxA_062                  ; Hostage_Stand_064938, Hostage_Run_064b18
-1060  SfxA_064                  ; Hostage_Pose_0647c0
-1061  SfxA_065                  ; Crab_Leg_Detach_07d898
-1064  SfxA_068                  ; SquadPair_SpawnCore_0420FE, SquadPair_SpawnPlain_042188, PowItem_Toss_048ba0, Gunner2_Shell_05a55a (+5)
+105c  SfxA_060_HostageThrown    ; Hostage_Thrown_064bfc
+105d  SfxA_061_HostageAppear    ; Hostage_Init_064640
+105e  SfxA_062_HostageRun       ; Hostage_Stand_064938, Hostage_Run_064b18
+1060  SfxA_064_HostagePose      ; Hostage_Pose_0647c0
+1061  SfxA_065_CrabLegDetach    ; Crab_Leg_Detach_07d898
+1064  SfxA_068_ShellToss        ; SquadPair_SpawnCore_0420FE, SquadPair_SpawnPlain_042188, PowItem_Toss_048ba0, Gunner2_Shell_05a55a (+5)
 1065  SfxA_069                  ; Walker_SpawnSparkAndDebris_06e3a4, M2Boss_Shell_Spawn_07c918
 1066  SfxA_070                  ; Cannon_SpawnPair_06449e, Cannon_SpawnPairB_0644e8, JsrAbsThunk_072d9c
 1067  SfxA_071                  ; GunPlatform_SpawnExplosionMusic_04ca58, LateProp_SpawnDebris2_0627ca, Camper_SpawnGroup_06347e
-106a  SfxA_074                  ; Boss_Descend_044C28, Boss2_Explode_045C20, Boss2_Death_045CEA
+106a  SfxA_074_BossExplode      ; Boss_Descend_044C28, Boss2_Explode_045C20, Boss2_Death_045CEA
 1071  SfxA_081                  ; Camper_Init_062a4e, Camper_Idle_062b84, FinalBoss_End_07111c, FinalBoss_Idle_0713ac (+3)
 1073  SfxA_083                  ; M5Tank_Tmpl76_072fc8
 1074  SfxA_084                  ; M5Boss_PickAttack_06f416, M2Boss_Turret_ParentPhase_07c070, TaskHandler_084f5e, TaskHandler_084fca
-1075  SfxA_085                  ; M5Boss_AttackA_06f59a, M5Boss_AttackAEnd_06f63c, M5Boss_AttackB_06f7f0, M5Boss_AttackBEnd_06f8c0 (+2)
-1076  SfxA_086                  ; Prop_Explosive_052cea
+1075  SfxA_085_M5BossAttack     ; M5Boss_AttackA_06f59a, M5Boss_AttackAEnd_06f63c, M5Boss_AttackB_06f7f0, M5Boss_AttackBEnd_06f8c0 (+2)
+1076  SfxA_086_ExplosiveProp    ; Prop_Explosive_052cea
 107f  SfxA_095                  ; Airship_Wait_0893ac
 1080  SfxA_096                  ; Airship_Wait_0893ac
 1081  SfxA_097                  ; Airship_Steer_08b6a8
-1083  SfxA_099                  ; Slug_AddHP_02a2ba, Results_BannerAFinal_03eaa2
-1084  SfxA_100                  ; VehicleLaunch_Init_0311c0, VehicleLaunch_InitDrop_0318e6
-1086  SfxA_102                  ; FireBurst_Low_06dfe8, FireBurst_Arc_06e09a, Flag_Init_09c4d4
+1083  SfxA_099_SlugHPUp         ; Slug_AddHP_02a2ba, Results_BannerAFinal_03eaa2
+1084  SfxA_100_VehicleLaunch    ; VehicleLaunch_Init_0311c0, VehicleLaunch_InitDrop_0318e6
+1086  SfxA_102_FireBurst        ; FireBurst_Low_06dfe8, FireBurst_Arc_06e09a, Flag_Init_09c4d4
 1087  SfxA_103                  ; Player_PlayLifeMusic_032ed0, PlayerRoute_PublishState_033522, Player_Death_PlayMusic_03765a, Player_DeathPit_037b8e
-1089  SfxA_105                  ; Slug_DamageTick_02a6be
+1089  SfxA_105_SlugDamage       ; Slug_DamageTick_02a6be
 108b  SfxA_107                  ; JsrAbsThunk_03da98
-108c  SfxA_108                  ; Boss_PhaseFire_044AFE, Turret_ReadPlayerInput_04593A, Gunner_Shell_059da6, Turret8_FireBullet_08b626
-108d  SfxA_109                  ; Prop_Boat_04f7ca, Roller_Task_056870, AimTurret_Shell_061344, AimTurret_HitCheck_061580 (+10)
-108e  SfxA_110                  ; HutDoor_Break_05fc78, FireBurst_Tmpl_06df32
+108c  SfxA_108_EnemyShot        ; Boss_PhaseFire_044AFE, Turret_ReadPlayerInput_04593A, Gunner_Shell_059da6, Turret8_FireBullet_08b626
+108d  SfxA_109_TurretShell      ; Prop_Boat_04f7ca, Roller_Task_056870, AimTurret_Shell_061344, AimTurret_HitCheck_061580 (+10)
+108e  SfxA_110_DoorBreak        ; HutDoor_Break_05fc78, FireBurst_Tmpl_06df32
 108f  SfxA_111                  ; Slug_StopMusic108F_02a2f8
 1090  SfxA_112                  ; JsrAbsThunk_02a5f2
 1091  SfxA_113                  ; JsrAbsThunk_02a624
 1092  SfxA_114                  ; Slug_StopMusic1092_02a310
-1098  SfxA_120                  ; Prop_TrapFlame_053a42
+1098  SfxA_120_TrapFlame        ; Prop_TrapFlame_053a42
 1099  SfxA_121                  ; TaskHandler_081db0
 109b  SfxA_123                  ; SquadSpawn_GlideAttacker_04233E, AimTurret_Shell_061344
 109d  SfxA_125                  ; LateProp_Init_061aa2, LateProp_Idle_061b6a, LateProp_Die_061c54, LateProp_Spark_061e72 (+1)
-109e  SfxA_126                  ; Tank_Drive_068ddc, Tank_Brake_06900a, Tank_Die_0694dc, Crab_Pause_07d178 (+3)
+109e  SfxA_126_TankEngine       ; Tank_Drive_068ddc, Tank_Brake_06900a, Tank_Die_0694dc, Crab_Pause_07d178 (+3)
 109f  SfxA_127                  ; Obstacle_FlushMusicJmp77FD6_060c40, Crew_Captor_Death_07a338, TaskHandler_0828e0
 10a2  SfxA_130                  ; SquadLeader_Enter_04049c, SquadLeader_Death_040be6
 10a3  SfxA_131                  ; TrioSpawner_PatternedPair_042206, TurretCar_DriverFlee_04d13a, M5Boss_Bomb_06fcfa
 10a4  SfxA_132                  ; Scene3Prop_Init_065668, M5Boss_Fx2D82BA_0702a8, JsrAbsThunk_072f38, M5Tank_Rocket_Launch_073bac
-10a5  SfxA_133                  ; Mortar_Tmpl3C_06361e, Mortar_Die_06388a
+10a5  SfxA_133_Mortar           ; Mortar_Tmpl3C_06361e, Mortar_Die_06388a
 10a6  SfxA_134                  ; TaskHandler_083be2, Prop_Breakable_A_08716a
 10a7  SfxA_135                  ; M5Tank_Phase2_073290
-10a8  SfxA_136                  ; S5Airship_HatchOpen_068804
+10a8  SfxA_136_HatchOpen        ; S5Airship_HatchOpen_068804
 10a9  SfxA_137                  ; Prop_LampIdle_04d782, TaskHandler_0839e2, Prop_Signboard_0872fa
 10aa  SfxA_138                  ; LateProp_SpawnPairB_0628ac
-10ae  SfxA_142                  ; HutOccupant_Out_05fb24, HutDoor_Break_05fc78, HutDoor_Free_05fce6
-10af  SfxA_143                  ; Slug_Stall_02eca6, Slug_Destroyed_02fc70, Slug_AccelRightMusicTbl_02b8ce[0]
-10b0  SfxA_144                  ; Slug_Stall_02eca6, Slug_AccelLeftMusicTbl_02ba34[0]
-10b2  SfxA_146                  ; Slug_DestroyedSlide_02bba4, Slug_DestroyedSlideInit_02bbf2, Slug_DestroyedMusicTbl_02bb9a[0], Slug_DestroyedMusicTbl_02bb9a[1] (+3)
+10ae  SfxA_142_HutDoor          ; HutOccupant_Out_05fb24, HutDoor_Break_05fc78, HutDoor_Free_05fce6
+10af  SfxA_143_SlugAccelRight   ; Slug_Stall_02eca6, Slug_Destroyed_02fc70, Slug_AccelRightMusicTbl_02b8ce[0]
+10b0  SfxA_144_SlugAccelLeft    ; Slug_Stall_02eca6, Slug_AccelLeftMusicTbl_02ba34[0]
+10b2  SfxA_146_SlugDestroyedSlide  ; Slug_DestroyedSlide_02bba4, Slug_DestroyedSlideInit_02bbf2, Slug_DestroyedMusicTbl_02bb9a[0], Slug_DestroyedMusicTbl_02bb9a[1] (+3)
 10b5  SfxA_149                  ; M5Boss_Intro_Tmpl70_06f17e, Table_2D4A22[0]
 10b6  SfxA_150                  ; Table_2D4A22[1]
 10b7  SfxA_151                  ; Table_2D4A22[2]
-10b8  SfxA_152                  ; Gunship_Attack_06e66c, Gunship_FlashCount5_06e820
+10b8  SfxA_152_GunshipAttack    ; Gunship_Attack_06e66c, Gunship_FlashCount5_06e820
 10b9  SfxA_153                  ; M5Boss_Tmpl6F_06f1f6, Squad_ChildLeap_08022e
 10ba  SfxA_154                  ; M5Boss_PlayMusic10BA_06f38c, Squad_ChildInitTableA_080110, Squad_ChildInitFixed_0802e0, Squad_DeathPieces_080f32
-10bb  SfxA_155                  ; Prop_Wall_052a26, Prop_WallStage2_052af4
+10bb  SfxA_155_WallBreak        ; Prop_Wall_052a26, Prop_WallStage2_052af4
 10c3  SfxA_163                  ; M5Boss_Intro_Tmpl70_06f17e, Table_2D4A22[3]
 10c4  SfxA_164                  ; Table_2D4A22[4]
 10c5  SfxA_165                  ; Table_2D4A22[5]
 10c6  SfxA_166                  ; JsrAbsThunk_072e78, JsrAbsThunk_072ee0, M5Tank_MuzzleC_073ef8
-10d4  SfxA_180                  ; ContinueBig_Init_0467f6, ContinueBig_Countdown_046878
+10d4  SfxA_180_ContinueCountdown  ; ContinueBig_Init_0467f6, ContinueBig_Countdown_046878
 10d5  SfxA_181                  ; Cut_Watcher_Play_08c8fa
-10d6  SfxA_182                  ; Results_PrizeLand_03e9fa
+10d6  SfxA_182_ResultsPrize     ; Results_PrizeLand_03e9fa
 10d7  SfxA_183                  ; Handler_TimerAndReplace_001BCA
-10d8  SfxA_184                  ; Results_ColPhaseTotal_03e208, Results_ColWinner_03e2fe, JsrAbsThunk_05965e
-10de  SfxA_190                  ; GameOver_Final_08fd68
-10df  SfxA_191                  ; GameOver_Spawn_08f96a, GameOver_Wait_08fcca, GameOver_Wait2_08fd2e, GO_Banner_0905c2
-10e0  SfxA_192                  ; AttractHandler_2Task_0010F2, Pause_Poll_013c3c, Pause_Active_013cae, GO_Sprite_Slide_08ff88
-10e1  SfxA_193                  ; Pause_Active_013cae, GO_Sprite_Mid_08fff6
-10e8  SfxA_200                  ; AimTurret_Tmpl08E_060e62, AimTurret_Die_06100c, AimTurret_DieB_0610f4, AimTurret_Dormant_061204
-10e9  SfxA_201                  ; Slug_DestroyedMusicAndBubble_02a638, Slug_DestroyedSlideInit_02bbf2, Slug_Knocked_02f0dc, Slug_Destroyed_02fc70
-10ea  SfxA_202                  ; M5Tank_SpawnSmokeAndFrag_074416, Frag_Launch_076e10
-10f2  SfxA_210                  ; VehicleLaunch_Crash_0317d2
-10f3  SfxA_211                  ; PlayerFire_Shotgun_Spawn_03c9c4
-10f4  SfxA_212                  ; PlayerFire_Flame_Spawn_03ccd2, Allen_SpawnBulletLevel_050822, Allen_SpawnBulletDiag_05087c, Gun_MuzzlePos_09a1b6
-10f5  SfxA_213                  ; PlayerFire_Rocket_Spawn_03cb16
-10f6  SfxA_214                  ; PlayerFire_HMG_Spawn_03c872
-10f7  SfxA_215                  ; PlayerFire_Pistol_Spawn_03c710
+10d8  SfxA_184_ResultsTally     ; Results_ColPhaseTotal_03e208, Results_ColWinner_03e2fe, JsrAbsThunk_05965e
+10de  SfxA_190_GameOverFinal    ; GameOver_Final_08fd68
+10df  SfxA_191_GameOverBanner   ; GameOver_Spawn_08f96a, GameOver_Wait_08fcca, GameOver_Wait2_08fd2e, GO_Banner_0905c2
+10e0  SfxA_192_PauseSlide       ; AttractHandler_2Task_0010F2, Pause_Poll_013c3c, Pause_Active_013cae, GO_Sprite_Slide_08ff88
+10e1  SfxA_193_Pause            ; Pause_Active_013cae, GO_Sprite_Mid_08fff6
+10e8  SfxA_200_AimTurret        ; AimTurret_Tmpl08E_060e62, AimTurret_Die_06100c, AimTurret_DieB_0610f4, AimTurret_Dormant_061204
+10e9  SfxA_201_SlugDestroyed    ; Slug_DestroyedMusicAndBubble_02a638, Slug_DestroyedSlideInit_02bbf2, Slug_Knocked_02f0dc, Slug_Destroyed_02fc70
+10ea  SfxA_202_FragLaunch       ; M5Tank_SpawnSmokeAndFrag_074416, Frag_Launch_076e10
+10f2  SfxA_210_VehicleCrash     ; VehicleLaunch_Crash_0317d2
+10f3  SfxA_211_ShotgunFire      ; PlayerFire_Shotgun_Spawn_03c9c4
+10f4  SfxA_212_FlameFire        ; PlayerFire_Flame_Spawn_03ccd2, Allen_SpawnBulletLevel_050822, Allen_SpawnBulletDiag_05087c, Gun_MuzzlePos_09a1b6
+10f5  SfxA_213_RocketFire       ; PlayerFire_Rocket_Spawn_03cb16
+10f6  SfxA_214_HMGFire          ; PlayerFire_HMG_Spawn_03c872
+10f7  SfxA_215_PistolFire       ; PlayerFire_Pistol_Spawn_03c710
 10fa  SfxA_218                  ; JsrAbsThunk_05e8ee
 10fb  SfxA_219                  ; Player_Death_Debug_037af2, AnimCb_AttackProbeMusic_03942e
-10fd  SfxA_221                  ; Item_GiveAmmoKind_09a854
-10ff  SfxA_223                  ; Shield_Break_068206, Sub_00083064
+10fd  SfxA_221_AmmoPickup       ; Item_GiveAmmoKind_09a854
+10ff  SfxA_223_ShieldBreak      ; Shield_Break_068206, Sub_00083064
 1121  Voice_FoodPickup          ; Item_Food_Pickup_09b920
 1123  Voice_PlayerDeath         ; Player_PlayLifeMusic_032ed0, PlayerRoute_PublishState_033522, Player_Death_PlayMusic_03765a, Player_DeathPit_037b8e
 1124  Voice_Okay                ; Item_Tmpl289_Weapon_09abc2, Item_Tmpl290_WeaponSwap_09ac52, Item_Tmpl291_Bombs_09ad54

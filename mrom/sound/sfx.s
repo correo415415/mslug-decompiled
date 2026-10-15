@@ -1,6 +1,6 @@
 /* sfx.s - SFX sequences (tables A and B) */
 
-SfxA000_Trk0:			/* file 0x1bfcb; SFX A 0, track 0 */
+SfxA_000_CamperDie_Trk0:			/* file 0x1bfcb; SFX A 0, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -10,7 +10,7 @@ SfxA000_Trk0:			/* file 0x1bfcb; SFX A 0, track 0 */
 	N 0x35, 0xfa, 0xcd
 	S_RET
 
-SfxA001_Trk0:			/* file 0x1bfdc; SFX A 1, track 0 */
+SfxA_001_DeathExplosion_Trk0:			/* file 0x1bfdc; SFX A 1, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -19,7 +19,7 @@ SfxA001_Trk0:			/* file 0x1bfdc; SFX A 1, track 0 */
 	NX 0x30, 0xf7, 0xf7, 0x3c
 	S_RET
 
-SfxA002_Trk0:			/* file 0x1bfeb; SFX A 2, track 0 */
+SfxA_002_EnemyDeathCry_Trk0:			/* file 0x1bfeb; SFX A 2, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -28,7 +28,7 @@ SfxA002_Trk0:			/* file 0x1bfeb; SFX A 2, track 0 */
 	NX 0x31, 0x6c, 0x6c, 0x32
 	S_RET
 
-SfxA003_Trk0:			/* file 0x1bffa; SFX A 3, track 0 */
+SfxA_003_StructureDestroyed_Trk0:			/* file 0x1bffa; SFX A 3, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -37,7 +37,7 @@ SfxA003_Trk0:			/* file 0x1bffa; SFX A 3, track 0 */
 	NX 0x32, 0xc3, 0xc3, 0x48
 	S_RET
 
-SfxA004_Trk0:			/* file 0x1c009; SFX A 4, track 0 */
+SfxA_004_LargePropBreak_Trk0:			/* file 0x1c009; SFX A 4, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -46,7 +46,7 @@ SfxA004_Trk0:			/* file 0x1c009; SFX A 4, track 0 */
 	NX 0x32, 0xc3, 0xc3, 0x5b
 	S_RET
 
-SfxA005_Trk0:			/* file 0x1c018; SFX A 5, track 0 */
+SfxA_005_RocketHit_Trk0:			/* file 0x1c018; SFX A 5, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -68,7 +68,7 @@ SfxA006_Trk0:			/* file 0x1c027; SFX A 6, track 0 */
 	N 0x3b, 0xe6, 0xc0
 	S_RET
 
-SfxA007_Trk0:			/* file 0x1c03c; SFX A 7, track 0 */
+SfxA_007_GrenadeExplosion_Trk0:			/* file 0x1c03c; SFX A 7, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -77,7 +77,7 @@ SfxA007_Trk0:			/* file 0x1c03c; SFX A 7, track 0 */
 	N 0x35, 0x69, 0x69, 0x37
 	S_RET
 
-SfxA008_Trk0:			/* file 0x1c04a; SFX A 8, track 0 */
+SfxA_008_StructureCollapse_Trk0:			/* file 0x1c04a; SFX A 8, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -88,7 +88,7 @@ SfxA008_Trk0:			/* file 0x1c04a; SFX A 8, track 0 */
 	N 0x36, 0x32, 0x03
 	S_RET
 
-SfxA009_Trk0:			/* file 0x1c05c; SFX A 9, track 0 */
+SfxA_009_SignBreak_Trk0:			/* file 0x1c05c; SFX A 9, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -106,7 +106,7 @@ SfxA010_Trk0:			/* file 0x1c06a; SFX A 10, track 0 */
 	N 0x35, 0x69, 0x69, 0x5b
 	S_RET
 
-SfxA011_Trk0:			/* file 0x1c078; SFX A 11, track 0 */
+SfxA_011_ArmorDamaged_Trk0:			/* file 0x1c078; SFX A 11, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x7f
@@ -124,7 +124,7 @@ SfxA012_Trk0:			/* file 0x1c085; SFX A 12, track 0 */
 	N 0x38, 0xde, 0xde, 0x3f
 	S_RET
 
-SfxA013_Trk0:			/* file 0x1c093; SFX A 13, track 0 */
+SfxA_013_TurretDestroyed_Trk0:			/* file 0x1c093; SFX A 13, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -133,7 +133,7 @@ SfxA013_Trk0:			/* file 0x1c093; SFX A 13, track 0 */
 	N 0x3a, 0xaa, 0xaa, 0x79
 	S_RET
 
-SfxA014_Trk0:			/* file 0x1c0a1; SFX A 14, track 0 */
+SfxA_014_SmallPropBreak_Trk0:			/* file 0x1c0a1; SFX A 14, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -142,7 +142,7 @@ SfxA014_Trk0:			/* file 0x1c0a1; SFX A 14, track 0 */
 	N 0x3b, 0x9b, 0x90, 0x3f
 	S_RET
 
-SfxA015_Trk0:			/* file 0x1c0af; SFX A 15, track 0 */
+SfxA_015_PropDamaged_Trk0:			/* file 0x1c0af; SFX A 15, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -153,7 +153,7 @@ SfxA015_Trk0:			/* file 0x1c0af; SFX A 15, track 0 */
 	N 0x3d, 0x48, 0x48
 	S_RET
 
-SfxA016_Trk0:			/* file 0x1c0c1; SFX A 16, track 0 */
+SfxA_016_PropWreck_Trk0:			/* file 0x1c0c1; SFX A 16, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -163,7 +163,7 @@ SfxA016_Trk0:			/* file 0x1c0c1; SFX A 16, track 0 */
 	N 0x3c, 0x54, 0x06
 	S_RET
 
-SfxA018_Trk0:			/* file 0x1c0d2; SFX A 18, track 0 */
+SfxA_018_BigExplosion_Trk0:			/* file 0x1c0d2; SFX A 18, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -186,7 +186,7 @@ SfxA019_Trk0:			/* file 0x1c0e5; SFX A 19, track 0 */
 	N 0x3f, 0x60, 0x07
 	S_RET
 
-SfxA020_Trk0:			/* file 0x1c0f7; SFX A 20, track 0 */
+SfxA_020_SlugExplode_Trk0:			/* file 0x1c0f7; SFX A 20, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -234,7 +234,7 @@ SfxA024_Trk0:			/* file 0x1c137; SFX A 24, track 0 */
 	N 0x3a, 0xaa, 0xaa, 0x79
 	S_RET
 
-SfxA025_Trk0:			/* file 0x1c145; SFX A 25, track 0 */
+SfxA_025_CrateBurst_Trk0:			/* file 0x1c145; SFX A 25, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -245,7 +245,7 @@ SfxA025_Trk0:			/* file 0x1c145; SFX A 25, track 0 */
 	N 0x37, 0x01, 0x01, 0x00
 	S_RET
 
-SfxA030_Trk0:			/* file 0x1c15a; SFX A 30, track 0 */
+SfxA_030_BarrelPop_Trk0:			/* file 0x1c15a; SFX A 30, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -254,7 +254,7 @@ SfxA030_Trk0:			/* file 0x1c15a; SFX A 30, track 0 */
 	NX 0x30, 0x6e, 0x5a, 0x5a
 	S_RET
 
-SfxA031_Trk0:			/* file 0x1c169; SFX A 31, track 0 */
+SfxA_031_Touchdown_Trk0:			/* file 0x1c169; SFX A 31, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -272,7 +272,7 @@ SfxA032_Trk0:			/* file 0x1c178; SFX A 32, track 0 */
 	NX 0x32, , 0x60, 0x5a
 	S_RET
 
-SfxA033_Trk0:			/* file 0x1c186; SFX A 33, track 0 */
+SfxA_033_FinalBossHeadDie_Trk0:			/* file 0x1c186; SFX A 33, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -281,7 +281,7 @@ SfxA033_Trk0:			/* file 0x1c186; SFX A 33, track 0 */
 	NX 0x33, 0x5c, 0x50, 0x64
 	S_RET
 
-SfxA034_Trk0:			/* file 0x1c195; SFX A 34, track 0 */
+SfxA_034_BurningScream_Trk0:			/* file 0x1c195; SFX A 34, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -290,7 +290,7 @@ SfxA034_Trk0:			/* file 0x1c195; SFX A 34, track 0 */
 	NX 0x34, 0xb8, 0xa4, 0x55
 	S_RET
 
-SfxA035_Trk0:			/* file 0x1c1a4; SFX A 35, track 0 */
+SfxA_035_ParatrooperDie_Trk0:			/* file 0x1c1a4; SFX A 35, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -383,7 +383,7 @@ SfxA049_Trk0:			/* file 0x1c230; SFX A 49, track 0 */
 	NX 0x53, 0xc8, 0xc8, 0x5b
 	S_RET
 
-SfxA050_Trk0:			/* file 0x1c23f; SFX A 50, track 0 */
+SfxA_050_WaterSplash_Trk0:			/* file 0x1c23f; SFX A 50, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -392,7 +392,7 @@ SfxA050_Trk0:			/* file 0x1c23f; SFX A 50, track 0 */
 	NX 0x54, 0xa4, 0x84, 0x5b
 	S_RET
 
-SfxA051_Trk0:			/* file 0x1c24e; SFX A 51, track 0 */
+SfxA_051_PlayerDeath_Trk0:			/* file 0x1c24e; SFX A 51, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -430,7 +430,7 @@ SfxA054_Trk0:			/* file 0x1c27f; SFX A 54, track 0 */
 	NX 0x57, 0x20, 0x20, 0x4b
 	S_RET
 
-SfxA060_Trk0:			/* file 0x1c28e; SFX A 60, track 0 */
+SfxA_060_HostageThrown_Trk0:			/* file 0x1c28e; SFX A 60, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -439,7 +439,7 @@ SfxA060_Trk0:			/* file 0x1c28e; SFX A 60, track 0 */
 	NX 0x30, 0xb9, 0xa5, 0x79
 	S_RET
 
-SfxA061_Trk0:			/* file 0x1c29d; SFX A 61, track 0 */
+SfxA_061_HostageAppear_Trk0:			/* file 0x1c29d; SFX A 61, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -449,7 +449,7 @@ SfxA061_Trk0:			/* file 0x1c29d; SFX A 61, track 0 */
 	N 0x31, 0x66, 0x1e
 	S_RET
 
-SfxA062_Trk0:			/* file 0x1c2af; SFX A 62, track 0 */
+SfxA_062_HostageRun_Trk0:			/* file 0x1c2af; SFX A 62, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -459,7 +459,7 @@ SfxA062_Trk0:			/* file 0x1c2af; SFX A 62, track 0 */
 	N 0x32, 0xc8, 0x46
 	S_RET
 
-SfxA064_Trk0:			/* file 0x1c2c1; SFX A 64, track 0 */
+SfxA_064_HostagePose_Trk0:			/* file 0x1c2c1; SFX A 64, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -468,7 +468,7 @@ SfxA064_Trk0:			/* file 0x1c2c1; SFX A 64, track 0 */
 	NX 0x34, 0x5a, 0x32, 0x37
 	S_RET
 
-SfxA065_Trk0:			/* file 0x1c2d0; SFX A 65, track 0 */
+SfxA_065_CrabLegDetach_Trk0:			/* file 0x1c2d0; SFX A 65, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -486,7 +486,7 @@ SfxA066_Trk0:			/* file 0x1c2de; SFX A 66, track 0 */
 	N 0x42, 0x8e, 0x78, 0x44
 	S_RET
 
-SfxA068_Trk0:			/* file 0x1c2ec; SFX A 68, track 0 */
+SfxA_068_ShellToss_Trk0:			/* file 0x1c2ec; SFX A 68, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -531,7 +531,7 @@ SfxA073_Trk0:			/* file 0x1c324; SFX A 73, track 0 */
 	NX 0x51, 0x60, 0x50, 0x37
 	S_RET
 
-SfxA074_Trk0:			/* file 0x1c333; SFX A 74, track 0 */
+SfxA_074_BossExplode_Trk0:			/* file 0x1c333; SFX A 74, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -575,7 +575,7 @@ SfxA084_Trk0:			/* file 0x1c36b; SFX A 84, track 0 */
 	N 0x43, 0x53, 0x05
 	S_RET
 
-SfxA085_Trk0:			/* file 0x1c37c; SFX A 85, track 0 */
+SfxA_085_M5BossAttack_Trk0:			/* file 0x1c37c; SFX A 85, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -584,7 +584,7 @@ SfxA085_Trk0:			/* file 0x1c37c; SFX A 85, track 0 */
 	N 0x44, 0x60, 0x50, 0x47
 	S_RET
 
-SfxA086_Trk0:			/* file 0x1c38a; SFX A 86, track 0 */
+SfxA_086_ExplosiveProp_Trk0:			/* file 0x1c38a; SFX A 86, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -742,7 +742,7 @@ SfxA097_Trk1:			/* file 0x1c4aa; SFX A 97, track 1 */
 	N 0x1f, , 0x12
 	S_RET
 
-SfxA099_Trk0:			/* file 0x1c4d4; SFX A 99, track 0 */
+SfxA_099_SlugHPUp_Trk0:			/* file 0x1c4d4; SFX A 99, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -766,7 +766,7 @@ L_1C4F9:			/* file 0x1c4f9 */
 	S_LOOPEND 0x0b, L_1C4F9
 	S_RET
 
-SfxA099_Trk1:			/* file 0x1c504; SFX A 99, track 1 */
+SfxA_099_SlugHPUp_Trk1:			/* file 0x1c504; SFX A 99, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -791,7 +791,7 @@ L_1C52C:			/* file 0x1c52c */
 	S_LOOPEND 0x0d, L_1C52C
 	S_RET
 
-SfxA100_Trk0:			/* file 0x1c537; SFX A 100, track 0 */
+SfxA_100_VehicleLaunch_Trk0:			/* file 0x1c537; SFX A 100, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -809,7 +809,7 @@ SfxA101_Trk0:			/* file 0x1c546; SFX A 101, track 0 */
 	NX 0x31, 0x8c, 0x8c, 0x28
 	S_RET
 
-SfxA102_Trk0:			/* file 0x1c555; SFX A 102, track 0 */
+SfxA_102_FireBurst_Trk0:			/* file 0x1c555; SFX A 102, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -827,7 +827,7 @@ SfxA103_Trk0:			/* file 0x1c564; SFX A 103, track 0 */
 	N 0x45, 0x50, 0x3c, 0x65
 	S_RET
 
-SfxA105_Trk0:			/* file 0x1c572; SFX A 105, track 0 */
+SfxA_105_SlugDamage_Trk0:			/* file 0x1c572; SFX A 105, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -854,7 +854,7 @@ SfxA107_Trk0:			/* file 0x1c58e; SFX A 107, track 0 */
 	N 0x40, 0x48, 0x3e, 0x34
 	S_RET
 
-SfxA108_Trk0:			/* file 0x1c59c; SFX A 108, track 0 */
+SfxA_108_EnemyShot_Trk0:			/* file 0x1c59c; SFX A 108, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -863,7 +863,7 @@ SfxA108_Trk0:			/* file 0x1c59c; SFX A 108, track 0 */
 	N 0x39, 0x60, 0x60, 0x32
 	S_RET
 
-SfxA109_Trk0:			/* file 0x1c5aa; SFX A 109, track 0 */
+SfxA_109_TurretShell_Trk0:			/* file 0x1c5aa; SFX A 109, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -872,7 +872,7 @@ SfxA109_Trk0:			/* file 0x1c5aa; SFX A 109, track 0 */
 	N 0x3a, 0x30, 0x30, 0x37
 	S_RET
 
-SfxA110_Trk0:			/* file 0x1c5b8; SFX A 110, track 0 */
+SfxA_110_DoorBreak_Trk0:			/* file 0x1c5b8; SFX A 110, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -917,7 +917,7 @@ SfxA114_Trk0:			/* file 0x1c5f2; SFX A 114, track 0 */
 	N 0x38, 0x50, 0x50, 0x28
 	S_RET
 
-SfxA120_Trk0:			/* file 0x1c600; SFX A 120, track 0 */
+SfxA_120_TrapFlame_Trk0:			/* file 0x1c600; SFX A 120, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1023,7 +1023,7 @@ SfxA125_Trk0:			/* file 0x1c6ac; SFX A 125, track 0 */
 	N 0x3f, , 0xfa
 	S_RET
 
-SfxA126_Trk0:			/* file 0x1c6c7; SFX A 126, track 0 */
+SfxA_126_TankEngine_Trk0:			/* file 0x1c6c7; SFX A 126, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1250,7 +1250,7 @@ SfxA132_Trk1:			/* file 0x1c88f; SFX A 132, track 1 */
 	NX 0x30, 0x10, 0x10, 0x46
 	S_RET
 
-SfxA133_Trk0:			/* file 0x1c89e; SFX A 133, track 0 */
+SfxA_133_Mortar_Trk0:			/* file 0x1c89e; SFX A 133, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1292,7 +1292,7 @@ L_1C8E2:			/* file 0x1c8e2 */
 	S_LOOPEND 0x28, L_1C8E2
 	S_RET
 
-SfxA136_Trk0:			/* file 0x1c8ea; SFX A 136, track 0 */
+SfxA_136_HatchOpen_Trk0:			/* file 0x1c8ea; SFX A 136, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1433,7 +1433,7 @@ SfxA141_Trk0:			/* file 0x1c9d8; SFX A 141, track 0 */
 	N 0x21, 0x18, 0x16, 0x1a
 	S_RET
 
-SfxA142_Trk0:			/* file 0x1ca1a; SFX A 142, track 0 */
+SfxA_142_HutDoor_Trk0:			/* file 0x1ca1a; SFX A 142, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x7f
@@ -1451,7 +1451,7 @@ L_1CA33:			/* file 0x1ca33 */
 	S_LOOPEND 0x5a, L_1CA33
 	S_RET
 
-SfxA143_Trk0:			/* file 0x1ca3c; SFX A 143, track 0 */
+SfxA_143_SlugAccelRight_Trk0:			/* file 0x1ca3c; SFX A 143, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1470,7 +1470,7 @@ L_1CA58:			/* file 0x1ca58 */
 	S_LOOPEND 0x1e, L_1CA58
 	S_RET
 
-SfxA144_Trk0:			/* file 0x1ca63; SFX A 144, track 0 */
+SfxA_144_SlugAccelLeft_Trk0:			/* file 0x1ca63; SFX A 144, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1525,7 +1525,7 @@ L_1CAD3:			/* file 0x1cad3 */
 	S_LOOPEND 0x1e, L_1CAD3
 	S_RET
 
-SfxA146_Trk0:			/* file 0x1cade; SFX A 146, track 0 */
+SfxA_146_SlugDestroyedSlide_Trk0:			/* file 0x1cade; SFX A 146, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1648,7 +1648,7 @@ SfxA151_Trk0:			/* file 0x1cbaa; SFX A 151, track 0 */
 	N 0x38, 0x6e, 0x6e
 	S_RET
 
-SfxA152_Trk0:			/* file 0x1cbc8; SFX A 152, track 0 */
+SfxA_152_GunshipAttack_Trk0:			/* file 0x1cbc8; SFX A 152, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1704,7 +1704,7 @@ SfxA154_Trk0:			/* file 0x1cc1e; SFX A 154, track 0 */
 	N 0x24, , 0xbe
 	S_RET
 
-SfxA155_Trk0:			/* file 0x1cc31; SFX A 155, track 0 */
+SfxA_155_WallBreak_Trk0:			/* file 0x1cc31; SFX A 155, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1834,7 +1834,7 @@ SfxA166_Trk0:			/* file 0x1cd24; SFX A 166, track 0 */
 	NX 0x30, 0xe6, 0xe6, 0x69
 	S_RET
 
-SfxA180_Trk0:			/* file 0x1cd33; SFX A 180, track 0 */
+SfxA_180_ContinueCountdown_Trk0:			/* file 0x1cd33; SFX A 180, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1868,7 +1868,7 @@ SfxA181_Trk1:			/* file 0x1cd5a; SFX A 181, track 1 */
 	N 0x4d, , , 0x04
 	S_RET
 
-SfxA182_Trk0:			/* file 0x1cd71; SFX A 182, track 0 */
+SfxA_182_ResultsPrize_Trk0:			/* file 0x1cd71; SFX A 182, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1897,7 +1897,7 @@ SfxA183_Trk1:			/* file 0x1cd93; SFX A 183, track 1 */
 	NX 0x4e, 0x6e, 0x6e, 0x14
 	S_RET
 
-SfxA184_Trk0:			/* file 0x1cda4; SFX A 184, track 0 */
+SfxA_184_ResultsTally_Trk0:			/* file 0x1cda4; SFX A 184, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1906,7 +1906,7 @@ SfxA184_Trk0:			/* file 0x1cda4; SFX A 184, track 0 */
 	NX 0x60, 0x46, 0x46, 0x4b
 	S_RET
 
-SfxA190_Trk0:			/* file 0x1cdb3; SFX A 190, track 0 */
+SfxA_190_GameOverFinal_Trk0:			/* file 0x1cdb3; SFX A 190, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1915,7 +1915,7 @@ SfxA190_Trk0:			/* file 0x1cdb3; SFX A 190, track 0 */
 	N 0x49, 0xff, 0xff, 0x32
 	S_RET
 
-SfxA190_Trk1:			/* file 0x1cdc1; SFX A 190, track 1 */
+SfxA_190_GameOverFinal_Trk1:			/* file 0x1cdc1; SFX A 190, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1926,7 +1926,7 @@ SfxA190_Trk1:			/* file 0x1cdc1; SFX A 190, track 1 */
 	NX 0x30, 0xff, 0xff, 0x28
 	S_RET
 
-SfxA191_Trk0:			/* file 0x1cdd4; SFX A 191, track 0 */
+SfxA_191_GameOverBanner_Trk0:			/* file 0x1cdd4; SFX A 191, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x00
@@ -1940,7 +1940,7 @@ L_1CDDE:			/* file 0x1cdde */
 	S_LOOPEND 0x03, L_1CDDE
 	S_RET
 
-SfxA191_Trk1:			/* file 0x1cdeb; SFX A 191, track 1 */
+SfxA_191_GameOverBanner_Trk1:			/* file 0x1cdeb; SFX A 191, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x7f
@@ -1954,7 +1954,7 @@ L_1CDF7:			/* file 0x1cdf7 */
 	S_LOOPEND 0x05, L_1CDF7
 	S_RET
 
-SfxA192_Trk0:			/* file 0x1ce03; SFX A 192, track 0 */
+SfxA_192_PauseSlide_Trk0:			/* file 0x1ce03; SFX A 192, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x00
@@ -1965,7 +1965,7 @@ SfxA192_Trk0:			/* file 0x1ce03; SFX A 192, track 0 */
 	N 0x32, 0xa0, 0xa0
 	S_RET
 
-SfxA192_Trk1:			/* file 0x1ce17; SFX A 192, track 1 */
+SfxA_192_PauseSlide_Trk1:			/* file 0x1ce17; SFX A 192, track 1 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x7f
@@ -1975,7 +1975,7 @@ SfxA192_Trk1:			/* file 0x1ce17; SFX A 192, track 1 */
 	N 0x32, 0xa0, 0xa0
 	S_RET
 
-SfxA192_Trk2:			/* file 0x1ce29; SFX A 192, track 2 */
+SfxA_192_PauseSlide_Trk2:			/* file 0x1ce29; SFX A 192, track 2 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -1986,7 +1986,7 @@ SfxA192_Trk2:			/* file 0x1ce29; SFX A 192, track 2 */
 	N 0x3e, 0xfa, 0xfa, 0x64
 	S_RET
 
-SfxA193_Trk0:			/* file 0x1ce3b; SFX A 193, track 0 */
+SfxA_193_Pause_Trk0:			/* file 0x1ce3b; SFX A 193, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2032,7 +2032,7 @@ SfxA196_Trk0:			/* file 0x1ce76; SFX A 196, track 0 */
 	N 0x39, 0x60, 0x60, 0x28
 	S_RET
 
-SfxA200_Trk0:			/* file 0x1ce84; SFX A 200, track 0 */
+SfxA_200_AimTurret_Trk0:			/* file 0x1ce84; SFX A 200, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2044,7 +2044,7 @@ L_1CE8E:			/* file 0x1ce8e */
 	S_LOOPEND 0x00, L_1CE8E
 	S_RET
 
-SfxA201_Trk0:			/* file 0x1ce97; SFX A 201, track 0 */
+SfxA_201_SlugDestroyed_Trk0:			/* file 0x1ce97; SFX A 201, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2063,7 +2063,7 @@ L_1CEB2:			/* file 0x1ceb2 */
 	S_LOOPEND 0x1e, L_1CEB2
 	S_RET
 
-SfxA202_Trk0:			/* file 0x1cebc; SFX A 202, track 0 */
+SfxA_202_FragLaunch_Trk0:			/* file 0x1cebc; SFX A 202, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2109,7 +2109,7 @@ SfxA202_Trk0:			/* file 0x1cebc; SFX A 202, track 0 */
 	N 0x3f, , , 0x08
 	S_RET
 
-SfxA210_Trk0:			/* file 0x1cf0b; SFX A 210, track 0 */
+SfxA_210_VehicleCrash_Trk0:			/* file 0x1cf0b; SFX A 210, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2118,7 +2118,7 @@ SfxA210_Trk0:			/* file 0x1cf0b; SFX A 210, track 0 */
 	NX 0x2f, 0xdc, 0xdc, 0x50
 	S_RET
 
-SfxA211_Trk0:			/* file 0x1cf1a; SFX A 211, track 0 */
+SfxA_211_ShotgunFire_Trk0:			/* file 0x1cf1a; SFX A 211, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2127,7 +2127,7 @@ SfxA211_Trk0:			/* file 0x1cf1a; SFX A 211, track 0 */
 	NX 0x28, 0xe0, 0xe0, 0x50
 	S_RET
 
-SfxA212_Trk0:			/* file 0x1cf29; SFX A 212, track 0 */
+SfxA_212_FlameFire_Trk0:			/* file 0x1cf29; SFX A 212, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2136,7 +2136,7 @@ SfxA212_Trk0:			/* file 0x1cf29; SFX A 212, track 0 */
 	NX 0x25, 0xbc, 0xbc, 0x3c
 	S_RET
 
-SfxA213_Trk0:			/* file 0x1cf38; SFX A 213, track 0 */
+SfxA_213_RocketFire_Trk0:			/* file 0x1cf38; SFX A 213, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2145,7 +2145,7 @@ SfxA213_Trk0:			/* file 0x1cf38; SFX A 213, track 0 */
 	NX 0x26, 0xd2, 0xd2, 0x50
 	S_RET
 
-SfxA214_Trk0:			/* file 0x1cf47; SFX A 214, track 0 */
+SfxA_214_HMGFire_Trk0:			/* file 0x1cf47; SFX A 214, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2154,7 +2154,7 @@ SfxA214_Trk0:			/* file 0x1cf47; SFX A 214, track 0 */
 	NX 0x23, 0xdc, 0xdc, 0x50
 	S_RET
 
-SfxA215_Trk0:			/* file 0x1cf56; SFX A 215, track 0 */
+SfxA_215_PistolFire_Trk0:			/* file 0x1cf56; SFX A 215, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2190,7 +2190,7 @@ SfxA220_Trk0:			/* file 0x1cf83; SFX A 220, track 0 */
 	NX 0x2b, 0x60, 0x5c, 0x3c
 	S_RET
 
-SfxA221_Trk0:			/* file 0x1cf92; SFX A 221, track 0 */
+SfxA_221_AmmoPickup_Trk0:			/* file 0x1cf92; SFX A 221, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40
@@ -2199,7 +2199,7 @@ SfxA221_Trk0:			/* file 0x1cf92; SFX A 221, track 0 */
 	NX 0x2d, 0x78, 0x78, 0x50
 	S_RET
 
-SfxA223_Trk0:			/* file 0x1cfa1; SFX A 223, track 0 */
+SfxA_223_ShieldBreak_Trk0:			/* file 0x1cfa1; SFX A 223, track 0 */
 	S_TRACK
 	S_KEYMODE 0x7f
 	S_PAN 0x40

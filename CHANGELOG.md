@@ -10,6 +10,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Table-A SFX names**: 68 of the 117 effects with a constant 68k user now
+  carry `SfxA_NNN_<Name>` (weapon fire, explosions, hostages, Slug, pause /
+  continue / game over...), propagated to `mrom/sound/` labels; M-ROM still
+  byte-identical.
 - **Parallax panoramas**: `levels.py` reads each camera's 8.8 scroll factor
   (scene-script op $01 → `+$74/+$76`, used by `CameraApplyOne_043DAA`) and
   renders a single per-scene panorama window by window (`*_parallax.png`).

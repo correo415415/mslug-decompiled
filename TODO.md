@@ -37,8 +37,10 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Nombres reales de músicas/SFX (ids enviados desde el P-ROM):
       `mrom/tools/find_sound_ids.py` → `mrom/map/sound_ids.txt` (149 ids, 13
       músicas con nombre, 19 voces con nombre).
-- [ ] Nombrar los SFX restantes de la tabla A (hoy `SfxA_NNN` + usuarios) y
-      recorrer los streams de script para los ids que no son constantes.
+- [x] Nombres por usuarios para 68 de los 117 SFX de la tabla A con usuario
+      constante (`SfxA_NNN_<Nombre>`, SFX_NAMES de find_sound_ids.py).
+- [ ] Confirmar esos nombres escuchando, nombrar los 49 restantes y recorrer
+      los streams de script para los ids que no son constantes.
 - [ ] Actualizar `mrom/README.md`, `docs/COVERAGE.md` (sección M-ROM),
       `docs/PROGRESO.md` y `CHANGELOG.md` a medida que avance.
 
@@ -66,7 +68,7 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] VGM 1.51 (`export_wav.py --vgm`): escrituras YM2610 + bloques ADPCM-A/B.
 - [x] Voces (tabla B) exportadas por separado y con nombre por su frase;
       las canciones terminan en su punto de bucle + fundido (no cortadas).
-- [ ] Nombrar los 150 SFX de la tabla A (por escucha + usuarios del 68k).
+- [ ] Nombrar los 150 SFX de la tabla A: 68 hechos por usuarios (ver M-ROM); faltan escucha y los ids que sólo salen en los scripts.
 
 ## Herramientas / experimentos
 

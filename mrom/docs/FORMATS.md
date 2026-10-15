@@ -243,8 +243,12 @@ hay usuario con constante, por escucha del render exacto (`export_wav.py`):
 | `113F` | `Voice_AllenLaugh` | «Ha ha ha» |
 | `1140` | `Voice_AllenSeeYouInHell` | «See you in hell!»; `Allen_Death` |
 
-Los SFX de la tabla A conservan `SfxA_NNN` y en la etiqueta de su cabecera
-figura la lista de usuarios. No se detectan los ids que solo llegan por los streams de
+Los SFX de la tabla A llevan `SfxA_NNN_<Nombre>` cuando sus usuarios en el
+68k dejan claro qué suenan: 68 de los 117 con usuario constante (disparos de
+cada arma, explosiones, rehenes, Slug, pausa/continue/game over, etc.). Es
+una hipótesis por usuarios, todavía sin confirmar escuchando. Los demás
+conservan `SfxA_NNN`. En todos, la etiqueta de la cabecera incluye la lista
+de usuarios. No se detectan los ids que solo llegan por los streams de
 script (`ScriptOp04_Sound`, `PathScript_OpMusic`, `MiniScript_Step`,
 `SceneScriptVM_Frame`) ni los calculados.
 
