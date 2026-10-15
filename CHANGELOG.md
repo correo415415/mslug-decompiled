@@ -10,6 +10,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **M-ROM channel structs documented** (FORMATS.md §10): common header,
+  shared ADSR / LFO / pitch / vibrato sub-structs and the SSG / FM /
+  ADPCM-A / ADPCM-B layouts with their RAM bases.
 - **M-ROM lookup pages named**: the 29 page tables at 0100–1DFF (SSG periods
   per octave, note→pitch, FM F-numbers, log/exp multiply tables, volume
   curves, portamento divisors, squares) labelled in `fixed_0000_syms.txt`

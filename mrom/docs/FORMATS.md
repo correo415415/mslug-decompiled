@@ -340,3 +340,65 @@ en `mrom/map/fixed_0000_syms.txt`.
 | 1A | `PortamentoRate_1A00` | 128 words con divisores decrecientes: 16384, 4096, 1820, 1024… (`Seq_TrackPortamento_52EA`). |
 | 1B–1C | `Square{Lo,Hi}` | `n²` en 16 bits (`Seq_LoadOpPtrs_*`). |
 | 1D | `UnusedZero_1D00` | 256 ceros, sin referencias. |
+
+## 10. Estructuras de canal (RAM `F81F–FBF4`)
+
+Cada canal físico del YM2610 tiene una estructura en RAM. Las rutinas `*_Update_*`
+y `*_KeyOn_*` la recorren con `ix` = base. En `*_Update_*` las direcciones son
+absolutas porque el código está desenrollado por canal. Todas empiezan con la
+misma cabecera común.
+
+### Cabecera común (0x00–0x14, `Ch_InitStruct_1FE5` / `Ch_ResetStruct_201B`)
+
+| Off | Tam | Campo |
+|---|---|---|
+| 00 | 2 | puntero a la pista dueña (`iy` en Update; `bit 3,(iy+09)` → `Ch_ResetStruct`) |
+| 02 | 1 | tipo de canal: 0 SSG, 1 FM, 2 ADPCM-A, 3 ADPCM-B (fijado en `*_InitChannel`) |
+| 03–07 | 5 | estado de nota/volumen (a FF tras reset) |
+| 08 | 1 | nota actual (índice en `NotePitch_1100`) |
+| 09–0A | 2 | tono base = `NotePitch[nota]` (`*_SetPitch`) |
+| 0B–10 | 6 | flags de key-on / volumen previo (a 0 / FF tras init) |
+| 11 | 1 | nº de instrumento (`*_LoadPatch`: `ld (ix+11),b`) |
+| 12–13 | 2 | puntero al patch / a la tabla de muestras (ADPCM) |
+| 14 | 1 | máscara del canal: SSG 09/12/24 (bits de mezclador), ADPCM-A estado |
+
+### Subestructuras compartidas (`mrom/asm/channel/envelope_219b.s`)
+
+* **Envolvente ADSR** (14 B, `Seq_LoadOpPtrs_219B` / `Env_Start_2208` /
+  `Env_Step_222D` / `Env_Release_2219`):
+  * +0 fase (0 apagada, 1 ataque, 2 decaimiento, 3 sostenido, 4 release);
+  * +1 nivel de sostenido (complementado);
+  * +2/+4/+6/+8 velocidades de ataque, decaimiento, sostenido y release, como
+    `n²` desde `Square_1B00`;
+  * +A/+B velocidad activa;
+  * +C/+D nivel en 16 bits.
+* **LFO** (14 B, `Lfo_Clear_229D` / `Lfo_Load_22A8` / `Env_Init_22F4` /
+  `Env_Update_231E`):
+  * +0 activo;
+  * +1 retardo;
+  * +2/+3 profundidades con signo (×2 saturado);
+  * +7 forma;
+  * +9/+B paso desde `Log/ExpTable`;
+  * +D velocidad;
+  * semilla aleatoria desde `Rng_Next_2300` (`wRngState_F81D`, `ld a,r`).
+* **Tono / portamento** (`Pitch_Clear_23EE` / `Pitch_Load_242E` /
+  `Pitch_Update_2461` / `Pitch_SetNote_23F6` / `Pitch_SetFine_2420`):
+  * +0/+1 fino ×16;
+  * +2 velocidad;
+  * +4/+5 tono destino;
+  * +6 signo;
+  * +9..+C parámetros del patch.
+* **Vibrato** (`Vib_Update_248E`): contador, retardo y profundidad en 16 bits.
+
+### Por tipo
+
+| Canal | RAM | Tamaño | Subestructuras (offset) |
+|---|---|---|---|
+| SSG A/B/C | `F81F` / `F86B` / `F8B7` | 0x4C | +15 ADSR, +23 LFO volumen, +31 LFO tono, +3F tono; `F903` mezclador, `F905/F906` forma de envolvente/R7 |
+| FM 1–4 | `F907` / `F96E` / `F9D5` / `FA3C` | 0x67 | +15/+1E/+27/+30 TL de los 4 operadores (copias +1C/+25/+2E/+37), +13 algoritmo/feedback, +38–3D flags de operador y key-on (`FM_KeyOn_3615`), +3E LFO volumen, +4C LFO tono, +5A tono; `FAA3` registro LFO/22h compartido |
+| ADPCM-A 1–6 | `FAA5` + 0x29·n | 0x29 | +1A estado (0 libre, 2 sonando; `ADPCMA_KeyOn_3FBA`), +1B ADSR, +12/+13 tabla de muestras del patch (`ADPCMA_SelectSample_3F60` elige la muestra según la nota) |
+| ADPCM-B | `FB9B` | 0x1F (+ compartido `FBA3–FBBA`) | +16 nota raíz (delta-N = `NotePitch[nota] − NotePitch[raíz]`, `ADPCMB_SetPitch_42CA`), +23 ADSR, +31/+3F LFO, +4D tono (relativos al bloque de `ADPCMB_LoadPatch_427F`); `FBA9` delta-N, `FBAC` banco, `FBAD` rangos |
+
+La pista (0x23 B, §6) apunta a su canal y el canal a su pista (+00). Así el
+secuenciador (`Seq_FindFreeTrack_50DB`) puede robar canales a las pistas de
+menor prioridad.
