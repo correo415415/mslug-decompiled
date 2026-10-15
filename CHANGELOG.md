@@ -10,6 +10,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Sprites as the game draws them** (`assets/tools/sprites.py`): the 1,536
+  P-ROM palettes, 8,364 multi-piece frames and ~980 animations (interpreting
+  `Script_OpcodeTable` byte-code) exported to PNG/GIF with real timings,
+  named after the routine that uses them, palette from the code / pointer
+  table / shared frames; JSON + HTML gallery; single-animation render.
 - **M-ROM sound data decoded** (`mrom/sound/`, `mrom/tools/gen_sound_data.py`):
   file `0x08000-0x1FFFF` (banks 2–7, data only) as symbolic GNU-as sources —
   music/SFX pointer tables, 13 music + 177 SFX headers (190 in total), 31,650 sequence ops

@@ -43,10 +43,12 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       `gfx.py` (fix 8×8 y sprites 16×16 ↔ PNG indexados) y `audio.py` (V-ROM →
       375 muestras con nombre e índice CSV, ADPCM crudo + WAV); los 7 ROMs se
       reconstruyen byte-idénticos.
-- [ ] Assets, siguiente nivel: aplicar paletas del P-ROM a los sprites,
-      reconstruir sprites completos (animaciones) desde las tablas de sprites
-      del P-ROM, nombres por personaje/arma/enemigo; codificador ADPCM para
-      sustituir muestras desde WAV.
+- [x] Sprites con paletas del P-ROM, frames multi-pieza y animaciones con sus
+      tiempos (`assets/tools/sprites.py`), nombradas por la rutina que las usa.
+- [ ] Sprites: paleta para las ~130 animaciones que salen en grises (revisar
+      a mano → `assets/map/anim_palettes.txt`); nombres por personaje/arma.
+- [ ] Fondos/niveles: mapas de tiles de `level_*` ($0F2FFC..$18D152) → PNG.
+- [ ] Codificador ADPCM para sustituir muestras desde WAV.
 - [x] Exportar las pistas musicales a MIDI con sus nombres
       (`mrom/tools/export_midi.py`). Pendiente: modelar la curva de `S_TEMPO`.
 - [x] Exportar todo el audio a WAV idéntico al juego (`mrom/tools/export_wav.py`:

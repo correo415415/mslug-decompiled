@@ -270,7 +270,7 @@ Los antiguos volcados z80dasm de los bancos se han eliminado. Formatos:
 
 Scripts para S-ROM (tiles 8×8 fix → PNG), C-ROM (desentrelazar c1/c2, c3/c4,
 tiles 4 bpp 16×16, paletas del P-ROM → PNG y sprites reconstruidos desde las
-tablas del P-ROM), V-ROM (cortar muestras ADPCM-A/B usando los parches del
+tablas del P-ROM — **hecho**: `gfx.py` + `sprites.py`, ver `assets/README.md`), V-ROM (cortar muestras ADPCM-A/B usando los parches del
 M-ROM → WAV), con **nombres significativos** tomados de los símbolos ya
 establecidos, índice CSV/Markdown y herramienta inversa (PNG/WAV → ROM
 byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
