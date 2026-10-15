@@ -10,6 +10,8 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Composed background planes**: `levels.py` stitches every layer of a camera
+  at its world anchor (`build/assets/levels/composed/`, 38 full-mission planes).
 - **Background palettes complete**: `levels.py` falls back to the boot slot
   table `ScriptSlotPairTable_0009B4` (global slots $00–$0F), so all 52
   background layers now render in colour.

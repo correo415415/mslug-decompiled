@@ -114,12 +114,35 @@ def render(p, tiles, pals, L, all_slots):
     return img, sorted(missing)
 
 
+def compose(scene_entries, images):
+    """Una imagen por cámara: cada capa pegada en su ancla (coordenadas de mundo).
+
+    Las capas de una misma cámara se enlazan una tras otra a lo largo de la
+    misión (la cámara las recicla), así que juntas forman la tira completa del
+    plano. Cada cámara tiene su propio scroll (parallax), por eso no se mezclan.
+    """
+    out = {}
+    for cam in sorted({e["camera"] for e in scene_entries}):
+        es = [e for e in scene_entries if e["camera"] == cam]
+        x0 = min(e["anchor"][0] for e in es)
+        y0 = min(e["anchor"][1] for e in es)
+        x1 = max(e["anchor"][0] + 16 * e["width"] for e in es)
+        y1 = max(e["anchor"][1] + 16 * e["height"] for e in es)
+        canvas = Image.new("RGBA", (x1 - x0, y1 - y0), (0, 0, 0, 0))
+        for e in es:                       # orden del script: lo posterior encima
+            im = images[e["file"]]
+            canvas.alpha_composite(im, (e["anchor"][0] - x0, e["anchor"][1] - y0))
+        out[cam] = (canvas, (x0, y0))
+    return out
+
+
 def main():
     m = load_ssd()
     p = S.PRom()
     tiles = S.Tiles()
     pals = S.palettes(p)
-    os.makedirs(OUT, exist_ok=True)
+    os.makedirs(os.path.join(OUT, "composed"), exist_ok=True)
+    composed = {}
     scenes = {i: scene_layers(m, i) for i in range(m.N_DESC)}
     all_slots = {}
     for ls in scenes.values():
@@ -128,7 +151,7 @@ def main():
                 all_slots.setdefault(k, v)
     for k, v in boot_slots(m).items():
         all_slots.setdefault(k, v)
-    done, index, n = {}, {}, 0
+    done, index, n, images = {}, {}, 0, {}
     for i, layers in scenes.items():
         sname = "%02d_%s" % (i, SCENE_NAMES.get(i, "Scene%d" % i))
         entries = []
@@ -140,7 +163,8 @@ def main():
                 missing = []
             else:
                 img, missing = render(p, tiles, pals, L, all_slots)
-                Image.fromarray(img, "RGBA").save(os.path.join(OUT, fname))
+                images[fname] = Image.fromarray(img, "RGBA")
+                images[fname].save(os.path.join(OUT, fname))
                 done[key] = fname
                 n += 1
             entries.append(dict(file=fname, camera=L["camera"], width=L["w"], height=L["h"],
@@ -149,7 +173,14 @@ def main():
                                 anchor=L["anchor"], script_op="%06X" % L["op_addr"],
                                 missing_palette_slots=missing))
         index[sname] = entries
-    json.dump(index, open(os.path.join(OUT, "levels.json"), "w"), indent=1)
+        if entries:
+            for cam, (im, org) in compose(entries, images).items():
+                cname = "%s_%s_full.png" % (sname, cam)
+                im.save(os.path.join(OUT, "composed", cname))
+                composed.setdefault(sname, []).append(dict(file="composed/" + cname, camera=cam,
+                                                           origin=org, size=im.size))
+    json.dump(dict(layers=index, composed=composed),
+              open(os.path.join(OUT, "levels.json"), "w"), indent=1)
     with open(os.path.join(OUT, "index.html"), "w") as f:
         f.write("<!doctype html><meta charset=utf-8><title>Metal Slug - fondos</title>"
                 "<style>body{background:#334;color:#eee;font:12px sans-serif}"
@@ -158,10 +189,14 @@ def main():
         for s, es in index.items():
             if es:
                 f.write("<h2>%s</h2>\n" % s)
+                for c in composed.get(s, []):
+                    f.write("<p><b>%s compuesto</b> · origen %s · %dx%d px</p><img src='%s' loading=lazy>\n"
+                            % (c["camera"], tuple(c["origin"]), c["size"][0], c["size"][1], c["file"]))
                 for e in es:
                     f.write("<p>%s · %s · %dx%d celdas · ancla %s</p><img src='%s' loading=lazy>\n"
                             % (e["file"], e["camera"], e["width"], e["height"], tuple(e["anchor"]), e["file"]))
-    print("[levels] %d escenas, %d capas únicas -> %s" % (sum(1 for v in index.values() if v), n, OUT))
+    print("[levels] %d escenas, %d capas únicas, %d planos compuestos -> %s"
+          % (sum(1 for v in index.values() if v), n, sum(len(v) for v in composed.values()), OUT))
 
 
 if __name__ == "__main__":

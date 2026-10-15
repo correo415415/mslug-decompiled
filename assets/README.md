@@ -89,6 +89,12 @@ término, de `ScriptSlotPairTable_0009B4` (slots globales $00–$0F que fija el
 arranque/attract; p. ej. slot 0 → banco $193). Si aun así falta alguno, la
 celda sale en grises y se lista en `missing_palette_slots` (hoy: ninguna capa).
 
+Además, `composed/<escena>_<cam>_full.png` pega todas las capas de una misma
+cámara en su ancla (coordenadas de mundo), lo que da la tira completa de cada
+plano de la misión (38 planos). Las cámaras no se mezclan: cada una tiene su
+propio scroll (parallax). `levels.json` = `{layers, composed}` (con el origen
+de mundo de cada plano compuesto).
+
 ## Sonido (`audio.py`)
 
 `201-v1.bin + 201-v2.bin` forman un espacio ADPCM de 8 MiB. Los límites y
