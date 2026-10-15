@@ -47,7 +47,8 @@ from symbols import SYMBOLS    # noqa: E402
 
 # Entradas de DATOS (gen_data_region.py): pueden empezar en direccion impar y
 # tener tamano impar (tablas de bytes referenciadas desde el codigo).
-DATA_PREFIXES = {"Data", "RomData", "Zero", "Str", "PtrTab", "Tbl", "Pal", "Anim", "Map", "Lut", "Vec", "Hdr"}
+DATA_PREFIXES = {"Data", "RomData", "Zero", "Str", "PtrTab", "Tbl", "Pal", "Anim", "Map", "Lut", "Vec", "Hdr",
+                 "SprFrame", "AnimScr", "BgMap", "ColMap"}   # censo assets/tools/data_census.py
 
 
 def main():

@@ -20,422 +20,422 @@ Zero_09c608:
         .fill   2918,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_09d16e  @ $09D16E  (5,530 B)  [ref. desde código]
+|  Zero_09d16e  @ $09D16E  (5,530 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_09d16e, "ax", @progbits
-        .global Str_09d16e
-Str_09d16e:
+        .section .text.Zero_09d16e, "ax", @progbits
+        .global Zero_09d16e
+Zero_09d16e:
         .fill   5530,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_09e708  @ $09E708  (6,383 B)  [ref. desde código]
+|  Zero_09e708  @ $09E708  (6,383 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_09e708, "ax", @progbits
-        .global Str_09e708
-Str_09e708:
+        .section .text.Zero_09e708, "ax", @progbits
+        .global Zero_09e708
+Zero_09e708:
         .fill   6383,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_09fff7  @ $09FFF7  (9 B)  [ref. desde código]
+|  Zero_09fff7  @ $09FFF7  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_09fff7, "ax", @progbits
-        .global Str_09fff7
-Str_09fff7:
+        .section .text.Zero_09fff7, "ax", @progbits
+        .global Zero_09fff7
+Zero_09fff7:
         .fill   9,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0000  @ $0A0000  (1 B)  [ref. desde código]
+|  BgMap_0a0000  @ $0A0000  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0000, "ax", @progbits
-        .global Data_0a0000
-Data_0a0000:
+        .section .text.BgMap_0a0000, "ax", @progbits
+        .global BgMap_0a0000
+BgMap_0a0000:
         .dc.b   0x40                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0001  @ $0A0001  (1 B)  [ref. desde código]
+|  BgMap_0a0001  @ $0A0001  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0001, "ax", @progbits
-        .global Data_0a0001
-Data_0a0001:
+        .section .text.BgMap_0a0001, "ax", @progbits
+        .global BgMap_0a0001
+BgMap_0a0001:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0002  @ $0A0002  (1 B)  [ref. desde código]
+|  BgMap_0a0002  @ $0A0002  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0002, "ax", @progbits
-        .global Data_0a0002
-Data_0a0002:
+        .section .text.BgMap_0a0002, "ax", @progbits
+        .global BgMap_0a0002
+BgMap_0a0002:
         .dc.b   0x4c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0003  @ $0A0003  (1 B)  [ref. desde código]
+|  BgMap_0a0003  @ $0A0003  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0003, "ax", @progbits
-        .global Data_0a0003
-Data_0a0003:
+        .section .text.BgMap_0a0003, "ax", @progbits
+        .global BgMap_0a0003
+BgMap_0a0003:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0004  @ $0A0004  (2 B)  [ref. desde código]
+|  BgMap_0a0004  @ $0A0004  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0004, "ax", @progbits
-        .global Data_0a0004
-Data_0a0004:
+        .section .text.BgMap_0a0004, "ax", @progbits
+        .global BgMap_0a0004
+BgMap_0a0004:
         .dc.w   0x4020                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0006  @ $0A0006  (1 B)  [ref. desde código]
+|  BgMap_0a0006  @ $0A0006  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0006, "ax", @progbits
-        .global Data_0a0006
-Data_0a0006:
+        .section .text.BgMap_0a0006, "ax", @progbits
+        .global BgMap_0a0006
+BgMap_0a0006:
         .dc.b   0x4c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0007  @ $0A0007  (4 B)  [ref. desde código]
+|  BgMap_0a0007  @ $0A0007  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0007, "ax", @progbits
-        .global Data_0a0007
-Data_0a0007:
+        .section .text.BgMap_0a0007, "ax", @progbits
+        .global BgMap_0a0007
+BgMap_0a0007:
         .dc.b   0x18                            | +00000
         .dc.w   0x4040                                                      | +00001
         .dc.b   0x4c                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0a000b  @ $0A000B  (1 B)  [ref. desde código]
+|  BgMap_0a000b  @ $0A000B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a000b, "ax", @progbits
-        .global Data_0a000b
-Data_0a000b:
+        .section .text.BgMap_0a000b, "ax", @progbits
+        .global BgMap_0a000b
+BgMap_0a000b:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a000c  @ $0A000C  (1 B)  [ref. desde código]
+|  BgMap_0a000c  @ $0A000C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a000c, "ax", @progbits
-        .global Data_0a000c
-Data_0a000c:
+        .section .text.BgMap_0a000c, "ax", @progbits
+        .global BgMap_0a000c
+BgMap_0a000c:
         .dc.b   0x40                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a000d  @ $0A000D  (3 B)  [ref. desde código]
+|  BgMap_0a000d  @ $0A000D  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a000d, "ax", @progbits
-        .global Data_0a000d
-Data_0a000d:
+        .section .text.BgMap_0a000d, "ax", @progbits
+        .global BgMap_0a000d
+BgMap_0a000d:
         .dc.b   0x44                            | +00000
         .dc.w   0x4c10                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a0010  @ $0A0010  (2 B)  [ref. desde código]
+|  BgMap_0a0010  @ $0A0010  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0010, "ax", @progbits
-        .global Data_0a0010
-Data_0a0010:
+        .section .text.BgMap_0a0010, "ax", @progbits
+        .global BgMap_0a0010
+BgMap_0a0010:
         .dc.w   0x4008                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0012  @ $0A0012  (5 B)  [ref. desde código]
+|  BgMap_0a0012  @ $0A0012  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0012, "ax", @progbits
-        .global Data_0a0012
-Data_0a0012:
+        .section .text.BgMap_0a0012, "ax", @progbits
+        .global BgMap_0a0012
+BgMap_0a0012:
         .dc.w   0x5018,0x4028                                               | +00000
         .dc.b   0x4c                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_0a0017  @ $0A0017  (1 B)  [ref. desde código]
+|  BgMap_0a0017  @ $0A0017  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0017, "ax", @progbits
-        .global Data_0a0017
-Data_0a0017:
+        .section .text.BgMap_0a0017, "ax", @progbits
+        .global BgMap_0a0017
+BgMap_0a0017:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0018  @ $0A0018  (4 B)  [ref. desde código]
+|  BgMap_0a0018  @ $0A0018  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0018, "ax", @progbits
-        .global Data_0a0018
-Data_0a0018:
+        .section .text.BgMap_0a0018, "ax", @progbits
+        .global BgMap_0a0018
+BgMap_0a0018:
         .dc.w   0x4041,0x4c10                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a001c  @ $0A001C  (2 B)  [ref. desde código]
+|  BgMap_0a001c  @ $0A001C  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a001c, "ax", @progbits
-        .global Data_0a001c
-Data_0a001c:
+        .section .text.BgMap_0a001c, "ax", @progbits
+        .global BgMap_0a001c
+BgMap_0a001c:
         .dc.w   0x4045                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a001e  @ $0A001E  (2 B)  [ref. desde código]
+|  BgMap_0a001e  @ $0A001E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a001e, "ax", @progbits
-        .global Data_0a001e
-Data_0a001e:
+        .section .text.BgMap_0a001e, "ax", @progbits
+        .global BgMap_0a001e
+BgMap_0a001e:
         .dc.w   0x4c10                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0020  @ $0A0020  (2 B)  [ref. desde código]
+|  BgMap_0a0020  @ $0A0020  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0020, "ax", @progbits
-        .global Data_0a0020
-Data_0a0020:
+        .section .text.BgMap_0a0020, "ax", @progbits
+        .global BgMap_0a0020
+BgMap_0a0020:
         .dc.w   0x4010                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0022  @ $0A0022  (2 B)  [ref. desde código]
+|  BgMap_0a0022  @ $0A0022  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0022, "ax", @progbits
-        .global Data_0a0022
-Data_0a0022:
+        .section .text.BgMap_0a0022, "ax", @progbits
+        .global BgMap_0a0022
+BgMap_0a0022:
         .dc.w   0x5018                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0024  @ $0A0024  (4 B)  [ref. desde código]
+|  BgMap_0a0024  @ $0A0024  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0024, "ax", @progbits
-        .global Data_0a0024
-Data_0a0024:
+        .section .text.BgMap_0a0024, "ax", @progbits
+        .global BgMap_0a0024
+BgMap_0a0024:
         .dc.w   0x4030,0x5018                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0028  @ $0A0028  (17 B)  [ref. desde código]
+|  BgMap_0a0028  @ $0A0028  (17 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0028, "ax", @progbits
-        .global Data_0a0028
-Data_0a0028:
+        .section .text.BgMap_0a0028, "ax", @progbits
+        .global BgMap_0a0028
+BgMap_0a0028:
         .dc.w   0x4042,0x4c10,0x4046,0x4c10,0x4018,0x5418,0x4038,0x5018     | +00000
         .dc.b   0x40                            | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a0039  @ $0A0039  (3 B)  [ref. desde código]
+|  BgMap_0a0039  @ $0A0039  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0039, "ax", @progbits
-        .global Data_0a0039
-Data_0a0039:
+        .section .text.BgMap_0a0039, "ax", @progbits
+        .global BgMap_0a0039
+BgMap_0a0039:
         .dc.b   0x43                            | +00000
         .dc.w   0x5010                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a003c  @ $0A003C  (4 B)  [ref. desde código]
+|  BgMap_0a003c  @ $0A003C  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a003c, "ax", @progbits
-        .global Data_0a003c
-Data_0a003c:
+        .section .text.BgMap_0a003c, "ax", @progbits
+        .global BgMap_0a003c
+BgMap_0a003c:
         .dc.w   0x4047,0x4c10                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0040  @ $0A0040  (1 B)  [ref. desde código]
+|  BgMap_0a0040  @ $0A0040  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0040, "ax", @progbits
-        .global Data_0a0040
-Data_0a0040:
+        .section .text.BgMap_0a0040, "ax", @progbits
+        .global BgMap_0a0040
+BgMap_0a0040:
         .dc.b   0x40                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0041  @ $0A0041  (27 B)  [ref. desde código]
+|  BgMap_0a0041  @ $0A0041  (27 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0041, "ax", @progbits
-        .global Data_0a0041
-Data_0a0041:
+        .section .text.BgMap_0a0041, "ax", @progbits
+        .global BgMap_0a0041
+BgMap_0a0041:
         .dc.b   0x48                            | +00000
         .dc.w   0x5418,0x40b0,0x5418,0x40e0,0x5010,0x40e5,0x5010,0x4050     | +00001
         .dc.w   0x5418,0x40b8,0x5418,0x40e1,0x5410                          | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0a005c  @ $0A005C  (10 B)  [ref. desde código]
+|  BgMap_0a005c  @ $0A005C  (10 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a005c, "ax", @progbits
-        .global Data_0a005c
-Data_0a005c:
+        .section .text.BgMap_0a005c, "ax", @progbits
+        .global BgMap_0a005c
+BgMap_0a005c:
         .dc.w   0x40e6,0x5010,0x4010,0x5418,0x40c0                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0066  @ $0A0066  (10 B)  [ref. desde código]
+|  BgMap_0a0066  @ $0A0066  (10 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0066, "ax", @progbits
-        .global Data_0a0066
-Data_0a0066:
+        .section .text.BgMap_0a0066, "ax", @progbits
+        .global BgMap_0a0066
+BgMap_0a0066:
         .dc.w   0x5418,0x40e2,0x5410,0x40e7,0x5410                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0070  @ $0A0070  (2 B)  [ref. desde código]
+|  BgMap_0a0070  @ $0A0070  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0070, "ax", @progbits
-        .global Data_0a0070
-Data_0a0070:
+        .section .text.BgMap_0a0070, "ax", @progbits
+        .global BgMap_0a0070
+BgMap_0a0070:
         .dc.w   0x4018                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0072  @ $0A0072  (2 B)  [ref. desde código]
+|  BgMap_0a0072  @ $0A0072  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0072, "ax", @progbits
-        .global Data_0a0072
-Data_0a0072:
+        .section .text.BgMap_0a0072, "ax", @progbits
+        .global BgMap_0a0072
+BgMap_0a0072:
         .dc.w   0x5418                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0074  @ $0A0074  (1 B)  [ref. desde código]
+|  BgMap_0a0074  @ $0A0074  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0074, "ax", @progbits
-        .global Data_0a0074
-Data_0a0074:
+        .section .text.BgMap_0a0074, "ax", @progbits
+        .global BgMap_0a0074
+BgMap_0a0074:
         .dc.b   0x40                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0075  @ $0A0075  (1 B)  [ref. desde código]
+|  BgMap_0a0075  @ $0A0075  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0075, "ax", @progbits
-        .global Data_0a0075
-Data_0a0075:
+        .section .text.BgMap_0a0075, "ax", @progbits
+        .global BgMap_0a0075
+BgMap_0a0075:
         .dc.b   0xc8                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0076  @ $0A0076  (2 B)  [ref. desde código]
+|  BgMap_0a0076  @ $0A0076  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0076, "ax", @progbits
-        .global Data_0a0076
-Data_0a0076:
+        .section .text.BgMap_0a0076, "ax", @progbits
+        .global BgMap_0a0076
+BgMap_0a0076:
         .dc.w   0x5418                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0078  @ $0A0078  (2 B)  [ref. desde código]
+|  BgMap_0a0078  @ $0A0078  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0078, "ax", @progbits
-        .global Data_0a0078
-Data_0a0078:
+        .section .text.BgMap_0a0078, "ax", @progbits
+        .global BgMap_0a0078
+BgMap_0a0078:
         .dc.w   0x40e3                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a007a  @ $0A007A  (6 B)  [ref. desde código]
+|  BgMap_0a007a  @ $0A007A  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a007a, "ax", @progbits
-        .global Data_0a007a
-Data_0a007a:
+        .section .text.BgMap_0a007a, "ax", @progbits
+        .global BgMap_0a007a
+BgMap_0a007a:
         .dc.w   0x5410,0x40e7,0x5410                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0080  @ $0A0080  (2 B)  [ref. desde código]
+|  BgMap_0a0080  @ $0A0080  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0080, "ax", @progbits
-        .global Data_0a0080
-Data_0a0080:
+        .section .text.BgMap_0a0080, "ax", @progbits
+        .global BgMap_0a0080
+BgMap_0a0080:
         .dc.w   0x4058                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0082  @ $0A0082  (2 B)  [ref. desde código]
+|  BgMap_0a0082  @ $0A0082  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0082, "ax", @progbits
-        .global Data_0a0082
-Data_0a0082:
+        .section .text.BgMap_0a0082, "ax", @progbits
+        .global BgMap_0a0082
+BgMap_0a0082:
         .dc.w   0x5418                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0084  @ $0A0084  (4 B)  [ref. desde código]
+|  BgMap_0a0084  @ $0A0084  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0084, "ax", @progbits
-        .global Data_0a0084
-Data_0a0084:
+        .section .text.BgMap_0a0084, "ax", @progbits
+        .global BgMap_0a0084
+BgMap_0a0084:
         .dc.w   0x40b0,0x5418                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0088  @ $0A0088  (8 B)  [ref. desde código]
+|  BgMap_0a0088  @ $0A0088  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0088, "ax", @progbits
-        .global Data_0a0088
-Data_0a0088:
+        .section .text.BgMap_0a0088, "ax", @progbits
+        .global BgMap_0a0088
+BgMap_0a0088:
         .dc.w   0x40e4,0x5410,0x40e7,0x5410                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0090  @ $0A0090  (2 B)  [ref. desde código]
+|  BgMap_0a0090  @ $0A0090  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0090, "ax", @progbits
-        .global Data_0a0090
-Data_0a0090:
+        .section .text.BgMap_0a0090, "ax", @progbits
+        .global BgMap_0a0090
+BgMap_0a0090:
         .dc.w   0x4060                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0092  @ $0A0092  (6 B)  [ref. desde código]
+|  BgMap_0a0092  @ $0A0092  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0092, "ax", @progbits
-        .global Data_0a0092
-Data_0a0092:
+        .section .text.BgMap_0a0092, "ax", @progbits
+        .global BgMap_0a0092
+BgMap_0a0092:
         .dc.w   0x5418,0x40d0,0x5418                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0098  @ $0A0098  (1 B)  [ref. desde código]
+|  BgMap_0a0098  @ $0A0098  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0098, "ax", @progbits
-        .global Data_0a0098
-Data_0a0098:
+        .section .text.BgMap_0a0098, "ax", @progbits
+        .global BgMap_0a0098
+BgMap_0a0098:
         .dc.b   0x40                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0099  @ $0A0099  (2 B)  [ref. desde código]
+|  BgMap_0a0099  @ $0A0099  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0099, "ax", @progbits
-        .global Data_0a0099
-Data_0a0099:
+        .section .text.BgMap_0a0099, "ax", @progbits
+        .global BgMap_0a0099
+BgMap_0a0099:
         .dc.b   0xe1                            | +00000
         .dc.b   0x54                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a009b  @ $0A009B  (1 B)  [ref. desde código]
+|  BgMap_0a009b  @ $0A009B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a009b, "ax", @progbits
-        .global Data_0a009b
-Data_0a009b:
+        .section .text.BgMap_0a009b, "ax", @progbits
+        .global BgMap_0a009b
+BgMap_0a009b:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a009c  @ $0A009C  (44 B)  [ref. desde código]
+|  BgMap_0a009c  @ $0A009C  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a009c, "ax", @progbits
-        .global Data_0a009c
-Data_0a009c:
+        .section .text.BgMap_0a009c, "ax", @progbits
+        .global BgMap_0a009c
+BgMap_0a009c:
         .dc.w   0x40e7,0x5410,0x4010,0x5418,0x40c0,0x5418,0x40e2,0x5410     | +00000
         .dc.w   0x40e7,0x5410,0x4018,0x5418,0x40c8,0x5418,0x40e3,0x5410     | +00010
         .dc.w   0x40e7,0x5410,0x4068,0x5418,0x40b0,0x5418                   | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0a00c8  @ $0A00C8  (49 B)  [ref. desde código]
+|  BgMap_0a00c8  @ $0A00C8  (49 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a00c8, "ax", @progbits
-        .global Data_0a00c8
-Data_0a00c8:
+        .section .text.BgMap_0a00c8, "ax", @progbits
+        .global BgMap_0a00c8
+BgMap_0a00c8:
         .dc.w   0x40e4,0x5410,0x40e7,0x5410,0x4070,0x5718,0x40b8,0x5418     | +00000
         .dc.w   0x40e1,0x5410,0x40e7,0x5410,0x4078,0x5718,0x40c0,0x5418     | +00010
         .dc.w   0x40e2,0x5410,0x40e7,0x5410,0x4080,0x5718,0x40c8,0x5418     | +00020
         .dc.b   0x40                            | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0a00f9  @ $0A00F9  (6 B)  [ref. desde código]
+|  BgMap_0a00f9  @ $0A00F9  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a00f9, "ax", @progbits
-        .global Data_0a00f9
-Data_0a00f9:
+        .section .text.BgMap_0a00f9, "ax", @progbits
+        .global BgMap_0a00f9
+BgMap_0a00f9:
         .dc.b   0xe3                            | +00000
         .dc.w   0x5410,0x40e7                                               | +00001
         .dc.b   0x54                            | +00005
 
 | ----------------------------------------------------------------------------
-|  Data_0a00ff  @ $0A00FF  (47 B)  [ref. desde código]
+|  BgMap_0a00ff  @ $0A00FF  (47 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a00ff, "ax", @progbits
-        .global Data_0a00ff
-Data_0a00ff:
+        .section .text.BgMap_0a00ff, "ax", @progbits
+        .global BgMap_0a00ff
+BgMap_0a00ff:
         .dc.b   0x10                            | +00000
         .dc.w   0x4088,0x5718,0x40b0,0x5418,0x40e4,0x5410,0x40e7,0x5410     | +00001
         .dc.w   0x4090,0x5718,0x40b8,0x5418,0x40e1,0x5410,0x40e7,0x5410     | +00011
         .dc.w   0x4098,0x5718,0x40c0,0x5418,0x40e2,0x5410,0x40e7            | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a012e  @ $0A012E  (210 B)  [ref. desde código]
+|  BgMap_0a012e  @ $0A012E  (210 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a012e, "ax", @progbits
-        .global Data_0a012e
-Data_0a012e:
+        .section .text.BgMap_0a012e, "ax", @progbits
+        .global BgMap_0a012e
+BgMap_0a012e:
         .dc.w   0x5410,0x4018,0x5418,0x40c8,0x5418,0x40e3,0x5410,0x40e7     | +00000
         .dc.w   0x5410,0x4048,0x5418,0x40b0,0x5418,0x40e4,0x5410,0x40e7     | +00010
         .dc.w   0x5410,0x4050,0x5418,0x40b8,0x5418,0x40e1,0x5410,0x40e7     | +00020
@@ -452,35 +452,35 @@ Data_0a012e:
         .dc.w   0x5410                                                      | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_0a0200  @ $0A0200  (4 B)  [ref. desde código]
+|  BgMap_0a0200  @ $0A0200  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0200, "ax", @progbits
-        .global Data_0a0200
-Data_0a0200:
+        .section .text.BgMap_0a0200, "ax", @progbits
+        .global BgMap_0a0200
+BgMap_0a0200:
         .dc.w   0x4058,0x5418                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0204  @ $0A0204  (4 B)  [ref. desde código]
+|  BgMap_0a0204  @ $0A0204  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0204, "ax", @progbits
-        .global Data_0a0204
-Data_0a0204:
+        .section .text.BgMap_0a0204, "ax", @progbits
+        .global BgMap_0a0204
+BgMap_0a0204:
         .dc.w   0x40b0,0x5418                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0208  @ $0A0208  (1 B)  [ref. desde código]
+|  BgMap_0a0208  @ $0A0208  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0208, "ax", @progbits
-        .global Data_0a0208
-Data_0a0208:
+        .section .text.BgMap_0a0208, "ax", @progbits
+        .global BgMap_0a0208
+BgMap_0a0208:
         .dc.b   0x40                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0209  @ $0A0209  (51 B)  [ref. desde código]
+|  BgMap_0a0209  @ $0A0209  (51 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0209, "ax", @progbits
-        .global Data_0a0209
-Data_0a0209:
+        .section .text.BgMap_0a0209, "ax", @progbits
+        .global BgMap_0a0209
+BgMap_0a0209:
         .dc.b   0xe4                            | +00000
         .dc.w   0x5410,0x40e7,0x5410,0x4060,0x5418,0x40d0,0x5418,0x40e1     | +00001
         .dc.w   0x5410,0x40e7,0x5410,0x40a0,0x5418,0x40d8,0x5418,0x40e2     | +00011
@@ -488,30 +488,30 @@ Data_0a0209:
         .dc.w   0x5410                                                      | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_0a023c  @ $0A023C  (4 B)  [ref. desde código]
+|  BgMap_0a023c  @ $0A023C  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a023c, "ax", @progbits
-        .global Data_0a023c
-Data_0a023c:
+        .section .text.BgMap_0a023c, "ax", @progbits
+        .global BgMap_0a023c
+BgMap_0a023c:
         .dc.w   0x40e7,0x5410                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0240  @ $0A0240  (64 B)  [ref. desde código]
+|  BgMap_0a0240  @ $0A0240  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0240, "ax", @progbits
-        .global Data_0a0240
-Data_0a0240:
+        .section .text.BgMap_0a0240, "ax", @progbits
+        .global BgMap_0a0240
+BgMap_0a0240:
         .dc.w   0x4048,0x5418,0x40b0,0x5418,0x40e4,0x5410,0x40e7,0x5410     | +00000
         .dc.w   0x4050,0x5418,0x40b8,0x5418,0x40e1,0x5410,0x40e7,0x5410     | +00010
         .dc.w   0x4010,0x5418,0x40c0,0x5418,0x40e2,0x5410,0x40e7,0x5410     | +00020
         .dc.w   0x4018,0x5418,0x40c8,0x5418,0x40e3,0x5410,0x40e7,0x5410     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0a0280  @ $0A0280  (288 B)  [ref. desde código]
+|  BgMap_0a0280  @ $0A0280  (288 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0280, "ax", @progbits
-        .global Data_0a0280
-Data_0a0280:
+        .section .text.BgMap_0a0280, "ax", @progbits
+        .global BgMap_0a0280
+BgMap_0a0280:
         .dc.w   0x4048,0x5418,0x40b0,0x5418,0x40e4,0x5410,0x40e7,0x5410     | +00000
         .dc.w   0x4050,0x5418,0x40b8,0x5418,0x40e1,0x5410,0x40e7,0x5410     | +00010
         .dc.w   0x4010,0x5418,0x40c0,0x5418,0x40e2,0x5410,0x40e7,0x5410     | +00020
@@ -532,11 +532,11 @@ Data_0a0280:
         .dc.w   0x4050,0x5418,0x40b8,0x5418,0x40e1,0x5410,0x40e7,0x5410     | +00110
 
 | ----------------------------------------------------------------------------
-|  Data_0a03a0  @ $0A03A0  (71 B)  [ref. desde código]
+|  BgMap_0a03a0  @ $0A03A0  (71 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a03a0, "ax", @progbits
-        .global Data_0a03a0
-Data_0a03a0:
+        .section .text.BgMap_0a03a0, "ax", @progbits
+        .global BgMap_0a03a0
+BgMap_0a03a0:
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00000
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00010
         .dc.w   0x4120,0x3010,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310     | +00020
@@ -545,37 +545,37 @@ Data_0a03a0:
         .dc.b   0x31                            | +00046
 
 | ----------------------------------------------------------------------------
-|  Data_0a03e7  @ $0A03E7  (25 B)  [ref. desde código]
+|  BgMap_0a03e7  @ $0A03E7  (25 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a03e7, "ax", @progbits
-        .global Data_0a03e7
-Data_0a03e7:
+        .section .text.BgMap_0a03e7, "ax", @progbits
+        .global BgMap_0a03e7
+BgMap_0a03e7:
         .dc.b   0x18                            | +00000
         .dc.w   0x4120,0x3118,0x4120,0x3118,0x4730,0x7118,0x4768,0x7118     | +00001
         .dc.w   0x40e4,0x5410,0x40e7,0x5410                                 | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0a0400  @ $0A0400  (2 B)  [ref. desde código]
+|  BgMap_0a0400  @ $0A0400  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0400, "ax", @progbits
-        .global Data_0a0400
-Data_0a0400:
+        .section .text.BgMap_0a0400, "ax", @progbits
+        .global BgMap_0a0400
+BgMap_0a0400:
         .dc.w   0x4120                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0402  @ $0A0402  (2 B)  [ref. desde código]
+|  BgMap_0a0402  @ $0A0402  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0402, "ax", @progbits
-        .global Data_0a0402
-Data_0a0402:
+        .section .text.BgMap_0a0402, "ax", @progbits
+        .global BgMap_0a0402
+BgMap_0a0402:
         .dc.w   0x3010                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0404  @ $0A0404  (61 B)  [ref. desde código]
+|  BgMap_0a0404  @ $0A0404  (61 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0404, "ax", @progbits
-        .global Data_0a0404
-Data_0a0404:
+        .section .text.BgMap_0a0404, "ax", @progbits
+        .global BgMap_0a0404
+BgMap_0a0404:
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00000
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00010
         .dc.w   0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310     | +00020
@@ -583,22 +583,22 @@ Data_0a0404:
         .dc.b   0x41                            | +0003c
 
 | ----------------------------------------------------------------------------
-|  Data_0a0441  @ $0A0441  (45 B)  [ref. desde código]
+|  BgMap_0a0441  @ $0A0441  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0441, "ax", @progbits
-        .global Data_0a0441
-Data_0a0441:
+        .section .text.BgMap_0a0441, "ax", @progbits
+        .global BgMap_0a0441
+BgMap_0a0441:
         .dc.b   0x20                            | +00000
         .dc.w   0x3110,0x4120,0x3118,0x4120,0x3118,0x4700,0x3118,0x4738     | +00001
         .dc.w   0x7118,0x4770,0x7118,0x40e1,0x5410,0x40e7,0x5410,0x4120     | +00011
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x4120                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a046e  @ $0A046E  (404 B)  [ref. desde código]
+|  BgMap_0a046e  @ $0A046E  (404 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a046e, "ax", @progbits
-        .global Data_0a046e
-Data_0a046e:
+        .section .text.BgMap_0a046e, "ax", @progbits
+        .global BgMap_0a046e
+BgMap_0a046e:
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120     | +00000
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3310,0x4120,0x3310,0x4120     | +00010
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3110,0x4120,0x3110,0x4120     | +00020
@@ -627,19 +627,19 @@ Data_0a046e:
         .dc.w   0x3010,0x4120                                               | +00190
 
 | ----------------------------------------------------------------------------
-|  Data_0a0602  @ $0A0602  (1 B)  [ref. desde código]
+|  BgMap_0a0602  @ $0A0602  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0602, "ax", @progbits
-        .global Data_0a0602
-Data_0a0602:
+        .section .text.BgMap_0a0602, "ax", @progbits
+        .global BgMap_0a0602
+BgMap_0a0602:
         .dc.b   0x30                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0603  @ $0A0603  (61 B)  [ref. desde código]
+|  BgMap_0a0603  @ $0A0603  (61 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0603, "ax", @progbits
-        .global Data_0a0603
-Data_0a0603:
+        .section .text.BgMap_0a0603, "ax", @progbits
+        .global BgMap_0a0603
+BgMap_0a0603:
         .dc.b   0x10                            | +00000
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00001
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00011
@@ -647,30 +647,30 @@ Data_0a0603:
         .dc.w   0x4798,0x5818,0x47fe,0x5410,0x40e7,0x5410                   | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_0a0640  @ $0A0640  (1 B)  [ref. desde código]
+|  BgMap_0a0640  @ $0A0640  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0640, "ax", @progbits
-        .global Data_0a0640
-Data_0a0640:
+        .section .text.BgMap_0a0640, "ax", @progbits
+        .global BgMap_0a0640
+BgMap_0a0640:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0641  @ $0A0641  (45 B)  [ref. desde código]
+|  BgMap_0a0641  @ $0A0641  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0641, "ax", @progbits
-        .global Data_0a0641
-Data_0a0641:
+        .section .text.BgMap_0a0641, "ax", @progbits
+        .global BgMap_0a0641
+BgMap_0a0641:
         .dc.b   0x20                            | +00000
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120     | +00001
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120     | +00011
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x4120                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a066e  @ $0A066E  (148 B)  [ref. desde código]
+|  BgMap_0a066e  @ $0A066E  (148 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a066e, "ax", @progbits
-        .global Data_0a066e
-Data_0a066e:
+        .section .text.BgMap_0a066e, "ax", @progbits
+        .global BgMap_0a066e
+BgMap_0a066e:
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x47f0,0x3010,0x40e8     | +00000
         .dc.w   0x3018,0x4120,0x3018,0x4158,0x3018,0x4190,0x3d18,0x47f9     | +00010
         .dc.w   0x3c10,0x47fa,0x3c10,0x47a0,0x5818,0x47ff,0x5410,0x40e7     | +00020
@@ -683,35 +683,35 @@ Data_0a066e:
         .dc.w   0x5410,0x4120                                               | +00090
 
 | ----------------------------------------------------------------------------
-|  Data_0a0702  @ $0A0702  (1 B)  [ref. desde código]
+|  BgMap_0a0702  @ $0A0702  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0702, "ax", @progbits
-        .global Data_0a0702
-Data_0a0702:
+        .section .text.BgMap_0a0702, "ax", @progbits
+        .global BgMap_0a0702
+BgMap_0a0702:
         .dc.b   0x30                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0703  @ $0A0703  (1 B)  [ref. desde código]
+|  BgMap_0a0703  @ $0A0703  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0703, "ax", @progbits
-        .global Data_0a0703
-Data_0a0703:
+        .section .text.BgMap_0a0703, "ax", @progbits
+        .global BgMap_0a0703
+BgMap_0a0703:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0704  @ $0A0704  (1 B)  [ref. desde código]
+|  BgMap_0a0704  @ $0A0704  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0704, "ax", @progbits
-        .global Data_0a0704
-Data_0a0704:
+        .section .text.BgMap_0a0704, "ax", @progbits
+        .global BgMap_0a0704
+BgMap_0a0704:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0705  @ $0A0705  (253 B)  [ref. desde código]
+|  BgMap_0a0705  @ $0A0705  (253 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0705, "ax", @progbits
-        .global Data_0a0705
-Data_0a0705:
+        .section .text.BgMap_0a0705, "ax", @progbits
+        .global BgMap_0a0705
+BgMap_0a0705:
         .dc.b   0x20                            | +00000
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120     | +00001
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120     | +00011
@@ -731,52 +731,52 @@ Data_0a0705:
         .dc.w   0x3010,0x4120,0x3010,0x4108,0x3118,0x4140                   | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0a0802  @ $0A0802  (1 B)  [ref. desde código]
+|  BgMap_0a0802  @ $0A0802  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0802, "ax", @progbits
-        .global Data_0a0802
-Data_0a0802:
+        .section .text.BgMap_0a0802, "ax", @progbits
+        .global BgMap_0a0802
+BgMap_0a0802:
         .dc.b   0x31                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0803  @ $0A0803  (1 B)  [ref. desde código]
+|  BgMap_0a0803  @ $0A0803  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0803, "ax", @progbits
-        .global Data_0a0803
-Data_0a0803:
+        .section .text.BgMap_0a0803, "ax", @progbits
+        .global BgMap_0a0803
+BgMap_0a0803:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0804  @ $0A0804  (1 B)  [ref. desde código]
+|  BgMap_0a0804  @ $0A0804  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0804, "ax", @progbits
-        .global Data_0a0804
-Data_0a0804:
+        .section .text.BgMap_0a0804, "ax", @progbits
+        .global BgMap_0a0804
+BgMap_0a0804:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0805  @ $0A0805  (3 B)  [ref. desde código]
+|  BgMap_0a0805  @ $0A0805  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0805, "ax", @progbits
-        .global Data_0a0805
-Data_0a0805:
+        .section .text.BgMap_0a0805, "ax", @progbits
+        .global BgMap_0a0805
+BgMap_0a0805:
         .dc.b   0x78                            | +00000
         .dc.w   0x3018                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a0808  @ $0A0808  (8 B)  [ref. desde código]
+|  BgMap_0a0808  @ $0A0808  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0808, "ax", @progbits
-        .global Data_0a0808
-Data_0a0808:
+        .section .text.BgMap_0a0808, "ax", @progbits
+        .global BgMap_0a0808
+BgMap_0a0808:
         .dc.w   0x41b0,0x3c18,0x4809,0x3c10                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0810  @ $0A0810  (216 B)  [ref. desde código]
+|  BgMap_0a0810  @ $0A0810  (216 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0810, "ax", @progbits
-        .global Data_0a0810
-Data_0a0810:
+        .section .text.BgMap_0a0810, "ax", @progbits
+        .global BgMap_0a0810
+BgMap_0a0810:
         .dc.w   0x4811,0x3c10,0x47c0,0x5818,0x4819,0x5410,0x40e7,0x5410     | +00000
         .dc.w   0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310     | +00010
         .dc.w   0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310     | +00020
@@ -793,77 +793,77 @@ Data_0a0810:
         .dc.w   0x4120,0x3310,0x4120,0x3310                                 | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_0a08e8  @ $0A08E8  (1 B)  [ref. desde código]
+|  BgMap_0a08e8  @ $0A08E8  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a08e8, "ax", @progbits
-        .global Data_0a08e8
-Data_0a08e8:
+        .section .text.BgMap_0a08e8, "ax", @progbits
+        .global BgMap_0a08e8
+BgMap_0a08e8:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a08e9  @ $0A08E9  (5 B)  [ref. desde código]
+|  BgMap_0a08e9  @ $0A08E9  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a08e9, "ax", @progbits
-        .global Data_0a08e9
-Data_0a08e9:
+        .section .text.BgMap_0a08e9, "ax", @progbits
+        .global BgMap_0a08e9
+BgMap_0a08e9:
         .dc.b   0x20                            | +00000
         .dc.w   0x3310,0x4120                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a08ee  @ $0A08EE  (22 B)  [ref. desde código]
+|  BgMap_0a08ee  @ $0A08EE  (22 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a08ee, "ax", @progbits
-        .global Data_0a08ee
-Data_0a08ee:
+        .section .text.BgMap_0a08ee, "ax", @progbits
+        .global BgMap_0a08ee
+BgMap_0a08ee:
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120     | +00000
         .dc.w   0x3310,0x4120,0x3310                                        | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a0904  @ $0A0904  (1 B)  [ref. desde código]
+|  BgMap_0a0904  @ $0A0904  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0904, "ax", @progbits
-        .global Data_0a0904
-Data_0a0904:
+        .section .text.BgMap_0a0904, "ax", @progbits
+        .global BgMap_0a0904
+BgMap_0a0904:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0905  @ $0A0905  (1 B)  [ref. desde código]
+|  BgMap_0a0905  @ $0A0905  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0905, "ax", @progbits
-        .global Data_0a0905
-Data_0a0905:
+        .section .text.BgMap_0a0905, "ax", @progbits
+        .global BgMap_0a0905
+BgMap_0a0905:
         .dc.b   0x20                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0906  @ $0A0906  (1 B)  [ref. desde código]
+|  BgMap_0a0906  @ $0A0906  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0906, "ax", @progbits
-        .global Data_0a0906
-Data_0a0906:
+        .section .text.BgMap_0a0906, "ax", @progbits
+        .global BgMap_0a0906
+BgMap_0a0906:
         .dc.b   0x33                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0907  @ $0A0907  (1 B)  [ref. desde código]
+|  BgMap_0a0907  @ $0A0907  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0907, "ax", @progbits
-        .global Data_0a0907
-Data_0a0907:
+        .section .text.BgMap_0a0907, "ax", @progbits
+        .global BgMap_0a0907
+BgMap_0a0907:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0908  @ $0A0908  (1 B)  [ref. desde código]
+|  BgMap_0a0908  @ $0A0908  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0908, "ax", @progbits
-        .global Data_0a0908
-Data_0a0908:
+        .section .text.BgMap_0a0908, "ax", @progbits
+        .global BgMap_0a0908
+BgMap_0a0908:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0909  @ $0A0909  (247 B)  [ref. desde código]
+|  BgMap_0a0909  @ $0A0909  (247 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0909, "ax", @progbits
-        .global Data_0a0909
-Data_0a0909:
+        .section .text.BgMap_0a0909, "ax", @progbits
+        .global BgMap_0a0909
+BgMap_0a0909:
         .dc.b   0x20                            | +00000
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3010,0x47f3     | +00001
         .dc.w   0x3c10,0x47f5,0x3c10,0x4800,0x3c10,0x4802,0x3d10,0x4804     | +00011
@@ -883,69 +883,69 @@ Data_0a0909:
         .dc.w   0x5410,0x40e7,0x5410                                        | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0a0a00  @ $0A0A00  (3 B)  [ref. desde código]
+|  BgMap_0a0a00  @ $0A0A00  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0a00, "ax", @progbits
-        .global Data_0a0a00
-Data_0a0a00:
+        .section .text.BgMap_0a0a00, "ax", @progbits
+        .global BgMap_0a0a00
+BgMap_0a0a00:
         .dc.w   0x4120                                                      | +00000
         .dc.b   0x33                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_0a0a03  @ $0A0A03  (2 B)  [ref. desde código]
+|  BgMap_0a0a03  @ $0A0A03  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0a03, "ax", @progbits
-        .global Data_0a0a03
-Data_0a0a03:
+        .section .text.BgMap_0a0a03, "ax", @progbits
+        .global BgMap_0a0a03
+BgMap_0a0a03:
         .dc.b   0x10                            | +00000
         .dc.b   0x41                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a0a05  @ $0A0A05  (1 B)  [ref. desde código]
+|  BgMap_0a0a05  @ $0A0A05  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0a05, "ax", @progbits
-        .global Data_0a0a05
-Data_0a0a05:
+        .section .text.BgMap_0a0a05, "ax", @progbits
+        .global BgMap_0a0a05
+BgMap_0a0a05:
         .dc.b   0x20                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0a06  @ $0A0A06  (1 B)  [ref. desde código]
+|  BgMap_0a0a06  @ $0A0A06  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0a06, "ax", @progbits
-        .global Data_0a0a06
-Data_0a0a06:
+        .section .text.BgMap_0a0a06, "ax", @progbits
+        .global BgMap_0a0a06
+BgMap_0a0a06:
         .dc.b   0x33                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0a07  @ $0A0A07  (1 B)  [ref. desde código]
+|  BgMap_0a0a07  @ $0A0A07  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0a07, "ax", @progbits
-        .global Data_0a0a07
-Data_0a0a07:
+        .section .text.BgMap_0a0a07, "ax", @progbits
+        .global BgMap_0a0a07
+BgMap_0a0a07:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0a08  @ $0A0A08  (1 B)  [ref. desde código]
+|  BgMap_0a0a08  @ $0A0A08  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0a08, "ax", @progbits
-        .global Data_0a0a08
-Data_0a0a08:
+        .section .text.BgMap_0a0a08, "ax", @progbits
+        .global BgMap_0a0a08
+BgMap_0a0a08:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0a09  @ $0A0A09  (1 B)  [ref. desde código]
+|  BgMap_0a0a09  @ $0A0A09  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0a09, "ax", @progbits
-        .global Data_0a0a09
-Data_0a0a09:
+        .section .text.BgMap_0a0a09, "ax", @progbits
+        .global BgMap_0a0a09
+BgMap_0a0a09:
         .dc.b   0x20                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0a0a  @ $0A0A0A  (182 B)  [ref. desde código]
+|  BgMap_0a0a0a  @ $0A0A0A  (182 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0a0a, "ax", @progbits
-        .global Data_0a0a0a
-Data_0a0a0a:
+        .section .text.BgMap_0a0a0a, "ax", @progbits
+        .global BgMap_0a0a0a
+BgMap_0a0a0a:
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120     | +00000
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120     | +00010
         .dc.w   0x3310,0x42d0,0x3318,0x4308,0x3318,0x4360,0x3018,0x43b8     | +00020
@@ -960,11 +960,11 @@ Data_0a0a0a:
         .dc.w   0x5418,0x40e7,0x5410                                        | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0a0ac0  @ $0A0AC0  (66 B)  [ref. desde código]
+|  BgMap_0a0ac0  @ $0A0AC0  (66 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0ac0, "ax", @progbits
-        .global Data_0a0ac0
-Data_0a0ac0:
+        .section .text.BgMap_0a0ac0, "ax", @progbits
+        .global BgMap_0a0ac0
+BgMap_0a0ac0:
         .dc.w   0x41c8,0x3318,0x41e0,0x3318,0x41f8,0x3318,0x4210,0x3318     | +00000
         .dc.w   0x4228,0x3318,0x4240,0x3318,0x4258,0x3318,0x4270,0x3318     | +00010
         .dc.w   0x4288,0x3318,0x42a0,0x3318,0x42b8,0x3318,0x42e0,0x3318     | +00020
@@ -972,61 +972,61 @@ Data_0a0ac0:
         .dc.w   0x4478                                                      | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_0a0b02  @ $0A0B02  (3 B)  [ref. desde código]
+|  BgMap_0a0b02  @ $0A0B02  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0b02, "ax", @progbits
-        .global Data_0a0b02
-Data_0a0b02:
+        .section .text.BgMap_0a0b02, "ax", @progbits
+        .global BgMap_0a0b02
+BgMap_0a0b02:
         .dc.w   0x3018                                                      | +00000
         .dc.b   0x44                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_0a0b05  @ $0A0B05  (1 B)  [ref. desde código]
+|  BgMap_0a0b05  @ $0A0B05  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0b05, "ax", @progbits
-        .global Data_0a0b05
-Data_0a0b05:
+        .section .text.BgMap_0a0b05, "ax", @progbits
+        .global BgMap_0a0b05
+BgMap_0a0b05:
         .dc.b   0xd0                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0b06  @ $0A0B06  (1 B)  [ref. desde código]
+|  BgMap_0a0b06  @ $0A0B06  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0b06, "ax", @progbits
-        .global Data_0a0b06
-Data_0a0b06:
+        .section .text.BgMap_0a0b06, "ax", @progbits
+        .global BgMap_0a0b06
+BgMap_0a0b06:
         .dc.b   0x30                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0b07  @ $0A0B07  (1 B)  [ref. desde código]
+|  BgMap_0a0b07  @ $0A0B07  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0b07, "ax", @progbits
-        .global Data_0a0b07
-Data_0a0b07:
+        .section .text.BgMap_0a0b07, "ax", @progbits
+        .global BgMap_0a0b07
+BgMap_0a0b07:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0b08  @ $0A0B08  (1 B)  [ref. desde código]
+|  BgMap_0a0b08  @ $0A0B08  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0b08, "ax", @progbits
-        .global Data_0a0b08
-Data_0a0b08:
+        .section .text.BgMap_0a0b08, "ax", @progbits
+        .global BgMap_0a0b08
+BgMap_0a0b08:
         .dc.b   0x45                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0b09  @ $0A0B09  (2 B)  [ref. desde código]
+|  BgMap_0a0b09  @ $0A0B09  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0b09, "ax", @progbits
-        .global Data_0a0b09
-Data_0a0b09:
+        .section .text.BgMap_0a0b09, "ax", @progbits
+        .global BgMap_0a0b09
+BgMap_0a0b09:
         .dc.b   0x28                            | +00000
         .dc.b   0x30                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a0b0b  @ $0A0B0B  (245 B)  [ref. desde código]
+|  BgMap_0a0b0b  @ $0A0B0B  (245 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0b0b, "ax", @progbits
-        .global Data_0a0b0b
-Data_0a0b0b:
+        .section .text.BgMap_0a0b0b, "ax", @progbits
+        .global BgMap_0a0b0b
+BgMap_0a0b0b:
         .dc.b   0x18                            | +00000
         .dc.w   0x4580,0x3b18,0x45d8,0x3c18,0x4628,0x3c18,0x4680,0x5418     | +00001
         .dc.w   0x40e7,0x5410,0x41d0,0x3318,0x41e8,0x3318,0x4200,0x3318     | +00011
@@ -1046,47 +1046,47 @@ Data_0a0b0b:
         .dc.w   0x4120,0x3310                                               | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0a0c00  @ $0A0C00  (5 B)  [ref. desde código]
+|  BgMap_0a0c00  @ $0A0C00  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0c00, "ax", @progbits
-        .global Data_0a0c00
-Data_0a0c00:
+        .section .text.BgMap_0a0c00, "ax", @progbits
+        .global BgMap_0a0c00
+BgMap_0a0c00:
         .dc.w   0x4120,0x3310                                               | +00000
         .dc.b   0x41                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_0a0c05  @ $0A0C05  (4 B)  [ref. desde código]
+|  BgMap_0a0c05  @ $0A0C05  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0c05, "ax", @progbits
-        .global Data_0a0c05
-Data_0a0c05:
+        .section .text.BgMap_0a0c05, "ax", @progbits
+        .global BgMap_0a0c05
+BgMap_0a0c05:
         .dc.b   0x20                            | +00000
         .dc.w   0x3310                                                      | +00001
         .dc.b   0x41                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0a0c09  @ $0A0C09  (3 B)  [ref. desde código]
+|  BgMap_0a0c09  @ $0A0C09  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0c09, "ax", @progbits
-        .global Data_0a0c09
-Data_0a0c09:
+        .section .text.BgMap_0a0c09, "ax", @progbits
+        .global BgMap_0a0c09
+BgMap_0a0c09:
         .dc.b   0x20                            | +00000
         .dc.w   0x3310                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a0c0c  @ $0A0C0C  (1 B)  [ref. desde código]
+|  BgMap_0a0c0c  @ $0A0C0C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0c0c, "ax", @progbits
-        .global Data_0a0c0c
-Data_0a0c0c:
+        .section .text.BgMap_0a0c0c, "ax", @progbits
+        .global BgMap_0a0c0c
+BgMap_0a0c0c:
         .dc.b   0x42                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0c0d  @ $0A0C0D  (51 B)  [ref. desde código]
+|  BgMap_0a0c0d  @ $0A0C0D  (51 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0c0d, "ax", @progbits
-        .global Data_0a0c0d
-Data_0a0c0d:
+        .section .text.BgMap_0a0c0d, "ax", @progbits
+        .global BgMap_0a0c0d
+BgMap_0a0c0d:
         .dc.b   0xd8                            | +00000
         .dc.w   0x3319,0x4330,0x3a18,0x4388,0x3e18,0x43e0,0x3e18,0x4438     | +00001
         .dc.w   0x3b18,0x4490,0x3b18,0x44e8,0x3b18,0x4540,0x3b18,0x4598     | +00011
@@ -1094,30 +1094,30 @@ Data_0a0c0d:
         .dc.w   0x5410                                                      | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_0a0c40  @ $0A0C40  (1 B)  [ref. desde código]
+|  BgMap_0a0c40  @ $0A0C40  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0c40, "ax", @progbits
-        .global Data_0a0c40
-Data_0a0c40:
+        .section .text.BgMap_0a0c40, "ax", @progbits
+        .global BgMap_0a0c40
+BgMap_0a0c40:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0c41  @ $0A0C41  (45 B)  [ref. desde código]
+|  BgMap_0a0c41  @ $0A0C41  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0c41, "ax", @progbits
-        .global Data_0a0c41
-Data_0a0c41:
+        .section .text.BgMap_0a0c41, "ax", @progbits
+        .global BgMap_0a0c41
+BgMap_0a0c41:
         .dc.b   0x20                            | +00000
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120     | +00001
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120     | +00011
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x42d0                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a0c6e  @ $0A0C6E  (150 B)  [ref. desde código]
+|  BgMap_0a0c6e  @ $0A0C6E  (150 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0c6e, "ax", @progbits
-        .global Data_0a0c6e
-Data_0a0c6e:
+        .section .text.BgMap_0a0c6e, "ax", @progbits
+        .global BgMap_0a0c6e
+BgMap_0a0c6e:
         .dc.w   0x3319,0x4338,0x3a18,0x4390,0x3a18,0x43e8,0x3e18,0x4440     | +00000
         .dc.w   0x3c18,0x4498,0x3c18,0x44f0,0x3b18,0x4548,0x3c18,0x45a0     | +00010
         .dc.w   0x3c18,0x45f8,0x3c18,0x4648,0x3d18,0x46a0,0x5418,0x40e7     | +00020
@@ -1130,27 +1130,27 @@ Data_0a0c6e:
         .dc.w   0x5410,0x4120,0x3310                                        | +00090
 
 | ----------------------------------------------------------------------------
-|  Data_0a0d04  @ $0A0D04  (4 B)  [ref. desde código]
+|  BgMap_0a0d04  @ $0A0D04  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0d04, "ax", @progbits
-        .global Data_0a0d04
-Data_0a0d04:
+        .section .text.BgMap_0a0d04, "ax", @progbits
+        .global BgMap_0a0d04
+BgMap_0a0d04:
         .dc.w   0x4120,0x3310                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0d08  @ $0A0D08  (1 B)  [ref. desde código]
+|  BgMap_0a0d08  @ $0A0D08  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0d08, "ax", @progbits
-        .global Data_0a0d08
-Data_0a0d08:
+        .section .text.BgMap_0a0d08, "ax", @progbits
+        .global BgMap_0a0d08
+BgMap_0a0d08:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a0d09  @ $0A0D09  (279 B)  [ref. desde código]
+|  BgMap_0a0d09  @ $0A0D09  (279 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0d09, "ax", @progbits
-        .global Data_0a0d09
-Data_0a0d09:
+        .section .text.BgMap_0a0d09, "ax", @progbits
+        .global BgMap_0a0d09
+BgMap_0a0d09:
         .dc.b   0x20                            | +00000
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120     | +00001
         .dc.w   0x3310,0x4120,0x3310,0x4120,0x3310,0x4120,0x3310,0x4120     | +00011
@@ -1172,11 +1172,11 @@ Data_0a0d09:
         .dc.w   0x3018,0x4120,0x3010                                        | +00111
 
 | ----------------------------------------------------------------------------
-|  Data_0a0e20  @ $0A0E20  (480 B)  [ref. desde código]
+|  BgMap_0a0e20  @ $0A0E20  (480 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a0e20, "ax", @progbits
-        .global Data_0a0e20
-Data_0a0e20:
+        .section .text.BgMap_0a0e20, "ax", @progbits
+        .global BgMap_0a0e20
+BgMap_0a0e20:
         .dc.w   0x4828,0x3a18,0x48a8,0x3a18,0x4928,0x3a18,0x4998,0x3a18     | +00000
         .dc.w   0x4a00,0x3a18,0x4a68,0x3a18,0x4ab0,0x3a18,0x4830,0x3a18     | +00010
         .dc.w   0x48b0,0x3a18,0x4930,0x3a18,0x49a0,0x3a18,0x4a08,0x3a18     | +00020
@@ -1209,46 +1209,46 @@ Data_0a0e20:
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +001d0
 
 | ----------------------------------------------------------------------------
-|  Data_0a1000  @ $0A1000  (1 B)  [ref. desde código]
+|  BgMap_0a1000  @ $0A1000  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1000, "ax", @progbits
-        .global Data_0a1000
-Data_0a1000:
+        .section .text.BgMap_0a1000, "ax", @progbits
+        .global BgMap_0a1000
+BgMap_0a1000:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a1001  @ $0A1001  (9 B)  [ref. desde código]
+|  BgMap_0a1001  @ $0A1001  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1001, "ax", @progbits
-        .global Data_0a1001
-Data_0a1001:
+        .section .text.BgMap_0a1001, "ax", @progbits
+        .global BgMap_0a1001
+BgMap_0a1001:
         .dc.b   0x20                            | +00000
         .dc.w   0x0010,0x4120,0x0010,0x4120                                 | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a100a  @ $0A100A  (30 B)  [ref. desde código]
+|  BgMap_0a100a  @ $0A100A  (30 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a100a, "ax", @progbits
-        .global Data_0a100a
-Data_0a100a:
+        .section .text.BgMap_0a100a, "ax", @progbits
+        .global BgMap_0a100a
+BgMap_0a100a:
         .dc.w   0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120     | +00000
         .dc.w   0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010            | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a1028  @ $0A1028  (20 B)  [ref. desde código]
+|  BgMap_0a1028  @ $0A1028  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1028, "ax", @progbits
-        .global Data_0a1028
-Data_0a1028:
+        .section .text.BgMap_0a1028, "ax", @progbits
+        .global BgMap_0a1028
+BgMap_0a1028:
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +00000
         .dc.w   0x4120,0x0010                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a103c  @ $0A103C  (188 B)  [ref. desde código]
+|  BgMap_0a103c  @ $0A103C  (188 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a103c, "ax", @progbits
-        .global Data_0a103c
-Data_0a103c:
+        .section .text.BgMap_0a103c, "ax", @progbits
+        .global BgMap_0a103c
+BgMap_0a103c:
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +00000
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +00010
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +00020
@@ -1263,11 +1263,11 @@ Data_0a103c:
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010                   | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0a10f8  @ $0A10F8  (137 B)  [ref. desde código]
+|  BgMap_0a10f8  @ $0A10F8  (137 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a10f8, "ax", @progbits
-        .global Data_0a10f8
-Data_0a10f8:
+        .section .text.BgMap_0a10f8, "ax", @progbits
+        .global BgMap_0a10f8
+BgMap_0a10f8:
         .dc.w   0x4120,0x4210,0x4120,0x4210,0x4af2,0x4210,0x4afa,0x4210     | +00000
         .dc.w   0x4120,0x4210,0x4120,0x4210,0x4120,0x4210,0x4010,0x5418     | +00010
         .dc.w   0x40c0,0x5418,0x40e2,0x5410,0x40e7,0x5410,0x4120,0x4210     | +00020
@@ -1280,11 +1280,11 @@ Data_0a10f8:
         .dc.b   0x4a                            | +00088
 
 | ----------------------------------------------------------------------------
-|  Data_0a1181  @ $0A1181  (127 B)  [ref. desde código]
+|  BgMap_0a1181  @ $0A1181  (127 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1181, "ax", @progbits
-        .global Data_0a1181
-Data_0a1181:
+        .section .text.BgMap_0a1181, "ax", @progbits
+        .global BgMap_0a1181
+BgMap_0a1181:
         .dc.b   0xed                            | +00000
         .dc.w   0x4210,0x4af5,0x4210,0x4afd,0x4210,0x4b02,0x4210,0x4b09     | +00001
         .dc.w   0x4210,0x4b10,0x4710,0x4050,0x5418,0x40b8,0x5418,0x40e1     | +00011
@@ -1296,31 +1296,31 @@ Data_0a1181:
         .dc.w   0x5418,0x40c8,0x5418,0x40e3,0x5410,0x40e7,0x5410            | +00071
 
 | ----------------------------------------------------------------------------
-|  Data_0a1200  @ $0A1200  (60 B)  [ref. desde código]
+|  BgMap_0a1200  @ $0A1200  (60 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1200, "ax", @progbits
-        .global Data_0a1200
-Data_0a1200:
+        .section .text.BgMap_0a1200, "ax", @progbits
+        .global BgMap_0a1200
+BgMap_0a1200:
         .dc.w   0x4120,0x4210,0x4af0,0x4210,0x4af8,0x4210,0x4b00,0x4210     | +00000
         .dc.w   0x4b05,0x4210,0x4b0c,0x4210,0x4b13,0x4710,0x4048,0x5418     | +00010
         .dc.w   0x40b0,0x5418,0x40e4,0x5410,0x40e7,0x5410,0x4120,0x4210     | +00020
         .dc.w   0x4af1,0x4210,0x4af9,0x4210,0x4b01,0x4210                   | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0a123c  @ $0A123C  (28 B)  [ref. desde código]
+|  BgMap_0a123c  @ $0A123C  (28 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a123c, "ax", @progbits
-        .global Data_0a123c
-Data_0a123c:
+        .section .text.BgMap_0a123c, "ax", @progbits
+        .global BgMap_0a123c
+BgMap_0a123c:
         .dc.w   0x4b06,0x4210,0x4b0d,0x4210,0x4b14,0x4510,0x4050,0x5418     | +00000
         .dc.w   0x40b8,0x5418,0x40e1,0x5410,0x40e7,0x5410                   | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a1258  @ $0A1258  (168 B)  [ref. desde código]
+|  BgMap_0a1258  @ $0A1258  (168 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1258, "ax", @progbits
-        .global Data_0a1258
-Data_0a1258:
+        .section .text.BgMap_0a1258, "ax", @progbits
+        .global BgMap_0a1258
+BgMap_0a1258:
         .dc.w   0x4010,0x5418,0x40c0,0x5418,0x40e2,0x5410,0x40e7,0x5410     | +00000
         .dc.w   0x4018,0x5418,0x40c8,0x5418,0x40e3,0x5410,0x40e7,0x5410     | +00010
         .dc.w   0x4058,0x5418,0x40b0,0x5418,0x40e4,0x5410,0x40e7,0x5410     | +00020
@@ -1334,11 +1334,11 @@ Data_0a1258:
         .dc.w   0x4048,0x5418,0x40b0,0x5418                                 | +000a0
 
 | ----------------------------------------------------------------------------
-|  Data_0a1300  @ $0A1300  (238 B)  [ref. desde código]
+|  BgMap_0a1300  @ $0A1300  (238 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1300, "ax", @progbits
-        .global Data_0a1300
-Data_0a1300:
+        .section .text.BgMap_0a1300, "ax", @progbits
+        .global BgMap_0a1300
+BgMap_0a1300:
         .dc.w   0x40e4,0x5410,0x40e7,0x5410,0x4050,0x5418,0x40b8,0x5418     | +00000
         .dc.w   0x40e1,0x5410,0x40e7,0x5410,0x4010,0x5418,0x40c0,0x5418     | +00010
         .dc.w   0x40e2,0x5410,0x40e7,0x5410,0x4b18,0x5418,0x4b20,0x5418     | +00020
@@ -1356,71 +1356,71 @@ Data_0a1300:
         .dc.w   0x40e2,0x5410,0x40e7,0x5410,0x4018,0x5418,0x40c8            | +000e0
 
 | ----------------------------------------------------------------------------
-|  Data_0a13ee  @ $0A13EE  (2 B)  [ref. desde código]
+|  BgMap_0a13ee  @ $0A13EE  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a13ee, "ax", @progbits
-        .global Data_0a13ee
-Data_0a13ee:
+        .section .text.BgMap_0a13ee, "ax", @progbits
+        .global BgMap_0a13ee
+BgMap_0a13ee:
         .dc.w   0x5418                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a13f0  @ $0A13F0  (8 B)  [ref. desde código]
+|  BgMap_0a13f0  @ $0A13F0  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a13f0, "ax", @progbits
-        .global Data_0a13f0
-Data_0a13f0:
+        .section .text.BgMap_0a13f0, "ax", @progbits
+        .global BgMap_0a13f0
+BgMap_0a13f0:
         .dc.w   0x40e3,0x5410,0x40e7,0x5410                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a13f8  @ $0A13F8  (4 B)  [ref. desde código]
+|  BgMap_0a13f8  @ $0A13F8  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a13f8, "ax", @progbits
-        .global Data_0a13f8
-Data_0a13f8:
+        .section .text.BgMap_0a13f8, "ax", @progbits
+        .global BgMap_0a13f8
+BgMap_0a13f8:
         .dc.w   0x4b50,0x2a10                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a13fc  @ $0A13FC  (45 B)  [ref. desde código]
+|  BgMap_0a13fc  @ $0A13FC  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a13fc, "ax", @progbits
-        .global Data_0a13fc
-Data_0a13fc:
+        .section .text.BgMap_0a13fc, "ax", @progbits
+        .global BgMap_0a13fc
+BgMap_0a13fc:
         .dc.w   0x4b57,0x2b10,0x4b5e,0x2b10,0x4b65,0x2b10,0x4b51,0x2a10     | +00000
         .dc.w   0x4b58,0x2b10,0x4b5f,0x2b10,0x4b66,0x2b10,0x4b52,0x2a10     | +00010
         .dc.w   0x4b59,0x2610,0x4b60,0x2610,0x4b67,0x2610                   | +00020
         .dc.b   0x4b                            | +0002c
 
 | ----------------------------------------------------------------------------
-|  Data_0a1429  @ $0A1429  (5 B)  [ref. desde código]
+|  BgMap_0a1429  @ $0A1429  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1429, "ax", @progbits
-        .global Data_0a1429
-Data_0a1429:
+        .section .text.BgMap_0a1429, "ax", @progbits
+        .global BgMap_0a1429
+BgMap_0a1429:
         .dc.b   0x53                            | +00000
         .dc.w   0x2b10,0x4b5a                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a142e  @ $0A142E  (6 B)  [ref. desde código]
+|  BgMap_0a142e  @ $0A142E  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a142e, "ax", @progbits
-        .global Data_0a142e
-Data_0a142e:
+        .section .text.BgMap_0a142e, "ax", @progbits
+        .global BgMap_0a142e
+BgMap_0a142e:
         .dc.w   0x2610,0x4b61,0x2610                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a1434  @ $0A1434  (8 B)  [ref. desde código]
+|  BgMap_0a1434  @ $0A1434  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1434, "ax", @progbits
-        .global Data_0a1434
-Data_0a1434:
+        .section .text.BgMap_0a1434, "ax", @progbits
+        .global BgMap_0a1434
+BgMap_0a1434:
         .dc.w   0x4b68,0x2610,0x4b54,0x2b10                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a143c  @ $0A143C  (512 B)  [ref. desde código]
+|  BgMap_0a143c  @ $0A143C  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a143c, "ax", @progbits
-        .global Data_0a143c
-Data_0a143c:
+        .section .text.BgMap_0a143c, "ax", @progbits
+        .global BgMap_0a143c
+BgMap_0a143c:
         .dc.w   0x4b5b,0x2b10,0x4b62,0x2b10,0x4b69,0x2b10,0x4b55,0x2b10     | +00000
         .dc.w   0x4b5c,0x2b10,0x4b63,0x2b10,0x4b6a,0x2b10,0x4b56,0x2b10     | +00010
         .dc.w   0x4b5d,0x2b10,0x4b64,0x2b10,0x4b6b,0x2b10,0x4b6c,0x2b10     | +00020
@@ -1455,11 +1455,11 @@ Data_0a143c:
         .dc.w   0x4b76,0x2610,0x4ba5,0x2610,0x4b68,0x2610,0x4b71,0x2610     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a163c  @ $0A163C  (492 B)  [ref. desde código]
+|  BgMap_0a163c  @ $0A163C  (492 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a163c, "ax", @progbits
-        .global Data_0a163c
-Data_0a163c:
+        .section .text.BgMap_0a163c, "ax", @progbits
+        .global BgMap_0a163c
+BgMap_0a163c:
         .dc.w   0x4bab,0x2610,0x4b7f,0x2610,0x4b69,0x2610,0x4b55,0x2610     | +00000
         .dc.w   0x4bac,0x2610,0x4b80,0x2610,0x4b6a,0x2610,0x4b56,0x2610     | +00010
         .dc.w   0x4bad,0x2610,0x4b81,0x2610,0x4b6b,0x2610,0x4b94,0x2610     | +00020
@@ -1493,11 +1493,11 @@ Data_0a163c:
         .dc.w   0x4bde,0x2b10,0x4be5,0x2b10,0x4b67,0x2b10                   | +001e0
 
 | ----------------------------------------------------------------------------
-|  Data_0a1828  @ $0A1828  (128 B)  [ref. desde código]
+|  BgMap_0a1828  @ $0A1828  (128 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1828, "ax", @progbits
-        .global Data_0a1828
-Data_0a1828:
+        .section .text.BgMap_0a1828, "ax", @progbits
+        .global BgMap_0a1828
+BgMap_0a1828:
         .dc.w   0x4b70,0x2b10,0x4bdf,0x2b10,0x4ba5,0x2b10,0x4b68,0x2b10     | +00000
         .dc.w   0x4b54,0x2b10,0x4be0,0x2b10,0x4b7f,0x2b10,0x4b69,0x2b10     | +00010
         .dc.w   0x4b55,0x2b10,0x4be1,0x2b10,0x4b80,0x2b10,0x4b6a,0x2b10     | +00020
@@ -1508,11 +1508,11 @@ Data_0a1828:
         .dc.w   0x4be9,0x4c10,0x4bed,0x4c10,0x4bf1,0x4c10,0x4bf4,0x4c10     | +00070
 
 | ----------------------------------------------------------------------------
-|  Data_0a18a8  @ $0A18A8  (1,176 B)  [ref. desde código]
+|  BgMap_0a18a8  @ $0A18A8  (1,176 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a18a8, "ax", @progbits
-        .global Data_0a18a8
-Data_0a18a8:
+        .section .text.BgMap_0a18a8, "ax", @progbits
+        .global BgMap_0a18a8
+BgMap_0a18a8:
         .dc.w   0x4c18,0x1310,0x4c20,0x1310,0x4c28,0x1310,0x4c30,0x1310     | +00000
         .dc.w   0x4c38,0x1310,0x4c40,0x1310,0x4c48,0x1310,0x4e72,0x1310     | +00010
         .dc.w   0x4e7a,0x1310,0x4e82,0x1910,0x4e8a,0x1a10,0x4e92,0x1a10     | +00020
@@ -1589,20 +1589,20 @@ Data_0a18a8:
         .dc.w   0x4ca8,0x1310,0x4cb0,0x1e10                                 | +00490
 
 | ----------------------------------------------------------------------------
-|  Data_0a1d40  @ $0A1D40  (3 B)  [ref. desde código]
+|  BgMap_0a1d40  @ $0A1D40  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1d40, "ax", @progbits
-        .global Data_0a1d40
-Data_0a1d40:
+        .section .text.BgMap_0a1d40, "ax", @progbits
+        .global BgMap_0a1d40
+BgMap_0a1d40:
         .dc.w   0x4cb8                                                      | +00000
         .dc.b   0x1e                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_0a1d43  @ $0A1D43  (57 B)  [ref. desde código]
+|  BgMap_0a1d43  @ $0A1D43  (57 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1d43, "ax", @progbits
-        .global Data_0a1d43
-Data_0a1d43:
+        .section .text.BgMap_0a1d43, "ax", @progbits
+        .global BgMap_0a1d43
+BgMap_0a1d43:
         .dc.b   0x10                            | +00000
         .dc.w   0x4ef2,0x1e10,0x4efa,0x1e10,0x4f02,0x1f10,0x4f0a,0x1810     | +00001
         .dc.w   0x4f12,0x1a10,0x4f1a,0x1a10,0x4ea6,0x1010,0x4f23,0x1010     | +00011
@@ -1610,11 +1610,11 @@ Data_0a1d43:
         .dc.w   0x4c91,0x1310,0x4c99,0x1e10                                 | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_0a1d7c  @ $0A1D7C  (704 B)  [ref. desde código]
+|  BgMap_0a1d7c  @ $0A1D7C  (704 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a1d7c, "ax", @progbits
-        .global Data_0a1d7c
-Data_0a1d7c:
+        .section .text.BgMap_0a1d7c, "ax", @progbits
+        .global BgMap_0a1d7c
+BgMap_0a1d7c:
         .dc.w   0x4ca1,0x1c10,0x4ca9,0x1c10,0x4cb1,0x1c10,0x4cb9,0x1c10     | +00000
         .dc.w   0x4ef3,0x1c10,0x4efb,0x1f10,0x4f03,0x1f10,0x4f0b,0x1810     | +00010
         .dc.w   0x4f13,0x1a10,0x4f1b,0x1a10,0x4ea7,0x1010,0x4f24,0x1010     | +00020
@@ -1661,45 +1661,45 @@ Data_0a1d7c:
         .dc.w   0x4f5d,0x1010,0x4f65,0x1010,0x524d,0x2b10,0x5255,0x2b10     | +002b0
 
 | ----------------------------------------------------------------------------
-|  Data_0a203c  @ $0A203C  (4 B)  [ref. desde código]
+|  BgMap_0a203c  @ $0A203C  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a203c, "ax", @progbits
-        .global Data_0a203c
-Data_0a203c:
+        .section .text.BgMap_0a203c, "ax", @progbits
+        .global BgMap_0a203c
+BgMap_0a203c:
         .dc.w   0x525d,0x2c10                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a2040  @ $0A2040  (40 B)  [ref. desde código]
+|  BgMap_0a2040  @ $0A2040  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2040, "ax", @progbits
-        .global Data_0a2040
-Data_0a2040:
+        .section .text.BgMap_0a2040, "ax", @progbits
+        .global BgMap_0a2040
+BgMap_0a2040:
         .dc.w   0x4cc3,0x1e10,0x4ccb,0x1e10,0x4cd3,0x1e10,0x4cdb,0x1e10     | +00000
         .dc.w   0x4ce3,0x1e10,0x4ceb,0x1e10,0x4cf3,0x1e10,0x4f2e,0x1e10     | +00010
         .dc.w   0x4f36,0x1710,0x4f3e,0x1710                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0a2068  @ $0A2068  (6 B)  [ref. desde código]
+|  BgMap_0a2068  @ $0A2068  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2068, "ax", @progbits
-        .global Data_0a2068
-Data_0a2068:
+        .section .text.BgMap_0a2068, "ax", @progbits
+        .global BgMap_0a2068
+BgMap_0a2068:
         .dc.w   0x4f46,0x1810,0x4f4e                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a206e  @ $0A206E  (2 B)  [ref. desde código]
+|  BgMap_0a206e  @ $0A206E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a206e, "ax", @progbits
-        .global Data_0a206e
-Data_0a206e:
+        .section .text.BgMap_0a206e, "ax", @progbits
+        .global BgMap_0a206e
+BgMap_0a206e:
         .dc.w   0x1810                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a2070  @ $0A2070  (217 B)  [ref. desde código]
+|  BgMap_0a2070  @ $0A2070  (217 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2070, "ax", @progbits
-        .global Data_0a2070
-Data_0a2070:
+        .section .text.BgMap_0a2070, "ax", @progbits
+        .global BgMap_0a2070
+BgMap_0a2070:
         .dc.w   0x4f56,0x1a10,0x4f5e,0x1010,0x4f66,0x2c10,0x524e,0x2c10     | +00000
         .dc.w   0x5256,0x2c10,0x525e,0x2c10,0x4cc4,0x1310,0x4ccc,0x1310     | +00010
         .dc.w   0x4cd4,0x1e10,0x4cdc,0x1e10,0x4ce4,0x1e10,0x4cec,0x1e10     | +00020
@@ -1717,11 +1717,11 @@ Data_0a2070:
         .dc.b   0x4f                            | +000d8
 
 | ----------------------------------------------------------------------------
-|  Data_0a2149  @ $0A2149  (287 B)  [ref. desde código]
+|  BgMap_0a2149  @ $0A2149  (287 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2149, "ax", @progbits
-        .global Data_0a2149
-Data_0a2149:
+        .section .text.BgMap_0a2149, "ax", @progbits
+        .global BgMap_0a2149
+BgMap_0a2149:
         .dc.b   0x59                            | +00000
         .dc.w   0x1410,0x4f61,0x2d10,0x4f69,0x2c10,0x5251,0x2c10,0x5259     | +00001
         .dc.w   0x2c10,0x5261,0x2c10,0x4cc7,0x1310,0x4ccf,0x1310,0x4cd7     | +00011
@@ -1743,11 +1743,11 @@ Data_0a2149:
         .dc.w   0x1710,0x4f7d,0x1710,0x4f85,0x1710,0x4f8c,0x1810            | +00111
 
 | ----------------------------------------------------------------------------
-|  Data_0a2268  @ $0A2268  (352 B)  [ref. desde código]
+|  BgMap_0a2268  @ $0A2268  (352 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2268, "ax", @progbits
-        .global Data_0a2268
-Data_0a2268:
+        .section .text.BgMap_0a2268, "ax", @progbits
+        .global BgMap_0a2268
+BgMap_0a2268:
         .dc.w   0x4f94,0x1410,0x4f9c,0x2d10,0x4fa4,0x2c10,0x5265,0x2c10     | +00000
         .dc.w   0x526d,0x2c10,0x5274,0x2c10,0x4cfb,0x1310,0x4d03,0x1310     | +00010
         .dc.w   0x4d0b,0x1710,0x4d13,0x1710,0x4d1b,0x1710,0x4d23,0x1510     | +00020
@@ -1772,11 +1772,11 @@ Data_0a2268:
         .dc.w   0x4d2f,0x1510,0x4f72,0x1610,0x4f7a,0x1710,0x4f82,0x1710     | +00150
 
 | ----------------------------------------------------------------------------
-|  Data_0a23c8  @ $0A23C8  (160 B)  [ref. desde código]
+|  BgMap_0a23c8  @ $0A23C8  (160 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a23c8, "ax", @progbits
-        .global Data_0a23c8
-Data_0a23c8:
+        .section .text.BgMap_0a23c8, "ax", @progbits
+        .global BgMap_0a23c8
+BgMap_0a23c8:
         .dc.w   0x4f89,0x1710,0x4f91,0x1810,0x4f99,0x1410,0x4fa1,0x2d10     | +00000
         .dc.w   0x4fa9,0x2a10,0x526a,0x2b10,0x5272,0x2b10,0x4b6b,0x2c10     | +00010
         .dc.w   0x4d30,0x1310,0x4d32,0x1310,0x4d34,0x1510,0x4d38,0x1510     | +00020
@@ -1789,11 +1789,11 @@ Data_0a23c8:
         .dc.w   0x4fc0,0x1810,0x4fc8,0x1810,0x4fd0,0x1410,0x4fd8,0x2d10     | +00090
 
 | ----------------------------------------------------------------------------
-|  Data_0a2468  @ $0A2468  (1,492 B)  [ref. desde código]
+|  BgMap_0a2468  @ $0A2468  (1,492 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2468, "ax", @progbits
-        .global Data_0a2468
-Data_0a2468:
+        .section .text.BgMap_0a2468, "ax", @progbits
+        .global BgMap_0a2468
+BgMap_0a2468:
         .dc.w   0x4fe0,0x2a10,0x4b57,0x2b10,0x4b5e,0x2b10,0x4b65,0x2b10     | +00000
         .dc.w   0x4120,0x1310,0x4120,0x1310,0x4d36,0x1510,0x4d3a,0x1510     | +00010
         .dc.w   0x4d42,0x1510,0x4d4a,0x1510,0x4d52,0x1510,0x4fac,0x1610     | +00020
@@ -1890,11 +1890,11 @@ Data_0a2468:
         .dc.w   0x5033,0x2010                                               | +005d0
 
 | ----------------------------------------------------------------------------
-|  Data_0a2a3c  @ $0A2A3C  (589 B)  [ref. desde código]
+|  BgMap_0a2a3c  @ $0A2A3C  (589 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2a3c, "ax", @progbits
-        .global Data_0a2a3c
-Data_0a2a3c:
+        .section .text.BgMap_0a2a3c, "ax", @progbits
+        .global BgMap_0a2a3c
+BgMap_0a2a3c:
         .dc.w   0x503b,0x2210,0x5043,0x2210,0x504b,0x2110,0x5053,0x2110     | +00000
         .dc.w   0x505b,0x2510,0x5063,0x2610,0x4b8e,0x2610,0x4b80,0x2610     | +00010
         .dc.w   0x4b6a,0x2610,0x4120,0x2010,0x4120,0x2010,0x4120,0x2010     | +00020
@@ -1935,11 +1935,11 @@ Data_0a2a3c:
         .dc.b   0x50                            | +0024c
 
 | ----------------------------------------------------------------------------
-|  Data_0a2c89  @ $0A2C89  (191 B)  [ref. desde código]
+|  BgMap_0a2c89  @ $0A2C89  (191 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2c89, "ax", @progbits
-        .global Data_0a2c89
-Data_0a2c89:
+        .section .text.BgMap_0a2c89, "ax", @progbits
+        .global BgMap_0a2c89
+BgMap_0a2c89:
         .dc.b   0x93                            | +00000
         .dc.w   0x2410,0x509b,0x2510,0x5023,0x2610,0x5287,0x2b10,0x4b80     | +00001
         .dc.w   0x2b10,0x4b6a,0x2b10,0x4120,0x2010,0x4d59,0x2010,0x4d5d     | +00011
@@ -1955,38 +1955,38 @@ Data_0a2c89:
         .dc.w   0x2010,0x4dc0,0x2010,0x4dc4,0x2010,0x4dc9,0x2010            | +000b1
 
 | ----------------------------------------------------------------------------
-|  Data_0a2d48  @ $0A2D48  (1 B)  [ref. desde código]
+|  BgMap_0a2d48  @ $0A2D48  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2d48, "ax", @progbits
-        .global Data_0a2d48
-Data_0a2d48:
+        .section .text.BgMap_0a2d48, "ax", @progbits
+        .global BgMap_0a2d48
+BgMap_0a2d48:
         .dc.b   0x4d                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a2d49  @ $0A2D49  (37 B)  [ref. desde código]
+|  BgMap_0a2d49  @ $0A2D49  (37 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2d49, "ax", @progbits
-        .global Data_0a2d49
-Data_0a2d49:
+        .section .text.BgMap_0a2d49, "ax", @progbits
+        .global BgMap_0a2d49
+BgMap_0a2d49:
         .dc.b   0xce                            | +00000
         .dc.w   0x2010,0x50a5,0x2010,0x50ab,0x2010,0x50b3,0x2210,0x50bb     | +00001
         .dc.w   0x2210,0x50c3,0x2210,0x50cb,0x2410,0x50d3,0x2510,0x50db     | +00011
         .dc.w   0x2610,0x4ba8                                               | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a2d6e  @ $0A2D6E  (14 B)  [ref. desde código]
+|  BgMap_0a2d6e  @ $0A2D6E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2d6e, "ax", @progbits
-        .global Data_0a2d6e
-Data_0a2d6e:
+        .section .text.BgMap_0a2d6e, "ax", @progbits
+        .global BgMap_0a2d6e
+BgMap_0a2d6e:
         .dc.w   0x2610,0x4bae,0x2610,0x4b65,0x2610,0x4120,0x2010            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a2d7c  @ $0A2D7C  (644 B)  [ref. desde código]
+|  BgMap_0a2d7c  @ $0A2D7C  (644 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a2d7c, "ax", @progbits
-        .global Data_0a2d7c
-Data_0a2d7c:
+        .section .text.BgMap_0a2d7c, "ax", @progbits
+        .global BgMap_0a2d7c
+BgMap_0a2d7c:
         .dc.w   0x4120,0x2010,0x4120,0x2010,0x4dc1,0x2010,0x4dc5,0x2010     | +00000
         .dc.w   0x4dca,0x2010,0x4dcf,0x2010,0x50a6,0x2010,0x50ac,0x2010     | +00010
         .dc.w   0x50b4,0x2210,0x50bc,0x2210,0x50c4,0x2210,0x50cc,0x2410     | +00020
@@ -2030,39 +2030,39 @@ Data_0a2d7c:
         .dc.w   0x4b66,0x2610                                               | +00280
 
 | ----------------------------------------------------------------------------
-|  Data_0a3000  @ $0A3000  (23 B)  [ref. desde código]
+|  BgMap_0a3000  @ $0A3000  (23 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3000, "ax", @progbits
-        .global Data_0a3000
-Data_0a3000:
+        .section .text.BgMap_0a3000, "ax", @progbits
+        .global BgMap_0a3000
+BgMap_0a3000:
         .dc.w   0x4120,0x2010,0x4120,0x2010,0x4120,0x2010,0x4120,0x2010     | +00000
         .dc.w   0x4dd9,0x2010,0x4de1                                        | +00010
         .dc.b   0x20                            | +00016
 
 | ----------------------------------------------------------------------------
-|  Data_0a3017  @ $0A3017  (23 B)  [ref. desde código]
+|  BgMap_0a3017  @ $0A3017  (23 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3017, "ax", @progbits
-        .global Data_0a3017
-Data_0a3017:
+        .section .text.BgMap_0a3017, "ax", @progbits
+        .global BgMap_0a3017
+BgMap_0a3017:
         .dc.b   0x10                            | +00000
         .dc.w   0x4de8,0x2010,0x50e4,0x2010,0x50ec,0x2010,0x50f4,0x2210     | +00001
         .dc.w   0x50fc,0x1110,0x5104                                        | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0a302e  @ $0A302E  (14 B)  [ref. desde código]
+|  BgMap_0a302e  @ $0A302E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a302e, "ax", @progbits
-        .global Data_0a302e
-Data_0a302e:
+        .section .text.BgMap_0a302e, "ax", @progbits
+        .global BgMap_0a302e
+BgMap_0a302e:
         .dc.w   0x1110,0x510c,0x2310,0x5114,0x2510,0x511c,0x2610            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a303c  @ $0A303C  (452 B)  [ref. desde código]
+|  BgMap_0a303c  @ $0A303C  (452 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a303c, "ax", @progbits
-        .global Data_0a303c
-Data_0a303c:
+        .section .text.BgMap_0a303c, "ax", @progbits
+        .global BgMap_0a303c
+BgMap_0a303c:
         .dc.w   0x4bb7,0x2610,0x4ba4,0x2610,0x4b67,0x2610,0x4120,0x2010     | +00000
         .dc.w   0x4120,0x2010,0x4120,0x2010,0x4120,0x2010,0x4dda,0x2010     | +00010
         .dc.w   0x4de2,0x2010,0x4de9,0x2010,0x50e5,0x2010,0x50ed,0x2010     | +00020
@@ -2094,49 +2094,49 @@ Data_0a303c:
         .dc.w   0x4d58,0x2010                                               | +001c0
 
 | ----------------------------------------------------------------------------
-|  Data_0a3200  @ $0A3200  (40 B)  [ref. desde código]
+|  BgMap_0a3200  @ $0A3200  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3200, "ax", @progbits
-        .global Data_0a3200
-Data_0a3200:
+        .section .text.BgMap_0a3200, "ax", @progbits
+        .global BgMap_0a3200
+BgMap_0a3200:
         .dc.w   0x4d5c,0x2010,0x4d62,0x2010,0x4d6a,0x2010,0x4db5,0x2010     | +00000
         .dc.w   0x4dbc,0x2010,0x5123,0x2010,0x512a,0x2010,0x5131,0x2210     | +00010
         .dc.w   0x4c28,0x2210,0x513f,0x1110                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0a3228  @ $0A3228  (2 B)  [ref. desde código]
+|  BgMap_0a3228  @ $0A3228  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3228, "ax", @progbits
-        .global Data_0a3228
-Data_0a3228:
+        .section .text.BgMap_0a3228, "ax", @progbits
+        .global BgMap_0a3228
+BgMap_0a3228:
         .dc.w   0x5147                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a322a  @ $0A322A  (18 B)  [ref. desde código]
+|  BgMap_0a322a  @ $0A322A  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a322a, "ax", @progbits
-        .global Data_0a322a
-Data_0a322a:
+        .section .text.BgMap_0a322a, "ax", @progbits
+        .global BgMap_0a322a
+BgMap_0a322a:
         .dc.w   0x1110,0x514e,0x1110,0x5156,0x2610,0x4bc6,0x2610,0x4baf     | +00000
         .dc.w   0x2610                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a323c  @ $0A323C  (64 B)  [ref. desde código]
+|  BgMap_0a323c  @ $0A323C  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a323c, "ax", @progbits
-        .global Data_0a323c
-Data_0a323c:
+        .section .text.BgMap_0a323c, "ax", @progbits
+        .global BgMap_0a323c
+BgMap_0a323c:
         .dc.w   0x4b66,0x2610,0x4120,0x2010,0x4d59,0x2010,0x4d5d,0x2010     | +00000
         .dc.w   0x4da7,0x2010,0x4dae,0x2010,0x4db6,0x2010,0x4d7b,0x2010     | +00010
         .dc.w   0x5124,0x2010,0x512b,0x2010,0x5132,0x2210,0x4c28,0x2210     | +00020
         .dc.w   0x5140,0x1110,0x5148,0x1110,0x514f,0x1110,0x5157,0x2610     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0a327c  @ $0A327C  (325 B)  [ref. desde código]
+|  BgMap_0a327c  @ $0A327C  (325 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a327c, "ax", @progbits
-        .global Data_0a327c
-Data_0a327c:
+        .section .text.BgMap_0a327c, "ax", @progbits
+        .global BgMap_0a327c
+BgMap_0a327c:
         .dc.w   0x4bc7,0x2610,0x4ba4,0x2610,0x4b67,0x2610,0x4120,0x2010     | +00000
         .dc.w   0x4d5a,0x2010,0x4dbd,0x2010,0x4dbf,0x2010,0x4dc3,0x2010     | +00010
         .dc.w   0x4dc8,0x2010,0x4d7b,0x2010,0x5125,0x2010,0x512c,0x2010     | +00020
@@ -2161,49 +2161,49 @@ Data_0a327c:
         .dc.b   0x4d                            | +00144
 
 | ----------------------------------------------------------------------------
-|  Data_0a33c1  @ $0A33C1  (45 B)  [ref. desde código]
+|  BgMap_0a33c1  @ $0A33C1  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a33c1, "ax", @progbits
-        .global Data_0a33c1
-Data_0a33c1:
+        .section .text.BgMap_0a33c1, "ax", @progbits
+        .global BgMap_0a33c1
+BgMap_0a33c1:
         .dc.b   0xd1                            | +00000
         .dc.w   0x2010,0x515c,0x2010,0x4d7b,0x2010,0x5165,0x2010,0x516b     | +00001
         .dc.w   0x2010,0x5173,0x2210,0x5093,0x2410,0x5182,0x2510,0x518a     | +00011
         .dc.w   0x2610,0x4bcd,0x2610,0x4bd2,0x2610,0x4b82                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a33ee  @ $0A33EE  (14 B)  [ref. desde código]
+|  BgMap_0a33ee  @ $0A33EE  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a33ee, "ax", @progbits
-        .global Data_0a33ee
-Data_0a33ee:
+        .section .text.BgMap_0a33ee, "ax", @progbits
+        .global BgMap_0a33ee
+BgMap_0a33ee:
         .dc.w   0x2610,0x4120,0x2010,0x4120,0x2010,0x4120,0x2010            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a33fc  @ $0A33FC  (46 B)  [ref. desde código]
+|  BgMap_0a33fc  @ $0A33FC  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a33fc, "ax", @progbits
-        .global Data_0a33fc
-Data_0a33fc:
+        .section .text.BgMap_0a33fc, "ax", @progbits
+        .global BgMap_0a33fc
+BgMap_0a33fc:
         .dc.w   0x4120,0x2010,0x4d8b,0x2010,0x4dcb,0x2010,0x4dd2,0x2010     | +00000
         .dc.w   0x4d7b,0x2010,0x4d7b,0x2010,0x5166,0x2010,0x516c,0x2010     | +00010
         .dc.w   0x5174,0x2010,0x517b,0x2410,0x5183,0x2510,0x518b            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0a342a  @ $0A342A  (18 B)  [ref. desde código]
+|  BgMap_0a342a  @ $0A342A  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a342a, "ax", @progbits
-        .global Data_0a342a
-Data_0a342a:
+        .section .text.BgMap_0a342a, "ax", @progbits
+        .global BgMap_0a342a
+BgMap_0a342a:
         .dc.w   0x2610,0x4b74,0x2610,0x4bd3,0x2610,0x4b65,0x2610,0x4120     | +00000
         .dc.w   0x2010                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a343c  @ $0A343C  (1,024 B)  [ref. desde código]
+|  BgMap_0a343c  @ $0A343C  (1,024 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a343c, "ax", @progbits
-        .global Data_0a343c
-Data_0a343c:
+        .section .text.BgMap_0a343c, "ax", @progbits
+        .global BgMap_0a343c
+BgMap_0a343c:
         .dc.w   0x4120,0x2010,0x4120,0x2010,0x4d84,0x2010,0x4dc6,0x2010     | +00000
         .dc.w   0x4dfe,0x2010,0x4dd3,0x2010,0x4d7b,0x2010,0x4d7b,0x2010     | +00010
         .dc.w   0x4d7b,0x2010,0x516d,0x2010,0x5175,0x2010,0x517c,0x2410     | +00020
@@ -2270,11 +2270,11 @@ Data_0a343c:
         .dc.w   0x4e42,0x4810,0x4e4a,0x4810,0x4e52,0x4810,0x4e5a,0x4810     | +003f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a383c  @ $0A383C  (455 B)  [ref. desde código]
+|  BgMap_0a383c  @ $0A383C  (455 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a383c, "ax", @progbits
-        .global Data_0a383c
-Data_0a383c:
+        .section .text.BgMap_0a383c, "ax", @progbits
+        .global BgMap_0a383c
+BgMap_0a383c:
         .dc.w   0x4e62,0x4810,0x4e6a,0x4810,0x51d1,0x4810,0x51d9,0x4810     | +00000
         .dc.w   0x51e1,0x4810,0x51e9,0x4810,0x51f1,0x4810,0x51f9,0x4b10     | +00010
         .dc.w   0x5201,0x4c10,0x5205,0x4c10,0x4bea,0x2b10,0x4bee,0x2b10     | +00020
@@ -2307,11 +2307,11 @@ Data_0a383c:
         .dc.b   0x48                            | +001c6
 
 | ----------------------------------------------------------------------------
-|  Data_0a3a03  @ $0A3A03  (101 B)  [ref. desde código]
+|  BgMap_0a3a03  @ $0A3A03  (101 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3a03, "ax", @progbits
-        .global Data_0a3a03
-Data_0a3a03:
+        .section .text.BgMap_0a3a03, "ax", @progbits
+        .global BgMap_0a3a03
+BgMap_0a3a03:
         .dc.b   0x10                            | +00000
         .dc.w   0x51f7,0x4910,0x51ff,0x4910,0x4c08,0x4d18,0x4010,0x5018     | +00001
         .dc.w   0x4030,0x5018,0x4042,0x4c10,0x4046,0x4c10,0x4e41,0x4810     | +00011
@@ -2322,11 +2322,11 @@ Data_0a3a03:
         .dc.w   0x4047,0x4c10                                               | +00061
 
 | ----------------------------------------------------------------------------
-|  Data_0a3a68  @ $0A3A68  (227 B)  [ref. desde código]
+|  BgMap_0a3a68  @ $0A3A68  (227 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3a68, "ax", @progbits
-        .global Data_0a3a68
-Data_0a3a68:
+        .section .text.BgMap_0a3a68, "ax", @progbits
+        .global BgMap_0a3a68
+BgMap_0a3a68:
         .dc.w   0x5408,0x4810,0x5410,0x4810,0x5418,0x4810,0x5420,0x4810     | +00000
         .dc.w   0x5428,0x4810,0x5430,0x4810,0x5438,0x4810,0x5546,0x4810     | +00010
         .dc.w   0x554d,0x4810,0x5554,0x4810,0x555b,0x4810,0x5563,0x4910     | +00020
@@ -2345,11 +2345,11 @@ Data_0a3a68:
         .dc.b   0x48                            | +000e2
 
 | ----------------------------------------------------------------------------
-|  Data_0a3b4b  @ $0A3B4B  (187 B)  [ref. desde código]
+|  BgMap_0a3b4b  @ $0A3B4B  (187 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3b4b, "ax", @progbits
-        .global Data_0a3b4b
-Data_0a3b4b:
+        .section .text.BgMap_0a3b4b, "ax", @progbits
+        .global BgMap_0a3b4b
+BgMap_0a3b4b:
         .dc.b   0x10                            | +00000
         .dc.w   0x5423,0x4810,0x542b,0x4810,0x5433,0x4810,0x543b,0x4810     | +00001
         .dc.w   0x5549,0x4810,0x5550,0x4810,0x5557,0x4810,0x555e,0x4810     | +00011
@@ -2365,22 +2365,22 @@ Data_0a3b4b:
         .dc.w   0x5568,0x4910,0x5570,0x4910,0x52c0                          | +000b1
 
 | ----------------------------------------------------------------------------
-|  Data_0a3c06  @ $0A3C06  (54 B)  [ref. desde código]
+|  BgMap_0a3c06  @ $0A3C06  (54 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3c06, "ax", @progbits
-        .global Data_0a3c06
-Data_0a3c06:
+        .section .text.BgMap_0a3c06, "ax", @progbits
+        .global BgMap_0a3c06
+BgMap_0a3c06:
         .dc.w   0x4d18,0x4060,0x5410,0x40d0,0x5410,0x40e1,0x5410,0x40e7     | +00000
         .dc.w   0x5410,0x540e,0x4810,0x5416,0x4810,0x541e,0x4810,0x5426     | +00010
         .dc.w   0x4810,0x542e,0x4810,0x5436,0x4810,0x543e,0x4810,0x554c     | +00020
         .dc.w   0x4810,0x5553,0x4810                                        | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0a3c3c  @ $0A3C3C  (260 B)  [ref. desde código]
+|  BgMap_0a3c3c  @ $0A3C3C  (260 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3c3c, "ax", @progbits
-        .global Data_0a3c3c
-Data_0a3c3c:
+        .section .text.BgMap_0a3c3c, "ax", @progbits
+        .global BgMap_0a3c3c
+BgMap_0a3c3c:
         .dc.w   0x555a,0x4810,0x5561,0x4810,0x5569,0x4910,0x5571,0x4910     | +00000
         .dc.w   0x52c8,0x4d18,0x4010,0x5410,0x40c0,0x5410,0x40e2,0x5410     | +00010
         .dc.w   0x40e7,0x5410,0x540f,0x4810,0x5417,0x4810,0x541f,0x4810     | +00020
@@ -2400,38 +2400,38 @@ Data_0a3c3c:
         .dc.w   0x4120,0x1010                                               | +00100
 
 | ----------------------------------------------------------------------------
-|  Data_0a3d40  @ $0A3D40  (1 B)  [ref. desde código]
+|  BgMap_0a3d40  @ $0A3D40  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3d40, "ax", @progbits
-        .global Data_0a3d40
-Data_0a3d40:
+        .section .text.BgMap_0a3d40, "ax", @progbits
+        .global BgMap_0a3d40
+BgMap_0a3d40:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a3d41  @ $0A3D41  (45 B)  [ref. desde código]
+|  BgMap_0a3d41  @ $0A3D41  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3d41, "ax", @progbits
-        .global Data_0a3d41
-Data_0a3d41:
+        .section .text.BgMap_0a3d41, "ax", @progbits
+        .global BgMap_0a3d41
+BgMap_0a3d41:
         .dc.b   0x20                            | +00000
         .dc.w   0x1010,0x4120,0x1010,0x4120,0x1010,0x5453,0x4310,0x545b     | +00001
         .dc.w   0x4310,0x5575,0x4310,0x557d,0x4310,0x5584,0x4310,0x558b     | +00011
         .dc.w   0x5610,0x5592,0x5610,0x559a,0x5610,0x52e8                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a3d6e  @ $0A3D6E  (14 B)  [ref. desde código]
+|  BgMap_0a3d6e  @ $0A3D6E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3d6e, "ax", @progbits
-        .global Data_0a3d6e
-Data_0a3d6e:
+        .section .text.BgMap_0a3d6e, "ax", @progbits
+        .global BgMap_0a3d6e
+BgMap_0a3d6e:
         .dc.w   0x4d18,0x4078,0x5710,0x40c0,0x5410,0x40e2,0x5410            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a3d7c  @ $0A3D7C  (192 B)  [ref. desde código]
+|  BgMap_0a3d7c  @ $0A3D7C  (192 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3d7c, "ax", @progbits
-        .global Data_0a3d7c
-Data_0a3d7c:
+        .section .text.BgMap_0a3d7c, "ax", @progbits
+        .global BgMap_0a3d7c
+BgMap_0a3d7c:
         .dc.w   0x40e7,0x5410,0x4120,0x4310,0x4120,0x1010,0x4120,0x1010     | +00000
         .dc.w   0x4120,0x1010,0x544c,0x4310,0x5454,0x4310,0x545c,0x4310     | +00010
         .dc.w   0x5576,0x4310,0x557e,0x4310,0x5585,0x4310,0x558c,0x5610     | +00020
@@ -2446,11 +2446,11 @@ Data_0a3d7c:
         .dc.w   0x5578,0x4310,0x5580,0x4310,0x5587,0x4410,0x558e,0x5610     | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0a3e3c  @ $0A3E3C  (956 B)  [ref. desde código]
+|  BgMap_0a3e3c  @ $0A3E3C  (956 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a3e3c, "ax", @progbits
-        .global Data_0a3e3c
-Data_0a3e3c:
+        .section .text.BgMap_0a3e3c, "ax", @progbits
+        .global BgMap_0a3e3c
+BgMap_0a3e3c:
         .dc.w   0x5595,0x5610,0x559d,0x5610,0x5300,0x4d18,0x4090,0x5710     | +00000
         .dc.w   0x40b8,0x5410,0x40e1,0x5410,0x40e7,0x5410,0x4120,0x4310     | +00010
         .dc.w   0x4120,0x4310,0x4120,0x4310,0x5448,0x4310,0x544f,0x4310     | +00020
@@ -2513,88 +2513,88 @@ Data_0a3e3c:
         .dc.w   0x5350,0x4718,0x4010,0x5410,0x40c0,0x5410                   | +003b0
 
 | ----------------------------------------------------------------------------
-|  Data_0a41f8  @ $0A41F8  (1 B)  [ref. desde código]
+|  BgMap_0a41f8  @ $0A41F8  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a41f8, "ax", @progbits
-        .global Data_0a41f8
-Data_0a41f8:
+        .section .text.BgMap_0a41f8, "ax", @progbits
+        .global BgMap_0a41f8
+BgMap_0a41f8:
         .dc.b   0x40                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a41f9  @ $0A41F9  (1 B)  [ref. desde código]
+|  BgMap_0a41f9  @ $0A41F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a41f9, "ax", @progbits
-        .global Data_0a41f9
-Data_0a41f9:
+        .section .text.BgMap_0a41f9, "ax", @progbits
+        .global BgMap_0a41f9
+BgMap_0a41f9:
         .dc.b   0xe2                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a41fa  @ $0A41FA  (6 B)  [ref. desde código]
+|  BgMap_0a41fa  @ $0A41FA  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a41fa, "ax", @progbits
-        .global Data_0a41fa
-Data_0a41fa:
+        .section .text.BgMap_0a41fa, "ax", @progbits
+        .global BgMap_0a41fa
+BgMap_0a41fa:
         .dc.w   0x5410,0x40e7,0x5410                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a4200  @ $0A4200  (1 B)  [ref. desde código]
+|  BgMap_0a4200  @ $0A4200  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4200, "ax", @progbits
-        .global Data_0a4200
-Data_0a4200:
+        .section .text.BgMap_0a4200, "ax", @progbits
+        .global BgMap_0a4200
+BgMap_0a4200:
         .dc.b   0x41                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a4201  @ $0A4201  (45 B)  [ref. desde código]
+|  BgMap_0a4201  @ $0A4201  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4201, "ax", @progbits
-        .global Data_0a4201
-Data_0a4201:
+        .section .text.BgMap_0a4201, "ax", @progbits
+        .global BgMap_0a4201
+BgMap_0a4201:
         .dc.b   0x20                            | +00000
         .dc.w   0x4310,0x4120,0x4310,0x4120,0x4210,0x4120,0x4210,0x547f     | +00001
         .dc.w   0x4210,0x5485,0x4310,0x548a,0x4310,0x55ba,0x4310,0x55c2     | +00011
         .dc.w   0x4310,0x4120,0x4310,0x4120,0x4310,0x4120                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a422e  @ $0A422E  (18 B)  [ref. desde código]
+|  BgMap_0a422e  @ $0A422E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a422e, "ax", @progbits
-        .global Data_0a422e
-Data_0a422e:
+        .section .text.BgMap_0a422e, "ax", @progbits
+        .global BgMap_0a422e
+BgMap_0a422e:
         .dc.w   0x4310,0x4120,0x4610,0x4c10,0x4718,0x4018,0x5410,0x40c8     | +00000
         .dc.w   0x5410                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a4240  @ $0A4240  (1 B)  [ref. desde código]
+|  BgMap_0a4240  @ $0A4240  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4240, "ax", @progbits
-        .global Data_0a4240
-Data_0a4240:
+        .section .text.BgMap_0a4240, "ax", @progbits
+        .global BgMap_0a4240
+BgMap_0a4240:
         .dc.b   0x40                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a4241  @ $0A4241  (1 B)  [ref. desde código]
+|  BgMap_0a4241  @ $0A4241  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4241, "ax", @progbits
-        .global Data_0a4241
-Data_0a4241:
+        .section .text.BgMap_0a4241, "ax", @progbits
+        .global BgMap_0a4241
+BgMap_0a4241:
         .dc.b   0xe3                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a4242  @ $0A4242  (3 B)  [ref. desde código]
+|  BgMap_0a4242  @ $0A4242  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4242, "ax", @progbits
-        .global Data_0a4242
-Data_0a4242:
+        .section .text.BgMap_0a4242, "ax", @progbits
+        .global BgMap_0a4242
+BgMap_0a4242:
         .dc.w   0x5410                                                      | +00000
         .dc.b   0x40                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_0a4245  @ $0A4245  (40 B)  [ref. desde código]
+|  BgMap_0a4245  @ $0A4245  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4245, "ax", @progbits
-        .global Data_0a4245
-Data_0a4245:
+        .section .text.BgMap_0a4245, "ax", @progbits
+        .global BgMap_0a4245
+BgMap_0a4245:
         .dc.b   0xe7                            | +00000
         .dc.w   0x5410,0x4120,0x4310,0x5473,0x4310,0x5477,0x4210,0x547b     | +00001
         .dc.w   0x4210,0x5480,0x4210,0x5486,0x4310,0x4120,0x4310,0x55bb     | +00011
@@ -2602,28 +2602,28 @@ Data_0a4245:
         .dc.b   0x55                            | +00027
 
 | ----------------------------------------------------------------------------
-|  Data_0a426d  @ $0A426D  (1 B)  [ref. desde código]
+|  BgMap_0a426d  @ $0A426D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a426d, "ax", @progbits
-        .global Data_0a426d
-Data_0a426d:
+        .section .text.BgMap_0a426d, "ax", @progbits
+        .global BgMap_0a426d
+BgMap_0a426d:
         .dc.b   0xca                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a426e  @ $0A426E  (18 B)  [ref. desde código]
+|  BgMap_0a426e  @ $0A426E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a426e, "ax", @progbits
-        .global Data_0a426e
-Data_0a426e:
+        .section .text.BgMap_0a426e, "ax", @progbits
+        .global BgMap_0a426e
+BgMap_0a426e:
         .dc.w   0x4210,0x55d1,0x4210,0x4120,0x4310,0x4120,0x4610,0x5358     | +00000
         .dc.w   0x4718                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a4280  @ $0A4280  (373 B)  [ref. desde código]
+|  BgMap_0a4280  @ $0A4280  (373 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4280, "ax", @progbits
-        .global Data_0a4280
-Data_0a4280:
+        .section .text.BgMap_0a4280, "ax", @progbits
+        .global BgMap_0a4280
+BgMap_0a4280:
         .dc.w   0x4048,0x5410,0x40b0,0x5410,0x40e4,0x5410,0x40e7,0x5410     | +00000
         .dc.w   0x4120,0x4310,0x5474,0x4310,0x5478,0x4310,0x547c,0x4310     | +00010
         .dc.w   0x5481,0x4310,0x5487,0x4310,0x548b,0x4310,0x55bc,0x4310     | +00020
@@ -2651,29 +2651,29 @@ Data_0a4280:
         .dc.b   0x40                            | +00174
 
 | ----------------------------------------------------------------------------
-|  Data_0a43f5  @ $0A43F5  (4 B)  [ref. desde código]
+|  BgMap_0a43f5  @ $0A43F5  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a43f5, "ax", @progbits
-        .global Data_0a43f5
-Data_0a43f5:
+        .section .text.BgMap_0a43f5, "ax", @progbits
+        .global BgMap_0a43f5
+BgMap_0a43f5:
         .dc.b   0xe7                            | +00000
         .dc.w   0x5410                                                      | +00001
         .dc.b   0x54                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0a43f9  @ $0A43F9  (1 B)  [ref. desde código]
+|  BgMap_0a43f9  @ $0A43F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a43f9, "ax", @progbits
-        .global Data_0a43f9
-Data_0a43f9:
+        .section .text.BgMap_0a43f9, "ax", @progbits
+        .global BgMap_0a43f9
+BgMap_0a43f9:
         .dc.b   0x90                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a43fa  @ $0A43FA  (70 B)  [ref. desde código]
+|  BgMap_0a43fa  @ $0A43FA  (70 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a43fa, "ax", @progbits
-        .global Data_0a43fa
-Data_0a43fa:
+        .section .text.BgMap_0a43fa, "ax", @progbits
+        .global BgMap_0a43fa
+BgMap_0a43fa:
         .dc.w   0x4310,0x5493,0x4310,0x5498,0x4310,0x549f,0x4310,0x54a7     | +00000
         .dc.w   0x4310,0x54af,0x4310,0x54b7,0x4310,0x55e2,0x4310,0x55ea     | +00010
         .dc.w   0x4310,0x55f2,0x4310,0x55fa,0x4310,0x5601,0x4310,0x5607     | +00020
@@ -2681,11 +2681,11 @@ Data_0a43fa:
         .dc.w   0x5410,0x40e7,0x5410                                        | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_0a4440  @ $0A4440  (424 B)  [ref. desde código]
+|  BgMap_0a4440  @ $0A4440  (424 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4440, "ax", @progbits
-        .global Data_0a4440
-Data_0a4440:
+        .section .text.BgMap_0a4440, "ax", @progbits
+        .global BgMap_0a4440
+BgMap_0a4440:
         .dc.w   0x4120,0x4310,0x5494,0x4310,0x5499,0x4310,0x54a0,0x4310     | +00000
         .dc.w   0x54a8,0x4310,0x54b0,0x4310,0x54b8,0x4310,0x55e3,0x4310     | +00010
         .dc.w   0x55eb,0x4310,0x55f3,0x4310,0x55fb,0x4310,0x5602,0x4310     | +00020
@@ -2715,20 +2715,20 @@ Data_0a4440:
         .dc.w   0x4048,0x5410,0x40b0,0x5410                                 | +001a0
 
 | ----------------------------------------------------------------------------
-|  Data_0a45e8  @ $0A45E8  (18 B)  [ref. desde código]
+|  BgMap_0a45e8  @ $0A45E8  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a45e8, "ax", @progbits
-        .global Data_0a45e8
-Data_0a45e8:
+        .section .text.BgMap_0a45e8, "ax", @progbits
+        .global BgMap_0a45e8
+BgMap_0a45e8:
         .dc.w   0x40e4,0x5410,0x40e7,0x5410,0x4120,0x4310,0x4120,0x4310     | +00000
         .dc.w   0x4120                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a45fa  @ $0A45FA  (582 B)  [ref. desde código]
+|  BgMap_0a45fa  @ $0A45FA  (582 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a45fa, "ax", @progbits
-        .global Data_0a45fa
-Data_0a45fa:
+        .section .text.BgMap_0a45fa, "ax", @progbits
+        .global BgMap_0a45fa
+BgMap_0a45fa:
         .dc.w   0x4310,0x4120,0x4310,0x4120,0x4310,0x4120,0x4310,0x4120     | +00000
         .dc.w   0x4310,0x4120,0x4310,0x560d,0x4310,0x5615,0x4210,0x561d     | +00010
         .dc.w   0x4210,0x5625,0x4210,0x562d,0x4610,0x53c0,0x4718,0x4050     | +00020
@@ -2768,28 +2768,28 @@ Data_0a45fa:
         .dc.w   0x4310,0x5449,0x4310                                        | +00240
 
 | ----------------------------------------------------------------------------
-|  Data_0a4840  @ $0A4840  (1 B)  [ref. desde código]
+|  BgMap_0a4840  @ $0A4840  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4840, "ax", @progbits
-        .global Data_0a4840
-Data_0a4840:
+        .section .text.BgMap_0a4840, "ax", @progbits
+        .global BgMap_0a4840
+BgMap_0a4840:
         .dc.b   0x54                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a4841  @ $0A4841  (3 B)  [ref. desde código]
+|  BgMap_0a4841  @ $0A4841  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4841, "ax", @progbits
-        .global Data_0a4841
-Data_0a4841:
+        .section .text.BgMap_0a4841, "ax", @progbits
+        .global BgMap_0a4841
+BgMap_0a4841:
         .dc.b   0x50                            | +00000
         .dc.w   0x4310                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a4844  @ $0A4844  (117 B)  [ref. desde código]
+|  BgMap_0a4844  @ $0A4844  (117 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4844, "ax", @progbits
-        .global Data_0a4844
-Data_0a4844:
+        .section .text.BgMap_0a4844, "ax", @progbits
+        .global BgMap_0a4844
+BgMap_0a4844:
         .dc.w   0x54c4,0x4310,0x54c8,0x4310,0x5633,0x4310,0x5638,0x4310     | +00000
         .dc.w   0x4120,0x4310,0x5642,0x4310,0x5647,0x4310,0x564c,0x4610     | +00010
         .dc.w   0x53f0,0x4718,0x4060,0x5410,0x40d0,0x5410,0x40e1,0x5410     | +00020
@@ -2801,21 +2801,21 @@ Data_0a4844:
         .dc.b   0x40                            | +00074
 
 | ----------------------------------------------------------------------------
-|  Data_0a48b9  @ $0A48B9  (8 B)  [ref. desde código]
+|  BgMap_0a48b9  @ $0A48B9  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a48b9, "ax", @progbits
-        .global Data_0a48b9
-Data_0a48b9:
+        .section .text.BgMap_0a48b9, "ax", @progbits
+        .global BgMap_0a48b9
+BgMap_0a48b9:
         .dc.b   0xe2                            | +00000
         .dc.w   0x5410,0x40e7,0x5410                                        | +00001
         .dc.b   0x41                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_0a48c1  @ $0A48C1  (319 B)  [ref. desde código]
+|  BgMap_0a48c1  @ $0A48C1  (319 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a48c1, "ax", @progbits
-        .global Data_0a48c1
-Data_0a48c1:
+        .section .text.BgMap_0a48c1, "ax", @progbits
+        .global BgMap_0a48c1
+BgMap_0a48c1:
         .dc.b   0x20                            | +00000
         .dc.w   0x1010,0x4120,0x4310,0x54be,0x4310,0x54bf,0x4310,0x54c1     | +00001
         .dc.w   0x4310,0x54c6,0x4310,0x54ca,0x4310,0x5635,0x4310,0x563a     | +00011
@@ -2839,68 +2839,68 @@ Data_0a48c1:
         .dc.w   0x4210,0x4120,0x4210,0x54cc,0x4210,0x5637,0x4210            | +00131
 
 | ----------------------------------------------------------------------------
-|  Data_0a4a00  @ $0A4A00  (41 B)  [ref. desde código]
+|  BgMap_0a4a00  @ $0A4A00  (41 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4a00, "ax", @progbits
-        .global Data_0a4a00
-Data_0a4a00:
+        .section .text.BgMap_0a4a00, "ax", @progbits
+        .global BgMap_0a4a00
+BgMap_0a4a00:
         .dc.w   0x563b,0x4210,0x5640,0x4210,0x5645,0x4210,0x564a,0x4210     | +00000
         .dc.w   0x5650,0x4610,0x5652,0x4710,0x4018,0x5410,0x40c8,0x5410     | +00010
         .dc.w   0x40e3,0x5410,0x40e7,0x5410                                 | +00020
         .dc.b   0x41                            | +00028
 
 | ----------------------------------------------------------------------------
-|  Data_0a4a29  @ $0A4A29  (5 B)  [ref. desde código]
+|  BgMap_0a4a29  @ $0A4A29  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4a29, "ax", @progbits
-        .global Data_0a4a29
-Data_0a4a29:
+        .section .text.BgMap_0a4a29, "ax", @progbits
+        .global BgMap_0a4a29
+BgMap_0a4a29:
         .dc.b   0x20                            | +00000
         .dc.w   0x1010,0x4120                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a4a2e  @ $0A4A2E  (3 B)  [ref. desde código]
+|  BgMap_0a4a2e  @ $0A4A2E  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4a2e, "ax", @progbits
-        .global Data_0a4a2e
-Data_0a4a2e:
+        .section .text.BgMap_0a4a2e, "ax", @progbits
+        .global BgMap_0a4a2e
+BgMap_0a4a2e:
         .dc.w   0x4210                                                      | +00000
         .dc.b   0x41                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_0a4a31  @ $0A4A31  (17 B)  [ref. desde código]
+|  BgMap_0a4a31  @ $0A4A31  (17 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4a31, "ax", @progbits
-        .global Data_0a4a31
-Data_0a4a31:
+        .section .text.BgMap_0a4a31, "ax", @progbits
+        .global BgMap_0a4a31
+BgMap_0a4a31:
         .dc.b   0x20                            | +00000
         .dc.w   0x4210,0x4120,0x4210,0x4120,0x4210,0x4120,0x4210,0x54de     | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a4a42  @ $0A4A42  (44 B)  [ref. desde código]
+|  BgMap_0a4a42  @ $0A4A42  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4a42, "ax", @progbits
-        .global Data_0a4a42
-Data_0a4a42:
+        .section .text.BgMap_0a4a42, "ax", @progbits
+        .global BgMap_0a4a42
+BgMap_0a4a42:
         .dc.w   0x4210,0x5653,0x4210,0x565b,0x4210,0x5663,0x4210,0x566b     | +00000
         .dc.w   0x4210,0x5672,0x4210,0x5679,0x4210,0x4b0f,0x4710,0x4048     | +00010
         .dc.w   0x5410,0x40b0,0x5410,0x40e4,0x5410,0x40e7                   | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0a4a6e  @ $0A4A6E  (11 B)  [ref. desde código]
+|  BgMap_0a4a6e  @ $0A4A6E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4a6e, "ax", @progbits
-        .global Data_0a4a6e
-Data_0a4a6e:
+        .section .text.BgMap_0a4a6e, "ax", @progbits
+        .global BgMap_0a4a6e
+BgMap_0a4a6e:
         .dc.w   0x5410,0x4120,0x1010,0x4120,0x4210                          | +00000
         .dc.b   0x41                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_0a4a79  @ $0A4A79  (550 B)  [ref. desde código]
+|  BgMap_0a4a79  @ $0A4A79  (550 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4a79, "ax", @progbits
-        .global Data_0a4a79
-Data_0a4a79:
+        .section .text.BgMap_0a4a79, "ax", @progbits
+        .global BgMap_0a4a79
+BgMap_0a4a79:
         .dc.b   0x20                            | +00000
         .dc.w   0x4210,0x4120,0x4210,0x4120,0x4210,0x54d7,0x4210,0x54df     | +00001
         .dc.w   0x4210,0x5654,0x4210,0x565c,0x4210,0x5664,0x4210,0x566c     | +00011
@@ -2940,11 +2940,11 @@ Data_0a4a79:
         .dc.b   0x47                            | +00225
 
 | ----------------------------------------------------------------------------
-|  Data_0a4c9f  @ $0A4C9F  (432 B)  [ref. desde código]
+|  BgMap_0a4c9f  @ $0A4C9F  (432 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4c9f, "ax", @progbits
-        .global Data_0a4c9f
-Data_0a4c9f:
+        .section .text.BgMap_0a4c9f, "ax", @progbits
+        .global BgMap_0a4c9f
+BgMap_0a4c9f:
         .dc.b   0x10                            | +00000
         .dc.w   0x4048,0x5410,0x40b0,0x5410,0x40e4,0x5410,0x40e7,0x5410     | +00001
         .dc.w   0x4120,0x4210,0x4120,0x4210,0x4120,0x4210,0x54f0,0x4210     | +00011
@@ -2976,43 +2976,43 @@ Data_0a4c9f:
         .dc.b   0x47                            | +001af
 
 | ----------------------------------------------------------------------------
-|  Data_0a4e4f  @ $0A4E4F  (34 B)  [ref. desde código]
+|  BgMap_0a4e4f  @ $0A4E4F  (34 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4e4f, "ax", @progbits
-        .global Data_0a4e4f
-Data_0a4e4f:
+        .section .text.BgMap_0a4e4f, "ax", @progbits
+        .global BgMap_0a4e4f
+BgMap_0a4e4f:
         .dc.b   0x10                            | +00000
         .dc.w   0x4010,0x5410,0x40c0,0x5410,0x40e2,0x5410,0x40e7,0x5410     | +00001
         .dc.w   0x54e7,0x4210,0x54ea,0x4210,0x54ef,0x4210,0x54f6,0x4210     | +00011
         .dc.b   0x54                            | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0a4e71  @ $0A4E71  (4 B)  [ref. desde código]
+|  BgMap_0a4e71  @ $0A4E71  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4e71, "ax", @progbits
-        .global Data_0a4e71
-Data_0a4e71:
+        .section .text.BgMap_0a4e71, "ax", @progbits
+        .global BgMap_0a4e71
+BgMap_0a4e71:
         .dc.b   0xfe                            | +00000
         .dc.w   0x4210                                                      | +00001
         .dc.b   0x55                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0a4e75  @ $0A4E75  (30 B)  [ref. desde código]
+|  BgMap_0a4e75  @ $0A4E75  (30 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4e75, "ax", @progbits
-        .global Data_0a4e75
-Data_0a4e75:
+        .section .text.BgMap_0a4e75, "ax", @progbits
+        .global BgMap_0a4e75
+BgMap_0a4e75:
         .dc.b   0x05                            | +00000
         .dc.w   0x4210,0x550d,0x4210,0x5687,0x4210,0x568f,0x4210,0x4120     | +00001
         .dc.w   0x4210,0x4120,0x4210,0x4120,0x4210,0x4120                   | +00011
         .dc.b   0x46                            | +0001d
 
 | ----------------------------------------------------------------------------
-|  Data_0a4e93  @ $0A4E93  (38 B)  [ref. desde código]
+|  BgMap_0a4e93  @ $0A4E93  (38 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4e93, "ax", @progbits
-        .global Data_0a4e93
-Data_0a4e93:
+        .section .text.BgMap_0a4e93, "ax", @progbits
+        .global BgMap_0a4e93
+BgMap_0a4e93:
         .dc.b   0x10                            | +00000
         .dc.w   0x4120,0x4710,0x4018,0x5410,0x40c8,0x5410,0x40e3,0x5410     | +00001
         .dc.w   0x40e7,0x5410,0x550e,0x4210,0x5516,0x4210,0x551e,0x4210     | +00011
@@ -3020,19 +3020,19 @@ Data_0a4e93:
         .dc.b   0x55                            | +00025
 
 | ----------------------------------------------------------------------------
-|  Data_0a4eb9  @ $0A4EB9  (1 B)  [ref. desde código]
+|  BgMap_0a4eb9  @ $0A4EB9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4eb9, "ax", @progbits
-        .global Data_0a4eb9
-Data_0a4eb9:
+        .section .text.BgMap_0a4eb9, "ax", @progbits
+        .global BgMap_0a4eb9
+BgMap_0a4eb9:
         .dc.b   0x2e                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a4eba  @ $0A4EBA  (63 B)  [ref. desde código]
+|  BgMap_0a4eba  @ $0A4EBA  (63 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4eba, "ax", @progbits
-        .global Data_0a4eba
-Data_0a4eba:
+        .section .text.BgMap_0a4eba, "ax", @progbits
+        .global BgMap_0a4eba
+BgMap_0a4eba:
         .dc.w   0x4210,0x5536,0x4210,0x553e,0x4210,0x56a3,0x4210,0x56ab     | +00000
         .dc.w   0x4210,0x4120,0x6b10,0x56ba,0x6b10,0x56c2,0x6b10,0x56ca     | +00010
         .dc.w   0x6b10,0x56d2,0x6b10,0x4048,0x5410,0x40b0,0x5410,0x40e4     | +00020
@@ -3040,19 +3040,19 @@ Data_0a4eba:
         .dc.b   0x55                            | +0003e
 
 | ----------------------------------------------------------------------------
-|  Data_0a4ef9  @ $0A4EF9  (1 B)  [ref. desde código]
+|  BgMap_0a4ef9  @ $0A4EF9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4ef9, "ax", @progbits
-        .global Data_0a4ef9
-Data_0a4ef9:
+        .section .text.BgMap_0a4ef9, "ax", @progbits
+        .global BgMap_0a4ef9
+BgMap_0a4ef9:
         .dc.b   0x1f                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a4efa  @ $0A4EFA  (326 B)  [ref. desde código]
+|  BgMap_0a4efa  @ $0A4EFA  (326 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a4efa, "ax", @progbits
-        .global Data_0a4efa
-Data_0a4efa:
+        .section .text.BgMap_0a4efa, "ax", @progbits
+        .global BgMap_0a4efa
+BgMap_0a4efa:
         .dc.w   0x4210,0x5527,0x4210,0x552f,0x4210,0x5537,0x4210,0x553f     | +00000
         .dc.w   0x4210,0x56a4,0x4210,0x56ac,0x4210,0x56b3,0x6b10,0x56bb     | +00010
         .dc.w   0x6b10,0x56c3,0x6b10,0x56cb,0x6b10,0x56d3,0x6b10,0x4050     | +00020
@@ -3076,19 +3076,19 @@ Data_0a4efa:
         .dc.w   0x6b10,0x56c7,0x6b10                                        | +00140
 
 | ----------------------------------------------------------------------------
-|  Data_0a5040  @ $0A5040  (1 B)  [ref. desde código]
+|  BgMap_0a5040  @ $0A5040  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5040, "ax", @progbits
-        .global Data_0a5040
-Data_0a5040:
+        .section .text.BgMap_0a5040, "ax", @progbits
+        .global BgMap_0a5040
+BgMap_0a5040:
         .dc.b   0x56                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a5041  @ $0A5041  (504 B)  [ref. desde código]
+|  BgMap_0a5041  @ $0A5041  (504 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5041, "ax", @progbits
-        .global Data_0a5041
-Data_0a5041:
+        .section .text.BgMap_0a5041, "ax", @progbits
+        .global BgMap_0a5041
+BgMap_0a5041:
         .dc.b   0xcf                            | +00000
         .dc.w   0x6b10,0x56d7,0x6b10,0x4050,0x5410,0x4b30,0x5410,0x4b48     | +00001
         .dc.w   0x5410,0x40e7,0x5410,0x5514,0x4210,0x551c,0x4210,0x5524     | +00011
@@ -3125,11 +3125,11 @@ Data_0a5041:
         .dc.b   0x41                            | +001f7
 
 | ----------------------------------------------------------------------------
-|  Data_0a5239  @ $0A5239  (200 B)  [ref. desde código]
+|  BgMap_0a5239  @ $0A5239  (200 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5239, "ax", @progbits
-        .global Data_0a5239
-Data_0a5239:
+        .section .text.BgMap_0a5239, "ax", @progbits
+        .global BgMap_0a5239
+BgMap_0a5239:
         .dc.b   0x20                            | +00000
         .dc.w   0x0010,0x4120,0x0010,0x4048,0x5410,0x40b0,0x5410,0x40e4     | +00001
         .dc.w   0x5410,0x40e7,0x5410,0x4120,0x0010,0x4120,0x0010,0x4120     | +00011
@@ -3147,41 +3147,41 @@ Data_0a5239:
         .dc.b   0x41                            | +000c7
 
 | ----------------------------------------------------------------------------
-|  Data_0a5301  @ $0A5301  (5 B)  [ref. desde código]
+|  BgMap_0a5301  @ $0A5301  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5301, "ax", @progbits
-        .global Data_0a5301
-Data_0a5301:
+        .section .text.BgMap_0a5301, "ax", @progbits
+        .global BgMap_0a5301
+BgMap_0a5301:
         .dc.b   0x20                            | +00000
         .dc.w   0x0010,0x4120                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0a5306  @ $0A5306  (58 B)  [ref. desde código]
+|  BgMap_0a5306  @ $0A5306  (58 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5306, "ax", @progbits
-        .global Data_0a5306
-Data_0a5306:
+        .section .text.BgMap_0a5306, "ax", @progbits
+        .global BgMap_0a5306
+BgMap_0a5306:
         .dc.w   0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120     | +00000
         .dc.w   0x0010,0x4018,0x5410,0x40c8,0x5410,0x40e3,0x5410,0x40e7     | +00010
         .dc.w   0x5410,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120     | +00020
         .dc.w   0x0010,0x4120,0x0010,0x4120,0x0010                          | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0a5340  @ $0A5340  (46 B)  [ref. desde código]
+|  BgMap_0a5340  @ $0A5340  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5340, "ax", @progbits
-        .global Data_0a5340
-Data_0a5340:
+        .section .text.BgMap_0a5340, "ax", @progbits
+        .global BgMap_0a5340
+BgMap_0a5340:
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +00000
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +00010
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0a536e  @ $0A536E  (218 B)  [ref. desde código]
+|  BgMap_0a536e  @ $0A536E  (218 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a536e, "ax", @progbits
-        .global Data_0a536e
-Data_0a536e:
+        .section .text.BgMap_0a536e, "ax", @progbits
+        .global BgMap_0a536e
+BgMap_0a536e:
         .dc.w   0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120     | +00000
         .dc.w   0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120     | +00010
         .dc.w   0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x3c10,0x4120     | +00020
@@ -3198,11 +3198,11 @@ Data_0a536e:
         .dc.w   0x0010,0x4120,0x0010,0x4120,0x0010                          | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_0a5448  @ $0A5448  (230 B)  [ref. desde código]
+|  BgMap_0a5448  @ $0A5448  (230 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5448, "ax", @progbits
-        .global Data_0a5448
-Data_0a5448:
+        .section .text.BgMap_0a5448, "ax", @progbits
+        .global BgMap_0a5448
+BgMap_0a5448:
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00000
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00010
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010     | +00020
@@ -3220,11 +3220,11 @@ Data_0a5448:
         .dc.w   0x4120,0x3010,0x4120                                        | +000e0
 
 | ----------------------------------------------------------------------------
-|  Data_0a552e  @ $0A552E  (314 B)  [ref. desde código]
+|  BgMap_0a552e  @ $0A552E  (314 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a552e, "ax", @progbits
-        .global Data_0a552e
-Data_0a552e:
+        .section .text.BgMap_0a552e, "ax", @progbits
+        .global BgMap_0a552e
+BgMap_0a552e:
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120     | +00000
         .dc.w   0x3010,0x4120,0x3c10,0x5b4f,0x3c10,0x5700,0x3b18,0x5730     | +00010
         .dc.w   0x3018,0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120     | +00020
@@ -3247,11 +3247,11 @@ Data_0a552e:
         .dc.w   0x3b18,0x5748,0x3b18,0x4120,0x3010                          | +00130
 
 | ----------------------------------------------------------------------------
-|  Data_0a5668  @ $0A5668  (256 B)  [ref. desde código]
+|  BgMap_0a5668  @ $0A5668  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5668, "ax", @progbits
-        .global Data_0a5668
-Data_0a5668:
+        .section .text.BgMap_0a5668, "ax", @progbits
+        .global BgMap_0a5668
+BgMap_0a5668:
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3310,0x4120,0x3310     | +00000
         .dc.w   0x4120,0x3310,0x4120,0x3318,0x4120,0x3318,0x4120,0x3318     | +00010
         .dc.w   0x4120,0x3318,0x4120,0x3318,0x4120,0x3318,0x4120,0x3318     | +00020
@@ -3270,11 +3270,11 @@ Data_0a5668:
         .dc.w   0x5970,0x3318,0x59c0,0x3318,0x5a10,0x3118,0x5a60,0x3118     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a5768  @ $0A5768  (512 B)  [ref. desde código]
+|  BgMap_0a5768  @ $0A5768  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5768, "ax", @progbits
-        .global Data_0a5768
-Data_0a5768:
+        .section .text.BgMap_0a5768, "ax", @progbits
+        .global BgMap_0a5768
+BgMap_0a5768:
         .dc.w   0x5aa8,0x3118,0x5ae8,0x3118,0x4120,0x3010,0x4120,0x3010     | +00000
         .dc.w   0x4120,0x3010,0x4120,0x3010,0x4120,0x3010,0x4120,0x3310     | +00010
         .dc.w   0x4120,0x3310,0x4120,0x3310,0x4120,0x3318,0x5770,0x3318     | +00020
@@ -3309,20 +3309,20 @@ Data_0a5768:
         .dc.w   0x4120,0x3310,0x5760,0x3218,0x5798,0x3218,0x57d0,0x3218     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a5968  @ $0A5968  (5 B)  [ref. desde código]
+|  BgMap_0a5968  @ $0A5968  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5968, "ax", @progbits
-        .global Data_0a5968
-Data_0a5968:
+        .section .text.BgMap_0a5968, "ax", @progbits
+        .global BgMap_0a5968
+BgMap_0a5968:
         .dc.w   0x5810,0x3218                                               | +00000
         .dc.b   0x58                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_0a596d  @ $0A596D  (891 B)  [ref. desde código]
+|  BgMap_0a596d  @ $0A596D  (891 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a596d, "ax", @progbits
-        .global Data_0a596d
-Data_0a596d:
+        .section .text.BgMap_0a596d, "ax", @progbits
+        .global BgMap_0a596d
+BgMap_0a596d:
         .dc.b   0x50                            | +00000
         .dc.w   0x3218,0x5890,0x3218,0x58d0,0x3218,0x5910,0x3218,0x5950     | +00001
         .dc.w   0x3218,0x59a0,0x3218,0x59f0,0x3418,0x5a40,0x3018,0x5a90     | +00011
@@ -3382,11 +3382,11 @@ Data_0a596d:
         .dc.w   0x3010,0x4120,0x3010,0x4120,0x3010                          | +00371
 
 | ----------------------------------------------------------------------------
-|  Data_0a5ce8  @ $0A5CE8  (768 B)  [ref. desde código]
+|  BgMap_0a5ce8  @ $0A5CE8  (768 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5ce8, "ax", @progbits
-        .global Data_0a5ce8
-Data_0a5ce8:
+        .section .text.BgMap_0a5ce8, "ax", @progbits
+        .global BgMap_0a5ce8
+BgMap_0a5ce8:
         .dc.w   0x5eb0,0x6510,0x5eb4,0x6510,0x5eb6,0x6510,0x5eb8,0x6510     | +00000
         .dc.w   0x5eba,0x6510,0x5ec0,0x6510,0x5ec2,0x6510,0x5ec4,0x6510     | +00010
         .dc.w   0x5ec6,0x6510,0x5ec8,0x6510,0x5eca,0x6510,0x5ecc,0x6510     | +00020
@@ -3437,20 +3437,20 @@ Data_0a5ce8:
         .dc.w   0x5ed1,0x1d10,0x5ed2,0x1d10,0x5ed3,0x1d10,0x5ed4,0x1d10     | +002f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a5fe8  @ $0A5FE8  (24 B)  [ref. desde código]
+|  BgMap_0a5fe8  @ $0A5FE8  (24 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a5fe8, "ax", @progbits
-        .global Data_0a5fe8
-Data_0a5fe8:
+        .section .text.BgMap_0a5fe8, "ax", @progbits
+        .global BgMap_0a5fe8
+BgMap_0a5fe8:
         .dc.w   0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10     | +00000
         .dc.w   0x5f86,0x5e10,0x5f8e,0x5e10                                 | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a6000  @ $0A6000  (228 B)  [ref. desde código]
+|  BgMap_0a6000  @ $0A6000  (228 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6000, "ax", @progbits
-        .global Data_0a6000
-Data_0a6000:
+        .section .text.BgMap_0a6000, "ax", @progbits
+        .global BgMap_0a6000
+BgMap_0a6000:
         .dc.w   0x5fe9,0x5e10,0x5ff1,0x5e10,0x5ff9,0x5e10,0x4120,0x5e10     | +00000
         .dc.w   0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5a10     | +00010
         .dc.w   0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10     | +00020
@@ -3468,20 +3468,20 @@ Data_0a6000:
         .dc.w   0x5ffc,0x5e10                                               | +000e0
 
 | ----------------------------------------------------------------------------
-|  Data_0a60e4  @ $0A60E4  (28 B)  [ref. desde código]
+|  BgMap_0a60e4  @ $0A60E4  (28 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a60e4, "ax", @progbits
-        .global Data_0a60e4
-Data_0a60e4:
+        .section .text.BgMap_0a60e4, "ax", @progbits
+        .global BgMap_0a60e4
+BgMap_0a60e4:
         .dc.w   0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10     | +00000
         .dc.w   0x4120,0x5a10,0x4120,0x5e10,0x4120,0x5e10                   | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0a6100  @ $0A6100  (104 B)  [ref. desde código]
+|  BgMap_0a6100  @ $0A6100  (104 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6100, "ax", @progbits
-        .global Data_0a6100
-Data_0a6100:
+        .section .text.BgMap_0a6100, "ax", @progbits
+        .global BgMap_0a6100
+BgMap_0a6100:
         .dc.w   0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10,0x5f78,0x5e10     | +00000
         .dc.w   0x5f7d,0x5e10,0x5f83,0x5e10,0x5f8a,0x5e10,0x5f92,0x5e10     | +00010
         .dc.w   0x5fed,0x5e10,0x5ff5,0x5e10,0x5ffd,0x5e10,0x6001,0x5e10     | +00020
@@ -3491,19 +3491,19 @@ Data_0a6100:
         .dc.w   0x5f8b,0x5d10,0x5f93,0x5d10                                 | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_0a6168  @ $0A6168  (2 B)  [ref. desde código]
+|  BgMap_0a6168  @ $0A6168  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6168, "ax", @progbits
-        .global Data_0a6168
-Data_0a6168:
+        .section .text.BgMap_0a6168, "ax", @progbits
+        .global BgMap_0a6168
+BgMap_0a6168:
         .dc.w   0x5fee                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0a616a  @ $0A616A  (406 B)  [ref. desde código]
+|  BgMap_0a616a  @ $0A616A  (406 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a616a, "ax", @progbits
-        .global Data_0a616a
-Data_0a616a:
+        .section .text.BgMap_0a616a, "ax", @progbits
+        .global BgMap_0a616a
+BgMap_0a616a:
         .dc.w   0x5e10,0x5ff6,0x5e10,0x5ffe,0x5e10,0x4120,0x5e10,0x4120     | +00000
         .dc.w   0x5e10,0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5a10,0x4120     | +00010
         .dc.w   0x5e10,0x4120,0x5e10,0x4120,0x5e10,0x4120,0x5e10,0x4120     | +00020
@@ -3532,11 +3532,11 @@ Data_0a616a:
         .dc.w   0x5e10,0x4120,0x5e10                                        | +00190
 
 | ----------------------------------------------------------------------------
-|  Data_0a6300  @ $0A6300  (512 B)  [ref. desde código]
+|  BgMap_0a6300  @ $0A6300  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6300, "ax", @progbits
-        .global Data_0a6300
-Data_0a6300:
+        .section .text.BgMap_0a6300, "ax", @progbits
+        .global BgMap_0a6300
+BgMap_0a6300:
         .dc.w   0x4120,0x5e10,0x4120,0x5e10,0x5f9e,0x5d10,0x5fa4,0x5d10     | +00000
         .dc.w   0x5fac,0x5d10,0x5fb4,0x5e10,0x600b,0x5e10,0x6013,0x5e10     | +00010
         .dc.w   0x601b,0x5e10,0x6023,0x5e10,0x4120,0x5e10,0x602c,0x5e10     | +00020
@@ -3571,11 +3571,11 @@ Data_0a6300:
         .dc.w   0x5f50,0x5f18,0x5f70,0x5f18,0x5fbb,0x5e10,0x5fc3,0x5e10     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a6500  @ $0A6500  (256 B)  [ref. desde código]
+|  BgMap_0a6500  @ $0A6500  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6500, "ax", @progbits
-        .global Data_0a6500
-Data_0a6500:
+        .section .text.BgMap_0a6500, "ax", @progbits
+        .global BgMap_0a6500
+BgMap_0a6500:
         .dc.w   0x5fcb,0x5d10,0x5fd3,0x5e10,0x5fdb,0x5e10,0x5fe3,0x5e10     | +00000
         .dc.w   0x6037,0x5e10,0x603f,0x5e10,0x6047,0x5e10,0x604f,0x5d10     | +00010
         .dc.w   0x6057,0x5d10,0x605f,0x5d10,0x6067,0x5d10,0x606d,0x5f10     | +00020
@@ -3594,11 +3594,11 @@ Data_0a6500:
         .dc.w   0x604a,0x5d10,0x6052,0x5e10,0x605a,0x5e10,0x6062,0x5e10     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a6600  @ $0A6600  (168 B)  [ref. desde código]
+|  BgMap_0a6600  @ $0A6600  (168 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6600, "ax", @progbits
-        .global Data_0a6600
-Data_0a6600:
+        .section .text.BgMap_0a6600, "ax", @progbits
+        .global BgMap_0a6600
+BgMap_0a6600:
         .dc.w   0x606a,0x5b10,0x6070,0x6010,0x6076,0x7210,0x607c,0x7210     | +00000
         .dc.w   0x6082,0x7210,0x6088,0x7210,0x5fbf,0x5e10,0x5fc7,0x5d10     | +00010
         .dc.w   0x5fcf,0x5e10,0x5fd7,0x5e10,0x5fdf,0x5e10,0x5fe7,0x5e10     | +00020
@@ -3612,11 +3612,11 @@ Data_0a6600:
         .dc.w   0x6084,0x7210,0x608a,0x7210                                 | +000a0
 
 | ----------------------------------------------------------------------------
-|  Data_0a66a8  @ $0A66A8  (88 B)  [ref. desde código]
+|  BgMap_0a66a8  @ $0A66A8  (88 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a66a8, "ax", @progbits
-        .global Data_0a66a8
-Data_0a66a8:
+        .section .text.BgMap_0a66a8, "ax", @progbits
+        .global BgMap_0a66a8
+BgMap_0a66a8:
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +00000
         .dc.w   0x4120,0x0010,0x608b,0x5210,0x608b,0x5210,0x608b,0x5210     | +00010
         .dc.w   0x60f2,0x5210,0x60f7,0x5210,0x60fb,0x5210,0x60fe,0x5210     | +00020
@@ -3625,11 +3625,11 @@ Data_0a66a8:
         .dc.w   0x4120,0x0010,0x4120,0x0010                                 | +00050
 
 | ----------------------------------------------------------------------------
-|  Data_0a6700  @ $0A6700  (1,536 B)  [ref. desde código]
+|  BgMap_0a6700  @ $0A6700  (1,536 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6700, "ax", @progbits
-        .global Data_0a6700
-Data_0a6700:
+        .section .text.BgMap_0a6700, "ax", @progbits
+        .global BgMap_0a6700
+BgMap_0a6700:
         .dc.w   0x4120,0x0010,0x608b,0x5210,0x608b,0x5210,0x608c,0x5210     | +00000
         .dc.w   0x60f3,0x5210,0x4e28,0x5211,0x4e30,0x5211,0x60ff,0x5210     | +00010
         .dc.w   0x6103,0x5210,0x610a,0x5210,0x6110,0x5210,0x6117,0x5210     | +00020
@@ -3728,11 +3728,11 @@ Data_0a6700:
         .dc.w   0x608b,0x5210,0x608d,0x5210,0x60f4,0x5210,0x60f8,0x5210     | +005f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a6d00  @ $0A6D00  (256 B)  [ref. desde código]
+|  BgMap_0a6d00  @ $0A6D00  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6d00, "ax", @progbits
-        .global Data_0a6d00
-Data_0a6d00:
+        .section .text.BgMap_0a6d00, "ax", @progbits
+        .global BgMap_0a6d00
+BgMap_0a6d00:
         .dc.w   0x4e2f,0x5211,0x6100,0x5210,0x6104,0x5210,0x4d7b,0x5210     | +00000
         .dc.w   0x6111,0x5210,0x6118,0x5210,0x61fd,0x5210,0x6203,0x5110     | +00010
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +00020
@@ -3751,11 +3751,11 @@ Data_0a6d00:
         .dc.w   0x6200,0x5210,0x6204,0x5110,0x4120,0x0010,0x4120,0x0010     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a6e00  @ $0A6E00  (256 B)  [ref. desde código]
+|  BgMap_0a6e00  @ $0A6E00  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6e00, "ax", @progbits
-        .global Data_0a6e00
-Data_0a6e00:
+        .section .text.BgMap_0a6e00, "ax", @progbits
+        .global BgMap_0a6e00
+BgMap_0a6e00:
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x608b,0x5210     | +00000
         .dc.w   0x608b,0x5210,0x608b,0x5210,0x60f6,0x5210,0x60fa,0x5210     | +00010
         .dc.w   0x60fd,0x5210,0x5193,0x5211,0x6108,0x5210,0x610e,0x5210     | +00020
@@ -3774,11 +3774,11 @@ Data_0a6e00:
         .dc.w   0x60f6,0x5210,0x60fa,0x5210,0x6120,0x5210,0x6124,0x5210     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a6f00  @ $0A6F00  (256 B)  [ref. desde código]
+|  BgMap_0a6f00  @ $0A6F00  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a6f00, "ax", @progbits
-        .global Data_0a6f00
-Data_0a6f00:
+        .section .text.BgMap_0a6f00, "ax", @progbits
+        .global BgMap_0a6f00
+BgMap_0a6f00:
         .dc.w   0x6129,0x5210,0x6131,0x5210,0x6139,0x5210,0x6141,0x5210     | +00000
         .dc.w   0x6206,0x5210,0x6204,0x5110,0x4120,0x0010,0x4120,0x0010     | +00010
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x608b,0x5210     | +00020
@@ -3797,11 +3797,11 @@ Data_0a6f00:
         .dc.w   0x4120,0x0010,0x4120,0x0010,0x4120,0x0010,0x4120,0x0010     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0a7000  @ $0A7000  (4,520 B)  [ref. desde código]
+|  BgMap_0a7000  @ $0A7000  (4,520 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a7000, "ax", @progbits
-        .global Data_0a7000
-Data_0a7000:
+        .section .text.BgMap_0a7000, "ax", @progbits
+        .global BgMap_0a7000
+BgMap_0a7000:
         .dc.w   0x4120,0x0010,0x608b,0x5210,0x608b,0x5210,0x608b,0x5210     | +00000
         .dc.w   0x60f6,0x5210,0x60fa,0x5210,0x60fd,0x5210,0x4d7b,0x5210     | +00010
         .dc.w   0x612d,0x5210,0x6135,0x5210,0x613d,0x5210,0x6145,0x5210     | +00020
@@ -4087,11 +4087,11 @@ Data_0a7000:
         .dc.w   0x4120,0x0010,0x4120,0x0010                                 | +011a0
 
 | ----------------------------------------------------------------------------
-|  Data_0a81a8  @ $0A81A8  (120 B)  [ref. desde código]
+|  BgMap_0a81a8  @ $0A81A8  (120 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0a81a8, "ax", @progbits
-        .global Data_0a81a8
-Data_0a81a8:
+        .section .text.BgMap_0a81a8, "ax", @progbits
+        .global BgMap_0a81a8
+BgMap_0a81a8:
         .dc.w   0x52a8,0x4718,0x4c10,0x4718,0x5298,0x4718,0x52a0,0x4718     | +00000
         .dc.w   0x52a8,0x4718,0x4c10,0x4718,0x5298,0x4718,0x52a0,0x4718     | +00010
         .dc.w   0x52a8,0x4718,0x4c10,0x4718,0x5298,0x4718,0x52a0,0x4718     | +00020
@@ -5125,29 +5125,29 @@ Data_0abc6e:
         .dc.w   0x0010                                                      | +001e0
 
 | ----------------------------------------------------------------------------
-|  Data_0abe50  @ $0ABE50  (48 B)  [ref. desde código]
+|  BgMap_0abe50  @ $0ABE50  (48 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0abe50, "ax", @progbits
-        .global Data_0abe50
-Data_0abe50:
+        .section .text.BgMap_0abe50, "ax", @progbits
+        .global BgMap_0abe50
+BgMap_0abe50:
         .dc.w   0x7274,0x1110,0x727c,0x1110,0x7284,0x1110,0x728c,0x1110     | +00000
         .dc.w   0x7294,0x1110,0x729c,0x1510,0x72a4,0x1510,0x72ac,0x1510     | +00010
         .dc.w   0x757b,0x1510,0x7583,0x1010,0x758b,0x1210,0x7593,0x1310     | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0abe80  @ $0ABE80  (2 B)  [ref. desde código]
+|  BgMap_0abe80  @ $0ABE80  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0abe80, "ax", @progbits
-        .global Data_0abe80
-Data_0abe80:
+        .section .text.BgMap_0abe80, "ax", @progbits
+        .global BgMap_0abe80
+BgMap_0abe80:
         .dc.w   0x759b                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0abe82  @ $0ABE82  (4,542 B)  [ref. desde código]
+|  BgMap_0abe82  @ $0ABE82  (4,542 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0abe82, "ax", @progbits
-        .global Data_0abe82
-Data_0abe82:
+        .section .text.BgMap_0abe82, "ax", @progbits
+        .global BgMap_0abe82
+BgMap_0abe82:
         .dc.w   0x1310,0x75a3,0x1310,0x75ab,0x1310,0x75b1,0x1310,0x7275     | +00000
         .dc.w   0x1110,0x727d,0x1110,0x7285,0x1510,0x728d,0x1510,0x7295     | +00010
         .dc.w   0x1510,0x729d,0x1510,0x72a5,0x1510,0x72ad,0x1510,0x757c     | +00020
@@ -5434,29 +5434,29 @@ Data_0abe82:
         .dc.w   0x2410,0x76f0,0x2410,0x7324,0x2710,0x7324,0x2710            | +011b0
 
 | ----------------------------------------------------------------------------
-|  Data_0ad040  @ $0AD040  (2 B)  [ref. desde código]
+|  BgMap_0ad040  @ $0AD040  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ad040, "ax", @progbits
-        .global Data_0ad040
-Data_0ad040:
+        .section .text.BgMap_0ad040, "ax", @progbits
+        .global BgMap_0ad040
+BgMap_0ad040:
         .dc.w   0x701c                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0ad042  @ $0AD042  (44 B)  [ref. desde código]
+|  BgMap_0ad042  @ $0AD042  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ad042, "ax", @progbits
-        .global Data_0ad042
-Data_0ad042:
+        .section .text.BgMap_0ad042, "ax", @progbits
+        .global BgMap_0ad042
+BgMap_0ad042:
         .dc.w   0x1814,0x70d8,0x2214,0x7174,0x2214,0x7208,0x2214,0x7324     | +00000
         .dc.w   0x4510,0x7324,0x4510,0x7324,0x4510,0x7436,0x4510,0x7437     | +00010
         .dc.w   0x4510,0x7438,0x4510,0x7439,0x4510,0x743b                   | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0ad06e  @ $0AD06E  (250 B)  [ref. desde código]
+|  BgMap_0ad06e  @ $0AD06E  (250 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ad06e, "ax", @progbits
-        .global Data_0ad06e
-Data_0ad06e:
+        .section .text.BgMap_0ad06e, "ax", @progbits
+        .global BgMap_0ad06e
+BgMap_0ad06e:
         .dc.w   0x4810,0x76fd,0x2710,0x7705,0x2710,0x7324,0x2610,0x7324     | +00000
         .dc.w   0x2610,0x7020,0x1814,0x70dc,0x2214,0x7178,0x2214,0x7208     | +00010
         .dc.w   0x2214,0x7324,0x4510,0x7324,0x4510,0x7324,0x4510,0x7324     | +00020
@@ -5475,19 +5475,19 @@ Data_0ad06e:
         .dc.w   0x2810,0x7324,0x2810,0x7324,0x2810                          | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0ad168  @ $0AD168  (6 B)  [ref. desde código]
+|  BgMap_0ad168  @ $0AD168  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ad168, "ax", @progbits
-        .global Data_0ad168
-Data_0ad168:
+        .section .text.BgMap_0ad168, "ax", @progbits
+        .global BgMap_0ad168
+BgMap_0ad168:
         .dc.w   0x7324,0x2810,0x7324                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0ad16e  @ $0AD16E  (384 B)  [ref. desde código]
+|  BgMap_0ad16e  @ $0AD16E  (384 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ad16e, "ax", @progbits
-        .global Data_0ad16e
-Data_0ad16e:
+        .section .text.BgMap_0ad16e, "ax", @progbits
+        .global BgMap_0ad16e
+BgMap_0ad16e:
         .dc.w   0x2810,0x7701,0x2410,0x76eb,0x2410,0x770f,0x2810,0x7716     | +00000
         .dc.w   0x2810,0x7030,0x1814,0x70ec,0x2214,0x7188,0x2214,0x7214     | +00010
         .dc.w   0x2214,0x7324,0x2810,0x7324,0x2810,0x7324,0x2810,0x7324     | +00020
@@ -5514,11 +5514,11 @@ Data_0ad16e:
         .dc.w   0x2810,0x7324,0x2810,0x7324,0x2810,0x7324,0x2810,0x7324     | +00170
 
 | ----------------------------------------------------------------------------
-|  Data_0ad2ee  @ $0AD2EE  (128 B)  [ref. desde código]
+|  BgMap_0ad2ee  @ $0AD2EE  (128 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ad2ee, "ax", @progbits
-        .global Data_0ad2ee
-Data_0ad2ee:
+        .section .text.BgMap_0ad2ee, "ax", @progbits
+        .global BgMap_0ad2ee
+BgMap_0ad2ee:
         .dc.w   0x2810,0x771c,0x2710,0x7722,0x2710,0x7728,0x2810,0x772c     | +00000
         .dc.w   0x2810,0x7044,0x1814,0x70dc,0x2214,0x7178,0x2214,0x7208     | +00010
         .dc.w   0x2214,0x7324,0x2810,0x7324,0x2810,0x7324,0x2810,0x7324     | +00020
@@ -5529,11 +5529,11 @@ Data_0ad2ee:
         .dc.w   0x2810,0x7324,0x2810,0x7324,0x2810,0x7324,0x2810,0x7324     | +00070
 
 | ----------------------------------------------------------------------------
-|  Data_0ad36e  @ $0AD36E  (654 B)  [ref. desde código]
+|  BgMap_0ad36e  @ $0AD36E  (654 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ad36e, "ax", @progbits
-        .global Data_0ad36e
-Data_0ad36e:
+        .section .text.BgMap_0ad36e, "ax", @progbits
+        .global BgMap_0ad36e
+BgMap_0ad36e:
         .dc.w   0x2810,0x771e,0x2710,0x7724,0x2710,0x772a,0x2810,0x772e     | +00000
         .dc.w   0x2810,0x704c,0x1a14,0x70f8,0x2214,0x7194,0x2214,0x7228     | +00010
         .dc.w   0x2214,0x7324,0x2810,0x7324,0x2810,0x7324,0x2810,0x7324     | +00020
@@ -5577,11 +5577,11 @@ Data_0ad36e:
         .dc.w   0x0010,0x7735,0x2810,0x773c,0x2810,0x7741,0x2810            | +00280
 
 | ----------------------------------------------------------------------------
-|  Data_0ad5fc  @ $0AD5FC  (4,940 B)  [ref. desde código]
+|  BgMap_0ad5fc  @ $0AD5FC  (4,940 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ad5fc, "ax", @progbits
-        .global Data_0ad5fc
-Data_0ad5fc:
+        .section .text.BgMap_0ad5fc, "ax", @progbits
+        .global BgMap_0ad5fc
+BgMap_0ad5fc:
         .dc.w   0x7745,0x2810,0x7060,0x1814,0x7100,0x2214,0x719c,0x2214     | +00000
         .dc.w   0x7230,0x2214,0x7324,0x0010,0x7324,0x0010,0x7324,0x0010     | +00010
         .dc.w   0x7324,0x0010,0x7324,0x0010,0x7324,0x0010,0x7324,0x0010     | +00020
@@ -5893,11 +5893,11 @@ Data_0ad5fc:
         .dc.w   0x77f8,0x3510,0x7800,0x3610,0x77cf,0x3610                   | +01340
 
 | ----------------------------------------------------------------------------
-|  Data_0ae948  @ $0AE948  (514 B)  [ref. desde código]
+|  BgMap_0ae948  @ $0AE948  (514 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ae948, "ax", @progbits
-        .global Data_0ae948
-Data_0ae948:
+        .section .text.BgMap_0ae948, "ax", @progbits
+        .global BgMap_0ae948
+BgMap_0ae948:
         .dc.w   0x77d7,0x3810,0x77d9,0x3810,0x74b6,0x3b10,0x74be,0x3b10     | +00000
         .dc.w   0x74c6,0x3b10,0x74ce,0x3b10,0x74d6,0x3b10,0x74de,0x3b10     | +00010
         .dc.w   0x74e6,0x3b10,0x74ee,0x3b10,0x77e1,0x3b10,0x77e9,0x3510     | +00020
@@ -5933,11 +5933,11 @@ Data_0ae948:
         .dc.w   0x77d7                                                      | +00200
 
 | ----------------------------------------------------------------------------
-|  Data_0aeb4a  @ $0AEB4A  (510 B)  [ref. desde código]
+|  BgMap_0aeb4a  @ $0AEB4A  (510 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0aeb4a, "ax", @progbits
-        .global Data_0aeb4a
-Data_0aeb4a:
+        .section .text.BgMap_0aeb4a, "ax", @progbits
+        .global BgMap_0aeb4a
+BgMap_0aeb4a:
         .dc.w   0x3510,0x77d9,0x3510,0x74f6,0x3b10,0x74fc,0x3b10,0x7502     | +00000
         .dc.w   0x3b10,0x7509,0x3b10,0x7511,0x3b10,0x7519,0x3b10,0x7521     | +00010
         .dc.w   0x3510,0x7529,0x3c10,0x780a,0x3c10,0x7812,0x3a10,0x781a     | +00020
@@ -5972,11 +5972,11 @@ Data_0aeb4a:
         .dc.w   0x3910,0x7856,0x3910,0x785e,0x3910,0x7866,0x3910            | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_0aed48  @ $0AED48  (776 B)  [ref. desde código]
+|  BgMap_0aed48  @ $0AED48  (776 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0aed48, "ax", @progbits
-        .global Data_0aed48
-Data_0aed48:
+        .section .text.BgMap_0aed48, "ax", @progbits
+        .global BgMap_0aed48
+BgMap_0aed48:
         .dc.w   0x786d,0x3910,0x7874,0x3a10,0x7324,0x3a10,0x7324,0x3a10     | +00000
         .dc.w   0x7533,0x3a10,0x7538,0x3a10,0x753f,0x3a10,0x7547,0x3a10     | +00010
         .dc.w   0x754f,0x3a10,0x7557,0x3a10,0x783f,0x3a10,0x7847,0x3910     | +00020
@@ -6028,11 +6028,11 @@ Data_0aed48:
         .dc.w   0x78b0,0x3310,0x78b8,0x3310                                 | +00300
 
 | ----------------------------------------------------------------------------
-|  Data_0af050  @ $0AF050  (4,016 B)  [ref. desde código]
+|  BgMap_0af050  @ $0AF050  (4,016 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0af050, "ax", @progbits
-        .global Data_0af050
-Data_0af050:
+        .section .text.BgMap_0af050, "ax", @progbits
+        .global BgMap_0af050
+BgMap_0af050:
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00000
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00010
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x4310,0x7324,0x4310     | +00020
@@ -6286,100 +6286,100 @@ Data_0af050:
         .dc.w   0x7d32,0x3310,0x7d3a,0x3310,0x7d42,0x3310,0x7d49,0x3310     | +00fa0
 
 | ----------------------------------------------------------------------------
-|  Data_0b0000  @ $0B0000  (2 B)  [ref. desde código]
+|  BgMap_0b0000  @ $0B0000  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0000, "ax", @progbits
-        .global Data_0b0000
-Data_0b0000:
+        .section .text.BgMap_0b0000, "ax", @progbits
+        .global BgMap_0b0000
+BgMap_0b0000:
         .dc.w   0x7324                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0002  @ $0B0002  (2 B)  [ref. desde código]
+|  BgMap_0b0002  @ $0B0002  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0002, "ax", @progbits
-        .global Data_0b0002
-Data_0b0002:
+        .section .text.BgMap_0b0002, "ax", @progbits
+        .global BgMap_0b0002
+BgMap_0b0002:
         .dc.w   0x3310                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0004  @ $0B0004  (2 B)  [ref. desde código]
+|  BgMap_0b0004  @ $0B0004  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0004, "ax", @progbits
-        .global Data_0b0004
-Data_0b0004:
+        .section .text.BgMap_0b0004, "ax", @progbits
+        .global BgMap_0b0004
+BgMap_0b0004:
         .dc.w   0x7324                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0006  @ $0B0006  (4 B)  [ref. desde código]
+|  BgMap_0b0006  @ $0B0006  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0006, "ax", @progbits
-        .global Data_0b0006
-Data_0b0006:
+        .section .text.BgMap_0b0006, "ax", @progbits
+        .global BgMap_0b0006
+BgMap_0b0006:
         .dc.w   0x3310,0x7324                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b000a  @ $0B000A  (6 B)  [ref. desde código]
+|  BgMap_0b000a  @ $0B000A  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b000a, "ax", @progbits
-        .global Data_0b000a
-Data_0b000a:
+        .section .text.BgMap_0b000a, "ax", @progbits
+        .global BgMap_0b000a
+BgMap_0b000a:
         .dc.w   0x3310,0x7324,0x3310                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0010  @ $0B0010  (9 B)  [ref. desde código]
+|  BgMap_0b0010  @ $0B0010  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0010, "ax", @progbits
-        .global Data_0b0010
-Data_0b0010:
+        .section .text.BgMap_0b0010, "ax", @progbits
+        .global BgMap_0b0010
+BgMap_0b0010:
         .dc.w   0x7324,0x3310,0x7324,0x3310                                 | +00000
         .dc.b   0x73                            | +00008
 
 | ----------------------------------------------------------------------------
-|  Data_0b0019  @ $0B0019  (1 B)  [ref. desde código]
+|  BgMap_0b0019  @ $0B0019  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0019, "ax", @progbits
-        .global Data_0b0019
-Data_0b0019:
+        .section .text.BgMap_0b0019, "ax", @progbits
+        .global BgMap_0b0019
+BgMap_0b0019:
         .dc.b   0x24                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b001a  @ $0B001A  (2 B)  [ref. desde código]
+|  BgMap_0b001a  @ $0B001A  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b001a, "ax", @progbits
-        .global Data_0b001a
-Data_0b001a:
+        .section .text.BgMap_0b001a, "ax", @progbits
+        .global BgMap_0b001a
+BgMap_0b001a:
         .dc.w   0x3310                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b001c  @ $0B001C  (4 B)  [ref. desde código]
+|  BgMap_0b001c  @ $0B001C  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b001c, "ax", @progbits
-        .global Data_0b001c
-Data_0b001c:
+        .section .text.BgMap_0b001c, "ax", @progbits
+        .global BgMap_0b001c
+BgMap_0b001c:
         .dc.w   0x7324,0x3310                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0020  @ $0B0020  (2 B)  [ref. desde código]
+|  BgMap_0b0020  @ $0B0020  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0020, "ax", @progbits
-        .global Data_0b0020
-Data_0b0020:
+        .section .text.BgMap_0b0020, "ax", @progbits
+        .global BgMap_0b0020
+BgMap_0b0020:
         .dc.w   0x7324                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0022  @ $0B0022  (2 B)  [ref. desde código]
+|  BgMap_0b0022  @ $0B0022  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0022, "ax", @progbits
-        .global Data_0b0022
-Data_0b0022:
+        .section .text.BgMap_0b0022, "ax", @progbits
+        .global BgMap_0b0022
+BgMap_0b0022:
         .dc.w   0x3310                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0024  @ $0B0024  (76 B)  [ref. desde código]
+|  BgMap_0b0024  @ $0B0024  (76 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0024, "ax", @progbits
-        .global Data_0b0024
-Data_0b0024:
+        .section .text.BgMap_0b0024, "ax", @progbits
+        .global BgMap_0b0024
+BgMap_0b0024:
         .dc.w   0x7324,0x3310,0x7324,0x0010,0x7b5e,0x4410,0x7b61,0x4410     | +00000
         .dc.w   0x7b98,0x4410,0x7b9b,0x4410,0x7ba0,0x4410,0x7ba4,0x4410     | +00010
         .dc.w   0x7ba8,0x4410,0x7bab,0x4410,0x7bae,0x4410,0x7bb1,0x4410     | +00020
@@ -6387,35 +6387,35 @@ Data_0b0024:
         .dc.w   0x7c36,0x4110,0x7c3a,0x3310,0x7c50,0x3310                   | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_0b0070  @ $0B0070  (2 B)  [ref. desde código]
+|  BgMap_0b0070  @ $0B0070  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0070, "ax", @progbits
-        .global Data_0b0070
-Data_0b0070:
+        .section .text.BgMap_0b0070, "ax", @progbits
+        .global BgMap_0b0070
+BgMap_0b0070:
         .dc.w   0x7c57                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0072  @ $0B0072  (4 B)  [ref. desde código]
+|  BgMap_0b0072  @ $0B0072  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0072, "ax", @progbits
-        .global Data_0b0072
-Data_0b0072:
+        .section .text.BgMap_0b0072, "ax", @progbits
+        .global BgMap_0b0072
+BgMap_0b0072:
         .dc.w   0x3310,0x7d23                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0076  @ $0B0076  (10 B)  [ref. desde código]
+|  BgMap_0b0076  @ $0B0076  (10 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0076, "ax", @progbits
-        .global Data_0b0076
-Data_0b0076:
+        .section .text.BgMap_0b0076, "ax", @progbits
+        .global BgMap_0b0076
+BgMap_0b0076:
         .dc.w   0x3310,0x7d2b,0x3310,0x7d33,0x3310                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0080  @ $0B0080  (192 B)  [ref. desde código]
+|  BgMap_0b0080  @ $0B0080  (192 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0080, "ax", @progbits
-        .global Data_0b0080
-Data_0b0080:
+        .section .text.BgMap_0b0080, "ax", @progbits
+        .global BgMap_0b0080
+BgMap_0b0080:
         .dc.w   0x7d3b,0x3310,0x7d43,0x3310,0x7324,0x3310,0x7324,0x3310     | +00000
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00010
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00020
@@ -6430,51 +6430,51 @@ Data_0b0080:
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0b0140  @ $0B0140  (4 B)  [ref. desde código]
+|  BgMap_0b0140  @ $0B0140  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0140, "ax", @progbits
-        .global Data_0b0140
-Data_0b0140:
+        .section .text.BgMap_0b0140, "ax", @progbits
+        .global BgMap_0b0140
+BgMap_0b0140:
         .dc.w   0x7324,0x0010                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0144  @ $0B0144  (4 B)  [ref. desde código]
+|  BgMap_0b0144  @ $0B0144  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0144, "ax", @progbits
-        .global Data_0b0144
-Data_0b0144:
+        .section .text.BgMap_0b0144, "ax", @progbits
+        .global BgMap_0b0144
+BgMap_0b0144:
         .dc.w   0x7b60,0x4410                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0148  @ $0B0148  (12 B)  [ref. desde código]
+|  BgMap_0b0148  @ $0B0148  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0148, "ax", @progbits
-        .global Data_0b0148
-Data_0b0148:
+        .section .text.BgMap_0b0148, "ax", @progbits
+        .global BgMap_0b0148
+BgMap_0b0148:
         .dc.w   0x7b63,0x4410,0x7b9a,0x4410,0x7b9d,0x4410                   | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0154  @ $0B0154  (12 B)  [ref. desde código]
+|  BgMap_0b0154  @ $0B0154  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0154, "ax", @progbits
-        .global Data_0b0154
-Data_0b0154:
+        .section .text.BgMap_0b0154, "ax", @progbits
+        .global BgMap_0b0154
+BgMap_0b0154:
         .dc.w   0x7ba2,0x4410,0x7ba6,0x4410,0x7baa,0x4410                   | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0160  @ $0B0160  (4 B)  [ref. desde código]
+|  BgMap_0b0160  @ $0B0160  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0160, "ax", @progbits
-        .global Data_0b0160
-Data_0b0160:
+        .section .text.BgMap_0b0160, "ax", @progbits
+        .global BgMap_0b0160
+BgMap_0b0160:
         .dc.w   0x7bad,0x4410                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0164  @ $0B0164  (156 B)  [ref. desde código]
+|  BgMap_0b0164  @ $0B0164  (156 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0164, "ax", @progbits
-        .global Data_0b0164
-Data_0b0164:
+        .section .text.BgMap_0b0164, "ax", @progbits
+        .global BgMap_0b0164
+BgMap_0b0164:
         .dc.w   0x7bb0,0x4410,0x7bb3,0x4410,0x7c3f,0x4410,0x7c42,0x4410     | +00000
         .dc.w   0x7c45,0x4410,0x7c48,0x4110,0x7c4a,0x4110,0x7c4c,0x3310     | +00010
         .dc.w   0x7c52,0x3310,0x7c59,0x3310,0x7d25,0x3310,0x7d2d,0x3310     | +00020
@@ -6487,11 +6487,11 @@ Data_0b0164:
         .dc.w   0x7be0,0x4410,0x7c5a,0x4410,0x7c5c,0x4410                   | +00090
 
 | ----------------------------------------------------------------------------
-|  Data_0b0200  @ $0B0200  (256 B)  [ref. desde código]
+|  BgMap_0b0200  @ $0B0200  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0200, "ax", @progbits
-        .global Data_0b0200
-Data_0b0200:
+        .section .text.BgMap_0b0200, "ax", @progbits
+        .global BgMap_0b0200
+BgMap_0b0200:
         .dc.w   0x7c5e,0x4410,0x7c60,0x4110,0x7c62,0x4110,0x7c64,0x3310     | +00000
         .dc.w   0x7c6c,0x3310,0x7c74,0x3310,0x7d50,0x3310,0x7d58,0x3310     | +00010
         .dc.w   0x7d60,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00020
@@ -6510,11 +6510,11 @@ Data_0b0200:
         .dc.w   0x7bb6,0x4410,0x7bbe,0x4410,0x7bc6,0x4410,0x7bce,0x4410     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0b0300  @ $0B0300  (512 B)  [ref. desde código]
+|  BgMap_0b0300  @ $0B0300  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0300, "ax", @progbits
-        .global Data_0b0300
-Data_0b0300:
+        .section .text.BgMap_0b0300, "ax", @progbits
+        .global BgMap_0b0300
+BgMap_0b0300:
         .dc.w   0x7bd6,0x4410,0x78bc,0x4414,0x7914,0x4414,0x796c,0x4414     | +00000
         .dc.w   0x79c4,0x4414,0x7a14,0x4414,0x7a68,0x4414,0x7ac0,0x4114     | +00010
         .dc.w   0x7b14,0x3514,0x7c66,0x3310,0x7c6e,0x3310,0x7c76,0x3310     | +00020
@@ -6549,11 +6549,11 @@ Data_0b0300:
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_0b0500  @ $0B0500  (259 B)  [ref. desde código]
+|  BgMap_0b0500  @ $0B0500  (259 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0500, "ax", @progbits
-        .global Data_0b0500
-Data_0b0500:
+        .section .text.BgMap_0b0500, "ax", @progbits
+        .global BgMap_0b0500
+BgMap_0b0500:
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00000
         .dc.w   0x7324,0x3310,0x7324,0x0010,0x7b6a,0x4210,0x7b72,0x4210     | +00010
         .dc.w   0x7bba,0x4210,0x7bc2,0x4210,0x7bca,0x4210,0x7bd2,0x4210     | +00020
@@ -6574,11 +6574,11 @@ Data_0b0500:
         .dc.b   0x33                            | +00102
 
 | ----------------------------------------------------------------------------
-|  Data_0b0603  @ $0B0603  (256 B)  [ref. desde código]
+|  BgMap_0b0603  @ $0B0603  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0603, "ax", @progbits
-        .global Data_0b0603
-Data_0b0603:
+        .section .text.BgMap_0b0603, "ax", @progbits
+        .global BgMap_0b0603
+BgMap_0b0603:
         .dc.b   0x10                            | +00000
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00001
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00011
@@ -6599,11 +6599,11 @@ Data_0b0603:
         .dc.b   0x33                            | +000ff
 
 | ----------------------------------------------------------------------------
-|  Data_0b0703  @ $0B0703  (254 B)  [ref. desde código]
+|  BgMap_0b0703  @ $0B0703  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0703, "ax", @progbits
-        .global Data_0b0703
-Data_0b0703:
+        .section .text.BgMap_0b0703, "ax", @progbits
+        .global BgMap_0b0703
+BgMap_0b0703:
         .dc.b   0x10                            | +00000
         .dc.w   0x7d6a,0x3310,0x7d70,0x3310,0x7d75,0x3310,0x7324,0x3310     | +00001
         .dc.w   0x7324,0x0010,0x7324,0x0010,0x7324,0x0010,0x7324,0x0010     | +00011
@@ -6624,37 +6624,37 @@ Data_0b0703:
         .dc.b   0x7a                            | +000fd
 
 | ----------------------------------------------------------------------------
-|  Data_0b0801  @ $0B0801  (2 B)  [ref. desde código]
+|  BgMap_0b0801  @ $0B0801  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0801, "ax", @progbits
-        .global Data_0b0801
-Data_0b0801:
+        .section .text.BgMap_0b0801, "ax", @progbits
+        .global BgMap_0b0801
+BgMap_0b0801:
         .dc.b   0x38                            | +00000
         .dc.b   0x42                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0b0803  @ $0B0803  (2 B)  [ref. desde código]
+|  BgMap_0b0803  @ $0B0803  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0803, "ax", @progbits
-        .global Data_0b0803
-Data_0b0803:
+        .section .text.BgMap_0b0803, "ax", @progbits
+        .global BgMap_0b0803
+BgMap_0b0803:
         .dc.b   0x14                            | +00000
         .dc.b   0x7a                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0b0805  @ $0B0805  (1 B)  [ref. desde código]
+|  BgMap_0b0805  @ $0B0805  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0805, "ax", @progbits
-        .global Data_0b0805
-Data_0b0805:
+        .section .text.BgMap_0b0805, "ax", @progbits
+        .global BgMap_0b0805
+BgMap_0b0805:
         .dc.b   0x8c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0806  @ $0B0806  (254 B)  [ref. desde código]
+|  BgMap_0b0806  @ $0B0806  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0806, "ax", @progbits
-        .global Data_0b0806
-Data_0b0806:
+        .section .text.BgMap_0b0806, "ax", @progbits
+        .global BgMap_0b0806
+BgMap_0b0806:
         .dc.w   0x4214,0x7ae4,0x4214,0x7b38,0x3514,0x7c7f,0x3310,0x7c87     | +00000
         .dc.w   0x3310,0x7c8f,0x3310,0x7d6c,0x3310,0x7d72,0x3310,0x7d77     | +00010
         .dc.w   0x3310,0x7324,0x3310,0x7324,0x0010,0x7324,0x0010,0x7324     | +00020
@@ -6673,28 +6673,28 @@ Data_0b0806:
         .dc.w   0x4210,0x7bef,0x4210,0x7bf7,0x4210,0x7bff,0x4210            | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0b0904  @ $0B0904  (1 B)  [ref. desde código]
+|  BgMap_0b0904  @ $0B0904  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0904, "ax", @progbits
-        .global Data_0b0904
-Data_0b0904:
+        .section .text.BgMap_0b0904, "ax", @progbits
+        .global BgMap_0b0904
+BgMap_0b0904:
         .dc.b   0x7c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0905  @ $0B0905  (2 B)  [ref. desde código]
+|  BgMap_0b0905  @ $0B0905  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0905, "ax", @progbits
-        .global Data_0b0905
-Data_0b0905:
+        .section .text.BgMap_0b0905, "ax", @progbits
+        .global BgMap_0b0905
+BgMap_0b0905:
         .dc.b   0x07                            | +00000
         .dc.b   0x42                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0b0907  @ $0B0907  (253 B)  [ref. desde código]
+|  BgMap_0b0907  @ $0B0907  (253 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0907, "ax", @progbits
-        .global Data_0b0907
-Data_0b0907:
+        .section .text.BgMap_0b0907, "ax", @progbits
+        .global BgMap_0b0907
+BgMap_0b0907:
         .dc.b   0x10                            | +00000
         .dc.w   0x78e8,0x4214,0x7940,0x4214,0x7998,0x4214,0x79f0,0x4214     | +00001
         .dc.w   0x7a40,0x4214,0x7a94,0x4214,0x7aec,0x4214,0x7b3c,0x3514     | +00011
@@ -6714,51 +6714,51 @@ Data_0b0907:
         .dc.w   0x7324,0x0010,0x7324,0x0010,0x7324,0x0010                   | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0b0a04  @ $0B0A04  (1 B)  [ref. desde código]
+|  BgMap_0b0a04  @ $0B0A04  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0a04, "ax", @progbits
-        .global Data_0b0a04
-Data_0b0a04:
+        .section .text.BgMap_0b0a04, "ax", @progbits
+        .global BgMap_0b0a04
+BgMap_0b0a04:
         .dc.b   0x7b                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0a05  @ $0B0A05  (1 B)  [ref. desde código]
+|  BgMap_0b0a05  @ $0B0A05  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0a05, "ax", @progbits
-        .global Data_0b0a05
-Data_0b0a05:
+        .section .text.BgMap_0b0a05, "ax", @progbits
+        .global BgMap_0b0a05
+BgMap_0b0a05:
         .dc.b   0x7b                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0a06  @ $0B0A06  (1 B)  [ref. desde código]
+|  BgMap_0b0a06  @ $0B0A06  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0a06, "ax", @progbits
-        .global Data_0b0a06
-Data_0b0a06:
+        .section .text.BgMap_0b0a06, "ax", @progbits
+        .global BgMap_0b0a06
+BgMap_0b0a06:
         .dc.b   0x42                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0a07  @ $0B0A07  (1 B)  [ref. desde código]
+|  BgMap_0b0a07  @ $0B0A07  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0a07, "ax", @progbits
-        .global Data_0b0a07
-Data_0b0a07:
+        .section .text.BgMap_0b0a07, "ax", @progbits
+        .global BgMap_0b0a07
+BgMap_0b0a07:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0a08  @ $0B0A08  (2 B)  [ref. desde código]
+|  BgMap_0b0a08  @ $0B0A08  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0a08, "ax", @progbits
-        .global Data_0b0a08
-Data_0b0a08:
+        .section .text.BgMap_0b0a08, "ax", @progbits
+        .global BgMap_0b0a08
+BgMap_0b0a08:
         .dc.w   0x7b83                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0a0a  @ $0B0A0A  (249 B)  [ref. desde código]
+|  BgMap_0b0a0a  @ $0B0A0A  (249 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0a0a, "ax", @progbits
-        .global Data_0b0a0a
-Data_0b0a0a:
+        .section .text.BgMap_0b0a0a, "ax", @progbits
+        .global BgMap_0b0a0a
+BgMap_0b0a0a:
         .dc.w   0x4210,0x7be9,0x4210,0x7bf1,0x4210,0x7bf9,0x4210,0x7c01     | +00000
         .dc.w   0x4210,0x7c09,0x4210,0x78f0,0x4214,0x7948,0x4214,0x79a0     | +00010
         .dc.w   0x4214,0x79e8,0x4214,0x7a44,0x4214,0x7a9c,0x4214,0x7af4     | +00020
@@ -6778,45 +6778,45 @@ Data_0b0a0a:
         .dc.b   0x33                            | +000f8
 
 | ----------------------------------------------------------------------------
-|  Data_0b0b03  @ $0B0B03  (4 B)  [ref. desde código]
+|  BgMap_0b0b03  @ $0B0B03  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0b03, "ax", @progbits
-        .global Data_0b0b03
-Data_0b0b03:
+        .section .text.BgMap_0b0b03, "ax", @progbits
+        .global BgMap_0b0b03
+BgMap_0b0b03:
         .dc.b   0x10                            | +00000
         .dc.w   0x7324                                                      | +00001
         .dc.b   0x33                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0b0b07  @ $0B0B07  (1 B)  [ref. desde código]
+|  BgMap_0b0b07  @ $0B0B07  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0b07, "ax", @progbits
-        .global Data_0b0b07
-Data_0b0b07:
+        .section .text.BgMap_0b0b07, "ax", @progbits
+        .global BgMap_0b0b07
+BgMap_0b0b07:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0b08  @ $0B0B08  (1 B)  [ref. desde código]
+|  BgMap_0b0b08  @ $0B0B08  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0b08, "ax", @progbits
-        .global Data_0b0b08
-Data_0b0b08:
+        .section .text.BgMap_0b0b08, "ax", @progbits
+        .global BgMap_0b0b08
+BgMap_0b0b08:
         .dc.b   0x73                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0b09  @ $0B0B09  (1 B)  [ref. desde código]
+|  BgMap_0b0b09  @ $0B0B09  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0b09, "ax", @progbits
-        .global Data_0b0b09
-Data_0b0b09:
+        .section .text.BgMap_0b0b09, "ax", @progbits
+        .global BgMap_0b0b09
+BgMap_0b0b09:
         .dc.b   0x24                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0b0a  @ $0B0B0A  (255 B)  [ref. desde código]
+|  BgMap_0b0b0a  @ $0B0B0A  (255 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0b0a, "ax", @progbits
-        .global Data_0b0b0a
-Data_0b0b0a:
+        .section .text.BgMap_0b0b0a, "ax", @progbits
+        .global BgMap_0b0b0a
+BgMap_0b0b0a:
         .dc.w   0x0010,0x7324,0x0010,0x7324,0x0010,0x7324,0x0010,0x7324     | +00000
         .dc.w   0x0010,0x7b85,0x4210,0x7b8d,0x4210,0x7c0b,0x4210,0x7c13     | +00010
         .dc.w   0x4210,0x7c1b,0x4210,0x7c23,0x4210,0x7c02,0x4211,0x78f8     | +00020
@@ -6836,43 +6836,43 @@ Data_0b0b0a:
         .dc.b   0x7d                            | +000fe
 
 | ----------------------------------------------------------------------------
-|  Data_0b0c09  @ $0B0C09  (1 B)  [ref. desde código]
+|  BgMap_0b0c09  @ $0B0C09  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0c09, "ax", @progbits
-        .global Data_0b0c09
-Data_0b0c09:
+        .section .text.BgMap_0b0c09, "ax", @progbits
+        .global BgMap_0b0c09
+BgMap_0b0c09:
         .dc.b   0x79                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0c0a  @ $0B0C0A  (1 B)  [ref. desde código]
+|  BgMap_0b0c0a  @ $0B0C0A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0c0a, "ax", @progbits
-        .global Data_0b0c0a
-Data_0b0c0a:
+        .section .text.BgMap_0b0c0a, "ax", @progbits
+        .global BgMap_0b0c0a
+BgMap_0b0c0a:
         .dc.b   0x33                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0c0b  @ $0B0C0B  (1 B)  [ref. desde código]
+|  BgMap_0b0c0b  @ $0B0C0B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0c0b, "ax", @progbits
-        .global Data_0b0c0b
-Data_0b0c0b:
+        .section .text.BgMap_0b0c0b, "ax", @progbits
+        .global BgMap_0b0c0b
+BgMap_0b0c0b:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0c0c  @ $0B0C0C  (1 B)  [ref. desde código]
+|  BgMap_0b0c0c  @ $0B0C0C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0c0c, "ax", @progbits
-        .global Data_0b0c0c
-Data_0b0c0c:
+        .section .text.BgMap_0b0c0c, "ax", @progbits
+        .global BgMap_0b0c0c
+BgMap_0b0c0c:
         .dc.b   0x7d                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0c0d  @ $0B0C0D  (51 B)  [ref. desde código]
+|  BgMap_0b0c0d  @ $0B0C0D  (51 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0c0d, "ax", @progbits
-        .global Data_0b0c0d
-Data_0b0c0d:
+        .section .text.BgMap_0b0c0d, "ax", @progbits
+        .global BgMap_0b0c0d
+BgMap_0b0c0d:
         .dc.b   0x7e                            | +00000
         .dc.w   0x3310,0x7e02,0x3310,0x7cd0,0x3310,0x7324,0x3310,0x7324     | +00001
         .dc.w   0x3310,0x7324,0x0010,0x7324,0x0010,0x7324,0x0010,0x7324     | +00011
@@ -6880,11 +6880,11 @@ Data_0b0c0d:
         .dc.w   0x4210                                                      | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_0b0c40  @ $0B0C40  (204 B)  [ref. desde código]
+|  BgMap_0b0c40  @ $0B0C40  (204 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0c40, "ax", @progbits
-        .global Data_0b0c40
-Data_0b0c40:
+        .section .text.BgMap_0b0c40, "ax", @progbits
+        .global BgMap_0b0c40
+BgMap_0b0c40:
         .dc.w   0x7c15,0x4210,0x7c1d,0x4210,0x7c25,0x4210,0x7c2c,0x4210     | +00000
         .dc.w   0x7900,0x4214,0x7958,0x4214,0x79b0,0x4214,0x7a00,0x4214     | +00010
         .dc.w   0x7a54,0x4214,0x7aac,0x4214,0x7b04,0x4214,0x7b50,0x3514     | +00020
@@ -6900,19 +6900,19 @@ Data_0b0c40:
         .dc.w   0x7c9f,0x3310,0x7ca5,0x3310,0x7324,0x3310                   | +000c0
 
 | ----------------------------------------------------------------------------
-|  Data_0b0d0c  @ $0B0D0C  (1 B)  [ref. desde código]
+|  BgMap_0b0d0c  @ $0B0D0C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0d0c, "ax", @progbits
-        .global Data_0b0d0c
-Data_0b0d0c:
+        .section .text.BgMap_0b0d0c, "ax", @progbits
+        .global BgMap_0b0d0c
+BgMap_0b0d0c:
         .dc.b   0x73                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0b0d0d  @ $0B0D0D  (246 B)  [ref. desde código]
+|  BgMap_0b0d0d  @ $0B0D0D  (246 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0d0d, "ax", @progbits
-        .global Data_0b0d0d
-Data_0b0d0d:
+        .section .text.BgMap_0b0d0d, "ax", @progbits
+        .global BgMap_0b0d0d
+BgMap_0b0d0d:
         .dc.b   0x24                            | +00000
         .dc.w   0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7c39     | +00001
         .dc.w   0x3310,0x7d7c,0x3310,0x7d80,0x3310,0x7e04,0x3310,0x7324     | +00011
@@ -6933,21 +6933,21 @@ Data_0b0d0d:
         .dc.b   0x42                            | +000f5
 
 | ----------------------------------------------------------------------------
-|  Data_0b0e03  @ $0B0E03  (12 B)  [ref. desde código]
+|  BgMap_0b0e03  @ $0B0E03  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0e03, "ax", @progbits
-        .global Data_0b0e03
-Data_0b0e03:
+        .section .text.BgMap_0b0e03, "ax", @progbits
+        .global BgMap_0b0e03
+BgMap_0b0e03:
         .dc.b   0x14                            | +00000
         .dc.w   0x7a60,0x4214,0x7ab8,0x4214,0x7b10                          | +00001
         .dc.b   0x42                            | +0000b
 
 | ----------------------------------------------------------------------------
-|  Data_0b0e0f  @ $0B0E0F  (254 B)  [ref. desde código]
+|  BgMap_0b0e0f  @ $0B0E0F  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0e0f, "ax", @progbits
-        .global Data_0b0e0f
-Data_0b0e0f:
+        .section .text.BgMap_0b0e0f, "ax", @progbits
+        .global BgMap_0b0e0f
+BgMap_0b0e0f:
         .dc.b   0x14                            | +00000
         .dc.w   0x7b4c,0x3514,0x7c9a,0x3310,0x7c6e,0x3310,0x7c76,0x3310     | +00001
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00011
@@ -6968,21 +6968,21 @@ Data_0b0e0f:
         .dc.b   0x78                            | +000fd
 
 | ----------------------------------------------------------------------------
-|  Data_0b0f0d  @ $0B0F0D  (4 B)  [ref. desde código]
+|  BgMap_0b0f0d  @ $0B0F0D  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0f0d, "ax", @progbits
-        .global Data_0b0f0d
-Data_0b0f0d:
+        .section .text.BgMap_0b0f0d, "ax", @progbits
+        .global BgMap_0b0f0d
+BgMap_0b0f0d:
         .dc.b   0xc4                            | +00000
         .dc.w   0x4214                                                      | +00001
         .dc.b   0x79                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0b0f11  @ $0B0F11  (250 B)  [ref. desde código]
+|  BgMap_0b0f11  @ $0B0F11  (250 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b0f11, "ax", @progbits
-        .global Data_0b0f11
-Data_0b0f11:
+        .section .text.BgMap_0b0f11, "ax", @progbits
+        .global BgMap_0b0f11
+BgMap_0b0f11:
         .dc.b   0x1c                            | +00000
         .dc.w   0x4214,0x7974,0x4214,0x79cc,0x4214,0x7a1c,0x4214,0x7a70     | +00001
         .dc.w   0x4214,0x7ac8,0x4214,0x7b1c,0x3514,0x7c68,0x3310,0x7c70     | +00011
@@ -7003,11 +7003,11 @@ Data_0b0f11:
         .dc.b   0x42                            | +000f9
 
 | ----------------------------------------------------------------------------
-|  Data_0b100b  @ $0B100B  (245 B)  [ref. desde código]
+|  BgMap_0b100b  @ $0B100B  (245 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b100b, "ax", @progbits
-        .global Data_0b100b
-Data_0b100b:
+        .section .text.BgMap_0b100b, "ax", @progbits
+        .global BgMap_0b100b
+BgMap_0b100b:
         .dc.b   0x10                            | +00000
         .dc.w   0x7b72,0x4210,0x7bba,0x4210,0x7bc2,0x4210,0x7bca,0x4210     | +00001
         .dc.w   0x7bd2,0x4210,0x7bda,0x4210,0x78cc,0x4214,0x7924,0x4214     | +00011
@@ -7027,20 +7027,20 @@ Data_0b100b:
         .dc.w   0x7d01,0x3310                                               | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0b1100  @ $0B1100  (7 B)  [ref. desde código]
+|  BgMap_0b1100  @ $0B1100  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b1100, "ax", @progbits
-        .global Data_0b1100
-Data_0b1100:
+        .section .text.BgMap_0b1100, "ax", @progbits
+        .global BgMap_0b1100
+BgMap_0b1100:
         .dc.w   0x7324,0x3310,0x7324                                        | +00000
         .dc.b   0x33                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_0b1107  @ $0B1107  (249 B)  [ref. desde código]
+|  BgMap_0b1107  @ $0B1107  (249 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b1107, "ax", @progbits
-        .global Data_0b1107
-Data_0b1107:
+        .section .text.BgMap_0b1107, "ax", @progbits
+        .global BgMap_0b1107
+BgMap_0b1107:
         .dc.b   0x10                            | +00000
         .dc.w   0x7324,0x3310,0x7324,0x0010,0x7324,0x0010,0x7324,0x0010     | +00001
         .dc.w   0x7324,0x0010,0x7324,0x0010,0x7b74,0x4210,0x7b7c,0x4210     | +00011
@@ -7060,11 +7060,11 @@ Data_0b1107:
         .dc.w   0x7324,0x3310,0x7324,0x3310                                 | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0b1200  @ $0B1200  (336 B)  [ref. desde código]
+|  BgMap_0b1200  @ $0B1200  (336 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b1200, "ax", @progbits
-        .global Data_0b1200
-Data_0b1200:
+        .section .text.BgMap_0b1200, "ax", @progbits
+        .global BgMap_0b1200
+BgMap_0b1200:
         .dc.w   0x7324,0x3310,0x7d87,0x3310,0x7d8d,0x3310,0x7cf3,0x3310     | +00000
         .dc.w   0x7324,0x3310,0x7324,0x3310,0x7324,0x3310,0x7324,0x3310     | +00010
         .dc.w   0x7324,0x3310,0x7324,0x0010,0x7324,0x0010,0x7324,0x0010     | +00020
@@ -7088,11 +7088,11 @@ Data_0b1200:
         .dc.w   0x7324,0x0010,0x7324,0x0010,0x7324,0x0010,0x7324,0x0010     | +00140
 
 | ----------------------------------------------------------------------------
-|  Data_0b1350  @ $0B1350  (4,992 B)  [ref. desde código]
+|  BgMap_0b1350  @ $0B1350  (4,992 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b1350, "ax", @progbits
-        .global Data_0b1350
-Data_0b1350:
+        .section .text.BgMap_0b1350, "ax", @progbits
+        .global BgMap_0b1350
+BgMap_0b1350:
         .dc.w   0x7e07,0x5610,0x7e0c,0x5610,0x7e14,0x5610,0x7e1c,0x5610     | +00000
         .dc.w   0x7e23,0x5610,0x7e2b,0x5610,0x7e33,0x5610,0x7e3b,0x5610     | +00010
         .dc.w   0x7f06,0x5710,0x7f0d,0x5710,0x7f15,0x5710,0x7f1d,0x5710     | +00020
@@ -7638,11 +7638,11 @@ Data_0b26d0:
         .dc.w   0x7a64,0x4214,0x7abc,0x4214,0x7ac4,0x4214,0x7b50,0x3514     | +00df0
 
 | ----------------------------------------------------------------------------
-|  Data_0b34d0  @ $0B34D0  (560 B)  [ref. desde código]
+|  BgMap_0b34d0  @ $0B34D0  (560 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b34d0, "ax", @progbits
-        .global Data_0b34d0
-Data_0b34d0:
+        .section .text.BgMap_0b34d0, "ax", @progbits
+        .global BgMap_0b34d0
+BgMap_0b34d0:
         .dc.w   0x83fc,0x2110,0x8404,0x2110,0x7324,0x2110,0x7324,0x2110     | +00000
         .dc.w   0x7324,0x2110,0x83fd,0x2110,0x8405,0x2110,0x7324,0x2110     | +00010
         .dc.w   0x7324,0x2110,0x7324,0x2110,0x83fe,0x2110,0x83fc,0x2110     | +00020
@@ -8178,11 +8178,11 @@ Data_0b4eb9:
         .dc.w   0x3310                                                      | +00531
 
 | ----------------------------------------------------------------------------
-|  Data_0b53ec  @ $0B53EC  (3,092 B)  [ref. desde código]
+|  BgMap_0b53ec  @ $0B53EC  (3,092 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b53ec, "ax", @progbits
-        .global Data_0b53ec
-Data_0b53ec:
+        .section .text.BgMap_0b53ec, "ax", @progbits
+        .global BgMap_0b53ec
+BgMap_0b53ec:
         .dc.w   0x8800,0x0010,0x8800,0x0010,0x8800,0x1510,0x8832,0x1510     | +00000
         .dc.w   0x8837,0x1510,0x883d,0x1510,0x8845,0x1510,0x884d,0x1510     | +00010
         .dc.w   0x8855,0x1510,0x885d,0x1510,0x8a5a,0x1510,0x8a62,0x1510     | +00020
@@ -8379,11 +8379,11 @@ Data_0b53ec:
         .dc.w   0x8b82,0x1410                                               | +00c10
 
 | ----------------------------------------------------------------------------
-|  Data_0b6000  @ $0B6000  (256 B)  [ref. desde código]
+|  BgMap_0b6000  @ $0B6000  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b6000, "ax", @progbits
-        .global Data_0b6000
-Data_0b6000:
+        .section .text.BgMap_0b6000, "ax", @progbits
+        .global BgMap_0b6000
+BgMap_0b6000:
         .dc.w   0x8b89,0x1410,0x8800,0x2010,0x8800,0x2010,0x8800,0x2010     | +00000
         .dc.w   0x8929,0x2010,0x8931,0x1610,0x8939,0x1610,0x8941,0x2510     | +00010
         .dc.w   0x8948,0x2510,0x894f,0x1810,0x8957,0x1810,0x8b53,0x1810     | +00020
@@ -8402,11 +8402,11 @@ Data_0b6000:
         .dc.w   0x893c,0x1610,0x8944,0x2410,0x894b,0x2410,0x8952,0x1810     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0b6100  @ $0B6100  (1,024 B)  [ref. desde código]
+|  BgMap_0b6100  @ $0B6100  (1,024 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b6100, "ax", @progbits
-        .global Data_0b6100
-Data_0b6100:
+        .section .text.BgMap_0b6100, "ax", @progbits
+        .global BgMap_0b6100
+BgMap_0b6100:
         .dc.w   0x895a,0x1810,0x8b56,0x1810,0x8b5e,0x1710,0x8b66,0x1710     | +00000
         .dc.w   0x8b6e,0x1810,0x8b76,0x2110,0x8b7e,0x2210,0x8b86,0x2210     | +00010
         .dc.w   0x8b8d,0x2210,0x8800,0x2010,0x8801,0x2010,0x8925,0x1710     | +00020
@@ -8473,11 +8473,11 @@ Data_0b6100:
         .dc.w   0x89c9,0x2610,0x8bd3,0x2a10,0x8bdb,0x2a10,0x8be3,0x2a10     | +003f0
 
 | ----------------------------------------------------------------------------
-|  Data_0b6500  @ $0B6500  (256 B)  [ref. desde código]
+|  BgMap_0b6500  @ $0B6500  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b6500, "ax", @progbits
-        .global Data_0b6500
-Data_0b6500:
+        .section .text.BgMap_0b6500, "ax", @progbits
+        .global BgMap_0b6500
+BgMap_0b6500:
         .dc.w   0x8beb,0x2a10,0x8bf3,0x1810,0x8bfb,0x2110,0x8c03,0x2210     | +00000
         .dc.w   0x8c0b,0x2210,0x8813,0x2010,0x881a,0x2010,0x899d,0x2010     | +00010
         .dc.w   0x89a5,0x2010,0x89ad,0x2010,0x8978,0x2910,0x897f,0x2910     | +00020
@@ -8496,11 +8496,11 @@ Data_0b6500:
         .dc.w   0x8822,0x2010,0x89cd,0x2010,0x89d5,0x2010,0x89da,0x2010     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0b6600  @ $0B6600  (236 B)  [ref. desde código]
+|  BgMap_0b6600  @ $0B6600  (236 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b6600, "ax", @progbits
-        .global Data_0b6600
-Data_0b6600:
+        .section .text.BgMap_0b6600, "ax", @progbits
+        .global BgMap_0b6600
+BgMap_0b6600:
         .dc.w   0x89e1,0x2910,0x89e8,0x2910,0x89ef,0x2910,0x89c3,0x2710     | +00000
         .dc.w   0x89fe,0x2610,0x8c0f,0x1810,0x8c17,0x2310,0x8c1f,0x2310     | +00010
         .dc.w   0x8c26,0x2310,0x8c2d,0x2110,0x8c35,0x2110,0x8c3b,0x2210     | +00020
@@ -8518,20 +8518,20 @@ Data_0b6600:
         .dc.w   0x89f2,0x2810,0x89f9,0x1710,0x8a01,0x1710                   | +000e0
 
 | ----------------------------------------------------------------------------
-|  Data_0b66ec  @ $0B66EC  (20 B)  [ref. desde código]
+|  BgMap_0b66ec  @ $0B66EC  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b66ec, "ax", @progbits
-        .global Data_0b66ec
-Data_0b66ec:
+        .section .text.BgMap_0b66ec, "ax", @progbits
+        .global BgMap_0b66ec
+BgMap_0b66ec:
         .dc.w   0x8c12,0x1710,0x8c1a,0x1710,0x8b67,0x1711,0x8c29,0x1810     | +00000
         .dc.w   0x8c30,0x2110                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0b6700  @ $0B6700  (1,092 B)  [ref. desde código]
+|  BgMap_0b6700  @ $0B6700  (1,092 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b6700, "ax", @progbits
-        .global Data_0b6700
-Data_0b6700:
+        .section .text.BgMap_0b6700, "ax", @progbits
+        .global BgMap_0b6700
+BgMap_0b6700:
         .dc.w   0x8c38,0x2110,0x8c3e,0x2210,0x8c46,0x2210,0x8820,0x1710     | +00000
         .dc.w   0x880a,0x1710,0x89d1,0x1710,0x8967,0x1710,0x896e,0x1710     | +00010
         .dc.w   0x8975,0x2810,0x89eb,0x2810,0x89f3,0x2810,0x89fa,0x1710     | +00020
@@ -8603,11 +8603,11 @@ Data_0b6700:
         .dc.w   0x8ca1,0x3c10                                               | +00440
 
 | ----------------------------------------------------------------------------
-|  Data_0b6b44  @ $0B6B44  (700 B)  [ref. desde código]
+|  BgMap_0b6b44  @ $0B6B44  (700 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b6b44, "ax", @progbits
-        .global Data_0b6b44
-Data_0b6b44:
+        .section .text.BgMap_0b6b44, "ax", @progbits
+        .global BgMap_0b6b44
+BgMap_0b6b44:
         .dc.w   0x8800,0x1710,0x8800,0x1710,0x8800,0x1710,0x8800,0x1710     | +00000
         .dc.w   0x8800,0x1710,0x8800,0x1710,0x8ca3,0x2c10,0x8ca4,0x2c10     | +00010
         .dc.w   0x8ca5,0x2c10,0x8cff,0x2c10,0x8d00,0x3510,0x8d05,0x2b10     | +00020
@@ -8654,11 +8654,11 @@ Data_0b6b44:
         .dc.w   0x8800,0x2b10,0x8800,0x2b10,0x8800,0x2b10                   | +002b0
 
 | ----------------------------------------------------------------------------
-|  Data_0b6e00  @ $0B6E00  (4,536 B)  [ref. desde código]
+|  BgMap_0b6e00  @ $0B6E00  (4,536 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b6e00, "ax", @progbits
-        .global Data_0b6e00
-Data_0b6e00:
+        .section .text.BgMap_0b6e00, "ax", @progbits
+        .global BgMap_0b6e00
+BgMap_0b6e00:
         .dc.w   0x8800,0x2c10,0x8ca7,0x2c10,0x8cab,0x2c10,0x8caf,0x2c10     | +00000
         .dc.w   0x8d24,0x2c10,0x8d2c,0x3510,0x8d34,0x2b10,0x8d3c,0x2b10     | +00010
         .dc.w   0x8d44,0x2b10,0x8d4c,0x2b10,0x8d54,0x2b10,0x8d5c,0x2b10     | +00020
@@ -8945,11 +8945,11 @@ Data_0b6e00:
         .dc.w   0x8e43,0x2e10,0x8e48,0x2e10                                 | +011b0
 
 | ----------------------------------------------------------------------------
-|  Data_0b7fb8  @ $0B7FB8  (6,912 B)  [ref. desde código]
+|  BgMap_0b7fb8  @ $0B7FB8  (6,912 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b7fb8, "ax", @progbits
-        .global Data_0b7fb8
-Data_0b7fb8:
+        .section .text.BgMap_0b7fb8, "ax", @progbits
+        .global BgMap_0b7fb8
+BgMap_0b7fb8:
         .dc.w   0x8800,0x2e10,0x8800,0x2e10,0x8800,0x2e10,0x8800,0x2e10     | +00000
         .dc.w   0x8800,0x2e10,0x8800,0x2e10,0x8800,0x2e10,0x8800,0x2e10     | +00010
         .dc.w   0x8e92,0x2e10,0x8e96,0x2e10,0x90d9,0x2e10,0x90dd,0x2e10     | +00020
@@ -9384,11 +9384,11 @@ Data_0b7fb8:
         .dc.w   0x9399,0x3310,0x939d,0x3310,0x93a1,0x3310,0x93a5,0x3310     | +01af0
 
 | ----------------------------------------------------------------------------
-|  Data_0b9ab8  @ $0B9AB8  (1,200 B)  [ref. desde código]
+|  BgMap_0b9ab8  @ $0B9AB8  (1,200 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0b9ab8, "ax", @progbits
-        .global Data_0b9ab8
-Data_0b9ab8:
+        .section .text.BgMap_0b9ab8, "ax", @progbits
+        .global BgMap_0b9ab8
+BgMap_0b9ab8:
         .dc.w   0x8804,0x4810,0x880a,0x4810,0x93ac,0x4810,0x93af,0x4810     | +00000
         .dc.w   0x93b6,0x4810,0x93be,0x4810,0x93c6,0x4810,0x93ce,0x4810     | +00010
         .dc.w   0x93d6,0x4810,0x93de,0x4810,0x8804,0x4810,0x93a7,0x4810     | +00020
@@ -11051,11 +11051,11 @@ Data_0c0000:
         .dc.w   0x8800                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c0002  @ $0C0002  (1 B)  [ref. desde código]
+|  Zero_0c0002  @ $0C0002  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c0002, "ax", @progbits
-        .global Data_0c0002
-Data_0c0002:
+        .section .text.Zero_0c0002, "ax", @progbits
+        .global Zero_0c0002
+Zero_0c0002:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -11634,11 +11634,11 @@ Data_0c0800:
         .dc.b   0x88                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c0801  @ $0C0801  (1 B)  [ref. desde código]
+|  Zero_0c0801  @ $0C0801  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c0801, "ax", @progbits
-        .global Data_0c0801
-Data_0c0801:
+        .section .text.Zero_0c0801, "ax", @progbits
+        .global Zero_0c0801
+Zero_0c0801:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -11774,19 +11774,19 @@ Data_0c0a00:
         .dc.b   0x88                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_0c0a05  @ $0C0A05  (1 B)  [ref. desde código]
+|  Zero_0c0a05  @ $0C0A05  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c0a05, "ax", @progbits
-        .global Data_0c0a05
-Data_0c0a05:
+        .section .text.Zero_0c0a05, "ax", @progbits
+        .global Zero_0c0a05
+Zero_0c0a05:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c0a06  @ $0C0A06  (1 B)  [ref. desde código]
+|  Zero_0c0a06  @ $0C0A06  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c0a06, "ax", @progbits
-        .global Data_0c0a06
-Data_0c0a06:
+        .section .text.Zero_0c0a06, "ax", @progbits
+        .global Zero_0c0a06
+Zero_0c0a06:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -12019,19 +12019,19 @@ Data_0c0c40:
         .dc.b   0x88                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c0c41  @ $0C0C41  (1 B)  [ref. desde código]
+|  Zero_0c0c41  @ $0C0C41  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c0c41, "ax", @progbits
-        .global Data_0c0c41
-Data_0c0c41:
+        .section .text.Zero_0c0c41, "ax", @progbits
+        .global Zero_0c0c41
+Zero_0c0c41:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c0c42  @ $0C0C42  (1 B)  [ref. desde código]
+|  Zero_0c0c42  @ $0C0C42  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c0c42, "ax", @progbits
-        .global Data_0c0c42
-Data_0c0c42:
+        .section .text.Zero_0c0c42, "ax", @progbits
+        .global Zero_0c0c42
+Zero_0c0c42:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -12145,11 +12145,11 @@ Data_0c0d08:
         .dc.b   0x88                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c0d09  @ $0C0D09  (2 B)  [ref. desde código]
+|  Zero_0c0d09  @ $0C0D09  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c0d09, "ax", @progbits
-        .global Data_0c0d09
-Data_0c0d09:
+        .section .text.Zero_0c0d09, "ax", @progbits
+        .global Zero_0c0d09
+Zero_0c0d09:
         .dc.b   0x00                            | +00000
         .dc.b   0x00                            | +00001
 
@@ -13053,11 +13053,11 @@ Data_0c2469:
         .dc.w   0x0010,0x8800,0x0010                                        | +002e1
 
 | ----------------------------------------------------------------------------
-|  Data_0c2750  @ $0C2750  (188 B)  [ref. desde código]
+|  BgMap_0c2750  @ $0C2750  (188 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2750, "ax", @progbits
-        .global Data_0c2750
-Data_0c2750:
+        .section .text.BgMap_0c2750, "ax", @progbits
+        .global BgMap_0c2750
+BgMap_0c2750:
         .dc.w   0x9a00,0x1310,0x9a04,0x1310,0x9a07,0x1310,0x9a03,0x1310     | +00000
         .dc.w   0x9a03,0x1210,0x9a03,0x1210,0x9a03,0x1210,0x9a03,0x1c10     | +00010
         .dc.w   0x9a03,0x1c10,0x9a48,0x1c10,0x9a01,0x1310,0x9a05,0x1310     | +00020
@@ -13072,11 +13072,11 @@ Data_0c2750:
         .dc.w   0x9a17,0x1310,0x9a19,0x1310,0x9a1b,0x1310                   | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0c280c  @ $0C280C  (1,085 B)  [ref. desde código]
+|  BgMap_0c280c  @ $0C280C  (1,085 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c280c, "ax", @progbits
-        .global Data_0c280c
-Data_0c280c:
+        .section .text.BgMap_0c280c, "ax", @progbits
+        .global BgMap_0c280c
+BgMap_0c280c:
         .dc.w   0x9a1e,0x1310,0x9a26,0x1d10,0x9a4b,0x1c10,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x1310,0x9a03,0x1310,0x9a03,0x1310,0x9a03,0x1310     | +00010
         .dc.w   0x9a03,0x1310,0x9a1c,0x1310,0x9a1f,0x3410,0x9a27,0x1d10     | +00020
@@ -13148,22 +13148,22 @@ Data_0c280c:
         .dc.b   0x9a                            | +0043c
 
 | ----------------------------------------------------------------------------
-|  Data_0c2c49  @ $0C2C49  (22 B)  [ref. desde código]
+|  BgMap_0c2c49  @ $0C2C49  (22 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2c49, "ax", @progbits
-        .global Data_0c2c49
-Data_0c2c49:
+        .section .text.BgMap_0c2c49, "ax", @progbits
+        .global BgMap_0c2c49
+BgMap_0c2c49:
         .dc.b   0x46                            | +00000
         .dc.w   0x3510,0x9a60,0x3510,0x9a03,0x0010,0x9a03,0x0010,0x9a03     | +00001
         .dc.w   0x0010,0x9a03                                               | +00011
         .dc.b   0x00                            | +00015
 
 | ----------------------------------------------------------------------------
-|  Data_0c2c5f  @ $0C2C5F  (42 B)  [ref. desde código]
+|  BgMap_0c2c5f  @ $0C2C5F  (42 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2c5f, "ax", @progbits
-        .global Data_0c2c5f
-Data_0c2c5f:
+        .section .text.BgMap_0c2c5f, "ax", @progbits
+        .global BgMap_0c2c5f
+BgMap_0c2c5f:
         .dc.b   0x10                            | +00000
         .dc.w   0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510     | +00001
         .dc.w   0x9a47,0x3510,0x9a61,0x3510,0x9a03,0x0010,0x9a03,0x0010     | +00011
@@ -13171,21 +13171,21 @@ Data_0c2c5f:
         .dc.b   0x9a                            | +00029
 
 | ----------------------------------------------------------------------------
-|  Data_0c2c89  @ $0C2C89  (23 B)  [ref. desde código]
+|  BgMap_0c2c89  @ $0C2C89  (23 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2c89, "ax", @progbits
-        .global Data_0c2c89
-Data_0c2c89:
+        .section .text.BgMap_0c2c89, "ax", @progbits
+        .global BgMap_0c2c89
+BgMap_0c2c89:
         .dc.b   0x03                            | +00000
         .dc.w   0x3510,0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510,0x9a03     | +00001
         .dc.w   0x3510,0x9a62,0x3510                                        | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0c2ca0  @ $0C2CA0  (168 B)  [ref. desde código]
+|  BgMap_0c2ca0  @ $0C2CA0  (168 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2ca0, "ax", @progbits
-        .global Data_0c2ca0
-Data_0c2ca0:
+        .section .text.BgMap_0c2ca0, "ax", @progbits
+        .global BgMap_0c2ca0
+BgMap_0c2ca0:
         .dc.w   0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510     | +00000
         .dc.w   0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510     | +00010
         .dc.w   0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510,0x9a03,0x3510     | +00020
@@ -13199,36 +13199,36 @@ Data_0c2ca0:
         .dc.w   0x9a58,0x3510,0x9ac1,0x3510                                 | +000a0
 
 | ----------------------------------------------------------------------------
-|  Data_0c2d48  @ $0C2D48  (1 B)  [ref. desde código]
+|  BgMap_0c2d48  @ $0C2D48  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2d48, "ax", @progbits
-        .global Data_0c2d48
-Data_0c2d48:
+        .section .text.BgMap_0c2d48, "ax", @progbits
+        .global BgMap_0c2d48
+BgMap_0c2d48:
         .dc.b   0x9a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c2d49  @ $0C2D49  (1 B)  [ref. desde código]
+|  BgMap_0c2d49  @ $0C2D49  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2d49, "ax", @progbits
-        .global Data_0c2d49
-Data_0c2d49:
+        .section .text.BgMap_0c2d49, "ax", @progbits
+        .global BgMap_0c2d49
+BgMap_0c2d49:
         .dc.b   0x03                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c2d4a  @ $0C2D4A  (30 B)  [ref. desde código]
+|  BgMap_0c2d4a  @ $0C2D4A  (30 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2d4a, "ax", @progbits
-        .global Data_0c2d4a
-Data_0c2d4a:
+        .section .text.BgMap_0c2d4a, "ax", @progbits
+        .global BgMap_0c2d4a
+BgMap_0c2d4a:
         .dc.w   0x3510,0x9a03,0x3510,0x9a33,0x3510,0x9a37,0x3510,0x9a3c     | +00000
         .dc.w   0x3510,0x9a59,0x3510,0x9ac2,0x3510,0x9a03,0x3510            | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0c2d68  @ $0C2D68  (410 B)  [ref. desde código]
+|  BgMap_0c2d68  @ $0C2D68  (410 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2d68, "ax", @progbits
-        .global Data_0c2d68
-Data_0c2d68:
+        .section .text.BgMap_0c2d68, "ax", @progbits
+        .global BgMap_0c2d68
+BgMap_0c2d68:
         .dc.w   0x9a03,0x3510,0x9a34,0x3510,0x9a38,0x3510,0x9a3d,0x3510     | +00000
         .dc.w   0x9a5a,0x3510,0x9ac3,0x3510,0x9a03,0x3510,0x9a03,0x3510     | +00010
         .dc.w   0x9a35,0x3510,0x9a39,0x3510,0x9a3e,0x3510,0x9a5b,0x3510     | +00020
@@ -13257,20 +13257,20 @@ Data_0c2d68:
         .dc.w   0x9a6f,0x3510,0x9a73,0x3510,0x9ace                          | +00190
 
 | ----------------------------------------------------------------------------
-|  Data_0c2f02  @ $0C2F02  (7 B)  [ref. desde código]
+|  BgMap_0c2f02  @ $0C2F02  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2f02, "ax", @progbits
-        .global Data_0c2f02
-Data_0c2f02:
+        .section .text.BgMap_0c2f02, "ax", @progbits
+        .global BgMap_0c2f02
+BgMap_0c2f02:
         .dc.w   0x3510,0x9ad3,0x3510                                        | +00000
         .dc.b   0x9a                            | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_0c2f09  @ $0C2F09  (251 B)  [ref. desde código]
+|  BgMap_0c2f09  @ $0C2F09  (251 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c2f09, "ax", @progbits
-        .global Data_0c2f09
-Data_0c2f09:
+        .section .text.BgMap_0c2f09, "ax", @progbits
+        .global BgMap_0c2f09
+BgMap_0c2f09:
         .dc.b   0x64                            | +00000
         .dc.w   0x3510,0x9a68,0x3510,0x9a6c,0x3510,0x9a70,0x3510,0x9a74     | +00001
         .dc.w   0x3510,0x9acf,0x3510,0x9ad4,0x3510,0x9a65,0x3510,0x9a69     | +00011
@@ -13290,46 +13290,46 @@ Data_0c2f09:
         .dc.w   0x3510,0x9a5d,0x3510,0x9a03,0x0010                          | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0c3004  @ $0C3004  (36 B)  [ref. desde código]
+|  BgMap_0c3004  @ $0C3004  (36 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3004, "ax", @progbits
-        .global Data_0c3004
-Data_0c3004:
+        .section .text.BgMap_0c3004, "ax", @progbits
+        .global BgMap_0c3004
+BgMap_0c3004:
         .dc.w   0x9a7d,0x3510,0x9a85,0x3710,0x9a8d,0x3510,0x9a94,0x3510     | +00000
         .dc.w   0x9a97,0x3510,0x9a5e,0x3510,0x9a03,0x0010,0x9a7e,0x3510     | +00010
         .dc.w   0x9a86,0x3510                                               | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c3028  @ $0C3028  (1 B)  [ref. desde código]
+|  BgMap_0c3028  @ $0C3028  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3028, "ax", @progbits
-        .global Data_0c3028
-Data_0c3028:
+        .section .text.BgMap_0c3028, "ax", @progbits
+        .global BgMap_0c3028
+BgMap_0c3028:
         .dc.b   0x9a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c3029  @ $0C3029  (5 B)  [ref. desde código]
+|  BgMap_0c3029  @ $0C3029  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3029, "ax", @progbits
-        .global Data_0c3029
-Data_0c3029:
+        .section .text.BgMap_0c3029, "ax", @progbits
+        .global BgMap_0c3029
+BgMap_0c3029:
         .dc.b   0x8e                            | +00000
         .dc.w   0x3510,0x9a95                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0c302e  @ $0C302E  (14 B)  [ref. desde código]
+|  BgMap_0c302e  @ $0C302E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c302e, "ax", @progbits
-        .global Data_0c302e
-Data_0c302e:
+        .section .text.BgMap_0c302e, "ax", @progbits
+        .global BgMap_0c302e
+BgMap_0c302e:
         .dc.w   0x3510,0x9a98,0x3510,0x9a5f,0x3510,0x9a03,0x0010            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c303c  @ $0C303C  (301 B)  [ref. desde código]
+|  BgMap_0c303c  @ $0C303C  (301 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c303c, "ax", @progbits
-        .global Data_0c303c
-Data_0c303c:
+        .section .text.BgMap_0c303c, "ax", @progbits
+        .global BgMap_0c303c
+BgMap_0c303c:
         .dc.w   0x9a03,0x3510,0x9a9e,0x3510,0x9aa5,0x3510,0x9aad,0x3510     | +00000
         .dc.w   0x9ab5,0x3510,0x9ad8,0x3510,0x9a03,0x0010,0x9a99,0x3510     | +00010
         .dc.w   0x9a9f,0x3510,0x9aa6,0x3510,0x9aae,0x3510,0x9ab6,0x3510     | +00020
@@ -13352,35 +13352,35 @@ Data_0c303c:
         .dc.b   0x9a                            | +0012c
 
 | ----------------------------------------------------------------------------
-|  Data_0c3169  @ $0C3169  (1 B)  [ref. desde código]
+|  BgMap_0c3169  @ $0C3169  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3169, "ax", @progbits
-        .global Data_0c3169
-Data_0c3169:
+        .section .text.BgMap_0c3169, "ax", @progbits
+        .global BgMap_0c3169
+BgMap_0c3169:
         .dc.b   0x03                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c316a  @ $0C316A  (4 B)  [ref. desde código]
+|  BgMap_0c316a  @ $0C316A  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c316a, "ax", @progbits
-        .global Data_0c316a
-Data_0c316a:
+        .section .text.BgMap_0c316a, "ax", @progbits
+        .global BgMap_0c316a
+BgMap_0c316a:
         .dc.w   0x0010,0x9a03                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c316e  @ $0C316E  (14 B)  [ref. desde código]
+|  BgMap_0c316e  @ $0C316E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c316e, "ax", @progbits
-        .global Data_0c316e
-Data_0c316e:
+        .section .text.BgMap_0c316e, "ax", @progbits
+        .global BgMap_0c316e
+BgMap_0c316e:
         .dc.w   0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c317c  @ $0C317C  (138 B)  [ref. desde código]
+|  BgMap_0c317c  @ $0C317C  (138 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c317c, "ax", @progbits
-        .global Data_0c317c
-Data_0c317c:
+        .section .text.BgMap_0c317c, "ax", @progbits
+        .global BgMap_0c317c
+BgMap_0c317c:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -13392,53 +13392,53 @@ Data_0c317c:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03                          | +00080
 
 | ----------------------------------------------------------------------------
-|  Data_0c3206  @ $0C3206  (34 B)  [ref. desde código]
+|  BgMap_0c3206  @ $0C3206  (34 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3206, "ax", @progbits
-        .global Data_0c3206
-Data_0c3206:
+        .section .text.BgMap_0c3206, "ax", @progbits
+        .global BgMap_0c3206
+BgMap_0c3206:
         .dc.w   0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03     | +00000
         .dc.w   0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03     | +00010
         .dc.w   0x0010                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c3228  @ $0C3228  (1 B)  [ref. desde código]
+|  BgMap_0c3228  @ $0C3228  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3228, "ax", @progbits
-        .global Data_0c3228
-Data_0c3228:
+        .section .text.BgMap_0c3228, "ax", @progbits
+        .global BgMap_0c3228
+BgMap_0c3228:
         .dc.b   0x9a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c3229  @ $0C3229  (1 B)  [ref. desde código]
+|  BgMap_0c3229  @ $0C3229  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3229, "ax", @progbits
-        .global Data_0c3229
-Data_0c3229:
+        .section .text.BgMap_0c3229, "ax", @progbits
+        .global BgMap_0c3229
+BgMap_0c3229:
         .dc.b   0x03                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c322a  @ $0C322A  (4 B)  [ref. desde código]
+|  BgMap_0c322a  @ $0C322A  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c322a, "ax", @progbits
-        .global Data_0c322a
-Data_0c322a:
+        .section .text.BgMap_0c322a, "ax", @progbits
+        .global BgMap_0c322a
+BgMap_0c322a:
         .dc.w   0x0010,0x9a03                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c322e  @ $0C322E  (14 B)  [ref. desde código]
+|  BgMap_0c322e  @ $0C322E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c322e, "ax", @progbits
-        .global Data_0c322e
-Data_0c322e:
+        .section .text.BgMap_0c322e, "ax", @progbits
+        .global BgMap_0c322e
+BgMap_0c322e:
         .dc.w   0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c323c  @ $0C323C  (308 B)  [ref. desde código]
+|  BgMap_0c323c  @ $0C323C  (308 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c323c, "ax", @progbits
-        .global Data_0c323c
-Data_0c323c:
+        .section .text.BgMap_0c323c, "ax", @progbits
+        .global BgMap_0c323c
+BgMap_0c323c:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -13461,11 +13461,11 @@ Data_0c323c:
         .dc.w   0x9a03,0x0010                                               | +00130
 
 | ----------------------------------------------------------------------------
-|  Data_0c3370  @ $0C3370  (76 B)  [ref. desde código]
+|  BgMap_0c3370  @ $0C3370  (76 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3370, "ax", @progbits
-        .global Data_0c3370
-Data_0c3370:
+        .section .text.BgMap_0c3370, "ax", @progbits
+        .global BgMap_0c3370
+BgMap_0c3370:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -13473,11 +13473,11 @@ Data_0c3370:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010                   | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_0c33bc  @ $0C33BC  (114 B)  [ref. desde código]
+|  BgMap_0c33bc  @ $0C33BC  (114 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c33bc, "ax", @progbits
-        .global Data_0c33bc
-Data_0c33bc:
+        .section .text.BgMap_0c33bc, "ax", @progbits
+        .global BgMap_0c33bc
+BgMap_0c33bc:
         .dc.w   0x9a03,0x4210,0x9ae4,0x4210,0x9ae8,0x4210,0x9aec,0x4210     | +00000
         .dc.w   0x9af0,0x4210,0x9af4,0x4210,0x9af8,0x4210,0x9afd,0x4210     | +00010
         .dc.w   0x9e28,0x4210,0x9e2e,0x4210,0x9e34,0x4210,0x9e3b,0x4210     | +00020
@@ -13488,11 +13488,11 @@ Data_0c33bc:
         .dc.w   0x9e2f                                                      | +00070
 
 | ----------------------------------------------------------------------------
-|  Data_0c342e  @ $0C342E  (506 B)  [ref. desde código]
+|  BgMap_0c342e  @ $0C342E  (506 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c342e, "ax", @progbits
-        .global Data_0c342e
-Data_0c342e:
+        .section .text.BgMap_0c342e, "ax", @progbits
+        .global BgMap_0c342e
+BgMap_0c342e:
         .dc.w   0x4210,0x9e35,0x4510,0x9a03,0x4310,0x9e43,0x4310,0x9e4b     | +00000
         .dc.w   0x4310,0x9e53,0x4510,0x9e5b,0x4710,0xa26b,0x4710,0x9a03     | +00010
         .dc.w   0x0010,0x9a03,0x0010,0x9a03,0x4210,0x9ae6,0x4210,0x9aea     | +00020
@@ -13527,28 +13527,28 @@ Data_0c342e:
         .dc.w   0x2b10,0x9a03,0x2b10,0x9a03,0x2b10                          | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c3628  @ $0C3628  (2 B)  [ref. desde código]
+|  BgMap_0c3628  @ $0C3628  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3628, "ax", @progbits
-        .global Data_0c3628
-Data_0c3628:
+        .section .text.BgMap_0c3628, "ax", @progbits
+        .global BgMap_0c3628
+BgMap_0c3628:
         .dc.w   0x9a03                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c362a  @ $0C362A  (18 B)  [ref. desde código]
+|  BgMap_0c362a  @ $0C362A  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c362a, "ax", @progbits
-        .global Data_0c362a
-Data_0c362a:
+        .section .text.BgMap_0c362a, "ax", @progbits
+        .global BgMap_0c362a
+BgMap_0c362a:
         .dc.w   0x2b10,0x9a03,0x2b10,0x9a03,0x2b10,0x9b23,0x2b10,0x9b2b     | +00000
         .dc.w   0x2b10                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0c363c  @ $0C363C  (1,495 B)  [ref. desde código]
+|  BgMap_0c363c  @ $0C363C  (1,495 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c363c, "ax", @progbits
-        .global Data_0c363c
-Data_0c363c:
+        .section .text.BgMap_0c363c, "ax", @progbits
+        .global BgMap_0c363c
+BgMap_0c363c:
         .dc.w   0x9e62,0x2b10,0x9e69,0x2b10,0x9e70,0x2b10,0x9e78,0x2b10     | +00000
         .dc.w   0x9e80,0x2b10,0x9e88,0x2b10,0x9e90,0x1d10,0x9e97,0x1d10     | +00010
         .dc.w   0xa272,0x1d10,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x1310     | +00020
@@ -13646,21 +13646,21 @@ Data_0c363c:
         .dc.b   0x12                            | +005d6
 
 | ----------------------------------------------------------------------------
-|  Data_0c3c13  @ $0C3C13  (27 B)  [ref. desde código]
+|  BgMap_0c3c13  @ $0C3C13  (27 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3c13, "ax", @progbits
-        .global Data_0c3c13
-Data_0c3c13:
+        .section .text.BgMap_0c3c13, "ax", @progbits
+        .global BgMap_0c3c13
+BgMap_0c3c13:
         .dc.b   0x10                            | +00000
         .dc.w   0x9a03,0x1210,0x9b65,0x1210,0x9b6d,0x1210,0x9b75,0x1210     | +00001
         .dc.w   0x9b7d,0x1210,0x9b58,0x1310,0x9ed4                          | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0c3c2e  @ $0C3C2E  (274 B)  [ref. desde código]
+|  BgMap_0c3c2e  @ $0C3C2E  (274 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3c2e, "ax", @progbits
-        .global Data_0c3c2e
-Data_0c3c2e:
+        .section .text.BgMap_0c3c2e, "ax", @progbits
+        .global BgMap_0c3c2e
+BgMap_0c3c2e:
         .dc.w   0x1310,0x9edc,0x1210,0x9ee3,0x1e10,0x9eeb,0x1e10,0x9ef3     | +00000
         .dc.w   0x1e10,0x9efb,0x1e10,0x9f03,0x1d10,0x9f09,0x1d10,0xa27b     | +00010
         .dc.w   0x1d10,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x1210,0x9a03     | +00020
@@ -13681,72 +13681,72 @@ Data_0c3c2e:
         .dc.w   0x1210                                                      | +00110
 
 | ----------------------------------------------------------------------------
-|  Data_0c3d40  @ $0C3D40  (40 B)  [ref. desde código]
+|  BgMap_0c3d40  @ $0C3D40  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3d40, "ax", @progbits
-        .global Data_0c3d40
-Data_0c3d40:
+        .section .text.BgMap_0c3d40, "ax", @progbits
+        .global BgMap_0c3d40
+BgMap_0c3d40:
         .dc.w   0x9b87,0x1210,0x9b8e,0x1210,0x9b95,0x1210,0x9b9b,0x1210     | +00000
         .dc.w   0x9ba2,0x1210,0x9ba9,0x1210,0x9b58,0x1310,0x9f0d,0x1310     | +00010
         .dc.w   0x9ed9,0x1310,0x9f15,0x1e10                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c3d68  @ $0C3D68  (1 B)  [ref. desde código]
+|  BgMap_0c3d68  @ $0C3D68  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3d68, "ax", @progbits
-        .global Data_0c3d68
-Data_0c3d68:
+        .section .text.BgMap_0c3d68, "ax", @progbits
+        .global BgMap_0c3d68
+BgMap_0c3d68:
         .dc.b   0x9f                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c3d69  @ $0C3D69  (1 B)  [ref. desde código]
+|  BgMap_0c3d69  @ $0C3D69  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3d69, "ax", @progbits
-        .global Data_0c3d69
-Data_0c3d69:
+        .section .text.BgMap_0c3d69, "ax", @progbits
+        .global BgMap_0c3d69
+BgMap_0c3d69:
         .dc.b   0x19                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c3d6a  @ $0C3D6A  (4 B)  [ref. desde código]
+|  BgMap_0c3d6a  @ $0C3D6A  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3d6a, "ax", @progbits
-        .global Data_0c3d6a
-Data_0c3d6a:
+        .section .text.BgMap_0c3d6a, "ax", @progbits
+        .global BgMap_0c3d6a
+BgMap_0c3d6a:
         .dc.w   0x1e10,0x9f1e                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c3d6e  @ $0C3D6E  (2 B)  [ref. desde código]
+|  BgMap_0c3d6e  @ $0C3D6E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3d6e, "ax", @progbits
-        .global Data_0c3d6e
-Data_0c3d6e:
+        .section .text.BgMap_0c3d6e, "ax", @progbits
+        .global BgMap_0c3d6e
+BgMap_0c3d6e:
         .dc.w   0x1e10                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c3d70  @ $0C3D70  (12 B)  [ref. desde código]
+|  BgMap_0c3d70  @ $0C3D70  (12 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3d70, "ax", @progbits
-        .global Data_0c3d70
-Data_0c3d70:
+        .section .text.BgMap_0c3d70, "ax", @progbits
+        .global BgMap_0c3d70
+BgMap_0c3d70:
         .dc.w   0x9f23,0x1e10,0x9f2a,0x1d10,0x9f30,0x1d10                   | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c3d7c  @ $0C3D7C  (64 B)  [ref. desde código]
+|  BgMap_0c3d7c  @ $0C3D7C  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3d7c, "ax", @progbits
-        .global Data_0c3d7c
-Data_0c3d7c:
+        .section .text.BgMap_0c3d7c, "ax", @progbits
+        .global BgMap_0c3d7c
+BgMap_0c3d7c:
         .dc.w   0xa27e,0x1d10,0x9a03,0x0010,0x9a03,0x0010,0x9b82,0x1210     | +00000
         .dc.w   0x9b88,0x1210,0x9b8f,0x1210,0x9b96,0x1210,0x9b9c,0x1210     | +00010
         .dc.w   0x9ba3,0x1210,0x9baa,0x1210,0x9b59,0x1310,0x9f0e,0x1310     | +00020
         .dc.w   0x9f13,0x1210,0x9f16,0x1e10,0x9f1a,0x1e10,0x9f1f,0x1e10     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0c3dbc  @ $0C3DBC  (98 B)  [ref. desde código]
+|  BgMap_0c3dbc  @ $0C3DBC  (98 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3dbc, "ax", @progbits
-        .global Data_0c3dbc
-Data_0c3dbc:
+        .section .text.BgMap_0c3dbc, "ax", @progbits
+        .global BgMap_0c3dbc
+BgMap_0c3dbc:
         .dc.w   0x9f24,0x1e10,0x9f2b,0x1d10,0x9f08,0x1d10,0xa27a,0x1d10     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9b83,0x1210,0x9b89,0x1210     | +00010
         .dc.w   0x9b90,0x1210,0x9b97,0x1210,0x9b9d,0x1210,0x9ba4,0x1210     | +00020
@@ -13756,19 +13756,19 @@ Data_0c3dbc:
         .dc.w   0x9a03                                                      | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_0c3e1e  @ $0C3E1E  (8 B)  [ref. desde código]
+|  BgMap_0c3e1e  @ $0C3E1E  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3e1e, "ax", @progbits
-        .global Data_0c3e1e
-Data_0c3e1e:
+        .section .text.BgMap_0c3e1e, "ax", @progbits
+        .global BgMap_0c3e1e
+BgMap_0c3e1e:
         .dc.w   0x0010,0x9b84,0x1210,0x9b8a                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c3e26  @ $0C3E26  (218 B)  [ref. desde código]
+|  BgMap_0c3e26  @ $0C3E26  (218 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3e26, "ax", @progbits
-        .global Data_0c3e26
-Data_0c3e26:
+        .section .text.BgMap_0c3e26, "ax", @progbits
+        .global BgMap_0c3e26
+BgMap_0c3e26:
         .dc.w   0x1210,0x9b91,0x1210,0x9b98,0x1210,0x9b9e,0x1210,0x9ba5     | +00000
         .dc.w   0x1210,0x9bac,0x1210,0x9bb1,0x1310,0x9ea3,0x1310,0x9eab     | +00010
         .dc.w   0x1310,0x9f18,0x1210,0x9f1c,0x1e10,0x9f21,0x3410,0x9f26     | +00020
@@ -13785,11 +13785,11 @@ Data_0c3e26:
         .dc.w   0x1d10,0x9a48,0x1d10,0x9a03,0x0010                          | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_0c3f00  @ $0C3F00  (761 B)  [ref. desde código]
+|  BgMap_0c3f00  @ $0C3F00  (761 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c3f00, "ax", @progbits
-        .global Data_0c3f00
-Data_0c3f00:
+        .section .text.BgMap_0c3f00, "ax", @progbits
+        .global BgMap_0c3f00
+BgMap_0c3f00:
         .dc.w   0x9a03,0x0010,0x9a03,0x1210,0x9a03,0x1210,0x9a03,0x1210     | +00000
         .dc.w   0x9a03,0x1210,0x9a03,0x1210,0x9a03,0x1210,0x9baf,0x1210     | +00010
         .dc.w   0x9bb4,0x1210,0x9f11,0x1210,0x9ed8,0x1310,0x9edf,0x1310     | +00020
@@ -13841,137 +13841,137 @@ Data_0c3f00:
         .dc.b   0x9a                            | +002f8
 
 | ----------------------------------------------------------------------------
-|  Data_0c41f9  @ $0C41F9  (1 B)  [ref. desde código]
+|  BgMap_0c41f9  @ $0C41F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c41f9, "ax", @progbits
-        .global Data_0c41f9
-Data_0c41f9:
+        .section .text.BgMap_0c41f9, "ax", @progbits
+        .global BgMap_0c41f9
+BgMap_0c41f9:
         .dc.b   0x03                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c41fa  @ $0C41FA  (9 B)  [ref. desde código]
+|  BgMap_0c41fa  @ $0C41FA  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c41fa, "ax", @progbits
-        .global Data_0c41fa
-Data_0c41fa:
+        .section .text.BgMap_0c41fa, "ax", @progbits
+        .global BgMap_0c41fa
+BgMap_0c41fa:
         .dc.w   0x0010,0x9beb,0x1210,0x9bf3                                 | +00000
         .dc.b   0x12                            | +00008
 
 | ----------------------------------------------------------------------------
-|  Data_0c4203  @ $0C4203  (37 B)  [ref. desde código]
+|  BgMap_0c4203  @ $0C4203  (37 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4203, "ax", @progbits
-        .global Data_0c4203
-Data_0c4203:
+        .section .text.BgMap_0c4203, "ax", @progbits
+        .global BgMap_0c4203
+BgMap_0c4203:
         .dc.b   0x10                            | +00000
         .dc.w   0x9bfb,0x1210,0x9c03,0x1210,0x9c0b,0x1210,0x9c12,0x1210     | +00001
         .dc.w   0x9c1a,0x1210,0x9c1c,0x1210,0x9f5e,0x1210,0x9f66,0x1210     | +00011
         .dc.w   0x9f6e,0x1e10                                               | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0c4228  @ $0C4228  (1 B)  [ref. desde código]
+|  BgMap_0c4228  @ $0C4228  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4228, "ax", @progbits
-        .global Data_0c4228
-Data_0c4228:
+        .section .text.BgMap_0c4228, "ax", @progbits
+        .global BgMap_0c4228
+BgMap_0c4228:
         .dc.b   0x9f                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4229  @ $0C4229  (5 B)  [ref. desde código]
+|  BgMap_0c4229  @ $0C4229  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4229, "ax", @progbits
-        .global Data_0c4229
-Data_0c4229:
+        .section .text.BgMap_0c4229, "ax", @progbits
+        .global BgMap_0c4229
+BgMap_0c4229:
         .dc.b   0x76                            | +00000
         .dc.w   0x1e10,0x9f1e                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0c422e  @ $0C422E  (11 B)  [ref. desde código]
+|  BgMap_0c422e  @ $0C422E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c422e, "ax", @progbits
-        .global Data_0c422e
-Data_0c422e:
+        .section .text.BgMap_0c422e, "ax", @progbits
+        .global BgMap_0c422e
+BgMap_0c422e:
         .dc.w   0x1e10,0x9f23,0x1e10,0x9f8c,0x1d10                          | +00000
         .dc.b   0x9f                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_0c4239  @ $0C4239  (7 B)  [ref. desde código]
+|  BgMap_0c4239  @ $0C4239  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4239, "ax", @progbits
-        .global Data_0c4239
-Data_0c4239:
+        .section .text.BgMap_0c4239, "ax", @progbits
+        .global BgMap_0c4239
+BgMap_0c4239:
         .dc.b   0x94                            | +00000
         .dc.w   0x1d10,0xa286,0x1d10                                        | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0c4240  @ $0C4240  (40 B)  [ref. desde código]
+|  BgMap_0c4240  @ $0C4240  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4240, "ax", @progbits
-        .global Data_0c4240
-Data_0c4240:
+        .section .text.BgMap_0c4240, "ax", @progbits
+        .global BgMap_0c4240
+BgMap_0c4240:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9bec,0x1210,0x9bf4,0x1210     | +00000
         .dc.w   0x9bfc,0x1210,0x9c04,0x1210,0x9c0c,0x1210,0x9c13,0x1210     | +00010
         .dc.w   0x9c1b,0x1210,0x9c1d,0x1210                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c4268  @ $0C4268  (1 B)  [ref. desde código]
+|  BgMap_0c4268  @ $0C4268  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4268, "ax", @progbits
-        .global Data_0c4268
-Data_0c4268:
+        .section .text.BgMap_0c4268, "ax", @progbits
+        .global BgMap_0c4268
+BgMap_0c4268:
         .dc.b   0x9f                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4269  @ $0C4269  (5 B)  [ref. desde código]
+|  BgMap_0c4269  @ $0C4269  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4269, "ax", @progbits
-        .global Data_0c4269
-Data_0c4269:
+        .section .text.BgMap_0c4269, "ax", @progbits
+        .global BgMap_0c4269
+BgMap_0c4269:
         .dc.b   0x5f                            | +00000
         .dc.w   0x1210,0x9f67                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0c426e  @ $0C426E  (11 B)  [ref. desde código]
+|  BgMap_0c426e  @ $0C426E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c426e, "ax", @progbits
-        .global Data_0c426e
-Data_0c426e:
+        .section .text.BgMap_0c426e, "ax", @progbits
+        .global BgMap_0c426e
+BgMap_0c426e:
         .dc.w   0x1210,0x9f6f,0x1e10,0x9f77,0x1e10                          | +00000
         .dc.b   0x9f                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_0c4279  @ $0C4279  (7 B)  [ref. desde código]
+|  BgMap_0c4279  @ $0C4279  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4279, "ax", @progbits
-        .global Data_0c4279
-Data_0c4279:
+        .section .text.BgMap_0c4279, "ax", @progbits
+        .global BgMap_0c4279
+BgMap_0c4279:
         .dc.b   0x7e                            | +00000
         .dc.w   0x1e10,0x9f85,0x1e10                                        | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0c4280  @ $0C4280  (40 B)  [ref. desde código]
+|  BgMap_0c4280  @ $0C4280  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4280, "ax", @progbits
-        .global Data_0c4280
-Data_0c4280:
+        .section .text.BgMap_0c4280, "ax", @progbits
+        .global BgMap_0c4280
+BgMap_0c4280:
         .dc.w   0x9f8d,0x1d10,0x9f95,0x1d10,0xa287,0x1d10,0x9a48,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9bed,0x1210,0x9bf5,0x1210,0x9bfd,0x1210     | +00010
         .dc.w   0x9c05,0x1210,0x9c0d,0x1210                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c42a8  @ $0C42A8  (6 B)  [ref. desde código]
+|  BgMap_0c42a8  @ $0C42A8  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c42a8, "ax", @progbits
-        .global Data_0c42a8
-Data_0c42a8:
+        .section .text.BgMap_0c42a8, "ax", @progbits
+        .global BgMap_0c42a8
+BgMap_0c42a8:
         .dc.w   0x9c14,0x1210,0x9bf5                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c42ae  @ $0C42AE  (314 B)  [ref. desde código]
+|  BgMap_0c42ae  @ $0C42AE  (314 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c42ae, "ax", @progbits
-        .global Data_0c42ae
-Data_0c42ae:
+        .section .text.BgMap_0c42ae, "ax", @progbits
+        .global BgMap_0c42ae
+BgMap_0c42ae:
         .dc.w   0x1210,0x9c1e,0x1210,0x9f60,0x1210,0x9f68,0x1210,0x9f70     | +00000
         .dc.w   0x1210,0x9f78,0x1210,0x9f7f,0x1210,0x9f86,0x1210,0x9f8e     | +00010
         .dc.w   0x1d10,0x9f96,0x1d10,0xa288,0x1d10,0x9a48,0x0010,0x9a03     | +00020
@@ -13994,28 +13994,28 @@ Data_0c42ae:
         .dc.w   0x2610,0x9c22,0x2610,0x9f64,0x2610                          | +00130
 
 | ----------------------------------------------------------------------------
-|  Data_0c43e8  @ $0C43E8  (17 B)  [ref. desde código]
+|  BgMap_0c43e8  @ $0C43E8  (17 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c43e8, "ax", @progbits
-        .global Data_0c43e8
-Data_0c43e8:
+        .section .text.BgMap_0c43e8, "ax", @progbits
+        .global BgMap_0c43e8
+BgMap_0c43e8:
         .dc.w   0x9f6c,0x2610,0x9f74,0x2610,0x9f7c,0x2610,0x9f83,0x2610     | +00000
         .dc.b   0x9f                            | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0c43f9  @ $0C43F9  (1 B)  [ref. desde código]
+|  BgMap_0c43f9  @ $0C43F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c43f9, "ax", @progbits
-        .global Data_0c43f9
-Data_0c43f9:
+        .section .text.BgMap_0c43f9, "ax", @progbits
+        .global BgMap_0c43f9
+BgMap_0c43f9:
         .dc.b   0x8a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c43fa  @ $0C43FA  (70 B)  [ref. desde código]
+|  BgMap_0c43fa  @ $0C43FA  (70 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c43fa, "ax", @progbits
-        .global Data_0c43fa
-Data_0c43fa:
+        .section .text.BgMap_0c43fa, "ax", @progbits
+        .global BgMap_0c43fa
+BgMap_0c43fa:
         .dc.w   0x2610,0x9f92,0x1d10,0x9f99,0x1d10,0xa28c,0x1d10,0x9a48     | +00000
         .dc.w   0x0010,0x9a03,0x0010,0x9bf2,0x2610,0x9bfa,0x2610,0x9c02     | +00010
         .dc.w   0x2610,0x9c0a,0x2610,0x9c11,0x2610,0x9c19,0x2610,0x9bfa     | +00020
@@ -14023,30 +14023,30 @@ Data_0c43fa:
         .dc.w   0x2610,0x9f7d,0x2610                                        | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_0c4440  @ $0C4440  (1 B)  [ref. desde código]
+|  BgMap_0c4440  @ $0C4440  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4440, "ax", @progbits
-        .global Data_0c4440
-Data_0c4440:
+        .section .text.BgMap_0c4440, "ax", @progbits
+        .global BgMap_0c4440
+BgMap_0c4440:
         .dc.b   0x9f                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4441  @ $0C4441  (45 B)  [ref. desde código]
+|  BgMap_0c4441  @ $0C4441  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4441, "ax", @progbits
-        .global Data_0c4441
-Data_0c4441:
+        .section .text.BgMap_0c4441, "ax", @progbits
+        .global BgMap_0c4441
+BgMap_0c4441:
         .dc.b   0x84                            | +00000
         .dc.w   0x2610,0x9f8b,0x2610,0x9f93,0x1d10,0x9f9a,0x1d10,0xa28d     | +00001
         .dc.w   0x1d10,0x9a48,0x0010,0x9a03,0x0010,0x9c24,0x2610,0x9c28     | +00011
         .dc.w   0x2610,0x9c30,0x2610,0x9c38,0x2610,0x9c3c                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0c446e  @ $0C446E  (395 B)  [ref. desde código]
+|  BgMap_0c446e  @ $0C446E  (395 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c446e, "ax", @progbits
-        .global Data_0c446e
-Data_0c446e:
+        .section .text.BgMap_0c446e, "ax", @progbits
+        .global BgMap_0c446e
+BgMap_0c446e:
         .dc.w   0x2610,0x9c40,0x2610,0x9c28,0x2610,0x9c44,0x2610,0x9f9b     | +00000
         .dc.w   0x2610,0x9fa3,0x2610,0x9faa,0x2610,0x9fb1,0x2610,0x9fb9     | +00010
         .dc.w   0x2610,0x9fc1,0x2610,0x9f90,0x1d10,0x9f09,0x1d10,0xa28e     | +00020
@@ -14075,11 +14075,11 @@ Data_0c446e:
         .dc.b   0x9f                            | +0018a
 
 | ----------------------------------------------------------------------------
-|  Data_0c45f9  @ $0C45F9  (512 B)  [ref. desde código]
+|  BgMap_0c45f9  @ $0C45F9  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c45f9, "ax", @progbits
-        .global Data_0c45f9
-Data_0c45f9:
+        .section .text.BgMap_0c45f9, "ax", @progbits
+        .global BgMap_0c45f9
+BgMap_0c45f9:
         .dc.b   0xa0                            | +00000
         .dc.w   0x2810,0x9fa7,0x2810,0x9fae,0x2810,0x9fb6,0x2810,0x9fbe     | +00001
         .dc.w   0x2810,0x9fc6,0x2810,0x9fca,0x1d10,0x9fd1,0x1d10,0xa293     | +00011
@@ -14116,11 +14116,11 @@ Data_0c45f9:
         .dc.b   0x9c                            | +001ff
 
 | ----------------------------------------------------------------------------
-|  Data_0c47f9  @ $0C47F9  (174 B)  [ref. desde código]
+|  BgMap_0c47f9  @ $0C47F9  (174 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c47f9, "ax", @progbits
-        .global Data_0c47f9
-Data_0c47f9:
+        .section .text.BgMap_0c47f9, "ax", @progbits
+        .global BgMap_0c47f9
+BgMap_0c47f9:
         .dc.b   0x08                            | +00000
         .dc.w   0x2611,0x9c10,0x2611,0x9c17,0x2611,0x9bf8,0x2611,0x9c21     | +00001
         .dc.w   0x2611,0x9f63,0x2611,0x9f6b,0x2611,0x9f73,0x2611,0x9f7b     | +00011
@@ -14136,11 +14136,11 @@ Data_0c47f9:
         .dc.b   0x26                            | +000ad
 
 | ----------------------------------------------------------------------------
-|  Data_0c48a7  @ $0C48A7  (64 B)  [ref. desde código]
+|  BgMap_0c48a7  @ $0C48A7  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c48a7, "ax", @progbits
-        .global Data_0c48a7
-Data_0c48a7:
+        .section .text.BgMap_0c48a7, "ax", @progbits
+        .global BgMap_0c48a7
+BgMap_0c48a7:
         .dc.b   0x11                            | +00000
         .dc.w   0x9f69,0x2611,0x9f71,0x2611,0x9f79,0x2611,0x9f80,0x2611     | +00001
         .dc.w   0x9f87,0x2611,0x9f92,0x1d10,0x9f99,0x1d10,0xa29e,0x1d10     | +00011
@@ -14149,11 +14149,11 @@ Data_0c48a7:
         .dc.b   0x26                            | +0003f
 
 | ----------------------------------------------------------------------------
-|  Data_0c48e7  @ $0C48E7  (321 B)  [ref. desde código]
+|  BgMap_0c48e7  @ $0C48E7  (321 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c48e7, "ax", @progbits
-        .global Data_0c48e7
-Data_0c48e7:
+        .section .text.BgMap_0c48e7, "ax", @progbits
+        .global BgMap_0c48e7
+BgMap_0c48e7:
         .dc.b   0x10                            | +00000
         .dc.w   0x9c50,0x2610,0x9a03,0x2610,0x9fd3,0x2610,0x9fd4,0x2610     | +00001
         .dc.w   0x9fd5,0x2610,0x9fd6,0x2610,0x9fd7,0x2610,0x9fd8,0x2610     | +00011
@@ -14177,81 +14177,81 @@ Data_0c48e7:
         .dc.w   0x9c69,0x2610,0x9c71,0x2610,0x9fe4,0x2610,0x9fec,0x2610     | +00131
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a28  @ $0C4A28  (6 B)  [ref. desde código]
+|  BgMap_0c4a28  @ $0C4A28  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a28, "ax", @progbits
-        .global Data_0c4a28
-Data_0c4a28:
+        .section .text.BgMap_0c4a28, "ax", @progbits
+        .global BgMap_0c4a28
+BgMap_0c4a28:
         .dc.w   0x9ff4,0x2610,0x9ffc                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a2e  @ $0C4A2E  (2 B)  [ref. desde código]
+|  BgMap_0c4a2e  @ $0C4A2E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a2e, "ax", @progbits
-        .global Data_0c4a2e
-Data_0c4a2e:
+        .section .text.BgMap_0c4a2e, "ax", @progbits
+        .global BgMap_0c4a2e
+BgMap_0c4a2e:
         .dc.w   0x2610                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a30  @ $0C4A30  (9 B)  [ref. desde código]
+|  BgMap_0c4a30  @ $0C4A30  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a30, "ax", @progbits
-        .global Data_0c4a30
-Data_0c4a30:
+        .section .text.BgMap_0c4a30, "ax", @progbits
+        .global BgMap_0c4a30
+BgMap_0c4a30:
         .dc.w   0x9a03,0x2610,0x9a03,0x2610                                 | +00000
         .dc.b   0x9a                            | +00008
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a39  @ $0C4A39  (8 B)  [ref. desde código]
+|  BgMap_0c4a39  @ $0C4A39  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a39, "ax", @progbits
-        .global Data_0c4a39
-Data_0c4a39:
+        .section .text.BgMap_0c4a39, "ax", @progbits
+        .global BgMap_0c4a39
+BgMap_0c4a39:
         .dc.b   0x03                            | +00000
         .dc.w   0x2610,0x9a03,0x2610                                        | +00001
         .dc.b   0x9a                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a41  @ $0C4A41  (1 B)  [ref. desde código]
+|  BgMap_0c4a41  @ $0C4A41  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a41, "ax", @progbits
-        .global Data_0c4a41
-Data_0c4a41:
+        .section .text.BgMap_0c4a41, "ax", @progbits
+        .global BgMap_0c4a41
+BgMap_0c4a41:
         .dc.b   0x48                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a42  @ $0C4A42  (4 B)  [ref. desde código]
+|  BgMap_0c4a42  @ $0C4A42  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a42, "ax", @progbits
-        .global Data_0c4a42
-Data_0c4a42:
+        .section .text.BgMap_0c4a42, "ax", @progbits
+        .global BgMap_0c4a42
+BgMap_0c4a42:
         .dc.w   0x2610,0x9a03                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a46  @ $0C4A46  (34 B)  [ref. desde código]
+|  BgMap_0c4a46  @ $0C4A46  (34 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a46, "ax", @progbits
-        .global Data_0c4a46
-Data_0c4a46:
+        .section .text.BgMap_0c4a46, "ax", @progbits
+        .global BgMap_0c4a46
+BgMap_0c4a46:
         .dc.w   0x0010,0x9a03,0x0010,0x9a03,0x2610,0x9a03,0x2610,0x9c51     | +00000
         .dc.w   0x2610,0x9c53,0x2610,0x9c5a,0x2610,0x9c62,0x2610,0x9c6a     | +00010
         .dc.w   0x2610                                                      | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a68  @ $0C4A68  (17 B)  [ref. desde código]
+|  BgMap_0c4a68  @ $0C4A68  (17 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a68, "ax", @progbits
-        .global Data_0c4a68
-Data_0c4a68:
+        .section .text.BgMap_0c4a68, "ax", @progbits
+        .global BgMap_0c4a68
+BgMap_0c4a68:
         .dc.w   0x9c72,0x2610,0x9fe5,0x2610,0x9fed,0x2610,0x9ff5,0x2610     | +00000
         .dc.b   0x9f                            | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0c4a79  @ $0C4A79  (550 B)  [ref. desde código]
+|  BgMap_0c4a79  @ $0C4A79  (550 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4a79, "ax", @progbits
-        .global Data_0c4a79
-Data_0c4a79:
+        .section .text.BgMap_0c4a79, "ax", @progbits
+        .global BgMap_0c4a79
+BgMap_0c4a79:
         .dc.b   0xfd                            | +00000
         .dc.w   0x2610,0xa001,0x2110,0xa005,0x2110,0xa009,0x1c10,0xa00d     | +00001
         .dc.w   0x1c10,0xa2a0,0x1c10,0x9a03,0x0010,0x9a03,0x0010,0x9a03     | +00011
@@ -14291,11 +14291,11 @@ Data_0c4a79:
         .dc.b   0x2c                            | +00225
 
 | ----------------------------------------------------------------------------
-|  Data_0c4c9f  @ $0C4C9F  (64 B)  [ref. desde código]
+|  BgMap_0c4c9f  @ $0C4C9F  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4c9f, "ax", @progbits
-        .global Data_0c4c9f
-Data_0c4c9f:
+        .section .text.BgMap_0c4c9f, "ax", @progbits
+        .global BgMap_0c4c9f
+BgMap_0c4c9f:
         .dc.b   0x10                            | +00000
         .dc.w   0xa2a7,0x1c10,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x2610     | +00001
         .dc.w   0x9a03,0x2610,0x9a03,0x2610,0x9a03,0x2610,0x9a03,0x2610     | +00011
@@ -14304,11 +14304,11 @@ Data_0c4c9f:
         .dc.b   0x21                            | +0003f
 
 | ----------------------------------------------------------------------------
-|  Data_0c4cdf  @ $0C4CDF  (368 B)  [ref. desde código]
+|  BgMap_0c4cdf  @ $0C4CDF  (368 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4cdf, "ax", @progbits
-        .global Data_0c4cdf
-Data_0c4cdf:
+        .section .text.BgMap_0c4cdf, "ax", @progbits
+        .global BgMap_0c4cdf
+BgMap_0c4cdf:
         .dc.b   0x10                            | +00000
         .dc.w   0xa03d,0x2110,0xa044,0x2c10,0xa04c,0x2c10,0xa2a8,0x1c10     | +00001
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x2610,0x9a03,0x2610     | +00011
@@ -14336,89 +14336,89 @@ Data_0c4cdf:
         .dc.b   0x21                            | +0016f
 
 | ----------------------------------------------------------------------------
-|  Data_0c4e4f  @ $0C4E4F  (34 B)  [ref. desde código]
+|  BgMap_0c4e4f  @ $0C4E4F  (34 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4e4f, "ax", @progbits
-        .global Data_0c4e4f
-Data_0c4e4f:
+        .section .text.BgMap_0c4e4f, "ax", @progbits
+        .global BgMap_0c4e4f
+BgMap_0c4e4f:
         .dc.b   0x10                            | +00000
         .dc.w   0xa05f,0x2110,0xa067,0x2110,0xa06f,0x2110,0xa077,0x2110     | +00001
         .dc.w   0xa07f,0x1010,0xa087,0x1010,0xa2ad,0x1010,0x9a03,0x0010     | +00011
         .dc.b   0x9a                            | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0c4e71  @ $0C4E71  (4 B)  [ref. desde código]
+|  BgMap_0c4e71  @ $0C4E71  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4e71, "ax", @progbits
-        .global Data_0c4e71
-Data_0c4e71:
+        .section .text.BgMap_0c4e71, "ax", @progbits
+        .global BgMap_0c4e71
+BgMap_0c4e71:
         .dc.b   0x03                            | +00000
         .dc.w   0x0010                                                      | +00001
         .dc.b   0x9a                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0c4e75  @ $0C4E75  (27 B)  [ref. desde código]
+|  BgMap_0c4e75  @ $0C4E75  (27 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4e75, "ax", @progbits
-        .global Data_0c4e75
-Data_0c4e75:
+        .section .text.BgMap_0c4e75, "ax", @progbits
+        .global BgMap_0c4e75
+BgMap_0c4e75:
         .dc.b   0x03                            | +00000
         .dc.w   0x2610,0x9a03,0x2610,0x9a03,0x2610,0x9a03,0x2610,0x9a03     | +00001
         .dc.w   0x2610,0x9c91,0x2610,0x9c94,0x3a10                          | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0c4e90  @ $0C4E90  (41 B)  [ref. desde código]
+|  BgMap_0c4e90  @ $0C4E90  (41 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4e90, "ax", @progbits
-        .global Data_0c4e90
-Data_0c4e90:
+        .section .text.BgMap_0c4e90, "ax", @progbits
+        .global BgMap_0c4e90
+BgMap_0c4e90:
         .dc.w   0x9c9c,0x1210,0xa052,0x2110,0xa058,0x2110,0xa060,0x2110     | +00000
         .dc.w   0xa068,0x2110,0xa070,0x2110,0xa078,0x2110,0xa080,0x1010     | +00010
         .dc.w   0xa088,0x1010,0xa2ae,0x1010                                 | +00020
         .dc.b   0x9a                            | +00028
 
 | ----------------------------------------------------------------------------
-|  Data_0c4eb9  @ $0C4EB9  (1 B)  [ref. desde código]
+|  BgMap_0c4eb9  @ $0C4EB9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4eb9, "ax", @progbits
-        .global Data_0c4eb9
-Data_0c4eb9:
+        .section .text.BgMap_0c4eb9, "ax", @progbits
+        .global BgMap_0c4eb9
+BgMap_0c4eb9:
         .dc.b   0x03                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4eba  @ $0C4EBA  (54 B)  [ref. desde código]
+|  BgMap_0c4eba  @ $0C4EBA  (54 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4eba, "ax", @progbits
-        .global Data_0c4eba
-Data_0c4eba:
+        .section .text.BgMap_0c4eba, "ax", @progbits
+        .global BgMap_0c4eba
+BgMap_0c4eba:
         .dc.w   0x0010,0x9a03,0x0010,0x9a03,0x1410,0x9a03,0x1410,0x9a03     | +00000
         .dc.w   0x1410,0x9a03,0x1410,0x9a03,0x1410,0x9a03,0x1410,0x9c95     | +00010
         .dc.w   0x1210,0x9c9d,0x1210,0xa053,0x2110,0xa059,0x2110,0xa061     | +00020
         .dc.w   0x2110,0xa069,0x2110                                        | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0c4ef0  @ $0C4EF0  (9 B)  [ref. desde código]
+|  BgMap_0c4ef0  @ $0C4EF0  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4ef0, "ax", @progbits
-        .global Data_0c4ef0
-Data_0c4ef0:
+        .section .text.BgMap_0c4ef0, "ax", @progbits
+        .global BgMap_0c4ef0
+BgMap_0c4ef0:
         .dc.w   0xa071,0x2110,0xa079,0x2110                                 | +00000
         .dc.b   0xa0                            | +00008
 
 | ----------------------------------------------------------------------------
-|  Data_0c4ef9  @ $0C4EF9  (1 B)  [ref. desde código]
+|  BgMap_0c4ef9  @ $0C4EF9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4ef9, "ax", @progbits
-        .global Data_0c4ef9
-Data_0c4ef9:
+        .section .text.BgMap_0c4ef9, "ax", @progbits
+        .global BgMap_0c4ef9
+BgMap_0c4ef9:
         .dc.b   0x81                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c4efa  @ $0C4EFA  (326 B)  [ref. desde código]
+|  BgMap_0c4efa  @ $0C4EFA  (326 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c4efa, "ax", @progbits
-        .global Data_0c4efa
-Data_0c4efa:
+        .section .text.BgMap_0c4efa, "ax", @progbits
+        .global BgMap_0c4efa
+BgMap_0c4efa:
         .dc.w   0x1010,0xa089,0x1010,0xa2af,0x1010,0x9a03,0x0010,0x9a03     | +00000
         .dc.w   0x0010,0x9a03,0x1410,0x9a03,0x1410,0x9a03,0x1410,0x9a03     | +00010
         .dc.w   0x1410,0x9a03,0x1410,0x9a03,0x1410,0x9c96,0x1210,0x9c9c     | +00020
@@ -14442,11 +14442,11 @@ Data_0c4efa:
         .dc.w   0x0010,0x9ca1,0x1410                                        | +00140
 
 | ----------------------------------------------------------------------------
-|  Data_0c5040  @ $0C5040  (256 B)  [ref. desde código]
+|  BgMap_0c5040  @ $0C5040  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5040, "ax", @progbits
-        .global Data_0c5040
-Data_0c5040:
+        .section .text.BgMap_0c5040, "ax", @progbits
+        .global BgMap_0c5040
+BgMap_0c5040:
         .dc.w   0x9ca9,0x1410,0x9cb1,0x1410,0x9cb8,0x1410,0x9cc0,0x1410     | +00000
         .dc.w   0x9cc8,0x1410,0x9cd0,0x2f10,0x9cd8,0x2f10,0xa08e,0x2110     | +00010
         .dc.w   0xa096,0x2110,0xa09e,0x2110,0xa0a6,0x2110,0xa0ad,0x2110     | +00020
@@ -14465,11 +14465,11 @@ Data_0c5040:
         .dc.w   0x9cc3,0x1410,0x9ccb,0x1410,0x9cd3,0x1410,0x9cdb,0x1410     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c5140  @ $0C5140  (138 B)  [ref. desde código]
+|  BgMap_0c5140  @ $0C5140  (138 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5140, "ax", @progbits
-        .global Data_0c5140
-Data_0c5140:
+        .section .text.BgMap_0c5140, "ax", @progbits
+        .global BgMap_0c5140
+BgMap_0c5140:
         .dc.w   0xa091,0x2110,0xa099,0x2110,0xa0a1,0x2110,0xa0a9,0x2110     | +00000
         .dc.w   0xa0b0,0x2110,0xa0b8,0x2110,0xa0c0,0x1010,0xa0c8,0x1010     | +00010
         .dc.w   0xa2b7,0x1010,0x9a03,0x0010,0x9a03,0x0010,0x9ca5,0x1410     | +00020
@@ -14481,20 +14481,20 @@ Data_0c5140:
         .dc.w   0x9cb5,0x1410,0x9cbd,0x1410,0x9cc5                          | +00080
 
 | ----------------------------------------------------------------------------
-|  Data_0c51ca  @ $0C51CA  (3 B)  [ref. desde código]
+|  BgMap_0c51ca  @ $0C51CA  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c51ca, "ax", @progbits
-        .global Data_0c51ca
-Data_0c51ca:
+        .section .text.BgMap_0c51ca, "ax", @progbits
+        .global BgMap_0c51ca
+BgMap_0c51ca:
         .dc.w   0x1410                                                      | +00000
         .dc.b   0x9c                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_0c51cd  @ $0C51CD  (91 B)  [ref. desde código]
+|  BgMap_0c51cd  @ $0C51CD  (91 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c51cd, "ax", @progbits
-        .global Data_0c51cd
-Data_0c51cd:
+        .section .text.BgMap_0c51cd, "ax", @progbits
+        .global BgMap_0c51cd
+BgMap_0c51cd:
         .dc.b   0xcd                            | +00000
         .dc.w   0x1410,0x9cd5,0x1410,0x9cdd,0x1410,0xa093,0x2110,0xa09b     | +00001
         .dc.w   0x2110,0xa0a3,0x2110,0xa0ab,0x2110,0xa0b2,0x2110,0xa0ba     | +00011
@@ -14504,49 +14504,49 @@ Data_0c51cd:
         .dc.w   0x1410,0x9cde,0x1410,0xa094,0x2110                          | +00051
 
 | ----------------------------------------------------------------------------
-|  Data_0c5228  @ $0C5228  (6 B)  [ref. desde código]
+|  BgMap_0c5228  @ $0C5228  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5228, "ax", @progbits
-        .global Data_0c5228
-Data_0c5228:
+        .section .text.BgMap_0c5228, "ax", @progbits
+        .global BgMap_0c5228
+BgMap_0c5228:
         .dc.w   0xa09c,0x2110,0xa0a4                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c522e  @ $0C522E  (11 B)  [ref. desde código]
+|  BgMap_0c522e  @ $0C522E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c522e, "ax", @progbits
-        .global Data_0c522e
-Data_0c522e:
+        .section .text.BgMap_0c522e, "ax", @progbits
+        .global BgMap_0c522e
+BgMap_0c522e:
         .dc.w   0x2410,0xa0ac,0x2410,0xa0b3,0x2410                          | +00000
         .dc.b   0xa0                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_0c5239  @ $0C5239  (8 B)  [ref. desde código]
+|  BgMap_0c5239  @ $0C5239  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5239, "ax", @progbits
-        .global Data_0c5239
-Data_0c5239:
+        .section .text.BgMap_0c5239, "ax", @progbits
+        .global BgMap_0c5239
+BgMap_0c5239:
         .dc.b   0xbb                            | +00000
         .dc.w   0x2410,0xa0c3,0x1c10                                        | +00001
         .dc.b   0xa0                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_0c5241  @ $0C5241  (45 B)  [ref. desde código]
+|  BgMap_0c5241  @ $0C5241  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5241, "ax", @progbits
-        .global Data_0c5241
-Data_0c5241:
+        .section .text.BgMap_0c5241, "ax", @progbits
+        .global BgMap_0c5241
+BgMap_0c5241:
         .dc.b   0xcb                            | +00000
         .dc.w   0x1010,0xa2ba,0x1010,0x9a03,0x0010,0x9a03,0x0010,0x9ca8     | +00001
         .dc.w   0x1710,0x9cb0,0x1710,0x9cb7,0x1710,0x9cbf,0x1710,0x9cc7     | +00011
         .dc.w   0x1710,0x9ccf,0x1710,0x9cd7,0x1710,0x9cdf                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_0c526e  @ $0C526E  (146 B)  [ref. desde código]
+|  BgMap_0c526e  @ $0C526E  (146 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c526e, "ax", @progbits
-        .global Data_0c526e
-Data_0c526e:
+        .section .text.BgMap_0c526e, "ax", @progbits
+        .global BgMap_0c526e
+BgMap_0c526e:
         .dc.w   0x1710,0xa095,0x2110,0xa09d,0x2110,0xa0a5,0x2410,0x9cdf     | +00000
         .dc.w   0x2410,0xa0b4,0x2410,0xa0bc,0x2410,0xa0c4,0x2510,0xa0cc     | +00010
         .dc.w   0x1c10,0xa2bb,0x1c10,0x9a03,0x0010,0x9a03,0x0010,0x9ce0     | +00020
@@ -14559,49 +14559,49 @@ Data_0c526e:
         .dc.w   0x1710                                                      | +00090
 
 | ----------------------------------------------------------------------------
-|  Data_0c5300  @ $0C5300  (40 B)  [ref. desde código]
+|  BgMap_0c5300  @ $0C5300  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5300, "ax", @progbits
-        .global Data_0c5300
-Data_0c5300:
+        .section .text.BgMap_0c5300, "ax", @progbits
+        .global BgMap_0c5300
+BgMap_0c5300:
         .dc.w   0x9d0b,0x1710,0x9d12,0x1710,0xa0ce,0x2110,0xa0d6,0x2410     | +00000
         .dc.w   0xa0de,0x2410,0x9d12,0x2410,0xa0ec,0x2410,0xa0f4,0x2410     | +00010
         .dc.w   0xa0fc,0x1c10,0xa104,0x2d10                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c5328  @ $0C5328  (1 B)  [ref. desde código]
+|  BgMap_0c5328  @ $0C5328  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5328, "ax", @progbits
-        .global Data_0c5328
-Data_0c5328:
+        .section .text.BgMap_0c5328, "ax", @progbits
+        .global BgMap_0c5328
+BgMap_0c5328:
         .dc.b   0xa2                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0c5329  @ $0C5329  (23 B)  [ref. desde código]
+|  BgMap_0c5329  @ $0C5329  (23 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5329, "ax", @progbits
-        .global Data_0c5329
-Data_0c5329:
+        .section .text.BgMap_0c5329, "ax", @progbits
+        .global BgMap_0c5329
+BgMap_0c5329:
         .dc.b   0xbd                            | +00000
         .dc.w   0x2d10,0x9a03,0x0010,0x9a03,0x0010,0x9ce2,0x1710,0x9ce9     | +00001
         .dc.w   0x1710,0x9cf0,0x1710                                        | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0c5340  @ $0C5340  (46 B)  [ref. desde código]
+|  BgMap_0c5340  @ $0C5340  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5340, "ax", @progbits
-        .global Data_0c5340
-Data_0c5340:
+        .section .text.BgMap_0c5340, "ax", @progbits
+        .global BgMap_0c5340
+BgMap_0c5340:
         .dc.w   0x9cf7,0x1710,0x9cfe,0x1710,0x9d05,0x1710,0x9d0c,0x1710     | +00000
         .dc.w   0x9d13,0x1710,0xa0cf,0x2110,0xa0d7,0x2110,0xa0df,0x2410     | +00010
         .dc.w   0xa0e5,0x2410,0xa0ed,0x2410,0xa0f5,0x2410,0xa0fd            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c536e  @ $0C536E  (1,274 B)  [ref. desde código]
+|  BgMap_0c536e  @ $0C536E  (1,274 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c536e, "ax", @progbits
-        .global Data_0c536e
-Data_0c536e:
+        .section .text.BgMap_0c536e, "ax", @progbits
+        .global BgMap_0c536e
+BgMap_0c536e:
         .dc.w   0x2510,0xa105,0x2d10,0xa2be,0x2d10,0x9a03,0x0010,0x9a03     | +00000
         .dc.w   0x0010,0x9ce3,0x1710,0x9cea,0x1710,0x9cf1,0x1710,0x9cf8     | +00010
         .dc.w   0x1710,0x9cff,0x1710,0x9d06,0x1710,0x9d0d,0x1710,0x9d14     | +00020
@@ -14684,11 +14684,11 @@ Data_0c536e:
         .dc.w   0x2110,0xa144,0x2110,0xa14b,0x2110                          | +004f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c5868  @ $0C5868  (1,944 B)  [ref. desde código]
+|  BgMap_0c5868  @ $0C5868  (1,944 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c5868, "ax", @progbits
-        .global Data_0c5868
-Data_0c5868:
+        .section .text.BgMap_0c5868, "ax", @progbits
+        .global BgMap_0c5868
+BgMap_0c5868:
         .dc.w   0xa153,0x2110,0xa15b,0x2110,0xa163,0x2110,0xa16a,0x2110     | +00000
         .dc.w   0xa172,0x2110,0xa178,0x2c10,0xa2cb,0x1c10,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9d41,0x1710,0x9d49,0x1710,0x9d51,0x1710     | +00020
@@ -14813,11 +14813,11 @@ Data_0c5868:
         .dc.w   0x9d42,0x1710,0x9d4a,0x1710                                 | +00790
 
 | ----------------------------------------------------------------------------
-|  Data_0c6000  @ $0C6000  (138 B)  [ref. desde código]
+|  BgMap_0c6000  @ $0C6000  (138 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6000, "ax", @progbits
-        .global Data_0c6000
-Data_0c6000:
+        .section .text.BgMap_0c6000, "ax", @progbits
+        .global BgMap_0c6000
+BgMap_0c6000:
         .dc.w   0x9d52,0x1710,0x9d5a,0x1710,0x9d62,0x1710,0x9d6a,0x1710     | +00000
         .dc.w   0x9dfc,0x4110,0x9e04,0x3f10,0xa202,0x3f10,0xa20a,0x3f10     | +00010
         .dc.w   0xa212,0x3f10,0xa21a,0x3f10,0xa21e,0x3f10,0xa228,0x4010     | +00020
@@ -14829,21 +14829,21 @@ Data_0c6000:
         .dc.w   0xa239,0x4010,0xa2e7,0x4010,0x9a48                          | +00080
 
 | ----------------------------------------------------------------------------
-|  Data_0c608a  @ $0C608A  (36 B)  [ref. desde código]
+|  BgMap_0c608a  @ $0C608A  (36 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c608a, "ax", @progbits
-        .global Data_0c608a
-Data_0c608a:
+        .section .text.BgMap_0c608a, "ax", @progbits
+        .global BgMap_0c608a
+BgMap_0c608a:
         .dc.w   0x0010,0x9a03,0x0010,0x9d44,0x1710,0x9d4c,0x1710,0x9d54     | +00000
         .dc.w   0x1710,0x9d5c,0x1710,0x9d64,0x1710,0x9d6c,0x1710,0x9dfe     | +00010
         .dc.w   0x4110,0x9e06                                               | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0c60ae  @ $0C60AE  (82 B)  [ref. desde código]
+|  BgMap_0c60ae  @ $0C60AE  (82 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c60ae, "ax", @progbits
-        .global Data_0c60ae
-Data_0c60ae:
+        .section .text.BgMap_0c60ae, "ax", @progbits
+        .global BgMap_0c60ae
+BgMap_0c60ae:
         .dc.w   0x3f10,0xa204,0x3f10,0xa20c,0x3f10,0xa214,0x3f10,0xa21c     | +00000
         .dc.w   0x3f10,0xa222,0x3f10,0xa22a,0x4010,0xa232,0x4010,0xa23a     | +00010
         .dc.w   0x4010,0xa2e8,0x4010,0x9a48,0x0010,0x9a03,0x0010,0x9d7d     | +00020
@@ -14852,11 +14852,11 @@ Data_0c60ae:
         .dc.w   0x3f10                                                      | +00050
 
 | ----------------------------------------------------------------------------
-|  Data_0c6100  @ $0C6100  (420 B)  [ref. desde código]
+|  BgMap_0c6100  @ $0C6100  (420 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6100, "ax", @progbits
-        .global Data_0c6100
-Data_0c6100:
+        .section .text.BgMap_0c6100, "ax", @progbits
+        .global BgMap_0c6100
+BgMap_0c6100:
         .dc.w   0xa241,0x3f10,0xa247,0x3f10,0xa24d,0x3f10,0xa21e,0x3f10     | +00000
         .dc.w   0xa258,0x4010,0xa25e,0x4010,0xa264,0x4010,0xa2ea,0x4010     | +00010
         .dc.w   0x9a48,0x0010,0x9a03,0x0010,0x9d7e,0x1710,0x9e0a,0x1710     | +00020
@@ -14886,11 +14886,11 @@ Data_0c6100:
         .dc.w   0x9a03,0x0010                                               | +001a0
 
 | ----------------------------------------------------------------------------
-|  Data_0c62a4  @ $0C62A4  (92 B)  [ref. desde código]
+|  BgMap_0c62a4  @ $0C62A4  (92 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c62a4, "ax", @progbits
-        .global Data_0c62a4
-Data_0c62a4:
+        .section .text.BgMap_0c62a4, "ax", @progbits
+        .global BgMap_0c62a4
+BgMap_0c62a4:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -14899,11 +14899,11 @@ Data_0c62a4:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010                   | +00050
 
 | ----------------------------------------------------------------------------
-|  Data_0c6300  @ $0C6300  (256 B)  [ref. desde código]
+|  BgMap_0c6300  @ $0C6300  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6300, "ax", @progbits
-        .global Data_0c6300
-Data_0c6300:
+        .section .text.BgMap_0c6300, "ax", @progbits
+        .global BgMap_0c6300
+BgMap_0c6300:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -14922,11 +14922,11 @@ Data_0c6300:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c6400  @ $0C6400  (256 B)  [ref. desde código]
+|  BgMap_0c6400  @ $0C6400  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6400, "ax", @progbits
-        .global Data_0c6400
-Data_0c6400:
+        .section .text.BgMap_0c6400, "ax", @progbits
+        .global BgMap_0c6400
+BgMap_0c6400:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -14945,11 +14945,11 @@ Data_0c6400:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c6500  @ $0C6500  (256 B)  [ref. desde código]
+|  BgMap_0c6500  @ $0C6500  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6500, "ax", @progbits
-        .global Data_0c6500
-Data_0c6500:
+        .section .text.BgMap_0c6500, "ax", @progbits
+        .global BgMap_0c6500
+BgMap_0c6500:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -14968,11 +14968,11 @@ Data_0c6500:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c6600  @ $0C6600  (256 B)  [ref. desde código]
+|  BgMap_0c6600  @ $0C6600  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6600, "ax", @progbits
-        .global Data_0c6600
-Data_0c6600:
+        .section .text.BgMap_0c6600, "ax", @progbits
+        .global BgMap_0c6600
+BgMap_0c6600:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -14991,11 +14991,11 @@ Data_0c6600:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c6700  @ $0C6700  (974 B)  [ref. desde código]
+|  BgMap_0c6700  @ $0C6700  (974 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6700, "ax", @progbits
-        .global Data_0c6700
-Data_0c6700:
+        .section .text.BgMap_0c6700, "ax", @progbits
+        .global BgMap_0c6700
+BgMap_0c6700:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -15059,29 +15059,29 @@ Data_0c6700:
         .dc.w   0xa47e,0x4510,0xa482,0x4510,0xa486,0x4510,0xa48a            | +003c0
 
 | ----------------------------------------------------------------------------
-|  Data_0c6ace  @ $0C6ACE  (18 B)  [ref. desde código]
+|  BgMap_0c6ace  @ $0C6ACE  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6ace, "ax", @progbits
-        .global Data_0c6ace
-Data_0c6ace:
+        .section .text.BgMap_0c6ace, "ax", @progbits
+        .global BgMap_0c6ace
+BgMap_0c6ace:
         .dc.w   0x4510,0xa4f6,0x4510,0xa4fa,0x4510,0xa4fe,0x4510,0xa502     | +00000
         .dc.w   0x4510                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0c6ae0  @ $0C6AE0  (32 B)  [ref. desde código]
+|  BgMap_0c6ae0  @ $0C6AE0  (32 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6ae0, "ax", @progbits
-        .global Data_0c6ae0
-Data_0c6ae0:
+        .section .text.BgMap_0c6ae0, "ax", @progbits
+        .global BgMap_0c6ae0
+BgMap_0c6ae0:
         .dc.w   0xa506,0x4510,0xa50a,0x4510,0xa50e,0x4510,0xa512,0x4510     | +00000
         .dc.w   0xa5a4,0x4410,0xa5a8,0x4410,0xa5ac,0x4510,0xa5af,0x4410     | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0c6b00  @ $0C6B00  (1,280 B)  [ref. desde código]
+|  BgMap_0c6b00  @ $0C6B00  (1,280 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c6b00, "ax", @progbits
-        .global Data_0c6b00
-Data_0c6b00:
+        .section .text.BgMap_0c6b00, "ax", @progbits
+        .global BgMap_0c6b00
+BgMap_0c6b00:
         .dc.w   0xa5b3,0x4410,0xa5b7,0x4510,0xa5bb,0x4510,0xa5bf,0x4510     | +00000
         .dc.w   0xa630,0x4510,0xa634,0x4510,0xa638,0x4410,0xa63c,0x4410     | +00010
         .dc.w   0xa640,0x4410,0xa644,0x4410,0xa648,0x4410,0xa64c,0x4510     | +00020
@@ -15164,11 +15164,11 @@ Data_0c6b00:
         .dc.w   0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510     | +004f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c7000  @ $0C7000  (543 B)  [ref. desde código]
+|  BgMap_0c7000  @ $0C7000  (543 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c7000, "ax", @progbits
-        .global Data_0c7000
-Data_0c7000:
+        .section .text.BgMap_0c7000, "ax", @progbits
+        .global BgMap_0c7000
+BgMap_0c7000:
         .dc.w   0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510,0xa48f,0x4510     | +00000
         .dc.w   0xa493,0x4510,0xa498,0x4510,0x9a03,0x4510,0x9a03,0x4510     | +00010
         .dc.w   0x9a03,0x4510,0xa518,0x4510,0xa520,0x4510,0xa528,0x4510     | +00020
@@ -15206,11 +15206,11 @@ Data_0c7000:
         .dc.b   0x45                            | +0021e
 
 | ----------------------------------------------------------------------------
-|  Data_0c721f  @ $0C721F  (485 B)  [ref. desde código]
+|  BgMap_0c721f  @ $0C721F  (485 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c721f, "ax", @progbits
-        .global Data_0c721f
-Data_0c721f:
+        .section .text.BgMap_0c721f, "ax", @progbits
+        .global BgMap_0c721f
+BgMap_0c721f:
         .dc.b   0x10                            | +00000
         .dc.w   0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510     | +00001
         .dc.w   0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510     | +00011
@@ -15245,11 +15245,11 @@ Data_0c721f:
         .dc.w   0x9a03,0x4510                                               | +001e1
 
 | ----------------------------------------------------------------------------
-|  Data_0c7404  @ $0C7404  (3,364 B)  [ref. desde código]
+|  BgMap_0c7404  @ $0C7404  (3,364 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c7404, "ax", @progbits
-        .global Data_0c7404
-Data_0c7404:
+        .section .text.BgMap_0c7404, "ax", @progbits
+        .global BgMap_0c7404
+BgMap_0c7404:
         .dc.w   0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510     | +00000
         .dc.w   0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510,0xa51b,0x4510     | +00010
         .dc.w   0xa523,0x4510,0xa52b,0x4510,0x9a03,0x4510,0x9a03,0x4510     | +00020
@@ -15463,11 +15463,11 @@ Data_0c7404:
         .dc.w   0xa886,0x4610                                               | +00d20
 
 | ----------------------------------------------------------------------------
-|  Data_0c8128  @ $0C8128  (280 B)  [ref. desde código]
+|  BgMap_0c8128  @ $0C8128  (280 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c8128, "ax", @progbits
-        .global Data_0c8128
-Data_0c8128:
+        .section .text.BgMap_0c8128, "ax", @progbits
+        .global BgMap_0c8128
+BgMap_0c8128:
         .dc.w   0xa845,0x4610,0xa846,0x4610,0x9a03,0x4510,0x9a03,0x4510     | +00000
         .dc.w   0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510,0x9a03,0x4510     | +00010
         .dc.w   0x9a03,0x4510,0x9a03,0x4510,0xa4a6,0x4510,0xa4ae,0x4510     | +00020
@@ -15488,11 +15488,11 @@ Data_0c8128:
         .dc.w   0xa7dc,0x4410,0xa7e2,0x4410                                 | +00110
 
 | ----------------------------------------------------------------------------
-|  Data_0c8240  @ $0C8240  (512 B)  [ref. desde código]
+|  BgMap_0c8240  @ $0C8240  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c8240, "ax", @progbits
-        .global Data_0c8240
-Data_0c8240:
+        .section .text.BgMap_0c8240, "ax", @progbits
+        .global BgMap_0c8240
+BgMap_0c8240:
         .dc.w   0xa7e8,0x4510,0xa805,0x4510,0xa80b,0x4510,0xa810,0x4510     | +00000
         .dc.w   0xa816,0x4510,0xa81c,0x4510,0xa821,0x4510,0xa828,0x4510     | +00010
         .dc.w   0xa82f,0x4510,0xa865,0x4510,0xa86d,0x4510,0xa875,0x4510     | +00020
@@ -15527,11 +15527,11 @@ Data_0c8240:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c8440  @ $0C8440  (2,276 B)  [ref. desde código]
+|  BgMap_0c8440  @ $0C8440  (2,276 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c8440, "ax", @progbits
-        .global Data_0c8440
-Data_0c8440:
+        .section .text.BgMap_0c8440, "ax", @progbits
+        .global BgMap_0c8440
+BgMap_0c8440:
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00000
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00010
         .dc.w   0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010,0x9a03,0x0010     | +00020
@@ -15677,11 +15677,11 @@ Data_0c8440:
         .dc.w   0x9a03,0x0010                                               | +008e0
 
 | ----------------------------------------------------------------------------
-|  Data_0c8d24  @ $0C8D24  (842 B)  [ref. desde código]
+|  BgMap_0c8d24  @ $0C8D24  (842 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c8d24, "ax", @progbits
-        .global Data_0c8d24
-Data_0c8d24:
+        .section .text.BgMap_0c8d24, "ax", @progbits
+        .global BgMap_0c8d24
+BgMap_0c8d24:
         .dc.w   0xa5a1,0x4a12,0xa6a7,0x4a10,0xa6a8,0x4a10,0xa6e9,0x4a10     | +00000
         .dc.w   0xa6ea,0x4a10,0xa6eb,0x4c10,0xa6ec,0x4c10,0xa889,0x4c10     | +00010
         .dc.w   0xa890,0x4c10,0xa897,0x4c10,0xa89f,0x4c10,0xa8c2,0x4c10     | +00020
@@ -15737,11 +15737,11 @@ Data_0c8d24:
         .dc.w   0xa6ea,0x4a10,0xa6eb,0x4c10,0xa6ec                          | +00340
 
 | ----------------------------------------------------------------------------
-|  Data_0c906e  @ $0C906E  (142 B)  [ref. desde código]
+|  BgMap_0c906e  @ $0C906E  (142 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c906e, "ax", @progbits
-        .global Data_0c906e
-Data_0c906e:
+        .section .text.BgMap_0c906e, "ax", @progbits
+        .global BgMap_0c906e
+BgMap_0c906e:
         .dc.w   0x4c10,0xa88d,0x4c10,0xa894,0x4c10,0xa89b,0x4c10,0xa8a3     | +00000
         .dc.w   0x4c10,0xa8c6,0x4c10,0xa8ce,0x4c10,0xa8d6,0x4c10,0xa744     | +00010
         .dc.w   0x4c10,0xa8e4,0x4c10,0xa8ec,0x4810,0xa8f2,0x4810,0xa8f8     | +00020
@@ -15753,11 +15753,11 @@ Data_0c906e:
         .dc.w   0x4810,0xa957,0x4810,0xa95d,0x4810,0xa963,0x4810            | +00080
 
 | ----------------------------------------------------------------------------
-|  Data_0c90fc  @ $0C90FC  (108 B)  [ref. desde código]
+|  BgMap_0c90fc  @ $0C90FC  (108 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c90fc, "ax", @progbits
-        .global Data_0c90fc
-Data_0c90fc:
+        .section .text.BgMap_0c90fc, "ax", @progbits
+        .global BgMap_0c90fc
+BgMap_0c90fc:
         .dc.w   0xa969,0x4810,0xa9af,0x4810,0xa9b5,0x4810,0xa9bb,0x4810     | +00000
         .dc.w   0xa9c1,0x4810,0xa9c7,0x4810,0xa9cd,0x4810,0xa8f2,0x4810     | +00010
         .dc.w   0xa8f8,0x4810,0xa5a1,0x4a12,0xa6a7,0x4a10,0xa6a8,0x4a10     | +00020
@@ -15767,11 +15767,11 @@ Data_0c90fc:
         .dc.w   0xa8e5,0x4c10,0xa8ed,0x4810,0xa8f3,0x4810                   | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_0c9168  @ $0C9168  (512 B)  [ref. desde código]
+|  BgMap_0c9168  @ $0C9168  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c9168, "ax", @progbits
-        .global Data_0c9168
-Data_0c9168:
+        .section .text.BgMap_0c9168, "ax", @progbits
+        .global BgMap_0c9168
+BgMap_0c9168:
         .dc.w   0xa8f9,0x4810,0xa940,0x4810,0xa946,0x4810,0xa94c,0x4810     | +00000
         .dc.w   0xa952,0x4810,0xa958,0x4810,0xa95e,0x4810,0xa964,0x4810     | +00010
         .dc.w   0xa96a,0x4810,0xa9b0,0x4810,0xa9b6,0x4810,0xa9bc,0x4810     | +00020
@@ -15806,11 +15806,11 @@ Data_0c9168:
         .dc.w   0xa960,0x4810,0xa966,0x4810,0xa96c,0x4810,0xa9b2,0x4810     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_0c9368  @ $0C9368  (2,476 B)  [ref. desde código]
+|  BgMap_0c9368  @ $0C9368  (2,476 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c9368, "ax", @progbits
-        .global Data_0c9368
-Data_0c9368:
+        .section .text.BgMap_0c9368, "ax", @progbits
+        .global BgMap_0c9368
+BgMap_0c9368:
         .dc.w   0xa9b8,0x4810,0xa9be,0x4810,0xa9c4,0x4810,0xa9ca,0x4810     | +00000
         .dc.w   0xa9d0,0x4810,0xa9d2,0x4810,0xa8fb,0x4810,0xa5a1,0x4a12     | +00010
         .dc.w   0xa6a7,0x4a10,0xa6a8,0x4a10,0xa6e9,0x4a10,0xa6ea,0x4a10     | +00020
@@ -15968,11 +15968,11 @@ Data_0c9368:
         .dc.w   0x9a03,0x0710,0x9a03,0x0710,0x9a03,0x0710                   | +009a0
 
 | ----------------------------------------------------------------------------
-|  Data_0c9d14  @ $0C9D14  (544 B)  [ref. desde código]
+|  BgMap_0c9d14  @ $0C9D14  (544 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c9d14, "ax", @progbits
-        .global Data_0c9d14
-Data_0c9d14:
+        .section .text.BgMap_0c9d14, "ax", @progbits
+        .global BgMap_0c9d14
+BgMap_0c9d14:
         .dc.w   0xaa06,0x2a10,0xaa0a,0x2a10,0xaa0e,0x2a10,0xaa12,0x2a10     | +00000
         .dc.w   0xaa14,0x2a10,0xaa16,0x2a10,0xaa19,0x2a10,0xaa1b,0x2a10     | +00010
         .dc.w   0xaa07,0x2a10,0xaa0b,0x2a10,0xaa0f,0x2a10,0xaa0f,0x2a10     | +00020
@@ -16009,11 +16009,11 @@ Data_0c9d14:
         .dc.w   0xaa2f,0x2a10,0xaa34,0x2a10,0xaa39,0x2a10,0xaa3a,0x2a10     | +00210
 
 | ----------------------------------------------------------------------------
-|  Data_0c9f34  @ $0C9F34  (2,176 B)  [ref. desde código]
+|  BgMap_0c9f34  @ $0C9F34  (2,176 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0c9f34, "ax", @progbits
-        .global Data_0c9f34
-Data_0c9f34:
+        .section .text.BgMap_0c9f34, "ax", @progbits
+        .global BgMap_0c9f34
+BgMap_0c9f34:
         .dc.w   0xa5a1,0x4a12,0xa6a7,0x4a10,0xa6a8,0x4a10,0xa6e9,0x4a10     | +00000
         .dc.w   0xa6ea,0x4a10,0xa6eb,0x4c10,0xa6ec,0x4c10,0xa6ed,0x4c10     | +00010
         .dc.w   0xaa40,0x4c10,0xaa43,0x4c10,0xa6f9,0x4c10,0xa738,0x4c10     | +00020
@@ -16152,11 +16152,11 @@ Data_0c9f34:
         .dc.w   0xa933,0x4c10,0xa937,0x4c10,0xa8e3,0x4c10,0xa93c,0x4810     | +00870
 
 | ----------------------------------------------------------------------------
-|  Data_0ca7b4  @ $0CA7B4  (2,632 B)  [ref. desde código]
+|  BgMap_0ca7b4  @ $0CA7B4  (2,632 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ca7b4, "ax", @progbits
-        .global Data_0ca7b4
-Data_0ca7b4:
+        .section .text.BgMap_0ca7b4, "ax", @progbits
+        .global BgMap_0ca7b4
+BgMap_0ca7b4:
         .dc.w   0xaa50,0x2714,0xaa84,0x2714,0xaac4,0x2714,0xab04,0x2714     | +00000
         .dc.w   0xab44,0x2714,0xab84,0x2714,0xabc4,0x2714,0xac04,0x2714     | +00010
         .dc.w   0xac44,0x2714,0xac84,0x2714,0xaa54,0x2714,0xaa88,0x2714     | +00020
@@ -17285,11 +17285,11 @@ Data_0ce44f:
         .dc.w   0xb041,0x4f10,0xb049,0x4f10,0xa454,0x4510                   | +001a1
 
 | ----------------------------------------------------------------------------
-|  Data_0ce5fc  @ $0CE5FC  (6,452 B)  [ref. desde código]
+|  BgMap_0ce5fc  @ $0CE5FC  (6,452 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0ce5fc, "ax", @progbits
-        .global Data_0ce5fc
-Data_0ce5fc:
+        .section .text.BgMap_0ce5fc, "ax", @progbits
+        .global BgMap_0ce5fc
+BgMap_0ce5fc:
         .dc.w   0xb0e4,0x1110,0xb0ec,0x1110,0xb0f4,0x1110,0xb0f9,0x1110     | +00000
         .dc.w   0xb102,0x1110,0xb10a,0x1110,0xb112,0x1110,0xb11a,0x1110     | +00010
         .dc.w   0xb719,0x1110,0xb721,0x1110,0xb729,0x1110,0xb731,0x1d10     | +00020
@@ -17696,11 +17696,11 @@ Data_0ce5fc:
         .dc.w   0xb8dd,0x1a10                                               | +01930
 
 | ----------------------------------------------------------------------------
-|  Data_0cff30  @ $0CFF30  (180 B)  [ref. desde código]
+|  BgMap_0cff30  @ $0CFF30  (180 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0cff30, "ax", @progbits
-        .global Data_0cff30
-Data_0cff30:
+        .section .text.BgMap_0cff30, "ax", @progbits
+        .global BgMap_0cff30
+BgMap_0cff30:
         .dc.w   0xb7fc,0x1a10,0xb91d,0x1010,0xb755,0x1010,0xb321,0x2410     | +00000
         .dc.w   0xb329,0x2410,0xb331,0x2410,0xb339,0x2410,0xb341,0x2410     | +00010
         .dc.w   0xb349,0x2410,0xb34c,0x1410,0xb34f,0x1410,0xb907,0x1410     | +00020
@@ -17715,191 +17715,191 @@ Data_0cff30:
         .dc.w   0xb90c,0x1410                                               | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0cffe4  @ $0CFFE4  (16 B)  [ref. desde código]
+|  BgMap_0cffe4  @ $0CFFE4  (16 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0cffe4, "ax", @progbits
-        .global Data_0cffe4
-Data_0cffe4:
+        .section .text.BgMap_0cffe4, "ax", @progbits
+        .global BgMap_0cffe4
+BgMap_0cffe4:
         .dc.w   0xb90f,0x1410,0xb917,0x1e10,0xb8e0,0x1a10,0xb748,0x1a10     | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0cfff4  @ $0CFFF4  (9 B)  [ref. desde código]
+|  BgMap_0cfff4  @ $0CFFF4  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0cfff4, "ax", @progbits
-        .global Data_0cfff4
-Data_0cfff4:
+        .section .text.BgMap_0cfff4, "ax", @progbits
+        .global BgMap_0cfff4
+BgMap_0cfff4:
         .dc.w   0xb7af,0x1a10,0xb91f,0x1a10                                 | +00000
         .dc.b   0xb3                            | +00008
 
 | ----------------------------------------------------------------------------
-|  Data_0cfffd  @ $0CFFFD  (3 B)  [ref. desde código]
+|  BgMap_0cfffd  @ $0CFFFD  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0cfffd, "ax", @progbits
-        .global Data_0cfffd
-Data_0cfffd:
+        .section .text.BgMap_0cfffd, "ax", @progbits
+        .global BgMap_0cfffd
+BgMap_0cfffd:
         .dc.b   0x52                            | +00000
         .dc.w   0x2210                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0d0000  @ $0D0000  (5 B)  [ref. desde código]
+|  BgMap_0d0000  @ $0D0000  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0000, "ax", @progbits
-        .global Data_0d0000
-Data_0d0000:
+        .section .text.BgMap_0d0000, "ax", @progbits
+        .global BgMap_0d0000
+BgMap_0d0000:
         .dc.w   0xb359,0x2210                                               | +00000
         .dc.b   0xb3                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_0d0005  @ $0D0005  (4 B)  [ref. desde código]
+|  BgMap_0d0005  @ $0D0005  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0005, "ax", @progbits
-        .global Data_0d0005
-Data_0d0005:
+        .section .text.BgMap_0d0005, "ax", @progbits
+        .global BgMap_0d0005
+BgMap_0d0005:
         .dc.b   0x60                            | +00000
         .dc.w   0x2210                                                      | +00001
         .dc.b   0xb3                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0d0009  @ $0D0009  (2 B)  [ref. desde código]
+|  BgMap_0d0009  @ $0D0009  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0009, "ax", @progbits
-        .global Data_0d0009
-Data_0d0009:
+        .section .text.BgMap_0d0009, "ax", @progbits
+        .global BgMap_0d0009
+BgMap_0d0009:
         .dc.b   0x68                            | +00000
         .dc.b   0x22                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0d000b  @ $0D000B  (5 B)  [ref. desde código]
+|  BgMap_0d000b  @ $0D000B  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d000b, "ax", @progbits
-        .global Data_0d000b
-Data_0d000b:
+        .section .text.BgMap_0d000b, "ax", @progbits
+        .global BgMap_0d000b
+BgMap_0d000b:
         .dc.b   0x10                            | +00000
         .dc.w   0xb370,0x2210                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0d0010  @ $0D0010  (8 B)  [ref. desde código]
+|  BgMap_0d0010  @ $0D0010  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0010, "ax", @progbits
-        .global Data_0d0010
-Data_0d0010:
+        .section .text.BgMap_0d0010, "ax", @progbits
+        .global BgMap_0d0010
+BgMap_0d0010:
         .dc.w   0xb377,0x2210,0xb37e,0x2210                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0018  @ $0D0018  (1 B)  [ref. desde código]
+|  BgMap_0d0018  @ $0D0018  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0018, "ax", @progbits
-        .global Data_0d0018
-Data_0d0018:
+        .section .text.BgMap_0d0018, "ax", @progbits
+        .global BgMap_0d0018
+BgMap_0d0018:
         .dc.b   0xb3                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0019  @ $0D0019  (1 B)  [ref. desde código]
+|  BgMap_0d0019  @ $0D0019  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0019, "ax", @progbits
-        .global Data_0d0019
-Data_0d0019:
+        .section .text.BgMap_0d0019, "ax", @progbits
+        .global BgMap_0d0019
+BgMap_0d0019:
         .dc.b   0x86                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d001a  @ $0D001A  (1 B)  [ref. desde código]
+|  BgMap_0d001a  @ $0D001A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d001a, "ax", @progbits
-        .global Data_0d001a
-Data_0d001a:
+        .section .text.BgMap_0d001a, "ax", @progbits
+        .global BgMap_0d001a
+BgMap_0d001a:
         .dc.b   0x22                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d001b  @ $0D001B  (1 B)  [ref. desde código]
+|  BgMap_0d001b  @ $0D001B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d001b, "ax", @progbits
-        .global Data_0d001b
-Data_0d001b:
+        .section .text.BgMap_0d001b, "ax", @progbits
+        .global BgMap_0d001b
+BgMap_0d001b:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d001c  @ $0D001C  (4 B)  [ref. desde código]
+|  BgMap_0d001c  @ $0D001C  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d001c, "ax", @progbits
-        .global Data_0d001c
-Data_0d001c:
+        .section .text.BgMap_0d001c, "ax", @progbits
+        .global BgMap_0d001c
+BgMap_0d001c:
         .dc.w   0xb920,0x2210                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0020  @ $0D0020  (4 B)  [ref. desde código]
+|  BgMap_0d0020  @ $0D0020  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0020, "ax", @progbits
-        .global Data_0d0020
-Data_0d0020:
+        .section .text.BgMap_0d0020, "ax", @progbits
+        .global BgMap_0d0020
+BgMap_0d0020:
         .dc.w   0xb927,0x2210                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0024  @ $0D0024  (16 B)  [ref. desde código]
+|  BgMap_0d0024  @ $0D0024  (16 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0024, "ax", @progbits
-        .global Data_0d0024
-Data_0d0024:
+        .section .text.BgMap_0d0024, "ax", @progbits
+        .global BgMap_0d0024
+BgMap_0d0024:
         .dc.w   0xb92e,0x2210,0xb936,0x1e10,0xb901,0x1a10,0xb741,0x1a10     | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0034  @ $0D0034  (50 B)  [ref. desde código]
+|  BgMap_0d0034  @ $0D0034  (50 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0034, "ax", @progbits
-        .global Data_0d0034
-Data_0d0034:
+        .section .text.BgMap_0d0034, "ax", @progbits
+        .global BgMap_0d0034
+BgMap_0d0034:
         .dc.w   0xb749,0x1a10,0xb751,0x1a10,0xb353,0x2610,0xb35a,0x2610     | +00000
         .dc.w   0xb361,0x2610,0xb369,0x2610,0xb371,0x2610,0xb378,0x2610     | +00010
         .dc.w   0xb37f,0x2610,0xb387,0x2610,0xb921,0x2610,0xb928,0x2610     | +00020
         .dc.w   0xb92f                                                      | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_0d0066  @ $0D0066  (26 B)  [ref. desde código]
+|  BgMap_0d0066  @ $0D0066  (26 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0066, "ax", @progbits
-        .global Data_0d0066
-Data_0d0066:
+        .section .text.BgMap_0d0066, "ax", @progbits
+        .global BgMap_0d0066
+BgMap_0d0066:
         .dc.w   0x2210,0xb937,0x1d10,0xb902,0x1a10,0xb742,0x1a10,0xb74a     | +00000
         .dc.w   0x1a10,0xb752,0x1a10,0xb354,0x2610                          | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0d0080  @ $0D0080  (4 B)  [ref. desde código]
+|  BgMap_0d0080  @ $0D0080  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0080, "ax", @progbits
-        .global Data_0d0080
-Data_0d0080:
+        .section .text.BgMap_0d0080, "ax", @progbits
+        .global BgMap_0d0080
+BgMap_0d0080:
         .dc.w   0xb35b,0x2610                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0084  @ $0D0084  (1 B)  [ref. desde código]
+|  BgMap_0d0084  @ $0D0084  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0084, "ax", @progbits
-        .global Data_0d0084
-Data_0d0084:
+        .section .text.BgMap_0d0084, "ax", @progbits
+        .global BgMap_0d0084
+BgMap_0d0084:
         .dc.b   0xb3                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0085  @ $0D0085  (1 B)  [ref. desde código]
+|  BgMap_0d0085  @ $0D0085  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0085, "ax", @progbits
-        .global Data_0d0085
-Data_0d0085:
+        .section .text.BgMap_0d0085, "ax", @progbits
+        .global BgMap_0d0085
+BgMap_0d0085:
         .dc.b   0x62                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0086  @ $0D0086  (18 B)  [ref. desde código]
+|  BgMap_0d0086  @ $0D0086  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0086, "ax", @progbits
-        .global Data_0d0086
-Data_0d0086:
+        .section .text.BgMap_0d0086, "ax", @progbits
+        .global BgMap_0d0086
+BgMap_0d0086:
         .dc.w   0x2610,0xb36a,0x2610,0xb372,0x2610,0xb379,0x2610,0xb380     | +00000
         .dc.w   0x2610                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0d0098  @ $0D0098  (184 B)  [ref. desde código]
+|  BgMap_0d0098  @ $0D0098  (184 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0098, "ax", @progbits
-        .global Data_0d0098
-Data_0d0098:
+        .section .text.BgMap_0d0098, "ax", @progbits
+        .global BgMap_0d0098
+BgMap_0d0098:
         .dc.w   0xb388,0x2610,0xb922,0x2610,0xb929,0x2610,0xb930,0x2210     | +00000
         .dc.w   0xb938,0x1d10,0xb93e,0x1010,0xb825,0x1a10,0xb827,0x1a10     | +00010
         .dc.w   0xb753,0x1a10,0xb355,0x2610,0xb35c,0x2610,0xb363,0x2610     | +00020
@@ -17914,19 +17914,19 @@ Data_0d0098:
         .dc.w   0xb36d,0x2610,0xb372,0x2610                                 | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0d0150  @ $0D0150  (4 B)  [ref. desde código]
+|  BgMap_0d0150  @ $0D0150  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0150, "ax", @progbits
-        .global Data_0d0150
-Data_0d0150:
+        .section .text.BgMap_0d0150, "ax", @progbits
+        .global BgMap_0d0150
+BgMap_0d0150:
         .dc.w   0xb379,0x2610                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0154  @ $0D0154  (180 B)  [ref. desde código]
+|  BgMap_0d0154  @ $0D0154  (180 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0154, "ax", @progbits
-        .global Data_0d0154
-Data_0d0154:
+        .section .text.BgMap_0d0154, "ax", @progbits
+        .global BgMap_0d0154
+BgMap_0d0154:
         .dc.w   0xb383,0x2610,0xb38b,0x2610,0xb924,0x2610,0xb92b,0x2610     | +00000
         .dc.w   0xb933,0x2210,0xb93b,0x1d10,0xb906,0x1010,0xb941,0x1a10     | +00010
         .dc.w   0xb74e,0x1a10,0xb756,0x1a10,0xb357,0x2610,0xb35e,0x2610     | +00020
@@ -17941,11 +17941,11 @@ Data_0d0154:
         .dc.w   0xb396,0x2610                                               | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0d0208  @ $0D0208  (248 B)  [ref. desde código]
+|  BgMap_0d0208  @ $0D0208  (248 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0208, "ax", @progbits
-        .global Data_0d0208
-Data_0d0208:
+        .section .text.BgMap_0d0208, "ax", @progbits
+        .global BgMap_0d0208
+BgMap_0d0208:
         .dc.w   0xb39c,0x2610,0xb372,0x2610,0xb379,0x2610,0xb3ac,0x2610     | +00000
         .dc.w   0xb3b4,0x2610,0xb944,0x2610,0xb94b,0x2610,0xb931,0x2210     | +00010
         .dc.w   0xb956,0x1d10,0xb8db,0x1010,0xb741,0x1010,0xb95e,0x1010     | +00020
@@ -17964,21 +17964,21 @@ Data_0d0208:
         .dc.w   0xb754,0x1010,0xb390,0x2610                                 | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0d0300  @ $0D0300  (40 B)  [ref. desde código]
+|  BgMap_0d0300  @ $0D0300  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0300, "ax", @progbits
-        .global Data_0d0300
-Data_0d0300:
+        .section .text.BgMap_0d0300, "ax", @progbits
+        .global BgMap_0d0300
+BgMap_0d0300:
         .dc.w   0xb394,0x2610,0xb39a,0x2610,0xb3a0,0x2610,0xb3a4,0x2610     | +00000
         .dc.w   0xb3a8,0x2610,0xb3b0,0x2610,0xb3b8,0x2610,0xb947,0x2610     | +00010
         .dc.w   0xb94e,0x2610,0xb952,0x2210                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0d0328  @ $0D0328  (160 B)  [ref. desde código]
+|  BgMap_0d0328  @ $0D0328  (160 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0328, "ax", @progbits
-        .global Data_0d0328
-Data_0d0328:
+        .section .text.BgMap_0d0328, "ax", @progbits
+        .global BgMap_0d0328
+BgMap_0d0328:
         .dc.w   0xb938,0x1d10,0xb93e,0x1010,0xb7fc,0x1010,0xb7ff,0x1010     | +00000
         .dc.w   0xb755,0x1010,0xb391,0x2a10,0xb395,0x2a10,0xb39b,0x2a10     | +00010
         .dc.w   0xb3a1,0x2a10,0xb3a5,0x2a10,0xb3a9,0x2a10,0xb3b1,0x2a10     | +00020
@@ -17991,11 +17991,11 @@ Data_0d0328:
         .dc.w   0xb757,0x1010,0xb1e3,0x2a10,0xb1eb,0x2a10,0xb1f3,0x2a10     | +00090
 
 | ----------------------------------------------------------------------------
-|  Data_0d03c8  @ $0D03C8  (312 B)  [ref. desde código]
+|  BgMap_0d03c8  @ $0D03C8  (312 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d03c8, "ax", @progbits
-        .global Data_0d03c8
-Data_0d03c8:
+        .section .text.BgMap_0d03c8, "ax", @progbits
+        .global BgMap_0d03c8
+BgMap_0d03c8:
         .dc.w   0xb1fb,0x2a10,0xb1ff,0x2a10,0xb3ab,0x2a10,0xb3b3,0x2a10     | +00000
         .dc.w   0xb3bb,0x2810,0xb94a,0x2810,0xb951,0x2910,0xb955,0x2910     | +00010
         .dc.w   0xb95c,0x1e10,0xb8e0,0x1010,0xb748,0x1010,0xb7af,0x1010     | +00020
@@ -18018,11 +18018,11 @@ Data_0d03c8:
         .dc.w   0xb754,0x1010,0xb3c0,0x2810                                 | +00130
 
 | ----------------------------------------------------------------------------
-|  Data_0d0500  @ $0D0500  (514 B)  [ref. desde código]
+|  BgMap_0d0500  @ $0D0500  (514 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0500, "ax", @progbits
-        .global Data_0d0500
-Data_0d0500:
+        .section .text.BgMap_0d0500, "ax", @progbits
+        .global BgMap_0d0500
+BgMap_0d0500:
         .dc.w   0xb3c7,0x2810,0xb3ce,0x2810,0xb3d5,0x2810,0xb3dc,0x2810     | +00000
         .dc.w   0xb3e4,0x2810,0xb3ec,0x2b10,0xb3f4,0x2810,0xb968,0x2810     | +00010
         .dc.w   0xb970,0x2910,0xb978,0x2910,0xb980,0x1e10,0xb73b,0x1010     | +00020
@@ -18058,19 +18058,19 @@ Data_0d0500:
         .dc.w   0xb35d                                                      | +00200
 
 | ----------------------------------------------------------------------------
-|  Data_0d0702  @ $0D0702  (1 B)  [ref. desde código]
+|  BgMap_0d0702  @ $0D0702  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0702, "ax", @progbits
-        .global Data_0d0702
-Data_0d0702:
+        .section .text.BgMap_0d0702, "ax", @progbits
+        .global BgMap_0d0702
+BgMap_0d0702:
         .dc.b   0x2d                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0703  @ $0D0703  (256 B)  [ref. desde código]
+|  BgMap_0d0703  @ $0D0703  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0703, "ax", @progbits
-        .global Data_0d0703
-Data_0d0703:
+        .section .text.BgMap_0d0703, "ax", @progbits
+        .global BgMap_0d0703
+BgMap_0d0703:
         .dc.b   0x10                            | +00000
         .dc.w   0xb364,0x2d10,0xb36c,0x2d10,0xb374,0x2d10,0xb37b,0x2d10     | +00001
         .dc.w   0xb382,0x2d10,0xb38a,0x2d10,0xb985,0x2d10,0xb2df,0x2d10     | +00011
@@ -18091,19 +18091,19 @@ Data_0d0703:
         .dc.b   0x2d                            | +000ff
 
 | ----------------------------------------------------------------------------
-|  Data_0d0803  @ $0D0803  (1 B)  [ref. desde código]
+|  BgMap_0d0803  @ $0D0803  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0803, "ax", @progbits
-        .global Data_0d0803
-Data_0d0803:
+        .section .text.BgMap_0d0803, "ax", @progbits
+        .global BgMap_0d0803
+BgMap_0d0803:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0804  @ $0D0804  (255 B)  [ref. desde código]
+|  BgMap_0d0804  @ $0D0804  (255 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0804, "ax", @progbits
-        .global Data_0d0804
-Data_0d0804:
+        .section .text.BgMap_0d0804, "ax", @progbits
+        .global BgMap_0d0804
+BgMap_0d0804:
         .dc.w   0xb396,0x2d10,0xb39c,0x2d10,0xb413,0x2d10,0xb41a,0x2d10     | +00000
         .dc.w   0xb3ac,0x2d10,0xb3b4,0x2d10,0xb991,0x2d10,0xb94b,0x2d10     | +00010
         .dc.w   0xb931,0x2c10,0xb956,0x2e10,0xb8db,0x2710,0xb741,0x2710     | +00020
@@ -18123,38 +18123,38 @@ Data_0d0804:
         .dc.b   0x2d                            | +000fe
 
 | ----------------------------------------------------------------------------
-|  Data_0d0903  @ $0D0903  (1 B)  [ref. desde código]
+|  BgMap_0d0903  @ $0D0903  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0903, "ax", @progbits
-        .global Data_0d0903
-Data_0d0903:
+        .section .text.BgMap_0d0903, "ax", @progbits
+        .global BgMap_0d0903
+BgMap_0d0903:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0904  @ $0D0904  (5 B)  [ref. desde código]
+|  BgMap_0d0904  @ $0D0904  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0904, "ax", @progbits
-        .global Data_0d0904
-Data_0d0904:
+        .section .text.BgMap_0d0904, "ax", @progbits
+        .global BgMap_0d0904
+BgMap_0d0904:
         .dc.w   0xb39a,0x2d10                                               | +00000
         .dc.b   0xb4                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_0d0909  @ $0D0909  (4 B)  [ref. desde código]
+|  BgMap_0d0909  @ $0D0909  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0909, "ax", @progbits
-        .global Data_0d0909
-Data_0d0909:
+        .section .text.BgMap_0d0909, "ax", @progbits
+        .global BgMap_0d0909
+BgMap_0d0909:
         .dc.b   0x0f                            | +00000
         .dc.w   0x2d10                                                      | +00001
         .dc.b   0xb4                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_0d090d  @ $0D090D  (247 B)  [ref. desde código]
+|  BgMap_0d090d  @ $0D090D  (247 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d090d, "ax", @progbits
-        .global Data_0d090d
-Data_0d090d:
+        .section .text.BgMap_0d090d, "ax", @progbits
+        .global BgMap_0d090d
+BgMap_0d090d:
         .dc.b   0x16                            | +00000
         .dc.w   0x2d10,0xb41c,0x2d10,0xb3b0,0x2d10,0xb3b8,0x2d10,0xb993     | +00001
         .dc.w   0x2d10,0xb94e,0x2d10,0xb952,0x2c10,0xb938,0x2e10,0xb93e     | +00011
@@ -18174,19 +18174,19 @@ Data_0d090d:
         .dc.w   0x3010,0xb42e,0x3010                                        | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0d0a04  @ $0D0A04  (1 B)  [ref. desde código]
+|  BgMap_0d0a04  @ $0D0A04  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0a04, "ax", @progbits
-        .global Data_0d0a04
-Data_0d0a04:
+        .section .text.BgMap_0d0a04, "ax", @progbits
+        .global BgMap_0d0a04
+BgMap_0d0a04:
         .dc.b   0xb4                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0a05  @ $0D0A05  (256 B)  [ref. desde código]
+|  BgMap_0d0a05  @ $0D0A05  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0a05, "ax", @progbits
-        .global Data_0d0a05
-Data_0d0a05:
+        .section .text.BgMap_0d0a05, "ax", @progbits
+        .global BgMap_0d0a05
+BgMap_0d0a05:
         .dc.b   0x35                            | +00000
         .dc.w   0x3010,0xb43d,0x3010,0xb443,0x3010,0xb44a,0x3010,0xb451     | +00001
         .dc.w   0x3110,0xb459,0x3110,0xb2df,0x3110,0xb932,0x3110,0xb9a5     | +00011
@@ -18207,28 +18207,28 @@ Data_0d0a05:
         .dc.b   0xb4                            | +000ff
 
 | ----------------------------------------------------------------------------
-|  Data_0d0b05  @ $0D0B05  (2 B)  [ref. desde código]
+|  BgMap_0d0b05  @ $0D0B05  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0b05, "ax", @progbits
-        .global Data_0d0b05
-Data_0d0b05:
+        .section .text.BgMap_0d0b05, "ax", @progbits
+        .global BgMap_0d0b05
+BgMap_0d0b05:
         .dc.b   0x39                            | +00000
         .dc.b   0x31                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0d0b07  @ $0D0B07  (1 B)  [ref. desde código]
+|  BgMap_0d0b07  @ $0D0B07  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0b07, "ax", @progbits
-        .global Data_0d0b07
-Data_0d0b07:
+        .section .text.BgMap_0d0b07, "ax", @progbits
+        .global BgMap_0d0b07
+BgMap_0d0b07:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0b08  @ $0D0B08  (249 B)  [ref. desde código]
+|  BgMap_0d0b08  @ $0D0B08  (249 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0b08, "ax", @progbits
-        .global Data_0d0b08
-Data_0d0b08:
+        .section .text.BgMap_0d0b08, "ax", @progbits
+        .global BgMap_0d0b08
+BgMap_0d0b08:
         .dc.w   0xb36a,0x3110,0xb447,0x3110,0xb44e,0x3110,0xb455,0x3110     | +00000
         .dc.w   0xb388,0x3110,0xb922,0x3110,0xb929,0x3110,0xb9a9,0x3210     | +00010
         .dc.w   0xb9b0,0x2e10,0xb9b4,0x2710,0xb7a9,0x2710,0xb7ac,0x2710     | +00020
@@ -18248,53 +18248,53 @@ Data_0d0b08:
         .dc.b   0xb4                            | +000f8
 
 | ----------------------------------------------------------------------------
-|  Data_0d0c01  @ $0D0C01  (6 B)  [ref. desde código]
+|  BgMap_0d0c01  @ $0D0C01  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0c01, "ax", @progbits
-        .global Data_0d0c01
-Data_0d0c01:
+        .section .text.BgMap_0d0c01, "ax", @progbits
+        .global BgMap_0d0c01
+BgMap_0d0c01:
         .dc.b   0x62                            | +00000
         .dc.w   0x3110,0xb468                                               | +00001
         .dc.b   0x31                            | +00005
 
 | ----------------------------------------------------------------------------
-|  Data_0d0c07  @ $0D0C07  (1 B)  [ref. desde código]
+|  BgMap_0d0c07  @ $0D0C07  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0c07, "ax", @progbits
-        .global Data_0d0c07
-Data_0d0c07:
+        .section .text.BgMap_0d0c07, "ax", @progbits
+        .global BgMap_0d0c07
+BgMap_0d0c07:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0c08  @ $0D0C08  (1 B)  [ref. desde código]
+|  BgMap_0d0c08  @ $0D0C08  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0c08, "ax", @progbits
-        .global Data_0d0c08
-Data_0d0c08:
+        .section .text.BgMap_0d0c08, "ax", @progbits
+        .global BgMap_0d0c08
+BgMap_0d0c08:
         .dc.b   0xb4                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0c09  @ $0D0C09  (1 B)  [ref. desde código]
+|  BgMap_0d0c09  @ $0D0C09  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0c09, "ax", @progbits
-        .global Data_0d0c09
-Data_0d0c09:
+        .section .text.BgMap_0d0c09, "ax", @progbits
+        .global BgMap_0d0c09
+BgMap_0d0c09:
         .dc.b   0x70                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0c0a  @ $0D0C0A  (1 B)  [ref. desde código]
+|  BgMap_0d0c0a  @ $0D0C0A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0c0a, "ax", @progbits
-        .global Data_0d0c0a
-Data_0d0c0a:
+        .section .text.BgMap_0d0c0a, "ax", @progbits
+        .global BgMap_0d0c0a
+BgMap_0d0c0a:
         .dc.b   0x31                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0c0b  @ $0D0C0B  (53 B)  [ref. desde código]
+|  BgMap_0d0c0b  @ $0D0C0B  (53 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0c0b, "ax", @progbits
-        .global Data_0d0c0b
-Data_0d0c0b:
+        .section .text.BgMap_0d0c0b, "ax", @progbits
+        .global BgMap_0d0c0b
+BgMap_0d0c0b:
         .dc.b   0x10                            | +00000
         .dc.w   0xb476,0x3110,0xb47c,0x3110,0xb482,0x3110,0xb38c,0x3110     | +00001
         .dc.w   0xb987,0x3110,0xb9ba,0x3110,0xb9be,0x3210,0xb9c3,0x2e10     | +00011
@@ -18302,11 +18302,11 @@ Data_0d0c0b:
         .dc.w   0xb45d,0x3110                                               | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_0d0c40  @ $0D0C40  (201 B)  [ref. desde código]
+|  BgMap_0d0c40  @ $0D0C40  (201 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0c40, "ax", @progbits
-        .global Data_0d0c40
-Data_0d0c40:
+        .section .text.BgMap_0d0c40, "ax", @progbits
+        .global BgMap_0d0c40
+BgMap_0d0c40:
         .dc.w   0xb463,0x3110,0xb469,0x3110,0xb471,0x3110,0xb477,0x3110     | +00000
         .dc.w   0xb47d,0x3110,0xb483,0x3110,0xb38d,0x3110,0xb9b7,0x3110     | +00010
         .dc.w   0xb9bb,0x3110,0xb9bf,0x3210,0xb9c4,0x2e10,0xb7cf,0x2710     | +00020
@@ -18323,43 +18323,43 @@ Data_0d0c40:
         .dc.b   0xb3                            | +000c8
 
 | ----------------------------------------------------------------------------
-|  Data_0d0d09  @ $0D0D09  (1 B)  [ref. desde código]
+|  BgMap_0d0d09  @ $0D0D09  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0d09, "ax", @progbits
-        .global Data_0d0d09
-Data_0d0d09:
+        .section .text.BgMap_0d0d09, "ax", @progbits
+        .global BgMap_0d0d09
+BgMap_0d0d09:
         .dc.b   0x9e                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0d0a  @ $0D0D0A  (1 B)  [ref. desde código]
+|  BgMap_0d0d0a  @ $0D0D0A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0d0a, "ax", @progbits
-        .global Data_0d0d0a
-Data_0d0d0a:
+        .section .text.BgMap_0d0d0a, "ax", @progbits
+        .global BgMap_0d0d0a
+BgMap_0d0d0a:
         .dc.b   0x31                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0d0b  @ $0D0D0B  (1 B)  [ref. desde código]
+|  BgMap_0d0d0b  @ $0D0D0B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0d0b, "ax", @progbits
-        .global Data_0d0d0b
-Data_0d0d0b:
+        .section .text.BgMap_0d0d0b, "ax", @progbits
+        .global BgMap_0d0d0b
+BgMap_0d0d0b:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0d0c  @ $0D0D0C  (1 B)  [ref. desde código]
+|  BgMap_0d0d0c  @ $0D0D0C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0d0c, "ax", @progbits
-        .global Data_0d0d0c
-Data_0d0d0c:
+        .section .text.BgMap_0d0d0c, "ax", @progbits
+        .global BgMap_0d0d0c
+BgMap_0d0d0c:
         .dc.b   0xb4                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0d0d  @ $0D0D0D  (251 B)  [ref. desde código]
+|  BgMap_0d0d0d  @ $0D0D0D  (251 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0d0d, "ax", @progbits
-        .global Data_0d0d0d
-Data_0d0d0d:
+        .section .text.BgMap_0d0d0d, "ax", @progbits
+        .global BgMap_0d0d0d
+BgMap_0d0d0d:
         .dc.b   0x79                            | +00000
         .dc.w   0x3110,0xb47f,0x3110,0xb486,0x3110,0xb423,0x3110,0xb992     | +00001
         .dc.w   0x3110,0xb94c,0x3110,0xb933,0x3210,0xb9c7,0x2e10,0xb73b     | +00011
@@ -18379,43 +18379,43 @@ Data_0d0d0d:
         .dc.w   0x2f10,0xb491,0x2f10,0xb1f2,0x2f10                          | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0d0e08  @ $0D0E08  (2 B)  [ref. desde código]
+|  BgMap_0d0e08  @ $0D0E08  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0e08, "ax", @progbits
-        .global Data_0d0e08
-Data_0d0e08:
+        .section .text.BgMap_0d0e08, "ax", @progbits
+        .global BgMap_0d0e08
+BgMap_0d0e08:
         .dc.w   0xb49c                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0e0a  @ $0D0E0A  (1 B)  [ref. desde código]
+|  BgMap_0d0e0a  @ $0D0E0A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0e0a, "ax", @progbits
-        .global Data_0d0e0a
-Data_0d0e0a:
+        .section .text.BgMap_0d0e0a, "ax", @progbits
+        .global BgMap_0d0e0a
+BgMap_0d0e0a:
         .dc.b   0x2f                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0e0b  @ $0D0E0B  (1 B)  [ref. desde código]
+|  BgMap_0d0e0b  @ $0D0E0B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0e0b, "ax", @progbits
-        .global Data_0d0e0b
-Data_0d0e0b:
+        .section .text.BgMap_0d0e0b, "ax", @progbits
+        .global BgMap_0d0e0b
+BgMap_0d0e0b:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0e0c  @ $0D0E0C  (2 B)  [ref. desde código]
+|  BgMap_0d0e0c  @ $0D0E0C  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0e0c, "ax", @progbits
-        .global Data_0d0e0c
-Data_0d0e0c:
+        .section .text.BgMap_0d0e0c, "ax", @progbits
+        .global BgMap_0d0e0c
+BgMap_0d0e0c:
         .dc.w   0xb4a2                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0e0e  @ $0D0E0E  (245 B)  [ref. desde código]
+|  BgMap_0d0e0e  @ $0D0E0E  (245 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0e0e, "ax", @progbits
-        .global Data_0d0e0e
-Data_0d0e0e:
+        .section .text.BgMap_0d0e0e, "ax", @progbits
+        .global BgMap_0d0e0e
+BgMap_0d0e0e:
         .dc.w   0x2f10,0xb4a7,0x2f10,0xb4af,0x2f10,0xb4b7,0x2f10,0xb9cc     | +00000
         .dc.w   0x2f10,0xb9d4,0x2f10,0xb9dc,0x2e10,0xb9e4,0x3810,0xb9ec     | +00010
         .dc.w   0x3510,0xb741,0x2710,0xb749,0x2710,0xb751,0x2710,0xb1e3     | +00020
@@ -18435,38 +18435,38 @@ Data_0d0e0e:
         .dc.b   0x37                            | +000f4
 
 | ----------------------------------------------------------------------------
-|  Data_0d0f03  @ $0D0F03  (6 B)  [ref. desde código]
+|  BgMap_0d0f03  @ $0D0F03  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0f03, "ax", @progbits
-        .global Data_0d0f03
-Data_0d0f03:
+        .section .text.BgMap_0d0f03, "ax", @progbits
+        .global BgMap_0d0f03
+BgMap_0d0f03:
         .dc.b   0x10                            | +00000
         .dc.w   0xb498,0x3710                                               | +00001
         .dc.b   0xb4                            | +00005
 
 | ----------------------------------------------------------------------------
-|  Data_0d0f09  @ $0D0F09  (5 B)  [ref. desde código]
+|  BgMap_0d0f09  @ $0D0F09  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0f09, "ax", @progbits
-        .global Data_0d0f09
-Data_0d0f09:
+        .section .text.BgMap_0d0f09, "ax", @progbits
+        .global BgMap_0d0f09
+BgMap_0d0f09:
         .dc.b   0x9e                            | +00000
         .dc.w   0x3710,0xb4a3                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0d0f0e  @ $0D0F0E  (1 B)  [ref. desde código]
+|  BgMap_0d0f0e  @ $0D0F0E  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0f0e, "ax", @progbits
-        .global Data_0d0f0e
-Data_0d0f0e:
+        .section .text.BgMap_0d0f0e, "ax", @progbits
+        .global BgMap_0d0f0e
+BgMap_0d0f0e:
         .dc.b   0x36                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d0f0f  @ $0D0F0F  (241 B)  [ref. desde código]
+|  BgMap_0d0f0f  @ $0D0F0F  (241 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d0f0f, "ax", @progbits
-        .global Data_0d0f0f
-Data_0d0f0f:
+        .section .text.BgMap_0d0f0f, "ax", @progbits
+        .global BgMap_0d0f0f
+BgMap_0d0f0f:
         .dc.b   0x10                            | +00000
         .dc.w   0xb4ab,0x3610,0xb4b3,0x3610,0xb4bb,0x3610,0xb9d0,0x3310     | +00001
         .dc.w   0xb9d8,0x3a10,0xb9e0,0x3a10,0xb9e8,0x3810,0xb905,0x3510     | +00011
@@ -18485,20 +18485,20 @@ Data_0d0f0f:
         .dc.w   0xb748,0x3510,0xb7af,0x3510,0xb758,0x3510,0xb4bf,0x3310     | +000e1
 
 | ----------------------------------------------------------------------------
-|  Data_0d1000  @ $0D1000  (13 B)  [ref. desde código]
+|  BgMap_0d1000  @ $0D1000  (13 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d1000, "ax", @progbits
-        .global Data_0d1000
-Data_0d1000:
+        .section .text.BgMap_0d1000, "ax", @progbits
+        .global BgMap_0d1000
+BgMap_0d1000:
         .dc.w   0xb4c7,0x3310,0xb4cf,0x3310,0xb4d7,0x3310                   | +00000
         .dc.b   0xb4                            | +0000c
 
 | ----------------------------------------------------------------------------
-|  Data_0d100d  @ $0D100D  (505 B)  [ref. desde código]
+|  BgMap_0d100d  @ $0D100D  (505 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d100d, "ax", @progbits
-        .global Data_0d100d
-Data_0d100d:
+        .section .text.BgMap_0d100d, "ax", @progbits
+        .global BgMap_0d100d
+BgMap_0d100d:
         .dc.b   0xdf                            | +00000
         .dc.w   0x3910,0xb4e7,0x3910,0xb4ef,0x3310,0xb4f7,0x3310,0xb9f8     | +00001
         .dc.w   0x3a10,0xba00,0x3a10,0xba08,0x3a10,0xba10,0x3810,0xba18     | +00011
@@ -18534,19 +18534,19 @@ Data_0d100d:
         .dc.w   0x3710,0xb505,0x3710,0xb50b                                 | +001f1
 
 | ----------------------------------------------------------------------------
-|  Data_0d1206  @ $0D1206  (10 B)  [ref. desde código]
+|  BgMap_0d1206  @ $0D1206  (10 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d1206, "ax", @progbits
-        .global Data_0d1206
-Data_0d1206:
+        .section .text.BgMap_0d1206, "ax", @progbits
+        .global BgMap_0d1206
+BgMap_0d1206:
         .dc.w   0x3610,0xb513,0x3310,0xb51b,0x3910                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0d1210  @ $0D1210  (2,584 B)  [ref. desde código]
+|  BgMap_0d1210  @ $0D1210  (2,584 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d1210, "ax", @progbits
-        .global Data_0d1210
-Data_0d1210:
+        .section .text.BgMap_0d1210, "ax", @progbits
+        .global BgMap_0d1210
+BgMap_0d1210:
         .dc.w   0xb523,0x3910,0xb52b,0x3310,0xb533,0x3310,0xba1f,0x3310     | +00000
         .dc.w   0xba27,0x3a10,0xba2f,0x3a10,0xba37,0x3810,0xba3f,0x3510     | +00010
         .dc.w   0xb741,0x3510,0xb749,0x3510,0xb751,0x3510,0xb500,0x3710     | +00020
@@ -18711,11 +18711,11 @@ Data_0d1210:
         .dc.w   0xba82,0x3d10,0xba8a,0x3d10                                 | +00a10
 
 | ----------------------------------------------------------------------------
-|  Data_0d1c28  @ $0D1C28  (728 B)  [ref. desde código]
+|  BgMap_0d1c28  @ $0D1C28  (728 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d1c28, "ax", @progbits
-        .global Data_0d1c28
-Data_0d1c28:
+        .section .text.BgMap_0d1c28, "ax", @progbits
+        .global BgMap_0d1c28
+BgMap_0d1c28:
         .dc.w   0xba92,0x3d10,0xba9a,0x3510,0xba9e,0x3510,0xb749,0x3510     | +00000
         .dc.w   0xbaa9,0x3510,0xb610,0x4110,0xb616,0x4110,0xb61d,0x4110     | +00010
         .dc.w   0xb622,0x4110,0xb628,0x4210,0xb62c,0x4210,0xb5a0,0x3d10     | +00020
@@ -20047,11 +20047,11 @@ Data_0d6700:
         .dc.w   0xbb40,0x0010,0xbb40,0x0010,0xbb40,0x0010                   | +00440
 
 | ----------------------------------------------------------------------------
-|  Data_0d6b4c  @ $0D6B4C  (776 B)  [ref. desde código]
+|  BgMap_0d6b4c  @ $0D6B4C  (776 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d6b4c, "ax", @progbits
-        .global Data_0d6b4c
-Data_0d6b4c:
+        .section .text.BgMap_0d6b4c, "ax", @progbits
+        .global BgMap_0d6b4c
+BgMap_0d6b4c:
         .dc.w   0xc280,0x1214,0xc2e8,0x1214,0xc284,0x1214,0xc2ec,0x1214     | +00000
         .dc.w   0xc288,0x1214,0xc2f0,0x1214,0xc28c,0x1214,0xc2f4,0x1214     | +00010
         .dc.w   0xc290,0x1214,0xc2f8,0x1214,0xc294,0x1214,0xc2fc,0x1214     | +00020
@@ -20103,11 +20103,11 @@ Data_0d6b4c:
         .dc.w   0xc318,0x0010,0xc318,0x0010                                 | +00300
 
 | ----------------------------------------------------------------------------
-|  Data_0d6e54  @ $0D6E54  (7,872 B)  [ref. desde código]
+|  BgMap_0d6e54  @ $0D6E54  (7,872 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d6e54, "ax", @progbits
-        .global Data_0d6e54
-Data_0d6e54:
+        .section .text.BgMap_0d6e54, "ax", @progbits
+        .global BgMap_0d6e54
+BgMap_0d6e54:
         .dc.w   0xc319,0x1610,0xc321,0x1610,0xc329,0x1610,0xc331,0x1610     | +00000
         .dc.w   0xc339,0x1610,0xc341,0x1610,0xc349,0x1610,0xc351,0x1610     | +00010
         .dc.w   0xc46b,0x1610,0xc473,0x1710,0xc47b,0x1b10,0xc483,0x1b10     | +00020
@@ -20602,11 +20602,11 @@ Data_0d6e54:
         .dc.w   0xc75c,0x4210,0xc680,0x4210,0xc78e,0x4810,0xc790,0x4810     | +01eb0
 
 | ----------------------------------------------------------------------------
-|  Data_0d8d14  @ $0D8D14  (5,184 B)  [ref. desde código]
+|  BgMap_0d8d14  @ $0D8D14  (5,184 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0d8d14, "ax", @progbits
-        .global Data_0d8d14
-Data_0d8d14:
+        .section .text.BgMap_0d8d14, "ax", @progbits
+        .global BgMap_0d8d14
+BgMap_0d8d14:
         .dc.w   0xc318,0x1210,0xc318,0x1210,0xc318,0x1210,0xc318,0x1210     | +00000
         .dc.w   0xc318,0x1210,0xc318,0x1210,0xc318,0x1210,0xc318,0x1210     | +00010
         .dc.w   0xc318,0x1210,0xc318,0x1210,0xc318,0x1210,0xc318,0x1210     | +00020
@@ -20933,11 +20933,11 @@ Data_0d8d14:
         .dc.w   0xc318,0x0010,0xc318,0x0010,0xc7b1,0x1210,0xc811,0x1210     | +01430
 
 | ----------------------------------------------------------------------------
-|  Data_0da154  @ $0DA154  (8,632 B)  [ref. desde código]
+|  BgMap_0da154  @ $0DA154  (8,632 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0da154, "ax", @progbits
-        .global Data_0da154
-Data_0da154:
+        .section .text.BgMap_0da154, "ax", @progbits
+        .global BgMap_0da154
+BgMap_0da154:
         .dc.w   0xc318,0x2510,0xc318,0x2510,0xc318,0x2510,0xc318,0x2510     | +00000
         .dc.w   0xc318,0x2510,0xc318,0x2510,0xc318,0x2510,0xc318,0x2510     | +00010
         .dc.w   0xc318,0x2510,0xc318,0x2510,0xc318,0x2510,0xc318,0x2510     | +00020
@@ -21480,11 +21480,11 @@ Data_0da154:
         .dc.w   0xc318,0x0010,0xc318,0x0010                                 | +021b0
 
 | ----------------------------------------------------------------------------
-|  Data_0dc30c  @ $0DC30C  (1,024 B)  [ref. desde código]
+|  BgMap_0dc30c  @ $0DC30C  (1,024 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0dc30c, "ax", @progbits
-        .global Data_0dc30c
-Data_0dc30c:
+        .section .text.BgMap_0dc30c, "ax", @progbits
+        .global BgMap_0dc30c
+BgMap_0dc30c:
         .dc.w   0xce15,0x2110,0xce16,0x2110,0xce1b,0x2110,0xce20,0x2110     | +00000
         .dc.w   0xce25,0x2110,0xce2a,0x2110,0xce2f,0x2110,0xc318,0x2110     | +00010
         .dc.w   0xc318,0x2110,0xc318,0x2110,0xc318,0x2210,0xce79,0x2210     | +00020
@@ -21551,11 +21551,11 @@ Data_0dc30c:
         .dc.w   0xce8f,0x2210,0xc662,0x2210,0xc66a,0x2210,0xce96,0x2210     | +003f0
 
 | ----------------------------------------------------------------------------
-|  Data_0dc70c  @ $0DC70C  (896 B)  [ref. desde código]
+|  BgMap_0dc70c  @ $0DC70C  (896 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0dc70c, "ax", @progbits
-        .global Data_0dc70c
-Data_0dc70c:
+        .section .text.BgMap_0dc70c, "ax", @progbits
+        .global BgMap_0dc70c
+BgMap_0dc70c:
         .dc.w   0xce15,0x1d10,0xce9b,0x1d10,0xce9e,0x1d10,0xcea5,0x1d10     | +00000
         .dc.w   0xcead,0x1d10,0xceb5,0x1d10,0xceba,0x1d10,0xce15,0x1d10     | +00010
         .dc.w   0xce9c,0x1d10,0xce9f,0x1d10,0xcea6,0x1d10,0xceae,0x1d10     | +00020
@@ -21614,11 +21614,11 @@ Data_0dc70c:
         .dc.w   0xcee0,0x1d10,0xcee6,0x1d10,0xceed,0x1d10,0xcef1,0x1d10     | +00370
 
 | ----------------------------------------------------------------------------
-|  Data_0dca8c  @ $0DCA8C  (1,280 B)  [ref. desde código]
+|  BgMap_0dca8c  @ $0DCA8C  (1,280 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0dca8c, "ax", @progbits
-        .global Data_0dca8c
-Data_0dca8c:
+        .section .text.BgMap_0dca8c, "ax", @progbits
+        .global BgMap_0dca8c
+BgMap_0dca8c:
         .dc.w   0xcef2,0x2410,0xcef5,0x2410,0xcefb,0x2410,0xcf01,0x2410     | +00000
         .dc.w   0xcf08,0x2410,0xcf0f,0x2410,0xcf16,0x2410,0xcf1c,0x2410     | +00010
         .dc.w   0xcf4d,0x2410,0xcf51,0x2410,0xcf57,0x2410,0xcf5d,0x2410     | +00020
@@ -21701,11 +21701,11 @@ Data_0dca8c:
         .dc.w   0xcfb3,0x2410,0xcfb7,0x2410,0xcfbb,0x2410,0xcfbe,0x2410     | +004f0
 
 | ----------------------------------------------------------------------------
-|  Data_0dcf8c  @ $0DCF8C  (866 B)  [ref. desde código]
+|  BgMap_0dcf8c  @ $0DCF8C  (866 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0dcf8c, "ax", @progbits
-        .global Data_0dcf8c
-Data_0dcf8c:
+        .section .text.BgMap_0dcf8c, "ax", @progbits
+        .global BgMap_0dcf8c
+BgMap_0dcf8c:
         .dc.w   0xcfbf,0x3f10,0xcfc7,0x3f10,0xcfcf,0x3f10,0xcfd7,0x3f10     | +00000
         .dc.w   0xcfdf,0x3f10,0xcfe7,0x3f10,0xcfef,0x3f10,0xcfc0,0x3f10     | +00010
         .dc.w   0xcfc8,0x3f10,0xcfd0,0x3f10,0xcfd8,0x3f10,0xcfe0,0x3f10     | +00020
@@ -23260,11 +23260,11 @@ Data_0e0d09:
         .dc.b   0x18                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e0d0a  @ $0E0D0A  (1 B)  [ref. desde código]
+|  Zero_0e0d0a  @ $0E0D0A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0d0a, "ax", @progbits
-        .global Data_0e0d0a
-Data_0e0d0a:
+        .section .text.Zero_0e0d0a, "ax", @progbits
+        .global Zero_0e0d0a
+Zero_0e0d0a:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -23278,11 +23278,11 @@ Data_0e0d0b:
         .dc.w   0xc2f7,0x4710                                               | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0e0d20  @ $0E0D20  (224 B)  [ref. desde código]
+|  BgMap_0e0d20  @ $0E0D20  (224 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0d20, "ax", @progbits
-        .global Data_0e0d20
-Data_0e0d20:
+        .section .text.BgMap_0e0d20, "ax", @progbits
+        .global BgMap_0e0d20
+BgMap_0e0d20:
         .dc.w   0xd680,0x1210,0xd680,0x1210,0xd697,0x1210,0xd69e,0x1210     | +00000
         .dc.w   0xd6a6,0x1210,0xd6ae,0x1210,0xd6b6,0x1210,0xd6be,0x1210     | +00010
         .dc.w   0xd6c6,0x1210,0xd6ce,0x1210,0xd8ba,0x1210,0xd8c2,0x1210     | +00020
@@ -23299,44 +23299,44 @@ Data_0e0d20:
         .dc.w   0xd6aa,0x1210,0xd6b2,0x1210,0xd6ba,0x1210,0xd6c2,0x1210     | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_0e0e00  @ $0E0E00  (11 B)  [ref. desde código]
+|  BgMap_0e0e00  @ $0E0E00  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0e00, "ax", @progbits
-        .global Data_0e0e00
-Data_0e0e00:
+        .section .text.BgMap_0e0e00, "ax", @progbits
+        .global BgMap_0e0e00
+BgMap_0e0e00:
         .dc.w   0xd6ca,0x1210,0xd6d2,0x1210,0xd8be                          | +00000
         .dc.b   0x12                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_0e0e0b  @ $0E0E0B  (1 B)  [ref. desde código]
+|  BgMap_0e0e0b  @ $0E0E0B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0e0b, "ax", @progbits
-        .global Data_0e0e0b
-Data_0e0e0b:
+        .section .text.BgMap_0e0e0b, "ax", @progbits
+        .global BgMap_0e0e0b
+BgMap_0e0e0b:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e0e0c  @ $0E0E0C  (1 B)  [ref. desde código]
+|  BgMap_0e0e0c  @ $0E0E0C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0e0c, "ax", @progbits
-        .global Data_0e0e0c
-Data_0e0e0c:
+        .section .text.BgMap_0e0e0c, "ax", @progbits
+        .global BgMap_0e0e0c
+BgMap_0e0e0c:
         .dc.b   0xd8                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e0e0d  @ $0E0E0D  (1 B)  [ref. desde código]
+|  BgMap_0e0e0d  @ $0E0E0D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0e0d, "ax", @progbits
-        .global Data_0e0e0d
-Data_0e0e0d:
+        .section .text.BgMap_0e0e0d, "ax", @progbits
+        .global BgMap_0e0e0d
+BgMap_0e0e0d:
         .dc.b   0xc6                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e0e0e  @ $0E0E0E  (247 B)  [ref. desde código]
+|  BgMap_0e0e0e  @ $0E0E0E  (247 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0e0e, "ax", @progbits
-        .global Data_0e0e0e
-Data_0e0e0e:
+        .section .text.BgMap_0e0e0e, "ax", @progbits
+        .global BgMap_0e0e0e
+BgMap_0e0e0e:
         .dc.w   0x1210,0xd680,0x1210,0xd680,0x1210,0xd69c,0x1210,0xd6a3     | +00000
         .dc.w   0x1210,0xd6ab,0x1210,0xd6b3,0x1210,0xd6bb,0x1210,0xd6c3     | +00010
         .dc.w   0x1210,0xd6cb,0x1210,0xd6d3,0x1210,0xd8bf,0x1210,0xd8c7     | +00020
@@ -23356,45 +23356,45 @@ Data_0e0e0e:
         .dc.b   0xd6                            | +000f6
 
 | ----------------------------------------------------------------------------
-|  Data_0e0f05  @ $0E0F05  (3 B)  [ref. desde código]
+|  BgMap_0e0f05  @ $0E0F05  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0f05, "ax", @progbits
-        .global Data_0e0f05
-Data_0e0f05:
+        .section .text.BgMap_0e0f05, "ax", @progbits
+        .global BgMap_0e0f05
+BgMap_0e0f05:
         .dc.b   0x81                            | +00000
         .dc.w   0x1210                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0e0f08  @ $0E0F08  (4 B)  [ref. desde código]
+|  BgMap_0e0f08  @ $0E0F08  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0f08, "ax", @progbits
-        .global Data_0e0f08
-Data_0e0f08:
+        .section .text.BgMap_0e0f08, "ax", @progbits
+        .global BgMap_0e0f08
+BgMap_0e0f08:
         .dc.w   0xd6d7,0x1210                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e0f0c  @ $0E0F0C  (3 B)  [ref. desde código]
+|  BgMap_0e0f0c  @ $0E0F0C  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0f0c, "ax", @progbits
-        .global Data_0e0f0c
-Data_0e0f0c:
+        .section .text.BgMap_0e0f0c, "ax", @progbits
+        .global BgMap_0e0f0c
+BgMap_0e0f0c:
         .dc.w   0xd6df                                                      | +00000
         .dc.b   0x12                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_0e0f0f  @ $0E0F0F  (1 B)  [ref. desde código]
+|  BgMap_0e0f0f  @ $0E0F0F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0f0f, "ax", @progbits
-        .global Data_0e0f0f
-Data_0e0f0f:
+        .section .text.BgMap_0e0f0f, "ax", @progbits
+        .global BgMap_0e0f0f
+BgMap_0e0f0f:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e0f10  @ $0E0F10  (254 B)  [ref. desde código]
+|  BgMap_0e0f10  @ $0E0F10  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e0f10, "ax", @progbits
-        .global Data_0e0f10
-Data_0e0f10:
+        .section .text.BgMap_0e0f10, "ax", @progbits
+        .global BgMap_0e0f10
+BgMap_0e0f10:
         .dc.w   0xd6e7,0x1210,0xd6ef,0x1210,0xd6f7,0x1210,0xd6ff,0x1210     | +00000
         .dc.w   0xd707,0x1210,0xd70f,0x1210,0xd8cc,0x1210,0xd8d4,0x1210     | +00010
         .dc.w   0xd680,0x1210,0xd682,0x1210,0xd6d8,0x1210,0xd6e0,0x1210     | +00020
@@ -23413,64 +23413,64 @@ Data_0e0f10:
         .dc.w   0xd6ec,0x1210,0xd6f4,0x1210,0xd6fc,0x1210,0xd704            | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_0e100e  @ $0E100E  (1 B)  [ref. desde código]
+|  BgMap_0e100e  @ $0E100E  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e100e, "ax", @progbits
-        .global Data_0e100e
-Data_0e100e:
+        .section .text.BgMap_0e100e, "ax", @progbits
+        .global BgMap_0e100e
+BgMap_0e100e:
         .dc.b   0x12                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e100f  @ $0E100F  (1 B)  [ref. desde código]
+|  BgMap_0e100f  @ $0E100F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e100f, "ax", @progbits
-        .global Data_0e100f
-Data_0e100f:
+        .section .text.BgMap_0e100f, "ax", @progbits
+        .global BgMap_0e100f
+BgMap_0e100f:
         .dc.b   0x10                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e1010  @ $0E1010  (25 B)  [ref. desde código]
+|  BgMap_0e1010  @ $0E1010  (25 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1010, "ax", @progbits
-        .global Data_0e1010
-Data_0e1010:
+        .section .text.BgMap_0e1010, "ax", @progbits
+        .global BgMap_0e1010
+BgMap_0e1010:
         .dc.w   0xd70c,0x1110,0xd714,0x1110,0xd8d1,0x1110,0xd8d9,0x1110     | +00000
         .dc.w   0xd680,0x1310,0xd681,0x1310                                 | +00010
         .dc.b   0xd7                            | +00018
 
 | ----------------------------------------------------------------------------
-|  Data_0e1029  @ $0E1029  (5 B)  [ref. desde código]
+|  BgMap_0e1029  @ $0E1029  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1029, "ax", @progbits
-        .global Data_0e1029
-Data_0e1029:
+        .section .text.BgMap_0e1029, "ax", @progbits
+        .global BgMap_0e1029
+BgMap_0e1029:
         .dc.b   0x15                            | +00000
         .dc.w   0x1310,0xd71b                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0e102e  @ $0E102E  (11 B)  [ref. desde código]
+|  BgMap_0e102e  @ $0E102E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e102e, "ax", @progbits
-        .global Data_0e102e
-Data_0e102e:
+        .section .text.BgMap_0e102e, "ax", @progbits
+        .global BgMap_0e102e
+BgMap_0e102e:
         .dc.w   0x1310,0xd723,0x1310,0xd72b,0x1310                          | +00000
         .dc.b   0xd7                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_0e1039  @ $0E1039  (3 B)  [ref. desde código]
+|  BgMap_0e1039  @ $0E1039  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1039, "ax", @progbits
-        .global Data_0e1039
-Data_0e1039:
+        .section .text.BgMap_0e1039, "ax", @progbits
+        .global BgMap_0e1039
+BgMap_0e1039:
         .dc.b   0x33                            | +00000
         .dc.w   0x1210                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0e103c  @ $0E103C  (214 B)  [ref. desde código]
+|  BgMap_0e103c  @ $0E103C  (214 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e103c, "ax", @progbits
-        .global Data_0e103c
-Data_0e103c:
+        .section .text.BgMap_0e103c, "ax", @progbits
+        .global BgMap_0e103c
+BgMap_0e103c:
         .dc.w   0xd73b,0x1210,0xd743,0x1110,0xd74b,0x1110,0xd8da,0x1110     | +00000
         .dc.w   0xd8e1,0x1110,0xd680,0x1310,0xd682,0x1310,0xd716,0x1310     | +00010
         .dc.w   0xd71c,0x1310,0xd724,0x1310,0xd72c,0x1310,0xd734,0x1210     | +00020
@@ -23487,22 +23487,22 @@ Data_0e103c:
         .dc.w   0xd8c6,0x1210,0xd680                                        | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_0e1112  @ $0E1112  (47 B)  [ref. desde código]
+|  BgMap_0e1112  @ $0E1112  (47 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1112, "ax", @progbits
-        .global Data_0e1112
-Data_0e1112:
+        .section .text.BgMap_0e1112, "ax", @progbits
+        .global BgMap_0e1112
+BgMap_0e1112:
         .dc.w   0x1210,0xd680,0x1210,0xd71a,0x1310,0xd720,0x1310,0xd728     | +00000
         .dc.w   0x1310,0xd730,0x1310,0xd738,0x1310,0xd740,0x1310,0xd748     | +00010
         .dc.w   0x1310,0xd750,0x1210,0xd83d,0x1210,0xd8e3,0x1210            | +00020
         .dc.b   0xd6                            | +0002e
 
 | ----------------------------------------------------------------------------
-|  Data_0e1141  @ $0E1141  (231 B)  [ref. desde código]
+|  BgMap_0e1141  @ $0E1141  (231 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1141, "ax", @progbits
-        .global Data_0e1141
-Data_0e1141:
+        .section .text.BgMap_0e1141, "ax", @progbits
+        .global BgMap_0e1141
+BgMap_0e1141:
         .dc.b   0x80                            | +00000
         .dc.w   0x1210,0xd680,0x1210,0xd680,0x1310,0xd721,0x1310,0xd729     | +00001
         .dc.w   0x1310,0xd731,0x1310,0xd739,0x1310,0xd741,0x1310,0xd749     | +00011
@@ -23521,20 +23521,20 @@ Data_0e1141:
         .dc.w   0x1110,0xd6d0,0x1210                                        | +000e1
 
 | ----------------------------------------------------------------------------
-|  Data_0e1228  @ $0E1228  (20 B)  [ref. desde código]
+|  BgMap_0e1228  @ $0E1228  (20 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1228, "ax", @progbits
-        .global Data_0e1228
-Data_0e1228:
+        .section .text.BgMap_0e1228, "ax", @progbits
+        .global BgMap_0e1228
+BgMap_0e1228:
         .dc.w   0xd8e8,0x1210,0xd8ee,0x1210,0xd680,0x1210,0xd680,0x1210     | +00000
         .dc.w   0xd680,0x1210                                               | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0e123c  @ $0E123C  (478 B)  [ref. desde código]
+|  BgMap_0e123c  @ $0E123C  (478 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e123c, "ax", @progbits
-        .global Data_0e123c
-Data_0e123c:
+        .section .text.BgMap_0e123c, "ax", @progbits
+        .global BgMap_0e123c
+BgMap_0e123c:
         .dc.w   0xd755,0x1210,0xd75d,0x1210,0xd765,0x1210,0xd76d,0x1210     | +00000
         .dc.w   0xd775,0x1210,0xd77d,0x1110,0xd6d1,0x1210,0xd8bd,0x1210     | +00010
         .dc.w   0xd8ef,0x1210,0xd680,0x1210,0xd680,0x1210,0xd680,0x1210     | +00020
@@ -23567,11 +23567,11 @@ Data_0e123c:
         .dc.w   0xd8fb,0x1210,0xd680,0x1210,0xd680,0x1210,0xd680            | +001d0
 
 | ----------------------------------------------------------------------------
-|  Data_0e141a  @ $0E141A  (546 B)  [ref. desde código]
+|  BgMap_0e141a  @ $0E141A  (546 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e141a, "ax", @progbits
-        .global Data_0e141a
-Data_0e141a:
+        .section .text.BgMap_0e141a, "ax", @progbits
+        .global BgMap_0e141a
+BgMap_0e141a:
         .dc.w   0x1210,0xd78d,0x1210,0xd795,0x1210,0xd79d,0x1210,0xd7a5     | +00000
         .dc.w   0x1210,0xd7ad,0x1210,0xd7b4,0x1210,0xd7bb,0x1210,0xd8f7     | +00010
         .dc.w   0x1210,0xd8fc,0x1210,0xd680,0x1210,0xd680,0x1210,0xd680     | +00020
@@ -23609,11 +23609,11 @@ Data_0e141a:
         .dc.w   0x1210                                                      | +00220
 
 | ----------------------------------------------------------------------------
-|  Data_0e163c  @ $0E163C  (501 B)  [ref. desde código]
+|  BgMap_0e163c  @ $0E163C  (501 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e163c, "ax", @progbits
-        .global Data_0e163c
-Data_0e163c:
+        .section .text.BgMap_0e163c, "ax", @progbits
+        .global BgMap_0e163c
+BgMap_0e163c:
         .dc.w   0xd826,0x1210,0xd82e,0x1210,0xd836,0x1210,0xd90f,0x1210     | +00000
         .dc.w   0xd8c2,0x1210,0xd680,0x1210,0xd68e,0x1210,0xd7ff,0x1210     | +00010
         .dc.w   0xd807,0x1210,0xd80f,0x1210,0xd817,0x1210,0xd81f,0x1210     | +00020
@@ -23649,11 +23649,11 @@ Data_0e163c:
         .dc.b   0xd6                            | +001f4
 
 | ----------------------------------------------------------------------------
-|  Data_0e1831  @ $0E1831  (523 B)  [ref. desde código]
+|  BgMap_0e1831  @ $0E1831  (523 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1831, "ax", @progbits
-        .global Data_0e1831
-Data_0e1831:
+        .section .text.BgMap_0e1831, "ax", @progbits
+        .global BgMap_0e1831
+BgMap_0e1831:
         .dc.b   0x80                            | +00000
         .dc.w   0x1210,0xd680,0x1210,0xd841,0x1210,0xd847,0x1210,0xd84f     | +00001
         .dc.w   0x1210,0xd857,0x1210,0xd85f,0x1210,0xd867,0x1210,0xd86f     | +00011
@@ -23690,11 +23690,11 @@ Data_0e1831:
         .dc.w   0x1210,0xd8b7,0x1210,0xd92f,0x1210                          | +00201
 
 | ----------------------------------------------------------------------------
-|  Data_0e1a3c  @ $0E1A3C  (100 B)  [ref. desde código]
+|  BgMap_0e1a3c  @ $0E1A3C  (100 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1a3c, "ax", @progbits
-        .global Data_0e1a3c
-Data_0e1a3c:
+        .section .text.BgMap_0e1a3c, "ax", @progbits
+        .global BgMap_0e1a3c
+BgMap_0e1a3c:
         .dc.w   0xd934,0x1210,0xd680,0x1210,0xd680,0x1210,0xd881,0x1210     | +00000
         .dc.w   0xd889,0x1210,0xd891,0x1210,0xd899,0x1210,0xd8a1,0x1210     | +00010
         .dc.w   0xd8a9,0x1210,0xd8b1,0x1210,0xd8b8,0x1210,0xd930,0x1210     | +00020
@@ -23704,11 +23704,11 @@ Data_0e1a3c:
         .dc.w   0xd936,0x1210                                               | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_0e1aa0  @ $0E1AA0  (718 B)  [ref. desde código]
+|  BgMap_0e1aa0  @ $0E1AA0  (718 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1aa0, "ax", @progbits
-        .global Data_0e1aa0
-Data_0e1aa0:
+        .section .text.BgMap_0e1aa0, "ax", @progbits
+        .global BgMap_0e1aa0
+BgMap_0e1aa0:
         .dc.w   0xd937,0x1710,0xd93f,0x1710,0xd947,0x1710,0xd94f,0x1710     | +00000
         .dc.w   0xd956,0x1810,0xd957,0x1810,0xd958,0x1810,0xd959,0x1810     | +00010
         .dc.w   0xd959,0x1810,0xd959,0x1810,0xd959,0x1810,0xd959,0x1810     | +00020
@@ -23756,19 +23756,19 @@ Data_0e1aa0:
         .dc.w   0xd959,0x1810,0xd959,0x1810,0xd959,0x1810,0xd959            | +002c0
 
 | ----------------------------------------------------------------------------
-|  Data_0e1d6e  @ $0E1D6E  (14 B)  [ref. desde código]
+|  BgMap_0e1d6e  @ $0E1D6E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1d6e, "ax", @progbits
-        .global Data_0e1d6e
-Data_0e1d6e:
+        .section .text.BgMap_0e1d6e, "ax", @progbits
+        .global BgMap_0e1d6e
+BgMap_0e1d6e:
         .dc.w   0x1810,0xd961,0x1710,0xd969,0x1710,0xd971,0x1710            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e1d7c  @ $0E1D7C  (388 B)  [ref. desde código]
+|  BgMap_0e1d7c  @ $0E1D7C  (388 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1d7c, "ax", @progbits
-        .global Data_0e1d7c
-Data_0e1d7c:
+        .section .text.BgMap_0e1d7c, "ax", @progbits
+        .global BgMap_0e1d7c
+BgMap_0e1d7c:
         .dc.w   0xd979,0x1710,0xd956,0x1810,0xd957,0x1810,0xd958,0x1810     | +00000
         .dc.w   0xd959,0x1810,0xd959,0x1810,0xd959,0x1810,0xd959,0x1810     | +00010
         .dc.w   0xd959,0x1810,0xd97a,0x1710,0xd97e,0x1710,0xd982,0x1710     | +00020
@@ -23796,11 +23796,11 @@ Data_0e1d7c:
         .dc.w   0xd952,0x1710                                               | +00180
 
 | ----------------------------------------------------------------------------
-|  Data_0e1f00  @ $0E1F00  (302 B)  [ref. desde código]
+|  BgMap_0e1f00  @ $0E1F00  (302 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e1f00, "ax", @progbits
-        .global Data_0e1f00
-Data_0e1f00:
+        .section .text.BgMap_0e1f00, "ax", @progbits
+        .global BgMap_0e1f00
+BgMap_0e1f00:
         .dc.w   0xd956,0x1810,0xd957,0x1810,0xd958,0x1810,0xd959,0x1810     | +00000
         .dc.w   0xd959,0x1810,0xd959,0x1810,0xd959,0x1810,0xd959,0x1810     | +00010
         .dc.w   0xd93b,0x1710,0xd943,0x1710,0xd94b,0x1710,0xd953,0x1710     | +00020
@@ -23822,39 +23822,39 @@ Data_0e1f00:
         .dc.w   0xd956,0x1810,0xd957,0x1810,0xd958,0x1810,0xd959            | +00120
 
 | ----------------------------------------------------------------------------
-|  Data_0e202e  @ $0E202E  (11 B)  [ref. desde código]
+|  BgMap_0e202e  @ $0E202E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e202e, "ax", @progbits
-        .global Data_0e202e
-Data_0e202e:
+        .section .text.BgMap_0e202e, "ax", @progbits
+        .global BgMap_0e202e
+BgMap_0e202e:
         .dc.w   0x1810,0xd959,0x1810,0xd959,0x1810                          | +00000
         .dc.b   0xd9                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_0e2039  @ $0E2039  (7 B)  [ref. desde código]
+|  BgMap_0e2039  @ $0E2039  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2039, "ax", @progbits
-        .global Data_0e2039
-Data_0e2039:
+        .section .text.BgMap_0e2039, "ax", @progbits
+        .global BgMap_0e2039
+BgMap_0e2039:
         .dc.b   0x59                            | +00000
         .dc.w   0x1810,0xd959,0x1810                                        | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0e2040  @ $0E2040  (46 B)  [ref. desde código]
+|  BgMap_0e2040  @ $0E2040  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2040, "ax", @progbits
-        .global Data_0e2040
-Data_0e2040:
+        .section .text.BgMap_0e2040, "ax", @progbits
+        .global BgMap_0e2040
+BgMap_0e2040:
         .dc.w   0xd95c,0x1710,0xd964,0x1710,0xd96c,0x1710,0xd974,0x1710     | +00000
         .dc.w   0xd956,0x1810,0xd957,0x1810,0xd958,0x1810,0xd959,0x1810     | +00010
         .dc.w   0xd959,0x1810,0xd959,0x1810,0xd959,0x1810,0xd959            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0e206e  @ $0E206E  (275 B)  [ref. desde código]
+|  BgMap_0e206e  @ $0E206E  (275 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e206e, "ax", @progbits
-        .global Data_0e206e
-Data_0e206e:
+        .section .text.BgMap_0e206e, "ax", @progbits
+        .global BgMap_0e206e
+BgMap_0e206e:
         .dc.w   0x1810,0xd95d,0x1710,0xd965,0x1710,0xd96d,0x1710,0xd975     | +00000
         .dc.w   0x1710,0xd956,0x1810,0xd957,0x1810,0xd958,0x1810,0xd959     | +00010
         .dc.w   0x1810,0xd959,0x1810,0xd959,0x1810,0xd959,0x1810,0xd959     | +00020
@@ -23876,11 +23876,11 @@ Data_0e206e:
         .dc.b   0xd9                            | +00112
 
 | ----------------------------------------------------------------------------
-|  Data_0e2181  @ $0E2181  (159 B)  [ref. desde código]
+|  BgMap_0e2181  @ $0E2181  (159 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2181, "ax", @progbits
-        .global Data_0e2181
-Data_0e2181:
+        .section .text.BgMap_0e2181, "ax", @progbits
+        .global BgMap_0e2181
+BgMap_0e2181:
         .dc.b   0x59                            | +00000
         .dc.w   0x1810,0xd959,0x1810,0xd959,0x1810,0xd959,0x1810,0xd97b     | +00001
         .dc.w   0x1710,0xd97f,0x1710,0xd983,0x1710,0xd987,0x1710,0xd956     | +00011
@@ -23894,40 +23894,40 @@ Data_0e2181:
         .dc.w   0x1810,0xd959,0x1810,0xd959,0x1810,0xd959,0x1810            | +00091
 
 | ----------------------------------------------------------------------------
-|  Data_0e2220  @ $0E2220  (32 B)  [ref. desde código]
+|  BgMap_0e2220  @ $0E2220  (32 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2220, "ax", @progbits
-        .global Data_0e2220
-Data_0e2220:
+        .section .text.BgMap_0e2220, "ax", @progbits
+        .global BgMap_0e2220
+BgMap_0e2220:
         .dc.w   0xd996,0x1610,0xd99e,0x1610,0xd9a3,0x1610,0xd9a9,0x1610     | +00000
         .dc.w   0xd9b0,0x1610,0xd9b8,0x1610,0xd9c0,0x1610,0xd9c7,0x1610     | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0e2240  @ $0E2240  (41 B)  [ref. desde código]
+|  BgMap_0e2240  @ $0E2240  (41 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2240, "ax", @progbits
-        .global Data_0e2240
-Data_0e2240:
+        .section .text.BgMap_0e2240, "ax", @progbits
+        .global BgMap_0e2240
+BgMap_0e2240:
         .dc.w   0xd9f9,0x1610,0xda01,0x1610,0xda02,0x1610,0xda03,0x1610     | +00000
         .dc.w   0xda03,0x1610,0xda03,0x1610,0xda03,0x1610,0xd997,0x1610     | +00010
         .dc.w   0xd999,0x1612,0xd9a4,0x1610                                 | +00020
         .dc.b   0xd9                            | +00028
 
 | ----------------------------------------------------------------------------
-|  Data_0e2269  @ $0E2269  (5 B)  [ref. desde código]
+|  BgMap_0e2269  @ $0E2269  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2269, "ax", @progbits
-        .global Data_0e2269
-Data_0e2269:
+        .section .text.BgMap_0e2269, "ax", @progbits
+        .global BgMap_0e2269
+BgMap_0e2269:
         .dc.b   0xaa                            | +00000
         .dc.w   0x1610,0xd9b1                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0e226e  @ $0E226E  (346 B)  [ref. desde código]
+|  BgMap_0e226e  @ $0E226E  (346 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e226e, "ax", @progbits
-        .global Data_0e226e
-Data_0e226e:
+        .section .text.BgMap_0e226e, "ax", @progbits
+        .global BgMap_0e226e
+BgMap_0e226e:
         .dc.w   0x1610,0xd9b9,0x1610,0xd9c1,0x1610,0xd9c8,0x1610,0xd9fa     | +00000
         .dc.w   0x1610,0xda01,0x1610,0xda02,0x1610,0xda03,0x1610,0xda03     | +00010
         .dc.w   0x1610,0xda03,0x1610,0xda03,0x1610,0xd998,0x1610,0xd997     | +00020
@@ -23952,11 +23952,11 @@ Data_0e226e:
         .dc.w   0x1610,0xda03,0x1610,0xd99d,0x1610                          | +00150
 
 | ----------------------------------------------------------------------------
-|  Data_0e23c8  @ $0E23C8  (673 B)  [ref. desde código]
+|  BgMap_0e23c8  @ $0E23C8  (673 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e23c8, "ax", @progbits
-        .global Data_0e23c8
-Data_0e23c8:
+        .section .text.BgMap_0e23c8, "ax", @progbits
+        .global BgMap_0e23c8
+BgMap_0e23c8:
         .dc.w   0xd9a2,0x1610,0xd9a8,0x1610,0xd9af,0x1610,0xd9b7,0x1610     | +00000
         .dc.w   0xd9bf,0x1610,0xd9c6,0x1610,0xd9ce,0x1610,0xda00,0x1610     | +00010
         .dc.w   0xda01,0x1610,0xda02,0x1610,0xda03,0x1610,0xda03,0x1610     | +00020
@@ -24002,11 +24002,11 @@ Data_0e23c8:
         .dc.b   0xd9                            | +002a0
 
 | ----------------------------------------------------------------------------
-|  Data_0e2669  @ $0E2669  (823 B)  [ref. desde código]
+|  BgMap_0e2669  @ $0E2669  (823 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2669, "ax", @progbits
-        .global Data_0e2669
-Data_0e2669:
+        .section .text.BgMap_0e2669, "ax", @progbits
+        .global BgMap_0e2669
+BgMap_0e2669:
         .dc.b   0xb2                            | +00000
         .dc.w   0x1610,0xd9ba,0x1610,0xd9c2,0x1610,0xd9c9,0x1610,0xd9fb     | +00001
         .dc.w   0x1610,0xda01,0x1610,0xda02,0x1610,0xda03,0x1610,0xda03     | +00011
@@ -24062,11 +24062,11 @@ Data_0e2669:
         .dc.w   0x1610,0xda03,0x1610                                        | +00331
 
 | ----------------------------------------------------------------------------
-|  Data_0e29a0  @ $0E29A0  (680 B)  [ref. desde código]
+|  BgMap_0e29a0  @ $0E29A0  (680 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e29a0, "ax", @progbits
-        .global Data_0e29a0
-Data_0e29a0:
+        .section .text.BgMap_0e29a0, "ax", @progbits
+        .global BgMap_0e29a0
+BgMap_0e29a0:
         .dc.w   0xd480,0x1010,0xd488,0x1010,0xd490,0x1010,0xd498,0x1010     | +00000
         .dc.w   0xd4d0,0x1010,0xd4d8,0x1010,0xd4e0,0x1010,0xd4e8,0x1010     | +00010
         .dc.w   0xd4f0,0x1010,0xd481,0x1010,0xd489,0x1010,0xd491,0x1010     | +00020
@@ -24112,31 +24112,31 @@ Data_0e29a0:
         .dc.w   0xd52a,0x1010,0xd52e,0x1010                                 | +002a0
 
 | ----------------------------------------------------------------------------
-|  Data_0e2c48  @ $0E2C48  (40 B)  [ref. desde código]
+|  BgMap_0e2c48  @ $0E2C48  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2c48, "ax", @progbits
-        .global Data_0e2c48
-Data_0e2c48:
+        .section .text.BgMap_0e2c48, "ax", @progbits
+        .global BgMap_0e2c48
+BgMap_0e2c48:
         .dc.w   0xd532,0x1010,0xd4c3,0x1010,0xd4c7,0x1010,0xd4cb,0x1010     | +00000
         .dc.w   0xd4cf,0x1010,0xd523,0x1010,0xd527,0x1010,0xd52b,0x1010     | +00010
         .dc.w   0xd52f,0x1010,0xd533,0x1010                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0e2c70  @ $0E2C70  (25 B)  [ref. desde código]
+|  BgMap_0e2c70  @ $0E2C70  (25 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2c70, "ax", @progbits
-        .global Data_0e2c70
-Data_0e2c70:
+        .section .text.BgMap_0e2c70, "ax", @progbits
+        .global BgMap_0e2c70
+BgMap_0e2c70:
         .dc.w   0xda80,0x1110,0xda80,0x1110,0xda80,0x1110,0xda80,0x1110     | +00000
         .dc.w   0xda80,0x1110,0xda90,0x1110                                 | +00010
         .dc.b   0xda                            | +00018
 
 | ----------------------------------------------------------------------------
-|  Data_0e2c89  @ $0E2C89  (243 B)  [ref. desde código]
+|  BgMap_0e2c89  @ $0E2C89  (243 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2c89, "ax", @progbits
-        .global Data_0e2c89
-Data_0e2c89:
+        .section .text.BgMap_0e2c89, "ax", @progbits
+        .global BgMap_0e2c89
+BgMap_0e2c89:
         .dc.b   0x98                            | +00000
         .dc.w   0x1110,0xdaa0,0x1110,0xdae7,0x1110,0xdaef,0x1110,0xdaf7     | +00001
         .dc.w   0x1110,0xdaff,0x1110,0xda80,0x1110,0xda80,0x1110,0xdb13     | +00011
@@ -24156,11 +24156,11 @@ Data_0e2c89:
         .dc.w   0x1110                                                      | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_0e2d7c  @ $0E2D7C  (684 B)  [ref. desde código]
+|  BgMap_0e2d7c  @ $0E2D7C  (684 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e2d7c, "ax", @progbits
-        .global Data_0e2d7c
-Data_0e2d7c:
+        .section .text.BgMap_0e2d7c, "ax", @progbits
+        .global BgMap_0e2d7c
+BgMap_0e2d7c:
         .dc.w   0xda80,0x1110,0xda8c,0x1110,0xda94,0x1110,0xda9c,0x1110     | +00000
         .dc.w   0xdaa4,0x1110,0xdaeb,0x1110,0xdaf3,0x1110,0xdafb,0x1110     | +00010
         .dc.w   0xdb03,0x1110,0xdb0a,0x1110,0xdb0f,0x1110,0xdb15,0x1110     | +00020
@@ -24206,45 +24206,45 @@ Data_0e2d7c:
         .dc.w   0xdb3b,0x1110,0xdb43,0x1110,0xdb4b,0x1110                   | +002a0
 
 | ----------------------------------------------------------------------------
-|  Data_0e3028  @ $0E3028  (6 B)  [ref. desde código]
+|  BgMap_0e3028  @ $0E3028  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3028, "ax", @progbits
-        .global Data_0e3028
-Data_0e3028:
+        .section .text.BgMap_0e3028, "ax", @progbits
+        .global BgMap_0e3028
+BgMap_0e3028:
         .dc.w   0xdb53,0x1110,0xdb5a                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e302e  @ $0E302E  (2 B)  [ref. desde código]
+|  BgMap_0e302e  @ $0E302E  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e302e, "ax", @progbits
-        .global Data_0e302e
-Data_0e302e:
+        .section .text.BgMap_0e302e, "ax", @progbits
+        .global BgMap_0e302e
+BgMap_0e302e:
         .dc.w   0x1110                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e3030  @ $0E3030  (9 B)  [ref. desde código]
+|  BgMap_0e3030  @ $0E3030  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3030, "ax", @progbits
-        .global Data_0e3030
-Data_0e3030:
+        .section .text.BgMap_0e3030, "ax", @progbits
+        .global BgMap_0e3030
+BgMap_0e3030:
         .dc.w   0xda80,0x1010,0xda80,0x1010                                 | +00000
         .dc.b   0xda                            | +00008
 
 | ----------------------------------------------------------------------------
-|  Data_0e3039  @ $0E3039  (3 B)  [ref. desde código]
+|  BgMap_0e3039  @ $0E3039  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3039, "ax", @progbits
-        .global Data_0e3039
-Data_0e3039:
+        .section .text.BgMap_0e3039, "ax", @progbits
+        .global BgMap_0e3039
+BgMap_0e3039:
         .dc.b   0x80                            | +00000
         .dc.w   0x1010                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0e303c  @ $0E303C  (277 B)  [ref. desde código]
+|  BgMap_0e303c  @ $0E303C  (277 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e303c, "ax", @progbits
-        .global Data_0e303c
-Data_0e303c:
+        .section .text.BgMap_0e303c, "ax", @progbits
+        .global BgMap_0e303c
+BgMap_0e303c:
         .dc.w   0xdab1,0x1010,0xdab9,0x1010,0xdac1,0x1010,0xdac9,0x1010     | +00000
         .dc.w   0xdad1,0x1010,0xdb24,0x1010,0xdb2c,0x1110,0xdb34,0x1110     | +00010
         .dc.w   0xdb3c,0x1110,0xdb44,0x1110,0xdb4c,0x1110,0xdb54,0x1110     | +00020
@@ -24266,21 +24266,21 @@ Data_0e303c:
         .dc.b   0xdb                            | +00114
 
 | ----------------------------------------------------------------------------
-|  Data_0e3151  @ $0E3151  (31 B)  [ref. desde código]
+|  BgMap_0e3151  @ $0E3151  (31 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3151, "ax", @progbits
-        .global Data_0e3151
-Data_0e3151:
+        .section .text.BgMap_0e3151, "ax", @progbits
+        .global BgMap_0e3151
+BgMap_0e3151:
         .dc.b   0x5f                            | +00000
         .dc.w   0x1010,0xdb63,0x1110,0xdb67,0x1110,0xdb6b,0x1110,0xdb6f     | +00001
         .dc.w   0x1110,0xda80,0x1110,0xdb76,0x1110,0xda80,0x1110            | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_0e3170  @ $0E3170  (190 B)  [ref. desde código]
+|  BgMap_0e3170  @ $0E3170  (190 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3170, "ax", @progbits
-        .global Data_0e3170
-Data_0e3170:
+        .section .text.BgMap_0e3170, "ax", @progbits
+        .global BgMap_0e3170
+BgMap_0e3170:
         .dc.w   0xde80,0x1210,0xde82,0x1210,0xde88,0x1210,0xde8f,0x1210     | +00000
         .dc.w   0xde96,0x1210,0xde9d,0x1210,0xdedd,0x1210,0xdee4,0x1010     | +00010
         .dc.w   0xdeeb,0x1010,0xde80,0x1610,0xde83,0x1610,0xde89,0x1610     | +00020
@@ -24295,29 +24295,29 @@ Data_0e3170:
         .dc.w   0xdeef,0x1010,0xde80,0x1510,0xde80,0x1510,0xde8d            | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_0e322e  @ $0E322E  (11 B)  [ref. desde código]
+|  BgMap_0e322e  @ $0E322E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e322e, "ax", @progbits
-        .global Data_0e322e
-Data_0e322e:
+        .section .text.BgMap_0e322e, "ax", @progbits
+        .global BgMap_0e322e
+BgMap_0e322e:
         .dc.w   0x1510,0xde94,0x1510,0xde9b,0x1010                          | +00000
         .dc.b   0xde                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_0e3239  @ $0E3239  (3 B)  [ref. desde código]
+|  BgMap_0e3239  @ $0E3239  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3239, "ax", @progbits
-        .global Data_0e3239
-Data_0e3239:
+        .section .text.BgMap_0e3239, "ax", @progbits
+        .global BgMap_0e3239
+BgMap_0e3239:
         .dc.b   0xa2                            | +00000
         .dc.w   0x1010                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0e323c  @ $0E323C  (320 B)  [ref. desde código]
+|  BgMap_0e323c  @ $0E323C  (320 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e323c, "ax", @progbits
-        .global Data_0e323c
-Data_0e323c:
+        .section .text.BgMap_0e323c, "ax", @progbits
+        .global BgMap_0e323c
+BgMap_0e323c:
         .dc.w   0xdee2,0x1010,0xdee9,0x1010,0xdef0,0x1010,0xde81,0x1510     | +00000
         .dc.w   0xde87,0x1510,0xde8e,0x1510,0xde95,0x1510,0xde9c,0x1010     | +00010
         .dc.w   0xdea3,0x1010,0xdee3,0x1010,0xdeea,0x1010,0xdef1,0x1010     | +00020
@@ -24340,19 +24340,19 @@ Data_0e323c:
         .dc.w   0xde80,0x1510,0xde8e,0x1510,0xdebe,0x1510,0xdec6,0x1010     | +00130
 
 | ----------------------------------------------------------------------------
-|  Data_0e337c  @ $0E337C  (4 B)  [ref. desde código]
+|  BgMap_0e337c  @ $0E337C  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e337c, "ax", @progbits
-        .global Data_0e337c
-Data_0e337c:
+        .section .text.BgMap_0e337c, "ax", @progbits
+        .global BgMap_0e337c
+BgMap_0e337c:
         .dc.w   0xdece,0x1010                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e3380  @ $0E3380  (110 B)  [ref. desde código]
+|  BgMap_0e3380  @ $0E3380  (110 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3380, "ax", @progbits
-        .global Data_0e3380
-Data_0e3380:
+        .section .text.BgMap_0e3380, "ax", @progbits
+        .global BgMap_0e3380
+BgMap_0e3380:
         .dc.w   0xdef9,0x1010,0xdf01,0x1010,0xdf09,0x1010,0xde80,0x1510     | +00000
         .dc.w   0xdecf,0x1510,0xded1,0x1510,0xded4,0x1510,0xded7,0x1010     | +00010
         .dc.w   0xdeda,0x1010,0xdf0a,0x1010,0xdf0d,0x1010,0xdf10,0x1010     | +00020
@@ -24362,29 +24362,29 @@ Data_0e3380:
         .dc.w   0xded6,0x1010,0xded9,0x1010,0xdedc,0x1010,0xdf0c            | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_0e33ee  @ $0E33EE  (10 B)  [ref. desde código]
+|  BgMap_0e33ee  @ $0E33EE  (10 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e33ee, "ax", @progbits
-        .global Data_0e33ee
-Data_0e33ee:
+        .section .text.BgMap_0e33ee, "ax", @progbits
+        .global BgMap_0e33ee
+BgMap_0e33ee:
         .dc.w   0x1010,0xdf0f,0x1010,0xdf12,0x1010                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e33f8  @ $0E33F8  (48 B)  [ref. desde código]
+|  BgMap_0e33f8  @ $0E33F8  (48 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e33f8, "ax", @progbits
-        .global Data_0e33f8
-Data_0e33f8:
+        .section .text.BgMap_0e33f8, "ax", @progbits
+        .global BgMap_0e33f8
+BgMap_0e33f8:
         .dc.w   0xdf13,0x1410,0xdf19,0x1410,0xdf20,0x1410,0xdf27,0x1410     | +00000
         .dc.w   0xdf14,0x1710,0xdf1a,0x1710,0xdf21,0x1710,0xdf28,0x1710     | +00010
         .dc.w   0xdf14,0x1710,0xdf1b,0x1710,0xdf22,0x1710,0xdf29,0x1710     | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_0e3428  @ $0E3428  (240 B)  [ref. desde código]
+|  BgMap_0e3428  @ $0E3428  (240 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3428, "ax", @progbits
-        .global Data_0e3428
-Data_0e3428:
+        .section .text.BgMap_0e3428, "ax", @progbits
+        .global BgMap_0e3428
+BgMap_0e3428:
         .dc.w   0xdf15,0x1710,0xdf1c,0x1710,0xdf23,0x1710,0xdf2a,0x1710     | +00000
         .dc.w   0xdf16,0x1710,0xdf1d,0x1710,0xdf24,0x1710,0xdf2b,0x1710     | +00010
         .dc.w   0xdf17,0x1710,0xdf1e,0x1710,0xdf25,0x1710,0xdf2c,0x1710     | +00020
@@ -24402,11 +24402,11 @@ Data_0e3428:
         .dc.w   0xdf50,0x1410,0xdf53,0x1410,0xdf56,0x1410,0xdf59,0x1410     | +000e0
 
 | ----------------------------------------------------------------------------
-|  Data_0e3518  @ $0E3518  (292 B)  [ref. desde código]
+|  BgMap_0e3518  @ $0E3518  (292 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e3518, "ax", @progbits
-        .global Data_0e3518
-Data_0e3518:
+        .section .text.BgMap_0e3518, "ax", @progbits
+        .global BgMap_0e3518
+BgMap_0e3518:
         .dc.w   0xdf5a,0x1310,0xdf62,0x1310,0xdf6a,0x1310,0xdf72,0x1310     | +00000
         .dc.w   0xdf75,0x1310,0xdf5a,0x1310,0xdf62,0x1310,0xdf6a,0x1310     | +00010
         .dc.w   0xdf72,0x1310,0xdf75,0x1310,0xdf5a,0x1310,0xdf62,0x1310     | +00020
@@ -24428,11 +24428,11 @@ Data_0e3518:
         .dc.w   0xde80,0x1310                                               | +00120
 
 | ----------------------------------------------------------------------------
-|  Data_0e363c  @ $0E363C  (483 B)  [ref. desde código]
+|  BgMap_0e363c  @ $0E363C  (483 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e363c, "ax", @progbits
-        .global Data_0e363c
-Data_0e363c:
+        .section .text.BgMap_0e363c, "ax", @progbits
+        .global BgMap_0e363c
+BgMap_0e363c:
         .dc.w   0xde80,0x1310,0xde80,0x1310,0xdfa2,0x1310,0xdfa8,0x1310     | +00000
         .dc.w   0xdfae,0x1310,0xdfb4,0x1310,0xdf5e,0x1310,0xdf5f,0x1310     | +00010
         .dc.w   0xdf67,0x1310,0xdf6f,0x1310,0xde80,0x1310,0xde80,0x1310     | +00020
@@ -24467,29 +24467,29 @@ Data_0e363c:
         .dc.b   0x13                            | +001e2
 
 | ----------------------------------------------------------------------------
-|  Data_0e381f  @ $0E381F  (11 B)  [ref. desde código]
+|  BgMap_0e381f  @ $0E381F  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e381f, "ax", @progbits
-        .global Data_0e381f
-Data_0e381f:
+        .section .text.BgMap_0e381f, "ax", @progbits
+        .global BgMap_0e381f
+BgMap_0e381f:
         .dc.b   0x10                            | +00000
         .dc.w   0xdf89,0x1310,0xde80,0x1310,0xde80                          | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_0e382a  @ $0E382A  (18 B)  [ref. desde código]
+|  BgMap_0e382a  @ $0E382A  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e382a, "ax", @progbits
-        .global Data_0e382a
-Data_0e382a:
+        .section .text.BgMap_0e382a, "ax", @progbits
+        .global BgMap_0e382a
+BgMap_0e382a:
         .dc.w   0x1310,0xdf79,0x1310,0xde80,0x1310,0xde80,0x1310,0xde80     | +00000
         .dc.w   0x1310                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_0e383c  @ $0E383C  (476 B)  [ref. desde código]
+|  BgMap_0e383c  @ $0E383C  (476 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e383c, "ax", @progbits
-        .global Data_0e383c
-Data_0e383c:
+        .section .text.BgMap_0e383c, "ax", @progbits
+        .global BgMap_0e383c
+BgMap_0e383c:
         .dc.w   0xde80,0x1310,0xde80,0x1310,0xdfa1,0x1310,0xdfa7,0x1310     | +00000
         .dc.w   0xdfad,0x1310,0xdfb3,0x1310,0xdf5d,0x1310,0xdf5e,0x1310     | +00010
         .dc.w   0xdf82,0x1310,0xdf8a,0x1310,0xde80,0x1310,0xde80,0x1310     | +00020
@@ -24530,382 +24530,382 @@ Zero_0e3a18:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e3a3c  @ $0E3A3C  (772 B)  [ref. desde código]
+|  Zero_0e3a3c  @ $0E3A3C  (772 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e3a3c, "ax", @progbits
-        .global Str_0e3a3c
-Str_0e3a3c:
+        .section .text.Zero_0e3a3c, "ax", @progbits
+        .global Zero_0e3a3c
+Zero_0e3a3c:
         .fill   772,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e3d40  @ $0E3D40  (46 B)  [ref. desde código]
+|  Zero_0e3d40  @ $0E3D40  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e3d40, "ax", @progbits
-        .global Str_0e3d40
-Str_0e3d40:
+        .section .text.Zero_0e3d40, "ax", @progbits
+        .global Zero_0e3d40
+Zero_0e3d40:
         .fill   46,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e3d6e  @ $0E3D6E  (14 B)  [ref. desde código]
+|  Zero_0e3d6e  @ $0E3D6E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e3d6e, "ax", @progbits
-        .global Str_0e3d6e
-Str_0e3d6e:
+        .section .text.Zero_0e3d6e, "ax", @progbits
+        .global Zero_0e3d6e
+Zero_0e3d6e:
         .fill   14,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e3d7c  @ $0E3D7C  (1,149 B)  [ref. desde código]
+|  Zero_0e3d7c  @ $0E3D7C  (1,149 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e3d7c, "ax", @progbits
-        .global Str_0e3d7c
-Str_0e3d7c:
+        .section .text.Zero_0e3d7c, "ax", @progbits
+        .global Zero_0e3d7c
+Zero_0e3d7c:
         .fill   1149,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e41f9  @ $0E41F9  (1 B)  [ref. desde código]
+|  Zero_0e41f9  @ $0E41F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e41f9, "ax", @progbits
-        .global Data_0e41f9
-Data_0e41f9:
+        .section .text.Zero_0e41f9, "ax", @progbits
+        .global Zero_0e41f9
+Zero_0e41f9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e41fa  @ $0E41FA  (6 B)  [ref. desde código]
+|  Zero_0e41fa  @ $0E41FA  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e41fa, "ax", @progbits
-        .global Str_0e41fa
-Str_0e41fa:
+        .section .text.Zero_0e41fa, "ax", @progbits
+        .global Zero_0e41fa
+Zero_0e41fa:
         .dc.w   0x0000,0x0000,0x0000                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4200  @ $0E4200  (40 B)  [ref. desde código]
+|  Zero_0e4200  @ $0E4200  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4200, "ax", @progbits
-        .global Str_0e4200
-Str_0e4200:
+        .section .text.Zero_0e4200, "ax", @progbits
+        .global Zero_0e4200
+Zero_0e4200:
         .fill   40,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4228  @ $0E4228  (6 B)  [ref. desde código]
+|  Zero_0e4228  @ $0E4228  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4228, "ax", @progbits
-        .global Str_0e4228
-Str_0e4228:
+        .section .text.Zero_0e4228, "ax", @progbits
+        .global Zero_0e4228
+Zero_0e4228:
         .dc.w   0x0000,0x0000,0x0000                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e422e  @ $0E422E  (11 B)  [ref. desde código]
+|  Zero_0e422e  @ $0E422E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e422e, "ax", @progbits
-        .global Str_0e422e
-Str_0e422e:
+        .section .text.Zero_0e422e, "ax", @progbits
+        .global Zero_0e422e
+Zero_0e422e:
         .fill   11,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4239  @ $0E4239  (448 B)  [ref. desde código]
+|  Zero_0e4239  @ $0E4239  (448 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4239, "ax", @progbits
-        .global Str_0e4239
-Str_0e4239:
+        .section .text.Zero_0e4239, "ax", @progbits
+        .global Zero_0e4239
+Zero_0e4239:
         .fill   448,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e43f9  @ $0E43F9  (1 B)  [ref. desde código]
+|  Zero_0e43f9  @ $0E43F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e43f9, "ax", @progbits
-        .global Data_0e43f9
-Data_0e43f9:
+        .section .text.Zero_0e43f9, "ax", @progbits
+        .global Zero_0e43f9
+Zero_0e43f9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e43fa  @ $0E43FA  (70 B)  [ref. desde código]
+|  Zero_0e43fa  @ $0E43FA  (70 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e43fa, "ax", @progbits
-        .global Str_0e43fa
-Str_0e43fa:
+        .section .text.Zero_0e43fa, "ax", @progbits
+        .global Zero_0e43fa
+Zero_0e43fa:
         .fill   70,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4440  @ $0E4440  (441 B)  [ref. desde código]
+|  Zero_0e4440  @ $0E4440  (441 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4440, "ax", @progbits
-        .global Str_0e4440
-Str_0e4440:
+        .section .text.Zero_0e4440, "ax", @progbits
+        .global Zero_0e4440
+Zero_0e4440:
         .fill   441,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e45f9  @ $0E45F9  (1 B)  [ref. desde código]
+|  Zero_0e45f9  @ $0E45F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e45f9, "ax", @progbits
-        .global Data_0e45f9
-Data_0e45f9:
+        .section .text.Zero_0e45f9, "ax", @progbits
+        .global Zero_0e45f9
+Zero_0e45f9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e45fa  @ $0E45FA  (586 B)  [ref. desde código]
+|  Zero_0e45fa  @ $0E45FA  (586 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e45fa, "ax", @progbits
-        .global Str_0e45fa
-Str_0e45fa:
+        .section .text.Zero_0e45fa, "ax", @progbits
+        .global Zero_0e45fa
+Zero_0e45fa:
         .fill   586,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4844  @ $0E4844  (446 B)  [ref. desde código]
+|  Zero_0e4844  @ $0E4844  (446 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4844, "ax", @progbits
-        .global Str_0e4844
-Str_0e4844:
+        .section .text.Zero_0e4844, "ax", @progbits
+        .global Zero_0e4844
+Zero_0e4844:
         .fill   446,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4a02  @ $0E4A02  (44 B)  [ref. desde código]
+|  Zero_0e4a02  @ $0E4A02  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4a02, "ax", @progbits
-        .global Str_0e4a02
-Str_0e4a02:
+        .section .text.Zero_0e4a02, "ax", @progbits
+        .global Zero_0e4a02
+Zero_0e4a02:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4a2e  @ $0E4A2E  (11 B)  [ref. desde código]
+|  Zero_0e4a2e  @ $0E4A2E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4a2e, "ax", @progbits
-        .global Str_0e4a2e
-Str_0e4a2e:
+        .section .text.Zero_0e4a2e, "ax", @progbits
+        .global Zero_0e4a2e
+Zero_0e4a2e:
         .fill   11,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4a39  @ $0E4A39  (9 B)  [ref. desde código]
+|  Zero_0e4a39  @ $0E4A39  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4a39, "ax", @progbits
-        .global Str_0e4a39
-Str_0e4a39:
+        .section .text.Zero_0e4a39, "ax", @progbits
+        .global Zero_0e4a39
+Zero_0e4a39:
         .fill   9,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4a42  @ $0E4A42  (44 B)  [ref. desde código]
+|  Zero_0e4a42  @ $0E4A42  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4a42, "ax", @progbits
-        .global Str_0e4a42
-Str_0e4a42:
+        .section .text.Zero_0e4a42, "ax", @progbits
+        .global Zero_0e4a42
+Zero_0e4a42:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4a6e  @ $0E4A6E  (18 B)  [ref. desde código]
+|  Zero_0e4a6e  @ $0E4A6E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4a6e, "ax", @progbits
-        .global Str_0e4a6e
-Str_0e4a6e:
+        .section .text.Zero_0e4a6e, "ax", @progbits
+        .global Zero_0e4a6e
+Zero_0e4a6e:
         .fill   18,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4a80  @ $0E4A80  (975 B)  [ref. desde código]
+|  Zero_0e4a80  @ $0E4A80  (975 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4a80, "ax", @progbits
-        .global Str_0e4a80
-Str_0e4a80:
+        .section .text.Zero_0e4a80, "ax", @progbits
+        .global Zero_0e4a80
+Zero_0e4a80:
         .fill   975,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4e4f  @ $0E4E4F  (34 B)  [ref. desde código]
+|  Zero_0e4e4f  @ $0E4E4F  (34 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4e4f, "ax", @progbits
-        .global Str_0e4e4f
-Str_0e4e4f:
+        .section .text.Zero_0e4e4f, "ax", @progbits
+        .global Zero_0e4e4f
+Zero_0e4e4f:
         .fill   34,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e4e71  @ $0E4E71  (4 B)  [ref. desde código]
+|  Zero_0e4e71  @ $0E4E71  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e4e71, "ax", @progbits
-        .global Data_0e4e71
-Data_0e4e71:
+        .section .text.Zero_0e4e71, "ax", @progbits
+        .global Zero_0e4e71
+Zero_0e4e71:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000                                                      | +00001
         .dc.b   0x00                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Str_0e4e75  @ $0E4E75  (68 B)  [ref. desde código]
+|  Zero_0e4e75  @ $0E4E75  (68 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4e75, "ax", @progbits
-        .global Str_0e4e75
-Str_0e4e75:
+        .section .text.Zero_0e4e75, "ax", @progbits
+        .global Zero_0e4e75
+Zero_0e4e75:
         .fill   68,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e4eb9  @ $0E4EB9  (1 B)  [ref. desde código]
+|  Zero_0e4eb9  @ $0E4EB9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e4eb9, "ax", @progbits
-        .global Data_0e4eb9
-Data_0e4eb9:
+        .section .text.Zero_0e4eb9, "ax", @progbits
+        .global Zero_0e4eb9
+Zero_0e4eb9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e4eba  @ $0E4EBA  (838 B)  [ref. desde código]
+|  Zero_0e4eba  @ $0E4EBA  (838 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e4eba, "ax", @progbits
-        .global Str_0e4eba
-Str_0e4eba:
+        .section .text.Zero_0e4eba, "ax", @progbits
+        .global Zero_0e4eba
+Zero_0e4eba:
         .fill   838,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e5200  @ $0E5200  (64 B)  [ref. desde código]
+|  Zero_0e5200  @ $0E5200  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e5200, "ax", @progbits
-        .global Str_0e5200
-Str_0e5200:
+        .section .text.Zero_0e5200, "ax", @progbits
+        .global Zero_0e5200
+Zero_0e5200:
         .fill   64,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e5240  @ $0E5240  (3 B)  [ref. desde código]
+|  Zero_0e5240  @ $0E5240  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e5240, "ax", @progbits
-        .global Data_0e5240
-Data_0e5240:
+        .section .text.Zero_0e5240, "ax", @progbits
+        .global Zero_0e5240
+Zero_0e5240:
         .dc.w   0x0000                                                      | +00000
         .dc.b   0x00                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Str_0e5243  @ $0E5243  (43 B)  [ref. desde código]
+|  Zero_0e5243  @ $0E5243  (43 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e5243, "ax", @progbits
-        .global Str_0e5243
-Str_0e5243:
+        .section .text.Zero_0e5243, "ax", @progbits
+        .global Zero_0e5243
+Zero_0e5243:
         .fill   43,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e526e  @ $0E526E  (146 B)  [ref. desde código]
+|  Zero_0e526e  @ $0E526E  (146 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e526e, "ax", @progbits
-        .global Str_0e526e
-Str_0e526e:
+        .section .text.Zero_0e526e, "ax", @progbits
+        .global Zero_0e526e
+Zero_0e526e:
         .fill   146,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e5300  @ $0E5300  (110 B)  [ref. desde código]
+|  Zero_0e5300  @ $0E5300  (110 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e5300, "ax", @progbits
-        .global Str_0e5300
-Str_0e5300:
+        .section .text.Zero_0e5300, "ax", @progbits
+        .global Zero_0e5300
+Zero_0e5300:
         .fill   110,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e536e  @ $0E536E  (3,218 B)  [ref. desde código]
+|  Zero_0e536e  @ $0E536E  (3,218 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e536e, "ax", @progbits
-        .global Str_0e536e
-Str_0e536e:
+        .section .text.Zero_0e536e, "ax", @progbits
+        .global Zero_0e536e
+Zero_0e536e:
         .fill   3218,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6000  @ $0E6000  (176 B)  [ref. desde código]
+|  Zero_0e6000  @ $0E6000  (176 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6000, "ax", @progbits
-        .global Str_0e6000
-Str_0e6000:
+        .section .text.Zero_0e6000, "ax", @progbits
+        .global Zero_0e6000
+Zero_0e6000:
         .fill   176,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e60b0  @ $0E60B0  (44 B)  [ref. desde código]
+|  Zero_0e60b0  @ $0E60B0  (44 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e60b0, "ax", @progbits
-        .global Str_0e60b0
-Str_0e60b0:
+        .section .text.Zero_0e60b0, "ax", @progbits
+        .global Zero_0e60b0
+Zero_0e60b0:
         .fill   44,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e60dc  @ $0E60DC  (36 B)  [ref. desde código]
+|  Zero_0e60dc  @ $0E60DC  (36 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e60dc, "ax", @progbits
-        .global Str_0e60dc
-Str_0e60dc:
+        .section .text.Zero_0e60dc, "ax", @progbits
+        .global Zero_0e60dc
+Zero_0e60dc:
         .fill   36,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6100  @ $0E6100  (512 B)  [ref. desde código]
+|  Zero_0e6100  @ $0E6100  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6100, "ax", @progbits
-        .global Str_0e6100
-Str_0e6100:
+        .section .text.Zero_0e6100, "ax", @progbits
+        .global Zero_0e6100
+Zero_0e6100:
         .fill   512,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6300  @ $0E6300  (512 B)  [ref. desde código]
+|  Zero_0e6300  @ $0E6300  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6300, "ax", @progbits
-        .global Str_0e6300
-Str_0e6300:
+        .section .text.Zero_0e6300, "ax", @progbits
+        .global Zero_0e6300
+Zero_0e6300:
         .fill   512,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6500  @ $0E6500  (256 B)  [ref. desde código]
+|  Zero_0e6500  @ $0E6500  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6500, "ax", @progbits
-        .global Str_0e6500
-Str_0e6500:
+        .section .text.Zero_0e6500, "ax", @progbits
+        .global Zero_0e6500
+Zero_0e6500:
         .fill   256,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6600  @ $0E6600  (256 B)  [ref. desde código]
+|  Zero_0e6600  @ $0E6600  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6600, "ax", @progbits
-        .global Str_0e6600
-Str_0e6600:
+        .section .text.Zero_0e6600, "ax", @progbits
+        .global Zero_0e6600
+Zero_0e6600:
         .fill   256,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6700  @ $0E6700  (768 B)  [ref. desde código]
+|  Zero_0e6700  @ $0E6700  (768 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6700, "ax", @progbits
-        .global Str_0e6700
-Str_0e6700:
+        .section .text.Zero_0e6700, "ax", @progbits
+        .global Zero_0e6700
+Zero_0e6700:
         .fill   768,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6a00  @ $0E6A00  (512 B)  [ref. desde código]
+|  Zero_0e6a00  @ $0E6A00  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6a00, "ax", @progbits
-        .global Str_0e6a00
-Str_0e6a00:
+        .section .text.Zero_0e6a00, "ax", @progbits
+        .global Zero_0e6a00
+Zero_0e6a00:
         .fill   512,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6c00  @ $0E6C00  (768 B)  [ref. desde código]
+|  Zero_0e6c00  @ $0E6C00  (768 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6c00, "ax", @progbits
-        .global Str_0e6c00
-Str_0e6c00:
+        .section .text.Zero_0e6c00, "ax", @progbits
+        .global Zero_0e6c00
+Zero_0e6c00:
         .fill   768,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e6f00  @ $0E6F00  (256 B)  [ref. desde código]
+|  Zero_0e6f00  @ $0E6F00  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e6f00, "ax", @progbits
-        .global Str_0e6f00
-Str_0e6f00:
+        .section .text.Zero_0e6f00, "ax", @progbits
+        .global Zero_0e6f00
+Zero_0e6f00:
         .fill   256,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_0e7000  @ $0E7000  (1 B)  [ref. desde código]
+|  Zero_0e7000  @ $0E7000  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_0e7000, "ax", @progbits
-        .global Data_0e7000
-Data_0e7000:
+        .section .text.Zero_0e7000, "ax", @progbits
+        .global Zero_0e7000
+Zero_0e7000:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e7001  @ $0E7001  (1,025 B)  [ref. desde código]
+|  Zero_0e7001  @ $0E7001  (1,025 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e7001, "ax", @progbits
-        .global Str_0e7001
-Str_0e7001:
+        .section .text.Zero_0e7001, "ax", @progbits
+        .global Zero_0e7001
+Zero_0e7001:
         .fill   1025,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Str_0e7402  @ $0E7402  (1,022 B)  [ref. desde código]
+|  Zero_0e7402  @ $0E7402  (1,022 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Str_0e7402, "ax", @progbits
-        .global Str_0e7402
-Str_0e7402:
+        .section .text.Zero_0e7402, "ax", @progbits
+        .global Zero_0e7402
+Zero_0e7402:
         .fill   1022,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------

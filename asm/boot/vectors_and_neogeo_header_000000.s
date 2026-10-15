@@ -65,7 +65,7 @@ Zero_0000ca:
         .global NeoGeoHeader_000100
 NeoGeoHeader_000100:
         .dc.w   0x4e45,0x4f2d,0x4745,0x4f00,0x0201,0x0020,0x0000            | +00000
-        .dc.l   Data_100000                   | +0000e  -> $100000
+        .dc.l   ColMap_100000                   | +0000e  -> $100000
         .dc.w   0x007e,0x0001,0x0027,0x8018,0x0027,0x81f4,0x0027,0x83d0     | +00012
         .dc.w   0x4ef9                                                      | +00022
         .dc.l   BiosEntry_USER                | +00024  -> $0007CC

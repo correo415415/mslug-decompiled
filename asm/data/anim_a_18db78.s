@@ -26,8 +26,8 @@ Data_18db78:
         .dc.w   0x0023,0x2064,0x0023,0x214e,0x0028,0xdbd6,0x0028,0xdbf6     | +00046
         .dc.w   0x0028,0xdc16,0x0028,0xdbf6,0x000e,0x000e,0x000e            | +00056
         .dc.l   Data_19001a                   | +00064  -> $19001A
-        .dc.l   Data_1a001a                   | +00068  -> $1A001A
-        .dc.l   Data_1a000e                   | +0006c  -> $1A000E
+        .dc.l   AnimScr_1a001a                   | +00068  -> $1A001A
+        .dc.l   AnimScr_1a000e                   | +0006c  -> $1A000E
         .dc.w   0x000e,0x000e,0x000e,0x000e                                 | +00070
         .dc.l   Data_19001a                   | +00078  -> $19001A
         .dc.w   0x001a,0x013a,0x013a,0x013a,0x013a,0x013a,0x013a,0x013a     | +0007c
@@ -84,7 +84,7 @@ Data_18db78:
         .dc.w   0x4eb9                                                      | +001de
         .dc.l   EntitySetField38AndUpdate     | +001e0  -> $028134
         .dc.w   0x026e,0xffe3,0x0038,0x006e                                 | +001e4
-        .dc.l   Str_100038                    | +001ec  -> $100038
+        .dc.l   ColMap_100038                    | +001ec  -> $100038
         .dc.w   0x41fa,0xff04,0x4eb9                                        | +001f0
         .dc.l   EntitySetSpriteMap            | +001f6  -> $028CD4
         .dc.w   0x4eb9                                                      | +001fa
@@ -135,7 +135,7 @@ Data_18db78:
         .fill   21,1,0x00                      | +003b0
         .dc.b   0x01                            | +003c5
         .dc.l   Data_010101                   | +003c6  -> $010101
-        .dc.l   Data_020028                   | +003ca  -> $020028
+        .dc.l   Pal_020028                   | +003ca  -> $020028
         .dc.w   0xdf20,0x0000                                               | +003ce
         .dc.l   Data_00fff8                   | +003d2  -> $00FFF8
         .dc.w   0x0008,0x0000,0x0020,0x0200,0x0024,0x366c,0xffff,0x0000     | +003d6
@@ -143,7 +143,7 @@ Data_18db78:
         .dc.w   0x0024,0x3680,0xffff,0xfff8,0x0000,0x0200,0x0024,0x368a     | +003f6
         .dc.w   0xffff,0x0008,0x0020,0x0200,0x0024,0x3694,0xffff,0x0008     | +00406
         .dc.w   0x0000,0x1d01,0xffff,0xffff                                 | +00416
-        .dc.l   Data_020028                   | +0041e  -> $020028
+        .dc.l   Pal_020028                   | +0041e  -> $020028
         .dc.w   0xdf20,0x0000                                               | +00422
         .dc.l   Data_00fff8                   | +00426  -> $00FFF8
         .dc.w   0x0008,0x0000,0x0020,0x0200,0x0024,0x366c,0xffff,0x0000     | +0042a
@@ -151,24 +151,24 @@ Data_18db78:
         .dc.w   0x0024,0x3680,0xffff,0xfff8,0x0000,0x0200,0x0024,0x368a     | +0044a
         .dc.w   0xffff,0x0008,0x0020,0x0200,0x0024,0x3694,0xffff,0x0008     | +0045a
         .dc.w   0x0000,0x1d01,0xffff,0xffff                                 | +0046a
-        .dc.l   Data_020028                   | +00472  -> $020028
+        .dc.l   Pal_020028                   | +00472  -> $020028
         .dc.w   0xdf20,0x0000                                               | +00476
         .dc.l   Data_00fff4                   | +0047a  -> $00FFF4
         .dc.l   Data_0c0000                   | +0047e  -> $0C0000
-        .dc.l   Data_140200                   | +00482  -> $140200
+        .dc.l   SprFrame_140200                   | +00482  -> $140200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +00486
         .dc.w   0xffff,0xfff4                                               | +00496
-        .dc.l   Data_140200                   | +0049a  -> $140200
+        .dc.l   SprFrame_140200                   | +0049a  -> $140200
         .dc.w   0x0024,0x3680,0xffff,0xfff4,0x0000,0x0200,0x0024,0x368a     | +0049e
         .dc.w   0xffff                                                      | +004ae
         .dc.l   Data_0c0014                   | +004b0  -> $0C0014
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +004b4
         .dc.l   Data_0c0000                   | +004bc  -> $0C0000
         .dc.w   0x1d01,0xffff,0xffff                                        | +004c0
-        .dc.l   Data_020028                   | +004c6  -> $020028
+        .dc.l   Pal_020028                   | +004c6  -> $020028
         .dc.w   0xdf20,0x0000                                               | +004ca
         .dc.l   Data_00ffee                   | +004ce  -> $00FFEE
-        .dc.l   Data_120000                   | +004d2  -> $120000
+        .dc.l   Zero_120000                   | +004d2  -> $120000
         .dc.l   Data_0c0200                   | +004d6  -> $0C0200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +004da
         .dc.w   0xffff,0xffee                                               | +004ea
@@ -177,31 +177,31 @@ Data_18db78:
         .dc.w   0xffff,0x0012                                               | +00502
         .dc.l   Data_0c0200                   | +00506  -> $0C0200
         .dc.w   0x0024,0x3694,0xffff                                        | +0050a
-        .dc.l   Data_120000                   | +00510  -> $120000
+        .dc.l   Zero_120000                   | +00510  -> $120000
         .dc.w   0x1d01,0xffff,0xffff                                        | +00514
-        .dc.l   Data_020028                   | +0051a  -> $020028
+        .dc.l   Pal_020028                   | +0051a  -> $020028
         .dc.w   0xdf20,0x0000                                               | +0051e
         .dc.l   Data_00ffee                   | +00522  -> $00FFEE
-        .dc.l   Data_120000                   | +00526  -> $120000
-        .dc.l   Data_100200                   | +0052a  -> $100200
+        .dc.l   Zero_120000                   | +00526  -> $120000
+        .dc.l   ColMap_100200                   | +0052a  -> $100200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +0052e
         .dc.w   0xffff,0xffee                                               | +0053e
-        .dc.l   Data_100200                   | +00542  -> $100200
+        .dc.l   ColMap_100200                   | +00542  -> $100200
         .dc.w   0x0024,0x3680,0xffff,0xffee,0x0000,0x0200,0x0024,0x368a     | +00546
         .dc.w   0xffff                                                      | +00556
-        .dc.l   Data_120010                   | +00558  -> $120010
+        .dc.l   Zero_120010                   | +00558  -> $120010
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +0055c
-        .dc.l   Data_120000                   | +00564  -> $120000
+        .dc.l   Zero_120000                   | +00564  -> $120000
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0xffff,0xffff,0x0000            | +00568
         .dc.l   Data_00ffec                   | +00576  -> $00FFEC
-        .dc.l   Data_140030                   | +0057a  -> $140030
+        .dc.l   SprFrame_140030                   | +0057a  -> $140030
         .dc.w   0x0040,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +0057e
         .dc.w   0x0024,0x3676,0xffff,0xffec,0x0040,0x0200,0x0024,0x3680     | +0058e
         .dc.w   0xffff,0xffec,0x0030,0x0200,0x0024,0x368a,0xffff,0x0014     | +0059e
         .dc.w   0x0040,0x0200,0x0024,0x3694,0xffff                          | +005ae
-        .dc.l   Data_140030                   | +005b8  -> $140030
+        .dc.l   SprFrame_140030                   | +005b8  -> $140030
         .dc.w   0x1d01,0xffff,0xffff,0x000f                                 | +005bc
-        .dc.l   Str_100204                    | +005c4  -> $100204
+        .dc.l   ColMap_100204                    | +005c4  -> $100204
         .dc.w   0xff00                                                      | +005c8
         .dc.l   Data_00fffc                   | +005ca  -> $00FFFC
         .dc.w   0x0004,0xfffc,0x0004,0x0200,0x0024,0x363a,0xffff,0x0000     | +005ce
@@ -210,11 +210,11 @@ Data_18db78:
         .dc.w   0xffff,0x0004,0x0004,0x0200,0x0024,0x3662,0xffff,0x0004     | +005fe
         .dc.w   0xfffc,0x1d00,0xffff,0xffff,0xfff0,0x0010,0xffa0,0x0060     | +0060e
         .dc.w   0xffe8                                                      | +0061e
-        .dc.l   Data_180000                   | +00620  -> $180000
+        .dc.l   AnimScr_180000                   | +00620  -> $180000
         .dc.l   Data_18ffd0                   | +00624  -> $18FFD0
         .dc.w   0x0030,0xffb0,0x0030,0xfe00                                 | +00628
         .dc.l   Data_00fff0                   | +00630  -> $00FFF0
-        .dc.l   Data_180000                   | +00634  -> $180000
+        .dc.l   AnimScr_180000                   | +00634  -> $180000
         .dc.w   0x0080,0xfff0,0x0018,0xfe00,0x0200,0xfff0                   | +00638
         .dc.l   Data_18ffff                   | +00644  -> $18FFFF
         .dc.w   0xffff                                                      | +00648
@@ -233,23 +233,23 @@ Data_18db78:
         .dc.w   0x0028,0xeef6,0x0028,0xf090,0x0028,0xf0ec,0x0028,0xf148     | +006f2
         .dc.w   0x0028,0xf1a4,0x0028,0xf200,0x0028,0xf25c,0x0028,0xf2b8     | +00702
         .dc.w   0x0028,0xf314,0x0028,0xf370,0x001c,0x001e                   | +00712
-        .dc.l   Data_18002a                   | +0071e  -> $18002A
+        .dc.l   AnimScr_18002a                   | +0071e  -> $18002A
         .dc.w   0x000e,0x0032,0x0004,0x0038,0x0000,0x0038,0xfffc,0x0038     | +00722
         .dc.w   0xfff2,0x0032,0xffe8,0x002a,0xffe4,0x001e,0xffe4,0x0018     | +00732
         .dc.w   0xffe6,0x000e,0xffee                                        | +00742
-        .dc.l   Data_0a0000                   | +00748  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +00748  -> $0A0000
         .dc.w   0x0008                                                      | +0074c
-        .dc.l   Data_12000a                   | +0074e  -> $12000A
-        .dc.l   Data_1a000e                   | +00752  -> $1A000E
+        .dc.l   Zero_12000a                   | +0074e  -> $12000A
+        .dc.l   AnimScr_1a000e                   | +00752  -> $1A000E
         .dc.w   0x001c                                                      | +00756
-        .dc.l   Data_18001c                   | +00758  -> $18001C
+        .dc.l   AnimScr_18001c                   | +00758  -> $18001C
         .dc.w   0x001e                                                      | +0075c
-        .dc.l   Data_18002a                   | +0075e  -> $18002A
+        .dc.l   AnimScr_18002a                   | +0075e  -> $18002A
         .dc.w   0x000e,0x0032,0x0004,0x0038,0x0000,0x0038,0xfffc,0x0038     | +00762
         .dc.w   0xfff2,0x0032,0xffe8,0x002a,0xffe4,0x001e,0xffe4,0x0018     | +00772
         .dc.w   0xffe6,0x000e,0xffee,0x000a,0xfff4,0x0008                   | +00782
-        .dc.l   Data_12000a                   | +0078e  -> $12000A
-        .dc.l   Data_1a000e                   | +00792  -> $1A000E
+        .dc.l   Zero_12000a                   | +0078e  -> $12000A
+        .dc.l   AnimScr_1a000e                   | +00792  -> $1A000E
         .dc.w   0x001c,0x0018,0x0003,0x0208,0x0023,0xf972,0xffff,0x0003     | +00796
         .dc.w   0x0208,0x0023,0xf98e,0xffff,0x0003,0x0208,0x0023,0xf9aa     | +007a6
         .dc.w   0xffff,0x0003,0x0208,0x0023,0xf9c6,0xffff,0x0003,0x0208     | +007b6
@@ -328,21 +328,21 @@ Data_18db78:
         .dc.w   0x0023,0xfb66,0xffff,0x0003,0x0208,0x0023,0xfb46,0xffff     | +00b32
         .dc.w   0x1600,0x000f,0x0208,0x0023,0xfbd6,0xffff,0x1600,0x0800     | +00b42
         .dc.l   PowHang_SpawnFxAndItemA_049472| +00b52  -> $049472
-        .dc.l   Data_020208                   | +00b56  -> $020208
+        .dc.l   Pal_020208                   | +00b56  -> $020208
         .dc.w   0x0023,0xfbd6,0xffff                                        | +00b5a
-        .dc.l   Data_020208                   | +00b60  -> $020208
+        .dc.l   Pal_020208                   | +00b60  -> $020208
         .dc.w   0x0023,0xff7c,0xffff                                        | +00b64
-        .dc.l   Data_020208                   | +00b6a  -> $020208
+        .dc.l   Pal_020208                   | +00b6a  -> $020208
         .dc.w   0x0023,0xfbd6,0xffff,0x1600,0x0003,0x0208,0x0023,0xfb86     | +00b6e
         .dc.w   0xffff,0x0003,0x0208,0x0023,0xfb9e,0xffff,0x0003,0x0208     | +00b7e
         .dc.w   0x0023                                                      | +00b8e
 
 | ----------------------------------------------------------------------------
-|  Data_18e708  @ $18E708  (313 B)  [ref. desde código]
+|  AnimScr_18e708  @ $18E708  (313 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18e708, "ax", @progbits
-        .global Data_18e708
-Data_18e708:
+        .section .text.AnimScr_18e708, "ax", @progbits
+        .global AnimScr_18e708
+AnimScr_18e708:
         .dc.w   0xfa6e,0xffff,0x0003,0x0208,0x0023,0xfa56,0xffff,0x0003     | +00000
         .dc.w   0x0208,0x0023,0xfa3e,0xffff,0x0003,0x0208,0x0023,0xfa1e     | +00010
         .dc.w   0xffff,0x0003,0x0208,0x0023,0xf9fe,0xffff,0x0006,0x0208     | +00020
@@ -359,15 +359,15 @@ Data_18e708:
         .dc.w   0x0024,0x01ea,0xffff                                        | +00064
         .dc.l   Data_010208                   | +0006a  -> $010208
         .dc.w   0x0024,0x0206,0xffff                                        | +0006e
-        .dc.l   Data_0a0208                   | +00074  -> $0A0208
+        .dc.l   BgMap_0a0208                   | +00074  -> $0A0208
         .dc.w   0x0024,0x0222,0xffff                                        | +00078
         .dc.l   Data_010208                   | +0007e  -> $010208
         .dc.w   0x0024,0x0206,0xffff                                        | +00082
         .dc.l   Data_010208                   | +00088  -> $010208
         .dc.w   0x0024,0x01ea,0xffff,0x1600                                 | +0008c
-        .dc.l   Data_020208                   | +00094  -> $020208
+        .dc.l   Pal_020208                   | +00094  -> $020208
         .dc.w   0x0023,0xf9e2,0xffff                                        | +00098
-        .dc.l   Data_020208                   | +0009e  -> $020208
+        .dc.l   Pal_020208                   | +0009e  -> $020208
         .dc.w   0x0023,0xf9fe,0xffff,0x0003,0x0208,0x0023,0xf9e2,0xffff     | +000a2
         .dc.w   0x1600                                                      | +000b2
         .dc.l   Data_010208                   | +000b4  -> $010208
@@ -384,7 +384,7 @@ Data_18e708:
         .dc.w   0x0023,0xfeca,0xffff                                        | +000ea
         .dc.l   Data_010208                   | +000f0  -> $010208
         .dc.w   0x0023,0xfee8,0xffff                                        | +000f4
-        .dc.l   Data_020208                   | +000fa  -> $020208
+        .dc.l   Pal_020208                   | +000fa  -> $020208
         .dc.w   0x0024,0x0194,0xffff,0x1301,0x003a                          | +000fe
         .dc.l   Data_010208                   | +00108  -> $010208
         .dc.w   0x0023,0xfee8,0xffff                                        | +0010c
@@ -399,11 +399,11 @@ Data_18e708:
         .dc.b   0xff                            | +00138
 
 | ----------------------------------------------------------------------------
-|  Data_18e841  @ $18E841  (2,775 B)  [ref. desde código]
+|  AnimScr_18e841  @ $18E841  (2,775 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18e841, "ax", @progbits
-        .global Data_18e841
-Data_18e841:
+        .section .text.AnimScr_18e841, "ax", @progbits
+        .global AnimScr_18e841
+AnimScr_18e841:
         .dc.b   0xff                            | +00000
         .dc.l   Data_010208                   | +00001  -> $010208
         .dc.w   0x0023,0xfe58,0xffff                                        | +00005
@@ -558,9 +558,9 @@ Data_18e841:
         .dc.w   0x0023,0xf972,0xffff                                        | +006cf
         .dc.l   Data_010208                   | +006d5  -> $010208
         .dc.w   0x0023,0xf98e,0xffff                                        | +006d9
-        .dc.l   Data_020208                   | +006df  -> $020208
+        .dc.l   Pal_020208                   | +006df  -> $020208
         .dc.w   0x0023,0xf9e2,0xffff                                        | +006e3
-        .dc.l   Data_020208                   | +006e9  -> $020208
+        .dc.l   Pal_020208                   | +006e9  -> $020208
         .dc.w   0x0023,0xf9fe,0xffff,0x0003,0x0208,0x0023,0xf9e2,0xffff     | +006ed
         .dc.w   0x0003,0x0208,0x0023,0xf98e,0xffff,0x0003,0x0208,0x0023     | +006fd
         .dc.w   0xf972,0xffff,0x1600,0x0001,0x1b78,0x0200,0x0024,0xf4aa     | +0070d
@@ -584,63 +584,63 @@ Data_18e841:
         .dc.w   0x0000,0x0000,0x0100,0x0028,0xf08a,0x0201,0x0024,0xf4aa     | +0082d
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x0028,0xf08a,0x0100,0x0028     | +0083d
         .dc.w   0xef54                                                      | +0084d
-        .dc.l   Data_020209                   | +0084f  -> $020209
+        .dc.l   Pal_020209                   | +0084f  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff                                        | +00853
-        .dc.l   Data_020209                   | +00859  -> $020209
+        .dc.l   Pal_020209                   | +00859  -> $020209
         .dc.w   0x0024,0xf4fa,0xffff,0x0003,0x0209,0x0024,0xf522,0xffff     | +0085d
         .dc.w   0x0003,0x0209,0x0024,0xf4fa,0xffff,0x0003,0x0209,0x0024     | +0086d
         .dc.w   0xf4d2,0xffff,0x0003,0x0208,0x0024,0xf4aa,0xffff,0x0004     | +0087d
         .dc.w   0x0208,0x0024,0xf4d2,0xffff,0x0004,0x0208,0x0024,0xf4fa     | +0088d
         .dc.w   0xffff,0x0004,0x0208,0x0024,0xf4d2,0xffff,0x1600            | +0089d
-        .dc.l   Data_020208                   | +008ab  -> $020208
+        .dc.l   Pal_020208                   | +008ab  -> $020208
         .dc.w   0x0024,0xf4aa,0xffff                                        | +008af
-        .dc.l   Data_020209                   | +008b5  -> $020209
+        .dc.l   Pal_020209                   | +008b5  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff,0x0003,0x0209,0x0024,0xf4fa,0xffff     | +008b9
         .dc.w   0x0003,0x0209,0x0024,0xf4d2,0xffff,0x0003,0x0208,0x0024     | +008c9
         .dc.w   0xf4aa,0xffff,0x0003,0x0208,0x0024,0xf4d2,0xffff,0x0004     | +008d9
         .dc.w   0x0208,0x0024,0xf4fa,0xffff,0x0004,0x0208,0x0024,0xf522     | +008e9
         .dc.w   0xffff,0x0004,0x0208,0x0024,0xf4fa,0xffff,0x1600            | +008f9
-        .dc.l   Data_020208                   | +00907  -> $020208
+        .dc.l   Pal_020208                   | +00907  -> $020208
         .dc.w   0x0024,0xf4d2,0xffff                                        | +0090b
-        .dc.l   Data_020208                   | +00911  -> $020208
+        .dc.l   Pal_020208                   | +00911  -> $020208
         .dc.w   0x0024,0xf4aa,0xffff,0x0003,0x0209,0x0024,0xf4d2,0xffff     | +00915
         .dc.w   0x0003,0x0208,0x0024,0xf4aa,0xffff,0x0003,0x0208,0x0024     | +00925
         .dc.w   0xf4d2,0xffff,0x0003,0x0208,0x0024,0xf4fa,0xffff,0x0004     | +00935
         .dc.w   0x0208,0x0024,0xf522,0xffff,0x0004,0x0208,0x0024,0xf54a     | +00945
         .dc.w   0xffff,0x0004,0x0208,0x0024,0xf522,0xffff,0x1600            | +00955
-        .dc.l   Data_020208                   | +00963  -> $020208
+        .dc.l   Pal_020208                   | +00963  -> $020208
         .dc.w   0x0024,0xf4fa,0xffff                                        | +00967
-        .dc.l   Data_020208                   | +0096d  -> $020208
+        .dc.l   Pal_020208                   | +0096d  -> $020208
         .dc.w   0x0024,0xf4d2,0xffff,0x0003,0x0208,0x0024,0xf4aa,0xffff     | +00971
         .dc.w   0x0003,0x0208,0x0024,0xf4d2,0xffff,0x0003,0x0208,0x0024     | +00981
         .dc.w   0xf4fa,0xffff,0x0003,0x0208,0x0024,0xf522,0xffff,0x0004     | +00991
         .dc.w   0x0208,0x0024,0xf54a,0xffff,0x0004,0x0209,0x0024,0xf522     | +009a1
         .dc.w   0xffff,0x0004,0x0208,0x0024,0xf54a,0xffff,0x1600            | +009b1
-        .dc.l   Data_020208                   | +009bf  -> $020208
+        .dc.l   Pal_020208                   | +009bf  -> $020208
         .dc.w   0x0024,0xf522,0xffff                                        | +009c3
-        .dc.l   Data_020208                   | +009c9  -> $020208
+        .dc.l   Pal_020208                   | +009c9  -> $020208
         .dc.w   0x0024,0xf4fa,0xffff,0x0003,0x0208,0x0024,0xf4d2,0xffff     | +009cd
         .dc.w   0x0003,0x0208,0x0024,0xf4fa,0xffff,0x0003,0x0208,0x0024     | +009dd
         .dc.w   0xf522,0xffff,0x0003,0x0208,0x0024,0xf54a,0xffff,0x0004     | +009ed
         .dc.w   0x0209,0x0024,0xf522,0xffff,0x0004,0x0209,0x0024,0xf4fa     | +009fd
         .dc.w   0xffff,0x0004,0x0209,0x0024,0xf522,0xffff,0x1600            | +00a0d
-        .dc.l   Data_020209                   | +00a1b  -> $020209
+        .dc.l   Pal_020209                   | +00a1b  -> $020209
         .dc.w   0x0024,0xf4fa,0xffff                                        | +00a1f
-        .dc.l   Data_020209                   | +00a25  -> $020209
+        .dc.l   Pal_020209                   | +00a25  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff,0x0003,0x0209,0x0024,0xf4aa,0xffff     | +00a29
         .dc.w   0x0003,0x0209,0x0024,0xf4d2,0xffff,0x0003,0x0209,0x0024     | +00a39
         .dc.w   0xf4fa,0xffff,0x0003,0x0209,0x0024,0xf522,0xffff,0x0004     | +00a49
         .dc.w   0x0209,0x0024,0xf54a,0xffff,0x0004,0x0208,0x0024,0xf522     | +00a59
         .dc.w   0xffff,0x0004,0x0209,0x0024,0xf54a,0xffff,0x1600            | +00a69
-        .dc.l   Data_020209                   | +00a77  -> $020209
+        .dc.l   Pal_020209                   | +00a77  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff                                        | +00a7b
-        .dc.l   Data_020209                   | +00a81  -> $020209
+        .dc.l   Pal_020209                   | +00a81  -> $020209
         .dc.w   0x0024,0xf4aa,0xffff,0x0003,0x0208,0x0024,0xf4d2,0xffff     | +00a85
         .dc.w   0x0003,0x0209,0x0024,0xf4aa,0xffff,0x0003,0x0209,0x0024     | +00a95
         .dc.w   0xf4d2,0xffff,0x0003,0x0209,0x0024,0xf4fa,0xffff,0x0004     | +00aa5
         .dc.w   0x0209,0x0024,0xf522,0xffff,0x0004,0x0209,0x0024,0xf54a     | +00ab5
         .dc.w   0xffff,0x0004,0x0209,0x0024,0xf522,0xffff,0x1600            | +00ac5
-        .dc.l   Data_020209                   | +00ad3  -> $020209
+        .dc.l   Pal_020209                   | +00ad3  -> $020209
 
 | ----------------------------------------------------------------------------
 |  Data_18f318  @ $18F318  (3,224 B)  [ref. desde código]
@@ -649,15 +649,15 @@ Data_18e841:
         .global Data_18f318
 Data_18f318:
         .dc.w   0x0024,0xf4aa,0xffff                                        | +00000
-        .dc.l   Data_020208                   | +00006  -> $020208
+        .dc.l   Pal_020208                   | +00006  -> $020208
         .dc.w   0x0024,0xf4d2,0xffff,0x0003,0x0208,0x0024,0xf4fa,0xffff     | +0000a
         .dc.w   0x0003,0x0208,0x0024,0xf4d2,0xffff,0x0003,0x0209,0x0024     | +0001a
         .dc.w   0xf4aa,0xffff,0x0003,0x0209,0x0024,0xf4d2,0xffff,0x0004     | +0002a
         .dc.w   0x0209,0x0024,0xf4fa,0xffff,0x0004,0x0209,0x0024,0xf522     | +0003a
         .dc.w   0xffff,0x0004,0x0209,0x0024,0xf4fa,0xffff,0x1600            | +0004a
-        .dc.l   Data_020208                   | +00058  -> $020208
+        .dc.l   Pal_020208                   | +00058  -> $020208
         .dc.w   0x0024,0xf4d2,0xffff                                        | +0005c
-        .dc.l   Data_020208                   | +00062  -> $020208
+        .dc.l   Pal_020208                   | +00062  -> $020208
         .dc.w   0x0024,0xf4fa,0xffff,0x0003,0x0208,0x0024,0xf522,0xffff     | +00066
         .dc.w   0x0003,0x0208,0x0024,0xf4fa,0xffff,0x0003,0x0208,0x0024     | +00076
         .dc.w   0xf4d2,0xffff,0x0003,0x0209,0x0024,0xf4aa,0xffff,0x0004     | +00086
@@ -665,19 +665,19 @@ Data_18f318:
         .dc.w   0xffff,0x0004,0x0209,0x0024,0xf4d2,0xffff,0x1600,0x0003     | +000a6
         .dc.w   0x0208,0x0024,0xf4aa,0xffff,0x0003,0x0208,0x0024,0xf572     | +000b6
         .dc.w   0xffff                                                      | +000c6
-        .dc.l   Data_020208                   | +000c8  -> $020208
+        .dc.l   Pal_020208                   | +000c8  -> $020208
         .dc.w   0x0024,0xf5ba,0xffff                                        | +000cc
-        .dc.l   Data_020208                   | +000d2  -> $020208
+        .dc.l   Pal_020208                   | +000d2  -> $020208
         .dc.w   0x0024,0xf5de,0xffff                                        | +000d6
-        .dc.l   Data_020208                   | +000dc  -> $020208
+        .dc.l   Pal_020208                   | +000dc  -> $020208
         .dc.w   0x0024,0xf602,0xffff                                        | +000e0
-        .dc.l   Data_020208                   | +000e6  -> $020208
+        .dc.l   Pal_020208                   | +000e6  -> $020208
         .dc.w   0x0024,0xf626,0xffff                                        | +000ea
-        .dc.l   Data_020208                   | +000f0  -> $020208
+        .dc.l   Pal_020208                   | +000f0  -> $020208
         .dc.w   0x0024,0xf64a,0xffff                                        | +000f4
-        .dc.l   Data_020208                   | +000fa  -> $020208
+        .dc.l   Pal_020208                   | +000fa  -> $020208
         .dc.w   0x0024,0xf668,0xffff                                        | +000fe
-        .dc.l   Data_020208                   | +00104  -> $020208
+        .dc.l   Pal_020208                   | +00104  -> $020208
         .dc.w   0x0024,0xf682,0xffff                                        | +00108
         .dc.l   Data_010208                   | +0010e  -> $010208
         .dc.w   0x0024,0xf6a8,0xffff                                        | +00112
@@ -728,20 +728,20 @@ Data_18f318:
         .dc.l   Data_010208                   | +00270  -> $010208
         .dc.w   0x0024                                                      | +00274
         .dc.l   Data_00ffff                   | +00276  -> $00FFFF
-        .dc.l   Data_020208                   | +0027a  -> $020208
+        .dc.l   Pal_020208                   | +0027a  -> $020208
         .dc.w   0x0024                                                      | +0027e
-        .dc.l   Data_10ffff                   | +00280  -> $10FFFF
-        .dc.l   Data_020208                   | +00284  -> $020208
+        .dc.l   ColMap_10ffff                   | +00280  -> $10FFFF
+        .dc.l   Pal_020208                   | +00284  -> $020208
         .dc.w   0x0024,0x0020,0xffff                                        | +00288
-        .dc.l   Data_020208                   | +0028e  -> $020208
+        .dc.l   Pal_020208                   | +0028e  -> $020208
         .dc.w   0x0024,0x0030,0xffff                                        | +00292
-        .dc.l   Data_020208                   | +00298  -> $020208
+        .dc.l   Pal_020208                   | +00298  -> $020208
         .dc.w   0x0024,0x0048,0xffff                                        | +0029c
-        .dc.l   Data_020208                   | +002a2  -> $020208
+        .dc.l   Pal_020208                   | +002a2  -> $020208
         .dc.w   0x0024,0x0060,0xffff                                        | +002a6
-        .dc.l   Data_020208                   | +002ac  -> $020208
+        .dc.l   Pal_020208                   | +002ac  -> $020208
         .dc.w   0x0024,0x0078,0xffff                                        | +002b0
-        .dc.l   Data_020208                   | +002b6  -> $020208
+        .dc.l   Pal_020208                   | +002b6  -> $020208
         .dc.w   0x0024,0x0090,0xffff,0x0003,0x0208,0x0024,0x00a4,0xffff     | +002ba
         .dc.w   0x0003,0x0208,0x0024,0x00b4,0xffff,0x0003,0x0208,0x0024     | +002ca
         .dc.w   0x00c4,0xffff,0x1600,0x0500,0x0071,0x0600,0xffe3,0x0080     | +002da
@@ -749,7 +749,7 @@ Data_18f318:
         .dc.l   Data_011e08                   | +002f0  -> $011E08
         .dc.w   0x0024,0xf368,0xffff,0x0000,0x0000,0x1600,0x0501,0x0071     | +002f4
         .dc.w   0x0600,0xffe3,0x0080,0x0600                                 | +00304
-        .dc.l   Data_180082                   | +0030c  -> $180082
+        .dc.l   AnimScr_180082                   | +0030c  -> $180082
         .dc.l   Data_011e08                   | +00310  -> $011E08
         .dc.w   0x0024,0xf384,0xffff,0x0000,0x0000,0x1600,0x0502,0x0071     | +00314
         .dc.w   0x0600,0xffe6,0x0080,0x0600,0x000f,0x0082                   | +00324
@@ -768,7 +768,7 @@ Data_18f318:
         .dc.l   Data_010209                   | +003ac  -> $010209
         .dc.w   0x0024,0xf3a0,0xffff,0x1600,0x0507,0x0071,0x0600,0x001d     | +003b0
         .dc.w   0x0080,0x0600                                               | +003c0
-        .dc.l   Data_180082                   | +003c4  -> $180082
+        .dc.l   AnimScr_180082                   | +003c4  -> $180082
         .dc.l   Data_010209                   | +003c8  -> $010209
         .dc.w   0x0024,0xf384,0xffff,0x1600,0x0508,0x0071,0x0600,0x001d     | +003cc
         .dc.w   0x0080,0x0600,0x001f,0x0082                                 | +003dc
@@ -820,11 +820,11 @@ Data_18f318:
         .dc.w   0x0024,0xf54a,0xffff,0x1600,0x0028,0xf85c,0x0028,0xf868     | +005b4
         .dc.w   0x0028,0xf874,0x0028,0xf880,0x0028,0xf88c,0x0028,0xf898     | +005c4
         .dc.w   0x0028,0xf8a4,0x0028,0xf8b0,0x0028,0xf8bc,0x0028,0xf8c8     | +005d4
-        .dc.l   Data_021e08                   | +005e4  -> $021E08
+        .dc.l   Pal_021e08                   | +005e4  -> $021E08
         .dc.w   0x0024,0xf4aa,0xffff,0x0000,0x0000                          | +005e8
-        .dc.l   Data_020209                   | +005f2  -> $020209
+        .dc.l   Pal_020209                   | +005f2  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff                                        | +005f6
-        .dc.l   Data_020209                   | +005fc  -> $020209
+        .dc.l   Pal_020209                   | +005fc  -> $020209
         .dc.w   0x0024,0xf4fa,0xffff,0x0003,0x0209,0x0024,0xf522,0xffff     | +00600
         .dc.w   0x0003,0x0209,0x0024,0xf4fa,0xffff,0x0003,0x0209,0x0024     | +00610
         .dc.w   0xf4d2,0xffff,0x0003,0x1e08,0x0024,0xf4aa,0xffff,0x0000     | +00620
@@ -832,11 +832,11 @@ Data_18f318:
         .dc.w   0x0004,0x1e08,0x0024,0xf4fa,0xffff,0x0000,0x0000,0x0004     | +00640
         .dc.w   0x1e08,0x0024,0xf4d2,0xffff,0x0000,0x0000,0x0004,0x1e08     | +00650
         .dc.w   0x0024,0xf4aa,0xffff,0x0000,0x0000,0x1600                   | +00660
-        .dc.l   Data_021e08                   | +0066c  -> $021E08
+        .dc.l   Pal_021e08                   | +0066c  -> $021E08
         .dc.w   0x0024,0xf4d2,0xffff,0x0000,0x0000                          | +00670
-        .dc.l   Data_021e08                   | +0067a  -> $021E08
+        .dc.l   Pal_021e08                   | +0067a  -> $021E08
         .dc.w   0x0024,0xf4aa,0xffff,0x0000,0x0000                          | +0067e
-        .dc.l   Data_020209                   | +00688  -> $020209
+        .dc.l   Pal_020209                   | +00688  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff,0x0003,0x0209,0x0024,0xf4fa,0xffff     | +0068c
         .dc.w   0x0003,0x0209,0x0024,0xf4d2,0xffff,0x0003,0x1e08,0x0024     | +0069c
         .dc.w   0xf4aa,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024,0xf4d2     | +006ac
@@ -844,11 +844,11 @@ Data_18f318:
         .dc.w   0x0000,0x0000,0x0004,0x1e08,0x0024,0xf522,0xffff,0x0000     | +006cc
         .dc.w   0x0000,0x0004,0x1e08,0x0024,0xf4fa,0xffff,0x0000,0x0000     | +006dc
         .dc.w   0x0004,0x1e08,0x0024,0xf4d2,0xffff,0x0000,0x0000,0x1600     | +006ec
-        .dc.l   Data_021e08                   | +006fc  -> $021E08
+        .dc.l   Pal_021e08                   | +006fc  -> $021E08
         .dc.w   0x0024,0xf4fa,0xffff,0x0000,0x0000                          | +00700
-        .dc.l   Data_021e08                   | +0070a  -> $021E08
+        .dc.l   Pal_021e08                   | +0070a  -> $021E08
         .dc.w   0x0024,0xf4d2,0xffff,0x0000,0x0000                          | +0070e
-        .dc.l   Data_021e08                   | +00718  -> $021E08
+        .dc.l   Pal_021e08                   | +00718  -> $021E08
         .dc.w   0x0024,0xf4aa,0xffff,0x0000,0x0000,0x0003,0x0209,0x0024     | +0071c
         .dc.w   0xf4d2,0xffff,0x0003,0x1e08,0x0024,0xf4aa,0xffff,0x0000     | +0072c
         .dc.w   0x0000,0x0003,0x1e08,0x0024,0xf4d2,0xffff,0x0000,0x0000     | +0073c
@@ -857,11 +857,11 @@ Data_18f318:
         .dc.w   0x0024,0xf54a,0xffff,0x0000,0x0000,0x0004,0x1e08,0x0024     | +0076c
         .dc.w   0xf522,0xffff,0x0000,0x0000,0x0004,0x1e08,0x0024,0xf4fa     | +0077c
         .dc.w   0xffff,0x0000,0x0000,0x1600                                 | +0078c
-        .dc.l   Data_021e08                   | +00794  -> $021E08
+        .dc.l   Pal_021e08                   | +00794  -> $021E08
         .dc.w   0x0024,0xf522,0xffff,0x0000,0x0000                          | +00798
-        .dc.l   Data_021e08                   | +007a2  -> $021E08
+        .dc.l   Pal_021e08                   | +007a2  -> $021E08
         .dc.w   0x0024,0xf4fa,0xffff,0x0000,0x0000                          | +007a6
-        .dc.l   Data_021e08                   | +007b0  -> $021E08
+        .dc.l   Pal_021e08                   | +007b0  -> $021E08
         .dc.w   0x0024,0xf4d2,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024     | +007b4
         .dc.w   0xf4aa,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024,0xf4d2     | +007c4
         .dc.w   0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024,0xf4fa,0xffff     | +007d4
@@ -870,11 +870,11 @@ Data_18f318:
         .dc.w   0x0004,0x0209,0x0024,0xf522,0xffff,0x0004,0x1e08,0x0024     | +00804
         .dc.w   0xf54a,0xffff,0x0000,0x0000,0x0004,0x1e08,0x0024,0xf522     | +00814
         .dc.w   0xffff,0x0000,0x0000,0x1600                                 | +00824
-        .dc.l   Data_021e08                   | +0082c  -> $021E08
+        .dc.l   Pal_021e08                   | +0082c  -> $021E08
         .dc.w   0x0024,0xf54a,0xffff,0x0000,0x0000                          | +00830
-        .dc.l   Data_021e08                   | +0083a  -> $021E08
+        .dc.l   Pal_021e08                   | +0083a  -> $021E08
         .dc.w   0x0024,0xf522,0xffff,0x0000,0x0000                          | +0083e
-        .dc.l   Data_021e08                   | +00848  -> $021E08
+        .dc.l   Pal_021e08                   | +00848  -> $021E08
         .dc.w   0x0024,0xf4fa,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024     | +0084c
         .dc.w   0xf4d2,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024,0xf4fa     | +0085c
         .dc.w   0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024,0xf522,0xffff     | +0086c
@@ -882,33 +882,33 @@ Data_18f318:
         .dc.w   0x0000,0x0004,0x0209,0x0024,0xf522,0xffff,0x0004,0x0209     | +0088c
         .dc.w   0x0024,0xf4fa,0xffff,0x0004,0x0209,0x0024,0xf522,0xffff     | +0089c
         .dc.w   0x0004,0x1e08,0x0024,0xf54a,0xffff,0x0000,0x0000,0x1600     | +008ac
-        .dc.l   Data_020209                   | +008bc  -> $020209
+        .dc.l   Pal_020209                   | +008bc  -> $020209
         .dc.w   0x0024,0xf522,0xffff                                        | +008c0
-        .dc.l   Data_020209                   | +008c6  -> $020209
+        .dc.l   Pal_020209                   | +008c6  -> $020209
         .dc.w   0x0024,0xf4fa,0xffff                                        | +008ca
-        .dc.l   Data_020209                   | +008d0  -> $020209
+        .dc.l   Pal_020209                   | +008d0  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff,0x0003,0x0209,0x0024,0xf4aa,0xffff     | +008d4
         .dc.w   0x0003,0x0209,0x0024,0xf4d2,0xffff,0x0003,0x0209,0x0024     | +008e4
         .dc.w   0xf4fa,0xffff,0x0003,0x0209,0x0024,0xf522,0xffff,0x0004     | +008f4
         .dc.w   0x0209,0x0024,0xf54a,0xffff,0x0004,0x1e08,0x0024,0xf522     | +00904
         .dc.w   0xffff,0x0000,0x0000,0x0004,0x0209,0x0024,0xf54a,0xffff     | +00914
         .dc.w   0x0004,0x0209,0x0024,0xf522,0xffff,0x1600                   | +00924
-        .dc.l   Data_020209                   | +00930  -> $020209
+        .dc.l   Pal_020209                   | +00930  -> $020209
         .dc.w   0x0024,0xf4fa,0xffff                                        | +00934
-        .dc.l   Data_020209                   | +0093a  -> $020209
+        .dc.l   Pal_020209                   | +0093a  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff                                        | +0093e
-        .dc.l   Data_020209                   | +00944  -> $020209
+        .dc.l   Pal_020209                   | +00944  -> $020209
         .dc.w   0x0024,0xf4aa,0xffff,0x0003,0x1e08,0x0024,0xf4d2,0xffff     | +00948
         .dc.w   0x0000,0x0000,0x0003,0x0209,0x0024,0xf4aa,0xffff,0x0003     | +00958
         .dc.w   0x0209,0x0024,0xf4d2,0xffff,0x0003,0x0209,0x0024,0xf4fa     | +00968
         .dc.w   0xffff,0x0004,0x0209,0x0024,0xf522,0xffff,0x0004,0x0209     | +00978
         .dc.w   0x0024,0xf54a,0xffff,0x0004,0x0209,0x0024,0xf522,0xffff     | +00988
         .dc.w   0x0004,0x0209,0x0024,0xf4fa,0xffff,0x1600                   | +00998
-        .dc.l   Data_020209                   | +009a4  -> $020209
+        .dc.l   Pal_020209                   | +009a4  -> $020209
         .dc.w   0x0024,0xf4d2,0xffff                                        | +009a8
-        .dc.l   Data_020209                   | +009ae  -> $020209
+        .dc.l   Pal_020209                   | +009ae  -> $020209
         .dc.w   0x0024,0xf4aa,0xffff                                        | +009b2
-        .dc.l   Data_021e08                   | +009b8  -> $021E08
+        .dc.l   Pal_021e08                   | +009b8  -> $021E08
         .dc.w   0x0024,0xf4d2,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024     | +009bc
         .dc.w   0xf4fa,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024,0xf4d2     | +009cc
         .dc.w   0xffff,0x0000,0x0000,0x0003,0x0209,0x0024,0xf4aa,0xffff     | +009dc
@@ -916,11 +916,11 @@ Data_18f318:
         .dc.w   0xf4fa,0xffff,0x0004,0x0209,0x0024,0xf522,0xffff,0x0004     | +009fc
         .dc.w   0x0209,0x0024,0xf4fa,0xffff,0x0004,0x0209,0x0024,0xf4d2     | +00a0c
         .dc.w   0xffff,0x1600                                               | +00a1c
-        .dc.l   Data_020209                   | +00a20  -> $020209
+        .dc.l   Pal_020209                   | +00a20  -> $020209
         .dc.w   0x0024,0xf4aa,0xffff                                        | +00a24
-        .dc.l   Data_021e08                   | +00a2a  -> $021E08
+        .dc.l   Pal_021e08                   | +00a2a  -> $021E08
         .dc.w   0x0024,0xf4d2,0xffff,0x0000,0x0000                          | +00a2e
-        .dc.l   Data_021e08                   | +00a38  -> $021E08
+        .dc.l   Pal_021e08                   | +00a38  -> $021E08
         .dc.w   0x0024,0xf4fa,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024     | +00a3c
         .dc.w   0xf522,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024,0xf4fa     | +00a4c
         .dc.w   0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024,0xf4d2,0xffff     | +00a5c
@@ -930,33 +930,33 @@ Data_18f318:
         .dc.w   0x0024,0xf4aa,0xffff,0x1600,0x0028,0xf8fc,0x0028,0xf984     | +00a9c
         .dc.w   0x0028,0xfa14,0x0028,0xfaac,0x0028,0xfb44,0x0028,0xfbd4     | +00aac
         .dc.w   0x0028,0xfc48,0x0028,0xfcbc,0x0028,0xfd38                   | +00abc
-        .dc.l   Data_021e08                   | +00ac8  -> $021E08
+        .dc.l   Pal_021e08                   | +00ac8  -> $021E08
         .dc.w   0x0024,0xf596,0xffff,0x0000,0x0000                          | +00acc
-        .dc.l   Data_021e08                   | +00ad6  -> $021E08
+        .dc.l   Pal_021e08                   | +00ad6  -> $021E08
         .dc.w   0x0024,0xf5ba,0xffff,0x0000,0x0000,0x0501,0x007e            | +00ada
-        .dc.l   Data_021e08                   | +00ae8  -> $021E08
+        .dc.l   Pal_021e08                   | +00ae8  -> $021E08
         .dc.w   0x0024,0xf5de,0xffff,0x0000,0x0000                          | +00aec
-        .dc.l   Data_021e08                   | +00af6  -> $021E08
+        .dc.l   Pal_021e08                   | +00af6  -> $021E08
         .dc.w   0x0024,0xf602,0xffff,0x0000,0x0000                          | +00afa
-        .dc.l   Data_021e08                   | +00b04  -> $021E08
+        .dc.l   Pal_021e08                   | +00b04  -> $021E08
         .dc.w   0x0024,0xf626,0xffff,0x0000,0x0000,0x1600,0x0003,0x1e08     | +00b08
         .dc.w   0x0024,0xf4aa,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0024     | +00b18
         .dc.w   0xf572,0xffff,0x0000,0x0000                                 | +00b28
-        .dc.l   Data_021e08                   | +00b30  -> $021E08
+        .dc.l   Pal_021e08                   | +00b30  -> $021E08
         .dc.w   0x0024,0xf596,0xffff,0x0000,0x0000                          | +00b34
-        .dc.l   Data_021e08                   | +00b3e  -> $021E08
+        .dc.l   Pal_021e08                   | +00b3e  -> $021E08
         .dc.w   0x0024,0xf5ba,0xffff,0x0000,0x0000                          | +00b42
-        .dc.l   Data_021e08                   | +00b4c  -> $021E08
+        .dc.l   Pal_021e08                   | +00b4c  -> $021E08
         .dc.w   0x0024,0xf5de,0xffff,0x0000,0x0000                          | +00b50
-        .dc.l   Data_021e08                   | +00b5a  -> $021E08
+        .dc.l   Pal_021e08                   | +00b5a  -> $021E08
         .dc.w   0x0024,0xf602,0xffff,0x0000,0x0000                          | +00b5e
-        .dc.l   Data_021e08                   | +00b68  -> $021E08
+        .dc.l   Pal_021e08                   | +00b68  -> $021E08
         .dc.w   0x0024,0xf626,0xffff,0x0000,0x0000                          | +00b6c
-        .dc.l   Data_021e08                   | +00b76  -> $021E08
+        .dc.l   Pal_021e08                   | +00b76  -> $021E08
         .dc.w   0x0024,0xf64a,0xffff,0x0000,0x0000                          | +00b7a
-        .dc.l   Data_021e08                   | +00b84  -> $021E08
+        .dc.l   Pal_021e08                   | +00b84  -> $021E08
         .dc.w   0x0024,0xf668,0xffff,0x0000,0x0000                          | +00b88
-        .dc.l   Data_021e08                   | +00b92  -> $021E08
+        .dc.l   Pal_021e08                   | +00b92  -> $021E08
         .dc.w   0x0024,0xf682,0xffff,0x0000,0x0000                          | +00b96
         .dc.l   Data_011e08                   | +00ba0  -> $011E08
         .dc.w   0x0024,0xf6a8,0xffff,0x0000,0x0000                          | +00ba4
@@ -982,20 +982,20 @@ Data_18f318:
         .dc.w   0xffff,0x0008,0x0020,0x0200,0x0024,0x3694,0xffff,0x0008     | +00c4e
         .dc.w   0x0000,0x1d01,0xffff,0xffff,0x0002,0xffff,0xffff,0x0000     | +00c5e
         .dc.l   Data_00ffec                   | +00c6e  -> $00FFEC
-        .dc.l   Data_140030                   | +00c72  -> $140030
+        .dc.l   SprFrame_140030                   | +00c72  -> $140030
         .dc.w   0x0040,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +00c76
         .dc.w   0x0024,0x3676,0xffff,0xffec,0x0040,0x0200,0x0024,0x3680     | +00c86
         .dc.w   0xffff                                                      | +00c96
 
 | ----------------------------------------------------------------------------
-|  Data_18ffb0  @ $18FFB0  (32 B)  [ref. desde código]
+|  AnimScr_18ffb0  @ $18FFB0  (32 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18ffb0, "ax", @progbits
-        .global Data_18ffb0
-Data_18ffb0:
+        .section .text.AnimScr_18ffb0, "ax", @progbits
+        .global AnimScr_18ffb0
+AnimScr_18ffb0:
         .dc.w   0xffec,0x0030,0x0200,0x0024,0x368a,0xffff,0x0014,0x0040     | +00000
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00010
-        .dc.l   Data_140030                   | +00018  -> $140030
+        .dc.l   SprFrame_140030                   | +00018  -> $140030
         .dc.w   0x1d01,0xffff                                               | +0001c
 
 | ----------------------------------------------------------------------------
@@ -1068,35 +1068,35 @@ Data_18ffeb:
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_18ffed  @ $18FFED  (1 B)  [ref. desde código]
+|  Zero_18ffed  @ $18FFED  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18ffed, "ax", @progbits
-        .global Data_18ffed
-Data_18ffed:
+        .section .text.Zero_18ffed, "ax", @progbits
+        .global Zero_18ffed
+Zero_18ffed:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_18ffee  @ $18FFEE  (1 B)  [ref. desde código]
+|  Zero_18ffee  @ $18FFEE  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18ffee, "ax", @progbits
-        .global Data_18ffee
-Data_18ffee:
+        .section .text.Zero_18ffee, "ax", @progbits
+        .global Zero_18ffee
+Zero_18ffee:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_18ffef  @ $18FFEF  (1 B)  [ref. desde código]
+|  Zero_18ffef  @ $18FFEF  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18ffef, "ax", @progbits
-        .global Data_18ffef
-Data_18ffef:
+        .section .text.Zero_18ffef, "ax", @progbits
+        .global Zero_18ffef
+Zero_18ffef:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_18fff0  @ $18FFF0  (1 B)  [ref. desde código]
+|  Zero_18fff0  @ $18FFF0  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18fff0, "ax", @progbits
-        .global Data_18fff0
-Data_18fff0:
+        .section .text.Zero_18fff0, "ax", @progbits
+        .global Zero_18fff0
+Zero_18fff0:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1119,19 +1119,19 @@ Data_18fff7:
         .dc.w   0xffff,0x0000                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_18fffc  @ $18FFFC  (1 B)  [ref. desde código]
+|  Zero_18fffc  @ $18FFFC  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18fffc, "ax", @progbits
-        .global Data_18fffc
-Data_18fffc:
+        .section .text.Zero_18fffc, "ax", @progbits
+        .global Zero_18fffc
+Zero_18fffc:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_18fffd  @ $18FFFD  (2 B)  [ref. desde código]
+|  Zero_18fffd  @ $18FFFD  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_18fffd, "ax", @progbits
-        .global Data_18fffd
-Data_18fffd:
+        .section .text.Zero_18fffd, "ax", @progbits
+        .global Zero_18fffd
+Zero_18fffd:
         .dc.b   0x00                            | +00000
         .dc.b   0x00                            | +00001
 
@@ -1192,36 +1192,36 @@ Data_190007:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190008  @ $190008  (1 B)  [ref. desde código]
+|  Zero_190008  @ $190008  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190008, "ax", @progbits
-        .global Data_190008
-Data_190008:
+        .section .text.Zero_190008, "ax", @progbits
+        .global Zero_190008
+Zero_190008:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190009  @ $190009  (2 B)  [ref. desde código]
+|  Zero_190009  @ $190009  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190009, "ax", @progbits
-        .global Data_190009
-Data_190009:
+        .section .text.Zero_190009, "ax", @progbits
+        .global Zero_190009
+Zero_190009:
         .dc.b   0x00                            | +00000
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_19000b  @ $19000B  (1 B)  [ref. desde código]
+|  Zero_19000b  @ $19000B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19000b, "ax", @progbits
-        .global Data_19000b
-Data_19000b:
+        .section .text.Zero_19000b, "ax", @progbits
+        .global Zero_19000b
+Zero_19000b:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19000c  @ $19000C  (1 B)  [ref. desde código]
+|  Zero_19000c  @ $19000C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19000c, "ax", @progbits
-        .global Data_19000c
-Data_19000c:
+        .section .text.Zero_19000c, "ax", @progbits
+        .global Zero_19000c
+Zero_19000c:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1242,11 +1242,11 @@ Data_19000f:
         .dc.b   0x08                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190010  @ $190010  (1 B)  [ref. desde código]
+|  Zero_190010  @ $190010  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190010, "ax", @progbits
-        .global Data_190010
-Data_190010:
+        .section .text.Zero_190010, "ax", @progbits
+        .global Zero_190010
+Zero_190010:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1275,19 +1275,19 @@ Data_190013:
         .dc.w   0xffff,0x0000                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_190018  @ $190018  (1 B)  [ref. desde código]
+|  Zero_190018  @ $190018  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190018, "ax", @progbits
-        .global Data_190018
-Data_190018:
+        .section .text.Zero_190018, "ax", @progbits
+        .global Zero_190018
+Zero_190018:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190019  @ $190019  (1 B)  [ref. desde código]
+|  Zero_190019  @ $190019  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190019, "ax", @progbits
-        .global Data_190019
-Data_190019:
+        .section .text.Zero_190019, "ax", @progbits
+        .global Zero_190019
+Zero_190019:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1340,27 +1340,27 @@ Data_190023:
         .dc.w   0x0000                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_190026  @ $190026  (1 B)  [ref. desde código]
+|  Zero_190026  @ $190026  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190026, "ax", @progbits
-        .global Data_190026
-Data_190026:
+        .section .text.Zero_190026, "ax", @progbits
+        .global Zero_190026
+Zero_190026:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190027  @ $190027  (1 B)  [ref. desde código]
+|  Zero_190027  @ $190027  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190027, "ax", @progbits
-        .global Data_190027
-Data_190027:
+        .section .text.Zero_190027, "ax", @progbits
+        .global Zero_190027
+Zero_190027:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190028  @ $190028  (1 B)  [ref. desde código]
+|  Zero_190028  @ $190028  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190028, "ax", @progbits
-        .global Data_190028
-Data_190028:
+        .section .text.Zero_190028, "ax", @progbits
+        .global Zero_190028
+Zero_190028:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1405,29 +1405,29 @@ Data_190030:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190031  @ $190031  (4 B)  [ref. desde código]
+|  Zero_190031  @ $190031  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190031, "ax", @progbits
-        .global Data_190031
-Data_190031:
+        .section .text.Zero_190031, "ax", @progbits
+        .global Zero_190031
+Zero_190031:
         .dc.b   0xff                            | +00000
         .dc.w   0x0000                                                      | +00001
         .dc.b   0x00                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_190035  @ $190035  (1 B)  [ref. desde código]
+|  Zero_190035  @ $190035  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190035, "ax", @progbits
-        .global Data_190035
-Data_190035:
+        .section .text.Zero_190035, "ax", @progbits
+        .global Zero_190035
+Zero_190035:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190036  @ $190036  (1 B)  [ref. desde código]
+|  Zero_190036  @ $190036  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190036, "ax", @progbits
-        .global Data_190036
-Data_190036:
+        .section .text.Zero_190036, "ax", @progbits
+        .global Zero_190036
+Zero_190036:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1438,7 +1438,7 @@ Data_190036:
 Data_190037:
         .dc.b   0x02                            | +00000
         .dc.w   0x1e08,0x0024,0xf8d2,0xffff,0x0000,0x0000                   | +00001
-        .dc.l   Data_021e08                   | +0000d  -> $021E08
+        .dc.l   Pal_021e08                   | +0000d  -> $021E08
         .dc.b   0x00                            | +00011
 
 | ----------------------------------------------------------------------------
@@ -1457,11 +1457,11 @@ Data_190049:
         .global Data_19004c
 Data_19004c:
         .dc.w   0xffff,0x0000,0x0000                                        | +00000
-        .dc.l   Data_021e08                   | +00006  -> $021E08
+        .dc.l   Pal_021e08                   | +00006  -> $021E08
         .dc.w   0x0024,0xf8fa,0xffff,0x0000,0x0000                          | +0000a
-        .dc.l   Data_021e08                   | +00014  -> $021E08
+        .dc.l   Pal_021e08                   | +00014  -> $021E08
         .dc.w   0x0024,0xf916,0xffff,0x0000,0x0000                          | +00018
-        .dc.l   Data_021e08                   | +00022  -> $021E08
+        .dc.l   Pal_021e08                   | +00022  -> $021E08
 
 | ----------------------------------------------------------------------------
 |  Data_190072  @ $190072  (2 B)  [ref. desde código]
@@ -1478,7 +1478,7 @@ Data_190072:
         .global Data_190074
 Data_190074:
         .dc.w   0xf932,0xffff,0x0000,0x0000                                 | +00000
-        .dc.l   Data_021e08                   | +00008  -> $021E08
+        .dc.l   Pal_021e08                   | +00008  -> $021E08
 
 | ----------------------------------------------------------------------------
 |  Data_190080  @ $190080  (9 B)  [ref. desde código]
@@ -1533,19 +1533,19 @@ Data_1900f9:
         .dc.b   0x01                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_190101  @ $190101  (1 B)  [ref. desde código]
+|  Zero_190101  @ $190101  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190101, "ax", @progbits
-        .global Data_190101
-Data_190101:
+        .section .text.Zero_190101, "ax", @progbits
+        .global Zero_190101
+Zero_190101:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190102  @ $190102  (1 B)  [ref. desde código]
+|  Zero_190102  @ $190102  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190102, "ax", @progbits
-        .global Data_190102
-Data_190102:
+        .section .text.Zero_190102, "ax", @progbits
+        .global Zero_190102
+Zero_190102:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1557,11 +1557,11 @@ Data_190103:
         .dc.b   0x29                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190104  @ $190104  (1 B)  [ref. desde código]
+|  Zero_190104  @ $190104  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190104, "ax", @progbits
-        .global Data_190104
-Data_190104:
+        .section .text.Zero_190104, "ax", @progbits
+        .global Zero_190104
+Zero_190104:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1572,32 +1572,32 @@ Data_190104:
 Data_190105:
         .dc.b   0x90                            | +00000
         .dc.w   0x0004                                                      | +00001
-        .dc.l   Str_100404                    | +00003  -> $100404
+        .dc.l   ColMap_100404                    | +00003  -> $100404
         .dc.w   0xff00                                                      | +00007
         .dc.l   Data_00fff0                   | +00009  -> $00FFF0
         .dc.w   0x0010,0x0008,0x0028                                        | +0000d
         .dc.b   0x02                            | +00013
 
 | ----------------------------------------------------------------------------
-|  Data_190119  @ $190119  (2 B)  [ref. desde código]
+|  AnimScr_190119  @ $190119  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190119, "ax", @progbits
-        .global Data_190119
-Data_190119:
+        .section .text.AnimScr_190119, "ax", @progbits
+        .global AnimScr_190119
+AnimScr_190119:
         .dc.b   0x00                            | +00000
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_19011b  @ $19011B  (46 B)  [ref. desde código]
+|  AnimScr_19011b  @ $19011B  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19011b, "ax", @progbits
-        .global Data_19011b
-Data_19011b:
+        .section .text.AnimScr_19011b, "ax", @progbits
+        .global AnimScr_19011b
+AnimScr_19011b:
         .dc.b   0x24                            | +00000
         .dc.w   0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff     | +00001
         .dc.w   0xfff0,0x0028,0x0200,0x0024,0x364e,0xffff,0xfff0,0x0008     | +00011
         .dc.w   0x0200,0x0024,0x3658,0xffff                                 | +00021
-        .dc.l   Data_100028                   | +00029  -> $100028
+        .dc.l   ColMap_100028                   | +00029  -> $100028
         .dc.b   0x02                            | +0002d
 
 | ----------------------------------------------------------------------------
@@ -1615,7 +1615,7 @@ Data_190149:
         .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xfff0,0x0028,0x0200     | +00029
         .dc.w   0x0024,0x364e,0xffff,0xfff0,0x0008,0x0200,0x0024,0x3658     | +00039
         .dc.w   0xffff                                                      | +00049
-        .dc.l   Data_100028                   | +0004b  -> $100028
+        .dc.l   ColMap_100028                   | +0004b  -> $100028
         .dc.w   0x0200,0x0024,0x3662,0xffff,0x0010,0x0008,0x1d00,0x0404     | +0004f
         .dc.l   Data_010404                   | +0005f  -> $010404
         .dc.w   0xff00                                                      | +00063
@@ -1624,32 +1624,32 @@ Data_190149:
         .dc.w   0x0000,0x0200,0x0024                                        | +00079
 
 | ----------------------------------------------------------------------------
-|  Data_1901c8  @ $1901C8  (57 B)  [ref. desde código]
+|  AnimScr_1901c8  @ $1901C8  (57 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1901c8, "ax", @progbits
-        .global Data_1901c8
-Data_1901c8:
+        .section .text.AnimScr_1901c8, "ax", @progbits
+        .global AnimScr_1901c8
+AnimScr_1901c8:
         .dc.w   0x3644,0xffff,0xfff0,0x0028,0x0200,0x0024,0x364e,0xffff     | +00000
         .dc.w   0xfff0,0x0008,0x0200,0x0024,0x3658,0xffff                   | +00010
-        .dc.l   Data_100028                   | +0001c  -> $100028
+        .dc.l   ColMap_100028                   | +0001c  -> $100028
         .dc.w   0x0200,0x0024,0x3662,0xffff,0x0010,0x0008,0x1d00,0xffff     | +00020
         .dc.w   0xffff,0x0002,0x0029,0x02a2                                 | +00030
         .dc.b   0x00                            | +00038
 
 | ----------------------------------------------------------------------------
-|  Data_190201  @ $190201  (1 B)  [ref. desde código]
+|  Zero_190201  @ $190201  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190201, "ax", @progbits
-        .global Data_190201
-Data_190201:
+        .section .text.Zero_190201, "ax", @progbits
+        .global Zero_190201
+Zero_190201:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190202  @ $190202  (1 B)  [ref. desde código]
+|  Zero_190202  @ $190202  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190202, "ax", @progbits
-        .global Data_190202
-Data_190202:
+        .section .text.Zero_190202, "ax", @progbits
+        .global Zero_190202
+Zero_190202:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -1662,11 +1662,11 @@ Data_190203:
         .dc.b   0xff                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_190205  @ $190205  (75 B)  [ref. desde código]
+|  AnimScr_190205  @ $190205  (75 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190205, "ax", @progbits
-        .global Data_190205
-Data_190205:
+        .section .text.AnimScr_190205, "ax", @progbits
+        .global AnimScr_190205
+AnimScr_190205:
         .dc.b   0xf8                            | +00000
         .dc.w   0x0008,0x0000,0x0020,0x0200,0x0024,0x366c,0xffff,0x0000     | +00001
         .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff8,0x0020,0x0200     | +00011
@@ -1682,50 +1682,50 @@ Data_190205:
 Data_190250:
         .dc.w   0xffff,0xffff,0x0000                                        | +00000
         .dc.l   Data_00fff0                   | +00006  -> $00FFF0
-        .dc.l   Data_100000                   | +0000a  -> $100000
+        .dc.l   ColMap_100000                   | +0000a  -> $100000
         .dc.w   0x0028,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +0000e
         .dc.w   0x0024,0x3676,0xffff,0xfff0,0x0028,0x0200,0x0024,0x3680     | +0001e
         .dc.w   0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a,0xffff            | +0002e
-        .dc.l   Data_100028                   | +0003c  -> $100028
+        .dc.l   ColMap_100028                   | +0003c  -> $100028
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00040
-        .dc.l   Data_100000                   | +00048  -> $100000
+        .dc.l   ColMap_100000                   | +00048  -> $100000
         .dc.w   0x1d01,0xffff,0xffff,0x0000,0x0000                          | +0004c
         .dc.l   Data_010000                   | +00056  -> $010000
         .fill   14,1,0x00                      | +0005a
         .dc.w   0x0100,0x0000,0x0000                                        | +00068
         .dc.l   Data_010001                   | +0006e  -> $010001
         .dc.w   0x0101,0xfff0                                               | +00072
-        .dc.l   Data_100000                   | +00076  -> $100000
+        .dc.l   ColMap_100000                   | +00076  -> $100000
         .dc.w   0x0020,0xffff,0xfff0                                        | +0007a
-        .dc.l   Data_100000                   | +00080  -> $100000
+        .dc.l   ColMap_100000                   | +00080  -> $100000
         .dc.w   0x0030,0xffff,0x0029,0x0dc4,0x0029,0x0dfc,0x0029,0x0e34     | +00084
         .dc.w   0x0029,0x0dfc,0x0101,0x0100,0x0101                          | +00094
         .dc.l   Str_010102                    | +0009e  -> $010102
-        .dc.l   Data_020000                   | +000a2  -> $020000
+        .dc.l   Pal_020000                   | +000a2  -> $020000
         .dc.w   0x0023,0x0000,0x0000,0x0000,0x0023                          | +000a6
 
 | ----------------------------------------------------------------------------
-|  Data_190300  @ $190300  (2 B)  [ref. desde código]
+|  Zero_190300  @ $190300  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190300, "ax", @progbits
-        .global Data_190300
-Data_190300:
+        .section .text.Zero_190300, "ax", @progbits
+        .global Zero_190300
+Zero_190300:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190302  @ $190302  (1 B)  [ref. desde código]
+|  Zero_190302  @ $190302  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190302, "ax", @progbits
-        .global Data_190302
-Data_190302:
+        .section .text.Zero_190302, "ax", @progbits
+        .global Zero_190302
+Zero_190302:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190303  @ $190303  (1,323 B)  [ref. desde código]
+|  AnimScr_190303  @ $190303  (1,323 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190303, "ax", @progbits
-        .global Data_190303
-Data_190303:
+        .section .text.AnimScr_190303, "ax", @progbits
+        .global AnimScr_190303
+AnimScr_190303:
         .dc.b   0x00                            | +00000
         .dc.w   0x0029,0x0314,0x0029,0x0324,0x0029,0x0354,0x0029,0x0364     | +00001
         .dc.w   0x0029,0x0384,0x0029,0x0396,0x0029,0x03a8,0x0029,0x03ba     | +00011
@@ -1801,7 +1801,7 @@ Data_190303:
         .dc.w   0x0024,0x05d0,0xffff                                        | +00245
         .dc.l   Data_010208                   | +0024b  -> $010208
         .dc.w   0x0024,0x0552,0xffff,0x0003,0x0208,0x0024,0x0546,0xffff     | +0024f
-        .dc.l   Data_020208                   | +0025f  -> $020208
+        .dc.l   Pal_020208                   | +0025f  -> $020208
         .dc.w   0x0024,0x053a,0xffff,0x0800                                 | +00263
         .dc.l   GunPlatform_SpawnFlyingPart_04ca7c| +0026b  -> $04CA7C
         .dc.l   Data_010208                   | +0026f  -> $010208
@@ -1813,7 +1813,7 @@ Data_190303:
         .dc.w   0x0024,0x05a6,0xffff                                        | +00295
         .dc.l   Data_010208                   | +0029b  -> $010208
         .dc.w   0x0024,0x05a6,0xffff,0x0003,0x0208,0x0024,0x059a,0xffff     | +0029f
-        .dc.l   Data_020208                   | +002af  -> $020208
+        .dc.l   Pal_020208                   | +002af  -> $020208
         .dc.w   0x0024,0x058e,0xffff,0x1600,0x0900,0xffff,0xffff            | +002b3
         .dc.l   Data_010208                   | +002c1  -> $010208
         .dc.w   0x0024,0x053a,0xffff                                        | +002c5
@@ -1853,19 +1853,19 @@ Data_190303:
         .dc.w   0x0024,0x047a,0xffff                                        | +0037f
         .dc.l   Data_010208                   | +00385  -> $010208
         .dc.w   0x0024,0x0486,0xffff,0x0003,0x0208,0x0024,0x049c,0xffff     | +00389
-        .dc.l   Data_020208                   | +00399  -> $020208
+        .dc.l   Pal_020208                   | +00399  -> $020208
         .dc.w   0x0024,0x04b4,0xffff                                        | +0039d
-        .dc.l   Data_020208                   | +003a3  -> $020208
+        .dc.l   Pal_020208                   | +003a3  -> $020208
         .dc.w   0x0024,0x04cc,0xffff                                        | +003a7
-        .dc.l   Data_020208                   | +003ad  -> $020208
+        .dc.l   Pal_020208                   | +003ad  -> $020208
         .dc.w   0x0024,0x04e4,0xffff                                        | +003b1
-        .dc.l   Data_020208                   | +003b7  -> $020208
+        .dc.l   Pal_020208                   | +003b7  -> $020208
         .dc.w   0x0024,0x04fc,0xffff                                        | +003bb
-        .dc.l   Data_020208                   | +003c1  -> $020208
+        .dc.l   Pal_020208                   | +003c1  -> $020208
         .dc.w   0x0024,0x0514,0xffff                                        | +003c5
-        .dc.l   Data_020208                   | +003cb  -> $020208
+        .dc.l   Pal_020208                   | +003cb  -> $020208
         .dc.w   0x0024,0x0524,0xffff                                        | +003cf
-        .dc.l   Data_020208                   | +003d5  -> $020208
+        .dc.l   Pal_020208                   | +003d5  -> $020208
         .dc.w   0x0024,0x0530,0xffff,0x1600,0x0900,0xffff,0xffff,0x0400     | +003d9
         .dc.w   0x1036                                                      | +003e9
         .dc.l   Data_010208                   | +003eb  -> $010208
@@ -1896,7 +1896,7 @@ Data_190303:
         .dc.w   0x0024,0x0b36,0xffff                                        | +00467
         .dc.l   Data_010208                   | +0046d  -> $010208
         .dc.w   0x0024,0x0b8e,0xffff                                        | +00471
-        .dc.l   Data_020208                   | +00477  -> $020208
+        .dc.l   Pal_020208                   | +00477  -> $020208
         .dc.w   0x0024,0x0be8,0xffff                                        | +0047b
         .dc.l   Data_010208                   | +00481  -> $010208
         .dc.w   0x0024,0x0c3a,0xffff                                        | +00485
@@ -1933,11 +1933,11 @@ Data_190303:
         .dc.w   0x0024,0x0b36                                               | +00527
 
 | ----------------------------------------------------------------------------
-|  Data_19082e  @ $19082E  (722 B)  [ref. desde código]
+|  AnimScr_19082e  @ $19082E  (722 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19082e, "ax", @progbits
-        .global Data_19082e
-Data_19082e:
+        .section .text.AnimScr_19082e, "ax", @progbits
+        .global AnimScr_19082e
+AnimScr_19082e:
         .dc.w   0xffff                                                      | +00000
         .dc.l   Data_010208                   | +00002  -> $010208
         .dc.w   0x0024,0x0b8e,0xffff                                        | +00006
@@ -1945,7 +1945,7 @@ Data_19082e:
         .dc.w   0x0024,0x0be8,0xffff                                        | +00010
         .dc.l   Data_010208                   | +00016  -> $010208
         .dc.w   0x0024,0x0c3a,0xffff                                        | +0001a
-        .dc.l   Data_020208                   | +00020  -> $020208
+        .dc.l   Pal_020208                   | +00020  -> $020208
         .dc.w   0x0024,0x0c7e,0xffff                                        | +00024
         .dc.l   Data_010208                   | +0002a  -> $010208
         .dc.w   0x0024,0x0ca2,0xffff,0x1600,0x0900,0xffff,0xffff            | +0002e
@@ -1980,14 +1980,14 @@ Data_19082e:
         .dc.w   0x0101,0x0003,0x0029,0x091a,0x0000                          | +0010c
         .dc.l   Data_00ffee                   | +00116  -> $00FFEE
         .dc.w   0xfff0                                                      | +0011a
-        .dc.l   Data_100032                   | +0011c  -> $100032
+        .dc.l   ColMap_100032                   | +0011c  -> $100032
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +00120
         .dc.w   0x3676,0xffff,0xffee,0x0032,0x0200,0x0024,0x3680,0xffff     | +00130
         .dc.w   0xffee                                                      | +00140
-        .dc.l   Data_100200                   | +00142  -> $100200
+        .dc.l   ColMap_100200                   | +00142  -> $100200
         .dc.w   0x0024,0x368a,0xffff,0xfff0,0x0032,0x0200,0x0024,0x3694     | +00146
         .dc.w   0xffff,0xfff0                                               | +00156
-        .dc.l   Str_101d01                    | +0015a  -> $101D01
+        .dc.l   ColMap_101d01                    | +0015a  -> $101D01
         .dc.w   0x0003,0x0029,0x091a,0x0000                                 | +0015e
         .dc.l   Data_00ffee                   | +00166  -> $00FFEE
         .dc.w   0x0022,0x0028,0x0032,0x0200,0x0024,0x366c,0xffff,0x0000     | +0016a
@@ -1995,24 +1995,24 @@ Data_19082e:
         .dc.w   0x0024,0x3680,0xffff,0xffee,0x0028,0x0200,0x0024,0x368a     | +0018a
         .dc.w   0xffff,0x0022,0x0032,0x0200,0x0024,0x3694,0xffff,0x0022     | +0019a
         .dc.w   0x0028,0x1d01,0x0003,0x0029,0x091a,0x0000,0x0000            | +001aa
-        .dc.l   Data_180022                   | +001b8  -> $180022
+        .dc.l   AnimScr_180022                   | +001b8  -> $180022
         .dc.w   0x0000,0x0032,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +001bc
         .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +001cc
-        .dc.l   Data_180032                   | +001d4  -> $180032
+        .dc.l   AnimScr_180032                   | +001d4  -> $180032
         .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +001d8
-        .dc.l   Data_180000                   | +001e0  -> $180000
+        .dc.l   AnimScr_180000                   | +001e0  -> $180000
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0022,0x0032,0x0200,0x0024     | +001e4
         .dc.w   0x3694,0xffff,0x0022,0x0000,0x1d01,0xffff,0xffff,0x0003     | +001f4
         .dc.w   0x0029,0x091a,0x0000                                        | +00204
         .dc.l   Data_00ffee                   | +0020a  -> $00FFEE
         .dc.w   0xfff0,0x0000                                               | +0020e
-        .dc.l   Data_180200                   | +00212  -> $180200
+        .dc.l   AnimScr_180200                   | +00212  -> $180200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +00216
         .dc.w   0xffff,0xffee                                               | +00226
-        .dc.l   Data_180200                   | +0022a  -> $180200
+        .dc.l   AnimScr_180200                   | +0022a  -> $180200
         .dc.w   0x0024,0x3680,0xffff,0xffee,0x0000,0x0200,0x0024,0x368a     | +0022e
         .dc.w   0xffff,0xfff0                                               | +0023e
-        .dc.l   Data_180200                   | +00242  -> $180200
+        .dc.l   AnimScr_180200                   | +00242  -> $180200
         .dc.w   0x0024,0x3694,0xffff,0xfff0,0x0000,0x1d01,0x0003,0x0029     | +00246
         .dc.w   0x091a,0x0000                                               | +00256
         .dc.l   Data_00ffee                   | +0025a  -> $00FFEE
@@ -2021,19 +2021,19 @@ Data_19082e:
         .dc.w   0x0024,0x3680,0xffff,0xffee,0x0030,0x0200,0x0024,0x368a     | +0027e
         .dc.w   0xffff,0x0022,0x003a,0x0200,0x0024,0x3694,0xffff,0x0022     | +0028e
         .dc.w   0x0030,0x1d01,0x0003,0x0029,0x091a,0x0000,0x0000            | +0029e
-        .dc.l   Data_180022                   | +002ac  -> $180022
+        .dc.l   AnimScr_180022                   | +002ac  -> $180022
         .dc.w   0x0000,0x003a,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +002b0
         .dc.w   0x0200,0x0024,0x3676,0xffff,0x0018,0x003a,0x0200,0x0024     | +002c0
         .dc.w   0x3680                                                      | +002d0
 
 | ----------------------------------------------------------------------------
-|  Data_190b00  @ $190B00  (260 B)  [ref. desde código]
+|  AnimScr_190b00  @ $190B00  (260 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190b00, "ax", @progbits
-        .global Data_190b00
-Data_190b00:
+        .section .text.AnimScr_190b00, "ax", @progbits
+        .global AnimScr_190b00
+AnimScr_190b00:
         .dc.w   0xffff                                                      | +00000
-        .dc.l   Data_180000                   | +00002  -> $180000
+        .dc.l   AnimScr_180000                   | +00002  -> $180000
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0022,0x003a,0x0200,0x0024     | +00006
         .dc.w   0x3694,0xffff,0x0022,0x0000,0x1d01,0xffff,0xffff,0x0003     | +00016
         .dc.w   0x0029,0x091a,0x0000                                        | +00026
@@ -2044,50 +2044,50 @@ Data_190b00:
         .dc.w   0xffff,0x0022,0x0032,0x0200,0x0024,0x3694,0xffff,0x0022     | +00060
         .dc.w   0x0000,0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000     | +00070
         .dc.l   Data_00fff8                   | +00080  -> $00FFF8
-        .dc.l   Data_180000                   | +00084  -> $180000
+        .dc.l   AnimScr_180000                   | +00084  -> $180000
         .dc.w   0x0028,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +00088
         .dc.w   0x0024,0x3676,0xffff,0xfff8,0x0028,0x0200,0x0024,0x3680     | +00098
         .dc.w   0xffff,0xfff8,0x0000,0x0200,0x0024,0x368a,0xffff            | +000a8
-        .dc.l   Data_180028                   | +000b6  -> $180028
+        .dc.l   AnimScr_180028                   | +000b6  -> $180028
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +000ba
-        .dc.l   Data_180000                   | +000c2  -> $180000
+        .dc.l   AnimScr_180000                   | +000c2  -> $180000
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000            | +000c6
         .dc.l   Data_00fff8                   | +000d4  -> $00FFF8
-        .dc.l   Data_180000                   | +000d8  -> $180000
+        .dc.l   AnimScr_180000                   | +000d8  -> $180000
         .dc.w   0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +000dc
         .dc.w   0x0024,0x3676,0xffff,0xfff8,0x0030,0x0200,0x0024,0x3680     | +000ec
         .dc.w   0xffff,0xfff8,0x0000,0x0200                                 | +000fc
 
 | ----------------------------------------------------------------------------
-|  Data_190c04  @ $190C04  (4 B)  [ref. desde código]
+|  AnimScr_190c04  @ $190C04  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190c04, "ax", @progbits
-        .global Data_190c04
-Data_190c04:
+        .section .text.AnimScr_190c04, "ax", @progbits
+        .global AnimScr_190c04
+AnimScr_190c04:
         .dc.w   0x0024,0x368a                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_190c08  @ $190C08  (253 B)  [ref. desde código]
+|  AnimScr_190c08  @ $190C08  (253 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_190c08, "ax", @progbits
-        .global Data_190c08
-Data_190c08:
+        .section .text.AnimScr_190c08, "ax", @progbits
+        .global AnimScr_190c08
+AnimScr_190c08:
         .dc.w   0xffff                                                      | +00000
-        .dc.l   Data_180030                   | +00002  -> $180030
+        .dc.l   AnimScr_180030                   | +00002  -> $180030
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00006
-        .dc.l   Data_180000                   | +0000e  -> $180000
+        .dc.l   AnimScr_180000                   | +0000e  -> $180000
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0x0029,0xb40c,0x0000            | +00012
         .dc.l   Data_00ffee                   | +00020  -> $00FFEE
-        .dc.l   Data_100000                   | +00024  -> $100000
+        .dc.l   ColMap_100000                   | +00024  -> $100000
         .dc.l   Data_0c0200                   | +00028  -> $0C0200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +0002c
         .dc.w   0xffff,0xffee                                               | +0003c
         .dc.l   Data_0c0200                   | +00040  -> $0C0200
         .dc.w   0x0024,0x3680,0xffff,0xffee,0x0000,0x0200,0x0024,0x368a     | +00044
         .dc.w   0xffff                                                      | +00054
-        .dc.l   Data_10000c                   | +00056  -> $10000C
+        .dc.l   ColMap_10000c                   | +00056  -> $10000C
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +0005a
-        .dc.l   Data_100000                   | +00062  -> $100000
+        .dc.l   ColMap_100000                   | +00062  -> $100000
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0x0029,0xb40c,0x0000            | +00066
         .dc.l   Data_00fff2                   | +00074  -> $00FFF2
         .dc.w   0x0008,0x0000,0x0020,0x0200,0x0024,0x366c,0xffff,0x0000     | +00078
@@ -2095,14 +2095,14 @@ Data_190c08:
         .dc.w   0x0024,0x3680,0xffff,0xfff2,0x0000,0x0200,0x0024,0x368a     | +00098
         .dc.w   0xffff,0x0008,0x0020,0x0200,0x0024,0x3694,0xffff,0x0008     | +000a8
         .dc.w   0x0000,0x1d01,0xffff,0xffff,0x000f                          | +000b8
-        .dc.l   Str_100204                    | +000c2  -> $100204
+        .dc.l   ColMap_100204                    | +000c2  -> $100204
         .dc.w   0xff00                                                      | +000c6
         .dc.l   Data_00ffec                   | +000c8  -> $00FFEC
         .dc.l   GO_Sprite_Mid_08fff6          | +000cc  -> $08FFF6
-        .dc.l   Data_0a0200                   | +000d0  -> $0A0200
+        .dc.l   BgMap_0a0200                   | +000d0  -> $0A0200
         .dc.w   0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644     | +000d4
         .dc.w   0xffff,0xffec                                               | +000e4
-        .dc.l   Data_0a0200                   | +000e8  -> $0A0200
+        .dc.l   BgMap_0a0200                   | +000e8  -> $0A0200
         .dc.w   0x0024,0x364e,0xffff,0xffec,0xfff6,0x0200,0x0024,0x3658     | +000ec
         .dc.b   0xff                            | +000fc
 
@@ -2114,34 +2114,34 @@ Data_190c08:
 Data_190d05:
         .dc.b   0xff                            | +00000
         .dc.w   0x0008                                                      | +00001
-        .dc.l   Data_0a0200                   | +00003  -> $0A0200
+        .dc.l   BgMap_0a0200                   | +00003  -> $0A0200
         .dc.w   0x0024,0x3662,0xffff                                        | +00007
         .dc.l   GO_Sprite_Mid_08fff6          | +0000d  -> $08FFF6
         .dc.w   0x1d00,0xffff,0xffff,0x000f                                 | +00011
-        .dc.l   Str_100204                    | +00019  -> $100204
+        .dc.l   ColMap_100204                    | +00019  -> $100204
         .dc.w   0xff00                                                      | +0001d
         .dc.l   Data_00ffec                   | +0001f  -> $00FFEC
         .dc.w   0x0008,0xfffe                                               | +00023
-        .dc.l   Data_120200                   | +00027  -> $120200
+        .dc.l   Zero_120200                   | +00027  -> $120200
         .dc.w   0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644     | +0002b
         .dc.w   0xffff,0xffec                                               | +0003b
-        .dc.l   Data_120200                   | +0003f  -> $120200
+        .dc.l   Zero_120200                   | +0003f  -> $120200
         .dc.w   0x0024,0x364e,0xffff,0xffec,0xfffe,0x0200,0x0024,0x3658     | +00043
         .dc.w   0xffff,0x0008                                               | +00053
-        .dc.l   Data_120200                   | +00057  -> $120200
+        .dc.l   Zero_120200                   | +00057  -> $120200
         .dc.w   0x0024,0x3662,0xffff,0x0008,0xfffe,0x1d00,0xffff,0xffff     | +0005b
         .dc.w   0x001d                                                      | +0006b
-        .dc.l   Str_100204                    | +0006d  -> $100204
+        .dc.l   ColMap_100204                    | +0006d  -> $100204
         .dc.w   0xff00                                                      | +00071
         .dc.l   Data_00fff2                   | +00073  -> $00FFF2
         .dc.l   Data_0e0000                   | +00077  -> $0E0000
-        .dc.l   Data_180200                   | +0007b  -> $180200
+        .dc.l   AnimScr_180200                   | +0007b  -> $180200
         .dc.w   0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644     | +0007f
         .dc.w   0xffff,0xfff2                                               | +0008f
-        .dc.l   Data_180200                   | +00093  -> $180200
+        .dc.l   AnimScr_180200                   | +00093  -> $180200
         .dc.w   0x0024,0x364e,0xffff,0xfff2,0x0000,0x0200,0x0024,0x3658     | +00097
         .dc.w   0xffff,0x000e                                               | +000a7
-        .dc.l   Data_180200                   | +000ab  -> $180200
+        .dc.l   AnimScr_180200                   | +000ab  -> $180200
         .dc.w   0x0024,0x3662,0xffff                                        | +000af
         .dc.l   Data_0e0000                   | +000b5  -> $0E0000
         .dc.w   0x1d00,0xffff,0xffff,0xfff0,0x0037                          | +000b9
@@ -2239,11 +2239,11 @@ Data_190f06:
         .dc.b   0x02                            | +00112
 
 | ----------------------------------------------------------------------------
-|  Data_191019  @ $191019  (499 B)  [ref. desde código]
+|  AnimScr_191019  @ $191019  (499 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191019, "ax", @progbits
-        .global Data_191019
-Data_191019:
+        .section .text.AnimScr_191019, "ax", @progbits
+        .global AnimScr_191019
+AnimScr_191019:
         .dc.b   0x00                            | +00000
         .dc.w   0x0023,0x8116,0xffff,0x0000,0x0000,0x0100,0x0029,0x11b6     | +00001
         .dc.w   0x0200,0x0023,0x8116,0xffff,0x0000,0x0000,0x0100,0x0029     | +00011
@@ -2316,9 +2316,9 @@ Data_19120c:
         .dc.w   0x0022,0xb534,0xffff,0x0000,0x0000                          | +00094
         .dc.l   Data_011e08                   | +0009e  -> $011E08
         .dc.w   0x0022,0xb544,0xffff,0x0000,0x0000                          | +000a2
-        .dc.l   Data_021e08                   | +000ac  -> $021E08
+        .dc.l   Pal_021e08                   | +000ac  -> $021E08
         .dc.w   0x0022,0xb554,0xffff,0x0000,0x0000                          | +000b0
-        .dc.l   Data_021e08                   | +000ba  -> $021E08
+        .dc.l   Pal_021e08                   | +000ba  -> $021E08
         .dc.w   0x0022,0xb564,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +000be
         .dc.w   0x3f2c,0x0001,0x1b34,0x0201,0x0023,0x7cdc,0xffff,0x0000     | +000ce
         .dc.w   0x0000,0x0100,0x0029,0x1520,0x0201,0x0023,0x7cdc,0xffff     | +000de
@@ -2326,11 +2326,11 @@ Data_19120c:
         .dc.w   0xffff                                                      | +000fe
 
 | ----------------------------------------------------------------------------
-|  Data_19130c  @ $19130C  (240 B)  [ref. desde código]
+|  AnimScr_19130c  @ $19130C  (240 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19130c, "ax", @progbits
-        .global Data_19130c
-Data_19130c:
+        .section .text.AnimScr_19130c, "ax", @progbits
+        .global AnimScr_19130c
+AnimScr_19130c:
         .dc.w   0x0000,0x0000,0x0100,0x0029,0x1520,0x0201,0x0023,0x7cdc     | +00000
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x0029,0x1520,0x0201,0x0023     | +00010
         .dc.w   0x7cdc,0xffff,0x0000,0x0000,0x0100,0x0029,0x1520,0x0201     | +00020
@@ -2348,11 +2348,11 @@ Data_19130c:
         .dc.w   0x1520,0x0200,0x0023,0x7cdc,0xffff,0x0000,0x0000,0x0100     | +000e0
 
 | ----------------------------------------------------------------------------
-|  Data_1913fc  @ $1913FC  (272 B)  [ref. desde código]
+|  AnimScr_1913fc  @ $1913FC  (272 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1913fc, "ax", @progbits
-        .global Data_1913fc
-Data_1913fc:
+        .section .text.AnimScr_1913fc, "ax", @progbits
+        .global AnimScr_1913fc
+AnimScr_1913fc:
         .dc.w   0x0029,0x1520,0x0200,0x0023,0x7cdc,0xffff,0x0000,0x0000     | +00000
         .dc.w   0x0100,0x0029,0x1520,0x0200,0x0023,0x7cdc,0xffff,0x0000     | +00010
         .dc.w   0x0000,0x0100,0x0029,0x1520,0x0200,0x0023,0x7cfc,0xffff     | +00020
@@ -2372,19 +2372,19 @@ Data_1913fc:
         .dc.w   0x0201,0x0023,0x7cdc,0xffff,0x0000,0x0000,0x0100,0x0029     | +00100
 
 | ----------------------------------------------------------------------------
-|  Data_19150c  @ $19150C  (1 B)  [ref. desde código]
+|  AnimScr_19150c  @ $19150C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19150c, "ax", @progbits
-        .global Data_19150c
-Data_19150c:
+        .section .text.AnimScr_19150c, "ax", @progbits
+        .global AnimScr_19150c
+AnimScr_19150c:
         .dc.b   0x15                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19150d  @ $19150D  (257 B)  [ref. desde código]
+|  AnimScr_19150d  @ $19150D  (257 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19150d, "ax", @progbits
-        .global Data_19150d
-Data_19150d:
+        .section .text.AnimScr_19150d, "ax", @progbits
+        .global AnimScr_19150d
+AnimScr_19150d:
         .dc.b   0x20                            | +00000
         .dc.w   0x0201,0x0023,0x7cdc,0xffff,0x0000,0x0000,0x0100,0x0029     | +00001
         .dc.w   0x1520,0x0100,0x0029,0x12d6,0x0900,0x0029,0x3f2c,0x0001     | +00011
@@ -2404,28 +2404,28 @@ Data_19150d:
         .dc.w   0x0000,0x0000,0x0100,0x0029,0x1770,0x0200,0x0023,0x7d4a     | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_19160e  @ $19160E  (1 B)  [ref. desde código]
+|  AnimScr_19160e  @ $19160E  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19160e, "ax", @progbits
-        .global Data_19160e
-Data_19160e:
+        .section .text.AnimScr_19160e, "ax", @progbits
+        .global AnimScr_19160e
+AnimScr_19160e:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19160f  @ $19160F  (2 B)  [ref. desde código]
+|  AnimScr_19160f  @ $19160F  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19160f, "ax", @progbits
-        .global Data_19160f
-Data_19160f:
+        .section .text.AnimScr_19160f, "ax", @progbits
+        .global AnimScr_19160f
+AnimScr_19160f:
         .dc.b   0xff                            | +00000
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_191611  @ $191611  (257 B)  [ref. desde código]
+|  AnimScr_191611  @ $191611  (257 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191611, "ax", @progbits
-        .global Data_191611
-Data_191611:
+        .section .text.AnimScr_191611, "ax", @progbits
+        .global AnimScr_191611
+AnimScr_191611:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0100,0x0029,0x1770,0x0200,0x0023,0x7d4a,0xffff     | +00001
         .dc.w   0x0000,0x0000,0x0100,0x0029,0x1770,0x0200,0x0023,0x7d4a     | +00011
@@ -2445,19 +2445,19 @@ Data_191611:
         .dc.w   0x1770,0x0201,0x0023,0x7e4a,0xffff,0x0000,0x0000,0x0100     | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_191712  @ $191712  (1 B)  [ref. desde código]
+|  AnimScr_191712  @ $191712  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191712, "ax", @progbits
-        .global Data_191712
-Data_191712:
+        .section .text.AnimScr_191712, "ax", @progbits
+        .global AnimScr_191712
+AnimScr_191712:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_191713  @ $191713  (493 B)  [ref. desde código]
+|  AnimScr_191713  @ $191713  (493 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191713, "ax", @progbits
-        .global Data_191713
-Data_191713:
+        .section .text.AnimScr_191713, "ax", @progbits
+        .global AnimScr_191713
+AnimScr_191713:
         .dc.b   0x29                            | +00000
         .dc.w   0x1770,0x0201,0x0023,0x7e4a,0xffff,0x0000,0x0000,0x0100     | +00001
         .dc.w   0x0029,0x1770,0x0201,0x0023,0x7d4a,0xffff,0x0000,0x0000     | +00011
@@ -2492,30 +2492,30 @@ Data_191713:
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x0029,0x19b4                   | +001e1
 
 | ----------------------------------------------------------------------------
-|  Data_191900  @ $191900  (21 B)  [ref. desde código]
+|  AnimScr_191900  @ $191900  (21 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191900, "ax", @progbits
-        .global Data_191900
-Data_191900:
+        .section .text.AnimScr_191900, "ax", @progbits
+        .global AnimScr_191900
+AnimScr_191900:
         .dc.w   0x0200,0x0023,0x7e64,0xffff,0x0000,0x0000,0x0100,0x0029     | +00000
         .dc.w   0x19b4,0x0200                                               | +00010
         .dc.b   0x00                            | +00014
 
 | ----------------------------------------------------------------------------
-|  Data_191915  @ $191915  (2 B)  [ref. desde código]
+|  AnimScr_191915  @ $191915  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191915, "ax", @progbits
-        .global Data_191915
-Data_191915:
+        .section .text.AnimScr_191915, "ax", @progbits
+        .global AnimScr_191915
+AnimScr_191915:
         .dc.b   0x23                            | +00000
         .dc.b   0x7e                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_191917  @ $191917  (256 B)  [ref. desde código]
+|  AnimScr_191917  @ $191917  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191917, "ax", @progbits
-        .global Data_191917
-Data_191917:
+        .section .text.AnimScr_191917, "ax", @progbits
+        .global AnimScr_191917
+AnimScr_191917:
         .dc.b   0x64                            | +00000
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x0029,0x19b4,0x0201,0x0023     | +00001
         .dc.w   0x7e64,0xffff,0x0000,0x0000,0x0100,0x0029,0x19b4,0x0201     | +00011
@@ -2536,21 +2536,21 @@ Data_191917:
         .dc.b   0x1b                            | +000ff
 
 | ----------------------------------------------------------------------------
-|  Data_191a17  @ $191A17  (8 B)  [ref. desde código]
+|  AnimScr_191a17  @ $191A17  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191a17, "ax", @progbits
-        .global Data_191a17
-Data_191a17:
+        .section .text.AnimScr_191a17, "ax", @progbits
+        .global AnimScr_191a17
+AnimScr_191a17:
         .dc.b   0xfe                            | +00000
         .dc.w   0x0201,0x0023,0x7e7e                                        | +00001
         .dc.b   0xff                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_191a1f  @ $191A1F  (993 B)  [ref. desde código]
+|  AnimScr_191a1f  @ $191A1F  (993 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191a1f, "ax", @progbits
-        .global Data_191a1f
-Data_191a1f:
+        .section .text.AnimScr_191a1f, "ax", @progbits
+        .global AnimScr_191a1f
+AnimScr_191a1f:
         .dc.b   0xff                            | +00000
         .dc.w   0x0000,0x0000,0x0100,0x0029,0x1bfe,0x0201,0x0023,0x7e7e     | +00001
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x0029,0x1bfe,0x0201,0x0023     | +00011
@@ -2616,11 +2616,11 @@ Data_191a1f:
         .dc.w   0x0000,0x0000,0x0100,0x0029,0x1e42,0x0201,0x0023,0x7daa     | +003d1
 
 | ----------------------------------------------------------------------------
-|  Data_191e00  @ $191E00  (537 B)  [ref. desde código]
+|  AnimScr_191e00  @ $191E00  (537 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_191e00, "ax", @progbits
-        .global Data_191e00
-Data_191e00:
+        .section .text.AnimScr_191e00, "ax", @progbits
+        .global AnimScr_191e00
+AnimScr_191e00:
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x0029,0x1e42,0x0201,0x0023     | +00000
         .dc.w   0x7daa,0xffff,0x0000,0x0000,0x0100,0x0029,0x1e42,0x0201     | +00010
         .dc.w   0x0023,0x7daa,0xffff,0x0000,0x0000,0x0100,0x0029,0x1e42     | +00020
@@ -2658,11 +2658,11 @@ Data_191e00:
         .dc.b   0x00                            | +00218
 
 | ----------------------------------------------------------------------------
-|  Data_192019  @ $192019  (5,155 B)  [ref. desde código]
+|  AnimScr_192019  @ $192019  (5,155 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_192019, "ax", @progbits
-        .global Data_192019
-Data_192019:
+        .section .text.AnimScr_192019, "ax", @progbits
+        .global AnimScr_192019
+AnimScr_192019:
         .dc.b   0x00                            | +00000
         .dc.w   0x0100,0x0029,0x208c,0x0201,0x0023,0x7eb2,0xffff,0x0000     | +00001
         .dc.w   0x0000,0x0100,0x0029,0x208c,0x0201,0x0023,0x7eb2,0xffff     | +00011
@@ -3165,10 +3165,10 @@ Data_19343c:
         .dc.w   0x0029,0x3eb2,0x0201,0x0023,0x8050,0xffff,0x0000,0x0000     | +00a60
         .dc.w   0x0100,0x0029,0x3eb2,0x1600,0x01ff,0x0004,0xfff0,0x0010     | +00a70
         .dc.w   0xffe8                                                      | +00a80
-        .dc.l   Data_180000                   | +00a82  -> $180000
+        .dc.l   AnimScr_180000                   | +00a82  -> $180000
         .dc.l   Explosion_Fire_077f6a         | +00a86  -> $077F6A
         .dc.w   0x010a,0x001e,0xfff0,0x0010,0xffe8                          | +00a8a
-        .dc.l   Data_180000                   | +00a94  -> $180000
+        .dc.l   AnimScr_180000                   | +00a94  -> $180000
         .dc.l   Explosion_Std_077efe          | +00a98  -> $077EFE
         .dc.l   Data_0e0010                   | +00a9c  -> $0E0010
         .dc.w   0x0204,0xff00                                               | +00aa0
@@ -3179,13 +3179,13 @@ Data_19343c:
         .dc.w   0xffff,0x0008,0x0008,0x0200,0x0024,0x3662,0xffff,0x0008     | +00ad8
         .dc.w   0xfff8,0x1d00,0xffff,0xffff,0x0002,0xffff,0xffff,0x0000     | +00ae8
         .dc.l   Data_00fff0                   | +00af8  -> $00FFF0
-        .dc.l   Data_100000                   | +00afc  -> $100000
+        .dc.l   ColMap_100000                   | +00afc  -> $100000
         .dc.w   0x0020,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +00b00
         .dc.w   0x0024,0x3676,0xffff,0xfff0,0x0020,0x0200,0x0024,0x3680     | +00b10
         .dc.w   0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a,0xffff            | +00b20
-        .dc.l   Data_100020                   | +00b2e  -> $100020
+        .dc.l   ColMap_100020                   | +00b2e  -> $100020
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00b32
-        .dc.l   Data_100000                   | +00b3a  -> $100000
+        .dc.l   ColMap_100000                   | +00b3a  -> $100000
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0xffff,0xffff,0x0000            | +00b3e
         .dc.l   Data_00fff8                   | +00b4c  -> $00FFF8
         .dc.w   0x0008,0xfff8,0x0008,0x0200,0x0024,0x366c,0xffff,0x0000     | +00b50
@@ -3193,12 +3193,12 @@ Data_19343c:
         .dc.w   0x0024,0x3680,0xffff,0xfff8,0xfff8,0x0200,0x0024,0x368a     | +00b70
         .dc.w   0xffff,0x0008,0x0008,0x0200,0x0024,0x3694,0xffff,0x0008     | +00b80
         .dc.w   0xfff8,0x1d01,0xffff,0xffff,0xffe8,0x0008,0x0000            | +00b90
-        .dc.l   Data_10ffff                   | +00b9e  -> $10FFFF
+        .dc.l   ColMap_10ffff                   | +00b9e  -> $10FFFF
         .dc.w   0x0000,0x0000,0xffb0                                        | +00ba2
-        .dc.l   Data_10ffff                   | +00ba8  -> $10FFFF
+        .dc.l   ColMap_10ffff                   | +00ba8  -> $10FFFF
         .dc.w   0xfff0                                                      | +00bac
-        .dc.l   Str_10fff0                    | +00bae  -> $10FFF0
-        .dc.l   Data_10ffff                   | +00bb2  -> $10FFFF
+        .dc.l   ColMap_10fff0                    | +00bae  -> $10FFF0
+        .dc.l   ColMap_10ffff                   | +00bb2  -> $10FFFF
         .dc.w   0x0004,0x000c,0xfff8,0x0008,0xfff8,0x0008,0x0001,0x0029     | +00bb6
         .dc.w   0x4004                                                      | +00bc6
         .dc.l   Debris_ArcA_078740            | +00bc8  -> $078740
@@ -3220,20 +3220,20 @@ Data_19343c:
         .dc.w   0xffeb,0x0000,0xffed,0xfffb,0xffef,0xfff6,0xfff1,0xfff4     | +00c08
         .dc.w   0xfff4,0xfff4,0xfff7,0xfff1,0xfffb,0xfff1,0xfffe,0xfff2     | +00c18
         .dc.w   0xffff,0xfff1,0x0002,0xfff2,0x0005,0xfff1,0x0009,0xfff1     | +00c28
-        .dc.l   Data_0cfff4                   | +00c38  -> $0CFFF4
+        .dc.l   BgMap_0cfff4                   | +00c38  -> $0CFFF4
         .dc.w   0x000f,0xfff4,0x0011,0xfff6,0x0013,0xfffb                   | +00c3c
         .dc.l   Data_150000                   | +00c48  -> $150000
         .dc.w   0x000f,0x0003                                               | +00c4c
-        .dc.l   Data_0d0005                   | +00c50  -> $0D0005
-        .dc.l   Data_0a0007                   | +00c54  -> $0A0007
+        .dc.l   BgMap_0d0005                   | +00c50  -> $0D0005
+        .dc.l   BgMap_0a0007                   | +00c54  -> $0A0007
         .dc.w   0x0008,0x0009,0x0005,0x0009,0x0004,0x0009,0x0001,0x0009     | +00c58
         .dc.w   0x0000,0x0008,0xffff,0x0009,0xfffc,0x0009,0xfffb,0x0009     | +00c68
         .dc.w   0xfff8,0x0009,0xfff6,0x0007,0xfff3,0x0005,0xfff1,0x0003     | +00c78
         .dc.w   0x0028,0x0008,0x0028,0x0008,0x0028,0x0008,0x0028,0x0008     | +00c88
-        .dc.l   Data_100000                   | +00c98  -> $100000
-        .dc.l   Data_100000                   | +00c9c  -> $100000
-        .dc.l   Data_100000                   | +00ca0  -> $100000
-        .dc.l   Data_100000                   | +00ca4  -> $100000
+        .dc.l   ColMap_100000                   | +00c98  -> $100000
+        .dc.l   ColMap_100000                   | +00c9c  -> $100000
+        .dc.l   ColMap_100000                   | +00ca0  -> $100000
+        .dc.l   ColMap_100000                   | +00ca4  -> $100000
         .dc.w   0xfff0                                                      | +00ca8
         .dc.l   Data_00fff0                   | +00caa  -> $00FFF0
         .dc.l   Data_00fff0                   | +00cae  -> $00FFF0
@@ -3245,45 +3245,45 @@ Data_19343c:
         .dc.l   Data_00fff0                   | +00cde  -> $00FFF0
         .dc.l   Data_00fff0                   | +00ce2  -> $00FFF0
         .dc.w   0x0000                                                      | +00ce6
-        .dc.l   Data_100000                   | +00ce8  -> $100000
-        .dc.l   Data_100000                   | +00cec  -> $100000
-        .dc.l   Data_100000                   | +00cf0  -> $100000
-        .dc.l   Data_100000                   | +00cf4  -> $100000
+        .dc.l   ColMap_100000                   | +00ce8  -> $100000
+        .dc.l   ColMap_100000                   | +00cec  -> $100000
+        .dc.l   ColMap_100000                   | +00cf0  -> $100000
+        .dc.l   ColMap_100000                   | +00cf4  -> $100000
         .dc.w   0x0028,0x0008,0x0028,0x0008,0x0028,0x0008,0x0028,0x0008     | +00cf8
         .dc.w   0xfff0                                                      | +00d08
-        .dc.l   Str_10fff0                    | +00d0a  -> $10FFF0
-        .dc.l   Str_10fff0                    | +00d0e  -> $10FFF0
-        .dc.l   Str_10fff0                    | +00d12  -> $10FFF0
-        .dc.l   Str_10fff8                    | +00d16  -> $10FFF8
-        .dc.l   Str_10fff8                    | +00d1a  -> $10FFF8
-        .dc.l   Str_10fff8                    | +00d1e  -> $10FFF8
-        .dc.l   Str_10fff8                    | +00d22  -> $10FFF8
+        .dc.l   ColMap_10fff0                    | +00d0a  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +00d0e  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +00d12  -> $10FFF0
+        .dc.l   ColMap_10fff8                    | +00d16  -> $10FFF8
+        .dc.l   ColMap_10fff8                    | +00d1a  -> $10FFF8
+        .dc.l   ColMap_10fff8                    | +00d1e  -> $10FFF8
+        .dc.l   ColMap_10fff8                    | +00d22  -> $10FFF8
         .dc.w   0x0010,0x0008,0x0010,0x0008,0x0010,0x0008,0x0010,0x0008     | +00d26
-        .dc.l   Data_100010                   | +00d36  -> $100010
-        .dc.l   Data_100010                   | +00d3a  -> $100010
-        .dc.l   Data_100010                   | +00d3e  -> $100010
-        .dc.l   Data_100010                   | +00d42  -> $100010
-        .dc.l   Data_100010                   | +00d46  -> $100010
-        .dc.l   Data_100010                   | +00d4a  -> $100010
-        .dc.l   Data_100010                   | +00d4e  -> $100010
-        .dc.l   Data_100010                   | +00d52  -> $100010
+        .dc.l   ColMap_100010                   | +00d36  -> $100010
+        .dc.l   ColMap_100010                   | +00d3a  -> $100010
+        .dc.l   ColMap_100010                   | +00d3e  -> $100010
+        .dc.l   ColMap_100010                   | +00d42  -> $100010
+        .dc.l   ColMap_100010                   | +00d46  -> $100010
+        .dc.l   ColMap_100010                   | +00d4a  -> $100010
+        .dc.l   ColMap_100010                   | +00d4e  -> $100010
+        .dc.l   ColMap_100010                   | +00d52  -> $100010
         .dc.w   0x0010,0x0008,0x0010,0x0008,0x0010,0x0008,0x0010,0x0008     | +00d56
-        .dc.l   Str_10fff8                    | +00d66  -> $10FFF8
-        .dc.l   Str_10fff8                    | +00d6a  -> $10FFF8
-        .dc.l   Str_10fff8                    | +00d6e  -> $10FFF8
-        .dc.l   Str_10fff8                    | +00d72  -> $10FFF8
-        .dc.l   Str_10fff0                    | +00d76  -> $10FFF0
-        .dc.l   Str_10fff0                    | +00d7a  -> $10FFF0
-        .dc.l   Str_10fff0                    | +00d7e  -> $10FFF0
-        .dc.l   Str_10fff0                    | +00d82  -> $10FFF0
+        .dc.l   ColMap_10fff8                    | +00d66  -> $10FFF8
+        .dc.l   ColMap_10fff8                    | +00d6a  -> $10FFF8
+        .dc.l   ColMap_10fff8                    | +00d6e  -> $10FFF8
+        .dc.l   ColMap_10fff8                    | +00d72  -> $10FFF8
+        .dc.l   ColMap_10fff0                    | +00d76  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +00d7a  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +00d7e  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +00d82  -> $10FFF0
         .dc.w   0x0010,0x001f,0x001f,0x001f,0x001f,0x001b,0x001b,0x001b     | +00d86
         .dc.w   0x001b,0x0015,0x0015,0x0015,0x0015                          | +00d96
-        .dc.l   Data_110011                   | +00da0  -> $110011
-        .dc.l   Data_110011                   | +00da4  -> $110011
-        .dc.l   Data_110011                   | +00da8  -> $110011
-        .dc.l   Data_110011                   | +00dac  -> $110011
+        .dc.l   ColMap_110011                   | +00da0  -> $110011
+        .dc.l   ColMap_110011                   | +00da4  -> $110011
+        .dc.l   ColMap_110011                   | +00da8  -> $110011
+        .dc.l   ColMap_110011                   | +00dac  -> $110011
         .dc.w   0x0015,0x0015,0x0015                                        | +00db0
-        .dc.l   Data_15001b                   | +00db6  -> $15001B
+        .dc.l   Zero_15001b                   | +00db6  -> $15001B
         .dc.w   0x001b,0x001b,0x001b,0x001f,0x001f,0x001f,0x001f            | +00dba
         .dc.l   Data_011e08                   | +00dc8  -> $011E08
         .dc.w   0x0026,0xf26e,0xffff,0x0000,0x0000,0x1600                   | +00dcc
@@ -3298,22 +3298,22 @@ Data_19343c:
         .global Data_194228
 Data_194228:
         .dc.w   0x0027,0x3d30,0xffff,0x0000,0x0000,0x1600                   | +00000
-        .dc.l   Data_021e08                   | +0000c  -> $021E08
+        .dc.l   Pal_021e08                   | +0000c  -> $021E08
         .dc.w   0x0027,0x3624,0xffff,0x0000,0x0000,0x1600                   | +00010
-        .dc.l   Data_021e08                   | +0001c  -> $021E08
+        .dc.l   Pal_021e08                   | +0001c  -> $021E08
         .dc.w   0x0027,0x3660,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +00020
         .dc.w   0x4bdc                                                      | +00030
-        .dc.l   Data_021e08                   | +00032  -> $021E08
+        .dc.l   Pal_021e08                   | +00032  -> $021E08
         .dc.w   0x0027,0x36a4,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +00036
         .dc.w   0xffff                                                      | +00046
-        .dc.l   Data_021e08                   | +00048  -> $021E08
+        .dc.l   Pal_021e08                   | +00048  -> $021E08
         .dc.w   0x0027,0x36ae,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +0004c
         .dc.w   0x4b88                                                      | +0005c
         .dc.l   Data_011e08                   | +0005e  -> $011E08
         .dc.w   0x0027,0x3720,0xffff,0x0000,0x0000,0x1600                   | +00062
-        .dc.l   Data_021e08                   | +0006e  -> $021E08
+        .dc.l   Pal_021e08                   | +0006e  -> $021E08
         .dc.w   0x0027,0x3748,0xffff,0x0000,0x0000                          | +00072
-        .dc.l   Data_021e08                   | +0007c  -> $021E08
+        .dc.l   Pal_021e08                   | +0007c  -> $021E08
         .dc.w   0x0027,0x375c,0xffff,0x0000,0x0000                          | +00080
         .dc.l   Data_011e08                   | +0008a  -> $011E08
         .dc.w   0x0027,0x3748,0xffff,0x0000,0x0000                          | +0008e
@@ -3321,25 +3321,25 @@ Data_194228:
         .dc.w   0x0027,0x3734,0xffff,0x0000,0x0000                          | +0009c
         .dc.l   Data_011e08                   | +000a6  -> $011E08
         .dc.w   0x0027,0x3770,0xffff,0x0000,0x0000                          | +000aa
-        .dc.l   Data_021e08                   | +000b4  -> $021E08
+        .dc.l   Pal_021e08                   | +000b4  -> $021E08
         .dc.w   0x0027,0x3784,0xffff,0x0000,0x0000                          | +000b8
         .dc.l   Data_011e08                   | +000c2  -> $011E08
         .dc.w   0x0027,0x3770,0xffff,0x0000,0x0000                          | +000c6
         .dc.l   Data_011e08                   | +000d0  -> $011E08
         .dc.w   0x0027,0x3734,0xffff,0x0000,0x0000                          | +000d4
-        .dc.l   Data_021e08                   | +000de  -> $021E08
+        .dc.l   Pal_021e08                   | +000de  -> $021E08
         .dc.w   0x0027,0x3748,0xffff,0x0000,0x0000                          | +000e2
         .dc.l   Data_011e08                   | +000ec  -> $011E08
         .dc.w   0x0027,0x3734,0xffff,0x0000,0x0000                          | +000f0
-        .dc.l   Data_021e08                   | +000fa  -> $021E08
+        .dc.l   Pal_021e08                   | +000fa  -> $021E08
         .dc.w   0x0027,0x3770,0xffff,0x0000,0x0000                          | +000fe
         .dc.l   Data_011e08                   | +00108  -> $011E08
         .dc.w   0x0027,0x3734,0xffff,0x0000,0x0000                          | +0010c
-        .dc.l   Data_021e08                   | +00116  -> $021E08
+        .dc.l   Pal_021e08                   | +00116  -> $021E08
         .dc.w   0x0027,0x3748,0xffff,0x0000,0x0000                          | +0011a
         .dc.l   Data_011e08                   | +00124  -> $011E08
         .dc.w   0x0027,0x3734,0xffff,0x0000,0x0000                          | +00128
-        .dc.l   Data_021e08                   | +00132  -> $021E08
+        .dc.l   Pal_021e08                   | +00132  -> $021E08
         .dc.w   0x0027,0x3770,0xffff,0x0000,0x0000                          | +00136
         .dc.l   Data_011e08                   | +00140  -> $011E08
         .dc.w   0x0027,0x3734,0xffff,0x0000,0x0000,0x1600,0x0003,0x1e08     | +00144
@@ -3380,10 +3380,10 @@ Data_194228:
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600                   | +00296
         .dc.l   Data_010200                   | +002a2  -> $010200
         .dc.w   0x0027,0x37e6,0xffff,0xffff                                 | +002a6
-        .dc.l   Str_111600                    | +002ae  -> $111600
+        .dc.l   ColMap_111600                    | +002ae  -> $111600
         .dc.l   Data_010200                   | +002b2  -> $010200
         .dc.w   0x0022,0x19a4,0xffff,0xffff                                 | +002b6
-        .dc.l   Str_111600                    | +002be  -> $111600
+        .dc.l   ColMap_111600                    | +002be  -> $111600
         .dc.l   Data_011e08                   | +002c2  -> $011E08
         .dc.w   0x0027,0x3daa,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +002c6
         .dc.w   0x4f70                                                      | +002d6
@@ -3466,17 +3466,17 @@ Data_194228:
         .dc.w   0x0022,0x5a68,0xffff,0x0000,0x0000                          | +00558
         .dc.l   Data_011e08                   | +00562  -> $011E08
         .dc.w   0x0022,0x5a78,0xffff,0x0000,0x0000                          | +00566
-        .dc.l   Data_021e08                   | +00570  -> $021E08
+        .dc.l   Pal_021e08                   | +00570  -> $021E08
         .dc.w   0x0022,0x5a88,0xffff,0x0000,0x0000                          | +00574
-        .dc.l   Data_021e08                   | +0057e  -> $021E08
+        .dc.l   Pal_021e08                   | +0057e  -> $021E08
         .dc.w   0x0022,0x5a98,0xffff,0x0000,0x0000                          | +00582
-        .dc.l   Data_021e08                   | +0058c  -> $021E08
+        .dc.l   Pal_021e08                   | +0058c  -> $021E08
         .dc.w   0x0022,0x5aa8,0xffff,0x0000,0x0000                          | +00590
-        .dc.l   Data_021e08                   | +0059a  -> $021E08
+        .dc.l   Pal_021e08                   | +0059a  -> $021E08
         .dc.w   0x0022,0x5ab8,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0022     | +0059e
         .dc.w   0x5ac8,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0022,0x5ad8     | +005ae
         .dc.w   0xffff,0x0000,0x0000                                        | +005be
-        .dc.l   Data_021e08                   | +005c4  -> $021E08
+        .dc.l   Pal_021e08                   | +005c4  -> $021E08
         .dc.w   0x0022,0x5ae8,0xffff,0x0000,0x0000,0x1600                   | +005c8
         .dc.l   Data_011e08                   | +005d4  -> $011E08
         .dc.w   0x0022,0x5af8,0xffff,0x0000,0x0000                          | +005d8
@@ -3488,35 +3488,35 @@ Data_194228:
         .dc.w   0x0022,0x5b20,0xffff,0x0000,0x0000                          | +00602
         .dc.l   Data_011e08                   | +0060c  -> $011E08
         .dc.w   0x0022,0x5b30,0xffff,0x0000,0x0000                          | +00610
-        .dc.l   Data_021e08                   | +0061a  -> $021E08
+        .dc.l   Pal_021e08                   | +0061a  -> $021E08
         .dc.w   0x0022,0x5b40,0xffff,0x0000,0x0000                          | +0061e
-        .dc.l   Data_021e08                   | +00628  -> $021E08
+        .dc.l   Pal_021e08                   | +00628  -> $021E08
         .dc.w   0x0022,0x5b50,0xffff,0x0000,0x0000                          | +0062c
-        .dc.l   Data_021e08                   | +00636  -> $021E08
+        .dc.l   Pal_021e08                   | +00636  -> $021E08
         .dc.w   0x0022,0x5b60,0xffff,0x0000,0x0000                          | +0063a
-        .dc.l   Data_021e08                   | +00644  -> $021E08
+        .dc.l   Pal_021e08                   | +00644  -> $021E08
         .dc.w   0x0022,0x5b70,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0022     | +00648
         .dc.w   0x5b80,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0022,0x5b90     | +00658
         .dc.w   0xffff,0x0000,0x0000                                        | +00668
-        .dc.l   Data_021e08                   | +0066e  -> $021E08
+        .dc.l   Pal_021e08                   | +0066e  -> $021E08
         .dc.w   0x0022,0x5ba0,0xffff,0x0000,0x0000,0x1600,0x0800            | +00672
         .dc.l   FixTile_Set11C2_04fa40        | +00680  -> $04FA40
         .dc.l   Data_011e08                   | +00684  -> $011E08
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x0800                   | +00688
         .dc.l   FixTile_Set11C1_04fa58        | +00694  -> $04FA58
-        .dc.l   Data_021e08                   | +00698  -> $021E08
+        .dc.l   Pal_021e08                   | +00698  -> $021E08
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x0800                   | +0069c
         .dc.l   FixTile_Set11C2_04fa40        | +006a8  -> $04FA40
         .dc.l   Data_011e08                   | +006ac  -> $011E08
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x0800                   | +006b0
         .dc.l   FixTile_Set11C1_04fa58        | +006bc  -> $04FA58
-        .dc.l   Data_021e08                   | +006c0  -> $021E08
+        .dc.l   Pal_021e08                   | +006c0  -> $021E08
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0003,0x1e08     | +006c4
         .dc.w   0x0025,0x5f52,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0025     | +006d4
         .dc.w   0x5f5c,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0025,0x5f66     | +006e4
         .dc.w   0xffff,0x0000,0x0000,0x0003,0x1e08,0x0025,0x5f70,0xffff     | +006f4
         .dc.w   0x0000,0x0000,0x0100,0x0029,0x48f8                          | +00704
-        .dc.l   Data_021e08                   | +0070e  -> $021E08
+        .dc.l   Pal_021e08                   | +0070e  -> $021E08
         .dc.w   0x0025,0x5f7a,0xffff,0x0000,0x0000,0x1301,0x003a,0x0100     | +00712
         .dc.w   0x0029,0x48f8                                               | +00722
         .dc.l   Data_011e08                   | +00726  -> $011E08
@@ -3554,13 +3554,13 @@ Data_194228:
         .dc.w   0x1e08,0x0026,0x3e92,0xffff,0x0000,0x0000,0x0003,0x1e08     | +0088a
         .dc.w   0x0026,0x3ea2,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026     | +0089a
         .dc.w   0x3eb2,0xffff,0x0000,0x0000                                 | +008aa
-        .dc.l   Data_021e08                   | +008b2  -> $021E08
+        .dc.l   Pal_021e08                   | +008b2  -> $021E08
         .dc.w   0x0026,0x3ea2,0xffff,0x0000,0x0000                          | +008b6
-        .dc.l   Data_021e08                   | +008c0  -> $021E08
+        .dc.l   Pal_021e08                   | +008c0  -> $021E08
         .dc.w   0x0026,0x3eb2,0xffff,0x0000,0x0000                          | +008c4
-        .dc.l   Data_021e08                   | +008ce  -> $021E08
+        .dc.l   Pal_021e08                   | +008ce  -> $021E08
         .dc.w   0x0026,0x3ea2,0xffff,0x0000,0x0000                          | +008d2
-        .dc.l   Data_021e08                   | +008dc  -> $021E08
+        .dc.l   Pal_021e08                   | +008dc  -> $021E08
         .dc.w   0x0026,0x3eb2,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026     | +008e0
         .dc.w   0x3e92,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026,0x3e82     | +008f0
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x0029,0x49de,0x0002,0xffff     | +00900
@@ -3569,33 +3569,33 @@ Data_194228:
         .dc.l   Data_0c0014                   | +0091a  -> $0C0014
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +0091e
         .dc.w   0x3676,0xffff,0x0008                                        | +0092e
-        .dc.l   Data_140200                   | +00934  -> $140200
+        .dc.l   SprFrame_140200                   | +00934  -> $140200
         .dc.w   0x0024,0x3680,0xffff,0x0008                                 | +00938
         .dc.l   Data_0c0200                   | +00940  -> $0C0200
         .dc.w   0x0024,0x368a,0xffff,0x0048                                 | +00944
-        .dc.l   Data_140200                   | +0094c  -> $140200
+        .dc.l   SprFrame_140200                   | +0094c  -> $140200
         .dc.w   0x0024,0x3694,0xffff,0x0048                                 | +00950
         .dc.l   Data_0c1d01                   | +00958  -> $0C1D01
         .dc.w   0xffff,0xffff                                               | +0095c
-        .dc.l   Data_01ffff                   | +00960  -> $01FFFF
+        .dc.l   Pal_01ffff                   | +00960  -> $01FFFF
         .dc.w   0xffff,0x0000,0x0000,0x0008                                 | +00964
-        .dc.l   Data_180000                   | +0096c  -> $180000
+        .dc.l   AnimScr_180000                   | +0096c  -> $180000
         .dc.w   0x0020,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +00970
         .dc.w   0x0024,0x3676,0xffff,0x0008,0x0020,0x0200,0x0024,0x3680     | +00980
         .dc.w   0xffff,0x0008,0x0000,0x0200,0x0024,0x368a,0xffff            | +00990
-        .dc.l   Data_180020                   | +0099e  -> $180020
+        .dc.l   AnimScr_180020                   | +0099e  -> $180020
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +009a2
-        .dc.l   Data_180000                   | +009aa  -> $180000
+        .dc.l   AnimScr_180000                   | +009aa  -> $180000
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000            | +009ae
         .dc.l   Data_00fffc                   | +009bc  -> $00FFFC
         .dc.w   0x0014,0xfffc                                               | +009c0
-        .dc.l   Data_140200                   | +009c4  -> $140200
+        .dc.l   SprFrame_140200                   | +009c4  -> $140200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +009c8
         .dc.w   0xffff,0xfffc                                               | +009d8
-        .dc.l   Data_140200                   | +009dc  -> $140200
+        .dc.l   SprFrame_140200                   | +009dc  -> $140200
         .dc.w   0x0024,0x3680,0xffff,0xfffc,0xfffc,0x0200,0x0024,0x368a     | +009e0
         .dc.w   0xffff                                                      | +009f0
-        .dc.l   Data_140014                   | +009f2  -> $140014
+        .dc.l   SprFrame_140014                   | +009f2  -> $140014
         .dc.w   0x0200,0x0024,0x3694,0xffff,0x0014,0xfffc,0x1d01,0xffff     | +009f6
         .dc.w   0xffff,0x0003,0x0029,0x551e,0x0000,0x0000,0x0020,0x0060     | +00a06
         .dc.w   0x0024,0x0050,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +00a16
@@ -3625,11 +3625,11 @@ Data_194228:
         .dc.w   0xffff,0x0030,0x0000,0x0200,0x0024,0x368a,0xffff,0x0070     | +00b88
         .dc.w   0x0070,0x0200,0x0024,0x3694,0xffff,0x0070,0x0000,0x1d01     | +00b98
         .dc.w   0xffff,0xffff,0x0003,0x0029,0x551e,0x0000,0x0000            | +00ba8
-        .dc.l   Data_100070                   | +00bb6  -> $100070
+        .dc.l   ColMap_100070                   | +00bb6  -> $100070
         .dc.w   0x0040,0x0050,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +00bba
         .dc.w   0x0200,0x0024,0x3676,0xffff,0x0010,0x0050,0x0200,0x0024     | +00bca
         .dc.w   0x3680,0xffff                                               | +00bda
-        .dc.l   Str_100040                    | +00bde  -> $100040
+        .dc.l   ColMap_100040                    | +00bde  -> $100040
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0070,0x0050,0x0200,0x0024     | +00be2
         .dc.w   0x3694,0xffff,0x0070,0x0040,0x1d01,0xffff,0xffff,0x0003     | +00bf2
         .dc.w   0x0029,0x551e,0x0000,0x0000,0x0020,0x0050,0x004c,0x0080     | +00c02
@@ -3638,35 +3638,35 @@ Data_194228:
         .dc.w   0x0020,0x004c,0x0200,0x0024,0x368a,0xffff,0x0050,0x0080     | +00c32
         .dc.w   0x0200,0x0024,0x3694,0xffff,0x0050,0x004c,0x1d01,0xffff     | +00c42
         .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000,0x0000                   | +00c52
-        .dc.l   Data_100078                   | +00c5e  -> $100078
+        .dc.l   ColMap_100078                   | +00c5e  -> $100078
         .dc.w   0x0044,0x0054,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +00c62
         .dc.w   0x0200,0x0024,0x3676,0xffff,0x0010,0x0054,0x0200,0x0024     | +00c72
         .dc.w   0x3680,0xffff,0x0010,0x0044,0x0200,0x0024,0x368a            | +00c82
         .dc.b   0xff                            | +00c90
 
 | ----------------------------------------------------------------------------
-|  Data_194eb9  @ $194EB9  (1,609 B)  [ref. desde código]
+|  AnimScr_194eb9  @ $194EB9  (1,609 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_194eb9, "ax", @progbits
-        .global Data_194eb9
-Data_194eb9:
+        .section .text.AnimScr_194eb9, "ax", @progbits
+        .global AnimScr_194eb9
+AnimScr_194eb9:
         .dc.b   0xff                            | +00000
         .dc.w   0x0078,0x0054,0x0200,0x0024,0x3694,0xffff,0x0078,0x0044     | +00001
         .dc.w   0x1d01,0x0003,0xffff,0xffff,0x0000,0x0000,0x0060,0x0078     | +00011
-        .dc.l   Data_100080                   | +00021  -> $100080
+        .dc.l   ColMap_100080                   | +00021  -> $100080
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +00025
         .dc.w   0x3676,0xffff,0x0060,0x0080,0x0200,0x0024,0x3680,0xffff     | +00035
         .dc.w   0x0060                                                      | +00045
-        .dc.l   Data_100200                   | +00047  -> $100200
+        .dc.l   ColMap_100200                   | +00047  -> $100200
         .dc.w   0x0024,0x368a,0xffff,0x0078,0x0080,0x0200,0x0024,0x3694     | +0004b
         .dc.w   0xffff,0x0078                                               | +0005b
-        .dc.l   Str_101d01                    | +0005f  -> $101D01
+        .dc.l   ColMap_101d01                    | +0005f  -> $101D01
         .dc.w   0x0003,0xffff,0xffff,0x0000,0x0000,0x0038,0x0078            | +00063
-        .dc.l   Data_180020                   | +00071  -> $180020
+        .dc.l   AnimScr_180020                   | +00071  -> $180020
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +00075
         .dc.w   0x3676,0xffff,0x0038,0x0020,0x0200,0x0024,0x3680,0xffff     | +00085
         .dc.w   0x0038                                                      | +00095
-        .dc.l   Data_180200                   | +00097  -> $180200
+        .dc.l   AnimScr_180200                   | +00097  -> $180200
         .dc.w   0x0024,0x368a,0xffff,0x0078,0x0020,0x0200,0x0024,0x3694     | +0009b
         .dc.w   0xffff,0x0078,0x0018,0x1d01,0xffff,0xffff,0x0003,0xffff     | +000ab
         .dc.w   0xffff,0x0000,0x0000,0x0028,0x0068,0xfff8,0x0040,0x0200     | +000bb
@@ -3696,22 +3696,22 @@ Data_194eb9:
         .dc.w   0x0024,0x368a,0xffff,0x0020,0x0040,0x0200,0x0024,0x3694     | +0023b
         .dc.w   0xffff,0x0020,0x0000,0x1d01,0x0002,0x0029,0x54fc,0x0000     | +0024b
         .dc.w   0x0000                                                      | +0025b
-        .dc.l   Data_180028                   | +0025d  -> $180028
+        .dc.l   AnimScr_180028                   | +0025d  -> $180028
         .dc.w   0x0000,0x0040,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +00261
         .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +00271
-        .dc.l   Data_180040                   | +00279  -> $180040
+        .dc.l   AnimScr_180040                   | +00279  -> $180040
         .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +0027d
-        .dc.l   Data_180000                   | +00285  -> $180000
+        .dc.l   AnimScr_180000                   | +00285  -> $180000
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0028,0x0040,0x0200,0x0024     | +00289
         .dc.w   0x3694,0xffff,0x0028,0x0000,0x1d01,0xffff,0xffff,0x0002     | +00299
         .dc.w   0xffff,0xffff,0x0000,0x0000,0x0008,0x0040,0x0008            | +002a9
-        .dc.l   Data_100200                   | +002b7  -> $100200
+        .dc.l   ColMap_100200                   | +002b7  -> $100200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +002bb
         .dc.w   0xffff,0x0008                                               | +002cb
-        .dc.l   Data_100200                   | +002cf  -> $100200
+        .dc.l   ColMap_100200                   | +002cf  -> $100200
         .dc.w   0x0024,0x3680,0xffff,0x0008,0x0008,0x0200,0x0024,0x368a     | +002d3
         .dc.w   0xffff,0x0040                                               | +002e3
-        .dc.l   Data_100200                   | +002e7  -> $100200
+        .dc.l   ColMap_100200                   | +002e7  -> $100200
         .dc.w   0x0024,0x3694,0xffff,0x0040,0x0008,0x1d01,0xffff,0xffff     | +002eb
         .dc.w   0x0002,0xffff,0xffff,0x0000,0x0000,0x0000,0x0020,0x0000     | +002fb
         .dc.w   0x0020,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +0030b
@@ -3736,22 +3736,22 @@ Data_194eb9:
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0020,0x0020,0x0200,0x0024     | +0042d
         .dc.w   0x3694,0xffff,0x0020,0xffe0,0x1d01,0xffff,0xffff,0x0002     | +0043d
         .dc.w   0xffff,0xffff,0x0000,0x0000,0x0000,0x0020,0x0000            | +0044d
-        .dc.l   Data_100200                   | +0045b  -> $100200
+        .dc.l   ColMap_100200                   | +0045b  -> $100200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +0045f
         .dc.w   0xffff,0x0000                                               | +0046f
-        .dc.l   Data_100200                   | +00473  -> $100200
+        .dc.l   ColMap_100200                   | +00473  -> $100200
         .dc.w   0x0024,0x3680,0xffff,0x0000,0x0000,0x0200,0x0024,0x368a     | +00477
         .dc.w   0xffff,0x0020                                               | +00487
-        .dc.l   Data_100200                   | +0048b  -> $100200
+        .dc.l   ColMap_100200                   | +0048b  -> $100200
         .dc.w   0x0024,0x3694,0xffff,0x0020,0x0000,0x1d01,0xffff,0xffff     | +0048f
         .dc.w   0x0002,0xffff,0xffff,0x0000,0x0000,0x0000,0x0020,0x0000     | +0049f
-        .dc.l   Data_100200                   | +004af  -> $100200
+        .dc.l   ColMap_100200                   | +004af  -> $100200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +004b3
         .dc.w   0xffff,0x0000                                               | +004c3
-        .dc.l   Data_100200                   | +004c7  -> $100200
+        .dc.l   ColMap_100200                   | +004c7  -> $100200
         .dc.w   0x0024,0x3680,0xffff,0x0000,0x0000,0x0200,0x0024,0x368a     | +004cb
         .dc.w   0xffff,0x0020                                               | +004db
-        .dc.l   Data_100200                   | +004df  -> $100200
+        .dc.l   ColMap_100200                   | +004df  -> $100200
         .dc.w   0x0024,0x3694,0xffff,0x0020,0x0000,0x1d01,0xffff,0xffff     | +004e3
         .dc.w   0x0002,0xffff,0xffff,0x0000,0x0000,0x0000,0x0020,0xfff0     | +004f3
         .dc.w   0x0000,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +00503
@@ -3767,22 +3767,22 @@ Data_194eb9:
         .dc.w   0x0200,0x0024,0x3694,0xffff,0x0020,0x0020,0x1d01,0xffff     | +00589
         .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000                          | +00599
         .dc.l   Data_00fff0                   | +005a3  -> $00FFF0
-        .dc.l   Data_100000                   | +005a7  -> $100000
+        .dc.l   ColMap_100000                   | +005a7  -> $100000
         .dc.w   0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +005ab
         .dc.w   0x0024,0x3676,0xffff,0xfff0,0x0030,0x0200,0x0024,0x3680     | +005bb
         .dc.w   0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a,0xffff            | +005cb
-        .dc.l   Data_100030                   | +005d9  -> $100030
+        .dc.l   ColMap_100030                   | +005d9  -> $100030
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +005dd
-        .dc.l   Data_100000                   | +005e5  -> $100000
+        .dc.l   ColMap_100000                   | +005e5  -> $100000
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0x0029,0x5540,0x0000            | +005e9
         .dc.l   Data_00fff0                   | +005f7  -> $00FFF0
-        .dc.l   Data_100000                   | +005fb  -> $100000
+        .dc.l   ColMap_100000                   | +005fb  -> $100000
         .dc.w   0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +005ff
         .dc.w   0x0024,0x3676,0xffff,0xfff0,0x0030,0x0200,0x0024,0x3680     | +0060f
         .dc.w   0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a,0xffff            | +0061f
-        .dc.l   Data_100030                   | +0062d  -> $100030
+        .dc.l   ColMap_100030                   | +0062d  -> $100030
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00631
-        .dc.l   Data_100000                   | +00639  -> $100000
+        .dc.l   ColMap_100000                   | +00639  -> $100000
         .dc.w   0x1d01,0xffff,0xffff,0x0000,0x0000,0x0100                   | +0063d
 
 | ----------------------------------------------------------------------------
@@ -3806,258 +3806,258 @@ Data_195502:
         .dc.w   0x0101,0x0000,0x0000,0x0101,0x0000,0x0000,0x0000,0x0101     | +00042
         .dc.w   0x0101,0x0101,0x0101,0x0101,0x0101,0x0101,0x0101,0x0050     | +00052
         .dc.w   0x0020,0x000a,0x8778                                        | +00062
-        .dc.l   Data_106f6c                   | +00068  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00068  -> $106F6C
         .dc.w   0x0029,0x5562,0x0008,0x0004                                 | +0006c
         .dc.l   Data_010002                   | +00074  -> $010002
         .dc.w   0x0005,0x0008                                               | +00078
-        .dc.l   Data_106f6c                   | +0007c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0007c  -> $106F6C
         .dc.w   0x0029,0x5562,0x000d,0x0002,0x0007                          | +00080
-        .dc.l   Data_020003                   | +0008a  -> $020003
+        .dc.l   Pal_020003                   | +0008a  -> $020003
         .dc.w   0x0007                                                      | +0008e
-        .dc.l   Data_106f6c                   | +00090  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00090  -> $106F6C
         .dc.w   0x0029,0x5562,0x000d,0x0002                                 | +00094
-        .dc.l   Data_0b0002                   | +0009c  -> $0B0002
+        .dc.l   BgMap_0b0002                   | +0009c  -> $0B0002
         .dc.w   0x0003,0x0007                                               | +000a0
-        .dc.l   Data_106f6c                   | +000a4  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +000a4  -> $106F6C
         .dc.w   0x0029,0x5562,0x000d,0x0002,0x000f                          | +000a8
-        .dc.l   Data_020003                   | +000b2  -> $020003
+        .dc.l   Pal_020003                   | +000b2  -> $020003
         .dc.w   0x0007                                                      | +000b6
-        .dc.l   Data_106f6c                   | +000b8  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +000b8  -> $106F6C
         .dc.w   0x0029,0x5562,0x000d                                        | +000bc
-        .dc.l   Data_020013                   | +000c2  -> $020013
-        .dc.l   Data_020003                   | +000c6  -> $020003
+        .dc.l   Pal_020013                   | +000c2  -> $020013
+        .dc.l   Pal_020003                   | +000c6  -> $020003
         .dc.w   0x0007                                                      | +000ca
-        .dc.l   Data_106f6c                   | +000cc  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +000cc  -> $106F6C
         .dc.w   0x0029,0x5562,0x000d,0x0002,0x0017                          | +000d0
-        .dc.l   Data_020003                   | +000da  -> $020003
+        .dc.l   Pal_020003                   | +000da  -> $020003
         .dc.w   0x0007                                                      | +000de
-        .dc.l   Data_106f6c                   | +000e0  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +000e0  -> $106F6C
         .dc.w   0x0029,0x5562                                               | +000e4
-        .dc.l   Data_0d0009                   | +000e8  -> $0D0009
+        .dc.l   BgMap_0d0009                   | +000e8  -> $0D0009
         .dc.l   Data_01000b                   | +000ec  -> $01000B
         .dc.w   0x0003,0x0003                                               | +000f0
-        .dc.l   Data_106f6c                   | +000f4  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +000f4  -> $106F6C
         .dc.w   0x0029,0x5562                                               | +000f8
-        .dc.l   Data_100001                   | +000fc  -> $100001
+        .dc.l   ColMap_100001                   | +000fc  -> $100001
         .dc.w   0x001b                                                      | +00100
-        .dc.l   Data_020004                   | +00102  -> $020004
+        .dc.l   Pal_020004                   | +00102  -> $020004
         .dc.w   0x0008                                                      | +00106
-        .dc.l   Data_106f6c                   | +00108  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00108  -> $106F6C
         .dc.w   0x0029,0x5562                                               | +0010c
-        .dc.l   Data_100001                   | +00110  -> $100001
+        .dc.l   ColMap_100001                   | +00110  -> $100001
         .dc.w   0x0020                                                      | +00114
-        .dc.l   Data_020004                   | +00116  -> $020004
+        .dc.l   Pal_020004                   | +00116  -> $020004
         .dc.w   0x0008                                                      | +0011a
-        .dc.l   Data_106f6c                   | +0011c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0011c  -> $106F6C
         .dc.w   0x0029,0x5562                                               | +00120
-        .dc.l   Data_140004                   | +00124  -> $140004
+        .dc.l   SprFrame_140004                   | +00124  -> $140004
         .dc.w   0x0050,0x0011,0x0007,0x0008                                 | +00128
-        .dc.l   Data_106f6c                   | +00130  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00130  -> $106F6C
         .dc.w   0x0029,0x5562,0x0015,0x0004,0x0051,0x0011                   | +00134
         .dc.l   Breakable22_Destroyed_060008  | +00140  -> $060008
-        .dc.l   Data_106f6c                   | +00144  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00144  -> $106F6C
         .dc.w   0x0029,0x5562,0x001b,0x0006,0x0007                          | +00148
-        .dc.l   Data_0a0001                   | +00152  -> $0A0001
+        .dc.l   BgMap_0a0001                   | +00152  -> $0A0001
         .dc.w   0x0005                                                      | +00156
-        .dc.l   Data_106f6c                   | +00158  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00158  -> $106F6C
         .dc.w   0x0029,0x5562,0x001b,0x0006,0x0009                          | +0015c
-        .dc.l   Data_0a0001                   | +00166  -> $0A0001
+        .dc.l   BgMap_0a0001                   | +00166  -> $0A0001
         .dc.w   0x0005                                                      | +0016a
-        .dc.l   Data_106f6c                   | +0016c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0016c  -> $106F6C
         .dc.w   0x0029,0x5562,0x001b,0x0006                                 | +00170
-        .dc.l   Data_0b000a                   | +00178  -> $0B000A
+        .dc.l   BgMap_0b000a                   | +00178  -> $0B000A
         .dc.w   0x0001,0x0005                                               | +0017c
-        .dc.l   Data_106f6c                   | +00180  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00180  -> $106F6C
         .dc.w   0x0029,0x5562,0x001c,0x0007,0x000e                          | +00184
-        .dc.l   Data_0c0002                   | +0018e  -> $0C0002
-        .dc.l   Data_020010                   | +00192  -> $020010
+        .dc.l   Zero_0c0002                   | +0018e  -> $0C0002
+        .dc.l   Pal_020010                   | +00192  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x001b,0x0000,0x0035                   | +00196
         .dc.l   Data_010007                   | +001a2  -> $010007
         .dc.w   0x0007                                                      | +001a6
-        .dc.l   Data_106f6c                   | +001a8  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +001a8  -> $106F6C
         .dc.w   0x0029,0x5562,0x001b,0x0000,0x003d                          | +001ac
         .dc.l   Data_010007                   | +001b6  -> $010007
         .dc.w   0x0007                                                      | +001ba
-        .dc.l   Data_106f6c                   | +001bc  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +001bc  -> $106F6C
         .dc.w   0x0029,0x5562,0x001b,0x0000,0x0045                          | +001c0
         .dc.l   Data_010007                   | +001ca  -> $010007
         .dc.w   0x0007                                                      | +001ce
-        .dc.l   Data_106f6c                   | +001d0  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +001d0  -> $106F6C
         .dc.w   0x0029,0x5562,0x0022,0x0000,0x0035,0x0009,0x0006,0x0007     | +001d4
-        .dc.l   Data_106f6c                   | +001e4  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +001e4  -> $106F6C
         .dc.w   0x0029,0x5562,0x0022,0x0000,0x003c,0x0009,0x0006,0x0007     | +001e8
-        .dc.l   Data_106f6c                   | +001f8  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +001f8  -> $106F6C
         .dc.w   0x0029,0x5562,0x0022,0x0000,0x0043,0x0009,0x0006,0x0007     | +001fc
-        .dc.l   Data_106f6c                   | +0020c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0020c  -> $106F6C
         .dc.w   0x0029,0x5562,0x001e,0x0007,0x004a,0x0009,0x0004            | +00210
         .dc.l   Data_010010                   | +0021e  -> $010010
         .dc.w   0x6f6c,0x0029,0x5562,0x001e,0x0007,0x004a                   | +00222
-        .dc.l   Data_0b0004                   | +0022e  -> $0B0004
+        .dc.l   BgMap_0b0004                   | +0022e  -> $0B0004
         .dc.l   Data_010010                   | +00232  -> $010010
         .dc.w   0x6f6c,0x0029,0x5562,0x0022,0x0007,0x004a                   | +00236
-        .dc.l   Data_0d0005                   | +00242  -> $0D0005
+        .dc.l   BgMap_0d0005                   | +00242  -> $0D0005
         .dc.l   Data_010010                   | +00246  -> $010010
         .dc.w   0x6f6c,0x0029,0x5562,0x0022,0x0007,0x004a,0x000f,0x0005     | +0024a
         .dc.l   Data_010010                   | +0025a  -> $010010
         .dc.w   0x6f6c,0x0029,0x5562,0x0028,0x0006                          | +0025e
-        .dc.l   Data_11000a                   | +00268  -> $11000A
+        .dc.l   ColMap_11000a                   | +00268  -> $11000A
         .dc.w   0x0007,0x0006                                               | +0026c
-        .dc.l   Data_106f6c                   | +00270  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00270  -> $106F6C
         .dc.w   0x0029,0x5562,0x002f,0x0008                                 | +00274
-        .dc.l   Data_1a000c                   | +0027c  -> $1A000C
-        .dc.l   Data_020004                   | +00280  -> $020004
-        .dc.l   Data_106f6c                   | +00284  -> $106F6C
+        .dc.l   AnimScr_1a000c                   | +0027c  -> $1A000C
+        .dc.l   Pal_020004                   | +00280  -> $020004
+        .dc.l   ColMap_106f6c                   | +00284  -> $106F6C
         .dc.w   0x0029,0x5562,0x002f,0x0001,0x0025,0x0002,0x0007,0x0008     | +00288
-        .dc.l   Data_106f6c                   | +00298  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00298  -> $106F6C
         .dc.w   0x0029,0x5562,0x002f,0x0001,0x002d,0x0002,0x0007,0x0008     | +0029c
-        .dc.l   Data_106f6c                   | +002ac  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +002ac  -> $106F6C
         .dc.w   0x0029,0x5562,0x0036,0x0007,0x001c,0x000c,0x0005,0x0003     | +002b0
-        .dc.l   Data_106f6c                   | +002c0  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +002c0  -> $106F6C
         .dc.w   0x0029,0x5562,0x0036,0x0005,0x000f,0x0013,0x0004,0x0009     | +002c4
-        .dc.l   Data_106f6c                   | +002d4  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +002d4  -> $106F6C
         .dc.w   0x0029,0x5562,0x0036,0x0005,0x0014,0x0013,0x0004,0x0009     | +002d8
-        .dc.l   Data_106f6c                   | +002e8  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +002e8  -> $106F6C
         .dc.w   0x0029,0x5562,0x003a,0x0003                                 | +002ec
         .dc.l   Data_190011                   | +002f4  -> $190011
         .dc.w   0x0004                                                      | +002f8
-        .dc.l   Data_0b0010                   | +002fa  -> $0B0010
+        .dc.l   BgMap_0b0010                   | +002fa  -> $0B0010
         .dc.w   0x6f6c,0x0029,0x5562,0x003a,0x0003,0x001e                   | +002fe
-        .dc.l   Data_110004                   | +0030a  -> $110004
-        .dc.l   Data_0b0010                   | +0030e  -> $0B0010
+        .dc.l   ColMap_110004                   | +0030a  -> $110004
+        .dc.l   BgMap_0b0010                   | +0030e  -> $0B0010
         .dc.w   0x6f6c,0x0029,0x5562,0x003a,0x0003,0x0023                   | +00312
-        .dc.l   Data_110004                   | +0031e  -> $110004
-        .dc.l   Data_0b0010                   | +00322  -> $0B0010
+        .dc.l   ColMap_110004                   | +0031e  -> $110004
+        .dc.l   BgMap_0b0010                   | +00322  -> $0B0010
         .dc.w   0x6f6c,0x0029,0x5562,0x003a,0x0005,0x0050                   | +00326
-        .dc.l   Data_020002                   | +00332  -> $020002
-        .dc.l   Data_020010                   | +00336  -> $020010
+        .dc.l   Pal_020002                   | +00332  -> $020002
+        .dc.l   Pal_020010                   | +00336  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x003a,0x0005,0x0050,0x0006            | +0033a
-        .dc.l   Data_020002                   | +00348  -> $020002
-        .dc.l   Data_106f6c                   | +0034c  -> $106F6C
+        .dc.l   Pal_020002                   | +00348  -> $020002
+        .dc.l   ColMap_106f6c                   | +0034c  -> $106F6C
         .dc.w   0x0029,0x5562,0x0036,0x0007,0x0050                          | +00350
-        .dc.l   Data_0a0002                   | +0035a  -> $0A0002
-        .dc.l   Data_020010                   | +0035e  -> $020010
+        .dc.l   BgMap_0a0002                   | +0035a  -> $0A0002
+        .dc.l   Pal_020010                   | +0035e  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x0038,0x0007,0x0058                   | +00362
-        .dc.l   Data_020002                   | +0036e  -> $020002
-        .dc.l   Data_020010                   | +00372  -> $020010
+        .dc.l   Pal_020002                   | +0036e  -> $020002
+        .dc.l   Pal_020010                   | +00372  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x0038,0x0007,0x0058,0x0006            | +00376
-        .dc.l   Data_020002                   | +00384  -> $020002
-        .dc.l   Data_106f6c                   | +00388  -> $106F6C
+        .dc.l   Pal_020002                   | +00384  -> $020002
+        .dc.l   ColMap_106f6c                   | +00388  -> $106F6C
         .dc.w   0x0029,0x5562,0x003a,0x0007,0x0054                          | +0038c
-        .dc.l   Data_020002                   | +00396  -> $020002
-        .dc.l   Data_020010                   | +0039a  -> $020010
+        .dc.l   Pal_020002                   | +00396  -> $020002
+        .dc.l   Pal_020010                   | +0039a  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x003a,0x0007,0x0054,0x0006            | +0039e
-        .dc.l   Data_020002                   | +003ac  -> $020002
-        .dc.l   Data_106f6c                   | +003b0  -> $106F6C
+        .dc.l   Pal_020002                   | +003ac  -> $020002
+        .dc.l   ColMap_106f6c                   | +003b0  -> $106F6C
         .dc.w   0x0029,0x5562,0x003c,0x0007,0x0054                          | +003b4
-        .dc.l   Data_0a0002                   | +003be  -> $0A0002
-        .dc.l   Data_020010                   | +003c2  -> $020010
+        .dc.l   BgMap_0a0002                   | +003be  -> $0A0002
+        .dc.l   Pal_020010                   | +003c2  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x0036,0x0009,0x0050,0x000e,0x0008     | +003c6
-        .dc.l   Data_020010                   | +003d6  -> $020010
+        .dc.l   Pal_020010                   | +003d6  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x003e,0x0003,0x0028,0x0011,0x0003     | +003da
-        .dc.l   Data_0b0010                   | +003ea  -> $0B0010
+        .dc.l   BgMap_0b0010                   | +003ea  -> $0B0010
         .dc.w   0x6f6c,0x0029,0x5562,0x003a,0x0003,0x002c,0x0011            | +003ee
-        .dc.l   Data_020002                   | +003fc  -> $020002
-        .dc.l   Data_106f6c                   | +00400  -> $106F6C
+        .dc.l   Pal_020002                   | +003fc  -> $020002
+        .dc.l   ColMap_106f6c                   | +00400  -> $106F6C
         .dc.w   0x0029,0x5562,0x003a,0x0003,0x002f,0x0018                   | +00404
-        .dc.l   Data_020002                   | +00410  -> $020002
-        .dc.l   Data_106f6c                   | +00414  -> $106F6C
+        .dc.l   Pal_020002                   | +00410  -> $020002
+        .dc.l   ColMap_106f6c                   | +00414  -> $106F6C
         .dc.w   0x0029,0x5562,0x003c,0x0003,0x002f,0x0011                   | +00418
-        .dc.l   Data_020002                   | +00424  -> $020002
-        .dc.l   Data_106f6c                   | +00428  -> $106F6C
+        .dc.l   Pal_020002                   | +00424  -> $020002
+        .dc.l   ColMap_106f6c                   | +00428  -> $106F6C
         .dc.w   0x0029,0x5562,0x003c,0x0003,0x0031,0x0018                   | +0042c
-        .dc.l   Data_020002                   | +00438  -> $020002
-        .dc.l   Data_106f6c                   | +0043c  -> $106F6C
+        .dc.l   Pal_020002                   | +00438  -> $020002
+        .dc.l   ColMap_106f6c                   | +0043c  -> $106F6C
         .dc.w   0x0029,0x5562,0x003e,0x0003,0x0032,0x0011                   | +00440
-        .dc.l   Data_020002                   | +0044c  -> $020002
-        .dc.l   Data_106f6c                   | +00450  -> $106F6C
+        .dc.l   Pal_020002                   | +0044c  -> $020002
+        .dc.l   ColMap_106f6c                   | +00450  -> $106F6C
         .dc.w   0x0029,0x5562,0x003e,0x0003,0x0033,0x0018                   | +00454
-        .dc.l   Data_020002                   | +00460  -> $020002
-        .dc.l   Data_106f6c                   | +00464  -> $106F6C
+        .dc.l   Pal_020002                   | +00460  -> $020002
+        .dc.l   ColMap_106f6c                   | +00464  -> $106F6C
         .dc.w   0x0029,0x5562,0x0040,0x0003,0x0035,0x0011                   | +00468
         .dc.l   Data_010002                   | +00474  -> $010002
-        .dc.l   Data_106f6c                   | +00478  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +00478  -> $106F6C
         .dc.w   0x0029,0x5562,0x0040,0x0003,0x0035,0x0018                   | +0047c
         .dc.l   Data_010002                   | +00488  -> $010002
-        .dc.l   Data_106f6c                   | +0048c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0048c  -> $106F6C
         .dc.w   0x0029,0x5562,0x003a,0x0005,0x002c,0x0014                   | +00490
-        .dc.l   Data_020002                   | +0049c  -> $020002
-        .dc.l   Data_106f6c                   | +004a0  -> $106F6C
+        .dc.l   Pal_020002                   | +0049c  -> $020002
+        .dc.l   ColMap_106f6c                   | +004a0  -> $106F6C
         .dc.w   0x0029,0x5562,0x003a,0x0005,0x002f                          | +004a4
-        .dc.l   Data_1a0002                   | +004ae  -> $1A0002
-        .dc.l   Data_020010                   | +004b2  -> $020010
+        .dc.l   AnimScr_1a0002                   | +004ae  -> $1A0002
+        .dc.l   Pal_020010                   | +004b2  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x003c,0x0005,0x002f,0x0014            | +004b6
-        .dc.l   Data_020002                   | +004c4  -> $020002
-        .dc.l   Data_106f6c                   | +004c8  -> $106F6C
+        .dc.l   Pal_020002                   | +004c4  -> $020002
+        .dc.l   ColMap_106f6c                   | +004c8  -> $106F6C
         .dc.w   0x0029,0x5562,0x003c,0x0005,0x0031                          | +004cc
-        .dc.l   Data_1a0002                   | +004d6  -> $1A0002
-        .dc.l   Data_020010                   | +004da  -> $020010
+        .dc.l   AnimScr_1a0002                   | +004d6  -> $1A0002
+        .dc.l   Pal_020010                   | +004da  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x003e,0x0005,0x0032,0x0014            | +004de
-        .dc.l   Data_020002                   | +004ec  -> $020002
-        .dc.l   Data_106f6c                   | +004f0  -> $106F6C
+        .dc.l   Pal_020002                   | +004ec  -> $020002
+        .dc.l   ColMap_106f6c                   | +004f0  -> $106F6C
         .dc.w   0x0029,0x5562,0x003e,0x0005,0x0033                          | +004f4
-        .dc.l   Data_1a0002                   | +004fe  -> $1A0002
-        .dc.l   Data_020010                   | +00502  -> $020010
+        .dc.l   AnimScr_1a0002                   | +004fe  -> $1A0002
+        .dc.l   Pal_020010                   | +00502  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x0040,0x0005,0x0035                   | +00506
-        .dc.l   Data_140001                   | +00512  -> $140001
-        .dc.l   Data_020010                   | +00516  -> $020010
+        .dc.l   SprFrame_140001                   | +00512  -> $140001
+        .dc.l   Pal_020010                   | +00516  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x0040,0x0005,0x0035                   | +0051a
-        .dc.l   Data_1a0001                   | +00526  -> $1A0001
-        .dc.l   Data_020010                   | +0052a  -> $020010
+        .dc.l   AnimScr_1a0001                   | +00526  -> $1A0001
+        .dc.l   Pal_020010                   | +0052a  -> $020010
         .dc.w   0x6f6c,0x0029,0x5562,0x003b,0x0007,0x002c,0x0018            | +0052e
-        .dc.l   Data_020003                   | +0053c  -> $020003
-        .dc.l   Data_106f6c                   | +00540  -> $106F6C
+        .dc.l   Pal_020003                   | +0053c  -> $020003
+        .dc.l   ColMap_106f6c                   | +00540  -> $106F6C
         .dc.w   0x0029,0x5562,0x0041,0x0000,0x0037                          | +00544
-        .dc.l   Data_110008                   | +0054e  -> $110008
-        .dc.l   Data_0b0010                   | +00552  -> $0B0010
+        .dc.l   ColMap_110008                   | +0054e  -> $110008
+        .dc.l   BgMap_0b0010                   | +00552  -> $0B0010
         .dc.w   0x6f6c,0x0029,0x5562,0x0048,0x0000,0x003f                   | +00556
-        .dc.l   Data_110008                   | +00562  -> $110008
+        .dc.l   ColMap_110008                   | +00562  -> $110008
         .dc.l   Data_0e0010                   | +00566  -> $0E0010
         .dc.w   0x6f6c,0x0029,0x5562,0x0044,0x0003,0x0047,0x0011            | +0056a
-        .dc.l   Data_020002                   | +00578  -> $020002
-        .dc.l   Data_106f6c                   | +0057c  -> $106F6C
+        .dc.l   Pal_020002                   | +00578  -> $020002
+        .dc.l   ColMap_106f6c                   | +0057c  -> $106F6C
         .dc.w   0x0029,0x5562,0x0046,0x0003,0x004a,0x0011                   | +00580
-        .dc.l   Data_020002                   | +0058c  -> $020002
-        .dc.l   Data_106f6c                   | +00590  -> $106F6C
+        .dc.l   Pal_020002                   | +0058c  -> $020002
+        .dc.l   ColMap_106f6c                   | +00590  -> $106F6C
         .dc.w   0x0029,0x5562,0x0046,0x0005,0x004d,0x0011                   | +00594
-        .dc.l   Data_020002                   | +005a0  -> $020002
-        .dc.l   Data_106f6c                   | +005a4  -> $106F6C
+        .dc.l   Pal_020002                   | +005a0  -> $020002
+        .dc.l   ColMap_106f6c                   | +005a4  -> $106F6C
         .dc.w   0x0029,0x5562,0x0048,0x0003,0x0047,0x0014                   | +005a8
-        .dc.l   Data_020004                   | +005b4  -> $020004
-        .dc.l   Data_106f6c                   | +005b8  -> $106F6C
+        .dc.l   Pal_020004                   | +005b4  -> $020004
+        .dc.l   ColMap_106f6c                   | +005b8  -> $106F6C
         .dc.w   0x0029,0x5562,0x0048,0x0009,0x0022,0x000b,0x0007,0x0005     | +005bc
-        .dc.l   Data_106f6c                   | +005cc  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +005cc  -> $106F6C
         .dc.w   0x0029,0x5562,0x0048,0x0009,0x002a,0x000b,0x0007,0x0005     | +005d0
-        .dc.l   Data_107fe8                   | +005e0  -> $107FE8
+        .dc.l   ColMap_107fe8                   | +005e0  -> $107FE8
         .dc.w   0x0029,0x5562,0x0000,0x0000,0x0001                          | +005e4
-        .dc.l   Data_1a0002                   | +005ee  -> $1A0002
+        .dc.l   AnimScr_1a0002                   | +005ee  -> $1A0002
         .dc.w   0x0004                                                      | +005f2
-        .dc.l   Data_107fe8                   | +005f4  -> $107FE8
+        .dc.l   ColMap_107fe8                   | +005f4  -> $107FE8
         .dc.w   0x0029,0x5562                                               | +005f8
-        .dc.l   Data_020000                   | +005fc  -> $020000
+        .dc.l   Pal_020000                   | +005fc  -> $020000
         .dc.w   0x000a                                                      | +00600
-        .dc.l   Data_110004                   | +00602  -> $110004
-        .dc.l   Data_020010                   | +00606  -> $020010
+        .dc.l   ColMap_110004                   | +00602  -> $110004
+        .dc.l   Pal_020010                   | +00606  -> $020010
         .dc.w   0x7fe8,0x0029,0x5562                                        | +0060a
-        .dc.l   Data_020002                   | +00610  -> $020002
+        .dc.l   Pal_020002                   | +00610  -> $020002
         .dc.w   0x0004                                                      | +00614
-        .dc.l   Data_1a0002                   | +00616  -> $1A0002
+        .dc.l   AnimScr_1a0002                   | +00616  -> $1A0002
         .dc.w   0x0004                                                      | +0061a
-        .dc.l   Data_107fe8                   | +0061c  -> $107FE8
+        .dc.l   ColMap_107fe8                   | +0061c  -> $107FE8
         .dc.w   0x0029,0x5562,0x0004,0x0002,0x000a                          | +00620
-        .dc.l   Data_140004                   | +0062a  -> $140004
-        .dc.l   Data_020010                   | +0062e  -> $020010
+        .dc.l   SprFrame_140004                   | +0062a  -> $140004
+        .dc.l   Pal_020010                   | +0062e  -> $020010
         .dc.w   0x7fe8,0x0029,0x5562,0x0004,0x0002                          | +00632
-        .dc.l   Data_0a0017                   | +0063c  -> $0A0017
+        .dc.l   BgMap_0a0017                   | +0063c  -> $0A0017
         .dc.w   0x0004                                                      | +00640
-        .dc.l   Data_020010                   | +00642  -> $020010
+        .dc.l   Pal_020010                   | +00642  -> $020010
         .dc.w   0x7fe8,0x0029,0x5562,0x0000,0x0000,0x0037                   | +00646
-        .dc.l   Data_110008                   | +00652  -> $110008
+        .dc.l   ColMap_110008                   | +00652  -> $110008
         .dc.w   0x0007,0x00ff,0x0004,0x0010,0x0050,0x0000,0x0050,0x0000     | +00656
         .dc.l   Explosion_Fire_077f6a         | +00666  -> $077F6A
         .dc.w   0x0003,0x0009,0x0010,0x0050,0x0000,0x0050,0x0000            | +0066a
         .dc.l   Explosion_Std_077efe          | +00678  -> $077EFE
         .dc.w   0x00ff                                                      | +0067c
-        .dc.l   Data_020010                   | +0067e  -> $020010
+        .dc.l   Pal_020010                   | +0067e  -> $020010
         .dc.w   0x0050,0x0000,0x0050,0x0000                                 | +00682
         .dc.l   Explosion_Fire_077f6a         | +0068a  -> $077F6A
         .dc.w   0x0003,0x0006,0x0010,0x0050,0x0000,0x0050,0x0000            | +0068e
@@ -4067,9 +4067,9 @@ Data_195502:
         .dc.w   0x0003,0x0009,0xfff0,0x0030,0x0000,0x0050,0x0000            | +006b2
         .dc.l   Explosion_Std_077efe          | +006c0  -> $077EFE
         .dc.w   0x01ff                                                      | +006c4
-        .dc.l   Data_020010                   | +006c6  -> $020010
+        .dc.l   Pal_020010                   | +006c6  -> $020010
         .dc.w   0x0038,0x0000                                               | +006ca
-        .dc.l   Data_180000                   | +006ce  -> $180000
+        .dc.l   AnimScr_180000                   | +006ce  -> $180000
         .dc.l   Explosion_Small_077e10        | +006d2  -> $077E10
         .dc.w   0x01ff,0x0002,0xffd8,0x0050,0xffe0,0x0050,0x0000            | +006d6
         .dc.l   Explosion_Fire_077f6a         | +006e4  -> $077F6A
@@ -4082,13 +4082,13 @@ Data_195502:
         .dc.w   0x0103,0x0009,0x0020,0x0090,0xffe0,0x0050,0x0000            | +0071e
         .dc.l   Explosion_Fire_077f6a         | +0072c  -> $077F6A
         .dc.w   0x01ff                                                      | +00730
-        .dc.l   Data_020000                   | +00732  -> $020000
+        .dc.l   Pal_020000                   | +00732  -> $020000
         .dc.w   0x0060,0x0000,0x0080,0x0000                                 | +00736
         .dc.l   Explosion_FlashSndB_077fd6    | +0073e  -> $077FD6
         .dc.w   0x0103,0x0006,0x0000,0x0060,0x0000,0x0080,0x0000            | +00742
         .dc.l   Explosion_Fire_077f6a         | +00750  -> $077F6A
         .dc.w   0x01ff,0x0004                                               | +00754
-        .dc.l   Str_100068                    | +00758  -> $100068
+        .dc.l   ColMap_100068                    | +00758  -> $100068
         .dc.w   0x0038,0x0020,0x0000                                        | +0075c
         .dc.l   Explosion_Fire_077f6a         | +00762  -> $077F6A
         .dc.w   0x0103                                                      | +00766
@@ -4108,7 +4108,7 @@ Data_195502:
         .dc.l   Data_0c0000                   | +007d4  -> $0C0000
         .dc.w   0x0060,0x0000,0x0080,0x0001,0x0029,0x5cf8                   | +007d8
         .dc.l   Data_010004                   | +007e4  -> $010004
-        .dc.l   Str_100068                    | +007e8  -> $100068
+        .dc.l   ColMap_100068                    | +007e8  -> $100068
         .dc.w   0x0038,0x0020,0x0001,0x0029,0x5cf8                          | +007ec
         .dc.l   Explosion_VarTbl_078218       | +007f6  -> $078218
         .dc.l   Explosion_Var01_078236        | +007fa  -> $078236
@@ -4161,12 +4161,12 @@ Data_195de1:
         .dc.w   0x0047,0x0006                                               | +00001
         .dc.l   Data_010000                   | +00005  -> $010000
         .dc.w   0x0000,0x0000                                               | +00009
-        .dc.l   Data_18004f                   | +0000d  -> $18004F
+        .dc.l   AnimScr_18004f                   | +0000d  -> $18004F
         .dc.w   0x000d                                                      | +00011
         .dc.l   Data_010000                   | +00013  -> $010000
         .fill   13,1,0x00                      | +00017
         .dc.b   0x40                            | +00024
-        .dc.l   Data_170007                   | +00025  -> $170007
+        .dc.l   SprFrame_170007                   | +00025  -> $170007
         .dc.l   Data_010000                   | +00029  -> $010000
         .dc.w   0x0000,0x0000                                               | +0002d
         .dc.l   Data_00ffd0                   | +00031  -> $00FFD0
@@ -4178,7 +4178,7 @@ Data_195de1:
         .dc.l   Data_010000                   | +0005d  -> $010000
         .fill   12,1,0x00                      | +00061
         .dc.w   0xfff8,0x0047                                               | +0006d
-        .dc.l   Data_11000b                   | +00071  -> $11000B
+        .dc.l   ColMap_11000b                   | +00071  -> $11000B
         .fill   9,1,0x00                      | +00075
         .dc.b   0x40                            | +0007e
         .dc.w   0x4100                                                      | +0007f
@@ -4224,7 +4224,7 @@ Data_195de1:
         .dc.w   0x4100,0x0030,0x003f                                        | +0012f
         .dc.l   Data_01000a                   | +00135  -> $01000A
         .dc.w   0x0101,0x0101,0x0101,0x0101,0x4150,0x0028,0x003f,0x0003     | +00139
-        .dc.l   Data_0a0000                   | +00149  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +00149  -> $0A0000
         .dc.w   0x0000,0x0000,0x0000,0x4041                                 | +0014d
         .fill   8,1,0x00                      | +00155
         .dc.w   0x4041                                                      | +0015d
@@ -4233,7 +4233,7 @@ Data_195de1:
         .dc.l   Data_010000                   | +0016f  -> $010000
         .fill   11,1,0x00                      | +00173
         .dc.b   0x08                            | +0017e
-        .dc.l   Data_170007                   | +0017f  -> $170007
+        .dc.l   SprFrame_170007                   | +0017f  -> $170007
         .dc.l   Data_010000                   | +00183  -> $010000
         .dc.w   0x0000,0x0000                                               | +00187
         .dc.l   Data_00ffe8                   | +0018b  -> $00FFE8
@@ -4297,7 +4297,7 @@ Data_196000:
         .dc.w   0x0024,0x364e,0xffff,0xffc0,0xffe0,0x0200,0x0024,0x3658     | +00222
         .dc.w   0xffff,0x0040,0x0050,0x0200,0x0024,0x3662,0xffff,0x0040     | +00232
         .dc.w   0xffe0,0x1d00,0xffff,0xffff,0xfff8,0x0008,0x0000            | +00242
-        .dc.l   Data_10ffff                   | +00250  -> $10FFFF
+        .dc.l   ColMap_10ffff                   | +00250  -> $10FFFF
         .dc.w   0xfff8,0x0008,0xfff8,0x0008,0xffff,0xffc0,0x0040,0x0000     | +00254
         .dc.w   0x0050,0xffff,0xffd0,0x0030,0xfff0,0x0030,0xffff,0x8001     | +00264
         .dc.w   0x0070,0x0000,0x0050,0x0070,0x0000,0x0090,0x0200,0x0024     | +00274
@@ -4305,13 +4305,13 @@ Data_196000:
         .dc.w   0x0050,0x0090,0x0200,0x0024,0x361c,0xffff,0x0050,0x0000     | +00294
         .dc.w   0x0200,0x0024,0x3626,0xffff,0x0070,0x0090,0x0200,0x0024     | +002a4
         .dc.w   0x3630,0xffff,0x0070,0x0000,0x1d01,0x8001                   | +002b4
-        .dc.l   Data_100000                   | +002c0  -> $100000
+        .dc.l   ColMap_100000                   | +002c0  -> $100000
         .dc.w   0xfff0,0x0030,0x0000,0x0090,0x0200,0x0024,0x3608,0xffff     | +002c4
         .dc.w   0x0000,0x0000,0x0200,0x0024,0x3612,0xffff,0xfff0,0x0090     | +002d4
         .dc.w   0x0200,0x0024,0x361c,0xffff,0xfff0,0x0000,0x0200,0x0024     | +002e4
         .dc.w   0x3626,0xffff,0x0030,0x0090,0x0200,0x0024,0x3630,0xffff     | +002f4
         .dc.w   0x0030,0x0000,0x1d01,0x8001                                 | +00304
-        .dc.l   Data_100000                   | +0030c  -> $100000
+        .dc.l   ColMap_100000                   | +0030c  -> $100000
         .dc.w   0x0000,0x0030,0x0000,0x00a0,0x0200,0x0024,0x3608,0xffff     | +00310
         .dc.w   0x0000,0x0000,0x0200,0x0024,0x3612,0xffff,0x0000,0x00a0     | +00320
         .dc.w   0x0200,0x0024,0x361c,0xffff,0x0000,0x0000,0x0200,0x0024     | +00330
@@ -4332,13 +4332,13 @@ Data_196000:
         .dc.l   Data_010101                   | +003c0  -> $010101
         .dc.w   0x0002,0x0029,0x63a2,0x0000                                 | +003c4
         .dc.l   Data_00fff6                   | +003cc  -> $00FFF6
-        .dc.l   Data_0a0000                   | +003d0  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +003d0  -> $0A0000
         .dc.w   0x0028,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +003d4
         .dc.w   0x0024,0x3676,0xffff,0xfff6,0x0028,0x0200,0x0024,0x3680     | +003e4
         .dc.w   0xffff,0xfff6,0x0000,0x0200,0x0024,0x368a,0xffff            | +003f4
-        .dc.l   Data_0a0028                   | +00402  -> $0A0028
+        .dc.l   BgMap_0a0028                   | +00402  -> $0A0028
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00406
-        .dc.l   Data_0a0000                   | +0040e  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +0040e  -> $0A0000
         .dc.w   0x1d01,0xffff,0xffff,0x0000,0x0000,0x0101,0x0000,0x0000     | +00412
         .dc.w   0x0101                                                      | +00422
         .fill   17,1,0x00                      | +00424
@@ -4363,12 +4363,12 @@ Data_196000:
         .dc.w   0x0024,0x368a,0xffff,0xfff0,0x0028,0x0200,0x0024,0x3694     | +0051a
         .dc.w   0xffff,0xfff0,0x0000,0x1d01,0xffff,0xffff,0x0001,0x0029     | +0052a
         .dc.w   0x6418,0x0000,0x0000                                        | +0053a
-        .dc.l   Str_100060                    | +00540  -> $100060
+        .dc.l   ColMap_100060                    | +00540  -> $100060
         .dc.w   0x0000,0x0028,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +00544
         .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +00554
-        .dc.l   Data_100028                   | +0055c  -> $100028
+        .dc.l   ColMap_100028                   | +0055c  -> $100028
         .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +00560
-        .dc.l   Data_100000                   | +00568  -> $100000
+        .dc.l   ColMap_100000                   | +00568  -> $100000
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0060,0x0028,0x0200,0x0024     | +0056c
         .dc.w   0x3694,0xffff,0x0060,0x0000,0x1d01,0xffff,0xffff,0x0800     | +0057c
         .dc.l   Allen_SpawnMuzzleFlashA_05080a| +0058c  -> $05080A
@@ -4500,39 +4500,39 @@ Data_196000:
         .dc.w   0x0024,0xb0e0,0xffff,0x1600                                 | +0088c
         .dc.l   Data_010208                   | +00894  -> $010208
         .dc.w   0x0024,0xa17a,0xffff                                        | +00898
-        .dc.l   Data_020208                   | +0089e  -> $020208
+        .dc.l   Pal_020208                   | +0089e  -> $020208
         .dc.w   0x0024,0xa510,0xffff                                        | +008a2
-        .dc.l   Data_020208                   | +008a8  -> $020208
+        .dc.l   Pal_020208                   | +008a8  -> $020208
         .dc.w   0x0024,0xa544,0xffff                                        | +008ac
-        .dc.l   Data_020208                   | +008b2  -> $020208
+        .dc.l   Pal_020208                   | +008b2  -> $020208
         .dc.w   0x0024,0xa570,0xffff                                        | +008b6
-        .dc.l   Data_020208                   | +008bc  -> $020208
+        .dc.l   Pal_020208                   | +008bc  -> $020208
         .dc.w   0x0024,0xa5a6,0xffff                                        | +008c0
-        .dc.l   Data_020208                   | +008c6  -> $020208
+        .dc.l   Pal_020208                   | +008c6  -> $020208
         .dc.w   0x0024,0xa5d2,0xffff                                        | +008ca
-        .dc.l   Data_020208                   | +008d0  -> $020208
+        .dc.l   Pal_020208                   | +008d0  -> $020208
         .dc.w   0x0024,0xa5fa,0xffff                                        | +008d4
-        .dc.l   Data_020208                   | +008da  -> $020208
+        .dc.l   Pal_020208                   | +008da  -> $020208
         .dc.w   0x0024,0xa628,0xffff                                        | +008de
-        .dc.l   Data_020208                   | +008e4  -> $020208
+        .dc.l   Pal_020208                   | +008e4  -> $020208
         .dc.w   0x0024,0xa654,0xffff                                        | +008e8
-        .dc.l   Data_020208                   | +008ee  -> $020208
+        .dc.l   Pal_020208                   | +008ee  -> $020208
         .dc.w   0x0024,0xa68a,0xffff                                        | +008f2
-        .dc.l   Data_020208                   | +008f8  -> $020208
+        .dc.l   Pal_020208                   | +008f8  -> $020208
         .dc.w   0x0024,0xa6c0,0xffff,0x0100,0x0029,0x689e                   | +008fc
         .dc.l   Data_010208                   | +00908  -> $010208
         .dc.w   0x0024,0xa17a,0xffff                                        | +0090c
-        .dc.l   Data_020208                   | +00912  -> $020208
+        .dc.l   Pal_020208                   | +00912  -> $020208
         .dc.w   0x0024,0xb216,0xffff                                        | +00916
-        .dc.l   Data_020208                   | +0091c  -> $020208
+        .dc.l   Pal_020208                   | +0091c  -> $020208
         .dc.w   0x0024,0xb242,0xffff                                        | +00920
-        .dc.l   Data_020208                   | +00926  -> $020208
+        .dc.l   Pal_020208                   | +00926  -> $020208
         .dc.w   0x0024,0xb278,0xffff                                        | +0092a
-        .dc.l   Data_020208                   | +00930  -> $020208
+        .dc.l   Pal_020208                   | +00930  -> $020208
         .dc.w   0x0024,0xb2ae,0xffff                                        | +00934
-        .dc.l   Data_020208                   | +0093a  -> $020208
+        .dc.l   Pal_020208                   | +0093a  -> $020208
         .dc.w   0x0024,0xb2e4,0xffff                                        | +0093e
-        .dc.l   Data_020208                   | +00944  -> $020208
+        .dc.l   Pal_020208                   | +00944  -> $020208
         .dc.w   0x0024,0xb310,0xffff,0x0100,0x0029,0x6912                   | +00948
         .dc.l   Data_010208                   | +00954  -> $010208
         .dc.w   0x0024,0xa6e8,0xffff                                        | +00958
@@ -4542,11 +4542,11 @@ Data_196000:
         .dc.w   0x0024,0xa718,0xffff                                        | +0096c
         .dc.l   Data_010209                   | +00972  -> $010209
         .dc.w   0x0024,0xa6e8,0xffff,0x1600                                 | +00976
-        .dc.l   Data_020208                   | +0097e  -> $020208
+        .dc.l   Pal_020208                   | +0097e  -> $020208
         .dc.w   0x0024,0xa73e,0xffff                                        | +00982
-        .dc.l   Data_020208                   | +00988  -> $020208
+        .dc.l   Pal_020208                   | +00988  -> $020208
         .dc.w   0x0024,0xa76e,0xffff                                        | +0098c
-        .dc.l   Data_020208                   | +00992  -> $020208
+        .dc.l   Pal_020208                   | +00992  -> $020208
         .dc.w   0x0024,0xa79e,0xffff                                        | +00996
         .dc.l   Data_010208                   | +0099c  -> $010208
         .dc.w   0x0024,0xa76e,0xffff                                        | +009a0
@@ -4554,29 +4554,29 @@ Data_196000:
         .dc.w   0x0024,0xa73e,0xffff                                        | +009aa
         .dc.l   Data_010208                   | +009b0  -> $010208
         .dc.w   0x0024,0xa17a,0xffff,0x1600                                 | +009b4
-        .dc.l   Data_020208                   | +009bc  -> $020208
+        .dc.l   Pal_020208                   | +009bc  -> $020208
         .dc.w   0x0024,0xa7d2,0xffff                                        | +009c0
-        .dc.l   Data_020208                   | +009c6  -> $020208
+        .dc.l   Pal_020208                   | +009c6  -> $020208
         .dc.w   0x0024,0xa80a,0xffff                                        | +009ca
-        .dc.l   Data_020208                   | +009d0  -> $020208
+        .dc.l   Pal_020208                   | +009d0  -> $020208
         .dc.w   0x0024,0xa848,0xffff                                        | +009d4
-        .dc.l   Data_020208                   | +009da  -> $020208
+        .dc.l   Pal_020208                   | +009da  -> $020208
         .dc.w   0x0024,0xa880,0xffff                                        | +009de
-        .dc.l   Data_020208                   | +009e4  -> $020208
+        .dc.l   Pal_020208                   | +009e4  -> $020208
         .dc.w   0x0024,0xa848,0xffff                                        | +009e8
-        .dc.l   Data_020208                   | +009ee  -> $020208
+        .dc.l   Pal_020208                   | +009ee  -> $020208
         .dc.w   0x0024,0xa80a,0xffff                                        | +009f2
-        .dc.l   Data_020208                   | +009f8  -> $020208
+        .dc.l   Pal_020208                   | +009f8  -> $020208
         .dc.w   0x0024,0xa7d2,0xffff,0x1600                                 | +009fc
         .dc.l   Data_010208                   | +00a04  -> $010208
         .dc.w   0x0024,0xa17a,0xffff                                        | +00a08
         .dc.l   Data_010208                   | +00a0e  -> $010208
         .dc.w   0x0024,0xa73e,0xffff                                        | +00a12
-        .dc.l   Data_020208                   | +00a18  -> $020208
+        .dc.l   Pal_020208                   | +00a18  -> $020208
         .dc.w   0x0024,0xa76e,0xffff,0x0003,0x0208,0x0024,0xa79e,0xffff     | +00a1c
-        .dc.l   Data_020208                   | +00a2c  -> $020208
+        .dc.l   Pal_020208                   | +00a2c  -> $020208
         .dc.w   0x0024,0xa76e,0xffff                                        | +00a30
-        .dc.l   Data_020208                   | +00a36  -> $020208
+        .dc.l   Pal_020208                   | +00a36  -> $020208
         .dc.w   0x0024,0xa73e,0xffff                                        | +00a3a
         .dc.l   Data_010208                   | +00a40  -> $010208
         .dc.w   0x0024,0xa17a,0xffff,0x1600,0x0005,0x0208,0x0024,0xa8ae     | +00a44
@@ -4590,104 +4590,104 @@ Data_196000:
         .dc.w   0xffff,0x0003,0x0208,0x0024,0xae3c,0xffff                   | +00ac4
         .dc.l   Data_010208                   | +00ad0  -> $010208
         .dc.w   0x0024,0xae72,0xffff,0x1600                                 | +00ad4
-        .dc.l   Data_020208                   | +00adc  -> $020208
+        .dc.l   Pal_020208                   | +00adc  -> $020208
         .dc.w   0x0024,0xaea2,0xffff                                        | +00ae0
-        .dc.l   Data_020208                   | +00ae6  -> $020208
+        .dc.l   Pal_020208                   | +00ae6  -> $020208
         .dc.w   0x0024,0xaed2,0xffff                                        | +00aea
-        .dc.l   Data_020208                   | +00af0  -> $020208
+        .dc.l   Pal_020208                   | +00af0  -> $020208
         .dc.w   0x0024,0xaf02,0xffff                                        | +00af4
-        .dc.l   Data_020208                   | +00afa  -> $020208
+        .dc.l   Pal_020208                   | +00afa  -> $020208
         .dc.w   0x0024,0xaa3a,0xffff                                        | +00afe
-        .dc.l   Data_020208                   | +00b04  -> $020208
+        .dc.l   Pal_020208                   | +00b04  -> $020208
         .dc.w   0x0024,0xaa58,0xffff                                        | +00b08
-        .dc.l   Data_020208                   | +00b0e  -> $020208
+        .dc.l   Pal_020208                   | +00b0e  -> $020208
         .dc.w   0x0024,0xaa3a,0xffff                                        | +00b12
-        .dc.l   Data_020208                   | +00b18  -> $020208
+        .dc.l   Pal_020208                   | +00b18  -> $020208
         .dc.w   0x0024,0xaa58,0xffff,0x1600                                 | +00b1c
-        .dc.l   Data_020208                   | +00b24  -> $020208
+        .dc.l   Pal_020208                   | +00b24  -> $020208
         .dc.w   0x0024,0xaa3a,0xffff                                        | +00b28
-        .dc.l   Data_020208                   | +00b2e  -> $020208
+        .dc.l   Pal_020208                   | +00b2e  -> $020208
         .dc.w   0x0024,0xaa16,0xffff                                        | +00b32
-        .dc.l   Data_020208                   | +00b38  -> $020208
+        .dc.l   Pal_020208                   | +00b38  -> $020208
         .dc.w   0x0024,0xa9e8,0xffff                                        | +00b3c
-        .dc.l   Data_020208                   | +00b42  -> $020208
+        .dc.l   Pal_020208                   | +00b42  -> $020208
         .dc.w   0x0024,0xa9b2,0xffff                                        | +00b46
-        .dc.l   Data_020208                   | +00b4c  -> $020208
+        .dc.l   Pal_020208                   | +00b4c  -> $020208
         .dc.w   0x0024,0xa97c,0xffff                                        | +00b50
-        .dc.l   Data_020208                   | +00b56  -> $020208
+        .dc.l   Pal_020208                   | +00b56  -> $020208
         .dc.w   0x0024,0xa956,0xffff                                        | +00b5a
-        .dc.l   Data_020208                   | +00b60  -> $020208
+        .dc.l   Pal_020208                   | +00b60  -> $020208
         .dc.w   0x0024,0xa92c,0xffff                                        | +00b64
-        .dc.l   Data_020208                   | +00b6a  -> $020208
+        .dc.l   Pal_020208                   | +00b6a  -> $020208
         .dc.w   0x0024,0xa17a,0xffff,0x1600                                 | +00b6e
-        .dc.l   Data_020208                   | +00b76  -> $020208
+        .dc.l   Pal_020208                   | +00b76  -> $020208
         .dc.w   0x0024,0xa17a,0xffff                                        | +00b7a
         .dc.l   Data_010208                   | +00b80  -> $010208
         .dc.w   0x0024,0xb102,0xffff                                        | +00b84
-        .dc.l   Data_020208                   | +00b8a  -> $020208
+        .dc.l   Pal_020208                   | +00b8a  -> $020208
         .dc.w   0x0024,0xb126,0xffff                                        | +00b8e
-        .dc.l   Data_020208                   | +00b94  -> $020208
+        .dc.l   Pal_020208                   | +00b94  -> $020208
         .dc.w   0x0024,0xb14a,0xffff,0x0800                                 | +00b98
         .dc.l   Allen_ThrowGrenade_05063e     | +00ba0  -> $05063E
         .dc.w   0x0003,0x0208,0x0024,0xb16e,0xffff                          | +00ba4
-        .dc.l   Data_020208                   | +00bae  -> $020208
+        .dc.l   Pal_020208                   | +00bae  -> $020208
         .dc.w   0x0024,0xb192,0xffff                                        | +00bb2
-        .dc.l   Data_020208                   | +00bb8  -> $020208
+        .dc.l   Pal_020208                   | +00bb8  -> $020208
         .dc.w   0x0024,0xb1b6,0xffff                                        | +00bbc
-        .dc.l   Data_020208                   | +00bc2  -> $020208
+        .dc.l   Pal_020208                   | +00bc2  -> $020208
         .dc.w   0x0024,0xb1e6,0xffff                                        | +00bc6
-        .dc.l   Data_020208                   | +00bcc  -> $020208
+        .dc.l   Pal_020208                   | +00bcc  -> $020208
         .dc.w   0x0024,0xb1b6,0xffff,0x1600,0x0400,0x113f                   | +00bd0
-        .dc.l   Data_020208                   | +00bdc  -> $020208
+        .dc.l   Pal_020208                   | +00bdc  -> $020208
         .dc.w   0x0024,0xaa78,0xffff                                        | +00be0
-        .dc.l   Data_020208                   | +00be6  -> $020208
+        .dc.l   Pal_020208                   | +00be6  -> $020208
         .dc.w   0x0024,0xaaa2,0xffff                                        | +00bea
-        .dc.l   Data_020208                   | +00bf0  -> $020208
+        .dc.l   Pal_020208                   | +00bf0  -> $020208
         .dc.w   0x0024,0xaa78,0xffff,0x0003,0x0208,0x0024,0xaaa2,0xffff     | +00bf4
         .dc.w   0x0003,0x0208,0x0024,0xaa78,0xffff,0x0004,0x0208,0x0024     | +00c04
         .dc.w   0xaaa2,0xffff,0x0004,0x0208,0x0024,0xaa78,0xffff,0x0003     | +00c14
         .dc.w   0x0208,0x0024,0xab20,0xffff                                 | +00c24
-        .dc.l   Data_020208                   | +00c2c  -> $020208
+        .dc.l   Pal_020208                   | +00c2c  -> $020208
         .dc.w   0x0024,0xaacc,0xffff                                        | +00c30
-        .dc.l   Data_020208                   | +00c36  -> $020208
+        .dc.l   Pal_020208                   | +00c36  -> $020208
         .dc.w   0x0024,0xaaf6,0xffff                                        | +00c3a
-        .dc.l   Data_020208                   | +00c40  -> $020208
+        .dc.l   Pal_020208                   | +00c40  -> $020208
         .dc.w   0x0024,0xaacc,0xffff,0x0003,0x0208,0x0024,0xaaf6,0xffff     | +00c44
         .dc.w   0x0003,0x0208,0x0024,0xaacc,0xffff,0x0004,0x0208,0x0024     | +00c54
         .dc.w   0xaaf6,0xffff,0x0004,0x0208,0x0024,0xaacc,0xffff            | +00c64
-        .dc.l   Data_020208                   | +00c72  -> $020208
+        .dc.l   Pal_020208                   | +00c72  -> $020208
         .dc.w   0x0024,0xab20,0xffff,0x0100,0x0029,0x6bd8,0x0a00,0x0029     | +00c76
         .dc.w   0x6e1e                                                      | +00c86
-        .dc.l   Data_020208                   | +00c88  -> $020208
+        .dc.l   Pal_020208                   | +00c88  -> $020208
         .dc.w   0x0024,0xab98,0xffff                                        | +00c8c
-        .dc.l   Data_020208                   | +00c92  -> $020208
+        .dc.l   Pal_020208                   | +00c92  -> $020208
         .dc.w   0x0024,0xabbc,0xffff                                        | +00c96
-        .dc.l   Data_020208                   | +00c9c  -> $020208
+        .dc.l   Pal_020208                   | +00c9c  -> $020208
         .dc.w   0x0024,0xabe0,0xffff                                        | +00ca0
-        .dc.l   Data_020208                   | +00ca6  -> $020208
+        .dc.l   Pal_020208                   | +00ca6  -> $020208
         .dc.w   0x0024,0xac04,0xffff                                        | +00caa
-        .dc.l   Data_020208                   | +00cb0  -> $020208
+        .dc.l   Pal_020208                   | +00cb0  -> $020208
         .dc.w   0x0024,0xac28,0xffff,0x0800                                 | +00cb4
         .dc.l   Entity_ProbeSlot4c_0283D8     | +00cbc  -> $0283D8
-        .dc.l   Data_020208                   | +00cc0  -> $020208
+        .dc.l   Pal_020208                   | +00cc0  -> $020208
         .dc.w   0x0024,0xac54,0xffff                                        | +00cc4
-        .dc.l   Data_020208                   | +00cca  -> $020208
+        .dc.l   Pal_020208                   | +00cca  -> $020208
         .dc.w   0x0024,0xac88,0xffff                                        | +00cce
-        .dc.l   Data_020208                   | +00cd4  -> $020208
+        .dc.l   Pal_020208                   | +00cd4  -> $020208
         .dc.w   0x0024,0xacb8,0xffff                                        | +00cd8
-        .dc.l   Data_020208                   | +00cde  -> $020208
+        .dc.l   Pal_020208                   | +00cde  -> $020208
         .dc.w   0x0024,0xace6,0xffff                                        | +00ce2
-        .dc.l   Data_020208                   | +00ce8  -> $020208
+        .dc.l   Pal_020208                   | +00ce8  -> $020208
         .dc.w   0x0024,0xad18,0xffff                                        | +00cec
-        .dc.l   Data_020208                   | +00cf2  -> $020208
+        .dc.l   Pal_020208                   | +00cf2  -> $020208
         .dc.w   0x0024,0xad4e,0xffff                                        | +00cf6
-        .dc.l   Data_020208                   | +00cfc  -> $020208
+        .dc.l   Pal_020208                   | +00cfc  -> $020208
         .dc.w   0x0024,0xad7a,0xffff                                        | +00d00
-        .dc.l   Data_020208                   | +00d06  -> $020208
+        .dc.l   Pal_020208                   | +00d06  -> $020208
         .dc.w   0x0024,0xada6,0xffff                                        | +00d0a
-        .dc.l   Data_020208                   | +00d10  -> $020208
+        .dc.l   Pal_020208                   | +00d10  -> $020208
         .dc.w   0x0024,0xadca,0xffff                                        | +00d14
-        .dc.l   Data_020208                   | +00d1a  -> $020208
+        .dc.l   Pal_020208                   | +00d1a  -> $020208
         .dc.w   0x0024,0xadee,0xffff,0x1600                                 | +00d1e
         .dc.l   Data_010208                   | +00d26  -> $010208
         .dc.w   0x0024,0xaf3a,0xffff                                        | +00d2a
@@ -4721,7 +4721,7 @@ Data_196000:
         .dc.w   0x0024,0xb0be,0xffff                                        | +00db8
         .dc.l   Data_010208                   | +00dbe  -> $010208
         .dc.w   0x0024,0xb0e0,0xffff,0x1600                                 | +00dc2
-        .dc.l   Data_0a0000                   | +00dca  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +00dca  -> $0A0000
         .dc.w   0x0004,0xff00                                               | +00dce
         .dc.l   Data_00ffe0                   | +00dd2  -> $00FFE0
         .dc.l   Data_00fff8                   | +00dd6  -> $00FFF8
@@ -4751,16 +4751,16 @@ Data_196000:
         .dc.w   0x0023,0x0023,0x0023,0x001e,0x0064,0x0050,0x001e,0x001e     | +00f2a
         .dc.w   0x001e,0x001e,0x001e,0x0019,0x0050,0x003c,0x001c,0x001c     | +00f3a
         .dc.w   0x001c,0x001c,0x0019,0x0014,0x0050,0x003c                   | +00f4a
-        .dc.l   Data_1a001a                   | +00f56  -> $1A001A
-        .dc.l   Data_1a001a                   | +00f5a  -> $1A001A
+        .dc.l   AnimScr_1a001a                   | +00f56  -> $1A001A
+        .dc.l   AnimScr_1a001a                   | +00f5a  -> $1A001A
         .dc.w   0x0014,0x000f,0x003c,0x0032                                 | +00f5e
-        .dc.l   Data_180018                   | +00f66  -> $180018
-        .dc.l   Data_180018                   | +00f6a  -> $180018
+        .dc.l   AnimScr_180018                   | +00f66  -> $180018
+        .dc.l   AnimScr_180018                   | +00f6a  -> $180018
         .dc.w   0x000f                                                      | +00f6e
-        .dc.l   Data_0a003c                   | +00f70  -> $0A003C
+        .dc.l   BgMap_0a003c                   | +00f70  -> $0A003C
         .dc.w   0x0032                                                      | +00f74
-        .dc.l   Data_160016                   | +00f76  -> $160016
-        .dc.l   Data_160016                   | +00f7a  -> $160016
+        .dc.l   SprFrame_160016                   | +00f76  -> $160016
+        .dc.l   SprFrame_160016                   | +00f7a  -> $160016
         .dc.w   0x0000,0x0600,0x0680,0x0400,0x0480,0x0800,0x0800,0x0800     | +00f7e
         .dc.w   0x0800,0x0600,0x0680,0x0400,0x0480,0x0800,0x0800,0x0800     | +00f8e
         .dc.w   0x0800,0x0700,0x0780,0x0600,0x0680,0x0800,0x0800,0x0800     | +00f9e
@@ -4778,11 +4778,11 @@ Data_196000:
         .dc.w   0x0800,0x0800,0x0900,0x0900,0x0800,0x0800,0x0800,0x0800     | +0105e
         .dc.w   0x0800,0x0800,0x0900,0x0900,0x0800,0x0800,0x0800,0x0800     | +0106e
         .dc.w   0x0800,0x0800,0x0100                                        | +0107e
-        .dc.l   Data_106f6c                   | +01084  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +01084  -> $106F6C
         .dc.w   0x0000,0x0000                                               | +01088
         .dc.l   Data_150013                   | +0108c  -> $150013
         .dc.w   0x0200                                                      | +01090
-        .dc.l   Data_0d0005                   | +01092  -> $0D0005
+        .dc.l   BgMap_0d0005                   | +01092  -> $0D0005
         .dc.w   0x2712                                                      | +01096
         .fill   9,1,0x00                      | +01098
         .dc.b   0x0a                            | +010a1
@@ -4792,48 +4792,48 @@ Data_196000:
         .fill   13,1,0x00                      | +010b6
         .dc.b   0x10                            | +010c3
         .dc.w   0x6f6c                                                      | +010c4
-        .dc.l   Data_140009                   | +010c6  -> $140009
-        .dc.l   Data_0e29a0                   | +010ca  -> $0E29A0
+        .dc.l   SprFrame_140009                   | +010c6  -> $140009
+        .dc.l   BgMap_0e29a0                   | +010ca  -> $0E29A0
         .dc.w   0x0000,0x0000,0x0000,0x0040                                 | +010ce
         .dc.l   Data_010010                   | +010d6  -> $010010
         .dc.w   0x6f6c,0x0300,0x0000,0x0000,0x0004                          | +010da
-        .dc.l   Data_106f6c                   | +010e4  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +010e4  -> $106F6C
         .dc.w   0x0900,0x0009                                               | +010e8
-        .dc.l   Data_106f6c                   | +010ec  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +010ec  -> $106F6C
         .dc.w   0x0007                                                      | +010f0
-        .dc.l   Data_106f6c                   | +010f2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +010f2  -> $106F6C
         .dc.w   0x0002,0x0029,0x7092,0x0029,0x7082,0x0900,0x0029,0x7978     | +010f6
         .dc.l   Data_011e08                   | +01106  -> $011E08
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +0110a
         .dc.w   0x79cc                                                      | +0111a
         .dc.l   Data_011e08                   | +0111c  -> $011E08
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600                   | +01120
-        .dc.l   Data_021e08                   | +0112c  -> $021E08
+        .dc.l   Pal_021e08                   | +0112c  -> $021E08
         .dc.w   0x0023,0xab38,0xffff,0x0000,0x0000                          | +01130
-        .dc.l   Data_021e08                   | +0113a  -> $021E08
+        .dc.l   Pal_021e08                   | +0113a  -> $021E08
         .dc.w   0x0023,0xab44,0xffff,0x0000,0x0000                          | +0113e
-        .dc.l   Data_021e08                   | +01148  -> $021E08
+        .dc.l   Pal_021e08                   | +01148  -> $021E08
         .dc.w   0x0023,0xab58,0xffff,0x0000,0x0000                          | +0114c
-        .dc.l   Data_021e08                   | +01156  -> $021E08
+        .dc.l   Pal_021e08                   | +01156  -> $021E08
         .dc.w   0x0023,0xab68,0xffff,0x0000,0x0000                          | +0115a
-        .dc.l   Data_021e08                   | +01164  -> $021E08
+        .dc.l   Pal_021e08                   | +01164  -> $021E08
         .dc.w   0x0023,0xab80,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +01168
         .dc.w   0x7a20                                                      | +01178
         .dc.l   Data_011e08                   | +0117a  -> $011E08
         .dc.w   0x0026,0xf968,0xffff,0x0000,0x0000,0x1600                   | +0117e
-        .dc.l   Data_021e08                   | +0118a  -> $021E08
+        .dc.l   Pal_021e08                   | +0118a  -> $021E08
         .dc.w   0x0026,0xf990,0xffff,0x0000,0x0000                          | +0118e
         .dc.l   Data_011e08                   | +01198  -> $011E08
         .dc.w   0x0026,0xf9b0,0xffff,0x0000,0x0000                          | +0119c
         .dc.l   Data_011e08                   | +011a6  -> $011E08
         .dc.w   0x0026,0xf9d0,0xffff,0x0000,0x0000                          | +011aa
-        .dc.l   Data_021e08                   | +011b4  -> $021E08
+        .dc.l   Pal_021e08                   | +011b4  -> $021E08
         .dc.w   0x0026,0xf9f8,0xffff,0x0000,0x0000                          | +011b8
-        .dc.l   Data_021e08                   | +011c2  -> $021E08
+        .dc.l   Pal_021e08                   | +011c2  -> $021E08
         .dc.w   0x0026,0xfa20,0xffff,0x0000,0x0000                          | +011c6
-        .dc.l   Data_021e08                   | +011d0  -> $021E08
+        .dc.l   Pal_021e08                   | +011d0  -> $021E08
         .dc.w   0x0026,0xfa48,0xffff,0x0000,0x0000                          | +011d4
-        .dc.l   Data_021e08                   | +011de  -> $021E08
+        .dc.l   Pal_021e08                   | +011de  -> $021E08
         .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000,0x1600                   | +011e2
         .dc.l   Data_011e08                   | +011ee  -> $011E08
         .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000                          | +011f2
@@ -4859,7 +4859,7 @@ Data_196000:
         .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +0127e
         .dc.l   Data_011e08                   | +01288  -> $011E08
         .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +0128c
-        .dc.l   Data_021e08                   | +01296  -> $021E08
+        .dc.l   Pal_021e08                   | +01296  -> $021E08
         .dc.w   0x0026,0xfaf0,0xffff,0x0000,0x0000                          | +0129a
         .dc.l   Data_011e08                   | +012a4  -> $011E08
         .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +012a8
@@ -4867,7 +4867,7 @@ Data_196000:
         .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +012b6
         .dc.l   Data_011e08                   | +012c0  -> $011E08
         .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +012c4
-        .dc.l   Data_021e08                   | +012ce  -> $021E08
+        .dc.l   Pal_021e08                   | +012ce  -> $021E08
         .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000                          | +012d2
         .dc.l   Data_011e08                   | +012dc  -> $011E08
         .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +012e0
@@ -4875,7 +4875,7 @@ Data_196000:
         .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +012ee
         .dc.l   Data_011e08                   | +012f8  -> $011E08
         .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +012fc
-        .dc.l   Data_021e08                   | +01306  -> $021E08
+        .dc.l   Pal_021e08                   | +01306  -> $021E08
         .dc.w   0x0026,0xfaf0,0xffff,0x0000,0x0000                          | +0130a
         .dc.l   Data_011e08                   | +01314  -> $011E08
         .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +01318
@@ -4883,11 +4883,11 @@ Data_196000:
         .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +01326
         .dc.l   Data_011e08                   | +01330  -> $011E08
         .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000,0x0301,0x0029,0x72ce     | +01334
-        .dc.l   Data_021e08                   | +01344  -> $021E08
+        .dc.l   Pal_021e08                   | +01344  -> $021E08
         .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000                          | +01348
-        .dc.l   Data_021e08                   | +01352  -> $021E08
+        .dc.l   Pal_021e08                   | +01352  -> $021E08
         .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +01356
-        .dc.l   Data_021e08                   | +01360  -> $021E08
+        .dc.l   Pal_021e08                   | +01360  -> $021E08
         .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026     | +01364
         .dc.w   0xfad0,0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xfaf0     | +01374
         .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xfad0,0xffff     | +01384
@@ -4904,9 +4904,9 @@ Data_196000:
         .dc.w   0x0026,0xf7b0,0xffff                                        | +013ec
         .dc.l   Data_010209                   | +013f2  -> $010209
         .dc.w   0x0026,0xf788,0xffff,0x0300,0x0029,0x73b6                   | +013f6
-        .dc.l   Data_021e08                   | +01402  -> $021E08
+        .dc.l   Pal_021e08                   | +01402  -> $021E08
         .dc.w   0x0026,0xf7b0,0xffff,0x0000,0x0000                          | +01406
-        .dc.l   Data_021e08                   | +01410  -> $021E08
+        .dc.l   Pal_021e08                   | +01410  -> $021E08
         .dc.w   0x0026,0xf858,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026     | +01414
         .dc.w   0xf878,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026,0xf8a0     | +01424
         .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xf8c8,0xffff     | +01434
@@ -4924,9 +4924,9 @@ Data_196000:
         .dc.w   0x0026,0xf820,0xffff                                        | +01494
         .dc.l   Data_010209                   | +0149a  -> $010209
         .dc.w   0x0026,0xf800,0xffff,0x0300,0x0029,0x7474                   | +0149e
-        .dc.l   Data_021e08                   | +014aa  -> $021E08
+        .dc.l   Pal_021e08                   | +014aa  -> $021E08
         .dc.w   0x0026,0xf820,0xffff,0x0000,0x0000                          | +014ae
-        .dc.l   Data_021e08                   | +014b8  -> $021E08
+        .dc.l   Pal_021e08                   | +014b8  -> $021E08
         .dc.w   0x0026,0xf8f0,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026     | +014bc
         .dc.w   0xf908,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026,0xf928     | +014cc
         .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xf948,0xffff     | +014dc
@@ -5007,7 +5007,7 @@ Data_196000:
         .dc.w   0x0900,0x0029,0x7eb8                                        | +0173a
         .dc.l   Data_011e08                   | +01740  -> $011E08
         .dc.w   0x0026,0xe416,0xffff,0x0000,0x0000,0x1600                   | +01744
-        .dc.l   Data_021e08                   | +01750  -> $021E08
+        .dc.l   Pal_021e08                   | +01750  -> $021E08
         .dc.w   0x0026,0xe1d8,0xffff,0x0000,0x0000                          | +01754
         .dc.l   Data_011e08                   | +0175e  -> $011E08
         .dc.w   0x0026,0xe24a,0xffff,0x0000,0x0000                          | +01762
@@ -5017,7 +5017,7 @@ Data_196000:
         .dc.w   0x0026,0xe32e,0xffff,0x0000,0x0000                          | +0177e
         .dc.l   Data_011e08                   | +01788  -> $011E08
         .dc.w   0x0026,0xe2c2,0xffff,0x0000,0x0000,0x1600                   | +0178c
-        .dc.l   Data_021e08                   | +01798  -> $021E08
+        .dc.l   Pal_021e08                   | +01798  -> $021E08
         .dc.w   0x0026,0xe32e,0xffff,0x0000,0x0000                          | +0179c
         .dc.l   Data_011e08                   | +017a6  -> $011E08
         .dc.w   0x0026,0xe39a,0xffff,0x0000,0x0000                          | +017aa
@@ -5083,13 +5083,13 @@ Data_196000:
         .dc.w   0x0025,0xd660,0xffff,0x0000,0x0000                          | +0195e
         .dc.l   Data_011e08                   | +01968  -> $011E08
         .dc.w   0x0025,0xd682,0xffff,0x0000,0x0000,0x1600                   | +0196c
-        .dc.l   Data_01ffff                   | +01978  -> $01FFFF
+        .dc.l   Pal_01ffff                   | +01978  -> $01FFFF
         .dc.w   0xffff,0x0000,0x0000,0x0000,0x0020,0x0000,0x0008,0x0200     | +0197c
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +0198c
         .dc.w   0xffff,0x0000,0x0008,0x0200,0x0024,0x3680,0xffff,0x0000     | +0199c
         .dc.w   0x0000,0x0200,0x0024,0x368a,0xffff,0x0020,0x0008,0x0200     | +019ac
         .dc.w   0x0024,0x3694,0xffff,0x0020,0x0000,0x1d01,0xffff,0xffff     | +019bc
-        .dc.l   Data_01ffff                   | +019cc  -> $01FFFF
+        .dc.l   Pal_01ffff                   | +019cc  -> $01FFFF
         .dc.w   0xffff,0x0000,0x0000,0x0000,0x0040,0x0000,0x0008,0x0200     | +019d0
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +019e0
         .dc.w   0xffff,0x0000,0x0008,0x0200,0x0024,0x3680,0xffff,0x0000     | +019f0
@@ -5101,7 +5101,7 @@ Data_196000:
         .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff0,0x0000,0x0200     | +01a3c
         .dc.w   0x0024,0x3680,0xffff,0xfff0,0xffd0,0x0200,0x0024,0x368a     | +01a4c
         .dc.w   0xffff                                                      | +01a5c
-        .dc.l   Data_100000                   | +01a5e  -> $100000
+        .dc.l   ColMap_100000                   | +01a5e  -> $100000
         .dc.w   0x0200,0x0024,0x3694,0xffff,0x0010,0xffd0,0x1d01,0xffff     | +01a62
         .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000                          | +01a72
         .dc.l   Data_00fff0                   | +01a7c  -> $00FFF0
@@ -5109,10 +5109,10 @@ Data_196000:
         .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff0,0x0000,0x0200     | +01a90
         .dc.w   0x0024,0x3680,0xffff,0xfff0,0xffe0,0x0200,0x0024,0x368a     | +01aa0
         .dc.w   0xffff                                                      | +01ab0
-        .dc.l   Data_100000                   | +01ab2  -> $100000
+        .dc.l   ColMap_100000                   | +01ab2  -> $100000
         .dc.w   0x0200,0x0024,0x3694,0xffff,0x0010,0xffe0,0x1d01,0xffff     | +01ab6
         .dc.w   0xffff                                                      | +01ac6
-        .dc.l   Data_01ffff                   | +01ac8  -> $01FFFF
+        .dc.l   Pal_01ffff                   | +01ac8  -> $01FFFF
         .dc.w   0xffff,0x0000                                               | +01acc
         .dc.l   Data_00fffc                   | +01ad0  -> $00FFFC
         .dc.w   0x0004,0x0000,0x0060,0x0200,0x0024,0x366c,0xffff,0x0000     | +01ad4
@@ -5121,45 +5121,45 @@ Data_196000:
         .dc.w   0xffff,0x0004,0x0060,0x0200,0x0024,0x3694,0xffff,0x0004     | +01b04
         .dc.w   0x0000,0x1d01,0xffff,0xffff,0x0002,0x0029,0x7f2e,0x0000     | +01b14
         .dc.w   0x0000,0x0008,0x0038                                        | +01b24
-        .dc.l   Data_0a001c                   | +01b2a  -> $0A001C
+        .dc.l   BgMap_0a001c                   | +01b2a  -> $0A001C
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +01b2e
         .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff     | +01b3e
         .dc.w   0x0008                                                      | +01b4e
-        .dc.l   Data_0a0200                   | +01b50  -> $0A0200
+        .dc.l   BgMap_0a0200                   | +01b50  -> $0A0200
         .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694     | +01b54
         .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029     | +01b64
         .dc.w   0x7f2e,0x0000,0x0000,0x0008,0x0038                          | +01b74
-        .dc.l   Data_0a001c                   | +01b7e  -> $0A001C
+        .dc.l   BgMap_0a001c                   | +01b7e  -> $0A001C
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +01b82
         .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff     | +01b92
         .dc.w   0x0008                                                      | +01ba2
-        .dc.l   Data_0a0200                   | +01ba4  -> $0A0200
+        .dc.l   BgMap_0a0200                   | +01ba4  -> $0A0200
         .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694     | +01ba8
         .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029     | +01bb8
         .dc.w   0x7f2e,0x0000,0x0000,0x0008,0x0038                          | +01bc8
-        .dc.l   Data_0a001c                   | +01bd2  -> $0A001C
+        .dc.l   BgMap_0a001c                   | +01bd2  -> $0A001C
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +01bd6
         .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff     | +01be6
         .dc.w   0x0008                                                      | +01bf6
-        .dc.l   Data_0a0200                   | +01bf8  -> $0A0200
+        .dc.l   BgMap_0a0200                   | +01bf8  -> $0A0200
         .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694     | +01bfc
         .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0003,0xffff     | +01c0c
         .dc.w   0xffff,0x0000,0x0000                                        | +01c1c
-        .dc.l   Data_180048                   | +01c22  -> $180048
+        .dc.l   AnimScr_180048                   | +01c22  -> $180048
         .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +01c26
         .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +01c36
-        .dc.l   Data_180030                   | +01c3e  -> $180030
+        .dc.l   AnimScr_180030                   | +01c3e  -> $180030
         .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +01c42
-        .dc.l   Data_180000                   | +01c4a  -> $180000
+        .dc.l   AnimScr_180000                   | +01c4a  -> $180000
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024     | +01c4e
         .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003     | +01c5e
         .dc.w   0xffff,0xffff,0x0000,0x0000                                 | +01c6e
-        .dc.l   Data_180048                   | +01c76  -> $180048
+        .dc.l   AnimScr_180048                   | +01c76  -> $180048
         .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +01c7a
         .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +01c8a
-        .dc.l   Data_180030                   | +01c92  -> $180030
+        .dc.l   AnimScr_180030                   | +01c92  -> $180030
         .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +01c96
-        .dc.l   Data_180000                   | +01c9e  -> $180000
+        .dc.l   AnimScr_180000                   | +01c9e  -> $180000
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024     | +01ca2
         .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003     | +01cb2
         .dc.w   0xffff,0xffff,0x0000,0x0000,0x0020,0x0050,0x0000,0x0030     | +01cc2
@@ -5173,12 +5173,12 @@ Data_196000:
         .dc.w   0x3680,0xffff,0x0000,0x0000,0x0200,0x0024,0x368a,0xffff     | +01d42
         .dc.w   0x0030,0x0030,0x0200,0x0024,0x3694,0xffff,0x0030,0x0000     | +01d52
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000     | +01d62
-        .dc.l   Data_180048                   | +01d72  -> $180048
+        .dc.l   AnimScr_180048                   | +01d72  -> $180048
         .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +01d76
         .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +01d86
-        .dc.l   Data_180030                   | +01d8e  -> $180030
+        .dc.l   AnimScr_180030                   | +01d8e  -> $180030
         .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +01d92
-        .dc.l   Data_180000                   | +01d9a  -> $180000
+        .dc.l   AnimScr_180000                   | +01d9a  -> $180000
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024     | +01d9e
         .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003     | +01dae
         .dc.w   0x0029,0x7f0c,0x0000                                        | +01dbe
@@ -5193,13 +5193,13 @@ Data_196000:
         .dc.w   0x0080,0x0200,0x0024,0x3680,0xffff,0x0060,0x0000,0x0200     | +01e38
         .dc.w   0x0024,0x368a,0xffff,0x00b0,0x0080,0x0200,0x0024,0x3694     | +01e48
         .dc.w   0xffff,0x00b0,0x0000,0x1d01,0xffff,0xffff                   | +01e58
-        .dc.l   Data_01ffff                   | +01e64  -> $01FFFF
+        .dc.l   Pal_01ffff                   | +01e64  -> $01FFFF
         .dc.w   0xffff,0x0000,0x0000,0x0000,0x0010,0x003c,0x0048,0x0200     | +01e68
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +01e78
         .dc.w   0xffff,0x0000,0x0048,0x0200,0x0024,0x3680,0xffff,0x0000     | +01e88
         .dc.w   0x003c,0x0200,0x0024,0x368a,0xffff,0x0010,0x0048,0x0200     | +01e98
         .dc.w   0x0024,0x3694,0xffff,0x0010,0x003c,0x1d01,0xffff,0xffff     | +01ea8
-        .dc.l   Data_01ffff                   | +01eb8  -> $01FFFF
+        .dc.l   Pal_01ffff                   | +01eb8  -> $01FFFF
         .dc.w   0xffff,0x0000                                               | +01ebc
         .dc.l   Data_00fff0                   | +01ec0  -> $00FFF0
         .dc.w   0x0000,0x003c,0x0048,0x0200,0x0024,0x366c,0xffff,0x0000     | +01ec4
@@ -5227,11 +5227,11 @@ Data_196000:
         .dc.w   0x0003,0x0009,0xfff0,0x0030,0x0000,0x0020,0x0000            | +01fd2
         .dc.l   Explosion_Std_077efe          | +01fe0  -> $077EFE
         .dc.w   0x00ff,0x0005,0xfff0                                        | +01fe4
-        .dc.l   Data_100000                   | +01fea  -> $100000
+        .dc.l   ColMap_100000                   | +01fea  -> $100000
         .dc.w   0x0060,0x0000                                               | +01fee
         .dc.l   Explosion_Small_077e10        | +01ff2  -> $077E10
         .dc.w   0x00ff,0x0006                                               | +01ff6
-        .dc.l   Str_100040                    | +01ffa  -> $100040
+        .dc.l   ColMap_100040                    | +01ffa  -> $100040
         .dc.w   0x0000,0x0030,0x0000                                        | +01ffe
         .dc.l   Explosion_Fire_077f6a         | +02004  -> $077F6A
         .dc.w   0x0003                                                      | +02008
@@ -5257,7 +5257,7 @@ Data_196000:
         .dc.l   Data_010000                   | +0207e  -> $010000
         .dc.l   Prop_OneShotAnim_0528bc       | +02082  -> $0528BC
         .dc.w   0x0102                                                      | +02086
-        .dc.l   Data_0a0000                   | +02088  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +02088  -> $0A0000
         .dc.w   0x0020,0x0000,0x0030,0x0001,0x0029,0x8098                   | +0208c
         .dc.l   Explosion_Var08_078326        | +02098  -> $078326
         .dc.l   Explosion_Var08_078326        | +0209c  -> $078326
@@ -5276,31 +5276,31 @@ Data_196000:
         .dc.l   Explosion_Var11_0783bc        | +020d0  -> $0783BC
         .dc.l   Explosion_Var11_0783bc        | +020d4  -> $0783BC
         .dc.w   0x0105                                                      | +020d8
-        .dc.l   Data_140000                   | +020da  -> $140000
+        .dc.l   SprFrame_140000                   | +020da  -> $140000
         .dc.w   0x0030,0x0000,0x0050,0x0001,0x0029,0x5cf8,0x0105,0x0014     | +020de
         .dc.w   0x0040,0x0060,0x0000,0x0070,0x0001,0x0029,0x5cf8,0x002d     | +020ee
         .dc.w   0xe100,0x002d,0xdf9e,0x002d,0xe08a,0x002d,0xe100            | +020fe
-        .dc.l   Data_020002                   | +0210c  -> $020002
+        .dc.l   Pal_020002                   | +0210c  -> $020002
         .dc.w   0x000b,0x3900,0x0004,0x0002,0x000b,0x3910,0x0004,0x0002     | +02110
         .dc.w   0x000b,0x3930,0x0004,0x0002,0x000b,0x3950,0x0004,0x0002     | +02120
         .dc.w   0x000b,0x3970,0x0004,0x0002,0x000b,0x3990                   | +02130
-        .dc.l   Data_020002                   | +0213c  -> $020002
+        .dc.l   Pal_020002                   | +0213c  -> $020002
         .dc.w   0x000b,0x39b0                                               | +02140
-        .dc.l   Data_020002                   | +02144  -> $020002
+        .dc.l   Pal_020002                   | +02144  -> $020002
         .dc.w   0x000b,0x39c0,0x0004,0x0002,0x000b,0x39d0,0x0004,0x0002     | +02148
         .dc.w   0x000b,0x39f0,0x0004,0x0002,0x000b,0x3a10,0x0004,0x0002     | +02158
         .dc.w   0x000b,0x3a30,0x0004,0x0002,0x000b,0x3a50                   | +02168
-        .dc.l   Data_020002                   | +02174  -> $020002
+        .dc.l   Pal_020002                   | +02174  -> $020002
         .dc.w   0x000b,0x3a70                                               | +02178
-        .dc.l   Data_020002                   | +0217c  -> $020002
+        .dc.l   Pal_020002                   | +0217c  -> $020002
         .dc.w   0x000b,0x3a80,0x0004,0x0002,0x000b,0x3a90,0x0004,0x0002     | +02180
         .dc.w   0x000b,0x3ab0,0x0004,0x0002,0x000b,0x3ad0,0x0004,0x0002     | +02190
         .dc.w   0x000b,0x3af0,0x0004,0x0002,0x000b,0x3b10                   | +021a0
-        .dc.l   Data_020002                   | +021ac  -> $020002
+        .dc.l   Pal_020002                   | +021ac  -> $020002
         .dc.w   0x000b,0x3b30,0x0004,0x0002,0x000b,0x3b40,0x0004,0x0003     | +021b0
         .dc.w   0x000b,0x3b60,0x0005,0x0003,0x000b,0x3b90,0x0006,0x0004     | +021c0
         .dc.w   0x000b,0x3bcc,0x0005,0x0004,0x000b,0x3c2c                   | +021d0
-        .dc.l   Str_100004                    | +021dc  -> $100004
+        .dc.l   ColMap_100004                    | +021dc  -> $100004
         .dc.w   0x000b,0x3c7c,0x0009                                        | +021e0
         .dc.l   Data_0c000b                   | +021e6  -> $0C000B
         .dc.w   0x3d7c,0x0009                                               | +021ea
@@ -5326,110 +5326,110 @@ Data_196000:
         .dc.w   0x428c,0x003c                                               | +0223a
         .dc.l   Data_0c000b                   | +0223e  -> $0C000B
         .dc.w   0x43dc,0x001c,0x000b,0x000b,0x4f1c                          | +02242
-        .dc.l   Data_106f6c                   | +0224c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0224c  -> $106F6C
         .dc.w   0x0029,0x810c,0x0000,0x0009,0x0000,0x0000                   | +02250
-        .dc.l   Data_020002                   | +0225c  -> $020002
-        .dc.l   Data_106f6c                   | +02260  -> $106F6C
+        .dc.l   Pal_020002                   | +0225c  -> $020002
+        .dc.l   ColMap_106f6c                   | +02260  -> $106F6C
         .dc.w   0x0029,0x8114                                               | +02264
-        .dc.l   Data_020009                   | +02268  -> $020009
+        .dc.l   Pal_020009                   | +02268  -> $020009
         .dc.w   0x0000,0x0000,0x0004                                        | +0226c
-        .dc.l   Data_020010                   | +02272  -> $020010
+        .dc.l   Pal_020010                   | +02272  -> $020010
         .dc.w   0x6f6c,0x0029,0x811c,0x0006,0x0009,0x0000,0x0000,0x0004     | +02276
-        .dc.l   Data_020010                   | +02286  -> $020010
+        .dc.l   Pal_020010                   | +02286  -> $020010
         .dc.w   0x6f6c,0x0029,0x8124,0x000a,0x0009,0x0000,0x0000,0x0004     | +0228a
-        .dc.l   Data_020010                   | +0229a  -> $020010
+        .dc.l   Pal_020010                   | +0229a  -> $020010
         .dc.w   0x6f6c,0x0029,0x812c,0x000e,0x0009,0x0000,0x0000,0x0004     | +0229e
-        .dc.l   Data_020010                   | +022ae  -> $020010
+        .dc.l   Pal_020010                   | +022ae  -> $020010
         .dc.w   0x6f6c,0x0029,0x8134                                        | +022b2
-        .dc.l   Data_120009                   | +022b8  -> $120009
+        .dc.l   Zero_120009                   | +022b8  -> $120009
         .dc.w   0x0000,0x0000,0x0004                                        | +022bc
-        .dc.l   Data_020010                   | +022c2  -> $020010
+        .dc.l   Pal_020010                   | +022c2  -> $020010
         .dc.w   0x6f6c,0x0029,0x813c                                        | +022c6
-        .dc.l   Data_160009                   | +022cc  -> $160009
+        .dc.l   SprFrame_160009                   | +022cc  -> $160009
         .dc.w   0x0000,0x0000                                               | +022d0
-        .dc.l   Data_020002                   | +022d4  -> $020002
-        .dc.l   Data_106f6c                   | +022d8  -> $106F6C
+        .dc.l   Pal_020002                   | +022d4  -> $020002
+        .dc.l   ColMap_106f6c                   | +022d8  -> $106F6C
         .dc.w   0x0029,0x8144,0x0000,0x0009,0x0000,0x0000                   | +022dc
-        .dc.l   Data_020002                   | +022e8  -> $020002
-        .dc.l   Data_106f6c                   | +022ec  -> $106F6C
+        .dc.l   Pal_020002                   | +022e8  -> $020002
+        .dc.l   ColMap_106f6c                   | +022ec  -> $106F6C
         .dc.w   0x0029,0x814c                                               | +022f0
-        .dc.l   Data_020009                   | +022f4  -> $020009
+        .dc.l   Pal_020009                   | +022f4  -> $020009
         .dc.w   0x0000,0x0000,0x0004                                        | +022f8
-        .dc.l   Data_020010                   | +022fe  -> $020010
+        .dc.l   Pal_020010                   | +022fe  -> $020010
         .dc.w   0x6f6c,0x0029,0x8154,0x0006,0x0009,0x0000,0x0000,0x0004     | +02302
-        .dc.l   Data_020010                   | +02312  -> $020010
+        .dc.l   Pal_020010                   | +02312  -> $020010
         .dc.w   0x6f6c,0x0029,0x815c,0x000a,0x0009,0x0000,0x0000,0x0004     | +02316
-        .dc.l   Data_020010                   | +02326  -> $020010
+        .dc.l   Pal_020010                   | +02326  -> $020010
         .dc.w   0x6f6c,0x0029,0x8164,0x000e,0x0009,0x0000,0x0000,0x0004     | +0232a
-        .dc.l   Data_020010                   | +0233a  -> $020010
+        .dc.l   Pal_020010                   | +0233a  -> $020010
         .dc.w   0x6f6c,0x0029,0x816c                                        | +0233e
-        .dc.l   Data_120009                   | +02344  -> $120009
+        .dc.l   Zero_120009                   | +02344  -> $120009
         .dc.w   0x0000,0x0000,0x0004                                        | +02348
-        .dc.l   Data_020010                   | +0234e  -> $020010
+        .dc.l   Pal_020010                   | +0234e  -> $020010
         .dc.w   0x6f6c,0x0029,0x8174                                        | +02352
-        .dc.l   Data_160009                   | +02358  -> $160009
+        .dc.l   SprFrame_160009                   | +02358  -> $160009
         .dc.w   0x0000,0x0000                                               | +0235c
-        .dc.l   Data_020002                   | +02360  -> $020002
-        .dc.l   Data_106f6c                   | +02364  -> $106F6C
+        .dc.l   Pal_020002                   | +02360  -> $020002
+        .dc.l   ColMap_106f6c                   | +02364  -> $106F6C
         .dc.w   0x0029,0x817c,0x0000,0x0009,0x0000,0x0000                   | +02368
-        .dc.l   Data_020002                   | +02374  -> $020002
-        .dc.l   Data_106f6c                   | +02378  -> $106F6C
+        .dc.l   Pal_020002                   | +02374  -> $020002
+        .dc.l   ColMap_106f6c                   | +02378  -> $106F6C
         .dc.w   0x0029,0x8184                                               | +0237c
-        .dc.l   Data_020009                   | +02380  -> $020009
+        .dc.l   Pal_020009                   | +02380  -> $020009
         .dc.w   0x0000,0x0000,0x0004                                        | +02384
-        .dc.l   Data_020010                   | +0238a  -> $020010
+        .dc.l   Pal_020010                   | +0238a  -> $020010
         .dc.w   0x6f6c,0x0029,0x818c,0x0006,0x0009,0x0000,0x0000,0x0004     | +0238e
-        .dc.l   Data_020010                   | +0239e  -> $020010
+        .dc.l   Pal_020010                   | +0239e  -> $020010
         .dc.w   0x6f6c,0x0029,0x8194,0x000a,0x0009,0x0000,0x0000,0x0004     | +023a2
-        .dc.l   Data_020010                   | +023b2  -> $020010
+        .dc.l   Pal_020010                   | +023b2  -> $020010
         .dc.w   0x6f6c,0x0029,0x819c,0x000e,0x0009,0x0000,0x0000,0x0004     | +023b6
-        .dc.l   Data_020010                   | +023c6  -> $020010
+        .dc.l   Pal_020010                   | +023c6  -> $020010
         .dc.w   0x6f6c,0x0029,0x81a4                                        | +023ca
-        .dc.l   Data_120009                   | +023d0  -> $120009
+        .dc.l   Zero_120009                   | +023d0  -> $120009
         .dc.w   0x0000,0x0000,0x0004                                        | +023d4
-        .dc.l   Data_020010                   | +023da  -> $020010
+        .dc.l   Pal_020010                   | +023da  -> $020010
         .dc.w   0x6f6c,0x0029,0x81ac                                        | +023de
-        .dc.l   Data_160009                   | +023e4  -> $160009
+        .dc.l   SprFrame_160009                   | +023e4  -> $160009
         .dc.w   0x0000,0x0000                                               | +023e8
-        .dc.l   Data_020002                   | +023ec  -> $020002
-        .dc.l   Data_106f6c                   | +023f0  -> $106F6C
+        .dc.l   Pal_020002                   | +023ec  -> $020002
+        .dc.l   ColMap_106f6c                   | +023f0  -> $106F6C
         .dc.w   0x0029,0x81b4,0x0046,0x0008,0x0000,0x0000,0x0004            | +023f4
-        .dc.l   Data_020010                   | +02402  -> $020010
+        .dc.l   Pal_020010                   | +02402  -> $020010
         .dc.w   0x6f6c,0x0029,0x81b4,0x006e,0x0008,0x0000,0x0000,0x0004     | +02406
-        .dc.l   Data_020010                   | +02416  -> $020010
+        .dc.l   Pal_020010                   | +02416  -> $020010
         .dc.w   0x6f6c,0x0029,0x81bc,0x0050,0x0008,0x0000,0x0000,0x0004     | +0241a
         .dc.w   0x0003                                                      | +0242a
-        .dc.l   Data_106f6c                   | +0242c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0242c  -> $106F6C
         .dc.w   0x0029,0x81bc,0x0078,0x0008,0x0000,0x0000,0x0004,0x0003     | +02430
-        .dc.l   Data_106f6c                   | +02440  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02440  -> $106F6C
         .dc.w   0x0029,0x81c4,0x0059,0x0008,0x0000,0x0000,0x0005,0x0003     | +02444
-        .dc.l   Data_106f6c                   | +02454  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02454  -> $106F6C
         .dc.w   0x0029,0x81c4,0x0081,0x0008,0x0000,0x0000,0x0005,0x0003     | +02458
-        .dc.l   Data_106f6c                   | +02468  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02468  -> $106F6C
         .dc.w   0x0029,0x81cc,0x004a,0x0008,0x0000,0x0000,0x0006,0x0004     | +0246c
-        .dc.l   Data_106f6c                   | +0247c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0247c  -> $106F6C
         .dc.w   0x0029,0x81cc,0x0072,0x0008,0x0000,0x0000,0x0006,0x0004     | +02480
-        .dc.l   Data_106f6c                   | +02490  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02490  -> $106F6C
         .dc.w   0x0029,0x81d4,0x0054,0x0008,0x0000,0x0000,0x0005,0x0004     | +02494
-        .dc.l   Data_106f6c                   | +024a4  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +024a4  -> $106F6C
         .dc.w   0x0029,0x81d4,0x007c,0x0008,0x0000,0x0000,0x0005,0x0004     | +024a8
-        .dc.l   Data_106f6c                   | +024b8  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +024b8  -> $106F6C
         .dc.w   0x0029,0x81dc,0x005e,0x0008,0x0000,0x0000,0x0006,0x0004     | +024bc
-        .dc.l   Data_106f6c                   | +024cc  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +024cc  -> $106F6C
         .dc.w   0x0029,0x81dc,0x0086,0x0008,0x0000,0x0000,0x0006,0x0004     | +024d0
-        .dc.l   Data_106f6c                   | +024e0  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +024e0  -> $106F6C
         .dc.w   0x0029,0x81dc,0x0064,0x0008,0x0006,0x0000,0x0004,0x0004     | +024e4
-        .dc.l   Data_106f6c                   | +024f4  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +024f4  -> $106F6C
         .dc.w   0x0029,0x81dc,0x008c,0x0008,0x0006,0x0000,0x0004,0x0004     | +024f8
-        .dc.l   Data_106f6c                   | +02508  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02508  -> $106F6C
         .dc.w   0x0029,0x81dc,0x0068,0x0008                                 | +0250c
-        .dc.l   Data_0a0000                   | +02514  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +02514  -> $0A0000
         .dc.w   0x0006,0x0004                                               | +02518
-        .dc.l   Data_106f6c                   | +0251c  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0251c  -> $106F6C
         .dc.w   0x0029,0x81dc,0x0090,0x0008                                 | +02520
-        .dc.l   Data_0a0000                   | +02528  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +02528  -> $0A0000
         .dc.w   0x0006,0x0004                                               | +0252c
-        .dc.l   Data_106f6c                   | +02530  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02530  -> $106F6C
         .dc.w   0x0029,0x81e4,0x0097,0x0000,0x0000,0x0000,0x0009            | +02534
         .dc.l   Data_0c0010                   | +02542  -> $0C0010
         .dc.w   0x6f6c,0x0029,0x81ec,0x0097,0x0000,0x0000,0x0000,0x0009     | +02546
@@ -5453,69 +5453,69 @@ Data_196000:
         .dc.w   0x6f6c,0x0029,0x8234,0x00b0,0x0000,0x0000,0x0000,0x0007     | +025fa
         .dc.l   Data_0c0010                   | +0260a  -> $0C0010
         .dc.w   0x6f6c,0x0029,0x823c,0x0000                                 | +0260e
-        .dc.l   Data_0a0000                   | +02616  -> $0A0000
-        .dc.l   Data_020006                   | +0261a  -> $020006
-        .dc.l   Data_0a0010                   | +0261e  -> $0A0010
+        .dc.l   BgMap_0a0000                   | +02616  -> $0A0000
+        .dc.l   Pal_020006                   | +0261a  -> $020006
+        .dc.l   BgMap_0a0010                   | +0261e  -> $0A0010
         .dc.w   0x6f6c,0x0029,0x823c,0x0006                                 | +02622
-        .dc.l   Data_0a0006                   | +0262a  -> $0A0006
-        .dc.l   Data_020002                   | +0262e  -> $020002
+        .dc.l   BgMap_0a0006                   | +0262a  -> $0A0006
+        .dc.l   Pal_020002                   | +0262e  -> $020002
         .dc.w   0x0009                                                      | +02632
-        .dc.l   Data_106f6c                   | +02634  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02634  -> $106F6C
         .dc.w   0x0029,0x823c,0x0008,0x000a,0x0008                          | +02638
-        .dc.l   Data_020004                   | +02642  -> $020004
+        .dc.l   Pal_020004                   | +02642  -> $020004
         .dc.w   0x0008                                                      | +02646
-        .dc.l   Data_106f6c                   | +02648  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02648  -> $106F6C
         .dc.w   0x0029,0x823c,0x0000                                        | +0264c
-        .dc.l   Data_0a000c                   | +02652  -> $0A000C
-        .dc.l   Data_020006                   | +02656  -> $020006
-        .dc.l   Data_0a0010                   | +0265a  -> $0A0010
+        .dc.l   BgMap_0a000c                   | +02652  -> $0A000C
+        .dc.l   Pal_020006                   | +02656  -> $020006
+        .dc.l   BgMap_0a0010                   | +0265a  -> $0A0010
         .dc.w   0x6f6c,0x0029,0x823c,0x0006                                 | +0265e
-        .dc.l   Data_0a0012                   | +02666  -> $0A0012
-        .dc.l   Data_020002                   | +0266a  -> $020002
+        .dc.l   BgMap_0a0012                   | +02666  -> $0A0012
+        .dc.l   Pal_020002                   | +0266a  -> $020002
         .dc.w   0x0009                                                      | +0266e
-        .dc.l   Data_106f6c                   | +02670  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02670  -> $106F6C
         .dc.w   0x0029,0x823c,0x0008,0x000a,0x0014                          | +02674
-        .dc.l   Data_020004                   | +0267e  -> $020004
+        .dc.l   Pal_020004                   | +0267e  -> $020004
         .dc.w   0x0008                                                      | +02682
-        .dc.l   Data_106f6c                   | +02684  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +02684  -> $106F6C
         .dc.w   0x0029,0x823c                                               | +02688
-        .dc.l   Str_100004                    | +0268c  -> $100004
+        .dc.l   ColMap_100004                    | +0268c  -> $100004
         .dc.w   0x0024,0x0000,0x0006                                        | +02690
         .dc.l   Data_0c0010                   | +02696  -> $0C0010
         .dc.w   0x6f6c,0x0029,0x823c                                        | +0269a
-        .dc.l   Data_160004                   | +026a0  -> $160004
+        .dc.l   SprFrame_160004                   | +026a0  -> $160004
         .dc.w   0x002a,0x0000,0x0002                                        | +026a4
-        .dc.l   Data_0b0010                   | +026aa  -> $0B0010
+        .dc.l   BgMap_0b0010                   | +026aa  -> $0B0010
         .dc.w   0x6f6c,0x0029,0x823c                                        | +026ae
-        .dc.l   Data_180004                   | +026b4  -> $180004
+        .dc.l   AnimScr_180004                   | +026b4  -> $180004
         .dc.w   0x002c,0x0000,0x0004                                        | +026b8
-        .dc.l   Data_0a0010                   | +026be  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +026be  -> $0A0010
         .dc.w   0x6f6c,0x0029,0x823c                                        | +026c2
-        .dc.l   Str_100004                    | +026c8  -> $100004
+        .dc.l   ColMap_100004                    | +026c8  -> $100004
         .dc.w   0x0030,0x0000,0x0006                                        | +026cc
         .dc.l   Data_0c0010                   | +026d2  -> $0C0010
         .dc.w   0x6f6c,0x0029,0x823c                                        | +026d6
-        .dc.l   Data_160004                   | +026dc  -> $160004
+        .dc.l   SprFrame_160004                   | +026dc  -> $160004
         .dc.w   0x0036,0x0000,0x0002                                        | +026e0
-        .dc.l   Data_0b0010                   | +026e6  -> $0B0010
+        .dc.l   BgMap_0b0010                   | +026e6  -> $0B0010
         .dc.w   0x6f6c,0x0029,0x823c                                        | +026ea
-        .dc.l   Data_180004                   | +026f0  -> $180004
+        .dc.l   AnimScr_180004                   | +026f0  -> $180004
         .dc.w   0x0038,0x0000,0x0004,0x000a,0x0008,0x001f,0x0005            | +026f4
         .dc.l   Data_010000                   | +02702  -> $010000
         .dc.w   0x0000                                                      | +02706
         .dc.l   Data_00fff8                   | +02708  -> $00FFF8
         .dc.w   0x0067,0x0001,0x000d,0x0101,0x0101,0x0101,0x0101,0x0101     | +0270c
         .dc.w   0x0101,0x1000,0xfff8,0x0067,0x0001                          | +0271c
-        .dc.l   Data_0d0000                   | +02726  -> $0D0000
+        .dc.l   BgMap_0d0000                   | +02726  -> $0D0000
         .fill   10,1,0x00                      | +0272a
         .dc.w   0x1100,0xfff0                                               | +02734
-        .dc.l   Data_10ffc0                   | +02738  -> $10FFC0
-        .dc.l   Data_10ffff                   | +0273c  -> $10FFFF
+        .dc.l   ColMap_10ffc0                   | +02738  -> $10FFC0
+        .dc.l   ColMap_10ffff                   | +0273c  -> $10FFFF
         .dc.w   0xfff0                                                      | +02740
-        .dc.l   Data_100000                   | +02742  -> $100000
-        .dc.l   Data_10ffff                   | +02746  -> $10FFFF
+        .dc.l   ColMap_100000                   | +02742  -> $100000
+        .dc.l   ColMap_10ffff                   | +02746  -> $10FFFF
         .dc.w   0x0306                                                      | +0274a
-        .dc.l   Data_0a0404                   | +0274c  -> $0A0404
+        .dc.l   BgMap_0a0404                   | +0274c  -> $0A0404
         .dc.w   0xff00                                                      | +02750
         .dc.l   Data_00fffc                   | +02752  -> $00FFFC
         .dc.w   0x0004,0x0000,0x0060,0x0200,0x0024,0x363a,0xffff,0x0000     | +02756
@@ -5523,7 +5523,7 @@ Data_196000:
         .dc.w   0x0024,0x364e,0xffff,0xfffc,0x0000,0x0200,0x0024,0x3658     | +02776
         .dc.w   0xffff,0x0004,0x0060,0x0200,0x0024,0x3662,0xffff,0x0004     | +02786
         .dc.w   0x0000,0x1d00,0x0406                                        | +02796
-        .dc.l   Data_0a0404                   | +0279c  -> $0A0404
+        .dc.l   BgMap_0a0404                   | +0279c  -> $0A0404
         .dc.w   0xff00                                                      | +027a0
         .dc.l   Data_00fffc                   | +027a2  -> $00FFFC
         .dc.w   0x0004,0x0000,0x0060,0x0200,0x0024,0x363a,0xffff,0x0000     | +027a6
@@ -5531,7 +5531,7 @@ Data_196000:
         .dc.w   0x0024,0x364e,0xffff,0xfffc,0x0000,0x0200,0x0024,0x3658     | +027c6
         .dc.w   0xffff,0x0004,0x0060,0x0200,0x0024,0x3662,0xffff,0x0004     | +027d6
         .dc.w   0x0000,0x1d00,0xffff,0xffff,0x0109                          | +027e6
-        .dc.l   Str_100204                    | +027f0  -> $100204
+        .dc.l   ColMap_100204                    | +027f0  -> $100204
         .dc.w   0xff00                                                      | +027f4
         .dc.l   Data_00fff8                   | +027f6  -> $00FFF8
         .dc.w   0x0008,0x0040,0x0050,0x0200,0x0024,0x363a,0xffff,0x0000     | +027fa
@@ -5539,7 +5539,7 @@ Data_196000:
         .dc.w   0x0024,0x364e,0xffff,0xfff8,0x0040,0x0200,0x0024,0x3658     | +0281a
         .dc.w   0xffff,0x0008,0x0050,0x0200,0x0024,0x3662,0xffff,0x0008     | +0282a
         .dc.w   0x0040,0x1d00,0xffff,0xffff,0x0209                          | +0283a
-        .dc.l   Str_100204                    | +02844  -> $100204
+        .dc.l   ColMap_100204                    | +02844  -> $100204
         .dc.w   0xff00                                                      | +02848
         .dc.l   Data_00fff8                   | +0284a  -> $00FFF8
         .dc.w   0x0008,0x0040,0x0050,0x0200,0x0024,0x363a,0xffff,0x0000     | +0284e
@@ -5547,7 +5547,7 @@ Data_196000:
         .dc.w   0x0024,0x364e,0xffff,0xfff8,0x0040,0x0200,0x0024,0x3658     | +0286e
         .dc.w   0xffff,0x0008,0x0050,0x0200,0x0024,0x3662,0xffff,0x0008     | +0287e
         .dc.w   0x0040,0x1d00,0xffff,0xffff,0x0309                          | +0288e
-        .dc.l   Str_100204                    | +02898  -> $100204
+        .dc.l   ColMap_100204                    | +02898  -> $100204
         .dc.w   0xff00                                                      | +0289c
         .dc.l   Data_00fff8                   | +0289e  -> $00FFF8
         .dc.w   0x0008,0x0040,0x0050,0x0200,0x0024,0x363a,0xffff,0x0000     | +028a2
@@ -5563,12 +5563,12 @@ Data_196000:
         .dc.w   0x0000,0x1d01,0x0900,0x0029,0x9d7e                          | +02932
         .dc.l   Data_010200                   | +0293c  -> $010200
         .dc.w   0x0027,0x15e6,0xffff,0x0060                                 | +02940
-        .dc.l   Data_100200                   | +02948  -> $100200
+        .dc.l   ColMap_100200                   | +02948  -> $100200
         .dc.w   0x0027,0x1552,0xf000,0x0060,0x0010,0x1600,0x0900,0x0029     | +0294c
         .dc.w   0x9e22                                                      | +0295c
         .dc.l   Data_010200                   | +0295e  -> $010200
         .dc.w   0x0027,0x16e0,0xffff,0x0060                                 | +02962
-        .dc.l   Data_100200                   | +0296a  -> $100200
+        .dc.l   ColMap_100200                   | +0296a  -> $100200
         .dc.w   0x0027,0x164a,0xf000,0x0060,0x0010,0x1600,0x0900,0xffff     | +0296e
         .dc.w   0xffff,0x0800                                               | +0297e
         .dc.l   SDS_055258                    | +02982  -> $055258
@@ -5638,7 +5638,7 @@ Data_196000:
         .dc.w   0xffff,0x0000,0x0000,0x0600                                 | +02bb2
         .dc.l   Data_010072                   | +02bba  -> $010072
         .dc.w   0x0003,0x1e08,0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600     | +02bbe
-        .dc.l   Data_020072                   | +02bce  -> $020072
+        .dc.l   Pal_020072                   | +02bce  -> $020072
         .dc.w   0x0003,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600     | +02bd2
         .dc.w   0x0003,0x0072,0x0003,0x1e08,0x0026,0xf508,0xffff,0x0000     | +02be2
         .dc.w   0x0000,0x0600,0x0004,0x0072,0x0003,0x1e08,0x0026,0xf532     | +02bf2
@@ -5654,7 +5654,7 @@ Data_196000:
         .dc.l   Data_010072                   | +02c7c  -> $010072
         .dc.l   Data_011e08                   | +02c80  -> $011E08
         .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02c84
-        .dc.l   Data_020072                   | +02c90  -> $020072
+        .dc.l   Pal_020072                   | +02c90  -> $020072
         .dc.l   Data_011e08                   | +02c94  -> $011E08
         .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02c98
         .dc.l   Data_011e08                   | +02ca8  -> $011E08
@@ -5673,7 +5673,7 @@ Data_196000:
         .dc.l   Data_010072                   | +02d22  -> $010072
         .dc.l   Data_011e08                   | +02d26  -> $011E08
         .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02d2a
-        .dc.l   Data_020072                   | +02d36  -> $020072
+        .dc.l   Pal_020072                   | +02d36  -> $020072
         .dc.l   Data_011e08                   | +02d3a  -> $011E08
         .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02d3e
         .dc.l   Data_011e08                   | +02d4e  -> $011E08
@@ -5692,7 +5692,7 @@ Data_196000:
         .dc.l   Data_010072                   | +02dc8  -> $010072
         .dc.l   Data_011e08                   | +02dcc  -> $011E08
         .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02dd0
-        .dc.l   Data_020072                   | +02ddc  -> $020072
+        .dc.l   Pal_020072                   | +02ddc  -> $020072
         .dc.l   Data_011e08                   | +02de0  -> $011E08
         .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02de4
         .dc.l   Data_011e08                   | +02df4  -> $011E08
@@ -5706,48 +5706,48 @@ Data_196000:
         .dc.l   Data_011e08                   | +02e44  -> $011E08
         .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8db2     | +02e48
         .dc.w   0x0600,0x0000,0x0072                                        | +02e58
-        .dc.l   Data_021e08                   | +02e5e  -> $021E08
+        .dc.l   Pal_021e08                   | +02e5e  -> $021E08
         .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600                   | +02e62
         .dc.l   Data_010072                   | +02e6e  -> $010072
-        .dc.l   Data_021e08                   | +02e72  -> $021E08
+        .dc.l   Pal_021e08                   | +02e72  -> $021E08
         .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02e76
-        .dc.l   Data_020072                   | +02e82  -> $020072
-        .dc.l   Data_021e08                   | +02e86  -> $021E08
+        .dc.l   Pal_020072                   | +02e82  -> $020072
+        .dc.l   Pal_021e08                   | +02e86  -> $021E08
         .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02e8a
-        .dc.l   Data_021e08                   | +02e9a  -> $021E08
+        .dc.l   Pal_021e08                   | +02e9a  -> $021E08
         .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072     | +02e9e
-        .dc.l   Data_021e08                   | +02eae  -> $021E08
+        .dc.l   Pal_021e08                   | +02eae  -> $021E08
         .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072     | +02eb2
-        .dc.l   Data_021e08                   | +02ec2  -> $021E08
+        .dc.l   Pal_021e08                   | +02ec2  -> $021E08
         .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +02ec6
-        .dc.l   Data_021e08                   | +02ed6  -> $021E08
+        .dc.l   Pal_021e08                   | +02ed6  -> $021E08
         .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072     | +02eda
-        .dc.l   Data_021e08                   | +02eea  -> $021E08
+        .dc.l   Pal_021e08                   | +02eea  -> $021E08
         .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8e58     | +02eee
         .dc.w   0x0600,0x0000,0x0072                                        | +02efe
-        .dc.l   Data_021e08                   | +02f04  -> $021E08
+        .dc.l   Pal_021e08                   | +02f04  -> $021E08
         .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600                   | +02f08
         .dc.l   Data_010072                   | +02f14  -> $010072
-        .dc.l   Data_021e08                   | +02f18  -> $021E08
+        .dc.l   Pal_021e08                   | +02f18  -> $021E08
         .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02f1c
-        .dc.l   Data_020072                   | +02f28  -> $020072
-        .dc.l   Data_021e08                   | +02f2c  -> $021E08
+        .dc.l   Pal_020072                   | +02f28  -> $020072
+        .dc.l   Pal_021e08                   | +02f2c  -> $021E08
         .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02f30
-        .dc.l   Data_021e08                   | +02f40  -> $021E08
+        .dc.l   Pal_021e08                   | +02f40  -> $021E08
         .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072     | +02f44
-        .dc.l   Data_021e08                   | +02f54  -> $021E08
+        .dc.l   Pal_021e08                   | +02f54  -> $021E08
         .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072     | +02f58
-        .dc.l   Data_021e08                   | +02f68  -> $021E08
+        .dc.l   Pal_021e08                   | +02f68  -> $021E08
         .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +02f6c
-        .dc.l   Data_021e08                   | +02f7c  -> $021E08
+        .dc.l   Pal_021e08                   | +02f7c  -> $021E08
         .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072     | +02f80
-        .dc.l   Data_021e08                   | +02f90  -> $021E08
+        .dc.l   Pal_021e08                   | +02f90  -> $021E08
         .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8efe     | +02f94
         .dc.w   0x0600,0x0000,0x0072,0x0003,0x1e08,0x0026,0xf494,0xffff     | +02fa4
         .dc.w   0x0000,0x0000,0x0600                                        | +02fb4
         .dc.l   Data_010072                   | +02fba  -> $010072
         .dc.w   0x0003,0x1e08,0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600     | +02fbe
-        .dc.l   Data_020072                   | +02fce  -> $020072
+        .dc.l   Pal_020072                   | +02fce  -> $020072
         .dc.w   0x0003,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600     | +02fd2
         .dc.w   0x0003,0x0072,0x0003,0x1e08,0x0026,0xf508,0xffff,0x0000     | +02fe2
         .dc.w   0x0000,0x0600,0x0004,0x0072,0x0003,0x1e08,0x0026,0xf532     | +02ff2
@@ -5783,13 +5783,13 @@ Data_196000:
         .dc.l   Data_011e08                   | +03118  -> $011E08
         .dc.w   0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800                   | +0311c
         .dc.l   SDS_055300                    | +03128  -> $055300
-        .dc.l   Data_021e08                   | +0312c  -> $021E08
+        .dc.l   Pal_021e08                   | +0312c  -> $021E08
         .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800                   | +03130
         .dc.l   SDS_05530e                    | +0313c  -> $05530E
-        .dc.l   Data_021e08                   | +03140  -> $021E08
+        .dc.l   Pal_021e08                   | +03140  -> $021E08
         .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800                   | +03144
         .dc.l   SDS_05531c                    | +03150  -> $05531C
-        .dc.l   Data_021e08                   | +03154  -> $021E08
+        .dc.l   Pal_021e08                   | +03154  -> $021E08
         .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800                   | +03158
         .dc.l   SDS_05532a                    | +03164  -> $05532A
         .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800     | +03168
@@ -5809,13 +5809,13 @@ Data_196000:
         .dc.l   Data_011e08                   | +031e2  -> $011E08
         .dc.w   0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800                   | +031e6
         .dc.l   SDS_055530                    | +031f2  -> $055530
-        .dc.l   Data_021e08                   | +031f6  -> $021E08
+        .dc.l   Pal_021e08                   | +031f6  -> $021E08
         .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800                   | +031fa
         .dc.l   SDS_05553e                    | +03206  -> $05553E
-        .dc.l   Data_021e08                   | +0320a  -> $021E08
+        .dc.l   Pal_021e08                   | +0320a  -> $021E08
         .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800                   | +0320e
         .dc.l   SDS_05554c                    | +0321a  -> $05554C
-        .dc.l   Data_021e08                   | +0321e  -> $021E08
+        .dc.l   Pal_021e08                   | +0321e  -> $021E08
         .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800                   | +03222
         .dc.l   SDS_05555a                    | +0322e  -> $05555A
         .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800     | +03232
@@ -5835,13 +5835,13 @@ Data_196000:
         .dc.l   Data_011e08                   | +032ac  -> $011E08
         .dc.w   0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800                   | +032b0
         .dc.l   SDS_055760                    | +032bc  -> $055760
-        .dc.l   Data_021e08                   | +032c0  -> $021E08
+        .dc.l   Pal_021e08                   | +032c0  -> $021E08
         .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800                   | +032c4
         .dc.l   SDS_05576e                    | +032d0  -> $05576E
-        .dc.l   Data_021e08                   | +032d4  -> $021E08
+        .dc.l   Pal_021e08                   | +032d4  -> $021E08
         .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800                   | +032d8
         .dc.l   SDS_05577c                    | +032e4  -> $05577C
-        .dc.l   Data_021e08                   | +032e8  -> $021E08
+        .dc.l   Pal_021e08                   | +032e8  -> $021E08
         .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800                   | +032ec
         .dc.l   SDS_05578a                    | +032f8  -> $05578A
         .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800     | +032fc
@@ -5861,13 +5861,13 @@ Data_196000:
         .dc.l   Data_011e08                   | +03376  -> $011E08
         .dc.w   0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800                   | +0337a
         .dc.l   SDS_055990                    | +03386  -> $055990
-        .dc.l   Data_021e08                   | +0338a  -> $021E08
+        .dc.l   Pal_021e08                   | +0338a  -> $021E08
         .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800                   | +0338e
         .dc.l   SDS_05599e                    | +0339a  -> $05599E
-        .dc.l   Data_021e08                   | +0339e  -> $021E08
+        .dc.l   Pal_021e08                   | +0339e  -> $021E08
         .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800                   | +033a2
         .dc.l   SDS_0559ac                    | +033ae  -> $0559AC
-        .dc.l   Data_021e08                   | +033b2  -> $021E08
+        .dc.l   Pal_021e08                   | +033b2  -> $021E08
         .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800                   | +033b6
         .dc.l   SDS_0559ba                    | +033c2  -> $0559BA
         .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800     | +033c6
@@ -5887,10 +5887,10 @@ Data_196000:
         .dc.l   Data_011e08                   | +03440  -> $011E08
         .dc.w   0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800                   | +03444
         .dc.l   SDS_05538c                    | +03450  -> $05538C
-        .dc.l   Data_021e08                   | +03454  -> $021E08
+        .dc.l   Pal_021e08                   | +03454  -> $021E08
         .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800                   | +03458
         .dc.l   SDS_05539a                    | +03464  -> $05539A
-        .dc.l   Data_021e08                   | +03468  -> $021E08
+        .dc.l   Pal_021e08                   | +03468  -> $021E08
         .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800                   | +0346c
         .dc.l   SDS_0553a8                    | +03478  -> $0553A8
         .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800     | +0347c
@@ -5916,10 +5916,10 @@ Data_196000:
         .dc.l   Data_011e08                   | +03532  -> $011E08
         .dc.w   0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800                   | +03536
         .dc.l   SDS_0555bc                    | +03542  -> $0555BC
-        .dc.l   Data_021e08                   | +03546  -> $021E08
+        .dc.l   Pal_021e08                   | +03546  -> $021E08
         .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800                   | +0354a
         .dc.l   SDS_0555ca                    | +03556  -> $0555CA
-        .dc.l   Data_021e08                   | +0355a  -> $021E08
+        .dc.l   Pal_021e08                   | +0355a  -> $021E08
         .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800                   | +0355e
         .dc.l   SDS_0555d8                    | +0356a  -> $0555D8
         .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800     | +0356e
@@ -5945,10 +5945,10 @@ Data_196000:
         .dc.l   Data_011e08                   | +03624  -> $011E08
         .dc.w   0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800                   | +03628
         .dc.l   SDS_0557ec                    | +03634  -> $0557EC
-        .dc.l   Data_021e08                   | +03638  -> $021E08
+        .dc.l   Pal_021e08                   | +03638  -> $021E08
         .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800                   | +0363c
         .dc.l   SDS_0557fa                    | +03648  -> $0557FA
-        .dc.l   Data_021e08                   | +0364c  -> $021E08
+        .dc.l   Pal_021e08                   | +0364c  -> $021E08
         .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800                   | +03650
         .dc.l   SDS_055808                    | +0365c  -> $055808
         .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800     | +03660
@@ -5974,10 +5974,10 @@ Data_196000:
         .dc.l   Data_011e08                   | +03716  -> $011E08
         .dc.w   0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800                   | +0371a
         .dc.l   SDS_055a1c                    | +03726  -> $055A1C
-        .dc.l   Data_021e08                   | +0372a  -> $021E08
+        .dc.l   Pal_021e08                   | +0372a  -> $021E08
         .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800                   | +0372e
         .dc.l   SDS_055a2a                    | +0373a  -> $055A2A
-        .dc.l   Data_021e08                   | +0373e  -> $021E08
+        .dc.l   Pal_021e08                   | +0373e  -> $021E08
         .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800                   | +03742
         .dc.l   SDS_055a38                    | +0374e  -> $055A38
         .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800     | +03752
@@ -6143,39 +6143,39 @@ Data_196000:
         .dc.l   Data_011e08                   | +03d6e  -> $011E08
         .dc.w   0x0027,0x150a,0xffff,0x0000,0x0000,0x1600,0x0003,0xffff     | +03d72
         .dc.w   0xffff,0x0000,0x0000,0x0028,0x0080                          | +03d82
-        .dc.l   Data_100080                   | +03d8c  -> $100080
+        .dc.l   ColMap_100080                   | +03d8c  -> $100080
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03d90
         .dc.w   0x3676,0xffff,0x0028,0x0080,0x0200,0x0024,0x3680,0xffff     | +03da0
         .dc.w   0x0028                                                      | +03db0
-        .dc.l   Data_100200                   | +03db2  -> $100200
+        .dc.l   ColMap_100200                   | +03db2  -> $100200
         .dc.w   0x0024,0x368a,0xffff,0x0080,0x0080,0x0200,0x0024,0x3694     | +03db6
         .dc.w   0xffff,0x0080                                               | +03dc6
-        .dc.l   Str_101d01                    | +03dca  -> $101D01
+        .dc.l   ColMap_101d01                    | +03dca  -> $101D01
         .dc.w   0x0003,0x0029,0xa212,0x0000,0x0000,0x0040,0x0080            | +03dce
-        .dc.l   Data_100080                   | +03ddc  -> $100080
+        .dc.l   ColMap_100080                   | +03ddc  -> $100080
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03de0
         .dc.w   0x3676,0xffff,0x0040,0x0080,0x0200,0x0024,0x3680,0xffff     | +03df0
         .dc.w   0x0040                                                      | +03e00
-        .dc.l   Data_100200                   | +03e02  -> $100200
+        .dc.l   ColMap_100200                   | +03e02  -> $100200
         .dc.w   0x0024,0x368a,0xffff,0x0080,0x0080,0x0200,0x0024,0x3694     | +03e06
         .dc.w   0xffff,0x0080                                               | +03e16
-        .dc.l   Str_101d01                    | +03e1a  -> $101D01
+        .dc.l   ColMap_101d01                    | +03e1a  -> $101D01
         .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0028     | +03e1e
         .dc.w   0x0080                                                      | +03e2e
-        .dc.l   Str_100060                    | +03e30  -> $100060
+        .dc.l   ColMap_100060                    | +03e30  -> $100060
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03e34
         .dc.w   0x3676,0xffff,0x0028,0x0060,0x0200,0x0024,0x3680,0xffff     | +03e44
         .dc.w   0x0028                                                      | +03e54
-        .dc.l   Data_100200                   | +03e56  -> $100200
+        .dc.l   ColMap_100200                   | +03e56  -> $100200
         .dc.w   0x0024,0x368a,0xffff,0x0080,0x0060,0x0200,0x0024,0x3694     | +03e5a
         .dc.w   0xffff,0x0080                                               | +03e6a
-        .dc.l   Str_101d01                    | +03e6e  -> $101D01
+        .dc.l   ColMap_101d01                    | +03e6e  -> $101D01
         .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000            | +03e72
-        .dc.l   Data_180048                   | +03e80  -> $180048
+        .dc.l   AnimScr_180048                   | +03e80  -> $180048
         .dc.l   Data_0c0020                   | +03e84  -> $0C0020
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03e88
         .dc.w   0x3676,0xffff                                               | +03e98
-        .dc.l   Data_180020                   | +03e9c  -> $180020
+        .dc.l   AnimScr_180020                   | +03e9c  -> $180020
         .dc.w   0x0200,0x0024,0x3680,0xffff,0x0018                          | +03ea0
         .dc.l   Data_0c0200                   | +03eaa  -> $0C0200
         .dc.w   0x0024,0x368a,0xffff,0x0048,0x0020,0x0200,0x0024,0x3694     | +03eae
@@ -6183,45 +6183,45 @@ Data_196000:
         .dc.l   Data_0c1d01                   | +03ec2  -> $0C1D01
         .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0030     | +03ec6
         .dc.w   0x0058                                                      | +03ed6
-        .dc.l   Str_100060                    | +03ed8  -> $100060
+        .dc.l   ColMap_100060                    | +03ed8  -> $100060
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03edc
         .dc.w   0x3676,0xffff,0x0030,0x0060,0x0200,0x0024,0x3680,0xffff     | +03eec
         .dc.w   0x0030                                                      | +03efc
-        .dc.l   Data_100200                   | +03efe  -> $100200
+        .dc.l   ColMap_100200                   | +03efe  -> $100200
         .dc.w   0x0024,0x368a,0xffff,0x0058,0x0060,0x0200,0x0024,0x3694     | +03f02
         .dc.w   0xffff,0x0058                                               | +03f12
-        .dc.l   Str_101d01                    | +03f16  -> $101D01
+        .dc.l   ColMap_101d01                    | +03f16  -> $101D01
         .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0008     | +03f1a
         .dc.w   0x0030                                                      | +03f2a
-        .dc.l   Str_100060                    | +03f2c  -> $100060
+        .dc.l   ColMap_100060                    | +03f2c  -> $100060
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03f30
         .dc.w   0x3676,0xffff,0x0008,0x0060,0x0200,0x0024,0x3680,0xffff     | +03f40
         .dc.w   0x0008                                                      | +03f50
-        .dc.l   Data_100200                   | +03f52  -> $100200
+        .dc.l   ColMap_100200                   | +03f52  -> $100200
         .dc.w   0x0024,0x368a,0xffff,0x0030,0x0060,0x0200,0x0024,0x3694     | +03f56
         .dc.w   0xffff,0x0030                                               | +03f66
-        .dc.l   Str_101d01                    | +03f6a  -> $101D01
+        .dc.l   ColMap_101d01                    | +03f6a  -> $101D01
         .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000            | +03f6e
-        .dc.l   Data_180040                   | +03f7c  -> $180040
-        .dc.l   Str_100100                    | +03f80  -> $100100
+        .dc.l   AnimScr_180040                   | +03f7c  -> $180040
+        .dc.l   ColMap_100100                    | +03f80  -> $100100
         .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03f84
         .dc.w   0x3676,0xffff                                               | +03f94
-        .dc.l   Data_180100                   | +03f98  -> $180100
+        .dc.l   AnimScr_180100                   | +03f98  -> $180100
         .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +03f9c
-        .dc.l   Data_180010                   | +03fa4  -> $180010
+        .dc.l   AnimScr_180010                   | +03fa4  -> $180010
         .dc.w   0x0200,0x0024,0x368a,0xffff,0x0040,0x0100,0x0200,0x0024     | +03fa8
         .dc.w   0x3694,0xffff,0x0040                                        | +03fb8
-        .dc.l   Str_101d01                    | +03fbe  -> $101D01
+        .dc.l   ColMap_101d01                    | +03fbe  -> $101D01
         .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000                   | +03fc2
         .dc.l   Data_00ffc0                   | +03fce  -> $00FFC0
         .dc.w   0x0038,0x0008                                               | +03fd2
-        .dc.l   Data_100200                   | +03fd6  -> $100200
+        .dc.l   ColMap_100200                   | +03fd6  -> $100200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +03fda
         .dc.w   0xffff,0xffc0                                               | +03fea
-        .dc.l   Data_100200                   | +03fee  -> $100200
+        .dc.l   ColMap_100200                   | +03fee  -> $100200
         .dc.w   0x0024,0x3680,0xffff,0xffc0,0x0008,0x0200,0x0024,0x368a     | +03ff2
         .dc.w   0xffff,0x0038                                               | +04002
-        .dc.l   Data_100200                   | +04006  -> $100200
+        .dc.l   ColMap_100200                   | +04006  -> $100200
         .dc.w   0x0024,0x3694,0xffff,0x0038,0x0008,0x1d01,0xffff,0xffff     | +0400a
         .dc.w   0x0003,0xffff,0xffff,0x0000                                 | +0401a
         .dc.l   Data_00fff0                   | +04022  -> $00FFF0
@@ -6281,14 +6281,14 @@ Data_196000:
         .dc.w   0x0103,0x0006,0x0028,0x0058,0x0010,0x0050,0x0000            | +0428a
         .dc.l   Explosion_Std_077efe          | +04298  -> $077EFE
         .dc.w   0x01ff                                                      | +0429c
-        .dc.l   Data_020010                   | +0429e  -> $020010
+        .dc.l   Pal_020010                   | +0429e  -> $020010
         .dc.w   0x0040                                                      | +042a2
-        .dc.l   Data_100030                   | +042a4  -> $100030
+        .dc.l   ColMap_100030                   | +042a4  -> $100030
         .dc.w   0x0000                                                      | +042a8
         .dc.l   Explosion_Small_077e10        | +042aa  -> $077E10
         .dc.w   0x0103,0x0006                                               | +042ae
-        .dc.l   Str_100040                    | +042b2  -> $100040
-        .dc.l   Data_100030                   | +042b6  -> $100030
+        .dc.l   ColMap_100040                    | +042b2  -> $100040
+        .dc.l   ColMap_100030                   | +042b6  -> $100030
         .dc.w   0x0000                                                      | +042ba
         .dc.l   Explosion_Small_077e10        | +042bc  -> $077E10
         .dc.w   0x01ff,0x0003,0x0030,0x0028,0x0010,0x0050,0x0000            | +042c0
@@ -6300,13 +6300,13 @@ Data_196000:
         .dc.w   0x0103,0x0006,0xffc0,0x0078,0xffe8,0x0028,0x0000            | +042f6
         .dc.l   Explosion_Std_077efe          | +04304  -> $077EFE
         .dc.w   0x01ff,0x0004                                               | +04308
-        .dc.l   Data_180028                   | +0430c  -> $180028
-        .dc.l   Str_100060                    | +04310  -> $100060
+        .dc.l   AnimScr_180028                   | +0430c  -> $180028
+        .dc.l   ColMap_100060                    | +04310  -> $100060
         .dc.w   0x0000                                                      | +04314
         .dc.l   Explosion_Fire_077f6a         | +04316  -> $077F6A
         .dc.w   0x0103,0x0009                                               | +0431a
-        .dc.l   Data_180028                   | +0431e  -> $180028
-        .dc.l   Str_100060                    | +04322  -> $100060
+        .dc.l   AnimScr_180028                   | +0431e  -> $180028
+        .dc.l   ColMap_100060                    | +04322  -> $100060
         .dc.w   0x0000                                                      | +04326
         .dc.l   Explosion_Std_077efe          | +04328  -> $077EFE
         .dc.w   0x01ff,0x0005,0xffe8,0x0060,0xffc0,0x0040,0x0000            | +0432c
@@ -6314,7 +6314,7 @@ Data_196000:
         .dc.w   0x0103,0x0006,0xffe8,0x0060,0xffc0,0x0040,0x0000            | +0433e
         .dc.l   Explosion_Std_077efe          | +0434c  -> $077EFE
         .dc.w   0x01ff,0x0006                                               | +04350
-        .dc.l   Str_100060                    | +04354  -> $100060
+        .dc.l   ColMap_100060                    | +04354  -> $100060
         .dc.w   0xffe8,0x0028,0x0000                                        | +04358
         .dc.l   Explosion_Small_077e10        | +0435e  -> $077E10
         .dc.w   0x01ff,0x0003,0xfff0,0x0080,0xfff0,0x0030,0x0000            | +04362
@@ -6330,18 +6330,18 @@ Data_196000:
         .dc.w   0x0102,0x0004,0x0008,0x0050,0xfff8,0x0050,0x0000            | +043bc
         .dc.l   Explosion_Std_077efe          | +043ca  -> $077EFE
         .dc.w   0x0105                                                      | +043ce
-        .dc.l   Data_0a0028                   | +043d0  -> $0A0028
+        .dc.l   BgMap_0a0028                   | +043d0  -> $0A0028
         .dc.w   0x0058,0x0010,0x0050,0x0001,0x0029,0x5cf8,0x0102,0x0006     | +043d4
-        .dc.l   Str_100040                    | +043e4  -> $100040
-        .dc.l   Data_100030                   | +043e8  -> $100030
+        .dc.l   ColMap_100040                    | +043e4  -> $100040
+        .dc.l   ColMap_100030                   | +043e8  -> $100030
         .dc.w   0x0001,0x0029,0xa4c2,0x0102,0x0006,0x0030,0x0028,0x0010     | +043ec
         .dc.w   0x0050,0x0001,0x0029,0xa4c2,0x0103,0x0006,0xffc0,0x0078     | +043fc
         .dc.w   0xffe8,0x0028,0x0001,0x0029,0xa4c2,0x0102,0x0006            | +0440c
-        .dc.l   Data_180028                   | +0441a  -> $180028
-        .dc.l   Str_100060                    | +0441e  -> $100060
+        .dc.l   AnimScr_180028                   | +0441a  -> $180028
+        .dc.l   ColMap_100060                    | +0441e  -> $100060
         .dc.w   0x0001,0x0029,0xa502,0x0102,0x0006,0xffe8,0x0060,0xffc0     | +04422
         .dc.w   0x0040,0x0001,0x0029,0x5cf8,0x0102,0x0006                   | +04432
-        .dc.l   Str_100060                    | +0443e  -> $100060
+        .dc.l   ColMap_100060                    | +0443e  -> $100060
         .dc.w   0xffe8,0x0028,0x0001,0x0029,0x5cf8,0x0103,0x0006,0xfff0     | +04442
         .dc.w   0x0080,0xfff0,0x0030,0x0001,0x0029,0x5cf8,0x0103,0x0006     | +04452
         .dc.w   0xfff0,0x0060,0xffc8,0x0038,0x0001,0x0029,0xa482,0x0103     | +04462
@@ -6396,715 +6396,715 @@ Data_196000:
         .dc.l   Explosion_Var15_0784ca        | +0453a  -> $0784CA
         .dc.l   Explosion_Var15_0784ca        | +0453e  -> $0784CA
         .dc.w   0x003a                                                      | +04542
-        .dc.l   Data_19000b                   | +04544  -> $19000B
+        .dc.l   Zero_19000b                   | +04544  -> $19000B
         .dc.w   0xb0a8,0x0080,0x0030,0x000b,0xc750                          | +04548
-        .dc.l   Data_106f6c                   | +04552  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04552  -> $106F6C
         .dc.w   0x0029,0xa542,0x000e,0x0006                                 | +04556
-        .dc.l   Data_0b0000                   | +0455e  -> $0B0000
+        .dc.l   BgMap_0b0000                   | +0455e  -> $0B0000
         .dc.w   0x000a,0x0009                                               | +04562
-        .dc.l   Data_106f6c                   | +04566  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04566  -> $106F6C
         .dc.w   0x0029,0xa542,0x0018                                        | +0456a
-        .dc.l   Data_020009                   | +04570  -> $020009
+        .dc.l   Pal_020009                   | +04570  -> $020009
         .dc.w   0x000a,0x0008,0x0008                                        | +04574
-        .dc.l   Data_106f6c                   | +0457a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0457a  -> $106F6C
         .dc.w   0x0029,0xa542                                               | +0457e
-        .dc.l   Data_18000a                   | +04582  -> $18000A
+        .dc.l   AnimScr_18000a                   | +04582  -> $18000A
         .dc.w   0x0007                                                      | +04586
-        .dc.l   Data_130006                   | +04588  -> $130006
+        .dc.l   SprFrame_130006                   | +04588  -> $130006
         .dc.w   0x0006                                                      | +0458c
-        .dc.l   Data_106f6c                   | +0458e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0458e  -> $106F6C
         .dc.w   0x0029,0xa542                                               | +04592
-        .dc.l   Data_18000a                   | +04596  -> $18000A
+        .dc.l   AnimScr_18000a                   | +04596  -> $18000A
         .dc.w   0x000e                                                      | +0459a
-        .dc.l   Data_130006                   | +0459c  -> $130006
+        .dc.l   SprFrame_130006                   | +0459c  -> $130006
         .dc.w   0x0006                                                      | +045a0
-        .dc.l   Data_106f6c                   | +045a2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +045a2  -> $106F6C
         .dc.w   0x0029,0xa542                                               | +045a6
-        .dc.l   Data_18000a                   | +045aa  -> $18000A
+        .dc.l   AnimScr_18000a                   | +045aa  -> $18000A
         .dc.l   Data_150013                   | +045ae  -> $150013
         .dc.w   0x0006,0x0006                                               | +045b2
-        .dc.l   Data_106f6c                   | +045b6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +045b6  -> $106F6C
         .dc.w   0x0029,0xa542,0x001e,0x000a,0x001d,0x0000,0x0006,0x0006     | +045ba
-        .dc.l   Data_106f6c                   | +045ca  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +045ca  -> $106F6C
         .dc.w   0x0029,0xa542,0x0024,0x000a,0x001b,0x0007,0x0004,0x0006     | +045ce
-        .dc.l   Data_106f6c                   | +045de  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +045de  -> $106F6C
         .dc.w   0x0029,0xa542,0x0024                                        | +045e2
-        .dc.l   Data_0a0020                   | +045e8  -> $0A0020
+        .dc.l   BgMap_0a0020                   | +045e8  -> $0A0020
         .dc.w   0x0007,0x0004,0x0006                                        | +045ec
-        .dc.l   Data_106f6c                   | +045f2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +045f2  -> $106F6C
         .dc.w   0x0029,0xa542,0x0034,0x0008,0x0030,0x0000,0x000a,0x0008     | +045f6
-        .dc.l   Data_106f6c                   | +04606  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04606  -> $106F6C
         .dc.w   0x0029,0xa542,0x004c,0x0008,0x0021,0x000e,0x0004            | +0460a
-        .dc.l   Data_0a0010                   | +04618  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +04618  -> $0A0010
         .dc.w   0x6f6c,0x0029,0xa54a                                        | +0461c
         .dc.l   Data_01000a                   | +04622  -> $01000A
         .dc.w   0x0000                                                      | +04626
         .dc.l   Data_010008                   | +04628  -> $010008
         .dc.w   0x0003                                                      | +0462c
-        .dc.l   Data_106f6c                   | +0462e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0462e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04632
         .dc.l   Data_01000a                   | +04636  -> $01000A
         .dc.w   0x0008                                                      | +0463a
         .dc.l   Data_010008                   | +0463c  -> $010008
         .dc.w   0x0003                                                      | +04640
-        .dc.l   Data_106f6c                   | +04642  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04642  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04646
         .dc.l   Data_01000a                   | +0464a  -> $01000A
-        .dc.l   Data_100001                   | +0464e  -> $100001
+        .dc.l   ColMap_100001                   | +0464e  -> $100001
         .dc.w   0x0008,0x0003                                               | +04652
-        .dc.l   Data_106f6c                   | +04656  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04656  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0465a
         .dc.l   Data_01000a                   | +0465e  -> $01000A
         .dc.w   0x0018                                                      | +04662
         .dc.l   Data_010008                   | +04664  -> $010008
         .dc.w   0x0003                                                      | +04668
-        .dc.l   Data_106f6c                   | +0466a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0466a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0466e
         .dc.l   Data_01000a                   | +04672  -> $01000A
         .dc.w   0x0020                                                      | +04676
         .dc.l   Data_010008                   | +04678  -> $010008
         .dc.w   0x0003                                                      | +0467c
-        .dc.l   Data_106f6c                   | +0467e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0467e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04682
         .dc.l   Data_01000a                   | +04686  -> $01000A
         .dc.w   0x0028                                                      | +0468a
         .dc.l   Data_010008                   | +0468c  -> $010008
         .dc.w   0x0003                                                      | +04690
-        .dc.l   Data_106f6c                   | +04692  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04692  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04696
         .dc.l   Data_01000a                   | +0469a  -> $01000A
         .dc.w   0x0030                                                      | +0469e
         .dc.l   Data_010008                   | +046a0  -> $010008
         .dc.w   0x0003                                                      | +046a4
-        .dc.l   Data_106f6c                   | +046a6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +046a6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +046aa
         .dc.l   Data_01000a                   | +046ae  -> $01000A
         .dc.w   0x0038                                                      | +046b2
         .dc.l   Data_010008                   | +046b4  -> $010008
         .dc.w   0x0003                                                      | +046b8
-        .dc.l   Data_106f6c                   | +046ba  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +046ba  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +046be
         .dc.l   Data_01000a                   | +046c2  -> $01000A
         .dc.w   0x0040                                                      | +046c6
         .dc.l   Data_010008                   | +046c8  -> $010008
         .dc.w   0x0003                                                      | +046cc
-        .dc.l   Data_106f6c                   | +046ce  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +046ce  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +046d2
         .dc.l   Data_01000a                   | +046d6  -> $01000A
         .dc.w   0x0048                                                      | +046da
         .dc.l   Data_010008                   | +046dc  -> $010008
         .dc.w   0x0003                                                      | +046e0
-        .dc.l   Data_106f6c                   | +046e2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +046e2  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +046e6
         .dc.l   Data_01000a                   | +046ea  -> $01000A
         .dc.w   0x0050                                                      | +046ee
         .dc.l   Data_010008                   | +046f0  -> $010008
         .dc.w   0x0003                                                      | +046f4
-        .dc.l   Data_106f6c                   | +046f6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +046f6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +046fa
         .dc.l   Data_01000a                   | +046fe  -> $01000A
         .dc.w   0x0058                                                      | +04702
         .dc.l   Data_010008                   | +04704  -> $010008
         .dc.w   0x0003                                                      | +04708
-        .dc.l   Data_106f6c                   | +0470a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0470a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0470e
         .dc.l   Data_01000a                   | +04712  -> $01000A
         .dc.w   0x0060                                                      | +04716
         .dc.l   Data_010008                   | +04718  -> $010008
         .dc.w   0x0003                                                      | +0471c
-        .dc.l   Data_106f6c                   | +0471e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0471e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04722
         .dc.l   Data_01000a                   | +04726  -> $01000A
         .dc.w   0x0068                                                      | +0472a
         .dc.l   Data_010008                   | +0472c  -> $010008
         .dc.w   0x0003                                                      | +04730
-        .dc.l   Data_106f6c                   | +04732  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04732  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04736
         .dc.l   Data_01000a                   | +0473a  -> $01000A
         .dc.w   0x0070                                                      | +0473e
         .dc.l   Data_010008                   | +04740  -> $010008
         .dc.w   0x0003                                                      | +04744
-        .dc.l   Data_106f6c                   | +04746  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04746  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0474a
         .dc.l   Data_01000a                   | +0474e  -> $01000A
         .dc.w   0x0078                                                      | +04752
         .dc.l   Data_010008                   | +04754  -> $010008
         .dc.w   0x0003                                                      | +04758
-        .dc.l   Data_106f6c                   | +0475a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0475a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0475e
         .dc.l   Data_01000a                   | +04762  -> $01000A
         .dc.w   0x0000,0x0005,0x0008,0x0003                                 | +04766
-        .dc.l   Data_106f6c                   | +0476e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0476e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04772
         .dc.l   Data_01000a                   | +04776  -> $01000A
         .dc.w   0x0008,0x0005,0x0008,0x0003                                 | +0477a
-        .dc.l   Data_106f6c                   | +04782  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04782  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04786
         .dc.l   Data_01000a                   | +0478a  -> $01000A
         .dc.w   0x0010,0x0005,0x0008,0x0003                                 | +0478e
-        .dc.l   Data_106f6c                   | +04796  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04796  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0479a
         .dc.l   Data_01000a                   | +0479e  -> $01000A
         .dc.w   0x0018,0x0005,0x0008,0x0003                                 | +047a2
-        .dc.l   Data_106f6c                   | +047aa  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +047aa  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +047ae
         .dc.l   Data_01000a                   | +047b2  -> $01000A
         .dc.w   0x0020,0x0005,0x0008,0x0003                                 | +047b6
-        .dc.l   Data_106f6c                   | +047be  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +047be  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +047c2
         .dc.l   Data_01000a                   | +047c6  -> $01000A
         .dc.w   0x0028,0x0005,0x0008,0x0003                                 | +047ca
-        .dc.l   Data_106f6c                   | +047d2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +047d2  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +047d6
         .dc.l   Data_01000a                   | +047da  -> $01000A
         .dc.w   0x0030,0x0005,0x0008,0x0003                                 | +047de
-        .dc.l   Data_106f6c                   | +047e6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +047e6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +047ea
         .dc.l   Data_01000a                   | +047ee  -> $01000A
         .dc.w   0x0038,0x0005,0x0008,0x0003                                 | +047f2
-        .dc.l   Data_106f6c                   | +047fa  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +047fa  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +047fe
         .dc.l   Data_01000a                   | +04802  -> $01000A
         .dc.w   0x0040,0x0005,0x0008,0x0003                                 | +04806
-        .dc.l   Data_106f6c                   | +0480e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0480e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04812
         .dc.l   Data_01000a                   | +04816  -> $01000A
         .dc.w   0x0048,0x0005,0x0008,0x0003                                 | +0481a
-        .dc.l   Data_106f6c                   | +04822  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04822  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04826
         .dc.l   Data_01000a                   | +0482a  -> $01000A
         .dc.w   0x0050,0x0005,0x0008,0x0003                                 | +0482e
-        .dc.l   Data_106f6c                   | +04836  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04836  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0483a
         .dc.l   Data_01000a                   | +0483e  -> $01000A
         .dc.w   0x0058,0x0005,0x0008,0x0003                                 | +04842
-        .dc.l   Data_106f6c                   | +0484a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0484a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0484e
         .dc.l   Data_01000a                   | +04852  -> $01000A
         .dc.w   0x0060,0x0005,0x0008,0x0003                                 | +04856
-        .dc.l   Data_106f6c                   | +0485e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0485e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04862
         .dc.l   Data_01000a                   | +04866  -> $01000A
         .dc.w   0x0068,0x0005,0x0008,0x0003                                 | +0486a
-        .dc.l   Data_106f6c                   | +04872  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04872  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04876
         .dc.l   Data_01000a                   | +0487a  -> $01000A
         .dc.w   0x0070,0x0005,0x0008,0x0003                                 | +0487e
-        .dc.l   Data_106f6c                   | +04886  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04886  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0488a
         .dc.l   Data_01000a                   | +0488e  -> $01000A
         .dc.w   0x0078,0x0005,0x0008,0x0003                                 | +04892
-        .dc.l   Data_106f6c                   | +0489a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0489a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0489e
         .dc.l   Data_01000a                   | +048a2  -> $01000A
         .dc.w   0x0000,0x0009,0x0008,0x0003                                 | +048a6
-        .dc.l   Data_106f6c                   | +048ae  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +048ae  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +048b2
         .dc.l   Data_01000a                   | +048b6  -> $01000A
         .dc.w   0x0008,0x0009,0x0008,0x0003                                 | +048ba
-        .dc.l   Data_106f6c                   | +048c2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +048c2  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +048c6
         .dc.l   Data_01000a                   | +048ca  -> $01000A
         .dc.w   0x0010,0x0009,0x0008,0x0003                                 | +048ce
-        .dc.l   Data_106f6c                   | +048d6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +048d6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +048da
         .dc.l   Data_01000a                   | +048de  -> $01000A
         .dc.w   0x0018,0x0009,0x0008,0x0003                                 | +048e2
-        .dc.l   Data_106f6c                   | +048ea  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +048ea  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +048ee
         .dc.l   Data_01000a                   | +048f2  -> $01000A
         .dc.w   0x0020,0x0009,0x0008,0x0003                                 | +048f6
-        .dc.l   Data_106f6c                   | +048fe  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +048fe  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04902
         .dc.l   Data_01000a                   | +04906  -> $01000A
         .dc.w   0x0028,0x0009,0x0008,0x0003                                 | +0490a
-        .dc.l   Data_106f6c                   | +04912  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04912  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04916
         .dc.l   Data_01000a                   | +0491a  -> $01000A
         .dc.w   0x0030,0x0009,0x0008,0x0003                                 | +0491e
-        .dc.l   Data_106f6c                   | +04926  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04926  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0492a
         .dc.l   Data_01000a                   | +0492e  -> $01000A
         .dc.w   0x0038,0x0009,0x0008,0x0003                                 | +04932
-        .dc.l   Data_106f6c                   | +0493a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0493a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0493e
-        .dc.l   Data_11000a                   | +04942  -> $11000A
+        .dc.l   ColMap_11000a                   | +04942  -> $11000A
         .dc.w   0x0000,0x000d,0x0008,0x0003                                 | +04946
-        .dc.l   Data_106f6c                   | +0494e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0494e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04952
-        .dc.l   Data_11000a                   | +04956  -> $11000A
+        .dc.l   ColMap_11000a                   | +04956  -> $11000A
         .dc.w   0x0008,0x000d,0x0008,0x0003                                 | +0495a
-        .dc.l   Data_106f6c                   | +04962  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04962  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04966
-        .dc.l   Data_11000a                   | +0496a  -> $11000A
-        .dc.l   Data_10000d                   | +0496e  -> $10000D
+        .dc.l   ColMap_11000a                   | +0496a  -> $11000A
+        .dc.l   ColMap_10000d                   | +0496e  -> $10000D
         .dc.w   0x0008,0x0003                                               | +04972
-        .dc.l   Data_106f6c                   | +04976  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04976  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0497a
-        .dc.l   Data_11000a                   | +0497e  -> $11000A
+        .dc.l   ColMap_11000a                   | +0497e  -> $11000A
         .dc.w   0x0018,0x000d,0x0008,0x0003                                 | +04982
-        .dc.l   Data_106f6c                   | +0498a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0498a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +0498e
-        .dc.l   Data_11000a                   | +04992  -> $11000A
+        .dc.l   ColMap_11000a                   | +04992  -> $11000A
         .dc.w   0x0020,0x000d,0x0008,0x0003                                 | +04996
-        .dc.l   Data_106f6c                   | +0499e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0499e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +049a2
-        .dc.l   Data_11000a                   | +049a6  -> $11000A
+        .dc.l   ColMap_11000a                   | +049a6  -> $11000A
         .dc.w   0x0028,0x000d,0x0008,0x0003                                 | +049aa
-        .dc.l   Data_106f6c                   | +049b2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +049b2  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +049b6
-        .dc.l   Data_11000a                   | +049ba  -> $11000A
+        .dc.l   ColMap_11000a                   | +049ba  -> $11000A
         .dc.w   0x0030,0x000d,0x0008,0x0003                                 | +049be
-        .dc.l   Data_106f6c                   | +049c6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +049c6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +049ca
-        .dc.l   Data_11000a                   | +049ce  -> $11000A
+        .dc.l   ColMap_11000a                   | +049ce  -> $11000A
         .dc.w   0x0038,0x000d,0x0008,0x0003                                 | +049d2
-        .dc.l   Data_106f6c                   | +049da  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +049da  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +049de
-        .dc.l   Data_11000a                   | +049e2  -> $11000A
+        .dc.l   ColMap_11000a                   | +049e2  -> $11000A
         .dc.w   0x0040,0x000d,0x0008,0x0003                                 | +049e6
-        .dc.l   Data_106f6c                   | +049ee  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +049ee  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +049f2
-        .dc.l   Data_11000a                   | +049f6  -> $11000A
+        .dc.l   ColMap_11000a                   | +049f6  -> $11000A
         .dc.w   0x0048,0x000d,0x0008,0x0003                                 | +049fa
-        .dc.l   Data_106f6c                   | +04a02  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04a02  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04a06
-        .dc.l   Data_11000a                   | +04a0a  -> $11000A
+        .dc.l   ColMap_11000a                   | +04a0a  -> $11000A
         .dc.w   0x0050,0x000d,0x0008,0x0003                                 | +04a0e
-        .dc.l   Data_106f6c                   | +04a16  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04a16  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04a1a
-        .dc.l   Data_11000a                   | +04a1e  -> $11000A
+        .dc.l   ColMap_11000a                   | +04a1e  -> $11000A
         .dc.w   0x0058,0x000d,0x0008,0x0003                                 | +04a22
-        .dc.l   Data_106f6c                   | +04a2a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04a2a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04a2e
-        .dc.l   Data_11000a                   | +04a32  -> $11000A
+        .dc.l   ColMap_11000a                   | +04a32  -> $11000A
         .dc.w   0x0060,0x000d,0x0008,0x0003                                 | +04a36
-        .dc.l   Data_106f6c                   | +04a3e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04a3e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04a42
-        .dc.l   Data_11000a                   | +04a46  -> $11000A
+        .dc.l   ColMap_11000a                   | +04a46  -> $11000A
         .dc.w   0x0068,0x000d,0x0008,0x0003                                 | +04a4a
-        .dc.l   Data_106f6c                   | +04a52  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04a52  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04a56
-        .dc.l   Data_11000a                   | +04a5a  -> $11000A
+        .dc.l   ColMap_11000a                   | +04a5a  -> $11000A
         .dc.w   0x0070,0x000d,0x0008,0x0003                                 | +04a5e
-        .dc.l   Data_106f6c                   | +04a66  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04a66  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04a6a
-        .dc.l   Data_11000a                   | +04a6e  -> $11000A
+        .dc.l   ColMap_11000a                   | +04a6e  -> $11000A
         .dc.w   0x0078,0x000d,0x0008,0x0003                                 | +04a72
-        .dc.l   Data_106f6c                   | +04a7a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04a7a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04a7e
-        .dc.l   Data_11000a                   | +04a82  -> $11000A
+        .dc.l   ColMap_11000a                   | +04a82  -> $11000A
         .dc.w   0x0000                                                      | +04a86
-        .dc.l   Data_110008                   | +04a88  -> $110008
+        .dc.l   ColMap_110008                   | +04a88  -> $110008
         .dc.w   0x0003                                                      | +04a8c
-        .dc.l   Data_106f6c                   | +04a8e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04a8e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04a92
-        .dc.l   Data_11000a                   | +04a96  -> $11000A
+        .dc.l   ColMap_11000a                   | +04a96  -> $11000A
         .dc.w   0x0008                                                      | +04a9a
-        .dc.l   Data_110008                   | +04a9c  -> $110008
+        .dc.l   ColMap_110008                   | +04a9c  -> $110008
         .dc.w   0x0003                                                      | +04aa0
-        .dc.l   Data_106f6c                   | +04aa2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04aa2  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04aa6
-        .dc.l   Data_11000a                   | +04aaa  -> $11000A
-        .dc.l   Data_100011                   | +04aae  -> $100011
+        .dc.l   ColMap_11000a                   | +04aaa  -> $11000A
+        .dc.l   ColMap_100011                   | +04aae  -> $100011
         .dc.w   0x0008,0x0003                                               | +04ab2
-        .dc.l   Data_106f6c                   | +04ab6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04ab6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04aba
-        .dc.l   Data_11000a                   | +04abe  -> $11000A
-        .dc.l   Data_180011                   | +04ac2  -> $180011
+        .dc.l   ColMap_11000a                   | +04abe  -> $11000A
+        .dc.l   AnimScr_180011                   | +04ac2  -> $180011
         .dc.w   0x0008,0x0003                                               | +04ac6
-        .dc.l   Data_106f6c                   | +04aca  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04aca  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04ace
-        .dc.l   Data_11000a                   | +04ad2  -> $11000A
+        .dc.l   ColMap_11000a                   | +04ad2  -> $11000A
         .dc.w   0x0020                                                      | +04ad6
-        .dc.l   Data_110008                   | +04ad8  -> $110008
+        .dc.l   ColMap_110008                   | +04ad8  -> $110008
         .dc.w   0x0003                                                      | +04adc
-        .dc.l   Data_106f6c                   | +04ade  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04ade  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04ae2
-        .dc.l   Data_11000a                   | +04ae6  -> $11000A
+        .dc.l   ColMap_11000a                   | +04ae6  -> $11000A
         .dc.w   0x0028                                                      | +04aea
-        .dc.l   Data_110008                   | +04aec  -> $110008
+        .dc.l   ColMap_110008                   | +04aec  -> $110008
         .dc.w   0x0003                                                      | +04af0
-        .dc.l   Data_106f6c                   | +04af2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04af2  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04af6
-        .dc.l   Data_11000a                   | +04afa  -> $11000A
+        .dc.l   ColMap_11000a                   | +04afa  -> $11000A
         .dc.w   0x0030                                                      | +04afe
-        .dc.l   Data_110008                   | +04b00  -> $110008
+        .dc.l   ColMap_110008                   | +04b00  -> $110008
         .dc.w   0x0003                                                      | +04b04
-        .dc.l   Data_106f6c                   | +04b06  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04b06  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04b0a
-        .dc.l   Data_11000a                   | +04b0e  -> $11000A
+        .dc.l   ColMap_11000a                   | +04b0e  -> $11000A
         .dc.w   0x0038                                                      | +04b12
-        .dc.l   Data_110008                   | +04b14  -> $110008
+        .dc.l   ColMap_110008                   | +04b14  -> $110008
         .dc.w   0x0003                                                      | +04b18
-        .dc.l   Data_106f6c                   | +04b1a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04b1a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04b1e
-        .dc.l   Data_11000a                   | +04b22  -> $11000A
+        .dc.l   ColMap_11000a                   | +04b22  -> $11000A
         .dc.w   0x0040                                                      | +04b26
-        .dc.l   Data_110008                   | +04b28  -> $110008
+        .dc.l   ColMap_110008                   | +04b28  -> $110008
         .dc.w   0x0003                                                      | +04b2c
-        .dc.l   Data_106f6c                   | +04b2e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04b2e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04b32
-        .dc.l   Data_11000a                   | +04b36  -> $11000A
+        .dc.l   ColMap_11000a                   | +04b36  -> $11000A
         .dc.w   0x0048                                                      | +04b3a
-        .dc.l   Data_110008                   | +04b3c  -> $110008
+        .dc.l   ColMap_110008                   | +04b3c  -> $110008
         .dc.w   0x0003                                                      | +04b40
-        .dc.l   Data_106f6c                   | +04b42  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04b42  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04b46
-        .dc.l   Data_11000a                   | +04b4a  -> $11000A
+        .dc.l   ColMap_11000a                   | +04b4a  -> $11000A
         .dc.w   0x0050                                                      | +04b4e
-        .dc.l   Data_110008                   | +04b50  -> $110008
+        .dc.l   ColMap_110008                   | +04b50  -> $110008
         .dc.w   0x0003                                                      | +04b54
-        .dc.l   Data_106f6c                   | +04b56  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04b56  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04b5a
-        .dc.l   Data_11000a                   | +04b5e  -> $11000A
+        .dc.l   ColMap_11000a                   | +04b5e  -> $11000A
         .dc.w   0x0058                                                      | +04b62
-        .dc.l   Data_110008                   | +04b64  -> $110008
+        .dc.l   ColMap_110008                   | +04b64  -> $110008
         .dc.w   0x0003                                                      | +04b68
-        .dc.l   Data_106f6c                   | +04b6a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04b6a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04b6e
-        .dc.l   Data_11000a                   | +04b72  -> $11000A
+        .dc.l   ColMap_11000a                   | +04b72  -> $11000A
         .dc.w   0x0060                                                      | +04b76
-        .dc.l   Data_110008                   | +04b78  -> $110008
+        .dc.l   ColMap_110008                   | +04b78  -> $110008
         .dc.w   0x0003                                                      | +04b7c
-        .dc.l   Data_106f6c                   | +04b7e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04b7e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04b82
-        .dc.l   Data_11000a                   | +04b86  -> $11000A
+        .dc.l   ColMap_11000a                   | +04b86  -> $11000A
         .dc.w   0x0068                                                      | +04b8a
-        .dc.l   Data_110008                   | +04b8c  -> $110008
+        .dc.l   ColMap_110008                   | +04b8c  -> $110008
         .dc.w   0x0003                                                      | +04b90
-        .dc.l   Data_106f6c                   | +04b92  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04b92  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04b96
-        .dc.l   Data_11000a                   | +04b9a  -> $11000A
+        .dc.l   ColMap_11000a                   | +04b9a  -> $11000A
         .dc.w   0x0070                                                      | +04b9e
-        .dc.l   Data_110008                   | +04ba0  -> $110008
+        .dc.l   ColMap_110008                   | +04ba0  -> $110008
         .dc.w   0x0003                                                      | +04ba4
-        .dc.l   Data_106f6c                   | +04ba6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04ba6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04baa
-        .dc.l   Data_11000a                   | +04bae  -> $11000A
+        .dc.l   ColMap_11000a                   | +04bae  -> $11000A
         .dc.w   0x0078                                                      | +04bb2
-        .dc.l   Data_110008                   | +04bb4  -> $110008
+        .dc.l   ColMap_110008                   | +04bb4  -> $110008
         .dc.w   0x0003                                                      | +04bb8
-        .dc.l   Data_106f6c                   | +04bba  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04bba  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04bbe
-        .dc.l   Data_11000a                   | +04bc2  -> $11000A
+        .dc.l   ColMap_11000a                   | +04bc2  -> $11000A
         .dc.w   0x0000                                                      | +04bc6
         .dc.l   Data_150008                   | +04bc8  -> $150008
         .dc.w   0x0003                                                      | +04bcc
-        .dc.l   Data_106f6c                   | +04bce  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04bce  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04bd2
-        .dc.l   Data_11000a                   | +04bd6  -> $11000A
+        .dc.l   ColMap_11000a                   | +04bd6  -> $11000A
         .dc.w   0x0008                                                      | +04bda
         .dc.l   Data_150008                   | +04bdc  -> $150008
         .dc.w   0x0003                                                      | +04be0
-        .dc.l   Data_106f6c                   | +04be2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04be2  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04be6
-        .dc.l   Data_11000a                   | +04bea  -> $11000A
+        .dc.l   ColMap_11000a                   | +04bea  -> $11000A
         .dc.w   0x0010                                                      | +04bee
         .dc.l   Data_150008                   | +04bf0  -> $150008
         .dc.w   0x0003                                                      | +04bf4
-        .dc.l   Data_106f6c                   | +04bf6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04bf6  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04bfa
-        .dc.l   Data_11000a                   | +04bfe  -> $11000A
-        .dc.l   Data_180015                   | +04c02  -> $180015
+        .dc.l   ColMap_11000a                   | +04bfe  -> $11000A
+        .dc.l   AnimScr_180015                   | +04c02  -> $180015
         .dc.w   0x0008,0x0003                                               | +04c06
-        .dc.l   Data_106f6c                   | +04c0a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04c0a  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04c0e
-        .dc.l   Data_11000a                   | +04c12  -> $11000A
+        .dc.l   ColMap_11000a                   | +04c12  -> $11000A
         .dc.w   0x0020                                                      | +04c16
         .dc.l   Data_150008                   | +04c18  -> $150008
         .dc.w   0x0003                                                      | +04c1c
-        .dc.l   Data_106f6c                   | +04c1e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04c1e  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04c22
-        .dc.l   Data_11000a                   | +04c26  -> $11000A
+        .dc.l   ColMap_11000a                   | +04c26  -> $11000A
         .dc.w   0x0028                                                      | +04c2a
         .dc.l   Data_150008                   | +04c2c  -> $150008
         .dc.w   0x0003                                                      | +04c30
-        .dc.l   Data_106f6c                   | +04c32  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04c32  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04c36
-        .dc.l   Data_11000a                   | +04c3a  -> $11000A
+        .dc.l   ColMap_11000a                   | +04c3a  -> $11000A
         .dc.w   0x0030                                                      | +04c3e
         .dc.l   Data_150008                   | +04c40  -> $150008
         .dc.w   0x0003                                                      | +04c44
-        .dc.l   Data_106f6c                   | +04c46  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04c46  -> $106F6C
         .dc.w   0x0029,0xa54a                                               | +04c4a
-        .dc.l   Data_11000a                   | +04c4e  -> $11000A
+        .dc.l   ColMap_11000a                   | +04c4e  -> $11000A
         .dc.w   0x0038                                                      | +04c52
         .dc.l   Data_150008                   | +04c54  -> $150008
         .dc.w   0x0003                                                      | +04c58
-        .dc.l   Data_106f6c                   | +04c5a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04c5a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04c5e
-        .dc.l   Data_0a0000                   | +04c64  -> $0A0000
-        .dc.l   Data_190008                   | +04c68  -> $190008
+        .dc.l   BgMap_0a0000                   | +04c64  -> $0A0000
+        .dc.l   Zero_190008                   | +04c68  -> $190008
         .dc.w   0x0003                                                      | +04c6c
-        .dc.l   Data_106f6c                   | +04c6e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04c6e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008                          | +04c72
-        .dc.l   Data_190008                   | +04c7c  -> $190008
+        .dc.l   Zero_190008                   | +04c7c  -> $190008
         .dc.w   0x0003                                                      | +04c80
-        .dc.l   Data_106f6c                   | +04c82  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04c82  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04c86
-        .dc.l   Data_0a0010                   | +04c8c  -> $0A0010
-        .dc.l   Data_190008                   | +04c90  -> $190008
+        .dc.l   BgMap_0a0010                   | +04c8c  -> $0A0010
+        .dc.l   Zero_190008                   | +04c90  -> $190008
         .dc.w   0x0003                                                      | +04c94
-        .dc.l   Data_106f6c                   | +04c96  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04c96  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04c9a
-        .dc.l   Data_0a0018                   | +04ca0  -> $0A0018
-        .dc.l   Data_190008                   | +04ca4  -> $190008
+        .dc.l   BgMap_0a0018                   | +04ca0  -> $0A0018
+        .dc.l   Zero_190008                   | +04ca4  -> $190008
         .dc.w   0x0003                                                      | +04ca8
-        .dc.l   Data_106f6c                   | +04caa  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04caa  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04cae
-        .dc.l   Data_0a0020                   | +04cb4  -> $0A0020
-        .dc.l   Data_190008                   | +04cb8  -> $190008
+        .dc.l   BgMap_0a0020                   | +04cb4  -> $0A0020
+        .dc.l   Zero_190008                   | +04cb8  -> $190008
         .dc.w   0x0003                                                      | +04cbc
-        .dc.l   Data_106f6c                   | +04cbe  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04cbe  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04cc2
-        .dc.l   Data_0a0028                   | +04cc8  -> $0A0028
-        .dc.l   Data_190008                   | +04ccc  -> $190008
+        .dc.l   BgMap_0a0028                   | +04cc8  -> $0A0028
+        .dc.l   Zero_190008                   | +04ccc  -> $190008
         .dc.w   0x0003                                                      | +04cd0
-        .dc.l   Data_106f6c                   | +04cd2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04cd2  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030                          | +04cd6
-        .dc.l   Data_190008                   | +04ce0  -> $190008
+        .dc.l   Zero_190008                   | +04ce0  -> $190008
         .dc.w   0x0003                                                      | +04ce4
-        .dc.l   Data_106f6c                   | +04ce6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04ce6  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038                          | +04cea
-        .dc.l   Data_190008                   | +04cf4  -> $190008
+        .dc.l   Zero_190008                   | +04cf4  -> $190008
         .dc.w   0x0003                                                      | +04cf8
-        .dc.l   Data_106f6c                   | +04cfa  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04cfa  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04cfe
-        .dc.l   Data_0a0040                   | +04d04  -> $0A0040
-        .dc.l   Data_190008                   | +04d08  -> $190008
+        .dc.l   BgMap_0a0040                   | +04d04  -> $0A0040
+        .dc.l   Zero_190008                   | +04d08  -> $190008
         .dc.w   0x0003                                                      | +04d0c
-        .dc.l   Data_106f6c                   | +04d0e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04d0e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0048                          | +04d12
-        .dc.l   Data_190008                   | +04d1c  -> $190008
+        .dc.l   Zero_190008                   | +04d1c  -> $190008
         .dc.w   0x0003                                                      | +04d20
-        .dc.l   Data_106f6c                   | +04d22  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04d22  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0050                          | +04d26
-        .dc.l   Data_190008                   | +04d30  -> $190008
+        .dc.l   Zero_190008                   | +04d30  -> $190008
         .dc.w   0x0003                                                      | +04d34
-        .dc.l   Data_106f6c                   | +04d36  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04d36  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0058                          | +04d3a
-        .dc.l   Data_190008                   | +04d44  -> $190008
+        .dc.l   Zero_190008                   | +04d44  -> $190008
         .dc.w   0x0003                                                      | +04d48
-        .dc.l   Data_106f6c                   | +04d4a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04d4a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0060                          | +04d4e
-        .dc.l   Data_190008                   | +04d58  -> $190008
+        .dc.l   Zero_190008                   | +04d58  -> $190008
         .dc.w   0x0003                                                      | +04d5c
-        .dc.l   Data_106f6c                   | +04d5e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04d5e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0068                          | +04d62
-        .dc.l   Data_190008                   | +04d6c  -> $190008
+        .dc.l   Zero_190008                   | +04d6c  -> $190008
         .dc.w   0x0003                                                      | +04d70
-        .dc.l   Data_106f6c                   | +04d72  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04d72  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04d76
-        .dc.l   Data_0a0070                   | +04d7c  -> $0A0070
-        .dc.l   Data_190008                   | +04d80  -> $190008
+        .dc.l   BgMap_0a0070                   | +04d7c  -> $0A0070
+        .dc.l   Zero_190008                   | +04d80  -> $190008
         .dc.w   0x0003                                                      | +04d84
-        .dc.l   Data_106f6c                   | +04d86  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04d86  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04d8a
-        .dc.l   Data_0a0078                   | +04d90  -> $0A0078
-        .dc.l   Data_190008                   | +04d94  -> $190008
+        .dc.l   BgMap_0a0078                   | +04d90  -> $0A0078
+        .dc.l   Zero_190008                   | +04d94  -> $190008
         .dc.w   0x0003                                                      | +04d98
-        .dc.l   Data_106f6c                   | +04d9a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04d9a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04d9e
-        .dc.l   Data_0a0000                   | +04da4  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +04da4  -> $0A0000
         .dc.w   0x001d,0x0008,0x0003                                        | +04da8
-        .dc.l   Data_106f6c                   | +04dae  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04dae  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008,0x001d,0x0008,0x0003     | +04db2
-        .dc.l   Data_106f6c                   | +04dc2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04dc2  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04dc6
-        .dc.l   Data_0a0010                   | +04dcc  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +04dcc  -> $0A0010
         .dc.w   0x001d,0x0008,0x0003                                        | +04dd0
-        .dc.l   Data_106f6c                   | +04dd6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04dd6  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04dda
-        .dc.l   Data_0a0018                   | +04de0  -> $0A0018
+        .dc.l   BgMap_0a0018                   | +04de0  -> $0A0018
         .dc.w   0x001d,0x0008,0x0003                                        | +04de4
-        .dc.l   Data_106f6c                   | +04dea  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04dea  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04dee
-        .dc.l   Data_0a0020                   | +04df4  -> $0A0020
+        .dc.l   BgMap_0a0020                   | +04df4  -> $0A0020
         .dc.w   0x001d,0x0008,0x0003                                        | +04df8
-        .dc.l   Data_106f6c                   | +04dfe  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04dfe  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04e02
-        .dc.l   Data_0a0028                   | +04e08  -> $0A0028
+        .dc.l   BgMap_0a0028                   | +04e08  -> $0A0028
         .dc.w   0x001d,0x0008,0x0003                                        | +04e0c
-        .dc.l   Data_106f6c                   | +04e12  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04e12  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030,0x001d,0x0008,0x0003     | +04e16
-        .dc.l   Data_106f6c                   | +04e26  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04e26  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038,0x001d,0x0008,0x0003     | +04e2a
-        .dc.l   Data_106f6c                   | +04e3a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04e3a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04e3e
-        .dc.l   Data_0a0040                   | +04e44  -> $0A0040
+        .dc.l   BgMap_0a0040                   | +04e44  -> $0A0040
         .dc.w   0x001d,0x0008,0x0003                                        | +04e48
-        .dc.l   Data_106f6c                   | +04e4e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04e4e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0048,0x001d,0x0008,0x0003     | +04e52
-        .dc.l   Data_106f6c                   | +04e62  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04e62  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0050,0x001d,0x0008,0x0003     | +04e66
-        .dc.l   Data_106f6c                   | +04e76  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04e76  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0058,0x001d,0x0008,0x0003     | +04e7a
-        .dc.l   Data_106f6c                   | +04e8a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04e8a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0060,0x001d,0x0008,0x0003     | +04e8e
-        .dc.l   Data_106f6c                   | +04e9e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04e9e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0068,0x001d,0x0008,0x0003     | +04ea2
-        .dc.l   Data_106f6c                   | +04eb2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04eb2  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04eb6
-        .dc.l   Data_0a0070                   | +04ebc  -> $0A0070
+        .dc.l   BgMap_0a0070                   | +04ebc  -> $0A0070
         .dc.w   0x001d,0x0008,0x0003                                        | +04ec0
-        .dc.l   Data_106f6c                   | +04ec6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04ec6  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04eca
-        .dc.l   Data_0a0078                   | +04ed0  -> $0A0078
+        .dc.l   BgMap_0a0078                   | +04ed0  -> $0A0078
         .dc.w   0x001d,0x0008,0x0003                                        | +04ed4
-        .dc.l   Data_106f6c                   | +04eda  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04eda  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04ede
-        .dc.l   Data_0a0000                   | +04ee4  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +04ee4  -> $0A0000
         .dc.w   0x0021,0x0008,0x0003                                        | +04ee8
-        .dc.l   Data_106f6c                   | +04eee  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04eee  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008,0x0021,0x0008,0x0003     | +04ef2
-        .dc.l   Data_106f6c                   | +04f02  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04f02  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04f06
-        .dc.l   Data_0a0010                   | +04f0c  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +04f0c  -> $0A0010
         .dc.w   0x0021,0x0008,0x0003                                        | +04f10
-        .dc.l   Data_106f6c                   | +04f16  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04f16  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04f1a
-        .dc.l   Data_0a0018                   | +04f20  -> $0A0018
+        .dc.l   BgMap_0a0018                   | +04f20  -> $0A0018
         .dc.w   0x0021,0x0008,0x0003                                        | +04f24
-        .dc.l   Data_106f6c                   | +04f2a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04f2a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04f2e
-        .dc.l   Data_0a0020                   | +04f34  -> $0A0020
+        .dc.l   BgMap_0a0020                   | +04f34  -> $0A0020
         .dc.w   0x0021,0x0008,0x0003                                        | +04f38
-        .dc.l   Data_106f6c                   | +04f3e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04f3e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019                                        | +04f42
-        .dc.l   Data_0a0028                   | +04f48  -> $0A0028
+        .dc.l   BgMap_0a0028                   | +04f48  -> $0A0028
         .dc.w   0x0021,0x0008,0x0003                                        | +04f4c
-        .dc.l   Data_106f6c                   | +04f52  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04f52  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030,0x0021,0x0008,0x0003     | +04f56
-        .dc.l   Data_106f6c                   | +04f66  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04f66  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038,0x0021,0x0008,0x0003     | +04f6a
-        .dc.l   Data_106f6c                   | +04f7a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04f7a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +04f7e
-        .dc.l   Data_0a0000                   | +04f84  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +04f84  -> $0A0000
         .dc.w   0x0025,0x0008,0x0003                                        | +04f88
-        .dc.l   Data_106f6c                   | +04f8e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04f8e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x0025,0x0008,0x0003     | +04f92
-        .dc.l   Data_106f6c                   | +04fa2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04fa2  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +04fa6
-        .dc.l   Data_0a0010                   | +04fac  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +04fac  -> $0A0010
         .dc.w   0x0025,0x0008,0x0003                                        | +04fb0
-        .dc.l   Data_106f6c                   | +04fb6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04fb6  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +04fba
-        .dc.l   Data_0a0018                   | +04fc0  -> $0A0018
+        .dc.l   BgMap_0a0018                   | +04fc0  -> $0A0018
         .dc.w   0x0025,0x0008,0x0003                                        | +04fc4
-        .dc.l   Data_106f6c                   | +04fca  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04fca  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +04fce
-        .dc.l   Data_0a0020                   | +04fd4  -> $0A0020
+        .dc.l   BgMap_0a0020                   | +04fd4  -> $0A0020
         .dc.w   0x0025,0x0008,0x0003                                        | +04fd8
-        .dc.l   Data_106f6c                   | +04fde  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04fde  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +04fe2
-        .dc.l   Data_0a0028                   | +04fe8  -> $0A0028
+        .dc.l   BgMap_0a0028                   | +04fe8  -> $0A0028
         .dc.w   0x0025,0x0008,0x0003                                        | +04fec
-        .dc.l   Data_106f6c                   | +04ff2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +04ff2  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x0025,0x0008,0x0003     | +04ff6
-        .dc.l   Data_106f6c                   | +05006  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05006  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x0025,0x0008,0x0003     | +0500a
-        .dc.l   Data_106f6c                   | +0501a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0501a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +0501e
-        .dc.l   Data_0a0040                   | +05024  -> $0A0040
+        .dc.l   BgMap_0a0040                   | +05024  -> $0A0040
         .dc.w   0x0025,0x0008,0x0003                                        | +05028
-        .dc.l   Data_106f6c                   | +0502e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0502e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0048,0x0025,0x0008,0x0003     | +05032
-        .dc.l   Data_106f6c                   | +05042  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05042  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0050,0x0025,0x0008,0x0003     | +05046
-        .dc.l   Data_106f6c                   | +05056  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05056  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0058,0x0025,0x0008,0x0003     | +0505a
-        .dc.l   Data_106f6c                   | +0506a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0506a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0060,0x0025,0x0008,0x0003     | +0506e
-        .dc.l   Data_106f6c                   | +0507e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0507e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0068,0x0025,0x0008,0x0003     | +05082
-        .dc.l   Data_106f6c                   | +05092  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05092  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +05096
-        .dc.l   Data_0a0070                   | +0509c  -> $0A0070
+        .dc.l   BgMap_0a0070                   | +0509c  -> $0A0070
         .dc.w   0x0025,0x0008,0x0003                                        | +050a0
-        .dc.l   Data_106f6c                   | +050a6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +050a6  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +050aa
-        .dc.l   Data_0a0078                   | +050b0  -> $0A0078
+        .dc.l   BgMap_0a0078                   | +050b0  -> $0A0078
         .dc.w   0x0025,0x0008,0x0003                                        | +050b4
-        .dc.l   Data_106f6c                   | +050ba  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +050ba  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +050be
-        .dc.l   Data_0a0000                   | +050c4  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +050c4  -> $0A0000
         .dc.w   0x0029,0x0008,0x0003                                        | +050c8
-        .dc.l   Data_106f6c                   | +050ce  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +050ce  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x0029,0x0008,0x0003     | +050d2
-        .dc.l   Data_106f6c                   | +050e2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +050e2  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +050e6
-        .dc.l   Data_0a0010                   | +050ec  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +050ec  -> $0A0010
         .dc.w   0x0029,0x0008,0x0003                                        | +050f0
-        .dc.l   Data_106f6c                   | +050f6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +050f6  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +050fa
-        .dc.l   Data_0a0018                   | +05100  -> $0A0018
+        .dc.l   BgMap_0a0018                   | +05100  -> $0A0018
         .dc.w   0x0029,0x0008,0x0003                                        | +05104
-        .dc.l   Data_106f6c                   | +0510a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0510a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +0510e
-        .dc.l   Data_0a0020                   | +05114  -> $0A0020
+        .dc.l   BgMap_0a0020                   | +05114  -> $0A0020
         .dc.w   0x0029,0x0008,0x0003                                        | +05118
-        .dc.l   Data_106f6c                   | +0511e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0511e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +05122
-        .dc.l   Data_0a0028                   | +05128  -> $0A0028
+        .dc.l   BgMap_0a0028                   | +05128  -> $0A0028
         .dc.w   0x0029,0x0008,0x0003                                        | +0512c
-        .dc.l   Data_106f6c                   | +05132  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05132  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x0029,0x0008,0x0003     | +05136
-        .dc.l   Data_106f6c                   | +05146  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05146  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x0029,0x0008,0x0003     | +0514a
-        .dc.l   Data_106f6c                   | +0515a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0515a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +0515e
-        .dc.l   Data_0a0040                   | +05164  -> $0A0040
+        .dc.l   BgMap_0a0040                   | +05164  -> $0A0040
         .dc.w   0x0029,0x0008,0x0003                                        | +05168
-        .dc.l   Data_106f6c                   | +0516e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0516e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0048,0x0029,0x0008,0x0003     | +05172
-        .dc.l   Data_106f6c                   | +05182  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05182  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0050,0x0029,0x0008,0x0003     | +05186
-        .dc.l   Data_106f6c                   | +05196  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05196  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0058,0x0029,0x0008,0x0003     | +0519a
-        .dc.l   Data_106f6c                   | +051aa  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +051aa  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0060,0x0029,0x0008,0x0003     | +051ae
-        .dc.l   Data_106f6c                   | +051be  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +051be  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0068,0x0029,0x0008,0x0003     | +051c2
-        .dc.l   Data_106f6c                   | +051d2  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +051d2  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +051d6
-        .dc.l   Data_0a0070                   | +051dc  -> $0A0070
+        .dc.l   BgMap_0a0070                   | +051dc  -> $0A0070
         .dc.w   0x0029,0x0008,0x0003                                        | +051e0
-        .dc.l   Data_106f6c                   | +051e6  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +051e6  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +051ea
-        .dc.l   Data_0a0078                   | +051f0  -> $0A0078
+        .dc.l   BgMap_0a0078                   | +051f0  -> $0A0078
         .dc.w   0x0029,0x0008,0x0003                                        | +051f4
-        .dc.l   Data_106f6c                   | +051fa  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +051fa  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +051fe
-        .dc.l   Data_0a0000                   | +05204  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +05204  -> $0A0000
         .dc.w   0x002d,0x0008,0x0003                                        | +05208
-        .dc.l   Data_106f6c                   | +0520e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0520e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x002d,0x0008,0x0003     | +05212
-        .dc.l   Data_106f6c                   | +05222  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05222  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +05226
-        .dc.l   Data_0a0010                   | +0522c  -> $0A0010
+        .dc.l   BgMap_0a0010                   | +0522c  -> $0A0010
         .dc.w   0x002d,0x0008,0x0003                                        | +05230
-        .dc.l   Data_106f6c                   | +05236  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05236  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +0523a
-        .dc.l   Data_0a0018                   | +05240  -> $0A0018
+        .dc.l   BgMap_0a0018                   | +05240  -> $0A0018
         .dc.w   0x002d,0x0008,0x0003                                        | +05244
-        .dc.l   Data_106f6c                   | +0524a  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0524a  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +0524e
-        .dc.l   Data_0a0020                   | +05254  -> $0A0020
+        .dc.l   BgMap_0a0020                   | +05254  -> $0A0020
         .dc.w   0x002d,0x0008,0x0003                                        | +05258
-        .dc.l   Data_106f6c                   | +0525e  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +0525e  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021                                        | +05262
-        .dc.l   Data_0a0028                   | +05268  -> $0A0028
+        .dc.l   BgMap_0a0028                   | +05268  -> $0A0028
         .dc.w   0x002d,0x0008,0x0003                                        | +0526c
-        .dc.l   Data_106f6c                   | +05272  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05272  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x002d,0x0008,0x0003     | +05276
-        .dc.l   Data_106f6c                   | +05286  -> $106F6C
+        .dc.l   ColMap_106f6c                   | +05286  -> $106F6C
         .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x002d,0x0008,0x0003     | +0528a
-        .dc.l   Data_180017                   | +0529a  -> $180017
+        .dc.l   AnimScr_180017                   | +0529a  -> $180017
         .dc.w   0x0005,0x0003,0x0000,0x0100,0x020c                          | +0529e
         .dc.l   Data_010100                   | +052a8  -> $010100
         .dc.w   0x030d,0x0000,0x0100                                        | +052ac
-        .dc.l   Data_180017                   | +052b2  -> $180017
+        .dc.l   AnimScr_180017                   | +052b2  -> $180017
         .dc.w   0x0005,0x0003,0x0000,0x0100                                 | +052b6
         .dc.l   Data_010000                   | +052be  -> $010000
         .dc.w   0x0100                                                      | +052c2
@@ -7125,7 +7125,7 @@ Data_196000:
         .dc.l   Data_01000b                   | +05332  -> $01000B
         .fill   10,1,0x00                      | +05336
         .dc.w   0x0100,0x0020,0x0047,0x000e                                 | +05340
-        .dc.l   Data_01ffff                   | +05348  -> $01FFFF
+        .dc.l   Pal_01ffff                   | +05348  -> $01FFFF
         .dc.w   0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0x0000,0x000f     | +0534c
         .dc.w   0x0008,0x0001,0x1300,0x0000,0x0000,0x0000,0x0020,0x001f     | +0535c
         .dc.w   0x0005,0x0003                                               | +0536c
@@ -7141,13 +7141,13 @@ Data_196000:
         .dc.w   0x0134,0x0008,0x0f00,0x090f,0x000a,0x0f00,0x0b0f,0x0010     | +053a4
         .dc.w   0x0006,0x0005,0x0001,0x2b2b,0x2b2b,0x2b00,0x8001,0x0000     | +053b4
         .dc.w   0x0000,0x0000,0x001c,0x0000                                 | +053c4
-        .dc.l   Data_180200                   | +053cc  -> $180200
+        .dc.l   AnimScr_180200                   | +053cc  -> $180200
         .dc.w   0x0024,0x3608,0xffff,0x0000,0x0000,0x0200,0x0024,0x3612     | +053d0
         .dc.w   0xffff,0x0000                                               | +053e0
-        .dc.l   Data_180200                   | +053e4  -> $180200
+        .dc.l   AnimScr_180200                   | +053e4  -> $180200
         .dc.w   0x0024,0x361c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3626     | +053e8
         .dc.w   0xffff,0x001c                                               | +053f8
-        .dc.l   Data_180200                   | +053fc  -> $180200
+        .dc.l   AnimScr_180200                   | +053fc  -> $180200
         .dc.w   0x0024,0x3630,0xffff,0x001c,0x0000,0x1d01,0x0000,0x0000     | +05400
         .dc.l   Data_010000                   | +05410  -> $010000
         .fill   21,1,0x00                      | +05414
@@ -7163,125 +7163,125 @@ Data_196000:
         .dc.w   0x0024,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +05460
         .dc.w   0x0024,0x3676,0xffff,0xfff4,0x0024,0x0200,0x0024,0x3680     | +05470
         .dc.w   0xffff,0xfff4                                               | +05480
-        .dc.l   Data_100200                   | +05484  -> $100200
+        .dc.l   ColMap_100200                   | +05484  -> $100200
         .dc.w   0x0024,0x368a,0xffff                                        | +05488
         .dc.l   Data_0c0024                   | +0548e  -> $0C0024
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +05492
         .dc.l   Data_0c0010                   | +0549a  -> $0C0010
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +0549e
         .dc.l   Data_00fff6                   | +054ac  -> $00FFF6
-        .dc.l   Data_0a0004                   | +054b0  -> $0A0004
+        .dc.l   BgMap_0a0004                   | +054b0  -> $0A0004
         .dc.w   0x0024,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +054b4
         .dc.w   0x0024,0x3676,0xffff,0xfff6,0x0024,0x0200,0x0024,0x3680     | +054c4
         .dc.w   0xffff,0xfff6,0x0004,0x0200,0x0024,0x368a,0xffff            | +054d4
-        .dc.l   Data_0a0024                   | +054e2  -> $0A0024
+        .dc.l   BgMap_0a0024                   | +054e2  -> $0A0024
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +054e6
-        .dc.l   Data_0a0004                   | +054ee  -> $0A0004
+        .dc.l   BgMap_0a0004                   | +054ee  -> $0A0004
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +054f2
         .dc.l   Data_00fff6                   | +05500  -> $00FFF6
-        .dc.l   Data_0a0000                   | +05504  -> $0A0000
-        .dc.l   Data_180200                   | +05508  -> $180200
+        .dc.l   BgMap_0a0000                   | +05504  -> $0A0000
+        .dc.l   AnimScr_180200                   | +05508  -> $180200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +0550c
         .dc.w   0xffff,0xfff6                                               | +0551c
-        .dc.l   Data_180200                   | +05520  -> $180200
+        .dc.l   AnimScr_180200                   | +05520  -> $180200
         .dc.w   0x0024,0x3680,0xffff,0xfff6,0x0000,0x0200,0x0024,0x368a     | +05524
         .dc.w   0xffff                                                      | +05534
-        .dc.l   Data_0a0018                   | +05536  -> $0A0018
+        .dc.l   BgMap_0a0018                   | +05536  -> $0A0018
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +0553a
-        .dc.l   Data_0a0000                   | +05542  -> $0A0000
+        .dc.l   BgMap_0a0000                   | +05542  -> $0A0000
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +05546
         .dc.l   Data_00fff6                   | +05554  -> $00FFF6
         .dc.w   0x000a,0x000a,0x002c,0x0200,0x0024,0x366c,0xffff,0x0000     | +05558
         .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff6,0x002c,0x0200     | +05568
         .dc.w   0x0024,0x3680,0xffff,0xfff6                                 | +05578
-        .dc.l   Data_0a0200                   | +05580  -> $0A0200
+        .dc.l   BgMap_0a0200                   | +05580  -> $0A0200
         .dc.w   0x0024,0x368a,0xffff,0x000a,0x002c,0x0200,0x0024,0x3694     | +05584
         .dc.w   0xffff,0x000a,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029     | +05594
         .dc.w   0xb40c,0x0000                                               | +055a4
         .dc.l   Data_00fff0                   | +055a8  -> $00FFF0
-        .dc.l   Data_100000                   | +055ac  -> $100000
-        .dc.l   Data_0a0200                   | +055b0  -> $0A0200
+        .dc.l   ColMap_100000                   | +055ac  -> $100000
+        .dc.l   BgMap_0a0200                   | +055b0  -> $0A0200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +055b4
         .dc.w   0xffff,0xfff0                                               | +055c4
-        .dc.l   Data_0a0200                   | +055c8  -> $0A0200
+        .dc.l   BgMap_0a0200                   | +055c8  -> $0A0200
         .dc.w   0x0024,0x3680,0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a     | +055cc
         .dc.w   0xffff                                                      | +055dc
-        .dc.l   Data_10000a                   | +055de  -> $10000A
+        .dc.l   ColMap_10000a                   | +055de  -> $10000A
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +055e2
-        .dc.l   Data_100000                   | +055ea  -> $100000
+        .dc.l   ColMap_100000                   | +055ea  -> $100000
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +055ee
         .dc.l   Data_00fff0                   | +055fc  -> $00FFF0
-        .dc.l   Data_100010                   | +05600  -> $100010
+        .dc.l   ColMap_100010                   | +05600  -> $100010
         .dc.w   0x001c,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +05604
         .dc.w   0x0024,0x3676,0xffff,0xfff0,0x001c,0x0200,0x0024,0x3680     | +05614
         .dc.w   0xffff,0xfff0                                               | +05624
-        .dc.l   Data_100200                   | +05628  -> $100200
+        .dc.l   ColMap_100200                   | +05628  -> $100200
         .dc.w   0x0024,0x368a,0xffff                                        | +0562c
-        .dc.l   Data_10001c                   | +05632  -> $10001C
+        .dc.l   ColMap_10001c                   | +05632  -> $10001C
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +05636
-        .dc.l   Data_100010                   | +0563e  -> $100010
+        .dc.l   ColMap_100010                   | +0563e  -> $100010
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +05642
         .dc.l   Data_00fff0                   | +05650  -> $00FFF0
-        .dc.l   Data_100000                   | +05654  -> $100000
+        .dc.l   ColMap_100000                   | +05654  -> $100000
         .dc.w   0x001c,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +05658
         .dc.w   0x0024,0x3676,0xffff,0xfff0,0x001c,0x0200,0x0024,0x3680     | +05668
         .dc.w   0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a,0xffff            | +05678
-        .dc.l   Data_10001c                   | +05686  -> $10001C
+        .dc.l   ColMap_10001c                   | +05686  -> $10001C
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +0568a
-        .dc.l   Data_100000                   | +05692  -> $100000
+        .dc.l   ColMap_100000                   | +05692  -> $100000
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb42e,0x0000            | +05696
         .dc.l   Data_00ffee                   | +056a4  -> $00FFEE
-        .dc.l   Data_1a0000                   | +056a8  -> $1A0000
+        .dc.l   AnimScr_1a0000                   | +056a8  -> $1A0000
         .dc.w   0x0032,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +056ac
         .dc.w   0x0024,0x3676,0xffff,0xffee,0x0032,0x0200,0x0024,0x3680     | +056bc
         .dc.w   0xffff,0xffee,0x0000,0x0200,0x0024,0x368a,0xffff            | +056cc
-        .dc.l   Data_1a0032                   | +056da  -> $1A0032
+        .dc.l   AnimScr_1a0032                   | +056da  -> $1A0032
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +056de
-        .dc.l   Data_1a0000                   | +056e6  -> $1A0000
+        .dc.l   AnimScr_1a0000                   | +056e6  -> $1A0000
         .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +056ea
         .dc.l   Data_00fff8                   | +056f8  -> $00FFF8
         .dc.w   0x0008,0x0000                                               | +056fc
-        .dc.l   Data_100200                   | +05700  -> $100200
+        .dc.l   ColMap_100200                   | +05700  -> $100200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +05704
         .dc.w   0xffff,0xfff8                                               | +05714
-        .dc.l   Data_100200                   | +05718  -> $100200
+        .dc.l   ColMap_100200                   | +05718  -> $100200
         .dc.w   0x0024,0x3680,0xffff,0xfff8,0x0000,0x0200,0x0024,0x368a     | +0571c
         .dc.w   0xffff,0x0008                                               | +0572c
-        .dc.l   Data_100200                   | +05730  -> $100200
+        .dc.l   ColMap_100200                   | +05730  -> $100200
         .dc.w   0x0024,0x3694,0xffff,0x0008,0x0000,0x1d01,0xffff,0xffff     | +05734
         .dc.w   0x0900,0x0029,0xb4a4                                        | +05744
-        .dc.l   Data_020208                   | +0574a  -> $020208
+        .dc.l   Pal_020208                   | +0574a  -> $020208
         .dc.w   0x0023,0x0978,0xffff                                        | +0574e
-        .dc.l   Data_020208                   | +05754  -> $020208
+        .dc.l   Pal_020208                   | +05754  -> $020208
         .dc.w   0x0023,0x098e,0xffff                                        | +05758
-        .dc.l   Data_020208                   | +0575e  -> $020208
+        .dc.l   Pal_020208                   | +0575e  -> $020208
         .dc.w   0x0023,0x09a6,0xffff                                        | +05762
-        .dc.l   Data_020208                   | +05768  -> $020208
+        .dc.l   Pal_020208                   | +05768  -> $020208
         .dc.w   0x0023,0x09ba,0xffff                                        | +0576c
-        .dc.l   Data_020208                   | +05772  -> $020208
+        .dc.l   Pal_020208                   | +05772  -> $020208
         .dc.w   0x0023,0x09ce,0xffff                                        | +05776
-        .dc.l   Data_020208                   | +0577c  -> $020208
+        .dc.l   Pal_020208                   | +0577c  -> $020208
         .dc.w   0x0023,0x09e6,0xffff                                        | +05780
-        .dc.l   Data_020208                   | +05786  -> $020208
+        .dc.l   Pal_020208                   | +05786  -> $020208
         .dc.w   0x0023,0x09fe,0xffff                                        | +0578a
-        .dc.l   Data_020208                   | +05790  -> $020208
+        .dc.l   Pal_020208                   | +05790  -> $020208
         .dc.w   0x0023,0x0a16,0xffff                                        | +05794
-        .dc.l   Data_020208                   | +0579a  -> $020208
+        .dc.l   Pal_020208                   | +0579a  -> $020208
         .dc.w   0x0023,0x0a2e,0xffff                                        | +0579e
-        .dc.l   Data_020208                   | +057a4  -> $020208
+        .dc.l   Pal_020208                   | +057a4  -> $020208
         .dc.w   0x0023,0x0a42,0xffff                                        | +057a8
-        .dc.l   Data_020208                   | +057ae  -> $020208
+        .dc.l   Pal_020208                   | +057ae  -> $020208
         .dc.w   0x0023,0x0a56,0xffff                                        | +057b2
-        .dc.l   Data_020208                   | +057b8  -> $020208
+        .dc.l   Pal_020208                   | +057b8  -> $020208
         .dc.w   0x0023,0x0a6a,0xffff,0x0100,0x0029,0xb74a,0x0900,0x0029     | +057bc
         .dc.w   0xb4a4                                                      | +057cc
-        .dc.l   Data_020208                   | +057ce  -> $020208
+        .dc.l   Pal_020208                   | +057ce  -> $020208
         .dc.w   0x0023,0x0a80,0xffff                                        | +057d2
-        .dc.l   Data_020208                   | +057d8  -> $020208
+        .dc.l   Pal_020208                   | +057d8  -> $020208
         .dc.w   0x0023,0x0a94,0xffff                                        | +057dc
-        .dc.l   Data_020208                   | +057e2  -> $020208
+        .dc.l   Pal_020208                   | +057e2  -> $020208
         .dc.w   0x0023,0x0aac,0xffff                                        | +057e6
-        .dc.l   Data_020208                   | +057ec  -> $020208
+        .dc.l   Pal_020208                   | +057ec  -> $020208
         .dc.w   0x0023,0x0ac4,0xffff,0x0003,0x0208,0x0023,0x0ad8,0xffff     | +057f0
         .dc.w   0x0003,0x0208,0x0023,0x0aec,0xffff                          | +05800
         .dc.l   Data_010208                   | +0580a  -> $010208
@@ -7291,16 +7291,16 @@ Data_196000:
         .dc.w   0x0023,0x0b14,0xffff,0x0004,0x0208,0x0023,0x0b00,0xffff     | +0583e
         .dc.w   0x0004,0x0208,0x0023,0x0aec,0xffff,0x0100,0x0029,0xb81c     | +0584e
         .dc.w   0x0900,0x0029,0xb4a4,0x0004,0x0208,0x0023,0x0ad8,0xffff     | +0585e
-        .dc.l   Data_020208                   | +0586e  -> $020208
+        .dc.l   Pal_020208                   | +0586e  -> $020208
         .dc.w   0x0023,0x0aec,0xffff                                        | +05872
-        .dc.l   Data_020208                   | +05878  -> $020208
+        .dc.l   Pal_020208                   | +05878  -> $020208
         .dc.w   0x0023,0x0b00,0xffff,0x0005,0x0208,0x0023,0x0b14,0xffff     | +0587c
         .dc.w   0x0003,0x0208,0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023     | +0588c
         .dc.w   0x0aec,0xffff,0x0100,0x0029,0xb85e,0x0900,0x0029,0xb4a4     | +0589c
         .dc.w   0x0003,0x0208,0x0023,0x0ad8,0xffff                          | +058ac
-        .dc.l   Data_020208                   | +058b6  -> $020208
+        .dc.l   Pal_020208                   | +058b6  -> $020208
         .dc.w   0x0023,0x0aec,0xffff                                        | +058ba
-        .dc.l   Data_020208                   | +058c0  -> $020208
+        .dc.l   Pal_020208                   | +058c0  -> $020208
         .dc.w   0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023,0x0b14,0xffff     | +058c4
         .dc.w   0x0003,0x0208,0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023     | +058d4
         .dc.w   0x0aec,0xffff,0x0100,0x0029,0xb8a6,0x0900,0x0029,0xb4f8     | +058e4
@@ -7314,7 +7314,7 @@ Data_196000:
         .dc.l   Data_010208                   | +05946  -> $010208
         .dc.w   0x0023,0x0b44,0xffff,0x0100,0x0029,0xb8ee,0x0900,0x0029     | +0594a
         .dc.w   0xb4f8                                                      | +0595a
-        .dc.l   Data_020208                   | +0595c  -> $020208
+        .dc.l   Pal_020208                   | +0595c  -> $020208
         .dc.w   0x0023,0x0b2c,0xffff,0x0900,0x0029,0xb5f4                   | +05960
         .dc.l   Data_010208                   | +0596c  -> $010208
         .dc.w   0x0023,0x0b94,0xffff                                        | +05970
@@ -7322,7 +7322,7 @@ Data_196000:
         .dc.w   0x0023,0x0bac,0xffff                                        | +0597a
         .dc.l   Data_010208                   | +05980  -> $010208
         .dc.w   0x0023,0x0bc4,0xffff,0x0900,0x0029,0xb5a0                   | +05984
-        .dc.l   Data_020208                   | +05990  -> $020208
+        .dc.l   Pal_020208                   | +05990  -> $020208
         .dc.w   0x0023,0x0bdc,0xffff                                        | +05994
         .dc.l   Data_010208                   | +0599a  -> $010208
         .dc.w   0x0023,0x0bf8,0xffff                                        | +0599e
@@ -7348,7 +7348,7 @@ Data_196000:
         .dc.l   Bounce_SpawnFromParent_056066 | +05a14  -> $056066
         .dc.l   Data_010208                   | +05a18  -> $010208
         .dc.w   0x0023,0x0bac,0xffff                                        | +05a1c
-        .dc.l   Data_020208                   | +05a22  -> $020208
+        .dc.l   Pal_020208                   | +05a22  -> $020208
         .dc.w   0x0023,0x0bc4,0xffff,0x0900,0x0029,0xb5a0                   | +05a26
         .dc.l   Data_010208                   | +05a32  -> $010208
         .dc.w   0x0023,0x0bdc,0xffff                                        | +05a36
@@ -7390,7 +7390,7 @@ Data_196000:
         .dc.w   0x0023,0x0f58,0xffff                                        | +05afe
         .dc.l   Data_010208                   | +05b04  -> $010208
         .dc.w   0x0023,0x0f72,0xffff                                        | +05b08
-        .dc.l   Data_020208                   | +05b0e  -> $020208
+        .dc.l   Pal_020208                   | +05b0e  -> $020208
         .dc.w   0x0023,0x0f86,0xffff                                        | +05b12
         .dc.l   Data_010208                   | +05b18  -> $010208
         .dc.w   0x0023,0x0f72,0xffff                                        | +05b1c
@@ -7427,31 +7427,31 @@ Data_196000:
         .dc.w   0x0023,0x40a8,0xffff,0x0800                                 | +05bc0
         .dc.l   Grenade_SpawnFromThrower_055bce| +05bc8  -> $055BCE
         .dc.w   0x0003,0x0208,0x0023,0x0d2c,0xffff                          | +05bcc
-        .dc.l   Data_020208                   | +05bd6  -> $020208
+        .dc.l   Pal_020208                   | +05bd6  -> $020208
         .dc.w   0x0023,0x0c6c,0xffff                                        | +05bda
         .dc.l   Data_010208                   | +05be0  -> $010208
         .dc.w   0x0023,0x0c58,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0800     | +05be4
         .dc.w   0x0004,0xa120                                               | +05bf4
-        .dc.l   Data_020208                   | +05bf8  -> $020208
+        .dc.l   Pal_020208                   | +05bf8  -> $020208
         .dc.w   0x0023,0x0e6c,0xffff                                        | +05bfc
-        .dc.l   Data_020208                   | +05c02  -> $020208
+        .dc.l   Pal_020208                   | +05c02  -> $020208
         .dc.w   0x0023,0x0e80,0xffff                                        | +05c06
-        .dc.l   Data_020208                   | +05c0c  -> $020208
+        .dc.l   Pal_020208                   | +05c0c  -> $020208
         .dc.w   0x0023,0x0e94,0xffff                                        | +05c10
-        .dc.l   Data_020208                   | +05c16  -> $020208
+        .dc.l   Pal_020208                   | +05c16  -> $020208
         .dc.w   0x0023,0x0ea8,0xffff                                        | +05c1a
-        .dc.l   Data_020208                   | +05c20  -> $020208
+        .dc.l   Pal_020208                   | +05c20  -> $020208
         .dc.w   0x0023,0x3178,0xffff                                        | +05c24
-        .dc.l   Data_020208                   | +05c2a  -> $020208
+        .dc.l   Pal_020208                   | +05c2a  -> $020208
         .dc.w   0x0023,0x3192,0xffff                                        | +05c2e
-        .dc.l   Data_020208                   | +05c34  -> $020208
+        .dc.l   Pal_020208                   | +05c34  -> $020208
         .dc.w   0x0023,0x31ac,0xffff                                        | +05c38
-        .dc.l   Data_020208                   | +05c3e  -> $020208
+        .dc.l   Pal_020208                   | +05c3e  -> $020208
         .dc.w   0x0023,0x31c6,0xffff                                        | +05c42
-        .dc.l   Data_020208                   | +05c48  -> $020208
+        .dc.l   Pal_020208                   | +05c48  -> $020208
         .dc.w   0x0023,0x31e0,0xffff,0x0800                                 | +05c4c
         .dc.l   Mortar_SpawnFromParent_056438 | +05c54  -> $056438
-        .dc.l   Data_020208                   | +05c58  -> $020208
+        .dc.l   Pal_020208                   | +05c58  -> $020208
         .dc.w   0x0023,0x31f4,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0800     | +05c5c
         .dc.w   0x0004,0xa120                                               | +05c6c
         .dc.l   Data_010208                   | +05c70  -> $010208
@@ -7478,19 +7478,19 @@ Data_196000:
         .dc.w   0x0023,0x32e0,0xffff                                        | +05cd8
         .dc.l   Data_010208                   | +05cde  -> $010208
         .dc.w   0x0023,0x3300,0xffff,0x0800,0x0005,0x6844                   | +05ce2
-        .dc.l   Data_020208                   | +05cee  -> $020208
+        .dc.l   Pal_020208                   | +05cee  -> $020208
         .dc.w   0x0023,0x0f58,0xffff                                        | +05cf2
         .dc.l   Data_010208                   | +05cf8  -> $010208
         .dc.w   0x0023,0x0f72,0xffff,0x0004,0x0208,0x0023,0x0f86,0xffff     | +05cfc
-        .dc.l   Data_020208                   | +05d0c  -> $020208
+        .dc.l   Pal_020208                   | +05d0c  -> $020208
         .dc.w   0x0023,0x0f72,0xffff                                        | +05d10
-        .dc.l   Data_020208                   | +05d16  -> $020208
+        .dc.l   Pal_020208                   | +05d16  -> $020208
         .dc.w   0x0023,0x0f58,0xffff                                        | +05d1a
-        .dc.l   Data_020208                   | +05d20  -> $020208
+        .dc.l   Pal_020208                   | +05d20  -> $020208
         .dc.w   0x0023,0x0f9a,0xffff                                        | +05d24
-        .dc.l   Data_020208                   | +05d2a  -> $020208
+        .dc.l   Pal_020208                   | +05d2a  -> $020208
         .dc.w   0x0023,0x0fae,0xffff                                        | +05d2e
-        .dc.l   Data_020208                   | +05d34  -> $020208
+        .dc.l   Pal_020208                   | +05d34  -> $020208
         .dc.w   0x0023,0x0fc2,0xffff,0x1600                                 | +05d38
         .dc.l   Data_010208                   | +05d40  -> $010208
         .dc.w   0x0023,0x0b84,0xffff                                        | +05d44
@@ -7521,9 +7521,9 @@ Data_196000:
         .dc.l   Data_010208                   | +05ddc  -> $010208
         .dc.w   0x0023,0x0b2c,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0004     | +05de0
         .dc.w   0x0208,0x0023,0x2d78,0xffff                                 | +05df0
-        .dc.l   Data_020208                   | +05df8  -> $020208
+        .dc.l   Pal_020208                   | +05df8  -> $020208
         .dc.w   0x0023,0x2d8c,0xffff                                        | +05dfc
-        .dc.l   Data_020208                   | +05e02  -> $020208
+        .dc.l   Pal_020208                   | +05e02  -> $020208
         .dc.w   0x0023,0x2da0,0xffff,0x0003,0x0208,0x0023,0x2db4,0xffff     | +05e06
         .dc.w   0x0003,0x0208,0x0023,0x2da0,0xffff,0x0004,0x0208,0x0023     | +05e16
         .dc.w   0x2d8c,0xffff,0x1600,0x0900,0x0029,0xb4a4                   | +05e26
@@ -7548,25 +7548,25 @@ Data_196000:
         .dc.w   0x2e4a,0xffff,0x0004,0x0208,0x0023,0x2e64,0xffff,0x0004     | +05f1a
         .dc.w   0x0208,0x0023,0x2e78,0xffff,0x1600,0x0900,0x0029,0xb4a4     | +05f2a
         .dc.w   0x0007,0x0208,0x0023,0x11b2,0xffff                          | +05f3a
-        .dc.l   Data_020208                   | +05f44  -> $020208
+        .dc.l   Pal_020208                   | +05f44  -> $020208
         .dc.w   0x0023,0x11c6,0xffff                                        | +05f48
-        .dc.l   Data_020208                   | +05f4e  -> $020208
+        .dc.l   Pal_020208                   | +05f4e  -> $020208
         .dc.w   0x0023,0x11da,0xffff                                        | +05f52
-        .dc.l   Data_020208                   | +05f58  -> $020208
+        .dc.l   Pal_020208                   | +05f58  -> $020208
         .dc.w   0x0023,0x11ee,0xffff                                        | +05f5c
-        .dc.l   Data_020208                   | +05f62  -> $020208
+        .dc.l   Pal_020208                   | +05f62  -> $020208
         .dc.w   0x0023,0x1202,0xffff                                        | +05f66
-        .dc.l   Data_020208                   | +05f6c  -> $020208
+        .dc.l   Pal_020208                   | +05f6c  -> $020208
         .dc.w   0x0023,0x1216,0xffff                                        | +05f70
-        .dc.l   Data_020208                   | +05f76  -> $020208
+        .dc.l   Pal_020208                   | +05f76  -> $020208
         .dc.w   0x0023,0x122a,0xffff                                        | +05f7a
-        .dc.l   Data_020208                   | +05f80  -> $020208
+        .dc.l   Pal_020208                   | +05f80  -> $020208
         .dc.w   0x0023,0x123e,0xffff                                        | +05f84
-        .dc.l   Data_020208                   | +05f8a  -> $020208
+        .dc.l   Pal_020208                   | +05f8a  -> $020208
         .dc.w   0x0023,0x1252,0xffff                                        | +05f8e
-        .dc.l   Data_020208                   | +05f94  -> $020208
+        .dc.l   Pal_020208                   | +05f94  -> $020208
         .dc.w   0x0023,0x1266,0xffff,0x1301,0x003a                          | +05f98
-        .dc.l   Data_020208                   | +05fa2  -> $020208
+        .dc.l   Pal_020208                   | +05fa2  -> $020208
         .dc.w   0x0023,0x0ad8,0xffff                                        | +05fa6
         .dc.l   Data_0c0208                   | +05fac  -> $0C0208
         .dc.w   0x0023,0x11b2,0xffff,0x1600                                 | +05fb0
@@ -7613,7 +7613,7 @@ Data_196000:
         .dc.w   0x0023,0x176a,0xffff                                        | +06088
         .dc.l   Data_010208                   | +0608e  -> $010208
         .dc.w   0x0023,0x1750,0xffff                                        | +06092
-        .dc.l   Data_020208                   | +06098  -> $020208
+        .dc.l   Pal_020208                   | +06098  -> $020208
         .dc.w   0x0023,0x173c,0xffff                                        | +0609c
         .dc.l   Data_010208                   | +060a2  -> $010208
         .dc.w   0x0023,0x1854,0xffff,0x1600,0x0900,0xffff,0xffff,0x0006     | +060a6
@@ -7628,7 +7628,7 @@ Data_196000:
         .dc.w   0x0003,0x0208,0x0023,0x2364,0xffff,0x0003,0x0208,0x0023     | +06136
         .dc.w   0x2378,0xffff,0x0003,0x0208,0x0023,0x238c,0xffff,0x0900     | +06146
         .dc.w   0xffff,0xffff,0x0004,0x0208,0x0023,0x23a0,0xffff            | +06156
-        .dc.l   Data_0a0208                   | +06164  -> $0A0208
+        .dc.l   BgMap_0a0208                   | +06164  -> $0A0208
         .dc.w   0x0023,0x23b4,0xffff,0x0004,0x0208,0x0023,0x23a0,0xffff     | +06168
         .dc.w   0x0900,0x0029,0xb648,0x0003,0x0208,0x0023,0x23c8,0xffff     | +06178
         .dc.w   0x0003,0x0208,0x0023,0x238c,0xffff,0x0003,0x0208,0x0023     | +06188
@@ -7646,11 +7646,11 @@ Data_196000:
         .dc.l   Data_010208                   | +061fc  -> $010208
 
 | ----------------------------------------------------------------------------
-|  Data_19c200  @ $19C200  (1,882 B)  [ref. desde código]
+|  AnimScr_19c200  @ $19C200  (1,882 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19c200, "ax", @progbits
-        .global Data_19c200
-Data_19c200:
+        .section .text.AnimScr_19c200, "ax", @progbits
+        .global AnimScr_19c200
+AnimScr_19c200:
         .dc.w   0x0023,0x242a,0xffff                                        | +00000
         .dc.l   Data_010208                   | +00006  -> $010208
         .dc.w   0x0023,0x243e,0xffff                                        | +0000a
@@ -7699,9 +7699,9 @@ Data_19c200:
         .dc.w   0x0023,0x2a7a,0xffff                                        | +0011c
         .dc.l   Data_010208                   | +00122  -> $010208
         .dc.w   0x0023,0x2a8e,0xffff                                        | +00126
-        .dc.l   Data_020208                   | +0012c  -> $020208
+        .dc.l   Pal_020208                   | +0012c  -> $020208
         .dc.w   0x0023,0x2aa2,0xffff                                        | +00130
-        .dc.l   Data_020208                   | +00136  -> $020208
+        .dc.l   Pal_020208                   | +00136  -> $020208
         .dc.w   0x0023,0x2ab6,0xffff                                        | +0013a
         .dc.l   Data_010208                   | +00140  -> $010208
         .dc.w   0x0023,0x2aca,0xffff                                        | +00144
@@ -7711,10 +7711,10 @@ Data_19c200:
         .dc.w   0x0023,0x2aca,0xffff                                        | +00158
         .dc.l   Data_010208                   | +0015e  -> $010208
         .dc.w   0x0023,0x2ade,0xffff,0x1600,0x0900,0x0029,0xb4f8            | +00162
-        .dc.l   Data_0a0208                   | +00170  -> $0A0208
+        .dc.l   BgMap_0a0208                   | +00170  -> $0A0208
         .dc.w   0x0023,0x3402,0xffff,0x0005,0x0208,0x0023,0x3416,0xffff     | +00174
         .dc.w   0x0005,0x0208,0x0023,0x3402,0xffff                          | +00184
-        .dc.l   Data_020208                   | +0018e  -> $020208
+        .dc.l   Pal_020208                   | +0018e  -> $020208
         .dc.w   0x0023,0x3416,0xffff,0x0100,0x0029,0xc36a,0x0900,0x0029     | +00192
         .dc.w   0xb4f8                                                      | +001a2
         .dc.l   Data_010208                   | +001a4  -> $010208
@@ -7732,17 +7732,17 @@ Data_19c200:
         .dc.w   0x0023,0x3dec,0xffff                                        | +00216
         .dc.l   Data_010208                   | +0021c  -> $010208
         .dc.w   0x0023,0x3e00,0xffff                                        | +00220
-        .dc.l   Data_020208                   | +00226  -> $020208
+        .dc.l   Pal_020208                   | +00226  -> $020208
         .dc.w   0x0023,0x34e0,0xffff                                        | +0022a
-        .dc.l   Data_020208                   | +00230  -> $020208
+        .dc.l   Pal_020208                   | +00230  -> $020208
         .dc.w   0x0023,0x34fa,0xffff                                        | +00234
-        .dc.l   Data_020208                   | +0023a  -> $020208
+        .dc.l   Pal_020208                   | +0023a  -> $020208
         .dc.w   0x0023,0x3514,0xffff                                        | +0023e
-        .dc.l   Data_020208                   | +00244  -> $020208
+        .dc.l   Pal_020208                   | +00244  -> $020208
         .dc.w   0x0023,0x352e,0xffff                                        | +00248
-        .dc.l   Data_020208                   | +0024e  -> $020208
+        .dc.l   Pal_020208                   | +0024e  -> $020208
         .dc.w   0x0023,0x34e0,0xffff                                        | +00252
-        .dc.l   Data_020208                   | +00258  -> $020208
+        .dc.l   Pal_020208                   | +00258  -> $020208
         .dc.w   0x0023,0x34fa,0xffff                                        | +0025c
         .dc.l   Data_010208                   | +00262  -> $010208
         .dc.w   0x0023,0x3e00,0xffff                                        | +00266
@@ -7752,19 +7752,19 @@ Data_19c200:
         .dc.w   0x0023,0x3dd8,0xffff                                        | +0027a
         .dc.l   Data_010208                   | +00280  -> $010208
         .dc.w   0x0023,0x3dbe,0xffff,0x1600,0x0900,0x0029,0xb6f0            | +00284
-        .dc.l   Data_020208                   | +00292  -> $020208
+        .dc.l   Pal_020208                   | +00292  -> $020208
         .dc.w   0x0023,0x3dbe,0xffff                                        | +00296
-        .dc.l   Data_020208                   | +0029c  -> $020208
+        .dc.l   Pal_020208                   | +0029c  -> $020208
         .dc.w   0x0023,0x3dd8,0xffff                                        | +002a0
-        .dc.l   Data_020208                   | +002a6  -> $020208
+        .dc.l   Pal_020208                   | +002a6  -> $020208
         .dc.w   0x0023,0x3dec,0xffff                                        | +002aa
-        .dc.l   Data_020208                   | +002b0  -> $020208
+        .dc.l   Pal_020208                   | +002b0  -> $020208
         .dc.w   0x0023,0x3e00,0xffff                                        | +002b4
-        .dc.l   Data_020208                   | +002ba  -> $020208
+        .dc.l   Pal_020208                   | +002ba  -> $020208
         .dc.w   0x0023,0x3dbe,0xffff                                        | +002be
-        .dc.l   Data_020208                   | +002c4  -> $020208
+        .dc.l   Pal_020208                   | +002c4  -> $020208
         .dc.w   0x0023,0x3dd8,0xffff                                        | +002c8
-        .dc.l   Data_020208                   | +002ce  -> $020208
+        .dc.l   Pal_020208                   | +002ce  -> $020208
         .dc.w   0x0023,0x3dbe,0xffff,0x1600,0x0900,0xffff,0xffff,0x0003     | +002d2
         .dc.w   0x0208,0x0023,0x3548,0xffff,0x0003,0x0208,0x0023,0x3566     | +002e2
         .dc.w   0xffff,0x0003,0x0208,0x0023,0x3584,0xffff,0x0003,0x0208     | +002f2
@@ -7779,28 +7779,28 @@ Data_19c200:
         .dc.w   0x0023,0x377a,0xffff                                        | +0035a
         .dc.l   Data_010208                   | +00360  -> $010208
         .dc.w   0x0023,0x379a,0xffff                                        | +00364
-        .dc.l   Data_020208                   | +0036a  -> $020208
+        .dc.l   Pal_020208                   | +0036a  -> $020208
         .dc.w   0x0023,0x37ba,0xffff                                        | +0036e
-        .dc.l   Data_020208                   | +00374  -> $020208
+        .dc.l   Pal_020208                   | +00374  -> $020208
         .dc.w   0x0023,0x37da,0xffff                                        | +00378
-        .dc.l   Data_020208                   | +0037e  -> $020208
+        .dc.l   Pal_020208                   | +0037e  -> $020208
         .dc.w   0x0023,0x3802,0xffff                                        | +00382
-        .dc.l   Data_020208                   | +00388  -> $020208
+        .dc.l   Pal_020208                   | +00388  -> $020208
         .dc.w   0x0023,0x382a,0xffff                                        | +0038c
-        .dc.l   Data_020208                   | +00392  -> $020208
+        .dc.l   Pal_020208                   | +00392  -> $020208
         .dc.w   0x0023,0x3852,0xffff                                        | +00396
-        .dc.l   Data_020208                   | +0039c  -> $020208
+        .dc.l   Pal_020208                   | +0039c  -> $020208
         .dc.w   0x0023,0x3872,0xffff                                        | +003a0
-        .dc.l   Data_020208                   | +003a6  -> $020208
+        .dc.l   Pal_020208                   | +003a6  -> $020208
         .dc.w   0x0023,0x3892,0xffff                                        | +003aa
-        .dc.l   Data_020208                   | +003b0  -> $020208
+        .dc.l   Pal_020208                   | +003b0  -> $020208
         .dc.w   0x0023,0x38b2,0xffff                                        | +003b4
-        .dc.l   Data_020208                   | +003ba  -> $020208
+        .dc.l   Pal_020208                   | +003ba  -> $020208
         .dc.w   0x0023,0x38d2,0xffff,0x0003,0x0208,0x0023,0x38f2,0xffff     | +003be
         .dc.w   0x0003,0x0208,0x0023,0x391a,0xffff,0x0003,0x0208,0x0023     | +003ce
         .dc.w   0x3942,0xffff,0x0003,0x0208,0x0023,0x396a,0xffff,0x0003     | +003de
         .dc.w   0x0208,0x0023,0x3992,0xffff,0x0400,0x104b                   | +003ee
-        .dc.l   Data_020208                   | +003fa  -> $020208
+        .dc.l   Pal_020208                   | +003fa  -> $020208
         .dc.w   0x0023,0x39ba,0xffff                                        | +003fe
         .dc.l   Data_010208                   | +00404  -> $010208
         .dc.w   0x0023,0x39da,0xffff                                        | +00408
@@ -7886,12 +7886,12 @@ Data_19c200:
         .dc.l   Data_010208                   | +005b4  -> $010208
         .dc.w   0x0023,0x2efa,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0500     | +005b8
         .dc.w   0x0020                                                      | +005c8
-        .dc.l   Data_020208                   | +005ca  -> $020208
+        .dc.l   Pal_020208                   | +005ca  -> $020208
         .dc.w   0x0023,0x2f0e,0xffff                                        | +005ce
-        .dc.l   Data_020208                   | +005d4  -> $020208
+        .dc.l   Pal_020208                   | +005d4  -> $020208
         .dc.w   0x0023,0x2f22,0xffff,0x0003,0x0208,0x0023,0x2f36,0xffff     | +005d8
         .dc.w   0x0003,0x0208,0x0023,0x2f4a,0xffff                          | +005e8
-        .dc.l   Data_020208                   | +005f2  -> $020208
+        .dc.l   Pal_020208                   | +005f2  -> $020208
         .dc.w   0x0023,0x2f5e,0xffff,0x0900,0x0029,0xb5f4,0x0800,0x0029     | +005f6
         .dc.w   0xcb32,0x05ff,0x0020                                        | +00606
         .dc.l   Data_010208                   | +0060c  -> $010208
@@ -7909,22 +7909,22 @@ Data_19c200:
         .dc.l   Data_010208                   | +00648  -> $010208
         .dc.w   0x0023,0x2ff0,0xffff,0x0100,0x0029,0xc848,0x0900,0x0029     | +0064c
         .dc.w   0xb4a4,0x0500,0x0020                                        | +0065c
-        .dc.l   Data_020208                   | +00662  -> $020208
+        .dc.l   Pal_020208                   | +00662  -> $020208
         .dc.w   0x0023,0x300a,0xffff                                        | +00666
-        .dc.l   Data_020208                   | +0066c  -> $020208
+        .dc.l   Pal_020208                   | +0066c  -> $020208
         .dc.w   0x0023,0x301e,0xffff,0x0003,0x0208,0x0023,0x3032,0xffff     | +00670
         .dc.w   0x0003,0x0208,0x0023,0x304c,0xffff                          | +00680
-        .dc.l   Data_020208                   | +0068a  -> $020208
+        .dc.l   Pal_020208                   | +0068a  -> $020208
         .dc.w   0x0023,0x3066,0xffff                                        | +0068e
         .dc.l   Data_010208                   | +00694  -> $010208
         .dc.w   0x0023,0x3080,0xffff,0x0800,0x0029,0xcb32,0x05ff,0x0020     | +00698
         .dc.l   Data_010208                   | +006a8  -> $010208
         .dc.w   0x0023,0x3094,0xffff                                        | +006ac
-        .dc.l   Data_020208                   | +006b2  -> $020208
+        .dc.l   Pal_020208                   | +006b2  -> $020208
         .dc.w   0x0023,0x30a8,0xffff                                        | +006b6
-        .dc.l   Data_020208                   | +006bc  -> $020208
+        .dc.l   Pal_020208                   | +006bc  -> $020208
         .dc.w   0x0023,0x30bc,0xffff                                        | +006c0
-        .dc.l   Data_020208                   | +006c6  -> $020208
+        .dc.l   Pal_020208                   | +006c6  -> $020208
         .dc.w   0x0023,0x30d0,0xffff,0x0100,0x0029,0xc8c6,0x0900,0x0029     | +006ca
         .dc.w   0xb5f4                                                      | +006da
         .dc.l   Data_010208                   | +006dc  -> $010208
@@ -7935,9 +7935,9 @@ Data_19c200:
         .dc.w   0x0023,0x2f9a,0xffff                                        | +006fa
         .dc.l   Data_010208                   | +00700  -> $010208
         .dc.w   0x0023,0x2fae,0xffff                                        | +00704
-        .dc.l   Data_020208                   | +0070a  -> $020208
+        .dc.l   Pal_020208                   | +0070a  -> $020208
         .dc.w   0x0023,0x2fc8,0xffff                                        | +0070e
-        .dc.l   Data_020208                   | +00714  -> $020208
+        .dc.l   Pal_020208                   | +00714  -> $020208
         .dc.w   0x0023,0x2fdc,0xffff,0x1600,0x0900,0x0029,0xb4a4            | +00718
         .dc.l   Data_010208                   | +00726  -> $010208
         .dc.w   0x0024,0xc972,0xffff,0x0800,0x0029,0xc956                   | +0072a
@@ -7949,11 +7949,11 @@ Data_19c200:
         .dc.w   0x0023,0x30bc,0xffff,0x1600,0x323c,0x0028                   | +0074e
 
 | ----------------------------------------------------------------------------
-|  Data_19c962  @ $19C962  (514 B)
+|  AnimScr_19c962  @ $19C962  (514 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_19c962, "ax", @progbits
-        .global Data_19c962
-Data_19c962:
+        .section .text.AnimScr_19c962, "ax", @progbits
+        .global AnimScr_19c962
+AnimScr_19c962:
         .dc.w   0x0900,0xffff,0xffff,0x0003,0x0208,0x0023,0x30e4,0xffff     | +00000
         .dc.w   0x0003,0x0208,0x0023,0x30f0,0xffff,0x0003,0x0208,0x0023     | +00010
         .dc.w   0x3100,0xffff,0x0003,0x0208,0x0023,0x3114,0xffff,0x1600     | +00020
@@ -8053,11 +8053,11 @@ Data_19cb6a:
         .dc.w   0x0023,0x40a8,0xffff,0x0800                                 | +00068
         .dc.l   Player_ThrowGrenadeBack_033256| +00070  -> $033256
         .dc.w   0x0003,0x0208,0x0023,0x0d2c,0xffff                          | +00074
-        .dc.l   Data_020208                   | +0007e  -> $020208
+        .dc.l   Pal_020208                   | +0007e  -> $020208
         .dc.w   0x0023,0x0c6c,0xffff                                        | +00082
         .dc.l   Data_010208                   | +00088  -> $010208
         .dc.w   0x0023,0x0c58,0xffff,0x1600,0x0006                          | +0008c
-        .dc.l   Str_100204                    | +00096  -> $100204
+        .dc.l   ColMap_100204                    | +00096  -> $100204
         .dc.w   0xff00                                                      | +0009a
         .dc.l   Data_00fffa                   | +0009c  -> $00FFFA
         .dc.w   0x0006,0xfffa,0x0000,0x0200,0x0024,0x363a,0xffff,0x0000     | +000a0
@@ -8071,31 +8071,31 @@ Data_19cb6a:
         .dc.w   0x0024,0x3680,0xffff,0xfff8,0xfff8,0x0200,0x0024,0x368a     | +00114
         .dc.w   0xffff,0x0008,0x0008,0x0200,0x0024,0x3694,0xffff,0x0008     | +00124
         .dc.w   0xfff8,0x1d01,0xffff,0xffff,0x0006                          | +00134
-        .dc.l   Str_100204                    | +0013e  -> $100204
+        .dc.l   ColMap_100204                    | +0013e  -> $100204
         .dc.w   0xff00                                                      | +00142
         .dc.l   Data_00fff8                   | +00144  -> $00FFF8
         .dc.w   0x0008,0x0000                                               | +00148
-        .dc.l   Data_180200                   | +0014c  -> $180200
+        .dc.l   AnimScr_180200                   | +0014c  -> $180200
         .dc.w   0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644     | +00150
         .dc.w   0xffff,0xfff8                                               | +00160
-        .dc.l   Data_180200                   | +00164  -> $180200
+        .dc.l   AnimScr_180200                   | +00164  -> $180200
         .dc.w   0x0024,0x364e,0xffff,0xfff8,0x0000,0x0200,0x0024,0x3658     | +00168
         .dc.w   0xffff,0x0008                                               | +00178
-        .dc.l   Data_180200                   | +0017c  -> $180200
+        .dc.l   AnimScr_180200                   | +0017c  -> $180200
         .dc.w   0x0024,0x3662,0xffff,0x0008,0x0000,0x1d00,0x0306            | +00180
         .dc.l   Data_010204                   | +0018e  -> $010204
         .dc.w   0xff00                                                      | +00192
         .dc.l   Data_00fff0                   | +00194  -> $00FFF0
-        .dc.l   Str_10fff0                    | +00198  -> $10FFF0
-        .dc.l   Data_180200                   | +0019c  -> $180200
+        .dc.l   ColMap_10fff0                    | +00198  -> $10FFF0
+        .dc.l   AnimScr_180200                   | +0019c  -> $180200
         .dc.w   0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644     | +001a0
         .dc.w   0xffff,0xfff0                                               | +001b0
-        .dc.l   Data_180200                   | +001b4  -> $180200
+        .dc.l   AnimScr_180200                   | +001b4  -> $180200
         .dc.w   0x0024,0x364e,0xffff,0xfff0,0xfff0,0x0200,0x0024,0x3658     | +001b8
         .dc.w   0xffff                                                      | +001c8
-        .dc.l   Data_100018                   | +001ca  -> $100018
+        .dc.l   ColMap_100018                   | +001ca  -> $100018
         .dc.w   0x0200,0x0024,0x3662,0xffff                                 | +001ce
-        .dc.l   Str_10fff0                    | +001d6  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +001d6  -> $10FFF0
         .dc.w   0x1d00,0xffff,0xffff,0x0003,0x0029,0xb40c,0x0000            | +001da
         .dc.l   Data_00fff8                   | +001e8  -> $00FFF8
         .dc.w   0x0008,0x0000,0x0004,0x0200,0x0024,0x366c,0xffff,0x0000     | +001ec
@@ -8271,9 +8271,9 @@ Data_19cb6a:
         .dc.w   0x0022,0x97ea,0xffff,0x0000,0x0000                          | +005d8
         .dc.l   Data_011e08                   | +005e2  -> $011E08
         .dc.w   0x0022,0x9802,0xffff,0x0000,0x0000                          | +005e6
-        .dc.l   Data_021e08                   | +005f0  -> $021E08
+        .dc.l   Pal_021e08                   | +005f0  -> $021E08
         .dc.w   0x0022,0x9816,0xffff,0x0000,0x0000                          | +005f4
-        .dc.l   Data_021e08                   | +005fe  -> $021E08
+        .dc.l   Pal_021e08                   | +005fe  -> $021E08
         .dc.w   0x0022,0x982e,0xffff,0x0000,0x0000,0x1600                   | +00602
         .dc.l   Data_011e08                   | +0060e  -> $011E08
         .dc.w   0x0022,0x97da,0xffff,0x0000,0x0000                          | +00612
@@ -8281,9 +8281,9 @@ Data_19cb6a:
         .dc.w   0x0022,0x97ea,0xffff,0x0000,0x0000                          | +00620
         .dc.l   Data_011e08                   | +0062a  -> $011E08
         .dc.w   0x0022,0x9802,0xffff,0x0000,0x0000                          | +0062e
-        .dc.l   Data_021e08                   | +00638  -> $021E08
+        .dc.l   Pal_021e08                   | +00638  -> $021E08
         .dc.w   0x0022,0x9816,0xffff,0x0000,0x0000                          | +0063c
-        .dc.l   Data_021e08                   | +00646  -> $021E08
+        .dc.l   Pal_021e08                   | +00646  -> $021E08
         .dc.w   0x0022,0x982e,0xffff,0x0000,0x0000                          | +0064a
         .dc.l   Data_011e08                   | +00654  -> $011E08
         .dc.w   0x0022,0x9846,0xffff,0x0000,0x0000                          | +00658
@@ -8305,9 +8305,9 @@ Data_19cb6a:
         .dc.w   0x0022,0x98ee,0xffff,0x0000,0x0008                          | +006ce
         .dc.l   Data_010200                   | +006d8  -> $010200
         .dc.w   0x0022,0x9902,0xffff,0x0000,0x0008                          | +006dc
-        .dc.l   Data_020200                   | +006e6  -> $020200
+        .dc.l   Pal_020200                   | +006e6  -> $020200
         .dc.w   0x0022,0x9916,0xffff,0x0000,0x0008                          | +006ea
-        .dc.l   Data_020200                   | +006f4  -> $020200
+        .dc.l   Pal_020200                   | +006f4  -> $020200
         .dc.w   0x0022,0x992a,0xffff,0x0000,0x0008,0x0003,0x0200,0x0022     | +006f8
         .dc.w   0x993e,0xffff,0x0000,0x0008,0x0003,0x0200,0x0022,0x9956     | +00708
         .dc.w   0xffff,0x0000,0x0008,0x0003,0x0200,0x0022,0x996e,0xffff     | +00718
@@ -8356,7 +8356,7 @@ Data_19cb6a:
         .dc.w   0x0022,0x9a74,0xffff,0x0000,0x0000                          | +0087a
         .dc.l   Data_011e08                   | +00884  -> $011E08
         .dc.w   0x0022,0x9a8c,0xffff,0x0000,0x0000                          | +00888
-        .dc.l   Data_021e08                   | +00892  -> $021E08
+        .dc.l   Pal_021e08                   | +00892  -> $021E08
         .dc.w   0x0022,0x9aa8,0xffff,0x0000,0x0000                          | +00896
         .dc.l   Data_011e08                   | +008a0  -> $011E08
         .dc.w   0x0022,0x9ab8,0xffff,0x0000,0x0000                          | +008a4
@@ -8380,99 +8380,99 @@ Data_19cb6a:
         .dc.w   0x0029,0xd65e,0x0029,0xd674,0x0029,0xd68a,0x0029,0xd6a0     | +0097c
         .dc.w   0x0029,0xd6b6,0x0029,0xd6cc,0x0029,0xd6e2,0x0029,0xd6f8     | +0098c
         .dc.w   0x0029,0xd70e,0x0029,0xd724,0x0029,0xd73a                   | +0099c
-        .dc.l   Data_020208                   | +009a8  -> $020208
+        .dc.l   Pal_020208                   | +009a8  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +009ac
         .dc.l   Data_011e08                   | +009b2  -> $011E08
         .dc.w   0xffff,0xffff,0xffff,0x0000,0x0000,0x1600                   | +009b6
-        .dc.l   Data_020208                   | +009c2  -> $020208
+        .dc.l   Pal_020208                   | +009c2  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +009c6
         .dc.l   Data_011e08                   | +009cc  -> $011E08
         .dc.w   0x0022,0x4d04,0xffff,0x0000,0x0000,0x1600                   | +009d0
-        .dc.l   Data_020208                   | +009dc  -> $020208
+        .dc.l   Pal_020208                   | +009dc  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +009e0
         .dc.l   Data_011e08                   | +009e6  -> $011E08
         .dc.w   0x0022,0x4d0e,0xffff,0x0000,0x0000,0x1600                   | +009ea
-        .dc.l   Data_020208                   | +009f6  -> $020208
+        .dc.l   Pal_020208                   | +009f6  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +009fa
         .dc.l   Data_011e08                   | +00a00  -> $011E08
         .dc.w   0x0022,0x4d18,0xffff,0x0000,0x0000,0x1600                   | +00a04
-        .dc.l   Data_020208                   | +00a10  -> $020208
+        .dc.l   Pal_020208                   | +00a10  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00a14
         .dc.l   Data_011e08                   | +00a1a  -> $011E08
         .dc.w   0x0022,0x4d22,0xffff,0x0000,0x0000,0x1600                   | +00a1e
-        .dc.l   Data_020208                   | +00a2a  -> $020208
+        .dc.l   Pal_020208                   | +00a2a  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00a2e
         .dc.l   Data_011e08                   | +00a34  -> $011E08
         .dc.w   0x0022,0x4d2c,0xffff,0x0000,0x0000,0x1600                   | +00a38
-        .dc.l   Data_020208                   | +00a44  -> $020208
+        .dc.l   Pal_020208                   | +00a44  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00a48
         .dc.l   Data_010209                   | +00a4e  -> $010209
         .dc.w   0x0022,0x4d22,0xffff,0x1600                                 | +00a52
-        .dc.l   Data_020208                   | +00a5a  -> $020208
+        .dc.l   Pal_020208                   | +00a5a  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00a5e
         .dc.l   Data_010209                   | +00a64  -> $010209
         .dc.w   0x0022,0x4d18,0xffff,0x1600                                 | +00a68
-        .dc.l   Data_020208                   | +00a70  -> $020208
+        .dc.l   Pal_020208                   | +00a70  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00a74
         .dc.l   Data_010209                   | +00a7a  -> $010209
         .dc.w   0x0022,0x4d0e,0xffff,0x1600                                 | +00a7e
-        .dc.l   Data_020208                   | +00a86  -> $020208
+        .dc.l   Pal_020208                   | +00a86  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00a8a
         .dc.l   Data_010208                   | +00a90  -> $010208
         .dc.w   0x0025,0xc39c,0xffff,0x1600                                 | +00a94
-        .dc.l   Data_020208                   | +00a9c  -> $020208
+        .dc.l   Pal_020208                   | +00a9c  -> $020208
         .dc.w   0xffff,0xffff,0xffff,0x0001,0x020a,0x0025,0xc3a8,0xffff     | +00aa0
         .dc.w   0x1600                                                      | +00ab0
-        .dc.l   Data_020208                   | +00ab2  -> $020208
+        .dc.l   Pal_020208                   | +00ab2  -> $020208
         .dc.w   0xffff,0xffff,0xffff,0x0001,0x020a,0x0025,0xc3b4,0xffff     | +00ab6
         .dc.w   0x1600                                                      | +00ac6
-        .dc.l   Data_020208                   | +00ac8  -> $020208
+        .dc.l   Pal_020208                   | +00ac8  -> $020208
         .dc.w   0xffff,0xffff,0xffff,0x0001,0x020a,0x0025,0xc3c6,0xffff     | +00acc
         .dc.w   0x1600                                                      | +00adc
-        .dc.l   Data_020208                   | +00ade  -> $020208
+        .dc.l   Pal_020208                   | +00ade  -> $020208
         .dc.w   0xffff,0xffff,0xffff,0x0001,0x020a,0x0025,0xc3d2,0xffff     | +00ae2
         .dc.w   0x1600                                                      | +00af2
-        .dc.l   Data_020208                   | +00af4  -> $020208
+        .dc.l   Pal_020208                   | +00af4  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00af8
         .dc.l   Str_01020b                    | +00afe  -> $01020B
         .dc.w   0x0025,0xc3c6,0xffff,0x1600                                 | +00b02
-        .dc.l   Data_020208                   | +00b0a  -> $020208
+        .dc.l   Pal_020208                   | +00b0a  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00b0e
         .dc.l   Str_01020b                    | +00b14  -> $01020B
         .dc.w   0x0025,0xc3b4,0xffff,0x1600                                 | +00b18
-        .dc.l   Data_020208                   | +00b20  -> $020208
+        .dc.l   Pal_020208                   | +00b20  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00b24
         .dc.l   Str_01020b                    | +00b2a  -> $01020B
         .dc.w   0x0025,0xc3a8,0xffff,0x1600                                 | +00b2e
-        .dc.l   Data_020208                   | +00b36  -> $020208
+        .dc.l   Pal_020208                   | +00b36  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00b3a
         .dc.l   Data_010209                   | +00b40  -> $010209
         .dc.w   0x0025,0xc39c,0xffff,0x1600                                 | +00b44
-        .dc.l   Data_020208                   | +00b4c  -> $020208
+        .dc.l   Pal_020208                   | +00b4c  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00b50
         .dc.l   Data_010209                   | +00b56  -> $010209
         .dc.w   0x0025,0xc3a8,0xffff,0x1600                                 | +00b5a
-        .dc.l   Data_020208                   | +00b62  -> $020208
+        .dc.l   Pal_020208                   | +00b62  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00b66
         .dc.l   Data_010209                   | +00b6c  -> $010209
         .dc.w   0x0025,0xc3b4,0xffff,0x1600                                 | +00b70
-        .dc.l   Data_020208                   | +00b78  -> $020208
+        .dc.l   Pal_020208                   | +00b78  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00b7c
         .dc.l   Data_010209                   | +00b82  -> $010209
         .dc.w   0x0025,0xc3c6,0xffff,0x1600                                 | +00b86
-        .dc.l   Data_020208                   | +00b8e  -> $020208
+        .dc.l   Pal_020208                   | +00b8e  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00b92
         .dc.l   Data_010208                   | +00b98  -> $010208
         .dc.w   0x0025,0xc3d2,0xffff,0x1600                                 | +00b9c
-        .dc.l   Data_020208                   | +00ba4  -> $020208
+        .dc.l   Pal_020208                   | +00ba4  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00ba8
         .dc.l   Data_010208                   | +00bae  -> $010208
         .dc.w   0x0025,0xc3c6,0xffff,0x1600                                 | +00bb2
-        .dc.l   Data_020208                   | +00bba  -> $020208
+        .dc.l   Pal_020208                   | +00bba  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00bbe
         .dc.l   Data_010208                   | +00bc4  -> $010208
         .dc.w   0x0025,0xc3b4,0xffff,0x1600                                 | +00bc8
-        .dc.l   Data_020208                   | +00bd0  -> $020208
+        .dc.l   Pal_020208                   | +00bd0  -> $020208
         .dc.w   0xffff,0xffff,0xffff                                        | +00bd4
         .dc.l   Data_010208                   | +00bda  -> $010208
         .dc.w   0x0025,0xc3a8,0xffff,0x1600                                 | +00bde
@@ -8628,34 +8628,34 @@ Data_19d7a2:
         .dc.w   0x0025,0xa950,0xffff,0x1600                                 | +003de
         .dc.l   Data_011e08                   | +003e6  -> $011E08
         .dc.w   0x0025,0xa95a,0xffff,0x0000,0x0000                          | +003ea
-        .dc.l   Data_021e08                   | +003f4  -> $021E08
+        .dc.l   Pal_021e08                   | +003f4  -> $021E08
         .dc.w   0x0025,0xa964,0xffff,0x0000,0x0000                          | +003f8
-        .dc.l   Data_021e08                   | +00402  -> $021E08
+        .dc.l   Pal_021e08                   | +00402  -> $021E08
         .dc.w   0x0025,0xa970,0xffff,0x0000,0x0000                          | +00406
-        .dc.l   Data_021e08                   | +00410  -> $021E08
+        .dc.l   Pal_021e08                   | +00410  -> $021E08
         .dc.w   0x0025,0xa97c,0xffff,0x0000,0x0000                          | +00414
-        .dc.l   Data_021e08                   | +0041e  -> $021E08
+        .dc.l   Pal_021e08                   | +0041e  -> $021E08
         .dc.w   0x0025,0xa988,0xffff,0x0000,0x0000                          | +00422
-        .dc.l   Data_021e08                   | +0042c  -> $021E08
+        .dc.l   Pal_021e08                   | +0042c  -> $021E08
         .dc.w   0x0025,0xa994,0xffff,0x0000,0x0000                          | +00430
-        .dc.l   Data_021e08                   | +0043a  -> $021E08
+        .dc.l   Pal_021e08                   | +0043a  -> $021E08
         .dc.w   0x0025,0xa9a0,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0025     | +0043e
         .dc.w   0xa9ac,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0025,0xa9b8     | +0044e
         .dc.w   0xffff,0x0000,0x0000,0x0003,0x1e08,0x0025,0xa9c4,0xffff     | +0045e
         .dc.w   0x0000,0x0000,0x1600                                        | +0046e
         .dc.l   Data_011e08                   | +00474  -> $011E08
         .dc.w   0x0025,0xa95a,0xffff,0x0000,0x0000                          | +00478
-        .dc.l   Data_020209                   | +00482  -> $020209
+        .dc.l   Pal_020209                   | +00482  -> $020209
         .dc.w   0x0025,0xa964,0xffff                                        | +00486
-        .dc.l   Data_021e08                   | +0048c  -> $021E08
+        .dc.l   Pal_021e08                   | +0048c  -> $021E08
         .dc.w   0x0025,0xa970,0xffff,0x0000,0x0000                          | +00490
-        .dc.l   Data_020209                   | +0049a  -> $020209
+        .dc.l   Pal_020209                   | +0049a  -> $020209
         .dc.w   0x0025,0xa97c,0xffff                                        | +0049e
-        .dc.l   Data_021e08                   | +004a4  -> $021E08
+        .dc.l   Pal_021e08                   | +004a4  -> $021E08
         .dc.w   0x0025,0xa988,0xffff,0x0000,0x0000                          | +004a8
-        .dc.l   Data_020209                   | +004b2  -> $020209
+        .dc.l   Pal_020209                   | +004b2  -> $020209
         .dc.w   0x0025,0xa994,0xffff                                        | +004b6
-        .dc.l   Data_021e08                   | +004bc  -> $021E08
+        .dc.l   Pal_021e08                   | +004bc  -> $021E08
         .dc.w   0x0025,0xa9a0,0xffff,0x0000,0x0000,0x0003,0x0209,0x0025     | +004c0
         .dc.w   0xa9ac,0xffff,0x0003,0x1e08,0x0025,0xa9b8,0xffff,0x0000     | +004d0
         .dc.w   0x0000,0x0003,0x0209,0x0025,0xa9c4,0xffff,0x1600            | +004e0
@@ -8801,10 +8801,10 @@ Data_19d7a2:
         .dc.w   0x0025,0xb364,0xffff,0x000f,0xffdb                          | +00892
         .dc.l   Data_010200                   | +0089c  -> $010200
         .dc.w   0x0025,0xe47e,0xffff                                        | +008a0
-        .dc.l   Data_0a0002                   | +008a6  -> $0A0002
+        .dc.l   BgMap_0a0002                   | +008a6  -> $0A0002
         .dc.l   Data_010200                   | +008aa  -> $010200
         .dc.w   0x0025,0xe49e,0xffff                                        | +008ae
-        .dc.l   Data_0a0002                   | +008b4  -> $0A0002
+        .dc.l   BgMap_0a0002                   | +008b4  -> $0A0002
         .dc.l   Data_011e08                   | +008b8  -> $011E08
         .dc.w   0x0025,0xe4bc,0xffff,0x0000,0x0000                          | +008bc
         .dc.l   Data_011e08                   | +008c6  -> $011E08
@@ -8837,32 +8837,32 @@ Data_19d7a2:
         .dc.w   0x0025,0xb364,0xffff,0x0002,0xfffd,0x0100,0x0029,0xe13e     | +0097e
         .dc.l   Data_010200                   | +0098e  -> $010200
         .dc.w   0x0025,0xb364,0xffff                                        | +00992
-        .dc.l   Str_10fff0                    | +00998  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +00998  -> $10FFF0
         .dc.l   Data_010200                   | +0099c  -> $010200
         .dc.w   0x0025,0xb37e,0xffff                                        | +009a0
-        .dc.l   Str_10fff0                    | +009a6  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +009a6  -> $10FFF0
         .dc.l   Data_010200                   | +009aa  -> $010200
         .dc.w   0x0025,0xb392,0xffff                                        | +009ae
-        .dc.l   Str_10fff0                    | +009b4  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +009b4  -> $10FFF0
         .dc.w   0x0600,0x2100,0x0038                                        | +009b8
         .dc.l   Data_010200                   | +009be  -> $010200
         .dc.w   0x0025,0xb548,0xffff                                        | +009c2
-        .dc.l   Str_10fff0                    | +009c8  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +009c8  -> $10FFF0
         .dc.l   Data_010200                   | +009cc  -> $010200
         .dc.w   0x0025,0xb588,0xffff                                        | +009d0
-        .dc.l   Str_10fff0                    | +009d6  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +009d6  -> $10FFF0
         .dc.l   Data_010200                   | +009da  -> $010200
         .dc.w   0x0025,0xb5c8,0xffff                                        | +009de
-        .dc.l   Str_10fff0                    | +009e4  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +009e4  -> $10FFF0
         .dc.l   Data_010200                   | +009e8  -> $010200
         .dc.w   0x0025,0xb5fc,0xffff                                        | +009ec
-        .dc.l   Str_10fff0                    | +009f2  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +009f2  -> $10FFF0
         .dc.l   Data_010200                   | +009f6  -> $010200
         .dc.w   0x0025,0xb630,0xffff                                        | +009fa
-        .dc.l   Str_10fff0                    | +00a00  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +00a00  -> $10FFF0
         .dc.l   Data_010200                   | +00a04  -> $010200
         .dc.w   0x0025,0xb664,0xffff                                        | +00a08
-        .dc.l   Str_10fff0                    | +00a0e  -> $10FFF0
+        .dc.l   ColMap_10fff0                    | +00a0e  -> $10FFF0
         .dc.l   Data_010208                   | +00a12  -> $010208
         .dc.w   0xffff,0xffff,0xffff,0x1600                                 | +00a16
         .dc.l   Data_010200                   | +00a1e  -> $010200
@@ -8911,13 +8911,13 @@ Data_19d7a2:
         .dc.w   0xffff,0xffff,0xffff,0x1600                                 | +00b0a
         .dc.l   Data_010200                   | +00b12  -> $010200
         .dc.w   0x0025,0xb73c,0xffff                                        | +00b16
-        .dc.l   Data_180020                   | +00b1c  -> $180020
+        .dc.l   AnimScr_180020                   | +00b1c  -> $180020
         .dc.l   Data_010200                   | +00b20  -> $010200
         .dc.w   0x0025,0xe8ac,0xffff                                        | +00b24
-        .dc.l   Data_180020                   | +00b2a  -> $180020
+        .dc.l   AnimScr_180020                   | +00b2a  -> $180020
         .dc.l   Data_010200                   | +00b2e  -> $010200
         .dc.w   0x0025,0xe8bc,0xffff                                        | +00b32
-        .dc.l   Data_180020                   | +00b38  -> $180020
+        .dc.l   AnimScr_180020                   | +00b38  -> $180020
         .dc.l   Data_010208                   | +00b3c  -> $010208
         .dc.w   0xffff,0xffff,0xffff,0x1600                                 | +00b40
         .dc.l   Data_010200                   | +00b48  -> $010200
@@ -9069,38 +9069,38 @@ Data_19d7a2:
         .dc.w   0x0026,0x2c22,0xffff                                        | +00f06
         .dc.l   Data_010208                   | +00f0c  -> $010208
         .dc.w   0x0026,0x2c7e,0xffff                                        | +00f10
-        .dc.l   Data_020208                   | +00f16  -> $020208
+        .dc.l   Pal_020208                   | +00f16  -> $020208
         .dc.w   0x0026,0x2cd4,0xffff                                        | +00f1a
-        .dc.l   Data_020200                   | +00f20  -> $020200
+        .dc.l   Pal_020200                   | +00f20  -> $020200
         .dc.w   0x0026,0x2d26,0xffff,0x0000                                 | +00f24
         .dc.l   Data_010002                   | +00f2c  -> $010002
         .dc.w   0x0200,0x0026,0x2d7a,0xffff,0x0000                          | +00f30
-        .dc.l   Data_020002                   | +00f3a  -> $020002
+        .dc.l   Pal_020002                   | +00f3a  -> $020002
         .dc.w   0x0200,0x0026,0x2dc8,0xffff,0x0000                          | +00f3e
         .dc.l   Chain3_Init_030002            | +00f48  -> $030002
         .dc.w   0x0200,0x0026,0x2e16,0xffff,0x0000,0x0004                   | +00f4c
-        .dc.l   Data_020200                   | +00f58  -> $020200
+        .dc.l   Pal_020200                   | +00f58  -> $020200
         .dc.w   0x0026,0x2e62,0xffff,0x0000,0x0005                          | +00f5c
 
 | ----------------------------------------------------------------------------
-|  Data_19e708  @ $19E708  (6,350 B)  [ref. desde código]
+|  AnimScr_19e708  @ $19E708  (6,350 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19e708, "ax", @progbits
-        .global Data_19e708
-Data_19e708:
-        .dc.l   Data_020200                   | +00000  -> $020200
+        .section .text.AnimScr_19e708, "ax", @progbits
+        .global AnimScr_19e708
+AnimScr_19e708:
+        .dc.l   Pal_020200                   | +00000  -> $020200
         .dc.w   0x0026,0x2ebe,0xffff,0x0000,0x0006                          | +00004
-        .dc.l   Data_020200                   | +0000e  -> $020200
+        .dc.l   Pal_020200                   | +0000e  -> $020200
         .dc.w   0x0026,0x2f10,0xffff,0x0000,0x0007                          | +00012
-        .dc.l   Data_020200                   | +0001c  -> $020200
+        .dc.l   Pal_020200                   | +0001c  -> $020200
         .dc.w   0x0026,0x2f54,0xffff,0x0000,0x0008                          | +00020
-        .dc.l   Data_020200                   | +0002a  -> $020200
+        .dc.l   Pal_020200                   | +0002a  -> $020200
         .dc.w   0x0026,0x2f98,0xffff,0x0000,0x0009                          | +0002e
-        .dc.l   Data_020200                   | +00038  -> $020200
+        .dc.l   Pal_020200                   | +00038  -> $020200
         .dc.w   0x0026,0x2fd8,0xffff,0x0000                                 | +0003c
-        .dc.l   Data_0a0002                   | +00044  -> $0A0002
+        .dc.l   BgMap_0a0002                   | +00044  -> $0A0002
         .dc.w   0x0200,0x0026,0x3016,0xffff,0x0000                          | +00048
-        .dc.l   Data_0b0002                   | +00052  -> $0B0002
+        .dc.l   BgMap_0b0002                   | +00052  -> $0B0002
         .dc.w   0x0200,0x0026,0x304c,0xffff,0x0000,0x000b,0x1600            | +00056
         .dc.l   Data_010208                   | +00064  -> $010208
         .dc.w   0x0026,0x30ea,0xffff                                        | +00068
@@ -9130,19 +9130,19 @@ Data_19e708:
         .dc.w   0x0026,0x3374,0xffff,0x0000                                 | +000e0
         .dc.l   Data_010001                   | +000e8  -> $010001
         .dc.w   0x0200,0x0026,0x33a8,0xffff,0x0000                          | +000ec
-        .dc.l   Data_020002                   | +000f6  -> $020002
+        .dc.l   Pal_020002                   | +000f6  -> $020002
         .dc.w   0x0200,0x0026,0x33da,0xffff,0x0000                          | +000fa
         .dc.l   Chain3_Init_030002            | +00104  -> $030002
         .dc.w   0x0200,0x0026,0x3404,0xffff,0x0000,0x0004                   | +00108
-        .dc.l   Data_020200                   | +00114  -> $020200
+        .dc.l   Pal_020200                   | +00114  -> $020200
         .dc.w   0x0026,0x3432,0xffff,0x0000,0x0005                          | +00118
-        .dc.l   Data_020200                   | +00122  -> $020200
+        .dc.l   Pal_020200                   | +00122  -> $020200
         .dc.w   0x0026,0x3460,0xffff,0x0000,0x0006                          | +00126
-        .dc.l   Data_020200                   | +00130  -> $020200
+        .dc.l   Pal_020200                   | +00130  -> $020200
         .dc.w   0x0026,0x348e,0xffff,0x0000,0x0007                          | +00134
-        .dc.l   Data_020200                   | +0013e  -> $020200
+        .dc.l   Pal_020200                   | +0013e  -> $020200
         .dc.w   0x0026,0x34ae,0xffff,0x0000,0x0008                          | +00142
-        .dc.l   Data_020200                   | +0014c  -> $020200
+        .dc.l   Pal_020200                   | +0014c  -> $020200
         .dc.w   0x0026,0x34ce,0xffff,0x0000,0x0008,0x1600,0x0001,0x1b34     | +00150
         .dc.w   0x0200,0x0022,0x415c,0xffff,0x0000,0x0000,0x0100,0x0029     | +00160
         .dc.w   0xeaa8,0x0200,0x0022,0x40da,0xffff,0x0000,0x0000,0x0100     | +00170
@@ -9521,673 +9521,673 @@ Data_19e708:
         .dc.w   0x0156,0x0201,0x0025,0xb970,0xffff,0x0000,0x0000            | +018c0
 
 | ----------------------------------------------------------------------------
-|  Data_19ffd6  @ $19FFD6  (6 B)  [ref. desde código]
+|  AnimScr_19ffd6  @ $19FFD6  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19ffd6, "ax", @progbits
-        .global Data_19ffd6
-Data_19ffd6:
+        .section .text.AnimScr_19ffd6, "ax", @progbits
+        .global AnimScr_19ffd6
+AnimScr_19ffd6:
         .dc.w   0x0100,0x002a,0x0156                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19ffdc  @ $19FFDC  (3 B)  [ref. desde código]
+|  AnimScr_19ffdc  @ $19FFDC  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19ffdc, "ax", @progbits
-        .global Data_19ffdc
-Data_19ffdc:
+        .section .text.AnimScr_19ffdc, "ax", @progbits
+        .global AnimScr_19ffdc
+AnimScr_19ffdc:
         .dc.w   0x0201                                                      | +00000
         .dc.b   0x00                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_19ffdf  @ $19FFDF  (8 B)  [ref. desde código]
+|  AnimScr_19ffdf  @ $19FFDF  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19ffdf, "ax", @progbits
-        .global Data_19ffdf
-Data_19ffdf:
+        .section .text.AnimScr_19ffdf, "ax", @progbits
+        .global AnimScr_19ffdf
+AnimScr_19ffdf:
         .dc.b   0x25                            | +00000
         .dc.w   0xb9d4,0xffff,0x0000                                        | +00001
         .dc.b   0x00                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_19ffe7  @ $19FFE7  (8 B)  [ref. desde código]
+|  AnimScr_19ffe7  @ $19FFE7  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19ffe7, "ax", @progbits
-        .global Data_19ffe7
-Data_19ffe7:
+        .section .text.AnimScr_19ffe7, "ax", @progbits
+        .global AnimScr_19ffe7
+AnimScr_19ffe7:
         .dc.b   0x00                            | +00000
         .dc.w   0x0100,0x002a,0x0156                                        | +00001
         .dc.b   0x02                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_19ffef  @ $19FFEF  (1 B)  [ref. desde código]
+|  AnimScr_19ffef  @ $19FFEF  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19ffef, "ax", @progbits
-        .global Data_19ffef
-Data_19ffef:
+        .section .text.AnimScr_19ffef, "ax", @progbits
+        .global AnimScr_19ffef
+AnimScr_19ffef:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19fff0  @ $19FFF0  (2 B)  [ref. desde código]
+|  AnimScr_19fff0  @ $19FFF0  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19fff0, "ax", @progbits
-        .global Data_19fff0
-Data_19fff0:
+        .section .text.AnimScr_19fff0, "ax", @progbits
+        .global AnimScr_19fff0
+AnimScr_19fff0:
         .dc.w   0x0025                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19fff2  @ $19FFF2  (1 B)  [ref. desde código]
+|  AnimScr_19fff2  @ $19FFF2  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19fff2, "ax", @progbits
-        .global Data_19fff2
-Data_19fff2:
+        .section .text.AnimScr_19fff2, "ax", @progbits
+        .global AnimScr_19fff2
+AnimScr_19fff2:
         .dc.b   0xba                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19fff3  @ $19FFF3  (1 B)  [ref. desde código]
+|  AnimScr_19fff3  @ $19FFF3  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19fff3, "ax", @progbits
-        .global Data_19fff3
-Data_19fff3:
+        .section .text.AnimScr_19fff3, "ax", @progbits
+        .global AnimScr_19fff3
+AnimScr_19fff3:
         .dc.b   0x38                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19fff4  @ $19FFF4  (2 B)  [ref. desde código]
+|  AnimScr_19fff4  @ $19FFF4  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19fff4, "ax", @progbits
-        .global Data_19fff4
-Data_19fff4:
+        .section .text.AnimScr_19fff4, "ax", @progbits
+        .global AnimScr_19fff4
+AnimScr_19fff4:
         .dc.w   0xffff                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19fff6  @ $19FFF6  (1 B)  [ref. desde código]
+|  AnimScr_19fff6  @ $19FFF6  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19fff6, "ax", @progbits
-        .global Data_19fff6
-Data_19fff6:
+        .section .text.AnimScr_19fff6, "ax", @progbits
+        .global AnimScr_19fff6
+AnimScr_19fff6:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19fff7  @ $19FFF7  (2 B)  [ref. desde código]
+|  AnimScr_19fff7  @ $19FFF7  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19fff7, "ax", @progbits
-        .global Data_19fff7
-Data_19fff7:
+        .section .text.AnimScr_19fff7, "ax", @progbits
+        .global AnimScr_19fff7
+AnimScr_19fff7:
         .dc.b   0x00                            | +00000
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_19fff9  @ $19FFF9  (5 B)  [ref. desde código]
+|  AnimScr_19fff9  @ $19FFF9  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19fff9, "ax", @progbits
-        .global Data_19fff9
-Data_19fff9:
+        .section .text.AnimScr_19fff9, "ax", @progbits
+        .global AnimScr_19fff9
+AnimScr_19fff9:
         .dc.b   0x00                            | +00000
         .dc.w   0x0100,0x002a                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_19fffe  @ $19FFFE  (1 B)  [ref. desde código]
+|  AnimScr_19fffe  @ $19FFFE  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19fffe, "ax", @progbits
-        .global Data_19fffe
-Data_19fffe:
+        .section .text.AnimScr_19fffe, "ax", @progbits
+        .global AnimScr_19fffe
+AnimScr_19fffe:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_19ffff  @ $19FFFF  (1 B)  [ref. desde código]
+|  AnimScr_19ffff  @ $19FFFF  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_19ffff, "ax", @progbits
-        .global Data_19ffff
-Data_19ffff:
+        .section .text.AnimScr_19ffff, "ax", @progbits
+        .global AnimScr_19ffff
+AnimScr_19ffff:
         .dc.b   0x56                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0000  @ $1A0000  (1 B)  [ref. desde código]
+|  AnimScr_1a0000  @ $1A0000  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0000, "ax", @progbits
-        .global Data_1a0000
-Data_1a0000:
+        .section .text.AnimScr_1a0000, "ax", @progbits
+        .global AnimScr_1a0000
+AnimScr_1a0000:
         .dc.b   0x02                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0001  @ $1A0001  (1 B)  [ref. desde código]
+|  AnimScr_1a0001  @ $1A0001  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0001, "ax", @progbits
-        .global Data_1a0001
-Data_1a0001:
+        .section .text.AnimScr_1a0001, "ax", @progbits
+        .global AnimScr_1a0001
+AnimScr_1a0001:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0002  @ $1A0002  (1 B)  [ref. desde código]
+|  AnimScr_1a0002  @ $1A0002  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0002, "ax", @progbits
-        .global Data_1a0002
-Data_1a0002:
+        .section .text.AnimScr_1a0002, "ax", @progbits
+        .global AnimScr_1a0002
+AnimScr_1a0002:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0003  @ $1A0003  (1 B)  [ref. desde código]
+|  AnimScr_1a0003  @ $1A0003  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0003, "ax", @progbits
-        .global Data_1a0003
-Data_1a0003:
+        .section .text.AnimScr_1a0003, "ax", @progbits
+        .global AnimScr_1a0003
+AnimScr_1a0003:
         .dc.b   0x25                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0004  @ $1A0004  (1 B)  [ref. desde código]
+|  AnimScr_1a0004  @ $1A0004  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0004, "ax", @progbits
-        .global Data_1a0004
-Data_1a0004:
+        .section .text.AnimScr_1a0004, "ax", @progbits
+        .global AnimScr_1a0004
+AnimScr_1a0004:
         .dc.b   0xba                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0005  @ $1A0005  (1 B)  [ref. desde código]
+|  AnimScr_1a0005  @ $1A0005  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0005, "ax", @progbits
-        .global Data_1a0005
-Data_1a0005:
+        .section .text.AnimScr_1a0005, "ax", @progbits
+        .global AnimScr_1a0005
+AnimScr_1a0005:
         .dc.b   0x9c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0006  @ $1A0006  (1 B)  [ref. desde código]
+|  AnimScr_1a0006  @ $1A0006  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0006, "ax", @progbits
-        .global Data_1a0006
-Data_1a0006:
+        .section .text.AnimScr_1a0006, "ax", @progbits
+        .global AnimScr_1a0006
+AnimScr_1a0006:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0007  @ $1A0007  (1 B)  [ref. desde código]
+|  AnimScr_1a0007  @ $1A0007  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0007, "ax", @progbits
-        .global Data_1a0007
-Data_1a0007:
+        .section .text.AnimScr_1a0007, "ax", @progbits
+        .global AnimScr_1a0007
+AnimScr_1a0007:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0008  @ $1A0008  (1 B)  [ref. desde código]
+|  AnimScr_1a0008  @ $1A0008  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0008, "ax", @progbits
-        .global Data_1a0008
-Data_1a0008:
+        .section .text.AnimScr_1a0008, "ax", @progbits
+        .global AnimScr_1a0008
+AnimScr_1a0008:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0009  @ $1A0009  (1 B)  [ref. desde código]
+|  AnimScr_1a0009  @ $1A0009  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0009, "ax", @progbits
-        .global Data_1a0009
-Data_1a0009:
+        .section .text.AnimScr_1a0009, "ax", @progbits
+        .global AnimScr_1a0009
+AnimScr_1a0009:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a000a  @ $1A000A  (1 B)  [ref. desde código]
+|  AnimScr_1a000a  @ $1A000A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a000a, "ax", @progbits
-        .global Data_1a000a
-Data_1a000a:
+        .section .text.AnimScr_1a000a, "ax", @progbits
+        .global AnimScr_1a000a
+AnimScr_1a000a:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a000b  @ $1A000B  (1 B)  [ref. desde código]
+|  AnimScr_1a000b  @ $1A000B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a000b, "ax", @progbits
-        .global Data_1a000b
-Data_1a000b:
+        .section .text.AnimScr_1a000b, "ax", @progbits
+        .global AnimScr_1a000b
+AnimScr_1a000b:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a000c  @ $1A000C  (1 B)  [ref. desde código]
+|  AnimScr_1a000c  @ $1A000C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a000c, "ax", @progbits
-        .global Data_1a000c
-Data_1a000c:
+        .section .text.AnimScr_1a000c, "ax", @progbits
+        .global AnimScr_1a000c
+AnimScr_1a000c:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a000d  @ $1A000D  (1 B)  [ref. desde código]
+|  AnimScr_1a000d  @ $1A000D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a000d, "ax", @progbits
-        .global Data_1a000d
-Data_1a000d:
+        .section .text.AnimScr_1a000d, "ax", @progbits
+        .global AnimScr_1a000d
+AnimScr_1a000d:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a000e  @ $1A000E  (1 B)  [ref. desde código]
+|  AnimScr_1a000e  @ $1A000E  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a000e, "ax", @progbits
-        .global Data_1a000e
-Data_1a000e:
+        .section .text.AnimScr_1a000e, "ax", @progbits
+        .global AnimScr_1a000e
+AnimScr_1a000e:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a000f  @ $1A000F  (1 B)  [ref. desde código]
+|  AnimScr_1a000f  @ $1A000F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a000f, "ax", @progbits
-        .global Data_1a000f
-Data_1a000f:
+        .section .text.AnimScr_1a000f, "ax", @progbits
+        .global AnimScr_1a000f
+AnimScr_1a000f:
         .dc.b   0x2a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0010  @ $1A0010  (1 B)  [ref. desde código]
+|  AnimScr_1a0010  @ $1A0010  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0010, "ax", @progbits
-        .global Data_1a0010
-Data_1a0010:
+        .section .text.AnimScr_1a0010, "ax", @progbits
+        .global AnimScr_1a0010
+AnimScr_1a0010:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0011  @ $1A0011  (1 B)  [ref. desde código]
+|  AnimScr_1a0011  @ $1A0011  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0011, "ax", @progbits
-        .global Data_1a0011
-Data_1a0011:
+        .section .text.AnimScr_1a0011, "ax", @progbits
+        .global AnimScr_1a0011
+AnimScr_1a0011:
         .dc.b   0x56                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0012  @ $1A0012  (1 B)  [ref. desde código]
+|  AnimScr_1a0012  @ $1A0012  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0012, "ax", @progbits
-        .global Data_1a0012
-Data_1a0012:
+        .section .text.AnimScr_1a0012, "ax", @progbits
+        .global AnimScr_1a0012
+AnimScr_1a0012:
         .dc.b   0x02                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0013  @ $1A0013  (1 B)  [ref. desde código]
+|  AnimScr_1a0013  @ $1A0013  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0013, "ax", @progbits
-        .global Data_1a0013
-Data_1a0013:
+        .section .text.AnimScr_1a0013, "ax", @progbits
+        .global AnimScr_1a0013
+AnimScr_1a0013:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0014  @ $1A0014  (1 B)  [ref. desde código]
+|  AnimScr_1a0014  @ $1A0014  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0014, "ax", @progbits
-        .global Data_1a0014
-Data_1a0014:
+        .section .text.AnimScr_1a0014, "ax", @progbits
+        .global AnimScr_1a0014
+AnimScr_1a0014:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0015  @ $1A0015  (1 B)  [ref. desde código]
+|  AnimScr_1a0015  @ $1A0015  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0015, "ax", @progbits
-        .global Data_1a0015
-Data_1a0015:
+        .section .text.AnimScr_1a0015, "ax", @progbits
+        .global AnimScr_1a0015
+AnimScr_1a0015:
         .dc.b   0x25                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0016  @ $1A0016  (1 B)  [ref. desde código]
+|  AnimScr_1a0016  @ $1A0016  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0016, "ax", @progbits
-        .global Data_1a0016
-Data_1a0016:
+        .section .text.AnimScr_1a0016, "ax", @progbits
+        .global AnimScr_1a0016
+AnimScr_1a0016:
         .dc.b   0xbb                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0017  @ $1A0017  (1 B)  [ref. desde código]
+|  AnimScr_1a0017  @ $1A0017  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0017, "ax", @progbits
-        .global Data_1a0017
-Data_1a0017:
+        .section .text.AnimScr_1a0017, "ax", @progbits
+        .global AnimScr_1a0017
+AnimScr_1a0017:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0018  @ $1A0018  (1 B)  [ref. desde código]
+|  AnimScr_1a0018  @ $1A0018  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0018, "ax", @progbits
-        .global Data_1a0018
-Data_1a0018:
+        .section .text.AnimScr_1a0018, "ax", @progbits
+        .global AnimScr_1a0018
+AnimScr_1a0018:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0019  @ $1A0019  (1 B)  [ref. desde código]
+|  AnimScr_1a0019  @ $1A0019  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0019, "ax", @progbits
-        .global Data_1a0019
-Data_1a0019:
+        .section .text.AnimScr_1a0019, "ax", @progbits
+        .global AnimScr_1a0019
+AnimScr_1a0019:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a001a  @ $1A001A  (1 B)  [ref. desde código]
+|  AnimScr_1a001a  @ $1A001A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a001a, "ax", @progbits
-        .global Data_1a001a
-Data_1a001a:
+        .section .text.AnimScr_1a001a, "ax", @progbits
+        .global AnimScr_1a001a
+AnimScr_1a001a:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a001b  @ $1A001B  (1 B)  [ref. desde código]
+|  AnimScr_1a001b  @ $1A001B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a001b, "ax", @progbits
-        .global Data_1a001b
-Data_1a001b:
+        .section .text.AnimScr_1a001b, "ax", @progbits
+        .global AnimScr_1a001b
+AnimScr_1a001b:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a001c  @ $1A001C  (1 B)  [ref. desde código]
+|  AnimScr_1a001c  @ $1A001C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a001c, "ax", @progbits
-        .global Data_1a001c
-Data_1a001c:
+        .section .text.AnimScr_1a001c, "ax", @progbits
+        .global AnimScr_1a001c
+AnimScr_1a001c:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a001d  @ $1A001D  (2 B)  [ref. desde código]
+|  AnimScr_1a001d  @ $1A001D  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a001d, "ax", @progbits
-        .global Data_1a001d
-Data_1a001d:
+        .section .text.AnimScr_1a001d, "ax", @progbits
+        .global AnimScr_1a001d
+AnimScr_1a001d:
         .dc.b   0x00                            | +00000
         .dc.b   0x01                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1a001f  @ $1A001F  (1 B)  [ref. desde código]
+|  AnimScr_1a001f  @ $1A001F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a001f, "ax", @progbits
-        .global Data_1a001f
-Data_1a001f:
+        .section .text.AnimScr_1a001f, "ax", @progbits
+        .global AnimScr_1a001f
+AnimScr_1a001f:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0020  @ $1A0020  (1 B)  [ref. desde código]
+|  AnimScr_1a0020  @ $1A0020  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0020, "ax", @progbits
-        .global Data_1a0020
-Data_1a0020:
+        .section .text.AnimScr_1a0020, "ax", @progbits
+        .global AnimScr_1a0020
+AnimScr_1a0020:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0021  @ $1A0021  (1 B)  [ref. desde código]
+|  AnimScr_1a0021  @ $1A0021  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0021, "ax", @progbits
-        .global Data_1a0021
-Data_1a0021:
+        .section .text.AnimScr_1a0021, "ax", @progbits
+        .global AnimScr_1a0021
+AnimScr_1a0021:
         .dc.b   0x2a                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0022  @ $1A0022  (1 B)  [ref. desde código]
+|  AnimScr_1a0022  @ $1A0022  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0022, "ax", @progbits
-        .global Data_1a0022
-Data_1a0022:
+        .section .text.AnimScr_1a0022, "ax", @progbits
+        .global AnimScr_1a0022
+AnimScr_1a0022:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0023  @ $1A0023  (1 B)  [ref. desde código]
+|  AnimScr_1a0023  @ $1A0023  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0023, "ax", @progbits
-        .global Data_1a0023
-Data_1a0023:
+        .section .text.AnimScr_1a0023, "ax", @progbits
+        .global AnimScr_1a0023
+AnimScr_1a0023:
         .dc.b   0x56                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0024  @ $1A0024  (2 B)  [ref. desde código]
+|  AnimScr_1a0024  @ $1A0024  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0024, "ax", @progbits
-        .global Data_1a0024
-Data_1a0024:
+        .section .text.AnimScr_1a0024, "ax", @progbits
+        .global AnimScr_1a0024
+AnimScr_1a0024:
         .dc.w   0x0201                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0026  @ $1A0026  (1 B)  [ref. desde código]
+|  AnimScr_1a0026  @ $1A0026  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0026, "ax", @progbits
-        .global Data_1a0026
-Data_1a0026:
+        .section .text.AnimScr_1a0026, "ax", @progbits
+        .global AnimScr_1a0026
+AnimScr_1a0026:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0027  @ $1A0027  (1 B)  [ref. desde código]
+|  AnimScr_1a0027  @ $1A0027  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0027, "ax", @progbits
-        .global Data_1a0027
-Data_1a0027:
+        .section .text.AnimScr_1a0027, "ax", @progbits
+        .global AnimScr_1a0027
+AnimScr_1a0027:
         .dc.b   0x25                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0028  @ $1A0028  (1 B)  [ref. desde código]
+|  AnimScr_1a0028  @ $1A0028  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0028, "ax", @progbits
-        .global Data_1a0028
-Data_1a0028:
+        .section .text.AnimScr_1a0028, "ax", @progbits
+        .global AnimScr_1a0028
+AnimScr_1a0028:
         .dc.b   0xbb                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0029  @ $1A0029  (1 B)  [ref. desde código]
+|  AnimScr_1a0029  @ $1A0029  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0029, "ax", @progbits
-        .global Data_1a0029
-Data_1a0029:
+        .section .text.AnimScr_1a0029, "ax", @progbits
+        .global AnimScr_1a0029
+AnimScr_1a0029:
         .dc.b   0x64                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a002a  @ $1A002A  (1 B)  [ref. desde código]
+|  AnimScr_1a002a  @ $1A002A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a002a, "ax", @progbits
-        .global Data_1a002a
-Data_1a002a:
+        .section .text.AnimScr_1a002a, "ax", @progbits
+        .global AnimScr_1a002a
+AnimScr_1a002a:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a002b  @ $1A002B  (2 B)  [ref. desde código]
+|  AnimScr_1a002b  @ $1A002B  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a002b, "ax", @progbits
-        .global Data_1a002b
-Data_1a002b:
+        .section .text.AnimScr_1a002b, "ax", @progbits
+        .global AnimScr_1a002b
+AnimScr_1a002b:
         .dc.b   0xff                            | +00000
         .dc.b   0x00                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1a002d  @ $1A002D  (1 B)  [ref. desde código]
+|  AnimScr_1a002d  @ $1A002D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a002d, "ax", @progbits
-        .global Data_1a002d
-Data_1a002d:
+        .section .text.AnimScr_1a002d, "ax", @progbits
+        .global AnimScr_1a002d
+AnimScr_1a002d:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a002e  @ $1A002E  (1 B)  [ref. desde código]
+|  AnimScr_1a002e  @ $1A002E  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a002e, "ax", @progbits
-        .global Data_1a002e
-Data_1a002e:
+        .section .text.AnimScr_1a002e, "ax", @progbits
+        .global AnimScr_1a002e
+AnimScr_1a002e:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a002f  @ $1A002F  (1 B)  [ref. desde código]
+|  AnimScr_1a002f  @ $1A002F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a002f, "ax", @progbits
-        .global Data_1a002f
-Data_1a002f:
+        .section .text.AnimScr_1a002f, "ax", @progbits
+        .global AnimScr_1a002f
+AnimScr_1a002f:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0030  @ $1A0030  (1 B)  [ref. desde código]
+|  AnimScr_1a0030  @ $1A0030  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0030, "ax", @progbits
-        .global Data_1a0030
-Data_1a0030:
+        .section .text.AnimScr_1a0030, "ax", @progbits
+        .global AnimScr_1a0030
+AnimScr_1a0030:
         .dc.b   0x01                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0031  @ $1A0031  (1 B)  [ref. desde código]
+|  AnimScr_1a0031  @ $1A0031  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0031, "ax", @progbits
-        .global Data_1a0031
-Data_1a0031:
+        .section .text.AnimScr_1a0031, "ax", @progbits
+        .global AnimScr_1a0031
+AnimScr_1a0031:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0032  @ $1A0032  (2 B)  [ref. desde código]
+|  AnimScr_1a0032  @ $1A0032  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0032, "ax", @progbits
-        .global Data_1a0032
-Data_1a0032:
+        .section .text.AnimScr_1a0032, "ax", @progbits
+        .global AnimScr_1a0032
+AnimScr_1a0032:
         .dc.w   0x002a                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0034  @ $1A0034  (4 B)  [ref. desde código]
+|  AnimScr_1a0034  @ $1A0034  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0034, "ax", @progbits
-        .global Data_1a0034
-Data_1a0034:
+        .section .text.AnimScr_1a0034, "ax", @progbits
+        .global AnimScr_1a0034
+AnimScr_1a0034:
         .dc.w   0x0156,0x0203                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0038  @ $1A0038  (1 B)  [ref. desde código]
+|  AnimScr_1a0038  @ $1A0038  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0038, "ax", @progbits
-        .global Data_1a0038
-Data_1a0038:
+        .section .text.AnimScr_1a0038, "ax", @progbits
+        .global AnimScr_1a0038
+AnimScr_1a0038:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0039  @ $1A0039  (9 B)  [ref. desde código]
+|  AnimScr_1a0039  @ $1A0039  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0039, "ax", @progbits
-        .global Data_1a0039
-Data_1a0039:
+        .section .text.AnimScr_1a0039, "ax", @progbits
+        .global AnimScr_1a0039
+AnimScr_1a0039:
         .dc.b   0x25                            | +00000
         .dc.w   0xbbc8,0xffff,0x0000,0x0000                                 | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1a0042  @ $1A0042  (8 B)  [ref. desde código]
+|  AnimScr_1a0042  @ $1A0042  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0042, "ax", @progbits
-        .global Data_1a0042
-Data_1a0042:
+        .section .text.AnimScr_1a0042, "ax", @progbits
+        .global AnimScr_1a0042
+AnimScr_1a0042:
         .dc.w   0x0100,0x002a,0x0156,0x0203                                 | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a004a  @ $1A004A  (18 B)  [ref. desde código]
+|  AnimScr_1a004a  @ $1A004A  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a004a, "ax", @progbits
-        .global Data_1a004a
-Data_1a004a:
+        .section .text.AnimScr_1a004a, "ax", @progbits
+        .global AnimScr_1a004a
+AnimScr_1a004a:
         .dc.w   0x0025,0xbb64,0xffff,0x0000,0x0000,0x0100,0x002a,0x0156     | +00000
         .dc.w   0x0203                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a005c  @ $1A005C  (2 B)  [ref. desde código]
+|  AnimScr_1a005c  @ $1A005C  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a005c, "ax", @progbits
-        .global Data_1a005c
-Data_1a005c:
+        .section .text.AnimScr_1a005c, "ax", @progbits
+        .global AnimScr_1a005c
+AnimScr_1a005c:
         .dc.w   0x0025                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a005e  @ $1A005E  (6 B)  [ref. desde código]
+|  AnimScr_1a005e  @ $1A005E  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a005e, "ax", @progbits
-        .global Data_1a005e
-Data_1a005e:
+        .section .text.AnimScr_1a005e, "ax", @progbits
+        .global AnimScr_1a005e
+AnimScr_1a005e:
         .dc.w   0xbb00,0xffff,0x0000                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0064  @ $1A0064  (2 B)  [ref. desde código]
+|  AnimScr_1a0064  @ $1A0064  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0064, "ax", @progbits
-        .global Data_1a0064
-Data_1a0064:
+        .section .text.AnimScr_1a0064, "ax", @progbits
+        .global AnimScr_1a0064
+AnimScr_1a0064:
         .dc.w   0x0000                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0066  @ $1A0066  (14 B)  [ref. desde código]
+|  AnimScr_1a0066  @ $1A0066  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0066, "ax", @progbits
-        .global Data_1a0066
-Data_1a0066:
+        .section .text.AnimScr_1a0066, "ax", @progbits
+        .global AnimScr_1a0066
+AnimScr_1a0066:
         .dc.w   0x0100,0x002a,0x0156,0x0203,0x0025,0xba9c,0xffff            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0074  @ $1A0074  (22 B)  [ref. desde código]
+|  AnimScr_1a0074  @ $1A0074  (22 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0074, "ax", @progbits
-        .global Data_1a0074
-Data_1a0074:
+        .section .text.AnimScr_1a0074, "ax", @progbits
+        .global AnimScr_1a0074
+AnimScr_1a0074:
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x0156,0x0203,0x0025,0xba38     | +00000
         .dc.w   0xffff,0x0000,0x0000                                        | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a008a  @ $1A008A  (62 B)  [ref. desde código]
+|  AnimScr_1a008a  @ $1A008A  (62 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a008a, "ax", @progbits
-        .global Data_1a008a
-Data_1a008a:
+        .section .text.AnimScr_1a008a, "ax", @progbits
+        .global AnimScr_1a008a
+AnimScr_1a008a:
         .dc.w   0x0100,0x002a,0x0156,0x0203,0x0025,0xb9d4,0xffff,0x0000     | +00000
         .dc.w   0x0000,0x0100,0x002a,0x0156,0x0203,0x0025,0xb970,0xffff     | +00010
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x0156,0x0202,0x0025,0xb90c     | +00020
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x0156,0x0202            | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1a00c8  @ $1A00C8  (2 B)  [ref. desde código]
+|  AnimScr_1a00c8  @ $1A00C8  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a00c8, "ax", @progbits
-        .global Data_1a00c8
-Data_1a00c8:
+        .section .text.AnimScr_1a00c8, "ax", @progbits
+        .global AnimScr_1a00c8
+AnimScr_1a00c8:
         .dc.w   0x0025                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a00ca  @ $1A00CA  (54 B)  [ref. desde código]
+|  AnimScr_1a00ca  @ $1A00CA  (54 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a00ca, "ax", @progbits
-        .global Data_1a00ca
-Data_1a00ca:
+        .section .text.AnimScr_1a00ca, "ax", @progbits
+        .global AnimScr_1a00ca
+AnimScr_1a00ca:
         .dc.w   0xb8a8,0xffff,0x0000,0x0000,0x0100,0x002a,0x0156,0x0202     | +00000
         .dc.w   0x0025,0xb90c,0xffff,0x0000,0x0000,0x0100,0x002a,0x0156     | +00010
         .dc.w   0x0202,0x0025,0xb970,0xffff,0x0000,0x0000,0x0100,0x002a     | +00020
         .dc.w   0x0156,0x0202,0x0025                                        | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1a0100  @ $1A0100  (1 B)  [ref. desde código]
+|  AnimScr_1a0100  @ $1A0100  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0100, "ax", @progbits
-        .global Data_1a0100
-Data_1a0100:
+        .section .text.AnimScr_1a0100, "ax", @progbits
+        .global AnimScr_1a0100
+AnimScr_1a0100:
         .dc.b   0xb9                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0101  @ $1A0101  (1 B)  [ref. desde código]
+|  AnimScr_1a0101  @ $1A0101  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0101, "ax", @progbits
-        .global Data_1a0101
-Data_1a0101:
+        .section .text.AnimScr_1a0101, "ax", @progbits
+        .global AnimScr_1a0101
+AnimScr_1a0101:
         .dc.b   0xd4                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0102  @ $1A0102  (1 B)  [ref. desde código]
+|  AnimScr_1a0102  @ $1A0102  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0102, "ax", @progbits
-        .global Data_1a0102
-Data_1a0102:
+        .section .text.AnimScr_1a0102, "ax", @progbits
+        .global AnimScr_1a0102
+AnimScr_1a0102:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0103  @ $1A0103  (25 B)  [ref. desde código]
+|  AnimScr_1a0103  @ $1A0103  (25 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0103, "ax", @progbits
-        .global Data_1a0103
-Data_1a0103:
+        .section .text.AnimScr_1a0103, "ax", @progbits
+        .global AnimScr_1a0103
+AnimScr_1a0103:
         .dc.b   0xff                            | +00000
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x0156,0x0202,0x0025,0xba38     | +00001
         .dc.w   0xffff,0x0000,0x0000,0x0100                                 | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_1a011c  @ $1A011C  (46 B)  [ref. desde código]
+|  AnimScr_1a011c  @ $1A011C  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a011c, "ax", @progbits
-        .global Data_1a011c
-Data_1a011c:
+        .section .text.AnimScr_1a011c, "ax", @progbits
+        .global AnimScr_1a011c
+AnimScr_1a011c:
         .dc.w   0x002a,0x0156,0x0202,0x0025,0xba9c,0xffff,0x0000,0x0000     | +00000
         .dc.w   0x0100,0x002a,0x0156,0x0202,0x0025,0xbb00,0xffff,0x0000     | +00010
         .dc.w   0x0000,0x0100,0x002a,0x0156,0x0202,0x0025,0xbb64            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_1a014a  @ $1A014A  (182 B)  [ref. desde código]
+|  AnimScr_1a014a  @ $1A014A  (182 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a014a, "ax", @progbits
-        .global Data_1a014a
-Data_1a014a:
+        .section .text.AnimScr_1a014a, "ax", @progbits
+        .global AnimScr_1a014a
+AnimScr_1a014a:
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x0156,0x0002,0x1b30     | +00000
         .dc.w   0x0200,0x0025,0xbbbe,0xffff,0x0000,0x0000,0x0100,0x002a     | +00010
         .dc.w   0x039a,0x0200,0x0025,0xbb5a,0xffff,0x0000,0x0000,0x0100     | +00020
@@ -10202,66 +10202,66 @@ Data_1a014a:
         .dc.w   0x039a,0x0201,0x0025                                        | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_1a0200  @ $1A0200  (1 B)  [ref. desde código]
+|  AnimScr_1a0200  @ $1A0200  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0200, "ax", @progbits
-        .global Data_1a0200
-Data_1a0200:
+        .section .text.AnimScr_1a0200, "ax", @progbits
+        .global AnimScr_1a0200
+AnimScr_1a0200:
         .dc.b   0xb9                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0201  @ $1A0201  (1 B)  [ref. desde código]
+|  AnimScr_1a0201  @ $1A0201  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0201, "ax", @progbits
-        .global Data_1a0201
-Data_1a0201:
+        .section .text.AnimScr_1a0201, "ax", @progbits
+        .global AnimScr_1a0201
+AnimScr_1a0201:
         .dc.b   0x02                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0202  @ $1A0202  (1 B)  [ref. desde código]
+|  AnimScr_1a0202  @ $1A0202  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0202, "ax", @progbits
-        .global Data_1a0202
-Data_1a0202:
+        .section .text.AnimScr_1a0202, "ax", @progbits
+        .global AnimScr_1a0202
+AnimScr_1a0202:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a0203  @ $1A0203  (43 B)  [ref. desde código]
+|  AnimScr_1a0203  @ $1A0203  (43 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0203, "ax", @progbits
-        .global Data_1a0203
-Data_1a0203:
+        .section .text.AnimScr_1a0203, "ax", @progbits
+        .global AnimScr_1a0203
+AnimScr_1a0203:
         .dc.b   0xff                            | +00000
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x039a,0x0201,0x0025,0xb966     | +00001
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x039a,0x0201,0x0025     | +00011
         .dc.w   0xb9ca,0xffff,0x0000,0x0000,0x0100                          | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_1a022e  @ $1A022E  (60 B)  [ref. desde código]
+|  AnimScr_1a022e  @ $1A022E  (60 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a022e, "ax", @progbits
-        .global Data_1a022e
-Data_1a022e:
+        .section .text.AnimScr_1a022e, "ax", @progbits
+        .global AnimScr_1a022e
+AnimScr_1a022e:
         .dc.w   0x002a,0x039a,0x0201,0x0025,0xba2e,0xffff,0x0000,0x0000     | +00000
         .dc.w   0x0100,0x002a,0x039a,0x0201,0x0025,0xba92,0xffff,0x0000     | +00010
         .dc.w   0x0000,0x0100,0x002a,0x039a,0x0201,0x0025,0xbaf6,0xffff     | +00020
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x039a,0x0201                   | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1a026a  @ $1A026A  (22 B)  [ref. desde código]
+|  AnimScr_1a026a  @ $1A026A  (22 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a026a, "ax", @progbits
-        .global Data_1a026a
-Data_1a026a:
+        .section .text.AnimScr_1a026a, "ax", @progbits
+        .global AnimScr_1a026a
+AnimScr_1a026a:
         .dc.w   0x0025,0xbb5a,0xffff,0x0000,0x0000,0x0100,0x002a,0x039a     | +00000
         .dc.w   0x0203,0x0025,0xbbbe                                        | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a0280  @ $1A0280  (130 B)  [ref. desde código]
+|  AnimScr_1a0280  @ $1A0280  (130 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0280, "ax", @progbits
-        .global Data_1a0280
-Data_1a0280:
+        .section .text.AnimScr_1a0280, "ax", @progbits
+        .global AnimScr_1a0280
+AnimScr_1a0280:
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x039a,0x0203,0x0025     | +00000
         .dc.w   0xbb5a,0xffff,0x0000,0x0000,0x0100,0x002a,0x039a,0x0203     | +00010
         .dc.w   0x0025,0xbaf6,0xffff,0x0000,0x0000,0x0100,0x002a,0x039a     | +00020
@@ -10273,11 +10273,11 @@ Data_1a0280:
         .dc.w   0x0000                                                      | +00080
 
 | ----------------------------------------------------------------------------
-|  Data_1a0302  @ $1A0302  (198 B)  [ref. desde código]
+|  AnimScr_1a0302  @ $1A0302  (198 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0302, "ax", @progbits
-        .global Data_1a0302
-Data_1a0302:
+        .section .text.AnimScr_1a0302, "ax", @progbits
+        .global AnimScr_1a0302
+AnimScr_1a0302:
         .dc.w   0x0000,0x0100,0x002a,0x039a,0x0202,0x0025,0xb89e,0xffff     | +00000
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x039a,0x0202,0x0025,0xb902     | +00010
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x039a,0x0202,0x0025     | +00020
@@ -10293,11 +10293,11 @@ Data_1a0302:
         .dc.w   0x0200,0x0025,0xbaec                                        | +000c0
 
 | ----------------------------------------------------------------------------
-|  Data_1a03c8  @ $1A03C8  (166 B)  [ref. desde código]
+|  AnimScr_1a03c8  @ $1A03C8  (166 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a03c8, "ax", @progbits
-        .global Data_1a03c8
-Data_1a03c8:
+        .section .text.AnimScr_1a03c8, "ax", @progbits
+        .global AnimScr_1a03c8
+AnimScr_1a03c8:
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x05de,0x0200,0x0025     | +00000
         .dc.w   0xba88,0xffff,0x0000,0x0000,0x0100,0x002a,0x05de,0x0200     | +00010
         .dc.w   0x0025,0xba24,0xffff,0x0000,0x0000,0x0100,0x002a,0x05de     | +00020
@@ -10311,11 +10311,11 @@ Data_1a03c8:
         .dc.w   0xb9c0,0xffff,0x0000                                        | +000a0
 
 | ----------------------------------------------------------------------------
-|  Data_1a046e  @ $1A046E  (512 B)  [ref. desde código]
+|  AnimScr_1a046e  @ $1A046E  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a046e, "ax", @progbits
-        .global Data_1a046e
-Data_1a046e:
+        .section .text.AnimScr_1a046e, "ax", @progbits
+        .global AnimScr_1a046e
+AnimScr_1a046e:
         .dc.w   0x0000,0x0100,0x002a,0x05de,0x0201,0x0025,0xba24,0xffff     | +00000
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x05de,0x0201,0x0025,0xba88     | +00010
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x05de,0x0201,0x0025     | +00020
@@ -10350,11 +10350,11 @@ Data_1a046e:
         .dc.w   0x0822,0x0200,0x0025,0xb8ee,0xffff,0x0000,0x0000,0x0100     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a066e  @ $1A066E  (402 B)  [ref. desde código]
+|  AnimScr_1a066e  @ $1A066E  (402 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a066e, "ax", @progbits
-        .global Data_1a066e
-Data_1a066e:
+        .section .text.AnimScr_1a066e, "ax", @progbits
+        .global AnimScr_1a066e
+AnimScr_1a066e:
         .dc.w   0x002a,0x0822,0x0201,0x0025,0xb88a,0xffff,0x0000,0x0000     | +00000
         .dc.w   0x0100,0x002a,0x0822,0x0201,0x0025,0xb8ee,0xffff,0x0000     | +00010
         .dc.w   0x0000,0x0100,0x002a,0x0822,0x0201,0x0025,0xb952,0xffff     | +00020
@@ -10383,29 +10383,29 @@ Data_1a066e:
         .dc.w   0x0202                                                      | +00190
 
 | ----------------------------------------------------------------------------
-|  Data_1a0800  @ $1A0800  (40 B)  [ref. desde código]
+|  AnimScr_1a0800  @ $1A0800  (40 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0800, "ax", @progbits
-        .global Data_1a0800
-Data_1a0800:
+        .section .text.AnimScr_1a0800, "ax", @progbits
+        .global AnimScr_1a0800
+AnimScr_1a0800:
         .dc.w   0x0025,0xbae2,0xffff,0x0000,0x0000,0x0100,0x002a,0x0822     | +00000
         .dc.w   0x0202,0x0025,0xbb46,0xffff,0x0000,0x0000,0x0100,0x002a     | +00010
         .dc.w   0x0822,0x0002,0x1b30,0x0200                                 | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_1a0828  @ $1A0828  (6 B)  [ref. desde código]
+|  AnimScr_1a0828  @ $1A0828  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0828, "ax", @progbits
-        .global Data_1a0828
-Data_1a0828:
+        .section .text.AnimScr_1a0828, "ax", @progbits
+        .global AnimScr_1a0828
+AnimScr_1a0828:
         .dc.w   0x0025,0xbba0,0xffff                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a082e  @ $1A082E  (128 B)  [ref. desde código]
+|  AnimScr_1a082e  @ $1A082E  (128 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a082e, "ax", @progbits
-        .global Data_1a082e
-Data_1a082e:
+        .section .text.AnimScr_1a082e, "ax", @progbits
+        .global AnimScr_1a082e
+AnimScr_1a082e:
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x0a66,0x0200,0x0025,0xbb3c     | +00000
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x0a66,0x0200,0x0025     | +00010
         .dc.w   0xbad8,0xffff,0x0000,0x0000,0x0100,0x002a,0x0a66,0x0200     | +00020
@@ -10416,41 +10416,41 @@ Data_1a082e:
         .dc.w   0x0100,0x002a,0x0a66,0x0200,0x0025,0xb8e4,0xffff,0x0000     | +00070
 
 | ----------------------------------------------------------------------------
-|  Data_1a08ae  @ $1A08AE  (64 B)  [ref. desde código]
+|  AnimScr_1a08ae  @ $1A08AE  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a08ae, "ax", @progbits
-        .global Data_1a08ae
-Data_1a08ae:
+        .section .text.AnimScr_1a08ae, "ax", @progbits
+        .global AnimScr_1a08ae
+AnimScr_1a08ae:
         .dc.w   0x0000,0x0100,0x002a,0x0a66,0x0201,0x0025,0xb880,0xffff     | +00000
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x0a66,0x0201,0x0025,0xb8e4     | +00010
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x0a66,0x0201,0x0025     | +00020
         .dc.w   0xb948,0xffff,0x0000,0x0000,0x0100,0x002a,0x0a66,0x0201     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1a08ee  @ $1A08EE  (23 B)  [ref. desde código]
+|  AnimScr_1a08ee  @ $1A08EE  (23 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a08ee, "ax", @progbits
-        .global Data_1a08ee
-Data_1a08ee:
+        .section .text.AnimScr_1a08ee, "ax", @progbits
+        .global AnimScr_1a08ee
+AnimScr_1a08ee:
         .dc.w   0x0025,0xb9ac,0xffff,0x0000,0x0000,0x0100,0x002a,0x0a66     | +00000
         .dc.w   0x0201,0x0025,0xba10                                        | +00010
         .dc.b   0xff                            | +00016
 
 | ----------------------------------------------------------------------------
-|  Data_1a0905  @ $1A0905  (7 B)  [ref. desde código]
+|  AnimScr_1a0905  @ $1A0905  (7 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0905, "ax", @progbits
-        .global Data_1a0905
-Data_1a0905:
+        .section .text.AnimScr_1a0905, "ax", @progbits
+        .global AnimScr_1a0905
+AnimScr_1a0905:
         .dc.b   0xff                            | +00000
         .dc.w   0x0000,0x0000,0x0100                                        | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1a090c  @ $1A090C  (756 B)  [ref. desde código]
+|  AnimScr_1a090c  @ $1A090C  (756 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a090c, "ax", @progbits
-        .global Data_1a090c
-Data_1a090c:
+        .section .text.AnimScr_1a090c, "ax", @progbits
+        .global AnimScr_1a090c
+AnimScr_1a090c:
         .dc.w   0x002a,0x0a66,0x0201,0x0025,0xba74,0xffff,0x0000,0x0000     | +00000
         .dc.w   0x0100,0x002a,0x0a66,0x0201,0x0025,0xbad8,0xffff,0x0000     | +00010
         .dc.w   0x0000,0x0100,0x002a,0x0a66,0x0201,0x0025,0xbb3c,0xffff     | +00020
@@ -10501,72 +10501,72 @@ Data_1a090c:
         .dc.w   0xffff,0x0000                                               | +002f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a0c00  @ $1A0C00  (41 B)  [ref. desde código]
+|  AnimScr_1a0c00  @ $1A0C00  (41 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0c00, "ax", @progbits
-        .global Data_1a0c00
-Data_1a0c00:
+        .section .text.AnimScr_1a0c00, "ax", @progbits
+        .global AnimScr_1a0c00
+AnimScr_1a0c00:
         .dc.w   0x0000,0x0100,0x002a,0x0caa,0x0202,0x0025,0xb8da,0xffff     | +00000
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x0caa,0x0202,0x0025,0xb876     | +00010
         .dc.w   0xffff,0x0000,0x0000,0x0100                                 | +00020
         .dc.b   0x00                            | +00028
 
 | ----------------------------------------------------------------------------
-|  Data_1a0c29  @ $1A0C29  (8 B)  [ref. desde código]
+|  AnimScr_1a0c29  @ $1A0C29  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0c29, "ax", @progbits
-        .global Data_1a0c29
-Data_1a0c29:
+        .section .text.AnimScr_1a0c29, "ax", @progbits
+        .global AnimScr_1a0c29
+AnimScr_1a0c29:
         .dc.b   0x2a                            | +00000
         .dc.w   0x0caa,0x0202,0x0025                                        | +00001
         .dc.b   0xb8                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_1a0c31  @ $1A0C31  (8 B)  [ref. desde código]
+|  AnimScr_1a0c31  @ $1A0C31  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0c31, "ax", @progbits
-        .global Data_1a0c31
-Data_1a0c31:
+        .section .text.AnimScr_1a0c31, "ax", @progbits
+        .global AnimScr_1a0c31
+AnimScr_1a0c31:
         .dc.b   0xda                            | +00000
         .dc.w   0xffff,0x0000,0x0000                                        | +00001
         .dc.b   0x01                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_1a0c39  @ $1A0C39  (8 B)  [ref. desde código]
+|  AnimScr_1a0c39  @ $1A0C39  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0c39, "ax", @progbits
-        .global Data_1a0c39
-Data_1a0c39:
+        .section .text.AnimScr_1a0c39, "ax", @progbits
+        .global AnimScr_1a0c39
+AnimScr_1a0c39:
         .dc.b   0x00                            | +00000
         .dc.w   0x002a,0x0caa,0x0202                                        | +00001
         .dc.b   0x00                            | +00007
 
 | ----------------------------------------------------------------------------
-|  Data_1a0c41  @ $1A0C41  (45 B)  [ref. desde código]
+|  AnimScr_1a0c41  @ $1A0C41  (45 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0c41, "ax", @progbits
-        .global Data_1a0c41
-Data_1a0c41:
+        .section .text.AnimScr_1a0c41, "ax", @progbits
+        .global AnimScr_1a0c41
+AnimScr_1a0c41:
         .dc.b   0x25                            | +00000
         .dc.w   0xb93e,0xffff,0x0000,0x0000,0x0100,0x002a,0x0caa,0x0202     | +00001
         .dc.w   0x0025,0xb9a2,0xffff,0x0000,0x0000,0x0100,0x002a,0x0caa     | +00011
         .dc.w   0x0202,0x0025,0xba06,0xffff,0x0000,0x0000                   | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_1a0c6e  @ $1A0C6E  (11 B)  [ref. desde código]
+|  AnimScr_1a0c6e  @ $1A0C6E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0c6e, "ax", @progbits
-        .global Data_1a0c6e
-Data_1a0c6e:
+        .section .text.AnimScr_1a0c6e, "ax", @progbits
+        .global AnimScr_1a0c6e
+AnimScr_1a0c6e:
         .dc.w   0x0100,0x002a,0x0caa,0x0202,0x0025                          | +00000
         .dc.b   0xba                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_1a0c79  @ $1A0C79  (652 B)  [ref. desde código]
+|  AnimScr_1a0c79  @ $1A0C79  (652 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0c79, "ax", @progbits
-        .global Data_1a0c79
-Data_1a0c79:
+        .section .text.AnimScr_1a0c79, "ax", @progbits
+        .global AnimScr_1a0c79
+AnimScr_1a0c79:
         .dc.b   0x6a                            | +00000
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x0caa,0x0202,0x0025     | +00001
         .dc.w   0xbace,0xffff,0x0000,0x0000,0x0100,0x002a,0x0caa,0x0202     | +00011
@@ -10612,11 +10612,11 @@ Data_1a0c79:
         .dc.b   0x02                            | +0028b
 
 | ----------------------------------------------------------------------------
-|  Data_1a0f05  @ $1A0F05  (251 B)  [ref. desde código]
+|  AnimScr_1a0f05  @ $1A0F05  (251 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a0f05, "ax", @progbits
-        .global Data_1a0f05
-Data_1a0f05:
+        .section .text.AnimScr_1a0f05, "ax", @progbits
+        .global AnimScr_1a0f05
+AnimScr_1a0f05:
         .dc.b   0x00                            | +00000
         .dc.w   0x0025,0xbb1e,0xffff,0x0000,0x0000,0x0100,0x002a,0x1132     | +00001
         .dc.w   0x0200,0x0025,0xbaba,0xffff,0x0000,0x0000,0x0100,0x002a     | +00011
@@ -10636,29 +10636,29 @@ Data_1a0f05:
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x1132                          | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_1a1000  @ $1A1000  (26 B)  [ref. desde código]
+|  AnimScr_1a1000  @ $1A1000  (26 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1000, "ax", @progbits
-        .global Data_1a1000
-Data_1a1000:
+        .section .text.AnimScr_1a1000, "ax", @progbits
+        .global AnimScr_1a1000
+AnimScr_1a1000:
         .dc.w   0x0201,0x0025,0xbb1e,0xffff,0x0000,0x0000,0x0100,0x002a     | +00000
         .dc.w   0x1132,0x0203,0x0025,0xbb82,0xffff                          | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a101a  @ $1A101A  (15 B)  [ref. desde código]
+|  AnimScr_1a101a  @ $1A101A  (15 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a101a, "ax", @progbits
-        .global Data_1a101a
-Data_1a101a:
+        .section .text.AnimScr_1a101a, "ax", @progbits
+        .global AnimScr_1a101a
+AnimScr_1a101a:
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x1132,0x0203,0x0025            | +00000
         .dc.b   0xbb                            | +0000e
 
 | ----------------------------------------------------------------------------
-|  Data_1a1029  @ $1A1029  (482 B)  [ref. desde código]
+|  AnimScr_1a1029  @ $1A1029  (482 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1029, "ax", @progbits
-        .global Data_1a1029
-Data_1a1029:
+        .section .text.AnimScr_1a1029, "ax", @progbits
+        .global AnimScr_1a1029
+AnimScr_1a1029:
         .dc.b   0x1e                            | +00000
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x1132,0x0203,0x0025     | +00001
         .dc.w   0xbaba,0xffff,0x0000,0x0000,0x0100,0x002a,0x1132,0x0203     | +00011
@@ -10704,11 +10704,11 @@ Data_1a120b:
         .dc.w   0x0000                                                      | +00021
 
 | ----------------------------------------------------------------------------
-|  Data_1a122e  @ $1A122E  (14 B)  [ref. desde código]
+|  AnimScr_1a122e  @ $1A122E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a122e, "ax", @progbits
-        .global Data_1a122e
-Data_1a122e:
+        .section .text.AnimScr_1a122e, "ax", @progbits
+        .global AnimScr_1a122e
+AnimScr_1a122e:
         .dc.w   0x0204,0x0022,0x7968,0xffff,0x0000,0x0000,0x0100            | +00000
 
 | ----------------------------------------------------------------------------
@@ -10756,28 +10756,28 @@ Data_1a130d:
         .dc.w   0x140c,0x1900,0x0028,0xa238,0x0000,0x0000,0x0204            | +000e1
 
 | ----------------------------------------------------------------------------
-|  Data_1a13fc  @ $1A13FC  (4 B)  [ref. desde código]
+|  AnimScr_1a13fc  @ $1A13FC  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a13fc, "ax", @progbits
-        .global Data_1a13fc
-Data_1a13fc:
+        .section .text.AnimScr_1a13fc, "ax", @progbits
+        .global AnimScr_1a13fc
+AnimScr_1a13fc:
         .dc.w   0x0022,0x8838                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a1400  @ $1A1400  (11 B)  [ref. desde código]
+|  AnimScr_1a1400  @ $1A1400  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1400, "ax", @progbits
-        .global Data_1a1400
-Data_1a1400:
+        .section .text.AnimScr_1a1400, "ax", @progbits
+        .global AnimScr_1a1400
+AnimScr_1a1400:
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a                          | +00000
         .dc.b   0x14                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_1a140b  @ $1A140B  (1 B)  [ref. desde código]
+|  AnimScr_1a140b  @ $1A140B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a140b, "ax", @progbits
-        .global Data_1a140b
-Data_1a140b:
+        .section .text.AnimScr_1a140b, "ax", @progbits
+        .global AnimScr_1a140b
+AnimScr_1a140b:
         .dc.b   0x0c                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -10812,11 +10812,11 @@ Data_1a143c:
         .dc.b   0x01                            | +000ce
 
 | ----------------------------------------------------------------------------
-|  Data_1a150b  @ $1A150B  (5 B)  [ref. desde código]
+|  AnimScr_1a150b  @ $1A150B  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a150b, "ax", @progbits
-        .global Data_1a150b
-Data_1a150b:
+        .section .text.AnimScr_1a150b, "ax", @progbits
+        .global AnimScr_1a150b
+AnimScr_1a150b:
         .dc.b   0x00                            | +00000
         .dc.w   0x002a,0x152c                                               | +00001
 
@@ -10878,11 +10878,11 @@ Data_1a1639:
         .dc.b   0x00                            | +000d5
 
 | ----------------------------------------------------------------------------
-|  Data_1a170f  @ $1A170F  (3 B)  [ref. desde código]
+|  AnimScr_1a170f  @ $1A170F  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a170f, "ax", @progbits
-        .global Data_1a170f
-Data_1a170f:
+        .section .text.AnimScr_1a170f, "ax", @progbits
+        .global AnimScr_1a170f
+AnimScr_1a170f:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000                                                      | +00001
 
@@ -10910,28 +10910,28 @@ Data_1a1712:
         .dc.w   0x0028,0x97d0,0x0000,0x0000,0x0204                          | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a180c  @ $1A180C  (4 B)  [ref. desde código]
+|  AnimScr_1a180c  @ $1A180C  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a180c, "ax", @progbits
-        .global Data_1a180c
-Data_1a180c:
+        .section .text.AnimScr_1a180c, "ax", @progbits
+        .global AnimScr_1a180c
+AnimScr_1a180c:
         .dc.w   0x0022,0x0dc0                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a1810  @ $1A1810  (3 B)  [ref. desde código]
+|  AnimScr_1a1810  @ $1A1810  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1810, "ax", @progbits
-        .global Data_1a1810
-Data_1a1810:
+        .section .text.AnimScr_1a1810, "ax", @progbits
+        .global AnimScr_1a1810
+AnimScr_1a1810:
         .dc.w   0xffff                                                      | +00000
         .dc.b   0x00                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_1a1813  @ $1A1813  (1 B)  [ref. desde código]
+|  AnimScr_1a1813  @ $1A1813  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1813, "ax", @progbits
-        .global Data_1a1813
-Data_1a1813:
+        .section .text.AnimScr_1a1813, "ax", @progbits
+        .global AnimScr_1a1813
+AnimScr_1a1813:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -10958,11 +10958,11 @@ Data_1a1814:
         .dc.w   0xa250,0x0000,0x0000,0x0204,0x0022,0x88a8,0xffff            | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a1912  @ $1A1912  (3 B)  [ref. desde código]
+|  AnimScr_1a1912  @ $1A1912  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1912, "ax", @progbits
-        .global Data_1a1912
-Data_1a1912:
+        .section .text.AnimScr_1a1912, "ax", @progbits
+        .global AnimScr_1a1912
+AnimScr_1a1912:
         .dc.w   0x0000                                                      | +00000
         .dc.b   0x00                            | +00002
 
@@ -11033,19 +11033,19 @@ Data_1a1a2e:
         .dc.b   0xff                            | +000ea
 
 | ----------------------------------------------------------------------------
-|  Data_1a1b19  @ $1A1B19  (1 B)  [ref. desde código]
+|  AnimScr_1a1b19  @ $1A1B19  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1b19, "ax", @progbits
-        .global Data_1a1b19
-Data_1a1b19:
+        .section .text.AnimScr_1a1b19, "ax", @progbits
+        .global AnimScr_1a1b19
+AnimScr_1a1b19:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a1b1a  @ $1A1B1A  (1 B)  [ref. desde código]
+|  AnimScr_1a1b1a  @ $1A1B1A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1b1a, "ax", @progbits
-        .global Data_1a1b1a
-Data_1a1b1a:
+        .section .text.AnimScr_1a1b1a, "ax", @progbits
+        .global AnimScr_1a1b1a
+AnimScr_1a1b1a:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -11103,11 +11103,11 @@ Data_1a1c2e:
         .dc.w   0x0204,0x0022,0x7968,0xffff,0x0000,0x0000,0x0100            | +00140
 
 | ----------------------------------------------------------------------------
-|  Data_1a1d7c  @ $1A1D7C  (654 B)  [ref. desde código]
+|  AnimScr_1a1d7c  @ $1A1D7C  (654 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1d7c, "ax", @progbits
-        .global Data_1a1d7c
-Data_1a1d7c:
+        .section .text.AnimScr_1a1d7c, "ax", @progbits
+        .global AnimScr_1a1d7c
+AnimScr_1a1d7c:
         .dc.w   0x002a,0x1d9c,0x1900,0x0028,0xa28c,0x0000,0x0000,0x0204     | +00000
         .dc.w   0x0022,0x89b8,0xffff,0x0000,0x0000,0x0100,0x002a,0x1d9c     | +00010
         .dc.w   0x0001,0x1c94,0x1900,0x0028,0x974c,0x0000,0x0000,0x0204     | +00020
@@ -11151,20 +11151,20 @@ Data_1a1d7c:
         .dc.w   0x0001,0x1700,0x020c,0x0022,0x0fa4,0xffff,0x1800            | +00280
 
 | ----------------------------------------------------------------------------
-|  Data_1a200a  @ $1A200A  (13 B)  [ref. desde código]
+|  AnimScr_1a200a  @ $1A200A  (13 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a200a, "ax", @progbits
-        .global Data_1a200a
-Data_1a200a:
+        .section .text.AnimScr_1a200a, "ax", @progbits
+        .global AnimScr_1a200a
+AnimScr_1a200a:
         .dc.w   0x021c,0x0022,0x1154,0xffff,0x1900,0x0028                   | +00000
         .dc.b   0x98                            | +0000c
 
 | ----------------------------------------------------------------------------
-|  Data_1a2017  @ $1A2017  (51 B)  [ref. desde código]
+|  AnimScr_1a2017  @ $1A2017  (51 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a2017, "ax", @progbits
-        .global Data_1a2017
-Data_1a2017:
+        .section .text.AnimScr_1a2017, "ax", @progbits
+        .global AnimScr_1a2017
+AnimScr_1a2017:
         .dc.b   0x54                            | +00000
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0x0fa4,0xffff,0x1900     | +00001
         .dc.w   0x0028,0x9848,0x0000,0x0000,0x0001,0x020c,0x0022,0x0f7a     | +00011
@@ -11172,28 +11172,28 @@ Data_1a2017:
         .dc.w   0x020c                                                      | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_1a204a  @ $1A204A  (30 B)  [ref. desde código]
+|  AnimScr_1a204a  @ $1A204A  (30 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a204a, "ax", @progbits
-        .global Data_1a204a
-Data_1a204a:
+        .section .text.AnimScr_1a204a, "ax", @progbits
+        .global AnimScr_1a204a
+AnimScr_1a204a:
         .dc.w   0x0022,0x0f7a,0xffff,0x1800,0x021c,0x0022,0x112a,0xffff     | +00000
         .dc.w   0x1900,0x0028,0x983c,0x0000,0x0000,0x0001,0x020c            | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a2068  @ $1A2068  (6 B)  [ref. desde código]
+|  AnimScr_1a2068  @ $1A2068  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a2068, "ax", @progbits
-        .global Data_1a2068
-Data_1a2068:
+        .section .text.AnimScr_1a2068, "ax", @progbits
+        .global AnimScr_1a2068
+AnimScr_1a2068:
         .dc.w   0x0022,0x0f50,0xffff                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a206e  @ $1A206E  (474 B)  [ref. desde código]
+|  AnimScr_1a206e  @ $1A206E  (474 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a206e, "ax", @progbits
-        .global Data_1a206e
-Data_1a206e:
+        .section .text.AnimScr_1a206e, "ax", @progbits
+        .global AnimScr_1a206e
+AnimScr_1a206e:
         .dc.w   0x1900,0x0028,0x983c,0x0000,0x0000,0x0001,0x1700,0x020c     | +00000
         .dc.w   0x0022,0x0f50,0xffff,0x1800,0x021c,0x0022,0x1100,0xffff     | +00010
         .dc.w   0x1900,0x0028,0x9830,0x0000,0x0000,0x0001,0x020c,0x0022     | +00020
@@ -11226,36 +11226,36 @@ Data_1a206e:
         .dc.w   0x1800,0x021c,0x0022,0x10d2,0xffff                          | +001d0
 
 | ----------------------------------------------------------------------------
-|  Data_1a2248  @ $1A2248  (32 B)  [ref. desde código]
+|  AnimScr_1a2248  @ $1A2248  (32 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a2248, "ax", @progbits
-        .global Data_1a2248
-Data_1a2248:
+        .section .text.AnimScr_1a2248, "ax", @progbits
+        .global AnimScr_1a2248
+AnimScr_1a2248:
         .dc.w   0x1900,0x0028,0x983c,0x0000,0x0000,0x0001,0x020c,0x0022     | +00000
         .dc.w   0x0f50,0xffff,0x1900,0x0028,0x983c,0x0000,0x0000,0x0001     | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a2268  @ $1A2268  (6 B)  [ref. desde código]
+|  AnimScr_1a2268  @ $1A2268  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a2268, "ax", @progbits
-        .global Data_1a2268
-Data_1a2268:
+        .section .text.AnimScr_1a2268, "ax", @progbits
+        .global AnimScr_1a2268
+AnimScr_1a2268:
         .dc.w   0x1700,0x020c,0x0022                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a226e  @ $1A226E  (14 B)  [ref. desde código]
+|  AnimScr_1a226e  @ $1A226E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a226e, "ax", @progbits
-        .global Data_1a226e
-Data_1a226e:
+        .section .text.AnimScr_1a226e, "ax", @progbits
+        .global AnimScr_1a226e
+AnimScr_1a226e:
         .dc.w   0x0f50,0xffff,0x1800,0x021c,0x0022,0x1100,0xffff            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a227c  @ $1A227C  (2,573 B)  [ref. desde código]
+|  AnimScr_1a227c  @ $1A227C  (2,573 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a227c, "ax", @progbits
-        .global Data_1a227c
-Data_1a227c:
+        .section .text.AnimScr_1a227c, "ax", @progbits
+        .global AnimScr_1a227c
+AnimScr_1a227c:
         .dc.w   0x1900,0x0028,0x983c,0x0000,0x0000,0x0001,0x020c,0x0022     | +00000
         .dc.w   0x0f50,0xffff,0x1900,0x0028,0x9848,0x0000,0x0000,0x0001     | +00010
         .dc.w   0x020c,0x0022,0x0f7a,0xffff,0x1900,0x0028,0x9848,0x0000     | +00020
@@ -11429,11 +11429,11 @@ Data_1a227c:
         .dc.b   0x19                            | +00a0c
 
 | ----------------------------------------------------------------------------
-|  Data_1a2c89  @ $1A2C89  (243 B)  [ref. desde código]
+|  AnimScr_1a2c89  @ $1A2C89  (243 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a2c89, "ax", @progbits
-        .global Data_1a2c89
-Data_1a2c89:
+        .section .text.AnimScr_1a2c89, "ax", @progbits
+        .global AnimScr_1a2c89
+AnimScr_1a2c89:
         .dc.b   0x00                            | +00000
         .dc.w   0x0028,0x96d4,0x0000,0x0000,0x0001,0x020c,0x0022,0x0a18     | +00001
         .dc.w   0xffff,0x1900,0x0028,0x96e0,0x0000,0x0000,0x0001,0x020c     | +00011
@@ -11453,11 +11453,11 @@ Data_1a2c89:
         .dc.w   0x0ad0                                                      | +000f1
 
 | ----------------------------------------------------------------------------
-|  Data_1a2d7c  @ $1A2D7C  (397 B)  [ref. desde código]
+|  AnimScr_1a2d7c  @ $1A2D7C  (397 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a2d7c, "ax", @progbits
-        .global Data_1a2d7c
-Data_1a2d7c:
+        .section .text.AnimScr_1a2d7c, "ax", @progbits
+        .global AnimScr_1a2d7c
+AnimScr_1a2d7c:
         .dc.w   0xffff,0x1900,0x0028,0x96f8,0x0000,0x0000,0x0001,0x020c     | +00000
         .dc.w   0x0022,0x0aa2,0xffff,0x1900,0x0028,0x96ec,0x0000,0x0000     | +00010
         .dc.w   0x0001,0x020c,0x0022,0x0a74,0xffff,0x1900,0x0028,0x96e0     | +00020
@@ -11486,11 +11486,11 @@ Data_1a2d7c:
         .dc.b   0x00                            | +0018c
 
 | ----------------------------------------------------------------------------
-|  Data_1a2f09  @ $1A2F09  (287 B)  [ref. desde código]
+|  AnimScr_1a2f09  @ $1A2F09  (287 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a2f09, "ax", @progbits
-        .global Data_1a2f09
-Data_1a2f09:
+        .section .text.AnimScr_1a2f09, "ax", @progbits
+        .global AnimScr_1a2f09
+AnimScr_1a2f09:
         .dc.b   0x00                            | +00000
         .dc.w   0x0001,0x020c,0x0022,0x0b88,0xffff,0x0100,0x002a,0x2ec4     | +00001
         .dc.w   0x1900,0x0028,0x9644,0x0000,0x0000,0x0001,0x020c,0x0022     | +00011
@@ -11512,27 +11512,27 @@ Data_1a2f09:
         .dc.w   0x0c34,0xffff,0x1900,0x0028,0x9758,0x0000,0x0000            | +00111
 
 | ----------------------------------------------------------------------------
-|  Data_1a3028  @ $1A3028  (6 B)  [ref. desde código]
+|  AnimScr_1a3028  @ $1A3028  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a3028, "ax", @progbits
-        .global Data_1a3028
-Data_1a3028:
+        .section .text.AnimScr_1a3028, "ax", @progbits
+        .global AnimScr_1a3028
+AnimScr_1a3028:
         .dc.w   0x0002,0x020c,0x0022                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a302e  @ $1A302E  (14 B)  [ref. desde código]
+|  AnimScr_1a302e  @ $1A302E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a302e, "ax", @progbits
-        .global Data_1a302e
-Data_1a302e:
+        .section .text.AnimScr_1a302e, "ax", @progbits
+        .global AnimScr_1a302e
+AnimScr_1a302e:
         .dc.w   0x0c06,0xffff,0x1900,0x0028,0x974c,0x0000,0x0000            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a303c  @ $1A303C  (301 B)  [ref. desde código]
+|  AnimScr_1a303c  @ $1A303C  (301 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a303c, "ax", @progbits
-        .global Data_1a303c
-Data_1a303c:
+        .section .text.AnimScr_1a303c, "ax", @progbits
+        .global AnimScr_1a303c
+AnimScr_1a303c:
         .dc.w   0x0002,0x020c,0x0022,0x0bde,0xffff,0x1600,0x1900,0x0028     | +00000
         .dc.w   0x9644,0x0000,0x0000,0x0001,0x020c,0x0022,0x0800,0xffff     | +00010
         .dc.w   0x1900,0x0028,0x974c,0x0000,0x0000,0x0001,0x020c,0x0022     | +00020
@@ -11555,21 +11555,21 @@ Data_1a303c:
         .dc.b   0x00                            | +0012c
 
 | ----------------------------------------------------------------------------
-|  Data_1a3169  @ $1A3169  (19 B)  [ref. desde código]
+|  AnimScr_1a3169  @ $1A3169  (19 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a3169, "ax", @progbits
-        .global Data_1a3169
-Data_1a3169:
+        .section .text.AnimScr_1a3169, "ax", @progbits
+        .global AnimScr_1a3169
+AnimScr_1a3169:
         .dc.b   0x00                            | +00000
         .dc.w   0x0002,0x020c,0x0022,0x0c8a,0xffff,0x1600,0x1900,0x0028     | +00001
         .dc.w   0x974c                                                      | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_1a317c  @ $1A317C  (178 B)  [ref. desde código]
+|  AnimScr_1a317c  @ $1A317C  (178 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a317c, "ax", @progbits
-        .global Data_1a317c
-Data_1a317c:
+        .section .text.AnimScr_1a317c, "ax", @progbits
+        .global AnimScr_1a317c
+AnimScr_1a317c:
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0x0bde,0xffff,0x1900     | +00000
         .dc.w   0x0028,0x97ac,0x0000,0x0000,0x0001,0x020c,0x0022,0x0d3a     | +00010
         .dc.w   0xffff,0x1900,0x0028,0x9758,0x0000,0x0000,0x0001,0x020c     | +00020
@@ -11584,19 +11584,19 @@ Data_1a317c:
         .dc.w   0x0028                                                      | +000b0
 
 | ----------------------------------------------------------------------------
-|  Data_1a322e  @ $1A322E  (14 B)  [ref. desde código]
+|  AnimScr_1a322e  @ $1A322E  (14 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a322e, "ax", @progbits
-        .global Data_1a322e
-Data_1a322e:
+        .section .text.AnimScr_1a322e, "ax", @progbits
+        .global AnimScr_1a322e
+AnimScr_1a322e:
         .dc.w   0x9770,0x0000,0x0000,0x0001,0x020c,0x0022,0x0c5c            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a323c  @ $1A323C  (512 B)  [ref. desde código]
+|  AnimScr_1a323c  @ $1A323C  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a323c, "ax", @progbits
-        .global Data_1a323c
-Data_1a323c:
+        .section .text.AnimScr_1a323c, "ax", @progbits
+        .global AnimScr_1a323c
+AnimScr_1a323c:
         .dc.w   0xffff,0x1900,0x0028,0x97d0,0x0000,0x0000,0x0001,0x020c     | +00000
         .dc.w   0x0022,0x0dc0,0xffff,0x1900,0x0028,0x9770,0x0000,0x0000     | +00010
         .dc.w   0x0001,0x020c,0x0022,0x0c5c,0xffff,0x1900,0x0028,0x97d0     | +00020
@@ -11631,11 +11631,11 @@ Data_1a323c:
         .dc.w   0x020c,0x0022,0x0d0a,0xffff,0x1900,0x0028,0x9800,0x0000     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a343c  @ $1A343C  (964 B)  [ref. desde código]
+|  AnimScr_1a343c  @ $1A343C  (964 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a343c, "ax", @progbits
-        .global Data_1a343c
-Data_1a343c:
+        .section .text.AnimScr_1a343c, "ax", @progbits
+        .global AnimScr_1a343c
+AnimScr_1a343c:
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x0e70,0xffff,0x1900,0x0028     | +00000
         .dc.w   0x97a0,0x0000,0x0000,0x0001,0x020c,0x0022,0x0d0a,0xffff     | +00010
         .dc.w   0x1900,0x0028,0x9794,0x0000,0x0000,0x0001,0x020c,0x0022     | +00020
@@ -11700,11 +11700,11 @@ Data_1a343c:
         .dc.w   0x97a0,0x0000,0x0000,0x0001                                 | +003bc
 
 | ----------------------------------------------------------------------------
-|  Data_1a3800  @ $1A3800  (552 B)  [ref. desde código]
+|  AnimScr_1a3800  @ $1A3800  (552 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a3800, "ax", @progbits
-        .global Data_1a3800
-Data_1a3800:
+        .section .text.AnimScr_1a3800, "ax", @progbits
+        .global AnimScr_1a3800
+AnimScr_1a3800:
         .dc.w   0x020c,0x0022,0x0d0a,0xffff,0x1900,0x0028,0x9794,0x0000     | +00000
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x0cde,0xffff,0x1900,0x0028     | +00010
         .dc.w   0x97f4,0x0000,0x0000,0x0001,0x020c,0x0022,0x0e44,0xffff     | +00020
@@ -11750,11 +11750,11 @@ Data_1a3800:
         .dc.w   0x1900,0x0028,0x9968,0x0000,0x0000,0x0001,0x1700,0x020c     | +00218
 
 | ----------------------------------------------------------------------------
-|  Data_1a3a28  @ $1A3A28  (852 B)  [ref. desde código]
+|  AnimScr_1a3a28  @ $1A3A28  (852 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a3a28, "ax", @progbits
-        .global Data_1a3a28
-Data_1a3a28:
+        .section .text.AnimScr_1a3a28, "ax", @progbits
+        .global AnimScr_1a3a28
+AnimScr_1a3a28:
         .dc.w   0x0022,0x138e,0xffff,0x1800,0x021c,0x0022,0x23fa,0xffff     | +00000
         .dc.w   0x1900,0x0028,0x9968,0x0000,0x0000,0x0001,0x020c,0x0022     | +00010
         .dc.w   0x138e,0xffff,0x1900,0x0028,0x995c,0x0000,0x0000,0x0001     | +00020
@@ -11814,11 +11814,11 @@ Data_1a3a28:
         .dc.w   0x0028,0x99b0,0x0000,0x0000,0x0001,0x020c,0x0022,0x14aa     | +00344
 
 | ----------------------------------------------------------------------------
-|  Data_1a3d7c  @ $1A3D7C  (172 B)  [ref. desde código]
+|  AnimScr_1a3d7c  @ $1A3D7C  (172 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a3d7c, "ax", @progbits
-        .global Data_1a3d7c
-Data_1a3d7c:
+        .section .text.AnimScr_1a3d7c, "ax", @progbits
+        .global AnimScr_1a3d7c
+AnimScr_1a3d7c:
         .dc.w   0xffff,0x1900,0x0028,0x99bc,0x0000,0x0000,0x0001,0x020c     | +00000
         .dc.w   0x0022,0x14d8,0xffff,0x1900,0x0028,0x99c8,0x0000,0x0000     | +00010
         .dc.w   0x0001,0x020c,0x0022,0x1506,0xffff,0x1900,0x0028,0x99d4     | +00020
@@ -11832,11 +11832,11 @@ Data_1a3d7c:
         .dc.w   0xffff,0x1900,0x0028,0x9a1c,0x0000,0x0000                   | +000a0
 
 | ----------------------------------------------------------------------------
-|  Data_1a3e28  @ $1A3E28  (976 B)  [ref. desde código]
+|  AnimScr_1a3e28  @ $1A3E28  (976 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a3e28, "ax", @progbits
-        .global Data_1a3e28
-Data_1a3e28:
+        .section .text.AnimScr_1a3e28, "ax", @progbits
+        .global AnimScr_1a3e28
+AnimScr_1a3e28:
         .dc.w   0x0001,0x020c,0x0022,0x1660,0xffff,0x1900,0x0028,0x9a28     | +00000
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0x168e,0xffff,0x1900     | +00010
         .dc.w   0x0028,0x9a34,0x0000,0x0000,0x0001,0x020c,0x0022,0x16bc     | +00020
@@ -11900,65 +11900,65 @@ Data_1a3e28:
         .dc.w   0x0001,0x020c,0x0022,0x1976,0xffff,0x1900,0x0028,0x9af4     | +003c0
 
 | ----------------------------------------------------------------------------
-|  Data_1a41f8  @ $1A41F8  (1 B)  [ref. desde código]
+|  AnimScr_1a41f8  @ $1A41F8  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a41f8, "ax", @progbits
-        .global Data_1a41f8
-Data_1a41f8:
+        .section .text.AnimScr_1a41f8, "ax", @progbits
+        .global AnimScr_1a41f8
+AnimScr_1a41f8:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a41f9  @ $1A41F9  (1 B)  [ref. desde código]
+|  AnimScr_1a41f9  @ $1A41F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a41f9, "ax", @progbits
-        .global Data_1a41f9
-Data_1a41f9:
+        .section .text.AnimScr_1a41f9, "ax", @progbits
+        .global AnimScr_1a41f9
+AnimScr_1a41f9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a41fa  @ $1A41FA  (46 B)  [ref. desde código]
+|  AnimScr_1a41fa  @ $1A41FA  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a41fa, "ax", @progbits
-        .global Data_1a41fa
-Data_1a41fa:
+        .section .text.AnimScr_1a41fa, "ax", @progbits
+        .global AnimScr_1a41fa
+AnimScr_1a41fa:
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x19ae,0xffff,0x1900,0x0028     | +00000
         .dc.w   0x9af4,0x0000,0x0000,0x0003,0x020c,0x0022,0x19ae,0xffff     | +00010
         .dc.w   0x1900,0x0028,0x9ae8,0x0000,0x0000,0x0002,0x020c            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_1a4228  @ $1A4228  (6 B)  [ref. desde código]
+|  AnimScr_1a4228  @ $1A4228  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4228, "ax", @progbits
-        .global Data_1a4228
-Data_1a4228:
+        .section .text.AnimScr_1a4228, "ax", @progbits
+        .global AnimScr_1a4228
+AnimScr_1a4228:
         .dc.w   0x0022,0x1976,0xffff                                        | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a422e  @ $1A422E  (64 B)  [ref. desde código]
+|  AnimScr_1a422e  @ $1A422E  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a422e, "ax", @progbits
-        .global Data_1a422e
-Data_1a422e:
+        .section .text.AnimScr_1a422e, "ax", @progbits
+        .global AnimScr_1a422e
+AnimScr_1a422e:
         .dc.w   0x1900,0x0028,0x9adc,0x0000,0x0000,0x0001,0x020c,0x0022     | +00000
         .dc.w   0x1948,0xffff,0x1900,0x0028,0x9ad0,0x0000,0x0000,0x0001     | +00010
         .dc.w   0x020c,0x0022,0x191a,0xffff,0x1900,0x0028,0x9968,0x0000     | +00020
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x138e,0xffff,0x1900,0x0028     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1a426e  @ $1A426E  (18 B)  [ref. desde código]
+|  AnimScr_1a426e  @ $1A426E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a426e, "ax", @progbits
-        .global Data_1a426e
-Data_1a426e:
+        .section .text.AnimScr_1a426e, "ax", @progbits
+        .global AnimScr_1a426e
+AnimScr_1a426e:
         .dc.w   0x9b00,0x0000,0x0000,0x0001,0x020c,0x0022,0x19dc,0xffff     | +00000
         .dc.w   0x1900                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a4280  @ $1A4280  (57 B)  [ref. desde código]
+|  AnimScr_1a4280  @ $1A4280  (57 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4280, "ax", @progbits
-        .global Data_1a4280
-Data_1a4280:
+        .section .text.AnimScr_1a4280, "ax", @progbits
+        .global AnimScr_1a4280
+AnimScr_1a4280:
         .dc.w   0x0028,0x9b0c,0x0000,0x0000,0x0001,0x020c,0x0022,0x1a08     | +00000
         .dc.w   0xffff,0x1900,0x0028,0x9b18,0x0000,0x0000,0x0002,0x020c     | +00010
         .dc.w   0x0022,0x1a34,0xffff,0x1900,0x0028,0x9b0c,0x0000,0x0000     | +00020
@@ -11966,11 +11966,11 @@ Data_1a4280:
         .dc.b   0xff                            | +00038
 
 | ----------------------------------------------------------------------------
-|  Data_1a42b9  @ $1A42B9  (320 B)  [ref. desde código]
+|  AnimScr_1a42b9  @ $1A42B9  (320 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a42b9, "ax", @progbits
-        .global Data_1a42b9
-Data_1a42b9:
+        .section .text.AnimScr_1a42b9, "ax", @progbits
+        .global AnimScr_1a42b9
+AnimScr_1a42b9:
         .dc.b   0xff                            | +00000
         .dc.w   0x1900,0x0028,0x9b00,0x0000,0x0000,0x0002,0x020c,0x0022     | +00001
         .dc.w   0x19dc,0xffff,0x1600,0x1900,0x0028,0x9ad0,0x0000,0x0000     | +00011
@@ -11995,19 +11995,19 @@ Data_1a42b9:
         .dc.b   0x19                            | +0013f
 
 | ----------------------------------------------------------------------------
-|  Data_1a43f9  @ $1A43F9  (1 B)  [ref. desde código]
+|  AnimScr_1a43f9  @ $1A43F9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a43f9, "ax", @progbits
-        .global Data_1a43f9
-Data_1a43f9:
+        .section .text.AnimScr_1a43f9, "ax", @progbits
+        .global AnimScr_1a43f9
+AnimScr_1a43f9:
         .dc.b   0x76                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a43fa  @ $1A43FA  (511 B)  [ref. desde código]
+|  AnimScr_1a43fa  @ $1A43FA  (511 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a43fa, "ax", @progbits
-        .global Data_1a43fa
-Data_1a43fa:
+        .section .text.AnimScr_1a43fa, "ax", @progbits
+        .global AnimScr_1a43fa
+AnimScr_1a43fa:
         .dc.w   0xffff,0x1900,0x0028,0x9b48,0x0000,0x0000,0x0001,0x020c     | +00000
         .dc.w   0x0022,0x1aee,0xffff,0x1900,0x0028,0x9ae8,0x0000,0x0000     | +00010
         .dc.w   0x0001,0x020c,0x0022,0x1976,0xffff,0x1900,0x0028,0x9b48     | +00020
@@ -12043,11 +12043,11 @@ Data_1a43fa:
         .dc.b   0x00                            | +001fe
 
 | ----------------------------------------------------------------------------
-|  Data_1a45f9  @ $1A45F9  (589 B)  [ref. desde código]
+|  AnimScr_1a45f9  @ $1A45F9  (589 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a45f9, "ax", @progbits
-        .global Data_1a45f9
-Data_1a45f9:
+        .section .text.AnimScr_1a45f9, "ax", @progbits
+        .global AnimScr_1a45f9
+AnimScr_1a45f9:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x1ba2,0xffff,0x1900,0x0028     | +00001
         .dc.w   0x9b6c,0x0000,0x0000,0x0001,0x020c,0x0022,0x1b76,0xffff     | +00011
@@ -12088,11 +12088,11 @@ Data_1a45f9:
         .dc.w   0x002a,0x466c,0x1900,0x0028,0x9b00,0x0000                   | +00241
 
 | ----------------------------------------------------------------------------
-|  Data_1a4846  @ $1A4846  (97 B)  [ref. desde código]
+|  AnimScr_1a4846  @ $1A4846  (97 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4846, "ax", @progbits
-        .global Data_1a4846
-Data_1a4846:
+        .section .text.AnimScr_1a4846, "ax", @progbits
+        .global AnimScr_1a4846
+AnimScr_1a4846:
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x19dc,0xffff,0x1900,0x0028     | +00000
         .dc.w   0x9b60,0x0000,0x0000,0x0001,0x020c,0x0022,0x1b4a,0xffff     | +00010
         .dc.w   0x1900,0x0028,0x9b0c,0x0000,0x0000,0x0001,0x020c,0x0022     | +00020
@@ -12102,11 +12102,11 @@ Data_1a4846:
         .dc.b   0x9b                            | +00060
 
 | ----------------------------------------------------------------------------
-|  Data_1a48a7  @ $1A48A7  (345 B)  [ref. desde código]
+|  AnimScr_1a48a7  @ $1A48A7  (345 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a48a7, "ax", @progbits
-        .global Data_1a48a7
-Data_1a48a7:
+        .section .text.AnimScr_1a48a7, "ax", @progbits
+        .global AnimScr_1a48a7
+AnimScr_1a48a7:
         .dc.b   0x18                            | +00000
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0x1a34,0xffff,0x1900     | +00001
         .dc.w   0x0028,0x9b78,0x0000,0x0000,0x0001,0x020c,0x0022,0x1ba2     | +00011
@@ -12132,30 +12132,30 @@ Data_1a48a7:
         .dc.w   0x0028,0x9b00,0x0000,0x0000                                 | +00151
 
 | ----------------------------------------------------------------------------
-|  Data_1a4a00  @ $1A4A00  (46 B)  [ref. desde código]
+|  AnimScr_1a4a00  @ $1A4A00  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4a00, "ax", @progbits
-        .global Data_1a4a00
-Data_1a4a00:
+        .section .text.AnimScr_1a4a00, "ax", @progbits
+        .global AnimScr_1a4a00
+AnimScr_1a4a00:
         .dc.w   0x0001,0x020c,0x0022,0x19dc,0xffff,0x0100,0x002a,0x483e     | +00000
         .dc.w   0x1900,0x0028,0x9c20,0x0000,0x0000,0x0001,0x020c,0x0022     | +00010
         .dc.w   0x1e34,0xffff,0x1900,0x0028,0x9c2c,0x0000,0x0000            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_1a4a2e  @ $1A4A2E  (11 B)  [ref. desde código]
+|  AnimScr_1a4a2e  @ $1A4A2E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4a2e, "ax", @progbits
-        .global Data_1a4a2e
-Data_1a4a2e:
+        .section .text.AnimScr_1a4a2e, "ax", @progbits
+        .global AnimScr_1a4a2e
+AnimScr_1a4a2e:
         .dc.w   0x0001,0x020c,0x0022,0x1e6e,0xffff                          | +00000
         .dc.b   0x19                            | +0000a
 
 | ----------------------------------------------------------------------------
-|  Data_1a4a39  @ $1A4A39  (53 B)  [ref. desde código]
+|  AnimScr_1a4a39  @ $1A4A39  (53 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4a39, "ax", @progbits
-        .global Data_1a4a39
-Data_1a4a39:
+        .section .text.AnimScr_1a4a39, "ax", @progbits
+        .global AnimScr_1a4a39
+AnimScr_1a4a39:
         .dc.b   0x00                            | +00000
         .dc.w   0x0028,0x9c38,0x0000,0x0000,0x0001,0x020c,0x0022,0x1ea0     | +00001
         .dc.w   0xffff,0x1900,0x0028,0x9c44,0x0000,0x0000,0x0001,0x020c     | +00011
@@ -12163,20 +12163,20 @@ Data_1a4a39:
         .dc.w   0x0001,0x020c                                               | +00031
 
 | ----------------------------------------------------------------------------
-|  Data_1a4a6e  @ $1A4A6E  (18 B)  [ref. desde código]
+|  AnimScr_1a4a6e  @ $1A4A6E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4a6e, "ax", @progbits
-        .global Data_1a4a6e
-Data_1a4a6e:
+        .section .text.AnimScr_1a4a6e, "ax", @progbits
+        .global AnimScr_1a4a6e
+AnimScr_1a4a6e:
         .dc.w   0x0022,0x1f12,0xffff,0x1900,0x0028,0x9c5c,0x0000,0x0000     | +00000
         .dc.w   0x0004                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a4a80  @ $1A4A80  (543 B)  [ref. desde código]
+|  AnimScr_1a4a80  @ $1A4A80  (543 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4a80, "ax", @progbits
-        .global Data_1a4a80
-Data_1a4a80:
+        .section .text.AnimScr_1a4a80, "ax", @progbits
+        .global AnimScr_1a4a80
+AnimScr_1a4a80:
         .dc.w   0x020c,0x0022,0x1f4c,0xffff,0x1900,0x0028,0x9c68,0x0000     | +00000
         .dc.w   0x0000,0x0004,0x020c,0x0022,0x1f7a,0xffff,0x1900,0x0028     | +00010
         .dc.w   0x9c74,0x0000,0x0000,0x0003,0x020c,0x0022,0x1fa4,0xffff     | +00020
@@ -12216,11 +12216,11 @@ Data_1a4a80:
         .dc.b   0xff                            | +0021e
 
 | ----------------------------------------------------------------------------
-|  Data_1a4c9f  @ $1A4C9F  (538 B)  [ref. desde código]
+|  AnimScr_1a4c9f  @ $1A4C9F  (538 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4c9f, "ax", @progbits
-        .global Data_1a4c9f
-Data_1a4c9f:
+        .section .text.AnimScr_1a4c9f, "ax", @progbits
+        .global AnimScr_1a4c9f
+AnimScr_1a4c9f:
         .dc.b   0xff                            | +00000
         .dc.w   0x1900,0x0028,0x9d04,0x0000,0x0000,0x0001,0x020c,0x0022     | +00001
         .dc.w   0x21d8,0xffff,0x1900,0x0028,0x9cf8,0x0000,0x0000,0x0001     | +00011
@@ -12260,19 +12260,19 @@ Data_1a4c9f:
         .dc.b   0x18                            | +00219
 
 | ----------------------------------------------------------------------------
-|  Data_1a4eb9  @ $1A4EB9  (1 B)  [ref. desde código]
+|  AnimScr_1a4eb9  @ $1A4EB9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4eb9, "ax", @progbits
-        .global Data_1a4eb9
-Data_1a4eb9:
+        .section .text.AnimScr_1a4eb9, "ax", @progbits
+        .global AnimScr_1a4eb9
+AnimScr_1a4eb9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a4eba  @ $1A4EBA  (884 B)  [ref. desde código]
+|  AnimScr_1a4eba  @ $1A4EBA  (884 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a4eba, "ax", @progbits
-        .global Data_1a4eba
-Data_1a4eba:
+        .section .text.AnimScr_1a4eba, "ax", @progbits
+        .global AnimScr_1a4eba
+AnimScr_1a4eba:
         .dc.w   0x021c,0x0022,0xccf2,0xffff,0x1900,0x0028,0xb0e4,0x0000     | +00000
         .dc.w   0x0000,0x0001,0x020c,0x0022,0xcb1e,0xffff,0x1900,0x0028     | +00010
         .dc.w   0xb0f0,0x0000,0x0000,0x0001,0x020c,0x0022,0xcb48,0xffff     | +00020
@@ -12331,22 +12331,22 @@ Data_1a4eba:
         .dc.w   0x0022,0xcbfc                                               | +00370
 
 | ----------------------------------------------------------------------------
-|  Data_1a522e  @ $1A522E  (64 B)  [ref. desde código]
+|  AnimScr_1a522e  @ $1A522E  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a522e, "ax", @progbits
-        .global Data_1a522e
-Data_1a522e:
+        .section .text.AnimScr_1a522e, "ax", @progbits
+        .global AnimScr_1a522e
+AnimScr_1a522e:
         .dc.w   0xffff,0x1900,0x0028,0xb0b4,0x0000,0x0000,0x0001,0x020c     | +00000
         .dc.w   0x0022,0xca62,0xffff,0x1900,0x0028,0xb0b4,0x0000,0x0000     | +00010
         .dc.w   0x0001,0x1700,0x020c,0x0022,0xca62,0xffff,0x1800,0x021c     | +00020
         .dc.w   0x0022,0xcc2e,0xffff,0x1900,0x0028,0xb0b4,0x0000,0x0000     | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1a526e  @ $1A526E  (146 B)  [ref. desde código]
+|  AnimScr_1a526e  @ $1A526E  (146 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a526e, "ax", @progbits
-        .global Data_1a526e
-Data_1a526e:
+        .section .text.AnimScr_1a526e, "ax", @progbits
+        .global AnimScr_1a526e
+AnimScr_1a526e:
         .dc.w   0x0001,0x020c,0x0022,0xca62,0xffff,0x1900,0x0028,0xb0c0     | +00000
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0xca90,0xffff,0x1900     | +00010
         .dc.w   0x0028,0xb0c0,0x0000,0x0000,0x0001,0x1700,0x020c,0x0022     | +00020
@@ -12359,40 +12359,40 @@ Data_1a526e:
         .dc.w   0xb0a8                                                      | +00090
 
 | ----------------------------------------------------------------------------
-|  Data_1a5300  @ $1A5300  (46 B)  [ref. desde código]
+|  AnimScr_1a5300  @ $1A5300  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a5300, "ax", @progbits
-        .global Data_1a5300
-Data_1a5300:
+        .section .text.AnimScr_1a5300, "ax", @progbits
+        .global AnimScr_1a5300
+AnimScr_1a5300:
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0xca2c,0xffff,0x1900     | +00000
         .dc.w   0x0028,0xb0a8,0x0000,0x0000,0x0001,0x1700,0x020c,0x0022     | +00010
         .dc.w   0xca2c,0xffff,0x1800,0x021c,0x0022,0xcbfc,0xffff            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_1a532e  @ $1A532E  (18 B)  [ref. desde código]
+|  AnimScr_1a532e  @ $1A532E  (18 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a532e, "ax", @progbits
-        .global Data_1a532e
-Data_1a532e:
+        .section .text.AnimScr_1a532e, "ax", @progbits
+        .global AnimScr_1a532e
+AnimScr_1a532e:
         .dc.w   0x1900,0x0028,0xb0a8,0x0000,0x0000,0x0001,0x020c,0x0022     | +00000
         .dc.w   0xca2c                                                      | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1a5340  @ $1A5340  (46 B)  [ref. desde código]
+|  AnimScr_1a5340  @ $1A5340  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a5340, "ax", @progbits
-        .global Data_1a5340
-Data_1a5340:
+        .section .text.AnimScr_1a5340, "ax", @progbits
+        .global AnimScr_1a5340
+AnimScr_1a5340:
         .dc.w   0xffff,0x1900,0x0028,0xb09c,0x0000,0x0000,0x0001,0x020c     | +00000
         .dc.w   0x0022,0xca02,0xffff,0x1900,0x0028,0xb09c,0x0000,0x0000     | +00010
         .dc.w   0x0001,0x1700,0x020c,0x0022,0xca02,0xffff,0x1800            | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_1a536e  @ $1A536E  (3,218 B)  [ref. desde código]
+|  AnimScr_1a536e  @ $1A536E  (3,218 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a536e, "ax", @progbits
-        .global Data_1a536e
-Data_1a536e:
+        .section .text.AnimScr_1a536e, "ax", @progbits
+        .global AnimScr_1a536e
+AnimScr_1a536e:
         .dc.w   0x021c,0x0022,0xcbd2,0xffff,0x1900,0x0028,0xb09c,0x0000     | +00000
         .dc.w   0x0000,0x0001,0x020c,0x0022,0xca02,0xffff,0x1900,0x0028     | +00010
         .dc.w   0xb090,0x0000,0x0000,0x0001,0x020c,0x0022,0xc9d4,0xffff     | +00020
@@ -12601,11 +12601,11 @@ Data_1a536e:
         .dc.w   0xaff4,0x0000                                               | +00c8e
 
 | ----------------------------------------------------------------------------
-|  Data_1a6000  @ $1A6000  (256 B)  [ref. desde código]
+|  AnimScr_1a6000  @ $1A6000  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a6000, "ax", @progbits
-        .global Data_1a6000
-Data_1a6000:
+        .section .text.AnimScr_1a6000, "ax", @progbits
+        .global AnimScr_1a6000
+AnimScr_1a6000:
         .dc.w   0x0000,0x0002,0x020c,0x0022,0xc78e,0xffff,0x1600,0x1900     | +00000
         .dc.w   0x0028,0xafc4,0x0000,0x0000,0x0001,0x020c,0x0022,0xc6da     | +00010
         .dc.w   0xffff,0x1900,0x0028,0xb024,0x0000,0x0000,0x0001,0x020c     | +00020
@@ -12624,11 +12624,11 @@ Data_1a6000:
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0xc764,0xffff,0x1900     | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a6100  @ $1A6100  (1,280 B)  [ref. desde código]
+|  AnimScr_1a6100  @ $1A6100  (1,280 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a6100, "ax", @progbits
-        .global Data_1a6100
-Data_1a6100:
+        .section .text.AnimScr_1a6100, "ax", @progbits
+        .global AnimScr_1a6100
+AnimScr_1a6100:
         .dc.w   0x0028,0xb048,0x0000,0x0000,0x0001,0x020c,0x0022,0xc8c8     | +00000
         .dc.w   0xffff,0x1900,0x0028,0xafe8,0x0000,0x0000,0x0001,0x020c     | +00010
         .dc.w   0x0022,0xc764,0xffff,0x1900,0x0028,0xafdc,0x0000,0x0000     | +00020
@@ -12711,11 +12711,11 @@ Data_1a6100:
         .dc.w   0xb00c,0x0000,0x0000,0x0001,0x020c,0x0022,0xc7ea,0xffff     | +004f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a6600  @ $1A6600  (2,560 B)  [ref. desde código]
+|  AnimScr_1a6600  @ $1A6600  (2,560 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a6600, "ax", @progbits
-        .global Data_1a6600
-Data_1a6600:
+        .section .text.AnimScr_1a6600, "ax", @progbits
+        .global AnimScr_1a6600
+AnimScr_1a6600:
         .dc.w   0x1900,0x0028,0xb06c,0x0000,0x0000,0x0001,0x020c,0x0022     | +00000
         .dc.w   0xc94e,0xffff,0x1900,0x0028,0xb00c,0x0000,0x0000,0x0001     | +00010
         .dc.w   0x020c,0x0022,0xc7ea,0xffff,0x1900,0x0028,0xb06c,0x0000     | +00020
@@ -12884,11 +12884,11 @@ Data_1a6600:
         .dc.w   0x0000,0x0001,0x020c,0x0022,0xd4ce,0xffff,0x1900,0x0028     | +009f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a7000  @ $1A7000  (512 B)  [ref. desde código]
+|  AnimScr_1a7000  @ $1A7000  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a7000, "ax", @progbits
-        .global Data_1a7000
-Data_1a7000:
+        .section .text.AnimScr_1a7000, "ax", @progbits
+        .global AnimScr_1a7000
+AnimScr_1a7000:
         .dc.w   0xb3cc,0x0000,0x0000,0x0001,0x020c,0x0022,0xd64e,0xffff     | +00000
         .dc.w   0x1900,0x0028,0xb36c,0x0000,0x0000,0x0001,0x020c,0x0022     | +00010
         .dc.w   0xd4ce,0xffff,0x1900,0x0028,0xb360,0x0000,0x0000,0x0001     | +00020
@@ -12923,11 +12923,11 @@ Data_1a7000:
         .dc.w   0xffff,0x1900,0x0028,0xb390,0x0000,0x0000,0x0001,0x020c     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a7200  @ $1A7200  (2,049 B)  [ref. desde código]
+|  AnimScr_1a7200  @ $1A7200  (2,049 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a7200, "ax", @progbits
-        .global Data_1a7200
-Data_1a7200:
+        .section .text.AnimScr_1a7200, "ax", @progbits
+        .global AnimScr_1a7200
+AnimScr_1a7200:
         .dc.w   0x0022,0xd55e,0xffff,0x1900,0x0028,0xb3f0,0x0000,0x0000     | +00000
         .dc.w   0x0001,0x020c,0x0022,0xd6de,0xffff,0x1900,0x0028,0xb390     | +00010
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0xd55e,0xffff,0x1900     | +00020
@@ -13060,11 +13060,11 @@ Data_1a7200:
         .dc.b   0x00                            | +00800
 
 | ----------------------------------------------------------------------------
-|  Data_1a7a01  @ $1A7A01  (5,145 B)  [ref. desde código]
+|  AnimScr_1a7a01  @ $1A7A01  (5,145 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a7a01, "ax", @progbits
-        .global Data_1a7a01
-Data_1a7a01:
+        .section .text.AnimScr_1a7a01, "ax", @progbits
+        .global AnimScr_1a7a01
+AnimScr_1a7a01:
         .dc.b   0x00                            | +00000
         .dc.w   0x0001,0x020c,0x0022,0xd796,0xffff,0x0503,0x0091,0x1900     | +00001
         .dc.w   0x0028,0xb414,0x0000,0x0000,0x0001,0x020c,0x0022,0xd76c     | +00011
@@ -13395,11 +13395,11 @@ Data_1a7a01:
         .dc.w   0x0000,0x0000,0x0001                                        | +01413
 
 | ----------------------------------------------------------------------------
-|  Data_1a8e1a  @ $1A8E1A  (9,186 B)  [ref. desde código]
+|  AnimScr_1a8e1a  @ $1A8E1A  (9,186 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a8e1a, "ax", @progbits
-        .global Data_1a8e1a
-Data_1a8e1a:
+        .section .text.AnimScr_1a8e1a, "ax", @progbits
+        .global AnimScr_1a8e1a
+AnimScr_1a8e1a:
         .dc.w   0x020c,0x0022,0xddb4,0xffff,0x1600,0x1900,0x0028,0xb708     | +00000
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0xde6c,0xffff,0x1900     | +00010
         .dc.w   0x0028,0xb768,0x0000,0x0000,0x0001,0x020c,0x0022,0xdfcc     | +00020
@@ -13987,11 +13987,11 @@ Data_1a8e1a:
         .dc.w   0x1900,0x0028,0xa034,0x0000                                 | +023da
 
 | ----------------------------------------------------------------------------
-|  Data_1ab1fc  @ $1AB1FC  (3,614 B)  [ref. desde código]
+|  AnimScr_1ab1fc  @ $1AB1FC  (3,614 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ab1fc, "ax", @progbits
-        .global Data_1ab1fc
-Data_1ab1fc:
+        .section .text.AnimScr_1ab1fc, "ax", @progbits
+        .global AnimScr_1ab1fc
+AnimScr_1ab1fc:
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x7faa,0xffff,0x1900,0x0028     | +00000
         .dc.w   0xa034,0x0000,0x0000,0x0001,0x1700,0x020c,0x0022,0x7faa     | +00010
         .dc.w   0xffff,0x1800,0x021c,0x0022,0x81ee,0xffff,0x1900,0x0028     | +00020
@@ -14220,11 +14220,11 @@ Data_1ab1fc:
         .dc.w   0xfc30,0xffff,0x0504,0x003b,0x1900,0x0028,0xbd1e            | +00e10
 
 | ----------------------------------------------------------------------------
-|  Data_1ac01a  @ $1AC01A  (5,090 B)  [ref. desde código]
+|  AnimScr_1ac01a  @ $1AC01A  (5,090 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ac01a, "ax", @progbits
-        .global Data_1ac01a
-Data_1ac01a:
+        .section .text.AnimScr_1ac01a, "ax", @progbits
+        .global AnimScr_1ac01a
+AnimScr_1ac01a:
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0025,0xfc68,0xffff,0x0505     | +00000
         .dc.w   0x003b,0x1900,0x0028,0xbd2a,0x0000,0x0000,0x0001,0x020c     | +00010
         .dc.w   0x0025,0xfc96,0xffff,0x0506,0x003b,0x1900,0x0028,0xbd36     | +00020
@@ -14556,11 +14556,11 @@ Data_1ac01a:
         .dc.w   0xffff,0x1900                                               | +013de
 
 | ----------------------------------------------------------------------------
-|  Data_1ad3fc  @ $1AD3FC  (3,972 B)  [ref. desde código]
+|  AnimScr_1ad3fc  @ $1AD3FC  (3,972 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ad3fc, "ax", @progbits
-        .global Data_1ad3fc
-Data_1ad3fc:
+        .section .text.AnimScr_1ad3fc, "ax", @progbits
+        .global AnimScr_1ad3fc
+AnimScr_1ad3fc:
         .dc.w   0x0028,0x9f74,0x0000,0x0000,0x0001,0x020c,0x0022,0x7c28     | +00000
         .dc.w   0xffff,0x0400,0x108f,0x1900,0x0028,0x9f5c,0x0000,0x0000     | +00010
         .dc.w   0x0001,0x020c,0x0022,0x7bc0,0xffff,0x1900,0x0028,0xa034     | +00020
@@ -14814,11 +14814,11 @@ Data_1ad3fc:
         .dc.w   0x843a,0xffff,0x1900,0x0028,0xa148,0x0000,0x0000            | +00f76
 
 | ----------------------------------------------------------------------------
-|  Data_1ae380  @ $1AE380  (456 B)  [ref. desde código]
+|  AnimScr_1ae380  @ $1AE380  (456 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ae380, "ax", @progbits
-        .global Data_1ae380
-Data_1ae380:
+        .section .text.AnimScr_1ae380, "ax", @progbits
+        .global AnimScr_1ae380
+AnimScr_1ae380:
         .dc.w   0x0001,0x020c,0x0022,0x840c,0xffff,0x1900,0x0028,0xa13c     | +00000
         .dc.w   0x0000,0x0000,0x0001,0x020c,0x0022,0x83d4,0xffff,0x1900     | +00010
         .dc.w   0x0028,0xa130,0x0000,0x0000,0x0001,0x020c,0x0022,0x839c     | +00020
@@ -14850,11 +14850,11 @@ Data_1ae380:
         .dc.w   0x0000,0x0000,0x0002,0x020c                                 | +001c0
 
 | ----------------------------------------------------------------------------
-|  Data_1ae548  @ $1AE548  (1,536 B)  [ref. desde código]
+|  AnimScr_1ae548  @ $1AE548  (1,536 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ae548, "ax", @progbits
-        .global Data_1ae548
-Data_1ae548:
+        .section .text.AnimScr_1ae548, "ax", @progbits
+        .global AnimScr_1ae548
+AnimScr_1ae548:
         .dc.w   0x0022,0x8800,0xffff,0x1600,0x1900,0x0028,0xa124,0x0000     | +00000
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x8364,0xffff,0x1900,0x0028     | +00010
         .dc.w   0xa22c,0x0000,0x0000,0x0001,0x020c,0x0022,0x8800,0xffff     | +00020
@@ -14953,11 +14953,11 @@ Data_1ae548:
         .dc.w   0x1900,0x0028,0xa244,0x0000,0x0000,0x0001,0x020c,0x0022     | +005f0
 
 | ----------------------------------------------------------------------------
-|  Data_1aeb48  @ $1AEB48  (5,271 B)  [ref. desde código]
+|  AnimScr_1aeb48  @ $1AEB48  (5,271 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1aeb48, "ax", @progbits
-        .global Data_1aeb48
-Data_1aeb48:
+        .section .text.AnimScr_1aeb48, "ax", @progbits
+        .global AnimScr_1aeb48
+AnimScr_1aeb48:
         .dc.w   0x8870,0xffff,0x1900,0x0028,0xa2a4,0x0000,0x0000,0x0001     | +00000
         .dc.w   0x020c,0x0022,0x8a26,0xffff,0x1900,0x0028,0xa244,0x0000     | +00010
         .dc.w   0x0000,0x0001,0x020c,0x0022,0x8870,0xffff,0x1900,0x0028     | +00020
@@ -15316,27 +15316,27 @@ Data_1affe1:
         .dc.w   0x0000                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1affe4  @ $1AFFE4  (1 B)  [ref. desde código]
+|  Zero_1affe4  @ $1AFFE4  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1affe4, "ax", @progbits
-        .global Data_1affe4
-Data_1affe4:
+        .section .text.Zero_1affe4, "ax", @progbits
+        .global Zero_1affe4
+Zero_1affe4:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1affe5  @ $1AFFE5  (1 B)  [ref. desde código]
+|  Zero_1affe5  @ $1AFFE5  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1affe5, "ax", @progbits
-        .global Data_1affe5
-Data_1affe5:
+        .section .text.Zero_1affe5, "ax", @progbits
+        .global Zero_1affe5
+Zero_1affe5:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1affe6  @ $1AFFE6  (1 B)  [ref. desde código]
+|  Zero_1affe6  @ $1AFFE6  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1affe6, "ax", @progbits
-        .global Data_1affe6
-Data_1affe6:
+        .section .text.Zero_1affe6, "ax", @progbits
+        .global Zero_1affe6
+Zero_1affe6:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -15349,11 +15349,11 @@ Data_1affe7:
         .dc.w   0x020c                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1affea  @ $1AFFEA  (1 B)  [ref. desde código]
+|  Zero_1affea  @ $1AFFEA  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1affea, "ax", @progbits
-        .global Data_1affea
-Data_1affea:
+        .section .text.Zero_1affea, "ax", @progbits
+        .global Zero_1affea
+Zero_1affea:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -15408,28 +15408,28 @@ Data_1afff5:
         .dc.b   0x88                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1afff6  @ $1AFFF6  (3 B)  [ref. desde código]
+|  Zero_1afff6  @ $1AFFF6  (3 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1afff6, "ax", @progbits
-        .global Data_1afff6
-Data_1afff6:
+        .section .text.Zero_1afff6, "ax", @progbits
+        .global Zero_1afff6
+Zero_1afff6:
         .dc.w   0x0000                                                      | +00000
         .dc.b   0x00                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_1afff9  @ $1AFFF9  (1 B)  [ref. desde código]
+|  Zero_1afff9  @ $1AFFF9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1afff9, "ax", @progbits
-        .global Data_1afff9
-Data_1afff9:
+        .section .text.Zero_1afff9, "ax", @progbits
+        .global Zero_1afff9
+Zero_1afff9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1afffa  @ $1AFFFA  (1 B)  [ref. desde código]
+|  Zero_1afffa  @ $1AFFFA  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1afffa, "ax", @progbits
-        .global Data_1afffa
-Data_1afffa:
+        .section .text.Zero_1afffa, "ax", @progbits
+        .global Zero_1afffa
+Zero_1afffa:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
