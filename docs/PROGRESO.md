@@ -34,6 +34,22 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `HUD_Task_Init_025706`, `move.b 0x4(a3),d1` → `move.b #9,d1`). Cabeceras
 > A–F y renombres de los modulos de datos: hechos (ver la entrada siguiente).
 
+> **Datos: "otro" 33,4 % → 17,3 % (2026-10-15, PR #23)**. Censo nuevo con
+> tipos `lut` y `struct`:
+> * `sprite_tables_002f30.s` = 3 entradas que se ensamblan por fórmula con `.rept`
+>   (`ColorRGB555ToNeoGeo_002f30`, `ColorRamp_RowPtr_012f30`, `ColorRamp_012fb0`);
+>   se quitan 428 etiquetas falsas y las 8 805 `.dc.l` a ellas pasan a número.
+> * 321 registros de parche `lea rec,a2; jsr Sprite_InvokeBlit8Params` →
+>   11 descriptores `{w,h,tiles}`, renderizados en `levels.py`
+>   (`patches/patch_<desc>.png`: fachadas intactas/destruidas).
+> * `struct`: streams de misión, escena, plantillas, cajas de
+>   `Entity_CheckOnScreenBox`, rejillas de `$43FAC` y registros de 12 B del
+>   op 19 de animación.
+> * 1 274 scripts de sprite instalados desde el código (`EntitySetSpriteMap`,
+>   `move.l #,$3C(a6)`), recorridos con `walk_struct` (frame oculto
+>   `$FFFFFFFF`, tablas de 1B/1C).
+> * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
+
 > **Datos con nombre y assets (2026-10-15)**. Censo byte a byte de los 14
 > modulos `asm/data/*` (`assets/tools/data_census.py`): paletas 4,1 %, frames
 > 16,6 %, animacion 18,2 %, mapas de fondo 11,2 %, colision 7,8 %, ceros
