@@ -36,7 +36,7 @@
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 139549 B):
 |     frames 13.4%, animación 28.0%, ceros 7.6%, otro 51.1%.
-|   Entradas por prefijo: AnimScr 144, Data 85, SprFrame 69, Str 26, Zero 3.
+|   Entradas por prefijo: AnimScr 146, Data 83, SprFrame 69, Str 26, Zero 3.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -388,7 +388,7 @@ Data_16b269:
         .dc.w   0x33f4,0x0410,0xffe7,0x0020,0x0102,0x33f5,0x33f6,0xfff7     | +00d07
         .dc.w   0x0030,0x0103,0x33f7,0x3bc8,0x33f9,0x0007,0x0020,0x0102     | +00d17
         .dc.w   0x3bc9,0x33fb                                               | +00d27
-        .dc.l   Data_0e0010                   | +00d2b  -> $0E0010
+        .dc.l   BgMap_0e0010                   | +00d2b  -> $0E0010
         .dc.w   0x0101,0x33fc,0x0410,0xffe8,0x0020,0x0102,0x33fd,0x33fe     | +00d2f
         .dc.w   0xfff8,0x0030,0x0103,0x3401,0x3bcb,0x3403,0x0008,0x0020     | +00d3f
         .dc.w   0x0102,0x3bca,0x3400                                        | +00d4f
@@ -608,16 +608,16 @@ Data_16b269:
         .dc.l   ColMap_100018                   | +01731  -> $100018
         .dc.w   0x0101,0x35db,0x0310,0xffec,0x0030,0x0103,0x35dc,0x35dd     | +01735
         .dc.w   0x35de,0xfffc,0x0020,0x0102,0x3c6d,0x35e0                   | +01745
-        .dc.l   Data_0c0010                   | +01751  -> $0C0010
+        .dc.l   BgMap_0c0010                   | +01751  -> $0C0010
         .dc.w   0x0101,0x35e1,0x0310,0xffec,0x0030,0x0103,0x35dc,0x35e2     | +01755
         .dc.w   0x35de,0xfffc,0x0020,0x0102,0x3c6e,0x35e4                   | +01765
-        .dc.l   Data_0c0010                   | +01771  -> $0C0010
+        .dc.l   BgMap_0c0010                   | +01771  -> $0C0010
         .dc.w   0x0101,0x35e1,0x0310,0xffec,0x0030,0x0103,0x35dc,0x35e5     | +01775
         .dc.w   0x35e6,0xfffc,0x0020,0x0102,0x3c6f,0x35e8                   | +01785
-        .dc.l   Data_0c0010                   | +01791  -> $0C0010
+        .dc.l   BgMap_0c0010                   | +01791  -> $0C0010
         .dc.w   0x0101,0x35e1,0x0310,0xffec,0x0030,0x0103,0x35dc,0x35e9     | +01795
         .dc.w   0x35ea,0xfffc,0x0020,0x0102,0x3c70,0x35ec                   | +017a5
-        .dc.l   Data_0c0010                   | +017b1  -> $0C0010
+        .dc.l   BgMap_0c0010                   | +017b1  -> $0C0010
         .dc.w   0x0101,0x35e1,0x0110,0xfff0,0x0020,0x0202,0x3c71,0x35ee     | +017b5
         .dc.w   0x3872,0x3c72,0x0110,0xfff0,0x0030,0x0203,0x3c73,0x3c74     | +017c5
         .dc.w   0x35f2,0x3c75,0x3c76,0x35f5,0x0210,0xffec,0x0030,0x0103     | +017d5
@@ -637,7 +637,7 @@ Data_16b269:
         .dc.w   0xfffc,0x0020,0x0102,0x3c7d,0x3605,0x000c,0x001b,0x0101     | +0188b
         .dc.w   0x3606,0x0310,0xffec,0x0030,0x0103,0x35dc,0x35dd,0x35de     | +0189b
         .dc.w   0xfffc,0x0020,0x0102,0x3c6d,0x3607                          | +018ab
-        .dc.l   Data_0c0010                   | +018b5  -> $0C0010
+        .dc.l   BgMap_0c0010                   | +018b5  -> $0C0010
         .dc.w   0x0101,0x3608,0x0210,0xfff0,0x0030,0x0203,0x185d,0x3609     | +018b9
         .dc.w   0x360a,0x3c7e,0x3c7f,0x360d                                 | +018c9
         .dc.l   ColMap_100018                   | +018d1  -> $100018
@@ -747,10 +747,10 @@ Data_16b269:
         .dc.w   0xffec,0x0030,0x0203,0x35dc,0x35e2,0x35de,0x36e1,0x3cca     | +01d71
         .dc.w   0x36e3,0x000c,0x0021,0x0102,0x36e4,0x36e5,0x0210,0xffec     | +01d81
         .dc.w   0x0030,0x0203,0x35dc,0x35e5,0x35e6,0x36e6,0x3ccb,0x3ccc     | +01d91
-        .dc.l   Data_0c0020                   | +01da1  -> $0C0020
+        .dc.l   BgMap_0c0020                   | +01da1  -> $0C0020
         .dc.w   0x0102,0x36e9,0x36ea,0x0210,0xffec,0x0030,0x0203,0x35dc     | +01da5
         .dc.w   0x35e9,0x35ea,0x36eb,0x3ccd,0x36ed                          | +01db5
-        .dc.l   Data_0c0020                   | +01dbf  -> $0C0020
+        .dc.l   BgMap_0c0020                   | +01dbf  -> $0C0020
         .dc.w   0x0102,0x36ee,0x36ea,0x0210,0xfff0,0x0020,0x0102,0x3cce     | +01dc3
         .dc.w   0x3ccf,0x0000,0x0030,0x0103,0x3cd0,0x3cd1,0x36f3,0x0210     | +01dd3
         .dc.w   0xfff0,0x0020,0x0102,0x36f4,0x36f5,0x0000,0x0030,0x0103     | +01de3
@@ -840,7 +840,7 @@ Data_16b269:
         .dc.w   0x0400,0xffee                                               | +022a3
         .dc.l   SprFrame_170202                   | +022a7  -> $170202
         .dc.w   0xa332,0xa333,0xa330,0xa331                                 | +022ab
-        .dc.l   Data_0e0010                   | +022b3  -> $0E0010
+        .dc.l   BgMap_0e0010                   | +022b3  -> $0E0010
         .dc.w   0x0101,0xa32f,0x001e,0x000c,0x0101,0xa30b,0x002e,0x000b     | +022b7
         .dc.w   0x0101,0xa32e,0x0500,0xfff0                                 | +022c7
         .dc.l   Data_180106                   | +022cf  -> $180106
@@ -1176,7 +1176,7 @@ Data_16e600:
         .dc.w   0xa7b3,0xa7b4,0xa7b5,0x000f,0x0020,0x0101,0xa7b6,0x0300     | +00204
         .dc.w   0xffec,0x0024,0x0102,0xa7b7,0xa7b8,0xfffc,0x0040,0x0104     | +00214
         .dc.w   0xa7b9,0xa7ba,0xa7bb,0xa7bc                                 | +00224
-        .dc.l   Data_0c0020                   | +0022c  -> $0C0020
+        .dc.l   BgMap_0c0020                   | +0022c  -> $0C0020
         .dc.w   0x0101,0xa7bd,0x0300,0xffe7,0x0021,0x0102,0xa7c2,0xa7c3     | +00230
 
 | ----------------------------------------------------------------------------
@@ -1253,11 +1253,11 @@ Data_16e840:
         .dc.w   0x0103,0xa8ac,0xa8ad,0xa8ae,0x001d,0x0038,0x0102,0xa8af     | +003fa
         .dc.w   0xa8b0,0x002d,0x0038,0x0101,0xa8b1,0x0400,0xffec,0x0026     | +0040a
         .dc.w   0x0202,0xa8b2,0xa794,0xa8b3,0xa8b4                          | +0041a
-        .dc.l   Data_0c0038                   | +00424  -> $0C0038
+        .dc.l   BgMap_0c0038                   | +00424  -> $0C0038
         .dc.w   0x0103,0xa8b5,0xa8b6,0xa8b7,0x001c,0x0038,0x0102,0xa8b8     | +00428
         .dc.w   0xa8b9,0x002c,0x0038,0x0101,0xa8ba,0x0300,0xffec,0x0026     | +00438
         .dc.w   0x0202,0xa8bb,0xa794,0xa8bc,0xa8bd                          | +00448
-        .dc.l   Data_0c0038                   | +00452  -> $0C0038
+        .dc.l   BgMap_0c0038                   | +00452  -> $0C0038
         .dc.w   0x0103,0xa8bf,0xa8c0,0xa8c1,0x001c,0x0038,0x0101,0xa8be     | +00456
         .dc.w   0x0200,0xffe1,0x0030,0x0103,0xa8c2,0xa8c3,0xa8c4,0xfff1     | +00466
         .dc.w   0x0020,0x0102,0xa8c5,0xa8c6,0x0200,0xffe0,0x0030,0x0103     | +00476
@@ -3219,11 +3219,11 @@ Data_171f00:
         .dc.w   0xb978,0xb96f,0x000d,0x003d,0x0103,0xb979,0xb97a,0xb972     | +010c2
         .dc.w   0x001d,0x003d,0x0101,0xb97b,0x0300,0xffec,0x002c,0x0202     | +010d2
         .dc.w   0xb973,0xb97c,0xb97d,0xb97e                                 | +010e2
-        .dc.l   Data_0c003c                   | +010ea  -> $0C003C
+        .dc.l   BgMap_0c003c                   | +010ea  -> $0C003C
         .dc.w   0x0103,0xb97f,0xb980,0xb981,0x001c,0x003c,0x0201,0xb982     | +010ee
         .dc.w   0xb983,0x0300,0xffec,0x002c,0x0202,0xb973,0xb97c,0xb96e     | +010fe
         .dc.w   0xb97e                                                      | +0110e
-        .dc.l   Data_0c003c                   | +01110  -> $0C003C
+        .dc.l   BgMap_0c003c                   | +01110  -> $0C003C
         .dc.w   0x0103,0xb970,0xb971,0xb984,0x001f,0x003c,0x0101,0xb985     | +01114
         .dc.w   0x0300,0xffe1,0x0024,0x0103,0xb986,0xb987,0x3892,0xfff1     | +01124
         .dc.w   0x0020,0x0102,0xb988,0xb989                                 | +01134
@@ -3893,7 +3893,7 @@ Data_174e75:
         .dc.w   0xc3bb,0xc3bc,0xc3bd,0xc3be,0xc3b1,0xc3b2,0xc3b3,0xc3b4     | +0073b
         .dc.w   0xc3b5,0xc3b6,0xc3b7,0xc3aa,0xc3ab,0xc3ac,0xc3ad,0xc3ae     | +0074b
         .dc.w   0xc3af,0xc3b0,0x0300                                        | +0075b
-        .dc.l   Data_0c0028                   | +00761  -> $0C0028
+        .dc.l   BgMap_0c0028                   | +00761  -> $0C0028
         .dc.w   0x0102,0xc3ef,0xc3f0,0x001c,0x0053,0x0105,0xc3ea,0xc3eb     | +00765
         .dc.w   0xc3ec,0xc3ed,0xc3ee,0x002c,0x006c,0x0407,0xc3e3,0xc3e4     | +00775
         .dc.w   0xc3e5,0xc3e6,0xc3e7,0xc3e8,0xc3e9,0xc3dc,0xc3dd,0xc3de     | +00785
@@ -9786,7 +9786,7 @@ Data_18542e:
         .dc.l   SprFrame_140200                   | +00ab4  -> $140200
         .dc.w   0x0024,0x3680,0xffff,0xfff4,0xffec,0x0200,0x0024,0x368a     | +00ab8
         .dc.w   0xffff                                                      | +00ac8
-        .dc.l   Data_0c0014                   | +00aca  -> $0C0014
+        .dc.l   BgMap_0c0014                   | +00aca  -> $0C0014
         .dc.w   0x0200,0x0024,0x3694,0xffff,0x000c,0xffec,0x1d01,0xffff     | +00ace
         .dc.w   0xffff,0x0007                                               | +00ade
         .dc.l   ColMap_100204                    | +00ae2  -> $100204
@@ -9797,7 +9797,7 @@ Data_18542e:
         .dc.w   0x0024,0x364e,0xffff,0xfffc,0x0000,0x0200,0x0024,0x3658     | +00b0c
         .dc.w   0xffff,0x0004,0x0008,0x0200,0x0024,0x3662,0xffff,0x0004     | +00b1c
         .dc.w   0x0000,0x1d00,0xffff,0xffff                                 | +00b2c
-        .dc.l   Data_0e0010                   | +00b34  -> $0E0010
+        .dc.l   BgMap_0e0010                   | +00b34  -> $0E0010
         .dc.w   0x0204,0xff00                                               | +00b38
         .dc.l   0x0000fffc                    | +00b3c  -> $00FFFC
         .dc.w   0x0004,0xfffc,0x0004,0x0200,0x0024,0x363a,0xffff,0x0000     | +00b40
@@ -9805,7 +9805,7 @@ Data_18542e:
         .dc.w   0x0024,0x364e,0xffff,0xfffc,0xfffc,0x0200,0x0024,0x3658     | +00b60
         .dc.w   0xffff,0x0004,0x0004,0x0200,0x0024,0x3662,0xffff,0x0004     | +00b70
         .dc.w   0xfffc,0x1d00,0xffff,0xffff                                 | +00b80
-        .dc.l   Data_0e0010                   | +00b88  -> $0E0010
+        .dc.l   BgMap_0e0010                   | +00b88  -> $0E0010
         .dc.w   0x0204,0xff00                                               | +00b8c
         .dc.l   0x0000fffc                    | +00b90  -> $00FFFC
         .dc.w   0x0004,0xfffc,0x0004,0x0200,0x0024,0x363a,0xffff,0x0000     | +00b94
@@ -10186,11 +10186,11 @@ AnimScr_186c00:
         .dc.w   0x0000,0x0000,0x0100,0x0028,0x6e1e,0x0200,0x0024,0x6db4     | +001f0
 
 | ----------------------------------------------------------------------------
-|  Data_186e00  @ $186E00  (512 B)  [ref. desde código]
+|  AnimScr_186e00  @ $186E00  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_186e00, "ax", @progbits
-        .global Data_186e00
-Data_186e00:
+        .section .text.AnimScr_186e00, "ax", @progbits
+        .global AnimScr_186e00
+AnimScr_186e00:
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x0028,0x6e1e,0x0200,0x0024     | +00000
         .dc.w   0x6db4,0xffff,0x0000,0x0000,0x0100,0x0028,0x6e1e,0x0100     | +00010
         .dc.w   0x0028,0x6aae                                               | +00020
@@ -10256,11 +10256,11 @@ Data_186e00:
         .dc.w   0x0000,0x0100,0x0028,0x7044,0x0200,0x0024                   | +001f4
 
 | ----------------------------------------------------------------------------
-|  Data_187000  @ $187000  (1,567 B)  [ref. desde código]
+|  AnimScr_187000  @ $187000  (1,567 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_187000, "ax", @progbits
-        .global Data_187000
-Data_187000:
+        .section .text.AnimScr_187000, "ax", @progbits
+        .global AnimScr_187000
+AnimScr_187000:
         .dc.w   0x610a,0xffff,0x0000,0x0000,0x0100,0x0028,0x7044,0x0200     | +00000
         .dc.w   0x0024,0x6126,0xffff,0x0000,0x0000,0x0100,0x0028,0x7044     | +00010
         .dc.w   0x0200,0x0024,0x6126,0xffff,0x0000,0x0000,0x0100,0x0028     | +00020
@@ -11346,7 +11346,7 @@ Data_18916e:
         .dc.w   0xffeb,0x0015                                               | +0081e
         .dc.l   BgMap_0a0020                   | +00822  -> $0A0020
         .dc.w   0x0027,0x0013,0xffeb,0x0015                                 | +00826
-        .dc.l   Data_0c0020                   | +0082e  -> $0C0020
+        .dc.l   BgMap_0c0020                   | +0082e  -> $0C0020
         .dc.w   0x0028,0x0012,0xffeb,0x0015                                 | +00832
         .dc.l   BgMap_0a0020                   | +0083a  -> $0A0020
         .dc.w   0x0027,0x0011,0xffeb,0x0015,0x000c,0x001e,0x0027,0x0011     | +0083e
@@ -11408,7 +11408,7 @@ Data_18916e:
         .dc.l   Data_150008                   | +009dc  -> $150008
         .dc.w   0x001e,0x0026,0x0014,0xffea,0x0015,0x0007,0x001e,0x0025     | +009e0
         .dc.w   0x0014,0xffeb,0x0016                                        | +009f0
-        .dc.l   Data_0c0020                   | +009f6  -> $0C0020
+        .dc.l   BgMap_0c0020                   | +009f6  -> $0C0020
         .dc.w   0x0027,0x0011,0xffeb,0x0016                                 | +009fa
         .dc.l   BgMap_0d0020                   | +00a02  -> $0D0020
         .dc.w   0x0027,0x0010,0xffeb,0x0016                                 | +00a06
@@ -11543,7 +11543,7 @@ Data_18916e:
         .dc.w   0x001e,0xfffb,0x0025,0xffe2,0x0002,0xffe1,0x001e,0xfffd     | +00ecc
         .dc.w   0x0026,0xffe3,0x0003,0xffe6,0x001e,0x0003,0x0023,0xffe5     | +00edc
         .dc.w   0x0005,0xffee,0x001f                                        | +00eec
-        .dc.l   Data_0c0020                   | +00ef2  -> $0C0020
+        .dc.l   BgMap_0c0020                   | +00ef2  -> $0C0020
         .dc.w   0xffe3,0x0003,0xffeb,0x0022,0x000a,0x0023,0xffe2,0x0002     | +00ef6
         .dc.w   0xffe8,0x0025,0x0007,0x0023,0xffe2                          | +00f06
         .dc.l   Entity_CmpField10WithLink8_02ffe6| +00f10  -> $02FFE6
@@ -11557,7 +11557,7 @@ Data_18916e:
         .dc.l   Slug_ClampField92_ClearXN_02ffe0| +00f64  -> $02FFE0
         .dc.w   0x001d,0xfffe,0x0025,0xffe3,0x0003,0xffe6,0x001f,0x0004     | +00f68
         .dc.w   0x0023,0xffe5,0x0005,0xffed,0x0021                          | +00f78
-        .dc.l   Data_0c0020                   | +00f82  -> $0C0020
+        .dc.l   BgMap_0c0020                   | +00f82  -> $0C0020
         .dc.w   0xffe3,0x0003,0xffeb,0x0023,0x0009,0x0022,0xffe2,0x0002     | +00f86
         .dc.w   0xffe8,0x0026,0x0007,0x0024,0xffe2,0x0002,0xffe7,0x0026     | +00f96
         .dc.w   0x0005,0x0024,0xffde,0x0007,0xffe2,0x002a,0x0001,0x0025     | +00fa6
@@ -11601,9 +11601,9 @@ Data_18916e:
         .dc.w   0x001f,0x001e,0x0027,0x0029                                 | +01180
         .dc.l   BgMap_0a0000                   | +01188  -> $0A0000
         .dc.w   0x001f,0x001d,0x0028,0x0029                                 | +0118c
-        .dc.l   Data_0c0000                   | +01194  -> $0C0000
+        .dc.l   BgMap_0c0000                   | +01194  -> $0C0000
         .dc.w   0x001f,0x001c,0x0029,0x0028                                 | +01198
-        .dc.l   Data_0e0000                   | +011a0  -> $0E0000
+        .dc.l   BgMap_0e0000                   | +011a0  -> $0E0000
         .dc.w   0x001f,0x001b,0x002b,0x0028                                 | +011a4
         .dc.l   ColMap_100000                   | +011ac  -> $100000
         .dc.w   0x001f,0x0019,0x002a,0x0029                                 | +011b0
@@ -11617,7 +11617,7 @@ Data_18916e:
         .dc.w   0x001f,0x0000,0x001f,0x001d,0x0028,0x0029                   | +011f4
         .dc.l   BgMap_0b0000                   | +01200  -> $0B0000
         .dc.w   0x001f,0x001c,0x0029,0x0028                                 | +01204
-        .dc.l   Data_0c0000                   | +0120c  -> $0C0000
+        .dc.l   BgMap_0c0000                   | +0120c  -> $0C0000
         .dc.w   0x001f,0x001c,0x0029,0x0028                                 | +01210
         .dc.l   BgMap_0d0000                   | +01218  -> $0D0000
         .dc.w   0x001f,0x0019,0x002b,0x0028,0x000f,0x0000,0x001f,0x0019     | +0121c
@@ -11639,7 +11639,7 @@ Data_18916e:
         .dc.w   0x0006,0x0025,0x001f,0x0014,0xfffc,0x001d,0x000d,0x002b     | +012a2
         .dc.w   0x0024,0x0018,0xfffd,0x001e,0x000e,0x002d,0x0024,0x0019     | +012b2
         .dc.w   0xfffe,0x001e                                               | +012c2
-        .dc.l   Data_0c0030                   | +012c6  -> $0C0030
+        .dc.l   BgMap_0c0030                   | +012c6  -> $0C0030
         .dc.w   0x0025,0x001e,0xfffd,0x001d,0x0010,0x0031,0x0025,0x001b     | +012ca
         .dc.w   0xfffd,0x001d,0x001a,0x002e,0x0024,0x0014,0xfffc,0x001c     | +012da
         .dc.w   0x001a,0x0030,0x0023,0x0013,0xfffb,0x001b,0x0014,0x002f     | +012ea
@@ -11651,7 +11651,7 @@ Data_18916e:
         .dc.w   0x0022,0x000e,0xfffc,0x001d,0x000a,0x0023,0x0021,0x0010     | +0131e
         .dc.w   0xfffb,0x001d,0x0006,0x0026,0x001f,0x0013,0xfffc,0x001d     | +0132e
         .dc.w   0x000e,0x002c,0x0024,0x0017,0xfffd,0x001e                   | +0133e
-        .dc.l   Data_0c002e                   | +0134a  -> $0C002E
+        .dc.l   BgMap_0c002e                   | +0134a  -> $0C002E
         .dc.w   0x0023,0x0019,0xfffe,0x001e,0x000d,0x002f,0x0025,0x001f     | +0134e
         .dc.w   0xfffd,0x001d,0x0011,0x0032,0x0025,0x001b,0xffe2            | +0135e
         .fill   10,1,0x00                      | +0136c
@@ -11807,12 +11807,12 @@ Data_18916e:
         .dc.w   0x0010,0xfffa,0x001e,0x0016,0x002b,0x0025,0x0010,0xfffd     | +01830
         .dc.w   0x001f,0x001b,0x0028,0x0027,0x000e,0xfffd,0x001f,0x001b     | +01840
         .dc.w   0x0028,0x0027                                               | +01850
-        .dc.l   Data_0e0003                   | +01854  -> $0E0003
+        .dc.l   BgMap_0e0003                   | +01854  -> $0E0003
         .dc.w   0x001f,0x0021,0x0022,0x0029,0x0005,0x0006,0x001e,0x0025     | +01858
         .dc.w   0x001f,0x002a                                               | +01868
         .dc.l   Pal_020009                   | +0186c  -> $020009
         .dc.w   0x001d,0x0028,0x001a,0x0029,0xfffc                          | +01870
-        .dc.l   Data_0c001c                   | +0187a  -> $0C001C
+        .dc.l   BgMap_0c001c                   | +0187a  -> $0C001C
         .dc.w   0x002b,0x0016,0x0029,0xfff8,0x000f,0x001b,0x002d,0x0012     | +0187e
         .dc.w   0x0028,0xfff5,0x0013,0x0019,0x0030,0x000f,0x0027,0xfff2     | +0188e
         .dc.w   0x0015,0x0017,0x0030,0x000a,0x0027,0xffed,0x0016,0x0015     | +0189e
@@ -11824,20 +11824,20 @@ Data_18916e:
         .dc.w   0x0023,0x0013,0xfffa,0x001e                                 | +018ee
         .dc.l   SprFrame_170029                   | +018f6  -> $170029
         .dc.w   0x0025,0x0010,0xfffd,0x001f,0x001a,0x0029,0x0027            | +018fa
-        .dc.l   Data_0c0000                   | +01908  -> $0C0000
+        .dc.l   BgMap_0c0000                   | +01908  -> $0C0000
         .dc.w   0x001f,0x001e,0x0024,0x0028,0x0008,0x0003,0x001f,0x0021     | +0190c
         .dc.w   0x0021,0x0028,0x0004,0x0006,0x001e,0x0025,0x001d,0x0029     | +0191c
         .dc.w   0x0001,0x0009,0x001d,0x0027,0x0019,0x0028,0xfffc            | +0192c
-        .dc.l   Data_0c001c                   | +0193a  -> $0C001C
+        .dc.l   BgMap_0c001c                   | +0193a  -> $0C001C
         .dc.w   0x0029,0x0014,0x0027,0xfff7,0x000f,0x001b,0x002b,0x0013     | +0193e
         .dc.w   0x0027,0xfff4,0x0013,0x0019,0x002e,0x000e,0x0025,0xfff1     | +0194e
         .dc.w   0x0015,0x0017,0x002f,0x000a,0x0025,0xffed,0x0016,0x0015     | +0195e
         .dc.w   0x0031,0x0003,0x0022,0xffe9,0x0011,0x001e,0x002a            | +0196e
-        .dc.l   Data_0e0000                   | +0197c  -> $0E0000
+        .dc.l   BgMap_0e0000                   | +0197c  -> $0E0000
         .dc.l   0x0000ffee                    | +01980  -> $00FFEE
         .dc.l   AnimScr_180010                   | +01984  -> $180010
         .dc.w   0x001e,0x002a                                               | +01988
-        .dc.l   Data_0dfff0                   | +0198c  -> $0DFFF0
+        .dc.l   BgMap_0dfff0                   | +0198c  -> $0DFFF0
         .dc.w   0x0019                                                      | +01990
         .dc.l   Zero_12001e                   | +01992  -> $12001E
         .dc.w   0x002a,0x000b,0xfff0,0x0019,0x0012,0x001d,0x002a,0x000a     | +01996
@@ -11895,7 +11895,7 @@ Data_18916e:
         .dc.w   0x001f,0x0020,0x000e,0x0028,0xffee,0x0006,0x001e,0x0023     | +01ba0
         .dc.w   0x000a,0x0026,0xffec,0x0009,0x001d,0x0023,0x0004,0x0023     | +01bb0
         .dc.w   0xffe6                                                      | +01bc0
-        .dc.l   Data_0c001c                   | +01bc2  -> $0C001C
+        .dc.l   BgMap_0c001c                   | +01bc2  -> $0C001C
         .dc.w   0x0022                                                      | +01bc6
         .dc.l   0x00010020                    | +01bc8  -> $010020
         .dc.w   0xffe3,0x000f,0x001b,0x0021,0xfffe,0x001e,0xffe0,0x0013     | +01bcc
@@ -11914,7 +11914,7 @@ Data_18916e:
         .dc.w   0x000d,0x0028,0xfff1,0x0003,0x001f,0x001e,0x000b,0x0027     | +01c58
         .dc.w   0xffed,0x0006,0x001e,0x0022,0x0007,0x0026,0xffea,0x0009     | +01c68
         .dc.w   0x001d,0x0022,0x0003,0x0022,0xffe5                          | +01c78
-        .dc.l   Data_0c001c                   | +01c82  -> $0C001C
+        .dc.l   BgMap_0c001c                   | +01c82  -> $0C001C
         .dc.w   0x0022,0x0002,0x001f,0xffe3,0x000f,0x001b,0x0022,0xffff     | +01c86
         .dc.w   0x001c,0xffe0,0x0013,0x0019,0x0023,0xfffa,0x001a,0xffe1     | +01c96
         .dc.w   0x0015                                                      | +01ca6
@@ -11941,7 +11941,7 @@ Data_18916e:
         .dc.w   0x0028,0xffe7,0x000f,0xfff0,0x002d,0x000e,0x0026,0xffe7     | +01d7c
         .dc.w   0x000f,0xfff0,0x002d,0x000e,0x0025,0xffe7,0x000f,0xfff0     | +01d8c
         .dc.w   0x002d                                                      | +01d9c
-        .dc.l   Data_0e0024                   | +01d9e  -> $0E0024
+        .dc.l   BgMap_0e0024                   | +01d9e  -> $0E0024
         .dc.w   0xffe7,0x000e,0xfff1,0x002c,0x000f,0x0024,0xffe7,0x000e     | +01da2
         .dc.w   0xfff0,0x002e,0x000e,0x0026,0xffe7,0x000e,0xfff0,0x002b     | +01db2
         .dc.w   0x000e,0x0026,0xffe7                                        | +01dc2
@@ -11954,7 +11954,7 @@ Data_18916e:
         .dc.w   0x002b,0x000d,0x0026,0xffe7,0x000f,0xffef,0x002c,0x000f     | +01e08
         .dc.w   0x0025,0xffe7,0x000e,0xfff0,0x002e,0x000e,0x0026,0xffe7     | +01e18
         .dc.w   0x000e,0xfff1,0x002d                                        | +01e28
-        .dc.l   Data_0e0024                   | +01e2e  -> $0E0024
+        .dc.l   BgMap_0e0024                   | +01e2e  -> $0E0024
         .dc.w   0xffe7,0x000e,0xfff2,0x002d,0x000e,0x0025,0xffe7            | +01e32
         .dc.l   ColMap_10fff0                    | +01e40  -> $10FFF0
         .dc.w   0x002d,0x000e,0x0027,0xffe7,0x0010,0xffef,0x002e,0x000e     | +01e44
@@ -12018,9 +12018,9 @@ Data_18b02e:
         .dc.l   Pal_020020                   | +001f2  -> $020020
         .dc.w   0x0021,0x0019,0xffe7,0x000f,0x0004,0x0020,0x0022,0x0018     | +001f6
         .dc.w   0xffe7,0x000e,0x0004,0x0021,0x0021,0x0019,0xffe7            | +00206
-        .dc.l   Data_0e0003                   | +00214  -> $0E0003
+        .dc.l   BgMap_0e0003                   | +00214  -> $0E0003
         .dc.w   0x0021,0x0021,0x001b,0xffe7                                 | +00218
-        .dc.l   Data_0e0003                   | +00220  -> $0E0003
+        .dc.l   BgMap_0e0003                   | +00220  -> $0E0003
         .dc.w   0x0021,0x0022,0x001b,0xffe7                                 | +00224
         .dc.l   ColMap_100003                   | +0022c  -> $100003
         .dc.w   0x0020,0x0021,0x001d,0xffe7                                 | +00230
@@ -12043,7 +12043,7 @@ Data_18b271:
         .dc.l   Pal_020021                   | +00027  -> $020021
         .dc.w   0x0021,0x001c,0xffe7,0x000f,0x0003,0x0021,0x0021,0x001b     | +0002b
         .dc.w   0xffe7                                                      | +0003b
-        .dc.l   Data_0e0003                   | +0003d  -> $0E0003
+        .dc.l   BgMap_0e0003                   | +0003d  -> $0E0003
         .dc.w   0x0021,0x0022,0x001a,0xffe7,0x000e,0x0004,0x0021,0x0022     | +00041
         .dc.w   0x0019,0xffe7,0x000e,0x0004,0x0020,0x0021,0x001a,0xffe7     | +00051
         .dc.l   ColMap_100000                   | +00061  -> $100000
@@ -12252,13 +12252,13 @@ Data_18b46e:
         .dc.l   AnimScr_180011                   | +0056c  -> $180011
         .dc.w   0x001b,0x0029,0x0007,0xfff0,0x001a,0x0010,0x001b,0x002b     | +00570
         .dc.w   0x000a,0xfff0,0x001a,0x000f,0x001e,0x002a                   | +00580
-        .dc.l   Data_0dfff0                   | +0058c  -> $0DFFF0
+        .dc.l   BgMap_0dfff0                   | +0058c  -> $0DFFF0
         .dc.w   0x001a,0x000f,0x001c,0x0029,0x000f,0xfff0,0x001a            | +00590
         .dc.l   BgMap_0d001c                   | +0059e  -> $0D001C
         .dc.w   0x0029,0x0011,0xfff0,0x001a                                 | +005a2
         .dc.l   ColMap_10001c                   | +005aa  -> $10001C
         .dc.w   0x002b,0x0009,0xfff0,0x001a,0x0010,0x001d,0x0029            | +005ae
-        .dc.l   Data_0dfff0                   | +005bc  -> $0DFFF0
+        .dc.l   BgMap_0dfff0                   | +005bc  -> $0DFFF0
         .dc.w   0x001a,0x000d,0x001d,0x0029,0x000e,0xfff0,0x001a            | +005c0
         .dc.l   BgMap_0d001b                   | +005ce  -> $0D001B
         .dc.w   0x0028,0x0012,0xfff0,0x001a                                 | +005d2
@@ -12267,11 +12267,11 @@ Data_18b46e:
         .dc.l   Zero_12001c                   | +005e6  -> $12001C
         .dc.w   0x0029,0x000b,0xffef,0x001a,0x0011,0x001b,0x0029,0x0008     | +005ea
         .dc.w   0xffef,0x001a,0x000f,0x001b,0x0029,0x0009,0xffef,0x001a     | +005fa
-        .dc.l   Data_0e001c                   | +0060a  -> $0E001C
+        .dc.l   BgMap_0e001c                   | +0060a  -> $0E001C
         .dc.w   0x002a,0x0009,0xffef,0x001a                                 | +0060e
         .dc.l   BgMap_0d001c                   | +00616  -> $0D001C
         .dc.w   0x0028                                                      | +0061a
-        .dc.l   Data_0dfff0                   | +0061c  -> $0DFFF0
+        .dc.l   BgMap_0dfff0                   | +0061c  -> $0DFFF0
         .dc.w   0x001a                                                      | +00620
         .dc.l   SprFrame_14001b                   | +00622  -> $14001B
         .dc.w   0x002a,0x0008,0xfff0,0x001a                                 | +00626
@@ -12282,7 +12282,7 @@ Data_18b46e:
         .dc.w   0xffef,0x001a,0x0010,0x001d,0x0028,0x0009,0xffef,0x001a     | +0064e
         .dc.w   0x000f,0x001d,0x0028,0x0008,0xffef,0x001a,0x000f,0x001b     | +0065e
         .dc.w   0x0029,0x0009,0xffef,0x001a                                 | +0066e
-        .dc.l   Data_0e001c                   | +00676  -> $0E001C
+        .dc.l   BgMap_0e001c                   | +00676  -> $0E001C
         .dc.w   0x0027,0x000c,0xfff0,0x001a                                 | +0067a
         .dc.l   Zero_12001e                   | +00682  -> $12001E
         .dc.w   0x0029,0x0008,0xfff0,0x001a                                 | +00686
@@ -12335,7 +12335,7 @@ Data_18b46e:
         .dc.w   0xfff0,0x001a                                               | +00816
         .fill   8,1,0x00                      | +0081a
         .dc.w   0xfff0,0x001a                                               | +00822
-        .dc.l   Data_0e002e                   | +00826  -> $0E002E
+        .dc.l   BgMap_0e002e                   | +00826  -> $0E002E
         .dc.w   0x0021,0x0017,0xffef,0x001a,0x0003,0x0031,0x001c,0x001e     | +0082a
         .dc.w   0xffef,0x001b                                               | +0083a
         .dc.l   Pal_020032                   | +0083e  -> $020032
@@ -12356,7 +12356,7 @@ Data_18b46e:
         .dc.l   Pal_020028                   | +008c4  -> $020028
         .dc.w   0xffe1,0xffff,0xffee,0x0022,0x000a,0x0026,0xffe1,0xffff     | +008c8
         .dc.w   0xfff0,0x001f                                               | +008d8
-        .dc.l   Data_0c0028                   | +008dc  -> $0C0028
+        .dc.l   BgMap_0c0028                   | +008dc  -> $0C0028
         .dc.w   0xffe1,0x0000,0xfff1,0x001f,0x000e,0x0028,0xffe1,0x0000     | +008e0
         .dc.w   0xfff3,0x0020,0x000d,0x002a,0xffe1,0x0000,0xfff3,0x001f     | +008f0
         .dc.w   0x000b,0x002a,0xffe1                                        | +00900
@@ -12396,7 +12396,7 @@ Data_18be18:
         .dc.l   0x0000fff2                    | +00088  -> $00FFF2
         .dc.w   0x001f,0x000c,0x002b,0xffe2,0xffff,0xfff2,0x001d,0x000e     | +0008c
         .dc.w   0x0028,0xffe2,0xffff,0xfff2,0x001c                          | +0009c
-        .dc.l   Data_0c0028                   | +000a6  -> $0C0028
+        .dc.l   BgMap_0c0028                   | +000a6  -> $0C0028
         .dc.w   0xffe2,0xffff,0xfff1,0x001b,0x000c,0x0029,0xffe2,0xffff     | +000aa
         .dc.w   0xfff0,0x001b,0x000c,0x0029,0xffe1,0x0000,0xfff3,0x001f     | +000ba
         .dc.w   0x000e,0x0028,0xffe1                                        | +000ca
@@ -12434,7 +12434,7 @@ Data_18be18:
         .dc.w   0x000d,0x0028,0xfff2,0xffff,0x001e,0x001f,0x000c,0x0027     | +0026c
         .dc.w   0xfff0,0xfffe,0x001d,0x001f,0x000d,0x0028,0xfff1,0xfffe     | +0027c
         .dc.w   0x001d,0x001e,0x000d,0x0027,0xfff2,0xfffe,0x001d,0x001e     | +0028c
-        .dc.l   Data_0c0028                   | +0029c  -> $0C0028
+        .dc.l   BgMap_0c0028                   | +0029c  -> $0C0028
         .dc.w   0xfff2,0x0000,0x001f,0x001e,0x000d,0x0029,0xfff2,0x0000     | +002a0
         .dc.w   0x001f,0x0020,0x000d,0x002b,0xfff3,0x0000,0x001f,0x0020     | +002b0
         .dc.w   0x000e,0x002b,0xfff4,0xffff,0x001e,0x0020,0x000e,0x002b     | +002c0
@@ -12462,18 +12462,18 @@ Data_18c141:
         .dc.w   0x001f,0x001a,0x0011,0x002d,0xfffa,0x0000,0x001f,0x001e     | +00047
         .dc.w   0x000e,0x002a,0xfff2,0x0000,0x001f,0x0020,0x000d,0x002a     | +00057
         .dc.w   0xfff3,0xffff,0x001e,0x001e                                 | +00067
-        .dc.l   Data_0c0028                   | +0006f  -> $0C0028
+        .dc.l   BgMap_0c0028                   | +0006f  -> $0C0028
         .dc.w   0xfff1,0xffff,0x001e,0x001d,0x000e,0x0029,0xfff2,0xffff     | +00073
         .dc.w   0x001e,0x001c,0x000e,0x0029,0xfff3,0xffff,0x001e,0x001b     | +00083
         .dc.w   0x000f,0x002a,0xfff3,0x0000,0x0020,0x0020                   | +00093
-        .dc.l   Data_0c0028                   | +0009f  -> $0C0028
+        .dc.l   BgMap_0c0028                   | +0009f  -> $0C0028
         .dc.w   0xfff1,0x0000,0x001f,0x0021,0x000b,0x0028,0xfff0,0x0000     | +000a3
         .dc.w   0x001f,0x0021,0x000b,0x0027,0xffef,0x0000,0x001f,0x0022     | +000b3
         .dc.w   0x000b,0x0026,0xffee,0xffff,0x001e,0x001d,0x000d,0x0028     | +000c3
         .dc.w   0xfff2,0xffff,0x001e,0x001d,0x000e,0x0029,0xfff2,0xffff     | +000d3
         .dc.w   0x001e,0x001c,0x000e,0x0029,0xfff2,0xffff,0x001e,0x001b     | +000e3
         .dc.w   0x000f,0x002a,0xfff3,0x0000,0x001f,0x0020                   | +000f3
-        .dc.l   Data_0c0028                   | +000ff  -> $0C0028
+        .dc.l   BgMap_0c0028                   | +000ff  -> $0C0028
         .dc.w   0xfff1,0x0000,0x001f,0x0021,0x000b,0x0027,0xfff0,0x0000     | +00103
         .dc.w   0x001f,0x0021,0x000b,0x0026,0xffef,0x0000,0x001f,0x0021     | +00113
         .dc.w   0x000b,0x0026,0xffee,0xffff,0x001f,0x0020,0x0023,0x0028     | +00123
@@ -12505,9 +12505,9 @@ Data_18c141:
         .dc.w   0x002f,0x001c,0x0020,0xffee,0x0018,0x0003,0x002f,0x001b     | +0024f
         .dc.w   0x0020,0xfff0,0x0019,0x0008,0x002f,0x001f,0x001c,0xfff0     | +0025f
         .dc.w   0x0019,0x0008,0x002f,0x001e,0x001b,0xfff2,0x001b            | +0026f
-        .dc.l   Data_0c002e                   | +0027d  -> $0C002E
+        .dc.l   BgMap_0c002e                   | +0027d  -> $0C002E
         .dc.w   0x0021,0x0019,0xfff2,0x001b                                 | +00281
-        .dc.l   Data_0c002e                   | +00289  -> $0C002E
+        .dc.l   BgMap_0c002e                   | +00289  -> $0C002E
         .dc.w   0x0020,0x0019,0xfff4,0x001c,0x0010,0x002d,0x0022,0x0015     | +0028d
         .dc.w   0xfff4,0x001c,0x0011,0x002d,0x0022,0x0015,0xfff7,0x001d     | +0029d
         .dc.w   0x0014,0x002b,0x0024,0x0012,0xfff7,0x001d                   | +002ad
@@ -12898,11 +12898,11 @@ Data_18c141:
         .dc.w   0x0032,0x0019,0x0023,0xffee,0x0018                          | +00e7f
         .dc.l   0x00010030                    | +00e89  -> $010030
         .dc.w   0x001a,0x0021,0xfff0,0x0019,0x0012,0x001f,0x002b            | +00e8d
-        .dc.l   Data_0dfff0                   | +00e9b  -> $0DFFF0
+        .dc.l   BgMap_0dfff0                   | +00e9b  -> $0DFFF0
         .dc.w   0x0019,0x0009,0x0029,0x0021,0x0017,0xfff0,0x0019,0x0004     | +00e9f
         .dc.w   0x0031,0x001b,0x001f,0xfff0,0x0019,0x0004,0x0030,0x001c     | +00eaf
         .dc.w   0x001e,0xfff0,0x0019,0x0012,0x001f,0x002b                   | +00ebf
-        .dc.l   Data_0dfff0                   | +00ecb  -> $0DFFF0
+        .dc.l   BgMap_0dfff0                   | +00ecb  -> $0DFFF0
         .dc.w   0x0019,0x0009,0x0029,0x0021,0x0017,0xfff0,0x0019,0x0004     | +00ecf
         .dc.w   0x0031,0x001b,0x001f,0xfff0,0x0019,0x0004,0x0030,0x001c     | +00edf
         .dc.w   0x001e,0xfff2,0x001b                                        | +00eef

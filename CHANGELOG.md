@@ -15,6 +15,8 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **303 more data entries typed**: `Data_*` whose bytes are ≥ 90 % tilemap /
+  animation in the current census renamed `BgMap_*` (274) / `AnimScr_*` (29).
 - **Code-installed sprite scripts**: `data_census.walk_struct` follows the 1 274
   scripts that code installs via `lea X,a0 → EntitySetSpriteMap` or
   `move.l #X,$3C(a6)`, accepting hidden-sprite `02` ops (frame `$FFFFFFFF`)
