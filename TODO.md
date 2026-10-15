@@ -75,3 +75,8 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [ ] Más recetas en `internal/experiments/` (selección de misión, debug
       DIP, invulnerabilidad) siguiendo la regla de "mismo tamaño".
 - [x] CI: comprobar también `build_mrom.py` ✔ IDÉNTICA en GitHub Actions.
+
+- [ ] levels.py: renderizar también los 11 descriptores de parches de
+  Sprite_InvokeBlit8Params (data_census.blit_patches) como capas.
+- [ ] Datos "otro" (24,3 %): siguiente, revisar Data_196000 / AnimScr_1d6700 y
+  los MissionStream con bytes sin decodificar.

@@ -11,6 +11,9 @@ extractores (sprites.py, levels.py, scene_script_dump.py):
   anim        bytecode de animación (op 02 y demás ops recorridos)
   tilemap     mapas de celdas de fondo {tile.w, attr.w} de los bind_path
   collision   mapas de colisión de los bind_path (4 B por celda, w*h celdas)
+              (+ parches por Sprite_InvokeBlit8Params: `lea rec,a2; jsr $5022A`,
+              rec = {ent.l, desc.l, 6 w}, desc = {w, h, tiles.l}; sólo las
+              columnas que los registros llegan a copiar)
   lut         tablas generadas por fórmula (ColorRGB555ToNeoGeo, ColorRamp)
   zero        rachas de $00 >= 16 B
   other       resto (tablas de código, parámetros, strings, etc.)
@@ -44,6 +47,27 @@ def modules():
     return sorted(m.items(), key=lambda t: t[1][0])
 
 
+def blit_patches(p, code_end=0x90000):
+    """-> [(rec, desc, w, h, tiles, ncol)] de los registros de 20 B que
+    Sprite_InvokeBlit8Params pasa a CellCommit_MMIO_051DE2 (a0 = ent, a1 =
+    desc, d0..d5 = col_dest, fila_dest, col_origen, fila_origen, ancho, alto).
+    ncol = máxima columna de origen copiada (col_origen + ancho)."""
+    recs = set()
+    for o in range(0, code_end, 2):
+        if p.W(o) == 0x45F9 and p.W(o + 6) == 0x4EB9 and p.L(o + 8) == 0x5022A:
+            recs.add(p.L(o + 2))
+    by_desc = {}
+    for r in recs:
+        by_desc.setdefault(p.L(r + 4), []).append(r)
+    out = []
+    for desc, rs in sorted(by_desc.items()):
+        w, h, tiles = p.W(desc), p.W(desc + 2), p.L(desc + 4)
+        ncol = max(p.W(r + 12) + p.W(r + 16) for r in rs)
+        for r in rs:
+            out.append((r, desc, w, h, tiles, min(ncol, w)))
+    return out
+
+
 def classify(p):
     """-> dict cpu_addr -> kind (sólo bytes marcados)."""
     mark = {}
@@ -65,6 +89,9 @@ def classify(p):
             put(L["tiles"], 4 * L["w"] * L["h"], "tilemap")
             if L["collision"]:
                 put(L["collision"], 4 * L["w"] * L["h"], "collision")
+    # parches de tilemap: lea rec.l,a2 ; jsr Sprite_InvokeBlit8Params ($5022A)
+    for rec, desc, w, h, tiles, ncol in blit_patches(p):
+        put(tiles, 4 * h * ncol, "tilemap")
     # frames + scripts de animación
     ops, frames = S.find_frames(p)
     for fa in frames:

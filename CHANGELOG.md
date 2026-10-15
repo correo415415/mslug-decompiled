@@ -15,6 +15,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Tilemap patches in the census**: `data_census.py` now follows the 321
+  `lea rec,a2; jsr Sprite_InvokeBlit8Params` records (`{ent, desc, 6 w}` →
+  `CellCommit_MMIO_051DE2`) to their 11 layer descriptors `{w, h, tiles}`
+  (e.g. `$29A542` → `$0BB0A8`), marking ~79 KB more as tilemap. "Other" data:
+  29.3 % → 24.3 %.
 - **Colour tables rebuilt from their formulas**: `asm/data/sprite_tables_002f30.s`
   (66 688 B, 428 placeholder entries) is now 3 entries assembled with `.rept`:
   `ColorRGB555ToNeoGeo_002f30`, `ColorRamp_RowPtr_012f30` (was the forward
