@@ -61,6 +61,32 @@ en grises; se pueden forzar en `assets/map/anim_palettes.txt`.
 `python3 assets/tools/sprites.py render 2BCBC4 36 --scale 3` dibuja una sola
 animación (`build/assets/render_<script>_p<pal>.gif`).
 
+## Fondos de las misiones (`levels.py`)
+
+`python3 assets/tools/levels.py` (≈ 5 s) → `build/assets/levels/`: 52 capas
+de fondo únicas de 13 escenas (las 6 misiones, attract, game over,
+cutscenes) en PNG RGBA con sus paletas, `levels.json` e `index.html`.
+
+Los fondos son capas de sprites que mueven los 4 contextos de cámara
+(`$106F6C`, `$107FE8`, `$108064`, `$1080E0` → `cam0..cam3`; cada uno con su
+parallax). El script de cada escena (`SceneDescTable_0916C8`, VM
+`SceneScriptVM_Frame_0437DA`) las enlaza con el op `$00 bind_path`:
+
+    00 00  ent.l  w.w h.w tiles.l  colisión.l  ancla_x.w ancla_y.w
+
+* `{w, h, tiles}` es el descriptor que lee `CellCommit_MMIO_051DE2`: `w`
+  columnas de `h` celdas **por columnas**, cada celda `{tile.w, attr.w}` en
+  formato SCB1 (attr = paleta << 8 | tile_msb << 4 | autoanim << 2 | flipV << 1 |
+  flipH), copiada tal cual a la VRAM según avanza el scroll (ventana de
+  32×32 celdas).
+* La paleta es un slot dinámico: el op `$0A` de la escena da los pares
+  `{slot, banco}` que `PalSlot_LoadListHi_002b58` carga del banco `$1CE00`.
+* `colisión` apunta al mapa de colisión de la capa (o 0) y el ancla es su
+  posición en el mundo.
+
+Las celdas con un slot que la escena no define salen en grises (se listan en
+`missing_palette_slots`; sólo quedan 4 capas con el slot 0, que fija otro código).
+
 ## Sonido (`audio.py`)
 
 `201-v1.bin + 201-v2.bin` forman un espacio ADPCM de 8 MiB. Los límites y

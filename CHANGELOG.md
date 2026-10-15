@@ -10,6 +10,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Level backgrounds** (`assets/tools/levels.py`): the 52 unique background
+  layers of 13 scenes (all six missions, attract, game over, cutscenes) as
+  RGBA PNG with their palettes, decoded from the scene scripts' `bind_path`
+  ops (column-major SCB1 cell maps + `$0A` palette slot pairs); JSON + HTML.
 - **Sprites as the game draws them** (`assets/tools/sprites.py`): the 1,536
   P-ROM palettes, 8,364 multi-piece frames and ~980 animations (interpreting
   `Script_OpcodeTable` byte-code) exported to PNG/GIF with real timings,
