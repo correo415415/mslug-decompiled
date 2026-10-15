@@ -15,6 +15,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Census kind `struct`**: bytes already decoded by a dedicated parser
+  (mission streams, template index, scene tables/scripts/entities/triggers,
+  blit-patch records and descriptors). "Other" data: 24.3 % → 19.8 %.
 - **Background patches rendered**: `levels.py` writes the 11 patch source maps
   (`patches/patch_<desc>.png`: intact/destroyed façades, doors, rubble) and
   lists every record (dst, src, size) under `patches` in `levels.json`.

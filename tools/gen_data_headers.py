@@ -55,9 +55,9 @@ def code_users(p):
 _p = S.PRom()
 cen = {f: (lo, hi, dict(c)) for f, lo, hi, c in DC.census(_p, DC.classify(_p))}
 uses = code_users(_p)
-KINDS = ("palette", "frame", "anim", "tilemap", "collision", "lut", "zero", "other")
+KINDS = ("palette", "frame", "anim", "tilemap", "collision", "struct", "lut", "zero", "other")
 KN = dict(palette="paletas", frame="frames", anim="animación", tilemap="mapas de fondo",
-          collision="colisión", lut="tablas por fórmula", zero="ceros", other="otro")
+          collision="colisión", struct="estructuras", lut="tablas por fórmula", zero="ceros", other="otro")
 
 TEXT = {
 "sprite_tables_002f30.s": dict(

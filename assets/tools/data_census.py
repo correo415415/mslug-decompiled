@@ -14,6 +14,10 @@ extractores (sprites.py, levels.py, scene_script_dump.py):
               (+ parches por Sprite_InvokeBlit8Params: `lea rec,a2; jsr $5022A`,
               rec = {ent.l, desc.l, 6 w}, desc = {w, h, tiles.l}; sólo las
               columnas que los registros llegan a copiar)
+  struct      estructuras decodificadas con formato documentado: bytecode de
+              misión (MissionStream_/MissionAux_), plantillas (TemplateIndex_),
+              tabla/scripts/entidades/triggers de escena (Scene*_), registros
+              y descriptores de parche de Sprite_InvokeBlit8Params
   lut         tablas generadas por fórmula (ColorRGB555ToNeoGeo, ColorRamp)
   zero        rachas de $00 >= 16 B
   other       resto (tablas de código, parámetros, strings, etc.)
@@ -32,7 +36,11 @@ import sprites as S          # noqa: E402
 import levels as LV          # noqa: E402
 import registry              # noqa: E402
 
-KINDS = ("palette", "frame", "anim", "tilemap", "collision", "lut", "zero", "other")
+KINDS = ("palette", "frame", "anim", "tilemap", "collision", "struct", "lut", "zero", "other")
+
+# prefijos de registry cuyo contenido entero ya está decodificado por su parser
+STRUCT_PREFIXES = ("MissionStream_", "MissionAux_", "TemplateIndex_", "SceneDescTable_",
+                   "SceneScript_", "SceneEntities_", "SceneTrig_")
 
 # tablas de color del motor de paletas (asm/data/sprite_tables_002f30.s)
 LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0))
@@ -92,6 +100,12 @@ def classify(p):
     # parches de tilemap: lea rec.l,a2 ; jsr Sprite_InvokeBlit8Params ($5022A)
     for rec, desc, w, h, tiles, ncol in blit_patches(p):
         put(tiles, 4 * h * ncol, "tilemap")
+        put(rec, 20, "struct")
+        put(desc, 8, "struct")
+    # módulos con parser propio (mission_streams, scene_scripts, template_index)
+    for name, a, n, f in registry.REGISTRY:
+        if name.startswith(STRUCT_PREFIXES):
+            put(p.cpu(a), n, "struct")
     # frames + scripts de animación
     ops, frames = S.find_frames(p)
     for fa in frames:
