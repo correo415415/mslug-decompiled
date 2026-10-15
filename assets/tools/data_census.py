@@ -21,7 +21,8 @@ extractores (sprites.py, levels.py, scene_script_dump.py):
               tabla/scripts/entidades/triggers de escena (Scene*_), registros
               y descriptores de parche de Sprite_InvokeBlit8Params, cajas de
               Entity_CheckOnScreenBox, rejillas de $43FAC y registros de 12 B
-              del op 19 de animación
+              del op 19 de animación, diccionarios
+              de nombres de Results_RosterPick (ROSTER_NAMES)
   lut         tablas generadas por fórmula (ColorRGB555ToNeoGeo, ColorRamp)
   zero        rachas de $00 >= 16 B
   other       resto (tablas de código, parámetros, strings, etc.)
@@ -213,6 +214,29 @@ def code_arg_tables(p, code_end=0x90000):
     return out
 
 
+# Diccionarios de nombres de Results_RosterPickA/B_03e6da/03e740 (pantalla de
+# resultados): d0 = Random(n) -> longitud = LenTab[d0]; {ptr.l, cnt.l} =
+# PtrTab[longitud - base]; nombre = ptr + longitud * Random(cnt).
+#   (LenTab, n, PtrTab, base): A = katakana (b>=$80 -> tile $2A00+b-$80),
+#   B = ASCII (modo $10FD83).
+ROSTER_NAMES = ((0x182DE0, 0x3B2, 0x1831B2, 1), (0x182C3C, 0x14C, 0x182D88, 2))
+
+
+def roster_names(p):
+    """-> [(addr, len)] de las tablas de longitudes, de punteros y los pools."""
+    out = []
+    for lt, n, pt, base in ROSTER_NAMES:
+        lt, pt = p.cpu(lt), p.cpu(pt)
+        out.append((lt, n))
+        kmax = max(p.B(lt + i) for i in range(n))
+        out.append((pt, 8 * (kmax - base + 1)))
+        for k in range(base, kmax + 1):
+            ptr, cnt = p.L(pt + 8 * (k - base)), p.L(pt + 8 * (k - base) + 4)
+            if p.valid(ptr, k * cnt):
+                out.append((ptr, k * cnt))
+    return out
+
+
 def classify(p):
     """-> dict cpu_addr -> kind (sólo bytes marcados)."""
     mark = {}
@@ -259,6 +283,9 @@ def classify(p):
                 n = 6
             put(a, n, "anim")
             op_starts.add(a)
+    # diccionarios de nombres de la pantalla de resultados
+    for a, n in roster_names(p):
+        put(a, n, "struct")
     # tablas de argumentos de formato fijo (cajas en pantalla, rejillas de sondeo)
     for a, n in code_arg_tables(p):
         put(a, n, "struct")

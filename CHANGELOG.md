@@ -15,6 +15,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Results-screen name dictionaries** (`$182C3C..$185CF4`, 12 KB): length
+  tables, `{ptr, count}` tables and name pools used by
+  `Results_RosterPickA/B` (katakana / ASCII), now named entries
+  (`RosterLenTab*`, `RosterPtrTab*`, `RosterNames*`) with the pointer tables as
+  `.dc.l RosterNames*+off` and the code `lea`s symbolic. New
+  `tools/resplit_data.py` re-splits a data span into named entries keeping the
+  symbolic `.dc.l`. "Other" data: 17.3 % → 16.5 %.
 - **More census structs**: on-screen boxes passed to
   `Entity_CheckOnScreenBox` (8 B), probe grids passed to `$43FAC`
   (`{dx,dy,w,h}` + w·h B) and the 12-byte records installed by sprite-script

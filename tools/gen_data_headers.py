@@ -162,6 +162,13 @@ GEN = dict(
    tiles[w*h].w por columnas}}. AnimScr_: ops de 1..12 B (02 = dibuja,
    00 n = espera, 01 = salto, 03 = bucle, 1B..1E = fin); ver assets/README.md.""",
  E="""ScriptOp02_Sprite_028dfe y el intérprete de animación de entity/*.""")
+EXTRA = {
+ "level_d_16b035.s": """Diccionarios de nombres de la pantalla de resultados
+   ($182C3C..$185CF4, Results_RosterPickA/B_03e6da/03e740): RosterLenTab*
+   (longitud por índice aleatorio), RosterPtrTab* ({ptr.l, cnt.l} por
+   longitud) y RosterNames* (nombres de igual longitud seguidos, sin
+   separador; A = katakana en tiles $2300/$2A00, B = ASCII).""",
+}
 TAIL = {
  "rom_tail_fill_1f8000.s": "Fin del P-ROM: 2 244 B de animación (objetos lanzados, bandera) y relleno $00; $1FF800 = firma 12345678.",
 }
@@ -198,6 +205,8 @@ def header(f):
         txt = t[key]
         if key == "A" and f in TAIL:
             txt = TAIL[f]
+        if key == "A" and f in EXTRA:
+            txt = txt + "\n" + EXTRA[f]
         for line in txt.splitlines():
             L.append("|  " + line.strip("\n") if line.startswith("   ") else "|   " + line)
         if key == "E":

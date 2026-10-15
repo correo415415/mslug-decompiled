@@ -1021,7 +1021,7 @@ Results_RosterPickA_03e6da:
         move.b  d0,(a6,d1.w)                    | +012
         move.w  #0x3b2,d0                       | +016
         jsr     0x5e9e4.l                       | +01a
-        lea     0x282de0.l,a1                   | +020
+        lea     (RosterLenTabA_182de0+0x100000).l,a1  | +020
         clr.l   d2                              | +026
         move.b  (a1,d0.w),d2                    | +028
         move.w  0x5c(a6),d1                     | +02c
@@ -1030,7 +1030,7 @@ Results_RosterPickA_03e6da:
         move.l  d2,d3                           | +038
         subq.w  #0x1,d2                         | +03a
         lsl.w   #0x3,d2                         | +03c
-        lea     0x2831b2.l,a1                   | +03e
+        lea     (RosterPtrTabA_1831b2+0x100000).l,a1  | +03e
         movea.l (a1,d2.w),a2                    | +044
         move.l  0x4(a1,d2.w),d0                 | +048
         jsr     0x5e9e4.l                       | +04c
@@ -1055,7 +1055,7 @@ Results_RosterPickB_03e740:
         move.b  d0,(a6,d1.w)                    | +012
         move.w  #0x14c,d0                       | +016
         jsr     0x5e9e4.l                       | +01a
-        lea     0x282c3c.l,a1                   | +020
+        lea     (RosterLenTabB_182c3c+0x100000).l,a1  | +020
         clr.l   d2                              | +026
         move.b  (a1,d0.w),d2                    | +028
         move.w  0x5c(a6),d1                     | +02c
@@ -1064,7 +1064,7 @@ Results_RosterPickB_03e740:
         move.l  d2,d3                           | +038
         subq.w  #0x2,d2                         | +03a
         lsl.w   #0x3,d2                         | +03c
-        lea     0x282d88.l,a1                   | +03e
+        lea     (RosterPtrTabB_182d88+0x100000).l,a1  | +03e
         movea.l (a1,d2.w),a2                    | +044
         move.l  0x4(a1,d2.w),d0                 | +048
         jsr     0x5e9e4.l                       | +04c
