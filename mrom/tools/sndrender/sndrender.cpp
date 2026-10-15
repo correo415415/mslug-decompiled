@@ -227,6 +227,7 @@ int main(int argc, char **argv) {
     bool auto_stop = false;
     double warmup = 0.25, fade_at = -1, fade_len = 8, max_s = 0;
     int loop_tracks = 0, loops = 1;
+    bool trace_tempo = false;        // debug: log FDE7/FDEB (tempo base/offset) changes
     const char *vgm_path = nullptr;
     std::string title = "";
     std::vector<uint8_t> cmds;
@@ -240,6 +241,7 @@ int main(int argc, char **argv) {
         else if (!strcmp(argv[i], "--loop-tracks") && i + 1 < argc) loop_tracks = atoi(argv[++i]);
         else if (!strcmp(argv[i], "--loops") && i + 1 < argc) loops = atoi(argv[++i]);
         else if (!strcmp(argv[i], "--max") && i + 1 < argc) max_s = atof(argv[++i]);
+        else if (!strcmp(argv[i], "--trace-tempo")) trace_tempo = true;
         else cmds.push_back(uint8_t(strtoul(argv[i], nullptr, 16)));
     }
     memset(board.ram, 0, sizeof board.ram);
@@ -325,6 +327,15 @@ int main(int argc, char **argv) {
                 }
             }
             z80_step(&board.cpu);
+            if (trace_tempo) {
+                static int lt = -1000;
+                int cur = (board.ram[0xFDE7 - 0xF800] << 8) | board.ram[0xFDEB - 0xF800];
+                if (cur != lt) {
+                    fprintf(stderr, "tempo %.3f s base=%d off=%d\n", double(s > warm ? s - warm : 0) / sr_exact,
+                            int8_t(board.ram[0xFDE7 - 0xF800]), int8_t(board.ram[0xFDEB - 0xF800]));
+                    lt = cur;
+                }
+            }
             if (board.cpu.pc == 0x0038) irq_count++;
             if (board.cpu.pc == 0x0066) nmi_count++;
         }

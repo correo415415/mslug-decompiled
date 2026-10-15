@@ -13,8 +13,12 @@ Timing model (driver code):
        running the driver on ymfm (mrom/tools/sndrender);
   * music tracks step when the accumulator FDF0 += (tempo + 129) carries,
     i.e. (tempo + 129) / 256 steps per tick, tempo = signed
-    NoteMapTable_4B84[header byte];  S_TEMPO (CD) changes are marked with a
-    text event but not converted (curve Seq_ScaleByCurve_4F69 not modelled);
+    NoteMapTable_4B84[header byte] (FDE7) + offset (FDEB, signed saturation);
+  * S_TEMPO m, s (CD): Seq_SetTempo_4F39 -> FDEE = m, FDED = s; the offset
+    target is Seq_ScaleByCurve_4F69(FDE7, m) - FDE7, i.e. a multiply in the
+    log domain with the tables at 0x1400 (log) / 0x1500 (exp): 0x40 = x1.
+    s = ramp speed (0 = immediate; every S_TEMPO in the game uses 0), so each
+    one becomes an exact MIDI set-tempo event;
   * SFX tracks step once per tick.
 One sequence step = one MIDI tick; the set-tempo meta event gives the real
 duration.  `wait` = steps to the next event, `dur` = key-on steps (0 = rest),
@@ -43,6 +47,28 @@ RESET = (0x40, 0xC0, 0xC0, 0x7F)          # note, wait, dur, vel after C2/C4/C5/
 
 def s8(v):
     return v - 256 if v & 0x80 else v
+
+
+def scale_by_curve(rom, a, l):
+    """Seq_ScaleByCurve_4F69: a (signed tempo) scaled by curve index l."""
+    a = (a + 0x80) & 0xFF
+    e = rom[0x1400 + l]
+    a = rom[0x1400 + a] + e
+    if a > 0xFF:                       # carry
+        a = (a & 0xFF) - 0xC0
+        a = 0xFF if a >= 0 else a & 0xFF
+    else:
+        a -= 0xC0
+        a = 0 if a < 0 else a
+    return s8((rom[0x1500 + a] - 0x80) & 0xFF)
+
+
+def tempo_with(rom, base, m):
+    """tempo efectivo (FDE7 + FDEB) tras S_TEMPO m,0."""
+    if m == 0x40:
+        return base
+    off = s8((scale_by_curve(rom, base, m) - base) & 0xFF)
+    return max(-128, min(127, base + off))
 
 
 def interpret(rom, pc):
@@ -150,7 +176,7 @@ def chunk(evs):
     return b"MTrk" + struct.pack(">I", len(out)) + bytes(out)
 
 
-def to_midi(rom, tracks, steps_per_sec, title):
+def to_midi(rom, tracks, steps_per_sec, title, base_tempo=None):
     def instr_type(hi, lo):
         if hi is None or hi == 0xFF:
             return None
@@ -186,6 +212,10 @@ def to_midi(rom, tracks, steps_per_sec, title):
                 out.append((t, 1, bytes([0xB0 | ch, 10, 64 if d == 0x40 else (0 if d < 0x40 else 127)])))
             elif kind == "tempo":
                 cond.append((t, 0, meta(1, f"S_TEMPO {d[0]:02X},{d[1]:02X}")))
+                if base_tempo is not None:
+                    eff = tempo_with(rom, base_tempo, d[0])
+                    sps = TIMER_HZ * (eff + 129) / 256
+                    cond.append((t, 1, b"\xff\x51\x03" + struct.pack(">I", int(round(PPQ / sps * 1e6)))[1:]))
             elif kind == "loop":
                 out.append((t, 0, meta(6, "loop")))
         chunks.append(chunk(out))
@@ -209,8 +239,9 @@ def main():
         h = p24(rom, MUSIC_TABLE + 4 * i)
         name = ids.get(0x20 + i, (f"Music_{i:02d}",))[0]
         trks = [(interpret(rom, s), c) for s, c in header_tracks(rom, h + 1)]
-        sps = TIMER_HZ * (s8(rom[0x4B84 + rom[h]]) + 129) / 256
-        data = to_midi(rom, [(e, c) for (e, _), c in trks], sps, name)
+        base = s8(rom[0x4B84 + rom[h]])
+        sps = TIMER_HZ * (base + 129) / 256
+        data = to_midi(rom, [(e, c) for (e, _), c in trks], sps, name, base)
         fn = os.path.join(OUT, f"music_{i:02d}_{name}.mid")
         open(fn, "wb").write(data)
         notes = sum(1 for (e, _), _c in trks for x in e if x[1] == "note")

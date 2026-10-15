@@ -259,9 +259,15 @@ script (`ScriptOp04_Sound`, `PathScript_OpMusic`, `MiniScript_Step`,
 * Pistas de música: cada tick `FDF0 += tempo + 129`; avanzan un paso por cada
   acarreo al byte alto → `(tempo + 129) / 256` pasos por tick, con `tempo` =
   `NoteMapTable_4B84[byte de cabecera]` con signo (p. ej. Mission1: `1Ch` →
-  ≈ 51 pasos/s). `CD` cambia el tempo de forma gradual mediante
-  `Seq_ScaleByCurve_4F69` (no modelado en el MIDI; en el WAV sí, porque se
-  ejecuta el driver).
+  ≈ 51 pasos/s). `CD m, s` (`Seq_SetTempo_4F39`) fija FDEE = m y FDED = s;
+  el desplazamiento FDEB tiende a `Seq_ScaleByCurve_4F69(FDE7, m) − FDE7`,
+  una multiplicación en dominio logarítmico con las tablas `0x1400` (log) /
+  `0x1500` (exp): `m = 40h` → ×1. `s` es la velocidad de rampa; todos los `CD`
+  del juego usan `s = 0` (inmediato). El tempo efectivo es FDE7 + FDEB con
+  saturación. `export_midi.py` lo convierte en eventos set-tempo exactos: los
+  desplazamientos y los tiempos coinciden con el driver ejecutado
+  (`sndrender --trace-tempo`; Music_SceneB: 9,03/62,05/105,24 s frente a
+  9,07/62,09/105,28 s).
 * Pistas de SFX: un paso por tick.
 
 ### MIDI (`mrom/tools/export_midi.py`)

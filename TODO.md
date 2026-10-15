@@ -52,7 +52,7 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [ ] Fondos: slot de paleta 0 de 4 capas; composición con parallax/anclas.
 - [x] Codificador ADPCM-A/B para sustituir muestras desde WAV (`audio.py encode`).
 - [x] Exportar las pistas musicales a MIDI con sus nombres
-      (`mrom/tools/export_midi.py`). Pendiente: modelar la curva de `S_TEMPO`.
+      (`mrom/tools/export_midi.py`). La curva de `S_TEMPO` ya está modelada (set-tempo exactos).
 - [x] Exportar todo el audio a WAV idéntico al juego (`mrom/tools/export_wav.py`:
       driver real en Z80 + YM2610 ymfm + V-ROM; 13 músicas + 177 SFX).
 - [x] VGM 1.51 (`export_wav.py --vgm`): escrituras YM2610 + bloques ADPCM-A/B.

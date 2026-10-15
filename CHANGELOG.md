@@ -10,6 +10,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **S_TEMPO in MIDI**: `Seq_ScaleByCurve_4F69` (log/exp tables at
+  0x1400/0x1500) modelled; every `CD` becomes an exact set-tempo event,
+  verified against the running driver (`sndrender --trace-tempo`).
 - **ADPCM encoder** (`audio.py encode a|b`): WAV → ADPCM-A/B choosing per
   sample the nibble whose decoded value (exact YM2610 arithmetic) is closest;
   re-encoding the extracted WAVs gives back all 321 ADPCM-A samples byte for
