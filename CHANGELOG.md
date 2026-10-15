@@ -10,6 +10,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **ADPCM encoder** (`audio.py encode a|b`): WAV → ADPCM-A/B choosing per
+  sample the nibble whose decoded value (exact YM2610 arithmetic) is closest;
+  re-encoding the extracted WAVs gives back all 321 ADPCM-A samples byte for
+  byte.
 - **Level backgrounds** (`assets/tools/levels.py`): the 52 unique background
   layers of 13 scenes (all six missions, attract, game over, cutscenes) as
   RGBA PNG with their palettes, decoded from the scene scripts' `bind_path`

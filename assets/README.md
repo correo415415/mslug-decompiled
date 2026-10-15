@@ -101,7 +101,20 @@ nombres de cada muestra salen de los instrumentos del M-ROM
 
 `index.csv` lista offset, tamaño, tipo, nombre, frecuencia, instrumentos que
 la usan y fichero. `build` concatena los ficheros crudos en orden y comprueba
-el MD5. Los WAV son vista previa (re-codificar ADPCM es con pérdida).
+el MD5. Los WAV son vista previa; para sustituir una muestra:
+
+    python3 assets/tools/audio.py encode a nuevo.wav build/assets/audio/pcma/PcmA_XXXXX_NN.adpcma
+    python3 assets/tools/audio.py encode b nuevo.wav build/assets/audio/pcmb/PcmB_XXXXX.adpcmb --rate HZ
+    python3 assets/tools/audio.py build
+
+El codificador (mono, re-muestreo lineal; ADPCM-A a 18 500 Hz por defecto)
+elige en cada muestra el nibble cuyo valor *decodificado* con la aritmética
+exacta del YM2610 queda más cerca, así que no acumula error; en ADPCM-B
+desempata los casos de saturación mirando 2 muestras por delante. Volver a
+codificar un WAV extraído reproduce los 321 ADPCM-A byte a byte y 41/54
+ADPCM-B (el resto a 33–49 dB SNR). Rellena con silencio hasta un múltiplo de
+256 B; si la muestra cambia de tamaño hay que ajustar sus límites en
+`mrom/sound/instruments.s` (`PCMA_SAMPLE` / `PCMB_SAMPLE`) y el índice.
 
 ### Músicas y SFX completos tal como suenan en el juego
 

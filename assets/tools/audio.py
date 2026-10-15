@@ -18,10 +18,12 @@ extract writes to build/assets/audio/:
 build concatenates the raw pieces back into 201-v1.bin / 201-v2.bin and checks
 the MD5.  The raw ADPCM files are the editable source for a byte-identical
 rebuild; the WAVs are previews (ADPCM re-encoding is lossy, so a modified WAV
-has to be re-encoded with an external encoder).
+is re-encoded with `encode`, which picks per sample the nibble whose decoded
+value is closest, using the exact decoder arithmetic).
 
     python3 assets/tools/audio.py extract
     python3 assets/tools/audio.py build
+    python3 assets/tools/audio.py encode a|b IN.wav OUT.adpcma|.adpcmb [--rate HZ]
 """
 import csv, hashlib, os, re, struct, sys, wave
 
@@ -63,6 +65,118 @@ def decode_b(data):
             delta = min(24576, max(127, (delta * B_TAB[nib & 7]) >> 6))
             out += struct.pack("<h", acc)
     return bytes(out)
+
+
+# ---- ADPCM encoders (inversos exactos de los decodificadores) --------------------
+def encode_a(pcm16):
+    """PCM 16 bits con signo (lista/array) -> bytes ADPCM-A. Por cada muestra
+    elige el nibble cuyo resultado DECODIFICADO (misma aritmética que
+    decode_a, 12 bits) queda más cerca; así el error no se acumula."""
+    acc, step, nibs = 0, 0, []
+    for x in pcm16:
+        target = max(-2048, min(2047, int(x) >> 4))
+        best = None
+        for nib in range(16):
+            d = ((2 * (nib & 7) + 1) * A_STEP[step]) >> 3
+            a = acc - d if nib & 8 else acc + d
+            a = ((a + 0x800) & 0xFFF) - 0x800
+            e = abs(a - target)
+            if best is None or e < best[0]:
+                best = (e, nib, a)
+        _, nib, acc = best
+        step = min(48, max(0, step + A_INC[nib & 7]))
+        nibs.append(nib)
+    return _pack(nibs)
+
+
+def encode_b(pcm16):
+    """PCM 16 bits -> bytes ADPCM-B (DELTA-T). Voraz como encode_a; si varios
+    nibbles dan el mismo valor (saturación) pero distinto delta, desempata
+    mirando las 2 muestras siguientes."""
+    def step(acc, delta, nib):
+        d = ((2 * (nib & 7) + 1) * delta) >> 3
+        a = max(-32768, min(32767, acc - d if nib & 8 else acc + d))
+        return a, min(24576, max(127, (delta * B_TAB[nib & 7]) >> 6))
+
+    def cost(acc, delta, xs):
+        tot = 0
+        for x in xs:
+            acc, delta = min((step(acc, delta, n) for n in range(16)), key=lambda r: abs(r[0] - x))
+            tot += abs(acc - x)
+        return tot
+
+    acc, delta, nibs = 0, 127, []
+    pcm16 = [int(x) for x in pcm16]
+    for i, x in enumerate(pcm16):
+        cands = [(abs(a - x), n, a, dl) for n in range(16) for a, dl in [step(acc, delta, n)]]
+        e0 = min(c[0] for c in cands)
+        ties = [c for c in cands if c[0] == e0]
+        if len(ties) > 1 and len({c[3] for c in ties}) > 1:
+            ahead = pcm16[i + 1:i + 3]
+            ties.sort(key=lambda c: (cost(c[2], c[3], ahead), c[1]))
+        _, nib, acc, delta = ties[0]
+        nibs.append(nib)
+    return _pack(nibs)
+
+
+def _pack(nibs, block=256):
+    if len(nibs) & 1:
+        nibs.append(0)
+    out = bytearray((nibs[i] << 4) | nibs[i + 1] for i in range(0, len(nibs), 2))
+    pad = (-len(out)) % block               # las muestras ocupan bloques de 256 B
+    return bytes(out) + _silence(pad)
+
+
+def _silence(n):
+    # byte 0x80 = nibbles 8,0: -d,+d con paso decreciente -> silencio sin deriva
+    return bytes([0x80]) * n
+
+
+def read_wav(path, rate=None):
+    """WAV mono/estéreo 8/16 bits -> lista de muestras 16 bits (mezcla a mono,
+    re-muestreo lineal a `rate` si se indica)."""
+    with wave.open(path, "rb") as w:
+        ch, sw, fr, n = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
+        raw = w.readframes(n)
+    if sw == 2:
+        v = list(struct.unpack("<%dh" % (len(raw) // 2), raw))
+    elif sw == 1:
+        v = [(b - 128) << 8 for b in raw]
+    else:
+        raise SystemExit("WAV de %d bits no soportado (usa 8/16)" % (8 * sw))
+    if ch > 1:
+        v = [sum(v[i:i + ch]) // ch for i in range(0, len(v), ch)]
+    if rate and rate != fr:
+        k = fr / rate
+        m = int(len(v) / k)
+        out = []
+        for i in range(m):
+            t = i * k
+            j = int(t)
+            f = t - j
+            b = v[j + 1] if j + 1 < len(v) else v[j]
+            out.append(int(v[j] * (1 - f) + b * f))
+        v = out
+    return v
+
+
+def encode(args):
+    """encode <a|b> IN.wav OUT.adpcm[a|b] [--rate HZ]  (A: 18 500 Hz por defecto)."""
+    if len(args) < 3 or args[0] not in ("a", "b"):
+        raise SystemExit(encode.__doc__)
+    kind, src, dst = args[:3]
+    rate = int(args[args.index("--rate") + 1]) if "--rate" in args else (18500 if kind == "a" else None)
+    pcm = read_wav(src, rate)
+    data = encode_a(pcm) if kind == "a" else encode_b(pcm)
+    open(dst, "wb").write(data)
+    dec = decode_a(data) if kind == "a" else decode_b(data)
+    ref = pcm + [0] * (len(dec) // 2 - len(pcm))
+    got = struct.unpack("<%dh" % (len(dec) // 2), dec)
+    err = sum((a - b) ** 2 for a, b in zip(ref, got)) / max(1, len(got))
+    sig = sum(a * a for a in ref) / max(1, len(ref))
+    snr = 10 * __import__("math").log10(sig / err) if err and sig else float("inf")
+    print(f"[audio] {dst}: {len(pcm)} muestras -> {len(data):,} B ADPCM-{kind.upper()} "
+          f"({len(data) // 256} bloques de 256 B), SNR {snr:.1f} dB")
 
 
 def write_wav(path, pcm, rate):
@@ -180,4 +294,8 @@ def build():
 
 
 if __name__ == "__main__":
-    {"extract": extract, "build": build}[sys.argv[1] if len(sys.argv) > 1 else "extract"]()
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "extract"
+    if cmd == "encode":
+        encode(sys.argv[2:])
+    else:
+        {"extract": extract, "build": build}[cmd]()
