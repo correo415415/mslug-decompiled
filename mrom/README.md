@@ -141,3 +141,10 @@ at all times.
 - [x] Render every song / SFX to WAV exactly as the board does
       (`tools/export_wav.py`: real driver on Z80 + ymfm YM2610 + V-ROM).
 - [x] VGM log export (`export_wav.py --vgm`); voices exported and named.
+- [x] Exact `S_TEMPO` curve in MIDI (log/exp tables, `docs/FORMATS.md` §8).
+- [x] The 29 lookup pages `0100-1DFF` named (§9) and the channel structs
+      documented (§10).
+- [x] 68 of the 117 table-A effects with a constant 68k user named
+      `SfxA_NNN_<Name>` (hypothesis by user; not yet confirmed by ear).
+- [ ] Confirm effect names by listening; name the other 49 and the ids that
+      only appear in script streams.

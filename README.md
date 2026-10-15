@@ -4,12 +4,15 @@
 
 [![CI](https://github.com/correo415415/mslug-decompiled/actions/workflows/ci.yml/badge.svg)](https://github.com/correo415415/mslug-decompiled/actions/workflows/ci.yml)
 
-A work-in-progress matching decompilation of **Metal Slug: Super Vehicle-001**
+A matching decompilation of **Metal Slug: Super Vehicle-001**
 (Nazca / SNK, 1996) for the SNK Neo Geo MVS/AES arcade platform.
 
-The goal is a byte-exact reconstruction of the game's program ROM (`201-p1.bin`)
-from a mix of hand-written C and annotated 68000 assembly, following the same
-methodology as [n64decomp/sm64][sm64] and [zeldaret/oot][oot].
+The program ROM (`201-p1.bin`) is rebuilt byte-exact from hand-written C and
+annotated 68000 assembly, following the same methodology as
+[n64decomp/sm64][sm64] and [zeldaret/oot][oot]. The Z80 sound driver
+(`201-m1.bin`) is also reassembled byte-exact from named sources. The
+graphics and sample ROMs (`201-s1`, `201-c1..c4`, `201-v1..v2`) are extracted
+to PNG/WAV and rebuilt byte-exact from them.
 
 **No copyrighted content is redistributed by this repository.** You must own a
 legal copy of Metal Slug to build the ROM; the build system reads your ROM at
@@ -22,15 +25,14 @@ runtime and never bundles it.
 
 ## Current status
 
-| Metric | Value |
-|---|---:|
-| Matched functions | **5 662 / 5 662** registered |
-| Matched bytes | **334 672 / 334 672** registered |
-| P ROM coverage | **549 416 / 2 097 152 B** (26.20 %) — código 100 % |
-| Processed P ROM MD5 (target) | `816b3f74c76b3373993407615f1850fe` |
+| ROM | Status |
+|---|---|
+| **P-ROM** `201-p1.bin` (68000, 2 MiB) | **100 %**: 17 608 registered sections = 2 097 152 B, rebuilt byte-identical (processed MD5 `816b3f74…`, packed `201-p1.bin` MD5 `b6804bc6…`). Code 505 608 B; the 14 data modules have A–F headers and entries named by type (`ColMap_`, `SprFrame_`, `BgMap_`, `AnimScr_`, `Pal_`) |
+| **M-ROM** `201-m1.bin` (Z80 sound driver, 128 KiB) | **100 %** reassembled byte-identical (MD5 `6449db04…`): 157 named routines/tables, 0 anonymous labels, every sound data structure as symbolic source in `mrom/sound/`; music, voices and 68 effects named |
+| **S/C/V-ROMs** (fix, sprites, ADPCM samples) | Extracted and rebuilt byte-identical by `assets/tools/` |
 
-Matched functions are guaranteed to reassemble to bytes that are bitwise
-identical to the original ROM. See [`CHANGELOG.md`](CHANGELOG.md) for a
+Every registered section is guaranteed to reassemble to bytes that are
+bitwise identical to the original ROM. See [`CHANGELOG.md`](CHANGELOG.md) for a
 headline summary of recent waves and [`docs/PROGRESO.md`](docs/PROGRESO.md)
 for the full function-by-function log (in Spanish). Coverage will continue to
 grow as the callgraph is walked outward from the already-matched entry points
@@ -43,7 +45,7 @@ and as large, self-contained functions are tackled directly (see
 
 ```
 mslug/
-├── .github/workflows/      CI: registry_lint + sizes + full matcher + build_rom (byte-identical ROM)
+├── .github/workflows/      CI: registry_lint + sizes + full matcher + build_rom + build_mrom (byte-identical ROMs)
 ├── src/                    Decompiled C sources (matched by GCC bare-metal 68000)
 │   ├── bios/               Reset / IRQ entry points and BIOS callbacks
 │   ├── kernel/             Task scheduler handlers and kernel helpers
@@ -67,7 +69,16 @@ mslug/
 │   ├── props/              Destructible scenery, barrels, crates
 │   ├── mission/            Mission scripts, banners, stage sequencing
 │   ├── frontend/           Attract mode, title, ranking, sound test
-│   └── data/               Pure data blobs (anim tables, palettes, maps)
+│   └── data/               Data modules (palettes, frames, animation bytecode, tilemaps, collision, colour tables)
+├── mrom/                   Z80 sound driver (201-m1.bin) — see mrom/README.md
+│   ├── asm/                Named Z80 sources of the fixed region (core/channel/seq/data)
+│   ├── sound/              Instruments, tables, headers and sequences as symbolic source
+│   ├── map/                Blocks, symbols, split map, sound ids (inputs of the generators)
+│   ├── docs/FORMATS.md     Sequence / header / instrument / tempo / channel formats
+│   └── tools/              build_mrom.py, gen_*.py, export_midi.py, export_wav.py (WAV/VGM), sndrender/
+├── assets/                 S/C/V-ROM extraction + reverse tools — see assets/README.md
+│   ├── tools/              gfx.py, audio.py, sprites.py, levels.py, data_census.py
+│   └── map/                Manual overrides (animation palettes)
 ├── include/                Public headers (mslug.h, mslug_regs.h)
 ├── linker/                 Linker scripts (neogeo.ld, neogeo_matched.ld)
 ├── tools/                  Active tooling used by the build — see tools/README.md
@@ -78,6 +89,7 @@ mslug/
 │   ├── registry_lint.py    Static structural audit of registry.py/symbols.py
 │   ├── check_section_sizes.py  Per-section size check (fast pre-matcher)
 │   ├── measure_coverage.py Real-code-% heuristic feeding docs/COVERAGE.md
+│   ├── gen_data_headers.py A–F headers of the asm/data modules (census + code users)
 │   ├── reorg/              Folder/rename map + script used for the layout reorganisation
 │   └── asm-differ/         Vendored simonlindholm/asm-differ (m68k backend)
 ├── scripts/                Helper scripts
@@ -106,6 +118,30 @@ File naming: `asm/<subsystem>/<what_it_does>_<lowest_cpu_address>.s` (e.g.
 `asm/player/fire_shells_03c62a.s`). The address suffix is the lowest CPU
 address of the first section in the file, so a file can be located in the ROM
 at a glance; see `docs/CONVENTIONS.md`.
+
+---
+
+## Beyond the program ROM
+
+All of these need the ROMs in `rom/` (`./scripts/bootstrap_sandbox.sh internal/mslug.zip`
+or `./scripts/setup_assets.sh <mslug.zip>`); the output goes to `build/`, never
+to git.
+
+```bash
+python3 mrom/tools/build_mrom.py              # ✔ IDÉNTICA: sound driver from mrom/
+python3 assets/tools/gfx.py extract|build     # fix / sprite tiles ↔ indexed PNG  ✔ MD5 idéntico
+python3 assets/tools/audio.py extract|build   # 375 ADPCM-A/B samples ↔ WAV       ✔ MD5 idéntico
+python3 assets/tools/audio.py encode a|b IN.wav OUT   # WAV → ADPCM (to replace a sample)
+python3 assets/tools/sprites.py extract       # 981 animations (GIF + strips) with P-ROM palettes
+python3 assets/tools/levels.py                # 52 background layers, per-camera planes, parallax panoramas
+python3 assets/tools/data_census.py           # per-byte type census of the P-ROM data modules
+python3 mrom/tools/export_midi.py             # the 13 songs as MIDI (exact S_TEMPO)
+python3 mrom/tools/export_wav.py [--vgm]      # songs, SFX and voices as game-accurate WAV / VGM
+```
+
+Details and formats: [`assets/README.md`](assets/README.md),
+[`mrom/README.md`](mrom/README.md), [`mrom/docs/FORMATS.md`](mrom/docs/FORMATS.md),
+[`docs/COVERAGE.md`](docs/COVERAGE.md).
 
 ---
 

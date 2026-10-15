@@ -31,8 +31,24 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > todo en una imagen de 2 MiB identica (MD5 `816b3f74…`) y
 > `scripts/rebuild_rom.sh` produce `201-p1.bin` (MD5 `b6804bc6…`, el del
 > romset) y un `mslug.zip` listo para MAME. Demo de parche en README (9 vidas:
-> `HUD_Task_Init_025706`, `move.b 0x4(a3),d1` → `move.b #9,d1`). Pendiente:
-> cabeceras A–F semanticas y renombres en los 13 modulos de datos.
+> `HUD_Task_Init_025706`, `move.b 0x4(a3),d1` → `move.b #9,d1`). Cabeceras
+> A–F y renombres de los modulos de datos: hechos (ver la entrada siguiente).
+
+> **Datos con nombre y assets (2026-10-15)**. Censo byte a byte de los 14
+> modulos `asm/data/*` (`assets/tools/data_census.py`): paletas 4,1 %, frames
+> 16,6 %, animacion 18,2 %, mapas de fondo 11,2 %, colision 7,8 %, ceros
+> 8,7 %, otro 33,4 %. 7 661 entradas `Data_/Str_/Zero_` renombradas por tipo
+> (`ColMap_` 4 970, `SprFrame_` 663, `BgMap_` 614, `AnimScr_` 590, `Pal_` 306,
+> `Zero_` 518). Cabeceras A–F en los 12 modulos generados
+> (`tools/gen_data_headers.py`, regenerable). `$2F30..$12F30` =
+> `ColorRGB555ToNeoGeo_002f30` (32 768 palabras, verificadas con la formula);
+> `$12FB0` = `ColorRamp_012fb0` (32×32, v·k/31, la rampa del fundido).
+> Assets: 981 animaciones (`sprites.py`); 52 capas de fondo a color (slot 0
+> desde `ScriptSlotPairTable_0009B4`), planos por camara y panorama con
+> parallax por escena (escala 8.8 del op $01 → `+$74/+$76`, `levels.py`);
+> codificador ADPCM-A/B; S_TEMPO en MIDI. M-ROM: tablas de pagina y
+> estructuras de canal documentadas (FORMATS §9–§10); 68 SFX de la tabla A
+> con nombre por usuarios. P-ROM y M-ROM ✔ IDÉNTICAS.
 
 > **Wave JJJJJ** (73 entradas, 3 940 B; 26 huecos) — `$000400..$002F30` en
 > `boot/boot_script_sound_palslots_000400.s`. Quincuagésimo tercera wave y

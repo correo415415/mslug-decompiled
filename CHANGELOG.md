@@ -9,6 +9,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Changed
+- **Docs refreshed**: README (status of all ROMs, `mrom/` and `assets/` in the
+  layout, new "Beyond the program ROM" section), `docs/COVERAGE.md` (data
+  modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
+
 ### Added
 - **Table-A SFX names**: 68 of the 117 effects with a constant 68k user now
   carry `SfxA_NNN_<Name>` (weapon fire, explosions, hostages, Slug, pause /

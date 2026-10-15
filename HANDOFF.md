@@ -19,9 +19,9 @@ romset MAME `mslug.zip`.
 
 | ROM | Fichero | CPU | Estado |
 |---|---|---|---|
-| P-ROM (programa principal) | `201-p1.bin`, 2 MiB | Motorola 68000 | **100 % matched**: 17 608 secciones, ROM reconstruida byte-idéntica |
+| P-ROM (programa principal) | `201-p1.bin`, 2 MiB | Motorola 68000 | **100 % matched**: 17 608 secciones, ROM reconstruida byte-idéntica; los 14 módulos de datos con cabecera A–F y entradas nombradas por tipo (`ColMap_`/`SprFrame_`/`BgMap_`/`AnimScr_`/`Pal_`) |
 | M-ROM (driver de sonido) | `201-m1.bin`, 128 KiB | Zilog Z80 | **reensamblado byte-idéntico 100 %**; región fija con 157 rutinas/tablas con nombre y 0 etiquetas anónimas; todos los datos de sonido (instrumentos, tablas, cabeceras, 31 650 ops de secuencia) como fuentes simbólicas en `mrom/sound/`; músicas/voces con nombre real; export MIDI, WAV idéntico al juego (driver real + ymfm; músicas en bucle+fundido, 150 SFX, 27 voces con nombre) y VGM |
-| S-ROM / C-ROM / V-ROM (gráficos / samples) | `201-s1`, `201-c1..c4`, `201-v1..v2` | — | **extracción + reconstrucción byte-idéntica** (`assets/tools/gfx.py`, `audio.py`; ver `assets/README.md`): tiles PNG indexados y 375 muestras con nombre |
+| S-ROM / C-ROM / V-ROM (gráficos / samples) | `201-s1`, `201-c1..c4`, `201-v1..v2` | — | **extracción + reconstrucción byte-idéntica** (`assets/tools/gfx.py`, `audio.py`; ver `assets/README.md`): tiles PNG indexados, 375 muestras con nombre (y codificador ADPCM), 981 animaciones con paleta (`sprites.py`), 52 capas de fondo + panoramas con parallax (`levels.py`) |
 
 Objetivo a largo plazo: fuentes legibles (C + asm con nombres semánticos) que
 compilen a los ROMs originales, más herramientas para parchear y para extraer
@@ -250,8 +250,7 @@ Los antiguos volcados z80dasm de los bancos se han eliminado. Formatos:
    ✔ IDÉNTICA. (`gen_mrom_asm.py` ya aplica los mapas si existen.)
 2. ~~Etiquetas internas~~ (hecho: `gen_mrom_asm.py` convierte inmediatos
    falsos en constantes y nombra los saltos locales `<Rutina>_L<dir>`).
-   Pendiente: documentar la estructura de canal (`+00..+4C` SSG, `+67` FM,
-   `+29` ADPCM-A).
+   Estructura de canal: documentada (FORMATS.md §10).
 3. Documentar formalmente el formato de secuencia e instrumentos en
    `mrom/docs/FORMATS.md` (los datos de arriba son el borrador) y escribir
    un desensamblador de secuencias (`mrom/tools/dump_sequence.py`) que
@@ -261,7 +260,7 @@ Los antiguos volcados z80dasm de los bancos se han eliminado. Formatos:
    los comandos enviados al puerto de sonido desde el 68k; en el P-ROM buscar
    las escrituras a `$320000` / `REG_SOUND`), y poner nombres (`Music_Mission1`…).
 5. ~~Sustituir los `defb` en bruto~~ (hecho para sonido/instrumentos;
-   quedan las páginas de tablas `0100-1DFF`). Texto original: sustituir los `defb` en bruto por datos estructurados cuando el formato
+   las páginas de tablas `0100-1DFF` también tienen nombre, FORMATS.md §9). Texto original: sustituir los `defb` en bruto por datos estructurados cuando el formato
    esté claro, manteniendo la identidad byte a byte.
 
 ---
@@ -311,5 +310,10 @@ byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
 - [x] Export MIDI (`export_midi.py`), WAV idéntico al juego y VGM (`export_wav.py` + `sndrender`)
 - [x] M-ROM: tablas de páginas `0100-1DFF` con nombre (FORMATS.md §9)
 - [x] M-ROM: estructura de canal documentada (FORMATS.md §10)
-- [ ] Extracción de assets S/C/V-ROM (tras M-ROM al 100 %)
-- [ ] P-ROM: cabeceras A–F en los 13 módulos de datos
+- [x] Extracción de assets S/C/V-ROM con herramienta inversa (gfx, audio + codificador ADPCM, sprites, fondos + parallax)
+- [x] P-ROM: cabeceras A–F en los 14 módulos de datos y entradas nombradas por tipo (`data_census.py`, `gen_data_headers.py`)
+- [x] SFX de la tabla A: 68 con nombre por usuarios
+- [ ] Paletas a mano para las ~132 animaciones en gris y nombres por personaje
+- [ ] SFX: confirmar nombres escuchando, los 49 restantes e ids de los streams de script
+- [ ] Decodificar las `Data_*` restantes (33 % de los datos: tablas por rutina)
+- [ ] Fondos: scroll vertical en el panorama

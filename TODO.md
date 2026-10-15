@@ -41,8 +41,8 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       constante (`SfxA_NNN_<Nombre>`, SFX_NAMES de find_sound_ids.py).
 - [ ] Confirmar esos nombres escuchando, nombrar los 49 restantes y recorrer
       los streams de script para los ids que no son constantes.
-- [ ] Actualizar `mrom/README.md`, `docs/COVERAGE.md` (sección M-ROM),
-      `docs/PROGRESO.md` y `CHANGELOG.md` a medida que avance.
+- [x] `docs/COVERAGE.md` (M-ROM, módulos de datos, assets), `docs/PROGRESO.md`,
+      `HANDOFF.md` y `README.md` actualizados (2026-10-15).
 
 ## Al tener el M-ROM al 100 %
 
