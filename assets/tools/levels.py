@@ -66,11 +66,13 @@ def scene_layers(m, idx):
     """-> [layer dict] en el orden del script, con los slots de paleta vigentes."""
     start = m.L(m.TABLE + 8 * idx)
     ops, _ = m.decode_script(start, m.REGION_END)
-    slots, out = {}, []
+    slots, out, scale = {}, [], {}
     for a, kind, n, op in ops:
         if kind != "op":
             continue
-        if op == 0x0A:
+        if op == 0x01 and m.L(a + 2) in CAMERAS:     # set_fields: +$74/+$76 = escala 8.8
+            scale[CAMERAS[m.L(a + 2)]] = (m.W(a + 8), m.W(a + 10))
+        elif op == 0x0A:
             q = a + 2
             while m.W(q) != 0xFFFF:
                 slots[m.W(q) & 0xFF] = m.W(q + 2)
@@ -81,7 +83,8 @@ def scene_layers(m, idx):
                 continue
             out.append(dict(op_addr=a, camera=CAMERAS[ent], w=m.W(a + 6), h=m.W(a + 8),
                             tiles=m.L(a + 10), collision=m.L(a + 14),
-                            anchor=(m.SW(a + 18), m.SW(a + 20)), slots=dict(slots)))
+                            anchor=(m.SW(a + 18), m.SW(a + 20)), slots=dict(slots),
+                            scale=scale.get(CAMERAS[ent], (256, 256))))
     return out
 
 
@@ -136,6 +139,47 @@ def compose(scene_entries, images):
     return out
 
 
+SCREEN_W = 320
+
+
+def compose_parallax(scene_entries, images):
+    """Panorama de la escena tal como la ve el jugador, con todas las cámaras.
+
+    El juego coloca cada cámara en (scroll principal * escala / 256)
+    (CameraApplyOne_043DAA: $108160 * +$74/+$76 << 8; la escala 8.8 la fija el
+    op $01 del script). Una capa lejana no tiene una única posición sobre el
+    plano principal, así que se renderiza pantalla a pantalla: para cada
+    scroll X (paso SCREEN_W) cada capa se pinta en ancla_x - X*escala/256, se
+    recorta la ventana de SCREEN_W px y las ventanas se concatenan. El scroll
+    vertical se ignora (y = ancla). Orden: escala menor primero (lo más
+    lejano), luego orden del script.
+    """
+    if not scene_entries:
+        return None, None
+    main_ = [e for e in scene_entries if tuple(e["scale"]) == (256, 256)] or scene_entries
+    xs0 = min(e["anchor"][0] for e in main_)
+    xs1 = max(e["anchor"][0] + 16 * e["width"] for e in main_)
+    y0 = min(e["anchor"][1] for e in scene_entries)
+    y1 = max(e["anchor"][1] + 16 * e["height"] for e in scene_entries)
+    order = sorted(scene_entries, key=lambda e: (e["scale"][0], e["script_op"]))
+    nwin = max(1, -(-(xs1 - xs0) // SCREEN_W))
+    canvas = Image.new("RGBA", (nwin * SCREEN_W, y1 - y0), (0, 0, 0, 0))
+    for k in range(nwin):
+        X = xs0 + k * SCREEN_W
+        win = Image.new("RGBA", (SCREEN_W, y1 - y0), (0, 0, 0, 0))
+        for e in order:
+            lx = e["anchor"][0] - X * e["scale"][0] // 256
+            w = 16 * e["width"]
+            if lx >= SCREEN_W or lx + w <= 0:
+                continue
+            im = images[e["file"]]
+            if lx < 0:
+                im, lx = im.crop((-lx, 0, min(w, SCREEN_W - lx), 16 * e["height"])), 0
+            win.alpha_composite(im, (lx, e["anchor"][1] - y0))
+        canvas.paste(win, (k * SCREEN_W, 0))
+    return canvas, (xs0, y0)
+
+
 def main():
     m = load_ssd()
     p = S.PRom()
@@ -171,9 +215,16 @@ def main():
                                 tiles="%06X" % L["tiles"],
                                 collision="%06X" % L["collision"] if L["collision"] else None,
                                 anchor=L["anchor"], script_op="%06X" % L["op_addr"],
+                                scale=L["scale"],
                                 missing_palette_slots=missing))
         index[sname] = entries
         if entries:
+            pim, porg = compose_parallax(entries, images)
+            if pim is not None:
+                pname = "%s_parallax.png" % sname
+                pim.save(os.path.join(OUT, "composed", pname))
+                composed.setdefault(sname, []).append(dict(file="composed/" + pname, camera="all",
+                                                           origin=porg, size=pim.size))
             for cam, (im, org) in compose(entries, images).items():
                 cname = "%s_%s_full.png" % (sname, cam)
                 im.save(os.path.join(OUT, "composed", cname))

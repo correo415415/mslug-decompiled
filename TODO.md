@@ -56,7 +56,8 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       escenas desde los `bind_path` de los scripts de escena).
 - [x] Fondos: slot de paleta 0 (ScriptSlotPairTable_0009B4) — 52/52 capas con color.
 - [x] Fondos: composición por cámara en las anclas (`composed/`, 38 planos).
-- [ ] Fondos: factores de parallax entre cámaras (para un compuesto único por misión).
+- [x] Fondos: parallax (escala 8.8 del op $01) → panorama único por escena (`*_parallax.png`, 13).
+- [ ] Fondos: scroll vertical en el panorama.
 - [x] Codificador ADPCM-A/B para sustituir muestras desde WAV (`audio.py encode`).
 - [x] Exportar las pistas musicales a MIDI con sus nombres
       (`mrom/tools/export_midi.py`). La curva de `S_TEMPO` ya está modelada (set-tempo exactos).

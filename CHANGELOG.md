@@ -10,6 +10,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **Parallax panoramas**: `levels.py` reads each camera's 8.8 scroll factor
+  (scene-script op $01 → `+$74/+$76`, used by `CameraApplyOne_043DAA`) and
+  renders a single per-scene panorama window by window (`*_parallax.png`).
 - **A–F headers for all data modules** (`tools/gen_data_headers.py`) and
   7661 `Data_`/`Str_`/`Zero_` entries renamed by census type (`ColMap_`,
   `SprFrame_`, `BgMap_`, `AnimScr_`, `Pal_`, `Zero_`). `$2F30` identified as

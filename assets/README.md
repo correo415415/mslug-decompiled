@@ -95,6 +95,15 @@ plano de la misión (38 planos). Las cámaras no se mezclan: cada una tiene su
 propio scroll (parallax). `levels.json` = `{layers, composed}` (con el origen
 de mundo de cada plano compuesto).
 
+`composed/<escena>_parallax.png` es el panorama de toda la escena con todas
+las cámaras. El juego coloca cada cámara en `scroll × escala / 256`; la
+escala 8.8 la fija el op `$01` del script en `+$74/+$76` (CameraApplyOne_043DAA).
+Por eso el panorama se renderiza por ventanas de 320 px: para cada scroll X
+cada capa se pinta en `ancla_x − X·escala/256` y las ventanas se concatenan.
+El scroll vertical no se aplica. La escala de cada capa está en `levels.json`
+(`scale`). Ejemplos de escalas: Mission1 cam2 = 192 (¾), Mission2 cam1 = 128
+(½) y cam2 = 64 (¼).
+
 ## Sonido (`audio.py`)
 
 `201-v1.bin + 201-v2.bin` forman un espacio ADPCM de 8 MiB. Los límites y
