@@ -105,7 +105,7 @@ def fix_constants(body, name):
             new, why = REAL_PTRS[addr], None
         elif ym:
             new, why = f"0{v:04x}h", f"YM reg {v >> 8:02X}h <- {v & 0xFF:02X}h"
-        elif (lm and v < 0x100) or (not lm and base < KEEP_NAMED_MIN) or (lm and v == 0x1000):
+        elif (lm and v < 0x100) or (not lm and base < KEEP_NAMED_MIN) or v == 0x1000:   # 1000h = pitch octave step
             new, why = f"0{v:04x}h", "constant"
         else:
             continue

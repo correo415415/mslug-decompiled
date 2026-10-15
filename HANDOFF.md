@@ -309,6 +309,7 @@ byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
 - [x] M-ROM: formato de instrumentos (`mrom/sound/instruments.s`); región fija sin etiquetas anónimas
 - [x] Identificación de músicas y voces por id (`mrom/map/sound_ids.txt`); SFX de la tabla A con usuarios
 - [x] Export MIDI (`export_midi.py`), WAV idéntico al juego y VGM (`export_wav.py` + `sndrender`)
-- [ ] M-ROM: estructura de canal documentada; tablas de páginas `0100-1DFF`
+- [x] M-ROM: tablas de páginas `0100-1DFF` con nombre (FORMATS.md §9)
+- [ ] M-ROM: estructura de canal documentada
 - [ ] Extracción de assets S/C/V-ROM (tras M-ROM al 100 %)
 - [ ] P-ROM: cabeceras A–F en los 13 módulos de datos

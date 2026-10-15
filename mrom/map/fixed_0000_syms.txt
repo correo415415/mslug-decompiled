@@ -11,6 +11,42 @@ IRQ_Vector_0038:            equ 0x0038
 NMI_Vector_0066:            equ 0x0066
 BankPtrTable_0080:          equ 0x0080   ; 18 x 24-bit linear pointers (lo,hi,bank,0)
 
+; ---- page-aligned lookup tables 0100-1DFF (ld h,PAGE ; ld l,idx) -------------
+; 01..10: eight 16-bit tables split lo/hi (page n = low byte, n+1 = high byte), each
+; 256 steps of 1/256 semitone descending one octave (period = 15289 -> 7665 ...);
+; SSG period for octave k = (Pg(1+2k), Pg(2+2k)), read by SSG_Update_* with
+; h = 2*(oct&7)+1 ; oct >= 8 -> high byte only (tone below 1/16 of the range).
+SsgPeriodOct0Lo_0100:       equ 0x0100   ; octave 0 period low  (hi in 0200)
+SsgPeriodOct0Hi_0200:       equ 0x0200
+SsgPeriodOct1Lo_0300:       equ 0x0300
+SsgPeriodOct1Hi_0400:       equ 0x0400
+SsgPeriodOct2Lo_0500:       equ 0x0500
+SsgPeriodOct2Hi_0600:       equ 0x0600
+SsgPeriodOct3Lo_0700:       equ 0x0700
+SsgPeriodOct3Hi_0800:       equ 0x0800
+SsgPeriodOct4Lo_0900:       equ 0x0900
+SsgPeriodOct4Hi_0A00:       equ 0x0a00
+SsgPeriodOct5Lo_0B00:       equ 0x0b00
+SsgPeriodOct5Hi_0C00:       equ 0x0c00
+SsgPeriodOct6Lo_0D00:       equ 0x0d00
+SsgPeriodOct6Hi_0E00:       equ 0x0e00   ; all 0 (period < 256)
+SsgPeriodOct7Lo_0F00:       equ 0x0f00
+SsgPeriodOct7Hi_1000:       equ 0x1000   ; all 0
+NotePitch_1100:             equ 0x1100   ; note n -> pitch word: lo 1100+n, hi 1180+n (= n*256/12, 1/256 semitone units);
+                                         ; Pitch_SetNote_23F6, SSG/FM/ADPCMB_SetPitch, Seq_NoteEvent_56EA
+FmFnumHi_1200:              equ 0x1200   ; FM F-number for 1/256-octave step: hi byte 1200+x, lo 1300+x (308 -> 615 = one octave);
+FmFnumLo_1300:              equ 0x1300   ; read by FM_Update_* (ld h,12h ; ld d,(hl) ; inc h ; ld e,(hl))
+LogTable_1400:              equ 0x1400   ; log2 curve (0 -> 0, ff -> ff); a*b = Exp[Log a + Log b - C0h] (Util_TableLookup_1F54,
+ExpTable_1500:              equ 0x1500   ; Seq_ScaleByCurve_4F69, Env_*, Seq_SetVolumeLevel_4F88, ADPCMA/FM/SSG volume)
+UnusedTable_1600:           equ 0x1600   ; not referenced by the driver
+AdpcmbVolCurve_1700:        equ 0x1700   ; ADPCMB_Update_4024: volume -> level (ld h,17h ; ld l,c)
+SsgVolume_1800:             equ 0x1800   ; SSG_Update_*: attenuation 0..7F -> SSG level 0..F (ld h,18h)
+AdpcmaVolume_1900:          equ 0x1900   ; ADPCMA_Update_379C: volume -> ADPCM-A channel level
+PortamentoRate_1A00:        equ 0x1a00   ; Seq_TrackPortamento_52EA: 128 words 16384/n^2-like divisor table (idx*2)
+SquareLo_1B00:              equ 0x1b00   ; n^2: lo 1B00+n, hi 1C00+n (Seq_LoadOpPtrs_21A0..: ld h,1Bh ; inc h)
+SquareHi_1C00:              equ 0x1c00
+UnusedZero_1D00:            equ 0x1d00   ; 256 x 00, not referenced
+
 ; ---- main / interrupts / bank switching -------------------------------------
 Main_Init_1E00:             equ 0x1e00
 Main_Loop_1E3F:             equ 0x1e3f

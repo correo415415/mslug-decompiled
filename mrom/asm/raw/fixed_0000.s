@@ -137,6 +137,7 @@ BankPtrTable_0080:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;00d0
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;00e0
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;00f0
+SsgPeriodOct0Lo_0100:
 	defb 0b9h,08fh,066h,03dh,014h,0ebh,0c2h,099h,071h,048h,020h,0f8h,0d0h,0a8h,080h,058h		;0100
 	defb 030h,009h,0e1h,0bah,093h,06bh,044h,01dh,0f7h,0d0h,0a9h,083h,05ch,036h,010h,0eah		;0110
 	defb 0c4h,09eh,078h,052h,02dh,007h,0e2h,0bch,097h,072h,04dh,028h,003h,0dfh,0bah,096h		;0120
@@ -153,6 +154,7 @@ BankPtrTable_0080:
 	defb 001h,0e9h,0d2h,0bbh,0a3h,08ch,075h,05eh,046h,02fh,018h,002h,0ebh,0d4h,0bdh,0a7h		;01d0
 	defb 090h,079h,063h,04ch,036h,020h,00ah,0f3h,0ddh,0c7h,0b1h,09bh,085h,070h,05ah,044h		;01e0
 	defb 02eh,019h,003h,0eeh,0d8h,0c3h,0aeh,099h,083h,06eh,059h,044h,02fh,01ah,006h,0f1h		;01f0
+SsgPeriodOct0Hi_0200:
 	defb 03bh,03bh,03bh,03bh,03bh,03ah,03ah,03ah,03ah,03ah,03ah,039h,039h,039h,039h,039h		;0200
 	defb 039h,039h,038h,038h,038h,038h,038h,038h,037h,037h,037h,037h,037h,037h,037h,036h		;0210
 	defb 036h,036h,036h,036h,036h,036h,035h,035h,035h,035h,035h,035h,035h,034h,034h,034h		;0220
@@ -169,6 +171,7 @@ BankPtrTable_0080:
 	defb 022h,021h,021h,021h,021h,021h,021h,021h,021h,021h,021h,021h,020h,020h,020h,020h		;02d0
 	defb 020h,020h,020h,020h,020h,020h,020h,01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh		;02e0
 	defb 01fh,01fh,01fh,01eh,01eh,01eh,01eh,01eh,01eh,01eh,01eh,01eh,01eh,01eh,01eh,01dh		;02f0
+SsgPeriodOct1Lo_0300:
 	defb 0dch,0c7h,0b3h,09eh,08ah,075h,061h,04ch,038h,024h,010h,0fch,0e8h,0d4h,0c0h,0ach		;0300
 	defb 098h,084h,070h,05dh,049h,035h,022h,00eh,0fbh,0e8h,0d4h,0c1h,0aeh,09bh,088h,075h		;0310
 	defb 062h,04fh,03ch,029h,016h,003h,0f1h,0deh,0cbh,0b9h,0a6h,094h,081h,06fh,05dh,04bh		;0320
@@ -185,6 +188,7 @@ BankPtrTable_0080:
 	defb 000h,0f4h,0e9h,0ddh,0d1h,0c6h,0bah,0afh,0a3h,097h,08ch,081h,075h,06ah,05eh,053h		;03d0
 	defb 048h,03ch,031h,026h,01bh,010h,005h,0f9h,0eeh,0e3h,0d8h,0cdh,0c2h,0b8h,0adh,0a2h		;03e0
 	defb 097h,08ch,081h,077h,06ch,061h,057h,04ch,041h,037h,02ch,022h,017h,00dh,003h,0f8h		;03f0
+SsgPeriodOct1Hi_0400:
 	defb 01dh,01dh,01dh,01dh,01dh,01dh,01dh,01dh,01dh,01dh,01dh,01ch,01ch,01ch,01ch,01ch		;0400
 	defb 01ch,01ch,01ch,01ch,01ch,01ch,01ch,01ch,01bh,01bh,01bh,01bh,01bh,01bh,01bh,01bh		;0410
 	defb 01bh,01bh,01bh,01bh,01bh,01bh,01ah,01ah,01ah,01ah,01ah,01ah,01ah,01ah,01ah,01ah		;0420
@@ -201,6 +205,7 @@ BankPtrTable_0080:
 	defb 011h,010h,010h,010h,010h,010h,010h,010h,010h,010h,010h,010h,010h,010h,010h,010h		;04d0
 	defb 010h,010h,010h,010h,010h,010h,010h,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh		;04e0
 	defb 00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00fh,00eh		;04f0
+SsgPeriodOct2Lo_0500:
 	defb 0eeh,0e3h,0d9h,0cfh,0c5h,0bah,0b0h,0a6h,09ch,092h,088h,07eh,074h,06ah,060h,056h		;0500
 	defb 04ch,042h,038h,02eh,024h,01ah,011h,007h,0fdh,0f4h,0eah,0e0h,0d7h,0cdh,0c4h,0bah		;0510
 	defb 0b1h,0a7h,09eh,094h,08bh,081h,078h,06fh,065h,05ch,053h,04ah,040h,037h,02eh,025h		;0520
@@ -217,6 +222,7 @@ BankPtrTable_0080:
 	defb 080h,07ah,074h,06eh,068h,063h,05dh,057h,051h,04bh,046h,040h,03ah,035h,02fh,029h		;05d0
 	defb 024h,01eh,018h,013h,00dh,008h,002h,0fch,0f7h,0f1h,0ech,0e6h,0e1h,0dch,0d6h,0d1h		;05e0
 	defb 0cbh,0c6h,0c0h,0bbh,0b6h,0b0h,0abh,0a6h,0a0h,09bh,096h,091h,08bh,086h,081h,07ch		;05f0
+SsgPeriodOct2Hi_0600:
 	defb 00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh		;0600
 	defb 00eh,00eh,00eh,00eh,00eh,00eh,00eh,00eh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh		;0610
 	defb 00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh,00dh		;0620
@@ -233,6 +239,7 @@ BankPtrTable_0080:
 	defb 008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h		;06d0
 	defb 008h,008h,008h,008h,008h,008h,008h,007h,007h,007h,007h,007h,007h,007h,007h,007h		;06e0
 	defb 007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h		;06f0
+SsgPeriodOct3Lo_0700:
 	defb 077h,071h,06ch,067h,062h,05dh,058h,053h,04eh,049h,044h,03fh,03ah,035h,030h,02bh		;0700
 	defb 026h,021h,01ch,017h,012h,00dh,008h,003h,0feh,0fah,0f5h,0f0h,0ebh,0e6h,0e2h,0ddh		;0710
 	defb 0d8h,0d3h,0cfh,0cah,0c5h,0c0h,0bch,0b7h,0b2h,0aeh,0a9h,0a5h,0a0h,09bh,097h,092h		;0720
@@ -249,6 +256,7 @@ BankPtrTable_0080:
 	defb 040h,03dh,03ah,037h,034h,031h,02eh,02bh,028h,025h,023h,020h,01dh,01ah,017h,014h		;07d0
 	defb 012h,00fh,00ch,009h,006h,004h,001h,0feh,0fbh,0f8h,0f6h,0f3h,0f0h,0eeh,0ebh,0e8h		;07e0
 	defb 0e5h,0e3h,0e0h,0ddh,0dbh,0d8h,0d5h,0d3h,0d0h,0cdh,0cbh,0c8h,0c5h,0c3h,0c0h,0beh		;07f0
+SsgPeriodOct3Hi_0800:
 	defb 007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h		;0800
 	defb 007h,007h,007h,007h,007h,007h,007h,007h,006h,006h,006h,006h,006h,006h,006h,006h		;0810
 	defb 006h,006h,006h,006h,006h,006h,006h,006h,006h,006h,006h,006h,006h,006h,006h,006h		;0820
@@ -265,6 +273,7 @@ BankPtrTable_0080:
 	defb 004h,004h,004h,004h,004h,004h,004h,004h,004h,004h,004h,004h,004h,004h,004h,004h		;08d0
 	defb 004h,004h,004h,004h,004h,004h,004h,003h,003h,003h,003h,003h,003h,003h,003h,003h		;08e0
 	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h		;08f0
+SsgPeriodOct4Lo_0900:
 	defb 0bbh,0b8h,0b6h,0b3h,0b1h,0aeh,0ach,0a9h,0a7h,0a4h,0a2h,09fh,09dh,09ah,098h,095h		;0900
 	defb 093h,090h,08eh,08bh,089h,086h,084h,081h,07fh,07dh,07ah,078h,075h,073h,071h,06eh		;0910
 	defb 06ch,069h,067h,065h,062h,060h,05eh,05bh,059h,057h,054h,052h,050h,04dh,04bh,049h		;0920
@@ -281,6 +290,7 @@ BankPtrTable_0080:
 	defb 020h,01eh,01dh,01bh,01ah,018h,017h,015h,014h,012h,011h,010h,00eh,00dh,00bh,00ah		;09d0
 	defb 009h,007h,006h,004h,003h,002h,000h,0ffh,0fdh,0fch,0fbh,0f9h,0f8h,0f7h,0f5h,0f4h		;09e0
 	defb 0f2h,0f1h,0f0h,0eeh,0edh,0ech,0eah,0e9h,0e8h,0e6h,0e5h,0e4h,0e2h,0e1h,0e0h,0dfh		;09f0
+SsgPeriodOct4Hi_0A00:
 	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h		;0a00
 	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h		;0a10
 	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h		;0a20
@@ -297,6 +307,7 @@ BankPtrTable_0080:
 	defb 002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h		;0ad0
 	defb 002h,002h,002h,002h,002h,002h,002h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;0ae0
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;0af0
+SsgPeriodOct5Lo_0B00:
 	defb 0ddh,0dch,0dbh,0d9h,0d8h,0d7h,0d6h,0d4h,0d3h,0d2h,0d1h,0cfh,0ceh,0cdh,0cch,0cah		;0b00
 	defb 0c9h,0c8h,0c7h,0c5h,0c4h,0c3h,0c2h,0c0h,0bfh,0beh,0bdh,0bch,0bah,0b9h,0b8h,0b7h		;0b10
 	defb 0b6h,0b4h,0b3h,0b2h,0b1h,0b0h,0afh,0adh,0ach,0abh,0aah,0a9h,0a8h,0a6h,0a5h,0a4h		;0b20
@@ -313,6 +324,7 @@ BankPtrTable_0080:
 	defb 010h,00fh,00eh,00dh,00dh,00ch,00bh,00ah,00ah,009h,008h,008h,007h,006h,005h,005h		;0bd0
 	defb 004h,003h,003h,002h,001h,001h,000h,0ffh,0feh,0feh,0fdh,0fch,0fch,0fbh,0fah,0fah		;0be0
 	defb 0f9h,0f8h,0f8h,0f7h,0f6h,0f6h,0f5h,0f4h,0f4h,0f3h,0f2h,0f2h,0f1h,0f0h,0f0h,0efh		;0bf0
+SsgPeriodOct5Hi_0C00:
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;0c00
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;0c10
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;0c20
@@ -329,6 +341,7 @@ BankPtrTable_0080:
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;0cd0
 	defb 001h,001h,001h,001h,001h,001h,001h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0ce0
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0cf0
+SsgPeriodOct6Lo_0D00:
 	defb 0eeh,0eeh,0edh,0ech,0ech,0ebh,0ebh,0eah,0e9h,0e9h,0e8h,0e7h,0e7h,0e6h,0e6h,0e5h		;0d00
 	defb 0e4h,0e4h,0e3h,0e2h,0e2h,0e1h,0e1h,0e0h,0dfh,0dfh,0deh,0deh,0ddh,0dch,0dch,0dbh		;0d10
 	defb 0dbh,0dah,0d9h,0d9h,0d8h,0d8h,0d7h,0d6h,0d6h,0d5h,0d5h,0d4h,0d4h,0d3h,0d2h,0d2h		;0d20
@@ -345,6 +358,7 @@ BankPtrTable_0080:
 	defb 088h,087h,087h,086h,086h,086h,085h,085h,085h,084h,084h,084h,083h,083h,082h,082h		;0dd0
 	defb 082h,081h,081h,081h,080h,080h,080h,07fh,07fh,07fh,07eh,07eh,07eh,07dh,07dh,07dh		;0de0
 	defb 07ch,07ch,07ch,07bh,07bh,07bh,07ah,07ah,07ah,079h,079h,079h,078h,078h,078h,077h		;0df0
+SsgPeriodOct6Hi_0E00:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0e00
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0e10
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0e20
@@ -361,6 +375,7 @@ BankPtrTable_0080:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0ed0
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0ee0
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;0ef0
+SsgPeriodOct7Lo_0F00:
 	defb 077h,077h,076h,076h,076h,075h,075h,075h,074h,074h,074h,073h,073h,073h,073h,072h		;0f00
 	defb 072h,072h,071h,071h,071h,070h,070h,070h,06fh,06fh,06fh,06fh,06eh,06eh,06eh,06dh		;0f10
 	defb 06dh,06dh,06ch,06ch,06ch,06ch,06bh,06bh,06bh,06ah,06ah,06ah,06ah,069h,069h,069h		;0f20
@@ -377,6 +392,7 @@ BankPtrTable_0080:
 	defb 044h,043h,043h,043h,043h,043h,042h,042h,042h,042h,042h,042h,041h,041h,041h,041h		;0fd0
 	defb 041h,040h,040h,040h,040h,040h,040h,03fh,03fh,03fh,03fh,03fh,03fh,03eh,03eh,03eh		;0fe0
 	defb 03eh,03eh,03eh,03dh,03dh,03dh,03dh,03dh,03dh,03ch,03ch,03ch,03ch,03ch,03ch,03bh		;0ff0
+SsgPeriodOct7Hi_1000:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;1000
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;1010
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;1020
@@ -393,6 +409,7 @@ BankPtrTable_0080:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;10d0
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;10e0
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;10f0
+NotePitch_1100:
 	defb 000h,015h,02ah,040h,055h,06ah,080h,095h,0aah,0c0h,0d5h,0eah,000h,015h,02ah,040h		;1100
 	defb 055h,06ah,080h,095h,0aah,0c0h,0d5h,0eah,000h,015h,02ah,040h,055h,06ah,080h,095h		;1110
 	defb 0aah,0c0h,0d5h,0eah,000h,015h,02ah,040h,055h,06ah,080h,095h,0aah,0c0h,0d5h,0eah		;1120
@@ -409,6 +426,7 @@ BankPtrTable_0080:
 	defb 006h,006h,006h,006h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h,007h		;11d0
 	defb 008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,008h,009h,009h,009h,009h		;11e0
 	defb 009h,009h,009h,009h,009h,009h,009h,009h,00ah,00ah,00ah,00ah,00ah,00ah,00ah,00ah		;11f0
+FmFnumHi_1200:
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;1200
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;1210
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;1220
@@ -425,6 +443,7 @@ BankPtrTable_0080:
 	defb 002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h		;12d0
 	defb 002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h		;12e0
 	defb 002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h		;12f0
+FmFnumLo_1300:
 	defb 034h,035h,036h,037h,037h,038h,039h,03ah,03bh,03ch,03dh,03dh,03eh,03fh,040h,041h		;1300
 	defb 042h,043h,044h,044h,045h,046h,047h,048h,049h,04ah,04bh,04ch,04ch,04dh,04eh,04fh		;1310
 	defb 050h,051h,052h,053h,054h,055h,056h,056h,057h,058h,059h,05ah,05bh,05ch,05dh,05eh		;1320
@@ -441,6 +460,7 @@ BankPtrTable_0080:
 	defb 01eh,01fh,020h,022h,023h,025h,026h,028h,029h,02bh,02ch,02eh,02fh,031h,032h,034h		;13d0
 	defb 036h,037h,039h,03ah,03ch,03dh,03fh,040h,042h,043h,045h,047h,048h,04ah,04bh,04dh		;13e0
 	defb 04fh,050h,052h,053h,055h,057h,058h,05ah,05ch,05dh,05fh,060h,062h,064h,065h,067h		;13f0
+LogTable_1400:
 	defb 000h,000h,01fh,032h,03fh,04ah,052h,059h,060h,065h,06ah,06eh,072h,076h,079h,07dh		;1400
 	defb 080h,082h,085h,087h,08ah,08ch,08eh,090h,092h,094h,096h,098h,099h,09bh,09dh,09eh		;1410
 	defb 09fh,0a1h,0a2h,0a4h,0a5h,0a6h,0a7h,0a9h,0aah,0abh,0ach,0adh,0aeh,0afh,0b0h,0b1h		;1420
@@ -457,6 +477,7 @@ BankPtrTable_0080:
 	defb 0f6h,0f6h,0f6h,0f7h,0f7h,0f7h,0f7h,0f7h,0f8h,0f8h,0f8h,0f8h,0f9h,0f9h,0f9h,0f9h		;14d0
 	defb 0f9h,0fah,0fah,0fah,0fah,0fah,0fbh,0fbh,0fbh,0fbh,0fbh,0fch,0fch,0fch,0fch,0fch		;14e0
 	defb 0fdh,0fdh,0fdh,0fdh,0fdh,0fdh,0feh,0feh,0feh,0feh,0feh,0ffh,0ffh,0ffh,0ffh,0ffh		;14f0
+ExpTable_1500:
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h		;1500
 	defb 001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,001h,000h		;1510
 	defb 002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h,002h		;1520
@@ -473,6 +494,7 @@ BankPtrTable_0080:
 	defb 05ah,05ch,05eh,060h,062h,064h,067h,069h,06bh,06dh,070h,072h,075h,077h,07ah,07dh		;15d0
 	defb 07fh,082h,085h,088h,08bh,08eh,091h,094h,098h,09bh,09eh,0a2h,0a5h,0a9h,0adh,0b1h		;15e0
 	defb 0b5h,0b8h,0bdh,0c1h,0c5h,0c9h,0ceh,0d2h,0d7h,0dbh,0e0h,0e5h,0eah,0efh,0f5h,0ffh		;15f0
+UnusedTable_1600:
 	defb 000h,005h,00bh,011h,017h,01dh,023h,029h,030h,037h,03dh,044h,04bh,053h,05ah,062h		;1600
 	defb 06ah,071h,07ah,082h,08ah,093h,09ch,0a5h,0aeh,0b7h,0c1h,0cbh,0d5h,0dfh,0eah,0f5h		;1610
 	defb 000h,00bh,016h,022h,02eh,03ah,047h,053h,060h,06eh,07bh,089h,097h,0a6h,0b5h,0c4h		;1620
@@ -489,6 +511,7 @@ BankPtrTable_0080:
 	defb 082h,07dh,084h,096h,0b3h,0dch,012h,054h,0a2h,0fdh,066h,0dch,060h,0f2h,092h,041h		;16d0
 	defb 0ffh,0cdh,0aah,098h,095h,0a4h,0c3h,0f4h,037h,08dh,0f5h,070h,0feh,0a1h,058h,023h		;16e0
 	defb 004h,0fbh,008h,02ch,067h,0b9h,024h,0a8h,044h,0fbh,0cch,0b9h,0c0h,0e4h,025h,0ffh		;16f0
+AdpcmbVolCurve_1700:
 	defb 000h,000h,001h,002h,002h,003h,004h,004h,005h,006h,007h,007h,008h,009h,009h,00ah		;1700
 	defb 00bh,00ch,00ch,00dh,00eh,00eh,00fh,010h,011h,011h,012h,013h,014h,014h,015h,016h		;1710
 	defb 017h,017h,018h,019h,01ah,01ah,01bh,01ch,01dh,01eh,01eh,01fh,020h,021h,021h,022h		;1720
@@ -505,6 +528,7 @@ BankPtrTable_0080:
 	defb 0c1h,0c2h,0c4h,0c5h,0c6h,0c7h,0c8h,0cah,0cbh,0cch,0cdh,0cfh,0d0h,0d1h,0d2h,0d4h		;17d0
 	defb 0d5h,0d6h,0d8h,0d9h,0dah,0dbh,0ddh,0deh,0dfh,0e1h,0e2h,0e3h,0e5h,0e6h,0e7h,0e8h		;17e0
 	defb 0eah,0ebh,0ech,0eeh,0efh,0f0h,0f2h,0f3h,0f5h,0f6h,0f7h,0f9h,0fah,0fbh,0fdh,0feh		;17f0
+SsgVolume_1800:
 	defb 000h,001h,002h,003h,004h,005h,006h,006h,006h,007h,007h,007h,007h,008h,008h,008h		;1800
 	defb 008h,008h,009h,009h,009h,009h,009h,009h,009h,00ah,00ah,00ah,00ah,00ah,00ah,00ah		;1810
 	defb 00ah,00ah,00ah,00bh,00bh,00bh,00bh,00bh,00bh,00bh,00bh,00bh,00bh,00bh,00bh,00bh		;1820
@@ -521,6 +545,7 @@ BankPtrTable_0080:
 	defb 00bh,00bh,00bh,00bh,00ah,00ah,00ah,009h,009h,009h,008h,008h,008h,008h,007h,007h		;18d0
 	defb 007h,006h,006h,006h,006h,005h,005h,005h,005h,004h,004h,004h,004h,003h,003h,003h		;18e0
 	defb 003h,003h,002h,002h,002h,002h,001h,001h,001h,001h,001h,000h,000h,000h,000h,000h		;18f0
+AdpcmaVolume_1900:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,001h,002h,003h,004h,005h,006h,007h,008h		;1900
 	defb 009h,009h,00ah,00bh,00bh,00ch,00ch,00dh,00dh,00eh,00eh,00eh,00fh,00fh,010h,010h		;1910
 	defb 010h,011h,011h,011h,012h,012h,012h,013h,013h,013h,013h,014h,014h,014h,014h,015h		;1920
@@ -537,6 +562,7 @@ BankPtrTable_0080:
 	defb 005h,002h,027h,000h,000h,000h,000h,000h,0ffh,000h,000h,000h,000h,000h,0ffh,000h		;19d0
 	defb 001h,000h,000h,000h,000h,000h,000h,0ffh,000h,000h,000h,0c0h,002h,000h,00fh,07fh		;19e0
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,001h,000h,000h,000h,000h,000h,000h,000h		;19f0
+PortamentoRate_1A00:
 	defb 000h,040h,000h,010h,01ch,007h,000h,004h,08fh,002h,0c7h,001h,04eh,001h,000h,001h		;1a00
 	defb 0cah,000h,0a3h,000h,087h,000h,071h,000h,060h,000h,053h,000h,048h,000h,040h,000h		;1a10
 	defb 038h,000h,032h,000h,02dh,000h,028h,000h,025h,000h,021h,000h,01eh,000h,01ch,000h		;1a20
@@ -553,6 +579,7 @@ BankPtrTable_0080:
 	defb 001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h		;1ad0
 	defb 001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h		;1ae0
 	defb 001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h,001h,000h		;1af0
+SquareLo_1B00:
 	defb 000h,001h,004h,009h,010h,019h,024h,031h,040h,051h,064h,079h,090h,0a9h,0c4h,0e1h		;1b00
 	defb 000h,021h,044h,069h,090h,0b9h,0e4h,011h,040h,071h,0a4h,0d9h,010h,049h,084h,0c1h		;1b10
 	defb 000h,041h,084h,0c9h,010h,059h,0a4h,0f1h,040h,091h,0e4h,039h,090h,0e9h,044h,0a1h		;1b20
@@ -569,6 +596,7 @@ BankPtrTable_0080:
 	defb 000h,0a1h,044h,0e9h,090h,039h,0e4h,091h,040h,0f1h,0a4h,059h,010h,0c9h,084h,041h		;1bd0
 	defb 000h,0c1h,084h,049h,010h,0d9h,0a4h,071h,040h,011h,0e4h,0b9h,090h,069h,044h,021h		;1be0
 	defb 000h,0e1h,0c4h,0a9h,090h,079h,064h,051h,040h,031h,024h,019h,010h,009h,004h,001h		;1bf0
+SquareHi_1C00:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;1c00
 	defb 001h,001h,001h,001h,001h,001h,001h,002h,002h,002h,002h,002h,003h,003h,003h,003h		;1c10
 	defb 004h,004h,004h,004h,005h,005h,005h,005h,006h,006h,006h,007h,007h,007h,008h,008h		;1c20
@@ -585,6 +613,7 @@ BankPtrTable_0080:
 	defb 0a9h,0aah,0ach,0adh,0afh,0b1h,0b2h,0b4h,0b6h,0b7h,0b9h,0bbh,0bdh,0beh,0c0h,0c2h		;1cd0
 	defb 0c4h,0c5h,0c7h,0c9h,0cbh,0cch,0ceh,0d0h,0d2h,0d4h,0d5h,0d7h,0d9h,0dbh,0ddh,0dfh		;1ce0
 	defb 0e1h,0e2h,0e4h,0e6h,0e8h,0eah,0ech,0eeh,0f0h,0f2h,0f4h,0f6h,0f8h,0fah,0fch,0feh		;1cf0
+UnusedZero_1D00:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;1d00
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;1d10
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h		;1d20

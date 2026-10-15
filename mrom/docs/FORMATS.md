@@ -320,3 +320,23 @@ Cualquier comando del driver se puede renderizar directamente:
 Comprobado de oído: Mission1 = «Assault Theme», `2C` = voz «Nasca» del logo, voces de la tabla B transcritas arriba (§7).
 Dependencias vendorizadas en `mrom/tools/sndrender/third_party/` (ymfm BSD-3,
 superzazu/z80 MIT; sin cambios).
+
+## 9. Tablas de página `0100-1DFF` (`mrom/asm/data/lookup_pages_0100.s`)
+
+Son 29 páginas de 256 B alineadas. El driver las indexa con `ld h,PÁGINA ; ld l,índice`
+y, en las tablas de 16 bits, `inc h` para pasar al byte alto. Los nombres están
+en `mrom/map/fixed_0000_syms.txt`.
+
+| Páginas | Nombre | Contenido / uso |
+|---|---|---|
+| 01–10 | `SsgPeriodOct{0..7}{Lo,Hi}` | Periodo SSG en 16 bits partido en lo/hi: 8 octavas de 256 pasos (1/256 de semitono). Va de 15 289 a 7 665 en la octava 0 y se divide por 2 en cada octava. `SSG_Update_*` usa `h = 2·(octava & 7) + 1`; para octavas ≥ 8 solo usa el byte alto. |
+| 11 | `NotePitch_1100` | Nota → tono `n·256/12` (unidades de 1/256 de semitono), con lo en `1100+n` y hi en `1180+n`. Lo usan `Pitch_SetNote_23F6`, `SSG/FM/ADPCMB_SetPitch` y `Seq_NoteEvent_56EA`. |
+| 12–13 | `FmFnum{Hi,Lo}` | F-number del FM para 1/256 de octava: de 308 a 615, es decir, una octava (`FM_Update_*`). |
+| 14–15 | `LogTable_1400` / `ExpTable_1500` | Multiplicación en dominio logarítmico: `a·b = Exp[Log a + Log b − C0h]` con saturación. Se usa en volúmenes, envolventes, `Seq_ScaleByCurve_4F69` (tempo) y `Seq_SetVolumeLevel_4F88`. |
+| 16 | `UnusedTable_1600` | El driver no la referencia. |
+| 17 | `AdpcmbVolCurve_1700` | Volumen → nivel de ADPCM-B (`ADPCMB_Update_4024`). |
+| 18 | `SsgVolume_1800` | Atenuación 0–7F → nivel SSG 0–F (`SSG_Update_*`). |
+| 19 | `AdpcmaVolume_1900` | Volumen → nivel de canal ADPCM-A (`ADPCMA_Update_379C`). |
+| 1A | `PortamentoRate_1A00` | 128 words con divisores decrecientes: 16384, 4096, 1820, 1024… (`Seq_TrackPortamento_52EA`). |
+| 1B–1C | `Square{Lo,Hi}` | `n²` en 16 bits (`Seq_LoadOpPtrs_*`). |
+| 1D | `UnusedZero_1D00` | 256 ceros, sin referencias. |

@@ -10,6 +10,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **M-ROM lookup pages named**: the 29 page tables at 0100–1DFF (SSG periods
+  per octave, note→pitch, FM F-numbers, log/exp multiply tables, volume
+  curves, portamento divisors, squares) labelled in `fixed_0000_syms.txt`
+  and documented in FORMATS.md §9; still byte-identical.
 - **S_TEMPO in MIDI**: `Seq_ScaleByCurve_4F69` (log/exp tables at
   0x1400/0x1500) modelled; every `CD` becomes an exact set-tempo event,
   verified against the running driver (`sndrender --trace-tempo`).
