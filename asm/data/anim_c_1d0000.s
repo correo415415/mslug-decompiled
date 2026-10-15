@@ -4,10 +4,40 @@
 |  Región: $1D0000..$1F8000  (163,840 B en 1 hueco(s), 513 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   Banco de datos gráficos referenciado por el código: frames de sprite
+|     (SprFrame_), bytecode de animación (AnimScr_), mapas de colisión
+|     (ColMap_) y tablas sin decodificar (Data_), clasificados con
+|     assets/tools/data_census.py.
+|
+|  B. EVIDENCIA
+|   Punteros desde el código (lea/move.l #abs) y desde otros scripts de
+|     animación (op 01/03 y op 02 `02 fl .l prio.w`); los frames se validan con
+|     sprites.parse_frame y los scripts con sprites.walk.
+|
+|  C. HIPÓTESIS / NOTAS
+|   Las entradas Data_ que quedan son en su mayoría tablas indexadas
+|     (offsets, velocidades, listas de piezas) cuyo formato depende de la
+|     rutina que las usa; ver la lista de usuarios abajo.
+|
+|  D. FORMATOS
+|   SprFrame_: {npiezas.b, attr.b(banco<<4), piezas{dx.w, dy.w, w.b, h.b,
+|     tiles[w*h].w por columnas}}. AnimScr_: ops de 1..12 B (02 = dibuja,
+|     00 n = espera, 01 = salto, 03 = bucle, 1B..1E = fin); ver assets/README.md.
+|
+|  E. HELPERS / USUARIOS
+|   ScriptOp02_Sprite_028dfe y el intérprete de animación de entity/*.
+|   Rutinas con lea/move.l #abs a este módulo (868):
+|     Item_Tmpl294_Food_09aec4×20, S5_TowerB_Init_08a74e×16,
+|     Squad_ShardSprites_08134c×12, S5_TowerA_Init_08a10c×11,
+|     TaskHandler_084db0×10, TaskHandler_082052×9, S5_TowerA_Destroy_08a5c8×9,
+|     OptionsMenu_Tpl_099ba6×9
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 163840 B):
+|     animación 53.5%, ceros 0.3%, otro 46.2%.
+|   Entradas por prefijo: Data 269, AnimScr 180, Zero 62, Str 2.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 

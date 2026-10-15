@@ -4,10 +4,40 @@
 |  Región: $18DB78..$1B0000  (140,410 B en 3 hueco(s), 344 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   Banco de datos gráficos referenciado por el código: frames de sprite
+|     (SprFrame_), bytecode de animación (AnimScr_), mapas de colisión
+|     (ColMap_) y tablas sin decodificar (Data_), clasificados con
+|     assets/tools/data_census.py.
+|
+|  B. EVIDENCIA
+|   Punteros desde el código (lea/move.l #abs) y desde otros scripts de
+|     animación (op 01/03 y op 02 `02 fl .l prio.w`); los frames se validan con
+|     sprites.parse_frame y los scripts con sprites.walk.
+|
+|  C. HIPÓTESIS / NOTAS
+|   Las entradas Data_ que quedan son en su mayoría tablas indexadas
+|     (offsets, velocidades, listas de piezas) cuyo formato depende de la
+|     rutina que las usa; ver la lista de usuarios abajo.
+|
+|  D. FORMATOS
+|   SprFrame_: {npiezas.b, attr.b(banco<<4), piezas{dx.w, dy.w, w.b, h.b,
+|     tiles[w*h].w por columnas}}. AnimScr_: ops de 1..12 B (02 = dibuja,
+|     00 n = espera, 01 = salto, 03 = bucle, 1B..1E = fin); ver assets/README.md.
+|
+|  E. HELPERS / USUARIOS
+|   ScriptOp02_Sprite_028dfe y el intérprete de animación de entity/*.
+|   Rutinas con lea/move.l #abs a este módulo (575):
+|     Prop_HutVariants_0530cc×22, Prop_HouseVariants_052e20×18,
+|     Prop_BridgeCollapse_04e05e×8, Prop_Boat_04f7ca×8,
+|     Gatehouse_BlitDamaged_0501d8×8, Prop_ScaledHP_054c0e×7,
+|     GunPlatform_SpawnCrewAndIdle_04bc48×6, Prop_BarrierDamaged_04e68a×6
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 140424 B):
+|     animación 74.7%, ceros 0.2%, otro 25.1%.
+|   Entradas por prefijo: AnimScr 220, Data 89, Zero 35.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 

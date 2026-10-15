@@ -5,10 +5,12 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 
 ## P-ROM (68000) — 100 % matching
 
-- [ ] Cabeceras A–F / nombres semánticos para los 13 módulos de datos
-      (`asm/data/*`), igual que el resto de módulos. Hecho: el censo por tipo
-      (`assets/tools/data_census.py`, ver assets/README.md). Falta: redactar
-      las cabeceras y renombrar `Data_*`/`Str_*` según el censo.
+- [x] Cabeceras A–F en los 14 módulos de datos (`tools/gen_data_headers.py`,
+      12 generadas + scene_scripts/mission_streams ya manuales) y 7661
+      entradas renombradas por tipo (`ColMap_`, `SprFrame_`, `BgMap_`,
+      `AnimScr_`, `Pal_`, `Zero_`). Tabla de color `ColorRGB555ToNeoGeo_002f30`
+      y rampa `ColorRamp_012fb0` identificadas y verificadas.
+- [ ] Decodificar las ~1 400 `Data_*` restantes (tablas indexadas por rutina).
 - [ ] Revisar que el matcher completo (`tools/match_batch.py`) siga en
       17608/17608 tras cada reorganización.
 

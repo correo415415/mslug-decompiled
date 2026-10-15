@@ -2364,5 +2364,5 @@ SYMBOLS = {
     0x00001C42: "SetHandlerRts_001c42",  # rts de SetTaskHandler_001c3c (+6)
     0x00001E08: "JsrAbsRts_001e08",  # rts de JsrAbsThunk_001e02 (+6)
     # --- Wave JJJJJ: refs forward a huecos futuros
-    # 0x00002F30 promovido a Data_002f30 en registry (Wave KKKKK).
+    # 0x00002F30 promovido a ColorRGB555ToNeoGeo_002f30 en registry (Wave KKKKK).
 }

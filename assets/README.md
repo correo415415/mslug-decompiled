@@ -161,10 +161,10 @@ TOTAL                                                 1611236      4.1%     16.6
 ```
 
 Observaciones:
-* `sprite_tables_002f30` ($2F30–$133B0) son casi enteras listas de celdas del
-  fix/sprite en formato `pal<<12 | tile` (p. ej. `Data_002f30` = pares
-  `$0n00/$1n00`, cargada por el boot script en $000400). Todavía no hay
-  decodificador para ellas.
+* `sprite_tables_002f30` ($2F30–$133B0) no son sprites: es la tabla de color
+  `ColorRGB555ToNeoGeo_002f30` (32768 palabras, RGB555 → color Neo Geo;
+  comprobada contra la fórmula) seguida de la rampa `ColorRamp_012fb0`
+  (32×32, v·k/31) que usa el fundido de paletas.
 * `level_a_0f2ffc` es en un 61 % colisión y en un 38 % ceros. Los cuatro
   `anim_*`/`level_d` son sobre todo bytecode de animación. `level_b`/`level_c`
   son sobre todo frames.

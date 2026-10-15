@@ -148,8 +148,8 @@ Convenciones clave (`docs/CONVENTIONS.md`):
   `internal/experiments/05_ram_map_and_ideas.md`.
 
 ### P-ROM: pendiente (baja prioridad)
-* Cabeceras A–F y nombres semánticos para los 13 módulos de datos
-  (`asm/data/*`), como en el resto.
+* Cabeceras A–F de los módulos de datos: **hechas** (`tools/gen_data_headers.py`,
+  regenerables). Queda decodificar las `Data_*` restantes (tablas por rutina).
 * Más recetas (selección de misión, invulnerabilidad, debug DIP).
 
 ---

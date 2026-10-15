@@ -4,10 +4,39 @@
 |  Región: $09C608..$0E8000  (309,752 B en 1 hueco(s), 959 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   Mapas de fondo de las misiones (tilemaps de los bind_path de los scripts de
+|     escena) y tablas asociadas.
+|       BgMap_XXXXXX  celdas {tile.w, attr.w} por columnas (formato SCB1:
+|                     attr = pal<<8 | tile_msb<<4 | flipV<<1 | flipH). Las 52
+|                     capas de las 13 escenas; ver assets/tools/levels.py.
+|       Data_XXXXXX   resto: más mapas no enlazados desde scripts (mismo formato,
+|                     p. ej. $0B9F68 18 KiB) y tablas de spawn/paletas.
+|
+|  B. EVIDENCIA
+|   Op $00 bind_path de SceneScriptVM_Frame_0437DA (data/scene_scripts_
+|     0916c8.s) -> CellCommit_MMIO_051DE2. levels.py los renderiza a PNG
+|     (52/52 con color).
+|
+|  C. HIPÓTESIS / NOTAS
+|   Muchos Data_ grandes con patrón `xxxx 1x10` son tilemaps del mismo
+|     formato que no se enlazan con bind_path (probablemente se escriben con
+|     SCB1_WriteTileColumn_05b52e desde código).
+|
+|  D. FORMATOS
+|   Celda = 4 B; mapa = w columnas × h celdas.
+|
+|  E. HELPERS / USUARIOS
+|   SCB1_WriteTileColumn_05b52e, SCB1_WriteTileColumnTerm_05bf76,
+|     SceneScriptVM_Frame_0437DA.
+|   Rutinas con lea/move.l #abs a este módulo (1):
+|     PlayerCtx_InitExtended_025012×1
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 309752 B):
+|     mapas de fondo 58.1%, ceros 10.2%, otro 31.6%.
+|   Entradas por prefijo: BgMap 614, Data 284, Zero 61.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 

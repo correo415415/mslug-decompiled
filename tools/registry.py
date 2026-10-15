@@ -8986,7 +8986,7 @@ REGISTRY = [
     ("PalSlot_ClrBit3_002c76",                     0x002C76,  16, "boot/boot_script_sound_palslots_000400.s"),
     ("PalSlot_UpdateAll_002c86",                   0x002C86, 682, "boot/boot_script_sound_palslots_000400.s"),
     # --- Wave KKKKK: DATA $002F30..$0133B0: LUT RGB555, tablas de sprites/slots, rampas de paleta (428 entradas)
-    ("Data_002f30",                                0x002F30, 208, "data/sprite_tables_002f30.s"),
+    ("ColorRGB555ToNeoGeo_002f30",                                0x002F30, 208, "data/sprite_tables_002f30.s"),
     ("Data_003000",                                0x003000,  18, "data/sprite_tables_002f30.s"),
     ("Data_003012",                                0x003012,  22, "data/sprite_tables_002f30.s"),
     ("Data_003028",                                0x003028,   6, "data/sprite_tables_002f30.s"),
@@ -9403,7 +9403,7 @@ REGISTRY = [
     ("Str_012300",                                 0x012300, 2399, "data/sprite_tables_002f30.s"),
     ("Data_012c5f",                                0x012C5F, 231, "data/sprite_tables_002f30.s"),
     ("Data_012d46",                                0x012D46, 618, "data/sprite_tables_002f30.s"),
-    ("Zero_012fb0",                                0x012FB0,  63, "data/sprite_tables_002f30.s"),
+    ("ColorRamp_012fb0",                                0x012FB0,  63, "data/sprite_tables_002f30.s"),
     ("Zero_012fef",                                0x012FEF,  18, "data/sprite_tables_002f30.s"),
     ("Data_013001",                                0x013001,  45, "data/sprite_tables_002f30.s"),
     ("Data_01302e",                                0x01302E,  14, "data/sprite_tables_002f30.s"),

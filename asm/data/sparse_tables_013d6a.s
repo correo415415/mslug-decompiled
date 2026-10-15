@@ -4,10 +4,43 @@
 |  Región: $013D6A..$024E10  (69,798 B en 1 hueco(s), 322 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   Banco de paletas principal.
+|       $013D6A..$014E00  ceros (4 246 B, relleno de alineado).
+|       $014E00..$024E00  PaletteBankLo[1024] × 64 B (16 colores × 4 B: R,G,B,0
+|                         en 5 bits). Los índices 0..1023 de Entity_AllocSprite-
+|                         Slot_00236E (`move.w #pal,d1; jsr $236E`).
+|       $024E00..$024E10  16 B de código/datos residual antes de la siguiente
+|                         región de código.
+|     El "banco alto" ($1CE00, 512 paletas) está dentro de este mismo módulo
+|     (índices 1024.. de assets/tools/sprites.py) — en realidad es una ventana
+|     sobre esta misma tabla: $1CE00 = PaletteBankLo[512].
+|
+|  B. EVIDENCIA
+|   PalSlot_LoadList_002a7c (slots $10..$74 desde $14E00), PalSlot_LoadList-
+|     Hi_002b58 (desde $1CE00), Entity_AllocSpriteSlot_00236E; extraídas a PNG
+|     por assets/tools/sprites.py (palettes.png, 1536 paletas).
+|
+|  C. HIPÓTESIS / NOTAS
+|   El formato de 4 B por color (en lugar de la palabra Neo Geo) se convierte
+|     en tiempo de ejecución con ColorRGB555ToNeoGeo ($2F30).
+|
+|  D. FORMATOS
+|   Pal_XXXXXX: 64 B = 16 × {R, G, B, 0}, 0..31 por canal.
+|
+|  E. HELPERS / USUARIOS
+|   boot/boot_script_sound_palslots_000400.s (PalSlot_*), video/palette_engine_*.
+|   Rutinas con lea/move.l #abs a este módulo (9):
+|     PalSlot_LoadList_002a7c×2, Sprite_SetupSlotFromTableA×2,
+|     Entity_AllocSpriteSlot_00236E×1, Entity_ProbeSpriteSlot_29A8×1,
+|     PalSlot_AllocDynamic_0029f2×1, PalSlot_LoadListHi_002b58×1,
+|     SceneB_Stage5_08d000×1, SceneB_Stage6_08d04a×1
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 69798 B):
+|     paletas 93.9%, ceros 6.1%, otro 0.0%.
+|   Entradas por prefijo: Pal 306, Zero 15, Data 1.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 

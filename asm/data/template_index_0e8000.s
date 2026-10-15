@@ -4,10 +4,31 @@
 |  Región: $0E8000..$0E8524  (1,316 B en 1 hueco(s), 1 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   TemplateIndex_0e8000: tabla de 329 punteros .l a las plantillas de
+|     tarea/entidad que instancia el bytecode de misión (campo +4 de los
+|     registros spawn de data/mission_streams_0e8524.s).
+|
+|  B. EVIDENCIA
+|   Spawn_FromStream_0448A6 (mission/spawn_boss_0448a6.s +$42): d0 =
+|     +4(registro)*4; `lea $E8000.l,a0; movea.l (a0,d0.w),a1` -> Task_Alloc.
+|
+|  C. HIPÓTESIS / NOTAS
+|   —
+|
+|  D. FORMATOS
+|   .dc.l Plantilla × N.
+|
+|  E. HELPERS / USUARIOS
+|   mission/event_vm_04422a.s (MissionVM_*).
+|   Rutinas con lea/move.l #abs a este módulo (1):
+|     Spawn_FromStream_0448A6×1
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 1316 B):
+|     otro 100.0%.
+|   Entradas por prefijo: TemplateIndex 1.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 

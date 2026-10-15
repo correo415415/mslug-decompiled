@@ -10,6 +10,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
+- **A–F headers for all data modules** (`tools/gen_data_headers.py`) and
+  7661 `Data_`/`Str_`/`Zero_` entries renamed by census type (`ColMap_`,
+  `SprFrame_`, `BgMap_`, `AnimScr_`, `Pal_`, `Zero_`). `$2F30` identified as
+  `ColorRGB555ToNeoGeo` (32768 words, formula-verified) and `$12FB0` as the
+  32×32 fade ramp `ColorRamp`. ROM still byte-identical.
 - **Data-module census** (`assets/tools/data_census.py`): per-byte
   classification of the 14 `asm/data/*` modules (palettes, frames, anim
   bytecode, tilemaps, collision maps, zero fill, other).

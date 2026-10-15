@@ -4,10 +4,35 @@
 |  Región: $0F2FFC..$118028  (151,596 B en 1 hueco(s), 4499 entradas)
 | ============================================================================
 |
-|  BORRADOR generado por tools/gen_data_region.py — volcado estructurado:
-|  .fill para rachas de $00, .dc.l Simbolo para punteros a entradas
-|  conocidas, .dc.w para el resto. Cada entrada empieza en una dirección
-|  referenciada desde el código (o frontera de racha de ceros).
+|  A. QUÉ HAY AQUÍ
+|   Mapas de colisión de los fondos ($200000+ en el espacio de CPU, banco
+|     alto del P-ROM) más relleno de ceros.
+|       ColMap_XXXXXX  4 B por celda, mismo recorrido (w × h por columnas) que el
+|                      tilemap de su capa; los referencia el campo `cont` del
+|                      bind_path. 18 mapas distintos.
+|
+|  B. EVIDENCIA
+|   Campo +$0E del op $00 bind_path; Camera0_RelinkAndWrapScroll_06896A y
+|     collision_cell_apply_051ba8 los leen.
+|
+|  C. HIPÓTESIS / NOTAS
+|   El significado de los 4 bytes (tipo de suelo, pendiente, flags) está por
+|     documentar celda a celda.
+|
+|  D. FORMATOS
+|   ColMap: w*h*4 B.
+|
+|  E. HELPERS / USUARIOS
+|   entity/collision_cell_apply_051ba8.s, video/cellmap_fix_overlay_palfade_
+|     051aa4.s.
+|   Rutinas con lea/move.l #abs a este módulo (2):
+|     Camera0_RelinkAndWrapScroll_06896A×1, S5Airship_CameraHook_0689e6×1
+|
+|  F. ESTADO
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 151596 B):
+|     colisión 61.5%, ceros 38.0%, otro 0.5%.
+|   Entradas por prefijo: ColMap 4103, Zero 335, Data 60, RomData 1.
+|   Pendiente: decodificar las Data_ restantes.
 |
         .text
 
