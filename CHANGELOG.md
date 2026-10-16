@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **164 more `Data_` renamed** by census kind (154 `AnimScr_`, 8 `BgMap_`, 2 `SprFrame_`).
 - **Pointed scripts**: `data_census.pointed_scripts` walks unclassified
   addresses that any ROM long points to and that parse as scripts with >= 2
   frames ending in a jump/stop opcode (92 scripts). "Other": 6.5 % → 6.2 %.

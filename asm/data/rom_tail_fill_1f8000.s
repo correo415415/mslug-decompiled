@@ -30,17 +30,17 @@
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 32768 B):
 |     animación 5.9%, ceros 93.1%, otro 1.0%.
-|   Entradas por prefijo: Data 2, Zero 2.
+|   Entradas por prefijo: Zero 2, AnimScr 1, Data 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
 
 | ----------------------------------------------------------------------------
-|  Data_1f8000  @ $1F8000  (2,244 B)
+|  AnimScr_1f8000  @ $1F8000  (2,244 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f8000, "ax", @progbits
-        .global Data_1f8000
-Data_1f8000:
+        .section .text.AnimScr_1f8000, "ax", @progbits
+        .global AnimScr_1f8000
+AnimScr_1f8000:
         .dc.w   0xfff8,0x0200,0x0024,0x3658,0xffff,0x0020                   | +00000
         .dc.l   AnimScr_180200                   | +0000c  -> $180200
         .dc.w   0x0024,0x3662,0xffff,0x0020,0xfff8,0x1d00,0x0416,0x0050     | +00010
