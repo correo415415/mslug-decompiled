@@ -228,6 +228,44 @@ def code_arg_tables(p, code_end=0x90000):
     return out
 
 
+TBL_DECODE2D = 0x0799DE   # Tbl_Decode2D_0799DE: a0 = tabla por dificultad/rango
+
+
+def decode2d_tables(p, code_end=0x90000):
+    """-> [(addr, len)] de tablas pasadas en a0 a Tbl_Decode2D_0799DE
+    (`lea X,a0` + jsr/bsr <= 12 B, sin otro `lea ..,a0` entre medias).
+    Formato largo (palabra 0 != 2): 2 + 64 palabras indexadas por
+    (flags11&3)*4 + ($106ED1&2) + (Rank_SubIndex&7)*16 -> 130 B.
+    Formato corto (palabra 0 == 2): 2 + 64 bytes de índice + 16 B por índice
+    (8 palabras elegidas con Random&$E) -> 2 + 64 + 16*(max+1)."""
+    out = set()
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w == 0x41F9:
+            v, n = p.L(o + 2), 6
+        elif w == 0x41FA:
+            v, n = o + 2 + p.SW(o + 2), 4
+        else:
+            continue
+        for q in range(o + n, o + n + 12, 2):
+            x = p.W(q)
+            if x & 0xFFC0 == 0x41C0:          # otro lea ..,a0
+                break
+            t = (p.L(q + 2) if x == 0x4EB9 else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x6100) else None)
+            if t is None:
+                continue
+            if t == TBL_DECODE2D and v & 1 == 0 and p.valid(v, 130):
+                if p.W(v) == 2:
+                    mx = max(p.B(v + 2 + i) for i in range(64))
+                    if mx < 32 and p.valid(v, 66 + 16 * (mx + 1)):
+                        out.add((v, 66 + 16 * (mx + 1)))
+                else:
+                    out.add((v, 130))
+            break
+    return sorted(out)
+
+
 # Diccionarios de nombres de Results_RosterPickA/B_03e6da/03e740 (pantalla de
 # resultados): d0 = Random(n) -> longitud = LenTab[d0]; {ptr.l, cnt.l} =
 # PtrTab[longitud - base]; nombre = ptr + longitud * Random(cnt).
@@ -337,6 +375,9 @@ def classify(p):
         put(a, n, "struct")
     # tablas de argumentos de formato fijo (cajas en pantalla, rejillas de sondeo)
     for a, n in code_arg_tables(p):
+        put(a, n, "struct")
+    # tablas por dificultad/rango de Tbl_Decode2D_0799DE
+    for a, n in decode2d_tables(p):
         put(a, n, "struct")
     # scripts instalados desde el código (EntitySetSpriteMap / move.l #,$3C(a6))
     seen = set()

@@ -78,5 +78,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 
 - [x] levels.py: renderizar también los 11 descriptores de parches de
   Sprite_InvokeBlit8Params (data_census.blit_patches) como capas.
-- [ ] Datos "otro" (11,9 %): siguiente, revisar Data_196000 / AnimScr_1d6700 y
+- [x] Tablas de Tbl_Decode2D_0799DE (230, `decode2d_tables`) como struct.
+- [ ] Datos "otro" (10,1 %): siguiente, revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

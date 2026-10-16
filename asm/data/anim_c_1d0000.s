@@ -35,7 +35,7 @@
 |
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 163840 B):
-|     animación 57.3%, estructuras 2.7%, ceros 0.0%, otro 39.9%.
+|     animación 57.3%, estructuras 2.8%, ceros 0.0%, otro 39.8%.
 |   Entradas por prefijo: Data 256, AnimScr 193, Zero 62, Str 2.
 |   Pendiente: decodificar las Data_ restantes.
 |

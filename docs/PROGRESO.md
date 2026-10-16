@@ -50,6 +50,13 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Tablas de Tbl_Decode2D_0799DE (2026-10-16)**. `data_census.decode2d_tables`
+> sigue los 230 `lea X,a0 ; jsr Tbl_Decode2D_0799DE` (sin otro `lea ..,a0`
+> en medio): formato largo 130 B (2 + 64 palabras por flags11&3, $106ED1&2,
+> Rank_SubIndex&7), corto con magic 2 (2 + 64 bytes de indice + 16 B por
+> indice, palabra por Random&$E). Bloque `$2B746A..$2C06AA` de tablas de
+> temporizadores por dificultad. Datos "otro": 11,9 % -> 10,1 %.
+
 > **Datos con nombre y assets (2026-10-15)**. Censo byte a byte de los 14
 > modulos `asm/data/*` (`assets/tools/data_census.py`): paletas 4,1 %, frames
 > 16,6 %, animacion 18,2 %, mapas de fondo 11,2 %, colision 7,8 %, ceros

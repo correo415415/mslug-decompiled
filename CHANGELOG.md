@@ -15,6 +15,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **`Tbl_Decode2D_0799DE` tables**: `data_census.decode2d_tables` follows the
+  230 tables passed in a0 to the difficulty/rank decoder (long format 130 B =
+  2 + 64 words; short format magic 2 = 2 + 64 index bytes + 16 B per index,
+  8 words picked with `Random&$E`). They are the M5Boss/boss/enemy timer and
+  rate tables at `$2B746A..$2C06AA`. "Other" data: 11.9 % → 10.1 %.
 - **`SinTab256_1c072c`**: the 8.8 sine table (`round(256·sin(2πi/256))`,
   320 words; cosine = +$80) is now assembled from its quarter wave, and the 45
   `lea $2C072C/$2C07AC` in the code are symbolic. Wrong entry boundaries in
