@@ -47,7 +47,7 @@ KINDS = ("palette", "frame", "anim", "tilemap", "collision", "struct", "lut", "z
 
 # prefijos de registry cuyo contenido entero ya está decodificado por su parser
 STRUCT_PREFIXES = ("MissionStream_", "MissionAux_", "TemplateIndex_", "SceneDescTable_",
-                   "SceneScript_", "SceneEntities_", "SceneTrig_", "TaskBootTab_", "SoftDip_")
+                   "SceneScript_", "SceneEntities_", "SceneTrig_", "TaskBootTab_", "SoftDip_", "PropItemPtrs_")
 
 # tablas de color del motor de paletas (asm/data/sprite_tables_002f30.s)
 LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0),
@@ -418,6 +418,60 @@ def frame_runs(p, mark, min_cover=0.95):
     return out
 
 
+def _cell_good(p, c):
+    """Celda {tile.w, attr.w} típica: attr con byte bajo $10..$19 (tile_msb +
+    flips) y paleta < $80, o celda vacía."""
+    t, at = p.W(c), p.W(c + 2)
+    return (t == 0 and at == 0) or (0x10 <= at & 0xFF <= 0x19 and at >> 8 < 0x80)
+
+
+def desc_chains(p, min_n=8):
+    """Tablas de descriptores de 8 B {w, h, tiles.l} (formato de los parches de
+    Sprite_InvokeBlit8Params) en cadena, cuyos tilemaps son contiguos
+    (tiles[i+1] == tiles[i] + 4*w*h) -> [(addr, len, kind)]."""
+    out, a = [], 0
+    while a < 0x200000 - 8:
+        ds, q = [], a
+        while True:
+            c = p.cpu(q)
+            if not p.valid(c, 8):
+                break
+            w, h, t = p.W(c), p.W(c + 2), p.L(c + 4)
+            if not (1 <= w <= 128 and 1 <= h <= 32 and t & 3 == 0 and p.valid(t, 4 * w * h)):
+                break
+            if ds and ds[-1][2] + 4 * ds[-1][0] * ds[-1][1] != t:
+                break
+            ds.append((w, h, t))
+            q += 8
+        if len(ds) >= min_n and sum(_cell_good(p, t + 4 * i) for w, h, t in ds
+                                    for i in range(w * h)) >= 0.95 * sum(w * h for w, h, t in ds):
+            out.append((p.cpu(a), 8 * len(ds), "struct"))
+            for w, h, t in ds:
+                out.append((t, 4 * w * h, "tilemap"))
+            a = q
+        else:
+            a += 2
+    return out
+
+
+def tilemap_gaps(p, mark, min_cells=64):
+    """Rachas sin clasificar que son celdas de tilemap en >= 98 % (con >= 50 %
+    no vacías): tilemaps de fondo sin descriptor conocido (extensiones de capas
+    vecinas). -> [(addr, len)]"""
+    out = []
+    for lo, hi in _gaps(p, mark):
+        o = (lo + 3) & ~3
+        n = (hi - o) // 4
+        if n < min_cells:
+            continue
+        cs = [p.cpu(o + 4 * i) for i in range(n)]
+        good = sum(_cell_good(p, c) for c in cs)
+        nz = sum(1 for c in cs if p.W(c + 2))
+        if good >= 0.98 * n and nz >= 0.5 * n:
+            out.append((p.cpu(o), 4 * n))
+    return out
+
+
 def classify(p):
     """-> dict cpu_addr -> kind (sólo bytes marcados)."""
     mark = {}
@@ -493,9 +547,15 @@ def classify(p):
             t = p.L(a + 2)
             if t & 1 == 0 and p.valid(t, 12):
                 put(t, 12, "struct")
+    # cadenas de descriptores {w, h, tiles} de parches (+ sus tilemaps)
+    for a, n, k in desc_chains(p):
+        put(a, n, k)
     # rachas completas de frames sin puntero directo
     for a, n in frame_runs(p, mark):
         put(a, n, "frame")
+    # celdas de tilemap sin descriptor
+    for a, n in tilemap_gaps(p, mark):
+        put(a, n, "tilemap")
     return mark
 
 

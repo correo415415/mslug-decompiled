@@ -34,7 +34,7 @@
 |
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 309752 B):
-|     mapas de fondo 86.9%, ceros 10.2%, otro 2.9%.
+|     mapas de fondo 89.4%, ceros 10.2%, otro 0.3%.
 |   Entradas por prefijo: BgMap 888, Zero 61, Data 10.
 |   Pendiente: decodificar las Data_ restantes.
 |

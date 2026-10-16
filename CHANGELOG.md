@@ -15,6 +15,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Patch descriptor chain and descriptor-less tilemaps**: `PatchDescChain_19810c`
+  (40 {w, h, tiles} descriptors whose tilemaps are contiguous at
+  `$0B3900..$0B53EC`, `data_census.desc_chains`), `PropItemPtrs_1980fc`
+  (symbolic `lea`), and `data_census.tilemap_gaps` for unclassified spans that
+  are >= 98 % background cells (e.g. `$0AAF78..$0ABE50`). "Other": 8.5 % → 8.0 %.
 - **Mission-briefing typewriter text**: `$1EF8AA..$1F2DB2` decoded and re-split
   into `FixTypePages_JP/EN/PT/ES` (44 {stream, fix attribute} pages per
   language, picked by `Icon_Anchor_Run_08c678` from region + soft-DIP

@@ -50,6 +50,13 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Cadena de descriptores y tilemaps sueltos (2026-10-16)**.
+> `PatchDescChain_19810c`: 40 descriptores {w, h, tiles.l} (formato de
+> Sprite_InvokeBlit8Params) con tilemaps contiguos en `$0B3900..$0B53EC`;
+> `PropItemPtrs_1980fc` (Prop_PickRandomItemPtr_053e9c, `lea` simbólico).
+> `data_census.desc_chains` y `tilemap_gaps` (rachas >= 98 % celdas de
+> fondo, p. ej. `$0AAF78..$0ABE50`). Otro 8,0 %.
+
 > **Textos a máquina de la presentación (2026-10-16)**. `$1EF8AA..$1F2DB2`
 > re-partido: `FixTypePages_{JP,EN,PT,ES}` (44 pares {stream, atributo fix};
 > `Icon_Anchor_Run_08c678` elige por $8A = región/idioma del soft-DIP),

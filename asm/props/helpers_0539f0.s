@@ -453,7 +453,7 @@ Prop_PickRandomItemPtr_053e9c:
         move.w  #0x3,d0                         | +000
         jsr     0x5ea1c.l                       | +004
         asl.w   #0x2,d0                         | +00a
-        lea     0x2980fc.l,a0                   | +00c
+        lea     (PropItemPtrs_1980fc+0x100000).l,a0 | +00c
         movea.l (a0,d0.w),a0                    | +012
 
 | ----------------------------------------------------------------------------

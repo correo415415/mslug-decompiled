@@ -35,8 +35,8 @@
 |
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 140424 B):
-|     animación 75.8%, estructuras 5.0%, ceros 0.1%, otro 19.0%.
-|   Entradas por prefijo: AnimScr 223, Data 86, Zero 35.
+|     animación 75.8%, estructuras 5.2%, ceros 0.1%, otro 18.8%.
+|   Entradas por prefijo: AnimScr 223, Data 87, Zero 35, PropItemPtrs 1, PatchDescChain 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -4281,3399 +4281,2822 @@ Data_195de1:
         .dc.w   0xffff,0x0020,0x0020,0x0200,0x0024                          | +00215
 
 | ----------------------------------------------------------------------------
-|  Data_196000  @ $196000  (25,088 B)  [ref. desde código]
+|  Data_196000  @ $196000  (8,444 B)
 | ----------------------------------------------------------------------------
         .section .text.Data_196000, "ax", @progbits
         .global Data_196000
 Data_196000:
-        .dc.w   0x3662,0xffff,0x0020,0xffe0,0x1d00,0x0406,0x0064,0x0404     | +00000
-        .dc.w   0xff00                                                      | +00010
-        .dc.l   0x0000ffe0                    | +00012  -> $00FFE0
-        .dc.w   0x0020,0xffe0,0x0020,0x0200,0x0024,0x363a,0xffff,0x0000     | +00016
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xffe0,0x0020,0x0200     | +00026
-        .dc.w   0x0024,0x364e,0xffff,0xffe0,0xffe0,0x0200,0x0024,0x3658     | +00036
-        .dc.w   0xffff,0x0020,0x0020,0x0200,0x0024,0x3662,0xffff,0x0020     | +00046
-        .dc.w   0xffe0,0x1d00,0xffff,0xffff,0x0301,0x7fff,0x0404,0xff00     | +00056
-        .dc.w   0x0000,0x0000,0x0030,0x0000,0x0030,0x0200,0x0024,0x363a     | +00066
-        .dc.w   0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff,0x0000     | +00076
-        .dc.w   0x0030,0x0200,0x0024,0x364e,0xffff,0x0000,0x0000,0x0200     | +00086
-        .dc.w   0x0024,0x3658,0xffff,0x0030,0x0030,0x0200,0x0024,0x3662     | +00096
-        .dc.w   0xffff,0x0030,0x0000,0x1d00,0x0401,0x7fff,0x0404,0xff00     | +000a6
-        .dc.w   0x0000,0x0000,0x0030,0x0000,0x0030,0x0200,0x0024,0x363a     | +000b6
-        .dc.w   0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff,0x0000     | +000c6
-        .dc.w   0x0030,0x0200,0x0024,0x364e,0xffff,0x0000,0x0000,0x0200     | +000d6
-        .dc.w   0x0024,0x3658,0xffff,0x0030,0x0030,0x0200,0x0024,0x3662     | +000e6
-        .dc.w   0xffff,0x0030,0x0000,0x1d00,0xffff,0xffff,0x0306,0x0064     | +000f6
-        .dc.w   0x0404,0xff00,0x0000,0x0000,0x0050,0x0000,0x0080,0x0200     | +00106
-        .dc.w   0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644     | +00116
-        .dc.w   0xffff,0x0000,0x0080,0x0200,0x0024,0x364e,0xffff,0x0000     | +00126
-        .dc.w   0x0000,0x0200,0x0024,0x3658,0xffff,0x0050,0x0080,0x0200     | +00136
-        .dc.w   0x0024,0x3662,0xffff,0x0050,0x0000,0x1d00,0x0406,0x0064     | +00146
-        .dc.w   0x0404,0xff00,0x0000,0x0000,0x0050,0x0000,0x0080,0x0200     | +00156
-        .dc.w   0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644     | +00166
-        .dc.w   0xffff,0x0000,0x0080,0x0200,0x0024,0x364e,0xffff,0x0000     | +00176
-        .dc.w   0x0000,0x0200,0x0024,0x3658,0xffff,0x0050,0x0080,0x0200     | +00186
-        .dc.w   0x0024,0x3662,0xffff,0x0050,0x0000,0x1d00,0xffff,0xffff     | +00196
-        .dc.w   0x0306,0x7fff,0x0404,0xff00                                 | +001a6
-        .dc.l   0x0000ffc0                    | +001ae  -> $00FFC0
-        .dc.w   0x0040,0xffe0,0x0050,0x0200,0x0024,0x363a,0xffff,0x0000     | +001b2
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xffc0,0x0050,0x0200     | +001c2
-        .dc.w   0x0024,0x364e,0xffff,0xffc0,0xffe0,0x0200,0x0024,0x3658     | +001d2
-        .dc.w   0xffff,0x0040,0x0050,0x0200,0x0024,0x3662,0xffff,0x0040     | +001e2
-        .dc.w   0xffe0,0x1d00,0x0406,0x7fff,0x0404,0xff00                   | +001f2
-        .dc.l   0x0000ffc0                    | +001fe  -> $00FFC0
-        .dc.w   0x0040,0xffe0,0x0050,0x0200,0x0024,0x363a,0xffff,0x0000     | +00202
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xffc0,0x0050,0x0200     | +00212
-        .dc.w   0x0024,0x364e,0xffff,0xffc0,0xffe0,0x0200,0x0024,0x3658     | +00222
-        .dc.w   0xffff,0x0040,0x0050,0x0200,0x0024,0x3662,0xffff,0x0040     | +00232
-        .dc.w   0xffe0,0x1d00,0xffff,0xffff,0xfff8,0x0008,0x0000            | +00242
-        .dc.l   ColMap_10ffff                   | +00250  -> $10FFFF
-        .dc.w   0xfff8,0x0008,0xfff8,0x0008,0xffff,0xffc0,0x0040,0x0000     | +00254
-        .dc.w   0x0050,0xffff,0xffd0,0x0030,0xfff0,0x0030,0xffff,0x8001     | +00264
-        .dc.w   0x0070,0x0000,0x0050,0x0070,0x0000,0x0090,0x0200,0x0024     | +00274
-        .dc.w   0x3608,0xffff,0x0000,0x0000,0x0200,0x0024,0x3612,0xffff     | +00284
-        .dc.w   0x0050,0x0090,0x0200,0x0024,0x361c,0xffff,0x0050,0x0000     | +00294
-        .dc.w   0x0200,0x0024,0x3626,0xffff,0x0070,0x0090,0x0200,0x0024     | +002a4
-        .dc.w   0x3630,0xffff,0x0070,0x0000,0x1d01,0x8001                   | +002b4
-        .dc.l   ColMap_100000                   | +002c0  -> $100000
-        .dc.w   0xfff0,0x0030,0x0000,0x0090,0x0200,0x0024,0x3608,0xffff     | +002c4
-        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3612,0xffff,0xfff0,0x0090     | +002d4
-        .dc.w   0x0200,0x0024,0x361c,0xffff,0xfff0,0x0000,0x0200,0x0024     | +002e4
-        .dc.w   0x3626,0xffff,0x0030,0x0090,0x0200,0x0024,0x3630,0xffff     | +002f4
-        .dc.w   0x0030,0x0000,0x1d01,0x8001                                 | +00304
-        .dc.l   ColMap_100000                   | +0030c  -> $100000
-        .dc.w   0x0000,0x0030,0x0000,0x00a0,0x0200,0x0024,0x3608,0xffff     | +00310
-        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3612,0xffff,0x0000,0x00a0     | +00320
-        .dc.w   0x0200,0x0024,0x361c,0xffff,0x0000,0x0000,0x0200,0x0024     | +00330
-        .dc.w   0x3626,0xffff,0x0030,0x00a0,0x0200,0x0024,0x3630,0xffff     | +00340
-        .dc.w   0x0030,0x0000,0x1d01,0x8001,0x0000                          | +00350
-        .dc.l   0x0000fff2                    | +0035a  -> $00FFF2
-        .dc.l   BgMap_0e0000                   | +0035e  -> $0E0000
-        .dc.w   0x001c,0x0200,0x0024,0x3608,0xffff,0x0000,0x0000,0x0200     | +00362
-        .dc.w   0x0024,0x3612,0xffff,0xfff2,0x001c,0x0200,0x0024,0x361c     | +00372
-        .dc.w   0xffff,0xfff2,0x0000,0x0200,0x0024,0x3626,0xffff            | +00382
-        .dc.l   BgMap_0e001c                   | +00390  -> $0E001C
-        .dc.w   0x0200,0x0024,0x3630,0xffff                                 | +00394
-        .dc.l   BgMap_0e0000                   | +0039c  -> $0E0000
-        .dc.w   0x1d01,0x0000,0x0000                                        | +003a0
-        .dc.l   0x00010100                    | +003a6  -> $010100
-        .fill   21,1,0x00                      | +003aa
-        .dc.b   0x01                            | +003bf
-        .dc.l   0x00010101                    | +003c0  -> $010101
-        .dc.w   0x0002,0x0029,0x63a2,0x0000                                 | +003c4
-        .dc.l   0x0000fff6                    | +003cc  -> $00FFF6
-        .dc.l   BgMap_0a0000                   | +003d0  -> $0A0000
-        .dc.w   0x0028,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +003d4
-        .dc.w   0x0024,0x3676,0xffff,0xfff6,0x0028,0x0200,0x0024,0x3680     | +003e4
-        .dc.w   0xffff,0xfff6,0x0000,0x0200,0x0024,0x368a,0xffff            | +003f4
-        .dc.l   BgMap_0a0028                   | +00402  -> $0A0028
-        .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00406
-        .dc.l   BgMap_0a0000                   | +0040e  -> $0A0000
-        .dc.w   0x1d01,0xffff,0xffff,0x0000,0x0000,0x0101,0x0000,0x0000     | +00412
-        .dc.w   0x0101                                                      | +00422
-        .fill   17,1,0x00                      | +00424
-        .dc.b   0x01                            | +00435
-        .dc.l   0x00010101                    | +00436  -> $010101
-        .dc.w   0x0001,0x0029,0x6418,0x0000                                 | +0043a
-        .dc.l   0x0000fff8                    | +00442  -> $00FFF8
-        .dc.w   0x0008,0x0028,0x0058,0x0200,0x0024,0x366c,0xffff,0x0000     | +00446
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff8,0x0058,0x0200     | +00456
-        .dc.w   0x0024,0x3680,0xffff,0xfff8,0x0028,0x0200,0x0024,0x368a     | +00466
-        .dc.w   0xffff,0x0008,0x0058,0x0200,0x0024,0x3694,0xffff,0x0008     | +00476
-        .dc.w   0x0028,0x1d01,0xffff,0xffff,0x0001,0x0029,0x6418,0x0000     | +00486
-        .dc.l   0x0000fff8                    | +00496  -> $00FFF8
-        .dc.w   0x0008,0xffd0,0xffff,0x0200,0x0024,0x366c,0xffff,0x0000     | +0049a
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff8,0xffff,0x0200     | +004aa
-        .dc.w   0x0024,0x3680,0xffff,0xfff8,0xffd0,0x0200,0x0024,0x368a     | +004ba
-        .dc.w   0xffff,0x0008,0xffff,0x0200,0x0024,0x3694,0xffff,0x0008     | +004ca
-        .dc.w   0xffd0,0x1d01,0xffff,0xffff,0x0001,0x0029,0x6418,0x0000     | +004da
-        .dc.w   0x0000,0xffa0,0xfff0,0x0000,0x0028,0x0200,0x0024,0x366c     | +004ea
-        .dc.w   0xffff,0x0000,0x0000,0x0200,0x0024,0x3676,0xffff,0xffa0     | +004fa
-        .dc.w   0x0028,0x0200,0x0024,0x3680,0xffff,0xffa0,0x0000,0x0200     | +0050a
-        .dc.w   0x0024,0x368a,0xffff,0xfff0,0x0028,0x0200,0x0024,0x3694     | +0051a
-        .dc.w   0xffff,0xfff0,0x0000,0x1d01,0xffff,0xffff,0x0001,0x0029     | +0052a
-        .dc.w   0x6418,0x0000,0x0000                                        | +0053a
-        .dc.l   ColMap_100060                    | +00540  -> $100060
-        .dc.w   0x0000,0x0028,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +00544
-        .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +00554
-        .dc.l   ColMap_100028                   | +0055c  -> $100028
-        .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +00560
-        .dc.l   ColMap_100000                   | +00568  -> $100000
-        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0060,0x0028,0x0200,0x0024     | +0056c
-        .dc.w   0x3694,0xffff,0x0060,0x0000,0x1d01,0xffff,0xffff,0x0800     | +0057c
-        .dc.l   Allen_SpawnMuzzleFlashA_05080a| +0058c  -> $05080A
-        .dc.l   0x00010208                    | +00590  -> $010208
-        .dc.w   0x0024,0xa418,0xffff,0x0208,0x0024,0xa1aa,0xffff            | +00594
-        .dc.l   0x00010208                    | +005a2  -> $010208
-        .dc.w   0x0024,0xa436,0xffff,0x0208,0x0024,0xa1da,0xffff,0x0800     | +005a6
-        .dc.l   Allen_SpawnBulletLevel_050822 | +005b6  -> $050822
-        .dc.l   0x00010208                    | +005ba  -> $010208
-        .dc.w   0x0024,0xa44c,0xffff,0x0208,0x0024,0xa1aa,0xffff            | +005be
-        .dc.l   0x00010208                    | +005cc  -> $010208
-        .dc.w   0x0024,0xa46a,0xffff,0x0208,0x0024,0xa1da,0xffff,0x0800     | +005d0
-        .dc.l   Allen_SpawnBulletLevel_050822 | +005e0  -> $050822
-        .dc.l   0x00010208                    | +005e4  -> $010208
-        .dc.w   0x0024,0xa488,0xffff,0x0208,0x0024,0xa20a,0xffff            | +005e8
-        .dc.l   0x00010208                    | +005f6  -> $010208
-        .dc.w   0x0024,0xa4a8,0xffff,0x0208,0x0024,0xa232,0xffff,0x0800     | +005fa
-        .dc.l   Allen_SpawnBulletLevel_050822 | +0060a  -> $050822
-        .dc.l   0x00010208                    | +0060e  -> $010208
-        .dc.w   0x0024,0xa4ce,0xffff,0x0208,0x0024,0xa20a,0xffff            | +00612
-        .dc.l   0x00010208                    | +00620  -> $010208
-        .dc.w   0x0024,0xa4f2,0xffff,0x0208,0x0024,0xa232,0xffff,0x0800     | +00624
-        .dc.l   Allen_SpawnBulletLevel_050822 | +00634  -> $050822
-        .dc.w   0x1600                                                      | +00638
-        .dc.l   0x00010208                    | +0063a  -> $010208
-        .dc.w   0x0024,0xa262,0xffff                                        | +0063e
-        .dc.l   0x00010208                    | +00644  -> $010208
-        .dc.w   0x0024,0xa280,0xffff                                        | +00648
-        .dc.l   0x00010208                    | +0064e  -> $010208
-        .dc.w   0x0024,0xa262,0xffff                                        | +00652
-        .dc.l   0x00010208                    | +00658  -> $010208
-        .dc.w   0x0024,0xa280,0xffff                                        | +0065c
-        .dc.l   0x00010208                    | +00662  -> $010208
-        .dc.w   0x0024,0xa29e,0xffff                                        | +00666
-        .dc.l   0x00010208                    | +0066c  -> $010208
-        .dc.w   0x0024,0xa2bc,0xffff                                        | +00670
-        .dc.l   0x00010208                    | +00676  -> $010208
-        .dc.w   0x0024,0xa29e,0xffff                                        | +0067a
-        .dc.l   0x00010208                    | +00680  -> $010208
-        .dc.w   0x0024,0xa2bc,0xffff,0x1600                                 | +00684
-        .dc.l   0x00010208                    | +0068c  -> $010208
-        .dc.w   0x0024,0xab4a,0xffff                                        | +00690
-        .dc.l   0x00010208                    | +00696  -> $010208
-        .dc.w   0x0024,0xab6e,0xffff,0x0800                                 | +0069a
-        .dc.l   Allen_SpawnMuzzleFlashB_050816| +006a2  -> $050816
-        .dc.l   0x00010200                    | +006a6  -> $010200
-        .dc.w   0x0024,0xa418,0xffff,0x0000,0x0010,0x0208,0x0024,0xa2da     | +006aa
-        .dc.w   0xffff                                                      | +006ba
-        .dc.l   0x00010200                    | +006bc  -> $010200
-        .dc.w   0x0024,0xa436,0xffff,0x0000,0x0010,0x0208,0x0024,0xa2fe     | +006c0
-        .dc.w   0xffff,0x0800                                               | +006d0
-        .dc.l   Allen_SpawnBulletDiag_05087c  | +006d4  -> $05087C
-        .dc.l   0x00010200                    | +006d8  -> $010200
-        .dc.w   0x0024,0xa44c,0xffff,0x0000,0x0010,0x0208,0x0024,0xa2da     | +006dc
-        .dc.w   0xffff                                                      | +006ec
-        .dc.l   0x00010200                    | +006ee  -> $010200
-        .dc.w   0x0024,0xa46a,0xffff,0x0000,0x0010,0x0208,0x0024,0xa2fe     | +006f2
-        .dc.w   0xffff,0x0800                                               | +00702
-        .dc.l   Allen_SpawnBulletDiag_05087c  | +00706  -> $05087C
-        .dc.l   0x00010200                    | +0070a  -> $010200
-        .dc.w   0x0024,0xa488,0xffff,0x0000,0x0010,0x0208,0x0024,0xa32a     | +0070e
-        .dc.w   0xffff                                                      | +0071e
-        .dc.l   0x00010200                    | +00720  -> $010200
-        .dc.w   0x0024,0xa4a8,0xffff,0x0000,0x0010,0x0208,0x0024,0xa358     | +00724
-        .dc.w   0xffff,0x0800                                               | +00734
-        .dc.l   Allen_SpawnBulletDiag_05087c  | +00738  -> $05087C
-        .dc.l   0x00010200                    | +0073c  -> $010200
-        .dc.w   0x0024,0xa4ce,0xffff,0x0000,0x0010,0x0208,0x0024,0xa32a     | +00740
-        .dc.w   0xffff                                                      | +00750
-        .dc.l   0x00010200                    | +00752  -> $010200
-        .dc.w   0x0024,0xa4f2,0xffff,0x0000,0x0010,0x0208,0x0024,0xa358     | +00756
-        .dc.w   0xffff,0x0800                                               | +00766
-        .dc.l   Allen_SpawnBulletDiag_05087c  | +0076a  -> $05087C
-        .dc.l   0x00010208                    | +0076e  -> $010208
-        .dc.w   0x0024,0xab6e,0xffff                                        | +00772
-        .dc.l   0x00010208                    | +00778  -> $010208
-        .dc.w   0x0024,0xab4a,0xffff,0x1600                                 | +0077c
-        .dc.l   0x00010208                    | +00784  -> $010208
-        .dc.w   0x0024,0xa384,0xffff                                        | +00788
-        .dc.l   0x00010208                    | +0078e  -> $010208
-        .dc.w   0x0024,0xa3a6,0xffff                                        | +00792
-        .dc.l   0x00010208                    | +00798  -> $010208
-        .dc.w   0x0024,0xa384,0xffff                                        | +0079c
-        .dc.l   0x00010208                    | +007a2  -> $010208
-        .dc.w   0x0024,0xa3a6,0xffff                                        | +007a6
-        .dc.l   0x00010208                    | +007ac  -> $010208
-        .dc.w   0x0024,0xa3cc,0xffff                                        | +007b0
-        .dc.l   0x00010208                    | +007b6  -> $010208
-        .dc.w   0x0024,0xa3f2,0xffff                                        | +007ba
-        .dc.l   0x00010208                    | +007c0  -> $010208
-        .dc.w   0x0024,0xa3cc,0xffff                                        | +007c4
-        .dc.l   0x00010208                    | +007ca  -> $010208
-        .dc.w   0x0024,0xa3f2,0xffff,0x1600                                 | +007ce
-        .dc.l   0x00010208                    | +007d6  -> $010208
-        .dc.w   0x0024,0xaf26,0xffff                                        | +007da
-        .dc.l   0x00010208                    | +007e0  -> $010208
-        .dc.w   0x0024,0xaf30,0xffff,0x0100,0x0029,0x67d6                   | +007e4
-        .dc.l   0x00010208                    | +007f0  -> $010208
-        .dc.w   0x0024,0xaf3a,0xffff                                        | +007f4
-        .dc.l   0x00010208                    | +007fa  -> $010208
-        .dc.w   0x0024,0xaf52,0xffff                                        | +007fe
-        .dc.l   0x00010208                    | +00804  -> $010208
-        .dc.w   0x0024,0xaf66,0xffff                                        | +00808
-        .dc.l   0x00010208                    | +0080e  -> $010208
-        .dc.w   0x0024,0xaf82,0xffff                                        | +00812
-        .dc.l   0x00010208                    | +00818  -> $010208
-        .dc.w   0x0024,0xaf9a,0xffff                                        | +0081c
-        .dc.l   0x00010208                    | +00822  -> $010208
-        .dc.w   0x0024,0xafb2,0xffff                                        | +00826
-        .dc.l   0x00010208                    | +0082c  -> $010208
-        .dc.w   0x0024,0xafce,0xffff                                        | +00830
-        .dc.l   0x00010208                    | +00836  -> $010208
-        .dc.w   0x0024,0xafee,0xffff,0x1600                                 | +0083a
-        .dc.l   0x00010208                    | +00842  -> $010208
-        .dc.w   0x0024,0xb006,0xffff                                        | +00846
-        .dc.l   0x00010208                    | +0084c  -> $010208
-        .dc.w   0x0024,0xb016,0xffff                                        | +00850
-        .dc.l   0x00010208                    | +00856  -> $010208
-        .dc.w   0x0024,0xb036,0xffff                                        | +0085a
-        .dc.l   0x00010208                    | +00860  -> $010208
-        .dc.w   0x0024,0xb058,0xffff                                        | +00864
-        .dc.l   0x00010208                    | +0086a  -> $010208
-        .dc.w   0x0024,0xb07a,0xffff                                        | +0086e
-        .dc.l   0x00010208                    | +00874  -> $010208
-        .dc.w   0x0024,0xb09c,0xffff                                        | +00878
-        .dc.l   0x00010208                    | +0087e  -> $010208
-        .dc.w   0x0024,0xb0be,0xffff                                        | +00882
-        .dc.l   0x00010208                    | +00888  -> $010208
-        .dc.w   0x0024,0xb0e0,0xffff,0x1600                                 | +0088c
-        .dc.l   0x00010208                    | +00894  -> $010208
-        .dc.w   0x0024,0xa17a,0xffff                                        | +00898
-        .dc.l   Pal_020208                   | +0089e  -> $020208
-        .dc.w   0x0024,0xa510,0xffff                                        | +008a2
-        .dc.l   Pal_020208                   | +008a8  -> $020208
-        .dc.w   0x0024,0xa544,0xffff                                        | +008ac
-        .dc.l   Pal_020208                   | +008b2  -> $020208
-        .dc.w   0x0024,0xa570,0xffff                                        | +008b6
-        .dc.l   Pal_020208                   | +008bc  -> $020208
-        .dc.w   0x0024,0xa5a6,0xffff                                        | +008c0
-        .dc.l   Pal_020208                   | +008c6  -> $020208
-        .dc.w   0x0024,0xa5d2,0xffff                                        | +008ca
-        .dc.l   Pal_020208                   | +008d0  -> $020208
-        .dc.w   0x0024,0xa5fa,0xffff                                        | +008d4
-        .dc.l   Pal_020208                   | +008da  -> $020208
-        .dc.w   0x0024,0xa628,0xffff                                        | +008de
-        .dc.l   Pal_020208                   | +008e4  -> $020208
-        .dc.w   0x0024,0xa654,0xffff                                        | +008e8
-        .dc.l   Pal_020208                   | +008ee  -> $020208
-        .dc.w   0x0024,0xa68a,0xffff                                        | +008f2
-        .dc.l   Pal_020208                   | +008f8  -> $020208
-        .dc.w   0x0024,0xa6c0,0xffff,0x0100,0x0029,0x689e                   | +008fc
-        .dc.l   0x00010208                    | +00908  -> $010208
-        .dc.w   0x0024,0xa17a,0xffff                                        | +0090c
-        .dc.l   Pal_020208                   | +00912  -> $020208
-        .dc.w   0x0024,0xb216,0xffff                                        | +00916
-        .dc.l   Pal_020208                   | +0091c  -> $020208
-        .dc.w   0x0024,0xb242,0xffff                                        | +00920
-        .dc.l   Pal_020208                   | +00926  -> $020208
-        .dc.w   0x0024,0xb278,0xffff                                        | +0092a
-        .dc.l   Pal_020208                   | +00930  -> $020208
-        .dc.w   0x0024,0xb2ae,0xffff                                        | +00934
-        .dc.l   Pal_020208                   | +0093a  -> $020208
-        .dc.w   0x0024,0xb2e4,0xffff                                        | +0093e
-        .dc.l   Pal_020208                   | +00944  -> $020208
-        .dc.w   0x0024,0xb310,0xffff,0x0100,0x0029,0x6912                   | +00948
-        .dc.l   0x00010208                    | +00954  -> $010208
-        .dc.w   0x0024,0xa6e8,0xffff                                        | +00958
-        .dc.l   0x00010208                    | +0095e  -> $010208
-        .dc.w   0x0024,0xa718,0xffff                                        | +00962
-        .dc.l   0x00010209                    | +00968  -> $010209
-        .dc.w   0x0024,0xa718,0xffff                                        | +0096c
-        .dc.l   0x00010209                    | +00972  -> $010209
-        .dc.w   0x0024,0xa6e8,0xffff,0x1600                                 | +00976
-        .dc.l   Pal_020208                   | +0097e  -> $020208
-        .dc.w   0x0024,0xa73e,0xffff                                        | +00982
-        .dc.l   Pal_020208                   | +00988  -> $020208
-        .dc.w   0x0024,0xa76e,0xffff                                        | +0098c
-        .dc.l   Pal_020208                   | +00992  -> $020208
-        .dc.w   0x0024,0xa79e,0xffff                                        | +00996
-        .dc.l   0x00010208                    | +0099c  -> $010208
-        .dc.w   0x0024,0xa76e,0xffff                                        | +009a0
-        .dc.l   0x00010208                    | +009a6  -> $010208
-        .dc.w   0x0024,0xa73e,0xffff                                        | +009aa
-        .dc.l   0x00010208                    | +009b0  -> $010208
-        .dc.w   0x0024,0xa17a,0xffff,0x1600                                 | +009b4
-        .dc.l   Pal_020208                   | +009bc  -> $020208
-        .dc.w   0x0024,0xa7d2,0xffff                                        | +009c0
-        .dc.l   Pal_020208                   | +009c6  -> $020208
-        .dc.w   0x0024,0xa80a,0xffff                                        | +009ca
-        .dc.l   Pal_020208                   | +009d0  -> $020208
-        .dc.w   0x0024,0xa848,0xffff                                        | +009d4
-        .dc.l   Pal_020208                   | +009da  -> $020208
-        .dc.w   0x0024,0xa880,0xffff                                        | +009de
-        .dc.l   Pal_020208                   | +009e4  -> $020208
-        .dc.w   0x0024,0xa848,0xffff                                        | +009e8
-        .dc.l   Pal_020208                   | +009ee  -> $020208
-        .dc.w   0x0024,0xa80a,0xffff                                        | +009f2
-        .dc.l   Pal_020208                   | +009f8  -> $020208
-        .dc.w   0x0024,0xa7d2,0xffff,0x1600                                 | +009fc
-        .dc.l   0x00010208                    | +00a04  -> $010208
-        .dc.w   0x0024,0xa17a,0xffff                                        | +00a08
-        .dc.l   0x00010208                    | +00a0e  -> $010208
-        .dc.w   0x0024,0xa73e,0xffff                                        | +00a12
-        .dc.l   Pal_020208                   | +00a18  -> $020208
-        .dc.w   0x0024,0xa76e,0xffff,0x0003,0x0208,0x0024,0xa79e,0xffff     | +00a1c
-        .dc.l   Pal_020208                   | +00a2c  -> $020208
-        .dc.w   0x0024,0xa76e,0xffff                                        | +00a30
-        .dc.l   Pal_020208                   | +00a36  -> $020208
-        .dc.w   0x0024,0xa73e,0xffff                                        | +00a3a
-        .dc.l   0x00010208                    | +00a40  -> $010208
-        .dc.w   0x0024,0xa17a,0xffff,0x1600,0x0005,0x0208,0x0024,0xa8ae     | +00a44
-        .dc.w   0xffff,0x0004,0x0208,0x0024,0xa8da,0xffff,0x0004,0x0208     | +00a54
-        .dc.w   0x0024,0xa906,0xffff,0x0004,0x0208,0x0024,0xa92c,0xffff     | +00a64
-        .dc.w   0x0004,0x0208,0x0024,0xa956,0xffff,0x0004,0x0208,0x0024     | +00a74
-        .dc.w   0xa97c,0xffff,0x0004,0x0208,0x0024,0xa9b2,0xffff,0x0004     | +00a84
-        .dc.w   0x0208,0x0024,0xa9e8,0xffff,0x0004,0x0208,0x0024,0xaa16     | +00a94
-        .dc.w   0xffff,0x0004,0x0208,0x0024,0xaa3a,0xffff,0x0004,0x0208     | +00aa4
-        .dc.w   0x0024,0xaa58,0xffff,0x1600,0x0003,0x0208,0x0024,0xae12     | +00ab4
-        .dc.w   0xffff,0x0003,0x0208,0x0024,0xae3c,0xffff                   | +00ac4
-        .dc.l   0x00010208                    | +00ad0  -> $010208
-        .dc.w   0x0024,0xae72,0xffff,0x1600                                 | +00ad4
-        .dc.l   Pal_020208                   | +00adc  -> $020208
-        .dc.w   0x0024,0xaea2,0xffff                                        | +00ae0
-        .dc.l   Pal_020208                   | +00ae6  -> $020208
-        .dc.w   0x0024,0xaed2,0xffff                                        | +00aea
-        .dc.l   Pal_020208                   | +00af0  -> $020208
-        .dc.w   0x0024,0xaf02,0xffff                                        | +00af4
-        .dc.l   Pal_020208                   | +00afa  -> $020208
-        .dc.w   0x0024,0xaa3a,0xffff                                        | +00afe
-        .dc.l   Pal_020208                   | +00b04  -> $020208
-        .dc.w   0x0024,0xaa58,0xffff                                        | +00b08
-        .dc.l   Pal_020208                   | +00b0e  -> $020208
-        .dc.w   0x0024,0xaa3a,0xffff                                        | +00b12
-        .dc.l   Pal_020208                   | +00b18  -> $020208
-        .dc.w   0x0024,0xaa58,0xffff,0x1600                                 | +00b1c
-        .dc.l   Pal_020208                   | +00b24  -> $020208
-        .dc.w   0x0024,0xaa3a,0xffff                                        | +00b28
-        .dc.l   Pal_020208                   | +00b2e  -> $020208
-        .dc.w   0x0024,0xaa16,0xffff                                        | +00b32
-        .dc.l   Pal_020208                   | +00b38  -> $020208
-        .dc.w   0x0024,0xa9e8,0xffff                                        | +00b3c
-        .dc.l   Pal_020208                   | +00b42  -> $020208
-        .dc.w   0x0024,0xa9b2,0xffff                                        | +00b46
-        .dc.l   Pal_020208                   | +00b4c  -> $020208
-        .dc.w   0x0024,0xa97c,0xffff                                        | +00b50
-        .dc.l   Pal_020208                   | +00b56  -> $020208
-        .dc.w   0x0024,0xa956,0xffff                                        | +00b5a
-        .dc.l   Pal_020208                   | +00b60  -> $020208
-        .dc.w   0x0024,0xa92c,0xffff                                        | +00b64
-        .dc.l   Pal_020208                   | +00b6a  -> $020208
-        .dc.w   0x0024,0xa17a,0xffff,0x1600                                 | +00b6e
-        .dc.l   Pal_020208                   | +00b76  -> $020208
-        .dc.w   0x0024,0xa17a,0xffff                                        | +00b7a
-        .dc.l   0x00010208                    | +00b80  -> $010208
-        .dc.w   0x0024,0xb102,0xffff                                        | +00b84
-        .dc.l   Pal_020208                   | +00b8a  -> $020208
-        .dc.w   0x0024,0xb126,0xffff                                        | +00b8e
-        .dc.l   Pal_020208                   | +00b94  -> $020208
-        .dc.w   0x0024,0xb14a,0xffff,0x0800                                 | +00b98
-        .dc.l   Allen_ThrowGrenade_05063e     | +00ba0  -> $05063E
-        .dc.w   0x0003,0x0208,0x0024,0xb16e,0xffff                          | +00ba4
-        .dc.l   Pal_020208                   | +00bae  -> $020208
-        .dc.w   0x0024,0xb192,0xffff                                        | +00bb2
-        .dc.l   Pal_020208                   | +00bb8  -> $020208
-        .dc.w   0x0024,0xb1b6,0xffff                                        | +00bbc
-        .dc.l   Pal_020208                   | +00bc2  -> $020208
-        .dc.w   0x0024,0xb1e6,0xffff                                        | +00bc6
-        .dc.l   Pal_020208                   | +00bcc  -> $020208
-        .dc.w   0x0024,0xb1b6,0xffff,0x1600,0x0400,0x113f                   | +00bd0
-        .dc.l   Pal_020208                   | +00bdc  -> $020208
-        .dc.w   0x0024,0xaa78,0xffff                                        | +00be0
-        .dc.l   Pal_020208                   | +00be6  -> $020208
-        .dc.w   0x0024,0xaaa2,0xffff                                        | +00bea
-        .dc.l   Pal_020208                   | +00bf0  -> $020208
-        .dc.w   0x0024,0xaa78,0xffff,0x0003,0x0208,0x0024,0xaaa2,0xffff     | +00bf4
-        .dc.w   0x0003,0x0208,0x0024,0xaa78,0xffff,0x0004,0x0208,0x0024     | +00c04
-        .dc.w   0xaaa2,0xffff,0x0004,0x0208,0x0024,0xaa78,0xffff,0x0003     | +00c14
-        .dc.w   0x0208,0x0024,0xab20,0xffff                                 | +00c24
-        .dc.l   Pal_020208                   | +00c2c  -> $020208
-        .dc.w   0x0024,0xaacc,0xffff                                        | +00c30
-        .dc.l   Pal_020208                   | +00c36  -> $020208
-        .dc.w   0x0024,0xaaf6,0xffff                                        | +00c3a
-        .dc.l   Pal_020208                   | +00c40  -> $020208
-        .dc.w   0x0024,0xaacc,0xffff,0x0003,0x0208,0x0024,0xaaf6,0xffff     | +00c44
-        .dc.w   0x0003,0x0208,0x0024,0xaacc,0xffff,0x0004,0x0208,0x0024     | +00c54
-        .dc.w   0xaaf6,0xffff,0x0004,0x0208,0x0024,0xaacc,0xffff            | +00c64
-        .dc.l   Pal_020208                   | +00c72  -> $020208
-        .dc.w   0x0024,0xab20,0xffff,0x0100,0x0029,0x6bd8,0x0a00,0x0029     | +00c76
-        .dc.w   0x6e1e                                                      | +00c86
-        .dc.l   Pal_020208                   | +00c88  -> $020208
-        .dc.w   0x0024,0xab98,0xffff                                        | +00c8c
-        .dc.l   Pal_020208                   | +00c92  -> $020208
-        .dc.w   0x0024,0xabbc,0xffff                                        | +00c96
-        .dc.l   Pal_020208                   | +00c9c  -> $020208
-        .dc.w   0x0024,0xabe0,0xffff                                        | +00ca0
-        .dc.l   Pal_020208                   | +00ca6  -> $020208
-        .dc.w   0x0024,0xac04,0xffff                                        | +00caa
-        .dc.l   Pal_020208                   | +00cb0  -> $020208
-        .dc.w   0x0024,0xac28,0xffff,0x0800                                 | +00cb4
-        .dc.l   Entity_ProbeSlot4c_0283D8     | +00cbc  -> $0283D8
-        .dc.l   Pal_020208                   | +00cc0  -> $020208
-        .dc.w   0x0024,0xac54,0xffff                                        | +00cc4
-        .dc.l   Pal_020208                   | +00cca  -> $020208
-        .dc.w   0x0024,0xac88,0xffff                                        | +00cce
-        .dc.l   Pal_020208                   | +00cd4  -> $020208
-        .dc.w   0x0024,0xacb8,0xffff                                        | +00cd8
-        .dc.l   Pal_020208                   | +00cde  -> $020208
-        .dc.w   0x0024,0xace6,0xffff                                        | +00ce2
-        .dc.l   Pal_020208                   | +00ce8  -> $020208
-        .dc.w   0x0024,0xad18,0xffff                                        | +00cec
-        .dc.l   Pal_020208                   | +00cf2  -> $020208
-        .dc.w   0x0024,0xad4e,0xffff                                        | +00cf6
-        .dc.l   Pal_020208                   | +00cfc  -> $020208
-        .dc.w   0x0024,0xad7a,0xffff                                        | +00d00
-        .dc.l   Pal_020208                   | +00d06  -> $020208
-        .dc.w   0x0024,0xada6,0xffff                                        | +00d0a
-        .dc.l   Pal_020208                   | +00d10  -> $020208
-        .dc.w   0x0024,0xadca,0xffff                                        | +00d14
-        .dc.l   Pal_020208                   | +00d1a  -> $020208
-        .dc.w   0x0024,0xadee,0xffff,0x1600                                 | +00d1e
-        .dc.l   0x00010208                    | +00d26  -> $010208
-        .dc.w   0x0024,0xaf3a,0xffff                                        | +00d2a
-        .dc.l   0x00010208                    | +00d30  -> $010208
-        .dc.w   0x0024,0xaf52,0xffff                                        | +00d34
-        .dc.l   0x00010208                    | +00d3a  -> $010208
-        .dc.w   0x0024,0xaf66,0xffff                                        | +00d3e
-        .dc.l   0x00010208                    | +00d44  -> $010208
-        .dc.w   0x0024,0xaf82,0xffff                                        | +00d48
-        .dc.l   0x00010208                    | +00d4e  -> $010208
-        .dc.w   0x0024,0xaf9a,0xffff                                        | +00d52
-        .dc.l   0x00010208                    | +00d58  -> $010208
-        .dc.w   0x0024,0xafb2,0xffff                                        | +00d5c
-        .dc.l   0x00010208                    | +00d62  -> $010208
-        .dc.w   0x0024,0xafce,0xffff                                        | +00d66
-        .dc.l   0x00010208                    | +00d6c  -> $010208
-        .dc.w   0x0024,0xafee,0xffff,0x1600                                 | +00d70
-        .dc.l   0x00010208                    | +00d78  -> $010208
-        .dc.w   0x0024,0xb006,0xffff                                        | +00d7c
-        .dc.l   0x00010208                    | +00d82  -> $010208
-        .dc.w   0x0024,0xb016,0xffff                                        | +00d86
-        .dc.l   0x00010208                    | +00d8c  -> $010208
-        .dc.w   0x0024,0xb036,0xffff                                        | +00d90
-        .dc.l   0x00010208                    | +00d96  -> $010208
-        .dc.w   0x0024,0xb058,0xffff                                        | +00d9a
-        .dc.l   0x00010208                    | +00da0  -> $010208
-        .dc.w   0x0024,0xb07a,0xffff                                        | +00da4
-        .dc.l   0x00010208                    | +00daa  -> $010208
-        .dc.w   0x0024,0xb09c,0xffff                                        | +00dae
-        .dc.l   0x00010208                    | +00db4  -> $010208
-        .dc.w   0x0024,0xb0be,0xffff                                        | +00db8
-        .dc.l   0x00010208                    | +00dbe  -> $010208
-        .dc.w   0x0024,0xb0e0,0xffff,0x1600                                 | +00dc2
-        .dc.l   BgMap_0a0000                   | +00dca  -> $0A0000
-        .dc.w   0x0004,0xff00                                               | +00dce
-        .dc.l   0x0000ffe0                    | +00dd2  -> $00FFE0
-        .dc.l   0x0000fff8                    | +00dd6  -> $00FFF8
-        .dc.w   0x0020,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000,0x0200     | +00dda
-        .dc.w   0x0024,0x3644,0xffff,0xffe0,0x0020,0x0200,0x0024,0x364e     | +00dea
-        .dc.w   0xffff,0xffe0,0xfff8,0x0200,0x0024,0x3658,0xffff,0x0000     | +00dfa
-        .dc.w   0x0020,0x0200,0x0024,0x3662,0xffff                          | +00e0a
-        .dc.l   0x0000fff8                    | +00e14  -> $00FFF8
-        .dc.w   0x1d00,0xffff,0xffff,0x000a,0x0032,0x0404,0xff00            | +00e18
-        .dc.l   0x0000ffd8                    | +00e26  -> $00FFD8
-        .dc.w   0x0008,0x0000,0x0020,0x0200,0x0024,0x363a,0xffff,0x0000     | +00e2a
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xffd8,0x0020,0x0200     | +00e3a
-        .dc.w   0x0024,0x364e,0xffff,0xffd8,0x0000,0x0200,0x0024,0x3658     | +00e4a
-        .dc.w   0xffff,0x0008,0x0020,0x0200,0x0024,0x3662,0xffff,0x0008     | +00e5a
-        .dc.w   0x0000,0x1d00,0xffff,0xffff,0x01bf,0x01c0,0x01c1,0x01c2     | +00e6a
-        .dc.w   0x0000,0x012c,0x01f4,0x0064,0x012c,0x01f4,0x01f4,0x01f4     | +00e7a
-        .dc.w   0x01f4,0x012c,0x01f4,0x0064,0x012c,0x01f4,0x01f4,0x01f4     | +00e8a
-        .dc.w   0x01f4,0x01f4,0x02bc,0x012c,0x01f4,0x01f4,0x01f4,0x01f4     | +00e9a
-        .dc.w   0x01f4,0x01f4,0x02bc,0x012c,0x01f4,0x01f4,0x01f4,0x01f4     | +00eaa
-        .dc.w   0x01f4,0x02bc,0x0384,0x01f4,0x02bc,0x01f4,0x01f4,0x01f4     | +00eba
-        .dc.w   0x01f4,0x02bc,0x0384,0x01f4,0x02bc,0x01f4,0x01f4,0x01f4     | +00eca
-        .dc.w   0x01f4,0x0384,0x044c,0x02bc,0x0384,0x01f4,0x01f4,0x01f4     | +00eda
-        .dc.w   0x01f4,0x0384,0x044c,0x02bc,0x0384,0x01f4,0x01f4,0x01f4     | +00eea
-        .dc.w   0x01f4,0x0000,0x0032,0x002d,0x0078,0x0064,0x002d,0x002d     | +00efa
-        .dc.w   0x002d,0x002d,0x002d,0x0028,0x0078,0x0064,0x0028,0x0028     | +00f0a
-        .dc.w   0x0028,0x0028,0x0028,0x0023,0x0064,0x0050,0x0023,0x0023     | +00f1a
-        .dc.w   0x0023,0x0023,0x0023,0x001e,0x0064,0x0050,0x001e,0x001e     | +00f2a
-        .dc.w   0x001e,0x001e,0x001e,0x0019,0x0050,0x003c,0x001c,0x001c     | +00f3a
-        .dc.w   0x001c,0x001c,0x0019,0x0014,0x0050,0x003c                   | +00f4a
-        .dc.l   AnimScr_1a001a                   | +00f56  -> $1A001A
-        .dc.l   AnimScr_1a001a                   | +00f5a  -> $1A001A
-        .dc.w   0x0014,0x000f,0x003c,0x0032                                 | +00f5e
-        .dc.l   AnimScr_180018                   | +00f66  -> $180018
-        .dc.l   AnimScr_180018                   | +00f6a  -> $180018
-        .dc.w   0x000f                                                      | +00f6e
-        .dc.l   BgMap_0a003c                   | +00f70  -> $0A003C
-        .dc.w   0x0032                                                      | +00f74
-        .dc.l   SprFrame_160016                   | +00f76  -> $160016
-        .dc.l   SprFrame_160016                   | +00f7a  -> $160016
-        .dc.w   0x0000,0x0600,0x0680,0x0400,0x0480,0x0800,0x0800,0x0800     | +00f7e
-        .dc.w   0x0800,0x0600,0x0680,0x0400,0x0480,0x0800,0x0800,0x0800     | +00f8e
-        .dc.w   0x0800,0x0700,0x0780,0x0600,0x0680,0x0800,0x0800,0x0800     | +00f9e
-        .dc.w   0x0800,0x0700,0x0780,0x0600,0x0680,0x0800,0x0800,0x0800     | +00fae
-        .dc.w   0x0800,0x0800,0x0880,0x0800,0x0800,0x0800,0x0800,0x0800     | +00fbe
-        .dc.w   0x0800,0x0800,0x0880,0x0800,0x0800,0x0800,0x0800,0x0800     | +00fce
-        .dc.w   0x0800,0x0900,0x0900,0x0900,0x0900,0x0800,0x0800,0x0800     | +00fde
-        .dc.w   0x0800,0x0900,0x0900,0x0900,0x0900,0x0800,0x0800,0x0800     | +00fee
-        .dc.w   0x0800,0x0000,0x0580,0x0600,0x0400,0x0480,0x0800,0x0800     | +00ffe
-        .dc.w   0x0800,0x0800,0x0600,0x0680,0x0400,0x0480,0x0800,0x0800     | +0100e
-        .dc.w   0x0800,0x0800,0x0680,0x0700,0x0600,0x0680,0x0800,0x0800     | +0101e
-        .dc.w   0x0800,0x0800,0x0700,0x0780,0x0600,0x0680,0x0800,0x0800     | +0102e
-        .dc.w   0x0800,0x0800,0x0780,0x0880,0x0700,0x0700,0x0800,0x0800     | +0103e
-        .dc.w   0x0800,0x0800,0x0880,0x0880,0x0700,0x0700,0x0800,0x0800     | +0104e
-        .dc.w   0x0800,0x0800,0x0900,0x0900,0x0800,0x0800,0x0800,0x0800     | +0105e
-        .dc.w   0x0800,0x0800,0x0900,0x0900,0x0800,0x0800,0x0800,0x0800     | +0106e
-        .dc.w   0x0800,0x0800,0x0100                                        | +0107e
-        .dc.l   ColMap_106f6c                   | +01084  -> $106F6C
-        .dc.w   0x0000,0x0000                                               | +01088
-        .dc.l   SprFrame_150013                   | +0108c  -> $150013
-        .dc.w   0x0200                                                      | +01090
-        .dc.l   BgMap_0d0005                   | +01092  -> $0D0005
-        .dc.w   0x2712                                                      | +01096
-        .fill   9,1,0x00                      | +01098
-        .dc.b   0x0a                            | +010a1
-        .dc.w   0x0810,0x0198,0x0811,0x0199,0x0812,0x019a,0x00ff            | +010a2
-        .dc.l   0x0000ffff                    | +010b0  -> $00FFFF
-        .dc.w   0x000f                                                      | +010b4
-        .fill   13,1,0x00                      | +010b6
-        .dc.b   0x10                            | +010c3
-        .dc.w   0x6f6c                                                      | +010c4
-        .dc.l   SprFrame_140009                   | +010c6  -> $140009
-        .dc.l   BgMap_0e29a0                   | +010ca  -> $0E29A0
-        .dc.w   0x0000,0x0000,0x0000,0x0040                                 | +010ce
-        .dc.l   0x00010010                    | +010d6  -> $010010
-        .dc.w   0x6f6c,0x0300,0x0000,0x0000,0x0004                          | +010da
-        .dc.l   ColMap_106f6c                   | +010e4  -> $106F6C
-        .dc.w   0x0900,0x0009                                               | +010e8
-        .dc.l   ColMap_106f6c                   | +010ec  -> $106F6C
-        .dc.w   0x0007                                                      | +010f0
-        .dc.l   ColMap_106f6c                   | +010f2  -> $106F6C
-        .dc.w   0x0002,0x0029,0x7092,0x0029,0x7082,0x0900,0x0029,0x7978     | +010f6
-        .dc.l   0x00011e08                    | +01106  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +0110a
-        .dc.w   0x79cc                                                      | +0111a
-        .dc.l   0x00011e08                    | +0111c  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600                   | +01120
-        .dc.l   Pal_021e08                   | +0112c  -> $021E08
-        .dc.w   0x0023,0xab38,0xffff,0x0000,0x0000                          | +01130
-        .dc.l   Pal_021e08                   | +0113a  -> $021E08
-        .dc.w   0x0023,0xab44,0xffff,0x0000,0x0000                          | +0113e
-        .dc.l   Pal_021e08                   | +01148  -> $021E08
-        .dc.w   0x0023,0xab58,0xffff,0x0000,0x0000                          | +0114c
-        .dc.l   Pal_021e08                   | +01156  -> $021E08
-        .dc.w   0x0023,0xab68,0xffff,0x0000,0x0000                          | +0115a
-        .dc.l   Pal_021e08                   | +01164  -> $021E08
-        .dc.w   0x0023,0xab80,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +01168
-        .dc.w   0x7a20                                                      | +01178
-        .dc.l   0x00011e08                    | +0117a  -> $011E08
-        .dc.w   0x0026,0xf968,0xffff,0x0000,0x0000,0x1600                   | +0117e
-        .dc.l   Pal_021e08                   | +0118a  -> $021E08
-        .dc.w   0x0026,0xf990,0xffff,0x0000,0x0000                          | +0118e
-        .dc.l   0x00011e08                    | +01198  -> $011E08
-        .dc.w   0x0026,0xf9b0,0xffff,0x0000,0x0000                          | +0119c
-        .dc.l   0x00011e08                    | +011a6  -> $011E08
-        .dc.w   0x0026,0xf9d0,0xffff,0x0000,0x0000                          | +011aa
-        .dc.l   Pal_021e08                   | +011b4  -> $021E08
-        .dc.w   0x0026,0xf9f8,0xffff,0x0000,0x0000                          | +011b8
-        .dc.l   Pal_021e08                   | +011c2  -> $021E08
-        .dc.w   0x0026,0xfa20,0xffff,0x0000,0x0000                          | +011c6
-        .dc.l   Pal_021e08                   | +011d0  -> $021E08
-        .dc.w   0x0026,0xfa48,0xffff,0x0000,0x0000                          | +011d4
-        .dc.l   Pal_021e08                   | +011de  -> $021E08
-        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000,0x1600                   | +011e2
-        .dc.l   0x00011e08                    | +011ee  -> $011E08
-        .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000                          | +011f2
-        .dc.l   0x00011e08                    | +011fc  -> $011E08
-        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +01200
-        .dc.l   0x00011e08                    | +0120a  -> $011E08
-        .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +0120e
-        .dc.l   0x00011e08                    | +01218  -> $011E08
-        .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +0121c
-        .dc.l   0x00011e08                    | +01226  -> $011E08
-        .dc.w   0x0026,0xfaf0,0xffff,0x0000,0x0000                          | +0122a
-        .dc.l   0x00011e08                    | +01234  -> $011E08
-        .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +01238
-        .dc.l   0x00011e08                    | +01242  -> $011E08
-        .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +01246
-        .dc.l   0x00011e08                    | +01250  -> $011E08
-        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +01254
-        .dc.l   0x00011e08                    | +0125e  -> $011E08
-        .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000                          | +01262
-        .dc.l   0x00011e08                    | +0126c  -> $011E08
-        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +01270
-        .dc.l   0x00011e08                    | +0127a  -> $011E08
-        .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +0127e
-        .dc.l   0x00011e08                    | +01288  -> $011E08
-        .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +0128c
-        .dc.l   Pal_021e08                   | +01296  -> $021E08
-        .dc.w   0x0026,0xfaf0,0xffff,0x0000,0x0000                          | +0129a
-        .dc.l   0x00011e08                    | +012a4  -> $011E08
-        .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +012a8
-        .dc.l   0x00011e08                    | +012b2  -> $011E08
-        .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +012b6
-        .dc.l   0x00011e08                    | +012c0  -> $011E08
-        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +012c4
-        .dc.l   Pal_021e08                   | +012ce  -> $021E08
-        .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000                          | +012d2
-        .dc.l   0x00011e08                    | +012dc  -> $011E08
-        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +012e0
-        .dc.l   0x00011e08                    | +012ea  -> $011E08
-        .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +012ee
-        .dc.l   0x00011e08                    | +012f8  -> $011E08
-        .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +012fc
-        .dc.l   Pal_021e08                   | +01306  -> $021E08
-        .dc.w   0x0026,0xfaf0,0xffff,0x0000,0x0000                          | +0130a
-        .dc.l   0x00011e08                    | +01314  -> $011E08
-        .dc.w   0x0026,0xfad0,0xffff,0x0000,0x0000                          | +01318
-        .dc.l   0x00011e08                    | +01322  -> $011E08
-        .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000                          | +01326
-        .dc.l   0x00011e08                    | +01330  -> $011E08
-        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000,0x0301,0x0029,0x72ce     | +01334
-        .dc.l   Pal_021e08                   | +01344  -> $021E08
-        .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000                          | +01348
-        .dc.l   Pal_021e08                   | +01352  -> $021E08
-        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                          | +01356
-        .dc.l   Pal_021e08                   | +01360  -> $021E08
-        .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026     | +01364
-        .dc.w   0xfad0,0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xfaf0     | +01374
-        .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xfad0,0xffff     | +01384
-        .dc.w   0x0000,0x0000,0x0004,0x1e08,0x0026,0xfab0,0xffff,0x0000     | +01394
-        .dc.w   0x0000,0x0007,0x1e08,0x0026,0xfa70,0xffff,0x0000,0x0000     | +013a4
-        .dc.w   0x1600,0x0900,0x0029,0x7a74                                 | +013b4
-        .dc.l   0x00011e08                    | +013bc  -> $011E08
-        .dc.w   0x0026,0xf758,0xffff,0x0000,0x0000,0x1600                   | +013c0
-        .dc.l   0x00011e08                    | +013cc  -> $011E08
-        .dc.w   0x0026,0xf788,0xffff,0x0000,0x0000                          | +013d0
-        .dc.l   0x00011e08                    | +013da  -> $011E08
-        .dc.w   0x0026,0xf7b0,0xffff,0x0000,0x0000                          | +013de
-        .dc.l   0x00010209                    | +013e8  -> $010209
-        .dc.w   0x0026,0xf7b0,0xffff                                        | +013ec
-        .dc.l   0x00010209                    | +013f2  -> $010209
-        .dc.w   0x0026,0xf788,0xffff,0x0300,0x0029,0x73b6                   | +013f6
-        .dc.l   Pal_021e08                   | +01402  -> $021E08
-        .dc.w   0x0026,0xf7b0,0xffff,0x0000,0x0000                          | +01406
-        .dc.l   Pal_021e08                   | +01410  -> $021E08
-        .dc.w   0x0026,0xf858,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026     | +01414
-        .dc.w   0xf878,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026,0xf8a0     | +01424
-        .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xf8c8,0xffff     | +01434
-        .dc.w   0x0000,0x0000,0x0004,0x1e08,0x0026,0xf7d8,0xffff,0x0000     | +01444
-        .dc.w   0x0000,0x1600                                               | +01454
-        .dc.l   0x00011e08                    | +01458  -> $011E08
-        .dc.w   0x0026,0xf788,0xffff,0x0000,0x0000                          | +0145c
-        .dc.l   0x00011e08                    | +01466  -> $011E08
-        .dc.w   0x0026,0xf7b0,0xffff,0x0000,0x0000                          | +0146a
-        .dc.l   0x00011e08                    | +01474  -> $011E08
-        .dc.w   0x0026,0xf800,0xffff,0x0000,0x0000                          | +01478
-        .dc.l   0x00011e08                    | +01482  -> $011E08
-        .dc.w   0x0026,0xf820,0xffff,0x0000,0x0000                          | +01486
-        .dc.l   0x00010209                    | +01490  -> $010209
-        .dc.w   0x0026,0xf820,0xffff                                        | +01494
-        .dc.l   0x00010209                    | +0149a  -> $010209
-        .dc.w   0x0026,0xf800,0xffff,0x0300,0x0029,0x7474                   | +0149e
-        .dc.l   Pal_021e08                   | +014aa  -> $021E08
-        .dc.w   0x0026,0xf820,0xffff,0x0000,0x0000                          | +014ae
-        .dc.l   Pal_021e08                   | +014b8  -> $021E08
-        .dc.w   0x0026,0xf8f0,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026     | +014bc
-        .dc.w   0xf908,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026,0xf928     | +014cc
-        .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xf948,0xffff     | +014dc
-        .dc.w   0x0000,0x0000,0x0004,0x1e08,0x0026,0xf838,0xffff,0x0000     | +014ec
-        .dc.w   0x0000,0x1600,0x0900,0x0029,0x7ac8                          | +014fc
-        .dc.l   0x00010200                    | +01506  -> $010200
-        .dc.w   0x0026,0xfb10,0xffff,0x0000,0x0001,0x1600                   | +0150a
-        .dc.l   0x00010200                    | +01516  -> $010200
-        .dc.w   0x0026,0xfb48,0xffff,0x0000,0x0001,0x1600,0x0900,0x0029     | +0151a
-        .dc.w   0x7ac8                                                      | +0152a
-        .dc.l   0x00011e08                    | +0152c  -> $011E08
-        .dc.w   0x0026,0xfb74,0xffff,0x0000,0x0000,0x1600                   | +01530
-        .dc.l   0x00010200                    | +0153c  -> $010200
-        .dc.w   0x0026,0xfb8c,0xffff,0x0003,0x0000,0x1600,0x0900,0x0029     | +01540
-        .dc.w   0x7b1c                                                      | +01550
-        .dc.l   0x00011e08                    | +01552  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +01556
-        .dc.w   0x7b70                                                      | +01566
-        .dc.l   0x00011e08                    | +01568  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +0156c
-        .dc.w   0x7bc4                                                      | +0157c
-        .dc.l   0x00011e08                    | +0157e  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +01582
-        .dc.w   0x7c18                                                      | +01592
-        .dc.l   0x00011e08                    | +01594  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +01598
-        .dc.w   0x7c6c                                                      | +015a8
-        .dc.l   0x00011e08                    | +015aa  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +015ae
-        .dc.w   0x7cc0                                                      | +015be
-        .dc.l   0x00011e08                    | +015c0  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +015c4
-        .dc.w   0x7d14                                                      | +015d4
-        .dc.l   0x00011e08                    | +015d6  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +015da
-        .dc.w   0x7d68                                                      | +015ea
-        .dc.l   0x00011e08                    | +015ec  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +015f0
-        .dc.w   0x7dbc                                                      | +01600
-        .dc.l   0x00011e08                    | +01602  -> $011E08
-        .dc.w   0x0027,0x05a6,0xffff,0x0000,0x0000,0x1600                   | +01606
-        .dc.l   0x00011e08                    | +01612  -> $011E08
-        .dc.w   0x0026,0xfbb2,0xffff,0x0000,0x0000,0x1600                   | +01616
-        .dc.l   0x00011e08                    | +01622  -> $011E08
-        .dc.w   0x0026,0xfc2a,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +01626
-        .dc.w   0x7e10                                                      | +01636
-        .dc.l   0x00010200                    | +01638  -> $010200
-        .dc.w   0x0027,0x027a,0xffff,0x00a0,0x0040,0x1600                   | +0163c
-        .dc.l   0x00010200                    | +01648  -> $010200
-        .dc.w   0x0027,0x0312,0xffff,0x00a0,0x0040,0x1600                   | +0164c
-        .dc.l   0x00010200                    | +01658  -> $010200
-        .dc.w   0x0027,0x038a,0xffff,0x00a0,0x0040,0x1600,0x0900,0xffff     | +0165c
-        .dc.w   0xffff,0x0400,0x1076                                        | +0166c
-        .dc.l   0x00011e08                    | +01672  -> $011E08
-        .dc.w   0x0026,0xe42a,0xffff,0x0000,0x0000                          | +01676
-        .dc.l   0x00011e08                    | +01680  -> $011E08
-        .dc.w   0x0026,0xe43e,0xffff,0x0000,0x0000                          | +01684
-        .dc.l   0x00011e08                    | +0168e  -> $011E08
-        .dc.w   0x0026,0xe456,0xffff,0x0000,0x0000                          | +01692
-        .dc.l   0x00011e08                    | +0169c  -> $011E08
-        .dc.w   0x0026,0xe46a,0xffff,0x0000,0x0000,0x0501,0x0020,0x0007     | +016a0
-        .dc.w   0x1e08,0x0026,0xe456,0xffff,0x0000,0x0000,0x0900,0x0029     | +016b0
-        .dc.w   0x7e64                                                      | +016c0
-        .dc.l   0x00011e08                    | +016c2  -> $011E08
-        .dc.w   0x0026,0xe456,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +016c6
-        .dc.w   0xffff,0x0400,0x1076                                        | +016d6
-        .dc.l   0x00011e08                    | +016dc  -> $011E08
-        .dc.w   0x0026,0xe46a,0xffff,0x0000,0x0000                          | +016e0
-        .dc.l   0x00011e08                    | +016ea  -> $011E08
-        .dc.w   0x0026,0xe47e,0xffff,0x0000,0x0000                          | +016ee
-        .dc.l   0x00011e08                    | +016f8  -> $011E08
-        .dc.w   0x0026,0xe416,0xffff,0x0000,0x0000                          | +016fc
-        .dc.l   0x00011e08                    | +01706  -> $011E08
-        .dc.w   0x0026,0xe42a,0xffff,0x0000,0x0000,0x0800                   | +0170a
-        .dc.l   Prop_SpawnBonusOnce_053d2c    | +01716  -> $053D2C
-        .dc.w   0x0003,0x1e08,0x0026,0xe416,0xffff,0x0000,0x0000,0x0500     | +0171a
-        .dc.w   0x0020,0x0007,0x1e08,0x0026,0xe416,0xffff,0x0000,0x0000     | +0172a
-        .dc.w   0x0900,0x0029,0x7eb8                                        | +0173a
-        .dc.l   0x00011e08                    | +01740  -> $011E08
-        .dc.w   0x0026,0xe416,0xffff,0x0000,0x0000,0x1600                   | +01744
-        .dc.l   Pal_021e08                   | +01750  -> $021E08
-        .dc.w   0x0026,0xe1d8,0xffff,0x0000,0x0000                          | +01754
-        .dc.l   0x00011e08                    | +0175e  -> $011E08
-        .dc.w   0x0026,0xe24a,0xffff,0x0000,0x0000                          | +01762
-        .dc.l   0x00011e08                    | +0176c  -> $011E08
-        .dc.w   0x0026,0xe2c2,0xffff,0x0000,0x0000                          | +01770
-        .dc.l   0x00011e08                    | +0177a  -> $011E08
-        .dc.w   0x0026,0xe32e,0xffff,0x0000,0x0000                          | +0177e
-        .dc.l   0x00011e08                    | +01788  -> $011E08
-        .dc.w   0x0026,0xe2c2,0xffff,0x0000,0x0000,0x1600                   | +0178c
-        .dc.l   Pal_021e08                   | +01798  -> $021E08
-        .dc.w   0x0026,0xe32e,0xffff,0x0000,0x0000                          | +0179c
-        .dc.l   0x00011e08                    | +017a6  -> $011E08
-        .dc.w   0x0026,0xe39a,0xffff,0x0000,0x0000                          | +017aa
-        .dc.l   0x00011e08                    | +017b4  -> $011E08
-        .dc.w   0x0026,0xe16c,0xffff,0x0000,0x0000                          | +017b8
-        .dc.l   0x00011e08                    | +017c2  -> $011E08
-        .dc.w   0x0026,0xe1d8,0xffff,0x0000,0x0000                          | +017c6
-        .dc.l   0x00011e08                    | +017d0  -> $011E08
-        .dc.w   0x0026,0xe16c,0xffff,0x0000,0x0000,0x1600                   | +017d4
-        .dc.l   0x00011e08                    | +017e0  -> $011E08
-        .dc.w   0x0026,0xe4c0,0xffff,0x0000,0x0000                          | +017e4
-        .dc.l   0x00011e08                    | +017ee  -> $011E08
-        .dc.w   0x0026,0xe530,0xffff,0x0000,0x0000                          | +017f2
-        .dc.l   0x00011e08                    | +017fc  -> $011E08
-        .dc.w   0x0026,0xe500,0xffff,0x0000,0x0000                          | +01800
-        .dc.l   0x00011e08                    | +0180a  -> $011E08
-        .dc.w   0x0026,0xe530,0xffff,0x0000,0x0000                          | +0180e
-        .dc.l   0x00011e08                    | +01818  -> $011E08
-        .dc.w   0x0026,0xe570,0xffff,0x0000,0x0000                          | +0181c
-        .dc.l   0x00011e08                    | +01826  -> $011E08
-        .dc.w   0x0026,0xe530,0xffff,0x0000,0x0000                          | +0182a
-        .dc.l   0x00011e08                    | +01834  -> $011E08
-        .dc.w   0x0026,0xe5b6,0xffff,0x0000,0x0000                          | +01838
-        .dc.l   0x00011e08                    | +01842  -> $011E08
-        .dc.w   0x0026,0xe530,0xffff,0x0000,0x0000,0x0100,0x0029,0x77e0     | +01846
-        .dc.l   0x00011e08                    | +01856  -> $011E08
-        .dc.w   0x0026,0xe496,0xffff,0x0000,0x0000                          | +0185a
-        .dc.l   0x00011e08                    | +01864  -> $011E08
-        .dc.w   0x0026,0xe516,0xffff,0x0000,0x0000                          | +01868
-        .dc.l   0x00011e08                    | +01872  -> $011E08
-        .dc.w   0x0026,0xe4d6,0xffff,0x0000,0x0000                          | +01876
-        .dc.l   0x00011e08                    | +01880  -> $011E08
-        .dc.w   0x0026,0xe516,0xffff,0x0000,0x0000                          | +01884
-        .dc.l   0x00011e08                    | +0188e  -> $011E08
-        .dc.w   0x0026,0xe546,0xffff,0x0000,0x0000                          | +01892
-        .dc.l   0x00011e08                    | +0189c  -> $011E08
-        .dc.w   0x0026,0xe516,0xffff,0x0000,0x0000                          | +018a0
-        .dc.l   0x00011e08                    | +018aa  -> $011E08
-        .dc.w   0x0026,0xe58e,0xffff,0x0000,0x0000                          | +018ae
-        .dc.l   0x00011e08                    | +018b8  -> $011E08
-        .dc.w   0x0026,0xe516,0xffff,0x0000,0x0000,0x0100,0x0029,0x7856     | +018bc
-        .dc.l   0x00011e08                    | +018cc  -> $011E08
-        .dc.w   0x0026,0xe5cc,0xffff,0x0000,0x0000                          | +018d0
-        .dc.l   0x00011e08                    | +018da  -> $011E08
-        .dc.w   0x0026,0xe5fc,0xffff,0x0000,0x0000                          | +018de
-        .dc.l   0x00011e08                    | +018e8  -> $011E08
-        .dc.w   0x0026,0xe62a,0xffff,0x0000,0x0000                          | +018ec
-        .dc.l   0x00011e08                    | +018f6  -> $011E08
-        .dc.w   0x0026,0xe65a,0xffff,0x0000,0x0000                          | +018fa
-        .dc.l   0x00011e08                    | +01904  -> $011E08
-        .dc.w   0x0026,0xe69c,0xffff,0x0000,0x0000                          | +01908
-        .dc.l   0x00011e08                    | +01912  -> $011E08
-        .dc.w   0x0026,0xe6ec,0xffff,0x0000,0x0000,0x1600                   | +01916
-        .dc.l   0x00011e08                    | +01922  -> $011E08
-        .dc.w   0x0025,0xd604,0xffff,0x0000,0x0000                          | +01926
-        .dc.l   0x00011e08                    | +01930  -> $011E08
-        .dc.w   0x0025,0xd614,0xffff,0x0000,0x0000                          | +01934
-        .dc.l   0x00011e08                    | +0193e  -> $011E08
-        .dc.w   0x0025,0xd624,0xffff,0x0000,0x0000                          | +01942
-        .dc.l   0x00011e08                    | +0194c  -> $011E08
-        .dc.w   0x0025,0xd642,0xffff,0x0000,0x0000                          | +01950
-        .dc.l   0x00011e08                    | +0195a  -> $011E08
-        .dc.w   0x0025,0xd660,0xffff,0x0000,0x0000                          | +0195e
-        .dc.l   0x00011e08                    | +01968  -> $011E08
-        .dc.w   0x0025,0xd682,0xffff,0x0000,0x0000,0x1600                   | +0196c
-        .dc.l   Pal_01ffff                   | +01978  -> $01FFFF
-        .dc.w   0xffff,0x0000,0x0000,0x0000,0x0020,0x0000,0x0008,0x0200     | +0197c
-        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +0198c
-        .dc.w   0xffff,0x0000,0x0008,0x0200,0x0024,0x3680,0xffff,0x0000     | +0199c
-        .dc.w   0x0000,0x0200,0x0024,0x368a,0xffff,0x0020,0x0008,0x0200     | +019ac
-        .dc.w   0x0024,0x3694,0xffff,0x0020,0x0000,0x1d01,0xffff,0xffff     | +019bc
-        .dc.l   Pal_01ffff                   | +019cc  -> $01FFFF
-        .dc.w   0xffff,0x0000,0x0000,0x0000,0x0040,0x0000,0x0008,0x0200     | +019d0
-        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +019e0
-        .dc.w   0xffff,0x0000,0x0008,0x0200,0x0024,0x3680,0xffff,0x0000     | +019f0
-        .dc.w   0x0000,0x0200,0x0024,0x368a,0xffff,0x0040,0x0008,0x0200     | +01a00
-        .dc.w   0x0024,0x3694,0xffff,0x0040,0x0000,0x1d01,0xffff,0xffff     | +01a10
-        .dc.w   0x0003,0xffff,0xffff,0x0000                                 | +01a20
-        .dc.l   0x0000fff0                    | +01a28  -> $00FFF0
-        .dc.w   0x0010,0xffd0,0x0000,0x0200,0x0024,0x366c,0xffff,0x0000     | +01a2c
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff0,0x0000,0x0200     | +01a3c
-        .dc.w   0x0024,0x3680,0xffff,0xfff0,0xffd0,0x0200,0x0024,0x368a     | +01a4c
-        .dc.w   0xffff                                                      | +01a5c
-        .dc.l   ColMap_100000                   | +01a5e  -> $100000
-        .dc.w   0x0200,0x0024,0x3694,0xffff,0x0010,0xffd0,0x1d01,0xffff     | +01a62
-        .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000                          | +01a72
-        .dc.l   0x0000fff0                    | +01a7c  -> $00FFF0
-        .dc.w   0x0010,0xffe0,0x0000,0x0200,0x0024,0x366c,0xffff,0x0000     | +01a80
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff0,0x0000,0x0200     | +01a90
-        .dc.w   0x0024,0x3680,0xffff,0xfff0,0xffe0,0x0200,0x0024,0x368a     | +01aa0
-        .dc.w   0xffff                                                      | +01ab0
-        .dc.l   ColMap_100000                   | +01ab2  -> $100000
-        .dc.w   0x0200,0x0024,0x3694,0xffff,0x0010,0xffe0,0x1d01,0xffff     | +01ab6
-        .dc.w   0xffff                                                      | +01ac6
-        .dc.l   Pal_01ffff                   | +01ac8  -> $01FFFF
-        .dc.w   0xffff,0x0000                                               | +01acc
-        .dc.l   0x0000fffc                    | +01ad0  -> $00FFFC
-        .dc.w   0x0004,0x0000,0x0060,0x0200,0x0024,0x366c,0xffff,0x0000     | +01ad4
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfffc,0x0060,0x0200     | +01ae4
-        .dc.w   0x0024,0x3680,0xffff,0xfffc,0x0000,0x0200,0x0024,0x368a     | +01af4
-        .dc.w   0xffff,0x0004,0x0060,0x0200,0x0024,0x3694,0xffff,0x0004     | +01b04
-        .dc.w   0x0000,0x1d01,0xffff,0xffff,0x0002,0x0029,0x7f2e,0x0000     | +01b14
-        .dc.w   0x0000,0x0008,0x0038                                        | +01b24
-        .dc.l   BgMap_0a001c                   | +01b2a  -> $0A001C
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +01b2e
-        .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff     | +01b3e
-        .dc.w   0x0008                                                      | +01b4e
-        .dc.l   BgMap_0a0200                   | +01b50  -> $0A0200
-        .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694     | +01b54
-        .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029     | +01b64
-        .dc.w   0x7f2e,0x0000,0x0000,0x0008,0x0038                          | +01b74
-        .dc.l   BgMap_0a001c                   | +01b7e  -> $0A001C
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +01b82
-        .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff     | +01b92
-        .dc.w   0x0008                                                      | +01ba2
-        .dc.l   BgMap_0a0200                   | +01ba4  -> $0A0200
-        .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694     | +01ba8
-        .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029     | +01bb8
-        .dc.w   0x7f2e,0x0000,0x0000,0x0008,0x0038                          | +01bc8
-        .dc.l   BgMap_0a001c                   | +01bd2  -> $0A001C
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +01bd6
-        .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff     | +01be6
-        .dc.w   0x0008                                                      | +01bf6
-        .dc.l   BgMap_0a0200                   | +01bf8  -> $0A0200
-        .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694     | +01bfc
-        .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0003,0xffff     | +01c0c
-        .dc.w   0xffff,0x0000,0x0000                                        | +01c1c
-        .dc.l   AnimScr_180048                   | +01c22  -> $180048
-        .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +01c26
-        .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +01c36
-        .dc.l   AnimScr_180030                   | +01c3e  -> $180030
-        .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +01c42
-        .dc.l   AnimScr_180000                   | +01c4a  -> $180000
-        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024     | +01c4e
-        .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003     | +01c5e
-        .dc.w   0xffff,0xffff,0x0000,0x0000                                 | +01c6e
-        .dc.l   AnimScr_180048                   | +01c76  -> $180048
-        .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +01c7a
-        .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +01c8a
-        .dc.l   AnimScr_180030                   | +01c92  -> $180030
-        .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +01c96
-        .dc.l   AnimScr_180000                   | +01c9e  -> $180000
-        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024     | +01ca2
-        .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003     | +01cb2
-        .dc.w   0xffff,0xffff,0x0000,0x0000,0x0020,0x0050,0x0000,0x0030     | +01cc2
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +01cd2
-        .dc.w   0x3676,0xffff,0x0020,0x0030,0x0200,0x0024,0x3680,0xffff     | +01ce2
-        .dc.w   0x0020,0x0000,0x0200,0x0024,0x368a,0xffff,0x0050,0x0030     | +01cf2
-        .dc.w   0x0200,0x0024,0x3694,0xffff,0x0050,0x0000,0x1d01,0xffff     | +01d02
-        .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0000,0x0030     | +01d12
-        .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +01d22
-        .dc.w   0x0200,0x0024,0x3676,0xffff,0x0000,0x0030,0x0200,0x0024     | +01d32
-        .dc.w   0x3680,0xffff,0x0000,0x0000,0x0200,0x0024,0x368a,0xffff     | +01d42
-        .dc.w   0x0030,0x0030,0x0200,0x0024,0x3694,0xffff,0x0030,0x0000     | +01d52
-        .dc.w   0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000     | +01d62
-        .dc.l   AnimScr_180048                   | +01d72  -> $180048
-        .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +01d76
-        .dc.w   0x0200,0x0024,0x3676,0xffff                                 | +01d86
-        .dc.l   AnimScr_180030                   | +01d8e  -> $180030
-        .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +01d92
-        .dc.l   AnimScr_180000                   | +01d9a  -> $180000
-        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024     | +01d9e
-        .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003     | +01dae
-        .dc.w   0x0029,0x7f0c,0x0000                                        | +01dbe
-        .dc.l   0x0000fff0                    | +01dc4  -> $00FFF0
-        .dc.w   0x0030,0x0000,0x0060,0x0200,0x0024,0x366c,0xffff,0x0000     | +01dc8
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff0,0x0060,0x0200     | +01dd8
-        .dc.w   0x0024,0x3680,0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a     | +01de8
-        .dc.w   0xffff,0x0030,0x0060,0x0200,0x0024,0x3694,0xffff,0x0030     | +01df8
-        .dc.w   0x0000,0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000     | +01e08
-        .dc.w   0x0000,0x0060,0x00b0,0x0000,0x0080,0x0200,0x0024,0x366c     | +01e18
-        .dc.w   0xffff,0x0000,0x0000,0x0200,0x0024,0x3676,0xffff,0x0060     | +01e28
-        .dc.w   0x0080,0x0200,0x0024,0x3680,0xffff,0x0060,0x0000,0x0200     | +01e38
-        .dc.w   0x0024,0x368a,0xffff,0x00b0,0x0080,0x0200,0x0024,0x3694     | +01e48
-        .dc.w   0xffff,0x00b0,0x0000,0x1d01,0xffff,0xffff                   | +01e58
-        .dc.l   Pal_01ffff                   | +01e64  -> $01FFFF
-        .dc.w   0xffff,0x0000,0x0000,0x0000,0x0010,0x003c,0x0048,0x0200     | +01e68
-        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +01e78
-        .dc.w   0xffff,0x0000,0x0048,0x0200,0x0024,0x3680,0xffff,0x0000     | +01e88
-        .dc.w   0x003c,0x0200,0x0024,0x368a,0xffff,0x0010,0x0048,0x0200     | +01e98
-        .dc.w   0x0024,0x3694,0xffff,0x0010,0x003c,0x1d01,0xffff,0xffff     | +01ea8
-        .dc.l   Pal_01ffff                   | +01eb8  -> $01FFFF
-        .dc.w   0xffff,0x0000                                               | +01ebc
-        .dc.l   0x0000fff0                    | +01ec0  -> $00FFF0
-        .dc.w   0x0000,0x003c,0x0048,0x0200,0x0024,0x366c,0xffff,0x0000     | +01ec4
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff0,0x0048,0x0200     | +01ed4
-        .dc.w   0x0024,0x3680,0xffff,0xfff0,0x003c,0x0200,0x0024,0x368a     | +01ee4
-        .dc.w   0xffff,0x0000,0x0048,0x0200,0x0024,0x3694,0xffff,0x0000     | +01ef4
-        .dc.w   0x003c,0x1d01,0xffff,0xffff,0x0000,0x0000,0x0101,0x0100     | +01f04
-        .dc.w   0x0000,0x0101                                               | +01f14
-        .fill   10,1,0x00                      | +01f18
-        .dc.w   0x0100,0x0000,0x0000                                        | +01f22
-        .dc.l   0x00010001                    | +01f28  -> $010001
-        .dc.w   0x0101                                                      | +01f2c
-        .dc.l   0x00010001                    | +01f2e  -> $010001
-        .dc.w   0x0101,0x0000,0x0000,0x0101,0x0000,0x0000,0x0000,0x0101     | +01f32
-        .dc.w   0x0101,0x0101,0x0101,0x0101,0x0101,0x0101,0x0101,0x0029     | +01f42
-        .dc.w   0x82d8,0x0029,0x8364,0xffff,0xffff,0xffff,0xffff,0x0029     | +01f52
-        .dc.w   0x82ec,0x0029,0x8378,0xffff,0xffff,0xffff,0xffff,0x0029     | +01f62
-        .dc.w   0x8300,0x0029,0x838c,0xffff,0xffff,0xffff,0xffff,0x0029     | +01f72
-        .dc.w   0x8314,0x0029,0x83a0,0xffff,0xffff,0xffff,0xffff,0x0029     | +01f82
-        .dc.w   0x8328,0x0029,0x83b4,0xffff,0xffff,0xffff,0xffff,0x0029     | +01f92
-        .dc.w   0x833c,0x0029,0x83c8,0xffff,0xffff,0xffff,0xffff,0x0029     | +01fa2
-        .dc.w   0x8350,0x0029,0x83dc,0xffff,0xffff,0xffff,0xffff,0x00ff     | +01fb2
-        .dc.w   0x0003,0xfff0,0x0030,0x0000,0x0020,0x0000                   | +01fc2
-        .dc.l   Explosion_Fire_077f6a         | +01fce  -> $077F6A
-        .dc.w   0x0003,0x0009,0xfff0,0x0030,0x0000,0x0020,0x0000            | +01fd2
-        .dc.l   Explosion_Std_077efe          | +01fe0  -> $077EFE
-        .dc.w   0x00ff,0x0005,0xfff0                                        | +01fe4
-        .dc.l   ColMap_100000                   | +01fea  -> $100000
-        .dc.w   0x0060,0x0000                                               | +01fee
-        .dc.l   Explosion_Small_077e10        | +01ff2  -> $077E10
-        .dc.w   0x00ff,0x0006                                               | +01ff6
-        .dc.l   ColMap_100040                    | +01ffa  -> $100040
-        .dc.w   0x0000,0x0030,0x0000                                        | +01ffe
-        .dc.l   Explosion_Fire_077f6a         | +02004  -> $077F6A
-        .dc.w   0x0003                                                      | +02008
-        .dc.l   BgMap_0c0010                   | +0200a  -> $0C0010
-        .dc.w   0x0040,0x0000,0x0030,0x0000                                 | +0200e
-        .dc.l   Explosion_Std_077efe          | +02016  -> $077EFE
-        .dc.w   0x00ff,0x0006,0xfff0,0x0050,0xfff0,0x0070,0x0000            | +0201a
-        .dc.l   Explosion_FireAttack_07815a   | +02028  -> $07815A
-        .dc.w   0x0003,0x000f,0xfff0,0x0050,0xfff0,0x0070,0x0000            | +0202c
-        .dc.l   Explosion_StdAttack_078130    | +0203a  -> $078130
-        .dc.w   0x01ff,0x0006,0x0040,0x0060,0x0000,0x0070,0x0000            | +0203e
-        .dc.l   Explosion_Fire_077f6a         | +0204c  -> $077F6A
-        .dc.w   0x0103,0x000f,0x0040,0x0060,0x0000,0x0070,0x0000            | +02050
-        .dc.l   Explosion_Std_077efe          | +0205e  -> $077EFE
-        .dc.w   0x00ff                                                      | +02062
-        .dc.l   0x00010000                    | +02064  -> $010000
-        .dc.w   0x0040,0x0000                                               | +02068
-        .dc.l   0x00010000                    | +0206c  -> $010000
-        .dc.l   Prop_OneShotAnim_0528bc       | +02070  -> $0528BC
-        .dc.w   0x00ff                                                      | +02074
-        .dc.l   0x00010000                    | +02076  -> $010000
-        .dc.w   0x0020,0x0000                                               | +0207a
-        .dc.l   0x00010000                    | +0207e  -> $010000
-        .dc.l   Prop_OneShotAnim_0528bc       | +02082  -> $0528BC
-        .dc.w   0x0102                                                      | +02086
-        .dc.l   BgMap_0a0000                   | +02088  -> $0A0000
-        .dc.w   0x0020,0x0000,0x0030,0x0001,0x0029,0x8098                   | +0208c
-        .dc.l   Explosion_Var08_078326        | +02098  -> $078326
-        .dc.l   Explosion_Var08_078326        | +0209c  -> $078326
-        .dc.l   Explosion_Var08_078326        | +020a0  -> $078326
-        .dc.l   Explosion_Var08_078326        | +020a4  -> $078326
-        .dc.l   Explosion_Var09_078344        | +020a8  -> $078344
-        .dc.l   Explosion_Var09_078344        | +020ac  -> $078344
-        .dc.l   Explosion_Var09_078344        | +020b0  -> $078344
-        .dc.l   Explosion_Var09_078344        | +020b4  -> $078344
-        .dc.l   Explosion_Var10_078380        | +020b8  -> $078380
-        .dc.l   Explosion_Var10_078380        | +020bc  -> $078380
-        .dc.l   Explosion_Var10_078380        | +020c0  -> $078380
-        .dc.l   Explosion_Var10_078380        | +020c4  -> $078380
-        .dc.l   Explosion_Var10_078380        | +020c8  -> $078380
-        .dc.l   Explosion_Var10_078380        | +020cc  -> $078380
-        .dc.l   Explosion_Var11_0783bc        | +020d0  -> $0783BC
-        .dc.l   Explosion_Var11_0783bc        | +020d4  -> $0783BC
-        .dc.w   0x0105                                                      | +020d8
-        .dc.l   SprFrame_140000                   | +020da  -> $140000
-        .dc.w   0x0030,0x0000,0x0050,0x0001,0x0029,0x5cf8,0x0105,0x0014     | +020de
-        .dc.w   0x0040,0x0060,0x0000,0x0070,0x0001,0x0029,0x5cf8,0x002d     | +020ee
-        .dc.w   0xe100,0x002d,0xdf9e,0x002d,0xe08a,0x002d,0xe100            | +020fe
-        .dc.l   Pal_020002                   | +0210c  -> $020002
-        .dc.w   0x000b,0x3900,0x0004,0x0002,0x000b,0x3910,0x0004,0x0002     | +02110
-        .dc.w   0x000b,0x3930,0x0004,0x0002,0x000b,0x3950,0x0004,0x0002     | +02120
-        .dc.w   0x000b,0x3970,0x0004,0x0002,0x000b,0x3990                   | +02130
-        .dc.l   Pal_020002                   | +0213c  -> $020002
-        .dc.w   0x000b,0x39b0                                               | +02140
-        .dc.l   Pal_020002                   | +02144  -> $020002
-        .dc.w   0x000b,0x39c0,0x0004,0x0002,0x000b,0x39d0,0x0004,0x0002     | +02148
-        .dc.w   0x000b,0x39f0,0x0004,0x0002,0x000b,0x3a10,0x0004,0x0002     | +02158
-        .dc.w   0x000b,0x3a30,0x0004,0x0002,0x000b,0x3a50                   | +02168
-        .dc.l   Pal_020002                   | +02174  -> $020002
-        .dc.w   0x000b,0x3a70                                               | +02178
-        .dc.l   Pal_020002                   | +0217c  -> $020002
-        .dc.w   0x000b,0x3a80,0x0004,0x0002,0x000b,0x3a90,0x0004,0x0002     | +02180
-        .dc.w   0x000b,0x3ab0,0x0004,0x0002,0x000b,0x3ad0,0x0004,0x0002     | +02190
-        .dc.w   0x000b,0x3af0,0x0004,0x0002,0x000b,0x3b10                   | +021a0
-        .dc.l   Pal_020002                   | +021ac  -> $020002
-        .dc.w   0x000b,0x3b30,0x0004,0x0002,0x000b,0x3b40,0x0004,0x0003     | +021b0
-        .dc.w   0x000b,0x3b60,0x0005,0x0003,0x000b,0x3b90,0x0006,0x0004     | +021c0
-        .dc.w   0x000b,0x3bcc,0x0005,0x0004,0x000b,0x3c2c                   | +021d0
-        .dc.l   ColMap_100004                    | +021dc  -> $100004
-        .dc.w   0x000b,0x3c7c,0x0009                                        | +021e0
-        .dc.l   BgMap_0c000b                   | +021e6  -> $0C000B
-        .dc.w   0x3d7c,0x0009                                               | +021ea
-        .dc.l   BgMap_0c000b                   | +021ee  -> $0C000B
-        .dc.w   0x3f2c,0x0001                                               | +021f2
-        .dc.l   BgMap_0c000b                   | +021f6  -> $0C000B
-        .dc.w   0x40dc,0x0001                                               | +021fa
-        .dc.l   BgMap_0c000b                   | +021fe  -> $0C000B
-        .dc.w   0x410c,0x0001                                               | +02202
-        .dc.l   BgMap_0c000b                   | +02206  -> $0C000B
-        .dc.w   0x413c,0x0001                                               | +0220a
-        .dc.l   BgMap_0c000b                   | +0220e  -> $0C000B
-        .dc.w   0x416c,0x0001                                               | +02212
-        .dc.l   BgMap_0c000b                   | +02216  -> $0C000B
-        .dc.w   0x419c,0x0001                                               | +0221a
-        .dc.l   BgMap_0c000b                   | +0221e  -> $0C000B
-        .dc.w   0x41cc,0x0001                                               | +02222
-        .dc.l   BgMap_0c000b                   | +02226  -> $0C000B
-        .dc.w   0x41fc,0x0002                                               | +0222a
-        .dc.l   BgMap_0c000b                   | +0222e  -> $0C000B
-        .dc.w   0x422c,0x0007                                               | +02232
-        .dc.l   BgMap_0c000b                   | +02236  -> $0C000B
-        .dc.w   0x428c,0x003c                                               | +0223a
-        .dc.l   BgMap_0c000b                   | +0223e  -> $0C000B
-        .dc.w   0x43dc,0x001c,0x000b,0x000b,0x4f1c                          | +02242
-        .dc.l   ColMap_106f6c                   | +0224c  -> $106F6C
-        .dc.w   0x0029,0x810c,0x0000,0x0009,0x0000,0x0000                   | +02250
-        .dc.l   Pal_020002                   | +0225c  -> $020002
-        .dc.l   ColMap_106f6c                   | +02260  -> $106F6C
-        .dc.w   0x0029,0x8114                                               | +02264
-        .dc.l   Pal_020009                   | +02268  -> $020009
-        .dc.w   0x0000,0x0000,0x0004                                        | +0226c
-        .dc.l   Pal_020010                   | +02272  -> $020010
-        .dc.w   0x6f6c,0x0029,0x811c,0x0006,0x0009,0x0000,0x0000,0x0004     | +02276
-        .dc.l   Pal_020010                   | +02286  -> $020010
-        .dc.w   0x6f6c,0x0029,0x8124,0x000a,0x0009,0x0000,0x0000,0x0004     | +0228a
-        .dc.l   Pal_020010                   | +0229a  -> $020010
-        .dc.w   0x6f6c,0x0029,0x812c,0x000e,0x0009,0x0000,0x0000,0x0004     | +0229e
-        .dc.l   Pal_020010                   | +022ae  -> $020010
-        .dc.w   0x6f6c,0x0029,0x8134                                        | +022b2
-        .dc.l   Zero_120009                   | +022b8  -> $120009
-        .dc.w   0x0000,0x0000,0x0004                                        | +022bc
-        .dc.l   Pal_020010                   | +022c2  -> $020010
-        .dc.w   0x6f6c,0x0029,0x813c                                        | +022c6
-        .dc.l   SprFrame_160009                   | +022cc  -> $160009
-        .dc.w   0x0000,0x0000                                               | +022d0
-        .dc.l   Pal_020002                   | +022d4  -> $020002
-        .dc.l   ColMap_106f6c                   | +022d8  -> $106F6C
-        .dc.w   0x0029,0x8144,0x0000,0x0009,0x0000,0x0000                   | +022dc
-        .dc.l   Pal_020002                   | +022e8  -> $020002
-        .dc.l   ColMap_106f6c                   | +022ec  -> $106F6C
-        .dc.w   0x0029,0x814c                                               | +022f0
-        .dc.l   Pal_020009                   | +022f4  -> $020009
-        .dc.w   0x0000,0x0000,0x0004                                        | +022f8
-        .dc.l   Pal_020010                   | +022fe  -> $020010
-        .dc.w   0x6f6c,0x0029,0x8154,0x0006,0x0009,0x0000,0x0000,0x0004     | +02302
-        .dc.l   Pal_020010                   | +02312  -> $020010
-        .dc.w   0x6f6c,0x0029,0x815c,0x000a,0x0009,0x0000,0x0000,0x0004     | +02316
-        .dc.l   Pal_020010                   | +02326  -> $020010
-        .dc.w   0x6f6c,0x0029,0x8164,0x000e,0x0009,0x0000,0x0000,0x0004     | +0232a
-        .dc.l   Pal_020010                   | +0233a  -> $020010
-        .dc.w   0x6f6c,0x0029,0x816c                                        | +0233e
-        .dc.l   Zero_120009                   | +02344  -> $120009
-        .dc.w   0x0000,0x0000,0x0004                                        | +02348
-        .dc.l   Pal_020010                   | +0234e  -> $020010
-        .dc.w   0x6f6c,0x0029,0x8174                                        | +02352
-        .dc.l   SprFrame_160009                   | +02358  -> $160009
-        .dc.w   0x0000,0x0000                                               | +0235c
-        .dc.l   Pal_020002                   | +02360  -> $020002
-        .dc.l   ColMap_106f6c                   | +02364  -> $106F6C
-        .dc.w   0x0029,0x817c,0x0000,0x0009,0x0000,0x0000                   | +02368
-        .dc.l   Pal_020002                   | +02374  -> $020002
-        .dc.l   ColMap_106f6c                   | +02378  -> $106F6C
-        .dc.w   0x0029,0x8184                                               | +0237c
-        .dc.l   Pal_020009                   | +02380  -> $020009
-        .dc.w   0x0000,0x0000,0x0004                                        | +02384
-        .dc.l   Pal_020010                   | +0238a  -> $020010
-        .dc.w   0x6f6c,0x0029,0x818c,0x0006,0x0009,0x0000,0x0000,0x0004     | +0238e
-        .dc.l   Pal_020010                   | +0239e  -> $020010
-        .dc.w   0x6f6c,0x0029,0x8194,0x000a,0x0009,0x0000,0x0000,0x0004     | +023a2
-        .dc.l   Pal_020010                   | +023b2  -> $020010
-        .dc.w   0x6f6c,0x0029,0x819c,0x000e,0x0009,0x0000,0x0000,0x0004     | +023b6
-        .dc.l   Pal_020010                   | +023c6  -> $020010
-        .dc.w   0x6f6c,0x0029,0x81a4                                        | +023ca
-        .dc.l   Zero_120009                   | +023d0  -> $120009
-        .dc.w   0x0000,0x0000,0x0004                                        | +023d4
-        .dc.l   Pal_020010                   | +023da  -> $020010
-        .dc.w   0x6f6c,0x0029,0x81ac                                        | +023de
-        .dc.l   SprFrame_160009                   | +023e4  -> $160009
-        .dc.w   0x0000,0x0000                                               | +023e8
-        .dc.l   Pal_020002                   | +023ec  -> $020002
-        .dc.l   ColMap_106f6c                   | +023f0  -> $106F6C
-        .dc.w   0x0029,0x81b4,0x0046,0x0008,0x0000,0x0000,0x0004            | +023f4
-        .dc.l   Pal_020010                   | +02402  -> $020010
-        .dc.w   0x6f6c,0x0029,0x81b4,0x006e,0x0008,0x0000,0x0000,0x0004     | +02406
-        .dc.l   Pal_020010                   | +02416  -> $020010
-        .dc.w   0x6f6c,0x0029,0x81bc,0x0050,0x0008,0x0000,0x0000,0x0004     | +0241a
-        .dc.w   0x0003                                                      | +0242a
-        .dc.l   ColMap_106f6c                   | +0242c  -> $106F6C
-        .dc.w   0x0029,0x81bc,0x0078,0x0008,0x0000,0x0000,0x0004,0x0003     | +02430
-        .dc.l   ColMap_106f6c                   | +02440  -> $106F6C
-        .dc.w   0x0029,0x81c4,0x0059,0x0008,0x0000,0x0000,0x0005,0x0003     | +02444
-        .dc.l   ColMap_106f6c                   | +02454  -> $106F6C
-        .dc.w   0x0029,0x81c4,0x0081,0x0008,0x0000,0x0000,0x0005,0x0003     | +02458
-        .dc.l   ColMap_106f6c                   | +02468  -> $106F6C
-        .dc.w   0x0029,0x81cc,0x004a,0x0008,0x0000,0x0000,0x0006,0x0004     | +0246c
-        .dc.l   ColMap_106f6c                   | +0247c  -> $106F6C
-        .dc.w   0x0029,0x81cc,0x0072,0x0008,0x0000,0x0000,0x0006,0x0004     | +02480
-        .dc.l   ColMap_106f6c                   | +02490  -> $106F6C
-        .dc.w   0x0029,0x81d4,0x0054,0x0008,0x0000,0x0000,0x0005,0x0004     | +02494
-        .dc.l   ColMap_106f6c                   | +024a4  -> $106F6C
-        .dc.w   0x0029,0x81d4,0x007c,0x0008,0x0000,0x0000,0x0005,0x0004     | +024a8
-        .dc.l   ColMap_106f6c                   | +024b8  -> $106F6C
-        .dc.w   0x0029,0x81dc,0x005e,0x0008,0x0000,0x0000,0x0006,0x0004     | +024bc
-        .dc.l   ColMap_106f6c                   | +024cc  -> $106F6C
-        .dc.w   0x0029,0x81dc,0x0086,0x0008,0x0000,0x0000,0x0006,0x0004     | +024d0
-        .dc.l   ColMap_106f6c                   | +024e0  -> $106F6C
-        .dc.w   0x0029,0x81dc,0x0064,0x0008,0x0006,0x0000,0x0004,0x0004     | +024e4
-        .dc.l   ColMap_106f6c                   | +024f4  -> $106F6C
-        .dc.w   0x0029,0x81dc,0x008c,0x0008,0x0006,0x0000,0x0004,0x0004     | +024f8
-        .dc.l   ColMap_106f6c                   | +02508  -> $106F6C
-        .dc.w   0x0029,0x81dc,0x0068,0x0008                                 | +0250c
-        .dc.l   BgMap_0a0000                   | +02514  -> $0A0000
-        .dc.w   0x0006,0x0004                                               | +02518
-        .dc.l   ColMap_106f6c                   | +0251c  -> $106F6C
-        .dc.w   0x0029,0x81dc,0x0090,0x0008                                 | +02520
-        .dc.l   BgMap_0a0000                   | +02528  -> $0A0000
-        .dc.w   0x0006,0x0004                                               | +0252c
-        .dc.l   ColMap_106f6c                   | +02530  -> $106F6C
-        .dc.w   0x0029,0x81e4,0x0097,0x0000,0x0000,0x0000,0x0009            | +02534
-        .dc.l   BgMap_0c0010                   | +02542  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x81ec,0x0097,0x0000,0x0000,0x0000,0x0009     | +02546
-        .dc.l   BgMap_0c0010                   | +02556  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x81f4,0x00a8,0x0000,0x0000,0x0000,0x0001     | +0255a
-        .dc.l   BgMap_0c0010                   | +0256a  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x81fc,0x00a9,0x0000,0x0000,0x0000,0x0001     | +0256e
-        .dc.l   BgMap_0c0010                   | +0257e  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x8204,0x00aa,0x0000,0x0000,0x0000,0x0001     | +02582
-        .dc.l   BgMap_0c0010                   | +02592  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x820c,0x00ab,0x0000,0x0000,0x0000,0x0001     | +02596
-        .dc.l   BgMap_0c0010                   | +025a6  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x8214,0x00ac,0x0000,0x0000,0x0000,0x0001     | +025aa
-        .dc.l   BgMap_0c0010                   | +025ba  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x821c,0x00ad,0x0000,0x0000,0x0000,0x0001     | +025be
-        .dc.l   BgMap_0c0010                   | +025ce  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x8224,0x00ae,0x0000,0x0000,0x0000,0x0001     | +025d2
-        .dc.l   BgMap_0c0010                   | +025e2  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x822c,0x00af,0x0000,0x0000,0x0000,0x0002     | +025e6
-        .dc.l   BgMap_0c0010                   | +025f6  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x8234,0x00b0,0x0000,0x0000,0x0000,0x0007     | +025fa
-        .dc.l   BgMap_0c0010                   | +0260a  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x823c,0x0000                                 | +0260e
-        .dc.l   BgMap_0a0000                   | +02616  -> $0A0000
-        .dc.l   Pal_020006                   | +0261a  -> $020006
-        .dc.l   BgMap_0a0010                   | +0261e  -> $0A0010
-        .dc.w   0x6f6c,0x0029,0x823c,0x0006                                 | +02622
-        .dc.l   BgMap_0a0006                   | +0262a  -> $0A0006
-        .dc.l   Pal_020002                   | +0262e  -> $020002
-        .dc.w   0x0009                                                      | +02632
-        .dc.l   ColMap_106f6c                   | +02634  -> $106F6C
-        .dc.w   0x0029,0x823c,0x0008,0x000a,0x0008                          | +02638
-        .dc.l   Pal_020004                   | +02642  -> $020004
-        .dc.w   0x0008                                                      | +02646
-        .dc.l   ColMap_106f6c                   | +02648  -> $106F6C
-        .dc.w   0x0029,0x823c,0x0000                                        | +0264c
-        .dc.l   BgMap_0a000c                   | +02652  -> $0A000C
-        .dc.l   Pal_020006                   | +02656  -> $020006
-        .dc.l   BgMap_0a0010                   | +0265a  -> $0A0010
-        .dc.w   0x6f6c,0x0029,0x823c,0x0006                                 | +0265e
-        .dc.l   BgMap_0a0012                   | +02666  -> $0A0012
-        .dc.l   Pal_020002                   | +0266a  -> $020002
-        .dc.w   0x0009                                                      | +0266e
-        .dc.l   ColMap_106f6c                   | +02670  -> $106F6C
-        .dc.w   0x0029,0x823c,0x0008,0x000a,0x0014                          | +02674
-        .dc.l   Pal_020004                   | +0267e  -> $020004
-        .dc.w   0x0008                                                      | +02682
-        .dc.l   ColMap_106f6c                   | +02684  -> $106F6C
-        .dc.w   0x0029,0x823c                                               | +02688
-        .dc.l   ColMap_100004                    | +0268c  -> $100004
-        .dc.w   0x0024,0x0000,0x0006                                        | +02690
-        .dc.l   BgMap_0c0010                   | +02696  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x823c                                        | +0269a
-        .dc.l   SprFrame_160004                   | +026a0  -> $160004
-        .dc.w   0x002a,0x0000,0x0002                                        | +026a4
-        .dc.l   BgMap_0b0010                   | +026aa  -> $0B0010
-        .dc.w   0x6f6c,0x0029,0x823c                                        | +026ae
-        .dc.l   AnimScr_180004                   | +026b4  -> $180004
-        .dc.w   0x002c,0x0000,0x0004                                        | +026b8
-        .dc.l   BgMap_0a0010                   | +026be  -> $0A0010
-        .dc.w   0x6f6c,0x0029,0x823c                                        | +026c2
-        .dc.l   ColMap_100004                    | +026c8  -> $100004
-        .dc.w   0x0030,0x0000,0x0006                                        | +026cc
-        .dc.l   BgMap_0c0010                   | +026d2  -> $0C0010
-        .dc.w   0x6f6c,0x0029,0x823c                                        | +026d6
-        .dc.l   SprFrame_160004                   | +026dc  -> $160004
-        .dc.w   0x0036,0x0000,0x0002                                        | +026e0
-        .dc.l   BgMap_0b0010                   | +026e6  -> $0B0010
-        .dc.w   0x6f6c,0x0029,0x823c                                        | +026ea
-        .dc.l   AnimScr_180004                   | +026f0  -> $180004
-        .dc.w   0x0038,0x0000,0x0004,0x000a,0x0008,0x001f,0x0005            | +026f4
-        .dc.l   0x00010000                    | +02702  -> $010000
-        .dc.w   0x0000                                                      | +02706
-        .dc.l   0x0000fff8                    | +02708  -> $00FFF8
-        .dc.w   0x0067,0x0001,0x000d,0x0101,0x0101,0x0101,0x0101,0x0101     | +0270c
-        .dc.w   0x0101,0x1000,0xfff8,0x0067,0x0001                          | +0271c
-        .dc.l   BgMap_0d0000                   | +02726  -> $0D0000
-        .fill   10,1,0x00                      | +0272a
-        .dc.w   0x1100,0xfff0                                               | +02734
-        .dc.l   ColMap_10ffc0                   | +02738  -> $10FFC0
-        .dc.l   ColMap_10ffff                   | +0273c  -> $10FFFF
-        .dc.w   0xfff0                                                      | +02740
-        .dc.l   ColMap_100000                   | +02742  -> $100000
-        .dc.l   ColMap_10ffff                   | +02746  -> $10FFFF
-        .dc.w   0x0306                                                      | +0274a
-        .dc.l   BgMap_0a0404                   | +0274c  -> $0A0404
-        .dc.w   0xff00                                                      | +02750
-        .dc.l   0x0000fffc                    | +02752  -> $00FFFC
-        .dc.w   0x0004,0x0000,0x0060,0x0200,0x0024,0x363a,0xffff,0x0000     | +02756
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xfffc,0x0060,0x0200     | +02766
-        .dc.w   0x0024,0x364e,0xffff,0xfffc,0x0000,0x0200,0x0024,0x3658     | +02776
-        .dc.w   0xffff,0x0004,0x0060,0x0200,0x0024,0x3662,0xffff,0x0004     | +02786
-        .dc.w   0x0000,0x1d00,0x0406                                        | +02796
-        .dc.l   BgMap_0a0404                   | +0279c  -> $0A0404
-        .dc.w   0xff00                                                      | +027a0
-        .dc.l   0x0000fffc                    | +027a2  -> $00FFFC
-        .dc.w   0x0004,0x0000,0x0060,0x0200,0x0024,0x363a,0xffff,0x0000     | +027a6
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xfffc,0x0060,0x0200     | +027b6
-        .dc.w   0x0024,0x364e,0xffff,0xfffc,0x0000,0x0200,0x0024,0x3658     | +027c6
-        .dc.w   0xffff,0x0004,0x0060,0x0200,0x0024,0x3662,0xffff,0x0004     | +027d6
-        .dc.w   0x0000,0x1d00,0xffff,0xffff,0x0109                          | +027e6
-        .dc.l   ColMap_100204                    | +027f0  -> $100204
-        .dc.w   0xff00                                                      | +027f4
-        .dc.l   0x0000fff8                    | +027f6  -> $00FFF8
-        .dc.w   0x0008,0x0040,0x0050,0x0200,0x0024,0x363a,0xffff,0x0000     | +027fa
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xfff8,0x0050,0x0200     | +0280a
-        .dc.w   0x0024,0x364e,0xffff,0xfff8,0x0040,0x0200,0x0024,0x3658     | +0281a
-        .dc.w   0xffff,0x0008,0x0050,0x0200,0x0024,0x3662,0xffff,0x0008     | +0282a
-        .dc.w   0x0040,0x1d00,0xffff,0xffff,0x0209                          | +0283a
-        .dc.l   ColMap_100204                    | +02844  -> $100204
-        .dc.w   0xff00                                                      | +02848
-        .dc.l   0x0000fff8                    | +0284a  -> $00FFF8
-        .dc.w   0x0008,0x0040,0x0050,0x0200,0x0024,0x363a,0xffff,0x0000     | +0284e
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xfff8,0x0050,0x0200     | +0285e
-        .dc.w   0x0024,0x364e,0xffff,0xfff8,0x0040,0x0200,0x0024,0x3658     | +0286e
-        .dc.w   0xffff,0x0008,0x0050,0x0200,0x0024,0x3662,0xffff,0x0008     | +0287e
-        .dc.w   0x0040,0x1d00,0xffff,0xffff,0x0309                          | +0288e
-        .dc.l   ColMap_100204                    | +02898  -> $100204
-        .dc.w   0xff00                                                      | +0289c
-        .dc.l   0x0000fff8                    | +0289e  -> $00FFF8
-        .dc.w   0x0008,0x0040,0x0050,0x0200,0x0024,0x363a,0xffff,0x0000     | +028a2
-        .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xfff8,0x0050,0x0200     | +028b2
-        .dc.w   0x0024,0x364e,0xffff,0xfff8,0x0040,0x0200,0x0024,0x3658     | +028c2
-        .dc.w   0xffff,0x0008,0x0050,0x0200,0x0024,0x3662,0xffff,0x0008     | +028d2
-        .dc.w   0x0040,0x1d00,0xffff,0xffff,0x8001,0x0000                   | +028e2
-        .dc.l   0x0000ffe0                    | +028ee  -> $00FFE0
-        .dc.w   0x0020,0x0000,0x0080,0x0200,0x0024,0x3608,0xffff,0x0000     | +028f2
-        .dc.w   0x0000,0x0200,0x0024,0x3612,0xffff,0xffe0,0x0080,0x0200     | +02902
-        .dc.w   0x0024,0x361c,0xffff,0xffe0,0x0000,0x0200,0x0024,0x3626     | +02912
-        .dc.w   0xffff,0x0020,0x0080,0x0200,0x0024,0x3630,0xffff,0x0020     | +02922
-        .dc.w   0x0000,0x1d01,0x0900,0x0029,0x9d7e                          | +02932
-        .dc.l   0x00010200                    | +0293c  -> $010200
-        .dc.w   0x0027,0x15e6,0xffff,0x0060                                 | +02940
-        .dc.l   ColMap_100200                   | +02948  -> $100200
-        .dc.w   0x0027,0x1552,0xf000,0x0060,0x0010,0x1600,0x0900,0x0029     | +0294c
-        .dc.w   0x9e22                                                      | +0295c
-        .dc.l   0x00010200                    | +0295e  -> $010200
-        .dc.w   0x0027,0x16e0,0xffff,0x0060                                 | +02962
-        .dc.l   ColMap_100200                   | +0296a  -> $100200
-        .dc.w   0x0027,0x164a,0xf000,0x0060,0x0010,0x1600,0x0900,0xffff     | +0296e
-        .dc.w   0xffff,0x0800                                               | +0297e
-        .dc.l   SDS_055258                    | +02982  -> $055258
-        .dc.l   0x00010208                    | +02986  -> $010208
-        .dc.w   0x0022,0x19a4,0xffff,0x0200,0x0027,0x1744,0xf000,0x0060     | +0298a
-        .dc.w   0x0010,0x1600,0x0900,0x0029,0x9e76                          | +0299a
-        .dc.l   0x00010200                    | +029a4  -> $010200
-        .dc.w   0x0027,0x179c,0xffff,0x0040,0x0018,0x1600,0x0900,0x0029     | +029a8
-        .dc.w   0x9eca                                                      | +029b8
-        .dc.l   0x00011e08                    | +029ba  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0800            | +029be
-        .dc.l   SDS_055274                    | +029cc  -> $055274
-        .dc.w   0x0003,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x0800     | +029d0
-        .dc.l   SDS_055282                    | +029e0  -> $055282
-        .dc.l   0x00011e08                    | +029e4  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +029e8
-        .dc.w   0xffff,0x0800                                               | +029f8
-        .dc.l   SDS_055290                    | +029fc  -> $055290
-        .dc.l   0x00011e08                    | +02a00  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +02a04
-        .dc.w   0x9f1e                                                      | +02a14
-        .dc.l   0x00011e08                    | +02a16  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0800            | +02a1a
-        .dc.l   SDS_0552ac                    | +02a28  -> $0552AC
-        .dc.l   0x00011e08                    | +02a2c  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0800            | +02a30
-        .dc.l   SDS_0552ba                    | +02a3e  -> $0552BA
-        .dc.l   0x00011e08                    | +02a42  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +02a46
-        .dc.w   0x9f72                                                      | +02a56
-        .dc.l   0x00011e08                    | +02a58  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600                   | +02a5c
-        .dc.l   0x00010200                    | +02a68  -> $010200
-        .dc.w   0x0027,0x183a,0xffff,0x0000,0x0020,0x1600                   | +02a6c
-        .dc.l   0x00010200                    | +02a78  -> $010200
-        .dc.w   0x0027,0x1b44,0xffff,0x0000,0x0040,0x1600                   | +02a7c
-        .dc.l   0x00010201                    | +02a88  -> $010201
-        .dc.w   0x0027,0x183a,0xffff,0xfff0,0x0020,0x1600                   | +02a8c
-        .dc.l   0x00010201                    | +02a98  -> $010201
-        .dc.w   0x0027,0x1b44,0xffff,0xfff0,0x0040,0x1600,0x0900,0x0029     | +02a9c
-        .dc.w   0xa01a,0x0003,0x1e08,0x0027,0x1902,0xffff,0x0000,0x0000     | +02aac
-        .dc.w   0x0003,0x1e08,0x0027,0x193c,0xffff,0x0000,0x0000,0x0003     | +02abc
-        .dc.w   0x1e08,0x0027,0x197e,0xffff,0x0000,0x0000,0x0003,0x1e08     | +02acc
-        .dc.w   0x0027,0x19b2,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0027     | +02adc
-        .dc.w   0x19e2,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0027,0x1a10     | +02aec
-        .dc.w   0xffff,0x0000,0x0000,0x0003,0x1e08,0x0027,0x1a40,0xffff     | +02afc
-        .dc.w   0x0000,0x0000,0x0003,0x1e08,0x0027,0x1a7e,0xffff,0x0000     | +02b0c
-        .dc.w   0x0000,0x0100,0x0029,0x8aa8                                 | +02b1c
-        .dc.l   0x00011e08                    | +02b24  -> $011E08
-        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +02b28
-        .dc.w   0xa06e                                                      | +02b38
-        .dc.l   0x00011e08                    | +02b3a  -> $011E08
-        .dc.w   0x0027,0x1852,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +02b3e
-        .dc.w   0xffff                                                      | +02b4e
-        .dc.l   0x00010200                    | +02b50  -> $010200
-        .dc.w   0x0027,0x1852,0xffff                                        | +02b54
-        .dc.l   0x00010000                    | +02b5a  -> $010000
-        .dc.l   0x00010200                    | +02b5e  -> $010200
-        .dc.w   0x0027,0x1852,0xffff,0xffff,0x0000,0x0302,0x0029,0x8b4a     | +02b62
-        .dc.w   0x0100,0x0029,0x8b78                                        | +02b72
-        .dc.l   0x00011e08                    | +02b78  -> $011E08
-        .dc.w   0x0027,0x1884,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +02b7c
-        .dc.w   0xa0c2                                                      | +02b8c
-        .dc.l   0x00011e08                    | +02b8e  -> $011E08
-        .dc.w   0x0027,0x18d2,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +02b92
-        .dc.w   0xa116,0x0600,0x0000,0x0072,0x0003,0x1e08,0x0026,0xf494     | +02ba2
-        .dc.w   0xffff,0x0000,0x0000,0x0600                                 | +02bb2
-        .dc.l   0x00010072                    | +02bba  -> $010072
-        .dc.w   0x0003,0x1e08,0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600     | +02bbe
-        .dc.l   Pal_020072                   | +02bce  -> $020072
-        .dc.w   0x0003,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600     | +02bd2
-        .dc.w   0x0003,0x0072,0x0003,0x1e08,0x0026,0xf508,0xffff,0x0000     | +02be2
-        .dc.w   0x0000,0x0600,0x0004,0x0072,0x0003,0x1e08,0x0026,0xf532     | +02bf2
-        .dc.w   0xffff,0x0000,0x0000,0x0600,0x0005,0x0072,0x0003,0x1e08     | +02c02
-        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +02c12
-        .dc.w   0x0003,0x1e08,0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600     | +02c22
-        .dc.w   0x0007,0x0072,0x0003,0x1e08,0x0026,0xf5a0,0xffff,0x0000     | +02c32
-        .dc.w   0x0000,0x1600,0x0029,0x8c66,0x0029,0x8c7a,0x0029,0x8c8e     | +02c42
-        .dc.w   0x0029,0x8ca2,0x0029,0x8cb6,0x0029,0x8cca,0x0029,0x8cde     | +02c52
-        .dc.w   0x0029,0x8cf2,0x0600,0x0000,0x0072                          | +02c62
-        .dc.l   0x00011e08                    | +02c6c  -> $011E08
-        .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600                   | +02c70
-        .dc.l   0x00010072                    | +02c7c  -> $010072
-        .dc.l   0x00011e08                    | +02c80  -> $011E08
-        .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02c84
-        .dc.l   Pal_020072                   | +02c90  -> $020072
-        .dc.l   0x00011e08                    | +02c94  -> $011E08
-        .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02c98
-        .dc.l   0x00011e08                    | +02ca8  -> $011E08
-        .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072     | +02cac
-        .dc.l   0x00011e08                    | +02cbc  -> $011E08
-        .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072     | +02cc0
-        .dc.l   0x00011e08                    | +02cd0  -> $011E08
-        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +02cd4
-        .dc.l   0x00011e08                    | +02ce4  -> $011E08
-        .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072     | +02ce8
-        .dc.l   0x00011e08                    | +02cf8  -> $011E08
-        .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0304,0x0029,0x8c66     | +02cfc
-        .dc.w   0x0600,0x0000,0x0072                                        | +02d0c
-        .dc.l   0x00011e08                    | +02d12  -> $011E08
-        .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600                   | +02d16
-        .dc.l   0x00010072                    | +02d22  -> $010072
-        .dc.l   0x00011e08                    | +02d26  -> $011E08
-        .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02d2a
-        .dc.l   Pal_020072                   | +02d36  -> $020072
-        .dc.l   0x00011e08                    | +02d3a  -> $011E08
-        .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02d3e
-        .dc.l   0x00011e08                    | +02d4e  -> $011E08
-        .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072     | +02d52
-        .dc.l   0x00011e08                    | +02d62  -> $011E08
-        .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072     | +02d66
-        .dc.l   0x00011e08                    | +02d76  -> $011E08
-        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +02d7a
-        .dc.l   0x00011e08                    | +02d8a  -> $011E08
-        .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072     | +02d8e
-        .dc.l   0x00011e08                    | +02d9e  -> $011E08
-        .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8d0c     | +02da2
-        .dc.w   0x0600,0x0000,0x0072                                        | +02db2
-        .dc.l   0x00011e08                    | +02db8  -> $011E08
-        .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600                   | +02dbc
-        .dc.l   0x00010072                    | +02dc8  -> $010072
-        .dc.l   0x00011e08                    | +02dcc  -> $011E08
-        .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02dd0
-        .dc.l   Pal_020072                   | +02ddc  -> $020072
-        .dc.l   0x00011e08                    | +02de0  -> $011E08
-        .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02de4
-        .dc.l   0x00011e08                    | +02df4  -> $011E08
-        .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072     | +02df8
-        .dc.l   0x00011e08                    | +02e08  -> $011E08
-        .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072     | +02e0c
-        .dc.l   0x00011e08                    | +02e1c  -> $011E08
-        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +02e20
-        .dc.l   0x00011e08                    | +02e30  -> $011E08
-        .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072     | +02e34
-        .dc.l   0x00011e08                    | +02e44  -> $011E08
-        .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8db2     | +02e48
-        .dc.w   0x0600,0x0000,0x0072                                        | +02e58
-        .dc.l   Pal_021e08                   | +02e5e  -> $021E08
-        .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600                   | +02e62
-        .dc.l   0x00010072                    | +02e6e  -> $010072
-        .dc.l   Pal_021e08                   | +02e72  -> $021E08
-        .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02e76
-        .dc.l   Pal_020072                   | +02e82  -> $020072
-        .dc.l   Pal_021e08                   | +02e86  -> $021E08
-        .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02e8a
-        .dc.l   Pal_021e08                   | +02e9a  -> $021E08
-        .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072     | +02e9e
-        .dc.l   Pal_021e08                   | +02eae  -> $021E08
-        .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072     | +02eb2
-        .dc.l   Pal_021e08                   | +02ec2  -> $021E08
-        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +02ec6
-        .dc.l   Pal_021e08                   | +02ed6  -> $021E08
-        .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072     | +02eda
-        .dc.l   Pal_021e08                   | +02eea  -> $021E08
-        .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8e58     | +02eee
-        .dc.w   0x0600,0x0000,0x0072                                        | +02efe
-        .dc.l   Pal_021e08                   | +02f04  -> $021E08
-        .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600                   | +02f08
-        .dc.l   0x00010072                    | +02f14  -> $010072
-        .dc.l   Pal_021e08                   | +02f18  -> $021E08
-        .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600                   | +02f1c
-        .dc.l   Pal_020072                   | +02f28  -> $020072
-        .dc.l   Pal_021e08                   | +02f2c  -> $021E08
-        .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072     | +02f30
-        .dc.l   Pal_021e08                   | +02f40  -> $021E08
-        .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072     | +02f44
-        .dc.l   Pal_021e08                   | +02f54  -> $021E08
-        .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072     | +02f58
-        .dc.l   Pal_021e08                   | +02f68  -> $021E08
-        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +02f6c
-        .dc.l   Pal_021e08                   | +02f7c  -> $021E08
-        .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072     | +02f80
-        .dc.l   Pal_021e08                   | +02f90  -> $021E08
-        .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8efe     | +02f94
-        .dc.w   0x0600,0x0000,0x0072,0x0003,0x1e08,0x0026,0xf494,0xffff     | +02fa4
-        .dc.w   0x0000,0x0000,0x0600                                        | +02fb4
-        .dc.l   0x00010072                    | +02fba  -> $010072
-        .dc.w   0x0003,0x1e08,0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600     | +02fbe
-        .dc.l   Pal_020072                   | +02fce  -> $020072
-        .dc.w   0x0003,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600     | +02fd2
-        .dc.w   0x0003,0x0072,0x0003,0x1e08,0x0026,0xf508,0xffff,0x0000     | +02fe2
-        .dc.w   0x0000,0x0600,0x0004,0x0072,0x0003,0x1e08,0x0026,0xf532     | +02ff2
-        .dc.w   0xffff,0x0000,0x0000,0x0600,0x0005,0x0072,0x0003,0x1e08     | +03002
-        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072     | +03012
-        .dc.w   0x0003,0x1e08,0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600     | +03022
-        .dc.w   0x0007,0x0072,0x0003,0x1e08,0x0026,0xf5a0,0xffff,0x0000     | +03032
-        .dc.w   0x0000,0x0302,0x0029,0x8fa4,0x0100,0x0029,0x8b9e,0x0900     | +03042
-        .dc.w   0x0029,0xa16a                                               | +03052
-        .dc.l   0x00011e08                    | +03056  -> $011E08
-        .dc.w   0x0027,0x1ac8,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +0305a
-        .dc.w   0xffff                                                      | +0306a
-        .dc.l   0x00011e08                    | +0306c  -> $011E08
-        .dc.w   0x0027,0x1b10,0xffff,0x0000,0x0000,0x1600                   | +03070
-        .dc.l   0x00011e08                    | +0307c  -> $011E08
-        .dc.w   0x0027,0x1b64,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +03080
-        .dc.w   0x9fc6                                                      | +03090
-        .dc.l   0x00011e08                    | +03092  -> $011E08
-        .dc.w   0x0027,0x17cc,0xffff,0x0000,0x0000,0x1600,0x0800            | +03096
-        .dc.l   SDS_05529e                    | +030a4  -> $05529E
-        .dc.l   0x00011e08                    | +030a8  -> $011E08
-        .dc.w   0x0027,0x1802,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029     | +030ac
-        .dc.w   0xa1be                                                      | +030bc
-        .dc.l   0x00011e08                    | +030be  -> $011E08
-        .dc.w   0x0027,0x0616,0xffff,0x0000,0x0000,0x1600,0x0029,0x90fe     | +030c2
-        .dc.w   0x0029,0x91c8,0x0029,0x9292,0x0029,0x935c,0x0029,0x9426     | +030d2
-        .dc.w   0x0029,0x9518,0x0029,0x960a,0x0029,0x96fc,0x0029,0x97ee     | +030e2
-        .dc.w   0x0029,0x994e,0x0029,0x9aae,0x0029,0x9c0e,0x0800            | +030f2
-        .dc.l   SDS_0552e4                    | +03100  -> $0552E4
-        .dc.l   0x00011e08                    | +03104  -> $011E08
-        .dc.w   0x0027,0x0676,0xffff,0x0000,0x0000,0x0800                   | +03108
-        .dc.l   SDS_0552f2                    | +03114  -> $0552F2
-        .dc.l   0x00011e08                    | +03118  -> $011E08
-        .dc.w   0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800                   | +0311c
-        .dc.l   SDS_055300                    | +03128  -> $055300
-        .dc.l   Pal_021e08                   | +0312c  -> $021E08
-        .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800                   | +03130
-        .dc.l   SDS_05530e                    | +0313c  -> $05530E
-        .dc.l   Pal_021e08                   | +03140  -> $021E08
-        .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800                   | +03144
-        .dc.l   SDS_05531c                    | +03150  -> $05531C
-        .dc.l   Pal_021e08                   | +03154  -> $021E08
-        .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800                   | +03158
-        .dc.l   SDS_05532a                    | +03164  -> $05532A
-        .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800     | +03168
-        .dc.l   SDS_055338                    | +03178  -> $055338
-        .dc.w   0x0003,0x1e08,0x0027,0x08b6,0xffff,0x0000,0x0000,0x0800     | +0317c
-        .dc.l   SDS_055346                    | +0318c  -> $055346
-        .dc.w   0x0003,0x1e08,0x0027,0x0916,0xffff,0x0000,0x0000,0x0800     | +03190
-        .dc.l   SDS_055354                    | +031a0  -> $055354
-        .dc.w   0x0004,0x1e08,0x0027,0x0976,0xffff,0x0000,0x0000,0x0800     | +031a4
-        .dc.l   SDS_055362                    | +031b4  -> $055362
-        .dc.l   0x00011e08                    | +031b8  -> $011E08
-        .dc.w   0x0027,0x09d6,0xffff,0x0000,0x0000,0x1600,0x0800            | +031bc
-        .dc.l   SDS_055514                    | +031ca  -> $055514
-        .dc.l   0x00011e08                    | +031ce  -> $011E08
-        .dc.w   0x0027,0x0676,0xffff,0x0000,0x0000,0x0800                   | +031d2
-        .dc.l   SDS_055522                    | +031de  -> $055522
-        .dc.l   0x00011e08                    | +031e2  -> $011E08
-        .dc.w   0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800                   | +031e6
-        .dc.l   SDS_055530                    | +031f2  -> $055530
-        .dc.l   Pal_021e08                   | +031f6  -> $021E08
-        .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800                   | +031fa
-        .dc.l   SDS_05553e                    | +03206  -> $05553E
-        .dc.l   Pal_021e08                   | +0320a  -> $021E08
-        .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800                   | +0320e
-        .dc.l   SDS_05554c                    | +0321a  -> $05554C
-        .dc.l   Pal_021e08                   | +0321e  -> $021E08
-        .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800                   | +03222
-        .dc.l   SDS_05555a                    | +0322e  -> $05555A
-        .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800     | +03232
-        .dc.l   SDS_055568                    | +03242  -> $055568
-        .dc.w   0x0003,0x1e08,0x0027,0x08b6,0xffff,0x0000,0x0000,0x0800     | +03246
-        .dc.l   SDS_055576                    | +03256  -> $055576
-        .dc.w   0x0003,0x1e08,0x0027,0x0916,0xffff,0x0000,0x0000,0x0800     | +0325a
-        .dc.l   SDS_055584                    | +0326a  -> $055584
-        .dc.w   0x0004,0x1e08,0x0027,0x0976,0xffff,0x0000,0x0000,0x0800     | +0326e
-        .dc.l   SDS_055592                    | +0327e  -> $055592
-        .dc.l   0x00011e08                    | +03282  -> $011E08
-        .dc.w   0x0027,0x09d6,0xffff,0x0000,0x0000,0x1600,0x0800            | +03286
-        .dc.l   SDS_055744                    | +03294  -> $055744
-        .dc.l   0x00011e08                    | +03298  -> $011E08
-        .dc.w   0x0027,0x0676,0xffff,0x0000,0x0000,0x0800                   | +0329c
-        .dc.l   SDS_055752                    | +032a8  -> $055752
-        .dc.l   0x00011e08                    | +032ac  -> $011E08
-        .dc.w   0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800                   | +032b0
-        .dc.l   SDS_055760                    | +032bc  -> $055760
-        .dc.l   Pal_021e08                   | +032c0  -> $021E08
-        .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800                   | +032c4
-        .dc.l   SDS_05576e                    | +032d0  -> $05576E
-        .dc.l   Pal_021e08                   | +032d4  -> $021E08
-        .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800                   | +032d8
-        .dc.l   SDS_05577c                    | +032e4  -> $05577C
-        .dc.l   Pal_021e08                   | +032e8  -> $021E08
-        .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800                   | +032ec
-        .dc.l   SDS_05578a                    | +032f8  -> $05578A
-        .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800     | +032fc
-        .dc.l   SDS_055798                    | +0330c  -> $055798
-        .dc.w   0x0003,0x1e08,0x0027,0x08b6,0xffff,0x0000,0x0000,0x0800     | +03310
-        .dc.l   SDS_0557a6                    | +03320  -> $0557A6
-        .dc.w   0x0003,0x1e08,0x0027,0x0916,0xffff,0x0000,0x0000,0x0800     | +03324
-        .dc.l   SDS_0557b4                    | +03334  -> $0557B4
-        .dc.w   0x0004,0x1e08,0x0027,0x0976,0xffff,0x0000,0x0000,0x0800     | +03338
-        .dc.l   SDS_0557c2                    | +03348  -> $0557C2
-        .dc.l   0x00011e08                    | +0334c  -> $011E08
-        .dc.w   0x0027,0x09d6,0xffff,0x0000,0x0000,0x1600,0x0800            | +03350
-        .dc.l   SDS_055974                    | +0335e  -> $055974
-        .dc.l   0x00011e08                    | +03362  -> $011E08
-        .dc.w   0x0027,0x0676,0xffff,0x0000,0x0000,0x0800                   | +03366
-        .dc.l   SDS_055982                    | +03372  -> $055982
-        .dc.l   0x00011e08                    | +03376  -> $011E08
-        .dc.w   0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800                   | +0337a
-        .dc.l   SDS_055990                    | +03386  -> $055990
-        .dc.l   Pal_021e08                   | +0338a  -> $021E08
-        .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800                   | +0338e
-        .dc.l   SDS_05599e                    | +0339a  -> $05599E
-        .dc.l   Pal_021e08                   | +0339e  -> $021E08
-        .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800                   | +033a2
-        .dc.l   SDS_0559ac                    | +033ae  -> $0559AC
-        .dc.l   Pal_021e08                   | +033b2  -> $021E08
-        .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800                   | +033b6
-        .dc.l   SDS_0559ba                    | +033c2  -> $0559BA
-        .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800     | +033c6
-        .dc.l   SDS_0559c8                    | +033d6  -> $0559C8
-        .dc.w   0x0003,0x1e08,0x0027,0x08b6,0xffff,0x0000,0x0000,0x0800     | +033da
-        .dc.l   SDS_0559d6                    | +033ea  -> $0559D6
-        .dc.w   0x0003,0x1e08,0x0027,0x0916,0xffff,0x0000,0x0000,0x0800     | +033ee
-        .dc.l   SDS_0559e4                    | +033fe  -> $0559E4
-        .dc.w   0x0004,0x1e08,0x0027,0x0976,0xffff,0x0000,0x0000,0x0800     | +03402
-        .dc.l   SDS_0559f2                    | +03412  -> $0559F2
-        .dc.l   0x00011e08                    | +03416  -> $011E08
-        .dc.w   0x0027,0x09d6,0xffff,0x0000,0x0000,0x1600,0x0800            | +0341a
-        .dc.l   SDS_055370                    | +03428  -> $055370
-        .dc.l   0x00011e08                    | +0342c  -> $011E08
-        .dc.w   0x0027,0x0a36,0xffff,0x0000,0x0000,0x0800                   | +03430
-        .dc.l   SDS_05537e                    | +0343c  -> $05537E
-        .dc.l   0x00011e08                    | +03440  -> $011E08
-        .dc.w   0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800                   | +03444
-        .dc.l   SDS_05538c                    | +03450  -> $05538C
-        .dc.l   Pal_021e08                   | +03454  -> $021E08
-        .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800                   | +03458
-        .dc.l   SDS_05539a                    | +03464  -> $05539A
-        .dc.l   Pal_021e08                   | +03468  -> $021E08
-        .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800                   | +0346c
-        .dc.l   SDS_0553a8                    | +03478  -> $0553A8
-        .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800     | +0347c
-        .dc.l   SDS_0553b6                    | +0348c  -> $0553B6
-        .dc.w   0x0003,0x1e08,0x0027,0x0c16,0xffff,0x0000,0x0000,0x0800     | +03490
-        .dc.l   SDS_0553c4                    | +034a0  -> $0553C4
-        .dc.w   0x0003,0x1e08,0x0027,0x0c76,0xffff,0x0000,0x0000,0x0800     | +034a4
-        .dc.l   SDS_0553d2                    | +034b4  -> $0553D2
-        .dc.w   0x0003,0x1e08,0x0027,0x0cd6,0xffff,0x0000,0x0000,0x0800     | +034b8
-        .dc.l   SDS_0553e0                    | +034c8  -> $0553E0
-        .dc.w   0x0003,0x1e08,0x0027,0x0d36,0xffff,0x0000,0x0000,0x0800     | +034cc
-        .dc.l   SDS_0553ee                    | +034dc  -> $0553EE
-        .dc.w   0x0003,0x1e08,0x0027,0x0d96,0xffff,0x0000,0x0000,0x0800     | +034e0
-        .dc.l   SDS_0553fc                    | +034f0  -> $0553FC
-        .dc.w   0x0003,0x1e08,0x0027,0x0df6,0xffff,0x0000,0x0000,0x0800     | +034f4
-        .dc.l   SDS_05540a                    | +03504  -> $05540A
-        .dc.l   0x00011e08                    | +03508  -> $011E08
-        .dc.w   0x0027,0x0e56,0xffff,0x0000,0x0000,0x1600,0x0800            | +0350c
-        .dc.l   SDS_0555a0                    | +0351a  -> $0555A0
-        .dc.l   0x00011e08                    | +0351e  -> $011E08
-        .dc.w   0x0027,0x0a36,0xffff,0x0000,0x0000,0x0800                   | +03522
-        .dc.l   SDS_0555ae                    | +0352e  -> $0555AE
-        .dc.l   0x00011e08                    | +03532  -> $011E08
-        .dc.w   0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800                   | +03536
-        .dc.l   SDS_0555bc                    | +03542  -> $0555BC
-        .dc.l   Pal_021e08                   | +03546  -> $021E08
-        .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800                   | +0354a
-        .dc.l   SDS_0555ca                    | +03556  -> $0555CA
-        .dc.l   Pal_021e08                   | +0355a  -> $021E08
-        .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800                   | +0355e
-        .dc.l   SDS_0555d8                    | +0356a  -> $0555D8
-        .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800     | +0356e
-        .dc.l   SDS_0555e6                    | +0357e  -> $0555E6
-        .dc.w   0x0003,0x1e08,0x0027,0x0c16,0xffff,0x0000,0x0000,0x0800     | +03582
-        .dc.l   SDS_0555f4                    | +03592  -> $0555F4
-        .dc.w   0x0003,0x1e08,0x0027,0x0c76,0xffff,0x0000,0x0000,0x0800     | +03596
-        .dc.l   SDS_055602                    | +035a6  -> $055602
-        .dc.w   0x0003,0x1e08,0x0027,0x0cd6,0xffff,0x0000,0x0000,0x0800     | +035aa
-        .dc.l   SDS_055610                    | +035ba  -> $055610
-        .dc.w   0x0003,0x1e08,0x0027,0x0d36,0xffff,0x0000,0x0000,0x0800     | +035be
-        .dc.l   SDS_05561e                    | +035ce  -> $05561E
-        .dc.w   0x0003,0x1e08,0x0027,0x0d96,0xffff,0x0000,0x0000,0x0800     | +035d2
-        .dc.l   SDS_05562c                    | +035e2  -> $05562C
-        .dc.w   0x0003,0x1e08,0x0027,0x0df6,0xffff,0x0000,0x0000,0x0800     | +035e6
-        .dc.l   SDS_05563a                    | +035f6  -> $05563A
-        .dc.l   0x00011e08                    | +035fa  -> $011E08
-        .dc.w   0x0027,0x0e56,0xffff,0x0000,0x0000,0x1600,0x0800            | +035fe
-        .dc.l   SDS_0557d0                    | +0360c  -> $0557D0
-        .dc.l   0x00011e08                    | +03610  -> $011E08
-        .dc.w   0x0027,0x0a36,0xffff,0x0000,0x0000,0x0800                   | +03614
-        .dc.l   SDS_0557de                    | +03620  -> $0557DE
-        .dc.l   0x00011e08                    | +03624  -> $011E08
-        .dc.w   0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800                   | +03628
-        .dc.l   SDS_0557ec                    | +03634  -> $0557EC
-        .dc.l   Pal_021e08                   | +03638  -> $021E08
-        .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800                   | +0363c
-        .dc.l   SDS_0557fa                    | +03648  -> $0557FA
-        .dc.l   Pal_021e08                   | +0364c  -> $021E08
-        .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800                   | +03650
-        .dc.l   SDS_055808                    | +0365c  -> $055808
-        .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800     | +03660
-        .dc.l   SDS_055816                    | +03670  -> $055816
-        .dc.w   0x0003,0x1e08,0x0027,0x0c16,0xffff,0x0000,0x0000,0x0800     | +03674
-        .dc.l   SDS_055824                    | +03684  -> $055824
-        .dc.w   0x0003,0x1e08,0x0027,0x0c76,0xffff,0x0000,0x0000,0x0800     | +03688
-        .dc.l   SDS_055832                    | +03698  -> $055832
-        .dc.w   0x0003,0x1e08,0x0027,0x0cd6,0xffff,0x0000,0x0000,0x0800     | +0369c
-        .dc.l   SDS_055840                    | +036ac  -> $055840
-        .dc.w   0x0003,0x1e08,0x0027,0x0d36,0xffff,0x0000,0x0000,0x0800     | +036b0
-        .dc.l   SDS_05584e                    | +036c0  -> $05584E
-        .dc.w   0x0003,0x1e08,0x0027,0x0d96,0xffff,0x0000,0x0000,0x0800     | +036c4
-        .dc.l   SDS_05585c                    | +036d4  -> $05585C
-        .dc.w   0x0003,0x1e08,0x0027,0x0df6,0xffff,0x0000,0x0000,0x0800     | +036d8
-        .dc.l   SDS_05586a                    | +036e8  -> $05586A
-        .dc.l   0x00011e08                    | +036ec  -> $011E08
-        .dc.w   0x0027,0x0e56,0xffff,0x0000,0x0000,0x1600,0x0800            | +036f0
-        .dc.l   SDS_055a00                    | +036fe  -> $055A00
-        .dc.l   0x00011e08                    | +03702  -> $011E08
-        .dc.w   0x0027,0x0a36,0xffff,0x0000,0x0000,0x0800                   | +03706
-        .dc.l   SDS_055a0e                    | +03712  -> $055A0E
-        .dc.l   0x00011e08                    | +03716  -> $011E08
-        .dc.w   0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800                   | +0371a
-        .dc.l   SDS_055a1c                    | +03726  -> $055A1C
-        .dc.l   Pal_021e08                   | +0372a  -> $021E08
-        .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800                   | +0372e
-        .dc.l   SDS_055a2a                    | +0373a  -> $055A2A
-        .dc.l   Pal_021e08                   | +0373e  -> $021E08
-        .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800                   | +03742
-        .dc.l   SDS_055a38                    | +0374e  -> $055A38
-        .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800     | +03752
-        .dc.l   SDS_055a46                    | +03762  -> $055A46
-        .dc.w   0x0003,0x1e08,0x0027,0x0c16,0xffff,0x0000,0x0000,0x0800     | +03766
-        .dc.l   SDS_055a54                    | +03776  -> $055A54
-        .dc.w   0x0003,0x1e08,0x0027,0x0c76,0xffff,0x0000,0x0000,0x0800     | +0377a
-        .dc.l   SDS_055a62                    | +0378a  -> $055A62
-        .dc.w   0x0003,0x1e08,0x0027,0x0cd6,0xffff,0x0000,0x0000,0x0800     | +0378e
-        .dc.l   SDS_055a70                    | +0379e  -> $055A70
-        .dc.w   0x0003,0x1e08,0x0027,0x0d36,0xffff,0x0000,0x0000,0x0800     | +037a2
-        .dc.l   SDS_055a7e                    | +037b2  -> $055A7E
-        .dc.w   0x0003,0x1e08,0x0027,0x0d96,0xffff,0x0000,0x0000,0x0800     | +037b6
-        .dc.l   SDS_055a8c                    | +037c6  -> $055A8C
-        .dc.w   0x0003,0x1e08,0x0027,0x0df6,0xffff,0x0000,0x0000,0x0800     | +037ca
-        .dc.l   SDS_055a9a                    | +037da  -> $055A9A
-        .dc.l   0x00011e08                    | +037de  -> $011E08
-        .dc.w   0x0027,0x0e56,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +037e2
-        .dc.w   0xffff,0x05ff,0x0020,0x0800                                 | +037f2
-        .dc.l   SDS_055418                    | +037fa  -> $055418
-        .dc.w   0x0003,0x1e08,0x0027,0x0eb6,0xffff,0x0000,0x0000,0x0800     | +037fe
-        .dc.l   SDS_055426                    | +0380e  -> $055426
-        .dc.w   0x0003,0x1e08,0x0027,0x0f16,0xffff,0x0000,0x0000,0x0800     | +03812
-        .dc.l   SDS_055434                    | +03822  -> $055434
-        .dc.w   0x0003,0x1e08,0x0027,0x0f76,0xffff,0x0000,0x0000,0x0800     | +03826
-        .dc.l   SDS_055442                    | +03836  -> $055442
-        .dc.w   0x0003,0x1e08,0x0027,0x0fd6,0xffff,0x0000,0x0000,0x0800     | +0383a
-        .dc.l   SDS_055450                    | +0384a  -> $055450
-        .dc.w   0x0003,0x1e08,0x0027,0x103e,0xffff,0x0000,0x0000,0x0800     | +0384e
-        .dc.l   SDS_05545e                    | +0385e  -> $05545E
-        .dc.w   0x0003,0x1e08,0x0027,0x10a4,0xffff,0x0000,0x0000,0x0800     | +03862
-        .dc.l   SDS_05546c                    | +03872  -> $05546C
-        .dc.w   0x0003,0x1e08,0x0027,0x1108,0xffff,0x0000,0x0000,0x0800     | +03876
-        .dc.l   SDS_05547a                    | +03886  -> $05547A
-        .dc.w   0x0003,0x1e08,0x0027,0x115e,0xffff,0x0000,0x0000,0x0800     | +0388a
-        .dc.l   SDS_055488                    | +0389a  -> $055488
-        .dc.w   0x0003,0x1e08,0x0027,0x11b4,0xffff,0x0000,0x0000,0x0800     | +0389e
-        .dc.l   SDS_055496                    | +038ae  -> $055496
-        .dc.w   0x0003,0x1e08,0x0027,0x120a,0xffff,0x0000,0x0000,0x0800     | +038b2
-        .dc.l   SDS_0554a4                    | +038c2  -> $0554A4
-        .dc.w   0x0003,0x1e08,0x0027,0x126a,0xffff,0x0000,0x0000,0x0800     | +038c6
-        .dc.l   SDS_0554b2                    | +038d6  -> $0554B2
-        .dc.w   0x0003,0x1e08,0x0027,0x12ca,0xffff,0x0000,0x0000,0x0800     | +038da
-        .dc.l   SDS_0554c0                    | +038ea  -> $0554C0
-        .dc.w   0x0003,0x1e08,0x0027,0x132a,0xffff,0x0000,0x0000,0x0800     | +038ee
-        .dc.l   SDS_0554ce                    | +038fe  -> $0554CE
-        .dc.w   0x0003,0x1e08,0x0027,0x138a,0xffff,0x0000,0x0000,0x0800     | +03902
-        .dc.l   SDS_0554dc                    | +03912  -> $0554DC
-        .dc.w   0x0003,0x1e08,0x0027,0x13ea,0xffff,0x0000,0x0000,0x0800     | +03916
-        .dc.l   SDS_0554ea                    | +03926  -> $0554EA
-        .dc.w   0x0003,0x1e08,0x0027,0x144a,0xffff,0x0000,0x0000,0x0800     | +0392a
-        .dc.l   SDS_0554f8                    | +0393a  -> $0554F8
-        .dc.l   0x00011e08                    | +0393e  -> $011E08
-        .dc.w   0x0027,0x14aa,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +03942
-        .dc.w   0xffff,0x05ff,0x0020,0x0800                                 | +03952
-        .dc.l   SDS_055648                    | +0395a  -> $055648
-        .dc.w   0x0003,0x1e08,0x0027,0x0eb6,0xffff,0x0000,0x0000,0x0800     | +0395e
-        .dc.l   SDS_055656                    | +0396e  -> $055656
-        .dc.w   0x0003,0x1e08,0x0027,0x0f16,0xffff,0x0000,0x0000,0x0800     | +03972
-        .dc.l   SDS_055664                    | +03982  -> $055664
-        .dc.w   0x0003,0x1e08,0x0027,0x0f76,0xffff,0x0000,0x0000,0x0800     | +03986
-        .dc.l   SDS_055672                    | +03996  -> $055672
-        .dc.w   0x0003,0x1e08,0x0027,0x0fd6,0xffff,0x0000,0x0000,0x0800     | +0399a
-        .dc.l   SDS_055680                    | +039aa  -> $055680
-        .dc.w   0x0003,0x1e08,0x0027,0x103e,0xffff,0x0000,0x0000,0x0800     | +039ae
-        .dc.l   SDS_05568e                    | +039be  -> $05568E
-        .dc.w   0x0003,0x1e08,0x0027,0x10a4,0xffff,0x0000,0x0000,0x0800     | +039c2
-        .dc.l   SDS_05569c                    | +039d2  -> $05569C
-        .dc.w   0x0003,0x1e08,0x0027,0x1108,0xffff,0x0000,0x0000,0x0800     | +039d6
-        .dc.l   SDS_0556aa                    | +039e6  -> $0556AA
-        .dc.w   0x0003,0x1e08,0x0027,0x115e,0xffff,0x0000,0x0000,0x0800     | +039ea
-        .dc.l   SDS_0556b8                    | +039fa  -> $0556B8
-        .dc.w   0x0003,0x1e08,0x0027,0x11b4,0xffff,0x0000,0x0000,0x0800     | +039fe
-        .dc.l   SDS_0556c6                    | +03a0e  -> $0556C6
-        .dc.w   0x0003,0x1e08,0x0027,0x120a,0xffff,0x0000,0x0000,0x0800     | +03a12
-        .dc.l   SDS_0556d4                    | +03a22  -> $0556D4
-        .dc.w   0x0003,0x1e08,0x0027,0x126a,0xffff,0x0000,0x0000,0x0800     | +03a26
-        .dc.l   SDS_0556e2                    | +03a36  -> $0556E2
-        .dc.w   0x0003,0x1e08,0x0027,0x12ca,0xffff,0x0000,0x0000,0x0800     | +03a3a
-        .dc.l   SDS_0556f0                    | +03a4a  -> $0556F0
-        .dc.w   0x0003,0x1e08,0x0027,0x132a,0xffff,0x0000,0x0000,0x0800     | +03a4e
-        .dc.l   SDS_0556fe                    | +03a5e  -> $0556FE
-        .dc.w   0x0003,0x1e08,0x0027,0x138a,0xffff,0x0000,0x0000,0x0800     | +03a62
-        .dc.l   SDS_05570c                    | +03a72  -> $05570C
-        .dc.w   0x0003,0x1e08,0x0027,0x13ea,0xffff,0x0000,0x0000,0x0800     | +03a76
-        .dc.l   SDS_05571a                    | +03a86  -> $05571A
-        .dc.w   0x0003,0x1e08,0x0027,0x144a,0xffff,0x0000,0x0000,0x0800     | +03a8a
-        .dc.l   SDS_055728                    | +03a9a  -> $055728
-        .dc.l   0x00011e08                    | +03a9e  -> $011E08
-        .dc.w   0x0027,0x14aa,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +03aa2
-        .dc.w   0xffff,0x05ff,0x0020,0x0800                                 | +03ab2
-        .dc.l   SDS_055878                    | +03aba  -> $055878
-        .dc.w   0x0003,0x1e08,0x0027,0x0eb6,0xffff,0x0000,0x0000,0x0800     | +03abe
-        .dc.l   SDS_055886                    | +03ace  -> $055886
-        .dc.w   0x0003,0x1e08,0x0027,0x0f16,0xffff,0x0000,0x0000,0x0800     | +03ad2
-        .dc.l   SDS_055894                    | +03ae2  -> $055894
-        .dc.w   0x0003,0x1e08,0x0027,0x0f76,0xffff,0x0000,0x0000,0x0800     | +03ae6
-        .dc.l   SDS_0558a2                    | +03af6  -> $0558A2
-        .dc.w   0x0003,0x1e08,0x0027,0x0fd6,0xffff,0x0000,0x0000,0x0800     | +03afa
-        .dc.l   SDS_0558b0                    | +03b0a  -> $0558B0
-        .dc.w   0x0003,0x1e08,0x0027,0x103e,0xffff,0x0000,0x0000,0x0800     | +03b0e
-        .dc.l   SDS_0558be                    | +03b1e  -> $0558BE
-        .dc.w   0x0003,0x1e08,0x0027,0x10a4,0xffff,0x0000,0x0000,0x0800     | +03b22
-        .dc.l   SDS_0558cc                    | +03b32  -> $0558CC
-        .dc.w   0x0003,0x1e08,0x0027,0x1108,0xffff,0x0000,0x0000,0x0800     | +03b36
-        .dc.l   SDS_0558da                    | +03b46  -> $0558DA
-        .dc.w   0x0003,0x1e08,0x0027,0x115e,0xffff,0x0000,0x0000,0x0800     | +03b4a
-        .dc.l   SDS_0558e8                    | +03b5a  -> $0558E8
-        .dc.w   0x0003,0x1e08,0x0027,0x11b4,0xffff,0x0000,0x0000,0x0800     | +03b5e
-        .dc.l   SDS_0558f6                    | +03b6e  -> $0558F6
-        .dc.w   0x0003,0x1e08,0x0027,0x120a,0xffff,0x0000,0x0000,0x0800     | +03b72
-        .dc.l   SDS_055904                    | +03b82  -> $055904
-        .dc.w   0x0003,0x1e08,0x0027,0x126a,0xffff,0x0000,0x0000,0x0800     | +03b86
-        .dc.l   SDS_055912                    | +03b96  -> $055912
-        .dc.w   0x0003,0x1e08,0x0027,0x12ca,0xffff,0x0000,0x0000,0x0800     | +03b9a
-        .dc.l   SDS_055920                    | +03baa  -> $055920
-        .dc.w   0x0003,0x1e08,0x0027,0x132a,0xffff,0x0000,0x0000,0x0800     | +03bae
-        .dc.l   SDS_05592e                    | +03bbe  -> $05592E
-        .dc.w   0x0003,0x1e08,0x0027,0x138a,0xffff,0x0000,0x0000,0x0800     | +03bc2
-        .dc.l   SDS_05593c                    | +03bd2  -> $05593C
-        .dc.w   0x0003,0x1e08,0x0027,0x13ea,0xffff,0x0000,0x0000,0x0800     | +03bd6
-        .dc.l   SDS_05594a                    | +03be6  -> $05594A
-        .dc.w   0x0003,0x1e08,0x0027,0x144a,0xffff,0x0000,0x0000,0x0800     | +03bea
-        .dc.l   SDS_055958                    | +03bfa  -> $055958
-        .dc.l   0x00011e08                    | +03bfe  -> $011E08
-        .dc.w   0x0027,0x14aa,0xffff,0x0000,0x0000,0x1600,0x0900,0xffff     | +03c02
-        .dc.w   0xffff,0x05ff,0x0020,0x0800                                 | +03c12
-        .dc.l   SDS_055aa8                    | +03c1a  -> $055AA8
-        .dc.w   0x0003,0x1e08,0x0027,0x0eb6,0xffff,0x0000,0x0000,0x0800     | +03c1e
-        .dc.l   SDS_055ab6                    | +03c2e  -> $055AB6
-        .dc.w   0x0003,0x1e08,0x0027,0x0f16,0xffff,0x0000,0x0000,0x0800     | +03c32
-        .dc.l   SDS_055ac4                    | +03c42  -> $055AC4
-        .dc.w   0x0003,0x1e08,0x0027,0x0f76,0xffff,0x0000,0x0000,0x0800     | +03c46
-        .dc.l   SDS_055ad2                    | +03c56  -> $055AD2
-        .dc.w   0x0003,0x1e08,0x0027,0x0fd6,0xffff,0x0000,0x0000,0x0800     | +03c5a
-        .dc.l   SDS_055ae0                    | +03c6a  -> $055AE0
-        .dc.w   0x0003,0x1e08,0x0027,0x103e,0xffff,0x0000,0x0000,0x0800     | +03c6e
-        .dc.l   SDS_055aee                    | +03c7e  -> $055AEE
-        .dc.w   0x0003,0x1e08,0x0027,0x10a4,0xffff,0x0000,0x0000,0x0800     | +03c82
-        .dc.l   SDS_055afc                    | +03c92  -> $055AFC
-        .dc.w   0x0003,0x1e08,0x0027,0x1108,0xffff,0x0000,0x0000,0x0800     | +03c96
-        .dc.l   SDS_055b0a                    | +03ca6  -> $055B0A
-        .dc.w   0x0003,0x1e08,0x0027,0x115e,0xffff,0x0000,0x0000,0x0800     | +03caa
-        .dc.l   SDS_055b18                    | +03cba  -> $055B18
-        .dc.w   0x0003,0x1e08,0x0027,0x11b4,0xffff,0x0000,0x0000,0x0800     | +03cbe
-        .dc.l   SDS_055b26                    | +03cce  -> $055B26
-        .dc.w   0x0003,0x1e08,0x0027,0x120a,0xffff,0x0000,0x0000,0x0800     | +03cd2
-        .dc.l   SDS_055b34                    | +03ce2  -> $055B34
-        .dc.w   0x0003,0x1e08,0x0027,0x126a,0xffff,0x0000,0x0000,0x0800     | +03ce6
-        .dc.l   SDS_055b42                    | +03cf6  -> $055B42
-        .dc.w   0x0003,0x1e08,0x0027,0x12ca,0xffff,0x0000,0x0000,0x0800     | +03cfa
-        .dc.l   SDS_055b50                    | +03d0a  -> $055B50
-        .dc.w   0x0003,0x1e08,0x0027,0x132a,0xffff,0x0000,0x0000,0x0800     | +03d0e
-        .dc.l   SDS_055b5e                    | +03d1e  -> $055B5E
-        .dc.w   0x0003,0x1e08,0x0027,0x138a,0xffff,0x0000,0x0000,0x0800     | +03d22
-        .dc.l   SDS_055b6c                    | +03d32  -> $055B6C
-        .dc.w   0x0003,0x1e08,0x0027,0x13ea,0xffff,0x0000,0x0000,0x0800     | +03d36
-        .dc.l   SDS_055b7a                    | +03d46  -> $055B7A
-        .dc.w   0x0003,0x1e08,0x0027,0x144a,0xffff,0x0000,0x0000,0x0800     | +03d4a
-        .dc.l   SDS_055b88                    | +03d5a  -> $055B88
-        .dc.l   0x00011e08                    | +03d5e  -> $011E08
-        .dc.w   0x0027,0x14aa,0xffff,0x0000,0x0000,0x1600                   | +03d62
-        .dc.l   0x00011e08                    | +03d6e  -> $011E08
-        .dc.w   0x0027,0x150a,0xffff,0x0000,0x0000,0x1600,0x0003,0xffff     | +03d72
-        .dc.w   0xffff,0x0000,0x0000,0x0028,0x0080                          | +03d82
-        .dc.l   ColMap_100080                   | +03d8c  -> $100080
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03d90
-        .dc.w   0x3676,0xffff,0x0028,0x0080,0x0200,0x0024,0x3680,0xffff     | +03da0
-        .dc.w   0x0028                                                      | +03db0
-        .dc.l   ColMap_100200                   | +03db2  -> $100200
-        .dc.w   0x0024,0x368a,0xffff,0x0080,0x0080,0x0200,0x0024,0x3694     | +03db6
-        .dc.w   0xffff,0x0080                                               | +03dc6
-        .dc.l   ColMap_101d01                    | +03dca  -> $101D01
-        .dc.w   0x0003,0x0029,0xa212,0x0000,0x0000,0x0040,0x0080            | +03dce
-        .dc.l   ColMap_100080                   | +03ddc  -> $100080
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03de0
-        .dc.w   0x3676,0xffff,0x0040,0x0080,0x0200,0x0024,0x3680,0xffff     | +03df0
-        .dc.w   0x0040                                                      | +03e00
-        .dc.l   ColMap_100200                   | +03e02  -> $100200
-        .dc.w   0x0024,0x368a,0xffff,0x0080,0x0080,0x0200,0x0024,0x3694     | +03e06
-        .dc.w   0xffff,0x0080                                               | +03e16
-        .dc.l   ColMap_101d01                    | +03e1a  -> $101D01
-        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0028     | +03e1e
-        .dc.w   0x0080                                                      | +03e2e
-        .dc.l   ColMap_100060                    | +03e30  -> $100060
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03e34
-        .dc.w   0x3676,0xffff,0x0028,0x0060,0x0200,0x0024,0x3680,0xffff     | +03e44
-        .dc.w   0x0028                                                      | +03e54
-        .dc.l   ColMap_100200                   | +03e56  -> $100200
-        .dc.w   0x0024,0x368a,0xffff,0x0080,0x0060,0x0200,0x0024,0x3694     | +03e5a
-        .dc.w   0xffff,0x0080                                               | +03e6a
-        .dc.l   ColMap_101d01                    | +03e6e  -> $101D01
-        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000            | +03e72
-        .dc.l   AnimScr_180048                   | +03e80  -> $180048
-        .dc.l   BgMap_0c0020                   | +03e84  -> $0C0020
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03e88
-        .dc.w   0x3676,0xffff                                               | +03e98
-        .dc.l   AnimScr_180020                   | +03e9c  -> $180020
-        .dc.w   0x0200,0x0024,0x3680,0xffff,0x0018                          | +03ea0
-        .dc.l   BgMap_0c0200                   | +03eaa  -> $0C0200
-        .dc.w   0x0024,0x368a,0xffff,0x0048,0x0020,0x0200,0x0024,0x3694     | +03eae
-        .dc.w   0xffff,0x0048                                               | +03ebe
-        .dc.l   BgMap_0c1d01                   | +03ec2  -> $0C1D01
-        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0030     | +03ec6
-        .dc.w   0x0058                                                      | +03ed6
-        .dc.l   ColMap_100060                    | +03ed8  -> $100060
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03edc
-        .dc.w   0x3676,0xffff,0x0030,0x0060,0x0200,0x0024,0x3680,0xffff     | +03eec
-        .dc.w   0x0030                                                      | +03efc
-        .dc.l   ColMap_100200                   | +03efe  -> $100200
-        .dc.w   0x0024,0x368a,0xffff,0x0058,0x0060,0x0200,0x0024,0x3694     | +03f02
-        .dc.w   0xffff,0x0058                                               | +03f12
-        .dc.l   ColMap_101d01                    | +03f16  -> $101D01
-        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0008     | +03f1a
-        .dc.w   0x0030                                                      | +03f2a
-        .dc.l   ColMap_100060                    | +03f2c  -> $100060
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03f30
-        .dc.w   0x3676,0xffff,0x0008,0x0060,0x0200,0x0024,0x3680,0xffff     | +03f40
-        .dc.w   0x0008                                                      | +03f50
-        .dc.l   ColMap_100200                   | +03f52  -> $100200
-        .dc.w   0x0024,0x368a,0xffff,0x0030,0x0060,0x0200,0x0024,0x3694     | +03f56
-        .dc.w   0xffff,0x0030                                               | +03f66
-        .dc.l   ColMap_101d01                    | +03f6a  -> $101D01
-        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000            | +03f6e
-        .dc.l   AnimScr_180040                   | +03f7c  -> $180040
-        .dc.l   ColMap_100100                    | +03f80  -> $100100
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +03f84
-        .dc.w   0x3676,0xffff                                               | +03f94
-        .dc.l   AnimScr_180100                   | +03f98  -> $180100
-        .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +03f9c
-        .dc.l   AnimScr_180010                   | +03fa4  -> $180010
-        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0040,0x0100,0x0200,0x0024     | +03fa8
-        .dc.w   0x3694,0xffff,0x0040                                        | +03fb8
-        .dc.l   ColMap_101d01                    | +03fbe  -> $101D01
-        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000                   | +03fc2
-        .dc.l   0x0000ffc0                    | +03fce  -> $00FFC0
-        .dc.w   0x0038,0x0008                                               | +03fd2
-        .dc.l   ColMap_100200                   | +03fd6  -> $100200
-        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +03fda
-        .dc.w   0xffff,0xffc0                                               | +03fea
-        .dc.l   ColMap_100200                   | +03fee  -> $100200
-        .dc.w   0x0024,0x3680,0xffff,0xffc0,0x0008,0x0200,0x0024,0x368a     | +03ff2
-        .dc.w   0xffff,0x0038                                               | +04002
-        .dc.l   ColMap_100200                   | +04006  -> $100200
-        .dc.w   0x0024,0x3694,0xffff,0x0038,0x0008,0x1d01,0xffff,0xffff     | +0400a
-        .dc.w   0x0003,0xffff,0xffff,0x0000                                 | +0401a
-        .dc.l   0x0000fff0                    | +04022  -> $00FFF0
-        .dc.w   0x0040,0xffe0,0x0004,0x0200,0x0024,0x366c,0xffff,0x0000     | +04026
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff0,0x0004,0x0200     | +04036
-        .dc.w   0x0024,0x3680,0xffff,0xfff0,0xffe0,0x0200,0x0024,0x368a     | +04046
-        .dc.w   0xffff,0x0040,0x0004,0x0200,0x0024,0x3694,0xffff,0x0040     | +04056
-        .dc.w   0xffe0,0x1d01,0xffff,0xffff,0x0003,0x0029,0xa234,0x0000     | +04066
-        .dc.w   0x0000,0x0020,0x0040,0xfff0,0x0008,0x0200,0x0024,0x366c     | +04076
-        .dc.w   0xffff,0x0000,0x0000,0x0200,0x0024,0x3676,0xffff,0x0020     | +04086
-        .dc.w   0x0008,0x0200,0x0024,0x3680,0xffff,0x0020,0xfff0,0x0200     | +04096
-        .dc.w   0x0024,0x368a,0xffff,0x0040,0x0008,0x0200,0x0024,0x3694     | +040a6
-        .dc.w   0xffff,0x0040,0xfff0,0x1d01,0xffff,0xffff,0x0002,0x0029     | +040b6
-        .dc.w   0xa234,0x0000,0x0000,0x0040,0x0050,0xffe0,0x0020,0x0200     | +040c6
-        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +040d6
-        .dc.w   0xffff,0x0040,0x0020,0x0200,0x0024,0x3680,0xffff,0x0040     | +040e6
-        .dc.w   0xffe0,0x0200,0x0024,0x368a,0xffff,0x0050,0x0020,0x0200     | +040f6
-        .dc.w   0x0024,0x3694,0xffff,0x0050,0xffe0,0x1d01,0xffff,0xffff     | +04106
-        .dc.w   0x0003,0xffff,0xffff,0x0000,0x0000,0x0000,0x0040,0xffd8     | +04116
-        .dc.w   0xffe0,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +04126
-        .dc.w   0x0024,0x3676,0xffff                                        | +04136
-        .dc.l   0x0000ffe0                    | +0413c  -> $00FFE0
-        .dc.w   0x0200,0x0024,0x3680,0xffff                                 | +04140
-        .dc.l   0x0000ffd8                    | +04148  -> $00FFD8
-        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0040,0xffe0,0x0200,0x0024     | +0414c
-        .dc.w   0x3694,0xffff,0x0040,0xffd8,0x1d01,0xffff,0xffff,0x0003     | +0415c
-        .dc.w   0xffff,0xffff,0x0000,0x0000,0x0008,0x0038,0x0000,0x0040     | +0416c
-        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024     | +0417c
-        .dc.w   0x3676,0xffff,0x0008,0x0040,0x0200,0x0024,0x3680,0xffff     | +0418c
-        .dc.w   0x0008,0x0000,0x0200,0x0024,0x368a,0xffff,0x0038,0x0040     | +0419c
-        .dc.w   0x0200,0x0024,0x3694,0xffff,0x0038,0x0000,0x1d01,0xffff     | +041ac
-        .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0030,0x0060     | +041bc
-        .dc.w   0x0020,0x0040,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000     | +041cc
-        .dc.w   0x0200,0x0024,0x3676,0xffff,0x0030,0x0040,0x0200,0x0024     | +041dc
-        .dc.w   0x3680,0xffff,0x0030,0x0020,0x0200,0x0024,0x368a,0xffff     | +041ec
-        .dc.w   0x0060,0x0040,0x0200,0x0024,0x3694,0xffff,0x0060,0x0020     | +041fc
-        .dc.w   0x1d01,0xffff,0xffff,0x0000,0x0000,0x0100,0x0000,0x0000     | +0420c
-        .dc.w   0x0101                                                      | +0421c
-        .fill   10,1,0x00                      | +0421e
-        .dc.w   0x0100,0x0000,0x0000                                        | +04228
-        .dc.l   0x00010001                    | +0422e  -> $010001
-        .dc.w   0x0101                                                      | +04232
-        .dc.l   0x00010100                    | +04234  -> $010100
-        .dc.l   0x00010100                    | +04238  -> $010100
-        .dc.w   0x0000,0x0101                                               | +0423c
-        .fill   10,1,0x00                      | +04240
-        .dc.w   0x0100,0x0000,0x0000                                        | +0424a
-        .dc.l   0x00010001                    | +04250  -> $010001
-        .dc.w   0x0101,0x0000,0x0000                                        | +04254
-        .dc.l   0x00010000                    | +0425a  -> $010000
-        .dc.w   0x0000,0x0101                                               | +0425e
-        .fill   10,1,0x00                      | +04262
-        .dc.w   0x0100,0x0000,0x0000                                        | +0426c
-        .dc.l   0x00010001                    | +04272  -> $010001
-        .dc.w   0x0101,0x01ff,0x0003,0x0028,0x0058,0x0010,0x0050,0x0000     | +04276
-        .dc.l   Explosion_Fire_077f6a         | +04286  -> $077F6A
-        .dc.w   0x0103,0x0006,0x0028,0x0058,0x0010,0x0050,0x0000            | +0428a
-        .dc.l   Explosion_Std_077efe          | +04298  -> $077EFE
-        .dc.w   0x01ff                                                      | +0429c
-        .dc.l   Pal_020010                   | +0429e  -> $020010
-        .dc.w   0x0040                                                      | +042a2
-        .dc.l   ColMap_100030                   | +042a4  -> $100030
-        .dc.w   0x0000                                                      | +042a8
-        .dc.l   Explosion_Small_077e10        | +042aa  -> $077E10
-        .dc.w   0x0103,0x0006                                               | +042ae
-        .dc.l   ColMap_100040                    | +042b2  -> $100040
-        .dc.l   ColMap_100030                   | +042b6  -> $100030
-        .dc.w   0x0000                                                      | +042ba
-        .dc.l   Explosion_Small_077e10        | +042bc  -> $077E10
-        .dc.w   0x01ff,0x0003,0x0030,0x0028,0x0010,0x0050,0x0000            | +042c0
-        .dc.l   Explosion_Fire_077f6a         | +042ce  -> $077F6A
-        .dc.w   0x0103,0x0009,0x0030,0x0028,0x0010,0x0050,0x0000            | +042d2
-        .dc.l   Explosion_Std_077efe          | +042e0  -> $077EFE
-        .dc.w   0x01ff,0x0002,0xffc0,0x0078,0xffe8,0x0028,0x0000            | +042e4
-        .dc.l   Explosion_Fire_077f6a         | +042f2  -> $077F6A
-        .dc.w   0x0103,0x0006,0xffc0,0x0078,0xffe8,0x0028,0x0000            | +042f6
-        .dc.l   Explosion_Std_077efe          | +04304  -> $077EFE
-        .dc.w   0x01ff,0x0004                                               | +04308
-        .dc.l   AnimScr_180028                   | +0430c  -> $180028
-        .dc.l   ColMap_100060                    | +04310  -> $100060
-        .dc.w   0x0000                                                      | +04314
-        .dc.l   Explosion_Fire_077f6a         | +04316  -> $077F6A
-        .dc.w   0x0103,0x0009                                               | +0431a
-        .dc.l   AnimScr_180028                   | +0431e  -> $180028
-        .dc.l   ColMap_100060                    | +04322  -> $100060
-        .dc.w   0x0000                                                      | +04326
-        .dc.l   Explosion_Std_077efe          | +04328  -> $077EFE
-        .dc.w   0x01ff,0x0005,0xffe8,0x0060,0xffc0,0x0040,0x0000            | +0432c
-        .dc.l   Explosion_Fire_077f6a         | +0433a  -> $077F6A
-        .dc.w   0x0103,0x0006,0xffe8,0x0060,0xffc0,0x0040,0x0000            | +0433e
-        .dc.l   Explosion_Std_077efe          | +0434c  -> $077EFE
-        .dc.w   0x01ff,0x0006                                               | +04350
-        .dc.l   ColMap_100060                    | +04354  -> $100060
-        .dc.w   0xffe8,0x0028,0x0000                                        | +04358
-        .dc.l   Explosion_Small_077e10        | +0435e  -> $077E10
-        .dc.w   0x01ff,0x0003,0xfff0,0x0080,0xfff0,0x0030,0x0000            | +04362
-        .dc.l   Explosion_Fire_077f6a         | +04370  -> $077F6A
-        .dc.w   0x0103,0x0006,0xfff0,0x0080,0xfff0,0x0030,0x0000            | +04374
-        .dc.l   Explosion_Std_077efe          | +04382  -> $077EFE
-        .dc.w   0x01ff,0x0003,0xfff0,0x0060,0xffc8,0x0038,0x0000            | +04386
-        .dc.l   Explosion_Fire_077f6a         | +04394  -> $077F6A
-        .dc.w   0x0103,0x0006,0xfff0,0x0060,0xffc8,0x0038,0x0000            | +04398
-        .dc.l   Explosion_Std_077efe          | +043a6  -> $077EFE
-        .dc.w   0x01ff,0x0002,0x0008,0x0050,0xfff8,0x0050,0x0000            | +043aa
-        .dc.l   Explosion_Fire_077f6a         | +043b8  -> $077F6A
-        .dc.w   0x0102,0x0004,0x0008,0x0050,0xfff8,0x0050,0x0000            | +043bc
-        .dc.l   Explosion_Std_077efe          | +043ca  -> $077EFE
-        .dc.w   0x0105                                                      | +043ce
-        .dc.l   BgMap_0a0028                   | +043d0  -> $0A0028
-        .dc.w   0x0058,0x0010,0x0050,0x0001,0x0029,0x5cf8,0x0102,0x0006     | +043d4
-        .dc.l   ColMap_100040                    | +043e4  -> $100040
-        .dc.l   ColMap_100030                   | +043e8  -> $100030
-        .dc.w   0x0001,0x0029,0xa4c2,0x0102,0x0006,0x0030,0x0028,0x0010     | +043ec
-        .dc.w   0x0050,0x0001,0x0029,0xa4c2,0x0103,0x0006,0xffc0,0x0078     | +043fc
-        .dc.w   0xffe8,0x0028,0x0001,0x0029,0xa4c2,0x0102,0x0006            | +0440c
-        .dc.l   AnimScr_180028                   | +0441a  -> $180028
-        .dc.l   ColMap_100060                    | +0441e  -> $100060
-        .dc.w   0x0001,0x0029,0xa502,0x0102,0x0006,0xffe8,0x0060,0xffc0     | +04422
-        .dc.w   0x0040,0x0001,0x0029,0x5cf8,0x0102,0x0006                   | +04432
-        .dc.l   ColMap_100060                    | +0443e  -> $100060
-        .dc.w   0xffe8,0x0028,0x0001,0x0029,0x5cf8,0x0103,0x0006,0xfff0     | +04442
-        .dc.w   0x0080,0xfff0,0x0030,0x0001,0x0029,0x5cf8,0x0103,0x0006     | +04452
-        .dc.w   0xfff0,0x0060,0xffc8,0x0038,0x0001,0x0029,0xa482,0x0103     | +04462
-        .dc.l   Breakable22_Destroyed_060008  | +04472  -> $060008
-        .dc.w   0x0050,0xfff8,0x0050,0x0001,0x0029,0x5cf8                   | +04476
-        .dc.l   Debris_ArcA_078740            | +04482  -> $078740
-        .dc.l   Debris_ArcA_078740            | +04486  -> $078740
-        .dc.l   Debris_ArcA_078740            | +0448a  -> $078740
-        .dc.l   Debris_ArcA_078740            | +0448e  -> $078740
-        .dc.l   Debris_ArcB_07875e            | +04492  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +04496  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +0449a  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +0449e  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +044a2  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +044a6  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +044aa  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +044ae  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +044b2  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +044b6  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +044ba  -> $07875E
-        .dc.l   Debris_ArcB_07875e            | +044be  -> $07875E
-        .dc.l   Explosion_Var12_078434        | +044c2  -> $078434
-        .dc.l   Explosion_Var12_078434        | +044c6  -> $078434
-        .dc.l   Explosion_Var12_078434        | +044ca  -> $078434
-        .dc.l   Explosion_Var12_078434        | +044ce  -> $078434
-        .dc.l   Explosion_Var12_078434        | +044d2  -> $078434
-        .dc.l   Explosion_Var12_078434        | +044d6  -> $078434
-        .dc.l   Explosion_Var13_078452        | +044da  -> $078452
-        .dc.l   Explosion_Var13_078452        | +044de  -> $078452
-        .dc.l   Explosion_Var14_07848e        | +044e2  -> $07848E
-        .dc.l   Explosion_Var14_07848e        | +044e6  -> $07848E
-        .dc.l   Explosion_Var14_07848e        | +044ea  -> $07848E
-        .dc.l   Explosion_Var14_07848e        | +044ee  -> $07848E
-        .dc.l   Explosion_Var14_07848e        | +044f2  -> $07848E
-        .dc.l   Explosion_Var14_07848e        | +044f6  -> $07848E
-        .dc.l   Explosion_Var15_0784ca        | +044fa  -> $0784CA
-        .dc.l   Explosion_Var15_0784ca        | +044fe  -> $0784CA
-        .dc.l   Explosion_Var12_078434        | +04502  -> $078434
-        .dc.l   Explosion_Var12_078434        | +04506  -> $078434
-        .dc.l   Explosion_Var12_078434        | +0450a  -> $078434
-        .dc.l   Explosion_Var12_078434        | +0450e  -> $078434
-        .dc.l   Explosion_VarTbl_078218       | +04512  -> $078218
-        .dc.l   Explosion_Var01_078236        | +04516  -> $078236
-        .dc.l   Explosion_Var02_078254        | +0451a  -> $078254
-        .dc.l   Explosion_Var03_078272        | +0451e  -> $078272
-        .dc.l   Explosion_Var04_078290        | +04522  -> $078290
-        .dc.l   Explosion_Var05_0782ae        | +04526  -> $0782AE
-        .dc.l   Explosion_Var14_07848e        | +0452a  -> $07848E
-        .dc.l   Explosion_Var14_07848e        | +0452e  -> $07848E
-        .dc.l   Explosion_Var14_07848e        | +04532  -> $07848E
-        .dc.l   Explosion_Var14_07848e        | +04536  -> $07848E
-        .dc.l   Explosion_Var15_0784ca        | +0453a  -> $0784CA
-        .dc.l   Explosion_Var15_0784ca        | +0453e  -> $0784CA
-        .dc.w   0x003a                                                      | +04542
-        .dc.l   Zero_19000b                   | +04544  -> $19000B
-        .dc.w   0xb0a8,0x0080,0x0030,0x000b,0xc750                          | +04548
-        .dc.l   ColMap_106f6c                   | +04552  -> $106F6C
-        .dc.w   0x0029,0xa542,0x000e,0x0006                                 | +04556
-        .dc.l   BgMap_0b0000                   | +0455e  -> $0B0000
-        .dc.w   0x000a,0x0009                                               | +04562
-        .dc.l   ColMap_106f6c                   | +04566  -> $106F6C
-        .dc.w   0x0029,0xa542,0x0018                                        | +0456a
-        .dc.l   Pal_020009                   | +04570  -> $020009
-        .dc.w   0x000a,0x0008,0x0008                                        | +04574
-        .dc.l   ColMap_106f6c                   | +0457a  -> $106F6C
-        .dc.w   0x0029,0xa542                                               | +0457e
-        .dc.l   AnimScr_18000a                   | +04582  -> $18000A
-        .dc.w   0x0007                                                      | +04586
-        .dc.l   SprFrame_130006                   | +04588  -> $130006
-        .dc.w   0x0006                                                      | +0458c
-        .dc.l   ColMap_106f6c                   | +0458e  -> $106F6C
-        .dc.w   0x0029,0xa542                                               | +04592
-        .dc.l   AnimScr_18000a                   | +04596  -> $18000A
-        .dc.w   0x000e                                                      | +0459a
-        .dc.l   SprFrame_130006                   | +0459c  -> $130006
-        .dc.w   0x0006                                                      | +045a0
-        .dc.l   ColMap_106f6c                   | +045a2  -> $106F6C
-        .dc.w   0x0029,0xa542                                               | +045a6
-        .dc.l   AnimScr_18000a                   | +045aa  -> $18000A
-        .dc.l   SprFrame_150013                   | +045ae  -> $150013
-        .dc.w   0x0006,0x0006                                               | +045b2
-        .dc.l   ColMap_106f6c                   | +045b6  -> $106F6C
-        .dc.w   0x0029,0xa542,0x001e,0x000a,0x001d,0x0000,0x0006,0x0006     | +045ba
-        .dc.l   ColMap_106f6c                   | +045ca  -> $106F6C
-        .dc.w   0x0029,0xa542,0x0024,0x000a,0x001b,0x0007,0x0004,0x0006     | +045ce
-        .dc.l   ColMap_106f6c                   | +045de  -> $106F6C
-        .dc.w   0x0029,0xa542,0x0024                                        | +045e2
-        .dc.l   BgMap_0a0020                   | +045e8  -> $0A0020
-        .dc.w   0x0007,0x0004,0x0006                                        | +045ec
-        .dc.l   ColMap_106f6c                   | +045f2  -> $106F6C
-        .dc.w   0x0029,0xa542,0x0034,0x0008,0x0030,0x0000,0x000a,0x0008     | +045f6
-        .dc.l   ColMap_106f6c                   | +04606  -> $106F6C
-        .dc.w   0x0029,0xa542,0x004c,0x0008,0x0021,0x000e,0x0004            | +0460a
-        .dc.l   BgMap_0a0010                   | +04618  -> $0A0010
-        .dc.w   0x6f6c,0x0029,0xa54a                                        | +0461c
-        .dc.l   0x0001000a                    | +04622  -> $01000A
-        .dc.w   0x0000                                                      | +04626
-        .dc.l   0x00010008                    | +04628  -> $010008
-        .dc.w   0x0003                                                      | +0462c
-        .dc.l   ColMap_106f6c                   | +0462e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04632
-        .dc.l   0x0001000a                    | +04636  -> $01000A
-        .dc.w   0x0008                                                      | +0463a
-        .dc.l   0x00010008                    | +0463c  -> $010008
-        .dc.w   0x0003                                                      | +04640
-        .dc.l   ColMap_106f6c                   | +04642  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04646
-        .dc.l   0x0001000a                    | +0464a  -> $01000A
-        .dc.l   ColMap_100001                   | +0464e  -> $100001
-        .dc.w   0x0008,0x0003                                               | +04652
-        .dc.l   ColMap_106f6c                   | +04656  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0465a
-        .dc.l   0x0001000a                    | +0465e  -> $01000A
-        .dc.w   0x0018                                                      | +04662
-        .dc.l   0x00010008                    | +04664  -> $010008
-        .dc.w   0x0003                                                      | +04668
-        .dc.l   ColMap_106f6c                   | +0466a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0466e
-        .dc.l   0x0001000a                    | +04672  -> $01000A
-        .dc.w   0x0020                                                      | +04676
-        .dc.l   0x00010008                    | +04678  -> $010008
-        .dc.w   0x0003                                                      | +0467c
-        .dc.l   ColMap_106f6c                   | +0467e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04682
-        .dc.l   0x0001000a                    | +04686  -> $01000A
-        .dc.w   0x0028                                                      | +0468a
-        .dc.l   0x00010008                    | +0468c  -> $010008
-        .dc.w   0x0003                                                      | +04690
-        .dc.l   ColMap_106f6c                   | +04692  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04696
-        .dc.l   0x0001000a                    | +0469a  -> $01000A
-        .dc.w   0x0030                                                      | +0469e
-        .dc.l   0x00010008                    | +046a0  -> $010008
-        .dc.w   0x0003                                                      | +046a4
-        .dc.l   ColMap_106f6c                   | +046a6  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +046aa
-        .dc.l   0x0001000a                    | +046ae  -> $01000A
-        .dc.w   0x0038                                                      | +046b2
-        .dc.l   0x00010008                    | +046b4  -> $010008
-        .dc.w   0x0003                                                      | +046b8
-        .dc.l   ColMap_106f6c                   | +046ba  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +046be
-        .dc.l   0x0001000a                    | +046c2  -> $01000A
-        .dc.w   0x0040                                                      | +046c6
-        .dc.l   0x00010008                    | +046c8  -> $010008
-        .dc.w   0x0003                                                      | +046cc
-        .dc.l   ColMap_106f6c                   | +046ce  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +046d2
-        .dc.l   0x0001000a                    | +046d6  -> $01000A
-        .dc.w   0x0048                                                      | +046da
-        .dc.l   0x00010008                    | +046dc  -> $010008
-        .dc.w   0x0003                                                      | +046e0
-        .dc.l   ColMap_106f6c                   | +046e2  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +046e6
-        .dc.l   0x0001000a                    | +046ea  -> $01000A
-        .dc.w   0x0050                                                      | +046ee
-        .dc.l   0x00010008                    | +046f0  -> $010008
-        .dc.w   0x0003                                                      | +046f4
-        .dc.l   ColMap_106f6c                   | +046f6  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +046fa
-        .dc.l   0x0001000a                    | +046fe  -> $01000A
-        .dc.w   0x0058                                                      | +04702
-        .dc.l   0x00010008                    | +04704  -> $010008
-        .dc.w   0x0003                                                      | +04708
-        .dc.l   ColMap_106f6c                   | +0470a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0470e
-        .dc.l   0x0001000a                    | +04712  -> $01000A
-        .dc.w   0x0060                                                      | +04716
-        .dc.l   0x00010008                    | +04718  -> $010008
-        .dc.w   0x0003                                                      | +0471c
-        .dc.l   ColMap_106f6c                   | +0471e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04722
-        .dc.l   0x0001000a                    | +04726  -> $01000A
-        .dc.w   0x0068                                                      | +0472a
-        .dc.l   0x00010008                    | +0472c  -> $010008
-        .dc.w   0x0003                                                      | +04730
-        .dc.l   ColMap_106f6c                   | +04732  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04736
-        .dc.l   0x0001000a                    | +0473a  -> $01000A
-        .dc.w   0x0070                                                      | +0473e
-        .dc.l   0x00010008                    | +04740  -> $010008
-        .dc.w   0x0003                                                      | +04744
-        .dc.l   ColMap_106f6c                   | +04746  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0474a
-        .dc.l   0x0001000a                    | +0474e  -> $01000A
-        .dc.w   0x0078                                                      | +04752
-        .dc.l   0x00010008                    | +04754  -> $010008
-        .dc.w   0x0003                                                      | +04758
-        .dc.l   ColMap_106f6c                   | +0475a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0475e
-        .dc.l   0x0001000a                    | +04762  -> $01000A
-        .dc.w   0x0000,0x0005,0x0008,0x0003                                 | +04766
-        .dc.l   ColMap_106f6c                   | +0476e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04772
-        .dc.l   0x0001000a                    | +04776  -> $01000A
-        .dc.w   0x0008,0x0005,0x0008,0x0003                                 | +0477a
-        .dc.l   ColMap_106f6c                   | +04782  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04786
-        .dc.l   0x0001000a                    | +0478a  -> $01000A
-        .dc.w   0x0010,0x0005,0x0008,0x0003                                 | +0478e
-        .dc.l   ColMap_106f6c                   | +04796  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0479a
-        .dc.l   0x0001000a                    | +0479e  -> $01000A
-        .dc.w   0x0018,0x0005,0x0008,0x0003                                 | +047a2
-        .dc.l   ColMap_106f6c                   | +047aa  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +047ae
-        .dc.l   0x0001000a                    | +047b2  -> $01000A
-        .dc.w   0x0020,0x0005,0x0008,0x0003                                 | +047b6
-        .dc.l   ColMap_106f6c                   | +047be  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +047c2
-        .dc.l   0x0001000a                    | +047c6  -> $01000A
-        .dc.w   0x0028,0x0005,0x0008,0x0003                                 | +047ca
-        .dc.l   ColMap_106f6c                   | +047d2  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +047d6
-        .dc.l   0x0001000a                    | +047da  -> $01000A
-        .dc.w   0x0030,0x0005,0x0008,0x0003                                 | +047de
-        .dc.l   ColMap_106f6c                   | +047e6  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +047ea
-        .dc.l   0x0001000a                    | +047ee  -> $01000A
-        .dc.w   0x0038,0x0005,0x0008,0x0003                                 | +047f2
-        .dc.l   ColMap_106f6c                   | +047fa  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +047fe
-        .dc.l   0x0001000a                    | +04802  -> $01000A
-        .dc.w   0x0040,0x0005,0x0008,0x0003                                 | +04806
-        .dc.l   ColMap_106f6c                   | +0480e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04812
-        .dc.l   0x0001000a                    | +04816  -> $01000A
-        .dc.w   0x0048,0x0005,0x0008,0x0003                                 | +0481a
-        .dc.l   ColMap_106f6c                   | +04822  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04826
-        .dc.l   0x0001000a                    | +0482a  -> $01000A
-        .dc.w   0x0050,0x0005,0x0008,0x0003                                 | +0482e
-        .dc.l   ColMap_106f6c                   | +04836  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0483a
-        .dc.l   0x0001000a                    | +0483e  -> $01000A
-        .dc.w   0x0058,0x0005,0x0008,0x0003                                 | +04842
-        .dc.l   ColMap_106f6c                   | +0484a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0484e
-        .dc.l   0x0001000a                    | +04852  -> $01000A
-        .dc.w   0x0060,0x0005,0x0008,0x0003                                 | +04856
-        .dc.l   ColMap_106f6c                   | +0485e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04862
-        .dc.l   0x0001000a                    | +04866  -> $01000A
-        .dc.w   0x0068,0x0005,0x0008,0x0003                                 | +0486a
-        .dc.l   ColMap_106f6c                   | +04872  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04876
-        .dc.l   0x0001000a                    | +0487a  -> $01000A
-        .dc.w   0x0070,0x0005,0x0008,0x0003                                 | +0487e
-        .dc.l   ColMap_106f6c                   | +04886  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0488a
-        .dc.l   0x0001000a                    | +0488e  -> $01000A
-        .dc.w   0x0078,0x0005,0x0008,0x0003                                 | +04892
-        .dc.l   ColMap_106f6c                   | +0489a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0489e
-        .dc.l   0x0001000a                    | +048a2  -> $01000A
-        .dc.w   0x0000,0x0009,0x0008,0x0003                                 | +048a6
-        .dc.l   ColMap_106f6c                   | +048ae  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +048b2
-        .dc.l   0x0001000a                    | +048b6  -> $01000A
-        .dc.w   0x0008,0x0009,0x0008,0x0003                                 | +048ba
-        .dc.l   ColMap_106f6c                   | +048c2  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +048c6
-        .dc.l   0x0001000a                    | +048ca  -> $01000A
-        .dc.w   0x0010,0x0009,0x0008,0x0003                                 | +048ce
-        .dc.l   ColMap_106f6c                   | +048d6  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +048da
-        .dc.l   0x0001000a                    | +048de  -> $01000A
-        .dc.w   0x0018,0x0009,0x0008,0x0003                                 | +048e2
-        .dc.l   ColMap_106f6c                   | +048ea  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +048ee
-        .dc.l   0x0001000a                    | +048f2  -> $01000A
-        .dc.w   0x0020,0x0009,0x0008,0x0003                                 | +048f6
-        .dc.l   ColMap_106f6c                   | +048fe  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04902
-        .dc.l   0x0001000a                    | +04906  -> $01000A
-        .dc.w   0x0028,0x0009,0x0008,0x0003                                 | +0490a
-        .dc.l   ColMap_106f6c                   | +04912  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04916
-        .dc.l   0x0001000a                    | +0491a  -> $01000A
-        .dc.w   0x0030,0x0009,0x0008,0x0003                                 | +0491e
-        .dc.l   ColMap_106f6c                   | +04926  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0492a
-        .dc.l   0x0001000a                    | +0492e  -> $01000A
-        .dc.w   0x0038,0x0009,0x0008,0x0003                                 | +04932
-        .dc.l   ColMap_106f6c                   | +0493a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0493e
-        .dc.l   ColMap_11000a                   | +04942  -> $11000A
-        .dc.w   0x0000,0x000d,0x0008,0x0003                                 | +04946
-        .dc.l   ColMap_106f6c                   | +0494e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04952
-        .dc.l   ColMap_11000a                   | +04956  -> $11000A
-        .dc.w   0x0008,0x000d,0x0008,0x0003                                 | +0495a
-        .dc.l   ColMap_106f6c                   | +04962  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04966
-        .dc.l   ColMap_11000a                   | +0496a  -> $11000A
-        .dc.l   ColMap_10000d                   | +0496e  -> $10000D
-        .dc.w   0x0008,0x0003                                               | +04972
-        .dc.l   ColMap_106f6c                   | +04976  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0497a
-        .dc.l   ColMap_11000a                   | +0497e  -> $11000A
-        .dc.w   0x0018,0x000d,0x0008,0x0003                                 | +04982
-        .dc.l   ColMap_106f6c                   | +0498a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +0498e
-        .dc.l   ColMap_11000a                   | +04992  -> $11000A
-        .dc.w   0x0020,0x000d,0x0008,0x0003                                 | +04996
-        .dc.l   ColMap_106f6c                   | +0499e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +049a2
-        .dc.l   ColMap_11000a                   | +049a6  -> $11000A
-        .dc.w   0x0028,0x000d,0x0008,0x0003                                 | +049aa
-        .dc.l   ColMap_106f6c                   | +049b2  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +049b6
-        .dc.l   ColMap_11000a                   | +049ba  -> $11000A
-        .dc.w   0x0030,0x000d,0x0008,0x0003                                 | +049be
-        .dc.l   ColMap_106f6c                   | +049c6  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +049ca
-        .dc.l   ColMap_11000a                   | +049ce  -> $11000A
-        .dc.w   0x0038,0x000d,0x0008,0x0003                                 | +049d2
-        .dc.l   ColMap_106f6c                   | +049da  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +049de
-        .dc.l   ColMap_11000a                   | +049e2  -> $11000A
-        .dc.w   0x0040,0x000d,0x0008,0x0003                                 | +049e6
-        .dc.l   ColMap_106f6c                   | +049ee  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +049f2
-        .dc.l   ColMap_11000a                   | +049f6  -> $11000A
-        .dc.w   0x0048,0x000d,0x0008,0x0003                                 | +049fa
-        .dc.l   ColMap_106f6c                   | +04a02  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04a06
-        .dc.l   ColMap_11000a                   | +04a0a  -> $11000A
-        .dc.w   0x0050,0x000d,0x0008,0x0003                                 | +04a0e
-        .dc.l   ColMap_106f6c                   | +04a16  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04a1a
-        .dc.l   ColMap_11000a                   | +04a1e  -> $11000A
-        .dc.w   0x0058,0x000d,0x0008,0x0003                                 | +04a22
-        .dc.l   ColMap_106f6c                   | +04a2a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04a2e
-        .dc.l   ColMap_11000a                   | +04a32  -> $11000A
-        .dc.w   0x0060,0x000d,0x0008,0x0003                                 | +04a36
-        .dc.l   ColMap_106f6c                   | +04a3e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04a42
-        .dc.l   ColMap_11000a                   | +04a46  -> $11000A
-        .dc.w   0x0068,0x000d,0x0008,0x0003                                 | +04a4a
-        .dc.l   ColMap_106f6c                   | +04a52  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04a56
-        .dc.l   ColMap_11000a                   | +04a5a  -> $11000A
-        .dc.w   0x0070,0x000d,0x0008,0x0003                                 | +04a5e
-        .dc.l   ColMap_106f6c                   | +04a66  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04a6a
-        .dc.l   ColMap_11000a                   | +04a6e  -> $11000A
-        .dc.w   0x0078,0x000d,0x0008,0x0003                                 | +04a72
-        .dc.l   ColMap_106f6c                   | +04a7a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04a7e
-        .dc.l   ColMap_11000a                   | +04a82  -> $11000A
-        .dc.w   0x0000                                                      | +04a86
-        .dc.l   ColMap_110008                   | +04a88  -> $110008
-        .dc.w   0x0003                                                      | +04a8c
-        .dc.l   ColMap_106f6c                   | +04a8e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04a92
-        .dc.l   ColMap_11000a                   | +04a96  -> $11000A
-        .dc.w   0x0008                                                      | +04a9a
-        .dc.l   ColMap_110008                   | +04a9c  -> $110008
-        .dc.w   0x0003                                                      | +04aa0
-        .dc.l   ColMap_106f6c                   | +04aa2  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04aa6
-        .dc.l   ColMap_11000a                   | +04aaa  -> $11000A
-        .dc.l   ColMap_100011                   | +04aae  -> $100011
-        .dc.w   0x0008,0x0003                                               | +04ab2
-        .dc.l   ColMap_106f6c                   | +04ab6  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04aba
-        .dc.l   ColMap_11000a                   | +04abe  -> $11000A
-        .dc.l   AnimScr_180011                   | +04ac2  -> $180011
-        .dc.w   0x0008,0x0003                                               | +04ac6
-        .dc.l   ColMap_106f6c                   | +04aca  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04ace
-        .dc.l   ColMap_11000a                   | +04ad2  -> $11000A
-        .dc.w   0x0020                                                      | +04ad6
-        .dc.l   ColMap_110008                   | +04ad8  -> $110008
-        .dc.w   0x0003                                                      | +04adc
-        .dc.l   ColMap_106f6c                   | +04ade  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04ae2
-        .dc.l   ColMap_11000a                   | +04ae6  -> $11000A
-        .dc.w   0x0028                                                      | +04aea
-        .dc.l   ColMap_110008                   | +04aec  -> $110008
-        .dc.w   0x0003                                                      | +04af0
-        .dc.l   ColMap_106f6c                   | +04af2  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04af6
-        .dc.l   ColMap_11000a                   | +04afa  -> $11000A
-        .dc.w   0x0030                                                      | +04afe
-        .dc.l   ColMap_110008                   | +04b00  -> $110008
-        .dc.w   0x0003                                                      | +04b04
-        .dc.l   ColMap_106f6c                   | +04b06  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04b0a
-        .dc.l   ColMap_11000a                   | +04b0e  -> $11000A
-        .dc.w   0x0038                                                      | +04b12
-        .dc.l   ColMap_110008                   | +04b14  -> $110008
-        .dc.w   0x0003                                                      | +04b18
-        .dc.l   ColMap_106f6c                   | +04b1a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04b1e
-        .dc.l   ColMap_11000a                   | +04b22  -> $11000A
-        .dc.w   0x0040                                                      | +04b26
-        .dc.l   ColMap_110008                   | +04b28  -> $110008
-        .dc.w   0x0003                                                      | +04b2c
-        .dc.l   ColMap_106f6c                   | +04b2e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04b32
-        .dc.l   ColMap_11000a                   | +04b36  -> $11000A
-        .dc.w   0x0048                                                      | +04b3a
-        .dc.l   ColMap_110008                   | +04b3c  -> $110008
-        .dc.w   0x0003                                                      | +04b40
-        .dc.l   ColMap_106f6c                   | +04b42  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04b46
-        .dc.l   ColMap_11000a                   | +04b4a  -> $11000A
-        .dc.w   0x0050                                                      | +04b4e
-        .dc.l   ColMap_110008                   | +04b50  -> $110008
-        .dc.w   0x0003                                                      | +04b54
-        .dc.l   ColMap_106f6c                   | +04b56  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04b5a
-        .dc.l   ColMap_11000a                   | +04b5e  -> $11000A
-        .dc.w   0x0058                                                      | +04b62
-        .dc.l   ColMap_110008                   | +04b64  -> $110008
-        .dc.w   0x0003                                                      | +04b68
-        .dc.l   ColMap_106f6c                   | +04b6a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04b6e
-        .dc.l   ColMap_11000a                   | +04b72  -> $11000A
-        .dc.w   0x0060                                                      | +04b76
-        .dc.l   ColMap_110008                   | +04b78  -> $110008
-        .dc.w   0x0003                                                      | +04b7c
-        .dc.l   ColMap_106f6c                   | +04b7e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04b82
-        .dc.l   ColMap_11000a                   | +04b86  -> $11000A
-        .dc.w   0x0068                                                      | +04b8a
-        .dc.l   ColMap_110008                   | +04b8c  -> $110008
-        .dc.w   0x0003                                                      | +04b90
-        .dc.l   ColMap_106f6c                   | +04b92  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04b96
-        .dc.l   ColMap_11000a                   | +04b9a  -> $11000A
-        .dc.w   0x0070                                                      | +04b9e
-        .dc.l   ColMap_110008                   | +04ba0  -> $110008
-        .dc.w   0x0003                                                      | +04ba4
-        .dc.l   ColMap_106f6c                   | +04ba6  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04baa
-        .dc.l   ColMap_11000a                   | +04bae  -> $11000A
-        .dc.w   0x0078                                                      | +04bb2
-        .dc.l   ColMap_110008                   | +04bb4  -> $110008
-        .dc.w   0x0003                                                      | +04bb8
-        .dc.l   ColMap_106f6c                   | +04bba  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04bbe
-        .dc.l   ColMap_11000a                   | +04bc2  -> $11000A
-        .dc.w   0x0000                                                      | +04bc6
-        .dc.l   SprFrame_150008                   | +04bc8  -> $150008
-        .dc.w   0x0003                                                      | +04bcc
-        .dc.l   ColMap_106f6c                   | +04bce  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04bd2
-        .dc.l   ColMap_11000a                   | +04bd6  -> $11000A
-        .dc.w   0x0008                                                      | +04bda
-        .dc.l   SprFrame_150008                   | +04bdc  -> $150008
-        .dc.w   0x0003                                                      | +04be0
-        .dc.l   ColMap_106f6c                   | +04be2  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04be6
-        .dc.l   ColMap_11000a                   | +04bea  -> $11000A
-        .dc.w   0x0010                                                      | +04bee
-        .dc.l   SprFrame_150008                   | +04bf0  -> $150008
-        .dc.w   0x0003                                                      | +04bf4
-        .dc.l   ColMap_106f6c                   | +04bf6  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04bfa
-        .dc.l   ColMap_11000a                   | +04bfe  -> $11000A
-        .dc.l   AnimScr_180015                   | +04c02  -> $180015
-        .dc.w   0x0008,0x0003                                               | +04c06
-        .dc.l   ColMap_106f6c                   | +04c0a  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04c0e
-        .dc.l   ColMap_11000a                   | +04c12  -> $11000A
-        .dc.w   0x0020                                                      | +04c16
-        .dc.l   SprFrame_150008                   | +04c18  -> $150008
-        .dc.w   0x0003                                                      | +04c1c
-        .dc.l   ColMap_106f6c                   | +04c1e  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04c22
-        .dc.l   ColMap_11000a                   | +04c26  -> $11000A
-        .dc.w   0x0028                                                      | +04c2a
-        .dc.l   SprFrame_150008                   | +04c2c  -> $150008
-        .dc.w   0x0003                                                      | +04c30
-        .dc.l   ColMap_106f6c                   | +04c32  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04c36
-        .dc.l   ColMap_11000a                   | +04c3a  -> $11000A
-        .dc.w   0x0030                                                      | +04c3e
-        .dc.l   SprFrame_150008                   | +04c40  -> $150008
-        .dc.w   0x0003                                                      | +04c44
-        .dc.l   ColMap_106f6c                   | +04c46  -> $106F6C
-        .dc.w   0x0029,0xa54a                                               | +04c4a
-        .dc.l   ColMap_11000a                   | +04c4e  -> $11000A
-        .dc.w   0x0038                                                      | +04c52
-        .dc.l   SprFrame_150008                   | +04c54  -> $150008
-        .dc.w   0x0003                                                      | +04c58
-        .dc.l   ColMap_106f6c                   | +04c5a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04c5e
-        .dc.l   BgMap_0a0000                   | +04c64  -> $0A0000
-        .dc.l   Zero_190008                   | +04c68  -> $190008
-        .dc.w   0x0003                                                      | +04c6c
-        .dc.l   ColMap_106f6c                   | +04c6e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008                          | +04c72
-        .dc.l   Zero_190008                   | +04c7c  -> $190008
-        .dc.w   0x0003                                                      | +04c80
-        .dc.l   ColMap_106f6c                   | +04c82  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04c86
-        .dc.l   BgMap_0a0010                   | +04c8c  -> $0A0010
-        .dc.l   Zero_190008                   | +04c90  -> $190008
-        .dc.w   0x0003                                                      | +04c94
-        .dc.l   ColMap_106f6c                   | +04c96  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04c9a
-        .dc.l   BgMap_0a0018                   | +04ca0  -> $0A0018
-        .dc.l   Zero_190008                   | +04ca4  -> $190008
-        .dc.w   0x0003                                                      | +04ca8
-        .dc.l   ColMap_106f6c                   | +04caa  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04cae
-        .dc.l   BgMap_0a0020                   | +04cb4  -> $0A0020
-        .dc.l   Zero_190008                   | +04cb8  -> $190008
-        .dc.w   0x0003                                                      | +04cbc
-        .dc.l   ColMap_106f6c                   | +04cbe  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04cc2
-        .dc.l   BgMap_0a0028                   | +04cc8  -> $0A0028
-        .dc.l   Zero_190008                   | +04ccc  -> $190008
-        .dc.w   0x0003                                                      | +04cd0
-        .dc.l   ColMap_106f6c                   | +04cd2  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030                          | +04cd6
-        .dc.l   Zero_190008                   | +04ce0  -> $190008
-        .dc.w   0x0003                                                      | +04ce4
-        .dc.l   ColMap_106f6c                   | +04ce6  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038                          | +04cea
-        .dc.l   Zero_190008                   | +04cf4  -> $190008
-        .dc.w   0x0003                                                      | +04cf8
-        .dc.l   ColMap_106f6c                   | +04cfa  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04cfe
-        .dc.l   BgMap_0a0040                   | +04d04  -> $0A0040
-        .dc.l   Zero_190008                   | +04d08  -> $190008
-        .dc.w   0x0003                                                      | +04d0c
-        .dc.l   ColMap_106f6c                   | +04d0e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0048                          | +04d12
-        .dc.l   Zero_190008                   | +04d1c  -> $190008
-        .dc.w   0x0003                                                      | +04d20
-        .dc.l   ColMap_106f6c                   | +04d22  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0050                          | +04d26
-        .dc.l   Zero_190008                   | +04d30  -> $190008
-        .dc.w   0x0003                                                      | +04d34
-        .dc.l   ColMap_106f6c                   | +04d36  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0058                          | +04d3a
-        .dc.l   Zero_190008                   | +04d44  -> $190008
-        .dc.w   0x0003                                                      | +04d48
-        .dc.l   ColMap_106f6c                   | +04d4a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0060                          | +04d4e
-        .dc.l   Zero_190008                   | +04d58  -> $190008
-        .dc.w   0x0003                                                      | +04d5c
-        .dc.l   ColMap_106f6c                   | +04d5e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0068                          | +04d62
-        .dc.l   Zero_190008                   | +04d6c  -> $190008
-        .dc.w   0x0003                                                      | +04d70
-        .dc.l   ColMap_106f6c                   | +04d72  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04d76
-        .dc.l   BgMap_0a0070                   | +04d7c  -> $0A0070
-        .dc.l   Zero_190008                   | +04d80  -> $190008
-        .dc.w   0x0003                                                      | +04d84
-        .dc.l   ColMap_106f6c                   | +04d86  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04d8a
-        .dc.l   BgMap_0a0078                   | +04d90  -> $0A0078
-        .dc.l   Zero_190008                   | +04d94  -> $190008
-        .dc.w   0x0003                                                      | +04d98
-        .dc.l   ColMap_106f6c                   | +04d9a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04d9e
-        .dc.l   BgMap_0a0000                   | +04da4  -> $0A0000
-        .dc.w   0x001d,0x0008,0x0003                                        | +04da8
-        .dc.l   ColMap_106f6c                   | +04dae  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008,0x001d,0x0008,0x0003     | +04db2
-        .dc.l   ColMap_106f6c                   | +04dc2  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04dc6
-        .dc.l   BgMap_0a0010                   | +04dcc  -> $0A0010
-        .dc.w   0x001d,0x0008,0x0003                                        | +04dd0
-        .dc.l   ColMap_106f6c                   | +04dd6  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04dda
-        .dc.l   BgMap_0a0018                   | +04de0  -> $0A0018
-        .dc.w   0x001d,0x0008,0x0003                                        | +04de4
-        .dc.l   ColMap_106f6c                   | +04dea  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04dee
-        .dc.l   BgMap_0a0020                   | +04df4  -> $0A0020
-        .dc.w   0x001d,0x0008,0x0003                                        | +04df8
-        .dc.l   ColMap_106f6c                   | +04dfe  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04e02
-        .dc.l   BgMap_0a0028                   | +04e08  -> $0A0028
-        .dc.w   0x001d,0x0008,0x0003                                        | +04e0c
-        .dc.l   ColMap_106f6c                   | +04e12  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030,0x001d,0x0008,0x0003     | +04e16
-        .dc.l   ColMap_106f6c                   | +04e26  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038,0x001d,0x0008,0x0003     | +04e2a
-        .dc.l   ColMap_106f6c                   | +04e3a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04e3e
-        .dc.l   BgMap_0a0040                   | +04e44  -> $0A0040
-        .dc.w   0x001d,0x0008,0x0003                                        | +04e48
-        .dc.l   ColMap_106f6c                   | +04e4e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0048,0x001d,0x0008,0x0003     | +04e52
-        .dc.l   ColMap_106f6c                   | +04e62  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0050,0x001d,0x0008,0x0003     | +04e66
-        .dc.l   ColMap_106f6c                   | +04e76  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0058,0x001d,0x0008,0x0003     | +04e7a
-        .dc.l   ColMap_106f6c                   | +04e8a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0060,0x001d,0x0008,0x0003     | +04e8e
-        .dc.l   ColMap_106f6c                   | +04e9e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0068,0x001d,0x0008,0x0003     | +04ea2
-        .dc.l   ColMap_106f6c                   | +04eb2  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04eb6
-        .dc.l   BgMap_0a0070                   | +04ebc  -> $0A0070
-        .dc.w   0x001d,0x0008,0x0003                                        | +04ec0
-        .dc.l   ColMap_106f6c                   | +04ec6  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04eca
-        .dc.l   BgMap_0a0078                   | +04ed0  -> $0A0078
-        .dc.w   0x001d,0x0008,0x0003                                        | +04ed4
-        .dc.l   ColMap_106f6c                   | +04eda  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04ede
-        .dc.l   BgMap_0a0000                   | +04ee4  -> $0A0000
-        .dc.w   0x0021,0x0008,0x0003                                        | +04ee8
-        .dc.l   ColMap_106f6c                   | +04eee  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008,0x0021,0x0008,0x0003     | +04ef2
-        .dc.l   ColMap_106f6c                   | +04f02  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04f06
-        .dc.l   BgMap_0a0010                   | +04f0c  -> $0A0010
-        .dc.w   0x0021,0x0008,0x0003                                        | +04f10
-        .dc.l   ColMap_106f6c                   | +04f16  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04f1a
-        .dc.l   BgMap_0a0018                   | +04f20  -> $0A0018
-        .dc.w   0x0021,0x0008,0x0003                                        | +04f24
-        .dc.l   ColMap_106f6c                   | +04f2a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04f2e
-        .dc.l   BgMap_0a0020                   | +04f34  -> $0A0020
-        .dc.w   0x0021,0x0008,0x0003                                        | +04f38
-        .dc.l   ColMap_106f6c                   | +04f3e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019                                        | +04f42
-        .dc.l   BgMap_0a0028                   | +04f48  -> $0A0028
-        .dc.w   0x0021,0x0008,0x0003                                        | +04f4c
-        .dc.l   ColMap_106f6c                   | +04f52  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030,0x0021,0x0008,0x0003     | +04f56
-        .dc.l   ColMap_106f6c                   | +04f66  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038,0x0021,0x0008,0x0003     | +04f6a
-        .dc.l   ColMap_106f6c                   | +04f7a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +04f7e
-        .dc.l   BgMap_0a0000                   | +04f84  -> $0A0000
-        .dc.w   0x0025,0x0008,0x0003                                        | +04f88
-        .dc.l   ColMap_106f6c                   | +04f8e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x0025,0x0008,0x0003     | +04f92
-        .dc.l   ColMap_106f6c                   | +04fa2  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +04fa6
-        .dc.l   BgMap_0a0010                   | +04fac  -> $0A0010
-        .dc.w   0x0025,0x0008,0x0003                                        | +04fb0
-        .dc.l   ColMap_106f6c                   | +04fb6  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +04fba
-        .dc.l   BgMap_0a0018                   | +04fc0  -> $0A0018
-        .dc.w   0x0025,0x0008,0x0003                                        | +04fc4
-        .dc.l   ColMap_106f6c                   | +04fca  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +04fce
-        .dc.l   BgMap_0a0020                   | +04fd4  -> $0A0020
-        .dc.w   0x0025,0x0008,0x0003                                        | +04fd8
-        .dc.l   ColMap_106f6c                   | +04fde  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +04fe2
-        .dc.l   BgMap_0a0028                   | +04fe8  -> $0A0028
-        .dc.w   0x0025,0x0008,0x0003                                        | +04fec
-        .dc.l   ColMap_106f6c                   | +04ff2  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x0025,0x0008,0x0003     | +04ff6
-        .dc.l   ColMap_106f6c                   | +05006  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x0025,0x0008,0x0003     | +0500a
-        .dc.l   ColMap_106f6c                   | +0501a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +0501e
-        .dc.l   BgMap_0a0040                   | +05024  -> $0A0040
-        .dc.w   0x0025,0x0008,0x0003                                        | +05028
-        .dc.l   ColMap_106f6c                   | +0502e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0048,0x0025,0x0008,0x0003     | +05032
-        .dc.l   ColMap_106f6c                   | +05042  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0050,0x0025,0x0008,0x0003     | +05046
-        .dc.l   ColMap_106f6c                   | +05056  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0058,0x0025,0x0008,0x0003     | +0505a
-        .dc.l   ColMap_106f6c                   | +0506a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0060,0x0025,0x0008,0x0003     | +0506e
-        .dc.l   ColMap_106f6c                   | +0507e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0068,0x0025,0x0008,0x0003     | +05082
-        .dc.l   ColMap_106f6c                   | +05092  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +05096
-        .dc.l   BgMap_0a0070                   | +0509c  -> $0A0070
-        .dc.w   0x0025,0x0008,0x0003                                        | +050a0
-        .dc.l   ColMap_106f6c                   | +050a6  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +050aa
-        .dc.l   BgMap_0a0078                   | +050b0  -> $0A0078
-        .dc.w   0x0025,0x0008,0x0003                                        | +050b4
-        .dc.l   ColMap_106f6c                   | +050ba  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +050be
-        .dc.l   BgMap_0a0000                   | +050c4  -> $0A0000
-        .dc.w   0x0029,0x0008,0x0003                                        | +050c8
-        .dc.l   ColMap_106f6c                   | +050ce  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x0029,0x0008,0x0003     | +050d2
-        .dc.l   ColMap_106f6c                   | +050e2  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +050e6
-        .dc.l   BgMap_0a0010                   | +050ec  -> $0A0010
-        .dc.w   0x0029,0x0008,0x0003                                        | +050f0
-        .dc.l   ColMap_106f6c                   | +050f6  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +050fa
-        .dc.l   BgMap_0a0018                   | +05100  -> $0A0018
-        .dc.w   0x0029,0x0008,0x0003                                        | +05104
-        .dc.l   ColMap_106f6c                   | +0510a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +0510e
-        .dc.l   BgMap_0a0020                   | +05114  -> $0A0020
-        .dc.w   0x0029,0x0008,0x0003                                        | +05118
-        .dc.l   ColMap_106f6c                   | +0511e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +05122
-        .dc.l   BgMap_0a0028                   | +05128  -> $0A0028
-        .dc.w   0x0029,0x0008,0x0003                                        | +0512c
-        .dc.l   ColMap_106f6c                   | +05132  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x0029,0x0008,0x0003     | +05136
-        .dc.l   ColMap_106f6c                   | +05146  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x0029,0x0008,0x0003     | +0514a
-        .dc.l   ColMap_106f6c                   | +0515a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +0515e
-        .dc.l   BgMap_0a0040                   | +05164  -> $0A0040
-        .dc.w   0x0029,0x0008,0x0003                                        | +05168
-        .dc.l   ColMap_106f6c                   | +0516e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0048,0x0029,0x0008,0x0003     | +05172
-        .dc.l   ColMap_106f6c                   | +05182  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0050,0x0029,0x0008,0x0003     | +05186
-        .dc.l   ColMap_106f6c                   | +05196  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0058,0x0029,0x0008,0x0003     | +0519a
-        .dc.l   ColMap_106f6c                   | +051aa  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0060,0x0029,0x0008,0x0003     | +051ae
-        .dc.l   ColMap_106f6c                   | +051be  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0068,0x0029,0x0008,0x0003     | +051c2
-        .dc.l   ColMap_106f6c                   | +051d2  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +051d6
-        .dc.l   BgMap_0a0070                   | +051dc  -> $0A0070
-        .dc.w   0x0029,0x0008,0x0003                                        | +051e0
-        .dc.l   ColMap_106f6c                   | +051e6  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +051ea
-        .dc.l   BgMap_0a0078                   | +051f0  -> $0A0078
-        .dc.w   0x0029,0x0008,0x0003                                        | +051f4
-        .dc.l   ColMap_106f6c                   | +051fa  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +051fe
-        .dc.l   BgMap_0a0000                   | +05204  -> $0A0000
-        .dc.w   0x002d,0x0008,0x0003                                        | +05208
-        .dc.l   ColMap_106f6c                   | +0520e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x002d,0x0008,0x0003     | +05212
-        .dc.l   ColMap_106f6c                   | +05222  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +05226
-        .dc.l   BgMap_0a0010                   | +0522c  -> $0A0010
-        .dc.w   0x002d,0x0008,0x0003                                        | +05230
-        .dc.l   ColMap_106f6c                   | +05236  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +0523a
-        .dc.l   BgMap_0a0018                   | +05240  -> $0A0018
-        .dc.w   0x002d,0x0008,0x0003                                        | +05244
-        .dc.l   ColMap_106f6c                   | +0524a  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +0524e
-        .dc.l   BgMap_0a0020                   | +05254  -> $0A0020
-        .dc.w   0x002d,0x0008,0x0003                                        | +05258
-        .dc.l   ColMap_106f6c                   | +0525e  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021                                        | +05262
-        .dc.l   BgMap_0a0028                   | +05268  -> $0A0028
-        .dc.w   0x002d,0x0008,0x0003                                        | +0526c
-        .dc.l   ColMap_106f6c                   | +05272  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x002d,0x0008,0x0003     | +05276
-        .dc.l   ColMap_106f6c                   | +05286  -> $106F6C
-        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x002d,0x0008,0x0003     | +0528a
-        .dc.l   AnimScr_180017                   | +0529a  -> $180017
-        .dc.w   0x0005,0x0003,0x0000,0x0100,0x020c                          | +0529e
-        .dc.l   0x00010100                    | +052a8  -> $010100
-        .dc.w   0x030d,0x0000,0x0100                                        | +052ac
-        .dc.l   AnimScr_180017                   | +052b2  -> $180017
-        .dc.w   0x0005,0x0003,0x0000,0x0100                                 | +052b6
-        .dc.l   0x00010000                    | +052be  -> $010000
-        .dc.w   0x0100                                                      | +052c2
-        .dc.l   0x00010000                    | +052c4  -> $010000
-        .dc.w   0x0100,0x0038,0x0067                                        | +052c8
-        .dc.l   0x0001000b                    | +052ce  -> $01000B
-        .dc.w   0x0101,0x0101,0x0101,0x0101,0x0101,0x1000,0x0038,0x0067     | +052d2
-        .dc.l   0x0001000b                    | +052e2  -> $01000B
-        .fill   10,1,0x00                      | +052e6
-        .dc.w   0x0100,0x0010,0x0067                                        | +052f0
-        .dc.l   0x0001000b                    | +052f6  -> $01000B
-        .dc.w   0x0101,0x0101,0x0101,0x0101,0x0101,0x1000,0x0010,0x0067     | +052fa
-        .dc.l   0x0001000b                    | +0530a  -> $01000B
-        .fill   10,1,0x00                      | +0530e
-        .dc.w   0x0100,0x0020,0x0067                                        | +05318
-        .dc.l   0x0001000b                    | +0531e  -> $01000B
-        .dc.w   0x0101,0x0101,0x0101,0x0101,0x0101,0x1000,0x0020,0x0067     | +05322
-        .dc.l   0x0001000b                    | +05332  -> $01000B
-        .fill   10,1,0x00                      | +05336
-        .dc.w   0x0100,0x0020,0x0047,0x000e                                 | +05340
-        .dc.l   Pal_01ffff                   | +05348  -> $01FFFF
-        .dc.w   0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0x0000,0x000f     | +0534c
-        .dc.w   0x0008,0x0001,0x1300,0x0000,0x0000,0x0000,0x0020,0x001f     | +0535c
-        .dc.w   0x0005,0x0003                                               | +0536c
-        .fill   16,1,0x00                      | +05370
-        .dc.w   0xfff8,0xffff                                               | +05380
-        .dc.l   BgMap_0e0003                   | +05384  -> $0E0003
-        .dc.w   0x0002,0x0c02,0x0c01,0x0110,0x0103,0x0d01                   | +05388
-        .dc.l   0x00010100                    | +05394  -> $010100
-        .dc.w   0x0101                                                      | +05398
-        .dc.l   0x00010100                    | +0539a  -> $010100
-        .dc.w   0x0101                                                      | +0539e
-        .dc.l   0x00010100                    | +053a0  -> $010100
-        .dc.w   0x0134,0x0008,0x0f00,0x090f,0x000a,0x0f00,0x0b0f,0x0010     | +053a4
-        .dc.w   0x0006,0x0005,0x0001,0x2b2b,0x2b2b,0x2b00,0x8001,0x0000     | +053b4
-        .dc.w   0x0000,0x0000,0x001c,0x0000                                 | +053c4
-        .dc.l   AnimScr_180200                   | +053cc  -> $180200
-        .dc.w   0x0024,0x3608,0xffff,0x0000,0x0000,0x0200,0x0024,0x3612     | +053d0
-        .dc.w   0xffff,0x0000                                               | +053e0
-        .dc.l   AnimScr_180200                   | +053e4  -> $180200
-        .dc.w   0x0024,0x361c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3626     | +053e8
-        .dc.w   0xffff,0x001c                                               | +053f8
-        .dc.l   AnimScr_180200                   | +053fc  -> $180200
-        .dc.w   0x0024,0x3630,0xffff,0x001c,0x0000,0x1d01,0x0000,0x0000     | +05400
-        .dc.l   0x00010000                    | +05410  -> $010000
-        .fill   21,1,0x00                      | +05414
-        .dc.b   0x01                            | +05429
-        .dc.l   0x00010101                    | +0542a  -> $010101
-        .dc.w   0x0000,0x0000,0x0101,0x0100,0x0000,0x0101                   | +0542e
-        .fill   10,1,0x00                      | +0543a
-        .dc.w   0x0100,0x0000,0x0000                                        | +05444
-        .dc.l   0x00010001                    | +0544a  -> $010001
-        .dc.w   0x0101,0x0002,0x0029,0xb40c,0x0000                          | +0544e
-        .dc.l   0x0000fff4                    | +05458  -> $00FFF4
-        .dc.l   BgMap_0c0010                   | +0545c  -> $0C0010
-        .dc.w   0x0024,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +05460
-        .dc.w   0x0024,0x3676,0xffff,0xfff4,0x0024,0x0200,0x0024,0x3680     | +05470
-        .dc.w   0xffff,0xfff4                                               | +05480
-        .dc.l   ColMap_100200                   | +05484  -> $100200
-        .dc.w   0x0024,0x368a,0xffff                                        | +05488
-        .dc.l   BgMap_0c0024                   | +0548e  -> $0C0024
-        .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +05492
-        .dc.l   BgMap_0c0010                   | +0549a  -> $0C0010
-        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +0549e
-        .dc.l   0x0000fff6                    | +054ac  -> $00FFF6
-        .dc.l   BgMap_0a0004                   | +054b0  -> $0A0004
-        .dc.w   0x0024,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +054b4
-        .dc.w   0x0024,0x3676,0xffff,0xfff6,0x0024,0x0200,0x0024,0x3680     | +054c4
-        .dc.w   0xffff,0xfff6,0x0004,0x0200,0x0024,0x368a,0xffff            | +054d4
-        .dc.l   BgMap_0a0024                   | +054e2  -> $0A0024
-        .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +054e6
-        .dc.l   BgMap_0a0004                   | +054ee  -> $0A0004
-        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +054f2
-        .dc.l   0x0000fff6                    | +05500  -> $00FFF6
-        .dc.l   BgMap_0a0000                   | +05504  -> $0A0000
-        .dc.l   AnimScr_180200                   | +05508  -> $180200
-        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +0550c
-        .dc.w   0xffff,0xfff6                                               | +0551c
-        .dc.l   AnimScr_180200                   | +05520  -> $180200
-        .dc.w   0x0024,0x3680,0xffff,0xfff6,0x0000,0x0200,0x0024,0x368a     | +05524
-        .dc.w   0xffff                                                      | +05534
-        .dc.l   BgMap_0a0018                   | +05536  -> $0A0018
-        .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +0553a
-        .dc.l   BgMap_0a0000                   | +05542  -> $0A0000
-        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +05546
-        .dc.l   0x0000fff6                    | +05554  -> $00FFF6
-        .dc.w   0x000a,0x000a,0x002c,0x0200,0x0024,0x366c,0xffff,0x0000     | +05558
-        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff6,0x002c,0x0200     | +05568
-        .dc.w   0x0024,0x3680,0xffff,0xfff6                                 | +05578
-        .dc.l   BgMap_0a0200                   | +05580  -> $0A0200
-        .dc.w   0x0024,0x368a,0xffff,0x000a,0x002c,0x0200,0x0024,0x3694     | +05584
-        .dc.w   0xffff,0x000a,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029     | +05594
-        .dc.w   0xb40c,0x0000                                               | +055a4
-        .dc.l   0x0000fff0                    | +055a8  -> $00FFF0
-        .dc.l   ColMap_100000                   | +055ac  -> $100000
-        .dc.l   BgMap_0a0200                   | +055b0  -> $0A0200
-        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +055b4
-        .dc.w   0xffff,0xfff0                                               | +055c4
-        .dc.l   BgMap_0a0200                   | +055c8  -> $0A0200
-        .dc.w   0x0024,0x3680,0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a     | +055cc
-        .dc.w   0xffff                                                      | +055dc
-        .dc.l   ColMap_10000a                   | +055de  -> $10000A
-        .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +055e2
-        .dc.l   ColMap_100000                   | +055ea  -> $100000
-        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +055ee
-        .dc.l   0x0000fff0                    | +055fc  -> $00FFF0
-        .dc.l   ColMap_100010                   | +05600  -> $100010
-        .dc.w   0x001c,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +05604
-        .dc.w   0x0024,0x3676,0xffff,0xfff0,0x001c,0x0200,0x0024,0x3680     | +05614
-        .dc.w   0xffff,0xfff0                                               | +05624
-        .dc.l   ColMap_100200                   | +05628  -> $100200
-        .dc.w   0x0024,0x368a,0xffff                                        | +0562c
-        .dc.l   ColMap_10001c                   | +05632  -> $10001C
-        .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +05636
-        .dc.l   ColMap_100010                   | +0563e  -> $100010
-        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +05642
-        .dc.l   0x0000fff0                    | +05650  -> $00FFF0
-        .dc.l   ColMap_100000                   | +05654  -> $100000
-        .dc.w   0x001c,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +05658
-        .dc.w   0x0024,0x3676,0xffff,0xfff0,0x001c,0x0200,0x0024,0x3680     | +05668
-        .dc.w   0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a,0xffff            | +05678
-        .dc.l   ColMap_10001c                   | +05686  -> $10001C
-        .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +0568a
-        .dc.l   ColMap_100000                   | +05692  -> $100000
-        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb42e,0x0000            | +05696
-        .dc.l   0x0000ffee                    | +056a4  -> $00FFEE
-        .dc.l   AnimScr_1a0000                   | +056a8  -> $1A0000
-        .dc.w   0x0032,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +056ac
-        .dc.w   0x0024,0x3676,0xffff,0xffee,0x0032,0x0200,0x0024,0x3680     | +056bc
-        .dc.w   0xffff,0xffee,0x0000,0x0200,0x0024,0x368a,0xffff            | +056cc
-        .dc.l   AnimScr_1a0032                   | +056da  -> $1A0032
-        .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +056de
-        .dc.l   AnimScr_1a0000                   | +056e6  -> $1A0000
-        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000            | +056ea
-        .dc.l   0x0000fff8                    | +056f8  -> $00FFF8
-        .dc.w   0x0008,0x0000                                               | +056fc
-        .dc.l   ColMap_100200                   | +05700  -> $100200
-        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +05704
-        .dc.w   0xffff,0xfff8                                               | +05714
-        .dc.l   ColMap_100200                   | +05718  -> $100200
-        .dc.w   0x0024,0x3680,0xffff,0xfff8,0x0000,0x0200,0x0024,0x368a     | +0571c
-        .dc.w   0xffff,0x0008                                               | +0572c
-        .dc.l   ColMap_100200                   | +05730  -> $100200
-        .dc.w   0x0024,0x3694,0xffff,0x0008,0x0000,0x1d01,0xffff,0xffff     | +05734
-        .dc.w   0x0900,0x0029,0xb4a4                                        | +05744
-        .dc.l   Pal_020208                   | +0574a  -> $020208
-        .dc.w   0x0023,0x0978,0xffff                                        | +0574e
-        .dc.l   Pal_020208                   | +05754  -> $020208
-        .dc.w   0x0023,0x098e,0xffff                                        | +05758
-        .dc.l   Pal_020208                   | +0575e  -> $020208
-        .dc.w   0x0023,0x09a6,0xffff                                        | +05762
-        .dc.l   Pal_020208                   | +05768  -> $020208
-        .dc.w   0x0023,0x09ba,0xffff                                        | +0576c
-        .dc.l   Pal_020208                   | +05772  -> $020208
-        .dc.w   0x0023,0x09ce,0xffff                                        | +05776
-        .dc.l   Pal_020208                   | +0577c  -> $020208
-        .dc.w   0x0023,0x09e6,0xffff                                        | +05780
-        .dc.l   Pal_020208                   | +05786  -> $020208
-        .dc.w   0x0023,0x09fe,0xffff                                        | +0578a
-        .dc.l   Pal_020208                   | +05790  -> $020208
-        .dc.w   0x0023,0x0a16,0xffff                                        | +05794
-        .dc.l   Pal_020208                   | +0579a  -> $020208
-        .dc.w   0x0023,0x0a2e,0xffff                                        | +0579e
-        .dc.l   Pal_020208                   | +057a4  -> $020208
-        .dc.w   0x0023,0x0a42,0xffff                                        | +057a8
-        .dc.l   Pal_020208                   | +057ae  -> $020208
-        .dc.w   0x0023,0x0a56,0xffff                                        | +057b2
-        .dc.l   Pal_020208                   | +057b8  -> $020208
-        .dc.w   0x0023,0x0a6a,0xffff,0x0100,0x0029,0xb74a,0x0900,0x0029     | +057bc
-        .dc.w   0xb4a4                                                      | +057cc
-        .dc.l   Pal_020208                   | +057ce  -> $020208
-        .dc.w   0x0023,0x0a80,0xffff                                        | +057d2
-        .dc.l   Pal_020208                   | +057d8  -> $020208
-        .dc.w   0x0023,0x0a94,0xffff                                        | +057dc
-        .dc.l   Pal_020208                   | +057e2  -> $020208
-        .dc.w   0x0023,0x0aac,0xffff                                        | +057e6
-        .dc.l   Pal_020208                   | +057ec  -> $020208
-        .dc.w   0x0023,0x0ac4,0xffff,0x0003,0x0208,0x0023,0x0ad8,0xffff     | +057f0
-        .dc.w   0x0003,0x0208,0x0023,0x0aec,0xffff                          | +05800
-        .dc.l   0x00010208                    | +0580a  -> $010208
-        .dc.w   0x0023,0x0ad8,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0004     | +0580e
-        .dc.w   0x0208,0x0023,0x0ad8,0xffff,0x0003,0x0208,0x0023,0x0aec     | +0581e
-        .dc.w   0xffff,0x0003,0x0208,0x0023,0x0b00,0xffff,0x0005,0x0208     | +0582e
-        .dc.w   0x0023,0x0b14,0xffff,0x0004,0x0208,0x0023,0x0b00,0xffff     | +0583e
-        .dc.w   0x0004,0x0208,0x0023,0x0aec,0xffff,0x0100,0x0029,0xb81c     | +0584e
-        .dc.w   0x0900,0x0029,0xb4a4,0x0004,0x0208,0x0023,0x0ad8,0xffff     | +0585e
-        .dc.l   Pal_020208                   | +0586e  -> $020208
-        .dc.w   0x0023,0x0aec,0xffff                                        | +05872
-        .dc.l   Pal_020208                   | +05878  -> $020208
-        .dc.w   0x0023,0x0b00,0xffff,0x0005,0x0208,0x0023,0x0b14,0xffff     | +0587c
-        .dc.w   0x0003,0x0208,0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023     | +0588c
-        .dc.w   0x0aec,0xffff,0x0100,0x0029,0xb85e,0x0900,0x0029,0xb4a4     | +0589c
-        .dc.w   0x0003,0x0208,0x0023,0x0ad8,0xffff                          | +058ac
-        .dc.l   Pal_020208                   | +058b6  -> $020208
-        .dc.w   0x0023,0x0aec,0xffff                                        | +058ba
-        .dc.l   Pal_020208                   | +058c0  -> $020208
-        .dc.w   0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023,0x0b14,0xffff     | +058c4
-        .dc.w   0x0003,0x0208,0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023     | +058d4
-        .dc.w   0x0aec,0xffff,0x0100,0x0029,0xb8a6,0x0900,0x0029,0xb4f8     | +058e4
-        .dc.w   0x0004,0x0208,0x0023,0x0b54,0xffff,0x0003,0x0208,0x0023     | +058f4
-        .dc.w   0x0b64,0xffff,0x0003,0x0208,0x0023,0x0b74,0xffff,0x0006     | +05904
-        .dc.w   0x0208,0x0023,0x0b84,0xffff,0x0005,0x0208,0x0023,0x0b74     | +05914
-        .dc.w   0xffff,0x0005,0x0208,0x0023,0x0b64,0xffff,0x0100,0x0029     | +05924
-        .dc.w   0xb8ee,0x0900,0x0029,0xb4f8                                 | +05934
-        .dc.l   0x00010208                    | +0593c  -> $010208
-        .dc.w   0x0023,0x0b2c,0xffff                                        | +05940
-        .dc.l   0x00010208                    | +05946  -> $010208
-        .dc.w   0x0023,0x0b44,0xffff,0x0100,0x0029,0xb8ee,0x0900,0x0029     | +0594a
-        .dc.w   0xb4f8                                                      | +0595a
-        .dc.l   Pal_020208                   | +0595c  -> $020208
-        .dc.w   0x0023,0x0b2c,0xffff,0x0900,0x0029,0xb5f4                   | +05960
-        .dc.l   0x00010208                    | +0596c  -> $010208
-        .dc.w   0x0023,0x0b94,0xffff                                        | +05970
-        .dc.l   0x00010208                    | +05976  -> $010208
-        .dc.w   0x0023,0x0bac,0xffff                                        | +0597a
-        .dc.l   0x00010208                    | +05980  -> $010208
-        .dc.w   0x0023,0x0bc4,0xffff,0x0900,0x0029,0xb5a0                   | +05984
-        .dc.l   Pal_020208                   | +05990  -> $020208
-        .dc.w   0x0023,0x0bdc,0xffff                                        | +05994
-        .dc.l   0x00010208                    | +0599a  -> $010208
-        .dc.w   0x0023,0x0bf8,0xffff                                        | +0599e
-        .dc.l   0x00010208                    | +059a4  -> $010208
-        .dc.w   0x0023,0x0c10,0xffff                                        | +059a8
-        .dc.l   0x00010208                    | +059ae  -> $010208
-        .dc.w   0x0023,0x0c28,0xffff                                        | +059b2
-        .dc.l   0x00010208                    | +059b8  -> $010208
-        .dc.w   0x0023,0x0c36,0xffff                                        | +059bc
-        .dc.l   0x00010208                    | +059c2  -> $010208
-        .dc.w   0x0023,0x0c28,0xffff,0x1600,0x0800,0x0004,0xa108,0x0900     | +059c6
-        .dc.w   0x0029,0xb4f8                                               | +059d6
-        .dc.l   0x00010208                    | +059da  -> $010208
-        .dc.w   0x0023,0x1a20,0xffff                                        | +059de
-        .dc.l   0x00010208                    | +059e4  -> $010208
-        .dc.w   0x0023,0x1a34,0xffff                                        | +059e8
-        .dc.l   0x00010208                    | +059ee  -> $010208
-        .dc.w   0x0023,0x1a48,0xffff                                        | +059f2
-        .dc.l   0x00010208                    | +059f8  -> $010208
-        .dc.w   0x0023,0x1a5c,0xffff,0x0900,0x0029,0xb5f4                   | +059fc
-        .dc.l   0x00010208                    | +05a08  -> $010208
-        .dc.w   0x0023,0x1a76,0xffff,0x0800                                 | +05a0c
-        .dc.l   Bounce_SpawnFromParent_056066 | +05a14  -> $056066
-        .dc.l   0x00010208                    | +05a18  -> $010208
-        .dc.w   0x0023,0x0bac,0xffff                                        | +05a1c
-        .dc.l   Pal_020208                   | +05a22  -> $020208
-        .dc.w   0x0023,0x0bc4,0xffff,0x0900,0x0029,0xb5a0                   | +05a26
-        .dc.l   0x00010208                    | +05a32  -> $010208
-        .dc.w   0x0023,0x0bdc,0xffff                                        | +05a36
-        .dc.l   0x00010208                    | +05a3c  -> $010208
-        .dc.w   0x0023,0x0bf8,0xffff                                        | +05a40
-        .dc.l   0x00010208                    | +05a46  -> $010208
-        .dc.w   0x0023,0x0c10,0xffff                                        | +05a4a
-        .dc.l   0x00010208                    | +05a50  -> $010208
-        .dc.w   0x0023,0x0c28,0xffff                                        | +05a54
-        .dc.l   0x00010208                    | +05a5a  -> $010208
-        .dc.w   0x0023,0x0c36,0xffff,0x0014,0x0208,0x0023,0x0c28,0xffff     | +05a5e
-        .dc.w   0x1600,0x0800,0x0004,0xa110,0x0900,0x0029,0xb4a4            | +05a6e
-        .dc.l   0x00010208                    | +05a7c  -> $010208
-        .dc.w   0x0023,0x0ad8,0xffff                                        | +05a80
-        .dc.l   0x00010208                    | +05a86  -> $010208
-        .dc.w   0x0023,0x0e6c,0xffff                                        | +05a8a
-        .dc.l   0x00010208                    | +05a90  -> $010208
-        .dc.w   0x0023,0x0e80,0xffff                                        | +05a94
-        .dc.l   0x00010208                    | +05a9a  -> $010208
-        .dc.w   0x0023,0x0e94,0xffff                                        | +05a9e
-        .dc.l   0x00010208                    | +05aa4  -> $010208
-        .dc.w   0x0023,0x40c8,0xffff                                        | +05aa8
-        .dc.l   0x00010208                    | +05aae  -> $010208
-        .dc.w   0x0023,0x40dc,0xffff                                        | +05ab2
-        .dc.l   0x00010208                    | +05ab8  -> $010208
-        .dc.w   0x0023,0x40f8,0xffff                                        | +05abc
-        .dc.l   0x00010208                    | +05ac2  -> $010208
-        .dc.w   0x0023,0x4116,0xffff                                        | +05ac6
-        .dc.l   0x00010208                    | +05acc  -> $010208
-        .dc.w   0x0023,0x4134,0xffff                                        | +05ad0
-        .dc.l   0x00010208                    | +05ad6  -> $010208
-        .dc.w   0x0023,0x4152,0xffff                                        | +05ada
-        .dc.l   0x00010208                    | +05ae0  -> $010208
-        .dc.w   0x0023,0x4170,0xffff,0x0800                                 | +05ae4
-        .dc.l   Grenade_SpawnFromThrower_055bce| +05aec  -> $055BCE
-        .dc.l   0x00010208                    | +05af0  -> $010208
-        .dc.w   0x0023,0x418c,0xffff                                        | +05af4
-        .dc.l   0x00010208                    | +05afa  -> $010208
-        .dc.w   0x0023,0x0f58,0xffff                                        | +05afe
-        .dc.l   0x00010208                    | +05b04  -> $010208
-        .dc.w   0x0023,0x0f72,0xffff                                        | +05b08
-        .dc.l   Pal_020208                   | +05b0e  -> $020208
-        .dc.w   0x0023,0x0f86,0xffff                                        | +05b12
-        .dc.l   0x00010208                    | +05b18  -> $010208
-        .dc.w   0x0023,0x0f72,0xffff                                        | +05b1c
-        .dc.l   0x00010208                    | +05b22  -> $010208
-        .dc.w   0x0023,0x0f58,0xffff                                        | +05b26
-        .dc.l   0x00010208                    | +05b2c  -> $010208
-        .dc.w   0x0023,0x0f9a,0xffff                                        | +05b30
-        .dc.l   0x00010208                    | +05b36  -> $010208
-        .dc.w   0x0023,0x0fae,0xffff                                        | +05b3a
-        .dc.l   0x00010208                    | +05b40  -> $010208
-        .dc.w   0x0023,0x0fc2,0xffff,0x1600,0x0800,0x0004,0xa110,0x0900     | +05b44
-        .dc.w   0x0029,0xb5a0                                               | +05b54
-        .dc.l   0x00010208                    | +05b58  -> $010208
-        .dc.w   0x0023,0x0c44,0xffff                                        | +05b5c
-        .dc.l   0x00010208                    | +05b62  -> $010208
-        .dc.w   0x0023,0x0c58,0xffff                                        | +05b66
-        .dc.l   0x00010208                    | +05b6c  -> $010208
-        .dc.w   0x0023,0x0c6c,0xffff                                        | +05b70
-        .dc.l   0x00010208                    | +05b76  -> $010208
-        .dc.w   0x0023,0x0c80,0xffff                                        | +05b7a
-        .dc.l   0x00010208                    | +05b80  -> $010208
-        .dc.w   0x0023,0x0c94,0xffff                                        | +05b84
-        .dc.l   0x00010208                    | +05b8a  -> $010208
-        .dc.w   0x0023,0x4038,0xffff                                        | +05b8e
-        .dc.l   0x00010208                    | +05b94  -> $010208
-        .dc.w   0x0023,0x4050,0xffff                                        | +05b98
-        .dc.l   0x00010208                    | +05b9e  -> $010208
-        .dc.w   0x0023,0x4064,0xffff                                        | +05ba2
-        .dc.l   0x00010208                    | +05ba8  -> $010208
-        .dc.w   0x0023,0x4078,0xffff                                        | +05bac
-        .dc.l   0x00010208                    | +05bb2  -> $010208
-        .dc.w   0x0023,0x408c,0xffff                                        | +05bb6
-        .dc.l   0x00010208                    | +05bbc  -> $010208
-        .dc.w   0x0023,0x40a8,0xffff,0x0800                                 | +05bc0
-        .dc.l   Grenade_SpawnFromThrower_055bce| +05bc8  -> $055BCE
-        .dc.w   0x0003,0x0208,0x0023,0x0d2c,0xffff                          | +05bcc
-        .dc.l   Pal_020208                   | +05bd6  -> $020208
-        .dc.w   0x0023,0x0c6c,0xffff                                        | +05bda
-        .dc.l   0x00010208                    | +05be0  -> $010208
-        .dc.w   0x0023,0x0c58,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0800     | +05be4
-        .dc.w   0x0004,0xa120                                               | +05bf4
-        .dc.l   Pal_020208                   | +05bf8  -> $020208
-        .dc.w   0x0023,0x0e6c,0xffff                                        | +05bfc
-        .dc.l   Pal_020208                   | +05c02  -> $020208
-        .dc.w   0x0023,0x0e80,0xffff                                        | +05c06
-        .dc.l   Pal_020208                   | +05c0c  -> $020208
-        .dc.w   0x0023,0x0e94,0xffff                                        | +05c10
-        .dc.l   Pal_020208                   | +05c16  -> $020208
-        .dc.w   0x0023,0x0ea8,0xffff                                        | +05c1a
-        .dc.l   Pal_020208                   | +05c20  -> $020208
-        .dc.w   0x0023,0x3178,0xffff                                        | +05c24
-        .dc.l   Pal_020208                   | +05c2a  -> $020208
-        .dc.w   0x0023,0x3192,0xffff                                        | +05c2e
-        .dc.l   Pal_020208                   | +05c34  -> $020208
-        .dc.w   0x0023,0x31ac,0xffff                                        | +05c38
-        .dc.l   Pal_020208                   | +05c3e  -> $020208
-        .dc.w   0x0023,0x31c6,0xffff                                        | +05c42
-        .dc.l   Pal_020208                   | +05c48  -> $020208
-        .dc.w   0x0023,0x31e0,0xffff,0x0800                                 | +05c4c
-        .dc.l   Mortar_SpawnFromParent_056438 | +05c54  -> $056438
-        .dc.l   Pal_020208                   | +05c58  -> $020208
-        .dc.w   0x0023,0x31f4,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0800     | +05c5c
-        .dc.w   0x0004,0xa120                                               | +05c6c
-        .dc.l   0x00010208                    | +05c70  -> $010208
-        .dc.w   0x0023,0x0ad8,0xffff                                        | +05c74
-        .dc.l   0x00010208                    | +05c7a  -> $010208
-        .dc.w   0x0023,0x0e6c,0xffff                                        | +05c7e
-        .dc.l   0x00010208                    | +05c84  -> $010208
-        .dc.w   0x0023,0x0e80,0xffff                                        | +05c88
-        .dc.l   0x00010208                    | +05c8e  -> $010208
-        .dc.w   0x0023,0x0e94,0xffff                                        | +05c92
-        .dc.l   0x00010208                    | +05c98  -> $010208
-        .dc.w   0x0023,0x3258,0xffff                                        | +05c9c
-        .dc.l   0x00010208                    | +05ca2  -> $010208
-        .dc.w   0x0023,0x326c,0xffff                                        | +05ca6
-        .dc.l   0x00010208                    | +05cac  -> $010208
-        .dc.w   0x0023,0x3286,0xffff                                        | +05cb0
-        .dc.l   0x00010208                    | +05cb6  -> $010208
-        .dc.w   0x0023,0x32a0,0xffff                                        | +05cba
-        .dc.l   0x00010208                    | +05cc0  -> $010208
-        .dc.w   0x0023,0x32c0,0xffff                                        | +05cc4
-        .dc.l   0x00010208                    | +05cca  -> $010208
-        .dc.w   0x0023,0x32a0,0xffff                                        | +05cce
-        .dc.l   0x00010208                    | +05cd4  -> $010208
-        .dc.w   0x0023,0x32e0,0xffff                                        | +05cd8
-        .dc.l   0x00010208                    | +05cde  -> $010208
-        .dc.w   0x0023,0x3300,0xffff,0x0800,0x0005,0x6844                   | +05ce2
-        .dc.l   Pal_020208                   | +05cee  -> $020208
-        .dc.w   0x0023,0x0f58,0xffff                                        | +05cf2
-        .dc.l   0x00010208                    | +05cf8  -> $010208
-        .dc.w   0x0023,0x0f72,0xffff,0x0004,0x0208,0x0023,0x0f86,0xffff     | +05cfc
-        .dc.l   Pal_020208                   | +05d0c  -> $020208
-        .dc.w   0x0023,0x0f72,0xffff                                        | +05d10
-        .dc.l   Pal_020208                   | +05d16  -> $020208
-        .dc.w   0x0023,0x0f58,0xffff                                        | +05d1a
-        .dc.l   Pal_020208                   | +05d20  -> $020208
-        .dc.w   0x0023,0x0f9a,0xffff                                        | +05d24
-        .dc.l   Pal_020208                   | +05d2a  -> $020208
-        .dc.w   0x0023,0x0fae,0xffff                                        | +05d2e
-        .dc.l   Pal_020208                   | +05d34  -> $020208
-        .dc.w   0x0023,0x0fc2,0xffff,0x1600                                 | +05d38
-        .dc.l   0x00010208                    | +05d40  -> $010208
-        .dc.w   0x0023,0x0b84,0xffff                                        | +05d44
-        .dc.l   0x00010208                    | +05d4a  -> $010208
-        .dc.w   0x0023,0x0b74,0xffff                                        | +05d4e
-        .dc.l   0x00010208                    | +05d54  -> $010208
-        .dc.w   0x0023,0x0b64,0xffff,0x0900,0x0029,0xb4a4                   | +05d58
-        .dc.l   0x00010208                    | +05d64  -> $010208
-        .dc.w   0x0023,0x0b54,0xffff                                        | +05d68
-        .dc.l   0x00010208                    | +05d6e  -> $010208
-        .dc.w   0x0023,0x0b44,0xffff                                        | +05d72
-        .dc.l   0x00010208                    | +05d78  -> $010208
-        .dc.w   0x0023,0x0b2c,0xffff,0x1600,0x0900,0x0029,0xb5a0            | +05d7c
-        .dc.l   0x00010208                    | +05d8a  -> $010208
-        .dc.w   0x0023,0x0c44,0xffff                                        | +05d8e
-        .dc.l   0x00010208                    | +05d94  -> $010208
-        .dc.w   0x0023,0x0c58,0xffff                                        | +05d98
-        .dc.l   0x00010208                    | +05d9e  -> $010208
-        .dc.w   0x0023,0x0b84,0xffff                                        | +05da2
-        .dc.l   0x00010208                    | +05da8  -> $010208
-        .dc.w   0x0023,0x0b74,0xffff,0x0900,0x0029,0xb4f8                   | +05dac
-        .dc.l   0x00010208                    | +05db8  -> $010208
-        .dc.w   0x0023,0x0b64,0xffff                                        | +05dbc
-        .dc.l   0x00010208                    | +05dc2  -> $010208
-        .dc.w   0x0023,0x0b54,0xffff                                        | +05dc6
-        .dc.l   0x00010208                    | +05dcc  -> $010208
-        .dc.w   0x0023,0x0b44,0xffff,0x0900,0x0029,0xb4a4                   | +05dd0
-        .dc.l   0x00010208                    | +05ddc  -> $010208
-        .dc.w   0x0023,0x0b2c,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0004     | +05de0
-        .dc.w   0x0208,0x0023,0x2d78,0xffff                                 | +05df0
-        .dc.l   Pal_020208                   | +05df8  -> $020208
-        .dc.w   0x0023,0x2d8c,0xffff                                        | +05dfc
-        .dc.l   Pal_020208                   | +05e02  -> $020208
-        .dc.w   0x0023,0x2da0,0xffff,0x0003,0x0208,0x0023,0x2db4,0xffff     | +05e06
-        .dc.w   0x0003,0x0208,0x0023,0x2da0,0xffff,0x0004,0x0208,0x0023     | +05e16
-        .dc.w   0x2d8c,0xffff,0x1600,0x0900,0x0029,0xb4a4                   | +05e26
-        .dc.l   BgMap_0c0208                   | +05e32  -> $0C0208
-        .dc.w   0x0023,0x2dc8,0xffff                                        | +05e36
-        .dc.l   0x00010208                    | +05e3c  -> $010208
-        .dc.w   0x0023,0x2de2,0xffff                                        | +05e40
-        .dc.l   0x00010208                    | +05e46  -> $010208
-        .dc.w   0x0023,0x2dfc,0xffff,0x0005,0x0208,0x0023,0x2e16,0xffff     | +05e4a
-        .dc.w   0x0003,0x0208,0x0023,0x2dfc,0xffff,0x0003,0x0208,0x0023     | +05e5a
-        .dc.w   0x2de2,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0003,0x0208     | +05e6a
-        .dc.w   0x0023,0x2e30,0xffff,0x0003,0x0208,0x0023,0x2e4a,0xffff     | +05e7a
-        .dc.w   0x0003,0x0208,0x0023,0x2e30,0xffff,0x0003,0x0208,0x0023     | +05e8a
-        .dc.w   0x2e4a,0xffff,0x0003,0x0208,0x0023,0x2e64,0xffff,0x0003     | +05e9a
-        .dc.w   0x0208,0x0023,0x2e4a,0xffff,0x0003,0x0208,0x0023,0x2e64     | +05eaa
-        .dc.w   0xffff,0x0003,0x0208,0x0023,0x2e78,0xffff,0x0003,0x0208     | +05eba
-        .dc.w   0x0023,0x2e64,0xffff,0x0003,0x0208,0x0023,0x2e78,0xffff     | +05eca
-        .dc.w   0x0003,0x0208,0x0023,0x2e64,0xffff,0x0003,0x0208,0x0023     | +05eda
-        .dc.w   0x2e78,0xffff,0x0003,0x0208,0x0023,0x2e64,0xffff,0x0003     | +05eea
-        .dc.w   0x0208,0x0023,0x2e4a,0xffff,0x1600,0x0900,0x0029,0xb4a4     | +05efa
-        .dc.w   0x0004,0x0208,0x0023,0x2e30,0xffff,0x0004,0x0208,0x0023     | +05f0a
-        .dc.w   0x2e4a,0xffff,0x0004,0x0208,0x0023,0x2e64,0xffff,0x0004     | +05f1a
-        .dc.w   0x0208,0x0023,0x2e78,0xffff,0x1600,0x0900,0x0029,0xb4a4     | +05f2a
-        .dc.w   0x0007,0x0208,0x0023,0x11b2,0xffff                          | +05f3a
-        .dc.l   Pal_020208                   | +05f44  -> $020208
-        .dc.w   0x0023,0x11c6,0xffff                                        | +05f48
-        .dc.l   Pal_020208                   | +05f4e  -> $020208
-        .dc.w   0x0023,0x11da,0xffff                                        | +05f52
-        .dc.l   Pal_020208                   | +05f58  -> $020208
-        .dc.w   0x0023,0x11ee,0xffff                                        | +05f5c
-        .dc.l   Pal_020208                   | +05f62  -> $020208
-        .dc.w   0x0023,0x1202,0xffff                                        | +05f66
-        .dc.l   Pal_020208                   | +05f6c  -> $020208
-        .dc.w   0x0023,0x1216,0xffff                                        | +05f70
-        .dc.l   Pal_020208                   | +05f76  -> $020208
-        .dc.w   0x0023,0x122a,0xffff                                        | +05f7a
-        .dc.l   Pal_020208                   | +05f80  -> $020208
-        .dc.w   0x0023,0x123e,0xffff                                        | +05f84
-        .dc.l   Pal_020208                   | +05f8a  -> $020208
-        .dc.w   0x0023,0x1252,0xffff                                        | +05f8e
-        .dc.l   Pal_020208                   | +05f94  -> $020208
-        .dc.w   0x0023,0x1266,0xffff,0x1301,0x003a                          | +05f98
-        .dc.l   Pal_020208                   | +05fa2  -> $020208
-        .dc.w   0x0023,0x0ad8,0xffff                                        | +05fa6
-        .dc.l   BgMap_0c0208                   | +05fac  -> $0C0208
-        .dc.w   0x0023,0x11b2,0xffff,0x1600                                 | +05fb0
-        .dc.l   0x00010208                    | +05fb8  -> $010208
-        .dc.w   0x0023,0x187c,0xffff,0x1600,0x0800,0x0004,0xa120,0x0900     | +05fbc
-        .dc.w   0x0029,0xb4a4                                               | +05fcc
-        .dc.l   0x00010208                    | +05fd0  -> $010208
-        .dc.w   0x0023,0x173c,0xffff                                        | +05fd4
-        .dc.l   0x00010208                    | +05fda  -> $010208
-        .dc.w   0x0023,0x1750,0xffff                                        | +05fde
-        .dc.l   0x00010208                    | +05fe4  -> $010208
-        .dc.w   0x0023,0x176a,0xffff                                        | +05fe8
-        .dc.l   0x00010208                    | +05fee  -> $010208
-        .dc.w   0x0023,0x1784,0xffff                                        | +05ff2
-        .dc.l   0x00010208                    | +05ff8  -> $010208
-        .dc.w   0x0023,0x179e,0xffff                                        | +05ffc
-        .dc.l   0x00010208                    | +06002  -> $010208
-        .dc.w   0x0023,0x17b8,0xffff                                        | +06006
-        .dc.l   0x00010208                    | +0600c  -> $010208
-        .dc.w   0x0023,0x17d2,0xffff                                        | +06010
-        .dc.l   0x00010208                    | +06016  -> $010208
-        .dc.w   0x0023,0x17ec,0xffff                                        | +0601a
-        .dc.l   0x00010208                    | +06020  -> $010208
-        .dc.w   0x0023,0x1806,0xffff                                        | +06024
-        .dc.l   0x00010208                    | +0602a  -> $010208
-        .dc.w   0x0023,0x1820,0xffff                                        | +0602e
-        .dc.l   0x00010208                    | +06034  -> $010208
-        .dc.w   0x0023,0x183a,0xffff                                        | +06038
-        .dc.l   0x00010208                    | +0603e  -> $010208
-        .dc.w   0x0023,0x1820,0xffff                                        | +06042
-        .dc.l   0x00010208                    | +06048  -> $010208
-        .dc.w   0x0023,0x1806,0xffff                                        | +0604c
-        .dc.l   0x00010208                    | +06052  -> $010208
-        .dc.w   0x0023,0x17ec,0xffff                                        | +06056
-        .dc.l   0x00010208                    | +0605c  -> $010208
-        .dc.w   0x0023,0x17d2,0xffff                                        | +06060
-        .dc.l   0x00010208                    | +06066  -> $010208
-        .dc.w   0x0023,0x17b8,0xffff                                        | +0606a
-        .dc.l   0x00010208                    | +06070  -> $010208
-        .dc.w   0x0023,0x179e,0xffff                                        | +06074
-        .dc.l   0x00010208                    | +0607a  -> $010208
-        .dc.w   0x0023,0x1784,0xffff                                        | +0607e
-        .dc.l   0x00010208                    | +06084  -> $010208
-        .dc.w   0x0023,0x176a,0xffff                                        | +06088
-        .dc.l   0x00010208                    | +0608e  -> $010208
-        .dc.w   0x0023,0x1750,0xffff                                        | +06092
-        .dc.l   Pal_020208                   | +06098  -> $020208
-        .dc.w   0x0023,0x173c,0xffff                                        | +0609c
-        .dc.l   0x00010208                    | +060a2  -> $010208
-        .dc.w   0x0023,0x1854,0xffff,0x1600,0x0900,0xffff,0xffff,0x0006     | +060a6
-        .dc.w   0x0208,0x0023,0x22d8,0xffff,0x0006,0x0208,0x0023,0x22ec     | +060b6
-        .dc.w   0xffff,0x0006,0x0208,0x0023,0x2300,0xffff,0x0006,0x0208     | +060c6
-        .dc.w   0x0023,0x2314,0xffff,0x0006,0x0208,0x0023,0x2300,0xffff     | +060d6
-        .dc.w   0x0006,0x0208,0x0023,0x22ec,0xffff,0x0006,0x0208,0x0023     | +060e6
-        .dc.w   0x22d8,0xffff,0x0006,0x0208,0x0023,0x22ec,0xffff,0x0006     | +060f6
-        .dc.w   0x0208,0x0023,0x2300,0xffff,0x0006,0x0208,0x0023,0x2314     | +06106
-        .dc.w   0xffff,0x0003,0x0208,0x0023,0x2328,0xffff,0x0003,0x0208     | +06116
-        .dc.w   0x0023,0x233c,0xffff,0x0003,0x0208,0x0023,0x2350,0xffff     | +06126
-        .dc.w   0x0003,0x0208,0x0023,0x2364,0xffff,0x0003,0x0208,0x0023     | +06136
-        .dc.w   0x2378,0xffff,0x0003,0x0208,0x0023,0x238c,0xffff,0x0900     | +06146
-        .dc.w   0xffff,0xffff,0x0004,0x0208,0x0023,0x23a0,0xffff            | +06156
-        .dc.l   BgMap_0a0208                   | +06164  -> $0A0208
-        .dc.w   0x0023,0x23b4,0xffff,0x0004,0x0208,0x0023,0x23a0,0xffff     | +06168
-        .dc.w   0x0900,0x0029,0xb648,0x0003,0x0208,0x0023,0x23c8,0xffff     | +06178
-        .dc.w   0x0003,0x0208,0x0023,0x238c,0xffff,0x0003,0x0208,0x0023     | +06188
-        .dc.w   0x23c8,0xffff,0x0003,0x0208,0x0023,0x238c,0xffff,0x0003     | +06198
-        .dc.w   0x0208,0x0023,0x23c8,0xffff,0x0003,0x0208,0x0023,0x238c     | +061a8
-        .dc.w   0xffff,0x0003,0x0208,0x0023,0x23c8,0xffff,0x0003,0x0208     | +061b8
-        .dc.w   0x0023,0x238c,0xffff,0x0100,0x0029,0xc154,0x0900,0xffff     | +061c8
-        .dc.w   0xffff,0x0400,0x103f                                        | +061d8
-        .dc.l   0x00010208                    | +061de  -> $010208
-        .dc.w   0x0023,0x23dc,0xffff                                        | +061e2
-        .dc.l   0x00010208                    | +061e8  -> $010208
-        .dc.w   0x0023,0x23f6,0xffff                                        | +061ec
-        .dc.l   0x00010208                    | +061f2  -> $010208
-        .dc.w   0x0023,0x2410,0xffff                                        | +061f6
-        .dc.l   0x00010208                    | +061fc  -> $010208
+        .dc.w   0x3662,0xffff,0x0020,0xffe0,0x1d00,0x0406,0x0064,0x0404 | +00000
+        .dc.w   0xff00,0x0000,0xffe0,0x0020,0xffe0,0x0020,0x0200,0x0024 | +00010
+        .dc.w   0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff | +00020
+        .dc.w   0xffe0,0x0020,0x0200,0x0024,0x364e,0xffff,0xffe0,0xffe0 | +00030
+        .dc.w   0x0200,0x0024,0x3658,0xffff,0x0020,0x0020,0x0200,0x0024 | +00040
+        .dc.w   0x3662,0xffff,0x0020,0xffe0,0x1d00,0xffff,0xffff,0x0301 | +00050
+        .dc.w   0x7fff,0x0404,0xff00,0x0000,0x0000,0x0030,0x0000,0x0030 | +00060
+        .dc.w   0x0200,0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024 | +00070
+        .dc.w   0x3644,0xffff,0x0000,0x0030,0x0200,0x0024,0x364e,0xffff | +00080
+        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3658,0xffff,0x0030,0x0030 | +00090
+        .dc.w   0x0200,0x0024,0x3662,0xffff,0x0030,0x0000,0x1d00,0x0401 | +000a0
+        .dc.w   0x7fff,0x0404,0xff00,0x0000,0x0000,0x0030,0x0000,0x0030 | +000b0
+        .dc.w   0x0200,0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024 | +000c0
+        .dc.w   0x3644,0xffff,0x0000,0x0030,0x0200,0x0024,0x364e,0xffff | +000d0
+        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3658,0xffff,0x0030,0x0030 | +000e0
+        .dc.w   0x0200,0x0024,0x3662,0xffff,0x0030,0x0000,0x1d00,0xffff | +000f0
+        .dc.w   0xffff,0x0306,0x0064,0x0404,0xff00,0x0000,0x0000,0x0050 | +00100
+        .dc.w   0x0000,0x0080,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000 | +00110
+        .dc.w   0x0200,0x0024,0x3644,0xffff,0x0000,0x0080,0x0200,0x0024 | +00120
+        .dc.w   0x364e,0xffff,0x0000,0x0000,0x0200,0x0024,0x3658,0xffff | +00130
+        .dc.w   0x0050,0x0080,0x0200,0x0024,0x3662,0xffff,0x0050,0x0000 | +00140
+        .dc.w   0x1d00,0x0406,0x0064,0x0404,0xff00,0x0000,0x0000,0x0050 | +00150
+        .dc.w   0x0000,0x0080,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000 | +00160
+        .dc.w   0x0200,0x0024,0x3644,0xffff,0x0000,0x0080,0x0200,0x0024 | +00170
+        .dc.w   0x364e,0xffff,0x0000,0x0000,0x0200,0x0024,0x3658,0xffff | +00180
+        .dc.w   0x0050,0x0080,0x0200,0x0024,0x3662,0xffff,0x0050,0x0000 | +00190
+        .dc.w   0x1d00,0xffff,0xffff,0x0306,0x7fff,0x0404,0xff00,0x0000 | +001a0
+        .dc.w   0xffc0,0x0040,0xffe0,0x0050,0x0200,0x0024,0x363a,0xffff | +001b0
+        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3644,0xffff,0xffc0,0x0050 | +001c0
+        .dc.w   0x0200,0x0024,0x364e,0xffff,0xffc0,0xffe0,0x0200,0x0024 | +001d0
+        .dc.w   0x3658,0xffff,0x0040,0x0050,0x0200,0x0024,0x3662,0xffff | +001e0
+        .dc.w   0x0040,0xffe0,0x1d00,0x0406,0x7fff,0x0404,0xff00,0x0000 | +001f0
+        .dc.w   0xffc0,0x0040,0xffe0,0x0050,0x0200,0x0024,0x363a,0xffff | +00200
+        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3644,0xffff,0xffc0,0x0050 | +00210
+        .dc.w   0x0200,0x0024,0x364e,0xffff,0xffc0,0xffe0,0x0200,0x0024 | +00220
+        .dc.w   0x3658,0xffff,0x0040,0x0050,0x0200,0x0024,0x3662,0xffff | +00230
+        .dc.w   0x0040,0xffe0,0x1d00,0xffff,0xffff,0xfff8,0x0008,0x0000 | +00240
+        .dc.l   ColMap_10ffff                  | +00250
+        .dc.w   0xfff8,0x0008,0xfff8,0x0008,0xffff,0xffc0,0x0040,0x0000 | +00254
+        .dc.w   0x0050,0xffff,0xffd0,0x0030,0xfff0,0x0030,0xffff,0x8001 | +00264
+        .dc.w   0x0070,0x0000,0x0050,0x0070,0x0000,0x0090,0x0200,0x0024 | +00274
+        .dc.w   0x3608,0xffff,0x0000,0x0000,0x0200,0x0024,0x3612,0xffff | +00284
+        .dc.w   0x0050,0x0090,0x0200,0x0024,0x361c,0xffff,0x0050,0x0000 | +00294
+        .dc.w   0x0200,0x0024,0x3626,0xffff,0x0070,0x0090,0x0200,0x0024 | +002a4
+        .dc.w   0x3630,0xffff,0x0070,0x0000,0x1d01,0x8001               | +002b4
+        .dc.l   ColMap_100000                  | +002c0
+        .dc.w   0xfff0,0x0030,0x0000,0x0090,0x0200,0x0024,0x3608,0xffff | +002c4
+        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3612,0xffff,0xfff0,0x0090 | +002d4
+        .dc.w   0x0200,0x0024,0x361c,0xffff,0xfff0,0x0000,0x0200,0x0024 | +002e4
+        .dc.w   0x3626,0xffff,0x0030,0x0090,0x0200,0x0024,0x3630,0xffff | +002f4
+        .dc.w   0x0030,0x0000,0x1d01,0x8001                             | +00304
+        .dc.l   ColMap_100000                  | +0030c
+        .dc.w   0x0000,0x0030,0x0000,0x00a0,0x0200,0x0024,0x3608,0xffff | +00310
+        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3612,0xffff,0x0000,0x00a0 | +00320
+        .dc.w   0x0200,0x0024,0x361c,0xffff,0x0000,0x0000,0x0200,0x0024 | +00330
+        .dc.w   0x3626,0xffff,0x0030,0x00a0,0x0200,0x0024,0x3630,0xffff | +00340
+        .dc.w   0x0030,0x0000,0x1d01,0x8001,0x0000,0x0000,0xfff2        | +00350
+        .dc.l   BgMap_0e0000                   | +0035e
+        .dc.w   0x001c,0x0200,0x0024,0x3608,0xffff,0x0000,0x0000,0x0200 | +00362
+        .dc.w   0x0024,0x3612,0xffff,0xfff2,0x001c,0x0200,0x0024,0x361c | +00372
+        .dc.w   0xffff,0xfff2,0x0000,0x0200,0x0024,0x3626,0xffff        | +00382
+        .dc.l   BgMap_0e001c                   | +00390
+        .dc.w   0x0200,0x0024,0x3630,0xffff                             | +00394
+        .dc.l   BgMap_0e0000                   | +0039c
+        .dc.w   0x1d01,0x0000,0x0000,0x0001                             | +003a0
+        .dc.b   0x01                           | +003a8
+        .fill   22,1,0x00                  | +003a9
+        .dc.b   0x01                           | +003bf
+        .dc.w   0x0001,0x0101,0x0002,0x0029,0x63a2,0x0000,0x0000,0xfff6 | +003c0
+        .dc.l   BgMap_0a0000                   | +003d0
+        .dc.w   0x0028,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +003d4
+        .dc.w   0x0024,0x3676,0xffff,0xfff6,0x0028,0x0200,0x0024,0x3680 | +003e4
+        .dc.w   0xffff,0xfff6,0x0000,0x0200,0x0024,0x368a,0xffff        | +003f4
+        .dc.l   BgMap_0a0028                   | +00402
+        .dc.w   0x0200,0x0024,0x3694,0xffff                             | +00406
+        .dc.l   BgMap_0a0000                   | +0040e
+        .dc.w   0x1d01,0xffff,0xffff,0x0000,0x0000,0x0101,0x0000,0x0000 | +00412
+        .dc.w   0x0101                                                  | +00422
+        .fill   17,1,0x00                  | +00424
+        .dc.b   0x01                           | +00435
+        .dc.w   0x0001,0x0101,0x0001,0x0029,0x6418,0x0000,0x0000,0xfff8 | +00436
+        .dc.w   0x0008,0x0028,0x0058,0x0200,0x0024,0x366c,0xffff,0x0000 | +00446
+        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff8,0x0058,0x0200 | +00456
+        .dc.w   0x0024,0x3680,0xffff,0xfff8,0x0028,0x0200,0x0024,0x368a | +00466
+        .dc.w   0xffff,0x0008,0x0058,0x0200,0x0024,0x3694,0xffff,0x0008 | +00476
+        .dc.w   0x0028,0x1d01,0xffff,0xffff,0x0001,0x0029,0x6418,0x0000 | +00486
+        .dc.w   0x0000,0xfff8,0x0008,0xffd0,0xffff,0x0200,0x0024,0x366c | +00496
+        .dc.w   0xffff,0x0000,0x0000,0x0200,0x0024,0x3676,0xffff,0xfff8 | +004a6
+        .dc.w   0xffff,0x0200,0x0024,0x3680,0xffff,0xfff8,0xffd0,0x0200 | +004b6
+        .dc.w   0x0024,0x368a,0xffff,0x0008,0xffff,0x0200,0x0024,0x3694 | +004c6
+        .dc.w   0xffff,0x0008,0xffd0,0x1d01,0xffff,0xffff,0x0001,0x0029 | +004d6
+        .dc.w   0x6418,0x0000,0x0000,0xffa0,0xfff0,0x0000,0x0028,0x0200 | +004e6
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +004f6
+        .dc.w   0xffff,0xffa0,0x0028,0x0200,0x0024,0x3680,0xffff,0xffa0 | +00506
+        .dc.w   0x0000,0x0200,0x0024,0x368a,0xffff,0xfff0,0x0028,0x0200 | +00516
+        .dc.w   0x0024,0x3694,0xffff,0xfff0,0x0000,0x1d01,0xffff,0xffff | +00526
+        .dc.w   0x0001,0x0029,0x6418,0x0000,0x0000                      | +00536
+        .dc.l   ColMap_100060                  | +00540
+        .dc.w   0x0000,0x0028,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000 | +00544
+        .dc.w   0x0200,0x0024,0x3676,0xffff                             | +00554
+        .dc.l   ColMap_100028                  | +0055c
+        .dc.w   0x0200,0x0024,0x3680,0xffff                             | +00560
+        .dc.l   ColMap_100000                  | +00568
+        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0060,0x0028,0x0200,0x0024 | +0056c
+        .dc.w   0x3694,0xffff,0x0060,0x0000,0x1d01,0xffff,0xffff,0x0800 | +0057c
+        .dc.l   Allen_SpawnMuzzleFlashA_05080a | +0058c
+        .dc.w   0x0001,0x0208,0x0024,0xa418,0xffff,0x0208,0x0024,0xa1aa | +00590
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xa436,0xffff,0x0208,0x0024 | +005a0
+        .dc.w   0xa1da,0xffff,0x0800                                    | +005b0
+        .dc.l   Allen_SpawnBulletLevel_050822  | +005b6
+        .dc.w   0x0001,0x0208,0x0024,0xa44c,0xffff,0x0208,0x0024,0xa1aa | +005ba
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xa46a,0xffff,0x0208,0x0024 | +005ca
+        .dc.w   0xa1da,0xffff,0x0800                                    | +005da
+        .dc.l   Allen_SpawnBulletLevel_050822  | +005e0
+        .dc.w   0x0001,0x0208,0x0024,0xa488,0xffff,0x0208,0x0024,0xa20a | +005e4
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xa4a8,0xffff,0x0208,0x0024 | +005f4
+        .dc.w   0xa232,0xffff,0x0800                                    | +00604
+        .dc.l   Allen_SpawnBulletLevel_050822  | +0060a
+        .dc.w   0x0001,0x0208,0x0024,0xa4ce,0xffff,0x0208,0x0024,0xa20a | +0060e
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xa4f2,0xffff,0x0208,0x0024 | +0061e
+        .dc.w   0xa232,0xffff,0x0800                                    | +0062e
+        .dc.l   Allen_SpawnBulletLevel_050822  | +00634
+        .dc.w   0x1600,0x0001,0x0208,0x0024,0xa262,0xffff,0x0001,0x0208 | +00638
+        .dc.w   0x0024,0xa280,0xffff,0x0001,0x0208,0x0024,0xa262,0xffff | +00648
+        .dc.w   0x0001,0x0208,0x0024,0xa280,0xffff,0x0001,0x0208,0x0024 | +00658
+        .dc.w   0xa29e,0xffff,0x0001,0x0208,0x0024,0xa2bc,0xffff,0x0001 | +00668
+        .dc.w   0x0208,0x0024,0xa29e,0xffff,0x0001,0x0208,0x0024,0xa2bc | +00678
+        .dc.w   0xffff,0x1600,0x0001,0x0208,0x0024,0xab4a,0xffff,0x0001 | +00688
+        .dc.w   0x0208,0x0024,0xab6e,0xffff,0x0800                      | +00698
+        .dc.l   Allen_SpawnMuzzleFlashB_050816 | +006a2
+        .dc.w   0x0001,0x0200,0x0024,0xa418,0xffff,0x0000,0x0010,0x0208 | +006a6
+        .dc.w   0x0024,0xa2da,0xffff,0x0001,0x0200,0x0024,0xa436,0xffff | +006b6
+        .dc.w   0x0000,0x0010,0x0208,0x0024,0xa2fe,0xffff,0x0800        | +006c6
+        .dc.l   Allen_SpawnBulletDiag_05087c   | +006d4
+        .dc.w   0x0001,0x0200,0x0024,0xa44c,0xffff,0x0000,0x0010,0x0208 | +006d8
+        .dc.w   0x0024,0xa2da,0xffff,0x0001,0x0200,0x0024,0xa46a,0xffff | +006e8
+        .dc.w   0x0000,0x0010,0x0208,0x0024,0xa2fe,0xffff,0x0800        | +006f8
+        .dc.l   Allen_SpawnBulletDiag_05087c   | +00706
+        .dc.w   0x0001,0x0200,0x0024,0xa488,0xffff,0x0000,0x0010,0x0208 | +0070a
+        .dc.w   0x0024,0xa32a,0xffff,0x0001,0x0200,0x0024,0xa4a8,0xffff | +0071a
+        .dc.w   0x0000,0x0010,0x0208,0x0024,0xa358,0xffff,0x0800        | +0072a
+        .dc.l   Allen_SpawnBulletDiag_05087c   | +00738
+        .dc.w   0x0001,0x0200,0x0024,0xa4ce,0xffff,0x0000,0x0010,0x0208 | +0073c
+        .dc.w   0x0024,0xa32a,0xffff,0x0001,0x0200,0x0024,0xa4f2,0xffff | +0074c
+        .dc.w   0x0000,0x0010,0x0208,0x0024,0xa358,0xffff,0x0800        | +0075c
+        .dc.l   Allen_SpawnBulletDiag_05087c   | +0076a
+        .dc.w   0x0001,0x0208,0x0024,0xab6e,0xffff,0x0001,0x0208,0x0024 | +0076e
+        .dc.w   0xab4a,0xffff,0x1600,0x0001,0x0208,0x0024,0xa384,0xffff | +0077e
+        .dc.w   0x0001,0x0208,0x0024,0xa3a6,0xffff,0x0001,0x0208,0x0024 | +0078e
+        .dc.w   0xa384,0xffff,0x0001,0x0208,0x0024,0xa3a6,0xffff,0x0001 | +0079e
+        .dc.w   0x0208,0x0024,0xa3cc,0xffff,0x0001,0x0208,0x0024,0xa3f2 | +007ae
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xa3cc,0xffff,0x0001,0x0208 | +007be
+        .dc.w   0x0024,0xa3f2,0xffff,0x1600,0x0001,0x0208,0x0024,0xaf26 | +007ce
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xaf30,0xffff,0x0100,0x0029 | +007de
+        .dc.w   0x67d6,0x0001,0x0208,0x0024,0xaf3a,0xffff,0x0001,0x0208 | +007ee
+        .dc.w   0x0024,0xaf52,0xffff,0x0001,0x0208,0x0024,0xaf66,0xffff | +007fe
+        .dc.w   0x0001,0x0208,0x0024,0xaf82,0xffff,0x0001,0x0208,0x0024 | +0080e
+        .dc.w   0xaf9a,0xffff,0x0001,0x0208,0x0024,0xafb2,0xffff,0x0001 | +0081e
+        .dc.w   0x0208,0x0024,0xafce,0xffff,0x0001,0x0208,0x0024,0xafee | +0082e
+        .dc.w   0xffff,0x1600,0x0001,0x0208,0x0024,0xb006,0xffff,0x0001 | +0083e
+        .dc.w   0x0208,0x0024,0xb016,0xffff,0x0001,0x0208,0x0024,0xb036 | +0084e
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xb058,0xffff,0x0001,0x0208 | +0085e
+        .dc.w   0x0024,0xb07a,0xffff,0x0001,0x0208,0x0024,0xb09c,0xffff | +0086e
+        .dc.w   0x0001,0x0208,0x0024,0xb0be,0xffff,0x0001,0x0208,0x0024 | +0087e
+        .dc.w   0xb0e0,0xffff,0x1600,0x0001,0x0208,0x0024,0xa17a,0xffff | +0088e
+        .dc.l   Pal_020208                     | +0089e
+        .dc.w   0x0024,0xa510,0xffff                                    | +008a2
+        .dc.l   Pal_020208                     | +008a8
+        .dc.w   0x0024,0xa544,0xffff                                    | +008ac
+        .dc.l   Pal_020208                     | +008b2
+        .dc.w   0x0024,0xa570,0xffff                                    | +008b6
+        .dc.l   Pal_020208                     | +008bc
+        .dc.w   0x0024,0xa5a6,0xffff                                    | +008c0
+        .dc.l   Pal_020208                     | +008c6
+        .dc.w   0x0024,0xa5d2,0xffff                                    | +008ca
+        .dc.l   Pal_020208                     | +008d0
+        .dc.w   0x0024,0xa5fa,0xffff                                    | +008d4
+        .dc.l   Pal_020208                     | +008da
+        .dc.w   0x0024,0xa628,0xffff                                    | +008de
+        .dc.l   Pal_020208                     | +008e4
+        .dc.w   0x0024,0xa654,0xffff                                    | +008e8
+        .dc.l   Pal_020208                     | +008ee
+        .dc.w   0x0024,0xa68a,0xffff                                    | +008f2
+        .dc.l   Pal_020208                     | +008f8
+        .dc.w   0x0024,0xa6c0,0xffff,0x0100,0x0029,0x689e,0x0001,0x0208 | +008fc
+        .dc.w   0x0024,0xa17a,0xffff                                    | +0090c
+        .dc.l   Pal_020208                     | +00912
+        .dc.w   0x0024,0xb216,0xffff                                    | +00916
+        .dc.l   Pal_020208                     | +0091c
+        .dc.w   0x0024,0xb242,0xffff                                    | +00920
+        .dc.l   Pal_020208                     | +00926
+        .dc.w   0x0024,0xb278,0xffff                                    | +0092a
+        .dc.l   Pal_020208                     | +00930
+        .dc.w   0x0024,0xb2ae,0xffff                                    | +00934
+        .dc.l   Pal_020208                     | +0093a
+        .dc.w   0x0024,0xb2e4,0xffff                                    | +0093e
+        .dc.l   Pal_020208                     | +00944
+        .dc.w   0x0024,0xb310,0xffff,0x0100,0x0029,0x6912,0x0001,0x0208 | +00948
+        .dc.w   0x0024,0xa6e8,0xffff,0x0001,0x0208,0x0024,0xa718,0xffff | +00958
+        .dc.w   0x0001,0x0209,0x0024,0xa718,0xffff,0x0001,0x0209,0x0024 | +00968
+        .dc.w   0xa6e8,0xffff,0x1600                                    | +00978
+        .dc.l   Pal_020208                     | +0097e
+        .dc.w   0x0024,0xa73e,0xffff                                    | +00982
+        .dc.l   Pal_020208                     | +00988
+        .dc.w   0x0024,0xa76e,0xffff                                    | +0098c
+        .dc.l   Pal_020208                     | +00992
+        .dc.w   0x0024,0xa79e,0xffff,0x0001,0x0208,0x0024,0xa76e,0xffff | +00996
+        .dc.w   0x0001,0x0208,0x0024,0xa73e,0xffff,0x0001,0x0208,0x0024 | +009a6
+        .dc.w   0xa17a,0xffff,0x1600                                    | +009b6
+        .dc.l   Pal_020208                     | +009bc
+        .dc.w   0x0024,0xa7d2,0xffff                                    | +009c0
+        .dc.l   Pal_020208                     | +009c6
+        .dc.w   0x0024,0xa80a,0xffff                                    | +009ca
+        .dc.l   Pal_020208                     | +009d0
+        .dc.w   0x0024,0xa848,0xffff                                    | +009d4
+        .dc.l   Pal_020208                     | +009da
+        .dc.w   0x0024,0xa880,0xffff                                    | +009de
+        .dc.l   Pal_020208                     | +009e4
+        .dc.w   0x0024,0xa848,0xffff                                    | +009e8
+        .dc.l   Pal_020208                     | +009ee
+        .dc.w   0x0024,0xa80a,0xffff                                    | +009f2
+        .dc.l   Pal_020208                     | +009f8
+        .dc.w   0x0024,0xa7d2,0xffff,0x1600,0x0001,0x0208,0x0024,0xa17a | +009fc
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xa73e,0xffff               | +00a0c
+        .dc.l   Pal_020208                     | +00a18
+        .dc.w   0x0024,0xa76e,0xffff,0x0003,0x0208,0x0024,0xa79e,0xffff | +00a1c
+        .dc.l   Pal_020208                     | +00a2c
+        .dc.w   0x0024,0xa76e,0xffff                                    | +00a30
+        .dc.l   Pal_020208                     | +00a36
+        .dc.w   0x0024,0xa73e,0xffff,0x0001,0x0208,0x0024,0xa17a,0xffff | +00a3a
+        .dc.w   0x1600,0x0005,0x0208,0x0024,0xa8ae,0xffff,0x0004,0x0208 | +00a4a
+        .dc.w   0x0024,0xa8da,0xffff,0x0004,0x0208,0x0024,0xa906,0xffff | +00a5a
+        .dc.w   0x0004,0x0208,0x0024,0xa92c,0xffff,0x0004,0x0208,0x0024 | +00a6a
+        .dc.w   0xa956,0xffff,0x0004,0x0208,0x0024,0xa97c,0xffff,0x0004 | +00a7a
+        .dc.w   0x0208,0x0024,0xa9b2,0xffff,0x0004,0x0208,0x0024,0xa9e8 | +00a8a
+        .dc.w   0xffff,0x0004,0x0208,0x0024,0xaa16,0xffff,0x0004,0x0208 | +00a9a
+        .dc.w   0x0024,0xaa3a,0xffff,0x0004,0x0208,0x0024,0xaa58,0xffff | +00aaa
+        .dc.w   0x1600,0x0003,0x0208,0x0024,0xae12,0xffff,0x0003,0x0208 | +00aba
+        .dc.w   0x0024,0xae3c,0xffff,0x0001,0x0208,0x0024,0xae72,0xffff | +00aca
+        .dc.w   0x1600                                                  | +00ada
+        .dc.l   Pal_020208                     | +00adc
+        .dc.w   0x0024,0xaea2,0xffff                                    | +00ae0
+        .dc.l   Pal_020208                     | +00ae6
+        .dc.w   0x0024,0xaed2,0xffff                                    | +00aea
+        .dc.l   Pal_020208                     | +00af0
+        .dc.w   0x0024,0xaf02,0xffff                                    | +00af4
+        .dc.l   Pal_020208                     | +00afa
+        .dc.w   0x0024,0xaa3a,0xffff                                    | +00afe
+        .dc.l   Pal_020208                     | +00b04
+        .dc.w   0x0024,0xaa58,0xffff                                    | +00b08
+        .dc.l   Pal_020208                     | +00b0e
+        .dc.w   0x0024,0xaa3a,0xffff                                    | +00b12
+        .dc.l   Pal_020208                     | +00b18
+        .dc.w   0x0024,0xaa58,0xffff,0x1600                             | +00b1c
+        .dc.l   Pal_020208                     | +00b24
+        .dc.w   0x0024,0xaa3a,0xffff                                    | +00b28
+        .dc.l   Pal_020208                     | +00b2e
+        .dc.w   0x0024,0xaa16,0xffff                                    | +00b32
+        .dc.l   Pal_020208                     | +00b38
+        .dc.w   0x0024,0xa9e8,0xffff                                    | +00b3c
+        .dc.l   Pal_020208                     | +00b42
+        .dc.w   0x0024,0xa9b2,0xffff                                    | +00b46
+        .dc.l   Pal_020208                     | +00b4c
+        .dc.w   0x0024,0xa97c,0xffff                                    | +00b50
+        .dc.l   Pal_020208                     | +00b56
+        .dc.w   0x0024,0xa956,0xffff                                    | +00b5a
+        .dc.l   Pal_020208                     | +00b60
+        .dc.w   0x0024,0xa92c,0xffff                                    | +00b64
+        .dc.l   Pal_020208                     | +00b6a
+        .dc.w   0x0024,0xa17a,0xffff,0x1600                             | +00b6e
+        .dc.l   Pal_020208                     | +00b76
+        .dc.w   0x0024,0xa17a,0xffff,0x0001,0x0208,0x0024,0xb102,0xffff | +00b7a
+        .dc.l   Pal_020208                     | +00b8a
+        .dc.w   0x0024,0xb126,0xffff                                    | +00b8e
+        .dc.l   Pal_020208                     | +00b94
+        .dc.w   0x0024,0xb14a,0xffff,0x0800                             | +00b98
+        .dc.l   Allen_ThrowGrenade_05063e      | +00ba0
+        .dc.w   0x0003,0x0208,0x0024,0xb16e,0xffff                      | +00ba4
+        .dc.l   Pal_020208                     | +00bae
+        .dc.w   0x0024,0xb192,0xffff                                    | +00bb2
+        .dc.l   Pal_020208                     | +00bb8
+        .dc.w   0x0024,0xb1b6,0xffff                                    | +00bbc
+        .dc.l   Pal_020208                     | +00bc2
+        .dc.w   0x0024,0xb1e6,0xffff                                    | +00bc6
+        .dc.l   Pal_020208                     | +00bcc
+        .dc.w   0x0024,0xb1b6,0xffff,0x1600,0x0400,0x113f               | +00bd0
+        .dc.l   Pal_020208                     | +00bdc
+        .dc.w   0x0024,0xaa78,0xffff                                    | +00be0
+        .dc.l   Pal_020208                     | +00be6
+        .dc.w   0x0024,0xaaa2,0xffff                                    | +00bea
+        .dc.l   Pal_020208                     | +00bf0
+        .dc.w   0x0024,0xaa78,0xffff,0x0003,0x0208,0x0024,0xaaa2,0xffff | +00bf4
+        .dc.w   0x0003,0x0208,0x0024,0xaa78,0xffff,0x0004,0x0208,0x0024 | +00c04
+        .dc.w   0xaaa2,0xffff,0x0004,0x0208,0x0024,0xaa78,0xffff,0x0003 | +00c14
+        .dc.w   0x0208,0x0024,0xab20,0xffff                             | +00c24
+        .dc.l   Pal_020208                     | +00c2c
+        .dc.w   0x0024,0xaacc,0xffff                                    | +00c30
+        .dc.l   Pal_020208                     | +00c36
+        .dc.w   0x0024,0xaaf6,0xffff                                    | +00c3a
+        .dc.l   Pal_020208                     | +00c40
+        .dc.w   0x0024,0xaacc,0xffff,0x0003,0x0208,0x0024,0xaaf6,0xffff | +00c44
+        .dc.w   0x0003,0x0208,0x0024,0xaacc,0xffff,0x0004,0x0208,0x0024 | +00c54
+        .dc.w   0xaaf6,0xffff,0x0004,0x0208,0x0024,0xaacc,0xffff        | +00c64
+        .dc.l   Pal_020208                     | +00c72
+        .dc.w   0x0024,0xab20,0xffff,0x0100,0x0029,0x6bd8,0x0a00,0x0029 | +00c76
+        .dc.w   0x6e1e                                                  | +00c86
+        .dc.l   Pal_020208                     | +00c88
+        .dc.w   0x0024,0xab98,0xffff                                    | +00c8c
+        .dc.l   Pal_020208                     | +00c92
+        .dc.w   0x0024,0xabbc,0xffff                                    | +00c96
+        .dc.l   Pal_020208                     | +00c9c
+        .dc.w   0x0024,0xabe0,0xffff                                    | +00ca0
+        .dc.l   Pal_020208                     | +00ca6
+        .dc.w   0x0024,0xac04,0xffff                                    | +00caa
+        .dc.l   Pal_020208                     | +00cb0
+        .dc.w   0x0024,0xac28,0xffff,0x0800                             | +00cb4
+        .dc.l   Entity_ProbeSlot4c_0283D8      | +00cbc
+        .dc.l   Pal_020208                     | +00cc0
+        .dc.w   0x0024,0xac54,0xffff                                    | +00cc4
+        .dc.l   Pal_020208                     | +00cca
+        .dc.w   0x0024,0xac88,0xffff                                    | +00cce
+        .dc.l   Pal_020208                     | +00cd4
+        .dc.w   0x0024,0xacb8,0xffff                                    | +00cd8
+        .dc.l   Pal_020208                     | +00cde
+        .dc.w   0x0024,0xace6,0xffff                                    | +00ce2
+        .dc.l   Pal_020208                     | +00ce8
+        .dc.w   0x0024,0xad18,0xffff                                    | +00cec
+        .dc.l   Pal_020208                     | +00cf2
+        .dc.w   0x0024,0xad4e,0xffff                                    | +00cf6
+        .dc.l   Pal_020208                     | +00cfc
+        .dc.w   0x0024,0xad7a,0xffff                                    | +00d00
+        .dc.l   Pal_020208                     | +00d06
+        .dc.w   0x0024,0xada6,0xffff                                    | +00d0a
+        .dc.l   Pal_020208                     | +00d10
+        .dc.w   0x0024,0xadca,0xffff                                    | +00d14
+        .dc.l   Pal_020208                     | +00d1a
+        .dc.w   0x0024,0xadee,0xffff,0x1600,0x0001,0x0208,0x0024,0xaf3a | +00d1e
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xaf52,0xffff,0x0001,0x0208 | +00d2e
+        .dc.w   0x0024,0xaf66,0xffff,0x0001,0x0208,0x0024,0xaf82,0xffff | +00d3e
+        .dc.w   0x0001,0x0208,0x0024,0xaf9a,0xffff,0x0001,0x0208,0x0024 | +00d4e
+        .dc.w   0xafb2,0xffff,0x0001,0x0208,0x0024,0xafce,0xffff,0x0001 | +00d5e
+        .dc.w   0x0208,0x0024,0xafee,0xffff,0x1600,0x0001,0x0208,0x0024 | +00d6e
+        .dc.w   0xb006,0xffff,0x0001,0x0208,0x0024,0xb016,0xffff,0x0001 | +00d7e
+        .dc.w   0x0208,0x0024,0xb036,0xffff,0x0001,0x0208,0x0024,0xb058 | +00d8e
+        .dc.w   0xffff,0x0001,0x0208,0x0024,0xb07a,0xffff,0x0001,0x0208 | +00d9e
+        .dc.w   0x0024,0xb09c,0xffff,0x0001,0x0208,0x0024,0xb0be,0xffff | +00dae
+        .dc.w   0x0001,0x0208,0x0024,0xb0e0,0xffff,0x1600               | +00dbe
+        .dc.l   BgMap_0a0000                   | +00dca
+        .dc.w   0x0004,0xff00,0x0000,0xffe0,0x0000,0xfff8,0x0020,0x0200 | +00dce
+        .dc.w   0x0024,0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644 | +00dde
+        .dc.w   0xffff,0xffe0,0x0020,0x0200,0x0024,0x364e,0xffff,0xffe0 | +00dee
+        .dc.w   0xfff8,0x0200,0x0024,0x3658,0xffff,0x0000,0x0020,0x0200 | +00dfe
+        .dc.w   0x0024,0x3662,0xffff,0x0000,0xfff8,0x1d00,0xffff,0xffff | +00e0e
+        .dc.w   0x000a,0x0032,0x0404,0xff00,0x0000,0xffd8,0x0008,0x0000 | +00e1e
+        .dc.w   0x0020,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000,0x0200 | +00e2e
+        .dc.w   0x0024,0x3644,0xffff,0xffd8,0x0020,0x0200,0x0024,0x364e | +00e3e
+        .dc.w   0xffff,0xffd8,0x0000,0x0200,0x0024,0x3658,0xffff,0x0008 | +00e4e
+        .dc.w   0x0020,0x0200,0x0024,0x3662,0xffff,0x0008,0x0000,0x1d00 | +00e5e
+        .dc.w   0xffff,0xffff,0x01bf,0x01c0,0x01c1,0x01c2,0x0000,0x012c | +00e6e
+        .dc.w   0x01f4,0x0064,0x012c,0x01f4,0x01f4,0x01f4,0x01f4,0x012c | +00e7e
+        .dc.w   0x01f4,0x0064,0x012c,0x01f4,0x01f4,0x01f4,0x01f4,0x01f4 | +00e8e
+        .dc.w   0x02bc,0x012c,0x01f4,0x01f4,0x01f4,0x01f4,0x01f4,0x01f4 | +00e9e
+        .dc.w   0x02bc,0x012c,0x01f4,0x01f4,0x01f4,0x01f4,0x01f4,0x02bc | +00eae
+        .dc.w   0x0384,0x01f4,0x02bc,0x01f4,0x01f4,0x01f4,0x01f4,0x02bc | +00ebe
+        .dc.w   0x0384,0x01f4,0x02bc,0x01f4,0x01f4,0x01f4,0x01f4,0x0384 | +00ece
+        .dc.w   0x044c,0x02bc,0x0384,0x01f4,0x01f4,0x01f4,0x01f4,0x0384 | +00ede
+        .dc.w   0x044c,0x02bc,0x0384,0x01f4,0x01f4,0x01f4,0x01f4,0x0000 | +00eee
+        .dc.w   0x0032,0x002d,0x0078,0x0064,0x002d,0x002d,0x002d,0x002d | +00efe
+        .dc.w   0x002d,0x0028,0x0078,0x0064,0x0028,0x0028,0x0028,0x0028 | +00f0e
+        .dc.w   0x0028,0x0023,0x0064,0x0050,0x0023,0x0023,0x0023,0x0023 | +00f1e
+        .dc.w   0x0023,0x001e,0x0064,0x0050,0x001e,0x001e,0x001e,0x001e | +00f2e
+        .dc.w   0x001e,0x0019,0x0050,0x003c,0x001c,0x001c,0x001c,0x001c | +00f3e
+        .dc.w   0x0019,0x0014,0x0050,0x003c                             | +00f4e
+        .dc.l   AnimScr_1a001a                 | +00f56
+        .dc.l   AnimScr_1a001a                 | +00f5a
+        .dc.w   0x0014,0x000f,0x003c,0x0032                             | +00f5e
+        .dc.l   AnimScr_180018                 | +00f66
+        .dc.l   AnimScr_180018                 | +00f6a
+        .dc.w   0x000f                                                  | +00f6e
+        .dc.l   BgMap_0a003c                   | +00f70
+        .dc.w   0x0032                                                  | +00f74
+        .dc.l   SprFrame_160016                | +00f76
+        .dc.l   SprFrame_160016                | +00f7a
+        .dc.w   0x0000,0x0600,0x0680,0x0400,0x0480,0x0800,0x0800,0x0800 | +00f7e
+        .dc.w   0x0800,0x0600,0x0680,0x0400,0x0480,0x0800,0x0800,0x0800 | +00f8e
+        .dc.w   0x0800,0x0700,0x0780,0x0600,0x0680,0x0800,0x0800,0x0800 | +00f9e
+        .dc.w   0x0800,0x0700,0x0780,0x0600,0x0680,0x0800,0x0800,0x0800 | +00fae
+        .dc.w   0x0800,0x0800,0x0880,0x0800,0x0800,0x0800,0x0800,0x0800 | +00fbe
+        .dc.w   0x0800,0x0800,0x0880,0x0800,0x0800,0x0800,0x0800,0x0800 | +00fce
+        .dc.w   0x0800,0x0900,0x0900,0x0900,0x0900,0x0800,0x0800,0x0800 | +00fde
+        .dc.w   0x0800,0x0900,0x0900,0x0900,0x0900,0x0800,0x0800,0x0800 | +00fee
+        .dc.w   0x0800,0x0000,0x0580,0x0600,0x0400,0x0480,0x0800,0x0800 | +00ffe
+        .dc.w   0x0800,0x0800,0x0600,0x0680,0x0400,0x0480,0x0800,0x0800 | +0100e
+        .dc.w   0x0800,0x0800,0x0680,0x0700,0x0600,0x0680,0x0800,0x0800 | +0101e
+        .dc.w   0x0800,0x0800,0x0700,0x0780,0x0600,0x0680,0x0800,0x0800 | +0102e
+        .dc.w   0x0800,0x0800,0x0780,0x0880,0x0700,0x0700,0x0800,0x0800 | +0103e
+        .dc.w   0x0800,0x0800,0x0880,0x0880,0x0700,0x0700,0x0800,0x0800 | +0104e
+        .dc.w   0x0800,0x0800,0x0900,0x0900,0x0800,0x0800,0x0800,0x0800 | +0105e
+        .dc.w   0x0800,0x0800,0x0900,0x0900,0x0800,0x0800,0x0800,0x0800 | +0106e
+        .dc.w   0x0800,0x0800,0x0100                                    | +0107e
+        .dc.l   ColMap_106f6c                  | +01084
+        .dc.w   0x0000,0x0000                                           | +01088
+        .dc.l   SprFrame_150013                | +0108c
+        .dc.w   0x0200                                                  | +01090
+        .dc.l   BgMap_0d0005                   | +01092
+        .dc.w   0x2712                                                  | +01096
+        .fill   9,1,0x00                  | +01098
+        .dc.b   0x0a                           | +010a1
+        .dc.w   0x0810,0x0198,0x0811,0x0199,0x0812,0x019a,0x00ff,0x0000 | +010a2
+        .dc.w   0xffff,0x000f                                           | +010b2
+        .fill   13,1,0x00                  | +010b6
+        .dc.b   0x10                           | +010c3
+        .dc.w   0x6f6c                                                  | +010c4
+        .dc.l   SprFrame_140009                | +010c6
+        .dc.l   BgMap_0e29a0                   | +010ca
+        .dc.w   0x0000,0x0000,0x0000,0x0040,0x0001,0x0010,0x6f6c,0x0300 | +010ce
+        .dc.w   0x0000,0x0000,0x0004                                    | +010de
+        .dc.l   ColMap_106f6c                  | +010e4
+        .dc.w   0x0900,0x0009                                           | +010e8
+        .dc.l   ColMap_106f6c                  | +010ec
+        .dc.w   0x0007                                                  | +010f0
+        .dc.l   ColMap_106f6c                  | +010f2
+        .dc.w   0x0002,0x0029,0x7092,0x0029,0x7082,0x0900,0x0029,0x7978 | +010f6
+        .dc.w   0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600 | +01106
+        .dc.w   0x0900,0x0029,0x79cc,0x0001,0x1e08,0x0022,0x19a4,0xffff | +01116
+        .dc.w   0x0000,0x0000,0x1600                                    | +01126
+        .dc.l   Pal_021e08                     | +0112c
+        .dc.w   0x0023,0xab38,0xffff,0x0000,0x0000                      | +01130
+        .dc.l   Pal_021e08                     | +0113a
+        .dc.w   0x0023,0xab44,0xffff,0x0000,0x0000                      | +0113e
+        .dc.l   Pal_021e08                     | +01148
+        .dc.w   0x0023,0xab58,0xffff,0x0000,0x0000                      | +0114c
+        .dc.l   Pal_021e08                     | +01156
+        .dc.w   0x0023,0xab68,0xffff,0x0000,0x0000                      | +0115a
+        .dc.l   Pal_021e08                     | +01164
+        .dc.w   0x0023,0xab80,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029 | +01168
+        .dc.w   0x7a20,0x0001,0x1e08,0x0026,0xf968,0xffff,0x0000,0x0000 | +01178
+        .dc.w   0x1600                                                  | +01188
+        .dc.l   Pal_021e08                     | +0118a
+        .dc.w   0x0026,0xf990,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +0118e
+        .dc.w   0xf9b0,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xf9d0 | +0119e
+        .dc.w   0xffff,0x0000,0x0000                                    | +011ae
+        .dc.l   Pal_021e08                     | +011b4
+        .dc.w   0x0026,0xf9f8,0xffff,0x0000,0x0000                      | +011b8
+        .dc.l   Pal_021e08                     | +011c2
+        .dc.w   0x0026,0xfa20,0xffff,0x0000,0x0000                      | +011c6
+        .dc.l   Pal_021e08                     | +011d0
+        .dc.w   0x0026,0xfa48,0xffff,0x0000,0x0000                      | +011d4
+        .dc.l   Pal_021e08                     | +011de
+        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000,0x1600,0x0001,0x1e08 | +011e2
+        .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +011f2
+        .dc.w   0xfa70,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfab0 | +01202
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfad0,0xffff | +01212
+        .dc.w   0x0000,0x0000,0x0001,0x1e08,0x0026,0xfaf0,0xffff,0x0000 | +01222
+        .dc.w   0x0000,0x0001,0x1e08,0x0026,0xfad0,0xffff,0x0000,0x0000 | +01232
+        .dc.w   0x0001,0x1e08,0x0026,0xfab0,0xffff,0x0000,0x0000,0x0001 | +01242
+        .dc.w   0x1e08,0x0026,0xfa70,0xffff,0x0000,0x0000,0x0001,0x1e08 | +01252
+        .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +01262
+        .dc.w   0xfa70,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfab0 | +01272
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfad0,0xffff | +01282
+        .dc.w   0x0000,0x0000                                           | +01292
+        .dc.l   Pal_021e08                     | +01296
+        .dc.w   0x0026,0xfaf0,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +0129a
+        .dc.w   0xfad0,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfab0 | +012aa
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfa70,0xffff | +012ba
+        .dc.w   0x0000,0x0000                                           | +012ca
+        .dc.l   Pal_021e08                     | +012ce
+        .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +012d2
+        .dc.w   0xfa70,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfab0 | +012e2
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfad0,0xffff | +012f2
+        .dc.w   0x0000,0x0000                                           | +01302
+        .dc.l   Pal_021e08                     | +01306
+        .dc.w   0x0026,0xfaf0,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +0130a
+        .dc.w   0xfad0,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfab0 | +0131a
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xfa70,0xffff | +0132a
+        .dc.w   0x0000,0x0000,0x0301,0x0029,0x72ce                      | +0133a
+        .dc.l   Pal_021e08                     | +01344
+        .dc.w   0x0026,0xfa90,0xffff,0x0000,0x0000                      | +01348
+        .dc.l   Pal_021e08                     | +01352
+        .dc.w   0x0026,0xfa70,0xffff,0x0000,0x0000                      | +01356
+        .dc.l   Pal_021e08                     | +01360
+        .dc.w   0x0026,0xfab0,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026 | +01364
+        .dc.w   0xfad0,0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xfaf0 | +01374
+        .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xfad0,0xffff | +01384
+        .dc.w   0x0000,0x0000,0x0004,0x1e08,0x0026,0xfab0,0xffff,0x0000 | +01394
+        .dc.w   0x0000,0x0007,0x1e08,0x0026,0xfa70,0xffff,0x0000,0x0000 | +013a4
+        .dc.w   0x1600,0x0900,0x0029,0x7a74,0x0001,0x1e08,0x0026,0xf758 | +013b4
+        .dc.w   0xffff,0x0000,0x0000,0x1600,0x0001,0x1e08,0x0026,0xf788 | +013c4
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xf7b0,0xffff | +013d4
+        .dc.w   0x0000,0x0000,0x0001,0x0209,0x0026,0xf7b0,0xffff,0x0001 | +013e4
+        .dc.w   0x0209,0x0026,0xf788,0xffff,0x0300,0x0029,0x73b6        | +013f4
+        .dc.l   Pal_021e08                     | +01402
+        .dc.w   0x0026,0xf7b0,0xffff,0x0000,0x0000                      | +01406
+        .dc.l   Pal_021e08                     | +01410
+        .dc.w   0x0026,0xf858,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026 | +01414
+        .dc.w   0xf878,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026,0xf8a0 | +01424
+        .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xf8c8,0xffff | +01434
+        .dc.w   0x0000,0x0000,0x0004,0x1e08,0x0026,0xf7d8,0xffff,0x0000 | +01444
+        .dc.w   0x0000,0x1600,0x0001,0x1e08,0x0026,0xf788,0xffff,0x0000 | +01454
+        .dc.w   0x0000,0x0001,0x1e08,0x0026,0xf7b0,0xffff,0x0000,0x0000 | +01464
+        .dc.w   0x0001,0x1e08,0x0026,0xf800,0xffff,0x0000,0x0000,0x0001 | +01474
+        .dc.w   0x1e08,0x0026,0xf820,0xffff,0x0000,0x0000,0x0001,0x0209 | +01484
+        .dc.w   0x0026,0xf820,0xffff,0x0001,0x0209,0x0026,0xf800,0xffff | +01494
+        .dc.w   0x0300,0x0029,0x7474                                    | +014a4
+        .dc.l   Pal_021e08                     | +014aa
+        .dc.w   0x0026,0xf820,0xffff,0x0000,0x0000                      | +014ae
+        .dc.l   Pal_021e08                     | +014b8
+        .dc.w   0x0026,0xf8f0,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026 | +014bc
+        .dc.w   0xf908,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0026,0xf928 | +014cc
+        .dc.w   0xffff,0x0000,0x0000,0x0004,0x1e08,0x0026,0xf948,0xffff | +014dc
+        .dc.w   0x0000,0x0000,0x0004,0x1e08,0x0026,0xf838,0xffff,0x0000 | +014ec
+        .dc.w   0x0000,0x1600,0x0900,0x0029,0x7ac8,0x0001,0x0200,0x0026 | +014fc
+        .dc.w   0xfb10,0xffff,0x0000,0x0001,0x1600,0x0001,0x0200,0x0026 | +0150c
+        .dc.w   0xfb48,0xffff,0x0000,0x0001,0x1600,0x0900,0x0029,0x7ac8 | +0151c
+        .dc.w   0x0001,0x1e08,0x0026,0xfb74,0xffff,0x0000,0x0000,0x1600 | +0152c
+        .dc.w   0x0001,0x0200,0x0026,0xfb8c,0xffff,0x0003,0x0000,0x1600 | +0153c
+        .dc.w   0x0900,0x0029,0x7b1c,0x0001,0x1e08,0x0022,0x19a4,0xffff | +0154c
+        .dc.w   0x0000,0x0000,0x1600,0x0900,0x0029,0x7b70,0x0001,0x1e08 | +0155c
+        .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029 | +0156c
+        .dc.w   0x7bc4,0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000 | +0157c
+        .dc.w   0x1600,0x0900,0x0029,0x7c18,0x0001,0x1e08,0x0022,0x19a4 | +0158c
+        .dc.w   0xffff,0x0000,0x0000,0x1600,0x0900,0x0029,0x7c6c,0x0001 | +0159c
+        .dc.w   0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900 | +015ac
+        .dc.w   0x0029,0x7cc0,0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000 | +015bc
+        .dc.w   0x0000,0x1600,0x0900,0x0029,0x7d14,0x0001,0x1e08,0x0022 | +015cc
+        .dc.w   0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029,0x7d68 | +015dc
+        .dc.w   0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600 | +015ec
+        .dc.w   0x0900,0x0029,0x7dbc,0x0001,0x1e08,0x0027,0x05a6,0xffff | +015fc
+        .dc.w   0x0000,0x0000,0x1600,0x0001,0x1e08,0x0026,0xfbb2,0xffff | +0160c
+        .dc.w   0x0000,0x0000,0x1600,0x0001,0x1e08,0x0026,0xfc2a,0xffff | +0161c
+        .dc.w   0x0000,0x0000,0x1600,0x0900,0x0029,0x7e10,0x0001,0x0200 | +0162c
+        .dc.w   0x0027,0x027a,0xffff,0x00a0,0x0040,0x1600,0x0001,0x0200 | +0163c
+        .dc.w   0x0027,0x0312,0xffff,0x00a0,0x0040,0x1600,0x0001,0x0200 | +0164c
+        .dc.w   0x0027,0x038a,0xffff,0x00a0,0x0040,0x1600,0x0900,0xffff | +0165c
+        .dc.w   0xffff,0x0400,0x1076,0x0001,0x1e08,0x0026,0xe42a,0xffff | +0166c
+        .dc.w   0x0000,0x0000,0x0001,0x1e08,0x0026,0xe43e,0xffff,0x0000 | +0167c
+        .dc.w   0x0000,0x0001,0x1e08,0x0026,0xe456,0xffff,0x0000,0x0000 | +0168c
+        .dc.w   0x0001,0x1e08,0x0026,0xe46a,0xffff,0x0000,0x0000,0x0501 | +0169c
+        .dc.w   0x0020,0x0007,0x1e08,0x0026,0xe456,0xffff,0x0000,0x0000 | +016ac
+        .dc.w   0x0900,0x0029,0x7e64,0x0001,0x1e08,0x0026,0xe456,0xffff | +016bc
+        .dc.w   0x0000,0x0000,0x1600,0x0900,0xffff,0xffff,0x0400,0x1076 | +016cc
+        .dc.w   0x0001,0x1e08,0x0026,0xe46a,0xffff,0x0000,0x0000,0x0001 | +016dc
+        .dc.w   0x1e08,0x0026,0xe47e,0xffff,0x0000,0x0000,0x0001,0x1e08 | +016ec
+        .dc.w   0x0026,0xe416,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +016fc
+        .dc.w   0xe42a,0xffff,0x0000,0x0000,0x0800                      | +0170c
+        .dc.l   Prop_SpawnBonusOnce_053d2c     | +01716
+        .dc.w   0x0003,0x1e08,0x0026,0xe416,0xffff,0x0000,0x0000,0x0500 | +0171a
+        .dc.w   0x0020,0x0007,0x1e08,0x0026,0xe416,0xffff,0x0000,0x0000 | +0172a
+        .dc.w   0x0900,0x0029,0x7eb8,0x0001,0x1e08,0x0026,0xe416,0xffff | +0173a
+        .dc.w   0x0000,0x0000,0x1600                                    | +0174a
+        .dc.l   Pal_021e08                     | +01750
+        .dc.w   0x0026,0xe1d8,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +01754
+        .dc.w   0xe24a,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe2c2 | +01764
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe32e,0xffff | +01774
+        .dc.w   0x0000,0x0000,0x0001,0x1e08,0x0026,0xe2c2,0xffff,0x0000 | +01784
+        .dc.w   0x0000,0x1600                                           | +01794
+        .dc.l   Pal_021e08                     | +01798
+        .dc.w   0x0026,0xe32e,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +0179c
+        .dc.w   0xe39a,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe16c | +017ac
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe1d8,0xffff | +017bc
+        .dc.w   0x0000,0x0000,0x0001,0x1e08,0x0026,0xe16c,0xffff,0x0000 | +017cc
+        .dc.w   0x0000,0x1600,0x0001,0x1e08,0x0026,0xe4c0,0xffff,0x0000 | +017dc
+        .dc.w   0x0000,0x0001,0x1e08,0x0026,0xe530,0xffff,0x0000,0x0000 | +017ec
+        .dc.w   0x0001,0x1e08,0x0026,0xe500,0xffff,0x0000,0x0000,0x0001 | +017fc
+        .dc.w   0x1e08,0x0026,0xe530,0xffff,0x0000,0x0000,0x0001,0x1e08 | +0180c
+        .dc.w   0x0026,0xe570,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +0181c
+        .dc.w   0xe530,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe5b6 | +0182c
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe530,0xffff | +0183c
+        .dc.w   0x0000,0x0000,0x0100,0x0029,0x77e0,0x0001,0x1e08,0x0026 | +0184c
+        .dc.w   0xe496,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe516 | +0185c
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe4d6,0xffff | +0186c
+        .dc.w   0x0000,0x0000,0x0001,0x1e08,0x0026,0xe516,0xffff,0x0000 | +0187c
+        .dc.w   0x0000,0x0001,0x1e08,0x0026,0xe546,0xffff,0x0000,0x0000 | +0188c
+        .dc.w   0x0001,0x1e08,0x0026,0xe516,0xffff,0x0000,0x0000,0x0001 | +0189c
+        .dc.w   0x1e08,0x0026,0xe58e,0xffff,0x0000,0x0000,0x0001,0x1e08 | +018ac
+        .dc.w   0x0026,0xe516,0xffff,0x0000,0x0000,0x0100,0x0029,0x7856 | +018bc
+        .dc.w   0x0001,0x1e08,0x0026,0xe5cc,0xffff,0x0000,0x0000,0x0001 | +018cc
+        .dc.w   0x1e08,0x0026,0xe5fc,0xffff,0x0000,0x0000,0x0001,0x1e08 | +018dc
+        .dc.w   0x0026,0xe62a,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026 | +018ec
+        .dc.w   0xe65a,0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe69c | +018fc
+        .dc.w   0xffff,0x0000,0x0000,0x0001,0x1e08,0x0026,0xe6ec,0xffff | +0190c
+        .dc.w   0x0000,0x0000,0x1600,0x0001,0x1e08,0x0025,0xd604,0xffff | +0191c
+        .dc.w   0x0000,0x0000,0x0001,0x1e08,0x0025,0xd614,0xffff,0x0000 | +0192c
+        .dc.w   0x0000,0x0001,0x1e08,0x0025,0xd624,0xffff,0x0000,0x0000 | +0193c
+        .dc.w   0x0001,0x1e08,0x0025,0xd642,0xffff,0x0000,0x0000,0x0001 | +0194c
+        .dc.w   0x1e08,0x0025,0xd660,0xffff,0x0000,0x0000,0x0001,0x1e08 | +0195c
+        .dc.w   0x0025,0xd682,0xffff,0x0000,0x0000,0x1600               | +0196c
+        .dc.l   Pal_01ffff                     | +01978
+        .dc.w   0xffff,0x0000,0x0000,0x0000,0x0020,0x0000,0x0008,0x0200 | +0197c
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +0198c
+        .dc.w   0xffff,0x0000,0x0008,0x0200,0x0024,0x3680,0xffff,0x0000 | +0199c
+        .dc.w   0x0000,0x0200,0x0024,0x368a,0xffff,0x0020,0x0008,0x0200 | +019ac
+        .dc.w   0x0024,0x3694,0xffff,0x0020,0x0000,0x1d01,0xffff,0xffff | +019bc
+        .dc.l   Pal_01ffff                     | +019cc
+        .dc.w   0xffff,0x0000,0x0000,0x0000,0x0040,0x0000,0x0008,0x0200 | +019d0
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +019e0
+        .dc.w   0xffff,0x0000,0x0008,0x0200,0x0024,0x3680,0xffff,0x0000 | +019f0
+        .dc.w   0x0000,0x0200,0x0024,0x368a,0xffff,0x0040,0x0008,0x0200 | +01a00
+        .dc.w   0x0024,0x3694,0xffff,0x0040,0x0000,0x1d01,0xffff,0xffff | +01a10
+        .dc.w   0x0003,0xffff,0xffff,0x0000,0x0000,0xfff0,0x0010,0xffd0 | +01a20
+        .dc.w   0x0000,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +01a30
+        .dc.w   0x0024,0x3676,0xffff,0xfff0,0x0000,0x0200,0x0024,0x3680 | +01a40
+        .dc.w   0xffff,0xfff0,0xffd0,0x0200,0x0024,0x368a,0xffff        | +01a50
+        .dc.l   ColMap_100000                  | +01a5e
+        .dc.w   0x0200,0x0024,0x3694,0xffff,0x0010,0xffd0,0x1d01,0xffff | +01a62
+        .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0xfff0,0x0010 | +01a72
+        .dc.w   0xffe0,0x0000,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000 | +01a82
+        .dc.w   0x0200,0x0024,0x3676,0xffff,0xfff0,0x0000,0x0200,0x0024 | +01a92
+        .dc.w   0x3680,0xffff,0xfff0,0xffe0,0x0200,0x0024,0x368a,0xffff | +01aa2
+        .dc.l   ColMap_100000                  | +01ab2
+        .dc.w   0x0200,0x0024,0x3694,0xffff,0x0010,0xffe0,0x1d01,0xffff | +01ab6
+        .dc.w   0xffff                                                  | +01ac6
+        .dc.l   Pal_01ffff                     | +01ac8
+        .dc.w   0xffff,0x0000,0x0000,0xfffc,0x0004,0x0000,0x0060,0x0200 | +01acc
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +01adc
+        .dc.w   0xffff,0xfffc,0x0060,0x0200,0x0024,0x3680,0xffff,0xfffc | +01aec
+        .dc.w   0x0000,0x0200,0x0024,0x368a,0xffff,0x0004,0x0060,0x0200 | +01afc
+        .dc.w   0x0024,0x3694,0xffff,0x0004,0x0000,0x1d01,0xffff,0xffff | +01b0c
+        .dc.w   0x0002,0x0029,0x7f2e,0x0000,0x0000,0x0008,0x0038        | +01b1c
+        .dc.l   BgMap_0a001c                   | +01b2a
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01b2e
+        .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff | +01b3e
+        .dc.w   0x0008                                                  | +01b4e
+        .dc.l   BgMap_0a0200                   | +01b50
+        .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694 | +01b54
+        .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029 | +01b64
+        .dc.w   0x7f2e,0x0000,0x0000,0x0008,0x0038                      | +01b74
+        .dc.l   BgMap_0a001c                   | +01b7e
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01b82
+        .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff | +01b92
+        .dc.w   0x0008                                                  | +01ba2
+        .dc.l   BgMap_0a0200                   | +01ba4
+        .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694 | +01ba8
+        .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029 | +01bb8
+        .dc.w   0x7f2e,0x0000,0x0000,0x0008,0x0038                      | +01bc8
+        .dc.l   BgMap_0a001c                   | +01bd2
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01bd6
+        .dc.w   0x3676,0xffff,0x0008,0x001c,0x0200,0x0024,0x3680,0xffff | +01be6
+        .dc.w   0x0008                                                  | +01bf6
+        .dc.l   BgMap_0a0200                   | +01bf8
+        .dc.w   0x0024,0x368a,0xffff,0x0038,0x001c,0x0200,0x0024,0x3694 | +01bfc
+        .dc.w   0xffff,0x0038,0x000a,0x1d01,0xffff,0xffff,0x0003,0xffff | +01c0c
+        .dc.w   0xffff,0x0000,0x0000                                    | +01c1c
+        .dc.l   AnimScr_180048                 | +01c22
+        .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000 | +01c26
+        .dc.w   0x0200,0x0024,0x3676,0xffff                             | +01c36
+        .dc.l   AnimScr_180030                 | +01c3e
+        .dc.w   0x0200,0x0024,0x3680,0xffff                             | +01c42
+        .dc.l   AnimScr_180000                 | +01c4a
+        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024 | +01c4e
+        .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003 | +01c5e
+        .dc.w   0xffff,0xffff,0x0000,0x0000                             | +01c6e
+        .dc.l   AnimScr_180048                 | +01c76
+        .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000 | +01c7a
+        .dc.w   0x0200,0x0024,0x3676,0xffff                             | +01c8a
+        .dc.l   AnimScr_180030                 | +01c92
+        .dc.w   0x0200,0x0024,0x3680,0xffff                             | +01c96
+        .dc.l   AnimScr_180000                 | +01c9e
+        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024 | +01ca2
+        .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003 | +01cb2
+        .dc.w   0xffff,0xffff,0x0000,0x0000,0x0020,0x0050,0x0000,0x0030 | +01cc2
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01cd2
+        .dc.w   0x3676,0xffff,0x0020,0x0030,0x0200,0x0024,0x3680,0xffff | +01ce2
+        .dc.w   0x0020,0x0000,0x0200,0x0024,0x368a,0xffff,0x0050,0x0030 | +01cf2
+        .dc.w   0x0200,0x0024,0x3694,0xffff,0x0050,0x0000,0x1d01,0xffff | +01d02
+        .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0000,0x0030 | +01d12
+        .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000 | +01d22
+        .dc.w   0x0200,0x0024,0x3676,0xffff,0x0000,0x0030,0x0200,0x0024 | +01d32
+        .dc.w   0x3680,0xffff,0x0000,0x0000,0x0200,0x0024,0x368a,0xffff | +01d42
+        .dc.w   0x0030,0x0030,0x0200,0x0024,0x3694,0xffff,0x0030,0x0000 | +01d52
+        .dc.w   0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000 | +01d62
+        .dc.l   AnimScr_180048                 | +01d72
+        .dc.w   0x0000,0x0030,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000 | +01d76
+        .dc.w   0x0200,0x0024,0x3676,0xffff                             | +01d86
+        .dc.l   AnimScr_180030                 | +01d8e
+        .dc.w   0x0200,0x0024,0x3680,0xffff                             | +01d92
+        .dc.l   AnimScr_180000                 | +01d9a
+        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0048,0x0030,0x0200,0x0024 | +01d9e
+        .dc.w   0x3694,0xffff,0x0048,0x0000,0x1d01,0xffff,0xffff,0x0003 | +01dae
+        .dc.w   0x0029,0x7f0c,0x0000,0x0000,0xfff0,0x0030,0x0000,0x0060 | +01dbe
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01dce
+        .dc.w   0x3676,0xffff,0xfff0,0x0060,0x0200,0x0024,0x3680,0xffff | +01dde
+        .dc.w   0xfff0,0x0000,0x0200,0x0024,0x368a,0xffff,0x0030,0x0060 | +01dee
+        .dc.w   0x0200,0x0024,0x3694,0xffff,0x0030,0x0000,0x1d01,0xffff | +01dfe
+        .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0060,0x00b0 | +01e0e
+        .dc.w   0x0000,0x0080,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000 | +01e1e
+        .dc.w   0x0200,0x0024,0x3676,0xffff,0x0060,0x0080,0x0200,0x0024 | +01e2e
+        .dc.w   0x3680,0xffff,0x0060,0x0000,0x0200,0x0024,0x368a,0xffff | +01e3e
+        .dc.w   0x00b0,0x0080,0x0200,0x0024,0x3694,0xffff,0x00b0,0x0000 | +01e4e
+        .dc.w   0x1d01,0xffff,0xffff                                    | +01e5e
+        .dc.l   Pal_01ffff                     | +01e64
+        .dc.w   0xffff,0x0000,0x0000,0x0000,0x0010,0x003c,0x0048,0x0200 | +01e68
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +01e78
+        .dc.w   0xffff,0x0000,0x0048,0x0200,0x0024,0x3680,0xffff,0x0000 | +01e88
+        .dc.w   0x003c,0x0200,0x0024,0x368a,0xffff,0x0010,0x0048,0x0200 | +01e98
+        .dc.w   0x0024,0x3694,0xffff,0x0010,0x003c,0x1d01,0xffff,0xffff | +01ea8
+        .dc.l   Pal_01ffff                     | +01eb8
+        .dc.w   0xffff,0x0000,0x0000,0xfff0,0x0000,0x003c,0x0048,0x0200 | +01ebc
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +01ecc
+        .dc.w   0xffff,0xfff0,0x0048,0x0200,0x0024,0x3680,0xffff,0xfff0 | +01edc
+        .dc.w   0x003c,0x0200,0x0024,0x368a,0xffff,0x0000,0x0048,0x0200 | +01eec
+        .dc.w   0x0024,0x3694,0xffff,0x0000,0x003c,0x1d01,0xffff,0xffff | +01efc
+        .dc.w   0x0000,0x0000,0x0101,0x0100,0x0000,0x0101               | +01f0c
+        .fill   10,1,0x00                  | +01f18
+        .dc.w   0x0100,0x0000,0x0000,0x0001,0x0001,0x0101,0x0001,0x0001 | +01f22
+        .dc.w   0x0101,0x0000,0x0000,0x0101,0x0000,0x0000,0x0000,0x0101 | +01f32
+        .dc.w   0x0101,0x0101,0x0101,0x0101,0x0101,0x0101,0x0101,0x0029 | +01f42
+        .dc.w   0x82d8,0x0029,0x8364,0xffff,0xffff,0xffff,0xffff,0x0029 | +01f52
+        .dc.w   0x82ec,0x0029,0x8378,0xffff,0xffff,0xffff,0xffff,0x0029 | +01f62
+        .dc.w   0x8300,0x0029,0x838c,0xffff,0xffff,0xffff,0xffff,0x0029 | +01f72
+        .dc.w   0x8314,0x0029,0x83a0,0xffff,0xffff,0xffff,0xffff,0x0029 | +01f82
+        .dc.w   0x8328,0x0029,0x83b4,0xffff,0xffff,0xffff,0xffff,0x0029 | +01f92
+        .dc.w   0x833c,0x0029,0x83c8,0xffff,0xffff,0xffff,0xffff,0x0029 | +01fa2
+        .dc.w   0x8350,0x0029,0x83dc,0xffff,0xffff,0xffff,0xffff,0x00ff | +01fb2
+        .dc.w   0x0003,0xfff0,0x0030,0x0000,0x0020,0x0000               | +01fc2
+        .dc.l   Explosion_Fire_077f6a          | +01fce
+        .dc.w   0x0003,0x0009,0xfff0,0x0030,0x0000,0x0020,0x0000        | +01fd2
+        .dc.l   Explosion_Std_077efe           | +01fe0
+        .dc.w   0x00ff,0x0005,0xfff0                                    | +01fe4
+        .dc.l   ColMap_100000                  | +01fea
+        .dc.w   0x0060,0x0000                                           | +01fee
+        .dc.l   Explosion_Small_077e10         | +01ff2
+        .dc.w   0x00ff,0x0006                                           | +01ff6
+        .dc.l   ColMap_100040                  | +01ffa
+        .dc.w   0x0000,0x0030,0x0000                                    | +01ffe
+        .dc.l   Explosion_Fire_077f6a          | +02004
+        .dc.w   0x0003                                                  | +02008
+        .dc.l   BgMap_0c0010                   | +0200a
+        .dc.w   0x0040,0x0000,0x0030,0x0000                             | +0200e
+        .dc.l   Explosion_Std_077efe           | +02016
+        .dc.w   0x00ff,0x0006,0xfff0,0x0050,0xfff0,0x0070,0x0000        | +0201a
+        .dc.l   Explosion_FireAttack_07815a    | +02028
+        .dc.w   0x0003,0x000f,0xfff0,0x0050,0xfff0,0x0070,0x0000        | +0202c
+        .dc.l   Explosion_StdAttack_078130     | +0203a
+        .dc.w   0x01ff,0x0006,0x0040,0x0060,0x0000,0x0070,0x0000        | +0203e
+        .dc.l   Explosion_Fire_077f6a          | +0204c
+        .dc.w   0x0103,0x000f,0x0040,0x0060,0x0000,0x0070,0x0000        | +02050
+        .dc.l   Explosion_Std_077efe           | +0205e
+        .dc.w   0x00ff,0x0001,0x0000,0x0040,0x0000,0x0001,0x0000        | +02062
+        .dc.l   Prop_OneShotAnim_0528bc        | +02070
+        .dc.w   0x00ff,0x0001,0x0000,0x0020,0x0000,0x0001,0x0000        | +02074
+        .dc.l   Prop_OneShotAnim_0528bc        | +02082
+        .dc.w   0x0102                                                  | +02086
+        .dc.l   BgMap_0a0000                   | +02088
+        .dc.w   0x0020,0x0000,0x0030,0x0001,0x0029,0x8098               | +0208c
+        .dc.l   Explosion_Var08_078326         | +02098
+        .dc.l   Explosion_Var08_078326         | +0209c
+        .dc.l   Explosion_Var08_078326         | +020a0
+        .dc.l   Explosion_Var08_078326         | +020a4
+        .dc.l   Explosion_Var09_078344         | +020a8
+        .dc.l   Explosion_Var09_078344         | +020ac
+        .dc.l   Explosion_Var09_078344         | +020b0
+        .dc.l   Explosion_Var09_078344         | +020b4
+        .dc.l   Explosion_Var10_078380         | +020b8
+        .dc.l   Explosion_Var10_078380         | +020bc
+        .dc.l   Explosion_Var10_078380         | +020c0
+        .dc.l   Explosion_Var10_078380         | +020c4
+        .dc.l   Explosion_Var10_078380         | +020c8
+        .dc.l   Explosion_Var10_078380         | +020cc
+        .dc.l   Explosion_Var11_0783bc         | +020d0
+        .dc.l   Explosion_Var11_0783bc         | +020d4
+        .dc.w   0x0105                                                  | +020d8
+        .dc.l   SprFrame_140000                | +020da
+        .dc.w   0x0030,0x0000,0x0050,0x0001,0x0029,0x5cf8,0x0105,0x0014 | +020de
+        .dc.w   0x0040,0x0060,0x0000,0x0070,0x0001,0x0029,0x5cf8        | +020ee
+
+| ----------------------------------------------------------------------------
+|  PropItemPtrs_1980fc  @ $1980FC  (16 B)
+|  Prop_PickRandomItemPtr_053e9c: 4 punteros (Random(3)*4) a scripts
+| ----------------------------------------------------------------------------
+        .section .text.PropItemPtrs_1980fc, "ax", @progbits
+        .global PropItemPtrs_1980fc
+PropItemPtrs_1980fc:
+        .dc.w   0x002d,0xe100,0x002d,0xdf9e,0x002d,0xe08a,0x002d,0xe100 | +00000
+
+| ----------------------------------------------------------------------------
+|  PatchDescChain_19810c  @ $19810C  (320 B)
+|  40 descriptores {w.w, h.w, tiles.l} con tilemaps contiguos en $0B3900..$0B53EC
+| ----------------------------------------------------------------------------
+        .section .text.PatchDescChain_19810c, "ax", @progbits
+        .global PatchDescChain_19810c
+PatchDescChain_19810c:
+        .dc.w   2,2                                                | +00000  w, h
+        .dc.l   0x000b3900                     | +00004  tiles
+        .dc.w   4,2                                                | +00008  w, h
+        .dc.l   0x000b3910                     | +0000c  tiles
+        .dc.w   4,2                                                | +00010  w, h
+        .dc.l   0x000b3930                     | +00014  tiles
+        .dc.w   4,2                                                | +00018  w, h
+        .dc.l   0x000b3950                     | +0001c  tiles
+        .dc.w   4,2                                                | +00020  w, h
+        .dc.l   0x000b3970                     | +00024  tiles
+        .dc.w   4,2                                                | +00028  w, h
+        .dc.l   0x000b3990                     | +0002c  tiles
+        .dc.w   2,2                                                | +00030  w, h
+        .dc.l   0x000b39b0                     | +00034  tiles
+        .dc.w   2,2                                                | +00038  w, h
+        .dc.l   0x000b39c0                     | +0003c  tiles
+        .dc.w   4,2                                                | +00040  w, h
+        .dc.l   0x000b39d0                     | +00044  tiles
+        .dc.w   4,2                                                | +00048  w, h
+        .dc.l   0x000b39f0                     | +0004c  tiles
+        .dc.w   4,2                                                | +00050  w, h
+        .dc.l   0x000b3a10                     | +00054  tiles
+        .dc.w   4,2                                                | +00058  w, h
+        .dc.l   0x000b3a30                     | +0005c  tiles
+        .dc.w   4,2                                                | +00060  w, h
+        .dc.l   0x000b3a50                     | +00064  tiles
+        .dc.w   2,2                                                | +00068  w, h
+        .dc.l   0x000b3a70                     | +0006c  tiles
+        .dc.w   2,2                                                | +00070  w, h
+        .dc.l   0x000b3a80                     | +00074  tiles
+        .dc.w   4,2                                                | +00078  w, h
+        .dc.l   0x000b3a90                     | +0007c  tiles
+        .dc.w   4,2                                                | +00080  w, h
+        .dc.l   0x000b3ab0                     | +00084  tiles
+        .dc.w   4,2                                                | +00088  w, h
+        .dc.l   0x000b3ad0                     | +0008c  tiles
+        .dc.w   4,2                                                | +00090  w, h
+        .dc.l   0x000b3af0                     | +00094  tiles
+        .dc.w   4,2                                                | +00098  w, h
+        .dc.l   0x000b3b10                     | +0009c  tiles
+        .dc.w   2,2                                                | +000a0  w, h
+        .dc.l   0x000b3b30                     | +000a4  tiles
+        .dc.w   4,2                                                | +000a8  w, h
+        .dc.l   0x000b3b40                     | +000ac  tiles
+        .dc.w   4,3                                                | +000b0  w, h
+        .dc.l   0x000b3b60                     | +000b4  tiles
+        .dc.w   5,3                                                | +000b8  w, h
+        .dc.l   0x000b3b90                     | +000bc  tiles
+        .dc.w   6,4                                                | +000c0  w, h
+        .dc.l   0x000b3bcc                     | +000c4  tiles
+        .dc.w   5,4                                                | +000c8  w, h
+        .dc.l   0x000b3c2c                     | +000cc  tiles
+        .dc.w   16,4                                               | +000d0  w, h
+        .dc.l   0x000b3c7c                     | +000d4  tiles
+        .dc.w   9,12                                               | +000d8  w, h
+        .dc.l   0x000b3d7c                     | +000dc  tiles
+        .dc.w   9,12                                               | +000e0  w, h
+        .dc.l   0x000b3f2c                     | +000e4  tiles
+        .dc.w   1,12                                               | +000e8  w, h
+        .dc.l   0x000b40dc                     | +000ec  tiles
+        .dc.w   1,12                                               | +000f0  w, h
+        .dc.l   0x000b410c                     | +000f4  tiles
+        .dc.w   1,12                                               | +000f8  w, h
+        .dc.l   0x000b413c                     | +000fc  tiles
+        .dc.w   1,12                                               | +00100  w, h
+        .dc.l   0x000b416c                     | +00104  tiles
+        .dc.w   1,12                                               | +00108  w, h
+        .dc.l   0x000b419c                     | +0010c  tiles
+        .dc.w   1,12                                               | +00110  w, h
+        .dc.l   0x000b41cc                     | +00114  tiles
+        .dc.w   1,12                                               | +00118  w, h
+        .dc.l   0x000b41fc                     | +0011c  tiles
+        .dc.w   2,12                                               | +00120  w, h
+        .dc.l   0x000b422c                     | +00124  tiles
+        .dc.w   7,12                                               | +00128  w, h
+        .dc.l   0x000b428c                     | +0012c  tiles
+        .dc.w   60,12                                              | +00130  w, h
+        .dc.l   0x000b43dc                     | +00134  tiles
+        .dc.w   28,11                                              | +00138  w, h
+        .dc.l   0x000b4f1c                     | +0013c  tiles
+
+| ----------------------------------------------------------------------------
+|  Data_19824c  @ $19824C  (16,308 B)
+| ----------------------------------------------------------------------------
+        .section .text.Data_19824c, "ax", @progbits
+        .global Data_19824c
+Data_19824c:
+        .dc.l   ColMap_106f6c                  | +00000
+        .dc.w   0x0029,0x810c,0x0000,0x0009,0x0000,0x0000               | +00004
+        .dc.l   Pal_020002                     | +00010
+        .dc.l   ColMap_106f6c                  | +00014
+        .dc.w   0x0029,0x8114                                           | +00018
+        .dc.l   Pal_020009                     | +0001c
+        .dc.w   0x0000,0x0000,0x0004                                    | +00020
+        .dc.l   Pal_020010                     | +00026
+        .dc.w   0x6f6c,0x0029,0x811c,0x0006,0x0009,0x0000,0x0000,0x0004 | +0002a
+        .dc.l   Pal_020010                     | +0003a
+        .dc.w   0x6f6c,0x0029,0x8124,0x000a,0x0009,0x0000,0x0000,0x0004 | +0003e
+        .dc.l   Pal_020010                     | +0004e
+        .dc.w   0x6f6c,0x0029,0x812c,0x000e,0x0009,0x0000,0x0000,0x0004 | +00052
+        .dc.l   Pal_020010                     | +00062
+        .dc.w   0x6f6c,0x0029,0x8134                                    | +00066
+        .dc.l   Zero_120009                    | +0006c
+        .dc.w   0x0000,0x0000,0x0004                                    | +00070
+        .dc.l   Pal_020010                     | +00076
+        .dc.w   0x6f6c,0x0029,0x813c                                    | +0007a
+        .dc.l   SprFrame_160009                | +00080
+        .dc.w   0x0000,0x0000                                           | +00084
+        .dc.l   Pal_020002                     | +00088
+        .dc.l   ColMap_106f6c                  | +0008c
+        .dc.w   0x0029,0x8144,0x0000,0x0009,0x0000,0x0000               | +00090
+        .dc.l   Pal_020002                     | +0009c
+        .dc.l   ColMap_106f6c                  | +000a0
+        .dc.w   0x0029,0x814c                                           | +000a4
+        .dc.l   Pal_020009                     | +000a8
+        .dc.w   0x0000,0x0000,0x0004                                    | +000ac
+        .dc.l   Pal_020010                     | +000b2
+        .dc.w   0x6f6c,0x0029,0x8154,0x0006,0x0009,0x0000,0x0000,0x0004 | +000b6
+        .dc.l   Pal_020010                     | +000c6
+        .dc.w   0x6f6c,0x0029,0x815c,0x000a,0x0009,0x0000,0x0000,0x0004 | +000ca
+        .dc.l   Pal_020010                     | +000da
+        .dc.w   0x6f6c,0x0029,0x8164,0x000e,0x0009,0x0000,0x0000,0x0004 | +000de
+        .dc.l   Pal_020010                     | +000ee
+        .dc.w   0x6f6c,0x0029,0x816c                                    | +000f2
+        .dc.l   Zero_120009                    | +000f8
+        .dc.w   0x0000,0x0000,0x0004                                    | +000fc
+        .dc.l   Pal_020010                     | +00102
+        .dc.w   0x6f6c,0x0029,0x8174                                    | +00106
+        .dc.l   SprFrame_160009                | +0010c
+        .dc.w   0x0000,0x0000                                           | +00110
+        .dc.l   Pal_020002                     | +00114
+        .dc.l   ColMap_106f6c                  | +00118
+        .dc.w   0x0029,0x817c,0x0000,0x0009,0x0000,0x0000               | +0011c
+        .dc.l   Pal_020002                     | +00128
+        .dc.l   ColMap_106f6c                  | +0012c
+        .dc.w   0x0029,0x8184                                           | +00130
+        .dc.l   Pal_020009                     | +00134
+        .dc.w   0x0000,0x0000,0x0004                                    | +00138
+        .dc.l   Pal_020010                     | +0013e
+        .dc.w   0x6f6c,0x0029,0x818c,0x0006,0x0009,0x0000,0x0000,0x0004 | +00142
+        .dc.l   Pal_020010                     | +00152
+        .dc.w   0x6f6c,0x0029,0x8194,0x000a,0x0009,0x0000,0x0000,0x0004 | +00156
+        .dc.l   Pal_020010                     | +00166
+        .dc.w   0x6f6c,0x0029,0x819c,0x000e,0x0009,0x0000,0x0000,0x0004 | +0016a
+        .dc.l   Pal_020010                     | +0017a
+        .dc.w   0x6f6c,0x0029,0x81a4                                    | +0017e
+        .dc.l   Zero_120009                    | +00184
+        .dc.w   0x0000,0x0000,0x0004                                    | +00188
+        .dc.l   Pal_020010                     | +0018e
+        .dc.w   0x6f6c,0x0029,0x81ac                                    | +00192
+        .dc.l   SprFrame_160009                | +00198
+        .dc.w   0x0000,0x0000                                           | +0019c
+        .dc.l   Pal_020002                     | +001a0
+        .dc.l   ColMap_106f6c                  | +001a4
+        .dc.w   0x0029,0x81b4,0x0046,0x0008,0x0000,0x0000,0x0004        | +001a8
+        .dc.l   Pal_020010                     | +001b6
+        .dc.w   0x6f6c,0x0029,0x81b4,0x006e,0x0008,0x0000,0x0000,0x0004 | +001ba
+        .dc.l   Pal_020010                     | +001ca
+        .dc.w   0x6f6c,0x0029,0x81bc,0x0050,0x0008,0x0000,0x0000,0x0004 | +001ce
+        .dc.w   0x0003                                                  | +001de
+        .dc.l   ColMap_106f6c                  | +001e0
+        .dc.w   0x0029,0x81bc,0x0078,0x0008,0x0000,0x0000,0x0004,0x0003 | +001e4
+        .dc.l   ColMap_106f6c                  | +001f4
+        .dc.w   0x0029,0x81c4,0x0059,0x0008,0x0000,0x0000,0x0005,0x0003 | +001f8
+        .dc.l   ColMap_106f6c                  | +00208
+        .dc.w   0x0029,0x81c4,0x0081,0x0008,0x0000,0x0000,0x0005,0x0003 | +0020c
+        .dc.l   ColMap_106f6c                  | +0021c
+        .dc.w   0x0029,0x81cc,0x004a,0x0008,0x0000,0x0000,0x0006,0x0004 | +00220
+        .dc.l   ColMap_106f6c                  | +00230
+        .dc.w   0x0029,0x81cc,0x0072,0x0008,0x0000,0x0000,0x0006,0x0004 | +00234
+        .dc.l   ColMap_106f6c                  | +00244
+        .dc.w   0x0029,0x81d4,0x0054,0x0008,0x0000,0x0000,0x0005,0x0004 | +00248
+        .dc.l   ColMap_106f6c                  | +00258
+        .dc.w   0x0029,0x81d4,0x007c,0x0008,0x0000,0x0000,0x0005,0x0004 | +0025c
+        .dc.l   ColMap_106f6c                  | +0026c
+        .dc.w   0x0029,0x81dc,0x005e,0x0008,0x0000,0x0000,0x0006,0x0004 | +00270
+        .dc.l   ColMap_106f6c                  | +00280
+        .dc.w   0x0029,0x81dc,0x0086,0x0008,0x0000,0x0000,0x0006,0x0004 | +00284
+        .dc.l   ColMap_106f6c                  | +00294
+        .dc.w   0x0029,0x81dc,0x0064,0x0008,0x0006,0x0000,0x0004,0x0004 | +00298
+        .dc.l   ColMap_106f6c                  | +002a8
+        .dc.w   0x0029,0x81dc,0x008c,0x0008,0x0006,0x0000,0x0004,0x0004 | +002ac
+        .dc.l   ColMap_106f6c                  | +002bc
+        .dc.w   0x0029,0x81dc,0x0068,0x0008                             | +002c0
+        .dc.l   BgMap_0a0000                   | +002c8
+        .dc.w   0x0006,0x0004                                           | +002cc
+        .dc.l   ColMap_106f6c                  | +002d0
+        .dc.w   0x0029,0x81dc,0x0090,0x0008                             | +002d4
+        .dc.l   BgMap_0a0000                   | +002dc
+        .dc.w   0x0006,0x0004                                           | +002e0
+        .dc.l   ColMap_106f6c                  | +002e4
+        .dc.w   0x0029,0x81e4,0x0097,0x0000,0x0000,0x0000,0x0009        | +002e8
+        .dc.l   BgMap_0c0010                   | +002f6
+        .dc.w   0x6f6c,0x0029,0x81ec,0x0097,0x0000,0x0000,0x0000,0x0009 | +002fa
+        .dc.l   BgMap_0c0010                   | +0030a
+        .dc.w   0x6f6c,0x0029,0x81f4,0x00a8,0x0000,0x0000,0x0000,0x0001 | +0030e
+        .dc.l   BgMap_0c0010                   | +0031e
+        .dc.w   0x6f6c,0x0029,0x81fc,0x00a9,0x0000,0x0000,0x0000,0x0001 | +00322
+        .dc.l   BgMap_0c0010                   | +00332
+        .dc.w   0x6f6c,0x0029,0x8204,0x00aa,0x0000,0x0000,0x0000,0x0001 | +00336
+        .dc.l   BgMap_0c0010                   | +00346
+        .dc.w   0x6f6c,0x0029,0x820c,0x00ab,0x0000,0x0000,0x0000,0x0001 | +0034a
+        .dc.l   BgMap_0c0010                   | +0035a
+        .dc.w   0x6f6c,0x0029,0x8214,0x00ac,0x0000,0x0000,0x0000,0x0001 | +0035e
+        .dc.l   BgMap_0c0010                   | +0036e
+        .dc.w   0x6f6c,0x0029,0x821c,0x00ad,0x0000,0x0000,0x0000,0x0001 | +00372
+        .dc.l   BgMap_0c0010                   | +00382
+        .dc.w   0x6f6c,0x0029,0x8224,0x00ae,0x0000,0x0000,0x0000,0x0001 | +00386
+        .dc.l   BgMap_0c0010                   | +00396
+        .dc.w   0x6f6c,0x0029,0x822c,0x00af,0x0000,0x0000,0x0000,0x0002 | +0039a
+        .dc.l   BgMap_0c0010                   | +003aa
+        .dc.w   0x6f6c,0x0029,0x8234,0x00b0,0x0000,0x0000,0x0000,0x0007 | +003ae
+        .dc.l   BgMap_0c0010                   | +003be
+        .dc.w   0x6f6c,0x0029,0x823c,0x0000                             | +003c2
+        .dc.l   BgMap_0a0000                   | +003ca
+        .dc.l   Pal_020006                     | +003ce
+        .dc.l   BgMap_0a0010                   | +003d2
+        .dc.w   0x6f6c,0x0029,0x823c,0x0006                             | +003d6
+        .dc.l   BgMap_0a0006                   | +003de
+        .dc.l   Pal_020002                     | +003e2
+        .dc.w   0x0009                                                  | +003e6
+        .dc.l   ColMap_106f6c                  | +003e8
+        .dc.w   0x0029,0x823c,0x0008,0x000a,0x0008                      | +003ec
+        .dc.l   Pal_020004                     | +003f6
+        .dc.w   0x0008                                                  | +003fa
+        .dc.l   ColMap_106f6c                  | +003fc
+        .dc.w   0x0029,0x823c,0x0000                                    | +00400
+        .dc.l   BgMap_0a000c                   | +00406
+        .dc.l   Pal_020006                     | +0040a
+        .dc.l   BgMap_0a0010                   | +0040e
+        .dc.w   0x6f6c,0x0029,0x823c,0x0006                             | +00412
+        .dc.l   BgMap_0a0012                   | +0041a
+        .dc.l   Pal_020002                     | +0041e
+        .dc.w   0x0009                                                  | +00422
+        .dc.l   ColMap_106f6c                  | +00424
+        .dc.w   0x0029,0x823c,0x0008,0x000a,0x0014                      | +00428
+        .dc.l   Pal_020004                     | +00432
+        .dc.w   0x0008                                                  | +00436
+        .dc.l   ColMap_106f6c                  | +00438
+        .dc.w   0x0029,0x823c                                           | +0043c
+        .dc.l   ColMap_100004                  | +00440
+        .dc.w   0x0024,0x0000,0x0006                                    | +00444
+        .dc.l   BgMap_0c0010                   | +0044a
+        .dc.w   0x6f6c,0x0029,0x823c                                    | +0044e
+        .dc.l   SprFrame_160004                | +00454
+        .dc.w   0x002a,0x0000,0x0002                                    | +00458
+        .dc.l   BgMap_0b0010                   | +0045e
+        .dc.w   0x6f6c,0x0029,0x823c                                    | +00462
+        .dc.l   AnimScr_180004                 | +00468
+        .dc.w   0x002c,0x0000,0x0004                                    | +0046c
+        .dc.l   BgMap_0a0010                   | +00472
+        .dc.w   0x6f6c,0x0029,0x823c                                    | +00476
+        .dc.l   ColMap_100004                  | +0047c
+        .dc.w   0x0030,0x0000,0x0006                                    | +00480
+        .dc.l   BgMap_0c0010                   | +00486
+        .dc.w   0x6f6c,0x0029,0x823c                                    | +0048a
+        .dc.l   SprFrame_160004                | +00490
+        .dc.w   0x0036,0x0000,0x0002                                    | +00494
+        .dc.l   BgMap_0b0010                   | +0049a
+        .dc.w   0x6f6c,0x0029,0x823c                                    | +0049e
+        .dc.l   AnimScr_180004                 | +004a4
+        .dc.w   0x0038,0x0000,0x0004,0x000a,0x0008,0x001f,0x0005,0x0001 | +004a8
+        .dc.w   0x0000,0x0000,0x0000,0xfff8,0x0067,0x0001,0x000d,0x0101 | +004b8
+        .dc.w   0x0101,0x0101,0x0101,0x0101,0x0101,0x1000,0xfff8,0x0067 | +004c8
+        .dc.w   0x0001                                                  | +004d8
+        .dc.l   BgMap_0d0000                   | +004da
+        .fill   10,1,0x00                  | +004de
+        .dc.w   0x1100,0xfff0                                           | +004e8
+        .dc.l   ColMap_10ffc0                  | +004ec
+        .dc.l   ColMap_10ffff                  | +004f0
+        .dc.w   0xfff0                                                  | +004f4
+        .dc.l   ColMap_100000                  | +004f6
+        .dc.l   ColMap_10ffff                  | +004fa
+        .dc.w   0x0306                                                  | +004fe
+        .dc.l   BgMap_0a0404                   | +00500
+        .dc.w   0xff00,0x0000,0xfffc,0x0004,0x0000,0x0060,0x0200,0x0024 | +00504
+        .dc.w   0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff | +00514
+        .dc.w   0xfffc,0x0060,0x0200,0x0024,0x364e,0xffff,0xfffc,0x0000 | +00524
+        .dc.w   0x0200,0x0024,0x3658,0xffff,0x0004,0x0060,0x0200,0x0024 | +00534
+        .dc.w   0x3662,0xffff,0x0004,0x0000,0x1d00,0x0406               | +00544
+        .dc.l   BgMap_0a0404                   | +00550
+        .dc.w   0xff00,0x0000,0xfffc,0x0004,0x0000,0x0060,0x0200,0x0024 | +00554
+        .dc.w   0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff | +00564
+        .dc.w   0xfffc,0x0060,0x0200,0x0024,0x364e,0xffff,0xfffc,0x0000 | +00574
+        .dc.w   0x0200,0x0024,0x3658,0xffff,0x0004,0x0060,0x0200,0x0024 | +00584
+        .dc.w   0x3662,0xffff,0x0004,0x0000,0x1d00,0xffff,0xffff,0x0109 | +00594
+        .dc.l   ColMap_100204                  | +005a4
+        .dc.w   0xff00,0x0000,0xfff8,0x0008,0x0040,0x0050,0x0200,0x0024 | +005a8
+        .dc.w   0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff | +005b8
+        .dc.w   0xfff8,0x0050,0x0200,0x0024,0x364e,0xffff,0xfff8,0x0040 | +005c8
+        .dc.w   0x0200,0x0024,0x3658,0xffff,0x0008,0x0050,0x0200,0x0024 | +005d8
+        .dc.w   0x3662,0xffff,0x0008,0x0040,0x1d00,0xffff,0xffff,0x0209 | +005e8
+        .dc.l   ColMap_100204                  | +005f8
+        .dc.w   0xff00,0x0000,0xfff8,0x0008,0x0040,0x0050,0x0200,0x0024 | +005fc
+        .dc.w   0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff | +0060c
+        .dc.w   0xfff8,0x0050,0x0200,0x0024,0x364e,0xffff,0xfff8,0x0040 | +0061c
+        .dc.w   0x0200,0x0024,0x3658,0xffff,0x0008,0x0050,0x0200,0x0024 | +0062c
+        .dc.w   0x3662,0xffff,0x0008,0x0040,0x1d00,0xffff,0xffff,0x0309 | +0063c
+        .dc.l   ColMap_100204                  | +0064c
+        .dc.w   0xff00,0x0000,0xfff8,0x0008,0x0040,0x0050,0x0200,0x0024 | +00650
+        .dc.w   0x363a,0xffff,0x0000,0x0000,0x0200,0x0024,0x3644,0xffff | +00660
+        .dc.w   0xfff8,0x0050,0x0200,0x0024,0x364e,0xffff,0xfff8,0x0040 | +00670
+        .dc.w   0x0200,0x0024,0x3658,0xffff,0x0008,0x0050,0x0200,0x0024 | +00680
+        .dc.w   0x3662,0xffff,0x0008,0x0040,0x1d00,0xffff,0xffff,0x8001 | +00690
+        .dc.w   0x0000,0x0000,0xffe0,0x0020,0x0000,0x0080,0x0200,0x0024 | +006a0
+        .dc.w   0x3608,0xffff,0x0000,0x0000,0x0200,0x0024,0x3612,0xffff | +006b0
+        .dc.w   0xffe0,0x0080,0x0200,0x0024,0x361c,0xffff,0xffe0,0x0000 | +006c0
+        .dc.w   0x0200,0x0024,0x3626,0xffff,0x0020,0x0080,0x0200,0x0024 | +006d0
+        .dc.w   0x3630,0xffff,0x0020,0x0000,0x1d01,0x0900,0x0029,0x9d7e | +006e0
+        .dc.w   0x0001,0x0200,0x0027,0x15e6,0xffff,0x0060               | +006f0
+        .dc.l   ColMap_100200                  | +006fc
+        .dc.w   0x0027,0x1552,0xf000,0x0060,0x0010,0x1600,0x0900,0x0029 | +00700
+        .dc.w   0x9e22,0x0001,0x0200,0x0027,0x16e0,0xffff,0x0060        | +00710
+        .dc.l   ColMap_100200                  | +0071e
+        .dc.w   0x0027,0x164a,0xf000,0x0060,0x0010,0x1600,0x0900,0xffff | +00722
+        .dc.w   0xffff,0x0800                                           | +00732
+        .dc.l   SDS_055258                     | +00736
+        .dc.w   0x0001,0x0208,0x0022,0x19a4,0xffff,0x0200,0x0027,0x1744 | +0073a
+        .dc.w   0xf000,0x0060,0x0010,0x1600,0x0900,0x0029,0x9e76,0x0001 | +0074a
+        .dc.w   0x0200,0x0027,0x179c,0xffff,0x0040,0x0018,0x1600,0x0900 | +0075a
+        .dc.w   0x0029,0x9eca,0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000 | +0076a
+        .dc.w   0x0000,0x1600,0x0800                                    | +0077a
+        .dc.l   SDS_055274                     | +00780
+        .dc.w   0x0003,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x0800 | +00784
+        .dc.l   SDS_055282                     | +00794
+        .dc.w   0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600 | +00798
+        .dc.w   0x0900,0xffff,0xffff,0x0800                             | +007a8
+        .dc.l   SDS_055290                     | +007b0
+        .dc.w   0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600 | +007b4
+        .dc.w   0x0900,0x0029,0x9f1e,0x0001,0x1e08,0x0022,0x19a4,0xffff | +007c4
+        .dc.w   0x0000,0x0000,0x1600,0x0800                             | +007d4
+        .dc.l   SDS_0552ac                     | +007dc
+        .dc.w   0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600 | +007e0
+        .dc.w   0x0800                                                  | +007f0
+        .dc.l   SDS_0552ba                     | +007f2
+        .dc.w   0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600 | +007f6
+        .dc.w   0x0900,0x0029,0x9f72,0x0001,0x1e08,0x0022,0x19a4,0xffff | +00806
+        .dc.w   0x0000,0x0000,0x1600,0x0001,0x0200,0x0027,0x183a,0xffff | +00816
+        .dc.w   0x0000,0x0020,0x1600,0x0001,0x0200,0x0027,0x1b44,0xffff | +00826
+        .dc.w   0x0000,0x0040,0x1600,0x0001,0x0201,0x0027,0x183a,0xffff | +00836
+        .dc.w   0xfff0,0x0020,0x1600,0x0001,0x0201,0x0027,0x1b44,0xffff | +00846
+        .dc.w   0xfff0,0x0040,0x1600,0x0900,0x0029,0xa01a,0x0003,0x1e08 | +00856
+        .dc.w   0x0027,0x1902,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0027 | +00866
+        .dc.w   0x193c,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0027,0x197e | +00876
+        .dc.w   0xffff,0x0000,0x0000,0x0003,0x1e08,0x0027,0x19b2,0xffff | +00886
+        .dc.w   0x0000,0x0000,0x0003,0x1e08,0x0027,0x19e2,0xffff,0x0000 | +00896
+        .dc.w   0x0000,0x0003,0x1e08,0x0027,0x1a10,0xffff,0x0000,0x0000 | +008a6
+        .dc.w   0x0003,0x1e08,0x0027,0x1a40,0xffff,0x0000,0x0000,0x0003 | +008b6
+        .dc.w   0x1e08,0x0027,0x1a7e,0xffff,0x0000,0x0000,0x0100,0x0029 | +008c6
+        .dc.w   0x8aa8,0x0001,0x1e08,0x0022,0x19a4,0xffff,0x0000,0x0000 | +008d6
+        .dc.w   0x1600,0x0900,0x0029,0xa06e,0x0001,0x1e08,0x0027,0x1852 | +008e6
+        .dc.w   0xffff,0x0000,0x0000,0x1600,0x0900,0xffff,0xffff,0x0001 | +008f6
+        .dc.w   0x0200,0x0027,0x1852,0xffff,0x0001,0x0000,0x0001,0x0200 | +00906
+        .dc.w   0x0027,0x1852,0xffff,0xffff,0x0000,0x0302,0x0029,0x8b4a | +00916
+        .dc.w   0x0100,0x0029,0x8b78,0x0001,0x1e08,0x0027,0x1884,0xffff | +00926
+        .dc.w   0x0000,0x0000,0x1600,0x0900,0x0029,0xa0c2,0x0001,0x1e08 | +00936
+        .dc.w   0x0027,0x18d2,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029 | +00946
+        .dc.w   0xa116,0x0600,0x0000,0x0072,0x0003,0x1e08,0x0026,0xf494 | +00956
+        .dc.w   0xffff,0x0000,0x0000,0x0600,0x0001,0x0072,0x0003,0x1e08 | +00966
+        .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600               | +00976
+        .dc.l   Pal_020072                     | +00982
+        .dc.w   0x0003,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600 | +00986
+        .dc.w   0x0003,0x0072,0x0003,0x1e08,0x0026,0xf508,0xffff,0x0000 | +00996
+        .dc.w   0x0000,0x0600,0x0004,0x0072,0x0003,0x1e08,0x0026,0xf532 | +009a6
+        .dc.w   0xffff,0x0000,0x0000,0x0600,0x0005,0x0072,0x0003,0x1e08 | +009b6
+        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072 | +009c6
+        .dc.w   0x0003,0x1e08,0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600 | +009d6
+        .dc.w   0x0007,0x0072,0x0003,0x1e08,0x0026,0xf5a0,0xffff,0x0000 | +009e6
+        .dc.w   0x0000,0x1600,0x0029,0x8c66,0x0029,0x8c7a,0x0029,0x8c8e | +009f6
+        .dc.w   0x0029,0x8ca2,0x0029,0x8cb6,0x0029,0x8cca,0x0029,0x8cde | +00a06
+        .dc.w   0x0029,0x8cf2,0x0600,0x0000,0x0072,0x0001,0x1e08,0x0026 | +00a16
+        .dc.w   0xf494,0xffff,0x0000,0x0000,0x0600,0x0001,0x0072,0x0001 | +00a26
+        .dc.w   0x1e08,0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600        | +00a36
+        .dc.l   Pal_020072                     | +00a44
+        .dc.w   0x0001,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600 | +00a48
+        .dc.w   0x0003,0x0072,0x0001,0x1e08,0x0026,0xf508,0xffff,0x0000 | +00a58
+        .dc.w   0x0000,0x0600,0x0004,0x0072,0x0001,0x1e08,0x0026,0xf532 | +00a68
+        .dc.w   0xffff,0x0000,0x0000,0x0600,0x0005,0x0072,0x0001,0x1e08 | +00a78
+        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072 | +00a88
+        .dc.w   0x0001,0x1e08,0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600 | +00a98
+        .dc.w   0x0007,0x0072,0x0001,0x1e08,0x0026,0xf5a0,0xffff,0x0000 | +00aa8
+        .dc.w   0x0000,0x0304,0x0029,0x8c66,0x0600,0x0000,0x0072,0x0001 | +00ab8
+        .dc.w   0x1e08,0x0026,0xf494,0xffff,0x0000,0x0000,0x0600,0x0001 | +00ac8
+        .dc.w   0x0072,0x0001,0x1e08,0x0026,0xf4b6,0xffff,0x0000,0x0000 | +00ad8
+        .dc.w   0x0600                                                  | +00ae8
+        .dc.l   Pal_020072                     | +00aea
+        .dc.w   0x0001,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600 | +00aee
+        .dc.w   0x0003,0x0072,0x0001,0x1e08,0x0026,0xf508,0xffff,0x0000 | +00afe
+        .dc.w   0x0000,0x0600,0x0004,0x0072,0x0001,0x1e08,0x0026,0xf532 | +00b0e
+        .dc.w   0xffff,0x0000,0x0000,0x0600,0x0005,0x0072,0x0001,0x1e08 | +00b1e
+        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072 | +00b2e
+        .dc.w   0x0001,0x1e08,0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600 | +00b3e
+        .dc.w   0x0007,0x0072,0x0001,0x1e08,0x0026,0xf5a0,0xffff,0x0000 | +00b4e
+        .dc.w   0x0000,0x0302,0x0029,0x8d0c,0x0600,0x0000,0x0072,0x0001 | +00b5e
+        .dc.w   0x1e08,0x0026,0xf494,0xffff,0x0000,0x0000,0x0600,0x0001 | +00b6e
+        .dc.w   0x0072,0x0001,0x1e08,0x0026,0xf4b6,0xffff,0x0000,0x0000 | +00b7e
+        .dc.w   0x0600                                                  | +00b8e
+        .dc.l   Pal_020072                     | +00b90
+        .dc.w   0x0001,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600 | +00b94
+        .dc.w   0x0003,0x0072,0x0001,0x1e08,0x0026,0xf508,0xffff,0x0000 | +00ba4
+        .dc.w   0x0000,0x0600,0x0004,0x0072,0x0001,0x1e08,0x0026,0xf532 | +00bb4
+        .dc.w   0xffff,0x0000,0x0000,0x0600,0x0005,0x0072,0x0001,0x1e08 | +00bc4
+        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072 | +00bd4
+        .dc.w   0x0001,0x1e08,0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600 | +00be4
+        .dc.w   0x0007,0x0072,0x0001,0x1e08,0x0026,0xf5a0,0xffff,0x0000 | +00bf4
+        .dc.w   0x0000,0x0302,0x0029,0x8db2,0x0600,0x0000,0x0072        | +00c04
+        .dc.l   Pal_021e08                     | +00c12
+        .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600,0x0001,0x0072 | +00c16
+        .dc.l   Pal_021e08                     | +00c26
+        .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600               | +00c2a
+        .dc.l   Pal_020072                     | +00c36
+        .dc.l   Pal_021e08                     | +00c3a
+        .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072 | +00c3e
+        .dc.l   Pal_021e08                     | +00c4e
+        .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072 | +00c52
+        .dc.l   Pal_021e08                     | +00c62
+        .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072 | +00c66
+        .dc.l   Pal_021e08                     | +00c76
+        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072 | +00c7a
+        .dc.l   Pal_021e08                     | +00c8a
+        .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072 | +00c8e
+        .dc.l   Pal_021e08                     | +00c9e
+        .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8e58 | +00ca2
+        .dc.w   0x0600,0x0000,0x0072                                    | +00cb2
+        .dc.l   Pal_021e08                     | +00cb8
+        .dc.w   0x0026,0xf494,0xffff,0x0000,0x0000,0x0600,0x0001,0x0072 | +00cbc
+        .dc.l   Pal_021e08                     | +00ccc
+        .dc.w   0x0026,0xf4b6,0xffff,0x0000,0x0000,0x0600               | +00cd0
+        .dc.l   Pal_020072                     | +00cdc
+        .dc.l   Pal_021e08                     | +00ce0
+        .dc.w   0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600,0x0003,0x0072 | +00ce4
+        .dc.l   Pal_021e08                     | +00cf4
+        .dc.w   0x0026,0xf508,0xffff,0x0000,0x0000,0x0600,0x0004,0x0072 | +00cf8
+        .dc.l   Pal_021e08                     | +00d08
+        .dc.w   0x0026,0xf532,0xffff,0x0000,0x0000,0x0600,0x0005,0x0072 | +00d0c
+        .dc.l   Pal_021e08                     | +00d1c
+        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072 | +00d20
+        .dc.l   Pal_021e08                     | +00d30
+        .dc.w   0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600,0x0007,0x0072 | +00d34
+        .dc.l   Pal_021e08                     | +00d44
+        .dc.w   0x0026,0xf5a0,0xffff,0x0000,0x0000,0x0302,0x0029,0x8efe | +00d48
+        .dc.w   0x0600,0x0000,0x0072,0x0003,0x1e08,0x0026,0xf494,0xffff | +00d58
+        .dc.w   0x0000,0x0000,0x0600,0x0001,0x0072,0x0003,0x1e08,0x0026 | +00d68
+        .dc.w   0xf4b6,0xffff,0x0000,0x0000,0x0600                      | +00d78
+        .dc.l   Pal_020072                     | +00d82
+        .dc.w   0x0003,0x1e08,0x0026,0xf4e4,0xffff,0x0000,0x0000,0x0600 | +00d86
+        .dc.w   0x0003,0x0072,0x0003,0x1e08,0x0026,0xf508,0xffff,0x0000 | +00d96
+        .dc.w   0x0000,0x0600,0x0004,0x0072,0x0003,0x1e08,0x0026,0xf532 | +00da6
+        .dc.w   0xffff,0x0000,0x0000,0x0600,0x0005,0x0072,0x0003,0x1e08 | +00db6
+        .dc.w   0x0026,0xf554,0xffff,0x0000,0x0000,0x0600,0x0006,0x0072 | +00dc6
+        .dc.w   0x0003,0x1e08,0x0026,0xf57c,0xffff,0x0000,0x0000,0x0600 | +00dd6
+        .dc.w   0x0007,0x0072,0x0003,0x1e08,0x0026,0xf5a0,0xffff,0x0000 | +00de6
+        .dc.w   0x0000,0x0302,0x0029,0x8fa4,0x0100,0x0029,0x8b9e,0x0900 | +00df6
+        .dc.w   0x0029,0xa16a,0x0001,0x1e08,0x0027,0x1ac8,0xffff,0x0000 | +00e06
+        .dc.w   0x0000,0x1600,0x0900,0xffff,0xffff,0x0001,0x1e08,0x0027 | +00e16
+        .dc.w   0x1b10,0xffff,0x0000,0x0000,0x1600,0x0001,0x1e08,0x0027 | +00e26
+        .dc.w   0x1b64,0xffff,0x0000,0x0000,0x1600,0x0900,0x0029,0x9fc6 | +00e36
+        .dc.w   0x0001,0x1e08,0x0027,0x17cc,0xffff,0x0000,0x0000,0x1600 | +00e46
+        .dc.w   0x0800                                                  | +00e56
+        .dc.l   SDS_05529e                     | +00e58
+        .dc.w   0x0001,0x1e08,0x0027,0x1802,0xffff,0x0000,0x0000,0x1600 | +00e5c
+        .dc.w   0x0900,0x0029,0xa1be,0x0001,0x1e08,0x0027,0x0616,0xffff | +00e6c
+        .dc.w   0x0000,0x0000,0x1600,0x0029,0x90fe,0x0029,0x91c8,0x0029 | +00e7c
+        .dc.w   0x9292,0x0029,0x935c,0x0029,0x9426,0x0029,0x9518,0x0029 | +00e8c
+        .dc.w   0x960a,0x0029,0x96fc,0x0029,0x97ee,0x0029,0x994e,0x0029 | +00e9c
+        .dc.w   0x9aae,0x0029,0x9c0e,0x0800                             | +00eac
+        .dc.l   SDS_0552e4                     | +00eb4
+        .dc.w   0x0001,0x1e08,0x0027,0x0676,0xffff,0x0000,0x0000,0x0800 | +00eb8
+        .dc.l   SDS_0552f2                     | +00ec8
+        .dc.w   0x0001,0x1e08,0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800 | +00ecc
+        .dc.l   SDS_055300                     | +00edc
+        .dc.l   Pal_021e08                     | +00ee0
+        .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800               | +00ee4
+        .dc.l   SDS_05530e                     | +00ef0
+        .dc.l   Pal_021e08                     | +00ef4
+        .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800               | +00ef8
+        .dc.l   SDS_05531c                     | +00f04
+        .dc.l   Pal_021e08                     | +00f08
+        .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800               | +00f0c
+        .dc.l   SDS_05532a                     | +00f18
+        .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800 | +00f1c
+        .dc.l   SDS_055338                     | +00f2c
+        .dc.w   0x0003,0x1e08,0x0027,0x08b6,0xffff,0x0000,0x0000,0x0800 | +00f30
+        .dc.l   SDS_055346                     | +00f40
+        .dc.w   0x0003,0x1e08,0x0027,0x0916,0xffff,0x0000,0x0000,0x0800 | +00f44
+        .dc.l   SDS_055354                     | +00f54
+        .dc.w   0x0004,0x1e08,0x0027,0x0976,0xffff,0x0000,0x0000,0x0800 | +00f58
+        .dc.l   SDS_055362                     | +00f68
+        .dc.w   0x0001,0x1e08,0x0027,0x09d6,0xffff,0x0000,0x0000,0x1600 | +00f6c
+        .dc.w   0x0800                                                  | +00f7c
+        .dc.l   SDS_055514                     | +00f7e
+        .dc.w   0x0001,0x1e08,0x0027,0x0676,0xffff,0x0000,0x0000,0x0800 | +00f82
+        .dc.l   SDS_055522                     | +00f92
+        .dc.w   0x0001,0x1e08,0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800 | +00f96
+        .dc.l   SDS_055530                     | +00fa6
+        .dc.l   Pal_021e08                     | +00faa
+        .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800               | +00fae
+        .dc.l   SDS_05553e                     | +00fba
+        .dc.l   Pal_021e08                     | +00fbe
+        .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800               | +00fc2
+        .dc.l   SDS_05554c                     | +00fce
+        .dc.l   Pal_021e08                     | +00fd2
+        .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800               | +00fd6
+        .dc.l   SDS_05555a                     | +00fe2
+        .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800 | +00fe6
+        .dc.l   SDS_055568                     | +00ff6
+        .dc.w   0x0003,0x1e08,0x0027,0x08b6,0xffff,0x0000,0x0000,0x0800 | +00ffa
+        .dc.l   SDS_055576                     | +0100a
+        .dc.w   0x0003,0x1e08,0x0027,0x0916,0xffff,0x0000,0x0000,0x0800 | +0100e
+        .dc.l   SDS_055584                     | +0101e
+        .dc.w   0x0004,0x1e08,0x0027,0x0976,0xffff,0x0000,0x0000,0x0800 | +01022
+        .dc.l   SDS_055592                     | +01032
+        .dc.w   0x0001,0x1e08,0x0027,0x09d6,0xffff,0x0000,0x0000,0x1600 | +01036
+        .dc.w   0x0800                                                  | +01046
+        .dc.l   SDS_055744                     | +01048
+        .dc.w   0x0001,0x1e08,0x0027,0x0676,0xffff,0x0000,0x0000,0x0800 | +0104c
+        .dc.l   SDS_055752                     | +0105c
+        .dc.w   0x0001,0x1e08,0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800 | +01060
+        .dc.l   SDS_055760                     | +01070
+        .dc.l   Pal_021e08                     | +01074
+        .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800               | +01078
+        .dc.l   SDS_05576e                     | +01084
+        .dc.l   Pal_021e08                     | +01088
+        .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800               | +0108c
+        .dc.l   SDS_05577c                     | +01098
+        .dc.l   Pal_021e08                     | +0109c
+        .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800               | +010a0
+        .dc.l   SDS_05578a                     | +010ac
+        .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800 | +010b0
+        .dc.l   SDS_055798                     | +010c0
+        .dc.w   0x0003,0x1e08,0x0027,0x08b6,0xffff,0x0000,0x0000,0x0800 | +010c4
+        .dc.l   SDS_0557a6                     | +010d4
+        .dc.w   0x0003,0x1e08,0x0027,0x0916,0xffff,0x0000,0x0000,0x0800 | +010d8
+        .dc.l   SDS_0557b4                     | +010e8
+        .dc.w   0x0004,0x1e08,0x0027,0x0976,0xffff,0x0000,0x0000,0x0800 | +010ec
+        .dc.l   SDS_0557c2                     | +010fc
+        .dc.w   0x0001,0x1e08,0x0027,0x09d6,0xffff,0x0000,0x0000,0x1600 | +01100
+        .dc.w   0x0800                                                  | +01110
+        .dc.l   SDS_055974                     | +01112
+        .dc.w   0x0001,0x1e08,0x0027,0x0676,0xffff,0x0000,0x0000,0x0800 | +01116
+        .dc.l   SDS_055982                     | +01126
+        .dc.w   0x0001,0x1e08,0x0027,0x06d6,0xffff,0x0000,0x0000,0x0800 | +0112a
+        .dc.l   SDS_055990                     | +0113a
+        .dc.l   Pal_021e08                     | +0113e
+        .dc.w   0x0027,0x0736,0xffff,0x0000,0x0000,0x0800               | +01142
+        .dc.l   SDS_05599e                     | +0114e
+        .dc.l   Pal_021e08                     | +01152
+        .dc.w   0x0027,0x0796,0xffff,0x0000,0x0000,0x0800               | +01156
+        .dc.l   SDS_0559ac                     | +01162
+        .dc.l   Pal_021e08                     | +01166
+        .dc.w   0x0027,0x07f6,0xffff,0x0000,0x0000,0x0800               | +0116a
+        .dc.l   SDS_0559ba                     | +01176
+        .dc.w   0x0003,0x1e08,0x0027,0x0856,0xffff,0x0000,0x0000,0x0800 | +0117a
+        .dc.l   SDS_0559c8                     | +0118a
+        .dc.w   0x0003,0x1e08,0x0027,0x08b6,0xffff,0x0000,0x0000,0x0800 | +0118e
+        .dc.l   SDS_0559d6                     | +0119e
+        .dc.w   0x0003,0x1e08,0x0027,0x0916,0xffff,0x0000,0x0000,0x0800 | +011a2
+        .dc.l   SDS_0559e4                     | +011b2
+        .dc.w   0x0004,0x1e08,0x0027,0x0976,0xffff,0x0000,0x0000,0x0800 | +011b6
+        .dc.l   SDS_0559f2                     | +011c6
+        .dc.w   0x0001,0x1e08,0x0027,0x09d6,0xffff,0x0000,0x0000,0x1600 | +011ca
+        .dc.w   0x0800                                                  | +011da
+        .dc.l   SDS_055370                     | +011dc
+        .dc.w   0x0001,0x1e08,0x0027,0x0a36,0xffff,0x0000,0x0000,0x0800 | +011e0
+        .dc.l   SDS_05537e                     | +011f0
+        .dc.w   0x0001,0x1e08,0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800 | +011f4
+        .dc.l   SDS_05538c                     | +01204
+        .dc.l   Pal_021e08                     | +01208
+        .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800               | +0120c
+        .dc.l   SDS_05539a                     | +01218
+        .dc.l   Pal_021e08                     | +0121c
+        .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800               | +01220
+        .dc.l   SDS_0553a8                     | +0122c
+        .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800 | +01230
+        .dc.l   SDS_0553b6                     | +01240
+        .dc.w   0x0003,0x1e08,0x0027,0x0c16,0xffff,0x0000,0x0000,0x0800 | +01244
+        .dc.l   SDS_0553c4                     | +01254
+        .dc.w   0x0003,0x1e08,0x0027,0x0c76,0xffff,0x0000,0x0000,0x0800 | +01258
+        .dc.l   SDS_0553d2                     | +01268
+        .dc.w   0x0003,0x1e08,0x0027,0x0cd6,0xffff,0x0000,0x0000,0x0800 | +0126c
+        .dc.l   SDS_0553e0                     | +0127c
+        .dc.w   0x0003,0x1e08,0x0027,0x0d36,0xffff,0x0000,0x0000,0x0800 | +01280
+        .dc.l   SDS_0553ee                     | +01290
+        .dc.w   0x0003,0x1e08,0x0027,0x0d96,0xffff,0x0000,0x0000,0x0800 | +01294
+        .dc.l   SDS_0553fc                     | +012a4
+        .dc.w   0x0003,0x1e08,0x0027,0x0df6,0xffff,0x0000,0x0000,0x0800 | +012a8
+        .dc.l   SDS_05540a                     | +012b8
+        .dc.w   0x0001,0x1e08,0x0027,0x0e56,0xffff,0x0000,0x0000,0x1600 | +012bc
+        .dc.w   0x0800                                                  | +012cc
+        .dc.l   SDS_0555a0                     | +012ce
+        .dc.w   0x0001,0x1e08,0x0027,0x0a36,0xffff,0x0000,0x0000,0x0800 | +012d2
+        .dc.l   SDS_0555ae                     | +012e2
+        .dc.w   0x0001,0x1e08,0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800 | +012e6
+        .dc.l   SDS_0555bc                     | +012f6
+        .dc.l   Pal_021e08                     | +012fa
+        .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800               | +012fe
+        .dc.l   SDS_0555ca                     | +0130a
+        .dc.l   Pal_021e08                     | +0130e
+        .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800               | +01312
+        .dc.l   SDS_0555d8                     | +0131e
+        .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800 | +01322
+        .dc.l   SDS_0555e6                     | +01332
+        .dc.w   0x0003,0x1e08,0x0027,0x0c16,0xffff,0x0000,0x0000,0x0800 | +01336
+        .dc.l   SDS_0555f4                     | +01346
+        .dc.w   0x0003,0x1e08,0x0027,0x0c76,0xffff,0x0000,0x0000,0x0800 | +0134a
+        .dc.l   SDS_055602                     | +0135a
+        .dc.w   0x0003,0x1e08,0x0027,0x0cd6,0xffff,0x0000,0x0000,0x0800 | +0135e
+        .dc.l   SDS_055610                     | +0136e
+        .dc.w   0x0003,0x1e08,0x0027,0x0d36,0xffff,0x0000,0x0000,0x0800 | +01372
+        .dc.l   SDS_05561e                     | +01382
+        .dc.w   0x0003,0x1e08,0x0027,0x0d96,0xffff,0x0000,0x0000,0x0800 | +01386
+        .dc.l   SDS_05562c                     | +01396
+        .dc.w   0x0003,0x1e08,0x0027,0x0df6,0xffff,0x0000,0x0000,0x0800 | +0139a
+        .dc.l   SDS_05563a                     | +013aa
+        .dc.w   0x0001,0x1e08,0x0027,0x0e56,0xffff,0x0000,0x0000,0x1600 | +013ae
+        .dc.w   0x0800                                                  | +013be
+        .dc.l   SDS_0557d0                     | +013c0
+        .dc.w   0x0001,0x1e08,0x0027,0x0a36,0xffff,0x0000,0x0000,0x0800 | +013c4
+        .dc.l   SDS_0557de                     | +013d4
+        .dc.w   0x0001,0x1e08,0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800 | +013d8
+        .dc.l   SDS_0557ec                     | +013e8
+        .dc.l   Pal_021e08                     | +013ec
+        .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800               | +013f0
+        .dc.l   SDS_0557fa                     | +013fc
+        .dc.l   Pal_021e08                     | +01400
+        .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800               | +01404
+        .dc.l   SDS_055808                     | +01410
+        .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800 | +01414
+        .dc.l   SDS_055816                     | +01424
+        .dc.w   0x0003,0x1e08,0x0027,0x0c16,0xffff,0x0000,0x0000,0x0800 | +01428
+        .dc.l   SDS_055824                     | +01438
+        .dc.w   0x0003,0x1e08,0x0027,0x0c76,0xffff,0x0000,0x0000,0x0800 | +0143c
+        .dc.l   SDS_055832                     | +0144c
+        .dc.w   0x0003,0x1e08,0x0027,0x0cd6,0xffff,0x0000,0x0000,0x0800 | +01450
+        .dc.l   SDS_055840                     | +01460
+        .dc.w   0x0003,0x1e08,0x0027,0x0d36,0xffff,0x0000,0x0000,0x0800 | +01464
+        .dc.l   SDS_05584e                     | +01474
+        .dc.w   0x0003,0x1e08,0x0027,0x0d96,0xffff,0x0000,0x0000,0x0800 | +01478
+        .dc.l   SDS_05585c                     | +01488
+        .dc.w   0x0003,0x1e08,0x0027,0x0df6,0xffff,0x0000,0x0000,0x0800 | +0148c
+        .dc.l   SDS_05586a                     | +0149c
+        .dc.w   0x0001,0x1e08,0x0027,0x0e56,0xffff,0x0000,0x0000,0x1600 | +014a0
+        .dc.w   0x0800                                                  | +014b0
+        .dc.l   SDS_055a00                     | +014b2
+        .dc.w   0x0001,0x1e08,0x0027,0x0a36,0xffff,0x0000,0x0000,0x0800 | +014b6
+        .dc.l   SDS_055a0e                     | +014c6
+        .dc.w   0x0001,0x1e08,0x0027,0x0a96,0xffff,0x0000,0x0000,0x0800 | +014ca
+        .dc.l   SDS_055a1c                     | +014da
+        .dc.l   Pal_021e08                     | +014de
+        .dc.w   0x0027,0x0af6,0xffff,0x0000,0x0000,0x0800               | +014e2
+        .dc.l   SDS_055a2a                     | +014ee
+        .dc.l   Pal_021e08                     | +014f2
+        .dc.w   0x0027,0x0b56,0xffff,0x0000,0x0000,0x0800               | +014f6
+        .dc.l   SDS_055a38                     | +01502
+        .dc.w   0x0003,0x1e08,0x0027,0x0bb6,0xffff,0x0000,0x0000,0x0800 | +01506
+        .dc.l   SDS_055a46                     | +01516
+        .dc.w   0x0003,0x1e08,0x0027,0x0c16,0xffff,0x0000,0x0000,0x0800 | +0151a
+        .dc.l   SDS_055a54                     | +0152a
+        .dc.w   0x0003,0x1e08,0x0027,0x0c76,0xffff,0x0000,0x0000,0x0800 | +0152e
+        .dc.l   SDS_055a62                     | +0153e
+        .dc.w   0x0003,0x1e08,0x0027,0x0cd6,0xffff,0x0000,0x0000,0x0800 | +01542
+        .dc.l   SDS_055a70                     | +01552
+        .dc.w   0x0003,0x1e08,0x0027,0x0d36,0xffff,0x0000,0x0000,0x0800 | +01556
+        .dc.l   SDS_055a7e                     | +01566
+        .dc.w   0x0003,0x1e08,0x0027,0x0d96,0xffff,0x0000,0x0000,0x0800 | +0156a
+        .dc.l   SDS_055a8c                     | +0157a
+        .dc.w   0x0003,0x1e08,0x0027,0x0df6,0xffff,0x0000,0x0000,0x0800 | +0157e
+        .dc.l   SDS_055a9a                     | +0158e
+        .dc.w   0x0001,0x1e08,0x0027,0x0e56,0xffff,0x0000,0x0000,0x1600 | +01592
+        .dc.w   0x0900,0xffff,0xffff,0x05ff,0x0020,0x0800               | +015a2
+        .dc.l   SDS_055418                     | +015ae
+        .dc.w   0x0003,0x1e08,0x0027,0x0eb6,0xffff,0x0000,0x0000,0x0800 | +015b2
+        .dc.l   SDS_055426                     | +015c2
+        .dc.w   0x0003,0x1e08,0x0027,0x0f16,0xffff,0x0000,0x0000,0x0800 | +015c6
+        .dc.l   SDS_055434                     | +015d6
+        .dc.w   0x0003,0x1e08,0x0027,0x0f76,0xffff,0x0000,0x0000,0x0800 | +015da
+        .dc.l   SDS_055442                     | +015ea
+        .dc.w   0x0003,0x1e08,0x0027,0x0fd6,0xffff,0x0000,0x0000,0x0800 | +015ee
+        .dc.l   SDS_055450                     | +015fe
+        .dc.w   0x0003,0x1e08,0x0027,0x103e,0xffff,0x0000,0x0000,0x0800 | +01602
+        .dc.l   SDS_05545e                     | +01612
+        .dc.w   0x0003,0x1e08,0x0027,0x10a4,0xffff,0x0000,0x0000,0x0800 | +01616
+        .dc.l   SDS_05546c                     | +01626
+        .dc.w   0x0003,0x1e08,0x0027,0x1108,0xffff,0x0000,0x0000,0x0800 | +0162a
+        .dc.l   SDS_05547a                     | +0163a
+        .dc.w   0x0003,0x1e08,0x0027,0x115e,0xffff,0x0000,0x0000,0x0800 | +0163e
+        .dc.l   SDS_055488                     | +0164e
+        .dc.w   0x0003,0x1e08,0x0027,0x11b4,0xffff,0x0000,0x0000,0x0800 | +01652
+        .dc.l   SDS_055496                     | +01662
+        .dc.w   0x0003,0x1e08,0x0027,0x120a,0xffff,0x0000,0x0000,0x0800 | +01666
+        .dc.l   SDS_0554a4                     | +01676
+        .dc.w   0x0003,0x1e08,0x0027,0x126a,0xffff,0x0000,0x0000,0x0800 | +0167a
+        .dc.l   SDS_0554b2                     | +0168a
+        .dc.w   0x0003,0x1e08,0x0027,0x12ca,0xffff,0x0000,0x0000,0x0800 | +0168e
+        .dc.l   SDS_0554c0                     | +0169e
+        .dc.w   0x0003,0x1e08,0x0027,0x132a,0xffff,0x0000,0x0000,0x0800 | +016a2
+        .dc.l   SDS_0554ce                     | +016b2
+        .dc.w   0x0003,0x1e08,0x0027,0x138a,0xffff,0x0000,0x0000,0x0800 | +016b6
+        .dc.l   SDS_0554dc                     | +016c6
+        .dc.w   0x0003,0x1e08,0x0027,0x13ea,0xffff,0x0000,0x0000,0x0800 | +016ca
+        .dc.l   SDS_0554ea                     | +016da
+        .dc.w   0x0003,0x1e08,0x0027,0x144a,0xffff,0x0000,0x0000,0x0800 | +016de
+        .dc.l   SDS_0554f8                     | +016ee
+        .dc.w   0x0001,0x1e08,0x0027,0x14aa,0xffff,0x0000,0x0000,0x1600 | +016f2
+        .dc.w   0x0900,0xffff,0xffff,0x05ff,0x0020,0x0800               | +01702
+        .dc.l   SDS_055648                     | +0170e
+        .dc.w   0x0003,0x1e08,0x0027,0x0eb6,0xffff,0x0000,0x0000,0x0800 | +01712
+        .dc.l   SDS_055656                     | +01722
+        .dc.w   0x0003,0x1e08,0x0027,0x0f16,0xffff,0x0000,0x0000,0x0800 | +01726
+        .dc.l   SDS_055664                     | +01736
+        .dc.w   0x0003,0x1e08,0x0027,0x0f76,0xffff,0x0000,0x0000,0x0800 | +0173a
+        .dc.l   SDS_055672                     | +0174a
+        .dc.w   0x0003,0x1e08,0x0027,0x0fd6,0xffff,0x0000,0x0000,0x0800 | +0174e
+        .dc.l   SDS_055680                     | +0175e
+        .dc.w   0x0003,0x1e08,0x0027,0x103e,0xffff,0x0000,0x0000,0x0800 | +01762
+        .dc.l   SDS_05568e                     | +01772
+        .dc.w   0x0003,0x1e08,0x0027,0x10a4,0xffff,0x0000,0x0000,0x0800 | +01776
+        .dc.l   SDS_05569c                     | +01786
+        .dc.w   0x0003,0x1e08,0x0027,0x1108,0xffff,0x0000,0x0000,0x0800 | +0178a
+        .dc.l   SDS_0556aa                     | +0179a
+        .dc.w   0x0003,0x1e08,0x0027,0x115e,0xffff,0x0000,0x0000,0x0800 | +0179e
+        .dc.l   SDS_0556b8                     | +017ae
+        .dc.w   0x0003,0x1e08,0x0027,0x11b4,0xffff,0x0000,0x0000,0x0800 | +017b2
+        .dc.l   SDS_0556c6                     | +017c2
+        .dc.w   0x0003,0x1e08,0x0027,0x120a,0xffff,0x0000,0x0000,0x0800 | +017c6
+        .dc.l   SDS_0556d4                     | +017d6
+        .dc.w   0x0003,0x1e08,0x0027,0x126a,0xffff,0x0000,0x0000,0x0800 | +017da
+        .dc.l   SDS_0556e2                     | +017ea
+        .dc.w   0x0003,0x1e08,0x0027,0x12ca,0xffff,0x0000,0x0000,0x0800 | +017ee
+        .dc.l   SDS_0556f0                     | +017fe
+        .dc.w   0x0003,0x1e08,0x0027,0x132a,0xffff,0x0000,0x0000,0x0800 | +01802
+        .dc.l   SDS_0556fe                     | +01812
+        .dc.w   0x0003,0x1e08,0x0027,0x138a,0xffff,0x0000,0x0000,0x0800 | +01816
+        .dc.l   SDS_05570c                     | +01826
+        .dc.w   0x0003,0x1e08,0x0027,0x13ea,0xffff,0x0000,0x0000,0x0800 | +0182a
+        .dc.l   SDS_05571a                     | +0183a
+        .dc.w   0x0003,0x1e08,0x0027,0x144a,0xffff,0x0000,0x0000,0x0800 | +0183e
+        .dc.l   SDS_055728                     | +0184e
+        .dc.w   0x0001,0x1e08,0x0027,0x14aa,0xffff,0x0000,0x0000,0x1600 | +01852
+        .dc.w   0x0900,0xffff,0xffff,0x05ff,0x0020,0x0800               | +01862
+        .dc.l   SDS_055878                     | +0186e
+        .dc.w   0x0003,0x1e08,0x0027,0x0eb6,0xffff,0x0000,0x0000,0x0800 | +01872
+        .dc.l   SDS_055886                     | +01882
+        .dc.w   0x0003,0x1e08,0x0027,0x0f16,0xffff,0x0000,0x0000,0x0800 | +01886
+        .dc.l   SDS_055894                     | +01896
+        .dc.w   0x0003,0x1e08,0x0027,0x0f76,0xffff,0x0000,0x0000,0x0800 | +0189a
+        .dc.l   SDS_0558a2                     | +018aa
+        .dc.w   0x0003,0x1e08,0x0027,0x0fd6,0xffff,0x0000,0x0000,0x0800 | +018ae
+        .dc.l   SDS_0558b0                     | +018be
+        .dc.w   0x0003,0x1e08,0x0027,0x103e,0xffff,0x0000,0x0000,0x0800 | +018c2
+        .dc.l   SDS_0558be                     | +018d2
+        .dc.w   0x0003,0x1e08,0x0027,0x10a4,0xffff,0x0000,0x0000,0x0800 | +018d6
+        .dc.l   SDS_0558cc                     | +018e6
+        .dc.w   0x0003,0x1e08,0x0027,0x1108,0xffff,0x0000,0x0000,0x0800 | +018ea
+        .dc.l   SDS_0558da                     | +018fa
+        .dc.w   0x0003,0x1e08,0x0027,0x115e,0xffff,0x0000,0x0000,0x0800 | +018fe
+        .dc.l   SDS_0558e8                     | +0190e
+        .dc.w   0x0003,0x1e08,0x0027,0x11b4,0xffff,0x0000,0x0000,0x0800 | +01912
+        .dc.l   SDS_0558f6                     | +01922
+        .dc.w   0x0003,0x1e08,0x0027,0x120a,0xffff,0x0000,0x0000,0x0800 | +01926
+        .dc.l   SDS_055904                     | +01936
+        .dc.w   0x0003,0x1e08,0x0027,0x126a,0xffff,0x0000,0x0000,0x0800 | +0193a
+        .dc.l   SDS_055912                     | +0194a
+        .dc.w   0x0003,0x1e08,0x0027,0x12ca,0xffff,0x0000,0x0000,0x0800 | +0194e
+        .dc.l   SDS_055920                     | +0195e
+        .dc.w   0x0003,0x1e08,0x0027,0x132a,0xffff,0x0000,0x0000,0x0800 | +01962
+        .dc.l   SDS_05592e                     | +01972
+        .dc.w   0x0003,0x1e08,0x0027,0x138a,0xffff,0x0000,0x0000,0x0800 | +01976
+        .dc.l   SDS_05593c                     | +01986
+        .dc.w   0x0003,0x1e08,0x0027,0x13ea,0xffff,0x0000,0x0000,0x0800 | +0198a
+        .dc.l   SDS_05594a                     | +0199a
+        .dc.w   0x0003,0x1e08,0x0027,0x144a,0xffff,0x0000,0x0000,0x0800 | +0199e
+        .dc.l   SDS_055958                     | +019ae
+        .dc.w   0x0001,0x1e08,0x0027,0x14aa,0xffff,0x0000,0x0000,0x1600 | +019b2
+        .dc.w   0x0900,0xffff,0xffff,0x05ff,0x0020,0x0800               | +019c2
+        .dc.l   SDS_055aa8                     | +019ce
+        .dc.w   0x0003,0x1e08,0x0027,0x0eb6,0xffff,0x0000,0x0000,0x0800 | +019d2
+        .dc.l   SDS_055ab6                     | +019e2
+        .dc.w   0x0003,0x1e08,0x0027,0x0f16,0xffff,0x0000,0x0000,0x0800 | +019e6
+        .dc.l   SDS_055ac4                     | +019f6
+        .dc.w   0x0003,0x1e08,0x0027,0x0f76,0xffff,0x0000,0x0000,0x0800 | +019fa
+        .dc.l   SDS_055ad2                     | +01a0a
+        .dc.w   0x0003,0x1e08,0x0027,0x0fd6,0xffff,0x0000,0x0000,0x0800 | +01a0e
+        .dc.l   SDS_055ae0                     | +01a1e
+        .dc.w   0x0003,0x1e08,0x0027,0x103e,0xffff,0x0000,0x0000,0x0800 | +01a22
+        .dc.l   SDS_055aee                     | +01a32
+        .dc.w   0x0003,0x1e08,0x0027,0x10a4,0xffff,0x0000,0x0000,0x0800 | +01a36
+        .dc.l   SDS_055afc                     | +01a46
+        .dc.w   0x0003,0x1e08,0x0027,0x1108,0xffff,0x0000,0x0000,0x0800 | +01a4a
+        .dc.l   SDS_055b0a                     | +01a5a
+        .dc.w   0x0003,0x1e08,0x0027,0x115e,0xffff,0x0000,0x0000,0x0800 | +01a5e
+        .dc.l   SDS_055b18                     | +01a6e
+        .dc.w   0x0003,0x1e08,0x0027,0x11b4,0xffff,0x0000,0x0000,0x0800 | +01a72
+        .dc.l   SDS_055b26                     | +01a82
+        .dc.w   0x0003,0x1e08,0x0027,0x120a,0xffff,0x0000,0x0000,0x0800 | +01a86
+        .dc.l   SDS_055b34                     | +01a96
+        .dc.w   0x0003,0x1e08,0x0027,0x126a,0xffff,0x0000,0x0000,0x0800 | +01a9a
+        .dc.l   SDS_055b42                     | +01aaa
+        .dc.w   0x0003,0x1e08,0x0027,0x12ca,0xffff,0x0000,0x0000,0x0800 | +01aae
+        .dc.l   SDS_055b50                     | +01abe
+        .dc.w   0x0003,0x1e08,0x0027,0x132a,0xffff,0x0000,0x0000,0x0800 | +01ac2
+        .dc.l   SDS_055b5e                     | +01ad2
+        .dc.w   0x0003,0x1e08,0x0027,0x138a,0xffff,0x0000,0x0000,0x0800 | +01ad6
+        .dc.l   SDS_055b6c                     | +01ae6
+        .dc.w   0x0003,0x1e08,0x0027,0x13ea,0xffff,0x0000,0x0000,0x0800 | +01aea
+        .dc.l   SDS_055b7a                     | +01afa
+        .dc.w   0x0003,0x1e08,0x0027,0x144a,0xffff,0x0000,0x0000,0x0800 | +01afe
+        .dc.l   SDS_055b88                     | +01b0e
+        .dc.w   0x0001,0x1e08,0x0027,0x14aa,0xffff,0x0000,0x0000,0x1600 | +01b12
+        .dc.w   0x0001,0x1e08,0x0027,0x150a,0xffff,0x0000,0x0000,0x1600 | +01b22
+        .dc.w   0x0003,0xffff,0xffff,0x0000,0x0000,0x0028,0x0080        | +01b32
+        .dc.l   ColMap_100080                  | +01b40
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01b44
+        .dc.w   0x3676,0xffff,0x0028,0x0080,0x0200,0x0024,0x3680,0xffff | +01b54
+        .dc.w   0x0028                                                  | +01b64
+        .dc.l   ColMap_100200                  | +01b66
+        .dc.w   0x0024,0x368a,0xffff,0x0080,0x0080,0x0200,0x0024,0x3694 | +01b6a
+        .dc.w   0xffff,0x0080                                           | +01b7a
+        .dc.l   ColMap_101d01                  | +01b7e
+        .dc.w   0x0003,0x0029,0xa212,0x0000,0x0000,0x0040,0x0080        | +01b82
+        .dc.l   ColMap_100080                  | +01b90
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01b94
+        .dc.w   0x3676,0xffff,0x0040,0x0080,0x0200,0x0024,0x3680,0xffff | +01ba4
+        .dc.w   0x0040                                                  | +01bb4
+        .dc.l   ColMap_100200                  | +01bb6
+        .dc.w   0x0024,0x368a,0xffff,0x0080,0x0080,0x0200,0x0024,0x3694 | +01bba
+        .dc.w   0xffff,0x0080                                           | +01bca
+        .dc.l   ColMap_101d01                  | +01bce
+        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0028 | +01bd2
+        .dc.w   0x0080                                                  | +01be2
+        .dc.l   ColMap_100060                  | +01be4
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01be8
+        .dc.w   0x3676,0xffff,0x0028,0x0060,0x0200,0x0024,0x3680,0xffff | +01bf8
+        .dc.w   0x0028                                                  | +01c08
+        .dc.l   ColMap_100200                  | +01c0a
+        .dc.w   0x0024,0x368a,0xffff,0x0080,0x0060,0x0200,0x0024,0x3694 | +01c0e
+        .dc.w   0xffff,0x0080                                           | +01c1e
+        .dc.l   ColMap_101d01                  | +01c22
+        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000        | +01c26
+        .dc.l   AnimScr_180048                 | +01c34
+        .dc.l   BgMap_0c0020                   | +01c38
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01c3c
+        .dc.w   0x3676,0xffff                                           | +01c4c
+        .dc.l   AnimScr_180020                 | +01c50
+        .dc.w   0x0200,0x0024,0x3680,0xffff,0x0018                      | +01c54
+        .dc.l   BgMap_0c0200                   | +01c5e
+        .dc.w   0x0024,0x368a,0xffff,0x0048,0x0020,0x0200,0x0024,0x3694 | +01c62
+        .dc.w   0xffff,0x0048                                           | +01c72
+        .dc.l   BgMap_0c1d01                   | +01c76
+        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0030 | +01c7a
+        .dc.w   0x0058                                                  | +01c8a
+        .dc.l   ColMap_100060                  | +01c8c
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01c90
+        .dc.w   0x3676,0xffff,0x0030,0x0060,0x0200,0x0024,0x3680,0xffff | +01ca0
+        .dc.w   0x0030                                                  | +01cb0
+        .dc.l   ColMap_100200                  | +01cb2
+        .dc.w   0x0024,0x368a,0xffff,0x0058,0x0060,0x0200,0x0024,0x3694 | +01cb6
+        .dc.w   0xffff,0x0058                                           | +01cc6
+        .dc.l   ColMap_101d01                  | +01cca
+        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0008 | +01cce
+        .dc.w   0x0030                                                  | +01cde
+        .dc.l   ColMap_100060                  | +01ce0
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01ce4
+        .dc.w   0x3676,0xffff,0x0008,0x0060,0x0200,0x0024,0x3680,0xffff | +01cf4
+        .dc.w   0x0008                                                  | +01d04
+        .dc.l   ColMap_100200                  | +01d06
+        .dc.w   0x0024,0x368a,0xffff,0x0030,0x0060,0x0200,0x0024,0x3694 | +01d0a
+        .dc.w   0xffff,0x0030                                           | +01d1a
+        .dc.l   ColMap_101d01                  | +01d1e
+        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000        | +01d22
+        .dc.l   AnimScr_180040                 | +01d30
+        .dc.l   ColMap_100100                  | +01d34
+        .dc.w   0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024 | +01d38
+        .dc.w   0x3676,0xffff                                           | +01d48
+        .dc.l   AnimScr_180100                 | +01d4c
+        .dc.w   0x0200,0x0024,0x3680,0xffff                             | +01d50
+        .dc.l   AnimScr_180010                 | +01d58
+        .dc.w   0x0200,0x0024,0x368a,0xffff,0x0040,0x0100,0x0200,0x0024 | +01d5c
+        .dc.w   0x3694,0xffff,0x0040                                    | +01d6c
+        .dc.l   ColMap_101d01                  | +01d72
+        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0xffc0 | +01d76
+        .dc.w   0x0038,0x0008                                           | +01d86
+        .dc.l   ColMap_100200                  | +01d8a
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +01d8e
+        .dc.w   0xffff,0xffc0                                           | +01d9e
+        .dc.l   ColMap_100200                  | +01da2
+        .dc.w   0x0024,0x3680,0xffff,0xffc0,0x0008,0x0200,0x0024,0x368a | +01da6
+        .dc.w   0xffff,0x0038                                           | +01db6
+        .dc.l   ColMap_100200                  | +01dba
+        .dc.w   0x0024,0x3694,0xffff,0x0038,0x0008,0x1d01,0xffff,0xffff | +01dbe
+        .dc.w   0x0003,0xffff,0xffff,0x0000,0x0000,0xfff0,0x0040,0xffe0 | +01dce
+        .dc.w   0x0004,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +01dde
+        .dc.w   0x0024,0x3676,0xffff,0xfff0,0x0004,0x0200,0x0024,0x3680 | +01dee
+        .dc.w   0xffff,0xfff0,0xffe0,0x0200,0x0024,0x368a,0xffff,0x0040 | +01dfe
+        .dc.w   0x0004,0x0200,0x0024,0x3694,0xffff,0x0040,0xffe0,0x1d01 | +01e0e
+        .dc.w   0xffff,0xffff,0x0003,0x0029,0xa234,0x0000,0x0000,0x0020 | +01e1e
+        .dc.w   0x0040,0xfff0,0x0008,0x0200,0x0024,0x366c,0xffff,0x0000 | +01e2e
+        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0x0020,0x0008,0x0200 | +01e3e
+        .dc.w   0x0024,0x3680,0xffff,0x0020,0xfff0,0x0200,0x0024,0x368a | +01e4e
+        .dc.w   0xffff,0x0040,0x0008,0x0200,0x0024,0x3694,0xffff,0x0040 | +01e5e
+        .dc.w   0xfff0,0x1d01,0xffff,0xffff,0x0002,0x0029,0xa234,0x0000 | +01e6e
+        .dc.w   0x0000,0x0040,0x0050,0xffe0,0x0020,0x0200,0x0024,0x366c | +01e7e
+        .dc.w   0xffff,0x0000,0x0000,0x0200,0x0024,0x3676,0xffff,0x0040 | +01e8e
+        .dc.w   0x0020,0x0200,0x0024,0x3680,0xffff,0x0040,0xffe0,0x0200 | +01e9e
+        .dc.w   0x0024,0x368a,0xffff,0x0050,0x0020,0x0200,0x0024,0x3694 | +01eae
+        .dc.w   0xffff,0x0050,0xffe0,0x1d01,0xffff,0xffff,0x0003,0xffff | +01ebe
+        .dc.w   0xffff,0x0000,0x0000,0x0000,0x0040,0xffd8,0xffe0,0x0200 | +01ece
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +01ede
+        .dc.w   0xffff,0x0000,0xffe0,0x0200,0x0024,0x3680,0xffff,0x0000 | +01eee
+        .dc.w   0xffd8,0x0200,0x0024,0x368a,0xffff,0x0040,0xffe0,0x0200 | +01efe
+        .dc.w   0x0024,0x3694,0xffff,0x0040,0xffd8,0x1d01,0xffff,0xffff | +01f0e
+        .dc.w   0x0003,0xffff,0xffff,0x0000,0x0000,0x0008,0x0038,0x0000 | +01f1e
+        .dc.w   0x0040,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +01f2e
+        .dc.w   0x0024,0x3676,0xffff,0x0008,0x0040,0x0200,0x0024,0x3680 | +01f3e
+        .dc.w   0xffff,0x0008,0x0000,0x0200,0x0024,0x368a,0xffff,0x0038 | +01f4e
+        .dc.w   0x0040,0x0200,0x0024,0x3694,0xffff,0x0038,0x0000,0x1d01 | +01f5e
+        .dc.w   0xffff,0xffff,0x0003,0xffff,0xffff,0x0000,0x0000,0x0030 | +01f6e
+        .dc.w   0x0060,0x0020,0x0040,0x0200,0x0024,0x366c,0xffff,0x0000 | +01f7e
+        .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0x0030,0x0040,0x0200 | +01f8e
+        .dc.w   0x0024,0x3680,0xffff,0x0030,0x0020,0x0200,0x0024,0x368a | +01f9e
+        .dc.w   0xffff,0x0060,0x0040,0x0200,0x0024,0x3694,0xffff,0x0060 | +01fae
+        .dc.w   0x0020,0x1d01,0xffff,0xffff,0x0000,0x0000,0x0100,0x0000 | +01fbe
+        .dc.w   0x0000,0x0101                                           | +01fce
+        .fill   10,1,0x00                  | +01fd2
+        .dc.w   0x0100,0x0000,0x0000,0x0001,0x0001,0x0101,0x0001,0x0100 | +01fdc
+        .dc.w   0x0001,0x0100,0x0000,0x0101                             | +01fec
+        .fill   10,1,0x00                  | +01ff4
+        .dc.w   0x0100,0x0000,0x0000,0x0001,0x0001,0x0101,0x0000,0x0000 | +01ffe
+        .dc.w   0x0001,0x0000,0x0000,0x0101                             | +0200e
+        .fill   10,1,0x00                  | +02016
+        .dc.w   0x0100,0x0000,0x0000,0x0001,0x0001,0x0101,0x01ff,0x0003 | +02020
+        .dc.w   0x0028,0x0058,0x0010,0x0050,0x0000                      | +02030
+        .dc.l   Explosion_Fire_077f6a          | +0203a
+        .dc.w   0x0103,0x0006,0x0028,0x0058,0x0010,0x0050,0x0000        | +0203e
+        .dc.l   Explosion_Std_077efe           | +0204c
+        .dc.w   0x01ff                                                  | +02050
+        .dc.l   Pal_020010                     | +02052
+        .dc.w   0x0040                                                  | +02056
+        .dc.l   ColMap_100030                  | +02058
+        .dc.w   0x0000                                                  | +0205c
+        .dc.l   Explosion_Small_077e10         | +0205e
+        .dc.w   0x0103,0x0006                                           | +02062
+        .dc.l   ColMap_100040                  | +02066
+        .dc.l   ColMap_100030                  | +0206a
+        .dc.w   0x0000                                                  | +0206e
+        .dc.l   Explosion_Small_077e10         | +02070
+        .dc.w   0x01ff,0x0003,0x0030,0x0028,0x0010,0x0050,0x0000        | +02074
+        .dc.l   Explosion_Fire_077f6a          | +02082
+        .dc.w   0x0103,0x0009,0x0030,0x0028,0x0010,0x0050,0x0000        | +02086
+        .dc.l   Explosion_Std_077efe           | +02094
+        .dc.w   0x01ff,0x0002,0xffc0,0x0078,0xffe8,0x0028,0x0000        | +02098
+        .dc.l   Explosion_Fire_077f6a          | +020a6
+        .dc.w   0x0103,0x0006,0xffc0,0x0078,0xffe8,0x0028,0x0000        | +020aa
+        .dc.l   Explosion_Std_077efe           | +020b8
+        .dc.w   0x01ff,0x0004                                           | +020bc
+        .dc.l   AnimScr_180028                 | +020c0
+        .dc.l   ColMap_100060                  | +020c4
+        .dc.w   0x0000                                                  | +020c8
+        .dc.l   Explosion_Fire_077f6a          | +020ca
+        .dc.w   0x0103,0x0009                                           | +020ce
+        .dc.l   AnimScr_180028                 | +020d2
+        .dc.l   ColMap_100060                  | +020d6
+        .dc.w   0x0000                                                  | +020da
+        .dc.l   Explosion_Std_077efe           | +020dc
+        .dc.w   0x01ff,0x0005,0xffe8,0x0060,0xffc0,0x0040,0x0000        | +020e0
+        .dc.l   Explosion_Fire_077f6a          | +020ee
+        .dc.w   0x0103,0x0006,0xffe8,0x0060,0xffc0,0x0040,0x0000        | +020f2
+        .dc.l   Explosion_Std_077efe           | +02100
+        .dc.w   0x01ff,0x0006                                           | +02104
+        .dc.l   ColMap_100060                  | +02108
+        .dc.w   0xffe8,0x0028,0x0000                                    | +0210c
+        .dc.l   Explosion_Small_077e10         | +02112
+        .dc.w   0x01ff,0x0003,0xfff0,0x0080,0xfff0,0x0030,0x0000        | +02116
+        .dc.l   Explosion_Fire_077f6a          | +02124
+        .dc.w   0x0103,0x0006,0xfff0,0x0080,0xfff0,0x0030,0x0000        | +02128
+        .dc.l   Explosion_Std_077efe           | +02136
+        .dc.w   0x01ff,0x0003,0xfff0,0x0060,0xffc8,0x0038,0x0000        | +0213a
+        .dc.l   Explosion_Fire_077f6a          | +02148
+        .dc.w   0x0103,0x0006,0xfff0,0x0060,0xffc8,0x0038,0x0000        | +0214c
+        .dc.l   Explosion_Std_077efe           | +0215a
+        .dc.w   0x01ff,0x0002,0x0008,0x0050,0xfff8,0x0050,0x0000        | +0215e
+        .dc.l   Explosion_Fire_077f6a          | +0216c
+        .dc.w   0x0102,0x0004,0x0008,0x0050,0xfff8,0x0050,0x0000        | +02170
+        .dc.l   Explosion_Std_077efe           | +0217e
+        .dc.w   0x0105                                                  | +02182
+        .dc.l   BgMap_0a0028                   | +02184
+        .dc.w   0x0058,0x0010,0x0050,0x0001,0x0029,0x5cf8,0x0102,0x0006 | +02188
+        .dc.l   ColMap_100040                  | +02198
+        .dc.l   ColMap_100030                  | +0219c
+        .dc.w   0x0001,0x0029,0xa4c2,0x0102,0x0006,0x0030,0x0028,0x0010 | +021a0
+        .dc.w   0x0050,0x0001,0x0029,0xa4c2,0x0103,0x0006,0xffc0,0x0078 | +021b0
+        .dc.w   0xffe8,0x0028,0x0001,0x0029,0xa4c2,0x0102,0x0006        | +021c0
+        .dc.l   AnimScr_180028                 | +021ce
+        .dc.l   ColMap_100060                  | +021d2
+        .dc.w   0x0001,0x0029,0xa502,0x0102,0x0006,0xffe8,0x0060,0xffc0 | +021d6
+        .dc.w   0x0040,0x0001,0x0029,0x5cf8,0x0102,0x0006               | +021e6
+        .dc.l   ColMap_100060                  | +021f2
+        .dc.w   0xffe8,0x0028,0x0001,0x0029,0x5cf8,0x0103,0x0006,0xfff0 | +021f6
+        .dc.w   0x0080,0xfff0,0x0030,0x0001,0x0029,0x5cf8,0x0103,0x0006 | +02206
+        .dc.w   0xfff0,0x0060,0xffc8,0x0038,0x0001,0x0029,0xa482,0x0103 | +02216
+        .dc.l   Breakable22_Destroyed_060008   | +02226
+        .dc.w   0x0050,0xfff8,0x0050,0x0001,0x0029,0x5cf8               | +0222a
+        .dc.l   Debris_ArcA_078740             | +02236
+        .dc.l   Debris_ArcA_078740             | +0223a
+        .dc.l   Debris_ArcA_078740             | +0223e
+        .dc.l   Debris_ArcA_078740             | +02242
+        .dc.l   Debris_ArcB_07875e             | +02246
+        .dc.l   Debris_ArcB_07875e             | +0224a
+        .dc.l   Debris_ArcB_07875e             | +0224e
+        .dc.l   Debris_ArcB_07875e             | +02252
+        .dc.l   Debris_ArcB_07875e             | +02256
+        .dc.l   Debris_ArcB_07875e             | +0225a
+        .dc.l   Debris_ArcB_07875e             | +0225e
+        .dc.l   Debris_ArcB_07875e             | +02262
+        .dc.l   Debris_ArcB_07875e             | +02266
+        .dc.l   Debris_ArcB_07875e             | +0226a
+        .dc.l   Debris_ArcB_07875e             | +0226e
+        .dc.l   Debris_ArcB_07875e             | +02272
+        .dc.l   Explosion_Var12_078434         | +02276
+        .dc.l   Explosion_Var12_078434         | +0227a
+        .dc.l   Explosion_Var12_078434         | +0227e
+        .dc.l   Explosion_Var12_078434         | +02282
+        .dc.l   Explosion_Var12_078434         | +02286
+        .dc.l   Explosion_Var12_078434         | +0228a
+        .dc.l   Explosion_Var13_078452         | +0228e
+        .dc.l   Explosion_Var13_078452         | +02292
+        .dc.l   Explosion_Var14_07848e         | +02296
+        .dc.l   Explosion_Var14_07848e         | +0229a
+        .dc.l   Explosion_Var14_07848e         | +0229e
+        .dc.l   Explosion_Var14_07848e         | +022a2
+        .dc.l   Explosion_Var14_07848e         | +022a6
+        .dc.l   Explosion_Var14_07848e         | +022aa
+        .dc.l   Explosion_Var15_0784ca         | +022ae
+        .dc.l   Explosion_Var15_0784ca         | +022b2
+        .dc.l   Explosion_Var12_078434         | +022b6
+        .dc.l   Explosion_Var12_078434         | +022ba
+        .dc.l   Explosion_Var12_078434         | +022be
+        .dc.l   Explosion_Var12_078434         | +022c2
+        .dc.l   Explosion_VarTbl_078218        | +022c6
+        .dc.l   Explosion_Var01_078236         | +022ca
+        .dc.l   Explosion_Var02_078254         | +022ce
+        .dc.l   Explosion_Var03_078272         | +022d2
+        .dc.l   Explosion_Var04_078290         | +022d6
+        .dc.l   Explosion_Var05_0782ae         | +022da
+        .dc.l   Explosion_Var14_07848e         | +022de
+        .dc.l   Explosion_Var14_07848e         | +022e2
+        .dc.l   Explosion_Var14_07848e         | +022e6
+        .dc.l   Explosion_Var14_07848e         | +022ea
+        .dc.l   Explosion_Var15_0784ca         | +022ee
+        .dc.l   Explosion_Var15_0784ca         | +022f2
+        .dc.w   0x003a                                                  | +022f6
+        .dc.l   Zero_19000b                    | +022f8
+        .dc.w   0xb0a8,0x0080,0x0030,0x000b,0xc750                      | +022fc
+        .dc.l   ColMap_106f6c                  | +02306
+        .dc.w   0x0029,0xa542,0x000e,0x0006                             | +0230a
+        .dc.l   BgMap_0b0000                   | +02312
+        .dc.w   0x000a,0x0009                                           | +02316
+        .dc.l   ColMap_106f6c                  | +0231a
+        .dc.w   0x0029,0xa542,0x0018                                    | +0231e
+        .dc.l   Pal_020009                     | +02324
+        .dc.w   0x000a,0x0008,0x0008                                    | +02328
+        .dc.l   ColMap_106f6c                  | +0232e
+        .dc.w   0x0029,0xa542                                           | +02332
+        .dc.l   AnimScr_18000a                 | +02336
+        .dc.w   0x0007                                                  | +0233a
+        .dc.l   SprFrame_130006                | +0233c
+        .dc.w   0x0006                                                  | +02340
+        .dc.l   ColMap_106f6c                  | +02342
+        .dc.w   0x0029,0xa542                                           | +02346
+        .dc.l   AnimScr_18000a                 | +0234a
+        .dc.w   0x000e                                                  | +0234e
+        .dc.l   SprFrame_130006                | +02350
+        .dc.w   0x0006                                                  | +02354
+        .dc.l   ColMap_106f6c                  | +02356
+        .dc.w   0x0029,0xa542                                           | +0235a
+        .dc.l   AnimScr_18000a                 | +0235e
+        .dc.l   SprFrame_150013                | +02362
+        .dc.w   0x0006,0x0006                                           | +02366
+        .dc.l   ColMap_106f6c                  | +0236a
+        .dc.w   0x0029,0xa542,0x001e,0x000a,0x001d,0x0000,0x0006,0x0006 | +0236e
+        .dc.l   ColMap_106f6c                  | +0237e
+        .dc.w   0x0029,0xa542,0x0024,0x000a,0x001b,0x0007,0x0004,0x0006 | +02382
+        .dc.l   ColMap_106f6c                  | +02392
+        .dc.w   0x0029,0xa542,0x0024                                    | +02396
+        .dc.l   BgMap_0a0020                   | +0239c
+        .dc.w   0x0007,0x0004,0x0006                                    | +023a0
+        .dc.l   ColMap_106f6c                  | +023a6
+        .dc.w   0x0029,0xa542,0x0034,0x0008,0x0030,0x0000,0x000a,0x0008 | +023aa
+        .dc.l   ColMap_106f6c                  | +023ba
+        .dc.w   0x0029,0xa542,0x004c,0x0008,0x0021,0x000e,0x0004        | +023be
+        .dc.l   BgMap_0a0010                   | +023cc
+        .dc.w   0x6f6c,0x0029,0xa54a,0x0001,0x000a,0x0000,0x0001,0x0008 | +023d0
+        .dc.w   0x0003                                                  | +023e0
+        .dc.l   ColMap_106f6c                  | +023e2
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0008,0x0001,0x0008,0x0003 | +023e6
+        .dc.l   ColMap_106f6c                  | +023f6
+        .dc.w   0x0029,0xa54a,0x0001,0x000a                             | +023fa
+        .dc.l   ColMap_100001                  | +02402
+        .dc.w   0x0008,0x0003                                           | +02406
+        .dc.l   ColMap_106f6c                  | +0240a
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0018,0x0001,0x0008,0x0003 | +0240e
+        .dc.l   ColMap_106f6c                  | +0241e
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0020,0x0001,0x0008,0x0003 | +02422
+        .dc.l   ColMap_106f6c                  | +02432
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0028,0x0001,0x0008,0x0003 | +02436
+        .dc.l   ColMap_106f6c                  | +02446
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0030,0x0001,0x0008,0x0003 | +0244a
+        .dc.l   ColMap_106f6c                  | +0245a
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0038,0x0001,0x0008,0x0003 | +0245e
+        .dc.l   ColMap_106f6c                  | +0246e
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0040,0x0001,0x0008,0x0003 | +02472
+        .dc.l   ColMap_106f6c                  | +02482
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0048,0x0001,0x0008,0x0003 | +02486
+        .dc.l   ColMap_106f6c                  | +02496
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0050,0x0001,0x0008,0x0003 | +0249a
+        .dc.l   ColMap_106f6c                  | +024aa
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0058,0x0001,0x0008,0x0003 | +024ae
+        .dc.l   ColMap_106f6c                  | +024be
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0060,0x0001,0x0008,0x0003 | +024c2
+        .dc.l   ColMap_106f6c                  | +024d2
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0068,0x0001,0x0008,0x0003 | +024d6
+        .dc.l   ColMap_106f6c                  | +024e6
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0070,0x0001,0x0008,0x0003 | +024ea
+        .dc.l   ColMap_106f6c                  | +024fa
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0078,0x0001,0x0008,0x0003 | +024fe
+        .dc.l   ColMap_106f6c                  | +0250e
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0000,0x0005,0x0008,0x0003 | +02512
+        .dc.l   ColMap_106f6c                  | +02522
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0008,0x0005,0x0008,0x0003 | +02526
+        .dc.l   ColMap_106f6c                  | +02536
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0010,0x0005,0x0008,0x0003 | +0253a
+        .dc.l   ColMap_106f6c                  | +0254a
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0018,0x0005,0x0008,0x0003 | +0254e
+        .dc.l   ColMap_106f6c                  | +0255e
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0020,0x0005,0x0008,0x0003 | +02562
+        .dc.l   ColMap_106f6c                  | +02572
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0028,0x0005,0x0008,0x0003 | +02576
+        .dc.l   ColMap_106f6c                  | +02586
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0030,0x0005,0x0008,0x0003 | +0258a
+        .dc.l   ColMap_106f6c                  | +0259a
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0038,0x0005,0x0008,0x0003 | +0259e
+        .dc.l   ColMap_106f6c                  | +025ae
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0040,0x0005,0x0008,0x0003 | +025b2
+        .dc.l   ColMap_106f6c                  | +025c2
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0048,0x0005,0x0008,0x0003 | +025c6
+        .dc.l   ColMap_106f6c                  | +025d6
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0050,0x0005,0x0008,0x0003 | +025da
+        .dc.l   ColMap_106f6c                  | +025ea
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0058,0x0005,0x0008,0x0003 | +025ee
+        .dc.l   ColMap_106f6c                  | +025fe
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0060,0x0005,0x0008,0x0003 | +02602
+        .dc.l   ColMap_106f6c                  | +02612
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0068,0x0005,0x0008,0x0003 | +02616
+        .dc.l   ColMap_106f6c                  | +02626
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0070,0x0005,0x0008,0x0003 | +0262a
+        .dc.l   ColMap_106f6c                  | +0263a
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0078,0x0005,0x0008,0x0003 | +0263e
+        .dc.l   ColMap_106f6c                  | +0264e
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0000,0x0009,0x0008,0x0003 | +02652
+        .dc.l   ColMap_106f6c                  | +02662
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0008,0x0009,0x0008,0x0003 | +02666
+        .dc.l   ColMap_106f6c                  | +02676
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0010,0x0009,0x0008,0x0003 | +0267a
+        .dc.l   ColMap_106f6c                  | +0268a
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0018,0x0009,0x0008,0x0003 | +0268e
+        .dc.l   ColMap_106f6c                  | +0269e
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0020,0x0009,0x0008,0x0003 | +026a2
+        .dc.l   ColMap_106f6c                  | +026b2
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0028,0x0009,0x0008,0x0003 | +026b6
+        .dc.l   ColMap_106f6c                  | +026c6
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0030,0x0009,0x0008,0x0003 | +026ca
+        .dc.l   ColMap_106f6c                  | +026da
+        .dc.w   0x0029,0xa54a,0x0001,0x000a,0x0038,0x0009,0x0008,0x0003 | +026de
+        .dc.l   ColMap_106f6c                  | +026ee
+        .dc.w   0x0029,0xa54a                                           | +026f2
+        .dc.l   ColMap_11000a                  | +026f6
+        .dc.w   0x0000,0x000d,0x0008,0x0003                             | +026fa
+        .dc.l   ColMap_106f6c                  | +02702
+        .dc.w   0x0029,0xa54a                                           | +02706
+        .dc.l   ColMap_11000a                  | +0270a
+        .dc.w   0x0008,0x000d,0x0008,0x0003                             | +0270e
+        .dc.l   ColMap_106f6c                  | +02716
+        .dc.w   0x0029,0xa54a                                           | +0271a
+        .dc.l   ColMap_11000a                  | +0271e
+        .dc.l   ColMap_10000d                  | +02722
+        .dc.w   0x0008,0x0003                                           | +02726
+        .dc.l   ColMap_106f6c                  | +0272a
+        .dc.w   0x0029,0xa54a                                           | +0272e
+        .dc.l   ColMap_11000a                  | +02732
+        .dc.w   0x0018,0x000d,0x0008,0x0003                             | +02736
+        .dc.l   ColMap_106f6c                  | +0273e
+        .dc.w   0x0029,0xa54a                                           | +02742
+        .dc.l   ColMap_11000a                  | +02746
+        .dc.w   0x0020,0x000d,0x0008,0x0003                             | +0274a
+        .dc.l   ColMap_106f6c                  | +02752
+        .dc.w   0x0029,0xa54a                                           | +02756
+        .dc.l   ColMap_11000a                  | +0275a
+        .dc.w   0x0028,0x000d,0x0008,0x0003                             | +0275e
+        .dc.l   ColMap_106f6c                  | +02766
+        .dc.w   0x0029,0xa54a                                           | +0276a
+        .dc.l   ColMap_11000a                  | +0276e
+        .dc.w   0x0030,0x000d,0x0008,0x0003                             | +02772
+        .dc.l   ColMap_106f6c                  | +0277a
+        .dc.w   0x0029,0xa54a                                           | +0277e
+        .dc.l   ColMap_11000a                  | +02782
+        .dc.w   0x0038,0x000d,0x0008,0x0003                             | +02786
+        .dc.l   ColMap_106f6c                  | +0278e
+        .dc.w   0x0029,0xa54a                                           | +02792
+        .dc.l   ColMap_11000a                  | +02796
+        .dc.w   0x0040,0x000d,0x0008,0x0003                             | +0279a
+        .dc.l   ColMap_106f6c                  | +027a2
+        .dc.w   0x0029,0xa54a                                           | +027a6
+        .dc.l   ColMap_11000a                  | +027aa
+        .dc.w   0x0048,0x000d,0x0008,0x0003                             | +027ae
+        .dc.l   ColMap_106f6c                  | +027b6
+        .dc.w   0x0029,0xa54a                                           | +027ba
+        .dc.l   ColMap_11000a                  | +027be
+        .dc.w   0x0050,0x000d,0x0008,0x0003                             | +027c2
+        .dc.l   ColMap_106f6c                  | +027ca
+        .dc.w   0x0029,0xa54a                                           | +027ce
+        .dc.l   ColMap_11000a                  | +027d2
+        .dc.w   0x0058,0x000d,0x0008,0x0003                             | +027d6
+        .dc.l   ColMap_106f6c                  | +027de
+        .dc.w   0x0029,0xa54a                                           | +027e2
+        .dc.l   ColMap_11000a                  | +027e6
+        .dc.w   0x0060,0x000d,0x0008,0x0003                             | +027ea
+        .dc.l   ColMap_106f6c                  | +027f2
+        .dc.w   0x0029,0xa54a                                           | +027f6
+        .dc.l   ColMap_11000a                  | +027fa
+        .dc.w   0x0068,0x000d,0x0008,0x0003                             | +027fe
+        .dc.l   ColMap_106f6c                  | +02806
+        .dc.w   0x0029,0xa54a                                           | +0280a
+        .dc.l   ColMap_11000a                  | +0280e
+        .dc.w   0x0070,0x000d,0x0008,0x0003                             | +02812
+        .dc.l   ColMap_106f6c                  | +0281a
+        .dc.w   0x0029,0xa54a                                           | +0281e
+        .dc.l   ColMap_11000a                  | +02822
+        .dc.w   0x0078,0x000d,0x0008,0x0003                             | +02826
+        .dc.l   ColMap_106f6c                  | +0282e
+        .dc.w   0x0029,0xa54a                                           | +02832
+        .dc.l   ColMap_11000a                  | +02836
+        .dc.w   0x0000                                                  | +0283a
+        .dc.l   ColMap_110008                  | +0283c
+        .dc.w   0x0003                                                  | +02840
+        .dc.l   ColMap_106f6c                  | +02842
+        .dc.w   0x0029,0xa54a                                           | +02846
+        .dc.l   ColMap_11000a                  | +0284a
+        .dc.w   0x0008                                                  | +0284e
+        .dc.l   ColMap_110008                  | +02850
+        .dc.w   0x0003                                                  | +02854
+        .dc.l   ColMap_106f6c                  | +02856
+        .dc.w   0x0029,0xa54a                                           | +0285a
+        .dc.l   ColMap_11000a                  | +0285e
+        .dc.l   ColMap_100011                  | +02862
+        .dc.w   0x0008,0x0003                                           | +02866
+        .dc.l   ColMap_106f6c                  | +0286a
+        .dc.w   0x0029,0xa54a                                           | +0286e
+        .dc.l   ColMap_11000a                  | +02872
+        .dc.l   AnimScr_180011                 | +02876
+        .dc.w   0x0008,0x0003                                           | +0287a
+        .dc.l   ColMap_106f6c                  | +0287e
+        .dc.w   0x0029,0xa54a                                           | +02882
+        .dc.l   ColMap_11000a                  | +02886
+        .dc.w   0x0020                                                  | +0288a
+        .dc.l   ColMap_110008                  | +0288c
+        .dc.w   0x0003                                                  | +02890
+        .dc.l   ColMap_106f6c                  | +02892
+        .dc.w   0x0029,0xa54a                                           | +02896
+        .dc.l   ColMap_11000a                  | +0289a
+        .dc.w   0x0028                                                  | +0289e
+        .dc.l   ColMap_110008                  | +028a0
+        .dc.w   0x0003                                                  | +028a4
+        .dc.l   ColMap_106f6c                  | +028a6
+        .dc.w   0x0029,0xa54a                                           | +028aa
+        .dc.l   ColMap_11000a                  | +028ae
+        .dc.w   0x0030                                                  | +028b2
+        .dc.l   ColMap_110008                  | +028b4
+        .dc.w   0x0003                                                  | +028b8
+        .dc.l   ColMap_106f6c                  | +028ba
+        .dc.w   0x0029,0xa54a                                           | +028be
+        .dc.l   ColMap_11000a                  | +028c2
+        .dc.w   0x0038                                                  | +028c6
+        .dc.l   ColMap_110008                  | +028c8
+        .dc.w   0x0003                                                  | +028cc
+        .dc.l   ColMap_106f6c                  | +028ce
+        .dc.w   0x0029,0xa54a                                           | +028d2
+        .dc.l   ColMap_11000a                  | +028d6
+        .dc.w   0x0040                                                  | +028da
+        .dc.l   ColMap_110008                  | +028dc
+        .dc.w   0x0003                                                  | +028e0
+        .dc.l   ColMap_106f6c                  | +028e2
+        .dc.w   0x0029,0xa54a                                           | +028e6
+        .dc.l   ColMap_11000a                  | +028ea
+        .dc.w   0x0048                                                  | +028ee
+        .dc.l   ColMap_110008                  | +028f0
+        .dc.w   0x0003                                                  | +028f4
+        .dc.l   ColMap_106f6c                  | +028f6
+        .dc.w   0x0029,0xa54a                                           | +028fa
+        .dc.l   ColMap_11000a                  | +028fe
+        .dc.w   0x0050                                                  | +02902
+        .dc.l   ColMap_110008                  | +02904
+        .dc.w   0x0003                                                  | +02908
+        .dc.l   ColMap_106f6c                  | +0290a
+        .dc.w   0x0029,0xa54a                                           | +0290e
+        .dc.l   ColMap_11000a                  | +02912
+        .dc.w   0x0058                                                  | +02916
+        .dc.l   ColMap_110008                  | +02918
+        .dc.w   0x0003                                                  | +0291c
+        .dc.l   ColMap_106f6c                  | +0291e
+        .dc.w   0x0029,0xa54a                                           | +02922
+        .dc.l   ColMap_11000a                  | +02926
+        .dc.w   0x0060                                                  | +0292a
+        .dc.l   ColMap_110008                  | +0292c
+        .dc.w   0x0003                                                  | +02930
+        .dc.l   ColMap_106f6c                  | +02932
+        .dc.w   0x0029,0xa54a                                           | +02936
+        .dc.l   ColMap_11000a                  | +0293a
+        .dc.w   0x0068                                                  | +0293e
+        .dc.l   ColMap_110008                  | +02940
+        .dc.w   0x0003                                                  | +02944
+        .dc.l   ColMap_106f6c                  | +02946
+        .dc.w   0x0029,0xa54a                                           | +0294a
+        .dc.l   ColMap_11000a                  | +0294e
+        .dc.w   0x0070                                                  | +02952
+        .dc.l   ColMap_110008                  | +02954
+        .dc.w   0x0003                                                  | +02958
+        .dc.l   ColMap_106f6c                  | +0295a
+        .dc.w   0x0029,0xa54a                                           | +0295e
+        .dc.l   ColMap_11000a                  | +02962
+        .dc.w   0x0078                                                  | +02966
+        .dc.l   ColMap_110008                  | +02968
+        .dc.w   0x0003                                                  | +0296c
+        .dc.l   ColMap_106f6c                  | +0296e
+        .dc.w   0x0029,0xa54a                                           | +02972
+        .dc.l   ColMap_11000a                  | +02976
+        .dc.w   0x0000                                                  | +0297a
+        .dc.l   SprFrame_150008                | +0297c
+        .dc.w   0x0003                                                  | +02980
+        .dc.l   ColMap_106f6c                  | +02982
+        .dc.w   0x0029,0xa54a                                           | +02986
+        .dc.l   ColMap_11000a                  | +0298a
+        .dc.w   0x0008                                                  | +0298e
+        .dc.l   SprFrame_150008                | +02990
+        .dc.w   0x0003                                                  | +02994
+        .dc.l   ColMap_106f6c                  | +02996
+        .dc.w   0x0029,0xa54a                                           | +0299a
+        .dc.l   ColMap_11000a                  | +0299e
+        .dc.w   0x0010                                                  | +029a2
+        .dc.l   SprFrame_150008                | +029a4
+        .dc.w   0x0003                                                  | +029a8
+        .dc.l   ColMap_106f6c                  | +029aa
+        .dc.w   0x0029,0xa54a                                           | +029ae
+        .dc.l   ColMap_11000a                  | +029b2
+        .dc.l   AnimScr_180015                 | +029b6
+        .dc.w   0x0008,0x0003                                           | +029ba
+        .dc.l   ColMap_106f6c                  | +029be
+        .dc.w   0x0029,0xa54a                                           | +029c2
+        .dc.l   ColMap_11000a                  | +029c6
+        .dc.w   0x0020                                                  | +029ca
+        .dc.l   SprFrame_150008                | +029cc
+        .dc.w   0x0003                                                  | +029d0
+        .dc.l   ColMap_106f6c                  | +029d2
+        .dc.w   0x0029,0xa54a                                           | +029d6
+        .dc.l   ColMap_11000a                  | +029da
+        .dc.w   0x0028                                                  | +029de
+        .dc.l   SprFrame_150008                | +029e0
+        .dc.w   0x0003                                                  | +029e4
+        .dc.l   ColMap_106f6c                  | +029e6
+        .dc.w   0x0029,0xa54a                                           | +029ea
+        .dc.l   ColMap_11000a                  | +029ee
+        .dc.w   0x0030                                                  | +029f2
+        .dc.l   SprFrame_150008                | +029f4
+        .dc.w   0x0003                                                  | +029f8
+        .dc.l   ColMap_106f6c                  | +029fa
+        .dc.w   0x0029,0xa54a                                           | +029fe
+        .dc.l   ColMap_11000a                  | +02a02
+        .dc.w   0x0038                                                  | +02a06
+        .dc.l   SprFrame_150008                | +02a08
+        .dc.w   0x0003                                                  | +02a0c
+        .dc.l   ColMap_106f6c                  | +02a0e
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02a12
+        .dc.l   BgMap_0a0000                   | +02a18
+        .dc.l   Zero_190008                    | +02a1c
+        .dc.w   0x0003                                                  | +02a20
+        .dc.l   ColMap_106f6c                  | +02a22
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008                      | +02a26
+        .dc.l   Zero_190008                    | +02a30
+        .dc.w   0x0003                                                  | +02a34
+        .dc.l   ColMap_106f6c                  | +02a36
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02a3a
+        .dc.l   BgMap_0a0010                   | +02a40
+        .dc.l   Zero_190008                    | +02a44
+        .dc.w   0x0003                                                  | +02a48
+        .dc.l   ColMap_106f6c                  | +02a4a
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02a4e
+        .dc.l   BgMap_0a0018                   | +02a54
+        .dc.l   Zero_190008                    | +02a58
+        .dc.w   0x0003                                                  | +02a5c
+        .dc.l   ColMap_106f6c                  | +02a5e
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02a62
+        .dc.l   BgMap_0a0020                   | +02a68
+        .dc.l   Zero_190008                    | +02a6c
+        .dc.w   0x0003                                                  | +02a70
+        .dc.l   ColMap_106f6c                  | +02a72
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02a76
+        .dc.l   BgMap_0a0028                   | +02a7c
+        .dc.l   Zero_190008                    | +02a80
+        .dc.w   0x0003                                                  | +02a84
+        .dc.l   ColMap_106f6c                  | +02a86
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030                      | +02a8a
+        .dc.l   Zero_190008                    | +02a94
+        .dc.w   0x0003                                                  | +02a98
+        .dc.l   ColMap_106f6c                  | +02a9a
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038                      | +02a9e
+        .dc.l   Zero_190008                    | +02aa8
+        .dc.w   0x0003                                                  | +02aac
+        .dc.l   ColMap_106f6c                  | +02aae
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02ab2
+        .dc.l   BgMap_0a0040                   | +02ab8
+        .dc.l   Zero_190008                    | +02abc
+        .dc.w   0x0003                                                  | +02ac0
+        .dc.l   ColMap_106f6c                  | +02ac2
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0048                      | +02ac6
+        .dc.l   Zero_190008                    | +02ad0
+        .dc.w   0x0003                                                  | +02ad4
+        .dc.l   ColMap_106f6c                  | +02ad6
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0050                      | +02ada
+        .dc.l   Zero_190008                    | +02ae4
+        .dc.w   0x0003                                                  | +02ae8
+        .dc.l   ColMap_106f6c                  | +02aea
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0058                      | +02aee
+        .dc.l   Zero_190008                    | +02af8
+        .dc.w   0x0003                                                  | +02afc
+        .dc.l   ColMap_106f6c                  | +02afe
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0060                      | +02b02
+        .dc.l   Zero_190008                    | +02b0c
+        .dc.w   0x0003                                                  | +02b10
+        .dc.l   ColMap_106f6c                  | +02b12
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0068                      | +02b16
+        .dc.l   Zero_190008                    | +02b20
+        .dc.w   0x0003                                                  | +02b24
+        .dc.l   ColMap_106f6c                  | +02b26
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02b2a
+        .dc.l   BgMap_0a0070                   | +02b30
+        .dc.l   Zero_190008                    | +02b34
+        .dc.w   0x0003                                                  | +02b38
+        .dc.l   ColMap_106f6c                  | +02b3a
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02b3e
+        .dc.l   BgMap_0a0078                   | +02b44
+        .dc.l   Zero_190008                    | +02b48
+        .dc.w   0x0003                                                  | +02b4c
+        .dc.l   ColMap_106f6c                  | +02b4e
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02b52
+        .dc.l   BgMap_0a0000                   | +02b58
+        .dc.w   0x001d,0x0008,0x0003                                    | +02b5c
+        .dc.l   ColMap_106f6c                  | +02b62
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008,0x001d,0x0008,0x0003 | +02b66
+        .dc.l   ColMap_106f6c                  | +02b76
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02b7a
+        .dc.l   BgMap_0a0010                   | +02b80
+        .dc.w   0x001d,0x0008,0x0003                                    | +02b84
+        .dc.l   ColMap_106f6c                  | +02b8a
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02b8e
+        .dc.l   BgMap_0a0018                   | +02b94
+        .dc.w   0x001d,0x0008,0x0003                                    | +02b98
+        .dc.l   ColMap_106f6c                  | +02b9e
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02ba2
+        .dc.l   BgMap_0a0020                   | +02ba8
+        .dc.w   0x001d,0x0008,0x0003                                    | +02bac
+        .dc.l   ColMap_106f6c                  | +02bb2
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02bb6
+        .dc.l   BgMap_0a0028                   | +02bbc
+        .dc.w   0x001d,0x0008,0x0003                                    | +02bc0
+        .dc.l   ColMap_106f6c                  | +02bc6
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030,0x001d,0x0008,0x0003 | +02bca
+        .dc.l   ColMap_106f6c                  | +02bda
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038,0x001d,0x0008,0x0003 | +02bde
+        .dc.l   ColMap_106f6c                  | +02bee
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02bf2
+        .dc.l   BgMap_0a0040                   | +02bf8
+        .dc.w   0x001d,0x0008,0x0003                                    | +02bfc
+        .dc.l   ColMap_106f6c                  | +02c02
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0048,0x001d,0x0008,0x0003 | +02c06
+        .dc.l   ColMap_106f6c                  | +02c16
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0050,0x001d,0x0008,0x0003 | +02c1a
+        .dc.l   ColMap_106f6c                  | +02c2a
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0058,0x001d,0x0008,0x0003 | +02c2e
+        .dc.l   ColMap_106f6c                  | +02c3e
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0060,0x001d,0x0008,0x0003 | +02c42
+        .dc.l   ColMap_106f6c                  | +02c52
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0068,0x001d,0x0008,0x0003 | +02c56
+        .dc.l   ColMap_106f6c                  | +02c66
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02c6a
+        .dc.l   BgMap_0a0070                   | +02c70
+        .dc.w   0x001d,0x0008,0x0003                                    | +02c74
+        .dc.l   ColMap_106f6c                  | +02c7a
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02c7e
+        .dc.l   BgMap_0a0078                   | +02c84
+        .dc.w   0x001d,0x0008,0x0003                                    | +02c88
+        .dc.l   ColMap_106f6c                  | +02c8e
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02c92
+        .dc.l   BgMap_0a0000                   | +02c98
+        .dc.w   0x0021,0x0008,0x0003                                    | +02c9c
+        .dc.l   ColMap_106f6c                  | +02ca2
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0008,0x0021,0x0008,0x0003 | +02ca6
+        .dc.l   ColMap_106f6c                  | +02cb6
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02cba
+        .dc.l   BgMap_0a0010                   | +02cc0
+        .dc.w   0x0021,0x0008,0x0003                                    | +02cc4
+        .dc.l   ColMap_106f6c                  | +02cca
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02cce
+        .dc.l   BgMap_0a0018                   | +02cd4
+        .dc.w   0x0021,0x0008,0x0003                                    | +02cd8
+        .dc.l   ColMap_106f6c                  | +02cde
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02ce2
+        .dc.l   BgMap_0a0020                   | +02ce8
+        .dc.w   0x0021,0x0008,0x0003                                    | +02cec
+        .dc.l   ColMap_106f6c                  | +02cf2
+        .dc.w   0x0029,0xa54a,0x0019                                    | +02cf6
+        .dc.l   BgMap_0a0028                   | +02cfc
+        .dc.w   0x0021,0x0008,0x0003                                    | +02d00
+        .dc.l   ColMap_106f6c                  | +02d06
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0030,0x0021,0x0008,0x0003 | +02d0a
+        .dc.l   ColMap_106f6c                  | +02d1a
+        .dc.w   0x0029,0xa54a,0x0019,0x000a,0x0038,0x0021,0x0008,0x0003 | +02d1e
+        .dc.l   ColMap_106f6c                  | +02d2e
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02d32
+        .dc.l   BgMap_0a0000                   | +02d38
+        .dc.w   0x0025,0x0008,0x0003                                    | +02d3c
+        .dc.l   ColMap_106f6c                  | +02d42
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x0025,0x0008,0x0003 | +02d46
+        .dc.l   ColMap_106f6c                  | +02d56
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02d5a
+        .dc.l   BgMap_0a0010                   | +02d60
+        .dc.w   0x0025,0x0008,0x0003                                    | +02d64
+        .dc.l   ColMap_106f6c                  | +02d6a
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02d6e
+        .dc.l   BgMap_0a0018                   | +02d74
+        .dc.w   0x0025,0x0008,0x0003                                    | +02d78
+        .dc.l   ColMap_106f6c                  | +02d7e
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02d82
+        .dc.l   BgMap_0a0020                   | +02d88
+        .dc.w   0x0025,0x0008,0x0003                                    | +02d8c
+        .dc.l   ColMap_106f6c                  | +02d92
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02d96
+        .dc.l   BgMap_0a0028                   | +02d9c
+        .dc.w   0x0025,0x0008,0x0003                                    | +02da0
+        .dc.l   ColMap_106f6c                  | +02da6
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x0025,0x0008,0x0003 | +02daa
+        .dc.l   ColMap_106f6c                  | +02dba
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x0025,0x0008,0x0003 | +02dbe
+        .dc.l   ColMap_106f6c                  | +02dce
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02dd2
+        .dc.l   BgMap_0a0040                   | +02dd8
+        .dc.w   0x0025,0x0008,0x0003                                    | +02ddc
+        .dc.l   ColMap_106f6c                  | +02de2
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0048,0x0025,0x0008,0x0003 | +02de6
+        .dc.l   ColMap_106f6c                  | +02df6
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0050,0x0025,0x0008,0x0003 | +02dfa
+        .dc.l   ColMap_106f6c                  | +02e0a
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0058,0x0025,0x0008,0x0003 | +02e0e
+        .dc.l   ColMap_106f6c                  | +02e1e
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0060,0x0025,0x0008,0x0003 | +02e22
+        .dc.l   ColMap_106f6c                  | +02e32
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0068,0x0025,0x0008,0x0003 | +02e36
+        .dc.l   ColMap_106f6c                  | +02e46
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02e4a
+        .dc.l   BgMap_0a0070                   | +02e50
+        .dc.w   0x0025,0x0008,0x0003                                    | +02e54
+        .dc.l   ColMap_106f6c                  | +02e5a
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02e5e
+        .dc.l   BgMap_0a0078                   | +02e64
+        .dc.w   0x0025,0x0008,0x0003                                    | +02e68
+        .dc.l   ColMap_106f6c                  | +02e6e
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02e72
+        .dc.l   BgMap_0a0000                   | +02e78
+        .dc.w   0x0029,0x0008,0x0003                                    | +02e7c
+        .dc.l   ColMap_106f6c                  | +02e82
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x0029,0x0008,0x0003 | +02e86
+        .dc.l   ColMap_106f6c                  | +02e96
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02e9a
+        .dc.l   BgMap_0a0010                   | +02ea0
+        .dc.w   0x0029,0x0008,0x0003                                    | +02ea4
+        .dc.l   ColMap_106f6c                  | +02eaa
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02eae
+        .dc.l   BgMap_0a0018                   | +02eb4
+        .dc.w   0x0029,0x0008,0x0003                                    | +02eb8
+        .dc.l   ColMap_106f6c                  | +02ebe
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02ec2
+        .dc.l   BgMap_0a0020                   | +02ec8
+        .dc.w   0x0029,0x0008,0x0003                                    | +02ecc
+        .dc.l   ColMap_106f6c                  | +02ed2
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02ed6
+        .dc.l   BgMap_0a0028                   | +02edc
+        .dc.w   0x0029,0x0008,0x0003                                    | +02ee0
+        .dc.l   ColMap_106f6c                  | +02ee6
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x0029,0x0008,0x0003 | +02eea
+        .dc.l   ColMap_106f6c                  | +02efa
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x0029,0x0008,0x0003 | +02efe
+        .dc.l   ColMap_106f6c                  | +02f0e
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02f12
+        .dc.l   BgMap_0a0040                   | +02f18
+        .dc.w   0x0029,0x0008,0x0003                                    | +02f1c
+        .dc.l   ColMap_106f6c                  | +02f22
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0048,0x0029,0x0008,0x0003 | +02f26
+        .dc.l   ColMap_106f6c                  | +02f36
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0050,0x0029,0x0008,0x0003 | +02f3a
+        .dc.l   ColMap_106f6c                  | +02f4a
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0058,0x0029,0x0008,0x0003 | +02f4e
+        .dc.l   ColMap_106f6c                  | +02f5e
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0060,0x0029,0x0008,0x0003 | +02f62
+        .dc.l   ColMap_106f6c                  | +02f72
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0068,0x0029,0x0008,0x0003 | +02f76
+        .dc.l   ColMap_106f6c                  | +02f86
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02f8a
+        .dc.l   BgMap_0a0070                   | +02f90
+        .dc.w   0x0029,0x0008,0x0003                                    | +02f94
+        .dc.l   ColMap_106f6c                  | +02f9a
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02f9e
+        .dc.l   BgMap_0a0078                   | +02fa4
+        .dc.w   0x0029,0x0008,0x0003                                    | +02fa8
+        .dc.l   ColMap_106f6c                  | +02fae
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02fb2
+        .dc.l   BgMap_0a0000                   | +02fb8
+        .dc.w   0x002d,0x0008,0x0003                                    | +02fbc
+        .dc.l   ColMap_106f6c                  | +02fc2
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0008,0x002d,0x0008,0x0003 | +02fc6
+        .dc.l   ColMap_106f6c                  | +02fd6
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02fda
+        .dc.l   BgMap_0a0010                   | +02fe0
+        .dc.w   0x002d,0x0008,0x0003                                    | +02fe4
+        .dc.l   ColMap_106f6c                  | +02fea
+        .dc.w   0x0029,0xa54a,0x0021                                    | +02fee
+        .dc.l   BgMap_0a0018                   | +02ff4
+        .dc.w   0x002d,0x0008,0x0003                                    | +02ff8
+        .dc.l   ColMap_106f6c                  | +02ffe
+        .dc.w   0x0029,0xa54a,0x0021                                    | +03002
+        .dc.l   BgMap_0a0020                   | +03008
+        .dc.w   0x002d,0x0008,0x0003                                    | +0300c
+        .dc.l   ColMap_106f6c                  | +03012
+        .dc.w   0x0029,0xa54a,0x0021                                    | +03016
+        .dc.l   BgMap_0a0028                   | +0301c
+        .dc.w   0x002d,0x0008,0x0003                                    | +03020
+        .dc.l   ColMap_106f6c                  | +03026
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0030,0x002d,0x0008,0x0003 | +0302a
+        .dc.l   ColMap_106f6c                  | +0303a
+        .dc.w   0x0029,0xa54a,0x0021,0x000a,0x0038,0x002d,0x0008,0x0003 | +0303e
+        .dc.l   AnimScr_180017                 | +0304e
+        .dc.w   0x0005,0x0003,0x0000,0x0100,0x020c,0x0001,0x0100,0x030d | +03052
+        .dc.w   0x0000,0x0100                                           | +03062
+        .dc.l   AnimScr_180017                 | +03066
+        .dc.w   0x0005,0x0003,0x0000,0x0100,0x0001,0x0000,0x0100,0x0001 | +0306a
+        .dc.w   0x0000,0x0100,0x0038,0x0067,0x0001,0x000b,0x0101,0x0101 | +0307a
+        .dc.w   0x0101,0x0101,0x0101,0x1000,0x0038,0x0067,0x0001,0x000b | +0308a
+        .fill   10,1,0x00                  | +0309a
+        .dc.w   0x0100,0x0010,0x0067,0x0001,0x000b,0x0101,0x0101,0x0101 | +030a4
+        .dc.w   0x0101,0x0101,0x1000,0x0010,0x0067,0x0001,0x000b        | +030b4
+        .fill   10,1,0x00                  | +030c2
+        .dc.w   0x0100,0x0020,0x0067,0x0001,0x000b,0x0101,0x0101,0x0101 | +030cc
+        .dc.w   0x0101,0x0101,0x1000,0x0020,0x0067,0x0001,0x000b        | +030dc
+        .fill   10,1,0x00                  | +030ea
+        .dc.w   0x0100,0x0020,0x0047,0x000e                             | +030f4
+        .dc.l   Pal_01ffff                     | +030fc
+        .dc.w   0xffff,0xffff,0xffff,0xffff,0xffff,0xffff,0x0000,0x000f | +03100
+        .dc.w   0x0008,0x0001                                           | +03110
+        .dc.b   0x13                           | +03114
+        .fill   8,1,0x00                  | +03115
+        .dc.b   0x20                           | +0311d
+        .dc.w   0x001f,0x0005,0x0003                                    | +0311e
+        .fill   16,1,0x00                  | +03124
+        .dc.w   0xfff8,0xffff                                           | +03134
+        .dc.l   BgMap_0e0003                   | +03138
+        .dc.w   0x0002,0x0c02,0x0c01,0x0110,0x0103,0x0d01,0x0001,0x0100 | +0313c
+        .dc.w   0x0101,0x0001,0x0100,0x0101,0x0001,0x0100,0x0134,0x0008 | +0314c
+        .dc.w   0x0f00,0x090f,0x000a,0x0f00,0x0b0f,0x0010,0x0006,0x0005 | +0315c
+        .dc.w   0x0001,0x2b2b,0x2b2b,0x2b00,0x8001,0x0000,0x0000,0x0000 | +0316c
+        .dc.w   0x001c,0x0000                                           | +0317c
+        .dc.l   AnimScr_180200                 | +03180
+        .dc.w   0x0024,0x3608,0xffff,0x0000,0x0000,0x0200,0x0024,0x3612 | +03184
+        .dc.w   0xffff,0x0000                                           | +03194
+        .dc.l   AnimScr_180200                 | +03198
+        .dc.w   0x0024,0x361c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3626 | +0319c
+        .dc.w   0xffff,0x001c                                           | +031ac
+        .dc.l   AnimScr_180200                 | +031b0
+        .dc.w   0x0024,0x3630,0xffff,0x001c,0x0000,0x1d01,0x0000,0x0000 | +031b4
+        .dc.w   0x0001                                                  | +031c4
+        .fill   23,1,0x00                  | +031c6
+        .dc.b   0x01                           | +031dd
+        .dc.w   0x0001,0x0101,0x0000,0x0000,0x0101,0x0100,0x0000,0x0101 | +031de
+        .fill   10,1,0x00                  | +031ee
+        .dc.w   0x0100,0x0000,0x0000,0x0001,0x0001,0x0101,0x0002,0x0029 | +031f8
+        .dc.w   0xb40c,0x0000,0x0000,0xfff4                             | +03208
+        .dc.l   BgMap_0c0010                   | +03210
+        .dc.w   0x0024,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +03214
+        .dc.w   0x0024,0x3676,0xffff,0xfff4,0x0024,0x0200,0x0024,0x3680 | +03224
+        .dc.w   0xffff,0xfff4                                           | +03234
+        .dc.l   ColMap_100200                  | +03238
+        .dc.w   0x0024,0x368a,0xffff                                    | +0323c
+        .dc.l   BgMap_0c0024                   | +03242
+        .dc.w   0x0200,0x0024,0x3694,0xffff                             | +03246
+        .dc.l   BgMap_0c0010                   | +0324e
+        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000,0x0000 | +03252
+        .dc.w   0xfff6                                                  | +03262
+        .dc.l   BgMap_0a0004                   | +03264
+        .dc.w   0x0024,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +03268
+        .dc.w   0x0024,0x3676,0xffff,0xfff6,0x0024,0x0200,0x0024,0x3680 | +03278
+        .dc.w   0xffff,0xfff6,0x0004,0x0200,0x0024,0x368a,0xffff        | +03288
+        .dc.l   BgMap_0a0024                   | +03296
+        .dc.w   0x0200,0x0024,0x3694,0xffff                             | +0329a
+        .dc.l   BgMap_0a0004                   | +032a2
+        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000,0x0000 | +032a6
+        .dc.w   0xfff6                                                  | +032b6
+        .dc.l   BgMap_0a0000                   | +032b8
+        .dc.l   AnimScr_180200                 | +032bc
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +032c0
+        .dc.w   0xffff,0xfff6                                           | +032d0
+        .dc.l   AnimScr_180200                 | +032d4
+        .dc.w   0x0024,0x3680,0xffff,0xfff6,0x0000,0x0200,0x0024,0x368a | +032d8
+        .dc.w   0xffff                                                  | +032e8
+        .dc.l   BgMap_0a0018                   | +032ea
+        .dc.w   0x0200,0x0024,0x3694,0xffff                             | +032ee
+        .dc.l   BgMap_0a0000                   | +032f6
+        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000,0x0000 | +032fa
+        .dc.w   0xfff6,0x000a,0x000a,0x002c,0x0200,0x0024,0x366c,0xffff | +0330a
+        .dc.w   0x0000,0x0000,0x0200,0x0024,0x3676,0xffff,0xfff6,0x002c | +0331a
+        .dc.w   0x0200,0x0024,0x3680,0xffff,0xfff6                      | +0332a
+        .dc.l   BgMap_0a0200                   | +03334
+        .dc.w   0x0024,0x368a,0xffff,0x000a,0x002c,0x0200,0x0024,0x3694 | +03338
+        .dc.w   0xffff,0x000a,0x000a,0x1d01,0xffff,0xffff,0x0002,0x0029 | +03348
+        .dc.w   0xb40c,0x0000,0x0000,0xfff0                             | +03358
+        .dc.l   ColMap_100000                  | +03360
+        .dc.l   BgMap_0a0200                   | +03364
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +03368
+        .dc.w   0xffff,0xfff0                                           | +03378
+        .dc.l   BgMap_0a0200                   | +0337c
+        .dc.w   0x0024,0x3680,0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a | +03380
+        .dc.w   0xffff                                                  | +03390
+        .dc.l   ColMap_10000a                  | +03392
+        .dc.w   0x0200,0x0024,0x3694,0xffff                             | +03396
+        .dc.l   ColMap_100000                  | +0339e
+        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000,0x0000 | +033a2
+        .dc.w   0xfff0                                                  | +033b2
+        .dc.l   ColMap_100010                  | +033b4
+        .dc.w   0x001c,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +033b8
+        .dc.w   0x0024,0x3676,0xffff,0xfff0,0x001c,0x0200,0x0024,0x3680 | +033c8
+        .dc.w   0xffff,0xfff0                                           | +033d8
+        .dc.l   ColMap_100200                  | +033dc
+        .dc.w   0x0024,0x368a,0xffff                                    | +033e0
+        .dc.l   ColMap_10001c                  | +033e6
+        .dc.w   0x0200,0x0024,0x3694,0xffff                             | +033ea
+        .dc.l   ColMap_100010                  | +033f2
+        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000,0x0000 | +033f6
+        .dc.w   0xfff0                                                  | +03406
+        .dc.l   ColMap_100000                  | +03408
+        .dc.w   0x001c,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +0340c
+        .dc.w   0x0024,0x3676,0xffff,0xfff0,0x001c,0x0200,0x0024,0x3680 | +0341c
+        .dc.w   0xffff,0xfff0,0x0000,0x0200,0x0024,0x368a,0xffff        | +0342c
+        .dc.l   ColMap_10001c                  | +0343a
+        .dc.w   0x0200,0x0024,0x3694,0xffff                             | +0343e
+        .dc.l   ColMap_100000                  | +03446
+        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb42e,0x0000,0x0000 | +0344a
+        .dc.w   0xffee                                                  | +0345a
+        .dc.l   AnimScr_1a0000                 | +0345c
+        .dc.w   0x0032,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200 | +03460
+        .dc.w   0x0024,0x3676,0xffff,0xffee,0x0032,0x0200,0x0024,0x3680 | +03470
+        .dc.w   0xffff,0xffee,0x0000,0x0200,0x0024,0x368a,0xffff        | +03480
+        .dc.l   AnimScr_1a0032                 | +0348e
+        .dc.w   0x0200,0x0024,0x3694,0xffff                             | +03492
+        .dc.l   AnimScr_1a0000                 | +0349a
+        .dc.w   0x1d01,0xffff,0xffff,0x0002,0x0029,0xb40c,0x0000,0x0000 | +0349e
+        .dc.w   0xfff8,0x0008,0x0000                                    | +034ae
+        .dc.l   ColMap_100200                  | +034b4
+        .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676 | +034b8
+        .dc.w   0xffff,0xfff8                                           | +034c8
+        .dc.l   ColMap_100200                  | +034cc
+        .dc.w   0x0024,0x3680,0xffff,0xfff8,0x0000,0x0200,0x0024,0x368a | +034d0
+        .dc.w   0xffff,0x0008                                           | +034e0
+        .dc.l   ColMap_100200                  | +034e4
+        .dc.w   0x0024,0x3694,0xffff,0x0008,0x0000,0x1d01,0xffff,0xffff | +034e8
+        .dc.w   0x0900,0x0029,0xb4a4                                    | +034f8
+        .dc.l   Pal_020208                     | +034fe
+        .dc.w   0x0023,0x0978,0xffff                                    | +03502
+        .dc.l   Pal_020208                     | +03508
+        .dc.w   0x0023,0x098e,0xffff                                    | +0350c
+        .dc.l   Pal_020208                     | +03512
+        .dc.w   0x0023,0x09a6,0xffff                                    | +03516
+        .dc.l   Pal_020208                     | +0351c
+        .dc.w   0x0023,0x09ba,0xffff                                    | +03520
+        .dc.l   Pal_020208                     | +03526
+        .dc.w   0x0023,0x09ce,0xffff                                    | +0352a
+        .dc.l   Pal_020208                     | +03530
+        .dc.w   0x0023,0x09e6,0xffff                                    | +03534
+        .dc.l   Pal_020208                     | +0353a
+        .dc.w   0x0023,0x09fe,0xffff                                    | +0353e
+        .dc.l   Pal_020208                     | +03544
+        .dc.w   0x0023,0x0a16,0xffff                                    | +03548
+        .dc.l   Pal_020208                     | +0354e
+        .dc.w   0x0023,0x0a2e,0xffff                                    | +03552
+        .dc.l   Pal_020208                     | +03558
+        .dc.w   0x0023,0x0a42,0xffff                                    | +0355c
+        .dc.l   Pal_020208                     | +03562
+        .dc.w   0x0023,0x0a56,0xffff                                    | +03566
+        .dc.l   Pal_020208                     | +0356c
+        .dc.w   0x0023,0x0a6a,0xffff,0x0100,0x0029,0xb74a,0x0900,0x0029 | +03570
+        .dc.w   0xb4a4                                                  | +03580
+        .dc.l   Pal_020208                     | +03582
+        .dc.w   0x0023,0x0a80,0xffff                                    | +03586
+        .dc.l   Pal_020208                     | +0358c
+        .dc.w   0x0023,0x0a94,0xffff                                    | +03590
+        .dc.l   Pal_020208                     | +03596
+        .dc.w   0x0023,0x0aac,0xffff                                    | +0359a
+        .dc.l   Pal_020208                     | +035a0
+        .dc.w   0x0023,0x0ac4,0xffff,0x0003,0x0208,0x0023,0x0ad8,0xffff | +035a4
+        .dc.w   0x0003,0x0208,0x0023,0x0aec,0xffff,0x0001,0x0208,0x0023 | +035b4
+        .dc.w   0x0ad8,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0004,0x0208 | +035c4
+        .dc.w   0x0023,0x0ad8,0xffff,0x0003,0x0208,0x0023,0x0aec,0xffff | +035d4
+        .dc.w   0x0003,0x0208,0x0023,0x0b00,0xffff,0x0005,0x0208,0x0023 | +035e4
+        .dc.w   0x0b14,0xffff,0x0004,0x0208,0x0023,0x0b00,0xffff,0x0004 | +035f4
+        .dc.w   0x0208,0x0023,0x0aec,0xffff,0x0100,0x0029,0xb81c,0x0900 | +03604
+        .dc.w   0x0029,0xb4a4,0x0004,0x0208,0x0023,0x0ad8,0xffff        | +03614
+        .dc.l   Pal_020208                     | +03622
+        .dc.w   0x0023,0x0aec,0xffff                                    | +03626
+        .dc.l   Pal_020208                     | +0362c
+        .dc.w   0x0023,0x0b00,0xffff,0x0005,0x0208,0x0023,0x0b14,0xffff | +03630
+        .dc.w   0x0003,0x0208,0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023 | +03640
+        .dc.w   0x0aec,0xffff,0x0100,0x0029,0xb85e,0x0900,0x0029,0xb4a4 | +03650
+        .dc.w   0x0003,0x0208,0x0023,0x0ad8,0xffff                      | +03660
+        .dc.l   Pal_020208                     | +0366a
+        .dc.w   0x0023,0x0aec,0xffff                                    | +0366e
+        .dc.l   Pal_020208                     | +03674
+        .dc.w   0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023,0x0b14,0xffff | +03678
+        .dc.w   0x0003,0x0208,0x0023,0x0b00,0xffff,0x0003,0x0208,0x0023 | +03688
+        .dc.w   0x0aec,0xffff,0x0100,0x0029,0xb8a6,0x0900,0x0029,0xb4f8 | +03698
+        .dc.w   0x0004,0x0208,0x0023,0x0b54,0xffff,0x0003,0x0208,0x0023 | +036a8
+        .dc.w   0x0b64,0xffff,0x0003,0x0208,0x0023,0x0b74,0xffff,0x0006 | +036b8
+        .dc.w   0x0208,0x0023,0x0b84,0xffff,0x0005,0x0208,0x0023,0x0b74 | +036c8
+        .dc.w   0xffff,0x0005,0x0208,0x0023,0x0b64,0xffff,0x0100,0x0029 | +036d8
+        .dc.w   0xb8ee,0x0900,0x0029,0xb4f8,0x0001,0x0208,0x0023,0x0b2c | +036e8
+        .dc.w   0xffff,0x0001,0x0208,0x0023,0x0b44,0xffff,0x0100,0x0029 | +036f8
+        .dc.w   0xb8ee,0x0900,0x0029,0xb4f8                             | +03708
+        .dc.l   Pal_020208                     | +03710
+        .dc.w   0x0023,0x0b2c,0xffff,0x0900,0x0029,0xb5f4,0x0001,0x0208 | +03714
+        .dc.w   0x0023,0x0b94,0xffff,0x0001,0x0208,0x0023,0x0bac,0xffff | +03724
+        .dc.w   0x0001,0x0208,0x0023,0x0bc4,0xffff,0x0900,0x0029,0xb5a0 | +03734
+        .dc.l   Pal_020208                     | +03744
+        .dc.w   0x0023,0x0bdc,0xffff,0x0001,0x0208,0x0023,0x0bf8,0xffff | +03748
+        .dc.w   0x0001,0x0208,0x0023,0x0c10,0xffff,0x0001,0x0208,0x0023 | +03758
+        .dc.w   0x0c28,0xffff,0x0001,0x0208,0x0023,0x0c36,0xffff,0x0001 | +03768
+        .dc.w   0x0208,0x0023,0x0c28,0xffff,0x1600,0x0800,0x0004,0xa108 | +03778
+        .dc.w   0x0900,0x0029,0xb4f8,0x0001,0x0208,0x0023,0x1a20,0xffff | +03788
+        .dc.w   0x0001,0x0208,0x0023,0x1a34,0xffff,0x0001,0x0208,0x0023 | +03798
+        .dc.w   0x1a48,0xffff,0x0001,0x0208,0x0023,0x1a5c,0xffff,0x0900 | +037a8
+        .dc.w   0x0029,0xb5f4,0x0001,0x0208,0x0023,0x1a76,0xffff,0x0800 | +037b8
+        .dc.l   Bounce_SpawnFromParent_056066  | +037c8
+        .dc.w   0x0001,0x0208,0x0023,0x0bac,0xffff                      | +037cc
+        .dc.l   Pal_020208                     | +037d6
+        .dc.w   0x0023,0x0bc4,0xffff,0x0900,0x0029,0xb5a0,0x0001,0x0208 | +037da
+        .dc.w   0x0023,0x0bdc,0xffff,0x0001,0x0208,0x0023,0x0bf8,0xffff | +037ea
+        .dc.w   0x0001,0x0208,0x0023,0x0c10,0xffff,0x0001,0x0208,0x0023 | +037fa
+        .dc.w   0x0c28,0xffff,0x0001,0x0208,0x0023,0x0c36,0xffff,0x0014 | +0380a
+        .dc.w   0x0208,0x0023,0x0c28,0xffff,0x1600,0x0800,0x0004,0xa110 | +0381a
+        .dc.w   0x0900,0x0029,0xb4a4,0x0001,0x0208,0x0023,0x0ad8,0xffff | +0382a
+        .dc.w   0x0001,0x0208,0x0023,0x0e6c,0xffff,0x0001,0x0208,0x0023 | +0383a
+        .dc.w   0x0e80,0xffff,0x0001,0x0208,0x0023,0x0e94,0xffff,0x0001 | +0384a
+        .dc.w   0x0208,0x0023,0x40c8,0xffff,0x0001,0x0208,0x0023,0x40dc | +0385a
+        .dc.w   0xffff,0x0001,0x0208,0x0023,0x40f8,0xffff,0x0001,0x0208 | +0386a
+        .dc.w   0x0023,0x4116,0xffff,0x0001,0x0208,0x0023,0x4134,0xffff | +0387a
+        .dc.w   0x0001,0x0208,0x0023,0x4152,0xffff,0x0001,0x0208,0x0023 | +0388a
+        .dc.w   0x4170,0xffff,0x0800                                    | +0389a
+        .dc.l   Grenade_SpawnFromThrower_055bce | +038a0
+        .dc.w   0x0001,0x0208,0x0023,0x418c,0xffff,0x0001,0x0208,0x0023 | +038a4
+        .dc.w   0x0f58,0xffff,0x0001,0x0208,0x0023,0x0f72,0xffff        | +038b4
+        .dc.l   Pal_020208                     | +038c2
+        .dc.w   0x0023,0x0f86,0xffff,0x0001,0x0208,0x0023,0x0f72,0xffff | +038c6
+        .dc.w   0x0001,0x0208,0x0023,0x0f58,0xffff,0x0001,0x0208,0x0023 | +038d6
+        .dc.w   0x0f9a,0xffff,0x0001,0x0208,0x0023,0x0fae,0xffff,0x0001 | +038e6
+        .dc.w   0x0208,0x0023,0x0fc2,0xffff,0x1600,0x0800,0x0004,0xa110 | +038f6
+        .dc.w   0x0900,0x0029,0xb5a0,0x0001,0x0208,0x0023,0x0c44,0xffff | +03906
+        .dc.w   0x0001,0x0208,0x0023,0x0c58,0xffff,0x0001,0x0208,0x0023 | +03916
+        .dc.w   0x0c6c,0xffff,0x0001,0x0208,0x0023,0x0c80,0xffff,0x0001 | +03926
+        .dc.w   0x0208,0x0023,0x0c94,0xffff,0x0001,0x0208,0x0023,0x4038 | +03936
+        .dc.w   0xffff,0x0001,0x0208,0x0023,0x4050,0xffff,0x0001,0x0208 | +03946
+        .dc.w   0x0023,0x4064,0xffff,0x0001,0x0208,0x0023,0x4078,0xffff | +03956
+        .dc.w   0x0001,0x0208,0x0023,0x408c,0xffff,0x0001,0x0208,0x0023 | +03966
+        .dc.w   0x40a8,0xffff,0x0800                                    | +03976
+        .dc.l   Grenade_SpawnFromThrower_055bce | +0397c
+        .dc.w   0x0003,0x0208,0x0023,0x0d2c,0xffff                      | +03980
+        .dc.l   Pal_020208                     | +0398a
+        .dc.w   0x0023,0x0c6c,0xffff,0x0001,0x0208,0x0023,0x0c58,0xffff | +0398e
+        .dc.w   0x1600,0x0900,0x0029,0xb4a4,0x0800,0x0004,0xa120        | +0399e
+        .dc.l   Pal_020208                     | +039ac
+        .dc.w   0x0023,0x0e6c,0xffff                                    | +039b0
+        .dc.l   Pal_020208                     | +039b6
+        .dc.w   0x0023,0x0e80,0xffff                                    | +039ba
+        .dc.l   Pal_020208                     | +039c0
+        .dc.w   0x0023,0x0e94,0xffff                                    | +039c4
+        .dc.l   Pal_020208                     | +039ca
+        .dc.w   0x0023,0x0ea8,0xffff                                    | +039ce
+        .dc.l   Pal_020208                     | +039d4
+        .dc.w   0x0023,0x3178,0xffff                                    | +039d8
+        .dc.l   Pal_020208                     | +039de
+        .dc.w   0x0023,0x3192,0xffff                                    | +039e2
+        .dc.l   Pal_020208                     | +039e8
+        .dc.w   0x0023,0x31ac,0xffff                                    | +039ec
+        .dc.l   Pal_020208                     | +039f2
+        .dc.w   0x0023,0x31c6,0xffff                                    | +039f6
+        .dc.l   Pal_020208                     | +039fc
+        .dc.w   0x0023,0x31e0,0xffff,0x0800                             | +03a00
+        .dc.l   Mortar_SpawnFromParent_056438  | +03a08
+        .dc.l   Pal_020208                     | +03a0c
+        .dc.w   0x0023,0x31f4,0xffff,0x1600,0x0900,0x0029,0xb4a4,0x0800 | +03a10
+        .dc.w   0x0004,0xa120,0x0001,0x0208,0x0023,0x0ad8,0xffff,0x0001 | +03a20
+        .dc.w   0x0208,0x0023,0x0e6c,0xffff,0x0001,0x0208,0x0023,0x0e80 | +03a30
+        .dc.w   0xffff,0x0001,0x0208,0x0023,0x0e94,0xffff,0x0001,0x0208 | +03a40
+        .dc.w   0x0023,0x3258,0xffff,0x0001,0x0208,0x0023,0x326c,0xffff | +03a50
+        .dc.w   0x0001,0x0208,0x0023,0x3286,0xffff,0x0001,0x0208,0x0023 | +03a60
+        .dc.w   0x32a0,0xffff,0x0001,0x0208,0x0023,0x32c0,0xffff,0x0001 | +03a70
+        .dc.w   0x0208,0x0023,0x32a0,0xffff,0x0001,0x0208,0x0023,0x32e0 | +03a80
+        .dc.w   0xffff,0x0001,0x0208,0x0023,0x3300,0xffff,0x0800,0x0005 | +03a90
+        .dc.w   0x6844                                                  | +03aa0
+        .dc.l   Pal_020208                     | +03aa2
+        .dc.w   0x0023,0x0f58,0xffff,0x0001,0x0208,0x0023,0x0f72,0xffff | +03aa6
+        .dc.w   0x0004,0x0208,0x0023,0x0f86,0xffff                      | +03ab6
+        .dc.l   Pal_020208                     | +03ac0
+        .dc.w   0x0023,0x0f72,0xffff                                    | +03ac4
+        .dc.l   Pal_020208                     | +03aca
+        .dc.w   0x0023,0x0f58,0xffff                                    | +03ace
+        .dc.l   Pal_020208                     | +03ad4
+        .dc.w   0x0023,0x0f9a,0xffff                                    | +03ad8
+        .dc.l   Pal_020208                     | +03ade
+        .dc.w   0x0023,0x0fae,0xffff                                    | +03ae2
+        .dc.l   Pal_020208                     | +03ae8
+        .dc.w   0x0023,0x0fc2,0xffff,0x1600,0x0001,0x0208,0x0023,0x0b84 | +03aec
+        .dc.w   0xffff,0x0001,0x0208,0x0023,0x0b74,0xffff,0x0001,0x0208 | +03afc
+        .dc.w   0x0023,0x0b64,0xffff,0x0900,0x0029,0xb4a4,0x0001,0x0208 | +03b0c
+        .dc.w   0x0023,0x0b54,0xffff,0x0001,0x0208,0x0023,0x0b44,0xffff | +03b1c
+        .dc.w   0x0001,0x0208,0x0023,0x0b2c,0xffff,0x1600,0x0900,0x0029 | +03b2c
+        .dc.w   0xb5a0,0x0001,0x0208,0x0023,0x0c44,0xffff,0x0001,0x0208 | +03b3c
+        .dc.w   0x0023,0x0c58,0xffff,0x0001,0x0208,0x0023,0x0b84,0xffff | +03b4c
+        .dc.w   0x0001,0x0208,0x0023,0x0b74,0xffff,0x0900,0x0029,0xb4f8 | +03b5c
+        .dc.w   0x0001,0x0208,0x0023,0x0b64,0xffff,0x0001,0x0208,0x0023 | +03b6c
+        .dc.w   0x0b54,0xffff,0x0001,0x0208,0x0023,0x0b44,0xffff,0x0900 | +03b7c
+        .dc.w   0x0029,0xb4a4,0x0001,0x0208,0x0023,0x0b2c,0xffff,0x1600 | +03b8c
+        .dc.w   0x0900,0x0029,0xb4a4,0x0004,0x0208,0x0023,0x2d78,0xffff | +03b9c
+        .dc.l   Pal_020208                     | +03bac
+        .dc.w   0x0023,0x2d8c,0xffff                                    | +03bb0
+        .dc.l   Pal_020208                     | +03bb6
+        .dc.w   0x0023,0x2da0,0xffff,0x0003,0x0208,0x0023,0x2db4,0xffff | +03bba
+        .dc.w   0x0003,0x0208,0x0023,0x2da0,0xffff,0x0004,0x0208,0x0023 | +03bca
+        .dc.w   0x2d8c,0xffff,0x1600,0x0900,0x0029,0xb4a4               | +03bda
+        .dc.l   BgMap_0c0208                   | +03be6
+        .dc.w   0x0023,0x2dc8,0xffff,0x0001,0x0208,0x0023,0x2de2,0xffff | +03bea
+        .dc.w   0x0001,0x0208,0x0023,0x2dfc,0xffff,0x0005,0x0208,0x0023 | +03bfa
+        .dc.w   0x2e16,0xffff,0x0003,0x0208,0x0023,0x2dfc,0xffff,0x0003 | +03c0a
+        .dc.w   0x0208,0x0023,0x2de2,0xffff,0x1600,0x0900,0x0029,0xb4a4 | +03c1a
+        .dc.w   0x0003,0x0208,0x0023,0x2e30,0xffff,0x0003,0x0208,0x0023 | +03c2a
+        .dc.w   0x2e4a,0xffff,0x0003,0x0208,0x0023,0x2e30,0xffff,0x0003 | +03c3a
+        .dc.w   0x0208,0x0023,0x2e4a,0xffff,0x0003,0x0208,0x0023,0x2e64 | +03c4a
+        .dc.w   0xffff,0x0003,0x0208,0x0023,0x2e4a,0xffff,0x0003,0x0208 | +03c5a
+        .dc.w   0x0023,0x2e64,0xffff,0x0003,0x0208,0x0023,0x2e78,0xffff | +03c6a
+        .dc.w   0x0003,0x0208,0x0023,0x2e64,0xffff,0x0003,0x0208,0x0023 | +03c7a
+        .dc.w   0x2e78,0xffff,0x0003,0x0208,0x0023,0x2e64,0xffff,0x0003 | +03c8a
+        .dc.w   0x0208,0x0023,0x2e78,0xffff,0x0003,0x0208,0x0023,0x2e64 | +03c9a
+        .dc.w   0xffff,0x0003,0x0208,0x0023,0x2e4a,0xffff,0x1600,0x0900 | +03caa
+        .dc.w   0x0029,0xb4a4,0x0004,0x0208,0x0023,0x2e30,0xffff,0x0004 | +03cba
+        .dc.w   0x0208,0x0023,0x2e4a,0xffff,0x0004,0x0208,0x0023,0x2e64 | +03cca
+        .dc.w   0xffff,0x0004,0x0208,0x0023,0x2e78,0xffff,0x1600,0x0900 | +03cda
+        .dc.w   0x0029,0xb4a4,0x0007,0x0208,0x0023,0x11b2,0xffff        | +03cea
+        .dc.l   Pal_020208                     | +03cf8
+        .dc.w   0x0023,0x11c6,0xffff                                    | +03cfc
+        .dc.l   Pal_020208                     | +03d02
+        .dc.w   0x0023,0x11da,0xffff                                    | +03d06
+        .dc.l   Pal_020208                     | +03d0c
+        .dc.w   0x0023,0x11ee,0xffff                                    | +03d10
+        .dc.l   Pal_020208                     | +03d16
+        .dc.w   0x0023,0x1202,0xffff                                    | +03d1a
+        .dc.l   Pal_020208                     | +03d20
+        .dc.w   0x0023,0x1216,0xffff                                    | +03d24
+        .dc.l   Pal_020208                     | +03d2a
+        .dc.w   0x0023,0x122a,0xffff                                    | +03d2e
+        .dc.l   Pal_020208                     | +03d34
+        .dc.w   0x0023,0x123e,0xffff                                    | +03d38
+        .dc.l   Pal_020208                     | +03d3e
+        .dc.w   0x0023,0x1252,0xffff                                    | +03d42
+        .dc.l   Pal_020208                     | +03d48
+        .dc.w   0x0023,0x1266,0xffff,0x1301,0x003a                      | +03d4c
+        .dc.l   Pal_020208                     | +03d56
+        .dc.w   0x0023,0x0ad8,0xffff                                    | +03d5a
+        .dc.l   BgMap_0c0208                   | +03d60
+        .dc.w   0x0023,0x11b2,0xffff,0x1600,0x0001,0x0208,0x0023,0x187c | +03d64
+        .dc.w   0xffff,0x1600,0x0800,0x0004,0xa120,0x0900,0x0029,0xb4a4 | +03d74
+        .dc.w   0x0001,0x0208,0x0023,0x173c,0xffff,0x0001,0x0208,0x0023 | +03d84
+        .dc.w   0x1750,0xffff,0x0001,0x0208,0x0023,0x176a,0xffff,0x0001 | +03d94
+        .dc.w   0x0208,0x0023,0x1784,0xffff,0x0001,0x0208,0x0023,0x179e | +03da4
+        .dc.w   0xffff,0x0001,0x0208,0x0023,0x17b8,0xffff,0x0001,0x0208 | +03db4
+        .dc.w   0x0023,0x17d2,0xffff,0x0001,0x0208,0x0023,0x17ec,0xffff | +03dc4
+        .dc.w   0x0001,0x0208,0x0023,0x1806,0xffff,0x0001,0x0208,0x0023 | +03dd4
+        .dc.w   0x1820,0xffff,0x0001,0x0208,0x0023,0x183a,0xffff,0x0001 | +03de4
+        .dc.w   0x0208,0x0023,0x1820,0xffff,0x0001,0x0208,0x0023,0x1806 | +03df4
+        .dc.w   0xffff,0x0001,0x0208,0x0023,0x17ec,0xffff,0x0001,0x0208 | +03e04
+        .dc.w   0x0023,0x17d2,0xffff,0x0001,0x0208,0x0023,0x17b8,0xffff | +03e14
+        .dc.w   0x0001,0x0208,0x0023,0x179e,0xffff,0x0001,0x0208,0x0023 | +03e24
+        .dc.w   0x1784,0xffff,0x0001,0x0208,0x0023,0x176a,0xffff,0x0001 | +03e34
+        .dc.w   0x0208,0x0023,0x1750,0xffff                             | +03e44
+        .dc.l   Pal_020208                     | +03e4c
+        .dc.w   0x0023,0x173c,0xffff,0x0001,0x0208,0x0023,0x1854,0xffff | +03e50
+        .dc.w   0x1600,0x0900,0xffff,0xffff,0x0006,0x0208,0x0023,0x22d8 | +03e60
+        .dc.w   0xffff,0x0006,0x0208,0x0023,0x22ec,0xffff,0x0006,0x0208 | +03e70
+        .dc.w   0x0023,0x2300,0xffff,0x0006,0x0208,0x0023,0x2314,0xffff | +03e80
+        .dc.w   0x0006,0x0208,0x0023,0x2300,0xffff,0x0006,0x0208,0x0023 | +03e90
+        .dc.w   0x22ec,0xffff,0x0006,0x0208,0x0023,0x22d8,0xffff,0x0006 | +03ea0
+        .dc.w   0x0208,0x0023,0x22ec,0xffff,0x0006,0x0208,0x0023,0x2300 | +03eb0
+        .dc.w   0xffff,0x0006,0x0208,0x0023,0x2314,0xffff,0x0003,0x0208 | +03ec0
+        .dc.w   0x0023,0x2328,0xffff,0x0003,0x0208,0x0023,0x233c,0xffff | +03ed0
+        .dc.w   0x0003,0x0208,0x0023,0x2350,0xffff,0x0003,0x0208,0x0023 | +03ee0
+        .dc.w   0x2364,0xffff,0x0003,0x0208,0x0023,0x2378,0xffff,0x0003 | +03ef0
+        .dc.w   0x0208,0x0023,0x238c,0xffff,0x0900,0xffff,0xffff,0x0004 | +03f00
+        .dc.w   0x0208,0x0023,0x23a0,0xffff                             | +03f10
+        .dc.l   BgMap_0a0208                   | +03f18
+        .dc.w   0x0023,0x23b4,0xffff,0x0004,0x0208,0x0023,0x23a0,0xffff | +03f1c
+        .dc.w   0x0900,0x0029,0xb648,0x0003,0x0208,0x0023,0x23c8,0xffff | +03f2c
+        .dc.w   0x0003,0x0208,0x0023,0x238c,0xffff,0x0003,0x0208,0x0023 | +03f3c
+        .dc.w   0x23c8,0xffff,0x0003,0x0208,0x0023,0x238c,0xffff,0x0003 | +03f4c
+        .dc.w   0x0208,0x0023,0x23c8,0xffff,0x0003,0x0208,0x0023,0x238c | +03f5c
+        .dc.w   0xffff,0x0003,0x0208,0x0023,0x23c8,0xffff,0x0003,0x0208 | +03f6c
+        .dc.w   0x0023,0x238c,0xffff,0x0100,0x0029,0xc154,0x0900,0xffff | +03f7c
+        .dc.w   0xffff,0x0400,0x103f,0x0001,0x0208,0x0023,0x23dc,0xffff | +03f8c
+        .dc.w   0x0001,0x0208,0x0023,0x23f6,0xffff,0x0001,0x0208,0x0023 | +03f9c
+        .dc.w   0x2410,0xffff,0x0001,0x0208                             | +03fac
 
 | ----------------------------------------------------------------------------
 |  AnimScr_19c200  @ $19C200  (1,882 B)  [ref. desde código]
