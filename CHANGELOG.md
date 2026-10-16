@@ -15,6 +15,10 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Spawner records**: `data_census.spawner_records` follows the `lea X,a1`
+  passed to `Entity_InstallHandlerAndCopyXf` (162 18-byte records for
+  `Spawner_Handler_077c98`: parent offset, rate, count, dx/rx, dy/ry, handler
+  or a 16-entry random handler table). "Other" data: 10.1 % → 9.8 %.
 - **`Tbl_Decode2D_0799DE` tables**: `data_census.decode2d_tables` follows the
   230 tables passed in a0 to the difficulty/rank decoder (long format 130 B =
   2 + 64 words; short format magic 2 = 2 + 64 index bytes + 16 B per index,

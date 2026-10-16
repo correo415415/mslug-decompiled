@@ -50,6 +50,12 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Registros de spawner (2026-10-16)**. `data_census.spawner_records`: los
+> 162 `lea X,a1 ; jsr Entity_InstallHandlerAndCopyXf` apuntan a registros de
+> 18 B para `Spawner_Handler_077c98` ({b offset por padre, b ritmo ($FF =
+> todo junto), w cuenta, w dx, w rx, w dy, w ry, b ?, b aleatorio, l handler};
+> con +$D != 0 el long es una tabla de 16 handlers por Random(16)). Otro 9,8 %.
+
 > **Tablas de Tbl_Decode2D_0799DE (2026-10-16)**. `data_census.decode2d_tables`
 > sigue los 230 `lea X,a0 ; jsr Tbl_Decode2D_0799DE` (sin otro `lea ..,a0`
 > en medio): formato largo 130 B (2 + 64 palabras por flags11&3, $106ED1&2,

@@ -266,6 +266,42 @@ def decode2d_tables(p, code_end=0x90000):
     return sorted(out)
 
 
+INSTALL_SPAWNER = 0x077C7E   # Entity_InstallHandlerAndCopyXf: a1 -> $70(a0)
+
+
+def spawner_records(p, code_end=0x90000):
+    """-> [(addr, len)] de registros de Spawner_Handler_077c98 (18 B):
+    {b offset_por_padre, b ritmo ($FF = todo de golpe), w cuenta, w dx, w rx,
+    w dy, w ry, b ?, b aleatorio, l handler}; si +$D != 0, +$E apunta a una
+    tabla de 16 handlers elegidos con Random(16)*4 (64 B). Se siguen los
+    `lea X,a1` + jsr/bsr Entity_InstallHandlerAndCopyXf (<= 16 B)."""
+    out = set()
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w == 0x43F9:
+            v, n = p.L(o + 2), 6
+        elif w == 0x43FA:
+            v, n = o + 2 + p.SW(o + 2), 4
+        else:
+            continue
+        for q in range(o + n, o + n + 16, 2):
+            x = p.W(q)
+            if x & 0xFFC0 == 0x43C0:          # otro lea ..,a1
+                break
+            t = (p.L(q + 2) if x == 0x4EB9 else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x6100) else None)
+            if t is None:
+                continue
+            if t == INSTALL_SPAWNER and v & 1 == 0 and p.valid(v, 18):
+                out.add((v, 18))
+                h = p.L(v + 14)
+                if p.B(v + 13) and h & 1 == 0 and p.valid(h, 64) and \
+                        all(p.L(h + 4 * i) < code_end for i in range(16)):
+                    out.add((h, 64))
+            break
+    return sorted(out)
+
+
 # Diccionarios de nombres de Results_RosterPickA/B_03e6da/03e740 (pantalla de
 # resultados): d0 = Random(n) -> longitud = LenTab[d0]; {ptr.l, cnt.l} =
 # PtrTab[longitud - base]; nombre = ptr + longitud * Random(cnt).
@@ -378,6 +414,9 @@ def classify(p):
         put(a, n, "struct")
     # tablas por dificultad/rango de Tbl_Decode2D_0799DE
     for a, n in decode2d_tables(p):
+        put(a, n, "struct")
+    # registros de Spawner_Handler_077c98 (+ tablas de 16 handlers)
+    for a, n in spawner_records(p):
         put(a, n, "struct")
     # scripts instalados desde el código (EntitySetSpriteMap / move.l #,$3C(a6))
     seen = set()
