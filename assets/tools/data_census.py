@@ -591,6 +591,30 @@ def tilemap_gaps(p, mark, min_cells=64):
     return out
 
 
+def pointer_tables(p, mark, min_n=3):
+    """Rachas sin clasificar de longs que son todos punteros a datos ya
+    clasificados ($09xxxx-$0Fxxxx / $2xxxxx) o $FFFFFFFF (entrada vacía), con
+    >= 2 punteros reales: tablas de punteros por estado/dirección/fase.
+    -> [(addr, len)]"""
+    def ok(v):
+        return v == 0xFFFFFFFF or ((0x90000 <= v < 0x100000 or 0x200000 <= v < 0x300000)
+                                   and v in mark)
+    out = []
+    for lo, hi in _gaps(p, mark):
+        o = lo + (lo & 1)
+        while o + 4 <= hi:
+            if not ok(p.L(p.cpu(o))):
+                o += 2
+                continue
+            st, real = o, 0
+            while o + 4 <= hi and ok(p.L(p.cpu(o))):
+                real += p.L(p.cpu(o)) != 0xFFFFFFFF
+                o += 4
+            if (o - st) // 4 >= min_n and real >= 2:
+                out.append((p.cpu(st), o - st))
+    return out
+
+
 def classify(p):
     """-> dict cpu_addr -> kind (sólo bytes marcados)."""
     mark = {}
@@ -686,6 +710,10 @@ def classify(p):
     # celdas de tilemap sin descriptor
     for a, n in tilemap_gaps(p, mark):
         put(a, n, "tilemap")
+    # tablas de punteros a datos ya clasificados (dos pasadas: tablas de tablas)
+    for _ in range(2):
+        for a, n in pointer_tables(p, mark):
+            put(a, n, "struct")
     return mark
 
 
