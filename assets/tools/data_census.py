@@ -47,7 +47,7 @@ KINDS = ("palette", "frame", "anim", "tilemap", "collision", "struct", "lut", "z
 
 # prefijos de registry cuyo contenido entero ya está decodificado por su parser
 STRUCT_PREFIXES = ("MissionStream_", "MissionAux_", "TemplateIndex_", "SceneDescTable_",
-                   "SceneScript_", "SceneEntities_", "SceneTrig_")
+                   "SceneScript_", "SceneEntities_", "SceneTrig_", "TaskBootTab_", "SoftDip_")
 
 # tablas de color del motor de paletas (asm/data/sprite_tables_002f30.s)
 LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0),
@@ -339,15 +339,37 @@ def _gaps(p, mark):
     return out
 
 
+def _split_zeros(p, gaps, min_zero=4):
+    """Corta cada racha [lo, hi) en los tramos de palabras a cero >= min_zero B
+    (relleno entre bloques de frames) -> [(lo, hi)] sin esos ceros."""
+    out = []
+    for lo, hi in gaps:
+        start, o = lo, lo + (lo & 1)
+        while o < hi - 1:
+            if p.W(p.cpu(o)) == 0:
+                z = o
+                while o < hi - 1 and p.W(p.cpu(o)) == 0:
+                    o += 2
+                if o - z >= min_zero:
+                    if z > start:
+                        out.append((start, z))
+                    start = o
+                continue
+            o += 2
+        if hi > start:
+            out.append((start, hi))
+    return out
+
+
 def frame_runs(p, mark, min_cover=0.95):
     """Frames de sprite sin puntero directo: una racha sin clasificar que se
     recorre de punta a punta como frames consecutivos (parse_frame) en >= 95 %
+    (si no, se prueba cortando los rellenos de ceros >= 16 B)
     (se tolera relleno final). Típico de animaciones cuyos frames se indexan
     por tabla calculada. -> [(cpu_addr, len)]"""
-    out = []
-    for lo, hi in _gaps(p, mark):
+    def run(lo, hi):
         if lo & 1 or hi - lo < 16:
-            continue
+            return None
         o, fr = lo, []
         while o < hi - 2:
             r = S.parse_frame(p, p.cpu(o))
@@ -355,8 +377,16 @@ def frame_runs(p, mark, min_cover=0.95):
                 break
             fr.append((p.cpu(o), r["size"]))
             o += r["size"]
-        if fr and (o - lo) >= min_cover * (hi - lo):
-            out += fr
+        return fr if fr and (o - lo) >= min_cover * (hi - lo) else None
+
+    out = []
+    for g in _gaps(p, mark):
+        fr = run(*g)
+        if fr is None:
+            fr = []
+            for sub in _split_zeros(p, [g], 16):
+                fr += run(*sub) or []
+        out += fr
     return out
 
 

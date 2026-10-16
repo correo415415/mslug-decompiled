@@ -80,5 +80,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
   Sprite_InvokeBlit8Params (data_census.blit_patches) como capas.
 - [x] Tablas de Tbl_Decode2D_0799DE (230, `decode2d_tables`) como struct.
 - [x] Registros de Spawner_Handler_077c98 (18 B) como struct.
-- [ ] Datos "otro" (9,8 %): siguiente, revisar Data_196000 / AnimScr_1d6700 y
+- [x] Soft-DIP NEO-GEO (JP/US/EU) y TaskBootTab_178000 con nombre y punteros simbólicos.
+- [ ] Datos "otro" (9,4 %): siguiente, revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

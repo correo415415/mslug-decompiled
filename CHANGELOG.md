@@ -15,6 +15,12 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **NEO-GEO soft-DIPs and boot task table**: `$178000` = `TaskBootTab_178000`
+  ({TCB, handler} pairs walked by `Task_FreeListInit_000410`) and the three
+  soft-DIP blocks `SoftDip_JP/US/EU` (header `$116/$11A/$11E`, now symbolic:
+  HERO, CONTINUE, DIFFICULTY LEVEL 1-8, PLAY TIME, DEMO SOUND, PLAY MANUAL,
+  BLOOD, CREDIT/LEVEL, LANGUAGE). `frame_runs` retries split at zero padding
+  (>= 16 B). "Other" data: 9.8 % → 9.4 %.
 - **Spawner records**: `data_census.spawner_records` follows the `lea X,a1`
   passed to `Entity_InstallHandlerAndCopyXf` (162 18-byte records for
   `Spawner_Handler_077c98`: parent offset, rate, count, dx/rx, dy/ry, handler

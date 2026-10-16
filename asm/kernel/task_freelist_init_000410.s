@@ -106,7 +106,7 @@ Task_FreeListInit_000410:
                                               |
                                               | ---- FASE B: tabla $278000 ----
         lea.l   0x100940.l, a1                 | +3c  a1 = $100940
-        lea.l   0x278000.l, a2                 | +42  a2 = descriptor tbl
+        lea.l   (TaskBootTab_178000+0x100000).l, a2 | +42  a2 = descriptor tbl
 .LB_loop:
         movea.l (a2), a6                       | +48  a6 = *a2
         movea.l a6, a0                         | +4a  a0 = a6

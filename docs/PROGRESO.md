@@ -50,6 +50,14 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Soft-DIP y tabla de arranque (2026-10-16)**. `$178000..$1785B8`
+> re-partido: `TaskBootTab_178000` (pares {TCB, handler} de
+> `Task_FreeListInit_000410`, hasta TCB = $100940) y `SoftDip_JP_178018`,
+> `SoftDip_US_1781f4`, `SoftDip_EU_1783d0` (nombre 16 B, 2 tiempos, 2
+> cuentas, 10 listas, cadenas de 12 B; la europea añade LANGUAGE). Punteros de
+> la cabecera `$116/$11A/$11E` y el `lea` de arranque simbólicos.
+> `frame_runs` reintenta cortando rellenos de ceros >= 16 B. Otro 9,4 %.
+
 > **Registros de spawner (2026-10-16)**. `data_census.spawner_records`: los
 > 162 `lea X,a1 ; jsr Entity_InstallHandlerAndCopyXf` apuntan a registros de
 > 18 B para `Spawner_Handler_077c98` ({b offset por padre, b ritmo ($FF =
