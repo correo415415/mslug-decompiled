@@ -15,6 +15,11 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Per-mission spawn streams**: `SpawnStream_M1..M6` (16-byte records read
+  by `SpawnStream_ReadNext_04cac4` as the camera passes each threshold, `$FFFF`
+  end), with `SpriteSetPtrTbl6_04cb44` now symbolic; `AnimScr_188414`
+  (MeleeGuard recover, symbolic `lea`). The census walker treats op `16`
+  (RepeatSprite) as terminal. "Other": 8.0 % → see COVERAGE.
 - **Patch descriptor chain and descriptor-less tilemaps**: `PatchDescChain_19810c`
   (40 {w, h, tiles} descriptors whose tilemaps are contiguous at
   `$0B3900..$0B53EC`, `data_census.desc_chains`), `PropItemPtrs_1980fc`

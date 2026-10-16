@@ -160,7 +160,7 @@ def walk_struct(p, a, seen, depth=0):
                     break
                 out += r
             break
-        if op in (0x1D, 0x1E):
+        if op in (0x1D, 0x1E, 0x16):          # 16 = RepeatSprite (a1 = $40(a6))
             seen.add(a)
             out.append((a, 2))
             break
@@ -328,6 +328,25 @@ def fix_type_streams(p):
             n += 1
         out.append((s, 8 * n + 2))
     return out, sorted(scripts)
+
+
+# SpawnStream_ReadNext_04cac4: por misión (SpriteSetPtrTbl6_04cb44[$106ECE])
+# registros de 16 B {b ?, b ?, b rel_x, b rel_y, w x, w y, w d2, w d3, b d4,
+# b d5, b d6, b ?} y luego w umbral de cámara del siguiente; fin con $FFFF.
+SPAWN_STREAM_TAB, SPAWN_STREAM_N = 0x04CB44, 6
+
+
+def spawn_streams(p):
+    """-> [(addr, len)] de los 6 streams de spawn por misión."""
+    ss = sorted({p.L(SPAWN_STREAM_TAB + 4 * i) for i in range(SPAWN_STREAM_N)})
+    out = []
+    for i, s in enumerate(ss):
+        lim = ss[i + 1] if i + 1 < len(ss) else s + 16 * 512
+        k = 0
+        while s + 16 * k + 18 <= lim and p.W(s + 16 * k + 16) != 0xFFFF:
+            k += 1
+        out.append((s, 16 * (k + 1) + 2))
+    return out
 
 
 # Diccionarios de nombres de Results_RosterPickA/B_03e6da/03e740 (pantalla de
@@ -518,6 +537,9 @@ def classify(p):
                 n = 6
             put(a, n, "anim")
             op_starts.add(a)
+    # streams de spawn por misión
+    for a, n in spawn_streams(p):
+        put(a, n, "struct")
     # diccionarios de nombres de la pantalla de resultados
     for a, n in roster_names(p):
         put(a, n, "struct")

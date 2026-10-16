@@ -50,6 +50,12 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Streams de spawn por misión (2026-10-16)**. `SpawnStream_M1..M6`
+> (`$18845E..$1891EA`): registros de 16 B que `SpawnStream_ReadNext_04cac4`
+> avanza cuando la cámara ($106F5C) supera el umbral del siguiente ($FFFF =
+> fin); `SpriteSetPtrTbl6_04cb44` (índice $106ECE) simbólica. `AnimScr_188414`
+> (MeleeGuard). `walk_struct` corta en op 16 (RepeatSprite). Otro 7,7 %.
+
 > **Cadena de descriptores y tilemaps sueltos (2026-10-16)**.
 > `PatchDescChain_19810c`: 40 descriptores {w, h, tiles.l} (formato de
 > Sprite_InvokeBlit8Params) con tilemaps contiguos en `$0B3900..$0B53EC`;
