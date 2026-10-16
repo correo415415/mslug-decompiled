@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **LUTs de puntería y registros de blit (2026-10-16)**. Tablas de dirección por dx de Bazooka_AimStep_06b5ea / RocketVehicle_AimStep_06d340 (33 B, stride $22, + espejo) como lut; `blit_records`: registros de 20 B de Sprite_InvokeBlit8Params con descriptor conocido sin `lea` directo (319). Otro 5,8 %.
+
 > **Scripts apuntados (2026-10-16)**. `pointed_scripts`: direcciones sin
 > clasificar a las que apunta algún long de la ROM y que `walk_struct`
 > recorre con >= 2 frames y fin en 00/01/16/1B..1E (92 scripts). Otro 6,2 %.

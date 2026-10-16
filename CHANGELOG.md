@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Aim LUTs and blit records**: Bazooka/RocketVehicle aim tables (`T[(clamp(dx)+256)>>4]` + mirror) as `lut`; `data_census.blit_records` finds 20-byte `Sprite_InvokeBlit8Params` records for known descriptors without a direct `lea` (319). "Other": 6.2 % → 5.8 %.
 - **164 more `Data_` renamed** by census kind (154 `AnimScr_`, 8 `BgMap_`, 2 `SprFrame_`).
 - **Pointed scripts**: `data_census.pointed_scripts` walks unclassified
   addresses that any ROM long points to and that parse as scripts with >= 2

@@ -51,7 +51,12 @@ STRUCT_PREFIXES = ("MissionStream_", "MissionAux_", "TemplateIndex_", "SceneDesc
 
 # tablas de color del motor de paletas (asm/data/sprite_tables_002f30.s)
 LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0),
-        (0x2C072C, 0x2C09AC))     # SinTab256_1c072c (CPU $2C072C, 320 palabras)
+        (0x2C072C, 0x2C09AC),     # SinTab256_1c072c (CPU $2C072C, 320 palabras)
+        # puntería por dx (Bazooka_AimStep_06b5ea / RocketVehicle_AimStep_06d340):
+        # dirección 0..15 = T[(clamp(dx,-256,256)+256)>>4] (33 B por tabla, stride
+        # $22) y la tabla de espejo dir -> (16-dir)&15 (16 B)
+        (0x2CA5F0, 0x2CA644),     # Bazooka: arriba, abajo, espejo
+        (0x2CD4EA, 0x2CD606))     # RocketVehicle: 2 x 8 punteros, 6 tablas, espejo
 
 
 def modules():
@@ -91,6 +96,24 @@ def blit_patches(p, code_end=0x90000):
             ncol += 1                       # columnas no copiadas pero válidas
         for r in rs:
             out.append((r, desc, w, h, tiles, ncol))
+    return out
+
+
+def blit_records(p, descs):
+    """Registros de 20 B de Sprite_InvokeBlit8Params sin `lea ...,a2 ; jsr`
+    directo (llamadas pc-rel, tablas): {l entidad ($10xxxx), l descriptor
+    conocido, w col_dest, w fila_dest, w col_origen, w fila_origen, w ancho,
+    w alto} con el rectángulo de origen dentro del descriptor -> [(addr, 20)]."""
+    descs = set(descs)
+    out = []
+    for x in range(0x200000, 0x300000, 2):
+        if not p.valid(x, 20) or p.L(x + 4) not in descs or not 0x100000 <= p.L(x) < 0x110000:
+            continue
+        ds = p.L(x + 4)
+        w, h = p.W(ds), p.W(ds + 2)
+        c1, r1, ww, hh = p.W(x + 12), p.W(x + 14), p.W(x + 16), p.W(x + 18)
+        if 1 <= ww and 1 <= hh and c1 + ww <= w + 1 and r1 + hh <= h + 1:
+            out.append((x, 20))
     return out
 
 
@@ -593,6 +616,8 @@ def classify(p):
         put(tiles, 4 * h * ncol, "tilemap")
         put(rec, 20, "struct")
         put(desc, 8, "struct")
+    for a, n in blit_records(p, {d for r, d, w, h, t, nc in blit_patches(p)}):
+        put(a, n, "struct")
     # módulos con parser propio (mission_streams, scene_scripts, template_index)
     for name, a, n, f in registry.REGISTRY:
         if name.startswith(STRUCT_PREFIXES):
