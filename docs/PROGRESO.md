@@ -50,6 +50,10 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Scripts apuntados (2026-10-16)**. `pointed_scripts`: direcciones sin
+> clasificar a las que apunta algún long de la ROM y que `walk_struct`
+> recorre con >= 2 frames y fin en 00/01/16/1B..1E (92 scripts). Otro 6,2 %.
+
 > **Tablas indexadas de scripts (2026-10-16)**. `code_script_tables`:
 > `lea`/`movea.l #T,a0` + `movea.l (a0,dN.w),a0` + jsr EntitySetSpriteMap ->
 > 321 tablas (cada una hasta la siguiente conocida; `$FFFFFFFF` = sin sprite)

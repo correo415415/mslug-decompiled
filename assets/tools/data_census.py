@@ -240,6 +240,25 @@ def code_script_tables(p, code_end=0x90000):
     return out, scripts
 
 
+def pointed_scripts(p, mark):
+    """Scripts sin clasificar a los que apunta algún long de la ROM y que
+    walk_struct recorre con >= 2 frames (op 02) acabando en un op de salto o
+    fin (01/16/1B/1C/1D/1E/00) -> [(addr, len)]."""
+    d, cand = p.d, set()
+    for o in range(0, len(d) - 3, 2):
+        v = (d[o] << 24) | (d[o + 1] << 16) | (d[o + 2] << 8) | d[o + 3]
+        if v & 1 == 0 and (0x90000 <= v < 0x100000 or 0x200000 <= v < 0x300000) \
+                and v not in mark and p.valid(v, 2):
+            cand.add(v)
+    out = []
+    for v in sorted(cand):
+        r = walk_struct(p, v, set())
+        if r and sum(1 for a, n in r if p.B(a) == 0x02) >= 2 and \
+                p.B(max(r)[0]) in (0x00, 0x01, 0x16, 0x1B, 0x1C, 0x1D, 0x1E):
+            out += r
+    return out
+
+
 ONSCREEN_BOX = (0x05DD56, 0x05DD5C)  # a0 = caja {dx0, dx1, dy0, dy1} (8 B)
 PROBE_GRID = 0x043FAC                # a1 = {dx, dy, w, h} + w*h bytes
 FIX_STREAM = 0x05DAD8                # a2 = bytes de tile del fix ($FD = línea, $FE = fin)
@@ -629,6 +648,9 @@ def classify(p):
             t = p.L(a + 2)
             if t & 1 == 0 and p.valid(t, 12):
                 put(t, 12, "struct")
+    # scripts apuntados por algún long y recorribles de punta a punta
+    for a, n in pointed_scripts(p, mark):
+        put(a, n, "anim")
     # cadenas de descriptores {w, h, tiles} de parches (+ sus tilemaps)
     for a, n, k in desc_chains(p):
         put(a, n, k)

@@ -85,5 +85,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] PatchDescChain_19810c + tilemaps sin descriptor ($0AAF78, $0B2FD0...).
 - [x] SpawnStream_M1..M6 (streams de spawn por misión) + AnimScr_188414.
 - [x] Tablas indexadas de scripts (code_script_tables) y jmp de cola en los escáneres.
-- [ ] Datos "otro" (6,5 %): siguientes $188414 (MeleeGuard), $1EB2EC, $1990C2, $1CCF4A (RocketVehicle): siguiente, revisar Data_196000 / AnimScr_1d6700 y
+- [x] Scripts apuntados por cualquier long (pointed_scripts).
+- [ ] Datos "otro" (6,2 %): siguientes $188414 (MeleeGuard), $1EB2EC, $1990C2, $1CCF4A (RocketVehicle): siguiente, revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

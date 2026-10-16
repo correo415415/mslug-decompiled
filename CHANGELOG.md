@@ -15,6 +15,9 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Pointed scripts**: `data_census.pointed_scripts` walks unclassified
+  addresses that any ROM long points to and that parse as scripts with >= 2
+  frames ending in a jump/stop opcode (92 scripts). "Other": 6.5 % → 6.2 %.
 - **Indexed script tables**: `data_census.code_script_tables` follows
   `lea/movea.l #T,a0 ; movea.l (a0,dN.w),a0 ; jsr EntitySetSpriteMap`
   (321 tables, 1 248 scripts, `$FFFFFFFF` = no sprite); the argument scanners

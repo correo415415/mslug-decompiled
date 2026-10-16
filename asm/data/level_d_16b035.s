@@ -40,7 +40,7 @@
 |
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 139549 B):
-|     frames 30.2%, animación 33.0%, estructuras 21.8%, ceros 7.6%, otro 7.4%.
+|     frames 30.2%, animación 33.1%, estructuras 21.8%, ceros 7.6%, otro 7.3%.
 |   Entradas por prefijo: AnimScr 147, SprFrame 93, Data 40, SpawnStream 6, Zero 3, SoftDip 3, TaskBootTab 1, Str 1, RosterLenTabB 1, RosterPtrTabB 1, RosterLenTabA 1, RosterPtrTabA 1, RosterNamesB 1, RosterNamesA 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
