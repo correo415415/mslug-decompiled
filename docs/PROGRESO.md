@@ -50,6 +50,12 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Tablas indexadas de scripts (2026-10-16)**. `code_script_tables`:
+> `lea`/`movea.l #T,a0` + `movea.l (a0,dN.w),a0` + jsr EntitySetSpriteMap ->
+> 321 tablas (cada una hasta la siguiente conocida; `$FFFFFFFF` = sin sprite)
+> y 1 248 scripts recorridos con `walk_struct`. Los escáneres de argumentos
+> aceptan también `jmp` de cola (HUD_Msg_*). Otro 6,5 %.
+
 > **Streams de spawn por misión (2026-10-16)**. `SpawnStream_M1..M6`
 > (`$18845E..$1891EA`): registros de 16 B que `SpawnStream_ReadNext_04cac4`
 > avanza cuando la cámara ($106F5C) supera el umbral del siguiente ($FFFF =

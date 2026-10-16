@@ -116,8 +116,8 @@ def code_script_seeds(p, code_end=0x90000):
             continue
         for q in range(o + n, o + n + 12, 2):
             x = p.W(q)
-            t = (p.L(q + 2) if x == 0x4EB9 else
-                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x6100) else None)
+            t = (p.L(q + 2) if x in (0x4EB9, 0x4EF9) else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x4EFA, 0x6100) else None)
             if t is not None:
                 if t == SET_SPRITE_MAP:
                     seeds.add(v)
@@ -183,6 +183,63 @@ def walk_struct(p, a, seen, depth=0):
     return out or None
 
 
+def code_script_tables(p, code_end=0x90000):
+    """Tablas de punteros a scripts que el código indexa antes de instalarlos:
+    `lea T,a0` / `movea.l #T,a0`, luego `movea.l (a0,dN.w),a0` (<= 12 B) y un
+    jsr/bsr EntitySetSpriteMap (<= 24 B). La tabla sigue mientras cada long sea
+    $FFFFFFFF (sin sprite) o un script válido (walk_struct).
+    -> ([(addr, len)] de tablas, [scripts])"""
+    tabs, scripts = [], set()
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w in (0x41F9, 0x207C):
+            v, n = p.L(o + 2), 6
+        elif w == 0x41FA:
+            v, n = o + 2 + p.SW(o + 2), 4
+        else:
+            continue
+        if v & 1 or not p.valid(v, 4):
+            continue
+        idx = any(p.W(q) == 0x2070 for q in range(o + n, o + n + 12, 2))
+        if not idx:
+            continue
+        hit = False
+        for q in range(o + n, o + n + 24, 2):
+            x = p.W(q)
+            t = (p.L(q + 2) if x in (0x4EB9, 0x4EF9) else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x4EFA, 0x6100) else None)
+            if t == SET_SPRITE_MAP:
+                hit = True
+                break
+        if not hit:
+            continue
+        k, ok = 0, []
+        while k < 256 and p.valid(v + 4 * k, 4):
+            e = p.L(v + 4 * k)
+            if e == 0xFFFFFFFF:
+                k += 1
+                continue
+            if e & 1 or not p.valid(e, 2) or not walk_struct(p, e, set()):
+                break
+            ok.append(e)
+            k += 1
+        if ok:
+            tabs.append((v, 4 * k))
+    # una tabla acaba donde empieza la siguiente conocida
+    starts = sorted({v for v, n in tabs})
+    out = []
+    for i, v in enumerate(starts):
+        n = max(n for t, n in tabs if t == v)
+        if i + 1 < len(starts):
+            n = min(n, starts[i + 1] - v)
+        out.append((v, n))
+        for k in range(n // 4):
+            e = p.L(v + 4 * k)
+            if e != 0xFFFFFFFF:
+                scripts.add(e)
+    return out, scripts
+
+
 ONSCREEN_BOX = (0x05DD56, 0x05DD5C)  # a0 = caja {dx0, dx1, dy0, dy1} (8 B)
 PROBE_GRID = 0x043FAC                # a1 = {dx, dy, w, h} + w*h bytes
 FIX_STREAM = 0x05DAD8                # a2 = bytes de tile del fix ($FD = línea, $FE = fin)
@@ -206,8 +263,8 @@ def code_arg_tables(p, code_end=0x90000):
             continue
         for q in range(o + n, o + n + 12, 2):
             x = p.W(q)
-            t = (p.L(q + 2) if x == 0x4EB9 else
-                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x6100) else None)
+            t = (p.L(q + 2) if x in (0x4EB9, 0x4EF9) else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x4EFA, 0x6100) else None)
             if t is None:
                 continue
             if v & 1 == 0 and p.valid(v, 8):
@@ -251,8 +308,8 @@ def decode2d_tables(p, code_end=0x90000):
             x = p.W(q)
             if x & 0xFFC0 == 0x41C0:          # otro lea ..,a0
                 break
-            t = (p.L(q + 2) if x == 0x4EB9 else
-                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x6100) else None)
+            t = (p.L(q + 2) if x in (0x4EB9, 0x4EF9) else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x4EFA, 0x6100) else None)
             if t is None:
                 continue
             if t == TBL_DECODE2D and v & 1 == 0 and p.valid(v, 130):
@@ -288,8 +345,8 @@ def spawner_records(p, code_end=0x90000):
             x = p.W(q)
             if x & 0xFFC0 == 0x43C0:          # otro lea ..,a1
                 break
-            t = (p.L(q + 2) if x == 0x4EB9 else
-                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x6100) else None)
+            t = (p.L(q + 2) if x in (0x4EB9, 0x4EF9) else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x4EFA, 0x6100) else None)
             if t is None:
                 continue
             if t == INSTALL_SPAWNER and v & 1 == 0 and p.valid(v, 18):
@@ -558,7 +615,10 @@ def classify(p):
         put(a, n, "struct")
     # scripts instalados desde el código (EntitySetSpriteMap / move.l #,$3C(a6))
     seen = set()
-    for v in sorted(set(code_script_seeds(p)) | set(fx_scripts)):
+    cs_tabs, cs_scripts = code_script_tables(p)
+    for a, n in cs_tabs:
+        put(a, n, "struct")
+    for v in sorted(set(code_script_seeds(p)) | set(fx_scripts) | cs_scripts):
         for a, n in walk_struct(p, v, seen) or []:
             put(a, n, "anim")
             op_starts.add(a)
