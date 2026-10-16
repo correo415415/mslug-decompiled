@@ -240,7 +240,7 @@ Entity_MoveAndCollide_D_0274b8__L0274cc:
         moveq   #0,d3                           | +0aa
         move.w  d5,d4                           | +0ac
         moveq   #17,d0                          | +0ae
-        lea     0x278ba8.l,a1                   | +0b0
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +0b0
         bra.w   .L027572                        | +0b6
 .L027572:
         cmpi.b  #0x28,d0                        | +0ba
@@ -347,7 +347,7 @@ Entity_SlopeResolve_0275f6:
         moveq   #0,d3                           | +0ce
         move.w  d5,d4                           | +0d0
         moveq   #17,d0                          | +0d2
-        lea     0x278ba8.l,a1                   | +0d4
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +0d4
         bra.w   .L0276d4                        | +0da
 .L0276d4:
         movea.l 0x4(a1),a2                      | +0de
@@ -408,7 +408,7 @@ Entity_MoveAndCollide_E_02773c:
         moveq   #0,d3                           | +03a
         move.w  d5,d4                           | +03c
         moveq   #17,d0                          | +03e
-        lea     0x278ba8.l,a1                   | +040
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +040
         bra.w   .L027786                        | +046
 .L027786:
         cmpi.b  #0x0,d0                         | +04a
@@ -452,7 +452,7 @@ Entity_MoveAndCollide_F_0277c4:
         moveq   #0,d3                           | +03a
         move.w  d5,d4                           | +03c
         moveq   #17,d0                          | +03e
-        lea     0x278ba8.l,a1                   | +040
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +040
         bra.w   .L02780e                        | +046
 .L02780e:
         cmpi.b  #0x0,d0                         | +04a
@@ -638,7 +638,7 @@ CollMap_LookupTile_027db2:
 .L027dee:
         move.b  d0,d7                           | +03c
         andi.b  #0x3f,d0                        | +03e
-        lea     0x278988.l,a1                   | +042
+        lea     (CollTileTypes_178988+0x100000).l,a1                   | +042
         move.w  d0,d1                           | +048
         andi.l  #0x3f,d1                        | +04a
         asl.l   #0x5,d1                         | +050
@@ -737,7 +737,7 @@ Entity_FloorBelowProbe_027f08:
         moveq   #0,d3                           | +028
         move.w  d5,d4                           | +02a
         moveq   #17,d0                          | +02c
-        lea     0x278ba8.l,a1                   | +02e
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +02e
         bra.w   .L027f40                        | +034
 .L027f40:
         jsr     CollMap_TestSolidOrPlatform_027e28(pc) | +038
@@ -935,7 +935,7 @@ Entity_TileUnderToShade_0280c6:
         moveq   #0,d3                           | +01a
         move.w  d5,d4                           | +01c
         moveq   #17,d0                          | +01e
-        lea     0x278ba8.l,a1                   | +020
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +020
         bra.w   .L0280f0                        | +026
 .L0280f0:
         andi.b  #0x3f,d0                        | +02a
@@ -1393,7 +1393,7 @@ Hitbox_TestBoxes_028594:
         btst    #0x3,0x13(a1)                   | +00a
         bne.w   .L028686                        | +010
         lea     Hitbox_ShapeTestTable_02856e(pc),a4 | +014
-        lea     0x27928c.l,a5                   | +018
+        lea     (HitShapeTab_17928c+0x100000).l,a5                   | +018
         cmpi.l  #0xffffffff,0x2(a2)             | +01e
         beq.w   .L0285c2                        | +026
         movea.l 0x2(a2),a5                      | +02a

@@ -3133,7 +3133,7 @@ Slug_SpawnAtBossArena_02add6:
         move.w  #0x3,d1                         | +012
         jsr     Slug_InitBoss_02a1aa(pc)        | +016
         ori.w   #0x2,0x38(a6)                   | +01a
-        lea     0x2792b0.l,a0                   | +020
+        lea     (AnimScr_1792b0+0x100000).l,a0                   | +020
         jsr     0x28cd4.l                       | +026
         clr.w   0x28(a6)                        | +02c
         clr.w   0x2a(a6)                        | +030

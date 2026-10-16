@@ -47,7 +47,8 @@ KINDS = ("palette", "frame", "anim", "tilemap", "collision", "struct", "lut", "z
 
 # prefijos de registry cuyo contenido entero ya está decodificado por su parser
 STRUCT_PREFIXES = ("MissionStream_", "MissionAux_", "TemplateIndex_", "SceneDescTable_",
-                   "SceneScript_", "SceneEntities_", "SceneTrig_", "TaskBootTab_", "SoftDip_", "PropItemPtrs_")
+                   "SceneScript_", "SceneEntities_", "SceneTrig_", "TaskBootTab_", "SoftDip_", "PropItemPtrs_", "HudText_",
+                   "CollOffsets_", "CollSlopes_", "CollTileTypes_", "CollMasks_", "HitShapeTab_")
 
 # tablas de color del motor de paletas (asm/data/sprite_tables_002f30.s)
 LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0),

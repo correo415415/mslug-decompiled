@@ -87,5 +87,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Tablas indexadas de scripts (code_script_tables) y jmp de cola en los escáneres.
 - [x] Scripts apuntados por cualquier long (pointed_scripts).
 - [x] LUTs de puntería Bazooka/RocketVehicle + 319 registros de blit (blit_records).
-- [ ] Datos "otro" (5,8 %): siguientes $188414 (MeleeGuard), $1EB2EC, $1990C2, $1CCF4A (RocketVehicle): siguiente, revisar Data_196000 / AnimScr_1d6700 y
+- [x] Tablas del motor de colisión (CollTileTypes/CollMasks/CollSlopes/CollOffsets, HitShapeTab, HudText) con nombre y 33 lea simbólicos.
+- [ ] Datos "otro" (5,6 %): siguientes $188414 (MeleeGuard), $1EB2EC, $1990C2, $1CCF4A (RocketVehicle): siguiente, revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

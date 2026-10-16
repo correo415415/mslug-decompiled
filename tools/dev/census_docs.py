@@ -12,8 +12,9 @@ f='TODO.md'; s=open(f).read()
 m=re.search(r'- \[ \] Datos "otro" \(([0-9,]+ %)\)',s)
 s=s[:m.start()]+'- [x] '+todo+'\n- [ ] Datos "otro" ('+tes+')'+s[m.end():]; open(f,'w').write(s)
 f='HANDOFF.md'; s=open(f).read()
-s=re.sub(r'\(([0-9,]+ %) de los datos','('+tes+' de los datos',s,1); open(f,'w').write(s)
+s=re.sub(r'\(([0-9,]+ %) de los datos','('+tes+' de los datos',s,count=1); open(f,'w').write(s)
 f='docs/PROGRESO.md'; s=open(f).read()
-i=s.index('> **', s.index('(2026-10-16)')-200); i=s.rfind('\n> **',0,s.index('(2026-10-16)'))+1
+import re as _re
+i=_re.search(r'^> \*\*[^\n]*\(20\d\d-\d\d-\d\d\)\*\*', s, _re.M).start()
 s=s[:i]+'> **'+prog.replace('{T}',tes)+'\n\n'+s[i:]; open(f,'w').write(s)
 print(tot)
