@@ -161,7 +161,7 @@ def walk_struct(p, a, seen, depth=0):
         if a in seen or a & 1 or not p.valid(a, 2):
             break
         op = p.B(a)
-        if op == 0x02:
+        if op in (0x02, 0x1E):                # 1E = SpawnChild_Sprite: mismo formato que 02
             fl, fr = p.B(a + 1), p.L(a + 2)
             if fl & 0xE0 or not (fr == 0xFFFFFFFF or
                                  (fr & 1 == 0 and p.valid(fr, 2) and S.parse_frame(p, fr))):
@@ -184,7 +184,7 @@ def walk_struct(p, a, seen, depth=0):
                     break
                 out += r
             break
-        if op in (0x1D, 0x1E, 0x16):          # 16 = RepeatSprite (a1 = $40(a6))
+        if op in (0x1D, 0x16):                # 16 = RepeatSprite (a1 = $40(a6))
             seen.add(a)
             out.append((a, 2))
             break
@@ -277,8 +277,8 @@ def pointed_scripts(p, mark):
     out = []
     for v in sorted(cand):
         r = walk_struct(p, v, set())
-        if r and sum(1 for a, n in r if p.B(a) == 0x02) >= 2 and \
-                p.B(max(r)[0]) in (0x00, 0x01, 0x16, 0x1B, 0x1C, 0x1D, 0x1E):
+        if r and sum(1 for a, n in r if p.B(a) in (0x02, 0x1E)) >= 2 and \
+                p.B(max(r)[0]) in (0x00, 0x01, 0x16, 0x1B, 0x1C, 0x1D):
             out += r
     return out
 

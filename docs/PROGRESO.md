@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Op 1E de los scripts (2026-10-16)**. `ScriptOp1E_SpawnChild_Sprite_0294b0` usa el mismo formato que 02 (`1E fl frame.l [prio dx dy]`, 8/12 B según fl&8) y el script sigue; `walk_struct` lo trataba como fin. Anim 20,6 % -> 22,7 %. Otro 3,4 %.
+
 > **Tablas de punteros (2026-10-16)**. `pointer_tables`: rachas de longs sin clasificar que apuntan todas a datos ya clasificados (o $FFFFFFFF), con >= 2 punteros reales; dos pasadas para tablas de tablas (p. ej. RocketVehicle $1CCFEA.., Turret $189204). Otro 5,4 %.
 
 > **Tablas del motor de colisión (2026-10-16)**. `$1785B8..$1792B0` re-partido: `HudText_1785b8`, `CollOffsets_178600`, `CollSlopes_1786cc` (25 perfiles de 28 B: tipo $0000/$1000/$F000/$0400/$FC00/$FFFF + 8 alturas), `CollTileTypes_178988` (64 × 32 B, índice &$3F en CollMap_LookupTile_027db2), `CollMasks_179188` (13 × 20 B: bits por fila, borde, offsets) y `HitShapeTab_17928c` (Hitbox_TestBoxes_028594). 33 `lea` simbólicos. Otro 5,6 %.
