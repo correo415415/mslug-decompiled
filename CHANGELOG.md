@@ -15,6 +15,12 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- **Mission-briefing typewriter text**: `$1EF8AA..$1F2DB2` decoded and re-split
+  into `FixTypePages_JP/EN/PT/ES` (44 {stream, fix attribute} pages per
+  language, picked by `Icon_Anchor_Run_08c678` from region + soft-DIP
+  language), `FixTypeIntro`, `FixTypeAnchor` and 82 `FixType_` streams of
+  8-byte records {wait, char/command, sprite script}; code `lea`s symbolic,
+  18 false `.dc.l` pointers turned numeric. "Other" data: 9.4 % → 8.5 %.
 - **NEO-GEO soft-DIPs and boot task table**: `$178000` = `TaskBootTab_178000`
   ({TCB, handler} pairs walked by `Task_FreeListInit_000410`) and the three
   soft-DIP blocks `SoftDip_JP/US/EU` (header `$116/$11A/$11E`, now symbolic:

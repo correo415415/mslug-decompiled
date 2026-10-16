@@ -50,6 +50,13 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Textos a máquina de la presentación (2026-10-16)**. `$1EF8AA..$1F2DB2`
+> re-partido: `FixTypePages_{JP,EN,PT,ES}` (44 pares {stream, atributo fix};
+> `Icon_Anchor_Run_08c678` elige por $8A = región/idioma del soft-DIP),
+> `FixTypeIntro_1ef8aa` (Anim_State_F1), `FixTypeAnchor_1f0056` y 82
+> `FixType_*` (registros de 8 B {w espera ($FFFF fin), w carácter/comando,
+> l script de sprite}). `data_census.fix_type_streams`. Otro 8,5 %.
+
 > **Soft-DIP y tabla de arranque (2026-10-16)**. `$178000..$1785B8`
 > re-partido: `TaskBootTab_178000` (pares {TCB, handler} de
 > `Task_FreeListInit_000410`, hasta TCB = $100940) y `SoftDip_JP_178018`,

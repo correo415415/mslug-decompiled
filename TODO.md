@@ -81,5 +81,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Tablas de Tbl_Decode2D_0799DE (230, `decode2d_tables`) como struct.
 - [x] Registros de Spawner_Handler_077c98 (18 B) como struct.
 - [x] Soft-DIP NEO-GEO (JP/US/EU) y TaskBootTab_178000 con nombre y punteros simbólicos.
-- [ ] Datos "otro" (9,4 %): siguiente, revisar Data_196000 / AnimScr_1d6700 y
+- [x] Textos a máquina de la presentación de misión (FixTypePages_JP/EN/PT/ES + 84 streams).
+- [ ] Datos "otro" (8,5 %): siguientes $0AAF78, $188414 (MeleeGuard), $1EB2EC, $1990C2, $1CCF4A (RocketVehicle): siguiente, revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

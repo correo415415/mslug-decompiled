@@ -97,7 +97,7 @@ Anim_State_F1_08C008:
         move.w  #0x0, 0x70(a6)                 | +4c  entity.timer_70 = 0
         move.w  #0x0, 0x76(a6)                 | +52  entity.field_76 = 0
         move.l  #0x0, 0x78(a6)                 | +58  entity.field_78 = 0
-        lea.l   0x2ef8aa.l, a1                 | +60  a1 = sub-template ptr
+        lea.l   (FixTypeIntro_1ef8aa+0x100000).l, a1  | +60  a1 = sub-template ptr
         move.l  a1, 0x7c(a6)                   | +66  entity.field_7c = a1
         move.l  #0x0, 0x90(a6)                 | +6a  entity.field_90 = 0
         movea.l a6, a1                         | +72  a1 = a6 (self)

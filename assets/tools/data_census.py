@@ -302,6 +302,34 @@ def spawner_records(p, code_end=0x90000):
     return sorted(out)
 
 
+# Textos "a máquina" de la presentación de misión (mission/cutscene_anim_08ba0c):
+# Icon_Anchor_Run_08c678 elige por idioma ($8A(a6) = 0..3) una de 4 tablas de
+# 44 pares {stream.l, atributo_fix.l} indexadas por la página $76 del padre;
+# cada stream (Anim_ScriptStepFix_A/B, Anim_ScriptStep_08bc74) son registros
+# de 8 B {w espera ($FFFF = fin), w carácter/comando, l script de sprite o 0}.
+FIX_TYPE_TABS = (0x2EFACC, 0x2EFC2C, 0x2EFD8C, 0x2EFEEC)
+FIX_TYPE_PAGES = 44
+FIX_TYPE_STREAMS = (0x2EF8AA, 0x2F0056)
+
+
+def fix_type_streams(p):
+    """-> ([(addr, len)] tablas + streams, [scripts de sprite referenciados])."""
+    out, streams, scripts = [], set(FIX_TYPE_STREAMS), set()
+    for t in FIX_TYPE_TABS:
+        out.append((t, 8 * FIX_TYPE_PAGES))
+        for k in range(FIX_TYPE_PAGES):
+            streams.add(p.L(t + 8 * k))
+    for s in sorted(streams):
+        n = 0
+        while p.valid(s + 8 * n, 2) and p.W(s + 8 * n) != 0xFFFF and n < 4096:
+            f = p.L(s + 8 * n + 4)
+            if f and f & 1 == 0 and p.valid(f, 2):
+                scripts.add(f)
+            n += 1
+        out.append((s, 8 * n + 2))
+    return out, sorted(scripts)
+
+
 # Diccionarios de nombres de Results_RosterPickA/B_03e6da/03e740 (pantalla de
 # resultados): d0 = Random(n) -> longitud = LenTab[d0]; {ptr.l, cnt.l} =
 # PtrTab[longitud - base]; nombre = ptr + longitud * Random(cnt).
@@ -448,9 +476,13 @@ def classify(p):
     # registros de Spawner_Handler_077c98 (+ tablas de 16 handlers)
     for a, n in spawner_records(p):
         put(a, n, "struct")
+    # textos a máquina de la presentación de misión (+ sus scripts de sprite)
+    fx_tabs, fx_scripts = fix_type_streams(p)
+    for a, n in fx_tabs:
+        put(a, n, "struct")
     # scripts instalados desde el código (EntitySetSpriteMap / move.l #,$3C(a6))
     seen = set()
-    for v in sorted(code_script_seeds(p)):
+    for v in sorted(set(code_script_seeds(p)) | set(fx_scripts)):
         for a, n in walk_struct(p, v, seen) or []:
             put(a, n, "anim")
             op_starts.add(a)

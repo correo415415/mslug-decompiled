@@ -898,7 +898,7 @@ Icon_Anchor_Init_08c5b2:
         move.w  #0x0,0x70(a6)                   | +09a
         move.w  #0x0,0x80(a6)                   | +0a0
         move.l  #0x0,0x82(a6)                   | +0a6
-        lea     0x2f0056.l,a1                   | +0ae
+        lea     (FixTypeAnchor_1f0056+0x100000).l,a1  | +0ae
         move.l  a1,0x7c(a6)                     | +0b4
         move.w  #0x0,0x76(a6)                   | +0b8
 
@@ -918,20 +918,20 @@ Icon_Anchor_Run_08c678:
         move.w  d0,0x76(a6)                     | +01c
         cmpi.b  #0x0,0x8a(a6)                   | +020
         bne.w   .L08c6ac                        | +026
-        lea     0x2efacc.l,a1                   | +02a
+        lea     (FixTypePages_JP_1efacc+0x100000).l,a1  | +02a
         bra.w   .L08c6dc                        | +030
 .L08c6ac:
         cmpi.b  #0x3,0x8a(a6)                   | +034
         bne.w   .L08c6bc                        | +03a
-        lea     0x2efeec.l,a1                   | +03e
+        lea     (FixTypePages_ES_1efeec+0x100000).l,a1  | +03e
 .L08c6bc:
         cmpi.b  #0x2,0x8a(a6)                   | +044
         bne.w   .L08c6cc                        | +04a
-        lea     0x2efd8c.l,a1                   | +04e
+        lea     (FixTypePages_PT_1efd8c+0x100000).l,a1  | +04e
 .L08c6cc:
         cmpi.b  #0x1,0x8a(a6)                   | +054
         bne.w   .L08c6dc                        | +05a
-        lea     0x2efc2c.l,a1                   | +05e
+        lea     (FixTypePages_EN_1efc2c+0x100000).l,a1  | +05e
 .L08c6dc:
         lsl.l   #0x3,d0                         | +064
         adda.l  d0,a1                           | +066
