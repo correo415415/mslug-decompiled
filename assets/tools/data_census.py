@@ -1100,11 +1100,26 @@ def indexed_tables(p, mark, code_end=0x9C608, max_len=0x200):
                 continue
             refs.add(v)
             reg = (w >> 9) & 7
-            for q in range(o + 6, o + 30, 2):
+            qs, q, hops = [], o + 6, 0
+            while len(qs) < 12 and q < code_end:
+                x = p.W(q)
+                if x == 0x6000 and hops < 2:          # bra.w: seguir el salto
+                    q, hops = q + 2 + p.SW(q + 2), hops + 1
+                    continue
+                qs.append(q)
+                q += 2
+            for q in qs:
                 x = p.W(q)
                 # modo de dirección fuente o destino (aN,Xi): ext. word con bit 8 = 0
                 src = x & 0x3F == 0x30 | reg and x >> 12 in (1, 2, 3, 9, 0xB, 0xC, 0xD)
                 dst = x >> 12 in (1, 2, 3) and (x >> 6) & 7 == 6 and (x >> 9) & 7 == reg
+                # add.l aN,dM / add.w aN,dM (dirección calculada a mano), adda dM,aN
+                addr = (x & 0xF1F8 in (0xD088, 0xD048) and x & 7 == reg) or \
+                    (x & 0xF0F8 == 0xD0C0 and (x >> 9) & 7 == reg) or \
+                    (x & 0xF1F8 == 0xD1C0 and (x >> 9) & 7 == reg)
+                if addr:
+                    seeds.add(v)
+                    break
                 if (src or dst) and p.B(q + 2) & 0x08 == 0:
                     seeds.add(v)
                     break

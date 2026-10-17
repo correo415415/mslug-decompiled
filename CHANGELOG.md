@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Census: indexed tables also via add.l aN,dM / adda and following bra.w -> other 0.5 %.
 - Census: indexed tables (lea T,aN + (aN,dM.w) access), unreferenced spawner records with handler tables, full katakana roster pools, backward-glued Decode2D variants; embedded code marked as code -> other 0.5 %.
 - Census: attack lists (+$4C, op 0A, Hitbox_RunList), Prop_BlitSequence patch records, grid pointer tables and +$78 grids, tank/final-boss shell velocities -> other 0.8 %.
 - Census: Decode2D normal/mirror lea pairs, unreferenced 12-byte op 19 box records -> other 1.1 %.

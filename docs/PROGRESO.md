@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Censo (2026-10-17)** — tablas indexadas también vía add.l aN,dM / adda y siguiendo bra.w; otro 0,5 %.
+
 > **Censo (2026-10-17)** — tablas indexadas por el código (lea T,aN + acceso (aN,dM.w)), registros de spawner sin referencia con su tabla de handlers, pools de nombres katakana completos y variantes Decode2D pegadas hacia atrás; el código incrustado corta las rachas; otro 0,5 %.
 
 > **Censo (2026-10-17)** — listas de cajas de ataque (+$4C, op 0A, Hitbox_RunList_0283ec), registros de parche de Prop_BlitSequence, tablas de punteros a rejillas y rejillas de +$78, velocidades del Tank y del proyectil del jefe final; otro 0,8 %.
