@@ -929,6 +929,11 @@ def roster_names(p):
         lt, pt = p.cpu(lt), p.cpu(pt)
         out.append((lt, n))
         kmax = max(p.B(lt + i) for i in range(n))
+        # el PtrTab sigue con longitudes mayores (pools contiguos) aunque LenTab
+        # no las use
+        while p.L(pt + 8 * (kmax + 1 - base)) == \
+                p.L(pt + 8 * (kmax - base)) + kmax * p.L(pt + 8 * (kmax - base) + 4):
+            kmax += 1
         out.append((pt, 8 * (kmax - base + 1)))
         for k in range(base, kmax + 1):
             ptr, cnt = p.L(pt + 8 * (k - base)), p.L(pt + 8 * (k - base) + 4)
@@ -1080,6 +1085,47 @@ def pointer_tables(p, mark, min_n=3):
     return out
 
 
+def indexed_tables(p, mark, code_end=0x9C608, max_len=0x200):
+    """Tablas que el código indexa: `lea T.l,aN` (o `movea.l #T,aN`) seguido en
+    <= 24 B de un acceso `(aN,dM.w)` / `d(aN,dM.w)` (move/add/cmp/movea con
+    índice). El tamaño no se puede saber del código: se marca desde T hasta
+    la siguiente dirección referenciada por el código o el siguiente byte ya
+    clasificado (máx. max_len) -> [(addr, len)]."""
+    refs, seeds = set(), set()
+    for o in range(0, code_end - 6, 2):
+        w = p.W(o)
+        if w & 0xF1FF in (0x41F9, 0x207C):       # lea X.l,aN / movea.l #X,aN
+            v = p.L(o + 2)
+            if not 0x200000 <= v < 0x300000:
+                continue
+            refs.add(v)
+            reg = (w >> 9) & 7
+            for q in range(o + 6, o + 30, 2):
+                x = p.W(q)
+                # modo de dirección fuente o destino (aN,Xi): ext. word con bit 8 = 0
+                src = x & 0x3F == 0x30 | reg and x >> 12 in (1, 2, 3, 9, 0xB, 0xC, 0xD)
+                dst = x >> 12 in (1, 2, 3) and (x >> 6) & 7 == 6 and (x >> 9) & 7 == reg
+                if (src or dst) and p.B(q + 2) & 0x08 == 0:
+                    seeds.add(v)
+                    break
+                if x & 0xF1FF == 0x41F9 and (x >> 9) & 7 == reg:
+                    break
+    out = []
+    srefs = sorted(refs)
+    import bisect
+    for v in sorted(seeds):
+        if v in mark or not p.valid(v, 2):
+            continue
+        i = bisect.bisect_right(srefs, v)
+        lim = srefs[i] if i < len(srefs) else v + max_len
+        x = v
+        while x < lim and x - v < max_len and x not in mark and p.valid(x, 1):
+            x += 1
+        if x > v:
+            out.append((v, x - v))
+    return out
+
+
 def classify(p):
     """-> dict cpu_addr -> kind (sólo bytes marcados)."""
     mark = {}
@@ -1087,6 +1133,10 @@ def classify(p):
     def put(a, n, k):
         for x in range(a, a + n):
             mark.setdefault(x, k)
+
+    # código incrustado (no cuenta en el censo, pero corta las rachas)
+    for o in code_holes():
+        mark[p.cpu(o)] = "code"
 
     # tablas por fórmula
     for lo, hi in LUTS:
@@ -1149,6 +1199,15 @@ def classify(p):
         put(a, n, "struct")
     # tablas largas sin referencia pegadas tras otra Decode2D conocida (bloques
     # de variantes por enemigo): palabra 0 = 0 y 64 palabras < $1000
+    # ... y hacia atrás: tablas cortas/largas contiguas que terminan justo donde
+    # empieza una Decode2D conocida (palabra 0 = 0 o 2, mismo tamaño)
+    for a, n in sorted(d2d):
+        x = a - n
+        while (x not in mark and x + n - 1 not in mark and p.valid(x, n)
+               and _d2d_len(p, x) == n and p.W(x) in (0, 2)
+               and all(p.W(x + 2 + 2 * i) < 0x1000 for i in range(32))):
+            put(x, n, "struct")
+            x -= n
     for a, n in sorted(d2d):
         x = a + n
         while (x not in mark and p.valid(x, 130) and p.W(x) == 0
@@ -1174,6 +1233,16 @@ def classify(p):
     # registros de Spawner_Handler_077c98 (+ tablas de 16 handlers)
     for a, n in spawner_records(p):
         put(a, n, "struct")
+    # registros de spawner sin referencia directa cuyo +$E apunta justo detrás a
+    # una tabla de 16 handlers de código (+$D != 0)
+    for x in range(0x200000, 0x300000 - 82, 2):
+        if x in mark or x + 17 in mark or not p.valid(x, 82) or p.B(x + 13) == 0 or p.L(x + 14) != x + 18:
+            continue
+        k = 0
+        while k < 16 and 0x400 <= p.L(x + 18 + 4 * k) < 0x9C608 and p.L(x + 18 + 4 * k) & 1 == 0:
+            k += 1
+        if k >= 4:
+            put(x, 18 + 4 * k, "struct")
     # textos a máquina de la presentación de misión (+ sus scripts de sprite)
     fx_tabs, fx_scripts = fix_type_streams(p)
     for a, n in fx_tabs:
@@ -1238,6 +1307,9 @@ def classify(p):
     # celdas de tilemap sin descriptor
     for a, n in tilemap_gaps(p, mark):
         put(a, n, "tilemap")
+    # tablas indexadas por el código (lea T,aN + acceso (aN,dM.w))
+    for a, n in indexed_tables(p, mark):
+        put(a, n, "struct")
     # tablas de punteros a datos ya clasificados (dos pasadas: tablas de tablas)
     for _ in range(2):
         for a, n in pointer_tables(p, mark):
