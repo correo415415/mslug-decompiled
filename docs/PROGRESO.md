@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Renombrado por censo (2026-10-17)** — 81 entradas Data_ pasan a AnimScr_ tras el arreglo del op 1E; otro 3,3 %.
+
 > **sprites.py recorre el op 1E como 02 (2026-10-17)** — las animaciones exportadas ya no se cortan en el hijo 1E; otro 3,3 %.
 
 > **Op 1E de los scripts (2026-10-16)**. `ScriptOp1E_SpawnChild_Sprite_0294b0` usa el mismo formato que 02 (`1E fl frame.l [prio dx dy]`, 8/12 B según fl&8) y el script sigue; `walk_struct` lo trataba como fin. Anim 20,6 % -> 22,7 %. Otro 3,4 %.

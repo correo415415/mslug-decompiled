@@ -36,7 +36,7 @@
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 163840 B):
 |     animación 70.1%, estructuras 17.4%, ceros 0.0%, otro 12.5%.
-|   Entradas por prefijo: AnimScr 250, FixType 82, Data 75, Zero 36, FixTypePages 4, Str 1, FixTypeIntro 1, FixTypeAnchor 1.
+|   Entradas por prefijo: AnimScr 257, FixType 82, Data 68, Zero 36, FixTypePages 4, Str 1, FixTypeIntro 1, FixTypeAnchor 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -2329,22 +2329,22 @@ AnimScr_1d343c:
         .dc.w   0xffff,0x0004,0x0004,0x0200,0x0024,0x3662,0xffff,0x0004     | +00a92
         .dc.w   0xfffc,0x1d00,0xffff,0xffff,0x0302,0x1000,0x0404,0xff00     | +00aa2
         .dc.l   0x0000ffe8                    | +00ab2  -> $00FFE8
-        .dc.l   Data_18ffff                   | +00ab6  -> $18FFFF
+        .dc.l   AnimScr_18ffff                   | +00ab6  -> $18FFFF
         .dc.w   0x0004,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000,0x0200     | +00aba
         .dc.w   0x0024,0x3644,0xffff,0xffe8,0x0004,0x0200,0x0024,0x364e     | +00aca
         .dc.w   0xffff,0xffe8,0xffff,0x0200,0x0024,0x3658,0xffff            | +00ada
         .dc.l   AnimScr_180004                   | +00ae8  -> $180004
         .dc.w   0x0200,0x0024,0x3662,0xffff                                 | +00aec
-        .dc.l   Data_18ffff                   | +00af4  -> $18FFFF
+        .dc.l   AnimScr_18ffff                   | +00af4  -> $18FFFF
         .dc.w   0x1d00,0x0402,0x1000,0x0404,0xff00                          | +00af8
         .dc.l   0x0000ffe8                    | +00b02  -> $00FFE8
-        .dc.l   Data_18ffff                   | +00b06  -> $18FFFF
+        .dc.l   AnimScr_18ffff                   | +00b06  -> $18FFFF
         .dc.w   0x0004,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000,0x0200     | +00b0a
         .dc.w   0x0024,0x3644,0xffff,0xffe8,0x0004,0x0200,0x0024,0x364e     | +00b1a
         .dc.w   0xffff,0xffe8,0xffff,0x0200,0x0024,0x3658,0xffff            | +00b2a
         .dc.l   AnimScr_180004                   | +00b38  -> $180004
         .dc.w   0x0200,0x0024,0x3662,0xffff                                 | +00b3c
-        .dc.l   Data_18ffff                   | +00b44  -> $18FFFF
+        .dc.l   AnimScr_18ffff                   | +00b44  -> $18FFFF
         .dc.w   0x1d00,0xffff,0xffff,0x0306                                 | +00b48
         .dc.l   ColMap_100304                   | +00b50  -> $100304
         .dc.w   0xff00                                                      | +00b54
@@ -5954,11 +5954,11 @@ Zero_1db36c:
         .fill   126,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1db3ea  @ $1DB3EA  (11,818 B)
+|  AnimScr_1db3ea  @ $1DB3EA  (11,818 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1db3ea, "ax", @progbits
-        .global Data_1db3ea
-Data_1db3ea:
+        .section .text.AnimScr_1db3ea, "ax", @progbits
+        .global AnimScr_1db3ea
+AnimScr_1db3ea:
         .dc.w   0x0500,0x0076                                               | +00000
         .dc.l   Pal_020208                   | +00004  -> $020208
         .dc.w   0x0025,0x630e,0xffff,0x0501,0x0076                          | +00008
@@ -6619,7 +6619,7 @@ Data_1db3ea:
         .dc.w   0x0022,0xf23c,0xffff,0x1a5c,0x0209,0x0022,0xf264,0xffff     | +01860
         .dc.w   0x0100,0x002d,0xcbf2,0x0500,0x003b,0x1a5c,0x0208,0x0023     | +01870
         .dc.w   0x0002,0xffff,0x1a5c,0x0208,0x0023                          | +01880
-        .dc.l   Data_18ffff                   | +0188a  -> $18FFFF
+        .dc.l   AnimScr_18ffff                   | +0188a  -> $18FFFF
         .dc.w   0x1a5c,0x0208,0x0023,0x0034,0xffff,0x1a5c,0x0208,0x0023     | +0188e
         .dc.w   0x0050,0xffff,0x1a5c,0x0208,0x0023,0x0064,0xffff,0x1a5c     | +0189e
         .dc.w   0x0208,0x0023,0x007a,0xffff,0x1a5c,0x0208,0x0023,0x0090     | +018ae
@@ -7366,11 +7366,11 @@ Data_1db3ea:
         .dc.w   0x0022,0x64a2,0xffff,0x0000                                 | +02e22
 
 | ----------------------------------------------------------------------------
-|  Data_1de214  @ $1DE214  (1,268 B)  [ref. desde código]
+|  AnimScr_1de214  @ $1DE214  (1,268 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1de214, "ax", @progbits
-        .global Data_1de214
-Data_1de214:
+        .section .text.AnimScr_1de214, "ax", @progbits
+        .global AnimScr_1de214
+AnimScr_1de214:
         .dc.w   0x0000                                                      | +00000
         .dc.l   0x00011e08                    | +00002  -> $011E08
         .dc.w   0x0022,0x64b2,0xffff,0x0000,0x0000                          | +00006
@@ -7933,7 +7933,7 @@ Data_1de708:
         .dc.l   ColMap_10ffff                   | +00af0  -> $10FFFF
         .dc.w   0xfff0                                                      | +00af4
         .dc.l   ColMap_10fff8                    | +00af6  -> $10FFF8
-        .dc.l   Data_18ffff                   | +00afa  -> $18FFFF
+        .dc.l   AnimScr_18ffff                   | +00afa  -> $18FFFF
         .dc.w   0xffe0,0x0020,0xfff8,0x0028,0xffff,0xffd8,0x0028,0xfff0     | +00afe
         .dc.w   0x0040,0xffff,0xfff0,0x0010,0xffa0                          | +00b0e
         .dc.l   ColMap_10ffff                   | +00b18  -> $10FFFF
@@ -9873,7 +9873,7 @@ AnimScr_1e0c79:
         .dc.w   0x368a,0xffff                                               | +0012b
         .dc.l   Zero_18fff0                   | +0012f  -> $18FFF0
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00133
-        .dc.l   Data_18ffe8                   | +0013b  -> $18FFE8
+        .dc.l   AnimScr_18ffe8                   | +0013b  -> $18FFE8
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000            | +0013f
         .dc.l   0x0000fff0                    | +0014d  -> $00FFF0
         .dc.w   0x0000,0x0008                                               | +00151
@@ -10198,7 +10198,7 @@ Data_1e160c:
         .dc.w   0x3658,0xffff                                               | +00094
         .dc.l   Zero_18fff0                   | +00098  -> $18FFF0
         .dc.w   0x0200,0x0024,0x3662,0xffff                                 | +0009c
-        .dc.l   Data_18ffe8                   | +000a4  -> $18FFE8
+        .dc.l   AnimScr_18ffe8                   | +000a4  -> $18FFE8
         .dc.w   0x1d00,0xffff,0xffff                                        | +000a8
         .dc.l   ColMap_110010                   | +000ae  -> $110010
         .dc.w   0x0204,0xff00                                               | +000b2
@@ -12332,7 +12332,7 @@ Data_1e536e:
         .dc.w   0x0048,0x0070,0x0000,0x0000,0x0030,0x0058,0x0001,0xffe8     | +0026a
         .dc.l   AnimScr_180048                   | +0027a  -> $180048
         .dc.w   0x0002,0xffd0,0x0000,0x0030,0x0003                          | +0027e
-        .dc.l   Data_18ffe8                   | +00288  -> $18FFE8
+        .dc.l   AnimScr_18ffe8                   | +00288  -> $18FFE8
         .dc.w   0xffb8,0x0004                                               | +0028c
         .dc.l   0x0000ffd0                    | +00290  -> $00FFD0
         .dc.w   0xffa8,0x0005,0xffe8,0xffb8,0xff90,0x0006,0x002e,0x56ba     | +00294
@@ -13020,11 +13020,11 @@ AnimScr_1e6700:
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600                   | +004f4
 
 | ----------------------------------------------------------------------------
-|  Data_1e6c00  @ $1E6C00  (512 B)  [ref. desde código]
+|  AnimScr_1e6c00  @ $1E6C00  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e6c00, "ax", @progbits
-        .global Data_1e6c00
-Data_1e6c00:
+        .section .text.AnimScr_1e6c00, "ax", @progbits
+        .global AnimScr_1e6c00
+AnimScr_1e6c00:
         .dc.w   0x0900,0x002e,0x7c0e                                        | +00000
         .dc.l   0x00011e08                    | +00006  -> $011E08
         .dc.w   0x0027,0x53be,0xffff,0x0000,0x0000,0x1600                   | +0000a
@@ -13087,11 +13087,11 @@ Data_1e6c00:
         .dc.w   0xffff,0x0000,0x0000                                        | +001fa
 
 | ----------------------------------------------------------------------------
-|  Data_1e6e00  @ $1E6E00  (512 B)  [ref. desde código]
+|  AnimScr_1e6e00  @ $1E6E00  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e6e00, "ax", @progbits
-        .global Data_1e6e00
-Data_1e6e00:
+        .section .text.AnimScr_1e6e00, "ax", @progbits
+        .global AnimScr_1e6e00
+AnimScr_1e6e00:
         .dc.l   0x00011e08                    | +00000  -> $011E08
         .dc.w   0x0027,0x42b8,0xffff,0x0000,0x0000,0x1600,0x0900,0x002e     | +00004
         .dc.w   0x7d0a                                                      | +00014
@@ -13164,11 +13164,11 @@ Data_1e6e00:
         .dc.w   0x0027,0x3df4,0xffff                                        | +001fa
 
 | ----------------------------------------------------------------------------
-|  Data_1e7000  @ $1E7000  (2,050 B)  [ref. desde código]
+|  AnimScr_1e7000  @ $1E7000  (2,050 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e7000, "ax", @progbits
-        .global Data_1e7000
-Data_1e7000:
+        .section .text.AnimScr_1e7000, "ax", @progbits
+        .global AnimScr_1e7000
+AnimScr_1e7000:
         .dc.w   0x0000,0x0000,0x1600,0x0900,0x002e,0x7ffa                   | +00000
         .dc.l   0x00011e08                    | +0000c  -> $011E08
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x1600,0x0900,0x002e     | +00010
@@ -14054,7 +14054,7 @@ Data_1e926e:
         .dc.l   ColMap_10fff0                    | +000da  -> $10FFF0
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0xffff,0xffff,0x0000            | +000de
         .dc.l   0x0000ffe8                    | +000ec  -> $00FFE8
-        .dc.l   Data_18ffe8                   | +000f0  -> $18FFE8
+        .dc.l   AnimScr_18ffe8                   | +000f0  -> $18FFE8
         .dc.l   AnimScr_180200                   | +000f4  -> $180200
         .dc.w   0x0024,0x366c,0xffff,0x0000,0x0000,0x0200,0x0024,0x3676     | +000f8
         .dc.w   0xffff,0xffe8                                               | +00108
@@ -14063,7 +14063,7 @@ Data_1e926e:
         .dc.w   0xffff                                                      | +00120
         .dc.l   AnimScr_180018                   | +00122  -> $180018
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +00126
-        .dc.l   Data_18ffe8                   | +0012e  -> $18FFE8
+        .dc.l   AnimScr_18ffe8                   | +0012e  -> $18FFE8
         .dc.w   0x1d01,0xffff,0xffff,0x0003,0x002e,0x95d2,0x0000,0x0000     | +00132
         .dc.w   0x0000,0x0030,0x0000,0x0030,0x0200,0x0024,0x366c,0xffff     | +00142
         .dc.w   0x0000,0x0000,0x0200,0x0024,0x3676,0xffff,0x0000,0x0030     | +00152
@@ -14210,8 +14210,8 @@ Data_1e926e:
         .dc.l   ColMap_10fff0                    | +005d6  -> $10FFF0
         .dc.l   ColMap_10ffff                   | +005da  -> $10FFFF
         .dc.w   0xffe8                                                      | +005de
-        .dc.l   Data_18ffe8                   | +005e0  -> $18FFE8
-        .dc.l   Data_18ffff                   | +005e4  -> $18FFFF
+        .dc.l   AnimScr_18ffe8                   | +005e0  -> $18FFE8
+        .dc.l   AnimScr_18ffff                   | +005e4  -> $18FFFF
         .dc.w   0x0000,0x0030,0x0000                                        | +005e8
         .dc.l   ColMap_10ffff                   | +005ee  -> $10FFFF
         .dc.w   0xffd0,0x0030,0xffd0,0x0030,0xffff,0xffe0,0x0020,0xffd0     | +005f2
@@ -15235,11 +15235,11 @@ Data_1eaf05:
         .dc.l   Pal_021e08                   | +00537  -> $021E08
 
 | ----------------------------------------------------------------------------
-|  Data_1eb440  @ $1EB440  (2,492 B)  [ref. desde código]
+|  AnimScr_1eb440  @ $1EB440  (2,492 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1eb440, "ax", @progbits
-        .global Data_1eb440
-Data_1eb440:
+        .section .text.AnimScr_1eb440, "ax", @progbits
+        .global AnimScr_1eb440
+AnimScr_1eb440:
         .dc.w   0x0026,0xdb7a,0xffff,0x0000,0x0000                          | +00000
         .dc.l   Pal_021e08                   | +0000a  -> $021E08
         .dc.w   0x0026,0xdbaa,0xffff,0x0000,0x0000                          | +0000e
@@ -15604,11 +15604,11 @@ Data_1eb440:
         .dc.l   0x00011e08                    | +009b8  -> $011E08
 
 | ----------------------------------------------------------------------------
-|  Data_1ebdfc  @ $1EBDFC  (709 B)  [ref. desde código]
+|  AnimScr_1ebdfc  @ $1EBDFC  (709 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ebdfc, "ax", @progbits
-        .global Data_1ebdfc
-Data_1ebdfc:
+        .section .text.AnimScr_1ebdfc, "ax", @progbits
+        .global AnimScr_1ebdfc
+AnimScr_1ebdfc:
         .dc.w   0x0022,0x19a4,0xffff,0x0000,0x0000,0x0800                   | +00000
         .dc.l   SDS_088dc2                    | +0000c  -> $088DC2
         .dc.l   0x00011e08                    | +00010  -> $011E08
@@ -17563,7 +17563,7 @@ Data_1ef77b:
         .dc.l   ColMap_10ffff                  | +0003d
         .dc.w   0xfff0                                                  | +00041
         .dc.l   ColMap_100000                  | +00043
-        .dc.l   Data_18ffff                    | +00047
+        .dc.l   AnimScr_18ffff                    | +00047
         .dc.w   0xff90,0x0070,0x0000,0x0030,0xffff,0xff90,0x0070,0x0000 | +0004b
         .dc.w   0x0030,0xffff,0xffd0,0x0030,0x0000,0x0030,0xffff,0xffd0 | +0005b
         .dc.w   0x0030,0x0000,0x0030,0xffff                             | +0006b
@@ -22354,7 +22354,7 @@ AnimScr_1f3d40:
         .dc.w   0x1d01,0xffff,0xffff                                        | +00458
         .dc.l   Pal_01ffff                   | +0045e  -> $01FFFF
         .dc.w   0xffff,0x0000,0x0000,0x0000                                 | +00462
-        .dc.l   Data_18ffe8                   | +0046a  -> $18FFE8
+        .dc.l   AnimScr_18ffe8                   | +0046a  -> $18FFE8
         .dc.w   0x0000,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +0046e
         .dc.w   0x0024,0x3676,0xffff,0x0000,0x0000,0x0200,0x0024,0x3680     | +0047e
         .dc.w   0xffff                                                      | +0048e
@@ -22362,7 +22362,7 @@ AnimScr_1f3d40:
         .dc.w   0x0200,0x0024,0x368a,0xffff                                 | +00494
         .dc.l   AnimScr_180000                   | +0049c  -> $180000
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +004a0
-        .dc.l   Data_18ffe8                   | +004a8  -> $18FFE8
+        .dc.l   AnimScr_18ffe8                   | +004a8  -> $18FFE8
         .dc.w   0x1d01,0xffff,0xffff,0x0500,0x0020,0x0001                   | +004ac
         .dc.b   0x02                            | +004b8
 

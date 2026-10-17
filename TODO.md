@@ -91,5 +91,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Tablas de punteros a datos ya clasificados (pointer_tables, 2 pasadas).
 - [x] Op 1E (SpawnChild_Sprite) recorrido como 02 en walk_struct.
 - [x] sprites.py: op 1E no corta las animaciones exportadas
+- [x] Pasada de rename_data_by_census tras el op 1E (81 AnimScr_)
 - [ ] Datos "otro" (3,3 %): siguientes $188414 (MeleeGuard), $1EB2EC, $1990C2, $1CCF4A (RocketVehicle): siguiente, revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.
