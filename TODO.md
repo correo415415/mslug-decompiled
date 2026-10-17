@@ -99,5 +99,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Decode2D del jefe M5, tablas de muerte/despliegue del escuadrón, listas de animación del fix
 - [x] Decode2D vía aN y variantes contiguas, tablas de Bazooka, jefe M5 y escuadrón
 - [x] Rangos de resultados, jefes 2/4/5, torreta, motion_ptr_tables
-- [ ] Datos "otro" (2,0 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
+- [x] Mortero, popups de puntuación, pinza del cangrejo, coche torreta, scripts de 1 frame
+- [ ] Datos "otro" (1,9 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

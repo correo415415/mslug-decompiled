@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Mortero, popups y cangrejo (2026-10-17)** — listas y rejillas del mortero, tablas de los popups de puntuación y munición, fases/alturas/velocidades de la pinza del cangrejo del jefe 2, offsets del coche torreta; `gap_scripts` acepta scripts de un solo frame terminados en 16; otro 1,9 %.
+
 > **Rangos y jefes (2026-10-17)** — tablas de rango de la pantalla de resultados (abreviaturas PVT..GA e insignias), offsets del jefe 2, listas de guardias y pasos del jefe 4, destinos/rutas/SFX del jefe 5, patrones de giro de la torreta del jefe 2 y `motion_ptr_tables` (tablas de punteros a velocidades); otro 2,0 %.
 
 > **Decode2D vía cualquier aN, Bazooka, jefe M5 (2026-10-17)** — tablas Decode2D indexadas desde cualquier registro de dirección y variantes contiguas sin referencia; tablas de dirección, boca de cañón y velocidad del cohete de Bazooka; velocidades del jefe de la misión 5; offsets y velocidades de los hijos del escuadrón; otro 2,1 %.

@@ -112,6 +112,21 @@ STRUCTS = (
     # torreta del jefe 2 (turret_boss2_04580c): 5 patrones de 16 longs (ángulo
     # de giro o $FFFFFFFF = pausa) instalados en +$74 por dirección
     (0x289504, 0x289644),
+    # mortero (sniper_camper_mortar_062008): $2C56A8 4 punteros a listas de
+    # {frame.l, dx, dy} hasta -1, $2C5718 4 x {vx, vy, ay}, $2C5730/$2C576C/
+    # $2C57A8/$2C57E4 rejillas de Sprite_MultiBlitClippedX ({dx, dy, w, h} + w*h B)
+    (0x2C56A8, 0x2C57E4),
+    # popups de puntuación y munición (items_score_crates_09a0bc): $2F792C/
+    # $2F794C valores BCD, $2F798C/$2F7994 anchos en dígitos, $2F79A4 4 punteros
+    # a cadenas de dígitos, $2F79CE 11 punteros a secuencias de munición ($FF)
+    (0x2F792C, 0x2F7A28),
+    # cangrejo del jefe 2 (boss2_crab_carrier_07a00a): $2E035A 7 punteros a
+    # 16 fases (bytes) de la pinza, $2E03E6 9 alturas, $2E03F8 3 punteros a
+    # 9 velocidades, $2E044E 5 handlers de estado
+    (0x2E035A, 0x2E0462),
+    # coche torreta (turret_car_props_04cbd4): $294144 32 x {dx, dy} por
+    # dirección, $2941C4 32 offsets de altura
+    (0x294144, 0x294204),
 )
 
 
@@ -475,7 +490,8 @@ def gap_scripts(p, mark):
                 a += 2
                 continue
             r = walk_struct(p, a, set())
-            if not (r and sum(1 for x, n in r if p.B(x) in (0x02, 0x1E)) >= 2
+            nfr = sum(1 for x, n in r if p.B(x) in (0x02, 0x1E)) if r else 0
+            if not (r and (nfr >= 2 or nfr == 1 and p.B(max(r)[0]) == 0x16)
                     and p.B(max(r)[0]) in (0x01, 0x16, 0x1B, 0x1C, 0x1D)
                     and all(a <= x and x + n <= end for x, n in r)):
                 break
