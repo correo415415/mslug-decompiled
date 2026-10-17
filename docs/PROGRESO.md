@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Censo (2026-10-17)** — huecos apuntados desde datos ya clasificados, colas de registro, mapa de colisión de cámara $20A000 (Camera0_RelinkAndWrapScroll), colas de rampa y continuación periódica; dos islas de código ChildRank_CmpByte10 sacadas de los módulos de datos; otro 0,0 %.
+
 > **Censo (2026-10-17)** — bloques referenciados por op 07 SetLong y tablas de saltos a código; otro 0,2 %.
 
 > **Censo (2026-10-17)** — registros de spawner contiguos a otros o que llenan un hueco exacto y longs de parámetro de los scripts de Player (move.l -4(a0),$74); otro 0,2 %.

@@ -36,7 +36,7 @@
 |  D. COLA DE CÓDIGO
 |  ----------------------------------------------------------------------------
 |  ChildRank_CmpByte10_097720 (16 B): comparador CCR huérfano, copia idéntica
-|  de ChildRank_CmpByte10_0967A4 (data/scene_scripts_0916c8.s) y $05279E. Cae en
+|  de ChildRank_CmpByte10_0967A4 (entity/childrank_cmp_islands.s) y $05279E. Cae en
 |  ClearXN_097730 / SetXN_097736 (thunks/ccr_helpers.c).
 |
 |  E. ESTADO: 9 entradas, 2,932 B, byte-exacto. Generado por

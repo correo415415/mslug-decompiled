@@ -1259,6 +1259,60 @@ def code_ref_gaps(p, mark, code_end=0x9C608, max_len=0x100):
     return out
 
 
+def data_ref_gaps(p, mark, max_len=0x100):
+    """Huecos que empiezan exactamente en un long par $2xxxxx guardado en datos
+    ya clasificados como struct/anim/lut (tablas de punteros, operandos de
+    scripts); van hasta el siguiente byte clasificado o la siguiente dirección
+    referenciada (máx. max_len) -> [(addr, len)]."""
+    refs = set()
+    for a, k in mark.items():
+        if a & 1 or k not in ("struct", "anim", "lut") or mark.get(a + 3) != k:
+            continue
+        if p.valid(a, 4):
+            v = p.L(a)
+            if 0x200000 <= v < 0x300000 and v & 1 == 0:
+                refs.add(v)
+    import bisect
+    srefs = sorted(refs)
+    out = []
+    for v in srefs:
+        if v in mark or (v - 1) not in mark or not p.valid(v, 2):
+            continue
+        i = bisect.bisect_right(srefs, v)
+        lim = min(srefs[i] if i < len(srefs) else v + max_len, v + max_len)
+        x = v
+        while x < lim and x not in mark and p.valid(x, 1):
+            x += 1
+        out.append((v, x - v))
+    return out
+
+
+def record_tail_gaps(p, mark, code_end=0x9C608, max_gap=64, max_back=0x100):
+    """Huecos ≤ max_gap B con datos clasificados a ambos lados cuya dirección
+    referenciada más próxima por debajo (lea/movea/move.l #X del código o long
+    $2xxxxx de datos clasificados) está a ≤ max_back -> [(addr, len)]."""
+    import bisect
+    refs = set()
+    for o in range(0, code_end - 6, 2):
+        w = p.W(o)
+        if w & 0xF1FF in (0x41F9, 0x207C) or w & 0xF1FF == 0x217C or w == 0x23FC:
+            refs.add(p.L(o + 2))
+    for a, k in mark.items():
+        if a & 1 == 0 and k in ("struct", "anim", "lut") and mark.get(a + 3) == k \
+                and p.valid(a, 4):
+            refs.add(p.L(a))
+    srefs = sorted(v for v in refs if 0x200000 <= v < 0x300000 and v & 1 == 0)
+    out = []
+    for lo, hi in _gaps(p, mark):
+        a, b = p.cpu(lo), p.cpu(hi)
+        if b - a > max_gap or (a - 1) not in mark or b not in mark:
+            continue
+        i = bisect.bisect_right(srefs, a) - 1
+        if i >= 0 and a - srefs[i] <= max_back:
+            out.append((a, b - a))
+    return out
+
+
 def classify(p):
     """-> dict cpu_addr -> kind (sólo bytes marcados)."""
     mark = {}
@@ -1286,6 +1340,17 @@ def classify(p):
             put(L["tiles"], 4 * L["w"] * L["h"], "tilemap")
             if L["collision"]:
                 put(L["collision"], 4 * L["w"] * L["h"], "collision")
+    # mapa de colisión enlazado a mano a una cámara (Camera0_RelinkAndWrapScroll
+    # _06896A: `lea X,aN; move.l aN,$78(a0)`): columnas de $40 B (16 celdas de
+    # 4 B) hasta el siguiente bloque ya clasificado (se resuelve al final)
+    cam_colmaps = []
+    for o in range(0, 0x9C608 - 12, 2):
+        w = p.W(o)
+        if w & 0xF1FF == 0x41F9:
+            r = (w >> 9) & 7
+            if p.W(o + 6) == 0x2148 | r and p.W(o + 8) == 0x78 and \
+                    0x200000 <= p.L(o + 2) < 0x300000:
+                cam_colmaps.append(p.L(o + 2))
     # parches de tilemap: lea rec.l,a2 ; jsr Sprite_InvokeBlit8Params ($5022A)
     for rec, desc, w, h, tiles, ncol in blit_patches(p):
         put(tiles, 4 * h * ncol, "tilemap")
@@ -1508,6 +1573,15 @@ def classify(p):
                     put(y - 4, 4, "struct")
                     put(y, 6, "anim")
                     y += step
+    # (sustituye al "struct" genérico que haya puesto la heurística de tablas
+    # indexadas sobre la primera parte del mapa)
+    for x0 in cam_colmaps:
+        y = x0
+        while y - x0 < 0x2000 and mark.get(y) in (None, "struct") and p.valid(y, 1):
+            y += 1
+        if (y - x0) % 0x40 == 0:
+            for x in range(x0, y):
+                mark[x] = "collision"
     # op 07 SetLong con valor en datos $2xxxxx: bloque referenciado hasta el
     # siguiente byte ya clasificado (≤ $100)
     refs7 = sorted({p.L(a + 2) for a in op_starts if p.B(a) == 0x07 and p.valid(a + 2, 6)
@@ -1530,6 +1604,45 @@ def classify(p):
     # último recurso: datos que empiezan en un puntero exacto del código
     for a, n in code_ref_gaps(p, mark):
         put(a, n, "struct")
+    # ídem para punteros guardados en datos ya clasificados (struct/anim/lut):
+    # p. ej. la tabla de $2D545E (M5Boss_BombFall) -> scripts en $2D88CC...
+    for a, n in data_ref_gaps(p, mark):
+        put(a, n, "struct")
+    # colas de registro: hueco pequeño (≤ 64 B) entre datos clasificados cuyo
+    # registro empieza en una dirección referenciada (código o datos) a ≤ $100
+    # antes del hueco (p. ej. los registros de 40 B de $2C8C7E/$2C8CA6 del Tank)
+    for a, n in record_tail_gaps(p, mark):
+        put(a, n, "struct")
+    # continuación periódica: hueco ≤ 16 B cuyo periodo anterior (P = 4..64)
+    # tiene exactamente un tramo de un solo tipo de la misma longitud, con los
+    # mismos tipos de vecino a ambos lados (registros {anim 8 B, struct 6 B}
+    # repetidos de fortress_04e580 en $294846...). Se hace en orden para que
+    # cada hueco sirva de modelo al siguiente.
+    for lo, hi in _gaps(p, mark):
+        a, b = p.cpu(lo), p.cpu(hi)
+        g = b - a
+        if g > 16 or (a - 1) not in mark or b not in mark:
+            continue
+        for P in range(g + 2, 65):
+            k = mark.get(a - P)
+            if k is None or any(mark.get(x - P) != k for x in range(a, b)):
+                continue
+            if mark.get(a - P - 1) == k or mark.get(b - P) == k:
+                continue
+            if mark.get(a - P - 1) == mark.get(a - 1) and mark.get(b - P) == mark.get(b):
+                put(a, g, k)
+                break
+    # colas de rampa: hueco cuyos bytes continúan sin saltos (paso 0/+1) una
+    # rampa monótona ya clasificada justo antes (p. ej. la tabla 01..0A que
+    # termina en $2831B2)
+    for lo, hi in _gaps(p, mark):
+        a, b = p.cpu(lo), p.cpu(hi)
+        if (a - 1) not in mark or b - a > 64 or a - 16 < 0x200000:
+            continue
+        seq = [p.B(x) for x in range(a - 16, b)]
+        if all(0 <= seq[i + 1] - seq[i] <= 1 for i in range(len(seq) - 1)) and \
+                seq[-1] > seq[0]:
+            put(a, b - a, "lut")
     return mark
 
 

@@ -35,7 +35,7 @@
 |
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 176181 B):
-|     frames 100.0%, otro 0.0%.
+|     frames 100.0%, estructuras 0.0%.
 |   Entradas por prefijo: SprFrame 486, Zero 4.
 |   Pendiente: decodificar las Data_ restantes.
 |

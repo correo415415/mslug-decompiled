@@ -8390,7 +8390,7 @@ REGISTRY = [
     ("SceneScript_096580",                           0x096580,   498, "data/scene_scripts_0916c8.s"),
     ("SceneEntities_096772",                         0x096772,    16, "data/scene_scripts_0916c8.s"),
     ("SceneScript_096782",                           0x096782,    34, "data/scene_scripts_0916c8.s"),
-    ("ChildRank_CmpByte10_0967A4",                   0x0967A4,    16, "data/scene_scripts_0916c8.s"),
+    ("ChildRank_CmpByte10_0967A4",                   0x0967A4,    16, "entity/childrank_cmp_islands.s"),
     ("AttractSprites_List0_096BBC",                  0x096BBC,   242, "frontend/attract_sprite_lists_096bbc.s"),
     ("AttractSprites_List1_096CAE",                  0x096CAE,   762, "frontend/attract_sprite_lists_096bbc.s"),
     ("AttractSprites_List2_096FA8",                  0x096FA8,   482, "frontend/attract_sprite_lists_096bbc.s"),
@@ -9311,7 +9311,7 @@ REGISTRY = [
     ("Pal_024cdf",                                0x024CDF, 224, "data/sparse_tables_013d6a.s"),
     ("Pal_024dbf",                                0x024DBF,  58, "data/sparse_tables_013d6a.s"),
     ("Pal_024df9",                                 0x024DF9,   7, "data/sparse_tables_013d6a.s"),
-    ("Data_024e00",                                0x024E00,  16, "data/sparse_tables_013d6a.s"),
+    ("ChildRank_CmpByte10_024e00",                 0x024E00,  16, "entity/childrank_cmp_islands.s"),
     # --- Wave MMMMM: DATA $09C608..$0E8000: animaciones, paletas, listas de spawn (959 entradas)
     ("Zero_09c608",                                0x09C608, 2918, "data/anim_pal_spawn_09c608.s"),
     ("Zero_09d16e",                                 0x09D16E, 5530, "data/anim_pal_spawn_09c608.s"),

@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- census: gaps pointed to from classified data, record tails, camera collision map at $20A000 (Camera0_RelinkAndWrapScroll), ramp tails, periodic record continuation; two ChildRank_CmpByte10 code islands moved out of data modules (entity/childrank_cmp_islands.s); other now 0.0 %.
 - census: op 07 SetLong data refs and code jump tables classified as struct; other now 0.2 %.
 - Census: spawner records adjacent to known ones or filling exact gaps, Player script parameter longs (move.l -4(a0),$74) -> other 0.2 %.
 - Census: contiguous MultiBlit grids, gap scripts jumping into known scripts, hitbox/attack pointer tables copied to +$48/+$4C -> other 0.2 %.

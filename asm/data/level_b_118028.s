@@ -35,7 +35,7 @@
 |
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 163800 B):
-|     frames 78.7%, colisión 19.4%, ceros 1.8%, otro 0.0%.
+|     frames 78.7%, colisión 19.4%, estructuras 0.0%, ceros 1.8%.
 |   Entradas por prefijo: ColMap 867, SprFrame 267, Zero 55, Str 1.
 |   Pendiente: decodificar las Data_ restantes.
 |

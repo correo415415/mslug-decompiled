@@ -37,9 +37,9 @@
 |     SceneB_Stage5_08d000×1, SceneB_Stage6_08d04a×1
 |
 |  F. ESTADO
-|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 69798 B):
-|     paletas 93.9%, ceros 6.1%, otro 0.0%.
-|   Entradas por prefijo: Pal 306, Zero 15, Data 1.
+|   Matching byte a byte (build_rom ✔). Censo (data_census.py, 69782 B):
+|     paletas 93.9%, ceros 6.1%.
+|   Entradas por prefijo: Pal 306, Zero 15.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -6785,10 +6785,3 @@ Pal_024df9:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0000,0x0000                                        | +00001
 
-| ----------------------------------------------------------------------------
-|  Data_024e00  @ $024E00  (16 B)
-| ----------------------------------------------------------------------------
-        .section .text.Data_024e00, "ax", @progbits
-        .global Data_024e00
-Data_024e00:
-        .dc.w   0x226e,0x0008,0x102e,0x0010,0xb029,0x0010,0x6500,0x0008     | +00000

@@ -29,13 +29,8 @@
 |                                (`move.l a1,$12(a0)`, $51B38): rampas de
 |                                parallax/altura que la cámara consume según
 |                                el progreso del scroll.
-|    ChildRank_CmpByte10_0967A4  cola de CÓDIGO huérfana (16 B, sin callers):
-|                                comparador CCR `cmp.b $10(a1),d0` que cae en
-|                                la pareja ClearXN_0967b4/SetXN_0967ba. Hay
-|                                copias byte-idénticas en $05279E y $097720
-|                                (frontend/attract_sprite_lists_096bbc.s): epílogo que
-|                                el ensamblador original pegaba tras cada
-|                                bloque de datos.
+|    (la cola de código ChildRank_CmpByte10_0967A4 vive ahora en
+|     entity/childrank_cmp_islands.s)
 |
 |  Mapa de escenas (índice -> caller que hace `move.b #n,d0 ; jsr $43568`):
 |    0..5  Attract_State0..5_Handler_0967FE..  (demo attract = 6 misiones)
@@ -5541,11 +5536,3 @@ SceneScript_096782:                         | bytecode VM de escena (34 B, 5 ops
         .dc.w   0x0002
                 | $0967A2 op $02 END_FRAME: cede el frame (integra scroll+camara)
 
-        .globl  ChildRank_CmpByte10_0967A4
-        .section .text.ChildRank_CmpByte10_0967A4, "ax", @progbits
-ChildRank_CmpByte10_0967A4:                 | CCR: C=1 si child.rank(+$10) > ent.rank(+$10). Sin callers (huerfana)
-        movea.l 0x8(a6), a1                    | +00  a1 = entidad hija (+$08)
-        move.b  0x10(a6), d0                   | +04  d0 = rango propio
-        cmp.b   0x10(a1), d0                   | +08  vs rango de la hija
-        bcs.w   SetXN_0967ba                   | +0c  menor -> C=1 (isla SetXN)
-                                               | +10  cae en ClearXN_0967b4

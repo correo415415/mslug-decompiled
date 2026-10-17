@@ -110,5 +110,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Rejillas contiguas, scripts que saltan a otros conocidos, tablas de punteros a +$48/+$4C
 - [x] Spawners contiguos/sueltos y parámetros de scripts de Player
 - [x] Censo: referencias de op 07 SetLong y tablas de saltos a código
-- [ ] Datos "otro" (0,2 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
+- [x] Censo: huecos apuntados desde datos, colas de registro, mapa de colisión de cámara en $20A000, colas de rampa, continuación periódica; islas ChildRank_CmpByte10 fuera de los módulos de datos
+- [ ] Datos "otro" (0,0 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.
