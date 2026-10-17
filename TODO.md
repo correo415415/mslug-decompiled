@@ -128,4 +128,4 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Censo: terminadores $FF sueltos, cabecera de Prop_BoatDebris, $FFFF final y marca $12345678 en $2FF800 — 0 bytes otro
 - [x] Datos "otro": 0 bytes no nulos sin clasificar (tools/dev/other_runs.py -> total 0).
 - [x] Formato de AnimBlk_Prop_HutVariants_196000 / AnimScr_1d6700: listas de cajas de $50 B (+$48/+$4C) y de $4C B (+$60) con guion de depuración; censo por firma (data_census.box_records, tools/dev/hitbox_records.py) — 47 KB pasan de anim a struct.
-- [ ] Revisar a mano los MissionStream con bytes sin decodificar (ya clasificados, formato interno pendiente).
+- [x] MissionStream/MissionAux: los bloques aux son sub-streams de la VM lanzados por MissionWatch_Spawn_04429E (+ tabla de alturas $0EC882); tools/dev/mission_stream.py los recorre sin bytes sueltos.
