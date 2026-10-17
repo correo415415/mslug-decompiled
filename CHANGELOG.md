@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Census: attack lists (+$4C, op 0A, Hitbox_RunList), Prop_BlitSequence patch records, grid pointer tables and +$78 grids, tank/final-boss shell velocities -> other 0.8 %.
 - Census: Decode2D normal/mirror lea pairs, unreferenced 12-byte op 19 box records -> other 1.1 %.
 - Census: embedded high-bank code split out (SlugRiderMarker_Task_18dd3c, 4 anim op 08 callbacks), hitbox lists (+$48, op 09, $50-byte records), gameover/continue, hiscore, final-boss step lists and Patrol tables -> other 1.4 %.
 - Census: mortar spawn lists/velocities/blit grids ($2C56A8-$2C57E4), score/ammo popup tables ($2F792C-$2F7A28), boss-2 crab claw phases/heights/velocities/handlers ($2E035A-$2E0462), turret-car offsets ($294144-$294204); `gap_scripts` also accepts one-frame scripts ending in op 16 -> other 1.9 %.

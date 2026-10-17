@@ -144,6 +144,13 @@ STRUCTS = (
     # Patrol_Register0..4 (sniper_camper_mortar_062008): listas de 8 B
     # {.l handler, dx, dy} hasta $FFFFFFFF
     (0x2C6460, 0x2C6510),
+    # Tank (barrel_paratrooper_shield_tank_066000): $2C8BFE/$2C8C16 2 x 4 x
+    # {vx, vy, ay} de restos (Tank_Debris_069af8, +$5C), $2C8C2E 16 B de
+    # frame por ángulo y $2C8C3E.. tablas de palabras por ángulo
+    (0x2C8BFE, 0x2C8C84),
+    # proyectil del jefe final (FinalBoss_CannonShell_071c84): 2 x 16 x
+    # {vx, vy, ay} indexadas por +$98 & 15
+    (0x2BAE38, 0x2BAEF8),
 )
 
 
@@ -182,8 +189,17 @@ def blit_patches(p, code_end=0x9C608):
     válidas (el w de algunos descriptores excede los datos reales)."""
     recs = set()
     for o in range(0, code_end, 2):
-        if p.W(o) == 0x45F9 and p.W(o + 6) == 0x4EB9 and p.L(o + 8) == 0x5022A:
+        if p.W(o) != 0x45F9:
+            continue
+        x = p.W(o + 6)
+        if (x == 0x4EB9 and p.L(o + 8) == 0x5022A or
+                x in (0x4EBA, 0x6100) and o + 8 + p.SW(o + 8) == 0x5022A):
             recs.add(p.L(o + 2))
+        # Prop_BlitSequence_04f1f4: `lea X,a2; move.l a2,$70/$74(a0)` (registros
+        # de parche que la tarea hija aplica en secuencia)
+        elif x == 0x214A and p.W(o + 8) in (0x70, 0x74):
+            recs.add(p.L(o + 2))
+    recs = {r for r in recs if r & 1 == 0 and p.valid(r, 20) and p.valid(p.L(r + 4), 8)}
     by_desc = {}
     for r in recs:
         by_desc.setdefault(p.L(r + 4), []).append(r)
@@ -560,6 +576,31 @@ def hitbox_lists(p, op_starts, code_end=0x9C608):
     return out
 
 
+def attack_lists(p, op_starts, code_end=0x9C608):
+    """Listas de cajas de ataque de +$4C(a6) (Hitbox_RunList_0283ec): registros
+    de $50 B {op.b 0..4 (Hitbox_ListOpTable_028428: a quién golpea), ...} hasta
+    un byte $FF. Semillas: operando del op 0A (SetField4C) y `lea X,a0` +
+    `move.l a0,$4C(a6)` / `move.l #X,$4C(aN)` del código."""
+    seeds = {p.L(a + 2) for a in op_starts if p.B(a) == 0x0A and p.valid(a + 2, 4)}
+    for o in range(0, code_end - 10, 2):
+        w = p.W(o)
+        if w == 0x41F9 and p.W(o + 6) == 0x2D48 and p.W(o + 8) == 0x4C:
+            seeds.add(p.L(o + 2))
+        elif w & 0xF1FF == 0x217C and p.W(o + 6) == 0x4C:
+            seeds.add(p.L(o + 2))
+    out = []
+    for t in sorted(seeds):
+        if t & 1 or not p.valid(t, 1) or t < 0x100000:
+            continue
+        x, k = t, 0
+        while p.valid(x, 1) and p.B(x) < 5 and k < 32 and p.valid(x, 0x50):
+            x += 0x50
+            k += 1
+        if p.valid(x, 1) and p.B(x) == 0xFF:
+            out.append((t, x + 2 - t))
+    return out
+
+
 INSTALL_FIX_LIST = 0x05DB58   # InstallListPubHead_05DB58: a0 -> +$3C (lista fix)
 
 
@@ -670,6 +711,28 @@ def code_arg_tables(p, code_end=0x9C608):
         elif w in (0x41FA, 0x43FA, 0x45FA):
             v, n, reg = o + 2 + p.SW(o + 2), 4, (w >> 9) & 7
         else:
+            continue
+        # tabla de punteros a rejillas: `lea T,a0; ...; movea.l (a0,dN.w),a1;
+        # jsr PROBE_GRID` (gun_platform_04bb9a: rejilla por dirección)
+        if reg == 0 and v & 1 == 0:
+            for q in range(o + n, o + n + 16, 2):
+                if p.W(q) == 0x2270 and p.B(q + 2) & 0x8F == 0 and \
+                        p.W(q + 4) == 0x4EB9 and p.L(q + 6) == PROBE_GRID:
+                    k = 0
+                    while k < 16 and p.valid(v + 4 * k, 4):
+                        g = p.L(v + 4 * k)
+                        if g & 1 or not p.valid(g, 8) or not 0 < p.W(g + 4) * p.W(g + 6) <= 4096:
+                            break
+                        out.append((g, 8 + p.W(g + 4) * p.W(g + 6)))
+                        k += 1
+                    if k:
+                        out.append((v, 4 * k))
+                    break
+        # rejillas guardadas en +$78 y dibujadas luego con `movea.l $78(a6),a1;
+        # jsr PROBE_GRID` (fort_scene4_0865be)
+        if reg == 1 and p.W(o + n) == 0x2D49 and p.W(o + n + 2) == 0x78 and \
+                v & 1 == 0 and p.valid(v, 8) and 0 < p.W(v + 4) * p.W(v + 6) <= 4096:
+            out.append((v, 8 + p.W(v + 4) * p.W(v + 6)))
             continue
         for q in range(o + n, o + n + 12, 2):
             x = p.W(q)
@@ -1147,8 +1210,8 @@ def classify(p):
             if y in op19 or (y - x <= 12 * 32 and y in mark and p.valid(y, 12) and y - 12 >= x):
                 put(x, y - x, "struct")
             break
-    # listas de cajas de golpe (+$48) del op 09 y del código
-    for a, n in hitbox_lists(p, op_starts):
+    # listas de cajas de golpe (+$48) y de ataque (+$4C) de los ops 09/0A y del código
+    for a, n in hitbox_lists(p, op_starts) + attack_lists(p, op_starts):
         put(a, n, "struct")
     # textos: cadenas $FF de List_ApplyWithSentinelFF_* y filas fix de Cut_TextPanel
     for a, n in ff_strings(p) + fix_row_texts(p):

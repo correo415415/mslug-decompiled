@@ -102,5 +102,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Mortero, popups de puntuación, pinza del cangrejo, coche torreta, scripts de 1 frame
 - [x] Islas de código del banco alto, listas de hitbox, gameover/continue, hiscore, pasos del jefe final, Patrol
 - [x] Decode2D normal/espejo y registros op 19 sin referencia
-- [ ] Datos "otro" (1,1 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
+- [x] Listas de ataque +$4C, parches de Prop_BlitSequence, rejillas indirectas, Tank, proyectil del jefe final
+- [ ] Datos "otro" (0,8 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.
