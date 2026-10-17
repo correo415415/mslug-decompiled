@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **SFX (2026-10-17)** — los 150 SFX de la tabla A tienen nombre: 68 por sus usuarios del 68k y 82 por una pasada de escucha automática de los WAV exportados (hipótesis, el número se conserva).
+
 > **Nombres de datos (2026-10-17)** — las 298 `Data_*` de los módulos de datos tienen ya nombre por tipo del censo y rutina que las referencia (`Tbl_`, `AnimBlk_`, `Lut_`, `ColMap_`, `SprFrame_`, `AnimScr_`).
 
 > **Censo (2026-10-17)** — terminadores $FF sueltos, cabecera de Prop_BoatDebris, $FFFF final y marca $12345678 de $2FF800: ya no queda ningún byte no nulo sin clasificar (otro 0,0 %).
