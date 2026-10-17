@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Census: rank tables of the results screen ($282A9C-$282C4C: column offsets, 72 rank abbreviations PVT..GA, insignia tiles), boss-2 piece/phase offsets, mission-4 boss guard/step lists and handlers, mission-5 boss targets/routes/SFX/offsets, boss-2 turret rotation patterns, `motion_ptr_tables` (`lea T,aN; movea.l (aN,dM.w),aK; move.w (aK..),$28/$2E/$2A(a6)` velocity tables) -> other 2.0 %.
 - Census: Decode2D tables indexed through any address register (`lea T,aN; movea.l (aN,dM.w),a0; jsr`), unreferenced long Decode2D variants glued after known ones, Bazooka direction/muzzle/rocket-velocity tables ($2CA44C-$2CA5F0), mission-5 boss/walker velocity tables ($2D4186-$2D422A), squad child offsets and velocities ($2861D4-$28632C) -> other 2.1 %.
 - Census: indirect Decode2D window widened to 20 B, mission-5 boss twin Decode2D set ($2D4274/$2B8FF6), squad death/deploy tables ($2E3D80-$2E3F54), fix-layer block-animation lists of ListCursor_Step_05db6a (`lea X,a0` + InstallListPubHead_05DB58; 8-byte {tile, cols, rows, dur}, 0 = jump, FFFF = end) -> other 2.3 %.
 - Census: code scanners extended up to $09C608 (score popups, hiscore/options code), para-squad exit/jump/fall tables ($2E54A2-$2E5832), `gap_scripts` (unpointed scripts glued to other data inside unclassified runs) and `pointed_scripts` re-walks pointers into partially classified scripts (1B/1C tables) -> other 2.5 %.

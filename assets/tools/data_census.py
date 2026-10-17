@@ -93,6 +93,25 @@ STRUCTS = (
     # {dx, dy} de hijos, $2861EC 12 B de alturas, $2861F8 4 punteros a 11 x
     # {vx, vy, ay}, $286310 3 x {dx, dy}, $28631C patrón de fases
     (0x2861D4, 0x28632C),
+    # resultados (results_squadleader_03daa8): $282A9C 16 offsets de columna,
+    # $282ABC 72 abreviaturas de rango de 4 B (PVT..GA), $282BBC 72 tiles de
+    # insignia por rango
+    (0x282A9C, 0x282C4C),
+    # jefe 2 (boss2_crab_carrier_07a00a): $2DF888 7 x {dx, dy} de piezas,
+    # $2DF8A4 {dx.b, dy.b} por fase ($72 >> 8) hasta el $FFFF
+    (0x2DF888, 0x2DFA06),
+    # jefe de la misión 4 (m4_carrier_boss_helpers_085134 / miniboss_finale /
+    # rescue_squad): $2EAF1C/$2EAF7E listas de guardias {x, y, flags} de 8 B
+    # hasta $FFFF, $2EAFE2 lista de pasos (8 B), $2EB02C/$2EB04C 2 x 8 handlers,
+    # $2EB06C registro de 14 B
+    (0x2EAF1C, 0x2EB07A),
+    # jefe de la misión 5 (gunship_m5boss_finalboss_06dfe8): $2D547E/$2D549E
+    # destinos {x, y} por lado, $2D54BE.. rutas {x, y}, $2D552E SFX por fase,
+    # $2D553E/$2D554E offsets {dx, dy} por dirección (16)
+    (0x2D547E, 0x2D55CE),
+    # torreta del jefe 2 (turret_boss2_04580c): 5 patrones de 16 longs (ángulo
+    # de giro o $FFFFFFFF = pausa) instalados en +$74 por dirección
+    (0x289504, 0x289644),
 )
 
 
@@ -502,6 +521,56 @@ def fix_anim_lists(p, code_end=0x9C608):
                     todo.append(p.L(a + 2))
                     break
                 a += 8
+    return out
+
+
+def motion_ptr_tables(p, mark, code_end=0x9C608):
+    """Tablas de punteros a registros de movimiento: `lea T,aN` y, en <= 40 B,
+    `movea.l (aN,dM.w),aK` seguido de `move.w (aK,..),$28/$2E/$2A(a6)`
+    (velocidades {vx, vy[, ay]}). Las entradas son punteros a la ROM de datos
+    contiguos (cada uno entre T y el siguiente bloque conocido); se marcan la
+    tabla y el tramo [min(entradas), fin) hasta el primer byte ya marcado
+    (<= 1 KB) -> [(addr, n)]."""
+    out = []
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w & 0xF1FF != 0x41F9:
+            continue
+        t, reg = p.L(o + 2), (w >> 9) & 7
+        if t & 1 or not 0x200000 <= t < 0x300000 or t in mark and mark[t] != "struct":
+            continue
+        ok_ind = ok_mv = False
+        for q in range(o + 6, o + 46, 2):
+            x = p.W(q)
+            if x & 0xF1FF == 0x2070 | reg and p.B(q + 2) & 0x8F == 0:   # movea.l (aN,dM.w),aK
+                ok_ind = True
+                k = (x >> 9) & 7
+                for r in range(q + 4, q + 30, 2):
+                    y = p.W(r)
+                    # move.w (aK,..)/(aK)/d(aK),$28/$2E/$2A(a6): 0x3D70|k, 0x3D50|k, 0x3D68|k
+                    if y in (0x3D70 | k, 0x3D50 | k, 0x3D68 | k):
+                        dst = p.W(r + (4 if y & 0x38 in (0x30, 0x28) else 2))
+                        if dst in (0x28, 0x2E, 0x2A, 0x36):
+                            ok_mv = True
+                            break
+                break
+        if not (ok_ind and ok_mv):
+            continue
+        ents = []
+        while len(ents) < 64 and p.valid(t + 4 * len(ents), 4):
+            e = p.L(t + 4 * len(ents))
+            if e & 1 or not 0x200000 <= e < 0x300000 or abs(e - t) > 0x800:
+                break
+            ents.append(e)
+        if len(ents) < 2:
+            continue
+        lo = min(ents + [t])
+        hi = max(ents)
+        while (hi < lo + 0x1000 and p.valid(hi, 2) and hi not in mark
+               and (p.W(hi) < 0x1000 or p.W(hi) > 0xF000)):
+            hi += 2
+        out.append((t, 4 * len(ents)))
+        out.append((min(ents), hi - min(ents)))
     return out
 
 
@@ -977,6 +1046,8 @@ def classify(p):
     for a, n in ff_strings(p) + fix_row_texts(p):
         put(a, n, "struct")
     for a, n in fix_anim_lists(p):
+        put(a, n, "struct")
+    for a, n in motion_ptr_tables(p, mark):
         put(a, n, "struct")
     # PathScripts (VM de movimiento, +$90 de la tarea) y sus tablas
     for a, n, k in path_scripts(p):
