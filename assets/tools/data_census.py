@@ -537,8 +537,9 @@ def gap_scripts(p, mark):
             nfr = sum(1 for x, n in r if p.B(x) in (0x02, 0x1E)) if r else 0
             if not (r and (nfr >= 2 or nfr == 1 and p.B(max(r)[0]) in (0x16, 0x1D))
                     and p.B(max(r)[0]) in (0x01, 0x16, 0x1B, 0x1C, 0x1D)
-                    and all(a <= x and x + n <= end for x, n in r)):
+                    and all(a <= x and x + n <= end or mark.get(x) == "anim" for x, n in r)):
                 break
+            r = [(x, n) for x, n in r if a <= x and x + n <= end]
             out += r
             a = max(x + n for x, n in r)
     return out
@@ -547,17 +548,48 @@ def gap_scripts(p, mark):
 HITBOX_REC, HITSHAPE_LEN = 0x50, 36
 
 
+def _field_ptr_tables(p, field, code_end=0x9C608):
+    """Tablas de punteros copiadas a un campo de la tarea:
+    `lea T,aN` ... `move.l (aN,dM.w),field(a6)` (<= 48 B) -> entradas de T."""
+    out = set()
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w & 0xF1FF != 0x41F9:
+            continue
+        reg, t = (w >> 9) & 7, p.L(o + 2)
+        for q in range(o + 6, o + 54, 2):
+            if p.W(q) == 0x2D70 | reg and p.B(q + 2) & 0x08 == 0 and p.W(q + 4) == field:
+                k = 0
+                while k < 32 and p.valid(t + 4 * k, 4):
+                    v = p.L(t + 4 * k)
+                    if v != 0xFFFFFFFF and (v & 1 or not 0x200000 <= v < 0x300000):
+                        break
+                    out.add(v)
+                    k += 1
+                break
+    return out
+
+
 def hitbox_lists(p, op_starts, code_end=0x9C608):
     """Listas de cajas de golpe de +$48(a6) (Hitbox_TestBoxes_028594): registros
     de $50 B {.w, .l tabla de formas (36 B, HitShapeTab_17928c) o -1, cajas}
     hasta un long $FFFFFFFF. Semillas: operando del op 09 (SetHitbox48) de los
     scripts recorridos y `move.l #X,$48(aN)` del código."""
     seeds = {p.L(a + 2) for a in op_starts if p.B(a) == 0x09 and p.valid(a + 2, 4)}
+    seeds |= _field_ptr_tables(p, 0x48, code_end)
     for o in range(0, code_end - 8, 2):
         if p.W(o) & 0xF1FF == 0x217C and p.W(o + 6) == 0x48:
             seeds.add(p.L(o + 2))
         elif p.W(o) == 0x41F9 and p.W(o + 6) == 0x2D48 and p.W(o + 8) == 0x48:
             seeds.add(p.L(o + 2))
+        # tabla de punteros: `lea T,aN; movea.l (aN,dM.w),a0; move.l a0,$48(a6)`
+        elif p.W(o) & 0xF1FF == 0x41F9 and p.W(o + 6) & 0xFFF8 == 0x2070 and \
+                p.W(o + 10) == 0x2D48 and p.W(o + 12) == 0x48:
+            t, k = p.L(o + 2), 0
+            while k < 32 and p.valid(t + 4 * k, 4) and p.L(t + 4 * k) & 1 == 0 and \
+                    0x200000 <= p.L(t + 4 * k) < 0x300000:
+                seeds.add(p.L(t + 4 * k))
+                k += 1
     out = []
     for t in sorted(seeds):
         if t & 1 or not p.valid(t, 4) or t < 0x200000 and t < code_end:
@@ -592,6 +624,7 @@ def attack_lists(p, op_starts, code_end=0x9C608):
     un byte $FF. Semillas: operando del op 0A (SetField4C) y `lea X,a0` +
     `move.l a0,$4C(a6)` / `move.l #X,$4C(aN)` del código."""
     seeds = {p.L(a + 2) for a in op_starts if p.B(a) == 0x0A and p.valid(a + 2, 4)}
+    seeds |= _field_ptr_tables(p, 0x4C, code_end)
     for o in range(0, code_end - 10, 2):
         w = p.W(o)
         if w == 0x41F9 and p.W(o + 6) == 0x2D48 and p.W(o + 8) == 0x4C:
@@ -1416,6 +1449,29 @@ def classify(p):
     for _ in range(2):
         for a, n in pointer_tables(p, mark):
             put(a, n, "struct")
+    # rejillas de Sprite_MultiBlitClippedX contiguas a otras conocidas: {dx, dy,
+    # w, h} (|dx|,|dy| < $200, 1 <= w,h <= 32) + w*h bytes (alineado a 2)
+    grids = [a for a, n in code_arg_tables(p) if p.valid(a, 8) and
+             8 + p.W(a + 4) * p.W(a + 6) == n]
+    def _grid(x):
+        if x & 1 or not p.valid(x, 8):
+            return 0
+        dx, dy, w, h = p.SW(x), p.SW(x + 2), p.W(x + 4), p.W(x + 6)
+        if abs(dx) >= 0x200 or abs(dy) >= 0x200 or not (1 <= w <= 32 and 1 <= h <= 32):
+            return 0
+        n = 8 + w * h
+        return n if p.valid(x, n) else 0
+    for _ in range(2):
+        for g in sorted(grids):
+            n = 8 + p.W(g + 4) * p.W(g + 6)
+            for x in (g + n, g + n + 1):
+                x += x & 1
+                k = _grid(x)
+                while k and all(y not in mark for y in range(x, x + k)):
+                    put(x, k, "struct")
+                    grids.append(x)
+                    x += k + (k & 1)
+                    k = _grid(x)
     # último recurso: datos que empiezan en un puntero exacto del código
     for a, n in code_ref_gaps(p, mark):
         put(a, n, "struct")

@@ -107,5 +107,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Tablas indexadas por add.l/adda y tras bra.w
 - [x] Descriptores de escena sueltos y huecos en punteros exactos del código
 - [x] Listas de ataque del cangrejo, semillas de hitbox lea+move.l, tablas de formas contiguas
-- [ ] Datos "otro" (0,3 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
+- [x] Rejillas contiguas, scripts que saltan a otros conocidos, tablas de punteros a +$48/+$4C
+- [ ] Datos "otro" (0,2 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.
