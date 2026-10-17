@@ -720,6 +720,19 @@ def decode2d_tables(p, code_end=0xF0000):
         for q in range(o + n, o + n + 20, 2):
             x = p.W(q)
             if x & 0xFFC0 == 0x41C0 or x == 0x41C0 | (reg << 9):   # otro lea ..,a0/aN
+                # variante normal/espejo: `lea X,a0; cmpi/tst; bne/beq L; lea Y,a0;
+                # L: jsr Decode2D` -> X también es tabla si lo es Y
+                if reg == 0 and x == 0x41F9 and any(
+                        p.W(r) & 0xFE00 == 0x6600 for r in range(o + n, q, 2)):
+                    for r in range(q + 6, q + 18, 2):
+                        if p.W(r) == 0x4EB9 and p.L(r + 2) == TBL_DECODE2D:
+                            if _d2d_len(p, v) and _d2d_len(p, p.L(q + 2)):
+                                out.add((v, _d2d_len(p, v)))
+                            break
+                        if p.W(r) in (0x4EBA, 0x6100) and r + 2 + p.SW(r + 2) == TBL_DECODE2D:
+                            if _d2d_len(p, v) and _d2d_len(p, p.L(q + 2)):
+                                out.add((v, _d2d_len(p, v)))
+                            break
                 break
             if x == 0x2070 | reg and p.B(q + 2) & 0x8F == 0:   # movea.l (aN,dM.w),a0
                 ind = True
@@ -1113,11 +1126,27 @@ def classify(p):
             op_starts.add(a)
     # op 19 SetField70: $70(a6) = operando+2 -> registro de 12 B (6 palabras con
     # signo: caja de colisión / ataque por frame; destinos con stride 12)
+    op19 = set()
     for a in op_starts:
         if p.B(a) == 0x19 and p.valid(a + 2, 4):
             t = p.L(a + 2)
             if t & 1 == 0 and p.valid(t, 12):
                 put(t, 12, "struct")
+                op19.add(t)
+    # registros de 12 B sin referencia en bloques de op 19 (frames sin caja
+    # propia): huecos múltiplos de 12 entre/tras registros conocidos con
+    # palabras pequeñas (|v| < $200)
+    def _small12(x):
+        return p.valid(x, 12) and all(abs(p.SW(x + 2 * i)) < 0x200 for i in range(6))
+    for t in sorted(op19):
+        x = t + 12
+        while x not in mark and x not in op19 and _small12(x):
+            y = x
+            while y not in mark and _small12(y) and y - x < 12 * 64:
+                y += 12
+            if y in op19 or (y - x <= 12 * 32 and y in mark and p.valid(y, 12) and y - 12 >= x):
+                put(x, y - x, "struct")
+            break
     # listas de cajas de golpe (+$48) del op 09 y del código
     for a, n in hitbox_lists(p, op_starts):
         put(a, n, "struct")

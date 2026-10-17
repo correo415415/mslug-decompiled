@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Censo (2026-10-17)** — pares Decode2D normal/espejo (lea X,a0; bne; lea Y,a0) y registros de 12 B del op 19 sin referencia; otro 1,1 %.
+
 > **Censo (2026-10-17)** — código incrustado en el banco de datos extraído (SlugRiderMarker_Task_18dd3c y 4 callbacks del op 08 en asm/entity/anim_op08_callbacks.s), listas de cajas de golpe (+$48), tablas de game over/continue, hiscore, jefe final y Patrol; otro 1,4 %.
 
 > **Mortero, popups y cangrejo (2026-10-17)** — listas y rejillas del mortero, tablas de los popups de puntuación y munición, fases/alturas/velocidades de la pinza del cangrejo del jefe 2, offsets del coche torreta; `gap_scripts` acepta scripts de un solo frame terminados en 16; otro 1,9 %.
