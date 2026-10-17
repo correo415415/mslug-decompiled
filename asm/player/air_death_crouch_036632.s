@@ -1442,12 +1442,12 @@ Player_Death_Generic_037a3e:
         rts                                     | +0b2
 
 | ----------------------------------------------------------------------------
-|  Player_Death_Debug_037af2  @ $037AF2  (14 B)
+|  Player_Death_Blood_037af2  @ $037AF2  (14 B)
 | ----------------------------------------------------------------------------
-        .section .text.Player_Death_Debug_037af2, "ax", @progbits
-        .global Player_Death_Debug_037af2
-Player_Death_Debug_037af2:
-        jsr     Player_SpawnDebugTask_033358(pc) | +000
+        .section .text.Player_Death_Blood_037af2, "ax", @progbits
+        .global Player_Death_Blood_037af2
+Player_Death_Blood_037af2:
+        jsr     Player_SpawnBloodFx_033358(pc) | +000
         move.w  #0x10fb,d0                      | +004
         jsr     0x2352.l                        | +008
 

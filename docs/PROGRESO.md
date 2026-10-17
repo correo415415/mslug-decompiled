@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Auditoría de funciones ocultas (2026-10-17)** — Verificado en pydmg (internal/experiments/09): HUD de variables (b0), DebugColl (b0+b1), salto alternativo (b5) y Sound Test interno (accesible con b0 + START en el attract; parche boot=soundtest). Corregido: $10FD8F = soft-DIP BLOOD (sangre roja verificada), $10FD83 = región del BIOS, escena 12 = final (stream $0F1CD4 JP / $0F260E internacional; boot=ending), Bios_TrapF_CalendarSeq = manejadores de excepción, $106F5C = X de cámara, 107 asserts trap #15 en 17 ficheros.
+
 > **Cajas de golpe (2026-10-17)** — Los bloques AnimBlk/AnimScr grandes (p. ej. $196000, $1D6700) son en gran parte listas de cajas: registros de $50 B (+$4C ataque, +$48 golpe) y $4C B (+$60 cuerpo), cada uno con un guion de sprite de depuración de 62 B que dibuja las esquinas. data_census.box_records los reconoce por firma: struct 16,5 %, anim 20,1 %.
 
 > **Scroll vertical (2026-10-17)** — `levels.py` genera `*_scroll.png`: ventanas de 320x224 con la Y de cámara deducida de las capas del plano principal y parallax vertical por capa (aproximación; faltan las capas recicladas a mitad de misión).
@@ -894,7 +896,7 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   player, abortan si +$82 == 0 (`movem.l (a7)+,a0; rts`), +$98/+$99 =
 >   angulo/signo, +$9A rafaga, +$9B desviacion.
 > * `ShellCasing_Pistol_03d396` (snd $184), `Scene3Debris_*` (solo
->   `$106ECE == 3`), `Player_DebugMarker_03d842` (si `$10FD8F`),
+>   `$106ECE == 3`), `Player_DeathBlood_03d842` (si `$10FD8F`),
 >   `Player_SpawnFx3D8FA`, `SlugCannon_ArmOverlay_03d944` (brazo sobre el
 >   Slug `$100580`, tabla `SlugCannon_ArmSpriteTbl_03da02`).
 > * 3 handlers de brazo residuales: `PlayerArm_SlugRideA/B`, `PlayerArm_Fall2`.

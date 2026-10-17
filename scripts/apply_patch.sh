@@ -20,6 +20,8 @@
 #   invincible     invulnerabilidad del jugador y del Slug (el camino del bit 3 de debug $100001).
 #   debug=HHHH     flags de depuración: escribe HHHH en $100000.w al arrancar (en vez de 0).
 #   mission=N      empezar la partida en la misión N (1..6) en vez de la 1.
+#   boot=soundtest arrancar en el SOUND TEST interno (T6[13] BootScr_SoundTest_001566).
+#   boot=ending    arrancar en el final / créditos (T4: escena 12, BootScr_SceneBCD_Init).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -31,7 +33,8 @@ F_ROUTE=asm/player/route_publish_027eba.s
 F_SLUG=asm/slug/helpers_0295a6.s
 F_BIOS=src/bios/bios_user_dispatch.c
 F_MODE=asm/boot/dispatcher_mode_table_001922.s
-PATCHABLE=("$F_MODE" "$F_HUD" "$F_FIRE" "$F_CORE" "$F_INIT" asm/player/air_death_crouch_036632.s "$F_ROUTE" "$F_SLUG" "$F_BIOS")
+F_SCHED=asm/kernel/scheduler_bootstrap_000e8e.s
+PATCHABLE=("$F_MODE" "$F_SCHED" "$F_HUD" "$F_FIRE" "$F_CORE" "$F_INIT" asm/player/air_death_crouch_036632.s "$F_ROUTE" "$F_SLUG" "$F_BIOS")
 BK=build/patch_backup
 
 list() { sed -n '/^# Parches disponibles/,/^set -euo/p' "$0" | grep -E '^#   ' ; }
@@ -121,6 +124,22 @@ a='"bne.w   1f                     \\n"'; b='"1: move.w #0, 0x100000         \\n
 assert s.count(a)==1 and s.count(b)==1, "patrón de UserMode0_080C no encontrado"
 s=s.replace(a,'"bra.w   1f                     \\n"').replace(b,'"1: move.w #0x%s, 0x100000   \\n"'%n)
 open(p,"w").write(s); print("[patch] UserMode0_080C: $100000.w = $%s al arrancar"%n)
+PY
+      ;;
+    boot=*)
+      b="${p#boot=}"
+      case "$b" in
+        soundtest) tgt="BootTblEntry_E6E" ;;
+        ending)    tgt="BootDispatchTable_000B92+0x1f8" ;;
+        *) echo "[patch] boot=soundtest|ending"; exit 1 ;;
+      esac
+      python3 - "$F_SCHED" "$tgt" <<'PY'
+import sys
+p,t=sys.argv[1:]; s=open(p).read()
+a="        lea.l   BootTblEntry_B92(pc), a0        | +0b8 a0 = &tbl_$B92 (T1)\n"
+assert s.count(a)==1, "patrón de SchedulerBootstrap no encontrado"
+s=s.replace(a,"        lea.l   %s(pc), a0        | +0b8 (parche boot)\n"%t)
+open(p,"w").write(s); print("[patch] arranque redirigido a",t)
 PY
       ;;
     mission=*)

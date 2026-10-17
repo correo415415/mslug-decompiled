@@ -4031,7 +4031,7 @@ REGISTRY = [
     ("MissionStream_Slot09_0F11D4",               0x0F11D4,    4, "data/mission_streams_0e8524.s"),
     ("MissionStream_Slot11_0F11D8",               0x0F11D8, 2812, "data/mission_streams_0e8524.s"),
     ("MissionStream_Slot12_0F1CD4",               0x0F1CD4, 2362, "data/mission_streams_0e8524.s"),
-    ("MissionStream_Debug_0F260E",                0x0F260E, 2542, "data/mission_streams_0e8524.s"),
+    ("MissionStream_EndingIntl_0F260E",                0x0F260E, 2542, "data/mission_streams_0e8524.s"),
     # ------------------------------------------------------------------
     # Wave BBB: tablas de angulo de punteria (las "arrays tables" de
     # Ent_AimUpdate/Ent_AimInit) + backend de lectura de layout de input
@@ -5141,7 +5141,7 @@ REGISTRY = [
     ("Player_ThrowGrenadeDown_03331c",             0x03331C,  42, "player/core_032aa8.s"),
     ("Player_JmpGrenadeBounce_03334c",             0x03334C,   6, "player/core_032aa8.s"),
     ("Player_JmpGrenadeDown_033352",               0x033352,   6, "player/core_032aa8.s"),
-    ("Player_SpawnDebugTask_033358",               0x033358,  22, "player/core_032aa8.s"),
+    ("Player_SpawnBloodFx_033358",               0x033358,  22, "player/core_032aa8.s"),
     ("Player_SpawnTask3D8FA_033376",               0x033376,  12, "player/core_032aa8.s"),
     ("Player_StateTable68_03338a",                 0x03338A, 272, "player/core_032aa8.s"),
     ("PlayerStateLUT_03349A",                      0x03349A,   8, "player/core_032aa8.s"),
@@ -5220,7 +5220,7 @@ REGISTRY = [
     ("Player_Death_FallLandedB_0379e2",            0x0379E2,  82, "player/air_death_crouch_036632.s"),
     ("Player_Death_PrioE000_037a34",               0x037A34,  10, "player/air_death_crouch_036632.s"),
     ("Player_Death_Generic_037a3e",                0x037A3E, 180, "player/air_death_crouch_036632.s"),
-    ("Player_Death_Debug_037af2",                  0x037AF2,  14, "player/air_death_crouch_036632.s"),
+    ("Player_Death_Blood_037af2",                  0x037AF2,  14, "player/air_death_crouch_036632.s"),
     ("Player_Death_Timed_037b00",                  0x037B00, 142, "player/air_death_crouch_036632.s"),
     ("Player_DeathPit_037b8e",                     0x037B8E, 140, "player/air_death_crouch_036632.s"),
     ("Player_Death_Despawn_037c1a",                0x037C1A,  90, "player/air_death_crouch_036632.s"),
@@ -5595,7 +5595,7 @@ REGISTRY = [
     ("Scene3Debris_SpawnPrio4_03d72a",             0x03D72A,  68, "player/fire_shells_03c62a.s"),
     ("Scene3Debris_Task_03d76e",                   0x03D76E,  50, "player/fire_shells_03c62a.s"),
     ("Scene3Debris_Anim_03d7a0",                   0x03D7A0, 162, "player/fire_shells_03c62a.s"),
-    ("Player_DebugMarker_03d842",                  0x03D842,  82, "player/fire_shells_03c62a.s"),
+    ("Player_DeathBlood_03d842",                  0x03D842,  82, "player/fire_shells_03c62a.s"),
     ("Player_DebugMarker_Anim_03d894",             0x03D894, 102, "player/fire_shells_03c62a.s"),
     ("Player_SpawnFx3D8FA_03d8fa",                 0x03D8FA,  74, "player/fire_shells_03c62a.s"),
     ("SlugCannon_ArmOverlay_03d944",               0x03D944, 190, "player/fire_shells_03c62a.s"),

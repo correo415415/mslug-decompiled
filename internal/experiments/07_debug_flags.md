@@ -26,5 +26,7 @@ bash scripts/apply_patch.sh debug=0001 --zip internal/mslug.zip   # b0: HUD de v
 Bytes (`debug=0008`): `$000818: 66→60`, `$000829: 00→08`.
 
 **Verificación**: `--watch-ram 100000:2` muestra `$100000=0008` durante la
-partida (frames 4400+). Los efectos de los demás bits no están comprobados uno a
-uno; la tabla sale de los usos en el código.
+partida (frames 4400+). Bits uno a uno: ver receta 09 (b0, b0+b1, b3 y b5
+confirmados en emulador; b2/b7 necesitan el mando de P2; b4 sin efecto visible
+sin Slug). Nota: el juego reescribe `$100000` al pulsar START, así que con
+`--poke-ram` hay que repetir el poke (`tools/dev/emu_pokes.py`).

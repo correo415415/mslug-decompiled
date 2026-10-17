@@ -80,7 +80,11 @@
 |    $51660, $7A456, $598FC, $99BA6); la pantalla exacta no se ha verificado
 |    en emulador.
 |  - Bios_TrapF_CalendarSeq_0008a4: 5 `trap #15` con d0=$1234, d1=$0A..$0E
-|    — parece secuencia de servicio del BIOS (MVS calendar); sin confirmar.
+|    — NO es calendario: son los manejadores de excepciones de CPU. El
+|    vector $14 (división por cero) apunta a $8A4 y los vectores $18..$24
+|    (CHK, TRAPV, privilegio, traza) a $8AE/$8B8/$8C2/$8CC: cada excepción
+|    entra en su escalón y llama al trap #15 (vector $BC -> $C0) con el
+|    código $0A..$0E en d1 (verificado con objdump, internal/experiments/09).
 |
 |  F) TOOLCHAIN
 |  m68k-linux-gnu-as -m68000 --register-prefix-optional; verificación

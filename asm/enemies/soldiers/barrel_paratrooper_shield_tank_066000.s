@@ -946,7 +946,7 @@ Paratrooper_Leave_0669c0:
 Paratrooper_Die_0669ea:
         jsr     0x13600.l                       | +000
         move.w  #0x183,d1                       | +006
-        tst.b   0x10fd8f.l                      | +00a
+        tst.b   0x10fd8f.l                      | +00a  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L066a02                        | +010
         move.w  #0x1d7,d1                       | +014
 .L066a02:

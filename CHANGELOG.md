@@ -10,11 +10,14 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Changed
+- Renamed MissionStream_Debug_0F260E -> MissionStream_EndingIntl_0F260E, Player_SpawnDebugTask -> Player_SpawnBloodFx, Player_DebugMarker -> Player_DeathBlood, Player_Death_Debug -> Player_Death_Blood.
 - **Docs refreshed**: README (status of all ROMs, `mrom/` and `assets/` in the
   layout, new "Beyond the program ROM" section), `docs/COVERAGE.md` (data
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- internal/experiments/09: empirical audit of hidden features (pydmg + objdump). Confirmed: debug HUD (b0), DebugColl (b0+b1), alt jump (b5), internal Sound Test (new apply_patch boot=soundtest), orphan warp keys, two original bugs. Corrected: $10FD8F is the BLOOD soft-DIP (red blood on, verified), $10FD83 is the BIOS region, scene 12 / $0F260E is the ending (JP / international, new boot=ending), Bios_TrapF_CalendarSeq is the CPU exception handlers, $106F5C is camera X (not RNG), 107 trap #15 asserts in 17 files (not 15).
+- tools/dev: emu_run.sh, emu_input.py, emu_pokes.py, bytepatch_zip.sh.
 - tools/dev/mission_stream.py: Mission VM stream walker (SkipOp strides); MissionAux_* blocks identified as sub-streams launched via MissionWatch_Spawn_04429E, fully parsed.
 - Census: hitbox records recognised by their 62-byte debug sprite script (attack $363A / hit $366C / body $3608 families); tools/dev/hitbox_records.py decoder; format documented in collmap_hitbox_script_ops_027400.s. struct 13.6 % -> 16.5 %, anim 23.0 % -> 20.1 %.
 - experiments: recipes 06 invincibility (the game's own debug bit 3 of `$100001`), 07 debug flags (`$100000` written at boot) and 08 start in mission N (Dispatcher_ModeTable state/handler pair); `apply_patch.sh invincible|debug=HHHH|mission=N`, verified in the emulator.

@@ -979,12 +979,12 @@ Player_JmpGrenadeDown_033352:
         jmp     0x28d7aa.l                      | +000
 
 | ----------------------------------------------------------------------------
-|  Player_SpawnDebugTask_033358  @ $033358  (22 B)
+|  Player_SpawnBloodFx_033358  @ $033358  (22 B)
 | ----------------------------------------------------------------------------
-        .section .text.Player_SpawnDebugTask_033358, "ax", @progbits
-        .global Player_SpawnDebugTask_033358
-Player_SpawnDebugTask_033358:
-        tst.b   0x10fd8f.l                      | +000
+        .section .text.Player_SpawnBloodFx_033358, "ax", @progbits
+        .global Player_SpawnBloodFx_033358
+Player_SpawnBloodFx_033358:
+        tst.b   0x10fd8f.l                      | +000  soft-DIP BLOOD (0 = sin sangre)
         beq.w   JsrAbsRts_033374                | +006
         lea     0x3d842.l,a1                    | +00a
         jsr     0x4ae.l                         | +010

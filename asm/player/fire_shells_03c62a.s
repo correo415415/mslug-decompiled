@@ -36,7 +36,7 @@
 |   4. Scene3Debris_Spawn*_03d616..03d72a: sólo en escena 3 ($106ECE == 3)
 |      crean Scene3Debris_Task_03d76e (snd $1BD, anim $3D7A0) con distintos
 |      offsets; referenciados desde datos de nivel $17Axxx/$17Exxx.
-|   5. Player_DebugMarker_03d842 (creado por Player_SpawnDebugTask_033358
+|   5. Player_DeathBlood_03d842 (creado por Player_SpawnBloodFx_033358
 |      si $10FD8F != 0; snd $17A) y Player_SpawnFx3D8FA_03d8fa (snd $17C,
 |      anim $2F7D3A) creados desde player_core.
 |   6. SlugCannon_ArmOverlay_03d944: brazo del player montado en el Slug
@@ -2041,11 +2041,11 @@ Scene3Debris_Anim_03d7a0:
         .dc.w   0x1600                        | +0a0  (dato / opcode no decodificado)
 
 | ----------------------------------------------------------------------------
-|  Player_DebugMarker_03d842  @ $03D842  (82 B)
+|  Player_DeathBlood_03d842  @ $03D842  (82 B)
 | ----------------------------------------------------------------------------
-        .section .text.Player_DebugMarker_03d842, "ax", @progbits
-        .global Player_DebugMarker_03d842
-Player_DebugMarker_03d842:
+        .section .text.Player_DeathBlood_03d842, "ax", @progbits
+        .global Player_DeathBlood_03d842
+Player_DeathBlood_03d842:
         lea     Player_DebugMarker_Anim_03d894(pc),a0 | +000
         jsr     0x28cd4.l                       | +004
         bra.w   .L03d850                        | +00a

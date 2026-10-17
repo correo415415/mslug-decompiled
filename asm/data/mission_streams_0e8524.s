@@ -6,8 +6,10 @@
 |  mision del juego (que enemigo aparece, donde y cuando, en las 6 misiones).
 |
 |  Son los 12 destinos de la tabla de punteros MissionStreamPtrs_044266
-|  (mission/event_vm_04422a.s) mas el stream de debug $0F260E (override
-|  cuando $10FD83 esta armado, ver MissionDriver_Init_0442E6). Cada stream
+|  (mission/event_vm_04422a.s) mas $0F260E, la variante del slot 12 (el
+|  FINAL del juego) que MissionDriver_Init_0442E6 elige cuando la region del
+|  BIOS $10FD83 != 0 (EE. UU./Europa); con region 0 (Japon) usa $0F1CD4.
+|  Verificado en pydmg (internal/experiments/09): no es un stream de debug. Cada stream
 |  es una secuencia de registros interpretados por MissionDriver_Loop_044368
 |  + MissionVM_ExecOp_0443C0; el volcado esta ESTRUCTURADO registro a
 |  registro segun los strides exactos de MissionVM_SkipOp_0446B6:
@@ -5630,7 +5632,7 @@ MissionStream_Slot11_0F11D8:                | slot 11, 2812 B
 
         .globl  MissionStream_Slot12_0F1CD4
         .section .text.MissionStream_Slot12_0F1CD4, "ax", @progbits
-MissionStream_Slot12_0F1CD4:                | slot 12, 2362 B
+MissionStream_Slot12_0F1CD4:                | slot 12 = final del juego (versión JP, región 0), 2362 B
         .byte   0x00,0x90,0x00,0x30,0x00,0xA2,0x01,0x40,0x00,0x50,0x00,0x20,0x00,0x00,0x00,0x00,0x00,0x00
                 | $0F1CD4 spawn tmpl=$0A2 thr=$0030 pos=(320,80) flags=$90 params=0020000000000000
         .byte   0x00,0x90,0x00,0x30,0x00,0xA2,0x01,0x40,0x00,0x48,0x00,0x24,0x00,0x00,0x00,0x00,0x00,0x00
@@ -5961,9 +5963,9 @@ MissionStream_Slot12_0F1CD4:                | slot 12, 2362 B
                 | $0F260A fin de stream (op $0C)
         .size   MissionStream_Slot12_0F1CD4, .-MissionStream_Slot12_0F1CD4
 
-        .globl  MissionStream_Debug_0F260E
-        .section .text.MissionStream_Debug_0F260E, "ax", @progbits
-MissionStream_Debug_0F260E:                | override debug ($10FD83), 2542 B
+        .globl  MissionStream_EndingIntl_0F260E
+        .section .text.MissionStream_EndingIntl_0F260E, "ax", @progbits
+MissionStream_EndingIntl_0F260E:                | final, versión internacional (región $10FD83 != 0), 2542 B
         .byte   0x00,0x90,0x00,0x30,0x00,0xA2,0x01,0x40,0x00,0x50,0x00,0x20,0x00,0x00,0x00,0x00,0x00,0x00
                 | $0F260E spawn tmpl=$0A2 thr=$0030 pos=(320,80) flags=$90 params=0020000000000000
         .byte   0x00,0x90,0x00,0x30,0x00,0xA2,0x01,0x40,0x00,0x48,0x00,0x24,0x00,0x00,0x00,0x00,0x00,0x00
@@ -6312,5 +6314,5 @@ MissionStream_Debug_0F260E:                | override debug ($10FD83), 2542 B
                 |   $0F2FF6 marcador $0D
         .byte   0x0C,0x00,0xFF,0xFF
                 | $0F2FF8 fin de stream (op $0C)
-        .size   MissionStream_Debug_0F260E, .-MissionStream_Debug_0F260E
+        .size   MissionStream_EndingIntl_0F260E, .-MissionStream_EndingIntl_0F260E
 

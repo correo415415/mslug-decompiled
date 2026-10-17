@@ -6064,7 +6064,7 @@ Crew_JumpB_Run_079caa:
         .section .text.Crew_LandB_079d04, "ax", @progbits
         .global Crew_LandB_079d04
 Crew_LandB_079d04:
-        tst.b   0x10fd8f.l                      | +000
+        tst.b   0x10fd8f.l                      | +000  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L079d18                        | +006
         move.w  #0x1d5,d1                       | +00a
         jsr     0x236e.l                        | +00e
@@ -6167,7 +6167,7 @@ Crew_HatchB_079d9a:
         .section .text.Crew_HatchB_Land_079e2a, "ax", @progbits
         .global Crew_HatchB_Land_079e2a
 Crew_HatchB_Land_079e2a:
-        tst.b   0x10fd8f.l                      | +000
+        tst.b   0x10fd8f.l                      | +000  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L079e3e                        | +006
         move.w  #0x1d5,d1                       | +00a
         jsr     0x236e.l                        | +00e
