@@ -71,6 +71,10 @@ STRUCTS = (
     # AimTurret_AnimScript_0614e6: 7 listas de 16 x {.l frame, .b dur, pad}
     # (+ -1) por nivel de daño y la tabla de 7 punteros
     (0x2C2E76, 0x2C322E),
+    # para_squad_module_081816: $2E54A2 7 punteros a 10 x {dx, dy} de salida,
+    # $2E55D6 7 x 4 offsets X, $2E560E 7 punteros a 16 x {vx, vy, ay} de salto,
+    # $2E571A 7 punteros a 6 x {dx, dy, dz} de caída (TaskHandler_08267c)
+    (0x2E54A2, 0x2E5832),
 )
 
 
@@ -89,7 +93,7 @@ def _cells_ok(p, a, h):
     return sum(1 for r in range(h) if p.B(a + 4 * r + 3) & 0xEC == 0) >= 0.95 * h
 
 
-def blit_patches(p, code_end=0x90000):
+def blit_patches(p, code_end=0x9C608):
     """-> [(rec, desc, w, h, tiles, ncol)] de los registros de 20 B que
     Sprite_InvokeBlit8Params pasa a CellCommit_MMIO_051DE2 (a0 = ent, a1 =
     desc, d0..d5 = col_dest, fila_dest, col_origen, fila_origen, ancho, alto).
@@ -256,7 +260,7 @@ SET_SPRITE_MAP = 0x028CD4          # EntitySetSpriteMap: a0 -> +$3C/+$40 (script
 _OPSZ = {**S.OP_SIZE, 0x00: 2, 0x01: 6, 0x03: 6, 0x16: 2, 0x17: 2, 0x18: 2}
 
 
-def code_script_seeds(p, code_end=0x90000):
+def code_script_seeds(p, code_end=0x9C608):
     """Scripts de sprite que el código instala directamente:
     `lea X,a0` (abs.l o d16(pc)) seguido (<= 12 B) de jsr/bsr EntitySetSpriteMap,
     o `move.l #X,$3C(a6)` (puntero de script de la tarea)."""
@@ -341,7 +345,7 @@ def walk_struct(p, a, seen, depth=0):
     return out or None
 
 
-def code_script_tables(p, code_end=0x90000):
+def code_script_tables(p, code_end=0x9C608):
     """Tablas de punteros a scripts que el código indexa antes de instalarlos:
     `lea T,a0` / `movea.l #T,a0`, luego `movea.l (a0,dN.w),a0` (<= 12 B) y un
     jsr/bsr EntitySetSpriteMap (<= 24 B). La tabla sigue mientras cada long sea
@@ -406,14 +410,40 @@ def pointed_scripts(p, mark):
     for o in range(0, len(d) - 3, 2):
         v = (d[o] << 24) | (d[o + 1] << 16) | (d[o + 2] << 8) | d[o + 3]
         if v & 1 == 0 and (0x90000 <= v < 0x100000 or 0x200000 <= v < 0x300000) \
-                and v not in mark and p.valid(v, 2):
+                and mark.get(v) in (None, "anim") and p.valid(v, 2):
             cand.add(v)
     out = []
     for v in sorted(cand):
         r = walk_struct(p, v, set())
         if r and sum(1 for a, n in r if p.B(a) in (0x02, 0x1E)) >= 2 and \
-                p.B(max(r)[0]) in (0x00, 0x01, 0x16, 0x1B, 0x1C, 0x1D):
+                p.B(max(r)[0]) in (0x00, 0x01, 0x16, 0x1B, 0x1C, 0x1D) and \
+                any(a not in mark for a, n in r):
             out += r
+    return out
+
+
+def gap_scripts(p, mark):
+    """Scripts sin puntero pegados a otros datos: en cada racha sin clasificar,
+    se intenta walk_struct desde su primera palabra (y tras cada script
+    aceptado); se acepta si queda dentro de la racha, tiene >= 2 frames
+    (02/1E) y acaba en un op de salto o fin (01/16/1B/1C/1D) -> [(addr, len)]."""
+    out = []
+    for lo, hi in _gaps(p, mark):
+        a = p.cpu((lo + 1) & ~1)
+        end = a + (hi - ((lo + 1) & ~1))
+        while a < end - 8:
+            if not p.valid(a, 2):
+                break
+            if p.B(a) == 0 and p.B(a + 1) == 0:
+                a += 2
+                continue
+            r = walk_struct(p, a, set())
+            if not (r and sum(1 for x, n in r if p.B(x) in (0x02, 0x1E)) >= 2
+                    and p.B(max(r)[0]) in (0x01, 0x16, 0x1B, 0x1C, 0x1D)
+                    and all(a <= x and x + n <= end for x, n in r)):
+                break
+            out += r
+            a = max(x + n for x, n in r)
     return out
 
 
@@ -423,7 +453,7 @@ FIX_STREAM = 0x05DAD8                # a2 = bytes de tile del fix ($FD = línea,
 LIST_FF = (0x0477FC, 0x04784C, 0x047888)   # a2 = lista de bytes hasta $FF (glifos)
 
 
-def code_arg_tables(p, code_end=0x90000):
+def code_arg_tables(p, code_end=0x9C608):
     """-> [(addr, len)] de tablas pasadas en a0/a1 a rutinas de formato fijo:
     `lea X,aN` seguido (<= 12 B) de jsr/bsr a ONSCREEN_BOX (caja de 8 B,
     a0) o a PROBE_GRID (rejilla de bytes, a1), y textos en a2 para
@@ -521,7 +551,7 @@ def _d2d_len(p, v):
 INSTALL_SPAWNER = 0x077C7E   # Entity_InstallHandlerAndCopyXf: a1 -> $70(a0)
 
 
-def spawner_records(p, code_end=0x90000):
+def spawner_records(p, code_end=0x9C608):
     """-> [(addr, len)] de registros de Spawner_Handler_077c98 (18 B):
     {b offset_por_padre, b ritmo ($FF = todo de golpe), w cuenta, w dx, w rx,
     w dy, w ry, b ?, b aleatorio, l handler}; si +$D != 0, +$E apunta a una
@@ -865,6 +895,9 @@ def classify(p):
     # scripts apuntados por algún long y recorribles de punta a punta
     for a, n in pointed_scripts(p, mark):
         put(a, n, "anim")
+    for _ in range(2):
+        for a, n in gap_scripts(p, mark):
+            put(a, n, "anim")
     # cadenas de descriptores {w, h, tiles} de parches (+ sus tilemaps)
     for a, n, k in desc_chains(p):
         put(a, n, k)
