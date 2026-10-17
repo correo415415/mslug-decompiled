@@ -67,7 +67,12 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Fondos: slot de paleta 0 (ScriptSlotPairTable_0009B4) — 52/52 capas con color.
 - [x] Fondos: composición por cámara en las anclas (`composed/`, 38 planos).
 - [x] Fondos: parallax (escala 8.8 del op $01) → panorama único por escena (`*_parallax.png`, 13).
-- [ ] Fondos: scroll vertical en el panorama.
+- [x] Fondos: scroll vertical (aproximado) — `*_scroll.png` de 320x224 por
+      ventana con la Y de cámara deducida de las capas de cam0 (levels.camera_track,
+      movimiento mínimo) y cada capa desplazada Y*escala_y/256.
+- [ ] Fondos: la trayectoria exacta de la cámara (ops $0F/$15 en orden de
+      ejecución y seguimiento del jugador) y las capas que la cámara recicla a
+      mitad de misión (huecos negros en `*_scroll.png`).
 - [x] Codificador ADPCM-A/B para sustituir muestras desde WAV (`audio.py encode`).
 - [x] Exportar las pistas musicales a MIDI con sus nombres
       (`mrom/tools/export_midi.py`). La curva de `S_TEMPO` ya está modelada (set-tempo exactos).

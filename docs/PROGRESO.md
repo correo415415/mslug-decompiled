@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Scroll vertical (2026-10-17)** — `levels.py` genera `*_scroll.png`: ventanas de 320x224 con la Y de cámara deducida de las capas del plano principal y parallax vertical por capa (aproximación; faltan las capas recicladas a mitad de misión).
+
 > **Paletas de sprites (2026-10-17)** — ninguna animación sale ya en grises (948/948): herencia por tiles compartidos y por script vecino, más 11 entradas manuales trazadas hasta su `jsr $236E`.
 
 > **SFX (2026-10-17)** — los 150 SFX de la tabla A tienen nombre: 68 por sus usuarios del 68k y 82 por una pasada de escucha automática de los WAV exportados (hipótesis, el número se conserva).

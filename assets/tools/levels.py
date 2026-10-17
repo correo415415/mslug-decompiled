@@ -23,7 +23,7 @@ op $00 bind_path (22 B):
 
     python3 assets/tools/levels.py          # -> build/assets/levels/
 """
-import importlib.util, json, os, sys
+import bisect, importlib.util, json, os, sys
 import numpy as np
 from PIL import Image
 
@@ -180,6 +180,81 @@ def compose_parallax(scene_entries, images):
     return canvas, (xs0, y0)
 
 
+SCREEN_H = 224
+
+
+def camera_track(entries, step=SCREEN_W // 4):
+    """Trayectoria (X, Y) de la cámara principal deducida de las capas del
+    plano principal (escala 256): para cada X la Y válida es la que deja la
+    pantalla dentro de alguna capa de cam0 que cubre ese X ([ancla_y,
+    ancla_y + alto - SCREEN_H]); de las válidas se toma la más cercana a la
+    anterior (la cámara se mueve lo mínimo, como el seguimiento suavizado de
+    Camera_SmoothingIntegrate). Los límites del op $0F no se usan
+    directamente: el orden de los ops del script no es el de ejecución
+    (esperas por progreso), y las capas ya codifican por dónde pasa la
+    cámara. -> [(x, y)] cada `step` px."""
+    main_ = [e for e in entries if tuple(e["scale"]) == (256, 256)] or entries
+    cam0 = [e for e in main_ if e["camera"] == "cam0"] or main_
+    x0 = min(e["anchor"][0] for e in main_)
+    x1 = max(e["anchor"][0] + 16 * e["width"] for e in main_)
+    pts, y = [], None
+    for x in range(x0, x1 + 1, step):
+        ivs = []
+        for e in cam0:
+            ax, ay = e["anchor"]
+            if ax <= x < ax + 16 * e["width"]:
+                lo, hi = ay, ay + 16 * e["height"] - SCREEN_H
+                ivs.append((min(lo, hi), max(lo, hi)))
+        if not ivs:
+            pts.append((x, y if y is not None else 0))
+            continue
+        if y is None:
+            y = max(hi for lo, hi in ivs)          # empieza abajo (suelo)
+        y = min((min(max(y, lo), hi) for lo, hi in ivs), key=lambda v: abs(v - y))
+        pts.append((x, y))
+    return pts
+
+
+def compose_scroll(scene_entries, images, track):
+    """Como compose_parallax pero con scroll vertical: cada ventana de
+    SCREEN_W x SCREEN_H se recorta a la Y de la cámara en ese X (track de
+    camera_track) y cada capa se desplaza Y * escala_y / 256."""
+    if not scene_entries:
+        return None
+    main_ = [e for e in scene_entries if tuple(e["scale"]) == (256, 256)] or scene_entries
+    xs0 = min(e["anchor"][0] for e in main_)
+    xs1 = max(e["anchor"][0] + 16 * e["width"] for e in main_)
+    order = sorted(scene_entries, key=lambda e: (e["scale"][0], e["script_op"]))
+    nwin = max(1, -(-(xs1 - xs0) // SCREEN_W))
+    tx = [t[0] for t in track]
+
+    def cam_y(X):                       # interpolación lineal entre puntos
+        i = bisect.bisect_right(tx, X) - 1
+        if i < 0:
+            return track[0][1]
+        if i + 1 >= len(track) or track[i + 1][0] == track[i][0]:
+            return track[i][1]
+        (x0, y0), (x1, y1) = track[i], track[i + 1]
+        return y0 + (y1 - y0) * (X - x0) // (x1 - x0)
+    canvas = Image.new("RGBA", (nwin * SCREEN_W, SCREEN_H), (0, 0, 0, 255))
+    for k in range(nwin):
+        X = xs0 + k * SCREEN_W
+        Y = cam_y(X + SCREEN_W // 2)
+        win = Image.new("RGBA", (SCREEN_W, SCREEN_H), (0, 0, 0, 0))
+        for e in order:
+            lx = e["anchor"][0] - X * e["scale"][0] // 256
+            ly = e["anchor"][1] - Y * e["scale"][1] // 256
+            w, h = 16 * e["width"], 16 * e["height"]
+            if lx >= SCREEN_W or lx + w <= 0 or ly >= SCREEN_H or ly + h <= 0:
+                continue
+            im = images[e["file"]]
+            cx, cy = max(0, -lx), max(0, -ly)
+            im = im.crop((cx, cy, min(w, SCREEN_W - lx), min(h, SCREEN_H - ly)))
+            win.alpha_composite(im, (max(lx, 0), max(ly, 0)))
+        canvas.alpha_composite(win, (k * SCREEN_W, 0))
+    return canvas
+
+
 def render_patches(p, tiles, pals, all_slots):
     """Mapas fuente de los parches de tilemap (registros de Sprite_InvokeBlit8Params,
     ver data_census.blit_patches): cada registro copia un rectángulo de un
@@ -253,6 +328,13 @@ def main():
                 pim.save(os.path.join(OUT, "composed", pname))
                 composed.setdefault(sname, []).append(dict(file="composed/" + pname, camera="all",
                                                            origin=porg, size=pim.size))
+                track = camera_track(entries)
+                sim = compose_scroll(entries, images, track)
+                sname2 = "%s_scroll.png" % sname
+                sim.save(os.path.join(OUT, "composed", sname2))
+                composed.setdefault(sname, []).append(dict(
+                    file="composed/" + sname2, camera="all+scrollY", origin=porg, size=sim.size,
+                    track=[list(t) for t in track]))
             for cam, (im, org) in compose(entries, images).items():
                 cname = "%s_%s_full.png" % (sname, cam)
                 im.save(os.path.join(OUT, "composed", cname))
