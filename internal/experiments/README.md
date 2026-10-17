@@ -22,6 +22,7 @@ bash scripts/apply_patch.sh --undo                                 # restaurar f
 | (04b) munición de pistola al perder arma | `scripts/apply_patch.sh pistol-ammo=N` | rebuild OK |
 | [06 invulnerabilidad](06_invincible.md) | `scripts/apply_patch.sh invincible` | ✅ emulador (1UP=2 fijo con el jugador recibiendo golpes) |
 | [07 flags de depuración](07_debug_flags.md) | `scripts/apply_patch.sh debug=HHHH` | ✅ emulador (`$100000=0008` en partida) |
+| [08 empezar en otra misión](08_mission_select.md) | `scripts/apply_patch.sh mission=N` | ✅ emulador (banners de las misiones 2..6) |
 | [05 ideas / mapa de RAM](05_ram_map_and_ideas.md) | — | notas |
 
 Herramientas del emulador parcheado (solo `internal/pydmg`):

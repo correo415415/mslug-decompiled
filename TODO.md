@@ -85,8 +85,9 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 
 ## Herramientas / experimentos
 
-- [ ] Más recetas en `internal/experiments/` (selección de misión, debug
-      DIP, invulnerabilidad) siguiendo la regla de "mismo tamaño".
+- [x] Más recetas en `internal/experiments/`: 06 invulnerabilidad (`invincible`),
+      07 flags de depuración (`debug=HHHH`), 08 empezar en otra misión
+      (`mission=N`), todas del mismo tamaño y verificadas en el emulador.
 - [x] CI: comprobar también `build_mrom.py` ✔ IDÉNTICA en GitHub Actions.
 
 - [x] levels.py: renderizar también los 11 descriptores de parches de
