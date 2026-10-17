@@ -587,7 +587,7 @@ MeleeGuard_IdleState_0426D8:
         .section .text.MeleeGuard_RecoverState_042710, "ax", @progbits
         .global MeleeGuard_RecoverState_042710
 MeleeGuard_RecoverState_042710:
-        lea     0x288414.l, a0                  | +000  template recover
+        lea     (AnimScr_188414+0x100000).l, a0 | +000  template recover
         jsr     0x28cd4.l                       | +006
         lea     .Lrc_run(pc), a1                | +00c
         move.l  a1, (a6)                        | +010

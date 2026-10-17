@@ -34,6 +34,135 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > `HUD_Task_Init_025706`, `move.b 0x4(a3),d1` → `move.b #9,d1`). Cabeceras
 > A–F y renombres de los modulos de datos: hechos (ver la entrada siguiente).
 
+> **Datos: "otro" 33,4 % → 17,3 % (2026-10-15, PR #23)**. Censo nuevo con
+> tipos `lut` y `struct`:
+> * `sprite_tables_002f30.s` = 3 entradas que se ensamblan por fórmula con `.rept`
+>   (`ColorRGB555ToNeoGeo_002f30`, `ColorRamp_RowPtr_012f30`, `ColorRamp_012fb0`);
+>   se quitan 428 etiquetas falsas y las 8 805 `.dc.l` a ellas pasan a número.
+> * 321 registros de parche `lea rec,a2; jsr Sprite_InvokeBlit8Params` →
+>   11 descriptores `{w,h,tiles}`, renderizados en `levels.py`
+>   (`patches/patch_<desc>.png`: fachadas intactas/destruidas).
+> * `struct`: streams de misión, escena, plantillas, cajas de
+>   `Entity_CheckOnScreenBox`, rejillas de `$43FAC` y registros de 12 B del
+>   op 19 de animación.
+> * 1 274 scripts de sprite instalados desde el código (`EntitySetSpriteMap`,
+>   `move.l #,$3C(a6)`), recorridos con `walk_struct` (frame oculto
+>   `$FFFFFFFF`, tablas de 1B/1C).
+> * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
+
+> **Cajas de golpe (2026-10-17)** — Los bloques AnimBlk/AnimScr grandes (p. ej. $196000, $1D6700) son en gran parte listas de cajas: registros de $50 B (+$4C ataque, +$48 golpe) y $4C B (+$60 cuerpo), cada uno con un guion de sprite de depuración de 62 B que dibuja las esquinas. data_census.box_records los reconoce por firma: struct 16,5 %, anim 20,1 %.
+
+> **Scroll vertical (2026-10-17)** — `levels.py` genera `*_scroll.png`: ventanas de 320x224 con la Y de cámara deducida de las capas del plano principal y parallax vertical por capa (aproximación; faltan las capas recicladas a mitad de misión).
+
+> **Paletas de sprites (2026-10-17)** — ninguna animación sale ya en grises (948/948): herencia por tiles compartidos y por script vecino, más 11 entradas manuales trazadas hasta su `jsr $236E`.
+
+> **SFX (2026-10-17)** — los 150 SFX de la tabla A tienen nombre: 68 por sus usuarios del 68k y 82 por una pasada de escucha automática de los WAV exportados (hipótesis, el número se conserva).
+
+> **Nombres de datos (2026-10-17)** — las 298 `Data_*` de los módulos de datos tienen ya nombre por tipo del censo y rutina que las referencia (`Tbl_`, `AnimBlk_`, `Lut_`, `ColMap_`, `SprFrame_`, `AnimScr_`).
+
+> **Censo (2026-10-17)** — terminadores $FF sueltos, cabecera de Prop_BoatDebris, $FFFF final y marca $12345678 de $2FF800: ya no queda ningún byte no nulo sin clasificar (otro 0,0 %).
+
+> **Censo (2026-10-17)** — huecos apuntados desde datos ya clasificados, colas de registro, mapa de colisión de cámara $20A000 (Camera0_RelinkAndWrapScroll), colas de rampa y continuación periódica; dos islas de código ChildRank_CmpByte10 sacadas de los módulos de datos; otro 0,0 %.
+
+> **Censo (2026-10-17)** — bloques referenciados por op 07 SetLong y tablas de saltos a código; otro 0,2 %.
+
+> **Censo (2026-10-17)** — registros de spawner contiguos a otros o que llenan un hueco exacto y longs de parámetro de los scripts de Player (move.l -4(a0),$74); otro 0,2 %.
+
+> **Censo (2026-10-17)** — rejillas MultiBlit contiguas, scripts sueltos que saltan a otros ya conocidos y tablas de punteros copiadas a +$48/+$4C; otro 0,2 %.
+
+> **Censo (2026-10-17)** — tablas de punteros a listas de ataque del cangrejo, semillas de hitbox lea X,a0 + move.l a0,$48(a6) y tablas de formas de 36 B contiguas; otro 0,3 %.
+
+> **Censo (2026-10-17)** — descriptores de escena sueltos (SceneLoader_ByIndex_043562: script de la VM + entidades de 14 B) y, como último recurso, huecos que empiezan en un puntero exacto cargado por el código; otro 0,4 %.
+
+> **Censo (2026-10-17)** — tablas indexadas también vía add.l aN,dM / adda y siguiendo bra.w; otro 0,5 %.
+
+> **Censo (2026-10-17)** — tablas indexadas por el código (lea T,aN + acceso (aN,dM.w)), registros de spawner sin referencia con su tabla de handlers, pools de nombres katakana completos y variantes Decode2D pegadas hacia atrás; el código incrustado corta las rachas; otro 0,5 %.
+
+> **Censo (2026-10-17)** — listas de cajas de ataque (+$4C, op 0A, Hitbox_RunList_0283ec), registros de parche de Prop_BlitSequence, tablas de punteros a rejillas y rejillas de +$78, velocidades del Tank y del proyectil del jefe final; otro 0,8 %.
+
+> **Censo (2026-10-17)** — pares Decode2D normal/espejo (lea X,a0; bne; lea Y,a0) y registros de 12 B del op 19 sin referencia; otro 1,1 %.
+
+> **Censo (2026-10-17)** — código incrustado en el banco de datos extraído (SlugRiderMarker_Task_18dd3c y 4 callbacks del op 08 en asm/entity/anim_op08_callbacks.s), listas de cajas de golpe (+$48), tablas de game over/continue, hiscore, jefe final y Patrol; otro 1,4 %.
+
+> **Mortero, popups y cangrejo (2026-10-17)** — listas y rejillas del mortero, tablas de los popups de puntuación y munición, fases/alturas/velocidades de la pinza del cangrejo del jefe 2, offsets del coche torreta; `gap_scripts` acepta scripts de un solo frame terminados en 16; otro 1,9 %.
+
+> **Rangos y jefes (2026-10-17)** — tablas de rango de la pantalla de resultados (abreviaturas PVT..GA e insignias), offsets del jefe 2, listas de guardias y pasos del jefe 4, destinos/rutas/SFX del jefe 5, patrones de giro de la torreta del jefe 2 y `motion_ptr_tables` (tablas de punteros a velocidades); otro 2,0 %.
+
+> **Decode2D vía cualquier aN, Bazooka, jefe M5 (2026-10-17)** — tablas Decode2D indexadas desde cualquier registro de dirección y variantes contiguas sin referencia; tablas de dirección, boca de cañón y velocidad del cohete de Bazooka; velocidades del jefe de la misión 5; offsets y velocidades de los hijos del escuadrón; otro 2,1 %.
+
+> **Jefe M5, escuadrón y listas del fix (2026-10-17)** — tablas Decode2D gemelas del jefe de la misión 5, tablas de muerte y despliegue del escuadrón y listas de animación de bloques del fix (ListCursor_Step_05db6a: {tile, cols, rows, duración}, 0 = salto, FFFF = fin); otro 2,3 %.
+
+> **Escuadrón paracaidista y scripts en huecos (2026-10-17)** — los escáneres de código llegan hasta $09C608 (popups de puntuación, hiscore/opciones); tablas de salida/salto/caída del para-squad; `gap_scripts` recorre scripts sin puntero dentro de rachas sin clasificar y `pointed_scripts` reentra en scripts parcialmente marcados (tablas 1B/1C); otro 2,5 %.
+
+> **Textos y blits de casas (2026-10-17)** — `CutTextPanel_1f4712` con nombre y lea simbólico; el censo reconoce las cadenas $FF de List_ApplyWithSentinelFF_* (menú de opciones, resultados, continue), el texto de Fix_TextRow_Draw y los registros de blit de las variantes de casa (descriptores dentro de PatchDescChain_19810c); nuevos ayudantes tools/dev/other_runs.py y look.py; otro 2,8 %.
+
+> **RocketVehicle, AimTurret, Decode2D indirectas (2026-10-17)** — tablas de boca de cañón y velocidades del cohete de RocketVehicle, listas de frames por daño de AimTurret, tablas Decode2D elegidas por índice (muertes del escuadrón) y frames que sólo usa el op 1E; otro 2,9 %.
+
+> **Demos del attract y PathScripts (2026-10-17)** — `$0E7800`/`$0E7A00` son las dos demos grabadas (512 B cada una) que reproduce InputRec_PlaybackFrame_02531e, con su tabla `InputDemoPtrs_0e7c00`; el censo recorre los PathScripts (VM de 11 ops de PathScript_Step_078f90 instalada en +$90 de la tarea: muertes del escuadrón, barril, etc., 6 tablas + entradas directas); otro 3,1 %.
+
+> **Renombrado por censo (2026-10-17)** — 81 entradas Data_ pasan a AnimScr_ tras el arreglo del op 1E; otro 3,3 %.
+
+> **sprites.py recorre el op 1E como 02 (2026-10-17)** — las animaciones exportadas ya no se cortan en el hijo 1E; otro 3,3 %.
+
+> **Op 1E de los scripts (2026-10-16)**. `ScriptOp1E_SpawnChild_Sprite_0294b0` usa el mismo formato que 02 (`1E fl frame.l [prio dx dy]`, 8/12 B según fl&8) y el script sigue; `walk_struct` lo trataba como fin. Anim 20,6 % -> 22,7 %. Otro 3,4 %.
+
+> **Tablas de punteros (2026-10-16)**. `pointer_tables`: rachas de longs sin clasificar que apuntan todas a datos ya clasificados (o $FFFFFFFF), con >= 2 punteros reales; dos pasadas para tablas de tablas (p. ej. RocketVehicle $1CCFEA.., Turret $189204). Otro 5,4 %.
+
+> **Tablas del motor de colisión (2026-10-16)**. `$1785B8..$1792B0` re-partido: `HudText_1785b8`, `CollOffsets_178600`, `CollSlopes_1786cc` (25 perfiles de 28 B: tipo $0000/$1000/$F000/$0400/$FC00/$FFFF + 8 alturas), `CollTileTypes_178988` (64 × 32 B, índice &$3F en CollMap_LookupTile_027db2), `CollMasks_179188` (13 × 20 B: bits por fila, borde, offsets) y `HitShapeTab_17928c` (Hitbox_TestBoxes_028594). 33 `lea` simbólicos. Otro 5,6 %.
+
+> **LUTs de puntería y registros de blit (2026-10-16)**. Tablas de dirección por dx de Bazooka_AimStep_06b5ea / RocketVehicle_AimStep_06d340 (33 B, stride $22, + espejo) como lut; `blit_records`: registros de 20 B de Sprite_InvokeBlit8Params con descriptor conocido sin `lea` directo (319). Otro 5,8 %.
+
+> **Scripts apuntados (2026-10-16)**. `pointed_scripts`: direcciones sin
+> clasificar a las que apunta algún long de la ROM y que `walk_struct`
+> recorre con >= 2 frames y fin en 00/01/16/1B..1E (92 scripts). Otro 6,2 %.
+
+> **Tablas indexadas de scripts (2026-10-16)**. `code_script_tables`:
+> `lea`/`movea.l #T,a0` + `movea.l (a0,dN.w),a0` + jsr EntitySetSpriteMap ->
+> 321 tablas (cada una hasta la siguiente conocida; `$FFFFFFFF` = sin sprite)
+> y 1 248 scripts recorridos con `walk_struct`. Los escáneres de argumentos
+> aceptan también `jmp` de cola (HUD_Msg_*). Otro 6,5 %.
+
+> **Streams de spawn por misión (2026-10-16)**. `SpawnStream_M1..M6`
+> (`$18845E..$1891EA`): registros de 16 B que `SpawnStream_ReadNext_04cac4`
+> avanza cuando la cámara ($106F5C) supera el umbral del siguiente ($FFFF =
+> fin); `SpriteSetPtrTbl6_04cb44` (índice $106ECE) simbólica. `AnimScr_188414`
+> (MeleeGuard). `walk_struct` corta en op 16 (RepeatSprite). Otro 7,7 %.
+
+> **Cadena de descriptores y tilemaps sueltos (2026-10-16)**.
+> `PatchDescChain_19810c`: 40 descriptores {w, h, tiles.l} (formato de
+> Sprite_InvokeBlit8Params) con tilemaps contiguos en `$0B3900..$0B53EC`;
+> `PropItemPtrs_1980fc` (Prop_PickRandomItemPtr_053e9c, `lea` simbólico).
+> `data_census.desc_chains` y `tilemap_gaps` (rachas >= 98 % celdas de
+> fondo, p. ej. `$0AAF78..$0ABE50`). Otro 8,0 %.
+
+> **Textos a máquina de la presentación (2026-10-16)**. `$1EF8AA..$1F2DB2`
+> re-partido: `FixTypePages_{JP,EN,PT,ES}` (44 pares {stream, atributo fix};
+> `Icon_Anchor_Run_08c678` elige por $8A = región/idioma del soft-DIP),
+> `FixTypeIntro_1ef8aa` (Anim_State_F1), `FixTypeAnchor_1f0056` y 82
+> `FixType_*` (registros de 8 B {w espera ($FFFF fin), w carácter/comando,
+> l script de sprite}). `data_census.fix_type_streams`. Otro 8,5 %.
+
+> **Soft-DIP y tabla de arranque (2026-10-16)**. `$178000..$1785B8`
+> re-partido: `TaskBootTab_178000` (pares {TCB, handler} de
+> `Task_FreeListInit_000410`, hasta TCB = $100940) y `SoftDip_JP_178018`,
+> `SoftDip_US_1781f4`, `SoftDip_EU_1783d0` (nombre 16 B, 2 tiempos, 2
+> cuentas, 10 listas, cadenas de 12 B; la europea añade LANGUAGE). Punteros de
+> la cabecera `$116/$11A/$11E` y el `lea` de arranque simbólicos.
+> `frame_runs` reintenta cortando rellenos de ceros >= 16 B. Otro 9,4 %.
+
+> **Registros de spawner (2026-10-16)**. `data_census.spawner_records`: los
+> 162 `lea X,a1 ; jsr Entity_InstallHandlerAndCopyXf` apuntan a registros de
+> 18 B para `Spawner_Handler_077c98` ({b offset por padre, b ritmo ($FF =
+> todo junto), w cuenta, w dx, w rx, w dy, w ry, b ?, b aleatorio, l handler};
+> con +$D != 0 el long es una tabla de 16 handlers por Random(16)). Otro 9,8 %.
+
+> **Tablas de Tbl_Decode2D_0799DE (2026-10-16)**. `data_census.decode2d_tables`
+> sigue los 230 `lea X,a0 ; jsr Tbl_Decode2D_0799DE` (sin otro `lea ..,a0`
+> en medio): formato largo 130 B (2 + 64 palabras por flags11&3, $106ED1&2,
+> Rank_SubIndex&7), corto con magic 2 (2 + 64 bytes de indice + 16 B por
+> indice, palabra por Random&$E). Bloque `$2B746A..$2C06AA` de tablas de
+> temporizadores por dificultad. Datos "otro": 11,9 % -> 10,1 %.
+
 > **Datos con nombre y assets (2026-10-15)**. Censo byte a byte de los 14
 > modulos `asm/data/*` (`assets/tools/data_census.py`): paletas 4,1 %, frames
 > 16,6 %, animacion 18,2 %, mapas de fondo 11,2 %, colision 7,8 %, ceros

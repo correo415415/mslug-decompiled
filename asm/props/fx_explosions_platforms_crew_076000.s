@@ -5213,8 +5213,8 @@ PathScript_OpArc_07917a:
         .section .text.PathScript_IntegratePolar_0791e0, "ax", @progbits
         .global PathScript_IntegratePolar_0791e0
 PathScript_IntegratePolar_0791e0:
-        lea     0x2c072c.l,a2                   | +000
-        lea     0x2c07ac.l,a3                   | +006
+        lea     (SinTab256_1c072c+0x100000).l,a2| +000
+        lea     (SinTab256_1c072c+0x100080).l,a3| +006
         andi.w  #0xff,d1                        | +00c
         add.w   d1,d1                           | +010
         move.w  (a2,d1.w),d2                    | +012

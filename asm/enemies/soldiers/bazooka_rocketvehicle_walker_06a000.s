@@ -5394,9 +5394,9 @@ Frag_Scatter_06dd5c__L06dde4:
 Frag_Scatter_06dd5c__L06ddf4:
 .L06ddf4:
         add.w   d0,d0                           | +098
-        lea     0x2c072c.l,a1                   | +09a
+        lea     (SinTab256_1c072c+0x100000).l,a1| +09a
         move.w  (a1,d0.w),d1                    | +0a0
-        lea     0x2c07ac.l,a1                   | +0a4
+        lea     (SinTab256_1c072c+0x100080).l,a1| +0a4
         move.w  (a1,d0.w),d2                    | +0aa
         andi.w  #0x7,d3                         | +0ae
         addq.w  #0x1,d3                         | +0b2

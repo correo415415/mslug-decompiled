@@ -987,9 +987,9 @@ Squad_ShardSpriteD2_0813dc:
         andi.l  #0x1e,d0                        | +15e
         addi.w  #0x30,d0                        | +164
         add.w   d0,d0                           | +168
-        lea     0x2c072c.l,a1                   | +16a
+        lea     (SinTab256_1c072c+0x100000).l,a1| +16a
         move.w  (a1,d0.w),d1                    | +170
-        lea     0x2c07ac.l,a1                   | +174
+        lea     (SinTab256_1c072c+0x100080).l,a1| +174
         move.w  (a1,d0.w),d2                    | +17a
         andi.w  #0x7,d3                         | +17e
         addq.w  #0x1,d3                         | +182

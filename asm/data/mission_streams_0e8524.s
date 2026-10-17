@@ -24,11 +24,17 @@
 |    op $0C fin de stream (0C 00 FF FF).
 |  La sangria de los comentarios refleja el anidamiento real.
 |
-|  BLOQUES AUX (MissionAux_*): datos auxiliares por mision empaquetados
-|  entre el terminador $0C y el siguiente stream; son tablas de words
-|  (listas de waypoints/alturas terminadas en $FFFF) referenciadas como
-|  inmediatos desde el codigo de los enemigos de esa mision (los origenes
-|  exactos van comentados linea a linea).
+|  BLOQUES AUX (MissionAux_*): empaquetados entre el terminador $0C y el
+|  siguiente stream. Son SUB-STREAMS de la misma VM (terminan en
+|  0C 00 FF FF), uno tras otro: los props/enemigos de la mision los lanzan
+|  con `lea STREAM,a1; move.w #campo,d0; jsr MissionWatch_Spawn_04429E`
+|  (tarea que espera a que el byte `campo` de su padre sea != 0 y entonces
+|  ejecuta el stream con MissionDriver_Loop: p. ej. Prop_TowerTop_04db72 ->
+|  $0E92B2, campo $75). tools/dev/mission_stream.py los recorre completos
+|  (Slot00/04/05 sin un byte suelto; Slot03 = sub-streams + la tabla de
+|  alturas de cámara de M4_CamFloor_Step_085a08 en $0EC882, words hasta
+|  $FFFF). Las referencias a mitad de bloque ($0E9600, $0F07D0..) apuntan a
+|  registros anidados que el código reutiliza como sub-stream.
 |
 |  Verificacion: el parser recorre los 13 streams completos sin un solo
 |  opcode invalido y cada terminador cae exactamente donde empieza el

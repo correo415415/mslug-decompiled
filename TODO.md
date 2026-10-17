@@ -10,9 +10,13 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       entradas renombradas por tipo (`ColMap_`, `SprFrame_`, `BgMap_`,
       `AnimScr_`, `Pal_`, `Zero_`). Tabla de color `ColorRGB555ToNeoGeo_002f30`
       y rampa `ColorRamp_012fb0` identificadas y verificadas.
-- [ ] Decodificar las ~1 400 `Data_*` restantes (tablas indexadas por rutina).
-- [ ] Revisar que el matcher completo (`tools/match_batch.py`) siga en
-      17608/17608 tras cada reorganización.
+- [x] `Data_*` restantes con nombre: 88 por el censo (ColMap/SprFrame/AnimScr) y
+      210 por tipo + rutina usuaria (`Tbl_<Rutina>_`, `AnimBlk_<Rutina>_` para
+      bloques mezcla de scripts y registros, `Lut_`). Sólo quedan las 2 de
+      `boot/vectors_and_neogeo_header_000000.s` (cabecera Neo Geo).
+- [x] Matcher completo (`tools/match_batch.py`) verificado el 2026-10-17:
+      17104/17104 funciones, 2 097 152/2 097 152 B (100 %). Tarda > 10 min;
+      lanzarlo en segundo plano tras cada reorganización grande.
 
 ## M-ROM (Z80, `201-m1.bin`) — en curso
 
@@ -39,8 +43,10 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       músicas con nombre, 19 voces con nombre).
 - [x] Nombres por usuarios para 68 de los 117 SFX de la tabla A con usuario
       constante (`SfxA_NNN_<Nombre>`, SFX_NAMES de find_sound_ids.py).
-- [ ] Confirmar esos nombres escuchando, nombrar los 49 restantes y recorrer
-      los streams de script para los ids que no son constantes.
+- [x] Los 82 SFX restantes de la tabla A (49 con usuario constante + 33 sólo
+      de scripts) nombrados con una pasada de escucha automática sobre los WAV
+      de export_wav.py (modelo de audio) cruzada con sus usuarios; los 150
+      tienen ya nombre `SfxA_NNN_<Nombre>` (hipótesis; el número se mantiene).
 - [x] `docs/COVERAGE.md` (M-ROM, módulos de datos, assets), `docs/PROGRESO.md`,
       `HANDOFF.md` y `README.md` actualizados (2026-10-15).
 
@@ -52,14 +58,25 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       reconstruyen byte-idénticos.
 - [x] Sprites con paletas del P-ROM, frames multi-pieza y animaciones con sus
       tiempos (`assets/tools/sprites.py`), nombradas por la rutina que las usa.
-- [ ] Sprites: paleta para las ~130 animaciones que salen en grises (revisar
-      a mano → `assets/map/anim_palettes.txt`); nombres por personaje/arma.
+- [x] Sprites: 0 de 948 animaciones en grises. sprites.py hereda la paleta por
+      tiles compartidos (Jaccard >= 0,3) y del script vecino con paleta (<= $800);
+      11 forzadas en `assets/map/anim_palettes.txt` (fogonazos MuzzleFx = $10,
+      ScriptedProp $1D4, cañón del TurretCar $0E). Revisión visual por muestreo.
 - [x] Fondos de las misiones → PNG (`assets/tools/levels.py`, 52 capas de 13
       escenas desde los `bind_path` de los scripts de escena).
 - [x] Fondos: slot de paleta 0 (ScriptSlotPairTable_0009B4) — 52/52 capas con color.
 - [x] Fondos: composición por cámara en las anclas (`composed/`, 38 planos).
 - [x] Fondos: parallax (escala 8.8 del op $01) → panorama único por escena (`*_parallax.png`, 13).
-- [ ] Fondos: scroll vertical en el panorama.
+- [x] Fondos: scroll vertical (aproximado) — `*_scroll.png` de 320x224 por
+      ventana con la Y de cámara deducida de las capas de cam0 (levels.camera_track,
+      movimiento mínimo) y cada capa desplazada Y*escala_y/256.
+- [ ] Fondos: la trayectoria exacta de la cámara (ops $0F/$15 en orden de
+      ejecución y seguimiento del jugador) y las capas que la cámara recicla a
+      mitad de misión (huecos negros en `*_scroll.png`).
+      Notas 2026-10-17: en el emulador (parche invincible + derecha) $106F6C y
+      $106F40..$106F6F no cambian; mantener A no dispara (hay que alternar
+      pulsaciones: --input-script con >100 KB no produjo salida). Siguiente: buscar
+      la X de cámara con un barrido de RAM y pulsaciones alternas más cortas.
 - [x] Codificador ADPCM-A/B para sustituir muestras desde WAV (`audio.py encode`).
 - [x] Exportar las pistas musicales a MIDI con sus nombres
       (`mrom/tools/export_midi.py`). La curva de `S_TEMPO` ya está modelada (set-tempo exactos).
@@ -68,10 +85,51 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] VGM 1.51 (`export_wav.py --vgm`): escrituras YM2610 + bloques ADPCM-A/B.
 - [x] Voces (tabla B) exportadas por separado y con nombre por su frase;
       las canciones terminan en su punto de bucle + fundido (no cortadas).
-- [ ] Nombrar los 150 SFX de la tabla A: 68 hechos por usuarios (ver M-ROM); faltan escucha y los ids que sólo salen en los scripts.
+- [x] Nombrar los 150 SFX de la tabla A: 68 por usuarios + 82 por escucha automática (ver M-ROM).
 
 ## Herramientas / experimentos
 
-- [ ] Más recetas en `internal/experiments/` (selección de misión, debug
-      DIP, invulnerabilidad) siguiendo la regla de "mismo tamaño".
+- [x] Más recetas en `internal/experiments/`: 06 invulnerabilidad (`invincible`),
+      07 flags de depuración (`debug=HHHH`), 08 empezar en otra misión
+      (`mission=N`), todas del mismo tamaño y verificadas en el emulador.
 - [x] CI: comprobar también `build_mrom.py` ✔ IDÉNTICA en GitHub Actions.
+
+- [x] levels.py: renderizar también los 11 descriptores de parches de
+  Sprite_InvokeBlit8Params (data_census.blit_patches) como capas.
+- [x] Tablas de Tbl_Decode2D_0799DE (230, `decode2d_tables`) como struct.
+- [x] Registros de Spawner_Handler_077c98 (18 B) como struct.
+- [x] Soft-DIP NEO-GEO (JP/US/EU) y TaskBootTab_178000 con nombre y punteros simbólicos.
+- [x] Textos a máquina de la presentación de misión (FixTypePages_JP/EN/PT/ES + 84 streams).
+- [x] PatchDescChain_19810c + tilemaps sin descriptor ($0AAF78, $0B2FD0...).
+- [x] SpawnStream_M1..M6 (streams de spawn por misión) + AnimScr_188414.
+- [x] Tablas indexadas de scripts (code_script_tables) y jmp de cola en los escáneres.
+- [x] Scripts apuntados por cualquier long (pointed_scripts).
+- [x] LUTs de puntería Bazooka/RocketVehicle + 319 registros de blit (blit_records).
+- [x] Tablas del motor de colisión (CollTileTypes/CollMasks/CollSlopes/CollOffsets, HitShapeTab, HudText) con nombre y 33 lea simbólicos.
+- [x] Tablas de punteros a datos ya clasificados (pointer_tables, 2 pasadas).
+- [x] Op 1E (SpawnChild_Sprite) recorrido como 02 en walk_struct.
+- [x] sprites.py: op 1E no corta las animaciones exportadas
+- [x] Pasada de rename_data_by_census tras el op 1E (81 AnimScr_)
+- [x] Demos grabadas del attract (InputDemo_*) y PathScripts (VM de movimiento +$90) en el censo
+- [x] Tablas de RocketVehicle/AimTurret, Decode2D indirectas y frames de op 1E en el censo
+- [x] Texto de Cut_TextPanel, cadenas $FF, blits sobre PatchDescChain
+- [x] Escáneres hasta $09C608, tablas del para-squad, scripts sin puntero en huecos
+- [x] Decode2D del jefe M5, tablas de muerte/despliegue del escuadrón, listas de animación del fix
+- [x] Decode2D vía aN y variantes contiguas, tablas de Bazooka, jefe M5 y escuadrón
+- [x] Rangos de resultados, jefes 2/4/5, torreta, motion_ptr_tables
+- [x] Mortero, popups de puntuación, pinza del cangrejo, coche torreta, scripts de 1 frame
+- [x] Islas de código del banco alto, listas de hitbox, gameover/continue, hiscore, pasos del jefe final, Patrol
+- [x] Decode2D normal/espejo y registros op 19 sin referencia
+- [x] Listas de ataque +$4C, parches de Prop_BlitSequence, rejillas indirectas, Tank, proyectil del jefe final
+- [x] Tablas indexadas, spawners sin referencia, pools de nombres completos, variantes Decode2D hacia atrás
+- [x] Tablas indexadas por add.l/adda y tras bra.w
+- [x] Descriptores de escena sueltos y huecos en punteros exactos del código
+- [x] Listas de ataque del cangrejo, semillas de hitbox lea+move.l, tablas de formas contiguas
+- [x] Rejillas contiguas, scripts que saltan a otros conocidos, tablas de punteros a +$48/+$4C
+- [x] Spawners contiguos/sueltos y parámetros de scripts de Player
+- [x] Censo: referencias de op 07 SetLong y tablas de saltos a código
+- [x] Censo: huecos apuntados desde datos, colas de registro, mapa de colisión de cámara en $20A000, colas de rampa, continuación periódica; islas ChildRank_CmpByte10 fuera de los módulos de datos
+- [x] Censo: terminadores $FF sueltos, cabecera de Prop_BoatDebris, $FFFF final y marca $12345678 en $2FF800 — 0 bytes otro
+- [x] Datos "otro": 0 bytes no nulos sin clasificar (tools/dev/other_runs.py -> total 0).
+- [x] Formato de AnimBlk_Prop_HutVariants_196000 / AnimScr_1d6700: listas de cajas de $50 B (+$48/+$4C) y de $4C B (+$60) con guion de depuración; censo por firma (data_census.box_records, tools/dev/hitbox_records.py) — 47 KB pasan de anim a struct.
+- [x] MissionStream/MissionAux: los bloques aux son sub-streams de la VM lanzados por MissionWatch_Spawn_04429E (+ tabla de alturas $0EC882); tools/dev/mission_stream.py los recorre sin bytes sueltos.

@@ -1664,7 +1664,7 @@ HUD_ResetFields_025ed6:
 HUD_DrawPlayerLabels_025f02:
         movea.w #0x7065,a1                      | +000
         move.w  #0x5300,d0                      | +004
-        lea     0x2785b8.l,a2                   | +008
+        lea     (HudText_1785b8+0x100000).l,a2                   | +008
         jsr     0x5dad8.l                       | +00e
         move.w  #0x7044,d0                      | +014
         bsr.w   HUD_DrawLifeBarFrame_025f92     | +018
@@ -1680,7 +1680,7 @@ HUD_DrawPlayerLabels_025f02:
         jmp     0x5da56.l                       | +042
         movea.w #0x73e5,a1                      | +048
         move.w  #0x5300,d0                      | +04c
-        lea     0x2785be.l,a2                   | +050
+        lea     (HudText_1785b8+0x100006).l,a2                   | +050
         jsr     0x5dad8.l                       | +056
         move.w  #0x73c4,d0                      | +05c
         bsr.w   HUD_DrawLifeBarFrame_025f92     | +060
@@ -1729,7 +1729,7 @@ HUD_DrawLifeBarFrame_025f92:
 HUD_Msg_InsertCoin_P1_025ffc:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785c4.l,a2                   | +008
+        lea     (HudText_1785b8+0x10000c).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1740,7 +1740,7 @@ HUD_Msg_InsertCoin_P1_025ffc:
 HUD_Msg_InsertCoin_P2_026010:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785c4.l,a2                   | +008
+        lea     (HudText_1785b8+0x10000c).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1751,7 +1751,7 @@ HUD_Msg_InsertCoin_P2_026010:
 HUD_Msg_PushStart_P1_026024:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785d0.l,a2                   | +008
+        lea     (HudText_1785b8+0x100018).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1762,7 +1762,7 @@ HUD_Msg_PushStart_P1_026024:
 HUD_Msg_PushStart_P2_026038:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785d0.l,a2                   | +008
+        lea     (HudText_1785b8+0x100018).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1773,7 +1773,7 @@ HUD_Msg_PushStart_P2_026038:
 HUD_Msg_Continue_P1_02604c:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785dc.l,a2                   | +008
+        lea     (HudText_1785b8+0x100024).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1784,7 +1784,7 @@ HUD_Msg_Continue_P1_02604c:
 HUD_Msg_Continue_P2_026060:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785dc.l,a2                   | +008
+        lea     (HudText_1785b8+0x100024).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1795,7 +1795,7 @@ HUD_Msg_Continue_P2_026060:
 HUD_Msg_GameOver_P1_026074:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785e8.l,a2                   | +008
+        lea     (HudText_1785b8+0x100030).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1806,7 +1806,7 @@ HUD_Msg_GameOver_P1_026074:
 HUD_Msg_GameOver_P2_026088:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785e8.l,a2                   | +008
+        lea     (HudText_1785b8+0x100030).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1817,7 +1817,7 @@ HUD_Msg_GameOver_P2_026088:
 HUD_Msg_PleaseWait_P1_02609c:
         movea.w #0x7063,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785f4.l,a2                   | +008
+        lea     (HudText_1785b8+0x10003c).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -1828,7 +1828,7 @@ HUD_Msg_PleaseWait_P1_02609c:
 HUD_Msg_PleaseWait_P2_0260b0:
         movea.w #0x7343,a1                      | +000
         move.b  #0x3,d1                         | +004
-        lea     0x2785f4.l,a2                   | +008
+        lea     (HudText_1785b8+0x10003c).l,a2                   | +008
         jmp     0x477fc.l                       | +00e
 
 | ----------------------------------------------------------------------------
@@ -2767,7 +2767,7 @@ Entity_MoveAndCollide_A_026b56:
         moveq   #0,d4                           | +032
         moveq   #17,d0                          | +034
         move.l  d0,d7                           | +036
-        lea     0x278ba8.l,a1                   | +038
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +038
         movea.l a1,a4                           | +03e
         movea.l 0x4(a1),a3                      | +040
         move.b  0x12(a3,d3.w),0x106f31.l        | +044
@@ -2875,7 +2875,7 @@ Entity_MoveAndCollide_A_026b56:
         bset    #0x3,0x5a(a6)                   | +1ba
         bra.w   .L026d24                        | +1c0
 .L026d1a:
-        lea     0x278704.l,a3                   | +1c4
+        lea     (CollSlopes_1786cc+0x100038).l,a3                   | +1c4
         bra.w   .L026d24                        | +1ca
 .L026d24:
         cmpi.b  #0x0,0x6a(a6)                   | +1ce
@@ -3045,7 +3045,7 @@ Entity_FloorProbe_026e0a__L026e5e:
         moveq   #0,d3                           | +09c
         move.w  d5,d4                           | +09e
         moveq   #17,d0                          | +0a0
-        lea     0x278ba8.l,a1                   | +0a2
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +0a2
         bra.w   .L026eb6                        | +0a8
 .L026eb6:
         cmpi.b  #0xc,d0                         | +0ac
@@ -3108,7 +3108,7 @@ Entity_FloorProbe_026e0a__L026e5e:
         moveq   #0,d3                           | +184
         move.w  d5,d4                           | +186
         moveq   #17,d0                          | +188
-        lea     0x278ba8.l,a1                   | +18a
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +18a
         bra.w   .L026f9e                        | +190
 .L026f9e:
         movea.l 0x4(a1),a2                      | +194
@@ -3196,7 +3196,7 @@ Entity_MoveAndCollide_B_027036:
         moveq   #0,d4                           | +032
         moveq   #17,d0                          | +034
         move.l  d0,d7                           | +036
-        lea     0x278ba8.l,a1                   | +038
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +038
         movea.l a1,a4                           | +03e
         movea.l 0x4(a1),a3                      | +040
         move.b  0x12(a3,d3.w),0x106f31.l        | +044
@@ -3305,7 +3305,7 @@ Entity_MoveAndCollide_B_027036:
         bset    #0x3,0x5a(a6)                   | +1be
         bra.w   .L027208                        | +1c4
 .L0271fe:
-        lea     0x278704.l,a3                   | +1c8
+        lea     (CollSlopes_1786cc+0x100038).l,a3                   | +1c8
         bra.w   .L027208                        | +1ce
 .L027208:
         cmpi.b  #0x0,0x6a(a6)                   | +1d2
@@ -3384,7 +3384,7 @@ Entity_MoveAndCollide_C_0272a8:
         moveq   #0,d4                           | +032
         moveq   #17,d0                          | +034
         move.l  d0,d7                           | +036
-        lea     0x278ba8.l,a1                   | +038
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +038
         movea.l a1,a4                           | +03e
         movea.l 0x4(a1),a3                      | +040
         move.b  0x12(a3,d3.w),0x106f31.l        | +044
@@ -3436,7 +3436,7 @@ Entity_MoveAndCollide_C_0272a8:
 .L027396:
         btst    #0x4,0x13(a6)                   | +0ee
         bne.w   .L0273a6                        | +0f4
-        lea     0x278704.l,a3                   | +0f8
+        lea     (CollSlopes_1786cc+0x100038).l,a3                   | +0f8
 .L0273a6:
         cmpi.b  #0x10,d0                        | +0fe
         beq.w   .L0273b6                        | +102

@@ -55,37 +55,40 @@ def code_users(p):
 _p = S.PRom()
 cen = {f: (lo, hi, dict(c)) for f, lo, hi, c in DC.census(_p, DC.classify(_p))}
 uses = code_users(_p)
-KINDS = ("palette", "frame", "anim", "tilemap", "collision", "zero", "other")
+KINDS = ("palette", "frame", "anim", "tilemap", "collision", "struct", "lut", "zero", "other")
 KN = dict(palette="paletas", frame="frames", anim="animación", tilemap="mapas de fondo",
-          collision="colisión", zero="ceros", other="otro")
+          collision="colisión", struct="estructuras", lut="tablas por fórmula", zero="ceros", other="otro")
 
 TEXT = {
 "sprite_tables_002f30.s": dict(
  A="""Tablas de conversión de color del motor de paletas (video/palette_engine_
-   sprite_grid_0133b0.s) más los registros de interfaz que las siguen.
-     $002F30..$012F30  ColorRGB555ToNeoGeo[32768]: palabra de color Neo Geo
-                       (bit de brillo bajo de cada canal en b14..b12, 4 bits
+   sprite_grid_0133b0.s). Las tres se ensamblan con .rept a partir de su
+   fórmula, sin datos literales:
+     $002F30..$012F30  ColorRGB555ToNeoGeo_002f30[32768]: palabra de color
+                       Neo Geo (bit bajo de cada canal en b14..b12, 4 bits
                        altos en b11..b0) para cada RGB555 de 15 bits.
-                       Verificado: las 32768 entradas == fórmula.
-     $012F30..$012FB0  ColorRamp_RowPtr[32]: punteros a las filas de la rampa.
-     $012FB0..$0133B0  ColorRamp[32][32]: fila k, columna v = v*k/31
-                       (división entera; verificado 1024/1024). La usa el
-                       fundido de paletas para escalar cada canal 0..31.
-   Las etiquetas Data_/Str_ del interior sólo marcan direcciones a las que
-   apuntan bytes que parecen punteros; la mayoría son falsos positivos.""",
- B="""`lea $2F30.l` en video/palette_engine_sprite_grid_0133b0.s ($133C8,
-   $13404) y `lea Data_002f30(pc)` en BootScr ($002E10), siempre tras
-   Pal_ApplyFadeDarken_013624: d4 = r<<10|g<<5|b, se lee la palabra y se
-   escribe en la paleta en RAM. La fórmula se comprobó sobre las 32768
-   entradas.""",
- C="""Las etiquetas que hay dentro de la tabla de color (Str_00316e, Data_00a000,
-   ...) salen de valores de otras tablas que coinciden con una dirección. No
-   son estructuras propias.""",
- D="""ColorRGB555ToNeoGeo: .dc.w por índice r<<10|g<<5|b.
+     $012F30..$012FB0  ColorRamp_RowPtr_012f30[32]: punteros a las filas.
+     $012FB0..$0133B0  ColorRamp_012fb0[32][32]: fila k, columna v = v*k/31
+                       (división entera). Escala cada canal 0..31 en el
+                       fundido de paletas.""",
+ B="""`lea ColorRGB555ToNeoGeo_002f30(pc)` en PalSlot_UpdateAll_002c86 (boot) y
+   `lea $2F30.l` en Pal_LoadRaw16_0133b0 / PalAnim_Blend16_013480: d4 =
+   r<<10|g<<5|b, se lee la palabra y se escribe en la paleta en RAM.
+   `lea ColorRamp_RowPtr_012f30(pc)` + `movea.l (a0,d4.w)` + `move.b
+   (a0,d5.w)` en PalAnim_StepRGB_013504 y Pal_ApplyFade*_013624/013694.
+   Las 32768 + 32 + 1024 entradas se comprobaron contra la fórmula.""",
+ C="""Antes el módulo tenía 428 etiquetas Data_/Str_/Zero_ dentro de las
+   tablas: eran valores de otros módulos (.dc.l del bytecode de animación,
+   etc.) que caían en este rango por casualidad. Se quitaron y esos .dc.l
+   quedan como número literal; no son punteros.""",
+ D="""ColorRGB555ToNeoGeo: .dc.w por índice r<<10|g<<5|b; en GAS m68k `|` abre
+   comentario, por eso los campos de bits se suman con `+`.
+   ColorRamp_RowPtr: .dc.l ColorRamp_012fb0 + 32*k.
    ColorRamp: 32 filas de 32 B (1 B por valor 0..31).""",
  E="""Pal_LoadRaw16_0133b0, PalAnim_Blend16_013480, PalAnim_StepRGB_013504,
    Pal_ApplyFadeDarken/Lighten_013624/013694 (video/palette_engine_sprite_
-   grid_0133b0.s) y PalSlot_UpdateAll_002c86 (boot)."""),
+   grid_0133b0.s) y PalSlot_UpdateAll_002c86 (boot).""",
+ P="nada (módulo decodificado al 100 %)."),
 "sparse_tables_013d6a.s": dict(
  A="""Banco de paletas principal.
      $013D6A..$014E00  ceros (4 246 B, relleno de alineado).
@@ -159,6 +162,13 @@ GEN = dict(
    tiles[w*h].w por columnas}}. AnimScr_: ops de 1..12 B (02 = dibuja,
    00 n = espera, 01 = salto, 03 = bucle, 1B..1E = fin); ver assets/README.md.""",
  E="""ScriptOp02_Sprite_028dfe y el intérprete de animación de entity/*.""")
+EXTRA = {
+ "level_d_16b035.s": """Diccionarios de nombres de la pantalla de resultados
+   ($182C3C..$185CF4, Results_RosterPickA/B_03e6da/03e740): RosterLenTab*
+   (longitud por índice aleatorio), RosterPtrTab* ({ptr.l, cnt.l} por
+   longitud) y RosterNames* (nombres de igual longitud seguidos, sin
+   separador; A = katakana en tiles $2300/$2A00, B = ASCII).""",
+}
 TAIL = {
  "rom_tail_fill_1f8000.s": "Fin del P-ROM: 2 244 B de animación (objetos lanzados, bandera) y relleno $00; $1FF800 = firma 12345678.",
 }
@@ -195,6 +205,8 @@ def header(f):
         txt = t[key]
         if key == "A" and f in TAIL:
             txt = TAIL[f]
+        if key == "A" and f in EXTRA:
+            txt = txt + "\n" + EXTRA[f]
         for line in txt.splitlines():
             L.append("|  " + line.strip("\n") if line.startswith("   ") else "|   " + line)
         if key == "E":
@@ -205,12 +217,12 @@ def header(f):
     L.append("|   Matching byte a byte (build_rom ✔). Censo (data_census.py, %d B):" % n)
     L += ["|" + l for l in wrap(", ".join(parts) + ".", "     ")]
     L.append("|   Entradas por prefijo: " + ", ".join("%s %d" % kv for kv in pref.most_common()) + ".")
-    L.append("|   Pendiente: decodificar las Data_ restantes.")
+    L.append("|   Pendiente: " + t.get("P", "decodificar las Data_ restantes."))
     L.append("|")
     return L
 
 
-HDR = re.compile(r"\|\n\|  A\. QUÉ HAY AQUÍ\n.*?\|  F\. ESTADO\n.*?\|   Pendiente: decodificar las Data_ restantes\.\n\|\n", re.S)
+HDR = re.compile(r"\|\n\|  A\. QUÉ HAY AQUÍ\n.*?\|  F\. ESTADO\n.*?\|   Pendiente: [^\n]*\n\|\n", re.S)
 DRAFT = re.compile(r"\|\n\|  BORRADOR generado por tools/gen_data_region\.py.*?\n\|  referenciada desde el código \(o frontera de racha de ceros\)\.\n\|\n", re.S)
 for f in sorted(cen):
     f = f[5:]

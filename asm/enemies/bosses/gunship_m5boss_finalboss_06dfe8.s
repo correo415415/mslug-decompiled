@@ -770,8 +770,8 @@ Gunship_SpawnCrewArc_06e88c:
         move.l  a1,(a6)                         | +01a
 .L06e8a8:
         movea.l 0xc(a6),a0                      | +01c
-        lea     0x2c07ac.l,a1                   | +020
-        lea     0x2c072c.l,a2                   | +026
+        lea     (SinTab256_1c072c+0x100080).l,a1| +020
+        lea     (SinTab256_1c072c+0x100000).l,a2| +026
         move.b  0x34(a6),d0                     | +02c
         andi.w  #0xff,d0                        | +030
         lsl.w   #0x1,d0                         | +034
@@ -2865,8 +2865,8 @@ M5Boss_SparkBurst_07016e:
 M5Boss_Spark_07020e:
         move.w  0x76(a6),d0                     | +000
         lsl.w   #0x4,d0                         | +004
-        lea     0x2c07ac.l,a1                   | +006
-        lea     0x2c072c.l,a2                   | +00c
+        lea     (SinTab256_1c072c+0x100080).l,a1| +006
+        lea     (SinTab256_1c072c+0x100000).l,a2| +00c
         move.w  (a1,d0.w),d1                    | +012
         move.w  (a2,d0.w),d2                    | +016
         lsl.w   #0x2,d1                         | +01a
@@ -3652,8 +3652,8 @@ M5Boss_MoveByAngle_070aee__L070af2:
         ble.w   M5Boss_Clr74_070b66             | +024
         jsr     0x5e018.l                       | +028
         add.w   d0,d0                           | +02e
-        lea     0x2c072c.l,a1                   | +030
-        lea     0x2c07ac.l,a2                   | +036
+        lea     (SinTab256_1c072c+0x100000).l,a1| +030
+        lea     (SinTab256_1c072c+0x100080).l,a2| +036
         move.w  (a1,d0.w),d1                    | +03c
         move.w  (a2,d0.w),d2                    | +040
         move.w  0x36(a6),d0                     | +044
@@ -3703,7 +3703,7 @@ M5Boss_MoveStep1_070b78:
 M5Boss_MoveSin_070b86:
         move.b  0x74(a6),d0                     | +000
         addq.b  #0x8,0x74(a6)                   | +004
-        lea     0x2c072c.l,a0                   | +008
+        lea     (SinTab256_1c072c+0x100000).l,a0| +008
         andi.w  #0xff,d0                        | +00e
         add.w   d0,d0                           | +012
         move.w  (a0,d0.w),0x2a(a6)              | +014
@@ -3722,7 +3722,7 @@ M5Boss_MoveSin_070b86:
 M5Boss_MoveSinB_070bc2:
         move.b  0x74(a6),d0                     | +000
         addq.b  #0x8,0x74(a6)                   | +004
-        lea     0x2c072c.l,a0                   | +008
+        lea     (SinTab256_1c072c+0x100000).l,a0| +008
         andi.w  #0xff,d0                        | +00e
         add.w   d0,d0                           | +012
         move.w  (a0,d0.w),d0                    | +014
@@ -3942,8 +3942,8 @@ M5Boss_InScreenB_070dbc:
 M5Boss_VelByAngle76_070e0c:
         move.w  0x76(a6),d0                     | +000
         lsl.w   #0x4,d0                         | +004
-        lea     0x2c072c.l,a1                   | +006
-        lea     0x2c07ac.l,a2                   | +00c
+        lea     (SinTab256_1c072c+0x100000).l,a1| +006
+        lea     (SinTab256_1c072c+0x100080).l,a2| +00c
         move.w  (a1,d0.w),d1                    | +012
         move.w  (a2,d0.w),d2                    | +016
         move.w  0x36(a6),d0                     | +01a

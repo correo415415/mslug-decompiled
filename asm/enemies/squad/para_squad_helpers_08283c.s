@@ -218,8 +218,8 @@ TaskHandler_082a66:
         move.w  0x34(a6),d3                     | +000
         add.w   d3,d3                           | +004
         move.w  #0x2000,d0                      | +006
-        lea     0x2c07ac.l,a1                   | +00a
-        lea     0x2c072c.l,a2                   | +010
+        lea     (SinTab256_1c072c+0x100080).l,a1| +00a
+        lea     (SinTab256_1c072c+0x100000).l,a2| +010
         move.w  (a1,d3.w),d1                    | +016
         move.w  (a2,d3.w),d2                    | +01a
         muls.w  d0,d1                           | +01e

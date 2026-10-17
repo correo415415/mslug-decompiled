@@ -273,7 +273,7 @@ PalAnim_StepRGB_013504:
 .L013534:
         add.w   d4,d4                           | +030
         add.w   d4,d4                           | +032
-        lea     Sub_00012F30(pc),a0             | +034  -> $012F30 (hueco futuro, defsym forward)
+        lea     ColorRamp_RowPtr_012f30(pc),a0  | +034  -> $012F30
         movea.l (a0,d4.w),a0                    | +038
         move.b  (a0,d5.w),d4                    | +03c
         tst.b   d2                              | +040
@@ -302,7 +302,7 @@ PalAnim_StepRGB_013504:
 .L013576:
         add.w   d4,d4                           | +072
         add.w   d4,d4                           | +074
-        lea     Sub_00012F30(pc),a0             | +076  -> $012F30 (hueco futuro, defsym forward)
+        lea     ColorRamp_RowPtr_012f30(pc),a0  | +076  -> $012F30
         movea.l (a0,d4.w),a0                    | +07a
         move.b  (a0,d5.w),d4                    | +07e
         tst.b   d3                              | +082
@@ -331,7 +331,7 @@ PalAnim_StepRGB_013504:
 .L0135b8:
         add.w   d4,d4                           | +0b4
         add.w   d4,d4                           | +0b6
-        lea     Sub_00012F30(pc),a0             | +0b8  -> $012F30 (hueco futuro, defsym forward)
+        lea     ColorRamp_RowPtr_012f30(pc),a0  | +0b8  -> $012F30
         movea.l (a0,d4.w),a0                    | +0bc
         move.b  (a0,d5.w),d4                    | +0c0
         tst.b   d1                              | +0c4
@@ -369,7 +369,7 @@ Pal_ApplyFadeDarken_013624:
         move.l  d0,-(a7)                        | +000
         movem.l d5-d6/a0-a1,-(a7)               | +002
         clr.w   d5                              | +006
-        lea     Sub_00012F30(pc),a1             | +008  -> $012F30 (hueco futuro, defsym forward)
+        lea     ColorRamp_RowPtr_012f30(pc),a1  | +008  -> $012F30
         clr.w   d0                              | +00c
         move.b  d2,d0                           | +00e
         add.w   d0,d0                           | +010
@@ -415,7 +415,7 @@ Pal_ApplyFadeDarken_013624:
 Pal_ApplyFadeLighten_013694:
         move.l  d0,-(a7)                        | +000
         movem.l d5-d6/a0-a1,-(a7)               | +002
-        lea     Sub_00012F30(pc),a1             | +006  -> $012F30 (hueco futuro, defsym forward)
+        lea     ColorRamp_RowPtr_012f30(pc),a1  | +006  -> $012F30
         clr.w   d5                              | +00a
         move.w  #0x1f,d0                        | +00c
         sub.b   d2,d0                           | +010
@@ -903,10 +903,10 @@ Sprite_SpawnGridB_Scaled_013b4c:
 Vec_PolarToXY_013c0e:
         add.w   d0,d0                           | +000
         move.w  d1,d2                           | +002
-        lea     0x2c07ac.l,a2                   | +004
+        lea     (SinTab256_1c072c+0x100080).l,a2| +004
         muls.w  (a2,d0.w),d1                    | +00a
         asr.l   #0x8,d1                         | +00e
-        lea     0x2c072c.l,a2                   | +010
+        lea     (SinTab256_1c072c+0x100000).l,a2| +010
         muls.w  (a2,d0.w),d2                    | +016
         asr.l   #0x8,d2                         | +01a
         rts                                     | +01c

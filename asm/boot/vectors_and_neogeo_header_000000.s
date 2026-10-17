@@ -66,7 +66,10 @@ Zero_0000ca:
 NeoGeoHeader_000100:
         .dc.w   0x4e45,0x4f2d,0x4745,0x4f00,0x0201,0x0020,0x0000            | +00000
         .dc.l   ColMap_100000                   | +0000e  -> $100000
-        .dc.w   0x007e,0x0001,0x0027,0x8018,0x0027,0x81f4,0x0027,0x83d0     | +00012
+        .dc.w   0x007e,0x0001                                               | +00012  $112.w tamaño de backup (126 B), $114.b eye-catcher (1 = el juego), $115.b banco
+        .dc.l   SoftDip_JP_178018+0x100000    | +00016  -> $278018 (soft-DIP Japón)
+        .dc.l   SoftDip_US_1781f4+0x100000    | +0001a  -> $2781F4 (soft-DIP EE. UU.)
+        .dc.l   SoftDip_EU_1783d0+0x100000    | +0001e  -> $2783D0 (soft-DIP Europa)
         .dc.w   0x4ef9                                                      | +00022
         .dc.l   BiosEntry_USER                | +00024  -> $0007CC
         .dc.w   0x4ef9                                                      | +00028
