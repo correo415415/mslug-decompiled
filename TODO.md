@@ -97,5 +97,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Texto de Cut_TextPanel, cadenas $FF, blits sobre PatchDescChain
 - [x] Escáneres hasta $09C608, tablas del para-squad, scripts sin puntero en huecos
 - [x] Decode2D del jefe M5, tablas de muerte/despliegue del escuadrón, listas de animación del fix
-- [ ] Datos "otro" (2,3 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
+- [x] Decode2D vía aN y variantes contiguas, tablas de Bazooka, jefe M5 y escuadrón
+- [ ] Datos "otro" (2,1 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Census: Decode2D tables indexed through any address register (`lea T,aN; movea.l (aN,dM.w),a0; jsr`), unreferenced long Decode2D variants glued after known ones, Bazooka direction/muzzle/rocket-velocity tables ($2CA44C-$2CA5F0), mission-5 boss/walker velocity tables ($2D4186-$2D422A), squad child offsets and velocities ($2861D4-$28632C) -> other 2.1 %.
 - Census: indirect Decode2D window widened to 20 B, mission-5 boss twin Decode2D set ($2D4274/$2B8FF6), squad death/deploy tables ($2E3D80-$2E3F54), fix-layer block-animation lists of ListCursor_Step_05db6a (`lea X,a0` + InstallListPubHead_05DB58; 8-byte {tile, cols, rows, dur}, 0 = jump, FFFF = end) -> other 2.3 %.
 - Census: code scanners extended up to $09C608 (score popups, hiscore/options code), para-squad exit/jump/fall tables ($2E54A2-$2E5832), `gap_scripts` (unpointed scripts glued to other data inside unclassified runs) and `pointed_scripts` re-walks pointers into partially classified scripts (1B/1C tables) -> other 2.5 %.
 - Data: `CutTextPanel_1f4712` (fix-layer text rows of Cut_TextPanel_08cbc6, symbolic lea); census: `$FF`-terminated glyph strings passed in a2 to List_ApplyWithSentinelFF_*, Fix_TextRow_Draw text, blit records whose descriptor lies inside a PatchDescChain (house variants of Prop_HouseVariants_052e20); tools/dev/other_runs.py and tools/dev/look.py session helpers -> other 2.8 %.

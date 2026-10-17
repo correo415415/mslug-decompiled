@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Decode2D vía cualquier aN, Bazooka, jefe M5 (2026-10-17)** — tablas Decode2D indexadas desde cualquier registro de dirección y variantes contiguas sin referencia; tablas de dirección, boca de cañón y velocidad del cohete de Bazooka; velocidades del jefe de la misión 5; offsets y velocidades de los hijos del escuadrón; otro 2,1 %.
+
 > **Jefe M5, escuadrón y listas del fix (2026-10-17)** — tablas Decode2D gemelas del jefe de la misión 5, tablas de muerte y despliegue del escuadrón y listas de animación de bloques del fix (ListCursor_Step_05db6a: {tile, cols, rows, duración}, 0 = salto, FFFF = fin); otro 2,3 %.
 
 > **Escuadrón paracaidista y scripts en huecos (2026-10-17)** — los escáneres de código llegan hasta $09C608 (popups de puntuación, hiscore/opciones); tablas de salida/salto/caída del para-squad; `gap_scripts` recorre scripts sin puntero dentro de rachas sin clasificar y `pointed_scripts` reentra en scripts parcialmente marcados (tablas 1B/1C); otro 2,5 %.

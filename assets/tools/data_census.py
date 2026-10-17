@@ -82,6 +82,17 @@ STRUCTS = (
     # {dx, dy, prio, pad}, $2E3DC0 7 punteros a 8 handlers de muerte, $2E3EBC
     # 4 x {.l offsets {dx, dy} x 6, .l alturas 6 B} de despliegue
     (0x2E3D80, 0x2E3F54),
+    # Bazooka (bazooka_rocketvehicle_walker_06a000): $2CA44C 4 punteros a
+    # secuencias de dirección (5 B), $2CA470 16 x {dx, dy} de boca de cañón,
+    # $2CA4B0 8 punteros a 16 x {vx, vy, ay} del cohete (3 tablas de 96 B)
+    (0x2CA44C, 0x2CA5F0),
+    # jefe de la misión 5 / walker (gunship_m5boss_finalboss_06dfe8): $2D4186 5
+    # punteros a 4 x {vx, vy, ay} por distancia, $2D4212 4 x {vx, vy, ay}
+    (0x2D4186, 0x2D422A),
+    # escuadrón (spawn_states_041fb4 / children_handlers_041408): $2861D4 6 x
+    # {dx, dy} de hijos, $2861EC 12 B de alturas, $2861F8 4 punteros a 11 x
+    # {vx, vy, ay}, $286310 3 x {dx, dy}, $28631C patrón de fases
+    (0x2861D4, 0x28632C),
 )
 
 
@@ -552,19 +563,23 @@ def decode2d_tables(p, code_end=0xF0000):
     out = set()
     for o in range(0, code_end - 8, 2):
         w = p.W(o)
-        if w == 0x41F9:
-            v, n = p.L(o + 2), 6
-        elif w == 0x41FA:
-            v, n = o + 2 + p.SW(o + 2), 4
+        if w & 0xF1FF == 0x41F9:          # lea X.l,aN
+            v, n, reg = p.L(o + 2), 6, (w >> 9) & 7
+        elif w & 0xF1FF == 0x41FA:        # lea X(pc),aN
+            v, n, reg = o + 2 + p.SW(o + 2), 4, (w >> 9) & 7
         else:
+            continue
+        if reg == 7:
             continue
         ind = False
         for q in range(o + n, o + n + 20, 2):
             x = p.W(q)
-            if x & 0xFFC0 == 0x41C0:          # otro lea ..,a0
+            if x & 0xFFC0 == 0x41C0 or x == 0x41C0 | (reg << 9):   # otro lea ..,a0/aN
                 break
-            if x == 0x2070 and p.B(q + 2) & 0x8F == 0:   # movea.l (a0,dN.w),a0
+            if x == 0x2070 | reg and p.B(q + 2) & 0x8F == 0:   # movea.l (aN,dM.w),a0
                 ind = True
+                continue
+            if reg != 0 and not ind:
                 continue
             t = (p.L(q + 2) if x in (0x4EB9, 0x4EF9) else
                  q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x4EFA, 0x6100) else None)
@@ -911,6 +926,15 @@ def classify(p):
     d2d = decode2d_tables(p)
     for a, n in d2d:
         put(a, n, "struct")
+    # tablas largas sin referencia pegadas tras otra Decode2D conocida (bloques
+    # de variantes por enemigo): palabra 0 = 0 y 64 palabras < $1000
+    for a, n in sorted(d2d):
+        x = a + n
+        while (x not in mark and p.valid(x, 130) and p.W(x) == 0
+               and all(p.W(x + 2 + 2 * i) < 0x1000 for i in range(64))
+               and any(p.W(x + 2 + 2 * i) for i in range(64))):
+            put(x, 130, "struct")
+            x += 130
     # tablas de punteros sin referencia directa cuyas >= 3 entradas son tablas
     # Decode2D de formato largo (palabra 0 = 0) contiguas, la primera ya conocida
     # por el código (p. ej. $2D4274 del jefe de la misión 5)
