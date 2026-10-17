@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Censo (2026-10-17)** — descriptores de escena sueltos (SceneLoader_ByIndex_043562: script de la VM + entidades de 14 B) y, como último recurso, huecos que empiezan en un puntero exacto cargado por el código; otro 0,4 %.
+
 > **Censo (2026-10-17)** — tablas indexadas también vía add.l aN,dM / adda y siguiendo bra.w; otro 0,5 %.
 
 > **Censo (2026-10-17)** — tablas indexadas por el código (lea T,aN + acceso (aN,dM.w)), registros de spawner sin referencia con su tabla de handlers, pools de nombres katakana completos y variantes Decode2D pegadas hacia atrás; el código incrustado corta las rachas; otro 0,5 %.

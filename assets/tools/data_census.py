@@ -1141,6 +1141,65 @@ def indexed_tables(p, mark, code_end=0x9C608, max_len=0x200):
     return out
 
 
+SCENE_BY_DESC = 0x043562   # SceneLoader_ByIndex_043562: a0 = {.l script VM, .l entidades}
+
+
+def scene_descs(p, code_end=0x9C608):
+    """Descriptores de escena sueltos (fuera de la tabla $0916C8) pasados en a0
+    a SceneLoader_ByIndex_043562: {.l script de la VM de escena, .l lista de
+    entidades de 14 B hasta tipo 2}; el script se decodifica con
+    scene_script_dump.decode_script -> [(addr, len)]."""
+    m = LV.load_ssd()
+    out = []
+    for o in range(0, code_end - 12, 2):
+        if p.W(o) != 0x41F9 or p.W(o + 6) != 0x4EB9 or p.L(o + 8) != SCENE_BY_DESC:
+            continue
+        d = p.L(o + 2)
+        if d & 1 or not p.valid(d, 8):
+            continue
+        out.append((d, 8))
+        ent = p.L(d + 4)
+        x = ent
+        while p.valid(x, 1) and p.B(x) != 2 and x - ent < 14 * 64:
+            x += 14
+        if p.valid(x, 1) and p.B(x) == 2:
+            out.append((ent, x + 2 - ent))
+        vm = p.L(d)
+        if p.valid(vm, 2):
+            ops, end = m.decode_script(p.off(vm), p.off(vm) + 0x1000)
+            if end > p.off(vm):
+                out.append((vm, end - p.off(vm)))
+    return out
+
+
+def code_ref_gaps(p, mark, code_end=0x9C608, max_len=0x100):
+    """Último recurso: huecos que empiezan exactamente en una dirección cargada
+    por el código (`lea X.l,aN`, `movea.l #X,aN`, `move.l #X,d(aN)`) y van
+    hasta el siguiente byte clasificado o la siguiente dirección referenciada
+    (máx. max_len). El formato es propio de cada rutina (registros de piezas,
+    offsets, parámetros); la evidencia es el puntero exacto -> [(addr, len)]."""
+    refs = set()
+    for o in range(0, code_end - 6, 2):
+        w = p.W(o)
+        if w & 0xF1FF in (0x41F9, 0x207C) or w & 0xF1FF == 0x217C or w == 0x23FC:
+            v = p.L(o + 2)
+            if 0x200000 <= v < 0x300000 and v & 1 == 0:
+                refs.add(v)
+    srefs = sorted(refs)
+    import bisect
+    out = []
+    for v in srefs:
+        if v in mark or not p.valid(v, 2):
+            continue
+        i = bisect.bisect_right(srefs, v)
+        lim = min(srefs[i] if i < len(srefs) else v + max_len, v + max_len)
+        x = v
+        while x < lim and x not in mark and p.valid(x, 1):
+            x += 1
+        out.append((v, x - v))
+    return out
+
+
 def classify(p):
     """-> dict cpu_addr -> kind (sólo bytes marcados)."""
     mark = {}
@@ -1322,6 +1381,8 @@ def classify(p):
     # celdas de tilemap sin descriptor
     for a, n in tilemap_gaps(p, mark):
         put(a, n, "tilemap")
+    for a, n in scene_descs(p):
+        put(a, n, "struct")
     # tablas indexadas por el código (lea T,aN + acceso (aN,dM.w))
     for a, n in indexed_tables(p, mark):
         put(a, n, "struct")
@@ -1329,6 +1390,9 @@ def classify(p):
     for _ in range(2):
         for a, n in pointer_tables(p, mark):
             put(a, n, "struct")
+    # último recurso: datos que empiezan en un puntero exacto del código
+    for a, n in code_ref_gaps(p, mark):
+        put(a, n, "struct")
     return mark
 
 
