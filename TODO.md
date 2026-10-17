@@ -73,6 +73,10 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [ ] Fondos: la trayectoria exacta de la cámara (ops $0F/$15 en orden de
       ejecución y seguimiento del jugador) y las capas que la cámara recicla a
       mitad de misión (huecos negros en `*_scroll.png`).
+      Notas 2026-10-17: en el emulador (parche invincible + derecha) $106F6C y
+      $106F40..$106F6F no cambian; mantener A no dispara (hay que alternar
+      pulsaciones: --input-script con >100 KB no produjo salida). Siguiente: buscar
+      la X de cámara con un barrido de RAM y pulsaciones alternas más cortas.
 - [x] Codificador ADPCM-A/B para sustituir muestras desde WAV (`audio.py encode`).
 - [x] Exportar las pistas musicales a MIDI con sus nombres
       (`mrom/tools/export_midi.py`). La curva de `S_TEMPO` ya está modelada (set-tempo exactos).
