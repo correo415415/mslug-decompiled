@@ -1373,7 +1373,7 @@ Fix_TextRow_DrawOne_08cb18:
         .section .text.Cut_TextPanel_08cbc6, "ax", @progbits
         .global Cut_TextPanel_08cbc6
 Cut_TextPanel_08cbc6:
-        lea     0x2f4712.l,a1                   | +000
+        lea     (CutTextPanel_1f4712+0x100000).l,a1 | +000
         move.l  a1,0x80(a6)                     | +006
         move.w  #0xffff,0x38(a6)                | +00a
         bset    #0x6,0x12(a6)                   | +010

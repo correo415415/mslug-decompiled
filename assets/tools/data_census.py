@@ -199,6 +199,59 @@ def path_scripts(p, code_end=0xF0000):
             out += [(a, n, "struct") for a, n in r]
     return out
 
+
+# ---- textos con centinela ----------------------------------------------------
+LIST_APPLY_FF = (0x0477FC, 0x04784C, 0x047888)   # List_ApplyWithSentinelFF_*: a2
+
+
+def ff_strings(p, code_end=0xF0000):
+    """Cadenas de glifos (1 B, fin $FF) pasadas en a2 a List_ApplyWithSentinelFF_*
+    (`lea X,a2` + jsr/bsr <= 16 B, sin otro `lea ..,a2`) -> [(addr, n)]."""
+    out = set()
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w == 0x45F9:
+            v, n = p.L(o + 2), 6
+        elif w == 0x45FA:
+            v, n = o + 2 + p.SW(o + 2), 4
+        else:
+            continue
+        for q in range(o + n, o + n + 16, 2):
+            x = p.W(q)
+            if x & 0xFFC0 == 0x45C0:
+                break
+            t = (p.L(q + 2) if x in (0x4EB9, 0x4EF9) else
+                 q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x4EFA, 0x6100) else None)
+            if t is None:
+                continue
+            if t in LIST_APPLY_FF and p.valid(v, 1):
+                k = 0
+                while p.valid(v + k, 1) and p.B(v + k) != 0xFF and k < 256:
+                    k += 1
+                if k < 256:
+                    out.add((v, k + 1))
+            break
+    return sorted(out)
+
+
+FIX_TEXTROW_DRAW = 0x08C9A6   # Fix_TextRow_Draw_08c9a6: +$80(a6) -> filas fix
+
+
+def fix_row_texts(p, code_end=0xF0000):
+    """Textos de Fix_TextRow_Draw_08c9a6 (Cut_TextPanel): palabras fix 2x2
+    (`$0Bxx`/`$0Cxx` paleta 4, resto 9), 0000 = fin de fila, FFFE = fila alta,
+    FFFD = salta, FFFF = fin; instalados con `lea X,a1 ; move.l a1,$80(a6)`."""
+    out = []
+    for o in range(0, code_end - 10, 2):
+        if p.W(o) == 0x43F9 and p.W(o + 6) == 0x2D49 and p.W(o + 8) == 0x0080:
+            v, k = p.L(o + 2), 0
+            while (p.valid(v + k, 2) and p.W(v + k) != 0xFFFF and k < 0x2000
+                   and (p.W(v + k) < 0x1000 or p.W(v + k) >= 0xFFFD)):
+                k += 2
+            if k >= 8 and p.valid(v + k, 2) and p.W(v + k) == 0xFFFF:
+                out.append((v, k + 2))
+    return out
+
 SET_SPRITE_MAP = 0x028CD4          # EntitySetSpriteMap: a0 -> +$3C/+$40 (script)
 _OPSZ = {**S.OP_SIZE, 0x00: 2, 0x01: 6, 0x03: 6, 0x16: 2, 0x17: 2, 0x18: 2}
 
@@ -742,7 +795,11 @@ def classify(p):
         put(tiles, 4 * h * ncol, "tilemap")
         put(rec, 20, "struct")
         put(desc, 8, "struct")
-    for a, n in blit_records(p, {d for r, d, w, h, t, nc in blit_patches(p)}):
+    descs = {d for r, d, w, h, t, nc in blit_patches(p)}
+    for a, n, k in desc_chains(p):        # descriptores de las cadenas
+        if k == "struct":
+            descs.update(range(a, a + n, 8))
+    for a, n in blit_records(p, descs):
         put(a, n, "struct")
     # módulos con parser propio (mission_streams, scene_scripts, template_index)
     for name, a, n, f in registry.REGISTRY:
@@ -799,6 +856,9 @@ def classify(p):
             t = p.L(a + 2)
             if t & 1 == 0 and p.valid(t, 12):
                 put(t, 12, "struct")
+    # textos: cadenas $FF de List_ApplyWithSentinelFF_* y filas fix de Cut_TextPanel
+    for a, n in ff_strings(p) + fix_row_texts(p):
+        put(a, n, "struct")
     # PathScripts (VM de movimiento, +$90 de la tarea) y sus tablas
     for a, n, k in path_scripts(p):
         put(a, n, k)

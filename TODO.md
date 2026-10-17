@@ -94,5 +94,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Pasada de rename_data_by_census tras el op 1E (81 AnimScr_)
 - [x] Demos grabadas del attract (InputDemo_*) y PathScripts (VM de movimiento +$90) en el censo
 - [x] Tablas de RocketVehicle/AimTurret, Decode2D indirectas y frames de op 1E en el censo
-- [ ] Datos "otro" (2,9 %): siguientes $1F4712 (Cut_TextPanel_08cbc6: texto fix `0Bxx`/`05xx` con separadores 0000/FFFE/FFFD), $19824D (61 refs desde $052E2C..), $1E55AF, $1F77A5, $1C1285, $193C72, $1B8FF9/$1B9282; revisar Data_196000 / AnimScr_1d6700 y
+- [x] Texto de Cut_TextPanel, cadenas $FF, blits sobre PatchDescChain
+- [ ] Datos "otro" (2,8 %): siguientes $1F4712 (Cut_TextPanel_08cbc6: texto fix `0Bxx`/`05xx` con separadores 0000/FFFE/FFFD), $19824D (61 refs desde $052E2C..), $1E55AF, $1F77A5, $1C1285, $193C72, $1B8FF9/$1B9282; revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.
