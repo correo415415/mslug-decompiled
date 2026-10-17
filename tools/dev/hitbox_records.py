@@ -21,7 +21,16 @@ def isrec(o):
     s = d[o + 0x12:o + 0x50]
     return all(s[i] == 2 for i in range(0, 60, 12)) and s[60] == 0x1D
 
+def isbody(o):
+    s = d[o + 0xE:o + 0x4C]
+    return d[o] == 0x80 and len(s) == 0x3E and all(s[i] == 2 for i in range(0, 60, 12)) and s[60] == 0x1D
+
 def show(o):
+    while isbody(o):
+        x0, x1, y0, y1 = struct.unpack(">hhhh", d[o+6:o+0xE])
+        print("  $%06X cuerpo tipo %d  x[%d,%d] y[%d,%d]" % (o if o < 0x100000 else o + 0x100000,
+              d[o+1], x0, x1, y0, y1))
+        o += 0x4C
     while isrec(o):
         op, ty, dmg, st, sh = d[o], d[o+1], struct.unpack(">H", d[o+2:o+4])[0], d[o+4], d[o+5]
         x0, x1, y0, y1 = struct.unpack(">hhhh", d[o+0xA:o+0x12])
