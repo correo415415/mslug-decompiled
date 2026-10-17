@@ -1508,6 +1508,25 @@ def classify(p):
                     put(y - 4, 4, "struct")
                     put(y, 6, "anim")
                     y += step
+    # op 07 SetLong con valor en datos $2xxxxx: bloque referenciado hasta el
+    # siguiente byte ya clasificado (≤ $100)
+    refs7 = sorted({p.L(a + 2) for a in op_starts if p.B(a) == 0x07 and p.valid(a + 2, 6)
+                    and 0x200000 <= p.L(a + 2) < 0x300000})
+    for v in refs7:
+        if v & 1 or v in mark:
+            continue
+        x = v
+        while x - v < 0x100 and x not in mark and p.valid(x, 1):
+            x += 1
+        put(v, x - v, "struct")
+    # tablas de saltos: huecos que empiezan con ≥ 3 longs pares a código
+    for lo, hi in _gaps(p, mark):
+        o = lo + (lo & 1)
+        st = o
+        while o + 4 <= hi and 0x400 <= p.L(p.cpu(o)) < 0x9C608 and p.L(p.cpu(o)) & 1 == 0:
+            o += 4
+        if (o - st) // 4 >= 3:
+            put(p.cpu(st), o - st, "struct")
     # último recurso: datos que empiezan en un puntero exacto del código
     for a, n in code_ref_gaps(p, mark):
         put(a, n, "struct")

@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- census: op 07 SetLong data refs and code jump tables classified as struct; other now 0.2 %.
 - Census: spawner records adjacent to known ones or filling exact gaps, Player script parameter longs (move.l -4(a0),$74) -> other 0.2 %.
 - Census: contiguous MultiBlit grids, gap scripts jumping into known scripts, hitbox/attack pointer tables copied to +$48/+$4C -> other 0.2 %.
 - Census: crab attack-list pointer tables, lea+move.l a0,$48 hitbox seeds, contiguous 36-byte hitbox shape tables -> other 0.3 %.
