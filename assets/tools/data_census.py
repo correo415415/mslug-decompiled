@@ -626,6 +626,26 @@ def hitbox_lists(p, op_starts, code_end=0x9C608):
     return out
 
 
+BOX_SCRIPT_TILES = {0x363A: 0x50, 0x366C: 0x50}   # tile de esquina -> tamaño
+
+
+def box_records(p):
+    """Registros de caja reconocidos por su guion de depuración (ver classify)."""
+    d = p.d
+    def scr(o):
+        s = d[o:o + 0x3E]
+        return len(s) == 0x3E and all(s[i] == 2 and s[i + 1] == 0 for i in range(0, 60, 12)) \
+            and s[60] == 0x1D
+    out = []
+    for o in range(0, len(d) - 0x50, 2):
+        if d[o] <= 4 and scr(o + 0x12) and \
+                (d[o + 0x16] << 8 | d[o + 0x17]) in BOX_SCRIPT_TILES:
+            out.append((p.cpu(o), 0x50))
+        elif d[o] == 0x80 and scr(o + 0xE) and (d[o + 0x12] << 8 | d[o + 0x13]) == 0x3608:
+            out.append((p.cpu(o), 0x4C))
+    return out
+
+
 def attack_lists(p, op_starts, code_end=0x9C608):
     """Listas de cajas de ataque de +$4C(a6) (Hitbox_RunList_0283ec): registros
     de $50 B {op.b 0..4 (Hitbox_ListOpTable_028428: a quién golpea), ...} hasta
@@ -1497,6 +1517,15 @@ def classify(p):
             if y in op19 or (y - x <= 12 * 32 and y in mark and p.valid(y, 12) and y - 12 >= x):
                 put(x, y - x, "struct")
             break
+    # registros de caja por firma (cubre listas sin semilla y corrige "anim"):
+    # todos llevan un guion de sprite de depuración de 62 B (5 frames op 02 +
+    # op 1D) que dibuja las esquinas; el tile identifica la familia —
+    # $363A ataque (+$4C, $50 B), $366C golpe (+$48, $50 B), $3608 cuerpo
+    # (+$60, cabecera $80, $4C B; Entity_HitboxCollide_028A96).
+    for a, n in box_records(p):
+        for x in range(a, a + n):
+            if mark.get(x) in (None, "anim", "other"):
+                mark[x] = "struct"
     # listas de cajas de golpe (+$48) y de ataque (+$4C) de los ops 09/0A y del código
     for a, n in hitbox_lists(p, op_starts) + attack_lists(p, op_starts):
         put(a, n, "struct")

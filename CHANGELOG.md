@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Census: hitbox records recognised by their 62-byte debug sprite script (attack $363A / hit $366C / body $3608 families); tools/dev/hitbox_records.py decoder; format documented in collmap_hitbox_script_ops_027400.s. struct 13.6 % -> 16.5 %, anim 23.0 % -> 20.1 %.
 - experiments: recipes 06 invincibility (the game's own debug bit 3 of `$100001`), 07 debug flags (`$100000` written at boot) and 08 start in mission N (Dispatcher_ModeTable state/handler pair); `apply_patch.sh invincible|debug=HHHH|mission=N`, verified in the emulator.
 - assets(levels): approximate vertical scroll — per-scene `*_scroll.png` (320x224 windows) with a camera Y track derived from the main-plane layers and per-layer Y parallax; track saved in levels.json.
 - assets(sprites): no grey animations left (948/948 with palette): palette inheritance by shared tiles and by nearest coloured script, plus 11 manual entries (MuzzleFx flashes, ScriptedProp wall, TurretCar cannon) traced to their `jsr $236E` loads.

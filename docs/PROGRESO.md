@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Cajas de golpe (2026-10-17)** — Los bloques AnimBlk/AnimScr grandes (p. ej. $196000, $1D6700) son en gran parte listas de cajas: registros de $50 B (+$4C ataque, +$48 golpe) y $4C B (+$60 cuerpo), cada uno con un guion de sprite de depuración de 62 B que dibuja las esquinas. data_census.box_records los reconoce por firma: struct 16,5 %, anim 20,1 %.
+
 > **Scroll vertical (2026-10-17)** — `levels.py` genera `*_scroll.png`: ventanas de 320x224 con la Y de cámara deducida de las capas del plano principal y parallax vertical por capa (aproximación; faltan las capas recicladas a mitad de misión).
 
 > **Paletas de sprites (2026-10-17)** — ninguna animación sale ya en grises (948/948): herencia por tiles compartidos y por script vecino, más 11 entradas manuales trazadas hasta su `jsr $236E`.

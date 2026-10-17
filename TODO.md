@@ -127,4 +127,5 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Censo: huecos apuntados desde datos, colas de registro, mapa de colisión de cámara en $20A000, colas de rampa, continuación periódica; islas ChildRank_CmpByte10 fuera de los módulos de datos
 - [x] Censo: terminadores $FF sueltos, cabecera de Prop_BoatDebris, $FFFF final y marca $12345678 en $2FF800 — 0 bytes otro
 - [x] Datos "otro": 0 bytes no nulos sin clasificar (tools/dev/other_runs.py -> total 0).
-- [ ] Revisar a mano AnimBlk_Prop_HutVariants_196000 / AnimScr_1d6700 y los MissionStream con bytes sin decodificar (ya clasificados, formato interno pendiente).
+- [x] Formato de AnimBlk_Prop_HutVariants_196000 / AnimScr_1d6700: listas de cajas de $50 B (+$48/+$4C) y de $4C B (+$60) con guion de depuración; censo por firma (data_census.box_records, tools/dev/hitbox_records.py) — 47 KB pasan de anim a struct.
+- [ ] Revisar a mano los MissionStream con bytes sin decodificar (ya clasificados, formato interno pendiente).
