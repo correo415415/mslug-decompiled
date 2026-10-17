@@ -35,7 +35,7 @@
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 131072 B):
 |     animación 62.6%, estructuras 36.7%, tablas por fórmula 0.8%.
-|   Entradas por prefijo: AnimScr 150, Data 122, Zero 47, Str 3, SinTab256 1, PtrTab 1.
+|   Entradas por prefijo: AnimScr 155, Data 117, Zero 47, Str 3, SinTab256 1, PtrTab 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -8269,11 +8269,11 @@ Zero_1c1106:
         .dc.w   0x0000,0x0003                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1c110a  @ $1C110A  (754 B)  [ref. desde código]
+|  AnimScr_1c110a  @ $1C110A  (754 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1c110a, "ax", @progbits
-        .global Data_1c110a
-Data_1c110a:
+        .section .text.AnimScr_1c110a, "ax", @progbits
+        .global AnimScr_1c110a
+AnimScr_1c110a:
         .dc.w   0x1e08,0x0023,0x259e,0xffff,0x0000,0x0000,0x0003,0x1e08     | +00000
         .dc.w   0x0023,0x258a,0xffff,0x0000,0x0000,0x0003,0x1e08,0x0023     | +00010
         .dc.w   0x2570,0xffff,0x0000,0x0000,0x0100,0x002c,0x10d8            | +00020
@@ -8376,20 +8376,20 @@ Data_1c110a:
         .dc.w   0x0023                                                      | +002f0
 
 | ----------------------------------------------------------------------------
-|  Data_1c13fc  @ $1C13FC  (5 B)  [ref. desde código]
+|  AnimScr_1c13fc  @ $1C13FC  (5 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1c13fc, "ax", @progbits
-        .global Data_1c13fc
-Data_1c13fc:
+        .section .text.AnimScr_1c13fc, "ax", @progbits
+        .global AnimScr_1c13fc
+AnimScr_1c13fc:
         .dc.w   0x229c,0xffff                                               | +00000
         .dc.b   0x00                            | +00004
 
 | ----------------------------------------------------------------------------
-|  Data_1c1401  @ $1C1401  (56 B)  [ref. desde código]
+|  AnimScr_1c1401  @ $1C1401  (56 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1c1401, "ax", @progbits
-        .global Data_1c1401
-Data_1c1401:
+        .section .text.AnimScr_1c1401, "ax", @progbits
+        .global AnimScr_1c1401
+AnimScr_1c1401:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000                                                      | +00001
         .dc.l   0x00011e08                    | +00003  -> $011E08
@@ -8403,11 +8403,11 @@ Data_1c1401:
         .dc.b   0xff                            | +00037
 
 | ----------------------------------------------------------------------------
-|  Data_1c1439  @ $1C1439  (463 B)  [ref. desde código]
+|  AnimScr_1c1439  @ $1C1439  (463 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1c1439, "ax", @progbits
-        .global Data_1c1439
-Data_1c1439:
+        .section .text.AnimScr_1c1439, "ax", @progbits
+        .global AnimScr_1c1439
+AnimScr_1c1439:
         .dc.b   0xff                            | +00000
         .dc.w   0x0000,0x0000                                               | +00001
         .dc.l   0x00011e08                    | +00005  -> $011E08
@@ -8541,11 +8541,11 @@ Data_1c1639:
         .dc.w   0x0024                                                      | +000d3
 
 | ----------------------------------------------------------------------------
-|  Data_1c170e  @ $1C170E  (258 B)  [ref. desde código]
+|  AnimScr_1c170e  @ $1C170E  (258 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1c170e, "ax", @progbits
-        .global Data_1c170e
-Data_1c170e:
+        .section .text.AnimScr_1c170e, "ax", @progbits
+        .global AnimScr_1c170e
+AnimScr_1c170e:
         .dc.w   0xfd64,0xffff,0x0000,0x0000                                 | +00000
         .dc.l   Pal_021e08                   | +00008  -> $021E08
         .dc.w   0x0024,0xfd74,0xffff,0x0000,0x0000                          | +0000c

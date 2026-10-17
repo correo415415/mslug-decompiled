@@ -36,7 +36,7 @@
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 163840 B):
 |     animación 70.4%, estructuras 29.6%.
-|   Entradas por prefijo: AnimScr 257, FixType 82, Data 68, Zero 36, FixTypePages 4, Str 1, FixTypeIntro 1, FixTypeAnchor 1, CutTextPanel 1.
+|   Entradas por prefijo: AnimScr 259, FixType 82, Data 66, Zero 36, FixTypePages 4, Str 1, FixTypeIntro 1, FixTypeAnchor 1, CutTextPanel 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -22388,11 +22388,11 @@ AnimScr_1f41f9:
         .dc.b   0x00                            | +0007f
 
 | ----------------------------------------------------------------------------
-|  Data_1f4279  @ $1F4279  (1,177 B)
+|  AnimScr_1f4279  @ $1F4279  (1,177 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f4279, "ax", @progbits
-        .global Data_1f4279
-Data_1f4279:
+        .section .text.AnimScr_1f4279, "ax", @progbits
+        .global AnimScr_1f4279
+AnimScr_1f4279:
         .dc.b   0x01                           | +00000
         .dc.w   0x0208,0x0025,0x6186,0xffff,0x1600,0x0501,0x0020        | +00001
         .dc.l   Pal_020208                     | +0000f
@@ -22946,11 +22946,11 @@ AnimScr_1f5140:
         .dc.b   0x02                            | +001c4
 
 | ----------------------------------------------------------------------------
-|  Data_1f5305  @ $1F5305  (52 B)  [ref. desde código]
+|  AnimScr_1f5305  @ $1F5305  (52 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f5305, "ax", @progbits
-        .global Data_1f5305
-Data_1f5305:
+        .section .text.AnimScr_1f5305, "ax", @progbits
+        .global AnimScr_1f5305
+AnimScr_1f5305:
         .dc.b   0x0b                            | +00000
         .dc.w   0x0025,0x2b30,0xffff                                        | +00001
         .dc.l   0x0001020b                    | +00007  -> $01020B

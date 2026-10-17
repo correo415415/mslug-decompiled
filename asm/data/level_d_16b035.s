@@ -42,7 +42,7 @@
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 139549 B):
 |     frames 30.8%, animación 33.3%, estructuras 28.6%, tablas por fórmula
 |     0.0%, ceros 7.3%.
-|   Entradas por prefijo: AnimScr 168, SprFrame 95, Data 17, SpawnStream 6, SoftDip 3, Zero 2, TaskBootTab 1, HudText 1, CollOffsets 1, CollSlopes 1, CollTileTypes 1, CollMasks 1, HitShapeTab 1, RosterLenTabB 1, RosterPtrTabB 1, RosterLenTabA 1, RosterPtrTabA 1, RosterNamesB 1, RosterNamesA 1.
+|   Entradas por prefijo: AnimScr 168, SprFrame 100, Data 12, SpawnStream 6, SoftDip 3, Zero 2, TaskBootTab 1, HudText 1, CollOffsets 1, CollSlopes 1, CollTileTypes 1, CollMasks 1, HitShapeTab 1, RosterLenTabB 1, RosterPtrTabB 1, RosterLenTabA 1, RosterPtrTabA 1, RosterNamesB 1, RosterNamesA 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -2707,11 +2707,11 @@ SprFrame_171815:
         .dc.b   0xb3                            | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_171817  @ $171817  (255 B)  [ref. desde código]
+|  SprFrame_171817  @ $171817  (255 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171817, "ax", @progbits
-        .global Data_171817
-Data_171817:
+        .section .text.SprFrame_171817, "ax", @progbits
+        .global SprFrame_171817
+SprFrame_171817:
         .dc.b   0x28                            | +00000
         .dc.w   0xb329,0xb322,0xb323,0xb320,0xb321,0xb31e,0xb31f,0xb31c     | +00001
         .dc.w   0xb31d,0x0020,0x000f,0x0101,0xb32a,0x0030,0x0010,0x0101     | +00011
@@ -2736,19 +2736,19 @@ Data_171817:
         .dc.w   0x0020,0x0102,0xb373,0xb374,0xfff8,0x0020,0x0203,0xb36e     | +000ef
 
 | ----------------------------------------------------------------------------
-|  Data_171916  @ $171916  (2 B)  [ref. desde código]
+|  SprFrame_171916  @ $171916  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171916, "ax", @progbits
-        .global Data_171916
-Data_171916:
+        .section .text.SprFrame_171916, "ax", @progbits
+        .global SprFrame_171916
+SprFrame_171916:
         .dc.w   0xb36f                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_171918  @ $171918  (258 B)  [ref. desde código]
+|  SprFrame_171918  @ $171918  (258 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171918, "ax", @progbits
-        .global Data_171918
-Data_171918:
+        .section .text.SprFrame_171918, "ax", @progbits
+        .global SprFrame_171918
+SprFrame_171918:
         .dc.w   0xb370,0xb36b,0xb36c,0xb36d                                 | +00000
         .dc.l   AnimScr_180020                   | +00008  -> $180020
         .dc.w   0x0102,0xb371,0xb372,0x0028,0x0020,0x0203,0xb368,0xb369     | +0000c
@@ -2770,19 +2770,19 @@ Data_171918:
         .dc.w   0xb377,0x0200,0xffe8,0x0020,0x0102,0xb373                   | +000f6
 
 | ----------------------------------------------------------------------------
-|  Data_171a1a  @ $171A1A  (1 B)  [ref. desde código]
+|  SprFrame_171a1a  @ $171A1A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171a1a, "ax", @progbits
-        .global Data_171a1a
-Data_171a1a:
+        .section .text.SprFrame_171a1a, "ax", @progbits
+        .global SprFrame_171a1a
+SprFrame_171a1a:
         .dc.b   0xb3                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_171a1b  @ $171A1B  (741 B)  [ref. desde código]
+|  SprFrame_171a1b  @ $171A1B  (741 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_171a1b, "ax", @progbits
-        .global Data_171a1b
-Data_171a1b:
+        .section .text.SprFrame_171a1b, "ax", @progbits
+        .global SprFrame_171a1b
+SprFrame_171a1b:
         .dc.b   0x74                            | +00000
         .dc.w   0xfff8,0x0020,0x0503,0xb36e,0xb36f,0xb39d,0xb36b,0xb390     | +00001
         .dc.w   0xb39e,0xb371,0xb372,0xb39f,0xb368,0xb3a0,0xb38a,0xb365     | +00011

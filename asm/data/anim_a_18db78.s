@@ -36,7 +36,7 @@
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 140424 B):
 |     animación 88.6%, estructuras 11.3%.
-|   Entradas por prefijo: AnimScr 281, Zero 35, Data 30, PropItemPtrs 1, PatchDescChain 1.
+|   Entradas por prefijo: AnimScr 297, Zero 35, Data 14, PropItemPtrs 1, PatchDescChain 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -9904,11 +9904,11 @@ AnimScr_1a1029:
         .dc.b   0x00                            | +001e1
 
 | ----------------------------------------------------------------------------
-|  Data_1a120b  @ $1A120B  (35 B)  [ref. desde código]
+|  AnimScr_1a120b  @ $1A120B  (35 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a120b, "ax", @progbits
-        .global Data_1a120b
-Data_1a120b:
+        .section .text.AnimScr_1a120b, "ax", @progbits
+        .global AnimScr_1a120b
+AnimScr_1a120b:
         .dc.b   0x28                            | +00000
         .dc.w   0xb738,0x0000,0x0000,0x0204,0x0022,0xdf14,0xffff,0x0000     | +00001
         .dc.w   0x0000,0x0100,0x002a,0x125c,0x1900,0x0028,0x9ed8,0x0000     | +00011
@@ -9923,11 +9923,11 @@ AnimScr_1a122e:
         .dc.w   0x0204,0x0022,0x7968,0xffff,0x0000,0x0000,0x0100            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a123c  @ $1A123C  (209 B)  [ref. desde código]
+|  AnimScr_1a123c  @ $1A123C  (209 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a123c, "ax", @progbits
-        .global Data_1a123c
-Data_1a123c:
+        .section .text.AnimScr_1a123c, "ax", @progbits
+        .global AnimScr_1a123c
+AnimScr_1a123c:
         .dc.w   0x002a,0x125c,0x1900,0x0028,0xa28c,0x0000,0x0000,0x0204     | +00000
         .dc.w   0x0022,0x89b8,0xffff,0x0000,0x0000,0x0100,0x002a,0x125c     | +00010
         .dc.w   0x0001,0x1c94,0x1900,0x0028,0x9758,0x0000,0x0000,0x0204     | +00020
@@ -9944,11 +9944,11 @@ Data_1a123c:
         .dc.b   0x19                            | +000d0
 
 | ----------------------------------------------------------------------------
-|  Data_1a130d  @ $1A130D  (239 B)  [ref. desde código]
+|  AnimScr_1a130d  @ $1A130D  (239 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a130d, "ax", @progbits
-        .global Data_1a130d
-Data_1a130d:
+        .section .text.AnimScr_1a130d, "ax", @progbits
+        .global AnimScr_1a130d
+AnimScr_1a130d:
         .dc.b   0x00                            | +00000
         .dc.w   0x0028,0xb030,0x0000,0x0000,0x0204,0x0022,0xc870,0xffff     | +00001
         .dc.w   0x0000,0x0000,0x0100,0x002a,0x137c,0x1900,0x0028,0xb744     | +00011
@@ -9992,21 +9992,21 @@ AnimScr_1a140b:
         .dc.b   0x0c                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a140c  @ $1A140C  (48 B)  [ref. desde código]
+|  AnimScr_1a140c  @ $1A140C  (48 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a140c, "ax", @progbits
-        .global Data_1a140c
-Data_1a140c:
+        .section .text.AnimScr_1a140c, "ax", @progbits
+        .global AnimScr_1a140c
+AnimScr_1a140c:
         .dc.w   0x0001,0x1c94,0x1900,0x0028,0x9764,0x0000,0x0000,0x0204     | +00000
         .dc.w   0x0022,0x0c34,0xffff,0x0000,0x0000,0x0100,0x002a,0x149c     | +00010
         .dc.w   0x1900,0x0028,0xafdc,0x0000,0x0000,0x0204,0x0022,0xc736     | +00020
 
 | ----------------------------------------------------------------------------
-|  Data_1a143c  @ $1A143C  (207 B)  [ref. desde código]
+|  AnimScr_1a143c  @ $1A143C  (207 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a143c, "ax", @progbits
-        .global Data_1a143c
-Data_1a143c:
+        .section .text.AnimScr_1a143c, "ax", @progbits
+        .global AnimScr_1a143c
+AnimScr_1a143c:
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x149c,0x1900,0x0028     | +00000
         .dc.w   0xb6f0,0x0000,0x0000,0x0204,0x0022,0xde10,0xffff,0x0000     | +00010
         .dc.w   0x0000,0x0100,0x002a,0x149c,0x1900,0x0028,0x9e90,0x0000     | +00020
@@ -10032,11 +10032,11 @@ AnimScr_1a150b:
         .dc.w   0x002a,0x152c                                               | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1a1510  @ $1A1510  (254 B)  [ref. desde código]
+|  AnimScr_1a1510  @ $1A1510  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1510, "ax", @progbits
-        .global Data_1a1510
-Data_1a1510:
+        .section .text.AnimScr_1a1510, "ax", @progbits
+        .global AnimScr_1a1510
+AnimScr_1a1510:
         .dc.w   0x1900,0x0028,0xa2a4,0x0000,0x0000,0x0204,0x0022,0x8a26     | +00000
         .dc.w   0xffff,0x0000,0x0000,0x0100,0x002a,0x152c,0x0001,0x1c94     | +00010
         .dc.w   0x1900,0x0028,0x9764,0x0000,0x0000,0x0204,0x0022,0x0c34     | +00020
@@ -10055,22 +10055,22 @@ Data_1a1510:
         .dc.w   0x0000,0x0204,0x0022,0xdf70,0xffff,0x0000,0x0000            | +000f0
 
 | ----------------------------------------------------------------------------
-|  Data_1a160e  @ $1A160E  (43 B)  [ref. desde código]
+|  AnimScr_1a160e  @ $1A160E  (43 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a160e, "ax", @progbits
-        .global Data_1a160e
-Data_1a160e:
+        .section .text.AnimScr_1a160e, "ax", @progbits
+        .global AnimScr_1a160e
+AnimScr_1a160e:
         .dc.w   0x0100,0x002a,0x164c,0x1900,0x0028,0x9ef0,0x0000,0x0000     | +00000
         .dc.w   0x0204,0x0022,0x79d4,0xffff,0x0000,0x0000,0x0100,0x002a     | +00010
         .dc.w   0x164c,0x1900,0x0028,0xa2a4,0x0000                          | +00020
         .dc.b   0x00                            | +0002a
 
 | ----------------------------------------------------------------------------
-|  Data_1a1639  @ $1A1639  (214 B)  [ref. desde código]
+|  AnimScr_1a1639  @ $1A1639  (214 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1639, "ax", @progbits
-        .global Data_1a1639
-Data_1a1639:
+        .section .text.AnimScr_1a1639, "ax", @progbits
+        .global AnimScr_1a1639
+AnimScr_1a1639:
         .dc.b   0x00                            | +00000
         .dc.w   0x0204,0x0022,0x8a26,0xffff,0x0000,0x0000,0x0100,0x002a     | +00001
         .dc.w   0x164c,0x0001,0x1c94,0x1900,0x0028,0x9770,0x0000,0x0000     | +00011
@@ -10098,11 +10098,11 @@ AnimScr_1a170f:
         .dc.w   0x0000                                                      | +00001
 
 | ----------------------------------------------------------------------------
-|  Data_1a1712  @ $1A1712  (250 B)  [ref. desde código]
+|  AnimScr_1a1712  @ $1A1712  (250 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1712, "ax", @progbits
-        .global Data_1a1712
-Data_1a1712:
+        .section .text.AnimScr_1a1712, "ax", @progbits
+        .global AnimScr_1a1712
+AnimScr_1a1712:
         .dc.w   0x0100,0x002a,0x176c,0x1900,0x0028,0xb75c,0x0000,0x0000     | +00000
         .dc.w   0x0204,0x0022,0xdf9e,0xffff,0x0000,0x0000,0x0100,0x002a     | +00010
         .dc.w   0x176c,0x1900,0x0028,0x9efc,0x0000,0x0000,0x0204,0x0022     | +00020
@@ -10146,11 +10146,11 @@ AnimScr_1a1813:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a1814  @ $1A1814  (254 B)  [ref. desde código]
+|  AnimScr_1a1814  @ $1A1814  (254 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1814, "ax", @progbits
-        .global Data_1a1814
-Data_1a1814:
+        .section .text.AnimScr_1a1814, "ax", @progbits
+        .global AnimScr_1a1814
+AnimScr_1a1814:
         .dc.w   0x0000,0x0100,0x002a,0x188c,0x1900,0x0028,0xb048,0x0000     | +00000
         .dc.w   0x0000,0x0204,0x0022,0xc8c8,0xffff,0x0000,0x0000,0x0100     | +00010
         .dc.w   0x002a,0x188c,0x1900,0x0028,0xb75c,0x0000,0x0000,0x0204     | +00020
@@ -10178,11 +10178,11 @@ AnimScr_1a1912:
         .dc.b   0x00                            | +00002
 
 | ----------------------------------------------------------------------------
-|  Data_1a1915  @ $1A1915  (235 B)  [ref. desde código]
+|  AnimScr_1a1915  @ $1A1915  (235 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1915, "ax", @progbits
-        .global Data_1a1915
-Data_1a1915:
+        .section .text.AnimScr_1a1915, "ax", @progbits
+        .global AnimScr_1a1915
+AnimScr_1a1915:
         .dc.b   0x00                            | +00000
         .dc.w   0x0100,0x002a,0x191c,0x0001,0x1c94,0x1900,0x0028,0x9764     | +00001
         .dc.w   0x0000,0x0000,0x0204,0x0022,0x0c34,0xffff,0x0000,0x0000     | +00011
@@ -10201,31 +10201,31 @@ Data_1a1915:
         .dc.w   0xdf70,0xffff,0x0000,0x0000,0x0100                          | +000e1
 
 | ----------------------------------------------------------------------------
-|  Data_1a1a00  @ $1A1A00  (23 B)  [ref. desde código]
+|  AnimScr_1a1a00  @ $1A1A00  (23 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1a00, "ax", @progbits
-        .global Data_1a1a00
-Data_1a1a00:
+        .section .text.AnimScr_1a1a00, "ax", @progbits
+        .global AnimScr_1a1a00
+AnimScr_1a1a00:
         .dc.w   0x002a,0x1a3c,0x1900,0x0028,0x9ef0,0x0000,0x0000,0x0204     | +00000
         .dc.w   0x0022,0x79d4,0xffff                                        | +00010
         .dc.b   0x00                            | +00016
 
 | ----------------------------------------------------------------------------
-|  Data_1a1a17  @ $1A1A17  (23 B)  [ref. desde código]
+|  AnimScr_1a1a17  @ $1A1A17  (23 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1a17, "ax", @progbits
-        .global Data_1a1a17
-Data_1a1a17:
+        .section .text.AnimScr_1a1a17, "ax", @progbits
+        .global AnimScr_1a1a17
+AnimScr_1a1a17:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0100,0x002a,0x1a3c,0x1900,0x0028,0xa2a4,0x0000     | +00001
         .dc.w   0x0000,0x0204,0x0022                                        | +00011
 
 | ----------------------------------------------------------------------------
-|  Data_1a1a2e  @ $1A1A2E  (235 B)  [ref. desde código]
+|  AnimScr_1a1a2e  @ $1A1A2E  (235 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1a2e, "ax", @progbits
-        .global Data_1a1a2e
-Data_1a1a2e:
+        .section .text.AnimScr_1a1a2e, "ax", @progbits
+        .global AnimScr_1a1a2e
+AnimScr_1a1a2e:
         .dc.w   0x8a26,0xffff,0x0000,0x0000,0x0100,0x002a,0x1a3c,0x0001     | +00000
         .dc.w   0x1c94,0x1900,0x0028,0x9764,0x0000,0x0000,0x0204,0x0022     | +00010
         .dc.w   0x0c34,0xffff,0x0000,0x0000,0x0100,0x002a,0x1acc,0x1900     | +00020
@@ -10260,11 +10260,11 @@ AnimScr_1a1b1a:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1a1b1b  @ $1A1B1B  (275 B)  [ref. desde código]
+|  AnimScr_1a1b1b  @ $1A1B1B  (275 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1b1b, "ax", @progbits
-        .global Data_1a1b1b
-Data_1a1b1b:
+        .section .text.AnimScr_1a1b1b, "ax", @progbits
+        .global AnimScr_1a1b1b
+AnimScr_1a1b1b:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0100,0x002a,0x1b5c,0x1900,0x0028,0x9ef0,0x0000     | +00001
         .dc.w   0x0000,0x0204,0x0022,0x79d4,0xffff,0x0000,0x0000,0x0100     | +00011
@@ -10286,11 +10286,11 @@ Data_1a1b1b:
         .dc.w   0xb6e4                                                      | +00111
 
 | ----------------------------------------------------------------------------
-|  Data_1a1c2e  @ $1A1C2E  (334 B)  [ref. desde código]
+|  AnimScr_1a1c2e  @ $1A1C2E  (334 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1a1c2e, "ax", @progbits
-        .global Data_1a1c2e
-Data_1a1c2e:
+        .section .text.AnimScr_1a1c2e, "ax", @progbits
+        .global AnimScr_1a1c2e
+AnimScr_1a1c2e:
         .dc.w   0x0000,0x0000,0x0204,0x0022,0xdde2,0xffff,0x0000,0x0000     | +00000
         .dc.w   0x0100,0x002a,0x1c7c,0x1900,0x0028,0x9e84,0x0000,0x0000     | +00010
         .dc.w   0x0204,0x0022,0x77ee,0xffff,0x0000,0x0000,0x0100,0x002a     | +00020
