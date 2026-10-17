@@ -60,6 +60,19 @@ LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0),
         (0x2CA5F0, 0x2CA644),     # Bazooka: arriba, abajo, espejo
         (0x2CD4EA, 0x2CD606))     # RocketVehicle: 2 x 8 punteros, 6 tablas, espejo
 
+# tablas de registros con usuario conocido (CPU, [lo, hi)) -> "struct"
+STRUCTS = (
+    # RocketVehicle_Fire_06d484: 4 tablas de 4 punteros (+$48/+$60/+$4C)
+    (0x2CCFEA, 0x2CD02A),
+    # RocketVehicle_FireRocket_06d4c2: $2CD03A = 4 punteros a 16 x {dx, dy} de
+    # boca de cañón; RocketVehicle_Rocket_06cf06: $2CD10A/$2CD11A = [4][8]
+    # punteros a 16 x {vx, vy, ay} (6 B) por dirección
+    (0x2CD03A, 0x2CD4EA),
+    # AimTurret_AnimScript_0614e6: 7 listas de 16 x {.l frame, .b dur, pad}
+    # (+ -1) por nivel de daño y la tabla de 7 punteros
+    (0x2C2E76, 0x2C322E),
+)
+
 
 def modules():
     m = {}
@@ -399,7 +412,7 @@ def code_arg_tables(p, code_end=0x90000):
 TBL_DECODE2D = 0x0799DE   # Tbl_Decode2D_0799DE: a0 = tabla por dificultad/rango
 
 
-def decode2d_tables(p, code_end=0x90000):
+def decode2d_tables(p, code_end=0xF0000):
     """-> [(addr, len)] de tablas pasadas en a0 a Tbl_Decode2D_0799DE
     (`lea X,a0` + jsr/bsr <= 12 B, sin otro `lea ..,a0` entre medias).
     Formato largo (palabra 0 != 2): 2 + 64 palabras indexadas por
@@ -415,23 +428,41 @@ def decode2d_tables(p, code_end=0x90000):
             v, n = o + 2 + p.SW(o + 2), 4
         else:
             continue
+        ind = False
         for q in range(o + n, o + n + 12, 2):
             x = p.W(q)
             if x & 0xFFC0 == 0x41C0:          # otro lea ..,a0
                 break
+            if x == 0x2070 and p.B(q + 2) & 0x8F == 0:   # movea.l (a0,dN.w),a0
+                ind = True
+                continue
             t = (p.L(q + 2) if x in (0x4EB9, 0x4EF9) else
                  q + 2 + p.SW(q + 2) if x in (0x4EBA, 0x4EFA, 0x6100) else None)
             if t is None:
                 continue
-            if t == TBL_DECODE2D and v & 1 == 0 and p.valid(v, 130):
-                if p.W(v) == 2:
-                    mx = max(p.B(v + 2 + i) for i in range(64))
-                    if mx < 32 and p.valid(v, 66 + 16 * (mx + 1)):
-                        out.add((v, 66 + 16 * (mx + 1)))
-                else:
-                    out.add((v, 130))
+            if t == TBL_DECODE2D:
+                if ind:
+                    k = 0
+                    while p.valid(v + 4 * k, 4) and _d2d_len(p, p.L(v + 4 * k)):
+                        e = p.L(v + 4 * k)
+                        out.add((e, _d2d_len(p, e)))
+                        k += 1
+                    if k:
+                        out.add((v, 4 * k))
+                elif _d2d_len(p, v):
+                    out.add((v, _d2d_len(p, v)))
             break
     return sorted(out)
+
+
+def _d2d_len(p, v):
+    """Longitud de una tabla Tbl_Decode2D en v (0 si no encaja)."""
+    if v & 1 or not 0x100000 <= v < 0x300000 or not p.valid(v, 130):
+        return 0
+    if p.W(v) == 2:
+        mx = max(p.B(v + 2 + i) for i in range(64))
+        return 66 + 16 * (mx + 1) if mx < 32 and p.valid(v, 66 + 16 * (mx + 1)) else 0
+    return 130
 
 
 INSTALL_SPAWNER = 0x077C7E   # Entity_InstallHandlerAndCopyXf: a1 -> $70(a0)
@@ -694,6 +725,8 @@ def classify(p):
     # tablas por fórmula
     for lo, hi in LUTS:
         put(lo, hi - lo, "lut")
+    for lo, hi in STRUCTS:
+        put(lo, hi - lo, "struct")
     # paletas
     put(S.PAL_LO, 1024 * 64, "palette")
     put(S.PAL_HI, 512 * 64, "palette")

@@ -93,5 +93,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] sprites.py: op 1E no corta las animaciones exportadas
 - [x] Pasada de rename_data_by_census tras el op 1E (81 AnimScr_)
 - [x] Demos grabadas del attract (InputDemo_*) y PathScripts (VM de movimiento +$90) en el censo
-- [ ] Datos "otro" (3,1 %): siguientes $188414 (MeleeGuard), $1EB2EC, $1990C2, $1CCF4A (RocketVehicle): siguiente, revisar Data_196000 / AnimScr_1d6700 y
+- [x] Tablas de RocketVehicle/AimTurret, Decode2D indirectas y frames de op 1E en el censo
+- [ ] Datos "otro" (2,9 %): siguientes $188414 (MeleeGuard), $1EB2EC, $1990C2, $1CCF4A (RocketVehicle): siguiente, revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **RocketVehicle, AimTurret, Decode2D indirectas (2026-10-17)** — tablas de boca de cañón y velocidades del cohete de RocketVehicle, listas de frames por daño de AimTurret, tablas Decode2D elegidas por índice (muertes del escuadrón) y frames que sólo usa el op 1E; otro 2,9 %.
+
 > **Demos del attract y PathScripts (2026-10-17)** — `$0E7800`/`$0E7A00` son las dos demos grabadas (512 B cada una) que reproduce InputRec_PlaybackFrame_02531e, con su tabla `InputDemoPtrs_0e7c00`; el censo recorre los PathScripts (VM de 11 ops de PathScript_Step_078f90 instalada en +$90 de la tarea: muertes del escuadrón, barril, etc., 6 tablas + entradas directas); otro 3,1 %.
 
 > **Renombrado por censo (2026-10-17)** — 81 entradas Data_ pasan a AnimScr_ tras el arreglo del op 1E; otro 3,3 %.

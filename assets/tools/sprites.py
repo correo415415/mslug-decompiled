@@ -124,9 +124,10 @@ def parse_frame(p, a):
     return r
 
 
-def op02_at(p, a):
-    """Valida un `02 fl .l prio.w [dx dy]` en a -> (frame, flags, dx, dy, len)."""
-    if not p.valid(a, 8) or p.B(a) != 0x02:
+def op02_at(p, a, op=0x02):
+    """Valida un `02 fl .l prio.w [dx dy]` en a -> (frame, flags, dx, dy, len).
+    op=0x1E valida un SpawnChild_Sprite (mismo formato)."""
+    if not p.valid(a, 8) or p.B(a) != op:
         return None
     fl = p.B(a + 1)
     if fl & 0xE0:
@@ -142,17 +143,21 @@ def op02_at(p, a):
 
 
 def find_frames(p):
-    """Todas las posiciones de op 02 válidas y los frames que referencian."""
+    """Todas las posiciones de op 02 válidas y los frames que referencian
+    (también los de op 1E, que no entran en ops)."""
     ops, frames = {}, set()
     d = p.d
     for o in range(0, len(d) - 12, 2):
-        if d[o] != 0x02:
-            continue
-        a = p.cpu(o)
-        r = op02_at(p, a)
-        if r:
-            ops[a] = r
-            frames.add(r[0])
+        if d[o] == 0x02:
+            a = p.cpu(o)
+            r = op02_at(p, a)
+            if r:
+                ops[a] = r
+                frames.add(r[0])
+        elif d[o] == 0x1E:
+            r = op02_at(p, p.cpu(o), 0x1E)
+            if r:
+                frames.add(r[0])
     return ops, frames
 
 
