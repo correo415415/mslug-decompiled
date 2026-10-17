@@ -1366,6 +1366,18 @@ def classify(p):
     # registros de Spawner_Handler_077c98 (+ tablas de 16 handlers)
     for a, n in spawner_records(p):
         put(a, n, "struct")
+    # registros de spawner sin referencia contiguos (antes/después) a otros
+    # conocidos: {b 0/1, b ritmo, ..., b +$D = 0, l handler de código}
+    def _spw(x):
+        return (p.valid(x, 18) and p.B(x) in (0, 1) and p.B(x + 13) == 0
+                and 0x400 <= p.L(x + 14) < 0x9C608 and p.L(x + 14) & 1 == 0)
+    known = [a for a, n in spawner_records(p) if n == 18]
+    for _ in range(3):
+        for a in sorted(known):
+            for x in (a - 18, a + 18):
+                if _spw(x) and all(y not in mark for y in range(x, x + 18)):
+                    put(x, 18, "struct")
+                    known.append(x)
     # registros de spawner sin referencia directa cuyo +$E apunta justo detrás a
     # una tabla de 16 handlers de código (+$D != 0)
     for x in range(0x200000, 0x300000 - 82, 2):
@@ -1472,6 +1484,30 @@ def classify(p):
                     grids.append(x)
                     x += k + (k & 1)
                     k = _grid(x)
+    # registros de spawner sueltos de 18 B que llenan exactamente un hueco entre
+    # datos ya clasificados (handler de efectos $077xxx..$080xxx)
+    for lo, hi in _gaps(p, mark):
+        if (hi - lo) % 18 == 0 and lo & 1 == 0 and hi - lo <= 18 * 4:
+            xs = [p.cpu(o) for o in range(lo, hi, 18)]
+            if all(_spw(x) and 0x76000 <= p.L(x + 14) < 0x82000 for x in xs):
+                for x in xs:
+                    put(x, 18, "struct")
+    # Player_* (air_death_crouch_036632): `lea X,a0; move.l -4(a0),$74(a6)` -> el
+    # long que precede al script es un parámetro; los scripts de estas tablas son
+    # bloques de 10 B {.l parámetro, 01 00 .l salto}
+    for o in range(0, 0x9C608 - 12, 2):
+        if p.W(o) == 0x41F9 and p.W(o + 6) == 0x2D68 and p.W(o + 8) == 0xFFFC \
+                and p.W(o + 10) == 0x74:
+            x = p.L(o + 2)
+            put(x - 4, 4, "struct")
+            # bloques hermanos {.l, 01 00 .l} contiguos antes y después
+            for step in (10, -10):
+                y = x + step if step > 0 else x - 10
+                while p.valid(y - 4, 10) and p.W(y) == 0x0100 and \
+                        p.valid(p.L(y + 2), 2) and mark.get(p.L(y + 2)) == "anim":
+                    put(y - 4, 4, "struct")
+                    put(y, 6, "anim")
+                    y += step
     # último recurso: datos que empiezan en un puntero exacto del código
     for a, n in code_ref_gaps(p, mark):
         put(a, n, "struct")

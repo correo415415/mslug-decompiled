@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Censo (2026-10-17)** — registros de spawner contiguos a otros o que llenan un hueco exacto y longs de parámetro de los scripts de Player (move.l -4(a0),$74); otro 0,2 %.
+
 > **Censo (2026-10-17)** — rejillas MultiBlit contiguas, scripts sueltos que saltan a otros ya conocidos y tablas de punteros copiadas a +$48/+$4C; otro 0,2 %.
 
 > **Censo (2026-10-17)** — tablas de punteros a listas de ataque del cangrejo, semillas de hitbox lea X,a0 + move.l a0,$48(a6) y tablas de formas de 36 B contiguas; otro 0,3 %.
