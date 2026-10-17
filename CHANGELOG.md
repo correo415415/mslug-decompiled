@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- assets/tools/sprites.py: op `1E` (SpawnChild_Sprite) is walked like `02` and the parent script continues; exported animations no longer stop at `1E` (17 226 scripts); census other 3.3 %.
 - **Script opcode 1E fixed**: `ScriptOp1E_SpawnChild_Sprite` has the same layout as `02` (`1E fl frame.l [prio dx dy]`, 8/12 B) and the script continues; the census walker treated it as terminal. "Other": 5.4 % → 3.4 %.
 - **Pointer tables**: `data_census.pointer_tables` marks unclassified runs of longs that all point to already-classified data (or `$FFFFFFFF`), two passes for tables of tables. "Other": 5.6 % → 5.4 %.
 - **Collision engine tables named**: `CollTileTypes_178988` (64 tile types × 32 B used by `CollMap_LookupTile_027db2`), `CollMasks_179188` (13 bit masks), `CollSlopes_1786cc` (25 slope profiles), `CollOffsets_178600`, `HitShapeTab_17928c` and `HudText_1785b8`; 33 code `lea`s made symbolic. "Other": 5.8 % → 5.6 %.

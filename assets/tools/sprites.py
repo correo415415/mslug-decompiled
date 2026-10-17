@@ -44,7 +44,7 @@ OP_SIZE = {0x03: 6, 0x04: 4, 0x05: 4, 0x06: 6, 0x07: 8, 0x08: 6, 0x09: 6,
            0x0A: 6, 0x0B: 6, 0x0C: 2, 0x0D: 4, 0x0E: 6, 0x0F: 8, 0x10: 4,
            0x11: 6, 0x12: 8, 0x13: 4, 0x14: 6, 0x15: 8, 0x17: 2, 0x18: 2,
            0x19: 10, 0x1A: 2, 0x1F: 4}
-STOP_OPS = {0x1B, 0x1C, 0x1D, 0x1E}
+STOP_OPS = {0x1B, 0x1C, 0x1D}
 MAX_W, MAX_H = 1024, 768
 
 
@@ -222,6 +222,13 @@ def walk(p, start, max_steps=600, max_pics=200):
             else:
                 loops.pop(a, None)
                 a += 6
+        elif op == 0x1E:
+            # SpawnChild_Sprite: mismo formato que 02 (8/12 B según fl&8); el
+            # script del padre continúa.
+            if not p.valid(a, 8):
+                end = "invalid"
+                break
+            a += 8 if p.B(a + 1) & 8 else 12
         elif op in OP_SIZE:
             a += OP_SIZE[op]
         elif op in STOP_OPS:
