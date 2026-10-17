@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Census: embedded high-bank code split out (SlugRiderMarker_Task_18dd3c, 4 anim op 08 callbacks), hitbox lists (+$48, op 09, $50-byte records), gameover/continue, hiscore, final-boss step lists and Patrol tables -> other 1.4 %.
 - Census: mortar spawn lists/velocities/blit grids ($2C56A8-$2C57E4), score/ammo popup tables ($2F792C-$2F7A28), boss-2 crab claw phases/heights/velocities/handlers ($2E035A-$2E0462), turret-car offsets ($294144-$294204); `gap_scripts` also accepts one-frame scripts ending in op 16 -> other 1.9 %.
 - Census: rank tables of the results screen ($282A9C-$282C4C: column offsets, 72 rank abbreviations PVT..GA, insignia tiles), boss-2 piece/phase offsets, mission-4 boss guard/step lists and handlers, mission-5 boss targets/routes/SFX/offsets, boss-2 turret rotation patterns, `motion_ptr_tables` (`lea T,aN; movea.l (aN,dM.w),aK; move.w (aK..),$28/$2E/$2A(a6)` velocity tables) -> other 2.0 %.
 - Census: Decode2D tables indexed through any address register (`lea T,aN; movea.l (aN,dM.w),a0; jsr`), unreferenced long Decode2D variants glued after known ones, Bazooka direction/muzzle/rocket-velocity tables ($2CA44C-$2CA5F0), mission-5 boss/walker velocity tables ($2D4186-$2D422A), squad child offsets and velocities ($2861D4-$28632C) -> other 2.1 %.

@@ -127,6 +127,23 @@ STRUCTS = (
     # coche torreta (turret_car_props_04cbd4): $294144 32 x {dx, dy} por
     # dirección, $2941C4 32 offsets de altura
     (0x294144, 0x294204),
+    # game over / continue (gameover_continue_08f6d2): $2F4A32.. listas de
+    # paletas y offsets por letra, $2F4A7C punteros, tablas de pasos {dx, dy}
+    # ($2F4B24/$2F4B48/$2F4B68/$2F4BA8/$2F4BE8/$2F4BF8/$2F4C48)
+    (0x2F4A32, 0x2F4C98),
+    # continue: $2F4CB2 stream fix, $2F4CB8 5 punteros a filas de tiles ($FFFF)
+    (0x2F4CB2, 0x2F4D9E),
+    # hiscore (hiscore_memcard_options_09773c): $2F53B2 10 x 12 B de récords por
+    # defecto (copiados a $100002), $2F542A tiles de rango, $2F5440 11 punteros
+    # a sufijos ST/ND/RD/TH, $2F547C.. cabeceras ($FFFF), $2F54B2 tabla de
+    # caracteres de entrada de nombre (hasta $0CE6)
+    (0x2F53B2, 0x2F54A0), (0x2F54B2, 0x2F5504),
+    # jefe final (gunship_m5boss_finalboss_06dfe8): listas de pasos {dx, dy} de
+    # +$94/+$80 ($2D9130, $2D9138, $2D9168, $2D9198, $2D91C8)
+    (0x2D9130, 0x2D91F8),
+    # Patrol_Register0..4 (sniper_camper_mortar_062008): listas de 8 B
+    # {.l handler, dx, dy} hasta $FFFFFFFF
+    (0x2C6460, 0x2C6510),
 )
 
 
@@ -137,6 +154,17 @@ def modules():
             lo, hi = m.get(f, (1 << 30, 0))
             m[f] = (min(lo, a), max(hi, a + n))
     return sorted(m.items(), key=lambda t: t[1][0])
+
+
+def code_holes():
+    """Offsets de fichero de entradas de código incrustadas dentro del rango de
+    un módulo de datos (p. ej. SlugRiderMarker_Task_18dd3c): no cuentan."""
+    mods = [r for f, r in modules()]
+    h = set()
+    for name, a, n, f in registry.REGISTRY:
+        if not f.startswith("data/") and any(lo <= a < hi for lo, hi in mods):
+            h.update(range(a, a + n))
+    return h
 
 
 def _cells_ok(p, a, h):
@@ -497,6 +525,38 @@ def gap_scripts(p, mark):
                 break
             out += r
             a = max(x + n for x, n in r)
+    return out
+
+
+HITBOX_REC, HITSHAPE_LEN = 0x50, 36
+
+
+def hitbox_lists(p, op_starts, code_end=0x9C608):
+    """Listas de cajas de golpe de +$48(a6) (Hitbox_TestBoxes_028594): registros
+    de $50 B {.w, .l tabla de formas (36 B, HitShapeTab_17928c) o -1, cajas}
+    hasta un long $FFFFFFFF. Semillas: operando del op 09 (SetHitbox48) de los
+    scripts recorridos y `move.l #X,$48(aN)` del código."""
+    seeds = {p.L(a + 2) for a in op_starts if p.B(a) == 0x09 and p.valid(a + 2, 4)}
+    for o in range(0, code_end - 8, 2):
+        if p.W(o) & 0xF1FF == 0x217C and p.W(o + 6) == 0x48:
+            seeds.add(p.L(o + 2))
+    out = []
+    for t in sorted(seeds):
+        if t & 1 or not p.valid(t, 4) or t < 0x200000 and t < code_end:
+            continue
+        x, k, recs = t, 0, []
+        while p.valid(x, 4) and p.L(x) != 0xFFFFFFFF and k < 32:
+            sh = p.L(x + 2)
+            if not p.valid(x, HITBOX_REC) or not (sh == 0xFFFFFFFF or (sh & 1 == 0 and p.valid(sh, HITSHAPE_LEN))):
+                recs = None
+                break
+            recs.append(sh)
+            x += HITBOX_REC
+            k += 1
+        if recs is None or not p.valid(x, 4):
+            continue
+        out.append((t, x + 4 - t))
+        out += [(sh, HITSHAPE_LEN) for sh in recs if sh != 0xFFFFFFFF]
     return out
 
 
@@ -1058,6 +1118,9 @@ def classify(p):
             t = p.L(a + 2)
             if t & 1 == 0 and p.valid(t, 12):
                 put(t, 12, "struct")
+    # listas de cajas de golpe (+$48) del op 09 y del código
+    for a, n in hitbox_lists(p, op_starts):
+        put(a, n, "struct")
     # textos: cadenas $FF de List_ApplyWithSentinelFF_* y filas fix de Cut_TextPanel
     for a, n in ff_strings(p) + fix_row_texts(p):
         put(a, n, "struct")
@@ -1092,10 +1155,13 @@ def classify(p):
 
 def census(p, mark):
     rows = []
+    holes = code_holes()
     for f, (lo, hi) in modules():
         c = Counter()
         zrun = 0
         for o in range(lo, hi):            # registry = offsets del fichero de 2 MiB
+            if o in holes:
+                continue
             k = mark.get(p.cpu(o))
             if k is None:
                 if p.d[o] == 0:
@@ -1121,8 +1187,9 @@ def main():
     tot = Counter()
     for f, lo, hi, c in rows:
         tot.update(c)
-        print("%-34s $%06X-$%06X %8d " % (f, lo, hi, hi - lo)
-              + " ".join("%8.1f%%" % (100 * c[k] / (hi - lo)) for k in KINDS))
+        n = sum(c.values())
+        print("%-34s $%06X-$%06X %8d " % (f, lo, hi, n)
+              + " ".join("%8.1f%%" % (100 * c[k] / n) for k in KINDS))
     n = sum(tot.values())
     print("%-34s %-17s %8d " % ("TOTAL", "", n) + " ".join("%8.1f%%" % (100 * tot[k] / n) for k in KINDS))
     if "--json" in sys.argv:

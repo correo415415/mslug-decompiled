@@ -3102,7 +3102,7 @@ Slug_SpawnRiderMarker_02ad70:
         move.b  0x85(a0),d0                     | +008
         cmpi.b  #0x0,d0                         | +00c
         bne.w   .L02ada6                        | +010
-        lea     0x28dd3c.l,a1                   | +014
+        lea     SlugRiderMarker_Task_18dd3c+0x100000,a1                  | +014
         jsr     0x4ae.l                         | +01a
         jsr     0x5dd02.l                       | +020
         move.w  #0x30,0x22(a0)                  | +026
@@ -3112,7 +3112,7 @@ Slug_SpawnRiderMarker_02ad70:
         move.b  0x85(a0),d0                     | +036
         cmpi.b  #0x1,d0                         | +03a
         bne.w   .L02add4                        | +03e
-        lea     0x28dd3c.l,a1                   | +042
+        lea     SlugRiderMarker_Task_18dd3c+0x100000,a1                  | +042
         jsr     0x4ae.l                         | +048
         jsr     0x5dd02.l                       | +04e
         move.w  #0xb8,0x22(a0)                  | +054

@@ -14,13 +14,14 @@ else:
     mark = D.classify(p)
     pickle.dump(mark, open(CACHE, "wb"))
 runs = []
+holes = D.code_holes()
 for f, (lo, hi) in D.modules():
     o = lo
     while o < hi:
-        if mark.get(p.cpu(o)) is None and p.d[o] != 0:
+        if o not in holes and mark.get(p.cpu(o)) is None and p.d[o] != 0:
             s = e = o
             z = 0
-            while o < hi and mark.get(p.cpu(o)) is None:
+            while o < hi and o not in holes and mark.get(p.cpu(o)) is None:
                 if p.d[o] == 0:
                     z += 1
                     if z >= 16:
