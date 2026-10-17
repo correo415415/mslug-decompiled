@@ -22,6 +22,19 @@
 #   mission=N      empezar la partida en la misión N (1..6) en vez de la 1.
 #   boot=soundtest arrancar en el SOUND TEST interno (T6[13] BootScr_SoundTest_001566).
 #   boot=ending    arrancar en el final / créditos (T4: escena 12, BootScr_SceneBCD_Init).
+#   debug-hud      HUD de variables de depuración (= debug=0001).
+#   debugcoll      HUD + inspector de colisión DebugColl (= debug=0003).
+#   altjump        arco de salto alternativo de depuración (= debug=0020).
+#   slughud        HUD de cadena del Slug (= debug=0010).
+#   blood          sangre siempre activa (ignora el soft-DIP BLOOD $10FD8F, 9 lectores).
+#   no-blood       sangre siempre desactivada (versión "sin gore").
+#   ending=jp|intl fuerza el stream del final japonés ($0F1CD4) o internacional ($0F260E).
+#   bossshadow=a|b lanza Boss_Shadow_Init variante A ($86586) / B ($86582) al empezar
+#                  cada misión, sin flags ni mando de P2 (DebugTriggers_TwoBits_096B24).
+#   warpkeys       conecta AutoDemo_DebugWarpKeys_0797ce (huérfana) al demo automático:
+#                  en el attract, P1 D+C teletransporta, D+B borra $106E92.
+#   fix-input-bug  corrige el bug de SNK de InputLayout_ReadField0_05D616 (orden lea/movea).
+#   fix-deadstore  quita el store muerto `movea.l #-1,a0` de $041A96 (nop x3).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -34,7 +47,14 @@ F_SLUG=asm/slug/helpers_0295a6.s
 F_BIOS=src/bios/bios_user_dispatch.c
 F_MODE=asm/boot/dispatcher_mode_table_001922.s
 F_SCHED=asm/kernel/scheduler_bootstrap_000e8e.s
-PATCHABLE=("$F_MODE" "$F_SCHED" "$F_HUD" "$F_FIRE" "$F_CORE" "$F_INIT" asm/player/air_death_crouch_036632.s "$F_ROUTE" "$F_SLUG" "$F_BIOS")
+F_PARA=asm/enemies/soldiers/barrel_paratrooper_shield_tank_066000.s
+F_HDEATH=asm/pow/human_death_049ff2.s
+F_CREW=asm/props/fx_explosions_platforms_crew_076000.s
+F_EVM=asm/mission/event_vm_04422a.s
+F_DTRIG=asm/frontend/attract_sub_helpers_0967c0.s
+F_AIM=asm/input/aim_tables_05d316.s
+F_SQUAD=asm/enemies/squad/children_handlers_041408.s
+PATCHABLE=("$F_MODE" "$F_SCHED" "$F_PARA" "$F_HDEATH" "$F_CREW" "$F_EVM" "$F_DTRIG" "$F_AIM" "$F_SQUAD" "$F_HUD" "$F_FIRE" "$F_CORE" "$F_INIT" asm/player/air_death_crouch_036632.s "$F_ROUTE" "$F_SLUG" "$F_BIOS")
 BK=build/patch_backup
 
 list() { sed -n '/^# Parches disponibles/,/^set -euo/p' "$0" | grep -E '^#   ' ; }
@@ -81,6 +101,15 @@ done
 
 backup
 undo >/dev/null
+# alias (funciones ocultas = combinaciones de flags de depuración)
+for i in "${!PATCHES[@]}"; do
+  case "${PATCHES[$i]}" in
+    debug-hud) PATCHES[$i]="debug=0001" ;;
+    debugcoll) PATCHES[$i]="debug=0003" ;;
+    altjump)   PATCHES[$i]="debug=0020" ;;
+    slughud)   PATCHES[$i]="debug=0010" ;;
+  esac
+done
 for p in "${PATCHES[@]}"; do
   case "$p" in
     lives=*)
@@ -124,6 +153,72 @@ a='"bne.w   1f                     \\n"'; b='"1: move.w #0, 0x100000         \\n
 assert s.count(a)==1 and s.count(b)==1, "patrón de UserMode0_080C no encontrado"
 s=s.replace(a,'"bra.w   1f                     \\n"').replace(b,'"1: move.w #0x%s, 0x100000   \\n"'%n)
 open(p,"w").write(s); print("[patch] UserMode0_080C: $100000.w = $%s al arrancar"%n)
+PY
+      ;;
+    blood|no-blood)
+      # Cada lector hace 'tst.b $10FD8F' + 'bne/beq'. blood: rama de "BLOOD ON"
+      # siempre; no-blood: nunca. bne.w <-> bra.w / nop;nop (4 B), beq.w igual.
+      python3 - "$p" "$F_PARA" "$F_HDEATH" "$F_CREW" "$F_CORE" <<'PY'
+import re,sys
+mode=sys.argv[1]; n=0
+for p in sys.argv[2:]:
+    s=open(p).read()
+    def rep(m):
+        global n
+        br,tgt=m.group(2),m.group(3)
+        on = (br=="bne")              # bne = salta si BLOOD ON
+        if mode=="blood":  new = "bra.w   " if on else "nop; nop"
+        else:              new = "nop; nop" if on else "bra.w   "
+        n+=1
+        if new.startswith("nop"):
+            return m.group(1)+"nop\n        nop                                     | (parche %s)\n"%mode
+        return m.group(1)+"bra.w   %s | (parche %s)\n"%(tgt,mode)
+    s=re.sub(r"(tst\.b\s+0x10fd8f\.l[^\n]*\n\s+)(bne|beq)\.w\s+(\S+)[^\n]*\n",rep,s)
+    open(p,"w").write(s)
+assert n==9, "BLOOD: %d/9 lectores"%n
+print("[patch] BLOOD forzado a %s en %d lectores de $10FD8F"%("ON" if mode=="blood" else "OFF",n))
+PY
+      ;;
+    ending=*)
+      e="${p#ending=}"
+      case "$e" in
+        intl) in_fn "$F_EVM" MissionDriver_Init_0442E6 "beq.w   .L44328                                | +038" "nop; nop                                       | +038 (parche ending=intl)" "final internacional siempre" ;;
+        jp)   in_fn "$F_EVM" MissionDriver_Init_0442E6 "move.l  #0xf260e, d0                           | +03c" "move.l  #0xf1cd4, d0                           | +03c (parche ending=jp)" "final japonés siempre" ;;
+        *) echo "[patch] ending=jp|intl"; exit 1 ;;
+      esac ;;
+    bossshadow=*)
+      v="${p#bossshadow=}"
+      case "$v" in a) L=".Lskip_bit2"; B=2 ;; b) L=".Lskip_bit7"; B=7 ;; *) echo "[patch] bossshadow=a|b"; exit 1 ;; esac
+      python3 - "$F_DTRIG" "$L" "$B" <<'PY'
+import sys,re
+p,L,B=sys.argv[1:]; s=open(p).read()
+i=s.find("\nDebugTriggers_TwoBits_096B24:\n"); j=s.find("rts",i)
+blk=s[i:j]
+k=blk.find("btst.b  #0x%s, 0x100001.l"%B); e=blk.find(L+":",k)
+sub=blk[k:e]
+sub2=re.sub(r"(beq|bcc)\.w   "+re.escape(L)+r"\s*",lambda m:"nop; nop        ",sub)
+assert sub2.count("nop; nop")==3, sub2
+s=s[:i]+blk[:k]+sub2+blk[e:]+s[j:]
+open(p,"w").write(s); print("[patch] DebugTriggers: Boss_Shadow variante bit%s siempre al empezar misión"%B)
+PY
+      ;;
+    warpkeys)
+      # AutoDemo_JumpIfBlocked_0796f6 (llamada cada frame por el demo
+      # automático de la misión 2) termina en 'rts' justo antes de
+      # AutoDemo_DebugWarpKeys_0797ce: con 'nop' cae en ella (2 B).
+      in_fn "$F_CREW" AutoDemo_JumpIfBlocked_0796f6 "        rts                                     | +0d6" "        nop                                     | +0d6 (parche warpkeys)" "cae en AutoDemo_DebugWarpKeys_0797ce" ;;
+    fix-input-bug)
+      in_fn "$F_AIM" InputLayout_ReadField0_05D616 "        movea.l 0x72(a1), a2                           | +012  BUG SNK: lee \$72 con el
+        lea     0x100300.l, a1                         | +016  a1 VIEJO (orden invertido)" "        lea     0x100300.l, a1                         | +012  (parche fix-input-bug)
+        movea.l 0x72(a1), a2                           | +018" "orden lea/movea corregido" ;;
+    fix-deadstore)
+      python3 - "$F_SQUAD" <<'PY'
+import sys
+p=sys.argv[1]; s=open(p).read()
+a="        movea.l #-1, a0                         | +09a  DEAD STORE (pisado)\n"
+assert s.count(a)==1
+s=s.replace(a,"        nop                                     | +09a (parche fix-deadstore)\n        nop\n        nop\n")
+open(p,"w").write(s); print("[patch] store muerto de \$041A96 eliminado")
 PY
       ;;
     boot=*)

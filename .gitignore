@@ -45,3 +45,5 @@ internal/**/*.png
 build/patch_backup/
 build/mrom/
 build/assets/
+build/zips/
+build/v_*/
