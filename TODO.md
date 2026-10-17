@@ -58,8 +58,10 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       reconstruyen byte-idénticos.
 - [x] Sprites con paletas del P-ROM, frames multi-pieza y animaciones con sus
       tiempos (`assets/tools/sprites.py`), nombradas por la rutina que las usa.
-- [ ] Sprites: paleta para las ~130 animaciones que salen en grises (revisar
-      a mano → `assets/map/anim_palettes.txt`); nombres por personaje/arma.
+- [x] Sprites: 0 de 948 animaciones en grises. sprites.py hereda la paleta por
+      tiles compartidos (Jaccard >= 0,3) y del script vecino con paleta (<= $800);
+      11 forzadas en `assets/map/anim_palettes.txt` (fogonazos MuzzleFx = $10,
+      ScriptedProp $1D4, cañón del TurretCar $0E). Revisión visual por muestreo.
 - [x] Fondos de las misiones → PNG (`assets/tools/levels.py`, 52 capas de 13
       escenas desde los `bind_path` de los scripts de escena).
 - [x] Fondos: slot de paleta 0 (ScriptSlotPairTable_0009B4) — 52/52 capas con color.

@@ -25,7 +25,7 @@ Formatos (ver assets/README.md):
     python3 assets/tools/sprites.py render SCRIPT_HEX [PAL] [--scale N]
 """
 import bisect, glob, html, json, os, re, struct, sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 import numpy as np
 from PIL import Image
 
@@ -449,6 +449,47 @@ def owners(p, scripts, frames_of, labels):
                     if f in fpal:
                         r["pal"], r["how"] = fpal[f], (r["how"] or "") + "+inherited"
                         break
+    # tiles compartidos: un script sin paleta toma la del script con paleta
+    # cuyos tiles se solapan más (Jaccard >= 0.3; mismos gráficos = mismo
+    # personaje/efecto)
+    def tiles_of(s):
+        t = set()
+        for f in frames_of[s]:
+            fr = parse_frame(p, f)
+            if fr:
+                for piece in fr["pieces"]:
+                    t.update(x & 0xFFFF for x in piece[4] if x)
+        return t
+    known = [(s, tiles_of(s)) for s, r in res.items() if r["pal"] is not None]
+    by_tile = defaultdict(list)
+    for i, (s, t) in enumerate(known):
+        for x in t:
+            by_tile[x].append(i)
+    for s, r in res.items():
+        if r["pal"] is not None:
+            continue
+        t = tiles_of(s)
+        if not t:
+            continue
+        cnt = Counter(i for x in t for i in by_tile.get(x, ()))
+        best, bj = None, 0.0
+        for i, n in cnt.items():
+            j = n / len(t | known[i][1])
+            if j > bj:
+                best, bj = i, j
+        if best is not None and bj >= 0.3:
+            r["pal"], r["how"] = res[known[best][0]]["pal"], (r["how"] or "") + "+tiles"
+    # vecino: el script con paleta más cercano en la ROM (≤ $800; los datos de
+    # cada entidad van juntos)
+    ks = sorted(s for s, r in res.items() if r["pal"] is not None)
+    for s, r in res.items():
+        if r["pal"] is not None or not ks:
+            continue
+        i = bisect.bisect_left(ks, s)
+        cands = [ks[k] for k in (i - 1, i) if 0 <= k < len(ks)]
+        n = min(cands, key=lambda x: abs(x - s))
+        if abs(n - s) <= 0x800:
+            r["pal"], r["how"] = res[n]["pal"], (r["how"] or "") + "+near"
     if os.path.exists(MANUAL):
         for line in open(MANUAL, encoding="utf-8"):
             line = line.split("#")[0].split()
