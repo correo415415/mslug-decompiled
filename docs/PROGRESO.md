@@ -50,6 +50,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$FFFFFFFF`, tablas de 1B/1C).
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
+> **Censo (2026-10-17)** — terminadores $FF sueltos, cabecera de Prop_BoatDebris, $FFFF final y marca $12345678 de $2FF800: ya no queda ningún byte no nulo sin clasificar (otro 0,0 %).
+
 > **Censo (2026-10-17)** — huecos apuntados desde datos ya clasificados, colas de registro, mapa de colisión de cámara $20A000 (Camera0_RelinkAndWrapScroll), colas de rampa y continuación periódica; dos islas de código ChildRank_CmpByte10 sacadas de los módulos de datos; otro 0,0 %.
 
 > **Censo (2026-10-17)** — bloques referenciados por op 07 SetLong y tablas de saltos a código; otro 0,2 %.

@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- census: loose $FF terminators, Prop_BoatDebris header, final $FFFF and the $12345678 marker at $2FF800; the census no longer has any unclassified non-zero byte (other 0.0 %).
 - census: gaps pointed to from classified data, record tails, camera collision map at $20A000 (Camera0_RelinkAndWrapScroll), ramp tails, periodic record continuation; two ChildRank_CmpByte10 code islands moved out of data modules (entity/childrank_cmp_islands.s); other now 0.0 %.
 - census: op 07 SetLong data refs and code jump tables classified as struct; other now 0.2 %.
 - Census: spawner records adjacent to known ones or filling exact gaps, Player script parameter longs (move.l -4(a0),$74) -> other 0.2 %.

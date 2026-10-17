@@ -111,5 +111,6 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Spawners contiguos/sueltos y parámetros de scripts de Player
 - [x] Censo: referencias de op 07 SetLong y tablas de saltos a código
 - [x] Censo: huecos apuntados desde datos, colas de registro, mapa de colisión de cámara en $20A000, colas de rampa, continuación periódica; islas ChildRank_CmpByte10 fuera de los módulos de datos
+- [x] Censo: terminadores $FF sueltos, cabecera de Prop_BoatDebris, $FFFF final y marca $12345678 en $2FF800 — 0 bytes otro
 - [ ] Datos "otro" (0,0 %): siguientes $1CA44D, $182A9E, $1B8695, $1B848D, $1DF888, $1EAF1D, $1861D4, $1D547E (tools/dev/other_runs.py lista las rachas); revisar Data_196000 / AnimScr_1d6700 y
   los MissionStream con bytes sin decodificar.

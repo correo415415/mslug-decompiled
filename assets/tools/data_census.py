@@ -151,6 +151,14 @@ STRUCTS = (
     # proyectil del jefe final (FinalBoss_CannonShell_071c84): 2 x 16 x
     # {vx, vy, ay} indexadas por +$98 & 15
     (0x2BAE38, 0x2BAEF8),
+    # restos del barco (Prop_BoatDebris_04f992, fortress_04e580): bloque de
+    # 16 B tras el script en bucle `01 00 .l $2949DE` (sin decodificar)
+    (0x294B34, 0x294B44),
+    # segundo $FFFF que cierra la última lista antes del relleno final
+    (0x2F88C2, 0x2F88C4),
+    # marca $12345678 en $2FF800 (sin referencias del código; firma/sentinela
+    # del relleno final de la ROM)
+    (0x2FF800, 0x2FF804),
 )
 
 
@@ -1632,6 +1640,19 @@ def classify(p):
             if mark.get(a - P - 1) == mark.get(a - 1) and mark.get(b - P) == mark.get(b):
                 put(a, g, k)
                 break
+    # terminadores sueltos: huecos de ≤ 4 B sólo de $FF entre datos ya
+    # clasificados (fin de lista $FFFF / $FFFFFFFF tras un `1D 00` o un registro)
+    for lo, hi in _gaps(p, mark):
+        a, b = p.cpu(lo), p.cpu(hi)
+        if b - a <= 4 and (a - 1) in mark and b in mark and \
+                all(p.B(x) == 0xFF for x in range(a, b)):
+            put(a, b - a, "struct")
+    # el $FFFF que cierra el último script antes del relleno final de la ROM
+    for lo, hi in _gaps(p, mark):
+        a = p.cpu(lo)
+        if (a - 1) in mark and p.valid(a, 2) and p.W(a) == 0xFFFF and \
+                p.W(a - 2) == 0x1D00:
+            put(a, 2, "struct")
     # colas de rampa: hueco cuyos bytes continúan sin saltos (paso 0/+1) una
     # rampa monótona ya clasificada justo antes (p. ej. la tabla 01..0A que
     # termina en $2831B2)
