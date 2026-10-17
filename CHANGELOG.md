@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Census: indirect Decode2D window widened to 20 B, mission-5 boss twin Decode2D set ($2D4274/$2B8FF6), squad death/deploy tables ($2E3D80-$2E3F54), fix-layer block-animation lists of ListCursor_Step_05db6a (`lea X,a0` + InstallListPubHead_05DB58; 8-byte {tile, cols, rows, dur}, 0 = jump, FFFF = end) -> other 2.3 %.
 - Census: code scanners extended up to $09C608 (score popups, hiscore/options code), para-squad exit/jump/fall tables ($2E54A2-$2E5832), `gap_scripts` (unpointed scripts glued to other data inside unclassified runs) and `pointed_scripts` re-walks pointers into partially classified scripts (1B/1C tables) -> other 2.5 %.
 - Data: `CutTextPanel_1f4712` (fix-layer text rows of Cut_TextPanel_08cbc6, symbolic lea); census: `$FF`-terminated glyph strings passed in a2 to List_ApplyWithSentinelFF_*, Fix_TextRow_Draw text, blit records whose descriptor lies inside a PatchDescChain (house variants of Prop_HouseVariants_052e20); tools/dev/other_runs.py and tools/dev/look.py session helpers -> other 2.8 %.
 - Census: RocketVehicle muzzle/rocket-velocity tables ($2CCFEA-$2CD4EA), AimTurret 7x16 frame lists ($2C2E76-$2C322E), indirect Tbl_Decode2D tables (`lea T,a0; movea.l (a0,dN.w),a0; jsr`, code scan up to $F0000); sprites.py find_frames also collects frames referenced only by op `1E` -> other 2.9 %.

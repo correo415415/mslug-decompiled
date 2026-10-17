@@ -75,6 +75,13 @@ STRUCTS = (
     # $2E55D6 7 x 4 offsets X, $2E560E 7 punteros a 16 x {vx, vy, ay} de salto,
     # $2E571A 7 punteros a 6 x {dx, dy, dz} de caída (TaskHandler_08267c)
     (0x2E54A2, 0x2E5832),
+    # gemela sin referencia directa de $2D4A4E (jefe de la misión 5): 4 punteros a
+    # 4 tablas Tbl_Decode2D largas contiguas ($2B8FF6, 4 x 130 B)
+    (0x2D4274, 0x2D4284), (0x2B8FF6, 0x2B91FE),
+    # escuadrón (death_handlers_080736 / deploy_module_07fbd2): $2E3D80 8 x
+    # {dx, dy, prio, pad}, $2E3DC0 7 punteros a 8 handlers de muerte, $2E3EBC
+    # 4 x {.l offsets {dx, dy} x 6, .l alturas 6 B} de despliegue
+    (0x2E3D80, 0x2E3F54),
 )
 
 
@@ -447,6 +454,46 @@ def gap_scripts(p, mark):
     return out
 
 
+INSTALL_FIX_LIST = 0x05DB58   # InstallListPubHead_05DB58: a0 -> +$3C (lista fix)
+
+
+def fix_anim_lists(p, code_end=0x9C608):
+    """Listas de ListCursor_Step_05db6a (animación de bloques del fix):
+    entradas de 8 B {tile, cols, rows, duración}; tile 0 = salto (.l en +2),
+    $FFFF = fin. Semillas: `lea X,a0` + jsr/jmp InstallListPubHead_05DB58
+    (<= 12 B) -> [(addr, n)]."""
+    seeds, out, seen = set(), [], set()
+    for o in range(0, code_end - 8, 2):
+        if p.W(o) != 0x41F9:
+            continue
+        v = p.L(o + 2)
+        for q in range(o + 6, o + 18, 2):
+            x = p.W(q)
+            if x in (0x4EB9, 0x4EF9) and p.L(q + 2) == INSTALL_FIX_LIST:
+                seeds.add(v)
+                break
+    for v in sorted(seeds):
+        todo = [v]
+        while todo:
+            a = todo.pop()
+            for _ in range(512):
+                if a in seen or a & 1 or not p.valid(a, 2):
+                    break
+                seen.add(a)
+                w = p.W(a)
+                if w == 0xFFFF:
+                    out.append((a, 2))
+                    break
+                if not p.valid(a, 8):
+                    break
+                out.append((a, 8))
+                if w == 0:
+                    todo.append(p.L(a + 2))
+                    break
+                a += 8
+    return out
+
+
 ONSCREEN_BOX = (0x05DD56, 0x05DD5C)  # a0 = caja {dx0, dx1, dy0, dy1} (8 B)
 PROBE_GRID = 0x043FAC                # a1 = {dx, dy, w, h} + w*h bytes
 FIX_STREAM = 0x05DAD8                # a2 = bytes de tile del fix ($FD = línea, $FE = fin)
@@ -512,7 +559,7 @@ def decode2d_tables(p, code_end=0xF0000):
         else:
             continue
         ind = False
-        for q in range(o + n, o + n + 12, 2):
+        for q in range(o + n, o + n + 20, 2):
             x = p.W(q)
             if x & 0xFFC0 == 0x41C0:          # otro lea ..,a0
                 break
@@ -861,8 +908,24 @@ def classify(p):
     for a, n in code_arg_tables(p):
         put(a, n, "struct")
     # tablas por dificultad/rango de Tbl_Decode2D_0799DE
-    for a, n in decode2d_tables(p):
+    d2d = decode2d_tables(p)
+    for a, n in d2d:
         put(a, n, "struct")
+    # tablas de punteros sin referencia directa cuyas >= 3 entradas son tablas
+    # Decode2D de formato largo (palabra 0 = 0) contiguas, la primera ya conocida
+    # por el código (p. ej. $2D4274 del jefe de la misión 5)
+    d2d_known = {a for a, n in d2d}
+    for x in range(0x200000, 0x300000 - 12, 2):
+        if x in mark or not p.valid(x, 12) or p.L(x) not in d2d_known:
+            continue
+        k = 0
+        while (k < 16 and p.valid(x + 4 * k, 4) and x + 4 * k not in mark
+               and p.L(x + 4 * k) == p.L(x) + 130 * k and p.valid(p.L(x + 4 * k), 130)
+               and p.W(p.L(x + 4 * k)) == 0):
+            k += 1
+        if k >= 3:
+            put(x, 4 * k, "struct")
+            put(p.L(x), 130 * k, "struct")
     # registros de Spawner_Handler_077c98 (+ tablas de 16 handlers)
     for a, n in spawner_records(p):
         put(a, n, "struct")
@@ -888,6 +951,8 @@ def classify(p):
                 put(t, 12, "struct")
     # textos: cadenas $FF de List_ApplyWithSentinelFF_* y filas fix de Cut_TextPanel
     for a, n in ff_strings(p) + fix_row_texts(p):
+        put(a, n, "struct")
+    for a, n in fix_anim_lists(p):
         put(a, n, "struct")
     # PathScripts (VM de movimiento, +$90 de la tarea) y sus tablas
     for a, n, k in path_scripts(p):
