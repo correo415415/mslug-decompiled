@@ -10269,9 +10269,10 @@ REGISTRY = [
     ("Zero_0e7000",                                0x0E7000,   1, "data/anim_pal_spawn_09c608.s"),
     ("Zero_0e7001",                                 0x0E7001, 1025, "data/anim_pal_spawn_09c608.s"),
     ("Zero_0e7402",                                 0x0E7402, 1022, "data/anim_pal_spawn_09c608.s"),
-    ("Data_0e7800",                                0x0E7800, 1024, "data/anim_pal_spawn_09c608.s"),
-    ("Data_0e7c00",                                0x0E7C00,   7, "data/anim_pal_spawn_09c608.s"),
-    ("Zero_0e7c07",                                0x0E7C07, 1017, "data/anim_pal_spawn_09c608.s"),
+    ("InputDemo_0e7800",                            0x0E7800,  512, "data/anim_pal_spawn_09c608.s"),
+    ("InputDemo_0e7a00",                            0x0E7A00,  512, "data/anim_pal_spawn_09c608.s"),
+    ("InputDemoPtrs_0e7c00",                        0x0E7C00,    8, "data/anim_pal_spawn_09c608.s"),
+    ("Zero_0e7c08",                                 0x0E7C08, 1016, "data/anim_pal_spawn_09c608.s"),
     # --- Wave NNNNN: DATA $0F2FFC..$118028: datos gráficos/mapas/scripts de nivel (parte A) (4499 entradas)
     ("Zero_0f2ffc",                                0x0F2FFC,  61, "data/level_a_0f2ffc.s"),
     ("Zero_0f3039",                                0x0F3039,   3, "data/level_a_0f2ffc.s"),

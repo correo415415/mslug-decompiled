@@ -350,7 +350,7 @@ PlayerCtx_InitExtended_025012:
         move.b  #0x1, 0x106eca.l                | +00  ctx_mode = MULTI
         add.w   d0, d0                          | +08  d0 *= 2
         add.w   d0, d0                          | +0a  d0 *= 2   (=count*4)
-        lea.l   0xe7c00.l, a0                   | +0c  a0 = &buffer_table[0]
+        lea.l   InputDemoPtrs_0e7c00.l, a0      | +0c  a0 = &buffer_table[0]
         move.l  (a0, d0.w), 0x106ebe.l          | +12  active_buffer = tbl[n]
         clr.w   d0                              | +1a  d0 = 0 (cero reutilizado)
         move.w  d0, 0x106ec2.l                  | +1c  state_a = 0

@@ -48,7 +48,8 @@ KINDS = ("palette", "frame", "anim", "tilemap", "collision", "struct", "lut", "z
 # prefijos de registry cuyo contenido entero ya está decodificado por su parser
 STRUCT_PREFIXES = ("MissionStream_", "MissionAux_", "TemplateIndex_", "SceneDescTable_",
                    "SceneScript_", "SceneEntities_", "SceneTrig_", "TaskBootTab_", "SoftDip_", "PropItemPtrs_", "HudText_",
-                   "CollOffsets_", "CollSlopes_", "CollTileTypes_", "CollMasks_", "HitShapeTab_")
+                   "CollOffsets_", "CollSlopes_", "CollTileTypes_", "CollMasks_", "HitShapeTab_",
+                   "InputDemo")
 
 # tablas de color del motor de paletas (asm/data/sprite_tables_002f30.s)
 LUTS = ((0x002F30, 0x012F30), (0x012F30, 0x012FB0), (0x012FB0, 0x0133B0),
@@ -117,6 +118,73 @@ def blit_records(p, descs):
             out.append((x, 20))
     return out
 
+
+
+# ---- PathScript (VM de movimiento, PathScript_Step_078f90, tabla $078FC0) ----
+# opcode = 1 byte, tamaños fijos; 04 salta (.l), 0A fin del tramo (espera), 08
+# llama a código (.l); 05/06/07 escriben un campo de la tarea (< $A0).
+PATH_OPSZ = {0: 2, 1: 4, 2: 6, 3: 4, 5: 8, 6: 6, 7: 4, 8: 6, 9: 4}
+
+
+def path_walk(p, c, code_end=0xF0000):
+    """Recorre un PathScript (+saltos 04) -> [(addr, n)] o None si no encaja."""
+    spans, seen, todo = [], set(), [c]
+    while todo:
+        a = todo.pop()
+        while a not in seen:
+            if a & 1 or not p.valid(a, 2) or a < code_end:
+                return None
+            op = p.B(a)
+            if op > 10:
+                return None
+            seen.add(a)
+            if op == 4:
+                spans.append((a, 6))
+                todo.append(p.L(a + 2))
+                break
+            if op == 10:
+                spans.append((a, 2))
+                break
+            n = PATH_OPSZ[op]
+            if not p.valid(a, n):
+                return None
+            if op == 8 and (not 0x400 <= p.L(a + 2) < code_end or p.L(a + 2) & 1):
+                return None
+            if op in (5, 7) and p.W(a + 2) >= 0xA0 or op == 6 and p.W(a + 4) >= 0xA0:
+                return None
+            spans.append((a, n))
+            a += n
+            if len(spans) > 600:
+                return None
+    return spans
+
+
+def path_scripts(p, code_end=0xF0000):
+    """PathScripts instalados por el código: `move.l #X,$90(a6)` y tablas
+    `lea T,a0 ... move.l (a0,dN.w),$90(a6)` (se leen mientras cada entrada
+    sea un script válido) -> [(addr, n)] de scripts + [(tabla, n)]."""
+    ent, tabs, out = set(), [], []
+    for o in range(0, code_end - 8, 2):
+        w = p.W(o)
+        if w == 0x2D7C and p.W(o + 6) == 0x0090:
+            ent.add(p.L(o + 2))
+        elif w == 0x2D70 and p.W(o + 4) == 0x0090:
+            for b in range(o - 2, o - 40, -2):
+                if p.W(b) == 0x41F9:
+                    tabs.append(p.L(b + 2))
+                    break
+    for t in sorted(set(tabs)):
+        k = 0
+        while p.valid(t + 4 * k, 4) and path_walk(p, p.L(t + 4 * k)):
+            ent.add(p.L(t + 4 * k))
+            k += 1
+        if k:
+            out.append((t, 4 * k, "struct"))
+    for e in sorted(ent):
+        r = path_walk(p, e)
+        if r:
+            out += [(a, n, "struct") for a, n in r]
+    return out
 
 SET_SPRITE_MAP = 0x028CD4          # EntitySetSpriteMap: a0 -> +$3C/+$40 (script)
 _OPSZ = {**S.OP_SIZE, 0x00: 2, 0x01: 6, 0x03: 6, 0x16: 2, 0x17: 2, 0x18: 2}
@@ -698,6 +766,9 @@ def classify(p):
             t = p.L(a + 2)
             if t & 1 == 0 and p.valid(t, 12):
                 put(t, 12, "struct")
+    # PathScripts (VM de movimiento, +$90 de la tarea) y sus tablas
+    for a, n, k in path_scripts(p):
+        put(a, n, k)
     # scripts apuntados por algún long y recorribles de punta a punta
     for a, n in pointed_scripts(p, mark):
         put(a, n, "anim")

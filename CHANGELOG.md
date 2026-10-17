@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Data: `InputDemo_0e7800`/`InputDemo_0e7a00` (the two 512-byte attract-mode input recordings replayed by InputRec_*) and `InputDemoPtrs_0e7c00` (symbolic in PlayerCtx_InitExtended_025012); census: PathScript movement-VM scripts (`move.l #X,$90(a6)` and `lea T,a0 / move.l (a0,dN.w),$90(a6)` tables, 11-op walker with 04 jumps) -> other 3.1 %.
 - tools/rename_data_by_census.py pass: 81 `Data_` entries renamed to `AnimScr_` after the op `1E` fix; census other 3.3 %.
 - assets/tools/sprites.py: op `1E` (SpawnChild_Sprite) is walked like `02` and the parent script continues; exported animations no longer stop at `1E` (17 226 scripts); census other 3.3 %.
 - **Script opcode 1E fixed**: `ScriptOp1E_SpawnChild_Sprite` has the same layout as `02` (`1E fl frame.l [prio dx dy]`, 8/12 B) and the script continues; the census walker treated it as terminal. "Other": 5.4 % → 3.4 %.
