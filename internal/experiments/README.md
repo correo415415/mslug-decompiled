@@ -20,6 +20,8 @@ bash scripts/apply_patch.sh --undo                                 # restaurar f
 | [03 todas las armas infinitas](03_all_weapons_infinite.md) | `scripts/apply_patch.sh all-infinite` | ✅ emulador |
 | [04 bombas: iniciales / infinitas](04_bombs.md) | `scripts/apply_patch.sh bombs=N`, `bombs-infinite` | ✅ emulador (RAM `$1004C0`) |
 | (04b) munición de pistola al perder arma | `scripts/apply_patch.sh pistol-ammo=N` | rebuild OK |
+| [06 invulnerabilidad](06_invincible.md) | `scripts/apply_patch.sh invincible` | ✅ emulador (1UP=2 fijo con el jugador recibiendo golpes) |
+| [07 flags de depuración](07_debug_flags.md) | `scripts/apply_patch.sh debug=HHHH` | ✅ emulador (`$100000=0008` en partida) |
 | [05 ideas / mapa de RAM](05_ram_map_and_ideas.md) | — | notas |
 
 Herramientas del emulador parcheado (solo `internal/pydmg`):
