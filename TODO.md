@@ -10,7 +10,10 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       entradas renombradas por tipo (`ColMap_`, `SprFrame_`, `BgMap_`,
       `AnimScr_`, `Pal_`, `Zero_`). Tabla de color `ColorRGB555ToNeoGeo_002f30`
       y rampa `ColorRamp_012fb0` identificadas y verificadas.
-- [ ] Decodificar las ~1 400 `Data_*` restantes (tablas indexadas por rutina).
+- [x] `Data_*` restantes con nombre: 88 por el censo (ColMap/SprFrame/AnimScr) y
+      210 por tipo + rutina usuaria (`Tbl_<Rutina>_`, `AnimBlk_<Rutina>_` para
+      bloques mezcla de scripts y registros, `Lut_`). Sólo quedan las 2 de
+      `boot/vectors_and_neogeo_header_000000.s` (cabecera Neo Geo).
 - [x] Matcher completo (`tools/match_batch.py`) verificado el 2026-10-17:
       17104/17104 funciones, 2 097 152/2 097 152 B (100 %). Tarda > 10 min;
       lanzarlo en segundo plano tras cada reorganización grande.
@@ -114,4 +117,4 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Censo: huecos apuntados desde datos, colas de registro, mapa de colisión de cámara en $20A000, colas de rampa, continuación periódica; islas ChildRank_CmpByte10 fuera de los módulos de datos
 - [x] Censo: terminadores $FF sueltos, cabecera de Prop_BoatDebris, $FFFF final y marca $12345678 en $2FF800 — 0 bytes otro
 - [x] Datos "otro": 0 bytes no nulos sin clasificar (tools/dev/other_runs.py -> total 0).
-- [ ] Revisar a mano Data_196000 / AnimScr_1d6700 y los MissionStream con bytes sin decodificar (ya clasificados, formato interno pendiente).
+- [ ] Revisar a mano AnimBlk_Prop_HutVariants_196000 / AnimScr_1d6700 y los MissionStream con bytes sin decodificar (ya clasificados, formato interno pendiente).

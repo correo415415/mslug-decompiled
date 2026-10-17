@@ -36,7 +36,7 @@
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 163840 B):
 |     animación 70.4%, estructuras 29.6%.
-|   Entradas por prefijo: AnimScr 259, FixType 82, Data 66, Zero 36, FixTypePages 4, Str 1, FixTypeIntro 1, FixTypeAnchor 1, CutTextPanel 1.
+|   Entradas por prefijo: AnimScr 259, FixType 82, Zero 36, Tbl 34, AnimBlk 32, FixTypePages 4, Str 1, FixTypeIntro 1, FixTypeAnchor 1, CutTextPanel 1.
 |   Pendiente: decodificar las Data_ restantes.
 |
         .text
@@ -2667,11 +2667,11 @@ AnimScr_1d343c:
         .dc.b   0xff                            | +0147c
 
 | ----------------------------------------------------------------------------
-|  Data_1d48b9  @ $1D48B9  (1,536 B)  [ref. desde código]
+|  AnimBlk_Gunship_GunnerFireB_1d48b9  @ $1D48B9  (1,536 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1d48b9, "ax", @progbits
-        .global Data_1d48b9
-Data_1d48b9:
+        .section .text.AnimBlk_Gunship_GunnerFireB_1d48b9, "ax", @progbits
+        .global AnimBlk_Gunship_GunnerFireB_1d48b9
+AnimBlk_Gunship_GunnerFireB_1d48b9:
         .dc.b   0xff                            | +00000
         .dc.l   BgMap_0e0010                   | +00001  -> $0E0010
         .dc.w   0x0204,0xff00                                               | +00005
@@ -7536,11 +7536,11 @@ AnimScr_1de214:
         .dc.w   0x0022,0x6a40,0xffff,0x0000                                 | +004ec
 
 | ----------------------------------------------------------------------------
-|  Data_1de708  @ $1DE708  (6,366 B)  [ref. desde código]
+|  AnimBlk_Smoke_Big_1de708  @ $1DE708  (6,366 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1de708, "ax", @progbits
-        .global Data_1de708
-Data_1de708:
+        .section .text.AnimBlk_Smoke_Big_1de708, "ax", @progbits
+        .global AnimBlk_Smoke_Big_1de708
+AnimBlk_Smoke_Big_1de708:
         .dc.w   0x0000                                                      | +00000
         .dc.l   Pal_021e08                   | +00002  -> $021E08
         .dc.w   0x0022,0x6a4c,0xffff,0x0000,0x0000                          | +00006
@@ -8727,83 +8727,83 @@ AnimScr_1e0019:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e001a  @ $1E001A  (1 B)  [ref. desde código]
+|  Tbl_1e001a  @ $1E001A  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e001a, "ax", @progbits
-        .global Data_1e001a
-Data_1e001a:
+        .section .text.Tbl_1e001a, "ax", @progbits
+        .global Tbl_1e001a
+Tbl_1e001a:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e001b  @ $1E001B  (1 B)  [ref. desde código]
+|  Tbl_1e001b  @ $1E001B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e001b, "ax", @progbits
-        .global Data_1e001b
-Data_1e001b:
+        .section .text.Tbl_1e001b, "ax", @progbits
+        .global Tbl_1e001b
+Tbl_1e001b:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e001c  @ $1E001C  (1 B)  [ref. desde código]
+|  Tbl_1e001c  @ $1E001C  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e001c, "ax", @progbits
-        .global Data_1e001c
-Data_1e001c:
+        .section .text.Tbl_1e001c, "ax", @progbits
+        .global Tbl_1e001c
+Tbl_1e001c:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e001d  @ $1E001D  (1 B)  [ref. desde código]
+|  Tbl_1e001d  @ $1E001D  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e001d, "ax", @progbits
-        .global Data_1e001d
-Data_1e001d:
+        .section .text.Tbl_1e001d, "ax", @progbits
+        .global Tbl_1e001d
+Tbl_1e001d:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e001e  @ $1E001E  (1 B)  [ref. desde código]
+|  Tbl_M2Boss_Burst_HitboxA_1e001e  @ $1E001E  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e001e, "ax", @progbits
-        .global Data_1e001e
-Data_1e001e:
+        .section .text.Tbl_M2Boss_Burst_HitboxA_1e001e, "ax", @progbits
+        .global Tbl_M2Boss_Burst_HitboxA_1e001e
+Tbl_M2Boss_Burst_HitboxA_1e001e:
         .dc.b   0x03                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e001f  @ $1E001F  (1 B)  [ref. desde código]
+|  Tbl_1e001f  @ $1E001F  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e001f, "ax", @progbits
-        .global Data_1e001f
-Data_1e001f:
+        .section .text.Tbl_1e001f, "ax", @progbits
+        .global Tbl_1e001f
+Tbl_1e001f:
         .dc.b   0x06                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0020  @ $1E0020  (2 B)  [ref. desde código]
+|  Tbl_1e0020  @ $1E0020  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0020, "ax", @progbits
-        .global Data_1e0020
-Data_1e0020:
+        .section .text.Tbl_1e0020, "ax", @progbits
+        .global Tbl_1e0020
+Tbl_1e0020:
         .dc.w   0x0001                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0022  @ $1E0022  (1 B)  [ref. desde código]
+|  Tbl_1e0022  @ $1E0022  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0022, "ax", @progbits
-        .global Data_1e0022
-Data_1e0022:
+        .section .text.Tbl_1e0022, "ax", @progbits
+        .global Tbl_1e0022
+Tbl_1e0022:
         .dc.b   0x02                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0023  @ $1E0023  (1 B)  [ref. desde código]
+|  Tbl_1e0023  @ $1E0023  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0023, "ax", @progbits
-        .global Data_1e0023
-Data_1e0023:
+        .section .text.Tbl_1e0023, "ax", @progbits
+        .global Tbl_1e0023
+Tbl_1e0023:
         .dc.b   0x04                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0024  @ $1E0024  (1 B)  [ref. desde código]
+|  Tbl_1e0024  @ $1E0024  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0024, "ax", @progbits
-        .global Data_1e0024
-Data_1e0024:
+        .section .text.Tbl_1e0024, "ax", @progbits
+        .global Tbl_1e0024
+Tbl_1e0024:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -8855,11 +8855,11 @@ Zero_1e002a:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e002b  @ $1E002B  (1 B)  [ref. desde código]
+|  Tbl_1e002b  @ $1E002B  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e002b, "ax", @progbits
-        .global Data_1e002b
-Data_1e002b:
+        .section .text.Tbl_1e002b, "ax", @progbits
+        .global Tbl_1e002b
+Tbl_1e002b:
         .dc.b   0x50                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -9043,43 +9043,43 @@ AnimScr_1e0066:
         .dc.w   0xffff,0x0050,0x0000,0x1d00,0xffff                          | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0070  @ $1E0070  (1 B)  [ref. desde código]
+|  Tbl_1e0070  @ $1E0070  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0070, "ax", @progbits
-        .global Data_1e0070
-Data_1e0070:
+        .section .text.Tbl_1e0070, "ax", @progbits
+        .global Tbl_1e0070
+Tbl_1e0070:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0071  @ $1E0071  (1 B)  [ref. desde código]
+|  Tbl_1e0071  @ $1E0071  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0071, "ax", @progbits
-        .global Data_1e0071
-Data_1e0071:
+        .section .text.Tbl_1e0071, "ax", @progbits
+        .global Tbl_1e0071
+Tbl_1e0071:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0072  @ $1E0072  (2 B)  [ref. desde código]
+|  Tbl_M2Boss_Burst_HitboxB_1e0072  @ $1E0072  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0072, "ax", @progbits
-        .global Data_1e0072
-Data_1e0072:
+        .section .text.Tbl_M2Boss_Burst_HitboxB_1e0072, "ax", @progbits
+        .global Tbl_M2Boss_Burst_HitboxB_1e0072
+Tbl_M2Boss_Burst_HitboxB_1e0072:
         .dc.w   0x0306                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0074  @ $1E0074  (2 B)  [ref. desde código]
+|  Tbl_1e0074  @ $1E0074  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0074, "ax", @progbits
-        .global Data_1e0074
-Data_1e0074:
+        .section .text.Tbl_1e0074, "ax", @progbits
+        .global Tbl_1e0074
+Tbl_1e0074:
         .dc.w   0x0001                                                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0076  @ $1E0076  (2 B)  [ref. desde código]
+|  Tbl_1e0076  @ $1E0076  (2 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0076, "ax", @progbits
-        .global Data_1e0076
-Data_1e0076:
+        .section .text.Tbl_1e0076, "ax", @progbits
+        .global Tbl_1e0076
+Tbl_1e0076:
         .dc.w   0x0204                                                      | +00000
 
 | ----------------------------------------------------------------------------
@@ -9186,20 +9186,20 @@ AnimScr_1e0103:
         .dc.b   0xff                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0104  @ $1E0104  (28 B)  [ref. desde código]
+|  AnimBlk_M2Boss_Turret_OffWorldBox_1e0104  @ $1E0104  (28 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0104, "ax", @progbits
-        .global Data_1e0104
-Data_1e0104:
+        .section .text.AnimBlk_M2Boss_Turret_OffWorldBox_1e0104, "ax", @progbits
+        .global AnimBlk_M2Boss_Turret_OffWorldBox_1e0104
+AnimBlk_M2Boss_Turret_OffWorldBox_1e0104:
         .dc.w   0x0050,0x0060,0x0200,0x0024,0x3662,0xffff,0x0050,0x0000     | +00000
         .dc.w   0x1d00,0xffff,0xffff,0xff80,0x0080,0x0000                   | +00010
 
 | ----------------------------------------------------------------------------
-|  Data_1e0120  @ $1E0120  (37 B)  [ref. desde código]
+|  Tbl_M2Boss_Turret_Destroyed_1e0120  @ $1E0120  (37 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0120, "ax", @progbits
-        .global Data_1e0120
-Data_1e0120:
+        .section .text.Tbl_M2Boss_Turret_Destroyed_1e0120, "ax", @progbits
+        .global Tbl_M2Boss_Turret_Destroyed_1e0120
+Tbl_M2Boss_Turret_Destroyed_1e0120:
         .dc.w   0x0060,0xffff,0x010a,0x01a4,0xffe0,0x0050,0x0000,0x0030     | +00000
         .dc.w   0x0000                                                      | +00010
         .dc.l   Explosion_Fire_077f6a         | +00012  -> $077F6A
@@ -9207,11 +9207,11 @@ Data_1e0120:
         .dc.b   0x00                            | +00024
 
 | ----------------------------------------------------------------------------
-|  Data_1e0145  @ $1E0145  (9 B)  [ref. desde código]
+|  AnimBlk_M2Boss_WaitScroll_1e0145  @ $1E0145  (9 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0145, "ax", @progbits
-        .global Data_1e0145
-Data_1e0145:
+        .section .text.AnimBlk_M2Boss_WaitScroll_1e0145, "ax", @progbits
+        .global AnimBlk_M2Boss_WaitScroll_1e0145
+AnimBlk_M2Boss_WaitScroll_1e0145:
         .dc.b   0x07                            | +00000
         .dc.w   0x7efe,0x0900,0xffff,0xffff                                 | +00001
 
@@ -9400,11 +9400,11 @@ Zero_1e0302:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e0303  @ $1E0303  (299 B)  [ref. desde código]
+|  AnimBlk_Crab_Leg_Detach_1e0303  @ $1E0303  (299 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0303, "ax", @progbits
-        .global Data_1e0303
-Data_1e0303:
+        .section .text.AnimBlk_Crab_Leg_Detach_1e0303, "ax", @progbits
+        .global AnimBlk_Crab_Leg_Detach_1e0303
+AnimBlk_Crab_Leg_Detach_1e0303:
         .dc.b   0x04                            | +00000
         .dc.w   0x34ce,0x0800                                               | +00001
         .dc.l   M2Boss_Wreck_Spawn8_07ccb6    | +00005  -> $07CCB6
@@ -9436,11 +9436,11 @@ Data_1e0303:
         .dc.w   0x0040,0x0080                                               | +00127
 
 | ----------------------------------------------------------------------------
-|  Data_1e042e  @ $1E042E  (64 B)  [ref. desde código]
+|  AnimBlk_Crab_Claw_Close_1e042e  @ $1E042E  (64 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e042e, "ax", @progbits
-        .global Data_1e042e
-Data_1e042e:
+        .section .text.AnimBlk_Crab_Claw_Close_1e042e, "ax", @progbits
+        .global AnimBlk_Crab_Claw_Close_1e042e
+AnimBlk_Crab_Claw_Close_1e042e:
         .dc.w   0x00c0,0x0100,0x0140,0x0180,0x01c0,0x0200                   | +00000
         .dc.l   Crab_Idle_07cf98              | +0000c  -> $07CF98
         .dc.l   Crab_Charge_07d056            | +00010  -> $07D056
@@ -9776,11 +9776,11 @@ AnimScr_1e0c08:
         .dc.w   0x0003,0xffff                                               | +00022
 
 | ----------------------------------------------------------------------------
-|  Data_1e0c2e  @ $1E0C2E  (11 B)  [ref. desde código]
+|  Tbl_1e0c2e  @ $1E0C2E  (11 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e0c2e, "ax", @progbits
-        .global Data_1e0c2e
-Data_1e0c2e:
+        .section .text.Tbl_1e0c2e, "ax", @progbits
+        .global Tbl_1e0c2e
+Tbl_1e0c2e:
         .dc.w   0xffff,0x0000                                               | +00000
         .dc.l   0x0000fff0                    | +00004  -> $00FFF0
         .dc.w   0xfff8                                                      | +00008
@@ -9948,11 +9948,11 @@ AnimScr_1e0e09:
         .dc.w   0xfff0                                                      | +001fd
 
 | ----------------------------------------------------------------------------
-|  Data_1e1008  @ $1E1008  (8 B)  [ref. desde código]
+|  AnimBlk_1e1008  @ $1E1008  (8 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e1008, "ax", @progbits
-        .global Data_1e1008
-Data_1e1008:
+        .section .text.AnimBlk_1e1008, "ax", @progbits
+        .global AnimBlk_1e1008
+AnimBlk_1e1008:
         .dc.w   0xffe8,0xfff0,0x0200,0x0024                                 | +00000
 
 | ----------------------------------------------------------------------------
@@ -10043,11 +10043,11 @@ AnimScr_1e103c:
         .dc.w   0x0000,0x0200,0x0024                                        | +001be
 
 | ----------------------------------------------------------------------------
-|  Data_1e1200  @ $1E1200  (777 B)  [ref. desde código]
+|  AnimBlk_Crab_Leg_Detach_1e1200  @ $1E1200  (777 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e1200, "ax", @progbits
-        .global Data_1e1200
-Data_1e1200:
+        .section .text.AnimBlk_Crab_Leg_Detach_1e1200, "ax", @progbits
+        .global AnimBlk_Crab_Leg_Detach_1e1200
+AnimBlk_Crab_Leg_Detach_1e1200:
         .dc.w   0x3676,0xffff,0xffe8,0x0000,0x0200,0x0024,0x3680,0xffff     | +00000
         .dc.w   0xffe8,0xfff0,0x0200,0x0024,0x368a,0xffff,0xfff8,0x0000     | +00010
         .dc.w   0x0200,0x0024,0x3694,0xffff,0xfff8,0xfff0,0x1d01,0x0003     | +00020
@@ -10172,11 +10172,11 @@ AnimScr_1e1608:
         .dc.w   0x0008,0xfff8                                               | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e160c  @ $1E160C  (771 B)  [ref. desde código]
+|  AnimBlk_1e160c  @ $1E160C  (771 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e160c, "ax", @progbits
-        .global Data_1e160c
-Data_1e160c:
+        .section .text.AnimBlk_1e160c, "ax", @progbits
+        .global AnimBlk_1e160c
+AnimBlk_1e160c:
         .dc.w   0x1d00,0xffff,0xffff                                        | +00000
         .dc.l   ColMap_110010                   | +00006  -> $110010
         .dc.w   0x0204,0xff00,0x0000,0x0008                                 | +0000a
@@ -10275,21 +10275,21 @@ Data_1e160c:
         .dc.b   0x00                            | +00302
 
 | ----------------------------------------------------------------------------
-|  Data_1e190f  @ $1E190F  (4 B)  [ref. desde código]
+|  Tbl_1e190f  @ $1E190F  (4 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e190f, "ax", @progbits
-        .global Data_1e190f
-Data_1e190f:
+        .section .text.Tbl_1e190f, "ax", @progbits
+        .global Tbl_1e190f
+Tbl_1e190f:
         .dc.b   0x00                            | +00000
         .dc.w   0xffe8                                                      | +00001
         .dc.b   0xff                            | +00003
 
 | ----------------------------------------------------------------------------
-|  Data_1e1913  @ $1E1913  (252 B)  [ref. desde código]
+|  AnimBlk_1e1913  @ $1E1913  (252 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e1913, "ax", @progbits
-        .global Data_1e1913
-Data_1e1913:
+        .section .text.AnimBlk_1e1913, "ax", @progbits
+        .global AnimBlk_1e1913
+AnimBlk_1e1913:
         .dc.b   0xf0                            | +00000
         .dc.w   0xffe8,0xfff0,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000     | +00001
         .dc.w   0x0200,0x0024,0x3644,0xffff,0xffe8,0xfff0,0x0200,0x0024     | +00011
@@ -10446,11 +10446,11 @@ AnimScr_1e1d16:
         .dc.w   0x0200,0x0024,0x3662,0xffff                                 | +00022
 
 | ----------------------------------------------------------------------------
-|  Data_1e1d40  @ $1E1D40  (60 B)  [ref. desde código]
+|  AnimBlk_Carrier_Init_1e1d40  @ $1E1D40  (60 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e1d40, "ax", @progbits
-        .global Data_1e1d40
-Data_1e1d40:
+        .section .text.AnimBlk_Carrier_Init_1e1d40, "ax", @progbits
+        .global AnimBlk_Carrier_Init_1e1d40
+AnimBlk_Carrier_Init_1e1d40:
         .dc.l   Zero_18fff0                   | +00000  -> $18FFF0
         .dc.w   0x1d00,0xffff,0xffff                                        | +00004
         .dc.l   0x0000fff4                    | +0000a  -> $00FFF4
@@ -10461,11 +10461,11 @@ Data_1e1d40:
         .dc.w   0x0023,0x86e4,0xffff,0x0100,0x002e,0x1d6c                   | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1e1d7c  @ $1E1D7C  (140 B)  [ref. desde código]
+|  AnimBlk_Squad_HatchRow3Spawn_1e1d7c  @ $1E1D7C  (140 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e1d7c, "ax", @progbits
-        .global Data_1e1d7c
-Data_1e1d7c:
+        .section .text.AnimBlk_Squad_HatchRow3Spawn_1e1d7c, "ax", @progbits
+        .global AnimBlk_Squad_HatchRow3Spawn_1e1d7c
+AnimBlk_Squad_HatchRow3Spawn_1e1d7c:
         .dc.w   0x0900,0x002e,0x2844,0x0400,0x102f                          | +00000
         .dc.l   0x00010208                    | +0000a  -> $010208
         .dc.w   0x0023,0x8704,0xffff,0x0100,0x002e,0x1d86,0x0900,0x002e     | +0000e
@@ -10693,11 +10693,11 @@ AnimScr_1e226e:
         .dc.w   0x0023,0x913e,0xffff,0x0002                                 | +00006
 
 | ----------------------------------------------------------------------------
-|  Data_1e227c  @ $1E227C  (501 B)  [ref. desde código]
+|  AnimBlk_Carrier_Cockpit_Eject_1e227c  @ $1E227C  (501 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e227c, "ax", @progbits
-        .global Data_1e227c
-Data_1e227c:
+        .section .text.AnimBlk_Carrier_Cockpit_Eject_1e227c, "ax", @progbits
+        .global AnimBlk_Carrier_Cockpit_Eject_1e227c
+AnimBlk_Carrier_Cockpit_Eject_1e227c:
         .dc.w   0x0208,0x0023,0x90a6,0xffff,0x1600,0x0900,0xffff,0xffff     | +00000
         .dc.w   0x0004,0x0208,0x0023,0xb9ac,0xffff,0x0004,0x0208,0x0023     | +00010
         .dc.w   0xb9b8,0xffff,0x0004,0x0208,0x0023,0xb9c4,0xffff,0x0004     | +00020
@@ -10747,11 +10747,11 @@ Data_1e227c:
         .dc.b   0x02                            | +001f4
 
 | ----------------------------------------------------------------------------
-|  Data_1e2471  @ $1E2471  (2,072 B)  [ref. desde código]
+|  AnimBlk_Squad_HatchRow3Spawn_1e2471  @ $1E2471  (2,072 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e2471, "ax", @progbits
-        .global Data_1e2471
-Data_1e2471:
+        .section .text.AnimBlk_Squad_HatchRow3Spawn_1e2471, "ax", @progbits
+        .global AnimBlk_Squad_HatchRow3Spawn_1e2471
+AnimBlk_Squad_HatchRow3Spawn_1e2471:
         .dc.b   0x00                            | +00000
         .dc.w   0x0024,0x3608,0xffff,0x0000,0x0000,0x0200,0x0024,0x3612     | +00001
         .dc.w   0xffff,0xffd0,0x0060,0x0200,0x0024,0x361c,0xffff,0xffd0     | +00011
@@ -10944,11 +10944,11 @@ Data_1e2471:
         .dc.b   0x0a                            | +00817
 
 | ----------------------------------------------------------------------------
-|  Data_1e2c89  @ $1E2C89  (123 B)  [ref. desde código]
+|  Tbl_1e2c89  @ $1E2C89  (123 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e2c89, "ax", @progbits
-        .global Data_1e2c89
-Data_1e2c89:
+        .section .text.Tbl_1e2c89, "ax", @progbits
+        .global Tbl_1e2c89
+Tbl_1e2c89:
         .dc.b   0x00                            | +00000
         .dc.w   0x0701,0x003a,0x0701,0x0020,0x0700,0x0021,0x0900,0x10c4     | +00001
         .dc.w   0x00d0,0x0800                                               | +00011
@@ -10971,19 +10971,19 @@ Zero_1e2d04:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e2d05  @ $1E2D05  (1 B)  [ref. desde código]
+|  Tbl_1e2d05  @ $1E2D05  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e2d05, "ax", @progbits
-        .global Data_1e2d05
-Data_1e2d05:
+        .section .text.Tbl_1e2d05, "ax", @progbits
+        .global Tbl_1e2d05
+Tbl_1e2d05:
         .dc.b   0x21                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e2d06  @ $1E2D06  (66 B)  [ref. desde código]
+|  Tbl_Squad_DeathTumble_1e2d06  @ $1E2D06  (66 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e2d06, "ax", @progbits
-        .global Data_1e2d06
-Data_1e2d06:
+        .section .text.Tbl_Squad_DeathTumble_1e2d06, "ax", @progbits
+        .global Tbl_Squad_DeathTumble_1e2d06
+Tbl_Squad_DeathTumble_1e2d06:
         .dc.w   0x0704,0x0020,0x0800                                        | +00000
         .dc.l   LeaSpriteAlt_081848           | +00006  -> $081848
         .dc.w   0x0201,0x8000,0x01c4,0x0700,0x007f,0x0100,0x0018,0x0705     | +0000a
@@ -10993,11 +10993,11 @@ Data_1e2d06:
         .dc.w   0x0008,0x17de,0x0100,0x0300,0x0a00,0x0700,0x003a,0x0701     | +00032
 
 | ----------------------------------------------------------------------------
-|  Data_1e2d48  @ $1E2D48  (742 B)  [ref. desde código]
+|  AnimBlk_Squad_DeathTumble_1e2d48  @ $1E2D48  (742 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e2d48, "ax", @progbits
-        .global Data_1e2d48
-Data_1e2d48:
+        .section .text.AnimBlk_Squad_DeathTumble_1e2d48, "ax", @progbits
+        .global AnimBlk_Squad_DeathTumble_1e2d48
+AnimBlk_Squad_DeathTumble_1e2d48:
         .dc.w   0x0021,0x0900,0x10b8,0x0800                                 | +00000
         .dc.l   LeaSpriteAlt_081824           | +00008  -> $081824
         .dc.w   0x02ff,0x0000,0x01f6,0x0800,0x0008,0x1332,0x0800            | +0000c
@@ -11447,11 +11447,11 @@ AnimScr_1e3c02:
         .dc.w   0x0200,0x0024,0x3662,0xffff,0x0018                          | +00030
 
 | ----------------------------------------------------------------------------
-|  Data_1e3c3c  @ $1E3C3C  (260 B)  [ref. desde código]
+|  Tbl_Sub_0008169A_1e3c3c  @ $1E3C3C  (260 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e3c3c, "ax", @progbits
-        .global Data_1e3c3c
-Data_1e3c3c:
+        .section .text.Tbl_Sub_0008169A_1e3c3c, "ax", @progbits
+        .global Tbl_Sub_0008169A_1e3c3c
+Tbl_Sub_0008169A_1e3c3c:
         .dc.w   0xfff8,0x1d00,0xffff,0xffff,0xffc0,0x0040,0xff00,0x0020     | +00000
         .dc.w   0xfff8,0x0008,0xff00,0x0020,0x0101,0x0004,0xffe0,0x0040     | +00010
         .dc.w   0x0000,0x0028,0x0001,0x002e,0x3c78,0x0101,0x0004,0xffe0     | +00020
@@ -11488,11 +11488,11 @@ Data_1e3c3c:
         .dc.w   0x002e,0x2b1e,0x002e,0x2b76                                 | +000fc
 
 | ----------------------------------------------------------------------------
-|  Data_1e3d40  @ $1E3D40  (46 B)  [ref. desde código]
+|  Tbl_Sub_0008169A_1e3d40  @ $1E3D40  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e3d40, "ax", @progbits
-        .global Data_1e3d40
-Data_1e3d40:
+        .section .text.Tbl_Sub_0008169A_1e3d40, "ax", @progbits
+        .global Tbl_Sub_0008169A_1e3d40
+Tbl_Sub_0008169A_1e3d40:
         .dc.w   0x002e,0x2ce6,0x002e,0x2c32,0x002e,0x2c8a,0x002e,0x2bd2     | +00000
         .dc.w   0x002b,0xebc4,0x002b,0xec46,0x002b,0xee4e,0x002b,0xed4a     | +00010
         .dc.w   0x002b,0xedcc,0x002b,0xecc8,0x002e,0x2f78,0x002e            | +00020
@@ -11506,11 +11506,11 @@ Str_1e3d6e:
         .dc.w   0x2f8e,0x002e,0x2f62,0x002e,0x2f26,0x002e,0x2f3c            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e3d7c  @ $1E3D7C  (192 B)  [ref. desde código]
+|  Tbl_Sub_000808A0_1e3d7c  @ $1E3D7C  (192 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e3d7c, "ax", @progbits
-        .global Data_1e3d7c
-Data_1e3d7c:
+        .section .text.Tbl_Sub_000808A0_1e3d7c, "ax", @progbits
+        .global Tbl_Sub_000808A0_1e3d7c
+Tbl_Sub_000808A0_1e3d7c:
         .dc.w   0x002e,0x2fb4,0xfff8,0xfff0,0xffff                          | +00000
         .dc.l   0x0000fff8                    | +0000a  -> $00FFF8
         .dc.w   0xfff0,0xffff                                               | +0000e
@@ -11549,11 +11549,11 @@ Data_1e3d7c:
         .dc.l   Squad_DeathSkid_080cdc        | +000bc  -> $080CDC
 
 | ----------------------------------------------------------------------------
-|  Data_1e3e3c  @ $1E3E3C  (200 B)  [ref. desde código]
+|  Tbl_Squad_ChildInitTableA_1e3e3c  @ $1E3E3C  (200 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e3e3c, "ax", @progbits
-        .global Data_1e3e3c
-Data_1e3e3c:
+        .section .text.Tbl_Squad_ChildInitTableA_1e3e3c, "ax", @progbits
+        .global Tbl_Squad_ChildInitTableA_1e3e3c
+Tbl_Squad_ChildInitTableA_1e3e3c:
         .dc.l   Squad_DeathTumble_080bd6      | +00000  -> $080BD6
         .dc.w   0x0008,0x0c08                                               | +00004
         .dc.l   Squad_DeathTumble_080bd6      | +00008  -> $080BD6
@@ -11592,11 +11592,11 @@ Data_1e3e3c:
         .dc.w   0x0020                                                      | +000c6
 
 | ----------------------------------------------------------------------------
-|  Data_1e3f04  @ $1E3F04  (756 B)  [ref. desde código]
+|  AnimBlk_TaskHandler_1e3f04  @ $1E3F04  (756 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e3f04, "ax", @progbits
-        .global Data_1e3f04
-Data_1e3f04:
+        .section .text.AnimBlk_TaskHandler_1e3f04, "ax", @progbits
+        .global AnimBlk_TaskHandler_1e3f04
+AnimBlk_TaskHandler_1e3f04:
         .dc.l   ColMap_100020                   | +00000  -> $100020
         .dc.w   0xffe0,0x0030,0x0000,0x0030,0xfff0,0x4020,0x2040,0x4020     | +00004
         .dc.w   0x0000,0x0000,0x0020                                        | +00014
@@ -11685,11 +11685,11 @@ AnimScr_1e41f9:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e41fa  @ $1E41FA  (46 B)  [ref. desde código]
+|  AnimBlk_1e41fa  @ $1E41FA  (46 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e41fa, "ax", @progbits
-        .global Data_1e41fa
-Data_1e41fa:
+        .section .text.AnimBlk_1e41fa, "ax", @progbits
+        .global AnimBlk_1e41fa
+AnimBlk_1e41fa:
         .dc.w   0x0024,0x368a,0xffff,0x0008,0x0008,0x0200,0x0024,0x3694     | +00000
         .dc.w   0xffff,0x0008,0xfff8,0x1d01,0xffff,0xffff,0x0001,0x002e     | +00010
         .dc.w   0x3f54,0x0000                                               | +00020
@@ -11718,11 +11718,11 @@ AnimScr_1e422e:
         .dc.w   0x0024,0x3694,0xffff,0x0008,0x0000,0x1d01,0xffff            | +0002c
 
 | ----------------------------------------------------------------------------
-|  Data_1e4268  @ $1E4268  (6 B)  [ref. desde código]
+|  AnimBlk_1e4268  @ $1E4268  (6 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e4268, "ax", @progbits
-        .global Data_1e4268
-Data_1e4268:
+        .section .text.AnimBlk_1e4268, "ax", @progbits
+        .global AnimBlk_1e4268
+AnimBlk_1e4268:
         .dc.w   0xffff                                                      | +00000
         .dc.l   ColMap_110010                   | +00002  -> $110010
 
@@ -11843,7 +11843,7 @@ AnimScr_1e43fa:
         .dc.w   0x3662,0xffff,0x0020,0x0038,0x1d00,0x0311                   | +0027a
         .dc.l   ColMap_100204                    | +00286  -> $100204
         .dc.w   0xff00,0x0000                                               | +0028a
-        .dc.l   Data_1c003c                   | +0028e  -> $1C003C
+        .dc.l   Tbl_1c003c                   | +0028e  -> $1C003C
         .dc.w   0x0078,0x00a8,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000     | +00292
         .dc.w   0x0200,0x0024,0x3644,0xffff,0x001c,0x00a8,0x0200,0x0024     | +002a2
         .dc.w   0x364e,0xffff,0x001c,0x0078,0x0200,0x0024,0x3658,0xffff     | +002b2
@@ -11857,7 +11857,7 @@ AnimScr_1e43fa:
         .dc.w   0x3662,0xffff,0x0020,0x0038,0x1d00,0x0411                   | +0031a
         .dc.l   ColMap_100204                    | +00326  -> $100204
         .dc.w   0xff00,0x0000                                               | +0032a
-        .dc.l   Data_1c003c                   | +0032e  -> $1C003C
+        .dc.l   Tbl_1c003c                   | +0032e  -> $1C003C
         .dc.w   0x0078,0x00a8,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000     | +00332
         .dc.w   0x0200,0x0024,0x3644,0xffff,0x001c,0x00a8,0x0200,0x0024     | +00342
         .dc.w   0x364e,0xffff,0x001c,0x0078,0x0200,0x0024,0x3658,0xffff     | +00352
@@ -11890,12 +11890,12 @@ AnimScr_1e43fa:
         .dc.l   ColMap_100204                    | +0046a  -> $100204
         .dc.w   0xff00                                                      | +0046e
         .dc.l   0x0000fffc                    | +00470  -> $00FFFC
-        .dc.l   Data_1c0038                   | +00474  -> $1C0038
+        .dc.l   Tbl_1c0038                   | +00474  -> $1C0038
         .dc.w   0x0080,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000,0x0200     | +00478
         .dc.w   0x0024,0x3644,0xffff,0xfffc,0x0080,0x0200,0x0024,0x364e     | +00488
         .dc.w   0xffff,0xfffc,0x0038,0x0200,0x0024,0x3658,0xffff,0x001c     | +00498
         .dc.w   0x0080,0x0200,0x0024,0x3662,0xffff                          | +004a8
-        .dc.l   Data_1c0038                   | +004b2  -> $1C0038
+        .dc.l   Tbl_1c0038                   | +004b2  -> $1C0038
         .dc.w   0x1d00,0x0311                                               | +004b6
         .dc.l   ColMap_100204                    | +004ba  -> $100204
         .dc.w   0xff00,0x0000                                               | +004be
@@ -11917,12 +11917,12 @@ AnimScr_1e48e7:
         .dc.l   ColMap_100204                    | +0001d  -> $100204
         .dc.w   0xff00                                                      | +00021
         .dc.l   0x0000fffc                    | +00023  -> $00FFFC
-        .dc.l   Data_1c0038                   | +00027  -> $1C0038
+        .dc.l   Tbl_1c0038                   | +00027  -> $1C0038
         .dc.w   0x0080,0x0200,0x0024,0x363a,0xffff,0x0000,0x0000,0x0200     | +0002b
         .dc.w   0x0024,0x3644,0xffff,0xfffc,0x0080,0x0200,0x0024,0x364e     | +0003b
         .dc.w   0xffff,0xfffc,0x0038,0x0200,0x0024,0x3658,0xffff,0x001c     | +0004b
         .dc.w   0x0080,0x0200,0x0024,0x3662,0xffff                          | +0005b
-        .dc.l   Data_1c0038                   | +00065  -> $1C0038
+        .dc.l   Tbl_1c0038                   | +00065  -> $1C0038
         .dc.w   0x1d00,0x0411                                               | +00069
         .dc.l   ColMap_100204                    | +0006d  -> $100204
         .dc.w   0xff00,0x0000                                               | +00071
@@ -11970,11 +11970,11 @@ AnimScr_1e4a2e:
         .dc.b   0x00                            | +00014
 
 | ----------------------------------------------------------------------------
-|  Data_1e4a43  @ $1E4A43  (43 B)  [ref. desde código]
+|  AnimBlk_1e4a43  @ $1E4A43  (43 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e4a43, "ax", @progbits
-        .global Data_1e4a43
-Data_1e4a43:
+        .section .text.AnimBlk_1e4a43, "ax", @progbits
+        .global AnimBlk_1e4a43
+AnimBlk_1e4a43:
         .dc.b   0x38                            | +00000
         .dc.w   0x1d00,0x0411                                               | +00001
         .dc.l   ColMap_100204                    | +00005  -> $100204
@@ -12114,11 +12114,11 @@ AnimScr_1e4e75:
         .dc.b   0xff                            | +00043
 
 | ----------------------------------------------------------------------------
-|  Data_1e4eb9  @ $1E4EB9  (1 B)  [ref. desde código]
+|  Tbl_1e4eb9  @ $1E4EB9  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e4eb9, "ax", @progbits
-        .global Data_1e4eb9
-Data_1e4eb9:
+        .section .text.Tbl_1e4eb9, "ax", @progbits
+        .global Tbl_1e4eb9
+Tbl_1e4eb9:
         .dc.b   0xe0                            | +00000
 
 | ----------------------------------------------------------------------------
@@ -12221,11 +12221,11 @@ AnimScr_1e522e:
         .dc.w   0x0024,0x3662                                               | +0003c
 
 | ----------------------------------------------------------------------------
-|  Data_1e526e  @ $1E526E  (186 B)  [ref. desde código]
+|  AnimBlk_1e526e  @ $1E526E  (186 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e526e, "ax", @progbits
-        .global Data_1e526e
-Data_1e526e:
+        .section .text.AnimBlk_1e526e, "ax", @progbits
+        .global AnimBlk_1e526e
+AnimBlk_1e526e:
         .dc.w   0xffff,0x0004,0xfffc,0x1d00,0x0407,0x01f4,0x0204,0xff00     | +00000
         .dc.l   0x0000fffc                    | +00010  -> $00FFFC
         .dc.w   0x0004,0xfffc                                               | +00014
@@ -12260,11 +12260,11 @@ AnimScr_1e5328:
         .dc.w   0x1d00,0xffff,0xffff                                        | +00040
 
 | ----------------------------------------------------------------------------
-|  Data_1e536e  @ $1E536E  (1,685 B)  [ref. desde código]
+|  Tbl_TaskHandler_1e536e  @ $1E536E  (1,685 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e536e, "ax", @progbits
-        .global Data_1e536e
-Data_1e536e:
+        .section .text.Tbl_TaskHandler_1e536e, "ax", @progbits
+        .global Tbl_TaskHandler_1e536e
+Tbl_TaskHandler_1e536e:
         .dc.w   0x0006,0x0010,0x0104,0xff00                                 | +00000
         .dc.l   0x0000fffa                    | +00008  -> $00FFFA
         .dc.w   0x0006,0x0000,0x0004,0x0200,0x0024,0x363a,0xffff,0x0000     | +0000c
@@ -12309,7 +12309,7 @@ Data_1e536e:
         .dc.w   0xffd0                                                      | +001ca
         .dc.l   AnimScr_1cffe0                   | +001cc  -> $1CFFE0
         .dc.l   AnimScr_1cfff0                   | +001d0  -> $1CFFF0
-        .dc.l   Data_1c0000                   | +001d4  -> $1C0000
+        .dc.l   Tbl_1c0000                   | +001d4  -> $1C0000
         .dc.l   Zero_1c0010                   | +001d8  -> $1C0010
         .dc.w   0xffe8,0xffd0,0xffe8,0xffe0,0xffe8,0xfff0,0xffe8            | +001dc
         .dc.l   0x0000ffe8                    | +001ea  -> $00FFE8
@@ -12355,9 +12355,9 @@ Data_1e536e:
         .dc.w   0x0354,0xf9ab,0xff72,0x0354,0x002e,0x5736,0x002e,0x575a     | +003a4
         .dc.w   0x002e,0x577e,0x002e,0x57a2,0x002e,0x57c6,0x002e,0x57ea     | +003b4
         .dc.w   0x002e,0x580e,0x0000                                        | +003c4
-        .dc.l   Data_1c003b                   | +003ca  -> $1C003B
+        .dc.l   Tbl_1c003b                   | +003ca  -> $1C003B
         .dc.w   0x000e,0x002a,0x004f                                        | +003ce
-        .dc.l   Data_1c0038                   | +003d4  -> $1C0038
+        .dc.l   Tbl_1c0038                   | +003d4  -> $1C0038
         .dc.w   0x0064,0x002a,0x0046,0x0079,0x0038,0x0054,0x008e,0x0046     | +003d8
         .dc.w   0x0062,0x00a3,0xfffb,0x0019,0x003b,0x0004,0x0021,0x004f     | +003e8
         .dc.w   0x000c,0x0029,0x0064,0x0014,0x0032,0x0079,0x001d,0x003b     | +003f8
@@ -13408,19 +13408,19 @@ Zero_1e7802:
         .dc.b   0x00                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e7803  @ $1E7803  (1 B)  [ref. desde código]
+|  Tbl_1e7803  @ $1E7803  (1 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e7803, "ax", @progbits
-        .global Data_1e7803
-Data_1e7803:
+        .section .text.Tbl_1e7803, "ax", @progbits
+        .global Tbl_1e7803
+Tbl_1e7803:
         .dc.b   0x2e                            | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1e7804  @ $1E7804  (1,791 B)  [ref. desde código]
+|  AnimBlk_TaskHandler_1e7804  @ $1E7804  (1,791 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e7804, "ax", @progbits
-        .global Data_1e7804
-Data_1e7804:
+        .section .text.AnimBlk_TaskHandler_1e7804, "ax", @progbits
+        .global AnimBlk_TaskHandler_1e7804
+AnimBlk_TaskHandler_1e7804:
         .dc.w   0x76c6,0x002e,0x76d6,0x002e,0x768a,0x002e,0x769a,0x0900     | +00000
         .dc.w   0x002e,0x93a6                                               | +00010
         .dc.l   0x00011e08                    | +00014  -> $011E08
@@ -13970,7 +13970,7 @@ AnimScr_1e7f03:
         .dc.w   0x0000,0x0200,0x0024,0x3676,0xffff,0xfff4,0x0028,0x0200     | +01123
         .dc.w   0x0024,0x3680,0xffff,0xfff4,0x0008,0x0200,0x0024,0x368a     | +01133
         .dc.w   0xffff                                                      | +01143
-        .dc.l   Data_1c0028                   | +01145  -> $1C0028
+        .dc.l   Tbl_1c0028                   | +01145  -> $1C0028
         .dc.w   0x0200,0x0024,0x3694,0xffff,0x001c,0x0008,0x1d01,0xffff     | +01149
         .dc.w   0xffff,0x0003,0xffff,0xffff,0x0000,0x0000                   | +01159
 
@@ -14025,11 +14025,11 @@ AnimScr_1e9068:
         .dc.w   0x366c                                                      | +00204
 
 | ----------------------------------------------------------------------------
-|  Data_1e926e  @ $1E926E  (7,184 B)  [ref. desde código]
+|  AnimBlk_TaskHandler_1e926e  @ $1E926E  (7,184 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1e926e, "ax", @progbits
-        .global Data_1e926e
-Data_1e926e:
+        .section .text.AnimBlk_TaskHandler_1e926e, "ax", @progbits
+        .global AnimBlk_TaskHandler_1e926e
+AnimBlk_TaskHandler_1e926e:
         .dc.w   0xffff,0x0000,0x0000,0x0200,0x0024,0x3676,0xffff,0x0000     | +00000
         .dc.w   0x0030,0x0200,0x0024,0x3680,0xffff,0x0000,0x0000,0x0200     | +00010
         .dc.w   0x0024,0x368a,0xffff,0x0120,0x0030,0x0200,0x0024,0x3694     | +00020
@@ -14265,7 +14265,7 @@ Data_1e926e:
         .dc.l   Explosion_Fire_077f6a         | +00736  -> $077F6A
         .dc.w   0x0008                                                      | +0073a
         .dc.l   ColMap_100000                   | +0073c  -> $100000
-        .dc.l   Data_1c0000                   | +00740  -> $1C0000
+        .dc.l   Tbl_1c0000                   | +00740  -> $1C0000
         .dc.w   0x0008,0x0000                                               | +00744
         .dc.l   M4_SplashFx_08573a            | +00748  -> $08573A
         .dc.w   0x0004,0x0008,0x0000,0x0020,0x0000                          | +0074c
@@ -15072,11 +15072,11 @@ Zero_1eae7e:
         .fill   135,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1eaf05  @ $1EAF05  (1,339 B)
+|  AnimBlk_Boss_SpawnGuardList_1eaf05  @ $1EAF05  (1,339 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1eaf05, "ax", @progbits
-        .global Data_1eaf05
-Data_1eaf05:
+        .section .text.AnimBlk_Boss_SpawnGuardList_1eaf05, "ax", @progbits
+        .global AnimBlk_Boss_SpawnGuardList_1eaf05
+AnimBlk_Boss_SpawnGuardList_1eaf05:
         .dc.b   0x2f                            | +00000
         .dc.w   0x0012,0x0001,0x1111,0x1111,0x1111,0x1111,0x1111,0x1111     | +00001
         .dc.w   0x1111,0x1111,0x1111,0x0047,0xffa9,0xf000,0x0100,0x0077     | +00011
@@ -15712,11 +15712,11 @@ AnimScr_1ebdfc:
         .dc.b   0x00                            | +002c4
 
 | ----------------------------------------------------------------------------
-|  Data_1ec0c1  @ $1EC0C1  (4,269 B)  [ref. desde código]
+|  AnimBlk_Fort_Destroyed_1ec0c1  @ $1EC0C1  (4,269 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ec0c1, "ax", @progbits
-        .global Data_1ec0c1
-Data_1ec0c1:
+        .section .text.AnimBlk_Fort_Destroyed_1ec0c1, "ax", @progbits
+        .global AnimBlk_Fort_Destroyed_1ec0c1
+AnimBlk_Fort_Destroyed_1ec0c1:
         .dc.b   0x00                            | +00000
         .dc.w   0x0000,0x0800                                               | +00001
         .dc.l   SDS_088ebe                    | +00005  -> $088EBE
@@ -16204,11 +16204,11 @@ Data_1ec0c1:
         .dc.l   Explosion_Var29_0786aa        | +010a9  -> $0786AA
 
 | ----------------------------------------------------------------------------
-|  Data_1ed16e  @ $1ED16E  (211 B)  [ref. desde código]
+|  Tbl_SDS_1ed16e  @ $1ED16E  (211 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ed16e, "ax", @progbits
-        .global Data_1ed16e
-Data_1ed16e:
+        .section .text.Tbl_SDS_1ed16e, "ax", @progbits
+        .global Tbl_SDS_1ed16e
+Tbl_SDS_1ed16e:
         .dc.l   Explosion_Var29_0786aa        | +00000  -> $0786AA
         .dc.l   Explosion_Var29_0786aa        | +00004  -> $0786AA
         .dc.w   0x01ff,0x0002,0x0008,0x0058,0x0000,0x0030,0x0000            | +00008
@@ -16247,11 +16247,11 @@ Data_1ed16e:
         .dc.b   0x00                            | +000d2
 
 | ----------------------------------------------------------------------------
-|  Data_1ed241  @ $1ED241  (513 B)  [ref. desde código]
+|  Tbl_SDS_1ed241  @ $1ED241  (513 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ed241, "ax", @progbits
-        .global Data_1ed241
-Data_1ed241:
+        .section .text.Tbl_SDS_1ed241, "ax", @progbits
+        .global Tbl_SDS_1ed241
+Tbl_SDS_1ed241:
         .dc.b   0x09                            | +00000
         .dc.w   0x0007,0x0004,0x0000,0x0003,0x0004                          | +00001
         .dc.l   ColMap_106f6c                   | +0000b  -> $106F6C
@@ -16310,11 +16310,11 @@ Data_1ed241:
         .dc.w   0x0003,0x0004                                               | +0015b
         .dc.l   ColMap_106f6c                   | +0015f  -> $106F6C
         .dc.w   0x002e,0xd1f4,0x0025,0x0007                                 | +00163
-        .dc.l   Data_1c0000                   | +0016b  -> $1C0000
+        .dc.l   Tbl_1c0000                   | +0016b  -> $1C0000
         .dc.w   0x0003,0x0004                                               | +0016f
         .dc.l   ColMap_106f6c                   | +00173  -> $106F6C
         .dc.w   0x002e,0xd1f4,0x0025,0x0007                                 | +00177
-        .dc.l   Data_1c0005                   | +0017f  -> $1C0005
+        .dc.l   Tbl_1c0005                   | +0017f  -> $1C0005
         .dc.w   0x0003,0x0004                                               | +00183
         .dc.l   ColMap_106f6c                   | +00187  -> $106F6C
         .dc.w   0x002e,0xd1f4,0x0025,0x0007,0x001c                          | +0018b
@@ -16338,11 +16338,11 @@ Data_1ed241:
         .dc.w   0x0010                                                      | +001ff
 
 | ----------------------------------------------------------------------------
-|  Data_1ed442  @ $1ED442  (8,708 B)  [ref. desde código]
+|  AnimBlk_SDS_1ed442  @ $1ED442  (8,708 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ed442, "ax", @progbits
-        .global Data_1ed442
-Data_1ed442:
+        .section .text.AnimBlk_SDS_1ed442, "ax", @progbits
+        .global AnimBlk_SDS_1ed442
+AnimBlk_SDS_1ed442:
         .dc.w   0x6f6c,0x002e,0xd1f4,0x0033,0x0008,0x0000                   | +00000
         .dc.l   AnimScr_1a0002                   | +0000c  -> $1A0002
         .dc.w   0x0004                                                      | +00010
@@ -16449,7 +16449,7 @@ Data_1ed442:
         .dc.w   0x0003,0x0003                                               | +0022a
         .dc.l   ColMap_106f6c                   | +0022e  -> $106F6C
         .dc.w   0x002e,0xd1f4,0x0058,0x0005                                 | +00232
-        .dc.l   Data_1e001c                   | +0023a  -> $1E001C
+        .dc.l   Tbl_1e001c                   | +0023a  -> $1E001C
         .dc.w   0x0003,0x0003                                               | +0023e
         .dc.l   ColMap_106f6c                   | +00242  -> $106F6C
         .dc.w   0x002e,0xd1f4,0x0058,0x0005,0x0022                          | +00246
@@ -17494,11 +17494,11 @@ Zero_1ef646:
         .fill   39,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1ef66d  @ $1EF66D  (159 B)
+|  Tbl_S5_TowerA_Destroy_1ef66d  @ $1EF66D  (159 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ef66d, "ax", @progbits
-        .global Data_1ef66d
-Data_1ef66d:
+        .section .text.Tbl_S5_TowerA_Destroy_1ef66d, "ax", @progbits
+        .global Tbl_S5_TowerA_Destroy_1ef66d
+Tbl_S5_TowerA_Destroy_1ef66d:
         .dc.b   0xc0                            | +00000
         .dc.w   0xff7f                                                      | +00001
         .dc.l   SprFrame_140001                   | +00003  -> $140001
@@ -17531,11 +17531,11 @@ Zero_1ef70c:
         .fill   52,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1ef740  @ $1EF740  (8 B)
+|  Tbl_S5_TowerB_Destroy_1ef740  @ $1EF740  (8 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ef740, "ax", @progbits
-        .global Data_1ef740
-Data_1ef740:
+        .section .text.Tbl_S5_TowerB_Destroy_1ef740, "ax", @progbits
+        .global Tbl_S5_TowerB_Destroy_1ef740
+Tbl_S5_TowerB_Destroy_1ef740:
         .dc.w   0xffc8,0xffff,0x0031,0x0001                                 | +00000
 
 | ----------------------------------------------------------------------------
@@ -17547,11 +17547,11 @@ Zero_1ef748:
         .fill   51,1,0x00                      | +00000
 
 | ----------------------------------------------------------------------------
-|  Data_1ef77b  @ $1EF77B  (303 B)
+|  AnimBlk_Icon_Anchor_Drop_1ef77b  @ $1EF77B  (303 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1ef77b, "ax", @progbits
-        .global Data_1ef77b
-Data_1ef77b:
+        .section .text.AnimBlk_Icon_Anchor_Drop_1ef77b, "ax", @progbits
+        .global AnimBlk_Icon_Anchor_Drop_1ef77b
+AnimBlk_Icon_Anchor_Drop_1ef77b:
         .dc.b   0x98                           | +00000
         .dc.w   0xffb7,0x0018,0x0001                                    | +00001
         .fill   25,1,0x00                  | +00007
@@ -17567,8 +17567,8 @@ Data_1ef77b:
         .dc.w   0xff90,0x0070,0x0000,0x0030,0xffff,0xff90,0x0070,0x0000 | +0004b
         .dc.w   0x0030,0xffff,0xffd0,0x0030,0x0000,0x0030,0xffff,0xffd0 | +0005b
         .dc.w   0x0030,0x0000,0x0030,0xffff                             | +0006b
-        .dc.l   Data_1c0030                    | +00073
-        .dc.l   Data_1c0030                    | +00077
+        .dc.l   Tbl_1c0030                    | +00073
+        .dc.l   Tbl_1c0030                    | +00077
         .dc.l   SprFrame_140038                | +0007b
         .dc.w   0x0008,0x003c,0x0000,0x0040,0x0000,0x0040,0x0000,0x0040 | +0007f
         .dc.w   0x0000,0x0040                                           | +0008f
@@ -21652,11 +21652,11 @@ FixType_1f2c28:
         .dc.w   0xffff                                                  | +00188  fin
 
 | ----------------------------------------------------------------------------
-|  Data_1f2db2  @ $1F2DB2  (596 B)
+|  AnimBlk_Icon_Base_1f2db2  @ $1F2DB2  (596 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f2db2, "ax", @progbits
-        .global Data_1f2db2
-Data_1f2db2:
+        .section .text.AnimBlk_Icon_Base_1f2db2, "ax", @progbits
+        .global AnimBlk_Icon_Base_1f2db2
+AnimBlk_Icon_Base_1f2db2:
         .dc.w   0x0001,0x0208,0x0022,0x19a4,0xffff,0x1600,0x0001,0x0208 | +00000
         .dc.w   0x0022,0x19a4,0xffff,0x1600,0x002f,0x2e0a,0x002f,0x2e46 | +00010
         .dc.w   0x002f,0x2e5e,0x002f,0x2e0a,0x002f,0x2e2e,0x002f,0x2e8e | +00020
@@ -21948,11 +21948,11 @@ AnimScr_1f33c3:
         .dc.w   0x0023,0x2bca,0xffff                                        | +00073
 
 | ----------------------------------------------------------------------------
-|  Data_1f343c  @ $1F343C  (512 B)  [ref. desde código]
+|  AnimBlk_Cut_InstallListByVariant_1f343c  @ $1F343C  (512 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f343c, "ax", @progbits
-        .global Data_1f343c
-Data_1f343c:
+        .section .text.AnimBlk_Cut_InstallListByVariant_1f343c, "ax", @progbits
+        .global AnimBlk_Cut_InstallListByVariant_1f343c
+AnimBlk_Cut_InstallListByVariant_1f343c:
         .dc.l   0x00010208                    | +00000  -> $010208
         .dc.w   0x0023,0x2be4,0xffff                                        | +00004
         .dc.l   0x00010208                    | +0000a  -> $010208
@@ -22342,7 +22342,7 @@ AnimScr_1f3d40:
         .dc.w   0x0025,0x617c,0xffff,0x1600                                 | +00402
         .dc.l   Pal_01ffff                   | +0040a  -> $01FFFF
         .dc.w   0xffff,0x0000,0x0000,0x0000                                 | +0040e
-        .dc.l   Data_18ffd0                   | +00416  -> $18FFD0
+        .dc.l   Tbl_PowHang_Swing_18ffd0                   | +00416  -> $18FFD0
         .dc.w   0x0000,0x0200,0x0024,0x366c,0xffff,0x0000,0x0000,0x0200     | +0041a
         .dc.w   0x0024,0x3676,0xffff,0x0000,0x0000,0x0200,0x0024,0x3680     | +0042a
         .dc.w   0xffff                                                      | +0043a
@@ -22350,7 +22350,7 @@ AnimScr_1f3d40:
         .dc.w   0x0200,0x0024,0x368a,0xffff                                 | +00440
         .dc.l   AnimScr_180000                   | +00448  -> $180000
         .dc.w   0x0200,0x0024,0x3694,0xffff                                 | +0044c
-        .dc.l   Data_18ffd0                   | +00454  -> $18FFD0
+        .dc.l   Tbl_PowHang_Swing_18ffd0                   | +00454  -> $18FFD0
         .dc.w   0x1d01,0xffff,0xffff                                        | +00458
         .dc.l   Pal_01ffff                   | +0045e  -> $01FFFF
         .dc.w   0xffff,0x0000,0x0000,0x0000                                 | +00462
@@ -22540,22 +22540,22 @@ CutTextPanel_1f4712:
         .dc.w   0xffff                                                  | +002fe
 
 | ----------------------------------------------------------------------------
-|  Data_1f4a12  @ $1F4A12  (39 B)
+|  Tbl_Cut_Fade_1f4a12  @ $1F4A12  (39 B)
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f4a12, "ax", @progbits
-        .global Data_1f4a12
-Data_1f4a12:
+        .section .text.Tbl_Cut_Fade_1f4a12, "ax", @progbits
+        .global Tbl_Cut_Fade_1f4a12
+Tbl_Cut_Fade_1f4a12:
         .dc.w   0x544f,0x2042,0x4520,0x434f,0x4e54,0x494e,0x5545,0x44ff | +00000
         .dc.w   0x2020,0x2020,0x2020,0x2020,0x2020,0x2020,0x2020,0x20ff | +00010
         .dc.w   0x00ff,0x0000,0xffff                                    | +00020
         .dc.b   0x08                           | +00026
 
 | ----------------------------------------------------------------------------
-|  Data_1f4a39  @ $1F4A39  (1,084 B)  [ref. desde código]
+|  AnimBlk_GO_Letter_V13_1f4a39  @ $1F4A39  (1,084 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f4a39, "ax", @progbits
-        .global Data_1f4a39
-Data_1f4a39:
+        .section .text.AnimBlk_GO_Letter_V13_1f4a39, "ax", @progbits
+        .global AnimBlk_GO_Letter_V13_1f4a39
+AnimBlk_GO_Letter_V13_1f4a39:
         .dc.b   0x10                            | +00000
         .dc.w   0x019e,0x0811,0x019f,0x0812,0x01a0,0xffff,0x0060,0x0028     | +00001
         .dc.w   0xff80,0xff60,0xffa0,0xff60,0xffc0,0xff60,0xffe0,0xff60     | +00011
@@ -22962,11 +22962,11 @@ AnimScr_1f5305:
         .dc.b   0x00                            | +00033
 
 | ----------------------------------------------------------------------------
-|  Data_1f5339  @ $1F5339  (4,807 B)  [ref. desde código]
+|  AnimBlk_OptionsMenu_Tpl_1f5339  @ $1F5339  (4,807 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f5339, "ax", @progbits
-        .global Data_1f5339
-Data_1f5339:
+        .section .text.AnimBlk_OptionsMenu_Tpl_1f5339, "ax", @progbits
+        .global AnimBlk_OptionsMenu_Tpl_1f5339
+AnimBlk_OptionsMenu_Tpl_1f5339:
         .dc.b   0x01                            | +00000
         .dc.w   0x0208,0x0025,0x1600,0xffff,0x0201,0x0025,0x1600,0xffff     | +00001
         .dc.l   0x00010000                    | +00011  -> $010000
@@ -23601,11 +23601,11 @@ Data_1f5339:
         .dc.l   0x0000fffd                    | +012c3  -> $00FFFD
 
 | ----------------------------------------------------------------------------
-|  Data_1f6600  @ $1F6600  (256 B)  [ref. desde código]
+|  AnimBlk_Gun_Aim_1f6600  @ $1F6600  (256 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f6600, "ax", @progbits
-        .global Data_1f6600
-Data_1f6600:
+        .section .text.AnimBlk_Gun_Aim_1f6600, "ax", @progbits
+        .global AnimBlk_Gun_Aim_1f6600
+AnimBlk_Gun_Aim_1f6600:
         .dc.w   0x0003,0xfffd,0x0003,0x0200,0x0024,0x363a,0xffff,0x0000     | +00000
         .dc.w   0x0000,0x0200,0x0024,0x3644,0xffff,0xfffd,0x0003,0x0200     | +00010
         .dc.w   0x0024,0x364e,0xffff,0xfffd,0xfffd,0x0200,0x0024,0x3658     | +00020
@@ -24151,11 +24151,11 @@ AnimScr_1f6700:
         .dc.b   0x78                            | +0110a
 
 | ----------------------------------------------------------------------------
-|  Data_1f780b  @ $1F780B  (2,037 B)  [ref. desde código]
+|  AnimBlk_Crate_Init_1f780b  @ $1F780B  (2,037 B)  [ref. desde código]
 | ----------------------------------------------------------------------------
-        .section .text.Data_1f780b, "ax", @progbits
-        .global Data_1f780b
-Data_1f780b:
+        .section .text.AnimBlk_Crate_Init_1f780b, "ax", @progbits
+        .global AnimBlk_Crate_Init_1f780b
+AnimBlk_Crate_Init_1f780b:
         .dc.b   0x24                            | +00000
         .dc.w   0x002f,0x7824,0x002f,0x7824,0x002f,0x7824,0x002f,0x7824     | +00001
         .dc.w   0x002f,0x7824,0x002f,0x7824                                 | +00011

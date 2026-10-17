@@ -7,7 +7,7 @@
 |  A) RESUMEN
 |  ----------
 |  Rutina de 90 B incrustada en medio del banco de datos gráficos
-|  (Data_18db78 / Data_18dd96, CPU $28DD3C). Slug_SpawnRiderMarker_02ad70 la
+|  (AnimBlk_Drop_SpawnRandom_18db78 / AnimBlk_Pow_FreeLeave_18dd96, CPU $28DD3C). Slug_SpawnRiderMarker_02ad70 la
 |  instala como tarea (`lea $28DD3C,a1; jsr $4AE; jsr $5DD02`) en X=$30 o
 |  X=$B8 (jugador 1/2), Y=$174. Reserva una paleta dinámica (d1=3), fija
 |  +$32/+$33 = $7F, prioridad $E000, el bit 4 de +$38, instala el script de
@@ -38,7 +38,7 @@ SlugRiderMarker_Task_18dd3c:
         jsr     EntitySetField38AndUpdate       | +01a
         andi.w  #0xffe3,0x38(a6)                | +020
         ori.w   #0x10,0x38(a6)                  | +026
-        lea     Data_18db78+0xf6(pc),a0         | +02c  -> $28DC6E (script)
+        lea     AnimBlk_Drop_SpawnRandom_18db78+0xf6(pc),a0         | +02c  -> $28DC6E (script)
         jsr     EntitySetSpriteMap              | +030
         jsr     EntityResetState                | +036
         lea     .L18dd7e(pc),a1                 | +03c

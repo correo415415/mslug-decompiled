@@ -48,7 +48,7 @@ from symbols import SYMBOLS    # noqa: E402
 # Entradas de DATOS (gen_data_region.py): pueden empezar en direccion impar y
 # tener tamano impar (tablas de bytes referenciadas desde el codigo).
 DATA_PREFIXES = {"Data", "RomData", "Zero", "Str", "PtrTab", "Tbl", "Pal", "Anim", "Map", "Lut", "Vec", "Hdr", "ColorRGB555ToNeoGeo", "ColorRamp", "RosterLenTabA", "RosterLenTabB", "RosterPtrTabA", "RosterPtrTabB", "RosterNamesA", "RosterNamesB", "SinTab256", "TaskBootTab", "SoftDip", "FixType", "FixTypePages", "FixTypeIntro", "FixTypeAnchor", "PropItemPtrs", "PatchDescChain", "SpawnStream", "HudText", "CollOffsets", "CollSlopes", "CollTileTypes", "CollMasks", "HitShapeTab", "InputDemo", "InputDemoPtrs", "CutTextPanel",
-                 "SprFrame", "AnimScr", "BgMap", "ColMap"}   # censo assets/tools/data_census.py
+                 "SprFrame", "AnimScr", "AnimBlk", "BgMap", "ColMap"}   # censo assets/tools/data_census.py
 
 
 def main():
