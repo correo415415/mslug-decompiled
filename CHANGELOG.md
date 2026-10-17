@@ -15,6 +15,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- Census: crab attack-list pointer tables, lea+move.l a0,$48 hitbox seeds, contiguous 36-byte hitbox shape tables -> other 0.3 %.
 - Census: loose scene descriptors (SceneLoader_ByIndex_043562: VM script + 14-byte entity list), last-resort gaps starting at exact code pointers -> other 0.4 %.
 - Census: indexed tables also via add.l aN,dM / adda and following bra.w -> other 0.5 %.
 - Census: indexed tables (lea T,aN + (aN,dM.w) access), unreferenced spawner records with handler tables, full katakana roster pools, backward-glued Decode2D variants; embedded code marked as code -> other 0.5 %.

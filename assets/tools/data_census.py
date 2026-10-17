@@ -535,7 +535,7 @@ def gap_scripts(p, mark):
                 continue
             r = walk_struct(p, a, set())
             nfr = sum(1 for x, n in r if p.B(x) in (0x02, 0x1E)) if r else 0
-            if not (r and (nfr >= 2 or nfr == 1 and p.B(max(r)[0]) == 0x16)
+            if not (r and (nfr >= 2 or nfr == 1 and p.B(max(r)[0]) in (0x16, 0x1D))
                     and p.B(max(r)[0]) in (0x01, 0x16, 0x1B, 0x1C, 0x1D)
                     and all(a <= x and x + n <= end for x, n in r)):
                 break
@@ -556,6 +556,8 @@ def hitbox_lists(p, op_starts, code_end=0x9C608):
     for o in range(0, code_end - 8, 2):
         if p.W(o) & 0xF1FF == 0x217C and p.W(o + 6) == 0x48:
             seeds.add(p.L(o + 2))
+        elif p.W(o) == 0x41F9 and p.W(o + 6) == 0x2D48 and p.W(o + 8) == 0x48:
+            seeds.add(p.L(o + 2))
     out = []
     for t in sorted(seeds):
         if t & 1 or not p.valid(t, 4) or t < 0x200000 and t < code_end:
@@ -573,6 +575,14 @@ def hitbox_lists(p, op_starts, code_end=0x9C608):
             continue
         out.append((t, x + 4 - t))
         out += [(sh, HITSHAPE_LEN) for sh in recs if sh != 0xFFFFFFFF]
+    # tablas de formas contiguas (36 B de bytes 0/1) tras una conocida
+    shapes = sorted({a for a, n in out if n == HITSHAPE_LEN})
+    for sh in shapes:
+        x = sh + HITSHAPE_LEN
+        while p.valid(x, HITSHAPE_LEN) and all(p.B(x + i) in (0, 1) for i in range(HITSHAPE_LEN)) \
+                and any(p.B(x + i) for i in range(HITSHAPE_LEN)):
+            out.append((x, HITSHAPE_LEN))
+            x += HITSHAPE_LEN
     return out
 
 
@@ -588,6 +598,22 @@ def attack_lists(p, op_starts, code_end=0x9C608):
             seeds.add(p.L(o + 2))
         elif w & 0xF1FF == 0x217C and p.W(o + 6) == 0x4C:
             seeds.add(p.L(o + 2))
+    # boss2_crab_carrier_07a00a: `lea T,a1; movea.l (a1,d),a1; movea.l (a1,d1),a0;
+    # move.l a0,$4C(a6)` -> T = punteros a listas de punteros a listas de ataque
+    # (cada sublista termina en $FFFFFFFF)
+    for o in range(0, code_end - 40, 2):
+        if p.W(o) == 0x43F9 and any(p.W(q) == 0x2D48 and p.W(q + 2) == 0x4C
+                                    for q in range(o + 6, o + 40, 2)) and \
+                any(p.W(q) == 0x2271 for q in range(o + 6, o + 20, 2)):
+            t = p.L(o + 2)
+            k = 0
+            while k < 32 and p.valid(t + 4 * k, 4) and p.valid(p.L(t + 4 * k), 4):
+                sub = p.L(t + 4 * k)
+                j = 0
+                while j < 32 and p.valid(sub + 4 * j, 4) and p.L(sub + 4 * j) != 0xFFFFFFFF:
+                    seeds.add(p.L(sub + 4 * j))
+                    j += 1
+                k += 1
     out = []
     for t in sorted(seeds):
         if t & 1 or not p.valid(t, 1) or t < 0x100000:
