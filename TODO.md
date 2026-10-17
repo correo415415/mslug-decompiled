@@ -11,8 +11,9 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
       `AnimScr_`, `Pal_`, `Zero_`). Tabla de color `ColorRGB555ToNeoGeo_002f30`
       y rampa `ColorRamp_012fb0` identificadas y verificadas.
 - [ ] Decodificar las ~1 400 `Data_*` restantes (tablas indexadas por rutina).
-- [ ] Revisar que el matcher completo (`tools/match_batch.py`) siga en
-      17608/17608 tras cada reorganización.
+- [x] Matcher completo (`tools/match_batch.py`) verificado el 2026-10-17:
+      17104/17104 funciones, 2 097 152/2 097 152 B (100 %). Tarda > 10 min;
+      lanzarlo en segundo plano tras cada reorganización grande.
 
 ## M-ROM (Z80, `201-m1.bin`) — en curso
 
