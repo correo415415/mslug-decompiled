@@ -398,7 +398,7 @@ def translate(mem, addr):
         cyc = c
 
     def setpc_next():
-        e("cpu.pc = %s;" % hx(cur.pc))
+        pass  # cpu.pc = siguiente instrucción se fija al principio del cuerpo
 
     # ---------------- MOVE / MOVEA ----------------
     if hi in (1, 2, 3):
@@ -594,5 +594,199 @@ def translate(mem, addr):
     I.op = op
     if cyc != "dead":
         e("%d" % cyc if isinstance(cyc, int) else cyc)
-    I.body = e.lines
+    # Como en el intérprete: tras leer opcode + extensiones, PC apunta a la
+    # siguiente instrucción (lo que apilan las excepciones / jsr / bsr).
+    I.body = ["cpu.pc = %s;" % hx(I.next)] + e.lines
     return I
+
+
+# ---------------------------------------------------------------------------
+# Familias
+# ---------------------------------------------------------------------------
+def addsub(cur, e, op, is_sub):
+    reg = (op >> 9) & 7
+    opm = (op >> 6) & 7
+    fn = "sub_with_flags" if is_sub else "add_with_flags"
+    if opm in (3, 7):  # ADDA / SUBA
+        size = "w" if opm == 3 else "l"
+        ea = EA.decode(cur, op & 0x3F, size)
+        v = ea_read(e, ea, size)
+        if size == "w":
+            v2 = "(%s as u16 as i16 as i32 as u32)" % v
+        else:
+            v2 = v
+        f = "wrapping_sub" if is_sub else "wrapping_add"
+        e("cpu.a[%d] = cpu.a[%d].%s(%s);" % (reg, reg, f, v2))
+        return 8 + ea.cycles(size)
+    size = size2(opm & 3)
+    dr_to_ea = bool(opm & 4)
+    mb = (op >> 3) & 7
+    if dr_to_ea and mb in (0, 1):  # ADDX / SUBX
+        rm = bool(op & 8)
+        sy, dx = op & 7, (op >> 9) & 7
+        xf = "subx_with_flags" if is_sub else "addx_with_flags"
+        e("let x = cpu.sr.get(StatusRegister::X) as u32;")
+        if not rm:
+            e("let r = %s(cpu, cpu.d[%d] & %s, cpu.d[%d] & %s, x, %s);" % (xf, dx, hx(M[size]), sy, hx(M[size]), RS[size]))
+            ea_write(e, EA("dn", dx), size, "r")
+        else:
+            if size == "l":
+                raise Unsupported("addx.l -(An)")
+            dy = 2 if (sy == 7 and size == "b") else NB[size]
+            dd = 2 if (dx == 7 and size == "b") else NB[size]
+            e("cpu.a[%d] = cpu.a[%d].wrapping_sub(%d);" % (sy, sy, dy))
+            s_ = rd(e, "cpu.a[%d]" % sy, size)
+            e("cpu.a[%d] = cpu.a[%d].wrapping_sub(%d);" % (dx, dx, dd))
+            d_ = rd(e, "cpu.a[%d]" % dx, size)
+            e("let r = %s(cpu, %s, %s, x, %s);" % (xf, d_, s_, RS[size]))
+            wr(e, "cpu.a[%d]" % dx, size, "r")
+        return 8 if size == "l" else 4
+    ea = EA.decode(cur, op & 0x3F, size)
+    if dr_to_ea:
+        def m(e, v):
+            t = e.tmp("r")
+            e("let %s = %s(cpu, %s, cpu.d[%d] & %s, %s, true);" % (t, fn, v, reg, hx(M[size]), RS[size]))
+            return t
+        ea_modify(e, ea, size, m)
+    else:
+        v = ea_read(e, ea, size)
+        e("let r = %s(cpu, cpu.d[%d] & %s, %s, %s, true);" % (fn, reg, hx(M[size]), v, RS[size]))
+        ea_write(e, EA("dn", reg), size, "r")
+    return 4 + ea.cycles(size)
+
+
+def cmp_eor(cur, e, op):
+    reg = (op >> 9) & 7
+    opm = (op >> 6) & 7
+    if opm in (3, 7):  # CMPA
+        size = "w" if opm == 3 else "l"
+        ea = EA.decode(cur, op & 0x3F, size)
+        v = ea_read(e, ea, size)
+        v2 = "(%s as u16 as i16 as i32 as u32)" % v if size == "w" else v
+        e("sub_with_flags(cpu, cpu.a[%d], %s, Size::Long, false);" % (reg, v2))
+        return 6 + ea.cycles(size)
+    size = size2(opm & 3)
+    if opm & 4:
+        mb = (op >> 3) & 7
+        if mb == 1:  # CMPM
+            if size == "l":
+                raise Unsupported("cmpm.l")
+            ay, ax = op & 7, (op >> 9) & 7
+            iy = 2 if (ay == 7 and size == "b") else NB[size]
+            ix = 2 if (ax == 7 and size == "b") else NB[size]
+            e("let ay = cpu.a[%d]; cpu.a[%d] = ay.wrapping_add(%d);" % (ay, ay, iy))
+            s_ = rd(e, "ay", size)
+            e("let ax = cpu.a[%d];" % ax)
+            d_ = rd(e, "ax", size)
+            e("cpu.a[%d] = cpu.a[%d].wrapping_add(%d);" % (ax, ax, ix))
+            e("sub_with_flags(cpu, %s, %s, %s, false);" % (d_, s_, RS[size]))
+            return 12
+        ea = EA.decode(cur, op & 0x3F, size)
+
+        def m(e, v):
+            t = e.tmp("r")
+            e("let %s = (%s ^ cpu.d[%d]) & %s;" % (t, v, reg, hx(M[size])))
+            logic(e, t, size)
+            return t
+        ea_modify(e, ea, size, m)
+        return 4 + ea.cycles(size)
+    ea = EA.decode(cur, op & 0x3F, size)
+    v = ea_read(e, ea, size)
+    e("sub_with_flags(cpu, cpu.d[%d] & %s, %s, %s, false);" % (reg, hx(M[size]), v, RS[size]))
+    return 4 + ea.cycles(size)
+
+
+def or_and(cur, e, op, o):
+    reg = (op >> 9) & 7
+    opm = (op >> 6) & 7
+    size = size2(opm & 3)
+    ea = EA.decode(cur, op & 0x3F, size)
+    if opm & 4:
+        def m(e, v):
+            t = e.tmp("r")
+            e("let %s = (%s %s cpu.d[%d]) & %s;" % (t, v, o, reg, hx(M[size])))
+            logic(e, t, size)
+            return t
+        ea_modify(e, ea, size, m)
+    else:
+        v = ea_read(e, ea, size)
+        e("let r = (%s %s cpu.d[%d]) & %s;" % (v, o, reg, hx(M[size])))
+        ea_write(e, EA("dn", reg), size, "r")
+        logic(e, "r", size)
+    return 4 + ea.cycles(size)
+
+
+def div(cur, e, op, signed):
+    reg = (op >> 9) & 7
+    ea = EA.decode(cur, op & 0x3F, "w")
+    v = ea_read(e, ea, "w")
+    c = ea.cycles("w")
+    e("cpu.sr.set(StatusRegister::C, false);")
+    if not signed:
+        e("let dv = %s & 0xFFFF;" % v)
+        e("if dv == 0 { cpu.enter_group2_exception(bus, Exception::DivideByZero); return 38; }")
+        e("let q = cpu.d[%d] / dv; let rm = cpu.d[%d] %% dv;" % (reg, reg))
+        e("if q > 0xFFFF { cpu.sr.set(StatusRegister::V, true); cpu.sr.set(StatusRegister::N, true); cpu.sr.set(StatusRegister::Z, false); return %d; }" % (76 + c))
+        e("cpu.d[%d] = (rm << 16) | (q & 0xFFFF);" % reg)
+        e("cpu.sr.set_nz(q, Size::Word); cpu.sr.set(StatusRegister::V, false);")
+        return 140 + c
+    e("let dv = %s as u16 as i16 as i32;" % v)
+    e("if dv == 0 { cpu.enter_group2_exception(bus, Exception::DivideByZero); return 38; }")
+    e("let dd = cpu.d[%d] as i32; let q = dd.wrapping_div(dv); let rm = dd.wrapping_rem(dv);" % reg)
+    e("if !(-32768..=32767).contains(&q) { cpu.sr.set(StatusRegister::V, true); cpu.sr.set(StatusRegister::N, true); cpu.sr.set(StatusRegister::Z, false); return %d; }" % (158 + c))
+    e("cpu.d[%d] = ((rm as u32 & 0xFFFF) << 16) | (q as u32 & 0xFFFF);" % reg)
+    e("cpu.sr.set_nz(q as u32 & 0xFFFF, Size::Word); cpu.sr.set(StatusRegister::V, false);")
+    return 158 + c
+
+
+def bcd(cur, e, op, kind):
+    rm = bool(op & 8)
+    dy, dx = op & 7, (op >> 9) & 7
+    if rm:
+        e("cpu.a[%d] = cpu.a[%d].wrapping_sub(%d);" % (dy, dy, 2 if dy == 7 else 1))
+        e("let s = bus.read8(cpu.a[%d]);" % dy)
+        e("cpu.a[%d] = cpu.a[%d].wrapping_sub(%d);" % (dx, dx, 2 if dx == 7 else 1))
+        e("let d = bus.read8(cpu.a[%d]);" % dx)
+    else:
+        e("let s = cpu.d[%d] as u8; let d = cpu.d[%d] as u8;" % (dy, dx))
+    e("let x = cpu.sr.get(StatusRegister::X) as u8;")
+    e("let (r, carry, vf) = %s_calc(d, s, x);" % kind)
+    e("if r != 0 { cpu.sr.set(StatusRegister::Z, false); }")
+    e("cpu.sr.set(StatusRegister::N, r & 0x80 != 0); cpu.sr.set(StatusRegister::V, vf);")
+    e("cpu.sr.set(StatusRegister::C, carry); cpu.sr.set(StatusRegister::X, carry);")
+    if rm:
+        e("bus.write8(cpu.a[%d], r);" % dx)
+        return 18
+    e("cpu.d[%d] = (cpu.d[%d] & !0xFF) | r as u32;" % (dx, dx))
+    return 6
+
+
+def shift(cur, e, op):
+    sb = (op >> 6) & 3
+    if sb == 3:  # memoria, 1 bit
+        kind = (op >> 9) & 3
+        left = bool(op & 0x100)
+        ea = EA.decode(cur, op & 0x3F, "w")
+
+        def m(e, v):
+            t = e.tmp("r")
+            e("let %s = do_shift_rotate(cpu, %s, 1, Size::Word, %d, %s);" % (t, v, kind, "true" if left else "false"))
+            return t
+        ea_modify(e, ea, "w", m)
+        return 8 + ea.cycles("w")
+    size = size2(sb)
+    kind = (op >> 3) & 3
+    left = bool(op & 0x100)
+    reg = op & 7
+    cf = (op >> 9) & 7
+    lr = "true" if left else "false"
+    if op & 0x20:
+        e("let cnt = cpu.d[%d] & 0x3F;" % cf)
+        e("let r = do_shift_rotate(cpu, cpu.d[%d] & %s, cnt, %s, %d, %s);" % (reg, hx(M[size]), RS[size], kind, lr))
+        ea_write(e, EA("dn", reg), size, "r")
+        e("cpu.pc = cpu.pc; ")
+        return "6 + 2 * cnt"
+    cnt = cf or 8
+    e("let r = do_shift_rotate(cpu, cpu.d[%d] & %s, %d, %s, %d, %s);" % (reg, hx(M[size]), cnt, RS[size], kind, lr))
+    ea_write(e, EA("dn", reg), size, "r")
+    return 6 + 2 * cnt
