@@ -11,6 +11,7 @@
 
 mod game;
 mod verify;
+mod lockstep;
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
@@ -56,6 +57,24 @@ enum Cmd {
     },
     /// Lista las funciones portadas.
     List,
+    /// Intérprete vs programa recompilado, comparando tras cada instrucción.
+    Lockstep {
+        #[arg(long, default_value_t = 3000)]
+        frames: u32,
+        #[arg(long, default_value_t = 400)]
+        coin: u32,
+    },
+    /// Juega con el programa recompilado (sin intérprete salvo misses).
+    Play {
+        #[arg(long, default_value_t = 3000)]
+        frames: u32,
+        #[arg(long, default_value_t = 400)]
+        coin: u32,
+        #[arg(long)]
+        dump: Option<PathBuf>,
+        #[arg(long, default_value_t = 100)]
+        every: u32,
+    },
     /// Vuelca la P-ROM (vista CPU) y la BIOS cargada a `out/` (entrada del
     /// recompilador).
     DumpRoms {
@@ -155,6 +174,32 @@ fn main() -> Result<()> {
                      sys.instructions, sys.m68k.native_calls);
         }
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
+        Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
+        Cmd::Play { frames, coin, dump, every } => {
+            let mut sys = load(&cli.rom)?;
+            let mut prog = mslug_code::Program::new();
+            if let Some(d) = &dump {
+                std::fs::create_dir_all(d)?;
+            }
+            let t0 = std::time::Instant::now();
+            for f in 0..frames {
+                auto_inputs(&mut sys, coin, f);
+                prog.run_frame(&mut sys);
+                if let Some(d) = &dump {
+                    if f % every.max(1) == 0 {
+                        let fr = sys.render_frame_pixels();
+                        let png = neogeo_hw::video::frame_to_png(
+                            &fr, neogeo_hw::video::SCREEN_W, neogeo_hw::video::SCREEN_H);
+                        std::fs::write(d.join(format!("frame-{f:05}.png")), png)?;
+                    }
+                }
+            }
+            println!("frames={frames} en {:.1}s; instrucciones nativas {} interpretadas {} (sin traducir: {} direcciones)",
+                     t0.elapsed().as_secs_f64(), prog.native, prog.interp, prog.misses.len());
+            for (a, c) in prog.misses.iter().take(40) {
+                println!("  ${a:06X} x{c}");
+            }
+        }
         Cmd::DumpRoms { out } => {
             let sys = load(&cli.rom)?;
             std::fs::create_dir_all(&out)?;
