@@ -6,6 +6,7 @@
 # regeneran en cada aplicación y --undo se niega a restaurar copias obsoletas.
 #
 # Uso:
+#   bash scripts/apply_patch.sh                    (menú: elegir 1 o varios parches)
 #   bash scripts/apply_patch.sh <parche> [<parche>...] [--zip /ruta/mslug.zip]
 #   bash scripts/apply_patch.sh --list
 #   bash scripts/apply_patch.sh --undo [--force]
@@ -21,7 +22,8 @@
 #   invincible     invulnerabilidad del jugador y del Slug (el camino del bit 3 de debug $100001).
 #   debug=HHHH     flags de depuración: escribe HHHH en $100000.w al arrancar (en vez de 0).
 #   mission=N      empezar la partida en la misión N (1..6) en vez de la 1.
-#   boot=soundtest arrancar en el SOUND TEST interno (T6[13] BootScr_SoundTest_001566).
+#   boot=soundtest arrancar en el SOUND TEST interno (T6[13] BootScr_SoundTest_001566),
+#                  con o sin créditos (NVRAM de MAME) y aunque se eche moneda.
 #   boot=ending    arrancar en el final / créditos (T4: escena 12, BootScr_SceneBCD_Init).
 #   debug-hud      HUD de variables de depuración (= debug=0001).
 #   debugcoll      HUD + inspector de colisión DebugColl (= debug=0003).
@@ -138,7 +140,13 @@ PY
 # 'subi.w #1,0x82(a2)' (6 B) -> 'ori.w #0,0x82(a2)' (6 B, no-op)
 no_ammo_dec() { in_fn "$F_FIRE" "$1" "subi.w  #0x1,0x82(a2)" "ori.w   #0x0,0x82(a2)" "munición infinita"; }
 
-[ $# -eq 0 ] && { list; exit 0; }
+# Sin parámetros: menú interactivo para elegir uno o varios parches.
+if [ $# -eq 0 ]; then
+  SEL=$(mktemp); python3 scripts/patch_menu.py "$0" "$SEL" || { rm -f "$SEL"; exit 1; }
+  ARGS=$(cat "$SEL"); rm -f "$SEL"
+  [ -z "$ARGS" ] && exit 0
+  eval "set -- $ARGS"
+fi
 ZIP=""; PATCHES=()
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -165,8 +173,9 @@ for p in "${PATCHES[@]}"; do
   case "$p" in
     lives=*)
       N=${p#lives=}; HEX=$(printf '0x%x' "$N")
-      sed -i "s/move\.b  0x4(a3),d1 /move.b  #${HEX},d1    /" "$F_HUD"
-      [ "$(grep -c "move.b  #${HEX},d1" "$F_HUD")" = 2 ] || { echo "[patch] lives: patrón no aplicado"; exit 1; }
+      [ "$(grep -c "move\.b  0x4(a3),d1 " "$F_HUD")" = 2 ] || { echo "[patch] lives: patrón no encontrado"; exit 1; }
+      sed -i "s/move\.b  0x4(a3),d1 /move.b  #${HEX},d1    | (parche lives)/" "$F_HUD"
+      [ "$(grep -c "(parche lives)" "$F_HUD")" = 2 ] || { echo "[patch] lives: patrón no aplicado"; exit 1; }
       echo "[patch] vidas iniciales = $N (HUD 1UP=$((N-1)))" ;;
     hmg-infinite)
       no_ammo_dec PlayerFire_HMG_Spawn_03c872 ;;
@@ -298,10 +307,21 @@ PY
       python3 - "$F_SCHED" "$tgt" <<'PY'
 import sys
 p,t=sys.argv[1:]; s=open(p).read()
-a="        lea.l   BootTblEntry_B92(pc), a0        | +0b8 a0 = &tbl_$B92 (T1)\n"
-assert s.count(a)==1, "patrón de SchedulerBootstrap no encontrado"
-s=s.replace(a,"        lea.l   %s(pc), a0        | +0b8 (parche boot)\n"%t)
-open(p,"w").write(s); print("[patch] arranque redirigido a",t)
+# Las tres ramas por las que la BIOS entra al juego fuera de partida:
+#   demo      ($F48, USER_REQUEST 2: arranque sin créditos)
+#   title     ($F2C, $10FDAE==3: hay créditos — moneda insertada, o créditos
+#              guardados en la NVRAM de MAME/FBNeo de una sesión anterior)
+#   hardstart ($F6C, rama $F52 del mismo selector)
+# Antes sólo se parcheaba la de demo: con créditos (o al echar moneda) el
+# juego mostraba la pantalla de título en vez del sound test.
+pats=["        lea.l   BootTblEntry_B92(pc), a0        | +0b8 a0 = &tbl_$B92 (T1)\n",
+      "        lea.l   BootTblEntry_BCE(pc), a0        | +09c a0 = &tbl_$BCE\n",
+      "        lea.l   BootTblEntry_BBA(pc), a0        | +0dc a0 = &tbl_$BBA\n"]
+for a in pats:
+    assert s.count(a)==1, "patrón de SchedulerBootstrap no encontrado: "+a
+    off=a.split("|")[1].split()[0]
+    s=s.replace(a,"        lea.l   %s(pc), a0        | %s (parche boot)\n"%(t,off))
+open(p,"w").write(s); print("[patch] arranque (demo, título y hardstart) redirigido a",t)
 PY
       ;;
     mission=*)
