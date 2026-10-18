@@ -15,8 +15,10 @@ mismas partidas con las mismas entradas.
 ```
 internal/      mslug.zip (romset MAME original, sólo uso privado)
 crates/
-  mslug-code/  el programa 68000 (juego + BIOS) traducido a Rust (generado por
-               tools/recomp/m68k_recomp.py) + despacho por PC
+  gen/NN/      mslug-gen-NN: el programa 68000 (juego + BIOS) traducido a Rust,
+               generado por tools/recomp/m68k_recomp.py y repartido en ~18
+               crates de ~5 400 instrucciones (cada rustc cabe en ~300 MB)
+  mslug-code/  despacho por PC a esas funciones (+ intérprete de reserva)
   mslug-sdl/   frontend SDL2 (ventana, sonido, mandos)
   neogeo-hw/   hardware Neo Geo: 68000, Z80, YM2610, LSPC, bus, cargador de ROM
                (vendorizado de pydmg-neogeo, MIT/Apache, sin frontend SDL)
@@ -70,7 +72,8 @@ F11 pantalla completa, F12 captura, P pausa, Tab turbo, Esc salir.
 ```bash
 ./target/release/mslug dump-roms                               # build/recomp/{prom,bios}.bin
 ./target/release/mslug trace --frames 8000 --coin 400 --out build/recomp/trace.bin
-python3 tools/recomp/m68k_recomp.py --registry-seeds           # crates/mslug-code/src/gen/
+python3 tools/recomp/m68k_recomp.py --registry-seeds           # crates/gen/NN + Cargo.toml
+cargo build -j1 --release                                      # -j1 si hay poca RAM
 ```
 
 ## Estado

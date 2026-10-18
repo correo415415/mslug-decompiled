@@ -4,8 +4,8 @@
 
 | | |
 |---|---|
-| Programa 68000 traducido a Rust (`crates/mslug-code`, generado) | **96 937 instrucciones** (P-ROM del juego + BIOS) |
-| Semillas | traza de 3 partidas (moneda en 0/400/2000, 8000 frames) + vectores + 8 482 entradas del registro de la decompilación |
+| Programa 68000 traducido a Rust (`crates/gen/NN`, 18 crates generados) | **96 586 instrucciones** (P-ROM del juego + BIOS) |
+| Semillas | traza de 3 partidas (moneda en 400/900/1500, 8000 frames) + vectores + 8 482 entradas del registro de la decompilación |
 | Instrucciones no traducibles | 0 |
 | `mslug lockstep --frames 6000` (programa de 28 593 instr.) | ✅ 99 245 067 instrucciones idénticas al intérprete (registros, SR, PC, ciclos tras **cada** instrucción; RAM, paleta y ciclos totales tras cada frame); **100 % ejecutado por código Rust**, 0 instrucciones interpretadas |
 | Frontend SDL2 (`crates/mslug-sdl`) | ✅ ventana, sonido, P1/P2, capturas; partida jugada por el programa recompilado |
