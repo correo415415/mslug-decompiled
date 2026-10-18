@@ -8,3 +8,24 @@ description = "Metal Slug: programa 68000 (P-ROM + BIOS) traducido a Rust (recom
 [dependencies]
 neogeo-hw = { path = "../neogeo-hw" }
 log = "0.4"
+
+# >>> GENERADO por tools/recomp/m68k_recomp.py
+mslug-gen-00 = { path = "../gen/00" }
+mslug-gen-01 = { path = "../gen/01" }
+mslug-gen-02 = { path = "../gen/02" }
+mslug-gen-03 = { path = "../gen/03" }
+mslug-gen-04 = { path = "../gen/04" }
+mslug-gen-05 = { path = "../gen/05" }
+mslug-gen-06 = { path = "../gen/06" }
+mslug-gen-07 = { path = "../gen/07" }
+mslug-gen-08 = { path = "../gen/08" }
+mslug-gen-09 = { path = "../gen/09" }
+mslug-gen-10 = { path = "../gen/10" }
+mslug-gen-11 = { path = "../gen/11" }
+mslug-gen-12 = { path = "../gen/12" }
+mslug-gen-13 = { path = "../gen/13" }
+mslug-gen-14 = { path = "../gen/14" }
+mslug-gen-15 = { path = "../gen/15" }
+mslug-gen-16 = { path = "../gen/16" }
+mslug-gen-17 = { path = "../gen/17" }
+# <<< GENERADO

@@ -1,0 +1,11 @@
+# GENERADO por tools/recomp/m68k_recomp.py — no editar a mano.
+[package]
+name = "mslug-gen-12"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+publish = false
+description = "Metal Slug: trozo 12 del programa 68000 traducido a Rust"
+
+[dependencies]
+neogeo-hw = { path = "../../neogeo-hw" }

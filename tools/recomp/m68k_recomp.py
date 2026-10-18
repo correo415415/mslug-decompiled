@@ -1314,44 +1314,117 @@ def regions(addrs):
     return out
 
 
-def generate(out_dir, done, syms, dis):
-    os.makedirs(out_dir, exist_ok=True)
+CRATE_INS = 6000   # instrucciones por crate generado (cada rustc cabe en ~1 GB)
+GEN_MARK_A = "# >>> GENERADO por tools/recomp/m68k_recomp.py"
+GEN_MARK_B = "# <<< GENERADO"
+
+
+def _replace_marked(path, body):
+    """Sustituye (o añade al final) el bloque entre GEN_MARK_A y GEN_MARK_B."""
+    s = open(path).read()
+    blk = GEN_MARK_A + "\n" + body.rstrip("\n") + "\n" + GEN_MARK_B + "\n"
+    if GEN_MARK_A in s:
+        a = s.index(GEN_MARK_A)
+        b = s.index(GEN_MARK_B, a) + len(GEN_MARK_B) + 1
+        s = s[:a] + blk + s[b:]
+    else:
+        s = s.rstrip("\n") + "\n\n" + blk
+    open(path, "w").write(s)
+
+
+def write_region(path, reg, addrs, done, sym_starts, dis):
+    lines = [HEADER.format(region=reg)]
+    for a in addrs:
+        I = done[a]
+        if a in sym_starts:
+            n, sz, f = sym_starts[a]
+            lines.append("// ===== %s  ($%06X, %d B, %s)" % (n, a, sz, f))
+        lines.append("/// $%06X: %s" % (a, dis.get(a, "?")))
+        lines.append("pub fn i_%06x(cpu: &mut Cpu, bus: &mut B) -> u32 {" % a)
+        for ln in hoist(I.body):
+            lines.append("    " + ln)
+        lines.append("}")
+    lines.append("")
+    lines.append("pub const TABLE: &[(u32, crate::InsFn)] = &[")
+    for a in addrs:
+        lines.append("    (0x%06X, i_%06x)," % (a, a))
+    lines.append("];")
+    open(path, "w").write("\n".join(lines) + "\n")
+
+
+def generate(gen_root, done, syms, dis):
+    """Emite el programa traducido como varios crates `mslug-gen-NN`
+    (crates/gen/NN) de <= CRATE_INS instrucciones, para que rustc compile
+    cada uno por separado sin quedarse sin memoria, y el pegamento en
+    mslug-code (src/gen.rs + dependencias) y en el Cargo.toml raíz
+    (miembros y perfil)."""
+    import shutil
     by_region = regions(done)
-    for f in os.listdir(out_dir):
-        if f.endswith(".rs"):
-            os.remove(os.path.join(out_dir, f))
-    sym_starts = {a: v for a, v in syms.items()}
-    for reg, addrs in by_region.items():
-        lines = [HEADER.format(region=reg)]
-        for a in addrs:
-            I = done[a]
-            if a in sym_starts:
-                n, sz, f = sym_starts[a]
-                lines.append("// ===== %s  ($%06X, %d B, %s)" % (n, a, sz, f))
-            lines.append("/// $%06X: %s" % (a, dis.get(a, "?")))
-            lines.append("pub fn i_%06x(cpu: &mut Cpu, bus: &mut B) -> u32 {" % a)
-            for ln in hoist(I.body):
-                lines.append("    " + ln)
-            lines.append("}")
-        lines.append("")
-        lines.append("pub const TABLE: &[(u32, crate::InsFn)] = &[")
-        for a in addrs:
-            lines.append("    (0x%06X, i_%06x)," % (a, a))
-        lines.append("];")
-        open(os.path.join(out_dir, reg + ".rs"), "w").write("\n".join(lines) + "\n")
-    mods = sorted(by_region)
-    m = ["// GENERADO por tools/recomp/m68k_recomp.py — no editar a mano.\n"]
-    for r in mods:
-        m.append("pub mod %s;" % r)
-    m.append("\npub const TABLES: &[&[(u32, crate::InsFn)]] = &[%s];" % ", ".join("%s::TABLE" % r for r in mods))
-    m.append("pub const COUNT: usize = %d;" % len(done))
-    open(os.path.join(out_dir, "mod.rs"), "w").write("\n".join(m) + "\n")
+    gdir = os.path.join(gen_root, "gen")
+    if os.path.isdir(gdir):
+        shutil.rmtree(gdir)
+    os.makedirs(gdir)
+    # agrupar regiones (en orden) en crates
+    crates, cur, n = [], [], 0
+    for reg in sorted(by_region):
+        k = len(by_region[reg])
+        if cur and n + k > CRATE_INS:
+            crates.append(cur)
+            cur, n = [], 0
+        cur.append(reg)
+        n += k
+    if cur:
+        crates.append(cur)
+    names = []
+    for ci, regs in enumerate(crates):
+        name = "mslug-gen-%02d" % ci
+        names.append(name)
+        cd = os.path.join(gdir, "%02d" % ci)
+        os.makedirs(os.path.join(cd, "src"))
+        open(os.path.join(cd, "Cargo.toml"), "w").write(
+            "# GENERADO por tools/recomp/m68k_recomp.py — no editar a mano.\n"
+            "[package]\nname = \"%s\"\nversion = \"0.1.0\"\nedition = \"2021\"\n"
+            "license = \"MIT OR Apache-2.0\"\npublish = false\n"
+            "description = \"Metal Slug: trozo %d del programa 68000 traducido a Rust\"\n\n"
+            "[dependencies]\nneogeo-hw = { path = \"../../neogeo-hw\" }\n" % (name, ci))
+        cnt = 0
+        for reg in regs:
+            write_region(os.path.join(cd, "src", reg + ".rs"), reg, by_region[reg], done, syms, dis)
+            cnt += len(by_region[reg])
+        m = ["// GENERADO por tools/recomp/m68k_recomp.py — no editar a mano.",
+             "#![allow(clippy::all)]",
+             "pub type InsFn = fn(&mut neogeo_hw::cpu::m68k::Cpu, &mut neogeo_hw::NeoGeoBus) -> u32;",
+             ""]
+        for r in regs:
+            m.append("pub mod %s;" % r)
+        m.append("\npub const TABLES: &[&[(u32, InsFn)]] = &[%s];" % ", ".join("%s::TABLE" % r for r in regs))
+        m.append("pub const COUNT: usize = %d;" % cnt)
+        open(os.path.join(cd, "src", "lib.rs"), "w").write("\n".join(m) + "\n")
+    # pegamento en mslug-code
+    code = os.path.join(gen_root, "mslug-code")
+    old = os.path.join(code, "src", "gen")
+    if os.path.isdir(old):
+        shutil.rmtree(old)
+    g = ["// GENERADO por tools/recomp/m68k_recomp.py — no editar a mano.",
+         "pub const TABLES: &[&[&[(u32, crate::InsFn)]]] = &[%s];"
+         % ", ".join("%s::TABLES" % x.replace("-", "_") for x in names),
+         "pub const COUNT: usize = %d;" % len(done)]
+    open(os.path.join(code, "src", "gen.rs"), "w").write("\n".join(g) + "\n")
+    _replace_marked(os.path.join(code, "Cargo.toml"),
+                    "\n".join('%s = { path = "../gen/%02d" }' % (x, i) for i, x in enumerate(names)))
+    prof = []
+    for x in names:
+        prof.append('[profile.release.package.%s]\nopt-level = 1\ncodegen-units = 16\ndebug = false\nincremental = false\n' % x)
+        prof.append('[profile.dev.package.%s]\nopt-level = 0\n' % x)
+    _replace_marked(os.path.join(ROOT, "Cargo.toml"), "\n".join(prof))
+    print("%d crates generados en %s" % (len(names), gdir))
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--build", default=os.path.join(ROOT, "build", "recomp"))
-    ap.add_argument("--out", default=os.path.join(ROOT, "crates", "mslug-code", "src", "gen"))
+    ap.add_argument("--out", default=os.path.join(ROOT, "crates"),
+                    help="directorio crates/ (se reescriben crates/gen/* y el pegamento de mslug-code)")
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--registry-seeds", action="store_true",
                     help="usar también las entradas de función de la decompilación como semillas")

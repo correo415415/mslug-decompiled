@@ -1,7 +1,7 @@
 //! Programa 68000 de Metal Slug (P-ROM del juego + BIOS Neo Geo) traducido
 //! a Rust por `tools/recomp/m68k_recomp.py`.
 //!
-//! Cada instrucción de la ROM es una función Rust (`gen::*::i_XXXXXX`) que
+//! Cada instrucción de la ROM es una función Rust (`mslug_gen_NN::*::i_XXXXXX`, en crates/gen/NN) que
 //! hace exactamente lo que haría la CPU: mismos registros, flags, accesos al
 //! bus y ciclos. El juego ya no se interpreta: `Program::step` llama a estas
 //! funciones según el PC. El intérprete 68000 sólo queda como red de
@@ -9,8 +9,7 @@
 //! se añaden a `tools/recomp/seeds.txt` y desaparecen al regenerar. El
 //! objetivo final es 0 misses y retirar el intérprete.
 
-#[allow(clippy::all)]
-pub mod gen;
+mod gen;
 
 use neogeo_hw::cpu::m68k::{Cpu, Exception};
 use neogeo_hw::{NeoGeoBus, System};
@@ -43,7 +42,7 @@ impl Program {
     pub fn new() -> Self {
         let mut prom = vec![None; (PROM_END / 2) as usize];
         let mut bios = vec![None; ((BIOS_END - BIOS_BASE) / 2) as usize];
-        for t in gen::TABLES {
+        for t in gen::TABLES.iter().flat_map(|c| c.iter()) {
             for &(a, f) in t.iter() {
                 if a < PROM_END {
                     prom[(a / 2) as usize] = Some(f);

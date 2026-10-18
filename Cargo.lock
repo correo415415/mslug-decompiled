@@ -325,6 +325,150 @@ name = "mslug-code"
 version = "0.1.0"
 dependencies = [
  "log",
+ "mslug-gen-00",
+ "mslug-gen-01",
+ "mslug-gen-02",
+ "mslug-gen-03",
+ "mslug-gen-04",
+ "mslug-gen-05",
+ "mslug-gen-06",
+ "mslug-gen-07",
+ "mslug-gen-08",
+ "mslug-gen-09",
+ "mslug-gen-10",
+ "mslug-gen-11",
+ "mslug-gen-12",
+ "mslug-gen-13",
+ "mslug-gen-14",
+ "mslug-gen-15",
+ "mslug-gen-16",
+ "mslug-gen-17",
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-00"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-01"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-02"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-03"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-04"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-05"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-06"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-07"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-08"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-09"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-10"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-11"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-12"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-13"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-14"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-15"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-16"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-17"
+version = "0.1.0"
+dependencies = [
  "neogeo-hw",
 ]
 

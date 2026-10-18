@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["crates/neogeo-hw", "crates/mslug-code", "crates/mslug", "crates/mslug-sdl"]
-default-members = ["crates/neogeo-hw", "crates/mslug-code", "crates/mslug"]
+members = ["crates/neogeo-hw", "crates/gen/*", "crates/mslug-code", "crates/mslug", "crates/mslug-sdl"]
+default-members = ["crates/neogeo-hw", "crates/gen/*", "crates/mslug-code", "crates/mslug"]
 
 [profile.release]
 opt-level = 3
@@ -11,11 +11,170 @@ codegen-units = 1
 [profile.dev]
 opt-level = 1
 
-# El código generado (decenas de miles de funciones pequeñas) se compila con
-# menos optimización para que rustc quepa en poca memoria; el resto, -O3.
-[profile.release.package.mslug-code]
+# El código generado (decenas de miles de funciones pequeñas, repartidas en
+# crates/gen/NN para que cada rustc quepa en ~1 GB) se compila con menos
+# optimización; el resto, -O3. El bloque de abajo lo reescribe el recompilador.
+
+# >>> GENERADO por tools/recomp/m68k_recomp.py
+[profile.release.package.mslug-gen-00]
 opt-level = 1
 codegen-units = 16
+debug = false
+incremental = false
 
-[profile.dev.package.mslug-code]
+[profile.dev.package.mslug-gen-00]
 opt-level = 0
+
+[profile.release.package.mslug-gen-01]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-01]
+opt-level = 0
+
+[profile.release.package.mslug-gen-02]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-02]
+opt-level = 0
+
+[profile.release.package.mslug-gen-03]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-03]
+opt-level = 0
+
+[profile.release.package.mslug-gen-04]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-04]
+opt-level = 0
+
+[profile.release.package.mslug-gen-05]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-05]
+opt-level = 0
+
+[profile.release.package.mslug-gen-06]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-06]
+opt-level = 0
+
+[profile.release.package.mslug-gen-07]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-07]
+opt-level = 0
+
+[profile.release.package.mslug-gen-08]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-08]
+opt-level = 0
+
+[profile.release.package.mslug-gen-09]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-09]
+opt-level = 0
+
+[profile.release.package.mslug-gen-10]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-10]
+opt-level = 0
+
+[profile.release.package.mslug-gen-11]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-11]
+opt-level = 0
+
+[profile.release.package.mslug-gen-12]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-12]
+opt-level = 0
+
+[profile.release.package.mslug-gen-13]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-13]
+opt-level = 0
+
+[profile.release.package.mslug-gen-14]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-14]
+opt-level = 0
+
+[profile.release.package.mslug-gen-15]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-15]
+opt-level = 0
+
+[profile.release.package.mslug-gen-16]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-16]
+opt-level = 0
+
+[profile.release.package.mslug-gen-17]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-17]
+opt-level = 0
+# <<< GENERADO
