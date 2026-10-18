@@ -344,6 +344,8 @@ dependencies = [
  "mslug-gen-16",
  "mslug-gen-17",
  "mslug-gen-18",
+ "mslug-gen-19",
+ "mslug-gen-20",
  "neogeo-hw",
 ]
 
@@ -475,6 +477,20 @@ dependencies = [
 
 [[package]]
 name = "mslug-gen-18"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-19"
+version = "0.1.0"
+dependencies = [
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-gen-20"
 version = "0.1.0"
 dependencies = [
  "neogeo-hw",

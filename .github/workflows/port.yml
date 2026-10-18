@@ -27,7 +27,7 @@ on:
         description: 'Frames de cada partida de play (sólo recompilado)'
         default: '30000'
       regen:
-        description: 'Regenerar el programa traducido (dump-roms + trace + recomp) y comprobar que coincide con el commit'
+        description: 'Regenerar el programa traducido (dump-roms + recomp --static) y comprobar que coincide con el commit'
         type: boolean
         default: false
       publish_release:
@@ -99,8 +99,7 @@ jobs:
           set -euo pipefail
           B="$CARGO_TARGET_DIR/release/mslug"
           "$B" dump-roms
-          for c in 400 900 1500; do "$B" trace --frames 8000 --coin $c --out build/recomp/trace.bin; done
-          python3 tools/recomp/m68k_recomp.py --registry-seeds | tee ci_out/recomp.txt
+          python3 tools/recomp/m68k_recomp.py --static | tee ci_out/recomp.txt
           git status --short | tee ci_out/regen_diff.txt
           git diff --stat | tail -1 | tee -a ci_out/regen_diff.txt
 
