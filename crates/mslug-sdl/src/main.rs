@@ -48,6 +48,12 @@ struct Cli {
     /// Salir tras N frames (0 = sin límite).
     #[arg(long, default_value_t = 0)]
     frames: u32,
+    /// Capturas automáticas en estos frames (p. ej. "1000,3000"), además de F12.
+    #[arg(long, value_delimiter = ',')]
+    shot_at: Vec<u32>,
+    /// Moneda + START automáticos en este frame (0 = no).
+    #[arg(long, default_value_t = 0)]
+    auto_coin: u32,
     /// Directorio de las capturas (F12).
     #[arg(long, default_value = "build/shots")]
     shots: PathBuf,
@@ -198,6 +204,12 @@ fn main() -> Result<()> {
             }
         }
 
+        if cli.auto_coin > 0 {
+            let c = cli.auto_coin;
+            if frame == c { set(&mut sys.bus.coin_inputs, 0x01, true); }
+            if frame == c + 8 { set(&mut sys.bus.coin_inputs, 0x01, false); }
+            if frame >= c + 100 { set(&mut sys.bus.start_select, 0x01, (frame - c - 100) % 300 < 4); }
+        }
         if !paused {
             if cli.interp {
                 sys.run_frame();
@@ -240,6 +252,11 @@ fn main() -> Result<()> {
             ));
             fps_n = 0;
             fps_t = Instant::now();
+        }
+        if cli.shot_at.contains(&frame) {
+            std::fs::create_dir_all(&cli.shots)?;
+            let png = neogeo_hw::video::frame_to_png(&fr, SCREEN_W, SCREEN_H);
+            std::fs::write(cli.shots.join(format!("shot-{frame:06}.png")), png)?;
         }
         if cli.frames > 0 && frame >= cli.frames {
             break;
