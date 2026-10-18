@@ -220,7 +220,7 @@ fn main() -> Result<()> {
         tex.with_lock(None, |buf: &mut [u8], pitch: usize| {
             for y in 0..SCREEN_H {
                 for x in 0..SCREEN_W {
-                    let px = fr.pixels[y * SCREEN_W + x];
+                    let px = fr[y * SCREEN_W + x];
                     let o = y * pitch + x * 4;
                     buf[o..o + 4].copy_from_slice(&px.to_be_bytes());
                 }
