@@ -7,6 +7,204 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $0862F8: move.w #$c000, $38(a0)
+pub fn i_0862f8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x862FE;
+    cpu.ir = 0x317C;
+    let v1: u32 = 0xC000;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[0].wrapping_add(0x38);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $0862FE: rts
+pub fn i_0862fe(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86300;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Boss_Spawn4Finale_086300  ($086300, 40 B, enemies/bosses/m4_carrier_boss_helpers_085134.s)
+/// $086300: clr.b d0
+pub fn i_086300(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86302;
+    cpu.ir = 0x4200;
+    let v1 = cpu.d[0] & 0xFF;
+    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r2: u32 = 0;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (r2 & 0xFF);
+    4
+}
+/// $086302: movem.w d0, -(a7)
+pub fn i_086302(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86306;
+    cpu.ir = 0x48A7;
+    let mut a = cpu.a[7];
+    a = a.wrapping_sub(2); bus.write16(a, cpu.d[0] as u16);
+    cpu.a[7] = a;
+    20
+}
+/// $086306: lea.l $846e0(pc), a1
+pub fn i_086306(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8630A;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x846E0;
+    16
+}
+/// $08630A: jsr $6fe.l
+pub fn i_08630a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86310;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x86310);
+    cpu.pc = 0x6FE;
+    16
+}
+/// $086310: jsr $5dd02.l
+pub fn i_086310(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86316;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x86316);
+    cpu.pc = 0x5DD02;
+    16
+}
+/// $086316: movem.w (a7)+, d0
+pub fn i_086316(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8631A;
+    cpu.ir = 0x4C9F;
+    let mut a = cpu.a[7];
+    cpu.d[0] = bus.read16(a) as i16 as i32 as u32; a = a.wrapping_add(2);
+    cpu.a[7] = a;
+    20
+}
+/// $08631A: move.b d0, $21(a0)
+pub fn i_08631a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8631E;
+    cpu.ir = 0x1140;
+    let v1 = cpu.d[0] & 0xFF;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[0].wrapping_add(0x21);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $08631E: addq.b #$1, d0
+pub fn i_08631e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86320;
+    cpu.ir = 0x5200;
+    let v1 = cpu.d[0] & 0xFF;
+    let r2 = add_with_flags(cpu, v1, 1, Size::Byte, true);
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (r2 & 0xFF);
+    4
+}
+/// $086320: cmpi.b #$4, d0
+pub fn i_086320(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86324;
+    cpu.ir = 0xC00;
+    let v1 = cpu.d[0] & 0xFF;
+    sub_with_flags(cpu, v1, 0x4, Size::Byte, false);
+    8
+}
+/// $086324: blt.b $86302
+pub fn i_086324(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86326;
+    cpu.ir = 0x6DDC;
+    if cpu.sr.evaluate(Condition::Lt) { cpu.pc = 0x86302; return 10; }
+    8
+}
+/// $086326: rts
+pub fn i_086326(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86328;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Boss_SpawnRow8_086328  ($086328, 60 B, enemies/bosses/m4_carrier_boss_helpers_085134.s)
+/// $086328: clr.b d0
+pub fn i_086328(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8632A;
+    cpu.ir = 0x4200;
+    let v1 = cpu.d[0] & 0xFF;
+    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r2: u32 = 0;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (r2 & 0xFF);
+    4
+}
+/// $08632A: move.w $22(a6), d1
+pub fn i_08632a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8632E;
+    cpu.ir = 0x322E;
+    let ad2 = cpu.a[6].wrapping_add(0x22);
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v3 & 0xFFFF);
+    12
+}
+/// $08632E: movem.l d0, -(a7)
+pub fn i_08632e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86332;
+    cpu.ir = 0x48E7;
+    let mut a = cpu.a[7];
+    let v = cpu.d[0]; bus.write16(a.wrapping_sub(2), v as u16); bus.write16(a.wrapping_sub(4), (v >> 16) as u16); a = a.wrapping_sub(4);
+    cpu.a[7] = a;
+    20
+}
+/// $086332: movem.l d1, -(a7)
+pub fn i_086332(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86336;
+    cpu.ir = 0x48E7;
+    let mut a = cpu.a[7];
+    let v = cpu.d[1]; bus.write16(a.wrapping_sub(2), v as u16); bus.write16(a.wrapping_sub(4), (v >> 16) as u16); a = a.wrapping_sub(4);
+    cpu.a[7] = a;
+    20
+}
+/// $086336: lea.l $83fd0(pc), a1
+pub fn i_086336(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8633A;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x83FD0;
+    16
+}
+/// $08633A: jsr $4ae.l
+pub fn i_08633a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86340;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x86340);
+    cpu.pc = 0x4AE;
+    16
+}
+/// $086340: jsr $5dd22.l
+pub fn i_086340(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86346;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x86346);
+    cpu.pc = 0x5DD22;
+    16
+}
+/// $086346: movem.l (a7)+, d1
+pub fn i_086346(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8634A;
+    cpu.ir = 0x4CDF;
+    let mut a = cpu.a[7];
+    cpu.d[1] = bus.read32(a); a = a.wrapping_add(4);
+    cpu.a[7] = a;
+    20
+}
+/// $08634A: movem.l (a7)+, d0
+pub fn i_08634a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8634E;
+    cpu.ir = 0x4CDF;
+    let mut a = cpu.a[7];
+    cpu.d[0] = bus.read32(a); a = a.wrapping_add(4);
+    cpu.a[7] = a;
+    20
+}
+/// $08634E: move.b d0, $21(a0)
+pub fn i_08634e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86352;
+    cpu.ir = 0x1140;
+    let v1 = cpu.d[0] & 0xFF;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[0].wrapping_add(0x21);
+    bus.write8(ad2, v1 as u8);
+    12
+}
 /// $086352: move.w d1, $22(a0)
 pub fn i_086352(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x86356;
@@ -12360,188 +12558,31 @@ pub fn i_087fca(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x4AE;
     16
 }
-/// $087FD0: jsr $5dd22.l
-pub fn i_087fd0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FD6;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x87FD6);
-    cpu.pc = 0x5DD22;
-    16
-}
-/// $087FD6: lea.l $88028(pc), a1
-pub fn i_087fd6(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FDA;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x88028;
-    16
-}
-/// $087FDA: jsr $4ae.l
-pub fn i_087fda(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FE0;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x87FE0);
-    cpu.pc = 0x4AE;
-    16
-}
-/// $087FE0: jsr $5dd22.l
-pub fn i_087fe0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FE6;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x87FE6);
-    cpu.pc = 0x5DD22;
-    16
-}
-/// $087FE6: lea.l $88042(pc), a1
-pub fn i_087fe6(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FEA;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x88042;
-    16
-}
-/// $087FEA: jsr $4ae.l
-pub fn i_087fea(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FF0;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x87FF0);
-    cpu.pc = 0x4AE;
-    16
-}
-/// $087FF0: jsr $5dd22.l
-pub fn i_087ff0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FF6;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x87FF6);
-    cpu.pc = 0x5DD22;
-    16
-}
-/// $087FF6: lea.l $8805c(pc), a1
-pub fn i_087ff6(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FFA;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x8805C;
-    16
-}
-/// $087FFA: jsr $4ae.l
-pub fn i_087ffa(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88000;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x88000);
-    cpu.pc = 0x4AE;
-    16
-}
-/// $088000: jsr $5dd22.l
-pub fn i_088000(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88006;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x88006);
-    cpu.pc = 0x5DD22;
-    16
-}
-/// $088006: jmp $518.l
-pub fn i_088006(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8800C;
-    cpu.ir = 0x4EF9;
-    cpu.pc = 0x518;
-    8
-}
-// ===== Rts_08800c  ($08800C, 2 B, enemies/bosses/fort_scene4_0865be.s)
-/// $08800C: rts
-pub fn i_08800c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8800E;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== Prop_Quad_A_08800e  ($08800E, 26 B, enemies/bosses/fort_scene4_0865be.s)
-/// $08800E: lea.l $2ec30e.l, a0
-pub fn i_08800e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88014;
-    cpu.ir = 0x41F9;
-    cpu.a[0] = 0x2EC30E;
-    20
-}
-/// $088014: jsr $28cd4.l
-pub fn i_088014(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8801A;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x8801A);
-    cpu.pc = 0x28CD4;
-    16
-}
-/// $08801A: lea.l $2ed19a.l, a1
-pub fn i_08801a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88020;
-    cpu.ir = 0x43F9;
-    cpu.a[1] = 0x2ED19A;
-    20
-}
-/// $088020: move.l a1, $88(a6)
-pub fn i_088020(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88024;
-    cpu.ir = 0x2D49;
-    let v1 = cpu.a[1] & 0xFFFFFFFF;
-    let ad2 = cpu.a[6].wrapping_add(0x88);
-    bus.write32(ad2, v1);
-    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
-    16
-}
-/// $088024: bra.w $88076
-pub fn i_088024(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88028;
-    cpu.ir = 0x6000;
-    cpu.pc = 0x88076;
-    10
-}
-// ===== Prop_Quad_B_088028  ($088028, 26 B, enemies/bosses/fort_scene4_0865be.s)
-/// $088028: lea.l $2ec324.l, a0
-pub fn i_088028(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8802E;
-    cpu.ir = 0x41F9;
-    cpu.a[0] = 0x2EC324;
-    20
-}
-/// $08802E: jsr $28cd4.l
-pub fn i_08802e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88034;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x88034);
-    cpu.pc = 0x28CD4;
-    16
-}
-/// $088034: lea.l $2ed1ac.l, a1
-pub fn i_088034(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8803A;
-    cpu.ir = 0x43F9;
-    cpu.a[1] = 0x2ED1AC;
-    20
-}
-/// $08803A: move.l a1, $88(a6)
-pub fn i_08803a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8803E;
-    cpu.ir = 0x2D49;
-    let v1 = cpu.a[1] & 0xFFFFFFFF;
-    let ad2 = cpu.a[6].wrapping_add(0x88);
-    bus.write32(ad2, v1);
-    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
-    16
-}
-/// $08803E: bra.w $88076
-pub fn i_08803e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88042;
-    cpu.ir = 0x6000;
-    cpu.pc = 0x88076;
-    10
-}
-// ===== Prop_Quad_C_088042  ($088042, 26 B, enemies/bosses/fort_scene4_0865be.s)
-/// $088042: lea.l $2ec33a.l, a0
-pub fn i_088042(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x88048;
-    cpu.ir = 0x41F9;
-    cpu.a[0] = 0x2EC33A;
-    20
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x0862F8, i_0862f8),
+    (0x0862FE, i_0862fe),
+    (0x086300, i_086300),
+    (0x086302, i_086302),
+    (0x086306, i_086306),
+    (0x08630A, i_08630a),
+    (0x086310, i_086310),
+    (0x086316, i_086316),
+    (0x08631A, i_08631a),
+    (0x08631E, i_08631e),
+    (0x086320, i_086320),
+    (0x086324, i_086324),
+    (0x086326, i_086326),
+    (0x086328, i_086328),
+    (0x08632A, i_08632a),
+    (0x08632E, i_08632e),
+    (0x086332, i_086332),
+    (0x086336, i_086336),
+    (0x08633A, i_08633a),
+    (0x086340, i_086340),
+    (0x086346, i_086346),
+    (0x08634A, i_08634a),
+    (0x08634E, i_08634e),
     (0x086352, i_086352),
     (0x086356, i_086356),
     (0x086358, i_086358),
@@ -14019,27 +14060,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x087FC0, i_087fc0),
     (0x087FC6, i_087fc6),
     (0x087FCA, i_087fca),
-    (0x087FD0, i_087fd0),
-    (0x087FD6, i_087fd6),
-    (0x087FDA, i_087fda),
-    (0x087FE0, i_087fe0),
-    (0x087FE6, i_087fe6),
-    (0x087FEA, i_087fea),
-    (0x087FF0, i_087ff0),
-    (0x087FF6, i_087ff6),
-    (0x087FFA, i_087ffa),
-    (0x088000, i_088000),
-    (0x088006, i_088006),
-    (0x08800C, i_08800c),
-    (0x08800E, i_08800e),
-    (0x088014, i_088014),
-    (0x08801A, i_08801a),
-    (0x088020, i_088020),
-    (0x088024, i_088024),
-    (0x088028, i_088028),
-    (0x08802E, i_08802e),
-    (0x088034, i_088034),
-    (0x08803A, i_08803a),
-    (0x08803E, i_08803e),
-    (0x088042, i_088042),
 ];

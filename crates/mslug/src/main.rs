@@ -74,6 +74,9 @@ enum Cmd {
         dump: Option<PathBuf>,
         #[arg(long, default_value_t = 100)]
         every: u32,
+        /// Añadir las direcciones sin traducir a este fichero (seeds.txt).
+        #[arg(long)]
+        misses_out: Option<PathBuf>,
     },
     /// Vuelca la P-ROM (vista CPU) y la BIOS cargada a `out/` (entrada del
     /// recompilador).
@@ -175,7 +178,7 @@ fn main() -> Result<()> {
         }
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
-        Cmd::Play { frames, coin, dump, every } => {
+        Cmd::Play { frames, coin, dump, every, misses_out } => {
             let mut sys = load(&cli.rom)?;
             let mut prog = mslug_code::Program::new();
             if let Some(d) = &dump {
@@ -198,6 +201,9 @@ fn main() -> Result<()> {
                      t0.elapsed().as_secs_f64(), prog.native, prog.interp, prog.misses.len());
             for (a, c) in prog.misses.iter().take(40) {
                 println!("  ${a:06X} x{c}");
+            }
+            if let Some(p) = &misses_out {
+                mslug_code::append_misses(&prog, p)?;
             }
         }
         Cmd::DumpRoms { out } => {

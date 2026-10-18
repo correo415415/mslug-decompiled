@@ -131,3 +131,25 @@ impl Program {
         sys.dbg_frame = sys.dbg_frame.wrapping_add(1);
     }
 }
+
+/// Añade a `path` (formato de `tools/recomp/seeds.txt`: una dirección hex por
+/// línea) las direcciones que se ejecutaron sin traducción y que aún no
+/// estén en el fichero.
+pub fn append_misses(prog: &Program, path: &std::path::Path) -> std::io::Result<usize> {
+    use std::io::Write;
+    let old = std::fs::read_to_string(path).unwrap_or_default();
+    let have: std::collections::BTreeSet<u32> = old
+        .lines()
+        .filter_map(|l| u32::from_str_radix(l.split('#').next()?.trim(), 16).ok())
+        .collect();
+    let mut f = std::fs::OpenOptions::new().create(true).append(true).open(path)?;
+    let mut n = 0;
+    for &a in prog.misses.keys() {
+        if !have.contains(&a) {
+            writeln!(f, "{a:06X}")?;
+            n += 1;
+        }
+    }
+    eprintln!("{n} direcciones nuevas -> {}", path.display());
+    Ok(n)
+}

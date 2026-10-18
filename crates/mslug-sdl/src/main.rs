@@ -57,6 +57,10 @@ struct Cli {
     /// Directorio de las capturas (F12).
     #[arg(long, default_value = "build/shots")]
     shots: PathBuf,
+    /// Añadir las direcciones sin traducir a este fichero (p. ej.
+    /// tools/recomp/seeds.txt) para regenerar el programa con ellas.
+    #[arg(long)]
+    misses_out: Option<PathBuf>,
 }
 
 /// Cola de audio compartida con el callback de SDL.
@@ -275,6 +279,9 @@ fn main() -> Result<()> {
         eprintln!("direcciones ejecutadas sin traducir: {}", prog.misses.len());
         for (a, c) in prog.misses.iter().take(30) {
             eprintln!("  ${a:06X} x{c}");
+        }
+        if let Some(p) = &cli.misses_out {
+            mslug_code::append_misses(&prog, p)?;
         }
     }
     Ok(())
