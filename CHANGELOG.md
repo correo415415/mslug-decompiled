@@ -17,6 +17,18 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   showed the normal title screen instead of the sound test.
 - `apply_patch.sh lives=N`: the self-check counted pre-existing `#N,d1`
   operands and failed for some N (e.g. 3).
+- `pow/human_death_049ff2.s`: the 38 bytes at `$4B052` inside
+  `HumanDeath_SpriteTbls_04ac56` are code (state handler reached only through
+  the `.long $0004B052` pointer at table +$3A0), now decoded as instructions
+  (`HumanDeath_SpriteTbls_04ac56__L04b052`). Found by the port's static
+  recompilation; build_rom still IDÉNTICA.
+
+### Added
+- `tools/export_code_map.py`: static instruction/data map of the P-ROM taken
+  from the assembler listings of the decompilation (no emulation):
+  `build/code_map/{insns.txt,funcs.tsv,code.bin}`; `--check` verifies every
+  instruction length against the ROM with capstone (101,141 instructions,
+  0 mismatches). It is the input of the port's pure static recompilation.
 
 ### Added
 - `bash scripts/apply_patch.sh` with no arguments opens an interactive menu
