@@ -23,7 +23,7 @@ use std::sync::Arc;
 #[command(name = "mslug", about = "Metal Slug — port 1:1 a Rust")]
 struct Cli {
     /// Zip MAME del juego (mslug.zip, con la BIOS neogeo dentro o al lado).
-    #[arg(long, global = true, default_value = "roms/mslug.zip")]
+    #[arg(long, global = true, default_value = "internal/mslug.zip")]
     rom: PathBuf,
     #[command(subcommand)]
     cmd: Cmd,

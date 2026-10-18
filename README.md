@@ -6,12 +6,14 @@ Metal Slug (Neo Geo MVS, 1996, P-ROM `201-p1.bin`) de forma que el juego se
 comporte **exactamente** igual que el original: mismos frames, mismo audio,
 mismas partidas con las mismas entradas.
 
-> No se incluye ningún dato del juego. Hace falta el romset MAME `mslug.zip`
-> (con la BIOS `neogeo`), que se pone en `roms/mslug.zip`.
+> El romset MAME original (`mslug.zip`, con la BIOS `neogeo`) está en
+> `internal/mslug.zip` mientras el repositorio sea privado. **Borrar
+> `internal/` antes de cualquier publicación.** `--rom` permite usar otro.
 
 ## Cómo funciona
 
 ```
+internal/      mslug.zip (romset MAME original, sólo uso privado)
 crates/
   neogeo-hw/   hardware Neo Geo: 68000, Z80, YM2610, LSPC, bus, cargador de ROM
                (vendorizado de pydmg-neogeo, MIT/Apache, sin frontend SDL)

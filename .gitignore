@@ -6,3 +6,4 @@
 *.p1
 *.png
 *.wav
+!/internal/mslug.zip
