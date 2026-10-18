@@ -70,9 +70,12 @@ F11 pantalla completa, F12 captura, P pausa, Tab turbo, Esc salir.
 ### Regenerar el programa traducido
 
 ```bash
+# en el repo de la decompilación (rama principal):
+python3 tools/export_code_map.py --check     # -> build/code_map/code.bin
+cp build/code_map/code.bin <port>/tools/recomp/decomp_code.bin
+# en el port:
 ./target/release/mslug dump-roms                               # build/recomp/{prom,bios}.bin
-./target/release/mslug trace --frames 8000 --coin 400 --out build/recomp/trace.bin
-python3 tools/recomp/m68k_recomp.py --registry-seeds           # crates/gen/NN + Cargo.toml
+python3 tools/recomp/m68k_recomp.py --static                   # crates/gen/NN + Cargo.toml (sin trazas)
 cargo build -j1 --release                                      # -j1 si hay poca RAM
 ```
 
