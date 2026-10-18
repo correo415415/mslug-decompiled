@@ -642,9 +642,6 @@ impl System {
         }
 
         let cycles = self.m68k.step(&mut self.bus);
-        self.instructions += 1;
-        self.master_cycles = self.master_cycles.wrapping_add(u64::from(cycles));
-
         if self.config.trace_cpu {
             log::trace!(
                 "[{:>10}] ipc=${:08X} ir=${:04X} -> PC=${:08X} SR=${:04X} D0=${:08X} A6=${:08X} A7=${:08X} cyc={}",
@@ -652,6 +649,17 @@ impl System {
                 self.m68k.sr.0, self.m68k.d[0], self.m68k.a[6], self.m68k.a[7], cycles,
             );
         }
+        self.post_cpu(cycles);
+        cycles
+    }
+
+    /// Port: todo lo que ocurre tras una instrucción 68000 (contadores, Z80,
+    /// YM2610, LSPC, IRQ, watchdog). Lo llaman tanto `step` (intérprete) como
+    /// el código recompilado del juego, de modo que el hardware avanza
+    /// exactamente igual en los dos caminos.
+    pub fn post_cpu(&mut self, cycles: u32) {
+        self.instructions += 1;
+        self.master_cycles = self.master_cycles.wrapping_add(u64::from(cycles));
 
         self.bus.upd4990a.tick(cycles);
 
@@ -754,7 +762,6 @@ impl System {
             self.bus.watchdog_expired = false;
             self.bus.kick_watchdog();
         }
-        cycles
     }
 
     /// Run for approximately one video frame (≈ 200 000 68k cycles).

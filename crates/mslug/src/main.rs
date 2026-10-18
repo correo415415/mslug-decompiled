@@ -56,6 +56,22 @@ enum Cmd {
     },
     /// Lista las funciones portadas.
     List,
+    /// Vuelca la P-ROM (vista CPU) y la BIOS cargada a `out/` (entrada del
+    /// recompilador).
+    DumpRoms {
+        #[arg(long, default_value = "build/recomp")]
+        out: PathBuf,
+    },
+    /// Ejecuta el intérprete y guarda el mapa de instrucciones ejecutadas
+    /// (bitset, 1 bit por dirección par de 24 bits) para el recompilador.
+    Trace {
+        #[arg(long, default_value_t = 6000)]
+        frames: u32,
+        #[arg(long, default_value_t = 400)]
+        coin: u32,
+        #[arg(long)]
+        out: PathBuf,
+    },
 }
 
 pub fn load(rom: &PathBuf) -> Result<System> {
@@ -139,6 +155,40 @@ fn main() -> Result<()> {
                      sys.instructions, sys.m68k.native_calls);
         }
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
+        Cmd::DumpRoms { out } => {
+            let sys = load(&cli.rom)?;
+            std::fs::create_dir_all(&out)?;
+            std::fs::write(out.join("prom.bin"), &sys.bus.p_rom)?;
+            std::fs::write(out.join("bios.bin"), &sys.bus.system_rom)?;
+            println!("prom {} B, bios {} B -> {}", sys.bus.p_rom.len(), sys.bus.system_rom.len(), out.display());
+        }
+        Cmd::Trace { frames, coin, out } => {
+            let mut sys = load(&cli.rom)?;
+            let mut bits = vec![0u8; 1 << 20]; // 16 MiB / 2 / 8
+            if let Ok(old) = std::fs::read(&out) {
+                if old.len() == bits.len() { bits = old; }
+            }
+            for f in 0..frames {
+                auto_inputs(&mut sys, coin, f);
+                let mut budget: u64 = 202_752;
+                while budget > 0 {
+                    let pc = sys.m68k.pc & 0xFF_FFFF;
+                    let irq = sys.m68k.pending_irq;
+                    let used = sys.step();
+                    // sólo cuenta si se ejecutó la instrucción en `pc`
+                    if irq == 0 || sys.m68k.instr_pc == pc {
+                        if !sys.m68k.stopped || sys.m68k.instr_pc == pc {
+                            let i = (pc >> 1) as usize;
+                            bits[i >> 3] |= 1 << (i & 7);
+                        }
+                    }
+                    budget = budget.saturating_sub(u64::from(used));
+                }
+            }
+            let n: u32 = bits.iter().map(|b| b.count_ones()).sum();
+            std::fs::write(&out, &bits)?;
+            println!("{n} instrucciones distintas -> {}", out.display());
+        }
     }
     Ok(())
 }
