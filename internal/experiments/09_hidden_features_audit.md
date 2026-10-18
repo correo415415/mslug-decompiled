@@ -59,7 +59,8 @@ Leyenda: ✅ confirmado en emulador · 🔎 confirmado en el binario (estático)
   Verificado en pydmg sin moneda, con moneda en el frame 30 y en el frame
   1000 (antes este caso volvía al título): los tres se quedan en el sound
   test, con las 7 BIOS del romset (sp-s2, sp-s, japan-j3, uni-bios 2.3,
-  asia-s3, sp-e, usa_2slt), en MVS y en AES.
+  asia-s3, sp-e, usa_2slt), en MVS y en AES (results/sound_test_credits.png:
+  sin moneda · moneda en el frame 30 · moneda en el frame 1000).
   Captura: results/sound_test.png (4 filas de código `0020`, cursor, leyenda
   completa de P1/P2: Arriba/Abajo ±1, Izq/Der ±$10, A-CSL change, B-bank change,
   C-BGM off, D-SE off; P2 A..D = canales 0..3).
