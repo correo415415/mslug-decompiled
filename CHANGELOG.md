@@ -215,6 +215,8 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   their line (`Voice_Shotgun`, `Voice_AllenSeeYouInHell`, `Voice_GameOver`, …).
 
 ### Fixed
+- apply_patch.sh: stale `build/patch_backup/*.orig` (from before a rename commit) were restored over newer sources and produced a silently broken ROM (89 bytes zeroed in Player_SpawnBloodFx / Player_Death_Blood / Player_DeathBlood, because the patched build uses `--no-compare`). Now the backups are regenerated on every run from the current clean sources, a MANIFEST stores HEAD + sha256 and `--undo` refuses to restore on mismatch (`--undo --force` to override), an APPLIED marker tracks state, old manifest-less backups are discarded, section sizes must match and more than 256 changed bytes aborts.
+- build_rom.py: every registry entry must be present in the ELF with its exact size; a source with an old symbol name used to be dropped silently (KEEP-only linker script) leaving a 0x00 hole, even with `--no-compare`.
 - WAV songs no longer stop mid-phrase: the renderer hooks the driver's
   infinite-loop jumps, ends after N full passes and fades out.
 - Driver tick is 166.8 Hz (Timer A counts once per 144-clock FM sample), not

@@ -86,6 +86,24 @@ def main():
             print("[LINK FAIL]\n" + r.stdout + r.stderr)
             sys.exit(1)
 
+        # Toda entrada del registro debe existir en el ELF con su tamaño exacto:
+        # el linker script sólo conserva (KEEP) las secciones del registro, así
+        # que una fuente con un nombre viejo/distinto se descartaría en silencio
+        # y su hueco quedaría a 0x00 (también con --no-compare).
+        r = subprocess.run(["m68k-linux-gnu-objdump", "-h", elf],
+                           capture_output=True, text=True)
+        got = {}
+        for ln in r.stdout.splitlines():
+            f = ln.split()
+            if len(f) >= 4 and f[1].startswith(".text."):
+                got[f[1][6:]] = int(f[2], 16)
+        bad = [(n, sz, got.get(n)) for n, cpu, sz, src in REGISTRY if got.get(n) != sz]
+        if bad:
+            print(f"[SECTION FAIL] {len(bad)} entradas del registro ausentes o con tamaño distinto:")
+            for n, sz, g in bad[:20]:
+                print(f"    {n}: registro {sz} B, ELF {'AUSENTE' if g is None else str(g) + ' B'}")
+            sys.exit(1)
+
         raw = os.path.join(td, "rom.raw")
         r = subprocess.run(["m68k-linux-gnu-objcopy", "-O", "binary",
                             "--gap-fill", "0x00", "-R", ".rom_end", elf, raw],

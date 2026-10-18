@@ -128,7 +128,9 @@ Convenciones clave (`docs/CONVENTIONS.md`):
 * **Reorganización** (267 ficheros movidos a subcarpetas temáticas con nombres
   semánticos) hecha con `tools/reorg/apply_reorg.py` + `reorg_map.txt`.
 * **Parches de ejemplo** (`scripts/apply_patch.sh <recetas> --zip internal/mslug.zip`;
-  `--undo` restaura; backups en `build/patch_backup/`). Regla: **sustituir
+  `--undo` restaura; backups en `build/patch_backup/` con MANIFEST de HEAD +
+  sha256: se regeneran en cada uso y `--undo` se niega a restaurar copias de
+  otra versión; `build_rom.py` falla si falta alguna sección del registro). Regla: **sustituir
   instrucciones por otras del mismo tamaño** para que las secciones no cambien
   (`check_section_sizes` = 0):
 

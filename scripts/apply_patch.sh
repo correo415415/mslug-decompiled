@@ -2,12 +2,13 @@
 # apply_patch.sh — Aplica parches de ejemplo sobre las fuentes, reconstruye la
 # P-ROM y deja build/repack/201-p1.bin (+ mslug.zip si se indica un zip base).
 # Demuestra que el árbol de fuentes ES la ROM: editar → rebuild → jugar.
-# No usa git: guarda copias .orig de los ficheros tocados en build/patch_backup/.
+# Guarda copias .orig + MANIFEST (HEAD + sha256) en build/patch_backup/; se
+# regeneran en cada aplicación y --undo se niega a restaurar copias obsoletas.
 #
 # Uso:
 #   bash scripts/apply_patch.sh <parche> [<parche>...] [--zip /ruta/mslug.zip]
 #   bash scripts/apply_patch.sh --list
-#   bash scripts/apply_patch.sh --undo
+#   bash scripts/apply_patch.sh --undo [--force]
 #
 # Parches disponibles (todos conservan el tamaño de cada función, así el
 # resto de la ROM queda byte-idéntico):
@@ -67,15 +68,56 @@ BK=build/patch_backup
 
 list() { sed -n '/^# Parches disponibles/,/^set -euo/p' "$0" | grep -E '^#   ' ; }
 
-# Copia de seguridad (solo la primera vez: el .orig es siempre la fuente limpia)
-backup() { mkdir -p "$BK"; for f in "${PATCHABLE[@]}"; do [ -f "$BK/$(basename "$f").orig" ] || cp "$f" "$BK/$(basename "$f").orig"; done; }
-# Restaura las fuentes limpias desde los .orig
+# Copias de seguridad con manifiesto. build/patch_backup/ guarda:
+#   *.orig    fuente limpia de cada fichero parcheable
+#   MANIFEST  HEAD de git + sha256 de cada fuente limpia en el momento del backup
+#   APPLIED   existe sólo mientras hay parches aplicados (entre aplicar y --undo)
+# Los .orig se REGENERAN en cada aplicación a partir de las fuentes actuales
+# (si no hay parches aplicados), así que nunca quedan obsoletos tras un commit
+# o un pull. Restaurar sólo se permite si el HEAD y los sha256 coinciden con el
+# manifiesto; si no, se aborta en vez de pisar fuentes nuevas con copias viejas.
+head_id() { git rev-parse HEAD 2>/dev/null || echo "sin-git"; }
+sha() { sha256sum "$1" | cut -d' ' -f1; }
+manifest_ok() {
+  [ -f "$BK/MANIFEST" ] || return 1
+  [ "$(sed -n 's/^HEAD //p' "$BK/MANIFEST")" = "$(head_id)" ] || return 1
+  local f h
+  for f in "${PATCHABLE[@]}"; do
+    h=$(grep -F "  $f" "$BK/MANIFEST" | cut -d' ' -f1)
+    [ -n "$h" ] && [ -f "$BK/$(basename "$f").orig" ] && [ "$(sha "$BK/$(basename "$f").orig")" = "$h" ] || return 1
+  done
+}
+stale_msg() {
+  echo "[patch] ERROR: build/patch_backup/ no corresponde a las fuentes actuales (HEAD $(head_id))." >&2
+  echo "[patch]   Hay parches aplicados de otra versión. Restaura las fuentes con git" >&2
+  echo "[patch]   (git checkout -- ${PATCHABLE[*]}) y borra build/patch_backup/," >&2
+  echo "[patch]   o usa --undo --force si sabes que los .orig son correctos." >&2
+}
+# Restaura las fuentes limpias (sólo si hay parches aplicados y el manifiesto es válido)
 undo() {
-  local n=0
+  local force=${1:-}
+  if [ ! -f "$BK/APPLIED" ]; then
+    if [ -d "$BK" ] && [ ! -f "$BK/MANIFEST" ] && ls "$BK"/*.orig >/dev/null 2>&1 && [ -z "$force" ]; then
+      # Backups de la versión antigua del script (sin manifiesto): no se usan.
+      if git diff --quiet HEAD -- "${PATCHABLE[@]}" 2>/dev/null; then
+        rm -f "$BK"/*.orig; echo "[patch] backups antiguos sin manifiesto descartados (fuentes = HEAD)"; return 0
+      fi
+      echo "[patch] ERROR: backups antiguos sin manifiesto y fuentes distintas de HEAD." >&2; stale_msg; exit 1
+    fi
+    [ -z "$force" ] && { echo "[patch] no hay parches aplicados: nada que restaurar"; return 0; }
+  fi
+  if [ -z "$force" ] && ! manifest_ok; then stale_msg; exit 1; fi
+  local n=0 f
   for f in "${PATCHABLE[@]}"; do
     if [ -f "$BK/$(basename "$f").orig" ]; then cp "$BK/$(basename "$f").orig" "$f"; n=$((n+1)); fi
   done
+  rm -f "$BK/APPLIED"
   echo "[patch] fuentes restauradas ($n ficheros desde $BK/)"
+}
+# Copia fresca de las fuentes actuales (que deben estar limpias) + manifiesto
+backup() {
+  mkdir -p "$BK"; rm -f "$BK"/*.orig
+  { echo "HEAD $(head_id)"; for f in "${PATCHABLE[@]}"; do cp "$f" "$BK/$(basename "$f").orig"; echo "$(sha "$f")  $f"; done; } > "$BK/MANIFEST"
 }
 
 # Sustituye UNA instrucción dentro de UNA función (bloque "Nombre:" hasta el
@@ -101,14 +143,15 @@ ZIP=""; PATCHES=()
 while [ $# -gt 0 ]; do
   case "$1" in
     --list) list; exit 0 ;;
-    --undo) undo; exit 0 ;;
+    --undo) [ "${2:-}" = --force ] && { undo force; exit 0; }; undo; exit 0 ;;
     --zip) ZIP=$2; shift ;;
     *) PATCHES+=("$1") ;;
   esac; shift
 done
 
-backup
-undo >/dev/null
+undo >/dev/null        # quita parches que hubiera de una ejecución anterior (verificado)
+backup                 # .orig = fuentes actuales limpias (nunca obsoletas)
+touch "$BK/APPLIED"
 # alias (funciones ocultas = combinaciones de flags de depuración)
 for i in "${!PATCHES[@]}"; do
   case "${PATCHES[$i]}" in
@@ -286,7 +329,8 @@ PY
   esac
 done
 
-python3 tools/check_section_sizes.py | tail -1
+CS=$(python3 tools/check_section_sizes.py | tail -1); echo "$CS"
+[[ "$CS" == *" 0 discrepancias"* ]] || { echo "[patch] ERROR: tamaños de sección alterados; abortando" >&2; exit 1; }
 bash scripts/rebuild_rom.sh --mod ${ZIP:+"$ZIP"} | grep -E "MD5|listo"
 
 # Lista de bytes modificados: necesita la ROM original en formato CPU
@@ -295,7 +339,16 @@ if [ ! -f build/mslug_prom.bin ] && [ -n "$ZIP" ] && [ -f "$ZIP" ]; then
   mkdir -p rom && unzip -o -q "$ZIP" 201-p1.bin -d rom && ./scripts/setup.sh >/dev/null 2>&1 || true
 fi
 if [ -f build/mslug_prom.bin ]; then
-  echo "[patch] bytes modificados (direcciones CPU):"
+  # Red de seguridad: el build va con --no-compare, así que una ROM rota
+  # (fuentes viejas, símbolos perdidos...) no fallaría sola. Ningún parche
+  # legítimo toca más de PATCH_MAXDIFF bytes (asserts-off, el mayor, toca 92).
+  ND=$( (cmp -l build/mslug_prom.bin build/mslug_prom_rebuilt.bin || true) | wc -l)
+  if [ "$ND" -gt "${PATCH_MAXDIFF:-256}" ]; then
+    echo "[patch] ERROR: $ND bytes distintos de la ROM original (> ${PATCH_MAXDIFF:-256}): ROM sospechosa." >&2
+    echo "[patch]   Revisa 'git status' / 'git diff'; si es intencionado, PATCH_MAXDIFF=N." >&2
+    exit 1
+  fi
+  echo "[patch] bytes modificados (direcciones CPU): $ND"
   (cmp -l build/mslug_prom.bin build/mslug_prom_rebuilt.bin || true) | while read off a b; do printf "  \$%06X: %02X -> %02X\n" $((off-1)) "0$a" "0$b"; done
 else
   echo "[patch] (sin build/mslug_prom.bin no se puede listar el diff; ejecuta ./scripts/setup.sh con rom/201-p1.bin)"
