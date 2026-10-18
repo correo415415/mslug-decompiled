@@ -1,0 +1,17 @@
+[package]
+name = "neogeo-hw"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Hardware Neo Geo (68000, Z80, YM2610, LSPC, bus) — copia vendorizada de pydmg-neogeo (sin frontend SDL) para el port de Metal Slug"
+
+[lib]
+name = "neogeo_hw"
+path = "src/lib.rs"
+
+[dependencies]
+log = "0.4"
+thiserror = "2.0"
+anyhow = "1.0"
+zip = { version = "2", default-features = false, features = ["deflate"] }
+once_cell = "1.21"

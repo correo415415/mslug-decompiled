@@ -1,0 +1,8 @@
+/target/
+/build/
+/roms/
+*.zip
+*.bin
+*.p1
+*.png
+*.wav
