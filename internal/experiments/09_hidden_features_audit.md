@@ -120,6 +120,14 @@ Leyenda: ✅ confirmado en emulador · 🔎 confirmado en el binario (estático)
   `3000@10E39C=01`: `$10E39D` pasa a 1 y el piloto escribe `$10E2E4=04/08`
   (Level2Script en marcha). Con P1 D+B alternando, `$106E92` cae de `$3B` a
   `$0000` en el frame 3125; la misma partida sin `warpkeys` sigue en `$3B`.
+* D+C (sin efecto observable): coloca la tarea del piloto en `($A0,$180)` y
+  ejecuta una vez la lista `$2DF456` (`Entity_ProbeSlot4c_0283D8` →
+  `Hitbox_RunList_0283ec`): un registro **op 0** (= contra ambos jugadores),
+  tipo `$0F`, daño 10, ±256 px. Probado **sin** `invincible` (P1 en
+  `(x≈$88, y=$159)`, dentro de la caja): las capturas con D+C y con sólo D son
+  idénticas píxel a píxel en 3000..4000 y P1 no recibe daño. Probablemente el
+  tipo `$0F` no lo acepta la caja de cuerpo del jugador o la caja se evalúa
+  antes de tener sprite; queda sin explicar.
 
 ## G. Bugs del original
 
