@@ -86,13 +86,17 @@
 |   * Entity_BobY1: +$72++ y Y ±1 según paridad; Entity_TickIfState2:
 |     $283CA sólo si +$21==2; Entity_CmpPrioWithSibling: compara +$10 con
 |     el sibling +$8 (cae en ClearXN/SetXN_086562/_086568).
-|   * Boss_Shadow_Init ($8656E): tres entradas (via $86586/$86582/$8656E)
+|   * ScreenNuke_Init ($8656E): tres entradas (via $86586/$86582/$8656E)
 |     que eligen la caja $2ECEC4/$2ECD80, se colocan en ($0,$100) y
 |     setean $10E39E=1 (continúa en el hueco $8658E.. de la próxima wave).
+|     NO es una sombra de jefe: las listas $2ECD80/$2ECEC4 son cajas de
+|     ataque a pantalla completa con daño $7FFF ("ScreenNuke"): matan a
+|     todos los enemigos visibles (verificado en pydmg, exp. 09). Sólo se
+|     dispara desde DebugTriggers_TwoBits_096B24 (debug b2 + P2 A+Derecha).
 |
 |  Rarezas de matching: `jmp $518; rts` con rts muerto tras el jmp en
 |  $8555C/$85640/$85852/$85A22 (idiom del scheduler); `bra.w` doble en
-|  Boss_Shadow_Init (+$10/+$14, el segundo es inalcanzable); `move.w d0,d0`
+|  ScreenNuke_Init (+$10/+$14, el segundo es inalcanzable); `move.w d0,d0`
 |  muerto en M4_Turret_RecoilLeft; `movea.l #$FFFFFFFF,a0` seguido de
 |  `lea` que lo sobreescribe (3 veces, ENTITY_NIL redundante).
 |
@@ -1655,11 +1659,11 @@ Entity_CmpPrioWithSibling_086552:
         bcs.w   SetXN_086568                    | +00c
 
 | ----------------------------------------------------------------------------
-|  Boss_Shadow_Init_08656e  @ $08656E  (72 B)
+|  ScreenNuke_Init_08656e  @ $08656E  (72 B)
 | ----------------------------------------------------------------------------
-        .section .text.Boss_Shadow_Init_08656e, "ax", @progbits
-        .global Boss_Shadow_Init_08656e
-Boss_Shadow_Init_08656e:
+        .section .text.ScreenNuke_Init_08656e, "ax", @progbits
+        .global ScreenNuke_Init_08656e
+ScreenNuke_Init_08656e:
         lea     0x2ecec4.l,a0                   | +000
         move.l  a0,0x4c(a6)                     | +006
         jsr     0x283ca.l                       | +00a

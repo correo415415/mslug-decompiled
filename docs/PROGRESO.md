@@ -1342,9 +1342,9 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 >   `$2EAF1C`/`$2EAF7E`/`$2EAFE2` (los 7 primeros via `$6FE`, el resto via
 >   `$4AE`), bucles de 45/4/8/9 hijos, `Boss_SpawnTenEscorts` (362 B,
 >   desenrollado a mano), 6 cargadores de tabla de blit y
->   `Boss_Shadow_Init` (3 entradas, `$10E39E=1`).
+>   `ScreenNuke_Init` (3 entradas, `$10E39E=1`).
 > * Rarezas: `jmp $518; rts` con rts muerto (x4), `bra.w` doble en
->   `Boss_Shadow_Init`, `move.w d0,d0` muerto, `movea.l #-1,a0` pisado
+>   `ScreenNuke_Init`, `move.w d0,d0` muerto, `movea.l #-1,a0` pisado
 >   por `lea` (x3). El label `.L83c0c-0xA` de `TaskHandler_083be2` se
 >   promovio a `TaskHandler_083c02` (target `lea pc` de `$0860F6`).
 > * symbols.py: -25 defsyms forward promovidos, +7 RTS mid-isla

@@ -29,10 +29,14 @@
 #   blood          sangre siempre activa (ignora el soft-DIP BLOOD $10FD8F, 9 lectores).
 #   no-blood       sangre siempre desactivada (versión "sin gore").
 #   ending=jp|intl fuerza el stream del final japonés ($0F1CD4) o internacional ($0F260E).
-#   bossshadow=a|b lanza Boss_Shadow_Init variante A ($86586) / B ($86582) al empezar
-#                  cada misión, sin flags ni mando de P2 (DebugTriggers_TwoBits_096B24).
-#   warpkeys       conecta AutoDemo_DebugWarpKeys_0797ce (huérfana) al demo automático:
-#                  en el attract, P1 D+C teletransporta, D+B borra $106E92.
+#   screennuke     lanza ScreenNuke_Init ($86586: caja de ataque a pantalla completa,
+#                  daño $7FFF, mata a todo lo visible) al empezar cada misión, sin flags
+#                  ni mando de P2 (rama bit 2 de DebugTriggers_TwoBits_096B24).
+#   screennuke-b   idem por la rama bit 7 ($86582: sin lista de cajas -> sin efecto).
+#   warpkeys       resucita AutoDemo_DebugWarpKeys_0797ce (huérfana): el demo del attract
+#                  de la misión 1 pasa a usar AutoDemo_Level2Script_07957a (también
+#                  muerto: exigía $10E39D==2, que nadie escribe) y JumpIfBlocked cae en
+#                  WarpKeys. En el demo, P1 D+C teletransporta, D+B borra $106E92.
 #   fix-input-bug  corrige el bug de SNK de InputLayout_ReadField0_05D616 (orden lea/movea).
 #   fix-deadstore  quita el store muerto `movea.l #-1,a0` de $041A96 (nop x3).
 set -euo pipefail
@@ -54,7 +58,8 @@ F_EVM=asm/mission/event_vm_04422a.s
 F_DTRIG=asm/frontend/attract_sub_helpers_0967c0.s
 F_AIM=asm/input/aim_tables_05d316.s
 F_SQUAD=asm/enemies/squad/children_handlers_041408.s
-PATCHABLE=("$F_MODE" "$F_SCHED" "$F_PARA" "$F_HDEATH" "$F_CREW" "$F_EVM" "$F_DTRIG" "$F_AIM" "$F_SQUAD" "$F_HUD" "$F_FIRE" "$F_CORE" "$F_INIT" asm/player/air_death_crouch_036632.s "$F_ROUTE" "$F_SLUG" "$F_BIOS")
+F_ANIMC=asm/data/anim_c_1d0000.s
+PATCHABLE=("$F_MODE" "$F_SCHED" "$F_PARA" "$F_HDEATH" "$F_CREW" "$F_EVM" "$F_DTRIG" "$F_AIM" "$F_SQUAD" "$F_ANIMC" "$F_HUD" "$F_FIRE" "$F_CORE" "$F_INIT" asm/player/air_death_crouch_036632.s "$F_ROUTE" "$F_SLUG" "$F_BIOS")
 BK=build/patch_backup
 
 list() { sed -n '/^# Parches disponibles/,/^set -euo/p' "$0" | grep -E '^#   ' ; }
@@ -186,9 +191,8 @@ PY
         jp)   in_fn "$F_EVM" MissionDriver_Init_0442E6 "move.l  #0xf260e, d0                           | +03c" "move.l  #0xf1cd4, d0                           | +03c (parche ending=jp)" "final japonés siempre" ;;
         *) echo "[patch] ending=jp|intl"; exit 1 ;;
       esac ;;
-    bossshadow=*)
-      v="${p#bossshadow=}"
-      case "$v" in a) L=".Lskip_bit2"; B=2 ;; b) L=".Lskip_bit7"; B=7 ;; *) echo "[patch] bossshadow=a|b"; exit 1 ;; esac
+    screennuke|screennuke-b)
+      if [ "$p" = screennuke ]; then L=".Lskip_bit2"; B=2; else L=".Lskip_bit7"; B=7; fi
       python3 - "$F_DTRIG" "$L" "$B" <<'PY'
 import sys,re
 p,L,B=sys.argv[1:]; s=open(p).read()
@@ -199,13 +203,16 @@ sub=blk[k:e]
 sub2=re.sub(r"(beq|bcc)\.w   "+re.escape(L)+r"\s*",lambda m:"nop; nop        ",sub)
 assert sub2.count("nop; nop")==3, sub2
 s=s[:i]+blk[:k]+sub2+blk[e:]+s[j:]
-open(p,"w").write(s); print("[patch] DebugTriggers: Boss_Shadow variante bit%s siempre al empezar misión"%B)
+open(p,"w").write(s); print("[patch] DebugTriggers: ScreenNuke (rama bit%s) siempre al empezar misión"%B)
 PY
       ;;
     warpkeys)
-      # AutoDemo_JumpIfBlocked_0796f6 (llamada cada frame por el demo
-      # automático de la misión 2) termina en 'rts' justo antes de
-      # AutoDemo_DebugWarpKeys_0797ce: con 'nop' cae en ella (2 B).
+      # 1) tabla de demos $2DF442[1] -> Level2Script; 2) su guarda $10E39D==2
+      #    pasa a ==1 (misión 1); 3) 'rts' final de JumpIfBlocked -> 'nop' (2 B)
+      #    para caer en AutoDemo_DebugWarpKeys_0797ce.
+      sed -i 's/^        \.dc\.l   AutoDemo_Level1Script_0794aa  | +00d3e  -> \$0794AA$/        .dc.l   AutoDemo_Level2Script_07957a  | +00d3e  (parche warpkeys)/' "$F_ANIMC"
+      grep -q "AutoDemo_Level2Script_07957a  | +00d3e  (parche warpkeys)" "$F_ANIMC" || { echo "[patch] warpkeys: tabla de demos no parcheada"; exit 1; }
+      in_fn "$F_CREW" AutoDemo_Level2Script_07957a "cmpi.b  #0x2,0x10e39d.l" "cmpi.b  #0x1,0x10e39d.l" "guarda misión 2 -> misión 1"
       in_fn "$F_CREW" AutoDemo_JumpIfBlocked_0796f6 "        rts                                     | +0d6" "        nop                                     | +0d6 (parche warpkeys)" "cae en AutoDemo_DebugWarpKeys_0797ce" ;;
     fix-input-bug)
       in_fn "$F_AIM" InputLayout_ReadField0_05D616 "        movea.l 0x72(a1), a2                           | +012  BUG SNK: lee \$72 con el

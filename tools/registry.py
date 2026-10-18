@@ -4321,10 +4321,10 @@ REGISTRY = [
     ("Boss_BlitTable_E_08651e",                               0x08651E,  18, "enemies/bosses/m4_carrier_boss_helpers_085134.s"),
     ("Boss_BlitTable_F_086538",                               0x086538,  18, "enemies/bosses/m4_carrier_boss_helpers_085134.s"),
     ("Entity_CmpPrioWithSibling_086552",                         0x086552,  16, "enemies/bosses/m4_carrier_boss_helpers_085134.s"),
-    ("Boss_Shadow_Init_08656e",                         0x08656E,  72, "enemies/bosses/m4_carrier_boss_helpers_085134.s"),
+    ("ScreenNuke_Init_08656e",                         0x08656E,  72, "enemies/bosses/m4_carrier_boss_helpers_085134.s"),
 
     # --- Wave KKK: fortaleza escena 4 - casamatas/trampillas/blindado/helicoptero ($0865BE..$088A56)
-    ("Boss_Shadow_Clear_0865be",                   0x0865BE,  28, "enemies/bosses/fort_scene4_0865be.s"),
+    ("ScreenNuke_Clear_0865be",                   0x0865BE,  28, "enemies/bosses/fort_scene4_0865be.s"),
     ("Rts_0865da",                                 0x0865DA,   2, "enemies/bosses/fort_scene4_0865be.s"),
     ("Fort_Init_V0_0865dc",                        0x0865DC,  72, "enemies/bosses/fort_scene4_0865be.s"),
     ("Fort_Init_V1_086624",                        0x086624,  66, "enemies/bosses/fort_scene4_0865be.s"),

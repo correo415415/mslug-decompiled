@@ -27,8 +27,8 @@
 |      sprites/aux, +$48 = puntero de hitbox ($FFFF = sin hitbox).
 |
 |  A) $0865BE..$086868 — FORTALEZA (contenedor)
-|     Boss_Shadow_Clear_0865be: $10E39E=0, hitbox off, jsr $283CA, $518
-|       (cola del thunk SetTaskHandler_0865b6; complementa Boss_Shadow_Init).
+|     ScreenNuke_Clear_0865be: $10E39E=0, hitbox off, jsr $283CA, $518
+|       (cola del thunk SetTaskHandler_0865b6; complementa ScreenNuke_Init).
 |     Fort_Init_V0..V4 ($865DC/$86624/$86666/$866AE/$866F0): 5 variantes
 |       (+$20=0..4) que llaman a su Fort_SpawnChildren_V<n> (casamatas +
 |       cajas), cargan las listas +$78 ($2EDCB0..$2EDD20) / +$7C
@@ -179,11 +179,11 @@
         .text
 
 | ----------------------------------------------------------------------------
-|  Boss_Shadow_Clear_0865be  @ $0865BE  (28 B)
+|  ScreenNuke_Clear_0865be  @ $0865BE  (28 B)
 | ----------------------------------------------------------------------------
-        .section .text.Boss_Shadow_Clear_0865be, "ax", @progbits
-        .global Boss_Shadow_Clear_0865be
-Boss_Shadow_Clear_0865be:
+        .section .text.ScreenNuke_Clear_0865be, "ax", @progbits
+        .global ScreenNuke_Clear_0865be
+ScreenNuke_Clear_0865be:
         move.b  #0x0,0x10e39e.l                 | +000
         lea     0xffff.w,a0                     | +008
         move.l  a0,0x4c(a6)                     | +00c
