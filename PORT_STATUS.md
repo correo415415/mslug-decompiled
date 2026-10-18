@@ -1,45 +1,69 @@
 # Estado del port
 
+## Resumen
+
 | | |
 |---|---|
-| Rutinas de código en la P-ROM (registro de la decompilación, < `$9C608`) | 8 482 (640 520 B) |
-| Portadas a Rust | 15 |
-| Verificadas 1:1 (`mslug verify --frames 6000`) | 15 (849 llamadas, 0 fallos; 9 de ellas ejercitadas) |
-| Frames idénticos `run` vs `run --rom-only` | 8/8 capturas en 4000 frames |
+| Programa 68000 traducido a Rust (`crates/mslug-code`, generado) | **96 937 instrucciones** (P-ROM del juego + BIOS) |
+| Semillas | traza de 3 partidas (moneda en 0/400/2000, 8000 frames) + vectores + 8 482 entradas del registro de la decompilación |
+| Instrucciones no traducibles | 0 |
+| `mslug lockstep --frames 6000` (programa de 28 593 instr.) | ✅ 99 245 067 instrucciones idénticas al intérprete (registros, SR, PC, ciclos tras **cada** instrucción; RAM, paleta y ciclos totales tras cada frame); **100 % ejecutado por código Rust**, 0 instrucciones interpretadas |
+| Frontend SDL2 (`crates/mslug-sdl`) | ✅ ventana, sonido, P1/P2, capturas; partida jugada por el programa recompilado |
+| Rutinas reescritas a mano en Rust idiomático (`crates/mslug/src/game`) | 15 (verificadas con `mslug verify`) |
 
-## Funciones portadas
+## Cómo está hecho
 
-| Dirección | Rutina | Módulo | Llamadas verificadas |
-|---|---|---|---|
-| $001E56 | Store106EDA | kernel | 0 |
-| $05E9E4 | RNG_LFSRStep (generador aleatorio) | kernel | 8 |
-| $043EDA | Buffer_ClearBlock1024L | kernel | 7 |
-| $044048 | Coord_ApplyCameraDeltaToSelf | entity | 780 |
-| $04405E | Coord_ApplyCameraDeltaToA0Mark | entity | 13 |
-| $04407A | Coord_ApplyCameraTerciaryToSelf | entity | 0 |
-| $044090 | Coord_ApplyCameraDeltaToGlobals | entity | 0 |
-| $0440AA | Coord_ApplyCameraDeltaToD1D2 | entity | 0 |
-| $0440BC | Coord_LocalToScreenSecondary | entity | 35 |
-| $0440D0 | Coord_ScreenToLocalSecondary | entity | 3 |
-| $065C64 | Hostage_SinCos | entity | 0 |
-| $02A2AC | Slug_GetGauge | entity | 0 |
-| $05180C | Clear8Bytes | entity | 2 |
-| $0516BA | Players_SnapshotMods | entity | 0 |
-| $09773C | HiScore_LoadDefaults | hiscore | 1 |
+1. `mslug dump-roms` vuelca la P-ROM tal como la ve la CPU y la BIOS.
+2. `mslug trace` ejecuta el intérprete y anota cada dirección ejecutada.
+3. `tools/recomp/m68k_recomp.py` recorre el código desde esas semillas
+   (descenso recursivo por saltos/llamadas/ramas) y traduce **cada
+   instrucción** a una función Rust especializada: modos de
+   direccionamiento, inmediatos, destinos de salto y ciclos se resuelven en
+   la generación. La semántica es la del núcleo 68000 de referencia
+   (`neogeo-hw/src/cpu/m68k/exec.rs`): flags X N Z V C, orden de accesos al
+   bus, ciclos.
+4. `mslug_code::Program` despacha por PC a esas funciones. El hardware
+   (vídeo, Z80/YM2610, IRQ) avanza con `System::post_cpu`, igual que con el
+   intérprete.
+5. `mslug lockstep` ejecuta intérprete y programa traducido a la vez y para
+   en la primera instrucción que difiera.
 
-Las funciones con 0 llamadas compilan y siguen la ROM instrucción a
-instrucción, pero el guion de `verify` aún no las ejercita: no cuentan como
-verificadas.
+## Camino a "0 emulación"
 
-## Plan
+El objetivo final es que no quede ningún intérprete de CPU:
 
-1. Hojas (rutinas sin llamadas): 323 en el registro. Lote actual.
-2. Rutinas con `jsr/bsr` a funciones ya portadas: el llamante en Rust invoca
-   directamente a la función Rust (sumando los ciclos del `jsr`/`rts`).
-3. Despachadores de tareas / máquinas de estado (`Task_*`, `SetTaskHandler`):
-   el planificador del juego pasa a Rust.
-4. Programa principal desde el `USER` del BIOS: cuando el bucle de juego
-   entero esté en Rust, la tabla nativa cubre todo el código y la P-ROM
-   sólo aporta datos.
-5. Más guiones para `verify` (todas las misiones, attract, final, sound test)
-   para que cada función portada tenga llamadas verificadas.
+- [x] Programa del juego y BIOS traducidos a Rust (sin decodificar opcodes
+      en tiempo de ejecución).
+- [x] Verificación instrucción a instrucción (lockstep).
+- [ ] 0 direcciones sin traducir en todas las partidas de prueba (`misses`):
+      ampliar trazas (todas las misiones, final, sound test, 2 jugadores) y
+      semillas; después **quitar el intérprete** de `Program::step`.
+- [ ] Juntar instrucciones en bloques básicos / funciones (Rust por función
+      de la decompilación, no por instrucción) y nombrarlas con los símbolos
+      de `tools/recomp/symbols.tsv`.
+- [ ] Sustituir funciones generadas por reescrituras idiomáticas
+      (`crates/mslug/src/game`), verificadas con `mslug verify`.
+- [ ] Hardware: el vídeo (LSPC → sprites/fix), el sonido (Z80 + YM2610) y la
+      BIOS son ahora el "sistema" del port. El programa Z80 del driver de
+      sonido se traducirá con el mismo método (recompilador Z80) para que
+      tampoco quede intérprete del Z80.
+
+## Funciones reescritas a mano
+
+| Dirección | Rutina | Módulo |
+|---|---|---|
+| $001E56 | Store106EDA | kernel |
+| $05E9E4 | RNG_LFSRStep (generador aleatorio) | kernel |
+| $043EDA | Buffer_ClearBlock1024L | kernel |
+| $044048 | Coord_ApplyCameraDeltaToSelf | entity |
+| $04405E | Coord_ApplyCameraDeltaToA0Mark | entity |
+| $04407A | Coord_ApplyCameraTerciaryToSelf | entity |
+| $044090 | Coord_ApplyCameraDeltaToGlobals | entity |
+| $0440AA | Coord_ApplyCameraDeltaToD1D2 | entity |
+| $0440BC | Coord_LocalToScreenSecondary | entity |
+| $0440D0 | Coord_ScreenToLocalSecondary | entity |
+| $065C64 | Hostage_SinCos | entity |
+| $02A2AC | Slug_GetGauge | entity |
+| $05180C | Clear8Bytes | entity |
+| $0516BA | Players_SnapshotMods | entity |
+| $09773C | HiScore_LoadDefaults | hiscore |

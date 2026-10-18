@@ -15,6 +15,9 @@ mismas partidas con las mismas entradas.
 ```
 internal/      mslug.zip (romset MAME original, sólo uso privado)
 crates/
+  mslug-code/  el programa 68000 (juego + BIOS) traducido a Rust (generado por
+               tools/recomp/m68k_recomp.py) + despacho por PC
+  mslug-sdl/   frontend SDL2 (ventana, sonido, mandos)
   neogeo-hw/   hardware Neo Geo: 68000, Z80, YM2610, LSPC, bus, cargador de ROM
                (vendorizado de pydmg-neogeo, MIT/Apache, sin frontend SDL)
                + `native.rs`: tabla de funciones nativas enganchada a la CPU
@@ -48,16 +51,27 @@ punto de entrada del juego y la P-ROM sólo se usará como fuente de datos
 ## Uso
 
 ```bash
-cargo build --release
-./target/release/mslug list                         # funciones portadas
-./target/release/mslug verify --frames 6000          # ROM vs Rust en cada llamada
-./target/release/mslug run --frames 4000 --dump build/port --every 500
-./target/release/mslug run --frames 4000 --dump build/rom  --every 500 --rom-only
+cargo build --release                                # mslug (CLI) + programa recompilado
+cargo build --release -p mslug-sdl                   # frontend con ventana (necesita libsdl2-dev)
+
+./target/release/mslug-sdl                           # jugar (programa recompilado)
+./target/release/mslug-sdl --interp                  # misma ventana, intérprete 68000 (referencia)
+./target/release/mslug lockstep --frames 6000        # intérprete vs recompilado, instrucción a instrucción
+./target/release/mslug play --frames 3000 --dump build/play --every 500
+./target/release/mslug verify --frames 6000          # rutinas reescritas a mano vs ROM
 ```
 
-`verify` y `run` insertan moneda y START automáticamente (frame 400) y desde
-el frame 1700 juegan solos (derecha, disparo, salto y granadas), igual que
-las recetas de la decompilación.
+Teclas de `mslug-sdl`: cursores, Z/X/C/V = A/B/C/D (disparo, salto,
+granada), Enter = START, 5 = moneda; P2: I/J/K/L, Q/W/E/R, 2, 6.
+F11 pantalla completa, F12 captura, P pausa, Tab turbo, Esc salir.
+
+### Regenerar el programa traducido
+
+```bash
+./target/release/mslug dump-roms                               # build/recomp/{prom,bios}.bin
+./target/release/mslug trace --frames 8000 --coin 400 --out build/recomp/trace.bin
+python3 tools/recomp/m68k_recomp.py --registry-seeds           # crates/mslug-code/src/gen/
+```
 
 ## Estado
 
