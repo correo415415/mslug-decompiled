@@ -4,8 +4,17 @@ members = ["crates/neogeo-hw", "crates/mslug-code", "crates/mslug"]
 
 [profile.release]
 opt-level = 3
-lto = "thin"
+lto = false
 codegen-units = 1
 
 [profile.dev]
 opt-level = 1
+
+# El código generado (decenas de miles de funciones pequeñas) se compila con
+# menos optimización para que rustc quepa en poca memoria; el resto, -O3.
+[profile.release.package.mslug-code]
+opt-level = 1
+codegen-units = 16
+
+[profile.dev.package.mslug-code]
+opt-level = 0

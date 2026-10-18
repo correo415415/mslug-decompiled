@@ -1,5 +1,5 @@
 // GENERADO por tools/recomp/m68k_recomp.py — no editar a mano.
-// Programa 68000 de Metal Slug (región p28) traducido a Rust,
+// Programa 68000 de Metal Slug (región p28_0) traducido a Rust,
 // una función por instrucción: misma semántica y mismos ciclos que la CPU.
 #![allow(unused_variables, unused_mut, unused_parens, unused_assignments, unused_imports, clippy::all)]
 use neogeo_hw::cpu::m68k::{Bus, Condition, Cpu, Exception, Size, StatusRegister};

@@ -298,6 +298,15 @@ dependencies = [
  "clap",
  "env_logger",
  "log",
+ "mslug-code",
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-code"
+version = "0.1.0"
+dependencies = [
+ "log",
  "neogeo-hw",
 ]
 

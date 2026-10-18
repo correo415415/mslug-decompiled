@@ -1280,17 +1280,30 @@ use neogeo_hw::NeoGeoBus as B;
 """
 
 
-def region_of(a):
-    if a >= 0xC00000:
-        return "bios"
-    return "p%02x" % (a >> 16)
+CHUNK = 1500   # instrucciones por módulo (rustc necesita poca RAM por módulo)
+
+
+def regions(addrs):
+    """Parte las direcciones en módulos de <= CHUNK instrucciones."""
+    out = {}
+    cur, n, k = None, 0, 0
+    for a in sorted(addrs):
+        base = "bios" if a >= 0xC00000 else "p%02x" % (a >> 16)
+        if base != cur or n >= CHUNK:
+            if base != cur:
+                k = 0
+            name = "%s_%d" % (base, k)
+            k += 1
+            cur, n = base, 0
+            out[name] = []
+        out[name].append(a)
+        n += 1
+    return out
 
 
 def generate(out_dir, done, syms, dis):
     os.makedirs(out_dir, exist_ok=True)
-    by_region = {}
-    for a in sorted(done):
-        by_region.setdefault(region_of(a), []).append(a)
+    by_region = regions(done)
     for f in os.listdir(out_dir):
         if f.endswith(".rs"):
             os.remove(os.path.join(out_dir, f))
