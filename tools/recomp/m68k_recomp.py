@@ -784,9 +784,355 @@ def shift(cur, e, op):
         e("let cnt = cpu.d[%d] & 0x3F;" % cf)
         e("let r = do_shift_rotate(cpu, cpu.d[%d] & %s, cnt, %s, %d, %s);" % (reg, hx(M[size]), RS[size], kind, lr))
         ea_write(e, EA("dn", reg), size, "r")
-        e("cpu.pc = cpu.pc; ")
         return "6 + 2 * cnt"
     cnt = cf or 8
     e("let r = do_shift_rotate(cpu, cpu.d[%d] & %s, %d, %s, %d, %s);" % (reg, hx(M[size]), cnt, RS[size], kind, lr))
     ea_write(e, EA("dn", reg), size, "r")
     return 6 + 2 * cnt
+
+
+def line0(cur, e, op):
+    ccr_ops = {0x003C: "|", 0x023C: "&", 0x0A3C: "^"}
+    sr_ops = {0x007C: "|", 0x027C: "&", 0x0A7C: "^"}
+    if op in ccr_ops:
+        v = cur.fetch16() & 0x1F
+        o = ccr_ops[op]
+        e("cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) %s %s);" % (o, hx(v)))
+        return 20
+    if op in sr_ops:
+        v = cur.fetch16()
+        priv_check(e)
+        e("write_sr(cpu, cpu.sr.0 %s %s);" % (sr_ops[op], hx(v)))
+        return 20
+    if (op & 0xF138) == 0x0108:  # MOVEP
+        dn, an = (op >> 9) & 7, op & 7
+        opm = (op >> 6) & 7
+        lg, to_mem = bool(opm & 1), bool(opm & 2)
+        disp = u32(sx16(cur.fetch16()))
+        e("let a = cpu.a[%d].wrapping_add(%s);" % (an, hx(disp)))
+        if to_mem:
+            if lg:
+                e("let v = cpu.d[%d]; bus.write8(a, (v >> 24) as u8); bus.write8(a.wrapping_add(2), (v >> 16) as u8); bus.write8(a.wrapping_add(4), (v >> 8) as u8); bus.write8(a.wrapping_add(6), v as u8);" % dn)
+                return 24
+            e("let v = cpu.d[%d]; bus.write8(a, (v >> 8) as u8); bus.write8(a.wrapping_add(2), v as u8);" % dn)
+            return 16
+        if lg:
+            e("let b3 = bus.read8(a) as u32; let b2 = bus.read8(a.wrapping_add(2)) as u32; let b1 = bus.read8(a.wrapping_add(4)) as u32; let b0 = bus.read8(a.wrapping_add(6)) as u32;")
+            e("cpu.d[%d] = (b3 << 24) | (b2 << 16) | (b1 << 8) | b0;" % dn)
+            return 24
+        e("let b1 = bus.read8(a) as u32; let b0 = bus.read8(a.wrapping_add(2)) as u32;")
+        e("cpu.d[%d] = (cpu.d[%d] & 0xFFFF_0000) | (b1 << 8) | b0;" % (dn, dn))
+        return 16
+    if (op & 0xFF00) == 0x0800 or (op & 0xF100) == 0x0100:
+        if (op & 0xFF00) == 0x0800:
+            bit = str(cur.fetch16() & 0xFF)
+        else:
+            bit = "cpu.d[%d]" % ((op >> 9) & 7)
+        ea = EA.decode(cur, op & 0x3F, "b")
+        kind = (op >> 6) & 3
+        size = "l" if ea.is_reg() else "b"
+        mod = 32 if size == "l" else 8
+        e("let mk: u32 = 1u32 << ((%s) %% %d);" % (bit, mod))
+        if kind == 0:
+            v = ea_read(e, ea, size)
+            e("cpu.sr.set(StatusRegister::Z, %s & mk == 0);" % v)
+        else:
+            o = {1: "%s ^ mk", 2: "%s & !mk", 3: "%s | mk"}[kind]
+
+            def m(e, v):
+                t = e.tmp("r")
+                e("cpu.sr.set(StatusRegister::Z, %s & mk == 0);" % v)
+                e("let %s = %s;" % (t, o % v))
+                return t
+            ea_modify(e, ea, size, m)
+        return 8 + ea.cycles(size)
+    size = size2((op >> 6) & 3)
+    if size is None:
+        exc(e, "IllegalInstruction", 34)
+        return "dead"
+    if size == "l":
+        imm = cur.fetch32()
+    elif size == "w":
+        imm = cur.fetch16()
+    else:
+        imm = cur.fetch16() & 0xFF
+    ea = EA.decode(cur, op & 0x3F, size)
+    up = (op >> 8) & 0xF
+    I = hx(imm)
+    if up == 0xC:
+        v = ea_read(e, ea, size)
+        e("sub_with_flags(cpu, %s, %s, %s, false);" % (v, I, RS[size]))
+        return 8 + ea.cycles(size)
+    if up not in (0, 2, 4, 6, 0xA):
+        exc(e, "IllegalInstruction", 34)
+        return "dead"
+
+    def m(e, v):
+        t = e.tmp("r")
+        if up in (0, 2, 0xA):
+            o = {0: "|", 2: "&", 0xA: "^"}[up]
+            e("let %s = (%s %s %s) & %s;" % (t, v, o, I, hx(M[size])))
+            logic(e, t, size)
+        else:
+            fn = "sub_with_flags" if up == 4 else "add_with_flags"
+            e("let %s = %s(cpu, %s, %s, %s, true);" % (t, fn, v, I, RS[size]))
+        return t
+    # rmw_with_au: en registro = read/modify/write
+    ea_modify(e, ea, size, m)
+    return 8 + ea.cycles(size)
+
+
+def jump_ea_addr(e, ea):
+    """Dirección de control (jmp/jsr/lea/pea). None si el modo no vale."""
+    if ea.kind in ("dn", "an", "post", "pre", "imm"):
+        return None
+    return ea.addr(e, "l")
+
+
+def line4(cur, I, op, e):
+    if op == 0x4E71:
+        return 4
+    if op == 0x4E75:  # RTS
+        e("let r = cpu.pop32(bus); cpu.jump_to(r);")
+        I.falls = False
+        I.dynamic = True
+        return 16
+    if op == 0x4E73:  # RTE
+        priv_check(e)
+        e("let s = cpu.pop16(bus); let r = cpu.pop32(bus); write_sr(cpu, s); cpu.jump_to(r);")
+        I.falls = False
+        I.dynamic = True
+        return 20
+    if op == 0x4E77:  # RTR
+        e("let s = cpu.pop16(bus); let r = cpu.pop32(bus); cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | (s & 0x1F); cpu.jump_to(r);")
+        I.falls = False
+        I.dynamic = True
+        return 20
+    if op == 0x4E70:
+        priv_check(e)
+        return 132
+    if op == 0x4E72:  # STOP
+        v = cur.fetch16()
+        e("if !cpu.sr.supervisor() { cpu.pc = cpu.instr_pc; cpu.enter_exception(bus, Exception::PrivilegeViolation); return 34; }")
+        e("write_sr(cpu, %s); cpu.pc = cpu.instr_pc; cpu.stopped = true;" % hx(v))
+        I.falls = False
+        I.dynamic = True
+        return 4
+    if op == 0x4E76:
+        e("if cpu.sr.get(StatusRegister::V) { cpu.enter_exception(bus, Exception::TrapV); return 34; }")
+        return 4
+    if (op & 0xFFF0) == 0x4E40:  # TRAP
+        n = op & 0xF
+        e("let was = cpu.sr.supervisor(); if was { cpu.ssp = cpu.a[7]; } else { cpu.usp = cpu.a[7]; cpu.a[7] = cpu.ssp; }")
+        e("let old = cpu.sr.0; cpu.sr.set(StatusRegister::S, true); cpu.sr.set(StatusRegister::T, false);")
+        e("cpu.push32(bus, cpu.pc); cpu.push16(bus, old); cpu.pc = bus.read32(%s);" % hx(0x80 + 4 * n))
+        I.falls = False
+        I.dynamic = True
+        return 34
+    if (op & 0xFFF8) == 0x4E50:  # LINK
+        n = op & 7
+        d = u32(sx16(cur.fetch16()))
+        e("cpu.push32(bus, cpu.a[%d]); cpu.a[%d] = cpu.a[7]; cpu.a[7] = cpu.a[7].wrapping_add(%s);" % (n, n, hx(d)))
+        return 16
+    if (op & 0xFFF8) == 0x4E58:  # UNLK
+        n = op & 7
+        e("cpu.a[7] = cpu.a[%d]; let v = cpu.pop32(bus); cpu.a[%d] = v;" % (n, n))
+        return 12
+    if (op & 0xFFF0) == 0x4E60:  # MOVE USP
+        priv_check(e)
+        n = op & 7
+        if op & 8:
+            e("cpu.a[%d] = cpu.usp;" % n)
+        else:
+            e("cpu.usp = cpu.a[%d];" % n)
+        return 4
+    if (op & 0xFFF8) == 0x4840:  # SWAP
+        n = op & 7
+        e("cpu.d[%d] = cpu.d[%d].rotate_left(16);" % (n, n))
+        logic(e, "cpu.d[%d]" % n, "l")
+        return 4
+    if (op & 0xFFB8) == 0x4880:  # EXT
+        n = op & 7
+        if op & 0x40:
+            e("cpu.d[%d] = cpu.d[%d] as i16 as i32 as u32;" % (n, n))
+            logic(e, "cpu.d[%d]" % n, "l")
+        else:
+            e("let v = cpu.d[%d] as i8 as i16 as u16 as u32; cpu.d[%d] = (cpu.d[%d] & 0xFFFF_0000) | v;" % (n, n, n))
+            logic(e, "v", "w")
+        return 4
+    if (op & 0xFFC0) == 0x4EC0 or (op & 0xFFC0) == 0x4E80:  # JMP / JSR
+        is_jsr = (op & 0xFFC0) == 0x4E80
+        ea = EA.decode(cur, op & 0x3F, "l")
+        st = ea.static_addr()
+        a = jump_ea_addr(e, ea)
+        if a is None:
+            exc(e, "IllegalInstruction", 34)
+            I.falls = False
+            return "dead"
+        if is_jsr:
+            e("cpu.push32(bus, %s);" % hx(cur.pc))
+        if st is not None and not (st & 1):
+            I.targets.append(st)
+            e("cpu.pc = %s;" % hx(st))
+        else:
+            e("cpu.jump_to(%s);" % a)
+            I.dynamic = True
+        if not is_jsr:
+            I.falls = False
+        return 16 if is_jsr else 8
+    if (op & 0xF1C0) == 0x41C0:  # LEA
+        n = (op >> 9) & 7
+        ea = EA.decode(cur, op & 0x3F, "l")
+        a = jump_ea_addr(e, ea)
+        if a is None:
+            raise Unsupported("lea ea")
+        e("cpu.a[%d] = %s;" % (n, a))
+        return 4 + ea.cycles("l")
+    if (op & 0xFFC0) == 0x4840:  # PEA
+        ea = EA.decode(cur, op & 0x3F, "l")
+        a = jump_ea_addr(e, ea)
+        if a is None:
+            raise Unsupported("pea ea")
+        e("cpu.push32(bus, %s);" % a)
+        return 12 + ea.cycles("l")
+    if (op & 0xFF00) == 0x4A00:  # TST / TAS
+        size = size2((op >> 6) & 3)
+        if size:
+            ea = EA.decode(cur, op & 0x3F, size)
+            v = ea_read(e, ea, size)
+            logic(e, v, size)
+            return 4 + ea.cycles(size)
+        if op == 0x4AFC:
+            exc(e, "IllegalInstruction", 34)
+            I.falls = False
+            return "dead"
+        ea = EA.decode(cur, op & 0x3F, "b")
+        if ea.kind in ("an", "pcd", "pcidx", "imm"):
+            exc(e, "IllegalInstruction", 34)
+            I.falls = False
+            return "dead"
+
+        def m(e, v):
+            logic(e, v, "b")
+            t = e.tmp("r")
+            e("let %s = %s | 0x80;" % (t, v))
+            return t
+        ea_modify(e, ea, "b", m)
+        return 4 + ea.cycles("b")
+    unary = {0x4200: "clr", 0x4600: "not", 0x4400: "neg", 0x4000: "negx"}
+    if (op & 0xFF00) in unary and size2((op >> 6) & 3):
+        size = size2((op >> 6) & 3)
+        k = unary[op & 0xFF00]
+        ea = EA.decode(cur, op & 0x3F, size)
+        mk, sb = hx(M[size]), hx(SB[size])
+
+        def m(e, v):
+            t = e.tmp("r")
+            if k == "clr":
+                e("cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let %s: u32 = 0;" % t)
+            elif k == "not":
+                e("let %s = !%s & %s;" % (t, v, mk))
+                logic(e, t, size)
+            elif k == "neg":
+                e("let %s = 0u32.wrapping_sub(%s) & %s;" % (t, v, mk))
+                e("cpu.sr.set_nz(%s, %s); cpu.sr.set(StatusRegister::V, %s == %s); cpu.sr.set(StatusRegister::C, %s != 0); cpu.sr.set(StatusRegister::X, %s != 0);" % (t, RS[size], v, sb, v, v))
+            else:
+                e("let x = cpu.sr.get(StatusRegister::X) as u32; let %s = 0u32.wrapping_sub(%s).wrapping_sub(x) & %s;" % (t, v, mk))
+                e("let bw = %s != 0 || x != 0; let vf = (%s & %s) != 0 && (%s & %s) != 0;" % (v, v, sb, t, sb))
+                e("cpu.sr.set(StatusRegister::N, %s & %s != 0); if %s != 0 { cpu.sr.set(StatusRegister::Z, false); }" % (t, sb, t))
+                e("cpu.sr.set(StatusRegister::V, vf); cpu.sr.set(StatusRegister::C, bw); cpu.sr.set(StatusRegister::X, bw);")
+            return t
+        ea_modify(e, ea, size, m)
+        return 4 + ea.cycles(size)
+    if (op & 0xFFC0) == 0x4800:  # NBCD
+        ea = EA.decode(cur, op & 0x3F, "b")
+
+        def m(e, v):
+            t = e.tmp("r")
+            e("let x = cpu.sr.get(StatusRegister::X) as u8; let (r, carry, vf) = sbcd_calc(0, %s as u8, x);" % v)
+            e("if r != 0 { cpu.sr.set(StatusRegister::Z, false); } cpu.sr.set(StatusRegister::N, r & 0x80 != 0); cpu.sr.set(StatusRegister::V, vf); cpu.sr.set(StatusRegister::C, carry); cpu.sr.set(StatusRegister::X, carry);")
+            e("let %s = r as u32;" % t)
+            return t
+        ea_modify(e, ea, "b", m)
+        return 6 + ea.cycles("b")
+    if (op & 0xFFC0) == 0x46C0:  # MOVE to SR
+        ea = EA.decode(cur, op & 0x3F, "w")
+        priv_check(e)
+        v = ea_read(e, ea, "w")
+        e("write_sr(cpu, %s as u16);" % v)
+        return 12 + ea.cycles("w")
+    if (op & 0xFFC0) == 0x40C0:  # MOVE from SR
+        ea = EA.decode(cur, op & 0x3F, "w")
+        ea_modify(e, ea, "w", lambda e, v: "(cpu.sr.0 as u32)")
+        return 6 + ea.cycles("w")
+    if (op & 0xFFC0) == 0x44C0:  # MOVE to CCR
+        ea = EA.decode(cur, op & 0x3F, "w")
+        v = ea_read(e, ea, "w")
+        e("cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | (%s as u16 & 0x1F);" % v)
+        return 12 + ea.cycles("w")
+    if (op & 0xF1C0) == 0x4180:  # CHK
+        n = (op >> 9) & 7
+        ea = EA.decode(cur, op & 0x3F, "w")
+        v = ea_read(e, ea, "w")
+        e("let bd = %s as u16 as i16 as i32; let vv = cpu.d[%d] as u16 as i16 as i32;" % (v, n))
+        e("cpu.sr.set(StatusRegister::Z, false); cpu.sr.set(StatusRegister::V, false); cpu.sr.set(StatusRegister::C, false);")
+        e("if vv < 0 { cpu.sr.set(StatusRegister::N, true); cpu.enter_exception(bus, Exception::Chk); return 40; }")
+        e("if vv > bd { cpu.sr.set(StatusRegister::N, false); cpu.enter_exception(bus, Exception::Chk); return 40; }")
+        e("cpu.sr.set(StatusRegister::N, false);")
+        return 10 + ea.cycles("w")
+    if (op & 0xFB80) == 0x4880:  # MOVEM
+        return movem(cur, e, op)
+    exc(e, "IllegalInstruction", 34)
+    I.falls = False
+    return "dead"
+
+
+def movem(cur, e, op):
+    dr = bool(op & 0x400)
+    size = "l" if op & 0x40 else "w"
+    mask = cur.fetch16()
+    mode, reg = (op >> 3) & 7, op & 7
+    regs = [i for i in range(16) if (mask >> i) & 1]
+
+    def R(i):
+        return "cpu.d[%d]" % i if i < 8 else "cpu.a[%d]" % (i - 8)
+    if not dr:
+        if mode == 4:  # -(An): máscara invertida, An se confirma al final
+            e("let mut a = cpu.a[%d];" % reg)
+            for i in regs:
+                r = 15 - i
+                if size == "l":
+                    e("let v = %s; bus.write16(a.wrapping_sub(2), v as u16); bus.write16(a.wrapping_sub(4), (v >> 16) as u16); a = a.wrapping_sub(4);" % R(r))
+                else:
+                    e("a = a.wrapping_sub(2); bus.write16(a, %s as u16);" % R(r))
+            e("cpu.a[%d] = a;" % reg)
+        else:
+            ea = EA.decode(cur, op & 0x3F, size)
+            if ea.kind in ("dn", "an", "post", "imm", "pcd", "pcidx"):
+                raise Unsupported("movem r->m ea")
+            a0 = ea.addr(e, size)
+            e("let mut a = %s;" % a0)
+            for i in regs:
+                if size == "l":
+                    e("bus.write32(a, %s); a = a.wrapping_add(4);" % R(i))
+                else:
+                    e("bus.write16(a, %s as u16); a = a.wrapping_add(2);" % R(i))
+            e("let _ = a;")
+    else:
+        if mode == 3:
+            e("let mut a = cpu.a[%d];" % reg)
+        else:
+            ea = EA.decode(cur, op & 0x3F, size)
+            if ea.kind in ("dn", "an", "pre", "imm"):
+                raise Unsupported("movem m->r ea")
+            e("let mut a = %s;" % ea.addr(e, size))
+        for i in regs:
+            if size == "l":
+                e("%s = bus.read32(a); a = a.wrapping_add(4);" % R(i))
+            else:
+                e("%s = bus.read16(a) as i16 as i32 as u32; a = a.wrapping_add(2);" % R(i))
+        if mode == 3:
+            e("cpu.a[%d] = a;" % reg)
+        else:
+            e("let _ = a;")
+    return 20
