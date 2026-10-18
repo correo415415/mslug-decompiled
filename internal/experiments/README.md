@@ -24,6 +24,7 @@ bash scripts/apply_patch.sh --undo                                 # restaurar f
 | [07 flags de depuración](07_debug_flags.md) | `scripts/apply_patch.sh debug=HHHH` | ✅ emulador (`$100000=0008` en partida) |
 | [08 empezar en otra misión](08_mission_select.md) | `scripts/apply_patch.sh mission=N` | ✅ emulador (banners de las misiones 2..6) |
 | [09 auditoría de funciones ocultas](09_hidden_features_audit.md) | `apply_patch.sh` boot=soundtest/ending, ending=jp/intl, blood/no-blood, screennuke(-b), warpkeys, asserts-off, fix-input-bug, fix-deadstore, debug-hud/debugcoll/altjump/slughud (tabla al final del 09) | ✅ emulador (sound test, final, BLOOD, HUD debug, ScreenNuke, WarpKeys) |
+| [10 trayectoria de cámara](10_camera_track.md) | `tools/dev/camera_log.py` | ✅ M1/M4/M5 medidas; offset Y+16 respecto a `levels.camera_track` |
 | [05 ideas / mapa de RAM](05_ram_map_and_ideas.md) | — | notas |
 
 Herramientas del emulador parcheado (solo `internal/pydmg`):

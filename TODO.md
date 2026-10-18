@@ -70,7 +70,7 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Fondos: scroll vertical (aproximado) — `*_scroll.png` de 320x224 por
       ventana con la Y de cámara deducida de las capas de cam0 (levels.camera_track,
       movimiento mínimo) y cada capa desplazada Y*escala_y/256.
-- [ ] Fondos: la trayectoria exacta de la cámara (ops $0F/$15 en orden de
+- [ ] Fondos: trayectoria real medida en M1/M4/M5 (receta 10: $106F50/$106F54, pantalla = Y+16); falta aplicarla en levels.py y medir M2/M3/M6. Antes: la trayectoria exacta de la cámara (ops $0F/$15 en orden de
       ejecución y seguimiento del jugador) y las capas que la cámara recicla a
       mitad de misión (huecos negros en `*_scroll.png`).
       Notas 2026-10-17: en el emulador (parche invincible + derecha) $106F6C y
