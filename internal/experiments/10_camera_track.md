@@ -4,7 +4,11 @@ Receta: `mission=N invincible bombs-infinite` + `tools/dev/emu_input.py` (derech
 
 * `$106F50` = X de cámara 16.16, `$106F54` = Y 16.16, `$106ECE` = escena (M1→0, M2→1, M3→3, M4→2, M5→4, M6→5).
 * **Corrección para `assets/tools/levels.py`**: al renderizar una ventana con las capas en (X, Y) de la RAM, el mejor ajuste píxel a píxel contra la captura es **(X−4…−8, Y+16)** en 5 frames de M1 (Y = $90, $55, $20): la pantalla visible empieza 16 líneas por debajo de la Y de cámara. `camera_track` estimaba Y = 192 → 80 en M1; la real es 144 → 32 (= estimación − 48) y el ascenso empieza en X≈3200, no ≈3500.
-* M2, M3 y M6: con este guion el jugador se atasca al principio (M2/M3 son de scroll vertical; M6 sólo llega a X=256); falta un guion de entrada específico.
+* M2, M3 y M6 (segunda pasada, guion con izquierda/derecha alternas, granadas cada 4 pulsos y salto):
+  * **M3** (escena 03, scroll vertical: X=0, Y $430 → $3B0, sube) y luego pasa a la **escena 04** (tramo horizontal Y=0 hasta X≥1309).
+  * **M6** (escena 05): Y=0, X 0 → 994; el avance se bloquea en X≈$102 hasta matar la oleada (frame 8700).
+  * **M2** (escena 01): bloqueada en X=$32, Y=$140 por el soldado del escudo (no se le vence con este guion).
+* Las trayectorias se guardan en `assets/tools/camera_tracks.json`; `levels.py` las usa (con Y + 16) para `*_scroll.png` de las escenas 00, 02, 04 y 05 (`track_source` en levels.json) y recurre a `camera_track` (estimada) en el resto.
 
 ## M1 (escena 00)
 ```

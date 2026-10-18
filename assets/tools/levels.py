@@ -215,6 +215,25 @@ def camera_track(entries, step=SCREEN_W // 4):
     return pts
 
 
+def measured_track(scene_idx):
+    """Trayectoria real medida en emulador (assets/tools/camera_tracks.json,
+    receta internal/experiments/10) para escenas de scroll horizontal:
+    [(x, y_pantalla)] con y_pantalla = Y de cámara + screen_y_offset, o None
+    si no hay medida (o la escena es de scroll vertical: X constante)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "camera_tracks.json")
+    if not os.path.exists(path):
+        return None
+    d = json.load(open(path))
+    pts = d["scenes"].get("%02d" % scene_idx)
+    if not pts or len({x for x, _ in pts}) < 4:
+        return None
+    off = d.get("screen_y_offset", 0)
+    best = {}
+    for x, y in pts:                      # x monótona: conserva el 1er paso
+        best.setdefault(x, y + off)
+    return sorted(best.items())
+
+
 def compose_scroll(scene_entries, images, track):
     """Como compose_parallax pero con scroll vertical: cada ventana de
     SCREEN_W x SCREEN_H se recorta a la Y de la cámara en ese X (track de
@@ -328,12 +347,16 @@ def main():
                 pim.save(os.path.join(OUT, "composed", pname))
                 composed.setdefault(sname, []).append(dict(file="composed/" + pname, camera="all",
                                                            origin=porg, size=pim.size))
-                track = camera_track(entries)
+                track = measured_track(i)
+                track_src = "medida (pydmg)" if track else "estimada"
+                if track is None:
+                    track = camera_track(entries)
                 sim = compose_scroll(entries, images, track)
                 sname2 = "%s_scroll.png" % sname
                 sim.save(os.path.join(OUT, "composed", sname2))
                 composed.setdefault(sname, []).append(dict(
                     file="composed/" + sname2, camera="all+scrollY", origin=porg, size=sim.size,
+                    track_source=track_src,
                     track=[list(t) for t in track]))
             for cam, (im, org) in compose(entries, images).items():
                 cname = "%s_%s_full.png" % (sname, cam)

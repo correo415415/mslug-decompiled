@@ -17,6 +17,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- assets/tools/camera_tracks.json: measured camera tracks (scenes 00/02/03/04/05); levels.py uses them (Y+16) for `*_scroll.png` when available (`track_source` in levels.json).
 - internal/experiments/10 + tools/dev/camera_log.py: real camera trajectory of M1/M4/M5 from pydmg ($106F50/$106F54); screen = camera Y + 16; levels.camera_track is 48 px off in M1.
 - pydmg: `--input-script-p2` (same format as `--input-script`, P2 controller). Sound test P2 branch verified: P2 A..D send the selected code to the Z80 (audio vs silence).
 - apply_patch.sh: one reproducible patch per hidden feature — blood / no-blood, ending=jp|intl, screennuke / screennuke-b, warpkeys (3 changes: demo table $2DF442[1] -> Level2Script, $10E39D guard 2->1, rts->nop so JumpIfBlocked falls into DebugWarpKeys; D+B zeroes the mission timer, verified), asserts-off (92 trap #15 -> nop, exactly 92 bytes), fix-input-bug, fix-deadstore, aliases debug-hud / debugcoll / altjump / slughud; tools/dev/patch_zip.sh. Patch table at the end of internal/experiments/09.
