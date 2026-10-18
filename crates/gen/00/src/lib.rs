@@ -5,8 +5,7 @@ pub type InsFn = fn(&mut neogeo_hw::cpu::m68k::Cpu, &mut neogeo_hw::NeoGeoBus) -
 pub mod bios_0;
 pub mod bios_1;
 pub mod bios_2;
-pub mod p00_0;
-pub mod p00_1;
+pub mod bios_3;
 
-pub const TABLES: &[&[(u32, InsFn)]] = &[bios_0::TABLE, bios_1::TABLE, bios_2::TABLE, p00_0::TABLE, p00_1::TABLE];
-pub const COUNT: usize = 5958;
+pub const TABLES: &[&[(u32, InsFn)]] = &[bios_0::TABLE, bios_1::TABLE, bios_2::TABLE, bios_3::TABLE];
+pub const COUNT: usize = 6000;

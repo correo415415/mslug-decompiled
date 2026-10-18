@@ -1239,6 +1239,79 @@ def seeds_from(mem, trace, extra):
 
 REGISTRY_SEEDS = False
 
+# Neo Geo: puntos de entrada fijos de la cabecera del cartucho que llama la
+# BIOS (USER, PLAYER_START, DEMO_END, COIN_SOUND): `jmp` en $122..$134.
+HEADER_ENTRIES = (0x122, 0x128, 0x12E, 0x134)
+
+
+def prom_off_to_cpu(o):
+    """Offset en la P-ROM (vista de la decompilación, 2 MiB) -> dirección CPU."""
+    return o if o < 0x100000 else 0x200000 + (o - 0x100000)
+
+
+def load_decomp_code():
+    """Inicios de instrucción según la decompilación (tools/export_code_map.py
+    del repositorio de la decompilación -> tools/recomp/decomp_code.bin)."""
+    p = os.path.join(HERE, "decomp_code.bin")
+    bits = open(p, "rb").read()
+    out = set()
+    for i, b in enumerate(bits):
+        if b:
+            for k in range(8):
+                if (b >> k) & 1:
+                    out.add(prom_off_to_cpu((i * 8 + k) * 2))
+    return out
+
+
+def static_seeds(mem, code):
+    """Semillas de la recompilación estática pura: TODAS las instrucciones de
+    la decompilación + vectores (68000 del cartucho y de la BIOS) + cabecera.
+    No se usa ninguna traza ni ejecución del juego."""
+    s = set(code)
+    for base, blob in ((0xC00000, mem.bios), (0, mem.prom)):
+        for v in range(1, 64):
+            a = struct.unpack_from(">I", blob, v * 4)[0] & 0xFFFFFF
+            if not (a & 1) and mem.valid(a):
+                s.add(a)
+    s |= set(HEADER_ENTRIES)
+    s |= bios_static_seeds(mem)
+    return s
+
+
+def bios_static_seeds(mem):
+    """La BIOS no está decompilada: sus entradas se obtienen estáticamente.
+      * tabla de llamadas $C00402.. (jmp abs.l cada 6 bytes, documentada en el
+        SDK de Neo Geo: SYSTEM_RETURN, SYSTEM_IO, FIX_CLEAR, ...)
+      * todo long alineado de la BIOS o de la P-ROM cuyo valor caiga en la
+        BIOS (punteros a rutinas / tablas de saltos). Un falso positivo sólo
+        añade funciones que nunca se llaman."""
+    s = set()
+    b = mem.bios
+    for o in range(0x402, 0x500, 6):
+        if struct.unpack_from(">H", b, o)[0] == 0x4EF9:
+            s.add(struct.unpack_from(">I", b, o + 2)[0] & 0xFFFFFF)
+    for blob in (b, mem.prom):
+        for o in range(0, len(blob) - 3, 2):
+            v = struct.unpack_from(">I", blob, o)[0]
+            if 0xC00000 <= v < 0xC20000 and not (v & 1):
+                s.add(v)
+    # Tablas de saltos en línea (`movea.l tbl(pc,dN),a0; jmp (a0)` seguido de
+    # N punteros): el código continúa justo detrás de la tabla.
+    o = 0
+    while o < len(b) - 3:
+        n = 0
+        while o + 4 * n < len(b) - 3:
+            v = struct.unpack_from(">I", b, o + 4 * n)[0]
+            if not (0xC00000 <= v < 0xC20000) or v & 1:
+                break
+            n += 1
+        if n >= 2:
+            s.add(0xC00000 + o + 4 * n)
+            o += 4 * n
+        else:
+            o += 2
+    return s
+
 
 def discover(mem, seeds):
     done = {}
@@ -1428,11 +1501,18 @@ def main():
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--registry-seeds", action="store_true",
                     help="usar también las entradas de función de la decompilación como semillas")
+    ap.add_argument("--static", action="store_true",
+                    help="recompilación estática pura: el código sale de la decompilación "
+                         "(tools/recomp/decomp_code.bin), sin trazas ni seeds.txt")
+    ap.add_argument("--bios-trace", action="store_true",
+                    help="con --static: usar la traza sólo para la BIOS (no decompilada)")
     a = ap.parse_args()
     global REGISTRY_SEEDS
     REGISTRY_SEEDS = a.registry_seeds
     prom = open(os.path.join(a.build, "prom.bin"), "rb").read()
     bios = open(os.path.join(a.build, "bios.bin"), "rb").read()
+    if a.static:
+        return main_static(a, Mem(prom, bios))
     trace = open(os.path.join(a.build, "trace.bin"), "rb").read()
     extra = set()
     sp = os.path.join(HERE, "seeds.txt")
@@ -1450,6 +1530,66 @@ def main():
           % (len(seeds), len(done), len(bad), len(bad_traced)))
     for s, why in sorted(bad_traced.items())[:40]:
         print("  !! $%06X %s" % (s, why))
+    if a.report:
+        return
+    dis = disasm_all(mem, done.keys())
+    generate(a.out, done, load_syms(), dis)
+    print("-> %s" % a.out)
+
+
+def main_static(a, mem):
+    code = load_decomp_code()
+    seeds = static_seeds(mem, code)
+    if a.bios_trace:
+        tp = os.path.join(a.build, "trace.bin")
+        trace = open(tp, "rb").read()
+        for i, b in enumerate(trace):
+            if b:
+                for k in range(8):
+                    if (b >> k) & 1:
+                        x = (i * 8 + k) * 2
+                        if x >= 0xC00000:
+                            seeds.add(x)
+    done, bad = discover(mem, seeds)
+    # BIOS (no decompilada): barrido lineal. Tras cada instrucción que no
+    # continúa (rts/jmp/bra/rte) se prueba la dirección siguiente como
+    # semilla, hasta que no aparezca código nuevo.
+    for _ in range(8):
+        more = set()
+        for x, I in done.items():
+            if x >= 0xC00000 and not I.falls and I.next is not None \
+                    and I.next not in done and I.next not in bad and I.next < 0xC20000:
+                more.add(I.next)
+        if not more:
+            break
+        d2, b2 = discover(mem, more)
+        for k, v in d2.items():
+            done.setdefault(k, v)
+        for k, v in b2.items():
+            if k not in done:
+                bad.setdefault(k, v)
+    bad = {k: v for k, v in bad.items() if k < 0xC00000 or k in seeds}
+    rom = {x for x in done if x < 0x300000}
+    extra = sorted(x for x in rom if x not in code and x not in HEADER_ENTRIES)
+    missing = sorted(x for x in code if x not in done)
+    print("estática: %d instrucciones de la decompilación, %d traducidas en total "
+          "(P-ROM %d, BIOS %d), no traducibles %d"
+          % (len(code), len(done), len(rom), len(done) - len(rom), len(bad)))
+    print("  alcanzadas por saltos estáticos fuera del mapa de la decompilación: %d" % len(extra))
+    for x in extra[:20]:
+        print("    $%06X" % x)
+    print("  instrucciones de la decompilación sin traducir: %d" % len(missing))
+    for x in missing[:20]:
+        print("    $%06X %s" % (x, bad.get(x, "")))
+    rep = os.path.join(a.build, "static_report.txt")
+    os.makedirs(a.build, exist_ok=True)
+    with open(rep, "w") as f:
+        f.write("# fuera del mapa de la decompilación (destinos estáticos)\n")
+        for x in extra:
+            f.write("%06X\n" % x)
+        f.write("# no traducibles\n")
+        for x, why in sorted(bad.items()):
+            f.write("%06X %s\n" % (x, why))
     if a.report:
         return
     dis = disasm_all(mem, done.keys())

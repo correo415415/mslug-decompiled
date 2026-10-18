@@ -177,4 +177,31 @@ incremental = false
 
 [profile.dev.package.mslug-gen-17]
 opt-level = 0
+
+[profile.release.package.mslug-gen-18]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-18]
+opt-level = 0
+
+[profile.release.package.mslug-gen-19]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-19]
+opt-level = 0
+
+[profile.release.package.mslug-gen-20]
+opt-level = 1
+codegen-units = 16
+debug = false
+incremental = false
+
+[profile.dev.package.mslug-gen-20]
+opt-level = 0
 # <<< GENERADO

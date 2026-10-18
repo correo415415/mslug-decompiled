@@ -28,4 +28,7 @@ mslug-gen-14 = { path = "../gen/14" }
 mslug-gen-15 = { path = "../gen/15" }
 mslug-gen-16 = { path = "../gen/16" }
 mslug-gen-17 = { path = "../gen/17" }
+mslug-gen-18 = { path = "../gen/18" }
+mslug-gen-19 = { path = "../gen/19" }
+mslug-gen-20 = { path = "../gen/20" }
 # <<< GENERADO
