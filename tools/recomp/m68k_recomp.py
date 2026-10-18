@@ -1136,3 +1136,223 @@ def movem(cur, e, op):
         else:
             e("let _ = a;")
     return 20
+
+
+# ---------------------------------------------------------------------------
+# Post-proceso: Rust no permite `f(cpu, cpu.d[0])` (préstamo mutable + lectura)
+# -> se sacan a `let` los argumentos que leen `cpu.`
+# ---------------------------------------------------------------------------
+import re
+
+HOIST_RE = re.compile(r"\b(add_with_flags|sub_with_flags|addx_with_flags|subx_with_flags|do_shift_rotate|write_sr)\(cpu, ")
+
+
+def split_args(s, i):
+    """s[i:] empieza tras '(' ; devuelve (lista_args, índice del ')')."""
+    depth, cur, out = 0, "", []
+    while i < len(s):
+        c = s[i]
+        if c in "([{":
+            depth += 1
+        elif c in ")]}":
+            if depth == 0:
+                out.append(cur)
+                return out, i
+            depth -= 1
+        if c == "," and depth == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += c
+        i += 1
+    raise ValueError(s)
+
+
+def hoist(lines):
+    out = []
+    n = 0
+    for ln in lines:
+        while True:
+            m = None
+            for mm in HOIST_RE.finditer(ln):
+                args, end = split_args(ln, mm.end())
+                if any("cpu." in a for a in args):
+                    m = (mm, args, end)
+                    break
+            if not m:
+                break
+            mm, args, end = m
+            new = []
+            for a in args:
+                if "cpu." in a:
+                    n += 1
+                    out.append("let h%d = %s;" % (n, a.strip()))
+                    new.append("h%d" % n)
+                else:
+                    new.append(a.strip())
+            ln = ln[:mm.end()] + ", ".join(new) + ln[end:]
+        out.append(ln)
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Descubrimiento + generación
+# ---------------------------------------------------------------------------
+def load_syms():
+    syms = {}
+    p = os.path.join(HERE, "symbols.tsv")
+    if os.path.exists(p):
+        for ln in open(p):
+            if ln.startswith("#"):
+                continue
+            a, sz, name, f = ln.rstrip("\n").split("\t")
+            syms[int(a, 16)] = (name, int(sz), f)
+    return syms
+
+
+def seeds_from(mem, trace, extra):
+    s = set()
+    for i, b in enumerate(trace):
+        if b:
+            for k in range(8):
+                if (b >> k) & 1:
+                    s.add((i * 8 + k) * 2)
+    # vectores de la BIOS y del cartucho
+    for base, blob in ((0xC00000, mem.bios), (0, mem.prom)):
+        for v in range(1, 64):
+            a = struct.unpack_from(">I", blob, v * 4)[0] & 0xFFFFFF
+            if not (a & 1) and mem.valid(a):
+                s.add(a)
+    s |= extra
+    return s
+
+
+def discover(mem, seeds):
+    done = {}
+    bad = {}
+    work = sorted(seeds, reverse=True)
+    while work:
+        a = work.pop()
+        if a in done or a in bad or (a & 1) or not mem.valid(a):
+            continue
+        try:
+            I = translate(mem, a)
+        except Unsupported as ex:
+            bad[a] = str(ex)
+            continue
+        except struct.error:
+            bad[a] = "fuera de rango"
+            continue
+        done[a] = I
+        for t in I.targets:
+            work.append(t)
+        if I.falls and I.next is not None:
+            work.append(I.next)
+    return done, bad
+
+
+def disasm_all(mem, addrs):
+    try:
+        from capstone import Cs, CS_ARCH_M68K, CS_MODE_M68K_000
+    except ImportError:
+        return {}
+    md = Cs(CS_ARCH_M68K, CS_MODE_M68K_000)
+    out = {}
+    for a in addrs:
+        try:
+            raw = b"".join(struct.pack(">H", mem.r16(a + 2 * k)) for k in range(5))
+        except Exception:
+            continue
+        ins = next(md.disasm(raw, a), None)
+        if ins:
+            out[a] = ("%s %s" % (ins.mnemonic, ins.op_str)).strip()
+    return out
+
+
+HEADER = """// GENERADO por tools/recomp/m68k_recomp.py — no editar a mano.
+// Programa 68000 de Metal Slug (región {region}) traducido a Rust,
+// una función por instrucción: misma semántica y mismos ciclos que la CPU.
+#![allow(unused_variables, unused_mut, unused_parens, unused_assignments, unused_imports, clippy::all)]
+use neogeo_hw::cpu::m68k::{{Bus, Condition, Cpu, Exception, Size, StatusRegister}};
+use neogeo_hw::cpu::m68k::exec::*;
+use neogeo_hw::NeoGeoBus as B;
+
+"""
+
+
+def region_of(a):
+    if a >= 0xC00000:
+        return "bios"
+    return "p%02x" % (a >> 16)
+
+
+def generate(out_dir, done, syms, dis):
+    os.makedirs(out_dir, exist_ok=True)
+    by_region = {}
+    for a in sorted(done):
+        by_region.setdefault(region_of(a), []).append(a)
+    for f in os.listdir(out_dir):
+        if f.endswith(".rs"):
+            os.remove(os.path.join(out_dir, f))
+    sym_starts = {a: v for a, v in syms.items()}
+    for reg, addrs in by_region.items():
+        lines = [HEADER.format(region=reg)]
+        for a in addrs:
+            I = done[a]
+            if a in sym_starts:
+                n, sz, f = sym_starts[a]
+                lines.append("// ===== %s  ($%06X, %d B, %s)" % (n, a, sz, f))
+            lines.append("/// $%06X: %s" % (a, dis.get(a, "?")))
+            lines.append("pub fn i_%06x(cpu: &mut Cpu, bus: &mut B) -> u32 {" % a)
+            for ln in hoist(I.body):
+                lines.append("    " + ln)
+            lines.append("}")
+        lines.append("")
+        lines.append("pub const TABLE: &[(u32, crate::InsFn)] = &[")
+        for a in addrs:
+            lines.append("    (0x%06X, i_%06x)," % (a, a))
+        lines.append("];")
+        open(os.path.join(out_dir, reg + ".rs"), "w").write("\n".join(lines) + "\n")
+    mods = sorted(by_region)
+    m = ["// GENERADO por tools/recomp/m68k_recomp.py — no editar a mano.\n"]
+    for r in mods:
+        m.append("pub mod %s;" % r)
+    m.append("\npub const TABLES: &[&[(u32, crate::InsFn)]] = &[%s];" % ", ".join("%s::TABLE" % r for r in mods))
+    m.append("pub const COUNT: usize = %d;" % len(done))
+    open(os.path.join(out_dir, "mod.rs"), "w").write("\n".join(m) + "\n")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--build", default=os.path.join(ROOT, "build", "recomp"))
+    ap.add_argument("--out", default=os.path.join(ROOT, "crates", "mslug-code", "src", "gen"))
+    ap.add_argument("--report", action="store_true")
+    a = ap.parse_args()
+    prom = open(os.path.join(a.build, "prom.bin"), "rb").read()
+    bios = open(os.path.join(a.build, "bios.bin"), "rb").read()
+    trace = open(os.path.join(a.build, "trace.bin"), "rb").read()
+    extra = set()
+    sp = os.path.join(HERE, "seeds.txt")
+    if os.path.exists(sp):
+        for ln in open(sp):
+            ln = ln.split("#")[0].strip()
+            if ln:
+                extra.add(int(ln, 16))
+    mem = Mem(prom, bios)
+    seeds = seeds_from(mem, trace, extra)
+    done, bad = discover(mem, seeds)
+    traced = {s for s in seeds if s in done}
+    bad_traced = {s: bad[s] for s in seeds if s in bad and s not in extra}
+    print("semillas %d, instrucciones traducidas %d, no traducibles %d (de la traza: %d)"
+          % (len(seeds), len(done), len(bad), len(bad_traced)))
+    for s, why in sorted(bad_traced.items())[:40]:
+        print("  !! $%06X %s" % (s, why))
+    if a.report:
+        return
+    dis = disasm_all(mem, done.keys())
+    generate(a.out, done, load_syms(), dis)
+    print("-> %s" % a.out)
+
+
+if __name__ == "__main__":
+    main()

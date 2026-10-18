@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/neogeo-hw", "crates/mslug"]
+members = ["crates/neogeo-hw", "crates/mslug-code", "crates/mslug"]
 
 [profile.release]
 opt-level = 3
