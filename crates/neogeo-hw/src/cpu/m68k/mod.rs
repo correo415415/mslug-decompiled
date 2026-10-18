@@ -22,8 +22,8 @@
 
 pub mod bus;
 pub mod cpu;
-mod ea;
-mod exec;
+pub mod ea;
+pub mod exec;
 
 pub use bus::{Bus, FlatBus};
 pub use cpu::{Condition, Cpu, Exception, Size, StatusRegister};

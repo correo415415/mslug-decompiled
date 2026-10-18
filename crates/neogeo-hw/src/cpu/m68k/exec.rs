@@ -239,7 +239,7 @@ fn move_family<B: Bus>(cpu: &mut Cpu, bus: &mut B, op: u16, size: Size) -> u32 {
     4 + src.cycles(size) + dst.cycles(size)
 }
 
-fn swap_dst(b: u16) -> u16 {
+pub fn swap_dst(b: u16) -> u16 {
     let reg = (b >> 3) & 0x7;
     let mode = b & 0x7;
     (mode << 3) | reg
@@ -751,7 +751,7 @@ fn misc_family<B: Bus>(cpu: &mut Cpu, bus: &mut B, op: u16) -> u32 {
     34
 }
 
-fn size_from_bits67(op: u16) -> Option<Size> {
+pub fn size_from_bits67(op: u16) -> Option<Size> {
     match (op >> 6) & 0x3 {
         0 => Some(Size::Byte),
         1 => Some(Size::Word),
@@ -760,7 +760,7 @@ fn size_from_bits67(op: u16) -> Option<Size> {
     }
 }
 
-fn write_sr(cpu: &mut Cpu, new_sr: u16) {
+pub fn write_sr(cpu: &mut Cpu, new_sr: u16) {
     // 68000 SR valid bits: T, S, interrupt mask, XNZVC.
     // Reserved bits must read back as zero.
     let new_sr = new_sr & 0xA71F;
@@ -1551,7 +1551,7 @@ fn sbcd<B: Bus>(cpu: &mut Cpu, bus: &mut B, op: u16) -> u32 {
     if rm { 18 } else { 6 }
 }
 
-fn abcd_calc(dst: u8, src: u8, x: u8) -> (u8, bool, bool) {
+pub fn abcd_calc(dst: u8, src: u8, x: u8) -> (u8, bool, bool) {
     // MAME's `alu_abcd8` semantics.
     let a = src as u16;
     let b = dst as u16;
@@ -1574,7 +1574,7 @@ fn abcd_calc(dst: u8, src: u8, x: u8) -> (u8, bool, bool) {
 #[allow(dead_code)]
 fn _bcd_marker() {}
 
-fn sbcd_calc(dst: u8, src: u8, x: u8) -> (u8, bool, bool) {
+pub fn sbcd_calc(dst: u8, src: u8, x: u8) -> (u8, bool, bool) {
     // MAME's `alu_sbcd8` semantics. Use u16-wide arithmetic so the
     // carry/borrow detection (`r & 0x300`) sees bits 8/9 the same way
     // MAME does.
@@ -1641,7 +1641,7 @@ fn mem_shift_rotate<B: Bus>(cpu: &mut Cpu, bus: &mut B, op: u16) -> u32 {
     8 + ea.cycles(Size::Word)
 }
 
-fn do_shift_rotate(cpu: &mut Cpu, mut v: u32, count: u32, size: Size, kind: u8, left: bool) -> u32 {
+pub fn do_shift_rotate(cpu: &mut Cpu, mut v: u32, count: u32, size: Size, kind: u8, left: bool) -> u32 {
     let mask = size.mask();
     let sign = size.sign_bit();
     let bits = size.bits();
