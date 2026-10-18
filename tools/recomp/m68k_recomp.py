@@ -1224,7 +1224,20 @@ def seeds_from(mem, trace, extra):
             if not (a & 1) and mem.valid(a):
                 s.add(a)
     s |= extra
+    # Entradas de función de la decompilación (tools/registry.py): código
+    # conocido aunque la traza no lo haya ejecutado. Sólo regiones de código
+    # (< $9C608) y no los ficheros de datos.
+    # (Desactivado por defecto: el registro también contiene islas de datos
+    # dentro de ficheros de código; ver --registry-seeds.)
+    if REGISTRY_SEEDS:
+        for a, (name, sz, f) in load_syms().items():
+            if a < 0x9C608 and not f.startswith("data/") and not (a & 1) \
+                    and not re.search(r"Str|Tbl|Table|Data|Glyph|Ptr|Pal|Sprite|Anim|Script|Tpl|Zero|JT", name):
+                s.add(a)
     return s
+
+
+REGISTRY_SEEDS = False
 
 
 def discover(mem, seeds):
@@ -1340,7 +1353,11 @@ def main():
     ap.add_argument("--build", default=os.path.join(ROOT, "build", "recomp"))
     ap.add_argument("--out", default=os.path.join(ROOT, "crates", "mslug-code", "src", "gen"))
     ap.add_argument("--report", action="store_true")
+    ap.add_argument("--registry-seeds", action="store_true",
+                    help="usar también las entradas de función de la decompilación como semillas")
     a = ap.parse_args()
+    global REGISTRY_SEEDS
+    REGISTRY_SEEDS = a.registry_seeds
     prom = open(os.path.join(a.build, "prom.bin"), "rb").read()
     bios = open(os.path.join(a.build, "bios.bin"), "rb").read()
     trace = open(os.path.join(a.build, "trace.bin"), "rb").read()
