@@ -1,0 +1,19 @@
+[package]
+name = "mslug-sdl"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Metal Slug (port 1:1): frontend SDL2 con ventana, sonido y mandos"
+
+[[bin]]
+name = "mslug-sdl"
+path = "src/main.rs"
+
+[dependencies]
+neogeo-hw = { path = "../neogeo-hw" }
+mslug-code = { path = "../mslug-code" }
+anyhow = "1.0"
+log = "0.4"
+env_logger = "0.11"
+clap = { version = "4", features = ["derive"] }
+sdl2 = "0.38"
