@@ -327,3 +327,272 @@ def ea_modify(e, ea, size, fn):
     v = rd(e, a, size)
     n = fn(e, v)
     wr(e, a, size, n)
+
+
+# ---------------------------------------------------------------------------
+# Traducción de una instrucción (espejo de exec.rs)
+# ---------------------------------------------------------------------------
+COND = ["True", "False", "Hi", "Ls", "Cc", "Cs", "Ne", "Eq",
+        "Vc", "Vs", "Pl", "Mi", "Ge", "Lt", "Gt", "Le"]
+
+
+class Cur:
+    def __init__(self, mem, pc):
+        self.mem = mem
+        self.start = pc
+        self.pc = pc
+
+    def fetch16(self):
+        v = self.mem.r16(self.pc)
+        self.pc = (self.pc + 2) & 0xFFFFFFFF
+        return v
+
+    def fetch32(self):
+        hi = self.fetch16()
+        lo = self.fetch16()
+        return (hi << 16) | lo
+
+
+class Ins:
+    """Resultado: cuerpo Rust + flujo de control estático."""
+
+    def __init__(self, addr):
+        self.addr = addr
+        self.e = Emit()
+        self.next = None        # dirección de la siguiente instrucción (fallthrough)
+        self.targets = []       # destinos estáticos (saltos / llamadas)
+        self.falls = True       # ¿puede continuar en self.next?
+        self.text = ""
+
+
+def logic(e, v, size):
+    e("cpu.sr.set_nz(%s, %s); cpu.sr.0 &= !0x3;" % (v, RS[size]))
+
+
+def size2(bits):
+    return {0: "b", 1: "w", 2: "l"}.get(bits)
+
+
+def priv_check(e):
+    e("if !cpu.sr.supervisor() { cpu.pc = cpu.instr_pc; cpu.enter_exception(bus, Exception::PrivilegeViolation); return 34; }")
+
+
+def exc(e, name, cyc, rewind=True):
+    if rewind:
+        e("cpu.pc = cpu.instr_pc;")
+    e("cpu.enter_exception(bus, Exception::%s);" % name)
+    e("return %d;" % cyc)
+
+
+def translate(mem, addr):
+    cur = Cur(mem, addr)
+    I = Ins(addr)
+    e = I.e
+    op = cur.fetch16()
+    e("cpu.ir = %s;" % hx(op))
+    hi = op >> 12
+    cyc = None
+
+    def done(c):
+        nonlocal cyc
+        cyc = c
+
+    def setpc_next():
+        e("cpu.pc = %s;" % hx(cur.pc))
+
+    # ---------------- MOVE / MOVEA ----------------
+    if hi in (1, 2, 3):
+        size = {1: "b", 2: "l", 3: "w"}[hi]
+        src = EA.decode(cur, op & 0x3F, size)
+        dbits = (op >> 6) & 0x3F
+        dbits = ((dbits & 7) << 3) | (dbits >> 3)
+        dst = EA.decode(cur, dbits, size)
+        if dst.kind in ("imm", "pcd", "pcidx"):
+            raise Unsupported("move a destino no alterable")
+        if dst.kind == "an" and size == "b":
+            raise Unsupported("movea.b")
+        v = ea_read(e, src, size)
+        if dst.kind != "an":
+            if size != "l":
+                logic(e, v, size)
+        ea_write(e, dst, size, v)
+        if dst.kind != "an" and size == "l":
+            logic(e, v, size)
+        setpc_next()
+        done(4 + src.cycles(size) + dst.cycles(size))
+
+    # ---------------- MOVEQ ----------------
+    elif hi == 7:
+        if op & 0x100:
+            raise Unsupported("moveq ilegal")
+        reg = (op >> 9) & 7
+        val = u32(sx8(op & 0xFF))
+        e("cpu.d[%d] = %s;" % (reg, hx(val)))
+        logic(e, "cpu.d[%d]" % reg, "l")
+        setpc_next()
+        done(4)
+
+    # ---------------- Bcc / BRA / BSR ----------------
+    elif hi == 6:
+        cond = (op >> 8) & 0xF
+        d8 = sx8(op & 0xFF)
+        base = cur.pc
+        if d8 == 0:
+            target = u32(base + sx16(cur.fetch16()))
+        else:
+            target = u32(base + d8)
+        target &= 0xFFFFFF
+        if target & 1:
+            raise Unsupported("salto impar")
+        I.targets.append(target)
+        if cond == 0:
+            e("cpu.pc = %s;" % hx(target))
+            I.falls = False
+            done(10)
+        elif cond == 1:
+            e("cpu.push32(bus, %s);" % hx(cur.pc))
+            e("cpu.pc = %s;" % hx(target))
+            done(18)
+        else:
+            e("if cpu.sr.evaluate(Condition::%s) { cpu.pc = %s; return 10; }" % (COND[cond], hx(target)))
+            setpc_next()
+            done(8)
+
+    # ---------------- línea 4 ----------------
+    elif hi == 4:
+        done(line4(cur, I, op, e))
+
+    # ---------------- ADDQ / SUBQ / Scc / DBcc ----------------
+    elif hi == 5:
+        sb = (op >> 6) & 3
+        if sb == 3:
+            mode = (op >> 3) & 7
+            cond = (op >> 8) & 0xF
+            if mode == 1:
+                reg = op & 7
+                dpc = cur.pc
+                target = u32(dpc + sx16(cur.fetch16())) & 0xFFFFFF
+                I.targets.append(target)
+                e("if cpu.sr.evaluate(Condition::%s) { cpu.pc = %s; return 12; }" % (COND[cond], hx(cur.pc)))
+                e("let n = (cpu.d[%d] as u16).wrapping_sub(1);" % reg)
+                e("cpu.d[%d] = (cpu.d[%d] & 0xFFFF_0000) | n as u32;" % (reg, reg))
+                e("if n == 0xFFFF { cpu.pc = %s; return 14; }" % hx(cur.pc))
+                e("cpu.pc = %s;" % hx(target))
+                done(10)
+            else:
+                ea = EA.decode(cur, op & 0x3F, "b")
+                if ea.kind in ("an", "imm", "pcd", "pcidx"):
+                    raise Unsupported("scc ea")
+                t = e.tmp("c")
+                e("let %s: u32 = if cpu.sr.evaluate(Condition::%s) { 0xFF } else { 0 };" % (t, COND[cond]))
+                ea_modify(e, ea, "b", lambda e, v: t)
+                setpc_next()
+                done(4 + ea.cycles("b"))
+        else:
+            size = size2(sb)
+            is_sub = bool(op & 0x100)
+            imm = (op >> 9) & 7 or 8
+            ea = EA.decode(cur, op & 0x3F, size)
+            if ea.kind == "an":
+                f = "wrapping_sub" if is_sub else "wrapping_add"
+                e("cpu.a[%d] = cpu.a[%d].%s(%d);" % (ea.reg, ea.reg, f, imm))
+                setpc_next()
+                done(8)
+            else:
+                fn = "sub_with_flags" if is_sub else "add_with_flags"
+
+                def m(e, v):
+                    t = e.tmp("r")
+                    e("let %s = %s(cpu, %s, %d, %s, true);" % (t, fn, v, imm, RS[size]))
+                    return t
+                ea_modify(e, ea, size, m)
+                setpc_next()
+                done(4 + ea.cycles(size))
+
+    # ---------------- OR / DIV / SBCD ----------------
+    elif hi == 8:
+        opm = (op >> 6) & 7
+        if opm == 3:
+            done(div(cur, e, op, False))
+        elif opm == 7:
+            done(div(cur, e, op, True))
+        elif (op & 0xF1F0) == 0x8100:
+            done(bcd(cur, e, op, "sbcd"))
+        else:
+            done(or_and(cur, e, op, "|"))
+        if cyc is not None:
+            setpc_next()
+
+    # ---------------- SUB ----------------
+    elif hi == 9:
+        done(addsub(cur, e, op, True))
+        setpc_next()
+
+    # ---------------- CMP / EOR ----------------
+    elif hi == 0xB:
+        done(cmp_eor(cur, e, op))
+        setpc_next()
+
+    # ---------------- AND / MUL / ABCD / EXG ----------------
+    elif hi == 0xC:
+        opm = (op >> 6) & 7
+        if opm in (3, 7):
+            ea = EA.decode(cur, op & 0x3F, "w")
+            reg = (op >> 9) & 7
+            v = ea_read(e, ea, "w")
+            if opm == 3:
+                e("let r = (%s & 0xFFFF).wrapping_mul(cpu.d[%d] & 0xFFFF);" % (v, reg))
+            else:
+                e("let r = ((%s as u16 as i16 as i32).wrapping_mul(cpu.d[%d] as u16 as i16 as i32)) as u32;" % (v, reg))
+            e("cpu.d[%d] = r;" % reg)
+            logic(e, "r", "l")
+            done(70 + ea.cycles("w"))
+        elif (op & 0xF1F0) == 0xC100:
+            done(bcd(cur, e, op, "abcd"))
+        elif (op & 0xF130) == 0xC100 and ((op >> 3) & 0x1F) in (0b01000, 0b01001, 0b10001):
+            mode = (op >> 3) & 0x1F
+            rx, ry = (op >> 9) & 7, op & 7
+            if mode == 0b01000:
+                e("cpu.d.swap(%d, %d);" % (rx, ry))
+            elif mode == 0b01001:
+                e("cpu.a.swap(%d, %d);" % (rx, ry))
+            else:
+                e("let t = cpu.d[%d]; cpu.d[%d] = cpu.a[%d]; cpu.a[%d] = t;" % (rx, rx, ry, ry))
+            done(6)
+        else:
+            done(or_and(cur, e, op, "&"))
+        setpc_next()
+
+    # ---------------- ADD ----------------
+    elif hi == 0xD:
+        done(addsub(cur, e, op, False))
+        setpc_next()
+
+    # ---------------- shifts ----------------
+    elif hi == 0xE:
+        done(shift(cur, e, op))
+        setpc_next()
+
+    # ---------------- línea 0: inmediatos / bits / movep ----------------
+    elif hi == 0:
+        done(line0(cur, e, op))
+        setpc_next()
+
+    elif hi == 0xA:
+        exc(e, "LineA", 34)
+        I.falls = False
+        cyc = "dead"
+    elif hi == 0xF:
+        exc(e, "LineF", 34)
+        I.falls = False
+        cyc = "dead"
+
+    if cyc is None:
+        raise Unsupported("opcode %04X" % op)
+    I.next = cur.pc & 0xFFFFFF
+    I.size = (cur.pc - addr) & 0xFFFFFF
+    I.op = op
+    if cyc != "dead":
+        e("%d" % cyc if isinstance(cyc, int) else cyc)
+    I.body = e.lines
+    return I
