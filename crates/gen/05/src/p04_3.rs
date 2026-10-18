@@ -7,6 +7,37 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $04566A: bra.w $4568e
+pub fn i_04566a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4566E;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x4568E;
+    10
+}
+/// $04566E: cmpi.b #$3, d0
+pub fn i_04566e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x45672;
+    cpu.ir = 0xC00;
+    let v1 = cpu.d[0] & 0xFF;
+    sub_with_flags(cpu, v1, 0x3, Size::Byte, false);
+    8
+}
+/// $045672: bne.w $4567e
+pub fn i_045672(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x45676;
+    cpu.ir = 0x6600;
+    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4567E; return 10; }
+    8
+}
+/// $045676: move.b #$f0, d0
+pub fn i_045676(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4567A;
+    cpu.ir = 0x103C;
+    let v1: u32 = 0xF0;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v1 & 0xFF);
+    4
+}
 /// $04567A: bra.w $4568e
 pub fn i_04567a(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x4567E;
@@ -12949,43 +12980,12 @@ pub fn i_04710e(cpu: &mut Cpu, bus: &mut B) -> u32 {
     if cpu.sr.evaluate(Condition::Gt) { cpu.pc = 0x47122; return 10; }
     8
 }
-/// $047112: move.w #$1e, $70(a6)
-pub fn i_047112(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x47118;
-    cpu.ir = 0x3D7C;
-    let v1: u32 = 0x1E;
-    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
-    let ad2 = cpu.a[6].wrapping_add(0x70);
-    bus.write16(ad2, v1 as u16);
-    12
-}
-/// $047118: lea.l $47124(pc), a1
-pub fn i_047118(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4711C;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x47124;
-    16
-}
-/// $04711C: move.l a1, (a6)
-pub fn i_04711c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4711E;
-    cpu.ir = 0x2C89;
-    let v1 = cpu.a[1] & 0xFFFFFFFF;
-    bus.write32(cpu.a[6], v1);
-    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
-    12
-}
-// ===== JsrPcThunk_04711e  ($04711E, 6 B, thunks/jsr_pc_thunks.c)
-/// $04711E: jsr $4707e(pc)
-pub fn i_04711e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x47122;
-    cpu.ir = 0x4EBA;
-    cpu.push32(bus, 0x47122);
-    cpu.pc = 0x4707E;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x04566A, i_04566a),
+    (0x04566E, i_04566e),
+    (0x045672, i_045672),
+    (0x045676, i_045676),
     (0x04567A, i_04567a),
     (0x04567E, i_04567e),
     (0x045682, i_045682),
@@ -14482,8 +14482,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x047104, i_047104),
     (0x047108, i_047108),
     (0x04710E, i_04710e),
-    (0x047112, i_047112),
-    (0x047118, i_047118),
-    (0x04711C, i_04711c),
-    (0x04711E, i_04711e),
 ];

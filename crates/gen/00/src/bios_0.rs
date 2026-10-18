@@ -2587,6 +2587,94 @@ pub fn i_c10498(cpu: &mut Cpu, bus: &mut B) -> u32 {
     let r = cpu.pop32(bus); cpu.jump_to(r);
     16
 }
+/// $C1049A: move.b #$2, $a81(a5)
+pub fn i_c1049a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104A0;
+    cpu.ir = 0x1B7C;
+    let v1: u32 = 0x2;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[5].wrapping_add(0xA81);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $C104A0: move.b #$1, $bbf(a5)
+pub fn i_c104a0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104A6;
+    cpu.ir = 0x1B7C;
+    let v1: u32 = 0x1;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[5].wrapping_add(0xBBF);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $C104A6: jsr $c112ec(pc)
+pub fn i_c104a6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104AA;
+    cpu.ir = 0x4EBA;
+    cpu.push32(bus, 0xC104AA);
+    cpu.pc = 0xC112EC;
+    16
+}
+/// $C104AA: jsr $c1138e(pc)
+pub fn i_c104aa(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104AE;
+    cpu.ir = 0x4EBA;
+    cpu.push32(bus, 0xC104AE);
+    cpu.pc = 0xC1138E;
+    16
+}
+/// $C104AE: move.b $d00058.l, d0
+pub fn i_c104ae(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104B4;
+    cpu.ir = 0x1039;
+    let v2 = bus.read8(0xD00058) as u32;
+    cpu.sr.set_nz(v2, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v2 & 0xFF);
+    16
+}
+/// $C104B4: cmp.b $d00108.l, d0
+pub fn i_c104b4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104BA;
+    cpu.ir = 0xB039;
+    let v2 = bus.read8(0xD00108) as u32;
+    let h1 = cpu.d[0] & 0xFF;
+    sub_with_flags(cpu, h1, v2, Size::Byte, false);
+    16
+}
+/// $C104BA: bne.b $c104c2
+pub fn i_c104ba(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104BC;
+    cpu.ir = 0x6606;
+    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0xC104C2; return 10; }
+    8
+}
+/// $C104BC: move.b #$1, $a81(a5)
+pub fn i_c104bc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104C2;
+    cpu.ir = 0x1B7C;
+    let v1: u32 = 0x1;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[5].wrapping_add(0xA81);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $C104C2: clr.b $bbf(a5)
+pub fn i_c104c2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104C6;
+    cpu.ir = 0x422D;
+    let ad1 = cpu.a[5].wrapping_add(0xBBF);
+    let v2 = bus.read8(ad1) as u32;
+    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r3: u32 = 0;
+    bus.write8(ad1, r3 as u8);
+    12
+}
+/// $C104C6: rts
+pub fn i_c104c6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0xC104C8;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
 /// $C104FC: move.b #$2, $a81(a5)
 pub fn i_c104fc(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0xC10502;
@@ -13062,92 +13150,6 @@ pub fn i_c1191c(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.sr.set_nz(cpu.d[3], Size::Long); cpu.sr.0 &= !0x3;
     4
 }
-/// $C1191E: move.b d3, -$7fcc(a4)
-pub fn i_c1191e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC11922;
-    cpu.ir = 0x1943;
-    let v1 = cpu.d[3] & 0xFF;
-    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
-    let ad2 = cpu.a[4].wrapping_add(0xFFFF8034);
-    bus.write8(ad2, v1 as u8);
-    12
-}
-/// $C11922: movea.l -$7ef6(a4), a2
-pub fn i_c11922(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC11926;
-    cpu.ir = 0x246C;
-    let ad2 = cpu.a[4].wrapping_add(0xFFFF810A);
-    let v3 = bus.read32(ad2);
-    cpu.a[2] = v3;
-    16
-}
-/// $C11926: jsr $c11990(pc)
-pub fn i_c11926(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC1192A;
-    cpu.ir = 0x4EBA;
-    cpu.push32(bus, 0xC1192A);
-    cpu.pc = 0xC11990;
-    16
-}
-/// $C1192A: movea.l -$7ef2(a4), a2
-pub fn i_c1192a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC1192E;
-    cpu.ir = 0x246C;
-    let ad2 = cpu.a[4].wrapping_add(0xFFFF810E);
-    let v3 = bus.read32(ad2);
-    cpu.a[2] = v3;
-    16
-}
-/// $C1192E: jsr $c11990(pc)
-pub fn i_c1192e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC11932;
-    cpu.ir = 0x4EBA;
-    cpu.push32(bus, 0xC11932);
-    cpu.pc = 0xC11990;
-    16
-}
-/// $C11932: movea.l -$7e5c(a4), a2
-pub fn i_c11932(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC11936;
-    cpu.ir = 0x246C;
-    let ad2 = cpu.a[4].wrapping_add(0xFFFF81A4);
-    let v3 = bus.read32(ad2);
-    cpu.a[2] = v3;
-    16
-}
-/// $C11936: jsr $c11990(pc)
-pub fn i_c11936(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC1193A;
-    cpu.ir = 0x4EBA;
-    cpu.push32(bus, 0xC1193A);
-    cpu.pc = 0xC11990;
-    16
-}
-/// $C1193A: movea.l -$7eee(a4), a2
-pub fn i_c1193a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC1193E;
-    cpu.ir = 0x246C;
-    let ad2 = cpu.a[4].wrapping_add(0xFFFF8112);
-    let v3 = bus.read32(ad2);
-    cpu.a[2] = v3;
-    16
-}
-/// $C1193E: lea.l $240(a2), a2
-pub fn i_c1193e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC11942;
-    cpu.ir = 0x45EA;
-    let ad1 = cpu.a[2].wrapping_add(0x240);
-    cpu.a[2] = ad1;
-    16
-}
-/// $C11942: jsr $c11990(pc)
-pub fn i_c11942(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0xC11946;
-    cpu.ir = 0x4EBA;
-    cpu.push32(bus, 0xC11946);
-    cpu.pc = 0xC11990;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0xC00402, i_c00402),
@@ -13437,6 +13439,16 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0xC10490, i_c10490),
     (0xC10494, i_c10494),
     (0xC10498, i_c10498),
+    (0xC1049A, i_c1049a),
+    (0xC104A0, i_c104a0),
+    (0xC104A6, i_c104a6),
+    (0xC104AA, i_c104aa),
+    (0xC104AE, i_c104ae),
+    (0xC104B4, i_c104b4),
+    (0xC104BA, i_c104ba),
+    (0xC104BC, i_c104bc),
+    (0xC104C2, i_c104c2),
+    (0xC104C6, i_c104c6),
     (0xC104FC, i_c104fc),
     (0xC10502, i_c10502),
     (0xC10504, i_c10504),
@@ -14640,14 +14652,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0xC11918, i_c11918),
     (0xC1191A, i_c1191a),
     (0xC1191C, i_c1191c),
-    (0xC1191E, i_c1191e),
-    (0xC11922, i_c11922),
-    (0xC11926, i_c11926),
-    (0xC1192A, i_c1192a),
-    (0xC1192E, i_c1192e),
-    (0xC11932, i_c11932),
-    (0xC11936, i_c11936),
-    (0xC1193A, i_c1193a),
-    (0xC1193E, i_c1193e),
-    (0xC11942, i_c11942),
 ];

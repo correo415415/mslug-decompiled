@@ -7,6 +7,62 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $06368E: ori.w #$8, $38(a6)
+pub fn i_06368e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x63694;
+    cpu.ir = 0x6E;
+    let ad1 = cpu.a[6].wrapping_add(0x38);
+    let v2 = bus.read16(ad1) as u32;
+    let r3 = (v2 | 0x8) & 0xFFFF;
+    cpu.sr.set_nz(r3, Size::Word); cpu.sr.0 &= !0x3;
+    bus.write16(ad1, r3 as u16);
+    16
+}
+/// $063694: move.b #$0, d0
+pub fn i_063694(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x63698;
+    cpu.ir = 0x103C;
+    let v1: u32 = 0x0;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v1 & 0xFF);
+    4
+}
+/// $063698: btst.b #$0, $98(a6)
+pub fn i_063698(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x6369E;
+    cpu.ir = 0x82E;
+    let mk: u32 = 1u32 << ((0) % 8);
+    let ad2 = cpu.a[6].wrapping_add(0x98);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set(StatusRegister::Z, v3 & mk == 0);
+    16
+}
+/// $06369E: beq.w $636a6
+pub fn i_06369e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x636A2;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x636A6; return 10; }
+    8
+}
+/// $0636A2: move.b #$1, d0
+pub fn i_0636a2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x636A6;
+    cpu.ir = 0x103C;
+    let v1: u32 = 0x1;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v1 & 0xFF);
+    4
+}
+/// $0636A6: move.b d0, $3a(a6)
+pub fn i_0636a6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x636AA;
+    cpu.ir = 0x1D40;
+    let v1 = cpu.d[0] & 0xFF;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x3A);
+    bus.write8(ad2, v1 as u8);
+    12
+}
 /// $0636AA: move.b #$0, d0
 pub fn i_0636aa(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x636AE;
@@ -12548,64 +12604,14 @@ pub fn i_0651b0(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
     16
 }
-/// $0651B8: jmp $77f6a.l
-pub fn i_0651b8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x651BE;
-    cpu.ir = 0x4EF9;
-    cpu.pc = 0x77F6A;
-    8
-}
-// ===== Patrol_ToSoldierFlee_0651be  ($0651BE, 40 B, enemies/soldiers/sniper_camper_mortar_062008.s)
-/// $0651BE: move.w #$32a, $2a(a6)
-pub fn i_0651be(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x651C4;
-    cpu.ir = 0x3D7C;
-    let v1: u32 = 0x32A;
-    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
-    let ad2 = cpu.a[6].wrapping_add(0x2A);
-    bus.write16(ad2, v1 as u16);
-    12
-}
-/// $0651C4: move.w #$ffaf, $2e(a6)
-pub fn i_0651c4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x651CA;
-    cpu.ir = 0x3D7C;
-    let v1: u32 = 0xFFAF;
-    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
-    let ad2 = cpu.a[6].wrapping_add(0x2E);
-    bus.write16(ad2, v1 as u16);
-    12
-}
-/// $0651CA: neg.w $28(a6)
-pub fn i_0651ca(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x651CE;
-    cpu.ir = 0x446E;
-    let ad1 = cpu.a[6].wrapping_add(0x28);
-    let v2 = bus.read16(ad1) as u32;
-    let r3 = 0u32.wrapping_sub(v2) & 0xFFFF;
-    cpu.sr.set_nz(r3, Size::Word); cpu.sr.set(StatusRegister::V, v2 == 0x8000); cpu.sr.set(StatusRegister::C, v2 != 0); cpu.sr.set(StatusRegister::X, v2 != 0);
-    bus.write16(ad1, r3 as u16);
-    12
-}
-/// $0651CE: move.w #$e, d1
-pub fn i_0651ce(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x651D2;
-    cpu.ir = 0x323C;
-    let v1: u32 = 0xE;
-    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
-    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v1 & 0xFFFF);
-    4
-}
-/// $0651D2: jsr $236e.l
-pub fn i_0651d2(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x651D8;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x651D8);
-    cpu.pc = 0x236E;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x06368E, i_06368e),
+    (0x063694, i_063694),
+    (0x063698, i_063698),
+    (0x06369E, i_06369e),
+    (0x0636A2, i_0636a2),
+    (0x0636A6, i_0636a6),
     (0x0636AA, i_0636aa),
     (0x0636AE, i_0636ae),
     (0x0636B4, i_0636b4),
@@ -14100,10 +14106,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0651A4, i_0651a4),
     (0x0651AA, i_0651aa),
     (0x0651B0, i_0651b0),
-    (0x0651B8, i_0651b8),
-    (0x0651BE, i_0651be),
-    (0x0651C4, i_0651c4),
-    (0x0651CA, i_0651ca),
-    (0x0651CE, i_0651ce),
-    (0x0651D2, i_0651d2),
 ];

@@ -1833,6 +1833,59 @@ pub fn i_07a1f0(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x7A20E;
     10
 }
+/// $07A1F4: movea.l $c(a6), a0
+pub fn i_07a1f4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7A1F8;
+    cpu.ir = 0x206E;
+    let ad2 = cpu.a[6].wrapping_add(0xC);
+    let v3 = bus.read32(ad2);
+    cpu.a[0] = v3;
+    16
+}
+/// $07A1F8: tst.w $70(a0)
+pub fn i_07a1f8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7A1FC;
+    cpu.ir = 0x4A68;
+    let ad2 = cpu.a[0].wrapping_add(0x70);
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    12
+}
+/// $07A1FC: beq.w $7a20e
+pub fn i_07a1fc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7A200;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x7A20E; return 10; }
+    8
+}
+/// $07A200: movea.l $c(a0), a0
+pub fn i_07a200(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7A204;
+    cpu.ir = 0x2068;
+    let ad2 = cpu.a[0].wrapping_add(0xC);
+    let v3 = bus.read32(ad2);
+    cpu.a[0] = v3;
+    16
+}
+/// $07A204: movea.l $c(a0), a0
+pub fn i_07a204(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7A208;
+    cpu.ir = 0x2068;
+    let ad2 = cpu.a[0].wrapping_add(0xC);
+    let v3 = bus.read32(ad2);
+    cpu.a[0] = v3;
+    16
+}
+/// $07A208: move.b #$2, $21(a0)
+pub fn i_07a208(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7A20E;
+    cpu.ir = 0x117C;
+    let v1: u32 = 0x2;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[0].wrapping_add(0x21);
+    bus.write8(ad2, v1 as u8);
+    12
+}
 /// $07A20E: lea.l $29c3c4.l, a0
 pub fn i_07a20e(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x7A214;
@@ -13191,55 +13244,6 @@ pub fn i_07bc78(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.a[0] = v3;
     16
 }
-/// $07BC7C: cmpi.b #$ff, $21(a0)
-pub fn i_07bc7c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7BC82;
-    cpu.ir = 0xC28;
-    let ad2 = cpu.a[0].wrapping_add(0x21);
-    let v3 = bus.read8(ad2) as u32;
-    sub_with_flags(cpu, v3, 0xFF, Size::Byte, false);
-    16
-}
-/// $07BC82: bne.w $7bc8c
-pub fn i_07bc82(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7BC86;
-    cpu.ir = 0x6600;
-    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x7BC8C; return 10; }
-    8
-}
-// ===== SetTaskHandler_07bc86  ($07BC86, 8 B, kernel/task_handlers.c)
-/// $07BC86: lea.l $7c65c(pc), a1
-pub fn i_07bc86(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7BC8A;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x7C65C;
-    16
-}
-/// $07BC8A: move.l a1, (a6)
-pub fn i_07bc8a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7BC8C;
-    cpu.ir = 0x2C89;
-    let v1 = cpu.a[1] & 0xFFFFFFFF;
-    bus.write32(cpu.a[6], v1);
-    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
-    12
-}
-/// $07BC8C: rts
-pub fn i_07bc8c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7BC8E;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== M2Boss_Body_SpawnTurretAndArm_07bc8e  ($07BC8E, 140 B, enemies/bosses/boss2_crab_carrier_07a00a.s)
-/// $07BC8E: moveq #$0, d0
-pub fn i_07bc8e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7BC90;
-    cpu.ir = 0x7000;
-    cpu.d[0] = 0x0;
-    cpu.sr.set_nz(cpu.d[0], Size::Long); cpu.sr.0 &= !0x3;
-    4
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x079DB4, i_079db4),
@@ -13459,6 +13463,12 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x07A1E4, i_07a1e4),
     (0x07A1EA, i_07a1ea),
     (0x07A1F0, i_07a1f0),
+    (0x07A1F4, i_07a1f4),
+    (0x07A1F8, i_07a1f8),
+    (0x07A1FC, i_07a1fc),
+    (0x07A200, i_07a200),
+    (0x07A204, i_07a204),
+    (0x07A208, i_07a208),
     (0x07A20E, i_07a20e),
     (0x07A214, i_07a214),
     (0x07A21A, i_07a21a),
@@ -14736,10 +14746,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x07BC6E, i_07bc6e),
     (0x07BC74, i_07bc74),
     (0x07BC78, i_07bc78),
-    (0x07BC7C, i_07bc7c),
-    (0x07BC82, i_07bc82),
-    (0x07BC86, i_07bc86),
-    (0x07BC8A, i_07bc8a),
-    (0x07BC8C, i_07bc8c),
-    (0x07BC8E, i_07bc8e),
 ];

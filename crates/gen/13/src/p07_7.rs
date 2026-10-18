@@ -7,6 +7,56 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $07F21E: bcc.w $7f228
+pub fn i_07f21e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7F222;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x7F228; return 10; }
+    8
+}
+// ===== SetTaskHandler_07f222  ($07F222, 8 B, kernel/task_handlers.c)
+/// $07F222: lea.l $7fdbc(pc), a1
+pub fn i_07f222(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7F226;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x7FDBC;
+    16
+}
+/// $07F226: move.l a1, (a6)
+pub fn i_07f226(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7F228;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
+/// $07F228: rts
+pub fn i_07f228(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7F22A;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Carrier_Rider_Init_07f22a  ($07F22A, 72 B, enemies/bosses/boss2_crab_carrier_07a00a.s)
+/// $07F22A: jsr $5e9b6.l
+pub fn i_07f22a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7F230;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x7F230);
+    cpu.pc = 0x5E9B6;
+    16
+}
+/// $07F230: andi.w #$1, d0
+pub fn i_07f230(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7F234;
+    cpu.ir = 0x240;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = (v1 & 0x1) & 0xFFFF;
+    cpu.sr.set_nz(r2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    8
+}
 /// $07F234: move.b d0, $3a(a6)
 pub fn i_07f234(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x7F238;
@@ -6665,6 +6715,12 @@ pub fn i_07fffc(cpu: &mut Cpu, bus: &mut B) -> u32 {
 }
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x07F21E, i_07f21e),
+    (0x07F222, i_07f222),
+    (0x07F226, i_07f226),
+    (0x07F228, i_07f228),
+    (0x07F22A, i_07f22a),
+    (0x07F230, i_07f230),
     (0x07F234, i_07f234),
     (0x07F238, i_07f238),
     (0x07F23E, i_07f23e),

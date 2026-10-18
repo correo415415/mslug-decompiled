@@ -7,6 +7,58 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $02F154: cmpi.b #$29, $92(a6)
+pub fn i_02f154(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2F15A;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x92);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x29, Size::Byte, false);
+    16
+}
+/// $02F15A: bhi.w $2f16e
+pub fn i_02f15a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2F15E;
+    cpu.ir = 0x6200;
+    if cpu.sr.evaluate(Condition::Hi) { cpu.pc = 0x2F16E; return 10; }
+    8
+}
+/// $02F15E: move.w #$600, $28(a6)
+pub fn i_02f15e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2F164;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0x600;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x28);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $02F164: clr.w $2c(a6)
+pub fn i_02f164(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2F168;
+    cpu.ir = 0x426E;
+    let ad1 = cpu.a[6].wrapping_add(0x2C);
+    let v2 = bus.read16(ad1) as u32;
+    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r3: u32 = 0;
+    bus.write16(ad1, r3 as u16);
+    12
+}
+/// $02F168: lea.l $2f16e(pc), a1
+pub fn i_02f168(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2F16C;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x2F16E;
+    16
+}
+/// $02F16C: move.l a1, (a6)
+pub fn i_02f16c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2F16E;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
 /// $02F16E: jsr $2aa24(pc)
 pub fn i_02f16e(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x2F172;
@@ -5430,6 +5482,12 @@ pub fn i_02fffc(cpu: &mut Cpu, bus: &mut B) -> u32 {
 }
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x02F154, i_02f154),
+    (0x02F15A, i_02f15a),
+    (0x02F15E, i_02f15e),
+    (0x02F164, i_02f164),
+    (0x02F168, i_02f168),
+    (0x02F16C, i_02f16c),
     (0x02F16E, i_02f16e),
     (0x02F172, i_02f172),
     (0x02F178, i_02f178),

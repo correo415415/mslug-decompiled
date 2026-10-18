@@ -7,6 +7,67 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $096B4A: jsr $4ae.l
+pub fn i_096b4a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x96B50;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x96B50);
+    cpu.pc = 0x4AE;
+    16
+}
+/// $096B50: btst.b #$7, $100001.l
+pub fn i_096b50(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x96B58;
+    cpu.ir = 0x839;
+    let mk: u32 = 1u32 << ((7) % 8);
+    let v2 = bus.read8(0x100001) as u32;
+    cpu.sr.set(StatusRegister::Z, v2 & mk == 0);
+    20
+}
+/// $096B58: beq.w $96b7c
+pub fn i_096b58(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x96B5C;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x96B7C; return 10; }
+    8
+}
+/// $096B5C: jsr $5cd18.l
+pub fn i_096b5c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x96B62;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x96B62);
+    cpu.pc = 0x5CD18;
+    16
+}
+/// $096B62: bcc.w $96b7c
+pub fn i_096b62(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x96B66;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x96B7C; return 10; }
+    8
+}
+/// $096B66: jsr $5d11c.l
+pub fn i_096b66(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x96B6C;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x96B6C);
+    cpu.pc = 0x5D11C;
+    16
+}
+/// $096B6C: bcc.w $96b7c
+pub fn i_096b6c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x96B70;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x96B7C; return 10; }
+    8
+}
+/// $096B70: lea.l $86582.l, a1
+pub fn i_096b70(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x96B76;
+    cpu.ir = 0x43F9;
+    cpu.a[1] = 0x86582;
+    20
+}
 /// $096B76: jsr $4ae.l
 pub fn i_096b76(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x96B7C;
@@ -837,6 +898,39 @@ pub fn i_0977c0(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.ir = 0x4E75;
     let r = cpu.pop32(bus); cpu.jump_to(r);
     16
+}
+// ===== HiScore_Tpl_Frame_0977d6  ($0977D6, 20 B, frontend/hiscore_memcard_options_09773c.s)
+/// $0977D6: lea.l $9794c(pc), a1
+pub fn i_0977d6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x977DA;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x9794C;
+    16
+}
+/// $0977DA: jsr $4ae.l
+pub fn i_0977da(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x977E0;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x977E0);
+    cpu.pc = 0x4AE;
+    16
+}
+/// $0977E0: move.w #$3c, $80(a6)
+pub fn i_0977e0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x977E6;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0x3C;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x80);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $0977E6: bra.w $977fa
+pub fn i_0977e6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x977EA;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x977FA;
+    10
 }
 // ===== HiScore_Tpl_Loader_0977ea  ($0977EA, 96 B, frontend/hiscore_memcard_options_09773c.s)
 /// $0977EA: lea.l $9794c(pc), a1
@@ -13080,104 +13174,16 @@ pub fn i_0991ba(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
     12
 }
-/// $0991BC: movea.l #$ffffffff, a0
-pub fn i_0991bc(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991C2;
-    cpu.ir = 0x207C;
-    let v1: u32 = 0xFFFFFFFF;
-    cpu.a[0] = v1;
-    4
-}
-/// $0991C2: lea.l $2f61ac.l, a0
-pub fn i_0991c2(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991C8;
-    cpu.ir = 0x41F9;
-    cpu.a[0] = 0x2F61AC;
-    20
-}
-/// $0991C8: jsr $5dd56.l
-pub fn i_0991c8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991CE;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x991CE);
-    cpu.pc = 0x5DD56;
-    16
-}
-/// $0991CE: bcc.w $991d8
-pub fn i_0991ce(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991D2;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x991D8; return 10; }
-    8
-}
-// ===== SetTaskHandler_0991d2  ($0991D2, 8 B, kernel/task_handlers.c)
-/// $0991D2: lea.l $99794(pc), a1
-pub fn i_0991d2(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991D6;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x99794;
-    16
-}
-/// $0991D6: move.l a1, (a6)
-pub fn i_0991d6(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991D8;
-    cpu.ir = 0x2C89;
-    let v1 = cpu.a[1] & 0xFFFFFFFF;
-    bus.write32(cpu.a[6], v1);
-    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
-    12
-}
-/// $0991D8: rts
-pub fn i_0991d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991DA;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== Mob_Tmpl207_Init_0991da  ($0991DA, 56 B, frontend/hiscore_memcard_options_09773c.s)
-/// $0991DA: move.w #$125, d1
-pub fn i_0991da(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991DE;
-    cpu.ir = 0x323C;
-    let v1: u32 = 0x125;
-    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
-    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v1 & 0xFFFF);
-    4
-}
-/// $0991DE: jsr $236e.l
-pub fn i_0991de(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991E4;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x991E4);
-    cpu.pc = 0x236E;
-    16
-}
-/// $0991E4: jsr $5e7c0.l
-pub fn i_0991e4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991EA;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x991EA);
-    cpu.pc = 0x5E7C0;
-    16
-}
-/// $0991EA: jsr $267e2.l
-pub fn i_0991ea(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991F0;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x991F0);
-    cpu.pc = 0x267E2;
-    16
-}
-/// $0991F0: jsr $8f002.l
-pub fn i_0991f0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x991F6;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x991F6);
-    cpu.pc = 0x8F002;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x096B4A, i_096b4a),
+    (0x096B50, i_096b50),
+    (0x096B58, i_096b58),
+    (0x096B5C, i_096b5c),
+    (0x096B62, i_096b62),
+    (0x096B66, i_096b66),
+    (0x096B6C, i_096b6c),
+    (0x096B70, i_096b70),
     (0x096B76, i_096b76),
     (0x096B7C, i_096b7c),
     (0x096B7E, i_096b7e),
@@ -13259,6 +13265,10 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0977BC, i_0977bc),
     (0x0977BE, i_0977be),
     (0x0977C0, i_0977c0),
+    (0x0977D6, i_0977d6),
+    (0x0977DA, i_0977da),
+    (0x0977E0, i_0977e0),
+    (0x0977E6, i_0977e6),
     (0x0977EA, i_0977ea),
     (0x0977EE, i_0977ee),
     (0x0977F4, i_0977f4),
@@ -14666,16 +14676,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0991B2, i_0991b2),
     (0x0991B6, i_0991b6),
     (0x0991BA, i_0991ba),
-    (0x0991BC, i_0991bc),
-    (0x0991C2, i_0991c2),
-    (0x0991C8, i_0991c8),
-    (0x0991CE, i_0991ce),
-    (0x0991D2, i_0991d2),
-    (0x0991D6, i_0991d6),
-    (0x0991D8, i_0991d8),
-    (0x0991DA, i_0991da),
-    (0x0991DE, i_0991de),
-    (0x0991E4, i_0991e4),
-    (0x0991EA, i_0991ea),
-    (0x0991F0, i_0991f0),
 ];

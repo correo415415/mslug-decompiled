@@ -7,6 +7,63 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $07D816: neg.w d0
+pub fn i_07d816(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7D818;
+    cpu.ir = 0x4440;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = 0u32.wrapping_sub(v1) & 0xFFFF;
+    cpu.sr.set_nz(r2, Size::Word); cpu.sr.set(StatusRegister::V, v1 == 0x8000); cpu.sr.set(StatusRegister::C, v1 != 0); cpu.sr.set(StatusRegister::X, v1 != 0);
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    4
+}
+/// $07D818: subi.w #$80, d0
+pub fn i_07d818(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7D81C;
+    cpu.ir = 0x440;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = sub_with_flags(cpu, v1, 0x80, Size::Word, true);
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    8
+}
+/// $07D81C: andi.w #$ff, d0
+pub fn i_07d81c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7D820;
+    cpu.ir = 0x240;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = (v1 & 0xFF) & 0xFFFF;
+    cpu.sr.set_nz(r2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    8
+}
+/// $07D820: jsr $13c0e.l
+pub fn i_07d820(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7D826;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x7D826);
+    cpu.pc = 0x13C0E;
+    16
+}
+/// $07D826: move.w d1, $28(a6)
+pub fn i_07d826(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7D82A;
+    cpu.ir = 0x3D41;
+    let v1 = cpu.d[1] & 0xFFFF;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x28);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $07D82A: move.w d2, $2a(a6)
+pub fn i_07d82a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x7D82E;
+    cpu.ir = 0x3D42;
+    let v1 = cpu.d[2] & 0xFFFF;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x2A);
+    bus.write16(ad2, v1 as u16);
+    12
+}
 /// $07D82E: jsr $7dbb0(pc)
 pub fn i_07d82e(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x7D832;
@@ -12977,58 +13034,14 @@ pub fn i_07f21a(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x7FDE0;
     16
 }
-/// $07F21E: bcc.w $7f228
-pub fn i_07f21e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7F222;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x7F228; return 10; }
-    8
-}
-// ===== SetTaskHandler_07f222  ($07F222, 8 B, kernel/task_handlers.c)
-/// $07F222: lea.l $7fdbc(pc), a1
-pub fn i_07f222(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7F226;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x7FDBC;
-    16
-}
-/// $07F226: move.l a1, (a6)
-pub fn i_07f226(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7F228;
-    cpu.ir = 0x2C89;
-    let v1 = cpu.a[1] & 0xFFFFFFFF;
-    bus.write32(cpu.a[6], v1);
-    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
-    12
-}
-/// $07F228: rts
-pub fn i_07f228(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7F22A;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== Carrier_Rider_Init_07f22a  ($07F22A, 72 B, enemies/bosses/boss2_crab_carrier_07a00a.s)
-/// $07F22A: jsr $5e9b6.l
-pub fn i_07f22a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7F230;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x7F230);
-    cpu.pc = 0x5E9B6;
-    16
-}
-/// $07F230: andi.w #$1, d0
-pub fn i_07f230(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x7F234;
-    cpu.ir = 0x240;
-    let v1 = cpu.d[0] & 0xFFFF;
-    let r2 = (v1 & 0x1) & 0xFFFF;
-    cpu.sr.set_nz(r2, Size::Word); cpu.sr.0 &= !0x3;
-    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
-    8
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x07D816, i_07d816),
+    (0x07D818, i_07d818),
+    (0x07D81C, i_07d81c),
+    (0x07D820, i_07d820),
+    (0x07D826, i_07d826),
+    (0x07D82A, i_07d82a),
     (0x07D82E, i_07d82e),
     (0x07D832, i_07d832),
     (0x07D838, i_07d838),
@@ -14523,10 +14536,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x07F212, i_07f212),
     (0x07F216, i_07f216),
     (0x07F21A, i_07f21a),
-    (0x07F21E, i_07f21e),
-    (0x07F222, i_07f222),
-    (0x07F226, i_07f226),
-    (0x07F228, i_07f228),
-    (0x07F22A, i_07f22a),
-    (0x07F230, i_07f230),
 ];

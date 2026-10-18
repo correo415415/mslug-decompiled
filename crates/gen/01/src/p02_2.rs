@@ -9120,6 +9120,63 @@ pub fn i_029162(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x28DA8;
     8
 }
+// ===== ScriptOp0C_CopyWordTo14_02917a  ($02917A, 28 B, entity/collmap_hitbox_script_ops_027400.s)
+/// $02917A: move.b $1(a1), d0
+pub fn i_02917a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2917E;
+    cpu.ir = 0x1029;
+    let ad2 = cpu.a[1].wrapping_add(0x1);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v3 & 0xFF);
+    12
+}
+/// $02917E: andi.w #$ff, d0
+pub fn i_02917e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x29182;
+    cpu.ir = 0x240;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = (v1 & 0xFF) & 0xFFFF;
+    cpu.sr.set_nz(r2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    8
+}
+/// $029182: move.w (a6, d0.w), $14(a6)
+pub fn i_029182(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x29188;
+    cpu.ir = 0x3D76;
+    let ad2 = cpu.a[6].wrapping_add(0x0).wrapping_add((cpu.d[0] as i16 as i32 as u32));
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    let ad4 = cpu.a[6].wrapping_add(0x14);
+    bus.write16(ad4, v3 as u16);
+    22
+}
+/// $029188: adda.l #$2, a1
+pub fn i_029188(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2918E;
+    cpu.ir = 0xD3FC;
+    let v1: u32 = 0x2;
+    cpu.a[1] = cpu.a[1].wrapping_add(v1);
+    8
+}
+/// $02918E: move.l a1, $3c(a6)
+pub fn i_02918e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x29192;
+    cpu.ir = 0x2D49;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    let ad2 = cpu.a[6].wrapping_add(0x3C);
+    bus.write32(ad2, v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    16
+}
+/// $029192: jmp $28da8(pc)
+pub fn i_029192(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x29196;
+    cpu.ir = 0x4EFA;
+    cpu.pc = 0x28DA8;
+    8
+}
 // ===== ScriptOp0D_AndByte_029196  ($029196, 46 B, entity/collmap_hitbox_script_ops_027400.s)
 /// $029196: move.w $2(a1), d1
 pub fn i_029196(cpu: &mut Cpu, bus: &mut B) -> u32 {
@@ -12856,56 +12913,6 @@ pub fn i_02a49a(cpu: &mut Cpu, bus: &mut B) -> u32 {
     bus.write8(ad1, r3 as u8);
     16
 }
-/// $02A4A0: rts
-pub fn i_02a4a0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2A4A2;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== Slug_ResetTurnTimer_02a4a2  ($02A4A2, 6 B, slug/helpers_0295a6.s)
-/// $02A4A2: clr.b $84(a6)
-pub fn i_02a4a2(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2A4A6;
-    cpu.ir = 0x422E;
-    let ad1 = cpu.a[6].wrapping_add(0x84);
-    let v2 = bus.read8(ad1) as u32;
-    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r3: u32 = 0;
-    bus.write8(ad1, r3 as u8);
-    12
-}
-/// $02A4A6: rts
-pub fn i_02a4a6(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2A4A8;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== Slug_TurnTimerTick_02a4a8  ($02A4A8, 20 B, slug/helpers_0295a6.s)
-/// $02A4A8: jsr $5cd60.l
-pub fn i_02a4a8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2A4AE;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x2A4AE);
-    cpu.pc = 0x5CD60;
-    16
-}
-/// $02A4AE: bcc.w $2a4ce
-pub fn i_02a4ae(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2A4B2;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x2A4CE; return 10; }
-    8
-}
-/// $02A4B2: cmpi.b #$14, $84(a6)
-pub fn i_02a4b2(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2A4B8;
-    cpu.ir = 0xC2E;
-    let ad2 = cpu.a[6].wrapping_add(0x84);
-    let v3 = bus.read8(ad2) as u32;
-    sub_with_flags(cpu, v3, 0x14, Size::Byte, false);
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0280C0, i_0280c0),
@@ -13974,6 +13981,12 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x029158, i_029158),
     (0x02915E, i_02915e),
     (0x029162, i_029162),
+    (0x02917A, i_02917a),
+    (0x02917E, i_02917e),
+    (0x029182, i_029182),
+    (0x029188, i_029188),
+    (0x02918E, i_02918e),
+    (0x029192, i_029192),
     (0x029196, i_029196),
     (0x02919A, i_02919a),
     (0x02919E, i_02919e),
@@ -14402,10 +14415,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x02A492, i_02a492),
     (0x02A496, i_02a496),
     (0x02A49A, i_02a49a),
-    (0x02A4A0, i_02a4a0),
-    (0x02A4A2, i_02a4a2),
-    (0x02A4A6, i_02a4a6),
-    (0x02A4A8, i_02a4a8),
-    (0x02A4AE, i_02a4ae),
-    (0x02A4B2, i_02a4b2),
 ];

@@ -7,6 +7,429 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $04A9AC: bra.w $4a35e
+pub fn i_04a9ac(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9B0;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x4A35E;
+    10
+}
+// ===== HumanDeath_Burning_04a9b0  ($04A9B0, 178 B, pow/human_death_049ff2.s)
+/// $04A9B0: lea.l $4b898(pc), a0
+pub fn i_04a9b0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9B4;
+    cpu.ir = 0x41FA;
+    cpu.a[0] = 0x4B898;
+    16
+}
+/// $04A9B4: jsr $28cd4.l
+pub fn i_04a9b4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9BA;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4A9BA);
+    cpu.pc = 0x28CD4;
+    16
+}
+/// $04A9BA: bra.w $4a382
+pub fn i_04a9ba(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9BE;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x4A382;
+    10
+}
+/// $04A9BE: lea.l $2b604a.l, a0
+pub fn i_04a9be(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9C4;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x2B604A;
+    20
+}
+/// $04A9C4: jsr $28cd4.l
+pub fn i_04a9c4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9CA;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4A9CA);
+    cpu.pc = 0x28CD4;
+    16
+}
+/// $04A9CA: move.w #$1042, d0
+pub fn i_04a9ca(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9CE;
+    cpu.ir = 0x303C;
+    let v1: u32 = 0x1042;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+/// $04A9CE: jsr $2352.l
+pub fn i_04a9ce(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9D4;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4A9D4);
+    cpu.pc = 0x2352;
+    16
+}
+/// $04A9D4: clr.b $21(a6)
+pub fn i_04a9d4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9D8;
+    cpu.ir = 0x422E;
+    let ad1 = cpu.a[6].wrapping_add(0x21);
+    let v2 = bus.read8(ad1) as u32;
+    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r3: u32 = 0;
+    bus.write8(ad1, r3 as u8);
+    12
+}
+/// $04A9D8: lea.l $4aa76(pc), a1
+pub fn i_04a9d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9DC;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x4AA76;
+    16
+}
+/// $04A9DC: jsr $4ae.l
+pub fn i_04a9dc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9E2;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4A9E2);
+    cpu.pc = 0x4AE;
+    16
+}
+/// $04A9E2: move.w #$200, d0
+pub fn i_04a9e2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9E6;
+    cpu.ir = 0x303C;
+    let v1: u32 = 0x200;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+/// $04A9E6: bsr.w $4a1f0
+pub fn i_04a9e6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9EA;
+    cpu.ir = 0x6100;
+    cpu.push32(bus, 0x4A9EA);
+    cpu.pc = 0x4A1F0;
+    18
+}
+/// $04A9EA: move.w #$28, $30(a6)
+pub fn i_04a9ea(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9F0;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0x28;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x30);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $04A9F0: jsr $5e9b6.l
+pub fn i_04a9f0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9F6;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4A9F6);
+    cpu.pc = 0x5E9B6;
+    16
+}
+/// $04A9F6: tst.w d0
+pub fn i_04a9f6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9F8;
+    cpu.ir = 0x4A40;
+    let v1 = cpu.d[0] & 0xFFFF;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    4
+}
+/// $04A9F8: bpl.w $4aa06
+pub fn i_04a9f8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4A9FC;
+    cpu.ir = 0x6A00;
+    if cpu.sr.evaluate(Condition::Pl) { cpu.pc = 0x4AA06; return 10; }
+    8
+}
+/// $04A9FC: move.b #$a, $72(a6)
+pub fn i_04a9fc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA02;
+    cpu.ir = 0x1D7C;
+    let v1: u32 = 0xA;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x72);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $04AA02: bra.w $4aa0c
+pub fn i_04aa02(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA06;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x4AA0C;
+    10
+}
+/// $04AA06: move.b #$ff, $72(a6)
+pub fn i_04aa06(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA0C;
+    cpu.ir = 0x1D7C;
+    let v1: u32 = 0xFF;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x72);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $04AA0C: move.b $72(a6), $73(a6)
+pub fn i_04aa0c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA12;
+    cpu.ir = 0x1D6E;
+    let ad2 = cpu.a[6].wrapping_add(0x72);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad4 = cpu.a[6].wrapping_add(0x73);
+    bus.write8(ad4, v3 as u8);
+    20
+}
+/// $04AA12: move.w #$ffc0, $2e(a6)
+pub fn i_04aa12(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA18;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0xFFC0;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x2E);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $04AA18: lea.l $4aa1e(pc), a1
+pub fn i_04aa18(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA1C;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x4AA1E;
+    16
+}
+/// $04AA1C: move.l a1, (a6)
+pub fn i_04aa1c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA1E;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
+/// $04AA1E: jsr $4a268(pc)
+pub fn i_04aa1e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA22;
+    cpu.ir = 0x4EBA;
+    cpu.push32(bus, 0x4AA22);
+    cpu.pc = 0x4A268;
+    16
+}
+/// $04AA22: jsr $28d70.l
+pub fn i_04aa22(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA28;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4AA28);
+    cpu.pc = 0x28D70;
+    16
+}
+/// $04AA28: btst.b #$5, $5a(a6)
+pub fn i_04aa28(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA2E;
+    cpu.ir = 0x82E;
+    let mk: u32 = 1u32 << ((5) % 8);
+    let ad2 = cpu.a[6].wrapping_add(0x5A);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set(StatusRegister::Z, v3 & mk == 0);
+    16
+}
+/// $04AA2E: beq.w $4aa38
+pub fn i_04aa2e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA32;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x4AA38; return 10; }
+    8
+}
+/// $04AA32: lea.l $4aa62(pc), a1
+pub fn i_04aa32(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA36;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x4AA62;
+    16
+}
+/// $04AA36: move.l a1, (a6)
+pub fn i_04aa36(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA38;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
+/// $04AA38: subq.w #$1, $30(a6)
+pub fn i_04aa38(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA3C;
+    cpu.ir = 0x536E;
+    let ad1 = cpu.a[6].wrapping_add(0x30);
+    let v2 = bus.read16(ad1) as u32;
+    let r3 = sub_with_flags(cpu, v2, 1, Size::Word, true);
+    bus.write16(ad1, r3 as u16);
+    12
+}
+/// $04AA3C: bne.w $4aa46
+pub fn i_04aa3c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA40;
+    cpu.ir = 0x6600;
+    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4AA46; return 10; }
+    8
+}
+/// $04AA40: lea.l $4aa62(pc), a1
+pub fn i_04aa40(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA44;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x4AA62;
+    16
+}
+/// $04AA44: move.l a1, (a6)
+pub fn i_04aa44(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA46;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
+/// $04AA46: subq.b #$1, $73(a6)
+pub fn i_04aa46(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA4A;
+    cpu.ir = 0x532E;
+    let ad1 = cpu.a[6].wrapping_add(0x73);
+    let v2 = bus.read8(ad1) as u32;
+    let r3 = sub_with_flags(cpu, v2, 1, Size::Byte, true);
+    bus.write8(ad1, r3 as u8);
+    12
+}
+/// $04AA4A: bne.w $4aa5e
+pub fn i_04aa4a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA4E;
+    cpu.ir = 0x6600;
+    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4AA5E; return 10; }
+    8
+}
+/// $04AA4E: bchg.b #$0, $3a(a6)
+pub fn i_04aa4e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA54;
+    cpu.ir = 0x86E;
+    let mk: u32 = 1u32 << ((0) % 8);
+    let ad1 = cpu.a[6].wrapping_add(0x3A);
+    let v2 = bus.read8(ad1) as u32;
+    cpu.sr.set(StatusRegister::Z, v2 & mk == 0);
+    let r3 = v2 ^ mk;
+    bus.write8(ad1, r3 as u8);
+    16
+}
+/// $04AA54: move.b $72(a6), $73(a6)
+pub fn i_04aa54(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA5A;
+    cpu.ir = 0x1D6E;
+    let ad2 = cpu.a[6].wrapping_add(0x72);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad4 = cpu.a[6].wrapping_add(0x73);
+    bus.write8(ad4, v3 as u8);
+    20
+}
+/// $04AA5A: neg.w $28(a6)
+pub fn i_04aa5a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA5E;
+    cpu.ir = 0x446E;
+    let ad1 = cpu.a[6].wrapping_add(0x28);
+    let v2 = bus.read16(ad1) as u32;
+    let r3 = 0u32.wrapping_sub(v2) & 0xFFFF;
+    cpu.sr.set_nz(r3, Size::Word); cpu.sr.set(StatusRegister::V, v2 == 0x8000); cpu.sr.set(StatusRegister::C, v2 != 0); cpu.sr.set(StatusRegister::X, v2 != 0);
+    bus.write16(ad1, r3 as u16);
+    12
+}
+/// $04AA5E: jmp $4a35e(pc)
+pub fn i_04aa5e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA62;
+    cpu.ir = 0x4EFA;
+    cpu.pc = 0x4A35E;
+    8
+}
+// ===== HumanDeath_BurnedDown_04aa62  ($04AA62, 20 B, pow/human_death_049ff2.s)
+/// $04AA62: lea.l $4b0c6(pc), a0
+pub fn i_04aa62(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA66;
+    cpu.ir = 0x41FA;
+    cpu.a[0] = 0x4B0C6;
+    16
+}
+/// $04AA66: jsr $28cd4.l
+pub fn i_04aa66(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA6C;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4AA6C);
+    cpu.pc = 0x28CD4;
+    16
+}
+/// $04AA6C: move.b #$ff, $21(a6)
+pub fn i_04aa6c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA72;
+    cpu.ir = 0x1D7C;
+    let v1: u32 = 0xFF;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x21);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $04AA72: bra.w $4a382
+pub fn i_04aa72(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA76;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x4A382;
+    10
+}
+// ===== HumanDeath_FlameChild_04aa76  ($04AA76, 84 B, pow/human_death_049ff2.s)
+/// $04AA76: move.w #$4, d1
+pub fn i_04aa76(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA7A;
+    cpu.ir = 0x323C;
+    let v1: u32 = 0x4;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+/// $04AA7A: jsr $236e.l
+pub fn i_04aa7a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA80;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4AA80);
+    cpu.pc = 0x236E;
+    16
+}
+/// $04AA80: lea.l $4b926(pc), a0
+pub fn i_04aa80(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA84;
+    cpu.ir = 0x41FA;
+    cpu.a[0] = 0x4B926;
+    16
+}
+/// $04AA84: jsr $28cd4.l
+pub fn i_04aa84(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA8A;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4AA8A);
+    cpu.pc = 0x28CD4;
+    16
+}
+/// $04AA8A: lea.l $4aa90(pc), a1
+pub fn i_04aa8a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA8E;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x4AA90;
+    16
+}
+/// $04AA8E: move.l a1, (a6)
+pub fn i_04aa8e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4AA90;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
 /// $04AA90: jsr $7b2.l
 pub fn i_04aa90(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x4AA96;
@@ -12317,428 +12740,58 @@ pub fn i_04d3a6(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
     12
 }
-/// $04D3A8: jsr $27cee.l
-pub fn i_04d3a8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3AE;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x4D3AE);
-    cpu.pc = 0x27CEE;
-    16
-}
-/// $04D3AE: jsr $28d70.l
-pub fn i_04d3ae(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3B4;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x4D3B4);
-    cpu.pc = 0x28D70;
-    16
-}
-/// $04D3B4: bcs.w $4d3c6
-pub fn i_04d3b4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3B8;
-    cpu.ir = 0x6500;
-    if cpu.sr.evaluate(Condition::Cs) { cpu.pc = 0x4D3C6; return 10; }
-    8
-}
-/// $04D3B8: movea.l $70(a6), a0
-pub fn i_04d3b8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3BC;
-    cpu.ir = 0x206E;
-    let ad2 = cpu.a[6].wrapping_add(0x70);
-    let v3 = bus.read32(ad2);
-    cpu.a[0] = v3;
-    16
-}
-/// $04D3BC: jsr $5dd56.l
-pub fn i_04d3bc(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3C2;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x4D3C2);
-    cpu.pc = 0x5DD56;
-    16
-}
-/// $04D3C2: bcc.w $4d3cc
-pub fn i_04d3c2(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3C6;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x4D3CC; return 10; }
-    8
-}
-/// $04D3C6: jmp $518.l
-pub fn i_04d3c6(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3CC;
-    cpu.ir = 0x4EF9;
-    cpu.pc = 0x518;
-    8
-}
-/// $04D3CC: rts
-pub fn i_04d3cc(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3CE;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== TurretCar_SyncPosIfBase_04d3ce  ($04D3CE, 10 B, enemies/vehicles/turret_car_props_04cbd4.s)
-/// $04D3CE: cmpi.b #$44, $20(a6)
-pub fn i_04d3ce(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3D4;
-    cpu.ir = 0xC2E;
-    let ad2 = cpu.a[6].wrapping_add(0x20);
-    let v3 = bus.read8(ad2) as u32;
-    sub_with_flags(cpu, v3, 0x44, Size::Byte, false);
-    16
-}
-/// $04D3D4: beq.w $4d3e0
-pub fn i_04d3d4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3D8;
-    cpu.ir = 0x6700;
-    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x4D3E0; return 10; }
-    8
-}
-// ===== JsrAbsThunk_04d3d8  ($04D3D8, 8 B, thunks/jsr_abs_thunks.c)
-/// $04D3D8: jsr $2783a.l
-pub fn i_04d3d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3DE;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x4D3DE);
-    cpu.pc = 0x2783A;
-    16
-}
-/// $04D3DE: rts
-pub fn i_04d3de(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3E0;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== TurretCar_SyncPosToParent_04d3e0  ($04D3E0, 24 B, enemies/vehicles/turret_car_props_04cbd4.s)
-/// $04D3E0: movea.l $c(a6), a0
-pub fn i_04d3e0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3E4;
-    cpu.ir = 0x206E;
-    let ad2 = cpu.a[6].wrapping_add(0xC);
-    let v3 = bus.read32(ad2);
-    cpu.a[0] = v3;
-    16
-}
-/// $04D3E4: move.w $22(a0), d0
-pub fn i_04d3e4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3E8;
-    cpu.ir = 0x3028;
-    let ad2 = cpu.a[0].wrapping_add(0x22);
-    let v3 = bus.read16(ad2) as u32;
-    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
-    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v3 & 0xFFFF);
-    12
-}
-/// $04D3E8: subi.w #$23, d0
-pub fn i_04d3e8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3EC;
-    cpu.ir = 0x440;
-    let v1 = cpu.d[0] & 0xFFFF;
-    let r2 = sub_with_flags(cpu, v1, 0x23, Size::Word, true);
-    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
-    8
-}
-/// $04D3EC: move.w d0, $22(a6)
-pub fn i_04d3ec(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3F0;
-    cpu.ir = 0x3D40;
-    let v1 = cpu.d[0] & 0xFFFF;
-    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
-    let ad2 = cpu.a[6].wrapping_add(0x22);
-    bus.write16(ad2, v1 as u16);
-    12
-}
-/// $04D3F0: move.w $24(a0), d0
-pub fn i_04d3f0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3F4;
-    cpu.ir = 0x3028;
-    let ad2 = cpu.a[0].wrapping_add(0x24);
-    let v3 = bus.read16(ad2) as u32;
-    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
-    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v3 & 0xFFFF);
-    12
-}
-/// $04D3F4: addi.w #$2d, d0
-pub fn i_04d3f4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3F8;
-    cpu.ir = 0x640;
-    let v1 = cpu.d[0] & 0xFFFF;
-    let r2 = add_with_flags(cpu, v1, 0x2D, Size::Word, true);
-    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
-    8
-}
-// ===== SetTaskW_04d3f8  ($04D3F8, 6 B, kernel/task_setters_w.c)
-/// $04D3F8: move.w d0, $24(a6)
-pub fn i_04d3f8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3FC;
-    cpu.ir = 0x3D40;
-    let v1 = cpu.d[0] & 0xFFFF;
-    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
-    let ad2 = cpu.a[6].wrapping_add(0x24);
-    bus.write16(ad2, v1 as u16);
-    12
-}
-/// $04D3FC: rts
-pub fn i_04d3fc(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D3FE;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== TurretCar_ProbeGuided_04d3fe  ($04D3FE, 66 B, enemies/vehicles/turret_car_props_04cbd4.s)
-/// $04D3FE: movea.l $c(a6), a0
-pub fn i_04d3fe(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D402;
-    cpu.ir = 0x206E;
-    let ad2 = cpu.a[6].wrapping_add(0xC);
-    let v3 = bus.read32(ad2);
-    cpu.a[0] = v3;
-    16
-}
-/// $04D402: cmpi.b #$44, $20(a0)
-pub fn i_04d402(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D408;
-    cpu.ir = 0xC28;
-    let ad2 = cpu.a[0].wrapping_add(0x20);
-    let v3 = bus.read8(ad2) as u32;
-    sub_with_flags(cpu, v3, 0x44, Size::Byte, false);
-    16
-}
-/// $04D408: bne.w $4d44c
-pub fn i_04d408(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D40C;
-    cpu.ir = 0x6600;
-    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4D44C; return 10; }
-    8
-}
-/// $04D40C: bset.b #$6, $13(a6)
-pub fn i_04d40c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D412;
-    cpu.ir = 0x8EE;
-    let mk: u32 = 1u32 << ((6) % 8);
-    let ad1 = cpu.a[6].wrapping_add(0x13);
-    let v2 = bus.read8(ad1) as u32;
-    cpu.sr.set(StatusRegister::Z, v2 & mk == 0);
-    let r3 = v2 | mk;
-    bus.write8(ad1, r3 as u8);
-    16
-}
-/// $04D412: move.w $34(a6), d0
-pub fn i_04d412(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D416;
-    cpu.ir = 0x302E;
-    let ad2 = cpu.a[6].wrapping_add(0x34);
-    let v3 = bus.read16(ad2) as u32;
-    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
-    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v3 & 0xFFFF);
-    12
-}
-/// $04D416: movem.w d0, -(a7)
-pub fn i_04d416(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D41A;
-    cpu.ir = 0x48A7;
-    let mut a = cpu.a[7];
-    a = a.wrapping_sub(2); bus.write16(a, cpu.d[0] as u16);
-    cpu.a[7] = a;
-    20
-}
-/// $04D41A: jsr $27bc8.l
-pub fn i_04d41a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D420;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x4D420);
-    cpu.pc = 0x27BC8;
-    16
-}
-/// $04D420: bcc.w $4d42c
-pub fn i_04d420(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D424;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x4D42C; return 10; }
-    8
-}
-/// $04D424: move.b #$1, d1
-pub fn i_04d424(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D428;
-    cpu.ir = 0x123C;
-    let v1: u32 = 0x1;
-    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
-    cpu.d[1] = (cpu.d[1] & !0xFF) | (v1 & 0xFF);
-    4
-}
-/// $04D428: bra.w $4d430
-pub fn i_04d428(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D42C;
-    cpu.ir = 0x6000;
-    cpu.pc = 0x4D430;
-    10
-}
-/// $04D42C: move.b #$0, d1
-pub fn i_04d42c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D430;
-    cpu.ir = 0x123C;
-    let v1: u32 = 0x0;
-    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
-    cpu.d[1] = (cpu.d[1] & !0xFF) | (v1 & 0xFF);
-    4
-}
-/// $04D430: movem.w (a7)+, d0
-pub fn i_04d430(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D434;
-    cpu.ir = 0x4C9F;
-    let mut a = cpu.a[7];
-    cpu.d[0] = bus.read16(a) as i16 as i32 as u32; a = a.wrapping_add(2);
-    cpu.a[7] = a;
-    20
-}
-/// $04D434: move.w d0, $34(a6)
-pub fn i_04d434(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D438;
-    cpu.ir = 0x3D40;
-    let v1 = cpu.d[0] & 0xFFFF;
-    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
-    let ad2 = cpu.a[6].wrapping_add(0x34);
-    bus.write16(ad2, v1 as u16);
-    12
-}
-/// $04D438: cmpi.b #$0, d1
-pub fn i_04d438(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D43C;
-    cpu.ir = 0xC01;
-    let v1 = cpu.d[1] & 0xFF;
-    sub_with_flags(cpu, v1, 0x0, Size::Byte, false);
-    8
-}
-/// $04D43C: beq.w $4d446
-pub fn i_04d43c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D440;
-    cpu.ir = 0x6700;
-    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x4D446; return 10; }
-    8
-}
-// ===== SetXN_04d440  ($04D440, 6 B, thunks/ccr_helpers.c)
-/// $04D440: ori.b #$11, ccr
-pub fn i_04d440(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D444;
-    cpu.ir = 0x3C;
-    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) | 0x11);
-    20
-}
-/// $04D444: rts
-pub fn i_04d444(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D446;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== ClearXN_04d446  ($04D446, 6 B, thunks/ccr_helpers.c)
-/// $04D446: andi.b #$ee, ccr
-pub fn i_04d446(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D44A;
-    cpu.ir = 0x23C;
-    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) & 0xE);
-    20
-}
-/// $04D44A: rts
-pub fn i_04d44a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D44C;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== JsrAbsThunk_04d44c  ($04D44C, 8 B, thunks/jsr_abs_thunks.c)
-/// $04D44C: jsr $27cee.l
-pub fn i_04d44c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D452;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x4D452);
-    cpu.pc = 0x27CEE;
-    16
-}
-/// $04D452: rts
-pub fn i_04d452(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D454;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== TurretCar_IsBaseIdleDone_04d454  ($04D454, 20 B, enemies/vehicles/turret_car_props_04cbd4.s)
-/// $04D454: cmpi.b #$44, $20(a6)
-pub fn i_04d454(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D45A;
-    cpu.ir = 0xC2E;
-    let ad2 = cpu.a[6].wrapping_add(0x20);
-    let v3 = bus.read8(ad2) as u32;
-    sub_with_flags(cpu, v3, 0x44, Size::Byte, false);
-    16
-}
-/// $04D45A: bne.w $4d46e
-pub fn i_04d45a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D45E;
-    cpu.ir = 0x6600;
-    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4D46E; return 10; }
-    8
-}
-/// $04D45E: cmpi.b #$0, $80(a6)
-pub fn i_04d45e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D464;
-    cpu.ir = 0xC2E;
-    let ad2 = cpu.a[6].wrapping_add(0x80);
-    let v3 = bus.read8(ad2) as u32;
-    sub_with_flags(cpu, v3, 0x0, Size::Byte, false);
-    16
-}
-/// $04D464: bne.w $4d46e
-pub fn i_04d464(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D468;
-    cpu.ir = 0x6600;
-    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4D46E; return 10; }
-    8
-}
-// ===== SetXN_04d468  ($04D468, 6 B, thunks/ccr_helpers.c)
-/// $04D468: ori.b #$11, ccr
-pub fn i_04d468(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D46C;
-    cpu.ir = 0x3C;
-    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) | 0x11);
-    20
-}
-/// $04D46C: rts
-pub fn i_04d46c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D46E;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== ClearXN_04d46e  ($04D46E, 6 B, thunks/ccr_helpers.c)
-/// $04D46E: andi.b #$ee, ccr
-pub fn i_04d46e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D472;
-    cpu.ir = 0x23C;
-    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) & 0xE);
-    20
-}
-/// $04D472: rts
-pub fn i_04d472(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D474;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== TurretCar_ClearParentStateIfBase_04d474  ($04D474, 22 B, enemies/vehicles/turret_car_props_04cbd4.s)
-/// $04D474: cmpi.b #$44, $20(a6)
-pub fn i_04d474(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4D47A;
-    cpu.ir = 0xC2E;
-    let ad2 = cpu.a[6].wrapping_add(0x20);
-    let v3 = bus.read8(ad2) as u32;
-    sub_with_flags(cpu, v3, 0x44, Size::Byte, false);
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x04A9AC, i_04a9ac),
+    (0x04A9B0, i_04a9b0),
+    (0x04A9B4, i_04a9b4),
+    (0x04A9BA, i_04a9ba),
+    (0x04A9BE, i_04a9be),
+    (0x04A9C4, i_04a9c4),
+    (0x04A9CA, i_04a9ca),
+    (0x04A9CE, i_04a9ce),
+    (0x04A9D4, i_04a9d4),
+    (0x04A9D8, i_04a9d8),
+    (0x04A9DC, i_04a9dc),
+    (0x04A9E2, i_04a9e2),
+    (0x04A9E6, i_04a9e6),
+    (0x04A9EA, i_04a9ea),
+    (0x04A9F0, i_04a9f0),
+    (0x04A9F6, i_04a9f6),
+    (0x04A9F8, i_04a9f8),
+    (0x04A9FC, i_04a9fc),
+    (0x04AA02, i_04aa02),
+    (0x04AA06, i_04aa06),
+    (0x04AA0C, i_04aa0c),
+    (0x04AA12, i_04aa12),
+    (0x04AA18, i_04aa18),
+    (0x04AA1C, i_04aa1c),
+    (0x04AA1E, i_04aa1e),
+    (0x04AA22, i_04aa22),
+    (0x04AA28, i_04aa28),
+    (0x04AA2E, i_04aa2e),
+    (0x04AA32, i_04aa32),
+    (0x04AA36, i_04aa36),
+    (0x04AA38, i_04aa38),
+    (0x04AA3C, i_04aa3c),
+    (0x04AA40, i_04aa40),
+    (0x04AA44, i_04aa44),
+    (0x04AA46, i_04aa46),
+    (0x04AA4A, i_04aa4a),
+    (0x04AA4E, i_04aa4e),
+    (0x04AA54, i_04aa54),
+    (0x04AA5A, i_04aa5a),
+    (0x04AA5E, i_04aa5e),
+    (0x04AA62, i_04aa62),
+    (0x04AA66, i_04aa66),
+    (0x04AA6C, i_04aa6c),
+    (0x04AA72, i_04aa72),
+    (0x04AA76, i_04aa76),
+    (0x04AA7A, i_04aa7a),
+    (0x04AA80, i_04aa80),
+    (0x04AA84, i_04aa84),
+    (0x04AA8A, i_04aa8a),
+    (0x04AA8E, i_04aa8e),
     (0x04AA90, i_04aa90),
     (0x04AA96, i_04aa96),
     (0x04AA9A, i_04aa9a),
@@ -14189,54 +14242,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x04D39E, i_04d39e),
     (0x04D3A2, i_04d3a2),
     (0x04D3A6, i_04d3a6),
-    (0x04D3A8, i_04d3a8),
-    (0x04D3AE, i_04d3ae),
-    (0x04D3B4, i_04d3b4),
-    (0x04D3B8, i_04d3b8),
-    (0x04D3BC, i_04d3bc),
-    (0x04D3C2, i_04d3c2),
-    (0x04D3C6, i_04d3c6),
-    (0x04D3CC, i_04d3cc),
-    (0x04D3CE, i_04d3ce),
-    (0x04D3D4, i_04d3d4),
-    (0x04D3D8, i_04d3d8),
-    (0x04D3DE, i_04d3de),
-    (0x04D3E0, i_04d3e0),
-    (0x04D3E4, i_04d3e4),
-    (0x04D3E8, i_04d3e8),
-    (0x04D3EC, i_04d3ec),
-    (0x04D3F0, i_04d3f0),
-    (0x04D3F4, i_04d3f4),
-    (0x04D3F8, i_04d3f8),
-    (0x04D3FC, i_04d3fc),
-    (0x04D3FE, i_04d3fe),
-    (0x04D402, i_04d402),
-    (0x04D408, i_04d408),
-    (0x04D40C, i_04d40c),
-    (0x04D412, i_04d412),
-    (0x04D416, i_04d416),
-    (0x04D41A, i_04d41a),
-    (0x04D420, i_04d420),
-    (0x04D424, i_04d424),
-    (0x04D428, i_04d428),
-    (0x04D42C, i_04d42c),
-    (0x04D430, i_04d430),
-    (0x04D434, i_04d434),
-    (0x04D438, i_04d438),
-    (0x04D43C, i_04d43c),
-    (0x04D440, i_04d440),
-    (0x04D444, i_04d444),
-    (0x04D446, i_04d446),
-    (0x04D44A, i_04d44a),
-    (0x04D44C, i_04d44c),
-    (0x04D452, i_04d452),
-    (0x04D454, i_04d454),
-    (0x04D45A, i_04d45a),
-    (0x04D45E, i_04d45e),
-    (0x04D464, i_04d464),
-    (0x04D468, i_04d468),
-    (0x04D46C, i_04d46c),
-    (0x04D46E, i_04d46e),
-    (0x04D472, i_04d472),
-    (0x04D474, i_04d474),
 ];

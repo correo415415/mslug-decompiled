@@ -11301,6 +11301,68 @@ pub fn i_091a6e(cpu: &mut Cpu, bus: &mut B) -> u32 {
     let r = cpu.pop32(bus); cpu.jump_to(r);
     16
 }
+/// $092252: cmpi.w #$2b0, $106f50.l
+pub fn i_092252(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x9225A;
+    cpu.ir = 0xC79;
+    let v2 = bus.read16(0x106F50) as u32;
+    sub_with_flags(cpu, v2, 0x2B0, Size::Word, false);
+    20
+}
+/// $09225A: scs.b d0
+pub fn i_09225a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x9225C;
+    cpu.ir = 0x55C0;
+    let c1: u32 = if cpu.sr.evaluate(Condition::Cs) { 0xFF } else { 0 };
+    let v2 = cpu.d[0] & 0xFF;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (c1 & 0xFF);
+    4
+}
+/// $09225C: lea.l $92262(pc), a1
+pub fn i_09225c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x92260;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x92262;
+    16
+}
+/// $092260: rts
+pub fn i_092260(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x92262;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+/// $0922A2: cmpi.w #$840, $106f50.l
+pub fn i_0922a2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x922AA;
+    cpu.ir = 0xC79;
+    let v2 = bus.read16(0x106F50) as u32;
+    sub_with_flags(cpu, v2, 0x840, Size::Word, false);
+    20
+}
+/// $0922AA: scs.b d0
+pub fn i_0922aa(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x922AC;
+    cpu.ir = 0x55C0;
+    let c1: u32 = if cpu.sr.evaluate(Condition::Cs) { 0xFF } else { 0 };
+    let v2 = cpu.d[0] & 0xFF;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (c1 & 0xFF);
+    4
+}
+/// $0922AC: lea.l $922b2(pc), a1
+pub fn i_0922ac(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x922B0;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x922B2;
+    16
+}
+/// $0922B0: rts
+pub fn i_0922b0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x922B2;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
 /// $0934E2: cmpi.w #$b20, $106f50.l
 pub fn i_0934e2(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x934EA;
@@ -13171,67 +13233,6 @@ pub fn i_096b44(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.a[1] = 0x86586;
     20
 }
-/// $096B4A: jsr $4ae.l
-pub fn i_096b4a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x96B50;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x96B50);
-    cpu.pc = 0x4AE;
-    16
-}
-/// $096B50: btst.b #$7, $100001.l
-pub fn i_096b50(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x96B58;
-    cpu.ir = 0x839;
-    let mk: u32 = 1u32 << ((7) % 8);
-    let v2 = bus.read8(0x100001) as u32;
-    cpu.sr.set(StatusRegister::Z, v2 & mk == 0);
-    20
-}
-/// $096B58: beq.w $96b7c
-pub fn i_096b58(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x96B5C;
-    cpu.ir = 0x6700;
-    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x96B7C; return 10; }
-    8
-}
-/// $096B5C: jsr $5cd18.l
-pub fn i_096b5c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x96B62;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x96B62);
-    cpu.pc = 0x5CD18;
-    16
-}
-/// $096B62: bcc.w $96b7c
-pub fn i_096b62(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x96B66;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x96B7C; return 10; }
-    8
-}
-/// $096B66: jsr $5d11c.l
-pub fn i_096b66(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x96B6C;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x96B6C);
-    cpu.pc = 0x5D11C;
-    16
-}
-/// $096B6C: bcc.w $96b7c
-pub fn i_096b6c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x96B70;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x96B7C; return 10; }
-    8
-}
-/// $096B70: lea.l $86582.l, a1
-pub fn i_096b70(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x96B76;
-    cpu.ir = 0x43F9;
-    cpu.a[1] = 0x86582;
-    20
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x090000, i_090000),
@@ -14505,6 +14506,14 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x091A68, i_091a68),
     (0x091A6A, i_091a6a),
     (0x091A6E, i_091a6e),
+    (0x092252, i_092252),
+    (0x09225A, i_09225a),
+    (0x09225C, i_09225c),
+    (0x092260, i_092260),
+    (0x0922A2, i_0922a2),
+    (0x0922AA, i_0922aa),
+    (0x0922AC, i_0922ac),
+    (0x0922B0, i_0922b0),
     (0x0934E2, i_0934e2),
     (0x0934EA, i_0934ea),
     (0x0934EC, i_0934ec),
@@ -14726,12 +14735,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x096B3A, i_096b3a),
     (0x096B40, i_096b40),
     (0x096B44, i_096b44),
-    (0x096B4A, i_096b4a),
-    (0x096B50, i_096b50),
-    (0x096B58, i_096b58),
-    (0x096B5C, i_096b5c),
-    (0x096B62, i_096b62),
-    (0x096B66, i_096b66),
-    (0x096B6C, i_096b6c),
-    (0x096B70, i_096b70),
 ];

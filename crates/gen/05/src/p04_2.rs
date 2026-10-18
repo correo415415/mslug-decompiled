@@ -3718,6 +3718,34 @@ pub fn i_0443f4(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x4446C;
     10
 }
+/// $0443F8: bra.w $44426
+pub fn i_0443f8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x443FC;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x44426;
+    10
+}
+/// $044400: bra.w $44446
+pub fn i_044400(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x44404;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x44446;
+    10
+}
+/// $044404: bra.w $4445a
+pub fn i_044404(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x44408;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x4445A;
+    10
+}
+/// $04440C: bra.w $444e8
+pub fn i_04440c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x44410;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x444E8;
+    10
+}
 // ===== LeaA1Plus4_044420  ($044420, 6 B, thunks/lea_a1_plus4.c)
 /// $044420: lea.l $4(a1), a1
 pub fn i_044420(cpu: &mut Cpu, bus: &mut B) -> u32 {
@@ -12808,37 +12836,6 @@ pub fn i_045666(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.d[0] = (cpu.d[0] & !0xFF) | (v1 & 0xFF);
     4
 }
-/// $04566A: bra.w $4568e
-pub fn i_04566a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4566E;
-    cpu.ir = 0x6000;
-    cpu.pc = 0x4568E;
-    10
-}
-/// $04566E: cmpi.b #$3, d0
-pub fn i_04566e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x45672;
-    cpu.ir = 0xC00;
-    let v1 = cpu.d[0] & 0xFF;
-    sub_with_flags(cpu, v1, 0x3, Size::Byte, false);
-    8
-}
-/// $045672: bne.w $4567e
-pub fn i_045672(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x45676;
-    cpu.ir = 0x6600;
-    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4567E; return 10; }
-    8
-}
-/// $045676: move.b #$f0, d0
-pub fn i_045676(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4567A;
-    cpu.ir = 0x103C;
-    let v1: u32 = 0xF0;
-    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
-    cpu.d[0] = (cpu.d[0] & !0xFF) | (v1 & 0xFF);
-    4
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x043DB2, i_043db2),
@@ -13260,6 +13257,10 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0443EC, i_0443ec),
     (0x0443F0, i_0443f0),
     (0x0443F4, i_0443f4),
+    (0x0443F8, i_0443f8),
+    (0x044400, i_044400),
+    (0x044404, i_044404),
+    (0x04440C, i_04440c),
     (0x044420, i_044420),
     (0x044424, i_044424),
     (0x044426, i_044426),
@@ -14337,8 +14338,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x04565E, i_04565e),
     (0x045662, i_045662),
     (0x045666, i_045666),
-    (0x04566A, i_04566a),
-    (0x04566E, i_04566e),
-    (0x045672, i_045672),
-    (0x045676, i_045676),
 ];

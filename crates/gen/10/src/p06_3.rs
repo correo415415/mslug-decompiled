@@ -7,6 +7,62 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $0651B8: jmp $77f6a.l
+pub fn i_0651b8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x651BE;
+    cpu.ir = 0x4EF9;
+    cpu.pc = 0x77F6A;
+    8
+}
+// ===== Patrol_ToSoldierFlee_0651be  ($0651BE, 40 B, enemies/soldiers/sniper_camper_mortar_062008.s)
+/// $0651BE: move.w #$32a, $2a(a6)
+pub fn i_0651be(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x651C4;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0x32A;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x2A);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $0651C4: move.w #$ffaf, $2e(a6)
+pub fn i_0651c4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x651CA;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0xFFAF;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x2E);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $0651CA: neg.w $28(a6)
+pub fn i_0651ca(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x651CE;
+    cpu.ir = 0x446E;
+    let ad1 = cpu.a[6].wrapping_add(0x28);
+    let v2 = bus.read16(ad1) as u32;
+    let r3 = 0u32.wrapping_sub(v2) & 0xFFFF;
+    cpu.sr.set_nz(r3, Size::Word); cpu.sr.set(StatusRegister::V, v2 == 0x8000); cpu.sr.set(StatusRegister::C, v2 != 0); cpu.sr.set(StatusRegister::X, v2 != 0);
+    bus.write16(ad1, r3 as u16);
+    12
+}
+/// $0651CE: move.w #$e, d1
+pub fn i_0651ce(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x651D2;
+    cpu.ir = 0x323C;
+    let v1: u32 = 0xE;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+/// $0651D2: jsr $236e.l
+pub fn i_0651d2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x651D8;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x651D8);
+    cpu.pc = 0x236E;
+    16
+}
 /// $0651D8: lea.l $58fe2.l, a1
 pub fn i_0651d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x651DE;
@@ -12610,58 +12666,14 @@ pub fn i_066c0c(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) & 0xE);
     20
 }
-/// $066C10: rts
-pub fn i_066c10(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x66C12;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== Paratrooper_TimerInBounds_066c12  ($066C12, 34 B, enemies/soldiers/barrel_paratrooper_shield_tank_066000.s)
-/// $066C12: subq.w #$1, $70(a6)
-pub fn i_066c12(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x66C16;
-    cpu.ir = 0x536E;
-    let ad1 = cpu.a[6].wrapping_add(0x70);
-    let v2 = bus.read16(ad1) as u32;
-    let r3 = sub_with_flags(cpu, v2, 1, Size::Word, true);
-    bus.write16(ad1, r3 as u16);
-    12
-}
-/// $066C16: cmpi.w #$20, $22(a6)
-pub fn i_066c16(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x66C1C;
-    cpu.ir = 0xC6E;
-    let ad2 = cpu.a[6].wrapping_add(0x22);
-    let v3 = bus.read16(ad2) as u32;
-    sub_with_flags(cpu, v3, 0x20, Size::Word, false);
-    16
-}
-/// $066C1C: blt.w $66c3a
-pub fn i_066c1c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x66C20;
-    cpu.ir = 0x6D00;
-    if cpu.sr.evaluate(Condition::Lt) { cpu.pc = 0x66C3A; return 10; }
-    8
-}
-/// $066C20: cmpi.w #$120, $22(a6)
-pub fn i_066c20(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x66C26;
-    cpu.ir = 0xC6E;
-    let ad2 = cpu.a[6].wrapping_add(0x22);
-    let v3 = bus.read16(ad2) as u32;
-    sub_with_flags(cpu, v3, 0x120, Size::Word, false);
-    16
-}
-/// $066C26: bgt.w $66c3a
-pub fn i_066c26(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x66C2A;
-    cpu.ir = 0x6E00;
-    if cpu.sr.evaluate(Condition::Gt) { cpu.pc = 0x66C3A; return 10; }
-    8
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x0651B8, i_0651b8),
+    (0x0651BE, i_0651be),
+    (0x0651C4, i_0651c4),
+    (0x0651CA, i_0651ca),
+    (0x0651CE, i_0651ce),
+    (0x0651D2, i_0651d2),
     (0x0651D8, i_0651d8),
     (0x0651DE, i_0651de),
     (0x0651E0, i_0651e0),
@@ -14156,10 +14168,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x066C04, i_066c04),
     (0x066C06, i_066c06),
     (0x066C0C, i_066c0c),
-    (0x066C10, i_066c10),
-    (0x066C12, i_066c12),
-    (0x066C16, i_066c16),
-    (0x066C1C, i_066c1c),
-    (0x066C20, i_066c20),
-    (0x066C26, i_066c26),
 ];

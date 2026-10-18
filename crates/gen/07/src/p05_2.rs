@@ -7,6 +7,97 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $053B62: jsr $4ae.l
+pub fn i_053b62(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B68;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x53B68);
+    cpu.pc = 0x4AE;
+    16
+}
+/// $053B68: jsr $5dd02.l
+pub fn i_053b68(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B6E;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x53B6E);
+    cpu.pc = 0x5DD02;
+    16
+}
+/// $053B6E: move.l $50(a6), $50(a0)
+pub fn i_053b6e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B74;
+    cpu.ir = 0x216E;
+    let ad2 = cpu.a[6].wrapping_add(0x50);
+    let v3 = bus.read32(ad2);
+    let ad4 = cpu.a[0].wrapping_add(0x50);
+    bus.write32(ad4, v3);
+    cpu.sr.set_nz(v3, Size::Long); cpu.sr.0 &= !0x3;
+    28
+}
+/// $053B74: move.w #$c, $72(a6)
+pub fn i_053b74(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B7A;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0xC;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x72);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $053B7A: movea.l #$ffffffff, a0
+pub fn i_053b7a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B80;
+    cpu.ir = 0x207C;
+    let v1: u32 = 0xFFFFFFFF;
+    cpu.a[0] = v1;
+    4
+}
+/// $053B80: lea.l $298740.l, a0
+pub fn i_053b80(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B86;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x298740;
+    20
+}
+/// $053B86: jsr $5dd5c.l
+pub fn i_053b86(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B8C;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x53B8C);
+    cpu.pc = 0x5DD5C;
+    16
+}
+/// $053B8C: bcc.w $53b9c
+pub fn i_053b8c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B90;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x53B9C; return 10; }
+    8
+}
+/// $053B90: move.b #$ff, $20(a6)
+pub fn i_053b90(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B96;
+    cpu.ir = 0x1D7C;
+    let v1: u32 = 0xFF;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x20);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $053B96: jmp $518.l
+pub fn i_053b96(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B9C;
+    cpu.ir = 0x4EF9;
+    cpu.pc = 0x518;
+    8
+}
+/// $053B9C: rts
+pub fn i_053b9c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x53B9E;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
 // ===== Prop_TrapFlameBase_053b9e  ($053B9E, 96 B, props/helpers_0539f0.s)
 /// $053B9E: move.w #$1e4, d1
 pub fn i_053b9e(cpu: &mut Cpu, bus: &mut B) -> u32 {
@@ -12112,93 +12203,19 @@ pub fn i_0558bc(cpu: &mut Cpu, bus: &mut B) -> u32 {
     let r = cpu.pop32(bus); cpu.jump_to(r);
     16
 }
-// ===== SDS_0558be  ($0558BE, 14 B, kernel/state_dispatch_stubs.c)
-/// $0558BE: lea.l $29ae8a.l, a2
-pub fn i_0558be(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558C4;
-    cpu.ir = 0x45F9;
-    cpu.a[2] = 0x29AE8A;
-    20
-}
-/// $0558C4: jsr $5022a.l
-pub fn i_0558c4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558CA;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x558CA);
-    cpu.pc = 0x5022A;
-    16
-}
-/// $0558CA: rts
-pub fn i_0558ca(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558CC;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== SDS_0558cc  ($0558CC, 14 B, kernel/state_dispatch_stubs.c)
-/// $0558CC: lea.l $29ae9e.l, a2
-pub fn i_0558cc(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558D2;
-    cpu.ir = 0x45F9;
-    cpu.a[2] = 0x29AE9E;
-    20
-}
-/// $0558D2: jsr $5022a.l
-pub fn i_0558d2(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558D8;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x558D8);
-    cpu.pc = 0x5022A;
-    16
-}
-/// $0558D8: rts
-pub fn i_0558d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558DA;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== SDS_0558da  ($0558DA, 14 B, kernel/state_dispatch_stubs.c)
-/// $0558DA: lea.l $29aeb2.l, a2
-pub fn i_0558da(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558E0;
-    cpu.ir = 0x45F9;
-    cpu.a[2] = 0x29AEB2;
-    20
-}
-/// $0558E0: jsr $5022a.l
-pub fn i_0558e0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558E6;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x558E6);
-    cpu.pc = 0x5022A;
-    16
-}
-/// $0558E6: rts
-pub fn i_0558e6(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558E8;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== SDS_0558e8  ($0558E8, 14 B, kernel/state_dispatch_stubs.c)
-/// $0558E8: lea.l $29aec6.l, a2
-pub fn i_0558e8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558EE;
-    cpu.ir = 0x45F9;
-    cpu.a[2] = 0x29AEC6;
-    20
-}
-/// $0558EE: jsr $5022a.l
-pub fn i_0558ee(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x558F4;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x558F4);
-    cpu.pc = 0x5022A;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x053B62, i_053b62),
+    (0x053B68, i_053b68),
+    (0x053B6E, i_053b6e),
+    (0x053B74, i_053b74),
+    (0x053B7A, i_053b7a),
+    (0x053B80, i_053b80),
+    (0x053B86, i_053b86),
+    (0x053B8C, i_053b8c),
+    (0x053B90, i_053b90),
+    (0x053B96, i_053b96),
+    (0x053B9C, i_053b9c),
     (0x053B9E, i_053b9e),
     (0x053BA2, i_053ba2),
     (0x053BA8, i_053ba8),
@@ -13688,15 +13705,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0558B0, i_0558b0),
     (0x0558B6, i_0558b6),
     (0x0558BC, i_0558bc),
-    (0x0558BE, i_0558be),
-    (0x0558C4, i_0558c4),
-    (0x0558CA, i_0558ca),
-    (0x0558CC, i_0558cc),
-    (0x0558D2, i_0558d2),
-    (0x0558D8, i_0558d8),
-    (0x0558DA, i_0558da),
-    (0x0558E0, i_0558e0),
-    (0x0558E6, i_0558e6),
-    (0x0558E8, i_0558e8),
-    (0x0558EE, i_0558ee),
 ];

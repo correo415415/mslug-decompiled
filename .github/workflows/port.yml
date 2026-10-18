@@ -21,8 +21,11 @@ on:
   workflow_dispatch:
     inputs:
       frames:
-        description: 'Frames de lockstep / play'
+        description: 'Frames de lockstep y SDL'
         default: '6000'
+      play_frames:
+        description: 'Frames de cada partida de play (sólo recompilado)'
+        default: '30000'
       regen:
         description: 'Regenerar el programa traducido (dump-roms + trace + recomp) y comprobar que coincide con el commit'
         type: boolean
@@ -47,6 +50,7 @@ jobs:
     env:
       CARGO_TARGET_DIR: ${{ github.workspace }}/../.mslug-port-target
       FRAMES: ${{ inputs.frames || '6000' }}
+      PLAY_FRAMES: ${{ inputs.play_frames || '30000' }}
       SDL_VIDEODRIVER: dummy
       SDL_AUDIODRIVER: dummy
     steps:
@@ -116,8 +120,8 @@ jobs:
         run: |
           set -o pipefail
           : > ci_out/misses.txt
-          for c in 400 900 1500; do
-            "$CARGO_TARGET_DIR/release/mslug" play --frames "$FRAMES" --coin $c \
+          for c in 400 650 900 1300 2000; do
+            "$CARGO_TARGET_DIR/release/mslug" play --frames "$PLAY_FRAMES" --coin $c \
               --misses-out ci_out/misses.txt 2>&1 | tee -a ci_out/play.txt
           done
           grep "^frames=" ci_out/play.txt >> "$GITHUB_STEP_SUMMARY" || true

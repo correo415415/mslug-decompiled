@@ -7,6 +7,56 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $02A4A0: rts
+pub fn i_02a4a0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2A4A2;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Slug_ResetTurnTimer_02a4a2  ($02A4A2, 6 B, slug/helpers_0295a6.s)
+/// $02A4A2: clr.b $84(a6)
+pub fn i_02a4a2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2A4A6;
+    cpu.ir = 0x422E;
+    let ad1 = cpu.a[6].wrapping_add(0x84);
+    let v2 = bus.read8(ad1) as u32;
+    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r3: u32 = 0;
+    bus.write8(ad1, r3 as u8);
+    12
+}
+/// $02A4A6: rts
+pub fn i_02a4a6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2A4A8;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Slug_TurnTimerTick_02a4a8  ($02A4A8, 20 B, slug/helpers_0295a6.s)
+/// $02A4A8: jsr $5cd60.l
+pub fn i_02a4a8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2A4AE;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x2A4AE);
+    cpu.pc = 0x5CD60;
+    16
+}
+/// $02A4AE: bcc.w $2a4ce
+pub fn i_02a4ae(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2A4B2;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x2A4CE; return 10; }
+    8
+}
+/// $02A4B2: cmpi.b #$14, $84(a6)
+pub fn i_02a4b2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2A4B8;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x84);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x14, Size::Byte, false);
+    16
+}
 /// $02A4B8: bne.w $2a4c6
 pub fn i_02a4b8(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x2A4BC;
@@ -12560,58 +12610,14 @@ pub fn i_02be44(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x2A9A0;
     16
 }
-/// $02BE48: movea.l #$2794fc, a0
-pub fn i_02be48(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2BE4E;
-    cpu.ir = 0x207C;
-    let v1: u32 = 0x2794FC;
-    cpu.a[0] = v1;
-    4
-}
-/// $02BE4E: lsl.w #$2, d0
-pub fn i_02be4e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2BE50;
-    cpu.ir = 0xE548;
-    let h1 = cpu.d[0] & 0xFFFF;
-    let r = do_shift_rotate(cpu, h1, 2, Size::Word, 1, true);
-    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r & 0xFFFF);
-    10
-}
-/// $02BE50: movea.l (a0, d0.w), a0
-pub fn i_02be50(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2BE54;
-    cpu.ir = 0x2070;
-    let ad2 = cpu.a[0].wrapping_add(0x0).wrapping_add((cpu.d[0] as i16 as i32 as u32));
-    let v3 = bus.read32(ad2);
-    cpu.a[0] = v3;
-    18
-}
-/// $02BE54: cmpa.l #$ffffffff, a0
-pub fn i_02be54(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2BE5A;
-    cpu.ir = 0xB1FC;
-    let v1: u32 = 0xFFFFFFFF;
-    let h1 = cpu.a[0];
-    sub_with_flags(cpu, h1, v1, Size::Long, false);
-    6
-}
-/// $02BE5A: beq.w $2be64
-pub fn i_02be5a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2BE5E;
-    cpu.ir = 0x6700;
-    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x2BE64; return 10; }
-    8
-}
-/// $02BE5E: jsr $28cd4.l
-pub fn i_02be5e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2BE64;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x2BE64);
-    cpu.pc = 0x28CD4;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x02A4A0, i_02a4a0),
+    (0x02A4A2, i_02a4a2),
+    (0x02A4A6, i_02a4a6),
+    (0x02A4A8, i_02a4a8),
+    (0x02A4AE, i_02a4ae),
+    (0x02A4B2, i_02a4b2),
     (0x02A4B8, i_02a4b8),
     (0x02A4BC, i_02a4bc),
     (0x02A4C0, i_02a4c0),
@@ -14106,10 +14112,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x02BE3A, i_02be3a),
     (0x02BE3E, i_02be3e),
     (0x02BE44, i_02be44),
-    (0x02BE48, i_02be48),
-    (0x02BE4E, i_02be4e),
-    (0x02BE50, i_02be50),
-    (0x02BE54, i_02be54),
-    (0x02BE5A, i_02be5a),
-    (0x02BE5E, i_02be5e),
 ];

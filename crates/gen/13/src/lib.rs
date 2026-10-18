@@ -8,4 +8,4 @@ pub mod p07_6;
 pub mod p07_7;
 
 pub const TABLES: &[&[(u32, InsFn)]] = &[p07_4::TABLE, p07_5::TABLE, p07_6::TABLE, p07_7::TABLE];
-pub const COUNT: usize = 5286;
+pub const COUNT: usize = 5292;
