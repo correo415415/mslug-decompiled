@@ -17,6 +17,7 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- pydmg: `--input-script-p2` (same format as `--input-script`, P2 controller). Sound test P2 branch verified: P2 A..D send the selected code to the Z80 (audio vs silence).
 - apply_patch.sh: one reproducible patch per hidden feature — blood / no-blood, ending=jp|intl, screennuke / screennuke-b, warpkeys (3 changes: demo table $2DF442[1] -> Level2Script, $10E39D guard 2->1, rts->nop so JumpIfBlocked falls into DebugWarpKeys; D+B zeroes the mission timer, verified), asserts-off (92 trap #15 -> nop, exactly 92 bytes), fix-input-bug, fix-deadstore, aliases debug-hud / debugcoll / altjump / slughud; tools/dev/patch_zip.sh. Patch table at the end of internal/experiments/09.
 - internal/experiments/09: empirical audit of hidden features (pydmg + objdump). Confirmed: debug HUD (b0), DebugColl (b0+b1), alt jump (b5), internal Sound Test (new apply_patch boot=soundtest), orphan warp keys, two original bugs. Corrected: $10FD8F is the BLOOD soft-DIP (red blood on, verified), $10FD83 is the BIOS region, scene 12 / $0F260E is the ending (JP / international, new boot=ending), Bios_TrapF_CalendarSeq is the CPU exception handlers, $106F5C is camera X (not RNG), 107 trap #15 asserts in 17 files (not 15).
 - tools/dev: emu_run.sh, emu_input.py, emu_pokes.py, bytepatch_zip.sh.

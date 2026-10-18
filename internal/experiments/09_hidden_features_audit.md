@@ -13,7 +13,7 @@ Leyenda: ✅ confirmado en emulador · 🔎 confirmado en el binario (estático)
 |---|---|---|---|
 | `$100001` b0 | HUD de variables | ✅ con matiz | `debug=0001`: aparecen columnas hex (results/debug_b0_b1.png). `Debug_DrawHUDVars_096A80` imprime `$106E88`, `$106F5C`, `$106F50`, `$106F54`, dos valores derivados ($5D8F2) y `$10E39C`. **`$106F5C` no es un RNG**: en emulador sigue a la parte alta de `$106F50` (`$01AE` = `$01AE0800`), es la X de scroll de cámara. b0 además habilita el atajo al sound test en el attract (C) y DebugColl (b1). |
 | b1 | Inspector de colisión DebugColl | ✅ | `DebugColl_Init_05efca` sólo se instala desde `Task_InstallMissionSlots_001dcc` si b0=1; con `debug=0003` aparece una columna extra de valores hex (results/debug_b0_b1.png) que con `0001` no está. Con `debug=0002` sola no cambia ningún píxel en 52 capturas (b1 en `ScriptOp02_Sprite` sólo pone el bit 7 de `$5A`). |
-| b2 / b7 | ScreenNuke_Init con P2 A+Derecha | ✅ (por parche) | `DebugTriggers_TwoBits_096B24` (llamada por los 7 handlers de inicio de misión `$96832..$969B4`) comprueba `InputEvtThunk_05cd18` (A de P2, `$10E206`) y `_05d11c` (Derecha) y lanza `$86586` (b2) / `$86582` (b7), entradas de `ScreenNuke_Init_08656e`. **No es una sombra de jefe**: las listas `$2ECD80`/`$2ECEC4` son cajas de ataque (op 3, daño `$7FFF`) del tamaño de la pantalla; con el parche `screennuke` todos los enemigos visibles mueren al empezar la misión (frame 3700). La rama b7 (`$86582`) no carga lista → sin efecto (`screennuke-b`). b2 también se lee 5 veces en `Player_AirActionSelect_037168`. |
+| b2 / b7 | ScreenNuke_Init con P2 A+Derecha | ✅ (por parche) | `DebugTriggers_TwoBits_096B24` (llamada por los 7 handlers de inicio de misión `$96832..$969B4`) comprueba `InputEvtThunk_05cd18` (A de P2, `$10E206`) y `_05d11c` (Derecha) y lanza `$86586` (b2) / `$86582` (b7), entradas de `ScreenNuke_Init_08656e`. **No es una sombra de jefe**: las listas `$2ECD80`/`$2ECEC4` son cajas de ataque (op 3, daño `$7FFF`) del tamaño de la pantalla; con el parche `screennuke` todos los enemigos visibles mueren al empezar la misión (frame 3700). La rama b7 (`$86582`) no carga lista → sin efecto (`screennuke-b`). **Disparador original reproducido** sin parche con `debug=0004` + P2 A+Derecha mantenidos (`--input-script-p2 "1500-4000:24"`): idéntico píxel a píxel al parche `screennuke` en 3600..3900; el soldado de la derecha muere al empezar M1 (results/screennuke_p2.png, control a la izquierda). b2 también se lee 5 veces en `Player_AirActionSelect_037168`. |
 | b3 | Invulnerabilidad | ✅ | receta 06 (ya verificado). |
 | b4 | HUD de cadena del Slug + flag +$124 | 🔎 | lectores `Chain3_TplC/Follow/DebugHud` y `ScriptOp02_Sprite` (+$124: `jsr $2F84A` si b0 de `$6B`). Sin Slug en pantalla, `debug=0010` no cambia ningún píxel (0/52 capturas); efecto visible no comprobado. |
 | b5 | Arco de salto alternativo | ✅ | `debug=0020`: la partida diverge desde el frame 3650 (47/52 capturas distintas). El jugador salta distinto (`Player_JumpAir_036a70`) y no avanza. |
@@ -51,8 +51,14 @@ Leyenda: ✅ confirmado en emulador · 🔎 confirmado en el binario (estático)
   C-BGM off, D-SE off; P2 A..D = canales 0..3).
 * Las entradas de P1 se ven en el menú (código pasa a `0021`, el cursor baja).
   El envío al Z80 (`jsr $219C` con código + offset de página `$7A7F4`) se
-  hace en la rama de **P2** (`$10E209` b4..b7), que pydmg no puede pulsar; el
-  audio no se comprobó.
+  hace en la rama de **P2** (`$10E209` b4..b7).
+* ✅ **Envío al Z80 verificado** (pydmg con el nuevo `--input-script-p2`,
+  `boot=soundtest`, `--audio-out`): sin pulsar nada el audio es silencio
+  absoluto; con P2 A en el frame 900 suena (pico 25641, ~5 s). P2 B/C/D
+  también suenan (los tres canales parten del mismo código y dan audio
+  idéntico). Con P1 Arriba ×3 antes de P2 A el audio cambia: se envía el
+  código seleccionado + offset de banco. Una pulsación en el frame 600 se
+  ignora (el menú aún no lee mandos).
 
 ## D. Stream de misión de debug — ✅ con corrección
 
