@@ -84,7 +84,7 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Auditoría empírica de funciones ocultas (receta 09): sound test, final, BLOOD, flags de debug.
 - [x] Un parche reproducible por función oculta (tabla al final de la receta 09; ScreenNuke y WarpKeys verificados por parche).
 - [x] Sound test: envío al Z80 por la rama P2 verificado (pydmg `--input-script-p2`, receta 09).
-- [ ] WarpKeys D+C: la caja `$2DF456` es op 0 (contra jugadores), tipo `$0F`, daño 10; sin efecto visible ni sin invencibilidad (receta 09). Falta ver por qué el tipo `$0F` no golpea.
+- [x] WarpKeys D+C: no golpea porque el piloto automático pone `$45(jugador)=2` y Hitbox_TestBoxes marca bloqueado (receta 09).
 - [x] Nombrar los 150 SFX de la tabla A: 68 por usuarios + 82 por escucha automática (ver M-ROM).
 
 ## Herramientas / experimentos

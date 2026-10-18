@@ -133,7 +133,15 @@ Leyenda: ✅ confirmado en emulador · 🔎 confirmado en el binario (estático)
   `(x≈$88, y=$159)`, dentro de la caja): las capturas con D+C y con sólo D son
   idénticas píxel a píxel en 3000..4000 y P1 no recibe daño. Probablemente el
   tipo `$0F` no lo acepta la caja de cuerpo del jugador o la caja se evalúa
-  antes de tener sprite; queda sin explicar.
+  antes de tener sprite.
+* 🔎 **Explicado (estático)**: el tipo no filtra (`HitShapeTab_17928c[$0F]` = 0;
+  sólo 1 descarta). La causa es que `AutoDemo_Tmpl_Driver_079298` (+$072/+$086)
+  pone `move.b #2,$45(jugador)` mientras `$10E39C` ≠ 0, y
+  `Hitbox_TestBoxes_028594` (+$090) salta a `Hitbox_MarkBlocked_0286d4` si
+  `$45(a1)` ≠ 0: durante el piloto automático los jugadores son intocables,
+  así que la caja de D+C nunca puede dañarlos. Parece una herramienta para
+  colocar a la tarea del piloto (y su caja de depuración, visible con el
+  sprite op 02 de la lista) en un punto fijo de la pantalla.
 
 ## G. Bugs del original
 
