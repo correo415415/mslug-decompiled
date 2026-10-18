@@ -7,6 +7,14 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $02BE44: jsr $2a9a0(pc)
+pub fn i_02be44(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2BE48;
+    cpu.ir = 0x4EBA;
+    cpu.push32(bus, 0x2BE48);
+    cpu.pc = 0x2A9A0;
+    16
+}
 /// $02BE48: movea.l #$2794fc, a0
 pub fn i_02be48(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x2BE4E;
@@ -12579,18 +12587,9 @@ pub fn i_02d78c(cpu: &mut Cpu, bus: &mut B) -> u32 {
     bus.write8(ad1, r3 as u8);
     16
 }
-/// $02D792: move.b #$28, $45(a6)
-pub fn i_02d792(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2D798;
-    cpu.ir = 0x1D7C;
-    let v1: u32 = 0x28;
-    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
-    let ad2 = cpu.a[6].wrapping_add(0x45);
-    bus.write8(ad2, v1 as u8);
-    12
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x02BE44, i_02be44),
     (0x02BE48, i_02be48),
     (0x02BE4E, i_02be4e),
     (0x02BE50, i_02be50),
@@ -14090,5 +14089,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x02D786, i_02d786),
     (0x02D78A, i_02d78a),
     (0x02D78C, i_02d78c),
-    (0x02D792, i_02d792),
 ];

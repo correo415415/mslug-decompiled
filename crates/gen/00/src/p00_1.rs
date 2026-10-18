@@ -7,6 +7,23 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $002428: addq.w #$1, d2
+pub fn i_002428(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x242A;
+    cpu.ir = 0x5242;
+    let v1 = cpu.d[2] & 0xFFFF;
+    let r2 = add_with_flags(cpu, v1, 1, Size::Word, true);
+    cpu.d[2] = (cpu.d[2] & !0xFFFF) | (r2 & 0xFFFF);
+    4
+}
+/// $00242A: adda.l #$20, a1
+pub fn i_00242a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2430;
+    cpu.ir = 0xD3FC;
+    let v1: u32 = 0x20;
+    cpu.a[1] = cpu.a[1].wrapping_add(v1);
+    8
+}
 /// $002430: cmp.l $2(a1), d1
 pub fn i_002430(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x2434;
@@ -5735,6 +5752,8 @@ pub fn i_002f2c(cpu: &mut Cpu, bus: &mut B) -> u32 {
 }
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x002428, i_002428),
+    (0x00242A, i_00242a),
     (0x002430, i_002430),
     (0x002434, i_002434),
     (0x002438, i_002438),

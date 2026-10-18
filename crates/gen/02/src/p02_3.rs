@@ -7648,6 +7648,13 @@ pub fn i_02b4ca(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x2B4D2;
     10
 }
+/// $02B4CE: bra.w $2b4d2
+pub fn i_02b4ce(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2B4D2;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x2B4D2;
+    10
+}
 // ===== Slug_IdleSlope_02b4d2  ($02B4D2, 546 B, slug/states_02ae3e.s)
 /// $02B4D2: clr.w $36(a6)
 pub fn i_02b4d2(cpu: &mut Cpu, bus: &mut B) -> u32 {
@@ -12602,14 +12609,6 @@ pub fn i_02be3e(cpu: &mut Cpu, bus: &mut B) -> u32 {
     bus.write8(ad2, v1 as u8);
     12
 }
-/// $02BE44: jsr $2a9a0(pc)
-pub fn i_02be44(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2BE48;
-    cpu.ir = 0x4EBA;
-    cpu.push32(bus, 0x2BE48);
-    cpu.pc = 0x2A9A0;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x02A4A0, i_02a4a0),
@@ -13518,6 +13517,7 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x02B4C4, i_02b4c4),
     (0x02B4C8, i_02b4c8),
     (0x02B4CA, i_02b4ca),
+    (0x02B4CE, i_02b4ce),
     (0x02B4D2, i_02b4d2),
     (0x02B4D6, i_02b4d6),
     (0x02B4DC, i_02b4dc),
@@ -14111,5 +14111,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x02BE38, i_02be38),
     (0x02BE3A, i_02be3a),
     (0x02BE3E, i_02be3e),
-    (0x02BE44, i_02be44),
 ];

@@ -7,6 +7,27 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $089D28: bcc.w $89d32
+pub fn i_089d28(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x89D2C;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x89D32; return 10; }
+    8
+}
+/// $089D2C: jmp $518.l
+pub fn i_089d2c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x89D32;
+    cpu.ir = 0x4EF9;
+    cpu.pc = 0x518;
+    8
+}
+/// $089D32: rts
+pub fn i_089d32(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x89D34;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
 // ===== S5_Crate_Broken_089d34  ($089D34, 90 B, enemies/bosses/scene5_airship_088a64.s)
 /// $089D34: move.l #$500, d0
 pub fn i_089d34(cpu: &mut Cpu, bus: &mut B) -> u32 {
@@ -12611,31 +12632,11 @@ pub fn i_08bb10(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
     12
 }
-/// $08BB12: jsr $2783a.l
-pub fn i_08bb12(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8BB18;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x8BB18);
-    cpu.pc = 0x2783A;
-    16
-}
-/// $08BB18: jsr $28d70.l
-pub fn i_08bb18(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8BB1E;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x8BB1E);
-    cpu.pc = 0x28D70;
-    16
-}
-/// $08BB1E: bcc.w $8bb28
-pub fn i_08bb1e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8BB22;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x8BB28; return 10; }
-    8
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x089D28, i_089d28),
+    (0x089D2C, i_089d2c),
+    (0x089D32, i_089d32),
     (0x089D34, i_089d34),
     (0x089D3A, i_089d3a),
     (0x089D40, i_089d40),
@@ -14133,7 +14134,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x08BB06, i_08bb06),
     (0x08BB0C, i_08bb0c),
     (0x08BB10, i_08bb10),
-    (0x08BB12, i_08bb12),
-    (0x08BB18, i_08bb18),
-    (0x08BB1E, i_08bb1e),
 ];

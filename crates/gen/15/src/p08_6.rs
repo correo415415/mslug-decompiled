@@ -7,6 +7,29 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $08BB12: jsr $2783a.l
+pub fn i_08bb12(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8BB18;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x8BB18);
+    cpu.pc = 0x2783A;
+    16
+}
+/// $08BB18: jsr $28d70.l
+pub fn i_08bb18(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8BB1E;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x8BB1E);
+    cpu.pc = 0x28D70;
+    16
+}
+/// $08BB1E: bcc.w $8bb28
+pub fn i_08bb1e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8BB22;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x8BB28; return 10; }
+    8
+}
 // ===== SetTaskHandler_08bb22  ($08BB22, 8 B, kernel/task_handlers.c)
 /// $08BB22: lea.l $8bb84(pc), a1
 pub fn i_08bb22(cpu: &mut Cpu, bus: &mut B) -> u32 {
@@ -12751,36 +12774,11 @@ pub fn i_08d76c(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x518;
     8
 }
-/// $08D772: rts
-pub fn i_08d772(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8D774;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
-// ===== Capsule_DimWaitScroll_08d774  ($08D774, 66 B, enemies/soldiers/grunts_capsule_08d184.s)
-/// $08D774: subq.b #$2, $32(a6)
-pub fn i_08d774(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8D778;
-    cpu.ir = 0x552E;
-    let ad1 = cpu.a[6].wrapping_add(0x32);
-    let v2 = bus.read8(ad1) as u32;
-    let r3 = sub_with_flags(cpu, v2, 2, Size::Byte, true);
-    bus.write8(ad1, r3 as u8);
-    12
-}
-/// $08D778: subq.b #$2, $33(a6)
-pub fn i_08d778(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8D77C;
-    cpu.ir = 0x552E;
-    let ad1 = cpu.a[6].wrapping_add(0x33);
-    let v2 = bus.read8(ad1) as u32;
-    let r3 = sub_with_flags(cpu, v2, 2, Size::Byte, true);
-    bus.write8(ad1, r3 as u8);
-    12
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x08BB12, i_08bb12),
+    (0x08BB18, i_08bb18),
+    (0x08BB1E, i_08bb1e),
     (0x08BB22, i_08bb22),
     (0x08BB26, i_08bb26),
     (0x08BB28, i_08bb28),
@@ -14278,7 +14276,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x08D760, i_08d760),
     (0x08D766, i_08d766),
     (0x08D76C, i_08d76c),
-    (0x08D772, i_08d772),
-    (0x08D774, i_08d774),
-    (0x08D778, i_08d778),
 ];

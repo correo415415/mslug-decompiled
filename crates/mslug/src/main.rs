@@ -77,6 +77,11 @@ enum Cmd {
         /// Añadir las direcciones sin traducir a este fichero (seeds.txt).
         #[arg(long)]
         misses_out: Option<PathBuf>,
+        /// Entradas pseudoaleatorias con esta semilla (en lugar del patrón
+        /// fijo), con moneda + START periódicos para continuar: recorre más
+        /// partes del juego para encontrar código sin traducir.
+        #[arg(long)]
+        fuzz: Option<u64>,
     },
     /// Vuelca la P-ROM (vista CPU) y la BIOS cargada a `out/` (entrada del
     /// recompilador).
@@ -141,6 +146,57 @@ pub fn auto_inputs(sys: &mut System, coin: u32, f: u32) {
     }
 }
 
+/// Entradas pseudoaleatorias reproducibles (xorshift64*) para `play --fuzz`.
+/// Cada 4..36 frames elige un nuevo estado de palanca y botones (sesgado
+/// hacia la derecha y el disparo, para avanzar), y cada 600 frames mete una
+/// moneda y pulsa START (continuar / empezar).
+pub struct Fuzz {
+    s: u64,
+    hold: u32,
+    p1: u8,
+}
+
+impl Fuzz {
+    pub fn new(seed: u64) -> Self {
+        Self { s: seed.wrapping_mul(0x9E37_79B9_7F4A_7C15) | 1, hold: 0, p1: 0 }
+    }
+    fn next(&mut self) -> u64 {
+        self.s ^= self.s >> 12;
+        self.s ^= self.s << 25;
+        self.s ^= self.s >> 27;
+        self.s.wrapping_mul(0x2545_F491_4F6C_DD1D)
+    }
+    pub fn inputs(&mut self, sys: &mut System, f: u32) {
+        let c = f % 600;
+        if c == 0 {
+            sys.bus.coin_inputs &= !0x01;
+        } else if c == 8 {
+            sys.bus.coin_inputs |= 0x01;
+        }
+        if (100..104).contains(&c) || (300..304).contains(&c) {
+            sys.bus.start_select &= !0x01;
+        } else {
+            sys.bus.start_select |= 0x01;
+        }
+        if self.hold == 0 {
+            let r = self.next();
+            self.hold = 4 + (r % 33) as u32;
+            let mut m: u8 = 0;
+            let d = (r >> 8) % 10;
+            m |= match d { 0..=4 => 0x08, 5 => 0x04, 6 => 0x01, 7 => 0x02, 8 => 0x09, _ => 0 };
+            if (r >> 16) % 3 != 0 { m |= 0x10; } // A disparo
+            if (r >> 20) % 4 == 0 { m |= 0x20; } // B salto
+            if (r >> 24) % 8 == 0 { m |= 0x40; } // C granada
+            if (r >> 28) % 32 == 0 { m |= 0x80; }
+            self.p1 = m;
+        }
+        self.hold -= 1;
+        // alternar el disparo para que cuente como pulsaciones
+        let m = if f % 2 == 1 { self.p1 & !0x10 } else { self.p1 };
+        sys.bus.p1_input = !m;
+    }
+}
+
 fn main() -> Result<()> {
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("warn")).init();
     let cli = Cli::parse();
@@ -178,15 +234,19 @@ fn main() -> Result<()> {
         }
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
-        Cmd::Play { frames, coin, dump, every, misses_out } => {
+        Cmd::Play { frames, coin, dump, every, misses_out, fuzz } => {
             let mut sys = load(&cli.rom)?;
             let mut prog = mslug_code::Program::new();
             if let Some(d) = &dump {
                 std::fs::create_dir_all(d)?;
             }
             let t0 = std::time::Instant::now();
+            let mut fz = fuzz.map(Fuzz::new);
             for f in 0..frames {
-                auto_inputs(&mut sys, coin, f);
+                match fz.as_mut() {
+                    Some(z) => z.inputs(&mut sys, f),
+                    None => auto_inputs(&mut sys, coin, f),
+                }
                 prog.run_frame(&mut sys);
                 if let Some(d) = &dump {
                     if f % every.max(1) == 0 {

@@ -11093,6 +11093,13 @@ pub fn i_043860(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x4394A;
     10
 }
+/// $043868: bra.w $439d8
+pub fn i_043868(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4386C;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x439D8;
+    10
+}
 /// $04394A: lea.l $a(a1), a0
 pub fn i_04394a(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x4394E;
@@ -11257,6 +11264,48 @@ pub fn i_0439ae(cpu: &mut Cpu, bus: &mut B) -> u32 {
 /// $0439B6: bra.w $4380c
 pub fn i_0439b6(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x439BA;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x4380C;
+    10
+}
+/// $0439D8: lea.l $4(a1), a0
+pub fn i_0439d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x439DC;
+    cpu.ir = 0x41E9;
+    let ad1 = cpu.a[1].wrapping_add(0x4);
+    cpu.a[0] = ad1;
+    16
+}
+/// $0439DC: move.l a0, $10815c.l
+pub fn i_0439dc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x439E2;
+    cpu.ir = 0x23C8;
+    let v1 = cpu.a[0] & 0xFFFFFFFF;
+    bus.write32(0x10815C, v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    20
+}
+/// $0439E2: move.w $2(a1), d0
+pub fn i_0439e2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x439E6;
+    cpu.ir = 0x3029;
+    let ad2 = cpu.a[1].wrapping_add(0x2);
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v3 & 0xFFFF);
+    12
+}
+/// $0439E6: jsr $219c.l
+pub fn i_0439e6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x439EC;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x439EC);
+    cpu.pc = 0x219C;
+    16
+}
+/// $0439EC: bra.w $4380c
+pub fn i_0439ec(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x439F0;
     cpu.ir = 0x6000;
     cpu.pc = 0x4380C;
     10
@@ -12803,53 +12852,6 @@ pub fn i_043d90(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.a[0] = 0x107FE8;
     20
 }
-/// $043D96: bsr.w $43daa
-pub fn i_043d96(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x43D9A;
-    cpu.ir = 0x6100;
-    cpu.push32(bus, 0x43D9A);
-    cpu.pc = 0x43DAA;
-    18
-}
-/// $043D9A: lea.l $108064.l, a0
-pub fn i_043d9a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x43DA0;
-    cpu.ir = 0x41F9;
-    cpu.a[0] = 0x108064;
-    20
-}
-/// $043DA0: bsr.w $43daa
-pub fn i_043da0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x43DA4;
-    cpu.ir = 0x6100;
-    cpu.push32(bus, 0x43DA4);
-    cpu.pc = 0x43DAA;
-    18
-}
-/// $043DA4: lea.l $1080e0.l, a0
-pub fn i_043da4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x43DAA;
-    cpu.ir = 0x41F9;
-    cpu.a[0] = 0x1080E0;
-    20
-}
-// ===== CameraApplyOne_043DAA  ($043DAA, 74 B, video/camera_apply_043daa.s)
-/// $043DAA: tst.l $e(a0)
-pub fn i_043daa(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x43DAE;
-    cpu.ir = 0x4AA8;
-    let ad2 = cpu.a[0].wrapping_add(0xE);
-    let v3 = bus.read32(ad2);
-    cpu.sr.set_nz(v3, Size::Long); cpu.sr.0 &= !0x3;
-    16
-}
-/// $043DAE: beq.w $43df2
-pub fn i_043dae(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x43DB2;
-    cpu.ir = 0x6700;
-    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x43DF2; return 10; }
-    8
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x041CE0, i_041ce0),
@@ -14146,6 +14148,7 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x043858, i_043858),
     (0x04385C, i_04385c),
     (0x043860, i_043860),
+    (0x043868, i_043868),
     (0x04394A, i_04394a),
     (0x04394E, i_04394e),
     (0x043954, i_043954),
@@ -14165,6 +14168,11 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0439A6, i_0439a6),
     (0x0439AE, i_0439ae),
     (0x0439B6, i_0439b6),
+    (0x0439D8, i_0439d8),
+    (0x0439DC, i_0439dc),
+    (0x0439E2, i_0439e2),
+    (0x0439E6, i_0439e6),
+    (0x0439EC, i_0439ec),
     (0x0439F0, i_0439f0),
     (0x0439F4, i_0439f4),
     (0x0439FA, i_0439fa),
@@ -14346,10 +14354,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x043D86, i_043d86),
     (0x043D8C, i_043d8c),
     (0x043D90, i_043d90),
-    (0x043D96, i_043d96),
-    (0x043D9A, i_043d9a),
-    (0x043DA0, i_043da0),
-    (0x043DA4, i_043da4),
-    (0x043DAA, i_043daa),
-    (0x043DAE, i_043dae),
 ];

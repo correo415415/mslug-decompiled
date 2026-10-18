@@ -8039,6 +8039,26 @@ pub fn i_0019b4(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x188A;
     10
 }
+/// $001A64: move.b #$2, $45(a6)
+pub fn i_001a64(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x1A6A;
+    cpu.ir = 0x1D7C;
+    let v1: u32 = 0x2;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x45);
+    bus.write8(ad2, v1 as u8);
+    12
+}
+/// $001A6A: move.b #$2, $44(a6)
+pub fn i_001a6a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x1A70;
+    cpu.ir = 0x1D7C;
+    let v1: u32 = 0x2;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x44);
+    bus.write8(ad2, v1 as u8);
+    12
+}
 /// $001A70: bsr.w $1db8
 pub fn i_001a70(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x1A74;
@@ -12657,23 +12677,6 @@ pub fn i_002424(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x296A;
     8
 }
-/// $002428: addq.w #$1, d2
-pub fn i_002428(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x242A;
-    cpu.ir = 0x5242;
-    let v1 = cpu.d[2] & 0xFFFF;
-    let r2 = add_with_flags(cpu, v1, 1, Size::Word, true);
-    cpu.d[2] = (cpu.d[2] & !0xFFFF) | (r2 & 0xFFFF);
-    4
-}
-/// $00242A: adda.l #$20, a1
-pub fn i_00242a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x2430;
-    cpu.ir = 0xD3FC;
-    let v1: u32 = 0x20;
-    cpu.a[1] = cpu.a[1].wrapping_add(v1);
-    8
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0000C0, i_0000c0),
@@ -13619,6 +13622,8 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0019A8, i_0019a8),
     (0x0019AE, i_0019ae),
     (0x0019B4, i_0019b4),
+    (0x001A64, i_001a64),
+    (0x001A6A, i_001a6a),
     (0x001A70, i_001a70),
     (0x001A74, i_001a74),
     (0x001A7A, i_001a7a),
@@ -14174,6 +14179,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x00241C, i_00241c),
     (0x002420, i_002420),
     (0x002424, i_002424),
-    (0x002428, i_002428),
-    (0x00242A, i_00242a),
 ];

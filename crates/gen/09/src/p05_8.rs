@@ -7,6 +7,1033 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $05E770: btst.b #$0, $13(a6)
+pub fn i_05e770(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E776;
+    cpu.ir = 0x82E;
+    let mk: u32 = 1u32 << ((0) % 8);
+    let ad2 = cpu.a[6].wrapping_add(0x13);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set(StatusRegister::Z, v3 & mk == 0);
+    16
+}
+/// $05E776: bne.w $5e796
+pub fn i_05e776(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E77A;
+    cpu.ir = 0x6600;
+    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x5E796; return 10; }
+    8
+}
+/// $05E77A: move.b $58(a6), d0
+pub fn i_05e77a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E77E;
+    cpu.ir = 0x102E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v3 & 0xFF);
+    12
+}
+/// $05E77E: andi.w #$ff, d0
+pub fn i_05e77e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E782;
+    cpu.ir = 0x240;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = (v1 & 0xFF) & 0xFFFF;
+    cpu.sr.set_nz(r2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    8
+}
+/// $05E782: subq.w #$1, d0
+pub fn i_05e782(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E784;
+    cpu.ir = 0x5340;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = sub_with_flags(cpu, v1, 1, Size::Word, true);
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    4
+}
+/// $05E784: cmpi.w #$5, d0
+pub fn i_05e784(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E788;
+    cpu.ir = 0xC40;
+    let v1 = cpu.d[0] & 0xFFFF;
+    sub_with_flags(cpu, v1, 0x5, Size::Word, false);
+    8
+}
+/// $05E788: bcc.w $5e796
+pub fn i_05e788(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E78C;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x5E796; return 10; }
+    8
+}
+/// $05E78C: asl.w #$1, d0
+pub fn i_05e78c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E78E;
+    cpu.ir = 0xE340;
+    let h1 = cpu.d[0] & 0xFFFF;
+    let r = do_shift_rotate(cpu, h1, 1, Size::Word, 0, true);
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r & 0xFFFF);
+    8
+}
+/// $05E78E: move.w (a0, d0.w), d0
+pub fn i_05e78e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E792;
+    cpu.ir = 0x3030;
+    let ad2 = cpu.a[0].wrapping_add(0x0).wrapping_add((cpu.d[0] as i16 as i32 as u32));
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v3 & 0xFFFF);
+    14
+}
+/// $05E792: jmp $5e728(pc)
+pub fn i_05e792(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E796;
+    cpu.ir = 0x4EFA;
+    cpu.pc = 0x5E728;
+    8
+}
+/// $05E796: rts
+pub fn i_05e796(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E798;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Hit_SoundByAttackClassTbl_05e798  ($05E798, 40 B, props/late_props_turrets_05e000.s)
+/// $05E798: btst.b #$0, $13(a6)
+pub fn i_05e798(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E79E;
+    cpu.ir = 0x82E;
+    let mk: u32 = 1u32 << ((0) % 8);
+    let ad2 = cpu.a[6].wrapping_add(0x13);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set(StatusRegister::Z, v3 & mk == 0);
+    16
+}
+/// $05E79E: bne.w $5e7be
+pub fn i_05e79e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7A2;
+    cpu.ir = 0x6600;
+    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x5E7BE; return 10; }
+    8
+}
+/// $05E7A2: move.b $58(a6), d0
+pub fn i_05e7a2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7A6;
+    cpu.ir = 0x102E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v3 & 0xFF);
+    12
+}
+/// $05E7A6: andi.w #$ff, d0
+pub fn i_05e7a6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7AA;
+    cpu.ir = 0x240;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = (v1 & 0xFF) & 0xFFFF;
+    cpu.sr.set_nz(r2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    8
+}
+/// $05E7AA: subq.w #$1, d0
+pub fn i_05e7aa(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7AC;
+    cpu.ir = 0x5340;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = sub_with_flags(cpu, v1, 1, Size::Word, true);
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    4
+}
+/// $05E7AC: cmpi.w #$5, d0
+pub fn i_05e7ac(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7B0;
+    cpu.ir = 0xC40;
+    let v1 = cpu.d[0] & 0xFFFF;
+    sub_with_flags(cpu, v1, 0x5, Size::Word, false);
+    8
+}
+/// $05E7B0: bcc.w $5e7be
+pub fn i_05e7b0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7B4;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x5E7BE; return 10; }
+    8
+}
+/// $05E7B4: asl.w #$1, d0
+pub fn i_05e7b4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7B6;
+    cpu.ir = 0xE340;
+    let h1 = cpu.d[0] & 0xFFFF;
+    let r = do_shift_rotate(cpu, h1, 1, Size::Word, 0, true);
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r & 0xFFFF);
+    8
+}
+/// $05E7B6: move.w (a0, d0.w), d0
+pub fn i_05e7b6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7BA;
+    cpu.ir = 0x3030;
+    let ad2 = cpu.a[0].wrapping_add(0x0).wrapping_add((cpu.d[0] as i16 as i32 as u32));
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v3 & 0xFFFF);
+    14
+}
+/// $05E7BA: jmp $5e73c(pc)
+pub fn i_05e7ba(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7BE;
+    cpu.ir = 0x4EFA;
+    cpu.pc = 0x5E73C;
+    8
+}
+/// $05E7BE: rts
+pub fn i_05e7be(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7C0;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Entity_SnapToGround_05e7c0  ($05E7C0, 24 B, props/late_props_turrets_05e000.s)
+/// $05E7C0: andi.w #$3ff, $24(a6)
+pub fn i_05e7c0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7C6;
+    cpu.ir = 0x26E;
+    let ad1 = cpu.a[6].wrapping_add(0x24);
+    let v2 = bus.read16(ad1) as u32;
+    let r3 = (v2 & 0x3FF) & 0xFFFF;
+    cpu.sr.set_nz(r3, Size::Word); cpu.sr.0 &= !0x3;
+    bus.write16(ad1, r3 as u16);
+    16
+}
+/// $05E7C6: cmpi.w #$0, $24(a6)
+pub fn i_05e7c6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7CC;
+    cpu.ir = 0xC6E;
+    let ad2 = cpu.a[6].wrapping_add(0x24);
+    let v3 = bus.read16(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x0, Size::Word, false);
+    16
+}
+/// $05E7CC: blt.w $5e7de
+pub fn i_05e7cc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7D0;
+    cpu.ir = 0x6D00;
+    if cpu.sr.evaluate(Condition::Lt) { cpu.pc = 0x5E7DE; return 10; }
+    8
+}
+/// $05E7D0: jsr $27c8c.l
+pub fn i_05e7d0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7D6;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x5E7D6);
+    cpu.pc = 0x27C8C;
+    16
+}
+/// $05E7D6: bcc.b $5e7c6
+pub fn i_05e7d6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7D8;
+    cpu.ir = 0x64EE;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x5E7C6; return 10; }
+    8
+}
+// ===== SetXN_05e7d8  ($05E7D8, 6 B, thunks/ccr_helpers.c)
+/// $05E7D8: ori.b #$11, ccr
+pub fn i_05e7d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7DC;
+    cpu.ir = 0x3C;
+    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) | 0x11);
+    20
+}
+/// $05E7DC: rts
+pub fn i_05e7dc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7DE;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Entity_ResetPosDefault_05e7de  ($05E7DE, 12 B, props/late_props_turrets_05e000.s)
+/// $05E7DE: move.w #$a0, $22(a6)
+pub fn i_05e7de(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7E4;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0xA0;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x22);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $05E7E4: move.w #$180, $24(a6)
+pub fn i_05e7e4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7EA;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0x180;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x24);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+// ===== ClearXN_05e7ea  ($05E7EA, 6 B, thunks/ccr_helpers.c)
+/// $05E7EA: andi.b #$ee, ccr
+pub fn i_05e7ea(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7EE;
+    cpu.ir = 0x23C;
+    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) & 0xE);
+    20
+}
+/// $05E7EE: rts
+pub fn i_05e7ee(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7F0;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Fix_Write106E8C_05e7f0  ($05E7F0, 12 B, props/late_props_turrets_05e000.s)
+/// $05E7F0: movea.l #$7144, a1
+pub fn i_05e7f0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7F6;
+    cpu.ir = 0x227C;
+    let v1: u32 = 0x7144;
+    cpu.a[1] = v1;
+    4
+}
+/// $05E7F6: move.w $106e8c.l, d0
+pub fn i_05e7f6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E7FC;
+    cpu.ir = 0x3039;
+    let v2 = bus.read16(0x106E8C) as u32;
+    cpu.sr.set_nz(v2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v2 & 0xFFFF);
+    16
+}
+// ===== JsrAbsThunk_05e7fc  ($05E7FC, 8 B, thunks/jsr_abs_thunks.c)
+/// $05E7FC: jsr $5d6c2.l
+pub fn i_05e7fc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E802;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x5E802);
+    cpu.pc = 0x5D6C2;
+    16
+}
+/// $05E802: rts
+pub fn i_05e802(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E804;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Scroll_IsPastQuarter_05e804  ($05E804, 26 B, props/late_props_turrets_05e000.s)
+/// $05E804: move.w $10e1e8.l, d0
+pub fn i_05e804(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E80A;
+    cpu.ir = 0x3039;
+    let v2 = bus.read16(0x10E1E8) as u32;
+    cpu.sr.set_nz(v2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v2 & 0xFFFF);
+    16
+}
+/// $05E80A: move.w $10e1fa.l, d1
+pub fn i_05e80a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E810;
+    cpu.ir = 0x3239;
+    let v2 = bus.read16(0x10E1FA) as u32;
+    cpu.sr.set_nz(v2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v2 & 0xFFFF);
+    16
+}
+/// $05E810: sub.w $10e1f6.l, d1
+pub fn i_05e810(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E816;
+    cpu.ir = 0x9279;
+    let v2 = bus.read16(0x10E1F6) as u32;
+    let h1 = cpu.d[1] & 0xFFFF;
+    let r = sub_with_flags(cpu, h1, v2, Size::Word, true);
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (r & 0xFFFF);
+    16
+}
+/// $05E816: move.w d1, d2
+pub fn i_05e816(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E818;
+    cpu.ir = 0x3401;
+    let v1 = cpu.d[1] & 0xFFFF;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[2] = (cpu.d[2] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+/// $05E818: lsr.w #$2, d2
+pub fn i_05e818(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E81A;
+    cpu.ir = 0xE44A;
+    let h1 = cpu.d[2] & 0xFFFF;
+    let r = do_shift_rotate(cpu, h1, 2, Size::Word, 1, false);
+    cpu.d[2] = (cpu.d[2] & !0xFFFF) | (r & 0xFFFF);
+    10
+}
+/// $05E81A: cmp.w d2, d0
+pub fn i_05e81a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E81C;
+    cpu.ir = 0xB042;
+    let v1 = cpu.d[2] & 0xFFFF;
+    let h1 = cpu.d[0] & 0xFFFF;
+    sub_with_flags(cpu, h1, v1, Size::Word, false);
+    4
+}
+/// $05E81C: rts
+pub fn i_05e81c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E81E;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Entity_SetField14By106F28_05e81e  ($05E81E, 38 B, props/late_props_turrets_05e000.s)
+/// $05E81E: ori.b #$18, (a6)
+pub fn i_05e81e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E822;
+    cpu.ir = 0x16;
+    let ad1 = cpu.a[6];
+    let v2 = bus.read8(ad1) as u32;
+    let r3 = (v2 | 0x18) & 0xFF;
+    cpu.sr.set_nz(r3, Size::Byte); cpu.sr.0 &= !0x3;
+    bus.write8(ad1, r3 as u8);
+    12
+}
+/// $05E822: ori.b #$1a, (a6)
+pub fn i_05e822(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E826;
+    cpu.ir = 0x16;
+    let ad1 = cpu.a[6];
+    let v2 = bus.read8(ad1) as u32;
+    let r3 = (v2 | 0x1A) & 0xFF;
+    cpu.sr.set_nz(r3, Size::Byte); cpu.sr.0 &= !0x3;
+    bus.write8(ad1, r3 as u8);
+    12
+}
+/// $05E826: moveq #$0, d0
+pub fn i_05e826(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E828;
+    cpu.ir = 0x7000;
+    cpu.d[0] = 0x0;
+    cpu.sr.set_nz(cpu.d[0], Size::Long); cpu.sr.0 &= !0x3;
+    4
+}
+/// $05E828: move.b $106f28.l, d0
+pub fn i_05e828(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E82E;
+    cpu.ir = 0x1039;
+    let v2 = bus.read8(0x106F28) as u32;
+    cpu.sr.set_nz(v2, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v2 & 0xFF);
+    16
+}
+/// $05E82E: andi.w #$3, d0
+pub fn i_05e82e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E832;
+    cpu.ir = 0x240;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = (v1 & 0x3) & 0xFFFF;
+    cpu.sr.set_nz(r2, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    8
+}
+/// $05E832: lsl.w #$1, d0
+pub fn i_05e832(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E834;
+    cpu.ir = 0xE348;
+    let h1 = cpu.d[0] & 0xFFFF;
+    let r = do_shift_rotate(cpu, h1, 1, Size::Word, 1, true);
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r & 0xFFFF);
+    8
+}
+/// $05E834: lea.l $5e81e(pc), a0
+pub fn i_05e834(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E838;
+    cpu.ir = 0x41FA;
+    cpu.a[0] = 0x5E81E;
+    16
+}
+/// $05E838: move.w (a0, d0.w), d1
+pub fn i_05e838(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E83C;
+    cpu.ir = 0x3230;
+    let ad2 = cpu.a[0].wrapping_add(0x0).wrapping_add((cpu.d[0] as i16 as i32 as u32));
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v3 & 0xFFFF);
+    14
+}
+/// $05E83C: move.w (a6, d1.w), $14(a6)
+pub fn i_05e83c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E842;
+    cpu.ir = 0x3D76;
+    let ad2 = cpu.a[6].wrapping_add(0x0).wrapping_add((cpu.d[1] as i16 as i32 as u32));
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    let ad4 = cpu.a[6].wrapping_add(0x14);
+    bus.write16(ad4, v3 as u16);
+    22
+}
+/// $05E842: rts
+pub fn i_05e842(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E844;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Attack_IsHeavyType_05e844  ($05E844, 70 B, props/late_props_turrets_05e000.s)
+/// $05E844: cmpi.b #$2, $58(a6)
+pub fn i_05e844(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E84A;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x2, Size::Byte, false);
+    16
+}
+/// $05E84A: beq.w $5e890
+pub fn i_05e84a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E84E;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x5E890; return 10; }
+    8
+}
+/// $05E84E: cmpi.b #$3, $58(a6)
+pub fn i_05e84e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E854;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x3, Size::Byte, false);
+    16
+}
+/// $05E854: beq.w $5e890
+pub fn i_05e854(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E858;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x5E890; return 10; }
+    8
+}
+/// $05E858: cmpi.b #$15, $58(a6)
+pub fn i_05e858(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E85E;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x15, Size::Byte, false);
+    16
+}
+/// $05E85E: beq.w $5e890
+pub fn i_05e85e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E862;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x5E890; return 10; }
+    8
+}
+/// $05E862: cmpi.b #$16, $58(a6)
+pub fn i_05e862(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E868;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x16, Size::Byte, false);
+    16
+}
+/// $05E868: beq.w $5e890
+pub fn i_05e868(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E86C;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x5E890; return 10; }
+    8
+}
+/// $05E86C: cmpi.b #$17, $58(a6)
+pub fn i_05e86c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E872;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x17, Size::Byte, false);
+    16
+}
+/// $05E872: beq.w $5e890
+pub fn i_05e872(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E876;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x5E890; return 10; }
+    8
+}
+/// $05E876: cmpi.b #$18, $58(a6)
+pub fn i_05e876(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E87C;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x18, Size::Byte, false);
+    16
+}
+/// $05E87C: beq.w $5e890
+pub fn i_05e87c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E880;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x5E890; return 10; }
+    8
+}
+/// $05E880: cmpi.b #$1e, $58(a6)
+pub fn i_05e880(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E886;
+    cpu.ir = 0xC2E;
+    let ad2 = cpu.a[6].wrapping_add(0x58);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x1E, Size::Byte, false);
+    16
+}
+/// $05E886: beq.w $5e890
+pub fn i_05e886(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E88A;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x5E890; return 10; }
+    8
+}
+// ===== ClearXN_05e88a  ($05E88A, 6 B, thunks/ccr_helpers.c)
+/// $05E88A: andi.b #$ee, ccr
+pub fn i_05e88a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E88E;
+    cpu.ir = 0x23C;
+    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) & 0xE);
+    20
+}
+/// $05E88E: rts
+pub fn i_05e88e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E890;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== SetXN_05e890  ($05E890, 6 B, thunks/ccr_helpers.c)
+/// $05E890: ori.b #$11, ccr
+pub fn i_05e890(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E894;
+    cpu.ir = 0x3C;
+    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) | 0x11);
+    20
+}
+/// $05E894: rts
+pub fn i_05e894(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E896;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Players_AnyHit2AC0E_05e896  ($05E896, 34 B, props/late_props_turrets_05e000.s)
+/// $05E896: lea.l $100440.l, a0
+pub fn i_05e896(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E89C;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x100440;
+    20
+}
+/// $05E89C: jsr $2ac0e.l
+pub fn i_05e89c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8A2;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x5E8A2);
+    cpu.pc = 0x2AC0E;
+    16
+}
+/// $05E8A2: bcs.w $5e8b8
+pub fn i_05e8a2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8A6;
+    cpu.ir = 0x6500;
+    if cpu.sr.evaluate(Condition::Cs) { cpu.pc = 0x5E8B8; return 10; }
+    8
+}
+/// $05E8A6: lea.l $1004e0.l, a0
+pub fn i_05e8a6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8AC;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x1004E0;
+    20
+}
+/// $05E8AC: jsr $2ac0e.l
+pub fn i_05e8ac(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8B2;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x5E8B2);
+    cpu.pc = 0x2AC0E;
+    16
+}
+/// $05E8B2: bcs.w $5e8b8
+pub fn i_05e8b2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8B6;
+    cpu.ir = 0x6500;
+    if cpu.sr.evaluate(Condition::Cs) { cpu.pc = 0x5E8B8; return 10; }
+    8
+}
+/// $05E8B6: rts
+pub fn i_05e8b6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8B8;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Stub_0005E8B8  ($05E8B8, 2 B, thunks/trivial_rts.c)
+/// $05E8B8: rts
+pub fn i_05e8b8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8BA;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Entity_IsOnscreenMin_05e8ba  ($05E8BA, 20 B, props/late_props_turrets_05e000.s)
+/// $05E8BA: cmpi.w #$20, $24(a6)
+pub fn i_05e8ba(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8C0;
+    cpu.ir = 0xC6E;
+    let ad2 = cpu.a[6].wrapping_add(0x24);
+    let v3 = bus.read16(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x20, Size::Word, false);
+    16
+}
+/// $05E8C0: blt.w $5e8d4
+pub fn i_05e8c0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8C4;
+    cpu.ir = 0x6D00;
+    if cpu.sr.evaluate(Condition::Lt) { cpu.pc = 0x5E8D4; return 10; }
+    8
+}
+/// $05E8C4: cmpi.w #$ff80, $22(a6)
+pub fn i_05e8c4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8CA;
+    cpu.ir = 0xC6E;
+    let ad2 = cpu.a[6].wrapping_add(0x22);
+    let v3 = bus.read16(ad2) as u32;
+    sub_with_flags(cpu, v3, 0xFF80, Size::Word, false);
+    16
+}
+/// $05E8CA: blt.w $5e8d4
+pub fn i_05e8ca(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8CE;
+    cpu.ir = 0x6D00;
+    if cpu.sr.evaluate(Condition::Lt) { cpu.pc = 0x5E8D4; return 10; }
+    8
+}
+// ===== JsrPcThunk_05e8ce  ($05E8CE, 6 B, thunks/jsr_pc_thunks.c)
+/// $05E8CE: jsr $5dd5c(pc)
+pub fn i_05e8ce(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8D2;
+    cpu.ir = 0x4EBA;
+    cpu.push32(bus, 0x5E8D2);
+    cpu.pc = 0x5DD5C;
+    16
+}
+/// $05E8D2: rts
+pub fn i_05e8d2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8D4;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== SetXN_05e8d4  ($05E8D4, 6 B, thunks/ccr_helpers.c)
+/// $05E8D4: ori.b #$11, ccr
+pub fn i_05e8d4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8D8;
+    cpu.ir = 0x3C;
+    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) | 0x11);
+    20
+}
+/// $05E8D8: rts
+pub fn i_05e8d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8DA;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Attack_ApplyThenSound10FA_05e8da  ($05E8DA, 20 B, props/late_props_turrets_05e000.s)
+/// $05E8DA: jsr $283d8.l
+pub fn i_05e8da(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8E0;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x5E8E0);
+    cpu.pc = 0x283D8;
+    16
+}
+/// $05E8E0: btst.b #$1, $5a(a6)
+pub fn i_05e8e0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8E6;
+    cpu.ir = 0x82E;
+    let mk: u32 = 1u32 << ((1) % 8);
+    let ad2 = cpu.a[6].wrapping_add(0x5A);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set(StatusRegister::Z, v3 & mk == 0);
+    16
+}
+/// $05E8E6: beq.w $5e8f4
+pub fn i_05e8e6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8EA;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x5E8F4; return 10; }
+    8
+}
+/// $05E8EA: move.w #$10fa, d0
+pub fn i_05e8ea(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8EE;
+    cpu.ir = 0x303C;
+    let v1: u32 = 0x10FA;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+// ===== JsrAbsThunk_05e8ee  ($05E8EE, 8 B, thunks/jsr_abs_thunks.c)
+/// $05E8EE: jsr $2352.l
+pub fn i_05e8ee(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8F4;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x5E8F4);
+    cpu.pc = 0x2352;
+    16
+}
+/// $05E8F4: rts
+pub fn i_05e8f4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8F6;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Owner_GenCheck_05e8f6  ($05E8F6, 16 B, props/late_props_turrets_05e000.s)
+/// $05E8F6: movea.l $8(a6), a1
+pub fn i_05e8f6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8FA;
+    cpu.ir = 0x226E;
+    let ad2 = cpu.a[6].wrapping_add(0x8);
+    let v3 = bus.read32(ad2);
+    cpu.a[1] = v3;
+    16
+}
+/// $05E8FA: move.b $10(a6), d0
+pub fn i_05e8fa(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E8FE;
+    cpu.ir = 0x102E;
+    let ad2 = cpu.a[6].wrapping_add(0x10);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v3 & 0xFF);
+    12
+}
+/// $05E8FE: cmp.b $10(a1), d0
+pub fn i_05e8fe(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E902;
+    cpu.ir = 0xB029;
+    let ad2 = cpu.a[1].wrapping_add(0x10);
+    let v3 = bus.read8(ad2) as u32;
+    let h1 = cpu.d[0] & 0xFF;
+    sub_with_flags(cpu, h1, v3, Size::Byte, false);
+    12
+}
+/// $05E902: bcs.w $5e90c
+pub fn i_05e902(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E906;
+    cpu.ir = 0x6500;
+    if cpu.sr.evaluate(Condition::Cs) { cpu.pc = 0x5E90C; return 10; }
+    8
+}
+// ===== ClearXN_05e906  ($05E906, 6 B, thunks/ccr_helpers.c)
+/// $05E906: andi.b #$ee, ccr
+pub fn i_05e906(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E90A;
+    cpu.ir = 0x23C;
+    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) & 0xE);
+    20
+}
+/// $05E90A: rts
+pub fn i_05e90a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E90C;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== SetXN_05e90c  ($05E90C, 6 B, thunks/ccr_helpers.c)
+/// $05E90C: ori.b #$11, ccr
+pub fn i_05e90c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E910;
+    cpu.ir = 0x3C;
+    cpu.sr.0 = (cpu.sr.0 & 0xFFE0) | ((cpu.sr.0 & 0x1F) | 0x11);
+    20
+}
+/// $05E910: rts
+pub fn i_05e910(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E912;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Hud_WriteTimerCounters_05e912  ($05E912, 112 B, props/late_props_turrets_05e000.s)
+/// $05E912: movea.l #$70a5, a1
+pub fn i_05e912(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E918;
+    cpu.ir = 0x227C;
+    let v1: u32 = 0x70A5;
+    cpu.a[1] = v1;
+    4
+}
+/// $05E918: moveq #$0, d0
+pub fn i_05e918(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E91A;
+    cpu.ir = 0x7000;
+    cpu.d[0] = 0x0;
+    cpu.sr.set_nz(cpu.d[0], Size::Long); cpu.sr.0 &= !0x3;
+    4
+}
+/// $05E91A: move.b $32(a6), d0
+pub fn i_05e91a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E91E;
+    cpu.ir = 0x102E;
+    let ad2 = cpu.a[6].wrapping_add(0x32);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[0] = (cpu.d[0] & !0xFF) | (v3 & 0xFF);
+    12
+}
+/// $05E91E: jsr $5d6c2.l
+pub fn i_05e91e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E924;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x5E924);
+    cpu.pc = 0x5D6C2;
+    16
+}
+/// $05E924: move.w #$0, d1
+pub fn i_05e924(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E928;
+    cpu.ir = 0x323C;
+    let v1: u32 = 0x0;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+/// $05E928: move.w d1, d2
+pub fn i_05e928(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E92A;
+    cpu.ir = 0x3401;
+    let v1 = cpu.d[1] & 0xFFFF;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[2] = (cpu.d[2] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+/// $05E92A: move.w $30(a6), d1
+pub fn i_05e92a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E92E;
+    cpu.ir = 0x322E;
+    let ad2 = cpu.a[6].wrapping_add(0x30);
+    let v3 = bus.read16(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v3 & 0xFFFF);
+    12
+}
+/// $05E92E: move.b $32(a6), d2
+pub fn i_05e92e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E932;
+    cpu.ir = 0x142E;
+    let ad2 = cpu.a[6].wrapping_add(0x32);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[2] = (cpu.d[2] & !0xFF) | (v3 & 0xFF);
+    12
+}
+/// $05E932: add.w d2, d1
+pub fn i_05e932(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E934;
+    cpu.ir = 0xD242;
+    let v1 = cpu.d[2] & 0xFFFF;
+    let h1 = cpu.d[1] & 0xFFFF;
+    let r = add_with_flags(cpu, h1, v1, Size::Word, true);
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (r & 0xFFFF);
+    4
+}
+/// $05E934: cmpi.w #$ff, d1
+pub fn i_05e934(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E938;
+    cpu.ir = 0xC41;
+    let v1 = cpu.d[1] & 0xFFFF;
+    sub_with_flags(cpu, v1, 0xFF, Size::Word, false);
+    8
+}
+/// $05E938: ble.w $5e94a
+pub fn i_05e938(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E93C;
+    cpu.ir = 0x6F00;
+    if cpu.sr.evaluate(Condition::Le) { cpu.pc = 0x5E94A; return 10; }
+    8
+}
+/// $05E93C: move.b #$ff, d1
+pub fn i_05e93c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E940;
+    cpu.ir = 0x123C;
+    let v1: u32 = 0xFF;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFF) | (v1 & 0xFF);
+    4
+}
+/// $05E940: move.w #$ffff, $30(a6)
+pub fn i_05e940(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E946;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0xFFFF;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x30);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $05E946: bra.w $5e95c
+pub fn i_05e946(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E94A;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x5E95C;
+    10
+}
+/// $05E94A: cmpi.w #$1, d1
+pub fn i_05e94a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E94E;
+    cpu.ir = 0xC41;
+    let v1 = cpu.d[1] & 0xFFFF;
+    sub_with_flags(cpu, v1, 0x1, Size::Word, false);
+    8
+}
+/// $05E94E: bge.w $5e95c
+pub fn i_05e94e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E952;
+    cpu.ir = 0x6C00;
+    if cpu.sr.evaluate(Condition::Ge) { cpu.pc = 0x5E95C; return 10; }
+    8
+}
+/// $05E952: move.b #$1, d1
+pub fn i_05e952(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E956;
+    cpu.ir = 0x123C;
+    let v1: u32 = 0x1;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFF) | (v1 & 0xFF);
+    4
+}
+/// $05E956: move.w #$1, $30(a6)
+pub fn i_05e956(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E95C;
+    cpu.ir = 0x3D7C;
+    let v1: u32 = 0x1;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x30);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $05E95C: move.b d1, $32(a6)
+pub fn i_05e95c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5E960;
+    cpu.ir = 0x1D41;
+    let v1 = cpu.d[1] & 0xFF;
+    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x32);
+    bus.write8(ad2, v1 as u8);
+    12
+}
 /// $05E960: move.b d1, $33(a6)
 pub fn i_05e960(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x5E964;
@@ -9240,6 +10267,127 @@ pub fn i_05fffc(cpu: &mut Cpu, bus: &mut B) -> u32 {
 }
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x05E770, i_05e770),
+    (0x05E776, i_05e776),
+    (0x05E77A, i_05e77a),
+    (0x05E77E, i_05e77e),
+    (0x05E782, i_05e782),
+    (0x05E784, i_05e784),
+    (0x05E788, i_05e788),
+    (0x05E78C, i_05e78c),
+    (0x05E78E, i_05e78e),
+    (0x05E792, i_05e792),
+    (0x05E796, i_05e796),
+    (0x05E798, i_05e798),
+    (0x05E79E, i_05e79e),
+    (0x05E7A2, i_05e7a2),
+    (0x05E7A6, i_05e7a6),
+    (0x05E7AA, i_05e7aa),
+    (0x05E7AC, i_05e7ac),
+    (0x05E7B0, i_05e7b0),
+    (0x05E7B4, i_05e7b4),
+    (0x05E7B6, i_05e7b6),
+    (0x05E7BA, i_05e7ba),
+    (0x05E7BE, i_05e7be),
+    (0x05E7C0, i_05e7c0),
+    (0x05E7C6, i_05e7c6),
+    (0x05E7CC, i_05e7cc),
+    (0x05E7D0, i_05e7d0),
+    (0x05E7D6, i_05e7d6),
+    (0x05E7D8, i_05e7d8),
+    (0x05E7DC, i_05e7dc),
+    (0x05E7DE, i_05e7de),
+    (0x05E7E4, i_05e7e4),
+    (0x05E7EA, i_05e7ea),
+    (0x05E7EE, i_05e7ee),
+    (0x05E7F0, i_05e7f0),
+    (0x05E7F6, i_05e7f6),
+    (0x05E7FC, i_05e7fc),
+    (0x05E802, i_05e802),
+    (0x05E804, i_05e804),
+    (0x05E80A, i_05e80a),
+    (0x05E810, i_05e810),
+    (0x05E816, i_05e816),
+    (0x05E818, i_05e818),
+    (0x05E81A, i_05e81a),
+    (0x05E81C, i_05e81c),
+    (0x05E81E, i_05e81e),
+    (0x05E822, i_05e822),
+    (0x05E826, i_05e826),
+    (0x05E828, i_05e828),
+    (0x05E82E, i_05e82e),
+    (0x05E832, i_05e832),
+    (0x05E834, i_05e834),
+    (0x05E838, i_05e838),
+    (0x05E83C, i_05e83c),
+    (0x05E842, i_05e842),
+    (0x05E844, i_05e844),
+    (0x05E84A, i_05e84a),
+    (0x05E84E, i_05e84e),
+    (0x05E854, i_05e854),
+    (0x05E858, i_05e858),
+    (0x05E85E, i_05e85e),
+    (0x05E862, i_05e862),
+    (0x05E868, i_05e868),
+    (0x05E86C, i_05e86c),
+    (0x05E872, i_05e872),
+    (0x05E876, i_05e876),
+    (0x05E87C, i_05e87c),
+    (0x05E880, i_05e880),
+    (0x05E886, i_05e886),
+    (0x05E88A, i_05e88a),
+    (0x05E88E, i_05e88e),
+    (0x05E890, i_05e890),
+    (0x05E894, i_05e894),
+    (0x05E896, i_05e896),
+    (0x05E89C, i_05e89c),
+    (0x05E8A2, i_05e8a2),
+    (0x05E8A6, i_05e8a6),
+    (0x05E8AC, i_05e8ac),
+    (0x05E8B2, i_05e8b2),
+    (0x05E8B6, i_05e8b6),
+    (0x05E8B8, i_05e8b8),
+    (0x05E8BA, i_05e8ba),
+    (0x05E8C0, i_05e8c0),
+    (0x05E8C4, i_05e8c4),
+    (0x05E8CA, i_05e8ca),
+    (0x05E8CE, i_05e8ce),
+    (0x05E8D2, i_05e8d2),
+    (0x05E8D4, i_05e8d4),
+    (0x05E8D8, i_05e8d8),
+    (0x05E8DA, i_05e8da),
+    (0x05E8E0, i_05e8e0),
+    (0x05E8E6, i_05e8e6),
+    (0x05E8EA, i_05e8ea),
+    (0x05E8EE, i_05e8ee),
+    (0x05E8F4, i_05e8f4),
+    (0x05E8F6, i_05e8f6),
+    (0x05E8FA, i_05e8fa),
+    (0x05E8FE, i_05e8fe),
+    (0x05E902, i_05e902),
+    (0x05E906, i_05e906),
+    (0x05E90A, i_05e90a),
+    (0x05E90C, i_05e90c),
+    (0x05E910, i_05e910),
+    (0x05E912, i_05e912),
+    (0x05E918, i_05e918),
+    (0x05E91A, i_05e91a),
+    (0x05E91E, i_05e91e),
+    (0x05E924, i_05e924),
+    (0x05E928, i_05e928),
+    (0x05E92A, i_05e92a),
+    (0x05E92E, i_05e92e),
+    (0x05E932, i_05e932),
+    (0x05E934, i_05e934),
+    (0x05E938, i_05e938),
+    (0x05E93C, i_05e93c),
+    (0x05E940, i_05e940),
+    (0x05E946, i_05e946),
+    (0x05E94A, i_05e94a),
+    (0x05E94E, i_05e94e),
+    (0x05E952, i_05e952),
+    (0x05E956, i_05e956),
+    (0x05E95C, i_05e95c),
     (0x05E960, i_05e960),
     (0x05E964, i_05e964),
     (0x05E96A, i_05e96a),

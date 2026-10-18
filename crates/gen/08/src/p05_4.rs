@@ -3743,6 +3743,81 @@ pub fn i_058072(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x5809E;
     10
 }
+// ===== Soldier_RunByTable_058076  ($058076, 40 B, enemies/soldiers/states_057d04.s)
+/// $058076: lea.l $2b5d14.l, a0
+pub fn i_058076(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5807C;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x2B5D14;
+    20
+}
+/// $05807C: jsr $28cd4.l
+pub fn i_05807c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x58082;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x58082);
+    cpu.pc = 0x28CD4;
+    16
+}
+/// $058082: lea.l $2b756e.l, a0
+pub fn i_058082(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x58088;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x2B756E;
+    20
+}
+/// $058088: jsr $799de.l
+pub fn i_058088(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5808E;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x5808E);
+    cpu.pc = 0x799DE;
+    16
+}
+/// $05808E: neg.w d0
+pub fn i_05808e(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x58090;
+    cpu.ir = 0x4440;
+    let v1 = cpu.d[0] & 0xFFFF;
+    let r2 = 0u32.wrapping_sub(v1) & 0xFFFF;
+    cpu.sr.set_nz(r2, Size::Word); cpu.sr.set(StatusRegister::V, v1 == 0x8000); cpu.sr.set(StatusRegister::C, v1 != 0); cpu.sr.set(StatusRegister::X, v1 != 0);
+    cpu.d[0] = (cpu.d[0] & !0xFFFF) | (r2 & 0xFFFF);
+    4
+}
+/// $058090: move.w d0, $36(a6)
+pub fn i_058090(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x58094;
+    cpu.ir = 0x3D40;
+    let v1 = cpu.d[0] & 0xFFFF;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    let ad2 = cpu.a[6].wrapping_add(0x36);
+    bus.write16(ad2, v1 as u16);
+    12
+}
+/// $058094: bsr.w $56f8a
+pub fn i_058094(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x58098;
+    cpu.ir = 0x6100;
+    cpu.push32(bus, 0x58098);
+    cpu.pc = 0x56F8A;
+    18
+}
+/// $058098: lea.l $5809e(pc), a1
+pub fn i_058098(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5809C;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x5809E;
+    16
+}
+/// $05809C: move.l a1, (a6)
+pub fn i_05809c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x5809E;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
 // ===== Soldier_Run_Loop_05809e  ($05809E, 166 B, enemies/soldiers/states_057d04.s)
 /// $05809E: bsr.w $56acc
 pub fn i_05809e(cpu: &mut Cpu, bus: &mut B) -> u32 {
@@ -12510,80 +12585,6 @@ pub fn i_0591d4(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.a[1] = 0x591F4;
     16
 }
-/// $0591D8: move.l a1, (a6)
-pub fn i_0591d8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591DA;
-    cpu.ir = 0x2C89;
-    let v1 = cpu.a[1] & 0xFFFFFFFF;
-    bus.write32(cpu.a[6], v1);
-    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
-    12
-}
-/// $0591DA: bra.w $591f4
-pub fn i_0591da(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591DE;
-    cpu.ir = 0x6000;
-    cpu.pc = 0x591F4;
-    10
-}
-/// $0591DE: lea.l $29bd40.l, a0
-pub fn i_0591de(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591E4;
-    cpu.ir = 0x41F9;
-    cpu.a[0] = 0x29BD40;
-    20
-}
-/// $0591E4: jsr $28cd4.l
-pub fn i_0591e4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591EA;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x591EA);
-    cpu.pc = 0x28CD4;
-    16
-}
-/// $0591EA: clr.w $28(a6)
-pub fn i_0591ea(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591EE;
-    cpu.ir = 0x426E;
-    let ad1 = cpu.a[6].wrapping_add(0x28);
-    let v2 = bus.read16(ad1) as u32;
-    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r3: u32 = 0;
-    bus.write16(ad1, r3 as u16);
-    12
-}
-/// $0591EE: lea.l $591f4(pc), a1
-pub fn i_0591ee(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591F2;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x591F4;
-    16
-}
-/// $0591F2: move.l a1, (a6)
-pub fn i_0591f2(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591F4;
-    cpu.ir = 0x2C89;
-    let v1 = cpu.a[1] & 0xFFFFFFFF;
-    bus.write32(cpu.a[6], v1);
-    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
-    12
-}
-// ===== Soldier_SpawnStand_Loop_0591f4  ($0591F4, 52 B, enemies/soldiers/states_057d04.s)
-/// $0591F4: jsr $56acc(pc)
-pub fn i_0591f4(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591F8;
-    cpu.ir = 0x4EBA;
-    cpu.push32(bus, 0x591F8);
-    cpu.pc = 0x56ACC;
-    16
-}
-/// $0591F8: jsr $28d70.l
-pub fn i_0591f8(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x591FE;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x591FE);
-    cpu.pc = 0x28D70;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x057780, i_057780),
@@ -13023,6 +13024,15 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x05806C, i_05806c),
     (0x058070, i_058070),
     (0x058072, i_058072),
+    (0x058076, i_058076),
+    (0x05807C, i_05807c),
+    (0x058082, i_058082),
+    (0x058088, i_058088),
+    (0x05808E, i_05808e),
+    (0x058090, i_058090),
+    (0x058094, i_058094),
+    (0x058098, i_058098),
+    (0x05809C, i_05809c),
     (0x05809E, i_05809e),
     (0x0580A2, i_0580a2),
     (0x0580A6, i_0580a6),
@@ -14077,13 +14087,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0591C8, i_0591c8),
     (0x0591CE, i_0591ce),
     (0x0591D4, i_0591d4),
-    (0x0591D8, i_0591d8),
-    (0x0591DA, i_0591da),
-    (0x0591DE, i_0591de),
-    (0x0591E4, i_0591e4),
-    (0x0591EA, i_0591ea),
-    (0x0591EE, i_0591ee),
-    (0x0591F2, i_0591f2),
-    (0x0591F4, i_0591f4),
-    (0x0591F8, i_0591f8),
 ];

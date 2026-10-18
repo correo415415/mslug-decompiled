@@ -7,6 +7,223 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $04EF88: jsr $5022a(pc)
+pub fn i_04ef88(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EF8C;
+    cpu.ir = 0x4EBA;
+    cpu.push32(bus, 0x4EF8C);
+    cpu.pc = 0x5022A;
+    16
+}
+/// $04EF8C: lea.l $4efa2(pc), a1
+pub fn i_04ef8c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EF90;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x4EFA2;
+    16
+}
+/// $04EF90: move.l a1, (a6)
+pub fn i_04ef90(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EF92;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
+/// $04EF92: jsr $4fa70(pc)
+pub fn i_04ef92(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EF96;
+    cpu.ir = 0x4EBA;
+    cpu.push32(bus, 0x4EF96);
+    cpu.pc = 0x4FA70;
+    16
+}
+/// $04EF96: bcc.w $4efa0
+pub fn i_04ef96(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EF9A;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x4EFA0; return 10; }
+    8
+}
+/// $04EF9A: jmp $518.l
+pub fn i_04ef9a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFA0;
+    cpu.ir = 0x4EF9;
+    cpu.pc = 0x518;
+    8
+}
+/// $04EFA0: rts
+pub fn i_04efa0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFA2;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Prop_GatehouseRoofWreck_04efa2  ($04EFA2, 68 B, props/fortress_04e580.s)
+/// $04EFA2: lea.l $29464c.l, a0
+pub fn i_04efa2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFA8;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x29464C;
+    20
+}
+/// $04EFA8: jsr $28cd4.l
+pub fn i_04efa8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFAE;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4EFAE);
+    cpu.pc = 0x28CD4;
+    16
+}
+/// $04EFAE: lea.l $ffff.w, a0
+pub fn i_04efae(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFB2;
+    cpu.ir = 0x41F8;
+    cpu.a[0] = 0xFFFFFFFF;
+    16
+}
+/// $04EFB2: move.l a0, $48(a6)
+pub fn i_04efb2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFB6;
+    cpu.ir = 0x2D48;
+    let v1 = cpu.a[0] & 0xFFFFFFFF;
+    let ad2 = cpu.a[6].wrapping_add(0x48);
+    bus.write32(ad2, v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    16
+}
+/// $04EFB6: lea.l $4efbc(pc), a1
+pub fn i_04efb6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFBA;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x4EFBC;
+    16
+}
+/// $04EFBA: move.l a1, (a6)
+pub fn i_04efba(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFBC;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
+/// $04EFBC: jsr $2783a.l
+pub fn i_04efbc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFC2;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4EFC2);
+    cpu.pc = 0x2783A;
+    16
+}
+/// $04EFC2: jsr $28d70.l
+pub fn i_04efc2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFC8;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4EFC8);
+    cpu.pc = 0x28D70;
+    16
+}
+/// $04EFC8: movea.l $c(a6), a0
+pub fn i_04efc8(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFCC;
+    cpu.ir = 0x206E;
+    let ad2 = cpu.a[6].wrapping_add(0xC);
+    let v3 = bus.read32(ad2);
+    cpu.a[0] = v3;
+    16
+}
+/// $04EFCC: cmpi.b #$88, $20(a0)
+pub fn i_04efcc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFD2;
+    cpu.ir = 0xC28;
+    let ad2 = cpu.a[0].wrapping_add(0x20);
+    let v3 = bus.read8(ad2) as u32;
+    sub_with_flags(cpu, v3, 0x88, Size::Byte, false);
+    16
+}
+/// $04EFD2: beq.w $4efde
+pub fn i_04efd2(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFD6;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x4EFDE; return 10; }
+    8
+}
+/// $04EFD6: jsr $4fa70(pc)
+pub fn i_04efd6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFDA;
+    cpu.ir = 0x4EBA;
+    cpu.push32(bus, 0x4EFDA);
+    cpu.pc = 0x4FA70;
+    16
+}
+/// $04EFDA: bcc.w $4efe4
+pub fn i_04efda(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFDE;
+    cpu.ir = 0x6400;
+    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x4EFE4; return 10; }
+    8
+}
+/// $04EFDE: jmp $518.l
+pub fn i_04efde(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFE4;
+    cpu.ir = 0x4EF9;
+    cpu.pc = 0x518;
+    8
+}
+/// $04EFE4: rts
+pub fn i_04efe4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFE6;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Prop_GatehouseDoor_04efe6  ($04EFE6, 74 B, props/fortress_04e580.s)
+/// $04EFE6: move.w #$40, d1
+pub fn i_04efe6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFEA;
+    cpu.ir = 0x323C;
+    let v1: u32 = 0x40;
+    cpu.sr.set_nz(v1, Size::Word); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (v1 & 0xFFFF);
+    4
+}
+/// $04EFEA: jsr $236e.l
+pub fn i_04efea(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFF0;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4EFF0);
+    cpu.pc = 0x236E;
+    16
+}
+/// $04EFF0: lea.l $29465c.l, a0
+pub fn i_04eff0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFF6;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x29465C;
+    20
+}
+/// $04EFF6: jsr $28cd4.l
+pub fn i_04eff6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4EFFC;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x4EFFC);
+    cpu.pc = 0x28CD4;
+    16
+}
+/// $04EFFC: bset.b #$6, $12(a6)
+pub fn i_04effc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x4F002;
+    cpu.ir = 0x8EE;
+    let mk: u32 = 1u32 << ((6) % 8);
+    let ad1 = cpu.a[6].wrapping_add(0x12);
+    let v2 = bus.read8(ad1) as u32;
+    cpu.sr.set(StatusRegister::Z, v2 & mk == 0);
+    let r3 = v2 | mk;
+    bus.write8(ad1, r3 as u8);
+    16
+}
 /// $04F002: move.w #$bfff, $38(a6)
 pub fn i_04f002(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x4F008;
@@ -7084,6 +7301,33 @@ pub fn i_04fffe(cpu: &mut Cpu, bus: &mut B) -> u32 {
 }
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x04EF88, i_04ef88),
+    (0x04EF8C, i_04ef8c),
+    (0x04EF90, i_04ef90),
+    (0x04EF92, i_04ef92),
+    (0x04EF96, i_04ef96),
+    (0x04EF9A, i_04ef9a),
+    (0x04EFA0, i_04efa0),
+    (0x04EFA2, i_04efa2),
+    (0x04EFA8, i_04efa8),
+    (0x04EFAE, i_04efae),
+    (0x04EFB2, i_04efb2),
+    (0x04EFB6, i_04efb6),
+    (0x04EFBA, i_04efba),
+    (0x04EFBC, i_04efbc),
+    (0x04EFC2, i_04efc2),
+    (0x04EFC8, i_04efc8),
+    (0x04EFCC, i_04efcc),
+    (0x04EFD2, i_04efd2),
+    (0x04EFD6, i_04efd6),
+    (0x04EFDA, i_04efda),
+    (0x04EFDE, i_04efde),
+    (0x04EFE4, i_04efe4),
+    (0x04EFE6, i_04efe6),
+    (0x04EFEA, i_04efea),
+    (0x04EFF0, i_04eff0),
+    (0x04EFF6, i_04eff6),
+    (0x04EFFC, i_04effc),
     (0x04F002, i_04f002),
     (0x04F008, i_04f008),
     (0x04F00C, i_04f00c),

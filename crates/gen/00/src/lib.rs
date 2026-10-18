@@ -9,4 +9,4 @@ pub mod p00_0;
 pub mod p00_1;
 
 pub const TABLES: &[&[(u32, InsFn)]] = &[bios_0::TABLE, bios_1::TABLE, bios_2::TABLE, p00_0::TABLE, p00_1::TABLE];
-pub const COUNT: usize = 5956;
+pub const COUNT: usize = 5958;

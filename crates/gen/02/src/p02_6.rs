@@ -7,6 +7,15 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $02F152: move.l a1, (a6)
+pub fn i_02f152(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x2F154;
+    cpu.ir = 0x2C89;
+    let v1 = cpu.a[1] & 0xFFFFFFFF;
+    bus.write32(cpu.a[6], v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    12
+}
 /// $02F154: cmpi.b #$29, $92(a6)
 pub fn i_02f154(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x2F15A;
@@ -5482,6 +5491,7 @@ pub fn i_02fffc(cpu: &mut Cpu, bus: &mut B) -> u32 {
 }
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x02F152, i_02f152),
     (0x02F154, i_02f154),
     (0x02F15A, i_02f15a),
     (0x02F15E, i_02f15e),

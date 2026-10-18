@@ -7,6 +7,53 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $043D96: bsr.w $43daa
+pub fn i_043d96(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x43D9A;
+    cpu.ir = 0x6100;
+    cpu.push32(bus, 0x43D9A);
+    cpu.pc = 0x43DAA;
+    18
+}
+/// $043D9A: lea.l $108064.l, a0
+pub fn i_043d9a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x43DA0;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x108064;
+    20
+}
+/// $043DA0: bsr.w $43daa
+pub fn i_043da0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x43DA4;
+    cpu.ir = 0x6100;
+    cpu.push32(bus, 0x43DA4);
+    cpu.pc = 0x43DAA;
+    18
+}
+/// $043DA4: lea.l $1080e0.l, a0
+pub fn i_043da4(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x43DAA;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x1080E0;
+    20
+}
+// ===== CameraApplyOne_043DAA  ($043DAA, 74 B, video/camera_apply_043daa.s)
+/// $043DAA: tst.l $e(a0)
+pub fn i_043daa(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x43DAE;
+    cpu.ir = 0x4AA8;
+    let ad2 = cpu.a[0].wrapping_add(0xE);
+    let v3 = bus.read32(ad2);
+    cpu.sr.set_nz(v3, Size::Long); cpu.sr.0 &= !0x3;
+    16
+}
+/// $043DAE: beq.w $43df2
+pub fn i_043dae(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x43DB2;
+    cpu.ir = 0x6700;
+    if cpu.sr.evaluate(Condition::Eq) { cpu.pc = 0x43DF2; return 10; }
+    8
+}
 /// $043DB2: move.w $108160.l, d0
 pub fn i_043db2(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x43DB8;
@@ -3725,6 +3772,13 @@ pub fn i_0443f8(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x44426;
     10
 }
+/// $0443FC: bra.w $4443a
+pub fn i_0443fc(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x44400;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x4443A;
+    10
+}
 /// $044400: bra.w $44446
 pub fn i_044400(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x44404;
@@ -5383,6 +5437,13 @@ pub fn i_0446ea(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x446EE;
     cpu.ir = 0x6000;
     cpu.pc = 0x44798;
+    10
+}
+/// $044702: bra.w $447a6
+pub fn i_044702(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x44706;
+    cpu.ir = 0x6000;
+    cpu.pc = 0x447A6;
     10
 }
 // ===== LeaA1Plus4_04470e  ($04470E, 6 B, thunks/lea_a1_plus4.c)
@@ -12771,73 +12832,14 @@ pub fn i_045646(cpu: &mut Cpu, bus: &mut B) -> u32 {
     let r = cpu.pop32(bus); cpu.jump_to(r);
     16
 }
-// ===== Ent_FireGate_045648  ($045648, 184 B, input/entity_aim_input_044f8a.s)
-/// $045648: move.b $106f2a.l, d0
-pub fn i_045648(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4564E;
-    cpu.ir = 0x1039;
-    let v2 = bus.read8(0x106F2A) as u32;
-    cpu.sr.set_nz(v2, Size::Byte); cpu.sr.0 &= !0x3;
-    cpu.d[0] = (cpu.d[0] & !0xFF) | (v2 & 0xFF);
-    16
-}
-/// $04564E: cmpi.b #$1, d0
-pub fn i_04564e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x45652;
-    cpu.ir = 0xC00;
-    let v1 = cpu.d[0] & 0xFF;
-    sub_with_flags(cpu, v1, 0x1, Size::Byte, false);
-    8
-}
-/// $045652: bne.w $4565e
-pub fn i_045652(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x45656;
-    cpu.ir = 0x6600;
-    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4565E; return 10; }
-    8
-}
-/// $045656: move.b #$30, d0
-pub fn i_045656(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4565A;
-    cpu.ir = 0x103C;
-    let v1: u32 = 0x30;
-    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
-    cpu.d[0] = (cpu.d[0] & !0xFF) | (v1 & 0xFF);
-    4
-}
-/// $04565A: bra.w $4568e
-pub fn i_04565a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4565E;
-    cpu.ir = 0x6000;
-    cpu.pc = 0x4568E;
-    10
-}
-/// $04565E: cmpi.b #$2, d0
-pub fn i_04565e(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x45662;
-    cpu.ir = 0xC00;
-    let v1 = cpu.d[0] & 0xFF;
-    sub_with_flags(cpu, v1, 0x2, Size::Byte, false);
-    8
-}
-/// $045662: bne.w $4566e
-pub fn i_045662(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x45666;
-    cpu.ir = 0x6600;
-    if cpu.sr.evaluate(Condition::Ne) { cpu.pc = 0x4566E; return 10; }
-    8
-}
-/// $045666: move.b #$f0, d0
-pub fn i_045666(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x4566A;
-    cpu.ir = 0x103C;
-    let v1: u32 = 0xF0;
-    cpu.sr.set_nz(v1, Size::Byte); cpu.sr.0 &= !0x3;
-    cpu.d[0] = (cpu.d[0] & !0xFF) | (v1 & 0xFF);
-    4
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x043D96, i_043d96),
+    (0x043D9A, i_043d9a),
+    (0x043DA0, i_043da0),
+    (0x043DA4, i_043da4),
+    (0x043DAA, i_043daa),
+    (0x043DAE, i_043dae),
     (0x043DB2, i_043db2),
     (0x043DB8, i_043db8),
     (0x043DBE, i_043dbe),
@@ -13258,6 +13260,7 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0443F0, i_0443f0),
     (0x0443F4, i_0443f4),
     (0x0443F8, i_0443f8),
+    (0x0443FC, i_0443fc),
     (0x044400, i_044400),
     (0x044404, i_044404),
     (0x04440C, i_04440c),
@@ -13458,6 +13461,7 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0446E2, i_0446e2),
     (0x0446E6, i_0446e6),
     (0x0446EA, i_0446ea),
+    (0x044702, i_044702),
     (0x04470E, i_04470e),
     (0x044712, i_044712),
     (0x044714, i_044714),
@@ -14330,12 +14334,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x04563A, i_04563a),
     (0x045640, i_045640),
     (0x045646, i_045646),
-    (0x045648, i_045648),
-    (0x04564E, i_04564e),
-    (0x045652, i_045652),
-    (0x045656, i_045656),
-    (0x04565A, i_04565a),
-    (0x04565E, i_04565e),
-    (0x045662, i_045662),
-    (0x045666, i_045666),
 ];

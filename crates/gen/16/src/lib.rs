@@ -2,10 +2,10 @@
 #![allow(clippy::all)]
 pub type InsFn = fn(&mut neogeo_hw::cpu::m68k::Cpu, &mut neogeo_hw::NeoGeoBus) -> u32;
 
+pub mod p08_7;
 pub mod p08_8;
 pub mod p09_0;
 pub mod p09_1;
-pub mod p09_2;
 
-pub const TABLES: &[&[(u32, InsFn)]] = &[p08_8::TABLE, p09_0::TABLE, p09_1::TABLE, p09_2::TABLE];
-pub const COUNT: usize = 5394;
+pub const TABLES: &[&[(u32, InsFn)]] = &[p08_7::TABLE, p08_8::TABLE, p09_0::TABLE, p09_1::TABLE];
+pub const COUNT: usize = 5397;

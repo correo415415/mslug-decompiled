@@ -7,6 +7,34 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $08F19A: clr.w d1
+pub fn i_08f19a(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8F19C;
+    cpu.ir = 0x4241;
+    let v1 = cpu.d[1] & 0xFFFF;
+    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r2: u32 = 0;
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (r2 & 0xFFFF);
+    4
+}
+/// $08F19C: move.b $98(a6), d1
+pub fn i_08f19c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8F1A0;
+    cpu.ir = 0x122E;
+    let ad2 = cpu.a[6].wrapping_add(0x98);
+    let v3 = bus.read8(ad2) as u32;
+    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
+    cpu.d[1] = (cpu.d[1] & !0xFF) | (v3 & 0xFF);
+    12
+}
+/// $08F1A0: lsl.w #$4, d1
+pub fn i_08f1a0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8F1A2;
+    cpu.ir = 0xE949;
+    let h1 = cpu.d[1] & 0xFFFF;
+    let r = do_shift_rotate(cpu, h1, 4, Size::Word, 1, true);
+    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (r & 0xFFFF);
+    14
+}
 /// $08F1A2: add.w d1, d0
 pub fn i_08f1a2(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x8F1A4;
@@ -7705,6 +7733,9 @@ pub fn i_08fffa(cpu: &mut Cpu, bus: &mut B) -> u32 {
 }
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x08F19A, i_08f19a),
+    (0x08F19C, i_08f19c),
+    (0x08F1A0, i_08f1a0),
     (0x08F1A2, i_08f1a2),
     (0x08F1A4, i_08f1a4),
     (0x08F1A8, i_08f1a8),

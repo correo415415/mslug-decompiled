@@ -7,6 +7,29 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $087FC0: jsr $2942a.l
+pub fn i_087fc0(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x87FC6;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x87FC6);
+    cpu.pc = 0x2942A;
+    16
+}
+/// $087FC6: lea.l $8800e(pc), a1
+pub fn i_087fc6(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x87FCA;
+    cpu.ir = 0x43FA;
+    cpu.a[1] = 0x8800E;
+    16
+}
+/// $087FCA: jsr $4ae.l
+pub fn i_087fca(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x87FD0;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x87FD0);
+    cpu.pc = 0x4AE;
+    16
+}
 /// $087FD0: jsr $5dd22.l
 pub fn i_087fd0(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x87FD6;
@@ -12568,29 +12591,11 @@ pub fn i_089d22(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x4FA70;
     16
 }
-/// $089D28: bcc.w $89d32
-pub fn i_089d28(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x89D2C;
-    cpu.ir = 0x6400;
-    if cpu.sr.evaluate(Condition::Cc) { cpu.pc = 0x89D32; return 10; }
-    8
-}
-/// $089D2C: jmp $518.l
-pub fn i_089d2c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x89D32;
-    cpu.ir = 0x4EF9;
-    cpu.pc = 0x518;
-    8
-}
-/// $089D32: rts
-pub fn i_089d32(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x89D34;
-    cpu.ir = 0x4E75;
-    let r = cpu.pop32(bus); cpu.jump_to(r);
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x087FC0, i_087fc0),
+    (0x087FC6, i_087fc6),
+    (0x087FCA, i_087fca),
     (0x087FD0, i_087fd0),
     (0x087FD6, i_087fd6),
     (0x087FDA, i_087fda),
@@ -14088,7 +14093,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x089D1C, i_089d1c),
     (0x089D20, i_089d20),
     (0x089D22, i_089d22),
-    (0x089D28, i_089d28),
-    (0x089D2C, i_089d2c),
-    (0x089D32, i_089d32),
 ];

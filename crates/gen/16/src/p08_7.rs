@@ -7,6 +7,34 @@ use neogeo_hw::cpu::m68k::exec::*;
 use neogeo_hw::NeoGeoBus as B;
 
 
+/// $08D772: rts
+pub fn i_08d772(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8D774;
+    cpu.ir = 0x4E75;
+    let r = cpu.pop32(bus); cpu.jump_to(r);
+    16
+}
+// ===== Capsule_DimWaitScroll_08d774  ($08D774, 66 B, enemies/soldiers/grunts_capsule_08d184.s)
+/// $08D774: subq.b #$2, $32(a6)
+pub fn i_08d774(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8D778;
+    cpu.ir = 0x552E;
+    let ad1 = cpu.a[6].wrapping_add(0x32);
+    let v2 = bus.read8(ad1) as u32;
+    let r3 = sub_with_flags(cpu, v2, 2, Size::Byte, true);
+    bus.write8(ad1, r3 as u8);
+    12
+}
+/// $08D778: subq.b #$2, $33(a6)
+pub fn i_08d778(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8D77C;
+    cpu.ir = 0x552E;
+    let ad1 = cpu.a[6].wrapping_add(0x33);
+    let v2 = bus.read8(ad1) as u32;
+    let r3 = sub_with_flags(cpu, v2, 2, Size::Byte, true);
+    bus.write8(ad1, r3 as u8);
+    12
+}
 /// $08D77C: cmpi.b #$34, $32(a6)
 pub fn i_08d77c(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x8D782;
@@ -12516,36 +12544,11 @@ pub fn i_08f196(cpu: &mut Cpu, bus: &mut B) -> u32 {
     bus.write16(ad2, v1 as u16);
     12
 }
-/// $08F19A: clr.w d1
-pub fn i_08f19a(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8F19C;
-    cpu.ir = 0x4241;
-    let v1 = cpu.d[1] & 0xFFFF;
-    cpu.sr.0 = (cpu.sr.0 & !0xF) | 0x4; let r2: u32 = 0;
-    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (r2 & 0xFFFF);
-    4
-}
-/// $08F19C: move.b $98(a6), d1
-pub fn i_08f19c(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8F1A0;
-    cpu.ir = 0x122E;
-    let ad2 = cpu.a[6].wrapping_add(0x98);
-    let v3 = bus.read8(ad2) as u32;
-    cpu.sr.set_nz(v3, Size::Byte); cpu.sr.0 &= !0x3;
-    cpu.d[1] = (cpu.d[1] & !0xFF) | (v3 & 0xFF);
-    12
-}
-/// $08F1A0: lsl.w #$4, d1
-pub fn i_08f1a0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x8F1A2;
-    cpu.ir = 0xE949;
-    let h1 = cpu.d[1] & 0xFFFF;
-    let r = do_shift_rotate(cpu, h1, 4, Size::Word, 1, true);
-    cpu.d[1] = (cpu.d[1] & !0xFFFF) | (r & 0xFFFF);
-    14
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
+    (0x08D772, i_08d772),
+    (0x08D774, i_08d774),
+    (0x08D778, i_08d778),
     (0x08D77C, i_08d77c),
     (0x08D782, i_08d782),
     (0x08D786, i_08d786),
@@ -14043,7 +14046,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x08F18C, i_08f18c),
     (0x08F190, i_08f190),
     (0x08F196, i_08f196),
-    (0x08F19A, i_08f19a),
-    (0x08F19C, i_08f19c),
-    (0x08F1A0, i_08f1a0),
 ];

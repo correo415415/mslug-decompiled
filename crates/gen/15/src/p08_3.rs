@@ -1331,6 +1331,31 @@ pub fn i_08657e(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x86596;
     10
 }
+/// $086586: lea.l $2ecd80.l, a0
+pub fn i_086586(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x8658C;
+    cpu.ir = 0x41F9;
+    cpu.a[0] = 0x2ECD80;
+    20
+}
+/// $08658C: move.l a0, $4c(a6)
+pub fn i_08658c(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86590;
+    cpu.ir = 0x2D48;
+    let v1 = cpu.a[0] & 0xFFFFFFFF;
+    let ad2 = cpu.a[6].wrapping_add(0x4C);
+    bus.write32(ad2, v1);
+    cpu.sr.set_nz(v1, Size::Long); cpu.sr.0 &= !0x3;
+    16
+}
+/// $086590: jsr $283ca.l
+pub fn i_086590(cpu: &mut Cpu, bus: &mut B) -> u32 {
+    cpu.pc = 0x86596;
+    cpu.ir = 0x4EB9;
+    cpu.push32(bus, 0x86596);
+    cpu.pc = 0x283CA;
+    16
+}
 /// $086596: move.w #$0, $22(a6)
 pub fn i_086596(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.pc = 0x8659C;
@@ -12535,29 +12560,6 @@ pub fn i_087fbc(cpu: &mut Cpu, bus: &mut B) -> u32 {
     cpu.a[1] = v3;
     16
 }
-/// $087FC0: jsr $2942a.l
-pub fn i_087fc0(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FC6;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x87FC6);
-    cpu.pc = 0x2942A;
-    16
-}
-/// $087FC6: lea.l $8800e(pc), a1
-pub fn i_087fc6(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FCA;
-    cpu.ir = 0x43FA;
-    cpu.a[1] = 0x8800E;
-    16
-}
-/// $087FCA: jsr $4ae.l
-pub fn i_087fca(cpu: &mut Cpu, bus: &mut B) -> u32 {
-    cpu.pc = 0x87FD0;
-    cpu.ir = 0x4EB9;
-    cpu.push32(bus, 0x87FD0);
-    cpu.pc = 0x4AE;
-    16
-}
 
 pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x0862F8, i_0862f8),
@@ -12719,6 +12721,9 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x086574, i_086574),
     (0x086578, i_086578),
     (0x08657E, i_08657e),
+    (0x086586, i_086586),
+    (0x08658C, i_08658c),
+    (0x086590, i_086590),
     (0x086596, i_086596),
     (0x08659C, i_08659c),
     (0x0865A2, i_0865a2),
@@ -14057,7 +14062,4 @@ pub const TABLE: &[(u32, crate::InsFn)] = &[
     (0x087FB4, i_087fb4),
     (0x087FBA, i_087fba),
     (0x087FBC, i_087fbc),
-    (0x087FC0, i_087fc0),
-    (0x087FC6, i_087fc6),
-    (0x087FCA, i_087fca),
 ];
