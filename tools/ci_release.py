@@ -49,7 +49,8 @@ def main():
         sys.exit(f"crear release: HTTP {st}: {rel}")
     up = rel["upload_url"].split("{")[0]
     for path in a.assets:
-        if not os.path.isfile(path): continue
+        if not os.path.isfile(path) or os.path.getsize(path) == 0:
+            continue  # GitHub rechaza assets de 0 bytes (HTTP 422)
         name = os.path.basename(path)
         ctype = mimetypes.guess_type(name)[0] or "application/octet-stream"
         with open(path, "rb") as f: blob = f.read()
