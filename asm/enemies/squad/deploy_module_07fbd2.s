@@ -298,7 +298,7 @@ Squad_TrackArc_07fdfa__L07feb4:
         sub.w   d0,0x24(a6)                     | +0ca
         move.w  0x74(a6),d0                     | +0ce
         add.w   d0,d0                           | +0d2
-        lea     0x2c072c.l,a0                   | +0d4
+        lea     (SinTab256_1c072c+0x100000).l,a0| +0d4
         move.w  (a0,d0.w),d0                    | +0da
         muls.w  #0x4,d0                         | +0de
         asr.l   #0x8,d0                         | +0e2

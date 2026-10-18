@@ -260,8 +260,8 @@ PowItem_Toss_048ba0__L048bca:
         move.b  0x7b(a6),d3                     | +036
         andi.w  #0xf,d3                         | +03a
         lsl.w   #0x5,d3                         | +03e
-        lea     0x2c07ac.l,a1                   | +040
-        lea     0x2c072c.l,a2                   | +046
+        lea     (SinTab256_1c072c+0x100080).l,a1| +040
+        lea     (SinTab256_1c072c+0x100000).l,a2| +046
         move.w  (a1,d3.w),d1                    | +04c
         move.w  (a2,d3.w),d2                    | +050
         muls.w  d0,d1                           | +054

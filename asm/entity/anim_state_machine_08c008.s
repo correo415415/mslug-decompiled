@@ -97,7 +97,7 @@ Anim_State_F1_08C008:
         move.w  #0x0, 0x70(a6)                 | +4c  entity.timer_70 = 0
         move.w  #0x0, 0x76(a6)                 | +52  entity.field_76 = 0
         move.l  #0x0, 0x78(a6)                 | +58  entity.field_78 = 0
-        lea.l   0x2ef8aa.l, a1                 | +60  a1 = sub-template ptr
+        lea.l   (FixTypeIntro_1ef8aa+0x100000).l, a1  | +60  a1 = sub-template ptr
         move.l  a1, 0x7c(a6)                   | +66  entity.field_7c = a1
         move.l  #0x0, 0x90(a6)                 | +6a  entity.field_90 = 0
         movea.l a6, a1                         | +72  a1 = a6 (self)
@@ -134,7 +134,7 @@ Anim_State_F1_08C008:
         move.l  a1, (a6)                       | +100 entity.handler = a1
                                               |
 .Lf1_loop:                                     | $08C10A
-        lea.l   0x2c072c.l, a1                 | +102 a1 = &LUT_2C072C[0]
+        lea.l   (SinTab256_1c072c+0x100000).l,a1                 | +102 a1 = &LUT_2C072C[0]
         move.w  0x34(a6), d0                   | +108 d0 = phase counter
         lsl.w   #0x1, d0                       | +10c d0 <<= 1  (word index)
         move.w  (a1, d0.w), d1                 | +10e d1 = LUT[phase]
@@ -175,7 +175,7 @@ Anim_State_F1_08C008:
         .section .text.Anim_State_F2_08C15E, "ax", @progbits
 
 Anim_State_F2_08C15E:
-        lea.l   0x2c072c.l, a1                 | +00  a1 = &LUT_2C072C[0]
+        lea.l   (SinTab256_1c072c+0x100000).l,a1                 | +00  a1 = &LUT_2C072C[0]
         move.w  0x34(a6), d0                   | +06
         lsl.w   #0x1, d0                       | +0a
         move.w  (a1, d0.w), d1                 | +0c
@@ -236,7 +236,7 @@ Anim_State_F3_08C1AC:
         .section .text.Anim_State_F4_08C1EA, "ax", @progbits
 
 Anim_State_F4_08C1EA:
-        lea.l   0x2c07ac.l, a1                 | +00  a1 = &LUT_2C07AC[0]
+        lea.l   (SinTab256_1c072c+0x100080).l,a1                 | +00  a1 = &LUT_2C07AC[0]
         move.w  0x34(a6), d0                   | +06
         lsl.w   #0x1, d0                       | +0a
         move.w  (a1, d0.w), d1                 | +0c
@@ -270,7 +270,7 @@ Anim_State_F4_08C1EA:
         .section .text.Anim_State_F5_08C23A, "ax", @progbits
 
 Anim_State_F5_08C23A:
-        lea.l   0x2c07ac.l, a1                 | +00  a1 = &LUT_2C07AC[0]
+        lea.l   (SinTab256_1c072c+0x100080).l,a1                 | +00  a1 = &LUT_2C07AC[0]
         move.w  0x34(a6), d0                   | +06
         lsl.w   #0x1, d0                       | +0a
         move.w  (a1, d0.w), d1                 | +0c

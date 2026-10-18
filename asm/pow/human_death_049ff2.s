@@ -244,7 +244,7 @@ HumanDeath_ResetBody_04a09c:
         .global HumanDeath_PlayCryByKind_04a0d4
 HumanDeath_PlayCryByKind_04a0d4:
         move.w  #0xe,d1                         | +000
-        tst.b   0x10fd8f.l                      | +004
+        tst.b   0x10fd8f.l                      | +004  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L04a0e6                        | +00a
         move.w  #0x2f,d1                        | +00e
 .L04a0e6:
@@ -755,7 +755,7 @@ HumanDeath_Collapse_04a54a__L04a5a6:
         scc.b   0x70(a6)                        | +08a
         jsr     0x13600.l                       | +08e
         move.w  #0x154,d1                       | +094
-        tst.b   0x10fd8f.l                      | +098
+        tst.b   0x10fd8f.l                      | +098  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L04a5f0                        | +09e
         move.w  #0x155,d1                       | +0a2
 .L04a5f0:
@@ -1176,7 +1176,7 @@ HumanDeath_SpawnBloodSplash_04aad2__L04aae0:
         .global HumanDeath_BloodSplashA_04ab10
 HumanDeath_BloodSplashA_04ab10:
         move.w  #0x17a,d1                       | +000
-        tst.b   0x10fd8f.l                      | +004
+        tst.b   0x10fd8f.l                      | +004  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L04ab22                        | +00a
         move.w  #0x1ba,d1                       | +00e
 .L04ab22:
@@ -1198,7 +1198,7 @@ HumanDeath_BloodSplashA_04ab10:
         .global HumanDeath_BloodSplashB_04ab52
 HumanDeath_BloodSplashB_04ab52:
         move.w  #0x17a,d1                       | +000
-        tst.b   0x10fd8f.l                      | +004
+        tst.b   0x10fd8f.l                      | +004  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L04ab64                        | +00a
         move.w  #0x1ba,d1                       | +00e
 .L04ab64:
@@ -1248,7 +1248,7 @@ HumanDeath_SpawnSmokePair_04abc0:
         addi.w  #0x18,0x24(a0)                  | +010
         jsr     0x13600.l                       | +016
         move.w  #0x19f,d1                       | +01c
-        tst.b   0x10fd8f.l                      | +020
+        tst.b   0x10fd8f.l                      | +020  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L04abee                        | +026
         move.w  #0x1a3,d1                       | +02a
 .L04abee:

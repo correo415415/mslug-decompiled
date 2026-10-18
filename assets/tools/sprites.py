@@ -25,7 +25,7 @@ Formatos (ver assets/README.md):
     python3 assets/tools/sprites.py render SCRIPT_HEX [PAL] [--scale N]
 """
 import bisect, glob, html, json, os, re, struct, sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 import numpy as np
 from PIL import Image
 
@@ -44,7 +44,7 @@ OP_SIZE = {0x03: 6, 0x04: 4, 0x05: 4, 0x06: 6, 0x07: 8, 0x08: 6, 0x09: 6,
            0x0A: 6, 0x0B: 6, 0x0C: 2, 0x0D: 4, 0x0E: 6, 0x0F: 8, 0x10: 4,
            0x11: 6, 0x12: 8, 0x13: 4, 0x14: 6, 0x15: 8, 0x17: 2, 0x18: 2,
            0x19: 10, 0x1A: 2, 0x1F: 4}
-STOP_OPS = {0x1B, 0x1C, 0x1D, 0x1E}
+STOP_OPS = {0x1B, 0x1C, 0x1D}
 MAX_W, MAX_H = 1024, 768
 
 
@@ -124,9 +124,10 @@ def parse_frame(p, a):
     return r
 
 
-def op02_at(p, a):
-    """Valida un `02 fl .l prio.w [dx dy]` en a -> (frame, flags, dx, dy, len)."""
-    if not p.valid(a, 8) or p.B(a) != 0x02:
+def op02_at(p, a, op=0x02):
+    """Valida un `02 fl .l prio.w [dx dy]` en a -> (frame, flags, dx, dy, len).
+    op=0x1E valida un SpawnChild_Sprite (mismo formato)."""
+    if not p.valid(a, 8) or p.B(a) != op:
         return None
     fl = p.B(a + 1)
     if fl & 0xE0:
@@ -142,17 +143,21 @@ def op02_at(p, a):
 
 
 def find_frames(p):
-    """Todas las posiciones de op 02 válidas y los frames que referencian."""
+    """Todas las posiciones de op 02 válidas y los frames que referencian
+    (también los de op 1E, que no entran en ops)."""
     ops, frames = {}, set()
     d = p.d
     for o in range(0, len(d) - 12, 2):
-        if d[o] != 0x02:
-            continue
-        a = p.cpu(o)
-        r = op02_at(p, a)
-        if r:
-            ops[a] = r
-            frames.add(r[0])
+        if d[o] == 0x02:
+            a = p.cpu(o)
+            r = op02_at(p, a)
+            if r:
+                ops[a] = r
+                frames.add(r[0])
+        elif d[o] == 0x1E:
+            r = op02_at(p, p.cpu(o), 0x1E)
+            if r:
+                frames.add(r[0])
     return ops, frames
 
 
@@ -222,6 +227,13 @@ def walk(p, start, max_steps=600, max_pics=200):
             else:
                 loops.pop(a, None)
                 a += 6
+        elif op == 0x1E:
+            # SpawnChild_Sprite: mismo formato que 02 (8/12 B según fl&8); el
+            # script del padre continúa.
+            if not p.valid(a, 8):
+                end = "invalid"
+                break
+            a += 8 if p.B(a + 1) & 8 else 12
         elif op in OP_SIZE:
             a += OP_SIZE[op]
         elif op in STOP_OPS:
@@ -437,6 +449,47 @@ def owners(p, scripts, frames_of, labels):
                     if f in fpal:
                         r["pal"], r["how"] = fpal[f], (r["how"] or "") + "+inherited"
                         break
+    # tiles compartidos: un script sin paleta toma la del script con paleta
+    # cuyos tiles se solapan más (Jaccard >= 0.3; mismos gráficos = mismo
+    # personaje/efecto)
+    def tiles_of(s):
+        t = set()
+        for f in frames_of[s]:
+            fr = parse_frame(p, f)
+            if fr:
+                for piece in fr["pieces"]:
+                    t.update(x & 0xFFFF for x in piece[4] if x)
+        return t
+    known = [(s, tiles_of(s)) for s, r in res.items() if r["pal"] is not None]
+    by_tile = defaultdict(list)
+    for i, (s, t) in enumerate(known):
+        for x in t:
+            by_tile[x].append(i)
+    for s, r in res.items():
+        if r["pal"] is not None:
+            continue
+        t = tiles_of(s)
+        if not t:
+            continue
+        cnt = Counter(i for x in t for i in by_tile.get(x, ()))
+        best, bj = None, 0.0
+        for i, n in cnt.items():
+            j = n / len(t | known[i][1])
+            if j > bj:
+                best, bj = i, j
+        if best is not None and bj >= 0.3:
+            r["pal"], r["how"] = res[known[best][0]]["pal"], (r["how"] or "") + "+tiles"
+    # vecino: el script con paleta más cercano en la ROM (≤ $800; los datos de
+    # cada entidad van juntos)
+    ks = sorted(s for s, r in res.items() if r["pal"] is not None)
+    for s, r in res.items():
+        if r["pal"] is not None or not ks:
+            continue
+        i = bisect.bisect_left(ks, s)
+        cands = [ks[k] for k in (i - 1, i) if 0 <= k < len(ks)]
+        n = min(cands, key=lambda x: abs(x - s))
+        if abs(n - s) <= 0x800:
+            r["pal"], r["how"] = res[n]["pal"], (r["how"] or "") + "+near"
     if os.path.exists(MANUAL):
         for line in open(MANUAL, encoding="utf-8"):
             line = line.split("#")[0].split()

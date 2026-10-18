@@ -168,6 +168,9 @@ struct Args {
     /// 16=A 32=B 64=C 128=D.
     #[arg(long)]
     input_script: Option<String>,
+    /// Dev: same format as --input-script, for the P2 controller.
+    #[arg(long)]
+    input_script_p2: Option<String>,
     /// Dev: dump work-RAM bytes "ADDR:LEN,ADDR:LEN" (hex, CPU addresses
     /// $100000..$10FFFF) every --dump-every-frames frames.
     #[arg(long)]
@@ -358,8 +361,7 @@ fn run_headless(args: &Args, sys: &mut System) -> Result<()> {
     Ok(())
 }
 
-fn apply_input_script(sys: &mut System, args: &Args, frame: u32) {
-    let Some(script) = &args.input_script else { return };
+fn script_mask(script: &str, frame: u32) -> u8 {
     let mut mask: u8 = 0;
     for part in script.split(',') {
         let part = part.trim();
@@ -369,7 +371,12 @@ fn apply_input_script(sys: &mut System, args: &Args, frame: u32) {
         let a: u32 = a.parse().unwrap(); let b: u32 = b.parse().unwrap();
         if frame >= a && frame < b { mask |= m.parse::<u8>().unwrap(); }
     }
-    sys.bus.p1_input = !mask;
+    mask
+}
+
+fn apply_input_script(sys: &mut System, args: &Args, frame: u32) {
+    if let Some(script) = &args.input_script { sys.bus.p1_input = !script_mask(script, frame); }
+    if let Some(script) = &args.input_script_p2 { sys.bus.p2_input = !script_mask(script, frame); }
 }
 
 fn dump_watch_ram(sys: &System, args: &Args, frame: u32) {

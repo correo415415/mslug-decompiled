@@ -96,7 +96,7 @@ mslug/
 │   ├── setup.sh            Process baserom into build/mslug_prom.bin + verify
 │   ├── bootstrap_sandbox.sh  Install toolchain + deps + process ROM in one go
 │   ├── rebuild_rom.sh      Sources → 201-p1.bin → mslug.zip
-│   ├── apply_patch.sh      Example gameplay patches (lives, infinite ammo, bombs)
+│   ├── apply_patch.sh      Gameplay + hidden-feature patches (lives, ammo, debug, sound test…)
 │   ├── dev/                Emulator dev tooling (setup_internal.sh, run_emu.sh)
 │   └── legacy/             Historical batch generators (Waves A–R)
 ├── docs/                   Design notes and reversing logs
@@ -317,6 +317,14 @@ player entity (`$1004C2`): original 200→197 after firing, patched stays 200.
 ![hmg infinite demo](docs/images/hmg_infinite_demo.png)
 
 More examples: `bombs=99`, `bombs-infinite` (grenades never run out), `all-infinite`, `pistol-ammo=N` — see `scripts/apply_patch.sh --list`.
+
+Hidden features left in the ROM by SNK, each with its own patch (verified in an
+emulator; details in `internal/experiments/09_hidden_features_audit.md`):
+`boot=soundtest` (internal sound test), `boot=ending`, `ending=jp|intl`,
+`blood` / `no-blood` (BLOOD soft-DIP), `debug-hud` / `debugcoll` / `altjump` /
+`slughud` (debug flags), `screennuke` (debug full-screen kill box),
+`warpkeys` (orphan debug keys: D+B zeroes the mission timer), `asserts-off`
+(92 `trap #15` asserts), `fix-input-bug` / `fix-deadstore` (original bugs).
 
 ![bombs 99 infinite](docs/images/bombs_infinite_demo.png)
 

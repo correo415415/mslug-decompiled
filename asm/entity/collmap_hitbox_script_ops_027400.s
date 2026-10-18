@@ -94,6 +94,22 @@
 |  - ScriptOp1A_WaitFromTable: tabla indexada por `$10FD82`? (modo BIOS) —
 |    sin confirmar.
 |
+|  C2. FORMATO DE LOS REGISTROS DE CAJA (datos en $18xxxx..$1Fxxxx)
+|    Lista +$4C (ataque, Hitbox_RunList): registros de $50 B hasta un byte $FF.
+|      +$00.b op (0..4, Hitbox_ListOpTable: a quién golpea)  +$01.b tipo
+|      +$02.w daño (Hitbox_SubtractHP; $7FFF = letal)  +$04.b fuerza (se
+|      compara con +$01 de la caja víctima)  +$05.b forma (índice de
+|      Hitbox_ShapeTestTable: 0 punto, 4 rect)  +$06.l −1 / tabla de formas
+|      +$0A.w x0,x1,y0,y1 (relativos a $22/$24, espejados con bit0 de $3A)
+|      +$12  guion de sprite de 62 B (5 × op 02 tile $363A..$3662 en centro y
+|            esquinas + op 1D): visualización de depuración de la caja.
+|    Lista +$48 (golpe/víctima, Hitbox_TestBoxes): mismo tamaño $50, tiles
+|      $366C..$3694; fin = long $FFFFFFFF.
+|    Caja +$60 (cuerpo, Entity_HitboxCollide_028A96): cabecera .b $80, .b
+|      tipo (2 = marca bit2 de $69), x0,x1,y0,y1 en +$06, guion de 62 B en
+|      +$0E (tiles $3608..$3630) = $4C B.
+|    Censo: tools/dev/hitbox_records.py (836 registros $50 + 45 de $4C).
+|
 |  D. CAMPOS (a6) usados en este archivo
 |    (a6)      handler;  $08 parent;  $10 rank;  $13 flags (bit1 = golpeada,
 |    bit2 = daño aplicado, bit4/5 = sin colisión)
@@ -240,7 +256,7 @@ Entity_MoveAndCollide_D_0274b8__L0274cc:
         moveq   #0,d3                           | +0aa
         move.w  d5,d4                           | +0ac
         moveq   #17,d0                          | +0ae
-        lea     0x278ba8.l,a1                   | +0b0
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +0b0
         bra.w   .L027572                        | +0b6
 .L027572:
         cmpi.b  #0x28,d0                        | +0ba
@@ -347,7 +363,7 @@ Entity_SlopeResolve_0275f6:
         moveq   #0,d3                           | +0ce
         move.w  d5,d4                           | +0d0
         moveq   #17,d0                          | +0d2
-        lea     0x278ba8.l,a1                   | +0d4
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +0d4
         bra.w   .L0276d4                        | +0da
 .L0276d4:
         movea.l 0x4(a1),a2                      | +0de
@@ -408,7 +424,7 @@ Entity_MoveAndCollide_E_02773c:
         moveq   #0,d3                           | +03a
         move.w  d5,d4                           | +03c
         moveq   #17,d0                          | +03e
-        lea     0x278ba8.l,a1                   | +040
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +040
         bra.w   .L027786                        | +046
 .L027786:
         cmpi.b  #0x0,d0                         | +04a
@@ -452,7 +468,7 @@ Entity_MoveAndCollide_F_0277c4:
         moveq   #0,d3                           | +03a
         move.w  d5,d4                           | +03c
         moveq   #17,d0                          | +03e
-        lea     0x278ba8.l,a1                   | +040
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +040
         bra.w   .L02780e                        | +046
 .L02780e:
         cmpi.b  #0x0,d0                         | +04a
@@ -638,7 +654,7 @@ CollMap_LookupTile_027db2:
 .L027dee:
         move.b  d0,d7                           | +03c
         andi.b  #0x3f,d0                        | +03e
-        lea     0x278988.l,a1                   | +042
+        lea     (CollTileTypes_178988+0x100000).l,a1                   | +042
         move.w  d0,d1                           | +048
         andi.l  #0x3f,d1                        | +04a
         asl.l   #0x5,d1                         | +050
@@ -737,7 +753,7 @@ Entity_FloorBelowProbe_027f08:
         moveq   #0,d3                           | +028
         move.w  d5,d4                           | +02a
         moveq   #17,d0                          | +02c
-        lea     0x278ba8.l,a1                   | +02e
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +02e
         bra.w   .L027f40                        | +034
 .L027f40:
         jsr     CollMap_TestSolidOrPlatform_027e28(pc) | +038
@@ -935,7 +951,7 @@ Entity_TileUnderToShade_0280c6:
         moveq   #0,d3                           | +01a
         move.w  d5,d4                           | +01c
         moveq   #17,d0                          | +01e
-        lea     0x278ba8.l,a1                   | +020
+        lea     (CollTileTypes_178988+0x100220).l,a1                   | +020
         bra.w   .L0280f0                        | +026
 .L0280f0:
         andi.b  #0x3f,d0                        | +02a
@@ -1393,7 +1409,7 @@ Hitbox_TestBoxes_028594:
         btst    #0x3,0x13(a1)                   | +00a
         bne.w   .L028686                        | +010
         lea     Hitbox_ShapeTestTable_02856e(pc),a4 | +014
-        lea     0x27928c.l,a5                   | +018
+        lea     (HitShapeTab_17928c+0x100000).l,a5                   | +018
         cmpi.l  #0xffffffff,0x2(a2)             | +01e
         beq.w   .L0285c2                        | +026
         movea.l 0x2(a2),a5                      | +02a

@@ -128,7 +128,9 @@ Convenciones clave (`docs/CONVENTIONS.md`):
 * **Reorganización** (267 ficheros movidos a subcarpetas temáticas con nombres
   semánticos) hecha con `tools/reorg/apply_reorg.py` + `reorg_map.txt`.
 * **Parches de ejemplo** (`scripts/apply_patch.sh <recetas> --zip internal/mslug.zip`;
-  `--undo` restaura; backups en `build/patch_backup/`). Regla: **sustituir
+  `--undo` restaura; backups en `build/patch_backup/` con MANIFEST de HEAD +
+  sha256: se regeneran en cada uso y `--undo` se niega a restaurar copias de
+  otra versión; `build_rom.py` falla si falta alguna sección del registro). Regla: **sustituir
   instrucciones por otras del mismo tamaño** para que las secciones no cambien
   (`check_section_sizes` = 0):
 
@@ -140,11 +142,13 @@ Convenciones clave (`docs/CONVENTIONS.md`):
   | `bombs=N` | `PlayerEntity_InitAuxState_032A02`: `move.b #0xa,0x80(a6)` → `#N` ($032A3D) | emulador, `$1004C0` |
   | `bombs-infinite` | `Player_ThrowGrenade{,Back}_0332BC/033256`: `subi.b #1,0x80(a0)` → `ori.b #0,…` | emulador, captura en `docs/images/bombs_infinite_demo.png` |
   | `pistol-ammo=N` | `move.w #0xa,0x82(a6)` en 3 sitios (munición al perder arma) | rebuild |
+  | funciones ocultas | `debug-hud`, `debugcoll`, `altjump`, `slughud`, `screennuke(-b)`, `boot=soundtest`, `boot=ending`, `ending=jp|intl`, `blood`, `no-blood`, `warpkeys`, `asserts-off`, `fix-input-bug`, `fix-deadstore` | emulador; tabla en `internal/experiments/09_hidden_features_audit.md` |
 
 * **RAM del juego** (para experimentos): entidad P1 `$100440` (P2 `$1004E0`);
   `+$71` arma (0 pistola, 1 HMG, 2 shotgun, 3 rocket, 4 flame) → `$1004B1`;
   `+$80` bombas → `$1004C0`; `+$82` munición del arma → `$1004C2`; `+$85`
-  latch de disparo; vidas soft-DIP `$10FD88`. Más en
+  latch de disparo; vidas soft-DIP `$10FD88`; BLOOD `$10FD8F`; temporizador de
+  misión `$106E92`; piloto automático de tramo `$10E39C/$10E39D`. Más en
   `internal/experiments/05_ram_map_and_ideas.md`.
 
 ### P-ROM: pendiente (baja prioridad)
@@ -315,5 +319,5 @@ byte-idéntico). También exportar las 13 músicas a VGM/MIDI.
 - [x] SFX de la tabla A: 68 con nombre por usuarios
 - [ ] Paletas a mano para las ~132 animaciones en gris y nombres por personaje
 - [ ] SFX: confirmar nombres escuchando, los 49 restantes e ids de los streams de script
-- [ ] Decodificar las `Data_*` restantes (33 % de los datos: tablas por rutina)
+- [ ] Decodificar las `Data_*` restantes (0,0 % de los datos según `data_census.py`: tablas por rutina)
 - [ ] Fondos: scroll vertical en el panorama

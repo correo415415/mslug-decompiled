@@ -10,11 +10,139 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Changed
+- Renamed Boss_Shadow_Init/Clear -> ScreenNuke_Init_08656e / ScreenNuke_Clear_0865be: the $2ECD80/$2ECEC4 lists are full-screen attack boxes (damage $7FFF) that kill every visible enemy (verified).
+- Renamed MissionStream_Debug_0F260E -> MissionStream_EndingIntl_0F260E, Player_SpawnDebugTask -> Player_SpawnBloodFx, Player_DebugMarker -> Player_DeathBlood, Player_Death_Debug -> Player_Death_Blood.
 - **Docs refreshed**: README (status of all ROMs, `mrom/` and `assets/` in the
   layout, new "Beyond the program ROM" section), `docs/COVERAGE.md` (data
   modules census, assets, M-ROM banks), `docs/PROGRESO.md`, `HANDOFF.md`.
 
 ### Added
+- assets/tools/camera_tracks.json: measured camera tracks (scenes 00/02/03/04/05); levels.py uses them (Y+16) for `*_scroll.png` when available (`track_source` in levels.json).
+- internal/experiments/10 + tools/dev/camera_log.py: real camera trajectory of M1/M4/M5 from pydmg ($106F50/$106F54); screen = camera Y + 16; levels.camera_track is 48 px off in M1.
+- pydmg: `--input-script-p2` (same format as `--input-script`, P2 controller). Sound test P2 branch verified: P2 A..D send the selected code to the Z80 (audio vs silence).
+- apply_patch.sh: one reproducible patch per hidden feature — blood / no-blood, ending=jp|intl, screennuke / screennuke-b, warpkeys (3 changes: demo table $2DF442[1] -> Level2Script, $10E39D guard 2->1, rts->nop so JumpIfBlocked falls into DebugWarpKeys; D+B zeroes the mission timer, verified), asserts-off (92 trap #15 -> nop, exactly 92 bytes), fix-input-bug, fix-deadstore, aliases debug-hud / debugcoll / altjump / slughud; tools/dev/patch_zip.sh. Patch table at the end of internal/experiments/09.
+- internal/experiments/09: empirical audit of hidden features (pydmg + objdump). Confirmed: debug HUD (b0), DebugColl (b0+b1), alt jump (b5), internal Sound Test (new apply_patch boot=soundtest), orphan warp keys, two original bugs. Corrected: $10FD8F is the BLOOD soft-DIP (red blood on, verified), $10FD83 is the BIOS region, scene 12 / $0F260E is the ending (JP / international, new boot=ending), Bios_TrapF_CalendarSeq is the CPU exception handlers, $106F5C is camera X (not RNG), 107 trap #15 asserts in 17 files (not 15).
+- tools/dev: emu_run.sh, emu_input.py, emu_pokes.py, bytepatch_zip.sh.
+- tools/dev/mission_stream.py: Mission VM stream walker (SkipOp strides); MissionAux_* blocks identified as sub-streams launched via MissionWatch_Spawn_04429E, fully parsed.
+- Census: hitbox records recognised by their 62-byte debug sprite script (attack $363A / hit $366C / body $3608 families); tools/dev/hitbox_records.py decoder; format documented in collmap_hitbox_script_ops_027400.s. struct 13.6 % -> 16.5 %, anim 23.0 % -> 20.1 %.
+- experiments: recipes 06 invincibility (the game's own debug bit 3 of `$100001`), 07 debug flags (`$100000` written at boot) and 08 start in mission N (Dispatcher_ModeTable state/handler pair); `apply_patch.sh invincible|debug=HHHH|mission=N`, verified in the emulator.
+- assets(levels): approximate vertical scroll — per-scene `*_scroll.png` (320x224 windows) with a camera Y track derived from the main-plane layers and per-layer Y parallax; track saved in levels.json.
+- assets(sprites): no grey animations left (948/948 with palette): palette inheritance by shared tiles and by nearest coloured script, plus 11 manual entries (MuzzleFx flashes, ScriptedProp wall, TurretCar cannon) traced to their `jsr $236E` loads.
+- mrom: the remaining 82 table-A SFX named (`SfxA_NNN_<Name>`) from an automated listening pass over the export_wav.py renders, cross-checked with their 68k users; all 150 now have names; propagated to mrom/sound, ✔ IDÉNTICA.
+- data: all remaining data-module `Data_*` entries renamed — 88 by census kind (ColMap/SprFrame/AnimScr) and 210 by kind + referencing routine (`Tbl_<Routine>_`, `AnimBlk_<Routine>_`, `Lut_`); `AnimBlk` added to registry_lint data prefixes.
+- census: loose $FF terminators, Prop_BoatDebris header, final $FFFF and the $12345678 marker at $2FF800; the census no longer has any unclassified non-zero byte (other 0.0 %).
+- census: gaps pointed to from classified data, record tails, camera collision map at $20A000 (Camera0_RelinkAndWrapScroll), ramp tails, periodic record continuation; two ChildRank_CmpByte10 code islands moved out of data modules (entity/childrank_cmp_islands.s); other now 0.0 %.
+- census: op 07 SetLong data refs and code jump tables classified as struct; other now 0.2 %.
+- Census: spawner records adjacent to known ones or filling exact gaps, Player script parameter longs (move.l -4(a0),$74) -> other 0.2 %.
+- Census: contiguous MultiBlit grids, gap scripts jumping into known scripts, hitbox/attack pointer tables copied to +$48/+$4C -> other 0.2 %.
+- Census: crab attack-list pointer tables, lea+move.l a0,$48 hitbox seeds, contiguous 36-byte hitbox shape tables -> other 0.3 %.
+- Census: loose scene descriptors (SceneLoader_ByIndex_043562: VM script + 14-byte entity list), last-resort gaps starting at exact code pointers -> other 0.4 %.
+- Census: indexed tables also via add.l aN,dM / adda and following bra.w -> other 0.5 %.
+- Census: indexed tables (lea T,aN + (aN,dM.w) access), unreferenced spawner records with handler tables, full katakana roster pools, backward-glued Decode2D variants; embedded code marked as code -> other 0.5 %.
+- Census: attack lists (+$4C, op 0A, Hitbox_RunList), Prop_BlitSequence patch records, grid pointer tables and +$78 grids, tank/final-boss shell velocities -> other 0.8 %.
+- Census: Decode2D normal/mirror lea pairs, unreferenced 12-byte op 19 box records -> other 1.1 %.
+- Census: embedded high-bank code split out (SlugRiderMarker_Task_18dd3c, 4 anim op 08 callbacks), hitbox lists (+$48, op 09, $50-byte records), gameover/continue, hiscore, final-boss step lists and Patrol tables -> other 1.4 %.
+- Census: mortar spawn lists/velocities/blit grids ($2C56A8-$2C57E4), score/ammo popup tables ($2F792C-$2F7A28), boss-2 crab claw phases/heights/velocities/handlers ($2E035A-$2E0462), turret-car offsets ($294144-$294204); `gap_scripts` also accepts one-frame scripts ending in op 16 -> other 1.9 %.
+- Census: rank tables of the results screen ($282A9C-$282C4C: column offsets, 72 rank abbreviations PVT..GA, insignia tiles), boss-2 piece/phase offsets, mission-4 boss guard/step lists and handlers, mission-5 boss targets/routes/SFX/offsets, boss-2 turret rotation patterns, `motion_ptr_tables` (`lea T,aN; movea.l (aN,dM.w),aK; move.w (aK..),$28/$2E/$2A(a6)` velocity tables) -> other 2.0 %.
+- Census: Decode2D tables indexed through any address register (`lea T,aN; movea.l (aN,dM.w),a0; jsr`), unreferenced long Decode2D variants glued after known ones, Bazooka direction/muzzle/rocket-velocity tables ($2CA44C-$2CA5F0), mission-5 boss/walker velocity tables ($2D4186-$2D422A), squad child offsets and velocities ($2861D4-$28632C) -> other 2.1 %.
+- Census: indirect Decode2D window widened to 20 B, mission-5 boss twin Decode2D set ($2D4274/$2B8FF6), squad death/deploy tables ($2E3D80-$2E3F54), fix-layer block-animation lists of ListCursor_Step_05db6a (`lea X,a0` + InstallListPubHead_05DB58; 8-byte {tile, cols, rows, dur}, 0 = jump, FFFF = end) -> other 2.3 %.
+- Census: code scanners extended up to $09C608 (score popups, hiscore/options code), para-squad exit/jump/fall tables ($2E54A2-$2E5832), `gap_scripts` (unpointed scripts glued to other data inside unclassified runs) and `pointed_scripts` re-walks pointers into partially classified scripts (1B/1C tables) -> other 2.5 %.
+- Data: `CutTextPanel_1f4712` (fix-layer text rows of Cut_TextPanel_08cbc6, symbolic lea); census: `$FF`-terminated glyph strings passed in a2 to List_ApplyWithSentinelFF_*, Fix_TextRow_Draw text, blit records whose descriptor lies inside a PatchDescChain (house variants of Prop_HouseVariants_052e20); tools/dev/other_runs.py and tools/dev/look.py session helpers -> other 2.8 %.
+- Census: RocketVehicle muzzle/rocket-velocity tables ($2CCFEA-$2CD4EA), AimTurret 7x16 frame lists ($2C2E76-$2C322E), indirect Tbl_Decode2D tables (`lea T,a0; movea.l (a0,dN.w),a0; jsr`, code scan up to $F0000); sprites.py find_frames also collects frames referenced only by op `1E` -> other 2.9 %.
+- Data: `InputDemo_0e7800`/`InputDemo_0e7a00` (the two 512-byte attract-mode input recordings replayed by InputRec_*) and `InputDemoPtrs_0e7c00` (symbolic in PlayerCtx_InitExtended_025012); census: PathScript movement-VM scripts (`move.l #X,$90(a6)` and `lea T,a0 / move.l (a0,dN.w),$90(a6)` tables, 11-op walker with 04 jumps) -> other 3.1 %.
+- tools/rename_data_by_census.py pass: 81 `Data_` entries renamed to `AnimScr_` after the op `1E` fix; census other 3.3 %.
+- assets/tools/sprites.py: op `1E` (SpawnChild_Sprite) is walked like `02` and the parent script continues; exported animations no longer stop at `1E` (17 226 scripts); census other 3.3 %.
+- **Script opcode 1E fixed**: `ScriptOp1E_SpawnChild_Sprite` has the same layout as `02` (`1E fl frame.l [prio dx dy]`, 8/12 B) and the script continues; the census walker treated it as terminal. "Other": 5.4 % → 3.4 %.
+- **Pointer tables**: `data_census.pointer_tables` marks unclassified runs of longs that all point to already-classified data (or `$FFFFFFFF`), two passes for tables of tables. "Other": 5.6 % → 5.4 %.
+- **Collision engine tables named**: `CollTileTypes_178988` (64 tile types × 32 B used by `CollMap_LookupTile_027db2`), `CollMasks_179188` (13 bit masks), `CollSlopes_1786cc` (25 slope profiles), `CollOffsets_178600`, `HitShapeTab_17928c` and `HudText_1785b8`; 33 code `lea`s made symbolic. "Other": 5.8 % → 5.6 %.
+- **Aim LUTs and blit records**: Bazooka/RocketVehicle aim tables (`T[(clamp(dx)+256)>>4]` + mirror) as `lut`; `data_census.blit_records` finds 20-byte `Sprite_InvokeBlit8Params` records for known descriptors without a direct `lea` (319). "Other": 6.2 % → 5.8 %.
+- **164 more `Data_` renamed** by census kind (154 `AnimScr_`, 8 `BgMap_`, 2 `SprFrame_`).
+- **Pointed scripts**: `data_census.pointed_scripts` walks unclassified
+  addresses that any ROM long points to and that parse as scripts with >= 2
+  frames ending in a jump/stop opcode (92 scripts). "Other": 6.5 % → 6.2 %.
+- **Indexed script tables**: `data_census.code_script_tables` follows
+  `lea/movea.l #T,a0 ; movea.l (a0,dN.w),a0 ; jsr EntitySetSpriteMap`
+  (321 tables, 1 248 scripts, `$FFFFFFFF` = no sprite); the argument scanners
+  also accept tail `jmp`. "Other": 7.7 % → 6.5 %.
+- **Per-mission spawn streams**: `SpawnStream_M1..M6` (16-byte records read
+  by `SpawnStream_ReadNext_04cac4` as the camera passes each threshold, `$FFFF`
+  end), with `SpriteSetPtrTbl6_04cb44` now symbolic; `AnimScr_188414`
+  (MeleeGuard recover, symbolic `lea`). The census walker treats op `16`
+  (RepeatSprite) as terminal. "Other": 8.0 % → 7.7 %.
+- **Patch descriptor chain and descriptor-less tilemaps**: `PatchDescChain_19810c`
+  (40 {w, h, tiles} descriptors whose tilemaps are contiguous at
+  `$0B3900..$0B53EC`, `data_census.desc_chains`), `PropItemPtrs_1980fc`
+  (symbolic `lea`), and `data_census.tilemap_gaps` for unclassified spans that
+  are >= 98 % background cells (e.g. `$0AAF78..$0ABE50`). "Other": 8.5 % → 8.0 %.
+- **Mission-briefing typewriter text**: `$1EF8AA..$1F2DB2` decoded and re-split
+  into `FixTypePages_JP/EN/PT/ES` (44 {stream, fix attribute} pages per
+  language, picked by `Icon_Anchor_Run_08c678` from region + soft-DIP
+  language), `FixTypeIntro`, `FixTypeAnchor` and 82 `FixType_` streams of
+  8-byte records {wait, char/command, sprite script}; code `lea`s symbolic,
+  18 false `.dc.l` pointers turned numeric. "Other" data: 9.4 % → 8.5 %.
+- **NEO-GEO soft-DIPs and boot task table**: `$178000` = `TaskBootTab_178000`
+  ({TCB, handler} pairs walked by `Task_FreeListInit_000410`) and the three
+  soft-DIP blocks `SoftDip_JP/US/EU` (header `$116/$11A/$11E`, now symbolic:
+  HERO, CONTINUE, DIFFICULTY LEVEL 1-8, PLAY TIME, DEMO SOUND, PLAY MANUAL,
+  BLOOD, CREDIT/LEVEL, LANGUAGE). `frame_runs` retries split at zero padding
+  (>= 16 B). "Other" data: 9.8 % → 9.4 %.
+- **Spawner records**: `data_census.spawner_records` follows the `lea X,a1`
+  passed to `Entity_InstallHandlerAndCopyXf` (162 18-byte records for
+  `Spawner_Handler_077c98`: parent offset, rate, count, dx/rx, dy/ry, handler
+  or a 16-entry random handler table). "Other" data: 10.1 % → 9.8 %.
+- **`Tbl_Decode2D_0799DE` tables**: `data_census.decode2d_tables` follows the
+  230 tables passed in a0 to the difficulty/rank decoder (long format 130 B =
+  2 + 64 words; short format magic 2 = 2 + 64 index bytes + 16 B per index,
+  8 words picked with `Random&$E`). They are the M5Boss/boss/enemy timer and
+  rate tables at `$2B746A..$2C06AA`. "Other" data: 11.9 % → 10.1 %.
+- **`SinTab256_1c072c`**: the 8.8 sine table (`round(256·sin(2πi/256))`,
+  320 words; cosine = +$80) is now assembled from its quarter wave, and the 45
+  `lea $2C072C/$2C07AC` in the code are symbolic. Wrong entry boundaries in
+  `$1C046E..$1C0B08` fixed (`AnimScr_1c09ac` is the real script).
+- **183 more `Data_` → `SprFrame_`** with the new
+  `tools/rename_data_by_census.py` (renames by the dominant census kind).
+- **Pointer-less frame runs and text streams**: `data_census.frame_runs`
+  marks unclassified spans that parse end-to-end as consecutive sprite frames
+  (2 662 frames, 74 KB; tables computed at run time, only 1.8 % blank tiles),
+  and `code_arg_tables` now follows the text streams passed in a2 to
+  `Fix_BlitStream_05DAD8` (`$FE`) and `List_ApplyWithSentinelFF_*` (`$FF`).
+  New `assets/tools/data_refs.py` lists the remaining blocks and their users.
+  "Other" data: 16.5 % → 11.9 %.
+- **Results-screen name dictionaries** (`$182C3C..$185CF4`, 12 KB): length
+  tables, `{ptr, count}` tables and name pools used by
+  `Results_RosterPickA/B` (katakana / ASCII), now named entries
+  (`RosterLenTab*`, `RosterPtrTab*`, `RosterNames*`) with the pointer tables as
+  `.dc.l RosterNames*+off` and the code `lea`s symbolic. New
+  `tools/resplit_data.py` re-splits a data span into named entries keeping the
+  symbolic `.dc.l`. "Other" data: 17.3 % → 16.5 %.
+- **More census structs**: on-screen boxes passed to
+  `Entity_CheckOnScreenBox` (8 B), probe grids passed to `$43FAC`
+  (`{dx,dy,w,h}` + w·h B) and the 12-byte records installed by sprite-script
+  op `19 SetField70` (948, stride 12). "Other" data: 18.2 % → 17.3 %.
+- **303 more data entries typed**: `Data_*` whose bytes are ≥ 90 % tilemap /
+  animation in the current census renamed `BgMap_*` (274) / `AnimScr_*` (29).
+- **Code-installed sprite scripts**: `data_census.walk_struct` follows the 1 274
+  scripts that code installs via `lea X,a0 → EntitySetSpriteMap` or
+  `move.l #X,$3C(a6)`, accepting hidden-sprite `02` ops (frame `$FFFFFFFF`)
+  and the `1B/1C` indexed tables; patch descriptors extended to their valid
+  columns. "Other" data: 19.8 % → 18.2 %.
+- **Census kind `struct`**: bytes already decoded by a dedicated parser
+  (mission streams, template index, scene tables/scripts/entities/triggers,
+  blit-patch records and descriptors). "Other" data: 24.3 % → 19.8 %.
+- **Background patches rendered**: `levels.py` writes the 11 patch source maps
+  (`patches/patch_<desc>.png`: intact/destroyed façades, doors, rubble) and
+  lists every record (dst, src, size) under `patches` in `levels.json`.
+- **Tilemap patches in the census**: `data_census.py` now follows the 321
+  `lea rec,a2; jsr Sprite_InvokeBlit8Params` records (`{ent, desc, 6 w}` →
+  `CellCommit_MMIO_051DE2`) to their 11 layer descriptors `{w, h, tiles}`
+  (e.g. `$29A542` → `$0BB0A8`), marking ~79 KB more as tilemap. "Other" data:
+  29.3 % → 24.3 %.
+- **Colour tables rebuilt from their formulas**: `asm/data/sprite_tables_002f30.s`
+  (66 688 B, 428 placeholder entries) is now 3 entries assembled with `.rept`:
+  `ColorRGB555ToNeoGeo_002f30`, `ColorRamp_RowPtr_012f30` (was the forward
+  defsym `Sub_00012F30`) and `ColorRamp_012fb0`. The 8 805 `.dc.l` that pointed
+  at the old false-positive labels are now plain numbers. New census kind
+  `lut`; "other" data drops from 33.4 % to 29.3 %.
 - **Table-A SFX names**: 68 of the 117 effects with a constant 68k user now
   carry `SfxA_NNN_<Name>` (weapon fire, explosions, hostages, Slug, pause /
   continue / game over...), propagated to `mrom/sound/` labels; M-ROM still
@@ -90,6 +218,8 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/).
   their line (`Voice_Shotgun`, `Voice_AllenSeeYouInHell`, `Voice_GameOver`, …).
 
 ### Fixed
+- apply_patch.sh: stale `build/patch_backup/*.orig` (from before a rename commit) were restored over newer sources and produced a silently broken ROM (89 bytes zeroed in Player_SpawnBloodFx / Player_Death_Blood / Player_DeathBlood, because the patched build uses `--no-compare`). Now the backups are regenerated on every run from the current clean sources, a MANIFEST stores HEAD + sha256 and `--undo` refuses to restore on mismatch (`--undo --force` to override), an APPLIED marker tracks state, old manifest-less backups are discarded, section sizes must match and more than 256 changed bytes aborts.
+- build_rom.py: every registry entry must be present in the ELF with its exact size; a source with an old symbol name used to be dropped silently (KEEP-only linker script) leaving a 0x00 hole, even with `--no-compare`.
 - WAV songs no longer stop mid-phrase: the renderer hooks the driver's
   infinite-loop jumps, ends after N full passes and fades out.
 - Driver tick is 166.8 Hz (Timer A counts once per 144-clock FM sample), not

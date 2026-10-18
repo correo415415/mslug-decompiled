@@ -1403,18 +1403,12 @@ SpawnStream_ReadNext_04cac4:
         .section .text.SpriteSetPtrTbl6_04cb44, "ax", @progbits
         .global SpriteSetPtrTbl6_04cb44
 SpriteSetPtrTbl6_04cb44:
-        .dc.w   0x0028                        | +000  (dato / opcode no decodificado)
-        .dc.w   0x8d54                        | +002  (dato / opcode no decodificado)
-        .dc.w   0x0028                        | +004  (dato / opcode no decodificado)
-        .dc.w   0x845e                        | +006  (dato / opcode no decodificado)
-        .dc.w   0x0028                        | +008  (dato / opcode no decodificado)
-        .dc.w   0x8ee6                        | +00a  (dato / opcode no decodificado)
-        .dc.w   0x0028                        | +00c  (dato / opcode no decodificado)
-        .dc.w   0x8980                        | +00e  (dato / opcode no decodificado)
-        .dc.w   0x0028                        | +010  (dato / opcode no decodificado)
-        .dc.w   0x90d8                        | +012  (dato / opcode no decodificado)
-        .dc.w   0x0028                        | +014  (dato / opcode no decodificado)
-        .dc.w   0x8c22                        | +016  (dato / opcode no decodificado)
+        .dc.l   SpawnStream_M1_188d54+0x100000 | +000  misión idx 0
+        .dc.l   SpawnStream_M2_18845e+0x100000 | +004  misión idx 1
+        .dc.l   SpawnStream_M3_188ee6+0x100000 | +008  misión idx 2
+        .dc.l   SpawnStream_M4_188980+0x100000 | +00c  misión idx 3
+        .dc.l   SpawnStream_M5_1890d8+0x100000 | +010  misión idx 4
+        .dc.l   SpawnStream_M6_188c22+0x100000 | +014  misión idx 5
 
 | ----------------------------------------------------------------------------
 |  SpawnStream_Dispatch_04cb88  @ $04CB88  (40 B)

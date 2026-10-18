@@ -26,7 +26,7 @@
 |
 |  F. ESTADO
 |   Matching byte a byte (build_rom ✔). Censo (data_census.py, 1316 B):
-|     otro 100.0%.
+|     estructuras 100.0%.
 |   Entradas por prefijo: TemplateIndex 1.
 |   Pendiente: decodificar las Data_ restantes.
 |

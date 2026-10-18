@@ -4993,8 +4993,8 @@ Hostage_StepAnimB_065c30:
 Hostage_SinCos_065c64:
         move.w  0x88(a6),d0                     | +000
         lsl.w   #0x4,d0                         | +004
-        lea     0x2c072c.l,a1                   | +006
-        lea     0x2c07ac.l,a2                   | +00c
+        lea     (SinTab256_1c072c+0x100000).l,a1| +006
+        lea     (SinTab256_1c072c+0x100080).l,a2| +00c
         move.w  (a1,d0.w),d1                    | +012
         move.w  (a2,d0.w),d2                    | +016
         move.w  0x36(a6),d0                     | +01a
@@ -5019,8 +5019,8 @@ Hostage_SpawnAtAngle_065ce8:
         lsl.w   #0x3,d0                         | +014
         andi.w  #0xff,d0                        | +016
         add.w   d0,d0                           | +01a
-        lea     0x2c072c.l,a1                   | +01c
-        lea     0x2c07ac.l,a2                   | +022
+        lea     (SinTab256_1c072c+0x100000).l,a1| +01c
+        lea     (SinTab256_1c072c+0x100080).l,a2| +022
         move.w  (a1,d0.w),d1                    | +028
         move.w  (a2,d0.w),d2                    | +02c
         asr.w   #0x4,d1                         | +030

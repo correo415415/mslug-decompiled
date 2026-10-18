@@ -674,7 +674,7 @@ SYMBOLS = {
     # 0x00085134 promovido a M4_PlatformSpawn_085134 en registry (Wave JJJ).
     # 0x00085484 promovido a M4_Turret_Death_085484 en registry (Wave JJJ).
     # 0x00085A08 promovido a M4_CamFloor_Step_085a08 en registry (Wave JJJ).
-    # 0x000865BE promovido a Boss_Shadow_Clear_0865be en registry (Wave KKK).
+    # 0x000865BE promovido a ScreenNuke_Clear_0865be en registry (Wave KKK).
     # 0x00086854 promovido a Fort_Idle_086854 en registry (Wave KKK).
     # 0x00089398 promovido a S5_Depot_Idle_089398 en registry (Wave LLL).
     # 0x00089504 promovido a Airship_Landed_089504 en registry (Wave LLL).
@@ -2357,7 +2357,6 @@ SYMBOLS = {
     0x00056278: "Jsr5B6Rts_056278",  # rts de Jsr5B6ThenJmpScheduler_05626c (+12)
     0x00056594: "SetHandlerRts_056594",  # rts de SetTaskHandler_05658e (+6)
     # --- Wave IIIII: refs forward a huecos futuros
-    0x00012F30: "Sub_00012F30",  # hueco futuro (ref pc-rel desde esta region)
     # --- Wave JJJJJ: RTS internos de islas C
     0x00001B1A: "SetHandlerRts_001b1a",  # rts de SetTaskHandler_001b14 (+6)
     0x00001B7E: "SetHandlerRts_001b7e",  # rts de SetTaskHandler_001b78 (+6)

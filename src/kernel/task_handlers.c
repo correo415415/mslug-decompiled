@@ -335,7 +335,7 @@ extern void TaskHandler_084fca(void);
 extern void M4_PlatformSpawn_085134(void);
 extern void M4_Turret_Death_085484(void);
 extern void M4_CamFloor_Step_085a08(void);
-extern void Boss_Shadow_Clear_0865be(void);
+extern void ScreenNuke_Clear_0865be(void);
 extern void Fort_Idle_086854(void);
 extern void S5_Depot_Idle_089398(void);
 extern void Airship_Landed_089504(void);
@@ -3949,7 +3949,7 @@ void SetTaskHandler_085ac6(void) {
 
 __attribute__((section(".text.SetTaskHandler_0865b6")))
 void SetTaskHandler_0865b6(void) {
-    _a1_ptr = &Boss_Shadow_Clear_0865be;
+    _a1_ptr = &ScreenNuke_Clear_0865be;
     STORE_A1_AT_FP();
 }
 

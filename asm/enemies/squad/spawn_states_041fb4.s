@@ -182,8 +182,8 @@ Squad_DepthToScaleIdx_04206A:
 Squad_SinCosVelocity_0420A4:
         andi.w  #0xFF, d0                       | +000  angulo 0..255
         add.w   d0, d0                          | +004  indice de word
-        lea     0x2c072c.l, a1                  | +006  tabla seno
-        lea     0x2c07ac.l, a2                  | +00c  tabla coseno (seno+64)
+        lea   (SinTab256_1c072c+0x100000).l,a1                  | +006  tabla seno
+        lea   (SinTab256_1c072c+0x100080).l,a2                  | +00c  tabla coseno (seno+64)
         move.w  (a1,d0.w), d1                   | +012  sin(h)
         move.w  (a2,d0.w), d2                   | +016  cos(h)
         move.w  0x36(a6), d0                    | +01a  amplitud

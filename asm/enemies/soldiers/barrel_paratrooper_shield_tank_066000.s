@@ -946,7 +946,7 @@ Paratrooper_Leave_0669c0:
 Paratrooper_Die_0669ea:
         jsr     0x13600.l                       | +000
         move.w  #0x183,d1                       | +006
-        tst.b   0x10fd8f.l                      | +00a
+        tst.b   0x10fd8f.l                      | +00a  soft-DIP BLOOD (0 = sin sangre)
         bne.w   .L066a02                        | +010
         move.w  #0x1d7,d1                       | +014
 .L066a02:
@@ -1016,8 +1016,8 @@ Paratrooper_Frag_066ab8:
         move.b  0x76(a6),d3                     | +00c
         andi.w  #0xff,d3                        | +010
         add.w   d3,d3                           | +014
-        lea     0x2c07ac.l,a1                   | +016
-        lea     0x2c072c.l,a2                   | +01c
+        lea     (SinTab256_1c072c+0x100080).l,a1| +016
+        lea     (SinTab256_1c072c+0x100000).l,a2| +01c
         move.w  (a1,d3.w),d1                    | +022
         move.w  (a2,d3.w),d2                    | +026
         muls.w  d0,d1                           | +02a
@@ -5483,8 +5483,8 @@ Tank_VelFromAngle_069e5c:
         move.w  0x82(a6),d0                     | +000
         andi.w  #0x1f,d0                        | +004
         lsl.w   #0x4,d0                         | +008
-        lea     0x2c07ac.l,a1                   | +00a
-        lea     0x2c072c.l,a2                   | +010
+        lea     (SinTab256_1c072c+0x100080).l,a1| +00a
+        lea     (SinTab256_1c072c+0x100000).l,a2| +010
         move.w  (a1,d0.w),d1                    | +016
         move.w  (a2,d0.w),d2                    | +01a
         move.w  0x36(a6),d0                     | +01e

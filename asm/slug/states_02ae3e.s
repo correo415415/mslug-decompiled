@@ -309,7 +309,7 @@ Slug_DropVariant4_02af88__L02afac:
         lea     Slug_WheelAnim_02fb92__L02fb9a(pc),a1 | +030
         jsr     0x4ae.l                         | +034
         jsr     0x5dd02.l                       | +03a
-        lea     0x2792b0.l,a0                   | +040
+        lea     (AnimScr_1792b0+0x100000).l,a0                   | +040
         jsr     0x28cd4.l                       | +046
         clr.w   0x28(a6)                        | +04c
         clr.w   0x2a(a6)                        | +050
@@ -351,7 +351,7 @@ Slug_DropVariant4_02af88__L02afac:
         .section .text.Slug_DropDescend_02b05e, "ax", @progbits
         .global Slug_DropDescend_02b05e
 Slug_DropDescend_02b05e:
-        lea     0x2792b0.l,a0                   | +000
+        lea     (AnimScr_1792b0+0x100000).l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         addq.w  #0x8,0x82(a6)                   | +00c
         move.w  0x24(a6),d0                     | +010
@@ -450,7 +450,7 @@ Slug_DropBossInit_02b166:
         jsr     Slug_InitBoss_02a1aa(pc)        | +052
         ori.w   #0x0,0x38(a6)                   | +056
 .L02b1c2:
-        lea     0x2792b0.l,a0                   | +05c
+        lea     (AnimScr_1792b0+0x100000).l,a0                   | +05c
         jsr     0x28cd4.l                       | +062
         clr.w   0x28(a6)                        | +068
         clr.w   0x2a(a6)                        | +06c
@@ -494,7 +494,7 @@ Slug_DropBossInit_02b166:
         .section .text.Slug_DropBossDescend_02b264, "ax", @progbits
         .global Slug_DropBossDescend_02b264
 Slug_DropBossDescend_02b264:
-        lea     0x2792b0.l,a0                   | +000
+        lea     (AnimScr_1792b0+0x100000).l,a0                   | +000
         jsr     0x28cd4.l                       | +006
         addq.w  #0x8,0x82(a6)                   | +00c
         move.w  #0x200,0x2a(a6)                 | +010

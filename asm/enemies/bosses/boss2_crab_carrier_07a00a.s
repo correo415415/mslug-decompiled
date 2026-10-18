@@ -2109,9 +2109,9 @@ M2Boss_Debris_Init_07c996:
         subi.w  #0x20,d0                        | +040
         andi.w  #0xff,d0                        | +044
         add.w   d0,d0                           | +048
-        lea     0x2c072c.l,a1                   | +04a
+        lea     (SinTab256_1c072c+0x100000).l,a1| +04a
         move.w  (a1,d0.w),d1                    | +050
-        lea     0x2c07ac.l,a1                   | +054
+        lea     (SinTab256_1c072c+0x100080).l,a1| +054
         move.w  (a1,d0.w),d2                    | +05a
         andi.w  #0x7,d3                         | +05e
         addq.w  #0x1,d3                         | +062
