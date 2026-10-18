@@ -86,7 +86,9 @@ Lista viva de tareas pendientes del proyecto. Las tareas se mueven a
 - [x] Voces (tabla B) exportadas por separado y con nombre por su frase;
       las canciones terminan en su punto de bucle + fundido (no cortadas).
 - [x] Auditoría empírica de funciones ocultas (receta 09): sound test, final, BLOOD, flags de debug.
-- [ ] Sound test: comprobar el envío al Z80 (rama P2) cuando pydmg permita mando P2; idem ScreenNuke b2/b7.
+- [x] Un parche reproducible por función oculta (tabla al final de la receta 09; ScreenNuke y WarpKeys verificados por parche).
+- [ ] Sound test: comprobar el envío al Z80 (rama P2) cuando pydmg permita mando P2.
+- [ ] WarpKeys D+C: identificar qué hace la caja `$2DF456` en `($A0,$180)` (no se vio efecto en M6).
 - [x] Nombrar los 150 SFX de la tabla A: 68 por usuarios + 82 por escucha automática (ver M-ROM).
 
 ## Herramientas / experimentos

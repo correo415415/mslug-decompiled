@@ -13,7 +13,7 @@ Leyenda: ✅ confirmado en emulador · 🔎 confirmado en el binario (estático)
 |---|---|---|---|
 | `$100001` b0 | HUD de variables | ✅ con matiz | `debug=0001`: aparecen columnas hex (results/debug_b0_b1.png). `Debug_DrawHUDVars_096A80` imprime `$106E88`, `$106F5C`, `$106F50`, `$106F54`, dos valores derivados ($5D8F2) y `$10E39C`. **`$106F5C` no es un RNG**: en emulador sigue a la parte alta de `$106F50` (`$01AE` = `$01AE0800`), es la X de scroll de cámara. b0 además habilita el atajo al sound test en el attract (C) y DebugColl (b1). |
 | b1 | Inspector de colisión DebugColl | ✅ | `DebugColl_Init_05efca` sólo se instala desde `Task_InstallMissionSlots_001dcc` si b0=1; con `debug=0003` aparece una columna extra de valores hex (results/debug_b0_b1.png) que con `0001` no está. Con `debug=0002` sola no cambia ningún píxel en 52 capturas (b1 en `ScriptOp02_Sprite` sólo pone el bit 7 de `$5A`). |
-| b2 / b7 | ScreenNuke_Init A/B con P2 A+Derecha | 🔎 | `DebugTriggers_TwoBits_096B24` (llamada por los 7 handlers de inicio de misión `$96832..$969B4`) comprueba `InputEvtThunk_05cd18` (A de P2, `$10E206`) y `_05d11c` (Derecha) y lanza `$86586`/`$86582`: dos entradas de `ScreenNuke_Init_08656e` (hitbox `$2ECD80` vs la normal `$2ECEC4`). No reproducido en emulador (pydmg sólo inyecta mando P1). b2 también se lee 5 veces en `Player_AirActionSelect_037168`. |
+| b2 / b7 | ScreenNuke_Init con P2 A+Derecha | ✅ (por parche) | `DebugTriggers_TwoBits_096B24` (llamada por los 7 handlers de inicio de misión `$96832..$969B4`) comprueba `InputEvtThunk_05cd18` (A de P2, `$10E206`) y `_05d11c` (Derecha) y lanza `$86586` (b2) / `$86582` (b7), entradas de `ScreenNuke_Init_08656e`. **No es una sombra de jefe**: las listas `$2ECD80`/`$2ECEC4` son cajas de ataque (op 3, daño `$7FFF`) del tamaño de la pantalla; con el parche `screennuke` todos los enemigos visibles mueren al empezar la misión (frame 3700). La rama b7 (`$86582`) no carga lista → sin efecto (`screennuke-b`). b2 también se lee 5 veces en `Player_AirActionSelect_037168`. |
 | b3 | Invulnerabilidad | ✅ | receta 06 (ya verificado). |
 | b4 | HUD de cadena del Slug + flag +$124 | 🔎 | lectores `Chain3_TplC/Follow/DebugHud` y `ScriptOp02_Sprite` (+$124: `jsr $2F84A` si b0 de `$6B`). Sin Slug en pantalla, `debug=0010` no cambia ningún píxel (0/52 capturas); efecto visible no comprobado. |
 | b5 | Arco de salto alternativo | ✅ | `debug=0020`: la partida diverge desde el frame 3650 (47/52 capturas distintas). El jugador salta distinto (`Player_JumpAir_036a70`) y no avanza. |
@@ -101,9 +101,51 @@ Leyenda: ✅ confirmado en emulador · 🔎 confirmado en el binario (estático)
 * 🔎 `AutoDemo_DebugWarpKeys_0797ce`: 0 referencias long, 0 pc-relativas, 0 `bsr.s`.
   Lee `$10E202/3` (P1 actual/flanco): D+C → posición `($A0,$180)` y `$4C=$2DF456`;
   D+B → `clr.w $106E92`. Huérfano confirmado.
+* ✅ **Cadena muerta completa**: su único vecino que podría caer en ella,
+  `AutoDemo_JumpIfBlocked_0796f6` (acaba en `rts` justo antes), sólo lo llama
+  `AutoDemo_Level2Script_07957a`, que tampoco se usa: la tabla de pilotos
+  automáticos `$2DF442` (indexada por `$10E39C` en
+  `AutoDemo_StartLevelScript_07962c`) es `[—, Level1 $794AA, Level2 $7957A?,
+  $79444, $7933A]` pero la entrada 1 apunta a Level1 y Level2 exige
+  `$10E39D==2`; `$10E39C` sólo se escribe con 1 (guion de escena 5, misión 6,
+  scroll ≥ `$670`), 3, 4 o 0 — nunca 2.
+* **`$10E39C` no es del attract**: es el selector del *piloto automático* de
+  tramos de misión (`AutoDemo_Tmpl_Driver_079298`, creado por
+  `MissionDriver_Init`), que conduce a los jugadores escribiendo
+  `$10E2E4/$10E2EA` (entrada sintética P1/P2).
+* `$106E92` = **temporizador de misión** (60 → 0, el número del HUD), así que
+  D+B pone el tiempo a 0. D+C coloca la tarea en `($A0,$180)` con la lista
+  `$2DF456` (caja de ataque op 0, tipo `$0F`, daño 10, ±256 px).
+* Verificado con `warpkeys` + `mission=6` + `invincible`, poke único
+  `3000@10E39C=01`: `$10E39D` pasa a 1 y el piloto escribe `$10E2E4=04/08`
+  (Level2Script en marcha). Con P1 D+B alternando, `$106E92` cae de `$3B` a
+  `$0000` en el frame 3125; la misma partida sin `warpkeys` sigue en `$3B`.
 
 ## G. Bugs del original
 
 * 🔎 `$05D628`: `movea.l $72(a1),a2` se ejecuta **antes** de `lea $100300,a1`
   (en la rama P2 el orden es el correcto: `lea` y luego `movea.l`). Confirmado.
 * 🔎 `$041A96`: `movea.l #-1,a0` seguido de `lea $28610A,a0`: store muerto. Confirmado.
+
+## Parches reproducibles (uno por función oculta)
+
+Todos son de `scripts/apply_patch.sh` (conservan tamaños: el resto de la ROM
+queda byte-idéntico). Zip con nombre propio: `bash tools/dev/patch_zip.sh NOMBRE parche...`.
+
+| Función | Parche | Cambio | Verificado |
+|---|---|---|---|
+| A b0 HUD de variables | `debug-hud` (= `debug=0001`) | `$100000` inicial | ✅ columnas hex |
+| A b0+b1 DebugColl | `debugcoll` (= `debug=0003`) | idem | ✅ columna extra sin pokes |
+| A b3 invulnerable | `invincible` / `debug=0008` | idem | ✅ (receta 06) |
+| A b4 HUD Slug | `slughud` (= `debug=0010`) | idem | 🔎 sin Slug no hay efecto |
+| A b5 salto alternativo | `altjump` (= `debug=0020`) | idem | ✅ diverge en 3650 |
+| A b2 / b7 ScreenNuke | `screennuke` / `screennuke-b` | 3 `beq/bcc` → `nop` en `DebugTriggers_TwoBits_096B24` | ✅ mata a todos / sin efecto |
+| C Sound test | `boot=soundtest` | `lea` del arranque → T6[13] | ✅ results/sound_test.png |
+| D Final del juego | `boot=ending` | arranque → T4 escena 12 | ✅ results/ending_boot.png |
+| D Variante del final | `ending=jp` / `ending=intl` | `MissionDriver_Init_0442E6` (puntero / `beq`→`nop`) | ✅ `$100870` en `$F1D1C..` / `$F2656..` |
+| E BLOOD | `blood` / `no-blood` | 9 `tst.b $10FD8F; bne/beq` → `bra`/`nop` | ✅ 142 vs 0 píxeles rojos |
+| F WarpKeys huérfana | `warpkeys` | tabla `$2DF442[1]` → Level2Script, guarda `$10E39D` 2→1, `rts`→`nop` en JumpIfBlocked | ✅ D+B: `$106E92` → 0 |
+| G bug `$05D628` | `fix-input-bug` | intercambia `movea`/`lea` | ✅ arranca y juega (M1, frame 4000); sin efecto visible en P1 |
+| G store muerto `$041A96` | `fix-deadstore` | `movea.l #-1,a0` → 3 `nop` | ✅ idem (probado junto a los otros dos) |
+| B asserts `trap #15` | `asserts-off` | los 92 `nop; trap #15` de asm → `nop; nop` (el vector `$BC` = `$C0` es un bucle infinito `move.l #$1234,$0; bra`: un assert fallido cuelga el juego). Exactamente 92 bytes distintos en la P-ROM | ✅ arranca y juega; nunca se dispara en partida normal |
+| D región BIOS `$10FD83` | — | no es del juego: es la BIOS (usar `ending=` o la región del emulador) | — |

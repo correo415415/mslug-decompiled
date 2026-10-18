@@ -51,6 +51,8 @@ ROM     : 2,097,152/2,097,152  (100.0000%)   — CODE 100 % + DATA 100 %
 > * 303 `Data_` renombradas `BgMap_`/`AnimScr_`.
 
 > **Auditoría de funciones ocultas (2026-10-17)** — Verificado en pydmg (internal/experiments/09): HUD de variables (b0), DebugColl (b0+b1), salto alternativo (b5) y Sound Test interno (accesible con b0 + START en el attract; parche boot=soundtest). Corregido: $10FD8F = soft-DIP BLOOD (sangre roja verificada), $10FD83 = región del BIOS, escena 12 = final (stream $0F1CD4 JP / $0F260E internacional; boot=ending), Bios_TrapF_CalendarSeq = manejadores de excepción, $106F5C = X de cámara, 107 asserts trap #15 en 17 ficheros.
+>
+> **Un parche por función oculta** — `apply_patch.sh`: blood/no-blood, ending=jp|intl, screennuke(-b) (ex Boss_Shadow: caja de ataque letal a pantalla completa), warpkeys (resucita AutoDemo_DebugWarpKeys + Level2Script, ambos muertos; `$10E39C` = selector del piloto automático de misión, `$106E92` = temporizador), asserts-off (92 trap #15), fix-input-bug, fix-deadstore y alias de flags. Todos verificados en pydmg salvo el efecto de D+C.
 
 > **Cajas de golpe (2026-10-17)** — Los bloques AnimBlk/AnimScr grandes (p. ej. $196000, $1D6700) son en gran parte listas de cajas: registros de $50 B (+$4C ataque, +$48 golpe) y $4C B (+$60 cuerpo), cada uno con un guion de sprite de depuración de 62 B que dibuja las esquinas. data_census.box_records los reconoce por firma: struct 16,5 %, anim 20,1 %.
 

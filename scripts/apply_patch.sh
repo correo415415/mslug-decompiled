@@ -38,6 +38,8 @@
 #                  muerto: exigía $10E39D==2, que nadie escribe) y JumpIfBlocked cae en
 #                  WarpKeys. En el demo, P1 D+C teletransporta, D+B borra $106E92.
 #   fix-input-bug  corrige el bug de SNK de InputLayout_ReadField0_05D616 (orden lea/movea).
+#   asserts-off    desactiva los 92 asserts `nop; trap #15` del SDK de SNK (trap -> nop):
+#                  si una condición falla, el juego sigue en vez de colgarse en $C0.
 #   fix-deadstore  quita el store muerto `movea.l #-1,a0` de $041A96 (nop x3).
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -59,7 +61,8 @@ F_DTRIG=asm/frontend/attract_sub_helpers_0967c0.s
 F_AIM=asm/input/aim_tables_05d316.s
 F_SQUAD=asm/enemies/squad/children_handlers_041408.s
 F_ANIMC=asm/data/anim_c_1d0000.s
-PATCHABLE=("$F_MODE" "$F_SCHED" "$F_PARA" "$F_HDEATH" "$F_CREW" "$F_EVM" "$F_DTRIG" "$F_AIM" "$F_SQUAD" "$F_ANIMC" "$F_HUD" "$F_FIRE" "$F_CORE" "$F_INIT" asm/player/air_death_crouch_036632.s "$F_ROUTE" "$F_SLUG" "$F_BIOS")
+F_TRAPS=(asm/enemies/bosses/allen_oneil_04fa58.s asm/enemies/bosses/gunship_m5boss_finalboss_06dfe8.s asm/enemies/soldiers/bazooka_rocketvehicle_walker_06a000.s asm/enemies/soldiers/sniper_camper_mortar_062008.s asm/entity/collmap_hitbox_script_ops_027400.s asm/player/arm_weapon_fx_0388f0.s asm/props/late_props_turrets_05e000.s asm/slug/vehicle_02dd20.s)
+PATCHABLE=("$F_MODE" "$F_SCHED" "$F_PARA" "$F_HDEATH" "$F_CREW" "$F_EVM" "$F_DTRIG" "$F_AIM" "$F_SQUAD" "$F_ANIMC" "$F_HUD" "$F_FIRE" "$F_CORE" "$F_INIT" asm/player/air_death_crouch_036632.s "$F_ROUTE" "$F_SLUG" "$F_BIOS" "${F_TRAPS[@]}")
 BK=build/patch_backup
 
 list() { sed -n '/^# Parches disponibles/,/^set -euo/p' "$0" | grep -E '^#   ' ; }
@@ -214,6 +217,20 @@ PY
       grep -q "AutoDemo_Level2Script_07957a  | +00d3e  (parche warpkeys)" "$F_ANIMC" || { echo "[patch] warpkeys: tabla de demos no parcheada"; exit 1; }
       in_fn "$F_CREW" AutoDemo_Level2Script_07957a "cmpi.b  #0x2,0x10e39d.l" "cmpi.b  #0x1,0x10e39d.l" "guarda misión 2 -> misión 1"
       in_fn "$F_CREW" AutoDemo_JumpIfBlocked_0796f6 "        rts                                     | +0d6" "        nop                                     | +0d6 (parche warpkeys)" "cae en AutoDemo_DebugWarpKeys_0797ce" ;;
+    asserts-off)
+      python3 - "$F_PARA" "$F_CREW" "$F_HUD" "${F_TRAPS[@]}" <<'PY2'
+import re,sys
+n=0
+for p in sys.argv[1:]:
+    L=open(p).read().split("\n")
+    for i in range(1,len(L)):
+        if re.match(r"\s+trap\s+#0xf\b",L[i]) and re.match(r"\s+nop\b",L[i-1]):
+            L[i]="        nop                                     | (parche asserts-off: era trap #15)"; n+=1
+    open(p,"w").write("\n".join(L))
+assert n==92, n
+print("[patch] %d asserts trap #15 desactivados" % n)
+PY2
+      ;;
     fix-input-bug)
       in_fn "$F_AIM" InputLayout_ReadField0_05D616 "        movea.l 0x72(a1), a2                           | +012  BUG SNK: lee \$72 con el
         lea     0x100300.l, a1                         | +016  a1 VIEJO (orden invertido)" "        lea     0x100300.l, a1                         | +012  (parche fix-input-bug)
