@@ -71,9 +71,11 @@ crates/game/                 (crate `mslug-game`: el juego, Rust legible)
   src/items/ pow/ slug/ mission/ hud/ frontend/ kernel/ ...
   src/data/                  tablas exportadas de la decompilación (con nombre)
   src/platform/              vídeo, sonido, input, BIOS (API de alto nivel)
-crates/mslug/src/manual.rs   adaptador de verificación: llama a la función de
-                             `mslug-game` en el sitio de la rutina original y
-                             compara con la ROM (único sitio con direcciones)
+crates/bridge/               (crate `mslug-bridge`) tabla rutina original ->
+                             función Rust + adaptadores de registros (único
+                             sitio con direcciones); `install` las sustituye
+                             en el programa que se ejecuta (`--manual`)
+crates/mslug/src/manual.rs   verify-manual: compara cada función con la ROM
 ```
 
 Reglas del crate `mslug-game`:
@@ -142,6 +144,10 @@ Lecciones:
   documenta en el código.
 * Las llamadas a rutinas aún no portadas se comparan también por argumento
   (p. ej. el código de sonido pedido).
+* Al sustituir de verdad las rutinas (`--manual`), `lockstep-manual` destapó
+  salidas "de paso" que usan los llamadores y que `verify-manual` no mira:
+  `d0` entero en `InputLayout_ReadField2`/`Input_*ByMode`, `a1` = jugador en
+  `Player_SetWeaponAndAmmo`. Ahora forman parte del adaptador.
 
 Dudas abiertas: el orden de armas 2/3 (Shotgun / Rocket) del `enum Weapon`
 viene de observación, no del código.

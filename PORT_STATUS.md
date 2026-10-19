@@ -4,6 +4,14 @@
 > direcciones ni registros del 68000), sistema a sistema, verificado contra la
 > ROM con `mslug verify-manual`. Ver [docs/PORT_MANUAL.md](docs/PORT_MANUAL.md).
 > El recompilador descrito abajo queda como red de seguridad.
+>
+> | Port manual | |
+> |---|---|
+> | Rutinas originales con función Rust legible | 60 (input, player::controls/voice/weapons/invuln) |
+> | `verify-manual` (auto 8000 + fuzz 1–3 × 15 000 frames) | ✅ 0 fallos |
+> | Jugable: `mslug-sdl --manual` | 57 sustituidas (3 aún llaman a rutinas sin portar) |
+> | `lockstep-manual --atomic-ref` (auto 8000 + fuzz 1–3) | ✅ mismo estado que el recompilado en cada frame |
+> | Assets (`scripts/extract_assets.sh`) | ✅ idénticos a la rama de la decompilación |
 
 ## Resumen
 

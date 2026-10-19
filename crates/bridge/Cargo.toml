@@ -1,0 +1,10 @@
+[package]
+name = "mslug-bridge"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Metal Slug: puente entre el port escrito a mano (mslug-game) y las rutinas originales"
+
+[dependencies]
+neogeo-hw = { path = "../neogeo-hw" }
+mslug-game = { path = "../game" }

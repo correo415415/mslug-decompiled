@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["crates/neogeo-hw", "crates/game", "crates/gen/*", "crates/mslug-code", "crates/mslug", "crates/mslug-sdl"]
-default-members = ["crates/neogeo-hw", "crates/game", "crates/gen/*", "crates/mslug-code", "crates/mslug"]
+members = ["crates/neogeo-hw", "crates/game", "crates/bridge", "crates/gen/*", "crates/mslug-code", "crates/mslug", "crates/mslug-sdl"]
+default-members = ["crates/neogeo-hw", "crates/game", "crates/bridge", "crates/gen/*", "crates/mslug-code", "crates/mslug"]
 
 [profile.release]
 opt-level = 3

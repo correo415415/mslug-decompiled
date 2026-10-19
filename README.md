@@ -86,7 +86,12 @@ cargo build -j1 --release                                      # -j1 si hay poca
 ```sh
 cargo test -p mslug-game
 cargo run --release -p mslug -- verify-manual --fuzz 1 --frames 15000   # Rust a mano vs ROM
+MSLUG_MANUAL_EXACT_CYCLES=1 cargo run --release -p mslug -- lockstep-manual --atomic-ref --fuzz 1 --frames 15000
+cargo run --release -p mslug-sdl -- --manual                             # jugar con el Rust a mano
+scripts/extract_assets.sh                                                # assets -> build/assets/
 ```
+
+Ver [docs/MANUAL_TESTING.md](docs/MANUAL_TESTING.md).
 
 ## Estado
 

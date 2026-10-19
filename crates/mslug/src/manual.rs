@@ -1,4 +1,5 @@
 //! Verificación del port escrito a mano (`mslug-game`) contra la ROM.
+//! La tabla rutina original -> función Rust está en `mslug-bridge`.
 //!
 //! **Único sitio que relaciona el juego en Rust legible con el original**: a
 //! cada función de `mslug-game` le corresponde aquí la rutina original
@@ -16,198 +17,10 @@
 //! reproduce, sólo el **comportamiento observable**.
 
 use anyhow::Result;
-use mslug_game::input::{self, Buttons, Edge};
-use mslug_game::player::{controls, invuln, voice, weapons};
-use mslug_game::{Entity, Memory, PlayerId};
-use neogeo_hw::cpu::m68k::{Bus, Cpu};
+use mslug_bridge::{apply_ret, rom_ret, Fx, Port, Ram, CALLEES, PORTS};
+use neogeo_hw::cpu::m68k::Bus;
 use std::collections::{BTreeMap, HashMap};
 use std::path::PathBuf;
-
-/// RAM de trabajo vista como `Memory` del juego portado.
-struct Ram<'a>(&'a mut [u8]);
-
-impl Memory for Ram<'_> {
-    fn read_u8(&mut self, addr: u32) -> u8 {
-        self.0[(addr & 0xFFFF) as usize]
-    }
-    fn write_u8(&mut self, addr: u32, v: u8) {
-        self.0[(addr & 0xFFFF) as usize] = v;
-    }
-}
-
-/// Resultado observable de una llamada (además de la RAM).
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
-enum Ret {
-    None,
-    /// Valor en d0 (word).
-    D0W(u16),
-    /// Valor en d0 (byte).
-    D0B(u8),
-    /// Éxito / fallo (flag C del original: C=0 éxito).
-    Ok(bool),
-    /// Sí / no (flag C del original: C=1 sí).
-    Yes(bool),
-    /// Sí / no (C=1) y valor en d0 (word).
-    YesD0W(bool, u16),
-    /// Valor en d1 (byte).
-    D1B(u8),
-}
-
-/// Efectos de recogida: en la verificación se anotan, y la comprobación
-/// exige que la ROM haya llamado a la misma rutina (ver `expect_calls`).
-#[derive(Default)]
-struct Fx {
-    calls: Vec<(&'static str, u32)>,
-}
-
-impl<M: Memory> weapons::PickupEffects<M> for Fx {
-    fn score_popup(&mut self, _: &mut M, _: PlayerId) {
-        self.calls.push(("Score_Popup_ForPlayer", 0));
-    }
-    fn weapon_pickup_marker(&mut self, _: &mut M, _: PlayerId) {
-        self.calls.push(("Entity_AllocByPlayerSlot", 0));
-    }
-}
-
-impl<M: Memory> voice::Sound<M> for Fx {
-    fn play(&mut self, _: &mut M, code: u16) {
-        self.calls.push(("Sound_Request", u32::from(code)));
-    }
-}
-
-/// Adaptador: llama a la función Rust con los argumentos que la rutina
-/// original recibe en registros.
-type Adapter = fn(&Cpu, &mut Ram, &mut Fx) -> Ret;
-
-/// Rutinas que llaman las funciones portadas y que por ahora siguen en la ROM
-/// (se comparan como "llamadas", no se ejecutan en el lado Rust).
-/// El último campo extrae el argumento que se compara (0 = ninguno).
-type ArgFn = fn(&Cpu) -> u32;
-const CALLEES: &[(u32, &str, ArgFn)] = &[
-    (0x09_B9BA, "Score_Popup_ForPlayer", |_| 0),
-    (0x09_B9F6, "Entity_AllocByPlayerSlot", |_| 0),
-    (0x00_2352, "Sound_Request", |c| c.d[0] & 0xFFFF),
-];
-
-struct Port {
-    entry: u32,
-    original: &'static str,
-    rust: &'static str,
-    run: Adapter,
-}
-
-fn player_of(d0: u32) -> PlayerId {
-    PlayerId::from_index(d0 as u8)
-}
-
-/// `InputEvtThunk_*` sin mando fijo → `input::pressed`.
-macro_rules! evt {
-    ($a:expr, $mask:expr, $edge:ident) => {
-        Port { entry: $a, original: concat!("InputEvtThunk_", stringify!($a)), rust: "input::pressed",
-               run: |c, m, _| Ret::Yes(input::pressed(m, e6(c), Buttons($mask), Edge::$edge)) }
-    };
-}
-
-/// `InputEvtThunk_*` con mando fijo → `input::player_pad_pressed`.
-macro_rules! pad {
-    ($a:expr, $p:ident, $mask:expr, $edge:ident) => {
-        Port { entry: $a, original: concat!("InputEvtThunk_", stringify!($a)), rust: "input::player_pad_pressed",
-               run: |_, m, _| Ret::Yes(input::player_pad_pressed(m, PlayerId::$p, Buttons($mask), Edge::$edge)) }
-    };
-}
-
-const PORTS: &[Port] = &[
-    Port { entry: 0x03_2B58, original: "Player_SetWeaponAndAmmo", rust: "player::weapons::set_weapon_and_ammo",
-           run: |c, m, _| { weapons::set_weapon_and_ammo(m, player_of(c.d[0]), c.d[1] as u8, c.d[2] as u8); Ret::None } },
-    Port { entry: 0x03_2BC6, original: "Player_RefillAmmoClamp999", rust: "player::weapons::refill_ammo",
-           run: |c, m, _| { weapons::refill_ammo(m, player_of(c.d[0])); Ret::None } },
-    Port { entry: 0x03_2C12, original: "Item_GiveAmmo_ToPlayer", rust: "player::weapons::give_ammo_from_item",
-           run: |c, m, fx| { weapons::give_ammo_from_item(m, fx, player_of(c.d[0]), Entity::from_raw(c.a[6])); Ret::None } },
-    Port { entry: 0x03_2C7E, original: "Item_GiveBombs_ToPlayer", rust: "player::weapons::give_bombs_from_item",
-           run: |c, m, _| { weapons::give_bombs_from_item(m, player_of(c.d[0]), Entity::from_raw(c.a[6])); Ret::None } },
-    Port { entry: 0x03_2FBA, original: "Player_GetAmmoOrFFFF", rust: "player::weapons::ammo_for_hud",
-           run: |c, m, _| Ret::D0W(weapons::ammo_for_hud(m, Entity::from_raw(c.a[0]))) },
-    Port { entry: 0x03_2FCE, original: "Player_GetBombs", rust: "Entity::bombs",
-           run: |c, m, _| Ret::D0B(Entity::from_raw(c.a[0]).bombs(m)) },
-    Port { entry: 0x03_2FD4, original: "Player_DecBombs", rust: "player::weapons::use_bomb",
-           run: |c, m, _| Ret::Ok(weapons::use_bomb(m, Entity::from_raw(c.a[0]))) },
-    Port { entry: 0x03_2CBA, original: "Player_StartInvuln5", rust: "player::invuln::start_pickup_blink",
-           run: |c, m, _| { invuln::start_pickup_blink(m, Entity::from_raw(c.a[1])); Ret::None } },
-    Port { entry: 0x03_2CC8, original: "Player_InvulnBlinkStep", rust: "player::invuln::blink_step",
-           run: |c, m, _| { invuln::blink_step(m, Entity::from_raw(c.a[6])); Ret::None } },
-    // --- player::voice
-    Port { entry: 0x03_2D32, original: "Player_PlayWeaponMusicIfFlag", rust: "player::voice::announce_new_weapon",
-           run: |c, m, fx| Ret::Yes(voice::announce_new_weapon(m, fx, e6(c))) },
-    Port { entry: 0x03_2ED0, original: "Player_PlayLifeMusic", rust: "player::voice::play_life_sound",
-           run: |c, m, fx| { voice::play_life_sound(m, fx, e6(c)); Ret::None } },
-    // --- player::controls
-    Port { entry: 0x03_2AEA, original: "Player_ConsumeFlag81", rust: "player::controls::grenade_limit_reached",
-           run: |c, m, _| Ret::Yes(controls::grenade_limit_reached(m, e6(c))) },
-    Port { entry: 0x03_2B1C, original: "Player_ConsumeFireFlag84", rust: "player::controls::shot_limit_reached",
-           run: |c, m, _| Ret::Yes(controls::shot_limit_reached(m, e6(c))) },
-    Port { entry: 0x03_2AFA, original: "Player_IncCounterAt81", rust: "player::controls::count_live_grenade",
-           run: |c, m, _| { controls::count_live_grenade(m, e6(c)); Ret::None } },
-    Port { entry: 0x03_2B36, original: "Player_IncCounterAt84", rust: "player::controls::count_live_shot",
-           run: |c, m, _| { controls::count_live_shot(m, e6(c)); Ret::None } },
-    Port { entry: 0x03_2E48, original: "Input_ForwardByFacing", rust: "player::controls::forward_held",
-           run: |c, m, _| Ret::Yes(controls::forward_held(m, e6(c))) },
-    Port { entry: 0x03_2E5A, original: "Input_BackwardByFacing", rust: "player::controls::backward_held",
-           run: |c, m, _| Ret::Yes(controls::backward_held(m, e6(c))) },
-    Port { entry: 0x03_2E90, original: "Input_DownPressed", rust: "player::controls::down_held",
-           run: |c, m, _| Ret::Yes(controls::down_held(m, e6(c))) },
-    Port { entry: 0x03_2E70, original: "Input_JumpOrFire", rust: "player::controls::up_jump_pressed",
-           run: |c, m, _| Ret::Yes(controls::up_jump_pressed(m, e6(c))) },
-    Port { entry: 0x03_2F3C, original: "Player_ReadDirNibble", rust: "player::controls::read_aim_airborne",
-           run: |c, m, _| Ret::D0B(controls::read_aim_airborne(m, e6(c))) },
-    Port { entry: 0x03_2F88, original: "Player_ReadFireNibble", rust: "player::controls::read_aim_grounded",
-           run: |c, m, _| Ret::D0B(controls::read_aim_grounded(m, e6(c))) },
-    Port { entry: 0x03_3172, original: "Player_DirNibbleToAction", rust: "player::controls::shot_action_for_aim",
-           run: |c, m, _| Ret::D1B(controls::shot_action_for_aim(m, e6(c))) },
-    Port { entry: 0x03_3034, original: "Input_FireByMode", rust: "player::controls::jump_held",
-           run: |c, m, _| jump_ret(controls::jump_held(m, e6(c))) },
-    Port { entry: 0x03_3080, original: "Input_JumpByMode", rust: "player::controls::jump_pressed",
-           run: |c, m, _| jump_ret(controls::jump_pressed(m, e6(c))) },
-    // --- input
-    Port { entry: 0x05_D5B6, original: "InputLayout_ReadField2", rust: "input::horizontal_held",
-           run: |c, m, _| Ret::D0B(input::horizontal_held(m, e6(c))) },
-    evt!(0x05_CDA8, 0x10, Pressed), evt!(0x05_CDB4, 0x20, Pressed), evt!(0x05_CDC0, 0x40, Pressed),
-    evt!(0x05_CDCC, 0x80, Pressed), evt!(0x05_CDD8, 0x30, Pressed), evt!(0x05_CDE4, 0x50, Pressed),
-    evt!(0x05_CDF0, 0x70, Pressed), evt!(0x05_CDFC, 0xF0, Pressed), evt!(0x05_CE08, 0xE0, Pressed),
-    evt!(0x05_CEEC, 0x01, Held), evt!(0x05_CEF8, 0x02, Held), evt!(0x05_CF04, 0x08, Held),
-    evt!(0x05_CF10, 0x04, Held), evt!(0x05_CF1C, 0x0C, Held), evt!(0x05_CF2C, 0x09, Held),
-    evt!(0x05_CF3C, 0x0A, Held), evt!(0x05_CF4C, 0x05, Held), evt!(0x05_CF5C, 0x06, Held),
-    evt!(0x05_CF6C, 0x08, Pressed), evt!(0x05_CF78, 0x04, Pressed), evt!(0x05_CF84, 0x01, Pressed),
-    evt!(0x05_CF90, 0x02, Pressed), evt!(0x05_CF9C, 0x0C, Pressed),
-    pad!(0x05_CE14, P1, 0x10, Pressed), pad!(0x05_CE26, P1, 0x20, Pressed), pad!(0x05_CE38, P1, 0x40, Pressed),
-    pad!(0x05_CE4A, P1, 0x80, Pressed), pad!(0x05_CE5C, P2, 0x10, Pressed), pad!(0x05_CE6E, P2, 0x20, Pressed),
-    pad!(0x05_CE80, P2, 0x40, Pressed), pad!(0x05_CE92, P2, 0x80, Pressed),
-    pad!(0x05_CEA4, P1, 0x01, Held), pad!(0x05_CEB6, P1, 0x02, Held), pad!(0x05_CEC8, P1, 0x08, Held),
-    pad!(0x05_CEDA, P1, 0x04, Held),
-];
-
-fn e6(c: &Cpu) -> Entity {
-    Entity::from_raw(c.a[6] & 0xFF_FFFF)
-}
-
-/// Salto: C=1 y d0 = dirección + 1, o C=0 y d0 = 0.
-fn jump_ret(dir: Option<u8>) -> Ret {
-    match dir {
-        Some(d) => Ret::YesD0W(true, u16::from(d) + 1),
-        None => Ret::YesD0W(false, 0),
-    }
-}
-
-fn rom_ret(kind: Ret, cpu: &Cpu) -> Ret {
-    match kind {
-        Ret::None => Ret::None,
-        Ret::D0W(_) => Ret::D0W(cpu.d[0] as u16),
-        Ret::D0B(_) => Ret::D0B(cpu.d[0] as u8),
-        Ret::Ok(_) => Ret::Ok(cpu.sr.0 & 1 == 0),
-        Ret::Yes(_) => Ret::Yes(cpu.sr.0 & 1 != 0),
-        Ret::YesD0W(..) => Ret::YesD0W(cpu.sr.0 & 1 != 0, cpu.d[0] as u16),
-        Ret::D1B(_) => Ret::D1B(cpu.d[1] as u8),
-    }
-}
 
 #[derive(Default)]
 struct Stats {
@@ -218,6 +31,11 @@ struct Stats {
     calls: u64,
     fails: u64,
     first: Option<String>,
+    /// Llamadas en las que la CPU tras la sustitución (`mslug-sdl --manual`)
+    /// no queda como la deja la ROM (registros / flags). No es un fallo del
+    /// port legible, pero sí de la sustitución si el llamador los usa.
+    reg_diffs: u64,
+    reg_kinds: std::collections::BTreeSet<String>,
 }
 
 pub fn run(rom: &PathBuf, frames: u32, coin: u32, fuzz: Option<u64>) -> Result<()> {
@@ -249,12 +67,16 @@ pub fn run(rom: &PathBuf, frames: u32, coin: u32, fuzz: Option<u64>) -> Result<(
             budget -= i64::from(sys.step());
         }
     }
-    println!("{:<34} {:<42} {:>9} {:>8} {:>6}", "original", "Rust", "llamadas", "comprob.", "fallos");
+    println!("{:<34} {:<42} {:>9} {:>8} {:>6} {:>7}", "original", "Rust", "llamadas", "comprob.", "fallos", "regs≠");
     let mut bad = false;
     let (mut tc, mut tf) = (0, 0);
     for p in PORTS {
         let s = stats.remove(&p.entry).unwrap_or_default();
-        println!("{:<34} {:<42} {:>9} {:>8} {:>6}", p.original, p.rust, s.seen, s.calls, s.fails);
+        println!("{:<34} {:<42} {:>9} {:>8} {:>6} {:>7}", p.original, p.rust, s.seen, s.calls, s.fails, s.reg_diffs);
+        if !s.reg_kinds.is_empty() {
+            println!("    registros/flags distintos tras la sustitución: {}",
+                     s.reg_kinds.iter().cloned().collect::<Vec<_>>().join(" "));
+        }
         tc += s.calls;
         tf += s.fails;
         if let Some(m) = s.first {
@@ -299,6 +121,31 @@ fn check(sys: &mut neogeo_hw::System, p: &Port, st: &mut Stats) {
     let mut fx = Fx::default();
     let got = (p.run)(&cpu0, &mut Ram(&mut ram_rust), &mut fx);
     let want = rom_ret(got, &cpu_rom);
+
+    // CPU tal como la dejaría la sustitución (`mslug_bridge::call_rust`).
+    let mut cpu_sub = cpu0.clone();
+    apply_ret(&mut cpu_sub, got, ret_pc);
+    let mut rk = Vec::new();
+    for i in 0..8 {
+        if cpu_sub.d[i] != cpu_rom.d[i] {
+            rk.push(format!("D{i}"));
+        }
+        if cpu_sub.a[i] != cpu_rom.a[i] {
+            rk.push(format!("A{i}"));
+        }
+    }
+    for (bit, n) in [(1u16, "C"), (2, "V"), (4, "Z"), (8, "N"), (16, "X")] {
+        if cpu_sub.sr.0 & bit != cpu_rom.sr.0 & bit {
+            rk.push(n.to_string());
+        }
+    }
+    if cpu_sub.pc & 0xFF_FFFF != cpu_rom.pc & 0xFF_FFFF {
+        rk.push("PC".into());
+    }
+    if !rk.is_empty() {
+        st.reg_diffs += 1;
+        st.reg_kinds.extend(rk);
+    }
 
     // Las rutinas no portadas que llama la ROM escriben su propia RAM: sólo
     // se compara la RAM si no hubo llamadas (si las hubo, se compara que

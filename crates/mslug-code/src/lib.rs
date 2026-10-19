@@ -61,6 +61,15 @@ impl Program {
         gen::COUNT == 0
     }
 
+    /// Sustituye la instrucción de `addr` (entrada de una rutina) por `f`.
+    /// Lo usa el port escrito a mano (`mslug_bridge::install`): `f` hace
+    /// todo el trabajo de la rutina y vuelve al llamador.
+    pub fn set_override(&mut self, addr: u32, f: InsFn) {
+        let a = addr & 0xFF_FFFF;
+        assert!(a & 1 == 0 && a < PROM_END, "set_override: ${a:06X} fuera de la P-ROM");
+        self.prom[(a / 2) as usize] = Some(f);
+    }
+
     #[inline]
     pub fn get(&self, pc: u32) -> Option<InsFn> {
         let pc = pc & 0xFF_FFFF;

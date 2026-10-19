@@ -61,6 +61,10 @@ struct Cli {
     /// tools/recomp/seeds.txt) para regenerar el programa con ellas.
     #[arg(long)]
     misses_out: Option<PathBuf>,
+    /// Jugar con el port escrito a mano: las rutinas que ya tienen función
+    /// Rust legible (crate mslug-game) sustituyen a las originales.
+    #[arg(long)]
+    manual: bool,
 }
 
 /// Cola de audio compartida con el callback de SDL.
@@ -132,6 +136,10 @@ fn main() -> Result<()> {
     let cli = Cli::parse();
     let mut sys = load(&cli.rom, !cli.mute)?;
     let mut prog = Program::new();
+    if cli.manual {
+        let n = mslug_bridge::install(|a, f| prog.set_override(a, f));
+        eprintln!("port manual: {n} rutinas sustituidas por Rust escrito a mano");
+    }
 
     let sdl = sdl2::init().map_err(anyhow::Error::msg)?;
     let video = sdl.video().map_err(anyhow::Error::msg)?;

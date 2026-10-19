@@ -12,6 +12,7 @@ path = "src/main.rs"
 [dependencies]
 neogeo-hw = { path = "../neogeo-hw" }
 mslug-code = { path = "../mslug-code" }
+mslug-bridge = { path = "../bridge" }
 anyhow = "1.0"
 log = "0.4"
 env_logger = "0.11"

@@ -316,7 +316,16 @@ dependencies = [
  "clap",
  "env_logger",
  "log",
+ "mslug-bridge",
  "mslug-code",
+ "mslug-game",
+ "neogeo-hw",
+]
+
+[[package]]
+name = "mslug-bridge"
+version = "0.1.0"
+dependencies = [
  "mslug-game",
  "neogeo-hw",
 ]
@@ -509,6 +518,7 @@ dependencies = [
  "clap",
  "env_logger",
  "log",
+ "mslug-bridge",
  "mslug-code",
  "neogeo-hw",
  "sdl2",

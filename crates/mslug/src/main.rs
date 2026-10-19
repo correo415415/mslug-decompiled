@@ -76,6 +76,22 @@ enum Cmd {
         #[arg(long, default_value_t = 400)]
         coin: u32,
     },
+    /// Partida recompilada frente a la misma con el port manual sustituido
+    /// (`--manual`): compara RAM y paleta al final de cada frame.
+    LockstepManual {
+        #[arg(long, default_value_t = 8000)]
+        frames: u32,
+        #[arg(long, default_value_t = 400)]
+        coin: u32,
+        #[arg(long)]
+        fuzz: Option<u64>,
+        /// Referencia con cada rutina original ejecutada de una vez (misma
+        /// granularidad que la sustitución): aísla las diferencias de
+        /// comportamiento de las de tiempo (usar con
+        /// MSLUG_MANUAL_EXACT_CYCLES=1).
+        #[arg(long)]
+        atomic_ref: bool,
+    },
     /// Juega con el programa recompilado (sin intérprete salvo misses).
     Play {
         #[arg(long, default_value_t = 3000)]
@@ -94,6 +110,9 @@ enum Cmd {
         /// partes del juego para encontrar código sin traducir.
         #[arg(long)]
         fuzz: Option<u64>,
+        /// Sustituir las rutinas portadas a mano por su función Rust.
+        #[arg(long)]
+        manual: bool,
     },
     /// Vuelca la P-ROM (vista CPU) y la BIOS cargada a `out/` (entrada del
     /// recompilador).
@@ -247,9 +266,14 @@ fn main() -> Result<()> {
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
         Cmd::VerifyManual { frames, coin, fuzz } => manual::run(&cli.rom, frames, coin, fuzz)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
-        Cmd::Play { frames, coin, dump, every, misses_out, fuzz } => {
+        Cmd::LockstepManual { frames, coin, fuzz, atomic_ref } => lockstep::run_manual(&cli.rom, frames, coin, fuzz, atomic_ref)?,
+        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual } => {
             let mut sys = load(&cli.rom)?;
             let mut prog = mslug_code::Program::new();
+            if manual {
+                let n = mslug_bridge::install(|a, f| prog.set_override(a, f));
+                println!("port manual: {n} rutinas sustituidas por Rust escrito a mano");
+            }
             if let Some(d) = &dump {
                 std::fs::create_dir_all(d)?;
             }
