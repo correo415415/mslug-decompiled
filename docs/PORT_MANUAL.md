@@ -106,27 +106,42 @@ Reglas del crate `mslug-game`:
 Estimación realista: es un proyecto largo (miles de rutinas), pero cada
 paso es pequeño, verificable y deja el juego funcionando.
 
-## 5. Estado del piloto
+## 5. Estado del port manual
 
-`mslug verify-manual --frames 15000 --fuzz 1..4`: 0 fallos.
+`mslug verify-manual --frames 15000 --fuzz 1..3` y la partida automática de
+8000 frames: **0 fallos** (≈ 57 000–59 000 llamadas comprobadas por partida).
+Las rutinas muy llamadas se muestrean: se comprueban todas las 1000
+primeras llamadas y luego una de cada `n/1000`.
 
-| Original | Rust | Verificado contra la ROM |
+Sistemas portados (60 rutinas originales):
+
+| Módulo | Contenido | Rutinas originales |
 |---|---|---|
-| `Player_SetWeaponAndAmmo` (+`SetAmmoForWeapon`) | `player::weapons::set_weapon_and_ammo` | ✅ (sólo con cantidad ≠ 0; la rama "munición por defecto" sólo por test unitario) |
-| `Item_GiveBombs_ToPlayer` | `player::weapons::give_bombs_from_item` | ✅ |
-| `Player_GetAmmoOrFFFF` | `player::weapons::ammo_for_hud` | ✅ (miles de llamadas, HUD) |
-| `Player_GetBombs` | `Entity::bombs` | ✅ |
-| `Player_StartInvuln5` | `player::invuln::start_pickup_blink` | ✅ |
-| `Player_InvulnBlinkStep` | `player::invuln::blink_step` | ✅ (miles de llamadas) |
-| `Player_RefillAmmoClamp999` | `player::weapons::refill_ammo` | ⚠️ no se llama en las partidas de prueba: sólo test unitario |
-| `Item_GiveAmmo_ToPlayer` | `player::weapons::give_ammo_from_item` | ⚠️ ídem |
-| `Player_DecBombs` | `player::weapons::use_bomb` | ⚠️ ídem |
+| `input` | lectura de mandos: botones mantenidos/recién pulsados del mando que controla una entidad, pausa de entrada al arrancar escena, mandos sintéticos del piloto automático, dirección horizontal, configuración de salto | 35 `InputEvtThunk_*`, `InputMask_CheckChannelAvail`, `InputMask_ReadCtxSwitchPlayer`, `InputMask_TestChannelBit`, `InputCtx_DemoOverride`, `InputLayout_ReadField2` |
+| `player::controls` | delante/detrás según orientación, apuntado en el aire y en el suelo, acción de disparo según apuntado, inicio de salto, límites de disparos y granadas en pantalla | `Input_ForwardByFacing`, `Input_BackwardByFacing`, `Input_DownPressed`, `Input_JumpOrFire`, `Input_FireByMode`, `Input_JumpByMode`, `Player_ReadDirNibble`, `Player_ReadFireNibble`, `Player_DirNibbleToAction`, `Player_ConsumeFlag81`, `Player_ConsumeFireFlag84`, `Player_IncCounterAt81`, `Player_IncCounterAt84` |
+| `player::voice` | voz del arma nueva, sonido de vida extra | `Player_PlayWeaponMusicIfFlag`, `Player_PlayLifeMusic` |
+| `player::weapons` | munición, bombas, recogidas | `Player_SetWeaponAndAmmo`, `Player_RefillAmmoClamp999`, `Item_GiveAmmo_ToPlayer`, `Item_GiveBombs_ToPlayer`, `Player_GetAmmoOrFFFF`, `Player_GetBombs`, `Player_DecBombs` |
+| `player::invuln` | parpadeo de invulnerabilidad | `Player_StartInvuln5`, `Player_InvulnBlinkStep` |
 
-Lección: la verificación diferencial sólo prueba los caminos que la
-partida recorre. Una primera versión con la tabla de munición mal leída
-pasó la verificación porque ninguna llamada usaba la rama por defecto; se
-corrigió leyendo la tabla de la ROM. Hacen falta partidas que recojan
-armas/cajas (o estados guardados preparados) para cubrir esas ramas.
+Sin cobertura en las partidas de prueba (sólo tests unitarios):
+`Player_RefillAmmoClamp999`, `Item_GiveAmmo_ToPlayer`, `Player_DecBombs`,
+`Player_PlayLifeMusic`, `Input_BackwardByFacing`, `Input_JumpOrFire` /
+`Input_JumpByMode` (sólo con la configuración "saltar con arriba"), los
+thunks de mando fijo y varias combinaciones de botones.
+
+Lecciones:
+
+* La verificación diferencial sólo prueba los caminos que la partida
+  recorre. Una primera versión con la tabla de munición mal leída pasó
+  porque ninguna llamada usaba la rama por defecto.
+* El fuzz encontró un **comportamiento raro del original** que la primera
+  lectura había "arreglado" sin querer: con la misma arma,
+  `Player_SetAmmoForWeapon` suma la munición por defecto sólo si la cantidad
+  pedida es **≠ 0** (y no suma nada si es 0): la condición está invertida
+  respecto al caso de arma distinta. El port reproduce el original y lo
+  documenta en el código.
+* Las llamadas a rutinas aún no portadas se comparan también por argumento
+  (p. ej. el código de sonido pedido).
 
 Dudas abiertas: el orden de armas 2/3 (Shotgun / Rocket) del `enum Weapon`
 viene de observación, no del código.

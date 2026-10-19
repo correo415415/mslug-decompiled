@@ -317,6 +317,7 @@ dependencies = [
  "env_logger",
  "log",
  "mslug-code",
+ "mslug-game",
  "neogeo-hw",
 ]
 
@@ -348,6 +349,10 @@ dependencies = [
  "mslug-gen-20",
  "neogeo-hw",
 ]
+
+[[package]]
+name = "mslug-game"
+version = "0.1.0"
 
 [[package]]
 name = "mslug-gen-00"

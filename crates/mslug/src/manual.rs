@@ -16,10 +16,11 @@
 //! reproduce, sólo el **comportamiento observable**.
 
 use anyhow::Result;
-use mslug_game::player::{invuln, weapons};
+use mslug_game::input::{self, Buttons, Edge};
+use mslug_game::player::{controls, invuln, voice, weapons};
 use mslug_game::{Entity, Memory, PlayerId};
 use neogeo_hw::cpu::m68k::{Bus, Cpu};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, HashMap};
 use std::path::PathBuf;
 
 /// RAM de trabajo vista como `Memory` del juego portado.
@@ -44,21 +45,33 @@ enum Ret {
     D0B(u8),
     /// Éxito / fallo (flag C del original: C=0 éxito).
     Ok(bool),
+    /// Sí / no (flag C del original: C=1 sí).
+    Yes(bool),
+    /// Sí / no (C=1) y valor en d0 (word).
+    YesD0W(bool, u16),
+    /// Valor en d1 (byte).
+    D1B(u8),
 }
 
 /// Efectos de recogida: en la verificación se anotan, y la comprobación
 /// exige que la ROM haya llamado a la misma rutina (ver `expect_calls`).
 #[derive(Default)]
 struct Fx {
-    calls: Vec<&'static str>,
+    calls: Vec<(&'static str, u32)>,
 }
 
 impl<M: Memory> weapons::PickupEffects<M> for Fx {
     fn score_popup(&mut self, _: &mut M, _: PlayerId) {
-        self.calls.push("Score_Popup_ForPlayer");
+        self.calls.push(("Score_Popup_ForPlayer", 0));
     }
     fn weapon_pickup_marker(&mut self, _: &mut M, _: PlayerId) {
-        self.calls.push("Entity_AllocByPlayerSlot");
+        self.calls.push(("Entity_AllocByPlayerSlot", 0));
+    }
+}
+
+impl<M: Memory> voice::Sound<M> for Fx {
+    fn play(&mut self, _: &mut M, code: u16) {
+        self.calls.push(("Sound_Request", u32::from(code)));
     }
 }
 
@@ -68,9 +81,12 @@ type Adapter = fn(&Cpu, &mut Ram, &mut Fx) -> Ret;
 
 /// Rutinas que llaman las funciones portadas y que por ahora siguen en la ROM
 /// (se comparan como "llamadas", no se ejecutan en el lado Rust).
-const CALLEES: &[(u32, &str)] = &[
-    (0x09_B9BA, "Score_Popup_ForPlayer"),
-    (0x09_B9F6, "Entity_AllocByPlayerSlot"),
+/// El último campo extrae el argumento que se compara (0 = ninguno).
+type ArgFn = fn(&Cpu) -> u32;
+const CALLEES: &[(u32, &str, ArgFn)] = &[
+    (0x09_B9BA, "Score_Popup_ForPlayer", |_| 0),
+    (0x09_B9F6, "Entity_AllocByPlayerSlot", |_| 0),
+    (0x00_2352, "Sound_Request", |c| c.d[0] & 0xFFFF),
 ];
 
 struct Port {
@@ -82,6 +98,22 @@ struct Port {
 
 fn player_of(d0: u32) -> PlayerId {
     PlayerId::from_index(d0 as u8)
+}
+
+/// `InputEvtThunk_*` sin mando fijo → `input::pressed`.
+macro_rules! evt {
+    ($a:expr, $mask:expr, $edge:ident) => {
+        Port { entry: $a, original: concat!("InputEvtThunk_", stringify!($a)), rust: "input::pressed",
+               run: |c, m, _| Ret::Yes(input::pressed(m, e6(c), Buttons($mask), Edge::$edge)) }
+    };
+}
+
+/// `InputEvtThunk_*` con mando fijo → `input::player_pad_pressed`.
+macro_rules! pad {
+    ($a:expr, $p:ident, $mask:expr, $edge:ident) => {
+        Port { entry: $a, original: concat!("InputEvtThunk_", stringify!($a)), rust: "input::player_pad_pressed",
+               run: |_, m, _| Ret::Yes(input::player_pad_pressed(m, PlayerId::$p, Buttons($mask), Edge::$edge)) }
+    };
 }
 
 const PORTS: &[Port] = &[
@@ -103,7 +135,67 @@ const PORTS: &[Port] = &[
            run: |c, m, _| { invuln::start_pickup_blink(m, Entity::from_raw(c.a[1])); Ret::None } },
     Port { entry: 0x03_2CC8, original: "Player_InvulnBlinkStep", rust: "player::invuln::blink_step",
            run: |c, m, _| { invuln::blink_step(m, Entity::from_raw(c.a[6])); Ret::None } },
+    // --- player::voice
+    Port { entry: 0x03_2D32, original: "Player_PlayWeaponMusicIfFlag", rust: "player::voice::announce_new_weapon",
+           run: |c, m, fx| Ret::Yes(voice::announce_new_weapon(m, fx, e6(c))) },
+    Port { entry: 0x03_2ED0, original: "Player_PlayLifeMusic", rust: "player::voice::play_life_sound",
+           run: |c, m, fx| { voice::play_life_sound(m, fx, e6(c)); Ret::None } },
+    // --- player::controls
+    Port { entry: 0x03_2AEA, original: "Player_ConsumeFlag81", rust: "player::controls::grenade_limit_reached",
+           run: |c, m, _| Ret::Yes(controls::grenade_limit_reached(m, e6(c))) },
+    Port { entry: 0x03_2B1C, original: "Player_ConsumeFireFlag84", rust: "player::controls::shot_limit_reached",
+           run: |c, m, _| Ret::Yes(controls::shot_limit_reached(m, e6(c))) },
+    Port { entry: 0x03_2AFA, original: "Player_IncCounterAt81", rust: "player::controls::count_live_grenade",
+           run: |c, m, _| { controls::count_live_grenade(m, e6(c)); Ret::None } },
+    Port { entry: 0x03_2B36, original: "Player_IncCounterAt84", rust: "player::controls::count_live_shot",
+           run: |c, m, _| { controls::count_live_shot(m, e6(c)); Ret::None } },
+    Port { entry: 0x03_2E48, original: "Input_ForwardByFacing", rust: "player::controls::forward_held",
+           run: |c, m, _| Ret::Yes(controls::forward_held(m, e6(c))) },
+    Port { entry: 0x03_2E5A, original: "Input_BackwardByFacing", rust: "player::controls::backward_held",
+           run: |c, m, _| Ret::Yes(controls::backward_held(m, e6(c))) },
+    Port { entry: 0x03_2E90, original: "Input_DownPressed", rust: "player::controls::down_held",
+           run: |c, m, _| Ret::Yes(controls::down_held(m, e6(c))) },
+    Port { entry: 0x03_2E70, original: "Input_JumpOrFire", rust: "player::controls::up_jump_pressed",
+           run: |c, m, _| Ret::Yes(controls::up_jump_pressed(m, e6(c))) },
+    Port { entry: 0x03_2F3C, original: "Player_ReadDirNibble", rust: "player::controls::read_aim_airborne",
+           run: |c, m, _| Ret::D0B(controls::read_aim_airborne(m, e6(c))) },
+    Port { entry: 0x03_2F88, original: "Player_ReadFireNibble", rust: "player::controls::read_aim_grounded",
+           run: |c, m, _| Ret::D0B(controls::read_aim_grounded(m, e6(c))) },
+    Port { entry: 0x03_3172, original: "Player_DirNibbleToAction", rust: "player::controls::shot_action_for_aim",
+           run: |c, m, _| Ret::D1B(controls::shot_action_for_aim(m, e6(c))) },
+    Port { entry: 0x03_3034, original: "Input_FireByMode", rust: "player::controls::jump_held",
+           run: |c, m, _| jump_ret(controls::jump_held(m, e6(c))) },
+    Port { entry: 0x03_3080, original: "Input_JumpByMode", rust: "player::controls::jump_pressed",
+           run: |c, m, _| jump_ret(controls::jump_pressed(m, e6(c))) },
+    // --- input
+    Port { entry: 0x05_D5B6, original: "InputLayout_ReadField2", rust: "input::horizontal_held",
+           run: |c, m, _| Ret::D0B(input::horizontal_held(m, e6(c))) },
+    evt!(0x05_CDA8, 0x10, Pressed), evt!(0x05_CDB4, 0x20, Pressed), evt!(0x05_CDC0, 0x40, Pressed),
+    evt!(0x05_CDCC, 0x80, Pressed), evt!(0x05_CDD8, 0x30, Pressed), evt!(0x05_CDE4, 0x50, Pressed),
+    evt!(0x05_CDF0, 0x70, Pressed), evt!(0x05_CDFC, 0xF0, Pressed), evt!(0x05_CE08, 0xE0, Pressed),
+    evt!(0x05_CEEC, 0x01, Held), evt!(0x05_CEF8, 0x02, Held), evt!(0x05_CF04, 0x08, Held),
+    evt!(0x05_CF10, 0x04, Held), evt!(0x05_CF1C, 0x0C, Held), evt!(0x05_CF2C, 0x09, Held),
+    evt!(0x05_CF3C, 0x0A, Held), evt!(0x05_CF4C, 0x05, Held), evt!(0x05_CF5C, 0x06, Held),
+    evt!(0x05_CF6C, 0x08, Pressed), evt!(0x05_CF78, 0x04, Pressed), evt!(0x05_CF84, 0x01, Pressed),
+    evt!(0x05_CF90, 0x02, Pressed), evt!(0x05_CF9C, 0x0C, Pressed),
+    pad!(0x05_CE14, P1, 0x10, Pressed), pad!(0x05_CE26, P1, 0x20, Pressed), pad!(0x05_CE38, P1, 0x40, Pressed),
+    pad!(0x05_CE4A, P1, 0x80, Pressed), pad!(0x05_CE5C, P2, 0x10, Pressed), pad!(0x05_CE6E, P2, 0x20, Pressed),
+    pad!(0x05_CE80, P2, 0x40, Pressed), pad!(0x05_CE92, P2, 0x80, Pressed),
+    pad!(0x05_CEA4, P1, 0x01, Held), pad!(0x05_CEB6, P1, 0x02, Held), pad!(0x05_CEC8, P1, 0x08, Held),
+    pad!(0x05_CEDA, P1, 0x04, Held),
 ];
+
+fn e6(c: &Cpu) -> Entity {
+    Entity::from_raw(c.a[6] & 0xFF_FFFF)
+}
+
+/// Salto: C=1 y d0 = dirección + 1, o C=0 y d0 = 0.
+fn jump_ret(dir: Option<u8>) -> Ret {
+    match dir {
+        Some(d) => Ret::YesD0W(true, u16::from(d) + 1),
+        None => Ret::YesD0W(false, 0),
+    }
+}
 
 fn rom_ret(kind: Ret, cpu: &Cpu) -> Ret {
     match kind {
@@ -111,11 +203,18 @@ fn rom_ret(kind: Ret, cpu: &Cpu) -> Ret {
         Ret::D0W(_) => Ret::D0W(cpu.d[0] as u16),
         Ret::D0B(_) => Ret::D0B(cpu.d[0] as u8),
         Ret::Ok(_) => Ret::Ok(cpu.sr.0 & 1 == 0),
+        Ret::Yes(_) => Ret::Yes(cpu.sr.0 & 1 != 0),
+        Ret::YesD0W(..) => Ret::YesD0W(cpu.sr.0 & 1 != 0, cpu.d[0] as u16),
+        Ret::D1B(_) => Ret::D1B(cpu.d[1] as u8),
     }
 }
 
 #[derive(Default)]
 struct Stats {
+    /// Veces que el juego ha llamado a la rutina.
+    seen: u64,
+    /// Llamadas comprobadas (muestreo: todas las primeras 1000 y luego
+    /// cada vez menos, para cubrir toda la partida sin disparar el coste).
     calls: u64,
     fails: u64,
     first: Option<String>,
@@ -126,6 +225,7 @@ pub fn run(rom: &PathBuf, frames: u32, coin: u32, fuzz: Option<u64>) -> Result<(
     let mut fz = fuzz.map(crate::Fuzz::new);
     let mut stats: BTreeMap<u32, Stats> = BTreeMap::new();
     let mut skip: Option<u32> = None;
+    let index: HashMap<u32, usize> = PORTS.iter().enumerate().map(|(i, p)| (p.entry, i)).collect();
     for f in 0..frames {
         match fz.as_mut() {
             Some(z) => z.inputs(&mut sys, f),
@@ -135,22 +235,26 @@ pub fn run(rom: &PathBuf, frames: u32, coin: u32, fuzz: Option<u64>) -> Result<(
         while budget > 0 {
             let pc = sys.m68k.pc & 0xFF_FFFF;
             if skip != Some(pc) {
-                if let Some(p) = PORTS.iter().find(|p| p.entry == pc) {
-                    check(&mut sys, p, stats.entry(pc).or_default());
-                    skip = Some(pc);
-                    continue;
+                if let Some(&i) = index.get(&pc) {
+                    let st = stats.entry(pc).or_default();
+                    st.seen += 1;
+                    if st.seen % (st.seen / 1000).max(1) == 0 {
+                        check(&mut sys, &PORTS[i], st);
+                        skip = Some(pc);
+                        continue;
+                    }
                 }
             }
             skip = None;
             budget -= i64::from(sys.step());
         }
     }
-    println!("{:<34} {:<42} {:>8} {:>6}", "original", "Rust", "llamadas", "fallos");
+    println!("{:<34} {:<42} {:>9} {:>8} {:>6}", "original", "Rust", "llamadas", "comprob.", "fallos");
     let mut bad = false;
     let (mut tc, mut tf) = (0, 0);
     for p in PORTS {
         let s = stats.remove(&p.entry).unwrap_or_default();
-        println!("{:<34} {:<42} {:>8} {:>6}", p.original, p.rust, s.calls, s.fails);
+        println!("{:<34} {:<42} {:>9} {:>8} {:>6}", p.original, p.rust, s.seen, s.calls, s.fails);
         tc += s.calls;
         tf += s.fails;
         if let Some(m) = s.first {
@@ -174,12 +278,12 @@ fn check(sys: &mut neogeo_hw::System, p: &Port, st: &mut Stats) {
     // --- ROM hasta el rts, anotando las llamadas a rutinas aún no portadas
     let ret_sp = cpu0.a[7].wrapping_add(4);
     let ret_pc = sys.bus.read32(cpu0.a[7] & 0xFF_FFFF) & 0xFF_FFFF;
-    let mut rom_calls: Vec<&'static str> = Vec::new();
+    let mut rom_calls: Vec<(&'static str, u32)> = Vec::new();
     let mut steps = 0;
     loop {
         let pc = sys.m68k.pc & 0xFF_FFFF;
-        if let Some((_, n)) = CALLEES.iter().find(|(a, _)| *a == pc) {
-            rom_calls.push(n);
+        if let Some((_, n, arg)) = CALLEES.iter().find(|(a, _, _)| *a == pc) {
+            rom_calls.push((n, arg(&sys.m68k)));
         }
         sys.m68k.step(&mut sys.bus);
         steps += 1;

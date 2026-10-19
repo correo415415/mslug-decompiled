@@ -7,6 +7,7 @@
 //!
 //! Organización por sistemas:
 //!
+//! * [`input`] — lectura de los mandos
 //! * [`player`] — el jugador (armas, munición, bombas, invulnerabilidad, ...)
 //! * [`state`] / [`entity`] — estado global y entidades con nombre
 //!
@@ -18,6 +19,7 @@
 //! Plan y criterios: `docs/PORT_MANUAL.md`.
 
 pub mod entity;
+pub mod input;
 pub mod layout;
 pub mod mem;
 pub mod player;

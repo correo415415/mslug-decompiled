@@ -54,17 +54,24 @@ fn ammo_per_pickup(weapon_id: u8) -> u16 {
 
 /// Cambia el arma del jugador y le da munición.
 ///
-/// `amount == 0` significa "la munición por defecto del arma". Si ya llevaba
-/// esa arma, la munición se **suma**; si no, se **sustituye**.
+/// * Arma distinta: la munición se **sustituye** por `amount`, o por la
+///   munición por defecto del arma si `amount == 0`.
+/// * Misma arma: se **suma** la munición por defecto del arma si
+///   `amount != 0`, y nada si `amount == 0`. (La condición está invertida
+///   respecto al caso anterior: es lo que hace el original; probablemente un
+///   descuido de SNK que no se nota porque las cajas de arma pasan siempre
+///   `amount == 0` o la cantidad por defecto.)
+///
 /// Original: `Player_SetWeaponAndAmmo` + `Player_SetAmmoForWeapon`.
 pub fn set_weapon_and_ammo(m: &mut impl Memory, player: PlayerId, weapon_id: u8, amount: u8) {
     let p = Entity::player(player);
-    let amount = if amount == 0 { ammo_per_pickup(weapon_id) } else { u16::from(amount) };
     if p.weapon_id(m) == weapon_id {
-        let ammo = p.ammo(m).wrapping_add(amount);
+        let extra = if amount != 0 { ammo_per_pickup(weapon_id) } else { 0 };
+        let ammo = p.ammo(m).wrapping_add(extra);
         p.set_ammo(m, ammo);
     } else {
-        p.set_ammo(m, amount);
+        let ammo = if amount == 0 { ammo_per_pickup(weapon_id) } else { u16::from(amount) };
+        p.set_ammo(m, ammo);
     }
     p.set_weapon_id(m, weapon_id);
 }
@@ -180,8 +187,11 @@ mod tests {
         assert_eq!(p.ammo(&mut m), 999);
         set_weapon_and_ammo(&mut m, PlayerId::P1, Weapon::HeavyMachineGun as u8, 0);
         p.set_ammo(&mut m, 100);
+        // Misma arma con cantidad: suma la de por defecto (10), no 50.
         set_weapon_and_ammo(&mut m, PlayerId::P1, Weapon::HeavyMachineGun as u8, 50);
-        assert_eq!(p.ammo(&mut m), 150);
+        assert_eq!(p.ammo(&mut m), 110);
+        set_weapon_and_ammo(&mut m, PlayerId::P1, Weapon::HeavyMachineGun as u8, 0);
+        assert_eq!(p.ammo(&mut m), 110);
         set_weapon_and_ammo(&mut m, PlayerId::P1, Weapon::Shotgun as u8, 30);
         assert_eq!(p.ammo(&mut m), 30);
         assert_eq!(p.weapon_id(&mut m), Weapon::Shotgun as u8);

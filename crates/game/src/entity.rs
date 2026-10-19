@@ -71,6 +71,34 @@ impl Entity {
     field!(item_amount_alt, set_item_amount_alt, u8, layout::entity::ITEM_AMOUNT_ALT, read_u8, write_u8,
            "Objeto recogible: cantidad alternativa (para el lanzallamas).");
 
+    field!(facing_flags, set_facing_flags, u8, layout::entity::FACING_FLAGS, read_u8, write_u8,
+           "Flags de orientación.");
+    field!(controller, set_controller, u8, layout::entity::CONTROLLER, read_u8, write_u8,
+           "Mando que la controla (1 = P1, 2 = P2).");
+    field!(aim_dir, set_aim_dir, u8, layout::entity::AIM_DIR, read_u8, write_u8, "Dirección de apuntado.");
+    field!(aim_history, set_aim_history, u8, layout::entity::AIM_HISTORY, read_u8, write_u8,
+           "Apuntado anterior (nibble alto) y actual (bajo).");
+    field!(live_grenades, set_live_grenades, u8, layout::entity::LIVE_GRENADES, read_u8, write_u8,
+           "Granadas propias vivas contadas este frame.");
+    field!(live_shots, set_live_shots, u8, layout::entity::LIVE_SHOTS, read_u8, write_u8,
+           "Disparos propios vivos contados este frame.");
+
+    /// Mira a la izquierda.
+    pub fn facing_left(self, m: &mut impl Memory) -> bool {
+        self.facing_flags(m) & layout::entity::FACING_LEFT != 0
+    }
+
+    /// Tarea/entidad dueña.
+    pub fn owner(self, m: &mut impl Memory) -> Entity {
+        Entity(m.read_u32(self.0 + layout::entity::OWNER) & 0xFF_FFFF)
+    }
+
+    /// Jugador al que pertenece una entidad auxiliar (disparo, granada...)
+    /// según su mando: 1 = P1, cualquier otro = P2.
+    pub fn owning_player(self, m: &mut impl Memory) -> PlayerId {
+        if self.controller(m) == 1 { PlayerId::P1 } else { PlayerId::P2 }
+    }
+
     /// Lee un word de un campo dado por su offset numérico (tablas de datos
     /// del juego que apuntan a campos de la propia entidad).
     pub fn field_u16(self, m: &mut impl Memory, offset: u16) -> u16 {

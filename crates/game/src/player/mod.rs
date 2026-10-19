@@ -1,7 +1,6 @@
-//! El jugador (Marco / Tarma).
-//!
-//! * [`weapons`] — armas, munición y bombas
-//! * [`invuln`] — invulnerabilidad tras recibir daño / reaparecer
+//! El jugador.
 
+pub mod controls;
 pub mod invuln;
+pub mod voice;
 pub mod weapons;
