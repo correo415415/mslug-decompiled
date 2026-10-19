@@ -280,7 +280,7 @@ def render_patches(p, tiles, pals, all_slots):
     descriptor {w, h, tiles} a la capa de la cámara `ent` (puertas, restos de
     edificios destruidos, etc.). Se renderizan las columnas que algún registro
     copia; las paletas salen de los slots conocidos de todas las escenas."""
-    import data_census as D
+    import blit_patches as D
     os.makedirs(os.path.join(OUT, "patches"), exist_ok=True)
     by = {}
     for rec, desc, w, h, t, ncol in D.blit_patches(p):
