@@ -8,6 +8,7 @@ description = "Metal Slug (Neo Geo, 1996) — port 1:1 a Rust sobre hardware Neo
 [dependencies]
 neogeo-hw = { path = "../neogeo-hw" }
 mslug-code = { path = "../mslug-code" }
+mslug-game = { path = "../game" }
 anyhow = "1.0"
 log = "0.4"
 env_logger = "0.11"

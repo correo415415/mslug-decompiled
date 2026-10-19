@@ -12,6 +12,7 @@
 mod game;
 mod verify;
 mod lockstep;
+mod manual;
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
@@ -57,6 +58,17 @@ enum Cmd {
     },
     /// Lista las funciones portadas.
     List,
+    /// Port escrito a mano (`mslug-game`): compara cada función Rust legible
+    /// con su rutina original durante una partida (RAM y valor devuelto).
+    VerifyManual {
+        #[arg(long, default_value_t = 6000)]
+        frames: u32,
+        #[arg(long, default_value_t = 400)]
+        coin: u32,
+        /// Entradas pseudoaleatorias (llega a más partes del juego).
+        #[arg(long)]
+        fuzz: Option<u64>,
+    },
     /// Intérprete vs programa recompilado, comparando tras cada instrucción.
     Lockstep {
         #[arg(long, default_value_t = 3000)]
@@ -233,6 +245,7 @@ fn main() -> Result<()> {
                      sys.instructions, sys.m68k.native_calls);
         }
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
+        Cmd::VerifyManual { frames, coin, fuzz } => manual::run(&cli.rom, frames, coin, fuzz)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
         Cmd::Play { frames, coin, dump, every, misses_out, fuzz } => {
             let mut sys = load(&cli.rom)?;

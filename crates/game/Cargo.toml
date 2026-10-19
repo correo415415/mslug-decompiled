@@ -1,0 +1,8 @@
+[package]
+name = "mslug-game"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Metal Slug reescrito a mano en Rust legible a partir de la decompilación (sin recompilación)"
+
+[dependencies]
