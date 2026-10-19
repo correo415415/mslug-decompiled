@@ -177,7 +177,11 @@ jobs:
           rm -rf "/tmp/$P"
           (cd ci_out/shots 2>/dev/null && tar -czf ../shots.tar.gz *.png) || true
           cp ci_out/shots/*.png ci_out/ 2>/dev/null || true
-          rm -rf ci_out/shots
+          (cd ci_out/shots_manual 2>/dev/null && tar -czf ../shots_manual.tar.gz *.png) || true
+          for f in ci_out/shots_manual/*.png; do [ -e "$f" ] && cp "$f" "ci_out/manual-$(basename "$f")"; done
+          rm -rf ci_out/shots ci_out/shots_manual
+          # Sólo ficheros sueltos en la release
+          find ci_out -mindepth 1 -type d -exec rm -rf {} +
           cd ci_out && sha256sum * > SHA256SUMS.txt && ls -la
 
       - name: Release
