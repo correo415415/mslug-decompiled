@@ -1,5 +1,10 @@
 # Estado del port
 
+> **Dirección actual:** port escrito a mano en Rust legible (`crates/game`, sin
+> direcciones ni registros del 68000), sistema a sistema, verificado contra la
+> ROM con `mslug verify-manual`. Ver [docs/PORT_MANUAL.md](docs/PORT_MANUAL.md).
+> El recompilador descrito abajo queda como red de seguridad.
+
 ## Resumen
 
 | | |

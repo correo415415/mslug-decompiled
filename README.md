@@ -15,6 +15,8 @@ mismas partidas con las mismas entradas.
 ```
 internal/      mslug.zip (romset MAME original, sólo uso privado)
 crates/
+  game/        mslug-game: el juego escrito a mano en Rust legible (player/,
+               enemies/, items/...), sin direcciones; ver docs/PORT_MANUAL.md
   gen/NN/      mslug-gen-NN: el programa 68000 (juego + BIOS) traducido a Rust,
                generado por tools/recomp/m68k_recomp.py y repartido en ~18
                crates de ~5 400 instrucciones (cada rustc cabe en ~300 MB)
@@ -77,6 +79,13 @@ cp build/code_map/code.bin <port>/tools/recomp/decomp_code.bin
 ./target/release/mslug dump-roms                               # build/recomp/{prom,bios}.bin
 python3 tools/recomp/m68k_recomp.py --static                   # crates/gen/NN + Cargo.toml (sin trazas)
 cargo build -j1 --release                                      # -j1 si hay poca RAM
+```
+
+## Port manual
+
+```sh
+cargo test -p mslug-game
+cargo run --release -p mslug -- verify-manual --fuzz 1 --frames 15000   # Rust a mano vs ROM
 ```
 
 ## Estado
