@@ -1821,25 +1821,24 @@ HumanDeath_SpriteTbls_04ac56__L04af9e:
         .dc.w   0x1b48                        | +3f6  (dato / opcode no decodificado)
         .dc.w   0xffff                        | +3f8  (dato / opcode no decodificado)
         .dc.w   0x1600                        | +3fa  (dato / opcode no decodificado)
-        .dc.w   0x546e                        | +3fc  (dato / opcode no decodificado)
-        .dc.w   0x0024                        | +3fe  (dato / opcode no decodificado)
-        .dc.w   0x303c                        | +400  (dato / opcode no decodificado)
-        .dc.w   0xfff8                        | +402  (dato / opcode no decodificado)
-        .dc.w   0x4eb9                        | +404  (dato / opcode no decodificado)
-        .dc.w   0x0005                        | +406  (dato / opcode no decodificado)
-        .dc.w   0xdca4                        | +408  (dato / opcode no decodificado)
-        .dc.w   0x3d40                        | +40a  (dato / opcode no decodificado)
-        .dc.w   0x0028                        | +40c  (dato / opcode no decodificado)
-        .dc.w   0x3d7c                        | +40e  (dato / opcode no decodificado)
-        .dc.w   0x0180                        | +410  (dato / opcode no decodificado)
-        .dc.w   0x002a                        | +412  (dato / opcode no decodificado)
-        .dc.w   0x3d7c                        | +414  (dato / opcode no decodificado)
-        .dc.w   0xffe8                        | +416  (dato / opcode no decodificado)
-        .dc.w   0x002e                        | +418  (dato / opcode no decodificado)
-        .dc.w   0x3d7c                        | +41a  (dato / opcode no decodificado)
-        .dc.w   0x0000                        | +41c  (dato / opcode no decodificado)
-        .dc.w   0x002c                        | +41e  (dato / opcode no decodificado)
-        .dc.w   0x4e75                        | +420  (dato / opcode no decodificado)
+| ----------------------------------------------------------------------------
+| HumanDeath_State_Launch_04b052 ($4B052, 38 B) — CÓDIGO dentro de la tabla.
+|   Lo alcanza un puntero de la propia tabla (+$3A0: .long $0004B052), es decir
+|   un despacho indirecto por estado: no lo ve ningún jsr/bsr estático.
+|   Detectado por el port (recompilación estática desde esta decompilación).
+|   Avanza el estado ($24(a6) += 2) y lanza el cuerpo: vx = Rand(-8) vía
+|   $5DCA4, vy = $180, gravedad/ay = -$18, $2C = 0.
+| ----------------------------------------------------------------------------
+        .global HumanDeath_SpriteTbls_04ac56__L04b052
+HumanDeath_SpriteTbls_04ac56__L04b052:
+        addq.w  #0x2,0x24(a6)                   | +3fc  estado += 2
+        move.w  #-0x8,d0                        | +400
+        jsr     0x5dca4.l                       | +404
+        move.w  d0,0x28(a6)                     | +40a  vx
+        move.w  #0x180,0x2a(a6)                 | +40e  vy
+        move.w  #-0x18,0x2e(a6)                 | +414  ay
+        move.w  #0x0,0x2c(a6)                   | +41a
+        rts                                     | +420
         .global HumanDeath_SpriteTbls_04ac56__L04b078
 HumanDeath_SpriteTbls_04ac56__L04b078:
 .L04b078:
