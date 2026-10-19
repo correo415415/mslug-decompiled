@@ -106,7 +106,32 @@ Reglas del crate `mslug-game`:
 Estimación realista: es un proyecto largo (miles de rutinas), pero cada
 paso es pequeño, verificable y deja el juego funcionando.
 
-## 5. Relación con el recompilador
+## 5. Estado del piloto
+
+`mslug verify-manual --frames 15000 --fuzz 1..4`: 0 fallos.
+
+| Original | Rust | Verificado contra la ROM |
+|---|---|---|
+| `Player_SetWeaponAndAmmo` (+`SetAmmoForWeapon`) | `player::weapons::set_weapon_and_ammo` | ✅ (sólo con cantidad ≠ 0; la rama "munición por defecto" sólo por test unitario) |
+| `Item_GiveBombs_ToPlayer` | `player::weapons::give_bombs_from_item` | ✅ |
+| `Player_GetAmmoOrFFFF` | `player::weapons::ammo_for_hud` | ✅ (miles de llamadas, HUD) |
+| `Player_GetBombs` | `Entity::bombs` | ✅ |
+| `Player_StartInvuln5` | `player::invuln::start_pickup_blink` | ✅ |
+| `Player_InvulnBlinkStep` | `player::invuln::blink_step` | ✅ (miles de llamadas) |
+| `Player_RefillAmmoClamp999` | `player::weapons::refill_ammo` | ⚠️ no se llama en las partidas de prueba: sólo test unitario |
+| `Item_GiveAmmo_ToPlayer` | `player::weapons::give_ammo_from_item` | ⚠️ ídem |
+| `Player_DecBombs` | `player::weapons::use_bomb` | ⚠️ ídem |
+
+Lección: la verificación diferencial sólo prueba los caminos que la
+partida recorre. Una primera versión con la tabla de munición mal leída
+pasó la verificación porque ninguna llamada usaba la rama por defecto; se
+corrigió leyendo la tabla de la ROM. Hacen falta partidas que recojan
+armas/cajas (o estados guardados preparados) para cubrir esas ramas.
+
+Dudas abiertas: el orden de armas 2/3 (Shotgun / Rocket) del `enum Weapon`
+viene de observación, no del código.
+
+## 6. Relación con el recompilador
 
 El recompilador (`crates/gen`, `mslug-code`) sigue siendo útil como **red de
 seguridad y referencia** durante la migración (y para jugar ya), pero no es

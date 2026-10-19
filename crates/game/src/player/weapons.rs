@@ -6,14 +6,16 @@
 use crate::entity::{Entity, PlayerId};
 use crate::mem::Memory;
 
-/// Armas del jugador (campo "arma" de la entidad).
+/// Armas del jugador (campo "arma" de la entidad). Orden según
+/// `internal/experiments/05_ram_map_and_ideas.md` (1 = H, 4 = F seguro por
+/// el código; 2/3 por observación).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[repr(u8)]
 pub enum Weapon {
     Pistol = 0,
     HeavyMachineGun = 1,
-    RocketLauncher = 2,
-    Shotgun = 3,
+    Shotgun = 2,
+    RocketLauncher = 3,
     FlameShot = 4,
 }
 
@@ -22,8 +24,8 @@ impl Weapon {
         Some(match id {
             0 => Weapon::Pistol,
             1 => Weapon::HeavyMachineGun,
-            2 => Weapon::RocketLauncher,
-            3 => Weapon::Shotgun,
+            2 => Weapon::Shotgun,
+            3 => Weapon::RocketLauncher,
             4 => Weapon::FlameShot,
             _ => return None,
         })
@@ -39,10 +41,10 @@ pub const INFINITE_AMMO: u16 = 0xFFFF;
 /// En un objeto, cantidad que significa "no da nada".
 pub const ITEM_GIVES_NOTHING: u8 = 0xFF;
 
-/// Munición que da cada arma al recogerla (indexada por id de arma; la
-/// pistola no tiene). Original: `Player_WeaponAmmoTbl` (entradas de 4 bytes,
-/// se usa el segundo word).
-const AMMO_PER_PICKUP: [u16; 5] = [999, 999, 999, 999, 0x1400];
+/// Munición que da cada arma al recogerla, por id de arma (la de la pistola
+/// no se usa). Original: `Player_WeaponAmmoTbl`, entradas de 4 bytes
+/// `{máximo, por recogida}` de las que se usa el segundo word.
+const AMMO_PER_PICKUP: [u16; 5] = [10, 10, 15, 20, 150];
 
 fn ammo_per_pickup(weapon_id: u8) -> u16 {
     // La tabla original sólo tiene entradas para 0..4; para ids mayores el
@@ -168,7 +170,15 @@ mod tests {
         let mut m = TestRam::default();
         let p = Entity::player(PlayerId::P1);
         set_weapon_and_ammo(&mut m, PlayerId::P1, Weapon::HeavyMachineGun as u8, 0);
+        assert_eq!(p.ammo(&mut m), 10);
+        set_weapon_and_ammo(&mut m, PlayerId::P1, Weapon::FlameShot as u8, 0);
+        assert_eq!(p.ammo(&mut m), 150);
+        refill_ammo(&mut m, PlayerId::P1);
+        assert_eq!(p.ammo(&mut m), 300);
+        p.set_ammo(&mut m, 900);
+        refill_ammo(&mut m, PlayerId::P1);
         assert_eq!(p.ammo(&mut m), 999);
+        set_weapon_and_ammo(&mut m, PlayerId::P1, Weapon::HeavyMachineGun as u8, 0);
         p.set_ammo(&mut m, 100);
         set_weapon_and_ammo(&mut m, PlayerId::P1, Weapon::HeavyMachineGun as u8, 50);
         assert_eq!(p.ammo(&mut m), 150);
