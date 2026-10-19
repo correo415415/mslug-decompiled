@@ -9,6 +9,8 @@
 //!
 //! * [`input`] — lectura de los mandos
 //! * [`player`] — el jugador (armas, munición, bombas, invulnerabilidad, ...)
+//! * [`system`] — arranque, interrupciones, planificador de tareas, cola
+//!   de sonido, paleta y vídeo (lo que hace funcionar la máquina)
 //! * [`state`] / [`entity`] — estado global y entidades con nombre
 //!
 //! Mientras el juego convive con la ROM original (migración por sistemas),
@@ -24,7 +26,8 @@ pub mod layout;
 pub mod mem;
 pub mod player;
 pub mod state;
+pub mod system;
 
 pub use entity::{Entity, PlayerId};
-pub use mem::Memory;
+pub use mem::{Flow, Machine, Memory, Regs};
 pub use state::Game;

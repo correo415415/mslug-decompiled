@@ -45,3 +45,100 @@ impl Memory for TestRam {
         self.0[(addr - crate::layout::RAM_BASE) as usize] = v;
     }
 }
+
+/// Registros con los que se llama a una rutina original todavía sin portar
+/// (argumentos de entrada y resultados de salida). Sólo existe durante la
+/// migración: cuando la rutina se porta, se llama a la función Rust con
+/// argumentos con nombre.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct Regs {
+    pub d: [u32; 8],
+    pub a: [u32; 7],
+    /// Flag C a la vuelta (muchas rutinas devuelven sí/no en C).
+    pub carry: bool,
+}
+
+impl Regs {
+    /// Sólo `a6` (la tarea / entidad con la que trabaja la rutina).
+    pub fn with_a6(a6: u32) -> Self {
+        let mut r = Self::default();
+        r.a[6] = a6;
+        r
+    }
+}
+
+/// La máquina completa: memoria (RAM, paleta, registros de vídeo/sonido,
+/// ROM) y, durante la migración, la posibilidad de llamar a rutinas
+/// originales que aún no se han reescrito.
+pub trait Machine: Memory {
+    /// Máscara de interrupciones de la CPU (0 = todas permitidas).
+    fn set_interrupt_mask(&mut self, level: u8);
+    /// Puntero de pila (el planificador lo guarda y lo restaura alrededor
+    /// de cada tarea).
+    fn stack_pointer(&mut self) -> u32;
+    fn set_stack_pointer(&mut self, sp: u32);
+
+    /// Llama a la rutina original que empieza en `routine` (dirección de
+    /// `layout::routine`, o un puntero leído de una tabla del juego). Si
+    /// ya está portada, el puente ejecuta directamente la función Rust.
+    fn call_original(&mut self, routine: u32, regs: &mut Regs);
+
+    /// Como [`Machine::call_original`] sin argumentos; devuelve el flag C.
+    fn call(&mut self, routine: u32) -> bool {
+        let mut r = Regs::default();
+        self.call_original(routine, &mut r);
+        r.carry
+    }
+}
+
+/// Máquina de prueba: memoria plana de 16 MiB que anota las llamadas a
+/// rutinas originales.
+#[derive(Clone)]
+pub struct TestMachine {
+    pub mem: Vec<u8>,
+    pub calls: Vec<u32>,
+}
+
+impl Default for TestMachine {
+    fn default() -> Self {
+        Self { mem: vec![0; 0x100_0000], calls: Vec::new() }
+    }
+}
+
+impl Memory for TestMachine {
+    fn read_u8(&mut self, addr: u32) -> u8 {
+        self.mem[(addr & 0xFF_FFFF) as usize]
+    }
+    fn write_u8(&mut self, addr: u32, v: u8) {
+        self.mem[(addr & 0xFF_FFFF) as usize] = v;
+    }
+}
+
+impl Machine for TestMachine {
+    fn set_interrupt_mask(&mut self, _: u8) {}
+    fn stack_pointer(&mut self) -> u32 {
+        0x10_F300
+    }
+    fn set_stack_pointer(&mut self, _: u32) {}
+    fn call_original(&mut self, routine: u32, _: &mut Regs) {
+        self.calls.push(routine);
+    }
+}
+
+/// Cómo sigue la ejecución al acabar una rutina de sistema (las del
+/// arranque, las interrupciones y el planificador no siempre «vuelven»).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Flow {
+    /// Vuelve al llamador (`rts`).
+    Return,
+    /// Fin de la interrupción (`rte`).
+    ReturnFromInterrupt,
+    /// Sigue en otra rutina sin volver (`jmp`), p. ej. a la BIOS.
+    Goto(u32),
+    /// Llama a `routine` y, cuando vuelva, sigue en `then` (el planificador
+    /// llama así a cada tarea, que puede quedarse esperando al vblank).
+    Call { routine: u32, then: u32 },
+    /// Espera activa: se vuelve a llamar a la misma rutina en el siguiente
+    /// paso (mientras, el resto de la máquina avanza: vídeo, interrupciones).
+    Wait,
+}
