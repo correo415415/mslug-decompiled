@@ -1,0 +1,21 @@
+# Paletas forzadas para animaciones de sprites.py (cuando la heurística
+# código/tabla/herencia no encuentra la carga de paleta o se equivoca).
+# Formato:  <script_hex> <paleta_dec>      (paleta = índice en $14E00, 64 B c/u)
+# Ej.:      0a1b2c 123
+# fogonazos MuzzleFx_Init[A-E] (fx_explosions_platforms_crew_076000): la paleta
+# la carga MuzzleFx_SndByScene_077670 (d1 = $10; $138 en la escena 5)
+2dcc60 16
+2dccce 16
+2dcd3c 16
+2dcfac 16
+2dd006 16
+2dd060 16
+2dd0ba 16
+2dd114 16
+# ScriptedProp_Wall_Idle_076056 (bandera/muro): ScriptedProp_SpawnFlagAndInit
+# carga $54 y $1D4; el sprite usa la segunda (075690 es de la misma
+# ScriptedProp_SpriteTable_075270)
+07527c 468
+075690 468
+# cañón del TurretCar (TurretCar_Cannon_04d186): paleta $0E del TurretCar
+292802 14
