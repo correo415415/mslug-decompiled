@@ -16,7 +16,7 @@
 // allocation is `make_unique<u16[]>(0x8000 + 0x800)`.
 const VRAM_WORDS: usize = 0x8800;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Lspc {
     pub vram: Box<[u16; VRAM_WORDS]>,
     pub vram_addr: u16,

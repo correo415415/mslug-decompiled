@@ -283,7 +283,7 @@ impl System {
             crate::memory::prot::CartProt::Kof98(p) => {
                 if self.bus.p_rom.len() >= 0x600000 {
                     log::info!("kof98: unscrambling 242-P1 program ROM");
-                    p.decrypt_68k(&mut self.bus.p_rom);
+                    p.decrypt_68k(&mut std::sync::Arc::<Vec<u8>>::make_mut(&mut self.bus.p_rom)[..]);
                 } else {
                     log::warn!(
                         "kof98 P region too small ({:#X}) — skipping decrypt",
@@ -293,7 +293,7 @@ impl System {
             }
             crate::memory::prot::CartProt::Sma(p) => {
                 log::info!("SMA cart '{}': decrypting 68K ROM", romset.cart.name);
-                crate::memory::prot::sma_decrypt(p.game, &mut self.bus.p_rom);
+                crate::memory::prot::sma_decrypt(p.game, &mut std::sync::Arc::<Vec<u8>>::make_mut(&mut self.bus.p_rom)[..]);
             }
             crate::memory::prot::CartProt::Pvc(p) => {
                 let need = match p.game {
@@ -306,7 +306,7 @@ impl System {
                         "PVC cart '{}': descrambling 68K ROM ({:?})",
                         romset.cart.name, p.game
                     );
-                    crate::memory::pvc::pvc_decrypt_68k(p.game, &mut self.bus.p_rom);
+                    crate::memory::pvc::pvc_decrypt_68k(p.game, &mut std::sync::Arc::<Vec<u8>>::make_mut(&mut self.bus.p_rom)[..]);
                 } else {
                     log::warn!(
                         "PVC P region too small ({:#X} < {need:#X}) — skipping decrypt",
@@ -326,7 +326,7 @@ impl System {
             if !path.is_empty() {
                 // Undo the CPU-side pairwise swap so the file matches
                 // MAME's raw region byte order (big-endian words).
-                let mut out = self.bus.p_rom.clone();
+                let mut out: Vec<u8> = (*self.bus.p_rom).clone();
                 for chunk in out.chunks_exact_mut(2) {
                     chunk.swap(0, 1);
                 }

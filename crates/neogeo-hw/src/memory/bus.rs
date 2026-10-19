@@ -33,12 +33,12 @@ const BACKUP_RAM_SIZE: usize = 0x10000; // 64 KiB (MVS only)
 /// touches the first 2 KiB anyway (`MOVE.W #$07FF, D7`).
 const MEMCARD_RAM_SIZE: usize = 0x800;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct NeoGeoBus {
     /// BIOS / System ROM at $C00000..$C20000 (128 KiB max).
-    pub system_rom: Vec<u8>,
+    pub system_rom: std::sync::Arc<Vec<u8>>,
     /// Cartridge P ROM (program for 68000), banked.
-    pub p_rom: Vec<u8>,
+    pub p_rom: std::sync::Arc<Vec<u8>>,
     /// 68000 work RAM at $100000..$110000.
     pub work_ram: Box<[u8; WORK_RAM_SIZE]>,
     /// Banked palette RAM at $400000..$402000.
@@ -125,8 +125,8 @@ pub const WATCHDOG_TIMEOUT_68K: i64 = 1_622_015;
 impl NeoGeoBus {
     pub fn new() -> Self {
         Self {
-            system_rom: vec![0xFF; 0x20000],
-            p_rom: vec![0xFF; 0x100000],
+            system_rom: std::sync::Arc::new(vec![0xFF; 0x20000]),
+            p_rom: std::sync::Arc::new(vec![0xFF; 0x100000]),
             work_ram: Box::new([0; WORK_RAM_SIZE]),
             palette_ram: Box::new([0; PALETTE_RAM_SIZE]),
             backup_ram: Box::new([0; BACKUP_RAM_SIZE]),
@@ -312,7 +312,7 @@ impl NeoGeoBus {
         for chunk in buf.chunks_exact_mut(2) {
             chunk.swap(0, 1);
         }
-        self.system_rom = buf;
+        self.system_rom = std::sync::Arc::new(buf);
         // Hardware behaviour: BIOS is mapped at $000000–$00007F at reset
         // until the BIOS itself writes to $3A0011 (REG_SWPBIOS).
         self.bios_at_zero = true;
@@ -326,7 +326,7 @@ impl NeoGeoBus {
         for chunk in data.chunks_exact_mut(2) {
             chunk.swap(0, 1);
         }
-        self.p_rom = data;
+        self.p_rom = std::sync::Arc::new(data);
         // Re-initialise the $200000 bank window per MAME `init_cpu`:
         // carts > 1 MiB point the window at the second MiB; smaller carts
         // leave it at 0 (the window mirrors the base ROM).

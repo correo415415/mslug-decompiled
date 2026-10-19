@@ -26,7 +26,7 @@ pub const CYCLES_PER_SECOND: u64 = 12_000_000;
 /// (clock/512 → 64 Hz toggle = 32 Hz pulse, etc.).
 pub const XTAL_HZ: u64 = 32_768;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Upd4990a {
     // ---- Current time (BCD-free decimal) ----
     pub seconds: u32, pub minutes: u32, pub hours: u32,

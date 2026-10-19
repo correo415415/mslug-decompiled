@@ -344,8 +344,8 @@ fn main() -> Result<()> {
         Cmd::DumpRoms { out } => {
             let sys = load(&cli.rom)?;
             std::fs::create_dir_all(&out)?;
-            std::fs::write(out.join("prom.bin"), &sys.bus.p_rom)?;
-            std::fs::write(out.join("bios.bin"), &sys.bus.system_rom)?;
+            std::fs::write(out.join("prom.bin"), &sys.bus.p_rom[..])?;
+            std::fs::write(out.join("bios.bin"), &sys.bus.system_rom[..])?;
             println!("prom {} B, bios {} B -> {}", sys.bus.p_rom.len(), sys.bus.system_rom.len(), out.display());
         }
         Cmd::Trace { frames, coin, out } => {
