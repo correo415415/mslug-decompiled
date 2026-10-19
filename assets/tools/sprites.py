@@ -35,7 +35,7 @@ sys.path.insert(0, HERE)
 import gfx  # noqa: E402
 from romset import rom_file, prom_path  # noqa: E402
 
-SYMBOLS = os.path.join(ROOT, "tools", "recomp", "symbols.tsv")
+LABELS = os.path.join(ROOT, "assets", "map", "labels.tsv")
 OUT = os.path.join(ROOT, "build", "assets", "sprites")
 MANUAL = os.path.join(ROOT, "assets", "map", "anim_palettes.txt")
 FPS = 59.185
@@ -335,13 +335,13 @@ LABEL_RE = re.compile(r"^([A-Za-z][A-Za-z0-9_]*?_([0-9a-fA-F]{5,6})):", re.M)
 
 def load_labels():
     labs = {}
-    # Nombres de la decompilación exportados en tools/recomp/symbols.tsv
-    # (addr, tamaño, nombre, fichero).
-    for ln in open(SYMBOLS, encoding="utf-8"):
-        f = ln.rstrip("\n").split("\t")
-        if ln.startswith("#") or len(f) < 3 or "__L" in f[2] or not LABEL_RE.match(f[2] + ":"):
+    # Etiquetas de la decompilación (assets/map/labels.tsv, exportadas de
+    # asm/**/*.s: las mismas que usaba esta herramienta en la otra rama).
+    for ln in open(LABELS, encoding="utf-8"):
+        if ln.startswith("#"):
             continue
-        labs.setdefault(int(f[0], 16), f[2])
+        a, name = ln.rstrip("\n").split("\t")
+        labs.setdefault(int(a, 16), name)
     keys = sorted(labs)
     return keys, labs
 
