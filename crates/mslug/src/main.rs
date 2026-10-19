@@ -13,6 +13,7 @@ mod game;
 mod verify;
 mod lockstep;
 mod manual;
+mod roadmap;
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
@@ -91,6 +92,21 @@ enum Cmd {
         /// MSLUG_MANUAL_EXACT_CYCLES=1).
         #[arg(long)]
         atomic_ref: bool,
+    },
+    /// Hoja de ruta del port manual: rutinas que ejecuta el juego en orden
+    /// de primera ejecución, cuáles están portadas y cuánto cubren.
+    Roadmap {
+        #[arg(long, default_value_t = 8000)]
+        frames: u32,
+        #[arg(long, default_value_t = 400)]
+        coin: u32,
+        #[arg(long)]
+        fuzz: Option<u64>,
+        #[arg(long, default_value_t = 25)]
+        top: usize,
+        /// Lista completa a este fichero.
+        #[arg(long)]
+        out: Option<PathBuf>,
     },
     /// Juega con el programa recompilado (sin intérprete salvo misses).
     Play {
@@ -272,6 +288,7 @@ fn main() -> Result<()> {
         }
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
         Cmd::VerifyManual { frames, coin, fuzz } => manual::run(&cli.rom, frames, coin, fuzz)?,
+        Cmd::Roadmap { frames, coin, fuzz, top, out } => roadmap::run(&cli.rom, frames, coin, fuzz, top, out)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
         Cmd::LockstepManual { frames, coin, fuzz, atomic_ref } => lockstep::run_manual(&cli.rom, frames, coin, fuzz, atomic_ref)?,
         Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, no_bios_code } => {
