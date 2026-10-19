@@ -7,3 +7,5 @@
 *.png
 *.wav
 !/internal/mslug.zip
+__pycache__/
+*.pyc
