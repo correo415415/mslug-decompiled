@@ -65,6 +65,14 @@ struct Cli {
     /// Rust legible (crate mslug-game) sustituyen a las originales.
     #[arg(long)]
     manual: bool,
+    /// Ejecutar el juego **sólo** con el port escrito a mano (nada del
+    /// juego recompilado ni interpretado): se para en la primera
+    /// instrucción del juego que no tiene función Rust y dice cuál es.
+    #[arg(long)]
+    only_manual: bool,
+    /// Con --only-manual: tampoco usar la BIOS recompilada.
+    #[arg(long)]
+    no_bios_code: bool,
 }
 
 /// Cola de audio compartida con el callback de SDL.
@@ -135,8 +143,8 @@ fn main() -> Result<()> {
     env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("warn")).init();
     let cli = Cli::parse();
     let mut sys = load(&cli.rom, !cli.mute)?;
-    let mut prog = Program::new();
-    if cli.manual {
+    let mut prog = if cli.only_manual { Program::manual_only(!cli.no_bios_code) } else { Program::new() };
+    if cli.manual || cli.only_manual {
         let n = mslug_bridge::install(|a, f| prog.set_override(a, f));
         eprintln!("port manual: {n} rutinas sustituidas por Rust escrito a mano");
     }
@@ -182,6 +190,7 @@ fn main() -> Result<()> {
     let mut frame: u32 = 0;
     let mut fps_t = Instant::now();
     let mut fps_n = 0u32;
+    let mut halt_shown = false;
 
     'main: loop {
         for ev in events.poll_iter() {
@@ -230,6 +239,18 @@ fn main() -> Result<()> {
             }
             frame += 1;
             fps_n += 1;
+            if let (Some(pc), false) = (prog.halted_at, halt_shown) {
+                halt_shown = true;
+                eprintln!("{}", mslug_bridge::halt_report(pc, frame, &sys.m68k));
+                if cli.frames > 0 {
+                    // Sin ventana interactiva (pruebas): captura y fin.
+                    std::fs::create_dir_all(&cli.shots)?;
+                    let fr = sys.render_frame_pixels();
+                    let png = neogeo_hw::video::frame_to_png(&fr, SCREEN_W, SCREEN_H);
+                    std::fs::write(cli.shots.join(format!("halt-{frame:06}.png")), png)?;
+                    break 'main;
+                }
+            }
             if !sys.audio_buffer.is_empty() {
                 let mut q = ring.lock().unwrap();
                 // Si la cola crece (turbo / ventana parada) se descarta lo viejo.
@@ -257,11 +278,14 @@ fn main() -> Result<()> {
 
         if fps_t.elapsed() >= Duration::from_secs(1) {
             let fps = fps_n as f64 / fps_t.elapsed().as_secs_f64();
-            let mode = if cli.interp { "intérprete" } else { "recompilado" };
+            let mode = if cli.interp { "intérprete" } else if cli.only_manual { "sólo port manual" } else { "recompilado" };
             let miss = prog.misses.len();
-            let _ = canvas.window_mut().set_title(&format!(
-                "Metal Slug — port Rust ({mode}) · {fps:.1} fps · frame {frame} · sin traducir {miss}"
-            ));
+            let title = match prog.halted_at {
+                Some(pc) => format!("Metal Slug — sólo port manual · PARADO en {} (frame {frame})",
+                                    mslug_bridge::symbols::describe(pc)),
+                None => format!("Metal Slug — port Rust ({mode}) · {fps:.1} fps · frame {frame} · sin traducir {miss}"),
+            };
+            let _ = canvas.window_mut().set_title(&title);
             fps_n = 0;
             fps_t = Instant::now();
         }
@@ -283,7 +307,7 @@ fn main() -> Result<()> {
             }
         }
     }
-    if !prog.misses.is_empty() {
+    if !prog.misses.is_empty() && !cli.only_manual {
         eprintln!("direcciones ejecutadas sin traducir: {}", prog.misses.len());
         for (a, c) in prog.misses.iter().take(30) {
             eprintln!("  ${a:06X} x{c}");

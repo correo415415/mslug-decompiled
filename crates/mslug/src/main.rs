@@ -113,6 +113,13 @@ enum Cmd {
         /// Sustituir las rutinas portadas a mano por su función Rust.
         #[arg(long)]
         manual: bool,
+        /// Sólo el port escrito a mano (sin el juego recompilado): se para
+        /// en la primera instrucción sin función Rust y dice cuál es.
+        #[arg(long)]
+        only_manual: bool,
+        /// Con --only-manual: tampoco la BIOS recompilada.
+        #[arg(long)]
+        no_bios_code: bool,
     },
     /// Vuelca la P-ROM (vista CPU) y la BIOS cargada a `out/` (entrada del
     /// recompilador).
@@ -267,10 +274,14 @@ fn main() -> Result<()> {
         Cmd::VerifyManual { frames, coin, fuzz } => manual::run(&cli.rom, frames, coin, fuzz)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
         Cmd::LockstepManual { frames, coin, fuzz, atomic_ref } => lockstep::run_manual(&cli.rom, frames, coin, fuzz, atomic_ref)?,
-        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual } => {
+        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, no_bios_code } => {
             let mut sys = load(&cli.rom)?;
-            let mut prog = mslug_code::Program::new();
-            if manual {
+            let mut prog = if only_manual {
+                mslug_code::Program::manual_only(!no_bios_code)
+            } else {
+                mslug_code::Program::new()
+            };
+            if manual || only_manual {
                 let n = mslug_bridge::install(|a, f| prog.set_override(a, f));
                 println!("port manual: {n} rutinas sustituidas por Rust escrito a mano");
             }
@@ -285,6 +296,16 @@ fn main() -> Result<()> {
                     None => auto_inputs(&mut sys, coin, f),
                 }
                 prog.run_frame(&mut sys);
+                if let Some(pc) = prog.halted_at {
+                    println!("{}", mslug_bridge::halt_report(pc, f, &sys.m68k));
+                    if let Some(d) = &dump {
+                        let fr = sys.render_frame_pixels();
+                        let png = neogeo_hw::video::frame_to_png(
+                            &fr, neogeo_hw::video::SCREEN_W, neogeo_hw::video::SCREEN_H);
+                        std::fs::write(d.join(format!("halt-{f:05}.png")), png)?;
+                    }
+                    break;
+                }
                 if let Some(d) = &dump {
                     if f % every.max(1) == 0 {
                         let fr = sys.render_frame_pixels();

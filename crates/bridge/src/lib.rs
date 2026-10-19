@@ -21,6 +21,8 @@ use neogeo_hw::NeoGeoBus;
 use std::collections::HashMap;
 use std::sync::OnceLock;
 
+pub mod symbols;
+
 /// RAM de trabajo vista como `Memory` del juego portado.
 pub struct Ram<'a>(pub &'a mut [u8]);
 
@@ -364,4 +366,20 @@ pub fn install_with(
         n += 1;
     }
     n
+}
+
+/// Informe del modo sólo manual: dónde se paró y por qué.
+pub fn halt_report(pc: u32, frame: u32, cpu: &Cpu) -> String {
+    let ported = PORTS.iter().any(|p| p.entry == pc);
+    let mut s = format!(
+        "sólo port manual: parado en el frame {frame}, PC ${pc:06X} = {}\n",
+        symbols::describe(pc)
+    );
+    if ported {
+        s += "  (rutina portada pero no sustituible todavía: llama a rutinas sin portar)\n";
+    } else {
+        s += "  siguiente rutina que portar para avanzar.\n";
+    }
+    s += &format!("  a6=${:06X} a7=${:06X}", cpu.a[6] & 0xFF_FFFF, cpu.a[7] & 0xFF_FFFF);
+    s
 }

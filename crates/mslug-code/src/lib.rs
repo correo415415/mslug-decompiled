@@ -30,6 +30,12 @@ pub struct Program {
     /// Instrucciones ejecutadas por código traducido / por el intérprete.
     pub native: u64,
     pub interp: u64,
+    /// Modo "sólo port manual" (ver [`Program::manual_only`]): sin
+    /// intérprete; al llegar a código sin función se para aquí.
+    pub only_manual: bool,
+    /// Dónde se paró en modo sólo manual (PC de la primera instrucción que
+    /// no tiene función escrita a mano).
+    pub halted_at: Option<u32>,
 }
 
 impl Default for Program {
@@ -51,7 +57,23 @@ impl Program {
                 }
             }
         }
-        Self { prom, bios, misses: BTreeMap::new(), native: 0, interp: 0 }
+        Self { prom, bios, misses: BTreeMap::new(), native: 0, interp: 0, only_manual: false, halted_at: None }
+    }
+
+    /// Programa **sin** el juego recompilado: sólo ejecuta lo que se añada
+    /// con [`Program::set_override`] (el port escrito a mano). Con
+    /// `with_bios`, la BIOS de la consola (que no es parte del juego) sigue
+    /// disponible recompilada. Al llegar a una instrucción del juego que no
+    /// tiene función, la CPU se para y se anota en `halted_at`: sirve para
+    /// ver hasta dónde llega el juego sólo con lo portado.
+    pub fn manual_only(with_bios: bool) -> Self {
+        let mut p = Self::new();
+        p.prom.iter_mut().for_each(|f| *f = None);
+        if !with_bios {
+            p.bios.iter_mut().for_each(|f| *f = None);
+        }
+        p.only_manual = true;
+        p
     }
 
     pub fn len(&self) -> usize {
@@ -97,6 +119,9 @@ impl Program {
     /// Sólo la parte CPU (sin avanzar el hardware).
     #[inline]
     pub fn cpu_step(&mut self, sys: &mut System) -> u32 {
+        if self.halted_at.is_some() {
+            return 4;
+        }
         let cpu = &mut sys.m68k;
         let irq_takes = cpu.pending_irq > 0
             && (cpu.pending_irq == 7 || cpu.pending_irq > cpu.sr.interrupt_mask());
@@ -127,6 +152,10 @@ impl Program {
             return c;
         }
         *self.misses.entry(cpu.pc & 0xFF_FFFF).or_default() += 1;
+        if self.only_manual {
+            self.halted_at = Some(cpu.pc & 0xFF_FFFF);
+            return 4;
+        }
         self.interp += 1;
         cpu.step(&mut sys.bus)
     }
