@@ -636,6 +636,13 @@ pub mod pads {
     /// Los cuatro bytes de estado de jugador de la BIOS (se borran juntos).
     pub const BIOS_PLAYER_STATE_ALL: [u32; 4] = [0x10_FDB6, 0x10_FDB7, 0x10_FDB8, 0x10_FDB9];
     pub const BIOS_PLAYER_PLAYING: u8 = 1;
+    /// `PLAYER_START`: bits de los jugadores que pulsaron inicio (la BIOS
+    /// los pone; el juego deja puestos los que acepta).
+    pub const BIOS_START_FLAG: u32 = 0x10_FDB4;
+    /// Por cada combinación de `BIOS_START_FLAG` (bit 0 = jugador 1, bit 1
+    /// = jugador 2): nuevo `USER_MODE`, (sin uso) y nuevo estado de cada
+    /// jugador (0 = no cambia).
+    pub const START_TABLE: [[u8; 4]; 4] = [[0, 0, 0, 0], [2, 1, 1, 0], [2, 2, 0, 1], [2, 3, 1, 1]];
     pub const BIOS_PLAYER_OFF: u8 = 0;
     pub const BIOS_PLAYER_GAME_OVER: u8 = 3;
     /// Campos de un mando de trabajo (6 bytes).

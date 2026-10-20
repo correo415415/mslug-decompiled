@@ -11,7 +11,8 @@
 //! `AttractInit_Single_099AE2`, `Global_Clear10E486_099AFC`,
 //! `Global_SetDualFlagFrom10FD82_000FFE`, `Pause_Clear_013d12`,
 //! `Input_RisingEdgeSnapshot_05CC0E`, `PlayerCtx_ResetAndSetRepeat1002_024fb8`,
-//! `PlayerCtx_ResetTwoBlocks_024FEC`.
+//! `PlayerCtx_ResetTwoBlocks_024FEC`, `PLAYER_START` (`$000128` →
+//! `Player_Start_Inner_024E76`, `Start_Decoder_024F86`), `DEMO_END` (`$00012E`).
 
 use super::{copy, fill, sound, tasks, video};
 use crate::layout::{bios, bios_ram, hw, pads, pause, routine, system as S};
@@ -56,9 +57,21 @@ pub fn user_start_game(m: &mut impl Machine) -> Flow {
     tasks::run(m)
 }
 
-/// Quita el vblank al juego, apaga la pantalla y borra la RAM del juego
-/// antes de devolver el control a la BIOS. Original: `$00085E` (+ `$000868`).
+/// Apaga el juego y devuelve el control a la BIOS. Original: `$00085E`.
 pub fn return_to_bios(m: &mut impl Memory) -> Flow {
+    shutdown(m);
+    Flow::Goto(bios::SYSTEM_RETURN)
+}
+
+/// `DEMO_END` de la BIOS (acaba la demo para pasar a otro juego de la
+/// recreativa): apaga el juego. Original: `$00012E` → `$000852`.
+pub fn demo_end(m: &mut impl Memory) {
+    shutdown(m);
+}
+
+/// Quita el vblank al juego, apaga la pantalla y borra la RAM del juego.
+/// Original: `$000868`.
+fn shutdown(m: &mut impl Memory) {
     let mode = m.read_u8(bios_ram::SYSTEM_MODE);
     m.write_u8(bios_ram::SYSTEM_MODE, mode & !bios_ram::SYSTEM_MODE_GAME);
     m.write_u8(hw::PAL_BANK0, 0);
@@ -66,7 +79,6 @@ pub fn return_to_bios(m: &mut impl Memory) -> Flow {
     m.write_u8(hw::PAL_BANK1, 0);
     m.write_u16(hw::BACKDROP_COLOR, 0);
     fill(m, S::GAME_RAM, S::GAME_RAM_LEN, 0);
-    Flow::Goto(bios::SYSTEM_RETURN)
 }
 
 /// Inicializa todos los subsistemas. Original: `$00097A`.
@@ -138,6 +150,52 @@ pub fn title_mode_init(m: &mut impl Memory) {
     m.write_u8(S::ATTRACT_FLAG, 0);
 }
 
+/// `PLAYER_START` de la BIOS: algún jugador pulsó inicio con créditos.
+/// Acepta a los que no están jugando ya (ni bloqueados por el título); en
+/// consola, sólo si les quedan créditos y gasta uno. Deja en
+/// `BIOS_START_FLAG` los aceptados y, si hay alguno, pasa a partida.
+/// Original: `$000128` → `Player_Start_Inner_024E76`.
+pub fn player_start(m: &mut impl Memory) {
+    let pressed = usize::from(m.read_u8(pads::BIOS_START_FLAG) & 3);
+    let row = pads::START_TABLE[pressed];
+    let flag = m.read_u8(pads::BIOS_START_FLAG) & !3;
+    m.write_u8(pads::BIOS_START_FLAG, flag);
+    let mvs = m.read_u8(bios_ram::MVS_FLAG) != 0;
+    for p in 0..2 {
+        let state = m.read_u8(pads::BIOS_PLAYER_STATE[p]);
+        if state == pads::BIOS_PLAYER_PLAYING || state == pads::BIOS_PLAYER_GAME_OVER {
+            continue;
+        }
+        if m.read_u8([S::TITLE_FLAG_A, S::TITLE_FLAG_B][p]) != 0 || (!mvs && m.read_u8(S::DUAL_FLAG[p]) == 0) {
+            continue;
+        }
+        let new = row[2 + p];
+        if new == 0 {
+            continue;
+        }
+        m.write_u8(pads::BIOS_PLAYER_STATE[p], new);
+        let f = m.read_u8(pads::BIOS_START_FLAG);
+        m.write_u8(pads::BIOS_START_FLAG, f | (1 << p));
+        if !mvs {
+            let c = m.read_u8(S::DUAL_FLAG[p]);
+            m.write_u8(S::DUAL_FLAG[p], bcd_decrement(c));
+        }
+    }
+    if m.read_u8(pads::BIOS_START_FLAG) & 3 != 0 {
+        m.write_u8(bios_ram::USER_MODE, row[0]);
+    }
+}
+
+/// Resta 1 a un número BCD de dos cifras (00 → 99 no ocurre: sólo se
+/// llama con créditos). Original: `Start_Decoder_024F86`.
+pub fn bcd_decrement(v: u8) -> u8 {
+    let (lo, hi) = (v & 0x0F, v & 0xF0);
+    match lo.wrapping_sub(1) {
+        l if l & 0x80 == 0 => hi | l,
+        _ => hi.wrapping_sub(0x10) | 9,
+    }
+}
+
 /// Original: `HiScore_LoadDefaults_09773c`.
 pub fn load_default_hiscores(m: &mut impl Memory) {
     copy(m, S::DEFAULT_HISCORES, S::HISCORES, S::HISCORES_LEN);
@@ -146,7 +204,7 @@ pub fn load_default_hiscores(m: &mut impl Memory) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::mem::TestMachine;
+    use crate::mem::{TestMachine, TestRam};
 
     #[test]
     fn user_request_jumps_by_table() {
@@ -157,5 +215,23 @@ mod tests {
         assert_eq!(user_request(&mut m), Flow::Goto(0x840));
         assert_eq!(m.read_u8(bios_ram::SYSTEM_MODE), 0);
         assert_eq!(m.irq_mask, 0);
+    }
+
+    #[test]
+    fn bcd_decrement_borrows() {
+        assert_eq!(bcd_decrement(0x10), 0x09);
+        assert_eq!(bcd_decrement(0x25), 0x24);
+    }
+
+    #[test]
+    fn console_start_spends_credit() {
+        let mut m = TestRam::default();
+        m.write_u8(pads::BIOS_START_FLAG, 1);
+        m.write_u8(S::DUAL_FLAG[0], 0x10);
+        player_start(&mut m);
+        assert_eq!(m.read_u8(pads::BIOS_PLAYER_STATE[0]), 1);
+        assert_eq!(m.read_u8(S::DUAL_FLAG[0]), 0x09);
+        assert_eq!(m.read_u8(pads::BIOS_START_FLAG), 1);
+        assert_eq!(m.read_u8(bios_ram::USER_MODE), bios_ram::USER_MODE_GAME);
     }
 }
