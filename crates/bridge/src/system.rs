@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, layer, lists, manual, manual_icons, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, layer, lists, manual, manual_icons, pads, palette, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -586,6 +586,11 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x08_C5B2, original: "Icon_Anchor_Init_08c5b2", rust: "system::manual_icons::anchor", run: |m| manual_icons::anchor(m) },
     SystemPort { entry: 0x02_67E2, original: "$0267E2", rust: "system::manual_icons::stop_motion",
                  run: |m| { let t = m.cpu.a[6]; manual_icons::stop_motion(m, t); Flow::Return } },
+    // --- Slug
+    SystemPort { entry: 0x02_ACFC, original: "Slug_IsAlive_02acfc", rust: "system::slug::is_alive",
+                 run: |m| { let c = slug::is_alive(m); m.cpu.a[0] = mslug_game::layout::task::SLUG; set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_AE50, original: "Slug_SpawnDrop_02ae50", rust: "system::slug::spawn_drop", run: |m| slug::spawn_drop(m, false) },
+    SystemPort { entry: 0x02_AEA4, original: "Slug_SpawnDropB_02aea4", rust: "system::slug::spawn_drop", run: |m| slug::spawn_drop(m, true) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

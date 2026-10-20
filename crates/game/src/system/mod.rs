@@ -23,6 +23,7 @@ pub mod rng;
 pub mod scene;
 pub mod script;
 pub mod scroll;
+pub mod slug;
 pub mod sprite;
 pub mod sound;
 pub mod title;

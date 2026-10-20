@@ -1497,6 +1497,21 @@ pub mod manual_icons {
     pub const MOTION_LONG: u32 = 0x28;
 }
 
+/// Slug (SV-001): la tarea fija `task::SLUG` y quien la pone en marcha.
+pub mod slug {
+    /// Rutinas con las que el Slug no cuenta como vivo (libre, dándose de
+    /// baja, en espera, destruido).
+    pub const INACTIVE_HANDLERS: [u32; 4] = [0xFFFF_FFFF, 0x52A, 0x400, 0x2_AE3E];
+    /// Byte de la tarea que lo suelta con la variante (0–4; más se queda en 4).
+    pub const DROP_KIND: u32 = 0x98;
+    pub const DROP_KIND_MAX: u8 = 4;
+    /// Rutina de entrada de cada variante (`Slug_DropVariant0_02aef8`…).
+    pub const DROP_VARIANTS: [u32; 5] = [0x02_AEF8, 0x02_AF1C, 0x02_AF40, 0x02_AF64, 0x02_AF88];
+    /// Donde el Slug guarda la Y de quien lo suelta.
+    pub const DROP_Y: u32 = 0x82;
+    pub const Y: u32 = 0x24;
+}
+
 /// Tareas de fundido de la paleta: cada alta crea una con su rutina y le
 /// deja `d0` en `PARAM`.
 pub mod fade {
