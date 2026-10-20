@@ -92,7 +92,7 @@ fn first_diff(a: &[u8], b: &[u8], skip: impl Fn(usize) -> bool) -> Option<(usize
 }
 
 fn check(sys: &mut neogeo_hw::System, i: usize, st: &mut Stats) {
-    let p = &SYSTEM_PORTS[i];
+    let _p = &SYSTEM_PORTS[i];
     let irq = sys.m68k.pending_irq;
     sys.m68k.pending_irq = 0;
     let cpu0 = sys.m68k.clone();

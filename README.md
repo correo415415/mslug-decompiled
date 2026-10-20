@@ -91,11 +91,20 @@ cargo run --release -p mslug -- verify-system --fuzz 1 --frames 6000    # rutina
 cargo run --release -p mslug-sdl -- --manual                             # jugar con el Rust a mano
 cargo run --release -p mslug -- play --only-manual --frames 6000         # SÓLO el Rust a mano: ¿dónde se para?
 cargo run --release -p mslug -- roadmap --frames 6000                    # qué portar después
+cargo run --release -p mslug -- progress                                 # funciones portadas, % y hasta dónde llega
 scripts/extract_assets.sh                                                # assets -> build/assets/
 ```
 
 Ver [docs/MANUAL_TESTING.md](docs/MANUAL_TESTING.md).
 
 ## Estado
+
+Progreso del port escrito a mano (`mslug progress`):
+
+| | |
+|---|---|
+| Funciones del juego (rutinas de código de la decompilación) | 7 887 (474 564 bytes) |
+| Portadas a Rust legible | **187 (2,37 %)**; por bytes de código 17 438 (3,67 %) |
+| Hasta dónde llega `--only-manual` | arranque, logo, título y demo hasta pulsar START; entra en la partida (inicio de misión) y se para en el frame 503, en el manual de juego (`Anim_State_F1_08C008`) |
 
 Ver [PORT_STATUS.md](PORT_STATUS.md).

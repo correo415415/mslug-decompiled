@@ -14,6 +14,7 @@ mod verify;
 mod lockstep;
 mod manual;
 mod roadmap;
+mod progress;
 mod verify_system;
 
 use anyhow::{Context, Result};
@@ -120,6 +121,14 @@ enum Cmd {
         /// Lista completa a este fichero.
         #[arg(long)]
         out: Option<PathBuf>,
+    },
+    /// Progreso del port escrito a mano: funciones totales, portadas,
+    /// porcentaje y hasta dónde llega el modo sólo manual.
+    Progress {
+        #[arg(long, default_value_t = 20000)]
+        frames: u32,
+        #[arg(long, default_value_t = 400)]
+        coin: u32,
     },
     /// Juega con el programa recompilado (sin intérprete salvo misses).
     Play {
@@ -303,6 +312,7 @@ fn main() -> Result<()> {
         Cmd::VerifyManual { frames, coin, fuzz } => manual::run(&cli.rom, frames, coin, fuzz)?,
         Cmd::VerifySystem { frames, coin, fuzz } => verify_system::run(&cli.rom, frames, coin, fuzz)?,
         Cmd::Roadmap { frames, coin, fuzz, top, out } => roadmap::run(&cli.rom, frames, coin, fuzz, top, out)?,
+        Cmd::Progress { frames, coin } => progress::run(&cli.rom, frames, coin)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
         Cmd::LockstepManual { frames, coin, fuzz, atomic_ref } => lockstep::run_manual(&cli.rom, frames, coin, fuzz, atomic_ref)?,
         Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, no_bios_code } => {

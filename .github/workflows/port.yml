@@ -156,6 +156,9 @@ jobs:
           # Hasta dónde llega el juego sólo con lo portado a mano
           "$CARGO_TARGET_DIR/release/mslug" play --only-manual --frames 6000 2>&1 | tee ci_out/only_manual.txt || true
           grep "parado en" ci_out/only_manual.txt >> "$GITHUB_STEP_SUMMARY" || true
+          # Progreso: funciones totales, portadas, porcentaje y hasta dónde llega
+          "$CARGO_TARGET_DIR/release/mslug" progress 2>&1 | tee ci_out/progress.txt || true
+          { echo '```'; cat ci_out/progress.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY" || true
           "$CARGO_TARGET_DIR/release/mslug" roadmap --frames 6000 --out ci_out/roadmap.txt 2>&1 | head -60 > ci_out/roadmap_summary.txt || true
           exit $rc
 

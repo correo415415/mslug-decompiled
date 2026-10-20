@@ -7,6 +7,10 @@
 >
 > | Port manual | |
 > |---|---|
+> | **Funciones del juego** (rutinas de código de la decompilación, `tools/recomp/decomp_funcs.tsv`) | **7 887** (474 564 bytes) |
+> | **Portadas a Rust legible** | **187 = 2,37 %** (por bytes: 17 438 = 3,67 %); 208 entradas sustituidas contando vectores y entradas internas |
+> | **Hasta dónde llega** (`--only-manual`) | arranque → logo → título → demo → START → inicio de la misión 1; se para en el frame 503 en el manual de juego (`Anim_State_F1_08C008`) |
+> | Cómo medirlo | `mslug progress` (también en el resumen de la CI) |
 > | Rutinas originales con función Rust legible | 60 (input, player::controls/voice/weapons/invuln) |
 > | `verify-manual` (auto 8000 + fuzz 1–3 × 15 000 frames) | ✅ 0 fallos |
 > | Jugable: `mslug-sdl --manual` | 57 sustituidas (3 aún llaman a rutinas sin portar) |

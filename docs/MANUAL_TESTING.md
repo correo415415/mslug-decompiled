@@ -131,6 +131,18 @@ según créditos, cuenta atrás) y las tareas fijas, hace el render del frame (`
 (`PLAYER_START`), entra en la misión y se para en el frame 503 en
 `Anim_State_F1_08C008` (manual de juego, aún sin portar).
 
+### Progreso: `mslug progress`
+
+```sh
+./target/release/mslug progress
+```
+
+Cuenta las funciones del juego (las rutinas de código de la decompilación,
+`tools/recomp/decomp_funcs.tsv`), cuántas tienen ya función Rust escrita a
+mano (entradas de `PORTS` y `SYSTEM_PORTS`), el porcentaje por número y por
+bytes, y ejecuta el modo sólo manual para decir en qué frame y rutina se
+para y qué escena del guion estaba en curso. La CI lo añade a su resumen.
+
 ### Qué portar después: `mslug roadmap`
 
 ```sh
