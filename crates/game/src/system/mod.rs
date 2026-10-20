@@ -7,6 +7,8 @@
 //! normal: terminan una interrupción, saltan a la BIOS o ceden el control
 //! al planificador. Por eso devuelven un [`Flow`](crate::Flow).
 
+pub mod anim;
+pub mod actor;
 pub mod boot;
 pub mod frame;
 pub mod hud;

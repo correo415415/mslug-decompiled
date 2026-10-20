@@ -39,6 +39,47 @@ pub fn fill_rect(m: &mut impl Memory, at: u16, ch: u16, cols: u16, rows: u16) {
     }
 }
 
+/// Bloque de caracteres consecutivos: `ch` en la primera columna, +1 en
+/// cada columna y +`TILE_ROW_STEP` en cada fila (sólo dentro de la zona
+/// visible). Original: `ThunkTarget_05da56` (a1, d0, d1, d2).
+pub fn fill_tiles(m: &mut impl Memory, at: u16, ch: u16, cols: u16, rows: u16) {
+    for r in 0..rows {
+        let row_ch = ch.wrapping_add(r.wrapping_mul(crate::layout::fix::TILE_ROW_STEP));
+        for c in 0..cols {
+            let a = at.wrapping_add(r).wrapping_add(c.wrapping_mul(H::COLUMN));
+            if (H::FIX_FIRST..=H::FIX_LAST).contains(&a) {
+                put(m, a, row_ch.wrapping_add(c));
+            }
+        }
+    }
+}
+
+/// Texto de la ROM en `text` desde `at` con los atributos `attr`
+/// (`TEXT_NEWLINE` = fila siguiente, `TEXT_END` = fin).
+/// Original: `Fix_BlitStream_05DAD8` (a1, a2, d0). Devuelve dónde acabó el
+/// texto en la ROM.
+pub fn draw_text(m: &mut impl Memory, at: u16, text: u32, attr: u16) -> u32 {
+    use crate::layout::fix::{TEXT_END, TEXT_NEWLINE};
+    let (mut row, mut pos, mut p) = (at, at, text);
+    loop {
+        let c = m.read_u8(p);
+        p += 1;
+        match c {
+            TEXT_END => return p,
+            TEXT_NEWLINE => {
+                row = row.wrapping_add(1);
+                pos = row;
+            }
+            _ => {
+                if (H::FIX_FIRST..=H::FIX_LAST).contains(&pos) {
+                    put(m, pos, attr | u16::from(c));
+                }
+                pos = pos.wrapping_add(H::COLUMN);
+            }
+        }
+    }
+}
+
 /// Borra el marco de la pantalla. Original: `FixLayer_QuadBatch_046AC6`.
 pub fn clear_border(m: &mut impl Memory) {
     for (at, cols, rows) in H::BORDER {

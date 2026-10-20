@@ -152,6 +152,8 @@ pub mod bios {
     pub const FIX_CLEAR: u32 = 0xC0_04C2;
     /// Mensajes de la BIOS en la capa fija.
     pub const MESS_OUT: u32 = 0xC0_04CE;
+    /// Comprueba (o descuenta) créditos según `bios_ram::CREDIT_REQUEST`.
+    pub const CREDIT_CHECK: u32 = 0xC0_0450;
 }
 
 /// Variables de la BIOS en la RAM de trabajo.
@@ -174,6 +176,11 @@ pub mod bios_ram {
     pub const USER_MODE_GAME: u8 = 2;
     /// Petición `USER` de título (ver `USER_REQUEST`).
     pub const USER_REQUEST_TITLE: u8 = 3;
+    /// Petición de créditos a la BIOS: 4 bytes (jugadores 1-4); tras
+    /// `bios::CREDIT_CHECK` queda distinto de 0 si el jugador tiene crédito.
+    pub const CREDIT_REQUEST: [u32; 4] = [0x10_FDB0, 0x10_FDB1, 0x10_FDB2, 0x10_FDB3];
+    /// Segundos que quedan en el título de la recreativa (BCD).
+    pub const COMPULSION_TIMER: u32 = 0x10_FDDA;
     /// Arranque "en caliente" (desde el título con créditos).
     pub const HARD_START: u32 = 0x10_FEC5;
 }
@@ -338,6 +345,26 @@ pub mod task {
     /// están ocupadas.
     pub const PAL_SLOTS: u32 = 0x16;
     pub const PAL_SLOT_COUNT: u32 = 0x1E;
+    /// Entrada de sprite en uso (índice en la tabla de sprites).
+    pub const SPRITE_ENTRY: u32 = 0x14;
+    /// Posición (x, y), atributos de sprite, orientación y capa.
+    pub const POS_X: u32 = 0x22;
+    pub const POS_Y: u32 = 0x24;
+    pub const SPRITE_ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const LAYER: u32 = 0x11;
+    /// Bits de `SPRITE_ATTR` que las escenas limpian.
+    pub const SPRITE_ATTR_KEEP: u16 = 0xFFE3;
+    /// Bits de `SPRITE_ATTR` que se recalculan con la profundidad (y).
+    pub const SPRITE_ATTR_DEPTH_KEEP: u16 = 0xE01F;
+    /// Animación por guion: cursor, inicio, contador, espera y bucle.
+    pub const ANIM_PC: u32 = 0x3C;
+    pub const ANIM_START: u32 = 0x40;
+    pub const ANIM_STEPS: u32 = 0x3B;
+    pub const ANIM_WAIT: u32 = 0x46;
+    pub const ANIM_LOOP: u32 = 0x47;
+    /// Bit de `FLAGS4`: la animación acaba de empezar.
+    pub const FLAGS4_ANIM_STARTED: u8 = 1 << 5;
     /// Cursor del guion que interpreta la tarea (ver `script`).
     pub const SCRIPT_CURSOR: u32 = 0x70;
     /// Valores iniciales de los campos de una tarea (offset, valor).
@@ -393,6 +420,19 @@ pub mod sprites {
     pub const FREE_COUNT: u16 = 0x30;
     pub const FREE_TOP: u32 = 0x10_82C2;
     pub const STATE_WORDS: [u32; 2] = [0x10_82C4, 0x10_82C6];
+    /// Posición de lectura del anillo de libres (al reservar).
+    pub const FREE_READ: u32 = 0x10_82C4;
+    /// Entradas de sprite de tarea: se busca una con los mismos gráficos
+    /// entre las `SEARCH_COUNT` entradas desde `FREE_INDEX_BASE`.
+    pub const SEARCH_COUNT: u16 = 47;
+    /// Una entrada con alguno de estos bits no se comparte.
+    pub const NOT_SHARED: u8 = 0x84;
+    /// Primer byte de una entrada recién reservada.
+    pub const TAKEN_MARK: u8 = 0x01;
+    /// Bit del primer byte de la tarea que impide reutilizar sus entradas.
+    pub const TASK_NO_REUSE: u8 = 0x04;
+    /// Una tarea tiene como mucho estas entradas.
+    pub const TASK_MAX_ENTRIES: u16 = 3;
     /// La pila de índices libres es en realidad un anillo de `FREE_COUNT`:
     /// posición de escritura (al liberar).
     pub const FREE_WRITE: u32 = 0x10_82C6;
@@ -702,4 +742,201 @@ pub mod hud {
     pub const FIX_LAST: u16 = 0x74FF;
     /// Marco que se borra al empezar cada escena: (inicio, columnas, filas).
     pub const BORDER: [(u16, u16, u16); 4] = [(0x7000, 40, 2), (0x701E, 40, 2), (0x7000, 1, 32), (0x74E0, 1, 32)];
+}
+
+/// Guiones de animación de sprites: cada tarea con sprite tiene un cursor
+/// en un guion de la ROM (órdenes de 1 byte + argumentos) que dibuja un
+/// fotograma, espera, salta, cambia campos de la tarea...
+pub mod anim {
+    /// Campos de la tarea.
+    pub const CURSOR: u32 = 0x3C;
+    /// Última orden de fotograma (para repetirla).
+    pub const LAST_SPRITE: u32 = 0x40;
+    /// Fotogramas desde que empezó el guion (satura en 0xFF).
+    pub const STEPS: u32 = 0x3B;
+    /// Frames que faltan de la espera actual.
+    pub const WAIT: u32 = 0x46;
+    /// Vueltas que faltan del bucle actual.
+    pub const LOOP: u32 = 0x47;
+    /// Campos del sprite de la tarea.
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    pub const FLIP: u32 = 0x3A;
+    pub const SHRINK_X: u32 = 0x33;
+    pub const SHRINK_Y: u32 = 0x32;
+    pub const SPRITE_ENTRY: u32 = 0x14;
+    pub const SPRITE_ENTRY_ALT: u32 = 0x1C;
+    pub const HITBOX: u32 = 0x48;
+    pub const FIELD_4C: u32 = 0x4C;
+    pub const FIELD_60: u32 = 0x60;
+    pub const STATE_6B: u32 = 0x6B;
+    pub const STATE_8D: u32 = 0x8D;
+    /// Flags de `FLAGS4`: el guion está en marcha.
+    pub const FLAGS4_RUNNING: u8 = 1 << 5;
+    /// Bits de `task::FLAGS`.
+    pub const FLAGS_HIDDEN: u8 = 1 << 2;
+    pub const FLAGS_SKIP_HIDDEN: u8 = 1 << 3;
+    pub const FLAGS_PARITY: u8 = 1 << 4;
+    pub const FLAGS_PARITY_CHECK: u8 = 1 << 5;
+    pub const FLAGS_BACK_LAYER: u8 = 1 << 6;
+    /// Órdenes.
+    pub const OP_WAIT: u8 = 0x00;
+    pub const OP_JUMP: u8 = 0x01;
+    pub const OP_SPRITE: u8 = 0x02;
+    pub const OP_LOOP: u8 = 0x03;
+    pub const OP_SOUND: u8 = 0x04;
+    pub const OP_SET_BYTE: u8 = 0x05;
+    pub const OP_SET_WORD: u8 = 0x06;
+    pub const OP_SET_LONG: u8 = 0x07;
+    pub const OP_CALL: u8 = 0x08;
+    pub const OP_SET_HITBOX: u8 = 0x09;
+    pub const OP_SET_4C: u8 = 0x0A;
+    pub const OP_SET_60: u8 = 0x0B;
+    pub const OP_COPY_ENTRY: u8 = 0x0C;
+    pub const OP_AND_BYTE: u8 = 0x0D;
+    pub const OP_AND_WORD: u8 = 0x0E;
+    pub const OP_AND_LONG: u8 = 0x0F;
+    pub const OP_OR_BYTE: u8 = 0x10;
+    pub const OP_OR_WORD: u8 = 0x11;
+    pub const OP_OR_LONG: u8 = 0x12;
+    pub const OP_EOR_BYTE: u8 = 0x13;
+    pub const OP_EOR_WORD: u8 = 0x14;
+    pub const OP_EOR_LONG: u8 = 0x15;
+    pub const OP_REPEAT: u8 = 0x16;
+    pub const OP_SPRITE_PARITY: u8 = 0x17;
+    pub const OP_SPRITE_PARITY_CONT: u8 = 0x18;
+    pub const OP_SET_70: u8 = 0x19;
+    pub const OP_WAIT_TABLE: u8 = 0x1A;
+    pub const OP_INDEX_18: u8 = 0x1B;
+    pub const OP_INDEX_1C: u8 = 0x1C;
+    pub const OP_BACK: u8 = 0x1D;
+    /// Fotograma en la posición de la tarea, sin desplazamiento ni recorte.
+    pub const OP_SPRITE_AT_TASK: u8 = 0x1E;
+    pub const OP_SOUND_STOP: u8 = 0x1F;
+    pub const OP_COUNT: u8 = 0x20;
+    /// Campos de una orden de fotograma: flags, gráfico, atributos y
+    /// desplazamiento.
+    pub const SPR_FLAGS: u32 = 1;
+    pub const SPR_GFX: u32 = 2;
+    pub const SPR_ATTR: u32 = 6;
+    pub const SPR_DX: u32 = 8;
+    pub const SPR_DY: u32 = 10;
+    pub const SPR_LEN_ABS: u32 = 8;
+    pub const SPR_LEN_REL: u32 = 12;
+    /// Bits de `SPR_FLAGS`.
+    pub const SPR_FLIP: u8 = 0x03;
+    pub const SPR_SKIP_IF_HIDDEN: u8 = 1 << 2;
+    pub const SPR_ABSOLUTE: u8 = 1 << 3;
+    pub const SPR_PARITY: u8 = 1 << 4;
+    /// Atributos "sin cambio".
+    pub const KEEP: u16 = 0xFFFF;
+    /// Fuera de esta caja (coordenadas de pantalla) no se dibuja.
+    pub const CLIP_X: (i16, i16) = (-0x100, 0x200);
+    pub const CLIP_Y: (i16, i16) = (0, 0x300);
+    /// Tabla de la ROM con el retroceso de `OP_BACK` según el argumento.
+    pub const BACK_TABLE: u32 = 0x02_93E4;
+    /// Variable de depuración (como `input::INPUT_GATE`, el byte bajo).
+    pub const DEBUG: u32 = 0x10_0001;
+    /// Bit de la variable de depuración (`INPUT_GATE`) que dibuja todo.
+    pub const DEBUG_DRAW_ALL: u8 = 1 << 1;
+    pub const DEBUG_HITBOX: u8 = 1 << 4;
+    /// Rutinas originales que usa el guion.
+    pub const DRAW_SPRITE: u32 = 0x05_A9E2;
+    pub const DRAW_SPRITE_BACK: u32 = 0x05_A9D6;
+    pub const DEBUG_ENTRY: u32 = 0x02_F84A;
+    pub const WORLD_TO_SCREEN: u32 = 0x04_40D0;
+    pub const ALLOC_SPRITE: u32 = 0x00_236E;
+    /// Campos de la tarea que pueden cambiar las órdenes (`< TASK_FIELDS`).
+    pub const TASK_FIELDS: u16 = 0xA0;
+    /// Byte de `FLAGS2` que impide usar la entrada alternativa.
+    pub const FLAGS2_NO_ALT: u8 = 1 << 0;
+    /// Bits de `task::FLAGS3`: usar la entrada alternativa.
+    pub const FLAGS3_ALT: u8 = 1 << 7;
+    pub const FLAGS3_ALT_REQUEST: u8 = 1 << 0;
+    /// Bit de `task::TIMER_C` que limita cuándo se dibuja.
+    pub const TIMER_C_GATED: u8 = 1 << 0;
+    pub const STATE_6B_DRAW: u8 = 1 << 6;
+    pub const STATE_6B_PLAYER: u8 = 1 << 0;
+    /// Profundidad: los atributos en este rango llevan la profundidad
+    /// calculada a partir de la Y.
+    pub const DEPTH_ATTR_FIRST: u16 = 0x4000;
+    pub const DEPTH_ATTR_SPAN: u16 = 0x7FFF;
+    pub const DEPTH_KEEP: u16 = 0xE01F;
+    /// Ranuras de sprite por tarea, y entradas de la zona del juego en
+    /// las que se busca una que ya tenga los mismos gráficos.
+    pub const MAX_ENTRIES: u16 = 3;
+    pub const SHARED_SEARCH: u16 = 47;
+    pub const ENTRY_IN_USE: u8 = 0x84;
+    /// Posición de lectura del anillo de entradas libres.
+    pub const FREE_READ: u32 = 0x10_82C4;
+    /// Cámara: posición (se resta para pasar a pantalla) y Y de pantalla.
+    pub const CAMERA_X: u32 = 0x10_6F50;
+    pub const CAMERA_Y: u32 = 0x10_6F54;
+    pub const SCREEN_Y_BASE: u16 = 0x200;
+}
+
+/// Pantalla de título (la primera escena: logos animados, copyright,
+/// cuenta atrás y "PUSH START" / "INSERT COIN").
+pub mod title {
+    /// Rutina de la animación por guion que corre en cada sprite (sin
+    /// portar).
+    pub const ANIM_RUN: u32 = 0x02_8D70;
+    /// Rutinas de las tareas de la escena.
+    pub const START: u32 = 0x09_1338;
+    pub const IDLE: u32 = 0x09_13AA;
+    pub const COUNTDOWN: u32 = 0x09_1578;
+    pub const COUNTDOWN_TICK: u32 = 0x09_1594;
+    pub const TEXT: u32 = 0x09_1514;
+    pub const TEXT_HIDDEN: u32 = 0x09_152C;
+    pub const TEXT_SHOWN: u32 = 0x09_1558;
+    pub const SPRITE_ANIM: u32 = 0x09_150C;
+    /// Los cuatro sprites: (rutina, gráficos, x, y, atributos, guion), en
+    /// el orden en que se crean.
+    pub const SPRITES: [(u32, u16, u16, u16, u16, u32); 4] = [
+        (0x09_148C, 0xDA, 0x20, 0x138, 0xE000, 0x2F_504A),
+        (0x09_144A, 0xD9, 0x130, 0x180, 0xD000, 0x2F_503E),
+        (0x09_1408, 0xDE, 0xA0, 0x180, 0x2000, 0x2F_5056),
+        (0x09_14CE, 0xDD, 0x90, 0x160, 0x0000, 0x2F_5062),
+    ];
+    /// Posición inicial de la escena y estado (bytes `+$20`/`+$21`).
+    pub const POS: (u16, u16) = (0x90, 0x1C0);
+    pub const STATE: [u32; 2] = [0x20, 0x21];
+    /// Campos de la tarea de texto: contador, valor y periodo de parpadeo.
+    pub const BLINK_TIMER: u32 = 0x82;
+    pub const BLINK_AUX: u32 = 0x84;
+    pub const BLINK_PERIOD_FIELD: u32 = 0x86;
+    pub const BLINK_PERIOD: u16 = 0x10;
+    /// Copyright: posición, texto (ROM) y atributos.
+    pub const COPYRIGHT_POS: u16 = 0x711B;
+    pub const COPYRIGHT_TEXT: u32 = 0x2F_4C98;
+    pub const COPYRIGHT_ATTR: u16 = 0x2300;
+    /// Mensaje parpadeante: zona (2 filas), atributos de borrado, y tabla
+    /// de la ROM con un mensaje por estado de créditos (listas de
+    /// caracteres acabadas en `0xFFFF`).
+    pub const MESSAGE_POS: u16 = 0x7158;
+    pub const MESSAGE_BLANK: u16 = 0x3480;
+    pub const MESSAGE_COLS: u16 = 0x14;
+    pub const MESSAGES: u32 = 0x2F_4CB8;
+    /// Cuenta atrás: rótulo (ROM), posición, cifras y atributos.
+    pub const TIMER_LABEL: u32 = 0x2F_4CB2;
+    pub const TIMER_LABEL_POS: u16 = 0x7236;
+    pub const TIMER_DIGITS: [u16; 2] = [0x72B6, 0x72D6];
+    pub const TIMER_ATTR: u16 = 0x5300;
+}
+
+/// Capa fija: códigos de los textos.
+pub mod fix {
+    pub const TEXT_END: u8 = 0xFE;
+    pub const TEXT_NEWLINE: u8 = 0xFD;
+    pub const LIST_END: u16 = 0xFFFF;
+    /// Siguiente fila de caracteres dentro de un bloque.
+    pub const TILE_ROW_STEP: u16 = 0x10;
+}
+
+/// Estado de créditos para los mensajes del título (bits).
+pub mod credits {
+    pub const P1: u16 = 1 << 0;
+    pub const P2: u16 = 1 << 1;
+    pub const CONSOLE: u16 = 1 << 2;
 }

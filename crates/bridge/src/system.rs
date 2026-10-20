@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{boot, frame, hud, irq, pads, rng, script, sound, tasks, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, pads, rng, script, sound, tasks, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -359,6 +359,58 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| {
                      let c = script::button_pressed(m, 1);
                      m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
+                     Flow::Return
+                 } },
+    // --- guiones de animación de sprites
+    SystemPort { entry: 0x02_8D70, original: "Script_DispatchOpcode_028d70", rust: "system::anim::step",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     let c = anim::step(m, t);
+                     m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_8CD4, original: "Script_SetPointer_028cd4", rust: "system::anim::start",
+                 run: |m| {
+                     let (t, s) = (m.cpu.a[6], m.cpu.a[0]);
+                     anim::start(m, t, s);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_8134, original: "Entity_SetAttr_028134", rust: "system::anim::set_attr",
+                 run: |m| {
+                     let (t, a) = (m.cpu.a[6], m.cpu.d[0] as u16);
+                     anim::set_attr(m, t, a);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_8108, original: "Entity_ApplyFadeShade_028108", rust: "system::anim::apply_depth",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     anim::apply_depth(m, t);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_236E, original: "Entity_AllocSpriteSlot_00236E", rust: "system::anim::alloc_entry",
+                 run: |m| {
+                     let (t, g) = (m.cpu.a[6], m.cpu.d[1] as u16);
+                     anim::alloc_entry(m, t, g);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_29A8, original: "Entity_ProbeSpriteSlot_29A8", rust: "system::anim::find_entry",
+                 run: |m| {
+                     let (t, g) = (m.cpu.a[6], m.cpu.d[1] as u16);
+                     let found = anim::find_entry(m, t, g);
+                     m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_FF00) | if found { 0xFF } else { 0 };
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x05_DD02, original: "Entity_CopyPosToChild_05dd02", rust: "system::anim::copy_sprite_pos",
+                 run: |m| {
+                     let (from, to) = (m.cpu.a[6], m.cpu.a[0]);
+                     anim::copy_sprite_pos(m, from, to);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x04_40D0, original: "World_ToScreen_0440d0", rust: "system::anim::world_to_screen",
+                 run: |m| {
+                     let (x, y) = anim::world_to_screen(m, m.cpu.d[0] as u16, m.cpu.d[1] as u16);
+                     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(x);
+                     m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(y);
                      Flow::Return
                  } },
     // --- capa fija: créditos, nivel, marco
