@@ -84,13 +84,13 @@ pub fn init(m: &mut impl Memory) {
 /// [`after_task`]. Original: `Scheduler_MainLoop_000656`.
 pub fn run(m: &mut impl Machine) -> Flow {
     m.set_task_register(T::ARENA);
-    m.write_u32(T::CURRENT, T::ARENA);
     enter_task(m)
 }
 
 /// Prepara la tarea de `a6` (temporizadores, flags) y la llama.
 fn enter_task(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
+    m.write_u32(T::CURRENT, t);
     let f3 = m.read_u8(t + T::FLAGS3);
     m.write_u8(t + T::FLAGS3, f3 & T::FLAGS3_KEEP_BEFORE);
     let f4 = m.read_u8(t + T::FLAGS4);

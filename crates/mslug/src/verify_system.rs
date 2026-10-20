@@ -131,10 +131,12 @@ fn check(sys: &mut neogeo_hw::System, i: usize, st: &mut Stats) {
         let in_stack = |i: usize| (sp.saturating_sub(0x800)..sp).contains(&i);
         if let Some((i, n)) = first_diff(&sys.bus.work_ram[..], &bus_r.work_ram[..], in_stack) {
             diffs.push(format!(
-                "RAM: {n} bytes distintos, primero ${:06X} rom={:02X} rust={:02X}",
+                "RAM: {n} bytes distintos, primero ${:06X} antes={:02X} rom={:02X} rust={:02X} (a6 ${:06X}, destino ${target_pc:06X}, {steps} instr. ROM)",
                 0x10_0000 + i,
+                bus0.work_ram[i],
                 sys.bus.work_ram[i],
-                bus_r.work_ram[i]
+                bus_r.work_ram[i],
+                cpu0.a[6] & 0xFF_FFFF
             ));
         }
         if let Some((i, n)) = first_diff(&sys.bus.palette_ram[..], &bus_r.palette_ram[..], |_| false) {

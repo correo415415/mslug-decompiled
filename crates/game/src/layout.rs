@@ -274,7 +274,7 @@ pub mod task {
     /// Cabeza de la lista de bloques libres (`0xFFFFFFFF` = vacía).
     pub const FREE_LIST: u32 = 0x10_6E80;
     pub const NIL: u32 = 0xFFFF_FFFF;
-    /// Tarea en curso (sólo se fija al arrancar el planificador).
+    /// Tarea en curso.
     pub const CURRENT: u32 = 0x10_6E84;
     /// Tareas marcadas en el frame anterior / en este, y total ejecutadas.
     pub const MARKED_PREV: u32 = 0x10_6E88;
