@@ -96,3 +96,57 @@ RAM y resultado): los llamadores usan valores que la rutina original deja
 resultado en **todo** `d0` (el llamador hace `asl.w #1,d0`), y
 `Player_SetWeaponAndAmmo` deja en `a1` la entidad del jugador. Forman parte
 del contrato de la rutina y están en el adaptador (`Ret::D0L`, `Ret::A1`).
+
+## 4. Sólo el port escrito a mano (`--only-manual`)
+
+```sh
+./target/release/mslug play --only-manual --frames 6000      # sin ventana: dice dónde se para
+./target/release/mslug-sdl --only-manual                     # ventana; el título dice dónde se paró
+./target/release/mslug-sdl --only-manual --no-bios-code      # tampoco ejecuta código recompilado de la BIOS
+```
+
+Ejecuta **sólo** las funciones Rust escritas a mano: no hay programa
+recompilado ni intérprete para el juego. La BIOS (que no es del juego) sigue
+ejecutándose salvo con `--no-bios-code`. En cuanto el juego llega a una
+rutina sin portar, la máquina se para y se informa de cuál es (con su nombre
+de la decompilación) y, con `--frames`, se guarda una captura `halt-*.png`.
+Es la medida de "hasta dónde llega el port a mano".
+
+Además de las funciones de juego (`mslug_bridge::PORTS`), en este modo se
+sustituyen las **rutinas de sistema** (`mslug_bridge::system::SYSTEM_PORTS`):
+petición `USER` de la BIOS, inicialización, interrupciones de vblank y
+temporizador, planificador de tareas, bucle de frame, mandos del frame,
+pausa, cola de sonido, paleta, sprites y VRAM (`crates/game/src/system/`).
+Estas rutinas pueden no "volver" (terminan una interrupción, saltan a la
+BIOS o ceden el control a una tarea): devuelven un `Flow`. Cuando llaman a
+una rutina original aún sin portar (`Machine::call_original`), en el modo
+sólo manual la máquina se para ahí.
+
+Estado (este PR): el juego arranca, inicializa todo, arranca el planificador
+y completa el primer frame; se para en el frame 403 en
+`TaskSlots_BootInstall_000A7C`, la primera tarea de arranque.
+
+### Qué portar después: `mslug roadmap`
+
+```sh
+./target/release/mslug roadmap --frames 6000 --out build/roadmap.txt
+```
+
+Juega con el programa recompilado y lista las rutinas del juego en el orden
+en que se ejecutan por primera vez, cuáles están portadas y las más
+calientes. Las primeras sin portar son las que parará `--only-manual`.
+
+### Comprobar las rutinas de sistema: `mslug verify-system`
+
+```sh
+./target/release/mslug verify-system --frames 6000 --fuzz 1
+```
+
+En cada entrada de una rutina de sistema portada, ejecuta la Rust y la ROM
+desde el **mismo estado completo** de la máquina (CPU y bus clonados: RAM,
+paleta, VRAM, registros de vídeo y sonido) hasta el mismo punto (PC y pila
+que dice el `Flow` de la Rust) y compara RAM (salvo la zona de la pila),
+paleta, VRAM, dirección/incremento de VRAM, máscara de interrupciones y la
+última orden al Z80. Los registros distintos se cuentan aparte (`regs≠`):
+son valores que la rutina original deja "de paso" y que los llamadores no
+usan. La CI lo ejecuta con dos semillas de fuzz.

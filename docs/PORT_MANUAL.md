@@ -149,6 +149,42 @@ Lecciones:
   `d0` entero en `InputLayout_ReadField2`/`Input_*ByMode`, `a1` = jugador en
   `Player_SetWeaponAndAmmo`. Ahora forman parte del adaptador.
 
+### Rutinas de sistema (`system::*`)
+
+Para que el juego funcione **sólo** con lo portado a mano (`--only-manual`)
+hay que portar primero lo que lo mueve: el arranque, las interrupciones y el
+planificador. Estas rutinas son distintas de las de juego:
+
+* trabajan con **toda la máquina** (registros de vídeo, paleta, sonido,
+  perro guardián, ROM), no sólo con la RAM: usan el trait `Machine`
+  (`mem.rs`), que en el puente es `CpuMachine` (CPU + bus reales);
+* a menudo **no vuelven** como una función: terminan una interrupción
+  (`rte`), saltan a la BIOS o a otra rutina (`jmp`), llaman a la rutina de
+  la tarea siguiente o esperan al vblank. Devuelven un `Flow` y el puente
+  deja la CPU como la dejaría el original;
+* llaman a rutinas aún sin portar (`Machine::call_original`): el puente las
+  ejecuta hasta que vuelven; si por el camino hay rutinas portadas, ejecuta
+  las Rust. En `--only-manual` llegar a código sin portar para la máquina.
+
+| Módulo | Contenido | Rutinas originales |
+|---|---|---|
+| `system::boot` | petición `USER` de la BIOS (iniciar, prueba, demo, título), vuelta a la BIOS, inicialización de todos los subsistemas, título, récords por defecto | `$0007CC`, `$00080C`, `$000832`, `$000836/840`, `$00085E`, `$00097A`, `Init_MasterSubsystems`, `TitleModeInit`, `HiScore_LoadDefaults`, `Pause_Clear`, `Global_SetDualFlagFrom10FD82`, `Input_RisingEdgeSnapshot` |
+| `system::irq` | vblank (o de la BIOS o del juego), trabajo del vblank (perro guardián, sonido, paleta, llamadas diferidas, sprites), 50 Hz, temporizador | `$0008F6`, `VBlankTick_Master`, `Deferred_RunQueue`, `Deferred_Push`, `$000960`, `$0008D6` |
+| `system::frame` | bucle de frame: espera al vblank, mandos, pausa, contadores, frame de dibujo nuevo | `VBlank_FrameLoop` (`$001F84`, `$001FE2`) |
+| `system::tasks` | almacén de tareas, tareas fijas, planificador (temporizadores y flags de cada tarea), jugadores activos | `Task_FreeListInit`, `Entity_ClearPtrSlots`, `Entity_InitFields`, `Scheduler_MainLoop` (+ `$0006CA`), `Player_GetEntity`, `Players_CountActive`, `Players_StoreActiveCount` |
+| `system::pads` | mandos del frame (recién pulsados, repetición automática), botones de inicio, pausa en consola | `$05CC1A`, `Input_Poll_LiveMode`, `Pause_Poll` |
+| `system::sound` | cola de órdenes al Z80, sonido de moneda | `InputQueue_InitAndPushOp4` (es la cola de sonido), `$002152`, `Sound_PumpQueue`, `Sound_PollReply`, `$002126`, `$0022BE` |
+| `system::video` | copia de la paleta y su volcado, tabla de sprites, borrado de VRAM, colas de dibujo | `Pal_ShadowClearAll`, `Pal_FlushDirtyToHW`, `SpriteTable_Init256`, `Pubcleaner_10A2Cx`, `VRAM_FixLayerAutoclear`, `SpriteSubsystem_Reset`, `VRAM_FixAutoclear_Reset`, `Vblank_FlushSpriteQueue` |
+
+Se verifican con `mslug verify-system` (estado completo de la máquina; ver
+`docs/MANUAL_TESTING.md`): 0 fallos. Encontró que el planificador anota la
+tarea en curso **en cada tarea** (el salto del final vuelve a la instrucción
+que la guarda), no sólo al arrancar.
+
+Nombres corregidos al leer el código: `InputQueue_InitAndPushOp4` es la cola
+de órdenes de **sonido**; `$10007A` es la petición de **sonido de moneda**
+(la pone el vector `COIN_SOUND` de la cabecera), no un reinicio del driver.
+
 Dudas abiertas: el orden de armas 2/3 (Shotgun / Rocket) del `enum Weapon`
 viene de observación, no del código.
 

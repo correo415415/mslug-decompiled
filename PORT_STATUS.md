@@ -11,6 +11,10 @@
 > | `verify-manual` (auto 8000 + fuzz 1–3 × 15 000 frames) | ✅ 0 fallos |
 > | Jugable: `mslug-sdl --manual` | 57 sustituidas (3 aún llaman a rutinas sin portar) |
 > | `lockstep-manual --atomic-ref` (auto 8000 + fuzz 1–3) | ✅ mismo estado que el recompilado en cada frame |
+> | Rutinas de sistema portadas (`crates/game/src/system`) | 41 entradas: arranque/USER, vblank, temporizador, planificador, bucle de frame, mandos, pausa, sonido, paleta, sprites, VRAM |
+> | `verify-system` (estado completo; auto 1500 + fuzz 1) | ✅ 0 fallos (17 860 + 15 891 llamadas) |
+> | **Sólo port manual** (`--only-manual`, sin recompilado ni intérprete) | arranca, inicializa y completa el primer frame; se para en el frame 403 en `TaskSlots_BootInstall_000A7C` (antes: frame 272, vblank) |
+> | Hoja de ruta (`mslug roadmap`) | rutinas en orden de primera ejecución, portadas o no |
 > | Assets (`scripts/extract_assets.sh`) | ✅ idénticos a la rama de la decompilación |
 
 ## Resumen

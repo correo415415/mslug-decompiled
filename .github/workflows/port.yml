@@ -147,6 +147,16 @@ jobs:
             "$CARGO_TARGET_DIR/release/mslug" lockstep-manual --atomic-ref --frames 15000 --fuzz $z 2>&1 | tee -a ci_out/lockstep_manual.txt || rc=1
           done
           grep "^manual OK\|^Error" ci_out/lockstep_manual.txt >> "$GITHUB_STEP_SUMMARY" || true
+          unset MSLUG_MANUAL_EXACT_CYCLES
+          # Rutinas de sistema (arranque, vblank, tareas...) con el estado completo
+          for z in 1 2; do
+            "$CARGO_TARGET_DIR/release/mslug" verify-system --frames 6000 --fuzz $z 2>&1 | tee -a ci_out/verify_system.txt || rc=1
+          done
+          grep "^total" ci_out/verify_system.txt >> "$GITHUB_STEP_SUMMARY" || true
+          # Hasta dónde llega el juego sólo con lo portado a mano
+          "$CARGO_TARGET_DIR/release/mslug" play --only-manual --frames 6000 2>&1 | tee ci_out/only_manual.txt || true
+          grep "parado en" ci_out/only_manual.txt >> "$GITHUB_STEP_SUMMARY" || true
+          "$CARGO_TARGET_DIR/release/mslug" roadmap --frames 6000 --out ci_out/roadmap.txt 2>&1 | head -60 > ci_out/roadmap_summary.txt || true
           exit $rc
 
       - name: mslug-sdl headless (capturas)
