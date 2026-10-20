@@ -123,8 +123,9 @@ una rutina original aún sin portar (`Machine::call_original`), en el modo
 sólo manual la máquina se para ahí.
 
 Estado (este PR): el juego arranca, inicializa todo, arranca el planificador
-y completa el primer frame; se para en el frame 403 en
-`TaskSlots_BootInstall_000A7C`, la primera tarea de arranque.
+y la tarea de arranque, y entra en el guion de arranque (elige la lista de
+escenas y la despacha); se para en el frame 403 en `AttractHandler_00109C`,
+la primera escena (aún en la ROM).
 
 ### Qué portar después: `mslug roadmap`
 

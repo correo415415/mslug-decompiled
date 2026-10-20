@@ -171,15 +171,23 @@ planificador. Estas rutinas son distintas de las de juego:
 | `system::boot` | petición `USER` de la BIOS (iniciar, prueba, demo, título), vuelta a la BIOS, inicialización de todos los subsistemas, título, récords por defecto | `$0007CC`, `$00080C`, `$000832`, `$000836/840`, `$00085E`, `$00097A`, `Init_MasterSubsystems`, `TitleModeInit`, `HiScore_LoadDefaults`, `Pause_Clear`, `Global_SetDualFlagFrom10FD82`, `Input_RisingEdgeSnapshot` |
 | `system::irq` | vblank (o de la BIOS o del juego), trabajo del vblank (perro guardián, sonido, paleta, llamadas diferidas, sprites), 50 Hz, temporizador | `$0008F6`, `VBlankTick_Master`, `Deferred_RunQueue`, `Deferred_Push`, `$000960`, `$0008D6` |
 | `system::frame` | bucle de frame: espera al vblank, mandos, pausa, contadores, frame de dibujo nuevo | `VBlank_FrameLoop` (`$001F84`, `$001FE2`) |
-| `system::tasks` | almacén de tareas, tareas fijas, planificador (temporizadores y flags de cada tarea), jugadores activos | `Task_FreeListInit`, `Entity_ClearPtrSlots`, `Entity_InitFields`, `Scheduler_MainLoop` (+ `$0006CA`), `Player_GetEntity`, `Players_CountActive`, `Players_StoreActiveCount` |
-| `system::pads` | mandos del frame (recién pulsados, repetición automática), botones de inicio, pausa en consola | `$05CC1A`, `Input_Poll_LiveMode`, `Pause_Poll` |
+| `system::tasks` | almacén de tareas, tareas fijas, altas y bajas (con las hijas), tarea de arranque, planificador (temporizadores y flags de cada tarea), jugadores activos | `Task_FreeListInit`, `Entity_ClearPtrSlots`, `Entity_InitFields`, `Task_Alloc`, `Task_AllocAndMarkBusy`, `$0005FE`, `Task_UnlinkAlive`, `$0005B6`, `Task_ChangeHandler`, `Task_ChangeAndRun`, `TaskSlots_BootInstall`, `Scheduler_MainLoop` (+ `$0006CA`), `Player_GetEntity`, `Players_CountActive`, `Players_StoreActiveCount` |
+| `system::script` | guion de arranque: elige la lista de escenas según la BIOS (demo, título, partida en consola/recreativa), despacha la escena actual cada frame y avanza; entradas de una línea (parar escena, pausa sí/no, volver a la BIOS) | `SchedulerBootstrap_Boot` (`$000E8E`, `$000EF0`, `$000F1A`, `$000F76`, `$000F98`, `$000FC6`), `SchedulerDispatch_LoopB`, `SchedTail_JsrCD4/D3C`, `BootScr_Clr13d2a`, `BootScr_SetFF13d20`, `Attract_SoftReset_10FDAF`, `Attract_StartIfP2Flag`, `TaskList_ChangeAndRunEight`, `Task_ResetAllSlots`, `Camera_ResetCenter` |
+| `system::rng` | tabla de números aleatorios desde una semilla | `Rng_Seed` |
+| `system::pads` | mandos del frame (recién pulsados, repetición automática), botones de inicio, pausa en consola, arranque de demo grabada | `$05CC1A`, `Input_Poll_LiveMode`, `Pause_Poll`, `PlayerCtx_ResetTwoBlocks`, `SetRamByteFF_013d20`, `$013D2A` |
 | `system::sound` | cola de órdenes al Z80, sonido de moneda | `InputQueue_InitAndPushOp4` (es la cola de sonido), `$002152`, `Sound_PumpQueue`, `Sound_PollReply`, `$002126`, `$0022BE` |
-| `system::video` | copia de la paleta y su volcado, tabla de sprites, borrado de VRAM, colas de dibujo | `Pal_ShadowClearAll`, `Pal_FlushDirtyToHW`, `SpriteTable_Init256`, `Pubcleaner_10A2Cx`, `VRAM_FixLayerAutoclear`, `SpriteSubsystem_Reset`, `VRAM_FixAutoclear_Reset`, `Vblank_FlushSpriteQueue` |
+| `system::video` | copia de la paleta y su volcado, tabla de sprites (altas fijas por escena, liberación por referencias), reparto y ocultación de sprites hardware, borrado de VRAM, colas de dibujo | `Pal_ShadowClearAll`, `Pal_FlushDirtyToHW`, `SpriteTable_Init256`, `Pubcleaner_10A2Cx`, `VRAM_FixLayerAutoclear`, `SpriteSubsystem_Reset`, `VRAM_FixAutoclear_Reset`, `Vblank_FlushSpriteQueue`, `Entity_FlushSlotHistory`, `PalSlot_Release`, `$002AEC`, `PalSlot_LoadListHi`, `Task_InstallBootSlots`, `Scratch_Alloc`, `Scratch_AllocZero`, `SpriteRange_DisableAll` |
 
 Se verifican con `mslug verify-system` (estado completo de la máquina; ver
 `docs/MANUAL_TESTING.md`): 0 fallos. Encontró que el planificador anota la
 tarea en curso **en cada tarea** (el salto del final vuelve a la instrucción
 que la guarda), no sólo al arrancar.
+
+El guion de arranque es un intérprete «enhebrado»: cada escena es una
+rutina de la ROM que se llama cada frame (`rts` = sigue el próximo frame) y
+salta a `$000FE0` al acabar (siguiente escena, en el mismo frame). El port lo
+expresa con `Flow::Goto`: `script::next` avanza el cursor y devuelve el salto
+a la escena siguiente, que puede ser Rust o ROM.
 
 Nombres corregidos al leer el código: `InputQueue_InitAndPushOp4` es la cola
 de órdenes de **sonido**; `$10007A` es la petición de **sonido de moneda**
