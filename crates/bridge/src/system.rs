@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, pads, rng, script, sound, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, rng, script, sound, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -420,6 +420,16 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(y);
                      Flow::Return
                  } },
+    // --- render del frame y paletas
+    SystemPort { entry: 0x00_2098, original: "VBlank_RenderFrame_002098", rust: "system::frame::render", run: |m| frame::render(m) },
+    SystemPort { entry: 0x00_2C86, original: "PalSlot_UpdateAll_002c86", rust: "system::palette::update_all", run: ret!(palette::update_all) },
+    SystemPort { entry: 0x01_387E, original: "PalBank_ClearStep_01387e", rust: "system::palette::clear_bank_step", run: ret!(palette::clear_bank_step) },
+    SystemPort { entry: 0x01_33B0, original: "PalSlot_Load_0133b0", rust: "system::palette::load",
+                 run: |m| { let off = m.cpu.d[1] & 0xFFFF; palette::load(m, off); Flow::Return } },
+    SystemPort { entry: 0x01_33E6, original: "PalSlot_Clear_0133e6", rust: "system::palette::clear",
+                 run: |m| { let off = m.cpu.d[1] & 0xFFFF; palette::clear(m, off); Flow::Return } },
+    SystemPort { entry: 0x01_3408, original: "PalSlot_FadeStep_013408", rust: "system::palette::fade_step",
+                 run: |m| { let off = m.cpu.d[1] & 0xFFFF; palette::fade_step(m, off); Flow::Return } },
     // --- pantalla de título
     SystemPort { entry: 0x09_1330, original: "TaskTpl_091330", rust: "system::title::begin", run: |m| title::begin(m) },
     SystemPort { entry: 0x09_1338, original: "Continue_Spawn_091338", rust: "system::title::start", run: |m| title::start(m) },

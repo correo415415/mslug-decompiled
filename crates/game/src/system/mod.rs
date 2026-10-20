@@ -13,6 +13,7 @@ pub mod frame;
 pub mod hud;
 pub mod irq;
 pub mod pads;
+pub mod palette;
 pub mod rng;
 pub mod script;
 pub mod sound;

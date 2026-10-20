@@ -138,6 +138,8 @@ pub mod hw {
     /// `REG_PALBANK0` / `REG_PALBANK1`: elige el banco de paleta visible.
     pub const PAL_BANK0: u32 = 0x3A_001F;
     pub const PAL_BANK1: u32 = 0x3A_000F;
+    /// `REG_NOSHADOW`: cualquier escritura quita el modo sombra.
+    pub const NO_SHADOW: u32 = 0x3A_0001;
 }
 
 /// Rutinas de la BIOS (llamadas del sistema).
@@ -411,6 +413,52 @@ pub mod palette {
     pub const FADE_STEP: u32 = 0x10_A2D2;
     /// Otras variables del módulo de paleta que se borran al iniciar.
     pub const STATE_BYTES: [u32; 6] = [0x10_A2C8, 0x10_A2CA, 0x10_A2CB, 0x10_A2CC, 0x10_A2CF, 0x10_A2D0];
+    /// Fundido de toda la pantalla: modo (0 = no, `FADE_TO_WHITE`, otro =
+    /// a negro), modo del frame anterior y nivel de cada componente (R, G, B).
+    pub const FADE_MODE: u32 = 0x10_A2C8;
+    pub const FADE_MODE_PREV: u32 = 0x10_A2C9;
+    pub const FADE_TO_WHITE: u8 = 0xFF;
+    /// Valor de `FADE_MODE_PREV` que no obliga a restaurar los colores.
+    pub const FADE_PREV_IGNORED: u8 = 0x80;
+    pub const FADE_LEVEL: [u32; 3] = [0x10_A2CA, 0x10_A2CB, 0x10_A2CC];
+    /// Durante la actualización: ya se ha hecho la pasada de la paleta de
+    /// fondo.
+    pub const BACKDROP_PASS: u32 = 0x10_A2CD;
+    /// `FADE_STEP` distinto de este valor: se está borrando a blanco el
+    /// otro banco de la RAM de paleta (16 paletas por vblank).
+    pub const FADE_STEP_DONE: u8 = 0xFF;
+    pub const BANK_CLEAR_STEPS: u8 = 16;
+    pub const BANK_CLEAR_PALETTES: u32 = 16;
+    pub const WHITE: u16 = 0x7FFF;
+    /// Colores por paleta y bytes por color en la ROM (R, G, B, relleno).
+    pub const COLORS: u32 = 16;
+    pub const SOURCE_COLOR_SIZE: u32 = 4;
+    /// Tabla de la ROM: color RGB555 → color Neo Geo.
+    pub const RGB555_TO_NEOGEO: u32 = 0x00_2F30;
+    /// Tabla de la ROM con 32 punteros a tablas de 32 pasos: cuánto se
+    /// avanza una componente que dista `n` en el paso `k`.
+    pub const STEP_TABLES: u32 = 0x01_2F30;
+    pub const COMPONENT_MAX: u8 = 0x1F;
+    /// Campos de una entrada de paleta (las mismas entradas que
+    /// `sprites::TABLE`): flags, colores (ROM), periodo del fundido
+    /// (`NO_FADE` = ninguno), colores destino, paso, incremento del paso y
+    /// temporizador.
+    pub const ENTRY_COLORS: u32 = 0x02;
+    pub const ENTRY_PERIOD: u32 = 0x08;
+    pub const ENTRY_TARGET: u32 = 0x0A;
+    pub const ENTRY_STEP: u32 = 0x0E;
+    pub const ENTRY_STEP_INC: u32 = 0x0F;
+    pub const ENTRY_TIMER: u32 = 0x10;
+    pub const NO_FADE: u16 = 0xFFFF;
+    pub const FADE_STEPS: i8 = 0x20;
+    /// Bits de flags de una entrada.
+    pub const E_LOAD: u8 = 1 << 0;
+    pub const E_FADING: u8 = 1 << 1;
+    pub const E_NO_SCREEN_FADE: u8 = 1 << 3;
+    pub const E_CLEAR: u8 = 1 << 6;
+    pub const E_SKIP: u8 = 1 << 7;
+    /// Flags que quedan en una entrada borrada.
+    pub const E_CLEARED: u8 = 0x80;
 }
 
 /// Tabla de sprites del juego y colas de dibujo.
@@ -594,6 +642,10 @@ pub mod routine {
     pub const SCHEDULER_AFTER_TASK: u32 = 0x00_06CA;
     /// Rutina de una tarea que se está dando de baja.
     pub const TASK_FINISHING: u32 = 0x00_052A;
+    /// Borrado a blanco de 16 paletas del otro banco (diferido al vblank).
+    pub const PAL_BANK_CLEAR_STEP: u32 = 0x01_387E;
+    /// Ordena las colas de sprites y escribe SCB1 (sin portar).
+    pub const SPRITE_SORT_RENDER: u32 = 0x05_B232;
     /// Tareas fijas que borran cada frame un byte de las entidades
     /// (`task::FRAME_FLAG_*`): del Slug y de los dos jugadores.
     pub const SLUG_FRAME_TASK: u32 = 0x02_9582;

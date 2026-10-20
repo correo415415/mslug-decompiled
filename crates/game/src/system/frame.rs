@@ -5,8 +5,8 @@
 //! prepara el frame siguiente; después el planificador pasa al resto de
 //! tareas. Original: `VBlank_FrameLoop_001f84`.
 
-use super::{inc_u16, inc_u8, pads, sound, tasks, video};
-use crate::layout::{bios_ram, routine, system as S, task as T};
+use super::{inc_u16, inc_u8, pads, palette, sound, tasks, video};
+use crate::layout::{bios_ram, hw, routine, system as S, task as T};
 use crate::mem::{Flow, Machine};
 
 /// Preparación (una sola vez): pone a cero los contadores del vblank, da
@@ -77,5 +77,28 @@ pub fn wait(m: &mut impl Machine) -> Flow {
     r.d[0] = u32::from(spins);
     r.a[6] = a6;
     m.set_regs(r);
+    Flow::Return
+}
+
+/// Tarea del render (la última de la lista): actualiza las paletas (sin
+/// que el vblank las vuelque a medias), pide volcarlas, prepara los
+/// sprites y deja el frame a la espera del vblank.
+/// Original: `VBlank_RenderFrame_002098`.
+pub fn render(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    for off in [T::FLAGS, T::FLAGS2, T::FLAGS5, T::FLAGS3] {
+        m.write_u8(t + off, 0);
+    }
+    m.write_u8(S::PAL_FLUSH_BLOCK, 0xFF);
+    palette::update_all(m);
+    m.write_u8(hw::NO_SHADOW, 0xFF);
+    m.write_u8(S::PAL_FLUSH_REQUEST, 0xFF);
+    m.write_u8(S::PAL_FLUSH_BLOCK, 0);
+    let mut r = m.regs();
+    m.call_original(routine::SPRITE_SORT_RENDER, &mut r);
+    m.set_regs(r);
+    m.write_u8(hw::NO_SHADOW, r.d[0] as u8);
+    m.set_task_register(t);
+    m.write_u8(S::FRAME_READY, 0);
     Flow::Return
 }
