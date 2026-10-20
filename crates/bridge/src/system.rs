@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, pads, rng, script, sound, tasks, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, pads, rng, script, sound, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -169,6 +169,13 @@ pub struct SystemPort {
     pub original: &'static str,
     pub rust: &'static str,
     pub run: SystemFn,
+}
+
+/// Sprite `k` del logo del título (deja el flag C de la animación).
+fn title_sprite(m: &mut CpuMachine, k: usize) -> Flow {
+    let c = title::sprite(m, k);
+    m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
+    Flow::Return
 }
 
 macro_rules! ret {
@@ -413,6 +420,44 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(y);
                      Flow::Return
                  } },
+    // --- pantalla de título
+    SystemPort { entry: 0x09_1330, original: "TaskTpl_091330", rust: "system::title::begin", run: |m| title::begin(m) },
+    SystemPort { entry: 0x09_1338, original: "Continue_Spawn_091338", rust: "system::title::start", run: |m| title::start(m) },
+    SystemPort { entry: 0x09_13AC, original: "Continue_Tpl_0913ac", rust: "system::title::start_logo_only", run: |m| title::start_logo_only(m) },
+    SystemPort { entry: 0x09_13AA, original: "TaskHandler_0913aa", rust: "system::title::idle", run: |m| title::idle(m) },
+    SystemPort { entry: 0x09_148C, original: "Continue_Sprite_Left_09148c", rust: "system::title::sprite", run: |m| title_sprite(m, 0) },
+    SystemPort { entry: 0x09_144A, original: "Continue_Sprite_Right_09144a", rust: "system::title::sprite", run: |m| title_sprite(m, 1) },
+    SystemPort { entry: 0x09_1408, original: "Continue_Sprite_Mid_091408", rust: "system::title::sprite", run: |m| title_sprite(m, 2) },
+    SystemPort { entry: 0x09_14CE, original: "Continue_Sprite_MidB_0914ce", rust: "system::title::sprite", run: |m| title_sprite(m, 3) },
+    SystemPort { entry: 0x09_150C, original: "JsrAbsThunk_09150c", rust: "system::title::animate",
+                 run: |m| {
+                     let c = title::animate(m);
+                     m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x09_1514, original: "Continue_Text_Init_091514", rust: "system::title::text", run: |m| title::text(m) },
+    SystemPort { entry: 0x09_152C, original: "Continue_Text_Clear_09152c", rust: "system::title::text_hidden", run: |m| title::text_hidden(m) },
+    SystemPort { entry: 0x09_1558, original: "Continue_Text_Blink_091558", rust: "system::title::text_shown", run: |m| title::text_shown(m) },
+    SystemPort { entry: 0x09_1578, original: "Continue_Text_Countdown_091578", rust: "system::title::countdown", run: |m| title::countdown(m) },
+    SystemPort { entry: 0x09_1594, original: "Continue_Text_Countdown_091578+1C", rust: "system::title::countdown_tick", run: |m| title::countdown_tick(m) },
+    SystemPort { entry: 0x09_15DC, original: "Continue_Text_DrawRows_0915dc", rust: "system::title::draw_message",
+                 run: |m| {
+                     let s = m.cpu.d[0] as u16;
+                     title::draw_message(m, s);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x09_1618, original: "Continue_Text_DrawTitle_091618", rust: "system::title::draw_copyright", run: ret!(title::draw_copyright) },
+    SystemPort { entry: 0x09_1630, original: "Continue_Text_DrawCredits_091630", rust: "system::title::banner", run: |m| title::banner(m) },
+    SystemPort { entry: 0x05_2328, original: "Credits_State_052328", rust: "system::title::credit_state",
+                 run: |m| {
+                     let s = title::credit_state(m);
+                     m.cpu.d[0] = u32::from(s);
+                     Flow::Return
+                 } },
+    // --- bajas de tareas desde la propia tarea
+    SystemPort { entry: 0x00_0518, original: "Task_Finish_000518", rust: "system::tasks::finish", run: |m| tasks::finish(m) },
+    SystemPort { entry: 0x00_052A, original: "Task_Finishing_00052A", rust: "system::tasks::finishing", run: |m| tasks::finishing(m) },
+    SystemPort { entry: 0x00_06E2, original: "Scheduler_NextTask_0006E2", rust: "system::tasks::next_task", run: |m| tasks::next_task(m) },
     // --- capa fija: créditos, nivel, marco
     SystemPort { entry: 0x00_1DB8, original: "Hud_DrawCreditsAndOverlay_001db8", rust: "system::hud::draw", run: ret!(hud::draw) },
     SystemPort { entry: 0x05_2050, original: "FixOverlay_DrawCreditsOrFree_052050", rust: "system::hud::draw_credits", run: ret!(hud::draw_credits) },
@@ -422,6 +467,18 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| {
                      let (at, ch, cols, rows) = (m.cpu.a[1] as u16, m.cpu.d[0] as u16, m.cpu.d[1] as u16, m.cpu.d[2] as u16);
                      hud::fill_rect(m, at, ch, cols, rows);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x05_DA56, original: "ThunkTarget_05da56", rust: "system::hud::fill_tiles",
+                 run: |m| {
+                     let (at, ch, cols, rows) = (m.cpu.a[1] as u16, m.cpu.d[0] as u16, m.cpu.d[1] as u16, m.cpu.d[2] as u16);
+                     hud::fill_tiles(m, at, ch, cols, rows);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x05_DAD8, original: "Fix_BlitStream_05DAD8", rust: "system::hud::draw_text",
+                 run: |m| {
+                     let (at, text, attr) = (m.cpu.a[1] as u16, m.cpu.a[2], m.cpu.d[0] as u16);
+                     m.cpu.a[2] = hud::draw_text(m, at, text, attr);
                      Flow::Return
                  } },
     SystemPort { entry: 0x05_CACE, original: "Camera_ResetCenter_05CACE", rust: "system::script::reset_camera", run: ret!(script::reset_camera) },

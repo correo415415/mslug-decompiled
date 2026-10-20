@@ -255,6 +255,44 @@ pub fn after_task(m: &mut impl Machine) -> Flow {
     enter_task(m)
 }
 
+/// La tarea actual (`a6`) se da de baja a sí misma: suelta sus entradas de
+/// sprite, deja de contar como marcada y pasa a [`finishing`].
+/// Original: `$000518`.
+pub fn finish(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    super::video::release_task_entries(m, t);
+    let f = m.read_u8(t + T::FLAGS);
+    m.write_u8(t + T::FLAGS, f & !T::FLAGS_MARKED);
+    m.write_u32(t + T::HANDLER, routine::TASK_FINISHING);
+    finishing(m)
+}
+
+/// Rutina de una tarea que se está dando de baja: si su madre va después
+/// en la lista (prioridad mayor), espera a la vuelta siguiente; si no, se
+/// quita de la lista y el planificador sigue por la siguiente.
+/// Original: `$00052A`.
+pub fn finishing(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let parent = m.read_u32(t + T::PREV);
+    if m.read_u8(t + T::PRIORITY) < m.read_u8(parent + T::PRIORITY) {
+        return after_task(m);
+    }
+    let prev = unlink(m, t);
+    m.set_task_register(prev);
+    next_task(m)
+}
+
+/// El planificador sigue por la tarea que va detrás de `a6` (sin las
+/// limpiezas de [`after_task`]). Original: `$0006E2`.
+pub fn next_task(m: &mut impl Machine) -> Flow {
+    let sp = m.read_u32(T::SAVED_SP);
+    m.set_stack_pointer(sp);
+    let t = m.task_register();
+    let next = m.read_u32(t + T::NEXT);
+    m.set_task_register(next);
+    enter_task(m)
+}
+
 /// Tarea de control del jugador `p` (0 o 1) si está en juego.
 /// Original: `Player_GetEntity_05e3a2` (C = sí, tarea en `a0`).
 pub fn player_task_if_alive(m: &mut impl Memory, p: u32) -> Option<u32> {

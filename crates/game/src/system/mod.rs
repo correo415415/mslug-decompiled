@@ -8,7 +8,6 @@
 //! al planificador. Por eso devuelven un [`Flow`](crate::Flow).
 
 pub mod anim;
-pub mod actor;
 pub mod boot;
 pub mod frame;
 pub mod hud;
@@ -17,6 +16,7 @@ pub mod pads;
 pub mod rng;
 pub mod script;
 pub mod sound;
+pub mod title;
 pub mod tasks;
 pub mod video;
 

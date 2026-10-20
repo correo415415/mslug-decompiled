@@ -586,6 +586,8 @@ pub mod routine {
     pub const SCHEDULER: u32 = 0x00_0656;
     /// Punto del planificador al que vuelven las tareas.
     pub const SCHEDULER_AFTER_TASK: u32 = 0x00_06CA;
+    /// Rutina de una tarea que se está dando de baja.
+    pub const TASK_FINISHING: u32 = 0x00_052A;
     /// Bucle de frame: preparación (una vez) y espera de cada frame (la
     /// rutina que queda en la tarea del frame).
     pub const FRAME_LOOP: u32 = 0x00_1F84;
@@ -923,6 +925,10 @@ pub mod title {
     pub const TIMER_LABEL_POS: u16 = 0x7236;
     pub const TIMER_DIGITS: [u16; 2] = [0x72B6, 0x72D6];
     pub const TIMER_ATTR: u16 = 0x5300;
+    /// Rótulo grande del modo alterno: dos bloques (posición, primer
+    /// carácter) de columnas × filas.
+    pub const BANNER: [(u16, u16); 2] = [(0x71C3, 0xC8C0), (0x71C7, 0xC9C0)];
+    pub const BANNER_SIZE: (u16, u16) = (0x0C, 4);
 }
 
 /// Capa fija: códigos de los textos.
