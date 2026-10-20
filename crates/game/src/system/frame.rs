@@ -7,7 +7,7 @@
 
 use super::{inc_u16, inc_u8, sound, tasks, video};
 use crate::layout::{bios_ram, routine, system as S, task as T};
-use crate::mem::{Flow, Machine, Memory};
+use crate::mem::{Flow, Machine};
 
 /// Preparación (una sola vez): pone a cero los contadores del vblank, da
 /// el vblank al juego y deja la espera como rutina de la tarea.
