@@ -124,8 +124,9 @@ sólo manual la máquina se para ahí.
 
 Estado (este PR): el juego arranca, inicializa todo, arranca el planificador
 y la tarea de arranque, y entra en el guion de arranque (elige la lista de
-escenas y la despacha); se para en el frame 403 en `AttractHandler_00109C`,
-la primera escena (aún en la ROM).
+escenas y la despacha); ejecuta la primera escena (logo: créditos y nivel en la capa fija) y se para
+en el frame 403 en la tarea de esa escena, `$091330` (pantalla de
+continuar; usa el motor de sprites por guion, aún sin portar).
 
 ### Qué portar después: `mslug roadmap`
 
