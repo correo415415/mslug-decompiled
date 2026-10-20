@@ -561,6 +561,8 @@ pub mod sprites {
     /// VRAM: palabras de SCB1 por sprite y bases de SCB2 y SCB4.
     pub const SCB1_WORDS: u16 = 0x40;
     pub const SCB2: u16 = 0x8000;
+    pub const SCB3: u16 = 0x8200;
+    pub const SCB3_FIRST: u16 = 0x8201;
     pub const SCB4: u16 = 0x8400;
     /// Resultado de volcar cada cola.
     pub const QUEUE_DONE: [u32; 2] = [0x10_E1E8, 0x10_E1EA];
@@ -699,8 +701,6 @@ pub mod routine {
     pub const PLAYER_ENTITY_IF_ALIVE: u32 = 0x05_E3A2;
     /// Tabla de la ROM con las tareas de control de cada jugador.
     pub const PLAYER_TASKS: u32 = 0x05_E3F4;
-    /// Vuelca una cola de sprites a la VRAM.
-    pub const SPRITE_QUEUE_RENDER: u32 = 0x05_B400;
     /// Entradas de la cabecera Neo Geo a las que salta la BIOS.
     pub const HEADER_USER: u32 = 0x00_0122;
     pub const HEADER_COIN_SOUND: u32 = 0x00_0134;

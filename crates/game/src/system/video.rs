@@ -8,7 +8,7 @@
 //! `VRAM_FixAutoclear_Reset_05a9ba`, `Vblank_FlushSpriteQueue_05c9d6`.
 
 use super::{dec_to_zero, fill};
-use crate::layout::{hw, palette as P, routine, sprites as S};
+use crate::layout::{hw, palette as P, sprites as S};
 use crate::mem::{Machine, Memory};
 
 /// Borra la copia de la paleta y reinicia la tabla de sprites.
@@ -257,15 +257,8 @@ pub fn flush_sprite_queues(m: &mut impl Machine) {
         } else {
             (S::DRAW_LIST + fill, S::DRAW_LIST + S::DRAW_LIST_SECOND)
         };
-        let mut r = m.regs();
-        r.a[4] = hw::VRAM_ADDR;
-        r.a[5] = S::RENDER_BASE;
-        r.a[0] = S::QUEUES[k];
-        r.a[1] = start;
-        r.a[2] = end;
-        r.d[7] = (r.d[7] & 0xFFFF_0000) | fill;
-        m.call_original(routine::SPRITE_QUEUE_RENDER, &mut r);
-        let done = m.read_u16(r.a[0] + S::QUEUE_RESULT);
+        super::render::render_scb234(m, S::QUEUES[k], start, end);
+        let done = m.read_u16(S::QUEUES[k] + S::QUEUE_RESULT);
         m.write_u16(S::QUEUE_DONE[k], done);
     }
 }

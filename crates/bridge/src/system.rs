@@ -435,6 +435,10 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let (q, a, b) = (m.cpu.a[0], m.cpu.a[1], m.cpu.a[2]); render::render_range(m, q, a, b); Flow::Return } },
     SystemPort { entry: 0x05_B52E, original: "SCB1_WriteTileColumn_05b52e", rust: "system::render::write_column",
                  run: |m| { let (n, rec) = (m.cpu.d[0] as u16, m.cpu.a[3]); render::write_column(m, n, rec); Flow::Return } },
+    SystemPort { entry: 0x05_B400, original: "SpriteQueue_RenderSCB234_05b400", rust: "system::render::render_scb234",
+                 run: |m| { let (q, a, b) = (m.cpu.a[0], m.cpu.a[1], m.cpu.a[2]); render::render_scb234(m, q, a, b); Flow::Return } },
+    SystemPort { entry: 0x05_BF76, original: "SCB1_WriteTileColumnTerm_05bf76", rust: "system::render::write_column_full",
+                 run: |m| { let (n, rec) = (m.cpu.d[0] as u16, m.cpu.a[3]); render::write_column_full(m, n, rec); Flow::Return } },
     // --- pantalla de título
     SystemPort { entry: 0x09_1330, original: "TaskTpl_091330", rust: "system::title::begin", run: |m| title::begin(m) },
     SystemPort { entry: 0x09_1338, original: "Continue_Spawn_091338", rust: "system::title::start", run: |m| title::start(m) },
@@ -470,6 +474,7 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      Flow::Return
                  } },
     // --- bajas de tareas desde la propia tarea
+    SystemPort { entry: 0x00_0B90, original: "TaskSlots_BootInstall_000A7C+0x114", rust: "system::tasks::idle", run: |m| tasks::idle(m) },
     SystemPort { entry: 0x00_0400, original: "Task_IdleRts_000400", rust: "system::tasks::idle", run: |m| tasks::idle(m) },
     SystemPort { entry: 0x02_9582, original: "JsrPcThunk_029582", rust: "system::tasks::clear_slug_frame_flag", run: |m| tasks::clear_slug_frame_flag(m) },
     SystemPort { entry: 0x03_2406, original: "JsrPcThunk_032406", rust: "system::tasks::clear_players_frame_flag",

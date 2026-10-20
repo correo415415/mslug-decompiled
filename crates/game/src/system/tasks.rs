@@ -255,7 +255,8 @@ pub fn after_task(m: &mut impl Machine) -> Flow {
     enter_task(m)
 }
 
-/// Rutina de una tarea que no hace nada. Original: `Task_IdleRts_000400`.
+/// Rutina de una tarea que no hace nada. Original: `Task_IdleRts_000400`
+/// (y `$000B90`, la que deja la tarea de arranque).
 pub fn idle(_: &mut impl Machine) -> Flow {
     Flow::Return
 }

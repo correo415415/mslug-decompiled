@@ -24,6 +24,16 @@ fn vram(m: &mut impl Memory, addr: u16, data: u16) {
 /// resto de la columna a 0), y después SCB4 y SCB2.
 /// Original: `SCB1_WriteTileColumn_05b52e`.
 pub fn write_column(m: &mut impl Memory, sprite: u16, rec: u32) {
+    write_column_with(m, sprite, rec, false);
+}
+
+/// Como [`write_column`], y además SCB3 (posición vertical y altura).
+/// Original: `SCB1_WriteTileColumnTerm_05bf76`.
+pub fn write_column_full(m: &mut impl Memory, sprite: u16, rec: u32) {
+    write_column_with(m, sprite, rec, true);
+}
+
+fn write_column_with(m: &mut impl Memory, sprite: u16, rec: u32, with_scb3: bool) {
     let scb2 = m.read_u16(rec + S::R_SCB2);
     let scb4 = m.read_u16(rec + S::R_SCB4);
     let attr = m.read_u16(rec + S::R_ATTR);
@@ -53,7 +63,100 @@ pub fn write_column(m: &mut impl Memory, sprite: u16, rec: u32) {
     }
     let n = sprite.wrapping_add(1);
     vram(m, S::SCB4.wrapping_add(n), scb4);
+    if with_scb3 {
+        let scb3 = m.read_u16(rec + S::R_SCB3);
+        vram(m, S::SCB3.wrapping_add(n), scb3);
+    }
     vram(m, S::SCB2.wrapping_add(n), scb2);
+}
+
+/// SCB3 del sprite hardware `sprite` + 1 (0 = oculto).
+fn write_scb3(m: &mut impl Memory, sprite: u16, v: u16) {
+    vram(m, S::SCB3.wrapping_add(sprite).wrapping_add(1), v);
+}
+
+/// Vblank: completa la cola `q` con las entradas `[start, end)`: los
+/// sprites que ya tienen SCB1 sólo reciben SCB3; los demás, la columna
+/// entera. Oculta los que sobran desde el frame anterior y anota cuántos
+/// quedaron libres. Original: `SpriteQueue_RenderSCB234_05b400`.
+pub fn render_scb234(m: &mut impl Memory, q: u32, mut start: u32, mut end: u32) {
+    let reached = m.read_u16(q + S::QUEUE_REACHED);
+    let first = m.read_u16(q + S::QUEUE_FIRST);
+    let last = m.read_u16(q + S::QUEUE_LAST);
+    let prev = m.read_u16(q + S::QUEUE_LIMIT) as i16;
+    if m.read_u8(q + S::QUEUE_ACTIVE) & 0x80 != 0 {
+        let mut d0 = first;
+        while end > start {
+            let mut rec = first_record(m, start);
+            loop {
+                if d0 >= last {
+                    queue_full(m, q, d0);
+                    return;
+                }
+                if d0 < reached {
+                    let v = m.read_u16(rec + S::R_SCB3);
+                    vram(m, S::SCB3_FIRST.wrapping_add(d0), v);
+                } else {
+                    write_column_full(m, d0, rec);
+                }
+                d0 = d0.wrapping_add(1);
+                let stop = is_last(m, rec);
+                rec += S::RECORD_SIZE;
+                if stop {
+                    break;
+                }
+            }
+            start += S::SORT_KEY_SIZE;
+        }
+        m.write_u16(q + S::QUEUE_RESULT, last.wrapping_sub(d0));
+        let mut from = if prev < 0 { last } else { prev as u16 };
+        if from < d0 {
+            from = d0;
+        }
+        for k in 0..last.wrapping_sub(from) {
+            write_scb3(m, from.wrapping_add(k), 0);
+        }
+        m.write_u16(q + S::QUEUE_LIMIT, d0);
+    } else {
+        let mut d0 = last;
+        while end > start {
+            end -= S::SORT_KEY_SIZE;
+            let mut rec = first_record(m, end);
+            loop {
+                if first >= d0 {
+                    queue_full(m, q, d0);
+                    return;
+                }
+                d0 = d0.wrapping_sub(1);
+                if d0 < reached {
+                    write_column_full(m, d0, rec);
+                } else {
+                    let v = m.read_u16(rec + S::R_SCB3);
+                    vram(m, S::SCB3_FIRST.wrapping_add(d0), v);
+                }
+                let stop = is_last(m, rec);
+                rec += S::RECORD_SIZE;
+                if stop {
+                    break;
+                }
+            }
+        }
+        m.write_u16(q + S::QUEUE_RESULT, d0.wrapping_sub(first));
+        let mut to = if prev < 0 { first } else { prev as u16 };
+        if to >= d0 {
+            to = d0;
+        }
+        for k in 0..to.wrapping_sub(first) {
+            write_scb3(m, first.wrapping_add(k), 0);
+        }
+        m.write_u16(q + S::QUEUE_LIMIT, d0);
+    }
+}
+
+/// La zona de la cola se ha llenado: no queda ningún sprite libre.
+fn queue_full(m: &mut impl Memory, q: u32, reached: u16) {
+    m.write_u16(q + S::QUEUE_LIMIT, reached);
+    m.write_u16(q + S::QUEUE_RESULT, 0);
 }
 
 /// Registro de columna al que apunta la entrada `e` de la lista.
@@ -233,6 +336,24 @@ pub fn sort_and_render(m: &mut impl Memory) {
 mod tests {
     use super::*;
     use crate::mem::TestMachine;
+
+    /// Última escritura en la VRAM (dirección, dato): `vram` escribe el
+    /// long en `REG_VRAMADDR`.
+    fn last_write(m: &mut TestMachine) -> (u16, u16) {
+        (m.read_u16(hw::VRAM_ADDR), m.read_u16(hw::VRAM_ADDR + 2))
+    }
+
+    #[test]
+    fn full_column_ends_with_scb2_after_scb3() {
+        let mut m = TestMachine::default();
+        let rec = S::RECORDS;
+        m.write_u32(rec + S::R_TILES, 0x20_0000);
+        m.write_u16(rec + S::R_SCB2, 0x0FFF);
+        m.write_u16(rec + S::R_SCB3, 0x1234);
+        m.write_u16(rec + S::R_SCB4, 0x0002);
+        write_column_full(&mut m, 4, rec);
+        assert_eq!(last_write(&mut m), (S::SCB2 + 5, 0x0FFF));
+    }
 
     #[test]
     fn heap_sort_orders_keys() {
