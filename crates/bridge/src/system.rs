@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, lists, manual, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, layer, lists, manual, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -183,6 +183,45 @@ fn fade_spawn(m: &mut CpuMachine, kind: usize) -> Flow {
     } else {
         m.cpu.a[1] = mslug_game::layout::fade::SPAWNERS[kind].1;
     }
+    Flow::Return
+}
+
+/// Registros que deja una ventana pintada (los de `$051D84`).
+fn window_regs(m: &mut CpuMachine, w: layer::Window) {
+    let w16 = |r: u32, v: u16| (r & 0xFFFF_0000) | u32::from(v);
+    m.cpu.d[0] = w16(m.cpu.d[0], w.ring.0);
+    m.cpu.d[1] = w16(m.cpu.d[1], w.ring.1);
+    m.cpu.d[2] = w16(m.cpu.d[2], w.map.0);
+    m.cpu.d[3] = w16(m.cpu.d[3], w.map.1);
+    m.cpu.d[4] = u32::from(w.size.0);
+    m.cpu.d[5] = u32::from(w.size.1);
+    m.cpu.d[6] = w16(m.cpu.d[6], w.map_h);
+}
+
+fn layer_port(m: &mut CpuMachine, f: fn(&mut CpuMachine, u32) -> Option<layer::Window>) -> Flow {
+    let cam = m.cpu.a[0];
+    m.cpu.a[1] = m.read_u32(cam + mslug_game::layout::scroll::C_PATH);
+    let w = f(m, cam);
+    if let Some(w) = w {
+        window_regs(m, w);
+    }
+    set_carry(m, w.is_some());
+    Flow::Return
+}
+
+/// Ganchos de cámara: pintan y, si hay mapa de colisión, copian su trozo.
+fn hook_port(m: &mut CpuMachine, f: fn(&mut CpuMachine, u32) -> Option<layer::Window>) -> Flow {
+    let cam = m.cpu.a[0];
+    let w = f(m, cam);
+    if let Some(w) = w {
+        window_regs(m, w);
+        let src = m.read_u32(cam + mslug_game::layout::scroll::C_COLLMAP_SRC);
+        m.cpu.d[7] = src;
+        if src != 0 {
+            layer::copy_collision(m, cam, src, w);
+        }
+    }
+    set_carry(m, w.is_some());
     Flow::Return
 }
 
@@ -535,6 +574,15 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let r = m.cpu.a[0]; lists::advance_ring(m, r); Flow::Return } },
     SystemPort { entry: 0x09_97CC, original: "Trail_RingAdvance_0997cc", rust: "system::lists::advance_trail", run: ret!(lists::advance_trail) },
     SystemPort { entry: 0x08_F8E2, original: "PlayerSlot_ClearP3Cur_08f8e2", rust: "system::lists::clear_parity_byte", run: ret!(lists::clear_parity_byte) },
+    // --- tiles y colisión de las capas
+    SystemPort { entry: 0x05_1C08, original: "Layer_Refresh_051C08", rust: "system::layer::refresh", run: |m| layer_port(m, layer::refresh) },
+    SystemPort { entry: 0x05_1C82, original: "Layer_ScrollX_051C82", rust: "system::layer::scroll_x", run: |m| layer_port(m, layer::scroll_x) },
+    SystemPort { entry: 0x05_1CF6, original: "Layer_ScrollY_051CF6", rust: "system::layer::scroll_y", run: |m| layer_port(m, layer::scroll_y) },
+    SystemPort { entry: 0x04_3DF4, original: "CameraHook_Probe08_043DF4", rust: "system::layer::refresh_all", run: |m| hook_port(m, layer::refresh) },
+    SystemPort { entry: 0x04_3E0E, original: "CameraHook_ScrollX_043E0E", rust: "system::layer::scroll_x_all", run: |m| hook_port(m, layer::scroll_x) },
+    SystemPort { entry: 0x04_3E24, original: "CameraHook_ScrollY_043E24", rust: "system::layer::scroll_y_all", run: |m| hook_port(m, layer::scroll_y) },
+    SystemPort { entry: 0x05_1BA8, original: "Layer_TileLookup_051BA8", rust: "system::layer::tile_lookup",
+                 run: |m| { let (c, col) = (m.cpu.a[0], m.cpu.d[0] as u16); layer::tile_lookup(m, c, col); Flow::Return } },
     // --- scroll de la escena
     SystemPort { entry: 0x04_37DA, original: "SceneScriptVM_Frame_0437DA", rust: "system::scroll::frame",
                  run: |m| { let v = (m.cpu.d[0], m.cpu.d[1]); scroll::frame(m, v); Flow::Return } },

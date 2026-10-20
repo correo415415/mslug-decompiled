@@ -1286,6 +1286,9 @@ pub mod scroll {
     pub const C_VISIBLE: u8 = 1 << 0;
     pub const C_PATH: u32 = 0x0E;
     pub const C_TILE_TABLE: u32 = 0x12;
+    /// Ventana visible de la capa en el mapa: (x, y) en píxeles y
+    /// (ancho, alto) en celdas.
+    pub const C_BOX: [u32; 4] = [0x16, 0x18, 0x1A, 0x1C];
     pub const C_ORIGIN_CELL: [u32; 2] = [0x1E, 0x20];
     pub const C_TILE_BASE: [u32; 2] = [0x22, 0x24];
     pub const C_TILE_ROW: u32 = 0x26;
@@ -1311,9 +1314,6 @@ pub mod scroll {
 
     /// Rutinas originales que el scroll aún llama.
     pub const TICKS: [u32; 4] = [0x07_7092, 0x08_F172, 0x09_97CC, 0x08_F8E2];
-    pub const PROBE: u32 = 0x04_3DF4;
-    pub const SCROLL_X_HOOK: u32 = 0x04_3E0E;
-    pub const SCROLL_Y_HOOK: u32 = 0x04_3E24;
 
     /// Marcador de depuración de la misión: lista de registros de 16 bytes
     /// {.., rel_x.b, rel_y.b, x.w, y.w, ...} con el avance en `+$10` del

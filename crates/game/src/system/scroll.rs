@@ -12,7 +12,7 @@
 //! `CollMap_TestPoint_043F02`, `$04CAC4`, `$04CB88`, `$051B1C`, `$051B38`,
 //! `$051B3E`, `$051B80`, `$051ECE`, `TransformCommit_MMIO_051F30`, `$051F94`.
 
-use super::{irq, scene, sound, sprite, video};
+use super::{irq, layer, scene, sound, sprite, video};
 use crate::layout::{focus as F, hw, scene as SC, scroll as L, sprites as S, system as Y};
 use crate::mem::{Machine, Memory};
 
@@ -160,8 +160,8 @@ fn simple_op(m: &mut impl Machine, op: u16, pc: u32) {
         }
         L::OP_PROBE_SHOW => {
             let cam = m.read_u32(pc + 2);
-            let r = call(m, L::PROBE, |r| r.a[0] = cam);
-            show(m, r.a[0]);
+            layer::refresh_all(m, cam);
+            show(m, cam);
         }
         L::OP_CLEAR_TILES => {
             let cam = m.read_u32(pc + 2);
@@ -443,19 +443,15 @@ pub fn apply(m: &mut impl Machine, cam: u32) {
     let dx = i32::from(read_i16(m, L::DELTA_X)) * i32::from(read_i16(m, cam + L::C_SCALE[0]));
     let dy = i32::from(read_i16(m, L::DELTA_Y)) * i32::from(read_i16(m, cam + L::C_SCALE[1]));
     let (dx, dy) = move_layer(m, cam, (dx << 8) as u32, (dy << 8) as u32);
+    let _ = (dx, dy);
+    // Modo de la capa: bit 0 = pinta las columnas que entran, bit 1 = las filas.
     let mode = m.read_u8(cam + L::C_SCROLL_MODE);
-    // Los ganchos reciben lo que deja `$051B80` en d0/d1 (parte baja de la
-    // posición nueva arriba, desplazamiento abajo) y se encadenan.
-    let mut regs = m.regs();
-    regs.a[0] = cam;
-    regs.d[0] = (m.read_u32(cam + L::C_POS[0]) << 16) | u32::from(dx);
-    regs.d[1] = (m.read_u32(cam + L::C_POS[1]) << 16) | u32::from(dy);
-    for (bit, hook) in [(0, L::SCROLL_X_HOOK), (1, L::SCROLL_Y_HOOK)] {
-        if mode & (1 << bit) != 0 {
-            m.call_original(hook, &mut regs);
-        }
+    if mode & 1 != 0 {
+        layer::scroll_x_all(m, cam);
     }
-    m.set_regs(regs);
+    if mode & 2 != 0 {
+        layer::scroll_y_all(m, cam);
+    }
     commit(m, cam);
 }
 
