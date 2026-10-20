@@ -79,6 +79,73 @@ pub fn init(m: &mut impl Memory) {
     }
 }
 
+/// Da de alta en el bloque `t` una tarea con rutina `handler`, hija de la
+/// tarea `parent`: va justo detrás de ella en la lista, con prioridad una
+/// más. Original: `Task_AllocAndMarkBusy_00050e` (la parte común con
+/// `Task_Alloc_0004AE` empieza en `$0004C6`).
+pub fn spawn_at(m: &mut impl Memory, t: u32, handler: u32, parent: u32) {
+    reset_block(m, t);
+    m.write_u32(t + T::HANDLER, handler);
+    m.write_u32(t + T::OWNER, parent);
+    let prio = m.read_u8(parent + T::PRIORITY).wrapping_add(1);
+    m.write_u8(t + T::PRIORITY, prio);
+    let next = m.read_u32(parent + T::NEXT);
+    m.write_u32(parent + T::NEXT, t);
+    m.write_u32(t + T::PREV, parent);
+    m.write_u32(t + T::NEXT, next);
+    m.write_u32(next + T::PREV, t);
+    init_fields(m, t);
+}
+
+/// Como [`spawn_at`], marcando la tarea como fija.
+/// Original: `Task_AllocAndMarkBusy_00050e`.
+pub fn spawn_fixed_at(m: &mut impl Memory, t: u32, handler: u32, parent: u32) {
+    spawn_at(m, t, handler, parent);
+    let f = m.read_u8(t + T::FLAGS);
+    m.write_u8(t + T::FLAGS, f | T::FLAGS_FIXED);
+}
+
+/// Crea una tarea en un bloque libre. Devuelve el bloque, o el bloque de
+/// desbordamiento si no quedan (y entonces no se crea nada).
+/// Original: `Task_Alloc_0004AE`.
+pub fn spawn(m: &mut impl Memory, handler: u32, parent: u32) -> u32 {
+    let t = m.read_u32(T::FREE_LIST);
+    if t == T::NIL {
+        return T::OVERFLOW_BLOCK;
+    }
+    let next = m.read_u32(t + T::NEXT);
+    m.write_u32(T::FREE_LIST, next);
+    spawn_at(m, t, handler, parent);
+    t
+}
+
+/// Reinicia una tarea en su sitio (conserva prioridad y enlaces) y la
+/// marca como fija. Original: `$0005FE`.
+pub fn reset_in_place(m: &mut impl Memory, t: u32) {
+    let prio = m.read_u16(t + T::PRIORITY);
+    reset_block(m, t);
+    m.write_u16(t + T::PRIORITY, prio);
+    m.write_u16(t + T::FLAGS, u16::from(T::FLAGS_FIXED) << 8);
+}
+
+/// Tarea de arranque: pone rutina a las tareas fijas, reinicia las de los
+/// jugadores, enlaza cada jugador con su tarea de control y se queda sin
+/// nada que hacer. Original: `TaskSlots_BootInstall_000A7C`.
+pub fn boot_install(m: &mut impl Machine) {
+    let me = m.task_register();
+    for (t, handler) in T::BOOT_INSTALL {
+        spawn_fixed_at(m, t, handler, me);
+    }
+    for t in T::BOOT_RESET {
+        reset_in_place(m, t);
+    }
+    for k in 0..2 {
+        let e = crate::layout::PLAYER_ENTITY[k];
+        m.write_u32(e + T::OWNER, crate::layout::input::PLAYER_TASK[k]);
+    }
+    m.write_u32(me + T::HANDLER, routine::BOOT_DONE);
+}
+
 /// Arranca el planificador en la primera tarea. No vuelve: la ejecución
 /// pasa a la rutina de la tarea, y al volver ésta sigue en
 /// [`after_task`]. Original: `Scheduler_MainLoop_000656`.

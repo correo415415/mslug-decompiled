@@ -300,6 +300,29 @@ pub mod task {
     /// Punteros de la tarea que se ponen a "ninguno" (`NIL`), de 4 en 4.
     pub const PTR_SLOTS_FIRST: u32 = 0x10;
     pub const PTR_SLOTS_LAST: u32 = 0x9C;
+    /// Bloque al que apuntan las altas cuando el almacén está vacío (las
+    /// escrituras de una tarea que no se pudo crear caen ahí).
+    pub const OVERFLOW_BLOCK: u32 = 0x10_09E0;
+    /// Tarea de arranque y las tareas fijas a las que pone rutina.
+    pub const BOOT: u32 = 0x10_0120;
+    /// (tarea, rutina) que instala la tarea de arranque, en orden.
+    pub const BOOT_INSTALL: [(u32, u32); 12] = [
+        (0x10_08A0, super::routine::IDLE),
+        (0x10_0800, super::routine::IDLE),
+        (0x10_06C0, 0x03_240C),
+        (0x10_0440, super::routine::IDLE),
+        (0x10_04E0, super::routine::IDLE),
+        (0x10_0620, 0x03_2406),
+        (0x10_0580, super::routine::IDLE),
+        (0x10_0760, 0x02_9582),
+        (0x10_0300, super::routine::IDLE),
+        (0x10_03A0, super::routine::IDLE),
+        (0x10_0260, super::routine::IDLE),
+        (0x10_01C0, super::routine::SCHEDULER_BOOTSTRAP),
+    ];
+    /// Tareas que la de arranque reinicia después (las entidades de los
+    /// jugadores y otra).
+    pub const BOOT_RESET: [u32; 3] = [0x10_0440, 0x10_04E0, 0x10_0580];
     /// Valores iniciales de los campos de una tarea (offset, valor).
     /// Original: `Entity_InitFields_05DC34`.
     pub const RESET_WORDS: [(u32, u16); 8] =
@@ -458,6 +481,12 @@ pub mod pads {
 pub mod routine {
     /// `rts` suelto: gancho por defecto de la interrupción del temporizador.
     pub const NOP: u32 = 0x00_08F2;
+    /// Rutina de tarea que no hace nada (`rts`).
+    pub const IDLE: u32 = 0x00_0400;
+    /// `rts` que deja la tarea de arranque al acabar.
+    pub const BOOT_DONE: u32 = 0x00_0B90;
+    /// Rutina de la tarea que arranca la partida / el título.
+    pub const SCHEDULER_BOOTSTRAP: u32 = 0x00_0E8E;
     pub const SCHEDULER: u32 = 0x00_0656;
     /// Punto del planificador al que vuelven las tareas.
     pub const SCHEDULER_AFTER_TASK: u32 = 0x00_06CA;

@@ -241,6 +241,45 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x00_226A, original: "Sound_PumpQueue_00226a", rust: "system::sound::pump", run: ret!(sound::pump) },
     // --- tareas
     SystemPort { entry: 0x00_0410, original: "Task_FreeListInit_000410", rust: "system::tasks::init", run: ret!(tasks::init) },
+    SystemPort { entry: 0x00_0A7C, original: "TaskSlots_BootInstall_000A7C", rust: "system::tasks::boot_install",
+                 run: |m| {
+                     tasks::boot_install(m);
+                     // El original deja la última tarea reiniciada en a0 y su
+                     // propia rutina nueva en a1.
+                     m.cpu.a[0] = mslug_game::layout::task::BOOT_RESET[2];
+                     m.cpu.a[1] = mslug_game::layout::routine::BOOT_DONE;
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_04AE, original: "Task_Alloc_0004AE", rust: "system::tasks::spawn",
+                 run: |m| {
+                     let parent = m.cpu.a[6];
+                     let handler = m.cpu.a[1];
+                     let next = m.read_u32(parent + mslug_game::layout::task::NEXT);
+                     let t = tasks::spawn(m, handler, parent);
+                     m.cpu.a[0] = t;
+                     if t != mslug_game::layout::task::OVERFLOW_BLOCK {
+                         m.cpu.a[1] = next;
+                         m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(m.read_u8(t + mslug_game::layout::task::PRIORITY));
+                     }
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_050E, original: "Task_AllocAndMarkBusy_00050e", rust: "system::tasks::spawn_fixed_at",
+                 run: |m| {
+                     let (t, handler, parent) = (m.cpu.a[0], m.cpu.a[1], m.cpu.a[6]);
+                     let next = m.read_u32(parent + mslug_game::layout::task::NEXT);
+                     tasks::spawn_fixed_at(m, t, handler, parent);
+                     m.cpu.a[1] = next;
+                     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(m.read_u8(t + mslug_game::layout::task::PRIORITY));
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_05FE, original: "Task_ResetInPlace_0005FE", rust: "system::tasks::reset_in_place",
+                 run: |m| {
+                     let t = m.cpu.a[0];
+                     let prio = m.read_u16(t + mslug_game::layout::task::PRIORITY);
+                     tasks::reset_in_place(m, t);
+                     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(prio);
+                     Flow::Return
+                 } },
     SystemPort { entry: 0x00_0656, original: "Scheduler_MainLoop_000656", rust: "system::tasks::run", run: |m| tasks::run(m) },
     SystemPort { entry: 0x00_06CA, original: "Scheduler_AfterTask_0006CA", rust: "system::tasks::after_task", run: |m| tasks::after_task(m) },
     SystemPort { entry: 0x00_1B40, original: "Players_StoreActiveCount_001b40", rust: "system::tasks::store_active_players",
