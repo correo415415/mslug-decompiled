@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, manual, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -169,6 +169,21 @@ pub struct SystemPort {
     pub original: &'static str,
     pub rust: &'static str,
     pub run: SystemFn,
+}
+
+/// Alta de una tarea de fundido (registros como `Task_Alloc_0004AE`).
+fn fade_spawn(m: &mut CpuMachine, kind: usize) -> Flow {
+    use mslug_game::layout::task as T;
+    let parent = m.cpu.a[6];
+    let next = m.read_u32(parent + T::NEXT);
+    let t = palette::spawn_fade(m, kind, parent, m.cpu.d[0] as u16);
+    m.cpu.a[0] = t;
+    if t != T::OVERFLOW_BLOCK {
+        m.cpu.a[1] = next;
+    } else {
+        m.cpu.a[1] = mslug_game::layout::fade::SPAWNERS[kind].1;
+    }
+    Flow::Return
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -487,6 +502,32 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let n = m.cpu.d[0] as u16; let f = scene::take_sprites(m, true, n); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(f); Flow::Return } },
     SystemPort { entry: 0x01_3952, original: "Spawn_TypeB_013952", rust: "system::scene::take_sprites",
                  run: |m| { let n = m.cpu.d[0] as u16; let f = scene::take_sprites(m, false, n); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(f); Flow::Return } },
+    // --- manual de juego
+    SystemPort { entry: 0x08_C008, original: "Anim_State_F1_08C008", rust: "system::manual::start", run: |m| manual::start(m) },
+    SystemPort { entry: 0x08_C10A, original: "Anim_State_F1_08C008 (+$102)", rust: "system::manual::fade_in", run: |m| manual::fade_in(m) },
+    SystemPort { entry: 0x08_C15E, original: "Anim_State_F2_08C15E", rust: "system::manual::light_up", run: |m| manual::light_up(m) },
+    SystemPort { entry: 0x08_C1AC, original: "Anim_State_F3_08C1AC", rust: "system::manual::steps", run: |m| manual::steps(m) },
+    SystemPort { entry: 0x08_C1EA, original: "Anim_State_F4_08C1EA", rust: "system::manual::dim", run: |m| manual::dim(m) },
+    SystemPort { entry: 0x08_C23A, original: "Anim_State_F5_08C23A", rust: "system::manual::fade_out", run: |m| manual::fade_out(m) },
+    SystemPort { entry: 0x08_C296, original: "Anim_State_F6_08C296", rust: "system::manual::wait_end", run: |m| manual::wait_end(m) },
+    SystemPort { entry: 0x08_BC74, original: "Anim_ScriptStep_08bc74", rust: "system::manual::step_script",
+                 run: |m| { let t = m.cpu.a[6]; let c = manual::step_script(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_239E, original: "Fade_Spawn_05239E", rust: "system::palette::spawn_fade", run: |m| fade_spawn(m, 0) },
+    SystemPort { entry: 0x05_23B2, original: "Fade_Spawn_0523B2", rust: "system::palette::spawn_fade", run: |m| fade_spawn(m, 1) },
+    SystemPort { entry: 0x05_23C6, original: "Fade_Spawn_0523C6", rust: "system::palette::spawn_fade", run: |m| fade_spawn(m, 2) },
+    SystemPort { entry: 0x05_23DA, original: "Fade_Spawn_0523DA", rust: "system::palette::spawn_fade", run: |m| fade_spawn(m, 3) },
+    // --- foco de la cámara
+    SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
+                 run: |m| {
+                     let ((x0, y0), (x2, y2)) = scroll::focus(m);
+                     m.cpu.d[0] = x0; m.cpu.d[1] = y0; m.cpu.d[2] = x2; m.cpu.d[3] = y2;
+                     m.cpu.a[0] = mslug_game::layout::focus::PLAYERS[1];
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x05_E2D8, original: "Player_Point_05E2D8", rust: "system::scroll::player_point",
+                 run: |m| { let t = m.cpu.a[0]; let (x, y) = scroll::player_point(m, t); m.cpu.d[0] = x; m.cpu.d[1] = y; Flow::Return } },
+    SystemPort { entry: 0x04_36DE, original: "Geom_Proj_Clamp_0436DE", rust: "system::scroll::follow",
+                 run: |m| { let d = m.cpu.d; scroll::follow(m, (d[0], d[1]), (d[2], d[3])); Flow::Return } },
     // --- scroll de la escena
     SystemPort { entry: 0x04_37DA, original: "SceneScriptVM_Frame_0437DA", rust: "system::scroll::frame",
                  run: |m| { let v = (m.cpu.d[0], m.cpu.d[1]); scroll::frame(m, v); Flow::Return } },

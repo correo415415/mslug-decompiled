@@ -1333,3 +1333,97 @@ pub mod scroll {
     pub const COLL_CAMERA: u32 = 0x10_6F6C;
     pub const COLL_ORIGIN: [u32; 2] = [0x04, 0x08];
 }
+
+/// Foco de la cámara: los dos jugadores y la ventana en la que la cámara
+/// los mantiene.
+pub mod focus {
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    /// Rutinas de un jugador que no está en juego.
+    pub const INACTIVE: [u32; 3] = [0xFFFF_FFFF, 0x00_052A, 0x00_0400];
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    /// Bit 7: la Y del jugador cuenta.
+    pub const FLAGS: u32 = 0x5B;
+    pub const HAS_Y: u8 = 1 << 7;
+    /// Altura de la pantalla para invertir la Y.
+    pub const SCREEN_H: u16 = 0x200;
+    /// Ventana horizontal y vertical del foco.
+    pub const WINDOW_X: (u16, u16) = (0x1E, 0x117);
+    pub const WINDOW_Y: (u16, u16) = (0, 0xD0);
+    pub const SPEED_LIMIT: i32 = 0x8_0000;
+}
+
+/// Manual de juego («cómo jugar»): la tarea que crea el inicio de misión
+/// cuando la BIOS tiene activado `script::PLAY_MANUAL`.
+pub mod manual {
+    /// Rutina de cada fase (la tarea pasa de una a otra).
+    pub const START: u32 = 0x08_C008;
+    pub const FADE_IN: u32 = 0x08_C10A;
+    pub const LIGHT_UP: u32 = 0x08_C15E;
+    pub const STEPS: u32 = 0x08_C1AC;
+    pub const DIM: u32 = 0x08_C1EA;
+    pub const FADE_OUT: u32 = 0x08_C23A;
+    pub const WAIT_END: u32 = 0x08_C296;
+    /// Sonido al empezar, gráficos y guion de animación del manual.
+    pub const SOUND: u16 = 0x2B;
+    pub const GFX: u16 = 0x12E;
+    pub const ANIM: u32 = 0x2F_2DBE;
+    pub const POS: (u16, u16) = (0xA0, 0x1C3);
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const Z: u32 = 0x26;
+    pub const FIELD_38: u32 = 0x38;
+    pub const FIELD_38_INIT: u16 = 0x4000;
+    pub const FLAGS_12: u32 = 0x12;
+    pub const FLAGS_12_SET: u8 = 1 << 6;
+    /// Escena de fondo del manual.
+    pub const SCENE: u8 = 9;
+    /// Guion de pasos: registros de 8 bytes {frames.w, valor.w, b4, b5, -}
+    /// acabados en frames = `STEP_END`.
+    pub const STEP_TIMER: u32 = 0x70;
+    pub const STEP_VALUE: u32 = 0x76;
+    pub const STEP_OFFSET: u32 = 0x78;
+    pub const STEP_SCRIPT: u32 = 0x7C;
+    pub const STEP_BYTES: [u32; 2] = [0x92, 0x93];
+    pub const STEP_SIZE: u32 = 8;
+    pub const STEP_END: u16 = 0xFFFF;
+    pub const STEPS_SCRIPT: u32 = 0x2E_F8AA;
+    /// Puntero a un bloque propio (`+$90`).
+    pub const SELF_PTR: u32 = 0x72;
+    pub const SELF_BLOCK: u32 = 0x90;
+    /// Tarea hija con posición y un byte de tipo.
+    pub const CHILD: u32 = 0x02_AE50;
+    pub const CHILD_POS: (u16, u16) = (0xA0, 0x1FF);
+    pub const CHILD_KIND: u32 = 0x98;
+    pub const CHILD_KIND_VALUE: u8 = 3;
+    /// Rutina que se pone en la tarea del jugador 1 (reiniciada).
+    pub const PLAYER_TASK: u32 = 0x10_0440;
+    pub const PLAYER_HANDLER: u32 = 0x03_35A6;
+    /// Iconos y textos del manual (tareas hijas).
+    pub const ICONS: [u32; 6] = [0x08_C2B8, 0x08_C322, 0x08_C37E, 0x08_C3DA, 0x08_C436, 0x08_C5B2];
+    /// Brillo de dos canales (bytes) y fase.
+    pub const LEVEL: [u32; 2] = [0x32, 0x33];
+    pub const PHASE: u32 = 0x34;
+    pub const PHASE_END: i16 = 0x3F;
+    pub const LEVEL_MAX: u16 = 0xFF;
+    /// Tablas de seno (palabras): de subida y de bajada.
+    pub const SINE_UP: u32 = 0x2C_072C;
+    pub const SINE_DOWN: u32 = 0x2C_07AC;
+    /// Rectángulo de la capa fija que se borra al empezar los pasos
+    /// (dirección, carácter, columnas, filas).
+    pub const CLEAR_RECT: (u16, u16, u16, u16) = (0x7084, 0x2320, 0x20, 0x19);
+    /// Al acabar: ajuste de sonido, fundido y espera.
+    pub const END_SETTING: u8 = 0x80;
+    pub const END_FADE: u16 = 2;
+    pub const END_WAIT: u16 = 0x3C;
+    pub const TIMER: u32 = 0x70;
+}
+
+/// Tareas de fundido de la paleta: cada alta crea una con su rutina y le
+/// deja `d0` en `PARAM`.
+pub mod fade {
+    /// (entrada original, rutina de la tarea).
+    pub const SPAWNERS: [(u32, u32); 4] =
+        [(0x05_239E, 0x05_23EE), (0x05_23B2, 0x05_24AA), (0x05_23C6, 0x05_23FA), (0x05_23DA, 0x05_24B6)];
+    pub const PARAM: u32 = 0x70;
+}

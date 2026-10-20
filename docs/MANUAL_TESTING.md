@@ -128,8 +128,10 @@ escenas y la despacha); ejecuta la primera escena (logo: créditos y nivel en la
 la pantalla de título (logo animado por guion, copyright, mensaje parpadeante
 según créditos, cuenta atrás) y las tareas fijas, hace el render del frame (`system::palette`,
 `system::render`, `system::sprite`), acepta el inicio de partida
-(`PLAYER_START`), entra en la misión y se para en el frame 503 en
-`Anim_State_F1_08C008` (manual de juego, aún sin portar).
+(`PLAYER_START`), entra en la misión, carga la escena y corre el manual
+de juego y el guion de scroll; se para en el frame 503 en
+`Platform_ClearListByScroll_077092` (el primer tick que llama el frame de
+scroll, aún sin portar).
 
 ### Progreso: `mslug progress`
 

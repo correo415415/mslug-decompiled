@@ -351,3 +351,13 @@ mod tests {
         assert_eq!(m.read_u16(hw::PALETTE_RAM + 15 * 16 * P::SIZE + 2), P::WHITE);
     }
 }
+
+/// Crea una tarea de fundido de la paleta del tipo `kind` (ver
+/// `fade::SPAWNERS`), hija de `parent`, con su parámetro. Devuelve la tarea.
+/// Original: `$05239E`, `$0523B2`, `$0523C6`, `$0523DA`.
+pub fn spawn_fade(m: &mut impl Memory, kind: usize, parent: u32, param: u16) -> u32 {
+    use crate::layout::fade as FD;
+    let t = super::tasks::spawn(m, FD::SPAWNERS[kind].1, parent);
+    m.write_u16(t + FD::PARAM, param);
+    t
+}

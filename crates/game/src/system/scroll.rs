@@ -13,7 +13,7 @@
 //! `$051B3E`, `$051B80`, `$051ECE`, `TransformCommit_MMIO_051F30`, `$051F94`.
 
 use super::{irq, scene, sound, sprite, video};
-use crate::layout::{hw, scene as SC, scroll as L, sprites as S, system as Y};
+use crate::layout::{focus as F, hw, scene as SC, scroll as L, sprites as S, system as Y};
 use crate::mem::{Machine, Memory};
 
 fn read_i16(m: &mut impl Memory, a: u32) -> i16 {
@@ -28,12 +28,13 @@ pub fn frame(m: &mut impl Machine, vel: (u32, u32)) {
     } else {
         vel
     };
+    let mut r = m.regs();
+    r.d[0] = vel.0;
+    r.d[1] = vel.1;
     for t in L::TICKS {
-        call(m, t, |r| {
-            r.d[0] = vel.0;
-            r.d[1] = vel.1;
-        });
+        m.call_original(t, &mut r);
     }
+    m.set_regs(r);
     run_script(m);
     end_frame(m, vel);
 }
@@ -240,6 +241,85 @@ fn publish_bases(m: &mut impl Memory) {
         let v = m.read_u16(from);
         m.write_u16(to, v);
     }
+}
+
+/// Caja que encierra a los jugadores en juego: devuelve ((x, y) del
+/// segundo, (x, y) del primero), como longs; si a uno le falta un dato se
+/// usa el del otro (negativo = nadie). Original: `$0967C0`.
+pub fn focus(m: &mut impl Memory) -> ((u32, u32), (u32, u32)) {
+    let (mut x2, mut y2) = player_point(m, F::PLAYERS[0]);
+    let (mut x0, mut y0) = player_point(m, F::PLAYERS[1]);
+    if (x0 as i32) < 0 {
+        x0 = x2;
+    }
+    if (x2 as i32) < 0 {
+        x2 = x0;
+    }
+    if (y0 as i32) < 0 {
+        y0 = y2;
+    }
+    if (y2 as i32) < 0 {
+        y2 = y0;
+    }
+    ((x0, y0), (x2, y2))
+}
+
+/// Posición de un jugador (longs; `0xFFFFFFFF` si no está en juego o su
+/// Y no cuenta). Original: `$05E2D8`.
+pub fn player_point(m: &mut impl Memory, t: u32) -> (u32, u32) {
+    if F::INACTIVE.contains(&m.read_u32(t)) {
+        return (u32::MAX, u32::MAX);
+    }
+    let x = u32::from(m.read_u16(t + F::X));
+    let y = if m.read_u8(t + F::FLAGS) & F::HAS_Y != 0 { u32::from(m.read_u16(t + F::Y)) } else { u32::MAX };
+    (x, y)
+}
+
+/// La cámara sigue la caja de los jugadores (`a` = d0/d1, `b` = d2/d3,
+/// como los deja [`focus`]) y corre el frame del guion de scroll.
+/// Original: `Geom_Proj_Clamp_0436DE`.
+pub fn follow(m: &mut impl Machine, a: (u32, u32), b: (u32, u32)) {
+    let vel = if m.read_u8(L::EDGE_OFF) != 0 || (a.0 as i32) < 0 || (a.1 as i32) < 0 {
+        (0, 0)
+    } else {
+        let order = |p: u16, q: u16| if q < p { (q, p) } else { (p, q) };
+        let (x0, x1) = order(a.0 as u16, b.0 as u16);
+        // Y de pantalla hacia arriba.
+        let (y0, y1) = order(F::SCREEN_H.wrapping_sub(a.1 as u16), F::SCREEN_H.wrapping_sub(b.1 as u16));
+        let vx = follow_axis(x0, x1, m.read_u16(L::PAIR[0]), F::WINDOW_X);
+        let center_y = m.read_u16(L::PAIR[1]).wrapping_sub(m.read_u16(L::SMOOTH_ACC));
+        let vy = follow_axis(y0, y1, center_y, F::WINDOW_Y);
+        (vx, vy)
+    };
+    frame(m, vel);
+}
+
+/// Velocidad (16.16) de un eje: si el centro de la caja `lo..hi` se aleja
+/// más de un píxel de `center`, 1,5 veces el desvío sin que ningún extremo
+/// salga de `window`, en 1/16 y con tope. Original: `$04374C`.
+fn follow_axis(lo: u16, hi: u16, center: u16, window: (u16, u16)) -> u32 {
+    let fx = |v: u16| (u32::from(v) << 16) as i32;
+    let (lo, hi, center) = (fx(lo), fx(hi), fx(center));
+    let d = (lo.wrapping_add(hi) >> 1).wrapping_sub(center).wrapping_add(0x1_0000);
+    if (d as u32) < 0x2_0000 {
+        return 0;
+    }
+    let d = d.wrapping_sub(0x1_0000);
+    let room_lo = lo.wrapping_sub(fx(window.0));
+    let room_hi = hi.wrapping_sub(fx(window.1));
+    let mut v = d.wrapping_add(d >> 1);
+    if v >= 0 {
+        if room_lo < 0 {
+            v = 0;
+        } else if v > room_lo {
+            v = room_lo;
+        }
+    } else if room_hi > 0 {
+        v = 0;
+    } else if v < room_hi {
+        v = room_hi;
+    }
+    (v >> 4).clamp(-F::SPEED_LIMIT, F::SPEED_LIMIT) as u32
 }
 
 /// Cierre del frame: mueve la cámara principal, mide el avance, suaviza la

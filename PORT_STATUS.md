@@ -8,16 +8,16 @@
 > | Port manual | |
 > |---|---|
 > | **Funciones del juego** (rutinas de código de la decompilación, `tools/recomp/decomp_funcs.tsv`) | **7 887** (474 564 bytes) |
-> | **Portadas a Rust legible** | **187 = 2,37 %** (por bytes: 17 438 = 3,67 %); 208 entradas sustituidas contando vectores y entradas internas |
-> | **Hasta dónde llega** (`--only-manual`) | arranque → logo → título → demo → START → inicio de la misión 1; se para en el frame 503 en el manual de juego (`Anim_State_F1_08C008`) |
+> | **Portadas a Rust legible** | **235 = 2,98 %** (por bytes: 21 936 = 4,62 %); 261 entradas sustituidas contando vectores y entradas internas |
+> | **Hasta dónde llega** (`--only-manual`) | arranque → logo → título → demo → START → inicio de la misión 1 → manual de juego y scroll; se para en el frame 503 en `Platform_ClearListByScroll_077092` (primer tick del frame de scroll) |
 > | Cómo medirlo | `mslug progress` (también en el resumen de la CI) |
 > | Rutinas originales con función Rust legible | 60 (input, player::controls/voice/weapons/invuln) |
 > | `verify-manual` (auto 8000 + fuzz 1–3 × 15 000 frames) | ✅ 0 fallos |
 > | Jugable: `mslug-sdl --manual` | 57 sustituidas (3 aún llaman a rutinas sin portar) |
 > | `lockstep-manual --atomic-ref` (auto 8000 + fuzz 1–3) | ✅ mismo estado que el recompilado en cada frame |
-> | Rutinas de sistema portadas (`crates/game/src/system`) | 151 entradas: arranque/USER, vblank, temporizador, planificador, bucle de frame, render, mandos, pausa, sonido, paletas y fundidos, lista de dibujo y SCB1–4, título, capa fija, VRAM |
+> | Rutinas de sistema portadas (`crates/game/src/system`) | 203 entradas: arranque/USER, vblank, temporizador, planificador, bucle de frame, render, mandos, pausa, sonido, paletas y fundidos, lista de dibujo y SCB1–4, título, capa fija, VRAM, carga de escena, scroll y cámara, manual de juego |
 > | `verify-system` (estado completo; auto 1500 + fuzz 1) | ✅ 0 fallos (12 000 frames con fuzz 1: 127 324 llamadas) |
-> | **Sólo port manual** (`--only-manual`, sin recompilado ni intérprete) | arranca, inicializa, ejecuta la tarea de arranque y el guion de arranque; ejecuta la primera escena (logo) y el HUD de créditos; ejecuta la pantalla de título (logo animado, copyright, mensaje, cuenta atrás) y las tareas fijas; hace el render del frame (paletas y fundidos, orden de la lista de dibujo, SCB1–SCB4); da de alta los sprites en la lista de dibujo (`system::sprite`), acepta el inicio de partida (`PLAYER_START`) y entra en la misión; se para en el frame 503 en `Anim_State_F1_08C008` (manual de juego, `PLAY MANUAL`) (antes: `Sprite_Dispatch_05A9E2`, `VBlank_RenderFrame_002098`, `$091330`, `TaskSlots_BootInstall`, `SchedulerBootstrap_Boot`, `AttractHandler_00109C`) |
+> | **Sólo port manual** (`--only-manual`, sin recompilado ni intérprete) | arranca, inicializa, ejecuta la tarea de arranque y el guion de arranque; ejecuta la primera escena (logo) y el HUD de créditos; ejecuta la pantalla de título (logo animado, copyright, mensaje, cuenta atrás) y las tareas fijas; hace el render del frame (paletas y fundidos, orden de la lista de dibujo, SCB1–SCB4); da de alta los sprites en la lista de dibujo (`system::sprite`), acepta el inicio de partida (`PLAYER_START`) y entra en la misión, carga la escena, corre el manual de juego (`PLAY MANUAL`) y el guion de scroll; se para en el frame 503 en `Platform_ClearListByScroll_077092` (antes: `Anim_State_F1_08C008`, `Sprite_Dispatch_05A9E2`, `VBlank_RenderFrame_002098`, `$091330`, `TaskSlots_BootInstall`, `SchedulerBootstrap_Boot`, `AttractHandler_00109C`) |
 > | Hoja de ruta (`mslug roadmap`) | rutinas en orden de primera ejecución, portadas o no |
 > | Assets (`scripts/extract_assets.sh`) | ✅ idénticos a la rama de la decompilación |
 
