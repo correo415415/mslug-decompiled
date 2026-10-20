@@ -9,6 +9,7 @@
 
 pub mod boot;
 pub mod frame;
+pub mod hud;
 pub mod irq;
 pub mod pads;
 pub mod rng;

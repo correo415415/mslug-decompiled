@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{boot, frame, irq, pads, rng, script, sound, tasks, video};
+use mslug_game::system::{boot, frame, hud, irq, pads, rng, script, sound, tasks, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -335,6 +335,43 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: ret!(script::stop_scene) },
     SystemPort { entry: 0x00_1D3C, original: "Task_ResetAllSlots_001d3c", rust: "system::script::stop_scene_keep",
                  run: ret!(script::stop_scene_keep) },
+    // escenas
+    SystemPort { entry: 0x00_109C, original: "AttractHandler_00109C", rust: "system::script::scene_logo", run: |m| script::scene_logo(m) },
+    SystemPort { entry: 0x00_10E8, original: "SchedTail_JsrDB8_0010E8", rust: "system::script::scene_logo_wait", run: |m| script::scene_logo_wait(m) },
+    SystemPort { entry: 0x00_10F2, original: "AttractHandler_2Task_0010F2", rust: "system::script::scene_continue", run: |m| script::scene_continue(m) },
+    SystemPort { entry: 0x00_1148, original: "AttractPhase2_Gate106ED5_001148", rust: "system::script::scene_continue_wait",
+                 run: |m| script::scene_continue_wait(m) },
+    SystemPort { entry: 0x00_1172, original: "AttractHandler_Frame_001172", rust: "system::script::scene_hiscores", run: |m| script::scene_hiscores(m) },
+    SystemPort { entry: 0x00_11CA, original: "AttractPhase2_Multiway_0011CA", rust: "system::script::scene_wait", run: |m| script::scene_wait(m) },
+    SystemPort { entry: 0x00_11EA, original: "AttractHandler_Loader_0011EA", rust: "system::script::scene_hiscore_table",
+                 run: |m| script::scene_hiscore_table(m) },
+    SystemPort { entry: 0x00_122E, original: "AttractPhase2_Probes5D0_00122E", rust: "system::script::scene_hiscore_table_wait",
+                 run: |m| script::scene_hiscore_table_wait(m) },
+    SystemPort { entry: 0x00_12F4, original: "BootScr_GameOver_0012f4", rust: "system::script::scene_game_over", run: |m| script::scene_game_over(m) },
+    SystemPort { entry: 0x00_1332, original: "BootScr_WaitHudThenLoop_001332", rust: "system::script::scene_wait", run: |m| script::scene_wait(m) },
+    SystemPort { entry: 0x05_D09A, original: "Sub_0005D09A", rust: "system::script::button_pressed",
+                 run: |m| {
+                     let c = script::button_pressed(m, 0);
+                     m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x05_D0AC, original: "Sub_0005D0AC", rust: "system::script::button_pressed",
+                 run: |m| {
+                     let c = script::button_pressed(m, 1);
+                     m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
+                     Flow::Return
+                 } },
+    // --- capa fija: créditos, nivel, marco
+    SystemPort { entry: 0x00_1DB8, original: "Hud_DrawCreditsAndOverlay_001db8", rust: "system::hud::draw", run: ret!(hud::draw) },
+    SystemPort { entry: 0x05_2050, original: "FixOverlay_DrawCreditsOrFree_052050", rust: "system::hud::draw_credits", run: ret!(hud::draw_credits) },
+    SystemPort { entry: 0x05_223A, original: "FixOverlay_DrawLevel_05223A", rust: "system::hud::draw_level", run: ret!(hud::draw_level) },
+    SystemPort { entry: 0x04_6AC6, original: "FixLayer_QuadBatch_046AC6", rust: "system::hud::clear_border", run: ret!(hud::clear_border) },
+    SystemPort { entry: 0x05_DA9C, original: "Fix_BlitRect_05DA9C", rust: "system::hud::fill_rect",
+                 run: |m| {
+                     let (at, ch, cols, rows) = (m.cpu.a[1] as u16, m.cpu.d[0] as u16, m.cpu.d[1] as u16, m.cpu.d[2] as u16);
+                     hud::fill_rect(m, at, ch, cols, rows);
+                     Flow::Return
+                 } },
     SystemPort { entry: 0x05_CACE, original: "Camera_ResetCenter_05CACE", rust: "system::script::reset_camera", run: ret!(script::reset_camera) },
     SystemPort { entry: 0x05_E998, original: "Rng_Seed_05e998", rust: "system::rng::seed",
                  run: |m| {

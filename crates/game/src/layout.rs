@@ -633,6 +633,73 @@ pub mod script {
     pub const PAUSE_ENABLED: u32 = super::pause::ENABLED;
     /// Tareas que se paran entre escenas (con sus hijas); las dos últimas
     /// sólo pierden las hijas en la variante "conservar".
+    /// 0xFF mientras la escena actual no ha terminado de dibujarse (la
+    /// escena espera a que lo ponga a 0 su tarea).
+    pub const SCENE_BUSY: u32 = 0x10_6ED2;
+    /// Distinto de 0: la escena pide volver al título.
+    pub const BACK_TO_TITLE: u32 = 0x10_6ED5;
+    /// Tareas que crea cada escena (rutina inicial).
+    pub const LOGO_TASK: u32 = 0x09_1330;
+    pub const CONTINUE_TASK: u32 = 0x09_13AC;
+    pub const CONTINUE_OPTIONS_TASK: u32 = 0x09_9B06;
+    pub const HISCORE_TASK: u32 = 0x09_77D6;
+    pub const GAME_OVER_TASK: u32 = 0x08_F91A;
+    pub const HISCORE_TABLE_TASK: u32 = 0x09_77EA;
+    /// Botones A-D en el byte de recién pulsados de un mando.
+    pub const PAD_PRESSED: u32 = 3;
+    pub const BUTTONS: u8 = 0xF0;
+    /// Música de la pantalla de continuar.
+    pub const CONTINUE_MUSIC: u16 = 0x10E0;
     pub const SCENE_TASKS: [u32; 8] =
         [0x10_0260, 0x10_0800, 0x10_08A0, 0x10_0440, 0x10_04E0, 0x10_0580, 0x10_0300, 0x10_03A0];
+}
+
+/// Textos de la capa fija que el juego mantiene encima de todo: créditos
+/// (recreativa y consola) y nivel de dificultad (recreativa).
+pub mod hud {
+    /// Qué hay que dibujar: bit 0 = créditos, bit 1 = borrar créditos,
+    /// bit 2 = nivel, bit 3 = borrar nivel.
+    pub const FLAGS: u32 = 0x10_81BE;
+    pub const DRAW_CREDITS: u8 = 1 << 0;
+    pub const CLEAR_CREDITS: u8 = 1 << 1;
+    pub const DRAW_LEVEL: u8 = 1 << 2;
+    pub const CLEAR_LEVEL: u8 = 1 << 3;
+    /// Lo que se pide cada frame desde las escenas (créditos y nivel).
+    pub const EVERY_FRAME: u8 = DRAW_CREDITS | DRAW_LEVEL;
+    /// Ajuste de la BIOS de recreativa: bit 1 = no mostrar créditos, bit 0
+    /// = no mostrar nivel.
+    pub const BIOS_HIDE: u32 = 0x10_FD91;
+    pub const HIDE_CREDITS: u8 = 1 << 1;
+    pub const HIDE_LEVEL: u8 = 1 << 0;
+    /// Número de ranuras de la recreativa (1 = un contador por jugador).
+    pub const BIOS_SLOTS: u32 = 0x10_FD83;
+    /// Créditos (BCD, uno por jugador): en recreativa la copia de la BIOS
+    /// si es válida, si no la de la RAM de respaldo; en consola los del
+    /// juego.
+    pub const CREDITS_MVS: u32 = 0x10_FE00;
+    pub const CREDITS_MVS_VALID: u32 = 0x10_FE80;
+    pub const CREDITS_BACKUP: u32 = 0xD0_0034;
+    pub const CREDITS_AES: u32 = 0x10_81BF;
+    /// Atributos de los caracteres (paleta y banco) y carácter en blanco.
+    pub const ATTR: u16 = 0x2300;
+    pub const BLANK: u8 = b' ';
+    /// "CREDITS " (la S se quita con menos de 2 créditos).
+    pub const CREDITS_TEXT: &[u8; 8] = b"CREDITS ";
+    /// Posiciones en la capa fija (dirección de VRAM; +0x20 = columna
+    /// siguiente, +1 = fila siguiente).
+    pub const CREDITS_P1: u16 = 0x707D;
+    pub const CREDITS_P2: u16 = 0x737D;
+    pub const COLUMN: u16 = 0x20;
+    /// Tramos que se borran: (inicio, caracteres).
+    pub const CREDITS_CLEAR: [(u16, u16); 2] = [(0x701D, 16), (0x72FD, 17)];
+    pub const CREDITS_AREA: [(u16, u16); 4] = [(0x701D, 3), (0x719D, 4), (0x72FD, 4), (0x749D, 4)];
+    /// Nivel: "LEVEL-" en caracteres propios seguido de la cifra.
+    pub const LEVEL_POS: u16 = 0x721D;
+    pub const LEVEL_TILES: [u8; 6] = [0x20, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F];
+    pub const LEVEL_CLEAR: u16 = 8;
+    /// Zona visible de la capa fija: sólo se escribe dentro.
+    pub const FIX_FIRST: u16 = 0x7000;
+    pub const FIX_LAST: u16 = 0x74FF;
+    /// Marco que se borra al empezar cada escena: (inicio, columnas, filas).
+    pub const BORDER: [(u16, u16, u16); 4] = [(0x7000, 40, 2), (0x701E, 40, 2), (0x7000, 1, 32), (0x74E0, 1, 32)];
 }

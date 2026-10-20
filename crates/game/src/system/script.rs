@@ -9,7 +9,7 @@
 //! `SchedTail_JsrCD4_001020`, `SchedTail_JsrD3C_001026`,
 //! `TaskList_ChangeAndRunEight_001CD4`, `Task_ResetAllSlots_001d3c`.
 
-use super::{inc_u16, pads, rng, tasks, video};
+use super::{hud, inc_u16, pads, rng, sound, tasks, video};
 use crate::layout::{bios, bios_ram, camera, routine, script as S, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
@@ -208,6 +208,153 @@ pub fn check_game_started(m: &mut impl Machine) {
     pads::start_demo(m, crate::layout::pads::NO_DEMO);
     let t = m.task_register();
     m.write_u32(t + T::HANDLER, routine::SCRIPT_GAME);
+}
+
+// --- Escenas ------------------------------------------------------------
+//
+// Cada escena tiene un paso de preparación (borra la capa fija, crea la
+// tarea de la escena) que sigue en el mismo frame con la entrada siguiente,
+// y un paso de espera que se repite cada frame (`Flow::Return`) hasta que la
+// tarea de la escena termina (`SCENE_BUSY` a 0).
+
+/// Crea la tarea de la escena (hija de la del guion).
+fn spawn_scene_task(m: &mut impl Machine, handler: u32) {
+    let me = m.task_register();
+    tasks::spawn(m, handler, me);
+}
+
+/// Pide una música o efecto. Original: `$002352` (sin portar).
+fn play(m: &mut impl Machine, code: u16) {
+    let mut r = m.regs();
+    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(code);
+    m.call_original(crate::layout::pause::SOUND_REQUEST, &mut r);
+    m.set_regs(r);
+}
+
+/// Capa fija y estado de paleta limpios para una escena nueva.
+fn clear_screen(m: &mut impl Machine) {
+    m.call(bios::FIX_CLEAR);
+    video::clear_palette_state(m);
+}
+
+/// Final común de la preparación: teclas, (¿empezó la partida?), marco y
+/// escena en curso; sigue con la entrada siguiente.
+fn scene_started(m: &mut impl Machine, check_start: bool) -> Flow {
+    latch_keys(m);
+    if check_start {
+        check_game_started(m);
+    }
+    hud::clear_border(m);
+    m.write_u8(S::SCENE_BUSY, 0xFF);
+    next(m)
+}
+
+/// La escena terminó: da de baja sus tareas y pasa a la siguiente.
+fn scene_done(m: &mut impl Machine) -> Flow {
+    let me = m.task_register();
+    tasks::kill_children(m, me);
+    next(m)
+}
+
+fn scene_running(m: &mut impl Machine) -> bool {
+    m.read_u8(S::SCENE_BUSY) != 0
+}
+
+/// Logo del arranque en caliente. Original: `AttractHandler_00109C`.
+pub fn scene_logo(m: &mut impl Machine) -> Flow {
+    pads::start_demo(m, crate::layout::pads::NO_DEMO);
+    sound::init_queue(m);
+    clear_screen(m);
+    spawn_scene_task(m, S::LOGO_TASK);
+    scene_started(m, true)
+}
+
+/// Espera del logo: sólo acaba cuando empieza la partida.
+/// Original: `SchedTail_JsrDB8_0010E8`.
+pub fn scene_logo_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    check_game_started(m);
+    Flow::Return
+}
+
+/// Pantalla de continuar. Original: `AttractHandler_2Task_0010F2`.
+pub fn scene_continue(m: &mut impl Machine) -> Flow {
+    sound::init_queue(m);
+    clear_screen(m);
+    spawn_scene_task(m, S::CONTINUE_TASK);
+    spawn_scene_task(m, S::CONTINUE_OPTIONS_TASK);
+    play(m, S::CONTINUE_MUSIC);
+    scene_started(m, false)
+}
+
+/// Espera de continuar; al acabar puede pedir volver al título.
+/// Original: `AttractPhase2_Gate106ED5_001148`.
+pub fn scene_continue_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    if scene_running(m) {
+        return Flow::Return;
+    }
+    let me = m.task_register();
+    tasks::kill_children(m, me);
+    if m.read_u8(S::BACK_TO_TITLE) != 0 {
+        m.write_u32(me + T::HANDLER, routine::SCRIPT_TITLE);
+        return Flow::Return;
+    }
+    next(m)
+}
+
+/// Récords (con semilla aleatoria nueva). Original: `AttractHandler_Frame_001172`.
+pub fn scene_hiscores(m: &mut impl Machine) -> Flow {
+    inc_u16(m, rng_counter());
+    let seed = m.read_u16(rng_counter());
+    rng::seed(m, seed);
+    m.call(bios::FIX_CLEAR);
+    hud::clear_border(m);
+    video::clear_palette_state(m);
+    spawn_scene_task(m, S::HISCORE_TASK);
+    scene_started(m, true)
+}
+
+/// Espera común de las escenas de la demo (se puede empezar a jugar).
+/// Original: `AttractPhase2_Multiway_0011CA`, `BootScr_WaitHudThenLoop_001332`.
+pub fn scene_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    if !scene_running(m) {
+        return scene_done(m);
+    }
+    check_game_started(m);
+    Flow::Return
+}
+
+/// Tabla de récords con sus entradas de sprite. Original: `AttractHandler_Loader_0011EA`.
+pub fn scene_hiscore_table(m: &mut impl Machine) -> Flow {
+    clear_screen(m);
+    video::load_high_entries(m, crate::layout::sprites::HIGH_LIST);
+    spawn_scene_task(m, S::HISCORE_TABLE_TASK);
+    scene_started(m, false)
+}
+
+/// El jugador `player` acaba de pulsar A, B, C o D.
+/// Original: `Sub_0005D09A` / `Sub_0005D0AC`.
+pub fn button_pressed(m: &mut impl Memory, player: usize) -> bool {
+    m.read_u8(crate::layout::input::PAD_LIVE[player] + S::PAD_PRESSED) & S::BUTTONS != 0
+}
+
+/// Espera de la tabla de récords: acaba sola o con un botón.
+/// Original: `AttractPhase2_Probes5D0_00122E`.
+pub fn scene_hiscore_table_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    if !scene_running(m) || button_pressed(m, 0) || button_pressed(m, 1) {
+        return scene_done(m);
+    }
+    Flow::Return
+}
+
+/// Fin de partida. Original: `BootScr_GameOver_0012f4`.
+pub fn scene_game_over(m: &mut impl Machine) -> Flow {
+    clear_screen(m);
+    spawn_scene_task(m, S::GAME_OVER_TASK);
+    scene_started(m, true)
 }
 
 #[cfg(test)]
