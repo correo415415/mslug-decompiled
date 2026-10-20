@@ -14,6 +14,7 @@ mod verify;
 mod lockstep;
 mod manual;
 mod roadmap;
+mod verify_system;
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
@@ -61,6 +62,18 @@ enum Cmd {
     List,
     /// Port escrito a mano (`mslug-game`): compara cada función Rust legible
     /// con su rutina original durante una partida (RAM y valor devuelto).
+    /// Rutinas de sistema portadas a mano (arranque, interrupciones,
+    /// planificador, bucle de frame...) contra la ROM, con el estado
+    /// completo de la máquina (RAM, paleta, VRAM, sonido).
+    VerifySystem {
+        #[arg(long, default_value_t = 3000)]
+        frames: u32,
+        #[arg(long, default_value_t = 400)]
+        coin: u32,
+        /// Entradas pseudoaleatorias.
+        #[arg(long)]
+        fuzz: Option<u64>,
+    },
     VerifyManual {
         #[arg(long, default_value_t = 6000)]
         frames: u32,
@@ -288,6 +301,7 @@ fn main() -> Result<()> {
         }
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
         Cmd::VerifyManual { frames, coin, fuzz } => manual::run(&cli.rom, frames, coin, fuzz)?,
+        Cmd::VerifySystem { frames, coin, fuzz } => verify_system::run(&cli.rom, frames, coin, fuzz)?,
         Cmd::Roadmap { frames, coin, fuzz, top, out } => roadmap::run(&cli.rom, frames, coin, fuzz, top, out)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
         Cmd::LockstepManual { frames, coin, fuzz, atomic_ref } => lockstep::run_manual(&cli.rom, frames, coin, fuzz, atomic_ref)?,
