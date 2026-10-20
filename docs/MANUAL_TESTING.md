@@ -126,9 +126,9 @@ Estado (este PR): el juego arranca, inicializa todo, arranca el planificador
 y la tarea de arranque, y entra en el guion de arranque (elige la lista de
 escenas y la despacha); ejecuta la primera escena (logo: créditos y nivel en la capa fija),
 la pantalla de título (logo animado por guion, copyright, mensaje parpadeante
-según créditos, cuenta atrás) y las tareas fijas, y se para en el frame 404
-en `VBlank_RenderFrame_002098` (render del frame: `PalSlot_UpdateAll_002c86`
-y `SpriteQueue_SortAndRenderSCB1_05b232`, aún sin portar).
+según créditos, cuenta atrás) y las tareas fijas, hace el render del frame (`system::palette`,
+`system::render`) y se para en el frame 405 en `Sprite_Dispatch_05A9E2`
+(alta de un sprite en la lista de dibujo, aún sin portar).
 
 ### Qué portar después: `mslug roadmap`
 
