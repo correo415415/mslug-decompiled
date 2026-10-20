@@ -591,6 +591,32 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let c = slug::is_alive(m); m.cpu.a[0] = mslug_game::layout::task::SLUG; set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_AE50, original: "Slug_SpawnDrop_02ae50", rust: "system::slug::spawn_drop", run: |m| slug::spawn_drop(m, false) },
     SystemPort { entry: 0x02_AEA4, original: "Slug_SpawnDropB_02aea4", rust: "system::slug::spawn_drop", run: |m| slug::spawn_drop(m, true) },
+    SystemPort { entry: 0x02_A0F8, original: "Slug_Init_02a0f8", rust: "system::slug::init",
+                 run: |m| { let (t, g) = (m.cpu.a[6], m.cpu.d[1] as u16); slug::init(m, t, g); Flow::Return } },
+    SystemPort { entry: 0x01_38FE, original: "Entity_AddTimer0_74_0138FE", rust: "system::slug::add_timer",
+                 run: |m| { let t = m.cpu.a[6]; slug::add_timer(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_E98A, original: "Entity_MarkFlag2TimerMax_05e98a", rust: "system::slug::mark_timer_max",
+                 run: |m| { let t = m.cpu.a[6]; slug::mark_timer_max(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_F6D2, original: "PlayerSlot_MaskF0F0_08f6d2", rust: "system::slug::mask_players",
+                 run: |m| { let t = m.cpu.a[6]; slug::mask_players(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_FADA, original: "Slug_ResetDamageIdx_02fada", rust: "system::slug::reset_damage",
+                 run: |m| { let t = m.cpu.a[6]; slug::reset_damage(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_060A, original: "Entity_Build3ChainCircular_03060A", rust: "system::slug::build_chain",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     let first = slug::build_chain(m, t);
+                     m.cpu.a[0] = first;
+                     m.cpu.a[2] = m.read_u32(t + 0x74);
+                     m.cpu.a[3] = m.read_u32(t + 0x78);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_83CA, original: "Entity_ClearFlags13Bits12", rust: "system::slug::clear_flags13",
+                 run: |m| { let t = m.cpu.a[6]; slug::clear_flags13(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_AEF8, original: "Slug_DropVariant0_02aef8", rust: "system::slug::drop_in", run: |m| slug::drop_in(m, 0) },
+    SystemPort { entry: 0x02_AF1C, original: "Slug_DropVariant1_02af1c", rust: "system::slug::drop_in", run: |m| slug::drop_in(m, 1) },
+    SystemPort { entry: 0x02_AF40, original: "Slug_DropVariant2_02af40", rust: "system::slug::drop_in", run: |m| slug::drop_in(m, 2) },
+    SystemPort { entry: 0x02_AF64, original: "Slug_DropVariant3_02af64", rust: "system::slug::drop_in", run: |m| slug::drop_in(m, 3) },
+    SystemPort { entry: 0x02_AF88, original: "Slug_DropVariant4_02af88", rust: "system::slug::drop_in", run: |m| slug::drop_in(m, 4) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

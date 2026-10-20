@@ -1510,6 +1510,60 @@ pub mod slug {
     /// Donde el Slug guarda la Y de quien lo suelta.
     pub const DROP_Y: u32 = 0x82;
     pub const Y: u32 = 0x24;
+    /// Gráficos de la entrada en escena (el segundo juego siempre es 1).
+    pub const DROP_GFX: u16 = 3;
+    pub const EXTRA_GFX: u16 = 1;
+    /// Tarea que acompaña a cada variante (`DROP_VARIANTS` en el mismo orden).
+    pub const DROP_COMPANIONS: [u32; 5] = [0x04_59A8, 0x04_59C0, 0x04_59D8, 0x04_59F0, 0x04_5ABE];
+    /// Tareas comunes de la entrada: (rutina) × 2, guion, cajas de golpe y
+    /// bucle de la caída.
+    pub const DROP_TASKS: [u32; 2] = [0x03_1FCA, 0x02_FB9A];
+    pub const DROP_ANIM: u32 = 0x27_92B0;
+    pub const DROP_HITBOX: u32 = 0x02_9698;
+    pub const DROP_FALL: u32 = 0x02_B004;
+    /// Velocidades (palabras) y bytes que la entrada pone a cero.
+    pub const DROP_CLEAR_WORDS: [u32; 4] = [0x28, 0x2A, 0x2C, 0x2E];
+    pub const DROP_CLEAR_BYTES: [u32; 3] = [0x26, 0x27, 0x8E];
+    pub const HITBOX: u32 = 0x4C;
+    /// Atributos del sprite.
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0x8000 | 0xC;
+    pub const ATTR_DROP: u16 = 0x2;
+    /// Campos que prepara `Slug_Init_02a0f8`.
+    pub const TIMER_1C: u32 = 0x1C;
+    pub const TIMER_1C_INIT: u16 = 0x1E;
+    pub const TIMER_1C_ADD: u16 = 0x74;
+    pub const FIELD_16: u32 = 0x16;
+    pub const FIELD_14: u32 = 0x14;
+    pub const FLAGS_12: u32 = 0x12;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const FLAGS_6B: u32 = 0x6B;
+    pub const LEVELS: [u32; 2] = [0x32, 0x33];
+    pub const BYTE_3A: u32 = 0x3A;
+    pub const TIMER_30: u32 = 0x30;
+    pub const BYTE_8C: u32 = 0x8C;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const HANDLER_60_INIT: u32 = 0x02_95B4;
+    pub const PLAYER_MASK: u32 = 0x96;
+    pub const PLAYER_MASK_INIT: u16 = 0xF0F0;
+    pub const FIELD_66: u32 = 0x66;
+    pub const FIELD_66_INIT: u16 = 0x30;
+    pub const DAMAGE_IDX: u32 = 0x88;
+    pub const DAMAGE: u32 = 0x86;
+    pub const CLEAR_WORDS: [u32; 2] = [0x94, 0x36];
+    pub const CLEAR_BYTES: [u32; 2] = [0x92, 0x8F];
+    pub const BYTE_90: u32 = 0x90;
+    pub const BYTE_90_INIT: u8 = 0xA;
+    /// Tarea de las cajas y su cadena de tres (rutinas en orden de alta y
+    /// el campo donde se guarda cada una).
+    pub const SHADOW_TASK: u32 = 0x07_773E;
+    pub const CHAIN: [(u32, u32); 3] = [(0x03_010C, 0x7C), (0x03_0068, 0x74), (0x03_00BA, 0x78)];
+    /// Enlaces de la cadena (cada eslabón apunta a los tres).
+    pub const CHAIN_LINKS: [u32; 3] = [0x70, 0x74, 0x78];
+    pub const CHAIN_KIND: u32 = 0x98;
+    pub const FIELD_98_LONG: u32 = 0x98;
+    pub const FIELD_98_INIT: u32 = 0x1_0000;
 }
 
 /// Tareas de fundido de la paleta: cada alta crea una con su rutina y le
