@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, manual, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, lists, manual, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -528,6 +528,13 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[0]; let (x, y) = scroll::player_point(m, t); m.cpu.d[0] = x; m.cpu.d[1] = y; Flow::Return } },
     SystemPort { entry: 0x04_36DE, original: "Geom_Proj_Clamp_0436DE", rust: "system::scroll::follow",
                  run: |m| { let d = m.cpu.d; scroll::follow(m, (d[0], d[1]), (d[2], d[3])); Flow::Return } },
+    // --- listas por frame (las renueva el frame del scroll)
+    SystemPort { entry: 0x07_7092, original: "Platform_ClearListByScroll_077092", rust: "system::lists::clear_platforms", run: ret!(lists::clear_platforms) },
+    SystemPort { entry: 0x08_F172, original: "Rings_CompactAll_08f172", rust: "system::lists::advance_rings", run: ret!(lists::advance_rings) },
+    SystemPort { entry: 0x08_F148, original: "Ring_Compact_08f148", rust: "system::lists::advance_ring",
+                 run: |m| { let r = m.cpu.a[0]; lists::advance_ring(m, r); Flow::Return } },
+    SystemPort { entry: 0x09_97CC, original: "Trail_RingAdvance_0997cc", rust: "system::lists::advance_trail", run: ret!(lists::advance_trail) },
+    SystemPort { entry: 0x08_F8E2, original: "PlayerSlot_ClearP3Cur_08f8e2", rust: "system::lists::clear_parity_byte", run: ret!(lists::clear_parity_byte) },
     // --- scroll de la escena
     SystemPort { entry: 0x04_37DA, original: "SceneScriptVM_Frame_0437DA", rust: "system::scroll::frame",
                  run: |m| { let v = (m.cpu.d[0], m.cpu.d[1]); scroll::frame(m, v); Flow::Return } },

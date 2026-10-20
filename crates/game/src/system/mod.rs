@@ -12,6 +12,7 @@ pub mod boot;
 pub mod frame;
 pub mod hud;
 pub mod irq;
+pub mod lists;
 pub mod manual;
 pub mod pads;
 pub mod palette;

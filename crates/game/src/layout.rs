@@ -1427,3 +1427,20 @@ pub mod fade {
         [(0x05_239E, 0x05_23EE), (0x05_23B2, 0x05_24AA), (0x05_23C6, 0x05_23FA), (0x05_23DA, 0x05_24B6)];
     pub const PARAM: u32 = 0x70;
 }
+
+/// Listas de la misión que se renuevan cada frame (algunas tienen dos
+/// copias que se alternan según la paridad del frame).
+pub mod lists {
+    /// Contador de frames (bit 0 = paridad).
+    pub const FRAME: u32 = super::system::FRAME_COUNTER;
+    /// Dos listas de plataformas (frames pares / impares); su recuento en `+$30`.
+    pub const PLATFORMS: [u32; 2] = [0x10_E27C, 0x10_E2AE];
+    pub const PLATFORM_COUNT: u32 = 0x30;
+    /// Tres anillos de 4 palabras: {anterior, nuevo, actual, extra}.
+    pub const RINGS: [u32; 3] = [0x10_E2F2, 0x10_E33A, 0x10_E362];
+    /// Estela: tres palabras que se desplazan una posición.
+    pub const TRAIL: [u32; 3] = [0x10_E47E, 0x10_E480, 0x10_E482];
+    /// Tarea con un byte por paridad (`+$96` / `+$97`).
+    pub const PARITY_TASK: u32 = 0x10_0580;
+    pub const PARITY_BYTE: u32 = 0x96;
+}
