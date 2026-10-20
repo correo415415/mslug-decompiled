@@ -114,6 +114,10 @@ pub mod hw {
     pub const VRAM_RW: u32 = 0x3C_0002;
     /// `REG_VRAMMOD`: incremento de la dirección de VRAM.
     pub const VRAM_MOD: u32 = 0x3C_0004;
+    /// SCB3: el sprite se encadena a la derecha del anterior.
+    pub const SCB3_STICKY: u16 = 0x40;
+    /// SCB2: sin reducción.
+    pub const SCB2_FULL_SIZE: u16 = 0x0FFF;
     /// `REG_LSPCMODE`: modo del chip de vídeo (al leer: línea, bit 3 = PAL).
     pub const LSPC_MODE: u32 = 0x3C_0006;
     /// Bit de `LSPC_MODE` (lectura): sistema de 50 Hz.
@@ -1113,4 +1117,91 @@ pub mod sprite_draw {
     pub const CM_TILE_X: u32 = 0x22;
     pub const CM_TILE_Y: u32 = 0x24;
     pub const CM_CELLS: u32 = 0x7C;
+}
+
+/// Cargador de escena: cámaras / capas de scroll y estado del nivel.
+pub mod scene {
+    /// Tabla de la ROM con un par (guion de scroll, capas) por escena.
+    pub const TABLE: u32 = 0x09_16C8;
+    pub const TABLE_ENTRY: u32 = 8;
+    /// Guion de scroll en curso (lo ejecuta la máquina de scroll).
+    pub const SCRIPT_PC: u32 = 0x10_815C;
+    /// Capas de la escena: registros de 14 bytes {tipo, -, cámara.l,
+    /// caja[4 words]} acabados en uno de tipo `LAYER_END`, cuyo byte 1 dice
+    /// cuántos sprites hardware se reservan al final.
+    pub const LAYER_SIZE: u32 = 14;
+    pub const LAYER_TYPE: u32 = 0;
+    pub const LAYER_END_RESERVE: u32 = 1;
+    pub const LAYER_CAMERA: u32 = 2;
+    pub const LAYER_BOX: u32 = 6;
+    pub const LAYER_END: u8 = 2;
+    /// Tipo 0: sprites de la zona alta (desde el corte); otro: de la baja.
+    pub const LAYER_HIGH: u8 = 0;
+    /// Cada capa usa una ventana de 32 columnas de sprite.
+    pub const LAYER_SPRITES: u16 = 0x20;
+    pub const LAYER_ROWS: u32 = 0x400;
+    /// Las cuatro cámaras (contexto de capa, `0x7C` bytes cada una).
+    pub const CAMERAS: [u32; 4] = [0x10_6F6C, 0x10_7FE8, 0x10_8064, 0x10_80E0];
+    /// Campos de una cámara.
+    pub const C_POS: [u32; 2] = [0x00, 0x02];
+    pub const C_LONGS: [u32; 2] = [0x04, 0x08];
+    pub const C_FLAGS: u32 = 0x0C;
+    pub const C_LINK: u32 = 0x0E;
+    pub const C_BOX: u32 = 0x16;
+    pub const C_WORDS: [u32; 4] = [0x1E, 0x20, 0x22, 0x24];
+    pub const C_SPRITE_BASE: u32 = 0x28;
+    pub const C_ORIGIN: [u32; 2] = [0x2A, 0x2C];
+    pub const C_ROWS: u32 = 0x32;
+    pub const C_ROWS_LEN: u32 = 32;
+    pub const C_SCALE: [u32; 2] = [0x74, 0x76];
+    pub const C_SCALE_ONE: u16 = 0x100;
+    pub const C_FLAG72: u32 = 0x72;
+    pub const C_LONG78: u32 = 0x78;
+    /// Mapa de colisión de la primera cámara (4 KB, ver `sprite_draw`).
+    pub const COLLMAP_CELLS: u32 = 0x10_6F6C + 0x7C;
+    pub const COLLMAP_LEN: u32 = 0x1000;
+    /// Cámara principal: X, Y, Z (longs 16.16), y otras palabras.
+    pub const CAMERA_X: u32 = 0x10_6F50;
+    pub const CAMERA_Y: u32 = 0x10_6F54;
+    pub const CAMERA_Z: u32 = 0x10_6F58;
+    pub const CAMERA_W5C: u32 = 0x10_6F5C;
+    pub const CAMERA_W5E: u32 = 0x10_6F5E;
+    /// Límites de la vista: (variable, valor inicial).
+    pub const VIEW_INIT: [(u32, u16); 9] = [
+        (0x10_8160, 0),
+        (0x10_8162, 0),
+        (0x10_8164, 0xA0),
+        (0x10_8166, 0x180),
+        (0x10_8168, 0),
+        (0x10_816A, 0),
+        (0x10_816C, 0xFFFF),
+        (0x10_816E, 0xFFFF),
+        (0x10_8170, 0),
+    ];
+    /// Copias de la cámara al empezar (Z, X alta, `W5C`).
+    pub const START_W5C: u32 = 0x10_8172;
+    pub const START_X: u32 = 0x10_8174;
+    pub const START_Z: u32 = 0x10_8176;
+    pub const FROZEN: u32 = 0x10_8179;
+    /// Suavizado vertical de la cámara (objetivo y velocidad).
+    pub const SMOOTH: [u32; 2] = [0x10_817A, 0x10_817E];
+    /// Bytes y palabras de la misión que se ponen a 0 al cargar.
+    pub const CLEAR_BYTES: [u32; 2] = [0x10_E39C, 0x10_E39D];
+    pub const CLEAR_WORDS: [u32; 19] = [
+        0x10_6F42, 0x10_E27C + 0x30, 0x10_E2AE + 0x30,
+        0x10_E2F2, 0x10_E2F4, 0x10_E2F6, 0x10_E2F8,
+        0x10_E33A, 0x10_E33C, 0x10_E33E, 0x10_E340,
+        0x10_E362, 0x10_E364, 0x10_E366, 0x10_E368,
+        0x10_6F4C, 0x10_6F4E, 0x10_E47E, 0x10_E480,
+    ];
+    pub const CLEAR_WORD_LAST: u32 = 0x10_E482;
+    /// La escena está cargada.
+    pub const LOADED: u32 = 0x10_6ED3;
+    /// Puntero por misión (`script::KEY_LATCH[0]` = misión, `MISSIONS`
+    /// entradas en la tabla `MISSION_TABLE`; si no, `NIL`).
+    pub const MISSION_PTR: u32 = 0x10_81B2;
+    pub const MISSION_TABLE: u32 = 0x04_CB44;
+    pub const MISSIONS: u8 = 6;
+    pub const MISSION_KEY: u32 = 0x10_6ECE;
+    pub const NIL: u32 = 0xFFFF_FFFF;
 }

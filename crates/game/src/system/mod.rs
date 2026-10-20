@@ -16,6 +16,7 @@ pub mod pads;
 pub mod palette;
 pub mod render;
 pub mod rng;
+pub mod scene;
 pub mod script;
 pub mod sprite;
 pub mod sound;

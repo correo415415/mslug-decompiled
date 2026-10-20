@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, render, rng, script, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, render, rng, scene, script, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -474,6 +474,17 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let off = m.cpu.d[1] & 0xFFFF; palette::fade_step(m, off); Flow::Return } },
     SystemPort { entry: 0x05_A9E2, original: "Sprite_Dispatch_05A9E2", rust: "system::sprite::dispatch", run: |m| sprite_dispatch(m, false) },
     SystemPort { entry: 0x05_A9D6, original: "Sprite_Dispatch_05A9D6", rust: "system::sprite::dispatch (detrás)", run: |m| sprite_dispatch(m, true) },
+    // --- carga de escena
+    SystemPort { entry: 0x04_3568, original: "SceneLoader_Main_043568", rust: "system::scene::load",
+                 run: |m| { let n = m.cpu.d[0] as u8; scene::load(m, n); Flow::Return } },
+    SystemPort { entry: 0x04_3562, original: "SceneLoader_ByIndex_043562", rust: "system::scene::load_descriptor",
+                 run: |m| { let d = m.cpu.a[0]; scene::load_descriptor(m, d); Flow::Return } },
+    SystemPort { entry: 0x01_3982, original: "Spawn_TypeA_013982", rust: "system::scene::take_sprites",
+                 run: |m| { let n = m.cpu.d[0] as u16; let f = scene::take_sprites(m, true, n); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(f); Flow::Return } },
+    SystemPort { entry: 0x01_3952, original: "Spawn_TypeB_013952", rust: "system::scene::take_sprites",
+                 run: |m| { let n = m.cpu.d[0] as u16; let f = scene::take_sprites(m, false, n); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(f); Flow::Return } },
+    SystemPort { entry: 0x05_1ABE, original: "Entity_AllocAndInit_051ABE", rust: "system::scene::init_layer",
+                 run: |m| { let (c, b, f) = (m.cpu.a[0], m.cpu.a[1], m.cpu.d[0] as u16); scene::init_layer(m, c, b, f); Flow::Return } },
     SystemPort { entry: 0x05_B232, original: "SpriteQueue_SortAndRenderSCB1_05b232", rust: "system::render::sort_and_render", run: ret!(render::sort_and_render) },
     SystemPort { entry: 0x05_B370, original: "SpriteQueue_RenderRange_05b370", rust: "system::render::render_range",
                  run: |m| { let (q, a, b) = (m.cpu.a[0], m.cpu.a[1], m.cpu.a[2]); render::render_range(m, q, a, b); Flow::Return } },
