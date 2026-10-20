@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, rng, script, sound, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, render, rng, script, sound, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -430,6 +430,11 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let off = m.cpu.d[1] & 0xFFFF; palette::clear(m, off); Flow::Return } },
     SystemPort { entry: 0x01_3408, original: "PalSlot_FadeStep_013408", rust: "system::palette::fade_step",
                  run: |m| { let off = m.cpu.d[1] & 0xFFFF; palette::fade_step(m, off); Flow::Return } },
+    SystemPort { entry: 0x05_B232, original: "SpriteQueue_SortAndRenderSCB1_05b232", rust: "system::render::sort_and_render", run: ret!(render::sort_and_render) },
+    SystemPort { entry: 0x05_B370, original: "SpriteQueue_RenderRange_05b370", rust: "system::render::render_range",
+                 run: |m| { let (q, a, b) = (m.cpu.a[0], m.cpu.a[1], m.cpu.a[2]); render::render_range(m, q, a, b); Flow::Return } },
+    SystemPort { entry: 0x05_B52E, original: "SCB1_WriteTileColumn_05b52e", rust: "system::render::write_column",
+                 run: |m| { let (n, rec) = (m.cpu.d[0] as u16, m.cpu.a[3]); render::write_column(m, n, rec); Flow::Return } },
     // --- pantalla de título
     SystemPort { entry: 0x09_1330, original: "TaskTpl_091330", rust: "system::title::begin", run: |m| title::begin(m) },
     SystemPort { entry: 0x09_1338, original: "Continue_Spawn_091338", rust: "system::title::start", run: |m| title::start(m) },

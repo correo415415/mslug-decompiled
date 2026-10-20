@@ -532,6 +532,36 @@ pub mod sprites {
     pub const QUEUE_ACTIVE: u32 = 0x08;
     pub const QUEUE_LIMIT: u32 = 0x04;
     pub const QUEUE_RESULT: u32 = 0x0A;
+    /// Más campos del descriptor de cola: primer y último sprite hardware
+    /// de la zona y hasta dónde se llegó al escribir SCB1.
+    pub const QUEUE_FIRST: u32 = 0x00;
+    pub const QUEUE_LAST: u32 = 0x02;
+    pub const QUEUE_REACHED: u32 = 0x06;
+    /// Claves de ordenación de la lista de dibujo (longs: clave alta, en la
+    /// palabra baja el registro); `DRAW_LIST` apunta a esas palabras bajas.
+    pub const SORT_KEYS: u32 = 0x10_D4A8;
+    pub const SORT_KEY_SIZE: u32 = 4;
+    /// La segunda cola sólo se ordena si empieza antes de esto.
+    pub const SECOND_SORT_LIMIT: u16 = 0x344;
+    /// Registros de columna de sprite (12 bytes): puntero a los tiles,
+    /// atributos, SCB2 (bit 15 = último registro del objeto, bit 12 =
+    /// tiles al revés, byte bajo `FULL_HEIGHT` = sin relleno), SCB3 y SCB4
+    /// (byte bajo = número de tiles).
+    pub const RECORDS: u32 = 0x10_C2D8;
+    pub const RECORD_SIZE: u32 = 12;
+    pub const R_TILES: u32 = 0x00;
+    pub const R_ATTR: u32 = 0x04;
+    pub const R_SCB2: u32 = 0x06;
+    pub const R_SCB3: u32 = 0x08;
+    pub const R_SCB4: u32 = 0x0A;
+    pub const R_LAST: u8 = 0x80;
+    pub const R_REVERSED: u16 = 1 << 12;
+    pub const FULL_HEIGHT: u8 = 0xFF;
+    pub const MAX_TILES: u8 = 0x1F;
+    /// VRAM: palabras de SCB1 por sprite y bases de SCB2 y SCB4.
+    pub const SCB1_WORDS: u16 = 0x40;
+    pub const SCB2: u16 = 0x8000;
+    pub const SCB4: u16 = 0x8400;
     /// Resultado de volcar cada cola.
     pub const QUEUE_DONE: [u32; 2] = [0x10_E1E8, 0x10_E1EA];
     /// Lista de entradas que se vuelcan y longitud de cada cola en ella.
@@ -644,8 +674,6 @@ pub mod routine {
     pub const TASK_FINISHING: u32 = 0x00_052A;
     /// Borrado a blanco de 16 paletas del otro banco (diferido al vblank).
     pub const PAL_BANK_CLEAR_STEP: u32 = 0x01_387E;
-    /// Ordena las colas de sprites y escribe SCB1 (sin portar).
-    pub const SPRITE_SORT_RENDER: u32 = 0x05_B232;
     /// Tareas fijas que borran cada frame un byte de las entidades
     /// (`task::FRAME_FLAG_*`): del Slug y de los dos jugadores.
     pub const SLUG_FRAME_TASK: u32 = 0x02_9582;

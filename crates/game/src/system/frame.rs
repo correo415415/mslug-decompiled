@@ -5,7 +5,7 @@
 //! prepara el frame siguiente; después el planificador pasa al resto de
 //! tareas. Original: `VBlank_FrameLoop_001f84`.
 
-use super::{inc_u16, inc_u8, pads, palette, sound, tasks, video};
+use super::{inc_u16, inc_u8, pads, palette, render, sound, tasks, video};
 use crate::layout::{bios_ram, hw, routine, system as S, task as T};
 use crate::mem::{Flow, Machine};
 
@@ -94,10 +94,11 @@ pub fn render(m: &mut impl Machine) -> Flow {
     m.write_u8(hw::NO_SHADOW, 0xFF);
     m.write_u8(S::PAL_FLUSH_REQUEST, 0xFF);
     m.write_u8(S::PAL_FLUSH_BLOCK, 0);
-    let mut r = m.regs();
-    m.call_original(routine::SPRITE_SORT_RENDER, &mut r);
-    m.set_regs(r);
-    m.write_u8(hw::NO_SHADOW, r.d[0] as u8);
+    render::sort_and_render(m);
+    // El original escribe aquí el d0 que deja el render (cualquier valor
+    // vale: sólo cuenta la escritura).
+    let d0 = m.regs().d[0] as u8;
+    m.write_u8(hw::NO_SHADOW, d0);
     m.set_task_register(t);
     m.write_u8(S::FRAME_READY, 0);
     Flow::Return
