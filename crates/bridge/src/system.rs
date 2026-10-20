@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, render, rng, script, sound, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, render, rng, script, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -175,6 +175,23 @@ pub struct SystemPort {
 fn title_sprite(m: &mut CpuMachine, k: usize) -> Flow {
     let c = title::sprite(m, k);
     m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
+    Flow::Return
+}
+
+/// Registros de `Sprite_Dispatch_05A9E2` / `05A9D6` → petición.
+fn sprite_dispatch(m: &mut CpuMachine, back: bool) -> Flow {
+    let d = m.cpu.d;
+    let req = sprite::Request {
+        pos: d[0],
+        key: d[1] as u16,
+        palette: d[2] as u16,
+        shrink_v: d[3] as u8,
+        shrink_h: d[4] as u8,
+        flip: d[5] as u8,
+        gfx: m.cpu.a[0],
+    };
+    let task = m.cpu.a[6];
+    sprite::dispatch(m, task, req, back);
     Flow::Return
 }
 
@@ -430,6 +447,8 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let off = m.cpu.d[1] & 0xFFFF; palette::clear(m, off); Flow::Return } },
     SystemPort { entry: 0x01_3408, original: "PalSlot_FadeStep_013408", rust: "system::palette::fade_step",
                  run: |m| { let off = m.cpu.d[1] & 0xFFFF; palette::fade_step(m, off); Flow::Return } },
+    SystemPort { entry: 0x05_A9E2, original: "Sprite_Dispatch_05A9E2", rust: "system::sprite::dispatch", run: |m| sprite_dispatch(m, false) },
+    SystemPort { entry: 0x05_A9D6, original: "Sprite_Dispatch_05A9D6", rust: "system::sprite::dispatch (detrás)", run: |m| sprite_dispatch(m, true) },
     SystemPort { entry: 0x05_B232, original: "SpriteQueue_SortAndRenderSCB1_05b232", rust: "system::render::sort_and_render", run: ret!(render::sort_and_render) },
     SystemPort { entry: 0x05_B370, original: "SpriteQueue_RenderRange_05b370", rust: "system::render::render_range",
                  run: |m| { let (q, a, b) = (m.cpu.a[0], m.cpu.a[1], m.cpu.a[2]); render::render_range(m, q, a, b); Flow::Return } },

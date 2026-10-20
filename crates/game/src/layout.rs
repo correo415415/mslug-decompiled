@@ -1037,3 +1037,45 @@ pub mod credits {
     pub const P2: u16 = 1 << 1;
     pub const CONSOLE: u16 = 1 << 2;
 }
+
+/// Alta de sprites en la lista de dibujo (`system::sprite`).
+pub mod sprite_draw {
+    /// Fin del almacén de registros de columna (en bytes desde
+    /// `sprites::RECORDS`) y su dirección.
+    pub const RECORDS_BYTES: u16 = 0x11D0;
+    pub const RECORDS_END: u32 = super::sprites::RECORDS + RECORDS_BYTES as u32;
+    /// SCB4 (X << 7) entre estos valores = columna invisible (entre el
+    /// borde derecho y la vuelta por la izquierda).
+    pub const OFFSCREEN_FIRST: u16 = 0xA000;
+    pub const OFFSCREEN_END: u16 = 0xF800;
+    /// Paso en SCB4 de una columna de 16 píxeles sin reducción.
+    pub const COLUMN_STEP: u16 = 0x800;
+    /// Temporales de la reducción horizontal: acumulador de fracción y paso.
+    pub const SHRINK_FRACTION: u32 = 0x10_E1ED;
+    pub const SHRINK_STEP: u32 = 0x10_E1EE;
+    /// Tabla de reducción vertical de los trozos de hasta 16 tiles
+    /// (fila = tiles − 1, columna = nibble bajo de la reducción).
+    pub const SHRINK_V_TABLE: u32 = 0x05_A8BA;
+    /// Reflejo en el agua: desactivado si este byte no es 0 (es el mismo
+    /// que `script::KEY_LATCH[0]`, a `0xFF` fuera de la partida), sólo con
+    /// la cámara hasta `WATER_CAMERA_MAX`; se mira el mapa de colisión
+    /// `WATER_PROBE_DY` por debajo de la tarea y el agua es la celda
+    /// `WATER_CELL`. La línea del agua está en la Y de mundo `WATER_LINE_Y`
+    /// y el reflejo se dibuja con esta reducción vertical.
+    pub const WATER_OFF: u32 = 0x10_6ECE;
+    pub const WATER_CAMERA_MAX: i16 = 0x780;
+    pub const WATER_PROBE_DY: u16 = 8;
+    pub const WATER_CELL: u8 = 0x3A;
+    pub const WATER_LINE_Y: u16 = 0xE8;
+    pub const REFLECTION_SHRINK_V: u8 = 0x7F;
+    /// Alto de la pantalla en el paso mundo → pantalla.
+    pub const SCREEN_HEIGHT: u16 = 0x180;
+    /// Mapa de colisión: origen, primer tile y celdas (4 KB: bloques de 2
+    /// columnas × 64 filas de 8×8).
+    pub const COLLMAP: u32 = 0x10_6F6C;
+    pub const CM_ORIGIN_X: u32 = 0x04;
+    pub const CM_ORIGIN_Y: u32 = 0x08;
+    pub const CM_TILE_X: u32 = 0x22;
+    pub const CM_TILE_Y: u32 = 0x24;
+    pub const CM_CELLS: u32 = 0x7C;
+}
