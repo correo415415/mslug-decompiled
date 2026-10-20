@@ -1419,6 +1419,84 @@ pub mod manual {
     pub const TIMER: u32 = 0x70;
 }
 
+/// Iconos del manual de juego (tareas hijas de `manual::START`): la base,
+/// cuatro ranuras que se encienden al pulsar su botón y el ancla del texto.
+pub mod manual_icons {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const Z: u32 = 0x26;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_ICON: u16 = 0xE000;
+    pub const ATTR_ANCHOR: u16 = 0x8000;
+    pub const FLAGS_12: u32 = 0x12;
+    pub const FLAGS_12_SET: u8 = 1 << 6;
+    /// Fila de todos los iconos.
+    pub const ROW_Y: u16 = 0x12B;
+    /// Base: gráficos, guion inicial, X, rutina del bucle y tabla de
+    /// guiones por nibble bajo del byte `+$92` de la madre (-1 = ninguno).
+    pub const BASE_GFX: u16 = 0xB1;
+    pub const BASE_ANIM: u32 = 0x2F_2E0A;
+    pub const BASE_X: u16 = 0x40;
+    pub const BASE_RUN: u32 = 0x08_C2F0;
+    pub const BASE_TABLE: u32 = 0x2F_2DCA;
+    pub const NO_ANIM: u32 = 0xFFFF_FFFF;
+    /// Ranuras: (rutina de alta, gráficos, X, rutina encendida, guion
+    /// encendido, bit del botón).
+    pub const SLOTS: [(u32, u16, u16, u32, u32, u8); 4] = [
+        (0x08_C322, 0xAE, 0x70, 0x08_C4FA, 0x2F_2F22, 0x10),
+        (0x08_C37E, 0xAF, 0xA0, 0x08_C526, 0x2F_2F2E, 0x20),
+        (0x08_C3DA, 0xB0, 0xD0, 0x08_C552, 0x2F_2F3A, 0x40),
+        (0x08_C436, 0xB2, 0x100, 0x08_C57E, 0x2F_2F46, 0x80),
+    ];
+    pub const SLOT_ANIM: u32 = 0x2F_2ED6;
+    pub const SLOT_RUN: u32 = 0x08_C4A0;
+    /// Guiones al pulsar y al soltar.
+    pub const SLOT_PRESSED: u32 = 0x2F_2EE2;
+    pub const SLOT_RELEASED: u32 = 0x2F_2F02;
+    /// Bit propio y estado (0 = suelto, 1 = pulsado).
+    pub const SLOT_BIT: u32 = 0x8A;
+    pub const SLOT_DOWN: u32 = 0x76;
+    /// Bytes de la madre: botones nuevos (`+$93`) y mantenidos (`+$92`).
+    pub const MOTHER_NEW: u32 = 0x93;
+    pub const MOTHER_HELD: u32 = 0x92;
+    /// Rutina de las versiones encendidas (sólo animan).
+    pub const LIT_RUN: u32 = 0x08_C5AA;
+    /// La cuarta ranura borra antes un trozo de la capa fija
+    /// (dirección, carácter, columnas, filas).
+    pub const SLOT4_TILES: (u16, u16, u16, u16) = (0x73D7, 0x2E80, 4, 4);
+    /// Ancla del texto: gráficos, guion, posición y rutina del bucle.
+    pub const ANCHOR_GFX: u16 = 0x97;
+    pub const ANCHOR_ANIM: u32 = 0x2F_2F52;
+    pub const ANCHOR_POS: (u16, u16) = (0xE0, 0x160);
+    pub const ANCHOR_RUN: u32 = 0x08_C678;
+    /// Idioma del texto: 0 = japonés, 1 = inglés, 2 = portugués, 3 = español.
+    pub const LANGUAGE: u32 = 0x8A;
+    pub const LANG_JP: u8 = 0;
+    pub const LANG_EN: u8 = 1;
+    pub const LANG_PT: u8 = 2;
+    pub const LANG_ES: u8 = 3;
+    /// Región e idioma de la BIOS (región: 0 = Japón, 2 = Europa).
+    pub const BIOS_REGION: u32 = 0x10_FD83;
+    pub const BIOS_LANGUAGE: u32 = 0x10_FD92;
+    pub const REGION_JAPAN: u8 = 0;
+    pub const REGION_EUROPE: u8 = 2;
+    /// Cursor de texto del ancla: guion, posición en la capa fija,
+    /// temporizador, carácter y desplazamiento.
+    pub const TEXT_SCRIPT: u32 = 0x7C;
+    pub const TEXT_AT: u32 = 0x86;
+    pub const TEXT_AT_INIT: u32 = 0x7084;
+    pub const TEXT_TIMER: u32 = 0x70;
+    pub const TEXT_CHAR: u32 = 0x80;
+    pub const TEXT_OFFSET: u32 = 0x82;
+    pub const TEXT_PAGE: u32 = 0x76;
+    pub const TEXT_FIRST: u32 = 0x1F_0056 + 0x10_0000;
+    /// Campo de movimiento que se pone a 0.
+    pub const MOVE_FIELD: u32 = 0x2C;
+    /// Palabras de movimiento que borra `$0267E2` y el largo que va entre ellas.
+    pub const MOTION_WORDS: [u32; 3] = [0x2E, 0x2C, 0x26];
+    pub const MOTION_LONG: u32 = 0x28;
+}
+
 /// Tareas de fundido de la paleta: cada alta crea una con su rutina y le
 /// deja `d0` en `PARAM`.
 pub mod fade {

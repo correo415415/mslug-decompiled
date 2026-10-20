@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, layer, lists, manual, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, layer, lists, manual, manual_icons, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -570,6 +570,22 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x05_23B2, original: "Fade_Spawn_0523B2", rust: "system::palette::spawn_fade", run: |m| fade_spawn(m, 1) },
     SystemPort { entry: 0x05_23C6, original: "Fade_Spawn_0523C6", rust: "system::palette::spawn_fade", run: |m| fade_spawn(m, 2) },
     SystemPort { entry: 0x05_23DA, original: "Fade_Spawn_0523DA", rust: "system::palette::spawn_fade", run: |m| fade_spawn(m, 3) },
+    // --- iconos del manual
+    SystemPort { entry: 0x08_C2B8, original: "Icon_Base_08c2b8", rust: "system::manual_icons::base", run: |m| manual_icons::base(m) },
+    SystemPort { entry: 0x08_C2F0, original: "Icon_Base_08c2b8 (+$38)", rust: "system::manual_icons::base_run", run: |m| manual_icons::base_run(m) },
+    SystemPort { entry: 0x08_C322, original: "Icon_Slot1_08c322", rust: "system::manual_icons::slot", run: |m| manual_icons::slot(m, 0) },
+    SystemPort { entry: 0x08_C37E, original: "Icon_Slot2_08c37e", rust: "system::manual_icons::slot", run: |m| manual_icons::slot(m, 1) },
+    SystemPort { entry: 0x08_C3DA, original: "Icon_Slot3_08c3da", rust: "system::manual_icons::slot", run: |m| manual_icons::slot(m, 2) },
+    SystemPort { entry: 0x08_C436, original: "Icon_Slot4_08c436", rust: "system::manual_icons::slot", run: |m| manual_icons::slot(m, 3) },
+    SystemPort { entry: 0x08_C4A0, original: "Icon_Slot_Run_08c4a0", rust: "system::manual_icons::slot_run", run: |m| manual_icons::slot_run(m) },
+    SystemPort { entry: 0x08_C4FA, original: "Icon_Slot1_Lit_08c4fa", rust: "system::manual_icons::slot_lit", run: |m| manual_icons::slot_lit(m, 0) },
+    SystemPort { entry: 0x08_C526, original: "Icon_Slot2_Lit_08c526", rust: "system::manual_icons::slot_lit", run: |m| manual_icons::slot_lit(m, 1) },
+    SystemPort { entry: 0x08_C552, original: "Icon_Slot3_Lit_08c552", rust: "system::manual_icons::slot_lit", run: |m| manual_icons::slot_lit(m, 2) },
+    SystemPort { entry: 0x08_C57E, original: "Icon_Slot4_Lit_08c57e", rust: "system::manual_icons::slot_lit", run: |m| manual_icons::slot_lit(m, 3) },
+    SystemPort { entry: 0x08_C5AA, original: "JsrAbsThunk_08c5aa", rust: "system::manual_icons::animate", run: |m| manual_icons::animate(m) },
+    SystemPort { entry: 0x08_C5B2, original: "Icon_Anchor_Init_08c5b2", rust: "system::manual_icons::anchor", run: |m| manual_icons::anchor(m) },
+    SystemPort { entry: 0x02_67E2, original: "$0267E2", rust: "system::manual_icons::stop_motion",
+                 run: |m| { let t = m.cpu.a[6]; manual_icons::stop_motion(m, t); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

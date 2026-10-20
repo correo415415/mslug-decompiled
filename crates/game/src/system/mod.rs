@@ -15,6 +15,7 @@ pub mod irq;
 pub mod layer;
 pub mod lists;
 pub mod manual;
+pub mod manual_icons;
 pub mod pads;
 pub mod palette;
 pub mod render;
