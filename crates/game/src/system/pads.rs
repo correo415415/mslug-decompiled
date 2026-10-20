@@ -83,6 +83,34 @@ fn sound(m: &mut impl Machine, routine: u32, code: u16) {
     m.set_regs(r);
 }
 
+/// Mandos de trabajo a cero y, si `demo` es 0 o 1, empieza a reproducir
+/// (o grabar) esa demo. Original: `PlayerCtx_ResetTwoBlocks_024FEC`.
+pub fn start_demo(m: &mut impl Memory, demo: u16) {
+    for p in P::WORK {
+        super::fill(m, p, 6, 0);
+    }
+    if demo >= P::DEMO_COUNT {
+        m.write_u8(P::DEMO_MODE, 0);
+        return;
+    }
+    m.write_u8(P::DEMO_MODE, 1);
+    let ptr = m.read_u32(P::DEMO_TABLE + u32::from(demo) * 4);
+    m.write_u32(P::DEMO_PTR, ptr);
+    for a in P::DEMO_WORDS {
+        m.write_u16(a, 0);
+    }
+    m.write_u8(P::DEMO_BYTE, 0);
+    if m.read_u8(P::DEMO_CLEAR_FLAG) != 0 {
+        super::fill(m, ptr, P::DEMO_BUFFER_LEN, 0xFF);
+    }
+}
+
+/// Permite o no la pausa en la escena actual.
+/// Original: `SetRamByteFF_013d20` / `$013D2A`.
+pub fn set_pause_enabled(m: &mut impl Memory, on: bool) {
+    m.write_u8(Z::ENABLED, if on { 0xFF } else { 0 });
+}
+
 /// Pausa con el botón de inicio de un jugador que esté jugando (sólo en
 /// consola). Devuelve `true` mientras el juego está en pausa.
 /// Original: `Pause_Poll_013c3c` / `Pause_Active_013cae`.

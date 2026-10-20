@@ -167,6 +167,15 @@ pub mod bios_ram {
     /// Ajustes "soft DIP" que el juego deja por defecto en consola.
     pub const SOFT_DIP_LIVES: u32 = 0x10_FD88;
     pub const SOFT_DIP_DIFFICULTY: u32 = 0x10_FD8B;
+    /// En qué está el juego según la BIOS: 0 = arrancando, 1 = título /
+    /// demo, 2 = partida.
+    pub const USER_MODE: u32 = 0x10_FDAF;
+    pub const USER_MODE_ATTRACT: u8 = 1;
+    pub const USER_MODE_GAME: u8 = 2;
+    /// Petición `USER` de título (ver `USER_REQUEST`).
+    pub const USER_REQUEST_TITLE: u8 = 3;
+    /// Arranque "en caliente" (desde el título con créditos).
+    pub const HARD_START: u32 = 0x10_FEC5;
 }
 
 /// Arranque, interrupciones y bucle de frame.
@@ -323,6 +332,14 @@ pub mod task {
     /// Tareas que la de arranque reinicia después (las entidades de los
     /// jugadores y otra).
     pub const BOOT_RESET: [u32; 3] = [0x10_0440, 0x10_04E0, 0x10_0580];
+    /// Otro puntero de la tarea que se pone a `NIL` al darla de baja.
+    pub const LINK: u32 = 0x48;
+    /// Ranuras de paleta de la tarea: hasta 4 índices (words) y cuántas
+    /// están ocupadas.
+    pub const PAL_SLOTS: u32 = 0x16;
+    pub const PAL_SLOT_COUNT: u32 = 0x1E;
+    /// Cursor del guion que interpreta la tarea (ver `script`).
+    pub const SCRIPT_CURSOR: u32 = 0x70;
     /// Valores iniciales de los campos de una tarea (offset, valor).
     /// Original: `Entity_InitFields_05DC34`.
     pub const RESET_WORDS: [(u32, u16); 8] =
@@ -376,6 +393,40 @@ pub mod sprites {
     pub const FREE_COUNT: u16 = 0x30;
     pub const FREE_TOP: u32 = 0x10_82C2;
     pub const STATE_WORDS: [u32; 2] = [0x10_82C4, 0x10_82C6];
+    /// La pila de índices libres es en realidad un anillo de `FREE_COUNT`:
+    /// posición de escritura (al liberar).
+    pub const FREE_WRITE: u32 = 0x10_82C6;
+    /// Las entradas liberadas se devuelven al anillo restando este índice.
+    pub const FREE_INDEX_BASE: u16 = 0x94;
+    /// Primer byte de una entrada recién liberada.
+    pub const RELEASED_MARK: u8 = 0x88;
+    /// Campos de una entrada: gráficos y referencias.
+    pub const ENTRY_DATA: u32 = 0x02;
+    pub const ENTRY_REFS: u32 = 0x06;
+    pub const ENTRY_AUX: u32 = 0x08;
+    /// Primer byte de una entrada cargada vacía.
+    pub const EMPTY_MARK: u8 = 0x40;
+    /// Listas de la ROM con las paletas fijas que se cargan al arrancar
+    /// cada escena: (marca << 8 | índice, número de paleta) acabadas en
+    /// `0xFFFF`. La baja empieza en la entrada `LOW_LIST_FIRST` y sus
+    /// datos en `LOW_LIST_DATA`; la alta no desplaza el índice.
+    pub const LOW_LIST: u32 = 0x00_09FA;
+    pub const LOW_LIST_FIRST: u32 = 0x74;
+    pub const LOW_LIST_MAX: u32 = 0x20;
+    pub const LOW_LIST_DATA: u32 = 0x01_4E00;
+    pub const HIGH_LIST: u32 = 0x00_09B4;
+    pub const HIGH_LIST_MAX: u32 = 0x74;
+    pub const HIGH_LIST_DATA: u32 = 0x01_CE00;
+    pub const LIST_END: u16 = 0xFFFF;
+    /// Reparto de los sprites hardware: inicio, final y corte de la zona
+    /// del juego, y dos variables que se ponen a 0.
+    pub const BAND_FIRST: u32 = 0x10_E1F6;
+    pub const BAND_END: u32 = 0x10_E1F8;
+    pub const BAND_SPLIT: [u32; 2] = [0x10_E1FA, 0x10_E1FC];
+    pub const BAND_CLEAR: [u32; 2] = [0x10_E1F4, 0x10_E1FE];
+    pub const BAND_TOTAL: u16 = 0x17C;
+    /// SCB3 (altura/posición vertical) del sprite 1: escribir 0 lo oculta.
+    pub const VRAM_SCB3_FIRST: u16 = 0x8201;
     pub const STATE_BYTES: [u32; 2] = [0x10_A2C9, 0x10_A2D1];
     /// Base de las variables del renderizador (el original las direcciona
     /// relativas a ella).
@@ -441,6 +492,9 @@ pub mod pads {
     pub const DEMO_TABLE: u32 = 0x0E_7C00;
     pub const DEMO_CLEAR_FLAG: u32 = 0x02_5118;
     pub const DEMO_BUFFER_LEN: u32 = 0x200;
+    /// Número de demo que se pasa para no reproducir ninguna.
+    pub const NO_DEMO: u16 = 0xFFFF;
+    pub const DEMO_COUNT: u16 = 2;
     /// Rutinas de tarea con las que un jugador no cuenta como activo.
     pub const INACTIVE_HANDLERS: [u32; 4] = [0xFFFF_FFFF, 0x52A, 0x400, 0x2_AE3E];
     /// Bit 7 de este byte de la tarea del jugador: está en juego.
@@ -453,6 +507,8 @@ pub mod pads {
     /// Estado de cada jugador según la BIOS (0 = no juega, 3 = sin
     /// créditos / acabado, 1 = juega).
     pub const BIOS_PLAYER_STATE: [u32; 2] = [0x10_FDB6, 0x10_FDB7];
+    /// Los cuatro bytes de estado de jugador de la BIOS (se borran juntos).
+    pub const BIOS_PLAYER_STATE_ALL: [u32; 4] = [0x10_FDB6, 0x10_FDB7, 0x10_FDB8, 0x10_FDB9];
     pub const BIOS_PLAYER_PLAYING: u8 = 1;
     pub const BIOS_PLAYER_OFF: u8 = 0;
     pub const BIOS_PLAYER_GAME_OVER: u8 = 3;
@@ -522,4 +578,61 @@ pub mod routine {
     pub const VBLANK_IRQ: u32 = 0x00_08F6;
     /// Interrupción del temporizador.
     pub const TIMER_IRQ: u32 = 0x00_08D6;
+    /// Guion de arranque: entradas del arranque (completo, partida,
+    /// título), el reparto común, el despacho y el avance.
+    pub const SCRIPT_GAME: u32 = 0x00_0EF0;
+    pub const SCRIPT_TITLE: u32 = 0x00_0F1A;
+    pub const SCRIPT_DISPATCH: u32 = 0x00_0FC6;
+    pub const SCRIPT_NEXT: u32 = 0x00_0FE0;
+}
+
+/// Generador de números aleatorios del juego: una tabla de 32 valores que
+/// se rellena a partir de una semilla.
+pub mod rng {
+    pub const TABLE: u32 = 0x10_E230;
+    pub const LEN: u32 = 32;
+    pub const INDEX: u32 = 0x10_E270;
+    pub const MUL: u16 = 0xB7C7;
+    pub const ADD: u16 = 0x81F5;
+    /// Contador que avanza en cada escena del guion y sirve de semilla.
+    pub const SEED_COUNTER: u32 = 0x10_007C;
+}
+
+/// Límites de la cámara.
+pub mod camera {
+    pub const LIMIT_X: u32 = 0x10_E1E4;
+    pub const LIMIT_Y: u32 = 0x10_E1E6;
+    pub const DEFAULT_LIMITS: (u16, u16) = (0xA0, 0x178);
+    /// Los que deja el guion de arranque.
+    pub const BOOT_LIMITS: (u16, u16) = (0xF0, 0x1E8);
+}
+
+/// Guion de arranque: la tarea `TASK` recorre una lista de
+/// rutinas de la ROM (una por escena: logo, demo, título, partida...).
+/// Cada una hace lo suyo durante varios frames y, al acabar, salta a
+/// `routine::SCRIPT_NEXT`, que avanza el cursor. `END` seguido de una
+/// dirección continúa en otra lista.
+pub mod script {
+    pub const END: u32 = 0xFFFF_FFFF;
+    /// Listas por modo de arranque.
+    pub const DEMO: u32 = 0x00_0B92;
+    pub const HARD_START: u32 = 0x00_0BBA;
+    pub const TITLE: u32 = 0x00_0BCE;
+    pub const GAME_AES: u32 = 0x00_0BDA;
+    pub const GAME_MVS: u32 = 0x00_0BE6;
+    pub const START_PRESSED: u32 = 0x00_0E6E;
+    /// Tarea que ejecuta el guion.
+    pub const TASK: u32 = 0x10_01C0;
+    /// Bytes de la tarea que se borran al arrancar el guion.
+    pub const TASK_CLEAR: [u32; 4] = [0x12, 0x13, 0x5B, 0x5A];
+    /// Teclas de crédito: las que se ponen a 0 en la demo y las que se
+    /// ponen a `0xFF` en todas las escenas.
+    pub const KEY_RESET: [u32; 2] = [0x10_6ECC, 0x10_6ECD];
+    pub const KEY_LATCH: [u32; 2] = [0x10_6ECE, 0x10_6ECF];
+    /// Activa el texto de pausa / lo desactiva (escenas sin pausa).
+    pub const PAUSE_ENABLED: u32 = super::pause::ENABLED;
+    /// Tareas que se paran entre escenas (con sus hijas); las dos últimas
+    /// sólo pierden las hijas en la variante "conservar".
+    pub const SCENE_TASKS: [u32; 8] =
+        [0x10_0260, 0x10_0800, 0x10_08A0, 0x10_0440, 0x10_04E0, 0x10_0580, 0x10_0300, 0x10_03A0];
 }

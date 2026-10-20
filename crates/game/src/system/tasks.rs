@@ -128,6 +128,65 @@ pub fn reset_in_place(m: &mut impl Memory, t: u32) {
     m.write_u16(t + T::FLAGS, u16::from(T::FLAGS_FIXED) << 8);
 }
 
+/// Da de baja la tarea `t`: devuelve sus ranuras de sprite, la saca de la
+/// lista y, si no es fija, devuelve el bloque al almacén (una fija se queda
+/// con la rutina vacía). Devuelve la tarea anterior, por la que sigue
+/// quien recorre la lista. Original: `Task_UnlinkAlive_0546`.
+pub fn unlink(m: &mut impl Memory, t: u32) -> u32 {
+    let fixed = m.read_u8(t + T::FLAGS) & T::FLAGS_FIXED != 0;
+    super::video::release_task_entries(m, t);
+    let prev = m.read_u32(t + T::PREV);
+    let next = m.read_u32(t + T::NEXT);
+    m.write_u32(prev + T::NEXT, next);
+    m.write_u32(next + T::PREV, prev);
+    m.write_u32(t + T::LINK, T::NIL);
+    if fixed {
+        m.write_u32(t + T::HANDLER, routine::IDLE);
+        let f = m.read_u8(t + T::FLAGS);
+        m.write_u8(t + T::FLAGS, f | T::FLAGS_FIXED);
+    } else {
+        m.write_u32(t + T::HANDLER, T::NIL);
+        let head = m.read_u32(T::FREE_LIST);
+        m.write_u32(t + T::NEXT, head);
+        m.write_u32(T::FREE_LIST, t);
+    }
+    prev
+}
+
+/// Da de baja todas las tareas que cuelgan de `t` (las que la siguen en la
+/// lista con más prioridad). Original: `$0005B6`.
+pub fn kill_children(m: &mut impl Memory, t: u32) {
+    let prio = m.read_u8(t + T::PRIORITY);
+    let mut cur = m.read_u32(t + T::NEXT);
+    while prio < m.read_u8(cur + T::PRIORITY) {
+        let prev = unlink(m, cur);
+        cur = m.read_u32(prev + T::NEXT);
+    }
+}
+
+/// `t` no es una tarea válida (puntero vacío o tarea vacía).
+fn is_none(t: u32) -> bool {
+    t == T::NIL || t == routine::IDLE
+}
+
+/// Da de baja las hijas de `t` (si es una tarea). Original: `Task_ChangeHandler_05DA`.
+pub fn kill_children_of(m: &mut impl Memory, t: u32) {
+    if !is_none(t) {
+        kill_children(m, t);
+    }
+}
+
+/// Para la tarea `t`: da de baja sus hijas y la deja vacía y como nueva.
+/// Original: `Task_ChangeAndRun_0626`.
+pub fn stop(m: &mut impl Memory, t: u32) {
+    if is_none(t) {
+        return;
+    }
+    kill_children(m, t);
+    m.write_u32(t + T::HANDLER, routine::IDLE);
+    reset_in_place(m, t);
+}
+
 /// Tarea de arranque: pone rutina a las tareas fijas, reinicia las de los
 /// jugadores, enlaza cada jugador con su tarea de control y se queda sin
 /// nada que hacer. Original: `TaskSlots_BootInstall_000A7C`.
@@ -226,6 +285,26 @@ pub fn store_active_players(m: &mut impl Memory) -> u16 {
 mod tests {
     use super::*;
     use crate::mem::TestMachine;
+
+    #[test]
+    fn kill_children_frees_descendants_only() {
+        let mut m = TestMachine::default();
+        m.write_u32(T::FREE_LIST, T::NIL);
+        // Lista circular: padre(0) -> hija(1) -> nieta(2) -> otra(0).
+        let [p, c, g, o] = [0x10_1000, 0x10_1100, 0x10_1200, 0x10_1300];
+        for (t, prio, next, prev) in [(p, 0, c, o), (c, 1, g, p), (g, 2, o, c), (o, 0, p, g)] {
+            m.write_u8(t + T::PRIORITY, prio);
+            m.write_u32(t + T::NEXT, next);
+            m.write_u32(t + T::PREV, prev);
+            m.write_u32(t + T::HANDLER, 0x1234);
+        }
+        kill_children(&mut m, p);
+        assert_eq!(m.read_u32(p + T::NEXT), o);
+        assert_eq!(m.read_u32(o + T::PREV), p);
+        assert_eq!(m.read_u32(T::FREE_LIST), g);
+        assert_eq!(m.read_u32(g + T::NEXT), c);
+        assert_eq!(m.read_u32(c + T::HANDLER), T::NIL);
+    }
 
     #[test]
     fn pool_is_linked_and_scheduler_calls_first_task() {

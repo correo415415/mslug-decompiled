@@ -116,6 +116,121 @@ pub fn reset_sprite_queues(m: &mut impl Memory) {
     }
 }
 
+/// Suelta una referencia a la entrada de sprite `i`; si era la última, la
+/// entrada queda libre y su índice vuelve al anillo de libres.
+/// Original: `PalSlot_Release_002bc4`.
+pub fn release_entry(m: &mut impl Memory, i: u16) {
+    let e = S::TABLE + u32::from(i) * S::SIZE;
+    let refs = m.read_u16(e + S::ENTRY_REFS).wrapping_sub(1);
+    m.write_u16(e + S::ENTRY_REFS, refs);
+    if refs != 0 {
+        return;
+    }
+    m.write_u8(e, S::RELEASED_MARK);
+    m.write_u32(e + S::ENTRY_DATA, 0);
+    m.write_u16(e + S::ENTRY_AUX, 0);
+    let w = m.read_u16(S::FREE_WRITE);
+    m.write_u8(S::FREE_STACK + u32::from(w), i.wrapping_sub(S::FREE_INDEX_BASE) as u8);
+    let w = w.wrapping_add(1);
+    m.write_u16(S::FREE_WRITE, if w as i16 >= S::FREE_COUNT as i16 { 0 } else { w });
+    super::inc_u16(m, S::FREE_TOP);
+}
+
+/// Suelta todas las entradas de sprite que tiene la tarea `t`, de la
+/// última a la primera. Original: `Entity_FlushSlotHistory_013600`.
+pub fn release_task_entries(m: &mut impl Memory, t: u32) {
+    use crate::layout::task as T;
+    loop {
+        let n = m.read_u16(t + T::PAL_SLOT_COUNT);
+        if n == 0 {
+            return;
+        }
+        let n = n - 1;
+        m.write_u16(t + T::PAL_SLOT_COUNT, n);
+        let slot = t + T::PAL_SLOTS + u32::from(n) * 2;
+        let i = m.read_u16(slot);
+        m.write_u16(slot, 0);
+        release_entry(m, i);
+    }
+}
+
+/// Carga una lista de entradas fijas de la ROM (ver `sprites::LOW_LIST`).
+fn load_entries(m: &mut impl Memory, list: u32, first: u32, data: u32) {
+    let mut a = list;
+    loop {
+        let w = m.read_u16(a);
+        if w == S::LIST_END {
+            return;
+        }
+        let i = u32::from(w & 0xFF) + first;
+        let e = S::TABLE + i * S::SIZE;
+        let gfx = m.read_u16(a + 2);
+        if gfx == S::LIST_END {
+            m.write_u16(e + S::ENTRY_REFS, 0);
+            m.write_u8(e, S::EMPTY_MARK);
+        } else {
+            m.write_u32(e + S::ENTRY_DATA, u32::from(gfx) * 64 + data);
+            m.write_u16(e + S::ENTRY_REFS, 1);
+            m.write_u8(e, (w >> 8) as u8 | 1);
+        }
+        a += 4;
+    }
+}
+
+/// Original: `$002AEC` (lista baja) y `PalSlot_LoadListHi_002b58` (alta).
+pub fn load_low_entries(m: &mut impl Memory, list: u32) {
+    load_entries(m, list, S::LOW_LIST_FIRST, S::LOW_LIST_DATA);
+}
+pub fn load_high_entries(m: &mut impl Memory, list: u32) {
+    load_entries(m, list, 0, S::HIGH_LIST_DATA);
+}
+
+/// Entradas fijas de sprite de todas las escenas.
+/// Original: `Task_InstallBootSlots_001da4`.
+pub fn load_fixed_entries(m: &mut impl Memory) {
+    load_low_entries(m, S::LOW_LIST);
+    load_high_entries(m, S::HIGH_LIST);
+}
+
+/// Oculta los sprites hardware `from..=to` (SCB3 = 0).
+/// Original: `SpriteRange_DisableAll_01399C`.
+pub fn hide_sprites(m: &mut impl Memory, from: u16, to: u16) {
+    m.write_u16(hw::VRAM_MOD, 0);
+    let (from, to) = (from.wrapping_add(S::VRAM_SCB3_FIRST), to.wrapping_add(S::VRAM_SCB3_FIRST));
+    let mut a = from;
+    loop {
+        m.write_u16(hw::VRAM_ADDR, a);
+        m.write_u16(hw::VRAM_RW, 0);
+        a = a.wrapping_add(1);
+        if a > to {
+            return;
+        }
+    }
+}
+
+/// Reparte los sprites hardware: el juego empieza en `first`, se reservan
+/// `top` al final y `bottom` antes de ellos; oculta todos.
+/// Original: `Scratch_Alloc_01390E` (d0, d2, d1).
+pub fn split_sprites(m: &mut impl Memory, first: u16, top: u16, bottom: u16) {
+    reset_sprite_queues(m);
+    for a in S::BAND_CLEAR {
+        m.write_u16(a, 0);
+    }
+    m.write_u16(S::BAND_FIRST, first);
+    let end = S::BAND_TOTAL.wrapping_sub(top);
+    m.write_u16(S::BAND_END, end);
+    let split = end.wrapping_sub(bottom);
+    for a in S::BAND_SPLIT {
+        m.write_u16(a, split);
+    }
+    hide_sprites(m, 0, S::BAND_TOTAL - 1);
+}
+
+/// Todos los sprites para el juego. Original: `Scratch_AllocZero_001e1c`.
+pub fn reset_sprites(m: &mut impl Memory) {
+    split_sprites(m, 0, 0, 0);
+}
+
 /// Empieza un frame de dibujo vacío. Original: `VRAM_FixAutoclear_Reset_05a9ba`.
 pub fn begin_draw_frame(m: &mut impl Machine) {
     m.write_u8(S::FLUSH_PENDING, 0);

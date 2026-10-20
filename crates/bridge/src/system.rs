@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{boot, frame, irq, pads, sound, tasks, video};
+use mslug_game::system::{boot, frame, irq, pads, rng, script, sound, tasks, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -288,7 +288,116 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(n as u8);
                      Flow::Return
                  } },
+    SystemPort { entry: 0x00_0546, original: "Task_UnlinkAlive_0546", rust: "system::tasks::unlink",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     let prev = tasks::unlink(m, t);
+                     m.cpu.a[6] = prev;
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_05B6, original: "FUN_000005B6", rust: "system::tasks::kill_children",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     tasks::kill_children(m, t);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_05DA, original: "Task_ChangeHandler_05DA", rust: "system::tasks::kill_children_of",
+                 run: |m| {
+                     let t = m.cpu.a[0];
+                     tasks::kill_children_of(m, t);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_0626, original: "Task_ChangeAndRun_0626", rust: "system::tasks::stop",
+                 run: |m| {
+                     let t = m.cpu.a[0];
+                     tasks::stop(m, t);
+                     Flow::Return
+                 } },
+    // --- guion de arranque
+    SystemPort { entry: 0x00_0E8E, original: "SchedulerBootstrap_Boot_000E8E", rust: "system::script::boot", run: |m| script::boot(m) },
+    SystemPort { entry: 0x00_0EF0, original: "TaskHandler_000ef0", rust: "system::script::start_game", run: |m| script::start_game(m) },
+    SystemPort { entry: 0x00_0F1A, original: "TaskHandler_000f1a", rust: "system::script::start_title", run: |m| script::start_title(m) },
+    SystemPort { entry: 0x00_0F76, original: "PcThunkTarget_000F76", rust: "system::script::start_pressed", run: |m| script::start_pressed(m) },
+    SystemPort { entry: 0x00_0FC6, original: "SchedulerLoopA_000FC6", rust: "system::script::dispatch", run: |m| script::dispatch(m) },
+    SystemPort { entry: 0x00_0FE0, original: "SchedulerDispatch_LoopB_000FE0", rust: "system::script::next", run: |m| script::next(m) },
+    SystemPort { entry: 0x00_1020, original: "SchedTail_JsrCD4_001020", rust: "system::script::step_stop_scene", run: |m| script::step_stop_scene(m) },
+    SystemPort { entry: 0x00_1026, original: "SchedTail_JsrD3C_001026", rust: "system::script::step_stop_scene_keep",
+                 run: |m| script::step_stop_scene_keep(m) },
+    SystemPort { entry: 0x00_1354, original: "BootScr_Clr13d2a_001354", rust: "system::script::step_disable_pause",
+                 run: |m| script::step_disable_pause(m) },
+    SystemPort { entry: 0x00_135E, original: "BootScr_SetFF13d20_00135e", rust: "system::script::step_enable_pause",
+                 run: |m| script::step_enable_pause(m) },
+    SystemPort { entry: 0x00_1838, original: "Attract_SoftReset_10FDAF_001838", rust: "system::script::step_back_to_bios",
+                 run: |m| script::step_back_to_bios(m) },
+    SystemPort { entry: 0x00_1AF8, original: "Attract_StartIfP2Flag_001af8", rust: "system::script::check_game_started",
+                 run: ret!(script::check_game_started) },
+    SystemPort { entry: 0x00_1CD4, original: "TaskList_ChangeAndRunEight_001CD4", rust: "system::script::stop_scene",
+                 run: ret!(script::stop_scene) },
+    SystemPort { entry: 0x00_1D3C, original: "Task_ResetAllSlots_001d3c", rust: "system::script::stop_scene_keep",
+                 run: ret!(script::stop_scene_keep) },
+    SystemPort { entry: 0x05_CACE, original: "Camera_ResetCenter_05CACE", rust: "system::script::reset_camera", run: ret!(script::reset_camera) },
+    SystemPort { entry: 0x05_E998, original: "Rng_Seed_05e998", rust: "system::rng::seed",
+                 run: |m| {
+                     let s = m.cpu.d[0] as u16;
+                     rng::seed(m, s);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_4FEC, original: "PlayerCtx_ResetTwoBlocks_024FEC", rust: "system::pads::start_demo",
+                 run: |m| {
+                     let d = m.cpu.d[0] as u16;
+                     pads::start_demo(m, d);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x01_3D20, original: "SetRamByteFF_013d20", rust: "system::pads::set_pause_enabled",
+                 run: |m| {
+                     pads::set_pause_enabled(m, true);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x01_3D2A, original: "Pause_Disable_013d2a", rust: "system::pads::set_pause_enabled",
+                 run: |m| {
+                     pads::set_pause_enabled(m, false);
+                     Flow::Return
+                 } },
     // --- vídeo
+    SystemPort { entry: 0x01_3600, original: "Entity_FlushSlotHistory_013600", rust: "system::video::release_task_entries",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     video::release_task_entries(m, t);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_2BC4, original: "PalSlot_Release_002bc4", rust: "system::video::release_entry",
+                 run: |m| {
+                     let i = m.cpu.d[1] as u16;
+                     video::release_entry(m, i);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_2AEC, original: "PalSlot_LoadListLo_002aec", rust: "system::video::load_low_entries",
+                 run: |m| {
+                     let l = m.cpu.a[0];
+                     video::load_low_entries(m, l);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_2B58, original: "PalSlot_LoadListHi_002b58", rust: "system::video::load_high_entries",
+                 run: |m| {
+                     let l = m.cpu.a[0];
+                     video::load_high_entries(m, l);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_1DA4, original: "Task_InstallBootSlots_001da4", rust: "system::video::load_fixed_entries",
+                 run: ret!(video::load_fixed_entries) },
+    SystemPort { entry: 0x01_390E, original: "Scratch_Alloc_01390E", rust: "system::video::split_sprites",
+                 run: |m| {
+                     let (a, b, c) = (m.cpu.d[0] as u16, m.cpu.d[2] as u16, m.cpu.d[1] as u16);
+                     video::split_sprites(m, a, b, c);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x00_1E1C, original: "Scratch_AllocZero_001e1c", rust: "system::video::reset_sprites", run: ret!(video::reset_sprites) },
+    SystemPort { entry: 0x01_399C, original: "SpriteRange_DisableAll_01399C", rust: "system::video::hide_sprites",
+                 run: |m| {
+                     let (a, b) = (m.cpu.d[0] as u16, m.cpu.d[1] as u16);
+                     video::hide_sprites(m, a, b);
+                     Flow::Return
+                 } },
     SystemPort { entry: 0x01_379A, original: "Pal_ShadowClearAll_01379a", rust: "system::video::clear_palettes", run: ret!(video::clear_palettes) },
     SystemPort { entry: 0x01_37C6, original: "Pal_FlushDirtyToHW_0137c6", rust: "system::video::flush_palettes", run: ret!(video::flush_palettes) },
     SystemPort { entry: 0x05_26B8, original: "SpriteTable_Init256_0526b8", rust: "system::video::init_sprite_table",

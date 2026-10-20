@@ -11,6 +11,8 @@ pub mod boot;
 pub mod frame;
 pub mod irq;
 pub mod pads;
+pub mod rng;
+pub mod script;
 pub mod sound;
 pub mod tasks;
 pub mod video;
