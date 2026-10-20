@@ -129,8 +129,8 @@ pub mod hw {
     pub const WATCHDOG: u32 = 0x30_0001;
     /// `REG_SOUND`: escribir = orden al Z80; leer = respuesta del Z80.
     pub const SOUND: u32 = 0x32_0000;
-    /// Orden de sonido: reiniciar el driver.
-    pub const SOUND_CMD_RESET: u8 = 0x0F;
+    /// Orden de sonido: sonido de moneda.
+    pub const SOUND_CMD_COIN: u8 = 0x0F;
     /// RAM de paleta (banco seleccionado): 256 paletas de 16 colores.
     pub const PALETTE_RAM: u32 = 0x40_0000;
     /// Último color de la paleta 255 (color de fondo de la pantalla).
@@ -239,8 +239,9 @@ pub mod system {
 
 /// Cola de órdenes al driver de sonido (Z80).
 pub mod sound {
-    /// Pide reiniciar el driver en el próximo vblank.
-    pub const RESET_REQUEST: u32 = 0x10_007A;
+    /// Pide el sonido de moneda en el próximo vblank (lo pide la BIOS por
+    /// el vector `COIN_SOUND` de la cabecera).
+    pub const COIN_SOUND_REQUEST: u32 = 0x10_007A;
     /// Cola circular de 32 órdenes.
     pub const QUEUE: u32 = 0x10_8184;
     pub const QUEUE_LEN: u16 = 32;
@@ -415,9 +416,19 @@ pub mod routine {
     pub const NOP: u32 = 0x00_08F2;
     pub const SCHEDULER: u32 = 0x00_0656;
     /// Punto del planificador al que vuelven las tareas.
-    pub const SCHEDULER_AFTER_TASK: u32 = 0x00_0674;
-    /// Bucle de espera del frame (rutina de la tarea del frame).
+    pub const SCHEDULER_AFTER_TASK: u32 = 0x00_06CA;
+    /// Bucle de frame: preparación (una vez) y espera de cada frame (la
+    /// rutina que queda en la tarea del frame).
+    pub const FRAME_LOOP: u32 = 0x00_1F84;
     pub const FRAME_WAIT: u32 = 0x00_1FE2;
+    /// Inicialización de los subsistemas y arranque del planificador
+    /// (peticiones `USER` de demo y de título).
+    pub const INIT_SUBSYSTEMS: u32 = 0x00_097A;
+    /// Peticiones `USER` 0 (iniciar) y 1 (modo de prueba).
+    pub const USER_INIT: u32 = 0x00_080C;
+    pub const USER_TEST: u32 = 0x00_0832;
+    /// Vuelta a la BIOS (borra la RAM del juego).
+    pub const RETURN_TO_BIOS: u32 = 0x00_085E;
     /// Lectura de los mandos del frame.
     pub const INPUT_READ_FRAME: u32 = 0x05_CC1A;
     /// Botón de pausa; C = el juego está en pausa.
@@ -428,6 +439,9 @@ pub mod routine {
     pub const PLAYER_TASKS: u32 = 0x05_E3F4;
     /// Vuelca una cola de sprites a la VRAM.
     pub const SPRITE_QUEUE_RENDER: u32 = 0x05_B400;
+    /// Entradas de la cabecera Neo Geo a las que salta la BIOS.
+    pub const HEADER_USER: u32 = 0x00_0122;
+    pub const HEADER_COIN_SOUND: u32 = 0x00_0134;
     /// Petición `USER` de la BIOS y tabla de saltos por tipo de petición.
     pub const USER_REQUEST: u32 = 0x00_07CC;
     pub const USER_REQUEST_TABLE: u32 = 0x00_07FC;

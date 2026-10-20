@@ -108,7 +108,7 @@ fn enter_task(m: &mut impl Machine) -> Flow {
 }
 
 /// Vuelta de una tarea: limpia sus flags del frame y pasa a la siguiente.
-/// Original: `Scheduler_MainLoop_000656` + `$1E` (`$000674`).
+/// Original: `Scheduler_MainLoop_000656` + `$74` (`$0006CA`).
 pub fn after_task(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
     let f2 = m.read_u8(t + T::FLAGS2);

@@ -40,22 +40,23 @@ pub fn push(m: &mut impl Memory, cmd: u8) {
     }
 }
 
-/// Anula la petición de reiniciar el driver. Original: `$002126`.
-pub fn cancel_reset(m: &mut impl Memory) {
-    m.write_u8(L::RESET_REQUEST, 0);
+/// Anula el sonido de moneda pendiente. Original: `$002126`.
+pub fn cancel_coin_sound(m: &mut impl Memory) {
+    m.write_u8(L::COIN_SOUND_REQUEST, 0);
 }
 
-/// Pide reiniciar el driver en el próximo vblank. Original: `$0022BE`.
-pub fn request_reset(m: &mut impl Memory) {
-    m.write_u8(L::RESET_REQUEST, 1);
+/// La BIOS pide el sonido de moneda (vector `COIN_SOUND` de la cabecera);
+/// se envía en el próximo vblank. Original: `$0022BE`.
+pub fn request_coin_sound(m: &mut impl Memory) {
+    m.write_u8(L::COIN_SOUND_REQUEST, 1);
 }
 
-/// Vblank: envía la siguiente orden de la cola (o el reinicio, si se ha
-/// pedido) y recoge la respuesta del Z80. Original: `Sound_PumpQueue_00226a`.
+/// Vblank: envía el sonido de moneda si se ha pedido o, si no, la siguiente
+/// orden de la cola, y recoge la respuesta del Z80. Original: `Sound_PumpQueue_00226a`.
 pub fn pump(m: &mut impl Memory) {
-    if m.read_u8(L::RESET_REQUEST) != 0 {
-        m.write_u8(L::RESET_REQUEST, 0);
-        m.write_u8(hw::SOUND, hw::SOUND_CMD_RESET);
+    if m.read_u8(L::COIN_SOUND_REQUEST) != 0 {
+        m.write_u8(L::COIN_SOUND_REQUEST, 0);
+        m.write_u8(hw::SOUND, hw::SOUND_CMD_COIN);
         return;
     }
     let reply = m.read_u8(hw::SOUND);
