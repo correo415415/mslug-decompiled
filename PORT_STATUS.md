@@ -13,7 +13,7 @@
 > | `lockstep-manual --atomic-ref` (auto 8000 + fuzz 1–3) | ✅ mismo estado que el recompilado en cada frame |
 > | Rutinas de sistema portadas (`crates/game/src/system`) | 41 entradas: arranque/USER, vblank, temporizador, planificador, bucle de frame, mandos, pausa, sonido, paleta, sprites, VRAM |
 > | `verify-system` (estado completo; auto 1500 + fuzz 1) | ✅ 0 fallos (17 860 + 15 891 llamadas) |
-> | **Sólo port manual** (`--only-manual`, sin recompilado ni intérprete) | arranca, inicializa, ejecuta la tarea de arranque y el guion de arranque; ejecuta la primera escena (logo) y el HUD de créditos; se para en el frame 403 en la tarea de la escena, `$091330` (antes: `TaskSlots_BootInstall`, `SchedulerBootstrap_Boot`, `AttractHandler_00109C`) |
+> | **Sólo port manual** (`--only-manual`, sin recompilado ni intérprete) | arranca, inicializa, ejecuta la tarea de arranque y el guion de arranque; ejecuta la primera escena (logo) y el HUD de créditos; ejecuta la pantalla de título (logo animado, copyright, mensaje, cuenta atrás) y las tareas fijas; se para en el frame 404 en `VBlank_RenderFrame_002098` (render del frame: `PalSlot_UpdateAll` + `SpriteQueue_SortAndRenderSCB1`) (antes: `$091330`, `TaskSlots_BootInstall`, `SchedulerBootstrap_Boot`, `AttractHandler_00109C`) |
 > | Hoja de ruta (`mslug roadmap`) | rutinas en orden de primera ejecución, portadas o no |
 > | Assets (`scripts/extract_assets.sh`) | ✅ idénticos a la rama de la decompilación |
 
