@@ -346,16 +346,12 @@ pub fn step(m: &mut impl Machine, t: u32) -> bool {
                 }
             }
             A::OP_SOUND | A::OP_SOUND_STOP => {
-                let routine = if code == A::OP_SOUND {
-                    crate::layout::pause::SOUND_REQUEST
+                let sound = m.read_u16(op + 2);
+                if code == A::OP_SOUND {
+                    super::sound::play(m, sound);
                 } else {
-                    crate::layout::pause::SOUND_STOP
-                };
-                let mut r = m.regs();
-                r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(m.read_u16(op + 2));
-                r.a[1] = op;
-                m.call_original(routine, &mut r);
-                m.set_regs(r);
+                    super::sound::stop(m, sound);
+                }
                 op + 4
             }
             A::OP_SET_BYTE | A::OP_AND_BYTE | A::OP_OR_BYTE | A::OP_EOR_BYTE => {

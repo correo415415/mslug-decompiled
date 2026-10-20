@@ -275,6 +275,26 @@ pub mod sound {
     pub const FIRST_SOUND_CODE: u8 = 0x20;
     /// Orden inicial que se encola al arrancar.
     pub const CMD_INIT: u8 = 4;
+    /// Órdenes de sistema: reiniciar el driver, preparar dos voces, parar
+    /// un sonido, ajustes de efecto y de música (con su valor detrás).
+    pub const CMD_SILENCE: u8 = 5;
+    pub const CMD_RESET: u8 = 6;
+    pub const CMD_STOP: u8 = 0x0C;
+    pub const CMD_EFFECT_SETTING: u8 = 0x0A;
+    pub const CMD_MUSIC_SETTING: u8 = 0x0B;
+    /// Códigos de sonido (`hi << 8 | lo`): por encima de `CODE_LIMIT` no
+    /// hay sonido; los de byte alto 1, 2 o 3 son mudos; los de byte alto 0
+    /// o `>= MUSIC_FIRST` (músicas y voces) no suenan en la demo de la
+    /// recreativa con `DEMO_SOUND` desactivado ni, si `SOUND_LOCK` está
+    /// puesto, mientras dura el bloqueo.
+    pub const CODE_LIMIT: u16 = 0x2000;
+    pub const MUSIC_FIRST: u16 = 0x1000;
+    /// Bloquea músicas y voces (`REPLY_AUX`, compartido con el driver).
+    pub const SOUND_LOCK: u32 = REPLY_AUX;
+    /// Ajuste de la recreativa (`DEMO SOUND`) y del cartucho: sonido en la
+    /// demo.
+    pub const DEMO_SOUND: u32 = 0x10_FD8D;
+    pub const MVS_DEMO_SOUND: u32 = 0xD0_0046;
 }
 
 /// Planificador de tareas.
@@ -591,12 +611,13 @@ pub mod pause {
     /// Sonidos de pausa y de fin de pausa.
     pub const SOUND_PAUSE: u16 = 0x10E0;
     pub const SOUND_UNPAUSE: u16 = 0x10E1;
-    /// Rutinas originales (aún sin portar): texto "PAUSE" visible / borrado,
-    /// petición de sonido y parada de la música.
-    pub const SHOW_TEXT: u32 = 0x01_3D46;
-    pub const HIDE_TEXT: u32 = 0x01_3D3E;
-    pub const SOUND_REQUEST: u32 = 0x00_2352;
-    pub const SOUND_STOP: u32 = 0x00_2222;
+    /// Texto de pausa: "PAUSE" y su borrado (cadenas de la ROM acabadas en
+    /// 0), dónde va en la capa fija, paso de columna y atributos.
+    pub const TEXT_SHOW: u32 = 0x01_3D32;
+    pub const TEXT_HIDE: u32 = 0x01_3D38;
+    pub const TEXT_AT: u16 = 0x725C;
+    pub const TEXT_COLUMN: u16 = 0x20;
+    pub const TEXT_ATTR: u16 = 0x2300;
     /// El texto parpadea con periodo de 32 frames; se borra en el 24.
     pub const BLINK_PERIOD_MASK: u8 = 0x1F;
     pub const BLINK_HIDE_AT: u8 = 0x18;

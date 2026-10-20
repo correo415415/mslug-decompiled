@@ -9,7 +9,7 @@
 //! `Pause_Poll_013c3c`, `Pause_Active_013cae`.
 
 use crate::layout::{bios_ram, pads as P, pause as Z};
-use crate::mem::{Machine, Memory, Regs};
+use crate::mem::{Machine, Memory};
 
 /// Actualiza un mando de trabajo con los botones mantenidos de este frame.
 fn update_pad(m: &mut impl Memory, pad: u32, held: u8) {
@@ -75,13 +75,6 @@ pub fn read_frame(m: &mut impl Machine) {
     m.set_regs(r);
 }
 
-/// Pide un sonido a la rutina original (aún sin portar).
-fn sound(m: &mut impl Machine, routine: u32, code: u16) {
-    let mut r: Regs = m.regs();
-    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(code);
-    m.call_original(routine, &mut r);
-    m.set_regs(r);
-}
 
 /// Mandos de trabajo a cero y, si `demo` es 0 o 1, empieza a reproducir
 /// (o grabar) esa demo. Original: `PlayerCtx_ResetTwoBlocks_024FEC`.
@@ -131,28 +124,44 @@ pub fn poll_pause(m: &mut impl Machine) -> bool {
         }
         m.write_u8(Z::ACTIVE, 0xFF);
         m.write_u8(Z::BLINK, 0);
-        sound(m, Z::SOUND_REQUEST, Z::SOUND_PAUSE);
+        super::sound::play(m, Z::SOUND_PAUSE);
         return true;
     }
     if pressed {
         m.write_u8(Z::ACTIVE, 0);
-        m.call(Z::HIDE_TEXT);
-        sound(m, Z::SOUND_STOP, Z::SOUND_PAUSE);
-        sound(m, Z::SOUND_REQUEST, Z::SOUND_UNPAUSE);
+        pause_text(m, false);
+        super::sound::stop(m, Z::SOUND_PAUSE);
+        super::sound::play(m, Z::SOUND_UNPAUSE);
         return false;
     }
     let t = m.read_u8(Z::BLINK);
     m.write_u8(Z::BLINK, t.wrapping_add(1));
     match t & Z::BLINK_PERIOD_MASK {
         0 => {
-            m.call(Z::SHOW_TEXT);
+            pause_text(m, true);
         }
         Z::BLINK_HIDE_AT => {
-            m.call(Z::HIDE_TEXT);
+            pause_text(m, false);
         }
         _ => {}
     }
     true
+}
+
+/// Escribe "PAUSE" en la capa fija o lo borra.
+/// Original: `$013D46` / `$013D3E`.
+pub fn pause_text(m: &mut impl Memory, show: bool) {
+    let mut p = if show { Z::TEXT_SHOW } else { Z::TEXT_HIDE };
+    let mut at = Z::TEXT_AT;
+    loop {
+        let c = m.read_u8(p);
+        if c == 0 {
+            return;
+        }
+        m.write_u32(crate::layout::hw::VRAM_ADDR, (u32::from(at) << 16) | u32::from(Z::TEXT_ATTR | u16::from(c)));
+        at = at.wrapping_add(Z::TEXT_COLUMN);
+        p += 1;
+    }
 }
 
 #[cfg(test)]

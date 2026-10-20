@@ -5,7 +5,7 @@
 //! realidad es la cola de sonido), `Sound_PumpQueue_00226a`,
 //! `Sound_PollReply_002242`.
 
-use crate::layout::{hw, sound as L};
+use crate::layout::{bios_ram, hw, sound as L};
 use crate::mem::Memory;
 
 /// Vacía la cola y encola la orden de inicio.
@@ -82,6 +82,69 @@ pub fn poll_reply(m: &mut impl Memory) -> u8 {
         return 0xFF;
     }
     (r - 0x80) >> 1
+}
+
+/// Pide el sonido `code` (byte alto = canal / tipo, bajo = sonido): se
+/// encolan sus dos bytes. En la demo de la recreativa, sólo si el ajuste
+/// `DEMO SOUND` está activo. Original: `$002352` (→ `$00219C`).
+pub fn play(m: &mut impl Memory, code: u16) {
+    let in_demo = m.read_u8(bios_ram::USER_MODE) == bios_ram::USER_MODE_ATTRACT;
+    if in_demo && m.read_u8(L::DEMO_SOUND) == 0 {
+        return;
+    }
+    play_always(m, code);
+}
+
+/// Como [`play`] sin mirar la demo. Original: `$00219C`.
+pub fn play_always(m: &mut impl Memory, code: u16) {
+    if code >= L::CODE_LIMIT || (code as u8) < L::FIRST_SOUND_CODE {
+        return;
+    }
+    let hi = code & 0xFF00;
+    if hi == 0x100 || hi == 0x200 || hi == 0x300 {
+        return;
+    }
+    if hi == 0 || hi >= L::MUSIC_FIRST {
+        let mvs = m.read_u8(bios_ram::MVS_FLAG) != 0;
+        if mvs
+            && m.read_u8(L::MVS_DEMO_SOUND) != 0
+            && m.read_u8(bios_ram::USER_MODE) == bios_ram::USER_MODE_ATTRACT
+        {
+            return;
+        }
+    }
+    if m.read_u8(L::SOUND_LOCK) != 0 && code >= L::MUSIC_FIRST {
+        return;
+    }
+    push(m, (code >> 8) as u8);
+    push(m, code as u8);
+}
+
+/// Para el sonido `code`. Original: `$002222`.
+pub fn stop(m: &mut impl Memory, code: u16) {
+    push(m, L::CMD_STOP);
+    play_always(m, code);
+}
+
+/// Bloquea / desbloquea músicas y voces. Original: `$002230` / `$00223A`.
+pub fn lock(m: &mut impl Memory, on: bool) {
+    m.write_u8(L::SOUND_LOCK, if on { 0xFF } else { 0 });
+}
+
+/// Reinicia el driver / silencia todo. Original: `$0022C8` / `$0022CE`.
+pub fn reset(m: &mut impl Memory) {
+    push(m, L::CMD_RESET);
+}
+pub fn silence(m: &mut impl Memory) {
+    push(m, L::CMD_SILENCE);
+}
+
+/// Ajuste de efectos (`$002308`) o de música (`$002312`): la orden y el
+/// valor (que se codifica como sonido: `v + 0x20`, con `0xFF` si se pasa).
+pub fn setting(m: &mut impl Memory, music: bool, v: u8) {
+    push(m, if music { L::CMD_MUSIC_SETTING } else { L::CMD_EFFECT_SETTING });
+    let (x, carry) = v.overflowing_add(L::FIRST_SOUND_CODE);
+    push(m, if carry { 0xFF } else { x });
 }
 
 #[cfg(test)]

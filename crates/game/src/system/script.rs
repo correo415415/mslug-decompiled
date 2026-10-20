@@ -223,12 +223,9 @@ fn spawn_scene_task(m: &mut impl Machine, handler: u32) {
     tasks::spawn(m, handler, me);
 }
 
-/// Pide una música o efecto. Original: `$002352` (sin portar).
+/// Pide una música o efecto.
 fn play(m: &mut impl Machine, code: u16) {
-    let mut r = m.regs();
-    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(code);
-    m.call_original(crate::layout::pause::SOUND_REQUEST, &mut r);
-    m.set_regs(r);
+    sound::play(m, code);
 }
 
 /// Capa fija y estado de paleta limpios para una escena nueva.
