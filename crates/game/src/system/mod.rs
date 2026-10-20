@@ -18,6 +18,7 @@ pub mod render;
 pub mod rng;
 pub mod scene;
 pub mod script;
+pub mod scroll;
 pub mod sprite;
 pub mod sound;
 pub mod title;

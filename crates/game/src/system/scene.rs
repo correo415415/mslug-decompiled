@@ -160,7 +160,7 @@ pub fn init_layer(m: &mut impl Memory, cam: u32, bx: u32, first: u16) {
 
 /// Oculta las 32 columnas de la capa (SCB3 = 0) y anota la dirección de
 /// VRAM que hay que restaurar. Original: `CellMap_ClearSprites32_051ed6`.
-fn hide_layer_sprites(m: &mut impl Memory, cam: u32) {
+pub fn hide_layer_sprites(m: &mut impl Memory, cam: u32) {
     let f = m.read_u8(cam + L::C_FLAGS);
     m.write_u8(cam + L::C_FLAGS, f & !1);
     let base = m.read_u16(cam + L::C_SPRITE_BASE).wrapping_add(S::SCB3_FIRST);
@@ -174,7 +174,7 @@ fn hide_layer_sprites(m: &mut impl Memory, cam: u32) {
 
 /// Tiles (SCB1) de las 32 columnas de la capa a 0.
 /// Original: `CellMap_ClearVramBlock_051f02`.
-fn clear_layer_tiles(m: &mut impl Memory, cam: u32) {
+pub fn clear_layer_tiles(m: &mut impl Memory, cam: u32) {
     let start = (m.read_u16(cam + L::C_SPRITE_BASE) << 6).wrapping_add(S::SCB1_WORDS);
     for i in 0..L::LAYER_ROWS * 2 {
         vram(m, start.wrapping_add(i as u16), 0);

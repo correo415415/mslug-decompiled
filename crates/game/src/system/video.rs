@@ -155,12 +155,13 @@ pub fn release_task_entries(m: &mut impl Memory, t: u32) {
 }
 
 /// Carga una lista de entradas fijas de la ROM (ver `sprites::LOW_LIST`).
-fn load_entries(m: &mut impl Memory, list: u32, first: u32, data: u32) {
+/// Devuelve dónde está su marca de fin.
+fn load_entries(m: &mut impl Memory, list: u32, first: u32, data: u32) -> u32 {
     let mut a = list;
     loop {
         let w = m.read_u16(a);
         if w == S::LIST_END {
-            return;
+            return a;
         }
         let i = u32::from(w & 0xFF) + first;
         let e = S::TABLE + i * S::SIZE;
@@ -178,11 +179,11 @@ fn load_entries(m: &mut impl Memory, list: u32, first: u32, data: u32) {
 }
 
 /// Original: `$002AEC` (lista baja) y `PalSlot_LoadListHi_002b58` (alta).
-pub fn load_low_entries(m: &mut impl Memory, list: u32) {
-    load_entries(m, list, S::LOW_LIST_FIRST, S::LOW_LIST_DATA);
+pub fn load_low_entries(m: &mut impl Memory, list: u32) -> u32 {
+    load_entries(m, list, S::LOW_LIST_FIRST, S::LOW_LIST_DATA)
 }
-pub fn load_high_entries(m: &mut impl Memory, list: u32) {
-    load_entries(m, list, 0, S::HIGH_LIST_DATA);
+pub fn load_high_entries(m: &mut impl Memory, list: u32) -> u32 {
+    load_entries(m, list, 0, S::HIGH_LIST_DATA)
 }
 
 /// Entradas fijas de sprite de todas las escenas.

@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, render, rng, scene, script, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, hud, irq, pads, palette, render, rng, scene, script, scroll, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -169,6 +169,10 @@ pub struct SystemPort {
     pub original: &'static str,
     pub rust: &'static str,
     pub run: SystemFn,
+}
+
+fn set_carry(m: &mut CpuMachine, c: bool) {
+    m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
 }
 
 /// Sprite `k` del logo del título (deja el flag C de la animación).
@@ -483,6 +487,79 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let n = m.cpu.d[0] as u16; let f = scene::take_sprites(m, true, n); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(f); Flow::Return } },
     SystemPort { entry: 0x01_3952, original: "Spawn_TypeB_013952", rust: "system::scene::take_sprites",
                  run: |m| { let n = m.cpu.d[0] as u16; let f = scene::take_sprites(m, false, n); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(f); Flow::Return } },
+    // --- scroll de la escena
+    SystemPort { entry: 0x04_37DA, original: "SceneScriptVM_Frame_0437DA", rust: "system::scroll::frame",
+                 run: |m| { let v = (m.cpu.d[0], m.cpu.d[1]); scroll::frame(m, v); Flow::Return } },
+    SystemPort { entry: 0x04_3CE2, original: "SceneScript_EdgeArrivalTest_043CE2", rust: "system::scroll::edge_reached",
+                 run: |m| { let c = scroll::edge_reached(m); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x04_3E3A, original: "Scroll_ClampToRange_043E3A", rust: "system::scroll::clamp_step",
+                 run: |m| {
+                     let d = m.cpu.d;
+                     let (delta, pos) = scroll::clamp_step(d[0], d[1], d[2] as u16, d[3] as u16);
+                     let sat = scroll::saturated(d[0], d[1], d[2] as u16, d[3] as u16);
+                     m.cpu.d[0] = if sat { d[0] & 0xFFFF_0000 } else { (pos << 16) | u32::from(delta) };
+                     m.cpu.d[1] = pos;
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x04_34EA, original: "Camera_ResetSmoothing_0434EA", rust: "system::scroll::reset_smoothing", run: ret!(scroll::reset_smoothing) },
+    SystemPort { entry: 0x04_34F8, original: "Camera_SmoothingIntegrate_0434F8", rust: "system::scroll::smoothing_step",
+                 run: |m| { let d = scroll::smoothing_step(m); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(d); Flow::Return } },
+    SystemPort { entry: 0x04_3D86, original: "CameraApplyAll4_043D86", rust: "system::scroll::apply_all", run: ret!(scroll::apply_all) },
+    SystemPort { entry: 0x04_3DAA, original: "CameraApply_043DAA", rust: "system::scroll::apply",
+                 run: |m| { let c = m.cpu.a[0]; scroll::apply(m, c); Flow::Return } },
+    SystemPort { entry: 0x04_3EDA, original: "Buffer_ClearBlock1024L_043EDA", rust: "system::scroll::clear_collmap",
+                 run: |m| { let c = m.cpu.a[0]; scroll::clear_collmap(m, c); Flow::Return } },
+    SystemPort { entry: 0x04_3EEC, original: "CollMap_RowToLocalY_043EEC", rust: "system::scroll::row_to_local_y",
+                 run: |m| { let r = m.cpu.d[0] as u16; let y = scroll::row_to_local_y(m, r); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(y); Flow::Return } },
+    SystemPort { entry: 0x04_3F02, original: "CollMap_TestPoint_043F02", rust: "system::scroll::test_point",
+                 run: |m| {
+                     let h = scroll::test_point(m, m.cpu.d[0] as u16, m.cpu.d[1] as u16);
+                     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(h.cell);
+                     m.cpu.d[3] = (m.cpu.d[3] & 0xFFFF_0000) | u32::from(h.frac.0);
+                     m.cpu.d[4] = (m.cpu.d[4] & 0xFFFF_0000) | u32::from(h.frac.1);
+                     set_carry(m, h.solid);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x04_CAC4, original: "MissionMark_04CAC4", rust: "system::scroll::mission_mark",
+                 run: |m| {
+                     let k = scroll::mission_mark(m);
+                     let w = |r: u32, v: u16| (r & 0xFFFF_0000) | u32::from(v);
+                     let b = |r: u32, v: u8| (r & 0xFFFF_FF00) | u32::from(v);
+                     m.cpu.d[0] = w(m.cpu.d[0], k.pos.0);
+                     m.cpu.d[1] = w(m.cpu.d[1], k.pos.1);
+                     m.cpu.d[2] = w(m.cpu.d[2], k.d2);
+                     m.cpu.d[3] = w(m.cpu.d[3], k.d3);
+                     m.cpu.d[4] = b(m.cpu.d[4], k.bytes[0]);
+                     m.cpu.d[5] = b(m.cpu.d[5], k.bytes[1]);
+                     m.cpu.d[6] = b(m.cpu.d[6], k.bytes[2]);
+                     m.cpu.a[0] = m.read_u32(mslug_game::layout::scene::MISSION_PTR);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x04_CB88, original: "MissionMark_Frame_04CB88", rust: "system::scroll::mission_mark_frame", run: ret!(scroll::mission_mark_frame) },
+    SystemPort { entry: 0x05_1B1C, original: "Layer_SetTile_051B1C", rust: "system::scroll::set_tile",
+                 run: |m| { let (c, a, r) = (m.cpu.a[0], m.cpu.d[0] as u8, m.cpu.d[1] as u16); scroll::set_tile(m, c, a, r); Flow::Return } },
+    SystemPort { entry: 0x05_1B38, original: "Layer_SetTileTable_051B38", rust: "system::scroll::set_tile_table",
+                 run: |m| { let (c, t) = (m.cpu.a[0], m.cpu.a[1]); scroll::set_tile_table(m, c, t); Flow::Return } },
+    SystemPort { entry: 0x05_1B3E, original: "Layer_BindPath_051B3E", rust: "system::scroll::bind_path",
+                 run: |m| { let (c, p, x, y) = (m.cpu.a[0], m.cpu.a[1], m.cpu.d[0] as u16, m.cpu.d[1] as u16); scroll::bind_path(m, c, p, x, y); Flow::Return } },
+    SystemPort { entry: 0x05_1B80, original: "Layer_Move_051B80", rust: "system::scroll::move_layer",
+                 run: |m| {
+                     let c = m.cpu.a[0];
+                     let (dx, dy) = scroll::move_layer(m, c, m.cpu.d[0], m.cpu.d[1]);
+                     m.cpu.d[0] = (m.read_u32(c + 4) << 16) | u32::from(dx);
+                     m.cpu.d[1] = (m.read_u32(c + 8) << 16) | u32::from(dy);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x05_1ECE, original: "Layer_Show_051ECE", rust: "system::scroll::show",
+                 run: |m| { let c = m.cpu.a[0]; scroll::show(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_1ED6, original: "CellMap_ClearSprites32_051ed6", rust: "system::scene::hide_layer_sprites",
+                 run: |m| { let c = m.cpu.a[0]; scene::hide_layer_sprites(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_1F02, original: "CellMap_ClearVramBlock_051f02", rust: "system::scene::clear_layer_tiles",
+                 run: |m| { let c = m.cpu.a[0]; scene::clear_layer_tiles(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_1F30, original: "TransformCommit_MMIO_051F30", rust: "system::scroll::commit",
+                 run: |m| { let c = m.cpu.a[0]; scroll::commit(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_1F94, original: "Layer_WriteColumns_051F94", rust: "system::scroll::write_columns",
+                 run: |m| { let c = m.cpu.a[6]; scroll::write_columns(m, c); Flow::Return } },
     SystemPort { entry: 0x05_1ABE, original: "Entity_AllocAndInit_051ABE", rust: "system::scene::init_layer",
                  run: |m| { let (c, b, f) = (m.cpu.a[0], m.cpu.a[1], m.cpu.d[0] as u16); scene::init_layer(m, c, b, f); Flow::Return } },
     SystemPort { entry: 0x05_B232, original: "SpriteQueue_SortAndRenderSCB1_05b232", rust: "system::render::sort_and_render", run: ret!(render::sort_and_render) },
@@ -601,13 +678,13 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x00_2AEC, original: "PalSlot_LoadListLo_002aec", rust: "system::video::load_low_entries",
                  run: |m| {
                      let l = m.cpu.a[0];
-                     video::load_low_entries(m, l);
+                     m.cpu.a[0] = video::load_low_entries(m, l);
                      Flow::Return
                  } },
     SystemPort { entry: 0x00_2B58, original: "PalSlot_LoadListHi_002b58", rust: "system::video::load_high_entries",
                  run: |m| {
                      let l = m.cpu.a[0];
-                     video::load_high_entries(m, l);
+                     m.cpu.a[0] = video::load_high_entries(m, l);
                      Flow::Return
                  } },
     SystemPort { entry: 0x00_1DA4, original: "Task_InstallBootSlots_001da4", rust: "system::video::load_fixed_entries",

@@ -1205,3 +1205,131 @@ pub mod scene {
     pub const MISSION_KEY: u32 = 0x10_6ECE;
     pub const NIL: u32 = 0xFFFF_FFFF;
 }
+
+/// Máquina del guion de scroll (`scene::SCRIPT_PC`): posición de la cámara
+/// principal, límites, avance de la misión y suavizado vertical.
+/// Varias direcciones coinciden con las de `scene` (que las inicializa).
+pub mod scroll {
+    pub const PC: u32 = super::scene::SCRIPT_PC;
+    /// Posición X, Y suavizada e Y real (longs 16.16).
+    pub const POS_X: u32 = 0x10_6F50;
+    pub const POS_Y_SMOOTH: u32 = 0x10_6F54;
+    pub const POS_Y: u32 = 0x10_6F58;
+    /// Avance máximo alcanzado en la escena.
+    pub const PROGRESS: u32 = 0x10_6F5C;
+    /// Si no es 0, se usan estas velocidades (16.16) en vez de las del que llama.
+    pub const SEED_LATCH: u32 = 0x10_6F5E;
+    pub const SEED_VEL: [u32; 2] = [0x10_6F60, 0x10_6F64];
+    /// Desplazamiento entero del frame.
+    pub const DELTA_X: u32 = 0x10_8160;
+    pub const DELTA_Y: u32 = 0x10_8162;
+    /// Pareja de palabras que fija el op `$10`.
+    pub const PAIR: [u32; 2] = [0x10_8164, 0x10_8166];
+    /// Límites (enteros) y pendiente (Y por X, en 1/256) del tramo.
+    pub const MIN_X: u32 = 0x10_8168;
+    pub const MIN_Y: u32 = 0x10_816A;
+    pub const MAX_X: u32 = 0x10_816C;
+    pub const MAX_Y: u32 = 0x10_816E;
+    pub const SLOPE: u32 = 0x10_8170;
+    /// Referencias para medir el avance: avance, X e Y al empezar el tramo.
+    pub const BASE_PROGRESS: u32 = 0x10_8172;
+    pub const BASE_X: u32 = 0x10_8174;
+    pub const BASE_Y: u32 = 0x10_8176;
+    /// Eje del avance: 0 = X hacia atrás, 2 = Y hacia atrás,
+    /// 3 = Y hacia delante, otro = X hacia delante.
+    pub const AXIS: u32 = 0x10_8178;
+    pub const AXIS_X_BACK: u8 = 0;
+    pub const AXIS_Y_BACK: u8 = 2;
+    pub const AXIS_Y_FORWARD: u8 = 3;
+    /// El op `$03` deja el eje en X hacia delante.
+    pub const AXIS_X_FORWARD: u8 = 1;
+    /// Si no es 0, la prueba de llegada al borde siempre dice que sí.
+    pub const EDGE_OFF: u32 = 0x10_8179;
+    /// Flag de la misión que activa la prueba de llegada al borde.
+    pub const EDGE_ENABLE: u32 = 0x10_E39A;
+    /// Suavizado vertical: acumulado y velocidad (16.16) y paso entero.
+    pub const SMOOTH_ACC: u32 = 0x10_817A;
+    pub const SMOOTH_VEL: u32 = 0x10_817E;
+    pub const SMOOTH_DELTA: u32 = 0x10_8182;
+    pub const SMOOTH_LIMIT: i32 = 0x8_0000;
+    pub const SMOOTH_DAMP: i32 = 0x4000;
+
+    /// Órdenes del guion (palabra) y su tamaño en bytes.
+    pub const OP_BIND_PATH: u16 = 0x00;
+    pub const OP_SET_FIELDS: u16 = 0x01;
+    pub const OP_END_FRAME: u16 = 0x02;
+    pub const OP_WARP: u16 = 0x03;
+    pub const OP_SET_TILE: u16 = 0x04;
+    pub const OP_DETACH: u16 = 0x05;
+    pub const OP_WAIT: u16 = 0x06;
+    pub const OP_SHOW: u16 = 0x07;
+    pub const OP_HIDE: u16 = 0x08;
+    pub const OP_PROBE_SHOW: u16 = 0x09;
+    pub const OP_SPRITE_LIST: u16 = 0x0A;
+    pub const OP_CLEAR_TILES: u16 = 0x0B;
+    pub const OP_LSPC_MODE: u16 = 0x0C;
+    pub const OP_CALL_ARGS: u16 = 0x0D;
+    pub const OP_SPAWN: u16 = 0x0E;
+    pub const OP_LIMITS: u16 = 0x0F;
+    pub const OP_PAIR: u16 = 0x10;
+    pub const OP_TILE_TABLE: u16 = 0x11;
+    pub const OP_AXIS: u16 = 0x12;
+    pub const OP_SOUND: u16 = 0x13;
+    pub const OP_CALL_JUMP: u16 = 0x14;
+    pub const OP_SET_POS: u16 = 0x15;
+    pub const OP_SET_PROGRESS: u16 = 0x16;
+
+    /// Campos de una cámara de capa (`scene::CAMERAS`) que usa el scroll.
+    pub const C_DELTA: [u32; 2] = [0x00, 0x02];
+    pub const C_POS: [u32; 2] = [0x04, 0x08];
+    pub const C_FLAGS: u32 = 0x0C;
+    pub const C_VISIBLE: u8 = 1 << 0;
+    pub const C_PATH: u32 = 0x0E;
+    pub const C_TILE_TABLE: u32 = 0x12;
+    pub const C_ORIGIN_CELL: [u32; 2] = [0x1E, 0x20];
+    pub const C_TILE_BASE: [u32; 2] = [0x22, 0x24];
+    pub const C_TILE_ROW: u32 = 0x26;
+    pub const C_TILE_ATTR: u32 = 0x27;
+    pub const C_SPRITE_BASE: u32 = 0x28;
+    /// Columnas que repinta el vblank: primera y última (excluida), y
+    /// posición de pantalla (X, Y) ya preparada para SCB4 / SCB3.
+    pub const C_COL_FIRST: u32 = 0x2A;
+    pub const C_COL_END: u32 = 0x2C;
+    pub const C_SCREEN_X: u32 = 0x2E;
+    pub const C_SCREEN_Y: u32 = 0x30;
+    /// Atributos y fila de tile por columna (32 bytes cada uno).
+    pub const C_COL_ATTR: u32 = 0x32;
+    pub const C_COL_ROW: u32 = 0x52;
+    pub const C_SCROLL_MODE: u32 = 0x72;
+    pub const C_SCALE: [u32; 2] = [0x74, 0x76];
+    pub const C_COLLMAP_SRC: u32 = 0x78;
+    pub const C_COLLMAP: u32 = 0x7C;
+    pub const COLUMNS: u16 = 32;
+    pub const VISIBLE_COLUMNS: u16 = 0x16;
+    /// Rutina diferida al vblank que repinta las columnas de una capa.
+    pub const COLUMN_WRITE: u32 = 0x05_1F94;
+
+    /// Rutinas originales que el scroll aún llama.
+    pub const TICKS: [u32; 4] = [0x07_7092, 0x08_F172, 0x09_97CC, 0x08_F8E2];
+    pub const PROBE: u32 = 0x04_3DF4;
+    pub const SCROLL_X_HOOK: u32 = 0x04_3E0E;
+    pub const SCROLL_Y_HOOK: u32 = 0x04_3E24;
+
+    /// Marcador de depuración de la misión: lista de registros de 16 bytes
+    /// {.., rel_x.b, rel_y.b, x.w, y.w, ...} con el avance en `+$10` del
+    /// siguiente.
+    pub const MARK_SIZE: u32 = 0x10;
+    pub const MARK_PROGRESS: u32 = 0x10;
+    pub const MARK_REL: [u32; 2] = [0x02, 0x03];
+    pub const MARK_POS: [u32; 2] = [0x04, 0x06];
+    pub const MARK_Y_BASE: u16 = 0x200;
+    pub const MARK_GFX: u32 = 0x24_3608;
+    pub const MARK_KEY: u16 = 0xFFFF;
+    /// Bit de la variable de depuración que dibuja el marcador.
+    pub const DEBUG: u32 = 0x10_0001;
+    pub const DEBUG_MARK: u8 = 1 << 0;
+
+    /// Mapa de colisión de la primera cámara.
+    pub const COLL_CAMERA: u32 = 0x10_6F6C;
+    pub const COLL_ORIGIN: [u32; 2] = [0x04, 0x08];
+}
