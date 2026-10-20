@@ -935,8 +935,6 @@ pub mod anim {
     pub const DEBUG_DRAW_ALL: u8 = 1 << 1;
     pub const DEBUG_HITBOX: u8 = 1 << 4;
     /// Rutinas originales que usa el guion.
-    pub const DRAW_SPRITE: u32 = 0x05_A9E2;
-    pub const DRAW_SPRITE_BACK: u32 = 0x05_A9D6;
     pub const DEBUG_ENTRY: u32 = 0x02_F84A;
     pub const WORLD_TO_SCREEN: u32 = 0x04_40D0;
     pub const ALLOC_SPRITE: u32 = 0x00_236E;

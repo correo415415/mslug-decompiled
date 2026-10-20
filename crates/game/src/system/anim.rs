@@ -4,7 +4,7 @@
 //! [`step`] ejecuta órdenes hasta dibujar un fotograma: las de control
 //! (esperar, saltar, bucles, cambiar campos de la tarea, sonido, llamar a
 //! una rutina) siguen en el mismo frame; las de fotograma piden el dibujo
-//! al renderizador (aún en la ROM) y terminan. Un fotograma se mantiene
+//! a [`super::sprite`] y terminan. Un fotograma se mantiene
 //! los frames que diga la última espera.
 //!
 //! Original: `Script_SetPointer_028cd4`, `Script_DispatchOpcode_028d70` y
@@ -155,20 +155,20 @@ struct Draw {
     gfx: u32,
 }
 
-/// Pide el dibujo (rutina original `$05A9E2` / `$05A9D6`).
-fn draw(m: &mut impl Machine, t: u32, op: u32, d: Draw) {
-    let mut r = m.regs();
-    r.d[0] = (u32::from(d.x) << 16) | u32::from(d.y.wrapping_sub(1));
-    r.d[1] = (r.d[1] & 0xFFFF_0000) | u32::from(d.attr);
-    r.d[2] = (r.d[2] & 0xFFFF_0000) | u32::from(d.entry);
-    r.d[3] = (r.d[3] & 0xFFFF_FF00) | u32::from(m.read_u8(t + A::SHRINK_X));
-    r.d[4] = (r.d[4] & 0xFFFF_FF00) | u32::from(m.read_u8(t + A::SHRINK_Y));
-    r.d[5] = (r.d[5] & 0xFFFF_FF00) | u32::from(d.flip);
-    r.a[0] = d.gfx;
-    r.a[1] = op;
+/// Añade el fotograma a la lista de dibujo del frame.
+fn draw(m: &mut impl Machine, t: u32, d: Draw) {
+    let req = super::sprite::Request {
+        pos: (u32::from(d.x) << 16) | u32::from(d.y.wrapping_sub(1)),
+        key: d.attr,
+        palette: d.entry,
+        // `SHRINK_X` es en realidad la reducción vertical (escala la Y).
+        shrink_v: m.read_u8(t + A::SHRINK_X),
+        shrink_h: m.read_u8(t + A::SHRINK_Y),
+        flip: d.flip,
+        gfx: d.gfx,
+    };
     let back = m.read_u8(t + T::FLAGS) & A::FLAGS_BACK_LAYER != 0;
-    m.call_original(if back { A::DRAW_SPRITE_BACK } else { A::DRAW_SPRITE }, &mut r);
-    m.set_regs(r);
+    super::sprite::dispatch(m, t, req, back);
 }
 
 fn on_screen(x: u16, y: u16) -> bool {
@@ -203,7 +203,7 @@ fn sprite_part(m: &mut impl Machine, t: u32, op: u32) -> u32 {
         let mut fl = m.read_u8(t + A::FLIP) | (m.read_u8(t + T::FLAGS) & A::FLAGS_HIDDEN);
         fl ^= flags & A::SPR_FLIP;
         let gfx = if on_screen(x, y) { m.read_u32(op + A::SPR_GFX) } else { T::NIL };
-        draw(m, t, op, Draw { x, y, attr, entry, flip: fl, gfx });
+        draw(m, t, Draw { x, y, attr, entry, flip: fl, gfx });
     }
     op + if flags & A::SPR_ABSOLUTE != 0 { A::SPR_LEN_ABS } else { A::SPR_LEN_REL }
 }
@@ -256,7 +256,7 @@ fn sprite_at_task(m: &mut impl Machine, t: u32, op: u32) -> u32 {
     let entry = m.read_u16(t + A::SPRITE_ENTRY);
     let flip = m.read_u8(t + A::FLIP) | (m.read_u8(t + T::FLAGS) & A::FLAGS_HIDDEN);
     let gfx = m.read_u32(op + A::SPR_GFX);
-    draw(m, t, op, Draw { x, y, attr, entry, flip, gfx });
+    draw(m, t, Draw { x, y, attr, entry, flip, gfx });
     let flags = m.read_u8(op + A::SPR_FLAGS);
     op + if flags & A::SPR_ABSOLUTE != 0 { A::SPR_LEN_ABS } else { A::SPR_LEN_REL }
 }
@@ -494,7 +494,8 @@ mod tests {
         m.write_u16(t + A::Y, 0x50);
         start(&mut m, t, s);
         assert!(!step(&mut m, t));
-        assert_eq!(m.calls, vec![A::DRAW_SPRITE]);
+        // El dibujo ya es Rust: no se llama a ninguna rutina original.
+        assert!(m.calls.is_empty());
         assert_eq!(m.read_u32(t + A::CURSOR), s + 2);
         assert!(!step(&mut m, t));
         // Acabó la espera: el cursor pasa al salto.
