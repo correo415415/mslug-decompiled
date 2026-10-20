@@ -127,8 +127,9 @@ y la tarea de arranque, y entra en el guion de arranque (elige la lista de
 escenas y la despacha); ejecuta la primera escena (logo: créditos y nivel en la capa fija),
 la pantalla de título (logo animado por guion, copyright, mensaje parpadeante
 según créditos, cuenta atrás) y las tareas fijas, hace el render del frame (`system::palette`,
-`system::render`) y se para en el frame 405 en `Sprite_Dispatch_05A9E2`
-(alta de un sprite en la lista de dibujo, aún sin portar).
+`system::render`, `system::sprite`), acepta el inicio de partida
+(`PLAYER_START`), entra en la misión y se para en el frame 503 en
+`Anim_State_F1_08C008` (manual de juego, aún sin portar).
 
 ### Qué portar después: `mslug roadmap`
 
