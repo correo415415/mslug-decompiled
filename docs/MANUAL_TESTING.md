@@ -129,9 +129,9 @@ la pantalla de título (logo animado por guion, copyright, mensaje parpadeante
 según créditos, cuenta atrás) y las tareas fijas, hace el render del frame (`system::palette`,
 `system::render`, `system::sprite`), acepta el inicio de partida
 (`PLAYER_START`), entra en la misión, carga la escena y corre el manual
-de juego y el guion de scroll; se para en el frame 503 en
-`Platform_ClearListByScroll_077092` (el primer tick que llama el frame de
-scroll, aún sin portar).
+de juego (con sus iconos) y el guion de scroll (capas, colisión y listas
+por frame); se para en el frame 503 en `Slug_SpawnDrop_02ae50` (la tarea
+hija que crea el manual, aún sin portar).
 
 ### Progreso: `mslug progress`
 
