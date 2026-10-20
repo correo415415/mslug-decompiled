@@ -104,7 +104,7 @@ Progreso del port escrito a mano (`mslug progress`):
 | | |
 |---|---|
 | Funciones del juego (rutinas de código de la decompilación) | 7 887 (474 564 bytes) |
-| Portadas a Rust legible | **259 (3,28 %)**; por bytes de código 23 514 (4,95 %) |
-| Hasta dónde llega `--only-manual` | arranque, logo, título y demo hasta pulsar START; entra en la partida (inicio de misión) y corre el manual de juego (`system::manual`, sus iconos `system::manual_icons`) y el scroll de la escena (`system::scroll`, `system::layer`, `system::lists`); se para en el frame 503 en `Slug_SpawnDrop_02ae50` (la tarea hija que crea el manual) |
+| Portadas a Rust legible | **274 (3,47 %)**; por bytes de código 24 408 (5,14 %) |
+| Hasta dónde llega `--only-manual` | arranque, logo, título y demo hasta pulsar START; entra en la partida (inicio de misión) y corre el manual de juego (`system::manual`, sus iconos `system::manual_icons`) y el scroll de la escena (`system::scroll`, `system::layer`, `system::lists`); suelta el Slug (`system::slug`: alta, preparación y entrada en escena); se para en el frame 503 en `$02B004` (bucle de la caída del Slug, dentro de `Slug_DropVariant4_02af88`) |
 
 Ver [PORT_STATUS.md](PORT_STATUS.md).

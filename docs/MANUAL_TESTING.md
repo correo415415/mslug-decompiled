@@ -130,8 +130,8 @@ según créditos, cuenta atrás) y las tareas fijas, hace el render del frame (`
 `system::render`, `system::sprite`), acepta el inicio de partida
 (`PLAYER_START`), entra en la misión, carga la escena y corre el manual
 de juego (con sus iconos) y el guion de scroll (capas, colisión y listas
-por frame); se para en el frame 503 en `Slug_SpawnDrop_02ae50` (la tarea
-hija que crea el manual, aún sin portar).
+por frame) y suelta el Slug; se para en el frame 503 en `$02B004` (el
+bucle de la caída del Slug, aún sin portar).
 
 ### Progreso: `mslug progress`
 
