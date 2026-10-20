@@ -255,6 +255,28 @@ pub fn after_task(m: &mut impl Machine) -> Flow {
     enter_task(m)
 }
 
+/// Rutina de una tarea que no hace nada. Original: `Task_IdleRts_000400`.
+pub fn idle(_: &mut impl Machine) -> Flow {
+    Flow::Return
+}
+
+/// Tarea fija: cada frame borra el byte `FRAME_FLAG_8D` del Slug.
+/// Original: `JsrPcThunk_029582` → `$02A46C`.
+pub fn clear_slug_frame_flag(m: &mut impl Machine) -> Flow {
+    m.write_u8(T::SLUG + T::FRAME_FLAG_8D, 0);
+    Flow::Return
+}
+
+/// Tareas fijas: cada frame borran el byte `field` de las entidades de los
+/// dos jugadores. Original: `$032406` → `Player_ClearBoth8D_032ea4` y
+/// `$03240C` → `Player_ClearBoth88_032eba`.
+pub fn clear_players_frame_flag(m: &mut impl Machine, field: u32) -> Flow {
+    for e in crate::layout::PLAYER_ENTITY {
+        m.write_u8(e + field, 0);
+    }
+    Flow::Return
+}
+
 /// La tarea actual (`a6`) se da de baja a sí misma: suelta sus entradas de
 /// sprite, deja de contar como marcada y pasa a [`finishing`].
 /// Original: `$000518`.
@@ -264,17 +286,18 @@ pub fn finish(m: &mut impl Machine) -> Flow {
     let f = m.read_u8(t + T::FLAGS);
     m.write_u8(t + T::FLAGS, f & !T::FLAGS_MARKED);
     m.write_u32(t + T::HANDLER, routine::TASK_FINISHING);
-    finishing(m)
+    // Sigue en `finishing` (la rutina que acaba de ponerse).
+    Flow::Goto(routine::TASK_FINISHING)
 }
 
-/// Rutina de una tarea que se está dando de baja: si su madre va después
-/// en la lista (prioridad mayor), espera a la vuelta siguiente; si no, se
-/// quita de la lista y el planificador sigue por la siguiente.
-/// Original: `$00052A`.
+/// Rutina de una tarea que se está dando de baja: mientras le queden hijas
+/// (la siguiente de la lista tiene más prioridad), espera a la vuelta
+/// siguiente; si no, se quita de la lista y el planificador sigue por la
+/// siguiente. Original: `$00052A`.
 pub fn finishing(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
-    let parent = m.read_u32(t + T::PREV);
-    if m.read_u8(t + T::PRIORITY) < m.read_u8(parent + T::PRIORITY) {
+    let next = m.read_u32(t + T::NEXT);
+    if m.read_u8(t + T::PRIORITY) < m.read_u8(next + T::PRIORITY) {
         return after_task(m);
     }
     let prev = unlink(m, t);

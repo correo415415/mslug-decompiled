@@ -455,6 +455,12 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      Flow::Return
                  } },
     // --- bajas de tareas desde la propia tarea
+    SystemPort { entry: 0x00_0400, original: "Task_IdleRts_000400", rust: "system::tasks::idle", run: |m| tasks::idle(m) },
+    SystemPort { entry: 0x02_9582, original: "JsrPcThunk_029582", rust: "system::tasks::clear_slug_frame_flag", run: |m| tasks::clear_slug_frame_flag(m) },
+    SystemPort { entry: 0x03_2406, original: "JsrPcThunk_032406", rust: "system::tasks::clear_players_frame_flag",
+                 run: |m| tasks::clear_players_frame_flag(m, mslug_game::layout::task::FRAME_FLAG_8D) },
+    SystemPort { entry: 0x03_240C, original: "JsrPcThunk_03240c", rust: "system::tasks::clear_players_frame_flag",
+                 run: |m| tasks::clear_players_frame_flag(m, mslug_game::layout::task::FRAME_FLAG_88) },
     SystemPort { entry: 0x00_0518, original: "Task_Finish_000518", rust: "system::tasks::finish", run: |m| tasks::finish(m) },
     SystemPort { entry: 0x00_052A, original: "Task_Finishing_00052A", rust: "system::tasks::finishing", run: |m| tasks::finishing(m) },
     SystemPort { entry: 0x00_06E2, original: "Scheduler_NextTask_0006E2", rust: "system::tasks::next_task", run: |m| tasks::next_task(m) },

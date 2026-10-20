@@ -325,12 +325,12 @@ pub mod task {
     pub const BOOT_INSTALL: [(u32, u32); 12] = [
         (0x10_08A0, super::routine::IDLE),
         (0x10_0800, super::routine::IDLE),
-        (0x10_06C0, 0x03_240C),
+        (0x10_06C0, super::routine::PLAYERS_FRAME_TASK_88),
         (0x10_0440, super::routine::IDLE),
         (0x10_04E0, super::routine::IDLE),
-        (0x10_0620, 0x03_2406),
+        (0x10_0620, super::routine::PLAYERS_FRAME_TASK_8D),
         (0x10_0580, super::routine::IDLE),
-        (0x10_0760, 0x02_9582),
+        (0x10_0760, super::routine::SLUG_FRAME_TASK),
         (0x10_0300, super::routine::IDLE),
         (0x10_03A0, super::routine::IDLE),
         (0x10_0260, super::routine::IDLE),
@@ -339,6 +339,12 @@ pub mod task {
     /// Tareas que la de arranque reinicia después (las entidades de los
     /// jugadores y otra).
     pub const BOOT_RESET: [u32; 3] = [0x10_0440, 0x10_04E0, 0x10_0580];
+    /// Tarea fija del Slug (SV-001).
+    pub const SLUG: u32 = 0x10_0580;
+    /// Bytes de las entidades de los jugadores y del Slug que tres tareas
+    /// fijas borran en cada frame.
+    pub const FRAME_FLAG_8D: u32 = 0x8D;
+    pub const FRAME_FLAG_88: u32 = 0x88;
     /// Otro puntero de la tarea que se pone a `NIL` al darla de baja.
     pub const LINK: u32 = 0x48;
     /// Ranuras de paleta de la tarea: hasta 4 índices (words) y cuántas
@@ -588,6 +594,11 @@ pub mod routine {
     pub const SCHEDULER_AFTER_TASK: u32 = 0x00_06CA;
     /// Rutina de una tarea que se está dando de baja.
     pub const TASK_FINISHING: u32 = 0x00_052A;
+    /// Tareas fijas que borran cada frame un byte de las entidades
+    /// (`task::FRAME_FLAG_*`): del Slug y de los dos jugadores.
+    pub const SLUG_FRAME_TASK: u32 = 0x02_9582;
+    pub const PLAYERS_FRAME_TASK_8D: u32 = 0x03_2406;
+    pub const PLAYERS_FRAME_TASK_88: u32 = 0x03_240C;
     /// Bucle de frame: preparación (una vez) y espera de cada frame (la
     /// rutina que queda en la tarea del frame).
     pub const FRAME_LOOP: u32 = 0x00_1F84;
