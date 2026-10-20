@@ -790,6 +790,15 @@ pub mod script {
     pub const BUTTONS: u8 = 0xF0;
     /// Música de la pantalla de continuar.
     pub const CONTINUE_MUSIC: u16 = 0x10E0;
+    /// Inicio de misión: tecla 1 bloqueada con este valor, ajuste de la
+    /// BIOS que activa el manual de juego (`PLAY MANUAL` de los soft DIP),
+    /// tarea fija donde se crea el manual con su rutina y contador que lo
+    /// acompaña.
+    pub const MISSION_KEY_LATCH: u8 = 9;
+    pub const PLAY_MANUAL: u32 = 0x10_FD8E;
+    pub const MANUAL_TASK: u32 = 0x10_0300;
+    pub const MANUAL_HANDLER: u32 = 0x08_C008;
+    pub const RANK_TIMER: u32 = 0x10_6E92;
     pub const SCENE_TASKS: [u32; 8] =
         [0x10_0260, 0x10_0800, 0x10_08A0, 0x10_0440, 0x10_04E0, 0x10_0580, 0x10_0300, 0x10_03A0];
 }

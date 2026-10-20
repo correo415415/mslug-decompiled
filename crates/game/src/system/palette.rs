@@ -297,6 +297,12 @@ pub fn update_all(m: &mut impl Machine) {
     m.write_u8(P::FADE_MODE_PREV, mode);
 }
 
+/// ¿Terminó el borrado del otro banco (o no había ninguno)?
+/// Original: `$0138E6` (devuelve C = sí).
+pub fn bank_clear_done(m: &mut impl Memory) -> bool {
+    m.read_u8(P::FADE_STEP) == P::FADE_STEP_DONE
+}
+
 /// Borra a blanco 16 paletas del otro banco de la RAM de paleta (una
 /// tanda por vblank, hasta las 256). Original: `$01387E`.
 pub fn clear_bank_step(m: &mut impl Memory) {

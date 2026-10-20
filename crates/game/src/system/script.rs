@@ -9,8 +9,8 @@
 //! `SchedTail_JsrCD4_001020`, `SchedTail_JsrD3C_001026`,
 //! `TaskList_ChangeAndRunEight_001CD4`, `Task_ResetAllSlots_001d3c`.
 
-use super::{hud, inc_u16, pads, rng, sound, tasks, video};
-use crate::layout::{bios, bios_ram, camera, routine, script as S, task as T};
+use super::{hud, inc_u16, palette, pads, rng, sound, tasks, video};
+use crate::layout::{bios, bios_ram, camera, pads as P, routine, script as S, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
 /// Límites de cámara por defecto. Original: `Camera_ResetCenter_05CACE`.
@@ -355,6 +355,45 @@ pub fn scene_game_over(m: &mut impl Machine) -> Flow {
     clear_screen(m);
     spawn_scene_task(m, S::GAME_OVER_TASK);
     scene_started(m, true)
+}
+
+/// Principio de la partida: limpia la pantalla y, si el ajuste `PLAY
+/// MANUAL` está activo, crea la tarea del manual de juego (la escena espera
+/// a que acabe). Original: `BootScr_Mission_Start_001368`.
+pub fn scene_mission_start(m: &mut impl Machine) -> Flow {
+    clear_screen(m);
+    sound::init_queue(m);
+    m.write_u8(S::KEY_LATCH[0], S::MISSION_KEY_LATCH);
+    m.write_u8(S::KEY_LATCH[1], 0xFF);
+    m.write_u8(S::SCENE_BUSY, 0);
+    if m.read_u8(S::PLAY_MANUAL) != 0 {
+        let t = S::MANUAL_TASK;
+        m.write_u32(t + T::HANDLER, S::MANUAL_HANDLER);
+        tasks::reset_in_place(m, t);
+        m.write_u16(S::RANK_TIMER, 1);
+        m.write_u8(S::SCENE_BUSY, 0xFF);
+    }
+    next(m)
+}
+
+/// Espera del manual de juego: sigue cuando acaba, o cuando un jugador que
+/// ya juega pulsa un botón (con la paleta lista).
+/// Original: `BootScr_Mission_WaitStart_0013c6`.
+pub fn scene_mission_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    if scene_running(m) {
+        if !palette::bank_clear_done(m) {
+            return Flow::Return;
+        }
+        let skip = (0..2).any(|p| {
+            m.read_u8(P::BIOS_PLAYER_STATE[p]) == P::BIOS_PLAYER_PLAYING && button_pressed(m, p)
+        });
+        if !skip {
+            return Flow::Return;
+        }
+    }
+    stop_scene(m);
+    next(m)
 }
 
 #[cfg(test)]
