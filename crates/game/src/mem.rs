@@ -77,6 +77,13 @@ pub trait Machine: Memory {
     /// de cada tarea).
     fn stack_pointer(&mut self) -> u32;
     fn set_stack_pointer(&mut self, sp: u32);
+    /// Registro de la tarea / entidad en curso (`a6` en el original): el
+    /// planificador lo fija antes de llamar a cada tarea.
+    fn task_register(&mut self) -> u32;
+    fn set_task_register(&mut self, a6: u32);
+    /// Registros actuales, como base para llamar a una rutina original.
+    fn regs(&mut self) -> Regs;
+    fn set_regs(&mut self, r: Regs);
 
     /// Llama a la rutina original que empieza en `routine` (dirección de
     /// `layout::routine`, o un puntero leído de una tabla del juego). Si
@@ -85,7 +92,7 @@ pub trait Machine: Memory {
 
     /// Como [`Machine::call_original`] sin argumentos; devuelve el flag C.
     fn call(&mut self, routine: u32) -> bool {
-        let mut r = Regs::default();
+        let mut r = self.regs();
         self.call_original(routine, &mut r);
         r.carry
     }
@@ -97,11 +104,14 @@ pub trait Machine: Memory {
 pub struct TestMachine {
     pub mem: Vec<u8>,
     pub calls: Vec<u32>,
+    pub regs: Regs,
+    pub sp: u32,
+    pub irq_mask: u8,
 }
 
 impl Default for TestMachine {
     fn default() -> Self {
-        Self { mem: vec![0; 0x100_0000], calls: Vec::new() }
+        Self { mem: vec![0; 0x100_0000], calls: Vec::new(), regs: Regs::default(), sp: 0x10_F300, irq_mask: 7 }
     }
 }
 
@@ -115,11 +125,27 @@ impl Memory for TestMachine {
 }
 
 impl Machine for TestMachine {
-    fn set_interrupt_mask(&mut self, _: u8) {}
-    fn stack_pointer(&mut self) -> u32 {
-        0x10_F300
+    fn set_interrupt_mask(&mut self, level: u8) {
+        self.irq_mask = level;
     }
-    fn set_stack_pointer(&mut self, _: u32) {}
+    fn stack_pointer(&mut self) -> u32 {
+        self.sp
+    }
+    fn set_stack_pointer(&mut self, sp: u32) {
+        self.sp = sp;
+    }
+    fn task_register(&mut self) -> u32 {
+        self.regs.a[6]
+    }
+    fn set_task_register(&mut self, a6: u32) {
+        self.regs.a[6] = a6;
+    }
+    fn regs(&mut self) -> Regs {
+        self.regs
+    }
+    fn set_regs(&mut self, r: Regs) {
+        self.regs = r;
+    }
     fn call_original(&mut self, routine: u32, _: &mut Regs) {
         self.calls.push(routine);
     }

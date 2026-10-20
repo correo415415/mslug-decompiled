@@ -8,6 +8,7 @@
 //! al planificador. Por eso devuelven un [`Flow`](crate::Flow).
 
 pub mod sound;
+pub mod video;
 
 use crate::mem::Memory;
 

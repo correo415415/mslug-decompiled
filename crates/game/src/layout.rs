@@ -296,8 +296,27 @@ pub mod task {
     pub const TIMER_C: u32 = 0x59;
     pub const FLAGS3: u32 = 0x5A;
     pub const FLAGS4: u32 = 0x69;
-    /// Rango de punteros de la tarea que se ponen a "ninguno".
-    pub const PTR_SLOTS: core::ops::RangeInclusive<u32> = 0x10..=0x9C;
+    /// Punteros de la tarea que se ponen a "ninguno" (`NIL`), de 4 en 4.
+    pub const PTR_SLOTS_FIRST: u32 = 0x10;
+    pub const PTR_SLOTS_LAST: u32 = 0x9C;
+    /// Valores iniciales de los campos de una tarea (offset, valor).
+    /// Original: `Entity_InitFields_05DC34`.
+    pub const RESET_WORDS: [(u32, u16); 8] =
+        [(0x14, 0), (0x16, 0xFFFF), (0x18, 0xFFFF), (0x1A, 0xFFFF), (0x1C, 0xFFFF), (0x1E, 0), (0x38, 0), (0x26, 0)];
+    pub const RESET_BYTES: [(u32, u8); 13] = [
+        (0x12, 0), (0x13, 0), (0x5A, 0), (0x69, 0), (0x5B, 0), (0x6B, 0), (0x32, 0xFF), (0x33, 0xFF),
+        (0x3A, 0), (0x59, 0), (0x45, 0), (0x44, 0), (0x6A, 0),
+    ];
+    pub const RESET_LONGS: [u32; 2] = [0x28, 0x2C];
+    /// Otro byte de flags de la tarea que el bucle de frame borra.
+    pub const FLAGS5: u32 = 0x5B;
+    /// Flags que sobreviven a cada pasada del planificador.
+    pub const FLAGS3_KEEP_BEFORE: u8 = 0x01;
+    pub const FLAGS4_KEEP_BEFORE: u8 = 0x17;
+    pub const FLAGS3_KEEP_AFTER: u8 = 0xFA;
+    pub const FLAGS4_KEEP_AFTER: u8 = 0x68;
+    /// Bit 0 de `FLAGS`: tarea fija (no se libera).
+    pub const FLAGS_FIXED: u8 = 1 << 0;
 }
 
 /// Paleta: copia en RAM que se vuelca en el vblank.
@@ -382,6 +401,10 @@ pub mod pads {
     pub const DEMO_TABLE: u32 = 0x0E_7C00;
     pub const DEMO_CLEAR_FLAG: u32 = 0x02_5118;
     pub const DEMO_BUFFER_LEN: u32 = 0x200;
+    /// Rutinas de tarea con las que un jugador no cuenta como activo.
+    pub const INACTIVE_HANDLERS: [u32; 4] = [0xFFFF_FFFF, 0x52A, 0x400, 0x2_AE3E];
+    /// Bit 7 de este byte de la tarea del jugador: está en juego.
+    pub const PLAYER_TASK_ALIVE: u32 = 0x5B;
     /// Jugadores activos en este frame.
     pub const ACTIVE_PLAYERS: u32 = 0x10_6ED1;
 }
@@ -401,6 +424,15 @@ pub mod routine {
     pub const PAUSE_POLL: u32 = 0x01_3C3C;
     /// Entidad de un jugador si está vivo (d0 = jugador; C = sí).
     pub const PLAYER_ENTITY_IF_ALIVE: u32 = 0x05_E3A2;
+    /// Tabla de la ROM con las tareas de control de cada jugador.
+    pub const PLAYER_TASKS: u32 = 0x05_E3F4;
     /// Vuelca una cola de sprites a la VRAM.
     pub const SPRITE_QUEUE_RENDER: u32 = 0x05_B400;
+    /// Petición `USER` de la BIOS y tabla de saltos por tipo de petición.
+    pub const USER_REQUEST: u32 = 0x00_07CC;
+    pub const USER_REQUEST_TABLE: u32 = 0x00_07FC;
+    /// Vblank (interrupción de nivel 1 en MVS, vector 2 en la tabla).
+    pub const VBLANK_IRQ: u32 = 0x00_08F6;
+    /// Interrupción del temporizador.
+    pub const TIMER_IRQ: u32 = 0x00_08D6;
 }
