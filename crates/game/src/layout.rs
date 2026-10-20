@@ -383,7 +383,23 @@ pub mod sprites {
 /// Pausa.
 pub mod pause {
     pub const ACTIVE: u32 = 0x10_E272;
+    /// Contador de parpadeo del texto de pausa.
+    pub const BLINK: u32 = 0x10_E273;
     pub const ENABLED: u32 = 0x10_E274;
+    /// Bit de `pads::START_PRESSED` del botón de inicio de cada jugador.
+    pub const START_BIT: [u8; 2] = [0x02, 0x08];
+    /// Sonidos de pausa y de fin de pausa.
+    pub const SOUND_PAUSE: u16 = 0x10E0;
+    pub const SOUND_UNPAUSE: u16 = 0x10E1;
+    /// Rutinas originales (aún sin portar): texto "PAUSE" visible / borrado,
+    /// petición de sonido y parada de la música.
+    pub const SHOW_TEXT: u32 = 0x01_3D46;
+    pub const HIDE_TEXT: u32 = 0x01_3D3E;
+    pub const SOUND_REQUEST: u32 = 0x00_2352;
+    pub const SOUND_STOP: u32 = 0x00_2222;
+    /// El texto parpadea con periodo de 32 frames; se borra en el 24.
+    pub const BLINK_PERIOD_MASK: u8 = 0x1F;
+    pub const BLINK_HIDE_AT: u8 = 0x18;
 }
 
 /// Estado de los mandos por frame.
@@ -406,6 +422,34 @@ pub mod pads {
     pub const INACTIVE_HANDLERS: [u32; 4] = [0xFFFF_FFFF, 0x52A, 0x400, 0x2_AE3E];
     /// Bit 7 de este byte de la tarea del jugador: está en juego.
     pub const PLAYER_TASK_ALIVE: u32 = 0x5B;
+    /// Mandos tal como los deja la BIOS (botones mantenidos de P1 y P2) y
+    /// botones de inicio/selección.
+    pub const BIOS_P1: u32 = 0x10_FD96;
+    pub const BIOS_P2: u32 = 0x10_FD9C;
+    pub const BIOS_START: u32 = 0x10_FDAC;
+    /// Estado de cada jugador según la BIOS (0 = no juega, 3 = sin
+    /// créditos / acabado, 1 = juega).
+    pub const BIOS_PLAYER_STATE: [u32; 2] = [0x10_FDB6, 0x10_FDB7];
+    pub const BIOS_PLAYER_PLAYING: u8 = 1;
+    pub const BIOS_PLAYER_OFF: u8 = 0;
+    pub const BIOS_PLAYER_GAME_OVER: u8 = 3;
+    /// Campos de un mando de trabajo (6 bytes).
+    pub const PAD_PREV: u32 = 1;
+    pub const PAD_HELD: u32 = 2;
+    pub const PAD_PRESSED: u32 = 3;
+    pub const PAD_REPEAT: u32 = 4;
+    pub const PAD_REPEAT_TIMER: u32 = 5;
+    /// Retardo de la primera repetición y de las siguientes (los dos bytes
+    /// de `REPEAT`).
+    pub const REPEAT_FIRST: u32 = 0x10_6EC8;
+    pub const REPEAT_NEXT: u32 = 0x10_6EC9;
+    /// Botones de inicio: mantenidos y recién pulsados.
+    pub const START_HELD: u32 = 0x10_E20C;
+    pub const START_PRESSED: u32 = 0x10_E20D;
+    /// Mandos "en juego" de cada jugador (copia de `PAD_LIVE` si juega).
+    pub const PAD_INGAME: [u32; 2] = [0x10_E212, 0x10_E218];
+    /// Lectura de los mandos con demo (grabar / reproducir), sin portar.
+    pub const DEMO_READ: u32 = 0x02_511A;
     /// Jugadores activos en este frame.
     pub const ACTIVE_PLAYERS: u32 = 0x10_6ED1;
 }

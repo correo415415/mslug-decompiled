@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{boot, frame, irq, sound, tasks, video};
+use mslug_game::system::{boot, frame, irq, pads, sound, tasks, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -216,6 +216,23 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  } },
     SystemPort { entry: 0x00_1F84, original: "VBlank_FrameLoop_001f84", rust: "system::frame::start", run: |m| frame::start(m) },
     SystemPort { entry: 0x00_1FE2, original: "VBlank_FrameLoop_Wait_001fe2", rust: "system::frame::wait", run: |m| frame::wait(m) },
+    // --- mandos y pausa
+    SystemPort { entry: 0x05_CC1A, original: "Input_ReadFrame_05CC1A", rust: "system::pads::read_frame", run: ret!(pads::read_frame) },
+    SystemPort { entry: 0x02_5066, original: "Input_Poll_LiveMode_025066", rust: "system::pads::read_live",
+                 run: |m| {
+                     if m.read_u8(mslug_game::layout::pads::DEMO_MODE) != 0 {
+                         // Con demo, el original sigue en la rutina de demo.
+                         return Flow::Goto(mslug_game::layout::pads::DEMO_READ);
+                     }
+                     pads::read_live(m);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x01_3C3C, original: "Pause_Poll_013c3c", rust: "system::pads::poll_pause",
+                 run: |m| {
+                     let p = pads::poll_pause(m);
+                     m.cpu.sr.set(StatusRegister::C, p);
+                     Flow::Return
+                 } },
     // --- sonido
     SystemPort { entry: 0x00_212E, original: "InputQueue_InitAndPushOp4_00212E", rust: "system::sound::init_queue",
                  run: ret!(sound::init_queue) },

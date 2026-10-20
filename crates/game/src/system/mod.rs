@@ -10,6 +10,7 @@
 pub mod boot;
 pub mod frame;
 pub mod irq;
+pub mod pads;
 pub mod sound;
 pub mod tasks;
 pub mod video;

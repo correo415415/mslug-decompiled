@@ -5,7 +5,7 @@
 //! prepara el frame siguiente; después el planificador pasa al resto de
 //! tareas. Original: `VBlank_FrameLoop_001f84`.
 
-use super::{inc_u16, inc_u8, sound, tasks, video};
+use super::{inc_u16, inc_u8, pads, sound, tasks, video};
 use crate::layout::{bios_ram, routine, system as S, task as T};
 use crate::mem::{Flow, Machine};
 
@@ -49,8 +49,8 @@ pub fn wait(m: &mut impl Machine) -> Flow {
         return Flow::Wait;
     }
     m.write_u8(S::VBLANKS_THIS_FRAME, 0);
-    m.call(routine::INPUT_READ_FRAME);
-    if m.call(routine::PAUSE_POLL) {
+    pads::read_frame(m);
+    if pads::poll_pause(m) {
         // En pausa: el frame no avanza.
         m.write_u16(S::SKIPPED_VBLANKS, 0);
         m.write_u8(S::FRAME_READY, 0);
