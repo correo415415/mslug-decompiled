@@ -145,7 +145,12 @@ fn main() -> Result<()> {
     let mut sys = load(&cli.rom, !cli.mute)?;
     let mut prog = if cli.only_manual { Program::manual_only(!cli.no_bios_code) } else { Program::new() };
     if cli.manual || cli.only_manual {
-        let n = mslug_bridge::install(|a, f| prog.set_override(a, f));
+        let n = if cli.only_manual {
+            mslug_bridge::system::set_mode(true, !cli.no_bios_code);
+            mslug_bridge::install_all(|a, f| prog.set_override(a, f))
+        } else {
+            mslug_bridge::install(|a, f| prog.set_override(a, f))
+        };
         eprintln!("port manual: {n} rutinas sustituidas por Rust escrito a mano");
     }
 

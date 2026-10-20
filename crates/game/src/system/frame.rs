@@ -74,7 +74,7 @@ pub fn wait(m: &mut impl Machine) -> Flow {
     m.write_u16(S::IDLE_SPINS, 0);
     m.write_u16(S::SKIPPED_VBLANKS, 0);
     let mut r = m.regs();
-    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(spins);
+    r.d[0] = u32::from(spins);
     r.a[6] = a6;
     m.set_regs(r);
     Flow::Return

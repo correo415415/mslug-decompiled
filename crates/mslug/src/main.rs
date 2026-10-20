@@ -299,7 +299,12 @@ fn main() -> Result<()> {
                 mslug_code::Program::new()
             };
             if manual || only_manual {
-                let n = mslug_bridge::install(|a, f| prog.set_override(a, f));
+                let n = if only_manual {
+                    mslug_bridge::system::set_mode(true, !no_bios_code);
+                    mslug_bridge::install_all(|a, f| prog.set_override(a, f))
+                } else {
+                    mslug_bridge::install(|a, f| prog.set_override(a, f))
+                };
                 println!("port manual: {n} rutinas sustituidas por Rust escrito a mano");
             }
             if let Some(d) = &dump {

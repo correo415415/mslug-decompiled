@@ -104,6 +104,9 @@ fn enter_task(m: &mut impl Machine) -> Flow {
     let handler = m.read_u32(t + T::HANDLER);
     let sp = m.stack_pointer();
     m.write_u32(T::SAVED_SP, sp);
+    let mut r = m.regs();
+    r.a[0] = handler;
+    m.set_regs(r);
     Flow::Call { routine: handler, then: routine::SCHEDULER_AFTER_TASK }
 }
 

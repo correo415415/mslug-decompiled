@@ -22,6 +22,7 @@ use std::collections::HashMap;
 use std::sync::OnceLock;
 
 pub mod symbols;
+pub mod system;
 
 /// RAM de trabajo vista como `Memory` del juego portado.
 pub struct Ram<'a>(pub &'a mut [u8]);
@@ -243,15 +244,20 @@ pub const CYCLES_PER_CALL: u32 = 60;
 /// sustitución a las rutinas originales cuyo nombre contenga alguno de esos
 /// textos, y `MSLUG_MANUAL_SKIP=...` excluye las que lo contengan.
 pub fn replaceable() -> impl Iterator<Item = &'static Port> {
-    let list = |v: &str| -> Vec<String> {
-        std::env::var(v).map(|s| s.split(',').filter(|x| !x.is_empty()).map(String::from).collect()).unwrap_or_default()
-    };
-    let (only, skip) = (list("MSLUG_MANUAL_ONLY"), list("MSLUG_MANUAL_SKIP"));
-    PORTS.iter().filter(move |p| {
-        !NEEDS_ROM_CALLEES.contains(&p.entry)
-            && (only.is_empty() || only.iter().any(|o| p.original.contains(o.as_str())))
-            && !skip.iter().any(|o| p.original.contains(o.as_str()))
-    })
+    PORTS.iter().filter(|p| !NEEDS_ROM_CALLEES.contains(&p.entry) && selected(p.original))
+}
+
+/// Filtros de depuración `MSLUG_MANUAL_ONLY` / `MSLUG_MANUAL_SKIP`.
+pub fn selected(original: &str) -> bool {
+    static LISTS: OnceLock<(Vec<String>, Vec<String>)> = OnceLock::new();
+    let (only, skip) = LISTS.get_or_init(|| {
+        let list = |v: &str| -> Vec<String> {
+            std::env::var(v).map(|s| s.split(',').filter(|x| !x.is_empty()).map(String::from).collect()).unwrap_or_default()
+        };
+        (list("MSLUG_MANUAL_ONLY"), list("MSLUG_MANUAL_SKIP"))
+    });
+    (only.is_empty() || only.iter().any(|o| original.contains(o.as_str())))
+        && !skip.iter().any(|o| original.contains(o.as_str()))
 }
 
 /// Índice dirección de entrada -> función portada.
@@ -368,9 +374,20 @@ pub fn install_with(
     n
 }
 
+/// Como [`install`], y además las rutinas de sistema portadas (arranque,
+/// interrupciones, planificador, bucle de frame: ver [`system`]).
+pub fn install_all(mut set: impl FnMut(u32, fn(&mut Cpu, &mut NeoGeoBus) -> u32)) -> usize {
+    let mut n = install(&mut set);
+    for &entry in system::system_index().keys() {
+        set(entry, system::call_system);
+        n += 1;
+    }
+    n
+}
+
 /// Informe del modo sólo manual: dónde se paró y por qué.
 pub fn halt_report(pc: u32, frame: u32, cpu: &Cpu) -> String {
-    let ported = PORTS.iter().any(|p| p.entry == pc);
+    let ported = PORTS.iter().any(|p| p.entry == pc) || system::SYSTEM_PORTS.iter().any(|p| p.entry == pc);
     let mut s = format!(
         "sólo port manual: parado en el frame {frame}, PC ${pc:06X} = {}\n",
         symbols::describe(pc)

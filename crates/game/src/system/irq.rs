@@ -83,6 +83,7 @@ pub fn run_deferred(m: &mut impl Machine) {
         let f = m.read_u32(e);
         let mut regs = m.regs();
         regs.a[6] = ctx;
+        regs.a[0] = f;
         m.call_original(f, &mut regs);
         m.set_regs(regs);
     }
