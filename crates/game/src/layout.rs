@@ -215,7 +215,7 @@ pub mod system {
     pub const RAM_FIRST_WORD: u32 = 0x10_0000;
     /// Zona de la RAM del juego que se borra al volver a la BIOS.
     pub const GAME_RAM: u32 = 0x10_0080;
-    pub const GAME_RAM_LEN: u32 = 0xE40D;
+    pub const GAME_RAM_LEN: u32 = 0xE40C;
     /// Inicio de la BIOS: flag distinto de 0 si viene de un arranque en frío.
     pub const BIOS_START_FLAG: u32 = 0x10_FE80;
     /// Cola de llamadas diferidas al vblank: 8 entradas de

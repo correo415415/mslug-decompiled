@@ -1,1 +1,43 @@
-//! Sistema (en construcción).
+//! Lo que hace funcionar la máquina: arranque, interrupciones, planificador
+//! de tareas, bucle de frame, cola de sonido, paleta y vídeo.
+//!
+//! Reescrito a partir de `asm/boot/`, `asm/kernel/` y `asm/video/` de la
+//! decompilación. Estas rutinas trabajan con el hardware (registros de
+//! vídeo, sonido, perro guardián) y algunas no «vuelven» como una función
+//! normal: terminan una interrupción, saltan a la BIOS o ceden el control
+//! al planificador. Por eso devuelven un [`Flow`](crate::Flow).
+
+pub mod sound;
+
+use crate::mem::Memory;
+
+/// Decremento que se queda en 0.
+pub(crate) fn dec_to_zero(m: &mut impl Memory, addr: u32) {
+    let v = m.read_u8(addr);
+    if v != 0 {
+        m.write_u8(addr, v - 1);
+    }
+}
+
+pub(crate) fn inc_u8(m: &mut impl Memory, addr: u32) {
+    let v = m.read_u8(addr);
+    m.write_u8(addr, v.wrapping_add(1));
+}
+
+pub(crate) fn inc_u16(m: &mut impl Memory, addr: u32) {
+    let v = m.read_u16(addr);
+    m.write_u16(addr, v.wrapping_add(1));
+}
+
+pub(crate) fn fill(m: &mut impl Memory, addr: u32, len: u32, v: u8) {
+    for i in 0..len {
+        m.write_u8(addr + i, v);
+    }
+}
+
+pub(crate) fn copy(m: &mut impl Memory, src: u32, dst: u32, len: u32) {
+    for i in 0..len {
+        let b = m.read_u8(src + i);
+        m.write_u8(dst + i, b);
+    }
+}
