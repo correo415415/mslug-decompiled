@@ -150,7 +150,7 @@ pub fn move_with_scene(m: &mut impl Memory, t: u32) {
 }
 
 /// Física de un objeto suelto: se mueve con la escena y, si no está
-/// sujeto (`HELD` = 0 o `0xFF`), cae hasta el suelo (sin portar).
+/// sujeto (`HELD` = 0 o `0xFF`) y no pisa suelo, cae (sin portar).
 /// Original: `Item_PhysAndProbe_09b8c0` (siempre C = 0).
 pub fn item_physics(m: &mut impl Machine, t: u32) {
     move_with_scene(m, t);
@@ -163,7 +163,7 @@ pub fn item_physics(m: &mut impl Machine, t: u32) {
     if held != 0 && held != 0xFF {
         return;
     }
-    if m.call(L::ON_GROUND) {
+    if super::collision::probe_floor_here(m) {
         m.call(L::FALL);
     }
 }

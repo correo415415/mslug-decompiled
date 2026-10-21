@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -956,6 +956,36 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; platforms::move_with_scene(m, t); m.cpu.a[5] = mslug_game::layout::platforms::SCRATCH_BASE; Flow::Return } },
     SystemPort { entry: 0x09_B8C0, original: "Item_PhysAndProbe_09b8c0", rust: "system::platforms::item_physics",
                  run: |m| { let t = m.cpu.a[6]; platforms::item_physics(m, t); set_carry(m, false); Flow::Return } },
+    SystemPort { entry: 0x02_7DB2, original: "CollMap_LookupTile_027db2", rust: "system::collision::lookup_tile",
+                 run: |m| {
+                     let (t, x, y) = (m.cpu.a[6], m.cpu.d[1] as u16, m.cpu.d[2] as u16);
+                     let tile = collision::lookup_tile(m, t, x, y);
+                     m.cpu.a[1] = tile.record;
+                     m.cpu.d[0] = (m.cpu.d[0] & !0xFF) | u32::from(tile.kind);
+                     if let Some((c, r)) = tile.frac {
+                         m.cpu.d[3] = (m.cpu.d[3] & 0xFFFF_0000) | u32::from(c);
+                         m.cpu.d[4] = (m.cpu.d[4] & 0xFFFF_0000) | u32::from(r);
+                     }
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_7E28, original: "CollMap_TestSolidOrPlatform_027e28", rust: "system::collision::test_masks",
+                 run: |m| {
+                     let (rec, c, r) = (m.cpu.a[1], m.cpu.d[3] as u16, m.cpu.d[4] as u16);
+                     let hit = collision::test_masks(m, rec, c, r);
+                     if let Some(h) = hit { m.cpu.a[1] = h; }
+                     set_carry(m, hit.is_some());
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_7EBA, original: "SpritePubEffect_027EBA", rust: "system::collision::probe_floor",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     let f = collision::probe_floor(m, t, (m.cpu.d[3] as u16, m.cpu.d[4] as u16));
+                     m.cpu.a[1] = f.hit.unwrap_or(f.record);
+                     m.cpu.d[3] = (m.cpu.d[3] & 0xFFFF_0000) | u32::from(f.at.0);
+                     m.cpu.d[4] = (m.cpu.d[4] & 0xFFFF_0000) | u32::from(f.at.1);
+                     set_carry(m, f.in_air);
+                     Flow::Return
+                 } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

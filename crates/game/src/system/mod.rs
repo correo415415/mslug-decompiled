@@ -9,6 +9,7 @@
 
 pub mod anim;
 pub mod boot;
+pub mod collision;
 pub mod events;
 pub mod food;
 pub mod frame;

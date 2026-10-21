@@ -941,6 +941,34 @@ pub mod mission {
     pub const ENTRY_PTR: u32 = 0x3C;
 }
 
+/// Colisión con el mapa (`system::collision`).
+pub mod collision {
+    /// Tipos de tile: 64 registros de 32 bytes {máscara sólida.l,
+    /// pendiente.l, ..., flags (+$0C), siguiente tipo (+$0D)} y la segunda
+    /// máscara a `+$10`. El tipo `$11` es el de las plataformas móviles.
+    pub const TILE_TYPES: u32 = 0x27_8988;
+    pub const TILE_TYPE_LEN: u32 = 0x20;
+    pub const SECOND_MASK: u32 = 0x10;
+    pub const T_FLAGS: u32 = 0x0C;
+    pub const T_NEXT: u32 = 0x0D;
+    pub const PLATFORM_TILE: u32 = 0x27_8BA8;
+    pub const KIND_MASK: u8 = 0x3F;
+    /// Por debajo de esta Y no se mira el mapa.
+    pub const MAP_BOTTOM: i16 = 0x1FF;
+    /// Entidad: tipos de tile que ignora (`+$6B`), `+$5B` bit 2 = atraviesa
+    /// las celdas con los dos bits altos, `+$5A` bit 6 = pisa suelo.
+    pub const IGNORE: u32 = 0x6B;
+    pub const GROUND: u32 = 0x5B;
+    pub const GROUND_PASS: u8 = 1 << 2;
+    pub const PASS_BITS: u8 = 0xC0;
+    pub const STATE: u32 = 0x5A;
+    pub const ON_FLOOR: u8 = 1 << 6;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    /// Plataforma bajo la entidad sondeada (`$F` = ninguna).
+    pub const PLATFORM_UNDER: u32 = 0x10_6F44;
+}
+
 /// Plataformas móviles (`system::platforms`).
 pub mod platforms {
     /// Anillo de 16 muestras de 12 bytes: cola de lectura, fin de las
@@ -983,7 +1011,6 @@ pub mod platforms {
     pub const LOCK_X: u32 = 0x10_6F5E;
     /// Objetos: sujeto (`+$9B`), suelo y caída (sin portar), base de `a5`.
     pub const HELD: u32 = 0x9B;
-    pub const ON_GROUND: u32 = 0x02_7EBA;
     pub const FALL: u32 = 0x02_7C8C;
     pub const SCRATCH_BASE: u32 = 0x10_8080;
 }
