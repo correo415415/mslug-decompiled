@@ -622,6 +622,245 @@ pub fn particle_run(m: &mut impl Machine) -> Flow {
     }
 }
 
+
+/// Sprite de efectos de los golpes con su guion de animación.
+fn fx_sprite(m: &mut impl Machine, t: u32, gfx: u16, attr: u16, script: u32) {
+    anim::alloc_entry(m, t, gfx);
+    anim::set_attr(m, t, attr);
+    set_priority(m, t, L::FX_SPRITE.2);
+    let _ = script;
+}
+
+/// Resta uno al temporizador; al llegar a cero se da de baja con sus
+/// hijas y si no, anima.
+fn animate_until_timer(m: &mut impl Machine, t: u32) -> Flow {
+    let n = m.read_u16(t + L::TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TIMER, n);
+    if n == 0 {
+        tasks::kill_children(m, t);
+        return tasks::finish(m);
+    }
+    anim::step(m, t);
+    Flow::Return
+}
+
+/// Sólo anima. Original: `$0905BA`, `$090628`, `$090684`, `$0906E0`.
+fn animate_only(m: &mut impl Machine, t: u32) -> Flow {
+    anim::step(m, t);
+    Flow::Return
+}
+
+/// Resta a `field` la mitad (`shift` = 1) o la cuarta parte (2) de sí
+/// mismo, al menos uno; devuelve si ha quedado negativo (y lo pone a 0).
+fn shrink(m: &mut impl Memory, t: u32, field: u32, shift: u32) -> bool {
+    let v = m.read_u16(t + field);
+    let d = (v >> shift).max(1);
+    let r = v.wrapping_sub(d);
+    if (r as i16) < 0 {
+        m.write_u16(t + field, 0);
+        true
+    } else {
+        m.write_u16(t + field, r);
+        false
+    }
+}
+
+/// Zoom del golpe alto: se acerca desde grande y encoge al final.
+/// Original: `GO_Zoom_09034e`.
+pub fn zoom(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let (gfx, attr, _) = L::FX_SPRITE;
+    fx_sprite(m, t, gfx, attr, L::ZOOM_SCRIPT);
+    m.write_u8(t + L::STATE[1], 0);
+    m.write_u8(t + L::STATE[0], 0);
+    m.write_u16(t + L::ORIGIN[0], L::ZOOM_CENTER.0);
+    m.write_u16(t + L::ORIGIN[1], L::ZOOM_CENTER.1);
+    m.write_u16(t + L::ZOOM_SIZE, L::ZOOM_START_SIZE);
+    m.write_u16(t + L::ZOOM_SIZE_Y, 0);
+    m.write_u16(t + L::COUNT, 0);
+    anim::start(m, t, L::ZOOM_SCRIPT);
+    m.write_u32(t + T::HANDLER, L::ZOOM_RUN);
+    zoom_run(m)
+}
+
+/// Original: `$0903A4` (dentro de `GO_Zoom_09034e`).
+pub fn zoom_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    for (k, f) in [L::X, L::Y].into_iter().enumerate() {
+        let size = [L::ZOOM_SIZE, L::ZOOM_SIZE_Y][k];
+        let v = m.read_u16(t + L::ORIGIN[k]).wrapping_sub(m.read_u16(t + size));
+        m.write_u16(t + f, v);
+    }
+    anim::step(m, t);
+    if (m.read_u16(t + L::TIMER) as i16) <= L::ZOOM_SHRINK_AT {
+        let (drop_at, y, size_y) = L::ZOOM_DROP;
+        if (m.read_u16(t + L::ZOOM_SIZE) as i16) < drop_at && m.read_u8(t + L::STATE[1]) == 0 {
+            m.write_u8(t + L::STATE[1], 0xFF);
+            m.write_u16(t + L::ORIGIN[1], y);
+            m.write_u16(t + L::ZOOM_SIZE_Y, size_y);
+        }
+        if shrink(m, t, L::ZOOM_SIZE, 1) {
+            m.write_u16(t + L::X, L::ZOOM_REST.0);
+        }
+        if shrink(m, t, L::ZOOM_SIZE_Y, 2) {
+            m.write_u16(t + L::Y, L::ZOOM_REST.1);
+        }
+        if m.read_u8(t + L::STATE[1]) != 0 {
+            let n = m.read_u16(t + L::COUNT).wrapping_add(1);
+            m.write_u16(t + L::COUNT, n);
+            if (n as i16) >= L::ZOOM_SETTLE_FRAMES {
+                m.write_u32(t + T::HANDLER, L::ZOOM_PATH);
+            }
+        }
+    }
+    dec_timer(m, t);
+    Flow::Return
+}
+
+fn dec_timer(m: &mut impl Memory, t: u32) {
+    let n = m.read_u16(t + L::TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TIMER, n);
+}
+
+/// Rebota siguiendo una tabla y avisa a la madre. Original:
+/// `GO_Zoom_Path_090452`.
+pub fn zoom_path(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::FX_SPRITE.0);
+    m.write_u16(t + L::X, L::ZOOM_REST.0);
+    m.write_u16(t + L::Y, L::ZOOM_REST.1);
+    m.write_u16(t + L::COUNT, 0);
+    m.write_u32(t + T::HANDLER, L::ZOOM_PATH_RUN);
+    zoom_path_run(m)
+}
+
+/// Original: `$090474` (dentro de `GO_Zoom_Path_090452`).
+pub fn zoom_path_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let n = m.read_u16(t + L::COUNT);
+    if (n as i16) < L::ZOOM_PATH_STEPS {
+        let e = L::ZOOM_PATH_TABLE.wrapping_add(i32::from(n.wrapping_mul(4) as i16) as u32);
+        for (k, f) in [L::X, L::Y].into_iter().enumerate() {
+            let v = m.read_u16(t + f).wrapping_add(m.read_u16(e + 2 * k as u32));
+            m.write_u16(t + f, v);
+        }
+    }
+    anim::step(m, t);
+    let n = m.read_u16(t + L::COUNT).wrapping_add(1);
+    m.write_u16(t + L::COUNT, n);
+    if (n as i16) >= L::ZOOM_PATH_END {
+        let mother = m.read_u32(t + T::OWNER);
+        m.write_u8(mother + L::STATE[0], 1);
+        m.write_u32(t + T::HANDLER, L::ZOOM_WAIT);
+    }
+    dec_timer(m, t);
+    Flow::Return
+}
+
+/// Espera a que acabe el temporizador. Original: `GO_Zoom_Wait_0904c6`,
+/// `GO_Banner_Tick_0906ca`.
+pub fn wait_timer(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    animate_until_timer(m, t)
+}
+
+/// Temblor del golpe bajo, con un destello. Original: `GO_Shake_0904e4`.
+pub fn shake(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let (gfx, attr, _) = L::FX_SPRITE;
+    fx_sprite(m, t, gfx, attr, L::SHAKE_SCRIPT);
+    m.write_u16(t + L::X, L::SHAKE_POS.0);
+    m.write_u16(t + L::Y, L::SHAKE_POS.1);
+    m.write_u16(t + L::ORIGIN[0], L::SHAKE_POS.0);
+    m.write_u16(t + L::ORIGIN[1], L::SHAKE_POS.1);
+    m.write_u16(t + L::COUNT, 0);
+    child(m, t, L::FLASH, true);
+    anim::start(m, t, L::SHAKE_SCRIPT);
+    m.write_u32(t + T::HANDLER, L::SHAKE_RUN);
+    shake_run(m)
+}
+
+/// Original: `$090544`, `GO_Shake_Step_09055a`.
+pub fn shake_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let n = m.read_u16(t + L::TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TIMER, n);
+    if n == 0 {
+        tasks::kill_children(m, t);
+        return tasks::finish(m);
+    }
+    let i = m.read_u16(t + L::COUNT);
+    let e = L::SHAKE_TABLE.wrapping_add(i32::from(i.wrapping_mul(4) as i16) as u32);
+    for (k, f) in [L::X, L::Y].into_iter().enumerate() {
+        let v = m.read_u16(e + 2 * k as u32).wrapping_add(m.read_u16(t + L::ORIGIN[k]));
+        m.write_u16(t + f, v);
+    }
+    m.write_u16(t + L::COUNT, i.wrapping_add(2) & 7);
+    anim::step(m, t);
+    Flow::Return
+}
+
+/// Destello del temblor. Original: `GO_Flash_090592`.
+pub fn flash(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let (gfx, x, y, script) = L::FLASH_SPRITE;
+    anim::alloc_entry(m, t, gfx);
+    m.write_u16(t + L::X, x);
+    m.write_u16(t + L::Y, y);
+    anim::start(m, t, script);
+    m.write_u32(t + T::HANDLER, L::FLASH_RUN);
+    animate_only(m, t)
+}
+
+/// Original: `$0905BA`, `$090628`, `$090684`, `$0906E0` (sólo animan).
+pub fn flash_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    animate_only(m, t)
+}
+
+/// Cartel `k` (A–D). Original: `GO_Banner_0905c2`, `GO_Banner_B_090630`,
+/// `GO_Banner_C_09068c`, `GO_Banner_D_0906e8`.
+pub fn banner(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    let (gfx, attr, script, run) = L::BANNERS[k];
+    fx_sprite(m, t, gfx, attr, script);
+    m.write_u16(t + L::X, L::BANNER_POS.0);
+    m.write_u16(t + L::Y, L::BANNER_POS.1);
+    anim::start(m, t, script);
+    m.write_u32(t + T::HANDLER, run);
+    match k {
+        0 => banner_run(m),
+        1 => banner_b_run(m),
+        _ => wait_timer(m),
+    }
+}
+
+/// Al acabar el temporizador suena el golpe, avisa a la madre y se da de
+/// baja; si no, anima. Original: `$090600`.
+pub fn banner_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let n = m.read_u16(t + L::TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TIMER, n);
+    if n != 0 {
+        return animate_only(m, t);
+    }
+    sound::play(m, L::SOUND_HIT);
+    let mother = m.read_u32(t + T::OWNER);
+    m.write_u8(mother + L::STATE[1], 0);
+    tasks::kill_children(m, t);
+    tasks::finish(m)
+}
+
+/// Hasta que la madre pase al estado 3. Original: `$09066E`.
+pub fn banner_b_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if parent_state_is(m, t, 0, 3) {
+        tasks::kill_children(m, t);
+        return tasks::finish(m);
+    }
+    animate_only(m, t)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

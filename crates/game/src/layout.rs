@@ -1752,6 +1752,46 @@ pub mod game_over {
     pub const PARTICLE_ATTR: u16 = 0x2000;
     pub const PARTICLE_FADE: u8 = 6;
     pub const PARTICLE_FLOOR: i16 = 0x120;
+
+    // --- efectos de los golpes: zoom, temblor, destello, carteles
+    /// Sprite de efectos: (gfx, atributo, prioridad).
+    pub const FX_SPRITE: (u16, u16, u16) = (0xDF, 0xC000, 0x1C);
+    pub const ZOOM_RUN: u32 = 0x09_03A4;
+    pub const ZOOM_PATH: u32 = 0x09_0452;
+    pub const ZOOM_PATH_RUN: u32 = 0x09_0474;
+    pub const ZOOM_WAIT: u32 = 0x09_04C6;
+    /// Centro (X, Y) y semitamaños iniciales (+$8C, +$8E).
+    pub const ZOOM_CENTER: (u16, u16) = (0xEC, 0x14C);
+    pub const ZOOM_SIZE: u32 = 0x8C;
+    pub const ZOOM_SIZE_Y: u32 = 0x8E;
+    pub const ZOOM_START_SIZE: u16 = 0xF0;
+    pub const ZOOM_SCRIPT: u32 = 0x2F_50B4;
+    /// A partir de este temporizador empieza a encogerse.
+    pub const ZOOM_SHRINK_AT: i16 = 0x20;
+    /// Por debajo de este tamaño baja (Y final, semitamaño Y).
+    pub const ZOOM_DROP: (i16, u16, u16) = (0x24, 0x158, 0xC);
+    pub const ZOOM_REST: (u16, u16) = (0xEC, 0x158);
+    pub const ZOOM_SETTLE_FRAMES: i16 = 5;
+    pub const ZOOM_PATH_TABLE: u32 = 0x2F_4B24;
+    pub const ZOOM_PATH_STEPS: i16 = 9;
+    pub const ZOOM_PATH_END: i16 = 0xD;
+    pub const SHAKE: u32 = 0x09_04E4;
+    pub const SHAKE_RUN: u32 = 0x09_0544;
+    pub const SHAKE_POS: (u16, u16) = (0xC8, 0x140);
+    pub const SHAKE_SCRIPT: u32 = 0x2F_50C4;
+    pub const SHAKE_TABLE: u32 = 0x2F_4B48;
+    pub const FLASH: u32 = 0x09_0592;
+    pub const FLASH_RUN: u32 = 0x09_05BA;
+    /// Destello: (gfx, X, Y, guion).
+    pub const FLASH_SPRITE: (u16, u16, u16, u32) = (0xE0, 0xA8, 0x180, 0x2F_50FC);
+    pub const BANNER_POS: (u16, u16) = (0xA0, 0x180);
+    /// Carteles A–D: (gfx, atributo, guion, rutina del bucle).
+    pub const BANNERS: [(u16, u16, u32, u32); 4] = [
+        (0xE2, 0xF000, 0x2F_506E, 0x09_0600),
+        (0xE2, 0xF000, 0x2F_506E, 0x09_066E),
+        (0xE1, 0x0000, 0x2F_507A, 0x09_06CA),
+        (0xE2, 0x0000, 0x2F_5086, 0x09_06CA),
+    ];
 }
 
 /// Tareas de fundido de la paleta: cada alta crea una con su rutina y le
