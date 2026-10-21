@@ -251,4 +251,17 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
   dentro de una llamada, los bucles que esperan su resultado salen (antes el
   guion de scroll se quedaba en un bucle infinito).
 
-Verificado con `verify-system --coin 0` (0 fallos, 135 994 llamadas).
+- `system::player_hud`: tarea del HUD de cada jugador (`$02575C…$025E56`):
+  INSERT COIN / PUSH START / PLEASE WAIT, enlace con el soldado, muerte y
+  reaparición, CONTINUE con su cuenta atrás y GAME OVER; indicador de bombas
+  y la consulta de crédito `$026752`.
+- `system::events`: VM de eventos de la misión (`$0442E6…$0448A6`): una lista
+  por escena con 13 órdenes (apariciones, pausas, esperas por posición de
+  los jugadores o número de enemigos, bloques, ramas al azar) que se
+  ejecutan al avanzar el scroll, tareas que repiten una orden y tareas que
+  vigilan un flag. El original deja en `d7` bits que acaban en la capa de
+  las apariciones; el port lo reproduce.
+- `system::food`: la comida (20 variantes de `$09AEC4`), con la física y la
+  recogida todavía en código original.
+
+Verificado con `verify-system --coin 0` (0 fallos, 149 043 llamadas).

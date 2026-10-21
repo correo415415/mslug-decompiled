@@ -173,7 +173,7 @@ usan. La CI lo ejecuta con dos semillas de fuzz.
 ## Camino sin moneda (attract)
 
 ```
-./target/release/mslug verify-system --frames 4000 --coin 0   # 0 fallos (135 994 llamadas)
+./target/release/mslug verify-system --frames 4000 --coin 0   # 0 fallos (149 043 llamadas)
 ./target/release/mslug play --only-manual --coin 0 --frames 20000 | grep parado
 ```
 
@@ -183,8 +183,10 @@ Luego la demo jugable: tabla de modos (`script::mode`), arranque de misión
 (`script::start_mission`), tiempo (`system::rank`), tarea de la misión con su
 cámara y apariciones (`system::mission`) y las rutinas 68000 embebidas en los
 guiones de escena (7 moldes, ejecutados en `scroll::embedded`).
+Después el HUD de cada jugador (`system::player_hud`), los eventos de la
+misión (`system::events`) y la comida (`system::food`).
 `--only-manual --coin 0` llega al frame 1636 y se para en
-`HUD_Task_StartP2_025766` (tarea del HUD de cada jugador).
+`Item_PhysAndProbe_09b8c0` (física y suelo de los objetos).
 
 Si el código original se para dentro de una llamada (`Machine::halted`), los
 bucles que esperan algo de ella (guion de scroll, apariciones) salen en vez de
