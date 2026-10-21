@@ -1102,13 +1102,33 @@ pub mod food {
     pub const ATTR: u16 = 0x8000;
     pub const ATTR_WORD: u32 = 0x38;
     pub const ATTR_MASK: u16 = 0xFFE3;
-    /// Cola común de los objetos (sin portar).
-    pub const TAIL: u32 = 0x09_A75A;
     /// Estados.
     pub const WAIT: u32 = 0x09_B0A8;
     pub const BLINK: u32 = 0x09_B0D8;
     pub const BLINK_RUN: u32 = 0x09_B0FA;
     pub const FREE: u32 = 0x09_B474;
+}
+
+/// Objetos del suelo y test de fuera de la vista (`system::items`).
+pub mod items {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    /// `FLAGS2` bit 7: la entidad ya ha estado en pantalla.
+    pub const SEEN: u8 = 1 << 7;
+    /// Pantalla (sin márgenes) y zona lejana en la que se da por vista.
+    pub const VIEW_X: (i16, i16) = (0, 0x140);
+    pub const VIEW_Y: (i16, i16) = (0x100, 0x1F0);
+    pub const FAR_X: (i16, i16) = (-0x80, 0x200);
+    pub const FAR_Y: (i16, i16) = (0, 0x280);
+    pub const DEFAULT_MARGINS: u32 = 0x05_DD4C;
+    /// Márgenes de los objetos del suelo, estado «en el suelo» (`+$90` = 1)
+    /// y contador de los que lo están, y `+$9F` = darlo de baja aunque no
+    /// se haya visto.
+    pub const MARGINS: u32 = 0x09_A5F4;
+    pub const STATE: u32 = 0x90;
+    pub const ON_GROUND: u8 = 1;
+    pub const ON_GROUND_COUNT: u32 = 0x10_E48B;
+    pub const ALWAYS_CULL: u32 = 0x9F;
 }
 
 /// Recogida de objetos (`system::pickup`).

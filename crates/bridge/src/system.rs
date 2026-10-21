@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -252,6 +252,13 @@ fn toucher_regs(m: &mut CpuMachine, r: Option<(u8, u32)>) {
         m.cpu.a[0] = e;
     }
     set_carry(m, r.is_some());
+}
+
+/// `$05DD5C` deja en a0 los márgenes usados.
+fn out_regs(m: &mut CpuMachine, a: u32) {
+    if a == 0xFFFF_FFFF {
+        m.cpu.a[0] = mslug_game::layout::items::DEFAULT_MARGINS;
+    }
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -1045,6 +1052,11 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; let r = pickup::item_toucher(m, t, 0x09_A6D6); m.cpu.a[1] = 0x09_A6D6; toucher_regs(m, r); Flow::Return } },
     SystemPort { entry: 0x09_B920, original: "Item_Food_Pickup_09b920", rust: "system::pickup::food",
                  run: |m| { let t = m.cpu.a[6]; let c = pickup::food(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_A75A, original: "Item_GroundTail_09a75a", rust: "system::items::ground_tail", run: |m| items::ground_tail(m) },
+    SystemPort { entry: 0x05_DD56, original: "Entity_OutOfViewSeen_05dd56", rust: "system::items::out_of_view_seen",
+                 run: |m| { let t = m.cpu.a[6]; let a = m.cpu.a[0]; let c = items::out_of_view_seen(m, t, (a != 0xFFFF_FFFF).then_some(a)); out_regs(m, a); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_DD5C, original: "Entity_OutOfView_05dd5c", rust: "system::items::out_of_view",
+                 run: |m| { let t = m.cpu.a[6]; let a = m.cpu.a[0]; let c = items::out_of_view(m, t, (a != 0xFFFF_FFFF).then_some(a)); out_regs(m, a); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

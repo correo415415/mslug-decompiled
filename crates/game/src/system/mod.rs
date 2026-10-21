@@ -16,6 +16,7 @@ pub mod frame;
 pub mod game_over;
 pub mod hud;
 pub mod irq;
+pub mod items;
 pub mod layer;
 pub mod lists;
 pub mod manual;
