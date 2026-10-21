@@ -272,5 +272,11 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
 - `system::motion`: movimiento con colisión de un frame (`$0274B8`,
   `$027464`): integración de la velocidad, avance en subpíxeles, bordes de
   la pantalla, cerrojos, pendientes y aterrizaje sobre plataformas.
+- `system::pickup`: qué jugador toca un objeto (`$03EE48`, `$03EF5C`,
+  `$09A836`, `$09A84E`) y premio de la comida con su racha (`$09B920`).
+- `system::items`: cola de los objetos del suelo (`$09A75A`) y test de fuera
+  de la vista (`$05DD56`, `$05DD5C`).
+- `system::grunt`: física de los soldados rasos (posición 8.8, parámetros de
+  aparición, baja al salir de la vista) y el que salta (plantilla 162).
 
-Verificado con `verify-system --coin 0` (0 fallos, 182 513 llamadas).
+Verificado con `verify-system --coin 0` (0 fallos, 192 738 llamadas).

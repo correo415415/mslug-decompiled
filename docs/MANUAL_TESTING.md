@@ -186,10 +186,13 @@ guiones de escena (7 moldes, ejecutados en `scroll::embedded`).
 Después el HUD de cada jugador (`system::player_hud`), los eventos de la
 misión (`system::events`), la comida (`system::food`), las plataformas
 móviles (`system::platforms`), la colisión y la caída de los objetos
-(`system::collision`) y el movimiento con colisión (`system::motion`).
+(`system::collision`), el movimiento con colisión (`system::motion`), la
+recogida (`system::pickup`), los objetos del suelo (`system::items`) y los
+soldados que saltan (`system::grunt`).
 `--only-manual --coin 0` llega al frame 1636 y se para en
-`Item_Food_Pickup_09b920` (recogida de la comida). `verify-system --coin 0`:
-0 fallos en 182 513 llamadas; con moneda (6000 frames): 0 fallos en 184 432.
+`Item_Tmpl316_ComboTimer_09b82c` (temporizador de la racha). `verify-system
+--coin 0`: 0 fallos en 192 738 llamadas; con moneda (6000 frames): 0 fallos
+en 194 338.
 
 Si el código original se para dentro de una llamada (`Machine::halted`), los
 bucles que esperan algo de ella (guion de scroll, apariciones) salen en vez de
