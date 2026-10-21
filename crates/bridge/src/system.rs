@@ -776,6 +776,8 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x09_01B6, original: "$0901B6", rust: "system::game_over::prop_b_run", run: |m| game_over::prop_b_run(m) },
     SystemPort { entry: 0x09_02FE, original: "GO_Prop_C_0902fe", rust: "system::game_over::prop_c", run: |m| game_over::prop_c(m) },
     SystemPort { entry: 0x09_033C, original: "$09033C", rust: "system::game_over::prop_c_run", run: |m| game_over::prop_c_run(m) },
+    SystemPort { entry: 0x09_0CBA, original: "GO_Glow_Drift_090cba", rust: "system::game_over::glow_drift", run: |m| game_over::glow_drift(m) },
+    SystemPort { entry: 0x09_0D2E, original: "$090D2E", rust: "system::game_over::glow_drift_run", run: |m| game_over::glow_drift_run(m) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

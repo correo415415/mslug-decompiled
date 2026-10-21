@@ -1711,6 +1711,15 @@ pub mod game_over {
     pub const GLOW_ANIM: u32 = 0x2F_5338;
     pub const GLOW_RATE: u32 = 0x82;
     pub const GLOW_WAIT: u32 = 0x86;
+    pub const GLOW_DRIFT_RUN: u32 = 0x09_0D2E;
+    /// Destino relativo a la posición de partida y desplazamiento inicial.
+    pub const GLOW_DRIFT_TARGET: (u16, u16) = (0x10, 0x40);
+    pub const GLOW_DRIFT_START: (u16, u16) = (8, 0x58);
+    pub const GLOW_DRIFT_TARGET_POS: [u32; 2] = [0x8C, 0x8E];
+    pub const GLOW_DRIFT_FADE: (usize, u16) = (3, 1);
+    pub const GLOW_DRIFT_DIM: u8 = 0x10;
+    /// Al bajar el nivel de este valor avisa a la madre y se da de baja.
+    pub const GLOW_DRIFT_END: u8 = 0x1F;
 
     // --- figuras, piezas y fondos que se mueven
     /// Figuras grandes: (gráficos, atributos, prioridad, guion).

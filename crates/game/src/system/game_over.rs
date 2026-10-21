@@ -391,6 +391,64 @@ pub fn glow_run(m: &mut impl Machine) -> Flow {
     Flow::Return
 }
 
+/// Brillo que se desplaza hacia un punto y se apaga; al apagarse pone a
+/// la madre en el estado 1. Original: `GO_Glow_Drift_090cba`.
+pub fn glow_drift(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::GLOW_GFX);
+    let (x, y) = (m.read_u16(t + L::X), m.read_u16(t + L::Y));
+    m.write_u16(t + L::GLOW_DRIFT_TARGET_POS[0], x.wrapping_add(L::GLOW_DRIFT_TARGET.0));
+    m.write_u16(t + L::GLOW_DRIFT_TARGET_POS[1], y.wrapping_add(L::GLOW_DRIFT_TARGET.1));
+    m.write_u16(t + L::X, x.wrapping_sub(L::GLOW_DRIFT_START.0));
+    m.write_u16(t + L::Y, y.wrapping_add(L::GLOW_DRIFT_START.1));
+    for l in L::LEVELS {
+        m.write_u8(t + l, 0xFF);
+    }
+    m.write_u16(t + L::GLOW_RATE, 1);
+    m.write_u16(t + L::GLOW_WAIT, 1);
+    palette::spawn_fade(m, L::GLOW_DRIFT_FADE.0, t, L::GLOW_DRIFT_FADE.1);
+    anim::set_attr(m, t, L::GLOW_ATTR);
+    set_priority(m, t, 0);
+    anim::start(m, t, L::GLOW_ANIM);
+    m.write_u32(t + T::HANDLER, L::GLOW_DRIFT_RUN);
+    glow_drift_run(m)
+}
+
+/// Original: `$090D2E` (dentro de `GO_Glow_Drift_090cba`).
+pub fn glow_drift_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::step(m, t);
+    // Se acerca la mitad de lo que falta (al menos +1 en X y -1 en Y).
+    for (k, f) in [L::X, L::Y].into_iter().enumerate() {
+        let target = m.read_u16(t + L::GLOW_DRIFT_TARGET_POS[k]);
+        let pos = m.read_u16(t + f);
+        if target != pos {
+            let mut d = ((target.wrapping_sub(pos) as i16) >> 1) as u16;
+            if d == 0 {
+                d = if k == 0 { 1 } else { 0xFFFF };
+            }
+            m.write_u16(t + f, pos.wrapping_add(d));
+        }
+    }
+    let w = m.read_u16(t + L::GLOW_WAIT).wrapping_sub(1);
+    m.write_u16(t + L::GLOW_WAIT, w);
+    if w != 0 {
+        return Flow::Return;
+    }
+    let r = m.read_u16(t + L::GLOW_RATE);
+    m.write_u16(t + L::GLOW_WAIT, r);
+    for l in L::LEVELS {
+        let v = m.read_u8(t + l).wrapping_sub(L::GLOW_DRIFT_DIM);
+        m.write_u8(t + l, v);
+    }
+    if m.read_u8(t + L::LEVELS[0]) > L::GLOW_DRIFT_END {
+        return Flow::Return;
+    }
+    let mother = m.read_u32(t + T::OWNER);
+    m.write_u8(mother + L::STATE[0], 1);
+    tasks::finish(m)
+}
+
 /// Prioridad de sprite: los bits 2–4 de `ATTR`.
 fn set_priority(m: &mut impl Memory, t: u32, prio: u16) {
     let a = m.read_u16(t + L::ATTR) & L::ATTR_PRIO_MASK;
