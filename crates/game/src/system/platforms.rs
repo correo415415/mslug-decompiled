@@ -179,10 +179,12 @@ mod tests {
         let (p, rider) = (0x10_0A80, 0x10_0B20);
         m.write_u8(p + L::ID, 0xFF);
         record(&mut m, p, 100, 50, 32);
-        // La primera muestra no cuenta hasta que avanza la cola.
-        m.write_u16(L::WRAP, m.read_u16(L::HEAD));
+        // Las muestras válidas llegan hasta la cabeza.
+        let h = m.read_u16(L::HEAD);
+        m.write_u16(L::WRAP, h);
         record(&mut m, p, 104, 50, 32);
-        m.write_u16(L::WRAP, m.read_u16(L::HEAD));
+        let h = m.read_u16(L::HEAD);
+        m.write_u16(L::WRAP, h);
         let id = m.read_u8(p + L::ID) >> 4;
         m.write_u8(rider + L::ID, 0xF0 | id);
         assert_eq!(follow(&mut m, rider), Some((0, 0)));
