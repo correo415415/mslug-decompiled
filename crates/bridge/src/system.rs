@@ -681,6 +681,41 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; let c = game_over::parent_state_is(m, t, 1, 3); m.cpu.a[0] = m.read_u32(t + 0x0C); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x09_110A, original: "GO_ParentState_09110a", rust: "system::game_over::parent_state_is",
                  run: |m| { let t = m.cpu.a[6]; let c = game_over::parent_state_is(m, t, 1, 4); m.cpu.a[0] = m.read_u32(t + 0x0C); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_E9B6, original: "$05E9B6", rust: "system::rng::next",
+                 run: |m| {
+                     let (v, j) = rng::next(m);
+                     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v);
+                     m.cpu.d[6] = (m.cpu.d[6] & 0xFFFF_0000) | 0x3E;
+                     m.cpu.d[7] = (m.cpu.d[7] & 0xFFFF_0000) | u32::from(j);
+                     m.cpu.a[4] = mslug_game::layout::rng::TABLE + u32::from(j);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x05_E9E4, original: "$05E9E4", rust: "system::rng::below",
+                 run: |m| {
+                     let n = m.cpu.d[0] as u16;
+                     let (_, j) = rng::below(m, n);
+                     let w = m.read_u16(mslug_game::layout::rng::TABLE + u32::from(j));
+                     let prod = u32::from(w) * u32::from(n);
+                     m.cpu.d[0] = prod.rotate_left(16);
+                     m.cpu.d[5] = (m.cpu.d[5] & 0xFFFF_0000) | u32::from(n);
+                     m.cpu.d[6] = (m.cpu.d[6] & 0xFFFF_0000) | 0x3E;
+                     m.cpu.d[7] = (m.cpu.d[7] & 0xFFFF_0000) | u32::from(j);
+                     m.cpu.a[4] = mslug_game::layout::rng::TABLE;
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x09_0DB0, original: "GO_Figure_A_090db0", rust: "system::game_over::figure", run: |m| game_over::figure(m, false) },
+    SystemPort { entry: 0x09_0DE2, original: "GO_Figure_B_090de2", rust: "system::game_over::figure", run: |m| game_over::figure(m, true) },
+    SystemPort { entry: 0x09_0E22, original: "GO_Figure_Run_090e1c (+$06)", rust: "system::game_over::figure_run", run: |m| game_over::figure_run(m) },
+    SystemPort { entry: 0x09_0E7E, original: "$090E7E", rust: "system::game_over::finish", run: |m| game_over::finish(m) },
+    SystemPort { entry: 0x09_0E86, original: "GO_Figure_Part_090e86", rust: "system::game_over::part", run: |m| game_over::part(m) },
+    SystemPort { entry: 0x09_0EC6, original: "GO_Figure_Part_090e86 (+$40)", rust: "system::game_over::part_run", run: |m| game_over::part_run(m) },
+    SystemPort { entry: 0x09_0F00, original: "GO_Scroller_A_090f00", rust: "system::game_over::scroller", run: |m| game_over::scroller(m, 0) },
+    SystemPort { entry: 0x09_0F68, original: "GO_Scroller_B_090f68", rust: "system::game_over::scroller", run: |m| game_over::scroller(m, 1) },
+    SystemPort { entry: 0x09_0FCE, original: "GO_Scroller_Run_090fce", rust: "system::game_over::scroller_run", run: |m| game_over::scroller_run(m) },
+    SystemPort { entry: 0x09_1096, original: "GO_CopyParam84_091096", rust: "system::game_over::copy_phase",
+                 run: |m| { let t = m.cpu.a[6]; m.cpu.a[0] = game_over::copy_phase(m, t); Flow::Return } },
+    SystemPort { entry: 0x09_1130, original: "GO_Particle_091130", rust: "system::game_over::particle", run: |m| game_over::particle(m) },
+    SystemPort { entry: 0x09_128A, original: "GO_Particle_Run_09128a", rust: "system::game_over::particle_run", run: |m| game_over::particle_run(m) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

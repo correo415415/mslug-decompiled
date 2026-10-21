@@ -766,6 +766,8 @@ pub mod rng {
     pub const TABLE: u32 = 0x10_E230;
     pub const LEN: u32 = 32;
     pub const INDEX: u32 = 0x10_E270;
+    pub const INDEX_MASK: u16 = 0x3E;
+    pub const LAG: u16 = 0x15;
     pub const MUL: u16 = 0xB7C7;
     pub const ADD: u16 = 0x81F5;
     /// Contador que avanza en cada escena del guion y sirve de semilla.
@@ -1709,6 +1711,47 @@ pub mod game_over {
     pub const GLOW_ANIM: u32 = 0x2F_5338;
     pub const GLOW_RATE: u32 = 0x82;
     pub const GLOW_WAIT: u32 = 0x86;
+
+    // --- figuras, piezas y fondos que se mueven
+    /// Figuras grandes: (gráficos, atributos, prioridad, guion).
+    pub const FIGURE_A: (u16, u16, Option<u16>, u32) = (0xC4, 0x2000, None, 0x2F_4EBA);
+    pub const FIGURE_B: (u16, u16, Option<u16>, u32) = (0xC4, 0x0000, Some(0), 0x2F_4EEC);
+    pub const FIGURE_RUN: u32 = 0x09_0E22;
+    pub const FIGURE_HIT_GFX: u16 = 0xB5;
+    /// Rutina de baja (`$090E7E`) a la que pasan al final.
+    pub const FINISH: u32 = 0x09_0E7E;
+    /// Piezas: posición = tabla por índice `+$80` + madre.
+    pub const PART: (u16, u16, u32) = (0xBC, 0xBC, 0x2F_4EF8);
+    pub const PART_RUN: u32 = 0x09_0EC6;
+    pub const PART_OFFSETS: u32 = 0x2F_4A4A;
+    /// Fondos que se desplazan: (gráficos, estado `+$21`, prioridad,
+    /// velocidad X, tabla de X inicial, guion).
+    pub const SCROLLERS: [(u16, u8, u16, u16, u32, u32); 2] = [
+        (0xC4, 0, 0x10, 0x200, 0x2F_4A72, 0x2F_4ED4),
+        (0xC4, 1, 0x0C, 0x180, 0x2F_4A78, 0x2F_4EE0),
+    ];
+    pub const SCROLLER_RUN: u32 = 0x09_0FCE;
+    pub const SCROLLER_WAIT: u16 = 0x10;
+    pub const SCROLLER_Y_OFFSET: u16 = 0x10;
+    pub const SCROLLER_DIM_FROM: i8 = -0x60;
+    pub const SCROLLER_DIM_X: i16 = 0x20;
+    pub const SCROLLER_WRAP: (i16, u16) = (0x110, 0x10);
+    pub const VEL_X: u32 = 0x28;
+    pub const X_FRAC: u32 = 0x26;
+    pub const GRAVITY: u32 = 0x2E;
+    // --- chispas
+    pub const PARTICLE: u32 = 0x09_1130;
+    pub const PARTICLE_RUN: u32 = 0x09_128A;
+    pub const PARTICLE_GFX: u16 = 0xE0;
+    pub const PARTICLE_POS: (u16, u16) = (0x20, 0x128);
+    /// Dos clases: (velocidad X, gravedad, guion normal); una de cada cuatro
+    /// usa `PARTICLE_RARE`.
+    pub const PARTICLE_KINDS: [(u16, u16, u32); 2] = [(0x300, 0x90, 0x2F_51D0), (0x200, 0xA0, 0x2F_512A)];
+    pub const PARTICLE_RARE: u32 = 0x2F_5276;
+    pub const PARTICLE_VEL_Y: u16 = 0xC00;
+    pub const PARTICLE_ATTR: u16 = 0x2000;
+    pub const PARTICLE_FADE: u8 = 6;
+    pub const PARTICLE_FLOOR: i16 = 0x120;
 }
 
 /// Tareas de fundido de la paleta: cada alta crea una con su rutina y le
