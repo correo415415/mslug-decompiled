@@ -780,3 +780,24 @@ mod tests {
         assert!(!test_point(&mut m, 0x10, 0xF0).solid);
     }
 }
+
+/// Tarea fija `$1008A0`: borra cada frame el límite X de la cámara que
+/// publica quien la bloquea (jefes). Original: `Task_Clear106F42_05ea96`.
+pub fn clear_lock_x_start(m: &mut impl crate::mem::Machine) -> crate::mem::Flow {
+    let t = m.task_register();
+    m.write_u32(t + crate::layout::task::HANDLER, L::CLEAR_LOCK_X_RUN);
+    clear_lock_x(m)
+}
+
+/// Original: `$05EA9C`.
+pub fn clear_lock_x(m: &mut impl crate::mem::Machine) -> crate::mem::Flow {
+    m.write_u16(L::CAMERA_LOCK_X, 0);
+    crate::mem::Flow::Return
+}
+
+/// Arranca (`on`) o para la tarea fija que borra el límite X de la
+/// cámara. Original: `$05EA6E` (sólo si `a5` es válido) / `$05EA86`.
+pub fn set_lock_x_clearer(m: &mut impl Memory, on: bool) {
+    let h = if on { L::CLEAR_LOCK_X } else { crate::layout::routine::IDLE };
+    m.write_u32(L::LOCK_X_TASK, h);
+}

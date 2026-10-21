@@ -1952,6 +1952,12 @@ pub mod scroll {
     /// Mapa de colisión de la primera cámara.
     pub const COLL_CAMERA: u32 = 0x10_6F6C;
     pub const COLL_ORIGIN: [u32; 2] = [0x04, 0x08];
+    /// Límite X de la cámara (lo pone un jefe cada frame) y la tarea fija
+    /// que lo borra.
+    pub const CAMERA_LOCK_X: u32 = 0x10_6F42;
+    pub const LOCK_X_TASK: u32 = 0x10_08A0;
+    pub const CLEAR_LOCK_X: u32 = 0x05_EA96;
+    pub const CLEAR_LOCK_X_RUN: u32 = 0x05_EA9C;
 }
 
 /// Foco de la cámara: los dos jugadores y la ventana en la que la cámara

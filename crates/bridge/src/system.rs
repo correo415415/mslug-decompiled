@@ -1103,6 +1103,15 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x08_DC0E, original: "Grunt_HopUp_08dbe2+0x2C", rust: "system::grunt::hop_up_run", run: |m| grunt::hop_up_run(m) },
     SystemPort { entry: 0x09_B82C, original: "Item_Tmpl316_ComboTimer_09b82c", rust: "system::pickup::streak_start", run: |m| pickup::streak_start(m) },
     SystemPort { entry: 0x09_B83E, original: "Item_Tmpl316_ComboTimer_09b82c+0x12", rust: "system::pickup::streak_run", run: |m| pickup::streak_run(m) },
+    SystemPort { entry: 0x05_EA96, original: "Task_Clear106F42_05ea96", rust: "system::scroll::clear_lock_x_start", run: |m| scroll::clear_lock_x_start(m) },
+    SystemPort { entry: 0x05_EA9C, original: "Task_Clear106F42_05ea96+6", rust: "system::scroll::clear_lock_x", run: |m| scroll::clear_lock_x(m) },
+    SystemPort { entry: 0x05_EA6E, original: "Slot1008A0_SetHandlerIfA5_05ea6e", rust: "system::scroll::set_lock_x_clearer",
+                 run: |m| {
+                     if m.cpu.a[5] != 0xFFFF_FFFF { scroll::set_lock_x_clearer(m, true); m.cpu.a[0] = 0x10_08A0; }
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x05_EA86, original: "Slot1008A0_SetHandler400_05ea86", rust: "system::scroll::set_lock_x_clearer",
+                 run: |m| { scroll::set_lock_x_clearer(m, false); m.cpu.a[0] = 0x10_08A0; Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
