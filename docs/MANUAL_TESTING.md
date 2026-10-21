@@ -173,12 +173,20 @@ usan. La CI lo ejecuta con dos semillas de fuzz.
 ## Camino sin moneda (attract)
 
 ```
-./target/release/mslug verify-system --frames 4000 --coin 0   # 0 fallos (130 521 llamadas)
+./target/release/mslug verify-system --frames 4000 --coin 0   # 0 fallos (135 994 llamadas)
 ./target/release/mslug play --only-manual --coin 0 --frames 20000 | grep parado
 ```
 
 Sin moneda el attract carga la escena 10 (Game Over/Continue, `system::game_over`)
 y después arranca a los jugadores (`script::step_start_players`, `$001846`).
-`--only-manual --coin 0` llega ahora al frame 1636 y se para en
-`Init_ModeToggle_001260` (arranque de la demo jugable). Con moneda sigue
+Luego la demo jugable: tabla de modos (`script::mode`), arranque de misión
+(`script::start_mission`), tiempo (`system::rank`), tarea de la misión con su
+cámara y apariciones (`system::mission`) y las rutinas 68000 embebidas en los
+guiones de escena (7 moldes, ejecutados en `scroll::embedded`).
+`--only-manual --coin 0` llega al frame 1636 y se para en
+`HUD_Task_StartP2_025766` (tarea del HUD de cada jugador).
+
+Si el código original se para dentro de una llamada (`Machine::halted`), los
+bucles que esperan algo de ella (guion de scroll, apariciones) salen en vez de
+colgarse. Con moneda sigue
 parándose en el frame 503 en `$02B004` (caída del Slug).

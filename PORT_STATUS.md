@@ -8,8 +8,8 @@
 > | Port manual | |
 > |---|---|
 > | **Funciones del juego** (rutinas de código de la decompilación, `tools/recomp/decomp_funcs.tsv`) | **7 887** (474 564 bytes) |
-> | **Portadas a Rust legible** | **347 = 4,40 %** (por bytes: 31 390 = 6,61 %); 393 entradas sustituidas contando vectores y entradas internas |
-> | **Hasta dónde llega** (`--only-manual`) | arranque → logo → título → demo → START → inicio de la misión 1 → manual de juego (con sus iconos) y scroll (capas, colisión, listas por frame); el Slug entra en escena; se para en el frame 503 en `$02B004` (bucle de la caída del Slug). Sin moneda (`--coin 0`), el attract hace la escena de Game Over/Continue entera (`system::game_over`: caída, letras, figuras, chispas, zoom, temblor, carteles, piezas, brillos) y el arranque de los jugadores (`$001846`); se para en el frame 1636 en `Init_ModeToggle_001260` (arranque de la demo jugable). |
+> | **Portadas a Rust legible** | **371 = 4,70 %** (por bytes: 33 052 = 6,96 %); 439 entradas sustituidas contando vectores y entradas internas |
+> | **Hasta dónde llega** (`--only-manual`) | arranque → logo → título → demo → START → inicio de la misión 1 → manual de juego (con sus iconos) y scroll (capas, colisión, listas por frame); el Slug entra en escena; se para en el frame 503 en `$02B004` (bucle de la caída del Slug). Sin moneda (`--coin 0`), el attract hace la escena de Game Over/Continue entera (`system::game_over`), el arranque de los jugadores (`$001846`) y la demo jugable: tabla de modos, arranque de misión (`script::start_mission`), tiempo de la misión (`system::rank`), tarea de la misión con cámara y apariciones (`system::mission`) y las rutinas embebidas de los guiones de escena (en `system::scroll`); se para en el frame 1636 en `HUD_Task_StartP2_025766` (tarea del HUD de cada jugador). |
 > | Cómo medirlo | `mslug progress` (también en el resumen de la CI) |
 > | Rutinas originales con función Rust legible | 60 (input, player::controls/voice/weapons/invuln) |
 > | `verify-manual` (auto 8000 + fuzz 1–3 × 15 000 frames) | ✅ 0 fallos |

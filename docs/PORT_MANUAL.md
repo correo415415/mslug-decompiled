@@ -232,3 +232,23 @@ sprites deslizantes y seguidores, piezas A/B/C y el brillo que se desplaza.
 También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
 `rng::next/below` y `script::step_start_players` (`$001846`). Verificado con
 `verify-system --coin 0` (0 fallos).
+
+## Demo jugable del attract (sin moneda)
+
+- `script::scene_demo` / `scene_demo_wait` (`$001260`/`$0012CA`), tabla de
+  modos `script::mode` (`$001922…$001A58`), arranque común de misión
+  `script::start_mission` (`$00188A`/`$0018DA`), ranuras `$001DCC`, tareas de
+  la demo (`$001C88`) y de créditos (`$001C44`).
+- `system::rank`: tiempo de la misión (contador de dos cifras, cuenta atrás y
+  «TIME UP»).
+- `system::mission`: tarea de la misión (`$0967FE…$09698A`): carga la escena,
+  mueve la cámara siguiendo a los jugadores y crea las apariciones de la
+  tabla de la misión (`$096B7E`, `$05DCCE`) según avanza la cámara.
+- `scroll::embedded`: los guiones de escena llevan 191 rutinas 68000
+  embebidas tras `OP_WAIT`/`OP_CALL_JUMP`; todas siguen 7 moldes
+  (`cmpi`+`s<cc>`+`lea`+`rts` o `move`+`lea`+`rts`), que se ejecutan en Rust.
+- `Machine::halted`: con `--only-manual`, si el código original se para
+  dentro de una llamada, los bucles que esperan su resultado salen (antes el
+  guion de scroll se quedaba en un bucle infinito).
+
+Verificado con `verify-system --coin 0` (0 fallos, 135 994 llamadas).
