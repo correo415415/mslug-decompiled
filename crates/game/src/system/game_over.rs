@@ -249,6 +249,148 @@ pub fn end(m: &mut impl Machine) -> Flow {
     Flow::Return
 }
 
+/// ¿Está la madre de `t` en el estado `v` (byte `STATE[k]`)?
+/// Original: `GO_ParentState21Is2_0910a2` … `GO_ParentState21Is4_09110a`.
+pub fn parent_state_is(m: &mut impl Memory, t: u32, k: usize, v: u8) -> bool {
+    let mother = m.read_u32(t + T::OWNER);
+    m.read_u8(mother + L::STATE[k]) == v
+}
+
+/// Alta de la letra `k` de «GAME OVER» y primer frame. Original:
+/// `GO_Letter_V0_090728` … `GO_Letter_V13_090ac6`.
+pub fn letter(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    let (_, gfx, prio, state, index, hit_gfx, fall_gfx, wait, script) = L::LETTERS[k];
+    anim::alloc_entry(m, t, gfx);
+    anim::set_attr(m, t, L::LETTER_ATTR);
+    let a = m.read_u16(t + L::ATTR) & L::ATTR_PRIO_MASK;
+    m.write_u16(t + L::ATTR, a | prio);
+    m.write_u8(t + L::STATE[1], state);
+    m.write_u16(t + L::LETTER_INDEX, index);
+    m.write_u16(t + L::LETTER_HIT_GFX, hit_gfx);
+    m.write_u16(t + L::LETTER_FALL_GFX, fall_gfx);
+    if wait != 0 {
+        m.write_u16(t + L::LETTER_WAIT, wait);
+    }
+    anim::start(m, t, script);
+    m.write_u8(t + L::STATE[0], 0);
+    m.write_u16(t + L::LETTER_TIMER, 1);
+    m.write_u32(t + T::HANDLER, L::LETTER_RUN);
+    letter_run(m)
+}
+
+/// Cada frame de una letra: sigue a la madre con su desplazamiento, anima
+/// (salvo mientras espera), al golpe anima su paleta, al caer cambia de
+/// gráficos y después se apaga y se da de baja. Original:
+/// `GO_Letter_Common_090b08` (+ `GO_Letter_FadeOut_090c12`).
+pub fn letter_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if !parent_state_is(m, t, 1, 2) {
+        let mother = m.read_u32(t + T::OWNER);
+        let index = u32::from(m.read_u16(t + L::LETTER_INDEX));
+        let table = m.read_u32(L::LETTER_OFFSETS + index * 4);
+        let off = table + u32::from(m.read_u16(mother + L::PHASE)) * 4;
+        for (k, f) in [L::X, L::Y].into_iter().enumerate() {
+            let k = 2 * k as u32;
+            let v = m
+                .read_u16(L::LETTER_BASE + k)
+                .wrapping_add(m.read_u16(off + k))
+                .wrapping_add(m.read_u16(mother + f));
+            m.write_u16(t + f, v);
+        }
+        let waiting = m.read_u8(t + L::STATE[1]) != 0 && m.read_u16(t + L::LETTER_WAIT) != 0;
+        if waiting {
+            let w = m.read_u16(t + L::LETTER_WAIT) - 1;
+            m.write_u16(t + L::LETTER_WAIT, w);
+        } else {
+            anim::step(m, t);
+        }
+        if parent_state_is(m, t, 1, 1) && m.read_u8(t + L::STATE[0]) == 0 {
+            m.write_u8(t + L::STATE[0], 0x80);
+            let entry = m.read_u16(t + L::SPRITE_ENTRY);
+            let first = m.read_u16(t + L::LETTER_HIT_GFX);
+            video::start_entry_anim(m, entry, first, L::LETTER_PAL_ANIM.0, L::LETTER_PAL_ANIM.1);
+        }
+    }
+    if parent_state_is(m, t, 1, 3) && m.read_u8(t + L::STATE[0]) != 0xFF {
+        m.write_u8(t + L::STATE[0], 0xFF);
+        let g = m.read_u16(t + L::LETTER_FALL_GFX);
+        anim::alloc_entry(m, t, g);
+    }
+    if !parent_state_is(m, t, 1, 3) {
+        return Flow::Return;
+    }
+    if m.read_u16(t + L::LETTER_TIMER) == 0 {
+        return letter_fade(m, t);
+    }
+    let left = m.read_u16(t + L::LETTER_TIMER) - 1;
+    m.write_u16(t + L::LETTER_TIMER, left);
+    if left == 0 {
+        for l in L::LEVELS {
+            m.write_u8(t + l, L::LETTER_DIM);
+        }
+        if m.read_u16(t + L::LETTER_INDEX) == L::GLOW_LETTER {
+            child(m, t, L::GLOW, true);
+        }
+    }
+    Flow::Return
+}
+
+fn letter_fade(m: &mut impl Machine, t: u32) -> Flow {
+    for l in L::LEVELS {
+        let v = m.read_u8(t + l).wrapping_sub(L::LETTER_FADE_STEP);
+        m.write_u8(t + l, v);
+    }
+    if m.read_u8(t + L::LEVELS[0]) > L::LETTER_FADE_END {
+        Flow::Return
+    } else {
+        tasks::finish(m)
+    }
+}
+
+/// El brillo que sale de una letra: sube de nivel poco a poco.
+/// Original: `GO_Glow_090c30`.
+pub fn glow(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::GLOW_GFX);
+    let x = m.read_u16(t + L::X).wrapping_sub(L::GLOW_OFFSET.0);
+    m.write_u16(t + L::X, x);
+    let y = m.read_u16(t + L::Y).wrapping_add(L::GLOW_OFFSET.1);
+    m.write_u16(t + L::Y, y);
+    for l in L::LEVELS {
+        m.write_u8(t + l, L::GLOW_LEVEL);
+    }
+    m.write_u16(t + L::GLOW_RATE, 1);
+    m.write_u16(t + L::GLOW_WAIT, 1);
+    palette::spawn_fade(m, L::GLOW_FADE.0, t, L::GLOW_FADE.1);
+    anim::set_attr(m, t, L::GLOW_ATTR);
+    let a = m.read_u16(t + L::ATTR) & L::ATTR_PRIO_MASK;
+    m.write_u16(t + L::ATTR, a);
+    anim::start(m, t, L::GLOW_ANIM);
+    m.write_u32(t + T::HANDLER, L::GLOW_RUN);
+    glow_run(m)
+}
+
+/// Original: `$090C8E` (dentro de `GO_Glow_090c30`).
+pub fn glow_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::step(m, t);
+    let w = m.read_u16(t + L::GLOW_WAIT).wrapping_sub(1);
+    m.write_u16(t + L::GLOW_WAIT, w);
+    if w != 0 {
+        return Flow::Return;
+    }
+    let r = m.read_u16(t + L::GLOW_RATE);
+    m.write_u16(t + L::GLOW_WAIT, r);
+    if m.read_u8(t + L::LEVELS[0]) != 0xFF {
+        for l in L::LEVELS {
+            let v = m.read_u8(t + l).wrapping_add(L::LETTER_FADE_STEP);
+            m.write_u8(t + l, v);
+        }
+    }
+    Flow::Return
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

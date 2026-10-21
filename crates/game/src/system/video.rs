@@ -186,6 +186,19 @@ pub fn load_high_entries(m: &mut impl Memory, list: u32) -> u32 {
     load_entries(m, list, 0, S::HIGH_LIST_DATA)
 }
 
+/// Empieza a animar la paleta de la entrada `i` desde el paso `first`:
+/// `len` frames por paso, en modo `mode`. Original: `$002C30`.
+pub fn start_entry_anim(m: &mut impl Memory, i: u16, first: u16, len: u16, mode: u8) {
+    let e = S::TABLE + u32::from(i.wrapping_shl(5));
+    m.write_u32(e + S::ENTRY_ANIM_DATA, u32::from(first) * 64 + S::ANIM_DATA);
+    m.write_u16(e + S::ENTRY_ANIM_LEN, len);
+    m.write_u16(e + S::ENTRY_ANIM_LEFT, len);
+    m.write_u8(e + S::ENTRY_ANIM_STEP, 0);
+    m.write_u8(e + S::ENTRY_ANIM_MODE, mode);
+    let f = m.read_u8(e);
+    m.write_u8(e, f | S::ANIMATING);
+}
+
 /// Entradas fijas de sprite de todas las escenas.
 /// Original: `Task_InstallBootSlots_001da4`.
 pub fn load_fixed_entries(m: &mut impl Memory) {

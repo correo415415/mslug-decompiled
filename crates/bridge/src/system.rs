@@ -640,6 +640,47 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x05_24B6, original: "Template_0524B6", rust: "system::palette::fade_task", run: |m| palette::fade_task(m, false, true) },
     SystemPort { entry: 0x05_2454, original: "Template_0523EE (+$66)", rust: "system::palette::fade_loop", run: |m| palette::fade_loop(m, true) },
     SystemPort { entry: 0x05_2514, original: "Template_0524AA (+$6A)", rust: "system::palette::fade_loop", run: |m| palette::fade_loop(m, false) },
+    SystemPort { entry: 0x00_2C30, original: "$002C30", rust: "system::video::start_entry_anim",
+                 run: |m| {
+                     let (i, g, n, md) = (m.cpu.d[1] as u16, m.cpu.d[2] as u16, m.cpu.d[3] as u16, m.cpu.d[4] as u8);
+                     video::start_entry_anim(m, i, g, n, md);
+                     let e = mslug_game::layout::sprites::TABLE;
+                     m.cpu.a[1] = e;
+                     m.cpu.a[2] = mslug_game::layout::sprites::ANIM_DATA;
+                     m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(i.wrapping_shl(5));
+                     m.cpu.d[2] = u32::from(g) * 64 + mslug_game::layout::sprites::ANIM_DATA;
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x09_0B08, original: "GO_Letter_Common_090b08", rust: "system::game_over::letter_run",
+                 run: |m| { let t = m.cpu.a[6]; m.write_u8(t + 0x20, 0); m.write_u16(t + 0x82, 1);
+                            m.write_u32(t, mslug_game::layout::game_over::LETTER_RUN); game_over::letter_run(m) } },
+    SystemPort { entry: 0x09_0B18, original: "GO_Letter_Common_090b08 (+$52)", rust: "system::game_over::letter_run", run: |m| game_over::letter_run(m) },
+    SystemPort { entry: 0x09_0C30, original: "GO_Glow_090c30", rust: "system::game_over::glow", run: |m| game_over::glow(m) },
+    SystemPort { entry: 0x09_0C8E, original: "GO_Glow_090c30 (+$5E)", rust: "system::game_over::glow_run", run: |m| game_over::glow_run(m) },
+    SystemPort { entry: 0x09_0728, original: "GO_Letter_V0_090728", rust: "system::game_over::letter", run: |m| game_over::letter(m, 0) },
+    SystemPort { entry: 0x09_076E, original: "GO_Letter_V1_09076e", rust: "system::game_over::letter", run: |m| game_over::letter(m, 1) },
+    SystemPort { entry: 0x09_07B4, original: "GO_Letter_V2_0907b4", rust: "system::game_over::letter", run: |m| game_over::letter(m, 2) },
+    SystemPort { entry: 0x09_07FA, original: "GO_Letter_V3_0907fa", rust: "system::game_over::letter", run: |m| game_over::letter(m, 3) },
+    SystemPort { entry: 0x09_0840, original: "GO_Letter_V4_090840", rust: "system::game_over::letter", run: |m| game_over::letter(m, 4) },
+    SystemPort { entry: 0x09_088E, original: "GO_Letter_V5_09088e", rust: "system::game_over::letter", run: |m| game_over::letter(m, 5) },
+    SystemPort { entry: 0x09_08D4, original: "GO_Letter_V6_0908d4", rust: "system::game_over::letter", run: |m| game_over::letter(m, 6) },
+    SystemPort { entry: 0x09_091A, original: "GO_Letter_V7_09091a", rust: "system::game_over::letter", run: |m| game_over::letter(m, 7) },
+    SystemPort { entry: 0x09_0968, original: "GO_Letter_V8_090968", rust: "system::game_over::letter", run: |m| game_over::letter(m, 8) },
+    SystemPort { entry: 0x09_09AE, original: "GO_Letter_V9_0909ae", rust: "system::game_over::letter", run: |m| game_over::letter(m, 9) },
+    SystemPort { entry: 0x09_09F4, original: "GO_Letter_V10_0909f4", rust: "system::game_over::letter", run: |m| game_over::letter(m, 10) },
+    SystemPort { entry: 0x09_0A3A, original: "GO_Letter_V11_090a3a", rust: "system::game_over::letter", run: |m| game_over::letter(m, 11) },
+    SystemPort { entry: 0x09_0A80, original: "GO_Letter_V12_090a80", rust: "system::game_over::letter", run: |m| game_over::letter(m, 12) },
+    SystemPort { entry: 0x09_0AC6, original: "GO_Letter_V13_090ac6", rust: "system::game_over::letter", run: |m| game_over::letter(m, 13) },
+    SystemPort { entry: 0x09_10A2, original: "GO_ParentState_0910a2", rust: "system::game_over::parent_state_is",
+                 run: |m| { let t = m.cpu.a[6]; let c = game_over::parent_state_is(m, t, 1, 2); m.cpu.a[0] = m.read_u32(t + 0x0C); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_10BC, original: "GO_ParentState_0910bc", rust: "system::game_over::parent_state_is",
+                 run: |m| { let t = m.cpu.a[6]; let c = game_over::parent_state_is(m, t, 0, 2); m.cpu.a[0] = m.read_u32(t + 0x0C); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_10D6, original: "GO_ParentState_0910d6", rust: "system::game_over::parent_state_is",
+                 run: |m| { let t = m.cpu.a[6]; let c = game_over::parent_state_is(m, t, 0, 3); m.cpu.a[0] = m.read_u32(t + 0x0C); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_10F0, original: "GO_ParentState_0910f0", rust: "system::game_over::parent_state_is",
+                 run: |m| { let t = m.cpu.a[6]; let c = game_over::parent_state_is(m, t, 1, 3); m.cpu.a[0] = m.read_u32(t + 0x0C); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_110A, original: "GO_ParentState_09110a", rust: "system::game_over::parent_state_is",
+                 run: |m| { let t = m.cpu.a[6]; let c = game_over::parent_state_is(m, t, 1, 4); m.cpu.a[0] = m.read_u32(t + 0x0C); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

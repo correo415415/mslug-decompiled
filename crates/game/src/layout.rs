@@ -535,6 +535,15 @@ pub mod sprites {
     pub const HIGH_LIST: u32 = 0x00_09B4;
     pub const HIGH_LIST_MAX: u32 = 0x74;
     pub const HIGH_LIST_DATA: u32 = 0x01_CE00;
+    /// Animación de paleta de una entrada (`$002C30`): datos desde
+    /// `ANIM_DATA` (64 bytes por paso) y sus campos.
+    pub const ANIM_DATA: u32 = 0x01_4E00;
+    pub const ENTRY_ANIM_DATA: u32 = 0x0A;
+    pub const ENTRY_ANIM_LEN: u32 = 0x08;
+    pub const ENTRY_ANIM_LEFT: u32 = 0x10;
+    pub const ENTRY_ANIM_STEP: u32 = 0x0E;
+    pub const ENTRY_ANIM_MODE: u32 = 0x0F;
+    pub const ANIMATING: u8 = 1 << 1;
     pub const LIST_END: u16 = 0xFFFF;
     /// Reparto de los sprites hardware: inicio, final y corte de la zona
     /// del juego, y dos variables que se ponen a 0.
@@ -1647,6 +1656,59 @@ pub mod game_over {
     pub const TITLE: (u16, u32, u16) = (0x711B, 0x2F_4C98, 0x2300);
     /// Al acabar, la escena deja de esperar.
     pub const SCENE_WAIT: u32 = 0x10_6ED2;
+
+    // --- letras de «GAME OVER» (14), comunes a `GO_Letter_V0_090728` …
+    /// (rutina, gráficos, bits de prioridad en `ATTR`, estado inicial `+$21`,
+    /// índice, entrada de paleta al golpe, gráficos al caer, espera, guion).
+    pub const LETTERS: [(u32, u16, u16, u8, u16, u16, u16, u16, u32); 14] = [
+        (0x09_0728, 0xC5, 0x1C, 0, 0, 0xB7, 0xBF, 0, 0x2F_4D9E),
+        (0x09_076E, 0xC7, 0x18, 0, 1, 0xB9, 0xC1, 0, 0x2F_4DAA),
+        (0x09_07B4, 0xC5, 0x14, 0, 2, 0xB7, 0xBF, 0, 0x2F_4E08),
+        (0x09_07FA, 0xC7, 0x10, 0, 3, 0xB9, 0xC1, 0, 0x2F_4E14),
+        (0x09_0840, 0xC5, 0x1C, 0xFF, 4, 0xB7, 0xBF, 0x20, 0x2F_4E42),
+        (0x09_088E, 0xC5, 0x18, 0, 5, 0xB7, 0xBF, 0, 0x2F_4E4E),
+        (0x09_08D4, 0xC5, 0x14, 0, 6, 0xB7, 0xBF, 0, 0x2F_4E5A),
+        (0x09_091A, 0xC6, 0x10, 0xFF, 7, 0xB8, 0xC0, 0x20, 0x2F_4E66),
+        (0x09_0968, 0xC5, 0x10, 0, 8, 0xB7, 0xBF, 0, 0x2F_4E72),
+        (0x09_09AE, 0xC9, 0x0C, 0, 9, 0xBB, 0xC3, 0, 0x2F_4E7E),
+        (0x09_09F4, 0xC8, 0x10, 0, 0xA, 0xBA, 0xC2, 0, 0x2F_4E8A),
+        (0x09_0A3A, 0xC6, 0x10, 0, 0xB, 0xB8, 0xC0, 0, 0x2F_4E96),
+        (0x09_0A80, 0xC5, 0x08, 0, 0xC, 0xB7, 0xBF, 0, 0x2F_4EA2),
+        (0x09_0AC6, 0xC5, 0x04, 0, 0xD, 0xB7, 0xBF, 0, 0x2F_4EAE),
+    ];
+    pub const LETTER_ATTR: u16 = 0x4000;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_PRIO_MASK: u16 = 0xFFE3;
+    pub const LETTER_RUN: u32 = 0x09_0B18;
+    pub const LETTER_INDEX: u32 = 0x80;
+    pub const LETTER_HIT_GFX: u32 = 0x7C;
+    pub const LETTER_FALL_GFX: u32 = 0x7E;
+    pub const LETTER_WAIT: u32 = 0x86;
+    pub const LETTER_TIMER: u32 = 0x82;
+    /// Posición de cada letra: base + desplazamiento (por índice y fase de
+    /// la madre `+$84`) + posición de la madre.
+    pub const LETTER_BASE: u32 = 0x2F_4A46;
+    pub const LETTER_OFFSETS: u32 = 0x2F_4A7C;
+    pub const PHASE: u32 = 0x84;
+    pub const SPRITE_ENTRY: u32 = 0x14;
+    /// Animación de paleta al golpe (duración y modo).
+    pub const LETTER_PAL_ANIM: (u16, u8) = (1, 2);
+    pub const LEVELS: [u32; 2] = [0x32, 0x33];
+    pub const LETTER_DIM: u8 = 0xFC;
+    pub const LETTER_FADE_STEP: u8 = 0x12;
+    pub const LETTER_FADE_END: u8 = 0x20;
+    /// La letra de índice `GLOW_LETTER` lanza el brillo.
+    pub const GLOW_LETTER: u16 = 5;
+    pub const GLOW: u32 = 0x09_0C30;
+    pub const GLOW_RUN: u32 = 0x09_0C8E;
+    pub const GLOW_GFX: u16 = 0xB6;
+    pub const GLOW_OFFSET: (u16, u16) = (0x6A, 0x30);
+    pub const GLOW_LEVEL: u8 = 0x15;
+    pub const GLOW_FADE: (usize, u16) = (2, 2);
+    pub const GLOW_ATTR: u16 = 0xE000;
+    pub const GLOW_ANIM: u32 = 0x2F_5338;
+    pub const GLOW_RATE: u32 = 0x82;
+    pub const GLOW_WAIT: u32 = 0x86;
 }
 
 /// Tareas de fundido de la paleta: cada alta crea una con su rutina y le
