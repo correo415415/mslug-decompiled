@@ -941,6 +941,87 @@ pub mod mission {
     pub const ENTRY_PTR: u32 = 0x3C;
 }
 
+/// Eventos de la misión (`system::events`).
+pub mod events {
+    pub const SCENE: u32 = 0x10_6ECE;
+    /// Lista de eventos de cada escena; la de la última escena de la
+    /// recreativa se cambia por otra si hay varias ranuras.
+    pub const STREAMS: u32 = 0x04_4266;
+    pub const ARCADE_STREAM: (u32, u32) = (0x0F_1CD4, 0x0F_260E);
+    pub const BIOS_SLOTS: u32 = 0x10_FD83;
+    /// Tareas de apoyo que se crean al empezar (bajo `HELPER_PARENT`) y el
+    /// byte que se borra antes.
+    pub const HELPERS: [u32; 2] = [0x08_C864, 0x07_9298];
+    pub const HELPER_PARENT: u32 = 0x10_08A0;
+    pub const HELPER_FLAG: u32 = 0x10_E2EE;
+    pub const IDLE: u32 = 0x400;
+    pub const RUN: u32 = 0x04_4368;
+    pub const WATCH: u32 = 0x04_42C4;
+    pub const PERIODIC: u32 = 0x04_482A;
+    /// Campos de la tarea que ejecuta una lista.
+    pub const CURSOR: u32 = 0x70;
+    pub const PAUSED: u32 = 0x74;
+    pub const WAIT: u32 = 0x76;
+    pub const WATCH_FLAG: u32 = 0x78;
+    pub const THRESHOLD: u32 = 0x7A;
+    /// Campos de la tarea que repite una orden.
+    pub const P_TIMES: u32 = 0x7C;
+    pub const P_EVERY: u32 = 0x7E;
+    pub const P_TIMER: u32 = 0x80;
+    pub const P_UNTIL: u32 = 0x82;
+    pub const P_MAX_ALIVE: u32 = 0x84;
+    /// Órdenes: código en el byte 0, parámetro (umbral o espera) en `+2`.
+    pub const OP_PARAM: u32 = 2;
+    pub const NO_THRESHOLD: u16 = 0xFFFF;
+    pub const OP_SPAWN: u8 = 0x00;
+    pub const OP_PERIODIC: u8 = 0x01;
+    pub const OP_BLOCK: u8 = 0x02;
+    pub const OP_RANDOM: u8 = 0x03;
+    pub const OP_PAST_Y: u8 = 0x04;
+    pub const OP_PAUSE_FLAG: u8 = 0x05;
+    pub const OP_PAUSE: u8 = 0x06;
+    pub const OP_WAIT_ENEMIES: u8 = 0x07;
+    pub const OP_RESUME_FLAG: u8 = 0x08;
+    pub const OP_NOP: u8 = 0x09;
+    pub const OP_PAST_X: u8 = 0x0A;
+    pub const OP_BOTH_PAST_Y: u8 = 0x0B;
+    pub const OP_END: u8 = 0x0C;
+    pub const OP_BLOCK_END: u8 = 0x0D;
+    pub const OP_RANDOM_END: u8 = 0x0E;
+    pub const SPAWN_LEN: u32 = 0x12;
+    pub const PERIODIC_LEN: u32 = 0x0A;
+    /// Scroll recorrido, cámara (X, Y) y posición de la capa móvil.
+    pub const CAMERA_PROGRESS: u32 = 0x10_6F5C;
+    pub const CAMERA_X: u32 = 0x10_6F50;
+    pub const CAMERA_Y: u32 = 0x10_6F54;
+    pub const LAYER_POS: [u32; 2] = [0x10_6F6C, 0x10_6F6E];
+    pub const SCREEN_BOTTOM: u16 = 0x200;
+    pub const PAUSE_FLAG: u32 = 0x10_8179;
+    pub const ENEMY_COUNT: u32 = 0x10_6E88;
+    pub const SPAWNED: u32 = 0x10_6E8A;
+    pub const START_STATE: [u32; 2] = [0x10_FDB6, 0x10_FDB7];
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    /// Apariciones: tabla de rutinas iniciales, madre, flags de `+1`.
+    pub const TEMPLATES: u32 = 0x0E_8000;
+    pub const SPAWN_PARENT: u32 = 0x10_0800;
+    pub const ONLY_MASK: u8 = 0x03;
+    pub const ONLY_WITH_SLUG: u8 = 0x03;
+    pub const SLUG_ACTIVE: u32 = 0x10_0609;
+    pub const ACTIVE_PLAYERS: u32 = 0x10_6ED1;
+    pub const LAYER_MASK: u8 = 0x0C;
+    pub const KEEP_LOOSE: u8 = 1 << 4;
+    pub const SCREEN_Y: u8 = 1 << 6;
+    pub const SCREEN_X: u8 = 1 << 7;
+    pub const COUNTED: u8 = 1 << 1;
+    pub const ON_LAYER: u8 = 1 << 6;
+    pub const LAYER: u32 = 0x11;
+    pub const PARAMS: u32 = 0x98;
+    pub const PARAMS_LEN: u32 = 8;
+    pub const SCENE_LOADED: u32 = 0x10_6ED3;
+}
+
 /// Tarea del HUD de cada jugador (`system::player_hud`).
 pub mod player_hud {
     /// Campos de la tarea del HUD.

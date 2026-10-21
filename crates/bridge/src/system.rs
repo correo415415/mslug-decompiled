@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, events, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -883,6 +883,19 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x02_5706, original: "$0025706", rust: "system::player_hud::init", run: |m| { let (a, d) = player_hud::init(m, 1, true); m.cpu.a[0] = a; m.cpu.d[0] = u32::from(d); Flow::Return } },
     SystemPort { entry: 0x02_56BE, original: "$00256BE", rust: "system::player_hud::init", run: |m| { let (a, d) = player_hud::init(m, 0, false); m.cpu.a[0] = a; m.cpu.d[0] = u32::from(d); Flow::Return } },
     SystemPort { entry: 0x02_5714, original: "$0025714", rust: "system::player_hud::init", run: |m| { let (a, d) = player_hud::init(m, 1, false); m.cpu.a[0] = a; m.cpu.d[0] = u32::from(d); Flow::Return } },
+    SystemPort { entry: 0x04_42E6, original: "MissionDriver_Init_0442E6", rust: "system::events::start", run: |m| events::start(m) },
+    SystemPort { entry: 0x04_4368, original: "MissionDriver_Loop_044368", rust: "system::events::run", run: |m| events::run(m) },
+    SystemPort { entry: 0x04_42E2, original: "MissionWatch_Resume_0442E2", rust: "system::events::run", run: |m| events::run(m) },
+    SystemPort { entry: 0x04_42C4, original: "MissionWatch_Handler_0442C4", rust: "system::events::watch", run: |m| events::watch(m) },
+    SystemPort { entry: 0x04_482A, original: "PeriodicSpawner_Task_04482A", rust: "system::events::periodic", run: |m| events::periodic(m) },
+    SystemPort { entry: 0x04_429E, original: "MissionWatch_Spawn_04429E", rust: "system::events::spawn_watch",
+                 run: |m| { let c = events::spawn_watch(m, m.cpu.a[1], m.cpu.d[0] as u16); m.cpu.a[0] = c; Flow::Return } },
+    SystemPort { entry: 0x04_46B6, original: "MissionVM_SkipOp_0446B6", rust: "system::events::skip",
+                 run: |m| { m.cpu.a[1] = events::skip(m, m.cpu.a[1]); Flow::Return } },
+    SystemPort { entry: 0x04_405E, original: "$04405E", rust: "system::events::to_layer",
+                 run: |m| { let e = m.cpu.a[0]; events::to_layer(m, e); Flow::Return } },
+    SystemPort { entry: 0x04_48A6, original: "Spawn_FromStream_0448A6", rust: "system::events::spawn_from_list",
+                 run: |m| { let (t, p) = (m.cpu.a[6], m.cpu.a[1]); events::spawn_from_list(m, t, p); m.cpu.a[1] = p + 0x12; Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
