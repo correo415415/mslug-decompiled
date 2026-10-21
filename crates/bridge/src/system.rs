@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, frame, game_over, grunt, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, frame, game_over, go_arrow, grunt, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -1117,6 +1117,23 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x07_92F0, original: "AutoDemo_Tmpl_Driver_079298+0x58", rust: "system::autopilot::run", run: |m| autopilot::run(m) },
     SystemPort { entry: 0x07_962C, original: "AutoDemo_StartLevelScript_07962c", rust: "system::autopilot::start_level_script",
                  run: |m| { let t = m.cpu.a[6]; let c = autopilot::start_level_script(m, t); set_carry(m, c); Flow::Return } },
+    // --- indicador GO y animaciones de la capa fija
+    SystemPort { entry: 0x08_C864, original: "Cut_Watcher_Init_08c864", rust: "system::go_arrow::start", run: |m| go_arrow::start(m) },
+    SystemPort { entry: 0x08_C880, original: "Cut_Watcher_Run_08c880", rust: "system::go_arrow::run", run: |m| go_arrow::run(m) },
+    SystemPort { entry: 0x08_C8FA, original: "Cut_Watcher_Play_08c8fa", rust: "system::go_arrow::play", run: |m| go_arrow::play(m) },
+    SystemPort { entry: 0x08_C90E, original: "Cut_Watcher_Play_08c8fa+0x14", rust: "system::go_arrow::play_run", run: |m| go_arrow::play_run(m) },
+    SystemPort { entry: 0x08_C820, original: "Cut_InstallListByVariant_08c820", rust: "system::go_arrow::start_anim",
+                 run: |m| { let t = m.cpu.a[6]; go_arrow::start_anim(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_E1AA, original: "Players_InPlayMask_05e1aa", rust: "system::go_arrow::players_mask",
+                 run: |m| { let v = go_arrow::players_mask(m); m.cpu.d[0] = u32::from(v); set_carry(m, v == 0); Flow::Return } },
+    SystemPort { entry: 0x05_DB58, original: "FixAnim_Start_05db58", rust: "system::hud::fix_anim_start",
+                 run: |m| { let (t, l) = (m.cpu.a[6], m.cpu.a[0]); hud::fix_anim_start(m, t, l); Flow::Return } },
+    SystemPort { entry: 0x05_DB6A, original: "FixAnim_Step_05db6a", rust: "system::hud::fix_anim_step",
+                 run: |m| { let t = m.cpu.a[6]; let c = hud::fix_anim_step(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_DBC2, original: "FixAnim_Draw_05dbc2", rust: "system::hud::fix_anim_draw",
+                 run: |m| { let t = m.cpu.a[6]; hud::fix_anim_draw(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_DBDC, original: "FixAnim_Erase_05dbdc", rust: "system::hud::fix_anim_erase",
+                 run: |m| { let t = m.cpu.a[6]; hud::fix_anim_erase(m, t); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

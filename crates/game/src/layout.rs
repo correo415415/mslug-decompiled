@@ -1109,6 +1109,40 @@ pub mod food {
     pub const FREE: u32 = 0x09_B474;
 }
 
+/// Animaciones de la capa fija (`system::hud::fix_anim_*`).
+pub mod fix_anim {
+    /// Tarea: celda de la capa fija, cuadro actual y frames que le quedan.
+    pub const CELL: u32 = 0x22;
+    pub const CURSOR: u32 = 0x3C;
+    pub const LEFT: u32 = 0x46;
+    /// Cuadros de 8 bytes {tile, columnas, filas, frames}.
+    pub const FRAME_LEN: u32 = 8;
+    pub const FRAMES: u32 = 6;
+    pub const END: u16 = 0xFFFF;
+    pub const BLANK: u16 = 0xFF;
+}
+
+/// Indicador «GO» (`system::go_arrow`).
+pub mod go_arrow {
+    pub const CELL: u32 = 0x22;
+    pub const ARROW_CELL: u16 = 0x7408;
+    pub const LAST_PROGRESS: u32 = 0x70;
+    pub const QUIET: u32 = 0x30;
+    pub const QUIET_FRAMES: u16 = 0x78;
+    pub const PROGRESS: u32 = 0x10_6F5C;
+    pub const ENEMIES: [u32; 2] = [0x10_6E88, 0x10_6E8A];
+    pub const SCENE_LOADED: u32 = 0x10_6ED3;
+    /// Parpadeos que quedan y cuántos se hacen.
+    pub const BLINKS: u32 = 0x10_E2EF;
+    pub const BLINK_COUNT: u8 = 2;
+    pub const VARIANT: u32 = 0x10_E2EE;
+    pub const ANIMS: [u32; 3] = [0x2F_3574, 0x2F_35FE, 0x2F_3688];
+    pub const SOUND: u16 = 0x10D5;
+    pub const RUN: u32 = 0x08_C880;
+    pub const PLAY: u32 = 0x08_C8FA;
+    pub const PLAY_RUN: u32 = 0x08_C90E;
+}
+
 /// Piloto automático de los tramos guiados (`system::autopilot`).
 pub mod autopilot {
     /// Tramo pedido (0 = ninguno, 1–4) y guion de cada uno (−1 = ninguno).

@@ -7,6 +7,7 @@
 //! `FixLayer_QuadBatch_046AC6`, `Fix_BlitRect_05DA9C`.
 
 use crate::layout::{bios_ram, hud as H, hw};
+use crate::layout::fix_anim as FA;
 use crate::mem::Memory;
 
 /// Escribe un carácter (con sus atributos) en la capa fija.
@@ -175,5 +176,65 @@ mod tests {
         fill_rect(&mut m, 0x74E0, 0x20, 2, 1);
         // La segunda columna (0x7500) queda fuera: la última escrita es 0x74E0.
         assert_eq!(m.read_u16(hw::VRAM_ADDR), 0x74E0);
+    }
+}
+
+/// Animación de la capa fija de la tarea `t`: lista de cuadros de 8 bytes
+/// {primer tile (`$FFFF` = fin; 0 = salta a la lista de `+2`), columnas,
+/// filas, frames} dibujada en la celda `+$22`. Arranca la lista `list`.
+/// Original: `$05DB58`.
+pub fn fix_anim_start(m: &mut impl Memory, t: u32, list: u32) {
+    m.write_u32(t + FA::CURSOR, list);
+    let n = m.read_u16(list + FA::FRAMES);
+    m.write_u16(t + FA::LEFT, n);
+    fix_anim_draw(m, t);
+}
+
+/// Dibuja el cuadro actual. Original: `$05DBC2`.
+pub fn fix_anim_draw(m: &mut impl Memory, t: u32) {
+    let f = m.read_u32(t + FA::CURSOR);
+    let at = m.read_u16(t + FA::CELL);
+    let (ch, cols, rows) = (m.read_u16(f), m.read_u16(f + 2), m.read_u16(f + 4));
+    fill_tiles(m, at, ch, cols, rows);
+}
+
+/// Borra el cuadro actual. Original: `$05DBDC`.
+pub fn fix_anim_erase(m: &mut impl Memory, t: u32) {
+    let f = m.read_u32(t + FA::CURSOR);
+    if m.read_u16(f) == FA::END {
+        return;
+    }
+    let at = m.read_u16(t + FA::CELL);
+    let (cols, rows) = (m.read_u16(f + 2), m.read_u16(f + 4));
+    fill_rect(m, at, FA::BLANK, cols, rows);
+}
+
+/// Un frame de la animación; devuelve si ha acabado. Original: `$05DB6A`.
+pub fn fix_anim_step(m: &mut impl Memory, t: u32) -> bool {
+    let cur = m.read_u32(t + FA::CURSOR);
+    if m.read_u16(cur) == FA::END {
+        return true;
+    }
+    let n = m.read_u16(t + FA::LEFT).wrapping_sub(1);
+    m.write_u16(t + FA::LEFT, n);
+    if n as i16 > 0 {
+        return false;
+    }
+    fix_anim_erase(m, t);
+    let f = m.read_u32(t + FA::CURSOR) + FA::FRAME_LEN;
+    m.write_u32(t + FA::CURSOR, f);
+    match m.read_u16(f) {
+        0 => {
+            let next = m.read_u32(f + 2);
+            fix_anim_start(m, t, next);
+            false
+        }
+        FA::END => true,
+        _ => {
+            let n = m.read_u16(f + FA::FRAMES);
+            m.write_u16(t + FA::LEFT, n);
+            fix_anim_draw(m, t);
+            false
+        }
     }
 }
