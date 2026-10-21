@@ -2,8 +2,10 @@
 import sys, capstone
 data = open('/tmp/prom.bin', 'rb').read()
 addr = int(sys.argv[1], 16); n = int(sys.argv[2]) if len(sys.argv) > 2 else 40
+# La zona de bancos ($200000-$2FFFFF) está en el archivo a partir de $100000.
+base = 0x100000 if addr >= 0x200000 else 0
 md = capstone.Cs(capstone.CS_ARCH_M68K, capstone.CS_MODE_BIG_ENDIAN | capstone.CS_MODE_M68K_000)
 c = 0
-for i in md.disasm(data[addr:addr + n * 10], addr):
+for i in md.disasm(data[addr - base:addr - base + n * 10], addr):
     print(f"{i.address:06X}: {i.mnemonic} {i.op_str}"); c += 1
     if c >= n: break

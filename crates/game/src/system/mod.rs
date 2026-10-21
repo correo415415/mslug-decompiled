@@ -18,6 +18,7 @@ pub mod lists;
 pub mod manual;
 pub mod manual_icons;
 pub mod pads;
+pub mod rank;
 pub mod palette;
 pub mod render;
 pub mod rng;

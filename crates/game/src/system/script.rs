@@ -289,6 +289,23 @@ fn start_mission(m: &mut impl Machine) -> Flow {
     next(m)
 }
 
+/// Copia el modo del HUD que le dejó quien la creó (`0xFF` = 0) y se da de
+/// baja. Original: `Continue_StoreCount_Exit_0469e2`.
+pub fn store_hud_mode(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let v = m.read_u8(t + S::MISSION_HUD_FIELD);
+    m.write_u8(S::MISSION_HUD, if v == 0xFF { 0 } else { v });
+    tasks::finish(m)
+}
+
+/// Tarea de un frame: pone (`on`) o quita el flag `k` de
+/// `FLAG_TASKS` y se da de baja. Original: `$28DB5A`, `$28DB6A`,
+/// `$029588`, `$029598`.
+pub fn set_flag_task(m: &mut impl Machine, k: usize, on: bool) -> Flow {
+    m.write_u8(S::FLAG_TASKS[k].0, if on { 0xFF } else { 0 });
+    tasks::finish(m)
+}
+
 /// Tareas fijas de la misión. Original: `Task_InstallMissionSlots_001dcc`.
 pub fn install_mission_slots(m: &mut impl Machine) {
     for (t, r) in S::MISSION_SLOTS {

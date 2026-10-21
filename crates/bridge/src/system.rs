@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, game_over, hud, irq, layer, lists, manual, manual_icons, pads, palette, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, game_over, hud, irq, layer, lists, manual, manual_icons, pads, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -477,6 +477,20 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x00_1C94, original: "$001C94", rust: "system::script::demo_timeout_run", run: |m| script::demo_timeout_run(m) },
     SystemPort { entry: 0x00_1C44, original: "Banner_DelayThenStart_001c44", rust: "system::script::mission_credits", run: |m| script::mission_credits(m) },
     SystemPort { entry: 0x00_1C74, original: "$001C74", rust: "system::script::mission_credits_wait", run: |m| script::mission_credits_wait(m) },
+    SystemPort { entry: 0x04_69E2, original: "Continue_StoreCount_Exit_0469e2", rust: "system::script::store_hud_mode", run: |m| script::store_hud_mode(m) },
+    SystemPort { entry: 0x28_DB5A, original: "$28DB5A", rust: "system::script::set_flag_task(0, on)", run: |m| script::set_flag_task(m, 0, true) },
+    SystemPort { entry: 0x28_DB6A, original: "$28DB6A", rust: "system::script::set_flag_task(0, off)", run: |m| script::set_flag_task(m, 0, false) },
+    SystemPort { entry: 0x02_9588, original: "ChildRank_CmpByte10_029566 (+$22)", rust: "system::script::set_flag_task(1, on)", run: |m| script::set_flag_task(m, 1, true) },
+    SystemPort { entry: 0x02_9598, original: "ChildRank_CmpByte10_029566 (+$32)", rust: "system::script::set_flag_task(1, off)", run: |m| script::set_flag_task(m, 1, false) },
+    SystemPort { entry: 0x00_1B4C, original: "Rank_DelayStart_001b4c", rust: "system::rank::task", run: |m| rank::task(m) },
+    SystemPort { entry: 0x00_1B70, original: "Rank_DelayTick_001b70", rust: "system::rank::delay", run: |m| rank::delay(m) },
+    SystemPort { entry: 0x00_1B80, original: "Rank_DelayGate_001b80", rust: "system::rank::run", run: |m| rank::run(m) },
+    SystemPort { entry: 0x00_1C34, original: "Timer_WaitFlag21_001c34", rust: "system::rank::wait", run: |m| rank::wait(m) },
+    SystemPort { entry: 0x04_7482, original: "$047482", rust: "system::rank::draw", run: |m| { let show = m.cpu.d[1] as u8 != 0; rank::draw(m, show); Flow::Return } },
+    SystemPort { entry: 0x07_9970, original: "$079970", rust: "system::rank::start_time",
+                 run: |m| { let v = rank::start_time(m); m.cpu.d[0] = u32::from(v); m.cpu.a[3] = 0x10_FD84; m.cpu.a[0] = mslug_game::layout::rank::START_TIMES; Flow::Return } },
+    SystemPort { entry: 0x02_F85A, original: "$02F85A", rust: "system::rank::player_flag3",
+                 run: |m| { let c = rank::player_flag3(m); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x00_1AF8, original: "Attract_StartIfP2Flag_001af8", rust: "system::script::check_game_started",
                  run: ret!(script::check_game_started) },
     SystemPort { entry: 0x00_1CD4, original: "TaskList_ChangeAndRunEight_001CD4", rust: "system::script::stop_scene",

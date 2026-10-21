@@ -836,6 +836,11 @@ pub mod script {
     pub const MISSION_TIMER: u32 = 0x44;
     pub const MISSION_TIMER_START: u8 = 0x3C;
     pub const MISSION_FLAG_B1: u32 = 0x10_81B1;
+    /// Modo del HUD de la misión (lo copia la tarea `MISSION_TASKS[2]`).
+    pub const MISSION_HUD: u32 = 0x10_81B0;
+    /// Flags que ponen (0xFF) o quitan (0) tareas de un solo frame:
+    /// (flag, rutina que lo pone, rutina que lo quita).
+    pub const FLAG_TASKS: [(u32, u32, u32); 2] = [(0x10_81AE, 0x28_DB5A, 0x28_DB6A), (0x10_6F4A, 0x02_9588, 0x02_9598)];
     pub const SLUG_FRAME_FLAG: u32 = 0x10_6F4B;
     /// Retardo antes de arrancar los créditos en la misión.
     pub const CREDITS_DELAY: u16 = 0xF;
@@ -892,6 +897,47 @@ pub mod script {
     pub const RANK_TIMER: u32 = 0x10_6E92;
     pub const SCENE_TASKS: [u32; 8] =
         [0x10_0260, 0x10_0800, 0x10_08A0, 0x10_0440, 0x10_04E0, 0x10_0580, 0x10_0300, 0x10_03A0];
+}
+
+/// Tiempo de la misión (`system::rank`).
+pub mod rank {
+    /// Segundos que quedan (más de `MAX` = sin límite).
+    pub const TIME: u32 = super::script::RANK_TIMER;
+    pub const MAX: u16 = 99;
+    /// Ajuste de la BIOS que elige el tiempo inicial y tabla de tiempos.
+    pub const BIOS_SETTING: u32 = 0x10_FD8C;
+    pub const START_TIMES: u32 = 0x07_9968;
+    /// Posición en la capa fija de las decenas y de las unidades.
+    pub const AT: [u16; 2] = [0x7243, 0x7283];
+    pub const COLUMN: u16 = 0x20;
+    pub const ROW_STEP: u16 = 0x10;
+    /// Primer carácter de cada cifra 0–9 y de «sin límite» y en blanco.
+    pub const DIGITS: u32 = 0x28_DECC;
+    pub const INFINITE: (u16, u16) = (0x63B6, 0x63B8);
+    pub const BLANK: u16 = 0x4B40;
+    /// Tareas de los jugadores y bit 3 de `+$8D` (para la cuenta atrás).
+    pub const PLAYER_TASKS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const PLAYER_FLAGS: u32 = 0x8D;
+    pub const PLAYER_FLAG3: u8 = 1 << 3;
+    pub const SCENE_LOADED: u32 = super::scene::LOADED;
+    pub const SCRIPTED_PAUSE: u32 = 0x10_E39C;
+    pub const FRAME: u32 = super::system::FRAME_COUNTER;
+    /// Con este tiempo o menos parpadea y pita cada segundo.
+    pub const HURRY: u16 = 10;
+    pub const HURRY_MASK: u8 = 0x10;
+    pub const SOUND_TICK: u16 = 0x10D7;
+    /// Sólo cuenta por debajo de este valor.
+    pub const COUNTING_BELOW: u16 = 0x64;
+    /// Campos de la tarea y sus rutinas.
+    pub const DELAY: u32 = 0x30;
+    pub const START_DELAY: u16 = 0x5A;
+    pub const WAITING: u32 = 0x21;
+    pub const TASK: u32 = 0x00_1B4C;
+    pub const DELAY_RUN: u32 = 0x00_1B70;
+    pub const RUN: u32 = 0x00_1B80;
+    pub const WAIT_RUN: u32 = 0x00_1C34;
+    /// Aviso de «TIME UP».
+    pub const TIME_UP: u32 = 0x04_6A48;
 }
 
 /// Textos de la capa fija que el juego mantiene encima de todo: créditos
