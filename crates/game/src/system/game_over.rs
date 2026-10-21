@@ -559,6 +559,12 @@ pub fn copy_phase(m: &mut impl Memory, t: u32) -> u32 {
     mother
 }
 
+/// Añade una chispa al final de las hijas de `t`; devuelve lo mismo que
+/// [`tasks::spawn_last`]. Original: `GO_Particle_Add_091124`.
+pub fn add_particle(m: &mut impl Memory, t: u32) -> (u32, u32) {
+    tasks::spawn_last(m, L::PARTICLE, t)
+}
+
 /// Chispa con velocidad y dirección al azar. Original: `GO_Particle_091130`.
 pub fn particle(m: &mut impl Machine) -> Flow {
     let t = m.task_register();

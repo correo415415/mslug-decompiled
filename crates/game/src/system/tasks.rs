@@ -119,6 +119,38 @@ pub fn spawn(m: &mut impl Memory, handler: u32, parent: u32) -> u32 {
     t
 }
 
+/// Como [`spawn`], pero la hija va detrás de todas las tareas que siguen a
+/// `parent` con prioridad igual o mayor que la suya (al final de sus
+/// hermanas). Devuelve el bloque y la tarea que queda detrás.
+/// Original: `Task_AllocLast_0006FE`.
+pub fn spawn_last(m: &mut impl Memory, handler: u32, parent: u32) -> (u32, u32) {
+    let t = m.read_u32(T::FREE_LIST);
+    if t == T::NIL {
+        return (T::OVERFLOW_BLOCK, handler);
+    }
+    let next = m.read_u32(t + T::NEXT);
+    m.write_u32(T::FREE_LIST, next);
+    reset_block(m, t);
+    m.write_u32(t + T::HANDLER, handler);
+    m.write_u32(t + T::OWNER, parent);
+    let prio = m.read_u8(parent + T::PRIORITY).wrapping_add(1);
+    m.write_u8(t + T::PRIORITY, prio);
+    let mut after = parent;
+    loop {
+        after = m.read_u32(after + T::NEXT);
+        if prio > m.read_u8(after + T::PRIORITY) {
+            break;
+        }
+    }
+    let before = m.read_u32(after + T::PREV);
+    m.write_u32(before + T::NEXT, t);
+    m.write_u32(t + T::PREV, before);
+    m.write_u32(t + T::NEXT, after);
+    m.write_u32(after + T::PREV, t);
+    init_fields(m, t);
+    (t, after)
+}
+
 /// Reinicia una tarea en su sitio (conserva prioridad y enlaces) y la
 /// marca como fija. Original: `$0005FE`.
 pub fn reset_in_place(m: &mut impl Memory, t: u32) {

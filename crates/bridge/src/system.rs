@@ -381,6 +381,16 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      }
                      Flow::Return
                  } },
+    SystemPort { entry: 0x00_06FE, original: "Task_AllocLast_0006FE", rust: "system::tasks::spawn_last",
+                 run: |m| {
+                     let (t, after) = tasks::spawn_last(m, m.cpu.a[1], m.cpu.a[6]);
+                     m.cpu.a[0] = t;
+                     if t != mslug_game::layout::task::OVERFLOW_BLOCK {
+                         m.cpu.a[1] = after;
+                         m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(m.read_u8(t + mslug_game::layout::task::PRIORITY));
+                     }
+                     Flow::Return
+                 } },
     SystemPort { entry: 0x00_050E, original: "Task_AllocAndMarkBusy_00050e", rust: "system::tasks::spawn_fixed_at",
                  run: |m| {
                      let (t, handler, parent) = (m.cpu.a[0], m.cpu.a[1], m.cpu.a[6]);
@@ -732,6 +742,18 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x09_068C, original: "GO_Banner_C_09068c", rust: "system::game_over::banner(2)", run: |m| game_over::banner(m, 2) },
     SystemPort { entry: 0x09_06CA, original: "GO_Banner_Tick_0906ca", rust: "system::game_over::wait_timer", run: |m| game_over::wait_timer(m) },
     SystemPort { entry: 0x09_06E8, original: "GO_Banner_D_0906e8", rust: "system::game_over::banner(3)", run: |m| game_over::banner(m, 3) },
+    SystemPort { entry: 0x09_1124, original: "GO_Particle_Add_091124", rust: "system::game_over::add_particle",
+                 run: |m| {
+                     let (t, after) = game_over::add_particle(m, m.cpu.a[6]);
+                     m.cpu.a[0] = t;
+                     if t != mslug_game::layout::task::OVERFLOW_BLOCK {
+                         m.cpu.a[1] = after;
+                         m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(m.read_u8(t + mslug_game::layout::task::PRIORITY));
+                     } else {
+                         m.cpu.a[1] = mslug_game::layout::game_over::PARTICLE;
+                     }
+                     Flow::Return
+                 } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
