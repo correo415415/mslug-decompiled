@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, hud, irq, layer, lists, manual, manual_icons, pads, palette, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, game_over, hud, irq, layer, lists, manual, manual_icons, pads, palette, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -617,6 +617,29 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x02_AF40, original: "Slug_DropVariant2_02af40", rust: "system::slug::drop_in", run: |m| slug::drop_in(m, 2) },
     SystemPort { entry: 0x02_AF64, original: "Slug_DropVariant3_02af64", rust: "system::slug::drop_in", run: |m| slug::drop_in(m, 3) },
     SystemPort { entry: 0x02_AF88, original: "Slug_DropVariant4_02af88", rust: "system::slug::drop_in", run: |m| slug::drop_in(m, 4) },
+    // --- Game Over / Continue
+    SystemPort { entry: 0x08_F91A, original: "GameOver_Boot_08f91a", rust: "system::game_over::boot", run: |m| game_over::boot(m) },
+    SystemPort { entry: 0x08_F96A, original: "GameOver_Spawn_08f96a", rust: "system::game_over::spawn", run: |m| game_over::spawn(m) },
+    SystemPort { entry: 0x08_FBA2, original: "GameOver_Spawn_08f96a (+$238)", rust: "system::game_over::fall", run: |m| game_over::fall(m) },
+    SystemPort { entry: 0x08_FCAA, original: "GameOver_IntegrateY_08fcaa", rust: "system::game_over::integrate_y",
+                 run: |m| { let t = m.cpu.a[6]; game_over::integrate_y(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_FCCA, original: "GameOver_Wait_08fcca", rust: "system::game_over::landed", run: |m| game_over::landed(m) },
+    SystemPort { entry: 0x08_FD2E, original: "GameOver_Wait2_08fd2e", rust: "system::game_over::settle", run: |m| game_over::settle(m) },
+    SystemPort { entry: 0x08_FD68, original: "GameOver_Final_08fd68", rust: "system::game_over::final_phase", run: |m| game_over::final_phase(m) },
+    SystemPort { entry: 0x08_FDAA, original: "GameOver_WaitCredit_08fdaa", rust: "system::game_over::wait_credit", run: |m| game_over::wait_credit(m) },
+    SystemPort { entry: 0x08_FDF8, original: "GameOver_Continue_08fdf8", rust: "system::game_over::continue_phase", run: |m| game_over::continue_phase(m) },
+    SystemPort { entry: 0x08_FE32, original: "GameOver_ContinuePath_08fe32", rust: "system::game_over::path", run: |m| game_over::path(m) },
+    SystemPort { entry: 0x08_FE9C, original: "GameOver_ContinueHold_08fe9c", rust: "system::game_over::hold", run: |m| game_over::hold(m) },
+    SystemPort { entry: 0x08_FEB6, original: "GameOver_ContinueEnd_08feb6", rust: "system::game_over::end", run: |m| game_over::end(m) },
+    SystemPort { entry: 0x08_FECA, original: "TaskHandler_08feca", rust: "system::tasks::idle", run: |m| tasks::idle(m) },
+    SystemPort { entry: 0x09_1618, original: "Continue_Text_DrawTitle_091618", rust: "system::game_over::draw_title",
+                 run: |m| { m.cpu.a[2] = game_over::draw_title(m); Flow::Return } },
+    SystemPort { entry: 0x05_23EE, original: "Template_0523EE", rust: "system::palette::fade_task", run: |m| palette::fade_task(m, true, false) },
+    SystemPort { entry: 0x05_23FA, original: "Template_0523FA", rust: "system::palette::fade_task", run: |m| palette::fade_task(m, true, true) },
+    SystemPort { entry: 0x05_24AA, original: "Template_0524AA", rust: "system::palette::fade_task", run: |m| palette::fade_task(m, false, false) },
+    SystemPort { entry: 0x05_24B6, original: "Template_0524B6", rust: "system::palette::fade_task", run: |m| palette::fade_task(m, false, true) },
+    SystemPort { entry: 0x05_2454, original: "Template_0523EE (+$66)", rust: "system::palette::fade_loop", run: |m| palette::fade_loop(m, true) },
+    SystemPort { entry: 0x05_2514, original: "Template_0524AA (+$6A)", rust: "system::palette::fade_loop", run: |m| palette::fade_loop(m, false) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

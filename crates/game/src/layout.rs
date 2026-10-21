@@ -1566,6 +1566,89 @@ pub mod slug {
     pub const FIELD_98_INIT: u32 = 0x1_0000;
 }
 
+/// Escena de Game Over / Continue (la del attract sin créditos y la del fin
+/// de partida): la tarea principal y las que crea.
+pub mod game_over {
+    /// Rutina de cada fase de la tarea principal.
+    pub const BOOT: u32 = 0x08_F91A;
+    pub const SPAWN: u32 = 0x08_F96A;
+    pub const FALL: u32 = 0x08_FBA2;
+    pub const LANDED: u32 = 0x08_FCCA;
+    pub const SETTLE: u32 = 0x08_FD2E;
+    pub const FINAL: u32 = 0x08_FD68;
+    pub const WAIT_CREDIT: u32 = 0x08_FDAA;
+    pub const CONTINUE: u32 = 0x08_FDF8;
+    pub const PATH: u32 = 0x08_FE32;
+    pub const HOLD: u32 = 0x08_FE9C;
+    pub const END: u32 = 0x08_FEB6;
+    pub const IDLE: u32 = 0x08_FECA;
+    /// Escena y lista de entradas de sprite que carga.
+    pub const SCENE: u8 = 10;
+    pub const ENTRIES: u32 = 0x2F_4A32;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const Y_FRAC: u32 = 0x27;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const START: (u16, u16, u16) = (0x90, 0x1C0, 0xFF00);
+    /// Estado que miran las hijas (`+$20`, `+$21`).
+    pub const STATE: [u32; 2] = [0x20, 0x21];
+    pub const TIMER: u32 = 0x82;
+    pub const FIELD_84: u32 = 0x84;
+    pub const COUNT: u32 = 0x86;
+    pub const ORIGIN: [u32; 2] = [0x88, 0x8A];
+    pub const START_TIMER: u16 = 0xE;
+    /// Fundido del principio (tipo, parámetro).
+    pub const FADE: (usize, u16) = (1, 2);
+    /// Por debajo de esta Y no se mueve; alturas de los golpes y del suelo.
+    pub const MOVE_FLOOR: i16 = 0x140;
+    pub const HIT_HIGH: u16 = 0x1A8;
+    pub const HIT_LOW: u16 = 0x190;
+    pub const GROUND: i16 = 0x178;
+    /// Hijas de la escena: (rutina, copia la posición, parámetro `+$80`).
+    pub const CHILD_PARAM: u32 = 0x80;
+    pub const CHILD_TIMER: u32 = 0x82;
+    pub const CONTINUE_TEXT: u32 = 0x09_1514;
+    pub const FIGURES: [(u32, Option<u16>); 29] = [
+        (0x09_0DB0, None), (0x09_0DE2, None),
+        (0x09_0F00, Some(0)), (0x09_0F68, Some(0)), (0x09_0F00, Some(1)),
+        (0x09_0E86, Some(0)), (0x09_0E86, Some(1)), (0x09_0E86, Some(2)), (0x09_0E86, Some(3)),
+        (0x09_0E86, Some(4)), (0x09_0E86, Some(5)), (0x09_0E86, Some(6)), (0x09_0E86, Some(7)),
+        (0x09_0E86, Some(8)), (0x09_0E86, Some(9)),
+        (0x09_076E, None), (0x09_0728, None), (0x09_07B4, None), (0x09_07FA, None),
+        (0x09_0840, None), (0x09_088E, None), (0x09_08D4, None), (0x09_091A, None),
+        (0x09_0968, None), (0x09_09AE, None), (0x09_09F4, None), (0x09_0A3A, None),
+        (0x09_0A80, None), (0x09_0AC6, None),
+    ];
+    /// Sonido del golpe y del final.
+    pub const SOUND_HIT: u16 = 0x10DF;
+    pub const SOUND_END: u16 = 0x10DE;
+    /// Lo que sale en cada golpe (con su temporizador `+$82`).
+    pub const HIT_HIGH_FX: ([u32; 3], u16) = ([0x09_05C2, 0x09_068C, 0x09_034E], 0x20);
+    pub const HIT_LOW_FX: ([u32; 3], u16) = ([0x09_05C2, 0x09_06E8, 0x09_04E4], 0x1E);
+    pub const LANDED_TIMER: u16 = 0x10;
+    pub const LANDED_FX: [u32; 3] = [0x09_0630, 0x09_00E4, 0x09_016C];
+    pub const SETTLE_TIMER: u16 = 0x18;
+    /// Cámara cuyos sprites se ocultan al asentarse.
+    pub const CAMERA: u32 = 0x10_6F6C;
+    pub const FINAL_TIMER: u16 = 0x1B;
+    pub const FINAL_MARK_AT: u16 = 3;
+    pub const FINAL_MARK: u32 = 0x10_A2D1;
+    pub const WAIT_TIMER: u16 = 0x10;
+    /// Se espera a que este byte sea distinto de 0 (créditos para continuar).
+    pub const CREDIT_READY: u32 = 0x10_A2CF;
+    pub const CONTINUE_FX: [u32; 2] = [0x09_004C, 0x09_0CBA];
+    pub const CONTINUE_MID: u32 = 0x08_FFF6;
+    pub const PATH_TIMER: u16 = 0x11;
+    pub const PATH_TABLE: u32 = 0x2F_4BF8;
+    pub const PATH_LEN: i16 = 0x14;
+    pub const PATH_FX: [u32; 2] = [0x08_FECC, 0x08_FF2C];
+    pub const HOLD_TIMER: u16 = 0x96;
+    /// Título «CONTINUE?» en la capa fija (dirección, texto, atributos).
+    pub const TITLE: (u16, u32, u16) = (0x711B, 0x2F_4C98, 0x2300);
+    /// Al acabar, la escena deja de esperar.
+    pub const SCENE_WAIT: u32 = 0x10_6ED2;
+}
+
 /// Tareas de fundido de la paleta: cada alta crea una con su rutina y le
 /// deja `d0` en `PARAM`.
 pub mod fade {
@@ -1573,6 +1656,30 @@ pub mod fade {
     pub const SPAWNERS: [(u32, u32); 4] =
         [(0x05_239E, 0x05_23EE), (0x05_23B2, 0x05_24AA), (0x05_23C6, 0x05_23FA), (0x05_23DA, 0x05_24B6)];
     pub const PARAM: u32 = 0x70;
+    /// Rutinas de las tareas: (entrada, hacia blanco) en orden — salir de
+    /// negro, salir de blanco, entrar en negro, entrar en blanco — y sus
+    /// bucles.
+    pub const FROM_BLACK: u32 = 0x05_23EE;
+    pub const FROM_WHITE: u32 = 0x05_23FA;
+    pub const TO_BLACK: u32 = 0x05_24AA;
+    pub const TO_WHITE: u32 = 0x05_24B6;
+    pub const LOOP_OUT: u32 = 0x05_2454;
+    pub const LOOP_IN: u32 = 0x05_2514;
+    /// Tabla (paso, frames por paso) para los parámetros 0–3; con otro
+    /// parámetro el paso es 1 y el parámetro son los frames.
+    pub const SPEEDS: u32 = 0x05_2570;
+    pub const SPEEDS_LAST: u16 = 3;
+    /// Campos de la tarea: frames por paso, cuenta, nivel acumulado y paso.
+    pub const RATE: u32 = 0x70;
+    pub const WAIT: u32 = 0x72;
+    pub const DONE: u32 = 0x74;
+    pub const STEP: u32 = 0x8C;
+    pub const LEVEL_MAX: u16 = 0x1F;
+    /// Modo de fundido que pone cada una (a negro = 1, a blanco = `$FF`).
+    pub const MODE_BLACK: u8 = 1;
+    pub const MODE_WHITE: u8 = 0xFF;
+    /// `palette::FADE_READY`: `$FF` al acabar; 0 mientras se funde.
+    pub const READY: u32 = 0x10_A2CF;
 }
 
 /// Listas de la misión que se renuevan cada frame (algunas tienen dos

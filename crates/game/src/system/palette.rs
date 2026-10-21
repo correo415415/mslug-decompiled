@@ -15,6 +15,7 @@
 use super::irq;
 use crate::layout::{hw, palette as P, routine, sprites as S};
 use crate::mem::{Machine, Memory};
+use crate::Flow;
 
 /// Entrada `off` (desplazamiento en bytes dentro de la tabla).
 fn flags(m: &mut impl Memory, off: u32) -> u8 {
@@ -360,4 +361,74 @@ pub fn spawn_fade(m: &mut impl Memory, kind: usize, parent: u32, param: u16) -> 
     let t = super::tasks::spawn(m, FD::SPAWNERS[kind].1, parent);
     m.write_u16(t + FD::PARAM, param);
     t
+}
+
+/// Tareas de fundido de toda la pantalla: con `out` el nivel sube de 0 a
+/// `$1F` (y el modo se queda), si no baja de `$1F` a 0 y al final se quita
+/// el modo. `white` elige el color. Original: `$0523EE`, `$0523FA` (salir) y `$0524AA`,
+/// `$0524B6` (entrar).
+pub fn fade_task(m: &mut impl Machine, out: bool, white: bool) -> Flow {
+    use crate::layout::fade as FD;
+    let t = m.task_register();
+    m.write_u8(P::FADE_MODE, if white { FD::MODE_WHITE } else { FD::MODE_BLACK });
+    let start = if out { 0 } else { FD::LEVEL_MAX as u8 };
+    for l in P::FADE_LEVEL {
+        m.write_u8(l, start);
+    }
+    m.write_u8(FD::READY, 0);
+    let mut step = 1;
+    let rate = m.read_u16(t + FD::RATE);
+    if rate <= FD::SPEEDS_LAST {
+        let e = FD::SPEEDS + u32::from(rate) * 4;
+        step = m.read_u16(e);
+        let r = m.read_u16(e + 2);
+        m.write_u16(t + FD::RATE, r);
+    }
+    let r = m.read_u16(t + FD::RATE);
+    m.write_u16(t + FD::WAIT, r);
+    m.write_u16(t + FD::DONE, 0);
+    m.write_u16(t + FD::STEP, step);
+    if out {
+        m.write_u32(t + crate::layout::task::HANDLER, FD::LOOP_OUT);
+        fade_loop(m, true)
+    } else {
+        m.write_u32(t + crate::layout::task::HANDLER, FD::LOOP_IN);
+        Flow::Return
+    }
+}
+
+/// Cada `RATE` frames mueve el nivel un paso; al llegar al final deja el
+/// fundido listo y la tarea se da de baja. Original: `$052454` / `$052514`.
+pub fn fade_loop(m: &mut impl Machine, out: bool) -> Flow {
+    use crate::layout::fade as FD;
+    let t = m.task_register();
+    let w = m.read_u16(t + FD::WAIT).wrapping_sub(1);
+    m.write_u16(t + FD::WAIT, w);
+    if w != 0 {
+        return Flow::Return;
+    }
+    let r = m.read_u16(t + FD::RATE);
+    m.write_u16(t + FD::WAIT, r);
+    let step = m.read_u16(t + FD::STEP);
+    for l in P::FADE_LEVEL {
+        let v = m.read_u8(l);
+        m.write_u8(l, if out { v.wrapping_add(step as u8) } else { v.wrapping_sub(step as u8) });
+    }
+    let done = m.read_u16(t + FD::DONE).wrapping_add(step);
+    m.write_u16(t + FD::DONE, done);
+    if (done as i16) < FD::LEVEL_MAX as i16 {
+        return Flow::Return;
+    }
+    if out {
+        for l in P::FADE_LEVEL {
+            m.write_u8(l, FD::LEVEL_MAX as u8);
+        }
+    } else {
+        m.write_u8(P::FADE_MODE, 0);
+        for l in P::FADE_LEVEL {
+            m.write_u8(l, 0);
+        }
+    }
+    m.write_u8(FD::READY, 0xFF);
+    super::tasks::finish(m)
 }
