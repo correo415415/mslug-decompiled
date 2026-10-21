@@ -1200,6 +1200,7 @@ pub mod pickup {
     pub const STREAK: u32 = 0x10_E489;
     pub const STREAK_TIMER: u32 = 0x10_E488;
     pub const STREAK_FRAMES: u8 = 0x2D;
+    pub const STREAK_RUN: u32 = 0x09_B83E;
 }
 
 /// Eventos de la misión (`system::events`).

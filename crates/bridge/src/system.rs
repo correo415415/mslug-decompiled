@@ -1101,6 +1101,8 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x08_DBA6, original: "Grunt_HopDown_08db7a+0x2C", rust: "system::grunt::hop_down_run", run: |m| grunt::hop_down_run(m) },
     SystemPort { entry: 0x08_DBE2, original: "Grunt_HopUp_08dbe2", rust: "system::grunt::hop_up", run: |m| grunt::hop_up(m) },
     SystemPort { entry: 0x08_DC0E, original: "Grunt_HopUp_08dbe2+0x2C", rust: "system::grunt::hop_up_run", run: |m| grunt::hop_up_run(m) },
+    SystemPort { entry: 0x09_B82C, original: "Item_Tmpl316_ComboTimer_09b82c", rust: "system::pickup::streak_start", run: |m| pickup::streak_start(m) },
+    SystemPort { entry: 0x09_B83E, original: "Item_Tmpl316_ComboTimer_09b82c+0x12", rust: "system::pickup::streak_run", run: |m| pickup::streak_run(m) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

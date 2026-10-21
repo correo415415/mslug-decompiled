@@ -6,7 +6,7 @@
 
 use super::{anim, sound, tasks};
 use crate::layout::{pickup as L, task as T};
-use crate::mem::Memory;
+use crate::mem::{Flow, Machine, Memory};
 
 /// ¿Toca la entidad `e` la caja `bbox` = {dx, ancho, dy, alto} (palabras)
 /// de `t`? Las entidades con los bits 0 o 3 de `FLAGS2` no tocan.
@@ -83,4 +83,29 @@ pub fn food(m: &mut impl Memory, t: u32) -> bool {
     }
     m.write_u8(popup + L::VALUE, value as u8);
     true
+}
+
+/// Tarea de la racha de recogidas (plantilla 316): la pone a cero y la
+/// mantiene. Original: `Item_Tmpl316_ComboTimer_09b82c`.
+pub fn streak_start(m: &mut impl Machine) -> Flow {
+    m.write_u8(L::STREAK_TIMER, 0);
+    m.write_u8(L::STREAK, 0);
+    let t = m.task_register();
+    m.write_u32(t + T::HANDLER, L::STREAK_RUN);
+    streak_run(m)
+}
+
+/// Cada frame: cuenta atrás de la racha (al acabarse vuelve a 0) y tope
+/// del valor. Original: `$09B83E`.
+pub fn streak_run(m: &mut impl Machine) -> Flow {
+    let n = m.read_u8(L::STREAK_TIMER).wrapping_sub(1);
+    m.write_u8(L::STREAK_TIMER, n);
+    if n as i8 <= 0 {
+        m.write_u8(L::STREAK_TIMER, 0);
+        m.write_u8(L::STREAK, 0);
+    }
+    if m.read_u8(L::STREAK) as i8 > L::MAX_VALUE {
+        m.write_u8(L::STREAK, L::MAX_VALUE as u8);
+    }
+    Flow::Return
 }
