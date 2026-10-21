@@ -941,6 +941,116 @@ pub mod mission {
     pub const ENTRY_PTR: u32 = 0x3C;
 }
 
+/// Tarea del HUD de cada jugador (`system::player_hud`).
+pub mod player_hud {
+    /// Campos de la tarea del HUD.
+    pub const BUSY: u32 = 0x20;
+    pub const WAITING: u32 = 0x21;
+    pub const PLAYER: u32 = 0x70;
+    pub const SLOT: u32 = 0x72;
+    pub const GAUGE_CACHE: u32 = 0x76;
+    pub const LIVES: u32 = 0x77;
+    pub const ENTITY: u32 = 0x78;
+    pub const RESUME: u32 = 0x7C;
+    pub const SAVED_KEY: u32 = 0x82;
+    pub const BLINK: [u32; 2] = [0x84, 0x85];
+    pub const BAR: u32 = 0x86;
+    pub const BAR_VEL: u32 = 0x8A;
+    pub const AMMO: u32 = 0x8E;
+    pub const BOMBS: u32 = 0x90;
+    pub const BAR_STATE: u32 = 0x92;
+    pub const IN_SLUG: u32 = 0x93;
+    /// Tarea del soldado: activa (`+$66`), flags de `+$13` (bit 0 = muerto).
+    pub const ENTITY_ACTIVE: u32 = 0x66;
+    pub const DEAD: u8 = 1 << 0;
+    pub const FLAG2_BIT3: u8 = 1 << 3;
+    pub const FREEZE_TIMER: u8 = 0x3C;
+    /// Tarea del guion (su `TIMER_B` distinto de 0 = no atiende) y pausa.
+    pub const SCRIPT_TASK: u32 = 0x10_01C0;
+    pub const SCRIPTED_PAUSE: u32 = 0x10_E39C;
+    /// 0xFF = que la escena espere este frame.
+    pub const HOLD_SCENE: u32 = 0x10_6ED6;
+    /// Estado de inicio de cada jugador (BIOS): 0 nada, 1 juega/entra,
+    /// 2 continuando, 3 acabado.
+    pub const START_STATE: u32 = 0x10_FDB6;
+    pub const KEYS: u32 = 0x10_6ECC;
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const MISSION: u32 = 0x10_6ED0;
+    pub const LAST_MISSION: u8 = 6;
+    pub const SCENE_BUSY: u32 = 0x10_6ED2;
+    pub const SCENE_LOADED: u32 = 0x10_6ED3;
+    pub const RANK_TIMER: u32 = 0x10_6E92;
+    pub const CONTROL_LAYOUT: u32 = 0x10_6F2A;
+    pub const TWO_PLAYER_LAYOUT: u8 = 2;
+    pub const ONE_ALIVE_DELAY: u8 = 0x1E;
+    pub const BIOS_SLOTS: u32 = 0x10_FD83;
+    pub const BIOS_CONTINUE: u32 = 0x10_FD8A;
+    pub const DEMO_SELECT: u32 = 0x10_007B;
+    pub const FREE_HANDLER: u32 = 0x400;
+    /// Tablas de la ROM: estados de la demo, punteros a créditos, tareas
+    /// del soldado (tarea, rutina), filas de descriptores.
+    pub const DEMO_STATES: u32 = 0x02_5770;
+    pub const CREDITS: u32 = 0x02_674A;
+    pub const SOLDIERS: u32 = 0x02_5AC8;
+    pub const ROWS: [u32; 2] = [0x02_54A8, 0x02_5588];
+    pub const IDLE_ROW: [u32; 2] = [0x02_5488, 0x02_5498];
+    /// Tablas de punteros por jugador (P1, P2).
+    pub const SCORES: u32 = 0x02_594A;
+    pub const BOMB_GAUGES: u32 = 0x02_5942;
+    pub const GAME_OVER_TEXT: u32 = 0x02_5922;
+    pub const CONTINUE_TASKS: u32 = 0x02_5B2C;
+    pub const WATCH_TASKS: u32 = 0x02_5CC6;
+    pub const MSG_CLEAR: u32 = 0x02_5668;
+    pub const MSG_INSERT_COIN: u32 = 0x02_5670;
+    pub const MSG_PUSH_START: u32 = 0x02_5678;
+    pub const MSG_PLEASE_WAIT: u32 = 0x02_5680;
+    pub const MSG_GAME_OVER: u32 = 0x02_5690;
+    pub const DRAW_LIFE: u32 = 0x02_5698;
+    pub const DRAW_BOMBS: u32 = 0x02_56A0;
+    pub const DRAW_SCORE: u32 = 0x02_56A8;
+    /// Dibujos sin portar del alta (P1, P2).
+    pub const DRAW_LABELS: [u32; 2] = [0x02_5F02, 0x02_5F4A];
+    pub const DRAW_CONTINUES: [u32; 2] = [0x02_60E2, 0x02_60EA];
+    pub const DRAW_LIFE_BAR: [u32; 2] = [0x02_614E, 0x02_6156];
+    pub const COUNT_CONTINUE: u32 = 0x05_1A86;
+    pub const CONTINUE_MARK: u32 = 0x09_B872;
+    pub const MARK_PLAYER: u32 = 0x98;
+    /// Indicador de bombas.
+    pub const BOMB_GAUGE: [u32; 2] = [0x10_6F4C, 0x10_6F4E];
+    pub const GAUGE_AT: [u16; 2] = [0x707C, 0x72FC];
+    pub const GAUGE_CELLS: u8 = 14;
+    pub const GAUGE_FULL: u16 = 0x238A;
+    pub const GAUGE_EMPTY: u16 = 0x2320;
+    pub const COLUMN: u16 = 0x20;
+    pub const BLINK_MASK: u8 = 0x1F;
+    pub const BLINK_OFF: u8 = 0x18;
+    pub const DONE_DELAY: u8 = 0x1E;
+    /// Estados (rutinas de la tarea).
+    pub const INSERT_COIN: u32 = 0x02_57EC;
+    pub const INSERT_COIN_RUN: u32 = 0x02_57FA;
+    pub const PUSH_START: u32 = 0x02_5882;
+    pub const PUSH_START_RUN: u32 = 0x02_5890;
+    pub const WAIT_SPAWN: u32 = 0x02_5952;
+    pub const WAIT_SPAWN_RUN: u32 = 0x02_596A;
+    pub const BIND: [u32; 3] = [0x02_59A0, 0x02_59AC, 0x02_59B8];
+    pub const PLAYING: u32 = 0x02_59FC;
+    pub const IN_PLAY: u32 = 0x02_5A0E;
+    pub const RESPAWN: u32 = 0x02_5AD8;
+    pub const GAME_OVER: u32 = 0x02_5B34;
+    pub const GAME_OVER_WAIT: u32 = 0x02_5BCE;
+    pub const COUNTDOWN: u32 = 0x02_5C44;
+    pub const COUNTDOWN_RUN: u32 = 0x02_5C80;
+    pub const WATCH: u32 = 0x02_5CCE;
+    pub const WATCH_RUN: u32 = 0x02_5D0E;
+    pub const WATCH_END: u32 = 0x02_5D5C;
+    pub const FINAL: u32 = 0x02_5D64;
+    pub const FINAL_RUN: u32 = 0x02_5D8A;
+    pub const DONE: u32 = 0x02_5DD2;
+    pub const DONE_RUN: u32 = 0x02_5E00;
+    pub const PLEASE_WAIT: u32 = 0x02_5E48;
+    pub const PLEASE_WAIT_RUN: u32 = 0x02_5E56;
+}
+
 /// Tiempo de la misión (`system::rank`).
 pub mod rank {
     /// Segundos que quedan (más de `MAX` = sin límite).

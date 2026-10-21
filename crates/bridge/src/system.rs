@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -833,6 +833,56 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x09_033C, original: "$09033C", rust: "system::game_over::prop_c_run", run: |m| game_over::prop_c_run(m) },
     SystemPort { entry: 0x09_0CBA, original: "GO_Glow_Drift_090cba", rust: "system::game_over::glow_drift", run: |m| game_over::glow_drift(m) },
     SystemPort { entry: 0x09_0D2E, original: "$090D2E", rust: "system::game_over::glow_drift_run", run: |m| game_over::glow_drift_run(m) },
+    SystemPort { entry: 0x02_575C, original: "HUD_Task_StartP1_02575c", rust: "system::player_hud::start", run: |m| player_hud::start(m, 0) },
+    SystemPort { entry: 0x02_5766, original: "HUD_Task_StartP2_025766", rust: "system::player_hud::start", run: |m| player_hud::start(m, 1) },
+    SystemPort { entry: 0x02_57EC, original: "HUD_State_InsertCoin_0257ec", rust: "system::player_hud::insert_coin", run: |m| player_hud::insert_coin(m) },
+    SystemPort { entry: 0x02_57FA, original: "$0257FA", rust: "system::player_hud::insert_coin_run", run: |m| player_hud::insert_coin_run(m) },
+    SystemPort { entry: 0x02_5882, original: "HUD_State_Continue_025882", rust: "system::player_hud::push_start", run: |m| player_hud::push_start(m) },
+    SystemPort { entry: 0x02_5890, original: "$025890", rust: "system::player_hud::push_start_run", run: |m| player_hud::push_start_run(m) },
+    SystemPort { entry: 0x02_5952, original: "HUD_State_WaitPlayerSpawn_025952", rust: "system::player_hud::wait_spawn", run: |m| player_hud::wait_spawn(m) },
+    SystemPort { entry: 0x02_596A, original: "$02596A", rust: "system::player_hud::wait_spawn_run", run: |m| player_hud::wait_spawn_run(m) },
+    SystemPort { entry: 0x02_59A0, original: "HUD_State_BindPlayer_0259a0", rust: "system::player_hud::bind", run: |m| player_hud::bind(m, 0) },
+    SystemPort { entry: 0x02_59AC, original: "$0259AC", rust: "system::player_hud::bind", run: |m| player_hud::bind(m, 1) },
+    SystemPort { entry: 0x02_59B8, original: "$0259B8", rust: "system::player_hud::bind", run: |m| player_hud::bind(m, 2) },
+    SystemPort { entry: 0x02_59FC, original: "$0259FC", rust: "system::player_hud::playing", run: |m| player_hud::playing(m) },
+    SystemPort { entry: 0x02_5A0E, original: "HUD_State_PlayerDeath_025a0e", rust: "system::player_hud::in_play", run: |m| player_hud::in_play(m) },
+    SystemPort { entry: 0x02_5AD8, original: "HUD_State_Respawn_025ad8", rust: "system::player_hud::respawn", run: |m| player_hud::respawn(m) },
+    SystemPort { entry: 0x02_5B34, original: "HUD_State_GameOverEntry_025b34", rust: "system::player_hud::game_over", run: |m| player_hud::game_over(m) },
+    SystemPort { entry: 0x02_5BCE, original: "$025BCE", rust: "system::player_hud::game_over_wait", run: |m| player_hud::game_over_wait(m) },
+    SystemPort { entry: 0x02_5C44, original: "HUD_State_ContinueCountdown_025c44", rust: "system::player_hud::countdown", run: |m| player_hud::countdown(m) },
+    SystemPort { entry: 0x02_5C80, original: "$025C80", rust: "system::player_hud::countdown_run", run: |m| player_hud::countdown_run(m) },
+    SystemPort { entry: 0x02_5CCE, original: "$025CCE", rust: "system::player_hud::watch", run: |m| player_hud::watch(m) },
+    SystemPort { entry: 0x02_5D0E, original: "$025D0E", rust: "system::player_hud::watch_run", run: |m| player_hud::watch_run(m) },
+    SystemPort { entry: 0x02_5D5C, original: "JmpToScheduler_025d5c", rust: "system::tasks::finish", run: |m| tasks::finish(m) },
+    SystemPort { entry: 0x02_5D64, original: "HUD_State_GameOverFinal_025d64", rust: "system::player_hud::final_game_over", run: |m| player_hud::final_game_over(m) },
+    SystemPort { entry: 0x02_5D8A, original: "$025D8A", rust: "system::player_hud::final_run", run: |m| player_hud::final_run(m) },
+    SystemPort { entry: 0x02_5DD2, original: "HUD_State_GameOverDone_025dd2", rust: "system::player_hud::done", run: |m| player_hud::done(m) },
+    SystemPort { entry: 0x02_5E00, original: "$025E00", rust: "system::player_hud::done_run", run: |m| player_hud::done_run(m) },
+    SystemPort { entry: 0x02_5E48, original: "HUD_State_PushStartBlink_025e48", rust: "system::player_hud::please_wait", run: |m| player_hud::please_wait(m) },
+    SystemPort { entry: 0x02_5E56, original: "$025E56", rust: "system::player_hud::please_wait_run", run: |m| player_hud::please_wait_run(m) },
+    SystemPort { entry: 0x02_630E, original: "HUD_DrawBombGauge_P1_02630e", rust: "system::player_hud::draw_bomb_gauge", run: |m| { player_hud::draw_bomb_gauge(m, 0); Flow::Return } },
+    SystemPort { entry: 0x02_6372, original: "HUD_DrawBombGauge_P2_026372", rust: "system::player_hud::draw_bomb_gauge", run: |m| { player_hud::draw_bomb_gauge(m, 1); Flow::Return } },
+    SystemPort { entry: 0x02_5ED6, original: "HUD_ResetFields_025ed6", rust: "system::player_hud::reset_fields", run: |m| { let t = m.cpu.a[6]; player_hud::reset_fields(m, t); Flow::Return } },
+    SystemPort { entry: 0x00_1E28, original: "$001E28", rust: "system::player_hud::input_free", run: |m| { let c = player_hud::input_free(m); m.cpu.a[0] = mslug_game::layout::player_hud::SCRIPT_TASK; set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x00_1E4C, original: "$001E4C", rust: "system::player_hud::hold_scene", run: ret!(player_hud::hold_scene) },
+    SystemPort { entry: 0x00_1E56, original: "$001E56", rust: "system::player_hud::set_vblank_delay", run: |m| { let n = m.cpu.d[0] as u8; player_hud::set_vblank_delay(m, n); Flow::Return } },
+    SystemPort { entry: 0x02_6752, original: "$026752", rust: "system::player_hud::has_credit", run: |m| {
+                     let p = m.cpu.d[1] & 0xFFFF;
+                     let (c, d) = player_hud::has_credit(m, p, m.cpu.d[2] as u8);
+                     m.cpu.d[2] = (m.cpu.d[2] & !0xFF) | u32::from(d);
+                     if m.read_u8(mslug_game::layout::bios_ram::MVS_FLAG) == 0 {
+                         m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | ((p << 2) & 0xFFFF);
+                         m.cpu.a[4] = m.read_u32(mslug_game::layout::player_hud::CREDITS + p * 4);
+                     } else {
+                         m.cpu.a[4] = mslug_game::layout::bios_ram::CREDIT_REQUEST[0];
+                     }
+                     set_carry(m, c);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_56B0, original: "$00256B0", rust: "system::player_hud::init", run: |m| { let (a, d) = player_hud::init(m, 0, true); m.cpu.a[0] = a; m.cpu.d[0] = u32::from(d); Flow::Return } },
+    SystemPort { entry: 0x02_5706, original: "$0025706", rust: "system::player_hud::init", run: |m| { let (a, d) = player_hud::init(m, 1, true); m.cpu.a[0] = a; m.cpu.d[0] = u32::from(d); Flow::Return } },
+    SystemPort { entry: 0x02_56BE, original: "$00256BE", rust: "system::player_hud::init", run: |m| { let (a, d) = player_hud::init(m, 0, false); m.cpu.a[0] = a; m.cpu.d[0] = u32::from(d); Flow::Return } },
+    SystemPort { entry: 0x02_5714, original: "$0025714", rust: "system::player_hud::init", run: |m| { let (a, d) = player_hud::init(m, 1, false); m.cpu.a[0] = a; m.cpu.d[0] = u32::from(d); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
