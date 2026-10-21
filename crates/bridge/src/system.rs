@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, events, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -896,6 +896,33 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let e = m.cpu.a[0]; events::to_layer(m, e); Flow::Return } },
     SystemPort { entry: 0x04_48A6, original: "Spawn_FromStream_0448A6", rust: "system::events::spawn_from_list",
                  run: |m| { let (t, p) = (m.cpu.a[6], m.cpu.a[1]); events::spawn_from_list(m, t, p); m.cpu.a[1] = p + 0x12; Flow::Return } },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[0], original: "Item_Tmpl294_Food_09aec4+0", rust: "system::food::start", run: |m| food::start(m, 0) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[1], original: "Item_Tmpl294_Food_09aec4+1", rust: "system::food::start", run: |m| food::start(m, 1) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[2], original: "Item_Tmpl294_Food_09aec4+2", rust: "system::food::start", run: |m| food::start(m, 2) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[3], original: "Item_Tmpl294_Food_09aec4+3", rust: "system::food::start", run: |m| food::start(m, 3) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[4], original: "Item_Tmpl294_Food_09aec4+4", rust: "system::food::start", run: |m| food::start(m, 4) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[5], original: "Item_Tmpl294_Food_09aec4+5", rust: "system::food::start", run: |m| food::start(m, 5) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[6], original: "Item_Tmpl294_Food_09aec4+6", rust: "system::food::start", run: |m| food::start(m, 6) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[7], original: "Item_Tmpl294_Food_09aec4+7", rust: "system::food::start", run: |m| food::start(m, 7) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[8], original: "Item_Tmpl294_Food_09aec4+8", rust: "system::food::start", run: |m| food::start(m, 8) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[9], original: "Item_Tmpl294_Food_09aec4+9", rust: "system::food::start", run: |m| food::start(m, 9) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[10], original: "Item_Tmpl294_Food_09aec4+10", rust: "system::food::start", run: |m| food::start(m, 10) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[11], original: "Item_Tmpl294_Food_09aec4+11", rust: "system::food::start", run: |m| food::start(m, 11) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[12], original: "Item_Tmpl294_Food_09aec4+12", rust: "system::food::start", run: |m| food::start(m, 12) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[13], original: "Item_Tmpl294_Food_09aec4+13", rust: "system::food::start", run: |m| food::start(m, 13) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[14], original: "Item_Tmpl294_Food_09aec4+14", rust: "system::food::start", run: |m| food::start(m, 14) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[15], original: "Item_Tmpl294_Food_09aec4+15", rust: "system::food::start", run: |m| food::start(m, 15) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[16], original: "Item_Tmpl294_Food_09aec4+16", rust: "system::food::start", run: |m| food::start(m, 16) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[17], original: "Item_Tmpl294_Food_09aec4+17", rust: "system::food::start", run: |m| food::start(m, 17) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[18], original: "Item_Tmpl294_Food_09aec4+18", rust: "system::food::start", run: |m| food::start(m, 18) },
+    SystemPort { entry: mslug_game::layout::food::ENTRIES[19], original: "Item_Tmpl294_Food_09aec4+19", rust: "system::food::start", run: |m| food::start(m, 19) },
+    SystemPort { entry: 0x09_B0A8, original: "Item_Food_Wait_09b0a8", rust: "system::food::wait", run: |m| food::wait(m) },
+    SystemPort { entry: 0x09_B0D8, original: "Item_Food_Blink_09b0d8", rust: "system::food::blink", run: |m| food::blink(m) },
+    SystemPort { entry: 0x09_B0DE, original: "Item_Food_BlinkLoop_09b0de", rust: "system::food::blink_start", run: |m| food::blink_start(m) },
+    SystemPort { entry: 0x09_B0FA, original: "$09B0FA", rust: "system::food::blink_run", run: |m| food::blink_run(m) },
+    SystemPort { entry: 0x09_B474, original: "Item_Free_09b474", rust: "system::food::free", run: |m| food::free(m) },
+    SystemPort { entry: 0x09_BB3C, original: "Item_LifetimeFromParam_09bb3c", rust: "system::food::lifetime",
+                 run: |m| { let t = m.cpu.a[6]; let v = food::lifetime(m, t); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

@@ -941,6 +941,44 @@ pub mod mission {
     pub const ENTRY_PTR: u32 = 0x3C;
 }
 
+/// Comida (`system::food`).
+pub mod food {
+    /// Por variante: tipo de premio (`+$9C`), guion de animación, gráfico.
+    pub const VARIANTS: [(u8, u32, u16); 20] = [
+        (0, 0x2F_6B78, 0x1AC), (0, 0x2F_6B22, 0x1AC), (1, 0x2F_6AE0, 0x1AC), (0, 0x2F_68FC, 0x1AC),
+        (0, 0x2F_6BCE, 0x1C6), (0, 0x2F_6CCA, 0x1C6), (0, 0x2F_6E4C, 0x1C6), (1, 0x2F_7002, 0x1AC),
+        (0, 0x2F_706C, 0x1AC), (0, 0x2F_70B8, 0x1C6), (0, 0x2F_7186, 0x1AC), (0, 0x2F_7204, 0x1AC),
+        (0, 0x2F_7290, 0x1C6), (0, 0x2F_73B8, 0x1C6), (0, 0x2F_745E, 0x1C6), (0, 0x2F_74A0, 0x1AC),
+        (2, 0x2F_75F2, 0x1C6), (1, 0x2F_76E8, 0x1AC), (0, 0x2F_755A, 0x1AC), (0, 0x2F_75B0, 0x1C6),
+    ];
+    /// Entrada de cada variante en la ROM.
+    pub const ENTRIES: [u32; 20] = [
+        0x09_AEC4, 0x09_AED8, 0x09_AEEC, 0x09_AF02, 0x09_AF16, 0x09_AF2A, 0x09_AF3E, 0x09_AF52, 0x09_AF68, 0x09_AF7C,
+        0x09_AF90, 0x09_AFA4, 0x09_AFB8, 0x09_AFCC, 0x09_AFE0, 0x09_AFF4, 0x09_B008, 0x09_B01E, 0x09_B034, 0x09_B048,
+    ];
+    pub const KIND: u32 = 0x9C;
+    pub const NO_FLIP: u32 = 0x9A;
+    pub const FLIP: u32 = 0x3A;
+    pub const LIFE_PARAM: u32 = 0x99;
+    pub const FOREVER: u16 = 0x7FFF;
+    pub const TIMER: u32 = 0x70;
+    pub const START_DELAY: u8 = 8;
+    pub const BLINK_FRAMES: u8 = 0x1E;
+    pub const ATTR: u16 = 0x8000;
+    pub const ATTR_WORD: u32 = 0x38;
+    pub const ATTR_MASK: u16 = 0xFFE3;
+    /// Rutinas sin portar: física y suelo, recogida (C = recogida), cola
+    /// común de los objetos.
+    pub const PHYSICS: u32 = 0x09_B8C0;
+    pub const PICKUP: u32 = 0x09_B920;
+    pub const TAIL: u32 = 0x09_A75A;
+    /// Estados.
+    pub const WAIT: u32 = 0x09_B0A8;
+    pub const BLINK: u32 = 0x09_B0D8;
+    pub const BLINK_RUN: u32 = 0x09_B0FA;
+    pub const FREE: u32 = 0x09_B474;
+}
+
 /// Eventos de la misión (`system::events`).
 pub mod events {
     pub const SCENE: u32 = 0x10_6ECE;

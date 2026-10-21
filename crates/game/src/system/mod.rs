@@ -10,6 +10,7 @@
 pub mod anim;
 pub mod boot;
 pub mod events;
+pub mod food;
 pub mod frame;
 pub mod game_over;
 pub mod hud;
