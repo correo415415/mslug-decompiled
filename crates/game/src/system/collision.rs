@@ -89,8 +89,14 @@ pub struct Floor {
 /// (C = en el aire). `frac_default` = columna y fila que deja el
 /// original si no mira el mapa (restos de registros).
 pub fn probe_floor(m: &mut impl Memory, t: u32, frac_default: (u16, u16)) -> Floor {
-    let x = m.read_u16(t + L::X);
-    let y = m.read_u16(t + L::Y).wrapping_sub(1);
+    let (x, y) = (m.read_u16(t + L::X), m.read_u16(t + L::Y));
+    probe_at(m, t, x, y, frac_default)
+}
+
+/// Como [`probe_floor`] pero con los pies en (`x`, `y`) en vez de en la
+/// posición de la entidad. Original: `SpritePubEffect_027EBA__L027ec2`.
+pub fn probe_at(m: &mut impl Memory, t: u32, x: u16, y: u16, frac_default: (u16, u16)) -> Floor {
+    let y = y.wrapping_sub(1);
     let tile = lookup_tile(m, t, x, y);
     let platform = platforms::find_under(m, t, x, y);
     m.write_u8(L::PLATFORM_UNDER, platform.map_or(0x0F, |p| p.1));
@@ -111,4 +117,83 @@ pub fn probe_floor_here(m: &mut impl Machine) -> bool {
     let t = m.task_register();
     let r = m.regs();
     probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air
+}
+
+/// Limita `v` a ±`max`. Devuelve el valor y el límite con el signo con el
+/// que lo deja el original en `d1`. Original: `ClampVelocity_0267f8`.
+pub fn clamp_velocity(v: u16, max: u16) -> (u16, u16) {
+    if (v as i16) > (max as i16) {
+        (max, max)
+    } else {
+        let min = max.wrapping_neg();
+        (if (v as i16) < (min as i16) { min } else { v }, min)
+    }
+}
+
+/// Un paso de caída sobre la posición de trabajo: si la entidad tiene
+/// gravedad y ya pisa suelo, nada; si no, limita la velocidad vertical,
+/// pone la aceleración de la gravedad y mueve con colisión. Devuelve si
+/// ha tocado suelo (y entonces para la caída). Original:
+/// `Entity_SaveRegs_0273fc` / `Entity_MoveC_Tail_027400` / `..._Land_02742a`.
+pub fn fall_step(m: &mut impl Machine, t: u32) -> bool {
+    if m.read_u16(t + L::GRAVITY) != L::NO_GRAVITY {
+        platforms::apply_camera_work(m, t);
+        let (x, y) = (m.read_u16(L::WORK_POS[0]), m.read_u16(L::WORK_POS[1]));
+        let r = m.regs();
+        if !probe_at(m, t, x, y, (r.d[3] as u16, r.d[4] as u16)).in_air {
+            return true;
+        }
+    }
+    let (vy, lim) = clamp_velocity(m.read_u16(t + L::VEL_Y), L::MAX_FALL);
+    m.write_u16(t + L::VEL_Y, vy);
+    m.write_u16(t + L::ACC_Y, L::FALL_ACC);
+    let mut r = m.regs();
+    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(vy);
+    r.d[1] = (r.d[1] & 0xFFFF_0000) | u32::from(lim);
+    m.set_regs(r);
+    if m.call(L::MOVE_AND_COLLIDE) {
+        m.write_u16(t + L::ACC_Y, 0);
+        m.write_u16(t + L::VEL_Y, 0);
+        return true;
+    }
+    false
+}
+
+/// Caída de la entidad `t`: copia su posición (con la parte fraccionaria) a
+/// la de trabajo, da un paso de caída y la copia de vuelta. Devuelve si ha
+/// tocado suelo. Original: `Entity_ProbeTransformFreeCcr_027c8c`.
+pub fn fall(m: &mut impl Machine, t: u32) -> bool {
+    let mut r = m.regs();
+    r.a[5] = L::SCRATCH_BASE;
+    m.set_regs(r);
+    let x = m.read_u16(t + L::X);
+    let y = m.read_u16(t + L::Y);
+    m.write_u16(L::WORK_POS[0], x);
+    m.write_u16(L::WORK_POS[1], y);
+    for (w, f) in L::WORK_SUB.into_iter().zip([L::SUB_X, L::SUB_Y]) {
+        let v = m.read_u8(t + f);
+        m.write_u8(w, v);
+    }
+    let landed = fall_step(m, t);
+    let x = m.read_u16(L::WORK_POS[0]);
+    let y = m.read_u16(L::WORK_POS[1]);
+    m.write_u16(t + L::X, x);
+    m.write_u16(t + L::Y, y);
+    for (w, f) in L::WORK_SUB.into_iter().zip([L::SUB_X, L::SUB_Y]) {
+        let v = m.read_u8(w);
+        m.write_u8(t + f, v);
+    }
+    landed
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn clamp() {
+        assert_eq!(clamp_velocity(0x900, 0x800), (0x800, 0x800));
+        assert_eq!(clamp_velocity(0x100, 0x800), (0x100, 0xF800));
+        assert_eq!(clamp_velocity(0xF000, 0x800), (0xF800, 0xF800));
+    }
 }

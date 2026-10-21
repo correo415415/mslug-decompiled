@@ -109,16 +109,16 @@ pub fn follow(m: &mut impl Memory, t: u32) -> Option<(u16, u16)> {
     None
 }
 
-/// Una vez por frame: mueve la entidad con la plataforma sobre la que está
-/// o, si no está en ninguna, con la capa móvil de la escena.
-/// Original: `Handler_ApplyCameraSelf_0440E4`.
-pub fn apply_camera(m: &mut impl Memory, t: u32) {
+/// Desplazamiento de un frame para el punto (`x0`, `y0`) de la entidad
+/// `t`: el de la plataforma sobre la que está o, si no está en ninguna, el
+/// de la capa móvil de la escena. Devuelve `None` si ya se movió este frame
+/// (y marca que se ha movido).
+fn shift(m: &mut impl Memory, t: u32, x0: u16, y0: u16) -> Option<(u16, u16)> {
     let f = m.read_u8(t + T::FLAGS2);
     if f & L::MOVED != 0 {
-        return;
+        return None;
     }
-    let x0 = m.read_u16(t + L::X);
-    let (mut x, mut y) = (x0, m.read_u16(t + L::Y));
+    let (mut x, mut y) = (x0, y0);
     m.write_u8(t + T::FLAGS2, f | L::MOVED);
     match follow(m, t) {
         None => {
@@ -127,8 +127,10 @@ pub fn apply_camera(m: &mut impl Memory, t: u32) {
         }
         Some((dx, dy)) => {
             let free = f & L::RIDE_ALWAYS != 0 || m.read_u8(t + L::STATE) & L::WALL_BITS == 0;
-            // Contra una pared sólo se le arrastra hacia el lado libre.
-            let push = free || ((x0 as i16) > L::EDGE) != ((dx as i16) >= 0);
+            // Contra una pared sólo se le arrastra hacia el lado libre (se
+            // mira la X de la entidad, no la del punto).
+            let ex = m.read_u16(t + L::X);
+            let push = free || ((ex as i16) > L::EDGE) != ((dx as i16) >= 0);
             if push {
                 x = x.wrapping_add(dx);
             }
@@ -138,8 +140,28 @@ pub fn apply_camera(m: &mut impl Memory, t: u32) {
     if m.read_u8(L::SCENE) == L::LOCKED_X_SCENE && m.read_u16(L::LOCK_X) != 0 {
         x = x0;
     }
-    m.write_u16(t + L::X, x);
-    m.write_u16(t + L::Y, y);
+    Some((x, y))
+}
+
+/// Una vez por frame: mueve la entidad con la plataforma sobre la que está
+/// o, si no está en ninguna, con la capa móvil de la escena.
+/// Original: `Handler_ApplyCameraSelf_0440E4`.
+pub fn apply_camera(m: &mut impl Memory, t: u32) {
+    let (x0, y0) = (m.read_u16(t + L::X), m.read_u16(t + L::Y));
+    if let Some((x, y)) = shift(m, t, x0, y0) {
+        m.write_u16(t + L::X, x);
+        m.write_u16(t + L::Y, y);
+    }
+}
+
+/// Como [`apply_camera`] pero sobre la posición de trabajo de la colisión
+/// (`WORK_POS`). Original: `Handler_ApplyCameraGlobals_044182`.
+pub fn apply_camera_work(m: &mut impl Memory, t: u32) {
+    let (x0, y0) = (m.read_u16(L::WORK_POS[0]), m.read_u16(L::WORK_POS[1]));
+    if let Some((x, y)) = shift(m, t, x0, y0) {
+        m.write_u16(L::WORK_POS[0], x);
+        m.write_u16(L::WORK_POS[1], y);
+    }
 }
 
 /// Movimiento por frame de una entidad: plataforma / capa y profundidad.
@@ -150,7 +172,7 @@ pub fn move_with_scene(m: &mut impl Memory, t: u32) {
 }
 
 /// Física de un objeto suelto: se mueve con la escena y, si no está
-/// sujeto (`HELD` = 0 o `0xFF`) y no pisa suelo, cae (sin portar).
+/// sujeto (`HELD` = 0 o `0xFF`) y no pisa suelo, cae.
 /// Original: `Item_PhysAndProbe_09b8c0` (siempre C = 0).
 pub fn item_physics(m: &mut impl Machine, t: u32) {
     move_with_scene(m, t);
@@ -164,7 +186,7 @@ pub fn item_physics(m: &mut impl Machine, t: u32) {
         return;
     }
     if super::collision::probe_floor_here(m) {
-        m.call(L::FALL);
+        super::collision::fall(m, t);
     }
 }
 

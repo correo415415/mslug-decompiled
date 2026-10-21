@@ -986,6 +986,17 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      set_carry(m, f.in_air);
                      Flow::Return
                  } },
+    SystemPort { entry: 0x04_4182, original: "Handler_ApplyCameraGlobals_044182", rust: "system::platforms::apply_camera_work",
+                 run: |m| { let t = m.cpu.a[6]; platforms::apply_camera_work(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_7C8C, original: "Entity_ProbeTransformFreeCcr_027c8c", rust: "system::collision::fall",
+                 run: |m| { let t = m.cpu.a[6]; let c = collision::fall(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_67F8, original: "ClampVelocity_0267f8", rust: "system::collision::clamp_velocity",
+                 run: |m| {
+                     let (v, l) = collision::clamp_velocity(m.cpu.d[0] as u16, 0x800);
+                     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v);
+                     m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(l);
+                     Flow::Return
+                 } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

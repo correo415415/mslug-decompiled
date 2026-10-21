@@ -967,6 +967,20 @@ pub mod collision {
     pub const Y: u32 = 0x24;
     /// Plataforma bajo la entidad sondeada (`$F` = ninguna).
     pub const PLATFORM_UNDER: u32 = 0x10_6F44;
+    /// Caída: base de `a5`, posición de trabajo (X/Y y fracciones), campos
+    /// de la entidad y movimiento con colisión (sin portar).
+    pub const SCRATCH_BASE: u32 = 0x10_8080;
+    pub const WORK_POS: [u32; 2] = [0x10_6F38, 0x10_6F3A];
+    pub const WORK_SUB: [u32; 2] = [0x10_6F3C, 0x10_6F3D];
+    pub const SUB_X: u32 = 0x26;
+    pub const SUB_Y: u32 = 0x27;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const GRAVITY: u32 = 0x34;
+    pub const NO_GRAVITY: u16 = 0xFFFF;
+    pub const MAX_FALL: u16 = 0x400;
+    pub const FALL_ACC: u16 = 0xFFC0;
+    pub const MOVE_AND_COLLIDE: u32 = 0x02_74B8;
 }
 
 /// Plataformas móviles (`system::platforms`).
@@ -1009,10 +1023,11 @@ pub mod platforms {
     pub const SCENE: u32 = 0x10_6ECE;
     pub const LOCKED_X_SCENE: u8 = 1;
     pub const LOCK_X: u32 = 0x10_6F5E;
-    /// Objetos: sujeto (`+$9B`), suelo y caída (sin portar), base de `a5`.
+    /// Objetos: sujeto (`+$9B`) y base de `a5` de la colisión.
     pub const HELD: u32 = 0x9B;
-    pub const FALL: u32 = 0x02_7C8C;
     pub const SCRATCH_BASE: u32 = 0x10_8080;
+    /// Posición de trabajo de la colisión (copia de X/Y de la entidad).
+    pub const WORK_POS: [u32; 2] = [0x10_6F38, 0x10_6F3A];
 }
 
 /// Comida (`system::food`).
