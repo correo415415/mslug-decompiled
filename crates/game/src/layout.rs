@@ -899,6 +899,48 @@ pub mod script {
         [0x10_0260, 0x10_0800, 0x10_08A0, 0x10_0440, 0x10_04E0, 0x10_0580, 0x10_0300, 0x10_03A0];
 }
 
+/// Tarea de la misión (`system::mission`).
+pub mod mission {
+    /// Misión en curso (escena) dentro de la tarea.
+    pub const INDEX: u32 = 0x21;
+    /// Desplazamiento de la próxima aparición en su tabla.
+    pub const CURSOR: u32 = 0x70;
+    pub const SCRIPTED_PAD: u32 = 0x10_E39E;
+    /// La misión 7 no tiene apariciones (ni pone el cursor a 0).
+    pub const NO_SPAWNS: u8 = 7;
+    /// Bucle de cada misión (por índice; la 6 no existe).
+    pub const RUN: [u32; 8] =
+        [0x09_6820, 0x09_6862, 0x09_68A4, 0x09_68E6, 0x09_6928, 0x09_696A, 0, 0x09_69A6];
+    pub const ENTRIES: [(u32, u8); 7] = [
+        (0x09_67FE, 0), (0x09_6840, 1), (0x09_6882, 2), (0x09_68C4, 3), (0x09_6906, 4), (0x09_6948, 5), (0x09_698A, 7),
+    ];
+    pub const EDGE_ENABLE: u32 = super::scroll::EDGE_ENABLE;
+    pub const CAMERA_X: u32 = 0x10_6F50;
+    pub const CAMERA_B: u32 = 0x10_6F5C;
+    pub const DEBUG: u32 = 0x10_0001;
+    pub const DEBUG_HUD: u8 = 1 << 0;
+    pub const DEBUG_PICK_A: u8 = 1 << 2;
+    pub const DEBUG_PICK_B: u8 = 1 << 7;
+    pub const DEBUG_HUD_ROUTINE: u32 = 0x09_6A80;
+    pub const DEBUG_PICK_ROUTINE: u32 = 0x09_6B24;
+    /// Tablas de apariciones por misión (punteros) y última válida.
+    pub const SPAWN_TABLES: u32 = 0x09_6B9C;
+    pub const LAST_TABLE: u8 = 7;
+    /// Entradas de 20 bytes: tipo, X (+2), rutina (+6); `END` = fin.
+    pub const ENTRY_LEN: u16 = 0x14;
+    pub const ENTRY_X: u32 = 2;
+    pub const ENTRY_ROUTINE: u32 = 6;
+    pub const END: u16 = 0xFFFF;
+    /// Se crean al quedar a menos de esta distancia del borde izquierdo.
+    pub const SPAWN_AHEAD: u16 = 0x140;
+    pub const KIND_FIXED: u8 = 2;
+    pub const SPAWN_PARENT: u32 = 0x10_08A0;
+    pub const ENEMY_PARENT: u32 = 0x10_0800;
+    pub const FIXED_FLAG: u8 = 1 << 1;
+    /// La tarea creada guarda aquí su entrada.
+    pub const ENTRY_PTR: u32 = 0x3C;
+}
+
 /// Tiempo de la misión (`system::rank`).
 pub mod rank {
     /// Segundos que quedan (más de `MAX` = sin límite).

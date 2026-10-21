@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, frame, game_over, hud, irq, layer, lists, manual, manual_icons, pads, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -491,6 +491,24 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let v = rank::start_time(m); m.cpu.d[0] = u32::from(v); m.cpu.a[3] = 0x10_FD84; m.cpu.a[0] = mslug_game::layout::rank::START_TIMES; Flow::Return } },
     SystemPort { entry: 0x02_F85A, original: "$02F85A", rust: "system::rank::player_flag3",
                  run: |m| { let c = rank::player_flag3(m); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_67FE, original: "Attract_State0_Handler_0967FE", rust: "system::mission::start(0)", run: |m| mission::start(m, 0) },
+    SystemPort { entry: 0x09_6840, original: "Attract_State1_Handler_096840", rust: "system::mission::start(1)", run: |m| mission::start(m, 1) },
+    SystemPort { entry: 0x09_6882, original: "Attract_State2_Handler_096882", rust: "system::mission::start(2)", run: |m| mission::start(m, 2) },
+    SystemPort { entry: 0x09_68C4, original: "Attract_State3_Handler_0968C4", rust: "system::mission::start(3)", run: |m| mission::start(m, 3) },
+    SystemPort { entry: 0x09_6906, original: "Attract_State4_Handler_096906", rust: "system::mission::start(4)", run: |m| mission::start(m, 4) },
+    SystemPort { entry: 0x09_6948, original: "Attract_State5_Handler_096948", rust: "system::mission::start(5)", run: |m| mission::start(m, 5) },
+    SystemPort { entry: 0x09_698A, original: "Attract_State7_Handler_09698A", rust: "system::mission::start(7)", run: |m| mission::start(m, 7) },
+    SystemPort { entry: 0x09_6820, original: "$096820", rust: "system::mission::run", run: |m| mission::run(m) },
+    SystemPort { entry: 0x09_6862, original: "$096862", rust: "system::mission::run", run: |m| mission::run(m) },
+    SystemPort { entry: 0x09_68A4, original: "$0968A4", rust: "system::mission::run", run: |m| mission::run(m) },
+    SystemPort { entry: 0x09_68E6, original: "$0968E6", rust: "system::mission::run", run: |m| mission::run(m) },
+    SystemPort { entry: 0x09_6928, original: "$096928", rust: "system::mission::run", run: |m| mission::run(m) },
+    SystemPort { entry: 0x09_696A, original: "$09696A", rust: "system::mission::run", run: |m| mission::run(m) },
+    SystemPort { entry: 0x09_69A6, original: "$0969A6", rust: "system::mission::run", run: |m| mission::run(m) },
+    SystemPort { entry: 0x09_6B7E, original: "$096B7E", rust: "system::mission::spawn_table",
+                 run: |m| { let k = m.cpu.d[0] as u8; m.cpu.d[0] = u32::from(k.min(7)) * 4; m.cpu.a[0] = mission::spawn_table(m, k); Flow::Return } },
+    SystemPort { entry: 0x05_DCCE, original: "$05DCCE", rust: "system::mission::spawn",
+                 run: |m| { let e = m.cpu.a[1]; let c = mission::spawn(m, e); m.cpu.a[0] = c; Flow::Return } },
     SystemPort { entry: 0x00_1AF8, original: "Attract_StartIfP2Flag_001af8", rust: "system::script::check_game_started",
                  run: ret!(script::check_game_started) },
     SystemPort { entry: 0x00_1CD4, original: "TaskList_ChangeAndRunEight_001CD4", rust: "system::script::stop_scene",
