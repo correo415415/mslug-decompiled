@@ -42,6 +42,13 @@ pub fn below(m: &mut impl Memory, n: u16) -> (u16, u16) {
     (((u32::from(w) * u32::from(n)) >> 16) as u16, j as u16)
 }
 
+/// Número aleatorio con una máscara de bits (`mask` = 2^k − 1 da
+/// `0..=mask`). Original: `$05EA1C`.
+pub fn masked(m: &mut impl Memory, mask: u16) -> (u16, u16) {
+    let (j, w) = step(m, true);
+    (w & mask, j as u16)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -1109,6 +1109,47 @@ pub mod food {
     pub const FREE: u32 = 0x09_B474;
 }
 
+/// Soldados rasos (`system::grunt`).
+pub mod grunt {
+    /// Posición, fracción, velocidad y aceleración (X, Y).
+    pub const POS: [u32; 2] = [0x22, 0x24];
+    pub const SUB: [u32; 2] = [0x26, 0x27];
+    pub const VEL: [u32; 2] = [0x28, 0x2A];
+    pub const ACC: [u32; 2] = [0x2C, 0x2E];
+    /// Parámetros de aparición (`+$98` orientación, `+$99` velocidad o
+    /// retardo, `+$9A` tipo), orientación de dibujo y atributos.
+    pub const PARAM_A: u32 = 0x98;
+    pub const PARAM_B: u32 = 0x99;
+    pub const KIND: u32 = 0x9A;
+    pub const FACING: u32 = 0x3A;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_SOLDIER: u16 = 0x8018;
+    pub const ATTR_HOPPER: u16 = 0xD000;
+    /// Contador y posición del scroll a la que actúa.
+    pub const TIMER: u32 = 0x70;
+    pub const TRIGGER: u32 = 0x72;
+    pub const SCROLL: u32 = 0x10_6F50;
+    /// Gráficos según el tipo.
+    pub const KIND_GFX_BASE: u16 = 0xFA;
+    pub const GFX_A: [u16; 3] = [0x14A, 0xF6, 0x13D];
+    pub const GFX_B: [u16; 2] = [0x149, 0xF7];
+    /// Plantilla 162 (salta arriba y abajo): gráfico, animaciones,
+    /// aceleraciones, duración (8 + 0..7 frames), límites y estados.
+    pub const HOPPER_GFX: u16 = 0xF8;
+    pub const HOP_DOWN_ANIM: u32 = 0x2F_3C84;
+    pub const HOP_UP_ANIM: u32 = 0x2F_3CB4;
+    pub const HOP_DOWN_ACC: u16 = 0x0E;
+    pub const HOP_UP_ACC: u16 = 0xFFF2;
+    pub const HOP_FRAMES: u16 = 8;
+    pub const HOP_RANDOM: u16 = 7;
+    pub const HOP_BOTTOM: i16 = 0x1D0;
+    pub const HOP_TOP: i16 = 0x160;
+    pub const HOP_DOWN: u32 = 0x08_DB7A;
+    pub const HOP_DOWN_RUN: u32 = 0x08_DBA6;
+    pub const HOP_UP: u32 = 0x08_DBE2;
+    pub const HOP_UP_RUN: u32 = 0x08_DC0E;
+}
+
 /// Objetos del suelo y test de fuera de la vista (`system::items`).
 pub mod items {
     pub const X: u32 = 0x22;

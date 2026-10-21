@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, grunt, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -796,6 +796,17 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      m.cpu.a[4] = mslug_game::layout::rng::TABLE;
                      Flow::Return
                  } },
+    SystemPort { entry: 0x05_EA1C, original: "$05EA1C", rust: "system::rng::masked",
+                 run: |m| {
+                     let n = m.cpu.d[0] as u16;
+                     let (v, j) = rng::masked(m, n);
+                     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v);
+                     m.cpu.d[5] = (m.cpu.d[5] & 0xFFFF_0000) | u32::from(n);
+                     m.cpu.d[6] = (m.cpu.d[6] & 0xFFFF_0000) | 0x3E;
+                     m.cpu.d[7] = (m.cpu.d[7] & 0xFFFF_0000) | u32::from(j);
+                     m.cpu.a[4] = mslug_game::layout::rng::TABLE;
+                     Flow::Return
+                 } },
     SystemPort { entry: 0x09_0DB0, original: "GO_Figure_A_090db0", rust: "system::game_over::figure", run: |m| game_over::figure(m, false) },
     SystemPort { entry: 0x09_0DE2, original: "GO_Figure_B_090de2", rust: "system::game_over::figure", run: |m| game_over::figure(m, true) },
     SystemPort { entry: 0x09_0E22, original: "GO_Figure_Run_090e1c (+$06)", rust: "system::game_over::figure_run", run: |m| game_over::figure_run(m) },
@@ -1057,6 +1068,39 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; let a = m.cpu.a[0]; let c = items::out_of_view_seen(m, t, (a != 0xFFFF_FFFF).then_some(a)); out_regs(m, a); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x05_DD5C, original: "Entity_OutOfView_05dd5c", rust: "system::items::out_of_view",
                  run: |m| { let t = m.cpu.a[6]; let a = m.cpu.a[0]; let c = items::out_of_view(m, t, (a != 0xFFFF_FFFF).then_some(a)); out_regs(m, a); set_carry(m, c); Flow::Return } },
+    // --- soldados rasos
+    SystemPort { entry: 0x08_D2B0, original: "Pos_IntegrateX88_08d2b0", rust: "system::grunt::integrate_axis",
+                 run: |m| { let t = m.cpu.a[6]; let p = grunt::integrate_axis(m, t, 0); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(p); Flow::Return } },
+    SystemPort { entry: 0x08_D2D4, original: "Pos_IntegrateY88_08d2d4", rust: "system::grunt::integrate_axis",
+                 run: |m| { let t = m.cpu.a[6]; let p = grunt::integrate_axis(m, t, 1); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(p); Flow::Return } },
+    SystemPort { entry: 0x08_D2F8, original: "Pos_IntegrateXY88_08d2f8", rust: "system::grunt::integrate",
+                 run: |m| { let t = m.cpu.a[6]; grunt::integrate(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_D34E, original: "Pos_IntegrateXY88_Accel_08d34e", rust: "system::grunt::integrate_accel",
+                 run: |m| { let t = m.cpu.a[6]; grunt::integrate_accel(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_EFB0, original: "Grunt_Cull_08efb0", rust: "system::grunt::cull", run: |m| grunt::cull(m) },
+    SystemPort { entry: 0x08_EFCE, original: "Phys_PlayerNearX_08efce", rust: "system::grunt::player_near_x",
+                 run: |m| { let t = m.cpu.a[6]; let c = grunt::player_near_x(m, t, m.cpu.d[0] as u16); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x08_F002, original: "Phys_FacingFromParam_08f002", rust: "system::grunt::facing_from_param",
+                 run: |m| { let t = m.cpu.a[6]; grunt::facing_from_param(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_F010, original: "Phys_VelXFromParam_08f010", rust: "system::grunt::vel_x_from_param",
+                 run: |m| { let t = m.cpu.a[6]; grunt::vel_x_from_param(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_F02C, original: "Phys_SetTrigger_08f02c", rust: "system::grunt::set_trigger",
+                 run: |m| { let t = m.cpu.a[6]; grunt::set_trigger(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_F040, original: "Phys_Triggered_08f040", rust: "system::grunt::triggered",
+                 run: |m| { let t = m.cpu.a[6]; let c = grunt::triggered(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x08_F070, original: "Phys_AllocByKind_08f070", rust: "system::grunt::alloc_by_kind",
+                 run: |m| { let t = m.cpu.a[6]; grunt::alloc_by_kind(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_F084, original: "Phys_AllocA_08f084", rust: "system::grunt::alloc_a",
+                 run: |m| { let t = m.cpu.a[6]; grunt::alloc_a(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_F0D0, original: "Phys_AllocB_08f0d0", rust: "system::grunt::alloc_b",
+                 run: |m| { let t = m.cpu.a[6]; grunt::alloc_b(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_F108, original: "Phys_SetAttr_08f108", rust: "system::grunt::set_attr",
+                 run: |m| { let t = m.cpu.a[6]; grunt::set_attr(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_DB50, original: "Grunt_Tmpl162_08db50", rust: "system::grunt::hopper", run: |m| grunt::hopper(m) },
+    SystemPort { entry: 0x08_DB7A, original: "Grunt_HopDown_08db7a", rust: "system::grunt::hop_down", run: |m| grunt::hop_down(m) },
+    SystemPort { entry: 0x08_DBA6, original: "Grunt_HopDown_08db7a+0x2C", rust: "system::grunt::hop_down_run", run: |m| grunt::hop_down_run(m) },
+    SystemPort { entry: 0x08_DBE2, original: "Grunt_HopUp_08dbe2", rust: "system::grunt::hop_up", run: |m| grunt::hop_up(m) },
+    SystemPort { entry: 0x08_DC0E, original: "Grunt_HopUp_08dbe2+0x2C", rust: "system::grunt::hop_up_run", run: |m| grunt::hop_up_run(m) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
