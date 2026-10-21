@@ -222,3 +222,13 @@ viene de observación, no del código.
 El recompilador (`crates/gen`, `mslug-code`) sigue siendo útil como **red de
 seguridad y referencia** durante la migración (y para jugar ya), pero no es
 el port final. El port final es `mslug-game`.
+
+## system::game_over (Game Over / Continue del attract)
+
+Tarea principal y sus 12 fases, letras de GAME OVER con su brillo, figuras,
+piezas, fondos que se desplazan, chispas (`add_particle` usa
+`tasks::spawn_last`, `$0006FE`), zoom/temblor/destello/carteles de los golpes,
+sprites deslizantes y seguidores, piezas A/B/C y el brillo que se desplaza.
+También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
+`rng::next/below` y `script::step_start_players` (`$001846`). Verificado con
+`verify-system --coin 0` (0 fallos).

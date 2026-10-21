@@ -169,3 +169,16 @@ paleta, VRAM, dirección/incremento de VRAM, máscara de interrupciones y la
 última orden al Z80. Los registros distintos se cuentan aparte (`regs≠`):
 son valores que la rutina original deja "de paso" y que los llamadores no
 usan. La CI lo ejecuta con dos semillas de fuzz.
+
+## Camino sin moneda (attract)
+
+```
+./target/release/mslug verify-system --frames 4000 --coin 0   # 0 fallos (130 521 llamadas)
+./target/release/mslug play --only-manual --coin 0 --frames 20000 | grep parado
+```
+
+Sin moneda el attract carga la escena 10 (Game Over/Continue, `system::game_over`)
+y después arranca a los jugadores (`script::step_start_players`, `$001846`).
+`--only-manual --coin 0` llega ahora al frame 1636 y se para en
+`Init_ModeToggle_001260` (arranque de la demo jugable). Con moneda sigue
+parándose en el frame 503 en `$02B004` (caída del Slug).

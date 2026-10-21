@@ -104,7 +104,7 @@ Progreso del port escrito a mano (`mslug progress`):
 | | |
 |---|---|
 | Funciones del juego (rutinas de código de la decompilación) | 7 887 (474 564 bytes) |
-| Portadas a Rust legible | **274 (3,47 %)**; por bytes de código 24 408 (5,14 %) |
-| Hasta dónde llega `--only-manual` | arranque, logo, título y demo hasta pulsar START; entra en la partida (inicio de misión) y corre el manual de juego (`system::manual`, sus iconos `system::manual_icons`) y el scroll de la escena (`system::scroll`, `system::layer`, `system::lists`); suelta el Slug (`system::slug`: alta, preparación y entrada en escena); se para en el frame 503 en `$02B004` (bucle de la caída del Slug, dentro de `Slug_DropVariant4_02af88`) |
+| Portadas a Rust legible | **347 (4,40 %)**; por bytes de código 31 390 (6,61 %) |
+| Hasta dónde llega `--only-manual` | arranque, logo, título y demo hasta pulsar START; entra en la partida (inicio de misión) y corre el manual de juego (`system::manual`, sus iconos `system::manual_icons`) y el scroll de la escena (`system::scroll`, `system::layer`, `system::lists`); suelta el Slug (`system::slug`: alta, preparación y entrada en escena); se para en el frame 503 en `$02B004` (bucle de la caída del Slug, dentro de `Slug_DropVariant4_02af88`). Sin moneda (`--coin 0`), el attract hace la escena de Game Over/Continue entera (`system::game_over`: caída, letras, figuras, chispas, zoom, temblor, carteles, piezas, brillos) y el arranque de los jugadores (`$001846`); se para en el frame 1636 en `Init_ModeToggle_001260` (arranque de la demo jugable). |
 
 Ver [PORT_STATUS.md](PORT_STATUS.md).
