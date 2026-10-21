@@ -261,7 +261,16 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
   ejecutan al avanzar el scroll, tareas que repiten una orden y tareas que
   vigilan un flag. El original deja en `d7` bits que acaban en la capa de
   las apariciones; el port lo reproduce.
-- `system::food`: la comida (20 variantes de `$09AEC4`), con la física y la
-  recogida todavía en código original.
+- `system::food`: la comida (20 variantes de `$09AEC4`), con la recogida
+  todavía en código original.
+- `system::platforms`: anillo de plataformas móviles (`$099812`, `$09993C`,
+  `$0999DE`), arrastre con la plataforma o con la capa móvil (`$0440E4`,
+  `$044182`) y física de los objetos sueltos (`$09B8C0`).
+- `system::collision`: tipo de tile bajo un punto (`$027DB2`), máscaras
+  sólido/plataforma (`$027E28`), sondeo del suelo (`$027EBA`) y caída de los
+  objetos (`$027C8C`, `$0273FC`, `$0267F8`).
+- `system::motion`: movimiento con colisión de un frame (`$0274B8`,
+  `$027464`): integración de la velocidad, avance en subpíxeles, bordes de
+  la pantalla, cerrojos, pendientes y aterrizaje sobre plataformas.
 
-Verificado con `verify-system --coin 0` (0 fallos, 149 043 llamadas).
+Verificado con `verify-system --coin 0` (0 fallos, 182 513 llamadas).

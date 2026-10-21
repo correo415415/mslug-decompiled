@@ -184,9 +184,12 @@ Luego la demo jugable: tabla de modos (`script::mode`), arranque de misión
 cámara y apariciones (`system::mission`) y las rutinas 68000 embebidas en los
 guiones de escena (7 moldes, ejecutados en `scroll::embedded`).
 Después el HUD de cada jugador (`system::player_hud`), los eventos de la
-misión (`system::events`) y la comida (`system::food`).
+misión (`system::events`), la comida (`system::food`), las plataformas
+móviles (`system::platforms`), la colisión y la caída de los objetos
+(`system::collision`) y el movimiento con colisión (`system::motion`).
 `--only-manual --coin 0` llega al frame 1636 y se para en
-`Item_PhysAndProbe_09b8c0` (física y suelo de los objetos).
+`Item_Food_Pickup_09b920` (recogida de la comida). `verify-system --coin 0`:
+0 fallos en 182 513 llamadas; con moneda (6000 frames): 0 fallos en 184 432.
 
 Si el código original se para dentro de una llamada (`Machine::halted`), los
 bucles que esperan algo de ella (guion de scroll, apariciones) salen en vez de
