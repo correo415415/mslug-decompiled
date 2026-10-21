@@ -115,6 +115,9 @@ impl Machine for CpuMachine<'_> {
         }
         *regs = self.regs();
     }
+    fn halted(&mut self) -> bool {
+        self.halted.is_some()
+    }
 }
 
 /// Ejecuta la rutina `routine` hasta que vuelve. Err(dirección) si en el

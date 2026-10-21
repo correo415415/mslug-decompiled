@@ -96,6 +96,13 @@ pub trait Machine: Memory {
         self.call_original(routine, &mut r);
         r.carry
     }
+
+    /// Si una llamada a código original se ha quedado parada en una rutina
+    /// sin portar (`--only-manual`): los bucles que esperan algo de esas
+    /// llamadas deben salir para no colgarse.
+    fn halted(&mut self) -> bool {
+        false
+    }
 }
 
 /// Máquina de prueba: memoria plana de 16 MiB que anota las llamadas a

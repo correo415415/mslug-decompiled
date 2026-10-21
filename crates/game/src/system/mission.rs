@@ -55,6 +55,9 @@ pub fn spawn_due(m: &mut impl Machine, t: u32, camera: u32) {
     let k = m.read_u8(t + M::INDEX);
     let table = spawn_table(m, k);
     loop {
+        if m.halted() {
+            return;
+        }
         let e = table + u32::from(m.read_u16(t + M::CURSOR));
         if m.read_u16(e) == M::END {
             return;

@@ -42,6 +42,9 @@ pub fn frame(m: &mut impl Machine, vel: (u32, u32)) {
 /// Ejecuta órdenes del guion hasta la que cierra el frame.
 fn run_script(m: &mut impl Machine) {
     loop {
+        if m.halted() {
+            return;
+        }
         let pc = m.read_u32(L::PC);
         let op = m.read_u16(pc);
         let next = match op {
