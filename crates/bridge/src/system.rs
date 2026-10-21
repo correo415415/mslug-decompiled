@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, motion, pads, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -997,6 +997,32 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(l);
                      Flow::Return
                  } },
+    // --- movimiento con colisión
+    SystemPort { entry: 0x02_6814, original: "Entity_IntegrateVelocity_026814", rust: "system::motion::integrate_velocity",
+                 run: |m| { let t = m.cpu.a[6]; motion::integrate_velocity(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_6836, original: "Entity_MoveX_WallStop_026836", rust: "system::motion::advance",
+                 run: |m| { let t = m.cpu.a[6]; motion::advance(m, t); m.cpu.d[3] &= 0xFFFF_0000; Flow::Return } },
+    SystemPort { entry: 0x02_8074, original: "Entity_ClampXToScreenEdge_028074", rust: "system::motion::clamp_to_screen",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     let before = m.read_u8(t + 0x13);
+                     let v = motion::clamp_to_screen(m, t, m.cpu.d[2] as u16);
+                     let _ = before;
+                     m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | u32::from(v);
+                     let inside = m.read_u8(t + 0x13) & 0x80 != 0;
+                     set_carry(m, !inside);
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x02_81C8, original: "Entity_ApplyVelLatch_0281c8", rust: "system::motion::apply_latch",
+                 run: |m| { let t = m.cpu.a[6]; motion::apply_latch(m, t); m.cpu.a[5] = 0x10_8080; Flow::Return } },
+    SystemPort { entry: 0x02_822C, original: "Entity_SlopeDirTest_02822c", rust: "system::motion::leaving_slope",
+                 run: |m| { let (t, s) = (m.cpu.a[6], m.cpu.a[3]); let c = motion::leaving_slope(m, t, s); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_99CA, original: "Trail_SetPlatform_0999ca", rust: "system::motion::set_platform",
+                 run: |m| { let t = m.cpu.a[6]; motion::set_platform(m, t, m.cpu.d[0] as u8); Flow::Return } },
+    SystemPort { entry: 0x02_74B8, original: "Entity_MoveAndCollide_D_0274b8", rust: "system::motion::move_and_collide",
+                 run: |m| { let t = m.cpu.a[6]; let c = motion::move_and_collide(m, t, m.cpu.d[4] as u16); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_7464, original: "Entity_MoveFall_027464", rust: "system::motion::move_fall",
+                 run: |m| { let t = m.cpu.a[6]; let c = motion::move_fall(m, t, m.cpu.d[4] as u16); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

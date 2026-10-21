@@ -980,7 +980,53 @@ pub mod collision {
     pub const NO_GRAVITY: u16 = 0xFFFF;
     pub const MAX_FALL: u16 = 0x400;
     pub const FALL_ACC: u16 = 0xFFC0;
-    pub const MOVE_AND_COLLIDE: u32 = 0x02_74B8;
+}
+
+/// Movimiento con colisión (`system::motion`).
+pub mod motion {
+    /// Velocidad y aceleración X, tope de velocidad, gravedad alternativa.
+    pub const VEL_X: u32 = 0x28;
+    pub const ACC_X: u32 = 0x2C;
+    pub const MAX_SPEED: u16 = 0x800;
+    pub const GRAVITY2: u32 = 0x64;
+    /// `+$69`: paredes (bit 0 = a la derecha, bit 1 = a la izquierda).
+    pub const WALLS: u32 = 0x69;
+    pub const WALL_RIGHT: u8 = 1 << 0;
+    pub const WALL_LEFT: u8 = 1 << 1;
+    /// Zona de trabajo: píxeles que se mueve este frame, fracciones nuevas
+    /// y cerrojos de avance (un frame).
+    pub const STEP: [u32; 2] = [0x10_6F2C, 0x10_6F2E];
+    pub const NEW_SUB: [u32; 2] = [0x10_6F30, 0x10_6F31];
+    pub const LATCH: [u32; 2] = [0x10_6F3E, 0x10_6F40];
+    /// Escenas: sin bordes de pantalla y la del pozo (los jugadores no
+    /// bajan de `PIT_Y`).
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const OPEN_SCENE: u8 = 9;
+    pub const PIT_SCENE: u8 = 3;
+    pub const PIT_Y: i16 = 0x1F0;
+    /// Bordes de la pantalla para los jugadores; `FLAGS2` bit 7 = dentro.
+    pub const LEFT_EDGE: i16 = 0x1E;
+    pub const RIGHT_EDGE: i16 = 0x117;
+    pub const INSIDE: u8 = 1 << 7;
+    /// El Slug respeta los bordes salvo con el bit 5 de `+$8D`.
+    pub const SLUG: u32 = 0x10_0580;
+    pub const SLUG_FLAGS: u32 = 0x8D;
+    pub const SLUG_FREE: u8 = 1 << 5;
+    /// Tipos de tile que paran el avance en X (marcan el bit 5 de `+$5A`),
+    /// techo (corta la subida) y tipo de las plataformas móviles.
+    pub const WALL_KINDS: [u8; 8] = [0x01, 0x10, 0x26, 0x27, 0x0C, 0x0D, 0x0E, 0x0F];
+    pub const HIT_WALL: u8 = 1 << 5;
+    pub const CEILING_KIND: u8 = 0x28;
+    pub const PLATFORM_KIND: u8 = 0x11;
+    /// Tipo de tile: tabla de pendiente (`+4`) = {gravedad.w, alturas.w[8]
+    /// (+2), fracción Y.b[8] (+$12), gravedad alternativa.w (+$1A)}.
+    pub const T_SLOPE: u32 = 4;
+    pub const T_SUB_Y: u32 = 0x12;
+    pub const T_GRAVITY2: u32 = 0x1A;
+    /// Pendientes de 45° con la velocidad vertical ×4.
+    pub const STEEP_UP: u16 = 0x1000;
+    pub const STEEP_DOWN: u16 = 0xF000;
+    pub const ID: u32 = 0x6C;
 }
 
 /// Plataformas móviles (`system::platforms`).

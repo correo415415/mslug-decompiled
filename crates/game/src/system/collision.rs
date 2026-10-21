@@ -136,22 +136,21 @@ pub fn clamp_velocity(v: u16, max: u16) -> (u16, u16) {
 /// ha tocado suelo (y entonces para la caída). Original:
 /// `Entity_SaveRegs_0273fc` / `Entity_MoveC_Tail_027400` / `..._Land_02742a`.
 pub fn fall_step(m: &mut impl Machine, t: u32) -> bool {
+    let mut row = m.regs().d[4] as u16;
     if m.read_u16(t + L::GRAVITY) != L::NO_GRAVITY {
         platforms::apply_camera_work(m, t);
         let (x, y) = (m.read_u16(L::WORK_POS[0]), m.read_u16(L::WORK_POS[1]));
         let r = m.regs();
-        if !probe_at(m, t, x, y, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        let f = probe_at(m, t, x, y, (r.d[3] as u16, row));
+        if !f.in_air {
             return true;
         }
+        row = f.at.1;
     }
-    let (vy, lim) = clamp_velocity(m.read_u16(t + L::VEL_Y), L::MAX_FALL);
+    let vy = clamp_velocity(m.read_u16(t + L::VEL_Y), L::MAX_FALL).0;
     m.write_u16(t + L::VEL_Y, vy);
     m.write_u16(t + L::ACC_Y, L::FALL_ACC);
-    let mut r = m.regs();
-    r.d[0] = (r.d[0] & 0xFFFF_0000) | u32::from(vy);
-    r.d[1] = (r.d[1] & 0xFFFF_0000) | u32::from(lim);
-    m.set_regs(r);
-    if m.call(L::MOVE_AND_COLLIDE) {
+    if super::motion::move_and_collide(m, t, row) {
         m.write_u16(t + L::ACC_Y, 0);
         m.write_u16(t + L::VEL_Y, 0);
         return true;
