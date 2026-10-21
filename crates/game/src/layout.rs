@@ -941,6 +941,53 @@ pub mod mission {
     pub const ENTRY_PTR: u32 = 0x3C;
 }
 
+/// Plataformas móviles (`system::platforms`).
+pub mod platforms {
+    /// Anillo de 16 muestras de 12 bytes: cola de lectura, fin de las
+    /// muestras válidas, cabeza de escritura y último identificador dado.
+    pub const RING: u32 = 0x10_E3BE;
+    pub const RING_LEN: u16 = 0xC0;
+    pub const SAMPLE_LEN: u16 = 0x0C;
+    pub const TAIL: u32 = 0x10_E47E;
+    pub const WRAP: u32 = 0x10_E480;
+    pub const HEAD: u32 = 0x10_E482;
+    pub const NEXT_ID: u32 = 0x10_E484;
+    pub const IDS: u8 = 0x0E;
+    /// Campos de una muestra (el identificador va en el byte 0).
+    pub const S_X: u32 = 2;
+    pub const S_Y: u32 = 4;
+    pub const S_W: u32 = 6;
+    pub const S_DX: u32 = 8;
+    pub const S_DY: u32 = 0x0A;
+    /// Grosor de una plataforma (se está encima hasta esta distancia).
+    pub const DEPTH: u16 = 0x14;
+    /// Byte de identificadores de la entidad (alto: el suyo; bajo: el de la
+    /// plataforma en la que está) y valores especiales del nibble.
+    pub const ID: u32 = 0x6C;
+    pub const NONE: u8 = 0x0F;
+    pub const LEAVING: u8 = 0x0E;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    /// `FLAGS2`: bit 6 = ya movida este frame, bit 7 = la plataforma la
+    /// arrastra aunque toque pared.
+    pub const MOVED: u8 = 1 << 6;
+    pub const RIDE_ALWAYS: u8 = 1 << 7;
+    /// `+$6B`: bits de contacto con pared.
+    pub const STATE: u32 = 0x6B;
+    pub const WALL_BITS: u8 = (1 << 6) | (1 << 1) | (1 << 0);
+    pub const EDGE: i16 = 0x1E;
+    pub const LAYER_POS: [u32; 2] = [0x10_6F6C, 0x10_6F6E];
+    /// En esta escena, con el bloqueo puesto, no se mueve en X.
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const LOCKED_X_SCENE: u8 = 1;
+    pub const LOCK_X: u32 = 0x10_6F5E;
+    /// Objetos: sujeto (`+$9B`), suelo y caída (sin portar), base de `a5`.
+    pub const HELD: u32 = 0x9B;
+    pub const ON_GROUND: u32 = 0x02_7EBA;
+    pub const FALL: u32 = 0x02_7C8C;
+    pub const SCRATCH_BASE: u32 = 0x10_8080;
+}
+
 /// Comida (`system::food`).
 pub mod food {
     /// Por variante: tipo de premio (`+$9C`), guion de animación, gráfico.
@@ -967,9 +1014,8 @@ pub mod food {
     pub const ATTR: u16 = 0x8000;
     pub const ATTR_WORD: u32 = 0x38;
     pub const ATTR_MASK: u16 = 0xFFE3;
-    /// Rutinas sin portar: física y suelo, recogida (C = recogida), cola
-    /// común de los objetos.
-    pub const PHYSICS: u32 = 0x09_B8C0;
+    /// Rutinas sin portar: recogida (C = recogida) y cola común de los
+    /// objetos.
     pub const PICKUP: u32 = 0x09_B920;
     pub const TAIL: u32 = 0x09_A75A;
     /// Estados.

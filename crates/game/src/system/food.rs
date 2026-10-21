@@ -7,7 +7,7 @@
 //! `Item_Food_Blink_09b0d8`, `Item_Food_BlinkLoop_09b0de`,
 //! `Item_LifetimeFromParam_09bb3c`, `Item_Free_09b474`.
 
-use super::{anim, tasks};
+use super::{anim, platforms, tasks};
 use crate::layout::{food as L, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
@@ -56,11 +56,11 @@ fn pickup_or_tail(m: &mut impl Machine) -> Flow {
     Flow::Goto(L::TAIL)
 }
 
-/// Mientras dura: física (sin portar) y animación; al acabarse, a
+/// Mientras dura: física y animación; al acabarse, a
 /// parpadear. Original: `Item_Food_Wait_09b0a8`.
 pub fn wait(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
-    m.call(L::PHYSICS);
+    platforms::item_physics(m, t);
     anim::step(m, t);
     let left = m.read_u16(t + L::TIMER).wrapping_sub(1);
     m.write_u16(t + L::TIMER, left);
@@ -89,7 +89,7 @@ pub fn blink_start(m: &mut impl Machine) -> Flow {
 /// Original: `$09B0FA`.
 pub fn blink_run(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
-    m.call(L::PHYSICS);
+    platforms::item_physics(m, t);
     let n = m.read_u8(t + L::TIMER);
     if n & 1 != 0 {
         anim::step(m, t);

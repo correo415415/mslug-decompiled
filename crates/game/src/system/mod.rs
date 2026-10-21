@@ -21,6 +21,7 @@ pub mod manual;
 pub mod manual_icons;
 pub mod mission;
 pub mod pads;
+pub mod platforms;
 pub mod player_hud;
 pub mod rank;
 pub mod palette;

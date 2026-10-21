@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, pads, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -923,6 +923,39 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x09_B474, original: "Item_Free_09b474", rust: "system::food::free", run: |m| food::free(m) },
     SystemPort { entry: 0x09_BB3C, original: "Item_LifetimeFromParam_09bb3c", rust: "system::food::lifetime",
                  run: |m| { let t = m.cpu.a[6]; let v = food::lifetime(m, t); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v); Flow::Return } },
+    SystemPort { entry: 0x09_9812, original: "Entity_TrailRecord_099812", rust: "system::platforms::record",
+                 run: |m| { let (t, x, y, w) = (m.cpu.a[6], m.cpu.d[0] as u16, m.cpu.d[1] as u16, m.cpu.d[2] as u16); platforms::record(m, t, x, y, w); Flow::Return } },
+    SystemPort { entry: 0x09_993C, original: "Trail_FindNearest_09993c", rust: "system::platforms::find_under",
+                 run: |m| {
+                     let (t, x, y) = (m.cpu.a[6], m.cpu.d[1] as u16, m.cpu.d[2] as u16);
+                     let r = platforms::find_under(m, t, x, y);
+                     match r {
+                         Some((d, id)) => {
+                             m.cpu.d[5] = (m.cpu.d[5] & 0xFFFF_0000) | u32::from(d);
+                             m.cpu.d[6] = (m.cpu.d[6] & !0xFF) | u32::from(id);
+                         }
+                         None => m.cpu.d[6] = (m.cpu.d[6] & !0xFF) | 0x0F,
+                     }
+                     set_carry(m, r.is_some());
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x09_99DE, original: "Clipping_Test_0999DE", rust: "system::platforms::follow",
+                 run: |m| {
+                     let t = m.cpu.a[6];
+                     let r = platforms::follow(m, t);
+                     if let Some((dx, dy)) = r {
+                         m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | u32::from(dx);
+                         m.cpu.d[3] = (m.cpu.d[3] & 0xFFFF_0000) | u32::from(dy);
+                     }
+                     set_carry(m, r.is_some());
+                     Flow::Return
+                 } },
+    SystemPort { entry: 0x04_40E4, original: "Handler_ApplyCameraSelf_0440E4", rust: "system::platforms::apply_camera",
+                 run: |m| { let t = m.cpu.a[6]; platforms::apply_camera(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_783A, original: "$02783A", rust: "system::platforms::move_with_scene",
+                 run: |m| { let t = m.cpu.a[6]; platforms::move_with_scene(m, t); m.cpu.a[5] = mslug_game::layout::platforms::SCRATCH_BASE; Flow::Return } },
+    SystemPort { entry: 0x09_B8C0, original: "Item_PhysAndProbe_09b8c0", rust: "system::platforms::item_physics",
+                 run: |m| { let t = m.cpu.a[6]; platforms::item_physics(m, t); set_carry(m, false); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
