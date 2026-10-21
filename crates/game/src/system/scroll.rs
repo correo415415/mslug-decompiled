@@ -52,9 +52,11 @@ fn run_script(m: &mut impl Machine) {
             L::OP_WAIT => {
                 // Código del guion: devuelve d0.b != 0 mientras haya que
                 // esperar; si no, deja en a1 dónde sigue el guion.
-                let r = call(m, pc + 2, |r| {
-                    r.a[0] = pc;
-                    r.a[1] = pc;
+                let r = embedded(m, pc + 2).unwrap_or_else(|| {
+                    call(m, pc + 2, |r| {
+                        r.a[0] = pc;
+                        r.a[1] = pc;
+                    })
                 });
                 if r.d[0] as u8 != 0 {
                     return;
@@ -62,11 +64,14 @@ fn run_script(m: &mut impl Machine) {
                 r.a[1]
             }
             L::OP_CALL_JUMP => {
-                call(m, pc + 2, |r| {
-                    r.a[0] = pc;
-                    r.a[1] = pc;
-                })
-                .a[0]
+                embedded(m, pc + 2)
+                    .unwrap_or_else(|| {
+                        call(m, pc + 2, |r| {
+                            r.a[0] = pc;
+                            r.a[1] = pc;
+                        })
+                    })
+                    .a[0]
             }
             L::OP_CALL_ARGS => {
                 m.write_u32(L::PC, pc + 14);
@@ -87,6 +92,67 @@ fn run_script(m: &mut impl Machine) {
         };
         m.write_u32(L::PC, next);
     }
+}
+
+/// Los guiones de escena llevan pequeñas rutinas 68000 embebidas tras
+/// las órdenes `OP_WAIT` / `OP_CALL_JUMP`. Todas siguen uno de estos
+/// moldes, que se ejecutan aquí sin pasar por el código original:
+///
+/// - espera: `cmpi.{b,w} #v,(abs).l ; s<cc> d0 ; lea sigue(pc),a1 ; rts`
+///   (d0.b = $FF mientras haya que seguir esperando);
+/// - salto:  `move.{b,l} #v,(abs).l ; lea sigue(pc),a0 ; rts`.
+///
+/// Devuelve `None` si el código no encaja en ningún molde.
+fn embedded(m: &mut impl Machine, at: u32) -> Option<crate::mem::Regs> {
+    let mut r = m.regs();
+    let op = m.read_u16(at);
+    let rest = match op {
+        L::EMB_CMPI_B | L::EMB_CMPI_W => {
+            let v = m.read_u16(at + 2);
+            let addr = m.read_u32(at + 4);
+            let (x, v) = if op == L::EMB_CMPI_B {
+                (u16::from(m.read_u8(addr)), v & 0xFF)
+            } else {
+                (m.read_u16(addr), v)
+            };
+            let set = match m.read_u16(at + 8) {
+                L::EMB_SCS => x < v,
+                L::EMB_SHI => x > v,
+                L::EMB_SNE => x != v,
+                L::EMB_SEQ => x == v,
+                _ => return None,
+            };
+            r.d[0] = (r.d[0] & !0xFF) | if set { 0xFF } else { 0 };
+            r.carry = x < v;
+            at + 10
+        }
+        L::EMB_MOVE_B => {
+            let v = m.read_u16(at + 2) as u8;
+            let addr = m.read_u32(at + 4);
+            m.write_u8(addr, v);
+            at + 8
+        }
+        L::EMB_MOVE_L => {
+            let v = m.read_u32(at + 2);
+            let addr = m.read_u32(at + 6);
+            m.write_u32(addr, v);
+            r.carry = false;
+            at + 10
+        }
+        _ => return None,
+    };
+    let lea = m.read_u16(rest);
+    if m.read_u16(rest + 4) != L::EMB_RTS {
+        return None;
+    }
+    let target = (rest + 2).wrapping_add(m.read_u16(rest + 2) as i16 as u32);
+    match lea {
+        L::EMB_LEA_A1 if matches!(op, L::EMB_CMPI_B | L::EMB_CMPI_W) => r.a[1] = target,
+        L::EMB_LEA_A0 if matches!(op, L::EMB_MOVE_B | L::EMB_MOVE_L) => r.a[0] = target,
+        _ => return None,
+    }
+    m.set_regs(r);
+    Some(r)
 }
 
 /// Tamaño de las órdenes de longitud fija.

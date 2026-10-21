@@ -1433,6 +1433,19 @@ pub mod scroll {
     pub const OP_SET_POS: u16 = 0x15;
     pub const OP_SET_PROGRESS: u16 = 0x16;
 
+    /// Códigos 68000 de las rutinas embebidas en los guiones de escena.
+    pub const EMB_CMPI_B: u16 = 0x0C39;
+    pub const EMB_CMPI_W: u16 = 0x0C79;
+    pub const EMB_MOVE_B: u16 = 0x13FC;
+    pub const EMB_MOVE_L: u16 = 0x23FC;
+    pub const EMB_SCS: u16 = 0x55C0;
+    pub const EMB_SHI: u16 = 0x52C0;
+    pub const EMB_SNE: u16 = 0x56C0;
+    pub const EMB_SEQ: u16 = 0x57C0;
+    pub const EMB_LEA_A0: u16 = 0x41FA;
+    pub const EMB_LEA_A1: u16 = 0x43FA;
+    pub const EMB_RTS: u16 = 0x4E75;
+
     /// Campos de una cámara de capa (`scene::CAMERAS`) que usa el scroll.
     pub const C_DELTA: [u32; 2] = [0x00, 0x02];
     pub const C_POS: [u32; 2] = [0x04, 0x08];
