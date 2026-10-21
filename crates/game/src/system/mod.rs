@@ -23,6 +23,7 @@ pub mod manual_icons;
 pub mod mission;
 pub mod motion;
 pub mod pads;
+pub mod pickup;
 pub mod platforms;
 pub mod player_hud;
 pub mod rank;

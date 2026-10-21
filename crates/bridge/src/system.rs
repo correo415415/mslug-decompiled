@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, motion, pads, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, hud, irq, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -241,6 +241,17 @@ fn hook_port(m: &mut CpuMachine, p: Paint) -> Flow {
     }
     set_carry(m, w.is_some());
     Flow::Return
+}
+
+/// Registros que deja `$03EE48`: d0 = jugador, d2 = jugador + 1, a0 =
+/// su entidad; C = alguno toca.
+fn toucher_regs(m: &mut CpuMachine, r: Option<(u8, u32)>) {
+    if let Some((p, e)) = r {
+        m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(p);
+        m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_FF00) | u32::from(p + 1);
+        m.cpu.a[0] = e;
+    }
+    set_carry(m, r.is_some());
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -1023,6 +1034,17 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; let c = motion::move_and_collide(m, t, m.cpu.d[4] as u16); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_7464, original: "Entity_MoveFall_027464", rust: "system::motion::move_fall",
                  run: |m| { let t = m.cpu.a[6]; let c = motion::move_fall(m, t, m.cpu.d[4] as u16); set_carry(m, c); Flow::Return } },
+    // --- recogida de objetos
+    SystemPort { entry: 0x03_EF5C, original: "Player_TouchBox_03ef5c", rust: "system::pickup::touches",
+                 run: |m| { let (t, e, b) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1]); let c = pickup::touches(m, t, e, b); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_EE48, original: "Player_Toucher_03ee48", rust: "system::pickup::toucher",
+                 run: |m| { let (t, b) = (m.cpu.a[6], m.cpu.a[1]); let r = pickup::toucher(m, t, b); toucher_regs(m, r); Flow::Return } },
+    SystemPort { entry: 0x09_A836, original: "Item_PickupTestA_09a836", rust: "system::pickup::item_toucher",
+                 run: |m| { let t = m.cpu.a[6]; let r = pickup::item_toucher(m, t, 0x09_A6CE); m.cpu.a[1] = 0x09_A6CE; toucher_regs(m, r); Flow::Return } },
+    SystemPort { entry: 0x09_A84E, original: "Item_PickupTestB_09a84e", rust: "system::pickup::item_toucher",
+                 run: |m| { let t = m.cpu.a[6]; let r = pickup::item_toucher(m, t, 0x09_A6D6); m.cpu.a[1] = 0x09_A6D6; toucher_regs(m, r); Flow::Return } },
+    SystemPort { entry: 0x09_B920, original: "Item_Food_Pickup_09b920", rust: "system::pickup::food",
+                 run: |m| { let t = m.cpu.a[6]; let c = pickup::food(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

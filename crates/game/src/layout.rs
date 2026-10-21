@@ -1102,15 +1102,43 @@ pub mod food {
     pub const ATTR: u16 = 0x8000;
     pub const ATTR_WORD: u32 = 0x38;
     pub const ATTR_MASK: u16 = 0xFFE3;
-    /// Rutinas sin portar: recogida (C = recogida) y cola común de los
-    /// objetos.
-    pub const PICKUP: u32 = 0x09_B920;
+    /// Cola común de los objetos (sin portar).
     pub const TAIL: u32 = 0x09_A75A;
     /// Estados.
     pub const WAIT: u32 = 0x09_B0A8;
     pub const BLINK: u32 = 0x09_B0D8;
     pub const BLINK_RUN: u32 = 0x09_B0FA;
     pub const FREE: u32 = 0x09_B474;
+}
+
+/// Recogida de objetos (`system::pickup`).
+pub mod pickup {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    /// `FLAGS2` bits 0 y 3: la entidad no toca objetos.
+    pub const UNTOUCHABLE: u8 = (1 << 3) | (1 << 0);
+    /// Se pueden recoger objetos (escena en marcha).
+    pub const ENABLED: u32 = 0x10_6ED2;
+    pub const PLAYER_ONE: u32 = 0x10_0440;
+    /// Objeto: aún no se puede recoger, jugador que lo coge, tipo de premio
+    /// y valor.
+    pub const NO_PICKUP: u32 = 0x45;
+    pub const PLAYER: u32 = 0x68;
+    pub const KIND: u32 = 0x9C;
+    pub const VALUE: u32 = 0x98;
+    /// Cajas de contacto {dx, ancho, dy, alto}: la general y la de la comida.
+    pub const ITEM_BOX: u32 = 0x09_A6CE;
+    pub const FOOD_BOX: u32 = 0x09_A6D6;
+    pub const FOOD_SOUND: u16 = 0x1121;
+    /// Marcador de puntos que sale al recoger.
+    pub const SCORE_POPUP: u32 = 0x09_B51E;
+    /// Premios: valor máximo, el del tipo grande, racha y su duración.
+    pub const MAX_VALUE: i8 = 0x0E;
+    pub const KIND_BIG: u8 = 2;
+    pub const BIG_VALUE: i8 = 0x0F;
+    pub const STREAK: u32 = 0x10_E489;
+    pub const STREAK_TIMER: u32 = 0x10_E488;
+    pub const STREAK_FRAMES: u8 = 0x2D;
 }
 
 /// Eventos de la misión (`system::events`).

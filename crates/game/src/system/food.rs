@@ -49,8 +49,8 @@ fn show(m: &mut impl Memory, t: u32) {
 /// Si la recoge un jugador, se da de baja; después, la cola común de los
 /// objetos (sin portar). Original: `Item_Food_PickupCheck_09b0c6`.
 fn pickup_or_tail(m: &mut impl Machine) -> Flow {
-    if m.call(L::PICKUP) {
-        let t = m.task_register();
+    let t = m.task_register();
+    if super::pickup::food(m, t) {
         m.write_u32(t + T::HANDLER, L::FREE);
     }
     Flow::Goto(L::TAIL)
