@@ -1753,6 +1753,53 @@ pub mod game_over {
     pub const PARTICLE_FADE: u8 = 6;
     pub const PARTICLE_FLOOR: i16 = 0x120;
 
+    // --- sprites que entran deslizándose / siguen a la madre y piezas
+    /// Deslizantes (derecha, izquierda): (gfx, X, Y, desplazamiento +$8C,
+    /// paso +$28, columna de la tabla +$80, atributo, guion).
+    pub const SLIDERS: [(u16, u16, u16, u16, u16, u16, u16, u32); 2] = [
+        (0xD9, 0x130, 0x180, 0x00D8, 0xFFE8, 0, 0xD000, 0x2F_503E),
+        (0xDA, 0x020, 0x138, 0xFF28, 0x0018, 2, 0xE000, 0x2F_504A),
+    ];
+    pub const SLIDE: u32 = 0x08_FF88;
+    pub const SLIDE_OFFSET: u32 = 0x8C;
+    pub const SLIDE_STEP: u32 = 0x28;
+    pub const SLIDE_COLUMN: u32 = 0x80;
+    /// Tabla del rebote al llegar (4 bytes por paso; columna X en +$80).
+    pub const SLIDE_TABLE: u32 = 0x2F_4C48;
+    pub const SLIDE_STEPS: i16 = 0x14;
+    pub const SLIDE_MARK: u8 = 6;
+    pub const SOUND_SLIDE: u16 = 0x10E0;
+    /// Seguidores de la madre: (gfx, dX, dY, sin animar paleta, atributo,
+    /// sonido, guion).
+    pub const FOLLOWERS: [(u16, u16, u16, u16, u16, Option<u16>, u32); 2] = [
+        (0xDB, 0x10, 0x40, 0, 0x2000, Some(0x10E1), 0x2F_5056),
+        (0xDD, 0x00, 0x20, 1, 0x0000, None, 0x2F_5062),
+    ];
+    pub const FOLLOW: u32 = 0x09_0098;
+    pub const FOLLOW_OFFSET: [u32; 2] = [0x8C, 0x8E];
+    pub const FOLLOW_NO_PAL: u32 = 0x80;
+    pub const FOLLOW_PAL_DONE: u32 = 0x84;
+    /// Animación de paleta del seguidor: (primer paso, frames, modo).
+    pub const FOLLOW_PAL: (u16, u16, u8) = (0xDE, 2, 1);
+    /// Piezas A y B: (gfx, X, Y, atributo, guion, rutina del bucle).
+    pub const PROP_A: (u16, u16, u16, u16, u32, u32) = (0xBE, 0xAE, 0x148, 0x4000, 0x2F_5328, 0x09_0128);
+    pub const PROP_B: (u16, u16, u16, u16, u32, u32) = (0xBD, 0xAC, 0x148, 0x8000, 0x2F_531C, 0x09_01B6);
+    pub const PROP_C: (u16, u16, u16, u16, u32, u32) = (0xFF, 0x98, 0x198, 0xE000, 0x2F_5368, 0x09_033C);
+    pub const PROP_C_TASK: u32 = 0x09_02FE;
+    pub const PROP_STEPS: i16 = 0x10;
+    pub const PROP_A_TABLE: u32 = 0x2F_4B68;
+    pub const PROP_B_TABLE: u32 = 0x2F_4BA8;
+    pub const PROP_B_TABLE2: u32 = 0x2F_4BE8;
+    pub const PROP_B_STEPS2: i16 = 4;
+    /// En este paso de la primera tabla se anima la paleta.
+    pub const PROP_B_FLASH_AT: i16 = 0xA;
+    /// Paleta de la pieza B: (primer paso de la propia entrada, entradas
+    /// altas y su primer paso).
+    pub const PROP_B_PAL: (u16, [(u16, u16); 3]) = (0x100, [(0x10, 0x19B), (0x11, 0x19C), (0x12, 0x19D)]);
+    pub const PROP_B_PAL_MODES: [(u16, u8); 2] = [(2, 3), (1, 6)];
+    pub const PROP_B_GFX2: u16 = 0x101;
+    pub const PROP_B_ENTRIES: u32 = 0x2F_4A38;
+
     // --- efectos de los golpes: zoom, temblor, destello, carteles
     /// Sprite de efectos: (gfx, atributo, prioridad).
     pub const FX_SPRITE: (u16, u16, u16) = (0xDF, 0xC000, 0x1C);

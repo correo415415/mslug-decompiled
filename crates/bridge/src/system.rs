@@ -661,6 +661,16 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      m.cpu.d[2] = u32::from(g) * 64 + mslug_game::layout::sprites::ANIM_DATA;
                      Flow::Return
                  } },
+    SystemPort { entry: 0x00_2C26, original: "$002C26", rust: "system::video::start_high_entry_anim",
+                 run: |m| {
+                     let (i, g, n, md) = (m.cpu.d[1] as u16, m.cpu.d[2] as u16, m.cpu.d[3] as u16, m.cpu.d[4] as u8);
+                     video::start_high_entry_anim(m, i, g, n, md);
+                     m.cpu.a[1] = mslug_game::layout::sprites::TABLE;
+                     m.cpu.a[2] = mslug_game::layout::sprites::HIGH_LIST_DATA;
+                     m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(i.wrapping_shl(5));
+                     m.cpu.d[2] = u32::from(g) * 64 + mslug_game::layout::sprites::HIGH_LIST_DATA;
+                     Flow::Return
+                 } },
     SystemPort { entry: 0x09_0B08, original: "GO_Letter_Common_090b08", rust: "system::game_over::letter_run",
                  run: |m| { let t = m.cpu.a[6]; m.write_u8(t + 0x20, 0); m.write_u16(t + 0x82, 1);
                             m.write_u32(t, mslug_game::layout::game_over::LETTER_RUN); game_over::letter_run(m) } },
@@ -754,6 +764,18 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      }
                      Flow::Return
                  } },
+    SystemPort { entry: 0x08_FECC, original: "GO_Sprite_Right_08fecc", rust: "system::game_over::slider(0)", run: |m| game_over::slider(m, 0) },
+    SystemPort { entry: 0x08_FF2C, original: "GO_Sprite_Left_08ff2c", rust: "system::game_over::slider(1)", run: |m| game_over::slider(m, 1) },
+    SystemPort { entry: 0x08_FF88, original: "GO_Sprite_Slide_08ff88", rust: "system::game_over::slide", run: |m| game_over::slide(m) },
+    SystemPort { entry: 0x08_FFF6, original: "GO_Sprite_Mid_08fff6", rust: "system::game_over::follower(0)", run: |m| game_over::follower(m, 0) },
+    SystemPort { entry: 0x09_004C, original: "GO_Sprite_MidB_09004c", rust: "system::game_over::follower(1)", run: |m| game_over::follower(m, 1) },
+    SystemPort { entry: 0x09_0098, original: "GO_Sprite_FollowParent_090098", rust: "system::game_over::follow", run: |m| game_over::follow(m) },
+    SystemPort { entry: 0x09_00E4, original: "GO_Prop_A_0900e4", rust: "system::game_over::prop_a", run: |m| game_over::prop_a(m) },
+    SystemPort { entry: 0x09_0128, original: "$090128", rust: "system::game_over::prop_a_run", run: |m| game_over::prop_a_run(m) },
+    SystemPort { entry: 0x09_016C, original: "GO_Prop_B_09016c", rust: "system::game_over::prop_b", run: |m| game_over::prop_b(m) },
+    SystemPort { entry: 0x09_01B6, original: "$0901B6", rust: "system::game_over::prop_b_run", run: |m| game_over::prop_b_run(m) },
+    SystemPort { entry: 0x09_02FE, original: "GO_Prop_C_0902fe", rust: "system::game_over::prop_c", run: |m| game_over::prop_c(m) },
+    SystemPort { entry: 0x09_033C, original: "$09033C", rust: "system::game_over::prop_c_run", run: |m| game_over::prop_c_run(m) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

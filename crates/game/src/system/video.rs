@@ -189,8 +189,18 @@ pub fn load_high_entries(m: &mut impl Memory, list: u32) -> u32 {
 /// Empieza a animar la paleta de la entrada `i` desde el paso `first`:
 /// `len` frames por paso, en modo `mode`. Original: `$002C30`.
 pub fn start_entry_anim(m: &mut impl Memory, i: u16, first: u16, len: u16, mode: u8) {
+    start_entry_anim_in(m, i, first, len, mode, S::ANIM_DATA);
+}
+
+/// Como [`start_entry_anim`], con los pasos en la tabla de las entradas
+/// altas. Original: `$002C26`.
+pub fn start_high_entry_anim(m: &mut impl Memory, i: u16, first: u16, len: u16, mode: u8) {
+    start_entry_anim_in(m, i, first, len, mode, S::HIGH_LIST_DATA);
+}
+
+fn start_entry_anim_in(m: &mut impl Memory, i: u16, first: u16, len: u16, mode: u8, data: u32) {
     let e = S::TABLE + u32::from(i.wrapping_shl(5));
-    m.write_u32(e + S::ENTRY_ANIM_DATA, u32::from(first) * 64 + S::ANIM_DATA);
+    m.write_u32(e + S::ENTRY_ANIM_DATA, u32::from(first) * 64 + data);
     m.write_u16(e + S::ENTRY_ANIM_LEN, len);
     m.write_u16(e + S::ENTRY_ANIM_LEFT, len);
     m.write_u8(e + S::ENTRY_ANIM_STEP, 0);

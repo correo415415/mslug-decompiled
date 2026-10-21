@@ -629,6 +629,211 @@ pub fn particle_run(m: &mut impl Machine) -> Flow {
 }
 
 
+/// Suma a la posición la entrada `i` (4 bytes: dX, dY) de `table`.
+fn add_table_offset(m: &mut impl Memory, t: u32, table: u32, i: u16) {
+    let e = table.wrapping_add(i32::from(i.wrapping_mul(4) as i16) as u32);
+    for (k, f) in [L::X, L::Y].into_iter().enumerate() {
+        let v = m.read_u16(t + f).wrapping_add(m.read_u16(e + 2 * k as u32));
+        m.write_u16(t + f, v);
+    }
+}
+
+/// Sprite que entra deslizándose (`k`: 0 = derecha, 1 = izquierda).
+/// Original: `GO_Sprite_Right_08fecc`, `GO_Sprite_Left_08ff2c`.
+pub fn slider(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    let (gfx, x, y, offset, step, column, attr, script) = L::SLIDERS[k];
+    anim::alloc_entry(m, t, gfx);
+    m.write_u16(t + L::X, x);
+    m.write_u16(t + L::Y, y);
+    m.write_u16(t + L::ORIGIN[0], x);
+    m.write_u16(t + L::SLIDE_OFFSET, offset);
+    m.write_u16(t + L::SLIDE_STEP, step);
+    m.write_u16(t + L::SLIDE_COLUMN, column);
+    m.write_u16(t + L::COUNT, 0);
+    anim::set_attr(m, t, attr);
+    set_priority(m, t, 0);
+    anim::start(m, t, script);
+    m.write_u32(t + T::HANDLER, L::SLIDE);
+    slide(m)
+}
+
+/// Se acerca hasta el origen y al llegar rebota siguiendo una tabla (la
+/// primera vez marca la escena y suena). Original: `GO_Sprite_Slide_08ff88`.
+pub fn slide(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let offset = m.read_u16(t + L::SLIDE_OFFSET);
+    let x = m.read_u16(t + L::ORIGIN[0]).wrapping_add(offset);
+    m.write_u16(t + L::X, x);
+    if offset != 0 {
+        let v = offset.wrapping_add(m.read_u16(t + L::SLIDE_STEP));
+        m.write_u16(t + L::SLIDE_OFFSET, v);
+    } else {
+        let n = m.read_u16(t + L::COUNT);
+        if (n as i16) < L::SLIDE_STEPS {
+            if n == 0 {
+                m.write_u8(L::FINAL_MARK, L::SLIDE_MARK);
+                sound::play(m, L::SOUND_SLIDE);
+            }
+            let col = m.read_u16(t + L::SLIDE_COLUMN);
+            let e = L::SLIDE_TABLE + u32::from(n) * 4;
+            let a = e.wrapping_add(i32::from(col as i16) as u32);
+            let x = m.read_u16(t + L::X).wrapping_add(m.read_u16(a));
+            m.write_u16(t + L::X, x);
+            m.write_u16(t + L::COUNT, n.wrapping_add(1));
+        }
+    }
+    anim::step(m, t);
+    Flow::Return
+}
+
+/// Sprite que sigue a la madre a una distancia fija (`k` = 0 o 1).
+/// Original: `GO_Sprite_Mid_08fff6`, `GO_Sprite_MidB_09004c`.
+pub fn follower(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    let (gfx, dx, dy, no_pal, attr, snd, script) = L::FOLLOWERS[k];
+    anim::alloc_entry(m, t, gfx);
+    m.write_u16(t + L::FOLLOW_OFFSET[0], dx);
+    m.write_u16(t + L::FOLLOW_OFFSET[1], dy);
+    m.write_u16(t + L::FOLLOW_NO_PAL, no_pal);
+    m.write_u16(t + L::FOLLOW_PAL_DONE, 0);
+    anim::set_attr(m, t, attr);
+    set_priority(m, t, 0);
+    if let Some(c) = snd {
+        sound::play(m, c);
+    }
+    anim::start(m, t, script);
+    m.write_u32(t + T::HANDLER, L::FOLLOW);
+    Flow::Return
+}
+
+/// Sigue a la madre, anima y (si toca) anima su paleta una vez.
+/// Original: `GO_Sprite_FollowParent_090098`.
+pub fn follow(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let mother = m.read_u32(t + T::OWNER);
+    for (k, f) in [L::X, L::Y].into_iter().enumerate() {
+        let v = m.read_u16(mother + f).wrapping_add(m.read_u16(t + L::FOLLOW_OFFSET[k]));
+        m.write_u16(t + f, v);
+    }
+    anim::step(m, t);
+    if m.read_u16(t + L::FOLLOW_NO_PAL) == 0 && m.read_u16(t + L::FOLLOW_PAL_DONE) == 0 {
+        m.write_u16(t + L::FOLLOW_PAL_DONE, 0xFFFF);
+        let entry = m.read_u16(t + L::SPRITE_ENTRY);
+        let (first, len, mode) = L::FOLLOW_PAL;
+        video::start_entry_anim(m, entry, first, len, mode);
+    }
+    Flow::Return
+}
+
+/// Alta común de las piezas A, B y C.
+fn prop(m: &mut impl Machine, t: u32, p: (u16, u16, u16, u16, u32, u32)) {
+    let (gfx, x, y, attr, _, _) = p;
+    anim::alloc_entry(m, t, gfx);
+    m.write_u16(t + L::X, x);
+    m.write_u16(t + L::Y, y);
+    anim::set_attr(m, t, attr);
+    set_priority(m, t, 0);
+}
+
+/// Pieza A. Original: `GO_Prop_A_0900e4`.
+pub fn prop_a(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    prop(m, t, L::PROP_A);
+    m.write_u16(t + L::TIMER, 0);
+    anim::start(m, t, L::PROP_A.4);
+    m.write_u32(t + T::HANDLER, L::PROP_A.5);
+    prop_a_run(m)
+}
+
+/// Sale despedida siguiendo una tabla; se da de baja al acabar la escena.
+/// Original: `$090128`.
+pub fn prop_a_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if parent_state_is(m, t, 0, 3) {
+        return tasks::finish(m);
+    }
+    let n = m.read_u16(t + L::TIMER);
+    if (n as i16) < L::PROP_STEPS {
+        add_table_offset(m, t, L::PROP_A_TABLE, n);
+        m.write_u16(t + L::TIMER, n.wrapping_add(1));
+    }
+    anim::step(m, t);
+    Flow::Return
+}
+
+/// Pieza B. Original: `GO_Prop_B_09016c`.
+pub fn prop_b(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    prop(m, t, L::PROP_B);
+    m.write_u16(t + L::TIMER, 0);
+    m.write_u16(t + L::COUNT, 0);
+    anim::start(m, t, L::PROP_B.4);
+    m.write_u32(t + T::HANDLER, L::PROP_B.5);
+    prop_b_run(m)
+}
+
+/// Anima la paleta de la pieza B y de sus tres entradas altas.
+fn prop_b_flash(m: &mut impl Memory, t: u32, (len, mode): (u16, u8)) {
+    let entry = m.read_u16(t + L::SPRITE_ENTRY);
+    let (first, high) = L::PROP_B_PAL;
+    video::start_entry_anim(m, entry, first, len, mode);
+    for (i, g) in high {
+        video::start_high_entry_anim(m, i, g, len, mode);
+    }
+}
+
+/// Sale despedida con una tabla, luego rebota con otra (al empezar crea la
+/// pieza C y cambia de gráfico). Original: `$0901B6`.
+pub fn prop_b_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if parent_state_is(m, t, 0, 3) {
+        return tasks::finish(m);
+    }
+    let n = m.read_u16(t + L::TIMER);
+    if (n as i16) < L::PROP_STEPS {
+        if n as i16 == L::PROP_B_FLASH_AT {
+            prop_b_flash(m, t, L::PROP_B_PAL_MODES[0]);
+        }
+        add_table_offset(m, t, L::PROP_B_TABLE, n);
+        m.write_u16(t + L::TIMER, n.wrapping_add(1));
+    } else {
+        let k = m.read_u16(t + L::COUNT);
+        if (k as i16) < L::PROP_B_STEPS2 {
+            if k == 0 {
+                child(m, t, L::PROP_C_TASK, true);
+                anim::alloc_entry(m, t, L::PROP_B_GFX2);
+                video::load_high_entries(m, L::PROP_B_ENTRIES);
+            }
+            if k == 2 {
+                prop_b_flash(m, t, L::PROP_B_PAL_MODES[1]);
+            }
+            add_table_offset(m, t, L::PROP_B_TABLE2, k);
+            m.write_u16(t + L::COUNT, k.wrapping_add(1));
+        }
+    }
+    anim::step(m, t);
+    Flow::Return
+}
+
+/// Pieza C (sale de la B). Original: `GO_Prop_C_0902fe`.
+pub fn prop_c(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    prop(m, t, L::PROP_C);
+    anim::start(m, t, L::PROP_C.4);
+    m.write_u32(t + T::HANDLER, L::PROP_C.5);
+    prop_c_run(m)
+}
+
+/// Anima y se da de baja al acabar la animación. Original: `$09033C`.
+pub fn prop_c_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if anim::step(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
 /// Sprite de efectos de los golpes con su guion de animación.
 fn fx_sprite(m: &mut impl Machine, t: u32, gfx: u16, attr: u16, script: u32) {
     anim::alloc_entry(m, t, gfx);
