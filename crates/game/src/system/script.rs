@@ -209,6 +209,144 @@ pub fn step_start_players(m: &mut impl Machine) -> Flow {
     next(m)
 }
 
+// --- Demo jugable --------------------------------------------------------
+
+/// Demo jugable: alterna entre dos demos (y misiones), crea el título de la
+/// demo y el temporizador que la acaba, y arranca la misión en el mismo
+/// frame. Original: `Init_ModeToggle_001260`.
+pub fn scene_demo(m: &mut impl Machine) -> Flow {
+    m.write_u8(S::DEMO_FRAME, 0);
+    rng::seed(m, 0);
+    m.call(bios::FIX_CLEAR);
+    hud::clear_border(m);
+    spawn_scene_task(m, S::DEMO_TITLE_TASK);
+    spawn_scene_task(m, S::DEMO_TIMEOUT_TASK);
+    let n = m.read_u8(S::DEMO_COUNT).wrapping_add(1);
+    m.write_u8(S::DEMO_COUNT, n);
+    let k = usize::from(n & 1);
+    pads::start_demo(m, k as u16);
+    mode(m, S::DEMO_STATES[k])
+}
+
+/// Espera de la demo: hasta que acaba (o empieza una partida).
+/// Original: `$0012CA` (dentro de `Init_ModeToggle_001260`).
+pub fn scene_demo_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    if scene_running(m) {
+        check_game_started(m);
+        return Flow::Return;
+    }
+    pads::start_demo(m, P::NO_DEMO);
+    stop_scene(m);
+    next(m)
+}
+
+/// Estado `k` de la tabla de modos: lo publica, instala la rutina de la
+/// misión y arranca la misión. Original: `Dispatcher_ModeTable_001922`.
+pub fn mode(m: &mut impl Machine, k: usize) -> Flow {
+    let (state, routine, rank) = S::MODES[k];
+    m.write_u8(S::KEY_LATCH[0], state);
+    if rank {
+        spawn_scene_task(m, S::RANK_TASK);
+    }
+    if let Some(r) = routine {
+        start_fixed(m, S::MISSION_TASK, r);
+    }
+    start_mission(m)
+}
+
+/// Pone la rutina `routine` a la tarea fija `t` y la reinicia.
+fn start_fixed(m: &mut impl Memory, t: u32, routine: u32) {
+    m.write_u32(t + T::HANDLER, routine);
+    tasks::reset_in_place(m, t);
+}
+
+/// Arranque común de una misión. Original:
+/// `Attract_WaitStateBackbone_00188A` + `Init_EntitySpawn_0018DA`.
+fn start_mission(m: &mut impl Machine) -> Flow {
+    sound::init_queue(m);
+    let mission = m.read_u8(S::DEMO_MISSION);
+    m.write_u8(S::KEY_LATCH[1], mission);
+    video::clear_palette_state(m);
+    let me = m.task_register();
+    palette::spawn_fade(m, 1, me, 1);
+    spawn_scene_task(m, S::RANK_TASK);
+    install_mission_slots(m);
+    m.write_u8(S::SCENE_BUSY, 0xFF);
+    m.write_u8(crate::layout::scene::LOADED, 0xFF);
+    spawn_scene_task(m, S::CREDITS_TASK);
+    m.call(bios::FIX_CLEAR);
+    hud::clear_border(m);
+    hud::draw(m);
+    m.write_u8(me + S::MISSION_TIMER, S::MISSION_TIMER_START);
+    let mut last = 0;
+    for r in S::MISSION_TASKS {
+        last = tasks::spawn(m, r, me);
+    }
+    m.write_u8(last + S::MISSION_HUD_FIELD, S::MISSION_HUD_MODE);
+    m.write_u8(S::MISSION_FLAG_B1, 0);
+    m.write_u8(S::SLUG_FRAME_FLAG, 0);
+    next(m)
+}
+
+/// Tareas fijas de la misión. Original: `Task_InstallMissionSlots_001dcc`.
+pub fn install_mission_slots(m: &mut impl Machine) {
+    for (t, r) in S::MISSION_SLOTS {
+        start_fixed(m, t, r);
+    }
+    if m.read_u8(S::DEBUG) & 1 != 0 {
+        let me = m.task_register();
+        tasks::spawn(m, S::MISSION_DEBUG_TASK, me);
+    }
+}
+
+/// Temporizador de la demo: al acabar da la escena por terminada.
+/// Original: `Hud_Delay1200_ClearDirty_001c88`.
+pub fn demo_timeout(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + S::DEMO_TIMEOUT_TIMER, S::DEMO_TIMEOUT);
+    m.write_u32(t + T::HANDLER, routine::DEMO_TIMEOUT_RUN);
+    demo_timeout_run(m)
+}
+
+/// Original: `$001C94`.
+pub fn demo_timeout_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let n = m.read_u16(t + S::DEMO_TIMEOUT_TIMER).wrapping_sub(1);
+    m.write_u16(t + S::DEMO_TIMEOUT_TIMER, n);
+    if n != 0 {
+        return Flow::Return;
+    }
+    m.write_u8(S::SCENE_BUSY, 0);
+    tasks::finish(m)
+}
+
+/// Créditos de la misión: sólo en partida y en las misiones normales; tras
+/// un retardo pasa a la rutina de créditos.
+/// Original: `Banner_DelayThenStart_001c44`.
+pub fn mission_credits(m: &mut impl Machine) -> Flow {
+    if m.read_u8(bios_ram::USER_MODE) != bios_ram::USER_MODE_GAME
+        || m.read_u8(S::DEMO_MISSION) >= S::CREDITS_MAX_MISSION
+    {
+        return tasks::finish(m);
+    }
+    let t = m.task_register();
+    m.write_u16(t + S::CREDITS_TIMER, S::CREDITS_DELAY);
+    m.write_u32(t + T::HANDLER, routine::CREDITS_WAIT);
+    mission_credits_wait(m)
+}
+
+/// Original: `$001C74`.
+pub fn mission_credits_wait(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let n = m.read_u16(t + S::CREDITS_TIMER).wrapping_sub(1);
+    m.write_u16(t + S::CREDITS_TIMER, n);
+    if n == 0 {
+        m.write_u32(t + T::HANDLER, S::CREDITS_NEXT);
+    }
+    Flow::Return
+}
+
 /// Si la BIOS ya está en partida (alguien metió crédito y pulsó inicio),
 /// para la escena y pasa a la lista de partida el próximo frame.
 /// Original: `Attract_StartIfP2Flag_001af8`.

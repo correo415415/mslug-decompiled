@@ -706,6 +706,8 @@ pub mod routine {
     pub const NOP: u32 = 0x00_08F2;
     /// Rutina de tarea que no hace nada (`rts`).
     pub const IDLE: u32 = 0x00_0400;
+    pub const DEMO_TIMEOUT_RUN: u32 = 0x00_1C94;
+    pub const CREDITS_WAIT: u32 = 0x00_1C74;
     /// `rts` que deja la tarea de arranque al acabar.
     pub const BOOT_DONE: u32 = 0x00_0B90;
     /// Rutina de la tarea que arranca la partida / el título.
@@ -789,6 +791,57 @@ pub mod camera {
 /// `routine::SCRIPT_NEXT`, que avanza el cursor. `END` seguido de una
 /// dirección continúa en otra lista.
 pub mod script {
+    // --- demo jugable (escena del attract tras el Game Over)
+    /// Se pone a 0 al empezar la demo.
+    pub const DEMO_FRAME: u32 = super::system::FRAME_COUNTER;
+    /// Cuenta las demos: el bit 0 elige la demo y la misión que se juega.
+    pub const DEMO_COUNT: u32 = super::system::TITLE_FLAG_C;
+    /// Estado de la tabla de modos de cada demo.
+    pub const DEMO_STATES: [usize; 2] = [1, 4];
+    pub const DEMO_MISSION: u32 = 0x10_6ED0;
+    pub const DEMO_TITLE_TASK: u32 = 0x09_1630;
+    pub const DEMO_TIMEOUT_TASK: u32 = 0x00_1C88;
+    /// La demo acaba sola tras estos frames.
+    pub const DEMO_TIMEOUT: u16 = 0x4B0;
+    pub const DEMO_TIMEOUT_TIMER: u32 = 0x22;
+    /// Tabla de modos: (estado publicado en `KEY_LATCH[0]`, rutina para la
+    /// tarea de la misión o ninguna, ¿crea antes la tarea del rango?).
+    pub const MODES: [(u8, Option<u32>, bool); 11] = [
+        (0, Some(0x09_67FE), false),
+        (1, Some(0x09_6840), false),
+        (2, Some(0x09_6882), false),
+        (3, Some(0x09_68C4), false),
+        (4, Some(0x09_6906), false),
+        (5, Some(0x09_6948), false),
+        (6, Some(0x09_6840), true),
+        (7, Some(0x09_698A), false),
+        (8, Some(0x09_6906), false),
+        (9, Some(0x09_6906), false),
+        (10, None, false),
+    ];
+    /// Tarea donde se instala la rutina de la misión.
+    pub const MISSION_TASK: u32 = 0x10_0260;
+    pub const RANK_TASK: u32 = 0x00_1B4C;
+    pub const CREDITS_TASK: u32 = 0x00_1C44;
+    /// Tareas fijas de la misión: (bloque, rutina).
+    pub const MISSION_SLOTS: [(u32, u32); 2] = [(0x10_08A0, 0x05_EA96), (0x10_0800, 0x04_42E6)];
+    /// Con el bit 0 de depuración se crea además esta tarea.
+    pub const MISSION_DEBUG_TASK: u32 = 0x05_EFCA;
+    pub const DEBUG: u32 = 0x10_0001;
+    /// Tareas de la partida que se crean al empezar; la última recibe
+    /// `+MISSION_HUD_FIELD = MISSION_HUD_MODE`.
+    pub const MISSION_TASKS: [u32; 3] = [0x28_DB6A, 0x02_9588, 0x04_69E2];
+    pub const MISSION_HUD_FIELD: u32 = 0x98;
+    pub const MISSION_HUD_MODE: u8 = 0xD;
+    pub const MISSION_TIMER: u32 = 0x44;
+    pub const MISSION_TIMER_START: u8 = 0x3C;
+    pub const MISSION_FLAG_B1: u32 = 0x10_81B1;
+    pub const SLUG_FRAME_FLAG: u32 = 0x10_6F4B;
+    /// Retardo antes de arrancar los créditos en la misión.
+    pub const CREDITS_DELAY: u16 = 0xF;
+    pub const CREDITS_TIMER: u32 = 0x34;
+    pub const CREDITS_NEXT: u32 = 0x07_A970;
+    pub const CREDITS_MAX_MISSION: u8 = 6;
     /// Rutina de arranque de la tarea de control de cada jugador.
     pub const PLAYER_START: [u32; 2] = [0x02_575C, 0x02_5766];
     pub const END: u32 = 0xFFFF_FFFF;
