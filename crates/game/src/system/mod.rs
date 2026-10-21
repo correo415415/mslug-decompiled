@@ -8,6 +8,7 @@
 //! al planificador. Por eso devuelven un [`Flow`](crate::Flow).
 
 pub mod anim;
+pub mod autopilot;
 pub mod boot;
 pub mod collision;
 pub mod events;

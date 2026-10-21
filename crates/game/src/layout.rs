@@ -1109,6 +1109,24 @@ pub mod food {
     pub const FREE: u32 = 0x09_B474;
 }
 
+/// Piloto automático de los tramos guiados (`system::autopilot`).
+pub mod autopilot {
+    /// Tramo pedido (0 = ninguno, 1–4) y guion de cada uno (−1 = ninguno).
+    pub const LEVEL: u32 = 0x10_E39C;
+    pub const SCRIPTS: u32 = 0x2D_F442;
+    /// Bytes de un mando sintético: antes, ahora, recién pulsado y otro.
+    pub const PAD_BEFORE: u32 = 1;
+    pub const PAD_NOW: u32 = 2;
+    pub const PAD_PRESSED: u32 = 3;
+    pub const PAD_EXTRA: u32 = 4;
+    /// Al arrancar un tramo se ignora la entrada real 2 frames.
+    pub const HOLDOFF: u8 = 2;
+    /// Jugadores invulnerables durante el tramo.
+    pub const SHIELD: u32 = 0x45;
+    pub const SHIELD_ON: u8 = 2;
+    pub const RUN: u32 = 0x07_92F0;
+}
+
 /// Soldados rasos (`system::grunt`).
 pub mod grunt {
     /// Posición, fracción, velocidad y aceleración (X, Y).

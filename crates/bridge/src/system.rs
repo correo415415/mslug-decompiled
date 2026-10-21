@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, boot, collision, events, food, frame, game_over, grunt, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, frame, game_over, grunt, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -1112,6 +1112,11 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  } },
     SystemPort { entry: 0x05_EA86, original: "Slot1008A0_SetHandler400_05ea86", rust: "system::scroll::set_lock_x_clearer",
                  run: |m| { scroll::set_lock_x_clearer(m, false); m.cpu.a[0] = 0x10_08A0; Flow::Return } },
+    // --- piloto automático
+    SystemPort { entry: 0x07_9298, original: "AutoDemo_Tmpl_Driver_079298", rust: "system::autopilot::start", run: |m| autopilot::start(m) },
+    SystemPort { entry: 0x07_92F0, original: "AutoDemo_Tmpl_Driver_079298+0x58", rust: "system::autopilot::run", run: |m| autopilot::run(m) },
+    SystemPort { entry: 0x07_962C, original: "AutoDemo_StartLevelScript_07962c", rust: "system::autopilot::start_level_script",
+                 run: |m| { let t = m.cpu.a[6]; let c = autopilot::start_level_script(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
