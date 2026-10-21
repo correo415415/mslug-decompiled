@@ -457,6 +457,8 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| script::step_enable_pause(m) },
     SystemPort { entry: 0x00_1838, original: "Attract_SoftReset_10FDAF_001838", rust: "system::script::step_back_to_bios",
                  run: |m| script::step_back_to_bios(m) },
+    SystemPort { entry: 0x00_1846, original: "Attract_DoubleCheck_400_Publish_001846", rust: "system::script::step_start_players",
+                 run: |m| script::step_start_players(m) },
     SystemPort { entry: 0x00_1AF8, original: "Attract_StartIfP2Flag_001af8", rust: "system::script::check_game_started",
                  run: ret!(script::check_game_started) },
     SystemPort { entry: 0x00_1CD4, original: "TaskList_ChangeAndRunEight_001CD4", rust: "system::script::stop_scene",

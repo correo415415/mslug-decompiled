@@ -197,6 +197,18 @@ pub fn step_back_to_bios(m: &mut impl Machine) -> Flow {
     Flow::Goto(routine::RETURN_TO_BIOS)
 }
 
+/// Arranca la tarea de control de cada jugador que esté inactiva y sigue
+/// con el guion. Original: `Attract_DoubleCheck_400_Publish_001846`.
+pub fn step_start_players(m: &mut impl Machine) -> Flow {
+    for (t, start) in crate::layout::input::PLAYER_TASK.into_iter().zip(S::PLAYER_START) {
+        if m.read_u32(t + T::HANDLER) == routine::IDLE {
+            m.write_u32(t + T::HANDLER, start);
+            tasks::reset_in_place(m, t);
+        }
+    }
+    next(m)
+}
+
 /// Si la BIOS ya está en partida (alguien metió crédito y pulsó inicio),
 /// para la escena y pasa a la lista de partida el próximo frame.
 /// Original: `Attract_StartIfP2Flag_001af8`.

@@ -789,6 +789,8 @@ pub mod camera {
 /// `routine::SCRIPT_NEXT`, que avanza el cursor. `END` seguido de una
 /// dirección continúa en otra lista.
 pub mod script {
+    /// Rutina de arranque de la tarea de control de cada jugador.
+    pub const PLAYER_START: [u32; 2] = [0x02_575C, 0x02_5766];
     pub const END: u32 = 0xFFFF_FFFF;
     /// Listas por modo de arranque.
     pub const DEMO: u32 = 0x00_0B92;
