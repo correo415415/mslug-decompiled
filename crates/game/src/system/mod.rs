@@ -18,6 +18,7 @@ pub mod frame;
 pub mod game_over;
 pub mod go_arrow;
 pub mod grunt;
+pub mod hits;
 pub mod hud;
 pub mod irq;
 pub mod items;

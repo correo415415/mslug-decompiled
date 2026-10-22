@@ -1122,6 +1122,64 @@ pub mod fix_anim {
     pub const BLANK: u16 = 0xFF;
 }
 
+/// Golpes entre entidades (`system::hits`).
+pub mod hits {
+    /// Lista de cajas de ataque de la entidad: registros de `ATTACK_LEN`
+    /// bytes = {tipo de víctima, clase (+1), daño.w (+2), potencia (+4),
+    /// forma (+5: 0 punto, 4 rectángulo), siempre activa (+6), …, caja
+    /// (+$0A)}; `END` = fin.
+    pub const ATTACKS: u32 = 0x4C;
+    pub const ATTACK_LEN: u32 = 0x50;
+    pub const END: u8 = 0xFF;
+    pub const NONE: u32 = 0xFFFF_FFFF;
+    pub const CLASS: u32 = 1;
+    pub const DAMAGE: u32 = 2;
+    pub const POWER: u32 = 4;
+    pub const SHAPE: u32 = 5;
+    pub const ALWAYS: u32 = 6;
+    pub const BOX_HEADER: u32 = 0x0A;
+    /// Cajas de golpe de la víctima: registros de `BOX_LEN` bytes =
+    /// {marca.l (`NONE` = fin; el byte +1 es el aguante), inmunidades.l
+    /// (+2, `NONE` = las de por defecto), rectángulo (+$0A)}.
+    pub const HITBOX: u32 = 0x48;
+    pub const BOX_LEN: u32 = 0x50;
+    pub const IMMUNITY: u32 = 2;
+    pub const TOUGHNESS: u32 = 1;
+    pub const DEFAULT_IMMUNITY: u32 = 0x27_928C;
+    /// Víctimas: Slug y raíces de las capas de enemigos.
+    pub const SLUG: u32 = 0x10_0580;
+    pub const ENEMY_ROOTS: [u32; 2] = [0x10_0800, 0x10_08A0];
+    /// Campos de las entidades.
+    pub const POS: [u32; 2] = [0x22, 0x24];
+    pub const FLIP: u32 = 0x3A;
+    pub const FLAGS2: u32 = 0x13;
+    pub const FLAGS3: u32 = 0x5A;
+    pub const DEAD: u8 = 1 << 0;
+    pub const SPENT: u8 = 1 << 1;
+    pub const BLOCKED: u8 = 1 << 2;
+    pub const HIT: u8 = 1 << 3;
+    pub const HIT_FLASH: u8 = 1 << 0;
+    pub const INVULNERABLE: u32 = 0x45;
+    pub const ATTACK_CLASS: u32 = 0x58;
+    pub const ATTACKER: u32 = 0x50;
+    pub const DODGE: u32 = 0x6B;
+    pub const DODGED_CLASS: u8 = 0x0B;
+    pub const IMPACT: [u32; 2] = [0x54, 0x56];
+    pub const HP: u32 = 0x66;
+    /// Puntos por daño: jugador dueño del ataque, último jugador que le
+    /// dio, bit de «da puntos», puntuaciones (8 dígitos) y tabla de puntos
+    /// BCD por clase de ataque.
+    pub const OWNER_PLAYER: u32 = 0x68;
+    pub const LAST_PLAYER: u32 = 0x6E;
+    pub const GIVES_POINTS: u8 = 1 << 1;
+    pub const SCORES: [u32; 2] = [0x10_6E94, 0x10_6E9C];
+    pub const DAMAGE_POINTS: u32 = 0x05_188C;
+    pub const SCORE_SCRATCH: u32 = 0x10_81B6;
+    /// Pantalla {izq, der, abajo, arriba} y márgenes por defecto.
+    pub const SCREEN: (u16, u16, u16, u16) = (0, 0x140, 0x100, 0x1F0);
+    pub const DEFAULT_MARGINS: u32 = 0x02_8926;
+}
+
 /// Fuerte de la escena 4 y ayudantes comunes de sus piezas (`system::fort`).
 pub mod fort {
     /// Registro de aparición (`+$3C` de la tarea): byte 0 distinto de 0 =

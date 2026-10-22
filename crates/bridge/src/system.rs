@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hits, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -1201,6 +1201,25 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; fort::pulse_hitbox(m, t, false); pulse_regs(m, t, false); Flow::Return } },
     SystemPort { entry: 0x08_848C, original: "Entity_PropagateDamageToParent_08848c", rust: "system::fort::pass_damage_to_parent",
                  run: |m| { let t = m.cpu.a[6]; fort::pass_damage_to_parent(m, t); Flow::Return } },
+    // --- golpes entre entidades
+    SystemPort { entry: 0x02_83D8, original: "Hitbox_RunAttackList_0283d8", rust: "system::hits::run_attack_list",
+                 run: |m| { let t = m.cpu.a[6]; let (o, a) = hits::run_attack_list(m, t);
+                            m.cpu.d[7] = o as i32 as u32; m.cpu.a[0] = a; Flow::Return } },
+    SystemPort { entry: 0x02_8576, original: "Hitbox_TestVictim_028576", rust: "system::hits::test_victim",
+                 run: |m| { let (t, a, v) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1]); let c = hits::test_victim(m, t, a, v); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_8594, original: "Hitbox_TestShape_028594", rust: "system::hits::test_shape",
+                 run: |m| { let (t, a, v, b) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1], m.cpu.a[2]); let c = hits::test_shape(m, t, a, v, b); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_86EC, original: "Hitbox_SubtractHP_0286ec", rust: "system::hits::subtract_hp",
+                 run: |m| { let (t, v) = (m.cpu.a[6], m.cpu.a[1]); hits::subtract_hp(m, t, v, m.cpu.d[0] as u16); Flow::Return } },
+    SystemPort { entry: 0x02_876E, original: "Hitbox_OverlapRect_02876e", rust: "system::hits::overlap_rect",
+                 run: |m| { let (t, a, v, b) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1], m.cpu.a[2]); let c = hits::overlap_rect(m, t, a, v, b); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_8886, original: "Hitbox_OverlapPoint_028886", rust: "system::hits::overlap_point",
+                 run: |m| { let (t, a, v, b) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1], m.cpu.a[2]); let c = hits::overlap_point(m, t, a, v, b); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_8930, original: "Hitbox_OnScreen_028930", rust: "system::hits::on_screen",
+                 run: |m| { let (t, a) = (m.cpu.a[6], m.cpu.a[0]); let mg = m.cpu.a[4];
+                            let c = hits::on_screen(m, t, a, (mg != 0xFFFF_FFFF).then_some(mg)); set_carry(m, !c); Flow::Return } },
+    SystemPort { entry: 0x05_1914, original: "$051914", rust: "system::hits::award_damage_points",
+                 run: |m| { let (t, v) = (m.cpu.a[6], m.cpu.a[1]); hits::award_damage_points(m, t, v); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
