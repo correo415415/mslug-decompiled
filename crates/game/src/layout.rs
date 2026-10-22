@@ -1050,6 +1050,71 @@ pub mod motion {
     pub const PIT_FLOOR: i16 = 0x1F0;
 }
 
+/// Motor de colisión sobre pendientes (`system::slope`).
+pub mod slope {
+    /// Desplazamientos del punto de sondeo del suelo (6 pares x, y) según
+    /// hacia dónde se mueve la entidad: derecha, izquierda, quieta.
+    pub const PROBE_RIGHT: u32 = 0x02_6DC2;
+    pub const PROBE_LEFT: u32 = 0x02_6DDA;
+    pub const PROBE_NONE: u32 = 0x02_6DF2;
+    /// Tipos de tile en los que el suelo está 8 / 16 píxeles más abajo, y
+    /// rampas (también 8 más abajo si la entidad puede subirlas).
+    pub const DEEP_KINDS: [u8; 9] = [0x0C, 0x0D, 0x0E, 0x0F, 0x1C, 0x1D, 0x1E, 0x1F, 0x34];
+    pub const DEEPER_KINDS: [u8; 8] = [0x2C, 0x2D, 0x2E, 0x2F, 0x3C, 0x3D, 0x3E, 0x3F];
+    pub const RAMP_KINDS: [u8; 4] = [0x20, 0x21, 0x30, 0x31];
+    /// Rampas que suben hacia la derecha (A) y hacia la izquierda (B).
+    pub const RAMP_A: [u8; 2] = [0x20, 0x30];
+    pub const RAMP_B: [u8; 2] = [0x21, 0x31];
+    /// Escalones que se suben yendo a la derecha / a la izquierda.
+    pub const STEP_UP_RIGHT: [u8; 2] = [0x23, 0x33];
+    pub const STEP_UP_LEFT: [u8; 2] = [0x22, 0x32];
+    /// Paredes que paran a los vehículos.
+    pub const WALL_KINDS: [u8; 2] = [0x10, 0x27];
+    /// Tabla de pendiente del llano (la de las rampas que no se suben).
+    pub const FLAT_SLOPE: u32 = 0x27_8704;
+    /// Tipo de tile: tipo de celda (`+$0A`, 1 = con segunda máscara para
+    /// el llano), tabla de pendiente (`+$04`), máscara de plataforma
+    /// (`+8` dentro de la máscara), segunda máscara (`+$10`).
+    pub const T_KIND_FLAGS: u32 = 0x0A;
+    pub const T_SLOPE: u32 = 4;
+    pub const PLATFORM_MASK: u32 = 8;
+    pub const SECOND_MASK: u32 = 0x10;
+    /// Tipo de las plataformas móviles.
+    pub const PLATFORM_TILE: u32 = 0x27_8BA8;
+    pub const PLATFORM_KIND: u8 = 0x11;
+    /// Tabla de pendiente: gravedad (`+0`), alturas por columna (`+2`),
+    /// fracción Y por columna (`+$12`), gravedad alternativa (`+$1A`).
+    pub const S_HEIGHTS: u32 = 2;
+    pub const S_SUB_Y: u32 = 0x12;
+    pub const S_GRAVITY2: u32 = 0x1A;
+    /// Entidad.
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const SUB: u32 = 0x26;
+    pub const VEL_X: u32 = 0x28;
+    pub const GRAVITY: u32 = 0x34;
+    pub const GRAVITY2: u32 = 0x64;
+    pub const NO_SLOPE: u16 = 0xFFFF;
+    pub const FACING: u32 = 0x6A;
+    /// `+$13`: puede subir rampas (bit 4) / escalones (bit 5); `+$5B`: lo
+    /// hace aunque vaya de espaldas.
+    pub const FLAGS_13: u32 = 0x13;
+    pub const RAMP_OK: u8 = 1 << 4;
+    pub const STEP_OK: u8 = 1 << 5;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const RAMP_FORCE: u8 = 1 << 4;
+    pub const STEP_FORCE: u8 = 1 << 5;
+    /// `+$5A`: subiendo una rampa (bit 3), contra una pared (bit 5).
+    pub const STATE: u32 = 0x5A;
+    pub const ON_RAMP: u8 = 1 << 3;
+    pub const HIT_WALL: u8 = 1 << 5;
+    /// Zona de trabajo de la colisión.
+    pub const WORK_POS: [u32; 2] = [0x10_6F38, 0x10_6F3A];
+    pub const WORK_SUB: [u32; 2] = [0x10_6F3C, 0x10_6F3D];
+    pub const STEP: [u32; 2] = [0x10_6F2C, 0x10_6F2E];
+    pub const NEW_SUB: [u32; 2] = [0x10_6F30, 0x10_6F31];
+}
+
 /// Plataformas móviles (`system::platforms`).
 pub mod platforms {
     /// Anillo de 16 muestras de 12 bytes: cola de lectura, fin de las

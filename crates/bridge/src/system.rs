@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, turret, video};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -281,6 +281,15 @@ fn owner_regs(m: &mut CpuMachine, t: u32, a: u16, x: u16, y: u16) {
     for (k, v) in [a, x, y].into_iter().enumerate() {
         m.cpu.d[k] = (m.cpu.d[k] & 0xFFFF_0000) | u32::from(v);
     }
+}
+
+/// Registros que dejan los tests de bit de máscara (`a0` = máscara, `d0` =
+/// byte de la fila, `d6` = número de bit).
+fn mask_regs(m: &mut CpuMachine, record: u32, off: u32, row: u16) {
+    let b = slope::mask_byte(m, record, off, row);
+    m.cpu.a[0] = m.read_u32(record);
+    m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(b);
+    m.cpu.d[6] = (m.cpu.d[6] & 0xFFFF_0000) | u32::from(7u16.wrapping_sub(m.cpu.d[3] as u16));
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -1316,6 +1325,18 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; motion::advance_on_slope(m, t); Flow::Return } },
     SystemPort { entry: 0x02_800E, original: "Entity_ScaleDyForGravity_02800e", rust: "system::motion::scale_dy",
                  run: |m| { let t = m.cpu.a[6]; let d = motion::scale_dy(m, t, m.cpu.d[2] as u16); m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | u32::from(d); Flow::Return } },
+    // --- motor de colisión sobre pendientes
+    SystemPort { entry: 0x02_7036, original: "Entity_MoveAndCollide_B_027036", rust: "system::slope::move_b",
+                 run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let c = slope::move_b(m, t, at); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_7902, original: "Entity_StepB_UpdatePos_027902", rust: "system::slope::move_b_entity",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16);
+                            let c = slope::move_b_entity(m, t, at); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_7E7E, original: "CollMap_TestSolidBitC_027e7e", rust: "system::slope::solid_bit",
+                 run: |m| { let (r, c, w) = (m.cpu.a[1], m.cpu.d[3] as u16, m.cpu.d[4] as u16); mask_regs(m, r, 0, w); let b = slope::solid_bit(m, r, c, w); set_carry(m, b); Flow::Return } },
+    SystemPort { entry: 0x02_7E9C, original: "CollMap_TestPlatformBitC_027e9c", rust: "system::slope::platform_bit",
+                 run: |m| { let (r, c, w) = (m.cpu.a[1], m.cpu.d[3] as u16, m.cpu.d[4] as u16); mask_regs(m, r, 8, w); let b = slope::platform_bit(m, r, c, w); set_carry(m, b); Flow::Return } },
+    SystemPort { entry: 0x09_98CA, original: "Trail_FindByKeyRange_0998ca", rust: "system::platforms::step_onto",
+                 run: |m| { let t = m.cpu.a[6]; let c = platforms::step_onto(m, t, m.cpu.d[1] as u16, m.cpu.d[2] as u16); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
