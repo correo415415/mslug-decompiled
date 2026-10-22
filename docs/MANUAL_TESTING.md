@@ -133,8 +133,10 @@ según créditos, cuenta atrás) y las tareas fijas, hace el render del frame (`
 `system::render`, `system::sprite`), acepta el inicio de partida
 (`PLAYER_START`), entra en la misión, carga la escena y corre el manual
 de juego (con sus iconos) y el guion de scroll (capas, colisión y listas
-por frame) y suelta el Slug; se para en el frame 503 en `$02B004` (el
-bucle de la caída del Slug, aún sin portar).
+por frame) y suelta el Slug, que cae, baja y estrena la torreta
+(`system::turret`) y el motor de pendientes (`system::slope`); se para en
+el frame 504 en `$0300BA` (`Chain3_TplB_0300ba`, las ruedas del Slug, aún
+sin portar).
 
 ### Progreso: `mslug progress`
 
@@ -194,9 +196,9 @@ recogida (`system::pickup`), los objetos del suelo (`system::items`) y los
 soldados que saltan (`system::grunt`), el piloto automático
 (`system::autopilot`) y el indicador GO (`system::go_arrow`).
 `--only-manual --coin 0` llega al frame 1636 y se para en
-`Fort_Init_V1_086624` (alta del fuerte). `verify-system
---coin 0`: 0 fallos en 199 068 llamadas; con moneda (6000 frames): 0 fallos
-en 203 766.
+`Pillbox_Init_Right_0868a6` (casamatas del fuerte). `verify-system
+--coin 0` (4000 frames): 0 fallos en 232 236 llamadas; con moneda (3000
+frames): 0 fallos en 193 409.
 
 Si el código original se para dentro de una llamada (`Machine::halted`), los
 bucles que esperan algo de ella (guion de scroll, apariciones) salen en vez de
