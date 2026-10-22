@@ -1290,6 +1290,84 @@ pub mod ground_fx {
     pub const T_NO_STAND: u32 = 9;
 }
 
+/// Personaje del jugador (`system::player`).
+pub mod player {
+    /// Alta al empezar la misión: posición, sprites (cuerpo y dos de
+    /// accesorios), tipo de entidad, el brazo y el estado de espera.
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const SPAWN_X: u16 = 0x60;
+    pub const SPAWN_Y: u16 = 0x171;
+    pub const SPAWN_GFX: [u16; 3] = [0x176, 0x190, 0x191];
+    pub const KIND: u32 = 0x1C;
+    pub const KIND_PLAYER: u16 = 0x1B;
+    pub const ARM_TASK: u32 = 0x03_94A8;
+    pub const IDLE: u32 = 0x03_6D64;
+    /// Efecto de suelo bajo los pies (variante C).
+    pub const GROUND_FX_TASK: u32 = 0x07_76E2;
+    /// `+$12` bit 4: en pausa.
+    pub const PAUSED: u8 = 1 << 4;
+    /// Atributos del sprite: iniciales, «apareciendo» y la prioridad que
+    /// se limpia cada frame.
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0x8010;
+    pub const ATTR_SPAWNING: u16 = 0x2;
+    pub const ATTR_CLEAR_PRIO: u16 = 0xFFFC;
+    /// Velocidades, aceleraciones y fracciones.
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const SUB_X: u32 = 0x26;
+    pub const SUB_Y: u32 = 0x27;
+    /// Atributo del sprite (el de este frame y el de siempre) y la tabla
+    /// de campos de los que sale mientras parpadea.
+    pub const SPRITE_ATTR: u32 = 0x14;
+    pub const SPRITE_ATTR_BASE: u32 = 0x16;
+    pub const BLINK_FIELDS: u32 = 0x03_29EE;
+    pub const INVULN_TIMER: u32 = 0x87;
+    /// Flags: atraviesa celdas de los bits altos (`+$5B` bit 2), sondea el
+    /// suelo normal (`+$6B` bit 6), parado en seco y arriba/abajo
+    /// mantenidos (`+$13` bits 3, 4 y 5).
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const PASS_TOP: u8 = 1 << 2;
+    pub const IGNORE: u32 = 0x6B;
+    pub const PLAIN_FLOOR: u8 = 1 << 6;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const STOPPED: u8 = 1 << 3;
+    pub const UP_HELD: u8 = 1 << 4;
+    pub const DOWN_HELD: u8 = 1 << 5;
+    /// Rutina que recibe los golpes.
+    pub const HIT_HANDLER: u32 = 0x60;
+    pub const HIT_ROUTINE: u32 = 0x03_2500;
+    pub const LEVELS: [u32; 2] = [0x32, 0x33];
+    /// Bombas y munición iniciales, estado.
+    pub const BOMBS: u32 = 0x80;
+    pub const START_BOMBS: u8 = 0x0A;
+    pub const AMMO: u32 = 0x82;
+    pub const BYTE_85: u32 = 0x85;
+    pub const STATUS_FLAGS: u32 = 0x8C;
+    pub const BYTE_21: u32 = 0x21;
+    pub const CLEAR_WORDS: [u32; 2] = [0x72, 0x36];
+    pub const CLEAR_BYTES: [u32; 4] = [0x91, 0x21, 0x71, 0x70];
+    pub const FIELD_7C: u32 = 0x7C;
+    pub const FIELD_7E: u32 = 0x7E;
+    /// Dirección (adelante, arriba, abajo) y su historial.
+    pub const AIM_DIR: u32 = 0x78;
+    pub const AIM_HISTORY: u32 = 0x79;
+    pub const AIM_FORWARD: u8 = 1;
+    pub const AIM_UP: u8 = 4;
+    pub const AIM_DOWN: u8 = 8;
+    pub const FACING_FLAGS: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    /// Tareas de control de cada jugador, piloto y mando (`NO_CONTROLLER`
+    /// = ninguno).
+    pub const CONTROL_TASKS: [u32; 2] = [0x10_0300, 0x10_03A0];
+    pub const PILOT: u32 = 0x68;
+    pub const CONTROLLER: u32 = 0x6D;
+    pub const NO_CONTROLLER: u8 = 0xFF;
+}
+
 /// Plataformas móviles (`system::platforms`).
 pub mod platforms {
     /// Anillo de 16 muestras de 12 bytes: cola de lectura, fin de las

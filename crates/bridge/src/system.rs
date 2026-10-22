@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -1430,6 +1430,33 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x05_CF84, original: "InputEvtThunk_05cf84", rust: "input::pressed", run: |m| pad_test(m, 0x01, Edge::Pressed) },
     SystemPort { entry: 0x05_CF90, original: "InputEvtThunk_05cf90", rust: "input::pressed", run: |m| pad_test(m, 0x02, Edge::Pressed) },
     SystemPort { entry: 0x05_CF9C, original: "InputEvtThunk_05cf9c", rust: "input::pressed", run: |m| pad_test(m, 0x0C, Edge::Pressed) },
+    // --- jugador: alta y pasos comunes
+    SystemPort { entry: 0x03_35A6, original: "PlayerEntitySpawn_0335A6", rust: "system::player::spawn", run: |m| player::spawn(m) },
+    SystemPort { entry: 0x03_2A02, original: "PlayerEntity_InitAuxState_032A02", rust: "system::player::init_aux",
+                 run: |m| { let t = m.cpu.a[6]; player::init_aux(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_17AA, original: "Player_SetIndexFromParent_0517aa", rust: "system::player::set_controller",
+                 run: |m| { let t = m.cpu.a[6]; player::set_controller(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_2FF2, original: "Player_FrameCommon_032ff2", rust: "system::player::frame_common",
+                 run: |m| { let t = m.cpu.a[6]; player::frame_common(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_3016, original: "Player_FrameCommon_NoPrio_033016", rust: "system::player::frame_common_no_prio",
+                 run: |m| { let t = m.cpu.a[6]; player::frame_common_no_prio(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_2CC8, original: "Player_InvulnBlinkStep_032cc8", rust: "system::player::invuln_blink",
+                 run: |m| { let t = m.cpu.a[6]; player::invuln_blink(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_A720, original: "Slug_UpdateInputFlags_02a720", rust: "system::player::dir_flags",
+                 run: |m| { let t = m.cpu.a[6]; player::dir_flags(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_2F3C, original: "Player_ReadDirNibble_032f3c", rust: "system::player::dir_nibble",
+                 run: |m| { let t = m.cpu.a[6]; player::dir_nibble(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_2F88, original: "Player_ReadFireNibble_032f88", rust: "system::player::fire_nibble",
+                 run: |m| { let t = m.cpu.a[6]; player::fire_nibble(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_2E48, original: "Input_ForwardByFacing_032e48", rust: "system::player::forward_held",
+                 run: |m| { let t = m.cpu.a[6]; let c = player::forward_held(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_2AA8, original: "Player_CheckDeathOrState21_032aa8", rust: "system::player::anim_done",
+                 run: |m| { let t = m.cpu.a[6]; let c = player::anim_done(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_7BC8, original: "$027BC8", rust: "system::motion::on_entity_pos(move_and_stop)",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let row = m.cpu.d[4] as u16;
+                            let c = motion::on_entity_pos(m, t, |m| slug::move_and_stop(m, t, row)); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_2FF0, original: "Stub_00032FF0", rust: "(rts)", run: |_| Flow::Return },
+    SystemPort { entry: 0x03_2E8E, original: "Stub_00032E8E", rust: "(rts)", run: |_| Flow::Return },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
