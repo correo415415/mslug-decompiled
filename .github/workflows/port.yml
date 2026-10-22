@@ -13,11 +13,7 @@
 name: port
 
 on:
-  push:
-    branches: [port]
-    paths-ignore: ['**.md', 'docs/**']
-  pull_request:
-    branches: [main]
+  # Sólo a mano (Actions → port → Run workflow).
   workflow_dispatch:
     inputs:
       frames:
