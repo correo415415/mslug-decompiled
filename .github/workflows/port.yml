@@ -14,10 +14,10 @@ name: port
 
 on:
   push:
-    branches: [port, port_dev]
+    branches: [port]
     paths-ignore: ['**.md', 'docs/**']
   pull_request:
-    branches: [port]
+    branches: [main]
   workflow_dispatch:
     inputs:
       frames:

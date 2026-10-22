@@ -247,12 +247,15 @@ fn main() -> Result<()> {
             if let (Some(pc), false) = (prog.halted_at, halt_shown) {
                 halt_shown = true;
                 eprintln!("{}", mslug_bridge::halt_report(pc, frame, &sys.m68k));
+                // Captura de la parada (también en la ventana interactiva).
+                std::fs::create_dir_all(&cli.shots)?;
+                let fr = sys.render_frame_pixels();
+                let png = neogeo_hw::video::frame_to_png(&fr, SCREEN_W, SCREEN_H);
+                let shot = cli.shots.join(format!("halt-{frame:06}.png"));
+                std::fs::write(&shot, png)?;
+                eprintln!("  captura de la parada: {}", shot.display());
                 if cli.frames > 0 {
-                    // Sin ventana interactiva (pruebas): captura y fin.
-                    std::fs::create_dir_all(&cli.shots)?;
-                    let fr = sys.render_frame_pixels();
-                    let png = neogeo_hw::video::frame_to_png(&fr, SCREEN_W, SCREEN_H);
-                    std::fs::write(cli.shots.join(format!("halt-{frame:06}.png")), png)?;
+                    // Sin ventana interactiva (pruebas): fin.
                     break 'main;
                 }
             }

@@ -158,6 +158,10 @@ enum Cmd {
         /// Con --only-manual: tampoco la BIOS recompilada.
         #[arg(long)]
         no_bios_code: bool,
+        /// Si el port se para, guarda una captura PNG del último frame en
+        /// este fichero (sin tener que volcar todos los frames con --dump).
+        #[arg(long)]
+        halt_shot: Option<PathBuf>,
     },
     /// Vuelca la P-ROM (vista CPU) y la BIOS cargada a `out/` (entrada del
     /// recompilador).
@@ -315,7 +319,7 @@ fn main() -> Result<()> {
         Cmd::Progress { frames, coin } => progress::run(&cli.rom, frames, coin)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
         Cmd::LockstepManual { frames, coin, fuzz, atomic_ref } => lockstep::run_manual(&cli.rom, frames, coin, fuzz, atomic_ref)?,
-        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, no_bios_code } => {
+        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, no_bios_code, halt_shot } => {
             let mut sys = load(&cli.rom)?;
             let mut prog = if only_manual {
                 mslug_code::Program::manual_only(!no_bios_code)
@@ -344,6 +348,16 @@ fn main() -> Result<()> {
                 prog.run_frame(&mut sys);
                 if let Some(pc) = prog.halted_at {
                     println!("{}", mslug_bridge::halt_report(pc, f, &sys.m68k));
+                    if let Some(p) = &halt_shot {
+                        if let Some(dir) = p.parent().filter(|d| !d.as_os_str().is_empty()) {
+                            std::fs::create_dir_all(dir)?;
+                        }
+                        let fr = sys.render_frame_pixels();
+                        let png = neogeo_hw::video::frame_to_png(
+                            &fr, neogeo_hw::video::SCREEN_W, neogeo_hw::video::SCREEN_H);
+                        std::fs::write(p, png)?;
+                        println!("  captura de la parada: {}", p.display());
+                    }
                     if let Some(d) = &dump {
                         let fr = sys.render_frame_pixels();
                         let png = neogeo_hw::video::frame_to_png(

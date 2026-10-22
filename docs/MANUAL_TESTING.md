@@ -103,7 +103,10 @@ del contrato de la rutina y están en el adaptador (`Ret::D0L`, `Ret::A1`).
 ./target/release/mslug play --only-manual --frames 6000      # sin ventana: dice dónde se para
 ./target/release/mslug-sdl --only-manual                     # ventana; el título dice dónde se paró
 ./target/release/mslug-sdl --only-manual --no-bios-code      # tampoco ejecuta código recompilado de la BIOS
+./target/release/mslug play --only-manual --halt-shot build/shots/parada.png  # y guarda captura de la parada
 ```
+
+Al pararse, `mslug-sdl` guarda siempre una captura en `build/shots/halt-NNNNNN.png`, también con la ventana abierta. `mslug play` la guarda en el fichero que se le indique con `--halt-shot`.
 
 Ejecuta **sólo** las funciones Rust escritas a mano: no hay programa
 recompilado ni intérprete para el juego. La BIOS (que no es del juego) sigue
