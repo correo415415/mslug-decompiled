@@ -12,6 +12,7 @@
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
+use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
 use neogeo_hw::NeoGeoBus;
@@ -290,6 +291,15 @@ fn mask_regs(m: &mut CpuMachine, record: u32, off: u32, row: u16) {
     m.cpu.a[0] = m.read_u32(record);
     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(b);
     m.cpu.d[6] = (m.cpu.d[6] & 0xFFFF_0000) | u32::from(7u16.wrapping_sub(m.cpu.d[3] as u16));
+}
+
+/// ¿Alguno de los botones `b` en el mando que controla la entidad `a6`?
+/// (deja la respuesta en C).
+fn pad_test(m: &mut CpuMachine, b: u8, edge: Edge) -> Flow {
+    let e = mslug_game::entity::Entity::from_raw(m.cpu.a[6]);
+    let c = mslug_game::input::pressed(m, e, Buttons(b), edge);
+    set_carry(m, c);
+    Flow::Return
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -1390,6 +1400,36 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x02_7FAC, original: "Entity_TestSolidAtFeet_027fac", rust: "system::ground_fx::solid_at_feet",
                  run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let (on, raw) = ground_fx::solid_at_feet(m, t, at);
                             m.cpu.d[7] = (m.cpu.d[7] & 0xFFFF_FF00) | u32::from(raw); set_carry(m, !on); Flow::Return } },
+    // --- botones del mando de la entidad (InputEvtThunk_*)
+    SystemPort { entry: 0x05_CD60, original: "InputEvtThunk_05cd60", rust: "input::pressed", run: |m| pad_test(m, 0x10, Edge::Held) },
+    SystemPort { entry: 0x05_CD6C, original: "InputEvtThunk_05cd6c", rust: "input::pressed", run: |m| pad_test(m, 0x20, Edge::Held) },
+    SystemPort { entry: 0x05_CD78, original: "InputEvtThunk_05cd78", rust: "input::pressed", run: |m| pad_test(m, 0x40, Edge::Held) },
+    SystemPort { entry: 0x05_CD84, original: "InputEvtThunk_05cd84", rust: "input::pressed", run: |m| pad_test(m, 0x80, Edge::Held) },
+    SystemPort { entry: 0x05_CD90, original: "InputEvtThunk_05cd90", rust: "input::pressed", run: |m| pad_test(m, 0xF0, Edge::Held) },
+    SystemPort { entry: 0x05_CD9C, original: "InputEvtThunk_05cd9c", rust: "input::pressed", run: |m| pad_test(m, 0xE0, Edge::Held) },
+    SystemPort { entry: 0x05_CDA8, original: "InputEvtThunk_05cda8", rust: "input::pressed", run: |m| pad_test(m, 0x10, Edge::Pressed) },
+    SystemPort { entry: 0x05_CDB4, original: "InputEvtThunk_05cdb4", rust: "input::pressed", run: |m| pad_test(m, 0x20, Edge::Pressed) },
+    SystemPort { entry: 0x05_CDC0, original: "InputEvtThunk_05cdc0", rust: "input::pressed", run: |m| pad_test(m, 0x40, Edge::Pressed) },
+    SystemPort { entry: 0x05_CDCC, original: "InputEvtThunk_05cdcc", rust: "input::pressed", run: |m| pad_test(m, 0x80, Edge::Pressed) },
+    SystemPort { entry: 0x05_CDD8, original: "InputEvtThunk_05cdd8", rust: "input::pressed", run: |m| pad_test(m, 0x30, Edge::Pressed) },
+    SystemPort { entry: 0x05_CDE4, original: "InputEvtThunk_05cde4", rust: "input::pressed", run: |m| pad_test(m, 0x50, Edge::Pressed) },
+    SystemPort { entry: 0x05_CDF0, original: "InputEvtThunk_05cdf0", rust: "input::pressed", run: |m| pad_test(m, 0x70, Edge::Pressed) },
+    SystemPort { entry: 0x05_CDFC, original: "InputEvtThunk_05cdfc", rust: "input::pressed", run: |m| pad_test(m, 0xF0, Edge::Pressed) },
+    SystemPort { entry: 0x05_CE08, original: "InputEvtThunk_05ce08", rust: "input::pressed", run: |m| pad_test(m, 0xE0, Edge::Pressed) },
+    SystemPort { entry: 0x05_CEEC, original: "InputEvtThunk_05ceec", rust: "input::pressed", run: |m| pad_test(m, 0x01, Edge::Held) },
+    SystemPort { entry: 0x05_CEF8, original: "InputEvtThunk_05cef8", rust: "input::pressed", run: |m| pad_test(m, 0x02, Edge::Held) },
+    SystemPort { entry: 0x05_CF04, original: "InputEvtThunk_05cf04", rust: "input::pressed", run: |m| pad_test(m, 0x08, Edge::Held) },
+    SystemPort { entry: 0x05_CF10, original: "InputEvtThunk_05cf10", rust: "input::pressed", run: |m| pad_test(m, 0x04, Edge::Held) },
+    SystemPort { entry: 0x05_CF1C, original: "InputEvtThunk_05cf1c", rust: "input::pressed", run: |m| pad_test(m, 0x0C, Edge::Held) },
+    SystemPort { entry: 0x05_CF2C, original: "InputEvtThunk_05cf2c", rust: "input::pressed", run: |m| pad_test(m, 0x09, Edge::Held) },
+    SystemPort { entry: 0x05_CF3C, original: "InputEvtThunk_05cf3c", rust: "input::pressed", run: |m| pad_test(m, 0x0A, Edge::Held) },
+    SystemPort { entry: 0x05_CF4C, original: "InputEvtThunk_05cf4c", rust: "input::pressed", run: |m| pad_test(m, 0x05, Edge::Held) },
+    SystemPort { entry: 0x05_CF5C, original: "InputEvtThunk_05cf5c", rust: "input::pressed", run: |m| pad_test(m, 0x06, Edge::Held) },
+    SystemPort { entry: 0x05_CF6C, original: "InputEvtThunk_05cf6c", rust: "input::pressed", run: |m| pad_test(m, 0x08, Edge::Pressed) },
+    SystemPort { entry: 0x05_CF78, original: "InputEvtThunk_05cf78", rust: "input::pressed", run: |m| pad_test(m, 0x04, Edge::Pressed) },
+    SystemPort { entry: 0x05_CF84, original: "InputEvtThunk_05cf84", rust: "input::pressed", run: |m| pad_test(m, 0x01, Edge::Pressed) },
+    SystemPort { entry: 0x05_CF90, original: "InputEvtThunk_05cf90", rust: "input::pressed", run: |m| pad_test(m, 0x02, Edge::Pressed) },
+    SystemPort { entry: 0x05_CF9C, original: "InputEvtThunk_05cf9c", rust: "input::pressed", run: |m| pad_test(m, 0x0C, Edge::Pressed) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
