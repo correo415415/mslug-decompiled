@@ -77,15 +77,11 @@ pub fn slot_run(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
     let bit = m.read_u8(t + L::SLOT_BIT);
     let mother = m.read_u32(t + T::OWNER);
-    // El original lee después `+$92` a través de a0, que tras pulsar ya no
-    // apunta a la madre sino al guion recién empezado.
-    let mut held_from = mother;
     if m.read_u8(mother + L::MOTHER_NEW) & bit != 0 {
+        // Recién pulsada: guion de pulsado y nada más este frame.
         m.write_u16(t + L::SLOT_DOWN, 1);
         anim::start(m, t, L::SLOT_PRESSED);
-        held_from = L::SLOT_PRESSED;
-    }
-    if m.read_u8(held_from + L::MOTHER_HELD) & bit == 0 && m.read_u16(t + L::SLOT_DOWN) == 1 {
+    } else if m.read_u8(mother + L::MOTHER_HELD) & bit == 0 && m.read_u16(t + L::SLOT_DOWN) == 1 {
         m.write_u16(t + L::SLOT_DOWN, 0);
         anim::start(m, t, L::SLOT_RELEASED);
     }

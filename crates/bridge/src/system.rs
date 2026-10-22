@@ -275,6 +275,14 @@ fn pulse_regs(m: &mut CpuMachine, t: u32, from_table: bool) {
     }
 }
 
+/// Registros de `$05E4CA`: a0 = dueño, d0/d1/d2 = atributos, X, Y.
+fn owner_regs(m: &mut CpuMachine, t: u32, a: u16, x: u16, y: u16) {
+    m.cpu.a[0] = m.read_u32(t + mslug_game::layout::task::OWNER);
+    for (k, v) in [a, x, y].into_iter().enumerate() {
+        m.cpu.d[k] = (m.cpu.d[k] & 0xFFFF_0000) | u32::from(v);
+    }
+}
+
 fn set_carry(m: &mut CpuMachine, c: bool) {
     m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
 }
@@ -1220,6 +1228,52 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                             let c = hits::on_screen(m, t, a, (mg != 0xFFFF_FFFF).then_some(mg)); set_carry(m, !c); Flow::Return } },
     SystemPort { entry: 0x05_1914, original: "$051914", rust: "system::hits::award_damage_points",
                  run: |m| { let (t, v) = (m.cpu.a[6], m.cpu.a[1]); hits::award_damage_points(m, t, v); Flow::Return } },
+    // --- Slug: caída de la entrada en escena y física del chasis
+    SystemPort { entry: 0x02_B004, original: "Slug_DropVariant4_02af88__L02b004", rust: "system::slug::fall_run", run: |m| slug::fall_run(m) },
+    SystemPort { entry: 0x02_B05E, original: "Slug_DropDescend_02b05e", rust: "system::slug::descend", run: |m| slug::descend(m) },
+    SystemPort { entry: 0x02_B09E, original: "Slug_DropDescend_02b05e__L02b09e", rust: "system::slug::descend_run", run: |m| slug::descend_run(m) },
+    SystemPort { entry: 0x02_A878, original: "Slug_PhysicsAir_02a878", rust: "system::slug::physics_air",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug::physics_air(m, t, m.cpu.d[4] as u16); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A8C0, original: "Slug_GroundContact_02a8c0", rust: "system::slug::ground_contact",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug::ground_contact(m, t);
+                            m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(c.wheels as u8);
+                            set_carry(m, c.in_air); Flow::Return } },
+    SystemPort { entry: 0x02_A958, original: "Slug_TerrainSlope_02a958", rust: "system::slug::terrain_slope",
+                 run: |m| { let t = m.cpu.a[6]; let (d0, d1, d2) = slug::terrain_slope(m, t);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(d0);
+                            m.cpu.d[1] = if d1 == 0 { m.cpu.d[1] & 0xFFFF_0000 } else { d1 };
+                            m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | u32::from(d2); Flow::Return } },
+    SystemPort { entry: 0x02_A9A0, original: "Slug_SlopeToAnimIdx_02a9a0", rust: "system::slug::slope_anim_idx",
+                 run: |m| { let t = m.cpu.a[6]; let i = slug::slope_anim_idx(m, t); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(i); Flow::Return } },
+    SystemPort { entry: 0x02_AA24, original: "Slug_UpdateAnimAndChassis_02aa24", rust: "system::slug::update_anim",
+                 run: |m| { let t = m.cpu.a[6]; slug::update_anim(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_AA0E, original: "Slug_UpdateAnimKeepIdx_02aa0e", rust: "system::slug::update_anim_keep_idx",
+                 run: |m| { let t = m.cpu.a[6]; slug::update_anim_keep_idx(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_FAE4, original: "Slug_UpdateDamageSprite_02fae4", rust: "system::slug::damage_anim",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug::damage_anim(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A478, original: "Slug_UpdateAirFlag_02a478", rust: "system::slug::update_steering",
+                 run: |m| { let t = m.cpu.a[6]; slug::update_steering(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_0704, original: "Slug_WheelAgainstWall_030704", rust: "system::slug::wheel_against_wall",
+                 run: |m| { let t = m.cpu.a[6]; let r = slug::wheel_against_wall(m, t);
+                            let (a0, d0) = r.unwrap_or((t, 0));
+                            m.cpu.a[0] = a0; m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(d0 as u16);
+                            m.cpu.sr.set(StatusRegister::Z, r.is_none()); Flow::Return } },
+    SystemPort { entry: 0x02_81B0, original: "Entity_LatchX_0281b0", rust: "system::slug::latch_x",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; slug::latch_x(m, m.cpu.d[0] as u16); Flow::Return } },
+    SystemPort { entry: 0x02_7A18, original: "Entity_MoveOnBaseY_027a18", rust: "system::slug::move_on_base",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let c = slug::move_on_base(m, t, m.cpu.d[4] as u16); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_7444, original: "Entity_MoveAndStop_027444", rust: "system::slug::move_and_stop",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug::move_and_stop(m, t, m.cpu.d[4] as u16); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_95A6, original: "Slug_AngleToSpriteIdx_0295a6", rust: "system::slug::angle_sprite",
+                 run: |m| { let k = m.cpu.d[0] as u16; let i = slug::angle_sprite(m, k); m.cpu.a[0] = mslug_game::layout::slug::ANGLE_SPRITES;
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(i); Flow::Return } },
+    SystemPort { entry: 0x02_FB9A, original: "Slug_WheelAnim_02fb92__L02fb9a", rust: "system::slug::track_start", run: |m| slug::track_start(m) },
+    SystemPort { entry: 0x02_FBCC, original: "Slug_WheelAnim_02fb92+0x3A", rust: "system::slug::track_run", run: |m| slug::track_run(m) },
+    SystemPort { entry: 0x02_FC6A, original: "Slug_WheelAnim_02fb92+0xD8", rust: "system::slug::track_run_plain", run: |m| slug::track_run_plain(m) },
+    SystemPort { entry: 0x05_E4B2, original: "Entity_FollowOwner_05e4b2", rust: "system::slug::follow_owner",
+                 run: |m| { let t = m.cpu.a[6]; let (a, x, y) = slug::follow_owner(m, t); owner_regs(m, t, a, x, y); Flow::Return } },
+    SystemPort { entry: 0x05_E4CA, original: "Entity_OwnerPos_05e4ca", rust: "system::slug::owner_pos",
+                 run: |m| { let t = m.cpu.a[6]; let (a, x, y) = slug::owner_pos(m, t); owner_regs(m, t, a, x, y); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

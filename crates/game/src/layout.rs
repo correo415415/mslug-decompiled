@@ -998,6 +998,9 @@ pub mod motion {
     pub const STEP: [u32; 2] = [0x10_6F2C, 0x10_6F2E];
     pub const NEW_SUB: [u32; 2] = [0x10_6F30, 0x10_6F31];
     pub const LATCH: [u32; 2] = [0x10_6F3E, 0x10_6F40];
+    /// Y de apoyo (`+$82`) con la que se mueven los vehículos, y su máscara.
+    pub const BASE_Y: u32 = 0x82;
+    pub const BASE_Y_MASK: u16 = 0x3FF;
     /// Escenas: sin bordes de pantalla y la del pozo (los jugadores no
     /// bajan de `PIT_Y`).
     pub const SCENE: u32 = 0x10_6ECE;
@@ -2465,6 +2468,105 @@ pub mod slug {
     pub const CHAIN_KIND: u32 = 0x98;
     pub const FIELD_98_LONG: u32 = 0x98;
     pub const FIELD_98_INIT: u32 = 0x1_0000;
+    /// Caída de la entrada en escena: invulnerabilidad (frames, `+$45`)
+    /// mientras cae y mientras baja hasta el suelo.
+    pub const INVULNERABLE: u32 = 0x45;
+    pub const DROP_INVULNERABLE: u8 = 0x5A;
+    pub const DESCEND_INVULNERABLE: u8 = 0x46;
+    /// Velocidades y aceleraciones (palabras).
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    /// Velocidad vertical fija mientras cae y tope al bajar.
+    pub const DROP_VEL_Y: u16 = 0xFC00;
+    pub const MAX_FALL: u16 = 0x400;
+    /// Atributos del sprite en el aire: se quitan los bits de `!AIR_ATTR_KEEP`
+    /// y se ponen los de `AIR_ATTR`.
+    pub const AIR_ATTR_KEEP: u16 = 0xFFE3;
+    pub const AIR_ATTR: u16 = 0x9FE0 | 0xC;
+    /// Por encima de esta Y la caída pasa a la bajada.
+    pub const DESCEND_Y: i16 = 0x180;
+    /// Rutinas: bajada (entrada y bucle) y el estado parado del Slug.
+    pub const DROP_DESCEND: u32 = 0x02_B05E;
+    pub const DESCEND_RUN: u32 = 0x02_B09E;
+    pub const IDLE_ENTER: u32 = 0x02_DD20;
+    /// Lo que la bajada suma a la Y de apoyo cada vez que entra.
+    pub const DESCEND_STEP: u16 = 8;
+    /// Las tres ruedas (eslabones de la cadena): delantera, trasera y la
+    /// del medio. De cada una: Y del suelo bajo ella, si lo pisa, su X/Y y
+    /// el bit de pared.
+    pub const WHEELS: [u32; 3] = [0x74, 0x78, 0x7C];
+    pub const WHEEL_X: u32 = 0x22;
+    pub const WHEEL_Y: u32 = 0x24;
+    pub const WHEEL_GROUND: u32 = 0x9A;
+    pub const WHEEL_ON_GROUND: u32 = 0x84;
+    pub const WHEEL_STATE: u32 = 0x5A;
+    pub const WHEEL_HIT_WALL: u8 = 1 << 5;
+    pub const WHEEL_Y_MASK: u16 = 0x1FF;
+    /// Ruedas que tienen que pisar para que cuente como apoyado.
+    pub const WHEELS_TO_LAND: u8 = 2;
+    /// Inclinación del terreno (la última que se ha aplicado al sprite) y
+    /// su tope.
+    pub const ANGLE: u32 = 0x80;
+    pub const MAX_SLOPE: i16 = 0x40;
+    /// Índice de animación por pendiente y umbrales del producto de la
+    /// pendiente (fuerte, suave).
+    pub const ANIM_IDX: u32 = 0x94;
+    pub const STEEP_SLOPE: i16 = 0x384;
+    pub const GENTLE_SLOPE: i16 = 0x5A;
+    /// Piloto (0 = nadie, 1/2 = jugador) y el último que lo ha llevado.
+    pub const PILOT: u32 = 0x68;
+    pub const LAST_PILOT: u32 = 0x85;
+    pub const TURN_TIMER: u32 = 0x84;
+    /// Contador que baja hasta 0 cada frame.
+    pub const PULSE: u32 = 0x8E;
+    pub const X: u32 = 0x22;
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const AIRBORNE: u8 = 1 << 1;
+    /// `+$12` bit 4: se está pulsando izquierda o derecha.
+    pub const STEERING: u8 = 1 << 4;
+    /// `+$12` bit 3: lo pone el guion de daños.
+    pub const DAMAGE_BIT: u8 = 1 << 3;
+    /// `+$13` bit 0: no se actualiza el sprite de daños.
+    pub const NO_DAMAGE_SPRITE: u8 = 1 << 0;
+    /// `+$5B` bit 3: apoyado sobre las ruedas.
+    pub const ON_WHEELS: u8 = 1 << 3;
+    /// `+$6B` bit 6: sondea el suelo como cualquier entidad.
+    pub const PLAIN_FLOOR: u8 = 1 << 6;
+    /// Guion del sprite de daños (sólo con la vida a 1 o menos).
+    pub const DAMAGE_SCRIPT: u32 = 0x02_F886;
+    pub const DAMAGE_HP: u16 = 1;
+    pub const FIELD_14_SRC: u32 = 0x14;
+    /// Tabla inclinación → índice de sprite y guiones de cada sprite
+    /// (`NO_SCRIPT` = ninguno), y el tope del índice.
+    pub const ANGLE_SPRITES: u32 = 0x2B_0BEE;
+    pub const ANGLE_SCRIPTS: u32 = 0x2B_0C30;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const ANGLE_MAX: u16 = 0x40;
+    pub const ANGLE_CENTER: i16 = 0x20;
+    pub const BYTE_20: u32 = 0x20;
+    pub const BYTE_20_TILT: u8 = 0x14;
+    /// Orugas (tarea hija): entrada y bucle (normal y con el Slug sin
+    /// sprite de daños), sus cuatro sprites, el fotograma (0, 2, 4, 6) y
+    /// el campo de la tarea del que sale el sprite de cada fotograma.
+    pub const TRACK_START: u32 = 0x02_FB9A;
+    pub const TRACK_RUN: u32 = 0x02_FBCC;
+    pub const TRACK_RUN_PLAIN: u32 = 0x02_FC6A;
+    pub const TRACK_GFX: [u16; 4] = [0x196, 0x197, 0x198, 0x199];
+    pub const TRACK_FRAME: u32 = 0x70;
+    pub const TRACK_FRAME_MASK: u16 = 6;
+    pub const TRACK_FIELDS: [u32; 4] = [0x16, 0x18, 0x1A, 0x1C];
+    /// Con más vida que esto las orugas no se mueven.
+    pub const TRACK_MAX_HP: u16 = 0x10;
+    /// Cursor del guion y última orden de fotograma (se copian del Slug;
+    /// `NO_SPRITE` en la palabra alta = sin orden).
+    pub const SCRIPT_CURSOR: u32 = 0x3C;
+    pub const LAST_SPRITE: u32 = 0x40;
+    pub const NO_SPRITE: u16 = 0xFFFF;
+    /// Las orugas van una capa por debajo del chasis.
+    pub const TRACK_DEPTH: u16 = 2;
+    /// Rutina del Slug destruido: entonces las orugas se dan de baja.
+    pub const DESTROYED: u32 = 0x02_DC5C;
 }
 
 /// Escena de Game Over / Continue (la del attract sin créditos y la del fin
