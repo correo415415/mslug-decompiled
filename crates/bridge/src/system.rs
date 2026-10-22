@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -1337,6 +1337,59 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let (r, c, w) = (m.cpu.a[1], m.cpu.d[3] as u16, m.cpu.d[4] as u16); mask_regs(m, r, 8, w); let b = slope::platform_bit(m, r, c, w); set_carry(m, b); Flow::Return } },
     SystemPort { entry: 0x09_98CA, original: "Trail_FindByKeyRange_0998ca", rust: "system::platforms::step_onto",
                  run: |m| { let t = m.cpu.a[6]; let c = platforms::step_onto(m, t, m.cpu.d[1] as u16, m.cpu.d[2] as u16); set_carry(m, c); Flow::Return } },
+    // --- ruedas del Slug
+    SystemPort { entry: 0x03_0002, original: "Chain3_Init_030002", rust: "system::wheels::init",
+                 run: |m| { let t = m.cpu.a[6]; wheels::init(m, t); m.cpu.a[0] = mslug_game::layout::wheels::SCRIPT; Flow::Return } },
+    SystemPort { entry: 0x03_0068, original: "Chain3_TplA_030068", rust: "system::wheels::start", run: |m| wheels::start(m, false) },
+    SystemPort { entry: 0x03_00BA, original: "Chain3_TplB_0300ba", rust: "system::wheels::start", run: |m| wheels::start(m, true) },
+    SystemPort { entry: 0x03_010C, original: "Chain3_TplC_03010c", rust: "system::wheels::middle_start", run: |m| wheels::middle_start(m) },
+    SystemPort { entry: 0x03_0156, original: "Chain3_TplC_03010c+0x4A", rust: "system::wheels::middle_run", run: |m| wheels::middle_run(m) },
+    SystemPort { entry: 0x03_01F0, original: "Chain3_Follow_0301f0", rust: "system::wheels::run",
+                 run: |m| { let t = m.cpu.a[6]; m.write_u32(t, mslug_game::layout::wheels::RUN); wheels::run(m) } },
+    SystemPort { entry: 0x03_01F6, original: "Chain3_Follow_0301f0+6", rust: "system::wheels::run", run: |m| wheels::run(m) },
+    SystemPort { entry: 0x03_0392, original: "Chain3_YDelta_030392", rust: "system::wheels::too_far",
+                 run: |m| { let t = m.cpu.a[6]; let c = wheels::too_far(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_03EE, original: "Chain3_Step_0303ee", rust: "system::wheels::step",
+                 run: |m| { let t = m.cpu.a[6]; let y = wheels::step(m, t, m.cpu.d[0] as u16, m.cpu.d[1] as u16); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(y); Flow::Return } },
+    SystemPort { entry: 0x03_0416, original: "Chain3_VelY_030416", rust: "system::wheels::vel_y",
+                 run: |m| { let t = m.cpu.a[6]; wheels::vel_y(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_0462, original: "Chain3_VelX_030462", rust: "system::wheels::follow_x",
+                 run: |m| { let t = m.cpu.a[6]; wheels::follow_x(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_050C, original: "Chain3_CheckSyncB_03050c", rust: "system::wheels::sync_climb",
+                 run: |m| { let t = m.cpu.a[6]; wheels::sync_climb(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_0554, original: "Chain3_DebugHud_030554", rust: "system::wheels::debug_hud",
+                 run: |m| { let t = m.cpu.a[6]; wheels::debug_hud(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_ABCC, original: "ClearXN_02abcc", rust: "(C = 0)", run: |m| { set_carry(m, false); Flow::Return } },
+    SystemPort { entry: 0x02_773C, original: "Entity_MoveAndCollide_E_02773c", rust: "system::motion::move_e",
+                 run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let c = motion::move_e(m, t, at); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_7D50, original: "$027D50", rust: "system::motion::on_entity_pos(move_e)",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16);
+                            let c = motion::on_entity_pos(m, t, |m| motion::move_e(m, t, at)); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_7C2A, original: "$027C2A", rust: "system::motion::on_entity_pos(move_and_stop)",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let row = m.cpu.d[4] as u16;
+                            let c = motion::on_entity_pos(m, t, |m| slug::move_and_stop(m, t, row)); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_80C6, original: "$0280C6", rust: "system::turret::kind_at",
+                 run: |m| { let t = m.cpu.a[6]; let k = turret::kind_at(m, t, m.cpu.d[1] as u16, m.cpu.d[2] as u16); set_carry(m, k != 0); Flow::Return } },
+    SystemPort { entry: 0x05_D6C2, original: "$05D6C2", rust: "system::hud::put_hex4",
+                 run: |m| { let (a, v) = (m.cpu.a[1] as u16, m.cpu.d[0] as u16); hud::put_hex4(m, a, v); Flow::Return } },
+    // --- efecto de suelo bajo los pies
+    SystemPort { entry: 0x07_7686, original: "MuzzleFx_InitA_077686", rust: "system::ground_fx::start", run: |m| ground_fx::start(m, 0) },
+    SystemPort { entry: 0x07_76B4, original: "MuzzleFx_InitB_0776b4", rust: "system::ground_fx::start", run: |m| ground_fx::start(m, 1) },
+    SystemPort { entry: 0x07_76E2, original: "MuzzleFx_InitC_0776e2", rust: "system::ground_fx::start", run: |m| ground_fx::start(m, 2) },
+    SystemPort { entry: 0x07_7710, original: "MuzzleFx_InitD_077710", rust: "system::ground_fx::start", run: |m| ground_fx::start(m, 3) },
+    SystemPort { entry: 0x07_773E, original: "MuzzleFx_InitE_07773e", rust: "system::ground_fx::start", run: |m| ground_fx::start(m, 4) },
+    SystemPort { entry: 0x07_78A2, original: "MuzzleFx_Track_0778a2", rust: "system::ground_fx::track", run: |m| ground_fx::track(m) },
+    SystemPort { entry: 0x07_78FC, original: "MuzzleFx_WaitAim_0778fc", rust: "system::ground_fx::wait", run: |m| ground_fx::wait(m) },
+    SystemPort { entry: 0x07_7912, original: "MuzzleFx_Flash_077912", rust: "system::ground_fx::land", run: |m| ground_fx::land(m) },
+    SystemPort { entry: 0x07_7958, original: "MuzzleFx_Flash_077912+0x46", rust: "system::ground_fx::land_run", run: |m| ground_fx::land_run(m) },
+    SystemPort { entry: 0x07_776C, original: "MuzzleFx_Attach_07776c", rust: "system::ground_fx::walk_start", run: |m| ground_fx::walk_start(m) },
+    SystemPort { entry: 0x07_7778, original: "MuzzleFx_Attach_07776c+0xC", rust: "system::ground_fx::walk", run: |m| ground_fx::walk(m) },
+    SystemPort { entry: 0x07_7A16, original: "MuzzleFx_Detached_077a16", rust: "system::ground_fx::detached", run: |m| ground_fx::detached(m) },
+    SystemPort { entry: 0x07_7A60, original: "MuzzleFx_Detached_077a16+0x4A", rust: "system::ground_fx::detached_run", run: |m| ground_fx::detached_run(m) },
+    SystemPort { entry: 0x07_7A8E, original: "JmpToScheduler_077a8e", rust: "system::tasks::finish", run: |m| tasks::finish(m) },
+    SystemPort { entry: 0x02_7FAC, original: "Entity_TestSolidAtFeet_027fac", rust: "system::ground_fx::solid_at_feet",
+                 run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let (on, raw) = ground_fx::solid_at_feet(m, t, at);
+                            m.cpu.d[7] = (m.cpu.d[7] & 0xFFFF_FF00) | u32::from(raw); set_carry(m, !on); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

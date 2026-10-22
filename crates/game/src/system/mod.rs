@@ -18,6 +18,7 @@ pub mod frame;
 pub mod game_over;
 pub mod go_arrow;
 pub mod grunt;
+pub mod ground_fx;
 pub mod hits;
 pub mod hud;
 pub mod icons;
@@ -48,6 +49,7 @@ pub mod title;
 pub mod turret;
 pub mod tasks;
 pub mod video;
+pub mod wheels;
 
 use crate::mem::Memory;
 
