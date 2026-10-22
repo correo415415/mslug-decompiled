@@ -132,6 +132,11 @@ fn gfx(m: &mut impl Memory) -> u16 {
 pub fn start(m: &mut impl Machine, k: usize) -> Flow {
     let t = m.task_register();
     if !L::SCENES.contains(&m.read_u8(L::SCENE)) {
+        // El original se da de baja desde dentro de la subrutina que mira
+        // la escena (con su dirección de vuelta aún en la pila).
+        let sp = m.stack_pointer().wrapping_sub(4);
+        m.set_stack_pointer(sp);
+        m.write_u32(sp, L::START_RETURN[k]);
         return tasks::finish(m);
     }
     let g = gfx(m);

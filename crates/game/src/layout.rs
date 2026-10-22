@@ -1239,6 +1239,8 @@ pub mod ground_fx {
     pub const WALK_FRAMES: u32 = 0x2D_C946;
     pub const FRAMES: u32 = 0x5C;
     /// Rutinas de la tarea.
+    /// Dirección de vuelta de la comprobación de escena en cada alta.
+    pub const START_RETURN: [u32; 5] = [0x07_768A, 0x07_76B8, 0x07_76E6, 0x07_7714, 0x07_7742];
     pub const TRACK: u32 = 0x07_78A2;
     pub const WAIT: u32 = 0x07_78FC;
     pub const LAND: u32 = 0x07_7912;
