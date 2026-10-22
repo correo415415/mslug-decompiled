@@ -1232,6 +1232,21 @@ pub mod fort {
     pub const CLOSING_RUN: u32 = 0x08_70E0;
     pub const FINAL_OPEN: u32 = 0x08_7108;
     pub const FINAL_SPAWN: u32 = 0x08_7130;
+    /// Cajas: gráficos por variante, vida, zoom completo, caja de golpe
+    /// que parpadea (activa 1 de cada 4 frames; tabla por variante) y vida
+    /// del frame anterior (para pasar el daño al fuerte).
+    pub const CRATE_GFX: [u16; 5] = [0xE7, 0xE8, 0xE9, 0xEA, 0xEB];
+    pub const CRATE_HP: u16 = 0x14;
+    pub const SHRINK_Y: u32 = 0x32;
+    pub const SHRINK_X: u32 = 0x33;
+    pub const FLIP: u32 = 0x3A;
+    pub const FULL_SIZE: u8 = 0xFF;
+    pub const CRATE_RUN: u32 = 0x08_6D58;
+    pub const CRATE_BURST: u32 = 0x08_6DB4;
+    pub const PULSE_HITBOXES: u32 = 0x2E_C712;
+    pub const PULSE_MASK: u16 = 3;
+    pub const PULSE_HITBOX: u32 = 0x84;
+    pub const LAST_HP: u32 = 0x80;
     pub const PIECES: [&[Piece]; 5] = [
         &[
             (PILLBOX_RIGHT, 0x28, 0x50, Some(0x60), 0x2E_D738, Some(0x0E_E066)),

@@ -261,6 +261,20 @@ fn out_regs(m: &mut CpuMachine, a: u32) {
     }
 }
 
+/// Registros que deja el pulso de la caja de golpe (`$088438`/`$08846A`).
+fn pulse_regs(m: &mut CpuMachine, t: u32, from_table: bool) {
+    let n = u32::from(m.read_u16(t + mslug_game::layout::fort::TIMER));
+    if n & 3 != 0 {
+        m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | (n & 0xFF03);
+        m.cpu.a[0] = mslug_game::layout::fort::NO_HITBOX;
+    } else if from_table {
+        m.cpu.d[0] = u32::from(m.read_u8(t + mslug_game::layout::fort::STATE)) * 4;
+        m.cpu.a[0] = m.read_u32(t + mslug_game::layout::fort::HITBOX);
+    } else {
+        m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | (n & 0xFF00);
+    }
+}
+
 fn set_carry(m: &mut CpuMachine, c: bool) {
     m.cpu.sr.set(StatusRegister::C | StatusRegister::X, c);
 }
@@ -1173,6 +1187,20 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x08_7130, original: "Hatch_FinalSpawn_087130", rust: "system::fort::hatch_final_spawn", run: |m| fort::hatch_final_spawn(m) },
     SystemPort { entry: 0x08_6552, original: "Entity_CmpPrioWithSibling_086552", rust: "system::fort::has_children",
                  run: |m| { let t = m.cpu.a[6]; m.cpu.a[1] = m.read_u32(t + mslug_game::layout::task::NEXT); let c = fort::has_children(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x08_6CD0, original: "Crate_Init_086cd0", rust: "system::fort::crate_start", run: |m| fort::crate_start(m, 0) },
+    SystemPort { entry: 0x08_6CE4, original: "Crate_Init_V1_086ce4", rust: "system::fort::crate_start", run: |m| fort::crate_start(m, 1) },
+    SystemPort { entry: 0x08_6CF8, original: "Crate_Init_V2_086cf8", rust: "system::fort::crate_start", run: |m| fort::crate_start(m, 2) },
+    SystemPort { entry: 0x08_6D0C, original: "Crate_Init_V3_086d0c", rust: "system::fort::crate_start", run: |m| fort::crate_start(m, 3) },
+    SystemPort { entry: 0x08_6D20, original: "Crate_Init_V4_086d20", rust: "system::fort::crate_start", run: |m| fort::crate_start(m, 4) },
+    SystemPort { entry: 0x08_6D58, original: "$086D58", rust: "system::fort::crate_run", run: |m| fort::crate_run(m) },
+    SystemPort { entry: 0x02_8758, original: "Hitbox_CheckBit0_028758", rust: "system::fort::dead",
+                 run: |m| { let t = m.cpu.a[6]; let c = fort::dead(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x08_8438, original: "Entity_HitboxPulseTable_088438", rust: "system::fort::pulse_hitbox",
+                 run: |m| { let t = m.cpu.a[6]; fort::pulse_hitbox(m, t, true); pulse_regs(m, t, true); Flow::Return } },
+    SystemPort { entry: 0x08_846A, original: "$08846A", rust: "system::fort::pulse_hitbox",
+                 run: |m| { let t = m.cpu.a[6]; fort::pulse_hitbox(m, t, false); pulse_regs(m, t, false); Flow::Return } },
+    SystemPort { entry: 0x08_848C, original: "Entity_PropagateDamageToParent_08848c", rust: "system::fort::pass_damage_to_parent",
+                 run: |m| { let t = m.cpu.a[6]; fort::pass_damage_to_parent(m, t); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

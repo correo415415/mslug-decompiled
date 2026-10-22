@@ -362,6 +362,82 @@ pub fn hatch_final_spawn(m: &mut impl Machine) -> Flow {
     hatch_tail(m, t)
 }
 
+/// ¿Está muerta? Original: `Hitbox_CheckBit0_028758`.
+pub fn dead(m: &mut impl Memory, t: u32) -> bool {
+    m.read_u8(t + L::FLAGS2) & L::DEAD != 0
+}
+
+/// La caja de golpe sólo está activa uno de cada cuatro frames: la de la
+/// tabla `PULSE_HITBOXES` según `STATE` (`$088438`) o la guardada en
+/// `PULSE_HITBOX` (`$08846A`).
+pub fn pulse_hitbox(m: &mut impl Memory, t: u32, from_table: bool) {
+    let n = m.read_u16(t + L::TIMER).wrapping_add(1);
+    m.write_u16(t + L::TIMER, n);
+    let hb = if n & L::PULSE_MASK != 0 {
+        L::NO_HITBOX
+    } else if from_table {
+        let k = u32::from(m.read_u8(t + L::STATE));
+        m.read_u32(L::PULSE_HITBOXES + k * 4)
+    } else {
+        m.read_u32(t + L::PULSE_HITBOX)
+    };
+    m.write_u32(t + L::HITBOX, hb);
+}
+
+/// Resta al padre la vida que esta pieza ha perdido desde la última vez.
+/// Original: `Entity_PropagateDamageToParent_08848c`.
+pub fn pass_damage_to_parent(m: &mut impl Memory, t: u32) {
+    let hp = m.read_u16(t + L::HP);
+    let lost = m.read_u16(t + L::LAST_HP).wrapping_sub(hp);
+    let owner = m.read_u32(t + T::OWNER);
+    let ohp = m.read_u16(owner + L::HP).wrapping_sub(lost);
+    m.write_u16(owner + L::HP, ohp);
+    m.write_u16(t + L::LAST_HP, hp);
+}
+
+/// ¿Ha caído ya el fuerte (el padre)?
+fn parent_gone(m: &mut impl Memory, t: u32) -> bool {
+    let owner = m.read_u32(t + T::OWNER);
+    m.read_u8(owner + L::STATE) == L::STATE_GONE
+}
+
+/// Alta de una caja del fuerte (variante `v`).
+/// Original: `Crate_Init_086cd0` … `Crate_Init_V4_086d20`.
+pub fn crate_start(m: &mut impl Machine, v: usize) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::CRATE_GFX[v]);
+    m.write_u8(t + L::STATE, v as u8);
+    m.write_u8(t + L::SHRINK_Y, L::FULL_SIZE);
+    m.write_u8(t + L::SHRINK_X, L::FULL_SIZE);
+    m.write_u8(t + L::FLIP, 0);
+    m.write_u16(t + L::HP, L::CRATE_HP);
+    m.write_u16(t + L::ATTR, 0);
+    m.write_u32(t + T::HANDLER, L::CRATE_RUN);
+    crate_run(m)
+}
+
+/// Bucle de la caja: se mueve con la escena, pasa el daño al fuerte y,
+/// al morir, revienta. Original: `$086D58`.
+pub fn crate_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if parent_gone(m, t) {
+        return tasks::finish(m);
+    }
+    platforms::move_with_scene(m, t);
+    if hit_side(m, t).is_some() {
+        hit_sound(m, t, L::HIT_SOUNDS);
+        let f = m.read_u8(t + L::FLAGS2) & !L::HIT;
+        m.write_u8(t + L::FLAGS2, f);
+        pass_damage_to_parent(m, t);
+    }
+    if dead(m, t) {
+        m.write_u32(t + L::HITBOX, L::NO_HITBOX);
+        m.write_u32(t + T::HANDLER, L::CRATE_BURST);
+    }
+    pulse_hitbox(m, t, true);
+    Flow::Return
+}
+
 #[cfg(test)]
 mod tests {
     use crate::layout::fort as L;
