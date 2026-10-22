@@ -227,7 +227,7 @@ pub fn leaving_slope(m: &mut impl Memory, t: u32, slope: u32) -> bool {
 /// `y` a la altura de la columna. `Ok((y, columna))` = aterriza;
 /// `Err(y)` = no (objeto sujeto sin gravedad), con la `y` ya bajada.
 /// Original: `Entity_SlopeResolve_0275f6` / `Entity_SlopeTail_02772c`.
-fn slope_floor(m: &mut impl Memory, t: u32, x: u16, y: u16, mut s: Surface) -> Result<(u16, u16), u16> {
+pub(crate) fn slope_floor(m: &mut impl Memory, t: u32, x: u16, y: u16, mut s: Surface) -> Result<(u16, u16), u16> {
     let mut y = y;
     let drop = match s.kind {
         0x0C..=0x0F | 0x1C..=0x1F | 0x34 | 0x20 | 0x21 | 0x30 | 0x31 => 8,
@@ -341,6 +341,72 @@ pub fn move_fall(m: &mut impl Memory, t: u32, row: u16) -> bool {
         m.write_u16(t + C::ACC_Y, 0);
         m.write_u16(t + C::VEL_Y, 0);
         return true;
+    }
+    false
+}
+
+/// Ejecuta `step` sobre la posición de la entidad: la copia a la zona de
+/// trabajo y la devuelve después (con lo que diga `step`). Original: las
+/// envolturas `$027C2A` (con `$027444`) y `$027D50` (con `$02773C`).
+pub fn on_entity_pos<M: Memory>(m: &mut M, t: u32, step: impl FnOnce(&mut M) -> bool) -> bool {
+    let x = m.read_u16(t + C::X);
+    let y = m.read_u16(t + C::Y);
+    m.write_u16(C::WORK_POS[0], x);
+    m.write_u16(C::WORK_POS[1], y);
+    for (w, f) in C::WORK_SUB.into_iter().zip([C::SUB_X, C::SUB_Y]) {
+        let v = m.read_u8(t + f);
+        m.write_u8(w, v);
+    }
+    let c = step(m);
+    let (x, y) = (m.read_u16(C::WORK_POS[0]), m.read_u16(C::WORK_POS[1]));
+    m.write_u16(t + C::X, x);
+    m.write_u16(t + C::Y, y);
+    for (w, f) in C::WORK_SUB.into_iter().zip([C::SUB_X, C::SUB_Y]) {
+        let v = m.read_u8(w);
+        m.write_u8(t + f, v);
+    }
+    c
+}
+
+/// Movimiento con colisión «E» (subida): avanza y, si el punto nuevo es
+/// sólido, va hacia arriba y el tipo de tile no lo prohíbe, se apoya en la
+/// superficie. Devuelve si se ha apoyado. `at` = columna y fila que deja
+/// el original si no mira el mapa. Original: `Entity_MoveAndCollide_E_02773c`
+/// (con `Entity_SlopeCommit_0275b8`).
+pub fn move_e(m: &mut impl Memory, t: u32, at: (u16, u16)) -> bool {
+    platforms::apply_camera_work(m, t);
+    integrate_velocity(m, t);
+    advance(m, t);
+    let x = m.read_u16(C::WORK_POS[0]).wrapping_add(m.read_u16(L::STEP[0]));
+    let mut y = m.read_u16(C::WORK_POS[1]).wrapping_add(m.read_u16(L::STEP[1])).wrapping_sub(1);
+    let s = surface(m, t, x, y, at);
+    if s.kind != 0 && super::slope::solid_bit(m, s.record, s.at.0, s.at.1) {
+        let step = m.read_u16(L::STEP[1]);
+        let dir = if step != 0 { step } else { m.read_u16(t + C::VEL_Y) };
+        if (dir as i16) < 0 && m.read_u8(s.record + L::T_NO_CLIMB) == 0 {
+            let slope = m.read_u32(s.record + L::T_SLOPE);
+            match slope_floor(m, t, x, y, s) {
+                Ok((floor, col)) => {
+                    m.write_u16(C::WORK_POS[0], x);
+                    m.write_u16(C::WORK_POS[1], floor.wrapping_add(1));
+                    m.write_u8(C::WORK_SUB[0], 0);
+                    let sub = m.read_u8(slope + L::T_SUB_Y + u32::from(col));
+                    m.write_u8(C::WORK_SUB[1], sub);
+                    let st = m.read_u8(t + C::STATE);
+                    m.write_u8(t + C::STATE, st | C::ON_FLOOR);
+                    let p = m.read_u8(C::PLATFORM_UNDER);
+                    set_platform(m, t, p);
+                    return true;
+                }
+                Err(dropped) => y = dropped,
+            }
+        }
+    }
+    m.write_u16(C::WORK_POS[0], x);
+    m.write_u16(C::WORK_POS[1], y.wrapping_add(1));
+    for k in 0..2 {
+        let v = m.read_u8(L::NEW_SUB[k]);
+        m.write_u8(C::WORK_SUB[k], v);
     }
     false
 }

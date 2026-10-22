@@ -48,6 +48,7 @@ pub mod title;
 pub mod turret;
 pub mod tasks;
 pub mod video;
+pub mod wheels;
 
 use crate::mem::Memory;
 

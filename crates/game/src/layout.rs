@@ -1026,6 +1026,8 @@ pub mod motion {
     pub const T_SLOPE: u32 = 4;
     pub const T_SUB_Y: u32 = 0x12;
     pub const T_GRAVITY2: u32 = 0x1A;
+    /// Tipo de tile: `+9` ≠ 0 = no se puede apoyar subiendo (motor E).
+    pub const T_NO_CLIMB: u32 = 9;
     /// Pendientes de 45° con la velocidad vertical ×4.
     pub const STEEP_UP: u16 = 0x1000;
     pub const STEEP_DOWN: u16 = 0xF000;
@@ -1113,6 +1115,99 @@ pub mod slope {
     pub const WORK_SUB: [u32; 2] = [0x10_6F3C, 0x10_6F3D];
     pub const STEP: [u32; 2] = [0x10_6F2C, 0x10_6F2E];
     pub const NEW_SUB: [u32; 2] = [0x10_6F30, 0x10_6F31];
+}
+
+/// Ruedas del Slug (`system::wheels`): eslabones de la cadena del chasis.
+pub mod wheels {
+    /// Tipo (`+$98`; 0 = la rueda atraviesa las celdas con los dos bits
+    /// altos, `+$5B` bit 2), tipos de tile ignorados, flags de la tarea.
+    pub const KIND: u32 = 0x98;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const PASS_TOP: u8 = 1 << 2;
+    pub const IGNORE: u32 = 0x6B;
+    pub const IGNORE_INIT: u8 = 1 << 1;
+    pub const FLAGS_INIT: u8 = 1 << 6;
+    /// Atributos del sprite: iniciales, bits que se conservan y capa.
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0xF000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const ATTR_DEPTH: u16 = 0x10;
+    /// Con el modo de depuración (`DEBUG` bit 4) el sprite se ve encima.
+    pub const DEBUG: u32 = 0x10_0001;
+    pub const DEBUG_WHEELS: u8 = 1 << 4;
+    pub const DEBUG_ATTR: u16 = 0xF000;
+    /// Dónde se escriben en la capa fija empujones, X e Y (depuración).
+    pub const DEBUG_AT: [u16; 8] = [0x7412, 0x7413, 0x7415, 0x7416, 0x7417, 0x7419, 0x741A, 0x741B];
+    /// Guion de animación y sprites.
+    pub const SCRIPT: u32 = 0x29_DC90;
+    pub const GFX: [u16; 4] = [7, 9, 8, 6];
+    /// Tabla de cada rueda (delantera, trasera, del medio): distancia al
+    /// centro del Slug en `+2`.
+    pub const TABLES: [u32; 3] = [0x27_9668, 0x27_966E, 0x27_9674];
+    pub const TABLE_DX: u32 = 2;
+    /// Si es 0, el empujón vertical sólo mueve la Y del suelo, no la rueda.
+    pub const PUSH_GROUND_ONLY: u32 = 0x27_9666;
+    /// Rutinas del bucle (delantera/trasera y la del medio).
+    pub const RUN: u32 = 0x03_01F6;
+    pub const MIDDLE_RUN: u32 = 0x03_0156;
+    /// Campos de la rueda.
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const FIELD_14: u32 = 0x14;
+    pub const FIELD_16: u32 = 0x16;
+    pub const FIELD_18: u32 = 0x18;
+    pub const FIELD_1A: u32 = 0x1A;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const STATE: u32 = 0x5A;
+    pub const SURFACE_CHANGED: u8 = 1 << 4;
+    pub const RISING: u32 = 0x5C;
+    pub const RISING_ON: u8 = 0xFF;
+    pub const FACING: u32 = 0x6A;
+    pub const FACINGS: [u8; 2] = [0x7F, 0xFF];
+    /// Distancia al centro del Slug y sentido de marcha con el que toma
+    /// los permisos de subida del Slug (`ANY_SIDE` = nunca).
+    pub const OFFSET: u32 = 0x7C;
+    pub const CLIMB_SIDE: u32 = 0x7E;
+    pub const CLIMB_SIDES: [u16; 2] = [0, 0x8000];
+    pub const ANY_SIDE: u16 = 0xFFFF;
+    /// `+$13`/`+$5B` bits 4–5: puede subir rampas y escalones.
+    pub const CLIMB_BITS: u8 = 0x30;
+    /// Posición del frame anterior.
+    pub const PREV_X: u32 = 0x80;
+    pub const PREV_Y: u32 = 0x82;
+    /// Si pisa suelo, Y del suelo, empujón vertical pendiente.
+    pub const ON_GROUND: u32 = 0x84;
+    pub const GROUND_Y: u32 = 0x9A;
+    pub const PUSH: u32 = 0x8E;
+    /// La del medio: Y de la delantera y de la trasera.
+    pub const FRONT_Y: u32 = 0x8A;
+    pub const REAR_Y: u32 = 0x8C;
+    /// Enlaces de la cadena (delantera, trasera, del medio).
+    pub const LINKS: [u32; 3] = [0x70, 0x74, 0x78];
+    /// Del Slug: pendiente (`NO_SLOPE` = en el aire), Y de apoyo, parada
+    /// en seco (`+$13` bit 3), apoyado sobre las ruedas (`+$5B` bit 3).
+    pub const GRAVITY: u32 = 0x34;
+    pub const NO_SLOPE: u16 = 0xFFFF;
+    pub const STEEP_UP: u16 = 0x1000;
+    pub const STEEP_DOWN: u16 = 0xF000;
+    pub const OWNER_BASE_Y: u32 = 0x82;
+    pub const OWNER_FLAGS_13: u32 = 0x13;
+    pub const OWNER_STOPPED: u8 = 1 << 3;
+    pub const OWNER_ON_WHEELS: u8 = 1 << 3;
+    /// Física en el aire: tipo de tile, hueco sobre la rueda, velocidad por
+    /// debajo de la cual mira si ya pisa, separaciones máximas respecto a
+    /// la Y de apoyo, gravedad y desnivel entre ruedas.
+    pub const KIND_MASK: u8 = 0x3F;
+    pub const HEAD_ROOM: u16 = 4;
+    pub const SLOW_FALL: u16 = 8;
+    pub const AIR_GAP: i16 = 0x18;
+    pub const MAX_GAP: i16 = 0x12;
+    pub const GRAVITY_STEP: u16 = 0xC0;
+    pub const LEVEL_GAP: u16 = 0x1C;
 }
 
 /// Plataformas móviles (`system::platforms`).
@@ -1799,6 +1894,9 @@ pub mod rank {
 /// Textos de la capa fija que el juego mantiene encima de todo: créditos
 /// (recreativa y consola) y nivel de dificultad (recreativa).
 pub mod hud {
+    /// Cifras del último número en hexadecimal y sus caracteres.
+    pub const HEX_DIGITS: u32 = 0x10_E21E;
+    pub const HEX_CHARS: u32 = 0x05_D71C;
     /// Qué hay que dibujar: bit 0 = créditos, bit 1 = borrar créditos,
     /// bit 2 = nivel, bit 3 = borrar nivel.
     pub const FLAGS: u32 = 0x10_81BE;

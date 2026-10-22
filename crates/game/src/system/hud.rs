@@ -238,3 +238,17 @@ pub fn fix_anim_step(m: &mut impl Memory, t: u32) -> bool {
         }
     }
 }
+
+/// Escribe `v` en hexadecimal (4 cifras, una por columna) en la capa fija
+/// desde `at`; deja las cifras en `HEX_DIGITS`. Original: `$05D6C2`.
+pub fn put_hex4(m: &mut impl Memory, at: u16, v: u16) {
+    for k in 0..4u32 {
+        let d = (v >> (12 - 4 * k)) & 0xF;
+        m.write_u16(H::HEX_DIGITS + 2 * k, d);
+    }
+    for k in 0..4u32 {
+        let d = m.read_u16(H::HEX_DIGITS + 2 * k);
+        let ch = m.read_u8(H::HEX_CHARS + u32::from(d));
+        put(m, at.wrapping_add(k as u16 * H::COLUMN), u16::from(ch));
+    }
+}
