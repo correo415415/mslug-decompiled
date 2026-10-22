@@ -1030,6 +1030,24 @@ pub mod motion {
     pub const STEEP_UP: u16 = 0x1000;
     pub const STEEP_DOWN: u16 = 0xF000;
     pub const ID: u32 = 0x6C;
+    /// Avance con pendiente (`Entity_MoveXY_Probe_026992`): gravedad
+    /// (pendiente) actual, empuje del scroll en la escena `PUSH_SCENE` y
+    /// escalado de dy en pendientes suaves (`$AA/256`).
+    pub const GRAVITY: u32 = 0x34;
+    pub const NO_SLOPE: u16 = 0xFFFF;
+    pub const SLOPE_STEEP: u16 = 0x1000;
+    pub const SLOPE_GENTLE: u16 = 0x400;
+    pub const SLOPE_FLAT: u16 = 0x80;
+    pub const GENTLE_UP: u16 = 0x400;
+    pub const GENTLE_DOWN: u16 = 0xFC00;
+    pub const GENTLE_SCALE: i32 = 0xAA;
+    pub const PUSH_SCENE: u8 = 1;
+    pub const PUSH_ACTIVE: u32 = 0x10_6F5E;
+    /// `+$5B` bit 3: sin avance vertical en llano.
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const NO_VERTICAL: u8 = 1 << 3;
+    /// Los jugadores no bajan de `PIT_Y` en la escena del pozo.
+    pub const PIT_FLOOR: i16 = 0x1F0;
 }
 
 /// Plataformas móviles (`system::platforms`).

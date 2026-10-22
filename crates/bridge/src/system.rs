@@ -1312,6 +1312,10 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let p = m.cpu.a[2]; m.cpu.a[2] = turret::effective_pad(m, p); Flow::Return } },
     SystemPort { entry: 0x05_17FE, original: "Entity_CopyPilot_0517fe", rust: "system::turret::copy_pilot",
                  run: |m| { let (t, a) = (m.cpu.a[6], m.cpu.a[0]); turret::copy_pilot(m, t, a); Flow::Return } },
+    SystemPort { entry: 0x02_6992, original: "Entity_MoveXY_Probe_026992", rust: "system::motion::advance_on_slope",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; motion::advance_on_slope(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_800E, original: "Entity_ScaleDyForGravity_02800e", rust: "system::motion::scale_dy",
+                 run: |m| { let t = m.cpu.a[6]; let d = motion::scale_dy(m, t, m.cpu.d[2] as u16); m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | u32::from(d); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
