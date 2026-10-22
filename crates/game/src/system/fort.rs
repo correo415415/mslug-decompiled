@@ -12,7 +12,7 @@
 //! `Fort_Init_Common_086738`, `Fort_SpawnChildren_V0…V4`) y `$02942A`,
 //! `$02870A`, `$04FA70`, `$05DD22`, `$05E770`.
 
-use super::{anim, platforms, sound, tasks};
+use super::{anim, events, platforms, sound, tasks};
 use crate::layout::{fort as L, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
@@ -174,6 +174,192 @@ pub fn run(m: &mut impl Machine) -> Flow {
         return tasks::finish(m);
     }
     Flow::Return
+}
+
+/// ¿Tiene aún hijas? (la tarea siguiente tiene más prioridad).
+/// Original: `Entity_CmpPrioWithSibling_086552`.
+pub fn has_children(m: &mut impl Memory, t: u32) -> bool {
+    let next = m.read_u32(t + T::NEXT);
+    m.read_u8(t + T::PRIORITY) < m.read_u8(next + T::PRIORITY)
+}
+
+/// ¿Es la trampilla de un fuerte que ya ha caído?
+fn fort_fallen(m: &mut impl Memory, t: u32) -> bool {
+    if m.read_u8(t + L::STATE) != L::IN_FORT {
+        return false;
+    }
+    let owner = m.read_u32(t + T::OWNER);
+    m.read_u8(owner + L::STATE) == L::STATE_GONE
+}
+
+/// Final común de los estados de la trampilla: baja si sale por la
+/// izquierda.
+fn hatch_tail(m: &mut impl Machine, t: u32) -> Flow {
+    if off_left(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Arranca la animación de la tabla `table` según la variante.
+fn hatch_anim(m: &mut impl Memory, t: u32, table: u32) {
+    let v = u32::from(m.read_u8(t + L::VARIANT));
+    let script = m.read_u32(table + v * 4);
+    if script != L::NO_ANIM {
+        anim::start(m, t, script);
+    }
+}
+
+/// Alta de la trampilla de un fuerte (variantes 0–4).
+/// Original: `Hatch_Init_086e4a` … `Hatch_Init_V4_086ef2`.
+pub fn hatch_start(m: &mut impl Machine, v: usize) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::MARGIN, L::HATCH_MARGIN[v]);
+    m.write_u8(t + L::VARIANT, v as u8);
+    m.write_u8(t + L::STATE, L::IN_FORT);
+    m.write_u32(t + L::WATCH, L::HATCH_WATCHES[v]);
+    m.write_u32(t + L::FINAL_WATCH, L::HATCH_FINAL_WATCHES[v]);
+    hatch_wait_closed(m)
+}
+
+/// Alta de una trampilla suelta (variantes 5 y 6), colocada desde su
+/// registro de aparición. Original: `$086F1C`, `$086F40`.
+pub fn hatch_start_placed(m: &mut impl Machine, v: usize) -> Flow {
+    let t = m.task_register();
+    let rec = m.read_u32(t + L::REC_PTR);
+    place_from_record(m, t, rec);
+    m.write_u16(t + L::MARGIN, L::HATCH_MARGIN[v]);
+    m.write_u8(t + L::VARIANT, v as u8);
+    m.write_u32(t + L::WATCH, L::HATCH_WATCHES[v]);
+    hatch_wait_closed(m)
+}
+
+/// Cerrada un rato. Original: `Hatch_WaitClosed_086f64`.
+pub fn hatch_wait_closed(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::TIMER, L::CLOSED_FRAMES);
+    m.write_u32(t + T::HANDLER, L::WAIT_CLOSED_RUN);
+    hatch_wait_closed_run(m)
+}
+
+/// Original: `$086F70`.
+pub fn hatch_wait_closed_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    let n = m.read_u16(t + L::TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TIMER, n);
+    if n == 0 {
+        m.write_u32(t + T::HANDLER, L::OPENING);
+    }
+    if fort_fallen(m, t) {
+        m.write_u32(t + T::HANDLER, L::FINAL_OPEN);
+    }
+    hatch_tail(m, t)
+}
+
+/// Se abre. Original: `Hatch_Opening_086fb4`.
+pub fn hatch_opening(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    hatch_anim(m, t, L::OPEN_ANIMS);
+    m.write_u32(t + T::HANDLER, L::OPENING_RUN);
+    hatch_opening_run(m)
+}
+
+/// Original: `$086FDC`.
+pub fn hatch_opening_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        m.write_u32(t + T::HANDLER, L::SPAWN_TROOPS);
+    }
+    hatch_tail(m, t)
+}
+
+/// Saca la oleada de soldados. Original: `Hatch_SpawnTroops_087004`.
+pub fn hatch_spawn_troops(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::TIMER, L::TROOPS_FRAMES);
+    let list = m.read_u32(t + L::WATCH);
+    m.write_u8(t + L::WATCH_FLAG_BYTE, 0);
+    events::spawn_watch(m, list, L::WATCH_FLAG);
+    m.write_u32(t + T::HANDLER, L::SPAWN_TROOPS_RUN);
+    hatch_spawn_troops_run(m)
+}
+
+/// Espera a que la oleada acabe. Original: `$087024`.
+pub fn hatch_spawn_troops_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if !has_children(m, t) {
+        m.write_u32(t + T::HANDLER, L::WAIT_OPEN);
+    }
+    if fort_fallen(m, t) {
+        m.write_u32(t + T::HANDLER, L::FINAL_SPAWN);
+    }
+    hatch_tail(m, t)
+}
+
+/// Abierta un rato. Original: `Hatch_WaitOpen_087068`.
+pub fn hatch_wait_open(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::TIMER, L::OPEN_FRAMES);
+    m.write_u32(t + T::HANDLER, L::WAIT_OPEN_RUN);
+    hatch_wait_open_run(m)
+}
+
+/// Original: `$087074`.
+pub fn hatch_wait_open_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    let n = m.read_u16(t + L::TIMER).wrapping_sub(1);
+    m.write_u16(t + L::TIMER, n);
+    if n == 0 {
+        m.write_u32(t + T::HANDLER, L::CLOSING);
+    }
+    if fort_fallen(m, t) {
+        m.write_u32(t + T::HANDLER, L::FINAL_SPAWN);
+    }
+    hatch_tail(m, t)
+}
+
+/// Se cierra. Original: `Hatch_Closing_0870b8`.
+pub fn hatch_closing(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    hatch_anim(m, t, L::CLOSE_ANIMS);
+    m.write_u32(t + T::HANDLER, L::CLOSING_RUN);
+    hatch_closing_run(m)
+}
+
+/// Original: `$0870E0`.
+pub fn hatch_closing_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        m.write_u32(t + T::HANDLER, L::WAIT_CLOSED);
+    }
+    hatch_tail(m, t)
+}
+
+/// Al caer el fuerte se abre del todo. Original: `Hatch_FinalOpen_087108`.
+pub fn hatch_final_open(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    hatch_anim(m, t, L::OPEN_ANIMS);
+    m.write_u32(t + T::HANDLER, L::FINAL_SPAWN);
+    hatch_final_spawn(m)
+}
+
+/// Abierta del todo, saca la última oleada y se da de baja.
+/// Original: `Hatch_FinalSpawn_087130`.
+pub fn hatch_final_spawn(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        let list = m.read_u32(t + L::FINAL_WATCH);
+        m.write_u8(t + L::WATCH_FLAG_BYTE, 0);
+        events::spawn_watch(m, list, L::WATCH_FLAG);
+        return tasks::finish(m);
+    }
+    hatch_tail(m, t)
 }
 
 #[cfg(test)]

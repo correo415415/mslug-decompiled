@@ -1202,6 +1202,36 @@ pub mod fort {
     /// Pieza: rutina, desplazamiento X e Y desde el fuerte, atributos,
     /// tabla de dibujo y lista de la siguiente oleada.
     pub type Piece = (u32, u16, u16, Option<u16>, u32, Option<u32>);
+    /// Trampilla: margen por variante (las 5 y 6 se colocan solas desde su
+    /// registro), listas de las oleadas, temporizador y esperas, tablas de
+    /// animación de abrir y cerrar (por variante, `NO_ANIM` = ninguna) y
+    /// estados.
+    pub const HATCH_MARGIN: [u16; 7] = [0x30, 0x30, 0x30, 0x20, 0x20, 0x30, 0x30];
+    pub const HATCH_WATCHES: [u32; 7] = [0x0E_DE9E, 0x0E_DEDA, 0x0E_DEFA, 0x0E_DF1A, 0x0E_DF52, 0x0E_DF72, 0x0E_DFAA];
+    pub const HATCH_FINAL_WATCHES: [u32; 5] = [0x0E_DCB2, 0x0E_DD0A, 0x0E_DD86, 0x0E_DE02, 0x0E_DE7E];
+    pub const FINAL_WATCH: u32 = 0x8C;
+    pub const TIMER: u32 = 0x72;
+    pub const WATCH_FLAG: u16 = 0x82;
+    pub const WATCH_FLAG_BYTE: u32 = 0x82;
+    pub const CLOSED_FRAMES: u16 = 0x5A;
+    pub const TROOPS_FRAMES: u16 = 0x28;
+    pub const OPEN_FRAMES: u16 = 0x50;
+    pub const OPEN_ANIMS: u32 = 0x2E_BFAE;
+    pub const CLOSE_ANIMS: u32 = 0x2E_BFCA;
+    /// `STATE` = 1: trampilla de un fuerte (se abre del todo al caer éste).
+    pub const IN_FORT: u8 = 1;
+    pub const WAIT_CLOSED: u32 = 0x08_6F64;
+    pub const WAIT_CLOSED_RUN: u32 = 0x08_6F70;
+    pub const OPENING: u32 = 0x08_6FB4;
+    pub const OPENING_RUN: u32 = 0x08_6FDC;
+    pub const SPAWN_TROOPS: u32 = 0x08_7004;
+    pub const SPAWN_TROOPS_RUN: u32 = 0x08_7024;
+    pub const WAIT_OPEN: u32 = 0x08_7068;
+    pub const WAIT_OPEN_RUN: u32 = 0x08_7074;
+    pub const CLOSING: u32 = 0x08_70B8;
+    pub const CLOSING_RUN: u32 = 0x08_70E0;
+    pub const FINAL_OPEN: u32 = 0x08_7108;
+    pub const FINAL_SPAWN: u32 = 0x08_7130;
     pub const PIECES: [&[Piece]; 5] = [
         &[
             (PILLBOX_RIGHT, 0x28, 0x50, Some(0x60), 0x2E_D738, Some(0x0E_E066)),
