@@ -1030,6 +1030,89 @@ pub mod motion {
     pub const STEEP_UP: u16 = 0x1000;
     pub const STEEP_DOWN: u16 = 0xF000;
     pub const ID: u32 = 0x6C;
+    /// Avance con pendiente (`Entity_MoveXY_Probe_026992`): gravedad
+    /// (pendiente) actual, empuje del scroll en la escena `PUSH_SCENE` y
+    /// escalado de dy en pendientes suaves (`$AA/256`).
+    pub const GRAVITY: u32 = 0x34;
+    pub const NO_SLOPE: u16 = 0xFFFF;
+    pub const SLOPE_STEEP: u16 = 0x1000;
+    pub const SLOPE_GENTLE: u16 = 0x400;
+    pub const SLOPE_FLAT: u16 = 0x80;
+    pub const GENTLE_UP: u16 = 0x400;
+    pub const GENTLE_DOWN: u16 = 0xFC00;
+    pub const GENTLE_SCALE: i32 = 0xAA;
+    pub const PUSH_SCENE: u8 = 1;
+    pub const PUSH_ACTIVE: u32 = 0x10_6F5E;
+    /// `+$5B` bit 3: sin avance vertical en llano.
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const NO_VERTICAL: u8 = 1 << 3;
+    /// Los jugadores no bajan de `PIT_Y` en la escena del pozo.
+    pub const PIT_FLOOR: i16 = 0x1F0;
+}
+
+/// Motor de colisión sobre pendientes (`system::slope`).
+pub mod slope {
+    /// Desplazamientos del punto de sondeo del suelo (6 pares x, y) según
+    /// hacia dónde se mueve la entidad: derecha, izquierda, quieta.
+    pub const PROBE_RIGHT: u32 = 0x02_6DC2;
+    pub const PROBE_LEFT: u32 = 0x02_6DDA;
+    pub const PROBE_NONE: u32 = 0x02_6DF2;
+    /// Tipos de tile en los que el suelo está 8 / 16 píxeles más abajo, y
+    /// rampas (también 8 más abajo si la entidad puede subirlas).
+    pub const DEEP_KINDS: [u8; 9] = [0x0C, 0x0D, 0x0E, 0x0F, 0x1C, 0x1D, 0x1E, 0x1F, 0x34];
+    pub const DEEPER_KINDS: [u8; 8] = [0x2C, 0x2D, 0x2E, 0x2F, 0x3C, 0x3D, 0x3E, 0x3F];
+    pub const RAMP_KINDS: [u8; 4] = [0x20, 0x21, 0x30, 0x31];
+    /// Rampas que suben hacia la derecha (A) y hacia la izquierda (B).
+    pub const RAMP_A: [u8; 2] = [0x20, 0x30];
+    pub const RAMP_B: [u8; 2] = [0x21, 0x31];
+    /// Escalones que se suben yendo a la derecha / a la izquierda.
+    pub const STEP_UP_RIGHT: [u8; 2] = [0x23, 0x33];
+    pub const STEP_UP_LEFT: [u8; 2] = [0x22, 0x32];
+    /// Paredes que paran a los vehículos.
+    pub const WALL_KINDS: [u8; 2] = [0x10, 0x27];
+    /// Tabla de pendiente del llano (la de las rampas que no se suben).
+    pub const FLAT_SLOPE: u32 = 0x27_8704;
+    /// Tipo de tile: tipo de celda (`+$0A`, 1 = con segunda máscara para
+    /// el llano), tabla de pendiente (`+$04`), máscara de plataforma
+    /// (`+8` dentro de la máscara), segunda máscara (`+$10`).
+    pub const T_KIND_FLAGS: u32 = 0x0A;
+    pub const T_SLOPE: u32 = 4;
+    pub const PLATFORM_MASK: u32 = 8;
+    pub const SECOND_MASK: u32 = 0x10;
+    /// Tipo de las plataformas móviles.
+    pub const PLATFORM_TILE: u32 = 0x27_8BA8;
+    pub const PLATFORM_KIND: u8 = 0x11;
+    /// Tabla de pendiente: gravedad (`+0`), alturas por columna (`+2`),
+    /// fracción Y por columna (`+$12`), gravedad alternativa (`+$1A`).
+    pub const S_HEIGHTS: u32 = 2;
+    pub const S_SUB_Y: u32 = 0x12;
+    pub const S_GRAVITY2: u32 = 0x1A;
+    /// Entidad.
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const SUB: u32 = 0x26;
+    pub const VEL_X: u32 = 0x28;
+    pub const GRAVITY: u32 = 0x34;
+    pub const GRAVITY2: u32 = 0x64;
+    pub const NO_SLOPE: u16 = 0xFFFF;
+    pub const FACING: u32 = 0x6A;
+    /// `+$13`: puede subir rampas (bit 4) / escalones (bit 5); `+$5B`: lo
+    /// hace aunque vaya de espaldas.
+    pub const FLAGS_13: u32 = 0x13;
+    pub const RAMP_OK: u8 = 1 << 4;
+    pub const STEP_OK: u8 = 1 << 5;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const RAMP_FORCE: u8 = 1 << 4;
+    pub const STEP_FORCE: u8 = 1 << 5;
+    /// `+$5A`: subiendo una rampa (bit 3), contra una pared (bit 5).
+    pub const STATE: u32 = 0x5A;
+    pub const ON_RAMP: u8 = 1 << 3;
+    pub const HIT_WALL: u8 = 1 << 5;
+    /// Zona de trabajo de la colisión.
+    pub const WORK_POS: [u32; 2] = [0x10_6F38, 0x10_6F3A];
+    pub const WORK_SUB: [u32; 2] = [0x10_6F3C, 0x10_6F3D];
+    pub const STEP: [u32; 2] = [0x10_6F2C, 0x10_6F2E];
+    pub const NEW_SUB: [u32; 2] = [0x10_6F30, 0x10_6F31];
 }
 
 /// Plataformas móviles (`system::platforms`).
@@ -2600,6 +2683,94 @@ pub mod icons {
     /// Del dueño: `+$8D` bit 5 = el POW se muestra; `+$13` bit 0 = se acaba.
     pub const OWNER_FLAGS: u32 = 0x8D;
     pub const OWNER_SHOW: u8 = 1 << 5;
+    pub const OWNER_FLAGS_13: u32 = 0x13;
+    pub const OWNER_DONE: u8 = 1 << 0;
+}
+
+/// Torreta del Slug (y de otros vehículos): sigue al chasis, apunta con
+/// el mando del piloto según una de las cinco tablas de dirección y
+/// dispara ráfagas.
+pub mod turret {
+    /// Tabla de ángulos de cada variante (16 entradas de 4 bytes, una por
+    /// dirección del mando; negativo = ninguna) y ángulo inicial. La
+    /// variante `SNAP` gira deprisa y recuerda el último ángulo pedido.
+    pub const TABLES: [u32; 5] = [0x28_9504, 0x28_9544, 0x28_9584, 0x28_95C4, 0x28_9604];
+    pub const START_ANGLE: [u16; 5] = [0x4000, 0x8000, 0xC000, 0, 0];
+    pub const SNAP: usize = 4;
+    pub const TRACK: u32 = 0x04_5A38;
+    pub const SNAP_TRACK: u32 = 0x04_5B02;
+    /// Campos.
+    pub const VARIANT: u32 = 0x70;
+    pub const TABLE: u32 = 0x74;
+    pub const ANGLE: u32 = 0x34;
+    pub const TURN_SPEED: u32 = 0x78;
+    pub const LAST_TARGET: u32 = 0x7E;
+    pub const STICK: u32 = 0x71;
+    pub const SHOTS: u32 = 0x7C;
+    pub const SHOT_DELAY: u32 = 0x7D;
+    pub const RECOIL: u32 = 0x3B;
+    pub const RECOIL_FRAMES: u8 = 5;
+    pub const SHOT_INDEX: u32 = 0x81;
+    pub const SHOT_COUNT: u32 = 0x80;
+    pub const PILOT: u32 = 0x68;
+    pub const CONTROLLER: u32 = 0x6D;
+    pub const NONE: u8 = 0xFF;
+    pub const TIMER_59: u32 = 0x59;
+    pub const ATTR: u32 = 0x38;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const FLIP: u32 = 0x3A;
+    pub const PALETTE: u32 = 0x14;
+    /// Reducción vertical y horizontal.
+    pub const SHRINK: [u32; 2] = [0x33, 0x32];
+    pub const GFX: u32 = 0x3C;
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const FLAGS_8C_FIRED: u8 = 1 << 2;
+    pub const FLAGS_8C_HIT: u8 = 1 << 3;
+    /// Sprite: el genérico y el de los jugadores.
+    pub const GFX_DEFAULT: u16 = 2;
+    pub const GFX_PLAYER: u16 = 0x1D6;
+    /// Del dueño: registro del soporte (puntero a desplazamiento base y
+    /// desplazamiento propio en `+4`).
+    pub const OWNER_MOUNT: u32 = 0x70;
+    /// Giro: aceleración por frame y, en la variante rápida, la de lejos.
+    pub const TURN_ACCEL: u16 = 0x100;
+    pub const SNAP_ACCEL: u16 = 0x200;
+    pub const SNAP_ACCEL_FAR: u16 = 0x800;
+    pub const SNAP_FAR: u16 = 0x5000;
+    /// Fotogramas por sector de ángulo (×3) y retroceso (×4).
+    pub const FRAMES: u32 = 0x28_9204;
+    /// Mando.
+    pub const FIRE: u8 = 0x10;
+    pub const STICK_MASK: u8 = 0x0F;
+    pub const BURST: u8 = 3;
+    pub const FIRE_SOUND: u16 = 0x108C;
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const PAD_PTR: u32 = 0x72;
+    pub const PAD_HELD: u32 = 2;
+    pub const PAD_PRESSED: u32 = 3;
+    pub const SCRIPTED_INPUT_ACTIVE: u32 = 0x10_E39D;
+    pub const PAD_LIVE_P1: u32 = 0x10_E200;
+    pub const PAD_SCRIPTED: [u32; 2] = [0x10_E2E2, 0x10_E2E8];
+    /// Disparo: bala, destello y punta del cañón por sector (x, y).
+    pub const SHOT: u32 = 0x04_5FDE;
+    pub const FLASH: u32 = 0x03_0C14;
+    pub const MUZZLE: u32 = 0x29_D752;
+    pub const SHOT_ANGLE: u32 = 0x98;
+    pub const SHOT_SLOT: [u32; 2] = [0x9A, 0x9B];
+    /// Tipos de tile en los que la punta del cañón aún deja salir el
+    /// destello.
+    pub const PASS_KINDS: [u8; 3] = [0x10, 0x20, 0x21];
+    /// Bit de la máscara de jugadores del dueño por el que se pierde la
+    /// torreta.
+    pub const LOST_BIT: u8 = 8;
+    pub const PLAYER_MASK: u32 = 0x96;
+    pub const FRAME_COUNTER: u32 = 0x10_6F28;
+    pub const EXPLODE: u32 = 0x04_5C20;
+    /// Si el dueño desaparece o acaba: bala suelta en el almacén de
+    /// enemigos.
+    pub const ENEMY_ROOT: u32 = 0x10_0800;
+    pub const LOOSE_SHOT: u32 = 0x04_5D3A;
     pub const OWNER_FLAGS_13: u32 = 0x13;
     pub const OWNER_DONE: u8 = 1 << 0;
 }

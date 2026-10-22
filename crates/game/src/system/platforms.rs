@@ -93,6 +93,30 @@ pub fn find_under(m: &mut impl Memory, t: u32, x: u16, y: u16) -> Option<(u16, u
     None
 }
 
+/// ¿Pisa (`x`, `y`) el borde superior de alguna plataforma (sin contar la
+/// suya)? Busca de la muestra más reciente a la más antigua; si la
+/// encuentra, se sube a ella. Original: `Trail_FindByKeyRange_0998ca` (C).
+pub fn step_onto(m: &mut impl Memory, t: u32, x: u16, y: u16) -> bool {
+    let own = m.read_u8(t + L::ID) >> 4;
+    let tail = m.read_u16(L::TAIL);
+    let mut i = m.read_u16(L::WRAP);
+    while i != tail {
+        i = if i < L::SAMPLE_LEN { i + L::RING_LEN - L::SAMPLE_LEN } else { i - L::SAMPLE_LEN };
+        let s = L::RING + u32::from(i);
+        if m.read_u16(s + L::S_Y) != y || x.wrapping_sub(m.read_u16(s + L::S_X)) >= m.read_u16(s + L::S_W) {
+            continue;
+        }
+        let id = m.read_u8(s);
+        if id == own {
+            continue;
+        }
+        let v = m.read_u8(t + L::ID);
+        m.write_u8(t + L::ID, (v & 0xF0) | (id & 0x0F));
+        return true;
+    }
+    false
+}
+
 /// Lo que se ha movido en este frame la plataforma sobre la que está `t`;
 /// si ya no existe, la suelta. Original: `Clipping_Test_0999DE` (C, d2, d3).
 pub fn follow(m: &mut impl Memory, t: u32) -> Option<(u16, u16)> {

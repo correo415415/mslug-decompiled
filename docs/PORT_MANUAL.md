@@ -271,7 +271,14 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
   objetos (`$027C8C`, `$0273FC`, `$0267F8`).
 - `system::motion`: movimiento con colisión de un frame (`$0274B8`,
   `$027464`): integración de la velocidad, avance en subpíxeles, bordes de
-  la pantalla, cerrojos, pendientes y aterrizaje sobre plataformas.
+  la pantalla, cerrojos, pendientes y aterrizaje sobre plataformas; avance
+  siguiendo la pendiente (`$026992`) y escalado de dy (`$02800E`).
+- `system::slope`: motor de colisión sobre pendientes de los vehículos
+  (`$027036`, `$027902`), sondeo del suelo (`$026E0A`), tests de bit de las
+  máscaras (`$027E7E`, `$027E9C`) y subida a plataformas (`$0998CA`).
+- `system::turret`: torreta del Slug (gráficos, giro, ráfaga, cañón que
+  sigue al chasis; `$0457A6`…`$045B9C`, `$05CA2A`, `$05D674`, `$0517FE`).
+- `system::icons`: POW y burbuja de los prisioneros (`$031FCA`…`$0321BC`).
 - `system::pickup`: qué jugador toca un objeto (`$03EE48`, `$03EF5C`,
   `$09A836`, `$09A84E`) y premio de la comida con su racha (`$09B920`).
 - `system::items`: cola de los objetos del suelo (`$09A75A`) y test de fuera
@@ -284,4 +291,5 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
 - `system::go_arrow`: indicador GO (`$08C820`…`$08C90E`, `$05E1AA`) y las
   animaciones de la capa fija (`system::hud`, `$05DB58`…`$05DBDC`).
 
-Verificado con `verify-system --coin 0` (0 fallos, 199 068 llamadas).
+Verificado con `verify-system --coin 0` (0 fallos, 232 236 llamadas) y con
+moneda (0 fallos, 193 409 llamadas).

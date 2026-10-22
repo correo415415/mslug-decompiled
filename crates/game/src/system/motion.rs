@@ -81,6 +81,82 @@ pub fn advance(m: &mut impl Memory, t: u32) {
     apply_latch(m, t);
 }
 
+/// En la escena del empuje (con el scroll empujando) dy no se escala; en
+/// las pendientes suaves sí, a 2/3. Original: `Entity_ScaleDyForGravity_02800e`.
+pub fn scale_dy(m: &mut impl Memory, t: u32, dy: u16) -> u16 {
+    let g = m.read_u16(t + L::GRAVITY);
+    if g != L::GENTLE_UP && g != L::GENTLE_DOWN {
+        return dy;
+    }
+    if m.read_u8(L::SCENE) == L::PUSH_SCENE && m.read_u16(L::PUSH_ACTIVE) != 0 {
+        return dy;
+    }
+    ((i32::from(dy as i16) * L::GENTLE_SCALE) >> 8) as u16
+}
+
+/// Avance de un frame siguiendo la pendiente: el paso en X sale de la
+/// velocidad (cortada por las paredes y los bordes de pantalla) y el paso
+/// en Y depende de la pendiente del suelo (`+$34`): en llano no hay; en
+/// pendiente suave es el mismo que en X; en la de 45°, ×64 en subpíxeles.
+/// Deja los pasos en `STEP` y las fracciones en `NEW_SUB`.
+/// Original: `Entity_MoveXY_Probe_026992`.
+pub fn advance_on_slope(m: &mut impl Memory, t: u32) {
+    for k in 0..2 {
+        let s = m.read_u8(C::WORK_SUB[k]);
+        m.write_u8(L::NEW_SUB[k], s);
+    }
+    m.write_u16(L::STEP[0], 0);
+    let walls = m.read_u8(t + L::WALLS);
+    let mut vx = m.read_u16(t + L::VEL_X);
+    if (walls & L::WALL_RIGHT != 0 && (vx as i16) > 0) || (walls & L::WALL_LEFT != 0 && (vx as i16) < 0) {
+        vx = 0;
+    }
+    let edges = is_player(t) || (t == L::SLUG && m.read_u8(t + L::SLUG_FLAGS) & L::SLUG_FREE == 0);
+    if edges {
+        vx = clamp_to_screen(m, t, vx);
+    }
+    let vx = scale_dy(m, t, vx);
+    let n = u16::from(m.read_u8(L::NEW_SUB[0])).wrapping_add(vx);
+    m.write_u8(L::NEW_SUB[0], n as u8);
+    m.write_u16(L::STEP[0], ((n as i16) >> 8) as u16);
+    apply_latch(m, t);
+    let dx = m.read_u16(L::STEP[0]);
+    let g = m.read_u16(t + L::GRAVITY);
+    let neg = (g as i16) < 0;
+    let signed = |v: u16| if neg { v.wrapping_neg() } else { v };
+    match (g as i16).unsigned_abs() {
+        // Sin pendiente (en el aire) o llano: en llano tampoco avanza en X.
+        _ if g == L::NO_SLOPE || (g as i16).unsigned_abs() == L::SLOPE_FLAT => {
+            if g != L::NO_SLOPE {
+                m.write_u16(L::STEP[0], 0);
+            }
+            if m.read_u8(t + L::FLAGS_5B) & L::NO_VERTICAL != 0 {
+                m.write_u16(L::STEP[1], 0);
+            }
+        }
+        0 => m.write_u16(L::STEP[1], 0),
+        a if a == L::SLOPE_GENTLE => m.write_u16(L::STEP[1], signed(dx)),
+        a if a == L::SLOPE_STEEP => {
+            let n = u16::from(m.read_u8(L::NEW_SUB[1])).wrapping_add(signed(dx.wrapping_shl(6)));
+            m.write_u8(L::NEW_SUB[1], n as u8);
+            m.write_u16(L::STEP[1], ((n as i16) >> 8) as u16);
+        }
+        _ => debug_assert!(false, "pendiente desconocida"),
+    }
+    let pit = m.read_u8(L::SCENE) == L::PIT_SCENE
+        && is_player(t)
+        && (m.read_u16(t + C::Y) as i16) >= L::PIT_FLOOR
+        && (m.read_u16(L::STEP[1]) as i16) > 0;
+    if pit {
+        m.write_u16(L::STEP[0], 0);
+        m.write_u16(L::STEP[1], 0);
+        for k in 0..2 {
+            let s = m.read_u8(C::WORK_SUB[k]);
+            m.write_u8(L::NEW_SUB[k], s);
+        }
+    }
+}
+
 /// Signo de una velocidad como lo guarda el cerrojo (0, 1 o `$FFFF`).
 fn sign(v: u16) -> u16 {
     match (v as i16).signum() {
