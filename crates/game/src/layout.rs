@@ -1122,6 +1122,126 @@ pub mod fix_anim {
     pub const BLANK: u16 = 0xFF;
 }
 
+/// Fuerte de la escena 4 y ayudantes comunes de sus piezas (`system::fort`).
+pub mod fort {
+    /// Registro de aparición (`+$3C` de la tarea): byte 0 distinto de 0 =
+    /// sin gráficos propios; flags (+1), X (+2), Y (+4), margen (+$0A),
+    /// atributos (+$0C), gráficos (+$0E) y guion de animación (+$10).
+    pub const REC_PTR: u32 = 0x3C;
+    pub const REC_NO_GFX: u32 = 0;
+    pub const REC_FLAGS: u32 = 1;
+    pub const REC_X: u32 = 2;
+    pub const REC_Y: u32 = 4;
+    pub const REC_MARGIN: u32 = 0x0A;
+    pub const REC_ATTR: u32 = 0x0C;
+    pub const REC_GFX: u32 = 0x0E;
+    pub const REC_ANIM: u32 = 0x10;
+    pub const NO_GFX: u16 = 0xFFFF;
+    pub const NO_ANIM: u32 = 0xFFFF_FFFF;
+    /// En las misiones `$0B` y `$0C` la X del registro es de 12 bits.
+    pub const MISSION: u32 = 0x10_6ECE;
+    pub const WRAPPED_MISSIONS: [u8; 2] = [0x0B, 0x0C];
+    pub const X_MASK: u16 = 0x0FFF;
+    /// Campos de la tarea.
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    pub const FLAGS: u32 = 0x12;
+    pub const FLAGS2: u32 = 0x13;
+    pub const FLAGS3: u32 = 0x5A;
+    /// `FLAGS2`: muerta (bit 0) y golpeada este frame (bit 3).
+    pub const DEAD: u8 = 1 << 0;
+    pub const HIT: u8 = 1 << 3;
+    /// `FLAGS3` bit 0: suena al recibir golpes.
+    pub const HIT_SOUND_ON: u8 = 1 << 0;
+    pub const ATTACK_CLASS: u32 = 0x58;
+    pub const HITBOX: u32 = 0x48;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    /// Caja de golpe: bordes izquierdo y derecho (+$0A, +$0C), y X del
+    /// impacto en la tarea (+$54).
+    pub const HITBOX_LEFT: u32 = 0x0A;
+    pub const HITBOX_RIGHT: u32 = 0x0C;
+    pub const IMPACT_X: u32 = 0x54;
+    pub const HP: u32 = 0x66;
+    pub const MARGIN: u32 = 0x70;
+    pub const INDEX: u32 = 0x72;
+    pub const BLIT: u32 = 0x74;
+    pub const WRECK: u32 = 0x78;
+    pub const WATCH: u32 = 0x7C;
+    pub const VARIANT: u32 = 0x20;
+    pub const STATE: u32 = 0x21;
+    pub const STATE_GONE: u8 = 0xFF;
+    /// Sonido del golpe por clase de ataque (5 entradas, `0xFFFF` = nada).
+    pub const HIT_SOUNDS: u32 = 0x05_E766;
+    pub const HIT_CLASSES: u16 = 5;
+    pub const NO_SOUND: u16 = 0xFFFF;
+    /// El fuerte: margen, vida, caja de golpe y estados.
+    pub const FORT_MARGIN: u16 = 0xC0;
+    pub const FORT_HP: u16 = 0x140;
+    pub const FORT_HITBOX: u32 = 0x2E_C41E;
+    /// A la izquierda de esta X ya no se le puede dar; a la derecha de
+    /// `FULL_HP_X` recupera la vida.
+    pub const NO_HIT_X: i16 = -0x40;
+    pub const FULL_HP_X: i16 = 0xC0;
+    pub const RUN: u32 = 0x08_675A;
+    pub const DESTROYED: u32 = 0x08_67D4;
+    /// Por variante: restos, lista de la siguiente oleada, trampilla y si
+    /// ésta va 16 píxeles más abajo.
+    pub const WRECKS: [u32; 5] = [0x2E_DCB0, 0x2E_DCBA, 0x2E_DCFE, 0x2E_DD0C, 0x2E_DD20];
+    pub const WATCHES: [u32; 5] = [0x0E_DC8C, 0x0E_DCD2, 0x0E_DD2A, 0x0E_DDA6, 0x0E_DE22];
+    pub const HATCHES: [u32; 5] = [0x08_6E4A, 0x08_6E74, 0x08_6E9E, 0x08_6EC8, 0x08_6EF2];
+    pub const HATCH_DX: u16 = 0x50;
+    pub const HATCH_LOW: [bool; 5] = [true, false, true, false, true];
+    pub const HATCH_DY: u16 = 0x10;
+    /// Piezas: casamatas (cuatro orientaciones) y cajas (una por variante).
+    pub const PILLBOX: u32 = 0x08_686A;
+    pub const PILLBOX_LOWER: u32 = 0x08_6892;
+    pub const PILLBOX_RIGHT: u32 = 0x08_68A6;
+    pub const PILLBOX_RIGHT_UPPER: u32 = 0x08_68BA;
+    pub const CRATE: [u32; 5] = [0x08_6CD0, 0x08_6CE4, 0x08_6CF8, 0x08_6D0C, 0x08_6D20];
+    /// Pieza: rutina, desplazamiento X e Y desde el fuerte, atributos,
+    /// tabla de dibujo y lista de la siguiente oleada.
+    pub type Piece = (u32, u16, u16, Option<u16>, u32, Option<u32>);
+    pub const PIECES: [&[Piece]; 5] = [
+        &[
+            (PILLBOX_RIGHT, 0x28, 0x50, Some(0x60), 0x2E_D738, Some(0x0E_E066)),
+            (PILLBOX, 0x68, 0x50, Some(0x60), 0x2E_D74C, Some(0x0E_E07C)),
+            (PILLBOX_RIGHT, 0xA8, 0x50, Some(0x60), 0x2E_D760, Some(0x0E_E092)),
+            (CRATE[0], 0x30, 0x08, None, 0x2E_D774, None),
+            (CRATE[0], 0xA8, 0x08, None, 0x2E_D788, None),
+        ],
+        &[
+            (PILLBOX_RIGHT, 0x28, 0x40, Some(0x70), 0x2E_D79C, Some(0x0E_E0A8)),
+            (PILLBOX, 0x68, 0x40, Some(0x70), 0x2E_D7B0, Some(0x0E_E0BE)),
+            (PILLBOX_RIGHT, 0xA8, 0x40, Some(0x70), 0x2E_D7C4, Some(0x0E_E0D4)),
+            (CRATE[1], 0x28, 0x00, None, 0x2E_D7D8, None),
+            (CRATE[1], 0xA0, 0x00, None, 0x2E_D7EC, None),
+        ],
+        &[
+            (PILLBOX_RIGHT_UPPER, 0x28, 0x50, Some(0x60), 0x2E_D800, Some(0x0E_E0EA)),
+            (PILLBOX_RIGHT_UPPER, 0x68, 0x50, Some(0x60), 0x2E_D814, Some(0x0E_E100)),
+            (PILLBOX_RIGHT_UPPER, 0xA8, 0x50, Some(0x60), 0x2E_D828, Some(0x0E_E116)),
+            (CRATE[2], 0x28, 0x08, None, 0x2E_D83C, None),
+            (CRATE[2], 0xA0, 0x08, None, 0x2E_D850, None),
+        ],
+        &[
+            (PILLBOX_LOWER, 0x18, 0x40, Some(0x70), 0x2E_D88C, Some(0x0E_E12C)),
+            (PILLBOX_RIGHT, 0x48, 0x40, Some(0x70), 0x2E_D8A0, Some(0x0E_E130)),
+            (PILLBOX_RIGHT, 0x78, 0x40, Some(0x70), 0x2E_D8B4, Some(0x0E_E146)),
+            (PILLBOX_RIGHT, 0xA8, 0x40, Some(0x70), 0x2E_D8C8, Some(0x0E_E15C)),
+            (CRATE[3], 0x28, 0x08, None, 0x2E_D8DC, None),
+            (CRATE[3], 0xA0, 0x08, None, 0x2E_D8F0, None),
+        ],
+        &[
+            (PILLBOX_RIGHT_UPPER, 0x28, 0x50, Some(0x60), 0x2E_D904, Some(0x0E_E172)),
+            (PILLBOX_RIGHT_UPPER, 0x68, 0x50, Some(0x60), 0x2E_D918, Some(0x0E_E188)),
+            (PILLBOX_RIGHT_UPPER, 0xA8, 0x50, Some(0x60), 0x2E_D92C, Some(0x0E_E19E)),
+            (CRATE[4], 0x28, 0x00, None, 0x2E_D940, None),
+            (CRATE[4], 0x98, 0x00, None, 0x2E_D954, None),
+        ],
+    ];
+}
+
 /// Indicador «GO» (`system::go_arrow`).
 pub mod go_arrow {
     pub const CELL: u32 = 0x22;

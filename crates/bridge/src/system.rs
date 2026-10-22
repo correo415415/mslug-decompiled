@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, frame, game_over, go_arrow, grunt, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -1134,6 +1134,24 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; hud::fix_anim_draw(m, t); Flow::Return } },
     SystemPort { entry: 0x05_DBDC, original: "FixAnim_Erase_05dbdc", rust: "system::hud::fix_anim_erase",
                  run: |m| { let t = m.cpu.a[6]; hud::fix_anim_erase(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_942A, original: "ScriptOp1E_SpawnChild_02942a", rust: "system::fort::place_from_record",
+                 run: |m| { let (t, r) = (m.cpu.a[6], m.cpu.a[1]); fort::place_from_record(m, t, r); Flow::Return } },
+    SystemPort { entry: 0x05_DD22, original: "Handler_ApplyCameraSelf_CopyTransform_05dd22", rust: "system::fort::place_child",
+                 run: |m| { let (t, c) = (m.cpu.a[6], m.cpu.a[0]); fort::place_child(m, t, c); Flow::Return } },
+    SystemPort { entry: 0x02_870A, original: "Hitbox_SideOfImpact_02870a", rust: "system::fort::hit_side",
+                 run: |m| { let t = m.cpu.a[6]; let s = fort::hit_side(m, t);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(s.unwrap_or(0));
+                            set_carry(m, s.is_some()); Flow::Return } },
+    SystemPort { entry: 0x05_E770, original: "$05E770", rust: "system::fort::hit_sound",
+                 run: |m| { let (t, a) = (m.cpu.a[6], m.cpu.a[0]); fort::hit_sound(m, t, a); Flow::Return } },
+    SystemPort { entry: 0x04_FA70, original: "Prop_OffscreenLeftCheck_04fa70", rust: "system::fort::off_left",
+                 run: |m| { let t = m.cpu.a[6]; let c = fort::off_left(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x08_65DC, original: "Fort_Init_V0_0865dc", rust: "system::fort::start", run: |m| fort::start(m, 0) },
+    SystemPort { entry: 0x08_6624, original: "Fort_Init_V1_086624", rust: "system::fort::start", run: |m| fort::start(m, 1) },
+    SystemPort { entry: 0x08_6666, original: "Fort_Init_V2_086666", rust: "system::fort::start", run: |m| fort::start(m, 2) },
+    SystemPort { entry: 0x08_66AE, original: "Fort_Init_V3_0866ae", rust: "system::fort::start", run: |m| fort::start(m, 3) },
+    SystemPort { entry: 0x08_66F0, original: "Fort_Init_V4_0866f0", rust: "system::fort::start", run: |m| fort::start(m, 4) },
+    SystemPort { entry: 0x08_675A, original: "Fort_Init_Common_086738 (bucle)", rust: "system::fort::run", run: |m| fort::run(m) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

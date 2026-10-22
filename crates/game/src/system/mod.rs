@@ -13,6 +13,7 @@ pub mod boot;
 pub mod collision;
 pub mod events;
 pub mod food;
+pub mod fort;
 pub mod frame;
 pub mod game_over;
 pub mod go_arrow;
