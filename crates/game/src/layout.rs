@@ -1210,6 +1210,84 @@ pub mod wheels {
     pub const LEVEL_GAP: u16 = 0x1C;
 }
 
+/// Efecto de suelo bajo los pies (`system::ground_fx`).
+pub mod ground_fx {
+    /// Escenas en las que existe; en la `ALT_GFX_SCENE` usa otros sprites.
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const SCENES: [u8; 2] = [0, 9];
+    pub const GFX: u16 = 0x10;
+    pub const ALT_GFX: u16 = 0x138;
+    pub const ALT_GFX_SCENE: u8 = 5;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0xE000;
+    /// Tablas de guiones de cada variante (A…E): impacto suelto, de la
+    /// copia suelta, de aterrizaje y de marcha (en los campos
+    /// `TABLE_FIELDS`, por ese orden).
+    pub const TABLE_FIELDS: [u32; 4] = [0x74, 0x78, 0x7C, 0x80];
+    pub const VARIANTS: [[u32; 4]; 5] = [
+        [0x2D_CB84, 0x2D_CA62, 0x2D_CA82, 0x2D_CA1A],
+        [0x2D_CA8A, 0x2D_CA4A, 0x2D_CA6A, 0x2D_C98A],
+        [0x2D_CABC, 0x2D_CA52, 0x2D_CA72, 0x2D_C9BA],
+        [0x2D_CAEE, 0x2D_CA5A, 0x2D_CA7A, 0x2D_C9EA],
+        [0x2D_CB84, 0x2D_CA62, 0x2D_CA82, 0x2D_CA1A],
+    ];
+    pub const DETACH_SCRIPTS: u32 = 0x78;
+    pub const LAND_SCRIPTS: u32 = 0x7C;
+    pub const WALK_SCRIPTS: u32 = 0x80;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    /// Guion de fotogramas de cada animación de marcha (se copia a `FRAMES`).
+    pub const WALK_FRAMES: u32 = 0x2D_C946;
+    pub const FRAMES: u32 = 0x5C;
+    /// Rutinas de la tarea.
+    pub const TRACK: u32 = 0x07_78A2;
+    pub const WAIT: u32 = 0x07_78FC;
+    pub const LAND: u32 = 0x07_7912;
+    pub const LAND_RUN: u32 = 0x07_7958;
+    pub const WALK: u32 = 0x07_776C;
+    pub const WALK_RUN: u32 = 0x07_7778;
+    pub const DETACHED: u32 = 0x07_7A16;
+    pub const DETACHED_RUN: u32 = 0x07_7A60;
+    pub const FINISH: u32 = 0x07_7A8E;
+    /// Rutina de la dueña cuando se está dando de baja.
+    pub const OWNER_FINISHING: u32 = 0x52A;
+    /// Campos.
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const GRAVITY: u32 = 0x34;
+    pub const WALK_IDX: u32 = 0x70;
+    pub const NO_IDX: u16 = 0xFFFF;
+    pub const MATERIAL: u32 = 0x72;
+    pub const IN_AIR: u32 = 0x73;
+    pub const PREV_X: u32 = 0x84;
+    pub const PREV_Y: u32 = 0x86;
+    pub const CELL: u32 = 0x88;
+    pub const FLIP: u8 = 1 << 6;
+    /// Material de la celda (bits altos del mapa): sin efecto (`PLAIN`,
+    /// `PLAIN_C0`), agua (`MATERIAL_40`) y el `$80` con celdas hondas.
+    pub const MATERIAL_BITS: u8 = 0xC0;
+    pub const PLAIN: u8 = 0x00;
+    pub const PLAIN_C0: u8 = 0xC0;
+    pub const MATERIAL_40: u8 = 0x40;
+    pub const MATERIAL_80: u8 = 0x80;
+    pub const DEEP_A: u8 = 0x82;
+    pub const DEEP_B: u8 = 0x8C;
+    /// Índices de la animación de marcha: a la derecha, a la izquierda,
+    /// celda honda; +1 en el tramo del mapa `SHALLOW_FROM..SHALLOW_TO`.
+    pub const IDX_RIGHT: u16 = 4;
+    pub const IDX_LEFT: u16 = 8;
+    pub const IDX_DEEP: u16 = 2;
+    pub const CAMERA_X: u32 = 0x10_6F50;
+    pub const SHALLOW_FROM: u16 = 0xD20;
+    pub const SHALLOW_TO: u16 = 0xE58;
+    /// Nivel del agua (Y del mundo), más bajo en `LOW_WATER_SCENES`.
+    pub const WATER: u16 = 0x167;
+    pub const LOW_WATER: u16 = 0x1EF;
+    pub const LOW_WATER_SCENES: [u8; 2] = [6, 9];
+    /// Tipo de tile: `+9` ≠ 0 = no se puede estar de pie encima.
+    pub const T_NO_STAND: u32 = 9;
+}
+
 /// Plataformas móviles (`system::platforms`).
 pub mod platforms {
     /// Anillo de 16 muestras de 12 bytes: cola de lectura, fin de las
