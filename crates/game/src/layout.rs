@@ -2569,6 +2569,41 @@ pub mod slug {
     pub const DESTROYED: u32 = 0x02_DC5C;
 }
 
+/// Iconos que siguen a una entidad (el «POW» sobre el Slug, la burbuja).
+pub mod icons {
+    /// Sprite, guion (el del POW cambia en la escena `POW_ALT_SCENE`) y
+    /// altura sobre el dueño de cada icono.
+    pub const POW_GFX: u16 = 0x1AD;
+    pub const POW_SCRIPT: u32 = 0x03_2292;
+    pub const POW_ALT_SCRIPT: u32 = 0x03_2286;
+    pub const POW_ALT_SCENE: u8 = 5;
+    pub const POW_HEIGHT: u16 = 0x28;
+    pub const POW_RUN: u32 = 0x03_2010;
+    /// Márgenes con los que el POW mira si se ve.
+    pub const POW_MARGINS: u32 = 0x03_2070;
+    pub const BUBBLE_GFX: u16 = 0x1B0;
+    pub const BUBBLE_SCRIPT: u32 = 0x03_232A;
+    pub const BUBBLE_HEIGHT: u16 = 0x38;
+    pub const BUBBLE_RUN: u32 = 0x03_20AC;
+    /// Rutina que da de baja el icono.
+    pub const GONE: u32 = 0x03_21BC;
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const SCENE_LOADED: u32 = 0x10_6ED3;
+    /// Campos: altura, atributos (`HIDDEN` hasta el primer frame) y flags.
+    pub const HEIGHT: u32 = 0x5C;
+    pub const ATTR: u32 = 0x38;
+    pub const HIDDEN: u16 = 0xFFFF;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const FLAGS_12: u32 = 0x12;
+    pub const FLAGS_12_SET: u8 = 1 << 6;
+    /// Del dueño: `+$8D` bit 5 = el POW se muestra; `+$13` bit 0 = se acaba.
+    pub const OWNER_FLAGS: u32 = 0x8D;
+    pub const OWNER_SHOW: u8 = 1 << 5;
+    pub const OWNER_FLAGS_13: u32 = 0x13;
+    pub const OWNER_DONE: u8 = 1 << 0;
+}
+
 /// Escena de Game Over / Continue (la del attract sin créditos y la del fin
 /// de partida): la tarea principal y las que crea.
 pub mod game_over {

@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hits, hud, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -1274,6 +1274,12 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; let (a, x, y) = slug::follow_owner(m, t); owner_regs(m, t, a, x, y); Flow::Return } },
     SystemPort { entry: 0x05_E4CA, original: "Entity_OwnerPos_05e4ca", rust: "system::slug::owner_pos",
                  run: |m| { let t = m.cpu.a[6]; let (a, x, y) = slug::owner_pos(m, t); owner_regs(m, t, a, x, y); Flow::Return } },
+    // --- iconos sobre una entidad
+    SystemPort { entry: 0x03_1FCA, original: "PlayerIcon_Pow_031fca", rust: "system::icons::pow_start", run: |m| icons::pow_start(m) },
+    SystemPort { entry: 0x03_2010, original: "PlayerIcon_Pow_031fca+0x46", rust: "system::icons::pow_run", run: |m| icons::pow_run(m) },
+    SystemPort { entry: 0x03_207C, original: "PlayerIcon_Bubble_03207c", rust: "system::icons::bubble_start", run: |m| icons::bubble_start(m) },
+    SystemPort { entry: 0x03_20AC, original: "PlayerIcon_Bubble_03207c+0x30", rust: "system::icons::bubble_run", run: |m| icons::bubble_run(m) },
+    SystemPort { entry: 0x03_21BC, original: "PlayerIcon_Gone_0321bc", rust: "system::icons::gone", run: |m| icons::gone(m) },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

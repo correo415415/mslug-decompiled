@@ -20,6 +20,7 @@ pub mod go_arrow;
 pub mod grunt;
 pub mod hits;
 pub mod hud;
+pub mod icons;
 pub mod irq;
 pub mod items;
 pub mod layer;
