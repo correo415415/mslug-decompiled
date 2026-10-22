@@ -1235,7 +1235,8 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x02_A878, original: "Slug_PhysicsAir_02a878", rust: "system::slug::physics_air",
                  run: |m| { let t = m.cpu.a[6]; let c = slug::physics_air(m, t, m.cpu.d[4] as u16); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_A8C0, original: "Slug_GroundContact_02a8c0", rust: "system::slug::ground_contact",
-                 run: |m| { let t = m.cpu.a[6]; let c = slug::ground_contact(m, t);
+                 run: |m| { let t = m.cpu.a[6];
+                            let c = slug::ground_contact(m, t);
                             m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(c.wheels as u8);
                             set_carry(m, c.in_air); Flow::Return } },
     SystemPort { entry: 0x02_A958, original: "Slug_TerrainSlope_02a958", rust: "system::slug::terrain_slope",

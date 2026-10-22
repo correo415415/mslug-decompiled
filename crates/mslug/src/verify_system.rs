@@ -107,7 +107,15 @@ fn check(sys: &mut neogeo_hw::System, i: usize, st: &mut Stats) {
 
     // --- ROM hasta el mismo punto
     let mut steps = 0u32;
+    // MSLUG_TRACE=02B004: traza de PCs de la ROM en las llamadas a esa rutina.
+    let trace = std::env::var("MSLUG_TRACE").ok().and_then(|v| u32::from_str_radix(&v, 16).ok())
+        == Some(cpu0.pc & 0xFF_FFFF);
     let reached = loop {
+        if trace {
+            let c = &sys.m68k;
+            eprintln!("T {:06X} d0={:08X} d1={:08X} d2={:08X} d3={:08X} d4={:08X} a0={:08X} a1={:08X}",
+                      c.pc & 0xFF_FFFF, c.d[0], c.d[1], c.d[2], c.d[3], c.d[4], c.a[0], c.a[1]);
+        }
         sys.m68k.step(&mut sys.bus);
         steps += 1;
         if sys.m68k.pc & 0xFF_FFFF == target_pc && sys.m68k.a[7] == target_sp {
@@ -138,6 +146,14 @@ fn check(sys: &mut neogeo_hw::System, i: usize, st: &mut Stats) {
                 bus_r.work_ram[i],
                 cpu0.a[6] & 0xFF_FFFF
             ));
+            // MSLUG_DIFF_ALL=1: lista todos los bytes distintos.
+            if std::env::var_os("MSLUG_DIFF_ALL").is_some() {
+                let all: Vec<String> = (0..sys.bus.work_ram.len())
+                    .filter(|&k| !in_stack(k) && sys.bus.work_ram[k] != bus_r.work_ram[k])
+                    .map(|k| format!("${:06X}:{:02X}/{:02X}/{:02X}", 0x10_0000 + k, bus0.work_ram[k], sys.bus.work_ram[k], bus_r.work_ram[k]))
+                    .collect();
+                diffs.push(format!("todos (antes/rom/rust): {}", all.join(" ")));
+            }
         }
         if let Some((i, n)) = first_diff(&sys.bus.palette_ram[..], &bus_r.palette_ram[..], |_| false) {
             diffs.push(format!("paleta: {n} bytes distintos, primero +${i:04X}"));

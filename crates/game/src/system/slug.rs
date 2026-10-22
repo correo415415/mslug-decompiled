@@ -452,10 +452,11 @@ pub fn fall_run(m: &mut impl Machine) -> Flow {
     if (m.read_u16(t + L::Y) as i16) <= L::DESCEND_Y {
         m.write_u32(t + T::HANDLER, L::DROP_DESCEND);
     }
-    if ground_contact(m, t).in_air {
-        return Flow::Return;
+    if !ground_contact(m, t).in_air {
+        // Con suelo: la bajada empieza el frame siguiente.
+        m.write_u32(t + T::HANDLER, L::DROP_DESCEND);
     }
-    descend(m)
+    Flow::Return
 }
 
 /// Empieza la bajada hasta el suelo. Original: `Slug_DropDescend_02b05e`.
