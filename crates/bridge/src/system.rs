@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, video};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player_hud, palette, rank, render, rng, scene, script, scroll, slug, sound, sprite, tasks, title, turret, video};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use neogeo_hw::cpu::m68k::exec::write_sr;
 use neogeo_hw::cpu::m68k::{Bus, Cpu, StatusRegister};
@@ -1281,6 +1281,37 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_207C, original: "PlayerIcon_Bubble_03207c", rust: "system::icons::bubble_start", run: |m| icons::bubble_start(m) },
     SystemPort { entry: 0x03_20AC, original: "PlayerIcon_Bubble_03207c+0x30", rust: "system::icons::bubble_run", run: |m| icons::bubble_run(m) },
     SystemPort { entry: 0x03_21BC, original: "PlayerIcon_Gone_0321bc", rust: "system::icons::gone", run: |m| icons::gone(m) },
+    // --- torreta del Slug
+    SystemPort { entry: 0x04_59A8, original: "Turret_InitDir0_0459A8", rust: "system::turret::init", run: |m| turret::init(m, 0) },
+    SystemPort { entry: 0x04_59C0, original: "Turret_InitDir1_0459C0", rust: "system::turret::init", run: |m| turret::init(m, 1) },
+    SystemPort { entry: 0x04_59D8, original: "Turret_InitDir2_0459D8", rust: "system::turret::init", run: |m| turret::init(m, 2) },
+    SystemPort { entry: 0x04_59F0, original: "Turret_InitDir3_0459F0", rust: "system::turret::init", run: |m| turret::init(m, 3) },
+    SystemPort { entry: 0x04_5ABE, original: "Turret_InitDir4_045ABE", rust: "system::turret::init", run: |m| turret::init(m, 4) },
+    SystemPort { entry: 0x04_5A38, original: "Turret_Track_045A38", rust: "system::turret::track", run: |m| turret::track(m) },
+    SystemPort { entry: 0x04_5B02, original: "Turret_AimSmooth_045B02", rust: "system::turret::snap_track", run: |m| turret::snap_track(m) },
+    SystemPort { entry: 0x04_5B9C, original: "Turret_Tail_045B9C", rust: "system::turret::tail", run: |m| turret::tail(m) },
+    SystemPort { entry: 0x04_58DC, original: "Turret_FollowParent_0458DC", rust: "system::turret::follow",
+                 run: |m| { let t = m.cpu.a[6]; turret::follow(m, t); Flow::Return } },
+    SystemPort { entry: 0x04_593A, original: "Turret_ReadPlayerInput_04593A", rust: "system::turret::read_input",
+                 run: |m| { let t = m.cpu.a[6]; turret::read_input(m, t); Flow::Return } },
+    SystemPort { entry: 0x04_580C, original: "Turret_FireGroundSnap_04580C", rust: "system::turret::fire",
+                 run: |m| { let t = m.cpu.a[6]; turret::fire(m, t); Flow::Return } },
+    SystemPort { entry: 0x04_57A6, original: "Ent_SfxByMode_0457A6", rust: "system::turret::alloc_gfx",
+                 run: |m| { let t = m.cpu.a[6]; turret::alloc_gfx(m, t); Flow::Return } },
+    SystemPort { entry: 0x04_57CC, original: "Ent_AnimFrame_0457CC", rust: "system::turret::anim_frame",
+                 run: |m| { let t = m.cpu.a[6]; turret::anim_frame(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_CA2A, original: "Entity_Draw_05ca2a", rust: "system::turret::draw",
+                 run: |m| { let t = m.cpu.a[6]; turret::draw(m, t); Flow::Return } },
+    SystemPort { entry: 0x08_F714, original: "PlayerMask_Test_08f714", rust: "system::turret::player_mask_hit",
+                 run: |m| { let t = m.cpu.a[6]; let c = turret::player_mask_hit(m, t, m.cpu.d[1] as u8); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_E452, original: "Entity_OwnerAlive_05e452", rust: "system::turret::owner_alive",
+                 run: |m| { let t = m.cpu.a[6]; let c = turret::owner_alive(m, t);
+                            m.cpu.a[0] = if c { m.read_u32(t + mslug_game::layout::task::OWNER) } else { 0xFFFF_FFFF };
+                            set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_D674, original: "Input_EffectivePad_05d674", rust: "system::turret::effective_pad",
+                 run: |m| { let p = m.cpu.a[2]; m.cpu.a[2] = turret::effective_pad(m, p); Flow::Return } },
+    SystemPort { entry: 0x05_17FE, original: "Entity_CopyPilot_0517fe", rust: "system::turret::copy_pilot",
+                 run: |m| { let (t, a) = (m.cpu.a[6], m.cpu.a[0]); turret::copy_pilot(m, t, a); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

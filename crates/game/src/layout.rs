@@ -2604,6 +2604,94 @@ pub mod icons {
     pub const OWNER_DONE: u8 = 1 << 0;
 }
 
+/// Torreta del Slug (y de otros vehículos): sigue al chasis, apunta con
+/// el mando del piloto según una de las cinco tablas de dirección y
+/// dispara ráfagas.
+pub mod turret {
+    /// Tabla de ángulos de cada variante (16 entradas de 4 bytes, una por
+    /// dirección del mando; negativo = ninguna) y ángulo inicial. La
+    /// variante `SNAP` gira deprisa y recuerda el último ángulo pedido.
+    pub const TABLES: [u32; 5] = [0x28_9504, 0x28_9544, 0x28_9584, 0x28_95C4, 0x28_9604];
+    pub const START_ANGLE: [u16; 5] = [0x4000, 0x8000, 0xC000, 0, 0];
+    pub const SNAP: usize = 4;
+    pub const TRACK: u32 = 0x04_5A38;
+    pub const SNAP_TRACK: u32 = 0x04_5B02;
+    /// Campos.
+    pub const VARIANT: u32 = 0x70;
+    pub const TABLE: u32 = 0x74;
+    pub const ANGLE: u32 = 0x34;
+    pub const TURN_SPEED: u32 = 0x78;
+    pub const LAST_TARGET: u32 = 0x7E;
+    pub const STICK: u32 = 0x71;
+    pub const SHOTS: u32 = 0x7C;
+    pub const SHOT_DELAY: u32 = 0x7D;
+    pub const RECOIL: u32 = 0x3B;
+    pub const RECOIL_FRAMES: u8 = 5;
+    pub const SHOT_INDEX: u32 = 0x81;
+    pub const SHOT_COUNT: u32 = 0x80;
+    pub const PILOT: u32 = 0x68;
+    pub const CONTROLLER: u32 = 0x6D;
+    pub const NONE: u8 = 0xFF;
+    pub const TIMER_59: u32 = 0x59;
+    pub const ATTR: u32 = 0x38;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const FLIP: u32 = 0x3A;
+    pub const PALETTE: u32 = 0x14;
+    /// Reducción vertical y horizontal.
+    pub const SHRINK: [u32; 2] = [0x33, 0x32];
+    pub const GFX: u32 = 0x3C;
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const FLAGS_8C_FIRED: u8 = 1 << 2;
+    pub const FLAGS_8C_HIT: u8 = 1 << 3;
+    /// Sprite: el genérico y el de los jugadores.
+    pub const GFX_DEFAULT: u16 = 2;
+    pub const GFX_PLAYER: u16 = 0x1D6;
+    /// Del dueño: registro del soporte (puntero a desplazamiento base y
+    /// desplazamiento propio en `+4`).
+    pub const OWNER_MOUNT: u32 = 0x70;
+    /// Giro: aceleración por frame y, en la variante rápida, la de lejos.
+    pub const TURN_ACCEL: u16 = 0x100;
+    pub const SNAP_ACCEL: u16 = 0x200;
+    pub const SNAP_ACCEL_FAR: u16 = 0x800;
+    pub const SNAP_FAR: u16 = 0x5000;
+    /// Fotogramas por sector de ángulo (×3) y retroceso (×4).
+    pub const FRAMES: u32 = 0x28_9204;
+    /// Mando.
+    pub const FIRE: u8 = 0x10;
+    pub const STICK_MASK: u8 = 0x0F;
+    pub const BURST: u8 = 3;
+    pub const FIRE_SOUND: u16 = 0x108C;
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const PAD_PTR: u32 = 0x72;
+    pub const PAD_HELD: u32 = 2;
+    pub const PAD_PRESSED: u32 = 3;
+    pub const SCRIPTED_INPUT_ACTIVE: u32 = 0x10_E39D;
+    pub const PAD_LIVE_P1: u32 = 0x10_E200;
+    pub const PAD_SCRIPTED: [u32; 2] = [0x10_E2E2, 0x10_E2E8];
+    /// Disparo: bala, destello y punta del cañón por sector (x, y).
+    pub const SHOT: u32 = 0x04_5FDE;
+    pub const FLASH: u32 = 0x03_0C14;
+    pub const MUZZLE: u32 = 0x29_D752;
+    pub const SHOT_ANGLE: u32 = 0x98;
+    pub const SHOT_SLOT: [u32; 2] = [0x9A, 0x9B];
+    /// Tipos de tile en los que la punta del cañón aún deja salir el
+    /// destello.
+    pub const PASS_KINDS: [u8; 3] = [0x10, 0x20, 0x21];
+    /// Bit de la máscara de jugadores del dueño por el que se pierde la
+    /// torreta.
+    pub const LOST_BIT: u8 = 8;
+    pub const PLAYER_MASK: u32 = 0x96;
+    pub const FRAME_COUNTER: u32 = 0x10_6F28;
+    pub const EXPLODE: u32 = 0x04_5C20;
+    /// Si el dueño desaparece o acaba: bala suelta en el almacén de
+    /// enemigos.
+    pub const ENEMY_ROOT: u32 = 0x10_0800;
+    pub const LOOSE_SHOT: u32 = 0x04_5D3A;
+    pub const OWNER_FLAGS_13: u32 = 0x13;
+    pub const OWNER_DONE: u8 = 1 << 0;
+}
+
 /// Escena de Game Over / Continue (la del attract sin créditos y la del fin
 /// de partida): la tarea principal y las que crea.
 pub mod game_over {

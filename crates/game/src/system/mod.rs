@@ -44,6 +44,7 @@ pub mod slug;
 pub mod sprite;
 pub mod sound;
 pub mod title;
+pub mod turret;
 pub mod tasks;
 pub mod video;
 
