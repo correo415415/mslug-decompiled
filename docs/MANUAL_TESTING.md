@@ -188,11 +188,12 @@ misión (`system::events`), la comida (`system::food`), las plataformas
 móviles (`system::platforms`), la colisión y la caída de los objetos
 (`system::collision`), el movimiento con colisión (`system::motion`), la
 recogida (`system::pickup`), los objetos del suelo (`system::items`) y los
-soldados que saltan (`system::grunt`).
+soldados que saltan (`system::grunt`), el piloto automático
+(`system::autopilot`) y el indicador GO (`system::go_arrow`).
 `--only-manual --coin 0` llega al frame 1636 y se para en
-`Item_Tmpl316_ComboTimer_09b82c` (temporizador de la racha). `verify-system
---coin 0`: 0 fallos en 192 738 llamadas; con moneda (6000 frames): 0 fallos
-en 194 338.
+`Fort_Init_V1_086624` (alta del fuerte). `verify-system
+--coin 0`: 0 fallos en 199 068 llamadas; con moneda (6000 frames): 0 fallos
+en 203 766.
 
 Si el código original se para dentro de una llamada (`Machine::halted`), los
 bucles que esperan algo de ella (guion de scroll, apariciones) salen en vez de

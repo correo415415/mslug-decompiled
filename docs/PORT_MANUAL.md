@@ -279,4 +279,9 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
 - `system::grunt`: física de los soldados rasos (posición 8.8, parámetros de
   aparición, baja al salir de la vista) y el que salta (plantilla 162).
 
-Verificado con `verify-system --coin 0` (0 fallos, 192 738 llamadas).
+- `system::autopilot`: piloto automático de los tramos guiados (`$079298`,
+  `$0792F0`, `$07962C`).
+- `system::go_arrow`: indicador GO (`$08C820`…`$08C90E`, `$05E1AA`) y las
+  animaciones de la capa fija (`system::hud`, `$05DB58`…`$05DBDC`).
+
+Verificado con `verify-system --coin 0` (0 fallos, 199 068 llamadas).
