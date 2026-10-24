@@ -1569,6 +1569,21 @@ pub mod player_air {
     pub const STATE: u32 = 0x70;
     pub const STATE_JUMP: u8 = 0x25;
     pub const STATE_FALL: u8 = 0x26;
+    /// Salto: guiones (con carrerilla, apuntando abajo con y sin
+    /// carrerilla; parado usa el del golpe), velocidad, gravedad y el
+    /// contador que decide si es salto largo (B mantenido en el frame 4).
+    pub const JUMP_RUN_SCRIPT: u32 = 0x27_9C78;
+    pub const JUMP_DOWN_SCRIPT: u32 = 0x27_9B0E;
+    pub const FALL_DOWN_SCRIPT: u32 = 0x27_9B04;
+    pub const MODE_DOWN: u16 = 3;
+    pub const JUMP_VEL: u16 = 0x9CD;
+    pub const JUMP_GRAVITY: u16 = 0xFF3F;
+    pub const JUMP_TIMER: u32 = 0x90;
+    pub const JUMP_TIMER_FRAMES: u8 = 5;
+    pub const JUMP_HOLD_FRAME: u8 = 4;
+    pub const JUMP_WAIT: u32 = 0x03_6A36;
+    pub const JUMP_AIR: u32 = 0x03_6A70;
+    pub const MAX_JUMP_VEL_Y: u16 = 0x780;
     pub const WEAPON: u32 = 0x71;
     pub const MODE: u32 = 0x72;
     pub const POSE: u32 = 0x74;
@@ -1615,6 +1630,8 @@ pub mod player_air {
     /// Depuración: inmortal (bit 3 del byte bajo).
     pub const DEBUG: u32 = 0x10_0001;
     pub const DEBUG_IMMORTAL: u8 = 1 << 3;
+    /// Depuración: el salto no mueve al jugador (bit 5).
+    pub const DEBUG_FREEZE: u8 = 1 << 5;
     /// Con el temporizador a 0 el jugador muere; en la escena
     /// `WATER_SCENE`, por encima de `WATER_Y`, el tile `WATER_TILE` ahoga.
     pub const RANK_TIMER: u32 = 0x10_6E92;
