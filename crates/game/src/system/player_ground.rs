@@ -9,7 +9,8 @@
 //! (`Player_TurnRight_035aba`, `Player_TurnLeft_035bf8` y sus bucles), la
 //! cola de andar (`Player_Walk_Tail_03548c`), las poses de espera
 //! (`Player_Crouch_033a5e`, `Player_CrouchB_033afc`), lanzar una granada de
-//! pie (`Player_ThrowGrenade_Stand_0360bc`), el agacharse
+//! pie (`Player_ThrowGrenade_Stand_0360bc`), andar (`Player_WalkRight_034b38`,
+//! `Player_WalkLeft_034d32`), el agacharse
 //! (`Player_CrouchEnter_037c74`) y el agachado quieto
 //! (`Player_CrouchIdle_03827a`, `$0381A2`, `$03820E`), el disparo agachado
 //! (`Player_CrouchShoot_03873c`), el levantarse (`Player_CrouchExit_037ec2`,
@@ -907,5 +908,90 @@ pub fn throw_stand_loop(m: &mut impl Machine) -> Flow {
         set_handler(m, t, action_state(a, false));
     }
     stand_tail(m, t);
+    Flow::Return
+}
+
+fn walk_speed(left: bool) -> u16 {
+    if left { L::WALK_SPEED.wrapping_neg() } else { L::WALK_SPEED }
+}
+
+/// Andar hacia la derecha (`left = false`) o la izquierda: si venía de una
+/// pose de brazo de las que se conservan sólo rearranca el guion; si no,
+/// limpia el brazo y pone la pose de andar. Después la velocidad, la caja
+/// de golpe de pie, hacia dónde mira y el bucle.
+/// Original: `Player_WalkRight_034b38` / `Player_WalkLeft_034d32` (con sus
+/// `_Setup`).
+pub fn walk(m: &mut impl Machine, left: bool) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0xFFFF);
+    if L::KEEP_ANIM.contains(&m.read_u8(t + L::STATE)) {
+        anim::start(m, t, L::WALK_SCRIPT);
+        set_bits(m, t + L::FLAGS_69, L::WANTS_POSE, false);
+    } else {
+        set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+        restart(m, t, L::STATE_WALK, L::WALK_SCRIPT);
+    }
+    walk_setup(m, t, left)
+}
+
+/// Segunda mitad de la entrada de andar. Original:
+/// `Player_WalkRight_Setup_034ba4` / `Player_WalkLeft_Setup_034d9e`.
+pub fn walk_setup(m: &mut impl Machine, t: u32, left: bool) -> Flow {
+    m.write_u16(t + L::VEL_X, walk_speed(left));
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_STAND);
+    set_bits(m, t + L::FACING, L::FACING_LEFT, left);
+    set_handler(m, t, if left { L::WALK_LEFT_LOOP } else { L::WALK_RIGHT_LOOP });
+    walk_loop(m, left)
+}
+
+/// Bucle de andar: al acabar la animación, el bucle largo de andar; sigue
+/// la pose del brazo si cambia el apuntado; con el brazo libre se para al
+/// soltar, se gira y la acción; y la cola de andar.
+/// Original: `$034BCA` / `$034DC4` (con `Player_WalkRight_Tail_034ccc`,
+/// igual que `Player_Walk_Tail_03548c`).
+pub fn walk_loop(m: &mut impl Machine, left: bool) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    if announce_weapon(m, t) {
+        set_handler(m, t, L::REENTER);
+    }
+    m.write_u16(t + L::VEL_X, walk_speed(left));
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, if left { L::WALK_LOOP_LEFT } else { L::WALK_LOOP_RIGHT });
+    }
+    if m.read_u32(t + L::POSE) == L::WALK_AIM_POSE {
+        let up = m.read_u8(t + L::AIM) == L::AIM_UP;
+        m.write_u16(t + L::MODE, if up { L::MODE_UP } else { 0 });
+        set_pose(m, t, L::STATE_WALK, if up { L::WALK_UP_SCRIPT } else { L::WALK_SCRIPT });
+    }
+    if m.read_u8(t + L::STATUS) & L::ARM_BUSY == 0 {
+        let (fwd, back, turn) = if left {
+            (Buttons::LEFT, Buttons::RIGHT, L::TURN_TO_RIGHT)
+        } else {
+            (Buttons::RIGHT, Buttons::LEFT, L::TURN_TO_LEFT)
+        };
+        if !held(m, t, fwd) {
+            set_handler(m, t, L::STAND_FROM_WALK);
+        }
+        if held(m, t, back) {
+            set_handler(m, t, turn);
+        }
+        if let Some(a) = player_air::action_select(m, t) {
+            let side = usize::from(left);
+            let h = match a {
+                0xFF => L::MELEE,
+                3 => L::THROW,
+                4 => L::SHOOT_DOWN,
+                1 => L::WALK_SHOOT_UP[side],
+                _ => L::WALK_SHOOT[side],
+            };
+            set_handler(m, t, h);
+        }
+    }
+    walk_tail(m, t);
     Flow::Return
 }

@@ -1533,6 +1533,19 @@ pub mod player_ground {
     pub const THROW_SCRIPT: u32 = 0x27_9D2E;
     pub const THROW_LOOP: u32 = 0x03_6152;
     pub const BYTE_3B: u32 = 0x3B;
+    /// Andar: estado, guiones (adelante y apuntando arriba), la pose que
+    /// marca el cambio de apuntado, velocidad, bucles y los estados a los
+    /// que se pasa (parar, disparar andando).
+    pub const STATE_WALK: u8 = 0x11;
+    pub const WALK_SCRIPT: u32 = 0x27_9882;
+    pub const WALK_UP_SCRIPT: u32 = 0x27_9878;
+    pub const WALK_AIM_POSE: u32 = 0x03_A058;
+    pub const WALK_SPEED: u16 = 0x300;
+    pub const WALK_RIGHT_LOOP: u32 = 0x03_4BCA;
+    pub const WALK_LEFT_LOOP: u32 = 0x03_4DC4;
+    pub const STAND_FROM_WALK: u32 = 0x03_45FA;
+    pub const WALK_SHOOT: [u32; 2] = [0x03_4ECA, 0x03_51B0];
+    pub const WALK_SHOOT_UP: [u32; 2] = [0x03_503E, 0x03_51C4];
 }
 
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
