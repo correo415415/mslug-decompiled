@@ -1459,6 +1459,12 @@ pub mod player_ground {
     pub const AIM_HISTORY_TO_FORWARD: u8 = 0x41;
     pub const FLAGS_69: u32 = 0x69;
     pub const WANTS_POSE: u8 = 1 << 5;
+    /// Guiones del disparo de pie: adelante y arriba, normal y al cambiar
+    /// de modo.
+    pub const SHOOT_SCRIPT: u32 = 0x27_96E4;
+    pub const SHOOT_SCRIPT_FROM_UP: u32 = 0x27_9716;
+    pub const SHOOT_UP_SCRIPT: u32 = 0x27_96EE;
+    pub const SHOOT_UP_SCRIPT_FROM_FWD: u32 = 0x27_9720;
     /// Con el lanzallamas la acción no espera a que el brazo esté libre.
     pub const WEAPON_FLAME: u8 = 4;
 }
@@ -3179,6 +3185,27 @@ pub mod manual_icons {
     /// Palabras de movimiento que borra `$0267E2` y el largo que va entre ellas.
     pub const MOTION_WORDS: [u32; 3] = [0x2E, 0x2C, 0x26];
     pub const MOTION_LONG: u32 = 0x28;
+}
+
+/// Escombros de la escena 3 (`system::debris`).
+pub mod debris {
+    /// Sólo salen en esta escena.
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const ONLY_SCENE: u8 = 3;
+    /// Tarea: entrada, bucle, sprite y guion.
+    pub const TASK: u32 = 0x03_D76E;
+    pub const RUN: u32 = 0x03_D788;
+    pub const GFX: u16 = 0x1BD;
+    pub const SCRIPT: u32 = 0x03_D7A0;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    /// Atributos: se quitan los bits de `!ATTR_KEEP` y se pone la capa.
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const LAYER_FRONT: u16 = 0x10;
+    pub const LAYER_BACK: u16 = 0x04;
 }
 
 /// Slug parado (`system::slug_idle`).

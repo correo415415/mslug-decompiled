@@ -11,6 +11,7 @@ pub mod anim;
 pub mod autopilot;
 pub mod boot;
 pub mod collision;
+pub mod debris;
 pub mod events;
 pub mod food;
 pub mod fort;

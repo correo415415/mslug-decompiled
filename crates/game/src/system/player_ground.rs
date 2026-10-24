@@ -4,7 +4,8 @@
 //! el mando: andar, girarse, agacharse, disparar, lanzar, saltar o caer.
 //!
 //! Original: `Player_SpawnLand_Reset_033ede` (y su bucle `$033FAE`),
-//! `Player_Stand_034704` (y su bucle `$034806`),
+//! `Player_Stand_034704` (y su bucle `$034806`), el disparo de pie
+//! (`Player_ShootStand_0342c4`, `Player_ShootStandUp_03437e`),
 //! `Player_Idle_033d64` (y su bucle `$033E2E`), `Player_Idle_Tail_0341a4`
 //! (`asm/player/core_032aa8.s`), `Player_PlayWeaponMusicIfFlag_032d32`,
 //! `$0267E6`, `Entity_ProbeRevertCcr_027a92` y
@@ -306,6 +307,12 @@ pub fn stand(m: &mut impl Machine) -> Flow {
         set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
         restart(m, t, L::STATE_STAND, L::STAND_SCRIPT);
     }
+    stand_setup(m, t)
+}
+
+/// Segunda mitad de la entrada de pie: en el suelo, sin movimiento, caja
+/// de golpe de pie y el bucle de pie. Original: `Player_Stand_Setup_0347e0`.
+fn stand_setup(m: &mut impl Machine, t: u32) -> Flow {
     set_bits(m, t + L::FLAGS_5B, L::GROUNDED, true);
     m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
     clear_motion(m, t);
@@ -395,4 +402,28 @@ pub fn stand_loop(m: &mut impl Machine) -> Flow {
         set_handler(m, t, A::DEATH_PIT);
     }
     Flow::Return
+}
+
+/// Disparo de pie, adelante (`up = false`) o hacia arriba: marca el brazo
+/// disparando; si cambia de modo, pone la pose de disparo desde el
+/// principio, y sigue como de pie.
+/// Original: `Player_ShootStand_0342c4` / `Player_ShootStandUp_03437e`.
+pub fn shoot_stand(m: &mut impl Machine, up: bool) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::STATUS, L::ARM_FIRING, true);
+    let mode = if up { L::MODE_UP } else { 0 };
+    let changed = m.read_u16(t + L::MODE) != mode;
+    let script = match (up, changed) {
+        (false, true) => L::SHOOT_SCRIPT_FROM_UP,
+        (false, false) => L::SHOOT_SCRIPT,
+        (true, true) => L::SHOOT_UP_SCRIPT_FROM_FWD,
+        (true, false) => L::SHOOT_UP_SCRIPT,
+    };
+    if changed {
+        m.write_u16(t + L::MODE, mode);
+    }
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    restart(m, t, L::STATE_IDLE, script);
+    stand_setup(m, t)
 }

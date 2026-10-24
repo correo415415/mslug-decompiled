@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, collision, debris, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -329,6 +329,16 @@ fn near_regs(m: &mut CpuMachine, p: u8, r: Option<u32>) {
     m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_FF00) | u32::from(p + 1);
     m.cpu.d[1] = r.unwrap_or(0xFFFF_FFFF);
     m.cpu.sr.set(StatusRegister::C, r.is_some());
+}
+
+/// Variante `k` de los escombros (deja en a0 la tarea nueva).
+fn debris_spawn(m: &mut CpuMachine, k: usize) -> Flow {
+    let t = m.cpu.a[6];
+    if let Some(d) = debris::spawn(m, t, debris::VARIANTS[k]) {
+        m.cpu.a[0] = d;
+        m.cpu.a[1] = mslug_game::layout::debris::TASK;
+    }
+    Flow::Return
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -1745,6 +1755,17 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let c = slope::move_b(m, t, at); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x03_4704, original: "Player_Stand_034704", rust: "system::player_ground::stand", run: |m| player_ground::stand(m) },
     SystemPort { entry: 0x03_4806, original: "Player_Stand_034704__L034806", rust: "system::player_ground::stand_loop", run: |m| player_ground::stand_loop(m) },
+    SystemPort { entry: 0x03_42C4, original: "Player_ShootStand_0342c4", rust: "system::player_ground::shoot_stand", run: |m| player_ground::shoot_stand(m, false) },
+    SystemPort { entry: 0x03_437E, original: "Player_ShootStandUp_03437e", rust: "system::player_ground::shoot_stand", run: |m| player_ground::shoot_stand(m, true) },
+    // --- escombros de la escena 3
+    SystemPort { entry: 0x03_D616, original: "Scene3Debris_Spawn_03d616", rust: "system::debris::spawn", run: |m| debris_spawn(m, 0) },
+    SystemPort { entry: 0x03_D640, original: "Scene3Debris_SpawnLow8_03d640", rust: "system::debris::spawn", run: |m| debris_spawn(m, 1) },
+    SystemPort { entry: 0x03_D66E, original: "Scene3Debris_SpawnUpD_03d66e", rust: "system::debris::spawn", run: |m| debris_spawn(m, 2) },
+    SystemPort { entry: 0x03_D6B4, original: "Scene3Debris_SpawnUpC_03d6b4", rust: "system::debris::spawn", run: |m| debris_spawn(m, 3) },
+    SystemPort { entry: 0x03_D6E4, original: "Scene3Debris_SpawnUpB_03d6e4", rust: "system::debris::spawn", run: |m| debris_spawn(m, 4) },
+    SystemPort { entry: 0x03_D72A, original: "Scene3Debris_SpawnPrio4_03d72a", rust: "system::debris::spawn", run: |m| debris_spawn(m, 5) },
+    SystemPort { entry: 0x03_D76E, original: "Scene3Debris_Task_03d76e", rust: "system::debris::task", run: |m| debris::task(m) },
+    SystemPort { entry: 0x03_D788, original: "Scene3Debris_Task_03d76e__L03d788", rust: "system::debris::run", run: |m| debris::run(m) },
     // --- Slug parado
     SystemPort { entry: 0x02_DD20, original: "Slug_IdleEnterA_02dd20", rust: "system::slug_idle::enter", run: |m| slug_idle::enter(m, mslug_game::layout::slug_idle::SCRIPTS_A) },
     SystemPort { entry: 0x02_DD74, original: "Slug_IdleEnterB_02dd74", rust: "system::slug_idle::enter", run: |m| slug_idle::enter(m, mslug_game::layout::slug_idle::SCRIPTS_B) },
