@@ -1546,6 +1546,19 @@ pub mod player_ground {
     pub const STAND_FROM_WALK: u32 = 0x03_45FA;
     pub const WALK_SHOOT: [u32; 2] = [0x03_4ECA, 0x03_51B0];
     pub const WALK_SHOOT_UP: [u32; 2] = [0x03_503E, 0x03_51C4];
+    /// Andar ya lanzado: estado, guiones (adelante y apuntando arriba),
+    /// bucles, parar desde aquí y disparar (adelante y arriba) por lado.
+    pub const STATE_WALK_LONG: u8 = 0x12;
+    pub const WALK_LONG_SCRIPT: u32 = 0x27_9926;
+    pub const WALK_LONG_UP_SCRIPT: u32 = 0x27_991C;
+    pub const WALK_LONG_RIGHT_RUN: u32 = 0x03_5276;
+    pub const WALK_LONG_LEFT_RUN: u32 = 0x03_5590;
+    pub const IDLE_STATE_CHECK: u32 = 0x03_4046;
+    pub const WALK_LONG_SHOOT: [u32; 2] = [0x03_57AA, 0x03_57D2];
+    pub const WALK_LONG_SHOOT_UP: [u32; 2] = [0x03_57BE, 0x03_57E6];
+    /// Parar de andar: guion y bucle.
+    pub const STOP_SCRIPT: u32 = 0x27_9A96;
+    pub const STOP_LOOP: u32 = 0x03_411A;
 }
 
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
