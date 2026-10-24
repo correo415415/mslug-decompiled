@@ -1743,6 +1743,8 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let c = player_ground::move_ground(m, t); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_6B56, original: "Entity_MoveAndCollide_A_026b56", rust: "system::slope::move_b",
                  run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let c = slope::move_b(m, t, at); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_4704, original: "Player_Stand_034704", rust: "system::player_ground::stand", run: |m| player_ground::stand(m) },
+    SystemPort { entry: 0x03_4806, original: "Player_Stand_034704__L034806", rust: "system::player_ground::stand_loop", run: |m| player_ground::stand_loop(m) },
     // --- Slug parado
     SystemPort { entry: 0x02_DD20, original: "Slug_IdleEnterA_02dd20", rust: "system::slug_idle::enter", run: |m| slug_idle::enter(m, mslug_game::layout::slug_idle::SCRIPTS_A) },
     SystemPort { entry: 0x02_DD74, original: "Slug_IdleEnterB_02dd74", rust: "system::slug_idle::enter", run: |m| slug_idle::enter(m, mslug_game::layout::slug_idle::SCRIPTS_B) },

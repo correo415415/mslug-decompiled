@@ -1444,6 +1444,23 @@ pub mod player_ground {
     pub const SHOOT: u32 = 0x03_42C4;
     pub const KNOCK_HOLD: u32 = 0x03_7018;
     pub const JUMP_START: u32 = 0x03_6914;
+    /// De pie: bucle, golpe sin suelo y guiones (adelante y apuntando
+    /// arriba; el original tiene otros dos para una rama que nunca se toma,
+    /// `$02ABCC` siempre devuelve C = 0).
+    pub const STAND_LOOP: u32 = 0x03_4806;
+    pub const KNOCKBACK: u32 = 0x03_6D64;
+    pub const STAND_SCRIPT: u32 = 0x27_96A4;
+    pub const STAND_UP_SCRIPT: u32 = 0x27_96C4;
+    pub const STATE_STAND: u8 = 0x10;
+    pub const MODE_UP: u16 = 1;
+    pub const AIM_UP: u8 = 4;
+    /// Historial de apuntado con el que el cambio de pose pide transición.
+    pub const AIM_HISTORY_TO_UP: u8 = 0x14;
+    pub const AIM_HISTORY_TO_FORWARD: u8 = 0x41;
+    pub const FLAGS_69: u32 = 0x69;
+    pub const WANTS_POSE: u8 = 1 << 5;
+    /// Con el lanzallamas la acción no espera a que el brazo esté libre.
+    pub const WEAPON_FLAME: u8 = 4;
 }
 
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
