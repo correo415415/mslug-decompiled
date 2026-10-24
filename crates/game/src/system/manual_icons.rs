@@ -6,11 +6,16 @@
 //!   hunden y al soltarlo en `+$92` vuelven; cada una tiene una hija
 //!   «encendida» que sólo anima.
 //! - El **ancla** del texto elige el idioma según la BIOS y deja listo el
-//!   cursor de texto; su bucle (`$08C678`) todavía es el original.
+//!   cursor de texto; su bucle escribe la página que pide la madre carácter
+//!   a carácter (con códigos para borrar, saltar de línea y soltar el ancla
+//!   o el Slug) y se va al salir por la derecha.
 //!
-//! Original: `Icon_Base_08c2b8` … `Icon_Anchor_Init_08c5b2` y `$0267E2`.
+//! Original: `Icon_Base_08c2b8` … `Icon_Anchor_Init_08c5b2`, `$0267E2`,
+//! `Icon_Anchor_Run_08c678`, `Anim_ScriptStepFix_A_08bce6`,
+//! `Anim_ScriptStepFix_B_08be28`, `Font_TileWithPal_047872`.
 
-use super::{anim, hud, tasks};
+use super::{anim, hud, motion, tasks};
+use crate::layout::hw;
 use crate::layout::{manual_icons as L, task as T};
 use crate::mem::{Machine, Memory};
 use crate::Flow;
@@ -148,6 +153,126 @@ pub fn anchor(m: &mut impl Machine) -> Flow {
     m.write_u16(t + L::TEXT_PAGE, 0);
     m.write_u32(t + T::HANDLER, L::ANCHOR_RUN);
     Flow::Return
+}
+
+/// Bucle del ancla: si la madre pide otra página la carga; escribe el
+/// texto, avanza (sin apoyarse), anima y se va al pasar de `EXIT_X`.
+/// `at` = columna y fila que deja el original si no mira el mapa.
+/// Original: `Icon_Anchor_Run_08c678`.
+pub fn anchor_run(m: &mut impl Machine, at: (u16, u16)) -> Flow {
+    let t = m.task_register();
+    let o = m.read_u32(t + T::OWNER);
+    let page = m.read_u16(o + L::TEXT_PAGE);
+    if page != 0 {
+        let lang = m.read_u8(t + L::LANGUAGE);
+        if page != m.read_u16(t + L::TEXT_PAGE) {
+            m.write_u16(t + L::TEXT_PAGE, page);
+            let e = L::TEXT_PAGES[usize::from(lang & 3)] + u32::from(page) * 8;
+            let script = m.read_u32(e);
+            let pos = m.read_u32(e + 4);
+            m.write_u32(t + L::TEXT_SCRIPT, script);
+            m.write_u32(t + L::TEXT_AT, pos);
+            m.write_u32(t + L::TEXT_OFFSET, 0);
+            m.write_u16(t + L::TEXT_TIMER, 0);
+        }
+        write_text(m, t, lang == L::LANG_JP);
+    }
+    motion::on_entity_pos(m, t, |m| motion::move_e_probe(m, t, at));
+    anim::step(m, t);
+    if m.read_u16(t + L::X) <= L::EXIT_X {
+        return Flow::Return;
+    }
+    tasks::kill_children(m, t);
+    tasks::finish(m)
+}
+
+/// Un frame del texto: cuando vence la duración de la entrada actual
+/// procesa las siguientes hasta una con duración. Devuelve si el guion ya
+/// había acabado. Original: `Anim_ScriptStepFix_A_08bce6` (japonés) y
+/// `Anim_ScriptStepFix_B_08be28` (resto; tras borrar o soltar algo sigue
+/// como el japonés, igual que el original).
+pub fn write_text(m: &mut impl Memory, t: u32, japanese: bool) -> bool {
+    let timer = m.read_u16(t + L::TEXT_TIMER);
+    if timer == L::TEXT_END {
+        return true;
+    }
+    let timer = timer.wrapping_sub(1);
+    m.write_u16(t + L::TEXT_TIMER, timer);
+    if (timer as i16) > 0 {
+        return false;
+    }
+    let mut japanese = japanese;
+    loop {
+        let e = m.read_u32(t + L::TEXT_SCRIPT).wrapping_add(m.read_u32(t + L::TEXT_OFFSET));
+        let timer = m.read_u16(e);
+        m.write_u16(t + L::TEXT_TIMER, timer);
+        if timer == L::TEXT_END {
+            return false;
+        }
+        let code = m.read_u16(e + L::ENTRY_CODE);
+        m.write_u16(t + L::TEXT_CHAR, code);
+        let script = m.read_u32(e + L::ENTRY_ANIM);
+        if script != 0 {
+            anim::start(m, t, script);
+        }
+        match code {
+            L::CODE_CLEAR => {
+                let (at, ch, cols, rows) = L::CLEAR_RECT;
+                hud::fill_rect(m, at, ch, cols, rows);
+                japanese = true;
+            }
+            L::CODE_DROP => {
+                tasks::spawn(m, L::DROP_TASK, t);
+                japanese = true;
+            }
+            L::CODE_SLUG => {
+                let s = tasks::spawn(m, L::SLUG_TASK, t);
+                m.write_u16(s + L::X, L::SLUG_POS.0);
+                m.write_u16(s + L::Y, L::SLUG_POS.1);
+                m.write_u8(s + L::SLUG_KIND, L::SLUG_KIND_MANUAL);
+                japanese = true;
+            }
+            L::CODE_NONE => {}
+            L::CODE_NEWLINE if japanese => m.write_u32(t + L::TEXT_AT, L::JP_NEWLINE),
+            L::CODE_NEWLINE => {
+                let at = m.read_u32(t + L::TEXT_AT);
+                m.write_u32(t + L::TEXT_AT, (at & L::LATIN_NEWLINE_MASK) + L::LATIN_NEWLINE_ADD);
+            }
+            _ if japanese => {
+                let at = m.read_u32(t + L::TEXT_AT);
+                m.write_u32(t + L::TEXT_AT, at.wrapping_add(L::JP_STEP));
+                let block = code & L::JP_BLOCK_MASK;
+                let alt = L::JP_ALT_BLOCKS.contains(&block) || block >= L::JP_ALT_FROM;
+                let pal = if alt { L::JP_PALETTE_ALT } else { L::JP_PALETTE };
+                glyph(m, at as u16, code, pal);
+            }
+            _ => {
+                let at = m.read_u32(t + L::TEXT_AT) as u16;
+                let v = m.read_u32(t + L::TEXT_AT).wrapping_add(L::LATIN_STEP);
+                m.write_u32(t + L::TEXT_AT, v);
+                let ch = code | L::LATIN_ATTR;
+                put(m, at, ch);
+                if code == L::ACCENT_ABOVE {
+                    put(m, at.wrapping_add(1), ch.wrapping_add(L::ACCENT_TILE));
+                } else if L::ACCENTS_BELOW.contains(&code) {
+                    put(m, at.wrapping_sub(1), ch.wrapping_sub(L::ACCENT_TILE));
+                }
+            }
+        }
+        let off = m.read_u32(t + L::TEXT_OFFSET).wrapping_add(L::ENTRY_SIZE);
+        m.write_u32(t + L::TEXT_OFFSET, off);
+    }
+}
+
+fn put(m: &mut impl Memory, at: u16, ch: u16) {
+    m.write_u16(hw::VRAM_ADDR, at);
+    m.write_u16(hw::VRAM_RW, ch);
+}
+
+/// Carácter de 2×2 con la paleta `pal`. Original: `Font_TileWithPal_047872`.
+pub fn glyph(m: &mut impl Memory, at: u16, ch: u16, pal: u16) {
+    let s = L::GLYPH_SIZE;
+    hud::fill_tiles(m, at, ch | (pal << L::PALETTE_SHIFT), s, s);
 }
 
 /// Pone a cero las velocidades de la tarea. Original: `$0267E2`.

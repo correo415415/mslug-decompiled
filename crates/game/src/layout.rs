@@ -2903,6 +2903,53 @@ pub mod manual_icons {
     pub const TEXT_OFFSET: u32 = 0x82;
     pub const TEXT_PAGE: u32 = 0x76;
     pub const TEXT_FIRST: u32 = 0x1F_0056 + 0x10_0000;
+    /// Páginas de texto de cada idioma (por `LANGUAGE`): pares {guion,
+    /// posición en la capa fija}. La página la pide la madre en `TEXT_PAGE`.
+    pub const TEXT_PAGES: [u32; 4] = [0x2E_FACC, 0x2E_FC2C, 0x2E_FD8C, 0x2E_FEEC];
+    /// Entradas del guion de texto (8 bytes): duración (`TEXT_END` = fin),
+    /// código y guion de animación del ancla (0 = ninguno).
+    pub const TEXT_END: u16 = 0xFFFF;
+    pub const ENTRY_SIZE: u32 = 8;
+    pub const ENTRY_CODE: u32 = 2;
+    pub const ENTRY_ANIM: u32 = 4;
+    /// Códigos: nada, borrar el recuadro, soltar el ancla, soltar el Slug y
+    /// salto de línea; el resto son caracteres.
+    pub const CODE_NONE: u16 = 0;
+    pub const CODE_CLEAR: u16 = 1;
+    pub const CODE_DROP: u16 = 2;
+    pub const CODE_SLUG: u16 = 3;
+    pub const CODE_NEWLINE: u16 = 0xD;
+    /// Recuadro del texto (dirección, carácter, columnas, filas).
+    pub const CLEAR_RECT: (u16, u16, u16, u16) = (0x7084, 0x2320, 0x20, 8);
+    pub const DROP_TASK: u32 = 0x08_C730;
+    /// El Slug que suelta el manual: posición y variante de caída.
+    pub const SLUG_TASK: u32 = 0x02_AE50;
+    pub const SLUG_POS: (u16, u16) = (0xA0, 0x1FF);
+    pub const SLUG_KIND: u32 = 0x98;
+    pub const SLUG_KIND_MANUAL: u8 = 3;
+    /// Japonés: caracteres de 2×2 que avanzan dos columnas; línea nueva
+    /// fija; paleta 4 (9 para los bloques 5–7 y desde el D).
+    pub const JP_STEP: u32 = 0x40;
+    pub const JP_NEWLINE: u32 = 0x70A9;
+    pub const JP_PALETTE: u16 = 4;
+    pub const JP_PALETTE_ALT: u16 = 9;
+    pub const JP_ALT_BLOCKS: [u16; 3] = [0x500, 0x600, 0x700];
+    pub const JP_ALT_FROM: u16 = 0xD00;
+    pub const JP_BLOCK_MASK: u16 = 0xFF00;
+    pub const PALETTE_SHIFT: u16 = 12;
+    pub const GLYPH_SIZE: u16 = 2;
+    /// Resto: un carácter por columna con la paleta y banco `LATIN_ATTR`;
+    /// la línea nueva vuelve a la primera columna y baja dos filas; las
+    /// tildes se dibujan encima (`ACCENT_*`) o debajo (`ACCENTS_BELOW`).
+    pub const LATIN_STEP: u32 = 0x20;
+    pub const LATIN_ATTR: u16 = 0x2300;
+    pub const LATIN_NEWLINE_MASK: u32 = 0xF00F;
+    pub const LATIN_NEWLINE_ADD: u32 = 0xA2;
+    pub const ACCENT_ABOVE: u16 = 0xE6;
+    pub const ACCENTS_BELOW: core::ops::RangeInclusive<u16> = 0xE7..=0xEF;
+    pub const ACCENT_TILE: u16 = 0x10;
+    /// El ancla se va cuando pasa de esta X.
+    pub const EXIT_X: u16 = 0x150;
     /// Campo de movimiento que se pone a 0.
     pub const MOVE_FIELD: u32 = 0x2C;
     /// Palabras de movimiento que borra `$0267E2` y el largo que va entre ellas.
