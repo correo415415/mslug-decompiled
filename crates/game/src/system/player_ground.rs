@@ -666,7 +666,7 @@ pub fn crouch_idle_loop(m: &mut impl Machine) -> Flow {
 }
 
 /// Caída al vacío con los márgenes de la escena.
-fn check_pit(m: &mut impl Memory, t: u32) {
+pub fn check_pit(m: &mut impl Memory, t: u32) {
     let pit = m.read_u8(A::SCENE) == A::PIT_SCENE;
     if items::out_of_view_seen(m, t, Some(A::PIT_MARGINS[usize::from(pit)])) {
         set_handler(m, t, A::DEATH_PIT);

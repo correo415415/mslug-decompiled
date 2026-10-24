@@ -1796,6 +1796,10 @@ pub mod player_arm {
     pub const STATES_KEEP: [u8; 3] = [0x21, 0x22, 0x23];
     pub const STATES_AIR: [(u8, u32); 4] = [(0x25, 0x03_A60A), (0x27, 0x03_A60A), (0x26, 0x03_A656), (0x28, 0x03_A656)];
     pub const POSE00: Pose = (0x03_9460, &[0x03_947C]);
+    /// Montado en el Slug (dos poses) y la segunda caída.
+    pub const SLUG_RIDE_A: Pose = (0x03_C632, &[0x03_C654]);
+    pub const SLUG_RIDE_B: Pose = (0x03_C67E, &[0x03_C69A]);
+    pub const FALL2: Pose = (0x03_C6C4, &[0x03_C6E6]);
     pub const CROUCH: Pose = (0x03_98A8, &[0x03_98CA]);
     pub const CROUCH_B: Pose = (0x03_98F4, &[0x03_9916]);
     pub const IDLE: Pose = (0x03_9940, &[0x03_9962]);
@@ -3598,6 +3602,49 @@ pub mod slug_idle {
     pub const SLUG: u32 = 0x10_0580;
     pub const BOARDED: u32 = 0x89;
     pub const BOARDED_ON: u8 = 0xFF;
+    /// Agacharse al montarse (`Slug_Hunker_02e3b0`): guiones por índice de
+    /// pendiente, punteros de ataque, base de `+$20`, la tarea del brazo
+    /// del jugador montado, la caja de golpe y su bucle.
+    pub const HUNKER_SCRIPTS: u32 = 0x27_9600;
+    pub const HUNKER_ATTACKS: u32 = 0x02_A024;
+    pub const HUNKER_BYTE_20: u8 = 0x28;
+    pub const ARM_OVERLAY: u32 = 0x03_D944;
+    pub const HUNKER_LOOP: u32 = 0x02_E42A;
+    /// `+$6B` bit 0 (se pone al agacharse) y `+$8C` bit 1 (se quita).
+    pub const FLAGS_6B: u32 = 0x6B;
+    pub const BIT_6B_0: u8 = 1 << 0;
+    pub const BIT_8C_1: u8 = 1 << 1;
+    /// Al acabar el guion: caja de golpe, `+$60` y la conducción.
+    pub const DRIVE_HITBOX: u32 = 0x02_9A14;
+    pub const DRIVE_HANDLER_60: u32 = 0x02_9600;
+    pub const DRIVE: u32 = 0x02_E9C8;
+    /// Sin suelo: caída; A+B: el jugador se baja.
+    pub const FALL: u32 = 0x02_D02E;
+    pub const EJECT: u32 = 0x02_BBF2;
+    /// Rutina según el lado del golpe (0 = ninguno).
+    pub const HIT_HANDLERS: u32 = 0x02_A060;
+    /// `+$13` bit 3: golpeado (al destruirse sin piloto se pone también).
+    pub const HIT: u8 = 1 << 3;
+    /// Tick de daño: invulnerable (`+$45`), depuración (bit 3 = vida fija
+    /// `HP_RESET`, bit 5 = `HP_DEBUG`), vida y el sonido del golpe.
+    pub const INVULNERABLE: u32 = 0x45;
+    pub const DEBUG: u32 = 0x10_0001;
+    pub const DEBUG_HP_RESET: u8 = 1 << 3;
+    pub const DEBUG_HP_BIG: u8 = 1 << 5;
+    pub const HP: u32 = 0x66;
+    pub const HP_RESET: u16 = 0x30;
+    pub const HP_DEBUG: u16 = 0x300;
+    pub const HIT_SOUND: u16 = 0x1089;
+    /// Física E: con el bit 5 de `+$5A` la Y de apoyo baja `BASE_Y_DROP`.
+    pub const FLAGS_5A: u32 = 0x5A;
+    pub const BIT_5A_5: u8 = 1 << 5;
+    pub const BASE_Y_DROP: u16 = 0x10;
+    /// Máscara de jugadores: byte `+$96`/`+$97` según la paridad del frame.
+    pub const PLAYER_MASK: u32 = 0x96;
+    pub const MASK_BLOCKED: u8 = 0xF0;
+    pub const FRAME_COUNTER: u32 = 0x10_6F28;
+    /// Botones que bajan al jugador del Slug (A y B a la vez).
+    pub const EJECT_BUTTONS: u8 = 0x30;
 }
 
 /// Slug (SV-001): la tarea fija `task::SLUG` y quien la pone en marcha.
@@ -4212,4 +4259,81 @@ pub mod lists {
     /// Tarea con un byte por paridad (`+$96` / `+$97`).
     pub const PARITY_TASK: u32 = 0x10_0580;
     pub const PARITY_BYTE: u32 = 0x96;
+}
+
+/// Brazo del jugador montado en el Slug (`SlugCannon_ArmOverlay_03d944`).
+pub mod slug_arm {
+    /// Tareas de los jugadores y la del Slug (con quién lo controla en
+    /// `+$6D`); `RIDE_ENABLED` = se puede montar.
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const SLUG: u32 = 0x10_0580;
+    pub const CONTROLLER: u32 = 0x6D;
+    pub const RIDE_ENABLED: u32 = 0x10_0609;
+    pub const PILOT: u32 = 0x68;
+    /// Gráficos de cada jugador: el propio y dos comunes.
+    pub const GFX: [[u16; 3]; 2] = [[0x176, 0x190, 0x191], [0x177, 0x190, 0x192]];
+    /// `+$1C` según el jugador; `+$12` bit 4 = es el jugador 2.
+    pub const TIMER_1C: u32 = 0x1C;
+    pub const TIMER_1C_INIT: [u16; 2] = [0x1B, 0x1C];
+    pub const FLAGS_12: u32 = 0x12;
+    pub const PLAYER2: u8 = 1 << 4;
+    /// Guion por personaje del jugador (`+$71`; 5 por jugador).
+    pub const CHARACTER: u32 = 0x71;
+    pub const SCRIPTS: u32 = 0x03_DA02;
+    pub const SCRIPTS_PER_PLAYER: u32 = 5;
+    /// Desplazamiento (x, y) sobre el Slug según su inclinación (`+$80`).
+    pub const OFFSETS: u32 = 0x03_DAA8;
+    pub const SLOPE: u32 = 0x80;
+    pub const OFFSET_X: u32 = 0x5C;
+    pub const OFFSET_Y: u32 = 0x5E;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const ATTR_SET: u16 = 0x4;
+    /// Bucle y sonido al acabar.
+    pub const RUN: u32 = 0x03_DA4C;
+    pub const DONE: u32 = 0x03_DAA0;
+    pub const DONE_SOUND: u16 = 0x108B;
+}
+
+/// Jugador montado en el Slug (`Player_RideSlug_0364a2`).
+pub mod player_ride {
+    /// `+$8C` bits que se quitan al montarse (brazo, ocupado, 3) y el bit 2
+    /// (ocupado: no se agacha el Slug); `+$3A` bit 0 (mirar a la izquierda).
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const CLEAR_8C: u8 = (1 << 1) | (1 << 2) | (1 << 3);
+    pub const BUSY: u8 = 1 << 2;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const HITBOX: u32 = 0x03_28D8;
+    pub const OFFSET_X: u32 = 0x7C;
+    pub const OFFSET_Y: u32 = 0x7E;
+    pub const RIDE_OFFSET_Y: u16 = 0x10;
+    pub const STATE: u32 = 0x70;
+    pub const STATE_RIDE: u8 = 2;
+    pub const POSE: u32 = 0x74;
+    pub const BYTE_21: u32 = 0x21;
+    pub const SCRIPT: u32 = 0x27_9F08;
+    pub const SPEEDS: [u32; 4] = [0x28, 0x2C, 0x2A, 0x2E];
+    pub const LOOP: u32 = 0x03_6508;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const PILOT: u32 = 0x68;
+    /// Slug: su tarea, `+$8D` bits 1 (en el aire) y 4, `+$13` bit 0.
+    pub const SLUG: u32 = 0x10_0580;
+    pub const SLUG_8D: u32 = 0x8D;
+    pub const SLUG_IN_AIR: u8 = 1 << 1;
+    pub const SLUG_READY: u8 = 1 << 4;
+    pub const SLUG_13: u32 = 0x13;
+    pub const SLUG_DESTROYED: u8 = 1 << 0;
+    /// Bajarse: rutina, cuánto baja, invulnerabilidad al saltar con A+B.
+    pub const POSE2: u32 = 0x03_66FE;
+    pub const JUMP_OFF: u32 = 0x03_6796;
+    pub const JUMP_OFF_DY: u16 = 0x20;
+    pub const INVULN: u32 = 0x45;
+    pub const BYTE_59: u32 = 0x59;
+    pub const EJECT_INVULN: u8 = 0x3C;
+    pub const SCENE_LOADED: u32 = 0x10_6ED3;
 }

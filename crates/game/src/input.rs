@@ -94,6 +94,16 @@ pub fn pressed(m: &mut impl Memory, e: Entity, b: Buttons, edge: Edge) -> bool {
     pad_byte(m, pad, edge) & b.0 != 0
 }
 
+/// ¿Están todos los de `b` mantenidos/pulsados en el mando que controla
+/// `e`? Original: `$05D00E` (y hermanas `$05D01A`, `$05D026`).
+pub fn all_pressed(m: &mut impl Memory, e: Entity, b: Buttons, edge: Edge) -> bool {
+    if input_suspended(m) {
+        return false;
+    }
+    let pad = pad_of(m, e);
+    pad_byte(m, pad, edge) & b.0 == b.0
+}
+
 /// Igual que [`pressed`] pero con el mando real de un jugador concreto (sin
 /// pausa de arranque ni piloto automático). Original: `InputEvtThunk_*` con
 /// mando fijo + `InputMask_TestChannelBit`.

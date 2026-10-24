@@ -142,7 +142,7 @@ muerte) y en el suelo (`system::player_ground`: aterrizaje, espera, cola de
 pie) y el Slug aparca y espera a que se monte un jugador
 (`system::slug_idle`); el jugador de pie con su disparo de pistola (`system::player_fire`) y los
 escombros de la escena 3 (`system::debris`); la bala (`system::bullet`) con sus impactos (`system::ground_fx`) y el
-giro; agacharse, disparo agachado, levantarse, salto, estallidos y lanzar granada; la granada, andar, parar y saltar al Slug; se para en el frame 1527 en `$02E3B0` (`Slug_Hunker_02e3b0`, el Slug al montarse; antes `Player_CrouchEnter_037c74`,
+giro; agacharse, disparo agachado, levantarse, salto, estallidos y lanzar granada; la granada, andar, parar saltar al Slug, el Slug agachándose al montarse (`system::slug_hunker`), el jugador asomando (`system::slug_arm`) y montado (`system::player_ride`); se para en el frame 1557 en `$02E9C8` (`Slug_DriveAlt_02e9c8`, el Slug conducido; antes `$02E3B0`, `Player_CrouchEnter_037c74`,
 agacharse, aún sin portar).
 
 La captura de `--halt-shot` (y la de la ventana SDL) se toma tras avanzar
