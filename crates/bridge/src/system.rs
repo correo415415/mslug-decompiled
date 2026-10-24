@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_hunker, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -1907,6 +1907,67 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { slug_idle::mark_boarded(m); Flow::Return } },
     SystemPort { entry: 0x02_ACB8, original: "Slug_CheckPlayersNear_02acb8", rust: "system::slug_idle::players_board",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::players_board(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_E3B0, original: "Slug_Hunker_02e3b0", rust: "system::slug_hunker::enter", run: |m| slug_hunker::enter(m) },
+    SystemPort { entry: 0x02_E42A, original: "Slug_Hunker_02e3b0__L02e42a", rust: "system::slug_hunker::hunker", run: |m| slug_hunker::hunker(m) },
+    SystemPort { entry: 0x02_A7D8, original: "Slug_PhysicsE_02a7d8", rust: "system::slug_hunker::physics",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let c = !slug_hunker::physics(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A5CC, original: "JsrAbsThunk_02a5cc", rust: "system::slug_hunker::eject_pressed",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_hunker::eject_pressed(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_D00E, original: "$05D00E", rust: "input::all_pressed",
+                 run: |m| { let e = mslug_game::entity::Entity::from_raw(m.cpu.a[6]);
+                            let c = mslug_game::input::all_pressed(m, e, Buttons(0x30), Edge::Pressed);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | 3; m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | 0x30;
+                            set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A690, original: "Slug_TryStartDestroyedB_02a690", rust: "system::slug_hunker::damage_check",
+                 run: |m| { let t = m.cpu.a[6]; let s = slug_hunker::damage_check(m, t);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(s.unwrap_or(0));
+                            set_carry(m, s.is_some()); Flow::Return } },
+    SystemPort { entry: 0x02_A6BE, original: "Slug_DamageTick_02a6be", rust: "system::slug_hunker::damage_tick",
+                 run: |m| { let t = m.cpu.a[6]; let s = slug_hunker::damage_tick(m, t);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(s.unwrap_or(0));
+                            set_carry(m, s.is_some()); Flow::Return } },
+    SystemPort { entry: 0x08_F6DA, original: "$08F6DA", rust: "system::slug_hunker::block_players",
+                 run: |m| { let t = m.cpu.a[6]; slug_hunker::block_players(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_8992, original: "ClearXN_028992", rust: "(C = 0)", run: |m| { set_carry(m, false); Flow::Return } },
+    SystemPort { entry: 0x00_0772, original: "$000772", rust: "system::tasks::goto_by_table",
+                 run: |m| { let (t, table, a1) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1]);
+                            let idx = m.cpu.d[0] as u16;
+                            let limit = (a1 != 0xFFFF_FFFF).then_some(a1);
+                            tasks::goto_by_table(m, t, table, idx, limit);
+                            let off = u32::from(idx.wrapping_mul(4));
+                            m.cpu.d[0] = if limit.is_some() { off } else { (m.cpu.d[0] & 0xFFFF_0000) | off };
+                            if limit.is_some() { m.cpu.a[0] = table.wrapping_add(off); }
+                            let at = m.cpu.a[0].wrapping_add(off as i16 as u32);
+                            m.cpu.a[1] = m.read_u32(at);
+                            Flow::Return } },
+    SystemPort { entry: 0x03_D944, original: "SlugCannon_ArmOverlay_03d944", rust: "system::slug_arm::enter", run: |m| slug_arm::enter(m) },
+    SystemPort { entry: 0x03_DA4C, original: "SlugCannon_ArmSpriteTbl_03da02__L03da4c", rust: "system::slug_arm::run", run: |m| slug_arm::run(m) },
+    SystemPort { entry: 0x03_DAA0, original: "JmpToScheduler_03daa0", rust: "system::tasks::finish", run: |m| tasks::finish(m) },
+    SystemPort { entry: 0x02_AC0E, original: "Slug_IsRiddenByPlayer_02ac0e", rust: "system::slug_arm::ridden_by",
+                 run: |m| { let (t, a0) = (m.cpu.a[6], m.cpu.a[0]);
+                            let p = mslug_game::layout::slug_arm::PLAYERS.iter().position(|&x| x == a0);
+                            let c = match p { Some(p) => {
+                                m.cpu.d[0] = (p as u32) + 1; m.cpu.a[1] = mslug_game::layout::slug_arm::SLUG;
+                                let c = slug_arm::ridden_by(m, t, p);
+                                if m.read_u8(mslug_game::layout::slug_arm::SLUG + 0x6D) == p as u8 + 1 {
+                                    m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(m.read_u8(mslug_game::layout::slug_arm::RIDE_ENABLED));
+                                    if c { m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_FF00) | u32::from(m.read_u8(a0 + 0x68)); }
+                                }
+                                c }
+                                None => false };
+                            set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_AC4C, original: "Slug_TestField100609_02ac4c", rust: "system::slug_arm::take_pilot",
+                 run: |m| { let (t, a0) = (m.cpu.a[6], m.cpu.a[0]);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(m.read_u8(mslug_game::layout::slug_arm::RIDE_ENABLED));
+                            let c = slug_arm::take_pilot(m, t, a0);
+                            if c { m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_FF00) | u32::from(m.read_u8(a0 + 0x68)); }
+                            set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_FF8E, original: "$02FF8E", rust: "system::slug_arm::slope_index",
+                 run: |m| { let s = m.read_u16(mslug_game::layout::slug_arm::SLUG + 0x80);
+                            m.cpu.a[0] = mslug_game::layout::slug_arm::SLUG;
+                            m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | u32::from(s);
+                            let i = slug_arm::slope_index(m);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(i); Flow::Return } },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara

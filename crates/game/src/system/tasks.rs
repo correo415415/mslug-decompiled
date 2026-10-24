@@ -349,6 +349,28 @@ pub fn next_task(m: &mut impl Machine) -> Flow {
     enter_task(m)
 }
 
+/// La tarea `t` pasa a la rutina `idx` de la tabla `table` (si la
+/// entrada no es `NIL`). Con `limit` (dirección final de la tabla) el
+/// original suma el desplazamiento dos veces y, si se sale, se para en
+/// `trap #15` (aquí no hace nada). Original: `$000772`.
+pub fn goto_by_table(m: &mut impl Memory, t: u32, table: u32, idx: u16, limit: Option<u32>) {
+    let off = u32::from(idx.wrapping_mul(4));
+    let at = match limit {
+        None => table.wrapping_add(off as i16 as u32),
+        Some(end) => {
+            let base = table.wrapping_add(off);
+            if (end as i32) <= (base as i32) {
+                return;
+            }
+            base.wrapping_add(off as i16 as u32)
+        }
+    };
+    let h = m.read_u32(at);
+    if h != T::NIL {
+        m.write_u32(t + T::HANDLER, h);
+    }
+}
+
 /// Tarea de control del jugador `p` (0 o 1) si está en juego.
 /// Original: `Player_GetEntity_05e3a2` (C = sí, tarea en `a0`).
 pub fn player_task_if_alive(m: &mut impl Memory, p: u32) -> Option<u32> {

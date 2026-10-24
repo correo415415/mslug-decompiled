@@ -76,7 +76,7 @@ pub fn idle(m: &mut impl Machine) -> Flow {
 /// Registros que deja [`slug::update_anim`] y con los que sigue el
 /// original: `d3` = -1 si la rueda delantera pisa más arriba que la
 /// trasera (0 si no) y `d4` = suelo bajo la trasera.
-fn leave_chassis_regs(m: &mut impl Machine, t: u32) {
+pub fn leave_chassis_regs(m: &mut impl Machine, t: u32) {
     let (a, b) = wheels(m, t);
     let (ga, gb) = (m.read_u16(a + L::WHEEL_GROUND), m.read_u16(b + L::WHEEL_GROUND));
     let mut r = m.regs();
