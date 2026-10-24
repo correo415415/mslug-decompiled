@@ -139,8 +139,9 @@ por frame) y suelta el Slug, que cae, baja y estrena la torreta
 (`system::player_arm`), el texto del manual (`system::manual_icons`) y
 el jugador en el aire (`system::player_air`: golpe, caída, acciones,
 muerte) y en el suelo (`system::player_ground`: aterrizaje, espera, cola de
-pie); se para en el frame 591 en `$02DD20` (`Slug_IdleEnterA_02dd20`, el
-Slug parado, aún sin portar).
+pie) y el Slug aparca y espera a que se monte un jugador
+(`system::slug_idle`); se para en el frame 621 en `$034704`
+(`Player_Stand_034704`, el jugador de pie, aún sin portar).
 
 La captura de `--halt-shot` (y la de la ventana SDL) se toma tras avanzar
 un frame de vídeo con la CPU congelada: la parada ocurre a mitad de frame y

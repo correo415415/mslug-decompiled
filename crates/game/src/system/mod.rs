@@ -47,6 +47,7 @@ pub mod script;
 pub mod scroll;
 pub mod slope;
 pub mod slug;
+pub mod slug_idle;
 pub mod sprite;
 pub mod sound;
 pub mod title;
