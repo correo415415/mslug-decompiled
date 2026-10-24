@@ -289,6 +289,14 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
   `$039532`, `$0392F8`, `$03937C`, `$032D00`, `$03933A`, `$039354`,
   `$039416`, callbacks `$039450`/`$03942E`) y sus 79 poses `PlayerArm_*`
   como tabla de reglas (modo de disparo, apuntado, bombas, alternancia).
+- `system::player_air`: jugador en el aire — golpe recibido (`$036D64`,
+  `$036D72`), control horizontal (`$036DCA`), física de caída con aterrizaje,
+  Slug, anillas y paredes (`$036E42`), esperas del golpe (`$036FC2`,
+  `$037018`), pose y acción del brazo en el aire (`$03705A`, `$037168`),
+  selección de acción (`$0330D0`, `$0331AE`, `$0331CE`), cola con caída al
+  vacío (`$036C3A`), publicación del estado y muerte por tiempo o ahogado
+  (`$033522`, `$0334A2`, `$0334C6`), anillas (`$08F470`, `$08F520`) y
+  `$0267F4`.
 - `system::icons`: POW y burbuja de los prisioneros (`$031FCA`…`$0321BC`).
 - `system::pickup`: qué jugador toca un objeto (`$03EE48`, `$03EF5C`,
   `$09A836`, `$09A84E`) y premio de la comida con su racha (`$09B920`).

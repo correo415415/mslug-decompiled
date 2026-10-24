@@ -410,3 +410,25 @@ pub fn move_e(m: &mut impl Memory, t: u32, at: (u16, u16)) -> bool {
     }
     false
 }
+
+/// Como [`move_e`] pero sin apoyarse: avanza y sólo dice si la celda bajo
+/// los pies es sólida y el tipo de tile lo permite (sin mirar hacia dónde
+/// va). Original: `$0277C4`.
+pub fn move_e_probe(m: &mut impl Memory, t: u32, at: (u16, u16)) -> bool {
+    platforms::apply_camera_work(m, t);
+    integrate_velocity(m, t);
+    advance(m, t);
+    let x = m.read_u16(C::WORK_POS[0]).wrapping_add(m.read_u16(L::STEP[0]));
+    let y = m.read_u16(C::WORK_POS[1]).wrapping_add(m.read_u16(L::STEP[1])).wrapping_sub(1);
+    let s = surface(m, t, x, y, at);
+    let hit = s.kind != 0
+        && super::slope::solid_bit(m, s.record, s.at.0, s.at.1)
+        && m.read_u8(s.record + L::T_NO_CLIMB) == 0;
+    m.write_u16(C::WORK_POS[0], x);
+    m.write_u16(C::WORK_POS[1], y.wrapping_add(1));
+    for k in 0..2 {
+        let v = m.read_u8(L::NEW_SUB[k]);
+        m.write_u8(C::WORK_SUB[k], v);
+    }
+    hit
+}

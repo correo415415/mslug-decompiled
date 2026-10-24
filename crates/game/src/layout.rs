@@ -1368,6 +1368,135 @@ pub mod player {
     pub const NO_CONTROLLER: u8 = 0xFF;
 }
 
+/// Jugador en el aire (`system::player_air`): golpe recibido, caída,
+/// selección de acción y animación en el aire, cola común y la
+/// publicación del estado (muerte, caída al vacío).
+pub mod player_air {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    /// Gravedad del golpe recibido y límites de velocidad.
+    pub const KNOCK_GRAVITY: u16 = 0xFF80;
+    pub const MAX_VEL_X: u16 = 0x300;
+    pub const MAX_VEL_Y: u16 = 0x400;
+    /// Frenado cuando no se pulsa dirección y queda velocidad horizontal.
+    pub const BRAKE: u16 = 0x18;
+    /// Aceleración según la dirección mantenida (0 ninguna, 1 izq., 2 der., 3 ambas).
+    pub const VEL_TABLE: u32 = 0x03_24D0;
+    pub const BYTE_21: u32 = 0x21;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_BIT0: u16 = 1 << 0;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    pub const DELAY: u32 = 0x46;
+    pub const DELAY_FRAMES: u8 = 0x0C;
+    /// Retrollamada de la caja de golpe y rutina que recibe los golpes.
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const HITBOX_AIR: u32 = 0x03_2830;
+    pub const HIT_HANDLER: u32 = 0x60;
+    pub const HIT_ROUTINE: u32 = 0x03_2500;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const MELEE_ATTACKS: u32 = 0x03_25E4;
+    pub const DEATH_KIND: u32 = 0x58;
+    pub const DEATH_DROWN: u8 = 5;
+    pub const FIELD_66: u32 = 0x66;
+    pub const FLAGS_69: u32 = 0x69;
+    pub const WALL_MASK: u8 = 0x03;
+    pub const WALL_RIGHT: u8 = 1 << 1;
+    pub const WALL_GRAB: u8 = 1 << 2;
+    pub const WANTS_POSE: u8 = 1 << 5;
+    /// Pose del brazo: estado (`+$70`), arma, modo, puntero a la pose y
+    /// desplazamiento del brazo.
+    pub const STATE: u32 = 0x70;
+    pub const STATE_JUMP: u8 = 0x25;
+    pub const STATE_FALL: u8 = 0x26;
+    pub const WEAPON: u32 = 0x71;
+    pub const MODE: u32 = 0x72;
+    pub const POSE: u32 = 0x74;
+    pub const OFFSET_X: u32 = 0x7C;
+    pub const OFFSET_Y: u32 = 0x7E;
+    pub const AIM: u32 = 0x78;
+    pub const AIM_HISTORY: u32 = 0x79;
+    pub const AIM_FORWARD: u8 = 1;
+    pub const AIM_DOWN: u8 = 8;
+    pub const AMMO: u32 = 0x82;
+    pub const RING_ID: u32 = 0x86;
+    /// `+$8C`: montado (0), brazo disparando (1), brazo ocupado (2), bit 3.
+    pub const STATUS: u32 = 0x8C;
+    pub const RIDING: u8 = 1 << 0;
+    pub const ARM_FIRING: u8 = 1 << 1;
+    pub const ARM_BUSY: u8 = 1 << 2;
+    pub const STATUS_BIT3: u8 = 1 << 3;
+    /// `+$8D`: en el aire (1) y bajando (5).
+    pub const AIR: u32 = 0x8D;
+    pub const IN_AIR: u8 = 1 << 1;
+    pub const DESCENDING: u8 = 1 << 5;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const DEAD: u8 = 1 << 0;
+    pub const MELEE_HIT: u8 = 1 << 1;
+    pub const DROWNED: u8 = 1 << 3;
+    /// Guion del golpe recibido.
+    pub const KNOCK_SCRIPT: u32 = 0x27_9B2C;
+    /// Estados (rutinas) a los que se pasa.
+    pub const KNOCK_AIR_CTRL: u32 = 0x03_6DCA;
+    pub const KNOCK_DELAY_WAIT: u32 = 0x03_6FF6;
+    pub const KNOCK_HOLD_WAIT: u32 = 0x03_7046;
+    pub const LAND: u32 = 0x03_3EDE;
+    pub const RIDE_SLUG: u32 = 0x03_64A2;
+    pub const HANG_RING: u32 = 0x03_6638;
+    pub const WALL_DROP: u32 = 0x03_68E0;
+    pub const WALL_DROP_VEL: u16 = 0x400;
+    pub const DEATH_PIT: u32 = 0x03_7B8E;
+    pub const DEATH_GROUND: u32 = 0x03_3572;
+    pub const DEATH_AIR: u32 = 0x03_3578;
+    /// Márgenes de la caída al vacío (la escena `PIT_SCENE` usa otros).
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const PIT_SCENE: u8 = 3;
+    pub const PIT_MARGINS: [u32; 2] = [0x03_24C6, 0x03_24BC];
+    /// Depuración: inmortal (bit 3 del byte bajo).
+    pub const DEBUG: u32 = 0x10_0001;
+    pub const DEBUG_IMMORTAL: u8 = 1 << 3;
+    /// Con el temporizador a 0 el jugador muere; en la escena
+    /// `WATER_SCENE`, por encima de `WATER_Y`, el tile `WATER_TILE` ahoga.
+    pub const RANK_TIMER: u32 = 0x10_6E92;
+    pub const WATER_SCENE: u8 = 1;
+    pub const WATER_Y: i16 = 0x10C;
+    pub const WATER_TILE: u8 = 0x40;
+    /// Sonido de la muerte: el del primer jugador y el del resto.
+    pub const P1: u32 = 0x10_0440;
+    pub const DEATH_SOUNDS: [u16; 2] = [0x1123, 0x1087];
+    /// Guiones de las poses del brazo ([saltando, cayendo]).
+    pub const POSE_DOWN: [u32; 2] = [0x27_9B0E, 0x27_9B04];
+    pub const POSE_FORWARD: [u32; 2] = [0x27_9B22, 0x27_9B18];
+    pub const POSE_MELEE: u32 = 0x27_9D56;
+    pub const POSE_THROW_FWD: u32 = 0x27_9D4C;
+    pub const POSE_THROW: u32 = 0x27_9D42;
+    pub const POSE_SHOOT_DOWN: [u32; 2] = [0x27_9C6E, 0x27_9AFA];
+    pub const POSE_SHOOT_UP: [u32; 2] = [0x27_9C3C, 0x27_9AD2];
+    pub const POSE_SHOOT_FWD: [u32; 2] = [0x27_9C32, 0x27_9AC8];
+    pub const POSE_SHOOT: [u32; 2] = [0x27_9C28, 0x27_9ABE];
+    /// Anillas a las que agarrarse (lista circular de 8 entradas de 6
+    /// bytes: X, Y, id, dueño). Las ofrecidas van de `RING_HEAD` a
+    /// `RING_SPLIT`, las cogidas de `RING_SPLIT` a `RING_TAIL`.
+    pub const RINGS: u32 = 0x10_E362;
+    pub const RING_HEAD: u32 = 0;
+    pub const RING_TAIL: u32 = 2;
+    pub const RING_SPLIT: u32 = 4;
+    pub const RING_COUNT: u32 = 6;
+    pub const RING_ENTRIES: u32 = 8;
+    pub const RING_LEN: u16 = 6;
+    pub const RING_SIZE: u16 = 0x30;
+    pub const RING_FREE: u8 = 0xFE;
+    pub const RING_TAKEN: u8 = 0xFF;
+    pub const RING_MAX: u16 = 4;
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    /// Ventana de agarre alrededor de la anilla (medio ancho/alto).
+    pub const RING_REACH: (u16, u16) = (0x18, 0x20);
+}
+
 /// Brazo del jugador (`system::player_arm`): tarea hija que dibuja el
 /// brazo y el arma encima del cuerpo y elige su animación según el estado
 /// del cuerpo.
@@ -2903,6 +3032,53 @@ pub mod manual_icons {
     pub const TEXT_OFFSET: u32 = 0x82;
     pub const TEXT_PAGE: u32 = 0x76;
     pub const TEXT_FIRST: u32 = 0x1F_0056 + 0x10_0000;
+    /// Páginas de texto de cada idioma (por `LANGUAGE`): pares {guion,
+    /// posición en la capa fija}. La página la pide la madre en `TEXT_PAGE`.
+    pub const TEXT_PAGES: [u32; 4] = [0x2E_FACC, 0x2E_FC2C, 0x2E_FD8C, 0x2E_FEEC];
+    /// Entradas del guion de texto (8 bytes): duración (`TEXT_END` = fin),
+    /// código y guion de animación del ancla (0 = ninguno).
+    pub const TEXT_END: u16 = 0xFFFF;
+    pub const ENTRY_SIZE: u32 = 8;
+    pub const ENTRY_CODE: u32 = 2;
+    pub const ENTRY_ANIM: u32 = 4;
+    /// Códigos: nada, borrar el recuadro, soltar el ancla, soltar el Slug y
+    /// salto de línea; el resto son caracteres.
+    pub const CODE_NONE: u16 = 0;
+    pub const CODE_CLEAR: u16 = 1;
+    pub const CODE_DROP: u16 = 2;
+    pub const CODE_SLUG: u16 = 3;
+    pub const CODE_NEWLINE: u16 = 0xD;
+    /// Recuadro del texto (dirección, carácter, columnas, filas).
+    pub const CLEAR_RECT: (u16, u16, u16, u16) = (0x7084, 0x2320, 0x20, 8);
+    pub const DROP_TASK: u32 = 0x08_C730;
+    /// El Slug que suelta el manual: posición y variante de caída.
+    pub const SLUG_TASK: u32 = 0x02_AE50;
+    pub const SLUG_POS: (u16, u16) = (0xA0, 0x1FF);
+    pub const SLUG_KIND: u32 = 0x98;
+    pub const SLUG_KIND_MANUAL: u8 = 3;
+    /// Japonés: caracteres de 2×2 que avanzan dos columnas; línea nueva
+    /// fija; paleta 4 (9 para los bloques 5–7 y desde el D).
+    pub const JP_STEP: u32 = 0x40;
+    pub const JP_NEWLINE: u32 = 0x70A9;
+    pub const JP_PALETTE: u16 = 4;
+    pub const JP_PALETTE_ALT: u16 = 9;
+    pub const JP_ALT_BLOCKS: [u16; 3] = [0x500, 0x600, 0x700];
+    pub const JP_ALT_FROM: u16 = 0xD00;
+    pub const JP_BLOCK_MASK: u16 = 0xFF00;
+    pub const PALETTE_SHIFT: u16 = 12;
+    pub const GLYPH_SIZE: u16 = 2;
+    /// Resto: un carácter por columna con la paleta y banco `LATIN_ATTR`;
+    /// la línea nueva vuelve a la primera columna y baja dos filas; las
+    /// tildes se dibujan encima (`ACCENT_*`) o debajo (`ACCENTS_BELOW`).
+    pub const LATIN_STEP: u32 = 0x20;
+    pub const LATIN_ATTR: u16 = 0x2300;
+    pub const LATIN_NEWLINE_MASK: u32 = 0xF00F;
+    pub const LATIN_NEWLINE_ADD: u32 = 0xA2;
+    pub const ACCENT_ABOVE: u16 = 0xE6;
+    pub const ACCENTS_BELOW: core::ops::RangeInclusive<u16> = 0xE7..=0xEF;
+    pub const ACCENT_TILE: u16 = 0x10;
+    /// El ancla se va cuando pasa de esta X.
+    pub const EXIT_X: u16 = 0x150;
     /// Campo de movimiento que se pone a 0.
     pub const MOVE_FIELD: u32 = 0x2C;
     /// Palabras de movimiento que borra `$0267E2` y el largo que va entre ellas.
