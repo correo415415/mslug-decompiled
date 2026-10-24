@@ -4,6 +4,8 @@
 //! el mando: andar, girarse, agacharse, disparar, lanzar, saltar o caer.
 //!
 //! Original: `Player_SpawnLand_Reset_033ede` (y su bucle `$033FAE`),
+//! `Player_Stand_034704` (y su bucle `$034806`), el disparo de pie
+//! (`Player_ShootStand_0342c4`, `Player_ShootStandUp_03437e`),
 //! `Player_Idle_033d64` (y su bucle `$033E2E`), `Player_Idle_Tail_0341a4`
 //! (`asm/player/core_032aa8.s`), `Player_PlayWeaponMusicIfFlag_032d32`,
 //! `$0267E6`, `Entity_ProbeRevertCcr_027a92` y
@@ -259,4 +261,169 @@ pub fn idle_tail(m: &mut impl Machine, t: u32) {
     if items::out_of_view_seen(m, t, Some(A::PIT_MARGINS[usize::from(pit)])) {
         set_handler(m, t, A::DEATH_PIT);
     }
+}
+
+/// Acción pedida → estado. Con `arm_bit3` sólo distingue arriba y normal.
+fn action_state(a: u8, arm_bit3: bool) -> u32 {
+    match a {
+        0xFF if !arm_bit3 => L::MELEE,
+        3 if !arm_bit3 => L::THROW,
+        4 if !arm_bit3 => L::SHOOT_DOWN,
+        1 => L::SHOOT_UP,
+        _ => L::SHOOT,
+    }
+}
+
+/// Pose de pie según hacia dónde apunta (arriba o adelante); `restart_fwd`
+/// arranca además el guion de adelante. Devuelve si apunta arriba.
+fn stand_pose(m: &mut impl Memory, t: u32, restart_fwd: bool) -> bool {
+    let up = m.read_u8(t + L::AIM) == L::AIM_UP;
+    if up {
+        m.write_u16(t + L::MODE, L::MODE_UP);
+        set_pose(m, t, L::STATE_STAND, L::STAND_UP_SCRIPT);
+    } else {
+        m.write_u16(t + L::MODE, 0);
+        if restart_fwd {
+            restart(m, t, L::STATE_STAND, L::STAND_SCRIPT);
+        } else {
+            set_pose(m, t, L::STATE_STAND, L::STAND_SCRIPT);
+        }
+    }
+    up
+}
+
+/// De pie: con una pose de brazo de las que se conservan sólo rearranca
+/// el guion; si no, limpia el brazo y pone la pose de pie. Después, sin
+/// movimiento y con la caja de golpe de pie, sigue en el bucle.
+/// Original: `Player_Stand_034704` (y `Player_Stand_Setup_0347e0`).
+pub fn stand(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    if L::KEEP_ANIM.contains(&m.read_u8(t + L::STATE)) {
+        anim::start(m, t, L::STAND_SCRIPT);
+        set_bits(m, t + L::FLAGS_69, L::WANTS_POSE, false);
+    } else {
+        set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+        restart(m, t, L::STATE_STAND, L::STAND_SCRIPT);
+    }
+    stand_setup(m, t)
+}
+
+/// Segunda mitad de la entrada de pie: en el suelo, sin movimiento, caja
+/// de golpe de pie y el bucle de pie. Original: `Player_Stand_Setup_0347e0`.
+fn stand_setup(m: &mut impl Machine, t: u32) -> Flow {
+    set_bits(m, t + L::FLAGS_5B, L::GROUNDED, true);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    clear_motion(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_STAND);
+    set_handler(m, t, L::STAND_LOOP);
+    stand_loop(m)
+}
+
+/// Bucle de pie: al acabar la animación rehace la pose (y puede pasar a
+/// agacharse, recargar o la espera); sigue la pose del brazo si cambia el
+/// apuntado; con el brazo libre anda, se gira o se agacha; la acción; y la
+/// cola: golpe sin suelo, salto, estado y caída al vacío.
+/// Original: `Player_Stand_034704__L034806` (con `Player_Stand_InputMove_034a00`
+/// y `Player_Stand_Tail_034ada`).
+pub fn stand_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    if announce_weapon(m, t) {
+        set_handler(m, t, L::REENTER);
+    }
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        m.write_u16(t + L::OFFSET_X, 0);
+        m.write_u16(t + L::OFFSET_Y, 0);
+        set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+        if stand_pose(m, t, true) {
+            set_bits(m, t + L::FLAGS_69, L::WANTS_POSE, true);
+        }
+        if wants_crouch(m, t) {
+            set_handler(m, t, L::CROUCH);
+        }
+        if heavy_needs_reload(m, t) {
+            set_handler(m, t, L::RELOAD);
+        }
+        // El original pide un número al azar y no lo usa.
+        rng::next(m);
+        let ammo = m.read_u16(t + L::AMMO);
+        if ammo == L::CROUCH_AMMO {
+            set_handler(m, t, L::CROUCH_B);
+        }
+        if ammo == 0 {
+            set_handler(m, t, L::IDLE);
+        }
+    }
+    if m.read_u8(t + L::STATE) == L::STATE_STAND {
+        let up = m.read_u8(t + L::AIM) == L::AIM_UP;
+        let mode = if up { L::MODE_UP } else { 0 };
+        if m.read_u16(t + L::MODE) != mode {
+            stand_pose(m, t, false);
+            let want = if up { L::AIM_HISTORY_TO_UP } else { L::AIM_HISTORY_TO_FORWARD };
+            if m.read_u8(t + L::AIM_HISTORY) == want {
+                set_bits(m, t + L::FLAGS_69, L::WANTS_POSE, true);
+            }
+        }
+    }
+    let status = m.read_u8(t + L::STATUS);
+    if status & L::ARM_BUSY == 0 {
+        let left = m.read_u8(t + L::FACING) & L::FACING_LEFT != 0;
+        let (to_right, to_left) = if left { (L::TURN_TO_RIGHT, L::WALK_LEFT) } else { (L::WALK_RIGHT, L::TURN_TO_LEFT) };
+        if held(m, t, Buttons::RIGHT) {
+            set_handler(m, t, to_right);
+        }
+        if held(m, t, Buttons::LEFT) {
+            set_handler(m, t, to_left);
+        }
+        if controls::down_held(m, Entity::from_raw(t)) {
+            set_handler(m, t, L::CROUCH_ENTER);
+        }
+    }
+    if m.read_u8(t + L::WEAPON) == L::WEAPON_FLAME || status & L::ARM_BUSY == 0 {
+        if let Some(a) = player_air::action_select(m, t) {
+            let bit3 = m.read_u8(t + L::STATUS) & L::STATUS_BIT3 != 0;
+            set_handler(m, t, action_state(a, bit3));
+        }
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    player_air::publish_state(m, t);
+    let pit = m.read_u8(A::SCENE) == A::PIT_SCENE;
+    if items::out_of_view_seen(m, t, Some(A::PIT_MARGINS[usize::from(pit)])) {
+        set_handler(m, t, A::DEATH_PIT);
+    }
+    Flow::Return
+}
+
+/// Disparo de pie, adelante (`up = false`) o hacia arriba: marca el brazo
+/// disparando; si cambia de modo, pone la pose de disparo desde el
+/// principio, y sigue como de pie.
+/// Original: `Player_ShootStand_0342c4` / `Player_ShootStandUp_03437e`.
+pub fn shoot_stand(m: &mut impl Machine, up: bool) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::STATUS, L::ARM_FIRING, true);
+    let mode = if up { L::MODE_UP } else { 0 };
+    let changed = m.read_u16(t + L::MODE) != mode;
+    let script = match (up, changed) {
+        (false, true) => L::SHOOT_SCRIPT_FROM_UP,
+        (false, false) => L::SHOOT_SCRIPT,
+        (true, true) => L::SHOOT_UP_SCRIPT_FROM_FWD,
+        (true, false) => L::SHOOT_UP_SCRIPT,
+    };
+    if changed {
+        m.write_u16(t + L::MODE, mode);
+    }
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    restart(m, t, L::STATE_IDLE, script);
+    stand_setup(m, t)
 }

@@ -301,7 +301,12 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
   `$033FAE`), espera con la pistola que suelta el arma (`$033D64`, bucle
   `$033E2E`), cola común de pie que elige andar, girarse, agacharse, la
   acción, el salto o la caída (`$0341A4`), `$0267E6`, paso sobre el suelo
-  (`$027A92`) y `$026B56` (gemela de `$027036`).
+  (`$027A92`), `$026B56` (gemela de `$027036`), de pie (`$034704`, bucle
+  `$034806`) y disparo de pie (`$0342C4`, `$03437E`).
+- `system::player_fire`: disparo de pistola (`$03C710` y sus direcciones
+  `$03C776`…`$03C854`).
+- `system::debris`: escombros de la escena 3 (`$03D616`…`$03D72A`, tarea
+  `$03D76E`).
 - `system::slug_idle`: Slug parado — entradas en la espera (`$02DD20`,
   `$02DD74`, `$02DDC8`) y bucle (`$02DE18`), física parada (`$02A824`, con
   los bits de nivel `$0304C4`, el paso con la Y de apoyo `$02788C` y las

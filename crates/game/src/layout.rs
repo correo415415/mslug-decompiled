@@ -1444,6 +1444,29 @@ pub mod player_ground {
     pub const SHOOT: u32 = 0x03_42C4;
     pub const KNOCK_HOLD: u32 = 0x03_7018;
     pub const JUMP_START: u32 = 0x03_6914;
+    /// De pie: bucle, golpe sin suelo y guiones (adelante y apuntando
+    /// arriba; el original tiene otros dos para una rama que nunca se toma,
+    /// `$02ABCC` siempre devuelve C = 0).
+    pub const STAND_LOOP: u32 = 0x03_4806;
+    pub const KNOCKBACK: u32 = 0x03_6D64;
+    pub const STAND_SCRIPT: u32 = 0x27_96A4;
+    pub const STAND_UP_SCRIPT: u32 = 0x27_96C4;
+    pub const STATE_STAND: u8 = 0x10;
+    pub const MODE_UP: u16 = 1;
+    pub const AIM_UP: u8 = 4;
+    /// Historial de apuntado con el que el cambio de pose pide transición.
+    pub const AIM_HISTORY_TO_UP: u8 = 0x14;
+    pub const AIM_HISTORY_TO_FORWARD: u8 = 0x41;
+    pub const FLAGS_69: u32 = 0x69;
+    pub const WANTS_POSE: u8 = 1 << 5;
+    /// Guiones del disparo de pie: adelante y arriba, normal y al cambiar
+    /// de modo.
+    pub const SHOOT_SCRIPT: u32 = 0x27_96E4;
+    pub const SHOOT_SCRIPT_FROM_UP: u32 = 0x27_9716;
+    pub const SHOOT_UP_SCRIPT: u32 = 0x27_96EE;
+    pub const SHOOT_UP_SCRIPT_FROM_FWD: u32 = 0x27_9720;
+    /// Con el lanzallamas la acción no espera a que el brazo esté libre.
+    pub const WEAPON_FLAME: u8 = 4;
 }
 
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
@@ -3162,6 +3185,59 @@ pub mod manual_icons {
     /// Palabras de movimiento que borra `$0267E2` y el largo que va entre ellas.
     pub const MOTION_WORDS: [u32; 3] = [0x2E, 0x2C, 0x26];
     pub const MOTION_LONG: u32 = 0x28;
+}
+
+/// Disparo del jugador (`system::player_fire`).
+pub mod player_fire {
+    /// Tareas de los jugadores: si quien dispara no es una, el jugador es
+    /// su padre (`+$0C`).
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const PARENT: u32 = 0x0C;
+    /// Del que dispara: contador de ráfaga y hacia dónde mira.
+    pub const BURST: u32 = 0x7A;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    /// Del jugador: munición.
+    pub const AMMO: u32 = 0x82;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    /// Bala de pistola: sonido, plantilla y altura sobre el jugador.
+    pub const PISTOL_SOUND: u16 = 0x10F7;
+    pub const PISTOL_BULLET: u32 = 0x03_093A;
+    pub const PISTOL_HEIGHT: u16 = 0x1C;
+    /// Lo que baja la bala al disparar agachado.
+    pub const LOW_DROP: u16 = 0xC;
+    /// De la bala: ángulo (en 1/32 de vuelta, × 8), ráfaga y desviación.
+    pub const ANGLE: u32 = 0x98;
+    pub const BULLET_BURST: u32 = 0x9A;
+    pub const SPREAD: u32 = 0x9B;
+    /// Ángulos: adelante, arriba, atrás y abajo.
+    pub const ANGLE_RIGHT: u8 = 0;
+    pub const ANGLE_UP: u8 = 8;
+    pub const ANGLE_LEFT: u8 = 0x10;
+    pub const ANGLE_DOWN: u8 = 0x18;
+}
+
+/// Escombros de la escena 3 (`system::debris`).
+pub mod debris {
+    /// Sólo salen en esta escena.
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const ONLY_SCENE: u8 = 3;
+    /// Tarea: entrada, bucle, sprite y guion.
+    pub const TASK: u32 = 0x03_D76E;
+    pub const RUN: u32 = 0x03_D788;
+    pub const GFX: u16 = 0x1BD;
+    pub const SCRIPT: u32 = 0x03_D7A0;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    /// Atributos: se quitan los bits de `!ATTR_KEEP` y se pone la capa.
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const LAYER_FRONT: u16 = 0x10;
+    pub const LAYER_BACK: u16 = 0x04;
 }
 
 /// Slug parado (`system::slug_idle`).
