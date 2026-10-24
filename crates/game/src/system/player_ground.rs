@@ -7,7 +7,9 @@
 //! `Player_Stand_034704` (y su bucle `$034806`), el disparo de pie
 //! (`Player_ShootStand_0342c4`, `Player_ShootStandUp_03437e`), el giro
 //! (`Player_TurnRight_035aba`, `Player_TurnLeft_035bf8` y sus bucles), la
-//! cola de andar (`Player_Walk_Tail_03548c`), el agacharse
+//! cola de andar (`Player_Walk_Tail_03548c`), las poses de espera
+//! (`Player_Crouch_033a5e`, `Player_CrouchB_033afc`), lanzar una granada de
+//! pie (`Player_ThrowGrenade_Stand_0360bc`), el agacharse
 //! (`Player_CrouchEnter_037c74`) y el agachado quieto
 //! (`Player_CrouchIdle_03827a`, `$0381A2`, `$03820E`), el disparo agachado
 //! (`Player_CrouchShoot_03873c`), el levantarse (`Player_CrouchExit_037ec2`,
@@ -792,5 +794,118 @@ pub fn crouch_exit_loop(m: &mut impl Machine) -> Flow {
         set_handler(m, t, L::JUMP_START);
     }
     player_air::publish_state(m, t);
+    Flow::Return
+}
+
+/// Pose de espera de pie (`b` = la segunda): limpia el brazo, pose y guion,
+/// caja de golpe de pie, sin movimiento y el bucle. El original la llama
+/// «Crouch», pero el estado (5) y la caja de golpe son de pie.
+/// Original: `Player_Crouch_033a5e` / `Player_CrouchB_033afc`.
+pub fn idle_pose(m: &mut impl Machine, b: bool) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    let script = if b { L::POSE_B_SCRIPT } else { L::POSE_A_SCRIPT };
+    restart(m, t, L::STATE_POSE, script);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_STAND);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    clear_motion(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    set_handler(m, t, if b { L::POSE_B_LOOP } else { L::POSE_A_LOOP });
+    idle_pose_loop(m)
+}
+
+/// Bucle de la pose de espera: al acabar, de pie (o andando si se mueve);
+/// y la cola de la espera. Original: `$033AC0` / `$033B5E`.
+pub fn idle_pose_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    announce_weapon(m, t);
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        let vx = m.read_u16(t + L::VEL_X) as i16;
+        if vx > 0 {
+            set_handler(m, t, L::WALK_RIGHT);
+        } else if vx < 0 {
+            set_handler(m, t, L::WALK_LEFT);
+        }
+    }
+    idle_tail(m, t);
+    Flow::Return
+}
+
+/// Cola de los estados de pie: golpe sin suelo, salto, estado y caída al
+/// vacío. Original: `Player_Stand_Tail_034ada`.
+fn stand_tail(m: &mut impl Machine, t: u32) {
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    player_air::publish_state(m, t);
+    check_pit(m, t);
+}
+
+/// Lanzar una granada de pie: limpia el brazo, sin movimiento, pose y guion
+/// de lanzar (las dos ramas de `$02ABCC` usan el mismo) y el bucle.
+/// Original: `Player_ThrowGrenade_Stand_0360bc`.
+pub fn throw_stand(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    for f in [L::VEL_X, L::ACC_X, L::VEL_Y, L::ACC_Y] {
+        m.write_u16(t + f, 0);
+    }
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    restart(m, t, L::STATE_THROW, L::THROW_SCRIPT);
+    m.write_u8(t + L::BYTE_3B, 0);
+    set_handler(m, t, L::THROW_LOOP);
+    throw_stand_loop(m)
+}
+
+/// Bucle de lanzar de pie: al acabar, de pie apuntando adelante (o la pose
+/// de espera o la espera sin munición); con el brazo libre anda, se gira,
+/// se agacha o salta; la acción y la cola de pie.
+/// Original: `Player_ThrowGrenade_Stand_0360bc__L036152`.
+pub fn throw_stand_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    announce_weapon(m, t);
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        stand_aim(m, t);
+        if wants_crouch(m, t) {
+            set_handler(m, t, L::CROUCH);
+        }
+        if m.read_u16(t + L::AMMO) == 0 {
+            set_handler(m, t, L::IDLE);
+        }
+    }
+    if m.read_u8(t + L::STATUS) & L::ARM_BUSY == 0 {
+        let left = m.read_u8(t + L::FACING) & L::FACING_LEFT != 0;
+        let (to_right, to_left) = if left { (L::TURN_TO_RIGHT, L::WALK_LEFT) } else { (L::WALK_RIGHT, L::TURN_TO_LEFT) };
+        if held(m, t, Buttons::RIGHT) {
+            set_handler(m, t, to_right);
+        }
+        if held(m, t, Buttons::LEFT) {
+            set_handler(m, t, to_left);
+        }
+        if controls::down_held(m, Entity::from_raw(t)) {
+            set_handler(m, t, L::CROUCH_ENTER);
+        }
+        if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+            set_handler(m, t, L::JUMP_START);
+        }
+    }
+    if let Some(a) = player_air::action_select(m, t) {
+        set_handler(m, t, action_state(a, false));
+    }
+    stand_tail(m, t);
     Flow::Return
 }

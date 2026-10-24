@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, bullet, collision, debris, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -354,6 +354,16 @@ fn pistol(m: &mut CpuMachine, aim: player_fire::Aim) -> Flow {
     let (a, d1) = player_fire::angle(m, t, aim);
     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(a << 3);
     m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(d1);
+    Flow::Return
+}
+
+/// Granada: a1 = lo que deja la reserva, d0 = hacia dónde mira.
+fn grenade(m: &mut CpuMachine, back: bool) -> Flow {
+    let t = m.cpu.a[6];
+    if let Some((_, after, facing)) = player_fire::grenade(m, t, back) {
+        m.cpu.a[1] = after;
+        m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(facing);
+    }
     Flow::Return
 }
 
@@ -1726,6 +1736,13 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_6914, original: "Player_JumpStart_036914", rust: "system::player_air::jump_start", run: |m| player_air::jump_start(m) },
     SystemPort { entry: 0x03_6A36, original: "Player_JumpStart_036914__L036a36", rust: "system::player_air::jump_wait", run: |m| player_air::jump_wait(m) },
     SystemPort { entry: 0x03_6A70, original: "Player_JumpAir_036a70", rust: "system::player_air::jump_air", run: |m| player_air::jump_air(m) },
+    SystemPort { entry: 0x03_19F0, original: "SlugFx_ExhaustOrDrop_0319f0", rust: "system::burst::exhaust_or_drop", run: |m| burst::exhaust_or_drop(m) },
+    SystemPort { entry: 0x03_1A9C, original: "SlugFx_ExhaustOrDrop_0319f0__L031a9c", rust: "system::burst::run", run: |m| burst::run(m) },
+    SystemPort { entry: 0x03_1AF6, original: "SlugFx_Exhaust_031af6", rust: "system::burst::exhaust", run: |m| burst::exhaust(m) },
+    SystemPort { entry: 0x03_1C72, original: "Fx_GroundBurst_031c72", rust: "system::burst::ground", run: |m| burst::ground(m, false) },
+    SystemPort { entry: 0x03_1CCA, original: "Fx_AirBurst_031cca", rust: "system::burst::air", run: |m| burst::air(m) },
+    SystemPort { entry: 0x03_1D26, original: "Fx_GroundBurstB_031d26", rust: "system::burst::ground", run: |m| burst::ground(m, true) },
+    SystemPort { entry: 0x03_1D70, original: "Fx_SparkAnim_031d70", rust: "system::burst::spark", run: |m| burst::spark(m) },
     SystemPort { entry: 0x03_6FC2, original: "Player_KnockbackDelay_036fc2", rust: "system::player_air::knock_delay", run: |m| player_air::knock_delay(m) },
     SystemPort { entry: 0x03_6FF6, original: "Player_KnockbackDelay_036fc2__L036ff6", rust: "system::player_air::knock_delay_wait", run: |m| player_air::knock_delay_wait(m) },
     SystemPort { entry: 0x03_7018, original: "Player_KnockbackHold_037018", rust: "system::player_air::knock_hold", run: |m| player_air::knock_hold(m) },
@@ -1826,6 +1843,14 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_87C2, original: "Player_CrouchShoot_03873c__L0387c2", rust: "system::player_ground::crouch_shoot_loop", run: |m| player_ground::crouch_shoot_loop(m) },
     SystemPort { entry: 0x03_7EC2, original: "Player_CrouchExit_037ec2", rust: "system::player_ground::crouch_exit", run: |m| player_ground::crouch_exit(m) },
     SystemPort { entry: 0x03_7F16, original: "Player_CrouchExit_037ec2__L037f16", rust: "system::player_ground::crouch_exit_loop", run: |m| player_ground::crouch_exit_loop(m) },
+    SystemPort { entry: 0x03_3A5E, original: "Player_Crouch_033a5e", rust: "system::player_ground::idle_pose", run: |m| player_ground::idle_pose(m, false) },
+    SystemPort { entry: 0x03_3AC0, original: "Player_Crouch_033a5e__L033ac0", rust: "system::player_ground::idle_pose_loop", run: |m| player_ground::idle_pose_loop(m) },
+    SystemPort { entry: 0x03_3AFC, original: "Player_CrouchB_033afc", rust: "system::player_ground::idle_pose", run: |m| player_ground::idle_pose(m, true) },
+    SystemPort { entry: 0x03_3B5E, original: "Player_CrouchB_033afc__L033b5e", rust: "system::player_ground::idle_pose_loop", run: |m| player_ground::idle_pose_loop(m) },
+    SystemPort { entry: 0x03_60BC, original: "Player_ThrowGrenade_Stand_0360bc", rust: "system::player_ground::throw_stand", run: |m| player_ground::throw_stand(m) },
+    SystemPort { entry: 0x03_6152, original: "Player_ThrowGrenade_Stand_0360bc__L036152", rust: "system::player_ground::throw_stand_loop", run: |m| player_ground::throw_stand_loop(m) },
+    SystemPort { entry: 0x03_3256, original: "Player_ThrowGrenadeBack_033256", rust: "system::player_fire::grenade", run: |m| grenade(m, true) },
+    SystemPort { entry: 0x03_32BC, original: "Player_ThrowGrenade_0332bc", rust: "system::player_fire::grenade", run: |m| grenade(m, false) },
     // --- escombros de la escena 3
     SystemPort { entry: 0x03_D616, original: "Scene3Debris_Spawn_03d616", rust: "system::debris::spawn", run: |m| debris_spawn(m, 0) },
     SystemPort { entry: 0x03_D640, original: "Scene3Debris_SpawnLow8_03d640", rust: "system::debris::spawn", run: |m| debris_spawn(m, 1) },

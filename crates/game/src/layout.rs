@@ -1522,6 +1522,17 @@ pub mod player_ground {
     pub const CROUCH_EXIT_LOOP: u32 = 0x03_7F16;
     pub const WALK_LOOP_RIGHT: u32 = 0x03_51D8;
     pub const WALK_LOOP_LEFT: u32 = 0x03_54F2;
+    /// Poses de espera de pie (estado 5): dos guiones y sus bucles.
+    pub const STATE_POSE: u8 = 5;
+    pub const POSE_A_SCRIPT: u32 = 0x27_973E;
+    pub const POSE_B_SCRIPT: u32 = 0x27_981E;
+    pub const POSE_A_LOOP: u32 = 0x03_3AC0;
+    pub const POSE_B_LOOP: u32 = 0x03_3B5E;
+    /// Lanzar una granada de pie: estado, guion, bucle y `+$3B` (se borra).
+    pub const STATE_THROW: u8 = 0x33;
+    pub const THROW_SCRIPT: u32 = 0x27_9D2E;
+    pub const THROW_LOOP: u32 = 0x03_6152;
+    pub const BYTE_3B: u32 = 0x3B;
 }
 
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
@@ -3289,6 +3300,14 @@ pub mod player_fire {
     pub const ANGLE_UP: u8 = 8;
     pub const ANGLE_LEFT: u8 = 0x10;
     pub const ANGLE_DOWN: u8 = 0x18;
+    /// Granadas: quedan en `+$80` del jugador; la tarea cuelga de
+    /// `GRENADE_PARENT`, y sale `GRENADE_DX` delante (o detrás).
+    pub const BOMBS: u32 = 0x80;
+    pub const GRENADE_PARENT: u32 = 0x10_08A0;
+    pub const GRENADE: u32 = 0x03_3346;
+    pub const GRENADE_DX: u16 = 0x10;
+    pub const STATUS: u32 = 0x8C;
+    pub const ARM_BUSY: u8 = 1 << 2;
 }
 
 /// Seno y coseno (`system::trig`): tablas de palabras en 1/256, con el
@@ -3353,6 +3372,45 @@ pub mod bullet {
     pub const VANISH_KIND: u8 = 0x38;
     pub const CELL_HIGH: u8 = 0xC0;
     pub const MARGINS: u32 = 0x03_08A8;
+}
+
+/// Estallidos y humo de corta vida (`system::burst`).
+pub mod burst {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const PARENT: u32 = 0x0C;
+    /// Gráficos que hereda del proyectil (`GFX_SHARED` se conserva; si no,
+    /// cada efecto usa los suyos).
+    pub const GFX_FIELD: u32 = 0x9E;
+    pub const GFX_SHARED: u16 = 0x1D6;
+    pub const GFX_GROUND: u16 = 4;
+    pub const GFX_AIR: u16 = 2;
+    pub const GFX_SMOKE: u16 = 8;
+    /// Guiones: estallido en el suelo (dos al azar), en el aire, el otro
+    /// estallido en el suelo, chispa y humo del tubo de escape.
+    pub const GROUND_SCRIPTS: [u32; 2] = [0x29_DA80, 0x29_DB0E];
+    pub const GROUND_B_SCRIPTS: [u32; 2] = [0x29_DB88, 0x29_DC16];
+    pub const AIR_SCRIPT: u32 = 0x2D_D8B6;
+    pub const SPARK_SCRIPT: u32 = 0x29_E46A;
+    pub const EXHAUST_SCRIPT: u32 = 0x29_E440;
+    /// Humo que cae del Slug: guion según `+$94` del dueño.
+    pub const DROP_SCRIPTS: u32 = 0x03_19DC;
+    pub const OWNER_DROP: u32 = 0x94;
+    pub const LAYER_A: u32 = 0x34;
+    pub const LAYER_B: u32 = 0x64;
+    /// Dueño: bit 2 de `+$8D` (escape), puntero a la pose (`+$70`, con el
+    /// desplazamiento del tubo en +8/+A) y el ángulo del cañón (`+$80`).
+    pub const OWNER_FLAGS: u32 = 0x8D;
+    pub const OWNER_EXHAUST: u8 = 1 << 2;
+    pub const OWNER_POSE: u32 = 0x70;
+    pub const OWNER_ANGLE: u32 = 0x80;
+    pub const ANGLE_MAX: i16 = 0x20;
+    pub const ANGLE_OVER: u16 = 0x40;
+    pub const ANGLE_MIN: i16 = -0x20;
+    pub const EXHAUST_RADIUS: i16 = 0x10;
+    pub const SMOKE_SHIFT: u16 = 4;
+    /// Bucle común.
+    pub const RUN: u32 = 0x03_1A9C;
 }
 
 /// Escombros de la escena 3 (`system::debris`).

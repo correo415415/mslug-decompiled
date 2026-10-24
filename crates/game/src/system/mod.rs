@@ -11,6 +11,7 @@ pub mod anim;
 pub mod autopilot;
 pub mod boot;
 pub mod bullet;
+pub mod burst;
 pub mod collision;
 pub mod debris;
 pub mod events;

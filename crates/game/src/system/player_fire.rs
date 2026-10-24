@@ -3,9 +3,11 @@
 //!
 //! Original: `PlayerFire_Pistol_Spawn_03c710` y sus direcciones
 //! (`PlayerFire_Pistol_Fwd_03c776` … `PlayerFire_Pistol_DownB_03c854`,
-//! `asm/player/fire_shells_03c62a.s`).
+//! `asm/player/fire_shells_03c62a.s`) y las granadas
+//! (`Player_ThrowGrenadeBack_033256`, `Player_ThrowGrenade_0332bc`,
+//! `asm/player/core_032aa8.s`).
 
-use super::{sound, tasks, turret};
+use super::{anim, sound, tasks, turret};
 use crate::layout::player_fire as L;
 use crate::mem::Memory;
 
@@ -84,4 +86,41 @@ pub fn pistol(m: &mut impl Memory, t: u32, aim: Aim) -> u32 {
     m.write_u8(b + L::BULLET_BURST, burst);
     m.write_u8(b + L::SPREAD, 0);
     b
+}
+
+/// Jugador que lanza la granada. El original compara `t` con el *contenido*
+/// de las tareas de los jugadores (su rutina), no con su dirección, así que
+/// en la práctica siempre es el padre.
+fn grenade_thrower(m: &mut impl Memory, t: u32) -> u32 {
+    let [p1, p2] = L::PLAYERS;
+    if t == m.read_u32(p1) || t == m.read_u32(p2) {
+        t
+    } else {
+        m.read_u32(t + L::PARENT)
+    }
+}
+
+/// Granada lanzada desde `t` hacia delante (`back = false`) o hacia atrás:
+/// si al jugador le quedan, gasta una y crea la granada en la posición de
+/// `t`, mirando hacia donde vaya, y el brazo queda ocupado. Devuelve la
+/// granada y lo que deja la reserva de tareas.
+/// Original: `Player_ThrowGrenade_0332bc` / `Player_ThrowGrenadeBack_033256`.
+pub fn grenade(m: &mut impl Memory, t: u32, back: bool) -> Option<(u32, u32, u8)> {
+    let p = grenade_thrower(m, t);
+    let bombs = m.read_u8(p + L::BOMBS);
+    if bombs == 0 {
+        return None;
+    }
+    m.write_u8(p + L::BOMBS, bombs - 1);
+    let (g, after) = tasks::spawn_last(m, L::GRENADE, L::GRENADE_PARENT);
+    anim::copy_sprite_pos(m, t, g);
+    let facing = m.read_u8(t + L::FACING) ^ if back { L::FACING_LEFT } else { 0 };
+    m.write_u8(g + L::FACING, facing);
+    turret::copy_pilot(m, t, g);
+    let dx = if back { L::GRENADE_DX } else { L::GRENADE_DX.wrapping_neg() };
+    let x = m.read_u16(g + L::X).wrapping_add(dx);
+    m.write_u16(g + L::X, x);
+    let st = m.read_u8(t + L::STATUS) | L::ARM_BUSY;
+    m.write_u8(t + L::STATUS, st);
+    Some((g, after, facing))
 }
