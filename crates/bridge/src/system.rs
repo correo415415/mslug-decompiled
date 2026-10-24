@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -1717,6 +1717,19 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                      m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(l);
                      Flow::Return
                  } },
+    // --- jugador en el suelo
+    SystemPort { entry: 0x03_3EDE, original: "Player_SpawnLand_Reset_033ede", rust: "system::player_ground::land", run: |m| player_ground::land(m) },
+    SystemPort { entry: 0x03_3FAE, original: "Player_SpawnLand_Reset_033ede__L033fae", rust: "system::player_ground::land_loop", run: |m| player_ground::land_loop(m) },
+    SystemPort { entry: 0x03_3D64, original: "Player_Idle_033d64", rust: "system::player_ground::idle", run: |m| player_ground::idle(m) },
+    SystemPort { entry: 0x03_3E2E, original: "Player_Idle_033d64__L033e2e", rust: "system::player_ground::idle_loop", run: |m| player_ground::idle_loop(m) },
+    SystemPort { entry: 0x03_41A4, original: "Player_Idle_Tail_0341a4", rust: "system::player_ground::idle_tail",
+                 run: |m| { let t = m.cpu.a[6]; m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; player_ground::idle_tail(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_67E6, original: "$0267E6", rust: "system::player_ground::clear_motion",
+                 run: |m| { let t = m.cpu.a[6]; player_ground::clear_motion(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_7A92, original: "Entity_ProbeRevertCcr_027a92", rust: "system::player_ground::move_ground",
+                 run: |m| { let t = m.cpu.a[6]; m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let c = player_ground::move_ground(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_6B56, original: "Entity_MoveAndCollide_A_026b56", rust: "system::slope::move_b",
+                 run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let c = slope::move_b(m, t, at); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {

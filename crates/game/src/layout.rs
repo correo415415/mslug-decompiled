@@ -1368,6 +1368,84 @@ pub mod player {
     pub const NO_CONTROLLER: u8 = 0xFF;
 }
 
+/// Jugador en el suelo (`system::player_ground`): aterrizaje, espera con
+/// la pistola y la cola común que elige el siguiente estado.
+pub mod player_ground {
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const SUB_X: u32 = 0x26;
+    pub const BYTE_21: u32 = 0x21;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const HITBOX_STAND: u32 = 0x03_26E0;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const GROUNDED: u8 = 1 << 7;
+    pub const HIT_HANDLER: u32 = 0x60;
+    pub const HIT_ROUTINE: u32 = 0x03_2500;
+    pub const STATE: u32 = 0x70;
+    pub const STATE_LANDED: u8 = 1;
+    pub const STATE_IDLE: u8 = 0x21;
+    /// Estados del cuerpo en los que la espera conserva la animación.
+    pub const KEEP_ANIM: core::ops::Range<u8> = 0x13..0x24;
+    pub const WEAPON: u32 = 0x71;
+    pub const WEAPON_PISTOL: u8 = 0;
+    pub const WEAPON_HEAVY: u8 = 1;
+    pub const MODE: u32 = 0x72;
+    pub const MODE_FORWARD: u16 = 2;
+    pub const POSE: u32 = 0x74;
+    pub const OFFSET_X: u32 = 0x7C;
+    pub const OFFSET_Y: u32 = 0x7E;
+    pub const AIM: u32 = 0x78;
+    pub const AIM_HISTORY: u32 = 0x79;
+    pub const AIM_FORWARD: u8 = 1;
+    pub const AMMO: u32 = 0x82;
+    pub const PISTOL_AMMO: u16 = 0x0A;
+    pub const CROUCH_AMMO: u16 = 4;
+    pub const RELOADED: u32 = 0x85;
+    pub const FLAGS_88: u32 = 0x88;
+    pub const WANTS_CROUCH: u8 = 1 << 0;
+    /// `+$8C`: montado (0), brazo disparando (1), ocupado (2), bit 3 y
+    /// arma nueva (4, `entity::STATUS_WEAPON_CHANGED`).
+    pub const STATUS: u32 = 0x8C;
+    pub const RIDING: u8 = 1 << 0;
+    pub const ARM_FIRING: u8 = 1 << 1;
+    pub const ARM_BUSY: u8 = 1 << 2;
+    pub const STATUS_BIT3: u8 = 1 << 3;
+    pub const NEW_WEAPON: u8 = 1 << 4;
+    /// Guiones: aterrizaje y espera.
+    pub const LAND_SCRIPT: u32 = 0x27_9A96;
+    pub const IDLE_SCRIPT: u32 = 0x27_9828;
+    /// Arma soltada (tarea hija).
+    pub const DROPPED_WEAPON: u32 = 0x03_8BE4;
+    /// Estados (rutinas).
+    pub const LAND_LOOP: u32 = 0x03_3FAE;
+    pub const IDLE: u32 = 0x03_3D64;
+    pub const IDLE_LOOP: u32 = 0x03_3E2E;
+    pub const IDLE_TAIL: u32 = 0x03_41A4;
+    pub const STAND: u32 = 0x03_4704;
+    pub const WALK_RIGHT: u32 = 0x03_4B38;
+    pub const WALK_LEFT: u32 = 0x03_4D32;
+    pub const TURN_TO_LEFT: u32 = 0x03_5BF8;
+    pub const TURN_TO_RIGHT: u32 = 0x03_5ABA;
+    pub const CROUCH_ENTER: u32 = 0x03_7C74;
+    pub const CROUCH_IDLE: u32 = 0x03_827A;
+    pub const CROUCH: u32 = 0x03_3A5E;
+    pub const CROUCH_B: u32 = 0x03_3AFC;
+    pub const RELOAD: u32 = 0x03_3B9A;
+    pub const REENTER: u32 = 0x03_45B8;
+    pub const MELEE: u32 = 0x03_5D34;
+    pub const THROW: u32 = 0x03_60BC;
+    pub const SHOOT_DOWN: u32 = 0x03_873C;
+    pub const SHOOT_UP: u32 = 0x03_437E;
+    pub const SHOOT: u32 = 0x03_42C4;
+    pub const KNOCK_HOLD: u32 = 0x03_7018;
+    pub const JUMP_START: u32 = 0x03_6914;
+}
+
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
 /// selección de acción y animación en el aire, cola común y la
 /// publicación del estado (muerte, caída al vacío).

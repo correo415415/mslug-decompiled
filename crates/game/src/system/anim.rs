@@ -297,6 +297,23 @@ fn frame(m: &mut impl Machine, t: u32, mut op: u32, at_task: bool) -> bool {
     false
 }
 
+/// Flags del último trozo del fotograma actual (lo que el original deja en
+/// el byte bajo de `d0` tras un paso de guion que dibuja; algunos estados
+/// lo usan como resto de registro).
+pub fn last_part_flags(m: &mut impl Memory, t: u32) -> u8 {
+    let mut op = m.read_u32(t + A::LAST_SPRITE);
+    for _ in 0..0x100 {
+        let flags = m.read_u8(op + A::SPR_FLAGS);
+        op += if flags & A::SPR_ABSOLUTE != 0 { A::SPR_LEN_ABS } else { A::SPR_LEN_REL };
+        match m.read_u8(op) {
+            A::OP_SPRITE => {}
+            A::OP_SPRITE_PARITY_CONT => op += 2,
+            _ => return flags,
+        }
+    }
+    0
+}
+
 /// Campo de la tarea que cambia una orden.
 fn field(t: u32, off: u16) -> u32 {
     debug_assert!(off < A::TASK_FIELDS, "orden de guion con campo fuera de la tarea");
