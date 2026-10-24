@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -1851,6 +1851,14 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_6152, original: "Player_ThrowGrenade_Stand_0360bc__L036152", rust: "system::player_ground::throw_stand_loop", run: |m| player_ground::throw_stand_loop(m) },
     SystemPort { entry: 0x03_3256, original: "Player_ThrowGrenadeBack_033256", rust: "system::player_fire::grenade", run: |m| grenade(m, true) },
     SystemPort { entry: 0x03_32BC, original: "Player_ThrowGrenade_0332bc", rust: "system::player_fire::grenade", run: |m| grenade(m, false) },
+    SystemPort { entry: 0x03_3346, original: "JmpAbsThunk_033346", rust: "system::grenade::throw", run: |m| grenade::throw(m) },
+    SystemPort { entry: 0x28_D876, original: "$28D876", rust: "system::grenade::throw", run: |m| grenade::throw(m) },
+    SystemPort { entry: 0x28_D91E, original: "$28D91E", rust: "system::grenade::fly", run: |m| grenade::fly(m) },
+    SystemPort { entry: 0x28_D6BC, original: "$28D6BC", rust: "system::grenade::explode", run: |m| grenade::explode(m) },
+    SystemPort { entry: 0x28_D706, original: "$28D706", rust: "system::grenade::burst", run: |m| grenade::burst(m) },
+    SystemPort { entry: 0x28_D74E, original: "$28D74E", rust: "system::grenade::blast", run: |m| grenade::blast(m) },
+    SystemPort { entry: 0x28_D76E, original: "$28D76E", rust: "system::grenade::fade", run: |m| grenade::fade(m) },
+    SystemPort { entry: 0x28_D794, original: "$28D794", rust: "system::tasks::finish", run: |m| tasks::finish(m) },
     // --- escombros de la escena 3
     SystemPort { entry: 0x03_D616, original: "Scene3Debris_Spawn_03d616", rust: "system::debris::spawn", run: |m| debris_spawn(m, 0) },
     SystemPort { entry: 0x03_D640, original: "Scene3Debris_SpawnLow8_03d640", rust: "system::debris::spawn", run: |m| debris_spawn(m, 1) },

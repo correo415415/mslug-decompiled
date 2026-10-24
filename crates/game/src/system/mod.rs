@@ -20,6 +20,7 @@ pub mod fort;
 pub mod frame;
 pub mod game_over;
 pub mod go_arrow;
+pub mod grenade;
 pub mod grunt;
 pub mod ground_fx;
 pub mod hits;
