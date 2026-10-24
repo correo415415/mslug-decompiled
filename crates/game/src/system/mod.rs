@@ -10,6 +10,7 @@
 pub mod anim;
 pub mod autopilot;
 pub mod boot;
+pub mod bullet;
 pub mod collision;
 pub mod debris;
 pub mod events;
@@ -53,6 +54,7 @@ pub mod slug_idle;
 pub mod sprite;
 pub mod sound;
 pub mod title;
+pub mod trig;
 pub mod turret;
 pub mod tasks;
 pub mod video;

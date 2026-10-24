@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, debris, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, bullet, collision, debris, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -1773,6 +1773,31 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_4806, original: "Player_Stand_034704__L034806", rust: "system::player_ground::stand_loop", run: |m| player_ground::stand_loop(m) },
     SystemPort { entry: 0x03_42C4, original: "Player_ShootStand_0342c4", rust: "system::player_ground::shoot_stand", run: |m| player_ground::shoot_stand(m, false) },
     SystemPort { entry: 0x03_437E, original: "Player_ShootStandUp_03437e", rust: "system::player_ground::shoot_stand", run: |m| player_ground::shoot_stand(m, true) },
+    SystemPort { entry: 0x07_7A96, original: "MuzzleFx_ShotA_077a96", rust: "system::ground_fx::shot", run: |m| ground_fx::shot(m, 0) },
+    SystemPort { entry: 0x07_7AA6, original: "MuzzleFx_ShotB_077aa6", rust: "system::ground_fx::shot", run: |m| ground_fx::shot(m, 1) },
+    SystemPort { entry: 0x07_7AB6, original: "MuzzleFx_ShotC_077ab6", rust: "system::ground_fx::shot", run: |m| ground_fx::shot(m, 2) },
+    SystemPort { entry: 0x07_7AC6, original: "MuzzleFx_ShotD_077ac6", rust: "system::ground_fx::shot", run: |m| ground_fx::shot(m, 3) },
+    SystemPort { entry: 0x07_7AD6, original: "MuzzleFx_Shot_Run_077ad6", rust: "system::ground_fx::shot_run", run: |m| ground_fx::shot_run(m) },
+    SystemPort { entry: 0x07_7B68, original: "MuzzleFx_Shot_Fire_077b68", rust: "system::ground_fx::shot_fire", run: |m| ground_fx::shot_fire(m) },
+    // --- bala de pistola
+    SystemPort { entry: 0x03_093A, original: "PlayerGrenade_SpawnB_03093a", rust: "system::bullet::start",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; bullet::start(m) } },
+    SystemPort { entry: 0x03_0B28, original: "PlayerGrenade_SpawnB_03093a__L030b28", rust: "system::bullet::run",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; bullet::run(m) } },
+    SystemPort { entry: 0x03_0BB6, original: "PlayerGrenade_ExplodeGround_030bb6", rust: "system::bullet::explode",
+                 run: |m| { let e = bullet::explode(m, false); m.cpu.a[0] = e; Flow::Return } },
+    SystemPort { entry: 0x03_0BD6, original: "PlayerGrenade_ExplodeAir_030bd6", rust: "system::bullet::explode",
+                 run: |m| { let e = bullet::explode(m, true); m.cpu.a[0] = e; Flow::Return } },
+    SystemPort { entry: 0x03_0BF6, original: "JmpToScheduler_030bf6", rust: "system::bullet::gone", run: |m| bullet::gone(m) },
+    SystemPort { entry: 0x03_0BFE, original: "PlayerGrenade_AngleFromSpread_030bfe", rust: "system::bullet::small_spread",
+                 run: |m| { let t = m.cpu.a[6]; let base = m.cpu.d[0] as u16; let sp = m.read_u8(t + mslug_game::layout::bullet::SPREAD);
+                            m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(base);
+                            m.cpu.d[0] = u32::from(bullet::small_spread(base, sp)); Flow::Return } },
+    SystemPort { entry: 0x01_3C0E, original: "$013C0E", rust: "system::trig::polar",
+                 run: |m| { let (a, r) = (m.cpu.d[0] as u16, m.cpu.d[1] as i16); let (x, y) = trig::polar(m, a, r);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(a.wrapping_mul(2));
+                            m.cpu.d[1] = x as u32; m.cpu.d[2] = y as u32;
+                            m.cpu.a[2] = mslug_game::layout::trig::SIN; Flow::Return } },
     // --- disparo del jugador
     SystemPort { entry: 0x03_C710, original: "PlayerFire_Pistol_Spawn_03c710", rust: "system::player_fire::pistol_bullet",
                  run: |m| { let t = m.cpu.a[6]; let b = player_fire::pistol_bullet(m, t); fire_regs(m, t, b); Flow::Return } },
@@ -1782,6 +1807,12 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_C7FC, original: "PlayerFire_Pistol_FwdLow_03c7fc", rust: "system::player_fire::pistol", run: |m| pistol(m, player_fire::Aim::ForwardLow) },
     SystemPort { entry: 0x03_C836, original: "PlayerFire_Pistol_Down_03c836", rust: "system::player_fire::pistol", run: |m| pistol(m, player_fire::Aim::Down) },
     SystemPort { entry: 0x03_C854, original: "PlayerFire_Pistol_DownB_03c854", rust: "system::player_fire::pistol", run: |m| pistol(m, player_fire::Aim::Down) },
+    SystemPort { entry: 0x03_5ABA, original: "Player_TurnRight_035aba", rust: "system::player_ground::turn", run: |m| player_ground::turn(m, false) },
+    SystemPort { entry: 0x03_5B54, original: "Player_TurnRight_035aba__L035b54", rust: "system::player_ground::turn_loop", run: |m| player_ground::turn_loop(m, false) },
+    SystemPort { entry: 0x03_5BF8, original: "Player_TurnLeft_035bf8", rust: "system::player_ground::turn", run: |m| player_ground::turn(m, true) },
+    SystemPort { entry: 0x03_5C98, original: "Player_TurnLeft_Run_035c98", rust: "system::player_ground::turn_loop", run: |m| player_ground::turn_loop(m, true) },
+    SystemPort { entry: 0x03_548C, original: "Player_Walk_Tail_03548c", rust: "system::player_ground::walk_tail",
+                 run: |m| { let t = m.cpu.a[6]; player_ground::walk_tail(m, t); Flow::Return } },
     // --- escombros de la escena 3
     SystemPort { entry: 0x03_D616, original: "Scene3Debris_Spawn_03d616", rust: "system::debris::spawn", run: |m| debris_spawn(m, 0) },
     SystemPort { entry: 0x03_D640, original: "Scene3Debris_SpawnLow8_03d640", rust: "system::debris::spawn", run: |m| debris_spawn(m, 1) },

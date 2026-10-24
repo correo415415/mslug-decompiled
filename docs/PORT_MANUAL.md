@@ -302,7 +302,13 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
   `$033E2E`), cola común de pie que elige andar, girarse, agacharse, la
   acción, el salto o la caída (`$0341A4`), `$0267E6`, paso sobre el suelo
   (`$027A92`), `$026B56` (gemela de `$027036`), de pie (`$034704`, bucle
-  `$034806`) y disparo de pie (`$0342C4`, `$03437E`).
+  `$034806`), disparo de pie (`$0342C4`, `$03437E`), giro (`$035ABA`,
+  `$035BF8`, bucles `$035B54`/`$035C98`) y cola de andar (`$03548C`).
+- `system::bullet`: bala de pistola (`$03093A`, bucle `$030B28`,
+  explosiones `$030BB6`/`$030BD6`, baja `$030BF6`, `$030BFE`);
+  `system::trig::polar` (`$013C0E`).
+- `system::ground_fx`: además, los impactos de disparo (`$077A96`…`$077AC6`,
+  `$077AD6`, `$077B68`).
 - `system::player_fire`: disparo de pistola (`$03C710` y sus direcciones
   `$03C776`…`$03C854`).
 - `system::debris`: escombros de la escena 3 (`$03D616`…`$03D72A`, tarea

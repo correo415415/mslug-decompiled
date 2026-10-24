@@ -1250,6 +1250,15 @@ pub mod ground_fx {
     pub const DETACHED: u32 = 0x07_7A16;
     pub const DETACHED_RUN: u32 = 0x07_7A60;
     pub const FINISH: u32 = 0x07_7A8E;
+    /// Impactos de disparo (A…D): su tabla de guiones (en `DETACH_SCRIPTS`)
+    /// y las rutinas de la tarea. Con `SHOT_SCRIPTS[0]` el impacto se
+    /// esparce al azar en X (de `SHOT_JITTER_MIN` a +7).
+    pub const SHOT_SCRIPTS: [u32; 4] = [0x2D_CA6A, 0x2D_CA72, 0x2D_CA7A, 0x2D_CA82];
+    pub const SHOT_RUN: u32 = 0x07_7AD6;
+    pub const SHOT_START_RETURN: [u32; 4] = [0x07_7A9A, 0x07_7AAA, 0x07_7ABA, 0x07_7ACA];
+    pub const SHOT_FIRE: u32 = 0x07_7B68;
+    pub const SHOT_JITTER_MIN: i16 = -8;
+    pub const SHOT_JITTER_MASK: u16 = 0xF;
     /// Rutina de la dueña cuando se está dando de baja.
     pub const OWNER_FINISHING: u32 = 0x52A;
     /// Campos.
@@ -1465,6 +1474,14 @@ pub mod player_ground {
     pub const SHOOT_SCRIPT_FROM_UP: u32 = 0x27_9716;
     pub const SHOOT_UP_SCRIPT: u32 = 0x27_96EE;
     pub const SHOOT_UP_SCRIPT_FROM_FWD: u32 = 0x27_9720;
+    /// Giro: estado, guiones (normal y apuntando arriba), velocidad hacia
+    /// el lado al que gira, bucles y la cola de andar.
+    pub const STATE_TURN: u8 = 0x31;
+    pub const TURN_SCRIPT: u32 = 0x27_9A3C;
+    pub const TURN_UP_SCRIPT: u32 = 0x27_9A5A;
+    pub const TURN_SPEED: u16 = 0x300;
+    pub const TURN_RIGHT_LOOP: u32 = 0x03_5B54;
+    pub const TURN_LEFT_LOOP: u32 = 0x03_5C98;
     /// Con el lanzallamas la acción no espera a que el brazo esté libre.
     pub const WEAPON_FLAME: u8 = 4;
 }
@@ -3217,6 +3234,70 @@ pub mod player_fire {
     pub const ANGLE_UP: u8 = 8;
     pub const ANGLE_LEFT: u8 = 0x10;
     pub const ANGLE_DOWN: u8 = 0x18;
+}
+
+/// Seno y coseno (`system::trig`): tablas de palabras en 1/256, con el
+/// ángulo en 1/256 de vuelta.
+pub mod trig {
+    pub const COS: u32 = 0x2C_07AC;
+    pub const SIN: u32 = 0x2C_072C;
+}
+
+/// Bala de pistola del jugador (`system::bullet`).
+pub mod bullet {
+    /// Lo que deja el que dispara: ángulo (× 8), ráfaga y desviación; la
+    /// bala los copia a su ángulo y su ráfaga.
+    pub const ANGLE_SRC: u32 = 0x98;
+    pub const BURST_SRC: u32 = 0x9A;
+    pub const SPREAD: u32 = 0x9B;
+    pub const ANGLE: u32 = 0x70;
+    pub const ANGLE_MASK: u16 = 0xF8;
+    pub const BURST: u32 = 0x7A;
+    pub const FLAGS_6B: u32 = 0x6B;
+    pub const BULLET_FLAG: u8 = 1 << 4;
+    /// Del abuelo (el jugador): `+$6B` bit 6 = la bala gira con el brazo.
+    pub const FOLLOW_FACING: u8 = 1 << 6;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const ATTACK_LIST: u32 = 0x03_0804;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_INIT: u16 = 0xD000;
+    /// Destello (tarea hija), sprite y guion por ángulo (`NO_SCRIPT` = ninguno).
+    pub const FLASH: u32 = 0x07_7A96;
+    pub const GFX_FIELD: u32 = 0x9E;
+    pub const GFX: u16 = 2;
+    pub const SCRIPTS: u32 = 0x29_D452;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    /// Desviación según la configuración (`CONTROL_LAYOUT`) o el modo de
+    /// pruebas (`DEBUG` bit 1).
+    pub const DEBUG: u32 = 0x10_0000;
+    pub const DEBUG_SPREAD: u8 = 1 << 1;
+    pub const CONTROL_LAYOUT: u32 = 0x10_6F2A;
+    /// Velocidad y el paso atrás de las ráfagas impares.
+    pub const SPEED: i16 = 0x800;
+    pub const NUDGE: i16 = -0x800;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const PARENT: u32 = 0x0C;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    /// `+$13`: bit 6 (se pone cada frame) y bit 1 (ha dado a algo).
+    pub const FLAGS_13: u32 = 0x13;
+    pub const FRESH: u8 = 1 << 6;
+    pub const HIT: u8 = 1 << 1;
+    /// Vida en frames.
+    pub const FUSE: u32 = 0x76;
+    /// Rutinas: bucle, explosión en el suelo y en el aire, baja.
+    pub const RUN: u32 = 0x03_0B28;
+    pub const EXPLODE_GROUND: u32 = 0x03_0BB6;
+    pub const EXPLODE_AIR: u32 = 0x03_0BD6;
+    pub const GONE: u32 = 0x03_0BF6;
+    pub const GROUND_FX: u32 = 0x03_1C72;
+    pub const AIR_FX: u32 = 0x03_1CCA;
+    /// Superficies en las que se pierde sin explotar: tipo `VANISH_KIND`
+    /// o celda con los bits altos a medias.
+    pub const VANISH_KIND: u8 = 0x38;
+    pub const CELL_HIGH: u8 = 0xC0;
+    pub const MARGINS: u32 = 0x03_08A8;
 }
 
 /// Escombros de la escena 3 (`system::debris`).

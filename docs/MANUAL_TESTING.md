@@ -141,9 +141,9 @@ el jugador en el aire (`system::player_air`: golpe, caída, acciones,
 muerte) y en el suelo (`system::player_ground`: aterrizaje, espera, cola de
 pie) y el Slug aparca y espera a que se monte un jugador
 (`system::slug_idle`); el jugador de pie con su disparo de pistola (`system::player_fire`) y los
-escombros de la escena 3 (`system::debris`); se para en el frame 697 en
-`$03093A` (`PlayerGrenade_SpawnB_03093a`, la bala de pistola, aún sin
-portar).
+escombros de la escena 3 (`system::debris`); la bala (`system::bullet`) con sus impactos (`system::ground_fx`) y el
+giro; se para en el frame 857 en `$037C74` (`Player_CrouchEnter_037c74`,
+agacharse, aún sin portar).
 
 La captura de `--halt-shot` (y la de la ventana SDL) se toma tras avanzar
 un frame de vídeo con la CPU congelada: la parada ocurre a mitad de frame y
