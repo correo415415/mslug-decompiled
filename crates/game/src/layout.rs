@@ -3164,6 +3164,88 @@ pub mod manual_icons {
     pub const MOTION_LONG: u32 = 0x28;
 }
 
+/// Slug parado (`system::slug_idle`).
+pub mod slug_idle {
+    /// Guiones de la espera por índice de pendiente (0–4), juego A y B
+    /// (`NO_SCRIPT` = ninguno).
+    pub const SCRIPTS_A: u32 = 0x27_9614;
+    pub const SCRIPTS_B: u32 = 0x27_9628;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    /// `+$20`: base y el índice de pendiente / 4.
+    pub const BYTE_20: u32 = 0x20;
+    pub const BYTE_20_BASE: u8 = 0x41;
+    pub const ACC_X: u32 = 0x2C;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const NO_HANDLER: u32 = 0xFFFF_FFFF;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const IDLE_HITBOX: u32 = 0x02_999E;
+    /// Rutinas: el bucle parado y a dónde pasa (inclinado, salto, se monta
+    /// un jugador, destruido, fuera de la pantalla).
+    pub const IDLE: u32 = 0x02_DE18;
+    pub const ANGLED: u32 = 0x02_DEB4;
+    pub const JUMP: u32 = 0x02_E092;
+    pub const HUNKER: u32 = 0x02_E3B0;
+    pub const DEATH_EXPLODE: u32 = 0x02_DA38;
+    pub const DEATH_START: u32 = 0x02_DCC0;
+    pub const DEATH_FINISH: u32 = 0x02_DCBC;
+    /// `+$8C` bit 5 (se quita al entrar) y `+$8D` bits 4 y 5 (se ponen).
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const BIT_8C_5: u8 = 1 << 5;
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const BIT_8D_4: u8 = 1 << 4;
+    /// `+$8D` bit 5: lleva piloto / no se destruye todavía.
+    pub const MANNED: u8 = 1 << 5;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const DESTROYED: u8 = 1 << 0;
+    /// `+$13` bits 4 y 5: las ruedas delantera y trasera están parejas.
+    pub const LEVEL_BITS: u8 = (1 << 4) | (1 << 5);
+    pub const RANK_TIMER: u32 = 0x10_6E92;
+    /// Márgenes de «fuera de la pantalla» según el flag de un frame.
+    pub const VIEW_FLAG: u32 = 0x10_6F4A;
+    pub const MARGINS_FLAGGED: u32 = 0x27_964E;
+    pub const MARGINS: u32 = 0x27_965A;
+    /// Ruedas (delantera, trasera): Y, estado (bit 4 = suelo blando) y
+    /// el contador `+$8E`.
+    pub const WHEEL_FRONT: u32 = 0x74;
+    pub const WHEEL_REAR: u32 = 0x78;
+    pub const WHEEL_Y: u32 = 0x24;
+    pub const WHEEL_STATE: u32 = 0x5A;
+    pub const WHEEL_SOFT: u8 = 1 << 4;
+    pub const WHEEL_PULSE: u32 = 0x8E;
+    pub const WHEEL_GROUND: u32 = 0x9A;
+    /// Diferencias de altura entre ruedas que cuentan como «a nivel».
+    pub const LEVEL_DIFFS: [u16; 10] = [0, 1, 2, 8, 7, 9, 0x20, 0x1F, 0x21, 0x22];
+    /// Posición con la Y de apoyo y zona de trabajo del movimiento.
+    pub const X: u32 = 0x22;
+    pub const BASE_Y: u32 = 0x82;
+    pub const BASE_Y_MASK: u16 = 0x3FF;
+    pub const SUB: u32 = 0x26;
+    pub const WORK_POS: [u32; 2] = [0x10_6F38, 0x10_6F3A];
+    pub const WORK_SUB: [u32; 2] = [0x10_6F3C, 0x10_6F3D];
+    /// Montarse: escena cargada, recogida activa, caja de contacto con
+    /// cada jugador y sus tareas.
+    pub const SCENE_LOADED: u32 = 0x10_6ED3;
+    pub const ENABLED: u32 = 0x10_6ED2;
+    pub const BOARD_BOX: u32 = 0x03_EF9A;
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    /// Del jugador: `+$8C` bit 0 (montado), `+$8D` bits 1 (en el aire) y 5
+    /// (bajando), velocidad vertical y su `+$68`.
+    pub const P_STATUS: u32 = 0x8C;
+    pub const P_RIDING: u8 = 1 << 0;
+    pub const P_AIR: u32 = 0x8D;
+    pub const P_IN_AIR: u8 = 1 << 1;
+    pub const P_DESCENDING: u8 = 1 << 5;
+    pub const P_VEL_Y: u32 = 0x2A;
+    pub const PILOT: u32 = 0x68;
+    /// Del Slug: quién lo controla y el aviso de montado (`+$89` = `0xFF`).
+    pub const CONTROLLER: u32 = 0x6D;
+    pub const SLUG: u32 = 0x10_0580;
+    pub const BOARDED: u32 = 0x89;
+    pub const BOARDED_ON: u8 = 0xFF;
+}
+
 /// Slug (SV-001): la tarea fija `task::SLUG` y quien la pone en marcha.
 pub mod slug {
     /// Rutinas con las que el Slug no cuenta como vivo (libre, dándose de

@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -316,6 +316,19 @@ fn ring_regs(m: &mut CpuMachine, r: Option<(u8, bool)>) {
         m.cpu.d[2] = if reach { v & 0xFFFF_00FF } else { v };
     }
     set_carry(m, r.is_some());
+}
+
+/// Registros que dejan `$03EECC`/`$03EF14`: d0 = p, d2 = p + 1,
+/// d1 = jugador o -1, y C.
+fn near_regs(m: &mut CpuMachine, p: u8, r: Option<u32>) {
+    if m.read_u8(mslug_game::layout::slug_idle::ENABLED) == 0 {
+        m.cpu.sr.set(StatusRegister::C, false);
+        return;
+    }
+    m.cpu.d[0] = u32::from(p);
+    m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_FF00) | u32::from(p + 1);
+    m.cpu.d[1] = r.unwrap_or(0xFFFF_FFFF);
+    m.cpu.sr.set(StatusRegister::C, r.is_some());
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -1730,6 +1743,31 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let c = player_ground::move_ground(m, t); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_6B56, original: "Entity_MoveAndCollide_A_026b56", rust: "system::slope::move_b",
                  run: |m| { let t = m.cpu.a[6]; let at = (m.cpu.d[3] as u16, m.cpu.d[4] as u16); let c = slope::move_b(m, t, at); set_carry(m, c); Flow::Return } },
+    // --- Slug parado
+    SystemPort { entry: 0x02_DD20, original: "Slug_IdleEnterA_02dd20", rust: "system::slug_idle::enter", run: |m| slug_idle::enter(m, mslug_game::layout::slug_idle::SCRIPTS_A) },
+    SystemPort { entry: 0x02_DD74, original: "Slug_IdleEnterB_02dd74", rust: "system::slug_idle::enter", run: |m| slug_idle::enter(m, mslug_game::layout::slug_idle::SCRIPTS_B) },
+    SystemPort { entry: 0x02_DDC8, original: "Slug_IdleEnterC_02ddc8", rust: "system::slug_idle::enter", run: |m| slug_idle::enter(m, mslug_game::layout::slug_idle::SCRIPTS_A) },
+    SystemPort { entry: 0x02_DE18, original: "Slug_Idle_02de18", rust: "system::slug_idle::idle", run: |m| slug_idle::idle(m) },
+    SystemPort { entry: 0x02_A824, original: "Slug_PhysicsF_02a824", rust: "system::slug_idle::physics",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let c = !slug_idle::physics(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_04C4, original: "$0304C4", rust: "system::slug_idle::update_level_bits",
+                 run: |m| { let t = m.cpu.a[6]; slug_idle::update_level_bits(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_788C, original: "$02788C", rust: "system::slug_idle::step_on_base",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let c = slug_idle::step_on_base(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_076A, original: "$03076A", rust: "system::slug_idle::wheels_level",
+                 run: |m| { let t = m.cpu.a[6]; let z = slug_idle::wheels_level(m, t); m.cpu.sr.set(StatusRegister::Z, z); Flow::Return } },
+    SystemPort { entry: 0x03_EECC, original: "$03EECC", rust: "system::slug_idle::player_near",
+                 run: |m| { let t = m.cpu.a[6]; let r = slug_idle::player_near(m, t, 0); near_regs(m, 0, r); Flow::Return } },
+    SystemPort { entry: 0x03_EF14, original: "$03EF14", rust: "system::slug_idle::player_near",
+                 run: |m| { let t = m.cpu.a[6]; let r = slug_idle::player_near(m, t, 1); near_regs(m, 1, r); Flow::Return } },
+    SystemPort { entry: 0x03_2D6C, original: "$032D6C", rust: "system::slug_idle::board",
+                 run: |m| { let t = m.cpu.a[6]; let n = m.cpu.d[2] as u8; let c = slug_idle::board(m, t, n); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_ACA2, original: "Slug_SetField89_02aca2", rust: "system::slug_idle::mark_boarded",
+                 run: |m| { slug_idle::mark_boarded(m); Flow::Return } },
+    SystemPort { entry: 0x02_ACB8, original: "Slug_CheckPlayersNear_02acb8", rust: "system::slug_idle::players_board",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_idle::players_board(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
