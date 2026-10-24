@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_arm, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, collision, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, sound, sprite, tasks, title, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -300,6 +300,22 @@ fn pad_test(m: &mut CpuMachine, b: u8, edge: Edge) -> Flow {
     let c = mslug_game::input::pressed(m, e, Buttons(b), edge);
     set_carry(m, c);
     Flow::Return
+}
+
+/// Registros de `Player_ActionSelect_*`: d1 = acción (0 si ninguna), C.
+fn action_regs(m: &mut CpuMachine, a: Option<u8>) {
+    m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(a.unwrap_or(0));
+    set_carry(m, a.is_some());
+}
+
+/// Registros de `$08F470`: C = hay anilla; d2 = id sobre $FFFFFFxx (si
+/// está al alcance, el byte 1 a 0: palabra baja positiva).
+fn ring_regs(m: &mut CpuMachine, r: Option<(u8, bool)>) {
+    if let Some((id, reach)) = r {
+        let v = 0xFFFF_FF00 | u32::from(id);
+        m.cpu.d[2] = if reach { v & 0xFFFF_00FF } else { v };
+    }
+    set_carry(m, r.is_some());
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -1663,6 +1679,44 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let pc = m.cpu.pc & 0xFF_FFFF; player_arm::pose_at(m, pc) } },
     SystemPort { entry: 0x03_C588, original: "PlayerArm_CrouchReload_03c588", rust: "system::player_arm::pose_at",
                  run: |m| { let pc = m.cpu.pc & 0xFF_FFFF; player_arm::pose_at(m, pc) } },
+    // --- jugador en el aire
+    SystemPort { entry: 0x03_6D64, original: "Player_Knockback_036d64", rust: "system::player_air::knockback", run: |m| player_air::knockback(m) },
+    SystemPort { entry: 0x03_6D72, original: "Player_Knockback_Setup_036d72", rust: "system::player_air::knock_setup", run: |m| player_air::knock_setup(m) },
+    SystemPort { entry: 0x03_6DCA, original: "Player_Knockback_AirCtrl_036dca", rust: "system::player_air::air_ctrl", run: |m| player_air::air_ctrl(m) },
+    SystemPort { entry: 0x03_6E42, original: "Player_Fall_Physics_036e42", rust: "system::player_air::fall_physics", run: |m| player_air::fall_physics(m) },
+    SystemPort { entry: 0x03_6FC2, original: "Player_KnockbackDelay_036fc2", rust: "system::player_air::knock_delay", run: |m| player_air::knock_delay(m) },
+    SystemPort { entry: 0x03_6FF6, original: "Player_KnockbackDelay_036fc2__L036ff6", rust: "system::player_air::knock_delay_wait", run: |m| player_air::knock_delay_wait(m) },
+    SystemPort { entry: 0x03_7018, original: "Player_KnockbackHold_037018", rust: "system::player_air::knock_hold", run: |m| player_air::knock_hold(m) },
+    SystemPort { entry: 0x03_7046, original: "Player_KnockbackHold_037018__L037046", rust: "system::player_air::knock_hold_wait", run: |m| player_air::knock_hold_wait(m) },
+    SystemPort { entry: 0x03_705A, original: "PlayerAnimState_03705A", rust: "system::player_air::anim_state",
+                 run: |m| { let t = m.cpu.a[6]; player_air::anim_state(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_7168, original: "Player_AirActionSelect_037168", rust: "system::player_air::air_action_select",
+                 run: |m| { let t = m.cpu.a[6]; player_air::air_action_select(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_6C3A, original: "Player_Air_Tail_036c3a", rust: "system::player_air::air_tail",
+                 run: |m| { let t = m.cpu.a[6]; m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; player_air::air_tail(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_3522, original: "PlayerRoute_PublishState_033522", rust: "system::player_air::publish_state",
+                 run: |m| { let t = m.cpu.a[6]; m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; player_air::publish_state(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_34A2, original: "$0334A2", rust: "system::player_air::death_check",
+                 run: |m| { let t = m.cpu.a[6]; let c = player_air::death_check(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_34C6, original: "Player_DeathGate_0334c6", rust: "system::player_air::death_gate",
+                 run: |m| { let t = m.cpu.a[6]; let c = player_air::death_gate(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_30D0, original: "Player_ActionSelect_0330d0", rust: "system::player_air::action_select",
+                 run: |m| { let t = m.cpu.a[6]; let a = player_air::action_select(m, t); action_regs(m, a); Flow::Return } },
+    SystemPort { entry: 0x03_31AE, original: "Player_ActionSelect_B_0331ae", rust: "system::player_air::action_select_b",
+                 run: |m| { let t = m.cpu.a[6]; let a = player_air::action_select_b(m, t); action_regs(m, a); Flow::Return } },
+    SystemPort { entry: 0x03_31CE, original: "Player_ActionSelect_B_Fire_0331ce", rust: "system::player_air::action_fire_down",
+                 run: |m| { let t = m.cpu.a[6]; let a = player_air::action_fire_down(m, t); action_regs(m, a); Flow::Return } },
+    SystemPort { entry: 0x08_F470, original: "TargetRing_Near_08f470", rust: "system::player_air::ring_near",
+                 run: |m| { let t = m.cpu.a[6]; let r = player_air::ring_near(m, t); ring_regs(m, r); Flow::Return } },
+    SystemPort { entry: 0x08_F520, original: "TargetRing_Take_08f520", rust: "system::player_air::take_ring",
+                 run: |m| { let t = m.cpu.a[6]; let id = m.cpu.d[2] as u8; let c = player_air::take_ring(m, t, id); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_67F4, original: "$0267F4", rust: "system::player_air::clamp",
+                 run: |m| {
+                     let (v, l) = collision::clamp_velocity(m.cpu.d[0] as u16, m.cpu.d[1] as u16);
+                     m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v);
+                     m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(l);
+                     Flow::Return
+                 } },
     // --- foco de la cámara
     SystemPort { entry: 0x09_67C0, original: "Attract_Sub_setup_967C0", rust: "system::scroll::focus",
                  run: |m| {
