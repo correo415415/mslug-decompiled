@@ -3187,6 +3187,38 @@ pub mod manual_icons {
     pub const MOTION_LONG: u32 = 0x28;
 }
 
+/// Disparo del jugador (`system::player_fire`).
+pub mod player_fire {
+    /// Tareas de los jugadores: si quien dispara no es una, el jugador es
+    /// su padre (`+$0C`).
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const PARENT: u32 = 0x0C;
+    /// Del que dispara: contador de ráfaga y hacia dónde mira.
+    pub const BURST: u32 = 0x7A;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    /// Del jugador: munición.
+    pub const AMMO: u32 = 0x82;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    /// Bala de pistola: sonido, plantilla y altura sobre el jugador.
+    pub const PISTOL_SOUND: u16 = 0x10F7;
+    pub const PISTOL_BULLET: u32 = 0x03_093A;
+    pub const PISTOL_HEIGHT: u16 = 0x1C;
+    /// Lo que baja la bala al disparar agachado.
+    pub const LOW_DROP: u16 = 0xC;
+    /// De la bala: ángulo (en 1/32 de vuelta, × 8), ráfaga y desviación.
+    pub const ANGLE: u32 = 0x98;
+    pub const BULLET_BURST: u32 = 0x9A;
+    pub const SPREAD: u32 = 0x9B;
+    /// Ángulos: adelante, arriba, atrás y abajo.
+    pub const ANGLE_RIGHT: u8 = 0;
+    pub const ANGLE_UP: u8 = 8;
+    pub const ANGLE_LEFT: u8 = 0x10;
+    pub const ANGLE_DOWN: u8 = 0x18;
+}
+
 /// Escombros de la escena 3 (`system::debris`).
 pub mod debris {
     /// Sólo salen en esta escena.
