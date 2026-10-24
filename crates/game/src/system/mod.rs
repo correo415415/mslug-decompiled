@@ -33,6 +33,8 @@ pub mod motion;
 pub mod pads;
 pub mod pickup;
 pub mod platforms;
+pub mod player;
+pub mod player_arm;
 pub mod player_hud;
 pub mod rank;
 pub mod palette;

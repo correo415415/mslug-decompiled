@@ -2,7 +2,7 @@
 # Recuperación del entorno tras un reset del sandbox (sin secretos: el
 # token va en ~/.git-credentials, que se escribe a mano).
 D=$(cd "$(dirname "$0")" && pwd)
-mkdir -p /tmp/ghm; cp "$D/gh.py" /tmp/ghm/; cp "$D/m68dis.py" /tmp/
+mkdir -p /tmp/ghm; cp "$D/gh.py" /tmp/ghm/; cp "$D/m68dis.py" "$D/calltree.py" /tmp/
 if ! grep -q swapfile2 /proc/swaps 2>/dev/null; then
   sudo fallocate -l 3G /swapfile2 2>/dev/null; sudo chmod 600 /swapfile2; sudo mkswap /swapfile2 >/dev/null; sudo /sbin/swapon /swapfile2 2>/dev/null || sudo swapon /swapfile2
 fi
