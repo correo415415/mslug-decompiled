@@ -302,6 +302,11 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
   `$033E2E`), cola común de pie que elige andar, girarse, agacharse, la
   acción, el salto o la caída (`$0341A4`), `$0267E6`, paso sobre el suelo
   (`$027A92`) y `$026B56` (gemela de `$027036`).
+- `system::slug_idle`: Slug parado — entradas en la espera (`$02DD20`,
+  `$02DD74`, `$02DDC8`) y bucle (`$02DE18`), física parada (`$02A824`, con
+  los bits de nivel `$0304C4`, el paso con la Y de apoyo `$02788C` y las
+  ruedas a nivel `$03076A`), montarse (`$02ACB8`, `$03EECC`, `$03EF14`,
+  `$032D6C`, `$02ACA2`) y el inicio de la destrucción (`$02A664`).
 - `system::icons`: POW y burbuja de los prisioneros (`$031FCA`…`$0321BC`).
 - `system::pickup`: qué jugador toca un objeto (`$03EE48`, `$03EF5C`,
   `$09A836`, `$09A84E`) y premio de la comida con su racha (`$09B920`).
