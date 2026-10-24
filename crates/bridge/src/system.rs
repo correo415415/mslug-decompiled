@@ -2022,6 +2022,22 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; engine_sound_regs(m, t, mslug_game::layout::slug_drive::ENGINE_SOUND_A); Flow::Return } },
     SystemPort { entry: 0x02_A310, original: "Slug_StopMusic1092_02a310", rust: "system::slug_drive::engine_sound",
                  run: |m| { let t = m.cpu.a[6]; engine_sound_regs(m, t, mslug_game::layout::slug_drive::ENGINE_SOUND_B); Flow::Return } },
+    SystemPort { entry: 0x02_B38C, original: "Slug_IdleFlat_02b38c", rust: "system::slug_drive::flat_enter", run: |m| slug_drive::flat_enter(m) },
+    SystemPort { entry: 0x02_B3E0, original: "Slug_IdleFlat_02b38c__L02b3e0", rust: "system::slug_drive::flat", run: |m| slug_drive::flat(m) },
+    SystemPort { entry: 0x02_A4F0, original: "Slug_UpdateAngleIsSlope_02a4f0", rust: "system::slug_drive::slope_changed_to_hill",
+                 run: |m| { let t = m.cpu.a[6]; let (d0, d1, d2) = slug::terrain_slope(m, t);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(d0);
+                            m.cpu.d[1] = if d1 == 0 { m.cpu.d[1] & 0xFFFF_0000 } else { d1 };
+                            m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | u32::from(d2);
+                            let changed = d2 != m.read_u16(t + 0x80);
+                            let c = slug_drive::slope_changed_to_hill(m, t);
+                            if changed {
+                                let b = m.read_u8(mslug_game::layout::slug_drive::FLAT_BY_SLOPE.wrapping_add(d2 as i16 as u32));
+                                m.cpu.d[7] = (m.cpu.d[7] & 0xFFFF_0000) | u32::from(d2);
+                                m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(b);
+                                m.cpu.a[0] = mslug_game::layout::slug_drive::FLAT_BY_SLOPE;
+                            }
+                            set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara

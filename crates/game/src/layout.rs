@@ -4389,4 +4389,26 @@ pub mod slug_drive {
     /// luego se borra).
     pub const ENGINE_SOUND_A: u16 = 0x108F;
     pub const ENGINE_SOUND_B: u16 = 0x1092;
+    /// Parado en llano (`Slug_IdleFlat_02b38c`): guiones y ataques por
+    /// pendiente, base de `+$20`, `+$60`, la caja de daño (`+$4C`) y el bucle.
+    pub const FLAT_SCRIPTS: u32 = 0x27_92F4;
+    pub const FLAT_ATTACKS: u32 = 0x02_9FFC;
+    pub const FLAT_BYTE_20: u8 = 0x14;
+    pub const FLAT_HANDLER_60: u32 = 0x02_95B4;
+    pub const DAMAGE_BOX: u32 = 0x4C;
+    pub const FLAT_DAMAGE_BOX: u32 = 0x02_9698;
+    pub const FLAT_LOOP: u32 = 0x02_B3E0;
+    /// Desde llano: acelerar a la derecha / izquierda, rutina al agacharse
+    /// según la pendiente y al saltar según la dirección.
+    pub const ACCEL_RIGHT: u32 = 0x02_B8DE;
+    pub const ACCEL_LEFT: u32 = 0x02_BA44;
+    pub const CROUCH_BY_SLOPE: u32 = 0x02_A078;
+    pub const JUMP_BY_DIR: u32 = 0x02_C9B0;
+    /// Fuera de la pantalla: márgenes y la baja.
+    pub const MARGINS: u32 = 0x27_964E;
+    pub const DEATH_FINISH: u32 = 0x02_DCBC;
+    /// Pendiente guardada (`+$80`) y la tabla que dice si cuenta como llano
+    /// (byte ≠ 0) o cuesta (0), indexada con signo.
+    pub const SLOPE: u32 = 0x80;
+    pub const FLAT_BY_SLOPE: u32 = 0x02_A558;
 }

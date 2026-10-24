@@ -6,10 +6,12 @@
 //! `$02EA26`, `asm/slug/vehicle_02dd20.s`), `Slug_CallGroundProbeA_02a328`,
 //! `Slug_CallGroundProbeB_02a34e`, `Slug_CheckFreeThenC_02a59a`,
 //! `Slug_InputDirByLayoutA_02aaf0`, `Slug_CanFire_02aac0`, `$02AB86`,
-//! `Slug_ConsumeField89_02ac80`, `ClearXN_02abc0` y `$02ABC6`
+//! `Slug_ConsumeField89_02ac80`, `ClearXN_02abc0`, `$02ABC6`,
+//! `Slug_UpdateAngleIsSlope_02a4f0` y el Slug parado en llano
+//! (`Slug_IdleFlat_02b38c`, bucle `$02B3E0`, `asm/slug/states_02ae3e.s`)
 //! (`asm/slug/helpers_0295a6.s`).
 
-use super::{anim, slug, slug_hunker, slug_idle, sound, tasks};
+use super::{anim, items, player_ground, slug, slug_hunker, slug_idle, sound, tasks};
 use crate::entity::Entity;
 use crate::input::{self, Buttons, Edge};
 use crate::layout::{slug_drive as L, slug_idle as I, task as T};
@@ -167,4 +169,80 @@ pub fn engine_sound(m: &mut impl Memory, t: u32, code: u16) {
         sound::play(m, code);
         m.write_u8(t + L::BYTE_8B, 0);
     }
+}
+
+/// ¿Ha cambiado la pendiente y la nueva es cuesta? Guarda la nueva en
+/// `+$80`. Original: `Slug_UpdateAngleIsSlope_02a4f0` (C = sí).
+pub fn slope_changed_to_hill(m: &mut impl Memory, t: u32) -> bool {
+    let (_, _, dy) = slug::terrain_slope(m, t);
+    if dy == m.read_u16(t + L::SLOPE) {
+        return false;
+    }
+    m.write_u16(t + L::SLOPE, dy);
+    m.read_u8(L::FLAT_BY_SLOPE.wrapping_add(dy as i16 as u32)) == 0
+}
+
+/// Entrada parado en llano: quieto, guion y ataque según la pendiente,
+/// `+$20`, `+$60` y el bucle. Original: `Slug_IdleFlat_02b38c`.
+pub fn flat_enter(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player_ground::clear_motion(m, t);
+    m.write_u16(t + I::VEL_X, 0);
+    let idx = slug::slope_anim_idx(m, t);
+    let script = m.read_u32(L::FLAT_SCRIPTS + u32::from(idx) * 4);
+    if script != L::NO_SCRIPT {
+        anim::start(m, t, script);
+    }
+    let attack = m.read_u32(L::FLAT_ATTACKS + u32::from(idx) * 4);
+    m.write_u32(t + L::HITBOX_CB, attack);
+    m.write_u8(t + L::BYTE_20, L::FLAT_BYTE_20.wrapping_add(idx as u8));
+    m.write_u32(t + L::HANDLER_60, L::FLAT_HANDLER_60);
+    m.write_u32(t + T::HANDLER, L::FLAT_LOOP);
+    flat(m)
+}
+
+/// Bucle parado en llano: pasa a cuesta, a acelerar, a agacharse, a caer,
+/// a saltar, a disparar, sin piloto, a bajarse o a los golpes; fuera de la
+/// pantalla se da de baja. Original: `Slug_IdleFlat_02b38c__L02b3e0`.
+pub fn flat(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u32(t + L::DAMAGE_BOX, L::FLAT_DAMAGE_BOX);
+    slug::clear_flags13(m, t);
+    slug::update_anim(m, t);
+    slug_idle::leave_chassis_regs(m, t);
+    slug_hunker::physics(m, t);
+    if slope_changed_to_hill(m, t) {
+        m.write_u32(t + T::HANDLER, L::IDLE_SLOPE);
+    }
+    if push_right(m, t) {
+        m.write_u32(t + T::HANDLER, L::ACCEL_RIGHT);
+    }
+    if push_left(m, t) {
+        m.write_u32(t + T::HANDLER, L::ACCEL_LEFT);
+    }
+    if down_held(m, t) {
+        let idx = slug::slope_anim_idx(m, t) & 0xFF;
+        tasks::goto_by_table(m, t, L::CROUCH_BY_SLOPE, idx, None);
+    }
+    anim::step(m, t);
+    if slug::ground_contact(m, t).in_air {
+        m.write_u32(t + T::HANDLER, L::FALL);
+    }
+    let dir = jump_dir(m, t).unwrap_or(0);
+    tasks::goto_by_table(m, t, L::JUMP_BY_DIR, u16::from(dir), None);
+    if can_fire(m, t) {
+        m.write_u32(t + T::HANDLER, L::FIRE);
+    }
+    if left_alone(m, t) {
+        m.write_u32(t + T::HANDLER, L::IDLE_ENTER_B);
+    }
+    if slug_hunker::eject_pressed(m, t) {
+        m.write_u32(t + T::HANDLER, L::EJECT);
+    }
+    let side = slug_hunker::damage_check(m, t).unwrap_or(0);
+    tasks::goto_by_table(m, t, L::HIT_HANDLERS, side, None);
+    if items::out_of_view_seen(m, t, Some(L::MARGINS)) {
+        return Flow::Goto(L::DEATH_FINISH);
+    }
+    Flow::Return
 }
