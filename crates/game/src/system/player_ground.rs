@@ -7,7 +7,11 @@
 //! `Player_Stand_034704` (y su bucle `$034806`), el disparo de pie
 //! (`Player_ShootStand_0342c4`, `Player_ShootStandUp_03437e`), el giro
 //! (`Player_TurnRight_035aba`, `Player_TurnLeft_035bf8` y sus bucles), la
-//! cola de andar (`Player_Walk_Tail_03548c`),
+//! cola de andar (`Player_Walk_Tail_03548c`), el agacharse
+//! (`Player_CrouchEnter_037c74`) y el agachado quieto
+//! (`Player_CrouchIdle_03827a`, `$0381A2`, `$03820E`), el disparo agachado
+//! (`Player_CrouchShoot_03873c`), el levantarse (`Player_CrouchExit_037ec2`,
+//! `asm/player/air_death_crouch_036632.s`),
 //! `Player_Idle_033d64` (y su bucle `$033E2E`), `Player_Idle_Tail_0341a4`
 //! (`asm/player/core_032aa8.s`), `Player_PlayWeaponMusicIfFlag_032d32`,
 //! `$0267E6`, `Entity_ProbeRevertCcr_027a92` y
@@ -502,4 +506,291 @@ pub fn walk_tail(m: &mut impl Machine, t: u32) {
         set_handler(m, t, L::JUMP_START);
     }
     player_air::publish_state(m, t);
+}
+
+/// Acción pedida agachado → estado.
+fn crouch_action(a: u8) -> u32 {
+    match a {
+        0xFF => L::CROUCH_MELEE,
+        3 => L::CROUCH_THROW,
+        _ => L::SHOOT_DOWN,
+    }
+}
+
+/// Sin munición con un arma que no es la pistola.
+fn weapon_empty(m: &mut impl Memory, t: u32) -> bool {
+    m.read_u16(t + L::AMMO) == 0 && m.read_u8(t + L::WEAPON) != L::WEAPON_PISTOL
+}
+
+/// Velocidad al agacharse según el lado pulsado (izquierda gana).
+fn crawl_speed(m: &mut impl Memory, t: u32) -> u16 {
+    let mut v = 0;
+    if held(m, t, Buttons::RIGHT) {
+        v = L::CRAWL_SPEED;
+    }
+    if held(m, t, Buttons::LEFT) {
+        v = L::CRAWL_SPEED.wrapping_neg();
+    }
+    v
+}
+
+/// Agacharse: limpia el brazo, pose y guion de agacharse, golpe y caja de
+/// golpe agachado y el bucle. Original: `Player_CrouchEnter_037c74`.
+pub fn crouch_enter(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    restart(m, t, L::STATE_CROUCH, L::CROUCH_SCRIPT);
+    m.write_u32(t + L::HIT_HANDLER, L::CROUCH_HIT_ROUTINE);
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_CROUCH);
+    set_handler(m, t, L::CROUCH_ENTER_LOOP);
+    crouch_enter_loop(m)
+}
+
+/// Bucle de agacharse: se desliza hacia el lado pulsado; al acabar la
+/// animación, agachado (o gateando); la acción, recargar, arma vacía,
+/// golpe sin suelo, salto y estado.
+/// Original: `Player_CrouchEnter_037c74__L037cd0`.
+pub fn crouch_enter_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    announce_weapon(m, t);
+    let v = crawl_speed(m, t);
+    m.write_u16(t + L::VEL_X, v);
+    move_ground(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::CROUCH_IDLE);
+        if held(m, t, Buttons::RIGHT) {
+            set_handler(m, t, L::CRAWL_RIGHT);
+        }
+        if held(m, t, Buttons::LEFT) {
+            set_handler(m, t, L::CRAWL_LEFT);
+        }
+    }
+    if let Some(a) = player_air::action_select(m, t) {
+        set_handler(m, t, crouch_action(a));
+    }
+    if heavy_needs_reload(m, t) {
+        set_handler(m, t, L::RELOAD);
+    }
+    if weapon_empty(m, t) {
+        set_handler(m, t, L::CROUCH_EMPTY);
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    player_air::publish_state(m, t);
+    Flow::Return
+}
+
+/// Agachado quieto: limpia el brazo, pose agachada desde el principio, sin
+/// movimiento, golpe y caja de golpe agachado y el bucle.
+/// Original: `Player_CrouchIdle_03827a` (con `Player_CrouchIdle_Setup_0382e2`;
+/// la otra pose, `$279A82`, es de la rama de `$02ABCC` que nunca se toma).
+pub fn crouch_idle(m: &mut impl Machine) -> Flow {
+    crouch_idle_with(m, L::CROUCH_IDLE_SCRIPT)
+}
+
+/// Agachado quieto con otro guion: tras disparar (`$279850`) o lanzar
+/// (`$27985A`). Original: `Player_CrouchIdleB_0381a2` /
+/// `Player_CrouchIdleC_03820e`.
+pub fn crouch_idle_with(m: &mut impl Machine, script: u32) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    restart(m, t, L::STATE_CROUCH, script);
+    m.write_u32(t + L::HIT_HANDLER, L::CROUCH_HIT_ROUTINE);
+    clear_motion(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_CROUCH);
+    set_handler(m, t, L::CROUCH_IDLE_LOOP);
+    crouch_idle_loop(m)
+}
+
+/// Bucle agachado: gatea hacia el lado pulsado (hacia atrás con otra
+/// rutina), se levanta al soltar abajo, la acción, arma vacía, golpe sin
+/// suelo, salto, estado y caída al vacío.
+/// Original: `Player_CrouchIdle_03827a__L038306`.
+pub fn crouch_idle_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::FLAGS_8D, L::CROUCHED, true);
+    player::frame_common(m, t);
+    if announce_weapon(m, t) {
+        set_handler(m, t, L::CROUCH_REENTER);
+    }
+    move_ground(m, t);
+    player::anim_done(m, t);
+    let left = m.read_u8(t + L::FACING) & L::FACING_LEFT != 0;
+    let (to_right, to_left) =
+        if left { (L::CRAWL_RIGHT_BACK, L::CRAWL_LEFT) } else { (L::CRAWL_RIGHT, L::CRAWL_LEFT_BACK) };
+    if held(m, t, Buttons::RIGHT) {
+        set_handler(m, t, to_right);
+    }
+    if held(m, t, Buttons::LEFT) {
+        set_handler(m, t, to_left);
+    }
+    if !controls::down_held(m, Entity::from_raw(t)) {
+        set_handler(m, t, L::CROUCH_EXIT);
+    }
+    if let Some(a) = player_air::action_select(m, t) {
+        set_handler(m, t, crouch_action(a));
+    }
+    if weapon_empty(m, t) {
+        set_handler(m, t, L::CROUCH_EMPTY);
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK_DELAY);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    player_air::publish_state(m, t);
+    let pit = m.read_u8(A::SCENE) == A::PIT_SCENE;
+    if items::out_of_view_seen(m, t, Some(A::PIT_MARGINS[usize::from(pit)])) {
+        set_handler(m, t, A::DEATH_PIT);
+    }
+    Flow::Return
+}
+
+/// Caída al vacío con los márgenes de la escena.
+fn check_pit(m: &mut impl Memory, t: u32) {
+    let pit = m.read_u8(A::SCENE) == A::PIT_SCENE;
+    if items::out_of_view_seen(m, t, Some(A::PIT_MARGINS[usize::from(pit)])) {
+        set_handler(m, t, A::DEATH_PIT);
+    }
+}
+
+/// Disparo agachado: el brazo no dispara, sin movimiento, pose y guion de
+/// disparo agachado, caja de golpe agachado y el bucle.
+/// Original: `Player_CrouchShoot_03873c` (las dos ramas de `$02ABCC` usan
+/// el mismo guion).
+pub fn crouch_shoot(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::STATUS, L::ARM_FIRING, false);
+    m.write_u32(t + L::HIT_HANDLER, L::CROUCH_HIT_ROUTINE);
+    clear_motion(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u16(t + L::ACC_X, 0);
+    restart(m, t, L::STATE_CROUCH, L::CROUCH_SHOOT_SCRIPT);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_CROUCH);
+    set_handler(m, t, L::CROUCH_SHOOT_LOOP);
+    crouch_shoot_loop(m)
+}
+
+/// Bucle del disparo agachado: al acabar, agachado quieto; con el brazo
+/// libre gatea hacia atrás, la acción, recarga o arma vacía; se levanta al
+/// soltar abajo, salto, golpe sin suelo, estado y caída al vacío.
+/// Original: `Player_CrouchShoot_03873c__L0387c2`.
+pub fn crouch_shoot_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::FLAGS_8D, L::CROUCHED, true);
+    player::frame_common(m, t);
+    announce_weapon(m, t);
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::CROUCH_IDLE_B);
+    }
+    if m.read_u8(t + L::STATUS) & L::ARM_BUSY == 0 {
+        if m.read_u8(t + L::FACING) & L::FACING_LEFT == 0 {
+            if held(m, t, Buttons::LEFT) {
+                set_handler(m, t, L::CRAWL_LEFT_BACK);
+            }
+        } else if held(m, t, Buttons::RIGHT) {
+            set_handler(m, t, L::CRAWL_RIGHT_BACK);
+        }
+        if let Some(a) = player_air::action_select(m, t) {
+            set_handler(m, t, crouch_action(a));
+        }
+        if heavy_needs_reload(m, t) {
+            set_handler(m, t, L::CROUCH_RELOAD);
+        }
+        if weapon_empty(m, t) {
+            set_handler(m, t, L::CROUCH_EMPTY);
+        }
+    }
+    if !controls::down_held(m, Entity::from_raw(t)) {
+        set_handler(m, t, L::CROUCH_EXIT);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK_DELAY);
+    }
+    player_air::publish_state(m, t);
+    check_pit(m, t);
+    Flow::Return
+}
+
+/// Levantarse: limpia el brazo, pose y guion de levantarse, caja de golpe
+/// agachado y el bucle. Original: `Player_CrouchExit_037ec2`.
+pub fn crouch_exit(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    restart(m, t, L::STATE_CROUCH, L::CROUCH_EXIT_SCRIPT);
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_CROUCH);
+    set_handler(m, t, L::CROUCH_EXIT_LOOP);
+    crouch_exit_loop(m)
+}
+
+/// Bucle de levantarse: se desliza hacia el lado pulsado; al acabar la
+/// animación, de pie (o agachado, recargando, la espera o andando); la
+/// acción, golpe sin suelo, salto y estado.
+/// Original: `Player_CrouchExit_037ec2__L037f16`.
+pub fn crouch_exit_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    announce_weapon(m, t);
+    let v = crawl_speed(m, t);
+    m.write_u16(t + L::VEL_X, v);
+    move_ground(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        if wants_crouch(m, t) {
+            set_handler(m, t, L::CROUCH);
+        }
+        if heavy_needs_reload(m, t) {
+            set_handler(m, t, L::RELOAD);
+        }
+        // El original pide un número al azar y no lo usa.
+        rng::next(m);
+        let ammo = m.read_u16(t + L::AMMO);
+        if ammo == L::CROUCH_AMMO {
+            set_handler(m, t, L::CROUCH_B);
+        }
+        if ammo == 0 {
+            set_handler(m, t, L::IDLE);
+        }
+        if held(m, t, Buttons::RIGHT) {
+            set_handler(m, t, L::WALK_LOOP_RIGHT);
+        }
+        if held(m, t, Buttons::LEFT) {
+            set_handler(m, t, L::WALK_LOOP_LEFT);
+        }
+    }
+    if let Some(a) = player_air::action_select(m, t) {
+        set_handler(m, t, action_state(a, false));
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    player_air::publish_state(m, t);
+    Flow::Return
 }

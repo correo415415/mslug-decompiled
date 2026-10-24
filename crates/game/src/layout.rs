@@ -1484,6 +1484,44 @@ pub mod player_ground {
     pub const TURN_LEFT_LOOP: u32 = 0x03_5C98;
     /// Con el lanzallamas la acción no espera a que el brazo esté libre.
     pub const WEAPON_FLAME: u8 = 4;
+    /// Agachado: estado, guiones (agacharse y agachado quieto), golpe y
+    /// caja de golpe, bucles y los estados a los que se pasa.
+    pub const STATE_CROUCH: u8 = 0x30;
+    pub const CROUCH_SCRIPT: u32 = 0x27_9864;
+    pub const CROUCH_IDLE_SCRIPT: u32 = 0x27_983C;
+    pub const CROUCH_HIT_ROUTINE: u32 = 0x03_2598;
+    pub const HITBOX_CROUCH: u32 = 0x03_2734;
+    pub const CROUCH_ENTER_LOOP: u32 = 0x03_7CD0;
+    pub const CROUCH_IDLE_LOOP: u32 = 0x03_8306;
+    pub const CROUCH_EXIT: u32 = 0x03_7EC2;
+    pub const CROUCH_REENTER: u32 = 0x03_8044;
+    pub const CRAWL_RIGHT: u32 = 0x03_842C;
+    pub const CRAWL_LEFT: u32 = 0x03_855A;
+    /// Gatear hacia el lado contrario al que mira.
+    pub const CRAWL_RIGHT_BACK: u32 = 0x03_8688;
+    pub const CRAWL_LEFT_BACK: u32 = 0x03_86E2;
+    pub const CROUCH_MELEE: u32 = 0x03_8A28;
+    pub const CROUCH_THROW: u32 = 0x03_88F0;
+    pub const CROUCH_EMPTY: u32 = 0x03_8086;
+    pub const KNOCKBACK_DELAY: u32 = 0x03_6FC2;
+    /// Velocidad al agacharse con un lado pulsado.
+    pub const CRAWL_SPEED: u16 = 0x300;
+    /// `+$8D`, bit 6: agachado este frame.
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const CROUCHED: u8 = 1 << 6;
+    /// Agachado quieto tras disparar (B) o lanzar (C): otros guiones.
+    pub const CROUCH_IDLE_B: u32 = 0x03_81A2;
+    pub const CROUCH_IDLE_B_SCRIPT: u32 = 0x27_9850;
+    pub const CROUCH_IDLE_C_SCRIPT: u32 = 0x27_985A;
+    /// Disparo agachado: guion, bucle y la recarga agachado.
+    pub const CROUCH_SHOOT_SCRIPT: u32 = 0x27_9D06;
+    pub const CROUCH_SHOOT_LOOP: u32 = 0x03_87C2;
+    pub const CROUCH_RELOAD: u32 = 0x03_8AE6;
+    /// Levantarse: guion y bucle; al acabar puede seguir andando.
+    pub const CROUCH_EXIT_SCRIPT: u32 = 0x27_986E;
+    pub const CROUCH_EXIT_LOOP: u32 = 0x03_7F16;
+    pub const WALK_LOOP_RIGHT: u32 = 0x03_51D8;
+    pub const WALK_LOOP_LEFT: u32 = 0x03_54F2;
 }
 
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
