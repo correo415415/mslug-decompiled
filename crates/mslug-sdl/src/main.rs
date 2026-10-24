@@ -247,6 +247,9 @@ fn main() -> Result<()> {
             if let (Some(pc), false) = (prog.halted_at, halt_shown) {
                 halt_shown = true;
                 eprintln!("{}", mslug_bridge::halt_report(pc, frame, &sys.m68k));
+                // Parada a mitad de frame: el vídeo avanza un frame más (CPU
+                // congelada) para que la captura muestre lo ya escrito.
+                prog.run_frame(&mut sys);
                 // Captura de la parada (también en la ventana interactiva).
                 std::fs::create_dir_all(&cli.shots)?;
                 let fr = sys.render_frame_pixels();

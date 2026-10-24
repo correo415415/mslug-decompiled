@@ -348,6 +348,11 @@ fn main() -> Result<()> {
                 prog.run_frame(&mut sys);
                 if let Some(pc) = prog.halted_at {
                     println!("{}", mslug_bridge::halt_report(pc, f, &sys.m68k));
+                    // La CPU se para a mitad de frame: la imagen presentada
+                    // es la del VBLANK anterior. Con la CPU congelada, el
+                    // vídeo avanza un frame más para que la captura incluya
+                    // todo lo que el port escribió antes de pararse.
+                    prog.run_frame(&mut sys);
                     if let Some(p) = &halt_shot {
                         if let Some(dir) = p.parent().filter(|d| !d.as_os_str().is_empty()) {
                             std::fs::create_dir_all(dir)?;
