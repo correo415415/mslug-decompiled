@@ -4412,3 +4412,85 @@ pub mod slug_drive {
     pub const SLOPE: u32 = 0x80;
     pub const FLAT_BY_SLOPE: u32 = 0x02_A558;
 }
+
+/// Salto del Slug (`Slug_JumpCrouch_02c908` … `Slug_JumpLand_02cc1a`).
+pub mod slug_jump {
+    /// Velocidad horizontal del salto a la derecha / izquierda; con `+$94`
+    /// igual a `DIR_BLOCK_RIGHT` / `_LEFT` salta en vertical.
+    pub const DIR_MODE: u32 = 0x94;
+    pub const DIR_BLOCK_RIGHT: u16 = 3;
+    pub const DIR_BLOCK_LEFT: u16 = 4;
+    pub const VEL_RIGHT: u16 = 0x2AA;
+    pub const VEL_LEFT: u16 = 0xFD56;
+    /// Agacharse antes de saltar: guiones, ataques, base de `+$20`, `+$60`.
+    pub const CROUCH_SCRIPTS: u32 = 0x27_9308;
+    pub const CROUCH_ATTACKS: u32 = 0x02_A038;
+    pub const CROUCH_BYTE_20: u8 = 0x2D;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const CROUCH_HANDLER_60: u32 = 0x02_95B4;
+    /// Despegue: velocidad y gravedad, guiones, ataques, base de `+$20`.
+    pub const LAUNCH_VEL_Y: u16 = 0x4A4;
+    pub const LAUNCH_ACC_Y: u16 = 0xFF9D;
+    pub const LAUNCH_SCRIPTS: u32 = 0x27_931C;
+    pub const LAUNCH_ATTACKS: u32 = 0x02_A04C;
+    pub const LAUNCH_BYTE_20: u8 = 0x32;
+    /// Aterrizaje: duración (`+$91`), velocidad que le queda, guiones y
+    /// ataques, base de `+$20`.
+    pub const LAND_TIMER: u32 = 0x91;
+    pub const LAND_FRAMES: u8 = 0x11;
+    pub const LAND_VEL_X: u16 = 0x80;
+    pub const LAND_SCRIPTS: u32 = 0x27_9330;
+    pub const LAND_ATTACKS: u32 = 0x02_9FFC;
+    pub const LAND_BYTE_20: u8 = 0x37;
+    /// En el aire: aceleración según la dirección del mando y topes.
+    pub const STEER_ACC: u32 = 0x02_C900;
+    pub const MAX_VEL_X: u16 = 0x2A0;
+    pub const MAX_VEL_Y: u16 = 0x400;
+    /// Inclinación al tocar una cuesta: guiones por sprite de inclinación.
+    pub const TILT_SCRIPTS: u32 = 0x2B_0C30;
+    /// Campos.
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const Y: u32 = 0x24;
+    pub const BASE_Y: u32 = 0x82;
+    pub const BYTE_20: u32 = 0x20;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const SLOPE: u32 = 0x80;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const BIT_5B_3: u8 = 1 << 3;
+    pub const LANDED: u8 = 1 << 7;
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const BIT_8C_5: u8 = 1 << 5;
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const IN_AIR: u8 = 1 << 1;
+    pub const TILTED: u8 = 1 << 2;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const TILT_MAX: u16 = 0x40;
+    /// Rutinas.
+    pub const CROUCH_LOOP: u32 = 0x02_C95C;
+    pub const LAUNCH: u32 = 0x02_CA0C;
+    pub const AIR: u32 = 0x02_CA8A;
+    pub const AIR_FIRE: u32 = 0x02_CC02;
+    pub const LAND: u32 = 0x02_CC1A;
+    pub const LAND_LOOP: u32 = 0x02_CCB0;
+    pub const LAND_SLOPE: u32 = 0x02_CE1C;
+    pub const LAND_SLOPE_LOOP: u32 = 0x02_CE7E;
+    pub const FIRE_CROUCH: u32 = 0x02_D286;
+    pub const FIRE_CROUCH_AIR: u32 = 0x02_D298;
+    pub const FIRE_AIR_B: u32 = 0x02_D380;
+    pub const FIRE_FLAT: u32 = 0x02_C24A;
+    pub const IDLE_ENTER_B: u32 = 0x02_DD74;
+    pub const IDLE_SLOPE: u32 = 0x02_B4D2;
+    pub const FALL: u32 = 0x02_D02E;
+    pub const EJECT: u32 = 0x02_BBF2;
+    /// Tablas de rutina: golpes (en tierra / en el aire), agacharse al
+    /// aterrizar según la pendiente, saltar según la dirección.
+    pub const HIT_HANDLERS: u32 = 0x02_A060;
+    pub const HIT_HANDLERS_AIR: u32 = 0x02_A06C;
+    pub const CROUCH_LAND: u32 = 0x02_A08C;
+    pub const JUMP_BY_DIR: u32 = 0x02_C9B0;
+    pub const MARGINS: u32 = 0x27_964E;
+    pub const DEATH_FINISH: u32 = 0x02_DCBC;
+}

@@ -57,6 +57,7 @@ pub mod slug_arm;
 pub mod slug_drive;
 pub mod slug_hunker;
 pub mod slug_idle;
+pub mod slug_jump;
 pub mod sprite;
 pub mod sound;
 pub mod title;
