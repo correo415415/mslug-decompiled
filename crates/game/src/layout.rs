@@ -3370,6 +3370,10 @@ pub mod bullet {
     pub const GFX_FIELD: u32 = 0x9E;
     pub const GFX: u16 = 2;
     pub const SCRIPTS: u32 = 0x29_D452;
+    /// Variantes `$0308B0` / `$0308C2`: su tabla de guiones y el gráfico
+    /// de la del vehículo.
+    pub const SCRIPTS_ALT: u32 = 0x29_D4D2;
+    pub const GFX_VEHICLE: u16 = 0x1D6;
     pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
     /// Desviación según la configuración (`CONTROL_LAYOUT`) o el modo de
     /// pruebas (`DEBUG` bit 1).
@@ -4336,4 +4340,75 @@ pub mod player_ride {
     pub const BYTE_59: u32 = 0x59;
     pub const EJECT_INVULN: u8 = 0x3C;
     pub const SCENE_LOADED: u32 = 0x10_6ED3;
+}
+
+/// Slug conducido (`Slug_DriveAlt_02e9c8`).
+pub mod slug_drive {
+    /// Guiones por índice de pendiente y punteros de ataque (`+$48`).
+    pub const SCRIPTS: u32 = 0x27_9344;
+    pub const ATTACKS: u32 = 0x02_A024;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const BYTE_8B: u32 = 0x8B;
+    pub const BYTE_8B_DRIVE: u8 = 9;
+    pub const BYTE_20: u32 = 0x20;
+    pub const BYTE_20_BASE: u8 = 0x28;
+    pub const LOOP: u32 = 0x02_EA26;
+    /// Velocidad al empujar a la derecha / izquierda.
+    pub const PUSH_RIGHT: u16 = 0x2A0;
+    pub const PUSH_LEFT: u16 = 0xFD60;
+    /// Al acabar el guion: caja de golpe y `+$60`.
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const DONE_HITBOX: u32 = 0x02_9A14;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const DONE_HANDLER_60: u32 = 0x02_9600;
+    /// Rutinas a las que pasa.
+    pub const IDLE_SLOPE: u32 = 0x02_B4D2;
+    pub const IDLE_FLAT: u32 = 0x02_B38C;
+    pub const CRUISE_RIGHT: u32 = 0x02_BF64;
+    pub const CRUISE_LEFT: u32 = 0x02_C07A;
+    pub const TURN: u32 = 0x02_E924;
+    pub const FALL: u32 = 0x02_D02E;
+    pub const JUMP: u32 = 0x02_F614;
+    pub const FIRE: u32 = 0x02_C24A;
+    pub const IDLE_ENTER_B: u32 = 0x02_DD74;
+    pub const EJECT: u32 = 0x02_BBF2;
+    pub const HIT_HANDLERS: u32 = 0x02_A060;
+    /// Disparo del cañón: munición (`+$90`), disparos en curso (`+$8F`,
+    /// tope `MAX_SHOTS`) y espera (`+$8E`).
+    pub const AMMO: u32 = 0x90;
+    pub const SHOTS: u32 = 0x8F;
+    pub const MAX_SHOTS: u8 = 2;
+    pub const COOLDOWN: u32 = 0x8E;
+    /// Configuración de controles y el botón de disparo según ella.
+    pub const CONTROL_LAYOUT: u32 = 0x10_6F2A;
+    /// Aviso de montado (`+$89`) y quién controla (`+$6D`).
+    pub const BOARDED: u32 = 0x89;
+    pub const CONTROLLER: u32 = 0x6D;
+    pub const NO_CONTROLLER: u8 = 0xFF;
+    /// Sonidos de motor que se piden una vez (mientras `+$8B` ≠ 0, que
+    /// luego se borra).
+    pub const ENGINE_SOUND_A: u16 = 0x108F;
+    pub const ENGINE_SOUND_B: u16 = 0x1092;
+    /// Parado en llano (`Slug_IdleFlat_02b38c`): guiones y ataques por
+    /// pendiente, base de `+$20`, `+$60`, la caja de daño (`+$4C`) y el bucle.
+    pub const FLAT_SCRIPTS: u32 = 0x27_92F4;
+    pub const FLAT_ATTACKS: u32 = 0x02_9FFC;
+    pub const FLAT_BYTE_20: u8 = 0x14;
+    pub const FLAT_HANDLER_60: u32 = 0x02_95B4;
+    pub const DAMAGE_BOX: u32 = 0x4C;
+    pub const FLAT_DAMAGE_BOX: u32 = 0x02_9698;
+    pub const FLAT_LOOP: u32 = 0x02_B3E0;
+    /// Desde llano: acelerar a la derecha / izquierda, rutina al agacharse
+    /// según la pendiente y al saltar según la dirección.
+    pub const ACCEL_RIGHT: u32 = 0x02_B8DE;
+    pub const ACCEL_LEFT: u32 = 0x02_BA44;
+    pub const CROUCH_BY_SLOPE: u32 = 0x02_A078;
+    pub const JUMP_BY_DIR: u32 = 0x02_C9B0;
+    /// Fuera de la pantalla: márgenes y la baja.
+    pub const MARGINS: u32 = 0x27_964E;
+    pub const DEATH_FINISH: u32 = 0x02_DCBC;
+    /// Pendiente guardada (`+$80`) y la tabla que dice si cuenta como llano
+    /// (byte ≠ 0) o cuesta (0), indexada con signo.
+    pub const SLOPE: u32 = 0x80;
+    pub const FLAT_BY_SLOPE: u32 = 0x02_A558;
 }
