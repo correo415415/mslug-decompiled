@@ -4337,3 +4337,52 @@ pub mod player_ride {
     pub const EJECT_INVULN: u8 = 0x3C;
     pub const SCENE_LOADED: u32 = 0x10_6ED3;
 }
+
+/// Slug conducido (`Slug_DriveAlt_02e9c8`).
+pub mod slug_drive {
+    /// Guiones por índice de pendiente y punteros de ataque (`+$48`).
+    pub const SCRIPTS: u32 = 0x27_9344;
+    pub const ATTACKS: u32 = 0x02_A024;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const BYTE_8B: u32 = 0x8B;
+    pub const BYTE_8B_DRIVE: u8 = 9;
+    pub const BYTE_20: u32 = 0x20;
+    pub const BYTE_20_BASE: u8 = 0x28;
+    pub const LOOP: u32 = 0x02_EA26;
+    /// Velocidad al empujar a la derecha / izquierda.
+    pub const PUSH_RIGHT: u16 = 0x2A0;
+    pub const PUSH_LEFT: u16 = 0xFD60;
+    /// Al acabar el guion: caja de golpe y `+$60`.
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const DONE_HITBOX: u32 = 0x02_9A14;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const DONE_HANDLER_60: u32 = 0x02_9600;
+    /// Rutinas a las que pasa.
+    pub const IDLE_SLOPE: u32 = 0x02_B4D2;
+    pub const IDLE_FLAT: u32 = 0x02_B38C;
+    pub const CRUISE_RIGHT: u32 = 0x02_BF64;
+    pub const CRUISE_LEFT: u32 = 0x02_C07A;
+    pub const TURN: u32 = 0x02_E924;
+    pub const FALL: u32 = 0x02_D02E;
+    pub const JUMP: u32 = 0x02_F614;
+    pub const FIRE: u32 = 0x02_C24A;
+    pub const IDLE_ENTER_B: u32 = 0x02_DD74;
+    pub const EJECT: u32 = 0x02_BBF2;
+    pub const HIT_HANDLERS: u32 = 0x02_A060;
+    /// Disparo del cañón: munición (`+$90`), disparos en curso (`+$8F`,
+    /// tope `MAX_SHOTS`) y espera (`+$8E`).
+    pub const AMMO: u32 = 0x90;
+    pub const SHOTS: u32 = 0x8F;
+    pub const MAX_SHOTS: u8 = 2;
+    pub const COOLDOWN: u32 = 0x8E;
+    /// Configuración de controles y el botón de disparo según ella.
+    pub const CONTROL_LAYOUT: u32 = 0x10_6F2A;
+    /// Aviso de montado (`+$89`) y quién controla (`+$6D`).
+    pub const BOARDED: u32 = 0x89;
+    pub const CONTROLLER: u32 = 0x6D;
+    pub const NO_CONTROLLER: u8 = 0xFF;
+    /// Sonidos de motor que se piden una vez (mientras `+$8B` ≠ 0, que
+    /// luego se borra).
+    pub const ENGINE_SOUND_A: u16 = 0x108F;
+    pub const ENGINE_SOUND_B: u16 = 0x1092;
+}

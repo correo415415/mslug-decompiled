@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_hunker, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_hunker, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -365,6 +365,14 @@ fn grenade(m: &mut CpuMachine, back: bool) -> Flow {
         m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(facing);
     }
     Flow::Return
+}
+
+/// `engine_sound` dejando `d0` como el original (el código si sonó).
+fn engine_sound_regs(m: &mut CpuMachine, t: u32, code: u16) {
+    if m.read_u8(t + mslug_game::layout::slug_drive::BYTE_8B) != 0 {
+        m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(code);
+    }
+    slug_drive::engine_sound(m, t, code);
 }
 
 fn set_carry(m: &mut CpuMachine, c: bool) {
@@ -1982,6 +1990,30 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { m.cpu.a[0] = mslug_game::layout::player_ride::SLUG; let c = player_ride::slug_ready(m); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_A25C, original: "$02A25C", rust: "system::player_ride::scene_not_loaded",
                  run: |m| { let c = player_ride::scene_not_loaded(m); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_E9C8, original: "Slug_DriveAlt_02e9c8", rust: "system::slug_drive::enter", run: |m| slug_drive::enter(m) },
+    SystemPort { entry: 0x02_EA1C, original: "Slug_DriveAlt_02e9c8__L02ea1c", rust: "system::slug_drive::resume", run: |m| slug_drive::resume(m) },
+    SystemPort { entry: 0x02_EA26, original: "Slug_DriveAlt_02e9c8__L02ea26", rust: "system::slug_drive::drive", run: |m| slug_drive::drive(m) },
+    SystemPort { entry: 0x02_ABC0, original: "ClearXN_02abc0", rust: "(C = 0)", run: |m| { set_carry(m, false); Flow::Return } },
+    SystemPort { entry: 0x02_A328, original: "Slug_CallGroundProbeA_02a328", rust: "system::slug_drive::push_right",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_drive::push_right(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A34E, original: "Slug_CallGroundProbeB_02a34e", rust: "system::slug_drive::push_left",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_drive::push_left(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A59A, original: "Slug_CheckFreeThenC_02a59a", rust: "system::slug_drive::down_held",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_drive::down_held(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_ABC6, original: "$02ABC6", rust: "system::slug_drive::down_held",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_drive::down_held(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_AAF0, original: "Slug_InputDirByLayoutA_02aaf0", rust: "system::slug_drive::jump_dir",
+                 run: |m| { let t = m.cpu.a[6]; let d = slug_drive::jump_dir(m, t); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(d.unwrap_or(0)); set_carry(m, d.is_some()); Flow::Return } },
+    SystemPort { entry: 0x02_AAC0, original: "Slug_CanFire_02aac0", rust: "system::slug_drive::can_fire",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_drive::can_fire(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_AB86, original: "$02AB86", rust: "system::slug_drive::fire_pressed",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_drive::fire_pressed(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_AC80, original: "Slug_ConsumeField89_02ac80", rust: "system::slug_drive::left_alone",
+                 run: |m| { let t = m.cpu.a[6]; let c = slug_drive::left_alone(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A2F8, original: "Slug_StopMusic108F_02a2f8", rust: "system::slug_drive::engine_sound",
+                 run: |m| { let t = m.cpu.a[6]; engine_sound_regs(m, t, mslug_game::layout::slug_drive::ENGINE_SOUND_A); Flow::Return } },
+    SystemPort { entry: 0x02_A310, original: "Slug_StopMusic1092_02a310", rust: "system::slug_drive::engine_sound",
+                 run: |m| { let t = m.cpu.a[6]; engine_sound_regs(m, t, mslug_game::layout::slug_drive::ENGINE_SOUND_B); Flow::Return } },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara

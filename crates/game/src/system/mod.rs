@@ -54,6 +54,7 @@ pub mod scroll;
 pub mod slope;
 pub mod slug;
 pub mod slug_arm;
+pub mod slug_drive;
 pub mod slug_hunker;
 pub mod slug_idle;
 pub mod sprite;
