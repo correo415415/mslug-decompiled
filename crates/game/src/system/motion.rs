@@ -183,6 +183,8 @@ pub fn apply_latch(m: &mut impl Memory, t: u32) {
 /// el tipo de plataforma. Deja la plataforma en `PLATFORM_UNDER`.
 #[derive(Debug, Clone, Copy)]
 pub struct Surface {
+    /// Celda del mapa tal cual (el `d7` que deja el original).
+    pub raw: u8,
     pub kind: u8,
     pub record: u32,
     pub at: (u16, u16),
@@ -194,8 +196,8 @@ pub fn surface(m: &mut impl Memory, t: u32, x: u16, y: u16, at: (u16, u16)) -> S
     let platform = platforms::find_under(m, t, x, y);
     m.write_u8(C::PLATFORM_UNDER, platform.map_or(0x0F, |p| p.1));
     match platform {
-        Some((depth, _)) => Surface { kind: L::PLATFORM_KIND, record: C::PLATFORM_TILE, at: (0, depth) },
-        None => Surface { kind: tile.kind, record: tile.record, at: tile.frac.unwrap_or(at) },
+        Some((depth, _)) => Surface { raw: tile.raw, kind: L::PLATFORM_KIND, record: C::PLATFORM_TILE, at: (0, depth) },
+        None => Surface { raw: tile.raw, kind: tile.kind, record: tile.record, at: tile.frac.unwrap_or(at) },
     }
 }
 
@@ -415,6 +417,12 @@ pub fn move_e(m: &mut impl Memory, t: u32, at: (u16, u16)) -> bool {
 /// los pies es sólida y el tipo de tile lo permite (sin mirar hacia dónde
 /// va). Original: `$0277C4`.
 pub fn move_e_probe(m: &mut impl Memory, t: u32, at: (u16, u16)) -> bool {
+    move_e_probe_surface(m, t, at).0
+}
+
+/// [`move_e_probe`] devolviendo además la superficie mirada (el original
+/// deja su tipo en `d0` y la celda en `d7`).
+pub fn move_e_probe_surface(m: &mut impl Memory, t: u32, at: (u16, u16)) -> (bool, Surface) {
     platforms::apply_camera_work(m, t);
     integrate_velocity(m, t);
     advance(m, t);
@@ -430,5 +438,5 @@ pub fn move_e_probe(m: &mut impl Memory, t: u32, at: (u16, u16)) -> bool {
         let v = m.read_u8(L::NEW_SUB[k]);
         m.write_u8(C::WORK_SUB[k], v);
     }
-    hit
+    (hit, s)
 }
