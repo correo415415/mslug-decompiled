@@ -3,6 +3,8 @@
 //! y al dar en el suelo, en algo o al acabar su vida, explota o se pierde.
 //!
 //! Original: `PlayerGrenade_SpawnB_03093a` (y su bucle `$030B28`),
+//! `PlayerGrenade_SpawnFromVehicle_0308b0`, `PlayerGrenade_Spawn_0308c2`,
+//! `Vehicle_JmpDeploy_045FDE`,
 //! `PlayerGrenade_ExplodeGround_030bb6`, `PlayerGrenade_ExplodeAir_030bd6`,
 //! `JmpToScheduler_030bf6` y `PlayerGrenade_AngleFromSpread_030bfe`
 //! (`asm/player/tables_fx_030696.s`).
@@ -70,23 +72,63 @@ fn step(m: &mut impl Machine, t: u32) -> (bool, u8, u8) {
 /// Arranque de la bala. Original: `PlayerGrenade_SpawnB_03093a`.
 pub fn start(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
+    copy_source(m, t);
+    m.write_u32(t + L::ATTACKS, L::ATTACK_LIST);
+    slug::clear_flags13(m, t);
+    m.write_u16(t + L::ATTR, L::ATTR_INIT);
+    spawn_flash(m, t);
+    m.write_u16(t + L::GFX_FIELD, L::GFX);
+    anim::alloc_entry(m, t, L::GFX);
+    start_script(m, t, L::SCRIPTS);
+    launch(m, t)
+}
+
+/// Variantes con otro gráfico y otra tabla de guiones: el gráfico va
+/// primero y la lista de ataques al final. Original:
+/// `PlayerGrenade_SpawnFromVehicle_0308b0` (gráfico `GFX_VEHICLE`) y
+/// `PlayerGrenade_Spawn_0308c2` (gráfico `GFX`).
+pub fn start_alt(m: &mut impl Machine, gfx: u16) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::GFX_FIELD, gfx);
+    anim::alloc_entry(m, t, gfx);
+    copy_source(m, t);
+    m.write_u16(t + L::ATTR, L::ATTR_INIT);
+    spawn_flash(m, t);
+    start_script(m, t, L::SCRIPTS_ALT);
+    m.write_u32(t + L::ATTACKS, L::ATTACK_LIST);
+    slug::clear_flags13(m, t);
+    launch(m, t)
+}
+
+/// Copia el ángulo y la ráfaga que dejó quien dispara y marca la bala.
+fn copy_source(m: &mut impl Memory, t: u32) {
     let angle = m.read_u8(t + L::ANGLE_SRC);
     m.write_u8(t + L::ANGLE, angle);
     let burst = m.read_u8(t + L::BURST_SRC);
     m.write_u8(t + L::BURST, burst);
     set_bits(m, t + L::FLAGS_6B, L::BULLET_FLAG, true);
-    m.write_u32(t + L::ATTACKS, L::ATTACK_LIST);
-    slug::clear_flags13(m, t);
-    m.write_u16(t + L::ATTR, L::ATTR_INIT);
+}
+
+fn spawn_flash(m: &mut impl Memory, t: u32) {
     let flash = tasks::spawn(m, L::FLASH, t);
     anim::copy_sprite_pos(m, t, flash);
-    m.write_u16(t + L::GFX_FIELD, L::GFX);
-    anim::alloc_entry(m, t, L::GFX);
-    let base = u16::from(angle) & L::ANGLE_MASK;
-    let script = m.read_u32(L::SCRIPTS + u32::from(base >> 4) * 4);
+}
+
+/// Guion de la tabla `scripts` según el ángulo.
+fn start_script(m: &mut impl Memory, t: u32, scripts: u32) {
+    let base = u16::from(m.read_u8(t + L::ANGLE)) & L::ANGLE_MASK;
+    let script = m.read_u32(scripts + u32::from(base >> 4) * 4);
     if script != L::NO_SCRIPT {
         anim::start(m, t, script);
     }
+}
+
+/// Sale: sin movimiento heredado, ángulo con la desviación, el paso atrás
+/// de las ráfagas impares, la velocidad y el giro con el brazo; sigue en el
+/// bucle. Original: `PlayerGrenade_SpawnB_03093a__L0309ae`.
+pub fn launch(m: &mut impl Machine, t: u32) -> Flow {
+    let base = u16::from(m.read_u8(t + L::ANGLE)) & L::ANGLE_MASK;
+    let burst = m.read_u8(t + L::BURST);
     manual_icons::stop_motion(m, t);
     let spread = m.read_u8(t + L::SPREAD);
     let a = launch_angle(m, base, spread);

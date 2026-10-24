@@ -3370,6 +3370,10 @@ pub mod bullet {
     pub const GFX_FIELD: u32 = 0x9E;
     pub const GFX: u16 = 2;
     pub const SCRIPTS: u32 = 0x29_D452;
+    /// Variantes `$0308B0` / `$0308C2`: su tabla de guiones y el gráfico
+    /// de la del vehículo.
+    pub const SCRIPTS_ALT: u32 = 0x29_D4D2;
+    pub const GFX_VEHICLE: u16 = 0x1D6;
     pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
     /// Desviación según la configuración (`CONTROL_LAYOUT`) o el modo de
     /// pruebas (`DEBUG` bit 1).
