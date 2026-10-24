@@ -1368,6 +1368,176 @@ pub mod player {
     pub const NO_CONTROLLER: u8 = 0xFF;
 }
 
+/// Brazo del jugador (`system::player_arm`): tarea hija que dibuja el
+/// brazo y el arma encima del cuerpo y elige su animación según el estado
+/// del cuerpo.
+pub mod player_arm {
+    /// Una pose: su rutina y las tablas de guiones (una por arma y jugador,
+    /// 10 punteros) entre las que elige.
+    pub type Pose = (u32, &'static [u32]);
+    /// Alta: sprites de cada jugador (cuerpo del brazo y dos de arma),
+    /// tipo de entidad y guion inicial.
+    pub const GFX: [[u16; 3]; 2] = [[0x176, 0x190, 0x191], [0x177, 0x190, 0x192]];
+    pub const KIND: u32 = 0x1C;
+    pub const KINDS: [u16; 2] = [0x1B, 0x1C];
+    pub const START_SCRIPT: u32 = 0x27_AAEA;
+    pub const RUN: u32 = 0x03_9532;
+    /// Atributos del sprite: la prioridad que se pone al nacer (sólo P1) y
+    /// la que se limpia cada frame.
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_PRIO: [u16; 2] = [0x2, 0x0];
+    pub const ATTR_CLEAR_PRIO: u16 = 0xFFFC;
+    /// `+$12` bit 4: segundo jugador.
+    pub const FLAGS_12: u32 = 0x12;
+    pub const SECOND: u8 = 1 << 4;
+    /// `+$13` bit 0: muerto (el cuerpo lo libera).
+    pub const FLAGS_13: u32 = 0x13;
+    pub const DEAD: u8 = 1 << 0;
+    pub const SPRITE_ATTR: u32 = 0x14;
+    pub const SPRITE_ATTR_BASE: u32 = 0x16;
+    pub const IGNORE: u32 = 0x6B;
+    pub const PLAIN_FLOOR: u8 = 1 << 6;
+    pub const LEVELS: [u32; 2] = [0x32, 0x33];
+    /// Byte que el reinicio borra por un registro sin inicializar (que tras
+    /// reservar los sprites apunta a la tabla de sprites).
+    pub const STRAY: u32 = 0x87;
+    pub const SPRITE_TABLE: u32 = 0x10_82C8;
+    pub const RAM: core::ops::Range<u32> = 0x10_0000..0x11_0000;
+    pub const STATUS: u32 = 0x8C;
+    pub const STATUS_BIT2: u8 = 1 << 2;
+    pub const MODE: u32 = 0x72;
+    pub const BYTE_91: u32 = 0x91;
+    pub const FIELD_36: u32 = 0x36;
+    pub const ATTACK: u32 = 0x48;
+    pub const NO_ATTACK: u32 = 0xFFFF_FFFF;
+    /// Campos del cuerpo que se miran: estado, arma, desplazamiento del
+    /// brazo, orientación, flags, la pose que pide y su modo.
+    pub const OWNER_STATE: u32 = 0x70;
+    pub const OWNER_WEAPON: u32 = 0x71;
+    pub const OWNER_FLAGS_69: u32 = 0x69;
+    pub const OWNER_WANTS_POSE: u8 = 1 << 5;
+    pub const OWNER_POSE: u32 = 0x74;
+    pub const OWNER_BYTE_21: u32 = 0x21;
+    pub const OWNER_AIM: u32 = 0x78;
+    pub const OWNER_AIM_UP: u8 = 1 << 2;
+    pub const OWNER_HISTORY: u32 = 0x79;
+    pub const OWNER_BOMBS: u32 = 0x80;
+    pub const OFFSET_X: u32 = 0x7C;
+    pub const OFFSET_Y: u32 = 0x7E;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    pub const FLAGS_5A: u32 = 0x5A;
+    pub const FLAG_5A_7: u8 = 1 << 7;
+    pub const BYTE_59: u32 = 0x59;
+    /// Segundo jugador: su arma usa la segunda mitad de cada tabla.
+    pub const SECOND_PLAYER: u32 = 0x10_04E0;
+    pub const SECOND_WEAPON_BASE: u16 = 5;
+    /// Atributo del sprite según el nibble bajo de `+$87` (tabla de campos).
+    pub const INVULN: u32 = 0x87;
+    pub const ATTR_FIELDS: u32 = 0x03_29EE;
+    /// Contador de las poses que alternan y la tabla de ataque que fijan.
+    pub const TOGGLE: u32 = 0x30;
+    pub const HIT_LIST: u32 = 0x4C;
+    pub const MELEE_HITS: u32 = 0x03_92A4;
+    /// Llamadas del guion: valor al azar en `+$47` y el sonido del golpe
+    /// cuerpo a cuerpo (si `+$5A` bit 2).
+    pub const RAND_47: u32 = 0x47;
+    pub const RAND_47_MASK: u8 = 0x0A;
+    pub const HIT_SOUND: u8 = 1 << 2;
+    pub const MELEE_SOUND: u16 = 0x10FB;
+    /// Estados del cuerpo con trato especial: los que repiten la pose al
+    /// cambiar de modo (y el par de poses que lo hacen) y los de aire.
+    pub const STATES_REPOSE: [(u8, [u32; 2]); 3] = [
+        (0x10, [0x03_9E54, 0x03_9F56]),
+        (0x11, [0x03_A058, 0x03_A108]),
+        (0x12, [0x03_A1B8, 0x03_A268]),
+    ];
+    pub const STATES_KEEP: [u8; 3] = [0x21, 0x22, 0x23];
+    pub const STATES_AIR: [(u8, u32); 4] = [(0x25, 0x03_A60A), (0x27, 0x03_A60A), (0x26, 0x03_A656), (0x28, 0x03_A656)];
+    pub const POSE00: Pose = (0x03_9460, &[0x03_947C]);
+    pub const CROUCH: Pose = (0x03_98A8, &[0x03_98CA]);
+    pub const CROUCH_B: Pose = (0x03_98F4, &[0x03_9916]);
+    pub const IDLE: Pose = (0x03_9940, &[0x03_9962]);
+    pub const CROUCH_WEAPON_EMPTY: Pose = (0x03_998C, &[0x03_99AE]);
+    pub const SPAWN_LAND: Pose = (0x03_99D8, &[0x03_99FA]);
+    pub const SPAWN_LAND_B: Pose = (0x03_9A24, &[0x03_9A46]);
+    pub const SHOOT_STAND_A: Pose = (0x03_9A70, &[0x03_9A8C]);
+    pub const SHOOT_STAND_B: Pose = (0x03_9AB6, &[0x03_9AD8]);
+    pub const SHOOT_STAND_C: Pose = (0x03_9B02, &[0x03_9B24]);
+    pub const SHOOT_STAND_D: Pose = (0x03_9B4E, &[0x03_9B6A]);
+    pub const SHOOT_STAND_UP_A: Pose = (0x03_9B94, &[0x03_9BBE, 0x03_9C1C]);
+    pub const SHOOT_STAND_UP_B: Pose = (0x03_9C8E, &[0x03_9D10, 0x03_9CBE]);
+    pub const MELEE_A: Pose = (0x03_9D82, &[0x03_9D9E]);
+    pub const MELEE_B: Pose = (0x03_9DC8, &[0x03_9DE4]);
+    pub const POSE: Pose = (0x03_9E0E, &[0x03_9E2A]);
+    pub const STAND: Pose = (0x03_9E54, &[0x03_9E92, 0x03_9EE4, 0x03_9F2C]);
+    pub const STAND_ALT: Pose = (0x03_9F56, &[0x03_9F94, 0x03_9FE6, 0x03_A02E]);
+    pub const WALK: Pose = (0x03_A058, &[0x03_A096, 0x03_A0DE]);
+    pub const WALK_ALT: Pose = (0x03_A108, &[0x03_A146, 0x03_A18E]);
+    pub const WALK_LOOP: Pose = (0x03_A1B8, &[0x03_A1F6, 0x03_A23E]);
+    pub const WALK_LOOP_ALT: Pose = (0x03_A268, &[0x03_A2A6, 0x03_A2EE]);
+    pub const WALK_SHOOT_A: Pose = (0x03_A318, &[0x03_A334]);
+    pub const WALK_SHOOT_B: Pose = (0x03_A35E, &[0x03_A37A]);
+    pub const WALK_SHOOT_C: Pose = (0x03_A3A4, &[0x03_A3C6]);
+    pub const WALK_SHOOT_D: Pose = (0x03_A3F0, &[0x03_A412]);
+    pub const WALK_SHOOT_E: Pose = (0x03_A43C, &[0x03_A458]);
+    pub const WALK_SHOOT_F: Pose = (0x03_A482, &[0x03_A49E]);
+    pub const TURN_A: Pose = (0x03_A4C8, &[0x03_A4EA]);
+    pub const TURN_B: Pose = (0x03_A514, &[0x03_A536]);
+    pub const JUMP_MELEE: Pose = (0x03_A560, &[0x03_A58A, 0x03_A5D2]);
+    pub const JUMP: Pose = (0x03_A60A, &[0x03_A62C]);
+    pub const FALL: Pose = (0x03_A656, &[0x03_A678]);
+    pub const AIR_UNREF: Pose = (0x03_A6A2, &[0x03_A6C4]);
+    pub const AIR_B: Pose = (0x03_A6EE, &[0x03_A710]);
+    pub const AIR_SHOOT_A: Pose = (0x03_A73A, &[0x03_A760, 0x03_A7B2, 0x03_A7FA]);
+    /// Segunda entrada de `AirShootA` (sólo se llega por la tabla de animaciones).
+    pub const AIR_SHOOT_A2: Pose = (0x03_A824, &[0x03_A84A, 0x03_A89A, 0x03_A8E2]);
+    pub const AIR_SHOOT_B: Pose = (0x03_A90C, &[0x03_A932, 0x03_A984, 0x03_A9CC]);
+    pub const AIR_SHOOT_C: Pose = (0x03_A9F6, &[0x03_AA1C, 0x03_AA6E, 0x03_AAB6]);
+    pub const JUMP_SHOOT_A: Pose = (0x03_AAE0, &[0x03_AB06, 0x03_AB58, 0x03_ABAA, 0x03_ABF2]);
+    pub const FALL_SHOOT_A: Pose = (0x03_AC1C, &[0x03_AC42, 0x03_AC94, 0x03_ACE6, 0x03_AD2E]);
+    pub const JUMP_SHOOT_B: Pose = (0x03_AD58, &[0x03_AD7E, 0x03_ADD0, 0x03_AE22, 0x03_AE6A]);
+    pub const FALL_SHOOT_B: Pose = (0x03_AE94, &[0x03_AEBA, 0x03_AF0C, 0x03_AF5E, 0x03_AFA6]);
+    pub const JUMP_SHOOT_C: Pose = (0x03_AFD0, &[0x03_AFF6, 0x03_B048, 0x03_B09A, 0x03_B0E2]);
+    pub const FALL_SHOOT_C: Pose = (0x03_B10C, &[0x03_B132, 0x03_B184, 0x03_B1D6, 0x03_B21E]);
+    pub const JUMP_SHOOT_D: Pose = (0x03_B248, &[0x03_B26E, 0x03_B2C0, 0x03_B312, 0x03_B35A]);
+    pub const FALL_SHOOT_D: Pose = (0x03_B384, &[0x03_B3AA, 0x03_B3FC, 0x03_B44E, 0x03_B496]);
+    pub const JUMP_SHOOT_DOWN_A: Pose = (0x03_B4C0, &[0x03_B4E6, 0x03_B538, 0x03_B580]);
+    pub const FALL_SHOOT_DOWN_A: Pose = (0x03_B5AA, &[0x03_B5D0, 0x03_B622, 0x03_B66A]);
+    pub const JUMP_SHOOT_DOWN_B: Pose = (0x03_B694, &[0x03_B6BA, 0x03_B70C, 0x03_B754]);
+    pub const FALL_SHOOT_DOWN_B: Pose = (0x03_B77E, &[0x03_B7A4, 0x03_B7F6, 0x03_B83E]);
+    pub const JUMP_SHOOT_DOWN_C: Pose = (0x03_B868, &[0x03_B88E, 0x03_B8E0, 0x03_B928]);
+    pub const FALL_SHOOT_DOWN_C: Pose = (0x03_B952, &[0x03_B978, 0x03_B9CA, 0x03_BA12]);
+    pub const SHOOT_DOWN_UNREF_A: Pose = (0x03_BA3C, &[0x03_BA62, 0x03_BAB4, 0x03_BAFC]);
+    pub const SHOOT_DOWN_UNREF_B: Pose = (0x03_BB26, &[0x03_BB4C, 0x03_BB9E, 0x03_BBE6]);
+    pub const DEATH_A: Pose = (0x03_BC10, &[0x03_BC38]);
+    pub const DEATH_B: Pose = (0x03_BC62, &[0x03_BC8A]);
+    pub const DEATH_C: Pose = (0x03_BCB4, &[0x03_BCDC]);
+    pub const DEATH_D: Pose = (0x03_BD06, &[0x03_BD2E]);
+    pub const DEATH_E: Pose = (0x03_BD58, &[0x03_BD80]);
+    pub const DEATH_F: Pose = (0x03_BDAA, &[0x03_BDD2]);
+    pub const DEATH_G: Pose = (0x03_BDFC, &[0x03_BE24]);
+    pub const DEATH_H: Pose = (0x03_BE4E, &[0x03_BE76]);
+    pub const SPAWN_FALL: Pose = (0x03_BEA0, &[0x03_BEC2]);
+    pub const CROUCH_ENTER_A: Pose = (0x03_BEEC, &[0x03_BF0E]);
+    pub const CROUCH_UNREF: Pose = (0x03_BF38, &[0x03_BF5A]);
+    pub const CROUCH_ENTER_B: Pose = (0x03_BF84, &[0x03_BFA6]);
+    pub const CROUCH_IDLE_A: Pose = (0x03_BFD0, &[0x03_BFFC]);
+    pub const CROUCH_IDLE_B: Pose = (0x03_C06E, &[0x03_C09A]);
+    pub const CROUCH_SHOOT: Pose = (0x03_C10C, &[0x03_C138]);
+    pub const CRAWL_A: Pose = (0x03_C1AA, &[0x03_C1CC]);
+    pub const CRAWL_UNREF: Pose = (0x03_C1F6, &[0x03_C218]);
+    pub const CRAWL_B: Pose = (0x03_C242, &[0x03_C264]);
+    pub const CROUCH_GRENADE: Pose = (0x03_C28E, &[0x03_C2AA]);
+    pub const MELEE_C: Pose = (0x03_C2D4, &[0x03_C2FC, 0x03_C344]);
+    pub const AIR_MELEE_A: Pose = (0x03_C36E, &[0x03_C394, 0x03_C3E6, 0x03_C42E]);
+    pub const AIR_MELEE_B: Pose = (0x03_C458, &[0x03_C47E, 0x03_C4D0, 0x03_C518]);
+    pub const CROUCH_MELEE: Pose = (0x03_C542, &[0x03_C55E]);
+    pub const CROUCH_RELOAD: Pose = (0x03_C588, &[0x03_C5B2, 0x03_C5FA]);
+}
+
 /// Plataformas móviles (`system::platforms`).
 pub mod platforms {
     /// Anillo de 16 muestras de 12 bytes: cola de lectura, fin de las
