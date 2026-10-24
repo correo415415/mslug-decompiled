@@ -1533,6 +1533,32 @@ pub mod player_ground {
     pub const THROW_SCRIPT: u32 = 0x27_9D2E;
     pub const THROW_LOOP: u32 = 0x03_6152;
     pub const BYTE_3B: u32 = 0x3B;
+    /// Andar: estado, guiones (adelante y apuntando arriba), la pose que
+    /// marca el cambio de apuntado, velocidad, bucles y los estados a los
+    /// que se pasa (parar, disparar andando).
+    pub const STATE_WALK: u8 = 0x11;
+    pub const WALK_SCRIPT: u32 = 0x27_9882;
+    pub const WALK_UP_SCRIPT: u32 = 0x27_9878;
+    pub const WALK_AIM_POSE: u32 = 0x03_A058;
+    pub const WALK_SPEED: u16 = 0x300;
+    pub const WALK_RIGHT_LOOP: u32 = 0x03_4BCA;
+    pub const WALK_LEFT_LOOP: u32 = 0x03_4DC4;
+    pub const STAND_FROM_WALK: u32 = 0x03_45FA;
+    pub const WALK_SHOOT: [u32; 2] = [0x03_4ECA, 0x03_51B0];
+    pub const WALK_SHOOT_UP: [u32; 2] = [0x03_503E, 0x03_51C4];
+    /// Andar ya lanzado: estado, guiones (adelante y apuntando arriba),
+    /// bucles, parar desde aquí y disparar (adelante y arriba) por lado.
+    pub const STATE_WALK_LONG: u8 = 0x12;
+    pub const WALK_LONG_SCRIPT: u32 = 0x27_9926;
+    pub const WALK_LONG_UP_SCRIPT: u32 = 0x27_991C;
+    pub const WALK_LONG_RIGHT_RUN: u32 = 0x03_5276;
+    pub const WALK_LONG_LEFT_RUN: u32 = 0x03_5590;
+    pub const IDLE_STATE_CHECK: u32 = 0x03_4046;
+    pub const WALK_LONG_SHOOT: [u32; 2] = [0x03_57AA, 0x03_57D2];
+    pub const WALK_LONG_SHOOT_UP: [u32; 2] = [0x03_57BE, 0x03_57E6];
+    /// Parar de andar: guion y bucle.
+    pub const STOP_SCRIPT: u32 = 0x27_9A96;
+    pub const STOP_LOOP: u32 = 0x03_411A;
 }
 
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
@@ -3372,6 +3398,64 @@ pub mod bullet {
     pub const VANISH_KIND: u8 = 0x38;
     pub const CELL_HIGH: u8 = 0xC0;
     pub const MARGINS: u32 = 0x03_08A8;
+}
+
+/// Granada de mano del jugador (`system::grenade`).
+pub mod grenade {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    pub const PARENT: u32 = 0x0C;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const HIT: u8 = 1 << 1;
+    pub const BURST: u8 = 1 << 3;
+    pub const ARMED: u32 = 0x3B;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const BOUNCES: u32 = 0x5C;
+    pub const FLAGS_6B: u32 = 0x6B;
+    pub const FLAGS_6B_BIT4: u8 = 1 << 4;
+    pub const START_Y: u32 = 0x82;
+    pub const NONE: u32 = 0xFFFF_FFFF;
+    /// Lanzamiento: velocidades, gravedad, atributos, guion, ataques y
+    /// gráficos; sale `RAISE` por debajo del padre.
+    pub const THROW_VEL: (u16, u16) = (0xFAE2, 0x0CCB);
+    pub const THROW_GRAVITY: u16 = 0xFEFA;
+    pub const ATTR_THROWN: u16 = 0xD000;
+    pub const SCRIPT: u32 = 0x28_D3E2;
+    pub const ATTACKS_FLY: u32 = 0x28_D152;
+    pub const GFX: [u16; 3] = [0x14C, 1, 0x14C];
+    pub const POOL: u32 = 0x10_08A0;
+    pub const RAISE: u16 = 0x10;
+    /// Bote: velocidades, gravedad y lo que baja.
+    pub const BOUNCE_VEL: (u16, u16) = (0xFCE0, 0x03C0);
+    pub const BOUNCE_GRAVITY: u16 = 0xFF88;
+    pub const BOUNCE_DROP: u16 = 8;
+    /// Por debajo de esta velocidad vertical frena en horizontal.
+    pub const DRAG_BELOW: i16 = -0x100;
+    /// Con este flag la granada se para al tocar suelo (otro movimiento).
+    pub const STOP_MODE: u32 = 0x10_81AE;
+    /// Se pierde por arriba o por la derecha.
+    pub const MIN_Y: i16 = 0x100;
+    pub const MAX_X: u16 = 0x150;
+    /// Explosión y estallido: sonido, gráficos, guiones y ataques.
+    pub const SOUND: u16 = 0x1027;
+    pub const EXPLODE_GFX: u16 = 0x178;
+    pub const EXPLODE_SCRIPT: u32 = 0x29_E76C;
+    pub const EXPLODE_ATTACKS: u32 = 0x28_D29A;
+    pub const BURST_GFX: u16 = 0xD;
+    pub const BURST_SCRIPT: u32 = 0x28_D52E;
+    pub const BURST_ATTACKS: u32 = 0x28_D1F6;
+    /// Rutinas.
+    pub const FLY: u32 = 0x28_D91E;
+    pub const BLAST: u32 = 0x28_D74E;
+    pub const FADE: u32 = 0x28_D76E;
 }
 
 /// Estallidos y humo de corta vida (`system::burst`).

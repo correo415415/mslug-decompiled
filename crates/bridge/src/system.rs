@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -1849,8 +1849,32 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x03_3B5E, original: "Player_CrouchB_033afc__L033b5e", rust: "system::player_ground::idle_pose_loop", run: |m| player_ground::idle_pose_loop(m) },
     SystemPort { entry: 0x03_60BC, original: "Player_ThrowGrenade_Stand_0360bc", rust: "system::player_ground::throw_stand", run: |m| player_ground::throw_stand(m) },
     SystemPort { entry: 0x03_6152, original: "Player_ThrowGrenade_Stand_0360bc__L036152", rust: "system::player_ground::throw_stand_loop", run: |m| player_ground::throw_stand_loop(m) },
+    SystemPort { entry: 0x03_4B38, original: "Player_WalkRight_034b38", rust: "system::player_ground::walk", run: |m| player_ground::walk(m, false) },
+    SystemPort { entry: 0x03_4BA4, original: "Player_WalkRight_Setup_034ba4", rust: "system::player_ground::walk_setup", run: |m| { let t = m.cpu.a[6]; player_ground::walk_setup(m, t, false) } },
+    SystemPort { entry: 0x03_4BCA, original: "Player_WalkRight_034b38__L034bca", rust: "system::player_ground::walk_loop", run: |m| player_ground::walk_loop(m, false) },
+    SystemPort { entry: 0x03_4D32, original: "Player_WalkLeft_034d32", rust: "system::player_ground::walk", run: |m| player_ground::walk(m, true) },
+    SystemPort { entry: 0x03_4D9E, original: "Player_WalkLeft_Setup_034d9e", rust: "system::player_ground::walk_setup", run: |m| { let t = m.cpu.a[6]; player_ground::walk_setup(m, t, true) } },
+    SystemPort { entry: 0x03_4DC4, original: "Player_WalkLeft_034d32__L034dc4", rust: "system::player_ground::walk_loop", run: |m| player_ground::walk_loop(m, true) },
+    SystemPort { entry: 0x03_4CCC, original: "Player_WalkRight_Tail_034ccc", rust: "system::player_ground::walk_tail",
+                 run: |m| { let t = m.cpu.a[6]; player_ground::walk_tail(m, t); Flow::Return } },
+    SystemPort { entry: 0x03_51D8, original: "Player_WalkLoopRight_0351d8", rust: "system::player_ground::walk_long", run: |m| player_ground::walk_long(m, false) },
+    SystemPort { entry: 0x03_5250, original: "Player_WalkLoopRight_Setup_035250", rust: "system::player_ground::walk_long_setup", run: |m| { let t = m.cpu.a[6]; player_ground::walk_long_setup(m, t, false) } },
+    SystemPort { entry: 0x03_5276, original: "Player_WalkLoopRight_0351d8__L035276", rust: "system::player_ground::walk_long_run", run: |m| player_ground::walk_long_run(m, false) },
+    SystemPort { entry: 0x03_54F2, original: "Player_WalkLoopLeft_0354f2", rust: "system::player_ground::walk_long", run: |m| player_ground::walk_long(m, true) },
+    SystemPort { entry: 0x03_556A, original: "Player_WalkLoopLeft_Setup_03556a", rust: "system::player_ground::walk_long_setup", run: |m| { let t = m.cpu.a[6]; player_ground::walk_long_setup(m, t, true) } },
+    SystemPort { entry: 0x03_5590, original: "Player_WalkLoopLeft_Run_035590", rust: "system::player_ground::walk_long_run", run: |m| player_ground::walk_long_run(m, true) },
+    SystemPort { entry: 0x03_4046, original: "Player_Idle_StateCheck_034046", rust: "system::player_ground::stop", run: |m| player_ground::stop(m) },
+    SystemPort { entry: 0x03_411A, original: "Player_Idle_StateCheck_034046__L03411a", rust: "system::player_ground::stop_loop", run: |m| player_ground::stop_loop(m) },
     SystemPort { entry: 0x03_3256, original: "Player_ThrowGrenadeBack_033256", rust: "system::player_fire::grenade", run: |m| grenade(m, true) },
     SystemPort { entry: 0x03_32BC, original: "Player_ThrowGrenade_0332bc", rust: "system::player_fire::grenade", run: |m| grenade(m, false) },
+    SystemPort { entry: 0x03_3346, original: "JmpAbsThunk_033346", rust: "system::grenade::throw", run: |m| grenade::throw(m) },
+    SystemPort { entry: 0x28_D876, original: "$28D876", rust: "system::grenade::throw", run: |m| grenade::throw(m) },
+    SystemPort { entry: 0x28_D91E, original: "$28D91E", rust: "system::grenade::fly", run: |m| grenade::fly(m) },
+    SystemPort { entry: 0x28_D6BC, original: "$28D6BC", rust: "system::grenade::explode", run: |m| grenade::explode(m) },
+    SystemPort { entry: 0x28_D706, original: "$28D706", rust: "system::grenade::burst", run: |m| grenade::burst(m) },
+    SystemPort { entry: 0x28_D74E, original: "$28D74E", rust: "system::grenade::blast", run: |m| grenade::blast(m) },
+    SystemPort { entry: 0x28_D76E, original: "$28D76E", rust: "system::grenade::fade", run: |m| grenade::fade(m) },
+    SystemPort { entry: 0x28_D794, original: "$28D794", rust: "system::tasks::finish", run: |m| tasks::finish(m) },
     // --- escombros de la escena 3
     SystemPort { entry: 0x03_D616, original: "Scene3Debris_Spawn_03d616", rust: "system::debris::spawn", run: |m| debris_spawn(m, 0) },
     SystemPort { entry: 0x03_D640, original: "Scene3Debris_SpawnLow8_03d640", rust: "system::debris::spawn", run: |m| debris_spawn(m, 1) },
