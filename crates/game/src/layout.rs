@@ -1796,6 +1796,10 @@ pub mod player_arm {
     pub const STATES_KEEP: [u8; 3] = [0x21, 0x22, 0x23];
     pub const STATES_AIR: [(u8, u32); 4] = [(0x25, 0x03_A60A), (0x27, 0x03_A60A), (0x26, 0x03_A656), (0x28, 0x03_A656)];
     pub const POSE00: Pose = (0x03_9460, &[0x03_947C]);
+    /// Montado en el Slug (dos poses) y la segunda caída.
+    pub const SLUG_RIDE_A: Pose = (0x03_C632, &[0x03_C654]);
+    pub const SLUG_RIDE_B: Pose = (0x03_C67E, &[0x03_C69A]);
+    pub const FALL2: Pose = (0x03_C6C4, &[0x03_C6E6]);
     pub const CROUCH: Pose = (0x03_98A8, &[0x03_98CA]);
     pub const CROUCH_B: Pose = (0x03_98F4, &[0x03_9916]);
     pub const IDLE: Pose = (0x03_9940, &[0x03_9962]);

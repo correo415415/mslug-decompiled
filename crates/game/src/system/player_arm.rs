@@ -217,6 +217,9 @@ enum Rule {
 
 const POSES: &[(L::Pose, Rule)] = &[
     (L::POSE00, Rule::Finish),
+    (L::SLUG_RIDE_A, Rule::Plain),
+    (L::SLUG_RIDE_B, Rule::Plain),
+    (L::FALL2, Rule::Plain),
     (L::CROUCH, Rule::Plain),
     (L::CROUCH_B, Rule::Plain),
     (L::IDLE, Rule::Plain),
