@@ -9,7 +9,8 @@
 //! `Player_Knockback_AirCtrl_036dca`, `Player_Fall_Physics_036e42`,
 //! `Player_KnockbackDelay_036fc2`, `Player_KnockbackHold_037018`,
 //! `PlayerAnimState_03705A`, `Player_AirActionSelect_037168`,
-//! `Player_Air_Tail_036c3a` (`asm/player/air_death_crouch_036632.s`),
+//! `Player_Air_Tail_036c3a`, el salto (`Player_JumpStart_036914`, su espera
+//! `$036A36` y `Player_JumpAir_036a70`) (`asm/player/air_death_crouch_036632.s`),
 //! `Player_ActionSelect_0330d0` / `_B_0331ae` / `_B_Fire_0331ce`,
 //! `PlayerRoute_PublishState_033522`, `$0334A2` / `Player_DeathGate_0334c6`
 //! (`asm/player/core_032aa8.s`), `TargetRing_*` (`$08F470`, `$08F520`) y
@@ -538,4 +539,118 @@ pub fn take_ring(m: &mut impl Memory, t: u32, id: u8) -> bool {
         m.write_u16(L::RINGS + L::RING_COUNT, n + 1);
     }
     true
+}
+
+/// Salto: limpia el brazo, pose de salto (con carrerilla o parado; apuntando
+/// abajo, otra), velocidad hacia arriba, gravedad del salto, el contador
+/// del salto largo, caja de golpe en el aire y la espera.
+/// Original: `Player_JumpStart_036914`.
+pub fn jump_start(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    clear_arm(m, t);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    let (state, script) = if m.read_u16(t + L::VEL_X) != 0 {
+        (L::STATE_JUMP, L::JUMP_RUN_SCRIPT)
+    } else {
+        (L::STATE_FALL, L::KNOCK_SCRIPT)
+    };
+    restart_pose(m, t, (0, 0), state, script);
+    player::dir_nibble(m, t);
+    if m.read_u8(t + L::AIM) == L::AIM_DOWN {
+        set_attr_bit0(m, t, false);
+        m.write_u16(t + L::MODE, L::MODE_DOWN);
+        if m.read_u8(t + L::STATE) == L::STATE_FALL {
+            restart_pose(m, t, (0, 7), L::STATE_FALL, L::FALL_DOWN_SCRIPT);
+        } else {
+            restart_pose(m, t, (2, 2), L::STATE_JUMP, L::JUMP_DOWN_SCRIPT);
+        }
+    }
+    m.write_u16(t + L::VEL_Y, L::JUMP_VEL);
+    m.write_u16(t + L::ACC_Y, L::JUMP_GRAVITY);
+    m.write_u8(t + L::JUMP_TIMER, L::JUMP_TIMER_FRAMES);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_AIR);
+    set_handler(m, t, L::JUMP_WAIT);
+    jump_wait(m)
+}
+
+fn restart_pose(m: &mut impl Memory, t: u32, off: (u16, u16), state: u8, script: u32) {
+    pose(m, t, off, state, script);
+    m.write_u8(t + L::BYTE_21, 0xFF);
+    anim::start(m, t, script);
+}
+
+/// Espera del salto: si B sigue mantenido en el frame 4, salto largo; si
+/// el contador llega a 0, salto corto (un cuarto de la velocidad). Cada
+/// frame, además, el salto en el aire.
+/// Original: `Player_JumpStart_036914__L036a36`.
+pub fn jump_wait(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let n = m.read_u8(t + L::JUMP_TIMER).wrapping_sub(1);
+    m.write_u8(t + L::JUMP_TIMER, n);
+    if n == L::JUMP_HOLD_FRAME && input::pressed(m, Entity::from_raw(t), Buttons::B, Edge::Held) {
+        set_handler(m, t, L::JUMP_AIR);
+    }
+    if n == 0 {
+        let vy = m.read_u16(t + L::VEL_Y) as i16 >> 2;
+        m.write_u16(t + L::VEL_Y, vy as u16);
+        set_handler(m, t, L::JUMP_AIR);
+    }
+    jump_air(m)
+}
+
+/// Un frame de salto: control horizontal (al pulsar A o C se gira), freno,
+/// límites, movimiento con caída y aterrizaje, animación, y al bajar montar
+/// el Slug, anilla o pared; si no, la acción en el aire. Con el modo de
+/// depuración `DEBUG_FREEZE` no se mueve. Original: `Player_JumpAir_036a70`.
+pub fn jump_air(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let turn = a_or_c_pressed(m, t);
+    let h = input::horizontal_held(m, Entity::from_raw(t));
+    let acc = m.read_u16(L::VEL_TABLE + u32::from(h) * 2);
+    m.write_u16(t + L::ACC_X, acc);
+    if turn && acc != 0 {
+        set_bits(m, t + L::FACING, L::FACING_LEFT, (acc as i16) < 0);
+    }
+    let vx = m.read_u16(t + L::VEL_X);
+    if acc == 0 && vx != 0 {
+        let brake = if (vx as i16) < 0 { L::BRAKE } else { L::BRAKE.wrapping_neg() };
+        m.write_u16(t + L::ACC_X, brake);
+    }
+    let vx = m.read_u16(t + L::VEL_X);
+    m.write_u16(t + L::VEL_X, clamp(vx, L::MAX_VEL_X));
+    let vy = m.read_u16(t + L::VEL_Y);
+    if (vy as i16) <= 0 {
+        m.write_u16(t + L::VEL_Y, clamp(vy, L::MAX_JUMP_VEL_Y));
+    }
+    player::frame_common_no_prio(m, t);
+    set_bits(m, t + L::AIR, L::IN_AIR, true);
+    set_bits(m, t + L::AIR, L::DESCENDING, false);
+    let frozen = m.read_u8(L::DEBUG) & L::DEBUG_FREEZE != 0;
+    let saved = [L::ACC_Y, L::VEL_X, L::VEL_Y].map(|f| m.read_u16(t + f));
+    if frozen {
+        for f in [L::VEL_X, L::VEL_Y, L::ACC_Y] {
+            m.write_u16(t + f, 0);
+        }
+    }
+    let row = m.regs().d[4] as u16;
+    if motion::on_entity_pos(m, t, |m| motion::move_fall(m, t, row)) {
+        set_handler(m, t, L::LAND);
+        set_bits(m, t + L::AIR, L::IN_AIR | L::DESCENDING, false);
+    }
+    if player::anim_done(m, t) {
+        set_bits(m, t + L::STATUS, L::ARM_FIRING, false);
+    }
+    anim_state(m, t);
+    if frozen {
+        for (f, v) in [L::ACC_Y, L::VEL_X, L::VEL_Y].into_iter().zip(saved) {
+            m.write_u16(t + f, v);
+        }
+    }
+    if (m.read_u16(t + L::VEL_Y) as i16) <= 0 {
+        descend_checks(m, t);
+    } else {
+        air_action_select(m, t);
+    }
+    air_tail(m, t);
+    Flow::Return
 }

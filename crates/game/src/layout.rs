@@ -1484,6 +1484,55 @@ pub mod player_ground {
     pub const TURN_LEFT_LOOP: u32 = 0x03_5C98;
     /// Con el lanzallamas la acción no espera a que el brazo esté libre.
     pub const WEAPON_FLAME: u8 = 4;
+    /// Agachado: estado, guiones (agacharse y agachado quieto), golpe y
+    /// caja de golpe, bucles y los estados a los que se pasa.
+    pub const STATE_CROUCH: u8 = 0x30;
+    pub const CROUCH_SCRIPT: u32 = 0x27_9864;
+    pub const CROUCH_IDLE_SCRIPT: u32 = 0x27_983C;
+    pub const CROUCH_HIT_ROUTINE: u32 = 0x03_2598;
+    pub const HITBOX_CROUCH: u32 = 0x03_2734;
+    pub const CROUCH_ENTER_LOOP: u32 = 0x03_7CD0;
+    pub const CROUCH_IDLE_LOOP: u32 = 0x03_8306;
+    pub const CROUCH_EXIT: u32 = 0x03_7EC2;
+    pub const CROUCH_REENTER: u32 = 0x03_8044;
+    pub const CRAWL_RIGHT: u32 = 0x03_842C;
+    pub const CRAWL_LEFT: u32 = 0x03_855A;
+    /// Gatear hacia el lado contrario al que mira.
+    pub const CRAWL_RIGHT_BACK: u32 = 0x03_8688;
+    pub const CRAWL_LEFT_BACK: u32 = 0x03_86E2;
+    pub const CROUCH_MELEE: u32 = 0x03_8A28;
+    pub const CROUCH_THROW: u32 = 0x03_88F0;
+    pub const CROUCH_EMPTY: u32 = 0x03_8086;
+    pub const KNOCKBACK_DELAY: u32 = 0x03_6FC2;
+    /// Velocidad al agacharse con un lado pulsado.
+    pub const CRAWL_SPEED: u16 = 0x300;
+    /// `+$8D`, bit 6: agachado este frame.
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const CROUCHED: u8 = 1 << 6;
+    /// Agachado quieto tras disparar (B) o lanzar (C): otros guiones.
+    pub const CROUCH_IDLE_B: u32 = 0x03_81A2;
+    pub const CROUCH_IDLE_B_SCRIPT: u32 = 0x27_9850;
+    pub const CROUCH_IDLE_C_SCRIPT: u32 = 0x27_985A;
+    /// Disparo agachado: guion, bucle y la recarga agachado.
+    pub const CROUCH_SHOOT_SCRIPT: u32 = 0x27_9D06;
+    pub const CROUCH_SHOOT_LOOP: u32 = 0x03_87C2;
+    pub const CROUCH_RELOAD: u32 = 0x03_8AE6;
+    /// Levantarse: guion y bucle; al acabar puede seguir andando.
+    pub const CROUCH_EXIT_SCRIPT: u32 = 0x27_986E;
+    pub const CROUCH_EXIT_LOOP: u32 = 0x03_7F16;
+    pub const WALK_LOOP_RIGHT: u32 = 0x03_51D8;
+    pub const WALK_LOOP_LEFT: u32 = 0x03_54F2;
+    /// Poses de espera de pie (estado 5): dos guiones y sus bucles.
+    pub const STATE_POSE: u8 = 5;
+    pub const POSE_A_SCRIPT: u32 = 0x27_973E;
+    pub const POSE_B_SCRIPT: u32 = 0x27_981E;
+    pub const POSE_A_LOOP: u32 = 0x03_3AC0;
+    pub const POSE_B_LOOP: u32 = 0x03_3B5E;
+    /// Lanzar una granada de pie: estado, guion, bucle y `+$3B` (se borra).
+    pub const STATE_THROW: u8 = 0x33;
+    pub const THROW_SCRIPT: u32 = 0x27_9D2E;
+    pub const THROW_LOOP: u32 = 0x03_6152;
+    pub const BYTE_3B: u32 = 0x3B;
 }
 
 /// Jugador en el aire (`system::player_air`): golpe recibido, caída,
@@ -1531,6 +1580,21 @@ pub mod player_air {
     pub const STATE: u32 = 0x70;
     pub const STATE_JUMP: u8 = 0x25;
     pub const STATE_FALL: u8 = 0x26;
+    /// Salto: guiones (con carrerilla, apuntando abajo con y sin
+    /// carrerilla; parado usa el del golpe), velocidad, gravedad y el
+    /// contador que decide si es salto largo (B mantenido en el frame 4).
+    pub const JUMP_RUN_SCRIPT: u32 = 0x27_9C78;
+    pub const JUMP_DOWN_SCRIPT: u32 = 0x27_9B0E;
+    pub const FALL_DOWN_SCRIPT: u32 = 0x27_9B04;
+    pub const MODE_DOWN: u16 = 3;
+    pub const JUMP_VEL: u16 = 0x9CD;
+    pub const JUMP_GRAVITY: u16 = 0xFF3F;
+    pub const JUMP_TIMER: u32 = 0x90;
+    pub const JUMP_TIMER_FRAMES: u8 = 5;
+    pub const JUMP_HOLD_FRAME: u8 = 4;
+    pub const JUMP_WAIT: u32 = 0x03_6A36;
+    pub const JUMP_AIR: u32 = 0x03_6A70;
+    pub const MAX_JUMP_VEL_Y: u16 = 0x780;
     pub const WEAPON: u32 = 0x71;
     pub const MODE: u32 = 0x72;
     pub const POSE: u32 = 0x74;
@@ -1577,6 +1641,8 @@ pub mod player_air {
     /// Depuración: inmortal (bit 3 del byte bajo).
     pub const DEBUG: u32 = 0x10_0001;
     pub const DEBUG_IMMORTAL: u8 = 1 << 3;
+    /// Depuración: el salto no mueve al jugador (bit 5).
+    pub const DEBUG_FREEZE: u8 = 1 << 5;
     /// Con el temporizador a 0 el jugador muere; en la escena
     /// `WATER_SCENE`, por encima de `WATER_Y`, el tile `WATER_TILE` ahoga.
     pub const RANK_TIMER: u32 = 0x10_6E92;
@@ -3234,6 +3300,14 @@ pub mod player_fire {
     pub const ANGLE_UP: u8 = 8;
     pub const ANGLE_LEFT: u8 = 0x10;
     pub const ANGLE_DOWN: u8 = 0x18;
+    /// Granadas: quedan en `+$80` del jugador; la tarea cuelga de
+    /// `GRENADE_PARENT`, y sale `GRENADE_DX` delante (o detrás).
+    pub const BOMBS: u32 = 0x80;
+    pub const GRENADE_PARENT: u32 = 0x10_08A0;
+    pub const GRENADE: u32 = 0x03_3346;
+    pub const GRENADE_DX: u16 = 0x10;
+    pub const STATUS: u32 = 0x8C;
+    pub const ARM_BUSY: u8 = 1 << 2;
 }
 
 /// Seno y coseno (`system::trig`): tablas de palabras en 1/256, con el
@@ -3298,6 +3372,45 @@ pub mod bullet {
     pub const VANISH_KIND: u8 = 0x38;
     pub const CELL_HIGH: u8 = 0xC0;
     pub const MARGINS: u32 = 0x03_08A8;
+}
+
+/// Estallidos y humo de corta vida (`system::burst`).
+pub mod burst {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const PARENT: u32 = 0x0C;
+    /// Gráficos que hereda del proyectil (`GFX_SHARED` se conserva; si no,
+    /// cada efecto usa los suyos).
+    pub const GFX_FIELD: u32 = 0x9E;
+    pub const GFX_SHARED: u16 = 0x1D6;
+    pub const GFX_GROUND: u16 = 4;
+    pub const GFX_AIR: u16 = 2;
+    pub const GFX_SMOKE: u16 = 8;
+    /// Guiones: estallido en el suelo (dos al azar), en el aire, el otro
+    /// estallido en el suelo, chispa y humo del tubo de escape.
+    pub const GROUND_SCRIPTS: [u32; 2] = [0x29_DA80, 0x29_DB0E];
+    pub const GROUND_B_SCRIPTS: [u32; 2] = [0x29_DB88, 0x29_DC16];
+    pub const AIR_SCRIPT: u32 = 0x2D_D8B6;
+    pub const SPARK_SCRIPT: u32 = 0x29_E46A;
+    pub const EXHAUST_SCRIPT: u32 = 0x29_E440;
+    /// Humo que cae del Slug: guion según `+$94` del dueño.
+    pub const DROP_SCRIPTS: u32 = 0x03_19DC;
+    pub const OWNER_DROP: u32 = 0x94;
+    pub const LAYER_A: u32 = 0x34;
+    pub const LAYER_B: u32 = 0x64;
+    /// Dueño: bit 2 de `+$8D` (escape), puntero a la pose (`+$70`, con el
+    /// desplazamiento del tubo en +8/+A) y el ángulo del cañón (`+$80`).
+    pub const OWNER_FLAGS: u32 = 0x8D;
+    pub const OWNER_EXHAUST: u8 = 1 << 2;
+    pub const OWNER_POSE: u32 = 0x70;
+    pub const OWNER_ANGLE: u32 = 0x80;
+    pub const ANGLE_MAX: i16 = 0x20;
+    pub const ANGLE_OVER: u16 = 0x40;
+    pub const ANGLE_MIN: i16 = -0x20;
+    pub const EXHAUST_RADIUS: i16 = 0x10;
+    pub const SMOKE_SHIFT: u16 = 4;
+    /// Bucle común.
+    pub const RUN: u32 = 0x03_1A9C;
 }
 
 /// Escombros de la escena 3 (`system::debris`).
