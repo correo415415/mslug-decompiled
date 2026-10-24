@@ -134,9 +134,10 @@ según créditos, cuenta atrás) y las tareas fijas, hace el render del frame (`
 (`PLAYER_START`), entra en la misión, carga la escena y corre el manual
 de juego (con sus iconos) y el guion de scroll (capas, colisión y listas
 por frame) y suelta el Slug, que cae, baja y estrena la torreta
-(`system::turret`) y el motor de pendientes (`system::slope`); se para en
-el frame 504 en `$0300BA` (`Chain3_TplB_0300ba`, las ruedas del Slug, aún
-sin portar).
+(`system::turret`), el motor de pendientes (`system::slope`) y las ruedas
+(`system::wheels`); aparece el jugador (`system::player`) con su brazo
+(`system::player_arm`); se para en el frame 505 en `$08C678`
+(`Icon_Anchor_Run_08c678`, el texto del manual de juego, aún sin portar).
 
 ### Progreso: `mslug progress`
 

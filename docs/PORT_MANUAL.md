@@ -278,6 +278,17 @@ También `video::start_high_entry_anim` (`$002C26`), `palette::fade_task`,
   máscaras (`$027E7E`, `$027E9C`) y subida a plataformas (`$0998CA`).
 - `system::turret`: torreta del Slug (gráficos, giro, ráfaga, cañón que
   sigue al chasis; `$0457A6`…`$045B9C`, `$05CA2A`, `$05D674`, `$0517FE`).
+- `system::wheels`: ruedas del Slug (cadena de tres, rueda central y
+  trasera, seguimiento del chasis y velocidad vertical; `$030002`…`$030554`).
+- `system::ground_fx`: efecto de suelo bajo los pies (polvo/salpicadura
+  según el material; `$077686`…`$077C28`) y suelo firme (`$027FAC`).
+- `system::player`: alta del jugador (`$0335A6`), estado auxiliar
+  (`$032A02`), mando (`$0517AA`) y pasos comunes del frame (parpadeo,
+  dirección, historial; `$032FF2`, `$033016`, `$032CC8`, `$02A720`, …).
+- `system::player_arm`: brazo del jugador (`$0394A8`, `$0394E6`, bucle
+  `$039532`, `$0392F8`, `$03937C`, `$032D00`, `$03933A`, `$039354`,
+  `$039416`, callbacks `$039450`/`$03942E`) y sus 79 poses `PlayerArm_*`
+  como tabla de reglas (modo de disparo, apuntado, bombas, alternancia).
 - `system::icons`: POW y burbuja de los prisioneros (`$031FCA`…`$0321BC`).
 - `system::pickup`: qué jugador toca un objeto (`$03EE48`, `$03EF5C`,
   `$09A836`, `$09A84E`) y premio de la comida con su racha (`$09B920`).
