@@ -5,7 +5,9 @@
 //!
 //! Original: `Player_SpawnLand_Reset_033ede` (y su bucle `$033FAE`),
 //! `Player_Stand_034704` (y su bucle `$034806`), el disparo de pie
-//! (`Player_ShootStand_0342c4`, `Player_ShootStandUp_03437e`),
+//! (`Player_ShootStand_0342c4`, `Player_ShootStandUp_03437e`), el giro
+//! (`Player_TurnRight_035aba`, `Player_TurnLeft_035bf8` y sus bucles), la
+//! cola de andar (`Player_Walk_Tail_03548c`),
 //! `Player_Idle_033d64` (y su bucle `$033E2E`), `Player_Idle_Tail_0341a4`
 //! (`asm/player/core_032aa8.s`), `Player_PlayWeaponMusicIfFlag_032d32`,
 //! `$0267E6`, `Entity_ProbeRevertCcr_027a92` y
@@ -426,4 +428,78 @@ pub fn shoot_stand(m: &mut impl Machine, up: bool) -> Flow {
     m.write_u16(t + L::OFFSET_Y, 0);
     restart(m, t, L::STATE_IDLE, script);
     stand_setup(m, t)
+}
+
+/// Giro hacia la derecha (`left = false`) o la izquierda: pose de giro
+/// (apuntando arriba si toca), velocidad hacia ese lado y el bucle.
+/// Original: `Player_TurnRight_035aba` / `Player_TurnLeft_035bf8`.
+pub fn turn(m: &mut impl Machine, left: bool) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    let script = if m.read_u16(t + L::MODE) == L::MODE_UP { L::TURN_UP_SCRIPT } else { L::TURN_SCRIPT };
+    restart(m, t, L::STATE_TURN, script);
+    m.write_u16(t + L::VEL_X, turn_speed(left));
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_STAND);
+    let lp = if left { L::TURN_LEFT_LOOP } else { L::TURN_RIGHT_LOOP };
+    set_handler(m, t, lp);
+    set_bits(m, t + L::FACING, L::FACING_LEFT, left);
+    turn_loop(m, left)
+}
+
+fn turn_speed(left: bool) -> u16 {
+    if left { L::TURN_SPEED.wrapping_neg() } else { L::TURN_SPEED }
+}
+
+/// Bucle del giro: al acabar la animación, de pie (o agachado); con el
+/// brazo libre, la acción; y la cola de andar.
+/// Original: `Player_TurnRight_035aba__L035b54` / `Player_TurnLeft_Run_035c98`
+/// (con `Player_Turn_Actions_035b90`).
+pub fn turn_loop(m: &mut impl Machine, left: bool) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    if announce_weapon(m, t) {
+        set_handler(m, t, L::REENTER);
+    }
+    m.write_u16(t + L::VEL_X, turn_speed(left));
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        if wants_crouch(m, t) {
+            set_handler(m, t, L::CROUCH);
+        }
+    }
+    if m.read_u8(t + L::STATUS) & L::ARM_BUSY == 0 {
+        if let Some(a) = player_air::action_select(m, t) {
+            set_handler(m, t, action_state(a, false));
+        }
+    }
+    walk_tail(m, t);
+    Flow::Return
+}
+
+/// Cola de andar: agacharse, recargar, la espera sin munición, el golpe
+/// sin suelo, el salto y la publicación del estado.
+/// Original: `Player_Walk_Tail_03548c`.
+pub fn walk_tail(m: &mut impl Machine, t: u32) {
+    if controls::down_held(m, Entity::from_raw(t)) {
+        set_handler(m, t, L::CROUCH_ENTER);
+    }
+    if heavy_needs_reload(m, t) {
+        set_handler(m, t, L::RELOAD);
+    }
+    if m.read_u16(t + L::AMMO) == 0 && m.read_u8(t + L::WEAPON) != L::WEAPON_PISTOL {
+        set_handler(m, t, L::IDLE);
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        set_handler(m, t, L::KNOCKBACK);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    player_air::publish_state(m, t);
 }

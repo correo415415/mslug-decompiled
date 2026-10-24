@@ -1250,6 +1250,15 @@ pub mod ground_fx {
     pub const DETACHED: u32 = 0x07_7A16;
     pub const DETACHED_RUN: u32 = 0x07_7A60;
     pub const FINISH: u32 = 0x07_7A8E;
+    /// Impactos de disparo (A…D): su tabla de guiones (en `DETACH_SCRIPTS`)
+    /// y las rutinas de la tarea. Con `SHOT_SCRIPTS[0]` el impacto se
+    /// esparce al azar en X (de `SHOT_JITTER_MIN` a +7).
+    pub const SHOT_SCRIPTS: [u32; 4] = [0x2D_CA6A, 0x2D_CA72, 0x2D_CA7A, 0x2D_CA82];
+    pub const SHOT_RUN: u32 = 0x07_7AD6;
+    pub const SHOT_START_RETURN: [u32; 4] = [0x07_7A9A, 0x07_7AAA, 0x07_7ABA, 0x07_7ACA];
+    pub const SHOT_FIRE: u32 = 0x07_7B68;
+    pub const SHOT_JITTER_MIN: i16 = -8;
+    pub const SHOT_JITTER_MASK: u16 = 0xF;
     /// Rutina de la dueña cuando se está dando de baja.
     pub const OWNER_FINISHING: u32 = 0x52A;
     /// Campos.
@@ -1465,6 +1474,14 @@ pub mod player_ground {
     pub const SHOOT_SCRIPT_FROM_UP: u32 = 0x27_9716;
     pub const SHOOT_UP_SCRIPT: u32 = 0x27_96EE;
     pub const SHOOT_UP_SCRIPT_FROM_FWD: u32 = 0x27_9720;
+    /// Giro: estado, guiones (normal y apuntando arriba), velocidad hacia
+    /// el lado al que gira, bucles y la cola de andar.
+    pub const STATE_TURN: u8 = 0x31;
+    pub const TURN_SCRIPT: u32 = 0x27_9A3C;
+    pub const TURN_UP_SCRIPT: u32 = 0x27_9A5A;
+    pub const TURN_SPEED: u16 = 0x300;
+    pub const TURN_RIGHT_LOOP: u32 = 0x03_5B54;
+    pub const TURN_LEFT_LOOP: u32 = 0x03_5C98;
     /// Con el lanzallamas la acción no espera a que el brazo esté libre.
     pub const WEAPON_FLAME: u8 = 4;
 }

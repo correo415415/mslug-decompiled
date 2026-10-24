@@ -9,12 +9,14 @@
 //! Original: `MuzzleFx_InitA_077686` … `MuzzleFx_InitE_07773e`,
 //! `MuzzleFx_SceneGate_077640`, `MuzzleFx_SndByScene_077670`,
 //! `MuzzleFx_Track_0778a2`, `MuzzleFx_WaitAim_0778fc`, `MuzzleFx_Flash_077912`,
-//! `MuzzleFx_Attach_07776c`, `MuzzleFx_Detached_077a16`,
+//! `MuzzleFx_Attach_07776c`, `MuzzleFx_Detached_077a16`, los impactos de
+//! disparo (`MuzzleFx_ShotA_077a96` … `MuzzleFx_ShotD_077ac6`,
+//! `MuzzleFx_Shot_Run_077ad6`, `MuzzleFx_Shot_Fire_077b68`),
 //! `MuzzleFx_SetFlipByDir_077bae`, `MuzzleFx_ReadParentAim_077bc6`,
 //! `MuzzleFx_ClampGroundY_077c28`, `Entity_TestSolidAtFeet_027fac`
 //! (`asm/props/fx_explosions_platforms_crew_076000.s`).
 
-use super::{anim, collision, items, platforms, slope, tasks};
+use super::{anim, collision, items, platforms, rng, slope, tasks};
 use crate::layout::{ground_fx as L, task as T};
 use crate::mem::{Machine, Memory};
 use crate::Flow;
@@ -282,6 +284,66 @@ pub fn walk(m: &mut impl Machine) -> Flow {
     tail(m, t)
 }
 
+/// Impacto de disparo `k` (A…D): comprueba la escena, se guarda la tabla
+/// de guiones y mira dónde ha caído. Original: `MuzzleFx_ShotA_077a96` …
+/// `MuzzleFx_ShotD_077ac6`.
+pub fn shot(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    if !L::SCENES.contains(&m.read_u8(L::SCENE)) {
+        // Como en `start`: baja desde dentro de la subrutina de la escena.
+        let sp = m.stack_pointer().wrapping_sub(4);
+        m.set_stack_pointer(sp);
+        m.write_u32(sp, L::SHOT_START_RETURN[k]);
+        return tasks::finish(m);
+    }
+    let g = gfx(m);
+    anim::alloc_entry(m, t, g);
+    m.write_u16(t + L::ATTR, L::ATTR_INIT);
+    m.write_u32(t + L::DETACH_SCRIPTS, L::SHOT_SCRIPTS[k]);
+    shot_run(m)
+}
+
+/// Dónde ha caído el disparo: sobre agua o el material `$80` se queda (y
+/// pasa a la animación); sobre otro suelo se da de baja.
+/// Original: `MuzzleFx_Shot_Run_077ad6`.
+pub fn shot_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    save_pos(m, t);
+    follow(m, t);
+    let in_air = read_ground(m, t);
+    let mat = material(m, t);
+    if mat == L::MATERIAL_40 || mat == L::MATERIAL_80 {
+        clamp_to_surface(m, t);
+        m.write_u32(t + T::HANDLER, L::SHOT_FIRE);
+        let o = owner(m, t);
+        let g = m.read_u16(o + L::GRAVITY);
+        m.write_u16(t + L::GRAVITY, g);
+        set_flip(m, t);
+    } else if !in_air {
+        // En el aire sobre otro material sigue en la misma rutina.
+        m.write_u32(t + T::HANDLER, L::FINISH);
+    }
+    if items::out_of_view_seen(m, t, None) {
+        m.write_u32(t + T::HANDLER, L::FINISH);
+    }
+    tail(m, t)
+}
+
+/// Animación del impacto (con la tabla de A, esparcido al azar en X) y
+/// sigue como una copia suelta. Original: `MuzzleFx_Shot_Fire_077b68`.
+pub fn shot_fire(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if m.read_u32(t + L::DETACH_SCRIPTS) == L::SHOT_SCRIPTS[0] && material(m, t) != L::MATERIAL_80 {
+        let (r, _) = rng::next(m);
+        let dx = ((r & L::SHOT_JITTER_MASK) as i16).wrapping_add(L::SHOT_JITTER_MIN);
+        let x = m.read_u16(t + L::X).wrapping_add(dx as u16);
+        m.write_u16(t + L::X, x);
+    }
+    let k = u16::from(deep_cell(m, t));
+    let table = m.read_u32(t + L::DETACH_SCRIPTS);
+    detached_with(m, t, table, k)
+}
+
 /// Copia suelta: la animación de despegue (de la tabla de su madre) hasta
 /// que acaba o sale de la vista. Original: `MuzzleFx_Detached_077a16`.
 pub fn detached(m: &mut impl Machine) -> Flow {
@@ -289,6 +351,12 @@ pub fn detached(m: &mut impl Machine) -> Flow {
     let k = u16::from(m.read_u8(t + L::CELL) == L::DEEP_B);
     let o = owner(m, t);
     let table = m.read_u32(o + L::DETACH_SCRIPTS);
+    detached_with(m, t, table, k)
+}
+
+/// Animación `k` de la tabla `table` y el bucle de la copia suelta.
+/// Original: `MuzzleFx_Detached_077a16__L077a36`.
+fn detached_with(m: &mut impl Machine, t: u32, table: u32, k: u16) -> Flow {
     start_from(m, t, table, k);
     let g = gfx(m);
     anim::alloc_entry(m, t, g);
