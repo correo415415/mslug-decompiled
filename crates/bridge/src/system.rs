@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_hunker, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, mission, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_hunker, slug_idle, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -1968,6 +1968,14 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                             m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | u32::from(s);
                             let i = slug_arm::slope_index(m);
                             m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(i); Flow::Return } },
+    SystemPort { entry: 0x03_64A2, original: "Player_RideSlug_0364a2", rust: "system::player_ride::enter", run: |m| player_ride::enter(m) },
+    SystemPort { entry: 0x03_6508, original: "Player_RideSlug_0364a2__L036508", rust: "system::player_ride::ride", run: |m| player_ride::ride(m) },
+    SystemPort { entry: 0x02_ABF0, original: "Slug_IsInAir_02abf0", rust: "system::player_ride::slug_in_air",
+                 run: |m| { m.cpu.a[0] = mslug_game::layout::player_ride::SLUG; let c = player_ride::slug_in_air(m); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_ABD2, original: "Slug_IsReady_02abd2", rust: "system::player_ride::slug_ready",
+                 run: |m| { m.cpu.a[0] = mslug_game::layout::player_ride::SLUG; let c = player_ride::slug_ready(m); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_A25C, original: "$02A25C", rust: "system::player_ride::scene_not_loaded",
+                 run: |m| { let c = player_ride::scene_not_loaded(m); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara

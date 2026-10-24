@@ -4292,3 +4292,44 @@ pub mod slug_arm {
     pub const DONE: u32 = 0x03_DAA0;
     pub const DONE_SOUND: u16 = 0x108B;
 }
+
+/// Jugador montado en el Slug (`Player_RideSlug_0364a2`).
+pub mod player_ride {
+    /// `+$8C` bits que se quitan al montarse (brazo, ocupado, 3) y el bit 2
+    /// (ocupado: no se agacha el Slug); `+$3A` bit 0 (mirar a la izquierda).
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const CLEAR_8C: u8 = (1 << 1) | (1 << 2) | (1 << 3);
+    pub const BUSY: u8 = 1 << 2;
+    pub const FACING: u32 = 0x3A;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const HITBOX: u32 = 0x03_28D8;
+    pub const OFFSET_X: u32 = 0x7C;
+    pub const OFFSET_Y: u32 = 0x7E;
+    pub const RIDE_OFFSET_Y: u16 = 0x10;
+    pub const STATE: u32 = 0x70;
+    pub const STATE_RIDE: u8 = 2;
+    pub const POSE: u32 = 0x74;
+    pub const BYTE_21: u32 = 0x21;
+    pub const SCRIPT: u32 = 0x27_9F08;
+    pub const SPEEDS: [u32; 4] = [0x28, 0x2C, 0x2A, 0x2E];
+    pub const LOOP: u32 = 0x03_6508;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const PILOT: u32 = 0x68;
+    /// Slug: su tarea, `+$8D` bits 1 (en el aire) y 4, `+$13` bit 0.
+    pub const SLUG: u32 = 0x10_0580;
+    pub const SLUG_8D: u32 = 0x8D;
+    pub const SLUG_IN_AIR: u8 = 1 << 1;
+    pub const SLUG_READY: u8 = 1 << 4;
+    pub const SLUG_13: u32 = 0x13;
+    pub const SLUG_DESTROYED: u8 = 1 << 0;
+    /// Bajarse: rutina, cuánto baja, invulnerabilidad al saltar con A+B.
+    pub const POSE2: u32 = 0x03_66FE;
+    pub const JUMP_OFF: u32 = 0x03_6796;
+    pub const JUMP_OFF_DY: u16 = 0x20;
+    pub const INVULN: u32 = 0x45;
+    pub const BYTE_59: u32 = 0x59;
+    pub const EJECT_INVULN: u8 = 0x3C;
+    pub const SCENE_LOADED: u32 = 0x10_6ED3;
+}

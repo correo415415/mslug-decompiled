@@ -43,6 +43,7 @@ pub mod player_fire;
 pub mod player_ground;
 pub mod player_arm;
 pub mod player_hud;
+pub mod player_ride;
 pub mod rank;
 pub mod palette;
 pub mod render;
