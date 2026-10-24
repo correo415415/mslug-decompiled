@@ -156,6 +156,8 @@ pub mod bios {
     pub const SYSTEM_IO: u32 = 0xC0_044A;
     /// Borra la capa fija.
     pub const FIX_CLEAR: u32 = 0xC0_04C2;
+    /// Acceso a la tarjeta de memoria (parámetros en `bios_ram::CARD_*`).
+    pub const CARD: u32 = 0xC0_0468;
     /// Mensajes de la BIOS en la capa fija.
     pub const MESS_OUT: u32 = 0xC0_04CE;
     /// Comprueba (o descuenta) créditos según `bios_ram::CREDIT_REQUEST`.
@@ -4389,6 +4391,10 @@ pub mod slug_drive {
     /// luego se borra).
     pub const ENGINE_SOUND_A: u16 = 0x108F;
     pub const ENGINE_SOUND_B: u16 = 0x1092;
+    /// Sonido al tocar el suelo según el terreno: el normal y el de los
+    /// tipos con bits `$40`/`$80` (A y B).
+    pub const LAND_SOUND_A: [u16; 2] = [0x1090, 0x1052];
+    pub const LAND_SOUND_B: [u16; 2] = [0x1091, 0x1051];
     /// Parado en llano (`Slug_IdleFlat_02b38c`): guiones y ataques por
     /// pendiente, base de `+$20`, `+$60`, la caja de daño (`+$4C`) y el bucle.
     pub const FLAT_SCRIPTS: u32 = 0x27_92F4;
@@ -4493,4 +4499,60 @@ pub mod slug_jump {
     pub const JUMP_BY_DIR: u32 = 0x02_C9B0;
     pub const MARGINS: u32 = 0x27_964E;
     pub const DEATH_FINISH: u32 = 0x02_DCBC;
+}
+
+/// Escena de mensaje y diálogo de la tarjeta de memoria
+/// (`BootScr_Message_Prepare_001416`, `MemCard_LoadDialog_*`).
+pub mod memcard {
+    /// Petición a la BIOS: orden, modo, opción, búfer, tamaño y resultado.
+    pub const CARD_COMMAND: u32 = 0x10_FDC4;
+    pub const CARD_READ: u8 = 2;
+    pub const CARD_MODE: u32 = 0x10_FDCE;
+    pub const CARD_MODE_GAME: u16 = 0x201;
+    pub const CARD_OPTION: u32 = 0x10_FDD0;
+    pub const CARD_BUFFER: u32 = 0x10_FDC8;
+    pub const CARD_SIZE: u32 = 0x10_FDCC;
+    pub const CARD_ERROR: u32 = 0x10_FDC6;
+    /// Datos guardados (búfer de lectura, `SAVE_LEN` bytes) y los 8 bytes
+    /// de récords que se borran si no se cargan.
+    pub const SAVE: u32 = 0x10_E3A2;
+    pub const SAVE_LEN: u16 = 0x1C;
+    pub const SAVE_SCORES: core::ops::Range<u32> = 0x14..0x1C;
+    /// Escena: índice de mensaje, mensaje en curso, la copia de las
+    /// teclas de inicio y el diálogo (tarea y rutina extra en `+$98`).
+    pub const MESSAGE_INDEX: u32 = 0x10_6ED0;
+    pub const BUSY: u32 = 0x10_6ED2;
+    pub const START_KEYS_SRC: u32 = 0x10_FDB6;
+    pub const START_KEYS: u32 = 0x10_E3A0;
+    pub const DIALOG: u32 = 0x09_8288;
+    pub const EXTRA: u32 = 0x98;
+    pub const DIALOG_EXTRA: u32 = 0x05_164A;
+    /// Escena de fondo del diálogo (descriptor) y sus velocidades.
+    pub const BACKDROP: u32 = 0x29_70F8;
+    pub const BACKDROP_IDLE: u32 = 0x04_422E;
+    /// Diálogo: fondo (glifo `BLANK`, 0x26 × 0x1B desde `FIX_ORIGIN`),
+    /// textos, cursor, tiempo, opción y teclas pulsadas.
+    pub const FIX_ORIGIN: u16 = 0x7000;
+    pub const BLANK: u16 = 0xFF;
+    pub const BG_SIZE: (u16, u16) = (0x26, 0x1B);
+    pub const TEXTS: [(u16, u32); 4] = [(0x7204, 0x09_8692), (0x724A, 0x09_869E), (0x724E, 0x09_86A6), (0x7116, 0x09_86AC)];
+    pub const PROMPT: u16 = 0x7116;
+    pub const PROMPT_SIZE: (u16, u16) = (0x1A, 2);
+    pub const DONE_TEXT: (u16, u32) = (0x7152, 0x09_86C8);
+    pub const CURSOR_GLYPHS: u32 = 0x09_8700;
+    pub const CURSORS: [u16; 2] = [0x720A, 0x720E];
+    pub const GLYPH_END: u16 = 0xFFFF;
+    pub const GLYPH_STEP: u16 = 0x40;
+    pub const TIMER: u32 = 0x70;
+    pub const TIMEOUT: u16 = 0x12C;
+    pub const DONE_DELAY: u16 = 0x1E;
+    pub const CHOICE: u32 = 0x72;
+    pub const KEYS: u32 = 0x74;
+    /// Teclas de inicio de cada jugador (y si están en juego, 1 o 2).
+    pub const PLAYER_KEYS: [u32; 2] = [0x10_FD96, 0x10_FD9C];
+    pub const KEY_UP: u8 = 1 << 0;
+    pub const KEY_DOWN: u8 = 1 << 1;
+    pub const KEY_A: u8 = 1 << 4;
+    pub const RUN: u32 = 0x09_8308;
+    pub const EXIT_DELAY: u32 = 0x09_83F6;
 }

@@ -11,7 +11,7 @@
 //! (`Slug_IdleFlat_02b38c`, bucle `$02B3E0`, `asm/slug/states_02ae3e.s`)
 //! (`asm/slug/helpers_0295a6.s`).
 
-use super::{anim, items, player_ground, slug, slug_hunker, slug_idle, sound, tasks};
+use super::{anim, collision, items, player_ground, slug, slug_hunker, slug_idle, sound, tasks};
 use crate::entity::Entity;
 use crate::input::{self, Buttons, Edge};
 use crate::layout::{slug_drive as L, slug_idle as I, task as T};
@@ -245,4 +245,17 @@ pub fn flat(m: &mut impl Machine) -> Flow {
         return Flow::Goto(L::DEATH_FINISH);
     }
     Flow::Return
+}
+
+/// Llamada del guion: sonido según el terreno bajo el Slug. El original
+/// mira los bits `$C0` del tipo de suelo que deja el sondeo, que nunca los
+/// lleva (es el tipo ya enmascarado a `$3F`, o `$11` sobre plataforma), así
+/// que siempre suena el primero. Devuelve el código.
+/// Original: `Slug_MusicByTerrainA_02a5d4` / `Slug_MusicByTerrainB_02a606`.
+pub fn land_sound(m: &mut impl Memory, t: u32, sounds: [u16; 2], frac: (u16, u16)) -> u16 {
+    let f = collision::probe_floor(m, t, frac);
+    let kind = if f.platform.is_some() { 0x11 } else { f.tile.kind };
+    let code = if matches!(kind & 0xC0, 0x40 | 0x80) { sounds[1] } else { sounds[0] };
+    sound::play(m, code);
+    code
 }

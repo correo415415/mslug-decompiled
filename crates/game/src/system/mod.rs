@@ -32,6 +32,7 @@ pub mod layer;
 pub mod lists;
 pub mod manual;
 pub mod manual_icons;
+pub mod memcard;
 pub mod mission;
 pub mod motion;
 pub mod pads;
