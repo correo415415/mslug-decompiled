@@ -1,0 +1,262 @@
+//! Jugador en el suelo: el aterrizaje (de pie, agachado, recargando o a la
+//! espera), la espera con la pistola (que suelta el arma que llevara) y la
+//! cola común de los estados de pie, que elige el siguiente estado según
+//! el mando: andar, girarse, agacharse, disparar, lanzar, saltar o caer.
+//!
+//! Original: `Player_SpawnLand_Reset_033ede` (y su bucle `$033FAE`),
+//! `Player_Idle_033d64` (y su bucle `$033E2E`), `Player_Idle_Tail_0341a4`
+//! (`asm/player/core_032aa8.s`), `Player_PlayWeaponMusicIfFlag_032d32`,
+//! `$0267E6`, `Entity_ProbeRevertCcr_027a92` y
+//! `Entity_MoveAndCollide_A_026b56` (gemela de `$027036`).
+
+use super::{anim, collision, items, player, player_air, rng, slope, sound, tasks};
+use crate::entity::Entity;
+use crate::input::{self, Buttons, Edge};
+use crate::layout::{player_air as A, player_ground as L, task as T};
+use crate::mem::{Machine, Memory};
+use crate::player::{controls, voice};
+use crate::Flow;
+
+fn set_bits(m: &mut impl Memory, a: u32, bits: u8, on: bool) {
+    let v = m.read_u8(a);
+    m.write_u8(a, if on { v | bits } else { v & !bits });
+}
+
+fn set_handler(m: &mut impl Memory, t: u32, h: u32) {
+    m.write_u32(t + T::HANDLER, h);
+}
+
+fn held(m: &mut impl Memory, t: u32, b: Buttons) -> bool {
+    input::pressed(m, Entity::from_raw(t), b, Edge::Held)
+}
+
+/// Pose del cuerpo: estado y la pose que hay antes del guion.
+fn set_pose(m: &mut impl Memory, t: u32, state: u8, script: u32) {
+    m.write_u8(t + L::STATE, state);
+    let p = m.read_u32(script - 4);
+    m.write_u32(t + L::POSE, p);
+}
+
+/// Pose y además el guion desde el principio.
+fn restart(m: &mut impl Memory, t: u32, state: u8, script: u32) {
+    set_pose(m, t, state, script);
+    m.write_u8(t + L::BYTE_21, 0xFF);
+    anim::start(m, t, script);
+}
+
+fn heavy_needs_reload(m: &mut impl Memory, t: u32) -> bool {
+    m.read_u8(t + L::RELOADED) == 0 && m.read_u8(t + L::WEAPON) == L::WEAPON_HEAVY
+}
+
+fn wants_crouch(m: &mut impl Memory, t: u32) -> bool {
+    m.read_u8(t + L::FLAGS_88) & L::WANTS_CROUCH != 0
+}
+
+/// Velocidades y aceleraciones horizontales y fracciones a 0.
+/// Original: `$0267E6`.
+pub fn clear_motion(m: &mut impl Memory, t: u32) {
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u32(t + L::VEL_X, 0);
+    m.write_u16(t + L::SUB_X, 0);
+}
+
+/// El sistema de sonido como salida de las voces del jugador.
+struct SoundOut;
+
+impl<M: Memory> voice::Sound<M> for SoundOut {
+    fn play(&mut self, m: &mut M, code: u16) {
+        sound::play(m, code);
+    }
+}
+
+/// Si acaba de coger un arma, la anuncia con su voz.
+/// Original: `Player_PlayWeaponMusicIfFlag_032d32` (C = había arma nueva).
+pub fn announce_weapon(m: &mut impl Memory, t: u32) -> bool {
+    voice::announce_new_weapon(m, &mut SoundOut, Entity::from_raw(t))
+}
+
+/// Un paso sobre el suelo con la posición de la entidad (pendientes,
+/// rampas, paredes) y el sombreado por profundidad. Devuelve si ha vuelto a
+/// sondear el suelo. Original: `Entity_ProbeRevertCcr_027a92`.
+pub fn move_ground(m: &mut impl Machine, t: u32) -> bool {
+    let r = m.regs();
+    slope::move_b_entity(m, t, (r.d[3] as u16, r.d[4] as u16))
+}
+
+/// Aterrizaje: limpia el brazo, pose y animación de aterrizar y, según el
+/// mando y el arma, se agacha, pasa a la espera, recarga o se queda de pie.
+/// Original: `Player_SpawnLand_Reset_033ede`.
+pub fn land(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::STATUS, L::RIDING, false);
+    if m.read_u16(t + L::MODE) == L::MODE_FORWARD {
+        m.write_u16(t + L::MODE, 0);
+    }
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    restart(m, t, L::STATE_LANDED, L::LAND_SCRIPT);
+    set_bits(m, t + L::FLAGS_5B, L::GROUNDED, true);
+    if controls::down_held(m, Entity::from_raw(t)) {
+        return Flow::Goto(L::CROUCH_IDLE);
+    }
+    if m.read_u16(t + L::AMMO) == 0 {
+        set_handler(m, t, L::IDLE);
+        return idle(m);
+    }
+    if heavy_needs_reload(m, t) {
+        set_handler(m, t, L::RELOAD);
+        return Flow::Goto(L::RELOAD);
+    }
+    if wants_crouch(m, t) {
+        set_handler(m, t, L::CROUCH);
+        return Flow::Goto(L::CROUCH);
+    }
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    clear_motion(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_STAND);
+    set_handler(m, t, L::LAND_LOOP);
+    land_loop(m)
+}
+
+/// Bucle del aterrizaje: al acabar la animación, de pie (o agachado,
+/// recargando o a la espera). Original: `Player_SpawnLand_Reset_033ede__L033fae`.
+pub fn land_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    if announce_weapon(m, t) {
+        set_handler(m, t, L::REENTER);
+    }
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        stand_aim(m, t);
+        if wants_crouch(m, t) {
+            set_handler(m, t, L::CROUCH);
+        }
+        if heavy_needs_reload(m, t) {
+            set_handler(m, t, L::RELOAD);
+        }
+        // El original pide un número al azar y no lo usa.
+        rng::next(m);
+        if m.read_u8(t + L::STATE) == L::STATE_LANDED && m.read_u16(t + L::AMMO) == L::CROUCH_AMMO {
+            set_handler(m, t, L::CROUCH_B);
+        }
+        if m.read_u16(t + L::AMMO) == 0 {
+            set_handler(m, t, L::IDLE);
+        }
+    }
+    idle_tail(m, t);
+    Flow::Return
+}
+
+/// Apunta adelante; el historial lleva en el nibble alto los flags del
+/// último trozo dibujado (resto de registro del original).
+fn stand_aim(m: &mut impl Memory, t: u32) {
+    m.write_u8(t + L::AIM, L::AIM_FORWARD);
+    let prev = anim::last_part_flags(m, t);
+    m.write_u8(t + L::AIM_HISTORY, (prev << 4) | L::AIM_FORWARD);
+}
+
+/// Espera con la pistola: suelta el arma que llevara (con su munición
+/// pasa a la de la pistola) y queda quieta con la animación de espera.
+/// Original: `Player_Idle_033d64`.
+pub fn idle(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY, true);
+    set_bits(m, t + L::STATUS, L::ARM_FIRING | L::STATUS_BIT3, false);
+    let state = m.read_u8(t + L::STATE);
+    let weapon = m.read_u8(t + L::WEAPON);
+    if L::KEEP_ANIM.contains(&state) && weapon != L::WEAPON_PISTOL {
+        set_pose(m, t, L::STATE_IDLE, L::IDLE_SCRIPT);
+    } else {
+        restart(m, t, L::STATE_IDLE, L::IDLE_SCRIPT);
+    }
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_STAND);
+    if weapon != L::WEAPON_PISTOL {
+        m.write_u32(t + L::HITBOX_CB, L::NO_HITBOX);
+        let drop = tasks::spawn(m, L::DROPPED_WEAPON, t);
+        anim::copy_sprite_pos(m, t, drop);
+    }
+    m.write_u8(t + L::WEAPON, L::WEAPON_PISTOL);
+    m.write_u16(t + L::AMMO, L::PISTOL_AMMO);
+    set_bits(m, t + L::FLAGS_5B, L::GROUNDED, true);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    clear_motion(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    set_handler(m, t, L::IDLE_LOOP);
+    idle_loop(m)
+}
+
+/// Bucle de la espera: al coger un arma vuelve a entrar; al acabar la
+/// animación, de pie o andando según la velocidad.
+/// Original: `Player_Idle_033d64__L033e2e`.
+pub fn idle_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if m.read_u8(t + L::STATUS) & L::NEW_WEAPON != 0 {
+        announce_weapon(m, t);
+        set_handler(m, t, L::REENTER);
+        return Flow::Goto(L::REENTER);
+    }
+    player::frame_common(m, t);
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+        let vx = m.read_u16(t + L::VEL_X) as i16;
+        if vx > 0 {
+            set_handler(m, t, L::WALK_RIGHT);
+        } else if vx < 0 {
+            set_handler(m, t, L::WALK_LEFT);
+        }
+    }
+    idle_tail(m, t);
+    Flow::Return
+}
+
+/// Cola común de pie: con el brazo libre, andar o girarse según la
+/// dirección, agacharse y la acción (cuchillo, granada, disparo); sin
+/// suelo, el golpe; saltar; la publicación del estado y la caída al vacío.
+/// Original: `Player_Idle_Tail_0341a4`.
+pub fn idle_tail(m: &mut impl Machine, t: u32) {
+    if m.read_u8(t + L::STATUS) & L::ARM_BUSY == 0 {
+        let left = m.read_u8(t + L::FACING) & L::FACING_LEFT != 0;
+        let (to_right, to_left) = if left { (L::TURN_TO_RIGHT, L::WALK_LEFT) } else { (L::WALK_RIGHT, L::TURN_TO_LEFT) };
+        if held(m, t, Buttons::RIGHT) {
+            set_handler(m, t, to_right);
+        }
+        if held(m, t, Buttons::LEFT) {
+            set_handler(m, t, to_left);
+        }
+        if controls::down_held(m, Entity::from_raw(t)) {
+            set_handler(m, t, L::CROUCH_ENTER);
+        }
+        if let Some(a) = player_air::action_select(m, t) {
+            let h = match a {
+                0xFF => L::MELEE,
+                3 => L::THROW,
+                4 => L::SHOOT_DOWN,
+                1 => L::SHOOT_UP,
+                _ => L::SHOOT,
+            };
+            set_handler(m, t, h);
+        }
+    }
+    let r = m.regs();
+    if collision::probe_floor(m, t, (r.d[3] as u16, r.d[4] as u16)).in_air {
+        // El original pone el golpe y, a continuación (el flag Z de la
+        // copia del puntero nunca está a 1), la espera del golpe sin tiempo
+        // límite.
+        set_handler(m, t, L::KNOCK_HOLD);
+    }
+    if controls::jump_held(m, Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::JUMP_START);
+    }
+    player_air::publish_state(m, t);
+    let pit = m.read_u8(A::SCENE) == A::PIT_SCENE;
+    if items::out_of_view_seen(m, t, Some(A::PIT_MARGINS[usize::from(pit)])) {
+        set_handler(m, t, A::DEATH_PIT);
+    }
+}
