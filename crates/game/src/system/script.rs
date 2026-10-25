@@ -560,6 +560,87 @@ pub fn scene_mission_wait(m: &mut impl Machine) -> Flow {
     next(m)
 }
 
+// --- Escena de partida del modo de mensaje -------------------------------
+
+/// Partida del modo de mensaje: espera con el HUD a que la BIOS diga quién
+/// juega. Original: rama `$001A64` de `Dispatcher_ModeTable_001922`.
+pub fn scene_play(m: &mut impl Machine) -> Flow {
+    let me = m.task_register();
+    m.write_u8(me + T::TIMER_B, S::PLAY_TIMER);
+    m.write_u8(me + T::TIMER_A, S::PLAY_TIMER);
+    scene_play_wait(m)
+}
+
+/// Cada frame: si alguien continúa, copia las teclas; si alguien entra,
+/// sigue en [`scene_play_started`]; si no juega nadie, vuelve a la lista
+/// del título. Original: `$001A70`.
+pub fn scene_play_wait(m: &mut impl Machine) -> Flow {
+    hud::draw(m);
+    let keys = [m.read_u8(S::PLAY_START_KEYS), m.read_u8(S::PLAY_START_KEYS + 1)];
+    if keys.contains(&S::PLAY_CONTINUING) {
+        super::memcard::copy_start_keys(m);
+        return Flow::Return;
+    }
+    if keys.contains(&S::PLAY_ENTERING) {
+        super::memcard::copy_start_keys(m);
+        return scene_play_started(m);
+    }
+    reset_title_keys(m);
+    let me = m.task_register();
+    m.write_u32(me + T::SCRIPT_CURSOR, S::PLAY_NOBODY);
+    dispatch(m)
+}
+
+/// Pone las teclas de crédito del título. Original: `Set106ECC_CD_001e0a`.
+pub fn reset_title_keys(m: &mut impl Memory) {
+    for a in S::KEY_RESET {
+        m.write_u8(a, 1);
+    }
+}
+
+/// Partida en marcha: con el truco de depuración (arriba + D) se salta al
+/// inicio; espera a que la escena acabe (o a que se pida retenerla).
+/// Original: `Attract_PostStart_Cleanup_001AB6` desde `$001ABC`.
+pub fn scene_play_started(m: &mut impl Machine) -> Flow {
+    if m.read_u8(S::DEBUG) & 1 != 0 && crate::input::debug_skip(m) {
+        let me = m.task_register();
+        m.write_u32(me + T::HANDLER, routine::SCRIPT_START_PRESSED);
+    }
+    if m.read_u8(S::HOLD) == 0 && !scene_running(m) {
+        return next(m);
+    }
+    m.write_u8(S::HOLD, 0);
+    Flow::Return
+}
+
+/// Arranca la escena del final de la partida. Original:
+/// `Attract_InitTaskAdd_3DBC8_0017C8`.
+pub fn scene_ending(m: &mut impl Machine) -> Flow {
+    m.write_u8(S::SCENE_BUSY, 0xFF);
+    spawn_scene_task(m, S::ENDING_TASK);
+    hud::clear_border(m);
+    next(m)
+}
+
+/// Siguiente índice del selector y lo guarda. Original: `$001554`.
+pub fn step_next_selection(m: &mut impl Machine) -> Flow {
+    let i = m.read_u8(S::SELECTION).wrapping_add(1);
+    m.write_u8(S::SELECTION, i);
+    save_selection(m);
+    next(m)
+}
+
+/// Copia el índice del selector y las teclas de inicio a los datos de la
+/// tarjeta. Original: `$0516BA`.
+pub fn save_selection(m: &mut impl Memory) {
+    let i = m.read_u8(S::SELECTION);
+    m.write_u8(S::SAVE + S::SAVE_SELECTION, i);
+    for k in 0..2 {
+        let v = m.read_u8(S::PLAY_START_KEYS + k);
+        m.write_u8(S::SAVE + S::SAVE_START_KEYS + k, v);
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

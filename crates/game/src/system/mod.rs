@@ -34,6 +34,7 @@ pub mod manual;
 pub mod manual_icons;
 pub mod memcard;
 pub mod mission;
+pub mod msg_select;
 pub mod motion;
 pub mod pads;
 pub mod pickup;

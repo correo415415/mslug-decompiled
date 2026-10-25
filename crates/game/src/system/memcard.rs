@@ -72,8 +72,13 @@ pub fn read(m: &mut impl Machine) -> bool {
     m.write_u8(L::CARD_OPTION, 0);
     m.write_u32(L::CARD_BUFFER, L::SAVE);
     m.write_u16(L::CARD_SIZE, L::SAVE_LEN);
+    // La BIOS guarda el puntero de pila en su RAM: se reserva el mismo
+    // marco que el original (dirección de vuelta y registros guardados).
     let r = m.regs();
+    let sp = m.stack_pointer();
+    m.set_stack_pointer(sp - L::CARD_FRAME);
     m.call(bios::CARD);
+    m.set_stack_pointer(sp);
     m.set_regs(r);
     m.read_u8(L::CARD_ERROR) != 0
 }

@@ -759,6 +759,7 @@ pub mod routine {
     /// Guion de arranque: entradas del arranque (completo, partida,
     /// título), el reparto común, el despacho y el avance.
     pub const SCRIPT_GAME: u32 = 0x00_0EF0;
+    pub const SCRIPT_START_PRESSED: u32 = 0x00_0F76;
     pub const SCRIPT_TITLE: u32 = 0x00_0F1A;
     pub const SCRIPT_DISPATCH: u32 = 0x00_0FC6;
     pub const SCRIPT_NEXT: u32 = 0x00_0FE0;
@@ -827,6 +828,22 @@ pub mod script {
     pub const CREDITS_TASK: u32 = 0x00_1C44;
     /// Tareas fijas de la misión: (bloque, rutina).
     pub const MISSION_SLOTS: [(u32, u32); 2] = [(0x10_08A0, 0x05_EA96), (0x10_0800, 0x04_42E6)];
+    // --- partida del modo de mensaje
+    pub const PLAY_TIMER: u8 = 2;
+    /// Estado de inicio de cada jugador (BIOS): 1 entra, 2 continúa.
+    pub const PLAY_START_KEYS: u32 = super::memcard::START_KEYS_SRC;
+    pub const PLAY_ENTERING: u8 = 1;
+    pub const PLAY_CONTINUING: u8 = 2;
+    /// Lista a la que se vuelve si no juega nadie.
+    pub const PLAY_NOBODY: u32 = 0x00_0E42;
+    /// 0xFF = la escena se retiene un frame.
+    pub const HOLD: u32 = 0x10_6ED6;
+    pub const ENDING_TASK: u32 = 0x03_DBC8;
+    /// Índice del selector y dónde se guarda en los datos de la tarjeta.
+    pub const SELECTION: u32 = super::memcard::MESSAGE_INDEX;
+    pub const SAVE: u32 = super::memcard::SAVE;
+    pub const SAVE_SELECTION: u32 = 0x15;
+    pub const SAVE_START_KEYS: u32 = 0x16;
     /// Con el bit 0 de depuración se crea además esta tarea.
     pub const MISSION_DEBUG_TASK: u32 = 0x05_EFCA;
     pub const DEBUG: u32 = 0x10_0001;
@@ -4503,6 +4520,32 @@ pub mod slug_jump {
 
 /// Escena de mensaje y diálogo de la tarjeta de memoria
 /// (`BootScr_Message_Prepare_001416`, `MemCard_LoadDialog_*`).
+/// Selector de guion del modo de prueba (`system::msg_select`).
+pub mod msg_select {
+    pub const SEED_COUNTER: u32 = super::rng::SEED_COUNTER;
+    /// Índice elegido y el guardado en la tarjeta.
+    pub const INDEX: u32 = super::memcard::MESSAGE_INDEX;
+    pub const SAVED_INDEX: u32 = 0x10_E3B7;
+    /// Al entrar el índice se limita a `FIRST_LIMIT - 1`; después, a `COUNT`.
+    pub const FIRST_LIMIT: u8 = 6;
+    pub const COUNT: u8 = 16;
+    /// Tabla de 16 entradas: lista de escenas y puntero al número de fila
+    /// del rótulo (negativo = sin rótulo).
+    pub const TABLE: u32 = 0x00_0C0A;
+    pub const ENTRY_LEN: u32 = 8;
+    pub const TEXT: u32 = 4;
+    /// Filas de rótulos (punteros a listas de glifos terminadas en `ROW_END`).
+    pub const ROWS: u32 = 0x05_EB9E;
+    pub const ROW_PALETTE: u32 = 0x05_EB98;
+    pub const ROW_ORIGIN: u16 = 0x704D;
+    pub const ROW_STEP: u16 = 0x40;
+    pub const ROW_END: u16 = 0xFFFF;
+    pub const TILE_BANK: u16 = 0x1000;
+    pub const TILE_MASK: u16 = 0x1FFF;
+    /// Animación de la paleta: entrada, primer paso, frames y modo.
+    pub const ROW_PALETTE_ANIM: (u16, u16, u16, u8) = (1, 0x192, 1, 1);
+}
+
 pub mod memcard {
     /// Petición a la BIOS: orden, modo, opción, búfer, tamaño y resultado.
     pub const CARD_COMMAND: u32 = 0x10_FDC4;
@@ -4513,6 +4556,10 @@ pub mod memcard {
     pub const CARD_BUFFER: u32 = 0x10_FDC8;
     pub const CARD_SIZE: u32 = 0x10_FDCC;
     pub const CARD_ERROR: u32 = 0x10_FDC6;
+    /// Pila que ocupa el original antes de llamar a la BIOS: vuelta de la
+    /// lectura y 15 registros guardados (la vuelta de la BIOS la pone la
+    /// propia llamada).
+    pub const CARD_FRAME: u32 = 4 + 15 * 4;
     /// Datos guardados (búfer de lectura, `SAVE_LEN` bytes) y los 8 bytes
     /// de récords que se borran si no se cargan.
     pub const SAVE: u32 = 0x10_E3A2;
