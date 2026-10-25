@@ -428,6 +428,76 @@ pub fn air_tail(m: &mut impl Machine, t: u32) {
     publish_state(m, t);
 }
 
+// --- Bajada en paracaídas ------------------------------------------------
+
+/// Empieza a bajar en paracaídas (crea el paracaídas, estado 4, la
+/// animación y una velocidad de caída lenta). Original: `Player_SpawnParachute_033956`.
+pub fn parachute(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let p = super::tasks::spawn(m, L::PARACHUTE_TASK, t);
+    super::anim::copy_sprite_pos(m, t, p);
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    m.write_u8(t + L::STATE, L::STATE_PARACHUTE);
+    let script = L::PARACHUTE_SCRIPT;
+    let pose = m.read_u32(script - 4);
+    m.write_u32(t + L::POSE, pose);
+    m.write_u8(t + L::BYTE_21, 0xFF);
+    super::anim::start(m, t, script);
+    m.write_u16(t + L::VEL_Y, L::PARACHUTE_VEL_Y);
+    m.write_u32(t + L::HITBOX_CB, L::NO_HITBOX);
+    m.write_u32(t + T::HANDLER, L::PARACHUTE_RUN);
+    parachute_run(m)
+}
+
+/// Cada frame bajando: frena la caída, aterriza al tocar suelo (o al
+/// llegar a `PARACHUTE_FLOOR_Y`), salta si se pide, y la cola común.
+/// Original: `$0339AA`.
+pub fn parachute_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::FLAGS_13, L::FRESH, true);
+    set_bits(m, t + L::AIR, L::IN_AIR, true);
+    player::frame_common(m, t);
+    landing_sound(m, t);
+    let vy = m.read_u16(t + L::VEL_Y);
+    m.write_u16(t + L::VEL_Y, collision::clamp_velocity(vy, L::PARACHUTE_MAX_VEL).0);
+    let row = m.regs().d[4] as u16;
+    if motion::on_entity_pos(m, t, |m| slug::move_and_stop(m, t, row)) {
+        set_handler(m, t, L::PARACHUTE_LANDED);
+        set_bits(m, t + L::AIR, L::IN_AIR, false);
+    }
+    let a = m.read_u16(t + L::ATTR);
+    m.write_u16(t + L::ATTR, (a & L::ATTR_KEEP) | L::ATTR_AIR);
+    player::anim_done(m, t);
+    if crate::player::controls::jump_held(m, crate::entity::Entity::from_raw(t)).is_some() {
+        set_handler(m, t, L::PARACHUTE_DROP);
+    }
+    if (m.read_u16(t + L::Y) as i16) <= L::PARACHUTE_FLOOR_Y {
+        set_handler(m, t, L::PARACHUTE_DROP);
+    }
+    let pit = m.read_u8(L::SCENE) == L::PIT_SCENE;
+    if items::out_of_view_seen(m, t, Some(L::PIT_MARGINS[usize::from(pit)])) {
+        set_handler(m, t, L::DEATH_PIT);
+    }
+    death_check(m, t);
+    Flow::Return
+}
+
+/// Si el soldado acaba de tocar suelo, suena el golpe de su arma.
+/// Original: `$032D32` (C = sonó).
+pub fn landing_sound(m: &mut impl Machine, t: u32) -> bool {
+    if m.read_u8(t + L::STATUS) & L::LANDED != 0 {
+        set_bits(m, t + L::STATUS, L::LANDED, false);
+        let w = u32::from(m.read_u8(t + L::WEAPON));
+        let code = m.read_u16(L::LANDING_SOUNDS + w * 2);
+        if code != 0xFFFF {
+            super::sound::play(m, code);
+        }
+        return true;
+    }
+    false
+}
+
 /// Si el jugador ha muerto, pasa al estado de muerte (en el aire o en el
 /// suelo) y, salvo ahogado, suena su grito.
 /// Original: `PlayerRoute_PublishState_033522`.

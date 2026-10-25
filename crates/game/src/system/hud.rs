@@ -11,7 +11,7 @@ use crate::layout::fix_anim as FA;
 use crate::mem::Memory;
 
 /// Escribe un carácter (con sus atributos) en la capa fija.
-fn put(m: &mut impl Memory, at: u16, ch: u16) {
+pub fn put(m: &mut impl Memory, at: u16, ch: u16) {
     m.write_u16(hw::VRAM_ADDR, at);
     m.write_u16(hw::VRAM_RW, ch);
 }
