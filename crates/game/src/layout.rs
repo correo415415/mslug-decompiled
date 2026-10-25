@@ -156,6 +156,8 @@ pub mod bios {
     pub const SYSTEM_IO: u32 = 0xC0_044A;
     /// Borra la capa fija.
     pub const FIX_CLEAR: u32 = 0xC0_04C2;
+    /// Acceso a la tarjeta de memoria (parámetros en `bios_ram::CARD_*`).
+    pub const CARD: u32 = 0xC0_0468;
     /// Mensajes de la BIOS en la capa fija.
     pub const MESS_OUT: u32 = 0xC0_04CE;
     /// Comprueba (o descuenta) créditos según `bios_ram::CREDIT_REQUEST`.
@@ -757,6 +759,7 @@ pub mod routine {
     /// Guion de arranque: entradas del arranque (completo, partida,
     /// título), el reparto común, el despacho y el avance.
     pub const SCRIPT_GAME: u32 = 0x00_0EF0;
+    pub const SCRIPT_START_PRESSED: u32 = 0x00_0F76;
     pub const SCRIPT_TITLE: u32 = 0x00_0F1A;
     pub const SCRIPT_DISPATCH: u32 = 0x00_0FC6;
     pub const SCRIPT_NEXT: u32 = 0x00_0FE0;
@@ -825,6 +828,22 @@ pub mod script {
     pub const CREDITS_TASK: u32 = 0x00_1C44;
     /// Tareas fijas de la misión: (bloque, rutina).
     pub const MISSION_SLOTS: [(u32, u32); 2] = [(0x10_08A0, 0x05_EA96), (0x10_0800, 0x04_42E6)];
+    // --- partida del modo de mensaje
+    pub const PLAY_TIMER: u8 = 2;
+    /// Estado de inicio de cada jugador (BIOS): 1 entra, 2 continúa.
+    pub const PLAY_START_KEYS: u32 = super::memcard::START_KEYS_SRC;
+    pub const PLAY_ENTERING: u8 = 1;
+    pub const PLAY_CONTINUING: u8 = 2;
+    /// Lista a la que se vuelve si no juega nadie.
+    pub const PLAY_NOBODY: u32 = 0x00_0E42;
+    /// 0xFF = la escena se retiene un frame.
+    pub const HOLD: u32 = 0x10_6ED6;
+    pub const ENDING_TASK: u32 = 0x03_DBC8;
+    /// Índice del selector y dónde se guarda en los datos de la tarjeta.
+    pub const SELECTION: u32 = super::memcard::MESSAGE_INDEX;
+    pub const SAVE: u32 = super::memcard::SAVE;
+    pub const SAVE_SELECTION: u32 = 0x15;
+    pub const SAVE_START_KEYS: u32 = 0x16;
     /// Con el bit 0 de depuración se crea además esta tarea.
     pub const MISSION_DEBUG_TASK: u32 = 0x05_EFCA;
     pub const DEBUG: u32 = 0x10_0001;
@@ -4389,6 +4408,10 @@ pub mod slug_drive {
     /// luego se borra).
     pub const ENGINE_SOUND_A: u16 = 0x108F;
     pub const ENGINE_SOUND_B: u16 = 0x1092;
+    /// Sonido al tocar el suelo según el terreno: el normal y el de los
+    /// tipos con bits `$40`/`$80` (A y B).
+    pub const LAND_SOUND_A: [u16; 2] = [0x1090, 0x1052];
+    pub const LAND_SOUND_B: [u16; 2] = [0x1091, 0x1051];
     /// Parado en llano (`Slug_IdleFlat_02b38c`): guiones y ataques por
     /// pendiente, base de `+$20`, `+$60`, la caja de daño (`+$4C`) y el bucle.
     pub const FLAT_SCRIPTS: u32 = 0x27_92F4;
@@ -4411,4 +4434,172 @@ pub mod slug_drive {
     /// (byte ≠ 0) o cuesta (0), indexada con signo.
     pub const SLOPE: u32 = 0x80;
     pub const FLAT_BY_SLOPE: u32 = 0x02_A558;
+}
+
+/// Salto del Slug (`Slug_JumpCrouch_02c908` … `Slug_JumpLand_02cc1a`).
+pub mod slug_jump {
+    /// Velocidad horizontal del salto a la derecha / izquierda; con `+$94`
+    /// igual a `DIR_BLOCK_RIGHT` / `_LEFT` salta en vertical.
+    pub const DIR_MODE: u32 = 0x94;
+    pub const DIR_BLOCK_RIGHT: u16 = 3;
+    pub const DIR_BLOCK_LEFT: u16 = 4;
+    pub const VEL_RIGHT: u16 = 0x2AA;
+    pub const VEL_LEFT: u16 = 0xFD56;
+    /// Agacharse antes de saltar: guiones, ataques, base de `+$20`, `+$60`.
+    pub const CROUCH_SCRIPTS: u32 = 0x27_9308;
+    pub const CROUCH_ATTACKS: u32 = 0x02_A038;
+    pub const CROUCH_BYTE_20: u8 = 0x2D;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const CROUCH_HANDLER_60: u32 = 0x02_95B4;
+    /// Despegue: velocidad y gravedad, guiones, ataques, base de `+$20`.
+    pub const LAUNCH_VEL_Y: u16 = 0x4A4;
+    pub const LAUNCH_ACC_Y: u16 = 0xFF9D;
+    pub const LAUNCH_SCRIPTS: u32 = 0x27_931C;
+    pub const LAUNCH_ATTACKS: u32 = 0x02_A04C;
+    pub const LAUNCH_BYTE_20: u8 = 0x32;
+    /// Aterrizaje: duración (`+$91`), velocidad que le queda, guiones y
+    /// ataques, base de `+$20`.
+    pub const LAND_TIMER: u32 = 0x91;
+    pub const LAND_FRAMES: u8 = 0x11;
+    pub const LAND_VEL_X: u16 = 0x80;
+    pub const LAND_SCRIPTS: u32 = 0x27_9330;
+    pub const LAND_ATTACKS: u32 = 0x02_9FFC;
+    pub const LAND_BYTE_20: u8 = 0x37;
+    /// En el aire: aceleración según la dirección del mando y topes.
+    pub const STEER_ACC: u32 = 0x02_C900;
+    pub const MAX_VEL_X: u16 = 0x2A0;
+    pub const MAX_VEL_Y: u16 = 0x400;
+    /// Inclinación al tocar una cuesta: guiones por sprite de inclinación.
+    pub const TILT_SCRIPTS: u32 = 0x2B_0C30;
+    /// Campos.
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const Y: u32 = 0x24;
+    pub const BASE_Y: u32 = 0x82;
+    pub const BYTE_20: u32 = 0x20;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const SLOPE: u32 = 0x80;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const BIT_5B_3: u8 = 1 << 3;
+    pub const LANDED: u8 = 1 << 7;
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const BIT_8C_5: u8 = 1 << 5;
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const IN_AIR: u8 = 1 << 1;
+    pub const TILTED: u8 = 1 << 2;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const TILT_MAX: u16 = 0x40;
+    /// Rutinas.
+    pub const CROUCH_LOOP: u32 = 0x02_C95C;
+    pub const LAUNCH: u32 = 0x02_CA0C;
+    pub const AIR: u32 = 0x02_CA8A;
+    pub const AIR_FIRE: u32 = 0x02_CC02;
+    pub const LAND: u32 = 0x02_CC1A;
+    pub const LAND_LOOP: u32 = 0x02_CCB0;
+    pub const LAND_SLOPE: u32 = 0x02_CE1C;
+    pub const LAND_SLOPE_LOOP: u32 = 0x02_CE7E;
+    pub const FIRE_CROUCH: u32 = 0x02_D286;
+    pub const FIRE_CROUCH_AIR: u32 = 0x02_D298;
+    pub const FIRE_AIR_B: u32 = 0x02_D380;
+    pub const FIRE_FLAT: u32 = 0x02_C24A;
+    pub const IDLE_ENTER_B: u32 = 0x02_DD74;
+    pub const IDLE_SLOPE: u32 = 0x02_B4D2;
+    pub const FALL: u32 = 0x02_D02E;
+    pub const EJECT: u32 = 0x02_BBF2;
+    /// Tablas de rutina: golpes (en tierra / en el aire), agacharse al
+    /// aterrizar según la pendiente, saltar según la dirección.
+    pub const HIT_HANDLERS: u32 = 0x02_A060;
+    pub const HIT_HANDLERS_AIR: u32 = 0x02_A06C;
+    pub const CROUCH_LAND: u32 = 0x02_A08C;
+    pub const JUMP_BY_DIR: u32 = 0x02_C9B0;
+    pub const MARGINS: u32 = 0x27_964E;
+    pub const DEATH_FINISH: u32 = 0x02_DCBC;
+}
+
+/// Escena de mensaje y diálogo de la tarjeta de memoria
+/// (`BootScr_Message_Prepare_001416`, `MemCard_LoadDialog_*`).
+/// Selector de guion del modo de prueba (`system::msg_select`).
+pub mod msg_select {
+    pub const SEED_COUNTER: u32 = super::rng::SEED_COUNTER;
+    /// Índice elegido y el guardado en la tarjeta.
+    pub const INDEX: u32 = super::memcard::MESSAGE_INDEX;
+    pub const SAVED_INDEX: u32 = 0x10_E3B7;
+    /// Al entrar el índice se limita a `FIRST_LIMIT - 1`; después, a `COUNT`.
+    pub const FIRST_LIMIT: u8 = 6;
+    pub const COUNT: u8 = 16;
+    /// Tabla de 16 entradas: lista de escenas y puntero al número de fila
+    /// del rótulo (negativo = sin rótulo).
+    pub const TABLE: u32 = 0x00_0C0A;
+    pub const ENTRY_LEN: u32 = 8;
+    pub const TEXT: u32 = 4;
+    /// Filas de rótulos (punteros a listas de glifos terminadas en `ROW_END`).
+    pub const ROWS: u32 = 0x05_EB9E;
+    pub const ROW_PALETTE: u32 = 0x05_EB98;
+    pub const ROW_ORIGIN: u16 = 0x704D;
+    pub const ROW_STEP: u16 = 0x40;
+    pub const ROW_END: u16 = 0xFFFF;
+    pub const TILE_BANK: u16 = 0x1000;
+    pub const TILE_MASK: u16 = 0x1FFF;
+    /// Animación de la paleta: entrada, primer paso, frames y modo.
+    pub const ROW_PALETTE_ANIM: (u16, u16, u16, u8) = (1, 0x192, 1, 1);
+}
+
+pub mod memcard {
+    /// Petición a la BIOS: orden, modo, opción, búfer, tamaño y resultado.
+    pub const CARD_COMMAND: u32 = 0x10_FDC4;
+    pub const CARD_READ: u8 = 2;
+    pub const CARD_MODE: u32 = 0x10_FDCE;
+    pub const CARD_MODE_GAME: u16 = 0x201;
+    pub const CARD_OPTION: u32 = 0x10_FDD0;
+    pub const CARD_BUFFER: u32 = 0x10_FDC8;
+    pub const CARD_SIZE: u32 = 0x10_FDCC;
+    pub const CARD_ERROR: u32 = 0x10_FDC6;
+    /// Pila que ocupa el original antes de llamar a la BIOS: vuelta de la
+    /// lectura y 15 registros guardados (la vuelta de la BIOS la pone la
+    /// propia llamada).
+    pub const CARD_FRAME: u32 = 4 + 15 * 4;
+    /// Datos guardados (búfer de lectura, `SAVE_LEN` bytes) y los 8 bytes
+    /// de récords que se borran si no se cargan.
+    pub const SAVE: u32 = 0x10_E3A2;
+    pub const SAVE_LEN: u16 = 0x1C;
+    pub const SAVE_SCORES: core::ops::Range<u32> = 0x14..0x1C;
+    /// Escena: índice de mensaje, mensaje en curso, la copia de las
+    /// teclas de inicio y el diálogo (tarea y rutina extra en `+$98`).
+    pub const MESSAGE_INDEX: u32 = 0x10_6ED0;
+    pub const BUSY: u32 = 0x10_6ED2;
+    pub const START_KEYS_SRC: u32 = 0x10_FDB6;
+    pub const START_KEYS: u32 = 0x10_E3A0;
+    pub const DIALOG: u32 = 0x09_8288;
+    pub const EXTRA: u32 = 0x98;
+    pub const DIALOG_EXTRA: u32 = 0x05_164A;
+    /// Escena de fondo del diálogo (descriptor) y sus velocidades.
+    pub const BACKDROP: u32 = 0x29_70F8;
+    pub const BACKDROP_IDLE: u32 = 0x04_422E;
+    /// Diálogo: fondo (glifo `BLANK`, 0x26 × 0x1B desde `FIX_ORIGIN`),
+    /// textos, cursor, tiempo, opción y teclas pulsadas.
+    pub const FIX_ORIGIN: u16 = 0x7000;
+    pub const BLANK: u16 = 0xFF;
+    pub const BG_SIZE: (u16, u16) = (0x26, 0x1B);
+    pub const TEXTS: [(u16, u32); 4] = [(0x7204, 0x09_8692), (0x724A, 0x09_869E), (0x724E, 0x09_86A6), (0x7116, 0x09_86AC)];
+    pub const PROMPT: u16 = 0x7116;
+    pub const PROMPT_SIZE: (u16, u16) = (0x1A, 2);
+    pub const DONE_TEXT: (u16, u32) = (0x7152, 0x09_86C8);
+    pub const CURSOR_GLYPHS: u32 = 0x09_8700;
+    pub const CURSORS: [u16; 2] = [0x720A, 0x720E];
+    pub const GLYPH_END: u16 = 0xFFFF;
+    pub const GLYPH_STEP: u16 = 0x40;
+    pub const TIMER: u32 = 0x70;
+    pub const TIMEOUT: u16 = 0x12C;
+    pub const DONE_DELAY: u16 = 0x1E;
+    pub const CHOICE: u32 = 0x72;
+    pub const KEYS: u32 = 0x74;
+    /// Teclas de inicio de cada jugador (y si están en juego, 1 o 2).
+    pub const PLAYER_KEYS: [u32; 2] = [0x10_FD96, 0x10_FD9C];
+    pub const KEY_UP: u8 = 1 << 0;
+    pub const KEY_DOWN: u8 = 1 << 1;
+    pub const KEY_A: u8 = 1 << 4;
+    pub const RUN: u32 = 0x09_8308;
+    pub const EXIT_DELAY: u32 = 0x09_83F6;
 }

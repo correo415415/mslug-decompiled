@@ -111,6 +111,13 @@ pub fn player_pad_pressed(m: &mut impl Memory, p: PlayerId, b: Buttons, edge: Ed
     m.read_u8(L::PAD_LIVE[p.index()] + edge.offset()) & b.0 != 0
 }
 
+/// Truco de depuración: arriba mantenido y D recién pulsado en el mando
+/// real del jugador 1. Original: `InputEvt_ToggleChain_05d288`.
+pub fn debug_skip(m: &mut impl Memory) -> bool {
+    player_pad_pressed(m, PlayerId::P1, Buttons::UP, Edge::Held)
+        && player_pad_pressed(m, PlayerId::P1, Buttons::D, Edge::Pressed)
+}
+
 /// Dirección horizontal mantenida en el mando de `e`: 0 ninguna, 1
 /// izquierda, 2 derecha, 3 ambas. Original: `InputLayout_ReadField2`.
 pub fn horizontal_held(m: &mut impl Memory, e: Entity) -> u8 {
