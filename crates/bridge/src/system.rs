@@ -10,7 +10,8 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, parachute, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_hunker, slug_idle, slug_jump, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::soldier::Trait;
+use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, parachute, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2278,6 +2279,62 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { use mslug_game::layout::player_ground as G; let t = m.cpu.a[6]; player_ground::walk_shoot_pose(m, t, true, G::STATE_WALK_LONG_SHOOT, G::WALK_SHOOT_UP_SCRIPT); Flow::Return } },
     SystemPort { entry: 0x03_5A0A, original: "Player_WalkLoopShootUpPose_Alt_035a0a", rust: "system::player_ground::walk_shoot_pose",
                  run: |m| { use mslug_game::layout::player_ground as G; let t = m.cpu.a[6]; player_ground::walk_shoot_pose(m, t, true, G::STATE_WALK_LONG_SHOOT, G::WALK_SHOOT_UP_ALT_SCRIPT); Flow::Return } },
+    // --- soldado rebelde: alta y percepción
+    SystemPort { entry: 0x05_7276, original: "Soldier_SpawnVariants_057226+0x50", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Sub(1)]) },
+    SystemPort { entry: 0x05_7282, original: "Soldier_SpawnVariants_057226+0x5C", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Sub(2)]) },
+    SystemPort { entry: 0x05_728E, original: "Soldier_SpawnVariants_057226+0x68", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Sub(3)]) },
+    SystemPort { entry: 0x05_729A, original: "Soldier_SpawnVariants_057226+0x74", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(0)]) },
+    SystemPort { entry: 0x05_72A6, original: "Soldier_SpawnVariants_057226+0x80", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(1)]) },
+    SystemPort { entry: 0x05_72B2, original: "Soldier_SpawnVariants_057226+0x8C", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(2)]) },
+    SystemPort { entry: 0x05_72BE, original: "Soldier_SpawnVariants_057226+0x98", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(0), Trait::Anchor(1), Trait::Anchor(2)]) },
+    SystemPort { entry: 0x05_72D2, original: "Soldier_SpawnVariants_057226+0xAC", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(0), Trait::Random]) },
+    SystemPort { entry: 0x05_72E2, original: "Soldier_SpawnVariants_057226+0xBC", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(1), Trait::Random]) },
+    SystemPort { entry: 0x05_72F2, original: "Soldier_SpawnVariants_057226+0xCC", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(2), Trait::Random]) },
+    SystemPort { entry: 0x05_7302, original: "Soldier_SpawnVariants_057226+0xDC", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(0), Trait::Anchor(1), Trait::Anchor(2), Trait::Random]) },
+    SystemPort { entry: 0x05_731A, original: "Soldier_SpawnVariants_057226+0xF4", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(0)]) },
+    SystemPort { entry: 0x05_7326, original: "Soldier_SpawnVariants_057226+0x100", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(1), Trait::Random, Trait::Flees]) },
+    SystemPort { entry: 0x05_733A, original: "Soldier_SpawnVariants_057226+0x114", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(2), Trait::Random, Trait::Flees]) },
+    SystemPort { entry: 0x05_734E, original: "Soldier_SpawnVariants_057226+0x128", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Anchor(0), Trait::Anchor(1), Trait::Anchor(2), Trait::Random, Trait::Flees]) },
+    SystemPort { entry: 0x05_7386, original: "Soldier_SpawnVariants_057226+0x160", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Random, Trait::Flees]) },
+    SystemPort { entry: 0x05_7396, original: "Soldier_SpawnVariants_057226+0x170", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Flees]) },
+    SystemPort { entry: 0x05_73A2, original: "Soldier_SpawnVariants_057226+0x17C", rust: "system::soldier::spawn", run: |m| soldier::spawn(m, &[Trait::Random]) },
+    SystemPort { entry: 0x05_7226, original: "Soldier_SpawnVariants_057226", rust: "system::soldier::spawn_preset", run: |m| soldier::spawn_preset(m, &[Trait::Random]) },
+    SystemPort { entry: 0x05_724E, original: "Soldier_SpawnVariants_057226+0x28", rust: "system::soldier::spawn_preset", run: |m| soldier::spawn_preset(m, &[Trait::Anchor(1)]) },
+    SystemPort { entry: 0x05_736A, original: "Soldier_SpawnVariants_057226+0x144", rust: "system::soldier::spawn_facing", run: |m| soldier::spawn_facing(m, false) },
+    SystemPort { entry: 0x05_7374, original: "Soldier_SpawnVariants_057226+0x14E", rust: "system::soldier::spawn_facing", run: |m| soldier::spawn_facing(m, true) },
+    SystemPort { entry: 0x05_752C, original: "Soldier_SpawnDispatch_05752c", rust: "system::soldier::dispatch", run: |m| soldier::dispatch(m) },
+    SystemPort { entry: 0x05_70A8, original: "Soldier_InitCommon_0570a8", rust: "system::soldier::init_common",
+                 run: |m| { let t = m.cpu.a[6]; soldier::init_common(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_717A, original: "$05717A", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::RandomSide); Flow::Return } },
+    SystemPort { entry: 0x05_719C, original: "$05719C", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::Random); Flow::Return } },
+    SystemPort { entry: 0x05_71C4, original: "$0571C4", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::Sub(2)); Flow::Return } },
+    SystemPort { entry: 0x05_71D8, original: "$0571D8", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::Sub(1)); Flow::Return } },
+    SystemPort { entry: 0x05_71EC, original: "$0571EC", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::Sub(3)); Flow::Return } },
+    SystemPort { entry: 0x05_7200, original: "$057200", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::Flees); Flow::Return } },
+    SystemPort { entry: 0x05_720E, original: "$05720E", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::Anchor(0)); Flow::Return } },
+    SystemPort { entry: 0x05_7216, original: "$057216", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::Anchor(2)); Flow::Return } },
+    SystemPort { entry: 0x05_721E, original: "$05721E", rust: "system::soldier::publish", run: |m| { let t = m.cpu.a[6]; soldier::publish(m, t, Trait::Anchor(1)); Flow::Return } },
+    SystemPort { entry: 0x05_6B92, original: "Soldier_Think_056b92", rust: "system::soldier::think",
+                 run: |m| { let t = m.cpu.a[6]; soldier::think(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_6B38, original: "Soldier_FindNearestPlayer_056b38", rust: "system::soldier::nearest_player",
+                 run: |m| { let t = m.cpu.a[6]; let (d, p) = soldier::nearest_player(m, t);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(d); m.cpu.a[0] = p.unwrap_or(0); Flow::Return } },
+    SystemPort { entry: 0x05_6B12, original: "Soldier_ApproxDist_056b12", rust: "system::soldier::approx_dist",
+                 run: |m| { let d = soldier::approx_dist(m.cpu.d[0] as u16, m.cpu.d[1] as u16);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(d); Flow::Return } },
+    SystemPort { entry: 0x02_7F60, original: "$027F60", rust: "system::soldier::on_ground",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let g = soldier::on_ground(m, t);
+                            m.cpu.d[3] = (m.cpu.d[3] & 0xFFFF_FF00) | if g { 0xFF } else { 0 }; set_carry(m, false); Flow::Return } },
+    SystemPort { entry: 0x07_99DE, original: "$0799DE", rust: "system::soldier::by_difficulty",
+                 run: |m| { let (t, a0) = (m.cpu.a[6], m.cpu.a[0]); let v = soldier::by_difficulty(m, t, a0);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v); Flow::Return } },
+    SystemPort { entry: 0x07_99A4, original: "$0799A4", rust: "system::soldier::level",
+                 run: |m| { let (t, a0) = (m.cpu.a[6], m.cpu.a[0]); let v = soldier::level(m, t, a0);
+                            m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(v); Flow::Return } },
+    SystemPort { entry: 0x08_F344, original: "PosRing_FindNear_08f344", rust: "system::soldier::ring_near",
+                 run: |m| { let t = m.cpu.a[6]; let r = soldier::ring_near(m, t);
+                            if let Some(d) = r { m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(d); }
+                            set_carry(m, r.is_some()); Flow::Return } },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
