@@ -1572,6 +1572,20 @@ pub mod player_ground {
     /// Andar: estado, guiones (adelante y apuntando arriba), la pose que
     /// marca el cambio de apuntado, velocidad, bucles y los estados a los
     /// que se pasa (parar, disparar andando).
+    /// Andar disparando: estados, guiones (mismo apuntado, transición y
+    /// los alternativos del andar lanzado) y desplazamientos del brazo.
+    pub const STATE_WALK_SHOOT: u8 = 0x22;
+    pub const STATE_WALK_LONG_SHOOT: u8 = 0x23;
+    pub const STATE_SHOOT_KEEP: u8 = 0x24;
+    pub const WALK_SHOOT_SCRIPT: u32 = 0x27_98E0;
+    pub const WALK_SHOOT_UP_SCRIPT: u32 = 0x27_98EA;
+    pub const WALK_SHOOT_FROM_UP: u32 = 0x27_98F4;
+    pub const WALK_SHOOT_UP_FROM_FWD: u32 = 0x27_98FE;
+    pub const WALK_SHOOT_ALT_SCRIPT: u32 = 0x27_9908;
+    pub const WALK_SHOOT_UP_ALT_SCRIPT: u32 = 0x27_9912;
+    pub const WALK_SHOOT_OFFSET: (u16, u16) = (0, 0xFFFF);
+    pub const WALK_LONG_SHOOT_OFFSET: (u16, u16) = (1, 3);
+    pub const WALK_LONG_SHOOT_UP_OFFSET: (u16, u16) = (0, 4);
     pub const STATE_WALK: u8 = 0x11;
     pub const WALK_SCRIPT: u32 = 0x27_9882;
     pub const WALK_UP_SCRIPT: u32 = 0x27_9878;
@@ -1759,6 +1773,13 @@ pub mod player_air {
     pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
     /// Ventana de agarre alrededor de la anilla (medio ancho/alto).
     pub const RING_REACH: (u16, u16) = (0x18, 0x20);
+    /// Caída libre al aparecer: indicador del jugador e invulnerabilidad.
+    pub const MARKER_TASKS: [u32; 2] = [0x03_2112, 0x03_2142];
+    pub const FREE_FALL_RUN: u32 = 0x03_6D20;
+    pub const P1_ENTITY: u32 = 0x10_0440;
+    pub const FREE_FALL_SHIELD: [u32; 2] = [0x59, 0x45];
+    pub const FREE_FALL_SHIELD_BITS: u8 = 0x3C;
+    pub const FREE_FALL_LANDED: u8 = 0x50;
 }
 
 /// Brazo del jugador (`system::player_arm`): tarea hija que dibuja el
@@ -3974,6 +3995,10 @@ pub mod icons {
     pub const OWNER_SHOW: u8 = 1 << 5;
     pub const OWNER_FLAGS_13: u32 = 0x13;
     pub const OWNER_DONE: u8 = 1 << 0;
+    /// Indicador «1UP»/«2UP»: dueño esperado, (gráfico, guion, altura).
+    pub const PLAYER_OWNER: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const PLAYER: [(u16, u32, u16); 2] = [(0xA2, 0x03_21C2, 0x30), (0xA3, 0x03_2224, 0x38)];
+    pub const PLAYER_RUN: u32 = 0x03_2180;
 }
 
 /// Torreta del Slug (y de otros vehículos): sigue al chasis, apunta con
@@ -4744,4 +4769,167 @@ pub mod memcard {
     pub const KEY_A: u8 = 1 << 4;
     pub const RUN: u32 = 0x09_8308;
     pub const EXIT_DELAY: u32 = 0x09_83F6;
+}
+
+/// Rótulo «MISSION START» / «MISSION COMPLETE» (`system::banner`).
+pub mod banner {
+    /// Letra: (glifo o `None` = número de la misión, fila, turno de caída,
+    /// X e Y de destino).
+    pub type Letter = (Option<u8>, u8, u16, u16, u16);
+    pub const SCENE: u32 = 0x10_6ECE;
+    pub const STAGE: u32 = 0x10_6ECF;
+    pub const FINAL_SCENE: u8 = 5;
+    pub const SCENE_BUSY: u32 = 0x10_6ED2;
+    /// Sonidos por fase al abrir y al completar «START».
+    pub const START_SOUNDS: u32 = 0x28_DF00;
+    pub const END_SOUNDS: u32 = 0x28_DF10;
+    pub const COMPLETE_SOUND: u16 = 0x20;
+    pub const COMPLETE_DONE_SOUND: u16 = 0x1137;
+    /// Campos de la tarea raíz.
+    pub const STATE: u32 = 0x20;
+    pub const CLOSING: u8 = 0xFF;
+    pub const LANDED: u32 = 0x21;
+    pub const KIND: u32 = 0x7B;
+    pub const DELAY: u32 = 0x74;
+    pub const START_Y: u16 = 0x1FF;
+    pub const HOLD_FRAMES: i16 = 0x26;
+    pub const CLOSE_FRAMES: u16 = 0x28;
+    /// Byte del padre que «START» pone a 0 al acabar.
+    pub const OWNER_BUSY: u32 = 0x21;
+    pub const FADE_KIND: usize = 0;
+    pub const FADE_PARAM: u16 = 2;
+    /// Campos de cada letra.
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    pub const FLIP: u32 = 0x3A;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const SHRINK_X: u32 = 0x33;
+    pub const SHRINK_Y: u32 = 0x32;
+    pub const SPEED: u32 = 0x36;
+    pub const PALETTE: u32 = 0x14;
+    pub const PALETTE_SRC: u32 = 0x18;
+    pub const GLYPH: u32 = 0x20;
+    pub const ROW: u32 = 0x21;
+    pub const TARGET_X: u32 = 0x70;
+    pub const TARGET_Y: u32 = 0x72;
+    pub const START_DELAY: u32 = 0x76;
+    pub const BLINK: u32 = 0x78;
+    pub const BLINK_START: u16 = 0x1FF;
+    pub const BLINK_STEP: u16 = 0x18;
+    pub const BLINK_GROW: u16 = 0x100;
+    pub const LANDED_SOUND: u32 = 0x7A;
+    pub const NEAR: i16 = 0x30;
+    /// La fila del número parpadea con el bit 3 del contador del rótulo.
+    pub const ROW_BLINK: u16 = 1 << 3;
+    pub const GFX: u16 = 0x1BE;
+    pub const LANDED_GFX: u16 = 0x1AA;
+    /// Guiones de las letras (0–13) y de los números (0–5).
+    pub const LETTERS: u32 = 0x2D_F684;
+    pub const LAST_LETTER: u8 = 13;
+    pub const DIGITS: u32 = 0x2D_F71C;
+    pub const LAST_DIGIT: u8 = 5;
+    /// Salida: punto del que huyen, aceleración y márgenes de la vista.
+    pub const AWAY_FROM: (u16, u16) = (0xA0, 0x190);
+    pub const SPEED_STEP: u16 = 0x1FF;
+    pub const MARGINS: u32 = 0x2D_F734;
+    /// Tablas de `atan2`: logaritmo y exponencial.
+    pub const LOG: u32 = 0x05_DE18;
+    pub const EXP: u32 = 0x05_DF18;
+    /// Rutinas.
+    pub const START_WAIT: u32 = 0x07_A9C0;
+    pub const COMPLETE_WAIT: u32 = 0x07_AA44;
+    pub const WAIT: u32 = 0x07_AA78;
+    pub const WAIT_RUN: u32 = 0x07_AA7E;
+    pub const CLOSE: u32 = 0x07_AA94;
+    pub const CLOSE_RUN: u32 = 0x07_AACA;
+    pub const LETTER_DROP: u32 = 0x07_AAE0;
+    pub const LETTER_DROP_RUN: u32 = 0x07_AAEC;
+    pub const DIGIT_DROP: u32 = 0x07_AB5C;
+    pub const DIGIT_DROP_RUN: u32 = 0x07_AB68;
+    pub const LETTER_TICK: u32 = 0x07_ABD0;
+    pub const ATTACH: u32 = 0x07_ABF4;
+    pub const ATTACH_RUN: u32 = 0x07_AC14;
+    pub const FLY_OFF: u32 = 0x07_AC4A;
+    pub const FLY_OFF_RUN: u32 = 0x07_AC56;
+    /// Letras de cada rótulo, en el orden en que se crean.
+    pub const START: [Letter; 14] = [
+        (Some(12), 1, 0x18, 0xDA, 0x178),
+        (Some(11), 1, 0x16, 0xC4, 0x178),
+        (Some(6), 1, 0x14, 0xAD, 0x178),
+        (Some(5), 1, 0x12, 0x94, 0x178),
+        (Some(11), 1, 0x10, 0x7E, 0x178),
+        (Some(2), 1, 0x0E, 0x64, 0x178),
+        (None, 0, 0x0E, 0xF0, 0x1A8),
+        (Some(4), 0, 0x0C, 0xD0, 0x1A8),
+        (Some(3), 0, 0x0A, 0xB7, 0x1A8),
+        (Some(1), 0, 0x08, 0xA4, 0x1A8),
+        (Some(2), 0, 0x06, 0x90, 0x1A8),
+        (Some(2), 0, 0x04, 0x77, 0x1A8),
+        (Some(1), 0, 0x02, 0x64, 0x1A8),
+        (Some(0), 0, 0x00, 0x50, 0x1A8),
+    ];
+    pub const START_FINAL: [Letter; 18] = [
+        (Some(12), 1, 0x22, 0xDA, 0x168),
+        (Some(11), 1, 0x20, 0xC6, 0x168),
+        (Some(6), 1, 0x1E, 0xAF, 0x168),
+        (Some(5), 1, 0x1C, 0x96, 0x168),
+        (Some(11), 1, 0x1A, 0x80, 0x168),
+        (Some(2), 1, 0x18, 0x66, 0x168),
+        (Some(4), 0, 0x16, 0xE0, 0x198),
+        (Some(3), 0, 0x14, 0xC7, 0x198),
+        (Some(1), 0, 0x12, 0xB4, 0x198),
+        (Some(2), 0, 0x10, 0xA0, 0x198),
+        (Some(2), 0, 0x0E, 0x87, 0x198),
+        (Some(1), 0, 0x0C, 0x74, 0x198),
+        (Some(0), 0, 0x0A, 0x60, 0x198),
+        (Some(9), 0, 0x08, 0xCD, 0x1B8),
+        (Some(5), 0, 0x06, 0xB4, 0x1B8),
+        (Some(4), 0, 0x04, 0x9C, 0x1B8),
+        (Some(1), 0, 0x02, 0x89, 0x1B8),
+        (Some(13), 0, 0x00, 0x76, 0x1B8),
+    ];
+    pub const COMPLETE: [Letter; 17] = [
+        (Some(12), 1, 0x20, 0x102, 0x178),
+        (Some(10), 1, 0x1E, 0xEC, 0x178),
+        (Some(11), 1, 0x1C, 0xD4, 0x178),
+        (Some(10), 1, 0x1A, 0xBC, 0x178),
+        (Some(9), 1, 0x18, 0xA5, 0x178),
+        (Some(8), 1, 0x16, 0x8D, 0x178),
+        (Some(0), 1, 0x14, 0x74, 0x178),
+        (Some(3), 1, 0x12, 0x5B, 0x178),
+        (Some(7), 1, 0x10, 0x42, 0x178),
+        (None, 0, 0x0E, 0xF0, 0x1A8),
+        (Some(4), 0, 0x0C, 0xD0, 0x1A8),
+        (Some(3), 0, 0x0A, 0xB7, 0x1A8),
+        (Some(1), 0, 0x08, 0xA4, 0x1A8),
+        (Some(2), 0, 0x06, 0x90, 0x1A8),
+        (Some(2), 0, 0x04, 0x77, 0x1A8),
+        (Some(1), 0, 0x02, 0x64, 0x1A8),
+        (Some(0), 0, 0x00, 0x50, 0x1A8),
+    ];
+    pub const COMPLETE_FINAL: [Letter; 21] = [
+        (Some(12), 1, 0x28, 0x104, 0x168),
+        (Some(10), 1, 0x26, 0xEE, 0x168),
+        (Some(11), 1, 0x24, 0xD6, 0x168),
+        (Some(10), 1, 0x22, 0xBE, 0x168),
+        (Some(9), 1, 0x20, 0xA7, 0x168),
+        (Some(8), 1, 0x1E, 0x8F, 0x168),
+        (Some(0), 1, 0x1C, 0x76, 0x168),
+        (Some(3), 1, 0x1A, 0x5D, 0x168),
+        (Some(7), 1, 0x18, 0x44, 0x168),
+        (Some(4), 0, 0x16, 0xE0, 0x198),
+        (Some(3), 0, 0x14, 0xC7, 0x198),
+        (Some(1), 0, 0x12, 0xB4, 0x198),
+        (Some(2), 0, 0x10, 0xA0, 0x198),
+        (Some(2), 0, 0x0E, 0x87, 0x198),
+        (Some(1), 0, 0x0C, 0x74, 0x198),
+        (Some(0), 0, 0x0A, 0x60, 0x198),
+        (Some(9), 0, 0x08, 0xCD, 0x1B8),
+        (Some(5), 0, 0x06, 0xB4, 0x1B8),
+        (Some(4), 0, 0x04, 0x9C, 0x1B8),
+        (Some(1), 0, 0x02, 0x89, 0x1B8),
+        (Some(13), 0, 0x00, 0x76, 0x1B8),
+    ];
 }

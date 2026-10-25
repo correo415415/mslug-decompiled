@@ -1165,3 +1165,55 @@ pub fn stop_loop(m: &mut impl Machine) -> Flow {
     idle_tail(m, t);
     Flow::Return
 }
+
+// --- Andar disparando ----------------------------------------------------
+
+/// Pose de andar disparando (hacia delante o hacia arriba): `state` es el
+/// estado de andar (normal o lanzado) y `same` el guion si el apuntado no
+/// cambia; si cambia, el de transición. Si el estado actual es de los
+/// «bajos» sólo se cambia la pose y se pide rehacerla; si no, se reinicia
+/// la animación. Original: `Player_WalkShootPose_034ede`,
+/// `Player_WalkShootUpPose_035052`, `Player_WalkLoopShootPose_0357fa`,
+/// `_Alt_0358aa`, `Player_WalkLoopShootUpPose_03595a` y `_Alt_035a0a`.
+pub fn walk_shoot_pose(m: &mut impl Memory, t: u32, up: bool, state: u8, same: u32) {
+    set_bits(m, t + L::STATUS, L::ARM_FIRING, true);
+    let mode = if up { L::MODE_UP } else { 0 };
+    // Viene del otro apuntado (el original sólo mira ese valor exacto).
+    let other = if up { 0 } else { L::MODE_UP };
+    let changed = m.read_u16(t + L::MODE) == other;
+    let script = match (changed, up) {
+        (true, false) => L::WALK_SHOOT_FROM_UP,
+        (true, true) => L::WALK_SHOOT_UP_FROM_FWD,
+        (false, _) => same,
+    };
+    if m.read_u8(t + L::STATE) < L::STATE_SHOOT_KEEP {
+        set_bits(m, t + L::FLAGS_69, L::WANTS_POSE, true);
+        set_pose(m, t, state, script);
+    } else {
+        restart(m, t, state, script);
+    }
+    m.write_u16(t + L::MODE, mode);
+}
+
+/// Echa a andar disparando. `long` = andar lanzado.
+/// Original: `Player_WalkRight_Shoot_034eca`, `_ShootUp_03503e`,
+/// `Player_WalkLeft_Shoot_0351b0`, `_ShootUp_0351c4`,
+/// `Player_WalkLoopRight_Shoot_0357aa`, `_ShootUp_0357be`,
+/// `Player_WalkLoopLeft_Shoot_0357d2` y `_ShootUp_0357e6`.
+pub fn walk_shoot(m: &mut impl Machine, left: bool, up: bool, long: bool) -> Flow {
+    let t = m.task_register();
+    let (off, state, same) = match (long, up) {
+        (false, false) => (L::WALK_SHOOT_OFFSET, L::STATE_WALK_SHOOT, L::WALK_SHOOT_SCRIPT),
+        (false, true) => (L::WALK_SHOOT_OFFSET, L::STATE_WALK_SHOOT, L::WALK_SHOOT_UP_SCRIPT),
+        (true, false) => (L::WALK_LONG_SHOOT_OFFSET, L::STATE_WALK_LONG_SHOOT, L::WALK_SHOOT_SCRIPT),
+        (true, true) => (L::WALK_LONG_SHOOT_UP_OFFSET, L::STATE_WALK_LONG_SHOOT, L::WALK_SHOOT_UP_SCRIPT),
+    };
+    m.write_u16(t + L::OFFSET_X, off.0);
+    m.write_u16(t + L::OFFSET_Y, off.1);
+    walk_shoot_pose(m, t, up, state, same);
+    if long {
+        walk_long_setup(m, t, left)
+    } else {
+        walk_setup(m, t, left)
+    }
+}
