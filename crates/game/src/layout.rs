@@ -4933,3 +4933,91 @@ pub mod banner {
         (Some(13), 0, 0x00, 0x76, 0x1B8),
     ];
 }
+
+/// Soldado rebelde (`system::soldier`).
+pub mod soldier {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ATTR_38: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const VARIANT_11: u32 = 0x11;
+    pub const FLAGS2: u32 = 0x13;
+    pub const FLAGS2_UP: u8 = 1 << 4;
+    pub const FLAGS2_DOWN: u8 = 1 << 5;
+    pub const FLAGS_5A: u32 = 0x5A;
+    pub const PROBE_EDGE: u8 = 1 << 5;
+    pub const FLAGS_6B: u32 = 0x6B;
+    pub const FLAGS_6B_SET: u8 = 1 << 3;
+    /// `+$70` semilla (su byte alto decide la variante 2), `+$90` radio.
+    pub const SEED: u32 = 0x70;
+    pub const RADIUS: u32 = 0x90;
+    /// `+$72`: lado, detrás, activo, borde sólido / hueco delante.
+    pub const FLAGS_72: u32 = 0x72;
+    pub const SIDE: u8 = 1 << 0;
+    pub const BEHIND: u8 = 1 << 1;
+    pub const ACTIVE: u8 = 1 << 4;
+    pub const EDGE_SOLID: u8 = 1 << 5;
+    pub const EDGE_GAP: u8 = 1 << 6;
+    /// `+$73`: sin objetivo y preferencias.
+    pub const FLAGS_73: u32 = 0x73;
+    pub const NO_TARGET: u8 = 1 << 0;
+    pub const PREF_SET: u8 = 1 << 1;
+    pub const PREF_FWD: u8 = 1 << 2;
+    pub const PREF_BACK: u8 = 1 << 3;
+    /// `+$74`: anclas de agarre (bits 0–2), puede rendirse, huye; `+$75`
+    /// subestado.
+    pub const FLAGS_74: u32 = 0x74;
+    pub const CAN_SURRENDER: u8 = 1 << 3;
+    pub const FLEES: u8 = 1 << 4;
+    pub const SUBSTATE: u32 = 0x75;
+    pub const GROUNDED: u32 = 0x78;
+    pub const TARGET: u32 = 0x7A;
+    pub const DISTANCE: u32 = 0x7E;
+    /// Umbrales y preferencias de movimiento.
+    pub const NEAR: u32 = 0x80;
+    pub const FAR: u32 = 0x82;
+    pub const PREF_A: u32 = 0x84;
+    pub const PREF_B: u32 = 0x86;
+    pub const PREF_C: u32 = 0x88;
+    pub const PREF_D: u32 = 0x8A;
+    pub const PREF_FULL: u16 = 0x400;
+    pub const PREF_HALF: u16 = 0x80;
+    pub const NO_TARGET_PREF: u16 = 0x20;
+    pub const TIMER_SURRENDER: u32 = 0x8C;
+    pub const TIMER_LEAVE: u32 = 0x8E;
+    /// Parámetros de la variante.
+    pub const P_KIND: u32 = 0x98;
+    pub const P_SURRENDER: u32 = 0x99;
+    pub const P_AGGRO: u32 = 0x9A;
+    pub const P_LEAVE: u32 = 0x9B;
+    pub const P_SHIFT: u32 = 0x9C;
+    pub const DEFAULT_AGGRO: u8 = 0x1E;
+    pub const DEFAULT_LEAVE: u16 = 0xA;
+    pub const PRESET: [(u32, u8); 4] = [(0x98, 2), (0x99, 0xA), (0x9A, 0x1E), (0x9B, 0xA)];
+    pub const FLAGS_PRESET: u8 = 1 << 1;
+    /// Tablas por dificultad (tipo 2 = 8 valores al azar por fila).
+    pub const SURRENDER_TABLE: u32 = 0x2B_74EC;
+    pub const AGGRO_TABLE: u32 = 0x2B_746A;
+    pub const TABLE_RANDOM: u16 = 2;
+    pub const RANDOM_ROWS: u32 = 0x40;
+    pub const ACTIVE_PLAYERS: u32 = 0x10_6ED1;
+    pub const PROBE_VEL_Y: u16 = 0xFF00;
+    pub const GFX: u16 = 0xE;
+    pub const ATTR: u16 = 0x8000;
+    pub const LAYER_KEEP: u16 = 0xFFE3;
+    pub const LAYER: u16 = 0x18;
+    pub const CHILD: u32 = 0x07_76E2;
+    /// Anillo de posiciones recientes (cabeza, cola, entradas de 4 B).
+    pub const RING: u32 = 0x10_E33A;
+    pub const RING_SIZE: u16 = 0x20;
+    /// Zona de X en la que el soldado se acerca; centro de la pantalla.
+    pub const ACTIVE_X: (u16, u16) = (0x30, 0x120);
+    pub const CENTER_X: u16 = 0xA0;
+    pub const WALK_START: u32 = 0x05_7558;
+    pub const FALL_START: u32 = 0x05_8412;
+    pub const FACE_FALL: u32 = 0x05_8E08;
+}
