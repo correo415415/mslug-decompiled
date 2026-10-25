@@ -48,6 +48,7 @@ pub mod player_hud;
 pub mod player_ride;
 pub mod rank;
 pub mod palette;
+pub mod parachute;
 pub mod render;
 pub mod rng;
 pub mod scene;

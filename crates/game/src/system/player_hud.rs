@@ -5,7 +5,9 @@
 //!
 //! Original: `HUD_Task_StartP1_02575c` … `HUD_LoadPerPlayerPtr_025eac`,
 //! `HUD_ResetFields_025ed6`, `HUD_DrawBombGauge_P1/P2`, `$026752` y los
-//! ayudantes `$001E28`, `$001E4C`, `$001E56`.
+//! ayudantes `$001E28`, `$001E4C`, `$001E56`; los rótulos, la barra de
+//! vida del Slug, el marcador y los mensajes grandes (`$025F02`…`$0266CC`,
+//! `$0477D4`, `$0477FC`, `$047656`, `$032FBA`, `$032FCE`, `$02A2AC`).
 
 use super::{rank, tasks};
 use crate::layout::{bios, bios_ram, mission, player_hud as L, task as T};
@@ -587,6 +589,323 @@ pub fn please_wait_run(m: &mut impl Machine) -> Flow {
     let key = L::KEYS + player(m);
     m.write_u8(key, k);
     Flow::Return
+}
+
+// --- Rótulos, vidas y barra de vida --------------------------------------
+
+/// Rótulos fijos del jugador `p`: nombre, marco de la barra de vida y los
+/// marcos de bombas y munición. Original: `HUD_DrawPlayerLabels_025f02`.
+pub fn draw_labels(m: &mut impl Memory, p: usize) {
+    super::hud::draw_text(m, L::LABEL_POS[p], L::LABEL_TEXT[p], L::LABEL_ATTR);
+    draw_life_frame(m, L::LIFE_FRAME_POS[p]);
+    for (at, ch, cols, rows) in L::LABEL_BLOCKS[p] {
+        super::hud::fill_tiles(m, at, ch, cols, rows);
+    }
+}
+
+/// Marco de la barra de vida (extremos y `LIFE_FRAME_LEN` piezas).
+/// Original: `HUD_DrawLifeBarFrame_025f92`.
+pub fn draw_life_frame(m: &mut impl Memory, at: u16) {
+    let col = crate::layout::hud::COLUMN;
+    super::hud::put(m, at, L::LIFE_FRAME_LEFT);
+    for k in 1..=L::LIFE_FRAME_LEN {
+        super::hud::put(m, at.wrapping_add(k * col), L::LIFE_FRAME_MID);
+    }
+    super::hud::put(m, at.wrapping_add((L::LIFE_FRAME_LEN + 1) * col), L::LIFE_FRAME_RIGHT);
+}
+
+/// Decenas y unidades de `n` (como mucho 99). Original: `$047656`.
+pub fn tens_units(n: u16) -> (u16, u16) {
+    let n = n.min(99);
+    (n / 10, n % 10)
+}
+
+/// Vidas que le quedan al jugador `p` (las de reserva, sin la actual) en
+/// dos cifras; con una sola cifra, la segunda casilla en blanco.
+/// Original: `HUD_DrawContinueDigits_0260e2`.
+pub fn draw_lives(m: &mut impl Machine, p: usize) {
+    let t = m.task_register();
+    let n = u16::from(m.read_u8(t + L::LIVES)).saturating_sub(1);
+    let (tens, units) = tens_units(n);
+    let at = L::LIVES_POS[p];
+    let col = crate::layout::hud::COLUMN;
+    if tens != 0 {
+        super::hud::put(m, at, L::LIVES_ATTR | (L::DIGIT_0 + tens));
+        super::hud::put(m, at.wrapping_add(col), L::LIVES_ATTR | (L::DIGIT_0 + units));
+    } else {
+        super::hud::put(m, at, L::LIVES_ATTR | (L::DIGIT_0 + units));
+        super::hud::put(m, at.wrapping_add(col), L::LIVES_ATTR | L::DIGIT_BLANK);
+    }
+}
+
+/// ¿Va el soldado de este HUD en el Slug?
+fn riding_slug(m: &mut impl Machine, t: u32) -> bool {
+    let soldier = m.read_u32(t + L::ENTITY);
+    match crate::layout::slug_arm::PLAYERS.iter().position(|&e| e == soldier) {
+        Some(k) => super::slug_arm::ridden_by(m, t, k),
+        None => false,
+    }
+}
+
+/// Barra de vida del Slug en la zona del jugador `p`: aparece llenándose
+/// de 2 en 2 cuando se monta, luego sigue la vida con un muelle y parpadea
+/// si queda poca. Original: `HUD_DrawLifeBar_02614e`.
+pub fn draw_life_bar(m: &mut impl Machine, p: usize) {
+    let t = m.task_register();
+    let riding = riding_slug(m, t);
+    let state = m.read_u8(t + L::BAR_STATE);
+    // (valor a dibujar, ¿cambió?, ¿parpadea?)
+    let (value, changed, low): (i16, bool, bool) = match state {
+        0 => {
+            if riding {
+                m.write_u8(t + L::BAR_STATE, 1);
+            }
+            let old = m.read_u16(t + L::BAR_POS);
+            m.write_u32(t + L::BAR_POS, 0);
+            (0, old != 0, false)
+        }
+        1 if !riding => {
+            m.write_u8(t + L::BAR_STATE, 0);
+            m.write_u32(t + L::BAR_POS, 0);
+            (0, true, false)
+        }
+        1 => {
+            let hp = m.read_u16(L::SLUG_HP) as i16;
+            let pos = m.read_u16(t + L::BAR_POS) as i16;
+            let step = hp.wrapping_sub(pos).clamp(-L::BAR_FILL_STEP, L::BAR_FILL_STEP);
+            let pos = pos.wrapping_add(step);
+            m.write_u16(t + L::BAR_POS, pos as u16);
+            if step == 0 {
+                m.write_u8(t + L::BAR_STATE, 2);
+                m.write_u32(t + L::BAR_VEL, 0);
+            }
+            (pos, step != 0, false)
+        }
+        _ if !riding => {
+            m.write_u8(t + L::BAR_STATE, 0);
+            m.write_u32(t + L::BAR_VEL, 0);
+            m.write_u32(t + L::BAR_POS, 0);
+            (0, true, false)
+        }
+        _ => {
+            let hp = m.read_u16(L::SLUG_HP);
+            let (v, changed) = bar_spring(m, t, hp);
+            (v, changed, hp < L::BAR_LOW)
+        }
+    };
+    let mut attr = L::BAR_ATTR;
+    let draw = if low {
+        let f = m.read_u8(crate::layout::system::FRAME_COUNTER) & 7;
+        if f == 0 {
+            attr = L::BAR_ATTR_BLINK;
+        }
+        f == 0 || f == 2 || changed
+    } else {
+        changed
+    };
+    if draw {
+        draw_bar(m, L::LIFE_FRAME_POS[p], value, attr);
+    }
+}
+
+/// Un paso del muelle que lleva la barra hacia `target`. Devuelve la parte
+/// entera de la posición (no negativa) y si hay que redibujar.
+fn bar_spring(m: &mut impl Memory, t: u32, target: u16) -> (i16, bool) {
+    let pos = m.read_u32(t + L::BAR_POS) as i32;
+    let vel = m.read_u32(t + L::BAR_VEL) as i32;
+    let pull = pos.wrapping_sub(i32::from(target) << 16).wrapping_shl(1);
+    let vel = vel.wrapping_sub((vel >> 2).wrapping_add(pull));
+    m.write_u32(t + L::BAR_VEL, vel as u32);
+    let pos = vel.wrapping_add(pos);
+    m.write_u32(t + L::BAR_POS, pos as u32);
+    let mut whole = (pos >> 16) as i16;
+    let mut changed = (vel >> 16) as i16 != 0;
+    if (pull >> 16) as i16 == 0 && !changed {
+        let rest = (u32::from(target) << 16) as i32;
+        if pos != rest {
+            changed = true;
+        }
+        m.write_u32(t + L::BAR_POS, rest as u32);
+        m.write_u32(t + L::BAR_VEL, 0);
+    }
+    if whole < 0 {
+        whole = 0;
+    }
+    (whole, changed)
+}
+
+/// Dibuja la barra: extremo, 6 piezas de 8 unidades (la que corta,
+/// parcial) y extremo.
+fn draw_bar(m: &mut impl Memory, at: u16, value: i16, attr: u16) {
+    let col = crate::layout::hud::COLUMN;
+    let mut at = at;
+    super::hud::put(m, at, attr | L::BAR_LEFT);
+    let mut left = value;
+    let mut full = true;
+    for _ in 0..L::LIFE_FRAME_LEN {
+        at = at.wrapping_add(col);
+        let ch = if !full {
+            L::BAR_EMPTY
+        } else {
+            left = left.wrapping_sub(L::BAR_PIECE as i16);
+            if left < 0 {
+                full = false;
+                (L::BAR_FULL as i16 + left) as u16
+            } else {
+                L::BAR_FULL
+            }
+        };
+        super::hud::put(m, at, attr | ch);
+    }
+    super::hud::put(m, at.wrapping_add(col), attr | L::BAR_RIGHT);
+}
+
+// --- Marcador -------------------------------------------------------------
+
+/// En estos modos no se dibuja el marcador. Original: `$0266CC` (C = no).
+pub fn score_hidden(m: &mut impl Memory) -> bool {
+    L::NO_SCORE_MODES.contains(&m.read_u8(crate::layout::script::KEY_LATCH[0]))
+}
+
+/// Munición del arma del soldado (`None` = infinita).
+/// Original: `$032FBA` (−1 = infinita).
+pub fn soldier_ammo(m: &mut impl Memory, soldier: u32) -> Option<u16> {
+    if m.read_u8(soldier + L::SOLDIER_HAS_AMMO) == 0 {
+        return None;
+    }
+    Some(m.read_u16(soldier + L::SOLDIER_AMMO))
+}
+
+/// Bombas del soldado. Original: `$032FCE`.
+pub fn soldier_bombs(m: &mut impl Memory, soldier: u32) -> u8 {
+    m.read_u8(soldier + L::SOLDIER_BOMBS)
+}
+
+/// Proyectiles del Slug. Original: `$02A2AC`.
+pub fn slug_shells(m: &mut impl Memory) -> u8 {
+    m.read_u8(L::SLUG_SHELLS)
+}
+
+/// Marcador del jugador `p`: munición, bombas y puntuación (con los ceros
+/// de la izquierda en blanco). Original: `HUD_DrawScore_0263d6` (P2) y
+/// `$0263F2` (P1).
+pub fn draw_score(m: &mut impl Machine, p: usize) {
+    if score_hidden(m) {
+        return;
+    }
+    draw_counters(m);
+    let col = crate::layout::hud::COLUMN;
+    let mut at = L::SCORE_POS[p];
+    let mut seen = false;
+    for k in 0..L::SCORE_LEN {
+        let d = m.read_u8(L::SCORE_DIGITS[p] + k);
+        seen |= d != 0;
+        let last = k == L::SCORE_LEN - 1;
+        let ch = if seen || last { u16::from(d) + L::DIGIT_0 } else { L::DIGIT_BLANK };
+        super::hud::put(m, at, L::SCORE_ATTR | ch);
+        at = at.wrapping_add(col);
+    }
+}
+
+/// Atributo del contador que parpadea: baja la cuenta y alterna.
+fn blink_attr(m: &mut impl Memory, field: u32) -> Option<u16> {
+    let n = m.read_u8(field);
+    if n == 0 {
+        return None;
+    }
+    let n = n - 1;
+    m.write_u8(field, n);
+    Some(L::COUNTER_ATTR[usize::from(n & 1)])
+}
+
+/// `n` cifras de `v`, de las unidades hacia la izquierda.
+fn put_digits(m: &mut impl Memory, mut at: u16, mut v: u16, n: u32, attr: u16) {
+    for _ in 0..n {
+        super::hud::put(m, at, attr | (L::DIGIT_0 + v % 10));
+        v /= 10;
+        at = at.wrapping_sub(crate::layout::hud::COLUMN);
+    }
+}
+
+/// Munición y bombas (o proyectiles si va en el Slug); sólo se redibujan
+/// unos frames, parpadeando, cuando cambian. Original: `$0264E4`.
+pub fn draw_counters(m: &mut impl Machine) {
+    let t = m.task_register();
+    let p = player(m) as usize;
+    let soldier = m.read_u32(t + L::ENTITY);
+    // Infinita (o negativa) cuenta como 0.
+    let ammo = soldier_ammo(m, soldier).filter(|&a| (a as i16) >= 0).unwrap_or(0);
+    if ammo != m.read_u16(t + L::AMMO) {
+        m.write_u16(t + L::AMMO, ammo);
+        m.write_u8(t + L::BLINK[0], L::COUNTER_BLINK);
+    }
+    if let Some(attr) = blink_attr(m, t + L::BLINK[0]) {
+        let at = L::AMMO_POS[p];
+        if ammo == 0 {
+            // El símbolo de infinito: tres caracteres de derecha a izquierda.
+            for k in 0..3u16 {
+                super::hud::put(m, at.wrapping_sub(k * crate::layout::hud::COLUMN), L::AMMO_INFINITE - k);
+            }
+        } else {
+            put_digits(m, at, ammo, 3, attr);
+        }
+    }
+    let in_slug = riding_slug(m, t) && !super::player_ride::slug_ready(m);
+    let flag = if in_slug { 0xFF } else { 0 };
+    if flag != m.read_u8(t + L::IN_SLUG) {
+        m.write_u8(t + L::IN_SLUG, flag);
+        super::hud::fill_tiles(m, L::BOMBS_FRAME_POS[p], L::BOMBS_FRAME[usize::from(in_slug)], 4, 1);
+        m.write_u8(t + L::BLINK[1], L::COUNTER_BLINK);
+    } else {
+        let n = if in_slug { slug_shells(m) } else { soldier_bombs(m, soldier) };
+        let n = if n & 0x80 != 0 { 0 } else { u16::from(n) };
+        if n != m.read_u16(t + L::BOMBS) {
+            m.write_u16(t + L::BOMBS, n);
+            m.write_u8(t + L::BLINK[1], L::COUNTER_BLINK);
+        }
+    }
+    if let Some(attr) = blink_attr(m, t + L::BLINK[1]) {
+        let n = m.read_u16(t + L::BOMBS);
+        put_digits(m, L::BOMBS_POS[p], n, 2, attr);
+    }
+}
+
+// --- Mensajes grandes del HUD --------------------------------------------
+
+/// Letra grande (1 × 2 caracteres) con la paleta `palette`: el byte del
+/// texto da la columna (nibble bajo) y la fila doble (nibble alto) dentro
+/// del banco de letras. Original: `$0477D4`.
+pub fn draw_big_char(m: &mut impl Memory, at: u16, c: u8, palette: u8) {
+    let c = u16::from(c);
+    let ch = L::BIG_FONT + (c & 0xF) + ((c & 0xF0) << 1);
+    let ch = ch | (u16::from(palette) << 12);
+    super::hud::fill_tiles(m, at, ch, 1, 2);
+}
+
+/// Texto de letras grandes (terminado en `BIG_TEXT_END`) desde `at`.
+/// Original: `$0477FC`.
+pub fn draw_big_text(m: &mut impl Memory, mut at: u16, text: u32, palette: u8) {
+    let mut p = text;
+    loop {
+        let c = m.read_u8(p);
+        if c == L::BIG_TEXT_END {
+            return;
+        }
+        draw_big_char(m, at, c, palette);
+        at = at.wrapping_add(crate::layout::hud::COLUMN);
+        p += 1;
+    }
+}
+
+/// Mensaje `text` en la zona del jugador `p`.
+/// Original: `HUD_Msg_InsertCoin_P1_025ffc` … `HUD_Msg_PleaseWait_P2_0260b0`.
+pub fn draw_message(m: &mut impl Memory, p: usize, text: u32) {
+    draw_big_text(m, L::MSG_POS[p], text, L::MSG_PALETTE);
+}
+
+/// Borra la zona de mensajes del jugador `p`. Original: `HUD_ClearMsgRow_0260c4`.
+pub fn clear_message(m: &mut impl Memory, p: usize) {
+    super::hud::fill_rect(m, L::MSG_CLEAR_POS[p], L::MSG_BLANK, L::MSG_CLEAR_SIZE.0, L::MSG_CLEAR_SIZE.1);
 }
 
 #[cfg(test)]

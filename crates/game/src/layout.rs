@@ -1331,6 +1331,23 @@ pub mod player {
     pub const KIND_PLAYER: u16 = 0x1B;
     pub const ARM_TASK: u32 = 0x03_94A8;
     pub const IDLE: u32 = 0x03_6D64;
+    /// Alta al reaparecer en la misión (P1, P2): posición por defecto,
+    /// sprites, tipo, ¿en pausa?, bits de atributo, brazo y la rutina que
+    /// sigue según el tipo de entrada del marcador (0, 1, 2).
+    pub const RESPAWN_X: [u16; 2] = [0x78, 0x50];
+    pub const RESPAWN_Y: [u16; 2] = [0x1D8, 0x1E0];
+    pub const RESPAWN_GFX: [[u16; 3]; 2] = [[0x176, 0x190, 0x191], [0x177, 0x190, 0x192]];
+    pub const RESPAWN_KIND: [u16; 2] = [0x1B, 0x1C];
+    pub const RESPAWN_PAUSED: [bool; 2] = [false, true];
+    pub const RESPAWN_ATTR: [u16; 2] = [0x2, 0x0];
+    pub const RESPAWN_ARM: [u32; 2] = [0x03_94A8, 0x03_94E6];
+    pub const RESPAWN_ATTR_KEEP: u16 = 0xFFE3;
+    pub const RESPAWN_ATTR_SET: u16 = 0x9FF0;
+    pub const RESPAWN_WAIT: [u32; 2] = [0x59, 0x45];
+    pub const RESPAWN_WAIT_FRAMES: u8 = 0x7F;
+    pub const RESPAWN_NEXT: [u32; 3] = [0x03_3956, 0x03_6C8C, 0x03_37A8];
+    /// Entidad del jugador 1 (las demás se colocan a la izquierda).
+    pub const P1_ENTITY: u32 = 0x10_0440;
     /// Efecto de suelo bajo los pies (variante C).
     pub const GROUND_FX_TASK: u32 = 0x07_76E2;
     /// `+$12` bit 4: en pausa.
@@ -1677,6 +1694,24 @@ pub mod player_air {
     pub const WALL_DROP: u32 = 0x03_68E0;
     pub const WALL_DROP_VEL: u16 = 0x400;
     pub const DEATH_PIT: u32 = 0x03_7B8E;
+    /// Bajada en paracaídas: tarea del paracaídas, estado, animación,
+    /// velocidad inicial y máxima, altura a la que se suelta y rutinas.
+    pub const PARACHUTE_TASK: u32 = 0x03_8CF6;
+    pub const STATE_PARACHUTE: u8 = 4;
+    pub const PARACHUTE_SCRIPT: u32 = 0x27_9B2C;
+    pub const PARACHUTE_VEL_Y: u16 = 0xFF00;
+    pub const PARACHUTE_MAX_VEL: u16 = 0x400;
+    pub const PARACHUTE_FLOOR_Y: i16 = 0x170;
+    pub const PARACHUTE_RUN: u32 = 0x03_39AA;
+    pub const PARACHUTE_LANDED: u32 = 0x03_3E8C;
+    pub const PARACHUTE_DROP: u32 = 0x03_6C8C;
+    pub const NO_HITBOX: u32 = 0xFFFF_FFFF;
+    pub const FRESH: u8 = 1 << 6;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const ATTR_AIR: u16 = 0x9FF0;
+    /// `STATUS` bit 4: acaba de tocar suelo (suena el arma).
+    pub const LANDED: u8 = 1 << 4;
+    pub const LANDING_SOUNDS: u32 = 0x03_2D28;
     pub const DEATH_GROUND: u32 = 0x03_3572;
     pub const DEATH_AIR: u32 = 0x03_3578;
     /// Márgenes de la caída al vacío (la escena `PIT_SCENE` usa otros).
@@ -2432,6 +2467,74 @@ pub mod events {
 
 /// Tarea del HUD de cada jugador (`system::player_hud`).
 pub mod player_hud {
+    /// Mensajes grandes: banco de letras, fin de texto, posición y paleta
+    /// por jugador, y la zona que se borra.
+    pub const BIG_FONT: u16 = 0x400;
+    pub const BIG_TEXT_END: u8 = 0xFF;
+    pub const MSG_POS: [u16; 2] = [0x7063, 0x7343];
+    pub const MSG_PALETTE: u8 = 3;
+    pub const TEXT_INSERT_COIN: u32 = 0x27_85C4;
+    pub const TEXT_PUSH_START: u32 = 0x27_85D0;
+    pub const TEXT_CONTINUE: u32 = 0x27_85DC;
+    pub const TEXT_GAME_OVER: u32 = 0x27_85E8;
+    pub const TEXT_PLEASE_WAIT: u32 = 0x27_85F4;
+    pub const MSG_CLEAR_POS: [u16; 2] = [0x7043, 0x72C3];
+    pub const MSG_BLANK: u16 = 0x300;
+    pub const MSG_CLEAR_SIZE: (u16, u16) = (0x10, 3);
+    /// Rótulos fijos (por jugador): nombre, marco de vida y bloques.
+    pub const LABEL_POS: [u16; 2] = [0x7065, 0x73E5];
+    pub const LABEL_TEXT: [u32; 2] = [0x27_85B8, 0x27_85BE];
+    pub const LABEL_ATTR: u16 = 0x5300;
+    /// Vidas en reserva: posición por jugador, atributos y caracteres.
+    pub const LIVES_POS: [u16; 2] = [0x70E5, 0x7465];
+    pub const LIVES_ATTR: u16 = 0x5300;
+    pub const DIGIT_0: u16 = 0x30;
+    pub const DIGIT_BLANK: u16 = 0x20;
+    pub const LIFE_FRAME_POS: [u16; 2] = [0x7044, 0x73C4];
+    pub const LIFE_FRAME_LEFT: u16 = 0x7AA5;
+    pub const LIFE_FRAME_MID: u16 = 0x7AA6;
+    pub const LIFE_FRAME_RIGHT: u16 = 0x7AAF;
+    pub const LIFE_FRAME_LEN: u16 = 6;
+    /// Barra de vida del Slug: estado en `BAR_STATE` (0 sin Slug, 1
+    /// llenándose, 2 al día), posición 16.16 en `BAR`, velocidad del
+    /// muelle en `BAR_VEL`; vida del Slug y umbral de parpadeo; atributos
+    /// normal y de parpadeo; piezas.
+    pub const BAR_POS: u32 = BAR;
+    pub const SLUG_HP: u32 = 0x10_05E6;
+    pub const BAR_LOW: u16 = 0x11;
+    pub const BAR_FILL_STEP: i16 = 2;
+    pub const BAR_ATTR: u16 = 0x7A00;
+    pub const BAR_ATTR_BLINK: u16 = 0xDA00;
+    pub const BAR_PIECE: u16 = 8;
+    pub const BAR_LEFT: u16 = 0xA5;
+    pub const BAR_FULL: u16 = 0xAE;
+    pub const BAR_EMPTY: u16 = 0xA6;
+    pub const BAR_RIGHT: u16 = 0xAF;
+    pub const LABEL_BLOCKS: [[(u16, u16, u16, u16); 2]; 2] =
+        [[(0x7143, 0x7AB0, 8, 3), (0x71C3, 0x7AE4, 4, 1)], [(0x72C3, 0x7AB0, 8, 3), (0x7343, 0x7AE4, 4, 1)]];
+    /// Marcador: puntuación (7 cifras desde el byte 1), sin dibujar en los
+    /// modos `NO_SCORE_MODES` (de `script::KEY_LATCH[0]`).
+    pub const SCORE_DIGITS: [u32; 2] = [0x10_6E95, 0x10_6E9D];
+    pub const SCORE_POS: [u16; 2] = [0x7063, 0x73C3];
+    pub const SCORE_ATTR: u16 = 0x2300;
+    pub const SCORE_LEN: u32 = 7;
+    pub const NO_SCORE_MODES: [u8; 3] = [0xB, 0xC, 0xD];
+    /// Munición y bombas: parpadean `COUNTER_BLINK` frames al cambiar.
+    pub const COUNTER_BLINK: u8 = 4;
+    pub const COUNTER_ATTR: [u16; 2] = [0xE300, 0xF300];
+    pub const AMMO_POS: [u16; 2] = [0x71A4, 0x7324];
+    /// Pistola: símbolo de infinito (tres caracteres, de derecha a izquierda).
+    pub const AMMO_INFINITE: u16 = 0xE3F2;
+    pub const BOMBS_POS: [u16; 2] = [0x7204, 0x7384];
+    /// Marco de bombas (soldado) o de proyectiles (Slug).
+    pub const BOMBS_FRAME_POS: [u16; 2] = [0x71C3, 0x7343];
+    pub const BOMBS_FRAME: [u16; 2] = [0x7AE4, 0x7AE0];
+    /// Campos del soldado: munición, ¿arma con munición?, bombas.
+    pub const SOLDIER_AMMO: u32 = 0x82;
+    pub const SOLDIER_HAS_AMMO: u32 = 0x71;
+    pub const SOLDIER_BOMBS: u32 = 0x80;
+    /// Proyectiles del Slug.
+    pub const SLUG_SHELLS: u32 = 0x10_0580 + 0x90;
     /// Campos de la tarea del HUD.
     pub const BUSY: u32 = 0x20;
     pub const WAITING: u32 = 0x21;
@@ -4520,6 +4623,45 @@ pub mod slug_jump {
 
 /// Escena de mensaje y diálogo de la tarjeta de memoria
 /// (`BootScr_Message_Prepare_001416`, `MemCard_LoadDialog_*`).
+/// Paracaídas del jugador (`system::parachute`).
+pub mod parachute {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const LINK: u32 = 0x48;
+    pub const NO_LINK: u32 = 0xFFFF_FFFF;
+    pub const BLINK: u32 = 0x71;
+    pub const GFX: u16 = 0x18D;
+    /// El paracaídas se dibuja detrás del soldado.
+    pub const DEPTH_BEHIND: u16 = 0x20;
+    /// Velocidad horizontal del soldado y su conversión a fotograma.
+    pub const VEL_X: u32 = 0x28;
+    pub const SPEED_BIAS: u16 = 0x400;
+    pub const FRAMES: u16 = 10;
+    /// Animaciones por fotograma (abierto y balanceo), plegado y suelto.
+    pub const OPEN_FRAMES: u32 = 0x28_F8D4;
+    pub const SWAY_FRAMES: u32 = 0x28_FDBC;
+    pub const FOLD_SCRIPT: u32 = 0x28_FE2C;
+    pub const RELEASE_SCRIPT: u32 = 0x03_8EC8;
+    /// Soldado: flags (`+$8C` bit 2 = balanceo), estado, muerto.
+    pub const OWNER_FLAGS: u32 = 0x8C;
+    pub const OWNER_SWAY: u8 = 1 << 2;
+    pub const OWNER_STATE: u32 = 0x70;
+    pub const STATE_PARACHUTE: u8 = 4;
+    pub const STATE_GONE: u8 = 0x26;
+    pub const OWNER_DEAD: u32 = 0x13;
+    /// Rutinas.
+    pub const OPEN: u32 = 0x03_8D08;
+    pub const OPEN_RUN: u32 = 0x03_8D0E;
+    pub const SWAY: u32 = 0x03_8D88;
+    pub const SWAY_RUN: u32 = 0x03_8DB0;
+    pub const FOLD: u32 = 0x03_8E10;
+    pub const FOLD_RUN: u32 = 0x03_8E32;
+    pub const RELEASE: u32 = 0x03_8E4A;
+    pub const RELEASE_RUN: u32 = 0x03_8E6A;
+}
+
 /// Selector de guion del modo de prueba (`system::msg_select`).
 pub mod msg_select {
     pub const SEED_COUNTER: u32 = super::rng::SEED_COUNTER;

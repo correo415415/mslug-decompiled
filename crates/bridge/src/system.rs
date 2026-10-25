@@ -10,7 +10,7 @@
 //! sin portar para la máquina.
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
-use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_hunker, slug_idle, slug_jump, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, boot, bullet, burst, collision, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, parachute, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_hunker, slug_idle, slug_jump, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -300,6 +300,18 @@ fn pad_test(m: &mut CpuMachine, b: u8, edge: Edge) -> Flow {
     let c = mslug_game::input::pressed(m, e, Buttons(b), edge);
     set_carry(m, c);
     Flow::Return
+}
+
+/// Registros que deja `HUD_DrawContinueDigits_0260e2`.
+fn lives_regs(m: &mut CpuMachine, p: usize) {
+    let n = u16::from(m.read_u8(m.cpu.a[6] + 0x77)).saturating_sub(1);
+    let (t, u) = player_hud::tens_units(n);
+    let at = [0x70E5u32, 0x7465][p] + 0x20;
+    m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(u);
+    m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(t);
+    m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | at;
+    let d3 = if t != 0 { 0x5330 + u } else { 0x5320 };
+    m.cpu.d[3] = (m.cpu.d[3] & 0xFFFF_0000) | u32::from(d3);
 }
 
 /// Registros de `Player_ActionSelect_*`: d1 = acción (0 si ninguna), C.
@@ -1560,6 +1572,8 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x05_CF90, original: "InputEvtThunk_05cf90", rust: "input::pressed", run: |m| pad_test(m, 0x02, Edge::Pressed) },
     SystemPort { entry: 0x05_CF9C, original: "InputEvtThunk_05cf9c", rust: "input::pressed", run: |m| pad_test(m, 0x0C, Edge::Pressed) },
     // --- jugador: alta y pasos comunes
+    SystemPort { entry: 0x03_364A, original: "PlayerEntitySpawn_Alt_03364A", rust: "system::player::respawn(0)", run: |m| player::respawn(m, 0) },
+    SystemPort { entry: 0x03_36DC, original: "PlayerEntitySpawn_Alt_03364A (P2, $0336DC)", rust: "system::player::respawn(1)", run: |m| player::respawn(m, 1) },
     SystemPort { entry: 0x03_35A6, original: "PlayerEntitySpawn_0335A6", rust: "system::player::spawn", run: |m| player::spawn(m) },
     SystemPort { entry: 0x03_2A02, original: "PlayerEntity_InitAuxState_032A02", rust: "system::player::init_aux",
                  run: |m| { let t = m.cpu.a[6]; player::init_aux(m, t); Flow::Return } },
@@ -2115,6 +2129,87 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; let fr = (m.cpu.d[3] as u16, m.cpu.d[4] as u16);
                             let c = slug_drive::land_sound(m, t, mslug_game::layout::slug_drive::LAND_SOUND_B, fr);
                             m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(c); Flow::Return } },
+    SystemPort { entry: 0x02_5FFC, original: "HUD_Msg_InsertCoin_P1_025ffc", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 0, mslug_game::layout::player_hud::TEXT_INSERT_COIN); Flow::Return } },
+    SystemPort { entry: 0x02_6010, original: "HUD_Msg_InsertCoin_P2_026010", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 1, mslug_game::layout::player_hud::TEXT_INSERT_COIN); Flow::Return } },
+    SystemPort { entry: 0x02_6024, original: "HUD_Msg_PushStart_P1_026024", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 0, mslug_game::layout::player_hud::TEXT_PUSH_START); Flow::Return } },
+    SystemPort { entry: 0x02_6038, original: "HUD_Msg_PushStart_P2_026038", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 1, mslug_game::layout::player_hud::TEXT_PUSH_START); Flow::Return } },
+    SystemPort { entry: 0x02_604C, original: "HUD_Msg_Continue_P1_02604c", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 0, mslug_game::layout::player_hud::TEXT_CONTINUE); Flow::Return } },
+    SystemPort { entry: 0x02_6060, original: "HUD_Msg_Continue_P2_026060", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 1, mslug_game::layout::player_hud::TEXT_CONTINUE); Flow::Return } },
+    SystemPort { entry: 0x02_6074, original: "HUD_Msg_GameOver_P1_026074", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 0, mslug_game::layout::player_hud::TEXT_GAME_OVER); Flow::Return } },
+    SystemPort { entry: 0x02_6088, original: "HUD_Msg_GameOver_P2_026088", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 1, mslug_game::layout::player_hud::TEXT_GAME_OVER); Flow::Return } },
+    SystemPort { entry: 0x02_609C, original: "HUD_Msg_PleaseWait_P1_02609c", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 0, mslug_game::layout::player_hud::TEXT_PLEASE_WAIT); Flow::Return } },
+    SystemPort { entry: 0x02_60B0, original: "HUD_Msg_PleaseWait_P2_0260b0", rust: "system::player_hud::draw_message",
+                 run: |m| { player_hud::draw_message(m, 1, mslug_game::layout::player_hud::TEXT_PLEASE_WAIT); Flow::Return } },
+    SystemPort { entry: 0x02_60C4, original: "HUD_ClearMsgRow_0260c4", rust: "system::player_hud::clear_message",
+                 run: |m| { player_hud::clear_message(m, 0); Flow::Return } },
+    SystemPort { entry: 0x02_60CC, original: "HUD_ClearMsgRow_0260c4 (+$08)", rust: "system::player_hud::clear_message",
+                 run: |m| { player_hud::clear_message(m, 1); Flow::Return } },
+    SystemPort { entry: 0x04_77D4, original: "$0477D4", rust: "system::player_hud::draw_big_char",
+                 run: |m| { let (at, c, p) = (m.cpu.a[1] as u16, m.cpu.d[0] as u8, m.cpu.d[1] as u8); player_hud::draw_big_char(m, at, c, p); Flow::Return } },
+    SystemPort { entry: 0x04_77FC, original: "$0477FC", rust: "system::player_hud::draw_big_text",
+                 run: |m| { let (at, t, p) = (m.cpu.a[1] as u16, m.cpu.a[2], m.cpu.d[1] as u8); player_hud::draw_big_text(m, at, t, p); Flow::Return } },
+    SystemPort { entry: 0x02_5F02, original: "HUD_DrawPlayerLabels_025f02", rust: "system::player_hud::draw_labels",
+                 run: |m| { player_hud::draw_labels(m, 0); Flow::Return } },
+    SystemPort { entry: 0x02_5F4A, original: "HUD_DrawPlayerLabels_025f02 (+$48)", rust: "system::player_hud::draw_labels",
+                 run: |m| { player_hud::draw_labels(m, 1); Flow::Return } },
+    SystemPort { entry: 0x02_5F92, original: "HUD_DrawLifeBarFrame_025f92", rust: "system::player_hud::draw_life_frame",
+                 run: |m| { let at = m.cpu.d[0] as u16; player_hud::draw_life_frame(m, at); Flow::Return } },
+    SystemPort { entry: 0x02_60E2, original: "HUD_DrawContinueDigits_0260e2", rust: "system::player_hud::draw_lives",
+                 run: |m| { player_hud::draw_lives(m, 0); lives_regs(m, 0); Flow::Return } },
+    SystemPort { entry: 0x02_60EA, original: "HUD_DrawContinueDigits_0260e2 (+$08)", rust: "system::player_hud::draw_lives",
+                 run: |m| { player_hud::draw_lives(m, 1); lives_regs(m, 1); Flow::Return } },
+    SystemPort { entry: 0x04_7656, original: "$047656", rust: "system::player_hud::tens_units",
+                 run: |m| { let (t, u) = player_hud::tens_units(m.cpu.d[0] as u16);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(u);
+                            m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(t);
+                            m.cpu.d[2] = (m.cpu.d[2] & 0xFFFF_0000) | 10; Flow::Return } },
+    SystemPort { entry: 0x02_614E, original: "HUD_DrawLifeBar_02614e", rust: "system::player_hud::draw_life_bar",
+                 run: |m| { player_hud::draw_life_bar(m, 0); Flow::Return } },
+    SystemPort { entry: 0x02_6156, original: "HUD_DrawLifeBar_02614e (+$08)", rust: "system::player_hud::draw_life_bar",
+                 run: |m| { player_hud::draw_life_bar(m, 1); Flow::Return } },
+    SystemPort { entry: 0x02_63D6, original: "HUD_DrawScore_0263d6", rust: "system::player_hud::draw_score",
+                 run: |m| { player_hud::draw_score(m, 1); Flow::Return } },
+    SystemPort { entry: 0x02_63F2, original: "HUD_DrawScore_0263d6 (+$1C)", rust: "system::player_hud::draw_score",
+                 run: |m| { player_hud::draw_score(m, 0); Flow::Return } },
+    SystemPort { entry: 0x02_64E4, original: "$0264E4", rust: "system::player_hud::draw_counters",
+                 run: |m| { player_hud::draw_counters(m); Flow::Return } },
+    SystemPort { entry: 0x02_66CC, original: "$0266CC", rust: "system::player_hud::score_hidden",
+                 run: |m| { let c = player_hud::score_hidden(m); m.cpu.d[0] = (m.cpu.d[0] & !0xFF) | u32::from(m.read_u8(0x10_6ECE)); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x03_2FBA, original: "$032FBA", rust: "system::player_hud::soldier_ammo",
+                 run: |m| { let a = m.cpu.a[0]; let v = player_hud::soldier_ammo(m, a).unwrap_or(0xFFFF);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v); Flow::Return } },
+    SystemPort { entry: 0x03_2FCE, original: "$032FCE", rust: "system::player_hud::soldier_bombs",
+                 run: |m| { let a = m.cpu.a[0]; let v = player_hud::soldier_bombs(m, a);
+                            m.cpu.d[0] = (m.cpu.d[0] & !0xFF) | u32::from(v); Flow::Return } },
+    SystemPort { entry: 0x02_A2AC, original: "$02A2AC", rust: "system::player_hud::slug_shells",
+                 run: |m| { let v = player_hud::slug_shells(m); m.cpu.a[0] = 0x10_0580; m.cpu.d[0] = u32::from(v); Flow::Return } },
+    SystemPort { entry: 0x03_8CF6, original: "$038CF6", rust: "system::parachute::init", run: |m| parachute::init(m) },
+    SystemPort { entry: 0x03_8D08, original: "$038D08", rust: "system::parachute::open", run: |m| parachute::open(m) },
+    SystemPort { entry: 0x03_8D0E, original: "$038D0E", rust: "system::parachute::open_run", run: |m| parachute::open_run(m) },
+    SystemPort { entry: 0x03_8D88, original: "$038D88", rust: "system::parachute::sway", run: |m| parachute::sway(m) },
+    SystemPort { entry: 0x03_8DB0, original: "$038DB0", rust: "system::parachute::sway_run", run: |m| parachute::sway_run(m) },
+    SystemPort { entry: 0x03_8E10, original: "$038E10", rust: "system::parachute::fold", run: |m| parachute::fold(m) },
+    SystemPort { entry: 0x03_8E32, original: "$038E32", rust: "system::parachute::fold_run", run: |m| parachute::fold_run(m) },
+    SystemPort { entry: 0x03_8E4A, original: "$038E4A", rust: "system::parachute::release", run: |m| parachute::release(m) },
+    SystemPort { entry: 0x03_8E6A, original: "$038E6A", rust: "system::parachute::release_run", run: |m| parachute::release_run(m) },
+    SystemPort { entry: 0x03_8E9A, original: "$038E9A", rust: "system::parachute::frame_for_speed",
+                 run: |m| { let t = m.cpu.a[6]; let k = parachute::frame_for_speed(m, t); m.cpu.a[0] = m.read_u32(t + 0xC);
+                            m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(k); Flow::Return } },
+    SystemPort { entry: 0x05_E4EE, original: "$05E4EE", rust: "system::parachute::follow_owner",
+                 run: |m| { let t = m.cpu.a[6]; parachute::follow_owner(m, t); m.cpu.a[0] = m.read_u32(t + 0xC); Flow::Return } },
+    SystemPort { entry: 0x03_3956, original: "Player_SpawnParachute_033956", rust: "system::player_air::parachute", run: |m| player_air::parachute(m) },
+    SystemPort { entry: 0x03_39AA, original: "Player_SpawnParachute_033956 (+$54)", rust: "system::player_air::parachute_run", run: |m| player_air::parachute_run(m) },
+    SystemPort { entry: 0x03_2D32, original: "$032D32", rust: "system::player_air::landing_sound",
+                 run: |m| { let t = m.cpu.a[6]; let c = player_air::landing_sound(m, t); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara

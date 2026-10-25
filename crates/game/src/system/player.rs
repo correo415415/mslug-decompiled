@@ -7,7 +7,8 @@
 //! `Player_FrameCommon_NoPrio_033016`, `Player_InvulnBlinkStep_032cc8`,
 //! `Slug_UpdateInputFlags_02a720`, `Player_ReadDirNibble_032f3c`,
 //! `Player_ReadFireNibble_032f88`, `Player_CheckDeathOrState21_032aa8`,
-//! `Input_ForwardByFacing_032e48`, `$027BC8` (`asm/player/`).
+//! `Input_ForwardByFacing_032e48`, `$027BC8`, `PlayerEntitySpawn_Alt_03364A`,
+//! `$0336DC`, `$032AC8` (`asm/player/`).
 
 use super::{anim, motion, slug, tasks, turret};
 use crate::entity::Entity;
@@ -57,6 +58,57 @@ pub fn spawn(m: &mut impl Machine) -> Flow {
     anim_done(m, t);
     m.write_u32(t + T::HANDLER, L::IDLE);
     Flow::Return
+}
+
+/// Posición de reaparición según el marcador de la misión: P1 a la derecha
+/// y P2 a la izquierda de la marca. Devuelve el tipo de entrada.
+/// Original: `$032AC8`.
+pub fn place_at_mark(m: &mut impl Machine, t: u32) -> u16 {
+    let k = super::scroll::mission_mark(m);
+    let x = if t == L::P1_ENTITY { k.pos.0.wrapping_add(k.d3) } else { k.pos.0.wrapping_sub(k.d3) };
+    m.write_u16(t + L::X, x);
+    m.write_u16(t + L::Y, k.pos.1);
+    k.d2
+}
+
+/// Alta del jugador `p` al reaparecer en mitad de la misión: como
+/// [`spawn`], en el sitio que marca la misión; después sigue la entrada
+/// del tipo que diga la marca (en paracaídas, cayendo, a pie).
+/// Original: `PlayerEntitySpawn_Alt_03364A` (P1) y `$0336DC` (P2).
+pub fn respawn(m: &mut impl Machine, p: usize) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::X, L::RESPAWN_X[p]);
+    m.write_u16(t + L::Y, L::RESPAWN_Y[p]);
+    let kind = place_at_mark(m, t);
+    for g in L::RESPAWN_GFX[p] {
+        anim::alloc_entry(m, t, g);
+    }
+    m.write_u16(t + L::KIND, L::RESPAWN_KIND[p]);
+    slug::add_timer(m, t);
+    init_aux(m, t);
+    set_bits(m, t + T::FLAGS, L::PAUSED, L::RESPAWN_PAUSED[p]);
+    let a = m.read_u16(t + L::ATTR);
+    m.write_u16(t + L::ATTR, a | L::RESPAWN_ATTR[p]);
+    let arm = tasks::spawn(m, L::RESPAWN_ARM[p], t);
+    anim::copy_sprite_pos(m, t, arm);
+    turret::copy_pilot(m, t, arm);
+    for f in [L::VEL_X, L::VEL_Y, L::ACC_X, L::ACC_Y] {
+        m.write_u16(t + f, 0);
+    }
+    m.write_u8(t + L::SUB_X, 0);
+    m.write_u8(t + L::SUB_Y, 0);
+    let a = m.read_u16(t + L::ATTR);
+    m.write_u16(t + L::ATTR, (a & L::RESPAWN_ATTR_KEEP) | L::RESPAWN_ATTR_SET);
+    if kind != 2 {
+        for f in L::RESPAWN_WAIT {
+            m.write_u8(t + f, L::RESPAWN_WAIT_FRAMES);
+        }
+    }
+    let next = L::RESPAWN_NEXT[usize::from(kind.min(2))];
+    let mut r = m.regs();
+    r.a[1] = arm;
+    m.set_regs(r);
+    Flow::Goto(next)
 }
 
 fn leftover(m: &mut impl Machine) -> u16 {
