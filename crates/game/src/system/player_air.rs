@@ -724,3 +724,52 @@ pub fn jump_air(m: &mut impl Machine) -> Flow {
     air_tail(m, t);
     Flow::Return
 }
+
+// --- Caída libre al aparecer ---------------------------------------------
+
+/// Aparece cayendo (sin paracaídas): crea el indicador del jugador encima
+/// y cae con el control en el aire, invulnerable mientras dura.
+/// Original: `Player_SpawnFreeFall_036c8c`.
+pub fn free_fall(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let marker = if t == L::P1_ENTITY { L::MARKER_TASKS[0] } else { L::MARKER_TASKS[1] };
+    super::tasks::spawn(m, marker, t);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    clear_arm(m, t);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    m.write_u8(t + L::STATE, L::STATE_FALL);
+    let p = m.read_u32(L::KNOCK_SCRIPT - 4);
+    m.write_u32(t + L::POSE, p);
+    m.write_u8(t + L::BYTE_21, 0xFF);
+    anim::start(m, t, L::KNOCK_SCRIPT);
+    m.write_u16(t + L::ACC_Y, L::KNOCK_GRAVITY);
+    m.write_u32(t + L::HITBOX_CB, L::NO_HITBOX);
+    for w in L::FREE_FALL_SHIELD {
+        m.write_u8(t + w, 0);
+    }
+    set_handler(m, t, L::FREE_FALL_RUN);
+    free_fall_run(m)
+}
+
+/// Cada frame de la caída: renueva la invulnerabilidad y cae; al tocar
+/// suelo (o resbalar por una pared) la deja un rato más.
+/// Original: `$036D20`.
+pub fn free_fall_run(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    for w in L::FREE_FALL_SHIELD {
+        let v = m.read_u8(t + w);
+        m.write_u8(t + w, v | L::FREE_FALL_SHIELD_BITS);
+    }
+    set_bits(m, t + L::FLAGS_13, L::FRESH, true);
+    fall_physics(m);
+    let h = m.read_u32(t + T::HANDLER);
+    if h == L::LAND || h == L::WALL_DROP {
+        for w in L::FREE_FALL_SHIELD {
+            m.write_u8(t + w, L::FREE_FALL_LANDED);
+        }
+    }
+    Flow::Return
+}

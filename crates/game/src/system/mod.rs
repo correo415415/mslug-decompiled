@@ -9,6 +9,7 @@
 
 pub mod anim;
 pub mod autopilot;
+pub mod banner;
 pub mod boot;
 pub mod bullet;
 pub mod burst;
