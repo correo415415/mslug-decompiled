@@ -96,6 +96,18 @@ pub fn move_ground(m: &mut impl Machine, t: u32) -> bool {
     slope::move_b_entity(m, t, (r.d[3] as u16, r.d[4] as u16))
 }
 
+/// Aterrizaje tras bajarse del Slug: un rato invulnerable (si la escena
+/// está cargada, también al golpe) y el aterrizaje normal.
+/// Original: `Player_SpawnLand_SetInvuln1E_033ec2`.
+pub fn land_invuln(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if m.read_u8(L::LAND_SCENE_LOADED) != 0 {
+        m.write_u8(t + L::LAND_TIMER_45, L::LAND_INVULN_FRAMES);
+    }
+    m.write_u8(t + L::LAND_TIMER_59, L::LAND_INVULN_FRAMES);
+    land(m)
+}
+
 /// Aterrizaje: limpia el brazo, pose y animación de aterrizar y, según el
 /// mando y el arma, se agacha, pasa a la espera, recarga o se queda de pie.
 /// Original: `Player_SpawnLand_Reset_033ede`.

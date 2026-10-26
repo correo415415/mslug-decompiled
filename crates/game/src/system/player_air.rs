@@ -773,3 +773,65 @@ pub fn free_fall_run(m: &mut impl Machine) -> Flow {
     }
     Flow::Return
 }
+
+// --- Salto al bajarse del Slug -------------------------------------------
+
+/// Sale despedido del Slug (al destruirse o al bajarse): pose de caída,
+/// impulso hacia arriba, velocidad X según la dirección mantenida y la
+/// caja del golpe. Original: `Player_SlugJumpOff_036796`.
+pub fn slug_jump_off(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    set_bits(m, t + L::STATUS, L::RIDING, false);
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0);
+    clear_arm(m, t);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    restart_pose(m, t, (0, 0), L::STATE_FALL, L::JUMP_OFF_SCRIPT);
+    m.write_u16(t + L::VEL_Y, L::JUMP_OFF_VEL);
+    m.write_u16(t + L::ACC_Y, L::JUMP_OFF_GRAVITY);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_KNOCK);
+    let h = u32::from(input::horizontal_held(m, Entity::from_raw(t)));
+    let vx = m.read_u16(L::JUMP_OFF_VEL_X + h * 2);
+    m.write_u16(t + L::VEL_X, vx);
+    set_handler(m, t, L::JUMP_OFF_AIR);
+    slug_jump_off_air(m)
+}
+
+/// Vuelo tras bajarse: control con la dirección, límites, caída con
+/// aterrizaje, pared al bajar, animación y caída al vacío.
+/// Original: `$036814`.
+pub fn slug_jump_off_air(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let h = u32::from(input::horizontal_held(m, Entity::from_raw(t)));
+    let acc = m.read_u16(L::JUMP_OFF_ACC_X + h * 2);
+    m.write_u16(t + L::ACC_X, acc);
+    let vx = m.read_u16(t + L::VEL_X);
+    m.write_u16(t + L::VEL_X, clamp(vx, L::JUMP_OFF_MAX_VX));
+    let vy = m.read_u16(t + L::VEL_Y);
+    if (vy as i16) <= 0 {
+        m.write_u16(t + L::VEL_Y, clamp(vy, L::MAX_JUMP_VEL_Y));
+    }
+    player::frame_common_no_prio(m, t);
+    set_bits(m, t + L::AIR, L::IN_AIR, true);
+    let row = m.regs().d[4] as u16;
+    if motion::on_entity_pos(m, t, |m| motion::move_fall(m, t, row)) {
+        set_handler(m, t, L::LAND_INVULN);
+        set_bits(m, t + L::AIR, L::IN_AIR, false);
+    }
+    if (m.read_u16(t + L::VEL_Y) as i16) <= 0 {
+        let f = m.read_u8(t + L::FLAGS_69);
+        if f & L::WALL_MASK != 0 && f & L::WALL_GRAB != 0 {
+            set_handler(m, t, L::WALL_DROP);
+        }
+    }
+    player::anim_done(m, t);
+    if m.read_u8(t + L::AIR) & L::IN_AIR != 0 {
+        let pit = m.read_u8(L::SCENE) == L::PIT_SCENE;
+        let margins = L::PIT_MARGINS[usize::from(pit)];
+        if items::out_of_view_seen(m, t, Some(margins)) {
+            set_handler(m, t, L::DEATH_PIT);
+        }
+    }
+    publish_state(m, t);
+    Flow::Return
+}

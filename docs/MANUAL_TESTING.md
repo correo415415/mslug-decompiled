@@ -109,8 +109,8 @@ del contrato de la rutina y están en el adaptador (`Ret::D0L`, `Ret::A1`).
 Con `--hands-off` (en `play` y `verify-system`) se mete moneda y START una
 sola vez y no se toca el mando: así se recorre el tutorial del Slug entero
 hasta la primera misión. Estado actual: con `--hands-off` se para en el
-frame 2161 en `Slug_DeathExplode_02da38` (destrucción del Slug del
-tutorial); con moneda y mando automático en el frame 2005
+frame 3621 en `Soldier_TauntInit_058e08`, ya dentro de la misión 1 (el
+tutorial del Slug se completa: destrucción, ataque suicida y polvaredas); con moneda y mando automático en el frame 2005
 (`HumanDeath_EntryKind0_04a014`); sin moneda en el frame 1636
 (`Pillbox_Init_Right_0868a6`).
 
