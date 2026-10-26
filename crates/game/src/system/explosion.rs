@@ -7,7 +7,7 @@
 //! cuerpo común `$0780DE` (`asm/props/fx_explosions_platforms_crew_076000.s`),
 //! `$077E00` y `$044048`.
 
-use super::{anim, items, rng, tasks};
+use super::{anim, items, motion, rng, spawner, tasks};
 use crate::layout::{explosion as L, task as T};
 use crate::mem::{Machine, Memory};
 use crate::Flow;
@@ -64,6 +64,51 @@ pub fn run(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
     follow_layer(m, t);
     if anim::step(m, t) || out(m, t) {
+        return tasks::finish(m);
+    }
+    Flow::Return
+}
+
+/// Trozo en arco `k` (uno de `ARCS`): sale hacia arriba con velocidad al
+/// azar, girado al azar, sin caja. Original: `Explosion_VarTbl_078218` …
+/// `Debris_ArcB_07875e` y su cuerpo `$078778`.
+pub fn arc(m: &mut impl Machine, k: usize, at: (u16, u16)) -> Flow {
+    let t = m.task_register();
+    let (script, margins, gfx) = L::ARCS[k];
+    anim::start(m, t, script);
+    m.write_u32(t + L::MARGINS, margins);
+    anim::alloc_entry(m, t, gfx);
+    m.write_u8(t + L::SCALE[0], 0xFF);
+    m.write_u8(t + L::SCALE[1], 0xFF);
+    random_flip(m, t);
+    m.write_u16(t + L::VEL_Y, L::ARC_VEL_Y);
+    m.write_u16(t + L::ACC_Y, L::ARC_GRAVITY);
+    m.write_u16(t + L::ACC_X, 0);
+    let (r, _) = rng::below(m, L::ARC_RAND_X);
+    m.write_u16(t + L::VEL_X, if r & 1 != 0 { r.wrapping_neg() } else { r });
+    let (r, _) = rng::below(m, L::ARC_RAND_Y);
+    let vy = m.read_u16(t + L::VEL_Y).wrapping_sub(r);
+    m.write_u16(t + L::VEL_Y, vy);
+    let f = m.read_u8(t + L::FLIP);
+    m.write_u8(t + L::FLIP, f | (r as u8 & 1));
+    if out(m, t) {
+        return tasks::finish(m);
+    }
+    m.write_u32(t + L::HITBOX, T::NIL);
+    m.write_u32(t + T::HANDLER, L::ARC_RUN);
+    arc_run(m, at)
+}
+
+/// Vuelo del trozo: cae (con tope), anima si hay sitio en la cola de
+/// vídeo y desaparece al acabar o al salir. Original: `$0787F8`.
+pub fn arc_run(m: &mut impl Machine, at: (u16, u16)) -> Flow {
+    let t = m.task_register();
+    if (m.read_u16(t + L::VEL_Y) as i16) <= L::ARC_MIN_VEL_Y {
+        m.write_u16(t + L::VEL_Y, (L::ARC_MIN_VEL_Y + 1) as u16);
+    }
+    motion::on_entity_pos(m, t, |m| motion::move_e_probe(m, t, at));
+    let done = !spawner::video_busy(m) && anim::step(m, t);
+    if done || out(m, t) {
         return tasks::finish(m);
     }
     Flow::Return

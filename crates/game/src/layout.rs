@@ -1416,6 +1416,12 @@ pub mod player {
 /// Jugador en el suelo (`system::player_ground`): aterrizaje, espera con
 /// la pistola y la cola común que elige el siguiente estado.
 pub mod player_ground {
+    /// Al aterrizar tras bajarse del Slug: invulnerable unos frames (al
+    /// golpe sólo con la escena cargada).
+    pub const LAND_INVULN_FRAMES: u8 = 0x1E;
+    pub const LAND_SCENE_LOADED: u32 = 0x10_6ED3;
+    pub const LAND_TIMER_45: u32 = 0x45;
+    pub const LAND_TIMER_59: u32 = 0x59;
     pub const VEL_X: u32 = 0x28;
     pub const VEL_Y: u32 = 0x2A;
     pub const ACC_X: u32 = 0x2C;
@@ -1708,6 +1714,17 @@ pub mod player_air {
     pub const WALL_DROP: u32 = 0x03_68E0;
     pub const WALL_DROP_VEL: u16 = 0x400;
     pub const DEATH_PIT: u32 = 0x03_7B8E;
+    /// Salto al bajarse del Slug: guion, impulso, gravedad, caja, velocidad
+    /// y aceleración X por dirección mantenida, tope X y rutinas.
+    pub const JUMP_OFF_SCRIPT: u32 = 0x27_9690;
+    pub const JUMP_OFF_VEL: u16 = 0x87F;
+    pub const JUMP_OFF_GRAVITY: u16 = 0xFF6F;
+    pub const HITBOX_KNOCK: u32 = 0x03_2884;
+    pub const JUMP_OFF_VEL_X: u32 = 0x03_24E8;
+    pub const JUMP_OFF_ACC_X: u32 = 0x03_24D8;
+    pub const JUMP_OFF_MAX_VX: u16 = 0x200;
+    pub const JUMP_OFF_AIR: u32 = 0x03_6814;
+    pub const LAND_INVULN: u32 = 0x03_3EC2;
     /// Bajada en paracaídas: tarea del paracaídas, estado, animación,
     /// velocidad inicial y máxima, altura a la que se suelta y rutinas.
     pub const PARACHUTE_TASK: u32 = 0x03_8CF6;
@@ -3729,6 +3746,25 @@ pub mod debris {
     pub const ATTR_KEEP: u16 = 0xFFE3;
     pub const LAYER_FRONT: u16 = 0x10;
     pub const LAYER_BACK: u16 = 0x04;
+    /// Polvo al saltar del Slug: tarea, bucle, sprite, atributos y guion.
+    pub const DUST_TASK: u32 = 0x03_D8FA;
+    pub const DUST_RUN: u32 = 0x03_D92C;
+    pub const DUST_GFX: u16 = 0x17C;
+    pub const DUST_ATTR: u16 = 0x2000;
+    pub const DUST_ATTR_KEEP: u16 = 0xFFE3;
+    pub const DUST_ATTR_SET: u16 = 0x10;
+    pub const DUST_SCRIPT: u32 = 0x2F_7D3A;
+    /// Pareja de polvaredas del Slug: la tarea (que se acaba sola), y
+    /// desplazamiento X, Y y si se voltea de cada una de las 10 variantes
+    /// (`$031E5E` + el desplazamiento de `DUST_PAIR_ENTRIES`).
+    pub const DUST_PAIR_TASK: u32 = 0x03_1E38;
+    pub const DUST_PAIR: [(i16, i16, bool); 10] = [
+        (-0x20, 0, false), (0x20, 0, true), (-0x20, -8, false), (0x20, -8, true), (-0x20, 8, false),
+        (0x20, 8, true), (-0x13, -0xC, false), (0x13, -0xC, true), (-0x13, 0xC, false), (0x13, 0xC, true),
+    ];
+    pub const DUST_PAIR_ENTRIES: [u32; 10] =
+        [0x03_1E5E, 0x03_1E76, 0x03_1E94, 0x03_1EB2, 0x03_1ED6, 0x03_1EF2, 0x03_1F16, 0x03_1F36, 0x03_1F5C, 0x03_1F7C];
+    pub const FLIP: u32 = 0x3A;
 }
 
 /// Slug parado (`system::slug_idle`).
@@ -4816,6 +4852,70 @@ pub mod explosion {
     pub const FRONT_ATTR: u16 = 0xC000;
     pub const RUN: u32 = 0x07_810A;
     pub const RUN_BIG: u32 = 0x07_7EB4;
+    /// Trozos en arco (`Explosion_VarTbl_078218` … `Debris_ArcB_07875e`, uno
+    /// cada `ARC_STRIDE` bytes): guion, márgenes y gráfico.
+    pub const ARC_FIRST: u32 = 0x07_8218;
+    pub const ARC_STRIDE: u32 = 0x1E;
+    pub const ARCS: [(u32, u32, u16); 46] = [
+        (0x2D_DAD0, 0x2D_F21A, 0xA), // $078218
+        (0x2D_DB62, 0x2D_F21A, 0xA), // $078236
+        (0x2D_DBF4, 0x2D_F21A, 0xA), // $078254
+        (0x2D_DC86, 0x2D_F21A, 0xA), // $078272
+        (0x2D_DD18, 0x2D_F224, 0xA), // $078290
+        (0x2D_DDAA, 0x2D_F21A, 0xA), // $0782AE
+        (0x2D_DE3C, 0x2D_F21A, 0xA), // $0782CC
+        (0x2D_DEB2, 0x2D_F21A, 0xA), // $0782EA
+        (0x2D_DF28, 0x2D_F224, 0xA), // $078308
+        (0x2D_DF9E, 0x2D_F224, 0xA), // $078326
+        (0x2D_E014, 0x2D_F21A, 0xA), // $078344
+        (0x2D_E08A, 0x2D_F224, 0xA), // $078362
+        (0x2D_E100, 0x2D_F224, 0xA), // $078380
+        (0x2D_E176, 0x2D_F21A, 0xA), // $07839E
+        (0x2D_E1EC, 0x2D_F21A, 0xA), // $0783BC
+        (0x2D_DE3C, 0x2D_F21A, 0x9E), // $0783DA
+        (0x2D_DEB2, 0x2D_F21A, 0x9E), // $0783F8
+        (0x2D_DF28, 0x2D_F224, 0x9E), // $078416
+        (0x2D_DF9E, 0x2D_F224, 0x9E), // $078434
+        (0x2D_E014, 0x2D_F21A, 0x9E), // $078452
+        (0x2D_E08A, 0x2D_F224, 0x9E), // $078470
+        (0x2D_E100, 0x2D_F224, 0x9E), // $07848E
+        (0x2D_E176, 0x2D_F21A, 0x9E), // $0784AC
+        (0x2D_E1EC, 0x2D_F21A, 0x9E), // $0784CA
+        (0x2D_E08A, 0x2D_F224, 0xAD), // $0784E8
+        (0x2D_E100, 0x2D_F224, 0xAD), // $078506
+        (0x2D_E176, 0x2D_F21A, 0xAD), // $078524
+        (0x2D_E1EC, 0x2D_F21A, 0xAD), // $078542
+        (0x2D_E262, 0x2D_F21A, 0xA), // $078560
+        (0x2D_E262, 0x2D_F21A, 0x72), // $07857E
+        (0x2D_E2D8, 0x2D_F21A, 0xA), // $07859C
+        (0x2D_E2D8, 0x2D_F21A, 0x72), // $0785BA
+        (0x2D_E2D8, 0x2D_F21A, 0x88), // $0785D8
+        (0x2D_E34E, 0x2D_F224, 0xA), // $0785F6
+        (0x2D_E34E, 0x2D_F224, 0x72), // $078614
+        (0x2D_E34E, 0x2D_F224, 0x77), // $078632
+        (0x2D_E3C4, 0x2D_F21A, 0xA), // $078650
+        (0x2D_E3C4, 0x2D_F21A, 0x72), // $07866E
+        (0x2D_E43A, 0x2D_F21A, 0xA), // $07868C
+        (0x2D_E43A, 0x2D_F21A, 0x72), // $0786AA
+        (0x2D_E43A, 0x2D_F21A, 0x77), // $0786C8
+        (0x2D_E43A, 0x2D_F21A, 0x88), // $0786E6
+        (0x2D_E43A, 0x2D_F21A, 0x28), // $078704
+        (0x2D_E4B0, 0x2D_F21A, 0xB), // $078722
+        (0x2D_E5F4, 0x2D_F21A, 0xB), // $078740
+        (0x2D_E66A, 0x2D_F224, 0xB), // $07875E
+    ];
+    pub const ARC_RUN: u32 = 0x07_87F8;
+    /// Impulso: Y inicial, gravedad, azar de X (con signo al azar) y de Y,
+    /// tope de caída.
+    pub const ARC_VEL_Y: u16 = 0x7F8;
+    pub const ARC_GRAVITY: u16 = 0xFFBC;
+    pub const ARC_RAND_X: u16 = 0x3FF;
+    pub const ARC_RAND_Y: u16 = 0x7FF;
+    pub const ARC_MIN_VEL_Y: i16 = -0x500;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
     /// Índice de `Explosion_Fire_077f6a` en `KINDS`.
     pub const FIRE: usize = 5;
 }
@@ -4861,6 +4961,188 @@ pub mod slug_hit {
     pub const DEATH_EXPLODE: u32 = 0x02_DA38;
     pub const DEATH_LAUNCH: u32 = 0x02_DB52;
     pub const DEATH_FINISH: u32 = 0x02_DCBC;
+}
+
+/// Ataque suicida del Slug: se lanza hacia delante y explota
+/// (`Slug_DestroyedSlideInit_02bbf2`, `Slug_Destroyed_02fc70`,
+/// `Slug_SelfDestructAttack_02fe6a` …).
+pub mod slug_attack {
+    pub const START_MUSIC: u16 = 0x10E9;
+    pub const SLIDE_SOUND: u16 = 0x10B2;
+    pub const ROLL_SOUND: u16 = 0x10AF;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const SPEED: u32 = 0x36;
+    pub const SLIDE_VEL_X: u16 = 0x600;
+    /// Frames que le quedan antes de explotar; por debajo de `SLIDE_RESET`
+    /// vuelve a la velocidad de salida; cerca del borde baja a `NEAR_EDGE`.
+    pub const FUSE: u32 = 0x92;
+    pub const FUSE_FRAMES: u8 = 0x30;
+    pub const SLIDE_RESET: u8 = 0x29;
+    pub const NEAR_EDGE: i8 = 0x0A;
+    pub const NEAR_EDGE_X: i16 = 0xC0;
+    pub const MAX_X: i16 = 0x117;
+    /// Guiones por pendiente y `+$20` = `SLIDE_BYTE_20` + índice.
+    pub const SLIDE_SCRIPTS: u32 = 0x27_936C;
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const BYTE_20: u32 = 0x20;
+    pub const SLIDE_BYTE_20: u8 = 0x19;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const SLIDE_HANDLER_60: u32 = 0x02_964C;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const ATTACKS_RAM: u32 = 0x02_9834;
+    pub const ATTACKS_BOOM: u32 = 0x02_9790;
+    pub const ATTACKS_BLAST: u32 = 0x02_98D8;
+    pub const NIL: u32 = 0xFFFF_FFFF;
+    pub const FRAME_COUNTER: u32 = 0x10_6F28;
+    pub const CONTROL_LAYOUT: u32 = 0x10_6F2A;
+    pub const LAYOUT_BOOST: u8 = 3;
+    pub const DAMAGE_SCRIPT_C: u32 = 0x02_FA3C;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const BLAST_POS: (u16, u16) = (0xA0, 0x180);
+    pub const SLOPE: u32 = 0x80;
+    pub const ANGLE_CENTER: i16 = 0x20;
+    pub const ANGLE_MAX: u16 = 0x40;
+    pub const ANGLE_SCRIPTS: u32 = 0x2B_0C30;
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const BIT_8C_5: u8 = 1 << 5;
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const BIT_8D_2: u8 = 1 << 2;
+    pub const BIT_8D_4: u8 = 1 << 4;
+    pub const STEPS: u32 = 0x3B;
+    pub const FLAGS_5A: u32 = 0x5A;
+    pub const BIT_5A_5: u8 = 1 << 5;
+    pub const BASE_Y: u32 = 0x82;
+    pub const BASE_Y_DROP: u16 = 0x10;
+    pub const EXPLODED: u32 = 0x10_A2D1;
+    /// Rutinas.
+    pub const SLIDE_START: u32 = 0x02_BC56;
+    pub const SLIDE_LOOP: u32 = 0x02_BC78;
+    pub const SLIDE: u32 = 0x02_BBA4;
+    pub const ROLL: u32 = 0x02_FC8E;
+    pub const ROLL_LOOP: u32 = 0x02_FD1A;
+    pub const SELF_DESTRUCT: u32 = 0x02_FE6A;
+    pub const SELF_DESTRUCT_LOOP: u32 = 0x02_FE76;
+    pub const BLAST: u32 = 0x02_FF4A;
+    pub const BLAST_END: u32 = 0x02_FF86;
+    pub const DEATH_FADE: u32 = 0x02_DC5C;
+}
+
+/// Destrucción del Slug (`Slug_DeathExplode_02da38` … `Slug_DeathStart_02dcc0`).
+pub mod slug_death {
+    pub const TIMER_59: u32 = 0x59;
+    pub const TIMER_45: u32 = 0x45;
+    pub const KILL_TIMER_45: u8 = 0xFE;
+    pub const HP: u32 = 0x66;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const DESTROYED: u8 = 1 << 0;
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const BIT_8C_5: u8 = 1 << 5;
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const BIT_8D_4: u8 = 1 << 4;
+    pub const FLAGS_5B: u32 = 0x5B;
+    pub const BIT_5B_7: u8 = 1 << 7;
+    /// Sprites de la explosión.
+    pub const KILL_GFX: [u16; 4] = [0x19C, 0x19D, 0x19E, 0x19A];
+    pub const EXPLODE_SOUND: u16 = 0x1034;
+    pub const SMOKE: u32 = 0x02_F672;
+    /// Humos (sprite, guion, atributos) y su bucle.
+    pub const SMOKES: [(u16, u32, u16); 2] = [(0x4, 0x2D_D6A6, 0x2000), (0x163, 0x02_F6C0, 0xD000)];
+    pub const SMOKE_RUN: u32 = 0x02_F692;
+    pub const ATTR: u32 = 0x38;
+    /// Cajas de ataque de la explosión.
+    pub const ATTACKS: u32 = 0x4C;
+    pub const BLAST_ATTACKS: u32 = 0x02_973C;
+    pub const X: u32 = 0x22;
+    pub const BASE_Y: u32 = 0x82;
+    pub const BASE_Y_MASK: u16 = 0x3FF;
+    pub const WORK_POS: [u32; 2] = [0x10_6F38, 0x10_6F3A];
+    /// Caja de golpe (su izquierda/derecha en `+$0A`) y X del impacto.
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const BOX_LEFT: u32 = 0x0A;
+    pub const HIT_X: u32 = 0x54;
+    pub const POSE_SCRIPTS: [u32; 2] = [0x27_954C, 0x27_9560];
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const BYTE_20: u32 = 0x20;
+    pub const BYTE_20_HIT: u8 = 0x96;
+    pub const MARGINS: u32 = 0x27_964E;
+    pub const DAMAGE_SCRIPT_B: u32 = 0x02_F8AE;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const LAUNCH_VEL_Y: u16 = 0x3FC;
+    pub const LAUNCH_GRAVITY: u16 = 0xFFAB;
+    pub const MAX_VEL_Y: u16 = 0x400;
+    pub const FADE_TIMER: u32 = 0x91;
+    pub const LAUNCH_FRAMES: u8 = 0x3C;
+    pub const FADE_FRAMES: u8 = 0x28;
+    pub const HANDLER_60: u32 = 0x60;
+    /// Rutinas.
+    pub const EXPLODE: u32 = 0x02_DA38;
+    pub const EXPLODE_LOOP: u32 = 0x02_DAE4;
+    pub const LAUNCH_LOOP: u32 = 0x02_DC0C;
+    pub const FADE: u32 = 0x02_DC5C;
+    pub const FADE_LOOP: u32 = 0x02_DC7E;
+    pub const SET_IDLE: u32 = 0x02_DCAA;
+    pub const IDLE: u32 = 0x00_0400;
+    /// Música de la pérdida y burbuja del piloto.
+    pub const LOST_MUSIC: u16 = 0x10E9;
+    pub const BUBBLE: u32 = 0x03_207C;
+}
+
+/// Lanzador de trozos (`Spawner_Handler_077c98`) y esquirlas de la
+/// explosión del Slug (`Template_08121C` …).
+pub mod spawner {
+    pub const INIT: u32 = 0x07_7C98;
+    pub const RUN: u32 = 0x07_7CAE;
+    /// Campos: descripción, temporizador (`BURST` = todo de golpe) y cuenta.
+    pub const DESC: u32 = 0x70;
+    pub const TIMER: u32 = 0x74;
+    pub const COUNT: u32 = 0x76;
+    pub const BURST: u8 = 0xFF;
+    /// Descripción: seguir al dueño, periodo, cuenta, desplazamiento X,
+    /// azar X, desplazamiento Y, azar Y, elegir al azar de una tabla de
+    /// `TABLE_LEN` y rutina (o tabla).
+    pub const D_FOLLOW: u32 = 0;
+    pub const D_PERIOD: u32 = 1;
+    pub const D_COUNT: u32 = 2;
+    pub const D_DX: u32 = 4;
+    pub const D_RAND_X: u32 = 6;
+    pub const D_DY: u32 = 8;
+    pub const D_RAND_Y: u32 = 0xA;
+    pub const D_RANDOM: u32 = 0xD;
+    pub const D_HANDLER: u32 = 0xE;
+    pub const TABLE_LEN: u16 = 0x10;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const SUB: [u32; 2] = [0x26, 0x27];
+    pub const FLIP: u32 = 0x3A;
+    pub const SCALE: [u32; 2] = [0x32, 0x33];
+    pub const FLAGS_12: u32 = 0x12;
+    pub const FLAGS_12_KEEP: u8 = 0x40;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    /// Trozos del Slug.
+    pub const SLUG_DEBRIS: u32 = 0x2E_3C54;
+    /// Esquirlas: entradas por cuadrante, rapidez, frames entre pasos y
+    /// explosiones que deja.
+    pub const SHARDS: [u32; 4] = [0x08_121C, 0x08_123C, 0x08_1260, 0x08_1284];
+    pub const QUADRANT: u16 = 0x40;
+    pub const QUADRANT_MASK: u16 = 0x3F;
+    pub const SHARD_SPEED: i16 = 0x2000;
+    pub const STEP_TIMER: u32 = 0x70;
+    pub const STEP_PERIOD: u32 = 0x72;
+    pub const BLASTS: u32 = 0x74;
+    pub const SHARD_STEP: u16 = 3;
+    pub const SHARD_BLASTS: u16 = 4;
+    pub const SHARD_RUN: u32 = 0x08_12BE;
+    pub const BLAST: u32 = 0x07_7EFE;
+    /// Cola de vídeo: lo volcado y su tramo.
+    pub const QUEUE_USED: u32 = 0x10_E1E8;
+    pub const QUEUE_SPAN: [u32; 2] = [0x10_E1FA, 0x10_E1F6];
 }
 
 /// Salto del Slug (`Slug_JumpCrouch_02c908` … `Slug_JumpLand_02cc1a`).
