@@ -2352,6 +2352,55 @@ pub mod grunt {
     pub const HOP_UP_RUN: u32 = 0x08_DC0E;
 }
 
+/// Bichos sencillos de las escenas (`system::critters`): el que sube y
+/// baja (plantilla 182), el que salta (183) y el que corre (184).
+pub mod critters {
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_BOBBER: u16 = 0xC000;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const TIMER: u32 = 0x70;
+    /// Sube y baja: gráfico, animación, aceleración, duración (6 + 0..7),
+    /// límites y estados.
+    pub const BOBBER_GFX: u16 = 0x12A;
+    pub const BOBBER_ANIM: u32 = 0x2F_4036;
+    pub const BOBBER_ACC: u16 = 4;
+    pub const BOBBER_FRAMES: u16 = 6;
+    pub const BOBBER_BOTTOM: i16 = 0x1D0;
+    pub const BOBBER_TOP: i16 = 0x160;
+    pub const BOBBER_DOWN: u32 = 0x08_E4FE;
+    pub const BOBBER_DOWN_RUN: u32 = 0x08_E52A;
+    pub const BOBBER_UP: u32 = 0x08_E566;
+    pub const BOBBER_UP_RUN: u32 = 0x08_E592;
+    /// Salta: gráfico, animaciones (espera, salto, caída), velocidad y
+    /// aceleración de la espera, espera (12 + 0..15), salto (−$40 − 0..63,
+    /// aceleración 4, 11 frames) y estados.
+    pub const LEAPER_GFX: u16 = 0x124;
+    pub const LEAPER_ANIM: [u32; 3] = [0x2F_4072, 0x2F_407E, 0x2F_408A];
+    pub const LEAPER_WAIT_VEL: u16 = 0xFD00;
+    pub const LEAPER_WAIT_ACC: u16 = 0x10;
+    pub const LEAPER_WAIT: (u16, u16) = (0xC, 0xF);
+    pub const LEAPER_RISE: u16 = 0x40;
+    pub const LEAPER_JUMP: (u16, u16, u16) = (0x40, 0x3F, 4);
+    pub const LEAPER_JUMP_FRAMES: u16 = 0xB;
+    pub const LEAPER_WAIT_RUN: u32 = 0x08_E622;
+    pub const LEAPER_HOP: u32 = 0x08_E65C;
+    pub const LEAPER_HOP_RUN: u32 = 0x08_E68E;
+    pub const LEAPER_FALL: u32 = 0x08_E6B8;
+    pub const LEAPER_FALL_RUN: u32 = 0x08_E6CA;
+    /// Corre: gráfico, animación y estado.
+    pub const RUNNER_GFX: u16 = 0x128;
+    pub const RUNNER_ANIM: u32 = 0x2F_4096;
+    pub const RUNNER_RUN: u32 = 0x08_E716;
+    /// Banda de X de la pantalla en que sigue vivo (una vez visto).
+    pub const SEEN: u8 = 1 << 7;
+    pub const FLAGS2: u32 = 0x13;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VIEW_X: (i16, i16) = (0, 0x140);
+    pub const VIEW_Y: (i16, i16) = (0x100, 0x1F0);
+}
+
 /// Objetos del suelo y test de fuera de la vista (`system::items`).
 pub mod items {
     pub const X: u32 = 0x22;
@@ -3368,6 +3417,19 @@ pub mod manual_icons {
     pub const ANCHOR_ANIM: u32 = 0x2F_2F52;
     pub const ANCHOR_POS: (u16, u16) = (0xE0, 0x160);
     pub const ANCHOR_RUN: u32 = 0x08_C678;
+    /// Ancla que se suelta: posición, gráfico, velocidad, guion, cajas de
+    /// ataque, bit de choque (`+$13`), márgenes, la explosión y el bucle.
+    pub const DROP_POS: (u16, u16) = (0x140, 0x180);
+    pub const DROP_GFX: u16 = 0x179;
+    pub const VEL_X: u32 = 0x28;
+    pub const DROP_VEL: u16 = 0xF800;
+    pub const DROP_ANIM: u32 = 0x2E_F80E;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const DROP_ATTACKS: u32 = 0x2E_F84C;
+    pub const DROP_HIT: u8 = 1 << 1;
+    pub const DROP_MARGINS: u32 = 0x2E_F8A0;
+    pub const DROP_FX: u32 = 0x07_7F6A;
+    pub const DROP_RUN: u32 = 0x08_C77A;
     /// Idioma del texto: 0 = japonés, 1 = inglés, 2 = portugués, 3 = español.
     pub const LANGUAGE: u32 = 0x8A;
     pub const LANG_JP: u8 = 0;
@@ -4085,6 +4147,23 @@ pub mod turret {
     /// enemigos.
     pub const ENEMY_ROOT: u32 = 0x10_0800;
     pub const LOOSE_SHOT: u32 = 0x04_5D3A;
+    /// Bala suelta: atributos, impulso (X hacia donde mira, Y), gravedad,
+    /// vida, guion, sonido al consumirse y bucle.
+    pub const SHOT_ATTR: u16 = 0xD000;
+    pub const SHOT_ATTR_KEEP: u16 = 0xFFE3;
+    pub const SHOT_ATTR_SET: u16 = 0x10;
+    pub const SHOT_VEL: (u16, u16) = (0x38, 0x384);
+    pub const SHOT_GRAVITY: u16 = 0xFFEC;
+    pub const SHOT_LIFE: u32 = 0x45;
+    pub const SHOT_LIFE_FRAMES: u8 = 0x3C;
+    pub const SHOT_SCRIPT: u32 = 0x29_D090;
+    pub const SHOT_SOUND: u16 = 0x1022;
+    pub const SHOT_FLY: u32 = 0x04_5D8C;
+    pub const FACING_LEFT: u8 = 1 << 0;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
     pub const OWNER_FLAGS_13: u32 = 0x13;
     pub const OWNER_DONE: u8 = 1 << 0;
 }
@@ -4562,6 +4641,226 @@ pub mod slug_drive {
     /// (byte ≠ 0) o cuesta (0), indexada con signo.
     pub const SLOPE: u32 = 0x80;
     pub const FLAT_BY_SLOPE: u32 = 0x02_A558;
+}
+
+/// Disparo del cañón del Slug (`Slug_FireIdle_02c190` …
+/// `Slug_FireRecoil_02c432`).
+pub mod slug_fire {
+    /// Guiones por pendiente del disparo y del retroceso.
+    pub const SCRIPTS: u32 = 0x27_9498;
+    pub const RECOIL_SCRIPTS: u32 = 0x27_94E8;
+    /// Base de `+$20` parado y en llano.
+    pub const IDLE_BYTE_20: u8 = 0x14;
+    pub const FLAT_BYTE_20: u8 = 0x3C;
+    /// Bit de la máscara de jugadores con el que sólo sale humo con caída.
+    pub const MASK_BIT: u8 = 4;
+    /// Lado (`+$84`, `$FF` = izquierda) y proyectiles: a la derecha parado,
+    /// en llano y a la izquierda; humo de la boca y humo con caída.
+    pub const SIDE: u32 = 0x84;
+    pub const SHELL_IDLE: u32 = 0x03_11C0;
+    pub const SHELL_FLAT: u32 = 0x03_12B2;
+    pub const SHELL_LEFT: u32 = 0x03_1240;
+    pub const SMOKE: u32 = 0x03_19F0;
+    pub const SMOKE_DROP: u32 = 0x03_1944;
+    /// Espera tras disparar y por debajo de cuánto deja agacharse/saltar.
+    pub const COOLDOWN: u8 = 0x1E;
+    pub const COOLDOWN_FREE: u8 = 0x10;
+    /// `+$8D` bit 0: ha disparado.
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const FIRED: u8 = 1 << 0;
+    /// Botones de dirección (izquierda o derecha) que mantienen la marcha.
+    pub const MOVE_BUTTONS: u8 = 0x0C;
+    /// Tope de la velocidad X.
+    pub const MAX_VEL: u16 = 0x540;
+    /// Estados.
+    pub const FIRE_FLAT: u32 = 0x02_C24A;
+    pub const LOOP: u32 = 0x02_C33A;
+    pub const RECOIL: u32 = 0x02_C432;
+    pub const RECOIL_LOOP: u32 = 0x02_C46E;
+    pub const MOVE_RIGHT: u32 = 0x02_C572;
+    pub const MOVE_LEFT: u32 = 0x02_C648;
+}
+
+/// Proyectil del cañón del Slug (`VehicleLaunch_*`), el humo de su rastro
+/// y su explosión.
+pub mod slug_shell {
+    /// Campos: cajas de ataque, ángulo (1/256), cuadro, alcance, rapidez,
+    /// recorrido, contador del rastro (`$FF` = sin rastro) y su rutina.
+    pub const ATTACKS: u32 = 0x4C;
+    pub const ANGLE: u32 = 0x34;
+    pub const FRAME: u32 = 0x30;
+    pub const RANGE: u32 = 0x72;
+    pub const SPEED: u32 = 0x36;
+    pub const TRAVEL: u32 = 0x70;
+    pub const TRAIL: u32 = 0x20;
+    pub const NO_TRAIL: u8 = 0xFF;
+    pub const TRAIL_FX: u32 = 0x74;
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const ATTR: u32 = 0x38;
+    pub const ATTR_FLY: u16 = 0xD000;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    pub const ANIM_TIMER: u32 = 0x46;
+    /// `+$13` bit 1: la caja ha chocado; `+$5A` bit 5: contra la pared.
+    pub const FLAGS_13: u32 = 0x13;
+    pub const BLOCKED: u8 = 1 << 1;
+    pub const WALL: u8 = 1 << 5;
+    /// Dureza de la caja golpeada con la que desaparece sin estallar.
+    pub const ARMOURED: u8 = 6;
+    /// Del Slug: índice de pendiente, ángulo del cañón y puntero al cuadro.
+    pub const SLUG_SLOPE_IDX: u32 = 0x94;
+    pub const SLUG_ANGLE: u32 = 0x80;
+    pub const SLUG_POSE: u32 = 0x70;
+    /// Ángulo del cañón + 8 si es positivo, + $10 si no.
+    pub const ANGLE_OFFSET: (u16, u16) = (8, 0x10);
+    /// Tabla por pendiente {-, -, dx, dy, ángulo} del disparo parado.
+    pub const OFFSETS: u32 = 0x03_115C;
+    pub const OFFSET_LEN: u32 = 10;
+    /// Cajas de ataque, guion y gráfico.
+    pub const SHELL_ATTACKS: u32 = 0x03_0E20;
+    pub const SCRIPT: u32 = 0x29_FA8A;
+    pub const GFX: u16 = 0x58;
+    pub const SOUND: u16 = 0x1084;
+    /// Destello de la boca.
+    pub const FLASH: u32 = 0x07_7AB6;
+    /// Rapideces y alcances (parado, a la izquierda, en llano, fuerte, al
+    /// empujar) y velocidad de salida.
+    pub const SPEED_BASE: u16 = 0x600;
+    pub const SPEED_FAST: u16 = 0xC00;
+    pub const LAUNCH_SPEED: u16 = 0x700;
+    pub const RANGE_IDLE: u16 = 0x4400;
+    pub const RANGE_LEFT: u16 = 0x6000;
+    pub const RANGE_FLAT: u16 = 0x1000;
+    pub const RANGE_FAST: u16 = 0x7400;
+    pub const RANGE_PUSH: u16 = 0x26AA;
+    pub const MUZZLE_DY: u16 = 8;
+    /// Configuraciones de controles con disparo fuerte (varios botones /
+    /// empujando) y con rastro en cada frame.
+    pub const LAYOUT_MULTI: u8 = 5;
+    pub const LAYOUT_PUSH: u8 = 3;
+    pub const LAYOUT_EVERY_A: u8 = 3;
+    pub const LAYOUT_EVERY_B: u8 = 2;
+    pub const TRAIL_MASK: u8 = 0x0B;
+    /// Planeo: aceleraciones y tope de caída.
+    pub const GLIDE_ACC: (u16, u16) = (0xFFE0, 0xFEEA);
+    pub const MAX_FALL: u16 = 0x700;
+    /// Márgenes de fuera de la pantalla.
+    pub const MARGINS: u32 = 0x03_1154;
+    /// Estalla: marca, sonido, las tres cajas de la onda y la explosión.
+    pub const IMPACT_FLAG: u32 = 0x10_A2D1;
+    pub const CRASH_SOUND: u16 = 0x10F2;
+    pub const BLAST_ATTACKS: [u32; 3] = [0x03_0F68, 0x03_100C, 0x03_10B0];
+    pub const EXPLOSION_GFX: u16 = 0x178;
+    pub const EXPLOSION_SCRIPT: u32 = 0x29_E64A;
+    pub const EXPLOSION_ATTR: u16 = 0x2000;
+    /// Humo del rastro.
+    pub const SMOKE: u32 = 0x03_1B78;
+    pub const SMOKE_GFX: u16 = 4;
+    pub const SMOKE_SCRIPT: u32 = 0x03_23CC;
+    pub const SMOKE_FRAMES: u16 = 2;
+    /// Estados.
+    pub const FLY: u32 = 0x03_1542;
+    pub const CRUISE: u32 = 0x03_156C;
+    pub const FALL: u32 = 0x03_1594;
+    pub const GLIDE: u32 = 0x03_168A;
+    pub const GLIDE_LOOP: u32 = 0x03_16BE;
+    pub const CRASH: u32 = 0x03_17D2;
+    pub const CRASH_JMP: u32 = 0x03_18B4;
+    pub const DESPAWN: u32 = 0x03_18B8;
+    pub const RELEASE: u32 = 0x03_18D4;
+    pub const BLAST_A: u32 = 0x03_1826;
+    pub const BLAST_B: u32 = 0x03_184E;
+    pub const BLAST_C: u32 = 0x03_1876;
+    pub const BLAST_END: u32 = 0x03_18AC;
+    pub const EXPLOSION: u32 = 0x03_1BD0;
+    pub const EXPLOSION_LOOP: u32 = 0x03_1C02;
+    pub const SMOKE_LOOP: u32 = 0x03_1B98;
+}
+
+/// Explosiones de una animación (`system::explosion`).
+pub mod explosion {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const ATTR: u32 = 0x38;
+    pub const FLIP: u32 = 0x3A;
+    pub const SCALE: [u32; 2] = [0x32, 0x33];
+    pub const HITBOX: u32 = 0x48;
+    pub const MARGINS: u32 = 0x70;
+    pub const LAYER_POS: [u32; 2] = [0x10_6F6C, 0x10_6F6E];
+    /// Variantes: guion, márgenes, gráfico, giro al azar y si quita la caja
+    /// de golpe (las que no, usan el bucle de la grande).
+    pub const KINDS: [(u32, u32, u16, bool, bool); 15] = [
+        (0x2D_F066, 0x2D_F22E, 0xD, false, false), // Explosion_Big_077e74
+        (0x2D_F180, 0x2D_F1FC, 0x16C, false, true), // Explosion_Water_077eda
+        (0x2D_D4BA, 0x2D_F1FC, 0x4, true, true), // Explosion_Std_077efe
+        (0x2D_D4BA, 0x2D_F1FC, 0x12D, true, true), // Explosion_StdSndB_077f22
+        (0x2D_D4D6, 0x2D_F1FC, 0x145, true, true), // Explosion_StdB_077f46
+        (0x2D_D594, 0x2D_F206, 0x4, true, true), // Explosion_Fire_077f6a
+        (0x2D_D594, 0x2D_F206, 0x82, true, true), // Explosion_FireSndB_077f8e
+        (0x2D_D37E, 0x2D_F210, 0x82, true, true), // Explosion_Flash_077fb2
+        (0x2D_D37E, 0x2D_F210, 0x4, true, true), // Explosion_FlashSndB_077fd6
+        (0x2D_D39A, 0x2D_F210, 0x4, true, true), // Explosion_FlashSndB_077fd6+$24
+        (0x2D_D6A6, 0x2D_F210, 0x4, true, true), // Explosion_Spark_07801e
+        (0x2D_D6D2, 0x2D_F1FC, 0x4, true, true), // Explosion_SmokePuff_078042
+        (0x2D_D594, 0x2D_F206, 0x6C, true, true), // Explosion_FireLoud_078066
+        (0x2D_D37E, 0x2D_F210, 0x6C, true, true), // Explosion_FlashLoud_07808a
+        (0x2D_D594, 0x2D_F206, 0x4, true, true), // Explosion_FireFront_0780ae
+    ];
+    /// La de delante: capa.
+    pub const FRONT: usize = 14;
+    pub const FRONT_KEEP: u16 = 0x0FFF;
+    pub const FRONT_ATTR: u16 = 0xC000;
+    pub const RUN: u32 = 0x07_810A;
+    pub const RUN_BIG: u32 = 0x07_7EB4;
+    /// Índice de `Explosion_Fire_077f6a` en `KINDS`.
+    pub const FIRE: usize = 5;
+}
+
+/// Slug golpeado (`Slug_HitReact_02d63e` … `Slug_HitLandB_02d980`).
+pub mod slug_hit {
+    /// Guiones por pendiente: sacudida (dos variantes), vuelo y aterrizaje.
+    pub const REACT_SCRIPTS: [u32; 2] = [0x27_954C, 0x27_9560];
+    pub const LAUNCH_SCRIPTS: [u32; 2] = [0x27_9574, 0x27_9588];
+    pub const LAND_SCRIPTS: [u32; 2] = [0x27_959C, 0x27_95B0];
+    pub const NO_SCRIPT: u32 = 0xFFFF_FFFF;
+    pub const BYTE_20: u32 = 0x20;
+    pub const BYTE_20_HIT: u8 = 0x96;
+    pub const FLAGS_8C: u32 = 0x8C;
+    pub const BIT_8C_5: u8 = 1 << 5;
+    pub const FLAGS_8D: u32 = 0x8D;
+    pub const IN_AIR: u8 = 1 << 1;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const BIT_13_3: u8 = 1 << 3;
+    pub const TIMER_45: u32 = 0x45;
+    pub const TIMER_59: u32 = 0x59;
+    pub const TIMER_FRAMES: u8 = 0x28;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const REACT_HANDLER_60: u32 = 0x02_95B4;
+    pub const HITBOX_CB: u32 = 0x48;
+    pub const DRIVE_HITBOX: u32 = 0x02_9A14;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    /// Impulso y gravedad del vuelo y tope de la velocidad vertical.
+    pub const LAUNCH_VEL_Y: u16 = 0x3FC;
+    pub const LAUNCH_GRAVITY: u16 = 0xFFAB;
+    pub const MAX_VEL_Y: u16 = 0x400;
+    pub const MARGINS: u32 = 0x27_964E;
+    /// Rutinas.
+    pub const REACT_LOOP: u32 = 0x02_D6CE;
+    pub const LAUNCH_LOOP: [u32; 2] = [0x02_D78C, 0x02_D852];
+    pub const LAND: [u32; 2] = [0x02_D8C8, 0x02_D980];
+    pub const LAND_LOOP: [u32; 2] = [0x02_D908, 0x02_D9C0];
+    pub const IDLE_FLAT: u32 = 0x02_B38C;
+    pub const FALL: u32 = 0x02_D02E;
+    pub const IDLE_ENTER_B: u32 = 0x02_DD74;
+    pub const DEATH_EXPLODE: u32 = 0x02_DA38;
+    pub const DEATH_LAUNCH: u32 = 0x02_DB52;
+    pub const DEATH_FINISH: u32 = 0x02_DCBC;
 }
 
 /// Salto del Slug (`Slug_JumpCrouch_02c908` … `Slug_JumpLand_02cc1a`).

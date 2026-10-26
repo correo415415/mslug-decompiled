@@ -148,9 +148,14 @@ pub fn hopper(m: &mut impl Machine) -> Flow {
 
 /// Empieza un salto: aceleración, duración al azar y animación.
 fn hop(m: &mut impl Machine, acc: u16, anim_script: u32, run: u32) {
+    hop_for(m, acc, L::HOP_FRAMES, anim_script, run);
+}
+
+/// Como [`hop`] con `frames` + 0..7 frames.
+pub(crate) fn hop_for(m: &mut impl Machine, acc: u16, frames: u16, anim_script: u32, run: u32) {
     let t = m.task_register();
     m.write_u16(t + L::ACC[1], acc);
-    m.write_u16(t + L::TIMER, L::HOP_FRAMES);
+    m.write_u16(t + L::TIMER, frames);
     let (r, _) = rng::masked(m, L::HOP_RANDOM);
     let n = m.read_u16(t + L::TIMER).wrapping_add(r);
     m.write_u16(t + L::TIMER, n);
@@ -160,7 +165,7 @@ fn hop(m: &mut impl Machine, acc: u16, anim_script: u32, run: u32) {
 
 /// Un frame de salto: al pasar su límite (`past`) o acabarse el tiempo
 /// cambia a `next`.
-fn hop_run(m: &mut impl Machine, past: fn(i16) -> bool, next: u32) -> Flow {
+pub(crate) fn hop_run(m: &mut impl Machine, past: fn(i16) -> bool, next: u32) -> Flow {
     let t = m.task_register();
     platforms::move_with_scene(m, t);
     integrate_accel(m, t);
@@ -180,7 +185,7 @@ fn hop_run(m: &mut impl Machine, past: fn(i16) -> bool, next: u32) -> Flow {
 /// [`cull`] llamada como subrutina: si da de baja la tarea, el original
 /// sale con la dirección de vuelta aún en la pila (el planificador la
 /// restaura después); se reproduce para que la pila coincida.
-fn cull_sub(m: &mut impl Machine) -> Flow {
+pub(crate) fn cull_sub(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
     if items::out_of_view(m, t, None) {
         let sp = m.stack_pointer().wrapping_sub(4);

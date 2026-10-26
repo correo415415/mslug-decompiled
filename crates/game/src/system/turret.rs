@@ -12,7 +12,7 @@
 //! los ayudantes `$05CA2A`, `$08F714`, `$05E452`, `$05D674`, `$0517FE`
 //! y `$0280C6`.
 
-use super::{anim, motion, sound, sprite, tasks, video};
+use super::{anim, explosion, items, motion, sound, sprite, tasks, video};
 use crate::layout::{slug, task as T, turret as L};
 use crate::mem::{Machine, Memory};
 use crate::Flow;
@@ -315,4 +315,42 @@ pub fn tail(m: &mut impl Machine) -> Flow {
     copy_pilot(m, t, s);
     tasks::kill_children(m, t);
     tasks::finish(m)
+}
+
+/// Bala suelta (la que deja la torreta al quedarse sin dueño): sale hacia
+/// arriba y hacia donde mira, cae y, al gastar su vida, se convierte en
+/// una explosión. Original: `Boss2Shot_Init_045D3A`.
+pub fn loose_shot(m: &mut impl Machine, at: (u16, u16)) -> Flow {
+    let t = m.task_register();
+    alloc_gfx(m, t);
+    anim::set_attr(m, t, L::SHOT_ATTR);
+    let a = m.read_u16(t + L::ATTR);
+    m.write_u16(t + L::ATTR, (a & L::SHOT_ATTR_KEEP) | L::SHOT_ATTR_SET);
+    let (vx, vy) = L::SHOT_VEL;
+    let left = m.read_u8(t + L::FLIP) & L::FACING_LEFT != 0;
+    m.write_u16(t + L::VEL_X, if left { vx.wrapping_neg() } else { vx });
+    m.write_u16(t + L::VEL_Y, vy);
+    m.write_u16(t + L::ACC_Y, L::SHOT_GRAVITY);
+    m.write_u16(t + L::ACC_X, 0);
+    m.write_u8(t + L::SHOT_LIFE, L::SHOT_LIFE_FRAMES);
+    anim::start(m, t, L::SHOT_SCRIPT);
+    m.write_u32(t + T::HANDLER, L::SHOT_FLY);
+    loose_shot_fly(m, at)
+}
+
+/// Vuelo de la bala suelta. Original: `Boss2Shot_Fly_045D8C`.
+pub fn loose_shot_fly(m: &mut impl Machine, at: (u16, u16)) -> Flow {
+    let t = m.task_register();
+    motion::on_entity_pos(m, t, |m| motion::move_e(m, t, at));
+    anim::step(m, t);
+    if m.read_u8(t + L::SHOT_LIFE) == 0 {
+        sound::play(m, L::SHOT_SOUND);
+        video::release_task_entries(m, t);
+        return explosion::start(m, crate::layout::explosion::FIRE);
+    }
+    if items::out_of_view_seen(m, t, None) {
+        tasks::kill_children(m, t);
+        return tasks::finish(m);
+    }
+    Flow::Return
 }

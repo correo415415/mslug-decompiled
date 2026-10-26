@@ -382,7 +382,13 @@ pub fn damage_anim(m: &mut impl Memory, t: u32) -> bool {
     if m.read_u16(t + L::FIELD_66) > L::DAMAGE_HP {
         return false;
     }
-    let script = L::DAMAGE_SCRIPT;
+    damage_script(m, t, L::DAMAGE_SCRIPT)
+}
+
+/// Un paso del guion de daños `script` (sin mirar la vida).
+/// Original: `Slug_UpdateDamageSprite_02fae4+$28` (`$02FB0C`), al que
+/// llegan `$02FAFC` y `$02FB04` con otra tabla.
+pub fn damage_script(m: &mut impl Memory, t: u32, script: u32) -> bool {
     loop {
         let at = script.wrapping_add(m.read_u16(t + L::DAMAGE) as i16 as u32);
         let skip = u16::from(m.read_u8(at + 1));

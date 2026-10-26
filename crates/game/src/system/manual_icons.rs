@@ -14,7 +14,7 @@
 //! `Icon_Anchor_Run_08c678`, `Anim_ScriptStepFix_A_08bce6`,
 //! `Anim_ScriptStepFix_B_08be28`, `Font_TileWithPal_047872`.
 
-use super::{anim, hud, motion, tasks};
+use super::{anim, hits, hud, items, motion, slug, tasks};
 use crate::layout::hw;
 use crate::layout::{manual_icons as L, task as T};
 use crate::mem::{Machine, Memory};
@@ -183,6 +183,39 @@ pub fn anchor_run(m: &mut impl Machine, at: (u16, u16)) -> Flow {
         return Flow::Return;
     }
     tasks::kill_children(m, t);
+    tasks::finish(m)
+}
+
+/// Ancla que se suelta al acabar el tutorial: entra por la derecha hacia
+/// la izquierda con su caja de ataque. Original: `Icon_Anchor_Drop_08c730`.
+pub fn drop(m: &mut impl Machine, at: (u16, u16)) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::X, L::DROP_POS.0);
+    m.write_u16(t + L::Y, L::DROP_POS.1);
+    anim::alloc_entry(m, t, L::DROP_GFX);
+    m.write_u16(t + L::ATTR, L::ATTR_ANCHOR);
+    stop_motion(m, t);
+    m.write_u16(t + L::VEL_X, L::DROP_VEL);
+    anim::start(m, t, L::DROP_ANIM);
+    m.write_u32(t + L::ATTACKS, L::DROP_ATTACKS);
+    slug::clear_flags13(m, t);
+    m.write_u32(t + T::HANDLER, L::DROP_RUN);
+    drop_run(m, at)
+}
+
+/// Avanza; al chocar o salir de la pantalla deja una explosión y se va.
+/// Original: `Icon_Anchor_Drop_08c730__L08c77a`.
+pub fn drop_run(m: &mut impl Machine, at: (u16, u16)) -> Flow {
+    let t = m.task_register();
+    anim::step(m, t);
+    motion::on_entity_pos(m, t, |m| motion::move_e_probe(m, t, at));
+    hits::run_attack_list(m, t);
+    let hit = m.read_u8(t + T::FLAGS2) & L::DROP_HIT != 0;
+    if !hit && !items::out_of_view_seen(m, t, Some(L::DROP_MARGINS)) {
+        return Flow::Return;
+    }
+    let c = tasks::spawn(m, L::DROP_FX, t);
+    anim::copy_sprite_pos(m, t, c);
     tasks::finish(m)
 }
 

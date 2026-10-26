@@ -94,6 +94,17 @@ pub fn pressed(m: &mut impl Memory, e: Entity, b: Buttons, edge: Edge) -> bool {
     pad_byte(m, pad, edge) & b.0 != 0
 }
 
+/// Bits de `b` mantenidos/pulsados en el mando que controla `e` (`None` si
+/// ninguno). Original: `$05CFA8` (C = alguno; el byte queda en `d0`).
+pub fn pressed_bits(m: &mut impl Memory, e: Entity, b: Buttons, edge: Edge) -> Option<u8> {
+    if input_suspended(m) {
+        return None;
+    }
+    let pad = pad_of(m, e);
+    let v = pad_byte(m, pad, edge) & b.0;
+    (v != 0).then_some(v)
+}
+
 /// ¿Están todos los de `b` mantenidos/pulsados en el mando que controla
 /// `e`? Original: `$05D00E` (y hermanas `$05D01A`, `$05D026`).
 pub fn all_pressed(m: &mut impl Memory, e: Entity, b: Buttons, edge: Edge) -> bool {
