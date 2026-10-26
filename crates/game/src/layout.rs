@@ -5020,4 +5020,151 @@ pub mod soldier {
     pub const WALK_START: u32 = 0x05_7558;
     pub const FALL_START: u32 = 0x05_8412;
     pub const FACE_FALL: u32 = 0x05_8E08;
+    /// Andar: animación, tabla de velocidad por dificultad y velocidad
+    /// elegida.
+    pub const WALK_ANIM: u32 = 0x29_B744;
+    pub const WALK_SPEED_TABLE: u32 = 0x2B_756E;
+    pub const SPEED: u32 = 0x36;
+    /// Estados (manejadores) del soldado.
+    pub const WALK_LOOP: u32 = 0x05_7582;
+    pub const AIRBORNE: u32 = 0x05_7706;
+    pub const APPROACH_SLUG: u32 = 0x05_7728;
+    pub const APPROACH_PLAYER: u32 = 0x05_77BC;
+    pub const LEAP_SLUG: u32 = 0x05_78DC;
+    pub const LEAP_PLAYER: u32 = 0x05_799E;
+    pub const RUN_TOWARD: u32 = 0x05_804C;
+    pub const MELEE: u32 = 0x05_85AE;
+    pub const BRAKE: u32 = 0x05_85F6;
+    pub const FLEE: u32 = 0x05_8658;
+    pub const JUMP: u32 = 0x05_88F6;
+    pub const SURRENDER: u32 = 0x05_8968;
+    pub const EDGE_FLEE: u32 = 0x05_8A50;
+    pub const GRENADE_HIGH: u32 = 0x05_8B1E;
+    pub const GRENADE_LOW: u32 = 0x05_8C8E;
+    pub const LEAVE: u32 = 0x05_9062;
+    /// En el aire: uno de cuatro estados al azar.
+    pub const AIRBORNE_NEXT: [u32; 4] = [0x05_8A50, 0x05_8658, 0x05_8412, 0x05_8A50];
+    /// Muerte en el suelo / en el aire; con el byte a 0 cuenta como golpe.
+    pub const DEATH_GROUND: u32 = 0x04_A014;
+    pub const DEATH_AIR: u32 = 0x04_A034;
+    pub const HITS_LIVE: u32 = 0x10_6ED3;
+    /// Márgenes de la pantalla para desaparecer.
+    pub const DESPAWN_MARGINS: u32 = 0x2B_71D4;
+    /// Cuerpo a cuerpo: lista de cajas de ataque y zona de X en que se prueba.
+    pub const MELEE_ATTACKS: u32 = 0x05_7440;
+    pub const ATTACKS: u32 = 0x4C;
+    pub const MELEE_HIT: u8 = 1 << 1;
+    pub const MELEE_X: (u16, u16) = (0x20, 0x300);
+    /// Gravedad propia y la de reserva que se intercambian al moverse
+    /// (`+$60` largo = sin guardar).
+    pub const GRAVITY: u32 = 0x34;
+    pub const GRAVITY_SAVE: u32 = 0x60;
+    pub const GRAVITY_ALT: u32 = 0x62;
+    /// Columna del borde de plataforma que tiene delante.
+    pub const EDGE_COL: u32 = 0x77;
+    pub const SUB_X: u32 = 0x26;
+    /// Cámara (para pasar a coordenadas del mundo, con la Y hacia arriba).
+    pub const CAMERA_X: u32 = 0x10_6F50;
+    pub const CAMERA_Y: u32 = 0x10_6F54;
+    pub const WORLD_Y: u16 = 0x200;
+    /// Listas de bordes de cada paridad de frame (entradas de 6 B: x, y,
+    /// alto.b, columna.b; recuento en `+$30`).
+    pub const FRAME: u32 = 0x10_6F28;
+    pub const EDGES: [u32; 2] = [0x10_E2AE, 0x10_E27C];
+    pub const EDGE_COUNT: u32 = 0x30;
+    pub const EDGE_LEN: u16 = 6;
+    /// Anillo de zonas en que no se rinde (cabeza, cola; entradas de 8 B:
+    /// x0, y0, x1, y1).
+    pub const ZONES: u32 = 0x10_E2F2;
+    pub const ZONE_LEN: u16 = 8;
+    pub const ZONES_SIZE: u16 = 0x40;
+    /// El Slug: sus anclas de agarre (`+$70` → tabla de 3 desplazamientos)
+    /// y las ocupadas (`+$96` / `+$97`).
+    pub const SLUG: u32 = 0x10_0580;
+    pub const SLUG_ANCHORS: u32 = 0x70;
+    pub const SLUG_TAKEN: [u32; 2] = [0x96, 0x97];
+    pub const PLAYERS: [u32; 2] = [0x10_0440, 0x10_04E0];
+    pub const ANCHOR_MASK: u8 = 7;
+    /// Más estados.
+    pub const RUN_LOOP: u32 = 0x05_809E;
+    pub const IDLE: u32 = 0x05_8144;
+    pub const IDLE_LOOP: u32 = 0x05_8196;
+    pub const RUN_BY_TABLE: u32 = 0x05_8076;
+    pub const STEP_LEFT: u32 = 0x05_8500;
+    pub const STEP_RIGHT: u32 = 0x05_84C4;
+    pub const STEP_LOOP: u32 = 0x05_8538;
+    pub const FIDGET: u32 = 0x05_83CC;
+    pub const FIDGET_LOOP: u32 = 0x05_83EC;
+    pub const HURT_LOOP: u32 = 0x05_8424;
+    pub const LAND: u32 = 0x05_8464;
+    pub const LAND_LOOP: u32 = 0x05_8494;
+    pub const MELEE_LOOP: u32 = 0x05_85D8;
+    pub const BRAKE_LOOP: u32 = 0x05_8608;
+    pub const FLEE_LOOP: u32 = 0x05_8682;
+    pub const FLEE_STOP: u32 = 0x05_86B8;
+    pub const FLEE_STOP_LOOP: u32 = 0x05_86CE;
+    pub const RETREAT_TURN: u32 = 0x05_879E;
+    pub const RETREAT: u32 = 0x05_87AC;
+    pub const STAND: u32 = 0x05_88AE;
+    pub const STAND_LOOP: u32 = 0x05_88C4;
+    pub const SURRENDER_LOOP: u32 = 0x05_89C8;
+    pub const SURRENDER_FLEE: u32 = 0x05_89F8;
+    pub const SURRENDER_FLEE_LOOP: u32 = 0x05_8A20;
+    pub const EDGE_FLEE_LOOP: u32 = 0x05_8A82;
+    pub const HOP_FLEE: u32 = 0x05_8AA8;
+    pub const HOP_FLEE_LOOP: u32 = 0x05_8AD2;
+    pub const TAUNT: u32 = 0x05_8E08;
+    pub const SPAWN_STAND: u32 = 0x05_91C8;
+    /// Muerte en el suelo de los estados de huida (la variante 1).
+    pub const DEATH_GROUND_B: u32 = 0x04_A024;
+    /// Animaciones de cada estado.
+    pub const ANIM_RUN: u32 = 0x29_B7C8;
+    pub const ANIM_RUN_TABLE: u32 = 0x2B_5D14;
+    pub const ANIM_IDLE: u32 = 0x29_B816;
+    pub const ANIM_IDLE_ALT: u32 = 0x2B_5F28;
+    pub const ANIM_FIDGET: u32 = 0x29_BF34;
+    pub const ANIM_HURT: u32 = 0x2B_5B92;
+    pub const ANIM_LAND_HARD: u32 = 0x2B_7030;
+    pub const ANIM_LAND: u32 = 0x2B_5C22;
+    pub const ANIM_STEP_RIGHT: [u32; 2] = [0x2B_5C56, 0x2B_5F56];
+    pub const ANIM_STEP_LEFT: [u32; 2] = [0x2B_5CA8, 0x2B_5FD0];
+    pub const ANIM_MELEE: u32 = 0x2B_70D2;
+    pub const MELEE_BOXES: u32 = 0x05_7494;
+    pub const ANIM_BRAKE: u32 = 0x2B_5CFA;
+    pub const ANIM_FLEE: u32 = 0x29_B956;
+    pub const ANIM_FLEE_STOP: u32 = 0x2B_5C10;
+    pub const ANIM_STAND: u32 = 0x29_BD84;
+    pub const ANIM_JUMP_FWD: u32 = 0x2B_5D58;
+    pub const ANIM_JUMP_BACK: u32 = 0x2B_5E68;
+    pub const ANIM_SURRENDER: [u32; 3] = [0x29_BA70, 0x29_BBEC, 0x29_BC64];
+    pub const ANIM_SURRENDER_FLEE: u32 = 0x29_BB4C;
+    pub const ANIM_HOP_FLEE: u32 = 0x29_B9CE;
+    /// Pose (`+$5C`) según hacia dónde mire y la altura del objetivo.
+    pub const POSE: u32 = 0x5C;
+    pub const POSES: [[u8; 3]; 2] = [[0x04, 0x05, 0x10], [0x11, 0x12, 0x13]];
+    pub const POSE_LOW_Y: u16 = 0x180;
+    pub const POSE_ABOVE: i16 = 0x60;
+    pub const POSE_BELOW: i16 = -0x40;
+    pub const POSE_SURRENDER_FLEE: u8 = 6;
+    /// Salto hacia atrás al ver un hueco.
+    pub const EDGE_JUMP: (u16, u16, u16) = (0xFE67, 0x65E, 0xFF5D);
+    pub const RUN_SPEED: u16 = 0x100;
+    pub const STEP_SPEED: u16 = 0x80;
+    pub const HOP_SPEED: u16 = 0x190;
+    pub const BACK_SPEED: u16 = 0xFF00;
+    /// Baja de la tarea, y la vuelta que dejan en la pila los estados que
+    /// llaman a la baja con `bsr` (la tarea muere sin desapilarla).
+    pub const TASK_FINISH: u32 = 0x00_0518;
+    pub const AFTER_DESPAWN_WALK: u32 = 0x05_7704;
+    pub const AFTER_DESPAWN_APPROACH_SLUG: u32 = 0x05_77BA;
+    pub const AFTER_DESPAWN_APPROACH_PLAYER: u32 = 0x05_783C;
+    pub const AFTER_DESPAWN_IDLE: u32 = 0x05_83CA;
+    pub const AFTER_DESPAWN_FIDGET: u32 = 0x05_8410;
+    pub const AFTER_DESPAWN_HURT: u32 = 0x05_8452;
+    pub const AFTER_DESPAWN_BRAKE: u32 = 0x05_8656;
+    pub const AFTER_DESPAWN_FLEE: u32 = 0x05_86B6;
+    pub const AFTER_DESPAWN_FLEE_STOP: u32 = 0x05_879C;
+    pub const AFTER_DESPAWN_STAND: u32 = 0x05_88F4;
+    pub const AFTER_DESPAWN_EDGE_FLEE: u32 = 0x05_8AA6;
+    pub const AFTER_DESPAWN_HOP_FLEE: u32 = 0x05_8B1C;
 }
