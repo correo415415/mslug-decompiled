@@ -27,34 +27,43 @@ pub type Outcome = i8;
 /// `Hitbox_RunAttackList_0283d8`. Devuelve el resultado y la dirección
 /// final del cursor (lo que queda en `a0`).
 pub fn run_attack_list(m: &mut impl Memory, t: u32) -> (Outcome, u32) {
+    let (o, a, _) = run_attack_list_d1(m, t, 0xFF);
+    (o, a)
+}
+
+/// Como [`run_attack_list`], devolviendo además el byte bajo de `d1` que
+/// deja el original (la dureza de la caja golpeada tras un acierto con
+/// daño, `$FF` en las demás salidas; `d1_in` si no prueba nada).
+pub fn run_attack_list_d1(m: &mut impl Memory, t: u32, d1_in: u8) -> (Outcome, u32, u8) {
     let list = m.read_u32(t + L::ATTACKS);
     let mut out: Outcome = -1;
+    let mut d1 = d1_in;
     if list == L::NONE {
-        return (out, list);
+        return (out, list, d1);
     }
     let mut a = list;
     loop {
         let kind = m.read_u8(a);
         if kind == L::END {
-            return (out, a.wrapping_sub(L::ATTACK_LEN));
+            return (out, a.wrapping_sub(L::ATTACK_LEN), d1);
         }
         out = match kind {
             0 => {
                 for v in [PLAYER_ENTITY[0], PLAYER_ENTITY[1], L::SLUG] {
-                    test_victim(m, t, a, v);
+                    d1 = victim(m, t, a, v).1;
                 }
                 -1
             }
             1 | 2 => {
-                test_victim(m, t, a, PLAYER_ENTITY[usize::from(kind - 1)]);
+                victim(m, t, a, PLAYER_ENTITY[usize::from(kind - 1)]);
                 // ¿Ha dado ya a ese jugador (bit «gastada» de `FLAGS3`)?
                 let hit_player = m.read_u8(t + L::FLAGS3) & L::SPENT != 0;
-                test_victim(m, t, a, L::SLUG);
+                d1 = victim(m, t, a, L::SLUG).1;
                 if hit_player { (kind - 1) as i8 } else { -1 }
             }
             3 | 4 => {
                 let root = L::ENEMY_ROOTS[usize::from(kind - 3)];
-                test_layer(m, t, a, root);
+                d1 = test_layer(m, t, a, root, d1);
                 -1
             }
             // Un tipo mayor que 4 es un error de datos (`trap #15`).
@@ -66,22 +75,34 @@ pub fn run_attack_list(m: &mut impl Memory, t: u32) -> (Outcome, u32) {
 
 /// Prueba la caja `a` contra todas las tareas hijas de `root` (los
 /// enemigos de una capa) mientras no se haya gastado (bit 1 de `FLAGS2`).
-fn test_layer(m: &mut impl Memory, t: u32, a: u32, root: u32) {
+/// Devuelve el `d1` del original.
+fn test_layer(m: &mut impl Memory, t: u32, a: u32, root: u32, d1: u8) -> u8 {
+    let mut d1 = screen_d1(m, a).unwrap_or(d1);
     if !on_screen(m, t, a, None) || spent(m, t) {
-        return;
+        return d1;
     }
     let prio = m.read_u8(root + T::PRIORITY);
     let mut v = m.read_u32(root + T::NEXT);
     while prio < m.read_u8(v + T::PRIORITY) {
         let boxes = m.read_u32(v + L::HITBOX);
         if boxes != L::NONE && v != t {
-            test_shape(m, t, a, v, boxes);
+            d1 = shape(m, t, a, v, boxes).1;
             if spent(m, t) {
-                return;
+                return d1;
             }
         }
         v = m.read_u32(v + T::NEXT);
     }
+    d1
+}
+
+/// `d1` que deja [`on_screen`] con los márgenes por defecto (nada si la
+/// caja vale siempre).
+fn screen_d1(m: &mut impl Memory, a: u32) -> Option<u8> {
+    if m.read_u8(a + L::ALWAYS) != 0 {
+        return None;
+    }
+    Some(L::SCREEN.1.wrapping_add(m.read_u16(L::DEFAULT_MARGINS + 2)) as u8)
 }
 
 fn spent(m: &mut impl Memory, t: u32) -> bool {
@@ -91,23 +112,33 @@ fn spent(m: &mut impl Memory, t: u32) -> bool {
 /// Prueba la caja de ataque `a` de `t` contra la víctima `v`.
 /// Original: `Hitbox_TestVictim_028576`. Devuelve si ha dado.
 pub fn test_victim(m: &mut impl Memory, t: u32, a: u32, v: u32) -> bool {
+    victim(m, t, a, v).0
+}
+
+/// [`test_victim`] con el `d1` del original.
+fn victim(m: &mut impl Memory, t: u32, a: u32, v: u32) -> (bool, u8) {
     if v == t {
-        return false;
+        return (false, 0xFF);
     }
     let boxes = m.read_u32(v + L::HITBOX);
     if boxes == L::NONE || spent(m, t) {
-        return false;
+        return (false, 0xFF);
     }
-    test_shape(m, t, a, v, boxes)
+    shape(m, t, a, v, boxes)
 }
 
 /// Recorre las cajas de golpe `boxes` de la víctima `v` (ver
 /// `layout::hits::BOX_LEN`) y prueba la caja de ataque `a` con cada una.
 /// Original: `Hitbox_TestShape_028594`.
-pub fn test_shape(m: &mut impl Memory, t: u32, a: u32, v: u32, mut boxes: u32) -> bool {
+pub fn test_shape(m: &mut impl Memory, t: u32, a: u32, v: u32, boxes: u32) -> bool {
+    shape(m, t, a, v, boxes).0
+}
+
+/// [`test_shape`] con el `d1` del original.
+fn shape(m: &mut impl Memory, t: u32, a: u32, v: u32, mut boxes: u32) -> (bool, u8) {
     loop {
         if m.read_u32(boxes) == L::NONE || m.read_u8(v + L::FLAGS2) & L::HIT != 0 {
-            return false;
+            return (false, 0xFF);
         }
         let immune = match m.read_u32(boxes + L::IMMUNITY) {
             L::NONE => L::DEFAULT_IMMUNITY,
@@ -133,11 +164,11 @@ pub fn test_shape(m: &mut impl Memory, t: u32, a: u32, v: u32, mut boxes: u32) -
 
 /// La caja de ataque `a` de `t` ha dado a `v`. Original: el tramo
 /// `$028618`…`$0286E8` de `Hitbox_TestShape_028594`.
-fn apply_hit(m: &mut impl Memory, t: u32, a: u32, v: u32, boxes: u32) -> bool {
+fn apply_hit(m: &mut impl Memory, t: u32, a: u32, v: u32, boxes: u32) -> (bool, u8) {
     if m.read_u8(v + L::INVULNERABLE) != 0 {
         set_bits(m, t + L::FLAGS2, L::SPENT);
         set_bits(m, t + L::FLAGS3, L::SPENT);
-        return false;
+        return (false, 0xFF);
     }
     let class = m.read_u8(a + L::CLASS);
     m.write_u8(v + L::ATTACK_CLASS, class);
@@ -146,25 +177,27 @@ fn apply_hit(m: &mut impl Memory, t: u32, a: u32, v: u32, boxes: u32) -> bool {
     if power == 0 {
         set_bits(m, t + L::FLAGS2, L::SPENT);
         set_bits(m, t + L::FLAGS3, L::SPENT);
-        return false;
+        return (false, 0xFF);
     }
     // Clase 0, o clase `$0B` contra quien la esquiva (bit 0 de `+$6B`):
     // acierta sin hacer daño.
     let dodges = m.read_u8(v + L::DODGE) & 1 != 0 && class == L::DODGED_CLASS;
+    let mut d1 = 0xFF;
     if class != 0 && !dodges {
         set_bits(m, v + L::FLAGS2, L::HIT);
         set_bits(m, v + L::FLAGS3, L::HIT_FLASH);
         let damage = m.read_u16(a + L::DAMAGE);
         subtract_hp(m, t, v, damage);
-        if power as i8 > m.read_u8(boxes + L::TOUGHNESS) as i8 {
+        d1 = m.read_u8(boxes + L::TOUGHNESS);
+        if power as i8 > d1 as i8 {
             set_bits(m, t + L::FLAGS2, L::BLOCKED);
             set_bits(m, t + L::FLAGS3, L::BLOCKED);
-            return false;
+            return (false, d1);
         }
     }
     set_bits(m, t + L::FLAGS2, L::BLOCKED | L::SPENT);
     set_bits(m, t + L::FLAGS3, L::BLOCKED | L::SPENT);
-    true
+    (true, d1)
 }
 
 fn set_bits(m: &mut impl Memory, a: u32, bits: u8) {

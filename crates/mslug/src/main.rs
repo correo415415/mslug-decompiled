@@ -74,6 +74,9 @@ enum Cmd {
         /// Entradas pseudoaleatorias.
         #[arg(long)]
         fuzz: Option<u64>,
+        /// Moneda y START sin tocar nada más (recorre el tutorial entero).
+        #[arg(long)]
+        hands_off: bool,
     },
     VerifyManual {
         #[arg(long, default_value_t = 6000)]
@@ -162,6 +165,10 @@ enum Cmd {
         /// este fichero (sin tener que volcar todos los frames con --dump).
         #[arg(long)]
         halt_shot: Option<PathBuf>,
+        /// Moneda y START, pero sin palanca ni botones: deja correr el
+        /// tutorial entero antes de la primera misión.
+        #[arg(long)]
+        hands_off: bool,
     },
     /// Vuelca la P-ROM (vista CPU) y la BIOS cargada a `out/` (entrada del
     /// recompilador).
@@ -197,10 +204,15 @@ pub fn load(rom: &PathBuf) -> Result<System> {
 
 /// Entradas automáticas idénticas a las de pydmg (`--auto-coin-frame N
 /// --auto-press-start-frame N+100 --press-period-frames 300`).
+/// Con `play --hands-off`: moneda y START, pero sin tocar la palanca ni los
+/// botones (deja correr entero el tutorial «How to play»).
+pub static HANDS_OFF: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
 pub fn auto_inputs(sys: &mut System, coin: u32, f: u32) {
     // Demo de juego (desde coin+1300): derecha + disparo alterno + salto
     // cada 48 frames + granada cada 90 (como tools/dev/emu_input.py).
-    if coin != 0 && f >= coin + 1300 {
+    let hands_off = HANDS_OFF.load(std::sync::atomic::Ordering::Relaxed);
+    if coin != 0 && f >= coin + 1300 && !hands_off {
         let k = (f - coin - 1300) / 6;
         let mut m: u8 = 8;
         if k % 2 == 1 { m |= 16; }
@@ -218,7 +230,9 @@ pub fn auto_inputs(sys: &mut System, coin: u32, f: u32) {
     }
     let start = coin + 100;
     if f >= start {
-        if (f - start) % 300 < 4 {
+        // Sin manos, START una sola vez (pulsarlo otra vez salta el tutorial).
+        let period = if hands_off { u32::MAX } else { 300 };
+        if (f - start) % period < 4 {
             sys.bus.start_select &= !0x01;
         } else {
             sys.bus.start_select |= 0x01;
@@ -314,12 +328,16 @@ fn main() -> Result<()> {
         }
         Cmd::Verify { frames, coin } => verify::run(&cli.rom, frames, coin)?,
         Cmd::VerifyManual { frames, coin, fuzz } => manual::run(&cli.rom, frames, coin, fuzz)?,
-        Cmd::VerifySystem { frames, coin, fuzz } => verify_system::run(&cli.rom, frames, coin, fuzz)?,
+        Cmd::VerifySystem { frames, coin, fuzz, hands_off } => {
+            HANDS_OFF.store(hands_off, std::sync::atomic::Ordering::Relaxed);
+            verify_system::run(&cli.rom, frames, coin, fuzz)?
+        }
         Cmd::Roadmap { frames, coin, fuzz, top, out } => roadmap::run(&cli.rom, frames, coin, fuzz, top, out)?,
         Cmd::Progress { frames, coin } => progress::run(&cli.rom, frames, coin)?,
         Cmd::Lockstep { frames, coin } => lockstep::run(&cli.rom, frames, coin)?,
         Cmd::LockstepManual { frames, coin, fuzz, atomic_ref } => lockstep::run_manual(&cli.rom, frames, coin, fuzz, atomic_ref)?,
-        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, no_bios_code, halt_shot } => {
+        Cmd::Play { frames, coin, dump, every, misses_out, fuzz, manual, only_manual, no_bios_code, halt_shot, hands_off } => {
+            HANDS_OFF.store(hands_off, std::sync::atomic::Ordering::Relaxed);
             let mut sys = load(&cli.rom)?;
             let mut prog = if only_manual {
                 mslug_code::Program::manual_only(!no_bios_code)
