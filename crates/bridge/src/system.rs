@@ -2335,6 +2335,104 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
                  run: |m| { let t = m.cpu.a[6]; let r = soldier::ring_near(m, t);
                             if let Some(d) = r { m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(d); }
                             set_carry(m, r.is_some()); Flow::Return } },
+    // --- soldado: andar, acercarse, percepción del entorno
+    SystemPort { entry: 0x05_7558, original: "Soldier_WalkStart_057558", rust: "system::soldier::walk_start", run: |m| soldier::walk_start(m) },
+    SystemPort { entry: 0x05_7582, original: "Soldier_Walk_Loop_057582", rust: "system::soldier::walk", run: |m| soldier::walk(m) },
+    SystemPort { entry: 0x05_7728, original: "Soldier_GrabApproach_057728", rust: "system::soldier::approach_slug", run: |m| soldier::approach_slug(m) },
+    SystemPort { entry: 0x05_77BC, original: "Soldier_SlugApproach_0577bc", rust: "system::soldier::approach_player", run: |m| soldier::approach_player(m) },
+    SystemPort { entry: 0x05_7706, original: "Soldier_AirborneDispatch_057706", rust: "system::soldier::airborne", run: |m| soldier::airborne(m) },
+    SystemPort { entry: 0x05_6ACC, original: "Soldier_PhysicsStep_056acc", rust: "system::soldier::physics",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; soldier::physics(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_7F08, original: "$027F08", rust: "system::soldier::probe",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let f = soldier::probe(m, t);
+                            m.cpu.a[1] = f.hit.unwrap_or(f.record); set_carry(m, f.in_air); Flow::Return } },
+    SystemPort { entry: 0x02_8292, original: "$028292", rust: "system::soldier::move_ground",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let c = soldier::move_ground(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_8364, original: "$028364", rust: "system::soldier::fall",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let c = soldier::fall(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_6F8A, original: "Soldier_SetVelXByFacing_056f8a", rust: "system::soldier::set_speed",
+                 run: |m| { let t = m.cpu.a[6]; soldier::set_speed(m, t); let v = m.read_u16(t + 0x28); m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(v); Flow::Return } },
+    SystemPort { entry: 0x05_6E36, original: "Soldier_LeaveTimerExpired_056e36", rust: "system::soldier::leave_expired",
+                 run: |m| { let t = m.cpu.a[6]; let c = soldier::leave_expired(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_6E4A, original: "Soldier_PickGrabAnchor_056e4a", rust: "system::soldier::pick_anchor",
+                 run: |m| { let t = m.cpu.a[6]; let k = soldier::pick_anchor(m, t);
+                            if let Some(k) = k { m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(k); }
+                            set_carry(m, k.is_some()); Flow::Return } },
+    SystemPort { entry: 0x05_6EDA, original: "Soldier_TestPlayerInSlug_056eda", rust: "system::soldier::player_on_foot",
+                 run: |m| { let t = m.cpu.a[6]; let c = soldier::player_on_foot(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_6FA0, original: "Soldier_TestSurrender_056fa0", rust: "system::soldier::surrenders",
+                 run: |m| { let t = m.cpu.a[6]; let c = soldier::surrenders(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_6FEC, original: "Soldier_ProbeWalkEdge_056fec", rust: "system::soldier::walk_edge",
+                 run: |m| { let t = m.cpu.a[6]; soldier::walk_edge(m, t); Flow::Return } },
+    SystemPort { entry: 0x07_70CC, original: "$0770CC", rust: "system::soldier::edge_ahead",
+                 run: |m| { let t = m.cpu.a[6]; let e = soldier::edge_ahead(m, t);
+                            m.cpu.d[0] = match e { Some((c, _)) => (m.cpu.d[0] & 0xFFFF_0000) | u32::from(c), None => 0xFFFF_FFFF };
+                            if let Some((_, s)) = e { m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_FF00) | u32::from(s); }
+                            Flow::Return } },
+    SystemPort { entry: 0x07_700C, original: "$07700C", rust: "system::soldier::nearest_edge",
+                 run: |m| { let (list, x, y) = (m.cpu.a[0], m.cpu.d[0] as u16, m.cpu.d[1] as u16);
+                            let e = soldier::nearest_edge(m, list, x, y);
+                            let (d5, d6) = match e { Some((a, ex)) => { m.cpu.a[1] = a; ((ex.wrapping_sub(x) as i16).unsigned_abs(), ex) } None => (0xFFFF, 0xFFFF) };
+                            m.cpu.d[5] = (m.cpu.d[5] & 0xFFFF_0000) | u32::from(d5); m.cpu.d[6] = (m.cpu.d[6] & 0xFFFF_0000) | u32::from(d6);
+                            m.cpu.a[5] = list; Flow::Return } },
+    SystemPort { entry: 0x08_F2A0, original: "ZoneRing_HitTest_08f2a0", rust: "system::soldier::in_zone",
+                 run: |m| { let t = m.cpu.a[6]; let c = soldier::in_zone(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_74E8, original: "Soldier_TestMeleeRange_0574e8", rust: "system::soldier::melee",
+                 run: |m| { let t = m.cpu.a[6]; let c = soldier::melee(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x04_9FD0, original: "HumanProbe_InstallHandler_049fd0", rust: "system::soldier::check_death",
+                 run: |m| { let t = m.cpu.a[6]; soldier::check_death(m, t); Flow::Return } },
+    SystemPort { entry: 0x05_6E1E, original: "Soldier_DespawnIfOffscreen_056e1e", rust: "system::soldier::despawn",
+                 run: |m| { let t = m.cpu.a[6]; soldier::despawn(m, t) } },
+    SystemPort { entry: 0x08_F738, original: "PlayerSlot_AnchorPos_08f738", rust: "system::soldier::anchor_pos",
+                 run: |m| { let (e, k) = (m.cpu.a[0], m.cpu.d[0] as u8); let p = soldier::anchor_pos(m, e, k);
+                            if let Some((x, y)) = p { m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_0000) | u32::from(x); m.cpu.d[1] = (m.cpu.d[1] & 0xFFFF_0000) | u32::from(y); }
+                            set_carry(m, p.is_some()); Flow::Return } },
+    SystemPort { entry: 0x08_F7CE, original: "PlayerSlot_FindFreeAnchor_08f7ce", rust: "system::soldier::taken_anchors",
+                 run: |m| { let (t, a0) = (m.cpu.a[6], m.cpu.a[0]); let d = soldier::taken_anchors(m, t, a0);
+                            match d { Some(d) => { m.cpu.a[0] = mslug_game::layout::soldier::SLUG; m.cpu.d[0] = (m.cpu.d[0] & 0xFFFF_FF00) | u32::from(d); }
+                                      None => { if a0 != 0 { m.cpu.a[0] = 0; } m.cpu.d[0] = 0xFFFF_FFFF; } }
+                            Flow::Return } },
+    // --- estados del soldado
+    SystemPort { entry: 0x05_804C, original: "Soldier_RunToward_05804c", rust: "system::soldier::run_toward", run: |m| soldier::run_toward(m) },
+    SystemPort { entry: 0x05_8076, original: "Soldier_RunByTable_058076", rust: "system::soldier::run_by_table", run: |m| soldier::run_by_table(m) },
+    SystemPort { entry: 0x05_809E, original: "Soldier_Run_Loop_05809e", rust: "system::soldier::run", run: |m| soldier::run(m) },
+    SystemPort { entry: 0x05_8144, original: "Soldier_Idle_058144", rust: "system::soldier::idle", run: |m| soldier::idle(m) },
+    SystemPort { entry: 0x05_8196, original: "Soldier_Idle_058144__L058196", rust: "system::soldier::idle_loop", run: |m| soldier::idle_loop(m) },
+    SystemPort { entry: 0x05_83CC, original: "Soldier_IdleFidget_0583cc", rust: "system::soldier::fidget", run: |m| soldier::fidget(m) },
+    SystemPort { entry: 0x05_83EC, original: "Soldier_IdleFidget_0583cc__L0583ec", rust: "system::soldier::fidget_loop", run: |m| soldier::fidget_loop(m) },
+    SystemPort { entry: 0x05_8412, original: "Soldier_Hurt_058412", rust: "system::soldier::hurt", run: |m| soldier::hurt(m) },
+    SystemPort { entry: 0x05_8424, original: "Soldier_Hurt_Loop_058424", rust: "system::soldier::hurt_loop", run: |m| soldier::hurt_loop(m) },
+    SystemPort { entry: 0x05_8454, original: "Soldier_Hurt_Loop_058424__L058454", rust: "system::soldier::land_hard", run: |m| soldier::land_hard(m) },
+    SystemPort { entry: 0x05_8464, original: "Soldier_Land_058464", rust: "system::soldier::land", run: |m| soldier::land(m) },
+    SystemPort { entry: 0x05_8494, original: "Soldier_Land_058464__L058494", rust: "system::soldier::land_loop", run: |m| soldier::land_loop(m) },
+    SystemPort { entry: 0x05_8538, original: "Soldier_Step_Loop_058538", rust: "system::soldier::step_loop", run: |m| soldier::step_loop(m) },
+    SystemPort { entry: 0x05_85AE, original: "Soldier_MeleeAttack_0585ae", rust: "system::soldier::melee_attack", run: |m| soldier::melee_attack(m) },
+    SystemPort { entry: 0x05_85D8, original: "Soldier_MeleeAttack_0585ae__L0585d8", rust: "system::soldier::melee_loop", run: |m| soldier::melee_loop(m) },
+    SystemPort { entry: 0x05_85F6, original: "Soldier_Brake_0585f6", rust: "system::soldier::brake", run: |m| soldier::brake(m) },
+    SystemPort { entry: 0x05_8608, original: "Soldier_Brake_0585f6__L058608", rust: "system::soldier::brake_loop", run: |m| soldier::brake_loop(m) },
+    SystemPort { entry: 0x05_8658, original: "Soldier_Flee_058658", rust: "system::soldier::flee", run: |m| soldier::flee(m) },
+    SystemPort { entry: 0x05_8682, original: "Soldier_Flee_058658__L058682", rust: "system::soldier::flee_loop", run: |m| soldier::flee_loop(m) },
+    SystemPort { entry: 0x05_86B8, original: "Soldier_FleeStop_0586b8", rust: "system::soldier::flee_stop", run: |m| soldier::flee_stop(m) },
+    SystemPort { entry: 0x05_86CE, original: "Soldier_FleeStop_0586b8__L0586ce", rust: "system::soldier::flee_stop_loop", run: |m| soldier::flee_stop_loop(m) },
+    SystemPort { entry: 0x05_88AE, original: "Soldier_Stand_0588ae", rust: "system::soldier::stand", run: |m| soldier::stand(m) },
+    SystemPort { entry: 0x05_88C4, original: "Soldier_Stand_0588ae__L0588c4", rust: "system::soldier::stand_loop", run: |m| soldier::stand_loop(m) },
+    SystemPort { entry: 0x05_88F6, original: "Soldier_Jump_0588f6", rust: "system::soldier::jump", run: |m| soldier::jump(m) },
+    SystemPort { entry: 0x05_8968, original: "Soldier_Surrender_058968", rust: "system::soldier::surrender", run: |m| soldier::surrender(m) },
+    SystemPort { entry: 0x05_89C8, original: "Soldier_Surrender_058968__L0589c8", rust: "system::soldier::surrender_loop", run: |m| soldier::surrender_loop(m) },
+    SystemPort { entry: 0x05_89F8, original: "Soldier_SurrenderFlee_0589f8", rust: "system::soldier::surrender_flee", run: |m| soldier::surrender_flee(m) },
+    SystemPort { entry: 0x05_8A20, original: "Soldier_SurrenderFlee_0589f8__L058a20", rust: "system::soldier::surrender_flee_loop", run: |m| soldier::surrender_flee_loop(m) },
+    SystemPort { entry: 0x05_8A50, original: "Soldier_SurrenderFlee_0589f8__L058a50", rust: "system::soldier::edge_flee", run: |m| soldier::edge_flee(m) },
+    SystemPort { entry: 0x05_8A82, original: "Soldier_SurrenderFlee_0589f8__L058a82", rust: "system::soldier::edge_flee_loop", run: |m| soldier::edge_flee_loop(m) },
+    SystemPort { entry: 0x05_8AA8, original: "Soldier_SurrenderFlee_0589f8__L058aa8", rust: "system::soldier::hop_flee", run: |m| soldier::hop_flee(m) },
+    SystemPort { entry: 0x05_8AD2, original: "Soldier_SurrenderFlee_0589f8__L058ad2", rust: "system::soldier::hop_flee_loop", run: |m| soldier::hop_flee_loop(m) },
+    SystemPort { entry: 0x05_84C4, original: "Soldier_StepRight_0584c4", rust: "system::soldier::step", run: |m| soldier::step(m, false) },
+    SystemPort { entry: 0x05_8500, original: "Soldier_StepLeft_058500", rust: "system::soldier::step", run: |m| soldier::step(m, true) },
+    SystemPort { entry: 0x04_9FF2, original: "HumanProbe_InstallHandler_049ff2", rust: "system::soldier::check_death_b",
+                 run: |m| { let t = m.cpu.a[6]; soldier::check_death_b(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_831E, original: "$02831E", rust: "system::soldier::move_stop",
+                 run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; let t = m.cpu.a[6]; let c = soldier::move_stop(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x05_7044, original: "EntityFrame_FrameSelectByGate3A_057044", rust: "system::soldier::pose",
+                 run: |m| { let (t, d0) = (m.cpu.a[6], m.cpu.d[0]); soldier::pose(m, t, d0); Flow::Return } },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara
