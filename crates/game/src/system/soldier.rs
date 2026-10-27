@@ -425,15 +425,20 @@ pub fn fall(m: &mut impl Machine, t: u32) -> bool {
 /// apoyado si toca suelo). Mantiene `GROUNDED`.
 /// Original: `Soldier_PhysicsStep_056acc`.
 pub fn physics(m: &mut impl Machine, t: u32) {
+    physics_flag(m, t, L::GROUNDED);
+}
+
+/// Como [`physics`], con la marca de «apoyado» en el campo `flag`.
+pub fn physics_flag(m: &mut impl Machine, t: u32, flag: u32) {
     let f = probe(m, t);
     // En el suelo el original compara el tipo de tile con la marca, pero
     // en los dos casos la deja a `$FF`.
-    m.write_u8(t + L::GROUNDED, if f.in_air { 0 } else { 0xFF });
+    m.write_u8(t + flag, if f.in_air { 0 } else { 0xFF });
     if !f.in_air {
         move_ground(m, t);
     } else {
         let landed = fall(m, t);
-        m.write_u8(t + L::GROUNDED, if landed { 0xFF } else { 0 });
+        m.write_u8(t + flag, if landed { 0xFF } else { 0 });
     }
 }
 

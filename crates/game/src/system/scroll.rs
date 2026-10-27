@@ -662,6 +662,55 @@ pub fn test_point(m: &mut impl Memory, x: u16, y: u16) -> CellHit {
     CellHit { solid: cell != 0, frac: (x & 7, y & 7), cell }
 }
 
+/// Escribe `v` en la celda del mapa de colisión que cae bajo el punto
+/// (x, y) (Y hacia arriba): la misma que mira [`test_point`].
+/// Original: `$043F5E`.
+pub fn set_cell(m: &mut impl Memory, x: u16, y: u16, v: u8) {
+    let c = L::COLL_CAMERA;
+    let x = x
+        .wrapping_add(m.read_u16(c + L::COLL_ORIGIN[0]))
+        .wrapping_add(m.read_u16(c + L::C_TILE_BASE[0]) << 4);
+    let y = m
+        .read_u16(c + L::COLL_ORIGIN[1])
+        .wrapping_sub(y)
+        .wrapping_add(m.read_u16(c + L::C_TILE_BASE[1]) << 4);
+    let idx = ((x & 0x1F0) << 3) + ((y & 0x1F8) >> 2) + ((x >> 3) & 1);
+    m.write_u8(c + L::C_COLLMAP + u32::from(idx), v);
+}
+
+/// Estampa en el mapa de colisión el bloque de celdas `list` de la entidad
+/// `t`: cabecera {dx, dy, columnas, filas} y un byte por celda, por
+/// columnas de arriba abajo. Las columnas fuera de la zona visible
+/// ampliada no gastan bytes. Original: `Sprite_MultiBlitClippedX` (`$043FAC`).
+pub fn blit_cells(m: &mut impl Memory, t: u32, list: u32) {
+    let mut x = m.read_u16(t + L::ENTITY_POS[0]).wrapping_add(m.read_u16(list));
+    let y = m.read_u16(t + L::ENTITY_POS[1]).wrapping_add(m.read_u16(list + 2));
+    let mut cols = m.read_u16(list + 4);
+    let rows = m.read_u16(list + 6);
+    let mut p = list + 8;
+    loop {
+        let (mut yy, mut n) = (y, rows);
+        loop {
+            let xs = x as i16;
+            if (L::CELL_CLIP.0..=L::CELL_CLIP.1).contains(&xs) {
+                let v = m.read_u8(p);
+                p += 1;
+                set_cell(m, x, yy, v);
+            }
+            yy = yy.wrapping_sub(8);
+            n = n.wrapping_sub(1);
+            if n == 0 {
+                break;
+            }
+        }
+        x = x.wrapping_add(8);
+        cols = cols.wrapping_sub(1);
+        if cols == 0 {
+            break;
+        }
+    }
+}
+
 /// Marcador de depuración de la misión en curso: avanza al siguiente
 /// cuando el avance lo alcanza y devuelve su posición de pantalla y sus
 /// datos. Original: `$04CAC4`.
