@@ -392,6 +392,13 @@ pub fn stand_loop(m: &mut impl Machine) -> Flow {
             }
         }
     }
+    stand_input(m, t)
+}
+
+/// Mando de pie: con el brazo libre anda, se gira o se agacha; la acción;
+/// y la cola: golpe sin suelo, salto, estado y caída al vacío.
+/// Original: `Player_Stand_InputMove_034a00` (y `Player_Stand_Tail_034ada`).
+fn stand_input(m: &mut impl Machine, t: u32) -> Flow {
     let status = m.read_u8(t + L::STATUS);
     if status & L::ARM_BUSY == 0 {
         let left = m.read_u8(t + L::FACING) & L::FACING_LEFT != 0;
@@ -425,6 +432,48 @@ pub fn stand_loop(m: &mut impl Machine) -> Flow {
         set_handler(m, t, A::DEATH_PIT);
     }
     Flow::Return
+}
+
+/// Parada tras andar: sin desplazamiento horizontal (y el vertical a -1),
+/// brazo libre, en el suelo y sin movimiento, con la caja de golpe de pie,
+/// y el bucle. Original: `Player_StandFromWalk_0345fa`.
+pub fn stand_from_walk(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::OFFSET_X, 0);
+    m.write_u16(t + L::OFFSET_Y, 0xFFFF);
+    set_bits(m, t + L::STATUS, L::ARM_BUSY | L::ARM_FIRING | L::STATUS_BIT3, false);
+    set_bits(m, t + L::FLAGS_5B, L::GROUNDED, true);
+    m.write_u32(t + L::HIT_HANDLER, L::HIT_ROUTINE);
+    clear_motion(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u32(t + L::HITBOX_CB, L::HITBOX_STAND);
+    set_handler(m, t, L::STAND_FROM_WALK_LOOP);
+    stand_from_walk_loop(m)
+}
+
+/// Bucle de la parada: al acabar la animación pasa a de pie; si la pose
+/// sigue siendo la de andar parado la cambia por la de pie (adelante o
+/// arriba según el apuntado) y, apuntando adelante, puede agacharse; y el
+/// mando de pie. Original: `Player_StandFromWalk_0345fa__L03463e`.
+pub fn stand_from_walk_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    player::frame_common(m, t);
+    // El original no mira si hay que anunciar el arma.
+    announce_weapon(m, t);
+    move_ground(m, t);
+    if player::anim_done(m, t) {
+        set_handler(m, t, L::STAND);
+    }
+    let up = m.read_u8(t + L::AIM) == L::AIM_UP;
+    if m.read_u32(t + L::POSE) == L::STAND_FROM_WALK_POSE {
+        let (mode, script) = if up { (L::MODE_UP, L::STAND_UP_SCRIPT) } else { (0, L::STAND_SCRIPT) };
+        m.write_u16(t + L::MODE, mode);
+        set_pose(m, t, L::STATE_STAND, script);
+    }
+    if !up && wants_crouch(m, t) {
+        set_handler(m, t, L::CROUCH);
+    }
+    stand_input(m, t)
 }
 
 /// Disparo de pie, adelante (`up = false`) o hacia arriba: marca el brazo

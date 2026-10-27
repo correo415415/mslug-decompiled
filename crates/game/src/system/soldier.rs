@@ -1492,3 +1492,256 @@ pub fn hop_flee_loop(m: &mut impl Machine) -> Flow {
     }
     tail(m, t, Some(L::AFTER_DESPAWN_HOP_FLEE))
 }
+
+/// Alta de un soldado que aparece por la misión: marcas, tipo, suelo y
+/// (con `active`) el modo activo. Original: el prólogo de las entradas de
+/// `Soldier_SpawnVariantTbl_058f1e`.
+fn spawn_common(m: &mut impl Machine, t: u32, active: bool) {
+    let f = m.read_u8(t + L::FLAGS_12);
+    m.write_u8(t + L::FLAGS_12, f | L::SPAWNED);
+    let f = m.read_u8(t + L::FLAGS_72);
+    m.write_u8(t + L::FLAGS_72, if active { f | L::ACTIVE } else { f & !L::ACTIVE });
+    m.write_u8(t + L::P_KIND, L::SPAWN_KIND);
+    // `scc` tras `$027F60`, que siempre sale con C = 0.
+    on_ground(m, t);
+    m.write_u8(t + L::GROUNDED, 0xFF);
+}
+
+fn set_facing_bit(m: &mut impl Memory, t: u32, on: bool) {
+    let f = m.read_u8(t + L::FACING);
+    m.write_u8(t + L::FACING, if on { f | 1 } else { f & !1 });
+}
+
+/// Variantes de aparición (`k` = entrada de la tabla): con o sin modo
+/// activo y por qué estado empiezan. Original: `Soldier_SpawnVariantTbl_058f1e`
+/// (`$058F1E`, `$058F58`, `$058F82`, `$058FA2`, `$058FC2`, `$058FE2`,
+/// `$059002`, `$059022`, `$059042`).
+pub fn spawn_variant(m: &mut impl Machine, k: usize) -> Flow {
+    let t = m.task_register();
+    spawn_common(m, t, k < 5);
+    match k {
+        0 => {
+            // El original compara sólo el byte alto de la X.
+            let hi = m.read_u8(t + L::X);
+            set_facing_bit(m, t, (hi.wrapping_sub(L::CENTER_X as u8) as i8) < 0);
+            spawn_enter(m)
+        }
+        1 => {
+            anim::alloc_entry(m, t, L::GFX);
+            spawn_face_target(m)
+        }
+        2 | 5 => spawn_face_target(m),
+        3 | 6 => spawn_stand(m),
+        4 | 7 => spawn_stand_still(m),
+        _ => spawn_brake(m),
+    }
+}
+
+/// Mira hacia el centro de la pantalla y entra. Original: `Soldier_SpawnFaceTarget_059062`.
+pub fn spawn_face_target(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    super::sound::play(m, L::SPAWN_SOUND);
+    let x = m.read_u16(t + L::X);
+    set_facing_bit(m, t, (x.wrapping_sub(L::CENTER_X) as i16) >= 0);
+    spawn_enter(m)
+}
+
+/// Entra andando. Original: `Soldier_SpawnEnter_059086`.
+pub fn spawn_enter(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let active = m.read_u8(t + L::FLAGS_72) & L::ACTIVE != 0;
+    anim::start(m, t, L::ANIM_SPAWN_ENTER[usize::from(active)]);
+    let v = by_difficulty(m, t, L::SPAWN_SPEED_TABLE);
+    m.write_u16(t + L::SPEED, v);
+    set_speed(m, t);
+    m.write_u16(t + L::VEL_Y, 0);
+    set_handler(m, t, L::SPAWN_ENTER_LOOP);
+    spawn_enter_loop(m)
+}
+
+/// Original: `Soldier_SpawnEnter_059086+$44`.
+pub fn spawn_enter_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    physics(m, t);
+    think(m, t);
+    anim::step(m, t);
+    let f = m.read_u8(t + L::FLAGS_72);
+    if f & L::SIDE != 0 {
+        let n = m.read_u16(t + L::NEAR);
+        if roll(m, n) {
+            set_handler(m, t, L::SPAWN_BRAKE);
+        }
+    } else if f & L::EDGE_GAP != 0 {
+        set_handler(m, t, L::SPAWN_LEAP);
+    }
+    if f & L::EDGE_SOLID != 0 {
+        set_handler(m, t, L::SPAWN_WAIT);
+    }
+    if m.read_u8(t + L::GROUNDED) == 0 {
+        set_handler(m, t, L::SPAWN_LEAP);
+    }
+    tail(m, t, Some(L::AFTER_DESPAWN_SPAWN_ENTER))
+}
+
+/// Espera ante un borde. Original: `Soldier_SpawnWait_059146`.
+pub fn spawn_wait(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    if m.read_u8(t + L::FLAGS_72) & L::SIDE != 0 {
+        return spawn_brake(m);
+    }
+    m.write_u8(t + L::COUNTER, L::SPAWN_WAIT_FRAMES);
+    anim::start(m, t, L::ANIM_SPAWN_WAIT);
+    set_handler(m, t, L::SPAWN_WAIT_LOOP);
+    spawn_wait_loop(m)
+}
+
+/// Original: `Soldier_SpawnWait_059146+$22`.
+pub fn spawn_wait_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    physics(m, t);
+    think(m, t);
+    anim::step(m, t);
+    let f = m.read_u8(t + L::FLAGS_72);
+    if f & L::SIDE != 0 && m.read_u8(t + L::FLAGS_73) & L::NO_TARGET == 0 {
+        set_handler(m, t, L::SPAWN_BRAKE);
+    }
+    if f & L::EDGE_SOLID == 0 {
+        set_handler(m, t, L::SPAWN_ENTER);
+    }
+    if m.read_u8(t + L::GROUNDED) == 0 {
+        set_handler(m, t, L::SPAWN_HURT);
+    }
+    let n = m.read_u8(t + L::COUNTER).wrapping_sub(1);
+    m.write_u8(t + L::COUNTER, n);
+    if n == 0 {
+        set_handler(m, t, L::SPAWN_BRAKE);
+    }
+    tail(m, t, Some(L::AFTER_DESPAWN_SPAWN_WAIT))
+}
+
+/// De pie al aparecer. Original: `Soldier_SpawnStand_0591c8`.
+pub fn spawn_stand(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_SPAWN_STAND[0]);
+    set_handler(m, t, L::SPAWN_STAND_LOOP);
+    spawn_stand_loop(m)
+}
+
+/// Quieto al aparecer. Original: `Soldier_SpawnStand_0591c8__L0591de`.
+pub fn spawn_stand_still(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_SPAWN_STAND[1]);
+    m.write_u16(t + L::VEL_X, 0);
+    set_handler(m, t, L::SPAWN_STAND_LOOP);
+    spawn_stand_loop(m)
+}
+
+/// Original: `Soldier_SpawnStand_Loop_0591f4`.
+pub fn spawn_stand_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    physics(m, t);
+    if anim::step(m, t) {
+        set_handler(m, t, L::SPAWN_BRAKE);
+        super::human_death::ring_push(m, t);
+    }
+    if m.read_u8(t + L::GROUNDED) == 0 {
+        set_handler(m, t, L::SPAWN_HURT);
+    }
+    tail(m, t, Some(L::AFTER_DESPAWN_SPAWN_STAND))
+}
+
+/// Frena y vuelve a entrar. Original: `Soldier_SpawnBrake_059228`.
+pub fn spawn_brake(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_SPAWN_BRAKE);
+    set_handler(m, t, L::SPAWN_BRAKE_LOOP);
+    spawn_brake_loop(m)
+}
+
+/// Original: `Soldier_SpawnBrake_059228+$12`.
+pub fn spawn_brake_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    physics(m, t);
+    if anim::step(m, t) {
+        set_handler(m, t, L::SPAWN_ENTER);
+    }
+    tail(m, t, Some(L::AFTER_DESPAWN_SPAWN_BRAKE))
+}
+
+/// Salta hacia delante. Original: `Soldier_SpawnLeap_05925a`.
+pub fn spawn_leap(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_SPAWN_LEAP);
+    let (vx, vy, ay) = L::LEAP_VEL;
+    let vx = if m.read_u8(t + L::FACING) & 1 != 0 { vx.wrapping_neg() } else { vx };
+    m.write_u16(t + L::VEL_X, vx);
+    m.write_u16(t + L::VEL_Y, vy);
+    m.write_u16(t + L::ACC_Y, ay);
+    m.write_u16(t + L::ACC_X, 0);
+    set_handler(m, t, L::SPAWN_LEAP_LOOP);
+    spawn_leap_loop(m)
+}
+
+/// Original: `Soldier_SpawnLeap_05925a+$32`.
+pub fn spawn_leap_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let landed = move_stop(m, t);
+    m.write_u8(t + L::GROUNDED, if landed { 0xFF } else { 0 });
+    if landed {
+        set_handler(m, t, L::SPAWN_RECOVER);
+    }
+    anim::step(m, t);
+    tail(m, t, Some(L::AFTER_DESPAWN_SPAWN_LEAP))
+}
+
+/// Cae frenando. Original: `Soldier_SpawnHurt_0592b2`.
+pub fn spawn_hurt(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_SPAWN_HURT);
+    m.write_u16(t + L::VEL_Y, 0);
+    set_handler(m, t, L::SPAWN_HURT_LOOP);
+    spawn_hurt_loop(m)
+}
+
+/// Original: `Soldier_SpawnHurt_0592b2+$16`.
+pub fn spawn_hurt_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    damp(m, t, 6);
+    physics(m, t);
+    if m.read_u8(t + L::GROUNDED) != 0 {
+        set_handler(m, t, L::SPAWN_RECOVER);
+    }
+    anim::step(m, t);
+    tail(m, t, Some(L::AFTER_DESPAWN_SPAWN_HURT))
+}
+
+/// Animación de caída según vaya más rápido en X o en Y.
+/// Original: `Soldier_PickFallAnim_05740e`.
+pub fn pick_fall_anim(m: &mut impl Memory, t: u32) {
+    let abs = |v: u16| if (v as i16) < 0 { v.wrapping_neg() } else { v };
+    let vx = abs(m.read_u16(t + L::VEL_X));
+    let vy = abs(m.read_u16(t + L::VEL_Y));
+    anim::start(m, t, if vx < vy { L::ANIM_FALL_FAST_Y } else { L::ANIM_FALL_FAST_X });
+}
+
+/// Se recupera al aterrizar. Original: `Soldier_SpawnRecover_0592f6`.
+pub fn spawn_recover(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    pick_fall_anim(m, t);
+    m.write_u16(t + L::VEL_X, 0);
+    set_handler(m, t, L::SPAWN_RECOVER_LOOP);
+    spawn_recover_loop(m)
+}
+
+/// Original: `Soldier_SpawnRecover_0592f6+$0E`.
+pub fn spawn_recover_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    physics(m, t);
+    if anim::step(m, t) {
+        set_handler(m, t, L::SPAWN_ENTER);
+    }
+    if m.read_u8(t + L::GROUNDED) == 0 {
+        set_handler(m, t, L::SPAWN_HURT);
+    }
+    tail(m, t, Some(L::AFTER_DESPAWN_SPAWN_RECOVER))
+}

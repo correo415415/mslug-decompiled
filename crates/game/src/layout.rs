@@ -1499,6 +1499,9 @@ pub mod player_ground {
     /// arriba; el original tiene otros dos para una rama que nunca se toma,
     /// `$02ABCC` siempre devuelve C = 0).
     pub const STAND_LOOP: u32 = 0x03_4806;
+    /// Parada tras andar: bucle y la pose con la que se cambia a la de pie.
+    pub const STAND_FROM_WALK_LOOP: u32 = 0x03_463E;
+    pub const STAND_FROM_WALK_POSE: u32 = 0x03_9E54;
     pub const KNOCKBACK: u32 = 0x03_6D64;
     pub const STAND_SCRIPT: u32 = 0x27_96A4;
     pub const STAND_UP_SCRIPT: u32 = 0x27_96C4;
@@ -2582,6 +2585,19 @@ pub mod items {
     pub const TRAIL_DX: u16 = 0x10;
     pub const TRAIL_DY: u16 = 0x10;
     pub const TRAIL_W: u16 = 0x20;
+    /// Objetos que suelta otra entidad: tabla de manejadores por tipo,
+    /// tipos válidos (el resto da el `SPAWN_DEFAULT`), tarea madre, desplazamiento
+    /// delante y lo que baja al reaparecer.
+    pub const FACING: u32 = 0x3A;
+    pub const SPAWN_HANDLERS: u32 = 0x09_A6DE;
+    pub const SPAWN_MASK: u8 = 0x3F;
+    pub const SPAWN_KINDS: u8 = 0x1E;
+    pub const SPAWN_DEFAULT: u8 = 0xA;
+    pub const SPAWN_PARENT: u32 = 0x10_0800;
+    pub const SPAWN_DX: u16 = 0x10;
+    pub const P_KIND: u32 = 0x98;
+    pub const P_ARG: u32 = 0x99;
+    pub const RESPAWN_DY: u16 = 4;
 }
 
 /// Recogida de objetos (`system::pickup`).
@@ -6057,4 +6073,42 @@ pub mod soldier {
     pub const AFTER_DESPAWN_STAND: u32 = 0x05_88F4;
     pub const AFTER_DESPAWN_EDGE_FLEE: u32 = 0x05_8AA6;
     pub const AFTER_DESPAWN_HOP_FLEE: u32 = 0x05_8B1C;
+    /// Apariciones (`$058F1E`..`$059330`): marca de `+$12`, gráficos,
+    /// guiones, tiempos y estados.
+    pub const FLAGS_12: u32 = 0x12;
+    pub const SPAWNED: u8 = 1 << 1;
+    pub const SPAWN_KIND: u8 = 1;
+    pub const SPAWN_SOUND: u16 = 0xFFFF;
+    pub const SPAWN_SPEED_TABLE: u32 = 0x2B_75D0;
+    pub const ANIM_SPAWN_ENTER: [u32; 2] = [0x29_B744, 0x2B_604A];
+    pub const ANIM_SPAWN_WAIT: u32 = 0x2B_6EF8;
+    pub const ANIM_SPAWN_STAND: [u32; 2] = [0x29_BD84, 0x29_BD40];
+    pub const ANIM_SPAWN_BRAKE: u32 = 0x2B_5CFA;
+    pub const ANIM_SPAWN_LEAP: u32 = 0x2B_5D58;
+    pub const ANIM_SPAWN_HURT: u32 = 0x2B_5B92;
+    pub const ANIM_FALL_FAST_X: u32 = 0x29_B7C8;
+    pub const ANIM_FALL_FAST_Y: u32 = 0x2B_5C22;
+    pub const SPAWN_WAIT_FRAMES: u8 = 0xB4;
+    pub const COUNTER: u32 = 0x5C;
+    pub const LEAP_VEL: (u16, u16, u16) = (0xFE15, 0x7AA, 0xFF63);
+    pub const SPAWN_ENTER: u32 = 0x05_9086;
+    pub const SPAWN_ENTER_LOOP: u32 = 0x05_90CA;
+    pub const SPAWN_WAIT: u32 = 0x05_9146;
+    pub const SPAWN_WAIT_LOOP: u32 = 0x05_9168;
+    pub const SPAWN_STAND_LOOP: u32 = 0x05_91F4;
+    pub const SPAWN_BRAKE: u32 = 0x05_9228;
+    pub const SPAWN_BRAKE_LOOP: u32 = 0x05_923A;
+    pub const SPAWN_LEAP: u32 = 0x05_925A;
+    pub const SPAWN_LEAP_LOOP: u32 = 0x05_928C;
+    pub const SPAWN_HURT: u32 = 0x05_92B2;
+    pub const SPAWN_HURT_LOOP: u32 = 0x05_92C8;
+    pub const SPAWN_RECOVER: u32 = 0x05_92F6;
+    pub const SPAWN_RECOVER_LOOP: u32 = 0x05_9304;
+    pub const AFTER_DESPAWN_SPAWN_ENTER: u32 = 0x05_9144;
+    pub const AFTER_DESPAWN_SPAWN_WAIT: u32 = 0x05_91C6;
+    pub const AFTER_DESPAWN_SPAWN_STAND: u32 = 0x05_9226;
+    pub const AFTER_DESPAWN_SPAWN_BRAKE: u32 = 0x05_9258;
+    pub const AFTER_DESPAWN_SPAWN_LEAP: u32 = 0x05_92B0;
+    pub const AFTER_DESPAWN_SPAWN_HURT: u32 = 0x05_92F4;
+    pub const AFTER_DESPAWN_SPAWN_RECOVER: u32 = 0x05_9330;
 }
