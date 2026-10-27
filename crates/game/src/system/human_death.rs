@@ -59,6 +59,12 @@ pub fn set_gfx(m: &mut impl Machine, t: u32, gfx: u16) {
     m.set_regs(r);
 }
 
+/// Pide el grito guardado en la tarea. Original: `HumanDeath_LoadTimer_04a1ba`.
+pub fn play_cry(m: &mut impl Machine, t: u32) {
+    let code = m.read_u16(t + L::CRY);
+    sound::play(m, code);
+}
+
 /// Gráfico del cuerpo (con o sin sangre). Original: `HumanDeath_PlayCryByKind_04a0d4`.
 pub fn body_gfx(m: &mut impl Machine, t: u32) {
     let g = blood_gfx(m, L::GFX_BODY);

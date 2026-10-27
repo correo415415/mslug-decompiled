@@ -2419,6 +2419,36 @@ pub mod critters {
 }
 
 /// Objetos del suelo y test de fuera de la vista (`system::items`).
+/// Contacto entre cajas de entidades (`$028998` / `$028A96` / `$028B14`).
+pub mod contact {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    /// Bit 0 = espejo en X, bit 1 = espejo en Y.
+    pub const FLAGS_3A: u32 = 0x3A;
+    pub const MIRROR_X: u8 = 1 << 0;
+    pub const MIRROR_Y: u8 = 1 << 1;
+    /// Descriptor de caja: {activa ($80).b, tipo.b, X de referencia.w,
+    /// ...} y tras la cabecera {X mín., X máx., Y mín., Y máx.}.
+    pub const HITBOX: u32 = 0x60;
+    pub const NIL: u32 = 0xFFFF_FFFF;
+    pub const ACTIVE: u8 = 0x80;
+    pub const KIND_STRONG: u8 = 2;
+    pub const HEADER: u32 = 6;
+    pub const HEADER_X: u32 = 2;
+    pub const BOX_X: u32 = 0;
+    pub const BOX_Y: u32 = 4;
+    /// Banderas de contacto: bits 0/1 = lado, 2 = contacto fuerte,
+    /// 3 = inmune.
+    pub const CONTACT: u32 = 0x69;
+    pub const STRONG: u8 = 1 << 2;
+    pub const IMMUNE: u8 = 1 << 3;
+    /// `+$6B` bit 6: la víctima no marca al que la toca.
+    pub const FLAGS_6B: u32 = 0x6B;
+    pub const NO_MARK_ATTACKER: u8 = 1 << 6;
+    /// Huecos de los jugadores 1 y 2 y del Slug.
+    pub const SLOTS: [u32; 3] = [0x10_0440, 0x10_04E0, 0x10_0580];
+}
+
 pub mod items {
     pub const X: u32 = 0x22;
     pub const Y: u32 = 0x24;
@@ -2438,6 +2468,29 @@ pub mod items {
     pub const ON_GROUND: u8 = 1;
     pub const ON_GROUND_COUNT: u32 = 0x10_E48B;
     pub const ALWAYS_CULL: u32 = 0x9F;
+    /// Caja, atributos y bandera «se le puede dar» de `FLAGS_13`.
+    pub const HITBOX: u32 = 0x60;
+    pub const ATTR: u32 = 0x38;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const HITTABLE: u8 = 1 << 3;
+    pub const ATTR_KEEP: u16 = 0xFFE3;
+    /// Prisionero atado (Pow, plantilla 293): gráficos, caja, prioridad,
+    /// guiones de sprite, sonido al soltarse y estados.
+    pub const POW_GFX: u16 = 0x1AB;
+    pub const POW_HITBOX: u32 = 0x09_A672;
+    pub const POW_ATTR: u16 = 0x8000;
+    pub const S_POW: u32 = 0x2F_772A;
+    pub const S_POW_FREED: u32 = 0x2F_773C;
+    pub const SND_POW_FREED: u16 = 0x102E;
+    pub const POW_LOOP: u32 = 0x09_B400;
+    pub const POW_FREED: u32 = 0x09_B43E;
+    pub const POW_FREED_LOOP: u32 = 0x09_B45A;
+    pub const POW_GONE: u32 = 0x09_B474;
+    /// Muestra de rastro que deja el objeto (plataforma para los jugadores):
+    /// desplazamiento y ancho.
+    pub const TRAIL_DX: u16 = 0x10;
+    pub const TRAIL_DY: u16 = 0x10;
+    pub const TRAIL_W: u16 = 0x20;
 }
 
 /// Recogida de objetos (`system::pickup`).
@@ -4994,6 +5047,8 @@ pub mod human_death {
     pub const BEHIND: u32 = 0x71;
     pub const FRAME: u32 = 0x72;
     pub const FRAME_LEFT: u32 = 0x73;
+    /// Sonido (grito) que se pide al morir.
+    pub const CRY: u32 = 0x74;
     pub const GIB: u32 = 0x76;
     pub const NIL: u32 = 0xFFFF_FFFF;
     /// Soft-DIP de la sangre (0 = sin sangre).
