@@ -434,6 +434,22 @@ fn stand_input(m: &mut impl Machine, t: u32) -> Flow {
     Flow::Return
 }
 
+/// Vuelve a entrar en el estado de pie según el mando (tras anunciar un
+/// arma nueva): hacia donde mira anda, hacia el otro lado se gira y, sin
+/// lado pulsado, de pie. Original: `Player_ReenterByInput_0345b8`.
+pub fn reenter(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let left = m.read_u8(t + L::FACING) & L::FACING_LEFT != 0;
+    let (ahead, back) = if left { (Buttons::LEFT, Buttons::RIGHT) } else { (Buttons::RIGHT, Buttons::LEFT) };
+    if held(m, t, ahead) {
+        return walk(m, left);
+    }
+    if held(m, t, back) {
+        return turn(m, !left);
+    }
+    stand(m)
+}
+
 /// Parada tras andar: sin desplazamiento horizontal (y el vertical a -1),
 /// brazo libre, en el suelo y sin movimiento, con la caja de golpe de pie,
 /// y el bucle. Original: `Player_StandFromWalk_0345fa`.
