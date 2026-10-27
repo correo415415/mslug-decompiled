@@ -1177,6 +1177,78 @@ pub fn brake_loop(m: &mut impl Machine) -> Flow {
     tail(m, t, Some(L::AFTER_DESPAWN_BRAKE))
 }
 
+/// Se para a burlarse. Original: `Soldier_TauntInit_058e08`.
+pub fn taunt_init(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    m.write_u16(t + L::TAUNT_LOST, 0);
+    m.write_u16(t + L::VEL_X, 0);
+    m.write_u16(t + L::VEL_Y, 0);
+    taunt(m)
+}
+
+/// Una burla al azar. Original: `Soldier_Taunt_058e14`.
+pub fn taunt(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    let (r, _) = rng::next(m);
+    let script = m.read_u32(L::TAUNT_ANIMS + u32::from(r & L::TAUNT_ANIM_MASK));
+    anim::start(m, t, script);
+    set_handler(m, t, L::TAUNT_LOOP_RUN);
+    taunt_loop(m)
+}
+
+/// Repite burlas hasta perder al objetivo, tenerlo cerca o que cambie
+/// de preferencia: entonces acaba la burla o frena.
+/// Original: `Soldier_Taunt_058e14+$1E`.
+pub fn taunt_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    physics(m, t);
+    think(m, t);
+    if anim::step(m, t) {
+        set_handler(m, t, L::TAUNT_LOOP);
+    }
+    let f73 = m.read_u8(t + L::FLAGS_73);
+    if f73 & L::NO_TARGET != 0 {
+        m.write_u8(t + L::TAUNT_LOST, 1);
+    } else {
+        if m.read_u8(t + L::TAUNT_LOST) != 0 {
+            set_handler(m, t, L::TAUNT_END);
+        }
+        let n = m.read_u16(t + L::NEAR);
+        if roll(m, n) {
+            let h = if m.read_u8(t + L::FLAGS_72) & L::SIDE != 0 { L::TAUNT_END } else { L::BRAKE };
+            set_handler(m, t, h);
+        }
+        if f73 & L::PREF_BACK != 0 {
+            set_handler(m, t, L::TAUNT_END);
+        }
+        if f73 & L::PREF_FWD != 0 {
+            set_handler(m, t, L::BRAKE);
+        }
+    }
+    tail(m, t, Some(L::AFTER_DESPAWN_TAUNT))
+}
+
+/// Fin de la burla; luego frena o vuelve a andar.
+/// Original: `Soldier_TauntEnd_058ed2`.
+pub fn taunt_end(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::start(m, t, L::ANIM_TAUNT_END);
+    set_handler(m, t, L::TAUNT_END_LOOP);
+    taunt_end_loop(m)
+}
+
+/// Original: `Soldier_TauntEnd_058ed2+$12`.
+pub fn taunt_end_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    think(m, t);
+    if anim::step(m, t) {
+        let h = if m.read_u8(t + L::FLAGS_72) & L::SIDE != 0 { L::BRAKE } else { L::WALK_START };
+        set_handler(m, t, h);
+    }
+    tail(m, t, Some(L::AFTER_DESPAWN_TAUNT_END))
+}
+
 /// Huye (o a saltos, si es de los que huyen). Original: `Soldier_Flee_058658`.
 pub fn flee(m: &mut impl Machine) -> Flow {
     let t = m.task_register();

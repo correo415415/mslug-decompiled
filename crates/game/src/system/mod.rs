@@ -26,6 +26,7 @@ pub mod critters;
 pub mod grunt;
 pub mod ground_fx;
 pub mod hits;
+pub mod human_death;
 pub mod hud;
 pub mod icons;
 pub mod irq;
