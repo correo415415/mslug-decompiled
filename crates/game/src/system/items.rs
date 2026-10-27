@@ -4,7 +4,7 @@
 //!
 //! Original: `Item_GroundTail_09a75a`, `$05DD56` / `$05DD5C`.
 
-use super::tasks;
+use super::{anim, contact, fort, platforms, sound, tasks};
 use crate::layout::{items as L, task as T};
 use crate::mem::{Flow, Machine, Memory};
 
@@ -43,14 +43,20 @@ pub fn out_of_view_seen(m: &mut impl Memory, t: u32, margins: Option<u32>) -> bo
 }
 
 /// Cola de cada frame de un objeto del suelo: cuenta los que están en el
-/// suelo y lo da de baja si sale de la vista (si `+$9F`, aunque no se haya
-/// visto). Original: `Item_GroundTail_09a75a`.
+/// suelo y sigue con [`cull`]. Original: `Item_GroundTail_09a75a`.
 pub fn ground_tail(m: &mut impl Machine) -> Flow {
     let t = m.task_register();
     if m.read_u8(t + L::STATE) == L::ON_GROUND {
         let n = m.read_u8(L::ON_GROUND_COUNT);
         m.write_u8(L::ON_GROUND_COUNT, n.wrapping_add(1));
     }
+    cull(m)
+}
+
+/// Da de baja el objeto si sale de la vista (si `+$9F`, aunque no se haya
+/// visto). Original: `Item_GroundTail_09a75a+$10`.
+pub fn cull(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
     let out = if m.read_u8(t + L::ALWAYS_CULL) != 0 {
         out_of_view_seen(m, t, Some(L::MARGINS))
     } else {
@@ -60,4 +66,64 @@ pub fn ground_tail(m: &mut impl Machine) -> Flow {
         return tasks::finish(m);
     }
     Flow::Return
+}
+
+/// Deja una muestra de rastro bajo el objeto (los jugadores pueden
+/// subirse). Original: `Item_TrailRecord_09b8ee`.
+pub fn trail(m: &mut impl Memory, t: u32) {
+    let x = m.read_u16(t + L::X).wrapping_sub(L::TRAIL_DX);
+    let y = m.read_u16(t + L::Y).wrapping_add(L::TRAIL_DY);
+    platforms::record(m, t, x, y, L::TRAIL_W);
+}
+
+/// Prisionero atado (plantilla 293): sprite, caja y prioridad.
+/// Original: `Item_Tmpl293_Pow_09b3c6`.
+pub fn pow(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    anim::alloc_entry(m, t, L::POW_GFX);
+    m.write_u32(t + L::HITBOX, L::POW_HITBOX);
+    anim::set_attr(m, t, L::POW_ATTR);
+    let a = m.read_u16(t + L::ATTR);
+    m.write_u16(t + L::ATTR, a & L::ATTR_KEEP);
+    anim::start(m, t, L::S_POW);
+    m.write_u32(t + T::HANDLER, L::POW_LOOP);
+    pow_loop(m)
+}
+
+/// Cae, sirve de plataforma, nota el contacto con los jugadores y se
+/// suelta cuando le dan. Original: `Item_Tmpl293_Pow_09b3c6+$3A`.
+pub fn pow_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::item_physics(m, t);
+    trail(m, t);
+    contact::touch_players(m, t);
+    m.write_u16(t + L::ATTR, L::POW_ATTR);
+    anim::step(m, t);
+    if fort::hit_side(m, t).is_some() {
+        let f = m.read_u8(t + L::FLAGS_13);
+        m.write_u8(t + L::FLAGS_13, f & !L::HITTABLE);
+    }
+    if fort::dead(m, t) {
+        m.write_u32(t + T::HANDLER, L::POW_FREED);
+    }
+    cull(m)
+}
+
+/// Suelto: sonido y animación de liberarse. Original: `Item_Pow_Die_09b43e`.
+pub fn pow_freed(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    sound::play(m, L::SND_POW_FREED);
+    anim::start(m, t, L::S_POW_FREED);
+    m.write_u32(t + T::HANDLER, L::POW_FREED_LOOP);
+    pow_freed_loop(m)
+}
+
+/// Original: `Item_Pow_Die_09b43e+$1C`.
+pub fn pow_freed_loop(m: &mut impl Machine) -> Flow {
+    let t = m.task_register();
+    platforms::move_with_scene(m, t);
+    if anim::step(m, t) {
+        m.write_u32(t + T::HANDLER, L::POW_GONE);
+    }
+    cull(m)
 }

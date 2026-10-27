@@ -11,7 +11,7 @@
 
 use crate::{call_rust, index, CYCLES_PER_CALL};
 use mslug_game::system::soldier::Trait;
-use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, collision, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, parachute, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
+use mslug_game::system::{anim, autopilot, banner, boot, bullet, burst, collision, contact, critters, debris, events, food, fort, frame, game_over, go_arrow, grenade, ground_fx, grunt, hits, hud, icons, irq, items, layer, lists, manual, manual_icons, memcard, mission, msg_select, motion, pads, pickup, platforms, player, player_air, player_arm, player_fire, player_ground, player_hud, player_ride, palette, parachute, rank, render, rng, scene, script, scroll, slope, slug, slug_arm, slug_drive, slug_fire, slug_hit, human_death, slug_attack, slug_death, spawner, slug_shell, explosion, slug_hunker, slug_idle, slug_jump, soldier, sound, sprite, tasks, title, trig, turret, video, wheels};
 use mslug_game::{Flow, Machine, Memory, Regs};
 use mslug_game::input::{Buttons, Edge};
 use neogeo_hw::cpu::m68k::exec::write_sr;
@@ -2751,6 +2751,15 @@ pub const SYSTEM_PORTS: &[SystemPort] = &[
     SystemPort { entry: 0x04_AAE0, original: "HumanDeath_SpawnBloodSplash_04aad2__L04aae0", rust: "system::human_death::spawn_blood", run: |m| { let t = m.cpu.a[6]; m.cpu.a[0] = human_death::spawn_blood(m, t, 1); Flow::Return } },
     SystemPort { entry: 0x04_ABA8, original: "HumanDeath_PickGibPtr_04aba8", rust: "system::human_death::pick_gib", run: |m| { let t = m.cpu.a[6]; let r = m.cpu.d[0] as u16; let c = human_death::pick_gib(m, t, r); set_carry(m, c); Flow::Return } },
     SystemPort { entry: 0x08_F308, original: "$08F308", rust: "system::human_death::ring_push", run: |m| { let t = m.cpu.a[6]; human_death::ring_push(m, t); Flow::Return } },
+    SystemPort { entry: 0x04_A1BA, original: "HumanDeath_LoadTimer_04a1ba", rust: "system::human_death::play_cry", run: |m| { let t = m.cpu.a[6]; human_death::play_cry(m, t); Flow::Return } },
+    SystemPort { entry: 0x02_8998, original: "Player_Dispatch3Slots_028998", rust: "system::contact::touch_players", run: |m| { let t = m.cpu.a[6]; let c = contact::touch_players(m, t); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x02_8A96, original: "Entity_HitboxCollide_028A96", rust: "system::contact::collide", run: |m| { let (t, d, v) = (m.cpu.a[6], m.cpu.a[0], m.cpu.a[1]); let c = contact::collide(m, t, d, v); set_carry(m, c); Flow::Return } },
+    SystemPort { entry: 0x09_A76A, original: "Item_GroundTail_09a75a+$10", rust: "system::items::cull", run: |m| items::cull(m) },
+    SystemPort { entry: 0x09_B8EE, original: "Item_TrailRecord_09b8ee", rust: "system::items::trail", run: |m| { let t = m.cpu.a[6]; items::trail(m, t); Flow::Return } },
+    SystemPort { entry: 0x09_B3C6, original: "Item_Tmpl293_Pow_09b3c6", rust: "system::items::pow", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; items::pow(m) } },
+    SystemPort { entry: 0x09_B400, original: "Item_Tmpl293_Pow_09b3c6+$3A", rust: "system::items::pow_loop", run: |m| { m.cpu.a[5] = mslug_game::layout::collision::SCRATCH_BASE; items::pow_loop(m) } },
+    SystemPort { entry: 0x09_B43E, original: "Item_Pow_Die_09b43e", rust: "system::items::pow_freed", run: |m| items::pow_freed(m) },
+    SystemPort { entry: 0x09_B45A, original: "Item_Pow_Die_09b43e+$1C", rust: "system::items::pow_freed_loop", run: |m| items::pow_freed_loop(m) },
     SystemPort { entry: 0x02_A664, original: "Slug_TryStartDestroyed_02a664", rust: "system::slug_idle::try_destroy",
                  run: |m| { let t = m.cpu.a[6]; let c = slug_idle::try_destroy(m, t); set_carry(m, c); Flow::Return } },
     // --- foco de la cámara

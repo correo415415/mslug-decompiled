@@ -110,8 +110,8 @@ Con `--hands-off` (en `play` y `verify-system`) se mete moneda y START una
 sola vez y no se toca el mando: así se recorre el tutorial del Slug entero
 hasta la primera misión. Estado actual: con `--hands-off` se para en el
 frame 3713 en `Soldier_SpawnFaceTarget_059062`, ya dentro de la misión 1 (el
-tutorial del Slug se completa: destrucción, ataque suicida y polvaredas); con moneda y mando automático en el frame 2005
-(`HumanDeath_LoadTimer_04a1ba`); sin moneda en el frame 1636
+tutorial del Slug se completa: destrucción, ataque suicida y polvaredas); con moneda y mando automático en el frame 2069
+(`Prop_SignA_04f70e`); sin moneda en el frame 1636
 (`Pillbox_Init_Right_0868a6`).
 
 Al pararse, `mslug-sdl` guarda siempre una captura en `build/shots/halt-NNNNNN.png`, también con la ventana abierta. `mslug play` la guarda en el fichero que se le indique con `--halt-shot`.

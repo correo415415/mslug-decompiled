@@ -25,6 +25,7 @@ pub mod grenade;
 pub mod critters;
 pub mod grunt;
 pub mod ground_fx;
+pub mod contact;
 pub mod hits;
 pub mod human_death;
 pub mod hud;
