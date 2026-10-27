@@ -4963,6 +4963,153 @@ pub mod slug_hit {
     pub const DEATH_FINISH: u32 = 0x02_DCBC;
 }
 
+/// Muerte de los humanos (soldados, POW…): `asm/pow/human_death_049ff2.s`.
+pub mod human_death {
+    pub const X: u32 = 0x22;
+    pub const Y: u32 = 0x24;
+    pub const VEL_X: u32 = 0x28;
+    pub const VEL_Y: u32 = 0x2A;
+    pub const ACC_X: u32 = 0x2C;
+    pub const ACC_Y: u32 = 0x2E;
+    pub const TIMER: u32 = 0x30;
+    pub const ZOOM: [u32; 2] = [0x32, 0x33];
+    pub const FIELD_34: u32 = 0x34;
+    pub const ATTR: u32 = 0x38;
+    pub const FACING: u32 = 0x3A;
+    pub const FLAGS_12: u32 = 0x12;
+    pub const BIT_12_1: u8 = 1 << 1;
+    pub const BIT_12_6: u8 = 1 << 6;
+    pub const FLAGS_13: u32 = 0x13;
+    pub const BIT_13_3: u8 = 1 << 3;
+    pub const DEAD: u32 = 0x21;
+    pub const HITBOX: u32 = 0x48;
+    pub const ATTACKER: u32 = 0x50;
+    pub const HIT_X: u32 = 0x54;
+    pub const HIT_KIND: u32 = 0x58;
+    pub const FLAGS_5A: u32 = 0x5A;
+    pub const BIT_5A_5: u8 = 1 << 5;
+    pub const COUNT: u32 = 0x5C;
+    pub const HANDLER_60: u32 = 0x60;
+    pub const GROUNDED: u32 = 0x70;
+    pub const BEHIND: u32 = 0x71;
+    pub const FRAME: u32 = 0x72;
+    pub const FRAME_LEFT: u32 = 0x73;
+    pub const GIB: u32 = 0x76;
+    pub const NIL: u32 = 0xFFFF_FFFF;
+    /// Soft-DIP de la sangre (0 = sin sangre).
+    pub const BLOOD: u32 = 0x10_FD8F;
+    /// Tablas de estados por tipo de humano, indexadas por el tipo de daño
+    /// (`HIT_KINDS`; los de fuera, `HIT_KIND_DEFAULT`).
+    pub const STATE_TABLES: [u32; 4] = [0x04_9D8A, 0x04_9E12, 0x04_9E9A, 0x04_9F22];
+    pub const HIT_KINDS: u8 = 0x22;
+    pub const HIT_KIND_DEFAULT: u8 = 0xF;
+    pub const BODY_ATTR: u16 = 0xC000;
+    /// Gráficos (con sangre, sin sangre).
+    pub const GFX_BODY: (u16, u16) = (0xE, 0x2F);
+    pub const GFX_BLAST: (u16, u16) = (0x154, 0x155);
+    pub const GFX_BLOOD: (u16, u16) = (0x17A, 0x1BA);
+    pub const GFX_BURST: u16 = 0x19;
+    pub const GFX_LAUNCH: u16 = 0x8A;
+    pub const GFX_FLAME: u16 = 0x4;
+    /// Entrada de sprite en uso (`+$14`) y base de los gráficos con la que
+    /// `$00236E` deja `d4` (gráfico · 64 + `GFX_BASE`).
+    pub const ENTRY: u32 = 0x14;
+    pub const GFX_BASE: u32 = 0x01_4E00;
+    /// Posición de lectura del anillo de entradas libres.
+    pub const FREE_READ: u32 = 0x10_82C4;
+    /// Anillo de posiciones de los caídos.
+    pub const RING: u32 = 0x10_E33A;
+    pub const RING_SIZE: u16 = 0x20;
+    pub const RING_MAX: u16 = 4;
+    /// Despawn: X + `CULL_X.0` ≥ `CULL_X.1` o Y < `CULL_Y`.
+    pub const CULL_X: (u16, u16) = (0x20, 0x180);
+    pub const CULL_Y: u16 = 0xE0;
+    pub const FADE_FRAMES: u8 = 0xA;
+    pub const FALL_ACC: u16 = 0xFF40;
+    pub const TASK_FINISHING: u32 = 0x00_052A;
+    /// Voltereta hacia atrás / adelante: secuencias de 5 guiones.
+    pub const TUMBLE_BACK: u32 = 0x04_A408;
+    pub const TUMBLE_FWD: u32 = 0x04_A4B0;
+    pub const TUMBLE_VEL: u16 = 0x80;
+    /// Guiones.
+    pub const S_TUMBLE_LAND: u32 = 0x04_B6B8;
+    pub const S_COLLAPSE: [u32; 2] = [0x04_B57C, 0x04_B61A];
+    pub const S_FALL_BACK: u32 = 0x04_B1F6;
+    pub const S_FALL_FWD: u32 = 0x04_B28C;
+    pub const S_SLUMP: u32 = 0x04_B34A;
+    pub const S_CRUMPLE: [u32; 2] = [0x04_AD90, 0x04_AE22];
+    pub const S_BLAST: u32 = 0x04_B13C;
+    pub const S_SHOT: u32 = 0x04_B136;
+    pub const S_FLIP_B: u32 = 0x04_B78C;
+    pub const S_FLIP: u32 = 0x04_B74C;
+    pub const S_KNOCKDOWN: u32 = 0x04_B7B8;
+    pub const S_SIT: u32 = 0x04_ACFE;
+    pub const S_BURST: u32 = 0x04_AF08;
+    pub const S_BURST_HITBOX: u32 = 0x04_AEB4;
+    pub const S_BURST_LAND: u32 = 0x04_AF9E;
+    pub const S_BURST_GROUND: u32 = 0x04_B078;
+    pub const S_LAUNCHED: u32 = 0x04_B0C6;
+    pub const S_LAUNCH: u32 = 0x04_B7EC;
+    pub const S_ON_FIRE: u32 = 0x04_B82A;
+    pub const S_BURNING: u32 = 0x04_B898;
+    pub const S_BURN_RUN: u32 = 0x2B_604A;
+    pub const S_FLAME: u32 = 0x04_B926;
+    pub const S_BLOOD: [u32; 2] = [0x04_BAD2, 0x04_B9F0];
+    pub const GIBS: u32 = 0x04_AF5A;
+    pub const FALL_VEL_X: u16 = 0x400;
+    pub const FALL_VEL_Y: u16 = 0x100;
+    pub const FLIP_VEL_X: u16 = 0xFF38;
+    pub const BURST_VEL_Y: u16 = 0xCC6;
+    pub const BURST_ACC_Y: u16 = 0xFF93;
+    pub const BURST_RAND: u16 = 0x3FF;
+    pub const LAUNCH_VEL: (u16, u16, u16) = (0xFFFC, 0x870, 0xFFB8);
+    pub const LAUNCH_ZOOM: u16 = 0x2800;
+    pub const BACK_VEL: (u16, u16) = (0xF800, 0x100);
+    pub const UP_VEL_Y: u16 = 0x800;
+    pub const FIRE_ATTR: u16 = 0x8000;
+    pub const LAYER_KEEP: u16 = 0xFFE3;
+    pub const BLOOD_LAYER: u16 = 0x10;
+    pub const FIRE_FRAMES: u16 = 0x1E;
+    pub const BURN_MUSIC: u16 = 0x1042;
+    pub const BURN_VEL: u16 = 0x200;
+    pub const BURN_FRAMES: u16 = 0x28;
+    pub const BURN_TURNS: (u8, u8) = (0xA, 0xFF);
+    pub const BURN_ACC_Y: u16 = 0xFFC0;
+    pub const FLAME_DY: u16 = 0x1E;
+    pub const BLOOD_DX: u16 = 8;
+    /// Rutinas.
+    pub const TUMBLE_BACK_STATE: u32 = 0x04_A438;
+    pub const TUMBLE_BACK_LOOP: u32 = 0x04_A476;
+    pub const TUMBLE_BACK_LAND: u32 = 0x04_A4A2;
+    pub const TUMBLE_FWD_STATE: u32 = 0x04_A4E0;
+    pub const TUMBLE_FWD_LOOP: u32 = 0x04_A51E;
+    pub const COLLAPSE: u32 = 0x04_A54A;
+    pub const ANIM_LOOP: u32 = 0x04_A388;
+    pub const FADE: u32 = 0x04_A39E;
+    pub const FADE_LOOP: u32 = 0x04_A3AA;
+    pub const BLINK: u32 = 0x04_A3C4;
+    pub const BLINK_LOOP: u32 = 0x04_A3D0;
+    pub const FLIP_LOOP: u32 = 0x04_A652;
+    pub const KNOCKDOWN: u32 = 0x04_A672;
+    pub const SIT_LOOP: u32 = 0x04_A69C;
+    pub const BURST_RISE: u32 = 0x04_A754;
+    pub const BURST_FALL: u32 = 0x04_A76A;
+    pub const BURST_LAND: u32 = 0x04_A798;
+    pub const BURST_GROUND_LOOP: u32 = 0x04_A7D8;
+    pub const LAUNCHED: u32 = 0x04_A7F4;
+    pub const LAUNCH_LOOP: u32 = 0x04_A85E;
+    pub const BACK_LOOP: u32 = 0x04_A8DE;
+    pub const UP_LOOP: u32 = 0x04_A920;
+    pub const FIRE_LOOP: u32 = 0x04_A982;
+    pub const BURNING: u32 = 0x04_A9B0;
+    pub const BURN_LOOP: u32 = 0x04_AA1E;
+    pub const BURNED_DOWN: u32 = 0x04_AA62;
+    pub const FLAME: u32 = 0x04_AA76;
+    pub const FLAME_LOOP: u32 = 0x04_AA90;
+    pub const BLOOD_SPLASH: [u32; 2] = [0x04_AB10, 0x04_AB52];
+    pub const BLOOD_LOOP: u32 = 0x04_AB90;
+}
+
 /// Ataque suicida del Slug: se lanza hacia delante y explota
 /// (`Slug_DestroyedSlideInit_02bbf2`, `Slug_Destroyed_02fc70`,
 /// `Slug_SelfDestructAttack_02fe6a` …).
@@ -5695,6 +5842,18 @@ pub mod soldier {
     pub const HOP_FLEE: u32 = 0x05_8AA8;
     pub const HOP_FLEE_LOOP: u32 = 0x05_8AD2;
     pub const TAUNT: u32 = 0x05_8E08;
+    /// Burla: guiones al azar (4), el bucle, el final, la marca de «ya
+    /// sin objetivo» y las vueltas tras darse de baja.
+    pub const TAUNT_ANIMS: u32 = 0x05_8DF8;
+    pub const TAUNT_ANIM_MASK: u16 = 0xC;
+    pub const TAUNT_LOOP: u32 = 0x05_8E14;
+    pub const TAUNT_LOOP_RUN: u32 = 0x05_8E32;
+    pub const TAUNT_END: u32 = 0x05_8ED2;
+    pub const TAUNT_END_LOOP: u32 = 0x05_8EE4;
+    pub const ANIM_TAUNT_END: u32 = 0x29_BFC4;
+    pub const TAUNT_LOST: u32 = 0x30;
+    pub const AFTER_DESPAWN_TAUNT: u32 = 0x05_8ED0;
+    pub const AFTER_DESPAWN_TAUNT_END: u32 = 0x05_8F1C;
     pub const SPAWN_STAND: u32 = 0x05_91C8;
     /// Muerte en el suelo de los estados de huida (la variante 1).
     pub const DEATH_GROUND_B: u32 = 0x04_A024;
